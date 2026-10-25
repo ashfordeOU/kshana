@@ -42,7 +42,7 @@ seg-3ea93ae372ca = What it holds
 seg-3603593b9799 = One SVG animated with Cascading Style Sheets (CSS) keyframes and no script: the traces draw in behind a moving time cursor, events appear at their instant, waterfall rows reveal in time order. It loops, with a { "1.5" } s hold on the finished picture.
 
 # text
-seg-9b6c099703b4 = One file with inline script and style and no external asset: play and pause, a scrubber, speed ({ "0" }.25x to 4x), every panel on one synced cursor, a live value per trace, the phase strip, and an event list that seeks on click. Space plays or pauses, the arrow keys step, Home and End jump.
+seg-6c91078b434e = One file with inline script and style and no external asset: play and pause, a scrubber, speed (0.25x to 4x), every panel on one synced cursor, a live value per trace, the phase strip, and an event list that seeks on click. Space plays or pauses, the arrow keys step, Home and End jump.
 
 # text
 # c1: frame_0000.svg

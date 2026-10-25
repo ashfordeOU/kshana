@@ -17,7 +17,7 @@ seg-c8f93431680a = MODELLED layered-PNT conflict resilience (P7): a contested-en
 
 # text
 # c1: scenarios/conflict-resilience.toml
-seg-405483f393ed = One run of <c1/> summarises as: conflict-resilience | { "4" } layers ({ "0" } baseline) | reference intensity { "1.00" } | resilience ratio closed-form { "6" }.73x MC { "6" }.19x (layered vs single-layer) | correlation defeats layering: ratio { "7" }.50x @ rho { "0.00" } -> { "1" }.21x @ rho { "0.95" } | prior CI [{ "5" }.51-8.48]x | per-vector survival @ ref jam { "26" }% spoof { "80" }% kinetic { "100" }% cyber { "99" }% (sharpest jamming) | ~7x headline MODELLED, VALIDATED MC->closed-form / fuse-identity / copula-marginals / per-vector-survival
+seg-dd10a00edc2f = One run of <c1/> summarises as: conflict-resilience | { "4" } layers ({ "0" } baseline) | reference intensity { "1.00" } | resilience ratio closed-form 6.73x MC 6.19x (layered vs single-layer) | correlation defeats layering: ratio 7.50x @ rho { "0.00" } -> 1.21x @ rho { "0.95" } | prior CI [5.51-8.48]x | per-vector survival @ ref jam { "26" }% spoof { "80" }% kinetic { "100" }% cyber { "99" }% (sharpest jamming) | ~7x headline MODELLED, VALIDATED MC->closed-form / fuse-identity / copula-marginals / per-vector-survival
 
 # text
 # c1: layers

@@ -48,9 +48,6 @@ seg-36bf87638923 = Resolution
 seg-ad856ad710eb = Status
 
 # text
-seg-107f00fce17c = OC-0
-
-# text
 seg-70a952c4150b = "joint Kalman fusion estimator" implied a single cross-covariance filter; the code ran two independent estimators
 
 # text
@@ -59,9 +56,6 @@ seg-d5682a7fdb11 = <b>Superseded</b> — a real cross-covariance coupled clock+p
 # text
 # c1: src/fusion/coupled.rs
 seg-1008020cd9e4 = <c1/> ({ "7" } tests, incl. a 100-trial coupled-vs-decoupled ensemble that requires the coupled position RMS (root mean square) to be below { "0.6" }× the decoupled one and the coupled filter to win at least { "90" } of the { "100" } trials); CAPABILITY "Sensor fusion" → full
-
-# text
-seg-76560126155c = OC-1
 
 # text
 seg-334fc345d501 = "clock-aided spoof-detection RAIM (receiver autonomous integrity monitoring)" implied a multi-satellite RAIM detector
@@ -75,9 +69,6 @@ seg-cf0795c2ee02 = <b>De-claimed → Superseded</b> — re-framed as a clock-sta
 seg-f46432acbfa0 = <c1/> ({ "30" } tests — snapshot + solution-separation ARAIM, HPL/VPL, FDE (fault detection and exclusion), Stanford diagrams); <c2/>
 
 # text
-seg-9660a437acf4 = OC-2
-
-# text
 seg-8b47f69dbb76 = "jamming demonstrator" with no jamming code behind it
 
 # text
@@ -86,9 +77,6 @@ seg-bfff34d5a250 = <b>Superseded</b> — a link-budget jamming model J/S → eff
 # text
 # c1: src/jamming.rs
 seg-5f75628b8201 = <c1/> ({ "10" } tests); README "Resilience" row
-
-# text
-seg-859e1c8101c3 = OC-3
 
 # text
 seg-bae512770cd6 = "Full IMU (inertial measurement unit) Allan-variance noise model on an IMU triad" — the model was single-axis
@@ -101,9 +89,6 @@ seg-50c0b5855cb9 = <b>De-claimed → Superseded</b> — re-framed as a 1-DOF (DO
 seg-501bf7d8fff0 = <c1/> three-axis strapdown (quaternion attitude, NED (north-east-down) mechanization, coning/sculling); ROADMAP "Inertial"
 
 # text
-seg-d3fc7a5b48e0 = OC-4
-
-# text
 seg-ad250a99b05f = "Hybrid PNT (positioning, navigation and timing) integration" implied a coupled GNSS/INS (GNSS: global navigation satellite system) filter; it was a dead-reckoning error budget
 
 # text
@@ -112,9 +97,6 @@ seg-85fb58d37a5d = <b>De-claimed → Superseded</b> — re-framed as dead-reckon
 # text
 # c1: src/fusion/tightly_coupled17.rs
 seg-9e6b092d5656 = <c1/> (17-state UKF (unscented Kalman filter) with quantum-CAI (CAI: cold-atom interferometer) dead-reckoning); CAPABILITY "Sensor fusion" → full
-
-# text
-seg-24cf5ba7108a = OC-5
 
 # text
 seg-46a637f8e967 = "validated ~{ "2" }%" implied a tight enforced gate
@@ -128,9 +110,6 @@ seg-5e98d7664558 = <b>De-claimed</b> — <c1/> states the <em>enforced</em> gate
 seg-84f4fcdc7e50 = <c1/> "On tolerances" header
 
 # text
-seg-aa9e2d886857 = OC-6
-
-# text
 seg-85ec2fe9c7f7 = "cross-platform deterministic" without committed evidence
 
 # text
@@ -142,10 +121,7 @@ seg-6e516f04db89 = <b>De-claimed</b> — toolchain pinned to an exact release; p
 # c3: tests/golden.rs
 # c4: tests/cross_platform_golden.rs
 # c5: scripts/check-reproducible.sh
-seg-c1a7880cccdc = <c1/> (channel <c2/>); <c3/> (numeric values to 1e-6); <c4/> (hash of each result's input fingerprint and shape, run on the Linux, macOS and Windows CI matrix); <c5/>
-
-# text
-seg-81720cb925d4 = OC-7
+seg-9db327be56c3 = <c1/> (channel <c2/>); <c3/> (numeric values to { "1e-6" }); <c4/> (hash of each result's input fingerprint and shape, run on the Linux, macOS and Windows CI matrix); <c5/>
 
 # text
 seg-2708139388ed = "hybrid quantum-classical PNT simulator" implied first-principles quantum physics
@@ -158,9 +134,6 @@ seg-717167714e83 = <b>De-claimed → Superseded</b> — re-framed as a PNT-resil
 # c2: 1/√(N·C²·T²)
 # c3: docs/QUANTUM.md
 seg-c67fb22add4b = <c1/> ({ "26" } tests — Mach–Zehnder phase, projection noise <c2/>, vibration transfer function, Coriolis + AC-Stark (AC: alternating-current) systematics); <c3/>
-
-# text
-seg-27e4873fa233 = OC-8
 
 # text
 seg-5c6b7d4f2029 = "Integrity Performance" FoM implied aviation HPL/VPL/RAIM integrity
@@ -176,9 +149,6 @@ seg-ee5487da890c = <b>De-claimed + Superseded (layered)</b> — the per-run scen
 seg-31aacdf17b02 = <c1/> (<c2/>: self-consistency, caveated); <c3/> + <c4/> (real ARAIM)
 
 # text
-seg-7994ed126c07 = OC-9
-
-# text
 seg-0686fa147c96 = Security FoM presented as always meaningful, even with no attack
 
 # text
@@ -187,9 +157,6 @@ seg-d6d9296422fc = <b>De-claimed</b> — the Security FoM (<c1/>) is framed with
 
 # text
 seg-8f7b211b5a0c = README "Resilience" row; the Security FoM is defined at the operationally-harmful spec point
-
-# text
-seg-a66497b76fa6 = OC-10
 
 # text
 seg-d66421174e94 = "Positioning Performance" FoM implied full position-domain accuracy
@@ -202,9 +169,6 @@ seg-9eeb13a16350 = <b>De-claimed</b> — labelled a 1-DOF <c1/> for the inertial
 seg-e8115df73c10 = README figure-of-merit table ("Positioning Performance" row)
 
 # text
-seg-66fdc45b3497 = OC-11
-
-# text
 seg-5c73759a2454 = inertial FoM numbers read as ensemble statistics from single seeds
 
 # text
@@ -214,9 +178,6 @@ seg-3db3a41ce848 = <b>De-claimed</b> — a single run is flagged <c1/>; <c2/> re
 
 # text
 seg-bf737455e6f2 = README FoM table; scenario-coverage envelope tests
-
-# text
-seg-e93e40e34bb1 = OC-12
 
 # text
 seg-aa362992b5da = the "SGP4 (Simplified General Perturbations { "4" }) GPS (Global Positioning System) constellation" scenario used synthetic placeholder TLEs (two-line element sets)
@@ -231,9 +192,6 @@ seg-ebae20813a52 = <b>Superseded</b> — the scenario now embeds a genuine date-
 # c3: strict_checksum
 # c4: tests/scenario_coverage.rs
 seg-2d49f6101571 = <c1/> (real <c2/>, <c3/>); <c4/>
-
-# text
-seg-b748912aa5bf = OC-13
 
 # text
 # c1: Cargo.toml

@@ -412,7 +412,7 @@ seg-91941393400a = The optional <c1/> section counterfeits the signals a receive
 # c1: src/leo_link/spoof.rs
 # c2: p_fa
 # c3: 1 − p_md
-seg-774c563088f1 = The receiver runs two monitors (<a1><c1/></a1>), each at a stated false-alarm probability per epoch (<c2/>, default 1e-5), and declares detection at the first epoch its detection probability reaches <c3/> (default { "0.999" }). Detection probabilities are exact for the stated Gaussian noise, evaluated on the noise-free mean residual; no noise is drawn.
+seg-845f6840d92d = The receiver runs two monitors (<a1><c1/></a1>), each at a stated false-alarm probability per epoch (<c2/>, default { "1e-5" }), and declares detection at the first epoch its detection probability reaches <c3/> (default { "0.999" }). Detection probabilities are exact for the stated Gaussian noise, evaluated on the noise-free mean residual; no noise is drawn.
 
 # text
 seg-cc38b40eb7a5 = Monitor
@@ -453,7 +453,7 @@ seg-389187df55d7 = a spoofer that counterfeits some bands and not others, or eve
 # text
 # c1: scenarios/leo-resilience-spoof-doppler.toml
 # c2: scenarios/leo-resilience-spoof-monitors.toml
-seg-2bb77017027c = <c1/>: a { "30" } m jump at a surveyed site in Frankfurt changes the GNSS range rates by about { "4" } mm/s and the LEO ones by about { "10" } cm/s (median gradients { "1" }.4e-4 and { "3" }.5e-3 per second). The GNSS-only test never detects it (largest non-centrality { "0.06" }); the test on every channel detects it { "105" } s after the onset. <c2/> runs four spoofers against both monitors.
+seg-4dd44d7fa566 = <c1/>: a { "30" } m jump at a surveyed site in Frankfurt changes the GNSS range rates by about { "4" } mm/s and the LEO ones by about { "10" } cm/s (median gradients { "1.4e-4" } and { "3.5e-3" } per second). The GNSS-only test never detects it (largest non-centrality { "0.06" }); the test on every channel detects it { "105" } s after the onset. <c2/> runs four spoofers against both monitors.
 
 # text
 seg-1b64098e01f3 = Limitations, stated in every result: the spoofer is an idealised, self-consistent position push that compensates its own path (no power, angle-of-arrival or correlation-peak signature); the prior is independent of the spoofed fixes; the receiver's ionospheric model is the engine's, so the authentic cross-band residual is zero in the mean. MODELLED (two rows in <a1>VERIFICATION-MATRIX.md</a1>).
@@ -477,13 +477,13 @@ seg-5bf24bec38f2 = every coefficient within { "0.6" } of its last printed digit 
 seg-86204b023d44 = ITU-R Study Group { "3" } validation examples (CG-3M3J-13-ValEx-Rev8.3.0), P.618-14 rain
 
 # text
-seg-2b9b7534d940 = { "56" } cases within 1e-4 dB (observed 5e-6 dB)
+seg-13180d4097d1 = { "56" } cases within { "1e-4" } dB (observed { "5e-6" } dB)
 
 # text
 seg-84161e5f97f8 = Same examples, P.618-14 scintillation
 
 # text
-seg-66c18f722002 = { "42" } cases within 1e-5 dB
+seg-0a4305c867ff = { "42" } cases within { "1e-5" } dB
 
 # text
 seg-054f8dbe2792 = ITU-R Study Group { "3" } Clutter and BEL workbook, P.2109
@@ -496,13 +496,13 @@ seg-8ae2eeed4be4 = { "568" } values within { "0.001" } dB
 seg-6df2eded9f19 = IS-GPS-200 group-delay ratio <c1/>
 
 # text
-seg-90e2097f9991 = to 1e-12; L1/L2 and L1/L5 amplification { "2.978" } and { "2.588" }
+seg-d0b293230f91 = to { "1e-12" }; L1/L2 and L1/L5 amplification { "2.978" } and { "2.588" }
 
 # text
 seg-f9a0e24c00a7 = Friis kilometre–megahertz form
 
 # text
-seg-d5ba65787aba = to 1e-4 dB
+seg-4e94a67f40f6 = to { "1e-4" } dB
 
 # text
 seg-ee59b4c520eb = arXiv { "2509.19551" } Table { "1" } (Pulsar in-orbit validation (IOV), full operational capability (FOC) polar, FOC inclined, GPS)

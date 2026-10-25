@@ -17,7 +17,7 @@ seg-3f749aef8d89 = Deep-space Mars PNT: a simulated MARCONI relay constellation 
 
 # text
 # c1: scenarios/mars-pnt-lmo.toml
-seg-42338518ef48 = One run of <c1/> summarises as: mars-pnt 5aad87fcc94a | lmo user, uso clock | { "5" } relays (mean { "3.1" } in view) | converged pos RMS { "0.25" } m, formal 1σ { "0.31" } m (3σ { "0.93" } m — covariance FoM, not a certified PL) | clock-freq σ { "3" }.71e-13 | cov-PD true
+seg-0254f9bd0ee6 = One run of <c1/> summarises as: mars-pnt 5aad87fcc94a | lmo user, uso clock | { "5" } relays (mean { "3.1" } in view) | converged pos RMS { "0.25" } m, formal 1σ { "0.31" } m (3σ { "0.93" } m — covariance FoM, not a certified PL) | clock-freq σ { "3.71e-13" } | cov-PD true
 
 # text
 # c1: user
@@ -40,12 +40,6 @@ seg-5a9640a3f9b4 = The example <c1/> sets, among others:
 seg-8e0fecea19fc = uso
 
 # text
-seg-8d069ea2fd35 = { "1" }.0000e-4
-
-# text
-seg-8a5d6b8efc8b = m/s
-
-# text
 seg-a16f2332397c = lmo
 
 # text
@@ -53,13 +47,7 @@ seg-a16f2332397c = lmo
 seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
 
 # text
-seg-ec1bd7e627ed = { "2" }.0428e7
-
-# text
 seg-debc2f07db78 = true
-
-# text
-seg-ebeda3824d70 = { "3" }.7072e-13
 
 # attr:alt
 seg-c564dca90854 = The chart the engine writes for scenarios/mars-pnt-lmo.toml, kind mars-pnt
@@ -69,7 +57,7 @@ seg-c564dca90854 = The chart the engine writes for scenarios/mars-pnt-lmo.toml, 
 seg-45259ad33a01 = <b>MODELLED</b> The <c1/> kind: an orbiter or a surface lander around a body chosen by name navigates with one-way pseudoranges from a Walker navigation constellation around the body (two-body orbits with the body's J2 secular drift, an unknown user c
 
 # text
-seg-01a8160adb2b = <b>VALIDATED</b> Recover an epoch state [r,v] from ground-station ranges via a Gauss–Newton batch differential corrector and a sequential filter, over a two-body+J2 force model. Oracle (ExternalDataset): Orekit { "12.2" } (CS GROUP, Apache-2.0) BatchLSEstimator (Levenberg–Marquardt) + KalmanEstimator (EKF) — an independent third-party estimation library on a matched force model; recovered epoch state + post-fit residual RMS agree to <1e-3 m noiseless and <{ "3" } m at a { "5" } m noise floor
+seg-83c3a84f6b98 = <b>VALIDATED</b> Recover an epoch state [r,v] from ground-station ranges via a Gauss–Newton batch differential corrector and a sequential filter, over a two-body+J2 force model. Oracle (ExternalDataset): Orekit { "12.2" } (CS GROUP, Apache-2.0) BatchLSEstimator (Levenberg–Marquardt) + KalmanEstimator (EKF) — an independent third-party estimation library on a matched force model; recovered epoch state + post-fit residual RMS agree to <{ "1e-3" } m noiseless and <{ "3" } m at a { "5" } m noise floor
 
 # text
 seg-3ea0aa9b3907 = <b>MODELLED</b> 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan { "1978" } block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): on IGS final { "30" } s clocks of { "11" } GPS Blo

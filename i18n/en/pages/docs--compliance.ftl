@@ -39,16 +39,7 @@ seg-6415f7f28e7e = with weight <c1/>, <c2/> (the UDRE (user differential range e
 seg-ea574448bda4 = Kshana computes <c1/> by inverting the { "4" }×{ "4" } normal matrix with the same routine the RAIM (receiver autonomous integrity monitoring) stack uses (<c2/>), and validates the result two ways (the covariance route <c3/> and the projection route <c4/> must agree) plus against an independent numpy <c5/> reference geometry.
 
 # text
-seg-8e9a48f1cbe8 = K-factors
-
-# text
 seg-f65b1f2b4182 = Mode
-
-# text
-seg-96e60ccad600 = K_H
-
-# text
-seg-284c797c0c61 = K_V
 
 # text
 seg-f63dd3d7aad4 = Source
@@ -102,7 +93,7 @@ seg-e111fb05a7c6 = <b>In-repo, automated</b> (every commit): the K-factors again
 # c4: zsiki/rtklib_ws
 # c5: d_U
 # c6: core/filter.c
-seg-a4a43c7ec745 = <b>External oracle, automated</b> (<c1/>): given each satellite's elevation, azimuth and total 1-σ, <c2/> reproduces the HPL of an independent implementation, <c3/> in the RTKLIB (an open-source real-time kinematic positioning library) SBAS protection-level fork <c4/> (Siki & Takács { "2017" }), on six epochs that tool computed from <b>real EGNOS (European Geostationary Navigation Overlay Service)</b> broadcast messages (geostationary PRN (pseudo-random noise code number) { "120" }) and real RINEX (Receiver Independent Exchange Format) observations from the BUTE station in Budapest (2017-02-19), to <b>< 2e-3 m</b>. The oracle rounds K_V to { "5.33" }, so the vertical is compared K-factor-free, as <c5/> against its VPL / { "5.33" }. ESA (European Space Agency) gLAB { "v6.0.0" } (<c6/>) uses the same formula.
+seg-f30d84abe275 = <b>External oracle, automated</b> (<c1/>): given each satellite's elevation, azimuth and total 1-σ, <c2/> reproduces the HPL of an independent implementation, <c3/> in the RTKLIB (an open-source real-time kinematic positioning library) SBAS protection-level fork <c4/> (Siki & Takács { "2017" }), on six epochs that tool computed from <b>real EGNOS (European Geostationary Navigation Overlay Service)</b> broadcast messages (geostationary PRN (pseudo-random noise code number) { "120" }) and real RINEX (Receiver Independent Exchange Format) observations from the BUTE station in Budapest (2017-02-19), to <b>< { "2e-3" } m</b>. The oracle rounds K_V to { "5.33" }, so the vertical is compared K-factor-free, as <c5/> against its VPL / { "5.33" }. ESA (European Space Agency) gLAB { "v6.0.0" } (<c6/>) uses the same formula.
 
 # text
 seg-389e8a57e3e8 = <b>Not done</b>: the per-satellite σ is the oracle's own; modelling σ from raw UDRE/GIVE messages is out of scope, and no official published WAAS (Wide Area Augmentation System) or EGNOS protection-level product has been reproduced end to end. DO-229E/DO-316 themselves are RTCA-paywalled; the open derivation source is ESA Navipedia's ICAO/EGNOS (ICAO: International Civil Aviation Organization) SBAS pages.

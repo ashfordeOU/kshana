@@ -45,29 +45,14 @@ seg-e12426a79a2f = The example <c1/> sets, among others:
 seg-274c7555b9d6 = 2026-09-28T14:{ "00" }:{ "00" }
 
 # text
-seg-8aadeff58100 = L1
-
-# text
-seg-8620fcfb17d4 = gps-baseline
-
-# text
 seg-7cd17bf1ac74 = Iridium STL from an aircraft
 
 # text
 seg-f4d857403ae0 = descending
 
 # text
-seg-f2b96f2c2b39 = Iridium-pass
-
-# text
-seg-b533f0a3bdf5 = iridium-stl
-
-# text
 # c1: scenarios/
 seg-08bc462d676c = { "8" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
-
-# text
-seg-5db1241ac39c = dB-Hz
 
 # text
 seg-ad20a7bebf23 = STL

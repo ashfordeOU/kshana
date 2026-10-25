@@ -63,7 +63,7 @@ seg-92d3c84024d7 = The chart the engine writes for scenarios/time-transfer-budge
 seg-83b9c66b9e92 = <b>MODELLED</b> The TWSTFT two-way equation solved for T_A - T_B with station transmit and receive delays, the Ku-band ionospheric up/down asymmetry, the transponder delay difference and the Sagnac terms, against its exact forward model; a quadrature uncer
 
 # text
-seg-e1011f72f2e0 = <b>MODELLED</b> The TWSTFT two-way equation solved for T_A - T_B with station transmit and receive delays, the Ku-band ionospheric up/down asymmetry, the transponder delay diff. Oracle (InternalConsistency): Internal consistency: the forward model and the solved equation agree to 1e-15 s, the Sagnac term equals the module's independent BIPM 2A omega/c^{ "2" } loop form, the ionospheric term is { "40.3" } TEC (1/f_up^{ "2" } - 1/f_down^{ "2" })/c, and the noise processes show their expected TDEV shapes. WHAT IS NOT: no real TWSTFT measurement or calibration report has been compared; the stated delays and uncertainties are inputs, not measured; t
+seg-58cf4086c7a5 = <b>MODELLED</b> The TWSTFT two-way equation solved for T_A - T_B with station transmit and receive delays, the Ku-band ionospheric up/down asymmetry, the transponder delay diff. Oracle (InternalConsistency): Internal consistency: the forward model and the solved equation agree to { "1e-15" } s, the Sagnac term equals the module's independent BIPM 2A omega/c^{ "2" } loop form, the ionospheric term is { "40.3" } TEC (1/f_up^{ "2" } - 1/f_down^{ "2" })/c, and the noise processes show their expected TDEV shapes. WHAT IS NOT: no real TWSTFT measurement or calibration report has been compared; the stated delays and uncertainties are inputs, not measured; t
 
 # text
 # c1: label

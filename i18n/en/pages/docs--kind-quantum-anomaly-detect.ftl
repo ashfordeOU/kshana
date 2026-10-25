@@ -46,7 +46,7 @@ seg-2f1d14239d1a = The chart the engine writes for scenarios/quantum-anomaly-det
 seg-619127334cf3 = No matrix row names this kind by name; the label on its result is the engine's own, above.
 
 # text
-seg-6153af1976ed = <b>VALIDATED</b> Analytic binormal ROC AUC = Φ(μ/(σ√{ "2" })) and the minimum detectable fault σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d)) underpinning the quantum-fault and anomaly detectors. Oracle (ExternalDataset): scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa et al., JMLR { "2011" }), both BSD-3-Clause — independent libraries computing the same uniquely-defined Gaussian-tail / AUC quantities, matched to the A&S-erf floor (~7e-8). The quantum-vs-classical advantage built on top stays MODELLED
+seg-af9aaf95d4f8 = <b>VALIDATED</b> Analytic binormal ROC AUC = Φ(μ/(σ√{ "2" })) and the minimum detectable fault σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d)) underpinning the quantum-fault and anomaly detectors. Oracle (ExternalDataset): scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa et al., JMLR { "2011" }), both BSD-3-Clause — independent libraries computing the same uniquely-defined Gaussian-tail / AUC quantities, matched to the A&S-erf floor (~{ "7e-8" }). The quantum-vs-classical advantage built on top stays MODELLED
 
 # text
 seg-bb07c8ee153f = <b>PARTNER</b> Not provided — performance models only; cold-atom/clock hardware is a partner's. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design

@@ -146,25 +146,16 @@ seg-adc34608c46b = Class
 seg-47f6ddc3bd02 = One-second ADEV
 
 # text
-seg-4e57d76c58fd = { "2" }.0e-10
-
-# text
 seg-5dadad28711a = EndRun Technologies, <em>Disciplined Oscillator Options</em>, basic TCXO column
-
-# text
-seg-4ccd6c38d216 = 5e-12
 
 # text
 seg-becbff195fff = Microchip OX-208 datasheet, Rev 12-1-2021
 
 # text
-seg-a9c848919420 = 3e-11
-
-# text
 seg-19d8d32203f6 = Microchip 8040C Rubidium Frequency Standard datasheet, DS00003047A
 
 # text
-seg-165d2a1cd92f = The EndRun long-averaging-time rows converge across that table (4e-13 for every oscillator but the TCXO, 8e-13, at { "10 000" } s, and 6e-14 for all of them at { "100 000" } s), which suggests they describe the disciplined product rather than the free-running oscillator, so they are not used.
+seg-48babc170b93 = The EndRun long-averaging-time rows converge across that table ({ "4e-13" } for every oscillator but the TCXO, { "8e-13" }, at { "10 000" } s, and { "6e-14" } for all of them at { "100 000" } s), which suggests they describe the disciplined product rather than the free-running oscillator, so they are not used.
 
 # text
 # c1: edf
@@ -180,7 +171,7 @@ seg-5b61a42c76c2 = Validation: the inversion on a held-out real clock
 # c1: tests/slot_timing_cs5071a_holdout.rs
 # c2: allantools
 # c3: tests/cs5071a_reference.rs
-seg-1a774085f71b = <c1/> uses the { "556" } 990-sample record of a 5071A caesium standard measured against a hydrogen maser (A. Wallin, distributed with <c2/>; the same record the estimator oracle <c3/> uses). With the maser as the reference the record is a { "6" }.4-day free run.
+seg-2220a1490923 = <c1/> uses the { "556" } 990-sample record of a 5071A caesium standard measured against a hydrogen maser (A. Wallin, distributed with <c2/>; the same record the estimator oracle <c3/> uses). With the maser as the reference the record is a 6.4-day free run.
 
 # text
 seg-9bae4571f67c = Fit the noise model on the <b>first third</b> of the record only.
@@ -238,7 +229,7 @@ seg-b4be9afa69ac = { "0.98" } to { "1.17" }
 seg-75e1515b970a = the inversion is right; the held-out gap is the oscillator changing
 
 # text
-seg-4c94ab13d49b = The oscillator's noise floor halved during the record: the Allan deviation of the first third flattens near { "7" }.5e-12, the rest near { "3" }.5e-12. A model fitted early over-predicts the noise, which is the safe direction. <b>The crystal case is therefore not validated, and stays MODELLED.</b> For a crystal, fit on a settled record and re-fit as the part ages.
+seg-c91da69e9c09 = The oscillator's noise floor halved during the record: the Allan deviation of the first third flattens near { "7.5e-12" }, the rest near { "3.5e-12" }. A model fitted early over-predicts the noise, which is the safe direction. <b>The crystal case is therefore not validated, and stays MODELLED.</b> For a crystal, fit on a settled record and re-fit as the part ages.
 
 # text
 # c1: fix_frequency_sigma
@@ -271,22 +262,13 @@ seg-9a6fac366156 = { "0.76" } to { "1.46" }
 seg-c14941cb5537 = within the bar
 
 # text
-seg-2d40dd335723 = G25
-
-# text
 seg-dbaaf875f1fb = { "1.51" } to { "1.99" }
 
 # text
 seg-3601e13c39b6 = optimistic
 
 # text
-seg-8ce0546b3d7b = G30
-
-# text
 seg-ea41cf6dbec2 = { "1.20" } to { "1.61" }
-
-# text
-seg-ec9e017abb28 = G03
 
 # text
 seg-099fb000bf57 = not evaluated

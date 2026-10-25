@@ -34,19 +34,10 @@ seg-5a70fcb097dc = Optional fields: none
 seg-c372e390bb4f = The example <c1/> sets, among others:
 
 # text
-seg-227a6545bbca = threshold_m
-
-# text
-seg-e22767282415 = accel_classical.bias
-
-# text
 seg-8b701f465117 = log
 
 # text
 seg-195347c63a8a = m/s^{ "2" }
-
-# text
-seg-ef8bdfa75e1b = { "1" }.0000e-5
 
 # attr:alt
 seg-621a18c07044 = The chart the engine writes for scenarios/sweep-nd-inertial.toml, kind sweep-nd

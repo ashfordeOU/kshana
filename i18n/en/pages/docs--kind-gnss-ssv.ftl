@@ -46,9 +46,6 @@ seg-8b8f5598c9d7 = [gps, glonass, galileo, bds]
 seg-b02a3ef32d54 = HEO, high-gain nadir and patch zenith antennas, parametric s
 
 # text
-seg-5db1241ac39c = dB-Hz
-
-# text
 seg-666a68730eaa = [booklet-high-gain-nadir, booklet-patch-zenith]
 
 # text
@@ -63,15 +60,6 @@ seg-8974ff39f695 = parametric
 # text
 # c1: scenarios/
 seg-1d65b71c5de0 = { "5" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
-
-# text
-seg-6c6bd7fba3f5 = dB/km
-
-# text
-seg-20b2050f8274 = N-units
-
-# text
-seg-3f013f4d503d = { "1" }.0000e12
 
 # text
 seg-8ac8f00f6c77 = 1/m^{ "3" }

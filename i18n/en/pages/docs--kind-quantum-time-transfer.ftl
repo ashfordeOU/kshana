@@ -17,7 +17,7 @@ seg-540545e6f846 = MODELLED trusted-quantum-timing chain: an end-to-end quantum 
 
 # text
 # c1: scenarios/quantum-time-transfer.toml
-seg-7a112f2f96dd = One run of <c1/> summarises as: quantum-time-transfer | quantum chain { "1" }.233e-12s vs classical { "5" }.292e-9s | PL { "555.24" } ns | security Pd { "1.000" } (Pfa 1e-3) | anomaly Pd { "0.761" } | trade quantum wins 2/2 | MODELLED
+seg-ed79bfe80fe7 = One run of <c1/> summarises as: quantum-time-transfer | quantum chain 1.233e-12s vs classical 5.292e-9s | PL { "555.24" } ns | security Pd { "1.000" } (Pfa { "1e-3" }) | anomaly Pd { "0.761" } | trade quantum wins 2/2 | MODELLED
 
 # text
 # c1: integration_s
@@ -34,22 +34,10 @@ seg-80e94491c3df = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-6b03fa15a60d = The example <c1/> sets, among others:
 
 # text
-seg-38acf55af6c1 = { "5" }.0000e-9
-
-# text
-seg-ffd29653164c = { "1" }.0000e-9
-
-# text
 seg-37d16b499bc5 = dB
 
 # text
-seg-bb6033b5247b = { "5" }.2915e-9
-
-# text
 seg-f42465f7d066 = ns
-
-# text
-seg-501f5b1fab66 = { "1" }.2332e-12
 
 # text
 seg-a3697ad561db = Hz

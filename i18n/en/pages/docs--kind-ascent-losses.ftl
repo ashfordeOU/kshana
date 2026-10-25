@@ -44,18 +44,6 @@ seg-37205a55d23c = m^{ "2" }
 seg-98151954f217 = false
 
 # text
-seg-4c6cfb75dffe = { "5" }.0903e5
-
-# text
-seg-8a5d6b8efc8b = m/s
-
-# text
-seg-7a809a0b644a = { "1" }.5142e6
-
-# text
-seg-60cd17a0be4b = { "7" }.1304e-10
-
-# text
 seg-68a37ebbc01e = Result label (the engine's): MODELLED — planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through US76, with gravity, drag, steering and back-pressure losses integrated and the ideal-dv-minus-losses identity checked; constant C_D, no rotation, no coast, no guidance beyond the pitch kick
 
 # attr:alt
@@ -65,7 +53,7 @@ seg-ccf2185b0b5e = The chart the engine writes for scenarios/ascent-losses.toml,
 seg-3a3ee499961e = <b>MODELLED</b> Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere { "1976" } (density and pressure), with a pitch kick, thrust reduced by the nozzle back-pressure, stage burnouts at exact s
 
 # text
-seg-ff4de0308e38 = <b>MODELLED</b> Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere { "1976" } (density and pressure), with a p. Oracle (InternalConsistency): Internal consistency: the exact identity burnout speed = sum Isp g0 ln(m0/mf) minus the four integrated losses (residual below 1e-6 m/s), Tsiolkovsky's equation on a vertical vacuum burn with gravity the only loss, and the US76 sea-level and tropopause pressures. WHAT IS NOT: no published vehicle's losses have been compared; no Earth rotation, coast, throttling or guidance beyond the kick; constant C_D; not a traject
+seg-cac91718c4e1 = <b>MODELLED</b> Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere { "1976" } (density and pressure), with a p. Oracle (InternalConsistency): Internal consistency: the exact identity burnout speed = sum Isp g0 ln(m0/mf) minus the four integrated losses (residual below { "1e-6" } m/s), Tsiolkovsky's equation on a vertical vacuum burn with gravity the only loss, and the US76 sea-level and tropopause pressures. WHAT IS NOT: no published vehicle's losses have been compared; no Earth rotation, coast, throttling or guidance beyond the kick; constant C_D; not a traject
 
 # text
 # c1: label

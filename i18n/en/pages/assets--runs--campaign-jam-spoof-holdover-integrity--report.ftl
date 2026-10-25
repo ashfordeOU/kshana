@@ -49,22 +49,13 @@ seg-b2016159c9d0 = Campaign: existing scenario kinds composed into one run, with
 seg-829c9f256843 = campaign f87a4a0e0bab | Jamming, spoofing, holdover and integrity: a chained mission | chain: { "6" } phases over { "4570" } s, { "2" } events, alarm raised on { "2770" } s of the grid | { "18" } member runs (MODELLED)
 
 # text
-seg-7f65a2549f2a = reproducibility.runs_total
-
-# text
 seg-9c3f93f1ec0b = { "18" } count
 
 # text
 seg-006d9a3357c7 = seed
 
 # text
-seg-93d2821e603f = timeline.duration_s
-
-# text
 seg-7543dd9b1734 = { "4570" } s
-
-# text
-seg-56e2e8bec317 = timeline.step_s
 
 # text
 seg-9aa0239a3a0c = { "10" } s
@@ -101,31 +92,13 @@ seg-d01997669d57 = field-name suffix
 seg-ca448daf5ec7 = nominal
 
 # text
-seg-8652bc3944b3 = csac-sa45s
-
-# text
-seg-97587cbd03d2 = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^{ "2" }.
+seg-cabae9a04571 = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)={ "3e-10" }; q_wf=sigma_y(1s)^{ "2" }.
 
 # text
 seg-e7a3536563a3 = no units entry and no unit suffix
 
 # text
-seg-8f372bfd712f = { "9" }.0000e-20
-
-# text
-seg-c1931e3d4d05 = { "5" }.0000e-10
-
-# text
-seg-21a57d1b488f = optical-sr-lattice
-
-# text
-seg-b666ac0d5bd0 = Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:{ "1503.08457" }); not flown.
-
-# text
-seg-9c873491b630 = { "1" }.0000e-30
-
-# text
-seg-b51882ad79ee = { "5" }.0000e-17
+seg-1bfc6cedb26d = Strontium optical lattice clock, space-oriented goal sigma_y(1s)={ "1e-15" } (arXiv:{ "1503.08457" }); not flown.
 
 # text
 seg-13ab5985534e = field-units schema: input entry `seed`, matched by field name
@@ -137,12 +110,6 @@ seg-f42465f7d066 = ns
 seg-81529b47ea3a = field-units schema: input entry `timeline.step_s`, matched by field name
 
 # text
-seg-5db1241ac39c = dB-Hz
-
-# text
-seg-ef8bdfa75e1b = { "1" }.0000e-5
-
-# text
 seg-f85a85f0c7e4 = MHz
 
 # text
@@ -152,13 +119,7 @@ seg-9521a296d617 = dBi
 seg-7154243aabbe = broadband
 
 # text
-seg-dc209f04ed54 = [{ "3" }.9264e6, { "2" }.7449e5, { "5" }.0028e6]
-
-# text
 seg-8784979d6569 = dBW
-
-# text
-seg-d155e9c5d483 = classical.detect_time_s
 
 # text
 seg-8a0c12a1797f = spoofing
@@ -179,40 +140,19 @@ seg-0e3bc92db34e = position
 seg-7707c45d1d30 = dBm
 
 # text
-seg-0918f47d9920 = [time_error_ns]
-
-# text
 seg-085cbc64bab2 = holdover
 
 # text
 seg-49f2fa051719 = denied
 
 # text
-seg-5a1ccd56846c = [{ "0" }, { "0" }, { "1" }.0000e-4]
-
-# text
-seg-aa775bfcf30d = tactical-imu
-
-# text
 seg-a609ab1486d1 = Tactical-grade MEMS/quartz inertial unit: larger residual bias
-
-# text
-seg-22748b23e2f8 = [{ "0" }, { "0" }, { "5" }.0000e-5]
-
-# text
-seg-b8f57145f8e5 = cold-atom-imu
 
 # text
 seg-5c5ae2ee3a35 = Quantum-grade inertial unit: low residual accelerometer/gyro bias (cold-atom-class)
 
 # text
-seg-8a5d6b8efc8b = m/s
-
-# text
 seg-27bb5a600979 = field-units schema: input entry `timeline.phases[].runs[].skip_s`, matched by field name
-
-# text
-seg-4122e576e19e = integrity-alarm
 
 # text
 seg-603b439d0163 = recovery
@@ -234,12 +174,6 @@ seg-33eb1b708a7a = Result chart (also written to campaign-jam-spoof-holdover-int
 
 # text
 seg-e8028e7aa5bd = Scalar results
-
-# text
-seg-7945bc5d0fab = f87a4a0e0babe2ea4b7e8adc7739cf564e270dc1c261d2ff48386766bf9d1ba1
-
-# text
-seg-41974543895e = 08b8960f3e98bff25c2e155bac8fa1c083191aef4c4582c81c223ea54e32585b
 
 # text
 seg-561ae7fac9ad = alarm flag: { "1" } while any monitor of the phase alarms
@@ -325,9 +259,6 @@ seg-ed3234dcf385 = member kinds
 
 # text
 seg-1233847249d7 = carried in
-
-# text
-seg-ecf330b46c3e = duration_s
 
 # text
 seg-f9858fd67e80 = clock, jamming, integrity
@@ -501,22 +432,22 @@ seg-68d898769311 = <s1>VALIDATED</s1><br/><s2>exercised</s2>
 seg-d65278a45179 = NIST SP { "1065" } (Riley) / Stable32 reference deviations on NBS14 <em>(ExternalDataset)</em>
 
 # text
-seg-df7fe7ddcee2 = tests/allan_reference.rs (NBS14 vs Stable32 to 1e-4); allan::tests
+seg-a59477833676 = tests/allan_reference.rs (NBS14 vs Stable32 to { "1e-4" }); allan::tests
 
 # text
 seg-83b033b4e913 = <b>Integrity (RAIM/ARAIM/SBAS)</b><br/><s1>ARAIM multiple-hypothesis solution separation per the ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels and add_v42_protection_levels_ecef: subset determination by the P_THRES and FC_THRES rules, VPL, HPL, the effective monitor threshold EMT and sigma_acc); chi-squared snapshot RAIM fault detection with single-satellite exclusion (raim::snapshot_raim, raim::snapshot_raim_fde) and slope-based HPL/VPL on the geodetic local level; and the SBAS DO-229E protection-level combination (sbas::sbas_protection_level) on the L1 service. NOT covered, stated plainly: the uniform-sigma convenience functions raim::araim_raim and raim::araim_dual_raim are NOT ADD-conformant (on matched inputs they miss Stanford MAAST by { "0.75" } m VPL / { "4.04" } m HPL and { "0.39" } m VPL / { "1.93" } m HPL, a finding); the dual-frequency multi-constellation (DFMC) L5 SBAS comparison is a finding ({ "308" } user-epoch pairs with no GEO in view are protected by Kshana and not by MAAST, whose GEO-reception gate Kshana does not model); raim::solution_separation_raim has no external comparison</s1>
 
 # text
-seg-63b1320607fc = Three independent tools, pre-registered (0123cee1) before any fixture or oracle output existed, tolerances fixed then. ({ "1" }) ARAIM: Stanford MAAST for ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, run as a separate program under GNU Octave { "8.4" } with a driver-side unique() compatibility shim (disclosed, no algorithm change), at the ADD TOL_PL of { "0.05" } m: the Rust reproduces the ADD reference implementation on { "270" } real cases. Disclosed: the Kshana ADD path was written after the pre-registration, following the ADD as MAAST implements it; an independent hold-out by the reviewer ({ "270" } new user geometries and a second integrity support message, MAAST re-run against the frozen code) passed at the same bar. ({ "2" }) Snapshot RAIM: RTKLIB v2.4.2-p13 (BSD-2) estpos/valsol/raim_fde in a separate C harness for detection and exclusion; the slope PL from RTKLIB matinv/xyz2enu plus SciPy { "1.18.1" } chi2/ncx2, where both sides evaluate the same closed form (Brown; Parkinson and Axelrad), so the PL check covers the implementation, not the formula. ({ "3" }) SBAS: Stanford MAAST (commit 7d32b049) usr_vhpl, unmodified, on MAAST own recorded WAAS broadcasts: L1 levels within 1e-4 m after the K rescaling and an equal protected set. The same comparisons produced the findings stated in the capability: the uniform-sigma ARAIM functions are not ADD-conformant, and the L5 set equality fails on { "308" } pairs with no GEO in view (the levels on the { "3267" } pairs both tools protect agree to 1e-13 m). The DO-229E/DO-316 K-factors are transcribed constants and the real geometry is an input; neither is counted as an oracle. { "0.30" } revision: snapshot_raim protection levels moved from the radial to the geodetic local level (up to { "0.31" } m HPL and { "0.14" } m VPL at { "16" } deg N) <em>(ExternalDataset)</em>
+seg-1e8e03d70e49 = Three independent tools, pre-registered (0123cee1) before any fixture or oracle output existed, tolerances fixed then. ({ "1" }) ARAIM: Stanford MAAST for ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, run as a separate program under GNU Octave { "8.4" } with a driver-side unique() compatibility shim (disclosed, no algorithm change), at the ADD TOL_PL of { "0.05" } m: the Rust reproduces the ADD reference implementation on { "270" } real cases. Disclosed: the Kshana ADD path was written after the pre-registration, following the ADD as MAAST implements it; an independent hold-out by the reviewer ({ "270" } new user geometries and a second integrity support message, MAAST re-run against the frozen code) passed at the same bar. ({ "2" }) Snapshot RAIM: RTKLIB v2.4.2-p13 (BSD-2) estpos/valsol/raim_fde in a separate C harness for detection and exclusion; the slope PL from RTKLIB matinv/xyz2enu plus SciPy { "1.18.1" } chi2/ncx2, where both sides evaluate the same closed form (Brown; Parkinson and Axelrad), so the PL check covers the implementation, not the formula. ({ "3" }) SBAS: Stanford MAAST (commit 7d32b049) usr_vhpl, unmodified, on MAAST own recorded WAAS broadcasts: L1 levels within { "1e-4" } m after the K rescaling and an equal protected set. The same comparisons produced the findings stated in the capability: the uniform-sigma ARAIM functions are not ADD-conformant, and the L5 set equality fails on { "308" } pairs with no GEO in view (the levels on the { "3267" } pairs both tools protect agree to { "1e-13" } m). The DO-229E/DO-316 K-factors are transcribed constants and the real geometry is an input; neither is counted as an oracle. { "0.30" } revision: snapshot_raim protection levels moved from the radial to the geodetic local level (up to { "0.31" } m HPL and { "0.14" } m VPL at { "16" } deg N) <em>(ExternalDataset)</em>
 
 # text
-seg-427d13e8acd8 = tests/integrity_araim_stanford_oracle.rs::araim_mhss_matches_stanford_maast_add_v4_2 ({ "270" } real-geometry cases, Celestrak GPS+Galileo and IGS SP3: worst |dVPL| { "2" }.2e-3 m, |dHPL| { "1" }.1e-3 m, |dEMT| { "2" }.1e-10 m against the ADD TOL_PL { "0.05" } m); tests/integrity_araim_stanford_oracle.rs::uniform_sigma_matched_gap_finding (the uniform-sigma gaps, pinned); tests/integrity_snapshot_raim_rtklib_oracle.rs::snapshot_raim_decisions_and_slope_levels_match_rtklib (real IGS ABMF 2018-05-13, { "288" } epochs, { "2016" } cases with injected { "10" } to { "100" } m biases: 2016/2016 detection and 801/801 exclusion decisions identical, slope HPL/VPL within { "2" }.7e-12 m against 1e-6 m); tests/integrity_sbas_stanford_oracle.rs::sbas_l1_protection_levels_match_stanford_maast_on_real_waas_messages ({ "2868" } user-epoch pairs on real WAAS broadcasts, the same protected set, worst |dVPL| { "7" }.1e-6 m and |dHPL| { "1" }.6e-5 m against 1e-4 m); tests/integrity_sbas_stanford_oracle.rs::sbas_l5_finding_geo_reception_gate (the L5 finding, pinned); tests/igs_real_data.rs and tests/araim_dual_real_data.rs (plausibility on real IGS SP3 and Celestrak geometry, kept as regression checks, not oracles)
+seg-c7fea4d91077 = tests/integrity_araim_stanford_oracle.rs::araim_mhss_matches_stanford_maast_add_v4_2 ({ "270" } real-geometry cases, Celestrak GPS+Galileo and IGS SP3: worst |dVPL| { "2.2e-3" } m, |dHPL| { "1.1e-3" } m, |dEMT| { "2.1e-10" } m against the ADD TOL_PL { "0.05" } m); tests/integrity_araim_stanford_oracle.rs::uniform_sigma_matched_gap_finding (the uniform-sigma gaps, pinned); tests/integrity_snapshot_raim_rtklib_oracle.rs::snapshot_raim_decisions_and_slope_levels_match_rtklib (real IGS ABMF 2018-05-13, { "288" } epochs, { "2016" } cases with injected { "10" } to { "100" } m biases: 2016/2016 detection and 801/801 exclusion decisions identical, slope HPL/VPL within { "2.7e-12" } m against { "1e-6" } m); tests/integrity_sbas_stanford_oracle.rs::sbas_l1_protection_levels_match_stanford_maast_on_real_waas_messages ({ "2868" } user-epoch pairs on real WAAS broadcasts, the same protected set, worst |dVPL| { "7.1e-6" } m and |dHPL| { "1.6e-5" } m against { "1e-4" } m); tests/integrity_sbas_stanford_oracle.rs::sbas_l5_finding_geo_reception_gate (the L5 finding, pinned); tests/igs_real_data.rs and tests/araim_dual_real_data.rs (plausibility on real IGS SP3 and Celestrak geometry, kept as regression checks, not oracles)
 
 # text
 seg-149fe811bf38 = <b>GNSS geometry / dilution of precision (DOP)</b><br/><s1>GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split</s1>
 
 # text
-seg-e477514e6823 = gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — independent library, matched to 1e-6 relative <em>(ExternalDataset)</em>
+seg-7a0a4255a7bc = gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — independent library, matched to { "1e-6" } relative <em>(ExternalDataset)</em>
 
 # text
 seg-b215ace86be9 = tests/dop_reference.rs ({ "8" } geometries, well-conditioned → near-singular)
@@ -525,7 +456,7 @@ seg-b215ace86be9 = tests/dop_reference.rs ({ "8" } geometries, well-conditioned 
 seg-297ff9f941f8 = <b>RAIM/ARAIM integrity statistical kernel (χ² / non-central χ² / normal laws)</b><br/><s1>The distributional core every protection level rests on: the snapshot fault-detection threshold χ²₁₋ₚfₐ(dof), the missed-detection non-centrality pbias=√λ, and the K_fa/K_md/K_V solution-separation multipliers</s1>
 
 # text
-seg-dc43e4f10703 = SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — independent library (Cephes/Boost), a different algorithm from Kshana's incomplete-gamma series; matched to ≤1e-6 rel. Kernel only. The ARAIM MHSS P_HMI budget *allocation* is no longer without a published numeric oracle — the WG-C ARAIM Technical Subgroup's own worked example now backs the separate 'ARAIM MHSS protection levels against published reference vectors' row, matched at the reference's own TOL_PL = 5e-2 m — so this row's scope is the statistical kernel and that row carries the allocation (see docs/ARAIM_REFERENCE.md) <em>(ExternalDataset)</em>
+seg-598f8f50a209 = SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — independent library (Cephes/Boost), a different algorithm from Kshana's incomplete-gamma series; matched to ≤{ "1e-6" } rel. Kernel only. The ARAIM MHSS P_HMI budget *allocation* is no longer without a published numeric oracle — the WG-C ARAIM Technical Subgroup's own worked example now backs the separate 'ARAIM MHSS protection levels against published reference vectors' row, matched at the reference's own TOL_PL = { "5e-2" } m — so this row's scope is the statistical kernel and that row carries the allocation (see docs/ARAIM_REFERENCE.md) <em>(ExternalDataset)</em>
 
 # text
 seg-b3663ac963e1 = tests/raim_reference.rs ({ "171" } cases: χ² CDF/quantile, normal CDF/quantile, non-central χ² CDF, pbias across the P_fa/P_md/redundancy ranges)
@@ -549,7 +480,7 @@ seg-7bdc599e36e7 = <b>Onboard clock state estimation</b><br/><s1>3-state (phase/
 seg-c2be1d1c210a = filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan { "1978" } block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): on IGS final { "30" } s clocks of { "11" } GPS Block IIF satellites (2025-08-17 to { "30" }), with Q fitted to the first-half ADEV and the filter scored on the held-out second half, the filter is consistent one step ahead ({ "0.906" } to { "0.971" } of epochs inside its { "95" } % band, bar { "90" } %) but over-confident at one hour on { "9" } of { "11" } clocks ({ "0.486" } to { "0.829" }) and its innovation sums fall outside [{ "2.4" }, { "3.6" }] on { "5" }. The fitted white-phase noise is zero on every satellite, and the hour-scale error (periodic terms, flicker FM) is not in the 3-state model. { "0.30" } round { "2" }, an extended filter (flicker FM and once- and twice-per-revolution states) on fresh held-out IGS clocks of 2025-09-01 to { "14" } (pre-registered 4b1a841e), a finding (stays MODELLED): the one-step and one-hour consistency criteria hold on all { "11" } satellites ({ "0.948" } to { "0.988" } and { "0.907" } to { "0.996" }), but the innovation-sum criterion fails on G24 ({ "0.964" }) and G30 ({ "1.929" }) against [{ "2.4" }, { "3.6" }]. D9 round { "3" }, the round-2 extended filter, tuning and criteria unchanged after the frozen clock_library conditioning detector, on fresh IGS clocks of 2026-04-01 to { "14" } (pre-registered fb475550), a finding (stays MODELLED): (a) one-step { "0.941" } to { "0.968" } and (c) triple-NIS mean { "2.641" } to { "3.549" } hold on all { "11" } satellites; (b) one hour fails on G09 ({ "0.894" }) and G26 ({ "0.876" }) against { "0.90" } <em>(ReferenceImpl)</em>
 
 # text
-seg-64183c09f9cd = clock_state::tests (analytic van-Loan Q; NEES; PSD positivity); tests/clock_state_reference.rs (full predict+update trajectory — state x and { "3" }×{ "3" } covariance P over { "1925" } steps / { "4" } parameter sets vs filterpy { "1.4.5" }; worst |relΔ| { "2" }.8e-14); tests/clock_state_igs_holdout_oracle.rs::three_state_filter_on_held_out_igs_clocks_finding (pins the finding); tests/clock_state_ext_igs_fresh_oracle.rs::extended_filter_on_fresh_igs_clocks_finding; tests/clock_state_ext_igs_conditioned_oracle.rs::conditioned_extended_filter_finding (D9 round { "3" })
+seg-3016100a7015 = clock_state::tests (analytic van-Loan Q; NEES; PSD positivity); tests/clock_state_reference.rs (full predict+update trajectory — state x and { "3" }×{ "3" } covariance P over { "1925" } steps / { "4" } parameter sets vs filterpy { "1.4.5" }; worst |relΔ| { "2.8e-14" }); tests/clock_state_igs_holdout_oracle.rs::three_state_filter_on_held_out_igs_clocks_finding (pins the finding); tests/clock_state_ext_igs_fresh_oracle.rs::extended_filter_on_fresh_igs_clocks_finding; tests/clock_state_ext_igs_conditioned_oracle.rs::conditioned_extended_filter_finding (D9 round { "3" })
 
 # text
 seg-d07d7a7e322f = <b>Quantum inertial sensor performance</b><br/><s1>Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN)</s1>
@@ -564,10 +495,10 @@ seg-4e1ac3f1b4a1 = quantum_imu::tests (k_eff; Mach-Zehnder T²; Freier-2016 floo
 seg-5336bb77e943 = <b>GNSS/INS sensor fusion</b><br/><s1>15-state error-state EKF, loosely coupled (validated on a real IMU/GNSS drive against NaveGo); a tightly coupled pseudorange/Doppler UKF and a coupled clock+position filter (consistency-only, outside the validated claim)</s1>
 
 # text
-seg-e847dec10488 = NaveGo v1.4 (R. Gonzalez, LGPL-3.0, run as a tool under GNU Octave, never linked): its loosely coupled ins_gnss on its own real Ekinox IMU/GNSS land-vehicle drive, both solutions scored against the Ekinox reference trajectory. Both filters read the same { "20" } Hz float32 input, and Kshana's configuration is mapped mechanically from the dataset's published parameters. Kshana's horizontal and vertical position RMS and its position-innovation RMS are within { "1" }.2x of NaveGo's (measured { "0.912" }, { "0.940" } and { "0.861" }) and its mean normalised innovation is at most { "1.5" } (measured { "0.395" }: about { "2" }.5x under-confident, given the dataset's stated GNSS sigmas); tolerances fixed before the comparison. Scope: GNSS is present at { "5" } Hz for the whole drive, so no outage or coast is tested and the check catches gross filter defects rather than fine tuning (lever-arm-corrected raw fixes would land near the vertical bar); the lever-arm transform is computed in the test harness. The tightly coupled UKF and the coupled clock+position filter keep their filterpy { "1.4.5" } consistency checks (linear posteriors to { "2" }.4e-12) and stay outside the validated claim <em>(ExternalDataset)</em>
+seg-4b8182f59b58 = NaveGo v1.4 (R. Gonzalez, LGPL-3.0, run as a tool under GNU Octave, never linked): its loosely coupled ins_gnss on its own real Ekinox IMU/GNSS land-vehicle drive, both solutions scored against the Ekinox reference trajectory. Both filters read the same { "20" } Hz float32 input, and Kshana's configuration is mapped mechanically from the dataset's published parameters. Kshana's horizontal and vertical position RMS and its position-innovation RMS are within 1.2x of NaveGo's (measured { "0.912" }, { "0.940" } and { "0.861" }) and its mean normalised innovation is at most { "1.5" } (measured { "0.395" }: about 2.5x under-confident, given the dataset's stated GNSS sigmas); tolerances fixed before the comparison. Scope: GNSS is present at { "5" } Hz for the whole drive, so no outage or coast is tested and the check catches gross filter defects rather than fine tuning (lever-arm-corrected raw fixes would land near the vertical bar); the lever-arm transform is computed in the test harness. The tightly coupled UKF and the coupled clock+position filter keep their filterpy { "1.4.5" } consistency checks (linear posteriors to { "2.4e-12" }) and stay outside the validated claim <em>(ExternalDataset)</em>
 
 # text
-seg-016415eeeb30 = fusion::tests (UKF==linear-KF identity; outage coast; NEES); tests/gnss_ins_sensor_fusion_reference.rs ({ "50" } cases vs filterpy { "1.4.5" }: linear EKF loose/tight + coupled-PNT posteriors to ≤{ "2" }.4e-12; UKF 40-epoch run worst |Δx| { "1" }.9e-7 / |ΔP| { "9" }.5e-6); tests/gnss_ins_navego_dataset_oracle.rs::loosely_coupled_rms_within_1p2x_of_navego (NaveGo v1.4 loosely coupled solution on NaveGo's real Ekinox IMU/GNSS drive: horizontal RMS { "0" }.912x, vertical { "0" }.940x, position-innovation RMS { "0" }.861x of NaveGo's, mean normalised innovation { "0.395" }; bars { "1" }.2x, { "1" }.2x, { "1" }.2x and { "1.5" } fixed before the run)
+seg-e941099918ef = fusion::tests (UKF==linear-KF identity; outage coast; NEES); tests/gnss_ins_sensor_fusion_reference.rs ({ "50" } cases vs filterpy { "1.4.5" }: linear EKF loose/tight + coupled-PNT posteriors to ≤{ "2.4e-12" }; UKF 40-epoch run worst |Δx| { "1.9e-7" } / |ΔP| { "9.5e-6" }); tests/gnss_ins_navego_dataset_oracle.rs::loosely_coupled_rms_within_1p2x_of_navego (NaveGo v1.4 loosely coupled solution on NaveGo's real Ekinox IMU/GNSS drive: horizontal RMS 0.912x, vertical 0.940x, position-innovation RMS 0.861x of NaveGo's, mean normalised innovation { "0.395" }; bars 1.2x, 1.2x, 1.2x and { "1.5" } fixed before the run)
 
 # text
 seg-24cf1866f6bf = <b>GNSS-denied jamming resilience</b><br/><s1>Geometry J/S link budget, anti-jam C/N₀, per-satellite loss-of-lock</s1>
@@ -705,13 +636,7 @@ seg-107c29c96eec = not recorded: this engine was built without the KSHANA_GIT_CO
 seg-c9ee69e3ce3e = Scenario file
 
 # text
-seg-2a8e7d2c72d4 = campaign-jam-spoof-holdover-integrity.toml
-
-# text
 seg-af5108e0fed4 = Scenario file SHA-256 (Secure Hash Algorithm 256-bit)
-
-# text
-seg-8cf9226d472c = cec1e10f8eb478bae58acebe9c2f06cfccf6572f6f6895dc633fb409b8d8ee5f
 
 # text
 seg-73916816595e = Result scenario_hash

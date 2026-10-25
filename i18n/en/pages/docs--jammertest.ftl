@@ -130,7 +130,7 @@ seg-473ed6ca71e5 = <c1/> fixed the population, the definitions and the bars befo
 seg-cd75b60bd0db = The { "2025" } SimulaMet NMEA dataset
 
 # text
-seg-eb37fbfa36f5 = The SimulaMet Jammertest { "2025" } NMEA-derived dataset (IEEE DataPort, DOI { "10" }.21227/a7v4-xw11) is <b>not</b> adapted in { "0.38" }. Its page states no licence and says "This dataset requires an IEEE DataPort Subscription to access": the terms do not clearly allow redistribution or an automated fetch, so no adapter or fetch script was written. Using it needs the owner's decision and, ideally, the authors' written agreement.
+seg-87bc2544154b = The SimulaMet Jammertest { "2025" } NMEA-derived dataset (IEEE DataPort, DOI 10.21227/a7v4-xw11) is <b>not</b> adapted in { "0.38" }. Its page states no licence and says "This dataset requires an IEEE DataPort Subscription to access": the terms do not clearly allow redistribution or an automated fetch, so no adapter or fetch script was written. Using it needs the owner's decision and, ideally, the authors' written agreement.
 
 # text
 seg-f8cf777c0caa = Surfaces

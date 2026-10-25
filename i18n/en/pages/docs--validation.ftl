@@ -117,7 +117,7 @@ seg-e8ae3e380f40 = Existing VALIDATED rows re-examined under the rule
 seg-1dd44545a67a = The rule was applied to the existing rows as well as to future promotions.
 
 # text
-seg-d7bdd5e5b98e = <b>P1 rows named by the { "0.30" } validation study, each supported:</b> One-way link budget (the JPL Pub 82-76 Galileo X-band design-control table, reassembled from its line items to { "4" }.6e-3 dB free-space loss); Band-limited closed forms for any ranging signal ({ "90.3" } per cent main-lobe power and the published coherent early-late jitter); Maximum Doppler of a low Earth orbit navigation satellite (the published Xona Pulsar X1 and Iridium figures); Maximum Doppler a static user sees from a LEO or MEO orbit (Table { "1" } of the Pulsar paper, { "20" } values); Doppler a ground receiver must handle from a LEO navigation satellite (the same published figures from a flown orbit). Each publication is independent of Kshana, prints its numbers, and the test states its tolerance.
+seg-38db7b6e7053 = <b>P1 rows named by the { "0.30" } validation study, each supported:</b> One-way link budget (the JPL Pub 82-76 Galileo X-band design-control table, reassembled from its line items to { "4.6e-3" } dB free-space loss); Band-limited closed forms for any ranging signal ({ "90.3" } per cent main-lobe power and the published coherent early-late jitter); Maximum Doppler of a low Earth orbit navigation satellite (the published Xona Pulsar X1 and Iridium figures); Maximum Doppler a static user sees from a LEO or MEO orbit (Table { "1" } of the Pulsar paper, { "20" } values); Doppler a ground receiver must handle from a LEO navigation satellite (the same published figures from a flown orbit). Each publication is independent of Kshana, prints its numbers, and the test states its tolerance.
 
 # text
 seg-8e38103d05d6 = <b>Further rows that rest on P1, found in the re-examination, each supported:</b> Ranging-code design trade (the published −{ "23.9" } dB Gold cross-correlation); Lunar coordinate time (Ashby and Patla { "2024" }, whose Moon-speed cross-check against DE440 is a Library check); Closed-form L-band signal power spectral densities (Kaplan and Hegarty Q values); First-order ionospheric delay per band (the IS-GPS-200 group-delay ratio); Global-average signal-in-space range error weights (the Montenbruck, Steigenberger and Hauschild { "2018" } table).
@@ -139,13 +139,13 @@ seg-1fd94e94e89d = <b>Flagged in the first pass, re-backed in round { "2" } of t
 # c1: raim_fde
 # c2: raim::araim_raim
 # c3: raim::araim_dual_raim
-seg-c19aeb0486d1 = <b>Integrity (RAIM/ARAIM/SBAS).</b> The cited tests used to assert only plausibility on real IGS (International GNSS Service) geometry. The row now rests on three library oracles: the ARAIM multiple-hypothesis solution separation of the Airborne Design Document v4.2 against Stanford MAAST for ARAIM { "2" } ({ "270" } real cases, worst VPL difference { "2" }.2e-3 m against { "0.05" } m); snapshot RAIM detection and exclusion against RTKLIB <c1/> ({ "2016" } of { "2016" } decisions identical) with the slope protection level; and the SBAS DO-229E L1 protection levels against Stanford MAAST on real WAAS broadcasts ({ "2868" } pairs within { "1" }.6e-5 m). The row says plainly that the uniform-sigma functions <c2/> and <c3/> are not ADD-conformant and that the dual-frequency L5 SBAS comparison is a finding.
+seg-3ef9479dea55 = <b>Integrity (RAIM/ARAIM/SBAS).</b> The cited tests used to assert only plausibility on real IGS (International GNSS Service) geometry. The row now rests on three library oracles: the ARAIM multiple-hypothesis solution separation of the Airborne Design Document v4.2 against Stanford MAAST for ARAIM { "2" } ({ "270" } real cases, worst VPL difference { "2.2e-3" } m against { "0.05" } m); snapshot RAIM detection and exclusion against RTKLIB <c1/> ({ "2016" } of { "2016" } decisions identical) with the slope protection level; and the SBAS DO-229E L1 protection levels against Stanford MAAST on real WAAS broadcasts ({ "2868" } pairs within { "1.6e-5" } m). The row says plainly that the uniform-sigma functions <c2/> and <c3/> are not ADD-conformant and that the dual-frequency L5 SBAS comparison is a finding.
 
 # text
 seg-16a4261c77ec = <b>Planet positions across the solar system from the JPL Standish Keplerian elements.</b> The post-hoc bar of twice the nominal error is replaced by a pre-registered bar: RMS at most the Explanatory Supplement Table { "8.10.1" } figure per planet and component, against JPL Horizons DE441, with the Earth split and the ICRF rotation covered.
 
 # text
-seg-d97d072886ff = <b>Light time between solar-system bodies.</b> The light-time solver is now compared with Horizons light times within 1e-6 s on DE441 positions, a pre-registered bar that does not inherit the position bar.
+seg-8d5b51a942e0 = <b>Light time between solar-system bodies.</b> The light-time solver is now compared with Horizons light times within { "1e-6" } s on DE441 positions, a pre-registered bar that does not inherit the position bar.
 
 # text
 seg-e96900bc322f = <b>MODELLED rows the two policies make promotable</b> (only through the row-by-row { "0.30" } run, never by this text): under P1 the TDOA/FDOA (time and frequency difference of arrival) emitter geolocation bound, the relativistic clock-rate to frame coupling, the ITU-T (Telecommunication Standardization Sector) synchronisation masks (only for mask values the Recommendations print as numbers; the transcribed breakpoints checked against themselves do not count) and the 5G non-terrestrial-network positioning bound (only if a published worked figure is found); under P2 common-mode integrity blindness, the scalar MHSS (multiple-hypothesis solution separation) timing protection level and the GLS (generalised least squares) whitening. The two timing-integrity benchmark rows (the Stanford integrity-diagram classifier and the integrity-coverage scorer) are rule-based classification, not linear algebra, so P2 does not reach them; they need an independent tool, and the only one found (gLAB) carries a non-commercial licence.
@@ -166,7 +166,7 @@ seg-2bd49b92f14b = Allan estimator parity (ADEV/MDEV/TDEV/OHDEV (ADEV: Allan dev
 # c1: tests/allan_reference.rs
 # c2: tests/allan_nist_sp1065_1000point.rs
 # c3: tests/nbs14
-seg-95d4ea19399c = Two primary-source checks against <b>NIST (National Institute of Standards and Technology) SP (Special Publication) { "1065" }</b> (Riley, <em>Handbook of Frequency Stability Analysis</em>, { "2008" }), both to a <b>1e-4</b> relative tolerance. ({ "1" }) <c1/>: the overlapping ADEV, modified ADEV, time deviation, and overlapping Hadamard estimators reproduce the deviations for the canonical 10-point <b>NBS14</b> data set (<b>SP { "1065" } Table 29/30, p. { "107" }</b>) at tau = { "1" }, { "2" } — agreement is actually ~1e-6 (e.g. overlapping ADEV (OADEV) at τ = { "2" }: { "85.952868" } vs { "85.95287" }). ({ "2" }) <c2/>: the same four estimators reproduce the <b>SP { "1065" } §{ "12.4" } 1000-point data set</b> (<b>Table { "31" }, p. { "108" }</b>) at averaging factors { "1" } / { "10" } / { "100" }, where the data set is regenerated in code from the SP { "1065" } LCG (Eq. { "73" }) — hermetic, no fixture. The same data and Table-31 numbers are the regression target in aewallin/allantools (<c3/>), reproduced here with no third-party code. This pins the <em>estimator maths</em> against the reference, distinct from the noise-<em>calibration</em> rows below.
+seg-c429a25d17ae = Two primary-source checks against <b>NIST (National Institute of Standards and Technology) SP (Special Publication) { "1065" }</b> (Riley, <em>Handbook of Frequency Stability Analysis</em>, { "2008" }), both to a <b>{ "1e-4" }</b> relative tolerance. ({ "1" }) <c1/>: the overlapping ADEV, modified ADEV, time deviation, and overlapping Hadamard estimators reproduce the deviations for the canonical 10-point <b>NBS14</b> data set (<b>SP { "1065" } Table 29/30, p. { "107" }</b>) at tau = { "1" }, { "2" } — agreement is actually ~{ "1e-6" } (e.g. overlapping ADEV (OADEV) at τ = { "2" }: { "85.952868" } vs { "85.95287" }). ({ "2" }) <c2/>: the same four estimators reproduce the <b>SP { "1065" } §{ "12.4" } 1000-point data set</b> (<b>Table { "31" }, p. { "108" }</b>) at averaging factors { "1" } / { "10" } / { "100" }, where the data set is regenerated in code from the SP { "1065" } LCG (Eq. { "73" }) — hermetic, no fixture. The same data and Table-31 numbers are the regression target in aewallin/allantools (<c3/>), reproduced here with no third-party code. This pins the <em>estimator maths</em> against the reference, distinct from the noise-<em>calibration</em> rows below.
 
 # text
 seg-79e6f7d1e7f0 = Allan estimator parity on <b>real measured hardware</b>
@@ -176,7 +176,7 @@ seg-79e6f7d1e7f0 = Allan estimator parity on <b>real measured hardware</b>
 # c2: allantools
 # c3: scripts/fetch_cs5071a.sh
 # c4: tests/fixtures/cs5071a/
-seg-4989c810f0a7 = <c1/>: the overlapping Allan and overlapping Hadamard estimators reproduce the <b>Stable32</b> reference deviations for a <b>real 5071A caesium primary standard measured against a hydrogen maser</b> ({ "556 990" } phase samples at τ₀ = { "1" } s; { "1" } PPS (pulse per second) into a 53230A counter, Feb { "2014" }; collected by A. Wallin, distributed with <c2/>). Checked across the <b>whole decade τ ladder ({ "16" } averaging factors, τ = { "1" } s … { "4" }×10⁴ s)</b>: well-sampled factors to a <b>1e-3</b> relative gate (observed agreement is actually ≤ 3e-5, e.g. OADEV({ "1" } s) { "3" }.317111e-10 vs Stable32 { "3" }.3171e-10), long-τ sparse factors required to land inside Stable32's printed { "1" }‑σ confidence band. This complements the synthetic NBS14 parity above with a measured-clock check. The raw phase file is third-party data with no redistribution licence, so it is git-ignored; <c3/> reproduces it and the test prints a skip notice (CI (continuous integration) stays green) when it is absent. Only the public Stable32 reference numbers are committed (<c4/>); no third-party code is used.
+seg-8c72a9df2547 = <c1/>: the overlapping Allan and overlapping Hadamard estimators reproduce the <b>Stable32</b> reference deviations for a <b>real 5071A caesium primary standard measured against a hydrogen maser</b> ({ "556 990" } phase samples at τ₀ = { "1" } s; { "1" } PPS (pulse per second) into a 53230A counter, Feb { "2014" }; collected by A. Wallin, distributed with <c2/>). Checked across the <b>whole decade τ ladder ({ "16" } averaging factors, τ = { "1" } s … { "4" }×10⁴ s)</b>: well-sampled factors to a <b>{ "1e-3" }</b> relative gate (observed agreement is actually ≤ { "3e-5" }, e.g. OADEV({ "1" } s) { "3.317111e-10" } vs Stable32 { "3.3171e-10" }), long-τ sparse factors required to land inside Stable32's printed { "1" }‑σ confidence band. This complements the synthetic NBS14 parity above with a measured-clock check. The raw phase file is third-party data with no redistribution licence, so it is git-ignored; <c3/> reproduces it and the test prints a skip notice (CI (continuous integration) stays green) when it is absent. Only the public Stable32 reference numbers are committed (<c4/>); no third-party code is used.
 
 # text
 seg-1a7f0e741913 = Allan estimator parity on the <b>canonical Stable32 PHASE.DAT</b>
@@ -186,7 +186,7 @@ seg-1a7f0e741913 = Allan estimator parity on the <b>canonical Stable32 PHASE.DAT
 # c2: allantools
 # c3: scripts/fetch_phasedat.sh
 # c4: tests/fixtures/phasedat/
-seg-9a5372d6f407 = <c1/>: the overlapping Allan, modified Allan, and time-deviation estimators reproduce the <b>Stable32</b> reference deviations for <b>PHASE.DAT</b> — the 1001-point series distributed with Stable32 that independent tools (e.g. <c2/>) use as their standard regression target — across the <b>full averaging-factor ladder ({ "139" } factors)</b> to a <b>1e-3</b> relative gate (observed ≤ 5e-5). A second, independent real reference series alongside the measured-caesium check above. PHASE.DAT ships with the commercial Stable32 tool, so the raw series is git-ignored; <c3/> reproduces it and the test skips green (CI stays green) when it is absent. Only the public Stable32 reference numbers are committed (<c4/>); no third-party code is used.
+seg-00e382874a00 = <c1/>: the overlapping Allan, modified Allan, and time-deviation estimators reproduce the <b>Stable32</b> reference deviations for <b>PHASE.DAT</b> — the 1001-point series distributed with Stable32 that independent tools (e.g. <c2/>) use as their standard regression target — across the <b>full averaging-factor ladder ({ "139" } factors)</b> to a <b>{ "1e-3" }</b> relative gate (observed ≤ { "5e-5" }). A second, independent real reference series alongside the measured-caesium check above. PHASE.DAT ships with the commercial Stable32 tool, so the raw series is git-ignored; <c3/> reproduces it and the test skips green (CI stays green) when it is absent. Only the public Stable32 reference numbers are committed (<c4/>); no third-party code is used.
 
 # text
 seg-9dde9e0c8055 = Optical-clock stability on a <b>real measured curve</b>
@@ -195,7 +195,7 @@ seg-9dde9e0c8055 = Optical-clock stability on a <b>real measured curve</b>
 # c1: tests/optical_clock_adev_reference.rs
 # c2: quantum_trade::qparams_from_adev_curve
 # c3: tests/fixtures/optical_clock_adev/
-seg-45718e82042e = <c1/>: the clock-noise parameter inversion (<c2/>) reproduces the <b>published ⁸⁸Sr optical-lattice-clock σ_y(τ) of Norcia et al., <em>Science</em> { "366" }:{ "93" } ({ "2019" })</b> (Zenodo { "10" }.5281/zenodo.3382347, <b>CC-BY-4.0</b> (Creative Commons Attribution { "4.0" }), curve vendored at <c3/>): the recovered white-frequency coefficient √q_wf ≈ { "4" }.33e-16 matches the paper's ≈{ "4" }.7e-16/√τ short-term stability (~{ "10" }% RMS (root mean square) over the curve) and the fit detects a non-zero measured floor (q_rw > { "0" }). This pins the <b>measured-ADEV → noise-parameter inversion against a real optical clock</b>; the holdover-to-threshold benefit built on it stays MODELLED.
+seg-ea908ba3a79f = <c1/>: the clock-noise parameter inversion (<c2/>) reproduces the <b>published ⁸⁸Sr optical-lattice-clock σ_y(τ) of Norcia et al., <em>Science</em> { "366" }:{ "93" } ({ "2019" })</b> (Zenodo 10.5281/zenodo.3382347, <b>CC-BY-4.0</b> (Creative Commons Attribution { "4.0" }), curve vendored at <c3/>): the recovered white-frequency coefficient √q_wf ≈ { "4.33e-16" } matches the paper's ≈4.7e-16/√τ short-term stability (~{ "10" }% RMS (root mean square) over the curve) and the fit detects a non-zero measured floor (q_rw > { "0" }). This pins the <b>measured-ADEV → noise-parameter inversion against a real optical clock</b>; the holdover-to-threshold benefit built on it stays MODELLED.
 
 # text
 seg-e1e930dcd0a1 = Anomaly-detection ROC (receiver operating characteristic) AUC (area under the curve) on <b>real ESA (European Space Agency) OPS-SAT telemetry</b>
@@ -211,7 +211,7 @@ seg-2b637daa985c = <c1/> (reproduces-labels)
 # c4: eval_stats::bootstrap_auc_ci
 # c5: tests/fixtures/opssat/
 # c6: generate_opssat_oracle.py
-seg-b6e963177055 = <c1/>: on the <b>OPSSAT-AD</b> dataset (Ruszczak et al. { "2025" }, Zenodo { "10" }.5281/zenodo.12588359, <b>CC BY { "4.0" }</b>) — real OPS-SAT housekeeping segments with ground-truth anomaly labels — Kshana's Mann–Whitney ROC AUC (<c2/>) reproduces <b>scikit-learn <c3/></b> to <b>< 1e-9</b> on the held-out test split ({ "529" } segments, { "113" } anomalies), for two deterministic scores: a transparent single-feature detector (segment peak count, <b>AUC ≈ { "0.851" }</b>) and an 8-feature diagonal-Mahalanobis score fitted on the normal training segments (AUC ≈ { "0.556" }); <c4/> brackets the point estimate with its lower bound clearing chance. This validates the <b>AUC computation on real ESA data</b> and a transparent detector's <b>labelled separation</b> — it does <b>not</b> reproduce the OPSSAT-AD paper's best published metric (a supervised FCNN (fully connected neural network), F1 ≈ { "0.95" }), which needs their trained model. CC-BY data vendored (<c5/>, hermetic); oracle regenerated by <c6/>.
+seg-c667434b580d = <c1/>: on the <b>OPSSAT-AD</b> dataset (Ruszczak et al. { "2025" }, Zenodo 10.5281/zenodo.12588359, <b>CC BY { "4.0" }</b>) — real OPS-SAT housekeeping segments with ground-truth anomaly labels — Kshana's Mann–Whitney ROC AUC (<c2/>) reproduces <b>scikit-learn <c3/></b> to <b>< { "1e-9" }</b> on the held-out test split ({ "529" } segments, { "113" } anomalies), for two deterministic scores: a transparent single-feature detector (segment peak count, <b>AUC ≈ { "0.851" }</b>) and an 8-feature diagonal-Mahalanobis score fitted on the normal training segments (AUC ≈ { "0.556" }); <c4/> brackets the point estimate with its lower bound clearing chance. This validates the <b>AUC computation on real ESA data</b> and a transparent detector's <b>labelled separation</b> — it does <b>not</b> reproduce the OPSSAT-AD paper's best published metric (a supervised FCNN (fully connected neural network), F1 ≈ { "0.95" }), which needs their trained model. CC-BY data vendored (<c5/>, hermetic); oracle regenerated by <c6/>.
 
 # text
 seg-5f2d41617fb2 = Gravity-field functional synthesis (gravity-aided / GNSS-free (GNSS: global navigation satellite system) nav map)
@@ -222,7 +222,7 @@ seg-5f2d41617fb2 = Gravity-field functional synthesis (gravity-aided / GNSS-free
 # c3: gravity_disturbance_mgal
 # c4: from_gfc
 # c5: tests/agency_lro.rs
-seg-e469d8daff54 = <c1/>: the spherical-harmonic gravity-functional kernel (<c2/> / <c3/>) — the "map reader" a gravity-aided navigator matches against — is validated against the <b>GRS80 (Geodetic Reference System { "1980" }) normal-gravity standard</b> (Moritz { "1980" }, IAG-adopted (IAG: International Association of Geodesy)). Building the GRS80 normal field from its published even zonal harmonics J₂…J₈ and synthesising gravity (gravitation + centrifugal) on the ellipsoid reproduces the closed-form <b>Somigliana</b> normal gravity, and the published equatorial/polar values γ_e = { "9.7803267715" } / γ_p = { "9.8321863685" } m/s², to <b>{ "3" }.5e-12</b> relative across all latitudes (gate 1e-9). The same kernel loads the flagship <b>real ICGEM (International Centre for Global Earth Models) Earth model EGM2008 (Earth Gravitational Model { "2008" })</b> (NGA (National Geospatial-Intelligence Agency) public-domain via ICGEM; the <c4/> reader is also exercised on the GRAIL (Gravity Recovery and Interior Laboratory) lunar field in <c5/>) and produces a physically-bounded gravity-disturbance map (RMS ≈ { "26" } mGal, max ≈ { "89" } mGal at d/o { "70" }). Validates the <b>synthesis code correctness</b>; gravity-aided <em>navigation fix accuracy</em> stays MODELLED (no public gravimeter-on-a-platform trajectory with ground truth).
+seg-4c1126137428 = <c1/>: the spherical-harmonic gravity-functional kernel (<c2/> / <c3/>) — the "map reader" a gravity-aided navigator matches against — is validated against the <b>GRS80 (Geodetic Reference System { "1980" }) normal-gravity standard</b> (Moritz { "1980" }, IAG-adopted (IAG: International Association of Geodesy)). Building the GRS80 normal field from its published even zonal harmonics J₂…J₈ and synthesising gravity (gravitation + centrifugal) on the ellipsoid reproduces the closed-form <b>Somigliana</b> normal gravity, and the published equatorial/polar values γ_e = { "9.7803267715" } / γ_p = { "9.8321863685" } m/s², to <b>{ "3.5e-12" }</b> relative across all latitudes (gate { "1e-9" }). The same kernel loads the flagship <b>real ICGEM (International Centre for Global Earth Models) Earth model EGM2008 (Earth Gravitational Model { "2008" })</b> (NGA (National Geospatial-Intelligence Agency) public-domain via ICGEM; the <c4/> reader is also exercised on the GRAIL (Gravity Recovery and Interior Laboratory) lunar field in <c5/>) and produces a physically-bounded gravity-disturbance map (RMS ≈ { "26" } mGal, max ≈ { "89" } mGal at d/o { "70" }). Validates the <b>synthesis code correctness</b>; gravity-aided <em>navigation fix accuracy</em> stays MODELLED (no public gravimeter-on-a-platform trajectory with ground truth).
 
 # text
 seg-7dc3ff4c6eea = Noise-type-specific edf (confidence intervals)
@@ -230,14 +230,14 @@ seg-7dc3ff4c6eea = Noise-type-specific edf (confidence intervals)
 # text
 # c1: src/allan.rs
 # c2: tests/allan_nist_sp1065_1000point.rs
-seg-731adff8b32c = <c1/>: the χ² confidence band on each overlapping-ADEV point uses the noise-type-specific effective degrees of freedom (NIST SP { "1065" } Table { "5" } closed forms for white and flicker phase modulation, white and flicker frequency modulation and random-walk frequency modulation (WPM/FPM/WFM/FFM/RWFM) — the Stable32 simple set), with the record's power-law type identified from its MDEV log-log slope. Three independent checks: (a) the five formulas reproduce hand-evaluated values at N={ "64" },m={ "4" } to 1e-12; (b) a <b>Monte-Carlo white-FM (FM: frequency modulation) ensemble</b> ({ "4 000" } records) measures the estimator's actual chi-squared edf = { "2" }·mean²/Var(σ²) and matches the formula within { "20" }% (and materially beats the conservative non-overlapping count); (c) <c2/> reproduces the printed <b>SP { "1065" } Table { "32" } (p. { "109" })</b> edf = { "146.177" } for the 1000-point data set at m={ "10" } (white FM) to 5e-3, and the table's { "95" }% confidence bounds ({ "8" }.223942e-2 / { "1" }.035201e-1) to <{ "0.2" }% (the small residual is the Wilson-Hilferty χ² approximation vs NIST's exact χ²). The exported ADEV curve carries the identified noise type, edf, and { "95" }% band per τ.
+seg-7e8a93fb2eea = <c1/>: the χ² confidence band on each overlapping-ADEV point uses the noise-type-specific effective degrees of freedom (NIST SP { "1065" } Table { "5" } closed forms for white and flicker phase modulation, white and flicker frequency modulation and random-walk frequency modulation (WPM/FPM/WFM/FFM/RWFM) — the Stable32 simple set), with the record's power-law type identified from its MDEV log-log slope. Three independent checks: (a) the five formulas reproduce hand-evaluated values at N={ "64" },m={ "4" } to { "1e-12" }; (b) a <b>Monte-Carlo white-FM (FM: frequency modulation) ensemble</b> ({ "4 000" } records) measures the estimator's actual chi-squared edf = { "2" }·mean²/Var(σ²) and matches the formula within { "20" }% (and materially beats the conservative non-overlapping count); (c) <c2/> reproduces the printed <b>SP { "1065" } Table { "32" } (p. { "109" })</b> edf = { "146.177" } for the 1000-point data set at m={ "10" } (white FM) to { "5e-3" }, and the table's { "95" }% confidence bounds ({ "8.223942e-2" } / { "1.035201e-1" }) to <{ "0.2" }% (the small residual is the Wilson-Hilferty χ² approximation vs NIST's exact χ²). The exported ADEV curve carries the identified noise type, edf, and { "95" }% band per τ.
 
 # text
 seg-7048ac695b99 = White FM (short-term)
 
 # text
 # c1: tests/calibration.rs
-seg-d444187ecd74 = <c1/>: simulated overlapping ADEV reproduces published sigma_y({ "1" } s) — typically within a few percent, <b>enforced gate { "20" }%</b> (CSAC and the optical-lattice goal) — and the white-FM curve sigma_y(tau)=sigma_y(1s)/sqrt(tau) across tau = { "1" }, { "10" }, { "100" } s within a <b>{ "25" }% gate</b> (matches CSAC (chip-scale atomic clock) datasheet 3e-10 / 1e-10 / 3e-11).
+seg-b6982cb2ca25 = <c1/>: simulated overlapping ADEV reproduces published sigma_y({ "1" } s) — typically within a few percent, <b>enforced gate { "20" }%</b> (CSAC and the optical-lattice goal) — and the white-FM curve sigma_y(tau)=sigma_y(1s)/sqrt(tau) across tau = { "1" }, { "10" }, { "100" } s within a <b>{ "25" }% gate</b> (matches CSAC (chip-scale atomic clock) datasheet { "3e-10" } / { "1e-10" } / { "3e-11" }).
 
 # text
 seg-11fc7c4b61ff = Random-walk FM (long-term)
@@ -267,7 +267,7 @@ seg-2ea6a14cac1c = Kalman estimator + integrity bound
 # c3: P⁺ = (I−KH)P(I−KH)ᵀ + KRKᵀ
 # c4: R=1e-26 / Q≈1e-30
 # c5: src/run.rs
-seg-d03afa2137fd = <c1/>: a two-state (phase, frequency) filter whose exact van Loan process noise matches the truth model; coasting reproduces the analytic holdover variance <c2/> to 1e-9. The covariance update is in <b>Joseph stabilised form</b> <c3/>, which stays positive-semidefinite (Cholesky-checked) through { "500" } predict/update steps at an extreme <c4/> ratio, and agrees with the naive form to 1e-9 where the latter is well-conditioned. The run layer reports Integrity as the fraction of outage samples inside the 3-sigma protection bound (<c5/>).
+seg-8c8f8a5eba5a = <c1/>: a two-state (phase, frequency) filter whose exact van Loan process noise matches the truth model; coasting reproduces the analytic holdover variance <c2/> to { "1e-9" }. The covariance update is in <b>Joseph stabilised form</b> <c3/>, which stays positive-semidefinite (Cholesky-checked) through { "500" } predict/update steps at an extreme <c4/> ratio, and agrees with the naive form to { "1e-9" } where the latter is well-conditioned. The run layer reports Integrity as the fraction of outage samples inside the 3-sigma protection bound (<c5/>).
 
 # text
 seg-f332f06e80f9 = Filter self-consistency (NIS (normalised innovation squared) / NEES (normalised estimation error squared))
@@ -282,7 +282,7 @@ seg-333e1701b6d0 = <c1/> (model)
 # c3: consistent=false
 # c4: filter_health
 # c5: detection::chi2_inv_cdf
-seg-c6e5587193f1 = <c1/>: a Monte-Carlo consistency assessment (Bar-Shalom §{ "5.4" }). The matched filter's pooled <b>NIS → { "1" }</b> and <b>NEES → { "2" }</b> land inside their { "95" }% χ² bands (the NIS band uses the pooled white-innovation count; the NEES band uses the independent-run count, since estimation errors are temporally correlated). A <b>Q/R-mismatch sweep</b> test verifies the monitor reports <c2/> only at unit tuning and <c3/> at ×{ "0" }.1/×{ "0" }.5/×2/×{ "10" } mistuning, with NIS scaling as ≈1/q_factor as derived. Surfaced as <c4/> in the clock result JSON (JavaScript Object Notation) and a playground card. The χ² bands use the Wilson–Hilferty quantile (<c5/>, table-checked).
+seg-c1304de95180 = <c1/>: a Monte-Carlo consistency assessment (Bar-Shalom §{ "5.4" }). The matched filter's pooled <b>NIS → { "1" }</b> and <b>NEES → { "2" }</b> land inside their { "95" }% χ² bands (the NIS band uses the pooled white-innovation count; the NEES band uses the independent-run count, since estimation errors are temporally correlated). A <b>Q/R-mismatch sweep</b> test verifies the monitor reports <c2/> only at unit tuning and <c3/> at ×0.1/×0.5/×2/×{ "10" } mistuning, with NIS scaling as ≈1/q_factor as derived. Surfaced as <c4/> in the clock result JSON (JavaScript Object Notation) and a playground card. The χ² bands use the Wilson–Hilferty quantile (<c5/>, table-checked).
 
 # text
 seg-078c4009b24f = Two-way time-transfer model
@@ -329,7 +329,7 @@ seg-55697d598918 = <c1/> (off by default)
 # text
 # c1: src/models.rs
 # c2: flicker_floor
-seg-8df6aa2dd834 = Synthesised as a sum of log-spaced Ornstein-Uhlenbeck (OU) processes calibrated to a configurable flat ADEV floor; <c1/> validates the floor is flat across averaging time and sits at the configured level (seed-averaged). Enabled per clock via <c2/>. The cited reference scenarios leave it off: CSAC is white-FM-dominated across its datasheet range (1-1000 s) and the optical-clock systematic floor (~5e-17) is represented by its accuracy figure.
+seg-55000870c060 = Synthesised as a sum of log-spaced Ornstein-Uhlenbeck (OU) processes calibrated to a configurable flat ADEV floor; <c1/> validates the floor is flat across averaging time and sits at the configured level (seed-averaged). Enabled per clock via <c2/>. The cited reference scenarios leave it off: CSAC is white-FM-dominated across its datasheet range (1-1000 s) and the optical-clock systematic floor (~{ "5e-17" }) is represented by its accuracy figure.
 
 # text
 seg-e2e3de9a61a4 = Monte Carlo ensemble statistics
@@ -357,16 +357,10 @@ seg-f63dd3d7aad4 = Source
 seg-ebbe708d9cbc = csac-sa45s (CSAC)
 
 # text
-seg-e26272815a77 = { "3" }.0e-10
-
-# text
 seg-c43fe67d4200 = Microchip SA65 / SA.45s datasheet
 
 # text
 seg-e3bde4355d78 = optical-sr-lattice (Sr lattice)
-
-# text
-seg-b898cd0e2834 = { "1" }.0e-15
 
 # text
 seg-87793f684233 = strontium optical lattice clock, space-oriented goal, arXiv:{ "1503.08457" }
@@ -375,7 +369,7 @@ seg-87793f684233 = strontium optical lattice clock, space-oriented goal, arXiv:{
 seg-b03f5856d451 = Status: white FM and random-walk FM validated; aging modeled and calibrated-out; flicker FM modeled and validated (off by default in the cited scenarios).
 
 # text
-seg-604a29178ee3 = Maturity: the optical-clock figures are the <em>space-oriented goal</em> on ground hardware -- no strontium optical clock has flown. Laboratory Sr clocks reach { "4" }.8e-17 (Oelker et al. { "2019" }, Nature Photonics). CSAC figures are from a deployed commercial part.
+seg-c5ff448dcb88 = Maturity: the optical-clock figures are the <em>space-oriented goal</em> on ground hardware -- no strontium optical clock has flown. Laboratory Sr clocks reach { "4.8e-17" } (Oelker et al. { "2019" }, Nature Photonics). CSAC figures are from a deployed commercial part.
 
 # text
 seg-b59a4b8e6d88 = Relations: Riley, NIST SP { "1065" }, Eq. { "67" } -- white FM sigma_y^{ "2" }(tau)=h0/({ "2" } tau); random-walk FM sigma_y^{ "2" }(tau)=({ "2" } pi^2/3) h_-2 tau, equivalently q_rw*tau/3 for a frequency Wiener process of diffusion q_rw.
@@ -483,10 +477,10 @@ seg-129dc6af8f10 = noise root-PSD
 seg-7109e60b8c9b = cold-atom-quat (quantum)
 
 # text
-seg-d9d59d4c8e7a = { "5" }.88e-7 m/s^{ "2" } ({ "60" } ng, { "24" } h)
+seg-5f5690d74918 = { "5.88e-7" } m/s^{ "2" } ({ "60" } ng, { "24" } h)
 
 # text
-seg-a2d970631801 = { "22" } ug/sqrtHz = { "2" }.16e-4 (m/s^{ "2" })/sqrtHz
+seg-8e83c799fb03 = { "22" } ug/sqrtHz = { "2.16e-4" } (m/s^{ "2" })/sqrtHz
 
 # text
 seg-b52686064c43 = Templier et al. { "2022" }, Science Advances (arXiv:{ "2209.13209" })
@@ -495,10 +489,10 @@ seg-b52686064c43 = Templier et al. { "2022" }, Science Advances (arXiv:{ "2209.1
 seg-09b42bed82c9 = nav-grade-quartz (classical)
 
 # text
-seg-aa0d77f98b49 = { "1" }.57e-3 m/s^{ "2" } (~{ "160" } ug)
+seg-fa9adbe58c2f = { "1.57e-3" } m/s^{ "2" } (~{ "160" } ug)
 
 # text
-seg-975aaaed2ac1 = ~{ "20" } ug/sqrtHz = { "1" }.96e-4 (m/s^{ "2" })/sqrtHz
+seg-63f64f576abc = ~{ "20" } ug/sqrtHz = { "1.96e-4" } (m/s^{ "2" })/sqrtHz
 
 # text
 seg-8714c547449a = Honeywell QA-2000 / Groves AESS Tutorial
@@ -544,10 +538,7 @@ seg-04f69a0edb2f = type
 seg-4a141a45a8ff = source
 
 # text
-seg-87898641381c = optical-isl
-
-# text
-seg-580075d42647 = { "1" } ps (1e-12 s)
+seg-ee136a1d0051 = { "1" } ps ({ "1e-12" } s)
 
 # text
 seg-c78abd60ec97 = on-orbit-credible target
@@ -556,10 +547,7 @@ seg-c78abd60ec97 = on-orbit-credible target
 seg-9dfc1d4334a3 = optical inter-satellite link, picosecond sync target; lab O-TWTFT (TWTFT: two-way time and frequency transfer) ~{ "1" } fs (Giorgetta { "2013" } / Deschenes { "2016" })
 
 # text
-seg-451355c08177 = twstft-rf
-
-# text
-seg-6342077aa531 = { "0.5" } ns (5e-10 s)
+seg-4f3d23d83190 = { "0.5" } ns ({ "5e-10" } s)
 
 # text
 seg-0e730e8e2237 = measured single-session
@@ -664,7 +652,7 @@ seg-d347bb63c1fd = Circular two-body propagation
 # text
 # c1: src/orbit.rs
 # c2: T=2 pi sqrt(r^3/mu)
-seg-d2c31f6422ad = <c1/>: period <c2/> (mu = { "3" }.986004418e14), position returns after one period, equatorial/polar planarity — hand-derived tests.
+seg-60c369fbbd97 = <c1/>: period <c2/> (mu = { "3.986004418e14" }), position returns after one period, equatorial/polar planarity — hand-derived tests.
 
 # text
 seg-1260a2fef95f = Eccentric (Keplerian) propagation
@@ -673,7 +661,7 @@ seg-1260a2fef95f = Eccentric (Keplerian) propagation
 # c1: src/orbit.rs
 # c2: M = E - e sin E
 # c3: a(1∓e)
-seg-02530c42cbde = <c1/>: Kepler's equation <c2/> solved by Newton (residual < 1e-12); perigee/apogee radii <c3/>; circular case matches the closed-form path to 1e-9.
+seg-49df9d526f9c = <c1/>: Kepler's equation <c2/> solved by Newton (residual < { "1e-12" }); perigee/apogee radii <c3/>; circular case matches the closed-form path to { "1e-9" }.
 
 # text
 seg-958f03424508 = J2 secular nodal/apsidal drift
@@ -720,7 +708,7 @@ seg-a1c1364cc45a = Dilution of precision (GDOP/PDOP/HDOP/VDOP/TDOP (GDOP: geomet
 # c2: Q=(HᵀH)⁻¹
 # c3: tests/dop_reference.rs
 # c4: tests/fixtures/dop/
-seg-d3fa47f55285 = <c1/>: <c2/> from the line-of-sight design matrix. <b>External oracle</b> (<c3/>): the five DOP factors reproduce those computed by <b>gnss_lib_py { "1.0.4" }</b> (Stanford NAV Lab — an independent, peer-reviewed GNSS library, used here as ERFA (Essential Routines for Fundamental Astronomy) is for the frames) across <b>{ "8" } geometries</b> spanning well-conditioned to near-singular (DOP in the hundreds), to <b>1e-6</b> relative; provenance + regeneration in <c4/>. As an additional closed-form check, a regular-tetrahedron geometry reproduces the analytic DOPs (PDOP { "1.5" }, TDOP { "0.5" }, GDOP √{ "2.5" }, HDOP √{ "1.5" }, VDOP √{ "0.75" }) to 1e-9. Position sigma = PDOP × user-equivalent range error.
+seg-a1706d47f895 = <c1/>: <c2/> from the line-of-sight design matrix. <b>External oracle</b> (<c3/>): the five DOP factors reproduce those computed by <b>gnss_lib_py { "1.0.4" }</b> (Stanford NAV Lab — an independent, peer-reviewed GNSS library, used here as ERFA (Essential Routines for Fundamental Astronomy) is for the frames) across <b>{ "8" } geometries</b> spanning well-conditioned to near-singular (DOP in the hundreds), to <b>{ "1e-6" }</b> relative; provenance + regeneration in <c4/>. As an additional closed-form check, a regular-tetrahedron geometry reproduces the analytic DOPs (PDOP { "1.5" }, TDOP { "0.5" }, GDOP √{ "2.5" }, HDOP √{ "1.5" }, VDOP √{ "0.75" }) to { "1e-9" }. Position sigma = PDOP × user-equivalent range error.
 
 # text
 seg-504d5aa92cbc = Position error = σ_UERE × DOP for the engine's own least-squares fix
@@ -734,7 +722,7 @@ seg-504d5aa92cbc = Position error = σ_UERE × DOP for the engine's own least-sq
 # c6: orbit::dop_cofactor
 # c7: src/dop_error_ci.rs
 # c8: tests/position_error_dop_ci.rs
-seg-5c0144ba616f = <c1/>, <c2/>: a seeded Monte Carlo (N = { "20,000" } epochs per geometry, σ = { "1.5" } m, ChaCha8 seed { "36" } + i) of <c3/> with unit weights, solved from the true position, on the <b>{ "8" } geometries of <c4/></b> (the ones whose DOP is matched to gnss_lib_py), against σ²·Q where Q is the covariance factor of the <c5/> kernel itself (<c6/>, the same arithmetic). <b>Tolerances pre-registered</b> (commit e50c88d2, before the first run, per the { "0.36" } geometry design note, section { "5.2" }), each a number of standard errors: east, north, up and clock variances within { "5" } %; H/V/P RMS within { "2.5" } %; east-north correlation within { "0.035" }; means within { "5" } standard errors; the { "95" } % horizontal-ellipse fraction within { "0.95" } ± { "0.0077" }. First run: all { "104" } checks pass (worst variance { "3.2" } %, RMS { "1.6" } %, correlation { "0.012" }, mean { "2.2" } standard errors, ellipse { "0.0039" }). <b>Negative controls</b> fail as required: PDOP doubled fails every geometry; errors growing as 1/sin(elevation) against the unweighted Q fail a variance check on every geometry whose lowest satellite is below { "20" }°. <b>How it composes with the row above:</b> that row validates these geometries' DOP against gnss_lib_py; this one adds the step from those factors to metres through the engine's solver. <b>A first, separate check is kept beside it</b> (<c7/>, <c8/>, run before the pre-registration and reported as such): four hand-chosen skies (open, clustered, canyon, half-sky; σ { "1" } m) with chi-square confidence intervals at 1e-6 total over { "20" } checks; ratios { "0.987" } to { "1.009" }, and its own negative controls (a { "10" } % DOP error, 1/sin(elevation) errors) fail as required. <b>Why MODELLED:</b> no external dataset; it does not show that a real receiver's error follows the model, and σ_UERE is an input.
+seg-fc3443210358 = <c1/>, <c2/>: a seeded Monte Carlo (N = { "20,000" } epochs per geometry, σ = { "1.5" } m, ChaCha8 seed { "36" } + i) of <c3/> with unit weights, solved from the true position, on the <b>{ "8" } geometries of <c4/></b> (the ones whose DOP is matched to gnss_lib_py), against σ²·Q where Q is the covariance factor of the <c5/> kernel itself (<c6/>, the same arithmetic). <b>Tolerances pre-registered</b> (commit e50c88d2, before the first run, per the { "0.36" } geometry design note, section { "5.2" }), each a number of standard errors: east, north, up and clock variances within { "5" } %; H/V/P RMS within { "2.5" } %; east-north correlation within { "0.035" }; means within { "5" } standard errors; the { "95" } % horizontal-ellipse fraction within { "0.95" } ± { "0.0077" }. First run: all { "104" } checks pass (worst variance { "3.2" } %, RMS { "1.6" } %, correlation { "0.012" }, mean { "2.2" } standard errors, ellipse { "0.0039" }). <b>Negative controls</b> fail as required: PDOP doubled fails every geometry; errors growing as 1/sin(elevation) against the unweighted Q fail a variance check on every geometry whose lowest satellite is below { "20" }°. <b>How it composes with the row above:</b> that row validates these geometries' DOP against gnss_lib_py; this one adds the step from those factors to metres through the engine's solver. <b>A first, separate check is kept beside it</b> (<c7/>, <c8/>, run before the pre-registration and reported as such): four hand-chosen skies (open, clustered, canyon, half-sky; σ { "1" } m) with chi-square confidence intervals at { "1e-6" } total over { "20" } checks; ratios { "0.987" } to { "1.009" }, and its own negative controls (a { "10" } % DOP error, 1/sin(elevation) errors) fail as required. <b>Why MODELLED:</b> no external dataset; it does not show that a real receiver's error follows the model, and σ_UERE is an input.
 
 # text
 seg-94bffbd8385b = Multi-constellation availability
@@ -755,7 +743,7 @@ seg-0b905100d91c = Broadcast ionosphere (Klobuchar, IS-GPS-200 (IS: Interface Sp
 # c5: src/rtkcmn.c
 # c6: src/ionex.rs
 # c7: parse_ionex
-seg-6e38e4a39a0c = <c1/>: <c2/>, the eight-coefficient broadcast single-frequency model. <b>External oracle</b> (<c3/>): the slant L1 delay reproduces <b>RTKLIB (an open-source real-time kinematic positioning library)'s <c4/></b> (tomojitakasu/RTKLIB, <c5/> — the de-facto open GNSS reference, compiled from source and run independently) across <b>{ "10" } cases</b> spanning elevation, azimuth, local time and two coefficient sets (kshana's default + RTKLIB's), to <b>< 1e-4 m</b>. The IONEX (IONosphere map EXchange format) TEC-map (TEC: total electron content) reader for GIM (global ionosphere map) files now exists (<c6/>, <c7/> with bilinear spatial and temporal interpolation and a slant mapping, unit-tested in-crate); a cross-check of that interpolation against a real CODE (Center for Orbit Determination in Europe) GIM product is still a follow-up. The broadcast model itself is externally validated.
+seg-05e278f04770 = <c1/>: <c2/>, the eight-coefficient broadcast single-frequency model. <b>External oracle</b> (<c3/>): the slant L1 delay reproduces <b>RTKLIB (an open-source real-time kinematic positioning library)'s <c4/></b> (tomojitakasu/RTKLIB, <c5/> — the de-facto open GNSS reference, compiled from source and run independently) across <b>{ "10" } cases</b> spanning elevation, azimuth, local time and two coefficient sets (kshana's default + RTKLIB's), to <b>< { "1e-4" } m</b>. The IONEX (IONosphere map EXchange format) TEC-map (TEC: total electron content) reader for GIM (global ionosphere map) files now exists (<c6/>, <c7/> with bilinear spatial and temporal interpolation and a slant mapping, unit-tested in-crate); a cross-check of that interpolation against a real CODE (Center for Orbit Determination in Europe) GIM product is still a follow-up. The broadcast model itself is externally validated.
 
 # text
 seg-39e235557ecc = RAIM/ARAIM (ARAIM: advanced receiver autonomous integrity monitoring) detection kernel (χ² / non-central χ² / normal) → thresholds & multipliers
@@ -774,7 +762,7 @@ seg-39e235557ecc = RAIM/ARAIM (ARAIM: advanced receiver autonomous integrity mon
 # c11: (GᵀG)⁻¹
 # c12: tests/araim_reference_vectors.rs
 # c13: ARAIM_REFERENCE.md
-seg-f46bd9d6dc79 = <c1/>: the snapshot / solution-separation / ARAIM detection threshold (<c2/>), the missed-detection non-centrality <c3/> (<c4/>), and the K_fa/K_md/K_V multipliers (<c5/>) are all evaluated from a dependency-free regularized incomplete-gamma function. <b>External oracle</b> (<c6/>): <b>{ "171" } cases</b> reproduce <b>SciPy { "1.17.0" }</b> (<c7/>/<c8/>/<c9/> + <c10/> — an independent Cephes/Boost implementation, a different algorithm) across the P_fa / P_md / redundancy operating ranges, to <b>≤ 1e-6 relative</b>. The geometry that wraps the kernel (the slope/covariance from <c11/>) is the gnss_lib_py-validated DOP kernel. <b>Scope:</b> this row pins the <em>statistical kernel</em>. The protection-level <em>value</em> of the ARAIM MHSS (multiple-hypothesis solution separation) allocation is pinned separately against the WG-C (Working Group C) ARAIM Technical Subgroup's published worked example (<c12/>, VPL (vertical protection level) { "18.2926" } m vs { "18.3" } m, HPL (horizontal protection level) { "13.4063" } m vs { "13.45" } m, inside the reference's own { "0.05" } m tolerance; see the standards note below and <a1><c13/></a1>).
+seg-8906f922b9b9 = <c1/>: the snapshot / solution-separation / ARAIM detection threshold (<c2/>), the missed-detection non-centrality <c3/> (<c4/>), and the K_fa/K_md/K_V multipliers (<c5/>) are all evaluated from a dependency-free regularized incomplete-gamma function. <b>External oracle</b> (<c6/>): <b>{ "171" } cases</b> reproduce <b>SciPy { "1.17.0" }</b> (<c7/>/<c8/>/<c9/> + <c10/> — an independent Cephes/Boost implementation, a different algorithm) across the P_fa / P_md / redundancy operating ranges, to <b>≤ { "1e-6" } relative</b>. The geometry that wraps the kernel (the slope/covariance from <c11/>) is the gnss_lib_py-validated DOP kernel. <b>Scope:</b> this row pins the <em>statistical kernel</em>. The protection-level <em>value</em> of the ARAIM MHSS (multiple-hypothesis solution separation) allocation is pinned separately against the WG-C (Working Group C) ARAIM Technical Subgroup's published worked example (<c12/>, VPL (vertical protection level) { "18.2926" } m vs { "18.3" } m, HPL (horizontal protection level) { "13.4063" } m vs { "13.45" } m, inside the reference's own { "0.05" } m tolerance; see the standards note below and <a1><c13/></a1>).
 
 # text
 seg-b17f1501a267 = SBAS (satellite-based augmentation system) protection level (DO-229E Appendix J) → horizontal / vertical protection level (HPL / VPL)
@@ -790,7 +778,7 @@ seg-b17f1501a267 = SBAS (satellite-based augmentation system) protection level (
 # c8: core/filter.c
 # c9: Φ⁻¹(1−5e-8)=5.3267
 # c10: d_U
-seg-8bc4d1785f32 = <c1/>: <c2/>, the weighted-LS (LS: least squares) <c3/> → horizontal error-ellipse major axis + vertical σ, scaled by the DO-229E K-factors. <b>External oracle</b> (<c4/>): kshana's HPL reproduces the <b>RTKLIB SBAS-PL fork</b> (<c5/> <c6/>, the Siki & Takács { "2017" } "DO-229D Appendix J" implementation), run by <c7/> on <b>real EGNOS (European Geostationary Navigation Overlay Service) data</b> (GEO (geostationary orbit) PRN120 broadcast messages + real BUTE/Budapest RINEX (Receiver Independent Exchange Format), 2017-02-19), across <b>{ "6" } epochs</b> to <b>< 2e-3 m</b>. The σ per satellite is the oracle's own full SBAS budget (UDRE (user differential range error) + GIVE (grid ionospheric vertical error) iono + tropo + airborne). ESA gLAB { "v6.0.0" } (<c8/>) was compiled and confirmed to use the identical convention. <b>K_V note:</b> both oracles round the MOPS (minimum operational performance standards) K_V → { "5.33" }; kshana uses the exact <c9/> (~{ "0.06" } % smaller VPL), so the vertical is validated as the K-factor-free <c10/> (= oracle VPL / { "5.33" }). HPL is matched directly (K_H = { "6.0" } on both sides).
+seg-abe00b67e4cb = <c1/>: <c2/>, the weighted-LS (LS: least squares) <c3/> → horizontal error-ellipse major axis + vertical σ, scaled by the DO-229E K-factors. <b>External oracle</b> (<c4/>): kshana's HPL reproduces the <b>RTKLIB SBAS-PL fork</b> (<c5/> <c6/>, the Siki & Takács { "2017" } "DO-229D Appendix J" implementation), run by <c7/> on <b>real EGNOS (European Geostationary Navigation Overlay Service) data</b> (GEO (geostationary orbit) PRN120 broadcast messages + real BUTE/Budapest RINEX (Receiver Independent Exchange Format), 2017-02-19), across <b>{ "6" } epochs</b> to <b>< { "2e-3" } m</b>. The σ per satellite is the oracle's own full SBAS budget (UDRE (user differential range error) + GIVE (grid ionospheric vertical error) iono + tropo + airborne). ESA gLAB { "v6.0.0" } (<c8/>) was compiled and confirmed to use the identical convention. <b>K_V note:</b> both oracles round the MOPS (minimum operational performance standards) K_V → { "5.33" }; kshana uses the exact <c9/> (~{ "0.06" } % smaller VPL), so the vertical is validated as the K-factor-free <c10/> (= oracle VPL / { "5.33" }). HPL is matched directly (K_H = { "6.0" } on both sides).
 
 # text
 seg-fd16d642cafd = Real constellation geometry from TLEs (line-2 / Keplerian)
@@ -827,7 +815,7 @@ seg-c8fc6a49d249 = IAU (International Astronomical Union) 2000A / 2000B nutation
 # c10: teme_to_gcrs
 # c11: numat
 # c12: tests/frame_reference_vectors.rs
-seg-015cf0813616 = <c1/>: the <b>full IAU 2000A</b> series ({ "678" } luni-solar + { "687" } planetary terms, <c2/>) and the 77-term 2000B truncation (<c3/>) are each validated <b>bit-for-bit</b> against the published SOFA/ERFA (SOFA: Standards of Fundamental Astronomy) reference vectors at JD_TT { "2453736.5" } — <c4/> gives Δψ = −{ "0" }.9630909107115518e-5, Δε = { "0" }.4063239174001679e-4; <c5/> gives Δψ = −{ "0" }.9632552291148363e-5, Δε = { "0" }.4063197106621160e-4 — both to <b>1e-13 rad</b>. The 2000A table is machine-generated from the ERFA <c6/> source by <c7/> (reproduces the committed <c8/> bit-for-bit). The nutation matrix (<c9/>), equation of the equinoxes, and the full TEME→TOD→MOD→GCRS (TOD: true of date; MOD: mean of date) chain (<c10/>, Vallado AIAA-2006-6980) are tested for proper-rotation/round-trip/precession-plus-nutation properties, the nutation matrix against ERFA <c11/> element by element to 1e-14, and the whole TEME→GCRS chain against Vallado's published TEME→GCRF example (AIAA 2006-6753, 2004-04-06) to <b>{ "0.11" } m</b> (<c12/>); until that end-to-end check was added the nutation matrix carried Δψ with the wrong sign, a { "2" }·Δψ (about { "25" }″) turn that the property tests could not see (see CHANGELOG, Unreleased, Fixed); 2000A vs 2000B agree to < { "1" } mas as required. The chain is equinox/GMST-based (GMST: Greenwich mean sidereal time); the equinox-free CIO (X,Y,s) reduction and its independent ANISE/SPICE (ANISE: Attitude, Navigation, Instrument, Spacecraft, Ephemeris — a pure-Rust planetary-geometry toolkit; SPICE: Spacecraft, Planet, Instrument, C-matrix, Events) numerical cross-check (≤ { "3.6" } m at GNSS orbit, well inside the < { "10" } m target) are in the CIO row below.
+seg-b31c49596100 = <c1/>: the <b>full IAU 2000A</b> series ({ "678" } luni-solar + { "687" } planetary terms, <c2/>) and the 77-term 2000B truncation (<c3/>) are each validated <b>bit-for-bit</b> against the published SOFA/ERFA (SOFA: Standards of Fundamental Astronomy) reference vectors at JD_TT { "2453736.5" } — <c4/> gives Δψ = −{ "0.9630909107115518e-5" }, Δε = { "0.4063239174001679e-4" }; <c5/> gives Δψ = −{ "0.9632552291148363e-5" }, Δε = { "0.4063197106621160e-4" } — both to <b>{ "1e-13" } rad</b>. The 2000A table is machine-generated from the ERFA <c6/> source by <c7/> (reproduces the committed <c8/> bit-for-bit). The nutation matrix (<c9/>), equation of the equinoxes, and the full TEME→TOD→MOD→GCRS (TOD: true of date; MOD: mean of date) chain (<c10/>, Vallado AIAA-2006-6980) are tested for proper-rotation/round-trip/precession-plus-nutation properties, the nutation matrix against ERFA <c11/> element by element to { "1e-14" }, and the whole TEME→GCRS chain against Vallado's published TEME→GCRF example (AIAA 2006-6753, 2004-04-06) to <b>{ "0.11" } m</b> (<c12/>); until that end-to-end check was added the nutation matrix carried Δψ with the wrong sign, a { "2" }·Δψ (about { "25" }″) turn that the property tests could not see (see CHANGELOG, Unreleased, Fixed); 2000A vs 2000B agree to < { "1" } mas as required. The chain is equinox/GMST-based (GMST: Greenwich mean sidereal time); the equinox-free CIO (X,Y,s) reduction and its independent ANISE/SPICE (ANISE: Attitude, Navigation, Instrument, Spacecraft, Ephemeris — a pure-Rust planetary-geometry toolkit; SPICE: Spacecraft, Planet, Instrument, C-matrix, Events) numerical cross-check (≤ { "3.6" } m at GNSS orbit, well inside the < { "10" } m target) are in the CIO row below.
 
 # text
 seg-0be3c40cc81a = IGRF-14 (IGRF: International Geomagnetic Reference Field) geomagnetic main-field model
@@ -840,7 +828,7 @@ seg-0be3c40cc81a = IGRF-14 (IGRF: International Geomagnetic Reference Field) geo
 # c5: (B_r,B_θ,B_φ)
 # c6: < 0.02°
 # c7: synthesis_matches_the_official_bgs_igrf14_values_at_2025
-seg-873cae19b98e = <c1/>: the IAGA (International Association of Geomagnetism and Aeronomy) Schmidt-normalised spherical-harmonic field (degree/order { "13" }, { "2025.0" } + secular variation; coefficients machine-generated from the official <c2/> by <c3/>, reproducing <c4/> bit-for-bit). Validated on five independent fronts: ({ "1" }) exact coefficient spot-checks vs the IAGA file (g₁⁰=−{ "29350.0" }, g₁¹=−{ "1410.3" }, h₁¹={ "4545.5" } nT); ({ "2" }) the degree-1 synthesis reproduces the <b>exact closed-form tilted dipole</b> field <c5/> to 1e-6; ({ "3" }) the <b>full degree-13 analytic field equals −∇V</b> of the scalar potential (finite-difference, to 1e-4) — exercising the Legendre derivatives and the 1/sinθ term end-to-end; ({ "4" }) the dipole axis reproduces the known <b>geomagnetic north pole</b> (~{ "80.7" }°N, −{ "72.7" }°E) and <b>dipole strength</b> (~{ "29.7" } µT), and the global field lies in the physical { "22" }–{ "67" } µT band with the correct hemisphere dip sign; and ({ "5" }) <b>external oracle</b> — the full synthesis reproduces the official <b>British Geological Survey IGRF-14 web-service</b> values at { "2025.0" } (geodetic, WGS-84 (WGS: World Geodetic System) altitude) to <b>< { "2" } nT</b> on X/Y/Z/F and <c6/> on D/I at four points including { "400" } km altitude (<c7/>).
+seg-9dbb3b1b18a1 = <c1/>: the IAGA (International Association of Geomagnetism and Aeronomy) Schmidt-normalised spherical-harmonic field (degree/order { "13" }, { "2025.0" } + secular variation; coefficients machine-generated from the official <c2/> by <c3/>, reproducing <c4/> bit-for-bit). Validated on five independent fronts: ({ "1" }) exact coefficient spot-checks vs the IAGA file (g₁⁰=−{ "29350.0" }, g₁¹=−{ "1410.3" }, h₁¹={ "4545.5" } nT); ({ "2" }) the degree-1 synthesis reproduces the <b>exact closed-form tilted dipole</b> field <c5/> to { "1e-6" }; ({ "3" }) the <b>full degree-13 analytic field equals −∇V</b> of the scalar potential (finite-difference, to { "1e-4" }) — exercising the Legendre derivatives and the 1/sinθ term end-to-end; ({ "4" }) the dipole axis reproduces the known <b>geomagnetic north pole</b> (~{ "80.7" }°N, −{ "72.7" }°E) and <b>dipole strength</b> (~{ "29.7" } µT), and the global field lies in the physical { "22" }–{ "67" } µT band with the correct hemisphere dip sign; and ({ "5" }) <b>external oracle</b> — the full synthesis reproduces the official <b>British Geological Survey IGRF-14 web-service</b> values at { "2025.0" } (geodetic, WGS-84 (WGS: World Geodetic System) altitude) to <b>< { "2" } nT</b> on X/Y/Z/F and <c6/> on D/I at four points including { "400" } km altitude (<c7/>).
 
 # text
 seg-c1027d5ffc44 = CIO-based IAU 2006/2000A GCRS↔ITRS (ITRS: International Terrestrial Reference System) reduction
@@ -863,7 +851,7 @@ seg-c1027d5ffc44 = CIO-based IAU 2006/2000A GCRS↔ITRS (ITRS: International Ter
 # c15: earth_latest_high_prec.bpc
 # c16: finals2000A
 # c17: kshana
-seg-eb366153b0e8 = <c1/>: the equinox-free celestial-to-terrestrial chain. The CIP (Celestial Intermediate Pole) coordinates <c2/> and the 66-term CIO-locator <c3/> series are validated <b>bit-for-bit</b> against the published SOFA/ERFA <c4/> vector at JD_TT { "2453736.5" } — X={ "0" }.5791308482835292617e-3 (1e-14), Y={ "0" }.4020580099454020310e-4 (1e-15), s=-0.1220032294164579896e-7 (1e-18); the GCRS→CIRS (CIRS: Celestial Intermediate Reference System) matrix against <c5/> (all nine elements to 1e-12); the Earth rotation angle (ERA) against <c6/> = { "0.4022837240028158102" } (1e-12). The <c7/> table is machine-generated from the ERFA <c8/> reference by <c9/> (reproduces <c10/> bit-for-bit). The full <c11/> (CIO <c12/> = polar-motion · ERA · GCRS→CIRS) is tested for proper-rotation + round-trip, and shown consistent with the legacy equinox/GMST-1982 TEME reduction to within { "1" } m at a { "7 000" } km radius (the conventions differ by about { "5" } cm there). <b>Independent third-party cross-check (<c13/>):</b> the same <c14/> is compared against <b>ANISE</b> (the pure-Rust NAIF/SPICE (NAIF: Navigation and Ancillary Information Facility) reimplementation) rotating GCRF→ITRF93 (GCRF: Geocentric Celestial Reference Frame; ITRF93: International Terrestrial Reference Frame { "1993" }) from JPL (Jet Propulsion Laboratory)'s <c15/>, with <b>identical IERS (International Earth Rotation and Reference Systems Service) <c16/> Earth-orientation parameters fed to both sides</b>, over eight quarterly epochs { "2020" }–{ "2023" }. The two independent frame realizations agree to a <b>maximum relative rotation of { "0.028" }″ — ≤ { "0.86" } m on the ground, ≤ { "0.93" } m at LEO (low Earth orbit), ≤ { "3.6" } m at GNSS orbit</b> (mean angle { "0.023" }″). This is the ROADMAP "< { "10" } m" frame cross-check, <b>delivered</b>; the residual is the expected ITRF93-vs-IERS-2010-CIO model/datum difference, not a defect (the bit-for-bit anchor remains the SOFA/ERFA vectors above). ANISE is an MPL-2.0 (MPL: Mozilla Public License) / edition-2024 crate, so the check lives in a standalone, workspace-excluded sub-crate that never touches the published <c17/> dependency graph or any default CI gate.
+seg-aad81285e8cf = <c1/>: the equinox-free celestial-to-terrestrial chain. The CIP (Celestial Intermediate Pole) coordinates <c2/> and the 66-term CIO-locator <c3/> series are validated <b>bit-for-bit</b> against the published SOFA/ERFA <c4/> vector at JD_TT { "2453736.5" } — X={ "0.5791308482835292617e-3" } ({ "1e-14" }), Y={ "0.4020580099454020310e-4" } ({ "1e-15" }), s=-0.1220032294164579896e-7 ({ "1e-18" }); the GCRS→CIRS (CIRS: Celestial Intermediate Reference System) matrix against <c5/> (all nine elements to { "1e-12" }); the Earth rotation angle (ERA) against <c6/> = { "0.4022837240028158102" } ({ "1e-12" }). The <c7/> table is machine-generated from the ERFA <c8/> reference by <c9/> (reproduces <c10/> bit-for-bit). The full <c11/> (CIO <c12/> = polar-motion · ERA · GCRS→CIRS) is tested for proper-rotation + round-trip, and shown consistent with the legacy equinox/GMST-1982 TEME reduction to within { "1" } m at a { "7 000" } km radius (the conventions differ by about { "5" } cm there). <b>Independent third-party cross-check (<c13/>):</b> the same <c14/> is compared against <b>ANISE</b> (the pure-Rust NAIF/SPICE (NAIF: Navigation and Ancillary Information Facility) reimplementation) rotating GCRF→ITRF93 (GCRF: Geocentric Celestial Reference Frame; ITRF93: International Terrestrial Reference Frame { "1993" }) from JPL (Jet Propulsion Laboratory)'s <c15/>, with <b>identical IERS (International Earth Rotation and Reference Systems Service) <c16/> Earth-orientation parameters fed to both sides</b>, over eight quarterly epochs { "2020" }–{ "2023" }. The two independent frame realizations agree to a <b>maximum relative rotation of { "0.028" }″ — ≤ { "0.86" } m on the ground, ≤ { "0.93" } m at LEO (low Earth orbit), ≤ { "3.6" } m at GNSS orbit</b> (mean angle { "0.023" }″). This is the ROADMAP "< { "10" } m" frame cross-check, <b>delivered</b>; the residual is the expected ITRF93-vs-IERS-2010-CIO model/datum difference, not a defect (the bit-for-bit anchor remains the SOFA/ERFA vectors above). ANISE is an MPL-2.0 (MPL: Mozilla Public License) / edition-2024 crate, so the check lives in a standalone, workspace-excluded sub-crate that never touches the published <c17/> dependency graph or any default CI gate.
 
 # text
 seg-fa5889f379d2 = SP3 (Standard Product { "3" }, the precise-orbit format) export round-trip (constellation → SP3-c → re-parse)
@@ -932,7 +920,7 @@ seg-ec74e57ff801 = Cowell propagator vs analytic Kepler truth
 # c5: solve_kepler_robust
 # c6: src/kepler.rs
 # c7: tests/kepler_mpmath_oracle.rs
-seg-a7dc6ba25834 = <c1/>: the unperturbed (two-body) orbit reproduces the <b>exact universal-variable Kepler solution to sub-metre over a { "24" } h LEO orbit</b> (a tighter gate than "vs a numerical reference < { "10" } m"); specific energy and angular momentum conserve to ~1e-9 relative; the J2 nodal regression reproduces the closed-form <c2/> to first-order theory (within { "2" } %, the O(J2²) residual). <c3/> returns <c4/> rather than a silently-wrong answer when Newton fails to converge (near-perigee e = { "0.999" }). The robust <c5/> (Markley { "1995" } starter, <c6/>) converges there and across { "0" } ≤ e ≤ { "0.999999" }, within { "0.9" } ε·|E| of 50-digit mpmath roots (<c7/>).
+seg-8d773778ff0e = <c1/>: the unperturbed (two-body) orbit reproduces the <b>exact universal-variable Kepler solution to sub-metre over a { "24" } h LEO orbit</b> (a tighter gate than "vs a numerical reference < { "10" } m"); specific energy and angular momentum conserve to ~{ "1e-9" } relative; the J2 nodal regression reproduces the closed-form <c2/> to first-order theory (within { "2" } %, the O(J2²) residual). <c3/> returns <c4/> rather than a silently-wrong answer when Newton fails to converge (near-perigee e = { "0.999" }). The robust <c5/> (Markley { "1995" } starter, <c6/>) converges there and across { "0" } ≤ e ≤ { "0.999999" }, within { "0.9" } ε·|E| of 50-digit mpmath roots (<c7/>).
 
 # text
 seg-549d15780f79 = Adaptive integrators (RK4 (fourth-order Runge–Kutta) step-doubling + the Dormand–Prince RK5({ "4" }) embedded pair, DP5({ "4" }) below)
@@ -943,7 +931,7 @@ seg-549d15780f79 = Adaptive integrators (RK4 (fourth-order Runge–Kutta) step-d
 # c3: propagate_dopri
 # c4: integrate_dop853
 # c5: tests/dop853_scipy_oracle.rs
-seg-b183a7dad1b8 = <c1/>: RK4 integrates <c2/> to < 1e-9, shows the ~{ "16" }× error drop per halved step (4th-order convergence), and conserves the harmonic oscillator over a period. The DP5({ "4" }) embedded error estimate is <b>O(h⁵)</b> (halving the step cuts it ~{ "32" }×), integrates the oscillator over { "50" } periods conserving energy to < 1e-6, and reaches the same endpoint at the same tolerance in <b>fewer function evaluations</b> than step doubling; <c3/> clears the same sub-metre Kepler gate and agrees with the RK4 path to < { "1" } m on a J2..J6 orbit. <b>DOP853</b> (<c4/>): Hairer's { "8" }({ "5,3" }) pair with dense output reproduces SciPy { "1.18.1" }'s DOP853 step for step (single step within { "5" }.6e-15; identical step counts on the e = { "0.7" } and Arenstorf runs, one accept/reject flip in { "501" } steps on the LEO run; end states within { "1" }.6e-12) and matches the exact Kepler solution as closely as SciPy does (<c5/>).
+seg-1fcc7553c627 = <c1/>: RK4 integrates <c2/> to < { "1e-9" }, shows the ~{ "16" }× error drop per halved step (4th-order convergence), and conserves the harmonic oscillator over a period. The DP5({ "4" }) embedded error estimate is <b>O(h⁵)</b> (halving the step cuts it ~{ "32" }×), integrates the oscillator over { "50" } periods conserving energy to < { "1e-6" }, and reaches the same endpoint at the same tolerance in <b>fewer function evaluations</b> than step doubling; <c3/> clears the same sub-metre Kepler gate and agrees with the RK4 path to < { "1" } m on a J2..J6 orbit. <b>DOP853</b> (<c4/>): Hairer's { "8" }({ "5,3" }) pair with dense output reproduces SciPy { "1.18.1" }'s DOP853 step for step (single step within { "5.6e-15" }; identical step counts on the e = { "0.7" } and Arenstorf runs, one accept/reject flip in { "501" } steps on the LEO run; end states within { "1.6e-12" }) and matches the exact Kepler solution as closely as SciPy does (<c5/>).
 
 # text
 seg-345ae1eb05ec = J2–J6 zonal-harmonic field
@@ -957,7 +945,7 @@ seg-345ae1eb05ec = J2–J6 zonal-harmonic field
 # c6: J2
 # c7: J4..J6
 # c8: z → −z
-seg-05ba09087159 = <c1/>: <c2/> is checked three ways — it <b>reduces to the 666-vector-validated <c3/> to machine precision</b> when restricted to <c4/>; it <b>matches the numerical gradient of its own zonal potential</b> through the full J2..J6 field (the conservative-field gold standard); and the odd <c5/> vs even <c6/>/<c7/> terms show the characteristic north–south (anti)symmetry under <c8/>. A propagated J2..J6 orbit conserves total energy to ~1e-8 over a day.
+seg-a88e67186e69 = <c1/>: <c2/> is checked three ways — it <b>reduces to the 666-vector-validated <c3/> to machine precision</b> when restricted to <c4/>; it <b>matches the numerical gradient of its own zonal potential</b> through the full J2..J6 field (the conservative-field gold standard); and the odd <c5/> vs even <c6/>/<c7/> terms show the characteristic north–south (anti)symmetry under <c8/>. A propagated J2..J6 orbit conserves total energy to ~{ "1e-8" } over a day.
 
 # text
 seg-5536986d9c8f = Third-body (Sun and Moon) gravity
@@ -967,7 +955,7 @@ seg-5536986d9c8f = Third-body (Sun and Moon) gravity
 # c2: src/ephem.rs
 # c3: third_body_accel
 # c4: third_body_accel
-seg-2628822ba535 = <c1/> + <c2/>: <c3/> <b>matches the exact gradient of its disturbing potential</b>, vanishes at the geocentre, and hits the textbook LEO magnitudes (~5e-7 m/s² Sun, ~{ "1" }.1e-6 m/s² Moon). The low-precision Montenbruck–Gill Sun ephemeris hits hand-derived J2000 anchors (perihelion distance ≈ { "1" }.471e11 m, ~−{ "23" }° solstice declination, ~{ "1" }°/day motion); the Moon ephemeris stays inside its perigee/apogee envelope, recovers the ~{ "384 400" } km mean distance, never exceeds the { "5.3" }° inclination, and returns to within { "1" }° after one sidereal month. The epoch-driven RHS (right-hand side) wiring is <b>bit-exact</b> (the RHS term equals <c4/> at the sampled position at t = { "0" } and t = { "1" } day), and a quarter-year epoch shift yields a different trajectory.
+seg-04388d03e696 = <c1/> + <c2/>: <c3/> <b>matches the exact gradient of its disturbing potential</b>, vanishes at the geocentre, and hits the textbook LEO magnitudes (~{ "5e-7" } m/s² Sun, ~{ "1.1e-6" } m/s² Moon). The low-precision Montenbruck–Gill Sun ephemeris hits hand-derived J2000 anchors (perihelion distance ≈ { "1.471e11" } m, ~−{ "23" }° solstice declination, ~{ "1" }°/day motion); the Moon ephemeris stays inside its perigee/apogee envelope, recovers the ~{ "384 400" } km mean distance, never exceeds the { "5.3" }° inclination, and returns to within { "1" }° after one sidereal month. The epoch-driven RHS (right-hand side) wiring is <b>bit-exact</b> (the RHS term equals <c4/> at the sampled position at t = { "0" } and t = { "1" } day), and a quarter-year epoch shift yields a different trajectory.
 
 # text
 seg-9c8756f9d534 = Solar-radiation pressure (SRP) + conical shadow
@@ -980,7 +968,7 @@ seg-9c8756f9d534 = Solar-radiation pressure (SRP) + conical shadow
 # c5: ν = 1
 # c6: ν = 0
 # c7: [b−a, b+a]
-seg-953a6e0a2b82 = <c1/>: <c2/> (cannonball <c3/>) is <b>bit-identical</b> to the closed form in full sun, pins the <b>1-AU (AU: astronomical unit) radiation pressure to ≈ { "4" }.5398e-6 N/m²</b>, sits in the ~{ "1" }.36e-7 m/s² LEO band pushing away from the Sun, quarters when the Sun distance doubles (inverse-square), and is <b>exactly zero</b> deep in the umbra. <c4/> gives <c5/> in full sun and <c6/> in total umbra (exact), a smooth monotonic penumbra rising { "0" } → { "1" } across the <c7/> band that <b>extends beyond the umbral cylinder</b>.
+seg-e6110e015204 = <c1/>: <c2/> (cannonball <c3/>) is <b>bit-identical</b> to the closed form in full sun, pins the <b>1-AU (AU: astronomical unit) radiation pressure to ≈ { "4.5398e-6" } N/m²</b>, sits in the ~{ "1.36e-7" } m/s² LEO band pushing away from the Sun, quarters when the Sun distance doubles (inverse-square), and is <b>exactly zero</b> deep in the umbra. <c4/> gives <c5/> in full sun and <c6/> in total umbra (exact), a smooth monotonic penumbra rising { "0" } → { "1" } across the <c7/> band that <b>extends beyond the umbral cylinder</b>.
 
 # text
 seg-17b48db4038b = Atmospheric drag (first velocity-dependent term)
@@ -989,7 +977,7 @@ seg-17b48db4038b = Atmospheric drag (first velocity-dependent term)
 # c1: src/forces.rs
 # c2: atmospheric_density
 # c3: drag_accel
-seg-65e82eb05ee1 = <c1/>: <c2/> (Vallado Table 8-4 piecewise-exponential) <b>anchors at { "1.225" } kg/m³ at sea level</b>, clamps below the surface, decreases monotonically through LEO, sits in the ~1e-12 kg/m³ band at { "400" } km with a physical recovered ~{ "58" } km scale height; <c3/> opposes the co-rotating relative velocity at the ~2e-6 m/s² LEO magnitude. The signature check: a { "300" } km orbit loses specific energy <b>monotonically</b> and its semi-major axis decays a bounded ~km/day, where the vacuum baseline conserves energy to < 1e-9.
+seg-4e6c2d0fff55 = <c1/>: <c2/> (Vallado Table 8-4 piecewise-exponential) <b>anchors at { "1.225" } kg/m³ at sea level</b>, clamps below the surface, decreases monotonically through LEO, sits in the ~{ "1e-12" } kg/m³ band at { "400" } km with a physical recovered ~{ "58" } km scale height; <c3/> opposes the co-rotating relative velocity at the ~{ "2e-6" } m/s² LEO magnitude. The signature check: a { "300" } km orbit loses specific energy <b>monotonically</b> and its semi-major axis decays a bounded ~km/day, where the vacuum baseline conserves energy to < { "1e-9" }.
 
 # text
 seg-133eed361425 = Post-Newtonian (Schwarzschild) relativistic correction
@@ -1002,7 +990,7 @@ seg-133eed361425 = Post-Newtonian (Schwarzschild) relativistic correction
 # c5: 3μ²/(c²r³)·r̂
 # c6: ≈1.9e-9
 # c7: μ(4μ + 3v²r)/(c²r³)
-seg-fba55d3ff191 = <c1/>: <c2/> (IERS <c3/> form <c4/>) collapses on a circular orbit to the closed form <c5/> (radial, <b>outward</b>, off-axis components exactly zero), shows the textbook <b><c6/> LEO ratio to two-body</b>, matches the hand-simplified radial-velocity form <c7/> to < 1e-12, and in the propagator <b>perturbs the orbit while holding the semi-major axis to under a metre/day</b> — the conservative opposite of drag's decay.
+seg-c8e26480f148 = <c1/>: <c2/> (IERS <c3/> form <c4/>) collapses on a circular orbit to the closed form <c5/> (radial, <b>outward</b>, off-axis components exactly zero), shows the textbook <b><c6/> LEO ratio to two-body</b>, matches the hand-simplified radial-velocity form <c7/> to < { "1e-12" }, and in the propagator <b>perturbs the orbit while holding the semi-major axis to under a metre/day</b> — the conservative opposite of drag's decay.
 
 # text
 # c1: ForceModel
@@ -1028,7 +1016,7 @@ seg-fba55d3ff191 = <c1/>: <c2/> (IERS <c3/> form <c4/>) collapses on a circular 
 # c21: ForceModel::srp_shadow
 # c22: tests/srp_oblate_shadow_orekit_oracle.rs
 # c23: tests/drag_tier_orekit_oracle.rs
-seg-ddc6285ce629 = Honest scope: the released <c1/> defaults integrate the zonal field. The high-degree EGM2008 <b>tesseral</b> field (<c2/>, degree/order { "70" }), the solid/ocean/atmospheric <b>tides</b> (<c3/>), and the <b>Lense–Thirring</b> frame-dragging term are now implemented and composed into the precise ephemeris-fitting force model (<c4/> — see below). The tesseral field is also an opt-in term of the Cowell <c5/> (<c6/>, default off), validated against Orekit { "12.2" } <c7/> to degree/order { "70" } ({ "6" } cases over { "24" } h, worst |Δr| { "0.036" } m; <c8/>). Two field evaluators exist: the historical <c9/> (spherical partials; valid to degree ~{ "180" } away from the poles; outputs pinned) and <c10/> (Holmes–Featherstone { "2002" } modified forward column, gradient without 1/cos φ; valid to degree { "2190" } at every latitude). EGM2008 to { "2190" } loads at run time (<c11/>, <c12/>, not bundled). <c13/> agrees with Orekit { "12.2" } to { "7" }.3e-17 m/s² at eight points through degree { "2190" }; it stays MODELLED because pyshtools missed the pre-registered near-pole bar (an mpmath check places the error in pyshtools; <c14/>). A { "24" } h { "200" }×{ "200" } orbit agrees with Orekit to { "0.13" } m, but its pre-registered degree-70 sensitivity control missed ({ "0.73" } m < { "1" } m), so degrees { "71" }–{ "200" } are characterised, not validated, in orbit (<c15/>). The NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) thermospheric density is ported (<c16/>: bit-identical to the public-domain C port on { "720" } points, within { "1" }.9e-6 relative of pymsis, the { "17" } published test cases reproduced; <c17/>) and is an opt-in drag-density tier (<c18/>, <c19/>; the default stays the static Vallado model). This validates the port, not the model's accuracy against measured density. DE440 (DE: Development Ephemeris) Sun and Moon are an opt-in ephemeris tier (<c20/>). The WGS-84 oblate-Earth SRP shadow is opt-in (<c21/>), agreeing with Orekit { "12.2" }'s lighting ratio within { "7" }.4e-9 over { "2400" } geometries (<c22/>); its limb-darkened variant has no external oracle (MODELLED). The NRLMSISE-00 drag tier agrees with Orekit { "12.2" }'s own NRLMSISE-00 drag over { "24" } h to { "0.03" } m against up to { "142" } km of drag displacement (<c23/>, VALIDATED under the shared conventions). A GMAT (General Mission Analysis Tool) cross-check remains a follow-on.
+seg-d39e75019595 = Honest scope: the released <c1/> defaults integrate the zonal field. The high-degree EGM2008 <b>tesseral</b> field (<c2/>, degree/order { "70" }), the solid/ocean/atmospheric <b>tides</b> (<c3/>), and the <b>Lense–Thirring</b> frame-dragging term are now implemented and composed into the precise ephemeris-fitting force model (<c4/> — see below). The tesseral field is also an opt-in term of the Cowell <c5/> (<c6/>, default off), validated against Orekit { "12.2" } <c7/> to degree/order { "70" } ({ "6" } cases over { "24" } h, worst |Δr| { "0.036" } m; <c8/>). Two field evaluators exist: the historical <c9/> (spherical partials; valid to degree ~{ "180" } away from the poles; outputs pinned) and <c10/> (Holmes–Featherstone { "2002" } modified forward column, gradient without 1/cos φ; valid to degree { "2190" } at every latitude). EGM2008 to { "2190" } loads at run time (<c11/>, <c12/>, not bundled). <c13/> agrees with Orekit { "12.2" } to { "7.3e-17" } m/s² at eight points through degree { "2190" }; it stays MODELLED because pyshtools missed the pre-registered near-pole bar (an mpmath check places the error in pyshtools; <c14/>). A { "24" } h { "200" }×{ "200" } orbit agrees with Orekit to { "0.13" } m, but its pre-registered degree-70 sensitivity control missed ({ "0.73" } m < { "1" } m), so degrees { "71" }–{ "200" } are characterised, not validated, in orbit (<c15/>). The NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) thermospheric density is ported (<c16/>: bit-identical to the public-domain C port on { "720" } points, within { "1.9e-6" } relative of pymsis, the { "17" } published test cases reproduced; <c17/>) and is an opt-in drag-density tier (<c18/>, <c19/>; the default stays the static Vallado model). This validates the port, not the model's accuracy against measured density. DE440 (DE: Development Ephemeris) Sun and Moon are an opt-in ephemeris tier (<c20/>). The WGS-84 oblate-Earth SRP shadow is opt-in (<c21/>), agreeing with Orekit { "12.2" }'s lighting ratio within { "7.4e-9" } over { "2400" } geometries (<c22/>); its limb-darkened variant has no external oracle (MODELLED). The NRLMSISE-00 drag tier agrees with Orekit { "12.2" }'s own NRLMSISE-00 drag over { "24" } h to { "0.03" } m against up to { "142" } km of drag displacement (<c23/>, VALIDATED under the shared conventions). A GMAT (General Mission Analysis Tool) cross-check remains a follow-on.
 
 # text
 # c1: src/tides.rs
@@ -1041,7 +1029,7 @@ seg-81b18c4caad3 = Time-varying corrections ΔC̄_nm, ΔS̄_nm to the Stokes coe
 seg-78dc5baf4d9d = Contribution
 
 # text
-seg-391fa2de15a6 = Solid Earth tide (IERS Eq. { "6.6" } / { "6" }.8b / { "6.14" })
+seg-7c6c910bbf89 = Solid Earth tide (IERS Eq. { "6.6" } / 6.8b / { "6.14" })
 
 # text
 # c1: tests/tides_iers.rs
@@ -1100,7 +1088,7 @@ seg-bf2eb36e3eb6 = Lambert solver vs an independent library
 # text
 # c1: tests/lambert_reference.rs
 # c2: izzo2015
-seg-502ca3deec2f = <c1/>: { "13" } single-revolution transfers from LEO to GEO to heliocentric, prograde and retrograde, against lamberthub { "1.0.0" } <c2/>; worst boundary-velocity difference 7e-12 m/s.
+seg-40511ea76e12 = <c1/>: { "13" } single-revolution transfers from LEO to GEO to heliocentric, prograde and retrograde, against lamberthub { "1.0.0" } <c2/>; worst boundary-velocity difference { "7e-12" } m/s.
 
 # text
 seg-164d7ea14d4e = Honest scope: no trajectory optimizer, no multi-revolution Lambert branches, and a synthetic coplanar-circular heliocentric model (no planetary DE ephemeris, so a GMAT Earth–Mars C3 cross-check has not been run).
@@ -1138,13 +1126,13 @@ seg-7a636cc9eef0 = Batch and sequential OD vs an independent estimator
 
 # text
 # c1: tests/batch_sequential_orbit_determination_reference.rs
-seg-4cf432d81c78 = <c1/>: { "8" } scenarios ({ "6" } noiseless LEO/MEO/eccentric with { "3" }–{ "4" } stations, { "2" } at σ = { "5" } m) against Orekit { "12.2" }'s batch least-squares and Kalman estimators on a matched force model; worst batch 1e-3 m / 1e-6 m/s, sequential { "0.9" } m.
+seg-68bf6e73c582 = <c1/>: { "8" } scenarios ({ "6" } noiseless LEO/MEO/eccentric with { "3" }–{ "4" } stations, { "2" } at σ = { "5" } m) against Orekit { "12.2" }'s batch least-squares and Kalman estimators on a matched force model; worst batch { "1e-3" } m / { "1e-6" } m/s, sequential { "0.9" } m.
 
 # text
 # c1: modelled
 # c2: tests/od_tracking_measurements_reference.rs
 # c3: xval/od-measurements-orekit/RESULTS.md
-seg-6fdc5894ca9b = | Range-rate / az-el batch OD with an elevation mask | <c1/> (external comparison, one pre-registered bar missed) | <c2/>: { "8" } scenarios against Orekit { "12.2" } batch least squares with custom instantaneous geometric measurements; visible sets identical, measurement values within { "5" }.8e-8 m / { "6" }.3e-10 m/s / { "1" }.4e-13 rad, state-transition matrix within { "1" }.2e-14, noisy states within { "1.74" } cm and per-type RMS within { "2" }.7e-4; the pre-registered noiseless ≤ { "1" } cm state bar is missed on { "2" } of { "4" } scenarios ({ "1.46" } and { "1.74" } cm; Orekit's own estimate sits that far from its simulated truth, kshana's within 1e-8 m). See <c3/>. |
+seg-55a86bc79831 = | Range-rate / az-el batch OD with an elevation mask | <c1/> (external comparison, one pre-registered bar missed) | <c2/>: { "8" } scenarios against Orekit { "12.2" } batch least squares with custom instantaneous geometric measurements; visible sets identical, measurement values within { "5.8e-8" } m / { "6.3e-10" } m/s / { "1.4e-13" } rad, state-transition matrix within { "1.2e-14" }, noisy states within { "1.74" } cm and per-type RMS within { "2.7e-4" }; the pre-registered noiseless ≤ { "1" } cm state bar is missed on { "2" } of { "4" } scenarios ({ "1.46" } and { "1.74" } cm; Orekit's own estimate sits that far from its simulated truth, kshana's within { "1e-8" } m). See <c3/>. |
 
 # text
 seg-35a85fb744cd = Honest scope: the teaching OD uses fixed inertial stations, a spherical-Earth topocentric frame, and instantaneous geometric measurements (no light time, aberration, refraction or Earth rotation); the range-rate/angle path's state-transition matrix is variational (RK4-integrated with analytic two-body + J2 partials), not closed-form; there is no sequential filter for range-rate or angles. The range-only path keeps its finite-difference Jacobian. (The full-force ephemeris-fitting engine below carries its own variational state-transition matrix.)
@@ -1213,7 +1201,7 @@ seg-721a27294813 = Galileo MEO — < { "5" } m GREEN
 # c4: workflow_dispatch
 # c5: tests/fixtures/agency/NOTICE.md
 # c6: docs/AGENCY-ORBIT-VALIDATION.md
-seg-beb99e379cfb = Kshana's full-force engine fit to a verbatim slice of <b>ESA/ESOC (ESOC: European Space Operations Centre)'s own final orbit</b> (<c1/>, ITRF (International Terrestrial Reference Frame)) for Galileo <b>E11</b> over { "8" } h, each ITRF fix rotated into GCRS with real finals2000A EOP: post-fit <b>3-D RMS { "0.133" } m</b> pure force + <c2/> (RTN { "0" }.105/0.067/0.047 m, <c3/> { "1.174" }), <b>{ "0.070" } m</b> with the empirical tier, from a { "78.7" } km raw overlap. The full { "24" } h arc is <b>{ "0.611" } m</b>. All far inside the { "5" } m bar. Field gravity-converged by d/o-8 (identical at d/o 8/10/12); the <c4/> job runs the full d/o-70. Provenance + SHA-256 (SHA: Secure Hash Algorithm) in <c5/>; full record in <c6/>.
+seg-14a2999d0739 = Kshana's full-force engine fit to a verbatim slice of <b>ESA/ESOC (ESOC: European Space Operations Centre)'s own final orbit</b> (<c1/>, ITRF (International Terrestrial Reference Frame)) for Galileo <b>E11</b> over { "8" } h, each ITRF fix rotated into GCRS with real finals2000A EOP: post-fit <b>3-D RMS { "0.133" } m</b> pure force + <c2/> (RTN 0.105/0.067/0.047 m, <c3/> { "1.174" }), <b>{ "0.070" } m</b> with the empirical tier, from a { "78.7" } km raw overlap. The full { "24" } h arc is <b>{ "0.611" } m</b>. All far inside the { "5" } m bar. Field gravity-converged by d/o-8 (identical at d/o 8/10/12); the <c4/> job runs the full d/o-70. Provenance + SHA-256 (SHA: Secure Hash Algorithm) in <c5/>; full record in <c6/>.
 
 # text
 seg-d5ed0783432e = Swarm-A LEO — < { "5" } m GREEN
@@ -1224,7 +1212,7 @@ seg-d5ed0783432e = Swarm-A LEO — < { "5" } m GREEN
 # c3: 2.522
 # c4: tests/fixtures/agency/NOTICE.md
 # c5: docs/AGENCY-ORBIT-VALIDATION.md
-seg-671c6de8f45e = Full-force engine (+ atmospheric drag) fit to a verbatim slice of <b>ESA's own Swarm-A reduced-dynamic precise orbit</b> (<c1/>, L47, ITRF, ~{ "430" } km, ~{ "2" } cm) over { "3" } h at d/o-70, real finals2000A EOP through the CIO chain: <b>dynamic</b> tier (state-only, static density, <c2/>={ "1" }) post-fit <b>3-D RMS { "2.687" } m</b> (RTN { "0" }.925/<c3/>/0.045 m — residual ≈ pure along-track drag), <b>reduced-dynamic</b> tier (+ empirical CPR accelerations) <b>{ "0.098" } m</b> (RTN { "0" }.026/0.092/0.025 m) — ~{ "10" } cm against ESA's ~{ "2" } cm orbit. Provenance + SHA-256 in <c4/>; full record in <c5/>.
+seg-403b15ec1b9b = Full-force engine (+ atmospheric drag) fit to a verbatim slice of <b>ESA's own Swarm-A reduced-dynamic precise orbit</b> (<c1/>, L47, ITRF, ~{ "430" } km, ~{ "2" } cm) over { "3" } h at d/o-70, real finals2000A EOP through the CIO chain: <b>dynamic</b> tier (state-only, static density, <c2/>={ "1" }) post-fit <b>3-D RMS { "2.687" } m</b> (RTN 0.925/<c3/>/0.045 m — residual ≈ pure along-track drag), <b>reduced-dynamic</b> tier (+ empirical CPR accelerations) <b>{ "0.098" } m</b> (RTN 0.026/0.092/0.025 m) — ~{ "10" } cm against ESA's ~{ "2" } cm orbit. Provenance + SHA-256 in <c4/>; full record in <c5/>.
 
 # text
 seg-3be5a6bee187 = LRO (Lunar Reconnaissance Orbiter) lunar — validated, above { "5" } m (honest)
@@ -1236,7 +1224,7 @@ seg-3be5a6bee187 = LRO (Lunar Reconnaissance Orbiter) lunar — validated, above
 # c4: xval/anise-lunar-od
 # c5: tests/fixtures/agency/NOTICE.md
 # c6: docs/AGENCY-ORBIT-VALIDATION.md
-seg-8da3983123d7 = <b>Moon-centred</b> force-model fit (<c1/>): the GRAIL <b>GRGM660PRIM</b> gravity field (d/o { "100" }) in the lunar body-fixed principal-axis frame (<c2/>, IAU { "2015" } mean-Earth + the fixed DE421 (Development Ephemeris { "421" }) mean-Earth → principal-axis (ME→PA) offset, applied as SPICE defines it since { "0.36" }: until then it was applied in the wrong direction, about { "208" }″ off) + Earth/Sun third body, fitted through the <em>same</em> generic Gauss–Newton estimator as the Earth datasets to the real <b>JPL Horizons LRO</b> (NAIF −{ "85" }) reconstructed orbit, { "4" } h / { "241" } epochs, ~{ "98" } km. Honest post-fit ({ "0.36" }): <b>dynamic { "12.05" } m</b> (RTN { "2" }.91/10.11/5.88), <b>reduced-dynamic { "6.67" } m</b> (RTN { "3" }.41/4.58/3.44, { "1" }+2-per-rev empirical), from a { "39.9" } m raw overlap (before the ME→PA fix: { "12.6" } m, { "6.65" } m, { "53.8" } m) — <b>above</b> the < { "5" } m bar, not the estimator (identical at d/o 100/150 and <c3/> 1e-6/1e-9). A <b>DE-grade cross-validation</b> (<c4/>: DE440 (Development Ephemeris { "440" }) lunar PA orientation + DE440 ephemeris via ANISE) <b>corrected</b> the limiting-factor claim — it gave { "12.0" } m dynamic and { "6.67" } m reduced-dynamic, which the corrected analytic stack now matches on both tiers (the earlier dynamic gap, { "12.6" } → { "12.0" } m, was the ME→PA offset error), so the operational floor is <b>not</b> the analytic orientation/ephemeris but an empirical-tier-irreducible residual (most consistent with unmodelled LRO non-gravitational dynamics over the short arc); the lean analytic stack already matches DE-grade for the reduced-dynamic orbit. Provenance + SHA-256 in <c5/>; full record in <c6/>. <b>Validated against real agency truth: { "3" } of { "3" }; meeting < { "5" } m: { "2" } of { "3" }.</b>
+seg-d2be90186a89 = <b>Moon-centred</b> force-model fit (<c1/>): the GRAIL <b>GRGM660PRIM</b> gravity field (d/o { "100" }) in the lunar body-fixed principal-axis frame (<c2/>, IAU { "2015" } mean-Earth + the fixed DE421 (Development Ephemeris { "421" }) mean-Earth → principal-axis (ME→PA) offset, applied as SPICE defines it since { "0.36" }: until then it was applied in the wrong direction, about { "208" }″ off) + Earth/Sun third body, fitted through the <em>same</em> generic Gauss–Newton estimator as the Earth datasets to the real <b>JPL Horizons LRO</b> (NAIF −{ "85" }) reconstructed orbit, { "4" } h / { "241" } epochs, ~{ "98" } km. Honest post-fit ({ "0.36" }): <b>dynamic { "12.05" } m</b> (RTN 2.91/10.11/5.88), <b>reduced-dynamic { "6.67" } m</b> (RTN 3.41/4.58/3.44, { "1" }+2-per-rev empirical), from a { "39.9" } m raw overlap (before the ME→PA fix: { "12.6" } m, { "6.65" } m, { "53.8" } m) — <b>above</b> the < { "5" } m bar, not the estimator (identical at d/o 100/150 and <c3/> 1e-6/1e-9). A <b>DE-grade cross-validation</b> (<c4/>: DE440 (Development Ephemeris { "440" }) lunar PA orientation + DE440 ephemeris via ANISE) <b>corrected</b> the limiting-factor claim — it gave { "12.0" } m dynamic and { "6.67" } m reduced-dynamic, which the corrected analytic stack now matches on both tiers (the earlier dynamic gap, { "12.6" } → { "12.0" } m, was the ME→PA offset error), so the operational floor is <b>not</b> the analytic orientation/ephemeris but an empirical-tier-irreducible residual (most consistent with unmodelled LRO non-gravitational dynamics over the short arc); the lean analytic stack already matches DE-grade for the reduced-dynamic orbit. Provenance + SHA-256 in <c5/>; full record in <c6/>. <b>Validated against real agency truth: { "3" } of { "3" }; meeting < { "5" } m: { "2" } of { "3" }.</b>
 
 # text
 # c1: src/gravimeter.rs
@@ -1342,7 +1330,7 @@ seg-702de63000d2 = Evidence / oracle
 seg-c3fed48b98b1 = Unit-conversion layer (the #1 non-circularity risk)
 
 # text
-seg-c03f2041e1ad = Hand-checked: { "0.15" } deg/√hr = { "4" }.3633e-5 rad/√s; { "3.6" } µg = { "3" }.5304e-5 m/s²; { "2.0" } deg/hr = { "9" }.6963e-6 rad/s.
+seg-6cdc88d36bfd = Hand-checked: { "0.15" } deg/√hr = { "4.3633e-5" } rad/√s; { "3.6" } µg = { "3.5304e-5" } m/s²; { "2.0" } deg/hr = { "9.6963e-6" } rad/s.
 
 # text
 seg-75afa5abcd08 = Gyro angle random walk
@@ -1414,7 +1402,7 @@ seg-658acc8112e3 = Mars gravity (GMM-3 (GMM: Goddard Mars Model) tesseral, body-
 # c3: tests/mars_dynamics.rs
 # c4: .gfc
 # c5: gravity_sh::from_gfc
-seg-24f7ee117c2b = <c1/>: zonals C̄20/C̄30/C̄{ "40" } from the MRO110 (Mars Reconnaissance Orbiter gravity solution) J2/J3/J4 (<c2/>, J2 round-trips to { "1" }.9604e-3) + MRO110B2 sectoral/tesseral C̄22/S̄{ "22" }, C̄32/S̄{ "32" } (Konopliv et al. { "2011" }; tabulated in Liu, Baoyin & Ma { "2012" }), evaluated in the IAU Mars body-fixed frame. <c3/> checks the round-trip, the J2-scale departure from point-mass, and that the field is genuinely body-fixed (a quarter-Mars-day reorientation changes the inertial acceleration). Higher degree/order loads from a vendored <c4/> via <c5/>.
+seg-9b058665cf4b = <c1/>: zonals C̄20/C̄30/C̄{ "40" } from the MRO110 (Mars Reconnaissance Orbiter gravity solution) J2/J3/J4 (<c2/>, J2 round-trips to { "1.9604e-3" }) + MRO110B2 sectoral/tesseral C̄22/S̄{ "22" }, C̄32/S̄{ "32" } (Konopliv et al. { "2011" }; tabulated in Liu, Baoyin & Ma { "2012" }), evaluated in the IAU Mars body-fixed frame. <c3/> checks the round-trip, the J2-scale departure from point-mass, and that the field is genuinely body-fixed (a quarter-Mars-day reorientation changes the inertial acceleration). Higher degree/order loads from a vendored <c4/> via <c5/>.
 
 # text
 seg-1dcbee768418 = Mars body-fixed frame (IAU pole)
@@ -1424,7 +1412,7 @@ seg-1dcbee768418 = Mars body-fixed frame (IAU pole)
 # c2: R3(W)·R1(90°−δ0)·R3(90°+α0)
 # c3: lunar_frame.rs
 # c4: prime_w_dot
-seg-210214773731 = <c1/>: the IAU 3-1-3 rotation <c2/> (WGCCRE/NAIF (WGCCRE: Working Group on Cartographic Coordinates and Rotational Elements) convention, same as <c3/>). Tests: orthonormal to 1e-12 with det +{ "1" }, round-trip identity, prime meridian advances at <c4/> per day.
+seg-0708e5b37d69 = <c1/>: the IAU 3-1-3 rotation <c2/> (WGCCRE/NAIF (WGCCRE: Working Group on Cartographic Coordinates and Rotational Elements) convention, same as <c3/>). Tests: orthonormal to { "1e-12" } with det +{ "1" }, round-trip identity, prime meridian advances at <c4/> per day.
 
 # text
 seg-5b6355a143c7 = Mars / Sun-central propagation
@@ -1435,7 +1423,7 @@ seg-4ab87f666765 = <c1/> (self-consistency)
 
 # text
 # c1: tests/mars_propagation.rs
-seg-1cb035adf56a = <c1/>: a Low-Mars-Orbit returns to its start after one Keplerian period (closure); specific energy ε=v²/2−μ/r drifts <1e-9 across the arc; the Mars-J2 secular nodal regression matches the analytic Vallado rate (computed independently ≈ −{ "5.15" } °/day at { "60" }° incl.) to { "3" }%; a heliocentric orbit recovers the ~687-day Mars year (vis-viva + independent period recovery from the arc). No external data.
+seg-12e3d173340b = <c1/>: a Low-Mars-Orbit returns to its start after one Keplerian period (closure); specific energy ε=v²/2−μ/r drifts <{ "1e-9" } across the arc; the Mars-J2 secular nodal regression matches the analytic Vallado rate (computed independently ≈ −{ "5.15" } °/day at { "60" }° incl.) to { "3" }%; a heliocentric orbit recovers the ~687-day Mars year (vis-viva + independent period recovery from the arc). No external data.
 
 # text
 seg-acff4c016089 = DE440 cross-validation (heliocentric Mars)
@@ -1454,7 +1442,7 @@ seg-a7d79066a53b = Light-time + Shapiro delay
 
 # text
 # c1: src/radiometric.rs
-seg-69f399737c66 = <c1/>: the iterative retarded-epoch light-time solution (converges |Δτ|<1e-12 s, capped) and the Shapiro delay Δt=(2μ/c³)·ln[(r1+r2+r12)/(r1+r2−r12)]. Tests: Earth–Sun ≈ { "499" } s and Earth–Moon ≈ { "1.28" } s via the builtin ephemeris; a synthetic constant-velocity emitter recovers the analytic retarded solution to <1e-9 s (solver proven independent of any real ephemeris); Shapiro matches a hand-computed value exactly and gives ~{ "100" }–{ "250" } µs for an Earth–Mars superior-conjunction grazing ray.
+seg-798148171dab = <c1/>: the iterative retarded-epoch light-time solution (converges |Δτ|<{ "1e-12" } s, capped) and the Shapiro delay Δt=(2μ/c³)·ln[(r1+r2+r12)/(r1+r2−r12)]. Tests: Earth–Sun ≈ { "499" } s and Earth–Moon ≈ { "1.28" } s via the builtin ephemeris; a synthetic constant-velocity emitter recovers the analytic retarded solution to <{ "1e-9" } s (solver proven independent of any real ephemeris); Shapiro matches a hand-computed value exactly and gives ~{ "100" }–{ "250" } µs for an Earth–Mars superior-conjunction grazing ray.
 
 # text
 seg-1bc28f6bdc8f = Ephemeris-provider seam
@@ -1485,7 +1473,7 @@ seg-d2da2e1d1711 = Deep-space radiometric observables & CCSDS Tracking Data Mess
 
 # text
 # c1: sigma
-seg-e9d258f6ba4d = The second milestone of the deep-space navigation engine: the <b>observable model</b> that turns the D0 light-time/relativistic-delay kernel into the actual quantities a Deep Space Network (DSN) or ESTRACK (European Space Tracking network) tracking pass reports — range, one/two/three-way Doppler, coherent transponder turn-around, regenerative/PN (PN: pseudo-noise) ranging, Δ-DOR (DOR: differential one-way ranging), and the propagation media — plus the <b>CCSDS (Consultative Committee for Space Data Systems) { "503" }.0-B Tracking Data Message (TDM)</b> input/output that ingests/emits a standard agency tracking file. <b>Honest scope:</b> these are <b>exact geometric models</b> following the Moyer / CCSDS conventions; the measurement <em>noise</em> is the caller-supplied per-observation <c1/>, not baked into the model. Reproducing a <em>specific real tracking pass</em> needs real TDM data plus the deep-space orbit-determination solver — that is <b>D2</b>, not D1. Everything below is additive (the reproducibility goldens are unchanged; same SHA, no regen).
+seg-b98f508f2375 = The second milestone of the deep-space navigation engine: the <b>observable model</b> that turns the D0 light-time/relativistic-delay kernel into the actual quantities a Deep Space Network (DSN) or ESTRACK (European Space Tracking network) tracking pass reports — range, one/two/three-way Doppler, coherent transponder turn-around, regenerative/PN (PN: pseudo-noise) ranging, Δ-DOR (DOR: differential one-way ranging), and the propagation media — plus the <b>CCSDS (Consultative Committee for Space Data Systems) 503.0-B Tracking Data Message (TDM)</b> input/output that ingests/emits a standard agency tracking file. <b>Honest scope:</b> these are <b>exact geometric models</b> following the Moyer / CCSDS conventions; the measurement <em>noise</em> is the caller-supplied per-observation <c1/>, not baked into the model. Reproducing a <em>specific real tracking pass</em> needs real TDM data plus the deep-space orbit-determination solver — that is <b>D2</b>, not D1. Everything below is additive (the reproducibility goldens are unchanged; same SHA, no regen).
 
 # text
 seg-d1d2dc7906c8 = Range & 1/2/3-way Doppler (Moyer two-leg solve)
@@ -1522,7 +1510,7 @@ seg-f24f9da1570c = Regenerative / PN ranging (CCSDS { "414" }; ambiguity)
 # c3: c/(2·chip_rate)
 # c4: pn_range_ambiguity
 # c5: c·L/(2·f_chip)
-seg-b4ab0b7712a4 = <c1/>: <c2/> = <c3/> (the per-chip resolution-scale unambiguous range) and <c4/> = that × code length (the full PN-code unambiguous range <c5/>), per CCSDS { "414" }.1-B. Tested: a { "1" } MHz range clock gives ~{ "149.9" } m; the CCSDS-414.1 weighted-voting PN code ({ "1 009 470" } chips) at { "1" } Mchip/s gives the ~{ "151 000" } km design unambiguous range; doubling the chip rate halves the per-chip ambiguity.
+seg-1abd8c221e8d = <c1/>: <c2/> = <c3/> (the per-chip resolution-scale unambiguous range) and <c4/> = that × code length (the full PN-code unambiguous range <c5/>), per CCSDS 414.1-B. Tested: a { "1" } MHz range clock gives ~{ "149.9" } m; the CCSDS-414.1 weighted-voting PN code ({ "1 009 470" } chips) at { "1" } Mchip/s gives the ~{ "151 000" } km design unambiguous range; doubling the chip rate halves the per-chip ambiguity.
 
 # text
 seg-16b9fdd916a7 = Δ-DOR (CCSDS { "506" } plane-of-sky)
@@ -1533,7 +1521,7 @@ seg-16b9fdd916a7 = Δ-DOR (CCSDS { "506" } plane-of-sky)
 # c3: B⃗
 # c4: −B·sin(Δθ)/c
 # c5: |Δτ| ≈ B·Δθ/c
-seg-15301a0a4108 = <c1/>: the differential plane-of-sky delay <c2/> (s) for an interferometer baseline <c3/> (CCSDS { "506" }.1-B). Tested: matches the exact analytic projection <c4/> for a known baseline-aligned offset to 1e-15 s, the small-angle magnitude <c5/>, and the <b>null</b> (a spacecraft co-aligned with the quasar gives exactly zero differential delay).
+seg-93055e944306 = <c1/>: the differential plane-of-sky delay <c2/> (s) for an interferometer baseline <c3/> (CCSDS 506.1-B). Tested: matches the exact analytic projection <c4/> for a known baseline-aligned offset to { "1e-15" } s, the small-angle magnitude <c5/>, and the <b>null</b> (a spacecraft co-aligned with the quasar gives exactly zero differential delay).
 
 # text
 seg-4e5258bb04d5 = Plasma 1/f² dual-frequency calibration
@@ -1550,7 +1538,7 @@ seg-4e5258bb04d5 = Plasma 1/f² dual-frequency calibration
 # c9: K_disp = (Δt_X−Δt_Ka)/(1/f_X²−1/f_Ka²)
 # c10: d_X/d_Ka = (f_Ka/f_X)²
 # c11: dual_frequency_recovers_injected_plasma
-seg-def0c9aabc8a = <c1/>: <c2/> = <c3/> (the dispersive <c4/> charged-particle group delay, <c5/>); <c6/> the Cassini-class <c7/> corona column (analytic stand-in, not a calibrated corona); <c8/> the <c9/> dispersion inversion the DSN uses to remove plasma. Tested: the 1/f² law <c10/>; the corona rises toward conjunction; and an <b>injected TEC is recovered to <{ "1" } %</b> (in fact ≪ 1e-9 noise-free) — <c11/>.
+seg-e3b340103825 = <c1/>: <c2/> = <c3/> (the dispersive <c4/> charged-particle group delay, <c5/>); <c6/> the Cassini-class <c7/> corona column (analytic stand-in, not a calibrated corona); <c8/> the <c9/> dispersion inversion the DSN uses to remove plasma. Tested: the 1/f² law <c10/>; the corona rises toward conjunction; and an <b>injected TEC is recovered to <{ "1" } %</b> (in fact ≪ { "1e-9" } noise-free) — <c11/>.
 
 # text
 seg-e1e265ab499a = Tropo / iono media (reuse GNSS models)
@@ -1586,7 +1574,7 @@ seg-44ba6e0411fd = CCSDS-TDM { "503" } parse / emit + radiometric bridge
 # c18: TRANSMIT_BAND
 # c19: sigma
 # c20: 0.0
-seg-5c2fe2153f17 = <c1/>: a CCSDS { "503" }.0-B-2 KVN (keyword-value notation) reader <b>and</b> writer (header + <c2/> / <c3/> segments; <c4/>/<c5/>/<c6/>/<c7/> records). Tests (<c8/> + <c9/>): the reference fixture parses to the expected named fields; <b>parse→emit→parse is an equal structure</b> (semantic round-trip); the bridge <c10/> maps the unambiguous <c11/>/<c12/> records to <c13/> (way from <c14/> <c15/>/<c16/>/<c17/>, band from <c18/>, km→m); a multi-segment file resets the state machine. <b>Honest skip-not-guess:</b> angles/frequencies, unknown bands, day-of-year epochs, and unrecognised time systems are <b>skipped</b>, never mis-mapped, and <c19/> is left <c20/> for the caller to weight.
+seg-18eafe936dcb = <c1/>: a CCSDS 503.0-B-2 KVN (keyword-value notation) reader <b>and</b> writer (header + <c2/> / <c3/> segments; <c4/>/<c5/>/<c6/>/<c7/> records). Tests (<c8/> + <c9/>): the reference fixture parses to the expected named fields; <b>parse→emit→parse is an equal structure</b> (semantic round-trip); the bridge <c10/> maps the unambiguous <c11/>/<c12/> records to <c13/> (way from <c14/> <c15/>/<c16/>/<c17/>, band from <c18/>, km→m); a multi-segment file resets the state machine. <b>Honest skip-not-guess:</b> angles/frequencies, unknown bands, day-of-year epochs, and unrecognised time systems are <b>skipped</b>, never mis-mapped, and <c19/> is left <c20/> for the caller to weight.
 
 # text
 seg-e8ca55dd29b1 = DSN/ESTRACK benchmark (model precision ≫ published floor)
@@ -1594,7 +1582,7 @@ seg-e8ca55dd29b1 = DSN/ESTRACK benchmark (model precision ≫ published floor)
 # text
 # c1: tests/radiometric_benchmark.rs
 # c2: v/(1+v/c)
-seg-8c650bb4654e = <c1/>: the observables are exact geometric computations, so the honest benchmark is that the <b>model's own numerical error is far below the published DSN/ESTRACK measurement floor</b> — the model is not the accuracy bottleneck, the caller-supplied σ is. Each test computes an observable two independent ways (or recovers an injected truth) and asserts the residual is below the floor: <b>range</b> round-trips to <{ "1" } mm ≪ the ~{ "1" } m PN-ranging floor (DSN 810-005 mod. { "214" } / CCSDS { "414" }.1-B); <b>Doppler</b> matches the exact closed-form retarded range rate <c2/> to ~{ "10" }⁻⁶ m/s, several × below the ~{ "0.05" } mm/s X-band floor (DSN 810-005 mod. { "203" } / Moyer) — the residual is the f64 range-differencing floor at ~{ "1" } AU, a numeric characteristic not a modelling error; <b>Δ-DOR</b> reproduces the closed-form projection to an equivalent plane-of-sky angle ≪ { "1" } nrad ≪ the ~{ "1" }–{ "10" } nrad floor (DSN 810-005 mod. { "210" } / CCSDS { "506" }.1-B); <b>plasma</b> dual-frequency recovers the injected delay to ≪ { "1" } %; and the <b>Shapiro</b> delay sits in the published ~{ "100" }–{ "250" } µs Earth–Mars conjunction band. The published figures are stated and labelled as <b>order-of-magnitude</b> DSN specs, not fabricated exact numbers, and the module doc is explicit this benchmarks MODEL PRECISION, not real-pass reproduction (that is D2 + real TDM).
+seg-247b9e7b2be8 = <c1/>: the observables are exact geometric computations, so the honest benchmark is that the <b>model's own numerical error is far below the published DSN/ESTRACK measurement floor</b> — the model is not the accuracy bottleneck, the caller-supplied σ is. Each test computes an observable two independent ways (or recovers an injected truth) and asserts the residual is below the floor: <b>range</b> round-trips to <{ "1" } mm ≪ the ~{ "1" } m PN-ranging floor (DSN 810-005 mod. { "214" } / CCSDS 414.1-B); <b>Doppler</b> matches the exact closed-form retarded range rate <c2/> to ~{ "10" }⁻⁶ m/s, several × below the ~{ "0.05" } mm/s X-band floor (DSN 810-005 mod. { "203" } / Moyer) — the residual is the f64 range-differencing floor at ~{ "1" } AU, a numeric characteristic not a modelling error; <b>Δ-DOR</b> reproduces the closed-form projection to an equivalent plane-of-sky angle ≪ { "1" } nrad ≪ the ~{ "1" }–{ "10" } nrad floor (DSN 810-005 mod. { "210" } / CCSDS 506.1-B); <b>plasma</b> dual-frequency recovers the injected delay to ≪ { "1" } %; and the <b>Shapiro</b> delay sits in the published ~{ "100" }–{ "250" } µs Earth–Mars conjunction band. The published figures are stated and labelled as <b>order-of-magnitude</b> DSN specs, not fabricated exact numbers, and the module doc is explicit this benchmarks MODEL PRECISION, not real-pass reproduction (that is D2 + real TDM).
 
 # text
 # c1: src/deepspace_od.rs
@@ -1620,7 +1608,7 @@ seg-51f203291066 = SRIF core (square-root information filter)
 # c8: P = R⁻¹R⁻ᵀ
 # c9: srif_covariance_is_spd
 # c10: P
-seg-20ef6b7b5533 = <c1/>: a hand-rolled Bierman square-root information filter — upper-triangular <c2/> with <c3/>, info vector <c4/>, Householder measurement/time updates, bare-<c5/> arithmetic (no nalgebra). Tests: the sequential SRIF matches the batch weighted-least-squares (<c6/>) solution in <b>both state and covariance to 1e-9</b> on a designed linear-Gaussian problem (<c7/>); the recovered covariance <c8/> is <b>symmetric (1e-12) and positive-definite by construction</b> after a long measurement/time-update sequence (<c9/>, Cholesky succeeds); and information accumulates (trace of <c10/> decreases monotonically as identical-geometry measurements are folded in).
+seg-9d5fd8c1d37d = <c1/>: a hand-rolled Bierman square-root information filter — upper-triangular <c2/> with <c3/>, info vector <c4/>, Householder measurement/time updates, bare-<c5/> arithmetic (no nalgebra). Tests: the sequential SRIF matches the batch weighted-least-squares (<c6/>) solution in <b>both state and covariance to { "1e-9" }</b> on a designed linear-Gaussian problem (<c7/>); the recovered covariance <c8/> is <b>symmetric ({ "1e-12" }) and positive-definite by construction</b> after a long measurement/time-update sequence (<c9/>, Cholesky succeeds); and information accumulates (trace of <c10/> decreases monotonically as identical-geometry measurements are folded in).
 
 # text
 seg-f9ffa1ef4688 = Reduced-dynamic empirical accelerations (cruise↔LMO tuning)
@@ -1644,7 +1632,7 @@ seg-9d5db4d63990 = 3-state onboard clock (phase/freq/drift, van Loan Q, Allan)
 # c5: ClockClass
 # c6: σ_y(1 s)
 # c7: Δv = c·σ_y
-seg-8576f73c60c0 = <c1/>: phase + fractional-frequency + frequency-drift error state with the <b>exact van Loan discrete process noise</b> and a Joseph-stabilised update. Tests: the discretised <c2/> matches the hand-derived van Loan polynomial <b>to 1e-12</b> and <b>reduces exactly to the two-state KalmanClock Q when drift = { "0" }</b> (a strict superset); a multi-step coast grows the phase variance to the analytic NIST SP { "1065" } holdover relation through the <c3/> random-run term; the drift state <b>recovers a true aging ramp to <{ "5" } %</b>; a <b>USO-class Allan profile is recovered</b> (overlapping ADEV at τ={ "1" } s within the calibration gate) and the estimator stays NEES-consistent (>{ "95" } % inside 3σ) and PSD through a harsh-<c4/> run. <c5/> carries the cited CSAC/USO/DSAC (USO: ultra-stable oscillator; DSAC: Deep Space Atomic Clock) <c6/> figures and the <c7/> Doppler floor.
+seg-fe5beef74e24 = <c1/>: phase + fractional-frequency + frequency-drift error state with the <b>exact van Loan discrete process noise</b> and a Joseph-stabilised update. Tests: the discretised <c2/> matches the hand-derived van Loan polynomial <b>to { "1e-12" }</b> and <b>reduces exactly to the two-state KalmanClock Q when drift = { "0" }</b> (a strict superset); a multi-step coast grows the phase variance to the analytic NIST SP { "1065" } holdover relation through the <c3/> random-run term; the drift state <b>recovers a true aging ramp to <{ "5" } %</b>; a <b>USO-class Allan profile is recovered</b> (overlapping ADEV at τ={ "1" } s within the calibration gate) and the estimator stays NEES-consistent (>{ "95" } % inside 3σ) and PSD through a harsh-<c4/> run. <c5/> carries the cited CSAC/USO/DSAC (USO: ultra-stable oscillator; DSAC: Deep Space Atomic Clock) <c6/> figures and the <c7/> Doppler floor.
 
 # text
 seg-8666d18daa2b = Mars atmospheric drag (Mars-GRAM-lite (GRAM: Global Reference Atmospheric Model))
@@ -1652,7 +1640,7 @@ seg-8666d18daa2b = Mars atmospheric drag (Mars-GRAM-lite (GRAM: Global Reference
 # text
 # c1: src/mars_atmos.rs
 # c2: ..._scaled
-seg-037c5056778f = <c1/>: a piecewise-exponential Mars neutral-density profile (surface ~{ "0.020" } kg/m³, near-surface scale height ~{ "11" } km, the Mars-GRAM { "2010" } / MCD (Mars Climate Database) low-dust mean) and the quadratic drag acceleration taken relative to the <b>co-rotating</b> Mars atmosphere, plus a <c2/> variant the SRIF can multiply. Tests: the density decreases monotonically and continuously across bands, the recovered near-surface scale height is the physical ~{ "11" } km, the drag is <b>strictly anti-parallel to the relative velocity</b> (cross-product vanishes to 1e-12) with a sane ~3e-4 m/s² LMO magnitude, and it is linear in the ballistic term. <b>Honest scope:</b> a representative engineering atmosphere, not a flight-validated Mars-GRAM/MCD with dust/season/local-time dependence.
+seg-6a64c2b9e553 = <c1/>: a piecewise-exponential Mars neutral-density profile (surface ~{ "0.020" } kg/m³, near-surface scale height ~{ "11" } km, the Mars-GRAM { "2010" } / MCD (Mars Climate Database) low-dust mean) and the quadratic drag acceleration taken relative to the <b>co-rotating</b> Mars atmosphere, plus a <c2/> variant the SRIF can multiply. Tests: the density decreases monotonically and continuously across bands, the recovered near-surface scale height is the physical ~{ "11" } km, the drag is <b>strictly anti-parallel to the relative velocity</b> (cross-product vanishes to { "1e-12" }) with a sane ~{ "3e-4" } m/s² LMO magnitude, and it is linear in the ballistic term. <b>Honest scope:</b> a representative engineering atmosphere, not a flight-validated Mars-GRAM/MCD with dust/season/local-time dependence.
 
 # text
 seg-452f32dace80 = Radiometric measurement partials (range/Doppler) for the SRIF
@@ -1667,7 +1655,7 @@ seg-452f32dace80 = Radiometric measurement partials (range/Doppler) for the SRIF
 # c7: range_rate_partials_match_finite_difference
 # c8: radiometric_update_reduces_covariance_in_observed_direction
 # c9: range_rate_update_observes_velocity
-seg-fc5a71139b18 = <c1/> / <c2/>: the line-of-sight range <c3/> (∂ρ/∂r = û, ∂ρ/∂v = { "0" }) and range rate <c4/> (∂ρ̇/∂v = û, ∂ρ̇/∂r = (v_rel − ρ̇·û)/ρ) partials that connect the D1 observables to the filter state, plus the one-way-Doppler clock-frequency partial <c5/>. Tests: both partials match a <b>central finite difference of the observable to 1e-6</b> (<c6/>, <c7/>); a single range update <b>shrinks the covariance in the observed (line-of-sight, LOS) direction by ≫{ "1000" }×</b> and keeps it positive-definite (PD), and a Doppler update shrinks the LOS <b>velocity</b> variance (<c8/>, <c9/>).
+seg-6661d241cdaf = <c1/> / <c2/>: the line-of-sight range <c3/> (∂ρ/∂r = û, ∂ρ/∂v = { "0" }) and range rate <c4/> (∂ρ̇/∂v = û, ∂ρ̇/∂r = (v_rel − ρ̇·û)/ρ) partials that connect the D1 observables to the filter state, plus the one-way-Doppler clock-frequency partial <c5/>. Tests: both partials match a <b>central finite difference of the observable to { "1e-6" }</b> (<c6/>, <c7/>); a single range update <b>shrinks the covariance in the observed (line-of-sight, LOS) direction by ≫{ "1000" }×</b> and keeps it positive-definite (PD), and a Doppler update shrinks the LOS <b>velocity</b> variance (<c8/>, <c9/>).
 
 # text
 seg-9a2cb6292477 = Mars-LMO end-to-end OD from radiometric data
@@ -1789,7 +1777,7 @@ seg-bbb634953ebf = A geodetic VLBI (very-long-baseline interferometry) observabl
 # c2: src/radiometric.rs
 # c3: −(B·ŝ_B)/c = delta_dor(r_B, [0,0,0], B)
 # c4: dtau/dr_B = ((r_B−r2)/|r_B−r2| − (r_B−r1)/|r_B−r1|)/c
-seg-44e754f8eb5c = The <b>oracle</b> is the same-codebase plane-wave Δ-DOR observable <c1/> in <c2/>: in the far-field limit (a synthetic beacon at 1e15 m) the geometric delay must collapse to <c3/> to machine precision; at true lunar distance the wavefront-curvature near-field correction is non-zero (tens to hundreds of µs). The beacon partials <c4/> (and the station partials) are verified by central finite difference (relative error < 1e-5).
+seg-b2b758337ebc = The <b>oracle</b> is the same-codebase plane-wave Δ-DOR observable <c1/> in <c2/>: in the far-field limit (a synthetic beacon at { "1e15" } m) the geometric delay must collapse to <c3/> to machine precision; at true lunar distance the wavefront-curvature near-field correction is non-zero (tens to hundreds of µs). The beacon partials <c4/> (and the station partials) are verified by central finite difference (relative error < { "1e-5" }).
 
 # text
 seg-107b9d328f69 = Lunar geodetic VLBI delay + partials
@@ -1811,7 +1799,7 @@ seg-107b9d328f69 = Lunar geodetic VLBI delay + partials
 # c14: Modelled
 # c15: xp = yp = 0
 # c16: jd_tdb ≈ jd_tt
-seg-05c0ac674dad = <c1/>, <c2/>, <c3/>/<c4/>/<c5/>, <c6/>, <c7/>. <b>Oracle: <c8/></b> — the same-codebase plane-wave <c9/> (<c10/>) in the far-field limit, plus <b>finite-difference partials</b>. Tests (<c11/>): station magnitude ≈ Earth radius, beacon range at lunar distance ({ "356" }–{ "407" } Mm), far-field geometric delay matches <c12/> to < 1e-9 s, a non-zero near-field correction at lunar distance, FD beacon/station partials within 1e-5 relative, an exact clock term, and a finite scenario run dispatched through <c13/>. <b>Honest scope:</b> <c14/>, <b>NOT</b> validated against real VLBI data. Polar motion is dropped (<c15/>), so station inertial positions carry a few-metre frame error; the beacon mixes a mean-equator-of-date Moon series with an ICRF (International Celestial Reference Frame) body-fixed offset (<c16/>), a frame-consistency mismatch below model fidelity but not rigorous; and there is no light-time iteration, Earth-rotation-during-light-time, media (tropo/iono/plasma) or aberration term beyond the differenced Shapiro. No TRL (technology readiness level), flight heritage or agency endorsement is claimed. { "0.30" }: against ANISE light times through DE440 no delay of this analytic path is within { "1" } ps (largest gap { "24" } µs); the finding is pinned.
+seg-acee0ad60cf4 = <c1/>, <c2/>, <c3/>/<c4/>/<c5/>, <c6/>, <c7/>. <b>Oracle: <c8/></b> — the same-codebase plane-wave <c9/> (<c10/>) in the far-field limit, plus <b>finite-difference partials</b>. Tests (<c11/>): station magnitude ≈ Earth radius, beacon range at lunar distance ({ "356" }–{ "407" } Mm), far-field geometric delay matches <c12/> to < { "1e-9" } s, a non-zero near-field correction at lunar distance, FD beacon/station partials within { "1e-5" } relative, an exact clock term, and a finite scenario run dispatched through <c13/>. <b>Honest scope:</b> <c14/>, <b>NOT</b> validated against real VLBI data. Polar motion is dropped (<c15/>), so station inertial positions carry a few-metre frame error; the beacon mixes a mean-equator-of-date Moon series with an ICRF (International Celestial Reference Frame) body-fixed offset (<c16/>), a frame-consistency mismatch below model fidelity but not rigorous; and there is no light-time iteration, Earth-rotation-during-light-time, media (tropo/iono/plasma) or aberration term beyond the differenced Shapiro. No TRL (technology readiness level), flight heritage or agency endorsement is claimed. { "0.30" }: against ANISE light times through DE440 no delay of this analytic path is within { "1" } ps (largest gap { "24" } µs); the finding is pinned.
 
 # text
 seg-d12d4565b01d = Lunar geodetic VLBI, kernel path
@@ -1819,7 +1807,7 @@ seg-d12d4565b01d = Lunar geodetic VLBI, kernel path
 # text
 # c1: KernelGeometry
 # c2: lunar-vlbi
-seg-9c7f38e2a9c7 = <c1/> (DE440 Earth and Moon, DE440 lunar principal axes, ITRF93 Earth orientation, each light time converged in the barycentric frame), run by the <c2/> scenario when the three kernel paths are set. <b>Oracle: Library</b> — NAIF SPICE Toolkit N0067 (spiceypy { "8.2.0" }) converged light times to DSS-14/43/63, pre-registered: { "75" } delays within { "1" } ps (worst { "0.06" } ps), beacon and station partials within 1e-6, at { "25" } epochs near J2000 (an amendment after the { "2024" } epochs failed on SPICE's own double-precision emission epoch, about { "6" } ps, disclosed and pinned). The differenced Shapiro term, delay rate and near-field correction of the scenario are not compared.
+seg-d90c67f098f7 = <c1/> (DE440 Earth and Moon, DE440 lunar principal axes, ITRF93 Earth orientation, each light time converged in the barycentric frame), run by the <c2/> scenario when the three kernel paths are set. <b>Oracle: Library</b> — NAIF SPICE Toolkit N0067 (spiceypy { "8.2.0" }) converged light times to DSS-14/43/63, pre-registered: { "75" } delays within { "1" } ps (worst { "0.06" } ps), beacon and station partials within { "1e-6" }, at { "25" } epochs near J2000 (an amendment after the { "2024" } epochs failed on SPICE's own double-precision emission epoch, about { "6" } ps, disclosed and pinned). The differenced Shapiro term, delay rate and near-field correction of the scenario are not compared.
 
 # text
 # c1: src/lunar_combination.rs
@@ -1841,7 +1829,7 @@ seg-f634e976b583 = The <b>headline honest result</b>: lunar-local ranging from a
 # c2: Δxᵀ(HᵀWH)Δx
 # c3: formal_covariance_nees
 # c4: n_params
-seg-3c37d5e49411 = The <b>oracle</b> is internal consistency: an injected truth state (station ~{ "50" } m/axis, satellites ~{ "30" } m/axis, clocks ~1e-7 s, with a seeded per-component jitter) is mapped to synthetic observables through the <em>same</em> geometry model the solver inverts, seeded Gaussian noise is added (illustrative defaults: VLBI σ ≈ 1e-11 s, range σ ≈ { "0.1" } m, ISL σ ≈ { "0.1" } m; weights <c1/>), and the estimator must recover the injected truth within the noise from a zeros initial guess. A Monte-Carlo mean NEES <c2/> over seeds (<c3/>) sits within a loose band around <c4/>, a covariance-realism check.
+seg-d5feea2381b7 = The <b>oracle</b> is internal consistency: an injected truth state (station ~{ "50" } m/axis, satellites ~{ "30" } m/axis, clocks ~{ "1e-7" } s, with a seeded per-component jitter) is mapped to synthetic observables through the <em>same</em> geometry model the solver inverts, seeded Gaussian noise is added (illustrative defaults: VLBI σ ≈ { "1e-11" } s, range σ ≈ { "0.1" } m, ISL σ ≈ { "0.1" } m; weights <c1/>), and the estimator must recover the injected truth within the noise from a zeros initial guess. A Monte-Carlo mean NEES <c2/> over seeds (<c3/>) sits within a loose band around <c4/>, a covariance-realism check.
 
 # text
 seg-5ed34a5b402e = Lunar joint multi-technique OD + clock
@@ -1859,7 +1847,7 @@ seg-abc40f1f301a = <c1/> ({ "0.30" }, P2: the solve's linear algebra)
 # c6: lunar_combination::tests
 # c7: n_params
 # c8: run_toml
-seg-49e12cf07209 = <c1/>, <c2/>, <c3/>. <b>{ "0.30" } oracle: P2</b> — numpy { "2.4.6" } (LAPACK gelsd and inv) recomputes every Gauss-Newton step, the converged weighted solution, the formal sigmas and the station error on the committed Jacobians of six networks (<c4/>, steps within { "2" }.4e-11, sigmas within { "1" }.3e-11); the physical observation models and magnitudes stay MODELLED. <b>Earlier oracle: <c5/></b> — recovery of an injected simulated truth + NEES covariance consistency. Tests (<c6/>): full-fusion recovers the truth (station < { "5" } m, sat RMS < { "5" } m, clocks < 1e-8 s, converged); VLBI restores station 3-D observability (station error ≥{ "5" }× smaller with VLBI than range-only on the same truth); deterministic (same seed → bit-identical solution, different seed → different-but-recovered); mean NEES within a loose band around <c7/>; finite/guarded reported numbers even when range-only is ill-conditioned; scenario dispatched through <c8/>. <b>Honest scope:</b> this is a <b>simulated closed-loop recovery</b> — the truth shares the observation model — <b>NOT</b> real-data validation; no force-model propagation inside the solver; the satellite positions and Earth/lunar-station geometry are illustrative. No TRL, flight heritage or agency endorsement is claimed.
+seg-87de27c2421a = <c1/>, <c2/>, <c3/>. <b>{ "0.30" } oracle: P2</b> — numpy { "2.4.6" } (LAPACK gelsd and inv) recomputes every Gauss-Newton step, the converged weighted solution, the formal sigmas and the station error on the committed Jacobians of six networks (<c4/>, steps within { "2.4e-11" }, sigmas within { "1.3e-11" }); the physical observation models and magnitudes stay MODELLED. <b>Earlier oracle: <c5/></b> — recovery of an injected simulated truth + NEES covariance consistency. Tests (<c6/>): full-fusion recovers the truth (station < { "5" } m, sat RMS < { "5" } m, clocks < { "1e-8" } s, converged); VLBI restores station 3-D observability (station error ≥{ "5" }× smaller with VLBI than range-only on the same truth); deterministic (same seed → bit-identical solution, different seed → different-but-recovered); mean NEES within a loose band around <c7/>; finite/guarded reported numbers even when range-only is ill-conditioned; scenario dispatched through <c8/>. <b>Honest scope:</b> this is a <b>simulated closed-loop recovery</b> — the truth shares the observation model — <b>NOT</b> real-data validation; no force-model propagation inside the solver; the satellite positions and Earth/lunar-station geometry are illustrative. No TRL, flight heritage or agency endorsement is claimed.
 
 # text
 # c1: src/lunar_frame_realise.rs
@@ -1881,11 +1869,11 @@ seg-7620f3a821f6 = Lunar reference-frame realisation — 7-parameter Helmert dat
 # c13: x0 = zeros
 # c14: icrf_orientation_tie
 # c15: transpose(crate::lunar_frame::icrf_to_iau_moon(jd_tdb))
-seg-652d350c9d65 = Where <c1/> <em>applies</em> the IAU { "2015" } WGCCRE lunar body orientation (a forward model), this module <em>estimates</em> (realises) a lunar reference frame from a network of estimated point coordinates tied to a datum. The estimation core is a classic <b>7-parameter similarity (Helmert) transform</b> — three translation, three small-angle rotation and one scale parameter — mapping points <c2/> (estimated frame) to <c3/> (datum frame) as <c4/>, with <c5/> built from <c6/>. The seven parameters <c7/> are estimated from ≥ { "3" } non-collinear point pairs by weighted least squares through <c8/>: the forward model predicts every <c9/> from its <c10/> and flattens all three components of all points into the observable vector, the observed datum coordinates form <c11/>, the weights are <c12/>, and the solve starts from <c13/>. Rotation angles are estimated in µrad and scale in ppb so the finite-difference Jacobian stays well-scaled at the lunar-surface coordinate magnitude (~{ "1" }.7e6 m). A small <c14/> composes the realised small rotation through the IAU body→ICRF orientation (<c15/>) and returns the realised frame's residual small-angle offset about the ICRF axes — a deliberately simple frame-of-expression change, <b>not</b> an independent estimate of the lunar pole.
+seg-240271b9d7de = Where <c1/> <em>applies</em> the IAU { "2015" } WGCCRE lunar body orientation (a forward model), this module <em>estimates</em> (realises) a lunar reference frame from a network of estimated point coordinates tied to a datum. The estimation core is a classic <b>7-parameter similarity (Helmert) transform</b> — three translation, three small-angle rotation and one scale parameter — mapping points <c2/> (estimated frame) to <c3/> (datum frame) as <c4/>, with <c5/> built from <c6/>. The seven parameters <c7/> are estimated from ≥ { "3" } non-collinear point pairs by weighted least squares through <c8/>: the forward model predicts every <c9/> from its <c10/> and flattens all three components of all points into the observable vector, the observed datum coordinates form <c11/>, the weights are <c12/>, and the solve starts from <c13/>. Rotation angles are estimated in µrad and scale in ppb so the finite-difference Jacobian stays well-scaled at the lunar-surface coordinate magnitude (~{ "1.7e6" } m). A small <c14/> composes the realised small rotation through the IAU body→ICRF orientation (<c15/>) and returns the realised frame's residual small-angle offset about the ICRF axes — a deliberately simple frame-of-expression change, <b>not</b> an independent estimate of the lunar pole.
 
 # text
 # c1: lunar-frame-realisation
-seg-523152cf2d19 = The <b>oracle</b> is internal consistency: a known Helmert transform (translation ~tens of m, rotation ~µrad, scale ~1e-7) is <em>injected</em> into a well-spread synthetic point network (varied selenographic lat/lon → MCMF, some points at altitude), seeded Gaussian noise is added, and the fit must recover the injected parameters. On noiseless data the recovery is to ~machine precision (translation < 1e-6 m, rotation < 1e-9 rad, scale < 1e-12); with metre noise the recovered parameters land within a few × the formal σ and the post-fit RMS residual sits near the noise level. The <c1/> scenario reports the recovered datum, the per-parameter recovery error vs the injected truth, the post-fit RMS residual, and the realised-rotation ICRF orientation tie.
+seg-75769fc9671c = The <b>oracle</b> is internal consistency: a known Helmert transform (translation ~tens of m, rotation ~µrad, scale ~{ "1e-7" }) is <em>injected</em> into a well-spread synthetic point network (varied selenographic lat/lon → MCMF, some points at altitude), seeded Gaussian noise is added, and the fit must recover the injected parameters. On noiseless data the recovery is to ~machine precision (translation < { "1e-6" } m, rotation < { "1e-9" } rad, scale < { "1e-12" }); with metre noise the recovered parameters land within a few × the formal σ and the post-fit RMS residual sits near the noise level. The <c1/> scenario reports the recovered datum, the per-parameter recovery error vs the injected truth, the post-fit RMS residual, and the realised-rotation ICRF orientation tie.
 
 # text
 seg-619f89bf160c = Lunar reference-frame realisation
@@ -1900,7 +1888,7 @@ seg-619f89bf160c = Lunar reference-frame realisation
 # c7: apply_helmert
 # c8: lunar_frame_realise::tests
 # c9: run_toml
-seg-bbd692a8ce92 = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <b>Oracle: <c6/></b> — recovery of an injected 7-parameter similarity transform plus the algebraic round-trip identity of <c7/>. Tests (<c8/>): noiseless recovery of the injected transform (translation < 1e-6 m, rotation < 1e-9 rad, scale < 1e-12); with-noise recovery within a few × σ and RMS residual near the noise level; apply-then-invert round-trip; deterministic (same seed → bit-identical, different seed → different-but-recovered); zero-rotation ICRF tie is zero and the tie preserves the rotation magnitude; scenario dispatched through <c9/>. <b>Honest scope:</b> this is a <b>self-consistency</b> check — it recovers an <em>injected</em> transform on a <em>synthetic</em> network — <b>NOT</b> a realisation of the lunar reference frame against real tracking / VLBI data, and it claims no absolute frame accuracy. The ICRF orientation tie is a simple change of expression, not an independent pole estimate. No TRL, flight heritage or agency endorsement is claimed.
+seg-3768ce021e23 = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <b>Oracle: <c6/></b> — recovery of an injected 7-parameter similarity transform plus the algebraic round-trip identity of <c7/>. Tests (<c8/>): noiseless recovery of the injected transform (translation < { "1e-6" } m, rotation < { "1e-9" } rad, scale < { "1e-12" }); with-noise recovery within a few × σ and RMS residual near the noise level; apply-then-invert round-trip; deterministic (same seed → bit-identical, different seed → different-but-recovered); zero-rotation ICRF tie is zero and the tie preserves the rotation magnitude; scenario dispatched through <c9/>. <b>Honest scope:</b> this is a <b>self-consistency</b> check — it recovers an <em>injected</em> transform on a <em>synthetic</em> network — <b>NOT</b> a realisation of the lunar reference frame against real tracking / VLBI data, and it claims no absolute frame accuracy. The ICRF orientation tie is a simple change of expression, not an independent pole estimate. No TRL, flight heritage or agency endorsement is claimed.
 
 # text
 # c1: src/lunar_service.rs
@@ -1915,7 +1903,7 @@ seg-f14930d33f47 = Lunar navigation service volume — DOP / coverage / availabi
 # c6: P_sat
 # c7: lunar_protection_level
 # c8: lunar::lunar_araim
-seg-bce67f7ab2fe = This module <em>composes</em> already-built pieces into a lunar navigation <b>service-volume</b> analysis: it sweeps a selenographic latitude/longitude grid over a time horizon against an <b>illustrative, public-source Moonlight / LCNS-class</b> (LCNS: Lunar Communications and Navigation Services) lunar-orbit constellation and reports DOP / coverage / availability plus a generalised lunar ARAIM protection-level envelope. The two reuses are load-bearing and explicit. <b>DOP geometry</b> is the <b>VALIDATED</b> (vs gnss_lib_py) kernel <c1/> — <c2/> is a thin elevation-mask filter plus that kernel, and a test asserts the identity (<c3/> equals a direct <c4/> on the same visible positions). <b>Integrity</b> reuses the LunaNet LNIS (LunaNet Interoperability Specification) lunar ARAIM machinery <c5/> (σ_URE ≈ { "30" } m, <c6/> ≈ 1e-4); <c7/> generalises the existing south-pole protection level to an arbitrary surface point, and a test asserts it <b>reduces to the south-pole case</b> (at the south pole with the same geometry/budget it returns exactly the existing <c8/> result to < 1e-9).
+seg-9b4f13e138e4 = This module <em>composes</em> already-built pieces into a lunar navigation <b>service-volume</b> analysis: it sweeps a selenographic latitude/longitude grid over a time horizon against an <b>illustrative, public-source Moonlight / LCNS-class</b> (LCNS: Lunar Communications and Navigation Services) lunar-orbit constellation and reports DOP / coverage / availability plus a generalised lunar ARAIM protection-level envelope. The two reuses are load-bearing and explicit. <b>DOP geometry</b> is the <b>VALIDATED</b> (vs gnss_lib_py) kernel <c1/> — <c2/> is a thin elevation-mask filter plus that kernel, and a test asserts the identity (<c3/> equals a direct <c4/> on the same visible positions). <b>Integrity</b> reuses the LunaNet LNIS (LunaNet Interoperability Specification) lunar ARAIM machinery <c5/> (σ_URE ≈ { "30" } m, <c6/> ≈ { "1e-4" }); <c7/> generalises the existing south-pole protection level to an arbitrary surface point, and a test asserts it <b>reduces to the south-pole case</b> (at the south pole with the same geometry/budget it returns exactly the existing <c8/> result to < { "1e-9" }).
 
 # text
 # c1: moonlight-service-volume.toml
@@ -1939,7 +1927,7 @@ seg-4bcec6e2dd9f = Lunar navigation service volume
 # c11: lunar_protection_level
 # c12: lunar::lunar_araim
 # c13: run_toml
-seg-2ffaf6098d9d = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <b>DOP geometry validated by reuse</b> of the gnss_lib_py-validated <c7/> kernel; integrity reuses the published-LunaNet/LNIS lunar ARAIM (<c8/>, σ_URE ≈ { "30" } m). Tests (<c9/>): <c10/> is an identity on the validated kernel; <c11/> at the south pole equals the existing <c12/> PL to < 1e-9 (reduces to the south-pole case); coverage is non-decreasing in constellation size; visibility honours the elevation mask; the scenario is deterministic and dispatches through <c13/>. <b>Honest scope:</b> the constellation is <b>illustrative, public-source, NOT affiliated with ESA</b> — not the real Moonlight/LCNS ephemeris; the coverage/availability/integrity composition is <b>MODELLED</b> (circular-/elliptical-Keplerian relays, mean-rotation Moon, published LNIS parameters), <b>NOT</b> an operational Moonlight availability number. No TRL, flight heritage or agency endorsement is claimed.
+seg-c28e56391894 = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <b>DOP geometry validated by reuse</b> of the gnss_lib_py-validated <c7/> kernel; integrity reuses the published-LunaNet/LNIS lunar ARAIM (<c8/>, σ_URE ≈ { "30" } m). Tests (<c9/>): <c10/> is an identity on the validated kernel; <c11/> at the south pole equals the existing <c12/> PL to < { "1e-9" } (reduces to the south-pole case); coverage is non-decreasing in constellation size; visibility honours the elevation mask; the scenario is deterministic and dispatches through <c13/>. <b>Honest scope:</b> the constellation is <b>illustrative, public-source, NOT affiliated with ESA</b> — not the real Moonlight/LCNS ephemeris; the coverage/availability/integrity composition is <b>MODELLED</b> (circular-/elliptical-Keplerian relays, mean-rotation Moon, published LNIS parameters), <b>NOT</b> an operational Moonlight availability number. No TRL, flight heritage or agency endorsement is claimed.
 
 # text
 # c1: src/lunar_dpnt.rs
@@ -1965,7 +1953,7 @@ seg-06978cfaebe3 = NovaMoon is referenced <b>only as a system class</b> (a publi
 
 # text
 # c1: noise = 0
-seg-1ab70e8ed55e = The <b>oracle</b> is internal consistency: the common-mode cancellation is an <b>exact algebraic identity</b> (with <c1/>, corrected error < 1e-6 m at zero baseline; the clock term cancels to machine precision at any baseline), the residual <b>grows monotonically with baseline</b>, and the protection level is the <b>same DO-229E algorithm</b> the SBAS stack is pinned against. The spatial-decorrelation residual is a <b>first-order</b> geometric model, <b>not</b> a fitted decorrelation model from real lunar tracking.
+seg-6bb4dbe998f9 = The <b>oracle</b> is internal consistency: the common-mode cancellation is an <b>exact algebraic identity</b> (with <c1/>, corrected error < { "1e-6" } m at zero baseline; the clock term cancels to machine precision at any baseline), the residual <b>grows monotonically with baseline</b>, and the protection level is the <b>same DO-229E algorithm</b> the SBAS stack is pinned against. The spatial-decorrelation residual is a <b>first-order</b> geometric model, <b>not</b> a fitted decorrelation model from real lunar tracking.
 
 # text
 seg-2db69c58f694 = Lunar differential PNT
@@ -1982,7 +1970,7 @@ seg-2db69c58f694 = Lunar differential PNT
 # c9: sbas::sbas_protection_level
 # c10: None
 # c11: run_toml
-seg-d560522e5c11 = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <b>Oracle: <c6/></b> — the differential error-cancellation identity plus reuse of the DO-229E SBAS protection-level machinery (<c7/>). Tests (<c8/>): at zero baseline the corrected user error and every corrected per-satellite range error are ~{ "0" } (< 1e-6 m) and ≪ the uncorrected error; the clock term cancels exactly at any baseline (orbit-error-zero case); the corrected error grows monotonically with baseline while staying ≪ uncorrected at modest baselines; differential beats standalone by a clear margin (> { "2" }×); the protection level equals a direct <c9/> call and scales with the residual σ; under-determined geometry returns <c10/>; the scenario is deterministic (seeded) and dispatches through <c11/>. <b>Honest scope:</b> <b>MODELLED</b> — the common-mode cancellation is an exact identity but the spatial-decorrelation residual is a <b>first-order</b> geometric model, <b>NOT</b> a fitted decorrelation model from real lunar tracking, and this is <b>NOT</b> real-data validated. NovaMoon is referenced <b>only as a system class</b> (illustrative, public-source, <b>not affiliated with ESA</b>). No TRL, flight heritage or agency endorsement is claimed.
+seg-fd282b10cc77 = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <b>Oracle: <c6/></b> — the differential error-cancellation identity plus reuse of the DO-229E SBAS protection-level machinery (<c7/>). Tests (<c8/>): at zero baseline the corrected user error and every corrected per-satellite range error are ~{ "0" } (< { "1e-6" } m) and ≪ the uncorrected error; the clock term cancels exactly at any baseline (orbit-error-zero case); the corrected error grows monotonically with baseline while staying ≪ uncorrected at modest baselines; differential beats standalone by a clear margin (> { "2" }×); the protection level equals a direct <c9/> call and scales with the residual σ; under-determined geometry returns <c10/>; the scenario is deterministic (seeded) and dispatches through <c11/>. <b>Honest scope:</b> <b>MODELLED</b> — the common-mode cancellation is an exact identity but the spatial-decorrelation residual is a <b>first-order</b> geometric model, <b>NOT</b> a fitted decorrelation model from real lunar tracking, and this is <b>NOT</b> real-data validated. NovaMoon is referenced <b>only as a system class</b> (illustrative, public-source, <b>not affiliated with ESA</b>). No TRL, flight heritage or agency endorsement is claimed.
 
 # text
 # c1: src/lunar_interop.rs
@@ -2045,7 +2033,7 @@ seg-c04a3591074c = Lunar interoperability export
 # c18: TIME_SYSTEM
 # c19: oem_conformance
 # c20: run_toml
-seg-12acfffd3608 = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <b>Oracle: <c7/></b> — deterministic round-trip (CCSDS OEM via <c8/>; KIF via <c9/>; time metadata via serde_json) plus field-name conformance against published CCSDS OEM + LunaNet/IOAG field semantics. Tests (<c10/>): the exported OEM carries the lunar <c11/> (<c12/>/<c13/>) and <c14/> (<c15/>/<c16/>) tokens, <c17/>, the object and well-formed data lines; the lunar-time metadata round-trips (rate/band/reference) and rejects garbage; the KIF envelope serialises and deserialises to an equal value with the MODELLED honesty label present; a deliberately broken OEM (missing <c18/>) fails <c19/> and is reported missing; the scenario dispatches through <c20/>. <b>Honest scope:</b> the field <b>names/units</b> are aligned with <b>public</b> standards (CCSDS { "502" }.0-B OEM, IAU WGCCRE { "2015" } lunar frames, the LunaNet Interoperability Specification / IOAG lunar architecture); the export is <b>MODELLED</b> — deterministic round-trip + field-name conformance is the oracle, this is <b>NOT</b> a certified interoperability conformance test, the ephemeris is <b>illustrative, public-source, not affiliated with ESA</b>, and no TRL, flight heritage or agency endorsement is claimed.
+seg-cb9dfbed826d = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <b>Oracle: <c7/></b> — deterministic round-trip (CCSDS OEM via <c8/>; KIF via <c9/>; time metadata via serde_json) plus field-name conformance against published CCSDS OEM + LunaNet/IOAG field semantics. Tests (<c10/>): the exported OEM carries the lunar <c11/> (<c12/>/<c13/>) and <c14/> (<c15/>/<c16/>) tokens, <c17/>, the object and well-formed data lines; the lunar-time metadata round-trips (rate/band/reference) and rejects garbage; the KIF envelope serialises and deserialises to an equal value with the MODELLED honesty label present; a deliberately broken OEM (missing <c18/>) fails <c19/> and is reported missing; the scenario dispatches through <c20/>. <b>Honest scope:</b> the field <b>names/units</b> are aligned with <b>public</b> standards (CCSDS 502.0-B OEM, IAU WGCCRE { "2015" } lunar frames, the LunaNet Interoperability Specification / IOAG lunar architecture); the export is <b>MODELLED</b> — deterministic round-trip + field-name conformance is the oracle, this is <b>NOT</b> a certified interoperability conformance test, the ephemeris is <b>illustrative, public-source, not affiliated with ESA</b>, and no TRL, flight heritage or agency endorsement is claimed.
 
 # text
 seg-69a214b7236d = Pre-registered predictions
@@ -2286,17 +2274,17 @@ seg-4fe4920a3fa1 = Standard
 seg-7ec3d508c64f = External oracle
 
 # text
-seg-86955f16eb5b = <b>CCSDS OEM</b> ({ "502" }.0-B Orbit Data Messages)
+seg-e06aa022e7e9 = <b>CCSDS OEM</b> (502.0-B Orbit Data Messages)
 
 # text
 # c1: tests/ccsds_reference.rs
 # c2: parse_oem
 # c3: -063.042
 # c4: tests/fixtures/ccsds/oem_502_b3_figG11.oem
-seg-d4cbbbd32db6 = <c1/>: <c2/> recovers the exact epochs and X/Y/Z/Ẋ/Ẏ/Ż state vectors of the KVN OEM example in <b>CCSDS { "502" }.0-B-3, Annex G §G6, Figure G-11</b> ("OEM Example with No Acceleration, No Covariance", p. G-10) — both ephemeris segments, including the leading-zero source values (<c3/>). Fixture <c4/> is reproduced character-for-character from the official Blue Book (the editorial "< intervening data records omitted here >" markers, which are not valid OEM records, are not included).
+seg-65de0a1335d6 = <c1/>: <c2/> recovers the exact epochs and X/Y/Z/Ẋ/Ẏ/Ż state vectors of the KVN OEM example in <b>CCSDS 502.0-B-3, Annex G §G6, Figure G-11</b> ("OEM Example with No Acceleration, No Covariance", p. G-10) — both ephemeris segments, including the leading-zero source values (<c3/>). Fixture <c4/> is reproduced character-for-character from the official Blue Book (the editorial "< intervening data records omitted here >" markers, which are not valid OEM records, are not included).
 
 # text
-seg-e4c3fde92a91 = <b>CCSDS TDM</b> ({ "503" }.0-B Tracking Data Message)
+seg-54cff1deebc7 = <b>CCSDS TDM</b> (503.0-B Tracking Data Message)
 
 # text
 # c1: tests/ccsds_reference.rs
@@ -2304,7 +2292,7 @@ seg-e4c3fde92a91 = <b>CCSDS TDM</b> ({ "503" }.0-B Tracking Data Message)
 # c3: tests/fixtures/ccsds/tdm_503_b2_figE9.tdm
 # c4: reference.tdm
 # c5: src/ccsds_tdm.rs
-seg-91eb6d8700c9 = <c1/>: <c2/> recovers all { "41" } RANGE records (first { "3198.03679519614" } km, last { "3270.46440460551" } km) and the metadata of the KVN TDM example in <b>CCSDS { "503" }.0-B-2, Annex E, Figure E-9</b> ("Range Data with TIMETAG_REF=TRANSMIT", p. E-9). Fixture <c3/> is verbatim from the Blue Book. (This is the published-Blue-Book oracle alongside the pre-existing hand-authored <c4/> round-trip in <c5/>.)
+seg-a5c6b58e0053 = <c1/>: <c2/> recovers all { "41" } RANGE records (first { "3198.03679519614" } km, last { "3270.46440460551" } km) and the metadata of the KVN TDM example in <b>CCSDS 503.0-B-2, Annex E, Figure E-9</b> ("Range Data with TIMETAG_REF=TRANSMIT", p. E-9). Fixture <c3/> is verbatim from the Blue Book. (This is the published-Blue-Book oracle alongside the pre-existing hand-authored <c4/> round-trip in <c5/>.)
 
 # text
 seg-c9a23ec7956b = <b>CCSDS { "133.0" }</b> (Space Packet Protocol)
@@ -2315,7 +2303,7 @@ seg-c9a23ec7956b = <b>CCSDS { "133.0" }</b> (Space Packet Protocol)
 # c3: tests/ccsds/test_space_packet.py
 # c4: 18 02 40 34 00 16
 # c5: 1F FF FF FF FF FF
-seg-3e46165c2e8a = <c1/>: the encoder reproduces the byte-level primary-header test vectors of the independent <b><c2/> library</b> (us-irs/spacepackets-py, <c3/>) — e.g. <c4/> and the all-max <c5/> — plus the canonical all-ones telemetry (TM) case, each round-tripped through decode. Bit-field widths/order per <b>CCSDS { "133" }.0-B-2 §{ "4.1.3" }</b>.
+seg-aaffd3d25c5f = <c1/>: the encoder reproduces the byte-level primary-header test vectors of the independent <b><c2/> library</b> (us-irs/spacepackets-py, <c3/>) — e.g. <c4/> and the all-max <c5/> — plus the canonical all-ones telemetry (TM) case, each round-tripped through decode. Bit-field widths/order per <b>CCSDS 133.0-B-2 §{ "4.1.3" }</b>.
 
 # text
 seg-e48472df251a = <b>CCSDS { "401" } / DSN</b> (link budget, DSN 810-005)
@@ -2341,7 +2329,7 @@ seg-2eb6d1b0483d = RAIM / ARAIM
 # c5: araim-reference-check
 # c6: N_fault,max = 1
 # c7: ARAIM_REFERENCE.md
-seg-ae8d86019f60 = <b>Kernel, geometry and the ARAIM protection level externally validated.</b> The detection <em>kernel</em> — the χ² fault-detection threshold, the non-central-χ² missed-detection non-centrality, and the normal-law K-multipliers — reproduces <b>SciPy</b> (<c1/>, { "171" } cases, ≤ 1e-6 rel), and the wrapping geometry reproduces <b>gnss_lib_py</b> (DOP). The ARAIM protection-level (PL) <em>value</em> is now pinned too: against the WG-C (WG: Working Group) ARAIM Reference ADD (Algorithm Description Document) v3.1 "LPV-200 (LPV: localizer performance with vertical guidance) numerical example", <c2/> / <c3/> give VPL { "18.2926" } m vs { "18.3" } m, HPL { "13.4063" } m vs { "13.45" } m and σ_v,acc { "1.3694" } m vs { "1.3694" } m, inside the reference's own <c4/> = { "0.05" } m (the <c5/> kind). Scope: fault modes up to one satellite or one constellation (<c6/>); multi-event fault subsets and exclusion are not implemented, and classic RAIM still has <b>no canonical published input→HPL test vector</b>. See <a1><c7/></a1>.
+seg-fff735bd32a1 = <b>Kernel, geometry and the ARAIM protection level externally validated.</b> The detection <em>kernel</em> — the χ² fault-detection threshold, the non-central-χ² missed-detection non-centrality, and the normal-law K-multipliers — reproduces <b>SciPy</b> (<c1/>, { "171" } cases, ≤ { "1e-6" } rel), and the wrapping geometry reproduces <b>gnss_lib_py</b> (DOP). The ARAIM protection-level (PL) <em>value</em> is now pinned too: against the WG-C (WG: Working Group) ARAIM Reference ADD (Algorithm Description Document) v3.1 "LPV-200 (LPV: localizer performance with vertical guidance) numerical example", <c2/> / <c3/> give VPL { "18.2926" } m vs { "18.3" } m, HPL { "13.4063" } m vs { "13.45" } m and σ_v,acc { "1.3694" } m vs { "1.3694" } m, inside the reference's own <c4/> = { "0.05" } m (the <c5/> kind). Scope: fault modes up to one satellite or one constellation (<c6/>); multi-event fault subsets and exclusion are not implemented, and classic RAIM still has <b>no canonical published input→HPL test vector</b>. See <a1><c7/></a1>.
 
 # text
 seg-da3532b1444d = SBAS / DO-229E
@@ -2357,7 +2345,7 @@ seg-da3532b1444d = SBAS / DO-229E
 # c8: K_H,NPA≈6.18
 # c9: Φ⁻¹(1−5e-8)=5.3267
 # c10: d_U
-seg-bdab06967ea4 = <b>Protection-level algorithm now externally validated.</b> Given the per-satellite (el, az, σ), kshana's <c1/> reproduces the <b>RTKLIB SBAS-PL fork</b> (<c2/> <c3/>, Siki & Takács { "2017" }, "DO-229D Appendix J") — fed that tool's <b>own</b> σ computed from <b>real EGNOS</b> broadcast messages + real BUTE RINEX — to <b>< 2e-3 m HPL</b> across { "6" } epochs (<c4/>); ESA gLAB { "v6.0.0" } (<c5/>) confirmed the identical convention. K-factors (<c6/>, <c7/>, <c8/>) match DO-229E Appendix J. <b>What is validated vs what is not:</b> this pins the PL <em>algorithm</em> (σ in → HPL/VPL out); the upstream σ-<em>modelling</em> from raw UDRE/GIVE messages is out of kshana's scope — that is where independent <em>full-pipeline</em> tools still disagree by metres on real data. K_V matched at the oracle's rounded { "5.33" } (kshana's exact <c9/> → VPL ~{ "0.06" } % smaller; the vertical is validated K-factor-free as <c10/>).
+seg-e6a47dfb7e54 = <b>Protection-level algorithm now externally validated.</b> Given the per-satellite (el, az, σ), kshana's <c1/> reproduces the <b>RTKLIB SBAS-PL fork</b> (<c2/> <c3/>, Siki & Takács { "2017" }, "DO-229D Appendix J") — fed that tool's <b>own</b> σ computed from <b>real EGNOS</b> broadcast messages + real BUTE RINEX — to <b>< { "2e-3" } m HPL</b> across { "6" } epochs (<c4/>); ESA gLAB { "v6.0.0" } (<c5/>) confirmed the identical convention. K-factors (<c6/>, <c7/>, <c8/>) match DO-229E Appendix J. <b>What is validated vs what is not:</b> this pins the PL <em>algorithm</em> (σ in → HPL/VPL out); the upstream σ-<em>modelling</em> from raw UDRE/GIVE messages is out of kshana's scope — that is where independent <em>full-pipeline</em> tools still disagree by metres on real data. K_V matched at the oracle's rounded { "5.33" } (kshana's exact <c9/> → VPL ~{ "0.06" } % smaller; the vertical is validated K-factor-free as <c10/>).
 
 # text
 seg-d3af26f389f5 = IONEX / Klobuchar
@@ -2366,7 +2354,7 @@ seg-d3af26f389f5 = IONEX / Klobuchar
 # c1: ionmodel
 # c2: tests/klobuchar_reference.rs
 # c3: src/ionex.rs
-seg-d4352e59254d = <b>Broadcast model externally validated.</b> The Klobuchar L1 model reproduces <b>RTKLIB's <c1/></b> (<c2/>, < 1e-4 m) — <em>implementation parity</em> with the de-facto open reference, since no official <em>measured-truth</em> worked example exists. The IONEX TEC-map reader now exists (<c3/>, unit-tested); the remaining gap is a cross-check of it against a real GIM product, not the broadcast model. See the Klobuchar rows in <a1>Claims vs. reality</a1>.
+seg-4ef39e8ea75c = <b>Broadcast model externally validated.</b> The Klobuchar L1 model reproduces <b>RTKLIB's <c1/></b> (<c2/>, < { "1e-4" } m) — <em>implementation parity</em> with the de-facto open reference, since no official <em>measured-truth</em> worked example exists. The IONEX TEC-map reader now exists (<c3/>, unit-tested); the remaining gap is a cross-check of it against a real GIM product, not the broadcast model. See the Klobuchar rows in <a1>Claims vs. reality</a1>.
 
 # text
 seg-fa3058dffb2a = GPS L1 C/A spreading code (IS-GPS-200)
@@ -2400,7 +2388,7 @@ seg-0d7bb0fc1c5e = Telecom MTIE (maximum time interval error) and TDEV (time dev
 # text
 # c1: tests/telecom_timing_reference.rs
 # c2: TELECOM-TIMING.md
-seg-d078de9d8518 = <c1/>: { "17" } MTIE and { "12" } TDEV averaging factors on a committed { "2" } 048-sample chip-scale-clock holdover series against allantools { "2024.06" }, to < 1e-12 / < 1e-9 relative. The ITU-T (International Telecommunication Union Telecommunication Standardization Sector) mask PASS/FAIL verdicts and the datasheet oscillator presets stay MODELLED. See <a1><c2/></a1>.
+seg-18894b55b6c1 = <c1/>: { "17" } MTIE and { "12" } TDEV averaging factors on a committed { "2" } 048-sample chip-scale-clock holdover series against allantools { "2024.06" }, to < { "1e-12" } / < { "1e-9" } relative. The ITU-T (International Telecommunication Union Telecommunication Standardization Sector) mask PASS/FAIL verdicts and the datasheet oscillator presets stay MODELLED. See <a1><c2/></a1>.
 
 # text
 # c1: slot-timing
@@ -2428,7 +2416,7 @@ seg-46278e9c03c1 = Planet positions from the JPL (Jet Propulsion Laboratory) Sta
 # c3: tests/solar_system_light_time_solver_preregistered.rs
 # c4: tests/solar_system_horizons_reference.rs
 # c5: body-pnt
-seg-6f66cf0e00f8 = { "0.30" }, pre-registered against JPL Horizons (DE441): <c1/> and <c2/>, RMS per planet and component at most the Explanatory Supplement Table { "8.10.1" } figure (worst { "0.778" }), the Earth split and the ICRF rotation included; <c3/>, the light-time solver on DE441 positions within 1e-6 s of the Horizons light time (worst { "6" }.7e-9 s). The earlier twice-nominal comparison (<c4/>), whose bar was set after the first comparison, is kept as a non-gating regression. Uranus/Neptune from Table { "1" }, Pluto, the moons, the body constants and <c5/> stay MODELLED.
+seg-43cfeb9f2403 = { "0.30" }, pre-registered against JPL Horizons (DE441): <c1/> and <c2/>, RMS per planet and component at most the Explanatory Supplement Table { "8.10.1" } figure (worst { "0.778" }), the Earth split and the ICRF rotation included; <c3/>, the light-time solver on DE441 positions within { "1e-6" } s of the Horizons light time (worst { "6.7e-9" } s). The earlier twice-nominal comparison (<c4/>), whose bar was set after the first comparison, is kept as a non-gating regression. Uranus/Neptune from Table { "1" }, Pluto, the moons, the body constants and <c5/> stay MODELLED.
 
 # text
 # c1: constellation-design
@@ -2436,7 +2424,7 @@ seg-b96d8ea13c87 = Walker geometry and the published GPS, Galileo and GLONASS (G
 
 # text
 # c1: constellation::tests
-seg-58a0426197bf = <c1/>: Walker 24/3/1 reproduces the Galileo open-service definition table to 1e-9°, the GLONASS interface-control slot formula, the GPS equatorial crossings; the GPS baseline HDOP median { "0.940" } against the Standard Positioning Service performance standard's { "0.94" }. Arbitrary multi-constellation coverage maps around any body stay MODELLED.
+seg-85c293b8d235 = <c1/>: Walker 24/3/1 reproduces the Galileo open-service definition table to { "1e-9" }°, the GLONASS interface-control slot formula, the GPS equatorial crossings; the GPS baseline HDOP median { "0.940" } against the Standard Positioning Service performance standard's { "0.94" }. Arbitrary multi-constellation coverage maps around any body stay MODELLED.
 
 # text
 # c1: campaign
@@ -2533,7 +2521,7 @@ seg-d91e18ce3773 = { "1" } – { "500" } ns
 seg-10cf765fdd75 = finite holdover/timing/security FoMs
 
 # text
-seg-8a476596eef0 = 1e-7 – 1e-2 m/s² (cold-atom → crude MEMS (micro-electro-mechanical systems))
+seg-fe640e9c3c1e = { "1e-7" } – { "1e-2" } m/s² (cold-atom → crude MEMS (micro-electro-mechanical systems))
 
 # text
 seg-456c32a126a2 = finite, bounded position RMS/p95
@@ -2578,7 +2566,7 @@ seg-c46d726e35b3 = clock (flicker)
 seg-15939085bf3a = <c1/> on/off
 
 # text
-seg-210a8dc524c1 = { "0" } vs 1e-12
+seg-504a95f55b88 = { "0" } vs { "1e-12" }
 
 # text
 seg-e1cce0c2028e = enabling the 1/f floor <b>worsens</b> the timing-p95 coast
@@ -2588,7 +2576,7 @@ seg-bdd4e56bdef9 = fusion (realism)
 
 # text
 # c1: accel.bias
-seg-8d20bed05dc4 = <c1/> { "0" } vs { "5" }.88e-7 m/s²
+seg-09af9dd78fe3 = <c1/> { "0" } vs { "5.88e-7" } m/s²
 
 # text
 seg-0a6723be642c = zero vs realistic non-zero
@@ -2798,7 +2786,7 @@ seg-d3402cc1ebd5 = "reproducible / bit-identical"
 # text
 # c1: tests/cross_platform_golden.rs
 # c2: tests/golden.rs
-seg-66869223a0ce = bit-identical re-run on the <b>same OS (operating system) + pinned toolchain</b>; across Linux, macOS and Windows, CI checks a committed SHA-256 of each result's input fingerprint and shape (<c1/>) and the numeric values to 1e-6 (<c2/>)
+seg-46ea210bcdad = bit-identical re-run on the <b>same OS (operating system) + pinned toolchain</b>; across Linux, macOS and Windows, CI checks a committed SHA-256 of each result's input fingerprint and shape (<c1/>) and the numeric values to { "1e-6" } (<c2/>)
 
 # text
 seg-38c6528122a8 = a byte-identical full result across operating systems (last-digit libm differences)

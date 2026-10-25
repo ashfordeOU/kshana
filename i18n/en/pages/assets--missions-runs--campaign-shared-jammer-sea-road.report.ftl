@@ -49,34 +49,13 @@ seg-b2016159c9d0 = Campaign: existing scenario kinds composed into one run, with
 seg-38fff71b8eb8 = campaign 504dd3a57cbc | One jammer, a ship and a car | compose: { "2" } members | { "2" } member runs (MODELLED)
 
 # text
-seg-5ea193b8893f = compose.combined.availability.max
-
-# text
-seg-86df4d6d2f67 = compose.combined.availability.mean
-
-# text
-seg-630b479164c2 = compose.combined.availability.members
-
-# text
 seg-ba52c91cadab = { "2" } count
-
-# text
-seg-1e88fe6c5707 = compose.combined.availability.min
-
-# text
-seg-260b2c97c5f4 = compose.combined.mean_js.max
 
 # text
 seg-84a92b879198 = { "38.996381" } dB
 
 # text
-seg-067fe0b19813 = compose.combined.mean_js.mean
-
-# text
 seg-2a064757d769 = { "36.817297" } dB
-
-# text
-seg-7f65a2549f2a = reproducibility.runs_total
 
 # text
 seg-880c06cab01d = <b>Honesty label</b> (result `label`): MODELLED composition of existing scenario kinds. Every number is read from a real run of the named kind; the chaining (additive carry of a channel across a phase boundary, zero-order hold onto the timeline grid, a phase ended at a computed time) is a modelling choice, and each phase carries the label of the kind that produced it.
@@ -101,34 +80,10 @@ seg-e73ea9921fcf = Parameter
 seg-57a3c212e506 = Unit source
 
 # text
-seg-bf6c44c233b5 = jammer.position_ecef_m
-
-# text
 seg-170b9bd565fe = a text input carries no unit
 
 # text
-seg-a4b89db7b70d = jammer.power_dbw
-
-# text
-seg-8bb8816253d4 = ship-strait
-
-# text
 seg-c4f955d5f506 = availability
-
-# text
-seg-402622c7239f = fom.availability_under_jamming
-
-# text
-seg-7535d5c947a3 = mean_js
-
-# text
-seg-1a33d5154547 = fom.mean_js_db
-
-# text
-seg-b56a199e5c48 = min_tracking
-
-# text
-seg-5fe4655f73e0 = fom.min_tracking
 
 # text
 seg-d01997669d57 = field-name suffix
@@ -152,21 +107,6 @@ seg-8784979d6569 = dBW
 seg-13ab5985534e = field-units schema: input entry `seed`, matched by field name
 
 # text
-seg-5db1241ac39c = dB-Hz
-
-# text
-seg-1f65bbee4117 = car-coast-road
-
-# text
-seg-3d02d26f3f65 = jammer_power
-
-# text
-seg-1cd4db1a3864 = jammer_position
-
-# text
-seg-a5910848c958 = [{ "2" }.9046e6, { "1" }.3814e6, { "5" }.4893e6]
-
-# text
 seg-9df7df696eaf = field-units schema: units entry `seed`
 
 # text
@@ -183,24 +123,6 @@ seg-e8028e7aa5bd = Scalar results
 
 # text
 seg-37d16b499bc5 = dB
-
-# text
-seg-ed2ce125f66d = 4d66f4e0104ff56f829fe9cb309f53a0ae5468641d54637a9e3a2235159c24a3
-
-# text
-seg-d9f27ed87e81 = 15b391ffeabd4f1bc2f69cca9d087b6e438d199161bb0363b889b3d79f474145
-
-# text
-seg-13377db5345e = 452c90cb2c133c0206e68bb6620fa5678ada408826fd90e1be3d71cb34caed84
-
-# text
-seg-87bfa91f4610 = a8d38e392799dcae16d7a9bd158aeaa13935ce7d590d71c4b9cb3cd6bd5840db
-
-# text
-seg-1604f389ad33 = 504dd3a57cbc7d9f21bec9102826eb962c14af1e5fe696d1795171d7e6709205
-
-# text
-seg-78fac5954e7d = 1bd51033ede9521b397bb6da14ee229a2a4e0156915111f0ca2acf2d666b0d2d
 
 # text
 seg-5db510e5cfb7 = Numeric columns
@@ -222,15 +144,6 @@ seg-5b3bc9761db4 = First
 
 # text
 seg-07d0de61cfe9 = Last
-
-# text
-seg-6837b07e7d95 = { "1" }.3814e6
-
-# text
-seg-d8d1a02d2400 = { "5" }.4893e6
-
-# text
-seg-685928f6bc51 = { "2" }.9046e6
 
 # text
 seg-2eb78468a4b9 = 3a. Aggregation of member runs
@@ -487,13 +400,7 @@ seg-107c29c96eec = not recorded: this engine was built without the KSHANA_GIT_CO
 seg-c9ee69e3ce3e = Scenario file
 
 # text
-seg-a7910d5f6f42 = campaign-shared-jammer-sea-road.toml
-
-# text
 seg-af5108e0fed4 = Scenario file SHA-256 (Secure Hash Algorithm 256-bit)
-
-# text
-seg-976145dc8bce = e2bf9ee526edfe9f1acb0bfd3bc9da8fa391e3fd3ef1350b4f3d8ffe72d39e36
 
 # text
 seg-73916816595e = Result scenario_hash

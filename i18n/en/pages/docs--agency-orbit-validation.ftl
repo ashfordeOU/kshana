@@ -27,7 +27,7 @@ seg-954f4f934461 = <b>Force model</b> includes every perturbation that matters a
 
 # text
 # c1: 1/σ²
-seg-440d92ce826d = <b>Estimator</b> is a real Gauss–Newton batch least squares with a variational <b>state-transition matrix</b> (cross-checked against whole-arc finite difference to < 1e-6), <c1/> observation weighting, and n-sigma outlier editing.
+seg-710f89c088cc = <b>Estimator</b> is a real Gauss–Newton batch least squares with a variational <b>state-transition matrix</b> (cross-checked against whole-arc finite difference to < { "1e-6" }), <c1/> observation weighting, and n-sigma outlier editing.
 
 # text
 # c1: src/eop.rs
@@ -87,12 +87,6 @@ seg-31d58f23c0a2 = Run
 
 # text
 seg-de3df1639939 = Arc
-
-# text
-seg-48ee3c0aa412 = d/o
-
-# text
-seg-46df431a8335 = n_obs
 
 # text
 seg-7db37f753fc1 = 3-D RMS
@@ -265,7 +259,7 @@ seg-706a4d52f6c5 = 1- and 2-per-rev empirical absorb the along-track
 # c1: pxform('MOON_ME','MOON_PA')
 # c2: tests/lunar_me_pa_offset_spice_oracle.rs
 # c3: docs/design/evidence/fut05b-me-pa-offset-sign/
-seg-34e6521226c8 = { "0.36" } correction: until { "0.36" } the DE421 ME→PA offset was applied in the wrong direction (and with the wrong Euler order), which put the analytic PA frame about { "208" }″ from PA instead of on it. It is now transcribed as SPICE defines it (checked against <c1/> to { "2" }.6e-16 rad, <c2/>; <c3/>). The figures above are after the fix; before it they were { "53.8" } m raw, <b>{ "12.6" } m</b> dynamic ({ "3.07" }, { "10.19" }, { "6.81" } m) and <b>{ "6.65" } m</b> reduced-dynamic ({ "3.49" }, { "4.56" }, { "3.35" } m).
+seg-3f33d99fd643 = { "0.36" } correction: until { "0.36" } the DE421 ME→PA offset was applied in the wrong direction (and with the wrong Euler order), which put the analytic PA frame about { "208" }″ from PA instead of on it. It is now transcribed as SPICE defines it (checked against <c1/> to { "2.6e-16" } rad, <c2/>; <c3/>). The figures above are after the fix; before it they were { "53.8" } m raw, <b>{ "12.6" } m</b> dynamic ({ "3.07" }, { "10.19" }, { "6.81" } m) and <b>{ "6.65" } m</b> reduced-dynamic ({ "3.49" }, { "4.56" }, { "3.35" } m).
 
 # text
 seg-925d1445fccb = These residuals are <b>above</b> the { "5" } m bar Galileo ({ "0.13" } m) and Swarm-A ({ "0.10" } m) clear, and are reported honestly.
@@ -288,9 +282,6 @@ seg-3a0e724a8a2b = Tier
 
 # text
 seg-c1ce24cd6008 = analytic
-
-# text
-seg-6a8ba1afba42 = DE-grade
 
 # text
 seg-7d04fb530a3a = raw overlap
@@ -321,7 +312,7 @@ seg-b6d3daff2f23 = <b>{ "0.36" } note: most of the dynamic-tier gain below was t
 
 # text
 # c1: atol
-seg-b949ed610e5d = <b>The hypothesis is only half right, and the headline claim needed correcting.</b> DE-grade orientation and ephemeris <em>do</em> improve the raw overlap ({ "53.8" } → { "41.5" } m) and the <b>dynamic</b> fit ({ "12.6" } → { "12.0" } m) — so the analytic orientation/ephemeris error is real and does limit those tiers. But they leave the <b>reduced-dynamic</b> residual essentially <b>unchanged</b> ({ "6.65" } → { "6.67" } m): the { "1" }+2-per-rev empirical tier was <em>already</em> absorbing the orientation/ephemeris error, so the operational ~{ "6.6" } m floor is set by something else — a residual the cycle-per-rev basis cannot absorb and DE-grade frames do not remove. The most consistent explanation is <b>unmodelled LRO non-gravitational dynamics</b> (thermal re-radiation, outgassing) over the short { "4" } h arc; field degree is excluded (identical at d/o { "100" } and { "150" }) and integrator tolerance is excluded (identical at <c1/> 1e-6 vs 1e-9). The constructive corollary: <b>Kshana's lean, kernel-free analytic lunar stack already matches DE-grade fidelity for the reduced-dynamic (operational) lunar orbit</b> — the pure-coefficient default leaves nothing on the table there. Crossing { "5" } m would require modelling the LRO non-gravitational forces (a spacecraft-specific box-wing/thermal model and a longer, multi-arc fit), not better frames.
+seg-691df96321d8 = <b>The hypothesis is only half right, and the headline claim needed correcting.</b> DE-grade orientation and ephemeris <em>do</em> improve the raw overlap ({ "53.8" } → { "41.5" } m) and the <b>dynamic</b> fit ({ "12.6" } → { "12.0" } m) — so the analytic orientation/ephemeris error is real and does limit those tiers. But they leave the <b>reduced-dynamic</b> residual essentially <b>unchanged</b> ({ "6.65" } → { "6.67" } m): the { "1" }+2-per-rev empirical tier was <em>already</em> absorbing the orientation/ephemeris error, so the operational ~{ "6.6" } m floor is set by something else — a residual the cycle-per-rev basis cannot absorb and DE-grade frames do not remove. The most consistent explanation is <b>unmodelled LRO non-gravitational dynamics</b> (thermal re-radiation, outgassing) over the short { "4" } h arc; field degree is excluded (identical at d/o { "100" } and { "150" }) and integrator tolerance is excluded (identical at <c1/> { "1e-6" } vs { "1e-9" }). The constructive corollary: <b>Kshana's lean, kernel-free analytic lunar stack already matches DE-grade fidelity for the reduced-dynamic (operational) lunar orbit</b> — the pure-coefficient default leaves nothing on the table there. Crossing { "5" } m would require modelling the LRO non-gravitational forces (a spacecraft-specific box-wing/thermal model and a longer, multi-arc fit), not better frames.
 
 # text
 seg-4211fbd25380 = Honesty contract

@@ -149,7 +149,7 @@ seg-ccb5b2fe93c4 = Maturity is labelled.
 seg-5a0ac98febed = <a1>VALIDATION.md</a1> marks each effect <c1/>, <c2/> or <c3/>, and states plainly that the optical-clock figures are <em>laboratory / space-goal</em> numbers — no strontium optical clock has flown.
 
 # text
-seg-fcc8af84343a = <b>Results are reproducible to the bit:</b> the same scenario, seed, and version always produce the identical answer on the same platform; across operating systems the figures agree to 1e-6 relative (see <a1>REPRODUCIBILITY.md</a1>).
+seg-de463596fcdb = <b>Results are reproducible to the bit:</b> the same scenario, seed, and version always produce the identical answer on the same platform; across operating systems the figures agree to { "1e-6" } relative (see <a1>REPRODUCIBILITY.md</a1>).
 
 # text
 seg-f87dad1ffc98 = { "6" }. The physics, for specialists

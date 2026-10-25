@@ -28,14 +28,14 @@ seg-e7d45e243571 = Worst position error
 
 # text
 # c1: 2e-5
-seg-d58ed5e95a31 = <b>{ "4.12" } mm</b> ({ "4" }.120e-6 km, satellite { "23333" }; < <c1/> km tolerance)
+seg-af3129dd345c = <b>{ "4.12" } mm</b> ({ "4.120e-6" } km, satellite { "23333" }; < <c1/> km tolerance)
 
 # text
 seg-01da72026e56 = Worst velocity error
 
 # text
 # c1: 1e-6
-seg-59a3ebdb6049 = <b>{ "1" }.85e-9 km/s</b> (satellite { "23333" }; < <c1/> km/s tolerance)
+seg-483a7f8f4104 = <b>{ "1.85e-9" } km/s</b> (satellite { "23333" }; < <c1/> km/s tolerance)
 
 # text
 seg-041cbc679ed7 = Cases covered
@@ -95,40 +95,40 @@ seg-427820fec0e7 = kshana ↔ crate
 seg-6305527acfa4 = near-earth (LEO/MEO (LEO: low Earth orbit; MEO: medium Earth orbit))
 
 # text
-seg-940fe19be1cd = { "7" }.3e-9 km
+seg-081e28a39101 = { "7.3e-9" } km
 
 # text
-seg-c41d8cf7f779 = { "4" }.4e-10 km
+seg-e68c97a6528a = { "4.4e-10" } km
 
 # text
 seg-4c34e8e2f4c4 = deep-space (non-resonant)
 
 # text
-seg-e6ec7eb19fbe = { "4" }.1e-6 km
+seg-12e758e04df0 = { "4.1e-6" } km
 
 # text
-seg-57d3e22a955f = { "2" }.1e-7 km
+seg-db82b835dec9 = { "2.1e-7" } km
 
 # text
 seg-d7d4f47417bc = deep-space resonance (½-day)
 
 # text
-seg-c0d1b7d8366c = { "8" }.1e-9 km
+seg-17007f8aada3 = { "8.1e-9" } km
 
 # text
-seg-54eca78f4a26 = { "7" }.7e-9 km
+seg-895ba7518ab3 = { "7.7e-9" } km
 
 # text
-seg-56956c3fb22e = { "2" }.2e-9 km
+seg-be5a634658e5 = { "2.2e-9" } km
 
 # text
 seg-6cf60f32cbcd = deep-space resonance (1-day)
 
 # text
-seg-df15fbd845ce = { "8" }.2e-9 km
+seg-7698aecab6b4 = { "8.2e-9" } km
 
 # text
-seg-536c1a4a38f0 = { "7" }.8e-9 km
+seg-60520079d492 = { "7.8e-9" } km
 
 # text
 # c1: tests/fixtures/sgp4_comparison.md

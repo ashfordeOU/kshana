@@ -46,19 +46,7 @@ seg-54608f1d0bd1 = Positioning around any solar-system body: an orbiter or a sur
 seg-82c70377ef60 = Positioning around Europa — surface user, { "12" } relays at { "4500" } km, { "171" } epochs Earth light time { "2182.9" } s one-way, { "4365.8" } s round trip; Sun-Earth-body angle { "170.8" } deg availability: { "0.480" } constellation only, { "0.713" } with the Earth range (Earth in view { "0.439" }) median PDOP { "5.360" } ; RMS error { "112.742" } m constellation only, { "86.499" } m with the Earth range median formal sigma { "5.360" } m constellation only, { "4.239" } m with the Earth range
 
 # text
-seg-eaa6f823d3b8 = fom.availability_relays
-
-# text
-seg-89ae8b6c3bda = fom.availability_with_earth
-
-# text
-seg-1860e5ed02ae = fom.rms_error_relays_m
-
-# text
 seg-50800f719b02 = { "112.741761" } m
-
-# text
-seg-16ed42a34266 = fom.rms_error_with_earth_m
 
 # text
 seg-51fee5febfa0 = { "86.499321" } m
@@ -119,28 +107,13 @@ seg-8956251a073b = Result chart (also written to europa-surface-pnt.chart.svg)
 seg-e8028e7aa5bd = Scalar results
 
 # text
-seg-2ff7377f547c = { "3" }.2027e12
-
-# text
 seg-753b1683fb7b = m^3/s^{ "2" }
 
 # text
 seg-b054c73f22e5 = no value
 
 # text
-seg-a29a198ee86e = { "6" }.5441e11
-
-# text
-seg-72540d3dba02 = { "1" }.6702e-5
-
-# text
 seg-e27476e37522 = Earth
-
-# text
-seg-b789e62d89bb = { "1" }.3088e12
-
-# text
-seg-a112cefa2188 = { "2" }.4615e6
 
 # text
 seg-4d208b6c0eb8 = day
@@ -165,15 +138,6 @@ seg-5b3bc9761db4 = First
 
 # text
 seg-07d0de61cfe9 = Last
-
-# text
-seg-3d5a55c71787 = { "6" }.5387e11
-
-# text
-seg-f1208646809d = { "6" }.5609e11
-
-# text
-seg-92884eb1d04f = { "1" }.5608e6
 
 # text
 seg-464b0c55ec6a = 3b. Animation and exports
@@ -385,13 +349,7 @@ seg-107c29c96eec = not recorded: this engine was built without the KSHANA_GIT_CO
 seg-c9ee69e3ce3e = Scenario file
 
 # text
-seg-b0b8df12cdf6 = europa-surface-pnt.toml
-
-# text
 seg-af5108e0fed4 = Scenario file SHA-256 (Secure Hash Algorithm 256-bit)
-
-# text
-seg-307d6a7cd01d = ae914ffba332ad400debbbc2134746af084b7e87a92ac17af0be15db221e2825
 
 # text
 seg-73916816595e = Result scenario_hash

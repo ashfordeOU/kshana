@@ -178,49 +178,25 @@ seg-4e852a6a1581 = Derived from
 seg-501402fc366f = Clock holdover
 
 # text
-seg-69a51d10afea = scenarios/clock.toml
-
-# text
 seg-a7cfe6f135f1 = Orbit & geometry
-
-# text
-seg-9329b9c19c08 = scenarios/orbit.toml
 
 # text
 seg-e74e1c9b387e = Integrity (RAIM, receiver autonomous integrity monitoring)
 
 # text
-seg-dace36161c3d = scenarios/integrity.toml
-
-# text
 seg-95b6cceb76e6 = Security (spoofing)
-
-# text
-seg-0b8a6fbf2efd = scenarios/security.toml
 
 # text
 seg-dab48471c270 = Hybrid PNT
 
 # text
-seg-9d3e61a9065f = scenarios/hybrid.toml
-
-# text
 seg-029de6b99be0 = Inertial dead-reckoning
-
-# text
-seg-67037ba9feb2 = scenarios/inertial.toml
 
 # text
 seg-9ef8f99ca6e4 = Time transfer
 
 # text
-seg-ddc2c3ed432d = scenarios/timetransfer.toml
-
-# text
 seg-835df2d05f2a = GNSS measurement domain
-
-# text
-seg-0c0e7244e46a = scenarios/gnss-sim.toml
 
 # text
 # c1: kind = "spoof"
@@ -310,13 +286,7 @@ seg-a0b63210b807 = Read more
 seg-abd799395f27 = L-band spectrum and jamming waterfall
 
 # text
-seg-fdc2bed2d7aa = SPECTRUM.md
-
-# text
 seg-33453b2cfdf3 = The solar system at one epoch
-
-# text
-seg-2d406124e0e6 = SCENARIOS.md
 
 # text
 seg-23bc4ff7f741 = Positioning around another body
@@ -325,25 +295,13 @@ seg-23bc4ff7f741 = Positioning around another body
 seg-c135b151e469 = Constellation design at scale
 
 # text
-seg-f5b6e8fe6812 = CONSTELLATION-DESIGN.md
-
-# text
 seg-065995e9bd5e = Campaigns: kinds chained on one timeline
-
-# text
-seg-7ce659a1f423 = CAMPAIGNS.md
 
 # text
 seg-dbae357e7e34 = One LEO-PNT system end to end
 
 # text
-seg-1e8330641455 = LEO-PNT.md
-
-# text
 seg-9d3d72ea03df = Fused MEO + LEO positioning
-
-# text
-seg-f556249bcdc9 = LEO-PNT-FUSION.md
 
 # text
 seg-acc2793d1721 = LEO signals, passes and navigation messages
@@ -362,9 +320,6 @@ seg-aa93235e8c6d = PPP convergence with a LEO layer; 5G positioning
 seg-01160980ce50 = Resilience: GNSS jammed, LEO carries the user
 
 # text
-seg-a39a1e293af6 = RESILIENCE-CROSSWALK.md
-
-# text
 seg-adf8453bc035 = Verticals: rail, maritime, telecom, vehicles, Arctic
 
 # text
@@ -374,9 +329,6 @@ seg-15a5098b5045 = <c1/> (and the other <c2/> files)
 
 # text
 seg-e6494ed83ee3 = Telecom holdover against the ITU-T (International Telecommunication Union, Telecommunication Standardization Sector) G.8272 clock limits
-
-# text
-seg-16a8adcd2bb2 = TELECOM-TIMING.md
 
 # text
 seg-dfc04f1abe82 = LEO is low Earth orbit and MEO medium Earth orbit; PVT is position, velocity and time; PPP is precise point positioning; 5G is the fifth-generation mobile standard; TDB is Barycentric Dynamical Time; JD is Julian Date; TE is time error.
@@ -392,9 +344,6 @@ seg-1d45d94f2e5b = The CLI adds three outputs on top of any run:
 # c5: .study.html
 # c6: kshana --study scenarios/quantum-pnt-demonstrator.suite.toml
 seg-893276648fec = <b>Reports.</b> Every run writes <c1/> and <c2/> (see <a1>REPORTS.md</a1>). <c3/> runs a suite of scenarios into one <c4/> and <c5/>, for example <c6/>.
-
-# text
-seg-e628dbeac49b = Animation.
 
 # text
 # c1: kshana <scenario.toml> --animate <svg|html|frames|all>
@@ -447,9 +396,6 @@ seg-e1dee35aedff = run a shipped scenario unchanged and read one figure of merit
 seg-296694716b3b = Run <c1/>; print the quantum vs classical <c2/>. CLI, playground, or a one-line Python call.
 
 # text
-seg-70dd592675b2 = exercises/tier1_run.py
-
-# text
 seg-bad6d3afb6a0 = Tier { "2" } — edit & sweep
 
 # text
@@ -462,9 +408,6 @@ seg-c18da238e470 = change one parameter and observe a monotone effect
 seg-598ca8efea83 = Tighten the clock spec (<c1/>) or lengthen the outage and watch holdover drop; or use <c2/>/<c3/> to tabulate it.
 
 # text
-seg-62a0fd64c8e7 = exercises/tier2_sweep.py
-
-# text
 seg-1d9dfecce6fa = Tier { "3" } — quantify & defend
 
 # text
@@ -474,9 +417,6 @@ seg-5b57f2c8ffb9 = Monte-Carlo, confidence bands, reproducibility, and a protect
 # c1: runs = N
 # c2: scenario_hash
 seg-0fac2036b289 = Run a clock ensemble (<c1/>), read the [p05–p95] band, confirm two runs give an identical <c2/>, and read an integrity / Stanford result.
-
-# text
-seg-6429b0a6e37e = exercises/tier3_montecarlo.py
 
 # text
 # c1: maturin develop --features python

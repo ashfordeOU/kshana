@@ -88,9 +88,6 @@ seg-26740783c99e = Task (b): detection on IQ test results
 seg-6f1b3b3729bf = kshana iq monitors: cn0_drop (CUSUM) <s1>kshana-bench/2.0.0</s1>
 
 # text
-seg-83f7d0a8e7d2 = n/a
-
-# text
 seg-7e2dd8e3fb49 = carried: docs/design/DETECTION-ROC.md section { "3" }: the R1 campaign of tests/iq_campaign_roc.rs, run 2026-10-13; not re-run for bench v1. Bar R1 (AUC >= { "0.95" }) was NOT MET.
 
 # text

@@ -121,9 +121,6 @@ seg-b40c95a6bea5 = bias stability { "6" }×{ "10" }⁻⁸ g = { "5.88" }×{ "10"
 seg-fdb8f1d648ba = Templier et al., <em>Science Advances</em> ({ "2022" }), <a1>arXiv:{ "2209.13209" }</a1>
 
 # text
-seg-2f1050fd5f6c = ground-lab
-
-# text
 seg-570f41ff76c9 = Honeywell QA-2000 navigation-grade quartz accelerometer
 
 # text
@@ -131,9 +128,6 @@ seg-a7dbc9a9705e = bias stability ~{ "160" } µg = { "1.57" }×{ "10" }⁻³ m/s
 
 # text
 seg-3ad7ce01c6e2 = Manufacturer / Groves <em>AESS (Aerospace and Electronic Systems Society) Tutorial</em>
-
-# text
-seg-93a0f7d931b6 = flight-qualified
 
 # text
 seg-37c841945d3e = IMU error model (scale-factor, misalignment, g-sensitivity, quantization, rate-ramp)
@@ -346,7 +340,7 @@ seg-c1cee31c42df = ⁸⁸Sr optical-clock ADEV σ_y(τ) (Norcia et al., Science 
 seg-232e54a0e396 = optical-clock measured-stability fit validation
 
 # text
-seg-5f2c6d16a830 = <b>CC-BY-4.0</b> (Creative Commons Attribution { "4.0" }; Zenodo { "10" }.5281/zenodo.3382347)
+seg-3345cefbfa3c = <b>CC-BY-4.0</b> (Creative Commons Attribution { "4.0" }; Zenodo 10.5281/zenodo.3382347)
 
 # text
 seg-2bb00a0c58ef = NASA/USGS (NASA: National Aeronautics and Space Administration; USGS: United States Geological Survey) SRTM (Shuttle Radar Topography Mission) v3 elevation tile N36W117 (Death Valley, decimated to 6-arc-sec, { "722" } KB)
@@ -360,7 +354,7 @@ seg-088a57c3a5b1 = terrain-DEM (DEM: digital elevation model) <c1/> reader valid
 seg-ed90325543c8 = <b>Public domain</b> (NASA/USGS SRTM v3; via AWS (Amazon Web Services) Open Data <c1/>)
 
 # text
-seg-768af57a91ab = CCSDS { "502" }.0/503.0 Blue Book OEM/TDM (OEM: Orbit Ephemeris Message; TDM: Tracking Data Message) examples
+seg-9607b2318cf5 = CCSDS 502.0/503.0 Blue Book OEM/TDM (OEM: Orbit Ephemeris Message; TDM: Tracking Data Message) examples
 
 # text
 seg-b53475918422 = CCSDS parser round-trip validation
@@ -426,9 +420,6 @@ seg-9d43f399613b = overlapping ADEV/HDEV on a real Cs clock
 seg-87b53409bedb = <b>Unclear</b> — <c1/> is LGPL-3.0 (the GNU Lesser General Public License, a software licence) with <em>no explicit data-redistribution grant</em>; the file is excluded from the PyPI (Python Package Index) dist
 
 # text
-seg-0ef49d8bd7d1 = Fetch-gated
-
-# text
 # c1: scripts/fetch_cs5071a.sh
 seg-b741be74c8ad = <c1/>; derived ladders committed
 
@@ -452,7 +443,7 @@ seg-dd2ee7a9f1fa = JammerTest { "2024" } GNSS jamming/spoofing capture ({ "1.4" 
 seg-20065daf2305 = resilience/anomaly scenario calibration
 
 # text
-seg-ac2b706bf8e2 = GPL-3.0-or-later (the GNU General Public License; Zenodo { "10" }.5281/zenodo.15910563) — redistribution permitted, but <b>size exceeds GitHub's { "100" } MB file limit</b> and GPL copyleft conflicts with the AGPL (Affero General Public License) tree
+seg-a4410133d410 = GPL-3.0-or-later (the GNU General Public License; Zenodo 10.5281/zenodo.15910563) — redistribution permitted, but <b>size exceeds GitHub's { "100" } MB file limit</b> and GPL copyleft conflicts with the AGPL (Affero General Public License) tree
 
 # text
 seg-d4c7d2f9ea0d = <b>Fetch-gated</b>; reference the DOI (digital object identifier)
@@ -597,7 +588,7 @@ seg-89c9b001868f = How to cite & reproduce
 # c1: scenario + seed + engine version
 # c2: CITATION.cff
 # c3: provenance
-seg-67a0df0ec04e = Every result is reproducible from <c1/>. Cite the engine via <a1><c2/></a1> / the Zenodo concept DOI <a2>{ "10" }.5281/zenodo.20528627</a2>, and cite the <em>parameter</em> sources above for the figures a given run depends on — they travel in the result JSON's <c3/> fields, so a published result is self-documenting.
+seg-6eca19b7978c = Every result is reproducible from <c1/>. Cite the engine via <a1><c2/></a1> / the Zenodo concept DOI <a2>10.5281/zenodo.20528627</a2>, and cite the <em>parameter</em> sources above for the figures a given run depends on — they travel in the result JSON's <c3/> fields, so a published result is self-documenting.
 
 # text
 seg-c5c58ef3771c = Where a figure is a space goal on ground hardware (every strontium optical-clock number) or a ground-lab demonstration (cold-atom accelerometer), this document and the result provenance say so explicitly. Kshana does not present lab or goal figures as flown performance.

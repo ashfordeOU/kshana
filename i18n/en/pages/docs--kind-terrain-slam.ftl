@@ -44,12 +44,6 @@ seg-5ceb5b8597ac = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
 # c1: scenarios/terrain-slam.toml
 seg-48e022b0945e = The example <c1/> sets, among others:
 
-# text
-seg-90ea6f82f297 = { "6" }.0000e-4
-
-# text
-seg-c80ba12e7b8c = -5.0000e-4
-
 # attr:alt
 seg-4aca87f022dc = The chart the engine writes for scenarios/terrain-slam.toml, kind terrain-slam
 

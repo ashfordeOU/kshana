@@ -17,7 +17,7 @@ seg-004c56ded47f = Lunar surface-navigation signal-security attack surface (P1):
 
 # text
 # c1: scenarios/lunar-attack-surface.toml
-seg-b877f5ab31fd = One run of <c1/> summarises as: lunar-attack-surface | AFS -140.6 dBW, surplus { "14.4" } dB (band -17.9–-12.0, { "25" }×/28× surplus) | spoof@{ "1000" } m { "0.000" } W | footprint { "3" }% cap, limb false | spoof-capture true (lock { "0.00" } s) | mast reach { "21.0" } km | OSNMA { "20" } bit/s ({ "40" }% of { "50" } bit/s), { "30" } s latency | footprint sweep 7x5 (alt 20-500 km x HPBW { "1" }.83-29.20 deg), capture { "0" }.6-42.9% | limb NOT reached on this grid (best -0.8 dB, { "3.8" } dB short; needs { "19.8" } dBW vs { "16.0" } dBW)
+seg-e5edd5b9ef27 = One run of <c1/> summarises as: lunar-attack-surface | AFS -140.6 dBW, surplus { "14.4" } dB (band -17.9–-12.0, { "25" }×/28× surplus) | spoof@{ "1000" } m { "0.000" } W | footprint { "3" }% cap, limb false | spoof-capture true (lock { "0.00" } s) | mast reach { "21.0" } km | OSNMA { "20" } bit/s ({ "40" }% of { "50" } bit/s), { "30" } s latency | footprint sweep 7x5 (alt 20-500 km x HPBW 1.83-29.20 deg), capture 0.6-42.9% | limb NOT reached on this grid (best -0.8 dB, { "3.8" } dB short; needs { "19.8" } dBW vs { "16.0" } dBW)
 
 # text
 # c1: afs_eirp_dbw

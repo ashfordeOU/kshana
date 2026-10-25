@@ -54,9 +54,6 @@ seg-9521a296d617 = dBi
 # text
 seg-b054c73f22e5 = no value
 
-# text
-seg-5db1241ac39c = dB-Hz
-
 # attr:alt
 seg-cf1dce5fc824 = The chart the engine writes for scenarios/earth-gnss-lunar.toml, kind earth-gnss-lunar
 

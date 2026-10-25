@@ -17,7 +17,7 @@ seg-1bc37634ba9f = Lunar-VLBI station-coordinate covariance: the delay partials 
 
 # text
 # c1: scenarios/lunar-vlbi-fim.toml
-seg-669ce728f8d3 = One run of <c1/> summarises as: lunar-vlbi-fim | { "3" } stations / { "3" } baselines x { "49" } epochs = { "16" } obs (mask { "10.0" } deg) | datum anchor-first-station | rank 6/6 cond { "2" }.209e4 | station sigma { "0.0926" } m vs equipartition g={ "3" } { "0.0013" } m (ratio { "71.360" })
+seg-4df72c1b921e = One run of <c1/> summarises as: lunar-vlbi-fim | { "3" } stations / { "3" } baselines x { "49" } epochs = { "16" } obs (mask { "10.0" } deg) | datum anchor-first-station | rank 6/6 cond { "2.209e4" } | station sigma { "0.0926" } m vs equipartition g={ "3" } { "0.0013" } m (ratio { "71.360" })
 
 # text
 # c1: stations
@@ -43,9 +43,6 @@ seg-f0dabe1b061b = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-fabf305ae1de = The example <c1/> sets, among others:
 
 # text
-seg-1d5e7800c7f7 = { "4" }.0290e8
-
-# text
 seg-b054c73f22e5 = no value
 
 # text
@@ -53,12 +50,6 @@ seg-7b0f433d1d63 = sigma = c * delay_sigma_s * (beacon_rang
 
 # text
 seg-98151954f217 = false
-
-# text
-seg-94229091a658 = { "1" }.2515e7
-
-# text
-seg-4eabf64b1d15 = anchor-first-station
 
 # text
 seg-8b098bf1df6b = Result label (the engine's): MODELLED lunar-VLBI station-coordinate covariance. The covariance is accumulated from the engine's own analytic delay partials over an explicit schedule of baselines and epochs and inverted; it is NOT converted from a scalar delay precision by an assumed geometry factor. The per-observation delay si
@@ -86,11 +77,11 @@ seg-2595bd629ffb = <b>MODELLED</b> The seven-parameter Helmert datum propagated 
 seg-3319b18ac61f = and { "1" } more in the matrix.
 
 # text
-seg-37b23f44bc57 = <b>VALIDATED</b> Delay partials accumulated over a schedule of baselines × epochs into a Fisher information matrix, inverted to the station coordinate covariance and the per-coo. Oracle (ExternalDataset): An independent in-repo route. Every Jacobian row is re-derived by central finite difference of lunar_vlbi::vlbi_delay_s evaluated from the state's own Earth-fixed and Moon-body-fixed coordinates rotated forward through the frame chain — a path that computes no derivative and shares no expression with the analytic partials — and the information matrices the two routes build agree to < 1e-6 of the largest diagonal. The
+seg-a731b913bdf0 = <b>VALIDATED</b> Delay partials accumulated over a schedule of baselines × epochs into a Fisher information matrix, inverted to the station coordinate covariance and the per-coo. Oracle (ExternalDataset): An independent in-repo route. Every Jacobian row is re-derived by central finite difference of lunar_vlbi::vlbi_delay_s evaluated from the state's own Earth-fixed and Moon-body-fixed coordinates rotated forward through the frame chain — a path that computes no derivative and shares no expression with the analytic partials — and the information matrices the two routes build agree to < { "1e-6" } of the largest diagonal. The
 
 # text
 # c1: all-stations-fixed
-seg-e8ebf5051c60 = <b>MODELLED</b> A third datum choice, <c1/>, that holds every Earth station and estimates the BEACON's Moon-body-fixed coordinates alone — the configuration a lu. Oracle (ReferenceImpl): Closed-form identities, with no external oracle claimed or available. The lever arm is checked against ρ/B and the two equipartition forms against each other to 1e-15 — algebraic identities, so they catch a wiring error and nothing else, and are labelled as such. The substantive result is MEASURED rather than asserted: a delay from a fixed baseline constrains the beacon's DIRECTION, so the line-of-sight component rea
+seg-2300ffd9fc4e = <b>MODELLED</b> A third datum choice, <c1/>, that holds every Earth station and estimates the BEACON's Moon-body-fixed coordinates alone — the configuration a lu. Oracle (ReferenceImpl): Closed-form identities, with no external oracle claimed or available. The lever arm is checked against ρ/B and the two equipartition forms against each other to { "1e-15" } — algebraic identities, so they catch a wiring error and nothing else, and are labelled as such. The substantive result is MEASURED rather than asserted: a delay from a fixed baseline constrains the beacon's DIRECTION, so the line-of-sight component rea
 
 # text
 # c1: label

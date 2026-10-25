@@ -45,13 +45,7 @@ seg-be21370c2446 = joint
 seg-bb3b3e8be839 = fjord
 
 # text
-seg-5db1241ac39c = dB-Hz
-
-# text
 seg-7f5ad6ab8c23 = GPS
-
-# text
-seg-8620fcfb17d4 = gps-baseline
 
 # text
 # c1: scenarios/

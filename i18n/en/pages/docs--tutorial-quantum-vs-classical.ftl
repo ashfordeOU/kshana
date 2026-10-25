@@ -9,9 +9,6 @@ seg-a3686dd6817d = Source: <c1/>
 seg-0c2365600795 = Tutorial { "3" } — Quantum vs classical GNSS resilience (capstone)
 
 # text
-seg-8023e90bcd51 = Kinds:
-
-# text
 # c1: spoof
 # c2: hybrid
 # c3: scenarios/spoof-attack.toml
@@ -29,9 +26,6 @@ seg-ffa5242638c2 = Part A — Security: catching a time spoof
 # text
 # c1: 1 − P_md
 seg-23c18da1415f = An attacker injects a slowly-ramping false GNSS time ({ "0.1" } ns/s, starting at t = { "60" } s). The receiver cross-checks the asserted time against its own clock’s coasted prediction and flags the spoof when the discrepancy passes the detection bound. The detector is a two-sided <b>χ²₁ / Neyman–Pearson energy test</b> at a false-alarm probability P_fa = { "0.01" }; the Security figure of merit is <b><c1/></b> (one minus the probability of missed detection) at the spec-sized ({ "20" } ns) spoof magnitude.
-
-# text
-seg-7806a929dbda = Summary:
 
 # text
 # c1: security 1.000
@@ -126,9 +120,6 @@ seg-7e678dd4409e = filter self-consistency (samples inside the k-σ bound)
 
 # text
 seg-1643e7e71209 = not aviation HPL/VPL/RAIM integrity
-
-# text
-seg-c2e72dd3f2b3 = PNT-holdover
 
 # text
 seg-4095f7ab4b14 = time in spec after GNSS loss, split into timing and position

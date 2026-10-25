@@ -47,9 +47,6 @@ seg-dfe78b9d0811 = GHz
 seg-37d16b499bc5 = dB
 
 # text
-seg-02704b884d48 = Msymbol/s
-
-# text
 seg-cade59b5a371 = Result label (the engine's): MODELLED — multi-satellite, multi-station contact plan: apparent access windows (SGP4, IAU 2006/2000A, ITU-R P.834 refraction, light time), DVB-S2 ACM data volume per pass from a clear-sky link budget (ETSI EN { "302" } 307-1 Table { "13" } thresholds), and conflict resolution (one satellite per antenna with tu
 
 # attr:alt

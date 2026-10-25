@@ -46,13 +46,7 @@ seg-e37f1e071b2c = L-band spectrum model and waterfall: the whole GNSS L band as
 seg-dfb0a3870f11 = scenario spectrum | { "5" } bands | { "3" } jammers | noise floor -202.0 dBW/Hz | worst band gps-l1ca min C/N0 { "3.2" } dB-Hz (J/S { "60.2" } dB)
 
 # text
-seg-0d0a2bd6a91b = waterfall.noise_floor_dbw_per_hz
-
-# text
 seg-7cffef33ab19 = -201.975187 dBW/Hz
-
-# text
-seg-ba7a318ad908 = waterfall.peak_dbw_per_hz
 
 # text
 seg-46644c6e03ee = -161.300019 dBW/Hz
@@ -87,9 +81,6 @@ seg-d01997669d57 = field-name suffix
 
 # text
 seg-e7a3536563a3 = no units entry and no unit suffix
-
-# text
-seg-69725f4ea0a7 = cf32_le
 
 # text
 seg-170b9bd565fe = a text input carries no unit
@@ -149,9 +140,6 @@ seg-37d16b499bc5 = dB
 seg-d06c365152db = field-units schema: units entry `receiver.noise_figure_db`
 
 # text
-seg-5db1241ac39c = dB-Hz
-
-# text
 seg-12d6a52003ec = field-units schema: units entry `receiver.tracking_threshold_dbhz`
 
 # text
@@ -179,9 +167,6 @@ seg-a3697ad561db = Hz
 seg-fb689f03361c = byte
 
 # text
-seg-dba8fcd8a62d = { "1" }.3574e-4
-
-# text
 seg-9e5316d50f4c = sqrt(W)
 
 # text
@@ -189,9 +174,6 @@ seg-e7b7780323b2 = kshana spectrum model snapshot (synthetic)
 
 # text
 seg-8496dca0c579 = kshana { "0.39.0" }
-
-# text
-seg-8f143a4c8ea1 = dBW/Hz
 
 # text
 seg-b054c73f22e5 = no value
@@ -218,28 +200,7 @@ seg-5b3bc9761db4 = First
 seg-07d0de61cfe9 = Last
 
 # text
-seg-6beda3f3e9df = { "1" }.0230e6
-
-# text
-seg-f50f56ef7d87 = { "1" }.0230e7
-
-# text
-seg-2e952793e020 = { "7" }.5855e5
-
-# text
-seg-1e64802193bf = { "2" }.0460e6
-
-# text
-seg-f01d2ee5039e = dB(1/Hz)
-
-# text
 seg-9521a296d617 = dBi
-
-# text
-seg-b9f1d995e3ec = { "9" }.0000e-6
-
-# text
-seg-04ad8ab28b0e = { "4" }.4409e-16
 
 # text
 seg-464b0c55ec6a = 3b. Animation and exports
@@ -389,7 +350,7 @@ seg-2cd027eda1b7 = none: a partner-owned discipline, with no module and no test 
 seg-b27d4592c6c9 = none: a partner-owned discipline
 
 # text
-seg-323a9c9863ca = <b>Closed-form L-band signal power spectral densities and spectral separation coefficients</b><br/><s1>Unit-area power spectral densities of GPS L1 C/A and L2C (BPSK({ "1" })), GPS L5 and Galileo E5a (BPSK({ "10" })), sine-BOC({ "1,1" }) and Galileo E1 MBOC({ "6,1" },1/11) (navsignal::Modulation::psd, with an MBOC variant added), their numerically located nulls and maxima (spectrum::psd_nulls_hz, psd_peak_hz, main_lobe_null_to_null_hz), and the spectral separation coefficient of a signal against any spectrum at any offset (navsignal::spectral_separation_coeff_offset) or against a tone, flat noise, a chirp or matched noise (spectrum::Jammer::ssc), with the anti-jam coefficient Q = 1/(R_c kappa)</s1>
+seg-ce8203f753a6 = <b>Closed-form L-band signal power spectral densities and spectral separation coefficients</b><br/><s1>Unit-area power spectral densities of GPS L1 C/A and L2C (BPSK({ "1" })), GPS L5 and Galileo E5a (BPSK({ "10" })), sine-BOC({ "1,1" }) and Galileo E1 MBOC(6,1,1/11) (navsignal::Modulation::psd, with an MBOC variant added), their numerically located nulls and maxima (spectrum::psd_nulls_hz, psd_peak_hz, main_lobe_null_to_null_hz), and the spectral separation coefficient of a signal against any spectrum at any offset (navsignal::spectral_separation_coeff_offset) or against a tone, flat noise, a chirp or matched noise (spectrum::Jammer::ssc), with the anti-jam coefficient Q = 1/(R_c kappa)</s1>
 
 # text
 seg-68d898769311 = <s1>VALIDATED</s1><br/><s2>exercised</s2>
@@ -407,16 +368,16 @@ seg-05405e350575 = <b>L-band spectrum waterfall with per-band J/S and effective 
 seg-28ba5fbe87fb = Reduction to the existing `jamming` kind's anti-jam equation and link budget (the same code, called on the same inputs), and the k T0 F noise-floor closed form. The signal spectra underneath are the validated row above; the jammer powers, timeline and front-end bandwidths are scenario inputs, the spectra are continuous (no spreading-code lines), and no automatic gain control, blanking or antenna pattern acts on the jammer. No measured jammed spectrum is in the repository to check the composite against. The `jamming` kind's Q table (CW and narrowband { "1" }, broadband and swept { "2" } since { "0.36" }: the textbook values, pinned to the navsignal closed forms) agrees with this model's CW value and differs from what it derives for noise matched to C/A ({ "1.5" }) and for flat null-to-null noise without in-band normalisation ({ "2.2" }); the report prints both <em>(InternalConsistency)</em>
 
 # text
-seg-649981bcf131 = spectrum::tests (agrees_with_the_jamming_kind_chain — J/S equal to jamming::j_over_s_db and effective C/N0 equal to jamming::effective_cn0_dbhz with Q = 1/(R_c kappa) to 1e-9 dB, and the { "32.105" } dB anchor of the jamming kind's own test; noise_floor_is_kt0f; chirp_window_splits_whole_and_partial_sweeps; duty_weights_partial_rows; demo_scenario_runs_and_denies_l1_while_l5_survives; defaults_run_with_no_jammer; bad_inputs_are_refused)
+seg-266d9c05d9be = spectrum::tests (agrees_with_the_jamming_kind_chain — J/S equal to jamming::j_over_s_db and effective C/N0 equal to jamming::effective_cn0_dbhz with Q = 1/(R_c kappa) to { "1e-9" } dB, and the { "32.105" } dB anchor of the jamming kind's own test; noise_floor_is_kt0f; chirp_window_splits_whole_and_partial_sweeps; duty_weights_partial_rows; demo_scenario_runs_and_denies_l1_while_l5_survives; defaults_run_with_no_jammer; bad_inputs_are_refused)
 
 # text
 seg-f29ad3935bf4 = <b>SigMF recording input and output, and Welch spectral estimates of complex IQ</b><br/><s1>sigmf: read and write Signal Metadata Format recordings (JSON .sigmf-meta with the core global, captures and annotations fields; raw .sigmf-data as cf32_le, ci16_le or ci8, the integer decoders shared with realdata::iqif::load_iq), all on strings and byte buffers. spectrum::welch_psd: Hann-windowed, overlapped, averaged periodograms, density-scaled, on an in-crate radix-2 transform (spectrum::fft_in_place). Those two are the validated claim. spectrum::synthesise_iq draws the model as IQ, and the `spectrum` kind's [iq] section runs model to IQ to SigMF to Welch and compares with the model; its [recording] section estimates a real recording (native builds); the synthesis and those model comparisons are outside the validated claim</s1>
 
 # text
-seg-edfc4a4b2791 = scipy { "1.18.1" } scipy.signal.welch (BSD-3-Clause) with the same periodic Hann window, overlap, density scaling, no detrend and two-sided mean average: every bin within 1e-12 relative (observed { "6" }.0e-14) over { "27" } cases, with segment counts taken from scipy's own spectrogram. sigmf-python { "1.13.0" } (LGPL-3.0, run as a tool) writes five third-party recordings (cf32_le, ci16_le, ci8, two captures with annotations, a non-zero first sample_start) that the crate decodes bit-identically with identical core fields, and reads the crate's recordings back bit-identically; the SigMF { "v1.2.6" } metadata schema reports zero errors on the crate's metadata. Tolerances fixed before the first comparison. Outside the claim: spectrum::synthesise_iq and the [iq] and [recording] comparisons with the model (a synthesis has no single right answer; a periodic chirp shows lines, Fresnel ripple and edge tails the smooth model omits, total power within { "2" } %), the integer-to-float scaling convention (the crate divides by { "32767" } and { "127" }, sigmf-python's autoscale by { "2" }^{ "15" } and { "2" }^{ "7" }, which the specification leaves open; the comparison uses raw codes), multi-channel recordings and the data types the reader refuses <em>(ExternalDataset)</em>
+seg-9fbda6f95522 = scipy { "1.18.1" } scipy.signal.welch (BSD-3-Clause) with the same periodic Hann window, overlap, density scaling, no detrend and two-sided mean average: every bin within { "1e-12" } relative (observed { "6.0e-14" }) over { "27" } cases, with segment counts taken from scipy's own spectrogram. sigmf-python { "1.13.0" } (LGPL-3.0, run as a tool) writes five third-party recordings (cf32_le, ci16_le, ci8, two captures with annotations, a non-zero first sample_start) that the crate decodes bit-identically with identical core fields, and reads the crate's recordings back bit-identically; the SigMF { "v1.2.6" } metadata schema reports zero errors on the crate's metadata. Tolerances fixed before the first comparison. Outside the claim: spectrum::synthesise_iq and the [iq] and [recording] comparisons with the model (a synthesis has no single right answer; a periodic chirp shows lines, Fresnel ripple and edge tails the smooth model omits, total power within { "2" } %), the integer-to-float scaling convention (the crate divides by { "32767" } and { "127" }, sigmf-python's autoscale by { "2" }^{ "15" } and { "2" }^{ "7" }, which the specification leaves open; the comparison uses raw codes), multi-channel recordings and the data types the reader refuses <em>(ExternalDataset)</em>
 
 # text
-seg-b849f63f4381 = sigmf::tests (cf32_round_trip_is_exact_to_single_precision; ci16_round_trip_is_within_half_a_code; ci16_is_little_endian_i_then_q; integer_encoding_counts_saturation; metadata_uses_the_core_namespace; unsupported_types_and_channels_are_refused; sample_start_offsets_into_the_data); spectrum::tests (fft_matches_a_direct_dft; welch_reads_white_noise_as_variance_over_fs_and_keeps_a_tone_s_power — floor within { "2" } % of variance over sample rate, Parseval total within { "2" } %, Hann equivalent noise bandwidth { "1.5" } bins; noise_like_synthesis_is_unbiased_through_welch — median Welch-minus-model within { "0.1" } dB through a ci16_le round trip; synthesised_iq_through_sigmf_reproduces_the_model_spectrum); tests/sigmf_welch_oracle.rs::welch_and_sigmf_io_match_scipy_and_sigmf_python (Welch PSD vs scipy { "1.18.1" } signal.welch per bin to 1e-12 relative over { "27" } cases, observed { "6" }.0e-14; five sigmf-python { "1.13.0" } recordings decoded bit-identically with identical metadata; crate-written recordings read back bit-identically by sigmf-python and schema-valid against SigMF { "v1.2.6" })
+seg-19aa57a32add = sigmf::tests (cf32_round_trip_is_exact_to_single_precision; ci16_round_trip_is_within_half_a_code; ci16_is_little_endian_i_then_q; integer_encoding_counts_saturation; metadata_uses_the_core_namespace; unsupported_types_and_channels_are_refused; sample_start_offsets_into_the_data); spectrum::tests (fft_matches_a_direct_dft; welch_reads_white_noise_as_variance_over_fs_and_keeps_a_tone_s_power — floor within { "2" } % of variance over sample rate, Parseval total within { "2" } %, Hann equivalent noise bandwidth { "1.5" } bins; noise_like_synthesis_is_unbiased_through_welch — median Welch-minus-model within { "0.1" } dB through a ci16_le round trip; synthesised_iq_through_sigmf_reproduces_the_model_spectrum); tests/sigmf_welch_oracle.rs::welch_and_sigmf_io_match_scipy_and_sigmf_python (Welch PSD vs scipy { "1.18.1" } signal.welch per bin to { "1e-12" } relative over { "27" } cases, observed { "6.0e-14" }; five sigmf-python { "1.13.0" } recordings decoded bit-identically with identical metadata; crate-written recordings read back bit-identically by sigmf-python and schema-valid against SigMF { "v1.2.6" })
 
 # text
 seg-3d9e06c697ae = <b>Multi-band spectrum waterfall (UHF, L, S, C) with designed signals and per-band jammers</b><br/><s1>The `spectrum` kind extended beyond the L band: bands given as a preset signal design (drawn with every component, band-limited to the transmit bandwidth, C/N0 and J/S referred to the tracked component) or as a custom carrier and modulation; extra waterfall panels over any frequency range on the same timeline and colour scale; a wideband (barrage) jammer beside CW, narrowband, chirp and matched noise; per-band J/S and effective C/N0 from the unchanged spectral separation coefficient chain</s1>
@@ -503,7 +464,7 @@ seg-e41df74b70d3 = MODELLED: an L-band power spectral density built from closed-
 seg-0474020d6f0e = result `label`
 
 # text
-seg-67686f5ed5ff = SIGNALS: GPS L1 C/A and L2C (BPSK({ "1" })), Galileo E1 open service (MBOC({ "6,1" },1/11), or BOC({ "1,1" })), GPS L5 and Galileo E5a (BPSK({ "10" })), each at its carrier with the interface-specification minimum received power (IS-GPS-200, IS-GPS-705, Galileo OS SIS ICD) unless overridden; GLONASS, BeiDou and Galileo E6 are not modelled.
+seg-9bbf42d3b684 = SIGNALS: GPS L1 C/A and L2C (BPSK({ "1" })), Galileo E1 open service (MBOC(6,1,1/11), or BOC({ "1,1" })), GPS L5 and Galileo E5a (BPSK({ "10" })), each at its carrier with the interface-specification minimum received power (IS-GPS-200, IS-GPS-705, Galileo OS SIS ICD) unless overridden; GLONASS, BeiDou and Galileo E6 are not modelled.
 
 # text
 seg-66d2182cf68d = kind catalogue (`kshana kinds --json`)
@@ -557,13 +518,7 @@ seg-107c29c96eec = not recorded: this engine was built without the KSHANA_GIT_CO
 seg-c9ee69e3ce3e = Scenario file
 
 # text
-seg-ffc47f7788d9 = l-band-waterfall-jamming.toml
-
-# text
 seg-af5108e0fed4 = Scenario file SHA-256 (Secure Hash Algorithm 256-bit)
-
-# text
-seg-96da54dfc3ad = 204830758faac62c51e3b396ff425442fee7d781378790c9c4ca7173f6c4973d
 
 # text
 seg-73916816595e = Result scenario_hash

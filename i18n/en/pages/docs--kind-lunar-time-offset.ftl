@@ -34,13 +34,7 @@ seg-4731141e6aac = The example <c1/> sets, among others:
 seg-4d208b6c0eb8 = day
 
 # text
-seg-f48225cc9801 = us/day
-
-# text
 seg-3843825d0733 = us
-
-# text
-seg-0d2a47a0208e = ns/day
 
 # attr:alt
 seg-e9deb6ed41c1 = The chart the engine writes for scenarios/lunar-time-offset.toml, kind lunar-time-offset
@@ -49,7 +43,7 @@ seg-e9deb6ed41c1 = The chart the engine writes for scenarios/lunar-time-offset.t
 seg-619127334cf3 = No matrix row names this kind by name; the label on its result is the engine's own, above.
 
 # text
-seg-3fc201572d98 = <b>VALIDATED</b> Relativistic Earth-Moon clock-rate (LTC/TCL) + TT/TAI/UTC chaining + ensemble. Oracle (ExternalDataset): Ashby & Patla { "2024" }, 'A Relativistic Framework to Estimate Clock Rates on the Moon', Astronomical Journal { "167" }:{ "149" } (NIST; basis for the IAU/IAG LunaNet LTC): Moon-surface self-potential L_m = { "3" }.13881e-11 and secular total { "56.02" } µs/day matched as published numeric values; geocentric Moon speed cross-checked vs JPL DE440 (de440s.bsp via SPICE)
+seg-982426693747 = <b>VALIDATED</b> Relativistic Earth-Moon clock-rate (LTC/TCL) + TT/TAI/UTC chaining + ensemble. Oracle (ExternalDataset): Ashby & Patla { "2024" }, 'A Relativistic Framework to Estimate Clock Rates on the Moon', Astronomical Journal { "167" }:{ "149" } (NIST; basis for the IAU/IAG LunaNet LTC): Moon-surface self-potential L_m = { "3.13881e-11" } and secular total { "56.02" } µs/day matched as published numeric values; geocentric Moon speed cross-checked vs JPL DE440 (de440s.bsp via SPICE)
 
 # text
 seg-96b65f604cc2 = Honesty: MODELLED, not certified. The headline us/day figure is reference-dependent (Earth geoid W0 vs a lunar selenoid, the time-averaging window, neglected sub-us/day centrifugal/J2 corrections) -> a band, not a single number, is the honest output. Nothing here is validated to sub-nanosecond absolute accuracy or certified for operational timekeeping. The report also gives the accumulated LTC-TT offset over the hori (scenario file comment, lines { "11" } to { "16" })

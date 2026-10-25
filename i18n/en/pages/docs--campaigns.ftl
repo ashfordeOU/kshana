@@ -52,9 +52,6 @@ seg-aef6b877191d = time-error guard
 seg-cc989ca58f1d = the run's own <c1/>
 
 # text
-seg-5db1241ac39c = dB-Hz
-
-# text
 seg-5e9f7cd33017 = mean effective carrier-to-noise density ratio (C/N0) over the visible satellites
 
 # text
@@ -371,7 +368,7 @@ seg-778a40736e7b = <c1/> searches range and data rate for a { "3" } dB link marg
 seg-b94ab5e6dad4 = The protocol and its pre-registered bars are in <c1/>. The test is <c2/>. The results:
 
 # text
-seg-66d00f7a6877 = a 1-D target solve agrees with the closed form to 6e-15;
+seg-232c68472fa4 = a 1-D target solve agrees with the closed form to { "6e-15" };
 
 # text
 seg-22f7abf70fc4 = the grid method agrees bit for bit with an independent brute-force loop;
@@ -550,10 +547,10 @@ seg-170bc86059fa = An analytic case.
 
 # text
 # c1: scenarios/campaign-monte-carlo-clock-holdover.toml
-seg-57f711b2643d = <c1/> runs { "200" } seeds of a chip-scale atomic clock with only white frequency noise (q_wf = 9e-20 s^2/s, Microchip SA.45s sigma_y({ "1" } s) = 3e-10), synchronised to { "590" } s and coasting to { "3600" } s. The final time error is Gaussian with mean { "0" } and standard deviation sqrt(q_wf * { "3010" } s) = { "16.459" } ns (the random walk of phase under white frequency noise, National Institute of Standards and Technology (NIST) Technical Note { "1337" }). The reported interval, [-2.52, { "1.59" }] ns, contains the true mean { "0" }; the sample standard deviation, { "14.93" } ns, gives a chi-square statistic of { "164.5" } on { "199" } degrees of freedom, inside the two-sided { "99" }% interval [{ "151.37" }, { "254.14" }]. At { "3000" } seeds the same scenario gives { "16.31" } ns.
+seg-0fd27291d6f4 = <c1/> runs { "200" } seeds of a chip-scale atomic clock with only white frequency noise (q_wf = { "9e-20" } s^2/s, Microchip SA.45s sigma_y({ "1" } s) = { "3e-10" }), synchronised to { "590" } s and coasting to { "3600" } s. The final time error is Gaussian with mean { "0" } and standard deviation sqrt(q_wf * { "3010" } s) = { "16.459" } ns (the random walk of phase under white frequency noise, National Institute of Standards and Technology (NIST) Technical Note { "1337" }). The reported interval, [-2.52, { "1.59" }] ns, contains the true mean { "0" }; the sample standard deviation, { "14.93" } ns, gives a chi-square statistic of { "164.5" } on { "199" } degrees of freedom, inside the two-sided { "99" }% interval [{ "151.37" }, { "254.14" }]. At { "3000" } seeds the same scenario gives { "16.31" } ns.
 
 # text
-seg-f86ee6e7a560 = <b>The spectrum-driven chain</b> reads the stand-alone numbers: the onset phase lasts exactly the spectrum run's first-loss time, and every L1 C/A and E1 value on the timeline equals, to 1e-9 dB, the stand-alone waterfall example's row for the same jammer state (nominal, chirp alone, CW tone alone).
+seg-61b54a16243f = <b>The spectrum-driven chain</b> reads the stand-alone numbers: the onset phase lasts exactly the spectrum run's first-loss time, and every L1 C/A and E1 value on the timeline equals, to { "1e-9" } dB, the stand-alone waterfall example's row for the same jammer state (nominal, chirp alone, CW tone alone).
 
 # text
 seg-5ebc02a24ce1 = <b>The chain</b> hands state on as documented: the spoofing phase lasts exactly the spoof run's detection time, the holdover carries exactly the spoof run's offset at detection, recovery carries nothing, and the alarm is up wherever the protection level is missing or exceeds the alert limit.
