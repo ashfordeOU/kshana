@@ -102,8 +102,11 @@ fn the_frozen_predictions_have_not_moved() {
 fn the_portable_rerun_is_pinned_and_agrees_with_the_frozen_result() {
     for (toml_path, _, result_path, _, portable_path, portable_sha) in FROZEN {
         let src = std::fs::read(toml_path).unwrap();
-        let out = kshana::api::run_toml(std::str::from_utf8(&src).unwrap())
-            .unwrap_or_else(|e| panic!("{toml_path} no longer runs ({e})"));
+        // The evidence label is additive and pinned on its own (tests/evidence_labels_doc_sync.rs).
+        let out = kshana::api::without_evidence_labels(
+            kshana::api::run_toml(std::str::from_utf8(&src).unwrap())
+                .unwrap_or_else(|e| panic!("{toml_path} no longer runs ({e})")),
+        );
         if std::env::var_os("KSHANA_BLESS_PORTABLE").is_some() {
             std::fs::write(portable_path, out.json.as_bytes()).unwrap();
         }
