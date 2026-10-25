@@ -2482,9 +2482,6 @@ fn build_aggregation(kind: &str, doc: &Value) -> Option<Aggregation> {
 // The builder
 // ---------------------------------------------------------------------------------------
 
-/// Build the report of one run. `src` is the scenario file's exact text (before any
-/// `--eop` injection), `out` the run's output, `inv` how it was invoked. Pure: the same
-/// three inputs always give the same report.
 /// The verification-matrix requirements the run of `src` that produced `json` exercised, in matrix order, with their
 /// status: the rows of the report's capabilities section ([`build_capabilities`]), so the evidence label a figure
 /// carries and the report's own table cannot disagree. `json` is the result document.
@@ -2517,6 +2514,9 @@ pub fn exercised_requirements(
         .collect())
 }
 
+/// Build the report of one run. `src` is the scenario file's exact text (before any
+/// `--eop` injection), `out` the run's output, `inv` how it was invoked. Pure: the same
+/// three inputs always give the same report.
 pub fn build(out: &crate::api::RunOutput, src: &str, inv: &Invocation) -> Result<Report, String> {
     let doc: Value = serde_json::from_str(&out.json)
         .map_err(|e| format!("the result document is not JSON: {e}"))?;
