@@ -539,9 +539,64 @@ async function verify(args) {
   if (bad) process.exit(1);
 }
 
+/** csslint: physical properties that have a logical form (design v2, section 9). `--fix` converts the safe ones in place:
+ *  margin/padding/border -left/-right, left:/right: (inset-inline-*), text-align and float left/right. Reports what is left
+ *  (four-value shorthands, border radii, physical values written by script). Pass files or directories. */
+function csslint(args) {
+  const { opt, pos } = args2opt(args, { fix: false, max: '' });
+  const files = [];
+  const gather = (p) => { const st = statSync(p); if (st.isDirectory()) { for (const e of readdirSync(p)) gather(join(p, e)); } else if (p.endsWith('.css')) files.push(p); };
+  for (const p of pos) gather(p);
+  const MAP = [
+    [/(?<![-\w])margin-left(?=\s*:)/g, 'margin-inline-start'], [/(?<![-\w])margin-right(?=\s*:)/g, 'margin-inline-end'],
+    [/(?<![-\w])padding-left(?=\s*:)/g, 'padding-inline-start'], [/(?<![-\w])padding-right(?=\s*:)/g, 'padding-inline-end'],
+    [/(?<![-\w])border-left(?=(?:-(?:color|width|style))?\s*:)/g, 'border-inline-start'], [/(?<![-\w])border-right(?=(?:-(?:color|width|style))?\s*:)/g, 'border-inline-end'],
+    [/(?<![-\w])left(?=\s*:)/g, 'inset-inline-start'], [/(?<![-\w])right(?=\s*:)/g, 'inset-inline-end'],
+    [/(?<![-\w])(text-align\s*:\s*)left\b/g, '$1start'], [/(?<![-\w])(text-align\s*:\s*)right\b/g, '$1end'],
+    [/(?<![-\w])(float\s*:\s*)left\b/g, '$1inline-start'], [/(?<![-\w])(float\s*:\s*)right\b/g, '$1inline-end'],
+    [/(?<![-\w])(clear\s*:\s*)left\b/g, '$1inline-start'], [/(?<![-\w])(clear\s*:\s*)right\b/g, '$1inline-end'],
+  ];
+  let fixed = 0;
+  const left = [];
+  for (const f of files) {
+    let t = readFileSync(f, 'utf8');
+    const orig = t;
+    if (opt.fix) for (const [re, to] of MAP) { const m = t.match(re); if (m) { fixed += m.length; t = t.replace(re, to); } }
+    if (opt.fix) { // four-value margin and padding: top right bottom left -> block and inline pairs
+      t = t.replace(/(?<![-\w])(margin|padding)\s*:\s*([^;}]+)/g, (m, prop, val) => {
+        const imp = /\s*!important\s*$/.test(val) ? ' !important' : '';
+        const parts = []; let depth = 0, cur = '';
+        for (const ch of val.replace(/\s*!important\s*$/, '').trim()) { if (ch === '(') depth++; if (ch === ')') depth--; if (/\s/.test(ch) && depth === 0) { if (cur) parts.push(cur); cur = ''; } else cur += ch; }
+        if (cur) parts.push(cur);
+        if (parts.length !== 4) return m;
+        const [a, r, b, l] = parts;
+        fixed++;
+        return `${prop}-block:${a === b ? a : a + ' ' + b}${imp};${prop}-inline:${l === r ? l : l + ' ' + r}${imp}`;
+      });
+    }
+    if (opt.fix && t !== orig) writeFileSync(f, t);
+    // what remains
+    const lines = t.split('\n');
+    lines.forEach((ln, i) => {
+      const hits = [];
+      if (/(?<![-\w])(margin|padding)\s*:\s*[^;}]+\s+[^;}]+\s+[^;}]+\s+[^;}]+/.test(ln)) hits.push('four-value margin/padding');
+      if (/border-(top|bottom)-(left|right)-radius/.test(ln)) hits.push('physical border radius');
+      if (/(?<![-\w])(margin-left|margin-right|padding-left|padding-right|border-left|border-right)(?=[-\w]*\s*:)/.test(ln)) hits.push('physical property');
+      if (/(?<![-\w])(left|right)(?=\s*:)/.test(ln)) hits.push('left/right');
+      if (/text-align\s*:\s*(left|right)/.test(ln)) hits.push('text-align');
+      if (/(^|[;{\s])(transition[^;]*\b(left|right)\b)/.test(ln)) hits.push('transition on left/right');
+      for (const h of hits) left.push(`${f}:${i + 1}: ${h}`);
+    });
+  }
+  if (opt.fix) console.log(`csslint: ${fixed} properties converted in ${files.length} files`);
+  console.log(`csslint: ${left.length} physical properties remain in ${files.length} files`);
+  for (const l of left.slice(0, 40)) console.log('  ' + l);
+  if (opt.max !== '' && left.length > +opt.max) process.exit(1);
+}
+
 const [cmd, ...rest] = process.argv.slice(2);
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
+  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
   if (run) await run();
   else if (!cmd) { console.error('usage: node tools/i18n.mjs extract|apply|check|status|pseudo|csslint'); process.exit(2); }
   else { console.error(`i18n: '${cmd}' is not built yet`); process.exit(2); }
