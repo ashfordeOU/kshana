@@ -44,10 +44,9 @@ use super::api::MAX_TRACE_BYTES;
 pub(super) fn flag_value<'a>(args: &'a [String], name: &str) -> Result<Option<&'a str>, MapError> {
     match args.iter().position(|a| a == name) {
         None => Ok(None),
-        Some(i) => args
-            .get(i + 1)
-            .map(|v| Some(v.as_str()))
-            .ok_or_else(|| MapError::Format(format!("{name} needs a value"))),
+        Some(i) => args.get(i + 1).map(|v| Some(v.as_str())).ok_or_else(|| {
+            MapError::Format(crate::terr!("e-evidence-cli-needs-value", name = name))
+        }),
     }
 }
 
@@ -74,22 +73,33 @@ pub(super) fn check_args(
         } else if switches.contains(&a) {
             i += 1;
         } else if a.starts_with("--") {
-            return Err(MapError::Format(format!("unknown option `{a}`")));
+            return Err(MapError::Format(crate::terr!(
+                "e-interference-map-cli-unknown-option",
+                a = a
+            )));
         } else {
             pos += 1;
             i += 1;
         }
     }
     if pos != positionals {
-        return Err(MapError::Format(format!(
-            "expected {positionals} positional argument(s), got {pos}"
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-cli-expected-positional-argument-got",
+            positionals = positionals,
+            pos = pos
         )));
     }
     Ok(())
 }
 
 pub(super) fn read(path: &str) -> Result<String, MapError> {
-    std::fs::read_to_string(path).map_err(|e| MapError::Io(format!("cannot read {path}: {e}")))
+    std::fs::read_to_string(path).map_err(|e| {
+        MapError::Io(crate::terr!(
+            "e-interference-map-cli-cannot-read",
+            path = path,
+            e = e
+        ))
+    })
 }
 
 pub(super) fn dataset_from(args: &[String], kind: Kind) -> Result<Dataset, MapError> {
@@ -98,8 +108,12 @@ pub(super) fn dataset_from(args: &[String], kind: Kind) -> Result<Dataset, MapEr
     })?;
     let spec = if key == "custom" {
         let need = |n: &str| {
-            flag_value(args, n)?
-                .ok_or_else(|| MapError::Format(format!("--dataset custom needs {n}")))
+            flag_value(args, n)?.ok_or_else(|| {
+                MapError::Format(crate::terr!(
+                    "e-interference-map-cli-dataset-custom-needs",
+                    n = n
+                ))
+            })
         };
         api::DatasetSpec::Custom {
             licence: need("--licence")?,
@@ -137,19 +151,28 @@ fn write_days(
         .map(|d| out.join(file_name(d, &ds.key)))
         .collect();
     if let Some(existing) = targets.iter().find(|p| p.exists()) {
-        return Err(MapError::Io(format!(
-            "{} already exists; Kshana does not overwrite maps. Remove it or choose another --out directory",
-            existing.display()
+        return Err(MapError::Io(crate::terr!(
+            "e-interference-map-cli-already-exists-kshana-does-not",
+            existing = existing.display()
         )));
     }
     if grid.cell_deg != PREREGISTERED_CELL_DEG {
         eprintln!(
-            "note: --cell-deg {} is not the pre-registered cell size ({PREREGISTERED_CELL_DEG}); the maps say so",
-            grid.cell_deg
+            "{}",
+            crate::t!(
+                "interference-map-cli-note-cell-deg-is-not",
+                cell_deg = grid.cell_deg,
+                PREREGISTERED_CELL_DEG = PREREGISTERED_CELL_DEG
+            )
         );
     }
-    std::fs::create_dir_all(out)
-        .map_err(|e| MapError::Io(format!("cannot create {}: {e}", out.display())))?;
+    std::fs::create_dir_all(out).map_err(|e| {
+        MapError::Io(crate::terr!(
+            "e-interference-map-cli-cannot-create",
+            out = out.display(),
+            e = e
+        ))
+    })?;
     for (d, path) in days.iter().zip(&targets) {
         let doc = to_geojson(d, grid, method.clone(), ds);
         let text =
@@ -158,19 +181,36 @@ fn write_days(
             .write(true)
             .create_new(true)
             .open(path)
-            .map_err(|e| MapError::Io(format!("cannot create {}: {e}", path.display())))?;
-        f.write_all((text + "\n").as_bytes())
-            .map_err(|e| MapError::Io(format!("cannot write {}: {e}", path.display())))?;
+            .map_err(|e| {
+                MapError::Io(crate::terr!(
+                    "e-evidence-cli-cannot-create",
+                    path = path.display(),
+                    e = e
+                ))
+            })?;
+        f.write_all((text + "\n").as_bytes()).map_err(|e| {
+            MapError::Io(crate::terr!(
+                "e-evidence-cli-cannot-write",
+                path = path.display(),
+                e = e
+            ))
+        })?;
         let n_deg = d.cells.iter().filter(|c| c.degraded).count();
         println!(
-            "wrote {}: {} cells published, {} flagged",
-            path.display(),
-            d.cells.len(),
-            n_deg
+            "{}",
+            crate::t!(
+                "interference-map-cli-wrote-cells-published-flagged",
+                path = path.display(),
+                cells = d.cells.len(),
+                n_deg = n_deg
+            )
         );
     }
     if days.is_empty() {
-        println!("no usable rows: nothing written");
+        println!(
+            "{}",
+            crate::t!("interference-map-cli-no-usable-rows-nothing-written")
+        );
     }
     Ok(())
 }
@@ -275,7 +315,10 @@ fn run_map_inner(args: &[String]) -> Result<(), MapError> {
                 .ok_or_else(|| MapError::Format("--out is required".into()))?;
             fetch_land(out)
         }
-        other => Err(MapError::Format(format!("unknown subcommand `{other}`"))),
+        other => Err(MapError::Format(crate::terr!(
+            "e-interference-map-cli-unknown-subcommand",
+            other = other
+        ))),
     }
 }
 
@@ -299,14 +342,23 @@ pub(super) fn positional<'a>(args: &'a [String], valued: &[&str]) -> Option<&'a 
 pub(super) fn file_sha256(path: &Path) -> Result<String, MapError> {
     use sha2::{Digest, Sha256};
     use std::io::Read;
-    let mut f = std::fs::File::open(path)
-        .map_err(|e| MapError::Io(format!("cannot read {}: {e}", path.display())))?;
+    let mut f = std::fs::File::open(path).map_err(|e| {
+        MapError::Io(crate::terr!(
+            "e-interference-map-cli-cannot-read",
+            path = path.display(),
+            e = e
+        ))
+    })?;
     let mut h = Sha256::new();
     let mut buf = [0u8; 64 * 1024];
     loop {
-        let n = f
-            .read(&mut buf)
-            .map_err(|e| MapError::Io(format!("cannot read {}: {e}", path.display())))?;
+        let n = f.read(&mut buf).map_err(|e| {
+            MapError::Io(crate::terr!(
+                "e-interference-map-cli-cannot-read",
+                path = path.display(),
+                e = e
+            ))
+        })?;
         if n == 0 {
             break;
         }
@@ -320,12 +372,19 @@ fn verify_and_keep(part: &Path, dest: &Path, expected: &str) -> Result<(), MapEr
     let got = file_sha256(part)?;
     if got != expected {
         let _ = std::fs::remove_file(part);
-        return Err(MapError::Io(format!(
-            "the downloaded file's SHA-256 ({got}) does not match the pinned value ({expected}); it was discarded"
+        return Err(MapError::Io(crate::terr!(
+            "e-interference-map-cli-the-downloaded-file-sha-256",
+            got = got,
+            expected = expected
         )));
     }
-    std::fs::rename(part, dest)
-        .map_err(|e| MapError::Io(format!("cannot write {}: {e}", dest.display())))
+    std::fs::rename(part, dest).map_err(|e| {
+        MapError::Io(crate::terr!(
+            "e-interference-map-cli-cannot-write",
+            dest = dest.display(),
+            e = e
+        ))
+    })
 }
 
 /// Opt-in download of Natural Earth land polygons with the system `curl`, run with an
@@ -337,17 +396,30 @@ fn fetch_land(out: &str) -> Result<(), MapError> {
     part_name.push(".part");
     let part = PathBuf::from(part_name);
     let status = std::process::Command::new("curl")
-        .args(["--fail", "--silent", "--show-error", "--location", "--proto", "=https", "--output"])
+        .args([
+            "--fail",
+            "--silent",
+            "--show-error",
+            "--location",
+            "--proto",
+            "=https",
+            "--output",
+        ])
         .arg(&part)
         .arg(NATURAL_EARTH_LAND_URL)
         .status()
         .map_err(|e| {
             if e.kind() == std::io::ErrorKind::NotFound {
-                MapError::Io(format!(
-                    "curl was not found on PATH. Install curl, or download {NATURAL_EARTH_LAND_URL} yourself and check that its SHA-256 is {NATURAL_EARTH_LAND_SHA256}"
+                MapError::Io(crate::terr!(
+                    "e-interference-map-cli-curl-was-not-found-on",
+                    NATURAL_EARTH_LAND_URL = NATURAL_EARTH_LAND_URL,
+                    NATURAL_EARTH_LAND_SHA256 = NATURAL_EARTH_LAND_SHA256
                 ))
             } else {
-                MapError::Io(format!("cannot run curl: {e}"))
+                MapError::Io(crate::terr!(
+                    "e-interference-map-cli-cannot-run-curl",
+                    e = e
+                ))
             }
         })?;
     if !status.success() {
@@ -357,7 +429,13 @@ fn fetch_land(out: &str) -> Result<(), MapError> {
         ));
     }
     verify_and_keep(&part, &dest, NATURAL_EARTH_LAND_SHA256)?;
-    println!("wrote {out}: Natural Earth land polygons, SHA-256 verified (public domain, https://www.naturalearthdata.com/about/terms-of-use/)");
+    println!(
+        "{}",
+        crate::t!(
+            "interference-map-cli-wrote-natural-earth-land-polygons",
+            out = out
+        )
+    );
     Ok(())
 }
 
@@ -366,8 +444,13 @@ fn read_csv_file(
     read: impl FnOnce(std::io::BufReader<std::fs::File>) -> Result<(), MapError>,
     path: &Path,
 ) -> Result<(), MapError> {
-    let f = std::fs::File::open(path)
-        .map_err(|e| MapError::Io(format!("cannot read {}: {e}", path.display())))?;
+    let f = std::fs::File::open(path).map_err(|e| {
+        MapError::Io(crate::terr!(
+            "e-interference-map-cli-cannot-read",
+            path = path.display(),
+            e = e
+        ))
+    })?;
     read(std::io::BufReader::new(f))
 }
 
@@ -381,9 +464,9 @@ pub(super) fn read_adsb_input(agg: &mut AdsbAggregator, path: &Path) -> Result<(
         collect_trace_files(path, &mut files)?;
         files.sort();
         if files.is_empty() {
-            return Err(MapError::Format(format!(
-                "no trace_full_* files under {}",
-                path.display()
+            return Err(MapError::Format(crate::terr!(
+                "e-interference-map-cli-no-trace-full-files-under",
+                path = path.display()
             )));
         }
         for f in files {
@@ -397,8 +480,13 @@ pub(super) fn read_adsb_input(agg: &mut AdsbAggregator, path: &Path) -> Result<(
     {
         return read_csv_file(|r| agg.read_csv_reader(r), path);
     }
-    let bytes = std::fs::read(path)
-        .map_err(|e| MapError::Io(format!("cannot read {}: {e}", path.display())))?;
+    let bytes = std::fs::read(path).map_err(|e| {
+        MapError::Io(crate::terr!(
+            "e-interference-map-cli-cannot-read",
+            path = path.display(),
+            e = e
+        ))
+    })?;
     agg.read_readsb_trace(&bytes, MAX_TRACE_BYTES)
 }
 
@@ -412,8 +500,13 @@ fn read_trace_file(agg: &mut AdsbAggregator, f: &Path) {
 }
 
 fn collect_trace_files(dir: &Path, out: &mut Vec<PathBuf>) -> Result<(), MapError> {
-    let rd = std::fs::read_dir(dir)
-        .map_err(|e| MapError::Io(format!("cannot read {}: {e}", dir.display())))?;
+    let rd = std::fs::read_dir(dir).map_err(|e| {
+        MapError::Io(crate::terr!(
+            "e-evidence-cli-cannot-read",
+            dir = dir.display(),
+            e = e
+        ))
+    })?;
     for e in rd.filter_map(Result::ok) {
         let p = e.path();
         // `file_type` does not follow symlinks, so a link cannot lead the walk out of the tree.
@@ -442,7 +535,13 @@ fn collect_map_files(spec: &str) -> Result<Vec<PathBuf>, MapError> {
     let p = Path::new(spec);
     if p.is_dir() {
         let mut v: Vec<PathBuf> = std::fs::read_dir(p)
-            .map_err(|e| MapError::Io(format!("cannot read {spec}: {e}")))?
+            .map_err(|e| {
+                MapError::Io(crate::terr!(
+                    "e-interference-map-cli-cannot-read-2",
+                    spec = spec,
+                    e = e
+                ))
+            })?
             .filter_map(Result::ok)
             .map(|e| e.path())
             .filter(|f| f.extension().is_some_and(|x| x == "geojson"))
@@ -475,7 +574,12 @@ fn run_route_inner(args: &[String]) -> Result<(), MapError> {
     let (from, to) = (flag_value(args, "--from")?, flag_value(args, "--to")?);
     let day = |s: Option<&str>, n: &str| -> Result<Option<i64>, MapError> {
         s.map(|s| {
-            parse_day(s).ok_or_else(|| MapError::Format(format!("{n} is not a YYYY-MM-DD date")))
+            parse_day(s).ok_or_else(|| {
+                MapError::Format(crate::terr!(
+                    "e-interference-map-cli-is-not-yyyy-mm-dd",
+                    n = n
+                ))
+            })
         })
         .transpose()
     };
@@ -485,8 +589,12 @@ fn run_route_inner(args: &[String]) -> Result<(), MapError> {
         for f in collect_map_files(spec)? {
             let m = route::load_map(&read(&f.to_string_lossy())?)
                 .map_err(|e| MapError::Format(format!("{}: {e}", f.display())))?;
-            let d = parse_day(&m.date)
-                .ok_or_else(|| MapError::Format(format!("{}: bad map date", f.display())))?;
+            let d = parse_day(&m.date).ok_or_else(|| {
+                MapError::Format(crate::terr!(
+                    "e-interference-map-cli-bad-map-date",
+                    f = f.display()
+                ))
+            })?;
             if from_d.is_none_or(|x| d >= x) && to_d.is_none_or(|x| d <= x) {
                 loaded.push(m);
             }
@@ -506,13 +614,24 @@ fn run_route_inner(args: &[String]) -> Result<(), MapError> {
     let text =
         serde_json::to_string_pretty(&report).map_err(|e| MapError::Format(e.to_string()))?;
     if let Some(out) = flag_value(args, "--out")? {
-        std::fs::write(out, text.clone() + "\n")
-            .map_err(|e| MapError::Io(format!("cannot write {out}: {e}")))?;
+        std::fs::write(out, text.clone() + "\n").map_err(|e| {
+            MapError::Io(crate::terr!(
+                "e-interference-map-cli-cannot-write-2",
+                out = out,
+                e = e
+            ))
+        })?;
     }
     if args.iter().any(|a| a == "--json") {
         println!("{text}");
     } else {
-        println!("route length {:.1} km", rows[0].0.route_km);
+        println!(
+            "{}",
+            crate::t!(
+                "interference-map-cli-route-length-km",
+                rows = crate::i18n::localise_decimal(format!("{:.1}", rows[0].0.route_km))
+            )
+        );
         println!(
             "{:<11} {:<5} {:>9} {:>12} {:>11} {:>13}",
             "date", "src", "degraded", "not degraded", "unassessed", "not observed"
@@ -528,7 +647,10 @@ fn run_route_inner(args: &[String]) -> Result<(), MapError> {
                 e.share_not_observed * 100.0
             );
         }
-        println!("Caveats: a degraded cell does not identify interference as the cause; cells not observed are not evidence of a clear route; this is not a forecast.");
+        println!(
+            "{}",
+            crate::t!("interference-map-cli-caveats-degraded-cell-does-not")
+        );
     }
     Ok(())
 }

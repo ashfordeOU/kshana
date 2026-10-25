@@ -110,7 +110,9 @@ impl Args {
                 a.switches.push(s.to_string());
                 i += 1;
             } else if s.starts_with("--") {
-                let v = args.get(i + 1).ok_or(format!("{s} needs a value"))?;
+                let v = args
+                    .get(i + 1)
+                    .ok_or(crate::t!("iq-cli-needs-value", s = s))?;
                 a.opts.insert(s.to_string(), v.clone());
                 i += 2;
             } else {
@@ -126,8 +128,9 @@ impl Args {
         self.opts
             .get(k)
             .map(|v| {
-                v.parse::<T>()
-                    .map_err(|_| format!("{k}: cannot parse {v:?}"))
+                v.parse::<T>().map_err(|_| {
+                    crate::terr!("e-iq-cli-cannot-parse", k = k, v = format!("{:?}", v))
+                })
             })
             .transpose()
     }
@@ -145,9 +148,11 @@ impl Args {
     /// Require exactly `n` positional arguments.
     pub(crate) fn need_pos(&self, n: usize, cmd: &str) -> Result<(), Fail> {
         if self.pos.len() != n {
-            return Err(Fail::Usage(format!(
-                "iq {cmd} takes {n} positional argument(s), got {}",
-                self.pos.len()
+            return Err(Fail::Usage(crate::t!(
+                "iq-cli-iq-takes-positional-argument-got",
+                cmd = cmd,
+                n = n,
+                pos = self.pos.len()
             )));
         }
         Ok(())
@@ -160,9 +165,9 @@ impl Args {
             Some(v) => v
                 .split(',')
                 .map(|p| {
-                    p.trim()
-                        .parse::<T>()
-                        .map_err(|_| format!("{k}: cannot parse {p:?}"))
+                    p.trim().parse::<T>().map_err(|_| {
+                        crate::terr!("e-iq-cli-cannot-parse-2", k = k, p = format!("{:?}", p))
+                    })
                 })
                 .collect(),
         }
@@ -216,9 +221,9 @@ pub fn execute(args: &[String]) -> Result<String, CommandError> {
         Some("monitor") => monitor::run(rest),
         Some("campaign") => campaign::run(rest),
         Some("conditions") => campaign::conditions(rest),
-        Some(other) => Err(Fail::Usage(format!(
-            "unknown iq processing command {other:?}; expected scene, acquire, track, sweep, \
-             labfit, frontend, monitor, campaign or conditions"
+        Some(other) => Err(Fail::Usage(crate::t!(
+            "iq-cli-unknown-iq-processing-command-expected",
+            other = format!("{:?}", other)
         ))),
         None => Err(Fail::Usage("no iq processing command given".into())),
     };

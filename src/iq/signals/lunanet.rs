@@ -186,7 +186,7 @@ pub fn legendre_bits(n: usize) -> Vec<u8> {
 /// the document marks {LSIS-TBC}.
 pub fn afs_i(prn: u16) -> Result<SignalCode, SignalError> {
     Ok(SignalCode::new(
-        format!("LunaNet AFS-I PRN {prn}"),
+        crate::t!("iq-signals-lunanet-lunanet-afs-prn", prn = prn),
         AFS_I_CHIP_RATE_HZ,
         AFS_HZ,
         bipolar(&afs_i_bits(prn)?),
@@ -218,7 +218,12 @@ pub fn afs_q_with(
     let (overlay, name) = match tertiary_prn {
         Some(t) => (
             afs_q_overlay_bits(secondary, t)?,
-            format!("LunaNet AFS-Q primary {primary_prn} S{secondary} tertiary {t}"),
+            crate::t!(
+                "iq-signals-lunanet-lunanet-afs-primary-tertiary",
+                primary_prn = primary_prn,
+                secondary = secondary,
+                t = t
+            ),
         ),
         None => (
             SECONDARY
@@ -228,7 +233,11 @@ pub fn afs_q_with(
                     prn: secondary as u16,
                 })?
                 .to_vec(),
-            format!("LunaNet AFS-Q primary {primary_prn} S{secondary} (tertiary omitted)"),
+            crate::t!(
+                "iq-signals-lunanet-lunanet-afs-primary-tertiary-omitted",
+                primary_prn = primary_prn,
+                secondary = secondary
+            ),
         ),
     };
     Ok(SignalCode::new(

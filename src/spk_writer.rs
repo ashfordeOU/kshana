@@ -80,7 +80,10 @@ pub fn frame_code(name: &str) -> Result<i32, String> {
         "ECLIPJ2000" => Ok(17),
         "B1950" => Ok(2),
         "FK4" => Ok(3),
-        other => Err(format!("frame {other:?} has no supported NAIF code")),
+        other => Err(crate::terr!(
+            "e-spk-writer-frame-has-no-supported-naif",
+            other = format!("{:?}", other)
+        )),
     }
 }
 
@@ -136,17 +139,22 @@ impl SpkSegment {
         let n = self.epochs.len();
         let name = self.name.trim_end_matches(' ');
         if name.len() > 40 {
-            return Err(format!("segment name longer than 40 characters: {name:?}"));
+            return Err(crate::terr!(
+                "e-spk-writer-segment-name-longer-than-40",
+                name = format!("{:?}", name)
+            ));
         }
         if name.bytes().any(|b| !(32..=126).contains(&b)) {
-            return Err(format!(
-                "segment name has non-printing characters: {name:?}"
+            return Err(crate::terr!(
+                "e-spk-writer-segment-name-has-non-printing",
+                name = format!("{:?}", name)
             ));
         }
         if self.target == 0 || self.target == self.centre {
-            return Err(format!(
-                "bad target {} for centre {}",
-                self.target, self.centre
+            return Err(crate::terr!(
+                "e-spk-writer-bad-target-for-centre",
+                target = self.target,
+                centre = self.centre
             ));
         }
         match self.kind {
@@ -155,32 +163,45 @@ impl SpkSegment {
             _ => {}
         }
         if !(1..=27).contains(&self.degree) {
-            return Err(format!("degree {} outside 1..=27", self.degree));
+            return Err(crate::terr!(
+                "e-spk-writer-degree-outside-27",
+                degree = self.degree
+            ));
         }
         if self.kind == SpkType::Hermite13 && self.degree % 2 == 0 {
-            return Err(format!("type 13 degree {} is not odd", self.degree));
+            return Err(crate::terr!(
+                "e-spk-writer-type-13-degree-is-not",
+                degree = self.degree
+            ));
         }
         if self.states.len() != n {
-            return Err(format!("{} states for {n} epochs", self.states.len()));
+            return Err(crate::terr!(
+                "e-spk-writer-states-for-epochs",
+                states = self.states.len(),
+                n = n
+            ));
         }
         if n < self.window() {
-            return Err(format!(
-                "{n} states; degree {} needs {}",
-                self.degree,
-                self.window()
+            return Err(crate::terr!(
+                "e-spk-writer-states-degree-needs",
+                n = n,
+                degree = self.degree,
+                value = self.window()
             ));
         }
         if self.start >= self.end {
-            return Err("descriptor start is not before its end".into());
+            return Err(crate::terr!("e-spk-writer-descriptor-start-is-not-before"));
         }
         if self.epochs.windows(2).any(|w| w[1] <= w[0]) {
-            return Err("epochs are not strictly increasing".into());
+            return Err(crate::terr!(
+                "e-spk-writer-epochs-are-not-strictly-increasing"
+            ));
         }
         if self.epochs[0] > self.start || self.epochs[n - 1] < self.end {
-            return Err("the epochs do not cover the descriptor interval".into());
+            return Err(crate::terr!("e-spk-writer-the-epochs-do-not-cover"));
         }
         if !self.records.is_empty() {
-            return Err("a type 9 or 13 segment carries states, not records".into());
+            return Err(crate::terr!("e-spk-writer-type-or-13-segment-carries"));
         }
         Ok(())
     }
@@ -215,37 +236,46 @@ impl SpkSegment {
     fn validate_type3(&self) -> Result<(), String> {
         let n = self.records.len();
         if n == 0 {
-            return Err("a type 3 segment needs at least one record".into());
+            return Err(crate::terr!("e-spk-writer-type-segment-needs-at-least"));
         }
         if self.degree > 27 {
-            return Err(format!("type 3 degree {} outside 0..=27", self.degree));
+            return Err(crate::terr!(
+                "e-spk-writer-type-degree-outside-27",
+                degree = self.degree
+            ));
         }
         if self.intlen.is_nan() || self.intlen <= 0.0 {
-            return Err(format!(
-                "type 3 interval length {} is not positive",
-                self.intlen
+            return Err(crate::terr!(
+                "e-spk-writer-type-interval-length-is-not",
+                intlen = self.intlen
             ));
         }
         let ncof = 6 * (self.degree + 1);
         if let Some(i) = self.records.iter().position(|r| r.len() != ncof) {
-            return Err(format!(
-                "type 3 record {i} has {} coefficients, expected {ncof}",
-                self.records[i].len()
+            return Err(crate::terr!(
+                "e-spk-writer-type-record-has-coefficients-expected",
+                i = i,
+                value = self.records[i].len(),
+                ncof = ncof
             ));
         }
         if self.start > self.end {
-            return Err("descriptor start is after its end".into());
+            return Err(crate::terr!("e-spk-writer-descriptor-start-is-after-its"));
         }
         let tol = self.start.abs().max(self.end.abs()) * 1e-13;
         if self.start < self.init - tol {
-            return Err("descriptor starts before the first record".into());
+            return Err(crate::terr!(
+                "e-spk-writer-descriptor-starts-before-the-first"
+            ));
         }
         let ltime = self.init + n as f64 * self.intlen;
         if self.end > ltime + tol {
-            return Err("descriptor ends after the last record".into());
+            return Err(crate::terr!("e-spk-writer-descriptor-ends-after-the-last"));
         }
         if !self.epochs.is_empty() || !self.states.is_empty() {
-            return Err("a type 3 segment carries records, not epochs or states".into());
+            return Err(crate::terr!(
+                "e-spk-writer-type-segment-carries-records-not"
+            ));
         }
         Ok(())
     }
@@ -275,43 +305,53 @@ impl SpkSegment {
     fn validate_type21(&self) -> Result<(), String> {
         let n = self.records.len();
         if n == 0 {
-            return Err("a type 21 segment needs at least one difference line".into());
+            return Err(crate::terr!("e-spk-writer-type-21-segment-needs-at"));
         }
         let dlsize = self.records[0].len();
         if !(71..=4 * MAXTRM + 11).contains(&dlsize) || (dlsize - 11) % 4 != 0 {
-            return Err(format!(
-                "difference line size {dlsize} is not 4 MAXDIM + 11 with MAXDIM in 15..=25"
+            return Err(crate::terr!(
+                "e-spk-writer-difference-line-size-is-not",
+                dlsize = dlsize
             ));
         }
         if self.records.iter().any(|r| r.len() != dlsize) {
-            return Err("difference lines of different sizes".into());
+            return Err(crate::terr!(
+                "e-spk-writer-difference-lines-of-different-sizes"
+            ));
         }
         if self.epochs.len() != n {
-            return Err(format!(
-                "{} epochs for {n} difference lines",
-                self.epochs.len()
+            return Err(crate::terr!(
+                "e-spk-writer-epochs-for-difference-lines",
+                epochs = self.epochs.len(),
+                n = n
             ));
         }
         if self.start > self.end {
-            return Err("descriptor start is after its end".into());
+            return Err(crate::terr!("e-spk-writer-descriptor-start-is-after-its"));
         }
         if self.epochs.windows(2).any(|w| w[1] <= w[0]) {
-            return Err("difference line epochs are not strictly increasing".into());
+            return Err(crate::terr!("e-spk-writer-difference-line-epochs-are-not"));
         }
         if self.epochs[n - 1] < self.end {
-            return Err("the last difference line ends before the descriptor".into());
+            return Err(crate::terr!("e-spk-writer-the-last-difference-line-ends"));
         }
         let maxdim = (dlsize - 11) / 4;
         for (i, r) in self.records.iter().enumerate() {
             let kqmax1 = r[4 * maxdim + 7].round() as i64;
             for j in 1..(kqmax1 - 1).max(1) as usize {
                 if r.get(j).copied() == Some(0.0) {
-                    return Err(format!("zero step size {j} in difference line {i}"));
+                    return Err(crate::terr!(
+                        "e-spk-writer-zero-step-size-in-difference",
+                        j = j,
+                        i = i
+                    ));
                 }
             }
         }
         if !self.states.is_empty() {
-            return Err("a type 21 segment carries difference lines, not states".into());
+            return Err(crate::terr!(
+                "e-spk-writer-type-21-segment-carries-difference"
+            ));
         }
         Ok(())
     }
@@ -387,10 +427,11 @@ impl SpkFile {
     /// writer would then move the arrays, which this writer does not do).
     pub fn to_bytes(&self) -> Result<Vec<u8>, String> {
         if self.segments.is_empty() {
-            return Err("an SPK needs at least one segment".into());
+            return Err(crate::terr!("e-spk-writer-an-spk-needs-at-least"));
         }
         for (i, s) in self.segments.iter().enumerate() {
-            s.validate().map_err(|e| format!("segment {i}: {e}"))?;
+            s.validate()
+                .map_err(|e| crate::terr!("e-spk-writer-segment", i = i, e = e))?;
         }
         let resv = if self.ncomch > 0 {
             (self.ncomch - 1) / NCHAR + 1
@@ -503,14 +544,18 @@ impl SpkFile {
             .collect();
         for l in &lines {
             if l.bytes().any(|b| !(32..=126).contains(&b)) {
-                return Err(format!("comment line has non-printing characters: {l:?}"));
+                return Err(crate::terr!(
+                    "e-spk-writer-comment-line-has-non-printing",
+                    l = format!("{:?}", l)
+                ));
             }
         }
         let nchars: usize = lines.iter().map(|l| l.len()).sum::<usize>() + lines.len() + 1;
         if nchars > resv * NCHAR {
-            return Err(format!(
-                "comments need {nchars} characters; {} are reserved (raise ncomch)",
-                resv * NCHAR
+            return Err(crate::terr!(
+                "e-spk-writer-comments-need-characters-are-reserved",
+                nchars = nchars,
+                v1 = resv * NCHAR
             ));
         }
         let mut rec = 2;
@@ -621,8 +666,10 @@ fn spke21(et: f64, maxdim: usize, line: &[f64]) -> Result<[f64; 6], String> {
         line[4 * maxdim + 10] as i64,
     ];
     if kqmax1 < 2 || kqmax1 as usize > maxdim + 2 || kq.iter().any(|&k| k < 0 || k >= kqmax1) {
-        return Err(format!(
-            "difference line orders {kqmax1} {kq:?} out of range"
+        return Err(crate::terr!(
+            "e-spk-writer-difference-line-orders-out-of",
+            kqmax1 = kqmax1,
+            kq = format!("{:?}", kq)
         ));
     }
     let kqmax1 = kqmax1 as usize;
@@ -636,7 +683,7 @@ fn spke21(et: f64, maxdim: usize, line: &[f64]) -> Result<[f64; 6], String> {
     let mut ks = kqmax1 - 1;
     for j in 1..=mq2 {
         if g[j - 1] == 0.0 {
-            return Err(format!("zero step size at index {j}"));
+            return Err(crate::terr!("e-spk-writer-zero-step-size-at-index", j = j));
         }
         fc[j] = tp / g[j - 1];
         wc[j - 1] = delta / g[j - 1];
@@ -769,9 +816,11 @@ impl ReadSegment {
     /// State (km, km/s) of the target relative to the centre, in the segment frame, at `et`.
     pub fn eval(&self, et: f64) -> Result<[f64; 6], String> {
         if et < self.start || et > self.end {
-            return Err(format!(
-                "ET {et} outside the segment [{}, {}]",
-                self.start, self.end
+            return Err(crate::terr!(
+                "e-spk-writer-et-outside-the-segment",
+                et = et,
+                start = self.start,
+                end = self.end
             ));
         }
         match self.kind {
@@ -852,12 +901,15 @@ impl InterpolatedSpk {
     pub fn from_bytes(bytes: Vec<u8>) -> Result<Self, String> {
         let daf = DafFile::from_bytes(bytes)?;
         if daf.id_word != "DAF/SPK" {
-            return Err(format!("not an SPK: {}", daf.id_word));
+            return Err(crate::terr!(
+                "e-naif-kernel-not-an-spk",
+                id_word = daf.id_word
+            ));
         }
         let mut segments = Vec::new();
         for s in daf.summaries()? {
             if s.doubles.len() != 2 || s.ints.len() != 6 {
-                return Err("SPK summary is not ND=2, NI=6".into());
+                return Err(crate::terr!("e-naif-kernel-spk-summary-is-not-nd"));
             }
             let kind = match s.ints[3] {
                 9 => SpkType::Lagrange9,
@@ -888,13 +940,19 @@ impl InterpolatedSpk {
             };
             if kind == SpkType::Chebyshev3 {
                 if nw < 4 {
-                    return Err(format!("type 3 segment {:?} too short", s.name));
+                    return Err(crate::terr!(
+                        "e-spk-writer-type-segment-too-short",
+                        name = format!("{:?}", s.name)
+                    ));
                 }
                 let (rsize, n) = (w[nw - 2].round() as usize, w[nw - 1].round() as usize);
                 if n == 0 || rsize < 8 || (rsize - 2) % 6 != 0 || n * rsize + 4 != nw {
-                    return Err(format!(
-                        "type 3 segment {:?}: {nw} words for N = {n}, RSIZE = {rsize}",
-                        s.name
+                    return Err(crate::terr!(
+                        "e-spk-writer-type-segment-words-for-rsize",
+                        name = format!("{:?}", s.name),
+                        nw = nw,
+                        n = n,
+                        rsize = rsize
                     ));
                 }
                 seg.init = w[nw - 4];
@@ -905,14 +963,20 @@ impl InterpolatedSpk {
             }
             if kind == SpkType::DiffLines21 {
                 if nw < 2 {
-                    return Err(format!("type 21 segment {:?} too short", s.name));
+                    return Err(crate::terr!(
+                        "e-spk-writer-type-21-segment-too-short",
+                        name = format!("{:?}", s.name)
+                    ));
                 }
                 let (maxdim, n) = (w[nw - 2].round() as usize, w[nw - 1].round() as usize);
                 let dlsize = 4 * maxdim + 11;
                 if n == 0 || maxdim > MAXTRM || n * dlsize + n + n / 100 + 2 != nw {
-                    return Err(format!(
-                        "type 21 segment {:?}: {nw} words for N = {n}, MAXDIM = {maxdim}",
-                        s.name
+                    return Err(crate::terr!(
+                        "e-spk-writer-type-21-segment-words-for",
+                        name = format!("{:?}", s.name),
+                        nw = nw,
+                        n = n,
+                        maxdim = maxdim
                     ));
                 }
                 seg.maxdim = maxdim;
@@ -925,13 +989,21 @@ impl InterpolatedSpk {
                 continue;
             }
             if nw < 9 {
-                return Err(format!("segment {:?} too short", s.name));
+                return Err(crate::terr!(
+                    "e-spk-writer-segment-too-short",
+                    name = format!("{:?}", s.name)
+                ));
             }
             let n = w[nw - 1].round() as usize;
             let d = w[nw - 2].round() as usize;
             let ndir = n.saturating_sub(1) / 100;
             if n == 0 || 7 * n + ndir + 2 != nw {
-                return Err(format!("segment {:?}: {nw} words for N = {n}", s.name));
+                return Err(crate::terr!(
+                    "e-spk-writer-segment-words-for",
+                    name = format!("{:?}", s.name),
+                    nw = nw,
+                    n = n
+                ));
             }
             let states = (0..n)
                 .map(|i| w[6 * i..6 * i + 6].try_into().expect("6 words"))
@@ -967,12 +1039,16 @@ impl InterpolatedSpk {
             let mut b = b0;
             while let Some(s) = self.find(b, et) {
                 if s.frame != frame {
-                    return Err(format!("segment {:?} is in frame {}", s.name, s.frame));
+                    return Err(crate::terr!(
+                        "e-spk-writer-segment-is-in-frame",
+                        name = format!("{:?}", s.name),
+                        frame = s.frame
+                    ));
                 }
                 out.push((b, s.eval(et)?));
                 b = s.centre;
                 if out.len() > 50 {
-                    return Err("SPK centre chain does not terminate".into());
+                    return Err(crate::terr!("e-spk-writer-spk-centre-chain-does-not"));
                 }
             }
             out.push((b, [0.0; 6]));
@@ -984,7 +1060,14 @@ impl InterpolatedSpk {
             .iter()
             .map(|x| x.0)
             .find(|b| co.iter().any(|y| y.0 == *b))
-            .ok_or_else(|| format!("no SPK chain connects {target} and {observer} at ET {et}"))?;
+            .ok_or_else(|| {
+                crate::terr!(
+                    "e-spk-writer-no-spk-chain-connects-and",
+                    target = target,
+                    observer = observer,
+                    et = et
+                )
+            })?;
         let mut s = [0.0; 6];
         for (b, st) in &ct {
             if *b == common {
@@ -1015,14 +1098,17 @@ pub fn et_from_label(label: &str, time_system: &str) -> Result<f64, String> {
     let s = label.trim().trim_end_matches('Z');
     let (date, time) = s
         .split_once('T')
-        .ok_or_else(|| format!("epoch {s:?} has no 'T'"))?;
+        .ok_or_else(|| crate::terr!("e-adm-epoch-has-no", s = format!("{:?}", s)))?;
     let d: Vec<i64> = date
         .split('-')
         .map(|x| x.parse::<i64>().map_err(|e| format!("{s}: {e}")))
         .collect::<Result<_, _>>()?;
     let t: Vec<&str> = time.split(':').collect();
     if d.len() != 3 || t.len() != 3 {
-        return Err(format!("epoch {s:?} is not YYYY-MM-DDTHH:MM:SS"));
+        return Err(crate::terr!(
+            "e-spk-writer-epoch-is-not-yyyy-mm",
+            s = format!("{:?}", s)
+        ));
     }
     let h: i64 = t[0].parse().map_err(|e| format!("{s}: {e}"))?;
     let mi: i64 = t[1].parse().map_err(|e| format!("{s}: {e}"))?;
@@ -1052,7 +1138,10 @@ pub fn et_from_label(label: &str, time_system: &str) -> Result<f64, String> {
             let e = m + 1.671e-2 * m.psin();
             Ok(whole + sec + (dta + 32.184 + 1.657e-3 * e.psin()))
         }
-        other => Err(format!("time system {other:?} not supported (UTC or TDB)")),
+        other => Err(crate::terr!(
+            "e-spk-writer-time-system-not-supported-utc",
+            other = format!("{:?}", other)
+        )),
     }
 }
 
@@ -1065,7 +1154,10 @@ pub fn centre_code(name: &str) -> Result<i32, String> {
         "EARTH BARYCENTER" | "EARTH-MOON BARYCENTER" | "EMB" => Ok(3),
         "SOLAR SYSTEM BARYCENTER" | "SSB" => Ok(0),
         "MARS" => Ok(499),
-        other => Err(format!("centre {other:?} has no supported NAIF id")),
+        other => Err(crate::terr!(
+            "e-spk-writer-centre-has-no-supported-naif",
+            other = format!("{:?}", other)
+        )),
     }
 }
 
@@ -1096,7 +1188,10 @@ pub fn oem_to_spk_segments(
     let finish = |seg: Option<SpkSegment>, out: &mut Vec<SpkSegment>| -> Result<(), String> {
         if let Some(mut s) = seg {
             let (Some(&a), Some(&b)) = (s.epochs.first(), s.epochs.last()) else {
-                return Err(format!("OEM segment {:?} has no data lines", s.name));
+                return Err(crate::terr!(
+                    "e-spk-writer-oem-segment-has-no-data",
+                    name = format!("{:?}", s.name)
+                ));
             };
             s.start = a;
             s.end = b;
@@ -1121,11 +1216,11 @@ pub fn oem_to_spk_segments(
                 meta.iter()
                     .find(|(kk, _)| kk == k)
                     .map(|(_, v)| v.clone())
-                    .ok_or_else(|| format!("OEM segment {idx}: no {k}"))
+                    .ok_or_else(|| crate::terr!("e-spk-writer-oem-segment-no", idx = idx, k = k))
             };
-            let ex = exports
-                .get(idx)
-                .ok_or_else(|| format!("no export settings for OEM segment {idx}"))?;
+            let ex = exports.get(idx).ok_or_else(|| {
+                crate::terr!("e-spk-writer-no-export-settings-for-oem", idx = idx)
+            })?;
             time_system = get("TIME_SYSTEM")?;
             cur = Some(SpkSegment {
                 target: ex.target,
@@ -1159,23 +1254,31 @@ pub fn oem_to_spk_segments(
         }
         let f: Vec<&str> = line.split_whitespace().collect();
         if f.len() < 7 {
-            return Err(format!("OEM data line has {} fields: {line}", f.len()));
+            return Err(crate::terr!(
+                "e-spk-writer-oem-data-line-has-fields",
+                f = f.len(),
+                line = line
+            ));
         }
         seg.epochs.push(et_from_label(f[0], &time_system)?);
         let mut st = [0.0; 6];
         for k in 0..6 {
-            st[k] = f[k + 1]
-                .parse()
-                .map_err(|e| format!("OEM value {:?}: {e}", f[k + 1]))?;
+            st[k] = f[k + 1].parse().map_err(|e| {
+                crate::terr!(
+                    "e-spk-writer-oem-value",
+                    f = format!("{:?}", f[k + 1]),
+                    e = e
+                )
+            })?;
         }
         seg.states.push(st);
     }
     finish(cur.take(), &mut out)?;
     if out.len() != exports.len() {
-        return Err(format!(
-            "{} OEM segments for {} export settings",
-            out.len(),
-            exports.len()
+        return Err(crate::terr!(
+            "e-spk-writer-oem-segments-for-export-settings",
+            out = out.len(),
+            exports = exports.len()
         ));
     }
     Ok(out)

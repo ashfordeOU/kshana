@@ -192,7 +192,9 @@ pub fn run(orbit: &OrbitSpec, tech: &TechniqueSpec) -> Result<Value, String> {
         tech.slr_sigma_m.unwrap_or(0.1) * scale,
     ];
     if sig.iter().any(|s| !(*s > 0.0)) {
-        return Err("technique sigmas must be positive".into());
+        return Err(crate::terr!(
+            "e-lunar-infra-tie-technique-sigmas-must-be-positive"
+        ));
     }
     let tie = tech.local_tie_sigma_m.unwrap_or(0.001);
     let mut sweep = tech
@@ -204,7 +206,7 @@ pub fn run(orbit: &OrbitSpec, tech: &TechniqueSpec) -> Result<Value, String> {
         sweep.sort_by(|a, b| a.total_cmp(b));
     }
     if sweep.iter().any(|s| !(*s > 0.0)) {
-        return Err("local-tie sigmas must be positive".into());
+        return Err(crate::terr!("e-lunar-infra-tie-local-tie-sigmas-must-be"));
     }
     let arcs = orbit
         .arcs_days

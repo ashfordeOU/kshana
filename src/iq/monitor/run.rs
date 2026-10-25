@@ -50,9 +50,13 @@ impl MonitorConfig {
     pub fn parse(text: &str) -> Result<Self, IqError> {
         let t = text.trim_start();
         if t.starts_with('{') {
-            serde_json::from_str(t).map_err(|e| IqError::Format(format!("monitor settings: {e}")))
+            serde_json::from_str(t).map_err(|e| {
+                IqError::Format(crate::terr!("e-iq-monitor-run-monitor-settings", e = e))
+            })
         } else {
-            toml::from_str(t).map_err(|e| IqError::Format(format!("monitor settings: {e}")))
+            toml::from_str(t).map_err(|e| {
+                IqError::Format(crate::terr!("e-iq-monitor-run-monitor-settings", e = e))
+            })
         }
     }
 }

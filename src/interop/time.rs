@@ -76,7 +76,13 @@ impl UtcEpoch {
     /// exists in it (leap years included), hour below 24, minute below 60 and seconds in
     /// [0, 60). A leap second (`:60`) is refused because leap seconds are not modelled.
     pub fn parse_iso(text: &str) -> Result<Self, String> {
-        let bad = |why: &str| format!("not a UTC time `YYYY-MM-DDTHH:MM:SS`: {why}: {text:?}");
+        let bad = |why: &str| {
+            crate::t!(
+                "interop-time-not-utc-time-yyyy-mm",
+                why = why,
+                text = format!("{:?}", text)
+            )
+        };
         let t = text.trim().trim_end_matches('Z');
         let (d, tm) = t.split_once('T').ok_or_else(|| bad("no `T`"))?;
         let mut dp = d.split('-');

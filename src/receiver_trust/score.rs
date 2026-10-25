@@ -188,34 +188,42 @@ impl ScoreCfg {
             ("full_ratio", self.full_ratio),
         ] {
             if !v.is_finite() {
-                return Err(format!("score: {name} must be finite (got {v})"));
+                return Err(crate::terr!(
+                    "e-receiver-trust-score-score-must-be-finite-got",
+                    name = name,
+                    v = v
+                ));
             }
         }
         if !(0.0 < self.degraded_min
             && self.degraded_min < self.nominal_min
             && self.nominal_min <= 100.0)
         {
-            return Err(format!(
-                "score: need 0 < degraded_min < nominal_min <= 100 (got {} and {})",
-                self.degraded_min, self.nominal_min
+            return Err(crate::terr!(
+                "e-receiver-trust-score-score-need-degraded-min-nominal",
+                degraded_min = self.degraded_min,
+                nominal_min = self.nominal_min
             ));
         }
         if !(self.evidence_hold_s.is_finite() && self.evidence_hold_s >= 0.0) {
-            return Err(format!(
-                "score: evidence_hold_s must be finite and >= 0 (got {})",
-                self.evidence_hold_s
+            return Err(crate::terr!(
+                "e-receiver-trust-score-score-evidence-hold-must-be",
+                evidence_hold_s = self.evidence_hold_s
             ));
         }
         if !(self.onset_ratio >= 0.0 && self.onset_ratio < self.full_ratio) {
-            return Err(format!(
-                "score: need 0 <= onset_ratio < full_ratio (got {} and {})",
-                self.onset_ratio, self.full_ratio
+            return Err(crate::terr!(
+                "e-receiver-trust-score-score-need-onset-ratio-full",
+                onset_ratio = self.onset_ratio,
+                full_ratio = self.full_ratio
             ));
         }
         for (m, w) in &self.weights {
             if !(w.is_finite() && (0.0..=100.0).contains(w)) {
-                return Err(format!(
-                    "score: weight of {m:?} must be in [0, 100] (got {w})"
+                return Err(crate::terr!(
+                    "e-receiver-trust-score-score-weight-of-must-be",
+                    m = format!("{:?}", m),
+                    w = w
                 ));
             }
         }

@@ -69,14 +69,16 @@ impl Args {
         while i < args.len() {
             let s = args[i].as_str();
             if VALUE_FLAGS.contains(&s) {
-                let v = args.get(i + 1).ok_or(format!("{s} needs a value"))?;
+                let v = args
+                    .get(i + 1)
+                    .ok_or(crate::t!("iq-cli-needs-value", s = s))?;
                 a.opts.insert(s.to_string(), v.clone());
                 i += 2;
             } else if SWITCHES.contains(&s) {
                 a.switches.push(s.to_string());
                 i += 1;
             } else if s.starts_with("--") {
-                return Err(format!("unknown option {s}"));
+                return Err(crate::terr!("e-iq-io-cli-unknown-option", s = s));
             } else {
                 a.pos.push(s.to_string());
                 i += 1;
@@ -89,8 +91,9 @@ impl Args {
         self.opts
             .get(k)
             .map(|v| {
-                v.parse::<T>()
-                    .map_err(|_| format!("{k}: cannot parse {v:?}"))
+                v.parse::<T>().map_err(|_| {
+                    crate::terr!("e-iq-cli-cannot-parse", k = k, v = format!("{:?}", v))
+                })
             })
             .transpose()
     }
@@ -105,7 +108,9 @@ impl Args {
         };
         Ok(Some(RawSidecar {
             format: format.clone(),
-            sample_rate_hz: self.num("--rate")?.ok_or("--format needs --rate")?,
+            sample_rate_hz: self
+                .num("--rate")?
+                .ok_or_else(|| crate::terr!("e-iq-io-cli-format-needs-rate"))?,
             center_hz: self.num("--center")?,
             if_hz: self.num("--if")?,
             header_bytes: self.num("--header")?,
@@ -157,9 +162,11 @@ pub fn run(args: &[String]) -> i32 {
 
 fn need_pos(a: &Args, n: usize, cmd: &str) -> Result<(), Fail> {
     if a.pos.len() != n {
-        return Err(Fail::Usage(format!(
-            "iq {cmd} takes {n} path argument(s), got {}",
-            a.pos.len()
+        return Err(Fail::Usage(crate::t!(
+            "iq-io-cli-iq-takes-path-argument-got",
+            cmd = cmd,
+            n = n,
+            pos = a.pos.len()
         )));
     }
     Ok(())
@@ -244,7 +251,10 @@ fn dispatch(cmd: &str, a: &Args) -> Result<String, Fail> {
             }
             write_output(Path::new(&a.pos[1]), src.as_mut(), to, gain, limit)
         }
-        other => Err(Fail::Usage(format!("unknown iq command {other:?}"))),
+        other => Err(Fail::Usage(crate::t!(
+            "iq-io-cli-unknown-iq-command",
+            other = format!("{:?}", other)
+        ))),
     }
 }
 
@@ -345,16 +355,18 @@ fn write_output(
             files.push(write_sidecar(&data_path, &sc)?);
         }
     }
-    Ok(format!(
-        "wrote {n} samples ({to}, {} Hz) to {}; {} saturated element(s){}",
-        spec.fs_hz,
-        files
+    Ok(crate::t!(
+        "iq-io-cli-wrote-samples-hz-to-saturated",
+        n = n,
+        to = to,
+        fs_hz = spec.fs_hz,
+        files = files
             .iter()
             .map(|p| p.display().to_string())
             .collect::<Vec<_>>()
             .join(", "),
-        w.clipped(),
-        if w.padded_elements() > 0 {
+        w = w.clipped(),
+        v4 = if w.padded_elements() > 0 {
             format!(
                 "; last byte padded with {} packed slot(s)",
                 w.padded_elements()

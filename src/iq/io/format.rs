@@ -404,10 +404,9 @@ impl SampleFormat {
     /// Parse a name written by [`SampleFormat::name`].
     pub fn parse(name: &str) -> Result<Self, IqError> {
         let bad = || {
-            IqError::Format(format!(
-                "unknown sample format {name:?}: expected e.g. ci8, cu8, ci16_le, ci16_be, \
-                 cf32_le, cf32_be, ri16_le, ci12r_le, ci12l_be, cu16_le, cu12r_be, ci4_msb, cu4_lsb, c2tc_msb, \
-                 r2sm_lsb, c2sm_byte, optionally ending _qi for complex"
+            IqError::Format(crate::terr!(
+                "e-iq-io-format-unknown-sample-format-expected-ci8",
+                name = format!("{:?}", name)
             ))
         };
         let (body, qi) = match name.strip_suffix("_qi") {

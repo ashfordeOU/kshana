@@ -209,9 +209,12 @@ pub fn integrate_finite_burn(burn: &FiniteBurn, steps: usize) -> Result<FiniteBu
     let mdot = burn.thrust_n / (burn.isp_s * G0);
     let mf = burn.m0_kg - mdot * burn.burn_s;
     if mf <= 0.0 {
-        return Err(format!(
-            "burn exhausts mass: m0={} kg, ṁ={} kg/s, burn={} s ⇒ mf={} kg",
-            burn.m0_kg, mdot, burn.burn_s, mf
+        return Err(crate::terr!(
+            "e-maneuver-burn-exhausts-mass-m0-kg",
+            m0_kg = burn.m0_kg,
+            mdot = mdot,
+            burn_s = burn.burn_s,
+            mf = mf
         ));
     }
     let d = unit(burn.dir);
@@ -407,7 +410,7 @@ pub fn lambert(
     prograde: bool,
 ) -> Result<(Vec3, Vec3), String> {
     if tof <= 0.0 {
-        return Err("time of flight must be positive".into());
+        return Err(crate::terr!("e-maneuver-time-of-flight-must-be"));
     }
     let r1n = norm(r1);
     let r2n = norm(r2);
@@ -419,7 +422,9 @@ pub fn lambert(
     let cross12 = cross(ir1, ir2);
     let cross_n = norm(cross12);
     if cross_n < 1e-12 {
-        return Err("collinear endpoints: transfer plane is undefined (≈0°/180°)".into());
+        return Err(crate::terr!(
+            "e-maneuver-collinear-endpoints-transfer-plane-is"
+        ));
     }
     let ih = scale(cross12, 1.0 / cross_n);
     let mut ll = (1.0 - (c / s).min(1.0)).sqrt();
@@ -520,7 +525,9 @@ fn lambert_geom(r1: Vec3, r2: Vec3, prograde: bool) -> Result<LambertGeom, Strin
     let cross12 = cross(ir1, ir2);
     let cross_n = norm(cross12);
     if cross_n < 1e-12 {
-        return Err("collinear endpoints: transfer plane is undefined (≈0°/180°)".into());
+        return Err(crate::terr!(
+            "e-maneuver-collinear-endpoints-transfer-plane-is"
+        ));
     }
     let ih = scale(cross12, 1.0 / cross_n);
     let mut ll = (1.0 - (c / s).min(1.0)).sqrt();
@@ -639,7 +646,7 @@ pub fn lambert_max_revs(
     max_revs: u32,
 ) -> Result<u32, String> {
     if tof <= 0.0 {
-        return Err("time of flight must be positive".into());
+        return Err(crate::terr!("e-maneuver-time-of-flight-must-be"));
     }
     let g = lambert_geom(r1, r2, prograde)?;
     let big_t = (2.0 * mu / (g.s * g.s * g.s)).sqrt() * tof;
@@ -714,15 +721,13 @@ pub fn lambert_revs(
     branch: LambertBranch,
 ) -> Result<(Vec3, Vec3), String> {
     if revs == 0 {
-        return Err("lambert_revs is for M >= 1; use lambert for M = 0".into());
+        return Err(crate::terr!("e-maneuver-lambert-revs-is-for-use"));
     }
     let all = lambert_multirev(r1, r2, tof, mu, prograde, revs)?;
     all.iter()
         .find(|s| s.revs == revs && s.branch == Some(branch))
         .map(|s| (s.v1, s.v2))
-        .ok_or_else(|| {
-            format!("no {revs}-revolution transfer: the time of flight is below its minimum")
-        })
+        .ok_or_else(|| crate::terr!("e-maneuver-no-revolution-transfer-the-time", revs = revs))
 }
 
 // ===========================================================================
@@ -1007,14 +1012,15 @@ pub fn optimise_transfer_kernel(
     grid_step_days: f64,
 ) -> Result<TransferOptimum, String> {
     if !(grid_step_days.is_finite() && grid_step_days > 0.0) {
-        return Err(format!(
-            "grid_step_days must be positive, got {grid_step_days}"
+        return Err(crate::terr!(
+            "e-maneuver-grid-step-days-must-be",
+            grid_step_days = grid_step_days
         ));
     }
     let (d0, d1) = dep_window_jd_tdb;
     let (a0, a1) = arr_window_jd_tdb;
     if !(d1 >= d0 && a1 >= a0) {
-        return Err("each window must run forward (start <= end)".into());
+        return Err(crate::terr!("e-maneuver-each-window-must-run-forward"));
     }
     let pick = |e: (f64, f64, f64)| match objective {
         TransferObjective::MinC3 => e.0,
@@ -1039,7 +1045,7 @@ pub fn optimise_transfer_kernel(
         }
     }
     if !best.1.is_finite() {
-        return Err("no transfer of the requested type in the windows".into());
+        return Err(crate::terr!("e-maneuver-no-transfer-of-the-requested"));
     }
     // Nelder-Mead (reflection 1, expansion 2, contraction 0.5, shrink 0.5).
     let x0 = best.0;
@@ -1098,7 +1104,7 @@ pub fn optimise_transfer_kernel(
     simplex.sort_by(|p, q| p.1.total_cmp(&q.1));
     let x = simplex[0].0;
     let (c3, vinf, theta) = transfer_eval(kernel, dep_body, arr_body, x[0], x[1], ttype, mu_sun)
-        .ok_or("the optimum left the feasible region")?;
+        .ok_or_else(|| crate::terr!("e-maneuver-the-optimum-left-the-feasible"))?;
     Ok(TransferOptimum {
         dep_jd_tdb: x[0],
         arr_jd_tdb: x[1],

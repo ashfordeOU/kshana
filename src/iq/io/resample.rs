@@ -124,8 +124,9 @@ impl PolyphaseResampler {
             && design.passband_frac < 1.0
             && design.stopband_atten_db > 0.0;
         if !ok {
-            return Err(IqError::Format(format!(
-                "invalid filter design {design:?}: passband_frac in (0, 1), attenuation > 0"
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-resample-invalid-filter-design-passband-frac",
+                design = format!("{:?}", design)
             )));
         }
         let g = gcd(up, down);
@@ -368,9 +369,10 @@ impl<S: IqSource> RealIfToBaseband<S> {
     pub fn new(src: S, if_hz: f64, decim: usize, chunk: usize) -> Result<Self, IqError> {
         let fs = src.spec().fs_hz;
         if !(if_hz > 0.0 && if_hz < fs / 2.0) {
-            return Err(IqError::Format(format!(
-                "IF {if_hz} Hz must lie strictly between 0 and half the sample rate ({} Hz)",
-                fs / 2.0
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-resample-if-hz-must-lie-strictly",
+                if_hz = if_hz,
+                v1 = fs / 2.0
             )));
         }
         if decim < 2 {

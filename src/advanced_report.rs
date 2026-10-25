@@ -850,7 +850,7 @@ pub fn display_value(v: &Value) -> String {
             if ["undefined", "nan", "null", "none", "inf", "-inf"]
                 .contains(&s.trim().to_ascii_lowercase().as_str()) =>
         {
-            format!("\u{201c}{s}\u{201d} (text as the document states it)")
+            crate::t!("advanced-report-text-as-the-document-states", s = s)
         }
         Value::String(s) => s.clone(),
         Value::Array(a) => {
@@ -870,11 +870,11 @@ pub fn display_value(v: &Value) -> String {
                 m.get("p05").and_then(Value::as_f64),
                 m.get("p95").and_then(Value::as_f64),
             ) {
-                return format!(
-                    "mean {} (5th to 95th percentile {} to {})",
-                    fmt_num(mean),
-                    fmt_num(p05),
-                    fmt_num(p95)
+                return crate::t!(
+                    "advanced-report-mean-5th-to-95th-percentile",
+                    fmt_num = fmt_num(mean),
+                    fmt_num2 = fmt_num(p05),
+                    fmt_num3 = fmt_num(p95)
                 );
             }
             if m.is_empty() {
@@ -1054,7 +1054,7 @@ fn resolve_unit(units: Option<&Map<String, Value>>, path: &str, input: bool) -> 
             if let Some(u) = entry.get("unit").and_then(Value::as_str) {
                 return (
                     u.to_string(),
-                    format!("field-units schema: units entry `{key}`"),
+                    crate::t!("advanced-report-field-units-schema-units-entry", key = key),
                 );
             }
         }
@@ -1080,7 +1080,7 @@ fn resolve_unit(units: Option<&Map<String, Value>>, path: &str, input: bool) -> 
                 if let Some((u, key)) = found.into_iter().next() {
                     return (
                         u,
-                        format!("field-units schema: input entry `{key}`, matched by field name"),
+                        crate::t!("advanced-report-field-units-schema-input-entry", key = key),
                     );
                 }
             }
@@ -1130,7 +1130,7 @@ fn flatten_inputs(v: &Value, prefix: &str, out: &mut Vec<(String, Value, Option<
                 let path = format!("{prefix}[].{k}");
                 if nums.is_empty() {
                     let n = a.iter().filter(|e| e.get(k).is_some()).count();
-                    let text = format!("{n} rows of a non-numeric column");
+                    let text = crate::t!("advanced-report-rows-of-non-numeric-column", n = n);
                     out.push((path, Value::String(text.clone()), Some(text)));
                 } else {
                     let min = nums.iter().copied().fold(f64::INFINITY, f64::min);
@@ -1142,11 +1142,11 @@ fn flatten_inputs(v: &Value, prefix: &str, out: &mut Vec<(String, Value, Option<
                     out.push((
                         path,
                         Value::Object(summary),
-                        Some(format!(
-                            "{} rows, from {} to {}",
-                            nums.len(),
-                            fmt_num(min),
-                            fmt_num(max)
+                        Some(crate::t!(
+                            "advanced-report-rows-from-to",
+                            nums = nums.len(),
+                            fmt_num = fmt_num(min),
+                            fmt_num2 = fmt_num(max)
                         )),
                     ));
                 }
@@ -1480,9 +1480,9 @@ fn build_events(kind: &str, scn: &Value, doc: &Value) -> Section<EventRow> {
                     label: if ended.is_empty() {
                         format!("phase {name}")
                     } else {
-                        format!("phase {name} (ended by {ended})")
+                        crate::t!("advanced-report-phase-ended-by", name = name, ended = ended)
                     },
-                    source: format!("result `timeline.phases[{i}]`"),
+                    source: crate::t!("advanced-report-result-timeline-phases", i = i),
                 });
             }
         }
@@ -1502,16 +1502,17 @@ fn build_events(kind: &str, scn: &Value, doc: &Value) -> Section<EventRow> {
                     rows.push(EventRow {
                         t_s: t0,
                         t_end_s: None,
-                        label: format!(
-                            "hand-off into phase {phase}: {} → {} = {} {}",
-                            h.get("from").and_then(Value::as_str).unwrap_or(""),
-                            h.get("to").and_then(Value::as_str).unwrap_or(""),
-                            h.get("value").map(display_value).unwrap_or_default(),
-                            h.get("unit").and_then(Value::as_str).unwrap_or("")
+                        label: crate::t!(
+                            "advanced-report-hand-off-into-phase",
+                            phase = phase,
+                            h = h.get("from").and_then(Value::as_str).unwrap_or(""),
+                            h2 = h.get("to").and_then(Value::as_str).unwrap_or(""),
+                            h3 = h.get("value").map(display_value).unwrap_or_default(),
+                            h4 = h.get("unit").and_then(Value::as_str).unwrap_or("")
                         )
                         .trim_end()
                         .to_string(),
-                        source: format!("result `timeline.handoffs[{i}]`"),
+                        source: crate::t!("advanced-report-result-timeline-handoffs", i = i),
                     });
                 }
             }
@@ -1827,7 +1828,7 @@ fn collect_input_notes(v: &Value, prefix: &str, out: &mut Vec<NoteRow>) {
             if lower.contains("not model") || s.contains("MODELLED") {
                 out.push(NoteRow {
                     text: s.trim().to_string(),
-                    source: format!("scenario input `{prefix}`"),
+                    source: crate::t!("advanced-report-scenario-input", prefix = prefix),
                 });
             }
         }
@@ -1849,11 +1850,12 @@ fn collect_comment_notes(src: &str, out: &mut Vec<NoteRow>) {
             out.push(NoteRow {
                 text,
                 source: if para.len() == 1 {
-                    format!("scenario file comment, line {start}")
+                    crate::t!("advanced-report-scenario-file-comment-line", start = start)
                 } else {
-                    format!(
-                        "scenario file comment, lines {start} to {}",
-                        start + para.len() - 1
+                    crate::t!(
+                        "advanced-report-scenario-file-comment-lines-to",
+                        start = start,
+                        v1 = start + para.len() - 1
                     )
                 },
             });
@@ -1912,10 +1914,10 @@ fn build_not_modelled(
         }
         if let Some(it) = matrix.iter().find(|r| r.requirement == row.requirement) {
             rows.push(NoteRow {
-                text: format!(
-                    "{} is MODELLED, not validated: {}.",
-                    row.requirement,
-                    it.oracle_kind.modelled_reason()
+                text: crate::t!(
+                    "advanced-report-is-modelled-not-validated",
+                    requirement = row.requirement,
+                    it = it.oracle_kind.modelled_reason()
                 ),
                 source: "verification matrix (docs/MODELLED-RATIONALE.md)".to_string(),
             });
@@ -2408,7 +2410,11 @@ fn build_aggregation(kind: &str, doc: &Value) -> Option<Aggregation> {
         agg.mode = "sweep".to_string();
         agg.member_kind = Some("clock".to_string());
         agg.tables.push(table_from_rows(
-            &format!("Sweep of {param} ({} scale)", str_of(doc, "scale")),
+            &crate::t!(
+                "advanced-report-sweep-of-scale",
+                param = param,
+                str_of = str_of(doc, "scale")
+            ),
             vec![
                 param.clone(),
                 format!("quantum {metric}"),
@@ -2484,10 +2490,10 @@ fn build_aggregation(kind: &str, doc: &Value) -> Option<Aggregation> {
 /// three inputs always give the same report.
 pub fn build(out: &crate::api::RunOutput, src: &str, inv: &Invocation) -> Result<Report, String> {
     let doc: Value = serde_json::from_str(&out.json)
-        .map_err(|e| format!("the result document is not JSON: {e}"))?;
+        .map_err(|e| crate::terr!("e-advanced-report-the-result-document-is-not", e = e))?;
     let scn = toml::from_str::<toml::Value>(src)
         .map(|v| toml_to_json(&v))
-        .map_err(|e| format!("the scenario is not TOML: {e}"))?;
+        .map_err(|e| crate::terr!("e-advanced-report-the-scenario-is-not-toml", e = e))?;
     let kind = crate::api::ScenarioKind::classify(src)
         .map(|k| k.as_str().to_string())
         .map_err(|e| e.to_string())?;
@@ -2552,7 +2558,10 @@ pub fn build(out: &crate::api::RunOutput, src: &str, inv: &Invocation) -> Result
         for d in &a.distributions {
             charts.push(ChartRef {
                 id: format!("distribution-{}", d.metric),
-                title: format!("Monte Carlo distribution of {}", d.metric),
+                title: crate::t!(
+                    "advanced-report-monte-carlo-distribution-of",
+                    metric = d.metric
+                ),
                 file: None,
             });
         }
@@ -2613,7 +2622,11 @@ pub fn build(out: &crate::api::RunOutput, src: &str, inv: &Invocation) -> Result
                 for q in ["p05", "p50", "p95"] {
                     if let Some(v) = m.get(q).filter(|v| v.is_number()) {
                         key_figures.push(Figure {
-                            path: format!("monte_carlo.metrics.{name}.{q}"),
+                            path: crate::t!(
+                                "advanced-report-monte-carlo-metrics",
+                                name = name,
+                                q = q
+                            ),
                             value: v.clone(),
                             display: display_value(v),
                             unit: if unit.is_empty() {
@@ -2714,9 +2727,15 @@ pub fn build(out: &crate::api::RunOutput, src: &str, inv: &Invocation) -> Result
         .filter(|s| !s.is_empty())
         .map(str::to_string);
     let git_commit_note = if git_commit.is_some() {
-        format!("recorded at build time from the {GIT_COMMIT_ENV} environment variable")
+        crate::t!(
+            "advanced-report-recorded-at-build-time-from",
+            GIT_COMMIT_ENV = GIT_COMMIT_ENV
+        )
     } else {
-        format!("not recorded: this engine was built without the {GIT_COMMIT_ENV} environment variable; the engine version identifies the release")
+        crate::t!(
+            "advanced-report-not-recorded-this-engine-was",
+            GIT_COMMIT_ENV = GIT_COMMIT_ENV
+        )
     };
     let scenario_file = std::path::Path::new(&inv.scenario_arg)
         .file_name()
@@ -2822,7 +2841,7 @@ fn build_companions(
             .filter(|n| is_bare_file_name(n))
             .cloned()
             .collect(),
-        command: format!("kshana {q} --animate html"),
+        command: crate::t!("advanced-report-kshana-animate-html", q = q),
     };
     let exports = crate::interop::plan(src)
         .into_iter()
@@ -2843,7 +2862,7 @@ fn build_companions(
         Companions {
             animation,
             exports,
-            export_command: format!("kshana {q} --export all"),
+            export_command: crate::t!("advanced-report-kshana-export-all", q = q),
         },
         svg,
     )
@@ -2874,13 +2893,13 @@ impl Report {
 /// [`STYLE`] with the shared fonts and the print palette filled in.
 fn style() -> String {
     use crate::palette::{chart, print};
-    let print_vars = format!(
-        "--bg:{p};--fg:{i};--muted:{m};--line:{r};--card:{c};--accent:{i};--val:{i};--mod:{i};--par:{i};",
+    let print_vars = crate::t!(
+        "advanced-report-bg-fg-muted-line-card",
         p = print::PAPER,
         i = print::INK,
         m = print::MUTED,
         r = print::RULE,
-        c = print::CARD,
+        c = print::CARD
     );
     crate::palette::page_css()
         + &STYLE
@@ -3482,12 +3501,7 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
         "Result scenario_hash",
         rp.result_scenario_hash
             .as_ref()
-            .map(|s| {
-                format!(
-                    "{} (the kind's own fingerprint of the scenario; not the file digest)",
-                    esc(s)
-                )
-            })
+            .map(|s| crate::t!("advanced-report-the-kind-own-fingerprint-of", esc = esc(s)))
             .unwrap_or_else(|| "the result document states none".to_string()),
     );
     kv(
@@ -3517,7 +3531,7 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
     );
     for f in &rp.input_files {
         kv(
-            &format!("Input file {}", f.path),
+            &crate::t!("advanced-report-input-file", path = f.path),
             format!("SHA-256 {}", esc(&f.sha256)),
         );
     }
@@ -3532,7 +3546,7 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
     let stamp = rp
         .generated_utc
         .as_ref()
-        .map(|g| format!(" Study generated {}.", esc(g)))
+        .map(|g| crate::t!("advanced-report-study-generated", esc = esc(g)))
         .unwrap_or_default();
     h.push_str(&format!(
         "<footer>Generated by Kshana {}.{} Reproducible from scenario + seed + engine version. Free and open source (GNU Affero General Public License, AGPL-3.0) \u{2014} <a href=\"https://github.com/AshfordeOU/kshana\">source &amp; docs</a>.</footer>\n</body>\n</html>\n",

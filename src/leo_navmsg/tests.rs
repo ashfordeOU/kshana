@@ -621,21 +621,24 @@ fn platform_calls(text: &str) -> Vec<String> {
         for m in PLATFORM_METHODS {
             for call in [format!(".{m}("), format!("f64::{m}(")] {
                 if code.contains(&call) {
-                    found.push(format!("{}: `{call}` is the host library's", n + 1));
+                    found.push(crate::t!(
+                        "leo-navmsg-tests-is-the-host-library",
+                        v1 = n + 1,
+                        call = call
+                    ));
                 }
             }
         }
         if code.contains("rand_distr") {
-            found.push(format!(
-                "{}: `rand_distr` samplers call the host `exp` and `ln` in their rare branches; \
-                 use `portable_math::standard_normal`",
-                n + 1
+            found.push(crate::t!(
+                "leo-navmsg-tests-rand-distr-samplers-call-the",
+                v1 = n + 1
             ));
         }
         if code.contains(".acceleration(") {
-            found.push(format!(
-                "{}: `.acceleration(` is the host-library gravity field; use `.acceleration_portable(`",
-                n + 1
+            found.push(crate::t!(
+                "leo-navmsg-tests-acceleration-is-the-host-library",
+                v1 = n + 1
             ));
         }
         let mut rest = code;
@@ -648,7 +651,11 @@ fn platform_calls(text: &str) -> Vec<String> {
             let path = tail[..end].trim_end_matches(':');
             let own = path.starts_with("crate::leo_navmsg");
             if !own && !behind_gate && !REVIEWED_CRATE_PATHS.contains(&path) {
-                found.push(format!("{}: `{path}` has not been reviewed", n + 1));
+                found.push(crate::t!(
+                    "leo-navmsg-tests-has-not-been-reviewed",
+                    v1 = n + 1,
+                    path = path
+                ));
             }
             rest = &tail[end..];
         }

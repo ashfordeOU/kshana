@@ -511,9 +511,10 @@ impl ForceModel {
                 .relative_position_jd2(&body, &Body::earth(), jd_tdb)
                 .is_none()
             {
-                return Err(format!(
-                    "the ephemeris provider has no geocentric {} at JD(TT) {}",
-                    body.name, self.epoch_jd_tt
+                return Err(crate::terr!(
+                    "e-propagator-the-ephemeris-provider-has-no",
+                    name = body.name,
+                    epoch_jd_tt = self.epoch_jd_tt
                 ));
             }
         }

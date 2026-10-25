@@ -522,7 +522,8 @@ fn label_timeline(
             "calibration window less than the guard before, or inside, an attack window".into(),
         );
     }
-    let trust = run_monitors(tl, None, &cfg).map_err(|e| format!("run_monitors: {e}"))?;
+    let trust = run_monitors(tl, None, &cfg)
+        .map_err(|e| crate::terr!("e-receiver-trust-calibration-run-monitors", e = e))?;
     Ok(samples_from(
         &trust,
         t0,
@@ -605,9 +606,11 @@ pub fn read_folder(root: &Path, dir: &Path) -> Folder {
 pub fn read_folder_ubx(f: &Folder) -> Option<Result<Vec<Sample>, String>> {
     let path = f.ubx.as_ref()?;
     Some((|| {
-        let bytes = std::fs::read(path).map_err(|e| format!("read: {e}"))?;
+        let bytes =
+            std::fs::read(path).map_err(|e| crate::terr!("e-jammertest-dataset-read", e = e))?;
         let tl = read_ubx(&bytes);
-        let t0 = timeline_origin_utc(&tl).ok_or("no UTC-labelled epoch in the UBX log")?;
+        let t0 = timeline_origin_utc(&tl)
+            .ok_or_else(|| crate::terr!("e-receiver-trust-calibration-no-utc-labelled-epoch-in"))?;
         label_timeline(&tl, t0, &f.windows_utc_s, f.jamming)
     })())
 }
@@ -717,7 +720,10 @@ pub fn run_dataset(root: &Path, with_ubx: bool) -> Result<CalibrationReport, Str
     let mut dirs = Vec::new();
     find_scenarios(root, &mut dirs);
     if dirs.is_empty() {
-        return Err(format!("no scenario.json under {}", root.display()));
+        return Err(crate::terr!(
+            "e-receiver-trust-calibration-no-scenario-json-under",
+            root = root.display()
+        ));
     }
     let folders: Vec<Folder> = dirs.iter().map(|d| read_folder(root, d)).collect();
     let ev: Vec<&Folder> = folders.iter().filter(|f| f.excluded.is_none()).collect();
@@ -787,10 +793,11 @@ pub fn run_dataset(root: &Path, with_ubx: bool) -> Result<CalibrationReport, Str
     for r in &stats {
         let p = r.loso_heldout.pfa();
         bars.push(Bar {
-            bar: format!(
-                "B1 {}: held-out clean Pfa <= {B1_MAX_PFA} (calibrated: {})",
-                r.config_field,
-                r.selected.is_some()
+            bar: crate::t!(
+                "receiver-trust-calibration-b1-held-out-clean-pfa",
+                config_field = r.config_field,
+                B1_MAX_PFA = B1_MAX_PFA,
+                r = r.selected.is_some()
             ),
             measured: format!(
                 "Pfa {} ({}/{})",

@@ -90,7 +90,7 @@ impl<R: Read> SdrxSource<R> {
         }
         self.inner
             .read_exact(&mut self.unit)
-            .map_err(|e| IqError::Io(format!(".sdrx data: {e}")))?;
+            .map_err(|e| IqError::Io(crate::terr!("e-iq-io-sdrx-sdrx-data", e = e)))?;
         let per = self.layout.samples_per_chunk();
         let n = (per as u64).min(self.remaining) as usize;
         self.decoded = ion_sdr::decode(&self.layout, &self.unit, 0, n).map_err(IqError::Format)?;
@@ -135,9 +135,12 @@ pub fn layout_label(l: &SdrLayout) -> String {
         F::Qi => "qi",
         F::If => "real",
     };
-    format!(
-        "sdrx {}-bit {enc} {fmt} ({} bits/sample)",
-        l.quantization, l.packed_bits
+    crate::t!(
+        "iq-io-sdrx-sdrx-bit-bits-sample",
+        quantization = l.quantization,
+        enc = enc,
+        fmt = fmt,
+        packed_bits = l.packed_bits
     )
 }
 

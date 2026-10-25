@@ -180,7 +180,12 @@ fn apply(base: &Scenario, parameter: &str, value: f64) -> Result<Scenario, Strin
         "duration_s" => s.time.duration_s = value,
         "quantum_q_wf" => s.clock_quantum.q_wf = value,
         "classical_q_wf" => s.clock_classical.q_wf = value,
-        other => return Err(format!("unknown sweep parameter: {other}")),
+        other => {
+            return Err(crate::terr!(
+                "e-sweep-unknown-sweep-parameter",
+                other = other
+            ))
+        }
     }
     Ok(s)
 }
@@ -194,7 +199,7 @@ fn metric_of(fom: &FoMScores, metric: &str) -> Result<f64, String> {
         "availability" => fom.availability,
         "integrity" => fom.integrity.unwrap_or(f64::NAN),
         "security" => fom.security.unwrap_or(f64::NAN),
-        other => return Err(format!("unknown sweep metric: {other}")),
+        other => return Err(crate::terr!("e-sweep-unknown-sweep-metric", other = other)),
     })
 }
 
@@ -395,7 +400,7 @@ pub fn nd_sweep(
     metric: &str,
 ) -> Result<NdSweepResult, String> {
     if axes.is_empty() {
-        return Err("nd_sweep needs at least one axis".into());
+        return Err(crate::terr!("e-sweep-nd-sweep-needs-at-least"));
     }
     let axis_values: Vec<Vec<f64>> = axes.iter().map(|a| a.values()).collect();
     let shape: Vec<usize> = axis_values.iter().map(|v| v.len()).collect();
@@ -469,7 +474,7 @@ pub fn nd_sweep_ensemble(
     runs: usize,
 ) -> Result<NdSweepCiResult, String> {
     if axes.is_empty() {
-        return Err("nd_sweep needs at least one axis".into());
+        return Err(crate::terr!("e-sweep-nd-sweep-needs-at-least"));
     }
     let runs = runs.max(1);
     let axis_values: Vec<Vec<f64>> = axes.iter().map(|a| a.values()).collect();
@@ -632,35 +637,37 @@ pub(crate) fn set_dotted_value(
 ) -> Result<(), String> {
     let parts: Vec<&str> = key.split('.').collect();
     if parts.iter().any(|p| p.is_empty()) {
-        return Err(format!("sweep key `{key}` is malformed"));
+        return Err(crate::terr!("e-sweep-sweep-key-is-malformed", key = key));
     }
     let mut cur = root;
     for part in &parts[..parts.len() - 1] {
         if cur.is_array() {
             let i: usize = part.parse().map_err(|_| {
-                format!("sweep key `{key}`: `{part}` follows an array, so it must be an index")
+                crate::terr!("e-sweep-sweep-key-follows-an-array", key = key, part = part)
             })?;
-            let arr = cur.as_array_mut().ok_or("unreachable")?;
+            let arr = cur
+                .as_array_mut()
+                .ok_or_else(|| crate::terr!("e-sweep-unreachable"))?;
             let n = arr.len();
             cur = arr.get_mut(i).ok_or_else(|| {
-                format!("sweep key `{key}`: index {i} is past the {n} entries of the array")
+                crate::terr!("e-sweep-sweep-key-index-is-past", key = key, i = i, n = n)
             })?;
             continue;
         }
-        let tbl = cur
-            .as_table_mut()
-            .ok_or_else(|| format!("sweep key `{key}`: `{part}`'s parent is not a table"))?;
+        let tbl = cur.as_table_mut().ok_or_else(|| {
+            crate::terr!("e-sweep-sweep-key-parent-is-not", key = key, part = part)
+        })?;
         cur = tbl
             .get_mut(*part)
-            .ok_or_else(|| format!("sweep key `{key}`: no field `{part}`"))?;
+            .ok_or_else(|| crate::terr!("e-sweep-sweep-key-no-field", key = key, part = part))?;
     }
     let last = parts[parts.len() - 1];
     let tbl = cur
         .as_table_mut()
-        .ok_or_else(|| format!("sweep key `{key}`: parent of `{last}` is not a table"))?;
+        .ok_or_else(|| crate::terr!("e-sweep-sweep-key-parent-of-is", key = key, last = last))?;
     let slot = tbl
         .get_mut(last)
-        .ok_or_else(|| format!("sweep key `{key}`: no field `{last}`"))?;
+        .ok_or_else(|| crate::terr!("e-sweep-sweep-key-no-field-2", key = key, last = last))?;
     *slot = value;
     Ok(())
 }
@@ -669,12 +676,16 @@ pub(crate) fn set_dotted_value(
 fn get_dotted_json(root: &serde_json::Value, path: &str) -> Result<f64, String> {
     let mut cur = root;
     for part in path.split('.') {
-        cur = cur
-            .get(part)
-            .ok_or_else(|| format!("metric `{path}`: no field `{part}` in result"))?;
+        cur = cur.get(part).ok_or_else(|| {
+            crate::terr!(
+                "e-sweep-metric-no-field-in-result",
+                path = path,
+                part = part
+            )
+        })?;
     }
     cur.as_f64()
-        .ok_or_else(|| format!("metric `{path}`: value is not a number"))
+        .ok_or_else(|| crate::terr!("e-sweep-metric-value-is-not-number", path = path))
 }
 
 /// Decode a flat row-major index into per-axis coordinates (last axis fastest).
@@ -704,10 +715,11 @@ fn eval_node(
     for (a, &v) in axes.iter().zip(&coords) {
         set_dotted(&mut node, &a.key, v)?;
     }
-    let src = toml::to_string(&node).map_err(|e| format!("sweep node serialize: {e}"))?;
+    let src =
+        toml::to_string(&node).map_err(|e| crate::terr!("e-sweep-sweep-node-serialize", e = e))?;
     let out = crate::api::run_toml(&src)?;
-    let j: serde_json::Value =
-        serde_json::from_str(&out.json).map_err(|e| format!("sweep node result parse: {e}"))?;
+    let j: serde_json::Value = serde_json::from_str(&out.json)
+        .map_err(|e| crate::terr!("e-sweep-sweep-node-result-parse", e = e))?;
     let ms = metrics
         .iter()
         .map(|m| get_dotted_json(&j, m))
@@ -766,9 +778,11 @@ fn resolve_units(
     let key_units = axes
         .iter()
         .map(|a| match (pack_unit(units, &a.key), &a.unit) {
-            (Some(p), Some(d)) if p != *d => Err(format!(
-                "sweep axis `{}`: declared unit `{d}` but the swept pack publishes `{p}`",
-                a.key
+            (Some(p), Some(d)) if p != *d => Err(crate::terr!(
+                "e-sweep-sweep-axis-declared-unit-but",
+                key = a.key,
+                d = d,
+                p = p
             )),
             (Some(p), _) => Ok(Some(p)),
             (None, d) => Ok(d.clone()),
@@ -819,7 +833,7 @@ fn eval_grid(
             .into_iter()
             .map(|h| {
                 h.join()
-                    .unwrap_or_else(|_| Err("sweep worker thread panicked".into()))
+                    .unwrap_or_else(|_| Err(crate::terr!("e-sweep-sweep-worker-thread-panicked")))
             })
             .collect()
     });
@@ -863,10 +877,10 @@ fn eval_grid(
 /// axis fastest), parallel on native, deterministic.
 pub fn run_generic_sweep(scn: &GenericSweepScenario) -> Result<GenericNdSweepResult, String> {
     if scn.axes.is_empty() {
-        return Err("generic sweep needs at least one axis".into());
+        return Err(crate::terr!("e-sweep-generic-sweep-needs-at-least"));
     }
     if scn.metrics.is_empty() {
-        return Err("generic sweep needs at least one metric".into());
+        return Err(crate::terr!("e-sweep-generic-sweep-needs-at-least-2"));
     }
     let kind = scn
         .base
@@ -875,10 +889,10 @@ pub fn run_generic_sweep(scn: &GenericSweepScenario) -> Result<GenericNdSweepRes
         .unwrap_or("")
         .to_string();
     if kind.is_empty() {
-        return Err("generic sweep `base` must carry its own `kind`".into());
+        return Err(crate::terr!("e-sweep-generic-sweep-base-must-carry"));
     }
     if kind == "sweep" || kind == "sweep-nd" {
-        return Err("a generic sweep cannot sweep another sweep".into());
+        return Err(crate::terr!("e-sweep-generic-sweep-cannot-sweep-another"));
     }
     let axis_values: Vec<Vec<f64>> = scn.axes.iter().map(|a| a.values()).collect();
     let shape: Vec<usize> = axis_values.iter().map(|v| v.len()).collect();

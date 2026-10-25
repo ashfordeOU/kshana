@@ -183,9 +183,10 @@ pub fn ids() -> Vec<&'static str> {
 
 fn embedded(id: &str) -> Result<&'static Embedded, String> {
     EMBEDDED.iter().find(|e| e.id == id).ok_or_else(|| {
-        format!(
-            "no standards pack named `{id}`; the packs are: {}",
-            ids().join(", ")
+        crate::terr!(
+            "e-standards-pack-no-standards-pack-named-the",
+            id = id,
+            ids = ids().join(", ")
         )
     })
 }
@@ -198,33 +199,44 @@ pub fn load(id: &str) -> Result<Pack, String> {
 
 /// Parse a manifest and check it against the scenarios it may name.
 pub fn parse(manifest: &str, scenarios: Scenarios) -> Result<Pack, String> {
-    let p: Pack = toml::from_str(manifest).map_err(|e| format!("pack manifest: {e}"))?;
+    let p: Pack = toml::from_str(manifest)
+        .map_err(|e| crate::terr!("e-standards-pack-pack-manifest", e = e))?;
     let mut seen = std::collections::BTreeSet::new();
     for t in &p.tests {
         if !seen.insert(t.id.as_str()) {
-            return Err(format!("test {}: duplicate id", t.id));
+            return Err(crate::terr!(
+                "e-standards-pack-test-duplicate-id",
+                id = t.id
+            ));
         }
         match (&t.scenario, &t.needs_input) {
             (Some(s), None) => {
                 if !scenarios.iter().any(|(n, _)| n == s) {
-                    return Err(format!("test {}: scenario `{s}` is not in the pack", t.id));
+                    return Err(crate::terr!(
+                        "e-standards-pack-test-scenario-is-not-in",
+                        id = t.id,
+                        s = s
+                    ));
                 }
                 if t.bars.is_empty() && !t.repeat {
-                    return Err(format!("test {}: a scored test needs a bar", t.id));
+                    return Err(crate::terr!(
+                        "e-standards-pack-test-scored-test-needs-bar",
+                        id = t.id
+                    ));
                 }
             }
             (None, Some(_)) => {
                 if !t.bars.is_empty() {
-                    return Err(format!(
-                        "test {}: a test that needs input has no bars",
-                        t.id
+                    return Err(crate::terr!(
+                        "e-standards-pack-test-test-that-needs-input",
+                        id = t.id
                     ));
                 }
             }
             _ => {
-                return Err(format!(
-                    "test {}: give either `scenario` or `needs_input`, not both or neither",
-                    t.id
+                return Err(crate::terr!(
+                    "e-standards-pack-test-give-either-scenario-or",
+                    id = t.id
                 ))
             }
         }
@@ -232,17 +244,26 @@ pub fn parse(manifest: &str, scenarios: Scenarios) -> Result<Pack, String> {
             let known = p.rows.iter().any(|x| &x.id == r)
                 || crate::compliance::mapping::rows().iter().any(|x| x.id == r);
             if !known {
-                return Err(format!("test {}: supports unknown row `{r}`", t.id));
+                return Err(crate::terr!(
+                    "e-standards-pack-test-supports-unknown-row",
+                    id = t.id,
+                    r = r
+                ));
             }
         }
         for b in &t.bars {
             if !["eq", "ne", "ge", "gt", "le", "lt"].contains(&b.op.as_str()) {
-                return Err(format!("test {}: unknown op `{}`", t.id, b.op));
+                return Err(crate::terr!(
+                    "e-standards-pack-test-unknown-op",
+                    id = t.id,
+                    op = b.op
+                ));
             }
             if b.value.is_some() == b.against.is_some() {
-                return Err(format!(
-                    "test {}: bar on {} needs exactly one of `value` and `against`",
-                    t.id, b.pointer
+                return Err(crate::terr!(
+                    "e-standards-pack-test-bar-on-needs-exactly",
+                    id = t.id,
+                    pointer = b.pointer
                 ));
             }
         }
@@ -254,13 +275,19 @@ pub fn parse(manifest: &str, scenarios: Scenarios) -> Result<Pack, String> {
                 .iter()
                 .any(|x| x.id == r.id)
         {
-            return Err(format!("row {}: duplicate id", r.id));
+            return Err(crate::terr!("e-standards-pack-row-duplicate-id", id = r.id));
         }
         if r.asks.len() >= 400 {
-            return Err(format!("row {}: `asks` must be a short paraphrase", r.id));
+            return Err(crate::terr!(
+                "e-standards-pack-row-asks-must-be-short",
+                id = r.id
+            ));
         }
         if !p.tests.iter().any(|t| t.supports_rows.contains(&r.id)) {
-            return Err(format!("row {}: no test supports it", r.id));
+            return Err(crate::terr!(
+                "e-standards-pack-row-no-test-supports-it",
+                id = r.id
+            ));
         }
     }
     Ok(p)
@@ -439,9 +466,9 @@ pub fn tests_markdown(pack: &Pack) -> String {
     );
     for t in &pack.tests {
         let bars = if let Some(n) = &t.needs_input {
-            format!(
-                "not scored: needs input ({})",
-                n.split(['.', ':']).next().unwrap_or("")
+            crate::t!(
+                "standards-pack-not-scored-needs-input",
+                n = n.split(['.', ':']).next().unwrap_or("")
             )
         } else {
             let mut v: Vec<String> = t

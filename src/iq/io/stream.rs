@@ -100,9 +100,10 @@ impl<R: Read> IqReader<R> {
     /// recordings. Call it before the first read.
     pub fn with_channels(mut self, channels: usize, select: usize) -> Result<Self, IqError> {
         if channels == 0 || select >= channels {
-            return Err(IqError::Format(format!(
-                "stream {select} of {channels} interleaved streams does not exist \
-                 (streams count from 0)"
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-stream-stream-of-interleaved-streams-does",
+                select = select,
+                channels = channels
             )));
         }
         self.channels = channels;
@@ -155,9 +156,10 @@ impl<R: Read + Seek> IqReader<R> {
     pub fn seek_to_sample(&mut self, k: u64) -> Result<(), IqError> {
         let bits = k * self.channels as u64 * self.format.bits_per_sample() as u64;
         if bits % 8 != 0 {
-            return Err(IqError::Format(format!(
-                "sample {k} of {} does not start on a byte boundary",
-                self.format
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-stream-sample-of-does-not-start",
+                k = k,
+                format = self.format
             )));
         }
         self.inner
@@ -431,8 +433,10 @@ pub fn extract_window(
     chunk: usize,
 ) -> Result<u64, IqError> {
     if !(start_s >= 0.0 && duration_s >= 0.0) {
-        return Err(IqError::Format(format!(
-            "time window start {start_s} s, duration {duration_s} s: both must be non-negative"
+        return Err(IqError::Format(crate::terr!(
+            "e-iq-io-stream-time-window-start-duration-both",
+            start_s = start_s,
+            duration_s = duration_s
         )));
     }
     let spec = src.spec();

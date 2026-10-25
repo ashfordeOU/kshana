@@ -773,12 +773,15 @@ fn tol() -> Tolerance {
 /// Returns an error on an invalid scenario (non-positive duration/step, or too few epochs).
 pub fn run_mars_pnt(scn: &MarsScenario) -> Result<MarsPntResult, String> {
     if scn.step_s <= 0.0 {
-        return Err(format!("step_s must be positive, got {}", scn.step_s));
+        return Err(crate::terr!(
+            "e-gse-sim-step-must-be-positive-got",
+            step_s = scn.step_s
+        ));
     }
     if scn.duration_s <= 0.0 {
-        return Err(format!(
-            "duration_s must be positive, got {}",
-            scn.duration_s
+        return Err(crate::terr!(
+            "e-gse-sim-duration-must-be-positive-got",
+            duration_s = scn.duration_s
         ));
     }
     let nmax = scn.nmax.min(4);
@@ -794,8 +797,9 @@ pub fn run_mars_pnt(scn: &MarsScenario) -> Result<MarsPntResult, String> {
     // Observation epoch times.
     let n = (scn.duration_s / scn.step_s).floor() as usize;
     if n < 2 {
-        return Err(format!(
-            "scenario produces {n} epochs (need ≥ 2); increase duration_s or decrease step_s"
+        return Err(crate::terr!(
+            "e-gse-sim-scenario-produces-epochs-need-increase",
+            n = n
         ));
     }
     let times: Vec<f64> = (1..=n).map(|k| k as f64 * scn.step_s).collect();
@@ -1136,18 +1140,23 @@ fn build_geometry(
 
 /// A one-line human summary of a Mars-PNT run.
 pub fn summary(r: &MarsPntResult) -> String {
-    format!(
-        "mars-pnt {} | {} user, {} clock | {} relays (mean {:.1} in view) | converged pos RMS {:.2} m, formal 1σ {:.2} m (3σ {:.2} m — covariance FoM, not a certified PL) | clock-freq σ {:.2e} | cov-PD {}",
-        &r.scenario_hash[..12.min(r.scenario_hash.len())],
-        r.user,
-        r.clock_class,
-        r.n_relays,
-        r.fom.mean_relays_in_view,
-        r.fom.converged_pos_rms_m,
-        r.fom.converged_pos_sigma_m,
-        r.fom.converged_pos_3sigma_m,
-        r.fom.final_clock_freq_sigma,
-        r.fom.covariance_pd_throughout,
+    crate::t!(
+        "mars-pnt-mars-pnt-user-clock-relays",
+        r = &r.scenario_hash[..12.min(r.scenario_hash.len())],
+        user = r.user,
+        clock_class = r.clock_class,
+        n_relays = r.n_relays,
+        mean_relays_in_view =
+            crate::i18n::localise_decimal(format!("{:.1}", r.fom.mean_relays_in_view)),
+        converged_pos_rms_m =
+            crate::i18n::localise_decimal(format!("{:.2}", r.fom.converged_pos_rms_m)),
+        converged_pos_sigma_m =
+            crate::i18n::localise_decimal(format!("{:.2}", r.fom.converged_pos_sigma_m)),
+        converged_pos_3sigma_m =
+            crate::i18n::localise_decimal(format!("{:.2}", r.fom.converged_pos_3sigma_m)),
+        final_clock_freq_sigma =
+            crate::i18n::localise_decimal(format!("{:.2e}", r.fom.final_clock_freq_sigma)),
+        covariance_pd_throughout = r.fom.covariance_pd_throughout
     )
 }
 
@@ -1173,9 +1182,12 @@ pub fn to_svg(result: &MarsPntResult) -> String {
     };
     let y_max = (conv_max * 1.4).max(1.0);
 
-    let title = format!(
-        "Mars-PNT — {} user, {} clock: 3-D position error vs truth (converged RMS {:.2} m)",
-        result.user, result.clock_class, result.fom.converged_pos_rms_m
+    let title = crate::t!(
+        "mars-pnt-mars-pnt-user-clock-position",
+        user = result.user,
+        clock_class = result.clock_class,
+        converged_pos_rms_m =
+            crate::i18n::localise_decimal(format!("{:.2}", result.fom.converged_pos_rms_m))
     );
 
     let mut svg = String::new();

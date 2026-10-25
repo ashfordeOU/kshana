@@ -196,13 +196,17 @@ impl DemGrid {
     ) -> Result<Self, String> {
         let n = samples_per_side;
         if n < 2 {
-            return Err(format!("samples_per_side must be >= 2, got {n}"));
+            return Err(crate::terr!(
+                "e-altpnt-terrain-samples-per-side-must-be",
+                n = n
+            ));
         }
         if bytes.len() != 2 * n * n {
-            return Err(format!(
-                "SRTM .hgt length {} != 2*{n}*{n} = {}",
-                bytes.len(),
-                2 * n * n
+            return Err(crate::terr!(
+                "e-altpnt-terrain-srtm-hgt-length",
+                bytes = bytes.len(),
+                n = n,
+                v2 = 2 * n * n
             ));
         }
         let step = 1.0 / (n - 1) as f64;
@@ -247,18 +251,25 @@ impl DemGrid {
         step_deg: f64,
     ) -> Result<Self, String> {
         if n_rows < 2 || n_cols < 2 {
-            return Err(format!(
-                "an .hgt window needs at least 2 x 2 samples, got {n_rows} x {n_cols}"
+            return Err(crate::terr!(
+                "e-altpnt-terrain-an-hgt-window-needs-at",
+                n_rows = n_rows,
+                n_cols = n_cols
             ));
         }
         if !(step_deg.is_finite() && step_deg > 0.0) {
-            return Err(format!("step must be finite and positive, got {step_deg}"));
+            return Err(crate::terr!(
+                "e-altpnt-terrain-step-must-be-finite-and",
+                step_deg = step_deg
+            ));
         }
         if bytes.len() != 2 * n_rows * n_cols {
-            return Err(format!(
-                ".hgt window length {} != 2*{n_rows}*{n_cols} = {}",
-                bytes.len(),
-                2 * n_rows * n_cols
+            return Err(crate::terr!(
+                "e-altpnt-terrain-hgt-window-length",
+                bytes = bytes.len(),
+                n_rows = n_rows,
+                n_cols = n_cols,
+                v2 = 2 * n_rows * n_cols
             ));
         }
         let mut elev_m = vec![0.0_f64; n_rows * n_cols];
@@ -787,15 +798,17 @@ pub fn run_combined_altpnt_scenario(
         "sealevel" => crate::altpnt::maps::Emag2Column::SeaLevel,
         "upcont" => crate::altpnt::maps::Emag2Column::UpCont,
         other => {
-            return Err(format!(
-                "combined-altpnt: unknown magnetic_grid column `{other}` (use \"sealevel\" or \"upcont\")"
+            return Err(crate::terr!(
+                "e-altpnt-terrain-combined-altpnt-unknown-magnetic-grid",
+                other = other
             ))
         }
     };
     let text = std::fs::read_to_string(&g.csv_path).map_err(|e| {
-        format!(
-            "combined-altpnt: cannot read magnetic_grid csv_path {}: {e}",
-            g.csv_path
+        crate::terr!(
+            "e-altpnt-terrain-combined-altpnt-cannot-read-magnetic",
+            csv_path = g.csv_path,
+            e = e
         )
     })?;
     let grid = crate::altpnt::maps::GeoGrid::from_emag2_csv(&text, column)?;

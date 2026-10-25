@@ -118,7 +118,7 @@ impl AttitudeType {
             .iter()
             .copied()
             .find(|t| t.keyword() == u)
-            .ok_or_else(|| format!("unknown ATTITUDE_TYPE {s:?}"))
+            .ok_or_else(|| crate::terr!("e-adm-unknown-attitude-type", s = format!("{:?}", s)))
     }
 
     /// The XML element of a version-2.0 record and its value groups.
@@ -311,23 +311,25 @@ impl AemMessage {
     fn check(&self) -> Result<(), String> {
         let v1 = is_v1(&self.header.version);
         if self.segments.is_empty() {
-            return Err("an AEM needs at least one segment".into());
+            return Err(crate::terr!("e-adm-an-aem-needs-at-least"));
         }
         for (i, s) in self.segments.iter().enumerate() {
             let t = s.metadata.attitude_type;
             if !t.version_ok(v1) {
-                return Err(format!(
-                    "segment {i}: {} is not a version {} attitude type",
-                    t.keyword(),
-                    self.header.version
+                return Err(crate::terr!(
+                    "e-adm-segment-is-not-version-attitude",
+                    i = i,
+                    t = t.keyword(),
+                    version = self.header.version
                 ));
             }
             for r in &s.records {
                 if r.values.len() != t.value_count() {
-                    return Err(format!(
-                        "segment {i}: {} values for {}",
-                        r.values.len(),
-                        t.keyword()
+                    return Err(crate::terr!(
+                        "e-adm-segment-values-for",
+                        i = i,
+                        values = r.values.len(),
+                        t = t.keyword()
                     ));
                 }
             }
@@ -405,7 +407,7 @@ impl AemMessage {
     pub fn to_xml(&self) -> Result<String, String> {
         self.check()?;
         if is_v1(&self.header.version) {
-            return Err("AEM version 1.0 has no NDM/XML form here; write KVN".into());
+            return Err(crate::terr!("e-adm-aem-version-has-no-ndm"));
         }
         let mut w = ndm_xml::Writer::new();
         w.open(
@@ -458,7 +460,7 @@ impl AemMessage {
             let (tag, groups) = m
                 .attitude_type
                 .xml()
-                .ok_or("this attitude type has no version 2.0 form")?;
+                .ok_or_else(|| crate::terr!("e-adm-this-attitude-type-has-no"))?;
             for r in &s.records {
                 w.open("attitudeState", &[]);
                 w.open(tag, &[]);
@@ -504,23 +506,34 @@ impl AemMessage {
         let mut segments = Vec::new();
         while let Some(l) = lines.next() {
             if l != KvnLine::Bare("META_START".into()) {
-                return Err(format!("expected META_START, found {l:?}"));
+                return Err(crate::terr!(
+                    "e-adm-expected-meta-start-found",
+                    l = format!("{:?}", l)
+                ));
             }
             let mut f = Fields::default();
             loop {
-                match lines.next().ok_or("META_START without META_STOP")? {
+                match lines
+                    .next()
+                    .ok_or_else(|| crate::terr!("e-adm-meta-start-without-meta-stop"))?
+                {
                     KvnLine::Bare(b) if b == "META_STOP" => break,
                     KvnLine::Comment(c) => f.comments.push(c),
                     KvnLine::Kv(k, v) => f.set(&k, v),
-                    other => return Err(format!("unexpected metadata line {other:?}")),
+                    other => {
+                        return Err(crate::terr!(
+                            "e-adm-unexpected-metadata-line",
+                            other = format!("{:?}", other)
+                        ))
+                    }
                 }
             }
             let att = AttitudeType::from_keyword(&f.req("ATTITUDE_TYPE")?)?;
             if !att.version_ok(v1) {
-                return Err(format!(
-                    "{} in a version {} AEM",
-                    att.keyword(),
-                    header.version
+                return Err(crate::terr!(
+                    "e-adm-in-version-aem",
+                    att = att.keyword(),
+                    version = header.version
                 ));
             }
             let metadata = AemMetadata {
@@ -545,31 +558,38 @@ impl AemMessage {
                     .opt("INTERPOLATION_DEGREE")
                     .map(|d| {
                         d.parse()
-                            .map_err(|e| format!("INTERPOLATION_DEGREE {d}: {e}"))
+                            .map_err(|e| crate::terr!("e-adm-interpolation-degree", d = d, e = e))
                     })
                     .transpose()?,
             };
             f.done()?;
             if lines.next() != Some(KvnLine::Bare("DATA_START".into())) {
-                return Err("expected DATA_START after META_STOP".into());
+                return Err(crate::terr!("e-adm-expected-data-start-after-meta"));
             }
             let mut data_comments = Vec::new();
             let mut records = Vec::new();
             loop {
-                match lines.next().ok_or("DATA_START without DATA_STOP")? {
+                match lines
+                    .next()
+                    .ok_or_else(|| crate::terr!("e-adm-data-start-without-data-stop"))?
+                {
                     KvnLine::Bare(b) if b == "DATA_STOP" => break,
                     KvnLine::Comment(c) => data_comments.push(c),
                     KvnLine::Bare(b) => {
                         let mut it = b.split_whitespace();
-                        let epoch = it.next().ok_or("empty data line")?.to_string();
+                        let epoch = it
+                            .next()
+                            .ok_or_else(|| crate::terr!("e-adm-empty-data-line"))?
+                            .to_string();
                         let vals: Vec<f64> = it
                             .map(|x| x.parse::<f64>().map_err(|e| format!("{x:?}: {e}")))
                             .collect::<Result<_, _>>()?;
                         if vals.len() != att.value_count() {
-                            return Err(format!(
-                                "{} values on a {} line: {b}",
-                                vals.len(),
-                                att.keyword()
+                            return Err(crate::terr!(
+                                "e-adm-values-on-line",
+                                vals = vals.len(),
+                                att = att.keyword(),
+                                b = b
                             ));
                         }
                         records.push(AemRecord {
@@ -577,7 +597,12 @@ impl AemMessage {
                             values: from_line_order(&metadata, &vals),
                         });
                     }
-                    other => return Err(format!("unexpected data line {other:?}")),
+                    other => {
+                        return Err(crate::terr!(
+                            "e-adm-unexpected-data-line",
+                            other = format!("{:?}", other)
+                        ))
+                    }
                 }
             }
             segments.push(AemSegment {
@@ -626,12 +651,14 @@ impl AemMessage {
                 interpolation_degree: t("INTERPOLATION_DEGREE")
                     .map(|d| {
                         d.parse()
-                            .map_err(|e| format!("INTERPOLATION_DEGREE {d}: {e}"))
+                            .map_err(|e| crate::terr!("e-adm-interpolation-degree", d = d, e = e))
                     })
                     .transpose()?,
             };
             let data = seg.child("data").ok_or("no <data>")?;
-            let (tag, groups) = att.xml().ok_or("attitude type has no XML form")?;
+            let (tag, groups) = att
+                .xml()
+                .ok_or_else(|| crate::terr!("e-adm-attitude-type-has-no-xml"))?;
             let mut records = Vec::new();
             for st in data.children_named("attitudeState") {
                 let rec = st
@@ -718,7 +745,7 @@ pub(crate) fn write_header_xml(w: &mut ndm_xml::Writer, h: &AdmHeader) {
 pub(crate) fn read_header_xml(root: &Element) -> Result<AdmHeader, String> {
     let version = root
         .attr("version")
-        .ok_or("message without a version attribute")?
+        .ok_or_else(|| crate::terr!("e-adm-message-without-version-attribute"))?
         .to_string();
     let h = root.child("header").ok_or("no <header>")?;
     Ok(AdmHeader {
@@ -789,7 +816,13 @@ pub(crate) fn read_header_kvn(
 ) -> Result<(String, AdmHeader), String> {
     let version = match lines.next() {
         Some(KvnLine::Kv(k, v)) if k == vers_key => v,
-        other => return Err(format!("expected {vers_key}, found {other:?}")),
+        other => {
+            return Err(crate::terr!(
+                "e-adm-expected-found",
+                vers_key = vers_key,
+                other = format!("{:?}", other)
+            ))
+        }
     };
     let mut h = AdmHeader {
         version: version.clone(),
@@ -818,7 +851,7 @@ pub(crate) fn read_header_kvn(
         lines.next();
     }
     if h.creation_date.is_empty() || h.originator.is_empty() {
-        return Err("header without CREATION_DATE or ORIGINATOR".into());
+        return Err(crate::terr!("e-adm-header-without-creation-date-or"));
     }
     Ok((version, h))
 }
@@ -839,7 +872,8 @@ impl Fields {
         Some(self.kv.remove(i).1)
     }
     fn req(&mut self, k: &str) -> Result<String, String> {
-        self.opt(k).ok_or_else(|| format!("missing {k}"))
+        self.opt(k)
+            .ok_or_else(|| crate::terr!("e-adm-missing", k = k))
     }
     fn num(&mut self, k: &str) -> Result<f64, String> {
         let v = self.req(k)?;
@@ -852,7 +886,7 @@ impl Fields {
     }
     fn done(&self) -> Result<(), String> {
         match self.kv.first() {
-            Some((k, _)) => Err(format!("unexpected keyword {k}")),
+            Some((k, _)) => Err(crate::terr!("e-adm-unexpected-keyword", k = k)),
             None => Ok(()),
         }
     }
@@ -1060,7 +1094,7 @@ impl ApmMessage {
         }
         for b in &self.spins {
             if b.nutation.is_some() && b.momentum.is_some() {
-                return Err("a spin block holds nutation or momentum data, not both".into());
+                return Err(crate::terr!("e-adm-spin-block-holds-nutation-or"));
             }
             o.push_str("\nSPIN_START\n");
             comments(&mut o, &b.comments);
@@ -1163,7 +1197,7 @@ impl ApmMessage {
         }
         for b in &self.spins {
             if b.nutation.is_some() && b.momentum.is_some() {
-                return Err("a spin block holds nutation or momentum data, not both".into());
+                return Err(crate::terr!("e-adm-spin-block-holds-nutation-or"));
             }
             w.open("spin", &[]);
             frames(&mut w, &b.comments, &b.ref_frame_a, &b.ref_frame_b);
@@ -1261,21 +1295,34 @@ impl ApmMessage {
                         past_meta = true;
                     }
                     "EPOCH" => m.epoch = v,
-                    other => return Err(format!("unexpected APM keyword {other}")),
+                    other => {
+                        return Err(crate::terr!("e-adm-unexpected-apm-keyword", other = other))
+                    }
                 },
                 KvnLine::Bare(b) => {
                     let name = b
                         .strip_suffix("_START")
-                        .ok_or_else(|| format!("unexpected APM line {b:?}"))?
+                        .ok_or_else(|| {
+                            crate::terr!("e-adm-unexpected-apm-line", b = format!("{:?}", b))
+                        })?
                         .to_string();
                     let stop = format!("{name}_STOP");
                     let mut f = Fields::default();
                     loop {
-                        match lines.next().ok_or_else(|| format!("{b} without {stop}"))? {
+                        match lines
+                            .next()
+                            .ok_or_else(|| crate::terr!("e-adm-without", b = b, stop = stop))?
+                        {
                             KvnLine::Bare(s) if s == stop => break,
                             KvnLine::Comment(c) => f.comments.push(c),
                             KvnLine::Kv(k, v) => f.set(&k, v),
-                            other => return Err(format!("unexpected line in {b}: {other:?}")),
+                            other => {
+                                return Err(crate::terr!(
+                                    "e-adm-unexpected-line-in",
+                                    b = b,
+                                    other = format!("{:?}", other)
+                                ))
+                            }
                         }
                     }
                     m.add_block(&name, &mut f)?;
@@ -1302,7 +1349,10 @@ impl ApmMessage {
             } else if v.iter().all(Option::is_some) {
                 Ok(Some(v.into_iter().flatten().collect()))
             } else {
-                Err(format!("incomplete group {keys:?}"))
+                Err(crate::terr!(
+                    "e-adm-incomplete-group",
+                    keys = format!("{:?}", keys)
+                ))
             }
         };
         match name {
@@ -1349,7 +1399,7 @@ impl ApmMessage {
                 torque: arr(f, MAN_TOR)?.try_into().expect("3"),
                 delta_mass: f.opt_num("MAN_DELTA_MASS")?,
             }),
-            other => return Err(format!("unknown APM block {other}_START")),
+            other => return Err(crate::terr!("e-adm-unknown-apm-block-start", other = other)),
         }
         Ok(())
     }
@@ -1464,14 +1514,14 @@ impl ApmMessage {
             || self.metadata.object_id.is_empty()
             || self.metadata.time_system.is_empty()
         {
-            return Err("APM metadata needs OBJECT_NAME, OBJECT_ID and TIME_SYSTEM".into());
+            return Err(crate::terr!("e-adm-apm-metadata-needs-object-name"));
         }
         if self.epoch.is_empty() {
-            return Err("APM without EPOCH".into());
+            return Err(crate::terr!("e-adm-apm-without-epoch"));
         }
         for s in &self.spins {
             if s.nutation.is_some() && s.momentum.is_some() {
-                return Err("a spin block holds nutation or momentum data, not both".into());
+                return Err(crate::terr!("e-adm-spin-block-holds-nutation-or"));
             }
         }
         Ok(())
@@ -1499,7 +1549,7 @@ fn axis_quaternion(axis: char, deg: f64) -> Result<[f64; 4], String> {
         'X' | '1' => [s, 0.0, 0.0, c],
         'Y' | '2' => [0.0, s, 0.0, c],
         'Z' | '3' => [0.0, 0.0, s, c],
-        o => return Err(format!("rotation axis {o:?}")),
+        o => return Err(crate::terr!("e-adm-rotation-axis", o = format!("{:?}", o))),
     })
 }
 
@@ -1515,7 +1565,11 @@ fn axis_quaternion(axis: char, deg: f64) -> Result<[f64; 4], String> {
 pub fn quaternion_a_to_b(meta: &AemMetadata, values: &[f64]) -> Result<[f64; 4], String> {
     let t = meta.attitude_type;
     if values.len() != t.value_count() {
-        return Err(format!("{} values for {}", values.len(), t.keyword()));
+        return Err(crate::terr!(
+            "e-adm-values-for",
+            values = values.len(),
+            t = t.keyword()
+        ));
     }
     let q = if t.is_quaternion() {
         [values[0], values[1], values[2], values[3]]
@@ -1531,11 +1585,14 @@ pub fn quaternion_a_to_b(meta: &AemMetadata, values: &[f64]) -> Result<[f64; 4],
         let seq: Vec<char> = meta
             .euler_rot_seq
             .as_deref()
-            .ok_or("Euler record without EULER_ROT_SEQ")?
+            .ok_or_else(|| crate::terr!("e-adm-euler-record-without-euler-rot"))?
             .chars()
             .collect();
         if seq.len() != 3 {
-            return Err(format!("rotation sequence {seq:?}"));
+            return Err(crate::terr!(
+                "e-adm-rotation-sequence",
+                seq = format!("{:?}", seq)
+            ));
         }
         let a = axis_quaternion(seq[0], values[0])?;
         let b = axis_quaternion(seq[1], values[1])?;
@@ -1556,7 +1613,7 @@ pub fn epoch_seconds(s: &str) -> Result<f64, String> {
     let s = s.trim().trim_end_matches('Z');
     let (date, time) = s
         .split_once('T')
-        .ok_or_else(|| format!("epoch {s:?} has no 'T'"))?;
+        .ok_or_else(|| crate::terr!("e-adm-epoch-has-no", s = format!("{:?}", s)))?;
     let p: Vec<&str> = date.split('-').collect();
     let parse = |x: &str| x.parse::<i64>().map_err(|e| format!("{s}: {e}"));
     let days = |y: i64, m: i64, d: i64| -> i64 {
@@ -1569,11 +1626,19 @@ pub fn epoch_seconds(s: &str) -> Result<f64, String> {
     let day = match p.len() {
         3 => days(parse(p[0])?, parse(p[1])?, parse(p[2])?),
         2 => days(parse(p[0])?, 1, 1) + parse(p[1])? - 1,
-        _ => return Err(format!("epoch date {date:?}")),
+        _ => {
+            return Err(crate::terr!(
+                "e-adm-epoch-date",
+                date = format!("{:?}", date)
+            ))
+        }
     } - days(2000, 1, 1);
     let t: Vec<&str> = time.split(':').collect();
     if t.len() != 3 {
-        return Err(format!("epoch time {time:?}"));
+        return Err(crate::terr!(
+            "e-adm-epoch-time",
+            time = format!("{:?}", time)
+        ));
     }
     let sec: f64 = t[2].parse().map_err(|e| format!("{s}: {e}"))?;
     Ok((day * 86_400 + parse(t[0])? * 3600 + parse(t[1])? * 60) as f64 + sec)

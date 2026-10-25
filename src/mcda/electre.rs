@@ -57,21 +57,26 @@ pub fn electre_i(
 ) -> Result<ElectreResult, String> {
     let m = dataset.len();
     if m == 0 {
-        return Err("ELECTRE I: empty dataset".into());
+        return Err(crate::terr!("e-mcda-electre-electre-empty-dataset"));
     }
     let n = weights.len();
     if n == 0 {
-        return Err("ELECTRE I: no criteria".into());
+        return Err(crate::terr!("e-mcda-electre-electre-no-criteria"));
     }
     for (i, row) in dataset.iter().enumerate() {
         if row.len() != n {
-            return Err(format!(
-                "ELECTRE I: alternative {i} has {} values but there are {n} criteria",
-                row.len()
+            return Err(crate::terr!(
+                "e-mcda-electre-electre-alternative-has-values-but",
+                i = i,
+                row = row.len(),
+                n = n
             ));
         }
         if row.iter().any(|x| !x.is_finite()) {
-            return Err(format!("ELECTRE I: alternative {i} has a non-finite value"));
+            return Err(crate::terr!(
+                "e-mcda-electre-electre-alternative-has-non-finite",
+                i = i
+            ));
         }
     }
     let wsum: f64 = weights.iter().sum();

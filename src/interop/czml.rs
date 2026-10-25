@@ -37,11 +37,7 @@ pub fn write(scene: &Scene) -> String {
         "id": "document",
         "name": scene.title(),
         "version": "1.0",
-        "description": format!(
-            "Kshana {} export. Epoch: {}. Moving objects: GCRS (referenceFrame INERTIAL), metres, seconds after the epoch. Fixed sites: Earth-fixed WGS 84 (referenceFrame FIXED), metres.",
-            env!("CARGO_PKG_VERSION"),
-            scene.epoch_note
-        ),
+        "description": crate::t!("interop-czml-kshana-export-epoch-moving-objects", v1 = env!("CARGO_PKG_VERSION"), epoch_note = scene.epoch_note),
     });
     if let (Some(e), Some(iv)) = (scene.epoch, availability(scene)) {
         doc["clock"] = json!({
@@ -71,7 +67,7 @@ pub fn write(scene: &Scene) -> String {
             packets.push(json!({
                 "id": format!("{}/{}", m.role.as_str(), m.id),
                 "name": m.id,
-                "description": format!("{} ({}). Position: GCRS, metres.", m.description, m.role.as_str()),
+                "description": crate::t!("interop-czml-position-gcrs-metres", description = m.description, role = m.role.as_str()),
                 "availability": iv,
                 "position": {
                     "epoch": e.iso(0.0),
@@ -103,10 +99,7 @@ pub fn write(scene: &Scene) -> String {
         packets.push(json!({
             "id": format!("site/{}", s.id),
             "name": s.id,
-            "description": format!(
-                "{} ({}). Latitude {} deg, longitude {} deg, height {} m above the WGS 84 ellipsoid. Position: Earth-fixed, metres.",
-                s.description, s.role.as_str(), s.lat_deg, s.lon_deg, s.h_m
-            ),
+            "description": crate::t!("interop-czml-latitude-deg-longitude-deg-height", description = s.description, role = s.role.as_str(), lat_deg = s.lat_deg, lon_deg = s.lon_deg, h_m = s.h_m),
             "position": {
                 "referenceFrame": "FIXED",
                 "cartesian": [round_dp(p[0], 4), round_dp(p[1], 4), round_dp(p[2], 4)],
@@ -124,7 +117,7 @@ pub fn write(scene: &Scene) -> String {
         packets.push(json!({
             "id": f.id,
             "name": f.id,
-            "description": format!("{}. Radius {} m along the ground.", f.description, f.radius_m),
+            "description": crate::t!("interop-czml-radius-along-the-ground", description = f.description, radius_m = f.radius_m),
             "position": {
                 "referenceFrame": "FIXED",
                 "cartesian": [round_dp(p[0], 4), round_dp(p[1], 4), round_dp(p[2], 4)],
@@ -151,7 +144,7 @@ pub fn write(scene: &Scene) -> String {
         packets.push(json!({
             "id": format!("route/{}", r.id),
             "name": r.id,
-            "description": format!("{}. Untimed: WGS 84 longitude and latitude in degrees, clamped to the ground.", r.description),
+            "description": crate::t!("interop-czml-untimed-wgs-84-longitude-and", description = r.description),
             "polyline": {
                 "positions": { "cartographicDegrees": deg },
                 "clampToGround": true,

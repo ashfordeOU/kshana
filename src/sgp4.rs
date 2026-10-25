@@ -1642,7 +1642,7 @@ impl SgpOrbit {
         let (r, v) = self
             .prop
             .propagate_at(t)
-            .map_err(|code| format!("SGP4 error code {code}"))?;
+            .map_err(|code| crate::terr!("e-sgp4-sgp4-error-code", code = code))?;
         Ok((
             [r[0] * 1e3, r[1] * 1e3, r[2] * 1e3],
             [v[0] * 1e3, v[1] * 1e3, v[2] * 1e3],

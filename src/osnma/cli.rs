@@ -57,7 +57,11 @@ fn parse_args(args: &[String]) -> Result<Options, String> {
     };
     let mut it = args.iter();
     while let Some(a) = it.next() {
-        let mut val = |name: &str| it.next().cloned().ok_or(format!("{name} needs a value"));
+        let mut val = |name: &str| {
+            it.next()
+                .cloned()
+                .ok_or(crate::t!("bench-cli-needs-value", name = name))
+        };
         match a.as_str() {
             "--format" => o.format = Some(val("--format")?),
             "--start-gst" => o.start_gst = Some(num(&val("--start-gst")?)?),
@@ -70,16 +74,18 @@ fn parse_args(args: &[String]) -> Result<Options, String> {
             "--public-key" => o.keys.push(parse_key(&val("--public-key")?)?),
             "--epochs" => o.epochs = true,
             "--json" => o.json = true,
-            s if s.starts_with("--") => return Err(format!("unknown option {s}")),
+            s if s.starts_with("--") => {
+                return Err(crate::terr!("e-iq-io-cli-unknown-option", s = s))
+            }
             s if o.input.is_empty() => o.input = s.to_string(),
-            s => return Err(format!("unexpected argument {s}")),
+            s => return Err(crate::terr!("e-nmea-synth-cli-unexpected-argument", s = s)),
         }
     }
     if o.input.is_empty() {
-        return Err("missing input file".into());
+        return Err(crate::terr!("e-osnma-cli-missing-input-file"));
     }
     if o.max_err.is_some() && o.reference.is_none() {
-        return Err("--max-time-error has no effect without --reference-time".into());
+        return Err(crate::terr!("e-osnma-cli-max-time-error-has-no"));
     }
     let cfg = Config {
         max_time_error_s: o.max_err,
@@ -90,18 +96,19 @@ fn parse_args(args: &[String]) -> Result<Options, String> {
 }
 
 fn num(s: &str) -> Result<u32, String> {
-    s.parse().map_err(|_| format!("not a number: {s}"))
+    s.parse()
+        .map_err(|_| crate::terr!("e-osnma-cli-not-number", s = s))
 }
 
 fn parse_key(s: &str) -> Result<PublicKey, String> {
     let p: Vec<&str> = s.split(':').collect();
     let [id, ty, hx] = p[..] else {
-        return Err("public key must be ID:TYPE:HEX".into());
+        return Err(crate::terr!("e-osnma-cli-public-key-must-be-id"));
     };
     let key_type = match ty {
         "p256" => KeyType::P256,
         "p521" => KeyType::P521,
-        _ => return Err("public key type must be p256 or p521".into()),
+        _ => return Err(crate::terr!("e-osnma-cli-public-key-type-must-be")),
     };
     Ok(PublicKey {
         pkid: id.parse().map_err(|_| "bad public key id")?,
@@ -241,7 +248,7 @@ impl Analysis {
 fn analyse(raw: Vec<u8>, p: &VerifyParams) -> Result<Analysis, String> {
     let layout = match p.format {
         Some(f @ ("vector-csv" | "pages" | "ubx")) => f,
-        Some(f) => return Err(format!("unknown format {f}")),
+        Some(f) => return Err(crate::terr!("e-osnma-cli-unknown-format", f = f)),
         None if raw.starts_with(&[0xB5, 0x62]) || std::str::from_utf8(&raw).is_err() => "ubx",
         None if raw
             .iter()
@@ -260,14 +267,14 @@ fn analyse(raw: Vec<u8>, p: &VerifyParams) -> Result<Analysis, String> {
         pg
     } else {
         let Ok(text) = String::from_utf8(raw) else {
-            return Err(format!(
-                "{} is not text; use --format ubx for a UBX stream",
-                p.label
+            return Err(crate::terr!(
+                "e-osnma-cli-is-not-text-use-format",
+                label = p.label
             ));
         };
         if layout == "vector-csv" {
             let Some(start) = p.start_gst.or_else(|| input::start_from_filename(p.label)) else {
-                return Err("a vector CSV needs --start-gst or a dated file name".into());
+                return Err(crate::terr!("e-osnma-cli-vector-csv-needs-start-gst"));
             };
             input::parse_vector_csv(&text, start)?
         } else {
@@ -275,7 +282,7 @@ fn analyse(raw: Vec<u8>, p: &VerifyParams) -> Result<Analysis, String> {
         }
     };
     if p.max_err.is_some() && p.reference.is_none() {
-        return Err("--max-time-error has no effect without --reference-time".into());
+        return Err(crate::terr!("e-osnma-cli-max-time-error-has-no"));
     }
     let mut v = Verifier::new(Config {
         merkle_root: p.merkle_root,
@@ -395,7 +402,15 @@ pub fn run(args: &[String]) -> i32 {
     let raw = match std::fs::read(&o.input) {
         Ok(t) => t,
         Err(e) => {
-            eprintln!("{ADVISORY}\n\nerror: cannot read {}: {e}", o.input);
+            eprintln!(
+                "{}",
+                crate::t!(
+                    "osnma-cli-error-cannot-read",
+                    ADVISORY = ADVISORY,
+                    input = o.input,
+                    e = e
+                )
+            );
             return 2;
         }
     };
@@ -448,25 +463,46 @@ fn print_text(a: &Analysis, o: &Options) {
     } = a;
     let overall = *overall;
     {
-        println!("Galileo OSNMA verification\n{ADVISORY}\n");
-        println!("input: {} ({} pages)", o.input, pages);
+        println!(
+            "{}",
+            crate::t!("osnma-cli-galileo-osnma-verification", ADVISORY = ADVISORY)
+        );
+        println!(
+            "{}",
+            crate::t!("osnma-cli-input-pages", input = o.input, pages = pages)
+        );
         if let Some(u) = ubx_stats {
             println!(
-                "ubx: {} frames; {} I/NAV pages decoded, {} placed in time ({} bad CRC, {} unplaceable, {} time conflicts)",
-                u.frames, u.inav_pages, pages, u.bad_crc, u.unstamped, u.time_conflicts
+                "{}",
+                crate::t!(
+                    "osnma-cli-ubx-frames-nav-pages-decoded",
+                    frames = u.frames,
+                    inav_pages = u.inav_pages,
+                    pages = pages,
+                    bad_crc = u.bad_crc,
+                    unstamped = u.unstamped,
+                    time_conflicts = u.time_conflicts
+                )
             );
         }
         println!(
-            "overall: {}   NMA status: {}",
-            status_word(overall),
-            nma_status
+            "{}",
+            crate::t!(
+                "osnma-cli-overall-nma-status",
+                status_word = status_word(overall),
+                nma_status = nma_status
+            )
         );
         if *alert {
-            println!("ALERT: a verified OSNMA alert message was received. Stop using OSNMA data; nothing is reported as authenticated.");
+            println!(
+                "{}",
+                crate::t!("osnma-cli-alert-verified-osnma-alert-message")
+            );
         }
         match o.reference {
             None => println!(
-                "freshness: NOT enforced. No reference time was given, so sub-frame times are taken from the input and a replay of old data would authenticate."
+                "{}",
+                crate::t!("osnma-cli-freshness-not-enforced-no-reference")
             ),
             Some(r) => {
                 let set_aside = events
@@ -474,9 +510,13 @@ fn print_text(a: &Analysis, o: &Options) {
                     .filter(|e| matches!(e, Event::TimeRejected { .. }))
                     .count();
                 println!(
-                    "freshness: sub-frames within {} s of the reference time {} are used; {set_aside} were set aside. A reference time is a single instant.",
-                    o.max_err.unwrap_or(29),
-                    input::label(r)
+                    "{}",
+                    crate::t!(
+                        "osnma-cli-freshness-sub-frames-within-of",
+                        max_err = o.max_err.unwrap_or(29),
+                        v2 = input::label(r),
+                        set_aside = set_aside
+                    )
                 );
             }
         }
@@ -490,7 +530,10 @@ fn print_text(a: &Analysis, o: &Options) {
         for (k, n) in &kinds {
             println!("  {k}: {n}");
         }
-        println!("\nsatellite  status          authenticated  failed  pending  discarded  last authenticated");
+        println!(
+            "{}",
+            crate::t!("osnma-cli-satellite-status-authenticated-failed-pending")
+        );
         for (s, st) in sats {
             let prn: u8 = s[1..].parse().unwrap_or(0);
             let c = counts.get(&prn);
@@ -508,7 +551,7 @@ fn print_text(a: &Analysis, o: &Options) {
             );
         }
         if o.epochs {
-            println!("\nepoch (tag sub-frame)      tx   data  adkd  ctr  result");
+            println!("{}", crate::t!("osnma-cli-epoch-tag-sub-frame-tx"));
             for t in tags {
                 println!(
                     "{:<26} E{:02}  E{:02}  {:>4}  {:>3}  {}",

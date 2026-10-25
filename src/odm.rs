@@ -278,19 +278,23 @@ impl Block {
             let keys = self.keys(omm);
             for (k, _) in &s.items {
                 if !keys.contains(&k.as_str()) {
-                    return Err(format!("{k} is not a keyword of {name}"));
+                    return Err(crate::terr!("e-odm-is-not-keyword-of", k = k, name = name));
                 }
             }
         }
         for k in self.required(omm) {
             if s.get(k).is_none() {
-                return Err(format!("{name} without {k}"));
+                return Err(crate::terr!("e-odm-without", name = name, k = k));
             }
         }
         for group in self.one_of() {
             let n = group.iter().filter(|k| s.get(k).is_some()).count();
             if n != 1 {
-                return Err(format!("{name} needs exactly one of {}", group.join(", ")));
+                return Err(crate::terr!(
+                    "e-odm-needs-exactly-one-of",
+                    name = name,
+                    group = group.join(", ")
+                ));
             }
         }
         Ok(())
@@ -317,9 +321,9 @@ fn ordered(block: Block, omm: bool, s: &Section) -> Vec<(&str, &str)> {
 fn check_header(h: &OdmHeader) -> Result<(), String> {
     let v2 = h.version.trim().starts_with('2');
     if v2 && (h.classification.is_some() || h.message_id.is_some()) {
-        return Err(format!(
-            "CLASSIFICATION and MESSAGE_ID are version-3.0 header keywords (version {})",
-            h.version
+        return Err(crate::terr!(
+            "e-odm-classification-and-message-id-are",
+            version = h.version
         ));
     }
     Ok(())
@@ -343,7 +347,7 @@ fn write_blocks_kvn(
         comments(&mut o, &s.comments);
         for (k, v) in ordered(*b, omm, s) {
             if *b == Block::User {
-                kv(&mut o, &format!("USER_DEFINED_{k}"), v);
+                kv(&mut o, &crate::t!("odm-user-defined", k = k), v);
             } else {
                 kv(&mut o, k, v);
             }
@@ -403,7 +407,12 @@ fn read_blocks_kvn(
     for l in lines.by_ref() {
         match l {
             KvnLine::Comment(c) => pending.push(c),
-            KvnLine::Bare(b) => return Err(format!("unexpected line {b:?}")),
+            KvnLine::Bare(b) => {
+                return Err(crate::terr!(
+                    "e-odm-unexpected-line",
+                    b = format!("{:?}", b)
+                ))
+            }
             KvnLine::Kv(k, v) => {
                 let (block, key) = if let Some(u) = k.strip_prefix("USER_DEFINED_") {
                     (Block::User, u.to_string())
@@ -412,7 +421,7 @@ fn read_blocks_kvn(
                         .iter()
                         .copied()
                         .find(|b| b.keys(omm).contains(&k.as_str()))
-                        .ok_or_else(|| format!("unknown keyword {k}"))?;
+                        .ok_or_else(|| crate::terr!("e-odm-unknown-keyword", k = k))?;
                     (b, k)
                 };
                 let restart = block == Block::Man && key == "MAN_EPOCH_IGNITION";
@@ -422,9 +431,10 @@ fn read_blocks_kvn(
                 };
                 if new {
                     if out.iter().any(|(b, _)| *b == block) && block != Block::Man {
-                        return Err(format!(
-                            "{} block repeated or out of order at {key}",
-                            block.xml_name()
+                        return Err(crate::terr!(
+                            "e-odm-block-repeated-or-out-of",
+                            block = block.xml_name(),
+                            key = key
                         ));
                     }
                     out.push((block, Section::new()));
@@ -432,14 +442,14 @@ fn read_blocks_kvn(
                 let s = &mut out.last_mut().expect("pushed").1;
                 s.comments.append(&mut pending);
                 if s.get(&key).is_some() {
-                    return Err(format!("{key} repeated"));
+                    return Err(crate::terr!("e-odm-repeated", key = key));
                 }
                 s.items.push((key, v));
             }
         }
     }
     if !pending.is_empty() {
-        return Err("comments after the last keyword".into());
+        return Err(crate::terr!("e-odm-comments-after-the-last-keyword"));
     }
     Ok(out)
 }
@@ -505,7 +515,7 @@ fn take_one(blocks: &mut Vec<(Block, Section)>, b: Block) -> Result<Option<Secti
     while i < blocks.len() {
         if blocks[i].0 == b {
             if found.is_some() {
-                return Err(format!("{} given twice", b.xml_name()));
+                return Err(crate::terr!("e-odm-given-twice", b = b.xml_name()));
             }
             found = Some(blocks.remove(i).1);
         } else {
@@ -590,8 +600,10 @@ impl OpmMessage {
             let (_, h) = read_header_kvn(&mut lines, "CCSDS_OPM_VERS")?;
             (h, read_blocks_kvn(&mut lines, OPM_BLOCKS, false)?)
         };
-        let metadata = take_one(&mut blocks, Block::Meta)?.ok_or("OPM without metadata")?;
-        let state = take_one(&mut blocks, Block::State)?.ok_or("OPM without state vector")?;
+        let metadata = take_one(&mut blocks, Block::Meta)?
+            .ok_or_else(|| crate::terr!("e-odm-opm-without-metadata"))?;
+        let state = take_one(&mut blocks, Block::State)?
+            .ok_or_else(|| crate::terr!("e-odm-opm-without-state-vector"))?;
         let m = OpmMessage {
             header,
             metadata,
@@ -685,9 +697,10 @@ impl OmmMessage {
             let (_, h) = read_header_kvn(&mut lines, "CCSDS_OMM_VERS")?;
             (h, read_blocks_kvn(&mut lines, OMM_BLOCKS, true)?)
         };
-        let metadata = take_one(&mut blocks, Block::Meta)?.ok_or("OMM without metadata")?;
-        let mean_elements =
-            take_one(&mut blocks, Block::Mean)?.ok_or("OMM without mean elements")?;
+        let metadata = take_one(&mut blocks, Block::Meta)?
+            .ok_or_else(|| crate::terr!("e-odm-omm-without-metadata"))?;
+        let mean_elements = take_one(&mut blocks, Block::Mean)?
+            .ok_or_else(|| crate::terr!("e-odm-omm-without-mean-elements"))?;
         let m = OmmMessage {
             header,
             metadata,
@@ -1029,26 +1042,38 @@ impl OcmBlock {
         if kind != OcmBlockKind::User {
             for (k, _) in &self.section.items {
                 if !kind.keys().contains(&k.as_str()) {
-                    return Err(format!("{k} is not a keyword of the {} block", kind.tag()));
+                    return Err(crate::terr!(
+                        "e-odm-is-not-keyword-of-the",
+                        k = k,
+                        kind = kind.tag()
+                    ));
                 }
             }
         }
         for k in kind.required() {
             if self.section.get(k).is_none() {
-                return Err(format!("{} block without {k}", kind.tag()));
+                return Err(crate::terr!(
+                    "e-odm-block-without",
+                    kind = kind.tag(),
+                    k = k
+                ));
             }
         }
         if kind.line_tag().is_none() && !self.lines.is_empty() {
-            return Err(format!("{} block with data lines", kind.tag()));
+            return Err(crate::terr!(
+                "e-odm-block-with-data-lines",
+                kind = kind.tag()
+            ));
         }
         if let Some(n) = self.line_width(kind) {
             for l in &self.lines {
                 if l.len() != n + 1 {
-                    return Err(format!(
-                        "{} line {:?} has {} values, expected {n}",
-                        kind.tag(),
-                        l.join(" "),
-                        l.len().saturating_sub(1)
+                    return Err(crate::terr!(
+                        "e-odm-line-has-values-expected",
+                        kind = kind.tag(),
+                        l = format!("{:?}", l.join(" ")),
+                        l2 = l.len().saturating_sub(1),
+                        n = n
                     ));
                 }
             }
@@ -1107,12 +1132,12 @@ impl OcmMessage {
         check_header(&self.header)?;
         for (k, _) in &self.metadata.items {
             if !OCM_META.contains(&k.as_str()) {
-                return Err(format!("{k} is not an OCM metadata keyword"));
+                return Err(crate::terr!("e-odm-is-not-an-ocm-metadata", k = k));
             }
         }
         for k in ["TIME_SYSTEM", "EPOCH_TZERO"] {
             if self.metadata.get(k).is_none() {
-                return Err(format!("OCM metadata without {k}"));
+                return Err(crate::terr!("e-odm-ocm-metadata-without", k = k));
             }
         }
         for (k, b) in self.blocks() {
@@ -1146,7 +1171,7 @@ impl OcmMessage {
             comments(&mut o, &b.section.comments);
             for (k, v) in b.ordered(kind) {
                 if kind == OcmBlockKind::User {
-                    kv(&mut o, &format!("USER_DEFINED_{k}"), v);
+                    kv(&mut o, &crate::t!("odm-user-defined", k = k), v);
                 } else {
                     kv(&mut o, k, v);
                 }
@@ -1225,7 +1250,7 @@ impl OcmMessage {
             OcmBlockKind::Man => self.man.push(b),
             OcmBlockKind::Phys if self.phys.is_none() => self.phys = Some(b),
             OcmBlockKind::User if self.user.is_none() => self.user = Some(b),
-            _ => return Err(format!("{} block repeated", kind.tag())),
+            _ => return Err(crate::terr!("e-odm-block-repeated", kind = kind.tag())),
         }
         Ok(())
     }
@@ -1258,7 +1283,7 @@ impl OcmMessage {
                 KvnLine::Bare(t) => {
                     if t == "META_START" || t.ends_with("_START") {
                         if current.is_some() {
-                            return Err(format!("{t} inside a block"));
+                            return Err(crate::terr!("e-odm-inside-block", t = t));
                         }
                         let kind = if t == "META_START" {
                             None
@@ -1274,17 +1299,21 @@ impl OcmMessage {
                                 ]
                                 .into_iter()
                                 .find(|k| k.tag() == tag)
-                                .ok_or_else(|| format!("unsupported OCM block {tag}"))?,
+                                .ok_or_else(|| {
+                                    crate::terr!("e-odm-unsupported-ocm-block", tag = tag)
+                                })?,
                             )
                         };
                         let mut b = OcmBlock::default();
                         b.section.comments.append(&mut pending);
                         current = Some((kind, b));
                     } else if t == "META_STOP" || t.ends_with("_STOP") {
-                        let (kind, b) = current.take().ok_or(format!("{t} outside a block"))?;
+                        let (kind, b) = current
+                            .take()
+                            .ok_or(crate::t!("odm-outside-block", t = t))?;
                         let want = kind.map_or("META", |k| k.tag());
                         if t != format!("{want}_STOP") {
-                            return Err(format!("{t} closes a {want} block"));
+                            return Err(crate::terr!("e-odm-closes-block", t = t, want = want));
                         }
                         match kind {
                             None => m.metadata = b.section,
@@ -1295,14 +1324,19 @@ impl OcmMessage {
                             Some((Some(k), b)) if k.line_tag().is_some() => b
                                 .lines
                                 .push(t.split_whitespace().map(str::to_string).collect()),
-                            _ => return Err(format!("unexpected line {t:?}")),
+                            _ => {
+                                return Err(crate::terr!(
+                                    "e-odm-unexpected-line-2",
+                                    t = format!("{:?}", t)
+                                ))
+                            }
                         }
                     }
                 }
                 KvnLine::Kv(k, v) => {
                     let (kind, b) = current
                         .as_mut()
-                        .ok_or_else(|| format!("{k} outside a block"))?;
+                        .ok_or_else(|| crate::terr!("e-odm-outside-block", k = k))?;
                     let key = match (kind, k.strip_prefix("USER_DEFINED_")) {
                         (Some(OcmBlockKind::User), Some(u)) => u.to_string(),
                         _ => k,
@@ -1312,7 +1346,7 @@ impl OcmMessage {
             }
         }
         if current.is_some() {
-            return Err("unterminated block".into());
+            return Err(crate::terr!("e-odm-unterminated-block"));
         }
         Ok(m)
     }
