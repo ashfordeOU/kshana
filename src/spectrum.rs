@@ -1300,8 +1300,12 @@ fn read_recording_files(cfg: &RecordingCfg) -> Result<(String, Vec<u8>, String),
         cfg.data_path
             .clone()
             .unwrap_or_else(|| match cfg.meta_path.strip_suffix(".sigmf-meta") {
-                Some(stem) => crate::t!("spectrum-sigmf-data", stem = stem),
-                None => crate::t!("spectrum-sigmf-data-2", meta_path = cfg.meta_path),
+                Some(stem) => {
+                    crate::i18n::in_english(|| crate::t!("spectrum-sigmf-data", stem = stem))
+                }
+                None => crate::i18n::in_english(|| {
+                    crate::t!("spectrum-sigmf-data-2", meta_path = cfg.meta_path)
+                }),
             });
     let data = std::fs::read(&data_path).map_err(|e| {
         crate::terr!(

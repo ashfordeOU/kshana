@@ -39,6 +39,16 @@ pub fn run(args: &[String]) -> i32 {
     }
 }
 
+/// Run `f` in English, for a document written to a file (an error is shown in the user's language).
+fn en<T>(f: impl Fn() -> Result<T, BenchError>) -> Result<T, BenchError> {
+    crate::i18n::in_english_or_localised_error(f)
+}
+
+/// The same for a builder that cannot fail.
+fn en_ok<T>(f: impl FnOnce() -> T) -> T {
+    crate::i18n::in_english(f)
+}
+
 fn flag<'a>(args: &'a [String], name: &str) -> Result<Option<&'a str>, BenchError> {
     match args.iter().position(|a| a == name) {
         None => Ok(None),
@@ -204,8 +214,8 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
                 let s = Split::parse(split_s)?;
                 (Some(s), s)
             };
-            let t = tasks::a_load(Path::new(need(rest, "--data")?), filter)?;
-            let doc = tasks::a_truth_json(&t, label);
+            let t = en(|| tasks::a_load(Path::new(need(rest, "--data")?), filter))?;
+            let doc = en_ok(|| tasks::a_truth_json(&t, label));
             let mut doc = doc;
             if filter.is_none() {
                 doc["split"] = json!("all");
@@ -237,13 +247,17 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
             let split = Split::parse(need(rest, "--split")?)?;
             let out = PathBuf::from(need(rest, "--out")?);
             let (cases, truth) = match task_arg(rest)? {
-                "d" => tasks::d_files(split, scale_arg(rest)?, secret(rest)?.as_deref())?,
+                "d" => {
+                    let (scale, sec) = (scale_arg(rest)?, secret(rest)?);
+                    en(|| tasks::d_files(split, scale, sec.as_deref()))?
+                }
                 "c" => {
                     if split == Split::Holdout && flag(rest, "--seed-file")?.is_some() {
                         return Err(BenchError("task c has no sealed holdout".into()));
                     }
-                    let c = tasks::c_load(&clocks_text(rest)?, split)?;
-                    tasks::c_files(&c, split)
+                    let text = clocks_text(rest)?;
+                    let c = en(|| tasks::c_load(&text, split))?;
+                    en_ok(|| tasks::c_files(&c, split))
                 }
                 _ => {
                     return Err(BenchError(
@@ -272,11 +286,11 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
                         .map_err(|_| BenchError("--threshold is not a number".into()))?,
                 ),
             };
-            let r = super::score(
-                &read(need(rest, "--truth")?)?,
-                &read(need(rest, "--predictions")?)?,
-                thr,
-            )?;
+            let (truth, predictions) = (
+                read(need(rest, "--truth")?)?,
+                read(need(rest, "--predictions")?)?,
+            );
+            let r = en(|| super::score(&truth, &predictions, thr))?;
             match flag(rest, "--out")? {
                 Some(p) => write(Path::new(p), &format!("{r}\n"))?,
                 None => println!("{r}"),
@@ -386,12 +400,16 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
 fn emit(out: &Path, stem: &str, truth_text: &str, preds: &Value) -> Result<(), BenchError> {
     let ptext = pretty(preds);
     write(
-        &out.join(crate::t!("bench-cli-predictions-json", stem = stem)),
+        &out.join(crate::i18n::in_english(|| {
+            crate::t!("bench-cli-predictions-json", stem = stem)
+        })),
         &ptext,
     )?;
-    let r = super::score(truth_text, &ptext, None)?;
+    let r = en(|| super::score(truth_text, &ptext, None))?;
     write(
-        &out.join(crate::t!("bench-cli-result-json", stem = stem)),
+        &out.join(crate::i18n::in_english(|| {
+            crate::t!("bench-cli-result-json", stem = stem)
+        })),
         &format!("{r}\n"),
     )?;
     println!("{stem}");
@@ -461,7 +479,7 @@ fn baseline(args: &[String]) -> Result<i32, BenchError> {
     let task = task_arg(args)?;
     let out = PathBuf::from(need(args, "--out")?);
     if task == "b" {
-        let r = carried_b();
+        let r = en_ok(carried_b);
         write(
             &out.join("b-test-kshana-iq-cn0-drop.result.json"),
             &pretty(&r),
@@ -472,49 +490,58 @@ fn baseline(args: &[String]) -> Result<i32, BenchError> {
     let split = Split::parse(need(args, "--split")?)?;
     match task {
         "a" => {
-            let t = tasks::a_load(Path::new(need(args, "--data")?), Some(split))?;
-            let truth_text = pretty(&tasks::a_truth_json(&t, split));
+            let t = en(|| tasks::a_load(Path::new(need(args, "--data")?), Some(split)))?;
+            let truth_text = en_ok(|| pretty(&tasks::a_truth_json(&t, split)));
             write(
-                &out.join(crate::t!("bench-cli-truth-json", split = split.name())),
+                &out.join(crate::i18n::in_english(|| {
+                    crate::t!("bench-cli-truth-json", split = split.name())
+                })),
                 &truth_text,
             )?;
-            for (stat, doc) in tasks::a_baselines(&t, split.name()) {
+            for (stat, doc) in en_ok(|| tasks::a_baselines(&t, split.name())) {
                 let stem = format!("a-{}-{}", split.name(), slug(stat.config_field()));
                 emit(&out, &stem, &truth_text, &doc)?;
             }
         }
         "c" => {
-            let cases = tasks::c_load(&clocks_text(args)?, split)?;
-            let (_, truth) = tasks::c_files(&cases, split);
+            let text = clocks_text(args)?;
+            let cases = en(|| tasks::c_load(&text, split))?;
+            let (_, truth) = en_ok(|| tasks::c_files(&cases, split));
             let truth_text = pretty(&truth);
             write(
-                &out.join(crate::t!("bench-cli-truth-json-2", split = split.name())),
+                &out.join(crate::i18n::in_english(|| {
+                    crate::t!("bench-cli-truth-json-2", split = split.name())
+                })),
                 &truth_text,
             )?;
             for b in C_BASELINES {
-                let doc = tasks::c_baseline_doc(b, &cases, split.name());
+                let doc = en_ok(|| tasks::c_baseline_doc(b, &cases, split.name()));
                 emit(&out, &format!("c-{}-{b}", split.name()), &truth_text, &doc)?;
             }
         }
         _ => {
             let scale = scale_arg(args)?;
             let sec = secret(args)?;
-            let (_, truth) = tasks::d_files(split, scale, sec.as_deref())?;
+            let (_, truth) = en(|| tasks::d_files(split, scale, sec.as_deref()))?;
             let truth_text = pretty(&truth);
             write(
-                &out.join(crate::t!("bench-cli-truth-json-3", split = split.name())),
+                &out.join(crate::i18n::in_english(|| {
+                    crate::t!("bench-cli-truth-json-3", split = split.name())
+                })),
                 &truth_text,
             )?;
-            let seed = tasks::d_seed(split, sec.as_deref())?;
-            let (cin, cout) = tasks::d_corpora(seed, scale, split);
+            let seed = en(|| tasks::d_seed(split, sec.as_deref()))?;
+            let (cin, cout) = en_ok(|| tasks::d_corpora(seed, scale, split));
             for det in tasks::d_detectors() {
-                let scores = tasks::d_baseline_scores(det.as_ref(), &cin, &cout);
-                let doc = tasks::scores_doc(
-                    "d",
-                    split.name(),
-                    &crate::t!("bench-cli-impairment-eval-baseline", det = det.name()),
-                    &scores,
-                );
+                let doc = en_ok(|| {
+                    let scores = tasks::d_baseline_scores(det.as_ref(), &cin, &cout);
+                    tasks::scores_doc(
+                        "d",
+                        split.name(),
+                        &crate::t!("bench-cli-impairment-eval-baseline", det = det.name()),
+                        &scores,
+                    )
+                });
                 emit(
                     &out,
                     &format!("d-{}-{}", split.name(), slug(det.name())),
@@ -587,7 +614,12 @@ fn manifest(args: &[String]) -> Result<i32, BenchError> {
     };
     let read: Vec<_> = dirs
         .iter()
-        .map(|d| (d, crate::receiver_trust::calibration::read_folder(&root, d)))
+        .map(|d| {
+            (
+                d,
+                en_ok(|| crate::receiver_trust::calibration::read_folder(&root, d)),
+            )
+        })
         .collect();
     let assignment = super::assign_splits(
         &read

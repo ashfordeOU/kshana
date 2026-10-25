@@ -308,7 +308,9 @@ impl SignalCode {
     /// The same code without its secondary code (a primary-only replica).
     pub fn primary_only(&self) -> Self {
         Self {
-            name: crate::t!("iq-signals-primary-only", name = self.name),
+            name: crate::i18n::in_english(|| {
+                crate::t!("iq-signals-primary-only", name = self.name)
+            }),
             secondary: vec![1],
             ..self.clone()
         }
