@@ -33,6 +33,9 @@ seg-6f955816b5c6 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
 seg-aaadee0743ee = The example <c1/> sets, among others:
 
 # text
+seg-37d29d8303fe = km
+
+# text
 seg-b054c73f22e5 = no value
 
 # text

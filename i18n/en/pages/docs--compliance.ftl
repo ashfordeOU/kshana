@@ -61,9 +61,8 @@ seg-1bfafdcf6ab0 = DO-229E MOPS
 # c1: 6.0
 # c2: Φ⁻¹(1 − 1e-9/2)
 # c3: 6.109
-# c4: K_V = Φ⁻¹(1 − 1e-7/2) = 5.327
-# c5: raim::normal_quantile
-seg-1922c53b8340 = Honesty note: the MOPS uses the rounded horizontal constant <c1/>; the exact two-sided normal quantile <c2/> is <c3/>. Kshana uses the published { "6.0" } in code and derives <c4/> from the same <c5/> the RAIM stack uses, a non-circular cross-check (the value rounds to the MOPS { "5.33" }).
+# c4: raim::normal_quantile
+seg-dbb3a58c60e3 = Honesty note: the MOPS uses the rounded horizontal constant <c1/>; the exact two-sided normal quantile <c2/> is <c3/>. Kshana uses the published { "6.0" } in code and derives <s1>K_V = Φ⁻¹({ "1" } − 1e-7/2) = { "5.327" }</s1> from the same <c4/> the RAIM stack uses, a non-circular cross-check (the value rounds to the MOPS { "5.33" }).
 
 # text
 seg-ef191c1d3db1 = L1/L5 dual-frequency ionosphere-free combination (IS-GPS-705)
@@ -71,14 +70,12 @@ seg-ef191c1d3db1 = L1/L5 dual-frequency ionosphere-free combination (IS-GPS-705)
 # text
 # c1: f₁ = 1575.42 MHz
 # c2: f₅ = 1176.45 MHz
-# c3: γ₁₅ = (f₁/f₅)² = 1.79327
-seg-b69825ef05d3 = With <c1/>, <c2/>, <c3/>:
+seg-7422be53fce6 = With <c1/>, <c2/>, <s1>γ₁₅ = (f₁/f₅)² = { "1.79327" }</s1>:
 
 # text
 # c1: 40.3·10¹⁶·TEC/f²
 # c2: timetransfer_adv::iono_delay_m
-# c3: √(c₁² + c₅²) = 2.588
-seg-ce81c6b71738 = The first-order ionospheric delay (<c1/>) cancels exactly — verified against the engine's independent <c2/> physics for a range of TEC (total electron content). The noise amplification for equal-variance inputs is <c3/>.
+seg-9417dfd1657c = The first-order ionospheric delay (<c1/>) cancels exactly — verified against the engine's independent <c2/> physics for a range of TEC (total electron content). The noise amplification for equal-variance inputs is <s1>√(c₁² + c₅²) = { "2.588" }</s1>.
 
 # text
 # c1: γ₁₅

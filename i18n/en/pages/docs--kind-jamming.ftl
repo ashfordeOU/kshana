@@ -43,6 +43,9 @@ seg-e4f8d6b2fe1f = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-a2433f85f8d0 = The example <c1/> sets, among others:
 
 # text
+seg-37d29d8303fe = km
+
+# text
 seg-f85a85f0c7e4 = MHz
 
 # text

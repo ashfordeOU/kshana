@@ -177,6 +177,9 @@ seg-f0e7f4300315 = Copy: pip install kshana
 seg-f8b955a55c46 = pip install kshana
 
 # text
+seg-cb514a218f5b = <s1>python -c "import kshana; print(kshana.version())"</s1>
+
+# text
 seg-965e1b5d2d99 = PyPI: kshana
 
 # text

@@ -76,23 +76,21 @@ seg-252025356c0e = The publisher speaks MQTT { "3.1.1" } at QoS { "0" } and read
 seg-ed95ebb0ba1b = From Python, WebAssembly and MCP
 
 # text
-# c1: kshana.trust_telemetry(input, format, host="", input_kind="jsonl", expose_position=False, syslog_all=False, unix_nano=0)
-# c2: trust_telemetry(input, format, host, input_kind, options_json)
-# c3: trust_telemetry
-# c4: /kshana-trust-telemetry
-# c5: format
-# c6: prometheus
-# c7: cef
-# c8: leef
-# c9: otlp
-# c10: input_kind
-# c11: jsonl
-# c12: result
-# c13: --print-metrics
-# c14: --print-syslog
-# c15: host
-# c16: syslog_all
-seg-93be007cdfda = The encoders are also available as text-in, text-out calls with no process, socket or clock: Python <c1/>, the WebAssembly export <c2/>, and the MCP tool <c3/> (plugin command <c4/>). <c5/> is <c6/>, <c7/>, <c8/> or <c9/>; <c10/> is <c11/> (the stream) or <c12/> (a batch result). They return the same text the command line prints (<c13/>, <c14/>), with the same limits: syslog lines carry no timestamp, <c15/> is at most { "255" } printable ASCII characters without spaces (refused otherwise, here and on the command line), and a reply larger than the surface's limit ({ "4" } MiB on MCP) is refused, because CEF and LEEF with <c16/> write one event per epoch. Nothing is sent, served or written; the running exporters stay a process on the command line.
+# c1: trust_telemetry
+# c2: /kshana-trust-telemetry
+# c3: format
+# c4: prometheus
+# c5: cef
+# c6: leef
+# c7: otlp
+# c8: input_kind
+# c9: jsonl
+# c10: result
+# c11: --print-metrics
+# c12: --print-syslog
+# c13: host
+# c14: syslog_all
+seg-8c0584410794 = The encoders are also available as text-in, text-out calls with no process, socket or clock: Python <s1>kshana.trust_telemetry(input, format, host="", input_kind="jsonl", expose_position=False, syslog_all=False, unix_nano={ "0" })</s1>, the WebAssembly export <s2>trust_telemetry(input, format, host, input_kind, options_json)</s2>, and the MCP tool <c1/> (plugin command <c2/>). <c3/> is <c4/>, <c5/>, <c6/> or <c7/>; <c8/> is <c9/> (the stream) or <c10/> (a batch result). They return the same text the command line prints (<c11/>, <c12/>), with the same limits: syslog lines carry no timestamp, <c13/> is at most { "255" } printable ASCII characters without spaces (refused otherwise, here and on the command line), and a reply larger than the surface's limit ({ "4" } MiB on MCP) is refused, because CEF and LEEF with <c14/> write one event per epoch. Nothing is sent, served or written; the running exporters stay a process on the command line.
 
 # text
 seg-f8c367611a9e = Delivery never stalls the assessment

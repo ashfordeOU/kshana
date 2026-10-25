@@ -121,17 +121,16 @@ seg-3fc254763f67 = The <c1/> and <c2/> (17-state UKF) scenarios are simulations:
 
 # text
 # c1: allan::overlapping_adev_curve
-# c2: q_va = (sigma(tau0) sqrt(tau0))^2
-# c3: q_arw
-# c4: bias
-# c5: gyro_bias
-# c6: bias_instability
-# c7: q_aa
+# c2: q_arw
+# c3: bias
+# c4: gyro_bias
+# c5: bias_instability
+# c6: q_aa
+# c7: imu_fit
 # c8: imu_fit
-# c9: imu_fit
-# c10: fit_imu_log
-# c11: /kshana-fit-imu
-seg-86efab73b2e6 = Method: the overlapping Allan deviation of the integrated signal (<c1/>): <c2/>, the same for the z gyro (<c3/>), <c4/> and <c5/> as the means, and <c6/> as the curve minimum when the curve turns up after it. <c7/> is not fitted (it needs a log far longer than the floor). The report carries the log's rate and span and the early Allan slope of each channel (about -0.5 where white noise dominates); a log that is not still, or is too short (under { "2000" } samples) or unevenly sampled, is refused or gives parameters the slopes flag. The table's provenance names the log's SHA-256. MODELLED: the estimator is checked on synthetic white-noise logs with known coefficients (recovered within { "10" } %), not against an external oracle. Available on the CLI, Python (<c8/>), WebAssembly (<c9/>), MCP (<c10/>) and the plugin (<c11/>).
+# c9: fit_imu_log
+# c10: /kshana-fit-imu
+seg-065c953e10ed = Method: the overlapping Allan deviation of the integrated signal (<c1/>): <s1>q_va = (sigma(tau0) sqrt(tau0))^{ "2" }</s1>, the same for the z gyro (<c2/>), <c3/> and <c4/> as the means, and <c5/> as the curve minimum when the curve turns up after it. <c6/> is not fitted (it needs a log far longer than the floor). The report carries the log's rate and span and the early Allan slope of each channel (about -0.5 where white noise dominates); a log that is not still, or is too short (under { "2000" } samples) or unevenly sampled, is refused or gives parameters the slopes flag. The table's provenance names the log's SHA-256. MODELLED: the estimator is checked on synthetic white-noise logs with known coefficients (recovered within { "10" } %), not against an external oracle. Available on the CLI, Python (<c7/>), WebAssembly (<c8/>), MCP (<c9/>) and the plugin (<c10/>).
 
 # text
 # c1: format = "rtcm3"

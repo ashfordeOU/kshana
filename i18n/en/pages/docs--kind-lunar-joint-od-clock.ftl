@@ -45,6 +45,9 @@ seg-be3bcad756cc = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-ef164af52468 = The example <c1/> sets, among others:
 
 # text
+seg-37d29d8303fe = km
+
+# text
 seg-6f788a1278b9 = 1/({ "10" }^{ "6" } m)^{ "2" }
 
 # attr:alt
