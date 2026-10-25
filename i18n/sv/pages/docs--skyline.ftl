@@ -19,3 +19,9 @@ seg-c14b8fe46517 = Azimutberoende skylinemask: synlig mängd, azimut och elevati
 seg-bbb1828b3db1 = Reduktioner av gatukanjon, sektor och terräng till en tabell
 
 seg-2c53381d48ae = Horisontell felellips och kofaktor per system från geometrikovariansen
+
+seg-de6c33774c9c = CLI
+
+seg-d1e9715513b4 = Exempel
+
+seg-587beeccaa11 = Förinställning

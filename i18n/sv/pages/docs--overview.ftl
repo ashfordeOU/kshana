@@ -155,3 +155,43 @@ seg-fdbb9db68f1d = ingen
 seg-6e0cb6acc073 = VALIDATED
 
 seg-a349aa76b0ed = PARTNER
+
+seg-b2689beaba9e = Verifierare för Galileo OSNMA
+
+seg-80f3f0aae42c = Störningskarta
+
+seg-1759a8cce7d6 = Slag
+
+seg-fdd674722717 = Spektrum
+
+seg-68ff97cfdc03 = DOI
+
+seg-564133d6a0c4 = Konstellationer kring vilken kropp som helst
+
+seg-c611ee59301a = Animation
+
+seg-c01b78b64065 = Rapporter
+
+seg-c60dc5b92a60 = Interoperabilitetsexporter
+
+seg-3d770dd786e4 = Användning
+
+seg-fe1abd564200 = Jammertest
+
+seg-6fcb41643035 = Förtroendetelemetri
+
+seg-82155b5d0408 = Testbänk
+
+seg-e35fff011b24 = Compliance
+
+seg-a50180a66dba = LunaNet AFS
+
+seg-028684a0cf3d = Standardpaket
+
+seg-9c0eb89a2fbe = Paket
+
+seg-e98e25897176 = Varje test i de tre poängsatta standardpaketen, från verkliga körningar av motor v{ $version } (`kshana standards-pack run`): dhs-rpcf: { "6" } MET, { "1" } NOT MET, { "2" } kräver indata; imo-circ-1575: { "1" } MET, { "4" } NOT MET, { "2" } kräver indata; icao-doc9849-appf: { "6" } MET, { "0" } NOT MET, { "2" } kräver indata. Totalt { "13" } MET, { "5" } NOT MET och { "6" } kräver indata som motorn inte har (en mottagarlogg eller utrustningsdokumentation). Varje tröskel fastställdes före körningen; en miss behålls som en miss. En uppnådd tröskel säger att ett modellerat scenario nådde en angiven tröskel, inget om en produkt. Paketen ger belägg för de rader de hänvisar till; de är inte en bedömning. Rådgivande: analysutdata från ett forsknings- och ingenjörsverktyg, inte typgodkänd navigationsutrustning och inte en livräddande tjänst; det får inte vara den enda grunden för något navigerings- eller säkerhetsbeslut.
+
+seg-f891ee876b96 = Vad den besvarar
+
+seg-7cf2608b2b2f = Strukturen hos ett bevispaket. En mottagarlogg (NMEA, u-blox UBX, RINEX { "3" } eller en Android-logg) och ett tidsfönster går in i kshana receiver-trust evidence, som skriver sju filer: log-slice.bin, config.json, epochs.json, summary.html, manifest.json, manifest.sig och en valfri timestamp.tsr. Manifestet registrerar SHA-256 för hela loggen och för varje fil samt en hashkedja över filerna; signaturen täcker manifestet. kshana evidence verify kontrollerar signaturen, varje fils hashvärde, kedjan och att ingen olistad fil finns, och avslutas med { "0" } när allt är verifierat, { "1" } när något misslyckades och { "3" } när undertecknaren inte var fastlåst. Ett paket är en teknisk registrering, inte ett juridiskt utlåtande.
