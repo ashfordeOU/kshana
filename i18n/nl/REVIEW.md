@@ -231,3 +231,11 @@ Machine draft by an AI model; NOT reviewed by a native speaker. English is the r
 ## 7. Terms to confirm
 
 See `i18n/<lang>/glossary.ftl` once it exists, and the term list in `tools/i18n/briefs/RULES_<lang>.md` (or the glossary JSON in kshana-pro `site/i18n-0.40/i18n/glossary/<lang>.json`).
+
+## Second pass (plural selectors and the 66 added messages)
+
+- The 186 count messages (`i18n/en/engine-counts.txt`) were rewritten with plural selectors by script from the existing translations; a native reviewer should check the variant wording, especially: `engine-main-ok-kind-resolves-and-all`, `engine-api-unknown-scenario-kind-did-you` and `-kshana-kinds`, `engine-e-sweep-sweep-key-index-is-past`, `engine-e-iq-io-sigmf-stream-capture-at-sample-is-out` (the `one` variant was reworded), and `engine-e-receiver-trust-machines-imu-fit-the-sample-interval-is-not` (left unchanged: the count is always 2 or more).
+- Three messages with three counts are nested three levels deep (very long but correct): `engine-api-builtins-moonlight-service-volume-sats-pts`, `engine-api-builtins-lunar-station-coverage-points-epochs`, `engine-lunar-station-points-epochs-trials`. Consider restructuring them (one selector on the main noun, "label: N" for the others) as the other languages did.
+- Where a "count" variable is not numeric (`$w` in `engine-e-iq-short-samples-requested-short-run-holds`, `engine-iq-io-cli-wrote-samples-hz-to-saturated`) the "(s)" workaround remains.
+- The two lunar-jamming messages now use the English status word `LOST`.
+- The 66 messages W55 added after the first pass (chart texts for holdover test, hybrid, hybrid integrity, LEO fusion, IQ campaign report) keep numbers such as 1.0 and 0.6 with a decimal point; the decimal-mark rule is pending W55's `engine-numbers.txt`.
