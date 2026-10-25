@@ -63,11 +63,15 @@ Result label (the engine's): MODELLED
 
 ## Evidence
 
-No matrix row names this kind by name; the label on its result is the engine's own, above.
+MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
+
+- **MODELLED** The `lunar-ascent` kind and phase: the five-state per-axis inertial error model run over a powered ascent with specific force along the path, aided by AFS fixes and lunar time, reporting the insertion position and velocity covariance carrie
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** The `lunar-ascent` kind and phase: the five-state per-axis inertial error model run over a powered ascent with specific force along the path, aided by AFS fixes. Oracle (InternalConsistency): The closed-form inertial drift and monotonicity checks in the tests. No flown ascent is compared
+- **MODELLED** The propagator the lunar kinds share (GRAIL GL0660B degree and order 150, Earth and Sun third bodies, relativity, DE440 lunar orientation) compared with the pub. Oracle (ExternalDataset): JPL Horizons spacecraft ephemerides for LRO and CAPSTONE, against bars pre-registered in xval/mission-thread-lunar/PREREGISTRATION.md (Amendments 1 to 6). LRO: MET, 33 m largest 3-D difference and 2.4 m RMS radial against 500 m and 60 m. CAPSTONE: NOT MET, a 136.8 km end-position difference against 25 km and a 28.4 km periapsis difference against 10 km, the causes not isolated. The row is Modelled because the CAPSTON
 
 ## Limitations
 
@@ -78,6 +82,8 @@ What the run's own report says is not modelled or not validated:
 - MODELLED: illustrative IMU class, specific force, relay set and cutoff dispersion; errors held in the launch site axes; the nominal exit state is a stand-in. (kind catalogue (`kshana kinds --json`))
 - HONESTY: MODELLED. The IMU class, the alignment, the specific force and the cutoff dispersion are ILLUSTRATIVE inputs, not measurements. The errors are held in the launch site's east-north-up axes, without the downrange curvature of the path, and the nominal exit state is a stand-in at the site's local vertical: only the covariance is the result. No agreement with any real vehicle is claimed. Advisory software, not c (scenario file comment, lines 11 to 15)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
+- Powered ascent from a lunar polar site to an insertion orbit (`lunar-ascent`) is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
+- The lunar force model propagation against public reconstructed lunar-orbiter and cislunar trajectories is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 
 ## See also
 

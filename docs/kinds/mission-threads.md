@@ -10,7 +10,7 @@ Topic pages: [MISSION-THREAD](../MISSION-THREAD.md), [MISSION-THREAD-LUNAR](../M
 
 | Kind | What it does | Ledger |
 |---|---|---|
-| [`mission-thread`](by-kind/mission-thread.md) | MODELLED navigation and timing error budget of a stated chain of mission phases, from launch to entry: launch and ascent, low-Earth-orbit rendezvous and docking (repeatable), trans-lunar injection and | MODELLED (result label) |
+| [`mission-thread`](by-kind/mission-thread.md) | MODELLED navigation and timing error budget of a stated chain of mission phases, from launch to entry: launch and ascent, low-Earth-orbit rendezvous and docking (repeatable), trans-lunar injection and | MODELLED |
 
 ### `mission-thread`
 
@@ -18,7 +18,7 @@ MODELLED navigation and timing error budget of a stated chain of mission phases,
 
 Required fields: `epoch_utc`, `entry`, `phase`. Optional: `kind`, `title`, `seed`, `moon_kernel_path`, `ground_network`.
 
-**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [mission-thread](by-kind/mission-thread.md).
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [mission-thread](by-kind/mission-thread.md).
 
 ```sh
 kshana scenarios/mission-thread-artemis-class.toml
