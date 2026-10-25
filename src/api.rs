@@ -619,9 +619,13 @@ pub enum ScenarioKind {
     Passes,
     LinkBudget,
     LunarTimeBudget,
+    /// Powered ascent from a polar site to an insertion orbit (`lunar-ascent`).
     LunarAscent,
+    /// Surface PNT and timing availability by site and season (`lunar-surface`).
     LunarSurfaceMap,
+    /// Landing-dispersion budget at a polar site (`lunar-descent`).
     LunarLanding,
+    /// Relative navigation to docking in lunar orbit (`lunar-orbit-rendezvous`).
     LunarRendezvous,
     RealtimeFrameEop,
     HybridOpticalRf,
