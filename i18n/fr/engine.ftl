@@ -7958,3 +7958,135 @@ engine-legal-bench-notice = À titre consultatif : modélisé ou mesuré par ra
 
 # legal: native review
 engine-legal-osnma-advisory = À titre consultatif : il s'agit d'une sortie d'analyse et de surveillance, et non d'un équipement de navigation homologué. L'état d'authentification rapporté ici n'est pas un service d'intégrité de navigation et ne doit pas être l'unique fondement d'une décision de navigation ou de sécurité.
+
+## added by the second pass
+
+engine-holdover-test-not-recovered-within-record = ; non rétabli dans l'enregistrement
+
+engine-holdover-test-chart-title = Test de holdover : erreur de temps par étape
+
+engine-holdover-test-chart-y-title = |erreur de temps| (ns)
+
+engine-holdover-test-chart-panel-caption = erreur de temps absolue ; étape de holdover ombrée ; les lignes pointillées sont les budgets d'erreur de temps
+
+engine-holdover-test-chart-gnss-removed = GNSS retiré
+
+engine-holdover-test-chart-gnss-restored = GNSS rétabli
+
+engine-holdover-test-chart-time-axis = temps sur l'axe de l'enregistrement ({ $min } min)
+
+engine-hybrid-chart-title = Utilisation de la spécification du PNT hybride pendant une panne GNSS (1.0 = spécification)
+
+engine-hybrid-chart-y-title = utilisation de la spécification
+
+engine-hybrid-chart-spec-line = spécification (1.0)
+
+engine-hybrid-chart-classical-suite = suite classique
+
+engine-hybrid-chart-quantum-suite = suite quantique
+
+engine-hybrid-integrity-chart-availability = disponibilité
+
+engine-hybrid-integrity-chart-precision = précision
+
+engine-hybrid-integrity-chart-integrity = intégrité
+
+engine-hybrid-integrity-chart-joint-indep = conjoint (indép.)
+
+engine-hybrid-integrity-chart-joint-corr = conjoint (corr.)
+
+engine-hybrid-integrity-chart-title = Facteur de mérite conjoint du PNT hybride optique + RF
+
+engine-hybrid-integrity-chart-subtitle = P(disponible AND de grade précision AND intégrité assurée)
+
+engine-inertial-chart-title = Erreur de position à l'estime pendant une panne GNSS
+
+engine-inertial-chart-y-title = erreur de position (m)
+
+engine-inertial-chart-spec-line = spécification { $m } m
+
+engine-inertial-chart-classical = classique : { $id }
+
+engine-inertial-chart-quantum = quantique : { $id }
+
+engine-iq-campaign-report-roc-aria-label = ROC de détection par moniteur
+
+engine-iq-campaign-report-roc-x-title = P_fa (par fenêtre négative)
+
+engine-iq-campaign-report-curve-aria-label = Dégradation du C/N0 en fonction du J/S indiqué pour { $rec } événement { $ev }
+
+engine-iq-campaign-report-curve-x-title = J/S indiqué (dB)
+
+engine-iq-campaign-report-curve-y-title = dégradation du C/N0 (dB)
+
+engine-iq-campaign-report-curve-model-tooltip = { $label } : référence SSC, Q = { $q }
+
+engine-iq-campaign-report-curve-model-legend = référence { $label } (Q = { $q })
+
+engine-iq-campaign-report-curve-more-series = +{ $n } série(s) de plus dans le tableau de synthèse
+
+engine-iq-campaign-report-curve-point-tooltip = { $fe } / { $d } : J/S { $x } dB, dégradation mesurée { $y } dB
+
+engine-iq-campaign-report-curve-measured-legend = { $fe } / { $d } (mesuré)
+
+engine-jamming-chart-title = Satellites visibles et satellites suivis sous brouillage
+
+engine-jamming-chart-y-title = satellites
+
+engine-jamming-chart-four-sv-fix = solution à 4 SV
+
+engine-jamming-chart-visible = visibles
+
+engine-jamming-chart-tracking = suivis
+
+engine-leo-fusion-ntn-chart-title = Positionnement 5G NTN : borne de Cramér-Rao de la distance selon la largeur de bande
+
+engine-leo-fusion-ntn-chart-caption = écart type de la distance (log10 m) : barre = du masque au C/N0 au zénith ; point = erreur RMS de la solution 3D
+
+engine-leo-fusion-ppp-chart-title = Convergence du PPP avec augmentation LEO
+
+engine-leo-fusion-ppp-chart-caption = erreur horizontale médiane (log10 m) en fonction des minutes
+
+engine-leo-fusion-pvt-kind-chart-doppler-caption = erreur de la solution Doppler 3D (log10 m) en fonction de la longueur de fenêtre
+
+engine-leo-fusion-pvt-kind-chart-doppler-x-label = fenêtre (s)
+
+engine-leo-fusion-pvt-kind-chart-joint-caption = PDOP médian (bleu) et VDOP médian (ambre), log10, en fonction des satellites LEO ajoutés
+
+engine-leo-fusion-pvt-kind-chart-joint-x-label = satellites LEO ajoutés
+
+engine-leo-fusion-pvt-kind-chart-polar-caption = VDOP médian (log10) : gris GNSS, bleu LEO, ambre fusionné
+
+engine-leo-fusion-pvt-kind-chart-polar-x-label = latitude (deg)
+
+engine-leo-fusion-pvt-kind-chart-timing-caption = erreur de temps RMS par rapport à l'UTC (log10 ns) en fonction du décalage de C/N0, une ligne par oscillateur
+
+engine-leo-fusion-pvt-kind-chart-timing-x-label = décalage de C/N0 (dB)
+
+engine-leo-fusion-pvt-kind-chart-x-range = { $label } : { $x0 } à { $x1 }
+
+engine-leo-navmsg-chart-title = Message de navigation LEO : SISRE en fonction de l'intervalle d'ajustement
+
+engine-leo-navmsg-chart-no-trade-encode-decode = Aucun compromis dans cette exécution ; voir result.json pour les tableaux d'encodage/décodage et de budget.
+
+engine-leo-navmsg-chart-no-fit-interval-trade = Aucun compromis d'intervalle d'ajustement dans cette exécution ; voir result.json.
+
+engine-leo-navmsg-chart-caption = SISRE RMS orbite seule (m, échelle logarithmique) en fonction de l'intervalle d'ajustement (s)
+
+engine-leo-pass-chart-title = Passage LEO : C/N0 par bande et Doppler
+
+engine-leo-pass-chart-cn0-caption = C/N0 (dB-Hz, 20 à 80) : bandes LEO en couleur, GNSS en gris
+
+engine-leo-pass-chart-time-axis = temps depuis l'époque, 0 à { $s } s
+
+engine-leo-pnt-chain-chart-subtitle = conception du signal -> C/N0 du passage et gigue du code -> SISRE du message -> solution fusionnée · { $label }
+
+engine-leo-pnt-chain-chart-cn0-caption = C/N0 de la composante suivie sur le passage (dB-Hz, 20 à 80)
+
+engine-leo-pnt-chain-chart-not-available = s. o.
+
+engine-leo-signal-chart-title = Conceptions de signaux LEO-PNT
+
+engine-leo-signal-chart-psd-axis = décalage sur ±0.6 × la largeur de bande d'émission ; 0 à −50 dB sous chaque pic
+
+engine-leo-signal-chart-jitter-caption = gigue du code (m, échelle logarithmique) en fonction du C/N0 total (dB-Hz)

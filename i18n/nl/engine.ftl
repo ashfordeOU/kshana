@@ -7958,3 +7958,137 @@ engine-legal-bench-notice = Adviserend: gemodelleerd of gemeten tegen vermelde r
 
 # legal: native review
 engine-legal-osnma-advisory = Adviserend: dit is analyse- en monitoringuitvoer en geen typegoedgekeurde navigatieapparatuur. De hier gemelde authenticatiestatus is geen navigatie-integriteitsdienst en mag niet de enige grondslag zijn voor enige navigatie- of veiligheidsbeslissing.
+
+## added by the second pass
+
+engine-holdover-test-not-recovered-within-record = ; niet hersteld binnen de registratie
+
+engine-holdover-test-chart-title = Holdover-test: tijdfout per stap
+
+engine-holdover-test-chart-y-title = |tijdfout| (ns)
+
+engine-holdover-test-chart-panel-caption = absolute tijdfout; holdover-stap gearceerd; de onderbroken lijnen zijn de tijdfoutbudgetten
+
+engine-holdover-test-chart-gnss-removed = GNSS verwijderd
+
+engine-holdover-test-chart-gnss-restored = GNSS hersteld
+
+engine-holdover-test-chart-time-axis = tijd op de as van de registratie ({ $min } min)
+
+engine-hybrid-chart-title = Benutting van de specificatie van hybride PNT tijdens GNSS-uitval (1.0 = specificatie)
+
+engine-hybrid-chart-y-title = benutting van de specificatie
+
+engine-hybrid-chart-spec-line = specificatie (1.0)
+
+engine-hybrid-chart-classical-suite = klassieke set
+
+engine-hybrid-chart-quantum-suite = kwantumset
+
+engine-hybrid-integrity-chart-availability = beschikbaarheid
+
+engine-hybrid-integrity-chart-precision = precisie
+
+engine-hybrid-integrity-chart-integrity = integriteit
+
+engine-hybrid-integrity-chart-joint-indep = gezamenlijk (onafh.)
+
+engine-hybrid-integrity-chart-joint-corr = gezamenlijk (gecorr.)
+
+engine-hybrid-integrity-chart-title = Gezamenlijke kwaliteitsmaat van hybride optische + RF-PNT
+
+engine-hybrid-integrity-chart-subtitle = P(beschikbaar EN precisieklasse EN integriteit gewaarborgd)
+
+engine-inertial-chart-title = Positiefout van koppelnavigatie tijdens GNSS-uitval
+
+engine-inertial-chart-y-title = positiefout (m)
+
+engine-inertial-chart-spec-line = specificatie { $m } m
+
+engine-inertial-chart-classical = klassiek: { $id }
+
+engine-inertial-chart-quantum = kwantum: { $id }
+
+engine-iq-campaign-report-roc-aria-label = Detectie-ROC per monitor
+
+engine-iq-campaign-report-roc-x-title = P_fa (per negatief venster)
+
+engine-iq-campaign-report-curve-aria-label = C/N0-degradatie ten opzichte van opgegeven J/S voor { $rec } gebeurtenis { $ev }
+
+engine-iq-campaign-report-curve-x-title = opgegeven J/S (dB)
+
+engine-iq-campaign-report-curve-y-title = C/N0-degradatie (dB)
+
+engine-iq-campaign-report-curve-model-tooltip = { $label }: SSC-referentie, Q = { $q }
+
+engine-iq-campaign-report-curve-model-legend = { $label }-referentie (Q = { $q })
+
+engine-iq-campaign-report-curve-more-series = +{ $n } extra reeksen in de scorekaarttabel
+
+engine-iq-campaign-report-curve-point-tooltip = { $fe } / { $d }: J/S { $x } dB, gemeten degradatie { $y } dB
+
+engine-iq-campaign-report-curve-measured-legend = { $fe } / { $d } (gemeten)
+
+engine-jamming-chart-title = Zichtbare satellieten versus gevolgde satellieten onder jamming
+
+engine-jamming-chart-y-title = satellieten
+
+engine-jamming-chart-four-sv-fix = positiebepaling met 4 SV
+
+engine-jamming-chart-visible = zichtbaar
+
+engine-jamming-chart-tracking = gevolgd
+
+engine-leo-fusion-ntn-chart-title = 5G NTN-positiebepaling: Cramér-Rao-ondergrens voor afstand per bandbreedte
+
+engine-leo-fusion-ntn-chart-caption = afstand, één sigma (log10 m): balk = masker tot zenit C/N0; stip = RMS-fout van 3D-positiebepaling
+
+engine-leo-fusion-ppp-chart-title = PPP-convergentie met LEO-aanvulling
+
+engine-leo-fusion-ppp-chart-caption = mediane horizontale fout (log10 m) tegen minuten
+
+engine-leo-fusion-ppp-chart-n-leo = { $n } LEO
+
+engine-leo-fusion-pvt-kind-chart-doppler-caption = 3D-Doppler-positiefout (log10 m) tegen vensterlengte
+
+engine-leo-fusion-pvt-kind-chart-doppler-x-label = venster (s)
+
+engine-leo-fusion-pvt-kind-chart-joint-caption = mediane PDOP (blauw) en VDOP (amber), log10, tegen toegevoegde LEO-satellieten
+
+engine-leo-fusion-pvt-kind-chart-joint-x-label = toegevoegde LEO-satellieten
+
+engine-leo-fusion-pvt-kind-chart-polar-caption = mediane VDOP (log10): grijs GNSS, blauw LEO, amber gefuseerd
+
+engine-leo-fusion-pvt-kind-chart-polar-x-label = breedtegraad (graden)
+
+engine-leo-fusion-pvt-kind-chart-timing-caption = RMS-tijdfout ten opzichte van UTC (log10 ns) tegen C/N0-offset, één lijn per oscillator
+
+engine-leo-fusion-pvt-kind-chart-timing-x-label = C/N0-offset (dB)
+
+engine-leo-fusion-pvt-kind-chart-x-range = { $label }: { $x0 } tot { $x1 }
+
+engine-leo-navmsg-chart-title = LEO-navigatiebericht: SISRE versus fitinterval
+
+engine-leo-navmsg-chart-no-trade-encode-decode = Geen afweging in deze run; zie result.json voor de coderings-/decoderingstabellen en de budgettabellen.
+
+engine-leo-navmsg-chart-no-fit-interval-trade = Geen afweging van het fitinterval in deze run; zie result.json.
+
+engine-leo-navmsg-chart-caption = SISRE-RMS alleen voor de baan (m, logaritmische schaal) vs fitinterval (s)
+
+engine-leo-pass-chart-title = LEO-passage: C/N0 per band en Doppler
+
+engine-leo-pass-chart-cn0-caption = C/N0 (dB-Hz, 20 tot 80): LEO-banden in kleur, GNSS in grijs
+
+engine-leo-pass-chart-time-axis = tijd sinds epoch, 0 tot { $s } s
+
+engine-leo-pnt-chain-chart-subtitle = signaalontwerp -> passage-C/N0 en codejitter -> bericht-SISRE -> gefuseerde positiebepaling · { $label }
+
+engine-leo-pnt-chain-chart-cn0-caption = C/N0 van de gevolgde component over de passage (dB-Hz, 20 tot 80)
+
+engine-leo-pnt-chain-chart-not-available = n.v.t.
+
+engine-leo-signal-chart-title = LEO-PNT-signaalontwerpen
+
+engine-leo-signal-chart-psd-axis = offset over ±0.6 × zendbandbreedte; 0 tot −50 dB onder elke piek
+
+engine-leo-signal-chart-jitter-caption = codejitter (m, logaritmische schaal) vs totale C/N0 (dB-Hz)
