@@ -1567,14 +1567,21 @@
   "id": "fusion-hybrid-ukf-chart-subtitle",
   "error": false,
   "parts": [
-   "NEES + innovation-whiteness vs 95% χ² bands; 1.0 = consistent. Self-consistency, not accuracy."
+   "NEES + innovation-whiteness vs 95% χ² bands; ",
+   {
+    "var": "lit_1_0"
+   },
+   " = consistent. Self-consistency, not accuracy."
   ]
  },
  {
   "id": "fusion-hybrid-ukf-chart-target",
   "error": false,
   "parts": [
-   "target 1.0"
+   "target ",
+   {
+    "var": "lit_1_0"
+   }
   ]
  },
  {
@@ -2011,7 +2018,11 @@
   "id": "hybrid-chart-title",
   "error": false,
   "parts": [
-   "Hybrid PNT spec utilization during GNSS outage (1.0 = spec)"
+   "Hybrid PNT spec utilization during GNSS outage (",
+   {
+    "var": "lit_1_0"
+   },
+   " = spec)"
   ]
  },
  {
@@ -2025,7 +2036,11 @@
   "id": "hybrid-chart-spec-line",
   "error": false,
   "parts": [
-   "spec (1.0)"
+   "spec (",
+   {
+    "var": "lit_1_0"
+   },
+   ")"
   ]
  },
  {
@@ -2486,7 +2501,11 @@
   "id": "leo-signal-chart-psd-axis",
   "error": false,
   "parts": [
-   "offset across ±0.6 × transmit bandwidth; 0 to −50 dB below each peak"
+   "offset across ±",
+   {
+    "var": "lit_0_6"
+   },
+   " × transmit bandwidth; 0 to −50 dB below each peak"
   ]
  },
  {

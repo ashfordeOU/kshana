@@ -768,7 +768,8 @@ fn check_ecc(e: f64, a: f64, body: &Body, what: &str) -> Result<(), String> {
         return Err(crate::terr!(
             "e-constellation-eccentricity-must-lie-in",
             what = what,
-            e = e
+            e = e,
+            lit_0_9 = crate::i18n::num(0.9_f64, 1)
         ));
     }
     if a * (1.0 - e) <= body.re {
@@ -1742,7 +1743,10 @@ impl ConstellationDesignScenario {
             ));
         }
         if !(self.grid_step_deg >= 0.25 && self.grid_step_deg <= 90.0) {
-            return Err(crate::terr!("e-constellation-grid-step-deg-must-lie"));
+            return Err(crate::terr!(
+                "e-constellation-grid-step-deg-must-lie",
+                lit_0_25 = crate::i18n::num(0.25_f64, 2)
+            ));
         }
         if !(-90.0..=90.0).contains(&self.lat_min_deg)
             || !(-90.0..=90.0).contains(&self.lat_max_deg)

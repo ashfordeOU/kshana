@@ -1118,7 +1118,8 @@ impl TrackingLoopScenario {
         if self.correlator_spacing_chips >= 1.9 {
             return Err(crate::terr!(
                 "e-tracking-loop-tracking-loop-correlator-spacing-chips",
-                correlator_spacing_chips = self.correlator_spacing_chips
+                correlator_spacing_chips = self.correlator_spacing_chips,
+                lit_1_9 = crate::i18n::num(1.9_f64, 1)
             ));
         }
         if self.pullin_bandwidth_ratio < 1.0 {

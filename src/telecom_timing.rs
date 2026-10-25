@@ -1900,7 +1900,8 @@ pub fn check_mask(
                 let note = crate::t!(
                     "telecom-timing-the-mask-is-defined-through",
                     MAX_FILTER_DT_S = MAX_FILTER_DT_S,
-                    dt_s = rec.dt_s
+                    dt_s = rec.dt_s,
+                    lit_0_1 = crate::i18n::num(0.1_f64, 1)
                 );
                 for (metric, present, source) in [
                     (

@@ -581,7 +581,7 @@ engine-e-animation-no-animation-format-given-expected = no animation format give
 
 engine-e-animation-animation-fps-must-be-between = animation fps must be between 1 and 60, got { $fps }
 
-engine-e-animation-animation-duration-must-be-between = animation duration must be between 0.5 s and 600 s, got { $duration_s }
+engine-e-animation-animation-duration-must-be-between = animation duration must be between { $lit_0_5 } s and 600 s, got { $duration_s }
 
 engine-e-animation-animation-width-must-be-between = animation width must be between 480 and 3840 pixels, got { $width }
 
@@ -999,7 +999,7 @@ engine-bench-site-result-was-scored-under-this = result { $v1 } was scored under
 
 engine-bench-tasks-score-for-is-not-number = score for `{ $k }` is not a number
 
-engine-bench-tasks-kshana-receiver-trust-35-default = kshana receiver-trust { $s } (0.35 default monitor statistic)
+engine-bench-tasks-kshana-receiver-trust-35-default = kshana receiver-trust { $s } ({ $lit_0_35 } default monitor statistic)
 
 engine-bench-tasks-malformed-clock-line = malformed clock line `{ $line }`
 
@@ -1051,7 +1051,7 @@ engine-e-body-pnt-duration-and-step-must-be = duration_s and step_s must be posi
 
 engine-e-body-pnt-user-kind-must-be-orbiter = user.kind must be orbiter or surface; got '{ $k }'
 
-engine-e-body-pnt-user-altitude-must-be-positive = user altitude must be positive and eccentricity in [0, 0.9)
+engine-e-body-pnt-user-altitude-must-be-positive = user altitude must be positive and eccentricity in [0, { $lit_0_9 })
 
 engine-e-body-pnt-the-user-orbit-periapsis-is = the user orbit's periapsis is below the surface
 
@@ -1655,7 +1655,7 @@ engine-e-constellation-needs-altitude-km-or-semi = { $what }: needs altitude_km 
 
 engine-e-constellation-semi-major-axis-km-is = { $what }: semi-major axis { $v1 } km is not above the { $name } radius
 
-engine-e-constellation-eccentricity-must-lie-in = { $what }: eccentricity { $e } must lie in [0, 0.9)
+engine-e-constellation-eccentricity-must-lie-in = { $what }: eccentricity { $e } must lie in [0, { $lit_0_9 })
 
 engine-e-constellation-perigee-is-below-the-surface = { $what }: perigee is below the { $name } surface
 
@@ -1687,7 +1687,7 @@ engine-e-constellation-mask-deg-must-lie-in = mask_deg must lie in [0, 90)
 
 engine-e-constellation-pdop-threshold-must-be-positive = pdop_threshold must be positive
 
-engine-e-constellation-grid-step-deg-must-lie = grid_step_deg must lie in [0.25, 90]
+engine-e-constellation-grid-step-deg-must-lie = grid_step_deg must lie in [{ $lit_0_25 }, 90]
 
 engine-e-constellation-need-90-lat-min-deg = need -90 <= lat_min_deg < lat_max_deg <= 90
 
@@ -2356,9 +2356,9 @@ engine-e-fusion-carrier-tc-slip-satellite-out-of-range = slip satellite { $sat }
 
 engine-fusion-hybrid-ukf-chart-title = 17-state hybrid UKF — filter self-consistency (modelled)
 
-engine-fusion-hybrid-ukf-chart-subtitle = NEES + innovation-whiteness vs 95% χ² bands; 1.0 = consistent. Self-consistency, not accuracy.
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + innovation-whiteness vs 95% χ² bands; { $lit_1_0 } = consistent. Self-consistency, not accuracy.
 
-engine-fusion-hybrid-ukf-chart-target = target 1.0
+engine-fusion-hybrid-ukf-chart-target = target { $lit_1_0 }
 
 engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (whiteness)
 
@@ -2748,11 +2748,11 @@ engine-e-hybrid-coupled-sigma-pr-must-be = coupled.sigma_pr_m must be finite and
 
 engine-e-hybrid-coupled-ba-must-be-and = coupled.q_ba must be >= 0 and coupled.bias_var > 0
 
-engine-hybrid-chart-title = Hybrid PNT spec utilization during GNSS outage (1.0 = spec)
+engine-hybrid-chart-title = Hybrid PNT spec utilization during GNSS outage ({ $lit_1_0 } = spec)
 
 engine-hybrid-chart-y-title = spec utilization
 
-engine-hybrid-chart-spec-line = spec (1.0)
+engine-hybrid-chart-spec-line = spec ({ $lit_1_0 })
 
 engine-hybrid-chart-classical-suite = classical suite
 
@@ -3498,7 +3498,7 @@ engine-iq-cli-track-designs-and-differ-in-integration = designs { $first } and {
 
 engine-iq-cli-track-epochs-name-the-format-with = --epochs { $p }: name the format with --epochs-format csv|jsonl|bin, or end the path in .csv, .jsonl or .bin
 
-engine-iq-cli-track-hz-is-samples-per-chip = { $fs_hz } Hz is { $r } samples per chip of { $c }: commensurate sampling turns the code discriminator into a staircase (at 2 samples/chip the DLL dithers, about 0.09 chip RMS code error at 45 dB-Hz); code-loop jitter and bias from this recording are not representative. Use a rate that is not a multiple of half the chip rate to judge code loops.
+engine-iq-cli-track-hz-is-samples-per-chip = { $fs_hz } Hz is { $r } samples per chip of { $c }: commensurate sampling turns the code discriminator into a staircase (at 2 samples/chip the DLL dithers, about { $lit_0_09 } chip RMS code error at 45 dB-Hz); code-loop jitter and bias from this recording are not representative. Use a rate that is not a multiple of half the chip rate to judge code loops.
 
 ## src/iq/io/batch.rs
 
@@ -4439,7 +4439,7 @@ engine-leo-navmsg-unknown-preset-available = unknown preset '{ $k }'; available:
 
 engine-e-leo-navmsg-fit-interval-must-be-10 = fit_interval_s must be 10-3600 s and update_period_s in (0, fit_interval_s]; got { $fit_interval_s } and { $update_period_s }
 
-engine-e-leo-navmsg-fit-sample-and-eval-step = fit_sample_s and eval_step_s must be 0.5-60 s
+engine-e-leo-navmsg-fit-sample-and-eval-step = fit_sample_s and eval_step_s must be { $lit_0_5 }-60 s
 
 engine-e-leo-navmsg-carrier-hz-must-exceed-10 = carrier_hz must exceed 10 MHz; got { $carrier_hz }
 
@@ -4546,7 +4546,7 @@ engine-e-leo-navmsg-text-csv-row-lacks = CSV row lacks { $k }
 
 engine-e-leo-navmsg-truth-orbit-altitude-must-be-between = orbit altitude must be between 100 km and 3000 km; got { $cfg } km
 
-engine-e-leo-navmsg-truth-eccentricity-must-be-in-for = eccentricity must be in [0, 0.1) for a LEO fit; got { $eccentricity }
+engine-e-leo-navmsg-truth-eccentricity-must-be-in-for = eccentricity must be in [0, { $lit_0_1 }) for a LEO fit; got { $eccentricity }
 
 engine-e-leo-navmsg-truth-integration-step-must-be-in = integration step must be in (0, 30] s; got { $step_s }
 
@@ -4810,7 +4810,7 @@ engine-leo-signal-left-band-limited-psd-of = left: band-limited PSD of each desi
 
 engine-leo-signal-chart-title = LEO-PNT signal designs
 
-engine-leo-signal-chart-psd-axis = offset across ±0.6 × transmit bandwidth; 0 to −50 dB below each peak
+engine-leo-signal-chart-psd-axis = offset across ±{ $lit_0_6 } × transmit bandwidth; 0 to −50 dB below each peak
 
 engine-leo-signal-chart-jitter-caption = code jitter (m, log scale) vs total C/N0 (dB-Hz)
 
@@ -7098,7 +7098,7 @@ engine-e-scenario-time-grid-too-large-steps = time grid too large: { $n } steps 
 
 ## src/sdr.rs
 
-engine-sdr-sampling-rate-is-commensurate-with = sampling rate is commensurate with the code rate ({ $samples_per_chip } samples/chip, { $offset_from_integer_samples } samples from a whole number): the zero-order-hold code replica cannot resolve a code-phase change below { $dead_band_chips } chips, so the Early/Late discriminator is a staircase with a one-sample dead band instead of a triangle and the DLL settles at the wrong lag. Offset the sample rate off the integer multiple (5 MHz is 4.8876 samples/chip; 25 MHz is 24.4379) or oversample far enough that the dead band is below the code-phase accuracy you need.
+engine-sdr-sampling-rate-is-commensurate-with = sampling rate is commensurate with the code rate ({ $samples_per_chip } samples/chip, { $offset_from_integer_samples } samples from a whole number): the zero-order-hold code replica cannot resolve a code-phase change below { $dead_band_chips } chips, so the Early/Late discriminator is a staircase with a one-sample dead band instead of a triangle and the DLL settles at the wrong lag. Offset the sample rate off the integer multiple (5 MHz is { $lit_4_8876 } samples/chip; 25 MHz is { $lit_24_4379 }) or oversample far enough that the dead band is below the code-phase accuracy you need.
 
 ## src/sgp4.rs
 
@@ -7956,7 +7956,7 @@ engine-e-telecom-timing-the-series-must-be-uniformly = the series must be unifor
 
 engine-e-telecom-timing-csv-line-is-not-time = CSV line { $v1 } is not `time_s,time_error_ns`
 
-engine-telecom-timing-the-mask-is-defined-through = the mask is defined through a 0.1 Hz low-pass filter, which this engine applies only at sample intervals of { $MAX_FILTER_DT_S } s or less; this record is sampled every { $dt_s } s
+engine-telecom-timing-the-mask-is-defined-through = the mask is defined through a { $lit_0_1 } Hz low-pass filter, which this engine applies only at sample intervals of { $MAX_FILTER_DT_S } s or less; this record is sampled every { $dt_s } s
 
 engine-e-telecom-timing-give-either-holdover-or-series = give either [holdover] or [series], not both
 
@@ -8230,7 +8230,7 @@ engine-e-tracking-loop-tracking-loop-must-be-finite = tracking-loop: { $name } m
 
 engine-e-tracking-loop-tracking-loop-must-be-positive = tracking-loop: { $name } must be positive (got { $v })
 
-engine-e-tracking-loop-tracking-loop-correlator-spacing-chips = tracking-loop: correlator_spacing_chips must be below 1.9 chips (got { $correlator_spacing_chips })
+engine-e-tracking-loop-tracking-loop-correlator-spacing-chips = tracking-loop: correlator_spacing_chips must be below { $lit_1_9 } chips (got { $correlator_spacing_chips })
 
 engine-e-tracking-loop-tracking-loop-pullin-bandwidth-ratio = tracking-loop: pullin_bandwidth_ratio must be at least 1 (got { $pullin_bandwidth_ratio }) — a loop that re-pulls-in with a NARROWER bandwidth than it tracks with would invert the hysteresis
 

@@ -139,7 +139,8 @@ impl AnimationOptions {
         if !self.duration_s.is_finite() || !(0.5..=600.0).contains(&self.duration_s) {
             return Err(crate::terr!(
                 "e-animation-animation-duration-must-be-between",
-                duration_s = self.duration_s
+                duration_s = self.duration_s,
+                lit_0_5 = crate::i18n::num(0.5_f64, 1)
             ));
         }
         if !(480..=3840).contains(&self.width) {
