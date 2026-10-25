@@ -52,16 +52,8 @@ seg-53a78e98af12 = Themenseite: <a1>SKYLINE.md</a1>
 seg-ae15d15bf151 = Themenseite: <a1>LEO-PASS.md</a1>
 
 # text
-# c1: scenarios/
-seg-99a3c57c7926 = { "7" } mitgelieferte Szenarien verwenden dieses Kind; die übrigen stehen in <a1><c1/></a1>.
-
-# text
 # c1: docs/kinds/by-kind/orbit.md
 seg-0e3518dc3ddb = Quelle: <c1/>
-
-# text
-# c1: orbit
-seg-1428025a91e1 = <c1/> (Szenario-Kind)
 
 # text
 seg-cb4262b66b8f = GNSS-Verfügbarkeit + DOP aus einer Bahnkonstellation (Walker / TLE / RINEX).
@@ -101,9 +93,6 @@ seg-d5063dda3971 = Microchip SA.45s / SA65 Chip-Scale-Atomuhr, sigma_y(1s)
 # text
 seg-799fe1216562 = { "3.04" } N: GNSS NAV DATA G: GPS
 
-# attr:alt
-seg-3b652c0da6de = Das Diagramm, das die Engine für scenarios/orbit-rinex.toml schreibt, Kind orbit
-
 # text
 seg-a150aaacf072 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP aus der Sichtlinien-Geometrie über Q=(HᵀH)⁻¹ mit einer lokalen ENU-Aufteilung Tests: <a1>dop_reference.rs</a1>.
 
@@ -118,3 +107,14 @@ seg-d86884be3f98 = <s1>Zurück</s1>optical-atmosphere
 
 # text
 seg-da202333ae8d = <s1>Weiter</s1>passes
+
+# text
+# c1: orbit
+seg-1428025a91e1 = <c1/> (Szenarioart)
+
+# attr:alt
+seg-3b652c0da6de = Das Diagramm, das die Engine für scenarios/orbit-rinex.toml schreibt, Szenarioart orbit
+
+# text
+# c1: scenarios/
+seg-99a3c57c7926 = { "7" } mitgelieferte Szenarien verwenden diese Szenarioart; die übrigen stehen in <a1><c1/></a1>.

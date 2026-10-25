@@ -23,10 +23,6 @@ seg-37a77f49f048 = ps
 seg-2ccebbc74d9f = Quelle: <c1/>
 
 # text
-# c1: timetransfer
-seg-289a9f8dc990 = <c1/> (Szenario-Kind)
-
-# text
 seg-ccb244e60d60 = Optische gegen HF-Zweiweg-Zeit-/Frequenzübertragung.
 
 # text
@@ -55,9 +51,6 @@ seg-fa54f1a81b57 = Optische Inter-Satelliten-Strecke, Synchronisation im Pikosek
 # text
 seg-a30fe2b87ee2 = mm
 
-# attr:alt
-seg-bd76bd68eab3 = Das Diagramm, das die Engine für scenarios/timetransfer.toml schreibt, Kind timetransfer
-
 # text
 seg-3c9d28692f9f = <b>MODELLED</b> Zweiweg/TWSTFT (Sagnac), GNSS Common-View, PPP; Strecken-Jitter→Entfernung Tests: <a1>time_transfer_error_budgeting_reference.rs</a1>.
 
@@ -66,3 +59,10 @@ seg-84fcf20588fb = <s1>Zurück</s1>time-transfer-budget
 
 # text
 seg-149ad280a1f9 = <s1>Weiter</s1>tracking-loop
+
+# text
+# c1: timetransfer
+seg-289a9f8dc990 = <c1/> (Szenarioart)
+
+# attr:alt
+seg-bd76bd68eab3 = Das Diagramm, das die Engine für scenarios/timetransfer.toml schreibt, Art timetransfer

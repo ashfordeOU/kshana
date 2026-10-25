@@ -108,18 +108,10 @@ seg-429e154cd691 = <b>MODELLED</b> Der Modus <c2/> der Art <c1/>: Ein Chief und 
 seg-1dd1beb01075 = MODELLED: ein geometrischer Sweep mit Link-Budget. Das Booklet-Muster ist eine Hauptkeule mit konstanter Leistung, das parametrische Muster ein repräsentativer Ersatz und das Medium der Limb-Strahlen ein einfaches, angegebenes Modell; nichts davon ist eine Messung eines Signals im Weltraum. Die Verfügbarkeits- und Ausfallwerte folgen dem Verfahren des ICG-Space-Service-Volume-Booklets (UN ST/SPACE/75) und werden anhand von dessen Tabellen in xval/gnss-ssv/ geprüft. (Ergebnis <c1/>)
 
 # text
-# c1: kshana kinds --json
-seg-e9c2dedbc971 = MODELLED GNSS-Verfügbarkeit und Linkstärke im Space Service Volume und darüber hinaus: Für einen Nutzer auf einer Kugel (der globalen Schale des ICG-Booklets) oder auf einer Kepler-Bahn (LEO bis Mondtransfer) zählt es je Konstellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) und für alle zusammen die Signale, die oberhalb einer C/N0-Schwelle nutzbar sind - Verfügbarkeit von mindestens einem und von vier Signalen, maximale Ausfalldauer, empfangenes C/N0, (Kind-Katalog (<c1/>))
-
-# text
 seg-3add0e744c54 = MODELLED: Das Muster ist repräsentativ, nicht gemessen; das Medium ist ein angegebenes einfaches Modell (docs/SSV.md). (Kommentar in der Szenariodatei, Zeile { "14" })
 
 # text
 seg-6b4655dd5270 = Die GNSS-Signalverfügbarkeit im Space Service Volume und darüber hinaus, verglichen mit dem ICG-SSV-Booklet, ist MODELLED, nicht validiert: Eine Teilaussage wird extern geprüft, aber die gesamte Fähigkeit setzt sich aus modellierten Teilen zusammen, daher bleibt die Fähigkeit modelliert. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
-
-# text
-# c1: gnss-ssv
-seg-a9e1798308df = Limb-Strahl-Effekte von Ionosphäre, Plasmasphäre und Atmosphäre auf streifende GNSS-Signale sowie der Entwurf des Empfängers für schwache Signale in der Kind <c1/> ist MODELLED, nicht validiert: Er wird gegen seine eigene geschlossene bzw. analytische Identität geprüft - das fängt Übertragungs- und Koeffizientenfehler ab, ist aber keine externe unabhängige Referenz. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
 
 # text
 seg-132be2813c10 = Das GNSS-Navigationsfilter an Bord für Raumfahrzeuge auf hohen Bahnen und im Mondtransfer ist MODELLED, nicht validiert: Es wird gegen seine eigene geschlossene bzw. analytische Identität geprüft - das fängt Übertragungs- und Koeffizientenfehler ab, ist aber keine externe unabhängige Referenz. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
@@ -138,3 +130,11 @@ seg-c9ac9a99bcbb = <s1>Zurück</s1>gnss-sim
 
 # text
 seg-9df48482a140 = <s1>Weiter</s1>gravity-map
+
+# text
+# c1: gnss-ssv
+seg-a9e1798308df = Limb-Strahl-Effekte von Ionosphäre, Plasmasphäre und Atmosphäre auf streifende GNSS-Signale sowie der Entwurf des Empfängers für schwache Signale in der Szenarioart <c1/> ist MODELLED, nicht validiert: Er wird gegen seine eigene geschlossene bzw. analytische Identität geprüft - das fängt Übertragungs- und Koeffizientenfehler ab, ist aber keine externe unabhängige Referenz. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
+
+# text
+# c1: kshana kinds --json
+seg-e9c2dedbc971 = MODELLED GNSS-Verfügbarkeit und Linkstärke im Space Service Volume und darüber hinaus: Für einen Nutzer auf einer Kugel (der globalen Schale des ICG-Booklets) oder auf einer Kepler-Bahn (LEO bis Mondtransfer) zählt es je Konstellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) und für alle zusammen die Signale, die oberhalb einer C/N0-Schwelle nutzbar sind - Verfügbarkeit von mindestens einem und von vier Signalen, maximale Ausfalldauer, empfangenes C/N0, (Szenarioarten-Katalog (<c1/>))

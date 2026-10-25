@@ -17,10 +17,6 @@ seg-1c1eeb2dcaa0 = Familienseite: <a1>Mond und cislunarer Raum</a1>
 seg-593938ee5995 = Quelle: <c1/>
 
 # text
-# c1: lunar-joint-od-clock
-seg-d54a85227f43 = <c1/> (Szenario-Kind)
-
-# text
 seg-200e58e189c2 = Modellierter gemeinsamer Batch-Schätzer für lunare Bahnbestimmung (OD) + Uhren mit mehreren Techniken auf einem SIMULIERTEN Netz: eine Gauss-Newton-Momentaufnahmeanpassung, die geodätische VLBI-Verzögerungen auf Erdbasislinien, lunar-lokale Entfernungen zwischen Station und Satellit und Entfernungen zwischen Satelliten fusioniert, um gemeinsam die 3D-Position einer lunaren Oberflächenstation, die Positionen einer kleinen Konstellation und den Uhrenversatz jedes Assets aus einer eingespeisten Wahrheit zurückzugewinnen. Das ehrliche Hauptergebnis — VLBI macht die volle 3D-Position der Station beobachtbar, wo die lunar-lokale Entfernungsmessung allein eine schwach beobachtete Richtung lässt — wird als Kontrast des Stationsfehlers mit gegenüber ohne VLBI ausgegeben. MODELLED simulierte Wiedergewinnung im geschlossenen Regelkreis (die Wahrheit teilt das Beobachtungsmodell), deterministisch (mit Seed), NICHT mit realen Daten validiert; keine Kraftmodell-Propagation im Löser; kein TRL/Flugerbe/keine Billigung durch eine Agentur.
 
 # text
@@ -55,9 +51,6 @@ seg-ef164af52468 = Das Beispiel <c1/> setzt unter anderem:
 # text
 seg-6f788a1278b9 = 1/({ "10" }^{ "6" } m)^{ "2" }
 
-# attr:alt
-seg-cfa051b87e59 = Das Diagramm, das die Engine für scenarios/lunar-joint-od-clock.toml schreibt, Kind lunar-joint-od-clock
-
 # text
 seg-4c6914c162d1 = <b>VALIDATED</b> Batch-Fusion von VLBI + lunar-lokaler Entfernung + Entfernung zwischen Satelliten, um Positionen und Uhren von Station und Konstellation zurückzugewinnen. Orakel (ExternalDataset): P2: numpy { "2.4.6" } (numpy.linalg.lstsq mit LAPACK gelsd, numpy.linalg.inv; BSD-3) berechnet jeden Gauss-Newton-Schritt, die konvergierte Lösung nach gewichteten kleinsten Quadraten, die formalen Sigmas und den Stationsfehler auf den eingecheckten Jacobi-Matrizen und Beobachtungen von sechs simulierten Netzen neu, vorab registriert (5094bc31) bei relativ max({ "1e-8" }, { "100" } kappa eps). Der erste Lauf scheiterte am Netz ohne VLBI ({ "6.1e-7" } gegen { "1e-8" }, eine Normalgleichung
 
@@ -66,10 +59,6 @@ seg-5b3f6008f5a7 = <b>VALIDATED</b> Fisher-Information M=HᵀWH, Cramér-Rao-Unt
 
 # text
 seg-af12da412a10 = <b>MODELLED</b> Beobachtbarkeit der gemeinsamen lunaren Lösung über die Fisher-Information: Ohne Erdbasislinien liegt das Datum des absoluten Bezugssystems im Nullraum von HᵀWH (Stationsposition uno. Orakel (InternalConsistency): Analytische Struktur des Datumsdefekts — der nicht beobachtbare Modus des absoluten Bezugssystems liegt im Nullraum der Fisher-Information (geschlossene Form), die Rangschwelle entspricht der veröffentlichten Begründung des Designs mit 3 Stationen, und der Schätzer erreicht die daraus folgende CRLB in der Monte-Carlo-Simulation. Die lunare Geometrie selbst ist ein repräsentatives Netz (keine geflogene Ephemeride), daher bleibt die Zeile MODELLED; die zugrunde liegende FIM/CRLB-Engine wird gegen
-
-# text
-# c1: kshana kinds --json
-seg-865ba2668582 = MODELLED simulierte Wiedergewinnung im geschlossenen Regelkreis (die Wahrheit teilt das Beobachtungsmodell), deterministisch (mit Seed), NICHT mit realen Daten validiert; keine Kraftmodell-Propagation im Löser; kein TRL/Flugerbe/keine Billigung durch eine Agentur. (Kind-Katalog (<c1/>))
 
 # text
 seg-a0d4350a1c66 = Ehrlichkeit: MODELLED simulierte Wiedergewinnung im geschlossenen Regelkreis. Eine eingespeiste Wahrheit wird durch DASSELBE Geometriemodell, das der Löser invertiert, auf synthetische Observablen abgebildet, Gaußsches Rauschen mit Seed wird hinzugefügt, und der Schätzer gewinnt die eingespeiste Wahrheit im Rahmen des Rauschens zurück. Die unabhängige Referenz ist die interne Konsistenz (Wiedergewinnung der Wahrheit + Realismus der NEES-Kovarianz), KEINE Validierung mit realen Daten. Im Löser gibt es keine Kraftmodell-Propagation — der Sate (Kommentar in der Szenariodatei, Zeilen { "24" } bis { "29" })
@@ -82,3 +71,14 @@ seg-e6962535ee72 = <s1>Zurück</s1>lunar-jamming
 
 # text
 seg-2ef5c8112d1b = <s1>Weiter</s1>lunar-llr-datum
+
+# text
+# c1: kshana kinds --json
+seg-865ba2668582 = MODELLED simulierte Wiedergewinnung im geschlossenen Regelkreis (die Wahrheit teilt das Beobachtungsmodell), deterministisch (mit Seed), NICHT mit realen Daten validiert; keine Kraftmodell-Propagation im Löser; kein TRL/Flugerbe/keine Billigung durch eine Agentur. (Szenarioarten-Katalog (<c1/>))
+
+# attr:alt
+seg-cfa051b87e59 = Das Diagramm, das die Engine für scenarios/lunar-joint-od-clock.toml schreibt, Art lunar-joint-od-clock
+
+# text
+# c1: lunar-joint-od-clock
+seg-d54a85227f43 = <c1/> (Szenarioart)

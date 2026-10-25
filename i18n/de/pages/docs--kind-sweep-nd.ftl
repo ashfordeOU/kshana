@@ -48,10 +48,6 @@ seg-bb07c8ee153f = <b>PARTNER</b> Nicht geliefert — nur Leistungsmodelle; Kalt
 seg-792218eac075 = Quelle: <c1/>
 
 # text
-# c1: sweep-nd
-seg-c7e5582d0b24 = <c1/> (Szenario-Kind)
-
-# text
 seg-4f19d4fb1341 = Generischer N-D-Sweep über ein beliebiges Paket über gepunktete TOML-Schlüssel / JSON-Metrikpfade.
 
 # text
@@ -69,11 +65,15 @@ seg-502ba2c57a5f = Erforderliche Felder: <c1/>, <c2/>, <c3/>
 # c1: scenarios/sweep-nd-inertial.toml
 seg-c372e390bb4f = Das Beispiel <c1/> setzt unter anderem:
 
-# attr:alt
-seg-621a18c07044 = Das Diagramm, das die Engine für scenarios/sweep-nd-inertial.toml schreibt, Kind sweep-nd
-
 # text
 seg-ce006a6715e9 = <s1>Zurück</s1>spoof
 
 # text
 seg-b9f8771ffd3d = <s1>Weiter</s1>sweep
+
+# attr:alt
+seg-621a18c07044 = Das Diagramm, das die Engine für scenarios/sweep-nd-inertial.toml schreibt, Szenarioart sweep-nd
+
+# text
+# c1: sweep-nd
+seg-c7e5582d0b24 = <c1/> (Szenarioart)

@@ -10,9 +10,6 @@ seg-d6d7bca305dc = MODELLED GNSS-Verfügbarkeit und Linkstärke im Space Service
 seg-7dae5e291c8b = Das Diagramm, das die Engine für scenarios/gnss-ssv-heo.toml schreibt, Art gnss-ssv
 
 # text
-seg-c8012ee549ea = { "1" } Szenario-Kind der Engine v{ $version }. Beratend: Analyseausgabe eines Forschungs- und Ingenieurwerkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jedes Label hier stammt von der Engine oder von der Verifikationsmatrix; ein Kind ist MODELLED, sofern die Matrix nichts anderes sagt (wie ein Label verdient wird: der Abschnitt Evidence der README).
-
-# text
 seg-4e31c8daf798 = Register
 
 # text
@@ -47,3 +44,6 @@ seg-099d82cb0689 = <b>Register:</b> MODELLED. Vollständige Seite mit Eingaben, 
 
 # text
 seg-7ca028bf6bb4 = <s1>Zurück</s1>Optische PNT
+
+# text
+seg-c8012ee549ea = { "1" } Szenarioart der Engine v{ $version }. Beratend: Analyseausgabe eines Forschungs- und Ingenieurwerkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jedes Label hier stammt von der Engine oder von der Verifikationsmatrix; eine Szenarioart ist MODELLED, sofern die Matrix nichts anderes sagt (wie ein Label verdient wird: der Abschnitt Evidence der README).

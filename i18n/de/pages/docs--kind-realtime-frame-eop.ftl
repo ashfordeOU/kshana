@@ -26,10 +26,6 @@ seg-a2889fb2b42a = Themenseite: <a1>integrations.md</a1>
 seg-1ad013ffb9d1 = Quelle: <c1/>
 
 # text
-# c1: realtime-frame-eop
-seg-54620502f0dd = <c1/> (Szenario-Kind)
-
-# text
 seg-edfcb546d9de = Echtzeit-Budget der Vorhersage von Mondbezugssystem / Erdorientierung: P4-Tabelle { "1" } (die Konsistenzprüfung des Bezugssystemfehlers — nachverarbeitet ~{ "0.27" } m ↔ ~{ "0.010" } ms und Echtzeit ~{ "15" } m ↔ ~{ "0.5" } ms, jede Bezugssystemposition ausgedrückt als ihr äquivalenter UT1-Fehler über den L19-Hebelarm Δr = D_EM·ω⊕·ΔUT1) und Tabelle { "2" } (gemessener UT1-Vorhersagefehler gegen den Horizont — die L18-Kurve, direkt aus der realen IERS-Reihe finals2000A abgelesen: die endgültige Untergrenze Bulletin A − Bulletin B und der Fehler des Persistenz-Prädiktors über mehrere Tage, jeweils durch L19 auf eine Position im Mondbezugssystem abgebildet), plus das L21-Echtzeit-Bezugssystemfehlerbudget als Wurzel aus der Quadratsumme (EOP + Ephemeride + Realisierungs-Untergrenze). VALIDATED: die geschlossene Form (der L19-Hebelarm, ω⊕ gegengeprüft gegen den CIO-Erdrotationswinkel) und VALIDATED: reale Daten (die L18-Kurve aus den realen finals2000A-Zeilen); MODELLED sind die Größenordnungen der Kovarianz der Bahnbestimmung des Mondrelais und die Untergrenze der Bezugssystemrealisierung (repräsentative Zuweisungen) sowie der Persistenz-Prädiktor (nicht der operative Bulletin-A-Algorithmus des IERS). Kein zertifiziertes Echtzeit-Bezugssystemprodukt.
 
 # text
@@ -64,9 +60,6 @@ seg-c39a26aa1f1e = mitgelieferte Fixture finals2000A_20260930
 # text
 seg-9ef8a2b4c144 = Ergebnisbezeichnung (die der Engine): Echtzeit-Budget der Vorhersage von Mondbezugssystem / Erdorientierung. VALIDATED geschlossene Form: der L19-Hebelarm ({ "1" } ms ↔ { "28.03" } m ↔ { "93.5" } ns), ω⊕ gegengeprüft gegen den CIO-Erdrotationswinkel. VALIDATED reale Daten: die L18-Vorhersagefehlerkurven für UT1 und Polbewegung, direkt aus den realen IERS-finals200
 
-# attr:alt
-seg-2721ed7727bb = Das Diagramm, das die Engine für scenarios/realtime-frame-eop.toml schreibt, Kind realtime-frame-eop
-
 # text
 seg-72a1fc2f5c90 = <b>VALIDATED</b> Eine Tabelle gibt den UT1-Vorhersagefehler, den Polfehler der Polbewegung und ihre quadratische Kombination am Mond über einen IDENTISCHEN Epochensatz pro Horizont aus und gibt die Epochen aus, an denen jede Komponente gemessen wurde. Tests: <a1>embedded_eop_vintage_astropy_preregistered.rs</a1>.
 
@@ -92,8 +85,15 @@ seg-530c87bbff78 = <b>MODELLED</b> Eine Kleinste-Quadrate-Anpassung von Bias plu
 seg-a233df86be95 = Echtzeit-Budget der Vorhersage von Mondbezugssystem / Erdorientierung. VALIDATED geschlossene Form: der L19-Hebelarm ({ "1" } ms ↔ { "28.03" } m ↔ { "93.5" } ns), ω⊕ gegengeprüft gegen den CIO-Erdrotationswinkel. VALIDATED reale Daten: die L18-Vorhersagefehlerkurven für UT1 und Polbewegung, direkt aus der realen IERS-Reihe finals2000A abgelesen (Bulletin A schnell gegen Bulletin B endgültig und Persistenz über mehrere Tage auf den realen Tageszeilen). DERIVED: das Bezugssystem (Ergebnis <c1/>)
 
 # text
-# c1: kshana kinds --json
-seg-60e7ee7e6e3e = VALIDATED geschlossene Form (der L19-Hebelarm, ω⊕ gegengeprüft gegen den CIO-Erdrotationswinkel) und VALIDATED reale Daten (die L18-Kurve aus den realen finals2000A-Zeilen); MODELLED sind die Größenordnungen der Kovarianz der Bahnbestimmung des Mondrelais und die Untergrenze der Bezugssystemrealisierung (repräsentative Zuweisungen) sowie der Persistenz-Prädiktor (nicht der operative Bulletin-A-Algorithmus des IERS). (Kind-Katalog (<c1/>))
+seg-ddf4702f78e5 = Ehrlichkeit: Die geschlossene Form (der Hebelarm L19, omega_earth gegengeprüft am CIO-Erdrotationswinkel) ist VALIDATED, und reale Daten (die UT1- und Polbewegungskurven L18 aus den realen finals2000A-Zeilen) sind VALIDATED. DERIVED ist die Untergrenze der Realisierung des Bezugssystems (das Post-Fit-Residuum der Helmert-Transformation). MODELLED sind die Größenordnungen der Kovarianz der Bahnbestimmung des Mondrelais ({ "0.27" } m nachverarbeitet, ~{ "14.4" } m in Echtzeit bei einer Stunde Latenz — gerundet, nicht rückgerechnet, alle (Kommentar der Szenariodatei, Zeilen { "27" } bis { "32" })
+
+# attr:alt
+seg-2721ed7727bb = Das Diagramm, das die Engine für scenarios/realtime-frame-eop.toml schreibt, Szenarioart realtime-frame-eop
 
 # text
-seg-ddf4702f78e5 = Ehrlichkeit: Die geschlossene Form (der Hebelarm L19, omega_earth gegengeprüft am CIO-Erdrotationswinkel) ist VALIDATED, und reale Daten (die UT1- und Polbewegungskurven L18 aus den realen finals2000A-Zeilen) sind VALIDATED. DERIVED ist die Untergrenze der Realisierung des Bezugssystems (das Post-Fit-Residuum der Helmert-Transformation). MODELLED sind die Größenordnungen der Kovarianz der Bahnbestimmung des Mondrelais ({ "0.27" } m nachverarbeitet, ~{ "14.4" } m in Echtzeit bei einer Stunde Latenz — gerundet, nicht rückgerechnet, alle (Kommentar der Szenariodatei, Zeilen { "27" } bis { "32" })
+# c1: realtime-frame-eop
+seg-54620502f0dd = <c1/> (Szenarioart)
+
+# text
+# c1: kshana kinds --json
+seg-60e7ee7e6e3e = VALIDATED geschlossene Form (der L19-Hebelarm, ω⊕ gegengeprüft gegen den CIO-Erdrotationswinkel) und VALIDATED reale Daten (die L18-Kurve aus den realen finals2000A-Zeilen); MODELLED sind die Größenordnungen der Kovarianz der Bahnbestimmung des Mondrelais und die Untergrenze der Bezugssystemrealisierung (repräsentative Zuweisungen) sowie der Persistenz-Prädiktor (nicht der operative Bulletin-A-Algorithmus des IERS). (Szenarioarten-Katalog (<c1/>))

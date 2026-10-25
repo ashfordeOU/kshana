@@ -39,18 +39,11 @@ seg-9521a296d617 = dBi
 seg-55ee4fdf9240 = Pflichtfelder: <c1/>, <c2/>, <c3/>, <c4/>
 
 # text
-seg-304496607bd7 = Szenario-Kind der Engine v{ $version }, Familie <a1>Jamming, spoofing and the spectrum</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; ein Kind ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
-
-# text
 seg-5d23d7f8f872 = Familienseite: <a1>Jamming, spoofing and the spectrum</a1>
 
 # text
 # c1: docs/kinds/by-kind/jamming.md
 seg-53b1a341460a = Quelle: <c1/>
-
-# text
-# c1: jamming
-seg-1c9fd1344128 = <c1/> (Szenario-Kind)
 
 # text
 seg-60bf3f0ff000 = Jamming per Link-Budget: J/S → effektives C/N₀ → Verlust der Aufschaltung.
@@ -81,9 +74,6 @@ seg-f85a85f0c7e4 = MHz
 # text
 seg-7154243aabbe = broadband
 
-# attr:alt
-seg-42d46b928d09 = Das Diagramm, das die Engine für scenarios/jamming-demo.toml schreibt, Kind jamming
-
 # text
 seg-4d946761b93f = <b>MODELLED</b> Geometrisches J/S-Link-Budget, Anti-Jam-C/N₀, Verlust der Aufschaltung je Satellit Tests: <a1>gnss_denied_jamming_resilience_reference.rs</a1>.
 
@@ -108,3 +98,13 @@ seg-bd78e9277435 = <s1>Zurück</s1>integrity
 
 # text
 seg-1d5e7a4b87e9 = <s1>Weiter</s1>launch-window
+
+# text
+# c1: jamming
+seg-1c9fd1344128 = <c1/> (Szenarioart)
+
+# text
+seg-304496607bd7 = Szenarioart der Engine v{ $version }, Familie <a1>Jamming, spoofing and the spectrum</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; eine Szenarioart ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
+
+# attr:alt
+seg-42d46b928d09 = Das Diagramm, das die Engine für scenarios/jamming-demo.toml schreibt, Szenarioart jamming

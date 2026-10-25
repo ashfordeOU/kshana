@@ -425,12 +425,6 @@ seg-ccbe11bd50b6 = <b>lunar-frame-campaign: Eine Bake ohne Beobachtung wird jetz
 seg-c223c1fc1323 = <b>Hauptachsen-Bezugssystem des Mondes</b> (<c1/>, verwendet von <c2/> und der LRO-Anpassung): Der DE421-Versatz vom mittleren Erdsystem zum Hauptachsensystem aus <c3/> wurde in der falschen Richtung und mit der falschen Euler-Reihenfolge angewendet, sodass das analytische PA-System etwa { "208" }″ von PA entfernt lag, statt darauf. Es ist jetzt so übertragen, wie es SPICEs Frames Required Reading definiert, und stimmt mit SPICE <c4/> auf { "2.6e-16" } rad überein; das analytische PA-System liegt { "6" }″ bis { "8" }″ von DE440 PA entfernt (vorab registriert e1ead19b, neu registriert be33382e, nachdem die erste vorgeschlagene Änderung den Zielwert { "1e-12" } verfehlt hatte; <c5/>). Veröffentlichte Zahlen, die sich verschieben: die LRO-Anpassung (<c6/>) Roh-Überlappung { "53.8" } → { "39.9" } m, dynamisch { "12.6" } → { "12.05" } m, reduziert-dynamisch { "6.65" } → { "6.67" } m (Zielwerte unverändert). Der analytische Stack stimmt nun auf beiden Stufen mit der DE-Güte-Kreuzvalidierung von ANISE ({ "12.0" } / { "6.67" } m) überein; die frühere Lücke auf der dynamischen Stufe war dieser Fehler.
 
 # text
-# c1: [terrain] dem_hgt
-# c2: inline_only::FILE_SOURCE_KEYS
-# c3: _hgt
-seg-ef2b49d4ad48 = <b>Der MCP-Server lehnt <c1/> ab</b> (Nachfolgearbeit zu CAP-06b). Der Pfad der Geländekachel des Kinds jamming steht jetzt in <c2/>. Eine Inline-Oberfläche lehnt ein Szenario ab, das einen solchen Pfad nennt, mit einer Meldung, die weder den Pfad noch einen Betriebssystemfehler enthält. Der Wächtertest für Dateiquellen kennzeichnet nun auch Felder, die auf <c3/> enden.
-
-# text
 # c1: Jd2::from_parts
 seg-ef005d2e3d42 = <c1/> mit einem gebrochenen Tagesanteil verwarf den Bruchteil in den Umrechnungen UTC, TAI, UT1 und Erdrotation (eine Stunde Tagesanteil ließ die Erde um { "15" }° falsch stehen); der Tagesanteil wird jetzt auf eine ganze Zahl normalisiert. Kein Aufrufer der Engine war betroffen: Jeder übergibt einen ganzzahligen Tag, und jede ausgelieferte Ausgabe ist bitidentisch.
 
@@ -509,16 +503,6 @@ seg-19ab5c068b6e = <b><c1/> in Python und WebAssembly.</b> Der Verifizierer hint
 # c8: python
 # c9: otlp
 seg-6128929994b4 = <b><c1/> in WebAssembly, Python und MCP, mit einem Plugin-Befehl und einer JetBrains-Aktion.</b> Stellt einen Vertrauensstrom oder ein <c2/>-Ergebnis als Prometheus-Text, als CEF- oder LEEF-Syslog-Zeilen oder als OTLP-JSON-Nutzlast dar, mit den Encodern, die <c3/> verwendet (<c4/>); kein Socket und keine Uhr. Plugin: <c5/> und der Skill <c6/>. JetBrains: Render Trust Telemetry. Die Features <c7/> und <c8/> und der MCP-Server aktivieren jetzt auch <c9/>, was kein Crate hinzufügt.
-
-# text
-# c1: kshana --help
-# c2: receiver-trust evidence
-# c3: evidence
-# c4: trust-telemetry
-# c5: nmea-scenario
-# c6: compliance-and-test-bench
-# c7: docs/SURFACES.md
-seg-83d01411c6d4 = <b>Paritätsdurchgang.</b> JetBrains-Aktionen Validate Scenario, List Scenario Kinds und Assess Receiver Stream; <c1/> listet jetzt <c2/>, <c3/>, <c4/> und <c5/>; das Notebook <c6/> (compliance-Zuordnung und test-bench-Export); und jede verbleibende JetBrains-Zelle „CLI only“ in <c7/> ist jetzt ein ausdrückliches N/A mit Begründung.
 
 # text
 seg-062ef0cf7ee7 = Hinzugefügt (Nachweispakete)
@@ -629,14 +613,6 @@ seg-bb26e8c1aff0 = <b>Referenzaufbau</b> (<c1/>): generische Teileliste, Betrieb
 # c1: position
 # c2: advisory
 seg-6695d4c1f13b = Das Signal-K-Plugin akzeptiert das Live-JSON-Schema { "1.2" } (ein Schlüssel <c1/>, dann ein Schlüssel <c2/> angehängt; unbekannte angehängte Schlüssel werden ignoriert), geprüft an echter Ausgabe nach { "1.2" } und gegen einen echten signalk-server.
-
-# text
-# c1: check-units.sh
-# c2: inputArgs
-# c3: notifications.navigation.gnss.kshana.trust
-# c4: $PKSHT
-# c5: marine-integrations.yml
-seg-622c2d3dd8fa = Korrekturen aus der Prüfung: Die systemd-Units starten immer neu und laufen in einer Sandbox (keine Shell, kein Netzwerk, wo keines gebraucht wird), ein logrotate-Schnipsel, <c1/> schlägt bei jedem Befund fehl; der Container führt das Gate mit Umgebungsvariablen aus, mit Health-Check und per Digest festgelegten Basis-Images; Signal-K-Wert-Metadaten, die veraltete Benachrichtigung wird ersetzt, wenn wieder Daten eintreffen, Fehler von Kindprozessen bleiben erhalten und Kills eskalieren, unsichere <c2/> werden abgelehnt, und die Benachrichtigung liegt unter <c3/>; das Relay begrenzt eine zurückgehaltene Teilzeile; die Parser von <c4/> weisen Werte außerhalb von { "0" } bis { "100" } zurück; eine Prüfung der Dokumentationslinks; ein CI-Workflow (<c5/>), der all das ausführt, einschließlich der echten Binärdatei von Anfang bis Ende.
 
 # text
 # c1: docs/MARINE-INTEGRATIONS.md
@@ -8888,3 +8864,27 @@ seg-f75f1878045e = Siebenundzwanzig Zeilen der Verifikationsmatrix werden VALIDA
 
 # text
 seg-fa9976349886 = Neue VALIDATED Zeile: die Signal-PSDs und SSCs, gegen die Hauptkeule von BPSK(n) mit 2n x { "1.023" } MHz, die um +/-1.023 MHz zentrierten Keulen von BOC({ "1,1" }), die geschlossenen Parseval-Formen hinter den veröffentlichten SSCs von -61.8 / -64.8 / -67.8 dB/Hz und das Lehrbuch-Q = { "1" } (CW) und { "1.5" } (Matched). Das PSD-Maximum von BOC({ "1,1" }) liegt bei +/-0.759 MHz, nicht in der Keulenmitte; der Test legt beides fest.
+
+# text
+# c1: check-units.sh
+# c2: inputArgs
+# c3: notifications.navigation.gnss.kshana.trust
+# c4: $PKSHT
+# c5: marine-integrations.yml
+seg-622c2d3dd8fa = Korrekturen aus der Prüfung: Die systemd-Units starten immer neu und laufen in einer Sandbox (keine Shell, kein Netzwerk, wo keines gebraucht wird), ein logrotate-Schnipsel, <c1/> schlägt bei jedem Befund fehl; der Container führt das Gate mit Umgebungsvariablen aus, mit Health-Check und per Digest festgelegten Basis-Images; Signal-K-Wert-Metadaten, die veraltete Benachrichtigung wird ersetzt, wenn wieder Daten eintreffen, Fehler von Kindprozessen bleiben erhalten und Kills eskalieren, unsichere <c2/> werden abgelehnt, und die Benachrichtigung liegt unter <c3/>; das Relay begrenzt eine zurückgehaltene Teilzeile; die Parser von <c4/> weisen Werte außerhalb von { "0" } bis { "100" } zurück; eine Prüfung der Dokumentationslinks; ein CI-Workflow (<c5/>), der all das ausführt, einschließlich der echten Binärdatei von Anfang bis Ende.
+
+# text
+# c1: kshana --help
+# c2: receiver-trust evidence
+# c3: evidence
+# c4: trust-telemetry
+# c5: nmea-scenario
+# c6: compliance-and-test-bench
+# c7: docs/SURFACES.md
+seg-83d01411c6d4 = <b>Paritätsdurchgang.</b> JetBrains-Aktionen Validate Scenario, List Scenario Kinds und Assess Receiver Stream; <c1/> listet jetzt <c2/>, <c3/>, <c4/> und <c5/>; das Notebook <c6/> (compliance-Zuordnung und test-bench-Export); und jede verbleibende JetBrains-Zelle „CLI only“ in <c7/> ist jetzt ein ausdrückliches N/A mit Begründung.
+
+# text
+# c1: [terrain] dem_hgt
+# c2: inline_only::FILE_SOURCE_KEYS
+# c3: _hgt
+seg-ef2b49d4ad48 = <b>Der MCP-Server lehnt <c1/> ab</b> (Nachfolgearbeit zu CAP-06b). Der Pfad der Geländekachel der Szenarioart jamming steht jetzt in <c2/>. Eine Inline-Oberfläche lehnt ein Szenario ab, das einen solchen Pfad nennt, mit einer Meldung, die weder den Pfad noch einen Betriebssystemfehler enthält. Der Wächtertest für Dateiquellen kennzeichnet nun auch Felder, die auf <c3/> enden.

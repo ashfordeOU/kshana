@@ -124,10 +124,10 @@ seg-4d208b6c0eb8 = Tag
 seg-3319b18ac61f = und { "1" } weitere in der Matrix.
 
 # text
-seg-fbac1cbb2422 = MODELLED { "2" } · VALIDATED { "3" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die dieses Kind nennen.
-
-# text
 seg-2b36ac40e457 = Uranus und Neptun aus Standish Table { "1" }, Pluto und die Planetengeschwindigkeiten sind MODELLED, nicht validiert: eine Teilbehauptung wird extern geprüft, aber die gesamte Fähigkeit setzt sich aus modellierten Teilen zusammen, daher bleibt die Fähigkeit modelliert. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
 
 # text
 seg-c19e6d035b7e = Positionen des Mondes und von sieben großen Monden (Phobos, Deimos, die galileischen Monde, Titan) sind MODELLED, nicht validiert: Ein Teilanspruch wird extern geprüft, aber die gesamte Fähigkeit setzt sich aus modellierten Teilen zusammen, daher bleibt die Fähigkeit modelliert. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
+
+# text
+seg-fbac1cbb2422 = MODELLED { "2" } · VALIDATED { "3" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die diese Szenarioart nennen.

@@ -10,18 +10,11 @@ seg-37d16b499bc5 = dB
 seg-cb91473bfdda = Themenseite: <a1>LEO-PNT.md</a1>
 
 # text
-seg-49964654d5f4 = Szenario-Kind der Engine v{ $version }, Familie <a1>Low-Earth-orbit navigation</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; ein Kind ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
-
-# text
 seg-c5478f572d21 = Familienseite: <a1>Low-Earth-orbit navigation</a1>
 
 # text
 # c1: docs/kinds/by-kind/leo-pass.md
 seg-fad0b45fd9c2 = Quelle: <c1/>
-
-# text
-# c1: leo-pass
-seg-f0433f09f033 = <c1/> (Szenario-Kind)
 
 # text
 # c1: scenarios/leo-pass-iridium.toml
@@ -59,17 +52,7 @@ seg-7cd17bf1ac74 = Iridium STL von einem Flugzeug aus
 seg-f4d857403ae0 = descending
 
 # text
-# c1: scenarios/
-seg-08bc462d676c = { "8" } mitgelieferte Szenarien verwenden dieses Kind; die übrigen stehen in <a1><c1/></a1>.
-
-# text
 seg-ee6d9e6d9556 = Ergebnisbezeichnung (der Engine): MODELLED: Geometrie des LEO-Überflugs und Link-Budget je Band aus angegebenen EIRPs und idealisierten Antennenmustern mit ITU-R-Ausbreitungstermen; die Komponentenmodelle tragen in der Verifikationsmatrix ihre eigenen Bezeichnungen. Keine Messung irgendeines Satelliten.
-
-# attr:alt
-seg-02ae51cfada6 = Das Diagramm, das die Engine für scenarios/leo-pass-iridium.toml schreibt, Kind leo-pass
-
-# text
-seg-65c8e3e5b1bc = MODELLED { "7" } · VALIDATED { "5" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die dieses Kind nennen.
 
 # text
 seg-69ed19957592 = <b>VALIDATED</b> ITU-R (International Telecommunication Union, Radiocommunication Sector) P.838-3 Gleichungen ({ "1" }) bis ({ "5" }): k_H, alpha_H, k_V, alpha_V aus den Kurvenanpassungen der Tabellen { "1" } bis { "4" }, die pfad- und polarisationsabhängigen (k, alpha) und die spezifische Dämpfung Tests: <a1>leo_link_reference.rs</a1>.
@@ -96,24 +79,8 @@ seg-ab58ab4e7dc6 = <b>VALIDATED</b> Gruppenlaufzeit { "40.3" } STEC/f^{ "2" } je
 seg-67fdbce3503c = <b>VALIDATED</b> leo_link::geometry::max_static_user_range_rate: eine Suche über jede Bahnposition und jeden Nutzer am Horizont des Satelliten auf einer Kreisbahn, wobei die Erde. Orakel (ExternalDataset): Leclere, Marathe and Reid, Insights into Xona Pulsar LEO PNT: Constellation, Signals, and Receiver Design, ION GNSS+ { "2025" }, arXiv { "2509.19551" }, Tabelle { "1" } (ruhender Empfänger auf einer Kugel von { "6371" } km, Erdrotation als einziger weiterer Effekt): { "37751.7" } / { "33628.5" } / { "31813.4" } / { "4018.4" } Hz auf L1. Deckt kreisförmige Zweikörperbahnen ab
 
 # text
-# c1: leo-pass
-seg-b952b2928bbe = <b>MODELLED</b> Das Kind <c1/>: Satelliten aus einem entworfenen Überflug, Elementen, einem TLE über SGP4 oder einer Walker-Konstellation aus constellation-design; je Band und Epoche die. Orakel (InternalConsistency): Geschlossene Formen und Selbstkonsistenz: die Identitäten von Entfernungsrate und Entfernungsbeschleunigung gegen numerische Ableitungen, der Isoflux-Gewinn, der das Entfernungswachstum aufhebt, die Lehrbuchgrenzwerte des Polarisationsverlusts, die qualitative Beobachtung LEO gegenüber GNSS (ein glockenförmiger Überflug von Minuten, der einige dB über flachen GNSS-Trägern mit 44-51 dB-Hz gipfelt). Die EIRPs und Muster sind veröffentlichte Empfangsleistungen, umgerechnet in eine EIRP oder repräsentativ
-
-# text
 # c1: label
 seg-65a0444ca451 = MODELLED: Geometrie des LEO-Überflugs und Link-Budget je Band aus angegebenen EIRPs und idealisierten Antennenmustern mit ITU-R-Ausbreitungstermen; die Komponentenmodelle tragen in der Verifikationsmatrix ihre eigenen Bezeichnungen. Keine Messung irgendeines Satelliten. (Ergebnis <c1/>)
-
-# text
-# c1: kshana kinds --json
-seg-8b3ffb30c23c = Ein optionaler Abschnitt [iot] gibt Zeit bis zum ersten Fix, Energie je Fix und Batterielebensdauer gegen das Tastverhältnis für ein angegebenes Leistungsbudget des Empfängers an (MODELLED). (Kind-Katalog (<c1/>))
-
-# text
-# c1: kshana kinds --json
-seg-597be3a6eb96 = Ein optionaler Abschnitt [spoofer] fälscht die Signale einer behaupteten Position, die nach einem Einsatzzeitpunkt von der wahren abspringt oder weggedrückt wird, und betreibt zwei Monitore mit angegebenen Wahrscheinlichkeiten für Fehlalarm und Nichterkennung: Konsistenz von Doppler und Überfluggeometrie (gemessene Entfernungsraten gegen die aus den Bahnen und einer unabhängigen vorherigen Position und Geschwindigkeit vorhergesagten, ein verallgemeinerter Chi-Quadrat-Test nach kleinsten Quadraten über ein Fens (Kind-Katalog (<c1/>))
-
-# text
-# c1: kshana kinds --json
-seg-dbcc7b9c9b9b = MODELLED: EIRPs, Muster, der Chapman-Anteil des TEC unterhalb des Satelliten und der gesamte Überflug. (Kind-Katalog (<c1/>))
 
 # text
 seg-e675c999f303 = MODELLED. Die Spot-Beams, der Burst-Zeitplan und die STL-Wellenform werden nicht modelliert. (Kommentar in der Szenariodatei, Zeile { "14" })
@@ -135,3 +102,36 @@ seg-7c0d4c0f536d = <s1>Weiter</s1>leo-pnt-chain
 
 # text
 seg-c3861f7d717c = LEO-Überflug und Link-Budget, Band für Band, für LEO-PNT (Positionierung, Navigation und Zeitgebung aus dem niedrigen Erdorbit), systemunabhängig: ein Nutzer (am Boden, auf See, in der Luft oder in Gebäuden, ruhend oder bewegt) und ein oder mehrere LEO-Satelliten aus einem DESIGNED PASS (eine Kreisbahn, so gelegt, dass der Nutzer zu einer gewählten Zeit einen Überflug mit einer gewählten maximalen Elevation sieht, auf Wunsch sonnensynchron), expliziten ELEMENTS, einem TLE (Zwei-Zeilen-Elementsatz) über das SGP4 der Engine oder einer WALKER-Konstellation, aufgebaut vom Code für den Konstellationsentwurf (die höchsten Überflüge werden berichtet). Bänder stammen aus einer benannten Voreinstellung (generisches Multiband UHF/L/S/C, generisches C-Band, Xona Pulsar X1/X5, Iridium STL, Starlink als reines Doppler-Gelegenheitssignal, CentiSpace und eine optionale Celeste-IOD-Voreinstellung mit der Kennzeichnung WORKSHOP) oder werden im Szenario selbst angegeben; jede Voreinstellung gibt an, ob ihre Zahlen PUBLIC (mit URL), REPRESENTATIVE oder WORKSHOP sind. Je Satellit, Band und Epoche: Elevation, Azimut, Entfernung, Entfernungsrate und Entfernungsbeschleunigung; Freiraumdämpfung; EIRP und der Antennengewinn des Satelliten (isoflux, Gauß-Keule oder flach); Antennengewinn des Nutzers über der Elevation (Patch, halbkugelförmig oder isotrop); Gasdämpfung (ITU-R P.676-10 Anhang { "2" }), Regendämpfung (Koeffizienten nach ITU-R P.838-3 und das Verfahren nach P.618-14, aus Regenrate und Regenhöhe), troposphärische Szintillation (ITU-R P.618-14 Abschnitt { "2.4.1" }), Gebäudeeindringdämpfung für einen Nutzer in Gebäuden (ITU-R P.2109-2), Polarisationsfehlanpassung, Systemrauschtemperatur und C/N0 (Träger-Rauschleistungsdichte-Verhältnis); Doppler und Dopplerrate in geschlossener Form aus Entfernungsrate und Entfernungsbeschleunigung, jeweils gegen zentrale Differenzen geprüft; die Ionosphärenverzögerung erster Ordnung { "40.3" } STEC/f^{ "2" } aus einem Klobuchar- oder Vertical-TEC-Schräg-TEC, skaliert auf den Teil der Ionosphäre unterhalb des Satelliten. Bandpaare erhalten die ionosphärenfreien Koeffizienten, die Rauschverstärkung und das Coderauschen am Maximum des Überflugs. MEO-GNSS-Satelliten (Galileo- oder GPS-Voreinstellungen) werden mit demselben Antennen- und Rauschmodell aus den Empfangsleistungen ihrer Schnittstellendokumente ausgewertet, sodass der glockenförmige LEO-Überflug und die flachen GNSS-Träger in einem Diagramm liegen. Ein optionaler Abschnitt [iot] liefert Zeit bis zur ersten Positionslösung, Energie je Lösung und Batterielebensdauer über dem Tastverhältnis für ein angegebenes Leistungsbudget des Empfängers (MODELLED). Jedes Bandpaar liefert außerdem das Schräg-TEC, das seine geometriefreie Kombination am Maximum zurückgewinnt, und das Code-Rausch-Sigma dieser Schätzung (Ionosphärensondierung). Ein optionaler Abschnitt [spoofer] fälscht die Signale einer behaupteten Position, die nach einem Einsatzzeitpunkt von der wahren Position springt oder weggeschoben wird, und führt zwei Monitore mit angegebenen Wahrscheinlichkeiten für Fehlalarm und Nichterkennung aus: Doppler- und Überflug-Geometrie-Konsistenz (gemessene Entfernungsraten gegen die aus den Bahnen und einer unabhängigen Vorabposition und -geschwindigkeit vorhergesagten, ein verallgemeinerter Kleinste-Quadrate-Chi-Quadrat-Test über ein Fenster, auf den GNSS-, LEO- und allen Kanälen) und Konsistenz zwischen den Bändern (der Schritt von Epoche zu Epoche der modellkorrigierten geometriefreien Kombination jedes LEO-Bandpaars), mit Statistiken je Epoche und dem Zeitpunkt, zu dem jeder Monitor erkennt (MODELLED). Komponenten, die VALIDATED sind: Freiraumdämpfung, die Koeffizienten von P.838-3 gegen ihre Tabelle { "5" }, die Verfahren P.618-14 für Regen und Szintillation und die Gebäudeeindringdämpfung nach P.2109 gegen die Validierungsbeispiele der ITU-R Study Group { "3" }, das Gruppenlaufzeitverhältnis L1/L2 aus IS-GPS-200 und das maximale Doppler eines ruhenden Nutzers auf einer Kreisbahn gegen arXiv { "2509.19551" } Tabelle { "1" }. MODELLED: EIRPs, Antennendiagramme, der Chapman-Anteil des TEC unterhalb des Satelliten und der gesamte Überflug.
+
+# attr:alt
+seg-02ae51cfada6 = Das Diagramm, das die Engine für scenarios/leo-pass-iridium.toml schreibt, Szenarioart leo-pass
+
+# text
+# c1: scenarios/
+seg-08bc462d676c = { "8" } mitgelieferte Szenarien verwenden diese Szenarioart; die übrigen stehen in <a1><c1/></a1>.
+
+# text
+seg-49964654d5f4 = Szenarioart der Engine v{ $version }, Familie <a1>Low-Earth-orbit navigation</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; eine Szenarioart ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
+
+# text
+# c1: kshana kinds --json
+seg-597be3a6eb96 = Ein optionaler Abschnitt [spoofer] fälscht die Signale einer behaupteten Position, die nach einem Einsatzzeitpunkt von der wahren abspringt oder weggedrückt wird, und betreibt zwei Monitore mit angegebenen Wahrscheinlichkeiten für Fehlalarm und Nichterkennung: Konsistenz von Doppler und Überfluggeometrie (gemessene Entfernungsraten gegen die aus den Bahnen und einer unabhängigen vorherigen Position und Geschwindigkeit vorhergesagten, ein verallgemeinerter Chi-Quadrat-Test nach kleinsten Quadraten über ein Fens (Szenarioarten-Katalog (<c1/>))
+
+# text
+seg-65c8e3e5b1bc = MODELLED { "7" } · VALIDATED { "5" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die diese Szenarioart nennen.
+
+# text
+# c1: kshana kinds --json
+seg-8b3ffb30c23c = Ein optionaler Abschnitt [iot] gibt Zeit bis zum ersten Fix, Energie je Fix und Batterielebensdauer gegen das Tastverhältnis für ein angegebenes Leistungsbudget des Empfängers an (MODELLED). (Szenarioarten-Katalog (<c1/>))
+
+# text
+# c1: leo-pass
+seg-b952b2928bbe = <b>MODELLED</b> Die Szenarioart <c1/>: Satelliten aus einem entworfenen Überflug, Elementen, einem TLE über SGP4 oder einer Walker-Konstellation aus constellation-design; je Band und Epoche die. Orakel (InternalConsistency): Geschlossene Formen und Selbstkonsistenz: die Identitäten von Entfernungsrate und Entfernungsbeschleunigung gegen numerische Ableitungen, der Isoflux-Gewinn, der das Entfernungswachstum aufhebt, die Lehrbuchgrenzwerte des Polarisationsverlusts, die qualitative Beobachtung LEO gegenüber GNSS (ein glockenförmiger Überflug von Minuten, der einige dB über flachen GNSS-Trägern mit 44-51 dB-Hz gipfelt). Die EIRPs und Muster sind veröffentlichte Empfangsleistungen, umgerechnet in eine EIRP oder repräsentativ
+
+# text
+# c1: kshana kinds --json
+seg-dbcc7b9c9b9b = MODELLED: EIRPs, Muster, der Chapman-Anteil des TEC unterhalb des Satelliten und der gesamte Überflug. (Szenarioarten-Katalog (<c1/>))
+
+# text
+# c1: leo-pass
+seg-f0433f09f033 = <c1/> (Szenarioart)

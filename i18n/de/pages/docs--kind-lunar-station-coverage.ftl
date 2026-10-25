@@ -37,10 +37,6 @@ seg-8f8871ac8a0f = Themenseite: <a1>LUNAR-REFERENCE-STATION.md</a1>
 seg-f3231c08fa26 = Quelle: <c1/>
 
 # text
-# c1: lunar-station-coverage
-seg-1a28838279fe = <c1/> (Szenario-Kind)
-
-# text
 seg-f7ea776e70c9 = Modellierte Abdeckung einer lunaren Referenzstation: ein Monte-Carlo-Durchlauf des Modells für lunares differentielles PNT über ein Nutzergitter am Südpol und einen Tag an Epochen. Eine differentielle Referenzstation an einem bekannten Standort am Südpol korrigiert eine angegebene Konstellation (illustrativ keplersch oder eine tabellierte Ephemeride) mit einem angegebenen Signal-in-Space-Fehler, Vermessungsfehler, einer Korrekturlatenz und Quantisierung der Verbindung; je Punkt und über die Region gibt es den Perzentilwert des korrigierten und des unkorrigierten Positionsfehlers (3D, horizontal, vertikal), die Verfügbarkeit, die Abdeckung gegen eine angegebene Schwelle, Schutzniveaus nach DO-229E, den Abdeckungsradius je Azimut und das Link-Budget der Korrekturstrecke an der Station und am ungünstigsten Punkt an. Keine Aussage über die Leistung irgendeines realen Systems; nicht mit einer Agentur verbunden oder von ihr gebilligt. MODELLED.
 
 # text
@@ -92,17 +88,6 @@ seg-0c3460704315 = Das Beispiel <c1/> setzt unter anderem:
 # text
 seg-2d84b341a41f = Ergebnisbezeichnung (der Engine): MODELLED
 
-# attr:alt
-seg-922b8656fcae = Das Diagramm, das die Engine für scenarios/lunar-station-coverage.toml schreibt, Kind lunar-station-coverage
-
-# text
-# c1: lunar-station-coverage
-seg-4f5941f12127 = <b>MODELLED</b> Monte-Carlo-Durchlauf des Modells für lunares differentielles PNT über ein Nutzergitter am Südpol und einen Tag an Epochen (das Kind <c1/>): für eine differentielle Referenzstation an einem bekannten Standort am Südpol, je Punkt und über die Region, die Tests: <a1>lunar_station_coverage_reference.rs</a1>.
-
-# text
-# c1: lunar-station-coverage
-seg-d547d600ee2d = <b>MODELLED</b> Monte-Carlo-Durchlauf des Modells für lunares differentielles PNT über ein Nutzergitter am Südpol und einen Tag an Epochen (das Kind <c1/>): für eine differentielle R. Orakel (InternalConsistency): Arithmetik, von einem unabhängigen numpy-Skript an exportierten Fällen neu berechnet (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; vorab registriert in tests/fixtures/lunar_station/PREREGISTRATION.md, allein eingecheckt in 9caedf97 vor dem ersten Lauf): bei { "20" } Fällen mit allen eingeschalteten Fehlertermen sind die sichtbaren Mengen und der Status identisch, die rohen Entfernungsfehler stimmen auf { "1.4e-14" } m überein, die Positionsfehlervektoren und -beträge auf { "1.4e-9" } m gegen
-
 # text
 # c1: label
 seg-626ab55f0424 = MODELLED (Ergebnis <c1/>)
@@ -118,3 +103,18 @@ seg-6ac5bd1500a8 = <s1>Zurück</s1>lunar-llr-datum
 
 # text
 seg-625c1973128e = <s1>Weiter</s1>lunar-time-budget
+
+# text
+# c1: lunar-station-coverage
+seg-1a28838279fe = <c1/> (Szenarioart)
+
+# text
+# c1: lunar-station-coverage
+seg-4f5941f12127 = <b>MODELLED</b> Monte-Carlo-Durchlauf des Modells für lunares differentielles PNT über ein Nutzergitter am Südpol und einen Tag an Epochen (die Szenarioart <c1/>): für eine differentielle Referenzstation an einem bekannten Standort am Südpol, je Punkt und über die Region, die Tests: <a1>lunar_station_coverage_reference.rs</a1>.
+
+# attr:alt
+seg-922b8656fcae = Das Diagramm, das die Engine für scenarios/lunar-station-coverage.toml schreibt, Szenarioart lunar-station-coverage
+
+# text
+# c1: lunar-station-coverage
+seg-d547d600ee2d = <b>MODELLED</b> Monte-Carlo-Durchlauf des Modells für lunares differentielles PNT über ein Nutzergitter am Südpol und einen Tag an Epochen (die Szenarioart <c1/>): für eine differentielle R. Orakel (InternalConsistency): Arithmetik, von einem unabhängigen numpy-Skript an exportierten Fällen neu berechnet (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; vorab registriert in tests/fixtures/lunar_station/PREREGISTRATION.md, allein eingecheckt in 9caedf97 vor dem ersten Lauf): bei { "20" } Fällen mit allen eingeschalteten Fehlertermen sind die sichtbaren Mengen und der Status identisch, die rohen Entfernungsfehler stimmen auf { "1.4e-14" } m überein, die Positionsfehlervektoren und -beträge auf { "1.4e-9" } m gegen

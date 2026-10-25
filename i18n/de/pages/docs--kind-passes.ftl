@@ -34,10 +34,6 @@ seg-df90e5910fb4 = hr
 seg-2544da673115 = Quelle: <c1/>
 
 # text
-# c1: passes
-seg-0db3f4e2402e = <c1/> (Szenario-Kind)
-
-# text
 seg-a4bdfc291fce = Vorhersage von Bodenstations-Überflügen: die Sichtbarkeits-Überflüge im Zeitbereich (AOS/TCA/LOS, maximale scheinbare Elevation, Dauer) einer Kreisbahn, als mittlere SGP4-Elemente zu Fensterbeginn, über einer Station oberhalb einer Elevationsmaske über ein Fenster hinweg, mit der gesamten Zugriffszeit. SGP4/SDP4-Propagation im erdfesten Bezugssystem IAU 2006/2000A (optional UT1 - UTC und Polbewegung), troposphärische Refraktion nach ITU-R P.834-9 und die Downlink-Lichtlaufzeit (beide standardmäßig an), Durchgänge auf { "1e-7" } s gelöst und die Kulmination per Goldener-Schnitt-Suche. Die Überflug-Geometrie ist gegen Orekit { "13.1.8" } an Stationen auf Meereshöhe VALIDATED; die Bahn und die Station des Szenarios sind illustrative Eingaben.
 
 # text
@@ -70,9 +66,6 @@ seg-9d2941ba37e2 = Das Beispiel <c1/> setzt unter anderem:
 # text
 seg-6f849331e33c = Ergebnisbezeichnung (die der Engine): MODELLED — Vorhersage von Bodenstations-Überflügen im Zeitbereich; SGP4/SDP4-Propagation, erdfestes Bezugssystem IAU 2006/2000A (UT1 = UTC, keine Polbewegung, sofern keine Erdorientierungsparameter angegeben sind), scheinbare Elevation mit ITU-R-P.834-9-Refraktion und Lichtlaufzeit, wenn eingeschaltet, Durchgänge und Kulmination verfeinert
 
-# attr:alt
-seg-a09be8c586e3 = Das Diagramm, das die Engine für scenarios/passes.toml schreibt, Kind passes
-
 # text
 seg-db35e4ebd275 = <b>VALIDATED</b> Sichtbarkeits-Überflüge im Zeitbereich (AOS/TCA/LOS, maximale Elevation, Dauer) eines Engine-Propagators über einer Station oberhalb einer Elevationsmaske, mit interpolierten Auf-/Untergangsdurchgängen und Gesamtzugriff: passes::predict_passes, der geometrische Scheduler (kein Tests: <a1>ground_station_pass_prediction_reference.rs</a1>.
 
@@ -91,3 +84,10 @@ seg-a7ddc8eeaf1e = <s1>Zurück</s1>orbit
 
 # text
 seg-3079cfb8decc = <s1>Weiter</s1>pvt
+
+# text
+# c1: passes
+seg-0db3f4e2402e = <c1/> (Szenarioart)
+
+# attr:alt
+seg-a09be8c586e3 = Das Diagramm, das die Engine für scenarios/passes.toml schreibt, Szenarioart passes

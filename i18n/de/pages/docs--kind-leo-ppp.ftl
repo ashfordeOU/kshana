@@ -10,18 +10,11 @@ seg-cb91473bfdda = Themenseite: <a1>LEO-PNT.md</a1>
 seg-a849735fcc6e = Themenseite: <a1>LEO-PNT-FUSION.md</a1>
 
 # text
-seg-49964654d5f4 = Szenario-Kind der Engine v{ $version }, Familie <a1>Low-Earth-orbit navigation</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; ein Kind ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
-
-# text
 seg-c5478f572d21 = Familienseite: <a1>Low-Earth-orbit navigation</a1>
 
 # text
 # c1: docs/kinds/by-kind/leo-ppp.md
 seg-8f0aab32310b = Quelle: <c1/>
-
-# text
-# c1: leo-ppp
-seg-c9852d3b79c8 = <c1/> (Szenario-Kind)
 
 # text
 seg-32a570f1a4fa = Konvergenz der präzisen Punktpositionierung (PPP) nur mit GNSS und mit LEO-Stützung: ein erweitertes Kalman-Filter mit Float-Lösung auf ionosphärenfreiem Code und ionosphärenfreier Trägerphase mit den statischen Stationskoordinaten, einer weißen Empfängeruhr, einem Inter-System-Bias je zusätzlichem System, einer als Random Walk modellierten zenitalen feuchten Verzögerung, abgebildet mit 1/sin(Elevation), und einer Float-Mehrdeutigkeit je Satellitenbogen; der präzise Bahn-und-Uhr-Fehler ist weiß und für Code und Phase eines Satelliten gemeinsam, sodass jeder Satellit eine korrelierte Zweizeilen-Aktualisierung in Joseph-stabilisierter Form ist. Die Messungen werden aus demselben Modell mit Seed-Rauschen über mehrere Standorte und Seeds simuliert, und jeder Fall (zuerst nur GNSS, dann jedes [[case]] von LEO-Systemen, beliebige Konstellation oder Voreinstellung) gibt die mediane Konvergenzzeit an (die erste Epoche, nach der die horizontalen und vertikalen Fehler unter den Schwellen bleiben, standardmäßig { "10" } cm), den konvergierten Anteil, die medianen Fehlerkurven und die Konsistenz des Filters (das über die Läufe gemittelte Positions-NEES gegen das zweiseitige { "95" }-%-Chi-Quadrat-Band). Optional neben den veröffentlichten Zahlen für mittlere Breiten von Li et al. ({ "2019" }, J. Geod. { "93" }:{ "749" }, doi 10.1007/s00190-018-1195-2): { "9.6" } min für Multi-GNSS, verkürzt auf { "7.0" }, { "3.2" }, { "2.1" } und { "1.3" } min mit { "60" }, { "96" }, { "192" } und { "288" } LEO-Satelliten. MODELLED: ein Konsistenzvergleich des Trends, keine Reproduktion der Konstellationen, des Rauschens oder der Stationen jener Studie; keine Auflösung der Mehrdeutigkeit, keine Cycle Slips, kein Phase-Wind-up, keine Gezeiten und keine zeitkorrelierten Produktfehler.
@@ -57,9 +50,6 @@ seg-85b65d194f0d = { "96" } LEO
 # text
 seg-2750ec8c218f = Ergebnisbezeichnung (der Engine): MODELLED Float-PPP (ionosphärenfreier Code und ionosphärenfreie Phase, weiße Uhr, als Random Walk modellierte feuchte Verzögerung, Float-Mehrdeutigkeiten je Bogen) auf simulierten Messungen aus demselben Modell; die Zahlen von Li et al. ({ "2019" }) sind ein Vergleich des Trends, keine Reproduktion
 
-# attr:alt
-seg-225ef04c64af = Das Diagramm, das die Engine für scenarios/leo-ppp-convergence.toml schreibt, Kind leo-ppp
-
 # text
 seg-c75ca72ca711 = <b>MODELLED</b> Ein erweitertes Kalman-Filter mit Float-PPP auf ionosphärenfreiem Code und ionosphärenfreier Phase: statische Koordinaten, eine weiße Empfängeruhr, ein Inter-System-Bias je zusätzlichem System, eine als Random Walk modellierte zenitale feuchte Verzögerung, abgebildet mit 1/sin(Elevation), eine Float-Mehrdeutigkeit je Satel Tests: <a1>leo_fusion_scenarios.rs</a1>.
 
@@ -69,10 +59,6 @@ seg-b55fd1cda5fa = <b>MODELLED</b> Ein erweitertes Kalman-Filter mit Float-PPP a
 # text
 # c1: label
 seg-302365809dbf = MODELLED Float-PPP (ionosphärenfreier Code und ionosphärenfreie Phase, weiße Uhr, als Random Walk modellierte feuchte Verzögerung, Float-Mehrdeutigkeiten je Bogen) auf simulierten Messungen aus demselben Modell; die Zahlen von Li et al. ({ "2019" }) sind ein Vergleich des Trends, keine Reproduktion (Ergebnis <c1/>)
-
-# text
-# c1: kshana kinds --json
-seg-6ce77bce8946 = MODELLED: ein Konsistenzvergleich des Trends, keine Reproduktion der Konstellationen, des Rauschens oder der Stationen jener Studie; keine Auflösung der Mehrdeutigkeit, keine Cycle Slips, kein Phase-Wind-up, keine Gezeiten und keine zeitkorrelierten Produktfehler. (Kind-Katalog (<c1/>))
 
 # text
 seg-ba2fd25fdcff = Die vier LEO-Konstellationen hier sind repräsentative Walker-Delta-Schalen bei { "1000" } km und { "60" } deg mit { "60" }, { "96" }, { "192" } und { "288" } Satelliten; sie sind NICHT die Designs der Veröffentlichung, und das Rauschen, die Stationen und die Konvergenzdefinition (horizontale und vertikale Fehler unter { "10" } cm bis zum Ende des Laufs) sind die dieses Modells. Der Vergleich ist daher eine MODELLED Konsistenzprüfung des Trends: Die Konvergenz muss sich monoton mit t verkürzen (Kommentar in der Szenariodatei, Zeilen { "10" } bis { "14" })
@@ -85,3 +71,17 @@ seg-368eb6979183 = <s1>Zurück</s1>leo-pnt-chain
 
 # text
 seg-2458954d9c22 = <s1>Weiter</s1>leo-pvt
+
+# attr:alt
+seg-225ef04c64af = Das Diagramm, das die Engine für scenarios/leo-ppp-convergence.toml schreibt, Szenarioart leo-ppp
+
+# text
+seg-49964654d5f4 = Szenarioart der Engine v{ $version }, Familie <a1>Low-Earth-orbit navigation</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; eine Szenarioart ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
+
+# text
+# c1: kshana kinds --json
+seg-6ce77bce8946 = MODELLED: ein Konsistenzvergleich des Trends, keine Reproduktion der Konstellationen, des Rauschens oder der Stationen jener Studie; keine Auflösung der Mehrdeutigkeit, keine Cycle Slips, kein Phase-Wind-up, keine Gezeiten und keine zeitkorrelierten Produktfehler. (Szenarioarten-Katalog (<c1/>))
+
+# text
+# c1: leo-ppp
+seg-c9852d3b79c8 = <c1/> (Szenarioart)

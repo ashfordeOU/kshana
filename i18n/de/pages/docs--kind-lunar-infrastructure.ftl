@@ -18,14 +18,6 @@ seg-d1beb62cf742 = { "6" } mitgelieferte Szenarien verwenden diese Art; die ande
 seg-e821670a8b55 = Quelle: <c1/>
 
 # text
-# c1: lunar-infrastructure
-seg-56953faa67ae = <c1/> (Szenario-Kind)
-
-# text
-# c1: study
-seg-d0fb90f506c9 = MODELLED Studien zu Umlaufbahn und Oberfläche des Mondes als Navigations- und Geodäsie-Infrastruktur, fünf Studien hinter einem Kind, ausgewählt durch <c1/>: od-consistency (Bahnbestimmung an Bord mit Erd-GNSS in einer NRHO oder ELFO gegen eine unabhängige radiometrische Bahnbestimmung vom Boden, beurteilt an ihren eigenen Kovarianzen über eine Monte-Carlo-Simulation mit Seed), carrier-phase (gemeinsame doppeltdifferenzierte Trägerphase von Oberfläche und Orbiter und Auflösung der ganzzahligen Mehrdeutigkeit mit LAMBDA), frame-coestimation (eine Oberflächenstation und Orbiter, die der Entfernungsmessung von Erdstationen für das Helmert-Bezugssystemdatum des Mondes mit sieben Parametern hinzugefügt werden), space-tie (GNSS, VLBI und Laserentfernungsmessung auf einem Raumfahrzeug, Präzision der Bezugssystemanbindung gegen den Fehler der lokalen Anbindung) und geodesy-sensitivity (Fisher-Information der Love-Zahlen h2, k2, l2 des Mondes und der physikalischen Libration aus Laserentfernungsmessung, Orbiter-Verfolgung, einem Oberflächengravimeter und einer Oberflächenuhr). Ein eingeschränktes Dreikörpermodell mit angegebenen Vereinfachungen; die Numerik wird gegen unabhängige Programme geprüft, und nichts wird mit einer Messung einer lunaren Größe verglichen.
-
-# text
 # c1: scenarios/lunar-infrastructure-space-tie.toml
 seg-5753b7552559 = Ein Lauf von <c1/> fasst sich so zusammen: lunar-infrastructure space-tie: { "4" } sweep points on { "1" } arcs; laser-vs-GNSS x translation sigma { "1.0363" } m at the registered local tie
 
@@ -78,11 +70,6 @@ seg-151c96b1f882 = <b>MODELLED</b> Cramér-Rao-Präzision der Translations-, Ma�
 seg-743d78806f6a = MODELLED — ein eingeschränktes Dreikörpermodell (Erde und Mond als Punktmassen, keine Sonne, keine Schwerefeld-Harmonischen des Mondes) mit angegebenen Vereinfachungen und ILLUSTRATIVEN Eingaben, die mit ihren öffentlichen Quellen bezeichnet sind. Die Numerik wird gegen unabhängige Programme geprüft; nichts wird mit einer Messung einer lunaren Größe verglichen, und nichts hier ist eine Aussage über irgendeine Mission oder ein System. Nicht verbunden mit oder gebilligt von einer Agentur. Beratend (Ergebnis <c1/>)
 
 # text
-# c1: study
-# c2: kshana kinds --json
-seg-da35c5298311 = MODELLED Studien zu Umlaufbahn und Oberfläche des Mondes als Navigations- und Geodäsie-Infrastruktur, fünf Studien hinter einem Kind, ausgewählt durch <c1/>: od-consistency (Bahnbestimmung an Bord mit Erd-GNSS in einer NRHO oder ELFO gegen eine unabhängige radiometrische Bahnbestimmung vom Boden, beurteilt an ihren eigenen Kovarianzen über eine Monte-Carlo-Simulation mit Seed), carrier-phase (gemeinsame doppeltdifferenzierte Trägerphase von Oberfläche und Orbiter und ganzzahlige Mehr (Kind-Katalog (<c2/>))
-
-# text
 seg-4658f67623b5 = Kshana-Szenario lunar-infrastructure: space-tie. MODELLED; das Design, die Eingaben und die Zielwerte sind in xval/lunar-infra/PREREGISTRATION.md festgelegt (eingecheckt vor jedem Lauf). ILLUSTRATIVE Eingaben sind dort mit ihren öffentlichen Quellen bezeichnet. (Kommentar in der Szenariodatei, Zeilen { "1" } bis { "3" })
 
 # text
@@ -105,3 +92,16 @@ seg-4df4c0059362 = <s1>Zurück</s1>lunar-frame-realisation
 
 # text
 seg-c88eef4a7214 = <s1>Weiter</s1>lunar-integrity
+
+# text
+# c1: lunar-infrastructure
+seg-56953faa67ae = <c1/> (Szenarioart)
+
+# text
+# c1: study
+seg-d0fb90f506c9 = MODELLED Studien zu Umlaufbahn und Oberfläche des Mondes als Navigations- und Geodäsie-Infrastruktur, fünf Studien hinter einer Szenarioart, ausgewählt durch <c1/>: od-consistency (Bahnbestimmung an Bord mit Erd-GNSS in einer NRHO oder ELFO gegen eine unabhängige radiometrische Bahnbestimmung vom Boden, beurteilt an ihren eigenen Kovarianzen über eine Monte-Carlo-Simulation mit Seed), carrier-phase (gemeinsame doppeltdifferenzierte Trägerphase von Oberfläche und Orbiter und Auflösung der ganzzahligen Mehrdeutigkeit mit LAMBDA), frame-coestimation (eine Oberflächenstation und Orbiter, die der Entfernungsmessung von Erdstationen für das Helmert-Bezugssystemdatum des Mondes mit sieben Parametern hinzugefügt werden), space-tie (GNSS, VLBI und Laserentfernungsmessung auf einem Raumfahrzeug, Präzision der Bezugssystemanbindung gegen den Fehler der lokalen Anbindung) und geodesy-sensitivity (Fisher-Information der Love-Zahlen h2, k2, l2 des Mondes und der physikalischen Libration aus Laserentfernungsmessung, Orbiter-Verfolgung, einem Oberflächengravimeter und einer Oberflächenuhr). Ein eingeschränktes Dreikörpermodell mit angegebenen Vereinfachungen; die Numerik wird gegen unabhängige Programme geprüft, und nichts wird mit einer Messung einer lunaren Größe verglichen.
+
+# text
+# c1: study
+# c2: kshana kinds --json
+seg-da35c5298311 = MODELLED Studien zu Umlaufbahn und Oberfläche des Mondes als Navigations- und Geodäsie-Infrastruktur, fünf Studien hinter einer Szenarioart, ausgewählt durch <c1/>: od-consistency (Bahnbestimmung an Bord mit Erd-GNSS in einer NRHO oder ELFO gegen eine unabhängige radiometrische Bahnbestimmung vom Boden, beurteilt an ihren eigenen Kovarianzen über eine Monte-Carlo-Simulation mit Seed), carrier-phase (gemeinsame doppeltdifferenzierte Trägerphase von Oberfläche und Orbiter und ganzzahlige Mehr (Szenarioarten-Katalog (<c2/>))

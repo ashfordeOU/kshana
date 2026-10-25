@@ -17,13 +17,6 @@ seg-98151954f217 = false
 seg-0482fec5b0f6 = Quelle: <c1/>
 
 # text
-# c1: hybrid-optical-rf
-seg-830c574e871b = <c1/> (Szenario-Kind)
-
-# text
-seg-72ad48275ebe = Szenario-Kind der Engine v{ $version }, Familie <a1>Optical PNT</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; ein Kind ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
-
-# text
 seg-e6839b50b560 = MODELLED heterogene optische + HF-PNT-Gesamtgütezahl (P5): setzt zusammen das optische Zweiwege-Link-Budget bei { "1550" } nm (photonenbegrenzte Zweiwege-Entfernungsmessung mit CRLB σ_τ/√N und Beugungs-Footprint λ/D·Entfernung), ein modalitätsübergreifendes RAIM-Schutzniveau nach Lösungstrennung (Position UND Zeit), das die lockere HF- und die straffe optische Lösung mit unterschiedlichen Kovarianzen fusioniert, die optische Klarhimmel-Verfügbarkeit von N Stationen (unabhängige Vereinigung { "1" }−Π({ "1" }−a_i) und eine räumlich korrelierte Variante), eine optisch↔HF-Zustands-/Kovarianzübergabe mit einem BEWIESEN bitkontinuierlichen (sprungfreien) Mittelwert und einem NEES-χ²-Konsistenztor sowie einen gemeinsamen Score P(verfügbar UND präzisionstauglich UND integritätsgesichert) mit Behandlung von Korrelationen. VALIDATED geschlossene Form: die Entfernungs-CRLB, der Beugungs-Footprint, das χ²-Schutzniveau-Quantil, die Vereinigungskombinatorik, die Mittelwertstetigkeit der Übergabe + das NEES-Tor und das gemeinsame unabhängige Produkt. MODELLED: die optischen Verlustzuweisungen, die σ-Größen von HF und Optik, die Eingaben der Wolkenklimatologie, die Korrelationen und das P_HMI-Budget. Kein zertifiziertes Verfügbarkeits-/Integritätsprodukt.
 
 # text
@@ -83,9 +76,6 @@ seg-27338c8b2e5f = Das Beispiel <c1/> setzt unter anderem:
 # text
 seg-7b9ce4689508 = Ergebnisbezeichnung (der Engine): Heterogene optische + HF-PNT-Gesamtgütezahl für Verfügbarkeit / Präzision / Integrität (P5). VALIDATED geschlossene Form: die photonenbegrenzte Entfernungs-CRLB (σ_τ/√N) und der Beugungs-Footprint (λ/D·Entfernung), das χ²-Quantil des modalitätsübergreifenden Schutzniveaus, die Verfügbarkeit der unabhängigen Vereinigung von N Stationen ({ "1" } − Π(
 
-# attr:alt
-seg-5cea5229815e = Das Diagramm, das die Engine für scenarios/hybrid-optical-rf.toml schreibt, Kind hybrid-optical-rf
-
 # text
 # c1: variance
 seg-a8923a682728 = <b>MODELLED</b> Der Bericht von hybrid-optical-rf nennt die Link-Konfiguration, mit der er tatsächlich lief (Trägerwellenlänge, Sende- und Empfangsapertur, Entfernung, Pulsbreite, Integratio. Orakel (InternalConsistency): Keine externe unabhängige Referenz, und keine ist möglich: Dies ist Selbstbeschreibung, keine Messung. Sie wird festgehalten, weil ihr Fehlen ein Mangel war -- P5 musste die Trägerwellenlänge und die Sendeapertur aus Quell-Standardwerten angeben und aus einer Prüfung der internen Konsistenz schließen, dass ein nacktes <c1/> in Quadratmetern war. Der Schluss war richtig, und genau deshalb war es wichtig: nichts hätte aufgefangen, dass er falsch gewesen wäre
@@ -102,14 +92,6 @@ seg-db5ff373b50f = <b>MODELLED</b> Der Bericht von hybrid-optical-rf nennt, was 
 # text
 # c1: label
 seg-24f31f6b353f = Heterogene optische + HF-PNT-Gesamtgütezahl für Verfügbarkeit / Präzision / Integrität (P5). VALIDATED geschlossene Form: die photonenbegrenzte Entfernungs-CRLB (σ_τ/√N) und der Beugungs-Footprint (λ/D·Entfernung), das χ²-Quantil des modalitätsübergreifenden Schutzniveaus, die Verfügbarkeit der unabhängigen Vereinigung von N Stationen ({ "1" } − Π({ "1" }−a_i)), die Invariante der Mittelwertstetigkeit der optisch↔HF-Übergabe (bitgenau sprungfrei) und das NEES-χ²-Tor sowie die unabhängige Gesamtgütezahl (Ergebnis <c1/>)
-
-# text
-# c1: kshana kinds --json
-seg-bec90783ad8b = MODELLED heterogene optische + HF-PNT-Gesamtgütezahl (P5): setzt zusammen das optische Zweiwege-Link-Budget bei { "1550" } nm (photonenbegrenzte Zweiwege-Entfernungsmessung mit CRLB σ_τ/√N und Beugungs-Footprint λ/D·Entfernung), ein modalitätsübergreifendes RAIM-Schutzniveau nach Lösungstrennung (Position UND Zeit), das die lockere HF- und die straffe optische Lösung mit unterschiedlichen Kovarianzen fusioniert, die optische Klarhimmel-Verfügbarkeit von N Stationen (unabhängige Ver (Kind-Katalog (<c1/>))
-
-# text
-# c1: kshana kinds --json
-seg-15abc895e477 = MODELLED: die optischen Verlustzuweisungen, die σ-Größen von HF und Optik, die Eingaben der Wolkenklimatologie, die Korrelationen und das P_HMI-Budget. (Kind-Katalog (<c1/>))
 
 # text
 seg-9fafa5ffb521 = MODELLED. Validierte geschlossene Formen: Entfernungs-CRLB (sigma_tau/sqrt(N)), Beugungs-Footprint (lambda/D * range), Chi-Quadrat-Quantil des Schutzniveaus, Vereinigungskombinatorik, Mittelwertstetigkeit der Übergabe + NEES-Tor und das gemeinsame unabhängige Produkt. Die Verlustzuweisungen, Sigma-Größen, Eingaben der Wolkenklimatologie, Korrelationen und das P_HMI-Budget sind modellierte repräsentative Eingaben. Jedes Feld unten ist optional und wird mit seinem (Kommentar in der Szenariodatei, Zeilen { "10" } bis { "14" })
@@ -131,3 +113,21 @@ seg-1586d90cdf1b = <s1>Zurück</s1>holdover-test
 
 # text
 seg-211275a00df0 = <s1>Weiter</s1>hybrid-ukf
+
+# text
+# c1: kshana kinds --json
+seg-15abc895e477 = MODELLED: die optischen Verlustzuweisungen, die σ-Größen von HF und Optik, die Eingaben der Wolkenklimatologie, die Korrelationen und das P_HMI-Budget. (Szenarioarten-Katalog (<c1/>))
+
+# attr:alt
+seg-5cea5229815e = Das Diagramm, das die Engine für scenarios/hybrid-optical-rf.toml schreibt, Szenarioart hybrid-optical-rf
+
+# text
+seg-72ad48275ebe = Szenarioart der Engine v{ $version }, Familie <a1>Optical PNT</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; eine Szenarioart ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
+
+# text
+# c1: hybrid-optical-rf
+seg-830c574e871b = <c1/> (Szenarioart)
+
+# text
+# c1: kshana kinds --json
+seg-bec90783ad8b = MODELLED heterogene optische + HF-PNT-Gesamtgütezahl (P5): setzt zusammen das optische Zweiwege-Link-Budget bei { "1550" } nm (photonenbegrenzte Zweiwege-Entfernungsmessung mit CRLB σ_τ/√N und Beugungs-Footprint λ/D·Entfernung), ein modalitätsübergreifendes RAIM-Schutzniveau nach Lösungstrennung (Position UND Zeit), das die lockere HF- und die straffe optische Lösung mit unterschiedlichen Kovarianzen fusioniert, die optische Klarhimmel-Verfügbarkeit von N Stationen (unabhängige Ver (Szenarioarten-Katalog (<c1/>))

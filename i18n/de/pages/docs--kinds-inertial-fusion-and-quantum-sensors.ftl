@@ -21,38 +21,20 @@ seg-7d993b676006 = Das Diagramm, das die Engine für scenarios/gnss-ins.toml sch
 # text
 seg-c6edf89eb8d4 = Hybrider eng gekoppelter 17-Zustands-GNSS/INS-UKF aus Quanten- und klassischer Technik (MODELLED): { "15" } INS-Fehlerzustände + eine aus CAI abgeleitete Beschleunigungs-Bias-Korrektur + eine 2-Zustands-Uhr (Phase + Frequenz) aus der Uhren-Engine mit q-Parametern, angetrieben vom eingegrenzten CAI-Fehlermodell. Die Gütezahl ist die Selbstkonsistenz des Filters (NEES + Innovationsweißheit gegen χ²-Grenzen) — eine Aussage zur Selbstkonsistenz, KEINE Genauigkeitsgarantie für die reale Welt. Nur Simulation; kein TRL>{ "3" }, kein Flugerbe, keine externe Validierung.
 
-# attr:alt
-seg-2968660fa880 = Das Diagramm, das die Engine für scenarios/hybrid-ukf.toml schreibt, Kind hybrid-ukf
-
 # text
 seg-22cd963c7042 = Hybrid-PNT-Abschlussszenario: Uhr + IMU + Zeitübertragungsstützung.
-
-# attr:alt
-seg-52378a7b074c = Das Diagramm, das die Engine für scenarios/hybrid-pnt.toml schreibt, Kind hybrid
 
 # text
 seg-bdedf28adc48 = Inertiale 1-DOF-Koppelnavigation während eines GNSS-Ausfalls.
 
-# attr:alt
-seg-873c402bb724 = Das Diagramm, das die Engine für scenarios/imu-deadreckoning.toml schreibt, Kind inertial
-
 # text
 seg-5b9a6efe6337 = INS/TRN-Auslauffehlermodell: Positionsfehler gegen Auslaufdauer, aufgebaut aus IMU-Koeffizienten statt als angenommene Driftrate durchgefahren. Fünf Wachstumsbeiträge — Beschleunigungsmesser-Bias, Kreisel-Bias-Neigung über die Schwerkraft, Geschwindigkeits-Random-Walk, Winkel-Random-Walk und Skalenfaktor gegen die zurückgelegte Strecke — jeweils fortgeschrieben durch ein inertiales Fehlermodell mit neun Zuständen in lokaler Horizontebene mit Schuler-Rückkopplung bei einer angegebenen Breite und Höhe (die führenden Gesetze für kurzes Auslaufen t², t³, t^{ "1.5" }, t^{ "2.5" } und t¹/t² werden daneben ausgegeben) und kombiniert nach einer ANGEGEBENEN Regel (standardmäßig Wurzel aus der Quadratsumme, oder lineare Summe, oder deterministische Summe mit stochastischer Quadratsummenwurzel; alle drei werden bei jedem Lauf berechnet, sodass die Wahl sichtbar ist statt vergraben). Die Auslaufdauern, die vom Aufrufer vorgegebene Positionsschwellen erreichen (standardmäßig { "10" } m und { "50" } m), werden durch die vorhandene Bisektion der Engine gefunden, jeweils mit einer Aufschlüsselung je Beitrag, die die dominante Quelle nennt, und das Überschreiten jedes einzelnen Beitrags wird zusätzlich algebraisch invertiert, sodass beide übereinstimmen. Ein Modus der geländebezogenen Navigation begrenzt das Auslaufen mit periodischen Positionsfixes und gibt das größte Fixintervall aus, das jede Schwelle hält; ein reiner Positionsfix lässt Geschwindigkeitsfehler und Neigung über den Fix hinweg bestehen, sodass er das Auslaufen nicht bei jeder Fixrate begrenzt, und der Bericht sagt das, statt eine Null auszugeben. MODELLED: Die Koeffizienten der IMU-Klasse sind repräsentative Bandwerte, kein Datenblatt, und das Residuum des Geländefixes ist eine Eingabe. Eine nicht erreichte Schwelle wird als null mit einem Status ausgegeben, nie als Null. Kein zertifiziertes Leistungsprodukt für Trägheitsnavigation.
-
-# attr:alt
-seg-134a4c91da3a = Das Diagramm, das die Engine für scenarios/ins-trn-coast.toml schreibt, Kind ins-trn-coast
 
 # text
 seg-04310cd6cbec = MODELLED Fehler-/Anomalieerkennung für Quanten-PNT-Systeme: ein gekennzeichneter Fehlerkatalog (Uhr: Frequenzsprung/Drift/Lock-Verlust; Sensor: Bias-Sprung/Ausfall), eine ROC-AUC der Erkennungsstatistik (mit einem Bootstrap-Konfidenzintervall aus der extern validierten eval_stats) und ein minimal erkennbarer Fehler bei fester Fehlalarmrate, wobei der quantenuhrgestützte Monitor (geringeres Rauschen) kleinere Fehler erkennt — als ehrliche TradeEvidence + Repräsentativität. Gaußsches Modell der Erkennungsstatistik (AUC = Phi(mu/(sigma*sqrt2))); modelliert die Klasse, illustrative Parameter aus öffentlichen Quellen, kein TRL/Flug/Zertifizierung.
 
-# attr:alt
-seg-2f1d14239d1a = Das Diagramm, das die Engine für scenarios/quantum-anomaly-detect.toml schreibt, Kind quantum-anomaly-detect
-
 # text
 seg-790fbfdd80f0 = MODELLED GNSS-freie Quantennavigation: während eines GNSS-Ausfalls ein inertiales Budget mit Quanten-(Kaltatom-Interferometer) gegen ein klassisches INS der Navigationsklasse — Positionsfehlerwachstum über den Auslauf, Holdover bis zu einer Positionsschwelle und der Quanten-gegen-klassisch-Trade als ehrliche TradeEvidence mit Repräsentativität. Ehrlicher Beobachtbarkeitshinweis: Ohne externen Fix ist der Beschleunigungsmesser-Bias unbeobachtbar, sodass der Fehler wächst; der Quantensensor verlangsamt, aber schließt diese Lücke nicht. Illustrative Gerätparameter aus öffentlichen Quellen; modelliert die Klasse, kein TRL/Flug/Zertifizierung.
-
-# attr:alt
-seg-1bdbf1a737b2 = Das Diagramm, das die Engine für scenarios/quantum-gnss-free-nav.toml schreibt, Kind quantum-gnss-free-nav
 
 # text
 # c1: candidate_adev_taus
@@ -60,14 +42,8 @@ seg-1bdbf1a737b2 = Das Diagramm, das die Engine für scenarios/quantum-gnss-free
 # c3: candidate_clock_class
 seg-eb55d253dd11 = Quanten-gegen-klassisch-PNT-Trade ({ "13503" }): Nutzen einer Kandidatenuhr bei Zeitgebungs-Holdover + inertialem Holdover (eine gemessene ADEV-Kurve — der Angelpunkt der Verteidigbarkeit — oder eine Quantenuhrklasse) gegen eine klassische Basislinienklasse, mit dem am Artefakt mitgeführten Vorbehalt zur Annahme einer Langzeit-Untergrenze, plus eine Hüllkurve der GNSS-verweigerten Resilienz über die Zeit. MODELLED; quantifiziert (validiert nie) ein Partnergerät. Die Kandidatenuhr ist eine gemessene Kurve (<c1/> + <c2/>, gleich lang, mindestens { "2" } Punkte; sie gewinnt, wenn beide Formen angegeben sind) oder eine <c3/>.
 
-# attr:alt
-seg-c74c63ffd859 = Das Diagramm, das die Engine für scenarios/quantum-trade.toml schreibt, Kind quantum-trade
-
 # text
 seg-4e31c8daf798 = Register
-
-# text
-seg-9095869ec445 = { "9" } Szenario-Kinds der Engine v{ $version }. Beratend: Analyseausgabe eines Forschungs- und Ingenieurwerkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jedes Label hier stammt von der Engine oder von der Verifikationsmatrix; ein Kind ist MODELLED, sofern die Matrix nichts anderes sagt (wie ein Label verdient wird: der Abschnitt Evidence der README).
 
 # text
 seg-efd15cff3d32 = MODELLED (Ergebnisbezeichnung)
@@ -83,14 +59,8 @@ seg-d1c67e3dd12e = MODELLED { "1" } · VALIDATED { "2" }
 seg-e6f2ab1647e2 = Quelle: <c1/>
 
 # text
-seg-23762f3a250b = Inertial-, Fusions- und Quantensensoren (Szenario-Kind-Familie)
-
-# text
 # c1: kshana scenarios/gnss-ins.toml
 seg-6ec3ad751007 = Themenseiten: <a1>QUANTUM-MODELS</a1>, <a2>QUANTUM</a2>, <a3>LEO-PNT-FUSION</a3>. Einen ausführen: <c1/>. Alle Familien: <a4>KINDS.md</a4>.
-
-# attr:alt
-seg-0e73a37b716b = Kontaktbogen der Diagramme, die die Engine für die Kinds der Familie Inertial-, Fusions- und Quantensensoren schreibt
 
 # text
 seg-c2245de16d5f = MODELLED { "6" } · VALIDATED { "2" }
@@ -172,9 +142,6 @@ seg-e2bd8fd0d9e5 = <b>Register:</b> MODELLED { "4" } · VALIDATED { "4" }. Volls
 seg-d0790a2643ae = Erforderliche Felder: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. Optional: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>.
 
 # text
-seg-85ab600e3050 = <b>Register:</b> keine Matrixzeile nennt dieses Kind; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>hybrid-ukf</a1>.
-
-# text
 # c1: seed
 # c2: threshold_m
 # c3: time
@@ -190,9 +157,6 @@ seg-85ab600e3050 = <b>Register:</b> keine Matrixzeile nennt dieses Kind; die Eng
 # c13: trajectory
 # c14: tight
 seg-3bbd5ce09bee = Erforderliche Felder: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. Optional: <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>.
-
-# text
-seg-08ad3969f65b = <b>Register:</b> keine Matrixzeile nennt dieses Kind; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>gnss-ins</a1>.
 
 # text
 # c1: imu_grade
@@ -227,9 +191,6 @@ seg-ab3453d1ee51 = <b>Register:</b> VALIDATED. Vollständige Seite mit den Einga
 seg-a77cdf6e8e31 = Erforderliche Felder: keine. Optional: <c1/>, <c2/>, <c3/>, <c4/>.
 
 # text
-seg-b05e96ce392d = <b>Register:</b> keine Matrixzeile nennt dieses Kind; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>quantum-gnss-free-nav</a1>.
-
-# text
 # c1: fault_mu
 # c2: quantum_sigma
 # c3: classical_sigma
@@ -238,9 +199,6 @@ seg-b05e96ce392d = <b>Register:</b> keine Matrixzeile nennt dieses Kind; die Eng
 # c6: samples
 # c7: seed
 seg-3f3e48045d31 = Erforderliche Felder: keine. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>.
-
-# text
-seg-cbefb1538dec = <b>Register:</b> keine Matrixzeile nennt dieses Kind; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>quantum-anomaly-detect</a1>.
 
 # text
 # c1: timing_threshold_s
@@ -261,3 +219,45 @@ seg-b6c31bdda166 = <s1>Zurück</s1>GPS-verweigerte alternative PNT
 
 # text
 seg-0585e4ae329e = <s1>Weiter</s1>Jamming, Spoofing und das Spektrum
+
+# text
+seg-08ad3969f65b = <b>Register:</b> keine Matrixzeile nennt diese Szenarioart; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>gnss-ins</a1>.
+
+# attr:alt
+seg-0e73a37b716b = Kontaktbogen der Diagramme, die die Engine für die Szenarioarten der Familie Inertial-, Fusions- und Quantensensoren schreibt
+
+# attr:alt
+seg-134a4c91da3a = Das Diagramm, das die Engine für scenarios/ins-trn-coast.toml schreibt, Szenarioart ins-trn-coast
+
+# attr:alt
+seg-1bdbf1a737b2 = Das Diagramm, das die Engine für scenarios/quantum-gnss-free-nav.toml schreibt, Szenarioart quantum-gnss-free-nav
+
+# text
+seg-23762f3a250b = Inertial-, Fusions- und Quantensensoren (Szenarioart-Familie)
+
+# attr:alt
+seg-2968660fa880 = Das Diagramm, das die Engine für scenarios/hybrid-ukf.toml schreibt, Szenarioart hybrid-ukf
+
+# attr:alt
+seg-2f1d14239d1a = Das Diagramm, das die Engine für scenarios/quantum-anomaly-detect.toml schreibt, Szenarioart quantum-anomaly-detect
+
+# attr:alt
+seg-52378a7b074c = Das Diagramm, das die Engine für scenarios/hybrid-pnt.toml schreibt, Szenarioart hybrid
+
+# text
+seg-85ab600e3050 = <b>Register:</b> keine Matrixzeile nennt diese Szenarioart; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>hybrid-ukf</a1>.
+
+# attr:alt
+seg-873c402bb724 = Das Diagramm, das die Engine für scenarios/imu-deadreckoning.toml schreibt, Szenarioart inertial
+
+# text
+seg-9095869ec445 = { "9" } Szenarioarten der Engine v{ $version }. Beratend: Analyseausgabe eines Forschungs- und Ingenieurwerkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jedes Label hier stammt von der Engine oder von der Verifikationsmatrix; eine Szenarioart ist MODELLED, sofern die Matrix nichts anderes sagt (wie ein Label verdient wird: der Abschnitt Evidence der README).
+
+# text
+seg-b05e96ce392d = <b>Register:</b> keine Matrixzeile nennt diese Szenarioart; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>quantum-gnss-free-nav</a1>.
+
+# attr:alt
+seg-c74c63ffd859 = Das Diagramm, das die Engine für scenarios/quantum-trade.toml schreibt, Art quantum-trade
+
+# text
+seg-cbefb1538dec = <b>Register:</b> keine Matrixzeile nennt diese Szenarioart; die Engine kennzeichnet ihr eigenes Ergebnis. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>quantum-anomaly-detect</a1>.

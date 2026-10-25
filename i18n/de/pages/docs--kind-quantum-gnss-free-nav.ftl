@@ -41,10 +41,6 @@ seg-eb75c6a4dcec = Quanten-gegen-klassisch-Trade-Evidenz (gemeinsame Form) ist M
 seg-bfbcc7e8f620 = Quelle: <c1/>
 
 # text
-# c1: quantum-gnss-free-nav
-seg-cfa59601df4a = <c1/> (Szenario-Kind)
-
-# text
 seg-790fbfdd80f0 = MODELLED GNSS-freie Quantennavigation: während eines GNSS-Ausfalls ein inertiales Budget mit Quanten-(Kaltatom-Interferometer) gegen ein klassisches INS der Navigationsklasse — Positionsfehlerwachstum über den Auslauf, Holdover bis zu einer Positionsschwelle und der Quanten-gegen-klassisch-Trade als ehrliche TradeEvidence mit Repräsentativität. Ehrlicher Beobachtbarkeitshinweis: Ohne externen Fix ist der Beschleunigungsmesser-Bias unbeobachtbar, sodass der Fehler wächst; der Quantensensor verlangsamt, aber schließt diese Lücke nicht. Illustrative Gerätparameter aus öffentlichen Quellen; modelliert die Klasse, kein TRL/Flug/Zertifizierung.
 
 # text
@@ -62,15 +58,8 @@ seg-960491d74173 = Optionale Felder: <c1/>, <c2/>, <c3/>, <c4/>
 # c1: scenarios/quantum-gnss-free-nav.toml
 seg-88d9dfe0353a = Das Beispiel <c1/> setzt unter anderem:
 
-# attr:alt
-seg-1bdbf1a737b2 = Das Diagramm, das die Engine für scenarios/quantum-gnss-free-nav.toml schreibt, Kind quantum-gnss-free-nav
-
 # text
 seg-d196391dcf4f = <b>MODELLED</b> Quanten-(Kaltatom-Interferometer) gegen klassisches INS der Navigationsklasse beim Koppelnavigieren über einen GNSS-Ausfall: Positionsfehlerwachstum, Holdover bis zu einer Positionsschwelle,. Unabhängige Referenz (InternalConsistency): Wiederverwendete inertiale Budgets, gegengeprüft gegen eine unabhängige Octave-Doppelintegration derselben Koppelnavigations-ODE (andere Laufzeitumgebung, gemeinsames Modell → ReferenceImpl) plus das veröffentlichte Kurzzeitrauschen von Freier-2016 als einseitiger Anker; der Quanten-gegen-klassisch-Verbund bleibt MODELLED
-
-# text
-# c1: kshana kinds --json
-seg-af35cccc4e2c = MODELLED GNSS-freie Quantennavigation: während eines GNSS-Ausfalls ein inertiales Budget mit Quanten-(Kaltatom-Interferometer) gegen ein klassisches INS der Navigationsklasse — Positionsfehlerwachstum über den Auslauf, Holdover bis zu einer Positionsschwelle und der Quanten-gegen-klassisch-Trade als ehrliche TradeEvidence mit Repräsentativität. (Kind-Katalog (<c1/>))
 
 # text
 seg-9b9ce7600ffc = GNSS-freie Quantennavigation — Koppelnavigation mit Quanten-(Kaltatom-Interferometer) gegen klassisches INS der Navigationsklasse über einen GNSS-Ausfall. MODELLED; illustrative Gerätparameter aus öffentlichen Quellen; modelliert die Klasse, keine TRL-/Flugaussage. (Kommentar der Szenariodatei, Zeilen { "1" } bis { "3" })
@@ -83,3 +72,14 @@ seg-e1d502e1ed6d = <s1>Zurück</s1>quantum-anomaly-detect
 
 # text
 seg-1f3705925b3c = <s1>Weiter</s1>quantum-time-transfer
+
+# attr:alt
+seg-1bdbf1a737b2 = Das Diagramm, das die Engine für scenarios/quantum-gnss-free-nav.toml schreibt, Szenarioart quantum-gnss-free-nav
+
+# text
+# c1: kshana kinds --json
+seg-af35cccc4e2c = MODELLED GNSS-freie Quantennavigation: während eines GNSS-Ausfalls ein inertiales Budget mit Quanten-(Kaltatom-Interferometer) gegen ein klassisches INS der Navigationsklasse — Positionsfehlerwachstum über den Auslauf, Holdover bis zu einer Positionsschwelle und der Quanten-gegen-klassisch-Trade als ehrliche TradeEvidence mit Repräsentativität. (Szenarioarten-Katalog (<c1/>))
+
+# text
+# c1: quantum-gnss-free-nav
+seg-cfa59601df4a = <c1/> (Szenarioart)

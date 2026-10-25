@@ -25,23 +25,11 @@ seg-47ee40d4eb73 = Das Diagramm, das die Engine für scenarios/gnss-sim-raim.tom
 # text
 seg-eb7e0c2feb2b = Snapshot-/Lösungstrennungs-/ARAIM-RAIM mit HPL/VPL und einem Stanford-Diagramm.
 
-# attr:alt
-seg-ce7f6130ddee = Das Diagramm, das die Engine für scenarios/integrity-raim.toml schreibt, Kind integrity
-
 # text
 seg-b7b67e03f125 = Einzelpunkt-Positionierung aus realen Beobachtungen: die Position eines Empfängers aus einer RINEX-{ "3" }-Beobachtungsdatei und einer Broadcast-Navigationsdatei lösen (Code-Pseudoentfernungen, Broadcast-Ephemeride, Klobuchar-Ionosphäre, Saastamoinen/Niell-Troposphäre), optional gegen eine vermessene Koordinate validiert.
 
-# attr:alt
-seg-d76d59644d84 = Das Diagramm, das die Engine für scenarios/pvt-abmf.toml schreibt, Kind pvt
-
 # text
 seg-edfcb546d9de = Echtzeit-Budget der Vorhersage von Mondbezugssystem / Erdorientierung: P4-Tabelle { "1" } (die Konsistenzprüfung des Bezugssystemfehlers — nachverarbeitet ~{ "0.27" } m ↔ ~{ "0.010" } ms und Echtzeit ~{ "15" } m ↔ ~{ "0.5" } ms, jede Bezugssystemposition ausgedrückt als ihr äquivalenter UT1-Fehler über den L19-Hebelarm Δr = D_EM·ω⊕·ΔUT1) und Tabelle { "2" } (gemessener UT1-Vorhersagefehler gegen den Horizont — die L18-Kurve, direkt aus der realen IERS-Reihe finals2000A abgelesen: die endgültige Untergrenze Bulletin A − Bulletin B und der Fehler des Persistenz-Prädiktors über mehrere Tage, jeweils durch L19 auf eine Position im Mondbezugssystem abgebildet), plus das L21-Echtzeit-Bezugssystemfehlerbudget als Wurzel aus der Quadratsumme (EOP + Ephemeride + Realisierungs-Untergrenze). VALIDATED: die geschlossene Form (der L19-Hebelarm, ω⊕ gegengeprüft gegen den CIO-Erdrotationswinkel) und VALIDATED: reale Daten (die L18-Kurve aus den realen finals2000A-Zeilen); MODELLED sind die Größenordnungen der Kovarianz der Bahnbestimmung des Mondrelais und die Untergrenze der Bezugssystemrealisierung (repräsentative Zuweisungen) sowie der Persistenz-Prädiktor (nicht der operative Bulletin-A-Algorithmus des IERS). Kein zertifiziertes Echtzeit-Bezugssystemprodukt.
-
-# attr:alt
-seg-2721ed7727bb = Das Diagramm, das die Engine für scenarios/realtime-frame-eop.toml schreibt, Kind realtime-frame-eop
-
-# attr:alt
-seg-c1c6f2f73fb5 = Das Diagramm, das die Engine für scenarios/space-weather.toml schreibt, Kind space-weather
 
 # text
 seg-4e31c8daf798 = Register
@@ -54,17 +42,8 @@ seg-d1c67e3dd12e = MODELLED { "1" } · VALIDATED { "2" }
 seg-c9cf40c5e609 = Quelle: <c1/>
 
 # text
-seg-569fac649b5d = GNSS-Messungen, Positionierung und Integrität (Szenario-Kind-Familie)
-
-# text
-seg-63c3a7483268 = { "6" } Szenario-Kinds der Engine v{ $version }. Beratend: Analyseausgabe eines Forschungs- und Ingenieurwerkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jedes Label hier stammt von der Engine oder von der Verifikationsmatrix; ein Kind ist MODELLED, sofern die Matrix nichts anderes sagt (wie ein Label verdient wird: der Abschnitt Evidence der README).
-
-# text
 # c1: kshana scenarios/integrity-raim.toml
 seg-33a602147cc2 = Themenseiten: <a1>INTEGRITY</a1>, <a2>POSITIONING</a2>, <a3>ARAIM_REFERENCE</a3>, <a4>OSNMA</a4>. Einen ausführen: <c1/>. Alle Familien: <a5>KINDS.md</a5>.
-
-# attr:alt
-seg-9c60c8803b6b = Kontaktbogen der Diagramme, die die Engine für die Kinds der Familie GNSS-Messungen, Positionierung und Integrität schreibt
 
 # text
 seg-045ecd7c036f = MODELLED { "6" } · VALIDATED { "4" }
@@ -180,3 +159,24 @@ seg-d4adf4283480 = <s1>Zurück</s1>Konstellationen, Abdeckung und Geometrie
 
 # text
 seg-2cdfd7f8bfb3 = <s1>Weiter</s1>GPS-verweigerte alternative PNT
+
+# attr:alt
+seg-2721ed7727bb = Das Diagramm, das die Engine für scenarios/realtime-frame-eop.toml schreibt, Szenarioart realtime-frame-eop
+
+# text
+seg-569fac649b5d = GNSS-Messungen, Positionierung und Integrität (Szenarioarten-Familie)
+
+# text
+seg-63c3a7483268 = { "6" } Szenarioarten der Engine v{ $version }. Beratend: Analyseausgabe eines Forschungs- und Ingenieurwerkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jedes Label hier stammt von der Engine oder von der Verifikationsmatrix; eine Szenarioart ist MODELLED, sofern die Matrix nichts anderes sagt (wie ein Label verdient wird: der Abschnitt Evidence der README).
+
+# attr:alt
+seg-9c60c8803b6b = Kontaktbogen der Diagramme, die die Engine für die Szenarioarten der Familie GNSS-Messungen, Positionierung und Integrität schreibt
+
+# attr:alt
+seg-c1c6f2f73fb5 = Das Diagramm, das die Engine für scenarios/space-weather.toml schreibt, Art space-weather
+
+# attr:alt
+seg-ce7f6130ddee = Das Diagramm, das die Engine für scenarios/integrity-raim.toml schreibt, Art integrity
+
+# attr:alt
+seg-d76d59644d84 = Das Diagramm, das die Engine für scenarios/pvt-abmf.toml schreibt, Art pvt

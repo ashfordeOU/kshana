@@ -37,9 +37,6 @@ seg-cb91473bfdda = Themenseite: <a1>LEO-PNT.md</a1>
 seg-a849735fcc6e = Themenseite: <a1>LEO-PNT-FUSION.md</a1>
 
 # text
-seg-49964654d5f4 = Szenario-Kind der Engine v{ $version }, Familie <a1>Low-Earth-orbit navigation</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; ein Kind ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
-
-# text
 seg-c5478f572d21 = Familienseite: <a1>Low-Earth-orbit navigation</a1>
 
 # text
@@ -48,13 +45,6 @@ seg-be21370c2446 = joint
 # text
 # c1: docs/kinds/by-kind/leo-pvt.md
 seg-dfe64e82e4e9 = Quelle: <c1/>
-
-# text
-# c1: leo-pvt
-seg-fdba999dab11 = <c1/> (Szenario-Kind)
-
-# text
-seg-093aac4b5ff1 = Fusionierte Positionierung, Navigation und Zeitgebung (PNT) aus dem mittleren Erdorbit (MEO) und dem niedrigen Erdorbit (LEO) über BELIEBIGE Konstellationen: Jedes [[system]] ist eine GNSS-Voreinstellung des Kinds constellation-design, eine LEO-Voreinstellung (xona-pulsar, iridium-stl, starlink-sop, centispace, generic-c-band, das Ephemeridenmodell atomic-zero-clock oder eine andere Voreinstellungsdatei, jeweils in einer eigenen Datei mit ihren als PUBLIC, WORKSHOP oder DERIVED markierten Quellen), Walker-Schalen oder explizite Elementsätze, mit einem Träger, einer Chiprate, einer Hüllkurve der Träger-Rausch-Dichte (C/N0) von der Elevationsmaske bis zum Zenit, einem Signal-in-Space-Entfernungsfehler (SISRE), einem Doppler-Sigma und einem Uhrenmodell (die eigene Empfängeruhr, sodass der Inter-System-Bias geschätzt wird, oder ein bekannter ausgesendeter Versatz). Vier Modi. DOPPLER: Batch-Gauss-Newton-Positionierung aus der Entfernungsrate mit analytischen Partiellen, Uhrendrift und optionalen Geschwindigkeitszuständen und einer optionalen Höhenbedingung, mit einem oder mehreren Satelliten, der Fehler gegen die Fensterlänge, die Hüllkurve von Doppler, Dopplerrate und Ruck jedes LEO-Systems und die Genauigkeit in und quer zur Flugrichtung bei einem einzelnen Überflug gegen den Querversatz (der Querfehler wächst unbegrenzt, wenn der Überflug über den Zenit geht; ein einzelner Überflug hat außerdem eine Spiegellösung über der Bodenspur). Ein reines Doppler-Gelegenheitssignal (starlink-sop) läuft hier. GEMEINSAM: Pseudorange-Fixes je Epoche nach gewichteten kleinsten Quadraten aus GNSS allein, LEO allein und beiden, Sigmas je Messung aus einem Thermalrauschmodell der Delay-Lock-Loop bei C/N0 plus dem SISRE (oder einem festen Sigma, sodass ein Signalmodell sie speisen kann), die geschätzten Inter-System-Biases und PDOP/HDOP/VDOP gegen die Zahl der hinzugefügten LEO-Satelliten. POLAR: sichtbare Satelliten und DOP gegen die Breite für GNSS, LEO und beide. ZEITGEBUNG: Zeitübertragung auf die koordinierte Weltzeit (UTC) von LEO-Satelliten an bekannter Position mit einem Uhrenfilter mit zwei Zuständen, dessen Prozessrauschen aus den Oszillatorklassen der Engine stammt, gegen C/N0 und den Oszillator, und der Ausdruck von IS-GPS-200 für Systemzeit zu UTC; mit [timing] trace = true gibt jede Zeile außerdem ihren Zeitfehler und ihr vorhergesagtes Sigma in jeder Epoche an. VALIDATED: der größte Doppler eines Überflugs vom Zenit bis zum Horizont gegen die veröffentlichten Zahlen von Iridium (bis zu { "36" } kHz) und Xona Pulsar X1 ({ "32" } bis { "34" } kHz). MODELLED: alles andere; der DOP wird gegen einen von Hand abgeleiteten Fall geprüft, die Fixes gegen ihre Kovarianz und das Dopplermodell gegen die Identität der Entfernungsbeschleunigung.
 
 # text
 # c1: scenarios/leo-pvt-fjord-skyline.toml
@@ -83,17 +73,7 @@ seg-f850cba7d96e = Das Beispiel <c1/> setzt unter anderem:
 seg-bb3b3e8be839 = fjord
 
 # text
-# c1: scenarios/
-seg-99a3c57c7926 = { "7" } mitgelieferte Szenarien verwenden dieses Kind; die übrigen stehen in <a1><c1/></a1>.
-
-# text
 seg-b43a7ee40372 = Ergebnisbezeichnung (der Engine): MODELLED gemeinsame Pseudorange-Positionierung nach gewichteten kleinsten Quadraten mit einer Uhr je System oder einem bekannten Versatz; Rauschen aus dem Delay-Lock-Loop-Modell an der C/N0-Hüllkurve plus dem Signal-in-Space-Entfernungsfehler
-
-# attr:alt
-seg-90361a6f4e3c = Das Diagramm, das die Engine für scenarios/leo-pvt-fjord-skyline.toml schreibt, Kind leo-pvt
-
-# text
-seg-57cd9c415e31 = MODELLED { "3" } · VALIDATED { "2" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die dieses Kind nennen.
 
 # text
 seg-68aa305e05a4 = <b>VALIDATED</b> Exakte Entfernungsrate eines Satelliten, dessen erdfeste Position und Geschwindigkeit aus einer Zweikörperbahn mit der säkularen J2-Drift und der Erdrotation stammen (leo_fusion::geom::EarthOrbit::state, die Geschwindigkeit ist die exakte zeitliche Ableitung der Position), Tests: <a1>leo_doppler_reference.rs</a1>.
@@ -115,3 +95,23 @@ seg-f6bd93155e41 = <b>MODELLED</b> Gauss-Newton-Fixes nach gewichteten kleinsten
 
 # text
 seg-4056b0470099 = <b>MODELLED</b> Systemunabhängige Eingaben: Jedes System ist Walker-Schalen, explizite Elemente oder eine GNSS-Voreinstellung, ein Signal (Träger, Chiprate, Bandbreite, Empfangsleistung oder C/N0-Bereich. Orakel (InternalConsistency): Übertragung der zitierten öffentlichen Werte, auf Struktur geprüft (jede öffentliche Quelle hat eine URL, Walker-Muster teilen sich gleichmäßig, das C/N0 aus der Empfangsleistung über kT bei { "290" } K), nicht gegen eine externe unabhängige Referenz. Repräsentative Werte sind in jeder Voreinstellung benannt und illustrativ
+
+# text
+seg-093aac4b5ff1 = Fusionierte Positionierung, Navigation und Zeitgebung (PNT) aus dem mittleren Erdorbit (MEO) und dem niedrigen Erdorbit (LEO) über BELIEBIGE Konstellationen: Jedes [[system]] ist eine GNSS-Voreinstellung der Szenarioart constellation-design, eine LEO-Voreinstellung (xona-pulsar, iridium-stl, starlink-sop, centispace, generic-c-band, das Ephemeridenmodell atomic-zero-clock oder eine andere Voreinstellungsdatei, jeweils in einer eigenen Datei mit ihren als PUBLIC, WORKSHOP oder DERIVED markierten Quellen), Walker-Schalen oder explizite Elementsätze, mit einem Träger, einer Chiprate, einer Hüllkurve der Träger-Rausch-Dichte (C/N0) von der Elevationsmaske bis zum Zenit, einem Signal-in-Space-Entfernungsfehler (SISRE), einem Doppler-Sigma und einem Uhrenmodell (die eigene Empfängeruhr, sodass der Inter-System-Bias geschätzt wird, oder ein bekannter ausgesendeter Versatz). Vier Modi. DOPPLER: Batch-Gauss-Newton-Positionierung aus der Entfernungsrate mit analytischen Partiellen, Uhrendrift und optionalen Geschwindigkeitszuständen und einer optionalen Höhenbedingung, mit einem oder mehreren Satelliten, der Fehler gegen die Fensterlänge, die Hüllkurve von Doppler, Dopplerrate und Ruck jedes LEO-Systems und die Genauigkeit in und quer zur Flugrichtung bei einem einzelnen Überflug gegen den Querversatz (der Querfehler wächst unbegrenzt, wenn der Überflug über den Zenit geht; ein einzelner Überflug hat außerdem eine Spiegellösung über der Bodenspur). Ein reines Doppler-Gelegenheitssignal (starlink-sop) läuft hier. GEMEINSAM: Pseudorange-Fixes je Epoche nach gewichteten kleinsten Quadraten aus GNSS allein, LEO allein und beiden, Sigmas je Messung aus einem Thermalrauschmodell der Delay-Lock-Loop bei C/N0 plus dem SISRE (oder einem festen Sigma, sodass ein Signalmodell sie speisen kann), die geschätzten Inter-System-Biases und PDOP/HDOP/VDOP gegen die Zahl der hinzugefügten LEO-Satelliten. POLAR: sichtbare Satelliten und DOP gegen die Breite für GNSS, LEO und beide. ZEITGEBUNG: Zeitübertragung auf die koordinierte Weltzeit (UTC) von LEO-Satelliten an bekannter Position mit einem Uhrenfilter mit zwei Zuständen, dessen Prozessrauschen aus den Oszillatorklassen der Engine stammt, gegen C/N0 und den Oszillator, und der Ausdruck von IS-GPS-200 für Systemzeit zu UTC; mit [timing] trace = true gibt jede Zeile außerdem ihren Zeitfehler und ihr vorhergesagtes Sigma in jeder Epoche an. VALIDATED: der größte Doppler eines Überflugs vom Zenit bis zum Horizont gegen die veröffentlichten Zahlen von Iridium (bis zu { "36" } kHz) und Xona Pulsar X1 ({ "32" } bis { "34" } kHz). MODELLED: alles andere; der DOP wird gegen einen von Hand abgeleiteten Fall geprüft, die Fixes gegen ihre Kovarianz und das Dopplermodell gegen die Identität der Entfernungsbeschleunigung.
+
+# text
+seg-49964654d5f4 = Szenarioart der Engine v{ $version }, Familie <a1>Low-Earth-orbit navigation</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; eine Szenarioart ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
+
+# text
+seg-57cd9c415e31 = MODELLED { "3" } · VALIDATED { "2" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die diese Szenarioart nennen.
+
+# attr:alt
+seg-90361a6f4e3c = Das Diagramm, das die Engine für scenarios/leo-pvt-fjord-skyline.toml schreibt, Szenarioart leo-pvt
+
+# text
+# c1: scenarios/
+seg-99a3c57c7926 = { "7" } mitgelieferte Szenarien verwenden diese Szenarioart; die übrigen stehen in <a1><c1/></a1>.
+
+# text
+# c1: leo-pvt
+seg-fdba999dab11 = <c1/> (Szenarioart)

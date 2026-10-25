@@ -20,10 +20,6 @@ seg-8e62cc4af6ea = Themenseite: <a1>ENTRY-EO-ASCENT.md</a1>
 seg-1c385961d594 = Quelle: <c1/>
 
 # text
-# c1: launch-window
-seg-e0990c5f14da = <c1/> (Szenario-Kind)
-
-# text
 seg-7a4e6215a488 = Zweikörper-Start- und Aufstiegsgeometrie: Startazimut(e) (sin Az = cos i / cos lat), minimal erreichbare Inklination, Kreisbahngeschwindigkeit, der ostwärtige Bonus der Erdrotation, Dogleg-Ebenenwechsel-Δv, wenn die Zielinklination unter der Breite des Startplatzes liegt, und die Zahl der täglichen Startgelegenheiten. MODELLED Geometrie der kugelförmigen Erde (keine Korrektur durch das Geschwindigkeitsdreieck der rotierenden Erde, kein Modell der Aufstiegs-/Widerstandsverluste).
 
 # text
@@ -46,9 +42,6 @@ seg-aaadee0743ee = Das Beispiel <c1/> setzt unter anderem:
 # text
 seg-58d26f083b8f = Ergebnisbezeichnung (der Engine): MODELLED — Zweikörper-Startgeometrie der kugelförmigen Erde; der Azimut ist die geometrische Beziehung sin(Az)=cos(i)/cos(lat) (keine Korrektur durch das Geschwindigkeitsdreieck der rotierenden Erde, kein Modell der Aufstiegs-/Widerstandsverluste)
 
-# attr:alt
-seg-9696283a95ae = Das Diagramm, das die Engine für scenarios/launch-window.toml schreibt, Kind launch-window
-
 # text
 seg-38175030f689 = <b>MODELLED</b> Zweikörper-Startazimut(e) (sin Az = cos i / cos lat), minimal erreichbare Inklination, Kreisbahngeschwindigkeit, ostwärtiger Bonus der Erdrotation, Dogleg-Ebenenwechsel-Δv und tägliche Gelegenheiten und, bei gegebener Epoche und IERS-finals2000A-Zeilen, der Standort
 
@@ -58,10 +51,6 @@ seg-53bc589c7ed6 = <b>MODELLED</b> Zweikörper-Startazimut(e) (sin Az = cos i / 
 # text
 # c1: label
 seg-12396619d3e5 = MODELLED — Zweikörper-Startgeometrie der kugelförmigen Erde; der Azimut ist die geometrische Beziehung sin(Az)=cos(i)/cos(lat) (keine Korrektur durch das Geschwindigkeitsdreieck der rotierenden Erde, kein Modell der Aufstiegs-/Widerstandsverluste) (Ergebnis <c1/>)
-
-# text
-# c1: kshana kinds --json
-seg-715f1856bd37 = MODELLED Geometrie der kugelförmigen Erde (keine Korrektur durch das Geschwindigkeitsdreieck der rotierenden Erde, kein Modell der Aufstiegs-/Widerstandsverluste). (Kind-Katalog (<c1/>))
 
 # text
 seg-4e9a215e3918 = EHRLICHER GELTUNGSBEREICH: MODELLED. Nur geometrischer Azimut -- keine Korrektur durch das Geschwindigkeitsdreieck der rotierenden Erde (der Bonus wird getrennt ausgegeben, um ihn einzurechnen), keine Aufstiegstrajektorie / kein Widerstandsverlust- / Lenkmodell. Pre-Phase-A-Geometrie. Ausführen: kshana scenarios/launch-window.toml (Kommentar in der Szenariodatei, Zeilen { "8" } bis { "11" })
@@ -74,3 +63,14 @@ seg-1a3841380d88 = <s1>Zurück</s1>jamming
 
 # text
 seg-78411b85f301 = <s1>Weiter</s1>leo-navmsg
+
+# text
+# c1: kshana kinds --json
+seg-715f1856bd37 = MODELLED Geometrie der kugelförmigen Erde (keine Korrektur durch das Geschwindigkeitsdreieck der rotierenden Erde, kein Modell der Aufstiegs-/Widerstandsverluste). (Szenarioarten-Katalog (<c1/>))
+
+# attr:alt
+seg-9696283a95ae = Das Diagramm, das die Engine für scenarios/launch-window.toml schreibt, Szenarioart launch-window
+
+# text
+# c1: launch-window
+seg-e0990c5f14da = <c1/> (Szenarioart)

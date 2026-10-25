@@ -26,10 +26,6 @@ seg-ea4498cc0324 = <b>VALIDATED</b> Fehlerzustands-EKF mit 15 Zuständen, lose g
 seg-4b84d9846715 = Quelle: <c1/>
 
 # text
-# c1: hybrid-ukf
-seg-d8da1a3f1798 = <c1/> (Szenario-Kind)
-
-# text
 seg-c6edf89eb8d4 = Hybrider eng gekoppelter 17-Zustands-GNSS/INS-UKF aus Quanten- und klassischer Technik (MODELLED): { "15" } INS-Fehlerzustände + eine aus CAI abgeleitete Beschleunigungs-Bias-Korrektur + eine 2-Zustands-Uhr (Phase + Frequenz) aus der Uhren-Engine mit q-Parametern, angetrieben vom eingegrenzten CAI-Fehlermodell. Die Gütezahl ist die Selbstkonsistenz des Filters (NEES + Innovationsweißheit gegen χ²-Grenzen) — eine Aussage zur Selbstkonsistenz, KEINE Genauigkeitsgarantie für die reale Welt. Nur Simulation; kein TRL>{ "3" }, kein Flugerbe, keine externe Validierung.
 
 # text
@@ -64,15 +60,8 @@ seg-5e9c8b22ed24 = Interferometrischer Kaltatom-Beschleunigungsmesser (Rb-87 D2)
 # text
 seg-4c8e2caeba5b = Ultrastabile/optische Oszillatorklasse an Bord, White-FM-Sigm
 
-# attr:alt
-seg-2968660fa880 = Das Diagramm, das die Engine für scenarios/hybrid-ukf.toml schreibt, Kind hybrid-ukf
-
 # text
 seg-5719161d0b2a = <b>MODELLED</b> Eingegrenzte (beste/nominelle/konservative) Leistung eines Kaltatom-Interferometers — Bias-Instabilität, Geschwindigkeits-/Winkel-Random-Walk, Skalenfaktor-Stabilität, Interrogation. Orakel (InternalConsistency): Interne Konsistenz: die zitierte VRW-Eingrenzung, gegengeprüft mit der Physik von CaiAccelerometer::accel_asd + dem rohen Dynamikbereich, berechnet aus der Streifen-Mehrdeutigkeitsgrenze; die Zahlen sind MODELLED Eingrenzungen aus der Literaturübersicht (needs_source_confirmation), kein Gerät validiert, kein Validierungs-Halo
-
-# text
-# c1: kshana kinds --json
-seg-e55c8e2bc619 = Hybrider eng gekoppelter 17-Zustands-GNSS/INS-UKF aus Quanten- und klassischer Technik (MODELLED): { "15" } INS-Fehlerzustände + eine aus CAI abgeleitete Beschleunigungs-Bias-Korrektur + eine 2-Zustands-Uhr (Phase + Frequenz) aus der Uhren-Engine mit q-Parametern, angetrieben vom eingegrenzten CAI-Fehlermodell. (Kind-Katalog (<c1/>))
 
 # text
 seg-b06538ca3a8c = Hybrider eng gekoppelter 17-Zustands-GNSS/INS-UKF aus Quanten- und klassischer Technik (MODELLED). (Kommentar in der Szenariodatei, Zeile { "1" })
@@ -101,3 +90,14 @@ seg-437eb2e463b3 = <s1>Weiter</s1>hybrid
 # text
 # c1: modelled_note
 seg-8632967dc5f8 = MODELLED SIMULATION. Selbstkonsistenz des Filters (NEES + Innovationsweißheit) unter eingegrenzten CAI- und Uhrenrauscheingaben — eine Aussage zur Selbstkonsistenz, KEINE Genauigkeitsgarantie für die reale Welt. Keine Feld-/Flugergebnisse; kein TRL>{ "3" }, kein Flugerbe, keine externe Validierung. Die CAI-Hardware ist im Besitz des Partners. (Ergebnis <c1/>)
+
+# attr:alt
+seg-2968660fa880 = Das Diagramm, das die Engine für scenarios/hybrid-ukf.toml schreibt, Szenarioart hybrid-ukf
+
+# text
+# c1: hybrid-ukf
+seg-d8da1a3f1798 = <c1/> (Szenarioart)
+
+# text
+# c1: kshana kinds --json
+seg-e55c8e2bc619 = Hybrider eng gekoppelter 17-Zustands-GNSS/INS-UKF aus Quanten- und klassischer Technik (MODELLED): { "15" } INS-Fehlerzustände + eine aus CAI abgeleitete Beschleunigungs-Bias-Korrektur + eine 2-Zustands-Uhr (Phase + Frequenz) aus der Uhren-Engine mit q-Parametern, angetrieben vom eingegrenzten CAI-Fehlermodell. (Szenarioarten-Katalog (<c1/>))

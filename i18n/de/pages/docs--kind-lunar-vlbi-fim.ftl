@@ -13,9 +13,6 @@ seg-1f17ef6a853e = Szenarioart der Engine v{ $version }, Familie <a1>Mond und ci
 seg-1c1eeb2dcaa0 = Familienseite: <a1>Mond und cislunarer Raum</a1>
 
 # text
-seg-57cd9c415e31 = MODELLED { "3" } · VALIDATED { "2" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die dieses Kind nennen.
-
-# text
 seg-3319b18ac61f = und { "1" } weitere in der Matrix.
 
 # text
@@ -24,10 +21,6 @@ seg-2595bd629ffb = <b>MODELLED</b> Das Helmert-Datum mit sieben Parametern, fort
 # text
 # c1: docs/kinds/by-kind/lunar-vlbi-fim.md
 seg-7ecec8d27f50 = Quelle: <c1/>
-
-# text
-# c1: lunar-vlbi-fim
-seg-d54e29b7bc80 = <c1/> (Szenario-Kind)
 
 # text
 seg-1bc37634ba9f = Kovarianz der Stationskoordinaten bei lunarer VLBI: die Verzögerungspartiellen der Observablen lunar-vlbi, über einen expliziten ZEITPLAN (Basislinien x Epochen) zu einer Fisher-Informationsmatrix akkumuliert, invertiert und als Kovarianz der Stationskoordinaten und als Stations-Sigma je Koordinate ausgegeben — eine berechnete Engine-Ausgabe statt einer skalaren Verzögerungspräzision, die durch einen angenommenen isotropen Gleichverteilungsfaktor g = { "3" } geschoben wird. Der Zustand trägt erdFESTE (ITRS) Stationskoordinaten, sodass die Jacobi-Matrix die inertiale Partielle ist, gedreht mit der GCRS->ITRS-Matrix jeder Epoche: Die Erdrotation macht diese Koordinaten beobachtbar, und der Bericht MISST den erdfesten Sichtliniendurchlauf und die Deklination der Bake, statt sie anzunehmen. Eine Beobachtung ist ein Paar (Basislinie, Epoche) mit BEIDEN Stationen oberhalb der Elevationsmaske, gewichtet mit 1/delay_sigma_s^{ "2" }. Gibt bei jedem Lauf Rang, Datumsdefekt, Konditionszahl, das gesamte Informationsspektrum, die Kovarianzmatrix, Sigmas je Station und Achse sowie in 3D und den Nullraum des freien Netzes aus; bei einem Rangdefizit wird das Haupt-Sigma als NULL mit einem Status veröffentlicht, nie aus einer fast singulären Inversen abgelesen. Der Gleichverteilungswert c<em>delay_sigma_s</em>sqrt(g/N) für DENSELBEN Zeitplan wird mit dem Verhältnis neben dem berechneten Wert ausgegeben, zusammen mit der isotropen Spurschranke sqrt(p/trace(M)), die AM-HM zu einer harten Untergrenze macht — das Verhältnis ist also die Anisotropie, die die Annahme verworfen hat. Die Verzögerungsschließung tau_ik = tau_ij + tau_jk macht nur n-1 der n(n-1)/2 Basislinien geometrisch unabhängig; der Bericht nennt beide Zahlen. MODELLED: Die Ephemeride des Mondzentrums, die Stationsuhren, die Troposphäre und die Erdorientierungsparameter werden FEST gehalten, und Beobachtungen werden als unabhängig behandelt, sodass die Kovarianz eine Cramér-Rao-Schranke für einen reduzierten Parametersatz ist, kein vorhergesagtes Sitzungsergebnis; das Verzögerungs-Sigma, die Stationskoordinaten und der Zeitplan sind Eingaben. Die Partielle, die die Jacobi-Matrix der geometrischen Verzögerung auslässt (der differenzierte Shapiro-Term), wird durch finite Differenz gemessen und ausgegeben. Kein geodätisches Produkt.
@@ -65,9 +58,6 @@ seg-7b0f433d1d63 = sigma = c * delay_sigma_s * (beacon_rang
 # text
 seg-8b098bf1df6b = Ergebnisbezeichnung (der Engine): MODELLED Kovarianz der Stationskoordinaten bei lunarer VLBI. Die Kovarianz wird aus den eigenen analytischen Verzögerungspartiellen der Engine über einen expliziten Zeitplan aus Basislinien und Epochen akkumuliert und invertiert; sie wird NICHT durch einen angenommenen Geometriefaktor aus einer skalaren Verzögerungspräzision umgerechnet. Das Verzögerungs-Sigma je Beobachtung
 
-# attr:alt
-seg-19c383444296 = Das Diagramm, das die Engine für scenarios/lunar-vlbi-fim.toml schreibt, Kind lunar-vlbi-fim
-
 # text
 seg-d1a6a5086102 = <b>VALIDATED</b> Verzögerungspartielle, über einen Zeitplan aus Basislinien × Epochen zu einer Fisher-Informationsmatrix akkumuliert, invertiert zur Kovarianz der Stationskoordinaten und zum Stations-Sigma je Koordinate, wodurch eine angenommene isotrope Gleichverteilungsverknüpfung aus einer
 
@@ -90,22 +80,6 @@ seg-2300ffd9fc4e = <b>MODELLED</b> Eine dritte Datumswahl, <c1/>, die jede Erdst
 seg-2cbf700a234e = MODELLED Lunar-VLBI-Stationskoordinaten-Kovarianz. Die Kovarianz wird aus den eigenen analytischen Laufzeitpartialableitungen der Engine über einen expliziten Plan aus Basislinien und Epochen akkumuliert und invertiert; sie wird NICHT durch einen angenommenen Geometriefaktor aus einer skalaren Laufzeitpräzision umgerechnet. Die Laufzeit-Sigma pro Beobachtung, die Stationskoordinaten, der Beacon-Standort und der Plan sind Eingaben. Die Ephemeride des Mondzentrums, die Stationsuhren (Ergebnis <c1/>)
 
 # text
-# c1: kshana kinds --json
-seg-8f63c3e774e2 = Lunar-VLBI-Stationskoordinaten-Kovarianz: die Laufzeitpartialableitungen der lunar-vlbi-Observable, akkumuliert über einen expliziten PLAN (Basislinien x Epochen) zu einer Fisher-Informationsmatrix, invertiert und als Stationskoordinaten-Kovarianz und als Stations-Sigma pro Koordinate ausgegeben — eine berechnete Engine-Ausgabe statt einer skalaren Laufzeitpräzision, die durch einen angenommenen isotropen Äquipartitionsfaktor g = { "3" } geschickt wird. (Kind-Katalog (<c1/>))
-
-# text
-# c1: kshana kinds --json
-seg-d09b166842d5 = Der Zustand enthält erdFESTE (ITRS) Stationskoordinaten, sodass die Jacobi-Matrix die inertiale Partialableitung ist, gedreht durch die GCRS->ITRS-Matrix jeder Epoche: Die Erdrotation macht diese Koordinaten beobachtbar, und der Bericht MISST den erdfesten Sichtlinien-Überstrich und die Beacon-Deklination, statt sie anzunehmen. (Kind-Katalog (<c1/>))
-
-# text
-# c1: kshana kinds --json
-seg-bb7ff1e5d99f = Der Äquipartitionswert c<em>delay_sigma_s</em>sqrt(g/N) für denselben Plan wird neben dem berechneten Wert mit dem Verhältnis ausgegeben, zusammen mit der isotropen Spurschranke sqrt(p/trace(M)), die AM-HM zu einer harten Untergrenze macht — das Verhältnis ist also die Anisotropie, die die Annahme verworfen hat. (Kind-Katalog (<c1/>))
-
-# text
-# c1: kshana kinds --json
-seg-0ed4495d4488 = MODELLED: Die Ephemeride des Mondzentrums, die Stationsuhren, die Troposphäre und die Erdorientierungsparameter werden FEST gehalten, und Beobachtungen werden als unabhängig behandelt, sodass die Kovarianz eine Cramér-Rao-Schranke für einen reduzierten Parametersatz ist und kein vorhergesagtes Sitzungsergebnis; die Laufzeit-Sigma, die Stationskoordinaten und der Plan sind Eingaben. (Kind-Katalog (<c1/>))
-
-# text
 seg-4df6e3981cc4 = Die veröffentlichte Kette von D3 geht von einer Laufzeitpräzision pro Beobachtung über einen angenommenen ISOTROPEN Äquipartitionsfaktor g = { "3" } zu einer Unsicherheit der Stationskoordinaten. Dieser Schritt ist derjenige, den das Abstract der Arbeit selbst als modelliert statt gemessen bezeichnet. Dieses Szenario beseitigt ihn: Die Lunar-VLBI-Laufzeitpartialableitungen werden über einen realen Plan aus (Basislinie x Epoche)-Paaren zu einer Fisher-Informationsmatrix akkumuliert, invertiert und als (Kommentar der Szenariodatei, Zeilen { "3" } bis { "8" })
 
 # text
@@ -119,3 +93,29 @@ seg-96c1a129aeae = <s1>Zurück</s1>lunar-time-offset
 
 # text
 seg-199d98630271 = <s1>Weiter</s1>lunar-vlbi
+
+# text
+# c1: kshana kinds --json
+seg-0ed4495d4488 = MODELLED: Die Ephemeride des Mondzentrums, die Stationsuhren, die Troposphäre und die Erdorientierungsparameter werden FEST gehalten, und Beobachtungen werden als unabhängig behandelt, sodass die Kovarianz eine Cramér-Rao-Schranke für einen reduzierten Parametersatz ist und kein vorhergesagtes Sitzungsergebnis; die Laufzeit-Sigma, die Stationskoordinaten und der Plan sind Eingaben. (Szenarioarten-Katalog (<c1/>))
+
+# attr:alt
+seg-19c383444296 = Das Diagramm, das die Engine für scenarios/lunar-vlbi-fim.toml schreibt, Szenarioart lunar-vlbi-fim
+
+# text
+seg-57cd9c415e31 = MODELLED { "3" } · VALIDATED { "2" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die diese Szenarioart nennen.
+
+# text
+# c1: kshana kinds --json
+seg-8f63c3e774e2 = Lunar-VLBI-Stationskoordinaten-Kovarianz: die Laufzeitpartialableitungen der lunar-vlbi-Observable, akkumuliert über einen expliziten PLAN (Basislinien x Epochen) zu einer Fisher-Informationsmatrix, invertiert und als Stationskoordinaten-Kovarianz und als Stations-Sigma pro Koordinate ausgegeben — eine berechnete Engine-Ausgabe statt einer skalaren Laufzeitpräzision, die durch einen angenommenen isotropen Äquipartitionsfaktor g = { "3" } geschickt wird. (Szenarioarten-Katalog (<c1/>))
+
+# text
+# c1: kshana kinds --json
+seg-bb7ff1e5d99f = Der Äquipartitionswert c<em>delay_sigma_s</em>sqrt(g/N) für denselben Plan wird neben dem berechneten Wert mit dem Verhältnis ausgegeben, zusammen mit der isotropen Spurschranke sqrt(p/trace(M)), die AM-HM zu einer harten Untergrenze macht — das Verhältnis ist also die Anisotropie, die die Annahme verworfen hat. (Szenarioarten-Katalog (<c1/>))
+
+# text
+# c1: kshana kinds --json
+seg-d09b166842d5 = Der Zustand enthält erdFESTE (ITRS) Stationskoordinaten, sodass die Jacobi-Matrix die inertiale Partialableitung ist, gedreht durch die GCRS->ITRS-Matrix jeder Epoche: Die Erdrotation macht diese Koordinaten beobachtbar, und der Bericht MISST den erdfesten Sichtlinien-Überstrich und die Beacon-Deklination, statt sie anzunehmen. (Szenarioarten-Katalog (<c1/>))
+
+# text
+# c1: lunar-vlbi-fim
+seg-d54e29b7bc80 = <c1/> (Szenarioart)
