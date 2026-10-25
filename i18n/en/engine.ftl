@@ -2169,6 +2169,15 @@ engine-e-field-schema-unit-is-the-empty-string = `unit` is the empty string
 
 engine-e-field-schema-provenance-is-outside-the-vocabulary = `provenance` { $prov_str } is outside the vocabulary
 
+## src/fom_label.rs
+
+# The validation-tier words. The glossary: one message per word, shown next to a figure of merit in the study report and the run summary.
+engine-fom-verdict-validated = VALIDATED
+
+engine-fom-verdict-modelled = MODELLED
+
+engine-fom-verdict-partial = PARTIAL
+
 ## src/frugal.rs
 
 engine-e-frugal-cost-bracket-must-be-finite = cost bracket must be finite, non-negative, ordered low≤nominal≤high, and carry a source
