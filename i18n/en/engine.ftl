@@ -2724,11 +2724,11 @@ engine-e-holdover-test-step-with-mask-has-no = a step with a mask has no curve
 
 engine-e-holdover-test-cannot-read-csv-path = cannot read csv_path { $path }: { $e }
 
-engine-holdover-test-recovered-after-gnss-returned = ; recovered { $t } s after GNSS returned
+engine-holdover-test-holdover-not-recovered-within-record = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }; not recovered within the record (MODELLED, measured against the mask)
 
-engine-holdover-test-holdover-test-holdover-max-te = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }{ $rec } (MODELLED, measured against the mask)
+engine-holdover-test-holdover-test-holdover-max-te = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks } (MODELLED, measured against the mask)
 
-engine-holdover-test-not-recovered-within-record = ; not recovered within the record
+engine-holdover-test-holdover-recovered-after-gnss-returned = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }; recovered { $t } s after GNSS returned (MODELLED, measured against the mask)
 
 engine-holdover-test-chart-title = Holdover test: time error by step
 
@@ -3656,7 +3656,7 @@ engine-iq-labfit-iqreport-threshold-direct-median-db-over = Threshold J/S, direc
 
 engine-iq-labfit-iqreport-hold-out-leave-one-recording = Hold-out (leave one recording out), interpolation: { $bins } bins, C/N0 RMS { $om } dB, PI90 coverage { $om2 }
 
-engine-iq-labfit-iqreport-events-loss-time-rms-pi90 = ; { $model }: { $n } events, loss-time RMS { $om } s, PI90 coverage { $om2 }
+engine-iq-labfit-iqreport-events-loss-time-rms-pi90 = { $model }: { $n } events, loss-time RMS { $om } s, PI90 coverage { $om2 }
 
 engine-iq-labfit-iqreport-validation-table-sha-256-registered =
     Validation table SHA-256 `{ $table_sha256 }` (registered { $registered }):
@@ -6085,19 +6085,23 @@ engine-nmea-synth-gen-the-receiver-has-no-fix = the receiver has no fix ({ $n_us
 
 engine-nmea-synth-log-from-for-onset-ramp-recovery = from T+{ $start_s } s for { $duration_s } s (onset ramp { $ramp_s } s, recovery ramp { $recovery_s } s)
 
-engine-nmea-synth-log-every-tracked-satellite-shows-db = ; every tracked satellite shows { $c } dB-Hz while it lasts
-
 engine-nmea-synth-log-jamming-received-n0-falls-by = jamming: received C/N0 falls by up to { $cn0_drop_db } dB (per-satellite spread { $spread_db } dB); satellites drop out and the fix is lost when fewer than four remain usable
 
 engine-nmea-synth-log-towards-deg-true = towards { $b } deg true
 
 engine-nmea-synth-log-towards-deg-true-deg-relative = towards { $t } deg true ({ $r } deg relative to the course at onset, then held)
 
-engine-nmea-synth-log-position-drag-off-the-reported = position drag-off: the reported position walks { $final_offset_m } m away { $dir } while the receiver keeps a valid fix (false track peaks at { $pv } m/s and { $pa } m/s^2){ $cf }
+engine-nmea-synth-log-position-drag-off-counterfeit-cn0 = position drag-off: the reported position walks { $final_offset_m } m away { $dir } while the receiver keeps a valid fix (false track peaks at { $pv } m/s and { $pa } m/s^2); every tracked satellite shows { $c } dB-Hz while it lasts
 
-engine-nmea-synth-log-time-spoof-reported-utc-moves = time spoof: reported UTC moves { $offset_s } s from true; position stays true{ $cf }
+engine-nmea-synth-log-position-drag-off-genuine-cn0 = position drag-off: the reported position walks { $final_offset_m } m away { $dir } while the receiver keeps a valid fix (false track peaks at { $pv } m/s and { $pa } m/s^2); the genuine C/N0 pattern is kept
 
-engine-nmea-synth-log-replay-delay-meaconing-style-position = replay delay (meaconing style): position{ $v1 } lags the truth by { $delay_s } s{ $cf }
+engine-nmea-synth-log-time-spoof-counterfeit-cn0 = time spoof: reported UTC moves { $offset_s } s from true; position stays true; every tracked satellite shows { $c } dB-Hz while it lasts
+
+engine-nmea-synth-log-time-spoof-genuine-cn0 = time spoof: reported UTC moves { $offset_s } s from true; position stays true; the genuine C/N0 pattern is kept
+
+engine-nmea-synth-log-replay-delay-counterfeit-cn0 = replay delay (meaconing style): position{ $v1 } lags the truth by { $delay_s } s; every tracked satellite shows { $c } dB-Hz while it lasts
+
+engine-nmea-synth-log-replay-delay-genuine-cn0 = replay delay (meaconing style): position{ $v1 } lags the truth by { $delay_s } s; the genuine C/N0 pattern is kept
 
 engine-nmea-synth-log-natural-degradation-the-sky-closes = natural degradation: the sky closes behind a stated skyline ({ $e }); satellites behind it stay listed with no SNR and are not used, the C/N0 of the rest is unchanged, and nothing is counterfeit
 
@@ -6990,11 +6994,11 @@ engine-receiver-trust-scenario-trusted-throughout-no-monitor-alarmed = trusted t
 
 engine-receiver-trust-scenario-first-alarm-at-untrusted-for = first alarm at { $t } s; untrusted for { $untrusted_epochs } and degraded for { $degraded_epochs } of { $after_cal } epochs after calibration
 
-engine-receiver-trust-scenario-of-stated-events-detected-within = ; { $events_detected } of { $events_evaluable } stated events detected within { $detect_tol_s } s
+engine-receiver-trust-scenario-of-stated-events-detected-within = { $events_detected } of { $events_evaluable } stated events detected within { $detect_tol_s } s
 
-engine-receiver-trust-scenario-of-n0-predictions-within-db = ; { $predictions_agreeing } of { $predictions_evaluable } C/N0 predictions within { $cn0_tol_db } dB
+engine-receiver-trust-scenario-of-n0-predictions-within-db = { $predictions_agreeing } of { $predictions_evaluable } C/N0 predictions within { $cn0_tol_db } dB
 
-engine-receiver-trust-scenario-trust-score-lowest-final = ; trust score lowest { $min }, final { $last }
+engine-receiver-trust-scenario-trust-score-lowest-final = trust score lowest { $min }, final { $last }
 
 engine-receiver-trust-scenario-scenario-receiver-trust-log-epochs = scenario { $r } | receiver-trust | { $format_name } log, { $epochs } epochs over { $duration_s } s | monitors { $monitors_run } | { $verdict }
 
@@ -7964,11 +7968,11 @@ engine-e-telecom-timing-give-either-series-samples-or = give either series.sampl
 
 engine-e-telecom-timing-locked-duration-days-must-be = locked_duration_days must be finite and >= 0
 
-engine-telecom-timing-ns-budget-exceeded-after = ; { $max_abs_te_ns } ns budget exceeded after { $t } s
+engine-telecom-timing-max-te-ns-budget-never-exceeded = telecom-timing: max|TE| { $max_abs } ns over { $v2 } s; { $masks }; { $max_abs_te_ns } ns budget never exceeded (MODELLED)
 
-engine-telecom-timing-ns-budget-never-exceeded = ; { $max_abs_te_ns } ns budget never exceeded
+engine-telecom-timing-telecom-timing-max-te-ns = telecom-timing: max|TE| { $max_abs } ns over { $v2 } s; { $masks } (MODELLED)
 
-engine-telecom-timing-telecom-timing-max-te-ns = telecom-timing: max|TE| { $max_abs } ns over { $v2 } s; { $masks }{ $first_budget } (MODELLED)
+engine-telecom-timing-max-te-ns-budget-exceeded-after = telecom-timing: max|TE| { $max_abs } ns over { $v2 } s; { $masks }; { $max_abs_te_ns } ns budget exceeded after { $t } s (MODELLED)
 
 engine-telecom-timing-mtie-limit-ns = ,{ $id }_mtie_limit_ns
 

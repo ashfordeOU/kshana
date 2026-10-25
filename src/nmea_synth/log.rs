@@ -155,13 +155,11 @@ pub fn describe(e: &EventCfg, bearing: Option<f64>) -> String {
         ramp_s = crate::i18n::localise_decimal(format!("{:.0}", e.ramp_s)),
         recovery_s = crate::i18n::localise_decimal(format!("{:.0}", e.recovery_s))
     );
-    let cf = match e.counterfeit_cn0_dbhz {
-        Some(c) => crate::t!(
-            "nmea-synth-log-every-tracked-satellite-shows-db",
-            c = crate::i18n::localise_decimal(format!("{:.0}", c))
-        ),
-        None => "; the genuine C/N0 pattern is kept".to_string(),
-    };
+    // The counterfeit C/N0 level, when the event states one; each event's sentence has a variant for
+    // the stated level and one for the genuine pattern.
+    let counterfeit = e
+        .counterfeit_cn0_dbhz
+        .map(|c| crate::i18n::localise_decimal(format!("{:.0}", c)));
     let body = match e.kind {
         EventKind::Jamming => crate::t!(
             "nmea-synth-log-jamming-received-n0-falls-by",
@@ -183,33 +181,61 @@ pub fn describe(e: &EventCfg, bearing: Option<f64>) -> String {
                 _ => String::new(),
             };
             let (pv, pa) = drag_peaks(e);
-            crate::t!(
-                "nmea-synth-log-position-drag-off-the-reported",
-                final_offset_m = crate::i18n::localise_decimal(format!(
-                    "{:.0}",
-                    e.final_offset_m.unwrap_or(0.0)
-                )),
-                dir = dir,
-                pv = crate::i18n::localise_decimal(format!("{:.2}", pv)),
-                pa = crate::i18n::localise_decimal(format!("{:.4}", pa)),
-                cf = cf
-            )
+            let final_offset_m =
+                crate::i18n::localise_decimal(format!("{:.0}", e.final_offset_m.unwrap_or(0.0)));
+            let pv = crate::i18n::localise_decimal(format!("{:.2}", pv));
+            let pa = crate::i18n::localise_decimal(format!("{:.4}", pa));
+            match counterfeit {
+                Some(c) => crate::t!(
+                    "nmea-synth-log-position-drag-off-counterfeit-cn0",
+                    final_offset_m = final_offset_m,
+                    dir = dir,
+                    pv = pv,
+                    pa = pa,
+                    c = c
+                ),
+                None => crate::t!(
+                    "nmea-synth-log-position-drag-off-genuine-cn0",
+                    final_offset_m = final_offset_m,
+                    dir = dir,
+                    pv = pv,
+                    pa = pa
+                ),
+            }
         }
-        EventKind::TimeSpoof => crate::t!(
-            "nmea-synth-log-time-spoof-reported-utc-moves",
-            offset_s = crate::i18n::localise_decimal(format!("{:+.1}", e.offset_s.unwrap_or(0.0))),
-            cf = cf
-        ),
-        EventKind::ReplayDelay => crate::t!(
-            "nmea-synth-log-replay-delay-meaconing-style-position",
-            v1 = if e.affect_time.unwrap_or(true) {
+        EventKind::TimeSpoof => {
+            let offset_s =
+                crate::i18n::localise_decimal(format!("{:+.1}", e.offset_s.unwrap_or(0.0)));
+            match counterfeit {
+                Some(c) => crate::t!(
+                    "nmea-synth-log-time-spoof-counterfeit-cn0",
+                    offset_s = offset_s,
+                    c = c
+                ),
+                None => crate::t!("nmea-synth-log-time-spoof-genuine-cn0", offset_s = offset_s),
+            }
+        }
+        EventKind::ReplayDelay => {
+            let v1 = if e.affect_time.unwrap_or(true) {
                 " and time"
             } else {
                 ""
-            },
-            delay_s = crate::i18n::localise_decimal(format!("{:.1}", e.delay_s.unwrap_or(0.0))),
-            cf = cf
-        ),
+            };
+            let delay_s = crate::i18n::localise_decimal(format!("{:.1}", e.delay_s.unwrap_or(0.0)));
+            match counterfeit {
+                Some(c) => crate::t!(
+                    "nmea-synth-log-replay-delay-counterfeit-cn0",
+                    v1 = v1,
+                    delay_s = delay_s,
+                    c = c
+                ),
+                None => crate::t!(
+                    "nmea-synth-log-replay-delay-genuine-cn0",
+                    v1 = v1,
+                    delay_s = delay_s
+                ),
+            }
+        }
         EventKind::NaturalDegradation => crate::t!(
             "nmea-synth-log-natural-degradation-the-sky-closes",
             e = e

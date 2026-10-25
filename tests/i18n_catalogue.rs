@@ -411,7 +411,7 @@ const USED_BY_ID_PREFIX: &[&str] = &[];
 /// mid-sentence, cannot be translated correctly. `i18n/en/engine-fragments.txt` lists them (made by
 /// `scripts/i18n_fragments.py`); every listed id must still exist, and the list may only shrink as
 /// they are merged into whole-sentence messages.
-const FRAGMENT_BASELINE: usize = 113;
+const FRAGMENT_BASELINE: usize = 104;
 
 #[test]
 fn sentence_fragments_are_listed_and_never_grow() {
