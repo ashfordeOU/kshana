@@ -372,13 +372,15 @@ async function pseudo(args) {
 async function apply(args) {
   const L = await lang();
   const S = await site();
-  const { opt, pos } = args2opt(args, { src: 'web', root: 'i18n', out: 'dist', skip: 'studio,playground,assets', origin: 'https://kshana.dev' });
+  const { opt, pos } = args2opt(args, { src: 'web', root: 'i18n', out: 'dist', skip: 'studio,playground,assets', origin: 'https://kshana.dev', langs: '' });
   const skip = String(opt.skip).split(',').filter(Boolean);
   const pages = walk(opt.src, skip);
   const langs = pos.length ? pos : L.LANGS;
+  const offered = opt.langs ? opt.langs.split(',').filter(Boolean) : [...new Set([...L.LANGS, ...langs])];
   const report = [];
   for (const lang of langs) {
     let T = 0, M = 0;
+    const listed = [];
     for (const rel of pages) {
       const html = readFileSync(join(opt.src, rel), 'utf8');
       const segs = segments(html);
@@ -386,10 +388,13 @@ async function apply(args) {
       const r = L.applyPage({ html, segs, bundle, lang });
       for (const e of r.errors.slice(0, 3)) console.error(`${lang}/${rel}: ${e}`);
       T += r.translated; M += r.missing;
+      if (rel !== '404.html' && segs.length && r.translated / segs.length >= 0.8) listed.push(rel);
       const dst = join(opt.out, lang, rel);
       mkdirSync(dirname(dst), { recursive: true });
-      writeFileSync(dst, S.decoratePage(r.html, { lang, rel, bundle, missing: r.missing, translated: r.translated, pages, origin: opt.origin, langs: L.LANGS }));
+      writeFileSync(dst, S.decoratePage(r.html, { lang, rel, bundle, missing: r.missing, translated: r.translated, pages, origin: opt.origin, langs: offered }));
     }
+    const loc = (rel) => `${opt.origin}/${lang}${S.pageUrl(rel)}`;
+    writeFileSync(join(opt.out, lang, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${listed.map((rel) => `  <url><loc>${loc(rel)}</loc></url>`).join('\n')}\n</urlset>\n`);
     report.push(`${lang}: ${T} segments translated, ${M} left in English, ${pages.length} pages`);
   }
   console.log(report.join('\n'));
@@ -399,15 +404,16 @@ async function apply(args) {
 async function english(args) {
   const L = await lang();
   const S = await site();
-  const { opt } = args2opt(args, { src: 'web', root: 'i18n', out: '', skip: 'studio,playground,assets', origin: 'https://kshana.dev' });
+  const { opt } = args2opt(args, { src: 'web', root: 'i18n', out: '', skip: 'studio,playground,assets', origin: 'https://kshana.dev', langs: '' });
+  const offered = opt.langs ? opt.langs.split(',').filter(Boolean) : L.LANGS;
   const out = opt.out || opt.src;
-  const pages = walk(opt.src, String(opt.skip).split(',').filter(Boolean));
+  const pages = walk(opt.src, [...String(opt.skip).split(',').filter(Boolean), ...L.LANGS]);
   const all = walk(opt.src, []);
   for (const rel of all) {
     const html = readFileSync(join(opt.src, rel), 'utf8');
     const inScope = pages.includes(rel);
     const bundle = L.bundleFor('en', L.catalogueFiles(opt.root, 'en', rel));
-    const res = inScope ? S.decoratePage(html, { lang: 'en', rel, bundle, pages, origin: opt.origin, langs: L.LANGS }) : html;
+    const res = inScope ? S.decoratePage(html, { lang: 'en', rel, bundle, pages, origin: opt.origin, langs: offered }) : html;
     const dst = join(out, rel);
     mkdirSync(dirname(dst), { recursive: true });
     writeFileSync(dst, res);
@@ -464,9 +470,28 @@ function size(args) {
   if (total > cap) process.exit(1);
 }
 
+/** sitemaps: sitemap.xml becomes an index of sitemap-en.xml and every <lang>/sitemap.xml (pages at least 80 % translated only). */
+function sitemaps(args) {
+  const { opt } = args2opt(args, { tree: 'site', origin: 'https://kshana.dev' });
+  const root = join(opt.tree, 'sitemap.xml'), en = join(opt.tree, 'sitemap-en.xml');
+  if (!existsSync(en)) { if (!existsSync(root)) { console.error('sitemaps: no sitemap.xml'); process.exit(1); } writeFileSync(en, readFileSync(root)); }
+  const maps = ['sitemap-en.xml'];
+  for (const e of readdirSync(opt.tree, { withFileTypes: true })) if (e.isDirectory() && existsSync(join(opt.tree, e.name, 'sitemap.xml'))) maps.push(`${e.name}/sitemap.xml`);
+  writeFileSync(root, `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${maps.map((m) => `  <sitemap><loc>${opt.origin}/${m}</loc></sitemap>`).join('\n')}\n</sitemapindex>\n`);
+  console.log(`sitemaps: index of ${maps.length} sitemaps`);
+}
+
+/** langs: the languages to build, those whose catalogue covers at least --min of the English segments (a comma list on stdout). */
+async function langsCmd(args) {
+  const L = await lang();
+  const { opt } = args2opt(args, { root: 'i18n', min: '0.25' });
+  const out = L.LANGS.filter((l) => { const r = L.statusLang(opt.root, l); return r.total && r.translated / r.total >= +opt.min; });
+  console.log(out.join(','));
+}
+
 const [cmd, ...rest] = process.argv.slice(2);
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
+  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
   if (run) await run();
   else if (!cmd) { console.error('usage: node tools/i18n.mjs extract|apply|check|status|pseudo|csslint'); process.exit(2); }
   else { console.error(`i18n: '${cmd}' is not built yet`); process.exit(2); }

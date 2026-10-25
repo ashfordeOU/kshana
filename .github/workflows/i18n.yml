@@ -1,0 +1,61 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Translations (workstream J): the catalogues are valid, the English page catalogue matches the built site, and the
+# pseudo-locale build (accented, 35 % longer, bracketed) shows no hard-coded string and no overflow.
+# Design: kshana-pro docs/design/i18n-0.40-design.md (v2). Tools: tools/i18n.mjs.
+name: i18n
+
+on:
+  push:
+    branches: [main, 'feat/i18n-*', 'i18n/**']
+    paths: ['i18n/**', 'tools/i18n*', 'tools/vendor/**', 'web/**', '.github/workflows/i18n.yml']
+  pull_request:
+    paths: ['i18n/**', 'tools/i18n*', 'tools/vendor/**', 'web/**', '.github/workflows/i18n.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  catalogues:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: The English page catalogue matches the built site
+        run: |
+          node tools/i18n.mjs extract
+          git diff --exit-code -- i18n/en/pages || { echo "::error::i18n/en/pages is out of date: run node tools/i18n.mjs extract and commit"; exit 1; }
+      - name: Every language catalogue is valid (syntax, variables, literals, tags, plural categories, glossary tokens)
+        run: node tools/i18n.mjs check
+      - name: Coverage report
+        run: node tools/i18n.mjs status | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: The pseudo-locale catalogue is valid
+        run: node tools/i18n.mjs pseudo && node tools/i18n.mjs check en-XA
+
+  pseudo-locale:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Install Playwright (Chromium)
+        run: |
+          mkdir -p "$RUNNER_TEMP/pw" && cd "$RUNNER_TEMP/pw" && npm init -y >/dev/null && npm i playwright@1.57.0 >/dev/null && npx playwright install --with-deps chromium
+          echo "NODE_PATH=$RUNNER_TEMP/pw/node_modules" >> "$GITHUB_ENV"
+      - name: Build the trees (shared images, English with the switcher, the pseudo-locale)
+        run: |
+          set -euo pipefail
+          cp -r web "$RUNNER_TEMP/site"
+          node tools/i18n.mjs images --tree "$RUNNER_TEMP/site"
+          node tools/i18n.mjs pseudo
+          node tools/i18n.mjs apply en-XA --src "$RUNNER_TEMP/site" --out "$RUNNER_TEMP/dist"
+          node tools/i18n.mjs english --src "$RUNNER_TEMP/site"
+      - name: Language negotiation
+        run: node tools/i18n-negotiation-test.mjs --en "$RUNNER_TEMP/site"
+      - name: Pseudo-locale test (hard-coded text, overflow at 1440 and 390 px)
+        run: node tools/i18n-pseudo-test.mjs --dist "$RUNNER_TEMP/dist" --src "$RUNNER_TEMP/site" --all
