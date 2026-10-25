@@ -2310,27 +2310,40 @@ fn summary_line(r: &TelecomRun) -> String {
         .iter()
         .map(|m| format!("{} {}", m.id, m.verdict))
         .collect();
-    let first_budget = r.budgets.first().map(|b| match b.time_to_exceed_s {
-        Some(t) => crate::t!(
-            "telecom-timing-ns-budget-exceeded-after",
-            max_abs_te_ns = crate::i18n::localise_decimal(format!("{:.0}", b.max_abs_te_ns)),
-            t = crate::i18n::localise_decimal(format!("{:.0}", t))
-        ),
+    let max_abs_ns = crate::i18n::localise_decimal(format!("{:.1}", max_abs));
+    let span_s = crate::i18n::localise_decimal(format!(
+        "{:.0}",
+        (r.record.te_ns.len() - 1) as f64 * r.record.dt_s
+    ));
+    let masks = masks.join(", ");
+    match r.budgets.first() {
+        Some(b) => {
+            let budget_ns = crate::i18n::localise_decimal(format!("{:.0}", b.max_abs_te_ns));
+            match b.time_to_exceed_s {
+                Some(t) => crate::t!(
+                    "telecom-timing-max-te-ns-budget-exceeded-after",
+                    max_abs = max_abs_ns,
+                    v2 = span_s,
+                    masks = masks,
+                    max_abs_te_ns = budget_ns,
+                    t = crate::i18n::localise_decimal(format!("{:.0}", t))
+                ),
+                None => crate::t!(
+                    "telecom-timing-max-te-ns-budget-never-exceeded",
+                    max_abs = max_abs_ns,
+                    v2 = span_s,
+                    masks = masks,
+                    max_abs_te_ns = budget_ns
+                ),
+            }
+        }
         None => crate::t!(
-            "telecom-timing-ns-budget-never-exceeded",
-            max_abs_te_ns = crate::i18n::localise_decimal(format!("{:.0}", b.max_abs_te_ns))
+            "telecom-timing-telecom-timing-max-te-ns",
+            max_abs = max_abs_ns,
+            v2 = span_s,
+            masks = masks
         ),
-    });
-    crate::t!(
-        "telecom-timing-telecom-timing-max-te-ns",
-        max_abs = crate::i18n::localise_decimal(format!("{:.1}", max_abs)),
-        v2 = crate::i18n::localise_decimal(format!(
-            "{:.0}",
-            (r.record.te_ns.len() - 1) as f64 * r.record.dt_s
-        )),
-        masks = masks.join(", "),
-        first_budget = first_budget.unwrap_or_default()
-    )
+    }
 }
 
 fn csv_table(r: &TelecomRun) -> String {
