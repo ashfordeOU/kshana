@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 3276,
-    "fields_total": 3276,
+    "fields_described": 3300,
+    "fields_total": 3300,
     "fields_without_units": 0,
-    "kinds_complete": 91,
-    "kinds_total": 91,
+    "kinds_complete": 92,
+    "kinds_total": 92,
     "kinds_uncovered": 0,
     "uncovered_kind_ceiling": 0,
     "uncovered_kinds": []
@@ -16096,6 +16096,160 @@
       "fields_without_units": [],
       "label": null,
       "source": "defaults"
+    },
+    "mission-thread": {
+      "complete": true,
+      "fields": {
+        "phases[].budget_rows[].sigma": {
+          "definition": "1-sigma of one budget line; the row's `unit` field gives its unit (m, m/s, s or deg)",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "see the sibling `unit` field"
+        },
+        "phases[].duration_s": {
+          "definition": "phase length as the document states it",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "phases[].end_s": {
+          "definition": "mission elapsed time at phase exit",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "phases[].entry_sigma_pos_m": {
+          "definition": "1-sigma position at phase entry, after the handover and conversions",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "phases[].entry_sigma_time_s": {
+          "definition": "1-sigma clock bias at phase entry",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "phases[].entry_sigma_vel_mps": {
+          "definition": "1-sigma velocity at phase entry",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m/s"
+        },
+        "phases[].events[].t_s": {
+          "definition": "mission elapsed time of the event",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "phases[].exit_sigma_pos_m": {
+          "definition": "1-sigma position at phase exit",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "phases[].exit_sigma_time_s": {
+          "definition": "1-sigma clock bias at phase exit",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "phases[].exit_sigma_vel_mps": {
+          "definition": "1-sigma velocity at phase exit",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m/s"
+        },
+        "phases[].index": {
+          "definition": "zero-based position of the phase in the thread",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "phases[].margin": {
+          "definition": "smallest ratio of a stated limit to the phase's peak: above 1 meets the requirement",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "phases[].peak_sigma_pos_m": {
+          "definition": "largest 1-sigma position over the phase",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "phases[].peak_sigma_time_s": {
+          "definition": "largest 1-sigma clock bias over the phase",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "phases[].peak_sigma_vel_mps": {
+          "definition": "largest 1-sigma velocity over the phase",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m/s"
+        },
+        "phases[].requirement.max_pos_m": {
+          "definition": "the position limit the phase must meet, when stated",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "phases[].start_s": {
+          "definition": "mission elapsed time at phase entry",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "seed": {
+          "definition": "the thread seed; each phase's seed is derived from it and the phase id",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "timeline[].phase_index": {
+          "definition": "index of the phase the sample belongs to",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "timeline[].sigma_pos_m": {
+          "definition": "1-sigma position at the sample",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "timeline[].sigma_time_s": {
+          "definition": "1-sigma clock bias at the sample",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "timeline[].sigma_vel_mps": {
+          "definition": "1-sigma velocity at the sample",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m/s"
+        },
+        "timeline[].t_s": {
+          "definition": "mission elapsed time of the sample",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "weakest_link.margin": {
+          "definition": "limit over peak position, velocity or time of the weakest phase: above 1 meets the stated requirement",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        }
+      },
+      "fields_described": 24,
+      "fields_total": 24,
+      "fields_without_units": [],
+      "label": null,
+      "source": "scenarios/mission-thread-artemis-class.toml"
     },
     "moonlight-service-volume": {
       "complete": true,

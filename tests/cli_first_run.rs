@@ -54,6 +54,7 @@ const REPO_ONLY: &[&str] = &[
     "leo-pass-celeste-iod-multiband",
     "lunar-llr-datum",
     "lunar-descent-lola",
+    "mission-thread-artemis-class",
     "lunar-station-coverage-terrain",
     "lunar-surface-terrain",
     "lunar-station-geodesy-baseline",
