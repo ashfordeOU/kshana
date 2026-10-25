@@ -1855,111 +1855,6 @@
   ]
  },
  {
-  "id": "antenna-altitude-beamwidth-deg-points",
-  "error": false,
-  "parts": [
-   "altitude ",
-   {
-    "var": "a_lo"
-   },
-   "-",
-   {
-    "var": "a_hi"
-   },
-   " m x beamwidth ",
-   {
-    "var": "b_lo"
-   },
-   "-",
-   {
-    "var": "b_hi"
-   },
-   " deg, ",
-   {
-    "var": "points"
-   },
-   " points"
-  ]
- },
- {
-  "id": "antenna-limb-capture-is-reached-on",
-  "error": false,
-  "parts": [
-   "limb capture IS reached on this grid (",
-   {
-    "var": "grid"
-   },
-   "): ",
-   {
-    "var": "points"
-   },
-   " of ",
-   {
-    "var": "points2"
-   },
-   " sampled operating points capture the limb and ",
-   {
-    "var": "crossings"
-   },
-   " axis crossing(s) were located; the strongest limb J/S sampled is ",
-   {
-    "var": "limb_js_db"
-   },
-   " dB at altitude ",
-   {
-    "var": "altitude_m"
-   },
-   " m / beamwidth ",
-   {
-    "var": "hpbw_deg"
-   },
-   " deg, against a ",
-   {
-    "var": "thr"
-   },
-   " dB capture threshold."
-  ]
- },
- {
-  "id": "antenna-limb-capture-is-not-reached",
-  "error": false,
-  "parts": [
-   "limb capture is NOT reached anywhere on this grid (",
-   {
-    "var": "grid"
-   },
-   ") - not zero capture, but no limb capture: the best limb J/S is ",
-   {
-    "var": "limb_js_db"
-   },
-   " dB at altitude ",
-   {
-    "var": "altitude_m"
-   },
-   " m / beamwidth ",
-   {
-    "var": "hpbw_deg"
-   },
-   " deg, ",
-   {
-    "var": "shortfall"
-   },
-   " dB short of the ",
-   {
-    "var": "thr"
-   },
-   " dB capture threshold; that operating point would capture the limb at ",
-   {
-    "var": "limb_capture_tx_power_dbw"
-   },
-   " dBW transmit power against the ",
-   {
-    "var": "p_tx_dbw"
-   },
-   " dBW flown."
-  ]
- },
- {
   "id": "e-antenna-azimuths-must-strictly-increase",
   "error": true,
   "parts": [
@@ -6886,29 +6781,6 @@
     "var": "runs_total"
    },
    " member runs (MODELLED)"
-  ]
- },
- {
-  "id": "campaign-sweep-of-over-nodes-each",
-  "error": false,
-  "parts": [
-   "sweep of `",
-   {
-    "var": "scenario_kind"
-   },
-   "` over ",
-   {
-    "var": "axis_order"
-   },
-   " (",
-   {
-    "var": "nodes"
-   },
-   " nodes",
-   {
-    "var": "v4"
-   },
-   "; each line on its own range)"
   ]
  },
  {
@@ -16820,35 +16692,6 @@
   ]
  },
  {
-  "id": "iq-cli-scene-integer-scale-lsb-noise-normalised",
-  "error": false,
-  "parts": [
-   "; integer scale: 1 LSB = ",
-   {
-    "var": "sc"
-   },
-   " noise-normalised units (expected RMS ",
-   {
-    "var": "v1"
-   },
-   " LSB per component), ",
-   {
-    "var": "clipped"
-   },
-   " element(s) clipped"
-  ]
- },
- {
-  "id": "iq-cli-scene-written-by-kshana-iq-scene",
-  "error": false,
-  "parts": [
-   "written by kshana iq scene: a SIMULATED scene, not a recording",
-   {
-    "var": "scale_note"
-   }
-  ]
- },
- {
   "id": "iq-cli-scene-ion-sdr-metadata",
   "error": false,
   "parts": [
@@ -16869,57 +16712,6 @@
    ", meta ",
    {
     "var": "meta_path"
-   }
-  ]
- },
- {
-  "id": "iq-cli-scene-written-by-kshana-iq-scene-2",
-  "error": false,
-  "parts": [
-   "written by kshana iq scene",
-   {
-    "var": "scale_note"
-   }
-  ]
- },
- {
-  "id": "iq-cli-scene-wrote-samples-hz-to-truth",
-  "error": false,
-  "parts": [
-   "wrote ",
-   {
-    "var": "samples"
-   },
-   " samples (",
-   {
-    "var": "format"
-   },
-   ", ",
-   {
-    "var": "fs_hz"
-   },
-   " Hz) to ",
-   {
-    "var": "data_path"
-   },
-   "; ",
-   {
-    "var": "truth_records"
-   },
-   " truth records to ",
-   {
-    "var": "truth_path"
-   },
-   "; ",
-   {
-    "var": "meta_note"
-   },
-   "; channel: ",
-   {
-    "var": "chan_desc"
-   },
-   {
-    "var": "scale_note"
    }
   ]
  },
@@ -26663,28 +26455,6 @@
    " s | clock x(1 d) ",
    {
     "var": "x_1day_ns"
-   },
-   " ns (MODELLED)"
-  ]
- },
- {
-  "id": "lunar-time-budget-scenario-time-lab-to-ltc-ns",
-  "error": false,
-  "parts": [
-   {
-    "var": "summary"
-   },
-   " | time lab: ",
-   {
-    "var": "lab"
-   },
-   " ",
-   {
-    "var": "lab2"
-   },
-   " to LTC, x(1 d) ",
-   {
-    "var": "lab3"
    },
    " ns (MODELLED)"
   ]

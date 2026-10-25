@@ -609,11 +609,9 @@ engine-animation-further-series-were-found-but = { " " }{ $omitted } further ser
 
 ## src/antenna.rs
 
-engine-antenna-altitude-beamwidth-deg-points = altitude { $a_lo }-{ $a_hi } m x beamwidth { $b_lo }-{ $b_hi } deg, { $points } points
+engine-antenna-limb-capture-is-reached-on = limb capture IS reached on this grid (altitude { $a_lo }-{ $a_hi } m x beamwidth { $b_lo }-{ $b_hi } deg, { $points2 } points): { $points } of { $points2 } sampled operating points capture the limb and { $crossings } axis crossing(s) were located; the strongest limb J/S sampled is { $limb_js_db } dB at altitude { $altitude_m } m / beamwidth { $hpbw_deg } deg, against a { $thr } dB capture threshold.
 
-engine-antenna-limb-capture-is-reached-on = limb capture IS reached on this grid ({ $grid }): { $points } of { $points2 } sampled operating points capture the limb and { $crossings } axis crossing(s) were located; the strongest limb J/S sampled is { $limb_js_db } dB at altitude { $altitude_m } m / beamwidth { $hpbw_deg } deg, against a { $thr } dB capture threshold.
-
-engine-antenna-limb-capture-is-not-reached = limb capture is NOT reached anywhere on this grid ({ $grid }) - not zero capture, but no limb capture: the best limb J/S is { $limb_js_db } dB at altitude { $altitude_m } m / beamwidth { $hpbw_deg } deg, { $shortfall } dB short of the { $thr } dB capture threshold; that operating point would capture the limb at { $limb_capture_tx_power_dbw } dBW transmit power against the { $p_tx_dbw } dBW flown.
+engine-antenna-limb-capture-is-not-reached = limb capture is NOT reached anywhere on this grid (altitude { $a_lo }-{ $a_hi } m x beamwidth { $b_lo }-{ $b_hi } deg, { $points } points) - not zero capture, but no limb capture: the best limb J/S is { $limb_js_db } dB at altitude { $altitude_m } m / beamwidth { $hpbw_deg } deg, { $shortfall } dB short of the { $thr } dB capture threshold; that operating point would capture the limb at { $limb_capture_tx_power_dbw } dBW transmit power against the { $p_tx_dbw } dBW flown.
 
 engine-e-antenna-azimuths-must-strictly-increase = azimuths must strictly increase
 
@@ -1310,7 +1308,9 @@ engine-campaign-compose-members = compose: { $members } members
 
 engine-campaign-member-runs-modelled = { $runs_total } member runs (MODELLED)
 
-engine-campaign-sweep-of-over-nodes-each = sweep of `{ $scenario_kind }` over { $axis_order } ({ $nodes } nodes{ $v4 }; each line on its own range)
+engine-campaign-sweep-of-over-nodes-each = sweep of `{ $scenario_kind }` over { $axis_order } ({ $nodes } nodes; each line on its own range)
+
+engine-campaign-sweep-of-over-nodes-each-percentile-band = sweep of `{ $scenario_kind }` over { $axis_order } ({ $nodes } nodes, median with 5th-95th percentile band over { $n_runs } seeds; each line on its own range)
 
 engine-campaign-campaign-modelled-composition-every-value = campaign { $r } | MODELLED composition; every value read from a real run of the named kind
 
@@ -1327,8 +1327,6 @@ engine-campaign-chart-satellites-tracking = satellites tracking
 engine-campaign-chart-alarm-flags-and-events = alarm flags and events
 
 engine-campaign-chart-mission-time = { $duration } s mission time
-
-engine-campaign-chart-sweep-percentile-band = , median with 5th-95th percentile band over { $n_runs } seeds
 
 engine-campaign-chart-sweep-line-at = { $name } ({ $unit }) at { $lead }
 
@@ -3455,17 +3453,21 @@ engine-iq-cli-scene-n0-profile-segment = { $chan_desc }; C/N0 profile ({ $segmen
 
 engine-iq-cli-scene-truth-format-must-be-csv = --truth-format must be csv or jsonl (got { $other })
 
-engine-iq-cli-scene-integer-scale-lsb-noise-normalised = ; integer scale: 1 LSB = { $sc } noise-normalised units (expected RMS { $v1 } LSB per component), { $clipped } element(s) clipped
+engine-iq-cli-scene-written-by-kshana-iq-scene = written by kshana iq scene: a SIMULATED scene, not a recording
 
-engine-iq-cli-scene-written-by-kshana-iq-scene = written by kshana iq scene: a SIMULATED scene, not a recording{ $scale_note }
+engine-iq-cli-scene-written-by-kshana-iq-scene-integer-scale = written by kshana iq scene: a SIMULATED scene, not a recording; integer scale: 1 LSB = { $sc } noise-normalised units (expected RMS { $v1 } LSB per component), { $clipped } element(s) clipped
 
 engine-iq-cli-scene-ion-sdr-metadata = ION SDR metadata { $path }
 
 engine-iq-cli-scene-sigmf-data-meta = SigMF data { $data_path }, meta { $meta_path }
 
-engine-iq-cli-scene-written-by-kshana-iq-scene-2 = written by kshana iq scene{ $scale_note }
+engine-iq-cli-scene-written-by-kshana-iq-scene-2 = written by kshana iq scene
 
-engine-iq-cli-scene-wrote-samples-hz-to-truth = wrote { $samples } samples ({ $format }, { $fs_hz } Hz) to { $data_path }; { $truth_records } truth records to { $truth_path }; { $meta_note }; channel: { $chan_desc }{ $scale_note }
+engine-iq-cli-scene-written-by-kshana-iq-scene-2-integer-scale = written by kshana iq scene; integer scale: 1 LSB = { $sc } noise-normalised units (expected RMS { $v1 } LSB per component), { $clipped } element(s) clipped
+
+engine-iq-cli-scene-wrote-samples-hz-to-truth = wrote { $samples } samples ({ $format }, { $fs_hz } Hz) to { $data_path }; { $truth_records } truth records to { $truth_path }; { $meta_note }; channel: { $chan_desc }
+
+engine-iq-cli-scene-wrote-samples-hz-to-truth-integer-scale = wrote { $samples } samples ({ $format }, { $fs_hz } Hz) to { $data_path }; { $truth_records } truth records to { $truth_path }; { $meta_note }; channel: { $chan_desc }; integer scale: 1 LSB = { $sc } noise-normalised units (expected RMS { $v1 } LSB per component), { $clipped } element(s) clipped
 
 engine-iq-cli-scene-sigmf-data = { $sigmf_base }.sigmf-data
 
@@ -5456,7 +5458,7 @@ engine-lunar-time-budget-scenario-total-false = { $i },{ $tau },total,{ $total }
 
 engine-lunar-time-budget-scenario-lunar-time-budget-clock-term = lunar-time-budget | clock { $clock } | 7-term x_Σ(τ) over { $taus } τ-points ({ $taus2 }–{ $taus3 } s) | crossover τ { $crossover_tau_s } s (x { $crossover_x_s } s) | frame floor { $frame_term_s } s | clock x(1 d) { $x_1day_ns } ns (MODELLED)
 
-engine-lunar-time-budget-scenario-time-lab-to-ltc-ns = { $summary } | time lab: { $lab } { $lab2 } to LTC, x(1 d) { $lab3 } ns (MODELLED)
+engine-lunar-time-budget-scenario-lunar-time-budget-clock-term-time-lab = lunar-time-budget | clock { $clock } | 7-term x_Σ(τ) over { $taus } τ-points ({ $taus2 }–{ $taus3 } s) | crossover τ { $crossover_tau_s } s (x { $crossover_x_s } s) | frame floor { $frame_term_s } s | clock x(1 d) { $x_1day_ns } ns (MODELLED) | time lab: { $lab } { $lab2 } to LTC, x(1 d) { $lab3 } ns (MODELLED)
 
 ## src/lunar_time_lab.rs
 
