@@ -673,53 +673,59 @@ pub fn lunar_frame_realise_svg(r: &LunarFrameRealiseReport) -> String {
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"22\" font-size=\"15\" font-weight=\"bold\">Lunar reference-frame realisation — 7-parameter Helmert recovery</text>"
+        "<text x=\"{ml:.0}\" y=\"22\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+        crate::t!("lunar-frame-realise-chart-title")
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"40\" font-size=\"11\">{} points · RMS residual {:.3} m · converged {}</text>",
-        r.n_points, r.rms_residual_m, r.converged
+        "<text x=\"{ml:.0}\" y=\"40\" font-size=\"11\">{}</text>",
+        crate::t!(
+            "lunar-frame-realise-chart-subtitle",
+            n_points = r.n_points,
+            rms = crate::i18n::num(r.rms_residual_m, 3),
+            converged = r.converged
+        )
     ));
 
     // A simple row layout: each parameter on its own line, injected vs recovered + error.
-    let rows: [(&str, f64, f64, &str); 7] = [
+    let rows: [(String, f64, f64, &str); 7] = [
         (
-            "tx (m)",
+            crate::t!("lunar-frame-realise-chart-tx"),
             r.injected.translation_m[0],
             r.recovered.translation_m[0],
             "m",
         ),
         (
-            "ty (m)",
+            crate::t!("lunar-frame-realise-chart-ty"),
             r.injected.translation_m[1],
             r.recovered.translation_m[1],
             "m",
         ),
         (
-            "tz (m)",
+            crate::t!("lunar-frame-realise-chart-tz"),
             r.injected.translation_m[2],
             r.recovered.translation_m[2],
             "m",
         ),
         (
-            "θx (µrad)",
+            crate::t!("lunar-frame-realise-chart-theta-x"),
             r.injected.rotation_rad[0] / URAD,
             r.recovered.rotation_rad[0] / URAD,
             "µrad",
         ),
         (
-            "θy (µrad)",
+            crate::t!("lunar-frame-realise-chart-theta-y"),
             r.injected.rotation_rad[1] / URAD,
             r.recovered.rotation_rad[1] / URAD,
             "µrad",
         ),
         (
-            "θz (µrad)",
+            crate::t!("lunar-frame-realise-chart-theta-z"),
             r.injected.rotation_rad[2] / URAD,
             r.recovered.rotation_rad[2] / URAD,
             "µrad",
         ),
         (
-            "scale (ppb)",
+            crate::t!("lunar-frame-realise-chart-scale"),
             r.injected.scale_ppb,
             r.recovered.scale_ppb,
             "ppb",
@@ -730,8 +736,15 @@ pub fn lunar_frame_realise_svg(r: &LunarFrameRealiseReport) -> String {
     for (i, (label, inj, rec, unit)) in rows.iter().enumerate() {
         let y = y0 + i as f64 * dy;
         svg.push_str(&format!(
-            "<text x=\"{ml:.0}\" y=\"{y:.0}\" font-size=\"12\">{label}: injected {inj:.4} {unit} · recovered {rec:.4} {unit} · err {:.3e}</text>",
-            rec - inj
+            "<text x=\"{ml:.0}\" y=\"{y:.0}\" font-size=\"12\">{}</text>",
+            crate::t!(
+                "lunar-frame-realise-chart-row",
+                label = label,
+                inj = crate::i18n::num(*inj, 4),
+                rec = crate::i18n::num(*rec, 4),
+                unit = unit,
+                err = crate::i18n::num_e(rec - inj, 3)
+            )
         ));
         // A thin bar whose length encodes |recovered| relative to |injected| (visual cue only).
         let bar = ((rec.abs() / inj.abs().max(1e-9)).min(2.0)) * 120.0;
