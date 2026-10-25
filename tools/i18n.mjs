@@ -855,9 +855,21 @@ function studioPages(args) {
   console.log(`studio-pages: ${all.size} rich messages from ${files.length} pages${opt.out ? ' into ' + opt.out : ''}`);
 }
 
+/** migrate <lang>: carry translations to the new id of a segment whose English text is unchanged (--from-rev names the revision the ids came from). */
+async function migrate(args) {
+  const L = await lang();
+  const { opt, pos } = args2opt(args, { root: 'i18n', fromRev: '5a8d284', gitPath: 'i18n', dryRun: false });
+  const old = L.oldEnglish(opt.fromRev, opt.gitPath);
+  const langs = pos.length ? pos : L.LANGS.filter((l) => existsSync(join(opt.root, l, 'pages')));
+  for (const l of langs) {
+    const r = L.migrateLang(opt.root, l, old, { dryRun: opt.dryRun });
+    console.log(`migrate ${l}: ${r.moved} segments moved to their new id, ${r.dropped.length} orphans dropped, ${r.unmatched.length} unmatched (English changed: retranslate), ${r.retag.length} need retranslating (markup differs)${opt.dryRun ? ' (dry run)' : ''}`);
+  }
+}
+
 const [cmd, ...rest] = process.argv.slice(2);
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), 'studio-pages': async () => studioPages(rest), jsx: async () => jsx(rest), todo: () => todo(rest), merge: () => merge(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
+  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), migrate: () => migrate(rest), 'studio-pages': async () => studioPages(rest), jsx: async () => jsx(rest), todo: () => todo(rest), merge: () => merge(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
   if (run) await run();
   else if (!cmd) { console.error('usage: node tools/i18n.mjs extract|apply|check|status|pseudo|csslint'); process.exit(2); }
   else { console.error(`i18n: '${cmd}' is not built yet`); process.exit(2); }
