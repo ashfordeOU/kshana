@@ -76,7 +76,7 @@ seg-4cf0f94f96c9 = <b>MODELLED</b> Übertragene Grenzwerte von ITU-T G.8272 (07/
 
 # text
 # c1: holdover-test
-seg-142528f34e66 = <b>MODELLED</b> Das Kind <c1/>: Ein Zeitfehlerprotokoll (ein linuxptp-, chrony-, TICC-, TimeLab- oder RINEX-Uhrenprotokoll oder Paare aus time_s,time_error_ns) wird an den beiden Zeitpunkten geteilt. Orakel (InternalConsistency): Handrechnung an Protokollen, die aus Formeln aufgebaut sind, deren Steigung, Sprung, Extremum und Wiederherstellungszeit vor dem Lauf bekannt sind (die Tests geben sie an), sowie die Masken, die Hüllkurve und die Budgets der oben stehenden Telecom-Timing-Zeilen. Es wurde keine Labormessung eines echten Holdovers bewertet und keine externe unabhängige Referenz verglichen, daher erhebt das Kind keine Aussage über irgendeine Uhr oder ein System; vor jedem Abschluss je Uhrenklasse ist ein Zeitlabor-PARTNER nötig
+seg-142528f34e66 = <b>MODELLED</b> Das Kind <c1/>: Ein Zeitfehlerprotokoll (ein linuxptp-, chrony-, TICC-, TimeLab- oder RINEX-Uhrenprotokoll oder Paare aus time_s,time_error_ns) wird an den beiden Zeitpunkten geteilt. Orakel (InternalConsistency): Handrechnung an Protokollen, die aus Formeln aufgebaut sind, deren Steigung, Sprung, Extremum und Wiederherstellungszeit vor dem Lauf bekannt sind (die Tests geben sie an), sowie die Masken, die Hüllkurve und die Budgets der oben stehenden Telecom-Timing-Zeilen. Es wurde keine Labormessung eines echten Holdovers bewertet und keine externe unabhängige Referenz verglichen, daher erhebt das Kind keine Aussage über irgendeine Uhr oder ein System; vor jedem Abschluss je Uhrenklasse ist ein Zeitlabor-Partner nötig
 
 # text
 # c1: label

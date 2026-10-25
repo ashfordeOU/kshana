@@ -3,10 +3,6 @@
 # text
 seg-b02b3eeec184 = Szenariotypen
 
-# text
-# c1:
-seg-0d9fca5fdcfe = <a1>In Kshana Studio öffnen<c1/></a1>
-
 # attr:title
 seg-34a0cf94d83d = Die Exporte des Laufs in Kshana Studio öffnen: reproduzierbarer HTML-Bericht, JSON, CSV
 
@@ -156,10 +152,6 @@ seg-1e466f300d6e = v{ $version } festlegen
 
 # text
 seg-d8008680650d = Für alle, ohne Installation.
-
-# text
-# c1:
-seg-dca88d8e959c = <a1>Kshana Studio starten <c1/></a1>
 
 # text
 seg-567be575c392 = Die Engine läuft lokal als WebAssembly; nichts wird hochgeladen.
@@ -1373,10 +1365,6 @@ seg-e47be3bb3de3 = Jedes mitgelieferte Szenario, als WebAssembly auf Ihrem Rechn
 seg-b21664dae8a2 = Nur Kshana Studio, für eine Kursseite oder einen Bericht, mit vorgewähltem Szenario und vorgewählter Ansicht
 
 # text
-# c1:
-seg-a1eb14667da4 = <a1>Eingebettete Ansicht öffnen <c1/></a1>
-
-# text
 seg-a08d0d3e393c = kshana <scenario>.toml schreibt result.json, chart.svg und report.html
 
 # text
@@ -1414,10 +1402,6 @@ seg-4ad1a7669b03 = Der MCP-Server ohne Rust-Toolchain, für mehrere Architekture
 
 # text
 seg-9e409a07b3c9 = Rechtsklick auf ein Szenario-.toml, Run Kshana Scenario, die Kennzahlen in einem Werkzeugfenster lesen
-
-# text
-# c1:
-seg-5adf0fce3ddc = <a1>Seite öffnen <c1/></a1>
 
 # text
 seg-a942825ac543 = Befehlszeile · Bibliotheken · Formate
@@ -1531,10 +1515,6 @@ seg-fb4a40bdf623 = run.mjs · Node.js, nach <c1/>
 
 # text
 seg-fcdffb554680 = Dasselbe Paket läuft im Browser; es ist das, was Kshana Studio verwendet. <a1>npm-Dokumentation</a1>
-
-# text
-# c1:
-seg-4d9255bdc9d0 = <a1>In Kshana Studio öffnen: clock-holdover <c1/></a1>
 
 # text
 seg-bca1c3e60fc6 = Interoperabilität · Lesen und Schreiben
@@ -1672,10 +1652,6 @@ seg-844c84c5252d = Lieber klicken?
 seg-6b24b242333a = Das Plugin „Kshana — PNT simulator“: Klicken Sie mit der rechten Maustaste auf ein beliebiges Szenario-<c1/>, wählen Sie Run Kshana Scenario und lesen Sie die Gütemaße in einem Werkzeugfenster.
 
 # text
-# c1:
-seg-4130e4cf64aa = <a1>Im JetBrains Marketplace öffnen <c1/></a1>
-
-# text
 seg-8b49f6477e8f = Offener Kern
 
 # text
@@ -1693,10 +1669,6 @@ seg-bd7b70852d88 = Den Benchmark ausführen.
 seg-193ee1ab991e = <c1/> macht aus einer Einreichungsdatei und der Wahrheit eines Splits eine Ergebnisdatei, und <c2/> stellt Ergebnisdateien als statische Seite dar. Nichts läuft in Ihrem Auftrag, und nichts wird hochgeladen.
 
 # text
-# c1:
-seg-eb0b1bc759e2 = <a1>Den Benchmark öffnen <c1/></a1>
-
-# text
 # c1: format
 # c2: svg
 # c3: html
@@ -1707,3 +1679,19 @@ seg-eb0b1bc759e2 = <a1>Den Benchmark öffnen <c1/></a1>
 # c8: width
 # c9: files
 seg-9bb33a881133 = Führt ein Kshana-Szenario aus und gibt seine Zeitreihe als Animation zurück. <c1/> ist <c2/> (Standard: eine animierte SVG, ohne Skript), <c3/> (eine eigenständige Wiedergabeseite) oder <c4/> (nummerierte statische SVG-Einzelbilder plus <c5/>, höchstens { "120" } Einzelbilder in einer Antwort). Optional <c6/> ({ "1" } bis { "60" }, Standard { "12" }), <c7/> ({ "0.5" } bis { "600" }, Standard { "8" }) und <c8/> ({ "480" } bis { "3840" } Pixel, Standard { "960" }). Das erste Inhaltselement ist eine JSON-Zusammenfassung dessen, was gezeichnet wurde: der Zeitbereich und die Einheit, die Diagrammtitel, die Anzahl der Phasen und Ereignisse, ob ein Spektrum-Wasserfall vorhanden ist, die Ergebnispfade, aus denen die Verläufe gelesen wurden, alle weggelassenen Reihen und die Dateinamen. Die Dateien folgen, je ein Inhaltselement, in der Reihenfolge, in der die <c9/> der Zusammenfassung sie aufführt. Eine Art, deren Ergebnis keine abgetastete Zeitachse hat, wird mit einer entsprechenden Meldung abgelehnt. Die Animation ist eine Darstellung der eigenen Zahlen des Laufs und gilt als MODELLED; dasselbe Szenario und dieselben Optionen ergeben byteidentische Dateien.
+
+seg-d124f667aba2 = Eingebettete Ansicht öffnen
+
+seg-5c54a28b6aec = Seite öffnen
+
+seg-c313ec6ff2e9 = In Kshana Studio öffnen: clock-holdover
+
+seg-65bab13d3eb4 = Im JetBrains Marketplace öffnen
+
+seg-0c50b3629e39 = Den Benchmark öffnen
+
+# text
+seg-f79048f88b5c = Kshana Studio starten
+
+# text
+seg-9a86ef058d27 = In Kshana Studio öffnen

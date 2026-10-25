@@ -18,10 +18,6 @@ seg-a613a7447e3f = Individuelle Studie
 # text
 seg-501d3a72ea43 = Integrität
 
-# text
-# c1:
-seg-0d9fca5fdcfe = <a1>In Kshana Studio öffnen<c1/></a1>
-
 # attr:title
 seg-34a0cf94d83d = Die Exporte des Laufs in Kshana Studio öffnen: reproduzierbarer HTML-Bericht, JSON, CSV
 
@@ -241,10 +237,6 @@ seg-7635e731e2ed = Kopieren: cargo install kshana
 
 # text
 seg-a438a9c22d93 = cargo install kshana
-
-# text
-# c1:
-seg-eb0b1bc759e2 = <a1>Den Benchmark öffnen <c1/></a1>
 
 # text
 seg-d6476863f862 = Fähigkeit
@@ -3079,7 +3071,7 @@ seg-ca481f2d8f9e = Bestätigung der Schwelle der cislunaren Bogenlänge durch ei
 seg-3d5fbf896209 = Ein Batch-Kleinste-Quadrate-Schätzer, der den Anfangszustand des Chiefs aus simulierten Messungen zwischen Satelliten über wachsende Präfixe desselben Epochenrasters, das die Tabelle Rang gegen Bogen verwendet, ZURÜCKGEWINNT, wobei die Messpartialen als zentrale finite Differenzen des zusammengesetzten Vorwärtsmodells genommen werden. Er verwendet nichts von der Maschinerie, mit der die Schwelle gemessen wurde — keine analytische Jacobi-Zeile, keine variationelle Zustandsübergangsmatrix, keine Singulärwert- oder Eigenwertzerlegung, keine Rangtoleranz, keinen Square-Root-Information-Filter — und teilt nur die Dynamik, die Anfangsbedingungen, die skalare Observable und das Epochenraster, jeweils im ausgegebenen Dokument benannt. Zwei Kriterien, beide durchlaufen: rauschfreie Wiedergewinnung (das Gegenstück zum Rang) und Monte-Carlo-Schätzbarkeit (das Gegenstück zur Schätzbarkeit, gemessen gegen eine bekannte Wahrheit statt aus einer Kovarianz vorhergesagt). Ausführbar als die Szenarioart <c1/>
 
 # text
-seg-60e30948cee7 = Ein separater Schätzer in dieser Codebasis mit einem anderen Algorithmus und einem disjunkten Codepfad: nichtlineares gewichtetes Gauß-Newton mit finit differenzierten Partialen, sein Urteil als gemessener Zustandswiederherstellungsfehler in km und mm/s gelesen. Er hat keinen Ausdruck mit dem Weg über Rang und Kovarianz der Gramschen Matrix gemeinsam, und die Trennung wird durch eine Quelltextwache DURCHGESETZT und nicht behauptet. GEMESSEN auf dem veröffentlichten ebenen DRO-Raster: Das SCHÄTZBARKEITSKRITERIUM ist CORROBORATED — die gemessene Monte-Carlo-Grenze beträgt { "5.739130" } h gegen die formalen { "5.739130" } h (Verhältnis { "1.0000" }), und der gemessene RMS reproduziert das formale 1σ über { "21" } Bogenlängen mit einem geometrischen Mittel des Verhältnisses von { "0.9804" }. Das RANGKRITERIUM ist als Grenze der Wiedergewinnbarkeit NOT CORROBORATED: Der Schätzer gewinnt ab { "0.782609" } h zurück gegen die { "2.086957" } h der Gramschen Matrix, Verhältnis { "0.375" }, und bei { "1.826087" } h — dem letzten Präfix, das die Rangbestimmung mit { "3" } von { "4" } bewertet — gewinnt er auf { "1.96e-5" } der a-priori-Verschiebung zurück. Die Wiedergewinnungsgrenze bleibt über drei Dekaden ihrer eigenen Schranke unbewegt, während die Rangschwelle über vier Dekaden von rel_tol von 'nie' bis { "0.782609" } h reicht, und die beiden fallen bei rel_tol = { "1e-8" } exakt zusammen. Diese Spanne wurde zunächst mit einem Reichweitenwert von { "0.260870" } h festgehalten; diese Zahl war ein ARTEFAKT, erzeugt durch eine Rangbestimmung, die { "4" } Richtungen aus { "2" } Messzeilen unterhalb des f64-Rauschbodens zählte, und sie wird hier korrigiert, statt stehen gelassen zu werden. Die Rangbestimmung ist nun durch die Ungleichung von Sylvester begrenzt, wobei der Grund ausgegeben wird, und die korrigierte Spanne sättigt genau bei dem Bogen, bei dem der unabhängige Schätzer zurückgewinnt, was die Kreuzvalidierung dieser Zeile stärkt statt sie zu schwächen: Die veröffentlichten { "1e-6" } sind eine konservative KONVENTION für Singulärwerte, keine Aussage über die Wiedergewinnbarkeit. Dasselbe Muster räumlich: NRHO { "9.290323" } h gegen { "21.677419" } h, Halo { "22.978723" } h gegen { "39.829787" } h, wobei die Schätzbarkeit in beiden exakt übereinstimmt. Die ebene DRO mit sechs Zuständen gewinnt bei keinem Bogen zurück und reproduziert so unabhängig den strukturellen Datumsdefekt dieser Familie aus einem Schätzer, dem nichts davon gesagt wurde. NICHT extern verankert — die Dynamik und die Anfangsbedingungen werden mit der geprüften Analyse geteilt, und kein öffentlicher Datensatz veröffentlicht eine solche Schwelle — daher wird ExternalDataset abgelehnt
+seg-60e30948cee7 = Ein separater Schätzer in dieser Codebasis mit einem anderen Algorithmus und einem disjunkten Codepfad: nichtlineares gewichtetes Gauß-Newton mit finit differenzierten Partialen, sein Urteil als gemessener Zustandswiederherstellungsfehler in km und mm/s gelesen. Er hat keinen Ausdruck mit dem Weg über Rang und Kovarianz der Gramschen Matrix gemeinsam, und die Trennung wird durch eine Quelltextwache DURCHGESETZT und nicht behauptet. GEMESSEN auf dem veröffentlichten ebenen DRO-Raster: Das SCHÄTZBARKEITSKRITERIUM ist CORROBORATED — die gemessene Monte-Carlo-Grenze beträgt { "5.739130" } h gegen die formalen { "5.739130" } h (Verhältnis { "1.0000" }), und der gemessene RMS reproduziert das formale 1σ über { "21" } Bogenlängen mit einem geometrischen Mittel des Verhältnisses von { "0.9804" }. Das RANGKRITERIUM ist als Grenze der Wiedergewinnbarkeit NICHT bestätigt: Der Schätzer gewinnt ab { "0.782609" } h zurück gegen die { "2.086957" } h der Gramschen Matrix, Verhältnis { "0.375" }, und bei { "1.826087" } h — dem letzten Präfix, das die Rangbestimmung mit { "3" } von { "4" } bewertet — gewinnt er auf { "1.96e-5" } der a-priori-Verschiebung zurück. Die Wiedergewinnungsgrenze bleibt über drei Dekaden ihrer eigenen Schranke unbewegt, während die Rangschwelle über vier Dekaden von rel_tol von 'nie' bis { "0.782609" } h reicht, und die beiden fallen bei rel_tol = { "1e-8" } exakt zusammen. Diese Spanne wurde zunächst mit einem Reichweitenwert von { "0.260870" } h festgehalten; diese Zahl war ein ARTEFAKT, erzeugt durch eine Rangbestimmung, die { "4" } Richtungen aus { "2" } Messzeilen unterhalb des f64-Rauschbodens zählte, und sie wird hier korrigiert, statt stehen gelassen zu werden. Die Rangbestimmung ist nun durch die Ungleichung von Sylvester begrenzt, wobei der Grund ausgegeben wird, und die korrigierte Spanne sättigt genau bei dem Bogen, bei dem der unabhängige Schätzer zurückgewinnt, was die Kreuzvalidierung dieser Zeile stärkt statt sie zu schwächen: Die veröffentlichten { "1e-6" } sind eine konservative KONVENTION für Singulärwerte, keine Aussage über die Wiedergewinnbarkeit. Dasselbe Muster räumlich: NRHO { "9.290323" } h gegen { "21.677419" } h, Halo { "22.978723" } h gegen { "39.829787" } h, wobei die Schätzbarkeit in beiden exakt übereinstimmt. Die ebene DRO mit sechs Zuständen gewinnt bei keinem Bogen zurück und reproduziert so unabhängig den strukturellen Datumsdefekt dieser Familie aus einem Schätzer, dem nichts davon gesagt wurde. NICHT extern verankert — die Dynamik und die Anfangsbedingungen werden mit der geprüften Analyse geteilt, und kein öffentlicher Datensatz veröffentlicht eine solche Schwelle — daher wird ExternalDataset abgelehnt
 
 # text
 seg-f839285852d9 = Mond-Dienstvolumen aus realer, abgerufener Konstellationsgeometrie
@@ -3879,15 +3871,7 @@ seg-d0566d4db829 = Nachvollziehen
 seg-1d45f4717196 = Aus dem Repository
 
 # text
-# c1:
-seg-b6eb33e3149e = <a1>Studie anfragen <c1/></a1>
-
-# text
 seg-ac7e1a5e344a = Pro
-
-# text
-# c1:
-seg-890b470ca9ea = <a1>Pro-Evaluierung anfragen <c1/></a1>
 
 # text
 seg-8f101c803442 = Jede Fähigkeit trägt <s1>ihren Nachweis.</s1>
@@ -3972,12 +3956,6 @@ seg-1d60624d525d = Wie es geprüft wurde
 # c2: tests/sgp4_verification.rs
 seg-6adbc42697f9 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
 
-# text
-# c1: orbit-sgp4-gps.toml
-# c2: 17
-# c3:
-seg-222805ff00cf = <a1>In Kshana Studio öffnen: derselbe Propagator, <c1/><s1> · Seed <c2/></s1><c3/></a1>
-
 # attr:title
 seg-813d6d41b891 = Den Befehl kopieren, der es reproduziert
 
@@ -4009,12 +3987,6 @@ seg-4957eddb39ed = unabhängige Referenz · SciPy
 # c1: fc21ac4
 # c2: tests/raim_reference.rs
 seg-c5d5cf50c8a9 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
-
-# text
-# c1: integrity-raim.toml
-# c2: 7
-# c3:
-seg-50770ade1556 = <a1>In Kshana Studio öffnen: der Kernel bei der Arbeit, <c1/><s1> · Seed <c2/></s1><c3/></a1>
 
 # text
 seg-e02df7620fc7 = Numerische Bahnpropagation (Cowell) gegen Orekit über einen Bogen von 24 Stunden: schlechteste Abweichung { "0.08" } m in den Kraftstufen { "1" } bis { "5" }.
@@ -4093,12 +4065,6 @@ seg-9993e306ae64 = unabhängige Referenz · NIST SP { "1065" }
 seg-2a2794bda50f = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
 
 # text
-# c1: clock-holdover.toml
-# c2: 42
-# c3:
-seg-a5b3e41b1b0d = <a1>In Kshana Studio öffnen: die Schätzer an einer Uhr, <c1/><s1> · Seed <c2/></s1><c3/></a1>
-
-# text
 seg-4f484b09471e = Holdover-Vorhersage an einer gemessenen Cäsium-Uhr-Aufzeichnung: vorhergesagt zu gemessen zwischen { "0.84" } und { "1.03" }, innerhalb des vorab festgelegten Faktors von { "1.5" }.
 
 # text
@@ -4124,11 +4090,6 @@ seg-449f52c56c67 = unabhängige Referenz · gemessene Cäsium-Aufzeichnung
 # c1: fc21ac4
 # c2: tests/slot_timing_cs5071a_holdout.rs
 seg-275351654591 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
-
-# text
-# c1: slot-timing-ocxo-leo.toml
-# c2:
-seg-20741725be9f = <a1>In Kshana Studio öffnen: dieselbe Inversion, <c1/><s1> · deterministisch</s1><c2/></a1>
 
 # text
 seg-05dd599ce14a = Eine Zelle je Fähigkeit.
@@ -6243,21 +6204,10 @@ seg-9bff81726f3f = Veröffentlichte Forschung.
 seg-7563b76b2e24 = { "6" } Aufsätze auf arXiv, dem offenen Preprint-Archiv, aufgebaut auf der offenen Engine. Jeder öffnet sich zu einer auf der Engine erneut ausgeführten Abbildung, seinen Befunden, dem Befehl und seiner DOI (Digital Object Identifier).
 
 # text
-seg-c08c27e6bac3 = Lunare Navigation<s1><s2>{ "18" } September { "2026" }</s2> · arXiv:{ "2610.23871" }</s1>
-
-# text
 seg-4215aedbd38b = Zislunare Navigation ist ein Beobachtbarkeitsproblem: Schwellen der Bogenlänge, Gramian-Konditionierung und der Doppler-Hebel
 
 # text
 seg-b98018947305 = Im zislunaren Raum findet die Verdünnung der Genauigkeit keine Anwendung: Verbindungen nur mit Entfernungsmessung lassen die Geschwindigkeit zu jedem Zeitpunkt unbeobachtbar, daher gehören Anforderungen in Budgets für Bogenlänge, Konditionierung und Messtyp.
-
-# text
-# c1:
-seg-e94b00e75d6e = <a1>Abstract <c1/></a1>
-
-# text
-# c1:
-seg-98e880759dbd = <a1>PDF <c1/></a1>
 
 # text
 seg-4f7300f35cc4 = DOI 10.48550/arXiv.2610.23871
@@ -6320,9 +6270,6 @@ seg-e1324f491348 = BibTeX · baweja2026cislunar
 seg-02ae60696338 = BibTeX kopieren
 
 # text
-seg-22c586c6000b = Lunare Navigation<s1><s2>{ "7" } Juli { "2026" }</s2> · arXiv:{ "2607.06212" }</s1>
-
-# text
 seg-cb5ae69b24b2 = Die Kosten der lunaren südpolaren Geometrie und Oberflächenbaken als effiziente Abhilfe: eine Analyse der Verdünnung der Genauigkeit
 
 # text
@@ -6375,9 +6322,6 @@ seg-c3952de0ac25 = kshana lunar-beacon.toml
 
 # text
 seg-3863c17f1d12 = BibTeX · baweja2026cost
-
-# text
-seg-5c3bd1c94790 = Lunare Navigation<s1><s2>{ "29" } Juni { "2026" }</s2> · arXiv:{ "2607.02566" }</s1>
 
 # text
 seg-75c6caf87321 = Erdbasislinien-VLBI stellt die Beobachtbarkeit einer lunaren Oberflächenstation bei der gemeinsamen Bahn- und Uhrbestimmung wieder her
@@ -6437,9 +6381,6 @@ seg-4d7b3cc885e1 = kshana lunar-joint-od-clock.toml
 seg-4a67b5769164 = BibTeX · baweja2026earth
 
 # text
-seg-5e319b243ab2 = Zeitintegrität<s1><s2>{ "23" } Juni { "2026" }</s2> · arXiv:{ "2606.24210" }</s1>
-
-# text
 seg-d919ca966a9e = Ein bedingtes Zeit-Schutzniveau: Durch Holdover begrenzter unerkannter Zeitfehler bei GNSS-Spoofing
 
 # text
@@ -6487,9 +6428,6 @@ seg-f9d26d561e77 = cargo run --release --example tpl_jammertest
 seg-1e7f0f12f1d8 = BibTeX · baweja2026conditional
 
 # text
-seg-cacc9e88dce2 = Resilienzbewertung<s1><s2>{ "22" } Juni { "2026" }</s2> · arXiv:{ "2607.05415" }</s1>
-
-# text
 seg-e1901a8f71a6 = Wie stabil ist ein Resilienzwert für PNT? Entscheidungsinstabilität von Einzelzahl-Resilienzbewertungen bei an das Rahmenwerk angelehnter Gewichtung
 
 # text
@@ -6535,9 +6473,6 @@ seg-164b725640f2 = cargo run --release --example resilience_report -- paper-arti
 
 # text
 seg-068c8bc02d18 = BibTeX · baweja2026stable
-
-# text
-seg-dc082b5d5c49 = Hochfrequenzstörung<s1><s2>{ "20" } Juni { "2026" }</s2> · arXiv:{ "2606.22054" } · Version { "2" }</s1>
 
 # text
 seg-1a9e30bfff32 = Die Optimismuslücke vorhersehen: Vorhersage der Verschlechterung von HF-Störungsdetektoren bei Verteilungsverschiebung aus Statistiken innerhalb der Verteilung
@@ -6621,3 +6556,57 @@ seg-d9ea966abdd6 = Keine externe unabhängige Referenz für die Szenarioergebnis
 
 # text
 seg-f7457156f960 = Interne Konsistenz gegenüber den eigenen Vorwärtsfunktionen der Engine, was diese Fähigkeit ehrlicherweise allein beanspruchen kann. Jeder Konturpunkt ist eine Umkehrung in geschlossener Form, und jede Umkehrung wird geprüft, indem ihre Antwort durch die VORWÄRTSFUNKTION zurückgegeben wird, mit der die eigenen Zeilen des Berichts bewertet wurden: die Spalte J/S durch jamming::effective_cn0_dbhz (das tracking_threshold_dbhz auf < { "1e-9" } dB-Hz liefern muss), die Spalte des Abstands durch jamming::free_space_path_loss_db und jamming::j_over_s_db (dasselbe J/S auf < { "1e-9" } dB), die Spalte EIRP durch jamming::j_over_s_db beim eigenen Abstand des Szenarios. Die Kontur wird außerdem als die GRENZE der Sperrmenge geprüft und nicht als ein Punkt in ihr — lock_status verliert die Synchronisation bei einer strikten Ungleichung, daher wird gemessen, dass das Urteil über { "1e-4" } dB J/S beiderseits der Kontur von DEGRADED auf LOST kippt, was eine um ein Epsilon verschobene Kontur nicht bestehen würde. Die stärkste Prüfung erfolgt je Verbindung statt je Quantil: Die Anwendung derselben Abbildung auf das eigene C/N₀ jeder Zeile reproduziert die Statuspalte des Berichts exakt — { "0" } Abweichungen bei { "38" } von { "38" } Zeilen am dokumentierten Arbeitspunkt (kind = lunar-jamming, jede Eingabe auf Standard außer jammer.range_m = { "25 000" } m), wo { "26" } Zeilen LOST sind und { "12" } nicht. Monotonie wird gemessen, nicht angenommen: { "20 001" } Stichproben über [tracking_threshold + { "1e-3" }, { "80" }] dB-Hz, { "0" } Verletzungen eines streng fallenden Abstands und einer streng steigenden erforderlichen Leistung, sodass die Quantilreihenfolge des Bandes gezeigt statt behauptet wird. ExternalDataset wird abgelehnt und damit auch Validated: Es gibt keine gemessene Kampagne zu Mond-Jamming, gegen die ein Sperrradius verglichen werden könnte, die Konstellation ist eine illustrative Geometrie der Klasse Moonlight/LCNS aus öffentlichen Quellen und keine geflogene Ephemeride, und die Eingaben der Kontur (EIRP, Jammerleistung, Antennengewinne, Rauschtemperatur) sind repräsentative Größenordnungen. ReferenceImpl wurde ebenfalls erwogen und abgelehnt — der inverse und der Vorwärtsausdruck sind dieselbe Algebra, in zwei Richtungen gelesen, sodass der Hin-und-zurück-Test Übertragungs- und Vorzeichenfehler findet, aber keine unabhängige Implementierung ist; ihn als Gegenprüfung zu bezeichnen, wäre der Zug der geborgten Unabhängigkeit, den die Invarianten der Matrix verhindern sollen. Was das Band bringt, wird gemessen und beziffert statt behauptet: Am Arbeitspunkt beträgt die Kontur mit einem einzelnen Skalar { "27.402916" } km und legt { "25" } km für alle { "38" } Zeilen auf die gesperrte Seite, während das Band { "21.256108" } .. { "29.921360" } km den Arbeitspunkt enthält und daher die Aufteilung berichtet, die die Tabelle tatsächlich zeigt. Es wird auch gemessen, dass die beiden Kriterien voneinander abweichen — das Band nach Leistungsverhältnis ({ "38.186527" } .. { "53.691675" } km) enthält { "25" } km überhaupt nicht —, weshalb beide ausgegeben werden
+
+seg-0c50b3629e39 = Den Benchmark öffnen
+
+seg-58ca3da25e69 = In Kshana Studio öffnen: derselbe Propagator, <c1/><s1> · Seed <c2/></s1>
+
+seg-011e33e27f59 = In Kshana Studio öffnen: der Kernel bei der Arbeit, <c1/><s1> · Seed <c2/></s1>
+
+seg-fc6a00946a11 = In Kshana Studio öffnen: die Schätzer an einer Uhr, <c1/><s1> · Seed <c2/></s1>
+
+seg-c131867720cc = In Kshana Studio öffnen: dieselbe Inversion, <c1/><s1> · deterministisch</s1>
+
+seg-d44879bf12ee = Abstract
+
+# text
+seg-9a86ef058d27 = In Kshana Studio öffnen
+
+# text
+seg-a846e806e577 = Zeitgebungsintegrität
+
+# text
+seg-417a52c9c154 = PDF
+
+# text
+seg-b366150de755 = Studie anfragen
+
+# text
+seg-6d3d0f8c9b7c = Pro-Evaluierung anfragen
+
+# text
+seg-71fadc5b5a0b = Mondnavigation
+
+# text
+seg-99f49da3e2c2 = <s1>{ "18" }. September { "2026" }</s1> · arXiv:{ "2610.23871" }
+
+# text
+seg-814e10300308 = <s1>{ "7" }. Juli { "2026" }</s1> · arXiv:{ "2607.06212" }
+
+# text
+seg-756a63fd185f = <s1>{ "29" }. Juni { "2026" }</s1> · arXiv:{ "2607.02566" }
+
+# text
+seg-7334fb10a58d = <s1>{ "23" }. Juni { "2026" }</s1> · arXiv:{ "2606.24210" }
+
+# text
+seg-71f2b94fc8ed = Resilienzbewertung
+
+# text
+seg-0bf6d80a9ac4 = <s1>{ "22" }. Juni { "2026" }</s1> · arXiv:{ "2607.05415" }
+
+# text
+seg-bc499c388907 = Hochfrequenzstörung
+
+# text
+seg-0411e7a125dd = <s1>{ "20" }. Juni { "2026" }</s1> · arXiv:{ "2606.22054" } · Version { "2" }
