@@ -10,4 +10,8 @@ seg-aab745a65e76 = Modul
 
 seg-bf09433a7342 = GeoJSON
 
+seg-906440b861cd = Ram
+
 seg-32b620b3574e = Användning
+
+seg-8ba331635865 = Standarder och interoperabilitet

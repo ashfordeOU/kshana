@@ -8,6 +8,8 @@ seg-1f17ef6a853e = Scenariotyp i motor v{ $version }, familj <a1>Måne och cislu
 
 seg-1c1eeb2dcaa0 = Familjesida: <a1>Måne och cislunart</a1>
 
+seg-df90e5910fb4 = hr
+
 seg-3843825d0733 = us
 
 seg-d1a6a5086102 = <b>VALIDATED</b> Fördröjningspartialer ackumulerade över ett schema av baslinjer × epoker till en Fisher-informationsmatris, inverterad till kovariansen för stationskoordinaterna och stationssigma per koordinat, vilket ersätter en antagen isotrop ekvipartitionslänk från en

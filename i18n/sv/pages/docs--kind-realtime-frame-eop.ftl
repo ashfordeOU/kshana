@@ -41,3 +41,11 @@ seg-530c87bbff78 = <b>MODELLED</b> En anpassning med minsta kvadrat av bias plus
 seg-a233df86be95 = Budget för prediktion av lunart referenssystem / jordorientering i realtid. VALIDATED sluten form: hävarmen L19 ({ "1" } ms ↔ { "28.03" } m ↔ { "93.5" } ns), ω⊕ korskontrollerad mot CIO-jordrotationsvinkeln. VALIDATED verkliga data: L18-prediktionsfelskurvorna för UT1 och polrörelse avlästa direkt ur den verkliga IERS finals2000A-serien (Bulletin A snabb mot Bulletin B slutlig, och persistens över flera dygn över de verkliga dagliga raderna). DERIVED: ramen (resultat <c1/>)
 
 seg-60e7ee7e6e3e = VALIDATED sluten form (hävarmen L19, ω⊕ korskontrollerad mot CIO-jordrotationsvinkeln) och VALIDATED verkliga data (L18-kurvan ur de verkliga raderna i finals2000A); MODELLED är kovariansmagnituderna för banbestämning av lunara reläer och golvet för realisering av referenssystemet (representativa allokeringar) och persistensprediktorn (inte IERS operativa Bulletin A-algoritm). (typkatalog (<c1/>))
+
+seg-ddf4702f78e5 = Ärlighet: VALIDATED sluten form (hävarmen L19, omega_earth korskontrollerad mot CIO-jordrotationsvinkeln) och VALIDATED verkliga data (L18-kurvorna för UT1 och polrörelse ur de verkliga raderna i finals2000A). DERIVED golv för realisering av referenssystemet (Helmert-resten efter anpassning). MODELLED är kovariansmagnituderna för banbestämning av lunara reläer ({ "0.27" } m efterbearbetat, ~{ "14.4" } m i realtid vid en timmes latens — en avrundad, inte baklänges lösta, all (kommentar i scenariofilen, rad { "27" } till { "32" })
+
+seg-bc51b666d070 = Prediktionsfel för jordorientering i operativ stil, uppmätt predicerat mot slutligt är MODELLED, inte validerat: kontrollerat mot en separat implementation i samma kodbas — oberoende av enheten som testas, men inte extern auktoritativt. (verifieringsmatris (docs/MODELLED-RATIONALE.md))
+
+seg-653fad5e0afe = <s1>Föregående</s1>quantum-trade
+
+seg-5abe534d4ef1 = <s1>Nästa</s1>reentry

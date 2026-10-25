@@ -6,6 +6,8 @@ seg-1c1eeb2dcaa0 = Familjesida: <a1>Måne och cislunart</a1>
 
 seg-619127334cf3 = Ingen matrisrad nämner den här typen vid namn; etiketten på dess resultat är motorns egen, ovan.
 
+seg-8f8871ac8a0f = Ämnessida: <a1>LUNAR-REFERENCE-STATION.md</a1>
+
 seg-a2889fb2b42a = Ämnessida: <a1>integrations.md</a1>
 
 seg-eb9f9a422d38 = Källa: <c1/>

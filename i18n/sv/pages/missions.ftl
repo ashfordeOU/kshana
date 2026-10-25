@@ -97,3 +97,33 @@ seg-7994e9983f27 = Deterministisk utifrån scenario, frö och motorversion
 seg-9d3ee6a5613e = Körningar
 
 seg-94de9433d99f = Scenariofiler
+
+seg-99a7944884ce = Sektor
+
+seg-b37002818547 = Försvar och säkerhet
+
+seg-5d7a6650872e = Flyg och drönare
+
+seg-75d7d1930515 = Väg
+
+seg-ea4149746f7b = Järnväg
+
+seg-e7a61033ec40 = Kritisk infrastruktur och tidssynkronisering
+
+seg-f246644479d0 = Vetenskap och forskning
+
+seg-f2f6717849a7 = Rymden: jordens omloppsbana
+
+seg-d038a1e09683 = Ser min rymdfarkost tillräckligt många navigeringssatelliter, hur länge håller dess klocka tiden mellan positionsbestämningarna, och vad skulle ett navigeringsskikt i låg omloppsbana tillföra?
+
+seg-6010770a2bf6 = Månen och djupa rymden
+
+seg-33641ef6761c = Väg och fordon
+
+seg-94cca6b24bb2 = Hur många sekunder in i en tunnel kan ett tåg fortfarande avgöra vilket spår det befinner sig på?
+
+seg-2d2a4afa2708 = Telekom och 5G
+
+seg-af94e7a93923 = Om GNSS-tidsreferensen går förlorad, håller sig mitt nätverks klocka inom ITU-T-maskerna, och hur länge?
+
+seg-36d838421b86 = Kan jag reproducera, utöka och citera ett PNT-resultat, ända ned till fröet?

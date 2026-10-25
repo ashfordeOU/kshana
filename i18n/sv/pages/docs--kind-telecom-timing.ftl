@@ -20,6 +20,8 @@ seg-4cf0f94f96c9 = <b>MODELLED</b> Avskrivna gränser från ITU-T G.8272 (07/202
 
 seg-5547f1f662d3 = och { "2" } till i matrisen.
 
+seg-8aee75a55007 = ocxo
+
 seg-9b72d3b3a0ab = Källa: <c1/>
 
 seg-f4dc88ffe6b5 = <c1/> (scenariotyp)

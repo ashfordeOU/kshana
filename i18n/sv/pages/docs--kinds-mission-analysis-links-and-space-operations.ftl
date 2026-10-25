@@ -52,6 +52,14 @@ seg-dbffff25b57f = Interoperabilitetsbrygga för CCSDS OEM: importera ett Orbit 
 
 seg-5db5a7c812ca = Diagrammet som motorn skriver för scenarios/oem-interop.toml, typ oem-interop
 
+seg-039f77066d97 = Ballistisk återinträdeskorridor enligt Allen-Eggers: toppavbromsning (oberoende av ballistisk koefficient, V_e^{ "2" } sin|γ|/(2eH)), hastighet och höjd vid toppavbromsningen samt hastigheten vid toppuppvärmning, för en ingångshastighet/banvinkel/ballistisk koefficient genom en exponentiell atmosfär, plus en plan punktmassintegrering av samma ballistiska inträde med gravitation, jordkrökning och US Standard Atmosphere { "1976" } (toppavbromsning, hastighet, höjd och tid vid toppen). MODELLED ballistiskt inträde (utan lyft); uppvärmningsutdata är HASTIGHETEN vid toppuppvärmning, inte ett värmeflöde (ingen aerotermisk/TPS-modell).
+
+seg-b0109481e8ff = Diagrammet som motorn skriver för scenarios/reentry.toml, typ reentry
+
+seg-de2448d74c2b = Ramning enligt CCSDS 133.0-B Space Packet Protocol: koda en syntetisk TM/TC-paketström (6-oktetts primärhuvud + datafält) och redovisa avkodning av huvudet per paket, totalt antal oktetter och en exakt rundtur kodning↔avkodning. Deterministisk ramning med exakt bitlayout — interoperabilitetslagret för myndigheters paketformat; INTE en certifiering av överensstämmelse (ingen logik för sekundärhuvud/CRC/segmentering utöver flaggorna).
+
+seg-af1cf9aa9938 = Diagrammet som motorn skriver för scenarios/space-packet.toml, typ space-packet
+
 seg-4e31c8daf798 = Register
 
 seg-436e412d99fd = MODELLED { "1" } · VALIDATED { "1" }
