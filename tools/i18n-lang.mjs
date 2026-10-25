@@ -463,3 +463,74 @@ export function termStem(root, lang, id) {
   const cut = low.length > 8 ? 3 : low.length > 5 ? 2 : 0;
   return low.slice(0, low.length - cut);
 }
+
+
+/** ---- migrate: carry translations to the ids a segment moved to ---- */
+
+import { execFileSync } from 'node:child_process';
+
+/** The English page messages of a git revision: Map id -> skeleton. */
+export function oldEnglish(rev, root = 'i18n') {
+  const git = (...a) => execFileSync('git', a, { encoding: 'utf8', maxBuffer: 1 << 28 });
+  const files = git('ls-tree', '--name-only', `${rev}:${root}/en/pages`).split('\n').filter((f) => f.endsWith('.ftl'));
+  const map = new Map();
+  for (const f of files) for (const m of git('show', `${rev}:${root}/en/pages/${f}`).matchAll(/^(seg-[0-9a-f]{12}) = (.*)$/gm)) map.set(m[1], m[2]);
+  return map;
+}
+
+const plainKey = (skel) => skel.replace(/<\/?[a-z]+\d*\/?>/g, '').replace(/\{ "([^"]*)" \}/g, '$1').replace(/\{ \$version \}/g, 'VERSION').replace(/\s+/g, ' ').trim();
+
+/** Adapt a translation's numbered tags to the new English skeleton: a placeholder <cN/> the new skeleton lacks is dropped (a decoration that left the
+ *  segment), a pair it lacks is unwrapped (the segment lost its lone wrapper). Null when the tag sets still differ. */
+function adaptTags(tr, newSkel) {
+  const want = tagsOf(newSkel);
+  let out = tr;
+  for (let i = 0; i < 8 && tagsOf(out) !== want; i++) {
+    const has = (t) => new RegExp(`<${t}>|<${t}/>`).test(newSkel);
+    out = out.replace(/<(c\d+)\/>/g, (m, t) => (has(t) ? m : ''));
+    out = out.replace(/<((?:a|s)\d+)>([\s\S]*?)<\/\1>/g, (m, t, inner) => (has(t) ? m : inner));
+    out = out.replace(/\s+/g, ' ').trim();
+  }
+  return tagsOf(out) === want ? out : null;
+}
+
+/** Carry the translations of `lang` whose English segment moved id (same text, new id) to the new id; drop the orphans.
+ *  `old` is oldEnglish(rev). Returns {moved, dropped:[ids], unmatched:[ids], retag:[ids]}; with dryRun nothing is written. */
+export function migrateLang(root, lang, old, { dryRun = false } = {}) {
+  const { where } = pageMessages(root);
+  const en = new Map();
+  for (const f of new Set([...where.values()].flatMap((x) => [...x]))) for (const m of readText(join(root, 'en', 'pages', f)).matchAll(/^(seg-[0-9a-f]{12}) = (.*)$/gm)) en.set(m[1], m[2]);
+  const byKey = new Map();
+  for (const [id, skel] of en) if (!old.has(id)) { const k = plainKey(skel); if (!byKey.has(k)) byKey.set(k, []); byKey.get(k).push(id); }
+  const dir = join(root, lang, 'pages');
+  const moved = [], dropped = [], unmatched = [], retag = [], chunks = [], orphanBlocks = [];
+  const used = new Set();
+  const files = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.ftl')) : [];
+  for (const f of files) {
+    const text = readText(join(dir, f));
+    const keep = [];
+    let changed = false;
+    for (const b of text.split(/\n\n+/)) {
+      const m = /^(seg-[0-9a-f]{12}) = ([\s\S]*)$/m.exec(b);
+      if (!m || en.has(m[1])) { keep.push(b); continue; }
+      changed = true;
+      const oskel = old.get(m[1]);
+      const cands = oskel ? byKey.get(plainKey(oskel)) : null;
+      if (!cands || cands.length !== 1) { (oskel ? unmatched : dropped).push(m[1]); orphanBlocks.push(`# ${oskel || '(not in the old English either)'}\n${b.trim()}`); continue; }
+      const nid = cands[0];
+      if (used.has(nid) && !chunks.some((c) => c.startsWith(nid))) { dropped.push(m[1]); continue; }
+      const val = adaptTags(m[2].trim(), en.get(nid));
+      if (val === null) { retag.push(m[1]); orphanBlocks.push(`# ${oskel}\n${b.trim()}`); continue; }
+      used.add(nid);
+      chunks.push(`${nid} = ${val}`);
+      moved.push([m[1], nid]);
+    }
+    if (changed && !dryRun) writeFileSync(join(dir, f), keep.join('\n\n').trimEnd() + '\n');
+  }
+  if (orphanBlocks.length && !dryRun) writeFileSync(join(root, lang, '_orphans.txt'), `# Translations whose English segment no longer exists (the English changed, or it could not be carried over). Kept so work can be recovered; not read by the build.\n\n${orphanBlocks.join('\n\n')}\n`);
+  if (chunks.length && !dryRun) {
+    const r = mergeTranslations(root, lang, [chunks.join('\n\n') + '\n']);
+    if (r.rejected.length) retag.push(...r.rejected.map((x) => x.id));
+  }
+  return { moved: moved.length, pairs: moved, dropped, unmatched, retag };
+}
