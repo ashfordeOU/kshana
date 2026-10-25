@@ -16,8 +16,6 @@ seg-4b39ee73d65d = Необов'язкові поля: <c1/>, <c2/>, <c3/>, <c4/
 
 seg-4f02bdcbc7c7 = Приклад <c1/> задає, серед іншого:
 
-seg-e94743033275 = { "3.03" } N: GNSS NAV DATA M: MIXED
-
 seg-e0415c4dab88 = { "3.02" } OBSERVATION DATA M
 
 seg-22ad318a2d61 = [{ "2.9198e6" }, -5.3837e6, { "1.7746e6" }]
@@ -41,3 +39,7 @@ seg-8e845ce908ee = Різновид сценарію рушія v{ $version }, �
 seg-f6b7ca020692 = Сторінка родини: <a1>Вимірювання GNSS, позиціонування та цілісність</a1>
 
 seg-f4cf8b629797 = Сторінка теми: <a1>INTEGRITY.md</a1>
+
+# words to translate: MIXED
+# EN: { "3.03" } N: GNSS NAV DATA M: MIXED
+seg-e94743033275 = { "3.03" } N: GNSS NAV DATA M: MIXED

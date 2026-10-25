@@ -62,8 +62,6 @@ seg-9c0643152bbf = по умолчанию { "16" } + { "21" }, плюс шка�
 
 seg-e0afd541d64c = 22-параметрическая модель Liu, Su, Xie, Zhou и Qu ({ "2025" }, <em>Remote Sensing</em> { "17" }({ "16" }):{ "2894" }, doi <a1>10.3390/rs17162894</a1>): { "16" } параметров плюс <c1/>
 
-seg-a6042071a03f = модель «нулевых часов» ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations): полином в земной системе координат ECEF по каждой оси от <c1/> (степень по умолчанию { "6" }), без членов часов, так как часы спутника привязаны к системному времени (<a1>InsideGNSS</a1>)
-
 seg-5869d6f65796 = по умолчанию { "22" }
 
 seg-6663aa3eeebc = Алгоритм пользователя (<c1/>) — это последовательность из ICD Galileo (уравнение Кеплера, поправки второй гармоники, земной узел), после которой для <c2/> применяются три полинома вдоль собственной системы координат кеплеровой орбиты: радиальный — вдоль вычисленного положения, поперёк трассы — вдоль нормали к орбите по исправленным наклонению и узлу, вдоль трассы — дополняющий тройку. Часы добавляют релятивистский член из ICD <c3/>; для <c4/> это общая форма <c5/>, вычисляемая по полиному и его производной.
@@ -308,8 +306,6 @@ seg-5098c8b6f813 = { "0.561" } cm
 
 seg-5e7fdc441b03 = { "28.774" } cm
 
-seg-82d3fa2e27ef = Строка с нулевыми часами оценивается относительно часов, привязанных с остатком { "0.24" } m (величина ATOMIC), остальные — относительно свободных часов, которые они подгоняют.
-
 seg-769db176020f = <b>Liu и др., { "2025" }: SISRE в зависимости от высоты (MODELLED).</b> Тот же сценарий подгоняет 22-параметрическую модель Kshana на 20-минутных дугах на пяти высотах из статьи, при наклонении каждого спутника:
 
 seg-01e587427a7e = Спутник
@@ -486,19 +482,13 @@ seg-33f4c7af9c53 = Несущая
 
 seg-f4510e898031 = Модель сообщения
 
-seg-125aac68d94f = PUBLIC, <a1>arXiv { "2509.19551" }</a1>
-
 seg-890aa92157e4 = { "1080" } km, { "53" }°
 
 seg-1eca13ba2309 = X1 { "1593.3225" } MHz
 
 seg-ee9947222a30 = не опубликовано
 
-seg-77af616c1f6e = PUBLIC, arXiv { "2509.19551" }
-
 seg-f016786d7755 = { "520" } km, { "97" }°
-
-seg-780e931bf88d = PUBLIC, <a1>отчёт RNTF</a1>, описание орбитальной группировки
 
 seg-d5df094a5f89 = { "781" } km, { "86.4" }°
 
@@ -506,35 +496,25 @@ seg-94bc78cee128 = { "1621" } MHz (диапазон { "1616" }–{ "1626" } MHz)
 
 seg-3f5de7f74502 = не передаётся
 
-seg-4944294c230f = PUBLIC, <a1>NAVIGATION { "72" }({ "1" })</a1>, описание орбитальной группировки
-
 seg-c2a2761f73b1 = { "550" } km, { "53" }°
 
 seg-2ef501f97eff = диапазон Ku, значение середины диапазона (репрезентативное)
 
 seg-567fab40bd24 = нет (оппортунистические сигналы)
 
-seg-a76527ba66b6 = PUBLIC, <a1>Sensors { "2023" }</a1>, <a2>Satellite Navigation { "2026" }</a2>
-
 seg-f5dd5086eedd = { "700" } km, { "55" }°
 
 seg-5fa6b60f66b4 = вблизи B1 (скрыто в источнике; L1 как замена)
 
-seg-5ebbf0042d7c = REPRESENTATIVE
-
 seg-4f3e5a683682 = { "600" } km, { "97.8" }°
 
 seg-c06f62ca5173 = { "5020" } MHz (центр диапазона C для RNSS)
-
-seg-884c81e55e79 = PUBLIC, <a1>InsideGNSS</a1>
 
 seg-3b1fd041f9ba = { "500" } km (репрезентативное)
 
 seg-522c85402d84 = L1 (репрезентативное)
 
 seg-064b03765e4d = <c1/>, степень { "6" }, { "60" } s, обновление каждые { "30" } s, нулевые часы, остаток привязки { "0.24" } m
-
-seg-5619bc61b958 = WORKSHOP и PUBLIC
 
 seg-20572d7e348d = { "510" } km, { "97.4" }°
 
@@ -582,10 +562,6 @@ seg-88b5cda10923 = 22-параметрическая модель Liu и др., 
 
 seg-7272ebdc1fec = прецизионные орбиты TU Graz ITSG четырёх спутников против таблиц { "4" }, { "5" }, { "6" } и { "8" } статьи: отношения для вдоль трассы, поперёк трассы, радиального и SISRE от { "0.755" } до { "1.138" } на днях из статьи и от { "0.683" } до { "1.186" } на восьми отложенных днях, в пределах 1.5x (<c1/>)
 
-seg-94066142a642 = полином нулевых часов ATOMIC и таблица для пяти высот
-
-seg-205cdc6a3696 = факты ATOMIC из InsideGNSS; опубликованная таблица Liu приведена рядом с подгонкой Kshana по интегрированной орбите, без закрепления проверкой
-
 seg-8c00ed11609c = замкнутые формы ICD; модель Klobuchar, проверенная по RTKLIB
 
 seg-d5653e0958b5 = SISRE — это только ошибка представления: без ошибки определения или прогнозирования орбиты.
@@ -601,3 +577,51 @@ seg-2a0c8190c38e = Сравнение с Liu и др. отличается ор�
 seg-4abe216f987a = <s1>Предыдущая</s1>Пролёт LEO и бюджет линии связи
 
 seg-59d9bf4735d8 = <s1>Следующая</s1>Комплексное позиционирование по MEO и LEO
+
+# words to translate: PUBLIC
+# EN: PUBLIC, <a1>arXiv { "2509.19551" }</a1>
+seg-125aac68d94f = ПУБЛИЧНЫЙ, <a1>arXiv { "2509.19551" }</a1>
+
+# words to translate: PUBLIC
+# EN: PUBLIC, arXiv { "2509.19551" }
+seg-77af616c1f6e = ПУБЛИЧНЫЙ, arXiv { "2509.19551" }
+
+# words to translate: PUBLIC
+# EN: PUBLIC, <a1>RNTF report</a1>, constellation description
+seg-780e931bf88d = ПУБЛИЧНЫЙ, <a1>отчёт RNTF</a1>, описание орбитальной группировки
+
+# words to translate: PUBLIC
+# EN: PUBLIC, <a1>Sensors { "2023" }</a1>, <a2>Satellite Navigation { "2026" }</a2>
+seg-a76527ba66b6 = ПУБЛИЧНЫЙ, <a1>Sensors { "2023" }</a1>, <a2>Satellite Navigation { "2026" }</a2>
+
+# words to translate: WORKSHOP, PUBLIC
+# EN: WORKSHOP and PUBLIC
+seg-5619bc61b958 = СЕМИНАРСКИЙ и ПУБЛИЧНЫЙ
+
+# words to translate: ATOMIC
+# EN: ATOMIC facts from InsideGNSS; the published Liu table printed beside Kshana's integrated-orbit fit, not pinned
+seg-205cdc6a3696 = факты ATOMIC из InsideGNSS; опубликованная таблица Liu приведена рядом с подгонкой Kshana по интегрированной орбите, без закрепления проверкой
+
+# words to translate: ATOMIC
+# EN: the ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations) "zero-clock" model: an Earth-centred Earth-fixed (ECEF) polynomial per axis in <c1/> (default degree { "6" }), no clock terms because the satellite clock is steered to system time (<a1>InsideGNSS</a1>)
+seg-a6042071a03f = модель «нулевых часов» ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations): полином в земной системе координат ECEF по каждой оси от <c1/> (степень по умолчанию { "6" }), без членов часов, так как часы спутника привязаны к системному времени (<a1>InsideGNSS</a1>)
+
+# words to translate: ATOMIC
+# EN: The zero-clock row is scored against a clock steered with a { "0.24" } m residual (the ATOMIC figure), the others against the free-running clock they fit.
+seg-82d3fa2e27ef = Строка с нулевыми часами оценивается относительно часов, привязанных с остатком { "0.24" } m (величина ATOMIC), остальные — относительно свободных часов, которые они подгоняют.
+
+# words to translate: PUBLIC
+# EN: PUBLIC, <a1>NAVIGATION { "72" }({ "1" })</a1>, constellation description
+seg-4944294c230f = ПУБЛИЧНЫЙ, <a1>NAVIGATION { "72" }({ "1" })</a1>, описание орбитальной группировки
+
+# words to translate: REPRESENTATIVE
+# EN: REPRESENTATIVE
+seg-5ebbf0042d7c = РЕПРЕЗЕНТАТИВНЫЙ
+
+# words to translate: PUBLIC
+# EN: PUBLIC, <a1>InsideGNSS</a1>
+seg-884c81e55e79 = ПУБЛИЧНЫЙ, <a1>InsideGNSS</a1>
+
+# words to translate: ATOMIC
+# EN: ATOMIC zero-clock polynomial and the five-altitude table
+seg-94066142a642 = полином нулевых часов ATOMIC и таблица для пяти высот
