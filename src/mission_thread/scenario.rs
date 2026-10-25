@@ -14,8 +14,8 @@ use serde_json::{json, Value};
 use super::budget::{margin, thread_label, weakest_link, BudgetRow, PhaseBudget, WeakestLink};
 use super::handover::apply_handover;
 use super::phase::{
-    EvidenceLabel, Frame, HandoverRule, NavSource, NavState, PhaseOutcome, PhaseSpec, Requirement,
-    TimeSource, Timescale, N,
+    Event, EvidenceLabel, Frame, HandoverRule, NavSource, NavState, PhaseOutcome, PhaseSpec,
+    Requirement, TimeSource, Timescale, N,
 };
 use super::{phase_kind, run_phase, PhaseKindInfo, ThreadCtx};
 
@@ -133,6 +133,9 @@ pub struct MissionThreadScenario {
     /// A JPL SPK kernel with the Moon and the Earth, for the Moon's state at frame handovers.
     #[serde(default)]
     pub moon_kernel_path: Option<String>,
+    /// The ground-network overlay: stations and, per phase, how its tracking coverage is computed.
+    #[serde(default)]
+    pub ground_network: Option<crate::mission_thread::earth::ground_network::GroundNetworkDoc>,
     /// The first phase's entry state.
     pub entry: EntryDoc,
     /// The phases, in order.
@@ -317,6 +320,17 @@ impl MissionThreadScenario {
                 return Err(format!("phase id `{}` is used twice; ids are unique", p.id));
             }
         }
+        if let Some(net) = &s.ground_network {
+            net.validate()?;
+            for g in &net.phases {
+                if !seen.contains(&g.phase) {
+                    return Err(format!(
+                        "ground_network: phase `{}` is not a phase of this thread",
+                        g.phase
+                    ));
+                }
+            }
+        }
         Ok(s)
     }
 }
@@ -366,7 +380,32 @@ pub fn run_thread_with(
         let info = lookup(&spec.kind).map_err(|e| format!("phase `{}`: {e}", spec.id))?;
         let phase = (info.ctor)(&spec.model).map_err(|e| format!("phase `{}`: {e}", spec.id))?;
         let start_s = state.t_s;
-        let pctx = ctx.phase_ctx_for(i, spec);
+        let mut pctx = ctx.phase_ctx_for(i, spec);
+        // The ground-network overlay: the tracking duty of a phase that lists ground tracking.
+        let mut coverage_note: Option<(Vec<BudgetRow>, String)> = None;
+        if let Some(net) = &scn.ground_network {
+            if spec.nav.contains(&NavSource::GroundTracking) {
+                if let Some(g) = net.for_phase(&spec.id) {
+                    let geo_state = if state.frame == Frame::Gcrf || g.geometry == "stated" {
+                        state.clone()
+                    } else {
+                        ctx.convert_frame(&state, Frame::Gcrf)
+                            .map_err(|e| format!("phase `{}`: {e}", spec.id))?
+                            .0
+                    };
+                    let cov = crate::mission_thread::earth::ground_network::coverage(
+                        net,
+                        g,
+                        &ctx,
+                        &geo_state,
+                        spec.duration_s,
+                    )
+                    .map_err(|e| format!("phase `{}`: {e}", spec.id))?;
+                    pctx.ground_duty = Some(cov.duty);
+                    coverage_note = Some(cov.rows(net));
+                }
+            }
+        }
         let mut o = run_phase(phase.as_ref(), &state, &ctx, &pctx)
             .map_err(|e| format!("phase `{}`: {e}", spec.id))?;
         let want_end = start_s + spec.duration_s;
@@ -375,6 +414,13 @@ pub fn run_thread_with(
                 "phase `{}` ended at {} s but started at {start_s} s and lasts {} s",
                 spec.id, o.exit.t_s, spec.duration_s
             ));
+        }
+        if let Some((cov_rows, text)) = coverage_note {
+            rows.extend(cov_rows);
+            o.events.push(Event {
+                t_s: start_s,
+                what: text,
+            });
         }
         rows.extend(std::mem::take(&mut o.budget.rows));
         o.budget.rows = rows;
@@ -898,5 +944,69 @@ label = "validated"
             .unwrap();
         let e = run_thread(&scn).unwrap_err();
         assert!(e.contains("not implemented"), "{e}");
+    }
+
+    #[test]
+    fn the_overlay_sets_the_tracking_duty_of_a_phase_that_lists_ground_tracking() {
+        let src = r#"
+epoch_utc = "2028-01-10T00:00:00Z"
+seed = 5
+[ground_network]
+min_elevation_deg = 10.0
+handover_gap_s = 60.0
+[[ground_network.stations]]
+id = "west"
+lat_deg = 35.4
+lon_deg = -116.9
+[[ground_network.stations]]
+id = "east"
+lat_deg = -35.4
+lon_deg = 148.98
+[[ground_network.phases]]
+phase = "cruise"
+geometry = "moon-direction"
+[entry]
+frame = "gcrf"
+x = [6563137.0, 0.0, 0.0, 0.0, 7790.0, 0.0]
+sigma_pos_m = 10.0
+sigma_vel_mps = 0.01
+timescale = "utc"
+sigma_time_s = 1e-7
+sigma_drift_s_per_s = 1e-12
+[[phase]]
+id = "cruise"
+kind = "tli-and-cruise"
+duration_s = 14400.0
+nav = ["ground-tracking"]
+time = "onboard-holdover"
+[phase.model]
+tli_dv_mps = 3130.0
+tli_dv_sigma_fraction = 0.001
+tli_pointing_sigma_rad = 0.001
+step_s = 3600.0
+clock_q_f = 1e-22
+clock_q_d = 1e-30
+ground_range_sigma_m = 10.0
+ground_range_rate_sigma_mps = 0.001
+ground_interval_s = 3600.0
+"#;
+        let scn = MissionThreadScenario::parse(src).unwrap();
+        let r = run_thread(&scn).unwrap();
+        let p = &r.phases[0].outcome;
+        assert!(p
+            .budget
+            .rows
+            .iter()
+            .any(|b| b.source.starts_with("ground network (2 stations")));
+        assert!(p
+            .events
+            .iter()
+            .any(|e| e.what.starts_with("ground network: tracking duty")));
+        // An overlay naming a phase the thread does not have is refused.
+        let bad = src.replace("phase = \"cruise\"\ngeometry", "phase = \"nope\"\ngeometry");
+        assert!(MissionThreadScenario::parse(&bad)
+            .err()
+            .unwrap()
+            .contains("not a phase of this thread"));
     }
 }
