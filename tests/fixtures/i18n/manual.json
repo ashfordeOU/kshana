@@ -1,0 +1,1957 @@
+[
+ {
+  "id": "advanced-report-eyebrow",
+  "error": false,
+  "parts": [
+   "Kshana run report"
+  ]
+ },
+ {
+  "id": "advanced-report-meta",
+  "error": false,
+  "parts": [
+   "Kind <code>",
+   {
+    "var": "kind"
+   },
+   "</code> · engine ",
+   {
+    "var": "engine"
+   },
+   " · scenario <code>",
+   {
+    "var": "scenario"
+   },
+   "</code> (file digest ",
+   {
+    "var": "digest"
+   },
+   "…)"
+  ]
+ },
+ {
+  "id": "advanced-report-toc-summary",
+  "error": false,
+  "parts": [
+   "1 Summary"
+  ]
+ },
+ {
+  "id": "advanced-report-toc-inputs",
+  "error": false,
+  "parts": [
+   "2 Inputs"
+  ]
+ },
+ {
+  "id": "advanced-report-toc-results",
+  "error": false,
+  "parts": [
+   "3 Results"
+  ]
+ },
+ {
+  "id": "advanced-report-toc-aggregation",
+  "error": false,
+  "parts": [
+   "3a Aggregation"
+  ]
+ },
+ {
+  "id": "advanced-report-toc-companions",
+  "error": false,
+  "parts": [
+   "3b Animation and exports"
+  ]
+ },
+ {
+  "id": "advanced-report-toc-events",
+  "error": false,
+  "parts": [
+   "4 Events"
+  ]
+ },
+ {
+  "id": "advanced-report-toc-labels",
+  "error": false,
+  "parts": [
+   "5 Verification labels"
+  ]
+ },
+ {
+  "id": "advanced-report-toc-not-modelled",
+  "error": false,
+  "parts": [
+   "6 Not modelled"
+  ]
+ },
+ {
+  "id": "advanced-report-toc-reproducibility",
+  "error": false,
+  "parts": [
+   "7 Reproducibility"
+  ]
+ },
+ {
+  "id": "advanced-report-h-summary",
+  "error": false,
+  "parts": [
+   "1. Executive summary"
+  ]
+ },
+ {
+  "id": "advanced-report-honesty-label",
+  "error": false,
+  "parts": [
+   "<strong>Honesty label</strong> (",
+   {
+    "var": "source"
+   },
+   "): ",
+   {
+    "var": "label"
+   }
+  ]
+ },
+ {
+  "id": "advanced-report-capabilities-used",
+  "error": false,
+  "parts": [
+   "<strong>Capabilities used:</strong> ",
+   {
+    "var": "n_validated"
+   },
+   " VALIDATED, ",
+   {
+    "var": "n_modelled"
+   },
+   " MODELLED, ",
+   {
+    "var": "n_partner"
+   },
+   " PARTNER (relied on, not provided); see section 5."
+  ]
+ },
+ {
+  "id": "advanced-report-member-runs",
+  "error": false,
+  "parts": [
+   "<strong>Member runs:</strong> ",
+   {
+    "var": "n"
+   },
+   ", aggregated in section 3a."
+  ]
+ },
+ {
+  "id": "advanced-report-h-inputs",
+  "error": false,
+  "parts": [
+   "2. Inputs"
+  ]
+ },
+ {
+  "id": "advanced-report-inputs-note",
+  "error": false,
+  "parts": [
+   "Every field the scenario file sets, flattened to its path. Units come from the result's <code>units</code> block (the field-units schema, docs/field-units-schema.json) where it describes the field, otherwise from the field-name suffix; a unit neither states is shown as not stated."
+  ]
+ },
+ {
+  "id": "advanced-report-th-parameter",
+  "error": false,
+  "parts": [
+   "Parameter"
+  ]
+ },
+ {
+  "id": "advanced-report-th-value",
+  "error": false,
+  "parts": [
+   "Value"
+  ]
+ },
+ {
+  "id": "advanced-report-th-unit",
+  "error": false,
+  "parts": [
+   "Unit"
+  ]
+ },
+ {
+  "id": "advanced-report-th-unit-source",
+  "error": false,
+  "parts": [
+   "Unit source"
+  ]
+ },
+ {
+  "id": "advanced-report-h-results",
+  "error": false,
+  "parts": [
+   "3. Results"
+  ]
+ },
+ {
+  "id": "advanced-report-chart-alt",
+  "error": false,
+  "parts": [
+   "Result chart"
+  ]
+ },
+ {
+  "id": "advanced-report-also-written-to",
+  "error": false,
+  "parts": [
+   " (also written to ",
+   {
+    "var": "file"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "advanced-report-h-scalars",
+  "error": false,
+  "parts": [
+   "Scalar results"
+  ]
+ },
+ {
+  "id": "advanced-report-h-columns",
+  "error": false,
+  "parts": [
+   "Numeric columns"
+  ]
+ },
+ {
+  "id": "advanced-report-th-result",
+  "error": false,
+  "parts": [
+   "Result"
+  ]
+ },
+ {
+  "id": "advanced-report-th-column",
+  "error": false,
+  "parts": [
+   "Column"
+  ]
+ },
+ {
+  "id": "advanced-report-th-count",
+  "error": false,
+  "parts": [
+   "Count"
+  ]
+ },
+ {
+  "id": "advanced-report-th-min",
+  "error": false,
+  "parts": [
+   "Min"
+  ]
+ },
+ {
+  "id": "advanced-report-th-max",
+  "error": false,
+  "parts": [
+   "Max"
+  ]
+ },
+ {
+  "id": "advanced-report-th-first",
+  "error": false,
+  "parts": [
+   "First"
+  ]
+ },
+ {
+  "id": "advanced-report-th-last",
+  "error": false,
+  "parts": [
+   "Last"
+  ]
+ },
+ {
+  "id": "advanced-report-omitted-inputs",
+  "error": false,
+  "parts": [
+   "<p class=\"note\">",
+   {
+    "var": "n"
+   },
+   " further inputs are left out of this page; report.json lists the same rows, and the result document carries every value.</p>\n"
+  ]
+ },
+ {
+  "id": "advanced-report-omitted-scalars",
+  "error": false,
+  "parts": [
+   "<p class=\"note\">",
+   {
+    "var": "n"
+   },
+   " further scalar results are left out of this page; report.json lists the same rows, and the result document carries every value.</p>\n"
+  ]
+ },
+ {
+  "id": "advanced-report-omitted-columns",
+  "error": false,
+  "parts": [
+   "<p class=\"note\">",
+   {
+    "var": "n"
+   },
+   " further numeric columns are left out of this page; report.json lists the same rows, and the result document carries every value.</p>\n"
+  ]
+ },
+ {
+  "id": "advanced-report-omitted-events",
+  "error": false,
+  "parts": [
+   "<p class=\"note\">",
+   {
+    "var": "n"
+   },
+   " further events are left out of this page; report.json lists the same rows, and the result document carries every value.</p>\n"
+  ]
+ },
+ {
+  "id": "advanced-report-h-aggregation",
+  "error": false,
+  "parts": [
+   "3a. Aggregation of member runs"
+  ]
+ },
+ {
+  "id": "advanced-report-mode",
+  "error": false,
+  "parts": [
+   "<p>Mode <strong>",
+   {
+    "var": "mode"
+   },
+   "</strong>.</p>\n"
+  ]
+ },
+ {
+  "id": "advanced-report-mode-kind",
+  "error": false,
+  "parts": [
+   "<p>Mode <strong>",
+   {
+    "var": "mode"
+   },
+   "</strong> over the <code>",
+   {
+    "var": "kind"
+   },
+   "</code> kind.</p>\n"
+  ]
+ },
+ {
+  "id": "advanced-report-mode-runs",
+  "error": false,
+  "parts": [
+   "<p>Mode <strong>",
+   {
+    "var": "mode"
+   },
+   "</strong>, ",
+   {
+    "var": "n_runs"
+   },
+   " member runs.</p>\n"
+  ]
+ },
+ {
+  "id": "advanced-report-mode-kind-runs",
+  "error": false,
+  "parts": [
+   "<p>Mode <strong>",
+   {
+    "var": "mode"
+   },
+   "</strong> over the <code>",
+   {
+    "var": "kind"
+   },
+   "</code> kind, ",
+   {
+    "var": "n_runs"
+   },
+   " member runs.</p>\n"
+  ]
+ },
+ {
+  "id": "advanced-report-run-digest",
+  "error": false,
+  "parts": [
+   "Run digest (SHA-256 over the member result digests, in dispatch order): <code>",
+   {
+    "var": "digest"
+   },
+   "</code>"
+  ]
+ },
+ {
+  "id": "advanced-report-table-empty",
+  "error": false,
+  "parts": [
+   "This table has no rows: the result lists none."
+  ]
+ },
+ {
+  "id": "advanced-report-distribution-caption",
+  "error": false,
+  "parts": [
+   "Monte Carlo distribution of ",
+   {
+    "var": "metric"
+   },
+   " (",
+   {
+    "var": "n"
+   },
+   " samples), 20 equal-width bins; dashed lines mark the 5th, 50th and 95th percentiles."
+  ]
+ },
+ {
+  "id": "advanced-report-distribution-caption-unit",
+  "error": false,
+  "parts": [
+   "Monte Carlo distribution of ",
+   {
+    "var": "metric"
+   },
+   " (",
+   {
+    "var": "n"
+   },
+   " samples, ",
+   {
+    "var": "unit"
+   },
+   "), 20 equal-width bins; dashed lines mark the 5th, 50th and 95th percentiles."
+  ]
+ },
+ {
+  "id": "advanced-report-h-companions",
+  "error": false,
+  "parts": [
+   "3b. Animation and exports"
+  ]
+ },
+ {
+  "id": "advanced-report-animation-alt",
+  "error": false,
+  "parts": [
+   "Animation of the run's time series"
+  ]
+ },
+ {
+  "id": "advanced-report-animation-caption",
+  "error": false,
+  "parts": [
+   "The run's own samples drawing in behind a moving time cursor (the animated drawing of <code>--animate svg</code>; it shows the finished picture under reduced motion and in print)."
+  ]
+ },
+ {
+  "id": "advanced-report-no-animation",
+  "error": false,
+  "parts": [
+   "No animation: ",
+   {
+    "var": "reason"
+   }
+  ]
+ },
+ {
+  "id": "advanced-report-no-animation-default",
+  "error": false,
+  "parts": [
+   "the result carries no time series"
+  ]
+ },
+ {
+  "id": "advanced-report-player-written-by",
+  "error": false,
+  "parts": [
+   "The interactive player is written by <code>",
+   {
+    "var": "command"
+   },
+   "</code>."
+  ]
+ },
+ {
+  "id": "advanced-report-written-beside",
+  "error": false,
+  "parts": [
+   "Written beside this report: ",
+   {
+    "var": "links"
+   },
+   "."
+  ]
+ },
+ {
+  "id": "advanced-report-th-export",
+  "error": false,
+  "parts": [
+   "Export"
+  ]
+ },
+ {
+  "id": "advanced-report-th-applies",
+  "error": false,
+  "parts": [
+   "Applies"
+  ]
+ },
+ {
+  "id": "advanced-report-th-files-or-reason",
+  "error": false,
+  "parts": [
+   "Files or reason"
+  ]
+ },
+ {
+  "id": "advanced-report-written-by",
+  "error": false,
+  "parts": [
+   "written by <code>",
+   {
+    "var": "command"
+   },
+   "</code>"
+  ]
+ },
+ {
+  "id": "advanced-report-does-not-apply",
+  "error": false,
+  "parts": [
+   "does not apply"
+  ]
+ },
+ {
+  "id": "advanced-report-yes",
+  "error": false,
+  "parts": [
+   "yes"
+  ]
+ },
+ {
+  "id": "advanced-report-no",
+  "error": false,
+  "parts": [
+   "no"
+  ]
+ },
+ {
+  "id": "advanced-report-h-events",
+  "error": false,
+  "parts": [
+   "4. Events timeline"
+  ]
+ },
+ {
+  "id": "advanced-report-events-caption",
+  "error": false,
+  "parts": [
+   "Windows as bars, point events as dots, on the run's own time axis."
+  ]
+ },
+ {
+  "id": "advanced-report-th-start",
+  "error": false,
+  "parts": [
+   "Start (s)"
+  ]
+ },
+ {
+  "id": "advanced-report-th-end",
+  "error": false,
+  "parts": [
+   "End (s)"
+  ]
+ },
+ {
+  "id": "advanced-report-th-event",
+  "error": false,
+  "parts": [
+   "Event"
+  ]
+ },
+ {
+  "id": "advanced-report-th-source",
+  "error": false,
+  "parts": [
+   "Source"
+  ]
+ },
+ {
+  "id": "advanced-report-point-event",
+  "error": false,
+  "parts": [
+   "point event"
+  ]
+ },
+ {
+  "id": "advanced-report-events-timeline",
+  "error": false,
+  "parts": [
+   "Events timeline"
+  ]
+ },
+ {
+  "id": "advanced-report-point-events",
+  "error": false,
+  "parts": [
+   "point events (",
+   {
+    "var": "n"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "advanced-report-distribution-of",
+  "error": false,
+  "parts": [
+   "Distribution of ",
+   {
+    "var": "metric"
+   }
+  ]
+ },
+ {
+  "id": "advanced-report-max-bin",
+  "error": false,
+  "parts": [
+   "max bin ",
+   {
+    "var": "n"
+   }
+  ]
+ },
+ {
+  "id": "advanced-report-h-labels",
+  "error": false,
+  "parts": [
+   "5. Verification labels"
+  ]
+ },
+ {
+  "id": "advanced-report-th-capability",
+  "error": false,
+  "parts": [
+   "Capability (matrix requirement)"
+  ]
+ },
+ {
+  "id": "advanced-report-th-label",
+  "error": false,
+  "parts": [
+   "Label"
+  ]
+ },
+ {
+  "id": "advanced-report-th-used-by",
+  "error": false,
+  "parts": [
+   "Used by"
+  ]
+ },
+ {
+  "id": "advanced-report-th-oracle",
+  "error": false,
+  "parts": [
+   "Source: oracle"
+  ]
+ },
+ {
+  "id": "advanced-report-th-test-evidence",
+  "error": false,
+  "parts": [
+   "Test evidence"
+  ]
+ },
+ {
+  "id": "advanced-report-h-figure-tiers",
+  "error": false,
+  "parts": [
+   "Per-figure tiers stated by the result"
+  ]
+ },
+ {
+  "id": "advanced-report-th-figure",
+  "error": false,
+  "parts": [
+   "Figure"
+  ]
+ },
+ {
+  "id": "advanced-report-th-tier",
+  "error": false,
+  "parts": [
+   "Tier"
+  ]
+ },
+ {
+  "id": "advanced-report-th-matrix-requirement",
+  "error": false,
+  "parts": [
+   "Matrix requirement"
+  ]
+ },
+ {
+  "id": "advanced-report-th-applicable",
+  "error": false,
+  "parts": [
+   "Applicable"
+  ]
+ },
+ {
+  "id": "advanced-report-no-attack",
+  "error": false,
+  "parts": [
+   "no (no attack configured)"
+  ]
+ },
+ {
+  "id": "advanced-report-h-not-modelled",
+  "error": false,
+  "parts": [
+   "6. Not modelled, and assumptions"
+  ]
+ },
+ {
+  "id": "advanced-report-not-modelled-note",
+  "error": false,
+  "parts": [
+   "Each item is quoted from where it is stated: the result document, the kind catalogue, the scenario file, or the verification matrix's reason a MODELLED row stays modelled."
+  ]
+ },
+ {
+  "id": "advanced-report-th-statement",
+  "error": false,
+  "parts": [
+   "Statement"
+  ]
+ },
+ {
+  "id": "advanced-report-h-reproducibility",
+  "error": false,
+  "parts": [
+   "7. Reproducibility record"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-command",
+  "error": false,
+  "parts": [
+   "Command to reproduce"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-working-directory",
+  "error": false,
+  "parts": [
+   "Working directory"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-engine-version",
+  "error": false,
+  "parts": [
+   "Engine version"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-source-commit",
+  "error": false,
+  "parts": [
+   "Source commit"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-scenario-file",
+  "error": false,
+  "parts": [
+   "Scenario file"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-scenario-sha",
+  "error": false,
+  "parts": [
+   "Scenario file SHA-256 (Secure Hash Algorithm 256-bit)"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-result-hash",
+  "error": false,
+  "parts": [
+   "Result scenario_hash"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-result-sha",
+  "error": false,
+  "parts": [
+   "Result document SHA-256"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-seed",
+  "error": false,
+  "parts": [
+   "Seed"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-platform",
+  "error": false,
+  "parts": [
+   "Platform"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-generated",
+  "error": false,
+  "parts": [
+   "Study generated (UTC)"
+  ]
+ },
+ {
+  "id": "advanced-report-rk-determinism",
+  "error": false,
+  "parts": [
+   "Determinism"
+  ]
+ },
+ {
+  "id": "advanced-report-result-hash-none",
+  "error": false,
+  "parts": [
+   "the result document states none"
+  ]
+ },
+ {
+  "id": "advanced-report-print-note",
+  "error": false,
+  "parts": [
+   "To print this page to a Portable Document Format (PDF) file, use the browser's print dialog and choose “Save as PDF”; the print stylesheet fits A4 and US Letter paper, repeats table headers across pages and starts the inputs, results, labels and reproducibility sections on a new page. The engine writes no PDF itself. report.json carries the same content as this page."
+  ]
+ },
+ {
+  "id": "advanced-report-footer",
+  "error": false,
+  "parts": [
+   "Generated by Kshana ",
+   {
+    "var": "engine"
+   },
+   ".",
+   {
+    "var": "stamp"
+   },
+   " Reproducible from scenario + seed + engine version. Free and open source (GNU Affero General Public License, AGPL-3.0) — <a href=\"https://github.com/AshfordeOU/kshana\">source &amp; docs</a>."
+  ]
+ },
+ {
+  "id": "advanced-report-empty-inputs",
+  "error": false,
+  "parts": [
+   "The scenario sets no field beyond `kind`: the kind ran its reference configuration from its documented defaults."
+  ]
+ },
+ {
+  "id": "advanced-report-empty-scalars",
+  "error": false,
+  "parts": [
+   "The result document carries no scalar outside its arrays; its numbers are summarised by column below."
+  ]
+ },
+ {
+  "id": "advanced-report-empty-series",
+  "error": false,
+  "parts": [
+   "The result document carries no numeric array: every result is a scalar in the table above."
+  ]
+ },
+ {
+  "id": "advanced-report-empty-events",
+  "error": false,
+  "parts": [
+   "No timed event: the scenario scripts no window or onset time and the result reports no event. The kind evaluates its configuration as one case."
+  ]
+ },
+ {
+  "id": "advanced-report-empty-not-modelled",
+  "error": false,
+  "parts": [
+   "Nothing in the result, the kind catalogue, the scenario or the matrix rows used states a modelling limitation for this run."
+  ]
+ },
+ {
+  "id": "advanced-report-capabilities-statement",
+  "error": false,
+  "parts": [
+   "Each row is a verification-matrix row this run's kinds exercise, with the label and the oracle the matrix gives it (src/verification.rs, docs/VERIFICATION-MATRIX.md). A label grades the capability as the matrix records it; it does not grade this scenario's configuration, and a VALIDATED row does not make the run's inputs measured. A PARTNER row is a discipline the run relies on that Kshana does not provide."
+  ]
+ },
+ {
+  "id": "advanced-report-no-run-label",
+  "error": false,
+  "parts": [
+   "The result carries no run-level honesty label; the verification labels of the capabilities it used are listed in their own section, and the per-figure tiers where the result states them."
+  ]
+ },
+ {
+  "id": "advanced-report-no-seed",
+  "error": false,
+  "parts": [
+   "Neither the scenario nor the result carries a seed. The result is fixed by the scenario file and the engine build alone; the determinism test re-runs every bundled scenario and requires byte-identical output."
+  ]
+ },
+ {
+  "id": "advanced-report-working-directory",
+  "error": false,
+  "parts": [
+   "Run the command from the directory the original run was started in: the scenario path, and any relative data path inside the scenario, resolve against it. Check the scenario file against scenario_sha256 first."
+  ]
+ },
+ {
+  "id": "advanced-report-determinism-stamped",
+  "error": false,
+  "parts": [
+   "Same scenario bytes, seed and engine build give the same result document, except its meta.generated_utc stamp, which --study-name writes from the clock; run without --study-name for byte-identical output. Floating-point results are pinned per platform; another operating system or architecture may differ in the last digits."
+  ]
+ },
+ {
+  "id": "advanced-report-determinism-plain",
+  "error": false,
+  "parts": [
+   "Same scenario bytes, seed and engine build give a byte-identical result document and report; this report carries no timestamp. Floating-point results are pinned per platform; another operating system or architecture may differ in the last digits."
+  ]
+ },
+ {
+  "id": "advanced-report-not-applicable-no-attack",
+  "error": false,
+  "parts": [
+   "not applicable (no attack configured)"
+  ]
+ },
+ {
+  "id": "advanced-report-what-ran-default",
+  "error": false,
+  "parts": [
+   "A `",
+   {
+    "var": "kind"
+   },
+   "` scenario."
+  ]
+ },
+ {
+  "id": "advanced-report-nothing-carried",
+  "error": false,
+  "parts": [
+   "nothing carried"
+  ]
+ },
+ {
+  "id": "advanced-report-tbl-sweep-nodes",
+  "error": false,
+  "parts": [
+   "Sweep nodes"
+  ]
+ },
+ {
+  "id": "advanced-report-tbl-mc-summary",
+  "error": false,
+  "parts": [
+   "Monte Carlo distribution summary (percentiles are nearest-rank; the 95% confidence interval on the mean is a fixed-seed percentile bootstrap)"
+  ]
+ },
+ {
+  "id": "advanced-report-tbl-chain-phases",
+  "error": false,
+  "parts": [
+   "Chain phases"
+  ]
+ },
+ {
+  "id": "advanced-report-tbl-shared",
+  "error": false,
+  "parts": [
+   "Shared conditions"
+  ]
+ },
+ {
+  "id": "advanced-report-tbl-members",
+  "error": false,
+  "parts": [
+   "Members"
+  ]
+ },
+ {
+  "id": "advanced-report-tbl-combined",
+  "error": false,
+  "parts": [
+   "Combined across members"
+  ]
+ },
+ {
+  "id": "advanced-report-tbl-optimiser-best",
+  "error": false,
+  "parts": [
+   "Optimiser best (a local optimum over the stated bounds)"
+  ]
+ },
+ {
+  "id": "advanced-report-tbl-optimiser-trace",
+  "error": false,
+  "parts": [
+   "Optimiser trace"
+  ]
+ },
+ {
+  "id": "advanced-report-tbl-sweep-grid",
+  "error": false,
+  "parts": [
+   "Sweep grid"
+  ]
+ },
+ {
+  "id": "fom-verdict-validated",
+  "error": false,
+  "parts": [
+   "VALIDATED"
+  ]
+ },
+ {
+  "id": "fom-verdict-modelled",
+  "error": false,
+  "parts": [
+   "MODELLED"
+  ]
+ },
+ {
+  "id": "fom-verdict-partial",
+  "error": false,
+  "parts": [
+   "PARTIAL"
+  ]
+ },
+ {
+  "id": "altpnt-sequential-title",
+  "error": false,
+  "parts": [
+   "Sequential terrain-referenced navigation (recursive SITAN)"
+  ]
+ },
+ {
+  "id": "altpnt-sequential-free-inertial-drift-grows",
+  "error": false,
+  "parts": [
+   "free-inertial drift (grows)"
+  ]
+ },
+ {
+  "id": "altpnt-sequential-terrain-matched-bounded",
+  "error": false,
+  "parts": [
+   "terrain-matched (bounded)"
+  ]
+ },
+ {
+  "id": "altpnt-sequential-waypoint-full-scale",
+  "error": false,
+  "parts": [
+   "waypoint →    full scale ",
+   {
+    "var": "maxv"
+   },
+   " m"
+  ]
+ },
+ {
+  "id": "altpnt-terrain-title-terrain-referenced",
+  "error": false,
+  "parts": [
+   "Terrain-referenced navigation (TERCOM/SITAN)"
+  ]
+ },
+ {
+  "id": "altpnt-terrain-title-gravity-map",
+  "error": false,
+  "parts": [
+   "Gravity-map matched navigation"
+  ]
+ },
+ {
+  "id": "altpnt-terrain-title-combined",
+  "error": false,
+  "parts": [
+   "Combined gravity + magnetic + terrain alt-PNT"
+  ]
+ },
+ {
+  "id": "altpnt-terrain-free-inertial-drift",
+  "error": false,
+  "parts": [
+   "free-inertial drift"
+  ]
+ },
+ {
+  "id": "altpnt-terrain-terrain-matched",
+  "error": false,
+  "parts": [
+   "terrain-matched"
+  ]
+ },
+ {
+  "id": "altpnt-terrain-gravity-matched",
+  "error": false,
+  "parts": [
+   "gravity-matched"
+  ]
+ },
+ {
+  "id": "altpnt-terrain-gravity-only",
+  "error": false,
+  "parts": [
+   "gravity only"
+  ]
+ },
+ {
+  "id": "altpnt-terrain-magnetic-only",
+  "error": false,
+  "parts": [
+   "magnetic only"
+  ]
+ },
+ {
+  "id": "altpnt-terrain-terrain-only",
+  "error": false,
+  "parts": [
+   "terrain only"
+  ]
+ },
+ {
+  "id": "altpnt-terrain-combined-fused",
+  "error": false,
+  "parts": [
+   "combined (fused)"
+  ]
+ },
+ {
+  "id": "attack-surface-chart-title",
+  "error": false,
+  "parts": [
+   "Lunar signal-security attack surface (P1)"
+  ]
+ },
+ {
+  "id": "body-pnt-chart-relays-in-view",
+  "error": false,
+  "parts": [
+   "relays in view"
+  ]
+ },
+ {
+  "id": "body-pnt-chart-count",
+  "error": false,
+  "parts": [
+   "count"
+  ]
+ },
+ {
+  "id": "body-pnt-chart-formal-one-sigma-position",
+  "error": false,
+  "parts": [
+   "formal one-sigma position (log10 m): blue constellation only, amber with the Earth range"
+  ]
+ },
+ {
+  "id": "body-pnt-chart-time-since-epoch",
+  "error": false,
+  "parts": [
+   "time since epoch, 0 to ",
+   {
+    "var": "t_max"
+   },
+   " s"
+  ]
+ },
+ {
+  "id": "cislunar-arc-recovery-chart-title",
+  "error": false,
+  "parts": [
+   "Cislunar arc-length recovery — an estimator that does not share the Jacobians"
+  ]
+ },
+ {
+  "id": "cislunar-arc-recovery-chart-subtitle",
+  "error": false,
+  "parts": [
+   "finite-difference batch least squares · measured state recovery error · no analytic Jacobian, no variational STM, no SVD rank tolerance"
+  ]
+ },
+ {
+  "id": "cislunar-arc-recovery-chart-bound",
+  "error": false,
+  "parts": [
+   "bound ",
+   {
+    "var": "bound"
+   }
+  ]
+ },
+ {
+  "id": "cislunar-arc-recovery-chart-gramian-rank-threshold",
+  "error": false,
+  "parts": [
+   "Gramian rank threshold"
+  ]
+ },
+ {
+  "id": "cislunar-arc-recovery-chart-monte-carlo-rms",
+  "error": false,
+  "parts": [
+   "Monte-Carlo RMS position recovery error (km)"
+  ]
+ },
+ {
+  "id": "cislunar-arc-recovery-chart-noise-free-worst-ratio",
+  "error": false,
+  "parts": [
+   "noise-free worst recovery ratio (final error / displacement)"
+  ]
+ },
+ {
+  "id": "cislunar-observability-chart-title",
+  "error": false,
+  "parts": [
+   "Cislunar observability over a tracking arc (P6)"
+  ]
+ },
+ {
+  "id": "cislunar-observability-chart-subtitle",
+  "error": false,
+  "parts": [
+   "rank-vs-arc (range-only single link) · Gramian eigen-spectrum · differential-corrected DRO ICs + SRIF cross-check · ",
+   {
+    "var": "modelled"
+   },
+   " design, ",
+   {
+    "var": "validated"
+   },
+   " rank/STM/closure"
+  ]
+ },
+ {
+  "id": "cislunar-observability-chart-observable-rank",
+  "error": false,
+  "parts": [
+   "observable rank vs arc length"
+  ]
+ },
+ {
+  "id": "cislunar-observability-chart-arc-length",
+  "error": false,
+  "parts": [
+   "arc length (rotating-frame time units, ",
+   {
+    "var": "arc_hours"
+   },
+   " h total)"
+  ]
+ },
+ {
+  "id": "cislunar-observability-chart-gramian-eigenvalues",
+  "error": false,
+  "parts": [
+   "Gramian eigenvalues (log10)"
+  ]
+ },
+ {
+  "id": "cislunar-observability-chart-condition",
+  "error": false,
+  "parts": [
+   "condition κ = ",
+   {
+    "var": "condition"
+   }
+  ]
+ },
+ {
+  "id": "conflict-resilience-chart-title",
+  "error": false,
+  "parts": [
+   "Layered-PNT conflict resilience (P7)"
+  ]
+ },
+ {
+  "id": "conflict-resilience-chart-subtitle",
+  "error": false,
+  "parts": [
+   "total-loss vs threat intensity (MC vs closed form) · resilience ratio vs denial correlation · ",
+   {
+    "var": "modelled"
+   },
+   " priors, ",
+   {
+    "var": "validated"
+   },
+   " MC->closed-form / copula marginals"
+  ]
+ },
+ {
+  "id": "conflict-resilience-chart-total-loss-probability",
+  "error": false,
+  "parts": [
+   "total-loss probability vs intensity"
+  ]
+ },
+ {
+  "id": "conflict-resilience-chart-threat-intensity",
+  "error": false,
+  "parts": [
+   "threat intensity"
+  ]
+ },
+ {
+  "id": "conflict-resilience-chart-layered-mc",
+  "error": false,
+  "parts": [
+   "layered MC"
+  ]
+ },
+ {
+  "id": "conflict-resilience-chart-single-layer",
+  "error": false,
+  "parts": [
+   "single layer"
+  ]
+ },
+ {
+  "id": "conflict-resilience-chart-resilience-ratio",
+  "error": false,
+  "parts": [
+   "resilience ratio vs denial correlation"
+  ]
+ },
+ {
+  "id": "conflict-resilience-chart-denial-correlation",
+  "error": false,
+  "parts": [
+   "denial correlation ρ"
+  ]
+ },
+ {
+  "id": "constellation-chart-availability-pct",
+  "error": false,
+  "parts": [
+   "availability (%)"
+  ]
+ },
+ {
+  "id": "constellation-chart-mean-pdop",
+  "error": false,
+  "parts": [
+   "mean PDOP"
+  ]
+ },
+ {
+  "id": "earth-gnss-lunar-chart-title",
+  "error": false,
+  "parts": [
+   "Earth-GNSS at lunar distance — C/N0 against off-boresight angle"
+  ]
+ },
+ {
+  "id": "earth-gnss-lunar-chart-track-threshold",
+  "error": false,
+  "parts": [
+   "track ",
+   {
+    "var": "threshold"
+   },
+   " dB-Hz"
+  ]
+ },
+ {
+  "id": "earth-gnss-lunar-chart-earth-limb",
+  "error": false,
+  "parts": [
+   "Earth limb ",
+   {
+    "var": "angle"
+   },
+   "°"
+  ]
+ },
+ {
+  "id": "earth-gnss-lunar-chart-off-boresight-angle",
+  "error": false,
+  "parts": [
+   "off-boresight angle (deg)"
+  ]
+ },
+ {
+  "id": "earth-gnss-lunar-chart-cn0",
+  "error": false,
+  "parts": [
+   "C/N0 (dB-Hz)"
+  ]
+ },
+ {
+  "id": "earth-gnss-lunar-chart-legend",
+  "error": false,
+  "parts": [
+   "gold = trackable · red = too weak · grey = Earth-occulted · ",
+   {
+    "var": "modelled"
+   },
+   " transmit pattern"
+  ]
+ },
+ {
+  "id": "ensemble-chart-title",
+  "error": false,
+  "parts": [
+   "Clock holdover: timing-error confidence band (",
+   {
+    "var": "n_runs"
+   },
+   " runs)"
+  ]
+ },
+ {
+  "id": "ensemble-chart-timing-error-ns",
+  "error": false,
+  "parts": [
+   "timing error (ns)"
+  ]
+ },
+ {
+  "id": "ensemble-chart-spec-threshold",
+  "error": false,
+  "parts": [
+   "spec ",
+   {
+    "var": "threshold"
+   },
+   " ns"
+  ]
+ },
+ {
+  "id": "ensemble-chart-time-s",
+  "error": false,
+  "parts": [
+   "time (s)"
+  ]
+ },
+ {
+  "id": "ensemble-chart-classical-median-band",
+  "error": false,
+  "parts": [
+   "classical: ",
+   {
+    "var": "id"
+   },
+   " (median, 5-95% band)"
+  ]
+ },
+ {
+  "id": "ensemble-chart-quantum-median-band",
+  "error": false,
+  "parts": [
+   "quantum: ",
+   {
+    "var": "id"
+   },
+   " (median, 5-95% band)"
+  ]
+ },
+ {
+  "id": "frame-eop-chart-title",
+  "error": false,
+  "parts": [
+   "Real-time frame / EOP prediction budget for lunar timing"
+  ]
+ },
+ {
+  "id": "frame-eop-chart-ut1-error-ms",
+  "error": false,
+  "parts": [
+   "UT1 error (ms)"
+  ]
+ },
+ {
+  "id": "frame-eop-chart-position-at-moon-m",
+  "error": false,
+  "parts": [
+   "position at Moon (m)"
+  ]
+ },
+ {
+  "id": "frame-eop-chart-equiv-timing-ns",
+  "error": false,
+  "parts": [
+   "equiv. timing (ns)"
+  ]
+ },
+ {
+  "id": "frame-eop-chart-prediction-horizon-days",
+  "error": false,
+  "parts": [
+   "prediction horizon (days)"
+  ]
+ },
+ {
+  "id": "frame-eop-chart-iers-final-floor",
+  "error": false,
+  "parts": [
+   "IERS final floor ",
+   {
+    "var": "floor_ms"
+   },
+   " ms"
+  ]
+ },
+ {
+  "id": "frame-eop-chart-marker-at-moon",
+  "error": false,
+  "parts": [
+   "~",
+   {
+    "var": "ut1_ms"
+   },
+   " ms = ~",
+   {
+    "var": "pos_m"
+   },
+   " m at Moon"
+  ]
+ },
+ {
+  "id": "frame-eop-chart-growth",
+  "error": false,
+  "parts": [
+   "~",
+   {
+    "var": "factor"
+   },
+   "x, 1 d→",
+   {
+    "var": "far_days"
+   },
+   " d"
+  ]
+ },
+ {
+  "id": "fusion-hybrid-ukf-chart-title",
+  "error": false,
+  "parts": [
+   "17-state hybrid UKF — filter self-consistency (modelled)"
+  ]
+ },
+ {
+  "id": "fusion-hybrid-ukf-chart-subtitle",
+  "error": false,
+  "parts": [
+   "NEES + innovation-whiteness vs 95% χ² bands; 1.0 = consistent. Self-consistency, not accuracy."
+  ]
+ },
+ {
+  "id": "fusion-hybrid-ukf-chart-target",
+  "error": false,
+  "parts": [
+   "target 1.0"
+  ]
+ },
+ {
+  "id": "fusion-hybrid-ukf-chart-nis-whiteness",
+  "error": false,
+  "parts": [
+   "NIS (whiteness)"
+  ]
+ },
+ {
+  "id": "fusion-hybrid-ukf-chart-nees",
+  "error": false,
+  "parts": [
+   "NEES"
+  ]
+ },
+ {
+  "id": "fusion-hybrid-ukf-chart-consistent",
+  "error": false,
+  "parts": [
+   "CONSISTENT"
+  ]
+ },
+ {
+  "id": "fusion-hybrid-ukf-chart-inconsistent",
+  "error": false,
+  "parts": [
+   "INCONSISTENT"
+  ]
+ },
+ {
+  "id": "fusion-pack-chart-title",
+  "error": false,
+  "parts": [
+   "Loosely-coupled GNSS/INS horizontal error"
+  ]
+ },
+ {
+  "id": "fusion-pack-chart-horizontal-error-m",
+  "error": false,
+  "parts": [
+   "horizontal error (m)"
+  ]
+ },
+ {
+  "id": "fusion-pack-chart-spec-threshold",
+  "error": false,
+  "parts": [
+   "spec ",
+   {
+    "var": "threshold"
+   },
+   " m"
+  ]
+ },
+ {
+  "id": "gnss-sim-chart-title",
+  "error": false,
+  "parts": [
+   "RAIM protection levels vs alert limits"
+  ]
+ },
+ {
+  "id": "gnss-sim-chart-protection-level-m",
+  "error": false,
+  "parts": [
+   "protection level (m)"
+  ]
+ },
+ {
+  "id": "gnss-sim-chart-val",
+  "error": false,
+  "parts": [
+   "VAL ",
+   {
+    "var": "alert_v"
+   },
+   " m"
+  ]
+ },
+ {
+  "id": "gnss-sim-chart-hpl",
+  "error": false,
+  "parts": [
+   "HPL"
+  ]
+ },
+ {
+  "id": "gnss-sim-chart-vpl",
+  "error": false,
+  "parts": [
+   "VPL"
+  ]
+ },
+ {
+  "id": "geometry-chart-title",
+  "error": false,
+  "parts": [
+   "Skyplot (",
+   {
+    "var": "label"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "geometry-chart-north",
+  "error": false,
+  "parts": [
+   "N"
+  ]
+ },
+ {
+  "id": "geometry-chart-east",
+  "error": false,
+  "parts": [
+   "E"
+  ]
+ },
+ {
+  "id": "geometry-chart-south",
+  "error": false,
+  "parts": [
+   "S"
+  ]
+ },
+ {
+  "id": "geometry-chart-west",
+  "error": false,
+  "parts": [
+   "W"
+  ]
+ },
+ {
+  "id": "geometry-chart-satellite-tooltip",
+  "error": false,
+  "parts": [
+   {
+    "var": "system"
+   },
+   " ",
+   {
+    "var": "id"
+   },
+   " az ",
+   {
+    "var": "az"
+   },
+   " el ",
+   {
+    "var": "el"
+   }
+  ]
+ },
+ {
+  "id": "geometry-chart-satellite-tooltip-hidden",
+  "error": false,
+  "parts": [
+   {
+    "var": "system"
+   },
+   " ",
+   {
+    "var": "id"
+   },
+   " az ",
+   {
+    "var": "az"
+   },
+   " el ",
+   {
+    "var": "el"
+   },
+   " (hidden by the skyline)"
+  ]
+ },
+ {
+  "id": "geometry-chart-satellite-tooltip-below-mask",
+  "error": false,
+  "parts": [
+   {
+    "var": "system"
+   },
+   " ",
+   {
+    "var": "id"
+   },
+   " az ",
+   {
+    "var": "az"
+   },
+   " el ",
+   {
+    "var": "el"
+   },
+   " (below the mask)"
+  ]
+ },
+ {
+  "id": "geometry-chart-no-fix",
+  "error": false,
+  "parts": [
+   "no fix"
+  ]
+ },
+ {
+  "id": "geometry-chart-in-view-hidden",
+  "error": false,
+  "parts": [
+   {
+    "var": "n_visible"
+   },
+   " in view, ",
+   {
+    "var": "n_masked"
+   },
+   " hidden by the skyline · ",
+   {
+    "var": "dop"
+   },
+   " · hollow: not in view"
+  ]
+ },
+ {
+  "id": "geometry-chart-satellites-as-given",
+  "error": false,
+  "parts": [
+   "satellites as given"
+  ]
+ },
+ {
+  "id": "geometry-chart-representative-sky",
+  "error": false,
+  "parts": [
+   "representative sky, not a dated one"
+  ]
+ },
+ {
+  "id": "geometry-chart-footer",
+  "error": false,
+  "parts": [
+   "Kshana v",
+   {
+    "var": "version"
+   },
+   " · geometry under a stated error model · kshana.dev"
+  ]
+ },
+ {
+  "id": "campaign-chart-clock-time-error-vs-guard",
+  "error": false,
+  "parts": [
+   "clock time error vs guard (ns)"
+  ]
+ },
+ {
+  "id": "campaign-chart-cn0-vs-tracking-floor",
+  "error": false,
+  "parts": [
+   "C/N0 vs tracking floor (dB-Hz)"
+  ]
+ },
+ {
+  "id": "campaign-chart-protection-level-vs-alert-limit",
+  "error": false,
+  "parts": [
+   "protection level vs alert limit (m)"
+  ]
+ },
+ {
+  "id": "campaign-chart-position-error-vs-threshold",
+  "error": false,
+  "parts": [
+   "position error vs threshold (m)"
+  ]
+ },
+ {
+  "id": "campaign-chart-satellites-tracking",
+  "error": false,
+  "parts": [
+   "satellites tracking"
+  ]
+ },
+ {
+  "id": "campaign-chart-alarm-flags-and-events",
+  "error": false,
+  "parts": [
+   "alarm flags and events"
+  ]
+ },
+ {
+  "id": "campaign-chart-mission-time",
+  "error": false,
+  "parts": [
+   {
+    "var": "duration"
+   },
+   " s mission time"
+  ]
+ },
+ {
+  "id": "campaign-chart-sweep-percentile-band",
+  "error": false,
+  "parts": [
+   ", median with 5th-95th percentile band over ",
+   {
+    "var": "n_runs"
+   },
+   " seeds"
+  ]
+ },
+ {
+  "id": "campaign-chart-sweep-line-at",
+  "error": false,
+  "parts": [
+   {
+    "var": "name"
+   },
+   " (",
+   {
+    "var": "unit"
+   },
+   ") at ",
+   {
+    "var": "lead"
+   }
+  ]
+ },
+ {
+  "id": "campaign-chart-monte-carlo-of",
+  "error": false,
+  "parts": [
+   "Monte Carlo of `",
+   {
+    "var": "scenario_kind"
+   },
+   "`: ",
+   {
+    "var": "n_runs"
+   },
+   " seeds from ",
+   {
+    "var": "base_seed"
+   },
+   " (5th, 50th, 95th percentile; bar = bootstrap 95% confidence interval on the mean)"
+  ]
+ },
+ {
+  "id": "campaign-chart-composed-members",
+  "error": false,
+  "parts": [
+   "composed members under shared conditions: ",
+   {
+    "var": "shared"
+   }
+  ]
+ },
+ {
+  "id": "campaign-chart-not-available",
+  "error": false,
+  "parts": [
+   "n/a"
+  ]
+ },
+ {
+  "id": "api-chart-provenance-footer",
+  "error": false,
+  "parts": [
+   "Kshana v",
+   {
+    "var": "version"
+   },
+   " · scenario ",
+   {
+    "var": "hash"
+   },
+   " · kshana.dev"
+  ]
+ }
+]

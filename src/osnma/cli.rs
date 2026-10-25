@@ -383,19 +383,20 @@ pub fn parse_public_key(s: &str) -> Result<PublicKey, String> {
 
 /// Run the subcommand; returns the process exit code.
 pub fn run(args: &[String]) -> i32 {
+    let advisory = crate::legal::text("legal-osnma-advisory");
     // The advisory goes first on every path, errors included.
     if matches!(args.first().map(String::as_str), Some("--help" | "-h")) {
-        println!("{ADVISORY}\n\n{USAGE}");
+        println!("{advisory}\n\n{USAGE}");
         return 0;
     }
     if args.first().map(String::as_str) != Some("verify") {
-        eprintln!("{ADVISORY}\n\n{USAGE}");
+        eprintln!("{advisory}\n\n{USAGE}");
         return 2;
     }
     let o = match parse_args(&args[1..]) {
         Ok(o) => o,
         Err(e) => {
-            eprintln!("{ADVISORY}\n\nerror: {e}\n\n{USAGE}");
+            eprintln!("{advisory}\n\nerror: {e}\n\n{USAGE}");
             return 2;
         }
     };
@@ -406,7 +407,7 @@ pub fn run(args: &[String]) -> i32 {
                 "{}",
                 crate::t!(
                     "osnma-cli-error-cannot-read",
-                    ADVISORY = ADVISORY,
+                    ADVISORY = advisory,
                     input = o.input,
                     e = e
                 )
@@ -426,7 +427,7 @@ pub fn run(args: &[String]) -> i32 {
     let a = match analyse(raw, &params) {
         Ok(a) => a,
         Err(e) => {
-            eprintln!("{ADVISORY}\n\nerror: {e}");
+            eprintln!("{advisory}\n\nerror: {e}");
             return 2;
         }
     };
@@ -434,7 +435,7 @@ pub fn run(args: &[String]) -> i32 {
         match serde_json::to_string_pretty(&report_json(&a, &params)) {
             Ok(s) => println!("{s}"),
             Err(e) => {
-                eprintln!("{ADVISORY}\n\nerror: {e}");
+                eprintln!("{advisory}\n\nerror: {e}");
                 return 2;
             }
         }
@@ -465,7 +466,10 @@ fn print_text(a: &Analysis, o: &Options) {
     {
         println!(
             "{}",
-            crate::t!("osnma-cli-galileo-osnma-verification", ADVISORY = ADVISORY)
+            crate::t!(
+                "osnma-cli-galileo-osnma-verification",
+                ADVISORY = crate::legal::text("legal-osnma-advisory")
+            )
         );
         println!(
             "{}",

@@ -855,10 +855,12 @@ pub fn to_svg(result: &HybridUkfResult) -> String {
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"24\" font-size=\"15\" font-weight=\"bold\">17-state hybrid UKF — filter self-consistency (modelled)</text>"
+        "<text x=\"{ml:.0}\" y=\"24\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+        crate::t!("fusion-hybrid-ukf-chart-title")
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"42\" font-size=\"11\" fill=\"{MUTED}\">NEES + innovation-whiteness vs 95% \u{03c7}\u{00b2} bands; 1.0 = consistent. Self-consistency, not accuracy.</text>"
+        "<text x=\"{ml:.0}\" y=\"42\" font-size=\"11\" fill=\"{MUTED}\">{}</text>",
+        crate::t!("fusion-hybrid-ukf-chart-subtitle")
     ));
     // Axis.
     svg.push_str(&format!(
@@ -875,15 +877,26 @@ pub fn to_svg(result: &HybridUkfResult) -> String {
         ml + pw
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{LIME}\">target 1.0</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{LIME}\">{}</text>",
         ml + 4.0,
-        one_y - 4.0
+        one_y - 4.0,
+        crate::t!("fusion-hybrid-ukf-chart-target")
     ));
 
     // Two bar groups.
     let groups = [
-        ("NIS (whiteness)", nis_n, nis_lo, nis_hi),
-        ("NEES", nees_n, nees_lo, nees_hi),
+        (
+            crate::t!("fusion-hybrid-ukf-chart-nis-whiteness"),
+            nis_n,
+            nis_lo,
+            nis_hi,
+        ),
+        (
+            crate::t!("fusion-hybrid-ukf-chart-nees"),
+            nees_n,
+            nees_lo,
+            nees_hi,
+        ),
     ];
     let slot = pw / groups.len() as f64;
     let bw = slot * 0.34;
@@ -917,14 +930,15 @@ pub fn to_svg(result: &HybridUkfResult) -> String {
             axis_y + 18.0
         ));
         svg.push_str(&format!(
-            "<text x=\"{cx:.1}\" y=\"{:.1}\" text-anchor=\"middle\" fill=\"{TEXT}\">{val:.2}\u{00d7}</text>",
-            by - 6.0
+            "<text x=\"{cx:.1}\" y=\"{:.1}\" text-anchor=\"middle\" fill=\"{TEXT}\">{}\u{00d7}</text>",
+            by - 6.0,
+            crate::i18n::num(*val, 2)
         ));
     }
     let verdict = if cons.consistent {
-        ("CONSISTENT", LIME)
+        (crate::t!("fusion-hybrid-ukf-chart-consistent"), LIME)
     } else {
-        ("INCONSISTENT", CORAL)
+        (crate::t!("fusion-hybrid-ukf-chart-inconsistent"), CORAL)
     };
     svg.push_str(&format!(
         "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" font-weight=\"bold\" fill=\"{}\">{}</text>",
