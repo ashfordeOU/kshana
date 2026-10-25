@@ -366,7 +366,7 @@ pub fn run_thread_with(
         let info = lookup(&spec.kind).map_err(|e| format!("phase `{}`: {e}", spec.id))?;
         let phase = (info.ctor)(&spec.model).map_err(|e| format!("phase `{}`: {e}", spec.id))?;
         let start_s = state.t_s;
-        let pctx = ctx.phase_ctx(i, &spec.id, spec.duration_s);
+        let pctx = ctx.phase_ctx_for(i, spec);
         let mut o = run_phase(phase.as_ref(), &state, &ctx, &pctx)
             .map_err(|e| format!("phase `{}`: {e}", spec.id))?;
         let want_end = start_s + spec.duration_s;
@@ -894,10 +894,8 @@ label = "validated"
 
     #[test]
     fn a_registered_stub_stops_the_thread_loudly() {
-        let scn = MissionThreadScenario::parse(
-            &DOC.replace("kind = \"mock\"", "kind = \"launch-ascent\""),
-        )
-        .unwrap();
+        let scn = MissionThreadScenario::parse(&DOC.replace("kind = \"mock\"", "kind = \"entry\""))
+            .unwrap();
         let e = run_thread(&scn).unwrap_err();
         assert!(e.contains("not implemented"), "{e}");
     }
