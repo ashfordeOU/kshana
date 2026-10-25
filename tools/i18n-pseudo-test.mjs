@@ -58,7 +58,7 @@ const probe = () => {
     const cl = el.cloneNode(true);
     for (const c of cl.querySelectorAll('code,kbd,samp,var,tt')) c.remove();
     const t = cl.textContent.replace(/\s+/g, ' ').trim().replace(/#$/, '');
-    if (!/\p{L}/u.test(t.replace(/\b[A-Z]{3,}\b/g, ''))) continue;
+    if (!/\p{L}{3,}/u.test(t.replace(/\b[A-Z]{3,}\b/g, ''))) continue; // symbols, units and formulas have no word
     const isId = (w) => /^[\p{L}\p{N}_.:/^*+=<>()%[\]-]+$/u.test(w) && /[-_.:/^0-9]/.test(w);
     if (t.split(/[\s,;|·]+/).filter(Boolean).every(isId)) continue; // identifiers, file names, formulas
     if (!t.includes('⟦')) bad.push(t.slice(0, 80));
