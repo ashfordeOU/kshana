@@ -176,7 +176,7 @@ pub fn e1b_from_table(table: &MemoryCodeTable, prn: u16) -> Result<SignalCode, S
         prn,
     })?;
     Ok(SignalCode::new(
-        crate::t!("iq-signals-galileo-galileo-e1-prn", prn = prn),
+        crate::i18n::in_english(|| crate::t!("iq-signals-galileo-galileo-e1-prn", prn = prn)),
         E1_CHIP_RATE_HZ,
         E1_HZ,
         bipolar(bits),
@@ -194,7 +194,7 @@ pub fn e1c_from_table(table: &MemoryCodeTable, prn: u16) -> Result<SignalCode, S
         prn,
     })?;
     Ok(SignalCode::new(
-        crate::t!("iq-signals-galileo-galileo-e1-prn-2", prn = prn),
+        crate::i18n::in_english(|| crate::t!("iq-signals-galileo-galileo-e1-prn-2", prn = prn)),
         E1_CHIP_RATE_HZ,
         E1_HZ,
         bipolar(bits),
@@ -275,7 +275,7 @@ pub fn e5a_i(prn: u16) -> Result<SignalCode, SignalError> {
         E5A_CODE_LEN,
     );
     Ok(SignalCode::new(
-        crate::t!("iq-signals-galileo-galileo-e5a-prn", prn = prn),
+        crate::i18n::in_english(|| crate::t!("iq-signals-galileo-galileo-e5a-prn", prn = prn)),
         E5A_CHIP_RATE_HZ,
         E5A_HZ,
         bipolar(&bits),
@@ -296,7 +296,7 @@ pub fn e5a_q(prn: u16) -> Result<SignalCode, SignalError> {
         E5A_CODE_LEN,
     );
     Ok(SignalCode::new(
-        crate::t!("iq-signals-galileo-galileo-e5a-prn-2", prn = prn),
+        crate::i18n::in_english(|| crate::t!("iq-signals-galileo-galileo-e5a-prn-2", prn = prn)),
         E5A_CHIP_RATE_HZ,
         E5A_HZ,
         bipolar(&bits),

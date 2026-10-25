@@ -290,8 +290,13 @@ impl InstructorLog {
         s
     }
 
-    /// Readable text for the debrief.
+    /// Readable text for the debrief. It is written beside the JSON log as a file of the run, so it
+    /// is English in every language.
     pub fn to_text(&self) -> String {
+        crate::i18n::in_english(|| self.text_in_current_language())
+    }
+
+    fn text_in_current_language(&self) -> String {
         let mut o = String::new();
         o.push_str(&crate::t!(
             "nmea-synth-log-instructor-log",

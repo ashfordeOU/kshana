@@ -1692,7 +1692,8 @@ fn run_skyline_cli(args: &[String]) -> ExitCode {
         }
         Some("--presets") => print_or_fail(Ok(kshana::surface::skyline_presets())),
         Some("--preset") => match args.get(1).filter(|a| !a.starts_with("--")) {
-            Some(name) => print_or_fail(
+            // The document is machine output: English in every language.
+            Some(name) => print_or_fail(kshana::i18n::in_english_or_localised_error(|| {
                 kshana::geometry::skyline_profile(&kshana::skyline::SkylineCfg {
                     preset: Some(name.clone()),
                     ..Default::default()
@@ -1708,8 +1709,8 @@ fn run_skyline_cli(args: &[String]) -> ExitCode {
                         "open_fraction": p.open_fraction,
                     }))
                     .map_err(|e| e.to_string())
-                }),
-            ),
+                })
+            })),
             None => {
                 eprintln!(
                     "{}",
@@ -2013,7 +2014,9 @@ fn run_standards_pack_cli(args: &[String]) -> ExitCode {
             };
             let text = serde_json::to_string_pretty(&report).unwrap_or_default();
             if let Some(base) = out {
-                let md = kshana::standards_pack::report_markdown(&report);
+                // The files are English in every language; the report printed below is in the language.
+                let md =
+                    kshana::i18n::in_english(|| kshana::standards_pack::report_markdown(&report));
                 for (ext, body) in [(".pack.json", &text), (".pack.md", &md)] {
                     let target = format!("{base}{ext}");
                     if let Err(e) = std::fs::write(&target, body) {

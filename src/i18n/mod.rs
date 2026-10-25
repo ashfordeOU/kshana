@@ -281,6 +281,26 @@ pub fn with_lang<R>(lang: Lang, f: impl FnOnce() -> R) -> R {
     f()
 }
 
+/// Run `f` in English whatever the language of the run. For a machine file (JSON, CSV, TOML, a
+/// telemetry line, a hashed or signed artifact, a file name): build it inside this and the same
+/// code that writes localised text on the terminal writes English text, and `.` decimal marks.
+pub fn in_english<R>(f: impl FnOnce() -> R) -> R {
+    with_lang(Lang::english(), f)
+}
+
+/// Run `f` in English, for the machine files it makes; if it fails, run it again in the language
+/// of the run, so that the error a person reads is in their language. (A failing run has made no
+/// file worth keeping; the second run is the price of the error text.)
+pub fn in_english_or_localised_error<T, E>(f: impl Fn() -> Result<T, E>) -> Result<T, E> {
+    match in_english(&f) {
+        Ok(v) => Ok(v),
+        Err(english) => match f() {
+            Err(local) => Err(local),
+            Ok(_) => Err(english),
+        },
+    }
+}
+
 type Bundle = FluentBundle<FluentResource>;
 
 fn build(tag: &str, source: &str) -> Result<Bundle, String> {

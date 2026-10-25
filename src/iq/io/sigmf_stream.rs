@@ -563,8 +563,12 @@ mod files {
             .unwrap_or(&s)
             .to_string();
         (
-            PathBuf::from(crate::t!("iq-campaign-conditions-sigmf-meta", base = base)),
-            PathBuf::from(crate::t!("iq-io-sigmf-stream-sigmf-data", base = base)),
+            PathBuf::from(crate::i18n::in_english(|| {
+                crate::t!("iq-campaign-conditions-sigmf-meta", base = base)
+            })),
+            PathBuf::from(crate::i18n::in_english(|| {
+                crate::t!("iq-io-sigmf-stream-sigmf-data", base = base)
+            })),
         )
     }
 

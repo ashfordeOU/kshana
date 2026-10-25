@@ -965,7 +965,11 @@ pub fn run_daily(rest: &[String]) -> Result<(), MapError> {
         (format!("{stem}.geojson"), gj.into_bytes()),
         (format!("{stem}.png"), p.png),
         (
-            english(|| crate::t!("interference-map-observatory-incidents-json", stem = stem)),
+            english(|| {
+                crate::i18n::in_english(|| {
+                    crate::t!("interference-map-observatory-incidents-json", stem = stem)
+                })
+            }),
             inc.into_bytes(),
         ),
     ];
@@ -996,7 +1000,9 @@ pub fn run_daily(rest: &[String]) -> Result<(), MapError> {
     });
     write_new(
         &out.join(english(|| {
-            crate::t!("interference-map-observatory-manifest-json", stem = stem)
+            crate::i18n::in_english(|| {
+                crate::t!("interference-map-observatory-manifest-json", stem = stem)
+            })
         })),
         to_text(&manifest)?.as_bytes(),
     )?;
