@@ -23,3 +23,7 @@ seg-842b77a21c5f = Kanal
 seg-d6476863f862 = Förmåga
 
 seg-fdbb9db68f1d = ingen
+
+seg-1759a8cce7d6 = Slag
+
+seg-564133d6a0c4 = Konstellationer kring vilken kropp som helst

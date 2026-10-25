@@ -95,3 +95,5 @@ seg-fa37e351f6b4 = Kopiera
 seg-7994e9983f27 = Deterministisk utifrån scenario, frö och motorversion
 
 seg-9d3ee6a5613e = Körningar
+
+seg-94de9433d99f = Scenariofiler
