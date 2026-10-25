@@ -17,3 +17,5 @@ seg-491167f2310c = Scoop
 seg-5c425ea185ee = Готовий двійковий файл
 
 seg-d107bc8e1950 = Реєстр MCP
+
+seg-fdbb9db68f1d = немає
