@@ -176,7 +176,8 @@ impl TruthOrbit {
         if !(0.0..0.1).contains(&cfg.eccentricity) {
             return Err(crate::terr!(
                 "e-leo-navmsg-truth-eccentricity-must-be-in-for",
-                eccentricity = cfg.eccentricity
+                eccentricity = cfg.eccentricity,
+                lit_0_1 = crate::i18n::num(0.1_f64, 1)
             ));
         }
         if !(cfg.step_s > 0.0 && cfg.step_s <= 30.0) {

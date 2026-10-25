@@ -1603,7 +1603,11 @@
   "id": "e-animation-animation-duration-must-be-between",
   "error": true,
   "parts": [
-   "animation duration must be between 0.5 s and 600 s, got ",
+   "animation duration must be between ",
+   {
+    "var": "lit_0_5"
+   },
+   " s and 600 s, got ",
    {
     "var": "duration_s"
    }
@@ -5110,7 +5114,11 @@
    {
     "var": "s"
    },
-   " (0.35 default monitor statistic)"
+   " (",
+   {
+    "var": "lit_0_35"
+   },
+   " default monitor statistic)"
   ]
  },
  {
@@ -5372,7 +5380,11 @@
   "id": "e-body-pnt-user-altitude-must-be-positive",
   "error": true,
   "parts": [
-   "user altitude must be positive and eccentricity in [0, 0.9)"
+   "user altitude must be positive and eccentricity in [0, ",
+   {
+    "var": "lit_0_9"
+   },
+   ")"
   ]
  },
  {
@@ -8620,7 +8632,11 @@
    {
     "var": "e"
    },
-   " must lie in [0, 0.9)"
+   " must lie in [0, ",
+   {
+    "var": "lit_0_9"
+   },
+   ")"
   ]
  },
  {
@@ -8793,7 +8809,11 @@
   "id": "e-constellation-grid-step-deg-must-lie",
   "error": true,
   "parts": [
-   "grid_step_deg must lie in [0.25, 90]"
+   "grid_step_deg must lie in [",
+   {
+    "var": "lit_0_25"
+   },
+   ", 90]"
   ]
  },
  {
@@ -17099,7 +17119,11 @@
    {
     "var": "c"
    },
-   ": commensurate sampling turns the code discriminator into a staircase (at 2 samples/chip the DLL dithers, about 0.09 chip RMS code error at 45 dB-Hz); code-loop jitter and bias from this recording are not representative. Use a rate that is not a multiple of half the chip rate to judge code loops."
+   ": commensurate sampling turns the code discriminator into a staircase (at 2 samples/chip the DLL dithers, about ",
+   {
+    "var": "lit_0_09"
+   },
+   " chip RMS code error at 45 dB-Hz); code-loop jitter and bias from this recording are not representative. Use a rate that is not a multiple of half the chip rate to judge code loops."
   ]
  },
  {
@@ -21677,7 +21701,11 @@
   "id": "e-leo-navmsg-fit-sample-and-eval-step",
   "error": true,
   "parts": [
-   "fit_sample_s and eval_step_s must be 0.5-60 s"
+   "fit_sample_s and eval_step_s must be ",
+   {
+    "var": "lit_0_5"
+   },
+   "-60 s"
   ]
  },
  {
@@ -22306,7 +22334,11 @@
   "id": "e-leo-navmsg-truth-eccentricity-must-be-in-for",
   "error": true,
   "parts": [
-   "eccentricity must be in [0, 0.1) for a LEO fit; got ",
+   "eccentricity must be in [0, ",
+   {
+    "var": "lit_0_1"
+   },
+   ") for a LEO fit; got ",
    {
     "var": "eccentricity"
    }
@@ -35027,7 +35059,15 @@
    {
     "var": "dead_band_chips"
    },
-   " chips, so the Early/Late discriminator is a staircase with a one-sample dead band instead of a triangle and the DLL settles at the wrong lag. Offset the sample rate off the integer multiple (5 MHz is 4.8876 samples/chip; 25 MHz is 24.4379) or oversample far enough that the dead band is below the code-phase accuracy you need."
+   " chips, so the Early/Late discriminator is a staircase with a one-sample dead band instead of a triangle and the DLL settles at the wrong lag. Offset the sample rate off the integer multiple (5 MHz is ",
+   {
+    "var": "lit_4_8876"
+   },
+   " samples/chip; 25 MHz is ",
+   {
+    "var": "lit_24_4379"
+   },
+   ") or oversample far enough that the dead band is below the code-phase accuracy you need."
   ]
  },
  {
@@ -39242,7 +39282,11 @@
   "id": "telecom-timing-the-mask-is-defined-through",
   "error": false,
   "parts": [
-   "the mask is defined through a 0.1 Hz low-pass filter, which this engine applies only at sample intervals of ",
+   "the mask is defined through a ",
+   {
+    "var": "lit_0_1"
+   },
+   " Hz low-pass filter, which this engine applies only at sample intervals of ",
    {
     "var": "MAX_FILTER_DT_S"
    },
@@ -40575,7 +40619,11 @@
   "id": "e-tracking-loop-tracking-loop-correlator-spacing-chips",
   "error": true,
   "parts": [
-   "tracking-loop: correlator_spacing_chips must be below 1.9 chips (got ",
+   "tracking-loop: correlator_spacing_chips must be below ",
+   {
+    "var": "lit_1_9"
+   },
+   " chips (got ",
    {
     "var": "correlator_spacing_chips"
    },
