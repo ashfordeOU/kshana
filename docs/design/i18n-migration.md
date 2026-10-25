@@ -2,7 +2,7 @@
 # Moving the engine's human-facing text into the catalogue
 
 The tool is localised in sixteen languages beside English. `src/i18n/` is the framework,
-`locales/en/engine.ftl` the source catalogue, `locales/<tag>/engine.ftl` the translations. This page is the
+`i18n/en/engine.ftl` the source catalogue, `i18n/<tag>/engine.ftl` the translations. This page is the
 working rule for moving a string out of the Rust source, by hand, where `scripts/i18n_codemod.py` could not.
 
 ## What moves, and what stays
@@ -25,7 +25,7 @@ converted once and the machine copy is still English.
 
 ## How to convert one string
 
-1. Write the English text, byte for byte, as a message in `locales/en/engine.ftl`, in the section of its
+1. Write the English text, byte for byte, as a message in `i18n/en/engine.ftl`, in the section of its
    file (`## src/path.rs`). Id: lower case, hyphens, `<area>-<what>` (`e-...` for an error message). Messages
    are one per string, not one per sentence of a table.
 2. Variables are named (`{ $count }`) and are strings: format numbers in Rust with `i18n::num(x, 2)`

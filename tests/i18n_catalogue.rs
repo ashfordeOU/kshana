@@ -5,7 +5,7 @@
 //!   (written by `scripts/i18n_codemod.py`) and `manual.json` (written by hand for the strings that
 //!   are not plain format strings) record each message's original template as parts, text and
 //!   variables; each message is rendered with a sentinel for every variable and compared.
-//! * Every message in `locales/en/engine.ftl` has such a record, or is declared new below.
+//! * Every message in `i18n/en/engine.ftl` has such a record, or is declared new below.
 //! * Translations only translate messages that exist, with the variables of the English message.
 //! * The pseudo-locale renders every message and keeps every argument.
 //! * Every message id written in the source exists, every English message is used, and every call
@@ -90,7 +90,13 @@ fn messages(text: &str) -> BTreeMap<String, BTreeSet<String>> {
             for a in &m.attributes {
                 collect_vars(&a.value, &mut vars);
             }
-            out.insert(m.id.name.clone(), vars);
+            out.insert(
+                m.id.name
+                    .strip_prefix("engine-")
+                    .unwrap_or(&m.id.name)
+                    .to_string(),
+                vars,
+            );
         }
     }
     out
