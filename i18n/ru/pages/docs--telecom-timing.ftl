@@ -19,3 +19,5 @@ seg-f63dd3d7aad4 = Источник
 seg-edb7b16b6c0e = Валидация
 
 seg-587beeccaa11 = Пресет
+
+seg-3c513ef2fd3b = Величина
