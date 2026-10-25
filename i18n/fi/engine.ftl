@@ -285,7 +285,7 @@ engine-e-animation-no-animation-format-given-expected = animaatiomuotoa ei annet
 
 engine-e-animation-animation-fps-must-be-between = animaation fps:n on oltava välillä 1 - 60, saatiin { $fps }
 
-engine-e-animation-animation-duration-must-be-between = animaation keston on oltava välillä 0.5 s - 600 s, saatiin { $duration_s }
+engine-e-animation-animation-duration-must-be-between = animaation keston on oltava välillä { $lit_0_5 } s – 600 s, saatiin { $duration_s }
 
 engine-e-animation-animation-width-must-be-between = animaation leveyden on oltava välillä 480 - 3840 pikseliä, saatiin { $width }
 
@@ -305,11 +305,9 @@ engine-animation-further-series-were-found-but = { " " }Löytyi lisää sarjoja:
 
 ## src/antenna.rs
 
-engine-antenna-altitude-beamwidth-deg-points = korkeus { $a_lo }-{ $a_hi } m x keilanleveys { $b_lo }-{ $b_hi } deg, pisteet: { $points }
+engine-antenna-limb-capture-is-reached-on = reunakaappaus ON saavutettu tällä ruudukolla (korkeus { $a_lo }-{ $a_hi } m × keilanleveys { $b_lo }-{ $b_hi } deg, pisteitä { $points2 }): otetuista toimintapisteistä reunan kaappaavia on { $points } / { $points2 } ja löydettyjä akselinylityksiä { $crossings }; suurin otettu reunan J/S on { $limb_js_db } dB korkeudella { $altitude_m } m / keilanleveydellä { $hpbw_deg } deg, kun kaappauskynnys on { $thr } dB.
 
-engine-antenna-limb-capture-is-reached-on = reunakaappaus ON saavutettu tällä ruudukolla ({ $grid }): otetuista toimintapisteistä reunan kaappaavia on { $points } / { $points2 } ja löydettyjä akselinylityksiä { $crossings }; suurin otettu reunan J/S on { $limb_js_db } dB korkeudella { $altitude_m } m / keilanleveydellä { $hpbw_deg } deg, kun kaappauskynnys on { $thr } dB.
-
-engine-antenna-limb-capture-is-not-reached = reunakaappausta ei saavuteta missään tällä ruudukolla ({ $grid }) - ei nollakaappausta, vaan ei reunakaappausta: paras reunan J/S on { $limb_js_db } dB korkeudella { $altitude_m } m / keilanleveydellä { $hpbw_deg } deg, { $shortfall } dB alle { $thr } dB:n kaappauskynnyksen; tämä toimintapiste kaappaisi reunan lähetysteholla { $limb_capture_tx_power_dbw } dBW lennetyn { $p_tx_dbw } dBW:n sijaan.
+engine-antenna-limb-capture-is-not-reached = reunakaappausta ei saavuteta missään tällä ruudukolla (korkeus { $a_lo }-{ $a_hi } m × keilanleveys { $b_lo }-{ $b_hi } deg, pisteitä { $points }) - ei nollakaappausta, vaan ei reunakaappausta: paras reunan J/S on { $limb_js_db } dB korkeudella { $altitude_m } m / keilanleveydellä { $hpbw_deg } deg, { $shortfall } dB alle { $thr } dB:n kaappauskynnyksen; tämä toimintapiste kaappaisi reunan lähetysteholla { $limb_capture_tx_power_dbw } dBW lennetyn { $p_tx_dbw } dBW:n sijaan.
 
 engine-e-antenna-azimuths-must-strictly-increase = atsimuuttien on kasvettava aidosti
 
@@ -727,7 +725,7 @@ engine-bench-site-result-was-scored-under-this = tulos { $v1 } on pisteytetty ve
 
 engine-bench-tasks-score-for-is-not-number = kohteen `{ $k }` pisteet eivät ole luku
 
-engine-bench-tasks-kshana-receiver-trust-35-default = kshana receiver-trust { $s } (0.35 oletusarvoinen valvontatunnusluku)
+engine-bench-tasks-kshana-receiver-trust-35-default = kshana receiver-trust { $s } ({ $lit_0_35 } oletusarvoinen valvontatunnusluku)
 
 engine-bench-tasks-malformed-clock-line = virheellinen kellorivi `{ $line }`
 
@@ -785,7 +783,7 @@ engine-e-body-pnt-duration-and-step-must-be = duration_s:n ja step_s:n on oltava
 
 engine-e-body-pnt-user-kind-must-be-orbiter = user.kind on oltava orbiter tai surface; saatiin '{ $k }'
 
-engine-e-body-pnt-user-altitude-must-be-positive = käyttäjän korkeuden on oltava positiivinen ja eksentrisyyden välillä [0, 0.9)
+engine-e-body-pnt-user-altitude-must-be-positive = käyttäjän korkeuden on oltava positiivinen ja eksentrisyyden välillä [0, { $lit_0_9 })
 
 engine-e-body-pnt-the-user-orbit-periapsis-is = käyttäjän radan periapsis on pinnan alapuolella
 
@@ -1003,7 +1001,7 @@ engine-campaign-compose-members = compose: jäsenet { $members }
 
 engine-campaign-member-runs-modelled = jäsenajot { $runs_total } (MODELLED)
 
-engine-campaign-sweep-of-over-nodes-each = lajin `{ $scenario_kind }` pyyhkäisy akseleiden { $axis_order } yli (solmut { $nodes }{ $v4 }; jokaisella viivalla oma alueensa)
+engine-campaign-sweep-of-over-nodes-each = lajin `{ $scenario_kind }` pyyhkäisy akseleiden { $axis_order } yli (solmut: { $nodes }; jokaisella viivalla oma alueensa)
 
 engine-campaign-campaign-modelled-composition-every-value = kampanja { $r } | MODELLED-koostumus; jokainen arvo luettu nimetyn lajin todellisesta ajosta
 
@@ -1258,7 +1256,7 @@ engine-e-constellation-needs-altitude-km-or-semi = { $what }: tarvitsee altitude
 
 engine-e-constellation-semi-major-axis-km-is = { $what }: isoakselin puolikas { $v1 } km ei ylitä kappaleen { $name } sädettä
 
-engine-e-constellation-eccentricity-must-lie-in = { $what }: eksentrisyyden { $e } on oltava välillä [0, 0.9)
+engine-e-constellation-eccentricity-must-lie-in = { $what }: eksentrisyyden { $e } on oltava välillä [0, { $lit_0_9 })
 
 engine-e-constellation-perigee-is-below-the-surface = { $what }: perigeum on kappaleen { $name } pinnan alapuolella
 
@@ -1292,7 +1290,7 @@ engine-e-constellation-mask-deg-must-lie-in = mask_deg on oltava välillä [0, 9
 
 engine-e-constellation-pdop-threshold-must-be-positive = pdop_threshold on oltava positiivinen
 
-engine-e-constellation-grid-step-deg-must-lie = grid_step_deg on oltava välillä [0.25, 90]
+engine-e-constellation-grid-step-deg-must-lie = grid_step_deg on oltava välillä [{ $lit_0_25 }, 90]
 
 engine-e-constellation-need-90-lat-min-deg = vaaditaan -90 <= lat_min_deg < lat_max_deg <= 90
 
@@ -2220,9 +2218,7 @@ engine-e-holdover-test-step-with-mask-has-no = maskin sisältävällä vaiheella
 
 engine-e-holdover-test-cannot-read-csv-path = csv_path { $path } ei voi lukea: { $e }
 
-engine-holdover-test-recovered-after-gnss-returned = ; palautui { $t } s GNSS:n paluun jälkeen
-
-engine-holdover-test-holdover-test-holdover-max-te = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }{ $rec } (MODELLED, mitattu maskia vasten)
+engine-holdover-test-holdover-test-holdover-max-te = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks } (MODELLED, mitattu maskia vasten)
 
 ## src/hybrid.rs
 
@@ -2882,17 +2878,15 @@ engine-iq-cli-scene-n0-profile-segment = { $chan_desc }; C/N0-profiili (segmentt
 
 engine-iq-cli-scene-truth-format-must-be-csv = --truth-format on oltava csv tai jsonl (saatiin { $other })
 
-engine-iq-cli-scene-integer-scale-lsb-noise-normalised = ; kokonaislukuskaala: 1 LSB = { $sc } kohinanormalisoitua yksikköä (odotettu RMS { $v1 } LSB komponenttia kohti), leikattuja alkioita: { $clipped }
-
-engine-iq-cli-scene-written-by-kshana-iq-scene = kirjoittanut kshana iq scene: SIMULOITU näkymä, ei tallenne{ $scale_note }
+engine-iq-cli-scene-written-by-kshana-iq-scene = kirjoittanut kshana iq scene: SIMULOITU näkymä, ei tallenne
 
 engine-iq-cli-scene-ion-sdr-metadata = ION SDR -metatiedot { $path }
 
 engine-iq-cli-scene-sigmf-data-meta = SigMF-data { $data_path }, metatiedot { $meta_path }
 
-engine-iq-cli-scene-written-by-kshana-iq-scene-2 = kirjoittanut kshana iq scene{ $scale_note }
+engine-iq-cli-scene-written-by-kshana-iq-scene-2 = kirjoittanut kshana iq scene
 
-engine-iq-cli-scene-wrote-samples-hz-to-truth = kirjoitettu näytteitä { $samples } ({ $format }, { $fs_hz } Hz) kohteeseen { $data_path }; totuustietueita { $truth_records } kohteeseen { $truth_path }; { $meta_note }; kanava: { $chan_desc }{ $scale_note }
+engine-iq-cli-scene-wrote-samples-hz-to-truth = kirjoitettu näytteitä: { $samples } ({ $format }, { $fs_hz } Hz) kohteeseen { $data_path }; totuustietueita: { $truth_records } kohteeseen { $truth_path }; { $meta_note }; kanava: { $chan_desc }
 
 ## src/iq/cli/sweep.rs
 
@@ -2912,7 +2906,7 @@ engine-iq-cli-track-designs-and-differ-in-integration = rakenteet { $first } ja 
 
 engine-iq-cli-track-epochs-name-the-format-with = --epochs { $p }: nimeä muoto valitsimella --epochs-format csv|jsonl|bin tai päätä polku tunnisteeseen .csv, .jsonl tai .bin
 
-engine-iq-cli-track-hz-is-samples-per-chip = { $fs_hz } Hz on { $r } näytettä per chip kohteessa { $c }: yhteismitallinen näytteistys muuttaa koodidiskriminaattorin portaikoksi (2 näytteellä/chip DLL värähtelee, noin 0,09 chipin RMS-koodivirhe tasolla 45 dB-Hz); koodisilmukan värinä ja harha tästä tallenteesta eivät ole edustavia. Arvioi koodisilmukoita käyttämällä näytteistystaajuutta, joka ei ole chip-taajuuden puolikkaan monikerta.
+engine-iq-cli-track-hz-is-samples-per-chip = { $fs_hz } Hz on { $r } näytettä per chip kohteessa { $c }: yhteismitallinen näytteistys muuttaa koodidiskriminaattorin portaikoksi (2 näytteellä/chip DLL värähtelee, noin { $lit_0_09 } chipin RMS-koodivirhe tasolla 45 dB-Hz); koodisilmukan värinä ja harha tästä tallenteesta eivät ole edustavia. Arvioi koodisilmukoita käyttämällä näytteistystaajuutta, joka ei ole chip-taajuuden puolikkaan monikerta.
 
 ## src/iq/io/batch.rs
 
@@ -3070,7 +3064,11 @@ engine-iq-labfit-iqreport-threshold-direct-median-db-over = Kynnys J/S, suora: m
 
 engine-iq-labfit-iqreport-hold-out-leave-one-recording = Hold-out (yksi tallenne pois kerrallaan), interpolaatio: binejä { $bins }, C/N0 RMS { $om } dB, PI90-kattavuus { $om2 }
 
-engine-iq-labfit-iqreport-events-loss-time-rms-pi90 = ; { $model }: tapahtumia { $n }, menetysajan RMS { $om } s, PI90-kattavuus { $om2 }
+engine-iq-labfit-iqreport-events-loss-time-rms-pi90 =
+    { $n ->
+        [one] { $model }: { $n } tapahtuma, menetysajan RMS { $om } s, PI90-kattavuus { $om2 }
+       *[other] { $model }: { $n } tapahtumaa, menetysajan RMS { $om } s, PI90-kattavuus { $om2 }
+    }
 
 engine-iq-labfit-iqreport-validation-table-sha-256-registered =
     Validointitaulukon SHA-256 `{ $table_sha256 }` (rekisteröity { $registered }):
@@ -3765,7 +3763,7 @@ engine-leo-navmsg-unknown-preset-available = tuntematon esiasetus '{ $k }'; saat
 
 engine-e-leo-navmsg-fit-interval-must-be-10 = fit_interval_s on oltava 10-3600 s ja update_period_s välillä (0, fit_interval_s]; saatiin { $fit_interval_s } ja { $update_period_s }
 
-engine-e-leo-navmsg-fit-sample-and-eval-step = fit_sample_s ja eval_step_s on oltava 0,5-60 s
+engine-e-leo-navmsg-fit-sample-and-eval-step = fit_sample_s ja eval_step_s on oltava { $lit_0_5 }-60 s
 
 engine-e-leo-navmsg-carrier-hz-must-exceed-10 = carrier_hz on oltava yli 10 MHz; saatiin { $carrier_hz }
 
@@ -3864,7 +3862,7 @@ engine-e-leo-navmsg-text-csv-row-lacks = CSV-riviltä puuttuu { $k }
 
 engine-e-leo-navmsg-truth-orbit-altitude-must-be-between = ratakorkeuden on oltava välillä 100 km – 3000 km; saatiin { $cfg } km
 
-engine-e-leo-navmsg-truth-eccentricity-must-be-in-for = eksentrisyyden on oltava välillä [0, 0,1) LEO-sovitusta varten; saatiin { $eccentricity }
+engine-e-leo-navmsg-truth-eccentricity-must-be-in-for = eksentrisyyden on oltava välillä [0, { $lit_0_1 }) LEO-sovitusta varten; saatiin { $eccentricity }
 
 engine-e-leo-navmsg-truth-integration-step-must-be-in = integrointiaskeleen on oltava välillä (0, 30] s; saatiin { $step_s }
 
@@ -4600,8 +4598,6 @@ engine-e-lunar-time-budget-scenario-term-is-shorter-than-the = termi { $name } o
 
 engine-lunar-time-budget-scenario-lunar-time-budget-clock-term = lunar-time-budget | kello { $clock } | 7-termin x_Σ(τ) { $taus } τ-pisteellä ({ $taus2 }–{ $taus3 } s) | risteämiskohta τ { $crossover_tau_s } s (x { $crossover_x_s } s) | kehyslattia { $frame_term_s } s | kellon x(1 d) { $x_1day_ns } ns (MODELLED)
 
-engine-lunar-time-budget-scenario-time-lab-to-ltc-ns = { $summary } | aikalaboratorio: { $lab } { $lab2 } LTC:hen, x(1 d) { $lab3 } ns (MODELLED)
-
 ## src/lunar_time_lab.rs
 
 engine-e-lunar-time-lab-time-lab-unknown-clock-expected = time_lab: tuntematon kello { $other }; odotettiin yhtä seuraavista: optical-master, passive-h-maser, rafs, mini-rafs, tai anna sen sijaan device_card
@@ -5207,19 +5203,11 @@ engine-nmea-synth-gen-the-receiver-has-no-fix = vastaanottimella ei ole paikkara
 
 engine-nmea-synth-log-from-for-onset-ramp-recovery = alkaen T+{ $start_s } s ajan { $duration_s } s (alkuramppi { $ramp_s } s, palautumisramppi { $recovery_s } s)
 
-engine-nmea-synth-log-every-tracked-satellite-shows-db = ; jokainen seurattu satelliitti näyttää { $c } dB-Hz niin kauan kuin se kestää
-
 engine-nmea-synth-log-jamming-received-n0-falls-by = häirintä: vastaanotettu C/N0 laskee enintään { $cn0_drop_db } dB (satelliittikohtainen hajonta { $spread_db } dB); satelliitteja putoaa pois ja paikkaratkaisu menetetään, kun käyttökelpoisia jää alle neljä
 
 engine-nmea-synth-log-towards-deg-true = suuntaan { $b } deg (tosisuunta)
 
 engine-nmea-synth-log-towards-deg-true-deg-relative = suuntaan { $t } deg (tosisuunta) ({ $r } deg suhteessa kulkusuuntaan alussa, sitten pidetty)
-
-engine-nmea-synth-log-position-drag-off-the-reported = paikan irtiveto: ilmoitettu paikka siirtyy { $final_offset_m } m päähän { $dir }, kun vastaanotin säilyttää kelvollisen paikkaratkaisun (väärän jäljen huippu { $pv } m/s ja { $pa } m/s^2){ $cf }
-
-engine-nmea-synth-log-time-spoof-reported-utc-moves = aikaharhautus: ilmoitettu UTC siirtyy { $offset_s } s todellisesta; paikka pysyy todellisena{ $cf }
-
-engine-nmea-synth-log-replay-delay-meaconing-style-position = toistoviive (meaconing-tyyli): paikka{ $v1 } jää totuudesta jälkeen { $delay_s } s{ $cf }
 
 engine-nmea-synth-log-natural-degradation-the-sky-closes = luonnollinen heikkeneminen: taivas sulkeutuu ilmoitetun horisonttiprofiilin ({ $e }) taakse; sen takana olevat satelliitit pysyvät listalla ilman SNR-arvoa eikä niitä käytetä, muiden C/N0 pysyy ennallaan eikä mikään ole väärennettyä
 
@@ -5958,11 +5946,11 @@ engine-receiver-trust-scenario-trusted-throughout-no-monitor-alarmed = luotettu 
 
 engine-receiver-trust-scenario-first-alarm-at-untrusted-for = ensimmäinen hälytys ajassa { $t } s; kalibroinnin jälkeisiä epookkeja { $after_cal }, joista epäluotettuja { $untrusted_epochs } ja heikentyneitä { $degraded_epochs }
 
-engine-receiver-trust-scenario-of-stated-events-detected-within = ; ilmoitetuista tapahtumista havaittiin { $events_detected } / { $events_evaluable } { $detect_tol_s } s sisällä
+engine-receiver-trust-scenario-of-stated-events-detected-within = ilmoitetuista tapahtumista havaittiin { $events_detected } / { $events_evaluable } { $detect_tol_s } s sisällä
 
-engine-receiver-trust-scenario-of-n0-predictions-within-db = ; C/N0-ennusteista { $predictions_agreeing } / { $predictions_evaluable } { $cn0_tol_db } dB:n sisällä
+engine-receiver-trust-scenario-of-n0-predictions-within-db = C/N0-ennusteista { $predictions_agreeing } / { $predictions_evaluable } { $cn0_tol_db } dB:n sisällä
 
-engine-receiver-trust-scenario-trust-score-lowest-final = ; luottamuspistemäärä: alin { $min }, lopullinen { $last }
+engine-receiver-trust-scenario-trust-score-lowest-final = luottamuspistemäärä: alin { $min }, lopullinen { $last }
 
 engine-receiver-trust-scenario-scenario-receiver-trust-log-epochs = skenaario { $r } | receiver-trust | loki { $format_name }, epookkeja { $epochs }, kesto { $duration_s } s | monitorit { $monitors_run } | { $verdict }
 
@@ -6048,7 +6036,7 @@ engine-e-scenario-time-grid-too-large-steps =
 
 ## src/sdr.rs
 
-engine-sdr-sampling-rate-is-commensurate-with = näytteenottotaajuus on yhteismitallinen koodinopeuden kanssa ({ $samples_per_chip } näytettä/chip, { $offset_from_integer_samples } näytettä kokonaisluvusta): nollannen asteen pidolla muodostettu koodireplika ei erota koodivaiheen muutosta alle { $dead_band_chips } chipin, joten Early/Late-diskriminaattori on portaikko, jossa on yhden näytteen kuollut kaista, eikä kolmio, ja DLL asettuu väärään viiveeseen. Siirrä näytteenottotaajuus pois kokonaislukukerrannaisesta (5 MHz on 4.8876 näytettä/chip; 25 MHz on 24.4379) tai ylinäytteistä niin paljon, että kuollut kaista on alle tarvitsemasi koodivaiheen tarkkuuden.
+engine-sdr-sampling-rate-is-commensurate-with = näytteenottotaajuus on yhteismitallinen koodinopeuden kanssa ({ $samples_per_chip } näytettä/chip, { $offset_from_integer_samples } näytettä kokonaisluvusta): nollannen asteen pidolla muodostettu koodireplika ei erota koodivaiheen muutosta alle { $dead_band_chips } chipin, joten Early/Late-diskriminaattori on portaikko, jossa on yhden näytteen kuollut kaista, eikä kolmio, ja DLL asettuu väärään viiveeseen. Siirrä näytteenottotaajuus pois kokonaislukukerrannaisesta (5 MHz on { $lit_4_8876 } näytettä/chip; 25 MHz on { $lit_24_4379 }) tai ylinäytteistä niin paljon, että kuollut kaista on alle tarvitsemasi koodivaiheen tarkkuuden.
 
 ## src/sgp4.rs
 
@@ -6914,7 +6902,7 @@ engine-e-telecom-timing-csv-line-is-not-time = CSV-rivi { $v1 } ei ole muotoa `t
 
 ## src/telecom_timing.rs
 
-engine-telecom-timing-the-mask-is-defined-through = maski on määritelty 0.1 Hz alipäästösuodattimen kautta, jota tämä moottori soveltaa vain, kun näyteväli on enintään { $MAX_FILTER_DT_S } s; tämän aineiston näyteväli on { $dt_s } s
+engine-telecom-timing-the-mask-is-defined-through = maski on määritelty { $lit_0_1 } Hz alipäästösuodattimen kautta, jota tämä moottori soveltaa vain, kun näyteväli on enintään { $MAX_FILTER_DT_S } s; tämän aineiston näyteväli on { $dt_s } s
 
 engine-e-telecom-timing-give-either-holdover-or-series = anna joko [holdover] tai [series], ei molempia
 
@@ -6922,11 +6910,7 @@ engine-e-telecom-timing-give-either-series-samples-or = anna joko series.samples
 
 engine-e-telecom-timing-locked-duration-days-must-be = locked_duration_days on oltava äärellinen ja >= 0
 
-engine-telecom-timing-ns-budget-exceeded-after = ; { $max_abs_te_ns } ns budjetti ylittyi ajan { $t } s jälkeen
-
-engine-telecom-timing-ns-budget-never-exceeded = ; { $max_abs_te_ns } ns budjetti ei koskaan ylity
-
-engine-telecom-timing-telecom-timing-max-te-ns = telecom-timing: max|TE| { $max_abs } ns aikavälillä { $v2 } s; { $masks }{ $first_budget } (MODELLED)
+engine-telecom-timing-telecom-timing-max-te-ns = telecom-timing: max|TE| { $max_abs } ns aikavälillä { $v2 } s; { $masks } (MODELLED)
 
 ## src/telemetry/cli.rs
 
@@ -7096,7 +7080,7 @@ engine-e-tracking-loop-tracking-loop-must-be-finite = tracking-loop: { $name } o
 
 engine-e-tracking-loop-tracking-loop-must-be-positive = tracking-loop: { $name } on oltava positiivinen (saatiin { $v })
 
-engine-e-tracking-loop-tracking-loop-correlator-spacing-chips = tracking-loop: correlator_spacing_chips on oltava alle 1.9 chipin (saatiin { $correlator_spacing_chips })
+engine-e-tracking-loop-tracking-loop-correlator-spacing-chips = tracking-loop: correlator_spacing_chips on oltava alle { $lit_1_9 } chipin (saatiin { $correlator_spacing_chips })
 
 engine-e-tracking-loop-tracking-loop-pullin-bandwidth-ratio = tracking-loop: pullin_bandwidth_ratio on oltava vähintään 1 (saatiin { $pullin_bandwidth_ratio }) — silmukka, joka vetäytyy uudelleen lukkoon KAPEAMMALLA kaistanleveydellä kuin millä se seuraa, kääntäisi hystereesin
 
@@ -7466,8 +7450,6 @@ engine-campaign-chart-alarm-flags-and-events = hälytyslaput ja tapahtumat
 
 engine-campaign-chart-mission-time = tehtäväaika { $duration } s
 
-engine-campaign-chart-sweep-percentile-band = , mediaani ja 5.–95. persentiilin kaista { $n_runs } siemenluvulla (seed)
-
 engine-campaign-chart-sweep-line-at = { $name } ({ $unit }) kohdassa { $lead }
 
 engine-campaign-chart-monte-carlo-of = Lajin `{ $scenario_kind }` Monte Carlo: { $n_runs } siemenlukua (seed) alkaen arvosta { $base_seed } (5., 50., 95. persentiili; palkki = keskiarvon bootstrap-95 %:n luottamusväli)
@@ -7576,9 +7558,9 @@ engine-frame-eop-chart-growth = ~{ $factor }x, 1 d→{ $far_days } d
 
 engine-fusion-hybrid-ukf-chart-title = 17-tilainen hybridi-UKF — suotimen sisäinen johdonmukaisuus (mallinnettu)
 
-engine-fusion-hybrid-ukf-chart-subtitle = NEES + innovaation valkoisuus vs. 95 %:n χ²-kaistat; 1.0 = johdonmukainen. Sisäinen johdonmukaisuus, ei tarkkuutta.
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + innovaation valkoisuus vs. 95 %:n χ²-kaistat; { $lit_1_0 } = johdonmukainen. Sisäinen johdonmukaisuus, ei tarkkuutta.
 
-engine-fusion-hybrid-ukf-chart-target = tavoite 1.0
+engine-fusion-hybrid-ukf-chart-target = tavoite { $lit_1_0 }
 
 engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (valkoisuus)
 
@@ -7618,8 +7600,6 @@ engine-gnss-sim-chart-protection-level-m = suojaustaso (m)
 
 ## src/holdover_test.rs
 
-engine-holdover-test-not-recovered-within-record = ; ei palautunut tallenteen aikana
-
 engine-holdover-test-chart-title = Holdover-testi: aikavirhe vaiheittain
 
 engine-holdover-test-chart-y-title = |aikavirhe| (ns)
@@ -7634,11 +7614,11 @@ engine-holdover-test-chart-time-axis = aika tallenteen akselilla ({ $min } min)
 
 ## src/hybrid.rs
 
-engine-hybrid-chart-title = Hybridi-PNT:n vaatimuksen käyttöaste GNSS-katkon aikana (1.0 = vaatimus)
+engine-hybrid-chart-title = Hybridi-PNT:n vaatimuksen käyttöaste GNSS-katkon aikana ({ $lit_1_0 } = vaatimus)
 
 engine-hybrid-chart-y-title = vaatimuksen käyttöaste
 
-engine-hybrid-chart-spec-line = vaatimus (1.0)
+engine-hybrid-chart-spec-line = vaatimus ({ $lit_1_0 })
 
 engine-hybrid-chart-classical-suite = klassinen sarja
 
@@ -7766,7 +7746,7 @@ engine-leo-pnt-chain-chart-cn0-caption = Seurattavan komponentin C/N0 ohituksen 
 
 engine-leo-signal-chart-title = LEO-PNT-signaalisuunnitelmat
 
-engine-leo-signal-chart-psd-axis = siirtymä ±0,6 × lähetyskaistanleveys; 0 – −50 dB kunkin huipun alapuolella
+engine-leo-signal-chart-psd-axis = siirtymä ±{ $lit_0_6 } × lähetyskaistanleveys; 0 – −50 dB kunkin huipun alapuolella
 
 engine-leo-signal-chart-jitter-caption = koodijitteri (m, logaritminen asteikko) vs. kokonais-C/N0 (dB-Hz)
 
@@ -7865,3 +7845,423 @@ engine-legal-bench-notice = Ohjeellinen: mallinnettu tai mitattu ilmoitettuja ve
 
 # legal: native review
 engine-legal-osnma-advisory = Ohjeellinen: tämä on analyysi- ja valvontatuloste, ei tyyppihyväksytty navigointilaite. Tässä ilmoitettu todennuksen tila ei ole navigoinnin eheyspalvelu, eikä sitä saa käyttää ainoana perusteena navigointia tai turvallisuutta koskevalle päätökselle.
+
+## added in the 0.40 delta
+
+engine-campaign-sweep-of-over-nodes-each-percentile-band = lajin `{ $scenario_kind }` pyyhkäisy akseleiden { $axis_order } yli (solmut: { $nodes }, mediaani ja 5.–95. persentiilin kaista siemenlukujen ({ $n_runs }) yli; jokaisella viivalla oma alueensa)
+
+engine-holdover-test-holdover-not-recovered-within-record = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }; ei palautunut tallenteen aikana (MODELLED, mitattu maskia vasten)
+
+engine-holdover-test-holdover-recovered-after-gnss-returned = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }; palautui { $t } s sen jälkeen, kun GNSS palasi (MODELLED, mitattu maskia vasten)
+
+engine-iq-cli-scene-written-by-kshana-iq-scene-integer-scale = kirjoittanut kshana iq scene: SIMULOITU näkymä, ei tallenne; kokonaislukuskaala: 1 LSB = { $sc } kohinanormalisoitua yksikköä (odotettu RMS { $v1 } LSB komponenttia kohti), leikattuja alkioita: { $clipped }
+
+engine-iq-cli-scene-written-by-kshana-iq-scene-2-integer-scale = kirjoittanut kshana iq scene; kokonaislukuskaala: 1 LSB = { $sc } kohinanormalisoitua yksikköä (odotettu RMS { $v1 } LSB komponenttia kohti), leikattuja alkioita: { $clipped }
+
+engine-iq-cli-scene-wrote-samples-hz-to-truth-integer-scale = kirjoitettu näytteitä: { $samples } ({ $format }, { $fs_hz } Hz) kohteeseen { $data_path }; totuustietueita: { $truth_records } kohteeseen { $truth_path }; { $meta_note }; kanava: { $chan_desc }; kokonaislukuskaala: 1 LSB = { $sc } kohinanormalisoitua yksikköä (odotettu RMS { $v1 } LSB komponenttia kohti), leikattuja alkioita: { $clipped }
+
+engine-lunar-chart-title = Kuun etelänavan HPL ({ $availability } % saatavilla, AL { $al } m, σ_URE { $sigma } m)
+
+engine-lunar-beacon-chart-title = Pintamajakan täydennys — PDOP kokoonpanoittain
+
+engine-lunar-beacon-chart-pdop = PDOP { $pdop }
+
+engine-lunar-beacon-chart-no-solution = ei ratkaisua
+
+engine-lunar-beacon-chart-footnote = pienempi on parempi; majakkakohtainen sigma_URE { $sigma } m, maski { $mask } deg
+
+engine-lunar-combination-chart-title = Kuun yhteinen OD + kello — aseman 3D-paikkavirhe (VLBI palauttaa havaittavuuden)
+
+engine-lunar-combination-chart-subtitle = satelliitit: { $n_sat }, Maa-asemat: { $n_earth } · parannuskerroin { $factor }×
+
+engine-lunar-combination-chart-with-vlbi = VLBI:llä: { $m } m
+
+engine-lunar-combination-chart-range-only = vain etäisyys: { $m } m
+
+engine-lunar-combination-chart-axis-note = log10 aseman virhe (m); suppeneminen ilman/kanssa = { $with }/{ $without }
+
+engine-lunar-dpnt-chart-title = Kuun differentiaalinen PNT — satelliitit: { $n_sats }: korjattu virhe vs. kantaviiva (pienennys × { $factor } kohdassa { $km } km)
+
+engine-lunar-dpnt-chart-subtitle = korjaamaton { $uncorrected } m | korjattu { $corrected } m | HPL { $hpl } m (σ_resid { $sigma } m) | { $label }
+
+engine-lunar-dpnt-chart-uncorrected-standalone = korjaamaton (yksittäinen)
+
+engine-lunar-dpnt-chart-baseline-km = kantaviiva (km)
+
+engine-lunar-dpnt-chart-err-m = virhe (m)
+
+engine-lunar-frame-realise-chart-title = Kuun koordinaatiston realisointi — 7-parametrisen Helmert-muunnoksen palautus
+
+engine-lunar-frame-realise-chart-subtitle = { $n_points } pistettä · jäännöksen RMS { $rms } m · suppeni { $converged }
+
+engine-lunar-frame-realise-chart-scale = mittakaava (ppb)
+
+engine-lunar-frame-realise-chart-row = { $label }: syötetty { $inj } { $unit } · palautettu { $rec } { $unit } · virhe { $err }
+
+engine-lunar-interop-chart-title = Kuun yhteentoimivuusvienti — CCSDS OEM + KIF (LunaNet/IOAG-linjattu)
+
+engine-lunar-interop-chart-header = REF_FRAME = { $frame } | TIME_SYSTEM = { $time_system } | tiloja { $n_states } | OEM-rivejä { $oem_lines }
+
+engine-lunar-interop-chart-artifacts = artefaktit: { $list }
+
+engine-lunar-interop-chart-conformance = kenttävastaavuus: { $verdict } ({ $present } läsnä, { $missing } puuttuu, datarivejä { $data_lines })
+
+engine-lunar-interop-chart-roundtrip = OEM:n edestakainen kierto: { $oem } | aikametatietojen edestakainen kierto: { $time_metadata } | KIF { $kif_bytes } tavua
+
+engine-lunar-interop-chart-footnote = Edestakainen kierto / kenttävastaavuus vs. CCSDS OEM ja julkaistu LunaNet/IOAG-kenttäsemantiikka. { $label } — ei virallinen yhteentoimivuuden vastaavuustesti; ei viraston hyväksyntää.
+
+engine-lunar-jamming-chart-title = Satelliittikohtainen J/S vs. korkeuskulma, Kuun pinnan käyttäjä
+
+engine-lunar-jamming-chart-x-title = satelliitin korkeuskulma (deg)
+
+engine-lunar-jamming-chart-n-links = linkit: { $n_links }
+
+engine-lunar-service-chart-title = Kuun palvelualue — satelliitit: { $n_sats }, pisteet: { $n_points } × epookit: { $n_epochs }: kattavuus { $coverage } % (PDOP&lt;{ $threshold })
+
+engine-lunar-service-chart-subtitle = satelliitit { $min_sats }–{ $max_sats } | HPL { $hpl_min }–{ $hpl_max } m | VPL { $vpl_min }–{ $vpl_max } m | PL-saatavuus { $pl_avail } % (AL { $al } m, σ_URE { $sigma } m)
+
+engine-lunar-service-chart-pdop-min = PDOP min { $v }
+
+engine-lunar-service-chart-pdop-mean = PDOP keskiarvo { $v }
+
+engine-lunar-service-chart-pdop-max = PDOP max { $v }
+
+engine-lunar-station-chart-title = Kuun vertailuasema: p{ $percentile } korjattu 3D-virhe etelänapa-alueella (MODELLED)
+
+engine-lunar-station-chart-threshold = kynnys { $thr } m tasolla p{ $percentile }
+
+engine-lunar-station-chart-availability = saatavuus { $v } %
+
+engine-lunar-station-chart-coverage = kattavuus { $v } %
+
+engine-lunar-station-chart-corrected-3d = korjattu 3D { $f }
+
+engine-lunar-station-chart-uncorrected-3d = korjaamaton 3D { $f }
+
+engine-lunar-station-chart-legend-half = ≤ puolet kynnyksestä
+
+engine-lunar-station-chart-legend-within = ≤ kynnys
+
+engine-lunar-station-chart-legend-twice = ≤ kaksinkertainen kynnys
+
+engine-lunar-station-chart-legend-above = yli kaksinkertainen kynnys
+
+engine-lunar-station-chart-station-note = ◆ asema · katkoviiva: etäisyys, johon asti kattavuus pysyy 95 %:ssa
+
+engine-lunar-station-chart-disclaimer = MODELLED ilmoitetuilla oletuksilla; ei väite mistään todellisesta järjestelmästä; ei sidoksissa mihinkään virastoon eikä sen hyväksymä.
+
+engine-lunar-time-chart-title = Kuun koordinaattiaika LTC−TT (muutosnopeus { $rate } µs/vrk, kaista { $low }–{ $high })
+
+engine-lunar-time-chart-offset = { $offset } µs kohdassa { $days } d
+
+engine-lunar-time-budget-scenario-lunar-time-budget-clock-term-time-lab = lunar-time-budget | kello { $clock } | 7-termin x_Σ(τ) { $taus } τ-pisteen yli ({ $taus2 }–{ $taus3 } s) | ylityskohta τ { $crossover_tau_s } s (x { $crossover_x_s } s) | koordinaatiston alaraja { $frame_term_s } s | kello x(1 d) { $x_1day_ns } ns (MODELLED) | aikalaboratorio: { $lab } { $lab2 } → LTC, x(1 d) { $lab3 } ns (MODELLED)
+
+engine-lunar-vlbi-chart-title = Kuun VLBI-viive (kantaviiva { $baseline } km, majakan etäisyys { $range } km, lähikenttä { $near_field } µs)
+
+engine-lunar-vlbi-chart-footnote = viive { $delay } µs epookissa · { $samples } näytettä { $hours } h aikana
+
+engine-mars-pnt-chart-formal-3sigma = muodollinen 3σ (kovarianssi, ei virallisesti hyväksytty PL)
+
+engine-nmea-synth-log-position-drag-off-counterfeit-cn0 = paikan harhauttava vetäminen pois: ilmoitettu paikka siirtyy { $final_offset_m } m { $dir }, vaikka vastaanotin säilyttää kelvollisen paikkaratkaisun (väärä rata saavuttaa huippunsa { $pv } m/s ja { $pa } m/s^2); jokainen seurattu satelliitti näyttää { $c } dB-Hz niin kauan kuin se kestää
+
+engine-nmea-synth-log-position-drag-off-genuine-cn0 = paikan harhauttava vetäminen pois: ilmoitettu paikka siirtyy { $final_offset_m } m { $dir }, vaikka vastaanotin säilyttää kelvollisen paikkaratkaisun (väärä rata saavuttaa huippunsa { $pv } m/s ja { $pa } m/s^2); aito C/N0-kuvio säilyy
+
+engine-nmea-synth-log-time-spoof-counterfeit-cn0 = ajan harhautus: ilmoitettu UTC siirtyy { $offset_s } s todellisesta; paikka pysyy oikeana; jokainen seurattu satelliitti näyttää { $c } dB-Hz niin kauan kuin se kestää
+
+engine-nmea-synth-log-time-spoof-genuine-cn0 = ajan harhautus: ilmoitettu UTC siirtyy { $offset_s } s todellisesta; paikka pysyy oikeana; aito C/N0-kuvio säilyy
+
+engine-nmea-synth-log-replay-delay-counterfeit-cn0 = toistoviive (meaconing-tyyppinen): paikka{ $v1 } jää todellisesta { $delay_s } s; jokainen seurattu satelliitti näyttää { $c } dB-Hz niin kauan kuin se kestää
+
+engine-nmea-synth-log-replay-delay-genuine-cn0 = toistoviive (meaconing-tyyppinen): paikka{ $v1 } jää todellisesta { $delay_s } s; aito C/N0-kuvio säilyy
+
+engine-pvt-chart-3d-error-m = 3D-virhe (m)
+
+engine-pvt-chart-postfit-rms-m = sovituksen jälkeinen RMS (m)
+
+engine-quantum-faults-chart-title = quantum-anomaly-detect AUC (MODELLED)
+
+engine-quantum-faults-chart-quantum = kvantti
+
+engine-quantum-faults-chart-classical = klassinen
+
+engine-quantum-nav-od-chart-title = quantum-gnss-free-nav (MODELLED)
+
+engine-raim-stanford-chart-title = Stanford-diagrammi — eheys ({ $n_epochs } epookkia, AL = { $al } m)
+
+engine-raim-chart-title = RAIM-suojaustasot ja saatavuus ({ $availability } % saatavilla)
+
+engine-raim-chart-hal = HAL { $al } m
+
+engine-raim-chart-val = VAL { $al } m
+
+engine-receiver-trust-chart-track-caption = vastaanottimen ilmoittama rata, pohjoinen ylhäällä
+
+engine-receiver-trust-chart-start = alku
+
+engine-receiver-trust-chart-end-of-log = lokin loppu
+
+engine-receiver-trust-chart-no-positions = lokissa ei ole paikkoja
+
+engine-receiver-trust-chart-score-axis = luottamuspistemäärä, 0–100
+
+engine-receiver-trust-chart-legend-vessel = luottamus: vihreä nimellinen (pistemäärä vähintään { $nominal }), keltainen heikentynyt (vähintään { $degraded }), punainen ei luotettava, harmaa kalibroidaan
+
+engine-receiver-trust-chart-legend = luottamus: vihreä nimellinen, keltainen heikentynyt, punainen ei luotettava, harmaa kalibroidaan
+
+engine-receiver-trust-chart-advisory = Ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite; käyttäjä vastaa edelleen.
+
+engine-receiver-trust-chart-cn0-axis = keskimääräinen C/N0, dB-Hz
+
+engine-report-chart-title = Kellon holdover: ajoitusvirhe GNSS-katkon aikana
+
+engine-slot-timing-chart-aria = Ennustettu aikavirhe suhteessa viimeisestä paikkaratkaisusta kuluneeseen aikaan, aikaväliin liittyvä suojaväli
+
+engine-slot-timing-chart-time-since-fix = aika paikkaratkaisusta, 0 – { $t }
+
+engine-slot-timing-chart-predicted-error = ennustettu aikavirhe (ns); katkoviiva: suojaväli { $guard } ns
+
+engine-slot-timing-never = ei koskaan
+
+engine-solar-system-chart-title = Aurinkokunta — J2000-ekliptika, ylhäältä katsottuna
+
+engine-solar-system-chart-inner = Sisäinen aurinkokunta (Marsiin asti)
+
+engine-solar-system-chart-whole = Koko aurinkokunta (Plutoon asti)
+
+engine-solar-system-chart-legend = vihreä: VALIDATED JPL Horizonsia vasten · keltainen: MODELLED · kuut luetellaan tiedostossa result.json keskuskappaleeseen sidottuine ratoineen
+
+engine-spectrum-chart-title = L-kaistan spektrin vesiputous
+
+engine-spectrum-chart-multi-title = Monikaistainen spektrin vesiputous
+
+engine-spectrum-chart-frequency-mhz = taajuus (MHz)
+
+engine-spectrum-chart-cn0-caption = C/N0 (dB-Hz): nimellinen (harmaa) / minimi
+
+engine-spectrum-chart-threshold = kynnys { $thr }
+
+engine-spoof-chart-title = Ajan harhautuksen havaitseminen: poikkeama vs. kellotuetut havaitsemisrajat
+
+engine-spoof-chart-offset-ns = harhautuspoikkeama (ns)
+
+engine-spoof-chart-spoof-offset = harhautuspoikkeama
+
+engine-spoof-chart-quantum-bound = kvanttihavaitsemisraja
+
+engine-spoof-chart-classical-bound = klassinen havaitsemisraja
+
+engine-sweep-chart-title = { $metric } vs. { $parameter } ({ $scale } asteikko)
+
+engine-sweep-nd-chart-title = lajin `{ $kind }` { $n_dims }-D-pyyhkäisy — solmut: { $n_nodes }
+
+engine-sweep-nd-chart-axes = akselit: { $axes } (muoto { $shape })
+
+engine-sweep-nd-chart-metrics = mittarit: { $metrics } — koko ruudukko JSON-tiedostossa
+
+engine-sweep-nd-chart-line-title = lajin `{ $kind }` pyyhkäisy avaimen { $key } yli
+
+engine-sweep-nd-chart-y-title = mittari
+
+engine-telecom-timing-max-te-ns-budget-never-exceeded = telecom-timing: max|TE| { $max_abs } ns aikavälillä { $v2 } s; { $masks }; { $max_abs_te_ns } ns:n budjettia ei ylitetty koskaan (MODELLED)
+
+engine-telecom-timing-max-te-ns-budget-exceeded-after = telecom-timing: max|TE| { $max_abs } ns aikavälillä { $v2 } s; { $masks }; { $max_abs_te_ns } ns:n budjetti ylitettiin { $t } s kuluttua (MODELLED)
+
+engine-telecom-timing-chart-title = Telecom timing: aikavirhe, MTIE ja TDEV
+
+engine-telecom-timing-chart-y-title = |aikavirhe| (ns)
+
+engine-telecom-timing-chart-te-caption = aikavirheen itseisarvo budjetteihin verrattuna
+
+engine-telecom-timing-chart-holdover = holdover
+
+engine-telecom-timing-chart-time-record = aika ({ $h } h tallenne)
+
+engine-telecom-timing-chart-mtie-caption = MTIE (yhtenäinen), TDEV (katkoviiva), ensimmäinen MTIE-maski (harmaa), ns
+
+engine-timetransfer-chart-title = Ajansiirron synkronointivirhe (optinen vs. RF)
+
+engine-timetransfer-chart-y-title = synkronointivirhe (ps)
+
+engine-timetransfer-chart-spec = vaatimus { $mm } mm = { $ps } ps
+
+engine-timetransfer-chart-x-title = mittausaika (s)
+
+engine-timetransfer-chart-rf = RF: { $id }
+
+engine-timetransfer-chart-optical = optinen: { $id }
+
+engine-timetransfer-chain-chart-title = quantum-time-transfer (MODELLED)
+
+engine-kind-clock-description = Kellon holdover vs. vaatimus; valinnainen Monte Carlo -joukko (runs > 1).
+
+engine-kind-inertial-description = 1-DOF inertiaalinen paikanlasku GNSS-katkon aikana.
+
+engine-kind-orbit-description = GNSS-saatavuus ja DOP kiertoratatähdistöstä (Walker / TLE / RINEX).
+
+engine-kind-ephemeris-description = Efemeridi ja maanpinnan jälki: etenee yhden satelliitin (TLE→SGP4 tai analyyttinen rata) ja tuottaa sen TEME/GCRS-tilan (paikka + nopeus), ITRF/ECEF-paikan, WGS-84:n satelliitin alapisteen leveys/pituus/korkeus sekä asemakohtaisen atsimuutin/korkeuskulman/etäisyyden ja etäisyyden muutosnopeuden (Doppler) askelittain. Satelliitti tulee `tle`-kentästä tai analyyttisestä radasta `orbit` ja sen `epoch`-kentästä (`tle` voittaa, kun molemmat on annettu); kun `tle` on annettu, `epoch` ohittaa TLE:n oman epookin ajanhetkenä t = 0.
+
+engine-kind-integrity-description = Hetkellinen / ratkaisuerotteinen / ARAIM-RAIM, HPL/VPL ja Stanford-diagrammi.
+
+engine-kind-lunar-integrity-description = Kuun etelänavan ARAIM-suojaustasojen läpikäynti vs. edustava LunaNet-välittäjäjoukko. sigma_ure_m paljastaa signaalin avaruudessa -etäisyysmittauksen tarkkuuden (suojaustasot skaalautuvat sen mukana lineaarisesti, joten sen pyyhkäisy vastaa kysymykseen, mikä etäisyysmittauksen tarkkuus hälytysraja vaatii). Oletuksena historiallinen LNIS-luokan etelänavan tapaus.
+
+engine-kind-lunar-time-offset-description = Mallinnettu relativistinen Maa–Kuu-kellon muutosnopeus (Kuun koordinaattiaika, LTC/TCL): maailmanaikainen LTC−TT-muutosnopeus gravitaatiopotentiaalien erosta ja Kuun liike-energiatermistä, ilmoitettuna julkaistun 56–59 µs/vrk-kaistan rinnalla, sekä kertynyt poikkeama tarkasteluvälin yli.
+
+engine-kind-lunar-vlbi-description = Mallinnettu Kuun geodeettinen VLBI-viivehavainto: Maa-kantaviiva (kaksi maa-asemaa, GCRS) havaitsee yksisuuntaisen signaalin NovaMoon-luokan Kuun pinnan majakasta. Tuottaa lähikentän kahden etäisyyden erotuksen viiveen, sen muutosnopeuden ja aaltorintaman kaarevuuden lähikenttäkorjauksen yhden ohituksen yli — ristiintarkistettu saman koodikannan tasoaaltoa käyttävää Δ-DOR-havaintoa vastaan kaukokentän rajalla, differenssimenetelmällä todennetuin osittaisderivaatoin. Oletuksena analyyttinen polku on MODELLED ja sisältää koordinaatiston johdonmukaisuutta, xp=yp=0-napaliikettä sekä tasoaalto vs. lähikenttä -rajoituksia koskevat varaumat. Kun asetetaan planetary_kernel_path, earth_orientation_kernel_path ja moon_orientation_kernel_path, ajetaan sen sijaan ydinpolku (DE440, MOON_PA_DE440, ITRF93; suppenneet barycentriset valonajat; lisää epookin majakan ja aseman osittaisderivaatat), jonka newtonilainen viive ja osittaisderivaatat vastaavat NAIF SPICE:n suppenneita valonaikoja tarkkuudella { $lit_0_06 } ps ja 7.4e-9. Ei varmennettu todellisella VLBI-datalla.
+
+engine-kind-lunar-joint-od-clock-description = Mallinnettu yhteinen monitekniikkainen Kuun OD + kello -eräestimaattori SIMULOIDULLA verkolla: Gauss–Newton-hetkikuvasovitus, joka yhdistää Maa-kantaviivan geodeettiset VLBI-viiveet, Kuun paikalliset asema↔satelliitti-etäisyydet ja satelliittien väliset etäisyydet palauttaakseen yhdessä Kuun pinta-aseman 3D-paikan, pienen tähdistön paikat ja jokaisen kohteen kellopoikkeaman syötetystä totuudesta. Keskeinen rehellinen tulos — VLBI tekee aseman täydellisen 3D-paikan havaittavaksi siellä, missä pelkkä Kuun paikallinen etäisyysmittaus jättää heikosti havaittavan suunnan — raportoidaan asemavirheen vertailuna ilman VLBI:tä ja VLBI:n kanssa. MODELLED simuloitu suljetun silmukan palautus (totuus jakaa havaintomallin), deterministinen (siemenluku), EI varmennettu todellisella datalla; ei voimamallin etenemistä ratkaisijan sisällä; ei TRL-/perintö-/virastohyväksyntää.
+
+engine-kind-lunar-frame-realisation-description = Mallinnettu Kuun koordinaatiston realisointi: 7-parametrinen Helmert-datumsovitus (yhdenmuotoisuusmuunnos) — 3 translaatiota, 3 pienen kulman rotaatiota, 1 mittakaava — joka sitoo estimoidun selenografisista johdettujen MCMF-pistekoordinaattien joukon datumiin painotetulla pienimmän neliösumman menetelmällä (crate::batch_ls::gauss_newton), sekä yksinkertainen orientaatiositoumus, joka ilmaisee realisoidun pienen rotaation ICRF-akseleiden suhteen IAU 2015 WGCCRE -kappaleorientaatioon nähden. Skenaario syöttää tunnetun pienen muunnoksen (translaatio ~kymmeniä m, rotaatio ~µrad, mittakaava ~1e-7) hyvin hajautettuun synteettiseen pisteverkkoon, lisää siemenluvulla tuotetun gaussisen kohinan, palauttaa datumin ja raportoi palautetun muunnoksen, parametrikohtaisen palautusvirheen vs. syötetty totuus sekä sovituksen jälkeisen jäännöksen RMS:n. MODELLED sisäinen johdonmukaisuus — palauttaa syötetyn yhdenmuotoisuusmuunnoksen (kohinaton ~koneen tarkkuuteen), EI realisointi todellista seuranta-/VLBI-dataa vasten; deterministinen (siemenluku); ei TRL-/perintö-/virastohyväksyntää.
+
+engine-kind-moonlight-service-volume-description = Mallinnettu Kuun navigoinnin palvelualueen analyysi HAVAINNOLLISESTA, julkisiin lähteisiin perustuvasta Moonlight/LCNS-luokan Kuun kiertoradan satelliittitähdistöstä (ei sidoksissa ESA:an): pyyhkäisee selenografista leveys-/pituusruudukkoa tarkasteluvälin yli ja raportoi DOP:n / kattavuuden / saatavuuden (≥4 satelliittia JA PDOP < kynnys) sekä yleistetyn Kuun ARAIM-suojaustason (HPL/VPL) verhokäyrän alueen yli. DOP-geometria KÄYTTÄÄ UUDELLEEN gnss_lib_py:llä VALIDATED-ydintä (crate::orbit::dop); suojaustaso KÄYTTÄÄ UUDELLEEN LunaNet LNIS:n Kuun ARAIM-koneistoa (crate::lunar, σ_URE≈30 m) ja palautuu olemassa olevaan etelänavan PL:ään erikoistapauksena. MODELLED-koostumus: ympyrä-/ellipsimuotoinen Keplerin välittäjäjoukko (ei todellinen differentiaalikorjattu LCNS/NRHO-efemeridi), keskimääräisesti pyörivä Kuu (ei libraatiota / prekessoivaa napaa). Deterministinen (puhdas geometria). Ei TRL-/perintö-/virastohyväksyntää.
+
+engine-kind-lunar-differential-pnt-description = Mallinnettu Kuun DIFFERENTIAALINEN PNT (Kuun DGNSS/SBAS-vastine): NovaMoon-luokan vertailuasema TUNNETUSSA selenografisessa sijainnissa laskee satelliittikohtaiset differentiaalikorjaukset HAVAINNOLLISESTA, julkisiin lähteisiin perustuvasta Moonlight/LCNS-luokan tähdistöstä (NovaMoon mainitaan vain järjestelmäLUOKKANA, ei sidoksissa ESA:an), ja kantaviivan baseline_km verran siirretty käyttäjä soveltaa niitä niin, että YHTEISMUOTOINEN rata- ja kellovirhe kumoutuu. Kellotermi kumoutuu TÄSMÄLLEEN (algebrallinen identiteetti); ratatermistä jää vain näkölinjaerotuksen projektio, joka → 0, kun kantaviiva → 0 (spatiaalisen dekorrelaation alaraja) ja kasvaa ≈ lineaarisesti kantaviivan mukana. Raportoi käyttäjän 3D-paikkavirheen korjauksilla JA ilman, pienennyskertoimen, virhe vs. kantaviiva -käyrän sekä käyttäjän suojaustason, joka KÄYTTÄÄ UUDELLEEN DO-229E SBAS -koneistoa (crate::sbas) differentiaalisella jäännös-σ:lla. MODELLED — täsmällinen kumoutumisidentiteetti + ensimmäisen kertaluvun dekorrelaatiomalli; ei varmennettu todellisella datalla; ei TRL-/perintö-/virastohyväksyntää. Deterministinen, jos siemenluku on annettu.
+
+engine-kind-lunar-station-coverage-description = Mallinnettu Kuun vertailuaseman kattavuus: Monte Carlo -pyyhkäisy Kuun differentiaalisen PNT-mallin yli etelänapa-alueen käyttäjäruudukolla ja yhden vuorokauden epookeilla. Tunnetulla etelänapa-paikalla oleva differentiaalinen vertailuasema korjaa ilmoitetun tähdistön (havainnollinen Keplerin tai taulukoitu efemeridi) ilmoitetulla signaalin avaruudessa -virheellä, mittausvirheellä, korjausviiveellä ja linkin kvantisoinnilla; pisteittäin ja alueen yli se raportoi korjatun ja korjaamattoman paikkavirheen persentiilin (3D, vaaka, pysty), saatavuuden, kattavuuden ilmoitettua kynnystä vasten, DO-229E-suojaustasot, kattavuussäteen atsimuuttia kohti sekä korjauslinkin linkkibudjetin asemalla ja huonoimmassa pisteessä. Ei väite minkään todellisen järjestelmän suorituskyvystä; ei sidoksissa mihinkään virastoon eikä sen hyväksymä. MODELLED.
+
+engine-kind-lunar-interop-export-description = Mallinnettu Kuun yhteentoimivuusvienti: tuottaa Kuun koordinaatiston, Kuun aika-asteikon ja Kuun efemeridin LunaNet/IOAG-linjatuissa, CCSDS-pohjaisissa vaihtomuodoissa edestakaisella kierrolla / kenttävastaavuudella. KÄYTTÄÄ UUDELLEEN crate-kirjaston CCSDS OEM 2.0 -tuottajaa ja jäsennintä (crate::oem), jotka on uudelleenmerkitty Kuun kontekstiin — OEM:n REF_FRAME kantaa IAU 2015 WGCCRE -Kuun kappalekoordinaatiston (MOON_ME / MOON_PA), TIME_SYSTEM Kuun aika-asteikon (LTC / TCL / UTC), CENTER_NAME = MOON — havainnollisen LCNS-luokan efemeridin näytteen yli (paikat crate::lunar_service-moduulista, nopeus differenssimenetelmällä). Tuottaa myös LunaNet/IOAG-linjatun Kuun aikakuvaajan (asteikon tunniste, maailmanaikainen muutosnopeus µs/vrk moduulista crate::lunar_time, julkaistu kaista, vertailupinta), joka kiertää edestakaisin serde_jsonin kautta, ja kääri artefaktit olemassa olevaan KIF-kehykseen (crate::interchange) MODELLED-rehellisyysmerkinnällä. Raportoi tuotetut artefaktit, OEM-rivimäärän, kenttävastaavuuden läpäisyn sekä läsnä olevien/puuttuvien kenttien luettelon, OEM:n edestakaisen kierron onnistumisen, aikametatietojen edestakaisen kierron onnistumisen ja KIF-tavukoon. MODELLED — deterministinen edestakainen kierto + kentännimivastaavuus vs. julkaistu CCSDS OEM + LunaNet/IOAG-kenttäsemantiikka on oraakkeli; EI virallinen yhteentoimivuuden vastaavuustesti; havainnollinen julkisiin lähteisiin perustuva efemeridi, ei sidoksissa ESA:an; ei TRL-/perintö-/virastohyväksyntää.
+
+engine-kind-timetransfer-description = Optinen vs. RF kaksisuuntainen ajan- ja taajuudensiirto.
+
+engine-kind-quantum-anomaly-detect-description = MODELLED vika- ja poikkeamahavaitseminen kvantti-PNT-järjestelmille: nimetty vikaluettelo (kellon taajuushyppy/ajautuminen/lukon menetys; anturin harhahyppy/katkos), havaitsemistunnusluvun ROC AUC (bootstrap-luottamusväli ulkoisesti varmennetusta eval_stats-moduulista) ja pienin havaittava vika kiinteällä väärän hälytyksen todennäköisyydellä, jolloin kvanttikelloavusteinen valvonta (pienempi kohina) havaitsee pienempiä vikoja — rehellisenä TradeEvidence-aineistona ja edustavuutena. Gaussinen havaitsemistunnusluvun malli (AUC = Phi(mu/(sigma*sqrt2))); mallintaa luokkaa, havainnollisia julkisiin lähteisiin perustuvia parametreja, ei TRL-/lento-/hyväksyntäväitettä.
+
+engine-kind-quantum-gnss-free-nav-description = MODELLED GNSS-vapaa kvanttinavigointi: GNSS-katkon aikana kvantti- (kylmäatomi-interferometri) inertiabudjetti vs. klassinen navigointiluokan INS — paikkavirheen kasvu vapaan lennon aikana, holdover paikkakynnykseen sekä kvantti vs. klassinen -vertailu rehellisenä TradeEvidence-aineistona ja edustavuutena. Rehellinen havaittavuushuomautus: ilman ulkoista paikkaratkaisua kiihtyvyysanturin harhaa ei voi havaita, joten virhe kasvaa; kvanttianturi hidastaa mutta ei sulje tätä eroa. Havainnollisia julkisiin lähteisiin perustuvia laiteparametreja; mallintaa luokkaa, ei TRL-/lento-/hyväksyntäväitettä.
+
+engine-kind-quantum-time-transfer-description = MODELLED luotettu kvanttiajoitusketju: päästä päähän kvantti- (optinen hilakello + lomittuminen/yksifotonilinkki) vs. klassinen (CSAC + RF-kaksisuuntainen) ajansiirtobudjetti, uudelleenkäytetty ajoituksen suojaustaso + viive-/toistohyökkäyksen turvallisuuden tunnusluku (1-P_md), kellopoikkeaman havaitsemistodennäköisyys + CUSUM-viive sekä kvantti vs. klassinen -vertailu rehellisenä TradeEvidence-aineistona, edustavuus- ja lentoon vaadittavat puutteet -tietueineen. Havainnollisia julkisiin lähteisiin perustuvia laite-/linkkiparametreja; mallintaa luokkaa, ei TRL-/lento-/hyväksyntäväitettä.
+
+engine-kind-hybrid-description = Hybridi-PNT-huipputyö: kello + IMU + ajansiirtotuki.
+
+engine-kind-fusion-description = Yhteinen Kalman-anturifuusio-PNT samoilla hybridisyötteillä.
+
+engine-kind-hybrid-ukf-description = 17-tilainen hybridi kvantti+klassinen tiukasti kytketty GNSS/INS-UKF (MODELLED): 15 INS-virhetilaa + CAI-johdettu kiihtyvyysanturin harhakorjaus + 2-tilainen (vaihe+taajuus) kello q-parametrikellomoottorista, jota ohjaa rajattu CAI-virhemalli. Ansioluku on suotimen sisäinen johdonmukaisuus (NEES + innovaation valkoisuus vs. χ²-rajat) — sisäistä johdonmukaisuutta koskeva toteamus, EI todellisen maailman tarkkuustakuu. Vain simulaatio; ei TRL>3, ei lentoperintöä, ei ulkoista varmennusta.
+
+engine-kind-gnss-ins-description = Löyhästi ja tiukasti kytketty GNSS/INS-virhetila-EKF.
+
+engine-kind-gnss-sim-description = Mittausalueen pseudoetäisyyssimulaatio (Klobuchar-ionosfääri, Saastamoinen/Niell-troposfääri) + RAIM.
+
+engine-kind-jamming-description = Linkkibudjettihäirintä: J/S → tehollinen C/N₀ → lukon menetys.
+
+engine-kind-spoof-description = Stokastinen ajan harhautuksen havaitsin (Neyman–Pearson / χ²₁) Monte Carlo -arvioilla P_fa/P_md.
+
+engine-kind-spoof-detect-description = Yhdistetty RF-/mittaushavaitsin harhautukselle (usean SV:n RAIM-johdonmukaisuus + AGC + SQM, fuusioituna) vs. parametroitu hyökkäys (tehoetu, kantoaallon vaiheen kohdistus, aika-/paikkatyöntö; TEXBAT-tyyppinen).
+
+engine-kind-sweep-description = 1-D-vaihtoehtotutkimuksen pyyhkäisy kellopaketin parametrin yli.
+
+engine-kind-sweep-nd-description = Yleinen N-D-pyyhkäisy minkä tahansa paketin yli pisteillä erotettujen TOML-avainten / JSON-mittaripolkujen kautta.
+
+engine-kind-gravity-map-description = GPS-vapaa gravitaatiokarttasovitukseen perustuva navigointi: kylmäatomigravimetri palauttaa vakioisen INS-ajautuman läpilennetystä gravitaatiopoikkeamien jonosta.
+
+engine-kind-terrain-nav-description = GPS-vapaa maastoviitteinen navigointi (TERCOM/SITAN): tutka-/baro-korkeusmittari sovittaa maanpinnan korkeusprofiilin SRTM-tyyppiseen DEM:iin INS-ajautuman palauttamiseksi.
+
+engine-kind-terrain-slam-description = GPS-vapaa peräkkäinen (rekursiivinen) maastoviitteinen navigointi: hiukkassuodatin ajaa maastosovituksen mittausmallin epookki kerrallaan (SITAN jatkuvana suotimena), jolloin ajan mukana muuttuva INS-ajautuma seuraantuu reitin varrella, kun taas eräkohtainen terrain-nav palauttaa vain yhden vakiopoikkeaman.
+
+engine-kind-combined-altpnt-description = GPS-vapaa yhdistetty gravitaatio- + magneetti- + maastonavigaattori: kolme skalaarikenttäkanavaa fuusioituna reittipistettä kohti terävämpää (pienempi CRLB) ajautumakorjausta varten kuin mikään yksittäinen kenttä.
+
+engine-kind-pvt-description = Todellisiin havaintoihin perustuva yksittäispisteen paikannus: ratkaisee vastaanottimen paikan RINEX 3 -havaintotiedostosta ja yleislähetetystä navigointitiedostosta (koodipseudoetäisyydet, yleislähetetty efemeridi, Klobuchar-ionosfääri, Saastamoinen/Niell-troposfääri), valinnaisesti mitattua koordinaattia vasten varmennettuna.
+
+engine-kind-mars-pnt-description = Syvän avaruuden Mars-PNT: simuloitu MARCONI-välittäjätähdistö (areostationaariset + kallistetut välittäjät, jotka lähettävät yksisuuntaisesti + välittävät kaksisuuntaisesti syvän avaruuden asemalle) navigoi vertailukäyttäjän (transfer | lmo | surface) yhteisen yksisuuntaisen/kaksisuuntaisen radiometrisen fuusioestimaattorin kautta. Raportoi epookkikohtaisen geometrian/näkyvyyden, saavutetun RMS:n totuutta vasten ja muodollisen kovarianssin (1σ / 3σ paikka) — rehellinen simuloitu ansioluku, EI virallisesti hyväksytty suojaustaso.
+
+engine-kind-impairment-eval-description = Tekoäly-/koneoppimispohjaisen RF-häiriön havaitsemisen arviointitestipenkki (13494): tuottaa nimetyn, parametriperusteisen SYNTEETTISEN aineiston (nimellinen/häirintä/ajan harhautus/paikan harhautus/monitie-eteneminen), pisteyttää havaitsimen (energy|agc|sqm|parity|fused) havaitsimesta riippumattomalla testikehyksellä ja raportoi AUC/ROC/sekaannusmatriisin sekä luokkakohtaisen Pd:n tavoitteen Pfa:lla, sekä jakauman sisäisen vs. ulkopuolisen optimismin eron. Vain MODELLED toimintaominaisuudet — ei koskaan kenttä-/IQ-dataa, ei hyvä/huono-tuomiota.
+
+engine-kind-quantum-trade-description = Kvantti vs. klassinen PNT-vertailu (13503): ehdokaskellon ajoitus-holdover- ja inertia-holdover-hyöty (mitattu ADEV-käyrä — puolustettavuuden ratkaiseva kohta — tai kvanttikelloluokka) vs. klassinen vertailuluokka, pitkän tau:n alarajaoletuksen varauma kuljetettuna artefaktin mukana, sekä GNSS-estetty kestävyys vs. aika -verhokäyrä. MODELLED; kvantifioi (ei koskaan varmenna) kumppanilaitteen. Ehdokaskello on mitattu käyrä (`candidate_adev_taus` + `candidate_adev_values`, yhtä pitkät, vähintään 2 pistettä; se voittaa, kun molemmat muodot on annettu) tai `candidate_clock_class`.
+
+engine-kind-space-weather-description = Avaruussäämalli: aurinko- (F10.7/F10.7a) ja geomagneettiset (Kp, määritelmällisellä Kp↔ap-taulukolla) aktiivisuusindeksit, niiden ohjaama Jacchia-1971:n eksosfäärin lämpötila (varmennettu vs. julkaistut aurinkominimi/keskiarvo/maksimi) ja Jacchia-1971:n termosfäärin neutraalitiheys eksosfäärin vuorokauden keskilämpötilassa vs. aktiivisuudesta vapaa staattinen profiili joukossa korkeuksia — auringon jakson tiheysriippuvuus, jonka staattinen ilmakehä jättää pois. MODELLED: tiheys vastaa kiihtyvyysanturipohjaisia tiheyksiä (TOLEOS CHAMP ja GRACE) kertoimen 2 sisällä auringon maksimissa, mutta on noin { $lit_1_7 }x liian tiheä vuoden 2008 auringon minimissä.
+
+engine-kind-oem-interop-description = CCSDS OEM -yhteentoimivuussilta: tuo ulkoisen lentodynamiikkatyökalun (GMAT/Orekit/STK kaikki tuottavat OEM:n) tuottaman Orbit Ephemeris Messagen ja raportoi sen segmentit/kohteet/koordinaatistot/epookkivälin sekä nopeuden johdonmukaisuustarkistuksen; ilman syötettä se kierrättää edestakaisin tuotetun vertailuradan ja raportoi tuonnin↔viennin tarkkuuden. MODELLED rakenteellinen/fysikaalinen sisäänottotarkistus, EI lähteen radan tarkkuuden varmennus.
+
+engine-kind-launch-window-description = Kaksikappaleinen laukaisu- ja nousugeometria: laukaisuatsimuutit (sin Az = cos i / cos lat), pienin saavutettava inklinaatio, ympyräratanopeus, Maan pyörimisen itäsuuntainen etu, dogleg-tasonmuutoksen Δv, kun tavoiteinklinaatio on alle laukaisupaikan leveysasteen, sekä päivittäisten laukaisumahdollisuuksien lukumäärä. MODELLED pallomaisen Maan geometria (ei pyörivän Maan nopeuskolmiokorjausta, ei nousu-/vastushäviömallia).
+
+engine-kind-reentry-description = Allen–Eggers-ballistinen paluukäytävä: huippuhidastuvuus (ballistisesta kertoimesta riippumaton, V_e^2 sin|γ|/(2eH)), nopeus ja korkeus huippu-g:ssä sekä huippulämmityksen nopeus, tulonopeudelle/lentoratakulmalle/ballistiselle kertoimelle eksponentiaalisen ilmakehän läpi, sekä saman ballistisen paluun tasomainen pistemassaintegrointi gravitaatiolla, Maan kaarevuudella ja US Standard Atmosphere 1976 -ilmakehällä (huippuhidastuvuus, nopeus, korkeus ja aika huipussa). MODELLED ballistinen (nostovoimaton) paluu; lämmitystulos on huippulämmityksen NOPEUS, ei lämpövuo (ei aerotermistä/TPS-mallia).
+
+engine-kind-eo-coverage-description = Maanhavainnointikuorman jalanjälki ja kattavuusgeometria (SMAD-avaruuskolmio): Maan kulmasäde, kaistanleveys, nadirin maastopikselin koko, suurin nadirista poikkeava näkyvyys, ympyräratajakso, J2-solmujakso ja päiväntasaajan maanpinnan jäljen väli yhtenäisen kattavuuden lipulla, radan korkeudelle, inklinaatiolle (oletuksena aurinkosynkroninen) ja anturin FOV/IFOV:lle. MODELLED pallomaisen Maan geometria (ei radiometriaa/MTF:ää/ilmakehää/värinää/heijastusta); solmuväli R_e·(ω − Ω̇)·T_nodal ensimmäisen kertaluvun J2-sekulaarisilla muutosnopeuksilla.
+
+engine-kind-space-packet-description = CCSDS 133.0-B Space Packet Protocol -kehystys: koodaa synteettisen TM/TC-pakettivirran (6-oktettinen ensisijainen otsikko + datakenttä) ja raportoi pakettikohtaisen otsikon purun, oktettien kokonaismäärän ja täsmällisen koodaus↔purku-edestakaisen kierron. Deterministinen täsmällinen bittirakennekehystys — viraston pakettimuodon yhteentoimivuuskerros; EI vastaavuuden todistus (ei toissijaisen otsikon/CRC:n/segmentoinnin logiikkaa lippuja enempää).
+
+engine-kind-attitude-budget-description = 3-DOF-asennon ja osoitusvirheen budjetti: pahimman tapauksen gravitaatiogradienttihäiriömomentti ((3/2)(μ/R³)ΔI) ja nimettyjen 1σ-osuuksien (anturikohina, reaktiopyörän värinä, lämpö, kohdistus) neliösumman neliöjuuri -osoitusvirhebudjetti hallitsevine termeineen, radan korkeudelle + kappaleen inertiahajonnalle. MODELLED skalaarinen AOCS-budjetti — ennen laitteistoa tehtävä täydennys Basilisk/42:lle, ei ohjaussilmukan/6-DoF-/joustavien muotojen simulaatio.
+
+engine-kind-passes-description = Maa-aseman ohitusennuste: ympyräradan aikatason näkyvyysohitukset (AOS/TCA/LOS, suurin näennäinen korkeuskulma, kesto) SGP4:n keskielementteinä ikkunan alussa, korkeuskulmamaskin yläpuolella olevan aseman yli ikkunan aikana, kokonaisnäkyvyysajalla. SGP4/SDP4-eteneminen IAU 2006/2000A -Maahan sidotussa koordinaatistossa (valinnainen UT1 - UTC ja napaliike), ITU-R P.834-9 -troposfäärirefraktio ja alalinkin valonaika (molemmat oletuksena päällä), ylitykset ratkaistu tarkkuuteen 1e-7 s ja kulminaatio kultaisen leikkauksen haulla. Ohitusgeometria on VALIDATED Orekit 13.1.8:aa vasten merenpinnan tasolla olevilla asemilla; skenaarion rata ja asema ovat havainnollisia syötteitä.
+
+engine-kind-link-budget-description = Yksisuuntainen linkkibudjetti CCSDS 401 / DSN 810-005 -linkkiyhtälön yli: vapaan tilan etenemishäviö, C/N₀, Eb/N₀, marginaali ja sulkeutuminen lähetyksen EIRP:lle, vastaanoton G/T:lle, etäisyydelle, datanopeudelle ja kaistalle (s|x|ka) vaadittua Eb/N₀:aa vasten. Deterministinen insinöörilaskelma annetuista syötteistä (ei kalibroitu päätelaitteen datalehti).
+
+engine-kind-lunar-time-budget-description = MODELLED päästä päähän Kuun koordinoidun ajan (LTC) aikavirhebudjetti: seitsemän LTC-virhetermiä koottuna aikavirhekäyriksi x_i(τ) koko keskiarvoistusaikaruudukon yli, neliöllisesti summattuna muotoon x_Σ(τ), sekä kello vs. koordinaatisto -YLITYSKOHTA τ, jossa kasvava kellotermi ohittaa vakion reaaliaikaisen koordinaatiston realisointitermin (sen alapuolella budjetti on koordinaatiston rajoittama, yläpuolella kellon rajoittama) — rehellinen vastaus yhden τ:n artefaktiin. τ-kulmakertoimet ovat suljetussa muodossa ja analyyttisesti tarkistettavissa (kello τ^{ "{" }+1/2{ "}" }/τ^{ "{" }+1{ "}" }, alarajat τ^0, mittaus τ^{ "{" }-1/2{ "}" }) ja kellorivit toistavat julkaistut yhden vuorokauden kellovaatimukset (crate::clock_specs); RF-/optisen linkin, koordinaatiston realisoinnin, relativistisen jäännöksen ja efemeridin alarajojen SUURUUDET ovat Modelled-budjettiallokaatioita (dokumentoidut oletukset, kutsujan ohitettavissa), eivät mittauksia. Kontribuutio on toistettava ylityskohta τ, ei virallisesti hyväksytty termikohtainen luku; ei virallisesti hyväksytty operatiiviseen ajanpitoon.
+
+engine-kind-hybrid-optical-rf-description = MODELLED heterogeeninen optinen + RF PNT -yhteisansioluku (P5): kokoaa 1550 nm:n kaksisuuntaisen optisen linkkibudjetin (fotonirajoitteinen kaksisuuntainen etäisyysmittauksen CRLB σ_τ/√N ja diffraktiojalanjälki λ/D·etäisyys), modaliteettien välisen ratkaisuerotteisen RAIM-suojaustason (paikka JA ajoitus), joka fuusioi löysän RF- ja tiukan optisen ratkaisun erilaisilla kovariansseilla, N aseman optisen pilvettömän taivaan saatavuuden (riippumaton yhdiste 1−Π(1−a_i) ja paikkakorreloitu muunnelma), optinen↔RF-tila-/kovarianssisiirron TODISTETUN bittijatkuvan (ei hyppyä) keskiarvon ja NEES χ²-johdonmukaisuusportin kanssa sekä yhteisen P(saatavilla JA tarkkuusluokka JA eheys varmistettu) -pistemäärän korrelaatiokäsittelyllä. VALIDATED suljettu muoto: etäisyysmittauksen CRLB, diffraktiojalanjälki, χ²-suojaustason kvantiili, yhdisteen kombinatoriikka, siirron keskiarvon jatkuvuus + NEES-portti ja yhteinen riippumaton tulo. MODELLED: optiset häviöallokaatiot, RF-/optiset σ-suuruudet, pilvi-ilmastosyötteet, korrelaatiot ja P_HMI-budjetti. Ei virallisesti hyväksytty saatavuus-/eheystuote.
+
+engine-kind-cislunar-observability-description = MODELLED tasomainen kuunläheisen tähdistön havaittavuus (P6): seuraa neljän avaruusaluksen differentiaalikorjattua tasomaista DRO-tähdistöä satelliittien välisellä etäisyysmittauksella ja raportoi, kuinka paljon avaruusaluksen nelitilasta [x,y,ẋ,ẏ] kaari tekee havaittavaksi. Tuottaa (1) aste vs. kaaren pituus -taulukon yhdelle vain etäisyyttä mittaavalle linkille — hetkellisesti aste 1, kasvaa kohti täyttä nelitilaa kaaren pidentyessä (P6 Taulukko 1); (2) havaittavuus-Gramin matriisin ominaisspektrin + ehtoluvun kaaren yli; (3) vain etäisyys vs. etäisyys+etäisyyden muutosnopeus -hetkellisen asteen vertailun (Doppler-suunnitteluvipu) sekä vain etäisyys -singulaarisen / etäisyys+muutosnopeus -määritellyn GDOP-raportoinnin; ja (4) riippumattoman SRIF-ristiinvalidoinnin, jonka posteriorikovarianssi muuttuu äärelliseksi / hyvin ehdolliseksi täsmälleen kaarella, jolla havaittava aste saavuttaa neljän. VALIDATED ydin: havaittava aste on asteen paljastava singulaariarvokynnys, joka on ristiintarkistettu Gramin ominaisasteeseen; ominaisspektri noudattaa spektri-invariantteja (trace=Σλ, det=Πλ, Frobenius²=Σλ²); variaatio-STM on differenssimenetelmällä varmennettu CR3BP-STM; etäisyyden/etäisyyden muutosnopeuden jakobiaanirivit ovat differenssimenetelmällä varmennettuja analyyttisiä osittaisderivaattoja (ristiintarkistettu crate-kirjaston 3D-etäisyyden muutosnopeushavaintoa vastaan); neljä alkuehtoa ovat differentiaalikorjattuja tasomaisia DRO:ita, jotka sulkeutuvat tiukkaan jaksollisuusjäännökseen ja ovat retrogradisia; asteen siirtymä on ristiinvarmennettu crate-kirjaston neliöjuuri-informaatiosuodatinta vastaan (posteriorikovarianssi äärellinen täsmälleen täydellä asteella, cond(P)=cond(OᵀO)); asteeltaan vajaa hetkikuva merkitään GDOP-määrittelemättömäksi (fim condition=inf), ei koskaan valheelliseksi äärelliseksi arvoksi — sama singulaarigeometriasuoja, jota pvt::solve_spp soveltaa. MODELLED: tähdistön suunnittelu (DRO:n perilune-amplitudit ja -vaiheet) ja sen tuottama asteen eteneminen. Ei virallisesti hyväksytty navigoinnin suorituskykytuote.
+
+engine-kind-conflict-resilience-description = MODELLED kerrostettu PNT-konfliktikestävyys (P7): kiistellyn ympäristön käyttäjällä on useita PNT-kerroksia (avoin GNSS-palvelu, laajakaistainen GNSS, todennettu tähdistö, täydennysvälittäjä), joilla kullakin on perussaatavuus, 1σ-tarkkuus ja vektorikohtainen estämisen haavoittuvuus yhteiselle häirintä-/harhautusuhalle. Intensiteetin yli pyyhkäisevä SIEMENLUVULLINEN Monte Carlo estää kunkin kerroksen todennäköisyydellä clamp(vulnerability·intensity·vector_weight,0,1), fuusioi eloon jääneet suljetun muodon käänteisvarianssisäännöllä σ_fused=(Σ 1/σ_i²)^(−1/2) ja raportoi kokonaismenetyksen todennäköisyyden (kaikki kerrokset estetty), fuusioidun virheen mediaanin ja kerroskohtaiset käyttökelpoisuus-/estotilastot vs. intensiteetti. Keskeinen kestävyyssuhde (yksittäinen kerros vs. kerrostettu kokonaismenetyksen todennäköisyys) asettuu arvoon ~7x RIIPPUMATTOMUUSOLETUKSELLA; yhden tekijän gaussinen kopula-korreloitu estopyyhkäisy osoittaa sitten tämän ~7x:n romahtavan kohti arvoa 1 estokorrelaation kasvaessa (korrelaatio kumoaa kerrostamisen). Priori-herkkyyslohko vaihtelee keskeistä tulosta LÄHTEISTETTYJEN haavoittuvuuspriorien yli mcda-tornadokaavion + Dirichlet-uhkavoimaponnistuksen uudelleenallokaation + persentiililuottamusvälien avulla. VALIDATED ydin: Monte Carlo -kokonaismenetys suppenee suljetun muodon riippumattomaan tuloon Π_i p_deny_i (MC-keskivirheen sisällä kiinteällä siemenluvulla ja suurella N:llä); käänteisvarianssifuusio on suljetun muodon identiteetti; kun ρ=0, kopula palautuu riippumattomaan malliin ja jokainen ρ säilyttää kunkin kerroksen reunaestoasteen. MODELLED: kerroskohtaiset haavoittuvuus-/saatavuus-/tarkkuussuuruudet ovat lähteistettyjä mutta Modelled-syötteitä (JammerTest 2024, TEXBAT, EASA SIB, RTCA DO-229, LunaNet/IOAG — katso conflict_threat_params), ja tietty ~7x-suuruus sekä suhde vs. korrelaatio -käyrän muoto seuraavat tästä parametroinnista. §4.2 vektorikohtainen selviytymiserittely purkaa sitten jaetun RF-uhan neljään nimettyyn vektoriin (häirintä/harhautus/kineettinen/kyber) ja raportoi kunkin vektorin käyttökelpoisen PNT:n asteittaisen heikkenemisen käyrän S_v(x)=1-Prod_i(1-a_i(1-clamp(susceptibility_i,v·x,0,1))) — VALIDATED: siemenluvullinen kerroskohtainen Monte Carlo suppenee tähän suljettuun muotoon; häirintä on jyrkin vektori korreloidulle RF-perustasolle ja RF-immuuni inertiakerros on ratkaiseva eloonjääjä. Ei virallisesti hyväksytty navigoinnin saatavuustuote.
+
+engine-kind-lunar-attack-surface-description = Kuun pintanavigoinnin signaaliturvallisuuden hyökkäyspinta (P1): kokoaa avoimet signaaliturvallisuusanalyysit yhdeksi binääristä saavutettavaksi ajoksi. Raportoi (1) AFS:n vastaanotetun tehon ja sen tehoYLIJÄÄMÄN verrattuna maanpäälliseen GPS-vertailuun sekä 12-18 dB:n herkkyyskaistan aitona monen akselin pyyhkäisynä linkkisyötteiden yli (vertailutaso x EIRP x vinoetäisyys) 25x-pyöristetyn / 28x-pyöristämättömän lineaarikertoimen täsmäytyksellä. KORJATTU (sääntö R4): tämä raportoi { $lit_15_6 } dB:n tehoVAJEEN ja 32x/36x-kertoimen, kunnes GPS-vertailu korjattiin arvoista -125 / -{ $lit_128_5 } (jotka ovat dBm-arvoja) arvoihin -155 / -{ $lit_158_5 } dBW, eli ICD-GPS-200-arvoihin, jotka häirintämoduuli on aina kantanut. Etumerkki kääntyy: mallinnettu Kuun AFS-signaali on { $lit_14_4 } dB VAHVEMPI kuin maanpäällinen GPS L1 C/A, ei heikompi. Vastaanotettu teho itse ei liikkunut bittiäkään, ja lineaarikerroin on vanha jaettuna täsmälleen luvulla 1000, mikä on täsmälleen 30 dB:n dBm-dBW-siirtymä; (2) vaadittu hyökkääjän lähetysteho harhauttamiseen (J/S = 3 dB) ja estämiseen (J/S = 30 dB) kullakin etäisyydellä, J/S-linkin käänteisfunktio; (3) kiertoradan kaappausjalanjälki todellisella tasaisen aukon antennikuviolla (Airy [2 J1(x)/x]^2), korkeusrajoitettu osapallonpuoliskon kalotti, jonka reunaa EI kaapata; (4) laskettu seurantasilmukan harhautuskaappauksen sisäänvetotulos (vetääkö vastaavalla koodilla toimiva harhauttaja tietyllä tehoedulla ja koodipoikkeamalla todella DLL/PLL:ää) väitetyn 3 dB:n kynnyksen sijaan; (5) ilmattoman kappaleen geometrinen horisonttiulottuvuus korotetulle pintalähettimelle; ja (6) OSNMA/TESLA-todennusbudjetti (20 bit/s lisäkuorma = ~40 % 50 bit/s AFS-navigointiviestistä, avaimen paljastusviive, 2^-40 väärennös). Tyhjä runko toistaa P1-perustason; jokainen syöte on oletusarvoinen ja ohitettavissa. VALIDATED osatulokset kantavat lähdemoduulinsa oraakkelin (suljetun muodon dB-radiometria; käänteinen J/S-edestakainen kierto; Airy-kuvio vs. A&S Bessel ja pallokalotin geometria; DLL/PLL-sisäänveto vs. Kaplan & Hegarty; pallon tangenttihorisontti-identiteetti vs. eo_payload; OSNMA SIS-ICD:n kenttäkoot). MODELLED: edustavat geometria-/tehosuuruudet ja tietyt kaappauskartan solun arvot. Ei virallisesti hyväksytty turvallisuustuote.
+
+engine-kind-realtime-frame-eop-description = Reaaliaikainen Kuun koordinaatiston / Maan orientaation ennustebudjetti: P4 Taulukko 1 (koordinaatistovirheen johdonmukaisuustarkistus — jälkikäsitelty ~{ $lit_0_27 } m ↔ ~{ $lit_0_010 } ms ja reaaliaikainen ~15 m ↔ ~{ $lit_0_5 } ms, kukin koordinaatiston paikka ilmaistuna vastaavana UT1-virheenä L19-vipuvarren Δr = D_EM·ω⊕·ΔUT1 kautta) ja Taulukko 2 (mitattu UT1-ennustevirhe vs. horisontti — L18-käyrä luettuna suoraan oikeasta IERS finals2000A -sarjasta: Bulletin A − Bulletin B -lopullinen alaraja ja usean päivän pysyvyysennustimen virhe, kumpikin kuvattuna Kuun koordinaatiston paikaksi L19:llä), sekä L21 neliösumman neliöjuuri -reaaliaikainen koordinaatistovirhebudjetti (EOP + efemeridi + realisoinnin alaraja). VALIDATED suljettu muoto (L19-vipuvarsi, ω⊕ ristiintarkistettu CIO-Maan pyörimiskulmaa vasten) ja VALIDATED todellinen data (L18-käyrä oikeilta finals2000A-riveiltä); MODELLED ovat Kuun välittäjien OD-kovarianssin suuruudet ja koordinaatiston realisoinnin alaraja (edustavat allokaatiot) sekä pysyvyysennustin (ei IERS:n operatiivinen Bulletin A -algoritmi). Ei virallisesti hyväksytty reaaliaikainen koordinaatistotuote.
+
+engine-kind-aperture-duty-cycle-description = Aukkojen käyttöaste: navigoinnin ja viestinnän aikajako, jonka yhteydenottosuunnitelma edellyttää ohjattavien aukkojen joukolle. Ottaa yhteydenottosuunnitelman (luettelo `[[contacts]]` aos_s/los_s-ikkunoista, joista kukin pyytää navigointia tai viestintää — sama aos_s/los_s-sanasto, jonka `passes`-ennustin tuottaa), aukkojen lukumäärän ja VÄLITYSKÄYTÄNNÖN (oletuksena navigointi etusijalla, tai viestintä etusijalla, tai ei-keskeyttävä ensin tullut ensin palveltu) ja raportoi navigoinnin käyttöasteen, viestinnän käyttöasteen, joutilaan käyttöasteen ja istuntokohtaisen katkoksen — yhteydenottoajan, jonka istunto pyysi ja jota mikään aukko ei palvellut. Täsmällinen väliskannaus ikkunarajojen yli, joten toisiinsa koskettavat ikkunat eivät koskaan kilpaile eikä yhtään aukkosekuntia lasketa kahdesti; navigoinnin, viestinnän ja joutilaan aukkosekunnit kertyvät toisistaan riippumatta ja täsmäävät lukuun apertures*horizon_s. Raportti ilmoittaa ratkaistun käytännön, sen täyden määritelmän sekä käyttöasteen ja katkoksen määritelmät, koska ilman välityskäytäntöään esitetty käyttöastelukema ei ole toistettava. MODELLED aikataulutuslaskenta: mitään kääntö-/uudelleenvirityksen/vaihtoaikaa ei veloiteta, kun aukko vaihtaa palvelua tai istuntoa, päätökseen ei vaikuta datamäärä, puskurin tila, energiabudjetti eikä linkin sulkeutuminen, ja yhteydenottoikkunat ovat syötteitä — niiden geometria on se, mikä ne tuotti. Ei maasegmentin aikataulutustuote.
+
+engine-kind-lunar-jamming-description = Kuun-natiivi RF-häirintä: satelliittikohtainen häirintä–signaali-suhde, tehollinen C/N₀ ja lukon menetys selenografiselle pintakäyttäjälle Kuun pinta- (tai korotetun) häirintälähettimen alla havainnollisen, julkisiin lähteisiin perustuvan Moonlight/LCNS-luokan Kuun kiertoradan tähdistön yli. Kokoaa olemassa olevan avoimen häirintäfysiikan (jamming::j_over_s_db, effective_cn0_dbhz, rx_antenna_gain_db, lock_status, q_factor) olemassa olevan Kuun taivasgeometrian kanssa (lunar_service::LunarConstellation + topocentric, lunar::selenographic_to_mcmf); mitään geometriaa tai radiometriaa ei johdeta uudelleen. Toisin kuin Maan `jamming`-laji, signaalihaara EI ole kiinteä vastaanotettu teho: kunkin satelliitin isotrooppinen vastaanotettu teho on sen oma linkkibudjetti EIRP − FSPL(vinoetäisyys), joten J/S vaihtelee satelliitista toiseen Kuun etäisyyden ja korkeuskulman mukaan. Raportoi YKSI RIVI JOKAISTA NÄKYVÄÄ (epookki, satelliitti) -LINKKIÄ — atsimuutti, korkeuskulma, vinoetäisyys, molemmat vastaanotetut tehot, joiden erotus J/S on, J/S, nimellinen ja tehollinen C/N₀ sekä lukon tila — sekä koosteluvut ansiolukuina taulukon rinnalla (ei koskaan sen tilalla), ja saman taulukon CSV-artefaktina. Jokainen tuotettu numeerinen kenttä kantaa yksikön ja alkuperäluokan. VALIDATED osatulokset kantavat lähdemoduulinsa oraakkelin (häirinnänestoyhtälö ja J/S-linkki Kaplan & Hegarty §9.4, ulkoisesti viitattu tiedostossa tests/gnss_denied_jamming_resilience_reference.rs; lunar_service-moduulin Kuun geometria). Koostumus itse on ristiintarkistettu riippumattomaan kahden linkkibudjetin polkuun (linkbudget::received_signal_power_dbw, eri vapaan tilan häviön lauseke) tarkkuuteen 1e-9 dB. MODELLED: havainnollinen tähdistö, edustavat EIRP / häirintälähettimen teho / antennivahvistukset / kohinalämpötila sekä maaston varjostuksen, monitie-etenemisen, AGC-dynamiikan ja adaptiivisen nollauksen puuttuminen. Ei virallisesti hyväksytty palvelunestotuote. Kun häirintälähetin on määritetty, raportti sisältää myös ESTOKÄYRÄN EPÄVARMUUSKAISTALLA yhden skalaarin perusteella luetun käyrän sijaan: koko mitattu halutun signaalin C/N₀-jakauma satelliittikohtaisen taulukon yli (n, min, p05, p25, mediaani, p75, p95, max, keskiarvo, otoksen keskihajonta ja otoksen oma vinous), ja käyrä arvioituna jokaisessa näistä järjestystunnusluvuista MOLEMMILLA moottorin tunnistamalla estokriteerillä — vanhalla tehosuhdekriteerillä (J/S = 30 dB, kuten attack-surface ja tracking-loop) ja lukon menetyksen kriteerillä (tehollinen C/N₀ laskee arvoon tracking_threshold_dbhz, kriteeri, jota tämän raportin oma tilasarake käyttää) — estotason molemmilla akseleilla (vaadittu häirintälähettimen EIRP skenaarion etäisyydellä, estoetäisyys skenaarion EIRP:llä). Kaistan reunat OVAT contour(p05) ja contour(p95), sama suljetun muodon kuvaus sovellettuna otoksen omiin kvantiileihin: ei otokseen sovitettu sigma eikä mediaani ± k·keskihajonta, ja keskihajonta tuotetaan jatkuvuuden vuoksi eikä mikään käytä sitä. Kvantiilille, joka on jo tasolla tai alle seurantakynnyksen, ei ole äärellistä estävää J/S:ää, ja sen lukon menetyksen sarakkeet ovat null laskettavan syyn kanssa, eivät koskaan rajattu säde.
+
+engine-kind-ins-trn-coast-description = INS/TRN-vapaan lennon virhemalli: paikkavirhe vs. vapaan lennon kesto, rakennettuna IMU-kertoimista eikä oletetun ajautumanopeuden pyyhkäisynä. Viisi kasvuosuutta — kiihtyvyysanturin harha, gyroharhan kallistuma gravitaation kautta, nopeuden satunnaiskävely, kulman satunnaiskävely ja mittakertoimen virhe kuljettua matkaa vastaan — kukin etenemässä yhdeksäntilaisen paikallistasoisen inertiavirhemallin läpi Schuler-takaisinkytkennällä ilmoitetulla leveysasteella ja korkeudella (lyhyen vapaan lennon johtavan kertaluvun lait t², t³, t^1.5, t^2.5 ja t¹/t² raportoidaan sen rinnalla) ja yhdistettynä ILMOITETULLA säännöllä (oletuksena neliösumman neliöjuuri, tai lineaarisumma, tai deterministinen summa stokastisella rss:llä; kaikki kolme lasketaan joka ajolla, jotta valinta on näkyvissä eikä piilossa). Vapaan lennon kestot, jotka saavuttavat kutsujan antamat paikkakynnykset (oletuksena 10 m ja 50 m), paikannetaan moottorin olemassa olevalla bisektiolla, kullekin osuuskohtainen erittely hallitsevan lähteen nimeämisellä, ja kunkin yksittäisen osuuden ylitys käännetään lisäksi algebrallisesti, jolloin nämä kaksi täsmäävät. Maastoviitteisen navigoinnin tila rajaa vapaan lennon jaksollisilla paikkaratkaisuilla ja raportoi suurimman paikkaratkaisuvälin, joka pitää kunkin kynnyksen; pelkkä paikkaratkaisu jättää nopeusvirheen ja kallistuman eloon ratkaisun yli, joten se ei aina rajaa vapaata lentoa millään ratkaisutiheydellä, ja raportti sanoo niin eikä palauta nollaa. MODELLED: IMU-luokan kertoimet ovat edustavia kaistalukuja, eivät datalehti, ja maastopaikkaratkaisun jäännös on syöte. Saavuttamaton kynnys raportoidaan arvona null ja tilalla, ei koskaan nollana. Ei virallisesti hyväksytty inertianavigoinnin suorituskykytuote.
+
+engine-kind-lunar-vlbi-fim-description = Kuun VLBI:n asemakoordinaattien kovarianssi: lunar-vlbi-havainnon viivepartiaalit kertyneenä nimenomaisen AIKATAULUN (kantaviivat x epookit) yli Fisherin informaatiomatriisiksi, käänneltynä ja raportoituna asemakoordinaattien kovarianssina ja koordinaattikohtaisena aseman sigmana — lasketun moottorin tuloksena eikä skalaarisena viiveen tarkkuutena, joka on työnnetty oletetun isotrooppisen g = 3 -tasajakotekijän läpi. Tila kantaa Maahan SIDOTTUJA (ITRS) asemakoordinaatteja, joten jakobiaani on inertiaalinen partiaali kierrettynä kunkin epookin GCRS->ITRS-matriisilla: Maan pyöriminen tekee nämä koordinaatit havaittaviksi, ja raportti MITTAA Maahan sidotun näkölinjan pyyhkäisyn ja majakan deklinaation eikä oleta niitä. Yksi havainto on yksi (kantaviiva, epookki) -pari, jossa MOLEMMAT asemat ovat korkeuskulmamaskin yläpuolella, painotettuna 1/delay_sigma_s^2. Raportoi asteen, datumpuutteen, ehtoluvun, koko informaatiospektrin, kovarianssimatriisin, asemakohtaiset akselikohtaiset ja 3D-sigmat sekä vapaan verkon nolla-avaruuden joka ajolla; asteen vajauksessa keskeinen sigma julkaistaan arvona NULL ja tilalla, ei koskaan lähes singulaarisesta käänteismatriisista luettuna. Tasajakoarvo c*delay_sigma_s*sqrt(g/N) SAMALLE aikataululle tuotetaan lasketun arvon rinnalle suhteen kanssa, yhdessä isotrooppisen jälkirajan sqrt(p/trace(M)) kanssa, jonka AM-HM tekee kovaksi alarajaksi — joten suhde on anisotropia, jonka oletus hylkäsi. Viivesulku tau_ik = tau_ij + tau_jk tekee vain n-1 kantaviivasta n(n-1)/2:sta geometrisesti riippumattomia; raportti ilmoittaa molemmat lukumäärät. MODELLED: Kuun keskipisteen efemeridi, asemakellot, troposfääri ja Maan orientaatioparametrit pidetään KIINTEINÄ ja havaintoja kohdellaan riippumattomina, joten kovarianssi on Cramér–Rao-raja supistetulle parametrijoukolle, ei ennustettu istunnon tulos; viiveen sigma, asemakoordinaatit ja aikataulu ovat syötteitä. Partiaali, jonka geometrisen viiveen jakobiaani jättää pois (erotettu Shapiro-termi), mitataan differenssimenetelmällä ja tuotetaan. Ei geodeettinen tuote.
+
+engine-kind-tracking-loop-description = Seurantasilmukan lukon menetys: C/N0 -> lukko/lukon vapautuminen HYSTEREESILLÄ, lukon menetykseen kuluva aika ja harhautuksen sisäänveto koodi- ja kantoaaltopoikkeaman NOPEUDEN funktiona. Moottorin olemassa olevat esto- ja kaappauskriteerit ovat vastaanotetun tehon suhteita (häirintälähetin estää tasolla J/S = 30 dB, harhauttaja kaappaa tasolla 3 dB); todellinen lukon menetys ei ole tehosuhde, vaan se on kohta, jossa silmukan värinä plus dynaaminen rasitus ylittää sen seurantakynnysbudjetin. Raportoi (1) kantoaallon (Costas) ja koodin (ei-koherentti early/late) 1-sigma lämpökohinavärinän vs. C/N0, neliöintihäviö mukaan lukien, ilmoitettuja sääntöjä vasten 3*sigma_PLL + theta_e <= 45 deg (15 asteen sääntö kolmen sigman muodossa) ja 3*sigma_DLL + ramp lag <= d/2 chipiä; (2) pudotuksen ja uudelleenlukitun C/N0-kynnykset sitovan silmukan nimeämisellä, uudelleenlukituksen kynnys JOHDETTUNA leveämmästä kaistanleveydestä, jolla vastaanotin vetää sisään uudelleen, eikä väitettynä, joten hystereesin leveyden on osuttava välille 5*log10(ratio) ja 10*log10(ratio) dB; (3) ilmoitetun ajan lukon menetykseen kahden kynnyksen lukonilmaisimesta, jossa on vahvistusviipymät ja jota ajetaan C/N0-ramppina, raportoituna erikseen fysikaalisesta vaiheenpoistumisajasta (Viterbin keskimääräinen aika jaksonhyppyjen välillä, log10 s:na, koska se kattaa satoja dekadeja); (4) harhautuksen sisäänvetorajat — suurin koodin liukuma ja kantoaallon Doppler-nopeus, jota uhrin silmukat pystyvät seuraamaan, kartalla molempien akselien yli, koska harhauttaja, joka liukuu näitä nopeammin, ei kaappaa silmukkaa vaan ohittaa sen; ja (5) silmukkadynamiikan implikoiman ESTOSÄTEEN raportoituna olemassa olevan tehosuhdesäteen RINNALLA, ei koskaan sen tilalla, niiden etumerkillisellä erotuksella omana nimettynä kenttänään (denial_radius_delta_km) ja määritelmällä sen vieressä. Jokainen tuotettu numeerinen kenttä kantaa yksikön ja alkuperäluokan. VALIDATED suljetut muodot: kantoaallon ja koodin värinälausekkeet, silmukkasuotimen redusointi sqrt(2*B_n*T) ja ensimmäisen kertaluvun ramppiviive on ristiintarkistettu moottorin oman sdr-korrelaattorin avulla, jota on askellettu eteenpäin siemenluvullisella synteettisellä IF:llä — eri reitti samoihin lukuihin — tarkkuuksiin { $lit_0_6 } %, { $lit_3_7 } % ja { $lit_0_17 } % vastaavassa järjestyksessä, ja jaksonhyppyajan takana oleva muunnettu Bessel I0 tavallisia taulukoituja arvoja vasten tarkkuuteen 1e-7. Alempi pätevyysraja on väitetty, ei pelkästään ilmoitettu: alle ~32 dB-Hz tasolla 1 ms todellinen atan-diskriminaattori kyllästyy +-pi/2-alueeseensa ja mittaa vähemmän värinää kuin mikään lineaarinen teoria. MODELLED: silmukoiden kaistanleveydet, integrointiaika, korrelaattoriväli, sisäänvedon kaistanleveyssuhde, vahvistusviipymät, häirintälähettimen teho ja antennivahvistukset ovat edustavia kaistalukuja, eivät datalehti. EI mallinneta: oskillaattorin (Allanin poikkeama) ja tärinän värinää, etupään kaistanleveyden rajoitusta, monitie-etenemistä, AGC-dynamiikkaa, databittisiirtymähäviötä, ulkoista tukea eikä mitään puolisyklin korjausta Costas-jaksonhyppykaavaan. Silmukkadynamiikan alla harhautuskaappauksella ei ole lainkaan sädettä — sitova rajoite on poikkeaman nopeus, ei teho — joten tämä kenttä on null syyn kanssa eikä keksitty luku. Ei virallisesti hyväksytty vastaanottimen suorituskykytuote.
+
+engine-kind-araim-reference-check-description = Julkaistut ARAIM-hyväksynnän vertailuvektorit: moottorin ARAIM-vaaka- ja pystysuojaustasot ajettuna WG-C ARAIM Technical Subgroupin OMIA työstettyjä numeerisia esimerkkejä vasten, toleranssilla (TOL_PL = 5e-2 m), jonka nämä asiakirjat itse ilmoittavat. Kaksi vektoria on sidottu kiinteinä testiaineistoina, kumpikin kantaen nouto-URL:nsä, noutopäivänsä, lähdetiedoston SHA-256:n ja sivun: Reference Airborne Algorithm Description Document v3.1 (2019) Appendix D — sisäisesti johdonmukainen, ja hyväksymisvektori — sekä Milestone 3 Report (2016) Annex A section A.IX, tutkimuksen kirjallisuusluetteloiden siteeraama lausunto. Jokainen julkaistu syöte (10 satelliitin 2 tähdistön geometriamatriisi, C_int- ja C_acc-varianssidiagonaalit, b_nom, P_sat, P_const ja LPV-200-vakiojoukko) ja jokainen julkaistu tulos (VPL, HPL, EMT, sigma_v_acc, K_fa_3 sekä kahden tähdistövikatilan sigma_3, sigma_ss_3 ja b_3) raportoidaan moottorin oman luvun ja niiden itseisarvoisen erotuksen rinnalla. Suojaustasoyhtälöä EI ratkaista tässä uudelleen: vertailun tilaluettelo annetaan moottorin olemassa olevalle raim::araim_protection_level / araim_integrity_risk -funktiolle, joten testattavana oleva bisektio ja gaussinen häntäalgebra ovat moottorin omia; vain geometria, osaratkaisut, havaitsemiskynnykset ja julkaistu budjettijako rakennetaan sille. ULKOISESTI TARKISTETTU 2019 vektoria vasten: VPL { $lit_18_2926 } m vs. { $lit_18_3 } m julkaistu, HPL { $lit_13_4063 } m vs. { $lit_13_45 } m, EMT { $lit_7_2997 } m vs. { $lit_7_2998 } m, sigma_v_acc { $lit_1_3694 } m vs. { $lit_1_3694 } m, ja kaikki kuusi julkaistua välitulosta puolen yksikön sisällä viimeisessä painetussa desimaalissa. 2016 vektori sisältää kaksi sisäistä vikaa, jotka raportti ilmoittaa eikä piilota — etumerkkivirhe G:n rivillä 3 ja K_fa_3 arvioituna 57 vikatilassa, vaikka asiakirja ilmoittaa N_fault_max = 1 (12 tilaa) — joten sen geometrian välitulokset toistuvat täsmälleen, kun taas sen suojaustasot raportoidaan mitattuina poikkeamina ja jätetään hyväksymisluvun ulkopuolelle; toleranssia ei koskaan levennetä niiden absorboimiseksi. Jokainen tuotettu numeerinen kenttä kantaa yksikön ja alkuperäluokan, ja jäljennetty luku merkitään `published`, jotta sitä ei voi koskaan sekoittaa lasketuksi. RAJAUS: vain N_fault_max = 1 (yksittäisen satelliitin ja yksittäisen tähdistön vikatilat) on toteutettu, ja tapaus, jonka priorit vaativat samanaikaisia usean tapahtuman vikajoukkoja, on REFUSED eikä hiljaa typistetty; vian havaitseminen, poissulkeminen, khii-neliö-johdonmukaisuustarkistus ja vertailualgoritmin kaksoislaskennan uudelleenallokointivaihe ovat soveltamisalan ulkopuolella. Tämä toistaa julkaistun vertailualgoritmin työstetyn esimerkin — se ei ole virallinen hyväksyntä, ilma-aluskelpoisuusasiakirja eikä lupa.
+
+engine-kind-lunar-frame-campaign-description = Seitsemänparametrinen Helmert-koordinaatistodatumi (yhdenmuotoisuus), jota ohjaa SIMULOITU HAVAINTOKAMPANJA eikä syötetty muunnos. Maa-asemien verkko havaitsee Kuun pinnan majakoiden luettelon nimenomaisen aikataulun yli; lunar-VLBI-viivepartiaalit kertyvät tämän aikataulun yli majakkakoordinaattien Fisherin informaatiomatriisiksi täsmälleen kuten lunar-vlbi-fim tekee; ja tämä informaatio propagoidaan Helmert-suunnitelman A = [I3 | [p]_x | p] kautta luettelopisteissä datumin kovarianssiin H = A^T M_b A, diagnosoituna funktiolla crate::fim::crlb. MITÄÄN muunnosta ei syötetä eikä mitään palauteta istutetusta vastauksesta, joten raportoitu datumin tarkkuus johtuu havaintoohjelmasta: viiveen sigman puolittaminen puolittaa sen täsmälleen, ja kaaren pidentäminen parantaa sitä, koska libraatio, jonka raportti MITTAA (sub_earth_direction_sweep_deg), erottaa näkölinjan suuntaisen majakkakoordinaatin taivaan tason suuntaisista. Aste, datumpuute, ehtoluku, koko spektri, havaitsemattomat suunnat SEITSENPARAMETRISESSA KANNASSA, heikoin suunta täydelläkin asteella ja kunkin parametrin osuus siitä tuotetaan joka ajolla; parametri, jota kampanja ei rajoita, julkaistaan arvona NULL ja tilalla, ei koskaan lähes singulaarisesta käänteismatriisista luettuna. Majakkavirheen korrelaatio mitataan, ei oleteta: kun asemat pidetään kiinteinä, mikään havainto ei kosketa kahta majakkaa, joten informaatiomatriisi on täsmälleen lohkodiagonaalinen (offblock_fraction 0), ja kun asemat estimoidaan, Schur-marginalisoitu lohko on kytkeytynyt, indusoitu korrelaatio tulostettuna ja koko propagointi ajettuna uudelleen sen ollessa hylättynä, jolloin riippumattomuusoletuksen hinta on luku. Sama propagointi isotrooppisella koordinaattikohtaisella sigmalla ja palautusvirhe, jonka lunar-frame-realisation-skenaario raportoi, molemmat ajetaan tässä ja tulostetaan kampanja-arvon rinnalle suhteineen. MODELLED: majakkaluettelo on lähteistetty mutta KAMPANJA on simuloitu — asemaverkko ja viiveen sigma ovat havainnollisia syötteitä, yksittäisiä viivehavaintoja kohdellaan riippumattomina, ja Kuun keskipisteen efemeridi, asemakellot, troposfääri ja Maan orientaatioparametrit pidetään KIINTEINÄ, joten datumin kovarianssi on Cramér–Rao-raja supistetulle parametrijoukolle. Ei geodeettinen tuote.
+
+engine-kind-lunar-llr-datum-description = Seitsemänparametrinen Helmert-Kuun koordinaatistodatumi, jota ohjaa TODELLINEN, ARKISTOITU havaintokampanja eikä simuloitu. Siellä missä lunar-frame-campaign poisti syötetyn muunnoksen mutta ilmoitti silti asemaverkkonsa, aikataulunsa ja havaintokohtaisen sigmansa HAVAINNOLLISINA syötteinä, tämä laji ottaa kaikki kolme mittauksesta: epookit ovat arkistoitujen ILRS Consolidated Laser Ranging Data -normaalipisteiden maalähetysajat, havainnot ovat Kuun viiteen heijastinryhmään todella ammutut laseretäisyydet, ja jokainen havaintopaino on kyseisen normaalipisteen oma arkistoitu tarkkuus bin_rms/sqrt(n_raw) luettuna tiedostosta. Asemakoordinaatit tulevat IERS ITRF2020 SLR -ratkaisusta (propagoituna epookkiin niiden julkaistuilla nopeuksilla) ja heijastinkoordinaatit JPL DE430 Taulukosta 7 keskimääräisessä Maa-/keskimääräisen pyörimisen koordinaatistossa, jonka IAU 2015 WGCCRE -malli realisoi. Etäisyyspartiaalit kertyvät yhteiseksi heijastinkoordinaattien Fisherin informaatiomatriisiksi ja propagoituvat saman Helmert-suunnitelman kautta datumin kovarianssiin, diagnosoituna funktiolla crate::fim::crlb. Aste, vajaus, ehtoluku, spektri, havaitsemattomat suunnat seitsenparametrisessa kannassa, heikoin suunta täydellä asteella ja kunkin parametrin osuus siitä tuotetaan joka ajolla, ja rajoittamaton parametri julkaistaan arvona NULL ja tilalla. Ryhmien välinen korrelaatio MITATAAN täsmälleen nollaksi eikä oleteta, koska laseretäisyys koskettaa yhtä ryhmää. Tietue, jota luettelot eivät pysty sijoittamaan — asema, jolla ei ole julkaistua ITRF-paikkaa — JÄTETÄÄN VÄLIIN JA LASKETAAN, sille ei koskaan anneta korvattua koordinaattia. MITKÄ LINKIT ON MITATTU JA MITKÄ ON MODELLED, ON RAPORTTI, EI ALAVIITE: Kuun keskipisteen efemeridi ja IAU-kappaleorientaatio pysyvät mallinnettuina ja niiden yhteisvaikutuksen suuruus tuotetaan havaittu-miinus-laskettu yksisuuntaisen etäisyyden jäännöksenä kaikkien käytettyjen pisteiden yli; troposfääri, kiinteän kappaleen vuorovedet, aseman eksentrisyys, napaliike, UT1-UTC, relativistinen viive ja asemakellot puuttuvat ja ovat tämän jäännöksen sisällä. Koska efemeridivirhe vaikuttaa kovarianssiin vain kunkin näkölinjan suunnan kautta, jokainen ajo ratkaisee myös koko datumin uudelleen kaikkien partiaalien ollessa kallistettuina arvolla sensitivity_tilt_deg (etumerkki vuorotellen) ja tuottaa suhteen, joten kovarianssin epäherkkyys mallinnetulle efemeridille on luku eikä argumentti. Simuloidun kampanjan omat luvut AJETAAN ja tulostetaan mitattujen rinnalle, ei jäljennetä. MODELLED: seitsenparametriset luvut ovat Cramér–Rao-raja supistetulle parametrijoukolle todellisella aikataululla — ei ratkaistu datumi, ei LLR-analyysi eikä geodeettinen tuote. Sidottu todellisen datan viipale toimitetaan repositorion mukana mutta ei julkaistun crate-kirjaston mukana; osoita data_dir sen kopioon.
+
+engine-kind-lunar-beacon-description = Kuun kiertoradan navigointipalvelun pintamajakkatäydennys ajettavana ennen/jälkeen-taulukkona. Etelänapakäyttäjä näkee harvan kiertoratajoukon kapealla taivaan alueella, joten etäisyysmittausgeometria on huonosti ehdollinen; muutama MITATTU PINTAMAJAKKA tuottaa matalakulmaiset, laajan atsimuutin näkölinjarivit, joita pelkästään yläpuolella oleva joukko ei tarjoa, ja vaakasuuntainen tarkkuuden heikkenemiskerroin romahtaa. Skenaario raportoi kolme kokoonpanoa yhdellä epookilla — pelkät satelliitit, satelliitit plus näkyvät majakat ja suurempi tähdistö vaihtoehtoisena reittinä samaan geometriaan — kullekin sen näkyvien lähteiden lukumäärät, koko DOP ja toteutunut 1-sigma-tarkkuus METREINÄ saatuna kertomalla majakkakohtaisella käyttäjän ekvivalentilla etäisyysmittausvirheellä, joka on koottu kellosynkronoinnin, monitie-etenemisen ja mittaustermien neliösumman neliöjuurena. Majakan näkyvyys on ilmattoman Kuun kahden korkeuden geometrinen horisontti (ei ilmakehää, joten raja on täsmällinen), ja DOP-kokoonpano on sama ydin, joka on ristiintarkistettu gnss_lib_py:tä vasten tiedostossa tests/dop_reference.rs. MIKSI TÄMÄ LAJI ON OLEMASSA: sen takana oleva moduuli on ollut moottorissa ja tarkistettuna riippumatonta DOP-polkua vasten L08/L09:stä lähtien, mutta siihen ei päässyt ajosta — ei lajia, ei dispatch-haaraa, ei niputettua tiedostoa. README mainosti ominaisuutta eikä varmennusmatriisissa ollut sille LAINKAAN riviä, joten se oli samanaikaisesti väitetty proosassa ja väittämätön kirjanpidossa ollessaan samalla tavoittamaton moottorissa. Oletukset ovat geometria, jolla on jo sidottu kultainen vertailutulos (käyttäjä -80 deg:ssa 2 m:n antennilla, kolme majakkaa kohdissa -80/0, -79/+60 ja -79/-60 2 km:ssä, kuuden satelliitin havainnollinen LCNS-hetkikuva hetkellä t=0, 5 deg:n maski), joten paljas ajo toistaa taulukon, jonka oraakkeli jo kattaa, eikä keksi uusia lukuja. MODELLED: tähdistön suunnittelu, majakoiden sijoittelu ja jokainen virhebudjetin suuruus ovat havainnollisia syötteitä, eivät käytössä oleva mittaus eikä mitattu linkki; vain DOP-laskenta, horisontin suljettu muoto ja suhde sigma = DOP x sigma_URE on ankkuroitu ulkoisesti. Ei palvelun suorituskykysitoumus.
+
+engine-kind-earth-gnss-lunar-description = Maa-GNSS-vastaanotto Kuun etäisyydellä, heikon signaalin kerros, jonka konfliktikestävyyspaperi nimeää ja jolle moottorilla ei ollut mallia. GNSS-satelliitti osoittaa antenninsa Maahan; Kuun lähellä oleva vastaanotin on noin viisitoista kertaa kiertoratasäteen päässä, joten kolme asiaa puree yhtä aikaa. Maa PEITTÄÄ KEILAN AKSELIN: 26 560 km:n päästä se vie { $lit_13_9 } deg:n puolikulman, joten jokaisen Kuuhun suuntautuvan säteen on lähdettävä lähettimestä vähintään sen verran nadirista poikkeavana, mikä poistaa keilan huipun ennen kuin mitään tehoa lasketaan. Jäljelle jää PÄÄLOHKON REUNA JA SIVULOHKOT, järjestelmä, jossa LuGRE-hyötykuorma todella toimi vuonna 2025. Ja vapaan tilan häviö on noin 208 dB L1:llä, noin 25 dB enemmän kuin maanpäällinen käyttäjä maksaa. Raportti tuottaa yhden rivin satelliittia kohti (poikkeama keilan akselista, Maan peitto, etäisyys, etenemishäviö, lähetysvahvistus tässä kulmassa, vastaanotettu teho, kantoaalto–kohinatiheys) ja koostaa vain linkit, jotka ylittävät seurantakynnyksen. SE RAPORTOI MYÖS EHTOUTUMISEN, koska se määrittelee tämän kerroksen: jokainen näkyvä satelliitti on Kuusta nähtynä muutaman asteen levyisen kartion sisällä, joten näkölinjat ovat lähes yhdensuuntaisia, tarkkuuden heikkenemiskerroin on valtava, ja Maa-GNSS-paikkaratkaisu Kuun etäisyydellä on AJOITUSluokan havainto paljon enemmän kuin paikkaluokan. MODELLED, ja lähetyskuvio on syy: vahvistus kulmassa on tasainen ympyräaukko (Airy), kun taas todellinen GPS L1 -antenni on kaksitoistaelementtinen kierukkaryhmä muotoillulla pääkeilalla ja ei-Airy-sivukeiloilla. Mitattuja kuvioita on olemassa eikä niitä ole sidottu tähän, joten järjestykset ja suuruusluokat ovat merkityksellisiä mutta yksittäisen satelliitin dB ei ole. Tarkoituksella PUUTTUVAT, kukin tekee budjetista optimistisen: ei ionosfäärin tai troposfäärin häviötä reunaa hipovilla säteillä, ei polarisaatio-, osoitus- tai toteutushäviötä, ja pallomainen Maa ilman refraktiivista laajennusta. Kuun paikka on SYÖTE (etäisyys plus inertiaalinen suunta) eikä efemeridihaku, koska testattava suure on linkki ja keilageometria. Tämän rivin nostaminen tasolle Validated vaatii mitatun lähetyskuvion ja LuGRE-normaalipisteet; kumpaakaan ei ole repositoriossa eikä kumpaakaan keksitä tässä.
+
+engine-kind-lunar-infrastructure-description = MODELLED tutkimukset Kuun radasta ja pinnasta navigointi- ja geodesiainfrastruktuurina, viisi tutkimusta yhden `study`-kentän valitseman lajin takana: od-consistency (aluksella tehtävä Maa-GNSS-radanmääritys NRHO:ssa tai ELFO:ssa vs. riippumaton maa-asemien radiometrinen radanmääritys, arvioituna niiden omilla kovariansseilla siemenluvullisen Monte Carlon yli), carrier-phase (yhteinen pinta–kiertoratavälittäjä kaksoiserotettu kantoaallon vaihe ja kokonaislukuepävarmuuden ratkaisu LAMBDA:lla), frame-coestimation (pinta-asema ja kiertoratavälittäjät lisättynä Maa-asemien etäisyysmittaukseen seitsenparametrista Kuun koordinaatistodatumia varten), space-tie (GNSS, VLBI ja laseretäisyysmittaus yhdellä avaruusaluksella, koordinaatiston sidonnan tarkkuus vs. paikallisen sidonnan virhe) ja geodesy-sensitivity (Kuun Love-lukujen h2, k2, l2 ja fysikaalisen libraation Fisherin informaatio laseretäisyysmittauksesta, kiertoratavälittäjien seurannasta, pinnan gravimetristä ja pinnan kellosta). Rajoitettu kolmen kappaleen malli ilmoitetuin yksinkertaistuksin; numeriikka on tarkistettu riippumattomilla ohjelmilla eikä mitään verrata Kuun suureen mittaukseen.
+
+engine-kind-cislunar-arc-recovery-description = MODELLED riippumattoman estimaattorin testi kuunläheisen kaaren pituuden havaittavuuskynnykselle. Tämä kynnys on ASTE-luku havaittavuusmatriisista, joka on koottu ANALYYTTISISTÄ etäisyysjakobiaanin riveistä ja ANALYYTTISESTÄ variaatiotilansiirtymämatriisista, ja sen neliöjuuri-informaatiosuodatinristiintarkistus kerryttää samat rivit — kahden numeerisen koneen välinen johdonmukaisuustarkistus, ei vahvistus. Tämä laji tuottaa puuttuvan välimiehen: eräkohtaisen pienimmän neliösumman estimaattorin, joka todella PALAUTTAA päähavainnon alkutilan simuloiduista mittauksista, mittauspartiaalit otettuna koostetun eteenpäinmallin KESKISEN DIFFERENSSIN avulla. Se ei kutsu yhtään analyyttistä jakobiaanirivia, ei variaatio-STM:ää, ei singulaariarvo- eikä ominaishajotelmaa, ei asteen toleranssia eikä neliöjuuri-informaatiosuodatinta — tiedostossa tests/cislunar_arc_recovery_reference.rs oleva lähdetekstisuoja tekee tämän valvottavaksi — kun taas dynamiikka (sama RK4 CR3BP -virtaus), alkuehdot (sama differentiaalikorjattu tähdistö), skalaarihavainto ja epookkiruudukko jaetaan tarkoituksella ja nimetään tuotetussa `independence`-lohkossa, koska kahden saman fysikaalisen ongelman analyysin on oltava samaa mieltä fysiikasta ollakseen vertailukelpoisia. Kaksi kriteeriä, kumpikin pyyhkäisty viiden dekadin yli oman rajansa: KOHINATON PALAUTUS (jokaisen siemenluvullisen kokeen lopullinen tilavirhe enintään recovery_factor kertaa sen a priori -siirtymä — asteen vastine, jossa ei ole singulaariarvotoleranssia) ja MONTE CARLO -ESTIMOITAVUUS (mitattu RMS-paikkavirhe siemenluvullisen kohinajoukon yli alle ilmoitetun rajan — estimoitavuuden vastine, mitattu eikä ennustettu). Tukee tasomaista nelitilaa ja avaruudellista kuusitilaa, DRO / L2-halo / L2 NRHO -perheitä, etäisyys- ja etäisyyden muutosnopeushavaintoja sekä Kuu-keskeistä napaparametrisointia, jossa muunnos sovelletaan TILAAN ja eteenpäinmalli differentioidaan siellä uudelleen. MITATTU julkaistulla tasomaisella DRO-ruudukolla: estimaattori palauttaa nelitilan arvosta { $lit_0_782609 } h asteen kriteerin arvoa { $lit_2_086957 } h vastaan, kun rel_tol 1e-6 (suhde { $lit_0_375 }) — astekynnys EI ole vahvistettu palautettavuuden rajana — kun taas mitattu estimoitavuuden raja osuu samaan ruudukon soluun kuin muodollinen, { $lit_5_739130 } h, ja mitattu virhekäyrä toistaa muodollisen 1-sigman 21 kaaren pituuden yli geometrisen keskiarvon suhteella { $lit_0_98 }. MODELLED: tähdistön suunnittelu, epookkiruudukko, yksittäinen seurattu linkki, siirtymän suuruus, mittauksen sigma ja kaksi ilmoitettua rajaa. Ei virallisesti hyväksytty navigoinnin suorituskykytuote.
+
+engine-kind-telecom-timing-description = Telecom timing: GNSS-holdoverin aikavirhe, suurin aikavälivirhe (MTIE) ja aikapoikkeama (TDEV), tarkistettuna ITU-T-maskeja vasten PASS tai FAIL ja marginaali maskia kohti. Syöte on joko SYNTEETTINEN HOLDOVER (oskillaattoriesiasetus -- ocxo, rubidium, caesium tai csac, kukin kantaen nimetyn julkisen Microchipin datalehden stabiiliuden, ikääntymisen ja lämpötilan luvut -- plus GNSS:n menetysaika, tallenteen pituus ja näyteväli; vapaasti käyvä kello kantaa valkoista, flicker- ja, missä datalehtisovitus sitä tarvitsee, satunnaiskävelytaajuuskohinaa, lineaarista ikääntymistä ja sinimuotoista lämpötilatermiä) tai SISÄÄNOTETTU SARJA [time_s, time_error_ns] -pareja annettuna sisäisesti (ja vain natiiveissa käännöksissä CSV-tiedostona). Maskit: ITU-T G.8272 (07/2025) PRTC-A ja PRTC-B (max|TE| 100 / 40 ns, MTIE Taulukot 1-2, TDEV Taulukot 3-4); G.8272.1 (2024) Amd. 1 (07/2025) ePRTC lukittu (30 ns, Taulukot 1-2) ja ePRTC-A holdover (Taulukon 3 aikavirheverhokäyrä nousee 30 ns:sta 100 ns:iin holdover-jakson H aikana, jonka lukittu kesto määrää, MTIE Taulukko 4, TDEV Taulukko 5); G.8273.2 (2023) Amd. 2 (11/2025) T-BC/T-TSC-luokat A-C (max|TE|, vakioaikavirhe, alipäästösuodatettu MTIE ja TDEV) ja luokka D (max|TE_L| 5 ns, ainoa luokan D luku, jota ei ole jätetty jatkotarkasteltavaksi); G.8271.1 (2022) Amd. 3 (05/2025) vertailupiste C (max|TE_L| 1100 / 600 / 100 ns MTIE-taulukoilla 7-1 – 7-3). Jokainen kohta, jonka suositus merkitsee jatkotarkasteltavaksi, puuttuu eikä ole täytetty, ja jokainen raportti luettelee, mitä ei ole toteutettu. Raportoi myös ajan kunkin enimmäisaikavirhebudjetin ylittymiseen (oletukset: 100 ns ePRTC max|TE_HO|, 400 ns verkon holdover-allokaatio, 1100 ns piste C, { $lit_1_5 } us luokka 4), MTIE/TDEV-käyrät CSV-taulukkona kunkin maskin rajan kanssa sekä yksiköt ja alkuperä -merkinnän jokaiselle numeeriselle kentälle. VALIDATED: MTIE- ja TDEV-estimaattorit allantools-pakettia vasten sidotulla holdover-sarjalla. MODELLED: maskitaulukot ovat jäljennöksiä, ja synteettinen holdover on datalehtien maksimeista rakennettu malli, ei minkään yksikön mittaus. Ei vastaavuustesti.
+
+engine-kind-slot-timing-description = Slot timing: sekunnit, kunnes vapaasti käyvä kello poistuu aikaindeksoidun reititys- tai tehtävänantoslotin suojavälistä (suurin itseisarvoinen aikavirhe, jonka slotti sietää), kunkin termin osuus sillä hetkellä hallitsevan nimeämisellä (paikkaratkaisun epävarmuus, valkoinen vaihekohina, valkoinen, flicker-, satunnaiskävely- ja satunnaisajotaajuuskohina, jäännöstaajuuspoikkeama, lämpötila, ikääntyminen), viimeisestä paikkaratkaisusta jäljellä oleva aika ja suurin paikkaratkaisuväli, joka pitää kellon sisällä, paikkaratkaisun viiveellä vähennettynä. Oskillaattori on LUOKAN oletus (csac, uso, dsac, tcxo, ocxo tai rafs: yksi siteerattu yhden sekunnin Allanin poikkeama ja oletettu punaisen kohinan alaraja), telecom-timing-DATALEHTIESIASETUS tai sisäinen DATALEHTI (Allanin poikkeaman maksimit sovitettuna verhokäyränä, plus ikääntyminen ja lämpötilakerroin), tai sisäinen MITATTU VAIHETALLENNE (sen päällekkäinen Allanin poikkeama sovitettuna painotetulla pienimmän neliösumman menetelmällä valkoisen vaiheen ja IEEE Std 1139 -taajuusmodulaatiokannassa, joten punaisen kohinan alaraja on mitattu eikä oletettu). Ylitys pidemmän keskiarvoistusajan yli kuin datalehti tai tallenne tukee merkitään ekstrapoloiduksi. Valinnainen harhautusosio lisää kiertoradalla olevan vastaanottimen ajoituksen suojaustason: kiertonopeus ja -jakso, kuinka kauan yksittäinen maanpäällinen harhauttaja voi tavoittaa satelliitin ohitusta kohti, kelloavusteisen valvonnan alaraja ja CUSUM-havaitsemisviive, ehdollinen raja, vetäytymä, jonka ilmoitetulla enimmäisramppinopeudella oleva harhauttaja kerryttää, ennen kuin satelliitti poistuu sen ulottuvilta tai riippumaton tarkistus ajetaan, ja onko kukin maayhteyden tai ristiinlinkin tarkistus riippumaton tästä harhauttajasta. VALIDATED: holdover-inversio sovitetusta tallenteesta, pidätettynä todellisella cesiumkellolla, joka on mitattu vetymaseria vasten (tests/slot_timing_cs5071a_holdout.rs, dataportitettu); mitatulla kideoskillaattorilla pidätetty ennuste on konservatiivinen mutta ei kynnyksen sisällä, joten kideoskillaattoritapaus on MODELLED. MODELLED: luokka- ja datalehtilähteet, deterministiset termit ja harhautusarvio.
+
+engine-kind-spectrum-description = L-kaistan spektrimalli ja vesiputous: koko GNSS-L-kaista yhtenä tehospektritiheytenä (PSD), taajuus poikittain, aika alaspäin, käsikirjoitetun häirintälähetinaikajanan yli. SIGNAALIT: GPS L1 C/A ja L2C (BPSK(1)), Galileo E1 open service (MBOC(6,1,1/11) tai BOC(1,1)), GPS L5 ja Galileo E5a (BPSK(10)), kukin kantoaallollaan rajapintamäärittelyn minimivastaanottotehoilla (IS-GPS-200, IS-GPS-705, Galileo OS SIS ICD) ellei toisin ohiteta; GLONASS, BeiDou ja Galileo E6 eivät ole mallinnettuja. HÄIRINTÄLÄHETTIMET: jatkuva sinisignaali, tasainen kapeakaistakohina, lineaarinen sahalaitakirkunta ja kaistan oman modulaation mukainen laajakaistakohina, kullakin keskitaajuus, kaistanleveys, vastaanotettu teho (suora, tai EIRP ja etäisyys häirintälajin vapaan tilan etenemishäviön kautta) sekä päälle/pois-ajat. Jokainen häirintälähetin pisteytetään kutakin kaistaa vastaan sen spektrierotuskertoimella kappa vastaanottimen kaistanleveyden yli, ja (C/N0)_eff = [1/(C/N0) + sum (J/S) kappa]^-1; yhdelle häirintälähettimelle tämä on yhtä kuin häirintälajin häirinnänestoyhtälö kertoimella Q = 1/(R_c kappa), ja raportti kantaa tämän ristiintarkistuksen (ja häirintälajin edustavan Q-luvun sen rinnalla). Kohinataso on k T_sys, kun T_sys = T_ant + 290 K (F - 1). Vesiputous keskiarvoistaa kunkin solun sen lokeron ja rivin yli (kirkunnat täsmälleen, kokonaiset pyyhkäisyt plus osittainen; rivin kesken kytkeytyvät häirintälähettimet käyttösuhteensa mukaan), joten C/N0-aikajana ja kuva tulevat samoista luvuista; result.json kantaa ruudukon tehossa lohkokeskiarvoistettuna, kaistakohtaisen C/N0:n ja J/S:n riviä kohti sekä häirintälähetintä ja kaistaa kohti SSC:n, Q:n, J/S:n, kaistansisäisen J/S:n ja tasaisen C/N0:n. Valinnainen [iq]: malli piirrettynä kompleksisena IQ:na yhdellä hetkellä, kirjoitettuna SigMF-tallenteeseen ja luettuna siitä takaisin (cf32_le tai ci16_le) ja verrattuna Welch-estimaattiin. Valinnainen [recording] (natiivit käännökset): todellisen SigMF-tallenteen Welch-PSD mallin rinnalla. VALIDATED: signaalien PSD:t oppikirjan pääkeilan leveyksiä vasten (BPSK(n) 2n x { $lit_1_023 } MHz nollasta nollaan; BOC(1,1)-keilat keskitettyinä kohtiin +/-{ $lit_1_023 } MHz) ja spektrierotuskertoimet niiden Parsevalin suljettuja muotoja ja Kaplan & Hegartyn Q = 1 (CW) ja { $lit_1_5 } (vastaava) vasten. MODELLED: häirintälähettimien tehot, aikajana, etupään kaistanleveydet, jatkuvan spektrin (ei koodiviivoja) käsittely sekä AGC:n, tyhjennyksen ja antennikuvion puuttuminen.
+
+engine-kind-solar-system-description = Koko aurinkokunta yhdellä epookilla, PNT:lle (paikannus, navigointi ja ajanmääritys) minkä tahansa kappaleen ympärillä. Auringolle, kahdeksalle planeetalle, Plutolle, Kuulle, Phobokselle, Deimokselle, Iolle, Europalle, Ganymedeelle, Callistolle ja Titanille se raportoi heliosentrisen paikan ja nopeuden ICRF:ssä (International Celestial Reference Frame, ekvatoriaalinen J2000), heliosentrisen etäisyyden sekä J2000-ekliptikan pituuden ja leveyden, gravitaatioparametrin, ekvatoriaali- ja keskisäteen, J2:n julkaistussa tapauksessa ja sen vertailusäteen, sideerisen pyörimisjakson, IAU-navan ja nollameridiaanin epookilla, yhden kierroksen yli näytteistetyn rataradan (heliosentrisen planeetoille, keskuskappaleeseen sidotun kuille) sekä valonajan, yksisuuntaisen ja kaksisuuntaisen etäisyyden, auringon Shapiro-viiveen ja Auringon erotuskulman havaitsijakappaleesta (oletuksena Maa); lisäyhteydet from/to saavat saman käsittelyn. Paikat: Standishin ja Williamsin JPL:n Keplerin elementit (Taulukko 1 vuosille 1800 AD – 2050 AD, Taulukot 2a/2b vuosille 3000 BC – 3000 AD) kunkin planeetan nimellisvirheellä, Montenbruckin ja Gillin Kuun sarja Maa–Kuu-jaolle, JPL:n keskielementit IAU:n synkronisella pyörimisnopeudella Marsin ja Galileon kuille sekä IAU:n pyörimismalli Titanille. Valonaika: radiometrinen kiintopisteratkaisu, lähetin viivästetyssä paikassaan; newtonilainen, Shapiro-viive raportoituna erikseen. VALIDATED JPL Horizonsia (DE441) vasten kaksinkertaisen nimellisvirheen sisällä: Merkurius–Saturnus ja Maa Taulukosta 1 (huonoin { $lit_1_87 } kertaa nimellinen) ja kaikki kahdeksan planeettaa Taulukoista 2a/2b (huonoin { $lit_1_71 } kertaa), sekä Maa–Mars- ja Maa–Jupiter-valonaika. MODELLED, kukin rivi merkittynä: Uranus ja Neptunus Taulukosta 1 ({ $lit_2_0 } ja { $lit_5_2 } kertaa nimellisvirhe DE441:tä vasten), Pluto (vuoden 1992 rivi; ei ilmoitettua virhettä), Kuu ja seitsemän kuuta (mitattu Horizonsia vasten, ei julkaistua rajaa).
+
+engine-kind-body-pnt-description = Paikannus minkä tahansa aurinkokunnan kappaleen ympärillä: kiertoratakappale tai pintalaskeutuja nimellä valitun keskuskappaleen (Mars, Kuu, Europa, Ganymede, Titan ja muu aurinkokuntaluettelo) ympärillä, joka navigoi yksisuuntaisilla pseudoetäisyyksillä pienestä Walker-navigointitähdistöstä kappaleen ympärillä (kaksikappaleradat kappaleen oman J2-sekulaarisen ajautuman kanssa, tuntematon käyttäjän kello) ja valinnaisesti kellosta vapaalla syvän avaruuden kaksisuuntaisella etäisyydellä Maasta, jonka suunta ja etäisyys tulevat analyyttisestä aurinkokunnan efemeridistä jokaisella epookilla. Näkölinjat estää kappaleen keskimääräinen pallo, ja pintakäyttäjä tarvitsee myös korkeuskulmamaskin. Epookkia kohti: näkyvissä olevat välittäjät, onko Maa horisontin yläpuolella, pelkän tähdistön GDOP ja PDOP (geometrinen ja paikan tarkkuuden heikkenemiskerroin), muodollinen yhden sigman paikkaepävarmuus Maa-rivin kanssa ja ilman sitä sekä siemenluvullisen Gauss–Newton-pienimmän neliösumman paikkaratkaisun virhe kumpaakin tapaa; ajon yli: saatavuus, Maan näkyvyys, PDOP:n mediaani, RMS-virhe ja muodollisen sigman mediaani, plus Maa–kappale-valonaika, edestakainen matka, Shapiro-viive ja Auringon erotuskulma epookilla. MODELLED: välittäjäradat, kohinatasot ja hetkellinen mittausmalli ovat mallinnusvalintoja, joita ei ole varmennettu tehtävän navigointidataa vasten; kappaleen vakiot ovat tiedostossa body.rs siteeratut julkaistut arvot, ja Maa-geometria perii aurinkokunnan efemeridin merkinnät.
+
+engine-kind-constellation-design-description = Tähdistön suunnittelu mittakaavassa: Walker DELTA- ja Walker STAR -kuviot i: T/P/F-käytännössä (solmut levitettyinä 360 tai 180 deg:n yli, tasonsisäinen väli 360*P/T, tasojen välinen vaihesiirtymä 360*F/T), nimenomaiset elementtiluettelot ja monikuorisuunnitelmat, useita tähdistöjä yhdessä ajossa, Maan, Kuun, Marsin tai minkä tahansa muun planeetan, Plutonin tai suuren kuun ympärillä käyttäen body-moduulin vakioita (samoja, joita aurinkokunta- ja body-pnt-lajit käyttävät). ESIASETUKSET julkaistuista nimellisistä elementeistä: gps-baseline ja gps-expandable (24 slottia ja kuusi etu-/takalaajennettavaa paria GPS Standard Positioning Service Performance Standardista, 5. painos 2020, Taulukot 3.2-1 – 3.2-3), galileo (Walker 24/3/1 korkeudella 29 599.801 km ja 56 deg, Galileo Open Service Service Definition Document issue 1.1 Taulukot 1 ja 23), beidou ja beidou-meo (Walker 24/3/1 korkeudella 21 528 km ja 55 deg plus kolme geostationaarista satelliittia kohdissa 80, { $lit_110_5 } ja 140 deg E ja kolme kallistettua geosynkronista satelliittia 55 deg:ssa, BeiDou Open Service Performance Standard 3.0 section 4.1; MEO-vaihe ja 118 deg E:n kallistetun geosynkronisen ylitys on mallinnettu, koska standardi ei ilmoita niitä) ja glonass (24/3/1 korkeudella 19 100 km ja { $lit_64_8 } deg GLONASS Interface Control Document edition 5.1 section 5.2:n slottikaavasta). KATTAVUUS JA TARKKUUDEN HEIKKENEMISKERROIN: leveys-/pituusruudukon ja näytteistetyn ikkunan yli korkeuskulmamaskilla, näkyvissä olevien satelliittien lukumäärä, GDOP, PDOP, HDOP ja VDOP solua kohti, saatavuus (paikkaratkaisu, jonka PDOP on enintään kynnys, oletuksena 6) solua kohti, globaalisti (pinta-alapainotettu) ja huonoimmassa paikassa, yksi vastaanottimen kello tähdistöä kohti ellei clock = "common". Se skaalautuu tuhansiin satelliitteihin: näkyvyys on pistetulo kunkin satelliitin kattavuuspuolikulmaa vasten, ja satelliitit jaetaan kaistoihin alasatelliittipisteen leveyden mukaan kullakin epookilla, joten ruudukon rivi testaa vain ne, jotka voivat olla näkyvissä; raportti laskee säästetyt paritestit. JSON kantaa ruudukkokartat ja alasnäytteistetyt satelliittikohtaiset maanpinnan jäljet. VALIDATED: Walker-generaattori Galileo OS SDD:n Taulukkoa 23 ja GLONASS ICD:n slottikaavaa vasten, GPS-esiasetus SPS PS:n Taulukon 3.2-1 julkaistua päiväntasaajanylityssaraketta vasten ja GPS-perustason globaali HDOP-jakauma SPS PS:n Appendix B:tä vasten (mediaani { $lit_0_94 }, 95 % { $lit_1_25 }, keskiarvo { $lit_0_96 }, toleranssi { $lit_0_03 }). MODELLED: kaksikappaleradat valinnaisella sekulaarisella J2:lla, pallomainen kappale, vain geometrinen näkyvyys (ei signaalitehoa, tilaa eikä maastoa) sekä eri järjestelmien välinen suhteellinen vaihe, joka ei ole minkään todellisen päivämäärän hetkikuva.
+
+engine-kind-campaign-description = Campaign: olemassa olevat skenaariolajit koottuna yhdeksi ajoksi, kun jokainen luku luetaan nimetyn lajin todellisesta ajosta. Neljä osiota missä tahansa yhdistelmässä. PHASES: ketjutettu tehtävä yhdellä jaetulla aikajanalla -- kukin vaihe ajaa yhden tai useamman skenaarion (esimerkiksi häirintä, sitten harhautus, sitten kello holdoverissa inertianavigointijärjestelmän vapaasti lentäessä sen rinnalla, sitten eheyshälytys, sitten toipuminen), niiden tulokset luetaan nimettyihin kanaviin (kellon aikavirhe suhteessa suojaväliinsä, kantoaalto–kohinatiheyssuhde suhteessa seurantalattiaan, suojaustaso suhteessa hälytysrajaan, paikkavirhe, seuraavat satelliitit, hälytyslaput) lajikohtaisella esiasetuksella tai nimenomaisilla tulospoluilla ja uudelleennäytteistetään yhteiselle ruudukolle nollannen asteen pidolla, vaiheiden rajoilla ja tapahtumilla; tila siirretään eteenpäin kuljetuksella (carry; kanava jatkuu edellisen vaiheen loppuarvosta), luovutuksella (handoff; edellisen vaiheen luku kirjoitetaan tämän vaiheen skenaarioon) ja end_at-asetuksella (vaihe päättyy ajon laskemaan aikaan, kuten harhautusvalvonnan havaitsemisaikaan). SWEEP: ruudukko yhden–kolmen pisteillä erotetun minkä tahansa lajin skenaarioavaimen yli (kokonaislukusegmentti indeksoi taulukkojen taulukon, kuten kohdassa system.2.sisre_m), mittareilla, jotka luetaan tulospolulla, ja kun ajoja on yli yksi, siemenluvullisella Monte Carlo -joukolla jokaisessa solmussa. MONTE_CARLO: realisaatio k ajetaan arvolla base_seed + k; jokainen mittari raportoi keskiarvon, keskihajonnan, lähimmän sijan 5./50./95. persentiilit ja kiinteällä siemenluvulla tehdyn bootstrap-95 %:n luottamusvälin keskiarvolle. COMPOSE: useita skenaarioita jaetuilla arvoilla (yhden häirintälähettimen teho ja paikka kirjoitettuna merenkulku- ja tievastaanottimeen), yhdistetyllä paras/huonoin-yhteenvedolla. Tulos kantaa kampanjatiivisteen, kaikkien jäsentulosten yli lasketun tiivisteen ja yksikkömerkinnän jokaiselle tuotetulle luvulle; yhteentoimivuusviennit kirjoittavat jokaisen geometrian sisältävän jäsenskenaarion omana tiedostojoukkonaan. Koostamisidentiteetit testataan: yksivaiheinen kampanja toistaa erillisen ajon bitti bitiltä, kiinteän siemenluvun joukko on tavutasolla vakaa, ja valkoisen taajuuskohinan kellolla joukon keskiarvo osuu ilmoitetun välin sisään ja hajonta vastaa arvoa sqrt(q_wf * tau). MODELLED: additiivinen kuljetus ja nollannen asteen pito ovat mallinnusvalintoja, ja jokainen vaihe kantaa sen ajaneen lajin merkinnän.
+
+engine-kind-leo-signal-description = LEO-PNT-signaalisuunnitelmat: parametroidut matalan Maan kiertoradan (LEO) paikannus-, navigointi- ja ajanmääritys (PNT) -signaalit mille tahansa järjestelmälle, kaistalle ja rakenteelle. SIGNAALI on kaista (keskitaajuus, lähetyskaistanleveys, ITU-allokaatio RNSS/RDSS/MSS/EESS/non-RNSS/other) ja komponentit (hankinta, data, pilotti; mikä tahansa osajoukko), kullakin modulaatio (BPSK(n) murtoluku-n:llä, BOC(m,n), MBOC(6,1,p) tai tasainen OFDM-tyyppinen kaista), tehoosuus, valinnaiset FDMA-alikantoaaltosiirtymät, koodin pituus ja datanopeus. Signaalit tulevat käännökseen sisällytetyistä julkisista esiasetustiedostoista (xona-pulsar, iridium-stl, starlink-soo, centispace, generic-c-band, generic-bands; kullakin lähde-URL ja jokainen julkaisematon arvo merkittynä REPRESENTATIVE) tai kirjoitetaan sisäisesti. SIGNAALIA KOHTI: kaistarajoitettu tehospektritiheys ja osuus kunkin komponentin tehosta, jonka lähetyskaista päästää läpi (BPSK:n suljettu muoto numeerisen arvon rinnalla), RMS-(Gabor-)kaistanleveys, viivelukkosilmukan koodinseurannan lämpökohinavärinä vs. C/N0 ja early-late-väli kaistarajoitetusta koherentista (tai ei-koherentista) early-late-kaavasta (Betz & Kolodziejski 2009) sen rajoittamattoman kaistan oppikirjamuodon ja häviävän välin Gabor-rajan kanssa, etäisyysmittauksen tarkkuus metreinä, hankinnan hakuavaruus (Doppler-lokerot radan suurimmasta Dopplerista plus oskillaattori- ja käyttäjätermit, kertaa koodilokerot), neliölakihavaitsemistodennäköisyys ja keskimääräinen sarja- ja koodirinnakkaishankinta-aika, signaalin spektrierotuskerroin GPS L1 C/A:han, Galileo E1:een, GPS L5:een, Galileo E5a:han, E5b:hen ja E5 AltBOC:hen ja kunkin signaaliin C/N0-heikkenemisen kanssa, sekä seurattavan komponentin sietämä CW-, laajakaista- ja vastaava J/S spektrilajin oman SSC-koneiston mukaan. KAISTAVERTAILU: ensimmäisen kertaluvun ionosfäärin viive ({ $lit_40_3 } TEC/f^2), vapaan tilan häviö, etäisyysmittauksen tarkkuus yhtäläisellä C/N0:lla ja yhtäläisellä EIRP:llä sekä häirinnän sieto. Valinnaiset MUOTOTARKISTUKSET pitävät suunnitelman spektriä kuvattua mittausta vasten (MODELLED johdonmukaisuus). VALIDATED: BPSK:n kaistansisäinen teho ({ $lit_90_3 } % pääkeilassa) ja Gabor-kaistanleveyden suljetut muodot, kaistarajoitettu värinä, joka palautuu oppikirjan koherenttiin early-late-muotoon ja sen Gabor-rajaan, siirretyn BPSK:n spektrierotuskerroin sen Parsevalin suljettua muotoa vasten, AltBOC-spektrin yksikköpinta-ala sekä suurin LEO-Doppler julkaistuja Xona Pulsarin (32-34 kHz) ja Iridiumin (36 kHz) lukuja vasten. MODELLED: jokainen suunnitelma, tehojako, C/N0 ja häirintätaso; EFQPSK-, CSK- ja OFDM-spektrit on approksimoitu.
+
+engine-kind-leo-pass-description = LEO-ohitus ja linkkibudjetti kaista kaistalta LEO-PNT:lle (paikannus, navigointi ja ajanmääritys matalalta Maan kiertoradalta), järjestelmäriippumaton: käyttäjä (maa-, meri-, ilma- tai sisätila, paikallaan tai liikkuva) ja yksi tai useampi LEO-satelliitti SUUNNITELLUSTA OHITUKSESTA (ympyrärata sijoitettuna niin, että käyttäjä näkee yhden valitun enimmäiskorkeuskulman ohituksen valittuna aikana, aurinkosynkroninen pyydettäessä), nimenomaisista ELEMENTEISTÄ, TLE:stä (kaksirivinen elementtijoukko) moottorin SGP4:n kautta tai WALKER-tähdistöstä, jonka tähdistösuunnittelukoodi rakentaa (korkeimmat ohitukset raportoidaan). Kaistat tulevat nimetystä esiasetuksesta (yleinen monikaista UHF/L/S/C, yleinen C-kaista, Xona Pulsar X1/X5, Iridium STL, Starlink vain Doppler-mahdollisuussignaalina, CentiSpace ja valinnainen Celeste IOD -esiasetus merkittynä WORKSHOP) tai kirjoitetaan skenaarioon; kukin esiasetus ilmoittaa, ovatko sen luvut PUBLIC (URL:n kanssa), REPRESENTATIVE vai WORKSHOP. Satelliittia, kaistaa ja epookkia kohti: korkeuskulma, atsimuutti, etäisyys, etäisyyden muutosnopeus ja etäisyyden kiihtyvyys; vapaan tilan etenemishäviö; EIRP ja satelliitin kuviovahvistus (isoflux, gaussinen keila tai tasainen); käyttäjän antennivahvistus vs. korkeuskulma (patch, puolipallo tai isotrooppinen); kaasumainen vaimennus (ITU-R P.676-10 Annex 2), sadevaimennus (ITU-R P.838-3 -kertoimet ja P.618-14 -menettely sadeintensiteetistä ja sadekorkeudesta), troposfäärin tuike (ITU-R P.618-14 section 2.4.1), rakennuksen läpäisyhäviö sisätilakäyttäjälle (ITU-R P.2109-2), polarisaatioepäsovitus, järjestelmän kohinalämpötila ja C/N0 (kantoaalto–kohinatiheys); Doppler ja Dopplerin muutosnopeus suljetussa muodossa etäisyyden muutosnopeudesta ja etäisyyden kiihtyvyydestä, kukin tarkistettu keskisillä differensseillä; ensimmäisen kertaluvun ionosfäärin viive { $lit_40_3 } STEC/f^2 Klobuchar- tai pystysuuntaisesta TEC-vinosta TEC:stä skaalattuna satelliitin alapuolella olevaan ionosfäärin osaan. Kaistaparit saavat ionosfäärivapaat kertoimet, kohinan vahvistumisen ja koodikohinan ohituksen huipulla. MEO-GNSS-satelliitit (Galileo- tai GPS-esiasetukset) arvioidaan samalla antenni- ja kohinamallilla niiden rajapintadokumenttien vastaanottotehoista, joten LEO:n kellonmuotoinen ohitus ja tasaiset GNSS-kantoaallot jakavat yhden kuvaajan. Valinnainen [iot]-osio antaa ajan ensimmäiseen paikkaratkaisuun, energian paikkaratkaisua kohti ja akun eliniän vs. käyttösuhde ilmoitetulle vastaanottimen tehobudjetille (MODELLED). Kukin kaistapari antaa myös vinon TEC:n, jonka sen geometriavapaa yhdistelmä palauttaa huipulla, ja kyseisen estimaatin koodikohinan sigman (ionosfäärin luotaus). Valinnainen [spoofer]-osio väärentää väitetyn paikan signaalit, joka hyppää tai työnnetään todellisesta alkamisajan jälkeen, ja ajaa kaksi valvontaa ilmoitetuilla väärän hälytyksen ja havaitsematta jäämisen todennäköisyyksillä: Doppler- ja ohitusgeometrian johdonmukaisuus (mitatut etäisyyden muutosnopeudet vs. radoista ja riippumattomasta priori-paikasta ja -nopeudesta ennustetut, yleistetty pienimmän neliösumman khii-neliötesti ikkunan yli GNSS-, LEO- ja kaikilla kanavilla) ja kaistojen välinen johdonmukaisuus (kunkin LEO-kaistaparin mallikorjatun geometriavapaan yhdistelmän epookista epookkiin -askel), raportoiden epookkikohtaiset tunnusluvut ja milloin kumpikin valvonta havaitsee (MODELLED). VALIDATED komponentit: vapaan tilan häviö, P.838-3-kertoimet sen Taulukkoa 5 vasten, P.618-14:n sade- ja tuikemenettelyt ja P.2109:n rakennuksen läpäisyhäviö ITU-R Study Group 3:n validointiesimerkkejä vasten, IS-GPS-200:n L1/L2-ryhmäviiveen suhde sekä ympyräradan staattisen käyttäjän suurin Doppler arXiv 2509.19551 Taulukkoa 1 vasten. MODELLED: EIRP:t, kuviot, TEC:n satelliitin alapuolisen osan Chapman-osuus ja koko ohitus.
+
+engine-kind-leo-navmsg-description = LEO-navigointiviesti: matalan Maan kiertoradan (LEO) paikannus-, navigointi- ja ajanmääritys-satelliitin yleislähetetty efemeridi ja kello, mille tahansa radalle, kantoaallolle ja mallille, valinnaisilla nimetyillä esiasetuksilla (Xona Pulsar, Iridium, Starlink, CentiSpace, edustava C-kaistajärjestelmä, ATOMIC-nollakellomalli, Celeste IOD). SISÄLTÖ: aputiedot (SVID, datan numero, kaista, signaalin tila), synkronointi (viikko, viikon aika, toisen asteen kellopolynomi af0-af2 pisteen toc ympärillä), efemeridi yhdessä neljästä mallista -- Galileo OS SIS ICD:n 16-parametrinen Keplerin joukko; kyseinen joukko plus rataa pitkin, rataa vastaan kohtisuoraan ja säteittäiset korjauspolynomit; Liu et al. 2025 -22-parametrinen malli; ECEF-polynomi ilman kellotermejä (ATOMIC-nollakello) -- ja muut palvelut (Klobuchar-yleislähetysjoukko, NeQuick-G ai0-ai2 tehollisella ionisaatiotasolla sekä järjestelmäaika–UTC-parametrit ICD:n karkaussekuntilogiikalla). SOVITIN: totuusrata integroituna vyöhykkeisellä J2-J6- tai EGM2008-gravitaatiolla valittuun asteeseen ja ilmanvastuksella sekä siemenluvullinen vapaa tai ohjattu kello; Keplerin joukon Levenberg–Marquardt-sovitus ei-singulaarisilla elementeillä, sitten lineaariset pienimmän neliösumman korjauspolynomit; kello sovitettuna ilman relativistista termiä, jonka käyttäjä lisää. ANALYYSIT: fit-interval-trade (signaalin avaruudessa -etäisyysvirhe, SISRE, radan korkeuden globaaleilla keskiarvopainoilla, vs. sovitusväli ja päivitysjakso, vain rata ja kellon kanssa), model-comparison (neljä mallia, parametrien lukumäärä, koodatut bitit ja Kshanan sovitus Liu et al. -korkeuksilla julkaistujen lukujen rinnalla), midpass-update (korkein ohitus käyttäjän yli, kunkin viestinvaihdon paikka-, kello- ja käyttäjäetäisyyshyppy, huonoimman geometrian hyppy, PASS/FAIL jatkuvuuskynnystä vasten), encode-decode (Kshanan oma dokumentoitu binäärikehys CRC-24Q:lla, kenttäkohtainen puoliaskelkvantisointibudjetti, vioittuneen kehyksen tarkistus, RINEX-4-tyylinen tietueen vienti ja tuonti merkittynä Kshana-laajennukseksi sekä CSV-taulukko). VALIDATED: SISRE-painot julkaistua MEO/GEO-taulukkoa vasten (Montenbruck et al. 2018); Galileo-käyttäjäalgoritmi RTKLIB:tä vasten todellisilla Galileon yleislähetetyillä efemerideillä; CRC-24Q sen luettelon tarkistusarvoa ja RTCM 1005 -esimerkkikehystä vasten. MODELLED: jokainen sovitus- ja SISRE-luku on esitysvirhe Kshanan integroimaa totuutta vasten (ei radanmääritys- tai ennustevirhettä); Liu et al. -vertailu käyttää eri ratoja; koodaus- ja tekstimuodot ovat Kshanan omia.
+
+engine-kind-leo-pvt-description = Yhdistetty keskikorkean Maan kiertoradan (MEO) ja matalan Maan kiertoradan (LEO) paikannus-, navigointi- ja ajanmääritys (PNT) MINKÄ TAHANSA tähdistöjen yli: jokainen [[system]] on constellation-design-lajin GNSS-esiasetus, LEO-esiasetus (xona-pulsar, iridium-stl, starlink-sop, centispace, generic-c-band, atomic-zero-clock-efemeridimalli tai toinen esiasetustiedosto, kukin omassa tiedostossaan lähteet merkittynä PUBLIC, WORKSHOP tai DERIVED), Walker-kuoret tai nimenomaiset elementtijoukot, kantoaallolla, chip-nopeudella, kantoaalto–kohinatiheys (C/N0) -verhokäyrällä korkeuskulmamaskista zeniittiin, signaalin avaruudessa -etäisyysvirheellä (SISRE), Doppler-sigmalla ja kellomallilla (oma vastaanottimen kello, jolloin järjestelmien välinen harha estimoidaan, tai tunnettu yleislähetetty siirtymä). Neljä tilaa. DOPPLER: eräkohtainen Gauss–Newton-paikannus etäisyyden muutosnopeudesta analyyttisillä partiaaleilla, kellodriftin ja valinnaisen nopeuden tiloilla ja valinnaisella korkeusrajoitteella, yhdellä tai usealla satelliitilla, virhe vs. ikkunan pituus, kunkin LEO-järjestelmän Doppler-, Doppler-muutosnopeus- ja nykäysverhokäyrä sekä yhden ohituksen rataa pitkin ja rataa vastaan kohtisuora tarkkuus vs. poikittaissiirtymä (poikittaisvirhe kasvaa rajatta, kun ohitus menee yläpuolelle; yksittäisellä ohituksella on myös peiliratkaisu maanpinnan jäljen yli). Vain Doppler -mahdollisuussignaali (starlink-sop) ajetaan täällä. JOINT: epookkikohtaiset painotetut pienimmän neliösumman pseudoetäisyyspaikkaratkaisut pelkästä GNSS:stä, pelkästä LEO:sta ja molemmista, mittauskohtaiset sigmat viivelukkosilmukan lämpökohinamallista tasolla C/N0 plus SISRE (tai kiinteä sigma, jotta signaalimalli voi syöttää niitä), estimoidut järjestelmien väliset harhat ja PDOP/HDOP/VDOP vs. lisättyjen LEO-satelliittien lukumäärä. POLAR: näkyvissä olevat satelliitit ja DOP vs. leveysaste GNSS:lle, LEO:lle ja molemmille. TIMING: ajansiirto koordinoituun yleisaikaan (UTC) tunnetussa paikassa olevista LEO-satelliiteista kahden tilan kellosuotimella, jonka prosessikohina tulee moottorin oskillaattoriluokista, vs. C/N0 ja oskillaattori, sekä IS-GPS-200:n järjestelmäaika–UTC-lauseke; kun [timing] trace = true, jokainen rivi raportoi myös aikavirheensä ja ennustetun sigmansa jokaisella epookilla. VALIDATED: horisontista horisonttiin kulkevan yläpuolisen ohituksen suurin Doppler julkaistuja Iridiumin (jopa 36 kHz) ja Xona Pulsar X1:n (32–34 kHz) lukuja vasten. MODELLED: kaikki muu; DOP on tarkistettu käsin johdetulla tapauksella, paikkaratkaisut kovariansseillaan ja Doppler-malli etäisyyden kiihtyvyysidentiteettiä vasten.
+
+engine-kind-leo-ppp-description = Tarkka pistepaikannus (PPP) -suppeneminen pelkällä GNSS:llä ja LEO-täydennyksellä: float-laajennettu Kalman-suodin ionosfäärivapaalla koodilla ja kantoaallon vaiheella staattisilla asemakoordinaateilla, valkoinen vastaanottimen kello, yksi järjestelmien välinen harha lisäjärjestelmää kohti, satunnaiskävely-zeniittikostea viive kuvattuna kertoimella 1/sin(korkeuskulma) ja float-kokonaislukuepävarmuus satelliittikaarta kohti; tarkka rata-ja-kello-virhe on valkoinen ja yhteinen satelliitin koodille ja vaiheelle, joten jokainen satelliitti on yksi korreloitu kaksirivinen päivitys Joseph-stabiloidussa muodossa. Mittaukset simuloidaan samasta mallista siemenluvullisella kohinalla usean paikan ja siemenluvun yli, ja jokainen tapaus (ensin pelkkä GNSS, sitten kukin LEO-järjestelmien [[case]], mikä tahansa tähdistö tai esiasetus) raportoi suppenemisajan mediaanin (ensimmäinen epookki, jonka jälkeen vaaka- ja pystyvirheet pysyvät kynnysten alapuolella, oletuksena 10 cm), suppenneiden osuuden, virhekäyrien mediaanin ja suotimen johdonmukaisuuden (ajojen keskiarvoistettu paikan NEES kaksipuolista 95 %:n khii-neliökaistaa vasten). Valinnaisesti julkaistujen Li et al. (2019, J. Geod. 93:749, doi 10.1007/s00190-018-1195-2) keskileveysasteen lukujen rinnalla: { $lit_9_6 } min usean GNSS:n lyhennettynä arvoihin { $lit_7_0 }, { $lit_3_2 }, { $lit_2_1 } ja { $lit_1_3 } min 60, 96, 192 ja 288 LEO-satelliitilla. MODELLED: trendin johdonmukaisuusvertailu, ei kyseisen tutkimuksen tähdistöjen, kohinan tai asemien toisto; ei kokonaislukuepävarmuuden ratkaisua, jaksonhyppyjä, vaiheen käämittymistä, vuorovesiä eikä ajassa korreloituneita tuotevirheitä.
+
+engine-kind-ntn-positioning-description = Paikannus 5G:n ei-maanpäällisen verkon (NTN) alalinkistä matkaviestinpalvelun (MSS) S-kaistalla (3GPP-kaista n256, alalinkki 2170–2200 MHz; oletuskantoaalto { $lit_2172_5 } MHz): Cramér–Rao-raja (CRB) saapumisajalle, c / (2 pi beta sqrt(2 (C/N0) T)), kun beta on tasaisen OFDM-spektrin neliöllinen keskiarvo (Gabor-)kaistanleveys (B/sqrt(12)), ja kompleksisen sinisignaalin Dopplerille, sqrt(3 / (2 pi^2 (C/N0) T^3)), kullekin signaalille (oletuksena 5 MHz:n New Radio -kanava, jossa on { $lit_4_5 } MHz käytössä, ja 200 kHz:n kapeakaistakanava, jossa on 180 kHz käytössä); sitten minkä tahansa LEO-tähdistön yli alalinkin saapumisaikapaikkaratkaisut tuntemattomalla vastaanottimen kellolla (siemenluvullinen, rajalla plus verkon synkronointivirhe sigmana), niiden PDOP ja muodollinen 3D-sigma sekä yhden satelliitin Doppler-paikkaratkaisu pisimmän ohituksen yli korkeus pidettynä. MODELLED: kaistanleveydestä rajaan -askel on oppikirjan suljettu muoto, tarkistettu tasaisen ja kaistarajoitetun BPSK-spektrin numeerista integrointia vasten (sisäinen johdonmukaisuus, ei julkaistua työstettyä lukua sidottuna), ja paikannustarkkuus on raja monitiettömällä kanavalla ilmoitetulla synkronointivirheellä, ei saavutettu tulos.
+
+engine-kind-leo-pnt-chain-description = Yksi LEO-PNT-järjestelmä (paikannus, navigointi ja ajanmääritys matalalta Maan kiertoradalta) päästä päähän, mille tahansa tähdistölle ja signaalille: signal_design-kentän nimeämä leo-signal-suunnitelma (julkinen esiasetus tai sisäinen [signal]-suunnitelma) asettaa [pass]-kaistan keskitaajuuden, kaistanleveyden, chip-nopeuden ja EIRP-jaon, leo-pass-linkkibudjetti antaa seurattavan C/N0:n ja kaistarajoitetun koodivärinän ohituksen yli, C/N0-suora kohdassa sin(korkeuskulma) ja [navmsg]-viestin yleislähetetty SISRE (sovitettuna ohitussatelliitin korkeudella) syöttävät jokaista [fusion] leo-pvt -yhteispaikkaratkaisun LEO-järjestelmää ja valinnaisesti [ppp] leo-ppp -tapauksia; jokainen luovutus luetellaan arvoineen ja yksikköineen. MODELLED.
+
+engine-kind-contact-schedule-description = Maayhteyksien suunnittelu usealle satelliitille usean aseman yli: näennäiset näkyvyysikkunat (SGP4, IAU 2006/2000A -Maahan sidottu koordinaatisto, ITU-R P.834 -refraktio, valonaika), kunkin ohituksen DVB-S2 ACM -datamäärä (ETSI EN 302 307-1 Taulukon 13 kynnykset) ja ristiriidaton aikataulu (yksi satelliitti antennia kohti käännösajalla, yksi asema satelliittia kohti, prioriteettipainotettu toimitus rajattuna kunkin jäljessä olevan määrän mukaan) marginaaliarvon ahneella menetelmällä, ensin tullut ensin palveltu -vertailulla ja täsmällisellä haarauta-ja-rajaa-menetelmällä pienille joukoille, ahneen menetelmän optimaalisuusvajeella. MODELLED.
+
+engine-kind-acm-link-description = Yksi satelliitti yhden aseman yli: kunkin ohituksen vinoetäisyys, korkeuskulma ja Es/N0 ohituksen varrella, kussakin askeleessa valittu DVB-S2 MODCOD (ETSI EN 302 307-1 Taulukon 13 kynnykset plus toteutusmarginaali) ja ACM:n siirtämä datamäärä vakiokoodausperustasoa vasten, joka sulkeutuu maskilla. MODELLED.
+
+engine-kind-aocs-description = Avaruusaluksen asennonohjaus: jäykän navan inertiaalinen osoituskäännös kolmella tai useammalla tasapainotetulla reaktiopyörällä MRP-takaisinkytkennällä (L = -K sigma - P omega), minimin normin pyörämomentit leikattuna kunkin moottorin rajaan, RK4 nollannen asteen pidolla; valinnaisesti suljettuna multiplikatiiviselle EKF:lle simuloidusta gyrosta (kulman ja nopeuden satunnaiskävely) ja tähtiseurantalaitteesta. Raportoi asettumisajan, lopullisen ja huippuosoitusvirheen, pyörän huippunopeuden ja -momentin, kyllästyneen osuuden, liikemäärämomentin ajautuman ja estimaattorin kanssa sen asennevirheen ja NEES:n. Todellisen tilan silmukka on VALIDATED Basilisk 2.9.1:tä vasten; estimaattori on MODELLED.
+
+engine-kind-entry-heating-description = 3-DoF-pistemassaisen ilmakehään tulon malli pyörivän pallomaisen Maan tai Marsin yli (ballistinen tai nostovoimainen vakiokallistuksella), RK4, US76:n, eksponentiaalisen tai Marsin ilmakehän läpi, Sutton–Graves-pysähdyspisteen konvektiivisella lämmityksellä (NASA TR R-376): huippuhidastuvuus, lämpövuo ja dynaaminen paine, lämpökuorma, maanpintaetäisyys (downrange), pyörivän koordinaatiston energiatarkistus ja Allen–Eggers-suljettu muoto sen rinnalla. Huippuhidastuvuus on tarkistettu julkaistua Stardustin nimellistä vasten; lämmitys on MODELLED.
+
+engine-kind-eo-radiometry-description = Nadir-kuvaajan radiometria ja kuvanlaatu: Lambert-kohtauksen aukkoradianssi, kameran yhtälö, signaali ja kohina (fotoni-, pimeävirta-, luku- ja kvantisointikohina) sekä SNR; järjestelmän MTF Nyquistilla (diffraktio x ilmaisin x sumeus x värinä), siitä johdettu suhteellinen reunavaste, Q = lambda F/p ja GIQE version 4 NIIRS ilman MTF-kompensaatiota. MODELLED.
+
+engine-kind-ascent-losses-description = Usean vaiheen ajoneuvon tasomainen gravitaatiokäännösnousu ei-pyörivän pallomaisen Maan yli US Standard Atmosphere 1976:n läpi (pystysuora nousu, kallistuspotku, työntö nopeuden suuntaan), joka integroi gravitaatio-, vastus-, ohjaus- ja vastapainehäviöt ja tarkistaa ihanteellisen dv:n miinus häviöt palamisen päättymisnopeutta vasten; max-Q, huippukiihtyvyys ja palamisen päättymistila. MODELLED.
+
+engine-kind-time-transfer-budget-description = Kaksisuuntainen satelliittiajan- ja taajuudensiirto kahden aseman välillä geostationaarisen välittäjän kautta: kaksisuuntainen yhtälö ratkaistuna suureelle T_A - T_B jokaisella ei-resiprookkisella termillä (asemalaitteiden viiveet, Ku-kaistan ionosfääri, transponderi, Sagnac), neliöllinen epävarmuusbudjetti, jonka tyypin A termi on simuloidun linkin TDEV keskiarvoistusajalla, simuloitu linkki valkoisella ja flicker-vaihekohinalla ja vuorokausittaisella ei-resiprookkisuudella sekä minkä tahansa annetun BIPM Circular T Section 1 -sarjan, MJD,ns-CSV:n tai IGS RINEX -asemakellotietueiden stabiilius (nopeus, jäännöksen RMS, TDEV, ADEV). MODELLED.
+
+engine-kind-optical-atmosphere-description = MODELLED optinen PNT ilmakehän läpi: optiselle linkille ja joukolle maa-asemapaikkoja ilmoitetuilla pilviilmastoilla se raportoi aallonpituudesta ja korkeuskulmasta riippuvan kirkkaan ilman häviön (Kimin näkyvyyslaki plus Rayleigh), Hufnagel–Valley-turbulenssitilan (Rytov-varianssi, tuikeindeksi, gamma–gamma-parametrit, aukon keskiarvoistus), säävetoisen saatavuuden vs. linkkimarginaali (pilven optinen paksuus log-normaalista nestevesi-ilmastosta, geometrisen optiikan ekstinktio, riippumaton turbulenssivaimennus), tavoitesaatavuuksiin tarvittavan linkkimarginaalin, katkojen kestojakauman, ajoitus- ja etäisyysmittausvirheen kasvun katkoa kohti kellon holdover-mallin kautta, etäisyyskorreloidun paikkadiversiteettisaatavuuden sekä parannustekniikoiden mitä-jos-hyödyt (aallonpituus, vastaanottoaukko, adaptiivisen optiikan tuikkeen vähennys, lisämarginaali). VALIDATED mainittujen kaavojen toteutuksena riippumatonta mpmath-oraakkelia vasten: Rytov-varianssi, tuikeindeksi, gamma–gamma-vaimennustodennäköisyys, aukon keskiarvoistuskerroin, pilven ja kirkkaan ilman optinen paksuus. MODELLED: jokainen sää-, tekniikka- ja kellosyöte sekä riippumattomuus- ja kopulaoletukset; mitään mitattua saatavuustallennetta ei ole verrattu. Ohjeellinen analyysi, ei virallisesti hyväksytty saatavuus- tai navigointituote.
+
+engine-kind-holdover-test-description = MODELLED ajoitusjärjestelmän holdover-testi, pisteytettynä aikavirhetallenteesta, jonka KÄYTTÄJÄ toimittaa (linuxptp ptp4l-, phc2sys- tai ts2phc-loki, chrony-seuranta- tai -tilastoloki, TICC-, TimeLab- tai RINEX-kellolooki tai time_s,time_error_ns-parit). Testissä on neljä vaihetta, eikä Kshana suorita yhtäkään: lukittu LÄHTÖTASO, GNSS POISTETTU käyttäjän toimesta (antennikaapeli tai simulaattorin ulostulo; Kshana ei lähetä eikä ohjaa mitään) ilmoitettuna hetkenä, HOLDOVER järjestelmän omalla oskillaattorilla ja PALAUTUMINEN sen jälkeen, kun käyttäjä palauttaa GNSS:n toisena ilmoitettuna hetkenä. Tallenne jaetaan näissä kahdessa hetkessä. Lähtötaso: aikavirhetilastot ja lukitulle kellolle kirjoitetut ITU-T-maskit. Holdover: tilastot, järjestelmän pitämä suhteellinen taajuuspoikkeama (pienimmän neliösumman suora), holdoverille tai itsenäiselle kellolle kirjoitetut maskit, ePRTC-A-holdover-verhokäyrä ilmoitetusta lukitusta kestosta sekä aika kunkin aikavirhebudjetin ylittymiseen. Palautuminen: tuliko |TE| ilmoitetun kaistan sisään ja pysyikö siinä, ja milloin, huippu ja suurin askel. Jokainen raja on jäljennetty julkisesta ITU-T-taulukosta (telecom-timing-maskit); sanat ovat 'mitattu maskia vasten', ja nämä kaksi hetkeä ovat käyttäjän ilmoitus, ei varmennettu. Maskiin liian lyhyt tallenne on INCOMPLETE, ei koskaan ekstrapoloitu. Katso docs/TIMING-HIL.md.
+
+engine-kind-gnss-ssv-description = MODELLED GNSS-saatavuus ja linkin voimakkuus avaruuspalvelualueella ja sen ulkopuolella: pallolla olevalle käyttäjälle (ICG-kirjasen globaali kuori) tai Keplerin lentoradalla olevalle (LEO – Kuun siirto) se laskee tähdistöä kohti (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) ja kaikille yhdessä C/N0-kynnyksen yläpuolella käyttökelpoiset signaalit - vähintään yhden ja neljän signaalin saatavuus, suurin katkon kesto, vastaanotettu C/N0, tarkkuuden heikkenemiskerroin, pääkeila vs. sivukeilalinkit - kirjasen, parametrisella tai käyttäjän toimittamalla lähetyskuviolla, valinnaisilla raajasäteen ionosfääri-, plasmasfääri- ja ilmakehävaikutuksilla sekä valinnaisella heikon signaalin vastaanotinsuunnitelmalla; myös aluksella toimiva GNSS-laajennettu Kalman-suodin HEO- ja Kuun siirtoradan aluksille (kiertoratadynamiikka, auringon säteilypaine, kolmannet kappaleet, kello) ja usean aluksen muodostelman suhteellinen navigointi yksittäiserotetuilla pseudoetäisyyksillä. Tarkistettu ICG SSV -kirjasen taulukoita vasten ennakkorekisteröinnin alla (xval/gnss-ssv)
