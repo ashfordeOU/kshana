@@ -717,6 +717,7 @@ pub fn run_receiver_trust_on_imu(
         ),
     };
     if events_evaluable > 0 {
+        verdict.push_str("; ");
         verdict.push_str(&crate::t!(
             "receiver-trust-scenario-of-stated-events-detected-within",
             events_detected = events_detected,
@@ -725,6 +726,7 @@ pub fn run_receiver_trust_on_imu(
         ));
     }
     if predictions_evaluable > 0 {
+        verdict.push_str("; ");
         verdict.push_str(&crate::t!(
             "receiver-trust-scenario-of-n0-predictions-within-db",
             predictions_agreeing = predictions_agreeing,
@@ -751,6 +753,7 @@ pub fn run_receiver_trust_on_imu(
             scores.iter().copied().min_by(f64::total_cmp),
             scores.last().copied(),
         ) {
+            verdict.push_str("; ");
             verdict.push_str(&crate::t!(
                 "receiver-trust-scenario-trust-score-lowest-final",
                 min = crate::i18n::localise_decimal(format!("{:.1}", min)),

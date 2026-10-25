@@ -1962,13 +1962,6 @@
   ]
  },
  {
-  "id": "holdover-test-not-recovered-within-record",
-  "error": false,
-  "parts": [
-   "; not recovered within the record"
-  ]
- },
- {
   "id": "holdover-test-chart-title",
   "error": false,
   "parts": [
@@ -4565,6 +4558,317 @@
   "error": false,
   "parts": [
    "MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it counts, per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and for all together, the signals usable above a C/N0 threshold - availability of at least one and of four signals, maximum outage duration, received C/N0, dilution of precision, main-lobe against sidelobe links - with a booklet, parametric or user-supplied transmit pattern, optional limb-ray ionosphere, plasmasphere and atmosphere effects and an optional weak-signal receiver design; also an onboard GNSS extended Kalman filter for HEO and lunar-transfer craft (orbital dynamics, solar radiation pressure, third bodies, clock) and relative navigation of a multi-craft formation by single-differenced pseudoranges. Checked against the ICG SSV booklet tables under a pre-registration (xval/gnss-ssv)"
+  ]
+ },
+ {
+  "id": "telecom-timing-max-te-ns-budget-exceeded-after",
+  "error": false,
+  "parts": [
+   "telecom-timing: max|TE| ",
+   {
+    "var": "max_abs"
+   },
+   " ns over ",
+   {
+    "var": "v2"
+   },
+   " s; ",
+   {
+    "var": "masks"
+   },
+   "; ",
+   {
+    "var": "max_abs_te_ns"
+   },
+   " ns budget exceeded after ",
+   {
+    "var": "t"
+   },
+   " s (MODELLED)"
+  ]
+ },
+ {
+  "id": "telecom-timing-max-te-ns-budget-never-exceeded",
+  "error": false,
+  "parts": [
+   "telecom-timing: max|TE| ",
+   {
+    "var": "max_abs"
+   },
+   " ns over ",
+   {
+    "var": "v2"
+   },
+   " s; ",
+   {
+    "var": "masks"
+   },
+   "; ",
+   {
+    "var": "max_abs_te_ns"
+   },
+   " ns budget never exceeded (MODELLED)"
+  ]
+ },
+ {
+  "id": "telecom-timing-telecom-timing-max-te-ns",
+  "error": false,
+  "parts": [
+   "telecom-timing: max|TE| ",
+   {
+    "var": "max_abs"
+   },
+   " ns over ",
+   {
+    "var": "v2"
+   },
+   " s; ",
+   {
+    "var": "masks"
+   },
+   " (MODELLED)"
+  ]
+ },
+ {
+  "id": "holdover-test-holdover-recovered-after-gnss-returned",
+  "error": false,
+  "parts": [
+   "holdover-test: holdover ",
+   {
+    "var": "hold"
+   },
+   " s, max|TE| ",
+   {
+    "var": "max_abs"
+   },
+   " ns; ",
+   {
+    "var": "masks"
+   },
+   "; recovered ",
+   {
+    "var": "t"
+   },
+   " s after GNSS returned (MODELLED, measured against the mask)"
+  ]
+ },
+ {
+  "id": "holdover-test-holdover-not-recovered-within-record",
+  "error": false,
+  "parts": [
+   "holdover-test: holdover ",
+   {
+    "var": "hold"
+   },
+   " s, max|TE| ",
+   {
+    "var": "max_abs"
+   },
+   " ns; ",
+   {
+    "var": "masks"
+   },
+   "; not recovered within the record (MODELLED, measured against the mask)"
+  ]
+ },
+ {
+  "id": "holdover-test-holdover-test-holdover-max-te",
+  "error": false,
+  "parts": [
+   "holdover-test: holdover ",
+   {
+    "var": "hold"
+   },
+   " s, max|TE| ",
+   {
+    "var": "max_abs"
+   },
+   " ns; ",
+   {
+    "var": "masks"
+   },
+   " (MODELLED, measured against the mask)"
+  ]
+ },
+ {
+  "id": "nmea-synth-log-position-drag-off-counterfeit-cn0",
+  "error": false,
+  "parts": [
+   "position drag-off: the reported position walks ",
+   {
+    "var": "final_offset_m"
+   },
+   " m away ",
+   {
+    "var": "dir"
+   },
+   " while the receiver keeps a valid fix (false track peaks at ",
+   {
+    "var": "pv"
+   },
+   " m/s and ",
+   {
+    "var": "pa"
+   },
+   " m/s^2); every tracked satellite shows ",
+   {
+    "var": "c"
+   },
+   " dB-Hz while it lasts"
+  ]
+ },
+ {
+  "id": "nmea-synth-log-position-drag-off-genuine-cn0",
+  "error": false,
+  "parts": [
+   "position drag-off: the reported position walks ",
+   {
+    "var": "final_offset_m"
+   },
+   " m away ",
+   {
+    "var": "dir"
+   },
+   " while the receiver keeps a valid fix (false track peaks at ",
+   {
+    "var": "pv"
+   },
+   " m/s and ",
+   {
+    "var": "pa"
+   },
+   " m/s^2); the genuine C/N0 pattern is kept"
+  ]
+ },
+ {
+  "id": "nmea-synth-log-time-spoof-counterfeit-cn0",
+  "error": false,
+  "parts": [
+   "time spoof: reported UTC moves ",
+   {
+    "var": "offset_s"
+   },
+   " s from true; position stays true; every tracked satellite shows ",
+   {
+    "var": "c"
+   },
+   " dB-Hz while it lasts"
+  ]
+ },
+ {
+  "id": "nmea-synth-log-time-spoof-genuine-cn0",
+  "error": false,
+  "parts": [
+   "time spoof: reported UTC moves ",
+   {
+    "var": "offset_s"
+   },
+   " s from true; position stays true; the genuine C/N0 pattern is kept"
+  ]
+ },
+ {
+  "id": "nmea-synth-log-replay-delay-counterfeit-cn0",
+  "error": false,
+  "parts": [
+   "replay delay (meaconing style): position",
+   {
+    "var": "v1"
+   },
+   " lags the truth by ",
+   {
+    "var": "delay_s"
+   },
+   " s; every tracked satellite shows ",
+   {
+    "var": "c"
+   },
+   " dB-Hz while it lasts"
+  ]
+ },
+ {
+  "id": "nmea-synth-log-replay-delay-genuine-cn0",
+  "error": false,
+  "parts": [
+   "replay delay (meaconing style): position",
+   {
+    "var": "v1"
+   },
+   " lags the truth by ",
+   {
+    "var": "delay_s"
+   },
+   " s; the genuine C/N0 pattern is kept"
+  ]
+ },
+ {
+  "id": "receiver-trust-scenario-of-stated-events-detected-within",
+  "error": false,
+  "parts": [
+   {
+    "var": "events_detected"
+   },
+   " of ",
+   {
+    "var": "events_evaluable"
+   },
+   " stated events detected within ",
+   {
+    "var": "detect_tol_s"
+   },
+   " s"
+  ]
+ },
+ {
+  "id": "receiver-trust-scenario-of-n0-predictions-within-db",
+  "error": false,
+  "parts": [
+   {
+    "var": "predictions_agreeing"
+   },
+   " of ",
+   {
+    "var": "predictions_evaluable"
+   },
+   " C/N0 predictions within ",
+   {
+    "var": "cn0_tol_db"
+   },
+   " dB"
+  ]
+ },
+ {
+  "id": "receiver-trust-scenario-trust-score-lowest-final",
+  "error": false,
+  "parts": [
+   "trust score lowest ",
+   {
+    "var": "min"
+   },
+   ", final ",
+   {
+    "var": "last"
+   }
+  ]
+ },
+ {
+  "id": "iq-labfit-iqreport-events-loss-time-rms-pi90",
+  "error": false,
+  "parts": [
+   {
+    "var": "model"
+   },
+   ": ",
+   {
+    "var": "n"
+   },
+   " events, loss-time RMS ",
+   {
+    "var": "om"
+   },
+   " s, PI90 coverage ",
+   {
+    "var": "om2"
+   }
   ]
  }
 ]
