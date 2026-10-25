@@ -4,8 +4,6 @@ seg-0c0ce6abb920 = Samma loggar, samma regler. <s1>Poäng i det öppna.</s1>
 
 seg-cb2911864ea1 = kshana-bench är en fast uppsättning uppgifter, delmängder och mått för detektering av GNSS-störning och holdover för tidssynkronisering, så att olika metoder kan jämföras på samma data. En inlämning är en fil; ingenting körs å den som lämnar in. Baslinjerna är motorns egna övervakare, med trösklar som skrivits ned före den första poängsatta körningen.
 
-seg-984e2dd33bd6 = <a1>Se resultattavlan <c1/></a1>
-
 seg-b77706a0b8b5 = Läs specifikationen
 
 seg-63a783e8fa0b = Resultattavla
@@ -123,3 +121,5 @@ seg-97d14f361df5 = Utfall enligt resultatfilen: poängsättarens trösklar, C1 t
 seg-23023a10ef10 = Endast rådgivande: Kshana-resultat är modellerade eller uppmätta mot angivna referenser, inte ett godkännande eller ett utlåtande om överensstämmelse.
 
 seg-b30115d8c2eb = Kör det själv: <c1/> gör en inlämning och en delmängds referens till en resultatfil; <c2/> renderar resultatfiler till den här sidan.
+
+seg-11b19c2fd000 = Se resultattavlan

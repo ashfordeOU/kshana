@@ -30,8 +30,6 @@ seg-d34ffe4fa777 = Spoofing
 
 seg-501d3a72ea43 = Integritet
 
-seg-0d9fca5fdcfe = <a1>Öppna i Kshana Studio<c1/></a1>
-
 seg-34a0cf94d83d = Öppna körningens exporter i Kshana Studio: reproducerbar HTML-rapport, JSON, CSV
 
 seg-92ab4fe6f441 = Ladda ned de ritade data som kommaseparerade värden
@@ -99,9 +97,6 @@ seg-78240346be65 = Senaste
 seg-1e466f300d6e = Lås v{ $version }
 
 seg-d8008680650d = För alla, inget att installera.
-
-# c1:
-seg-dca88d8e959c = <a1>Starta Kshana Studio <c1/></a1>
 
 seg-567be575c392 = Motorn körs lokalt som WebAssembly; ingenting laddas upp.
 
@@ -338,8 +333,6 @@ seg-12f050093898 = Varför alla behöver den
 
 seg-d997b6a5a416 = Varför Pro, ännu mer
 
-seg-b6eb33e3149e = <a1>Begär en studie <c1/></a1>
-
 seg-4ff013b472ff = Vilken utformning ska vi flyga?
 
 seg-f4eb65b9b27a = Månnavigeringskonstellation: minsta antal satelliter mot tillgänglighet, hela månen: { "608" } utformningar körda, en Pareto-front med { "12" } utformningar
@@ -353,8 +346,6 @@ seg-3dd37275b448 = Uppfyller uppdraget sina krav, och kan vi lämna över det?
 seg-7fbde256debf = inte uppfyllda
 
 seg-f6ccb7a322b3 = öppna punkter
-
-seg-890b470ca9ea = <a1>Begär en Pro-utvärdering <c1/></a1>
 
 seg-813d6d41b891 = Kopiera kommandot som återskapar det
 
@@ -393,10 +384,6 @@ seg-8b095f7254ed = Kopiera installationskommandot: cargo install kshana
 seg-f0e9de10d9ef = cargo install kshana<s1>Kopiera</s1>
 
 seg-ec3957c0f5f1 = Tryck <c1/> för att söka bland sidor, scenarier och dokumentation
-
-seg-428e9d81bb4d = <a1><s1>Kshana Pro</s1><c1/></a1>
-
-seg-511c8bb00e62 = Samma motor, förstärkt: { "608" } utformningar, en Paretofront
 
 seg-b807a8887172 = Telemetri återspelad från den kedjade kampanjkörningen
 
@@ -569,8 +556,6 @@ seg-1d97776ae325 = En bredbandig jammer på en mast och en mottagare som flyttas
 seg-4fa6a9f6915d = Jamming-avtryck: medelvärde av kvoten mellan störsignal och signal samt spårning på ett rutnät av mottagarpositioner runt jammern
 
 seg-774ec89d13d7 = Motor v{ $version } · <c1/> · frö { "1" } · mottagaren flyttad per cell
-
-seg-fba341c5e4fd = <a1>Varje cell, under Uppdrag<c1/></a1>
 
 seg-08ba18ea712c = Vilseledning
 
@@ -773,3 +758,13 @@ seg-6de95aaa8ba4 = <a1><s1><c1/>Uppdragsdossier</s1></a1>
 seg-905e5eef45e5 = <b>{ "12" } krav</b> kontrollerade mot verkliga körningar, PDF på 21 sidor (Portable Document Format)
 
 seg-7d9ee2bfbb90 = Hitta var din tidssynkronisering brister, innan den gör det.
+
+seg-7292d543b1ac = Varje cell, under Uppdrag
+
+seg-9a86ef058d27 = Öppna i Kshana Studio
+
+seg-b366150de755 = Beställ en studie
+
+seg-6d3d0f8c9b7c = Begär en Pro-utvärdering
+
+seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Samma motor, förstärkt: { "608" } utformningar, en Pareto-front</s2>
