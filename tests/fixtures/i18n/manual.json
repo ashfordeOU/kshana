@@ -1025,5 +1025,26 @@
   "parts": [
    "Sweep grid"
   ]
+ },
+ {
+  "id": "fom-verdict-validated",
+  "error": false,
+  "parts": [
+   "VALIDATED"
+  ]
+ },
+ {
+  "id": "fom-verdict-modelled",
+  "error": false,
+  "parts": [
+   "MODELLED"
+  ]
+ },
+ {
+  "id": "fom-verdict-partial",
+  "error": false,
+  "parts": [
+   "PARTIAL"
+  ]
  }
 ]
