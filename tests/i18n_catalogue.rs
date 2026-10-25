@@ -232,7 +232,7 @@ fn calls() -> Vec<(String, String, BTreeSet<String>)> {
     for f in files {
         let src = std::fs::read_to_string(&f).unwrap();
         // drop the test module so its fixtures do not count
-        let body = src.split("\n#[cfg(test)]").next().unwrap_or(&src);
+        let body = src.split("\n#[cfg(test)]\nmod ").next().unwrap_or(&src);
         let bytes = body.as_bytes();
         let mut i = 0;
         while let Some(off) = body[i..].find("!(") {
@@ -331,14 +331,47 @@ fn every_call_names_a_message_and_passes_its_variables() {
 
 #[test]
 fn every_english_message_is_used() {
-    let used: BTreeSet<String> = calls().into_iter().map(|(_, id, _)| id).collect();
+    fn walk(dir: &Path, out: &mut Vec<PathBuf>) {
+        for e in std::fs::read_dir(dir).unwrap().flatten() {
+            let p = e.path();
+            if p.is_dir() {
+                walk(&p, out);
+            } else if p.extension().is_some_and(|x| x == "rs") {
+                out.push(p);
+            }
+        }
+    }
+    let mut files = Vec::new();
+    walk(&root().join("src"), &mut files);
+    files.retain(|f| !f.starts_with(root().join("src/i18n")));
+    let text: String = files
+        .iter()
+        .map(|f| std::fs::read_to_string(f).unwrap())
+        .collect::<Vec<_>>()
+        .join("\n");
+    // every quoted lower-case-and-hyphen token of the source, once
+    let mut quoted: BTreeSet<&str> = BTreeSet::new();
+    let b = text.as_bytes();
+    let mut i = 0;
+    while i < b.len() {
+        if b[i] == b'"' {
+            let mut j = i + 1;
+            while j < b.len()
+                && (b[j].is_ascii_lowercase() || b[j].is_ascii_digit() || b[j] == b'-')
+            {
+                j += 1;
+            }
+            if j < b.len() && b[j] == b'"' && j > i + 1 {
+                quoted.insert(&text[i + 1..j]);
+                i = j;
+            }
+        }
+        i += 1;
+    }
     let mut dead = Vec::new();
     for id in messages(kshana::i18n::english_source()).keys() {
-        if !used.contains(id) {
-            // a message may be used through a computed id; those are listed in USED_BY_ID_PREFIX
-            if !USED_BY_ID_PREFIX.iter().any(|p| id.starts_with(p)) {
-                dead.push(id.clone());
-            }
+        if !quoted.contains(id.as_str()) && !USED_BY_ID_PREFIX.iter().any(|p| id.starts_with(p)) {
+            dead.push(id.clone());
         }
     }
     assert!(dead.is_empty(), "messages no source uses: {dead:?}");

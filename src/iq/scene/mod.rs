@@ -245,8 +245,9 @@ impl SceneSatellite {
         cn0_dbhz: Option<f64>,
         nav: NavData,
     ) -> Result<Self, IqError> {
-        let code = GpsL1Ca::new(prn)
-            .ok_or_else(|| IqError::Format(format!("PRN {prn} is not a GPS C/A PRN")))?;
+        let code = GpsL1Ca::new(prn).ok_or_else(|| {
+            IqError::Format(crate::terr!("e-iq-scene-prn-is-not-gps-prn", prn = prn))
+        })?;
         Ok(Self {
             id: prn as u32,
             code: Box::new(code),
@@ -264,13 +265,14 @@ impl SceneSatellite {
         conv: LnavConventions,
     ) -> Result<Self, IqError> {
         if eph.system != 'G' {
-            return Err(IqError::Format(format!(
-                "ephemeris system {} is not GPS",
-                eph.system
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-scene-ephemeris-system-is-not-gps",
+                system = eph.system
             )));
         }
-        let code = GpsL1Ca::new(eph.prn)
-            .ok_or_else(|| IqError::Format(format!("PRN {} is not a GPS C/A PRN", eph.prn)))?;
+        let code = GpsL1Ca::new(eph.prn).ok_or_else(|| {
+            IqError::Format(crate::terr!("e-iq-scene-prn-is-not-gps-prn", prn = eph.prn))
+        })?;
         Ok(Self {
             id: eph.prn as u32,
             code: Box::new(code),
@@ -640,7 +642,11 @@ impl SceneStream {
             let first = ((off + tmin) / bit_s).floor() as i64 - 1;
             let last = ((off + tmax) / bit_s).floor() as i64 + 1;
             out.push(self.nav[i].window(first, last).map_err(|e| {
-                IqError::Format(format!("satellite {}: {e}", self.scene.sats[i].id))
+                IqError::Format(crate::terr!(
+                    "e-iq-scene-satellite",
+                    value = self.scene.sats[i].id,
+                    e = e
+                ))
             })?);
         }
         Ok(out)

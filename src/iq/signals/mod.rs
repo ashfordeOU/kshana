@@ -196,17 +196,21 @@ pub fn bipolar(bits: &[u8]) -> Vec<i8> {
 pub fn hex_to_bits(hex: &str, len: usize) -> Result<Vec<u8>, SignalError> {
     let mut bits = Vec::with_capacity(hex.len() * 4);
     for c in hex.trim().chars() {
-        let v = c
-            .to_digit(16)
-            .ok_or_else(|| SignalError::Table(format!("non-hex character {c:?}")))?;
+        let v = c.to_digit(16).ok_or_else(|| {
+            SignalError::Table(crate::terr!(
+                "e-iq-signals-non-hex-character",
+                c = format!("{:?}", c)
+            ))
+        })?;
         for k in (0..4).rev() {
             bits.push(((v >> k) & 1) as u8);
         }
     }
     if bits.len() < len || bits.len() >= len + 4 {
-        return Err(SignalError::Table(format!(
-            "{} hex symbols cannot hold exactly {len} chips",
-            hex.trim().len()
+        return Err(SignalError::Table(crate::terr!(
+            "e-iq-signals-hex-symbols-cannot-hold-exactly",
+            hex = hex.trim().len(),
+            len = len
         )));
     }
     bits.truncate(len);
@@ -304,7 +308,7 @@ impl SignalCode {
     /// The same code without its secondary code (a primary-only replica).
     pub fn primary_only(&self) -> Self {
         Self {
-            name: format!("{} (primary only)", self.name),
+            name: crate::t!("iq-signals-primary-only", name = self.name),
             secondary: vec![1],
             ..self.clone()
         }

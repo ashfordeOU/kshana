@@ -193,13 +193,13 @@ pub fn parse_endpoint(url: &str) -> Result<(String, String), String> {
     }
     let rest = url
         .strip_prefix("http://")
-        .ok_or("endpoint must start with http://")?;
+        .ok_or_else(|| crate::terr!("e-telemetry-otlp-endpoint-must-start-with-http"))?;
     let (hostport, path) = match rest.find('/') {
         Some(i) => (&rest[..i], &rest[i..]),
         None => (rest, "/v1/metrics"),
     };
     if hostport.is_empty() {
-        return Err("endpoint has no host".into());
+        return Err(crate::terr!("e-telemetry-otlp-endpoint-has-no-host"));
     }
     Ok((hostport.to_string(), path.to_string()))
 }
@@ -211,8 +211,8 @@ pub fn export(endpoint: &str, reg: &Registry, unix_nano: u64) -> Result<u16, Str
     let body = build_payload(reg, unix_nano).to_string();
     let addrs = hostport
         .to_socket_addrs()
-        .map_err(|e| format!("resolve {hostport}: {e}"))?;
-    let mut last = format!("no address for {hostport}");
+        .map_err(|e| crate::terr!("e-telemetry-otlp-resolve", hostport = hostport, e = e))?;
+    let mut last = crate::t!("telemetry-otlp-no-address-for", hostport = hostport);
     let mut stream = None;
     for a in addrs {
         match TcpStream::connect_timeout(&a, IO_TIMEOUT) {
@@ -256,7 +256,10 @@ impl Exporter {
         let worker = std::thread::spawn(move || {
             for (reg, t) in rx.iter() {
                 if let Err(e) = export(&ep, &reg, t) {
-                    eprintln!("warning: otlp export failed: {e}");
+                    eprintln!(
+                        "{}",
+                        crate::t!("telemetry-otlp-warning-otlp-export-failed", e = e)
+                    );
                 }
             }
         });

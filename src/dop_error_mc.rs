@@ -218,10 +218,11 @@ pub fn run_geometry(
     cfg: &McConfig,
 ) -> Result<GeometryResult, String> {
     if cfg.trials < 2 || !(cfg.sigma_m.is_finite() && cfg.sigma_m > 0.0) {
-        return Err("need at least 2 trials and a finite sigma_m > 0".into());
+        return Err(crate::terr!("e-dop-error-ci-need-at-least-trials-and"));
     }
     const RANGE: f64 = 2.0e7;
-    let (east, north, up) = enu_basis(user).ok_or("no local frame at the user")?;
+    let (east, north, up) =
+        enu_basis(user).ok_or_else(|| crate::terr!("e-dop-error-ci-no-local-frame-at-the"))?;
     let sats: Vec<[f64; 3]> = dirs
         .iter()
         .map(|&(el, az)| {
@@ -234,8 +235,10 @@ pub fn run_geometry(
             ]
         })
         .collect();
-    let d = dop(user, &sats).ok_or_else(|| format!("{label}: singular geometry"))?;
-    let q = dop_cofactor(user, &sats).ok_or_else(|| format!("{label}: singular geometry"))?;
+    let d = dop(user, &sats)
+        .ok_or_else(|| crate::terr!("e-dop-error-mc-singular-geometry", label = label))?;
+    let q = dop_cofactor(user, &sats)
+        .ok_or_else(|| crate::terr!("e-dop-error-mc-singular-geometry", label = label))?;
     // Q in the local frame, clock last.
     let qpos = |a: [f64; 3], b: [f64; 3]| -> f64 {
         let mut v = 0.0;
@@ -292,7 +295,8 @@ pub fn run_geometry(
                 }
             })
             .collect();
-        let fix = solve_spp(&meas, user).ok_or_else(|| format!("{label}: no fix"))?;
+        let fix = solve_spp(&meas, user)
+            .ok_or_else(|| crate::terr!("e-dop-error-mc-no-fix", label = label))?;
         max_it = max_it.max(fix.iterations);
         let dx = [
             fix.ecef[0] - user[0],

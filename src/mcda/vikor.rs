@@ -71,28 +71,33 @@ pub fn vikor(
 ) -> Result<VikorResult, String> {
     let m = matrix.len();
     if m == 0 {
-        return Err("VIKOR: empty decision matrix".into());
+        return Err(crate::terr!("e-mcda-vikor-vikor-empty-decision-matrix"));
     }
     let n = weights.len();
     if n == 0 {
-        return Err("VIKOR: no criteria".into());
+        return Err(crate::terr!("e-mcda-vikor-vikor-no-criteria"));
     }
     if types.len() != n {
-        return Err(format!(
-            "VIKOR: {} weights but {} criterion types",
-            n,
-            types.len()
+        return Err(crate::terr!(
+            "e-mcda-vikor-vikor-weights-but-criterion-types",
+            n = n,
+            types = types.len()
         ));
     }
     for (i, row) in matrix.iter().enumerate() {
         if row.len() != n {
-            return Err(format!(
-                "VIKOR: alternative {i} has {} values but there are {n} criteria",
-                row.len()
+            return Err(crate::terr!(
+                "e-mcda-vikor-vikor-alternative-has-values-but",
+                i = i,
+                row = row.len(),
+                n = n
             ));
         }
         if row.iter().any(|x| !x.is_finite()) {
-            return Err(format!("VIKOR: alternative {i} has a non-finite value"));
+            return Err(crate::terr!(
+                "e-mcda-vikor-vikor-alternative-has-non-finite",
+                i = i
+            ));
         }
     }
 

@@ -48,21 +48,23 @@ pub fn applicability(scene: &Scene) -> Result<(), String> {
 /// Render one moving object of the scene as an STK `.e` file.
 pub fn write_one(scene: &Scene, index: usize) -> Result<String, ExportError> {
     applicability(scene).map_err(ExportError::NotApplicable)?;
-    let m = scene
-        .movers
-        .get(index)
-        .ok_or_else(|| ExportError::Failed(format!("no moving object {index}")))?;
+    let m = scene.movers.get(index).ok_or_else(|| {
+        ExportError::Failed(crate::terr!(
+            "e-interop-stk-no-moving-object",
+            index = index
+        ))
+    })?;
     let e = scene
         .epoch
         .ok_or_else(|| ExportError::Failed("scene has no epoch".into()))?;
     let mut o = String::new();
     o.push_str("stk.v.11.0\n");
-    o.push_str(&format!(
-        "# Kshana {} export: {}, object {} ({})\n",
-        env!("CARGO_PKG_VERSION"),
-        scene.title(),
-        m.id,
-        m.role.as_str()
+    o.push_str(&crate::t!(
+        "interop-stk-kshana-export-object",
+        v1 = env!("CARGO_PKG_VERSION"),
+        scene = scene.title(),
+        id = m.id,
+        role = m.role.as_str()
     ));
     o.push_str(&format!("# {}\n", m.description.replace('\n', " ")));
     o.push_str(&format!(

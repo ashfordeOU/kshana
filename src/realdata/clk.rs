@@ -39,10 +39,10 @@ pub fn rinex_clock_time_system(text: &str) -> Result<(String, bool), String> {
             if KNOWN_CLOCK_TIME_SYSTEMS.contains(&id.as_str()) {
                 return Ok((id, true));
             }
-            return Err(format!(
-                "RINEX clock file declares time system {id:?}, which this reader does not \
-                 know (known: {}); refusing it rather than reading its epochs as GPS time",
-                KNOWN_CLOCK_TIME_SYSTEMS.join(", ")
+            return Err(crate::terr!(
+                "e-realdata-clk-rinex-clock-file-declares-time",
+                id = format!("{:?}", id),
+                known_clock_time_systems = KNOWN_CLOCK_TIME_SYSTEMS.join(", ")
             ));
         }
     }
@@ -61,9 +61,9 @@ pub fn rinex_clock_time_system(text: &str) -> Result<(String, bool), String> {
             )
         }
         other => {
-            return Err(format!(
-                "RINEX clock file has satellite system {other:?} and declares no TIME SYSTEM \
-                 ID; refusing to guess the time system of its epochs"
+            return Err(crate::terr!(
+                "e-realdata-clk-rinex-clock-file-has-satellite",
+                other = format!("{:?}", other)
             ))
         }
     };
@@ -102,10 +102,10 @@ pub fn rinex_clock_series(texts: &[&str], id: &str, tau0: f64) -> Result<RinexCl
         match &mut system {
             None => system = Some(ts),
             Some((s, _)) if *s != ts.0 => {
-                return Err(format!(
-                    "RINEX clock files declare different time systems ({s} and {}); refusing to \
-                     join them on one time axis",
-                    ts.0
+                return Err(crate::terr!(
+                    "e-realdata-clk-rinex-clock-files-declare-different",
+                    s = s,
+                    ts = ts.0
                 ))
             }
             // Declared only when every file declared it.
@@ -133,7 +133,7 @@ pub fn rinex_clock_series(texts: &[&str], id: &str, tau0: f64) -> Result<RinexCl
         }
     }
     let Some((record, mut samples)) = out else {
-        return Err(format!("no AS or AR records for {id}"));
+        return Err(crate::terr!("e-realdata-clk-no-as-or-ar-records", id = id));
     };
     samples.sort_by(|a, b| a.0.total_cmp(&b.0));
     samples.dedup_by(|a, b| a.0 == b.0);
@@ -269,15 +269,21 @@ pub fn parse_circular_t_section1(text: &str) -> Result<CircularTSection1, String
         let f: Vec<&str> = rest.split_whitespace().collect();
         let n = out.mjds.len();
         if f.len() < n + 3 {
-            return Err(format!("short Circular T row: {t:?}"));
+            return Err(crate::terr!(
+                "e-realdata-clk-short-circular-row",
+                t = format!("{:?}", t)
+            ));
         }
         let num = |s: &str| -> Result<Option<f64>, String> {
             match s {
                 "-" | "NC" => Ok(None),
-                _ => s
-                    .parse::<f64>()
-                    .map(Some)
-                    .map_err(|_| format!("bad value {s:?} in {t:?}")),
+                _ => s.parse::<f64>().map(Some).map_err(|_| {
+                    crate::terr!(
+                        "e-realdata-clk-bad-value-in",
+                        s = format!("{:?}", s),
+                        t = format!("{:?}", t)
+                    )
+                }),
             }
         };
         let values = f[..n]
@@ -293,7 +299,7 @@ pub fn parse_circular_t_section1(text: &str) -> Result<CircularTSection1, String
         });
     }
     if out.mjds.is_empty() {
-        return Err("no Section 1 MJD header found".into());
+        return Err(crate::terr!("e-realdata-clk-no-section-mjd-header-found"));
     }
     Ok(out)
 }

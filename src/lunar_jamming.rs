@@ -951,19 +951,19 @@ impl LunarJammingScenario {
     /// Validate the inputs that the physics cannot absorb.
     fn validate(&self) -> Result<(), String> {
         if !self.carrier_hz.is_finite() || self.carrier_hz <= 0.0 {
-            return Err("carrier_hz must be finite and positive".to_string());
+            return Err(crate::terr!("e-lunar-jamming-carrier-hz-must-be-finite"));
         }
         if !self.chip_rate_hz.is_finite() || self.chip_rate_hz <= 0.0 {
-            return Err("chip_rate_hz must be finite and positive".to_string());
+            return Err(crate::terr!("e-lunar-jamming-chip-rate-hz-must-be"));
         }
         if !self.temp_k.is_finite() || self.temp_k <= 0.0 {
-            return Err("temp_k must be finite and positive".to_string());
+            return Err(crate::terr!("e-lunar-jamming-temp-must-be-finite-and"));
         }
         if !self.sma_km.is_finite() || self.sma_km * 1000.0 <= R_MOON_M {
-            return Err("sma_km must be finite and above the lunar radius".to_string());
+            return Err(crate::terr!("e-lunar-jamming-sma-km-must-be-finite"));
         }
         if !(0.0..1.0).contains(&self.eccentricity) {
-            return Err("eccentricity must be in [0, 1)".to_string());
+            return Err(crate::terr!("e-lunar-jamming-eccentricity-must-be-in"));
         }
         if let Some(j) = &self.jammer {
             let placed_selenographically = j.lat_deg.is_some() && j.lon_deg.is_some();
@@ -975,7 +975,7 @@ impl LunarJammingScenario {
                 );
             }
             if !j.power_dbw.is_finite() {
-                return Err("jammer.power_dbw must be finite".to_string());
+                return Err(crate::terr!("e-lunar-jamming-jammer-power-dbw-must-be"));
             }
         }
         Ok(())
@@ -1240,33 +1240,35 @@ impl LunarJammingScenario {
         json["units"] = units_block();
         let json = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
         let summary = if r.jammer_present {
-            format!(
-                "lunar-jamming | {} sats, {} epochs, {} links from ({:.2}, {:.2}) | \
-                 J/S {:.3}..{:.3} dB (mean {:.3}) | {} LOST | availability {:.3} of \
-                 {:.3} nominal",
-                r.n_sats,
-                r.n_epochs,
-                r.fom.n_links,
-                r.site_lat_deg,
-                r.site_lon_deg,
-                r.fom.min_js_db,
-                r.fom.max_js_db,
-                r.fom.mean_js_db,
-                r.fom.n_lost,
-                r.fom.availability_under_jamming,
-                r.fom.availability_nominal,
+            crate::t!(
+                "lunar-jamming-lunar-jamming-sats-epochs-links",
+                n_sats = r.n_sats,
+                n_epochs = r.n_epochs,
+                n_links = r.fom.n_links,
+                site_lat_deg = crate::i18n::localise_decimal(format!("{:.2}", r.site_lat_deg)),
+                site_lon_deg = crate::i18n::localise_decimal(format!("{:.2}", r.site_lon_deg)),
+                min_js_db = crate::i18n::localise_decimal(format!("{:.3}", r.fom.min_js_db)),
+                max_js_db = crate::i18n::localise_decimal(format!("{:.3}", r.fom.max_js_db)),
+                mean_js_db = crate::i18n::localise_decimal(format!("{:.3}", r.fom.mean_js_db)),
+                n_lost = r.fom.n_lost,
+                availability_under_jamming = crate::i18n::localise_decimal(format!(
+                    "{:.3}",
+                    r.fom.availability_under_jamming
+                )),
+                availability_nominal =
+                    crate::i18n::localise_decimal(format!("{:.3}", r.fom.availability_nominal))
             )
         } else {
-            format!(
-                "lunar-jamming | {} sats, {} epochs, {} links from ({:.2}, {:.2}) | \
-                 no jammer (clean-sky lunar baseline) | {} LOST | availability {:.3}",
-                r.n_sats,
-                r.n_epochs,
-                r.fom.n_links,
-                r.site_lat_deg,
-                r.site_lon_deg,
-                r.fom.n_lost,
-                r.fom.availability_nominal,
+            crate::t!(
+                "lunar-jamming-lunar-jamming-sats-epochs-links-2",
+                n_sats = r.n_sats,
+                n_epochs = r.n_epochs,
+                n_links = r.fom.n_links,
+                site_lat_deg = crate::i18n::localise_decimal(format!("{:.2}", r.site_lat_deg)),
+                site_lon_deg = crate::i18n::localise_decimal(format!("{:.2}", r.site_lon_deg)),
+                n_lost = r.fom.n_lost,
+                availability_nominal =
+                    crate::i18n::localise_decimal(format!("{:.3}", r.fom.availability_nominal))
             )
         };
         let svg = to_svg(&r);

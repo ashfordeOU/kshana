@@ -969,14 +969,15 @@ pub fn run_lock_history(
 ) -> Result<LockHistory, String> {
     let total = 2.0 * leg_s;
     if !(epoch_s.is_finite() && epoch_s > 0.0 && total.is_finite()) || total < 0.0 {
-        return Err("tracking-loop: the C/N0 profile needs a positive epoch and duration".into());
+        return Err(crate::terr!("e-tracking-loop-tracking-loop-the-n0-profile"));
     }
     let n = (total / epoch_s).ceil();
     if !n.is_finite() || n > MAX_DETECTOR_STEPS as f64 {
-        return Err(format!(
-            "tracking-loop: the C/N0 profile would need more than {MAX_DETECTOR_STEPS} detector \
-             steps ({total} s at {epoch_s} s per epoch); shorten ramp_duration_s or lengthen \
-             predetection_integration_s"
+        return Err(crate::terr!(
+            "e-tracking-loop-tracking-loop-the-n0-profile-2",
+            MAX_DETECTOR_STEPS = MAX_DETECTOR_STEPS,
+            total = total,
+            epoch_s = epoch_s
         ));
     }
     let steps = n as usize;
@@ -1086,7 +1087,10 @@ impl TrackingLoopScenario {
         ];
         for (name, v) in finite {
             if !v.is_finite() {
-                return Err(format!("tracking-loop: {name} must be finite"));
+                return Err(crate::terr!(
+                    "e-tracking-loop-tracking-loop-must-be-finite",
+                    name = name
+                ));
             }
         }
         let positive = [
@@ -1104,30 +1108,35 @@ impl TrackingLoopScenario {
         ];
         for (name, v) in positive {
             if v <= 0.0 {
-                return Err(format!("tracking-loop: {name} must be positive (got {v})"));
+                return Err(crate::terr!(
+                    "e-tracking-loop-tracking-loop-must-be-positive",
+                    name = name,
+                    v = v
+                ));
             }
         }
         if self.correlator_spacing_chips >= 1.9 {
-            return Err(format!(
-                "tracking-loop: correlator_spacing_chips must be below 1.9 chips (got {})",
-                self.correlator_spacing_chips
+            return Err(crate::terr!(
+                "e-tracking-loop-tracking-loop-correlator-spacing-chips",
+                correlator_spacing_chips = self.correlator_spacing_chips
             ));
         }
         if self.pullin_bandwidth_ratio < 1.0 {
-            return Err(format!(
-                "tracking-loop: pullin_bandwidth_ratio must be at least 1 (got {}) — a loop that \
-                 re-pulls-in with a NARROWER bandwidth than it tracks with would invert the \
-                 hysteresis",
-                self.pullin_bandwidth_ratio
+            return Err(crate::terr!(
+                "e-tracking-loop-tracking-loop-pullin-bandwidth-ratio",
+                pullin_bandwidth_ratio = self.pullin_bandwidth_ratio
             ));
         }
         if self.ramp_duration_s < 0.0 {
-            return Err("tracking-loop: ramp_duration_s must not be negative".into());
+            return Err(crate::terr!(
+                "e-tracking-loop-tracking-loop-ramp-duration-must"
+            ));
         }
         if self.cn0_low_dbhz > self.cn0_high_dbhz {
-            return Err(format!(
-                "tracking-loop: cn0_low_dbhz ({}) must not exceed cn0_high_dbhz ({})",
-                self.cn0_low_dbhz, self.cn0_high_dbhz
+            return Err(crate::terr!(
+                "e-tracking-loop-tracking-loop-cn0-low-dbhz",
+                cn0_low_dbhz = self.cn0_low_dbhz,
+                cn0_high_dbhz = self.cn0_high_dbhz
             ));
         }
         for (name, axis) in [
@@ -1142,20 +1151,30 @@ impl TrackingLoopScenario {
             ),
         ] {
             if axis.is_empty() {
-                return Err(format!("tracking-loop: {name} must not be empty"));
+                return Err(crate::terr!(
+                    "e-tracking-loop-tracking-loop-must-not-be",
+                    name = name
+                ));
             }
             if axis.len() > MAX_AXIS_LEN {
-                return Err(format!(
-                    "tracking-loop: {name} has {} entries; the cap is {MAX_AXIS_LEN}",
-                    axis.len()
+                return Err(crate::terr!(
+                    "e-tracking-loop-tracking-loop-has-entries-the",
+                    name = name,
+                    axis = axis.len(),
+                    MAX_AXIS_LEN = MAX_AXIS_LEN
                 ));
             }
             if axis.iter().any(|v| !v.is_finite()) {
-                return Err(format!("tracking-loop: {name} holds a non-finite value"));
+                return Err(crate::terr!(
+                    "e-tracking-loop-tracking-loop-holds-non-finite",
+                    name = name
+                ));
             }
         }
         if self.drop_confirm_epochs == 0 || self.relock_confirm_epochs == 0 {
-            return Err("tracking-loop: the confirmation dwells must be at least 1 epoch".into());
+            return Err(crate::terr!(
+                "e-tracking-loop-tracking-loop-the-confirmation-dwells"
+            ));
         }
         Ok(())
     }

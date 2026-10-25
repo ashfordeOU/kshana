@@ -348,20 +348,20 @@ pub struct CrpaCfg {
 impl CrpaCfg {
     fn check(&self) -> Result<(), String> {
         if self.elements_enu_m.is_empty() {
-            return Err("crpa.elements_enu_m must list at least one element".into());
+            return Err(crate::terr!("e-jamming-crpa-elements-enu-must-list"));
         }
         if self.elements_enu_m.iter().flatten().any(|v| !v.is_finite()) {
-            return Err("crpa.elements_enu_m must be finite".into());
+            return Err(crate::terr!("e-jamming-crpa-elements-enu-must-be"));
         }
         if !["null-steering", "mvdr"].contains(&self.weighting.as_str()) {
-            return Err(format!(
-                "crpa.weighting {:?}: expected \"null-steering\" or \"mvdr\"",
-                self.weighting
+            return Err(crate::terr!(
+                "e-jamming-crpa-weighting-expected-null-steering",
+                weighting = format!("{:?}", self.weighting)
             ));
         }
         if let Some(b) = self.bandwidth_mhz {
             if !(b.is_finite() && b > 0.0) {
-                return Err(format!("crpa.bandwidth_mhz must be positive (got {b})"));
+                return Err(crate::terr!("e-jamming-crpa-bandwidth-mhz-must-be", b = b));
             }
         }
         Ok(())
@@ -675,7 +675,7 @@ pub fn run_jamming_sky(
     // With terrain: the knife-edge loss on the jammer's path, one number for the static pair.
     let jammer_terrain = match (&scn.terrain, &scn.jammer) {
         (None, _) => None,
-        (Some(_), None) => return Err("terrain: the section needs a [jammer]".into()),
+        (Some(_), None) => return Err(crate::terr!("e-jamming-terrain-the-section-needs-jammer")),
         (Some(t), Some(j)) => {
             t.check()?;
             let dem = t.load()?;

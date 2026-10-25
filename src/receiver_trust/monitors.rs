@@ -198,9 +198,10 @@ impl MonitorConfig {
                 out.jam_ind_threshold = j;
                 Ok(std::borrow::Cow::Owned(out))
             }
-            Some(other) => Err(format!(
-                "monitor config: unknown profile \"{other}\"; known: {}",
-                THRESHOLD_PROFILES.join(", ")
+            Some(other) => Err(crate::terr!(
+                "e-receiver-trust-monitors-monitor-config-unknown-profile-known",
+                other = other,
+                threshold_profiles = THRESHOLD_PROFILES.join(", ")
             )),
         }
     }
@@ -233,8 +234,10 @@ impl MonitorConfig {
             if v.is_finite() && v > 0.0 {
                 Ok(())
             } else {
-                Err(format!(
-                    "monitor config: {name} must be finite and > 0 (got {v})"
+                Err(crate::terr!(
+                    "e-receiver-trust-monitors-monitor-config-must-be-finite",
+                    name = name,
+                    v = v
                 ))
             }
         };
@@ -244,25 +247,31 @@ impl MonitorConfig {
         pos("position_jump_m", self.position_jump_m)?;
         pos("raim_sigma_m", self.raim_sigma_m)?;
         if !self.jam_ind_threshold.is_finite() {
-            return Err("monitor config: jam_ind_threshold must be finite".into());
+            return Err(crate::terr!(
+                "e-receiver-trust-monitors-monitor-config-jam-ind-threshold"
+            ));
         }
         if !(self.mask_deg.is_finite() && (-90.0..90.0).contains(&self.mask_deg)) {
-            return Err(format!(
-                "monitor config: mask_deg must be in [-90, 90) (got {})",
-                self.mask_deg
+            return Err(crate::terr!(
+                "e-receiver-trust-monitors-monitor-config-mask-deg-must",
+                mask_deg = self.mask_deg
             ));
         }
         if !(self.raim_pfa > 0.0 && self.raim_pfa < 1.0) {
-            return Err(format!(
-                "monitor config: raim_pfa must be in (0, 1) (got {})",
-                self.raim_pfa
+            return Err(crate::terr!(
+                "e-receiver-trust-monitors-monitor-config-raim-pfa-must",
+                raim_pfa = self.raim_pfa
             ));
         }
         if self.cn0_min_sats == 0 {
-            return Err("monitor config: cn0_min_sats must be at least 1".into());
+            return Err(crate::terr!(
+                "e-receiver-trust-monitors-monitor-config-cn0-min-sats"
+            ));
         }
         if self.sats_lost == 0 {
-            return Err("monitor config: sats_lost must be at least 1".into());
+            return Err(crate::terr!(
+                "e-receiver-trust-monitors-monitor-config-sats-lost-must"
+            ));
         }
         Ok(())
     }
@@ -397,10 +406,9 @@ pub fn self_report_summary(
         .collect();
     let n = |a: &str| post.iter().filter(|(_, r)| r.agreement == a).count();
     Some(SelfReportSummary {
-        note: format!(
-            "the receiver's own {} set against Kshana's monitors; neither is ground truth, \
-             agreement is not validation",
-            self_report_source(format)
+        note: crate::t!(
+            "receiver-trust-monitors-the-receiver-own-set-against",
+            self_report_source = self_report_source(format)
         ),
         epochs_reported: post.len(),
         receiver_flag_epochs: post.iter().filter(|(_, r)| r.receiver_flag).count(),
@@ -886,7 +894,9 @@ pub fn run_monitors(
     let cfg: &MonitorConfig = &resolved;
     cfg.validate()?;
     if tl.epochs.iter().any(|e| !e.t_s.is_finite()) {
-        return Err("receiver timeline has a non-finite epoch time".into());
+        return Err(crate::terr!(
+            "e-receiver-trust-monitors-receiver-timeline-has-non-finite"
+        ));
     }
     let (en, clock_bound_ns) = match &engine {
         Some(input) => engine_pass(input, cfg)?,
@@ -897,9 +907,11 @@ pub fn run_monitors(
     let calibration_epochs = slots.iter().filter(|s| s.t_s < cal_s).count();
     if calibration_epochs < 3 {
         let span = slots.last().map(|s| s.t_s).unwrap_or(0.0);
-        return Err(format!(
-            "the log is shorter than the calibration window: {calibration_epochs} epoch(s) \
-             before {cal_s} s (log spans {span:.1} s); at least 3 are needed to form the baseline"
+        return Err(crate::terr!(
+            "e-receiver-trust-monitors-the-log-is-shorter-than",
+            calibration_epochs = calibration_epochs,
+            cal_s = cal_s,
+            span = crate::i18n::localise_decimal(format!("{:.1}", span))
         ));
     }
     // A vessel's epoch whose time ran backwards (a replay, a rewind) is never calibration,

@@ -87,8 +87,9 @@ impl PyRunOutput {
 /// array accessors need it.
 fn numpy(py: Python<'_>) -> PyResult<pyo3::Bound<'_, pyo3::types::PyModule>> {
     py.import("numpy").map_err(|e| {
-        pyo3::exceptions::PyImportError::new_err(format!(
-            "RunOutput's array accessors need NumPy (pip install numpy): {e}"
+        pyo3::exceptions::PyImportError::new_err(crate::terr!(
+            "e-python-runoutput-array-accessors-need-numpy",
+            e = e
         ))
     })
 }
@@ -217,8 +218,9 @@ impl PyRunOutput {
         let doc = self.parsed()?;
         let v = lookup(&doc, path)?;
         if !is_numeric_array(v) {
-            return Err(PyValueError::new_err(format!(
-                "{path:?} is not a numeric array (a list of numbers, or of equal-length lists of numbers)"
+            return Err(PyValueError::new_err(crate::terr!(
+                "e-python-is-not-numeric-array-list",
+                path = format!("{:?}", path)
             )));
         }
         let np = numpy(py)?;
@@ -238,7 +240,10 @@ impl PyRunOutput {
             .as_array()
             .filter(|a| !a.is_empty() && a.iter().all(|r| r.is_object()))
             .ok_or_else(|| {
-                PyValueError::new_err(format!("{path:?} is not a non-empty list of records"))
+                PyValueError::new_err(crate::terr!(
+                    "e-python-is-not-non-empty-list",
+                    path = format!("{:?}", path)
+                ))
             })?;
         let np = numpy(py)?;
         records_to_columns(py, &np, records)
@@ -274,12 +279,12 @@ impl PyRunOutput {
     }
 
     fn __repr__(&self) -> String {
-        format!(
-            "RunOutput(json={} bytes, svg={} bytes, csv={} bytes, summary={:?})",
-            self.json.len(),
-            self.svg.len(),
-            self.csv.as_ref().map_or(0, |c| c.len()),
-            self.summary.chars().take(48).collect::<String>()
+        crate::t!(
+            "python-runoutput-json-bytes-svg-bytes",
+            json = self.json.len(),
+            svg = self.svg.len(),
+            value = self.csv.as_ref().map_or(0, |c| c.len()),
+            value2 = format!("{:?}", self.summary.chars().take(48).collect::<String>())
         )
     }
 }
@@ -414,10 +419,10 @@ fn codes_for(signal: &str, prns: &[i64]) -> PyResult<Vec<SignalCode>> {
 /// Interleave two equal-length real sequences into complex samples.
 fn samples_from(i: &[f64], q: &[f64]) -> PyResult<Vec<Cf64>> {
     if i.len() != q.len() {
-        return Err(PyValueError::new_err(format!(
-            "i and q must be the same length ({} vs {})",
-            i.len(),
-            q.len()
+        return Err(PyValueError::new_err(crate::terr!(
+            "e-python-and-must-be-the-same",
+            i = i.len(),
+            q = q.len()
         )));
     }
     Ok(i.iter()
@@ -847,11 +852,11 @@ fn iq_track<'py>(
     for code in &codes {
         let found = acquire_peak(&samples, &spec, code, &acq).map_err(PyValueError::new_err)?;
         if !found.acquired {
-            return Err(PyValueError::new_err(format!(
-                "{}: not acquired (statistic {:.2} < threshold {:.2})",
-                code.name(),
-                found.statistic,
-                found.threshold
+            return Err(PyValueError::new_err(crate::terr!(
+                "e-python-not-acquired-statistic-threshold",
+                code = code.name(),
+                statistic = crate::i18n::localise_decimal(format!("{:.2}", found.statistic)),
+                threshold = crate::i18n::localise_decimal(format!("{:.2}", found.threshold))
             )));
         }
         let arc: std::sync::Arc<dyn SpreadingCode + Send + Sync> =
@@ -1161,12 +1166,21 @@ fn iq_sweep<'py>(
                         for &c in &coh {
                             let c = c.max(1);
                             let dd = base
-                                .with_overrides(&format!(
-                                    "[carrier]\npll_bw_hz = {p:?}\n[code]\nbw_hz = {d:?}\n\
-                                     [integration]\nspacing_chips = {s:?}\ncoherent_periods = {c}\n"
+                                .with_overrides(&crate::t!(
+                                    "python-carrier-pll-bw-hz-code",
+                                    p = format!("{:?}", p),
+                                    d = format!("{:?}", d),
+                                    s = format!("{:?}", s),
+                                    c = c
                                 ))
                                 .map_err(bad)?;
-                            out.push(dd.renamed(&format!("pll{p}_dll{d}_sp{s}_coh{c}")));
+                            out.push(dd.renamed(&crate::t!(
+                                "python-pll-dll-sp-coh",
+                                p = p,
+                                d = d,
+                                s = s,
+                                c = c
+                            )));
                         }
                     }
                 }
@@ -1178,9 +1192,9 @@ fn iq_sweep<'py>(
         return Err(bad("no designs to sweep".into()));
     }
     if designs.len() * codes.len() > 256 {
-        return Err(bad(format!(
-            "{} (design, PRN) channels; at most 256 per sweep",
-            designs.len() * codes.len()
+        return Err(bad(crate::t!(
+            "python-design-prn-channels-at-most",
+            designs = designs.len() * codes.len()
         )));
     }
     // Acquire each PRN once, with the first design's acquisition.
@@ -1189,11 +1203,11 @@ fn iq_sweep<'py>(
     for code in &codes {
         let found = acquire_peak(&samples, &spec, code, &acq).map_err(bad)?;
         if !found.acquired {
-            return Err(bad(format!(
-                "{}: not acquired (statistic {:.2} < threshold {:.2})",
-                code.name(),
-                found.statistic,
-                found.threshold
+            return Err(bad(crate::t!(
+                "python-not-acquired-statistic-threshold",
+                code = code.name(),
+                statistic = crate::i18n::localise_decimal(format!("{:.2}", found.statistic)),
+                threshold = crate::i18n::localise_decimal(format!("{:.2}", found.threshold))
             )));
         }
         let arc: std::sync::Arc<dyn SpreadingCode + Send + Sync> =
@@ -2027,10 +2041,12 @@ fn compliance_report<'py>(
     for (i, r) in runs.iter().enumerate() {
         let get = |k: &str| r.get(k).cloned();
         texts.push(ComplianceRunText {
-            label: get("label")
-                .ok_or_else(|| PyValueError::new_err(format!("runs[{i}] needs `label`")))?,
-            result_json: get("result")
-                .ok_or_else(|| PyValueError::new_err(format!("runs[{i}] needs `result`")))?,
+            label: get("label").ok_or_else(|| {
+                PyValueError::new_err(crate::terr!("e-python-runs-needs-label", i = i))
+            })?,
+            result_json: get("result").ok_or_else(|| {
+                PyValueError::new_err(crate::terr!("e-python-runs-needs-result", i = i))
+            })?,
             scenario_toml: get("scenario"),
         });
     }
@@ -2070,7 +2086,7 @@ fn osnma_verify<'py>(
     let to_u32 = |name: &str, v: Option<i64>| -> PyResult<Option<u32>> {
         v.map(|n| {
             u32::try_from(n).map_err(|_| {
-                PyValueError::new_err(format!("{name} must be between 0 and 2**32 - 1"))
+                PyValueError::new_err(crate::terr!("e-python-must-be-between-and-32", name = name))
             })
         })
         .transpose()

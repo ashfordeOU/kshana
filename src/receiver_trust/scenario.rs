@@ -377,13 +377,20 @@ is compared with the log, not fitted to it";
 
 #[cfg(not(target_arch = "wasm32"))]
 fn read_path(path: &str) -> Result<Vec<u8>, String> {
-    std::fs::read(path).map_err(|e| format!("cannot read {path:?}: {e}"))
+    std::fs::read(path).map_err(|e| {
+        crate::terr!(
+            "e-interference-map-cli-cannot-read",
+            path = format!("{:?}", path),
+            e = e
+        )
+    })
 }
 
 #[cfg(target_arch = "wasm32")]
 fn read_path(path: &str) -> Result<Vec<u8>, String> {
-    Err(format!(
-        "cannot read {path:?}: the WebAssembly build has no file system; pass the file inline as `text` or `base64`"
+    Err(crate::terr!(
+        "e-receiver-trust-scenario-cannot-read-the-webassembly-build",
+        path = format!("{:?}", path)
     ))
 }
 
@@ -394,12 +401,20 @@ pub fn load_source(src: &FileSource, what: &str) -> Result<Vec<u8>, String> {
         (None, Some(t), None) => Ok(t.clone().into_bytes()),
         (None, None, Some(b)) => {
             let compact: String = b.chars().filter(|c| !c.is_whitespace()).collect();
-            crate::permalink::base64_decode(&compact)
-                .ok_or_else(|| format!("{what}: `base64` is not valid standard base64"))
+            crate::permalink::base64_decode(&compact).ok_or_else(|| {
+                crate::terr!(
+                    "e-receiver-trust-scenario-base64-is-not-valid-standard",
+                    what = what
+                )
+            })
         }
-        (None, None, None) => Err(format!("{what}: give one of `path`, `text` or `base64`")),
-        _ => Err(format!(
-            "{what}: give only one of `path`, `text` or `base64`"
+        (None, None, None) => Err(crate::terr!(
+            "e-receiver-trust-scenario-give-one-of-path-text",
+            what = what
+        )),
+        _ => Err(crate::terr!(
+            "e-receiver-trust-scenario-give-only-one-of-path",
+            what = what
         )),
     }
 }
@@ -432,19 +447,26 @@ fn validate(scn: &ReceiverTrustScenario) -> Result<(), String> {
         ("compare.cn0_tol_db", c.cn0_tol_db),
     ] {
         if !(v.is_finite() && v > 0.0) {
-            return Err(format!("{name} must be a positive number, got {v}"));
+            return Err(crate::terr!(
+                "e-receiver-trust-scenario-must-be-positive-number-got",
+                name = name,
+                v = v
+            ));
         }
     }
     for e in &scn.events {
         if !e.onset_s.is_finite() || e.onset_s < 0.0 {
-            return Err(format!(
-                "event {:?}: onset_s must be a non-negative number",
-                e.label
+            return Err(crate::terr!(
+                "e-receiver-trust-scenario-event-onset-must-be-non",
+                label = format!("{:?}", e.label)
             ));
         }
         if let Some(end) = e.end_s {
             if !end.is_finite() || end <= e.onset_s {
-                return Err(format!("event {:?}: end_s must be after onset_s", e.label));
+                return Err(crate::terr!(
+                    "e-receiver-trust-scenario-event-end-must-be-after",
+                    label = format!("{:?}", e.label)
+                ));
             }
         }
     }
@@ -470,7 +492,9 @@ pub fn run_receiver_trust(scn: &ReceiverTrustScenario) -> Result<ReceiverTrustRe
 /// Returns how many epochs it filled.
 fn apply_imu(tl: &mut Timeline, cfg: &ImuCfg, bytes: &[u8]) -> Result<usize, String> {
     if !cfg.heading0_deg.is_finite() || !cfg.time_offset_s.is_finite() {
-        return Err("log.imu: heading0_deg and time_offset_s must be finite".into());
+        return Err(crate::terr!(
+            "e-receiver-trust-scenario-log-imu-heading0-deg-and"
+        ));
     }
     let samples = read_imu(cfg.format, &String::from_utf8_lossy(bytes))?;
     let series: Vec<(f64, f64)> = gyro_heading(&samples, cfg.heading0_deg, cfg.yaw_axis_down)
@@ -680,22 +704,32 @@ pub fn run_receiver_trust_on_imu(
 
     let after_cal = states.nominal_epochs + states.degraded_epochs + states.untrusted_epochs;
     let mut verdict = match trust.first_alarm_s {
-        None => format!("trusted throughout: no monitor alarmed in {after_cal} epochs after calibration"),
-        Some(t) => format!(
-            "first alarm at {t:.1} s; untrusted for {} and degraded for {} of {after_cal} epochs after calibration",
-            states.untrusted_epochs, states.degraded_epochs
+        None => crate::t!(
+            "receiver-trust-scenario-trusted-throughout-no-monitor-alarmed",
+            after_cal = after_cal
+        ),
+        Some(t) => crate::t!(
+            "receiver-trust-scenario-first-alarm-at-untrusted-for",
+            t = crate::i18n::localise_decimal(format!("{:.1}", t)),
+            untrusted_epochs = states.untrusted_epochs,
+            degraded_epochs = states.degraded_epochs,
+            after_cal = after_cal
         ),
     };
     if events_evaluable > 0 {
-        verdict.push_str(&format!(
-            "; {events_detected} of {events_evaluable} stated events detected within {} s",
-            scn.compare.detect_tol_s
+        verdict.push_str(&crate::t!(
+            "receiver-trust-scenario-of-stated-events-detected-within",
+            events_detected = events_detected,
+            events_evaluable = events_evaluable,
+            detect_tol_s = scn.compare.detect_tol_s
         ));
     }
     if predictions_evaluable > 0 {
-        verdict.push_str(&format!(
-            "; {predictions_agreeing} of {predictions_evaluable} C/N0 predictions within {} dB",
-            scn.compare.cn0_tol_db
+        verdict.push_str(&crate::t!(
+            "receiver-trust-scenario-of-n0-predictions-within-db",
+            predictions_agreeing = predictions_agreeing,
+            predictions_evaluable = predictions_evaluable,
+            cn0_tol_db = scn.compare.cn0_tol_db
         ));
     }
 
@@ -717,7 +751,11 @@ pub fn run_receiver_trust_on_imu(
             scores.iter().copied().min_by(f64::total_cmp),
             scores.last().copied(),
         ) {
-            verdict.push_str(&format!("; trust score lowest {min:.1}, final {last:.1}"));
+            verdict.push_str(&crate::t!(
+                "receiver-trust-scenario-trust-score-lowest-final",
+                min = crate::i18n::localise_decimal(format!("{:.1}", min)),
+                last = crate::i18n::localise_decimal(format!("{:.1}", last))
+            ));
         }
     }
 
@@ -796,14 +834,14 @@ pub fn run_receiver_trust_on_imu(
 
 /// One-line summary for the command line.
 pub fn summary(r: &ReceiverTrustResult) -> String {
-    format!(
-        "scenario {} | receiver-trust | {} log, {} epochs over {:.0} s | monitors {} | {}",
-        &r.scenario_hash[..12],
-        format_name(r.log.format),
-        r.log.epochs,
-        r.log.duration_s,
-        r.monitors_run.len(),
-        r.verdict
+    crate::t!(
+        "receiver-trust-scenario-scenario-receiver-trust-log-epochs",
+        r = &r.scenario_hash[..12],
+        format_name = format_name(r.log.format),
+        epochs = r.log.epochs,
+        duration_s = crate::i18n::localise_decimal(format!("{:.0}", r.log.duration_s)),
+        monitors_run = r.monitors_run.len(),
+        verdict = r.verdict
     )
 }
 
@@ -1215,12 +1253,13 @@ pub struct TrustOutput {
 /// command line, the Python bindings, the WebAssembly build and the Model Context
 /// Protocol server share. In the WebAssembly build, files must be given inline.
 pub fn run_toml(src: &str) -> Result<TrustOutput, String> {
-    let scn: ReceiverTrustScenario =
-        toml::from_str(src).map_err(|e| format!("invalid receiver-trust scenario: {e}"))?;
+    let scn: ReceiverTrustScenario = toml::from_str(src)
+        .map_err(|e| crate::terr!("e-evidence-cli-invalid-receiver-trust-scenario", e = e))?;
     if let Some(k) = scn.kind.as_deref() {
         if k != "receiver-trust" {
-            return Err(format!(
-                "this is a {k:?} scenario, not a receiver-trust one"
+            return Err(crate::terr!(
+                "e-receiver-trust-scenario-this-is-scenario-not-receiver",
+                k = format!("{:?}", k)
             ));
         }
     }

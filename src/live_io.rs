@@ -116,8 +116,12 @@ impl Broadcaster {
 
     /// Accept clients on `addr` in a background thread.
     fn listen(&self, addr: &str) -> Result<(), String> {
-        let l = TcpListener::bind(addr).map_err(|e| format!("cannot listen on {addr}: {e}"))?;
-        eprintln!("kshana live: listening on tcp {addr}");
+        let l = TcpListener::bind(addr)
+            .map_err(|e| kshana::terr!("e-live-io-cannot-listen-on", addr = addr, e = e))?;
+        eprintln!(
+            "{}",
+            kshana::t!("live-io-kshana-live-listening-on-tcp", addr = addr)
+        );
         let b = self.clone();
         std::thread::spawn(move || {
             for conn in l.incoming().flatten() {
@@ -126,7 +130,7 @@ impl Broadcaster {
                 let _ = conn.set_write_timeout(Some(Duration::from_secs(5)));
                 b.add(tx);
                 // The client now receives every later line; a harness that feeds a stored log waits for this.
-                eprintln!("kshana live: tcp client connected");
+                eprintln!("{}", kshana::t!("live-io-kshana-live-tcp-client-connected"));
                 let h = std::thread::spawn(move || {
                     let mut conn = conn;
                     // Ends when the queue is dropped (client too slow) or a write fails.
@@ -158,8 +162,8 @@ fn listen_addr(spec: &str) -> Result<String, String> {
     let host = addr.rsplit_once(':').map_or("", |(h, _)| h);
     if !(host == "127.0.0.1" || host == "localhost" || host == "[::1]") {
         eprintln!(
-            "kshana live: warning: {addr} is not a loopback address; anything that can reach it \
-             can read the stream"
+            "{}",
+            kshana::t!("live-io-kshana-live-warning-is-not", addr = addr)
         );
     }
     Ok(addr)
@@ -182,7 +186,7 @@ impl Sink {
             .append(true)
             .open(spec)
             .map(Sink::File)
-            .map_err(|e| format!("cannot open {spec}: {e}"))
+            .map_err(|e| kshana::terr!("e-live-io-cannot-open", spec = spec, e = e))
     }
 
     fn write(&mut self, bytes: &[u8]) -> std::io::Result<()> {
@@ -192,7 +196,7 @@ impl Sink {
             Sink::File(f) => f.write_all(bytes),
             Sink::Tcp(b) => {
                 if b.send(bytes.to_vec()) > 0 {
-                    eprintln!("kshana live: dropped a tcp client that could not keep up");
+                    eprintln!("{}", kshana::t!("live-io-kshana-live-dropped-tcp-client"));
                 }
                 Ok(())
             }
@@ -258,7 +262,8 @@ fn read_file(
     start: Instant,
 ) -> Result<(), String> {
     let open = |from_end: bool| -> Result<(BufReader<File>, u64), String> {
-        let mut f = File::open(path).map_err(|e| format!("cannot open {}: {e}", path.display()))?;
+        let mut f = File::open(path)
+            .map_err(|e| kshana::terr!("e-live-io-cannot-open-2", path = path.display(), e = e))?;
         let pos = if from_end {
             f.seek(SeekFrom::End(0)).map_err(|e| e.to_string())?
         } else {
@@ -315,12 +320,16 @@ fn read_udp(addr: &str, tx: &Tx, start: Instant) -> Result<(), String> {
     let host = addr.rsplit_once(':').map_or("", |(h, _)| h);
     if !(host == "127.0.0.1" || host == "localhost" || host == "[::1]") {
         eprintln!(
-            "kshana live: warning: {addr} is not a loopback address; anything that can reach it \
-             can send this layer a stream"
+            "{}",
+            kshana::t!("live-io-kshana-live-warning-is-not-2", addr = addr)
         );
     }
-    let sock = UdpSocket::bind(addr).map_err(|e| format!("cannot bind udp {addr}: {e}"))?;
-    eprintln!("kshana live: listening on udp {addr}");
+    let sock = UdpSocket::bind(addr)
+        .map_err(|e| kshana::terr!("e-live-io-cannot-bind-udp", addr = addr, e = e))?;
+    eprintln!(
+        "{}",
+        kshana::t!("live-io-kshana-live-listening-on-udp", addr = addr)
+    );
     let mut buf = vec![0u8; 65_536];
     // A sentence that a datagram boundary split is joined with its other half. A partial line is
     // held until the rest arrives; one that is followed by a datagram starting a new sentence
@@ -373,16 +382,23 @@ fn spawn_reader(src: Source, tx: Tx, start: Instant) {
                 from_end,
             } => read_file(path, *follow, *from_end, &tx, start),
             Source::Tcp(addr) => TcpStream::connect(addr)
-                .map_err(|e| format!("cannot connect to {addr}: {e}"))
+                .map_err(|e| kshana::terr!("e-live-io-cannot-connect-to", addr = addr, e = e))
                 .and_then(|s| {
-                    eprintln!("kshana live: connected to tcp {addr}");
+                    eprintln!(
+                        "{}",
+                        kshana::t!("live-io-kshana-live-connected-to-tcp", addr = addr)
+                    );
                     read_lines(BufReader::new(s), &tx, start)
                 }),
             Source::Udp(addr) => read_udp(addr, &tx, start),
             Source::Serial { path, baud } => open_serial(path, *baud).and_then(|f| {
                 eprintln!(
-                    "kshana live: reading serial {} at {baud} baud (read only)",
-                    path.display()
+                    "{}",
+                    kshana::t!(
+                        "live-io-kshana-live-reading-serial-at",
+                        path = path.display(),
+                        baud = baud
+                    )
                 );
                 read_lines(BufReader::new(f), &tx, start)
             }),
@@ -391,10 +407,9 @@ fn spawn_reader(src: Source, tx: Tx, start: Instant) {
         // supervisor should see it. Stdin and a file read to its end are normal ends.
         let expected_to_go_on = matches!(&src, Source::Tcp(_) | Source::Serial { .. });
         let _ = tx.send(match r {
-            Ok(()) if expected_to_go_on => Msg::Fail(format!(
-                "the {} was closed by the peer (the layer does not reconnect: run it under a \
-                     supervisor that restarts it)",
-                if matches!(&src, Source::Serial { .. }) {
+            Ok(()) if expected_to_go_on => Msg::Fail(kshana::t!(
+                "live-io-the-was-closed-by-the",
+                v1 = if matches!(&src, Source::Serial { .. }) {
                     "serial device"
                 } else {
                     "tcp connection"
@@ -424,8 +439,9 @@ fn open_serial(path: &std::path::Path, baud: u32) -> Result<File, String> {
         115200 => libc::B115200,
         230400 => libc::B230400,
         _ => {
-            return Err(format!(
-                "--baud {baud}: use 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200 or 230400"
+            return Err(kshana::terr!(
+                "e-live-io-baud-use-1200-2400-4800",
+                baud = baud
             ))
         }
     };
@@ -433,15 +449,15 @@ fn open_serial(path: &std::path::Path, baud: u32) -> Result<File, String> {
         .read(true)
         .custom_flags(libc::O_NOCTTY)
         .open(path)
-        .map_err(|e| format!("cannot open {}: {e}", path.display()))?;
+        .map_err(|e| kshana::terr!("e-live-io-cannot-open-2", path = path.display(), e = e))?;
     // SAFETY: `f` owns a valid open descriptor for the whole block, and `t` is a plain C struct
     // that `tcgetattr` fills before any other call reads it.
     unsafe {
         let mut t: libc::termios = std::mem::zeroed();
         if libc::tcgetattr(f.as_raw_fd(), &mut t) != 0 {
-            return Err(format!(
-                "{} is not a serial device (tcgetattr failed)",
-                path.display()
+            return Err(kshana::terr!(
+                "e-live-io-is-not-serial-device-tcgetattr",
+                path = path.display()
             ));
         }
         libc::cfmakeraw(&mut t);
@@ -449,10 +465,13 @@ fn open_serial(path: &std::path::Path, baud: u32) -> Result<File, String> {
         t.c_cc[libc::VMIN] = 1;
         t.c_cc[libc::VTIME] = 0;
         if libc::cfsetispeed(&mut t, speed) != 0 || libc::cfsetospeed(&mut t, speed) != 0 {
-            return Err(format!("cannot set {baud} baud"));
+            return Err(kshana::terr!("e-live-io-cannot-set-baud", baud = baud));
         }
         if libc::tcsetattr(f.as_raw_fd(), libc::TCSANOW, &t) != 0 {
-            return Err(format!("cannot set the line mode of {}", path.display()));
+            return Err(kshana::terr!(
+                "e-live-io-cannot-set-the-line-mode",
+                path = path.display()
+            ));
         }
     }
     Ok(f)
@@ -460,7 +479,7 @@ fn open_serial(path: &std::path::Path, baud: u32) -> Result<File, String> {
 
 #[cfg(not(unix))]
 fn open_serial(_path: &std::path::Path, _baud: u32) -> Result<File, String> {
-    Err("--serial is supported on Unix only; use --file, --tcp or --stdin".into())
+    Err(kshana::terr!("e-live-io-serial-is-supported-on-unix"))
 }
 
 /// `kshana receiver-trust live ...`
@@ -492,7 +511,7 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
         let mut value = |name: &str| -> Result<String, (String, u8)> {
             it.next()
                 .cloned()
-                .ok_or_else(|| usage(format!("{name} needs a value")))
+                .ok_or_else(|| usage(kshana::t!("bench-cli-needs-value", name = name)))
         };
         match a.as_str() {
             "--stdin" => source = Source::Stdin,
@@ -540,7 +559,9 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
             "--listen" => listen = Some(value("--listen")?),
             "--json" => json_spec = Some(value("--json")?),
             "--pksht" => pksht_spec = Some(value("--pksht")?),
-            s if s.starts_with("--") => return Err(usage(format!("unknown option {s}"))),
+            s if s.starts_with("--") => {
+                return Err(usage(kshana::t!("live-io-unknown-option", s = s)))
+            }
             s => {
                 if session.replace(PathBuf::from(s)).is_some() {
                     return Err(usage("more than one session file".into()));
@@ -567,8 +588,12 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
     let Some(session) = session else {
         return Err(usage("live needs a session .toml".into()));
     };
-    let src = std::fs::read_to_string(&session)
-        .map_err(|e| (format!("cannot read {}: {e}", session.display()), 2))?;
+    let src = std::fs::read_to_string(&session).map_err(|e| {
+        (
+            kshana::t!("live-io-cannot-read", session = session.display(), e = e),
+            2,
+        )
+    })?;
     let scn = parse_live_scenario(&src).map_err(|e| (e, 2))?;
     let mut engine = LiveEngine::new(&scn, gate).map_err(|e| (e, 2))?;
     // A file read to its end is not arriving in real time; neither is anything given --replay.
@@ -610,21 +635,23 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
         ));
     }
     eprintln!(
-        "kshana live: vessel platform, calibrating for {} s; gate {}. Advisory software, not \
-         type-approved navigation equipment: the operator remains responsible.",
-        scn.monitors.calibration_s,
-        if gate {
-            "ON (fix marked invalid while untrusted)"
-        } else {
-            "off"
-        }
+        "{}",
+        kshana::t!(
+            "live-io-kshana-live-vessel-platform-calibrating",
+            calibration_s = scn.monitors.calibration_s,
+            v2 = if gate {
+                "ON (fix marked invalid while untrusted)"
+            } else {
+                "off"
+            }
+        )
     );
 
     let start = Instant::now();
     let (tx, rx) = mpsc::sync_channel(READ_QUEUE);
     spawn_reader(source, tx, start);
     let poll = Duration::from_secs_f64((scn.monitors.live.idle_flush_s / 4.0).clamp(0.01, 0.25));
-    let io_err = |e: std::io::Error| (format!("write failed: {e}"), 1u8);
+    let io_err = |e: std::io::Error| (kshana::t!("live-io-write-failed", e = e), 1u8);
     let mut emit = |out: LiveOut| -> Result<(), (String, u8)> {
         for line in &out.forward {
             // The stream sink carries a line's own terminator; only a line without one gets CRLF.
@@ -650,7 +677,14 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
             Ok(Msg::CaughtUp) => engine.set_host_clock(!replay),
             Ok(Msg::Dropped(n)) => {
                 udp_dropped += n;
-                eprintln!("kshana live: dropped {n} udp datagram(s) the engine could not take ({udp_dropped} in all)");
+                eprintln!(
+                    "{}",
+                    kshana::t!(
+                        "live-io-kshana-live-dropped-udp-datagram",
+                        n = n,
+                        udp_dropped = udp_dropped
+                    )
+                );
             }
             Ok(Msg::End) | Err(RecvTimeoutError::Disconnected) => {
                 emit(engine.finish())?;

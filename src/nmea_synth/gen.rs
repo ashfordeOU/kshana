@@ -197,7 +197,10 @@ pub fn generate(scn: &TrainingScenario) -> Result<Generated, String> {
                         "recovery-begins",
                         "the injection is being removed".to_string(),
                     ),
-                    (_, Phase::Idle) => ("recovered", format!("{} has ended", e.kind.name())),
+                    (_, Phase::Idle) => (
+                        "recovered",
+                        crate::t!("nmea-synth-gen-has-ended", kind = e.kind.name()),
+                    ),
                     _ => ("onset", String::new()),
                 };
                 log.timeline.push(TimelineEntry {
@@ -387,12 +390,15 @@ pub fn generate(scn: &TrainingScenario) -> Result<Generated, String> {
             let (what, text) = if fix_valid {
                 (
                     "fix-regained",
-                    format!("the receiver reports a fix again ({n_used} satellites used)"),
+                    crate::t!(
+                        "nmea-synth-gen-the-receiver-reports-fix-again",
+                        n_used = n_used
+                    ),
                 )
             } else {
                 (
                     "fix-lost",
-                    format!("the receiver has no fix ({n_used} usable satellites, four needed)"),
+                    crate::t!("nmea-synth-gen-the-receiver-has-no-fix", n_used = n_used),
                 )
             };
             log.timeline.push(TimelineEntry {

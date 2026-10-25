@@ -118,8 +118,9 @@ impl RecoveryObservable {
         match s.trim().to_ascii_lowercase().replace('_', "-").as_str() {
             "range" => Ok(RecoveryObservable::Range),
             "range-rate" => Ok(RecoveryObservable::RangeRate),
-            other => Err(format!(
-                "unknown observable `{other}`: expected one of range, range-rate"
+            other => Err(crate::terr!(
+                "e-cislunar-arc-recovery-unknown-observable-expected-one-of",
+                other = other
             )),
         }
     }
@@ -158,8 +159,9 @@ impl RecoveryCoordinates {
         match s.trim().to_ascii_lowercase().as_str() {
             "cartesian" => Ok(RecoveryCoordinates::Cartesian),
             "polar" | "cylindrical" => Ok(RecoveryCoordinates::Polar),
-            other => Err(format!(
-                "unknown coordinates `{other}`: expected one of cartesian, polar"
+            other => Err(crate::terr!(
+                "e-cislunar-arc-recovery-unknown-coordinates-expected-one-of",
+                other = other
             )),
         }
     }
@@ -444,51 +446,61 @@ impl CislunarArcRecoveryScenario {
         let rel_tol = self.rel_tol.unwrap_or(1e-6);
 
         if !(arc_hours.is_finite() && arc_hours > 0.0) {
-            return Err(format!(
-                "arc_hours must be finite and positive, got {arc_hours}"
+            return Err(crate::terr!(
+                "e-cislunar-arc-recovery-arc-hours-must-be-finite",
+                arc_hours = arc_hours
             ));
         }
         if epochs < 2 {
-            return Err(format!("epochs must be ≥ 2, got {epochs}"));
+            return Err(crate::terr!(
+                "e-cislunar-arc-recovery-epochs-must-be-got",
+                epochs = epochs
+            ));
         }
         if steps == 0 {
-            return Err("steps must be ≥ 1".into());
+            return Err(crate::terr!("e-cislunar-arc-recovery-steps-must-be"));
         }
         if trials == 0 {
-            return Err("trials must be ≥ 1".into());
+            return Err(crate::terr!("e-cislunar-arc-recovery-trials-must-be"));
         }
         if max_iterations == 0 {
-            return Err("max_iterations must be ≥ 1".into());
+            return Err(crate::terr!(
+                "e-cislunar-arc-recovery-max-iterations-must-be"
+            ));
         }
         if !(displacement_nd.is_finite() && displacement_nd > 0.0) {
-            return Err(format!(
-                "displacement_nd must be finite and positive, got {displacement_nd}"
+            return Err(crate::terr!(
+                "e-cislunar-arc-recovery-displacement-nd-must-be-finite",
+                displacement_nd = displacement_nd
             ));
         }
         if !(recovery_factor.is_finite() && recovery_factor > 0.0) {
-            return Err(format!(
-                "recovery_factor must be finite and positive, got {recovery_factor}"
+            return Err(crate::terr!(
+                "e-cislunar-arc-recovery-recovery-factor-must-be-finite",
+                recovery_factor = recovery_factor
             ));
         }
         if !(error_bound_km.is_finite() && error_bound_km > 0.0) {
-            return Err(format!(
-                "error_bound_km must be finite and positive, got {error_bound_km}"
+            return Err(crate::terr!(
+                "e-cislunar-arc-recovery-error-bound-km-must-be",
+                error_bound_km = error_bound_km
             ));
         }
         let sigma_nd = match observable {
             RecoveryObservable::Range => {
                 if !(sigma_range_m.is_finite() && sigma_range_m > 0.0) {
-                    return Err(format!(
-                        "sigma_range_m must be finite and positive, got {sigma_range_m}"
+                    return Err(crate::terr!(
+                        "e-cislunar-arc-recovery-sigma-range-must-be-finite",
+                        sigma_range_m = sigma_range_m
                     ));
                 }
                 sigma_range_m / (EARTH_MOON_DIST_KM * 1000.0)
             }
             RecoveryObservable::RangeRate => {
                 if !(sigma_range_rate_mm_s.is_finite() && sigma_range_rate_mm_s > 0.0) {
-                    return Err(format!(
-                        "sigma_range_rate_mm_s must be finite and positive, got \
-                         {sigma_range_rate_mm_s}"
+                    return Err(crate::terr!(
+                        "e-cislunar-arc-recovery-sigma-range-rate-mm-must",
+                        sigma_range_rate_mm_s = sigma_range_rate_mm_s
                     ));
                 }
                 sigma_range_rate_mm_s / mm_s_per_nd()
@@ -507,16 +519,18 @@ impl CislunarArcRecoveryScenario {
         };
         let members = seeder.seed_states_spatial()?;
         if members.len() < 2 {
-            return Err("the constellation must carry at least a chief and one reference".into());
+            return Err(crate::terr!(
+                "e-cislunar-arc-recovery-the-constellation-must-carry-at"
+            ));
         }
         if !spatial {
             let planar = members
                 .iter()
                 .all(|m| m[2].abs() < 1e-12 && m[5].abs() < 1e-12);
             if !planar {
-                return Err(format!(
-                    "family `{family}` is an out-of-plane family and has no planar \
-                     four-state representation: set spatial = true to sweep it"
+                return Err(crate::terr!(
+                    "e-cislunar-arc-recovery-family-is-an-out-of",
+                    family = family
                 ));
             }
         }
@@ -574,7 +588,9 @@ impl CislunarArcRecoveryScenario {
         };
         let z_clean = model(&truth_est, epochs);
         if z_clean.iter().any(|v| !v.is_finite()) {
-            return Err("the forward model produced a non-finite truth measurement".into());
+            return Err(crate::terr!(
+                "e-cislunar-arc-recovery-the-forward-model-produced-non"
+            ));
         }
 
         // One deterministic ChaCha8 stream draws every displacement direction and every
@@ -905,21 +921,14 @@ fn json(c: &Computed) -> Result<String, String> {
 
     let nf_hit = first_noise_free(&c.arc, c.recovery_factor);
     let est_hit = first_estimability(&c.arc, c.error_bound_km);
-    let nf_criterion = format!(
-        "first arc length at which EVERY seeded trial's noise-free batch solve drives the \
-         final state error to at most {:.6e} times the a-priori displacement it started \
-         from. This is the recovery analogue of the rank criterion: with exact \
-         measurements the question `is the state observable?` becomes `can an estimator \
-         get it back?`, and no singular-value tolerance enters the answer.",
-        c.recovery_factor
+    let nf_criterion = crate::t!(
+        "cislunar-arc-recovery-first-arc-length-at-which",
+        recovery_factor = crate::i18n::localise_decimal(format!("{:.6e}", c.recovery_factor))
     );
-    let est_criterion = format!(
-        "first arc length at which the Monte-Carlo RMS position recovery error over {} \
-         seeded noise realisations falls to or below {:.6} km. This is the recovery \
-         analogue of the estimability criterion, measured rather than predicted: the error \
-         is the distance from the estimate to the known truth, not the trace of a formal \
-         covariance.",
-        c.trials, c.error_bound_km
+    let est_criterion = crate::t!(
+        "cislunar-arc-recovery-first-arc-length-at-which-2",
+        trials = c.trials,
+        error_bound_km = crate::i18n::localise_decimal(format!("{:.6}", c.error_bound_km))
     );
     let nf_sweep: Vec<serde_json::Value> = RECOVERY_FACTOR_SWEEP
         .iter()
@@ -1063,34 +1072,31 @@ fn corroboration_verdict(c: &Computed, nf_hours: Option<f64>) -> String {
         (Some(e), Some(g)) => {
             let rel = (e - g).abs() / g;
             if rel <= 1.5 * c.grid_hours / g {
-                format!(
-                    "CORROBORATED within one epoch-grid step: the estimator recovers from \
-                     {e:.6} h, the Gramian rank criterion turns at {g:.6} h (ratio \
-                     {:.4}, grid {:.6} h).",
-                    e / g,
-                    c.grid_hours
+                crate::t!(
+                    "cislunar-arc-recovery-corroborated-within-one-epoch-grid",
+                    e = crate::i18n::localise_decimal(format!("{:.6}", e)),
+                    g = crate::i18n::localise_decimal(format!("{:.6}", g)),
+                    v1 = crate::i18n::localise_decimal(format!("{:.4}", e / g)),
+                    grid_hours = crate::i18n::localise_decimal(format!("{:.6}", c.grid_hours))
                 )
             } else {
-                format!(
-                    "NOT CORROBORATED as a recoverability boundary: the estimator recovers \
-                     from {e:.6} h, {} the Gramian rank criterion's {g:.6} h (ratio \
-                     {:.4}, grid {:.6} h). The rank criterion is a relative \
-                     singular-value convention; the recovery boundary is a measured state \
-                     error, and the two do not coincide here.",
-                    if e < g { "well before" } else { "well after" },
-                    e / g,
-                    c.grid_hours
+                crate::t!(
+                    "cislunar-arc-recovery-not-corroborated-as-recoverability-boundary",
+                    e = crate::i18n::localise_decimal(format!("{:.6}", e)),
+                    v1 = if e < g { "well before" } else { "well after" },
+                    g = crate::i18n::localise_decimal(format!("{:.6}", g)),
+                    v2 = crate::i18n::localise_decimal(format!("{:.4}", e / g)),
+                    grid_hours = crate::i18n::localise_decimal(format!("{:.6}", c.grid_hours))
                 )
             }
         }
-        (None, Some(g)) => format!(
-            "NOT CORROBORATED: the estimator never meets its recovery bound on this arc, \
-             while the Gramian rank criterion turns at {g:.6} h."
+        (None, Some(g)) => crate::t!(
+            "cislunar-arc-recovery-not-corroborated-the-estimator-never",
+            g = crate::i18n::localise_decimal(format!("{:.6}", g))
         ),
-        (Some(e), None) => format!(
-            "the Gramian rank criterion is never met on this arc (the geometry never \
-             reaches full rank), while the estimator recovers from {e:.6} h — the two \
-             disagree about whether a boundary exists at all."
+        (Some(e), None) => crate::t!(
+            "cislunar-arc-recovery-the-gramian-rank-criterion-is",
+            e = crate::i18n::localise_decimal(format!("{:.6}", e))
         ),
         (None, None) => "neither the Gramian rank criterion nor the estimator's recovery \
                          bound is met anywhere on this arc."
@@ -1186,33 +1192,29 @@ fn summary(c: &Computed) -> String {
         None => "never".to_string(),
     };
     let last = c.arc.last();
-    format!(
-        "cislunar-arc-recovery | {} family, {}-state, {} s/c, {} observable, {} \
-         parameterisation | {:.1} h arc, {} epochs (grid {:.6} h), {} trials, seed {} | \
-         finite-difference partials, no analytic Jacobian / STM / SVD / SRIF | noise-free \
-         recovery from {} (factor {:.0e}) vs Gramian rank threshold {} | Monte-Carlo \
-         estimability from {} (RMS pos ≤ {:.3} km, σ {:.3} m) vs Gramian estimability {} | \
-         end-of-arc RMS pos {} km",
-        c.family,
-        c.state_dim,
-        c.n_spacecraft,
-        c.observable.as_str(),
-        c.coordinates.as_str(),
-        c.arc_hours,
-        c.epochs,
-        c.grid_hours,
-        c.trials,
-        c.seed,
-        nf,
-        c.recovery_factor,
-        gram,
-        est,
-        c.error_bound_km,
-        c.sigma_range_m,
-        gram_est,
-        last.and_then(|p| p.mc_rms_position_km)
+    crate::t!(
+        "cislunar-arc-recovery-cislunar-arc-recovery-family-state",
+        family = c.family,
+        state_dim = c.state_dim,
+        n_spacecraft = c.n_spacecraft,
+        observable = c.observable.as_str(),
+        coordinates = c.coordinates.as_str(),
+        arc_hours = crate::i18n::localise_decimal(format!("{:.1}", c.arc_hours)),
+        epochs = c.epochs,
+        grid_hours = crate::i18n::localise_decimal(format!("{:.6}", c.grid_hours)),
+        trials = c.trials,
+        seed = c.seed,
+        nf = nf,
+        recovery_factor = crate::i18n::localise_decimal(format!("{:.0e}", c.recovery_factor)),
+        gram = gram,
+        est = est,
+        error_bound_km = crate::i18n::localise_decimal(format!("{:.3}", c.error_bound_km)),
+        sigma_range_m = crate::i18n::localise_decimal(format!("{:.3}", c.sigma_range_m)),
+        gram_est = gram_est,
+        last = last
+            .and_then(|p| p.mc_rms_position_km)
             .map(|v| format!("{v:.4}"))
-            .unwrap_or_else(|| "n/a".to_string()),
+            .unwrap_or_else(|| "n/a".to_string())
     )
 }
 

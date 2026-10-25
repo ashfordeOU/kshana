@@ -78,15 +78,15 @@ impl CoupledCfg {
     /// Reject a configuration the filter cannot run.
     pub fn validate(&self) -> Result<(), String> {
         if !(self.sigma_pr_m.is_finite() && self.sigma_pr_m > 0.0) {
-            return Err(format!(
-                "coupled.sigma_pr_m must be finite and > 0, got {}",
-                self.sigma_pr_m
+            return Err(crate::terr!(
+                "e-hybrid-coupled-sigma-pr-must-be",
+                sigma_pr_m = self.sigma_pr_m
             ));
         }
         let q_ok = self.q_ba.is_finite() && self.q_ba >= 0.0;
         let var_ok = self.bias_var.is_finite() && self.bias_var > 0.0;
         if !q_ok || !var_ok {
-            return Err("coupled.q_ba must be >= 0 and coupled.bias_var > 0".into());
+            return Err(crate::terr!("e-hybrid-coupled-ba-must-be-and"));
         }
         let mut g = self.geometry.clone();
         g.sort_by(f64::total_cmp);

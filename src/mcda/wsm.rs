@@ -245,39 +245,43 @@ impl DecisionMatrix {
     /// positive sum, and every raw value is finite.
     pub fn validate(&self) -> Result<(), String> {
         if self.criteria.is_empty() {
-            return Err("decision matrix has no criteria".into());
+            return Err(crate::terr!("e-mcda-wsm-decision-matrix-has-no-criteria"));
         }
         if self.alternatives.is_empty() {
-            return Err("decision matrix has no alternatives".into());
+            return Err(crate::terr!(
+                "e-mcda-wsm-decision-matrix-has-no-alternatives"
+            ));
         }
         let mut wsum = 0.0;
         for c in &self.criteria {
             if !c.weight.is_finite() || c.weight < 0.0 {
-                return Err(format!(
-                    "criterion '{}' has an invalid weight {}",
-                    c.name, c.weight
+                return Err(crate::terr!(
+                    "e-mcda-wsm-criterion-has-an-invalid-weight",
+                    name = c.name,
+                    weight = c.weight
                 ));
             }
             wsum += c.weight;
         }
         if wsum <= 0.0 {
-            return Err("criterion weights sum to zero".into());
+            return Err(crate::terr!("e-mcda-wsm-criterion-weights-sum-to-zero"));
         }
         let n = self.criteria.len();
         for a in &self.alternatives {
             if a.values.len() != n {
-                return Err(format!(
-                    "alternative '{}' has {} values but there are {} criteria",
-                    a.name,
-                    a.values.len(),
-                    n
+                return Err(crate::terr!(
+                    "e-mcda-wsm-alternative-has-values-but-there",
+                    name = a.name,
+                    values = a.values.len(),
+                    n = n
                 ));
             }
             for (j, &v) in a.values.iter().enumerate() {
                 if !v.is_finite() {
-                    return Err(format!(
-                        "alternative '{}' has a non-finite value on criterion '{}'",
-                        a.name, self.criteria[j].name
+                    return Err(crate::terr!(
+                        "e-mcda-wsm-alternative-has-non-finite-value",
+                        name = a.name,
+                        value = self.criteria[j].name
                     ));
                 }
             }

@@ -663,9 +663,9 @@ impl AccelCfg {
     /// Provenance string, annotated when the noise coefficient is physics-derived.
     pub fn effective_provenance(&self) -> String {
         match &self.cai {
-            Some(_) => format!(
-                "{} (q_va derived from cold-atom-interferometer physics)",
-                self.provenance
+            Some(_) => crate::t!(
+                "inertial-va-derived-from-cold-atom",
+                provenance = self.provenance
             ),
             None => self.provenance.clone(),
         }

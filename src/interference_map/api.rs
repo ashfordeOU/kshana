@@ -74,18 +74,19 @@ pub fn resolve_dataset(spec: &DatasetSpec, kind: Kind) -> Result<Dataset, MapErr
             sources::custom(kind, licence, licence_url, attribution)
         }
         DatasetSpec::Preset(key) => sources::preset(key).ok_or_else(|| {
-            MapError::Format(format!(
-                "unknown dataset `{key}`; approved: {}, or a custom dataset",
-                sources::preset_keys().join(", ")
+            MapError::Format(crate::terr!(
+                "e-interference-map-api-unknown-dataset-approved-or-custom",
+                key = key,
+                v1 = sources::preset_keys().join(", ")
             ))
         })?,
     };
     if ds.kind != kind {
-        return Err(MapError::Format(format!(
-            "dataset `{}` is {} data but the input kind is {}",
-            ds.key,
-            ds.kind.as_str(),
-            kind.as_str()
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-api-dataset-is-data-but-the",
+            key = ds.key,
+            kind = ds.kind.as_str(),
+            kind2 = kind.as_str()
         )));
     }
     Ok(ds)
@@ -193,7 +194,12 @@ pub fn route_exposure(
     let pts = route::parse_route(route_text)?;
     let bound = |s: Option<&str>, name: &str| -> Result<Option<i64>, MapError> {
         s.map(|s| {
-            parse_day(s).ok_or_else(|| MapError::Format(format!("{name} is not a YYYY-MM-DD date")))
+            parse_day(s).ok_or_else(|| {
+                MapError::Format(crate::terr!(
+                    "e-interference-map-api-is-not-yyyy-mm-dd",
+                    name = name
+                ))
+            })
         })
         .transpose()
     };
