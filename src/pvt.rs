@@ -1158,9 +1158,9 @@ pub fn pvt_svg(r: &PvtResult) -> String {
         )
     };
     let axis_label = if has_truth {
-        "3D error (m)"
+        crate::t!("pvt-chart-3d-error-m")
     } else {
-        "post-fit RMS (m)"
+        crate::t!("pvt-chart-postfit-rms-m")
     };
 
     let mut svg = String::new();
@@ -1173,7 +1173,7 @@ pub fn pvt_svg(r: &PvtResult) -> String {
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"18\" font-size=\"14\" font-weight=\"bold\">{title}</text>"
     ));
-    svg.push_str(&y_axis(ml, mt, pw, ph, y_max, axis_label));
+    svg.push_str(&y_axis(ml, mt, pw, ph, y_max, &axis_label));
     // Bars, one per solved epoch.
     let n = vals.len().max(1);
     let bw = (pw / n as f64).min(28.0);

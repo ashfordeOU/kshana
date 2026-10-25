@@ -2948,5 +2948,389 @@
    },
    " links"
   ]
+ },
+ {
+  "id": "lunar-service-chart-title",
+  "error": false,
+  "parts": [
+   "Lunar service volume — ",
+   {
+    "var": "n_sats"
+   },
+   " sats, ",
+   {
+    "var": "n_points"
+   },
+   " pts × ",
+   {
+    "var": "n_epochs"
+   },
+   " epochs: ",
+   {
+    "var": "coverage"
+   },
+   "% coverage (PDOP&lt;",
+   {
+    "var": "threshold"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "lunar-service-chart-subtitle",
+  "error": false,
+  "parts": [
+   "sats ",
+   {
+    "var": "min_sats"
+   },
+   "–",
+   {
+    "var": "max_sats"
+   },
+   " | HPL ",
+   {
+    "var": "hpl_min"
+   },
+   "–",
+   {
+    "var": "hpl_max"
+   },
+   " m | VPL ",
+   {
+    "var": "vpl_min"
+   },
+   "–",
+   {
+    "var": "vpl_max"
+   },
+   " m | PL avail ",
+   {
+    "var": "pl_avail"
+   },
+   "% (AL ",
+   {
+    "var": "al"
+   },
+   " m, σ_URE ",
+   {
+    "var": "sigma"
+   },
+   " m)"
+  ]
+ },
+ {
+  "id": "lunar-service-chart-pdop-min",
+  "error": false,
+  "parts": [
+   "PDOP min ",
+   {
+    "var": "v"
+   }
+  ]
+ },
+ {
+  "id": "lunar-service-chart-pdop-mean",
+  "error": false,
+  "parts": [
+   "PDOP mean ",
+   {
+    "var": "v"
+   }
+  ]
+ },
+ {
+  "id": "lunar-service-chart-pdop-max",
+  "error": false,
+  "parts": [
+   "PDOP max ",
+   {
+    "var": "v"
+   }
+  ]
+ },
+ {
+  "id": "lunar-station-chart-title",
+  "error": false,
+  "parts": [
+   "Lunar reference station: p",
+   {
+    "var": "percentile"
+   },
+   " corrected 3-D error over the south-polar region (MODELLED)"
+  ]
+ },
+ {
+  "id": "lunar-station-chart-zero-east",
+  "error": false,
+  "parts": [
+   "0° E"
+  ]
+ },
+ {
+  "id": "lunar-station-chart-threshold",
+  "error": false,
+  "parts": [
+   "threshold ",
+   {
+    "var": "thr"
+   },
+   " m at p",
+   {
+    "var": "percentile"
+   }
+  ]
+ },
+ {
+  "id": "lunar-station-chart-availability",
+  "error": false,
+  "parts": [
+   "availability ",
+   {
+    "var": "v"
+   },
+   " %"
+  ]
+ },
+ {
+  "id": "lunar-station-chart-coverage",
+  "error": false,
+  "parts": [
+   "coverage ",
+   {
+    "var": "v"
+   },
+   " %"
+  ]
+ },
+ {
+  "id": "lunar-station-chart-corrected-3d",
+  "error": false,
+  "parts": [
+   "corrected 3-D ",
+   {
+    "var": "f"
+   }
+  ]
+ },
+ {
+  "id": "lunar-station-chart-uncorrected-3d",
+  "error": false,
+  "parts": [
+   "uncorrected 3-D ",
+   {
+    "var": "f"
+   }
+  ]
+ },
+ {
+  "id": "lunar-station-chart-legend-half",
+  "error": false,
+  "parts": [
+   "≤ half the threshold"
+  ]
+ },
+ {
+  "id": "lunar-station-chart-legend-within",
+  "error": false,
+  "parts": [
+   "≤ threshold"
+  ]
+ },
+ {
+  "id": "lunar-station-chart-legend-twice",
+  "error": false,
+  "parts": [
+   "≤ twice the threshold"
+  ]
+ },
+ {
+  "id": "lunar-station-chart-legend-above",
+  "error": false,
+  "parts": [
+   "above twice the threshold"
+  ]
+ },
+ {
+  "id": "lunar-station-chart-station-note",
+  "error": false,
+  "parts": [
+   "◆ station · dashed: distance to which coverage holds at 95 %"
+  ]
+ },
+ {
+  "id": "lunar-station-chart-disclaimer",
+  "error": false,
+  "parts": [
+   "MODELLED under stated assumptions; not a statement about any real system; not affiliated with or endorsed by any agency."
+  ]
+ },
+ {
+  "id": "lunar-time-chart-title",
+  "error": false,
+  "parts": [
+   "Lunar coordinate time LTC−TT (rate ",
+   {
+    "var": "rate"
+   },
+   " µs/day, band ",
+   {
+    "var": "low"
+   },
+   "–",
+   {
+    "var": "high"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "lunar-time-chart-offset",
+  "error": false,
+  "parts": [
+   {
+    "var": "offset"
+   },
+   " µs at ",
+   {
+    "var": "days"
+   },
+   " d"
+  ]
+ },
+ {
+  "id": "lunar-vlbi-chart-title",
+  "error": false,
+  "parts": [
+   "Lunar VLBI delay (baseline ",
+   {
+    "var": "baseline"
+   },
+   " km, beacon range ",
+   {
+    "var": "range"
+   },
+   " km, near-field ",
+   {
+    "var": "near_field"
+   },
+   " µs)"
+  ]
+ },
+ {
+  "id": "lunar-vlbi-chart-footnote",
+  "error": false,
+  "parts": [
+   "delay ",
+   {
+    "var": "delay"
+   },
+   " µs at epoch · ",
+   {
+    "var": "samples"
+   },
+   " samples over ",
+   {
+    "var": "hours"
+   },
+   " h"
+  ]
+ },
+ {
+  "id": "mars-pnt-chart-formal-3sigma",
+  "error": false,
+  "parts": [
+   "formal 3σ (covariance, not a certified PL)"
+  ]
+ },
+ {
+  "id": "pvt-chart-3d-error-m",
+  "error": false,
+  "parts": [
+   "3D error (m)"
+  ]
+ },
+ {
+  "id": "pvt-chart-postfit-rms-m",
+  "error": false,
+  "parts": [
+   "post-fit RMS (m)"
+  ]
+ },
+ {
+  "id": "quantum-faults-chart-title",
+  "error": false,
+  "parts": [
+   "quantum-anomaly-detect AUC (MODELLED)"
+  ]
+ },
+ {
+  "id": "quantum-faults-chart-quantum",
+  "error": false,
+  "parts": [
+   "quantum"
+  ]
+ },
+ {
+  "id": "quantum-faults-chart-classical",
+  "error": false,
+  "parts": [
+   "classical"
+  ]
+ },
+ {
+  "id": "quantum-nav-od-chart-title",
+  "error": false,
+  "parts": [
+   "quantum-gnss-free-nav (MODELLED)"
+  ]
+ },
+ {
+  "id": "raim-stanford-chart-title",
+  "error": false,
+  "parts": [
+   "Stanford diagram — integrity (",
+   {
+    "var": "n_epochs"
+   },
+   " epochs, AL = ",
+   {
+    "var": "al"
+   },
+   " m)"
+  ]
+ },
+ {
+  "id": "raim-chart-title",
+  "error": false,
+  "parts": [
+   "RAIM protection levels and availability (",
+   {
+    "var": "availability"
+   },
+   "% available)"
+  ]
+ },
+ {
+  "id": "raim-chart-hal",
+  "error": false,
+  "parts": [
+   "HAL ",
+   {
+    "var": "al"
+   },
+   " m"
+  ]
+ },
+ {
+  "id": "raim-chart-val",
+  "error": false,
+  "parts": [
+   "VAL ",
+   {
+    "var": "al"
+   },
+   " m"
+  ]
  }
 ]

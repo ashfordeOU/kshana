@@ -2793,11 +2793,7 @@ pub fn lunar_service_svg(r: &LunarServiceReport) -> String {
     let (ml, mr, mt, mb) = (70.0_f64, 20.0_f64, 36.0_f64, 50.0_f64);
     let (pw, ph) = (w - ml - mr, h - mt - mb);
     // PDOP bar chart: min / mean / max.
-    let vals = [
-        ("PDOP min", r.pdop_min),
-        ("PDOP mean", r.pdop_mean),
-        ("PDOP max", r.pdop_max),
-    ];
+    let vals = [r.pdop_min, r.pdop_mean, r.pdop_max];
     let y_max = (r.pdop_max * 1.2).max(r.pdop_threshold * 1.2).max(1.0);
     let yof = |v: f64| mt + ph - (v.min(y_max) / y_max) * ph;
     let mut svg = String::new();
@@ -2808,12 +2804,30 @@ pub fn lunar_service_svg(r: &LunarServiceReport) -> String {
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Lunar service volume — {} sats, {} pts × {} epochs: {:.1}% coverage (PDOP&lt;{:.1})</text>",
-        r.n_sats, r.n_grid_points, r.n_epochs, r.coverage_pct, r.pdop_threshold
+        "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+        crate::t!(
+            "lunar-service-chart-title",
+            n_sats = r.n_sats,
+            n_points = r.n_grid_points,
+            n_epochs = r.n_epochs,
+            coverage = crate::i18n::num(r.coverage_pct, 1),
+            threshold = crate::i18n::num(r.pdop_threshold, 1)
+        )
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"32\" font-size=\"11\">sats {}–{} | HPL {:.0}–{:.0} m | VPL {:.0}–{:.0} m | PL avail {:.1}% (AL {:.0} m, σ_URE {:.0} m)</text>",
-        r.min_sats, r.max_sats, r.hpl_min_m, r.hpl_max_m, r.vpl_min_m, r.vpl_max_m, r.pl_availability_pct, r.alert_limit_m, r.sigma_ure_m
+        "<text x=\"{ml:.0}\" y=\"32\" font-size=\"11\">{}</text>",
+        crate::t!(
+            "lunar-service-chart-subtitle",
+            min_sats = r.min_sats,
+            max_sats = r.max_sats,
+            hpl_min = crate::i18n::num(r.hpl_min_m, 0),
+            hpl_max = crate::i18n::num(r.hpl_max_m, 0),
+            vpl_min = crate::i18n::num(r.vpl_min_m, 0),
+            vpl_max = crate::i18n::num(r.vpl_max_m, 0),
+            pl_avail = crate::i18n::num(r.pl_availability_pct, 1),
+            al = crate::i18n::num(r.alert_limit_m, 0),
+            sigma = crate::i18n::num(r.sigma_ure_m, 0)
+        )
     ));
     // PDOP threshold line.
     svg.push_str(&format!(
@@ -2824,7 +2838,7 @@ pub fn lunar_service_svg(r: &LunarServiceReport) -> String {
         yof(r.pdop_threshold)
     ));
     let bar_w = pw / (vals.len() as f64 * 2.0);
-    for (i, (label, v)) in vals.iter().enumerate() {
+    for (i, v) in vals.iter().enumerate() {
         let x = ml + (i as f64 * 2.0 + 0.5) * bar_w;
         let y = yof(*v);
         let bh = (mt + ph) - y;
@@ -2832,11 +2846,14 @@ pub fn lunar_service_svg(r: &LunarServiceReport) -> String {
             "<rect x=\"{x:.1}\" y=\"{y:.1}\" width=\"{bar_w:.1}\" height=\"{bh:.1}\" fill=\"{CYAN}\"/>"
         ));
         svg.push_str(&format!(
-            "<text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" text-anchor=\"middle\">{} {:.2}</text>",
+            "<text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" text-anchor=\"middle\">{}</text>",
             x + bar_w / 2.0,
             (mt + ph) + 16.0,
-            label,
-            v
+            match i {
+                0 => crate::t!("lunar-service-chart-pdop-min", v = crate::i18n::num(*v, 2)),
+                1 => crate::t!("lunar-service-chart-pdop-mean", v = crate::i18n::num(*v, 2)),
+                _ => crate::t!("lunar-service-chart-pdop-max", v = crate::i18n::num(*v, 2)),
+            }
         ));
     }
     let axis_y = mt + ph;

@@ -5304,6 +5304,16 @@ engine-e-lunar-service-planetary-kernel-path-needs-epoch = planetary_kernel_path
 
 engine-lunar-service-op-frame-at-utc-earth = OP frame at { $epoch } UTC (Earth's apparent orbit normal about the Moon, x along its node on the IAU lunar equator); lunar GM, J2 and C22 in the IAU Moon-fixed frame, Earth and Sun third bodies at DE440 positions from { $spk_path }; fourth-order Runge-Kutta, 10 s step
 
+engine-lunar-service-chart-title = Lunar service volume — { $n_sats } sats, { $n_points } pts × { $n_epochs } epochs: { $coverage }% coverage (PDOP&lt;{ $threshold })
+
+engine-lunar-service-chart-subtitle = sats { $min_sats }–{ $max_sats } | HPL { $hpl_min }–{ $hpl_max } m | VPL { $vpl_min }–{ $vpl_max } m | PL avail { $pl_avail }% (AL { $al } m, σ_URE { $sigma } m)
+
+engine-lunar-service-chart-pdop-min = PDOP min { $v }
+
+engine-lunar-service-chart-pdop-mean = PDOP mean { $v }
+
+engine-lunar-service-chart-pdop-max = PDOP max { $v }
+
 ## src/lunar_solution.rs
 
 engine-e-lunar-solution-solution-height-sigma-must-be = solution: height_sigma_m must be finite and positive
@@ -5339,6 +5349,32 @@ engine-lunar-station-hpl-max = HPL max { $f }
 engine-lunar-station-sise-los = SISE (LOS) { $los_sise_sigma_m } m
 
 engine-lunar-station-survey-latency-bits = survey { $survey_sigma_m } m · latency { $latency_s } s · { $quantization_bits } bits
+
+engine-lunar-station-chart-title = Lunar reference station: p{ $percentile } corrected 3-D error over the south-polar region (MODELLED)
+
+engine-lunar-station-chart-zero-east = 0° E
+
+engine-lunar-station-chart-threshold = threshold { $thr } m at p{ $percentile }
+
+engine-lunar-station-chart-availability = availability { $v } %
+
+engine-lunar-station-chart-coverage = coverage { $v } %
+
+engine-lunar-station-chart-corrected-3d = corrected 3-D { $f }
+
+engine-lunar-station-chart-uncorrected-3d = uncorrected 3-D { $f }
+
+engine-lunar-station-chart-legend-half = ≤ half the threshold
+
+engine-lunar-station-chart-legend-within = ≤ threshold
+
+engine-lunar-station-chart-legend-twice = ≤ twice the threshold
+
+engine-lunar-station-chart-legend-above = above twice the threshold
+
+engine-lunar-station-chart-station-note = ◆ station · dashed: distance to which coverage holds at 95 %
+
+engine-lunar-station-chart-disclaimer = MODELLED under stated assumptions; not a statement about any real system; not affiliated with or endorsed by any agency.
 
 ## src/lunar_terrain.rs
 
@@ -5396,6 +5432,12 @@ engine-e-lunar-terrain-terrain-range-step-must-be = terrain: range_step_m must b
 
 engine-e-lunar-terrain-site-deg-deg = { $e } (site { $lat_deg } deg, { $lon_deg } deg)
 
+## src/lunar_time.rs
+
+engine-lunar-time-chart-title = Lunar coordinate time LTC−TT (rate { $rate } µs/day, band { $low }–{ $high })
+
+engine-lunar-time-chart-offset = { $offset } µs at { $days } d
+
 ## src/lunar_time_budget_scenario.rs
 
 engine-e-lunar-time-budget-scenario-unknown-clock-expected-one-of = unknown clock { $other }; expected one of optical-master, passive-h-maser, rafs, mini-rafs
@@ -5437,6 +5479,10 @@ engine-lunar-time-lab-station-height-not-modelled-exactly = station height not m
 engine-e-lunar-vlbi-light-time-did-not-converge = light time did not converge to 1e-15 s in 30 iterations
 
 engine-e-lunar-vlbi-the-kernel-path-needs-planetary = the kernel path needs planetary_kernel_path, earth_orientation_kernel_path and moon_orientation_kernel_path together
+
+engine-lunar-vlbi-chart-title = Lunar VLBI delay (baseline { $baseline } km, beacon range { $range } km, near-field { $near_field } µs)
+
+engine-lunar-vlbi-chart-footnote = delay { $delay } µs at epoch · { $samples } samples over { $hours } h
 
 ## src/lunar_vlbi_fim.rs
 
@@ -5700,6 +5746,8 @@ engine-e-mars-od-parameter-has-no-partial-on = a parameter has no partial on the
 engine-mars-pnt-mars-pnt-user-clock-relays = mars-pnt { $r } | { $user } user, { $clock_class } clock | { $n_relays } relays (mean { $mean_relays_in_view } in view) | converged pos RMS { $converged_pos_rms_m } m, formal 1σ { $converged_pos_sigma_m } m (3σ { $converged_pos_3sigma_m } m — covariance FoM, not a certified PL) | clock-freq σ { $final_clock_freq_sigma } | cov-PD { $covariance_pd_throughout }
 
 engine-mars-pnt-mars-pnt-user-clock-position = Mars-PNT — { $user } user, { $clock_class } clock: 3-D position error vs truth (converged RMS { $converged_pos_rms_m } m)
+
+engine-mars-pnt-chart-formal-3sigma = formal 3σ (covariance, not a certified PL)
 
 ## src/mcda/ahp.rs
 
@@ -6411,6 +6459,10 @@ engine-pvt-single-point-positioning-3d-error = Single-point positioning — 3D e
 
 engine-pvt-single-point-positioning-post-fit = Single-point positioning — post-fit residual RMS ({ $mean_postfit_rms_m } m mean)
 
+engine-pvt-chart-3d-error-m = 3D error (m)
+
+engine-pvt-chart-postfit-rms-m = post-fit RMS (m)
+
 ## src/python.rs
 
 engine-e-python-runoutput-array-accessors-need-numpy = RunOutput's array accessors need NumPy (pip install numpy): { $e }
@@ -6454,6 +6506,18 @@ engine-qtrade-seed-quantum-wins-foms = { $scenario } | seed { $seed } | v{ $engi
 
 engine-quantum-devices-sigma-from = sigma_y(1 s) = { $adev } from { $refr }
 
+## src/quantum_faults.rs
+
+engine-quantum-faults-chart-title = quantum-anomaly-detect AUC (MODELLED)
+
+engine-quantum-faults-chart-quantum = quantum
+
+engine-quantum-faults-chart-classical = classical
+
+## src/quantum_nav_od.rs
+
+engine-quantum-nav-od-chart-title = quantum-gnss-free-nav (MODELLED)
+
 ## src/quantum_trade.rs
 
 engine-e-quantum-trade-unknown-baseline-clock-class-csac = unknown baseline_clock_class '{ $s }' (csac|uso|dsac|tcxo|ocxo|rafs)
@@ -6463,6 +6527,16 @@ engine-e-quantum-trade-unknown-candidate-clock-class-optical = unknown candidate
 engine-e-quantum-trade-adev-taus-values-must-be = ADEV taus/values must be finite and > 0
 
 engine-quantum-trade-quantum-trade-candidate-timing-holdover = quantum-trade | candidate { $candidate_source } | timing holdover { $timing_holdover_s }s vs { $timing_holdover_s2 }s ({ $timing_benefit_x }x) | inertial { $inertial_holdover_s }s vs { $inertial_holdover_s2 }s ({ $inertial_benefit_x }x) | resilience coast { $coast_time_s }s{ $v9 } | MODELLED{ $v10 }
+
+## src/raim.rs
+
+engine-raim-stanford-chart-title = Stanford diagram — integrity ({ $n_epochs } epochs, AL = { $al } m)
+
+engine-raim-chart-title = RAIM protection levels and availability ({ $availability }% available)
+
+engine-raim-chart-hal = HAL { $al } m
+
+engine-raim-chart-val = VAL { $al } m
 
 ## src/realdata/clk.rs
 
