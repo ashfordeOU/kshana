@@ -2050,14 +2050,14 @@ fn run_compliance_report_cli(args: &[String]) -> ExitCode {
     while i < args.len() {
         match args[i].as_str() {
             "--mapping" => {
-                println!("> {}\n", compliance::STATEMENT);
+                println!("> {}\n", kshana::legal::text("legal-compliance-statement"));
                 for fw in mapping::Framework::ALL {
                     println!("## {}\n\n{}", fw.title(), mapping::framework_table_md(fw));
                 }
                 return ExitCode::SUCCESS;
             }
             "--sources" => {
-                println!("> {}\n", compliance::STATEMENT);
+                println!("> {}\n", kshana::legal::text("legal-compliance-statement"));
                 for fw in mapping::Framework::ALL {
                     println!("## {}\n\n{}", fw.title(), mapping::sources_md(fw));
                 }
