@@ -538,3 +538,79 @@ export function migrateLang(root, lang, old, { dryRun = false } = {}) {
   }
   return { moved: moved.length, merged, pairs: moved, dropped, unmatched, retag };
 }
+
+
+/** ---- todo and merge for a whole-file catalogue (ui, glossary, studio-js, site-js, studio-pages, data) ---- */
+
+const blockId = (b) => { const m = /^(-?[A-Za-z][\w-]*) =/m.exec(b); return m ? m[1] : null; };
+
+/** The messages of an .ftl text with their attached comments: [{id, text}] in file order. */
+function messageBlocks(text) {
+  const p = new FluentParser({ withSpans: true }).parse(text);
+  const out = [];
+  for (const e of p.body) {
+    if (!(e instanceof Message) && !(e instanceof Term)) continue;
+    const start = e.comment && e.comment.span ? e.comment.span.start : e.span.start;
+    out.push({ id: (e instanceof Term ? '-' : '') + e.id.name, text: text.slice(start, e.span.end).trim() });
+  }
+  return out;
+}
+
+/** Chunks of the English messages that `lang`'s copy of `file` lacks. */
+export function todoFileChunks(root, lang, file, chunkKb = 26) {
+  const lp = join(root, lang, file);
+  const have = new Set(existsSync(lp) ? messageBlocks(readText(lp)).map((m) => m.id) : []);
+  const need = messageBlocks(readText(join(root, 'en', file))).filter((m) => !have.has(m.id)).map((m) => m.text);
+  const chunks = [];
+  let cur = [], size = 0;
+  for (const b of need) { cur.push(b); size += b.length + 2; if (size >= chunkKb * 1024) { chunks.push(cur); cur = []; size = 0; } }
+  if (cur.length) chunks.push(cur);
+  return chunks.map((c, i) => ({ name: String(i + 1).padStart(3, '0') + '.ftl', count: c.length, text: c.join('\n\n') + '\n' }));
+}
+
+/** Append translated messages to i18n/<lang>/<file> after the checks of `check` (variables, literals, tags, digits for text files). */
+export function mergeFile(root, lang, file, texts) {
+  const enE = entriesOf(join(root, 'en', file));
+  const lp = join(root, lang, file);
+  const old = existsSync(lp) ? readText(lp) : `# ${file} (${lang}): translations\n\n`;
+  const have = new Set(existsSync(lp) ? messageBlocks(readText(lp)).map((m) => m.id) : []);
+  const rejected = [], unknown = [];
+  let add = '', n = 0;
+  for (const text of texts) {
+    const p = new FluentParser({ withSpans: true }).parse(text);
+    for (const e of p.body) {
+      if (e instanceof Junk) { rejected.push({ id: '(junk)', why: 'syntax error near "' + e.content.split('\n')[0].slice(0, 50) + '"' }); continue; }
+      if (!(e instanceof Message) && !(e instanceof Term)) continue;
+      const id = (e instanceof Term ? '-' : '') + e.id.name;
+      const src = enE.map.get(id);
+      if (!src) { unknown.push(id); continue; }
+      if (have.has(id)) continue;
+      const a = signature(src), b = signature(e);
+      let why = null;
+      if (a.vars.join() !== b.vars.join()) why = 'variables differ';
+      else if (a.lits.join('\0') !== b.lits.join('\0')) why = 'string-literal placeables differ';
+      else if (file !== 'glossary.ftl' && !a.selects.length && tagsOf(flat(src)) !== tagsOf(flat(e))) why = 'markup tags differ';
+      else if (file !== 'glossary.ftl' && !a.selects.length && digits(strip(flat(src))) !== digits(strip(flat(e)))) why = 'digits differ';
+      if (why) { rejected.push({ id, why }); continue; }
+      add += text.slice(e.span.start, e.span.end).trim() + '\n\n'; have.add(id); n++;
+    }
+  }
+  if (n) { mkdirSync(dirname(lp), { recursive: true }); writeFileSync(lp, old.trimEnd() + '\n\n' + add.trimEnd() + '\n'); }
+  return { added: n, rejected, unknown };
+}
+
+
+/** Coverage of the whole-file catalogues of a language: [{file, translated, total}]. */
+export function statusFiles(root, lang) {
+  const files = readdirSync(join(root, 'en')).filter((f) => f.endsWith('.ftl') && f !== 'engine.ftl').sort();
+  const rows = [];
+  for (const f of files) {
+    const en = messageBlocks(readText(join(root, 'en', f))).map((m) => m.id);
+    const lp = join(root, lang, f);
+    const have = new Set(existsSync(lp) ? messageBlocks(readText(lp)).map((m) => m.id) : []);
+    rows.push({ file: f, translated: en.filter((i) => have.has(i)).length, total: en.length });
+  }
+  const ep = join(root, 'en', 'engine.ftl');
+  if (existsSync(ep)) { const en = messageBlocks(readText(ep)).map((m) => m.id); const lp = join(root, lang, 'engine.ftl'); const have = new Set(existsSync(lp) ? messageBlocks(readText(lp)).map((m) => m.id) : []); rows.push({ file: 'engine.ftl', translated: en.filter((i) => have.has(i)).length, total: en.length }); }
+  return rows;
+}

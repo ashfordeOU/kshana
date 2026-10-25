@@ -242,7 +242,7 @@ function readVersion(opt) {
   if (opt.version) return opt.version;
   try { return /^version\s*=\s*"([^"]+)"/m.exec(readFileSync('Cargo.toml', 'utf8'))?.[1] || ''; } catch { return ''; }
 }
-function fmtText(text, keepEdges = false) {
+export function fmtText(text, keepEdges = false) {
   let t = text.replace(/\s+/g, ' ');
   if (!keepEdges) t = t.trim();
   t = t.replace(/[{}]/g, (c) => `{ "${c}" }`);
@@ -344,9 +344,11 @@ async function status(args) {
   const { opt, pos } = args2opt(args, { root: 'i18n', json: false });
   const langs = pos.length ? pos : L.LANGS;
   const res = langs.map((l) => L.statusLang(opt.root, l));
-  if (opt.json) { console.log(JSON.stringify(res, null, 1)); return; }
+  if (opt.json) { console.log(JSON.stringify(res.map((r) => ({ ...r, files: L.statusFiles(opt.root, r.lang) })), null, 1)); return; }
   console.log('lang      translated   missing   total  coverage  pages >= 80%  pages not started  orphans');
   for (const r of res) { const ok80 = r.rows.filter((x) => x.translated + x.missing && x.translated / (x.translated + x.missing) >= 0.8).length; console.log(`${r.lang.padEnd(8)} ${String(r.translated).padStart(10)} ${String(r.missing).padStart(9)} ${String(r.total).padStart(7)} ${((100 * r.translated) / (r.total || 1)).toFixed(1).padStart(8)}%  ${String(ok80).padStart(5)} of ${String(r.rows.length).padEnd(4)} ${String(r.pagesNotStarted).padStart(18)} ${String(r.orphans.length).padStart(8)}`); }
+  console.log('\nwhole-file catalogues (translated of total messages):');
+  for (const r of res) console.log(`${r.lang.padEnd(8)} ` + L.statusFiles(opt.root, r.lang).map((x) => `${x.file.replace(/\.ftl$/, '')} ${x.translated}/${x.total}`).join('  '));
 }
 
 async function check(args) {
@@ -421,6 +423,15 @@ async function apply(args) {
     }
     const loc = (rel) => `${opt.origin}/${lang}${S.pageUrl(rel)}`;
     writeFileSync(join(opt.out, lang, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${listed.map((rel) => `  <url><loc>${loc(rel)}</loc></url>`).join('\n')}\n</urlset>\n`);
+    // the JSON data files, translated through i18n/<lang>/data.ftl (the pages load <lang>/<file> when it exists)
+    try {
+      const D = await import('./i18n-data.mjs');
+      const spec = D.loadSpec(opt.root);
+      const dbundle = L.bundleFor(lang, [join(opt.root, lang, 'data.ftl')]);
+      const tr = (str) => { const m = dbundle.getMessage(D.dataId(str)); if (!m || !m.value) return null; try { return dbundle.formatPattern(m.value, { version: VERSION }); } catch { return null; } };
+      const r = D.applyData(opt.src, join(opt.out, lang), spec, tr);
+      report.push(`${lang}: ${r.replaced} of ${r.total} data strings translated`);
+    } catch (e) { if (e.code !== 'ENOENT') throw e; }
     report.push(`${lang}: ${T} segments translated, ${M} left in English, ${pages.length} pages`);
   }
   console.log(report.join('\n'));
@@ -641,9 +652,15 @@ function csslint(args) {
 /** todo: the English page messages a language lacks, in chunks of about 26 KB (the translators' work list). */
 async function todo(args) {
   const L = await lang();
-  const { opt, pos } = args2opt(args, { root: 'i18n', out: '', chunkKb: '26', page: '' });
+  const { opt, pos } = args2opt(args, { root: 'i18n', out: '', chunkKb: '26', page: '', file: '' });
   const l = pos[0];
   if (!l) { console.error('usage: i18n.mjs todo <lang> [--out DIR] [--chunk-kb 26] [--page slug-prefix]'); process.exit(2); }
+  if (opt.file) { // a whole-file catalogue: ui.ftl, studio-js.ftl, site-js.ftl, studio-pages.ftl, data.ftl, glossary.ftl
+    const fc = L.todoFileChunks(opt.root, l, opt.file, +opt.chunkKb);
+    if (opt.out) { mkdirSync(opt.out, { recursive: true }); for (const c of fc) writeFileSync(join(opt.out, c.name), c.text); }
+    console.log(`todo ${l} ${opt.file}: ${fc.reduce((n, c) => n + c.count, 0)} messages in ${fc.length} chunks${opt.out ? ' in ' + opt.out : ''}`);
+    return;
+  }
   const chunks = L.todoChunks(opt.root, l, { chunkKb: +opt.chunkKb, page: opt.page });
   if (opt.out) { mkdirSync(opt.out, { recursive: true }); for (const c of chunks) writeFileSync(join(opt.out, c.name), c.text); }
   console.log(`todo ${l}: ${chunks.reduce((n, c) => n + c.ids.length, 0)} messages in ${chunks.length} chunks${opt.out ? ' in ' + opt.out : ''}`);
@@ -652,10 +669,10 @@ async function todo(args) {
 /** merge: put translated messages (chunk files in the same format) into i18n/<lang>/pages/, after the same checks as `check`. */
 async function merge(args) {
   const L = await lang();
-  const { opt, pos } = args2opt(args, { root: 'i18n', replace: false });
+  const { opt, pos } = args2opt(args, { root: 'i18n', replace: false, file: '' });
   const [l, ...files] = pos;
   if (!l || !files.length) { console.error('usage: i18n.mjs merge <lang> <file.ftl>... [--replace]'); process.exit(2); }
-  const r = L.mergeTranslations(opt.root, l, files.map((f) => readFileSync(f, 'utf8')), { replace: opt.replace });
+  const r = opt.file ? L.mergeFile(opt.root, l, opt.file, files.map((f) => readFileSync(f, 'utf8'))) : L.mergeTranslations(opt.root, l, files.map((f) => readFileSync(f, 'utf8')), { replace: opt.replace });
   for (const x of r.rejected.slice(0, 50)) console.log(`REJECTED ${x.id}: ${x.why}`);
   if (r.unknown.length) console.log(`${r.unknown.length} ids are not in the English catalogue (stale chunk?): ${r.unknown.slice(0, 5).join(', ')}`);
   console.log(`merge ${l}: ${r.added} messages written, ${r.rejected.length} rejected`);
@@ -867,9 +884,24 @@ async function migrate(args) {
   }
 }
 
+/** data --src DIR --out i18n/en/data.ftl [--check]: the prose of the JSON files in i18n/data-spec.json as one English catalogue. */
+async function dataCmd(args) {
+  const D = await import('./i18n-data.mjs');
+  const { opt } = args2opt(args, { src: 'web', out: 'i18n/en/data.ftl', root: 'i18n', check: false, version: '' });
+  setVersion(readVersion(opt));
+  const spec = D.loadSpec(opt.root);
+  const strings = D.collectData(opt.src, spec);
+  const r = D.dataFtl(strings, (x) => fmtText(x));
+  if (opt.check) {
+    const cur = existsSync(opt.out) ? readFileSync(opt.out, 'utf8') : '';
+    if (cur !== r.text) { console.log(`ERROR ${opt.out} is out of date: run node tools/i18n.mjs data`); process.exit(1); }
+  } else writeFileSync(opt.out, r.text);
+  console.log(`data: ${r.count} messages from ${spec.files.length} JSON files into ${opt.out}`);
+}
+
 const [cmd, ...rest] = process.argv.slice(2);
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), migrate: () => migrate(rest), 'studio-pages': async () => studioPages(rest), jsx: async () => jsx(rest), todo: () => todo(rest), merge: () => merge(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
+  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), data: () => dataCmd(rest), migrate: () => migrate(rest), 'studio-pages': async () => studioPages(rest), jsx: async () => jsx(rest), todo: () => todo(rest), merge: () => merge(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
   if (run) await run();
   else if (!cmd) { console.error('usage: node tools/i18n.mjs extract|apply|check|status|pseudo|csslint'); process.exit(2); }
   else { console.error(`i18n: '${cmd}' is not built yet`); process.exit(2); }
