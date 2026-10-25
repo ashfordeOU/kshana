@@ -151,3 +151,7 @@ seg-2a7a767138b9 = Справочник по API на docs.rs
 seg-f36464ef1b66 = JetBrains Marketplace
 
 seg-9f6e5af01266 = Руководство по плагину
+
+seg-fdbb9db68f1d = нет
+
+seg-6e0cb6acc073 = VALIDATED
