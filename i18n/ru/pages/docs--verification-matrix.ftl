@@ -3061,3 +3061,649 @@ seg-457a19842691 = cislunar_arc_recovery::tests и tests/cislunar_arc_recovery_r
 seg-b6b73589032f = lunar_ephemeris, lunar_service
 
 seg-4cab37e82f00 = lunar_ephemeris::tests (разбор формата и системы отсчёта; интерполяция Лагранжа точна в узлах и на линейном треке вне узла; элементы ICRF проходят редукцию IAU { "2015" } и побайтово равны явному применению icrf_to_iau_moon; круговой обмен истинной↔средней аномалии относительно прямого решения Кеплера; искажённые файлы отклоняются с названной причиной). lunar_service::tests (при незаданном <c1/> набор ключей отчёта и SHA-256 зафиксированы; кеплерова строка равна самостоятельному кеплерову прогону поле в поле; тождество σ_required · HPL_max / σ_URE = AL, затем СКВОЗНОЙ повторный прогон при вычисленном требовании, достигающий { "100" } % доступности уровня защиты, и повторный прогон на { "1" } % выше него, не достигающий её; каждое выданное числовое поле обоих новых блоков пройдено по выданному JSON на предмет единицы и класса происхождения; зафиксированные образцы сопоставлены с таблицами источников спутник в спутник; горизонт за концом таблицы отклоняется); tests/lunar_service_requirement_orekit_oracle.rs::lncss_b_dense_finding_is_unchanged; tests/lunar_service_volume_orekit_oracle.rs::service_volume_matches_orekit_on_identical_ephemeris_and_grid
+
+seg-09369862fb72 = tests/leo_link_reference.rs (first_order_iono_reproduces_the_is_gps_200_group_delay_ratio: gamma = (77/60)^{ "2" } с точностью до { "1e-12" }, усиление L1/L2 и L1/L5 — { "2.978" } и { "2.588" }; free_space_loss_is_the_friis_kilometre_megahertz_form: { "32.4478" } + { "20" } log d + { "20" } log f с точностью до { "1e-4" } дБ); leo_link::iono::tests (delay_scales_as_one_over_f_squared; iono_free_combination_removes_the_first_order_delay)
+
+seg-ba1455ed0740 = leo_link::geometry (max_static_user_range_rate, DopplerEnvelope, doppler_hz)
+
+seg-88f10ca1e3bc = tests/leo_link_reference.rs (doppler_envelope_reproduces_the_pulsar_paper_table_1: Pulsar IOV { "520" } км { "97" } град., Pulsar FOC полярная { "1080" } км { "97" } град., Pulsar FOC наклонная { "1080" } км { "53" } град. и GPS { "20180" } км { "55" } град.; орбитальная скорость, максимальная скорость в ECEF, максимальная относительная скорость и максимальный доплеровский сдвиг несущей в диапазонах L1 и L5, { "20" } значений, каждое в пределах { "0.05" } %)
+
+seg-45309f1545cc = leo_navmsg::sisre (sisre_weights, StatsAcc)
+
+seg-64d379a46dbc = leo_navmsg::sisre::tests (weights_reproduce_the_published_meo_and_geo_table — GPS { "0.979" } и 1/48.9, GLONASS 1/45.0, Galileo { "0.984" } и 1/61.1, BeiDou MEO 1/54.2, геостационарные { "0.992" } и 1/126.2 при маске { "0" } град., каждое в пределах { "0.005" } от w_R и { "0.5" } от 1/w_AC^{ "2" }; leo_weights_shift_toward_the_transverse_axes — надирный угол горизонта { "67.8" } град. на высоте { "510" } км)
+
+seg-d579e3a4f58f = leo_navmsg::elements (kepler_point, kepler_frame, ephemeris_at, sat_state)
+
+seg-7bb3e4112c28 = tests/leo_navmsg_reference.rs (the_galileo_user_algorithm_reproduces_rtklib_to_a_millimetre — четыре реальные широковещательные эфемериды Galileo E10, E19, E24, E25 при tk = { "0" }, +/-600, +/-1800, +/-3600 с, по каждой оси в пределах { "1" } мм от RTKLIB; real_galileo_records_survive_the_binary_frame_and_the_text_block — в пределах { "5" } мм после двоичного кадра Kshana и { "1" } мм после блока в стиле RINEX)
+
+seg-405df44dd887 = leo_navmsg::codec (crc24q, encode, decode)
+
+seg-577acdb9b84b = leo_navmsg::codec::tests (crc24q_matches_the_catalogue_check_value — 0xCDE703 для ASCII-строки { "123456789" }; crc24q_matches_the_rtcm_1005_example_frame — три контрольных байта 0x360B98 примера кадра RTCM { "10403" } с типом сообщения { "1005" } и нуль по всему кадру)
+
+seg-4213f6b60bf1 = leo_navmsg::fit (fit_message, lstsq, polyfit); leo_navmsg::truth (TruthOrbit, TruthClock); leo_navmsg (sequence_stats, LeoNavmsgScenario)
+
+seg-7f4e08aeede7 = leo_navmsg::tests::a_two_body_truth_is_recovered_by_the_keplerian_fit_to_a_millimetre; leo_navmsg::tests::the_user_algorithm_reproduces_the_fitted_truth_to_a_millimetre_with_corrections; leo_navmsg::tests::the_clock_fit_returns_the_truth_clock_through_the_user_relativistic_term; leo_navmsg::tests::keplerian_sisre_grows_with_the_fit_interval_and_the_corrections_fix_it (монотонный рост от { "1" } до { "15" } минут и не менее чем трёхкратное улучшение при { "15" } минутах); leo_navmsg::tests::defaults_run_encode_decode_without_any_preset_and_are_deterministic; tests/leo_navmsg_fit_real_orbit_oracle.rs::fitted_sisre_matches_liu_2025_on_real_orbits (редуцированно-динамические орбиты TU Graz ITSG для GRACE-A, GRACE-C, Sentinel-2A и Sentinel-6A, аппроксимированные на дугах { "20" } и { "30" } мин: среднеквадратичные значения по трансверсальной, бинормальной и радиальной осям от { "0.804" } до { "1.087" } и SISRE от { "0.716" } до { "0.809" } от значений Liu et al. { "2025" }, в пределах 1.5x; веса SISRE в пределах { "0.0007" } от его таблицы { "2" }); tests/leo_navmsg_full_claim_oracle.rs::integrated_truth_orbit_matches_orekit_within_2_cm_over_6_h (Orekit { "12.2" } + Hipparchus { "3.1" }, то же начальное состояние и те же входные данные по плотности: наихудшее значение { "3.95" } мм для задачи двух тел, { "3.92" } мм для J2-J6 и EGM2008 до степени { "20" } и { "70" }, { "4.55" } мм для EGM2008 степени { "20" } с торможением на высоте { "400" } км, порог { "0.02" } м на { "6" } ч); внутренняя перекрёстная проверка, не оракул: tests/leo_navmsg_full_claim_oracle.rs::corrections_clock_fit_and_update_period_trade_agree_with_an_internal_cross_check_on_grace_fo
+
+seg-4a631f12459a = leo_navmsg::elements (kepler_point, Liu22Extra); leo_navmsg::fit (fit_message, fit_kepler, initial_params, formal_sigma); leo_navmsg::truth (TruthOrbit)
+
+seg-c79d4b5fdd17 = tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_model_matches_the_published_sisre (четыре дня из статьи: отношения по трансверсальной, бинормальной и радиальной осям и SISRE от { "0.755" } до { "1.138" } от значений Liu et al. { "2025" }, в пределах 1.5x); tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_holds_on_held_out_days (восемь отложенных дней, по две дуги в каждом: от { "0.683" } до { "1.186" })
+
+seg-765c69669bfa = leo_navmsg::services (klobuchar_delay_m, effective_ionisation_level, system_to_utc)
+
+seg-4693b7ddd7b2 = leo_navmsg::services::tests (klobuchar_scales_with_inverse_frequency_squared — значение для L1 равно { "6.1278" } м по RTKLIB; nequick_az_rules; utc_without_an_event_is_tow_minus_leap_seconds_folded_to_a_day; utc_drift_terms_follow_the_icd_formula; an_inserted_leap_second_reads_86400_at_the_end_of_the_day); tests/leo_navmsg_services_gnsstk_oracle.rs::services_match_gnsstk_and_erfa (Klobuchar для L1, L2 и L5 на { "4 320" } вариантах, наихудшее значение { "7.0e-13" } м; Az на { "222" } наборах коэффициентов, включая набор из одних нулей и правила для { "400" } sfu, наихудшее значение { "5.7e-14" } sfu; дрейф UTC на { "50" } вариантах, наихудшее значение { "3.6e-15" } с; три случая високосной секунды на { "21 602" } моментах времени вокруг реальных високосных секунд { "2015" } и { "2016" } годов, { "0" } с)
+
+seg-0111fd0b84a5 = leo_fusion::geom (EarthOrbit); leo_fusion::doppler (range_rate, doppler_envelope)
+
+seg-a8dd3751a688 = tests/leo_doppler_reference.rs (iridium_doppler_reaches_the_published_36_khz: один спутник на высоте { "780" } км при наклонении { "86.4" } град., пролетевший за сутки на частоте { "1621" } МГц над четырьмя широтами, максимум в пределах { "5" } % от { "36" } кГц; xona_pulsar_x1_doppler_lies_in_the_published_32_to_34_khz: по одному спутнику из каждой опубликованной оболочки, { "1080" } км при { "53" } и { "97" } град., { "1593.3225" } МГц, максимум по орбитальной группировке в пределах от { "32" } до { "34" } кГц без расширения ({ "33.6" } кГц, определяется оболочкой { "97" } град.; одна оболочка { "53" } град. даёт пик { "31.8" } кГц)); leo_fusion::geom::tests (velocity_is_the_time_derivative_of_the_position)
+
+seg-8ac77c9b9588 = leo_fusion::ntn (gabor_bandwidth_flat_hz, gabor_bandwidth_bpsk_hz, gabor_bandwidth_numeric_hz, rms_duration_numeric_s, toa_crb_sigma_m, doppler_crb_sigma_hz, frequency_crb_sigma_hz, NtnScenario::geometry, NtnScenario); leo_fusion::joint_pvt (formal_sigma_enu)
+
+seg-50b92f3ed7eb = leo_fusion::ntn::tests (the_numerical_rms_bandwidth_matches_the_closed_forms; the_range_bound_scales_as_one_over_bandwidth_and_root_cn0: { "0.4157" } м вручную при { "5" } МГц, { "45" } дБ-Гц, { "0.1" } с; the_frequency_bound_is_the_complex_tone_crlb; defaults_run_wider_is_better_and_every_number_has_a_unit); tests/leo_fusion_scenarios.rs (ntn_wide_channel_bounds_far_tighter_than_the_narrow_one); tests/ntn_crlb_published_value_oracle.rs (ssb_bounds_reproduce_the_published_values; ntn_fix_covariances_match_numpy; bpsk_rms_bandwidth_reproduces_betz_table_1)
+
+seg-cc3d01973493 = leo_fusion::polar (latitude_sweep, latitude_sweep_at, element_sets, satellite_states_at); leo_fusion::joint_pvt (dop); sgp4 (MeanElementSet::from_earth_fixed, SgpOrbit, teme_to_itrs_matrix)
+
+seg-e1d9acf84101 = tests/leo_polar_coverage_on_path_orekit_oracle.rs (конфигурации A и B, { "4040" } отсчётов: положения в системе, связанной с Землёй, в пределах { "6.8e-5" } м, порог { "0.2" } м; число спутников в зоне видимости совпадает в 4040 из 4040 случаев; медианный DOP в пределах { "2.3e-11" } в относительном выражении, порог { "1e-3" }; доступность и среднее число спутников в зоне видимости совпадают); tests/earth_orbit_path_sgp4_erfa_oracle.rs (траектория); leo_fusion::polar::tests (gps_vertical_geometry_weakens_at_the_pole_and_a_polar_leo_shell_restores_it); tests/leo_fusion_scenarios.rs (a_polar_leo_constellation_fills_the_sky_where_gnss_vertical_geometry_weakens); tests/leo_polar_coverage_orekit_oracle.rs (раунд { "2" }, геометрия по заданным состояниям); tests/leo_polar_coverage_full_claim_orekit_oracle.rs (вывод раунда 1 по полному утверждению, зафиксирован)
+
+seg-bd265d530763 = lunar_frame_campaign, fim
+
+seg-7c8144a7376a = tests/lunar_frame_campaign_mpmath_oracle.rs (lunar_frame_campaign_datum_matches_mpmath_extended_precision: три сценария — станции оцениваются на новую дату кампании 2026-03-18 (определяющий), станции зафиксированы на эту дату (контрольный), станции оцениваются на 2024-01-01 (сценарий более раннего промаха при двойной точности); каждая сигма датума, число обусловленности и самое слабое направление сопоставляются с порогом, масштабированным по обусловленности и пересчитываемым в тесте по точным чувствительностям оракула; engine_inputs_match_the_committed_fixture: зафиксированные в репозитории якобиан, веса и план Хельмерта совпадают с тем, что движок строит сейчас; record_engine_accuracy_against_a_factorisation_route: зафиксированы полоса погрешности движка и диагностика по холецкому из NumPy)
+
+seg-691a05f06e4d = linalg_sr, lunar_frame_campaign
+
+seg-f26d99df9184 = tests/lunar_frame_campaign_srif_mpmath_oracle.rs (srif_datum_matches_mpmath_extended_precision: четыре сценария — станции оцениваются на новую дату кампании 2026-06-09 (определяющий), станции зафиксированы на эту дату (контрольный), а также входные данные с оценкой станций на 2026-03-18 и 2024-01-01; каждая сигма датума, число обусловленности и самое слабое направление сопоставляются с порогом в форме квадратного корня, пересчитываемым в тесте по точным составляющим оракула; engine_inputs_match_the_committed_fixture); linalg_sr::tests ({ "9" } тестов библиотеки: произведение Деккера равно остатку слитного умножения со сложением на { "20 000" } парах, компенсированное суммирование сокращающейся суммы, R^T R равно A^T A, последовательные обновления фильтра равны одному пакетному обновлению, замыкающий блок равен квадратному корню из дополнения Шура, обращение треугольной матрицы, SVD по Якоби, согласие со спектральным датумом на хорошо обусловленном случае, побитово идентичные повторные прогоны); lunar_frame_campaign::tests::the_default_solver_is_unchanged_and_an_unknown_solver_is_rejected и the_srif_solver_agrees_with_the_spectral_one_where_both_are_accurate_and_says_so
+
+seg-02fed5e55709 = receiver_trust (ingest, maritime)
+
+seg-3c5f4229618e = tests/maritime_trust_reference.rs (t1_nmea_decoding_matches_pynmea2, t2_east_north_offsets_match_the_wgs84_geodesic, t3_t4_monitor_input_statistics_match_the_oracle) по tests/fixtures/maritime_trust/reference.json, повторно формируемому скриптом scripts/gen_maritime_trust_ref.py по синтетическим данным NMEA, записанным examples/gen_maritime_trust_ref_inputs.rs; допуски предварительно зарегистрированы в tests/fixtures/maritime_trust/PREREGISTRATION.md
+
+seg-684b87e7f358 = nmea_synth (track, sentences, scenarios); cli nmea-scenario
+
+seg-5699d8162c69 = tests/nmea_training_reference.rs (сравнение с оракулом pynmea2); tests/nmea_training_scenarios.rs::every_sentence_is_checksum_valid_and_the_reader_accepts_it, ::every_sentence_type_is_present_each_epoch, ::deterministic_per_seed_and_sensitive_to_it
+
+seg-87e0596369cb = interference_map (adsb::nacp_epu_bound_m, adsb::nic_rc_bound_range_m, adsb::AdsbParams::classify, ais::ais_position_is_valid, ais::ais_speed_kn, grid::Grid::cell_of, route::exposure, land::LandMask::is_inland)
+
+seg-48689d047304 = tests/interference_map_reference.rs::adsb_accuracy_and_integrity_codes_agree_with_pymodes ({ "12" } кодов NACp, { "59" } строк NIC); tests/interference_map_reference.rs::ais_field_rules_agree_with_pyais_decoding ({ "94" } кадра); tests/interference_map_reference.rs::grid_cell_assignment_agrees_with_shapely ({ "1770" } точек, четыре размера ячеек); tests/interference_map_reference.rs::route_exposure_geometry_agrees_with_shapely_and_geographiclib ({ "8" } маршрутов, { "420" } отрезков, { "11634" } км); tests/interference_map_reference.rs::land_masking_agrees_with_shapely_and_pyproj ({ "996" } точек); модульные тесты interference_map
+
+seg-a14a79333731 = telemetry (prometheus: Registry, render; otlp: build_payload, Exporter (feature otlp); sample)
+
+seg-bce7247612db = tests/telemetry_formats_reference.rs (prometheus_client_reads_our_exposition_as_the_registry_implies, the_official_otlp_proto_reads_our_json_as_the_registry_implies, awkward_reason_text_survives_the_parser, the_committed_outputs_are_what_this_crate_produces; схема { "1.3" }: prometheus_client_reads_the_schema_13_exposition_as_the_registry_implies, the_official_otlp_proto_reads_the_schema_13_json_as_the_registry_implies, promtool_accepts_the_schema_13_exposition, the_collector_receives_and_exports_the_schema_13_payload_unchanged); tests/telemetry_cli.rs; telemetry::prometheus::tests (эталонная экспозиция)
+
+seg-40e8b0a596fb = telemetry (syslog: cef, rfc5424, SyslogSink; time)
+
+seg-baadfddd02b2 = tests/cef_reference.rs (pycef_reads_every_tier_1_event_as_the_sample_implies, the_logstash_cef_codec_reads_every_event_including_escaped_headers_as_the_sample_implies, the_committed_corpus_is_what_this_crate_produces_and_covers_what_was_registered); telemetry::syslog::tests (точные строки CEF, экранирование, уровень важности, оболочка RFC { "5424" }); tests/telemetry_cli.rs
+
+seg-66f38fc734a7 = evidence (bundle: create_bundle, sign_detached, chain_link, sha256_hex; verify: verify_bundle, verify_detached; tsr; assemble; cli)
+
+seg-d50f70b4c20a = tests/evidence_crypto_reference.rs (векторы RFC { "8032" }, раздел { "7.1" }, { "1" }, { "2" }, { "3" } и { "1024" }; примеры SHA-256 из FIPS 180-4; точное совпадение); tests/evidence_pack_reference.rs::kshana_and_the_clean_room_verifier_agree_on_every_case ({ "71" } случай); tests/evidence_pack.rs (тесты на подмену)
+
+seg-703f4b4ac682 = evidence::tsa (verify_token, pem_certificates); evidence::verify (VerifyOptions::tsa_anchors, Failure::TimestampAuthorityInvalid); evidence::cli (--tsa-ca)
+
+seg-39bc6b70440b = tests/evidence_tsa_openssl.rs::every_case_agrees_with_openssl (предварительно зарегистрированное сравнение); evidence::tsa::tests (гражданские даты и время, base64, открытая операция RSA); evidence::verify::tests::anchors_make_the_authority_checked (неподписанный токен не проходит проверку с якорями; без них отчёт не меняется)
+
+seg-837193c4e1dc = interop::testbench (write_motion_csv, write_nmea, trajectory_of, export); fusion::pack::truth_trajectory
+
+seg-0094102cc5b8 = tests/testbench_reference.rs ({ "7" } тестов: закрепления по оракулу, байты экспорта, наихудший случай по каждой строке, столбцы положения, локальная скорость в сравнении с истинной скоростью в NED, углы Эйлера в сравнении со scipy, NMEA в сравнении с pynmea2); tests/interop_testbench.rs (собственные круговые проверки записывающей части)
+
+seg-3266b898bfd2 = iq::signals::beidou (b1i_bits, b1i)
+
+seg-ba514f7e73ce = iq::signals::gps (l1c_weil, l1c_ranging_bits, l1c_p_bits, l1c_d_bits, l1co_s1_run, l1c_o_bits); iq::signals::tables
+
+seg-9e651a7f8dc9 = tests/iq_signals_gps_l1c.rs (c1_l1cp_and_l1cd_initial_and_final_24_chips_match_is_gps_800j_table_3_2_2, c2_l1co_initial_and_final_11_bits_match_is_gps_800j_table_3_2_3, c3_legendre_sequence_matches_is_gps_800j_table_6_2_1, the_column_check_rejects_relabelled_inverted_and_shifted_codes)
+
+seg-b289551b0bb5 = iq::signals::lunanet (afs_i_bits, afs_q_primary_bits, legendre_bits); iq::signals::lunanet_tables; iq::lunanet_afs::check_spec
+
+seg-176e3b9ea0e7 = tests/lunanet_afs_codes.rs (b1_afs_i_gold_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b2_the_legendre_sequence_of_length_10223_is_the_printed_table_d1, b3_afs_q_primary_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b1b_not_met_the_printed_g2_state_is_not_the_state_after_the_printed_delay, b1c_post_hoc_the_printed_g2_state_is_the_state_after_2047_minus_the_delay); tests/iq_signal_matrix.rs (lunanet_afs_i, lunanet_afs_q)
+
+seg-af826b47d00e = { "388" } строк: { "176" } проверены внешним эталоном, { "208" } вычислены по модели, { "4" } принадлежат партнёрам.
+
+seg-6bb40f180cf0 = <s1>Назад</s1>Статус валидации
+
+seg-defb46c5bc80 = <s1>Далее</s1>Справочник возможностей
+
+seg-e8e0e0618afa = Источник: <c1/>
+
+seg-4cb1d67922ed = Полный машинно проверяемый реестр доказательств: <b>{ "388" } строк — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. Строка может быть VALIDATED только при наличии независимого внешнего оракула (это обеспечивают тесты инвариантов матрицы). Те же данные с кликабельными ссылками по каждой строке на тест, модуль и зафиксированную фикстуру — это <em>реестр проверки</em> на <a1>https://kshana.dev</a1>. Почему каждая строка MODELLED не проверена внешним образом, см. в <a2>MODELLED-RATIONALE.md</a2>.
+
+seg-6e5e0a1e1c99 = allan (lag1_noise_id, lag1_acf)
+
+seg-b04cb81fc402 = tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } случаев: десять записей степенного шума Касдина, b = { "0" } до -4, как данные фазы и частоты, af = { "1" } до { "64" }; alpha_int и d совпадают, наихудшие |d alpha| { "9.6e-13" } и |d rho| { "4.8e-13" } при пороге { "1e-9" }; предварительно зарегистрировано 2ec76864); allan::tests (lag1_identifies_white_pm_white_fm_and_random_walk_fm; lag1_is_blind_to_a_quadratic_phase_trend)
+
+seg-9c4769edcf2b = osnma (page, subframe, dsm, merkle, signature, tesla, mac, maclt, navdata, verifier, ubx, cli)
+
+seg-af088012df3f = tests/osnma_official_vectors.rs (по выбору, KSHANA_OSNMA_VECTORS: все { "18" } наборов векторов, { "186,382" } меток аутентифицировано, { "0" } неудачных, нижние пороги по наборам, объявленные цепочки, ADKD 0/4/12, проверенное оповещение, возобновление аутентификации после конца цепочки, отзыв цепочки и ключа и новый открытый ключ; офлайн, векторы не распространяются); tests/osnma_synthetic.rs (набор атак: подложные подкадры из далёкого будущего, истечение срока и привязка к данным, оповещение и «не использовать», подтверждение заголовка, фиктивные метки, MACSEQ, конфликт ключей, устаревший и воспроизведённый KROOT, CMAC-AES/SHA3-256/P-521 через верификатор); модульные тесты osnma (известные ответы RFC { "4231" }, RFC { "4493" }, FIPS { "197" }, FIPS { "202" }, RFC { "6979" } и CRC-24Q)
+
+seg-be26fdfb4a7c = allan
+
+seg-a59477833676 = tests/allan_reference.rs (NBS14 в сравнении со Stable32 с точностью { "1e-4" }); allan::tests
+
+seg-b8ed4780ccb7 = tests/cs5071a_reference.rs (реальный Cs 5071A и водородный мазер, { "556 990" } точек, { "16" } коэффициентов усреднения в сравнении со Stable32 с точностью { "1e-3" }; зависит от данных через scripts/fetch_cs5071a.sh)
+
+seg-17f05fc54f98 = tests/phasedat_reference.rs (Stable32 PHASE.DAT, { "139" } коэффициентов усреднения, OADEV/MDEV/TDEV с точностью { "1e-3" }; зависит от данных через scripts/fetch_phasedat.sh)
+
+seg-8c6006055d29 = tests/theo1_totvar_reference.rs (Theo1 + TOTDEV на 1000-точечном наборе данных LCG из NIST SP { "1065" } §{ "12.4" }, { "6" } + { "6" } коэффициентов усреднения в сравнении с allantools { "2024.06" } с точностью <{ "1e-9" }); allan::tests (отслеживание замкнутой формы для белого ЧМ; тождество TOTVAR=ADEV при m={ "1" }; инвариантность Theo1/TOTVAR к смещению фазы/частоты; наклон -1/2 для белого ЧМ)
+
+seg-ca3c7f74a002 = allan (mtie, mtie_curve)
+
+seg-deb9fe96d3bd = tests/mtie_reference.rs (MTIE на герметичном 1000-точечном фазовом ряду LCG из NIST SP { "1065" } §{ "12.4" }, { "9" } коэффициентов усреднения m={ "1" }..256 в сравнении с mtie из allantools { "2024.06" } с точностью <{ "1e-9" }, наблюдаемо ≤{ "4e-15" }); allan::tests (размах, выведенный вручную; монотонное неубывание по τ; точное a·m на чистой рампе)
+
+seg-a8f98bb9ff1b = allan (modified_adev, time_deviation)
+
+seg-271a3d6ac7b1 = tests/mdev_tdev_reference.rs (MDEV + TDEV на герметичном 1000-точечном фазовом ряду LCG из NIST SP { "1065" } §{ "12.4" }, { "8" } коэффициентов усреднения m={ "1" }..200 в сравнении с mdev/tdev из allantools { "2024.06" } с относительной точностью <{ "1e-9" }, плюс тождество τ/√{ "3" } на реальном ряду); allan::tests (наклон −1/2 для белого ЧМ; малый случай MDEV, выведенный вручную)
+
+seg-ad8d37a343f0 = quantum_trade (qparams_from_adev_curve), powerlaw
+
+seg-1df335e6eff2 = tests/optical_clock_adev_reference.rs (σ_y(τ) оптических часов на пинцетах ⁸⁸Sr, Norcia и др., { "8" } времён усреднения { "0.92" }–{ "117.76" } s, включены дословно по лицензии CC-BY-4.0: NNLS восстанавливает кривую с СКО ~{ "10" }% / ≤{ "21" }% в худшей точке; восстановленное √q_wf = { "4.33e-16" } совпадает с опубликованным 4.7e-16/√τ; q_rw > { "0" } измеренный уровень красного шума)
+
+seg-5efe6e680a2e = araim_reference (add_v42_protection_levels, add_v42_protection_levels_ecef); raim (snapshot_raim, snapshot_raim_fde, araim_raim, araim_dual_raim, solution_separation_raim); sbas (sbas_protection_level); lunar
+
+seg-c7fea4d91077 = tests/integrity_araim_stanford_oracle.rs::araim_mhss_matches_stanford_maast_add_v4_2 ({ "270" } случаев с реальной геометрией, Celestrak GPS+Galileo и IGS SP3: наихудшие |dVPL| { "2.2e-3" } m, |dHPL| { "1.1e-3" } m, |dEMT| { "2.1e-10" } m при ADD TOL_PL { "0.05" } m); tests/integrity_araim_stanford_oracle.rs::uniform_sigma_matched_gap_finding (расхождения при равномерной сигме, зафиксированы); tests/integrity_snapshot_raim_rtklib_oracle.rs::snapshot_raim_decisions_and_slope_levels_match_rtklib (реальные данные IGS ABMF 2018-05-13, { "288" } эпох, { "2016" } случаев с внесёнными смещениями от { "10" } до { "100" } m: 2016/2016 решений об обнаружении и 801/801 решений об исключении идентичны, уровни HPL/VPL по наклону в пределах { "2.7e-12" } m при { "1e-6" } m); tests/integrity_sbas_stanford_oracle.rs::sbas_l1_protection_levels_match_stanford_maast_on_real_waas_messages ({ "2868" } пар «пользователь–эпоха» на реальных вещаниях WAAS, один и тот же защищаемый набор, наихудшие |dVPL| { "7.1e-6" } m и |dHPL| { "1.6e-5" } m при { "1e-4" } m); tests/integrity_sbas_stanford_oracle.rs::sbas_l5_finding_geo_reception_gate (вывод по L5, зафиксирован); tests/igs_real_data.rs и tests/araim_dual_real_data.rs (проверка правдоподобия на реальных данных IGS SP3 и геометрии Celestrak, сохранены как регрессионные проверки, а не оракулы)
+
+seg-a58b3968c6b7 = sgp4, propagator, orbit_determination, precise_od
+
+seg-9b9adc7d7cd4 = tests/sgp4_verification.rs ({ "666" } проверочных векторов AIAA, наихудшее { "4.12" } mm); tests/sgp4_crate_comparison.rs (независимый крейт sgp4)
+
+seg-1f6277967a05 = propagator, forces
+
+seg-f07882adc2a4 = tests/numerical_cowell_propagator_reference.rs ({ "275" } эпох = { "11" } случаев × { "25" } почасовых состояний, LEO+GTO, в сравнении с Orekit { "12.2" } DormandPrince853; консервативные уровни T1–T5, наихудшее |Δr| { "0.08" } m за { "24" } h; уровень сопротивления охарактеризован на { "333" } m)
+
+seg-0010700556ee = srp_shadow, forces (srp_accel_with_lit_fraction), propagator
+
+seg-2e312ba33e1b = tests/srp_oblate_shadow_orekit_oracle.rs ({ "2400" } геометрий поперёк границы тени, { "884" } в полутени, от LEO до GEO, склонение Солнца { "0" } и +-23.44 deg, { "8" } азимутов: наихудшее |dnu| { "7.41e-9" } для WGS-84 и { "2.24e-9" } для сферического базового уровня; отношения Orekit для WGS-84 и сферы различаются до { "0.98" }, поэтому набор различает сжатие); модульные тесты srp_shadow и propagator
+
+seg-7c521cb02ac6 = srp_boxwing, propagator, precise_od
+
+seg-2d4f28a19e1d = tests/srp_boxwing_orekit_oracle.rs ({ "252" } геометрий орбиты Galileo, { "7" } случаев Солнца, включая расстояния в перигелии и афелии, { "100" } случайных ориентаций; сумма плоских пластин: наихудшее { "2.05e-15" } относительное по { "1056" } случаям; сквозная проверка с собственными ориентацией и давлением Orekit: наихудшее { "2.39e-15" } по { "747" } случаям полного солнечного освещения, тогда как константы давления Orekit по умолчанию отличаются на >= { "4.43e-3" }, поэтому сравнение различает константу; номинальная матрица рыскания: наихудшее { "1.89e-15" }; частная производная по коэффициенту излучения: наихудшее { "1.35e-15" }; частные производные по панелям: наихудшее { "4.12e-13" } относительное по центральным разностям Orekit на { "10836" } случаях панелей; ускорение и частные производные ECOM2: наихудшее { "1.74e-15" }); модульные тесты srp_boxwing (предельные случаи в замкнутой форме, частные производные по конечным разностям); тесты подключения propagator и precise_od
+
+seg-d23a475337fb = tests/nrlmsise00_reference.rs ({ "720" } узлов сетки, от { "90" } до { "1000" } km, { "4" } широты, { "2" } местных времени, { "3" } суток, низкая/умеренная/высокая активность: плотность в пределах { "1.866e-6" } относительно и температура в пределах { "1.97e-4" } K от pymsis; побитово идентично порту на C; { "17" } опубликованных тестовых случаев на C, { "187" } значений в пределах { "0.496" } единицы 7-й значащей цифры); модульные тесты nrlmsise00
+
+seg-caf1ae1b5cc2 = forces (density_at, drag_accel_with_density), propagator
+
+seg-1ac527ac9ccd = tests/drag_tier_orekit_oracle.rs ({ "4" } случая x { "25" } почасовых состояний за { "24" } h, круговая { "51.6" } deg, { "400" } km при низкой/умеренной/высокой активности и { "300" } km: наихудшие |dr| { "0.0303" } m и |dv| { "3.36e-5" } m/s при { "3.3" } – { "141.8" } km смещения от сопротивления, наихудшее отношение ошибки к порогу { "0.003" }; контроль с экспоненциальной плотностью промахивается на { "119.1" } m); модульные тесты forces и propagator (по умолчанию побитово идентично; уровень вычисляет порт в земной геодезической точке)
+
+seg-7f91101322d5 = forces (atmospheric_density, drag_accel), propagator
+
+seg-751bc9c9df58 = tests/drag_exponential_gmat_oracle.rs (экваториальные случаи E400, E300 и E250x600 на J2000.0, { "25" } почасовых состояний за { "24" } h: смещение, вызванное сопротивлением, согласуется со смещением GMAT не более чем на { "0.016" } порога { "0.5" } m + { "1e-3" }|D| при смещении от { "21.5" } до { "143.9" } km; изменение +{ "1" } % Cd*A/m достигает { "9.83" } порога; наклонный случай I400 приведён, расхождение { "10.4" } %, заявленная разница в определении высоты)
+
+seg-aa8686f7fb0a = tides (s2_air_waves, atmospheric_tide)
+
+seg-2143047934b5 = tests/s2_air_tide_gfz_table5.rs ({ "21" } из { "21" } волн согласуются с опубликованной моделью A2: наихудшее { "0.00050" } cm, { "0.050" } deg при порогах { "0.0006" } cm, { "0.1" } deg); tests/tides_iers.rs (диапазон амплитуды S2)
+
+seg-41e949982e14 = propagator (Geopotential, EarthFixedFrame), gravity_sh
+
+seg-0a12253e87b6 = tests/cowell_tesseral_orekit_oracle.rs ({ "6" } случаев x { "25" } почасовых состояний за { "24" } h: EGM2008 8x8 и 70x70 для LEO { "45" } deg, полярной { "89.9" } deg, солнечно-синхронной { "98.2" } deg, GTO и 70x70 с Солнцем/Луной и SRP; наихудшие |dr| { "0.0355" } m, |dv| { "3.74e-5" } m/s; отрицательные контроли промахиваются на { "6168" } m (замороженная Земля) и { "20871" } m (только зональные члены)); модульные тесты propagator (тождество в зональном пределе с точностью { "1e-12" }, система CIO побитово совпадает с precise_od, интеграл Якоби сохраняется с точностью { "1e-9" } за { "6" } h)
+
+seg-f75dcdead7a4 = integrator, propagator
+
+seg-a921a1135cd7 = tests/dop853_scipy_oracle.rs ({ "8" } одиночных шагов: состояние с относительной точностью { "5.55e-15" }, производная FSAL { "3.46e-15" }, плотный выход { "1.99e-14" }, решения о приёме/отклонении шага идентичны; { "3" } полных прогона при rtol = atol = { "1e-12" } (LEO { "58000" } s, e = { "0.7" } на { "5" } периодах, Аренсторф на одном периоде): начальный шаг идентичен, принятые шаги 502/501, 390/390, 298/298 и вычисления 6025/6013, 5497/5497, 4285/4285 в сравнении с SciPy, конечные состояния с относительной точностью { "2.95e-13" } (двух тел) и { "1.58e-12" } (Аренсторф), плотный выход с точностью { "9.5e-13" }; точность относительно точного решения Кеплера в mpmath равна точности SciPy (LEO { "8.44e-5" } m, периодичность Аренсторфа { "1.475e-9" })); модульные тесты integrator и propagator ({ "24" } h задачи двух тел против точного решения Кеплера с ошибкой менее { "0.1" } m)
+
+seg-c6da65825c67 = kepler, propagator
+
+seg-a8bfc307a73b = tests/kepler_mpmath_oracle.rs ({ "405" } узлов сетки, e от { "0" } до { "0.999999" }, M в [-pi, pi] вплоть до { "1e-12" }: наихудшее |E - E_ref| { "0.898" } eps|E| при пороге { "8" } eps|E|; { "9" } точек с накрученным M при наихудшем { "0.013" } от порога; ни в одной из { "414" } точек не потребовался уточняющий шаг Ньютона; обёртка побитово идентична); модульные тесты kepler
+
+seg-9a2263ce0872 = gravity_pds, gravity_sh
+
+seg-43b33973adff = tests/planetary_gravity_pds.rs (срезы степени 20 выполняются всегда: наихудшее |dg|/|g| { "9.7e-16" }, относительно возмущения { "3.4e-11" }; GMM-3 d/o { "120" } по всей сфере { "3.7e-15" } / { "6.3e-12" } и GL0660B d/o { "660" } при |lat| <= { "60" } deg { "5.0e-14" } / { "1.0e-10" }, зависит от данных; заголовки и выбранные коэффициенты равны опубликованным продуктам PDS, число записей { "7380" } и { "218790" }); модульные тесты gravity_pds
+
+seg-a7e3ecdbd2db = orbit_determination, precise_od (batch_ls::gauss_newton, fusion::ukf)
+
+seg-4adc303e81c8 = tests/batch_sequential_orbit_determination_reference.rs ({ "8" } сценариев: { "6" } безшумных LEO/MEO/эксцентричная/3–4 станции + { "2" } σ={ "5" } m, в сравнении с Orekit { "12.2" }; наихудшие пакетные |Δr| { "1e-3" } m / |Δv| { "1e-6" } m/s, последовательные |Δr| { "0.9" } m)
+
+seg-9edf08007870 = radiometric (light_time_solution)
+
+seg-c77ce1873266 = tests/deep_space_mars_radiometric_reference.rs ({ "24" } участка за { "8" } эпох { "2020" }–{ "2027" } в сравнении с ANISE DE440; наихудшие |Δτ| { "1.03e-9" } s, |Δrange| { "0.31" } m при расстоянии до { "2.5" } AU)
+
+seg-8c4b011702b8 = rinex (parse_nav, RinexEphemeris::sv_position_ecef)
+
+seg-d202a16aba3f = tests/rinex_sp3_interop_reference.rs ({ "84" } случая «КА–эпоха»: GPS + Galileo + BeiDou-MEO, { "12" } КА × { "7" } смещений, в сравнении с RTKLIB eph2pos; наихудшее |Δ| по оси { "6.2e-8" } m)
+
+seg-8233e5fa4199 = sp3 (Sp3Interpolator::position_ecef)
+
+seg-4e11ff43fdf7 = tests/sp3_interp_reference.rs ({ "72" } случая «КА–эпоха» вне узлов / { "6" } спутников в сравнении с RTKLIB peph2pos; наихудшее |Δ| по оси { "1.5e-8" } m)
+
+seg-724b7f1d8d6e = ionex (parse_ionex, parse_ionex_file, IonexFile::vtec_at, IonexFile::slant_tec_at, interpolate_tec_in_time, TecGrid::vtec_at)
+
+seg-bec58d3dc51b = tests/ionex_code_gim_oracle.rs (зафиксированная синтетическая карта IONEX в сравнении с эталоном по формуле: { "20 075" } узлов точно, интерполяция max |Δ| { "3.5e-13" } TECU; зависит от данных через KSHANA_IONEX_CODE_GIM_DIR, реальный широтный срез итоговой GIM CODE за 2018-05-13, загруженный fetch.sh с закреплённым SHA-256: узлы точно, интерполяция max |Δ| { "3.6e-13" } TECU по { "15 795" } отсчётам, наклонное TEC { "5.1e-13" } TECU; зависит от данных RTKLIB v2.4.2-p13 iontec в { "6885" } точках запроса, прогон 2026-10-13: max |Δ| { "3.6e-13" } TECU в обоих режимах по времени, порог { "1e-5" } зарегистрирован заранее); ionex::tests
+
+seg-b930d9f826c3 = rtk_real (run_rtk), lambda (resolve)
+
+seg-b182934a1bbc = tests/rtk_real_wettzell_oracle.rs (станции IGS WTZR база / WTZZ ровер, { "1.4" } m, 2025-02-24 00-03 h, { "30" } s: { "359" } эпох, фиксация в { "100" } % случаев начиная с { "00" }:{ "10" }, медиана ошибки фиксированной базовой линии { "4.5" } mm, p95 { "5.5" } mm; первые { "10" } min с фиксацией { "2.6" } mm против плавающего решения { "13" } cm); rtk_real::tests
+
+seg-4ca93c8734ba = ppp_real (run_ppp, PppEpoch::clock_m)
+
+seg-3f5cbf55df2d = tests/ppp_time_igs_station_clock.rs (WTZR 2025-02-24, { "04" }:00-05:{ "55" }, { "24" } эпох: Kshana минус стандарт IGS { "0.075" } ns, порог { "0.20" }; среднее -0.659 ns, порог { "5.0" })
+
+seg-3f47749cb7a6 = ppp_real (run_ppp, parse_antex_receiver, solid_tide_ecef, phase_windup)
+
+seg-5e3b87bbbee5 = tests/ppp_real_wettzell_oracle.rs (станция IGS WTZR, 2025-02-24 00-06 h, { "30" } s, исключена из разработки: горизонтальная ошибка в последней эпохе { "1.5" } mm, по вертикали −{ "2.9" } cm; 04-06 h 240/240 эпох в пределах { "0.10" } m в 3-D, p95 { "6.7" } cm; p95 только по коду { "1.70" } m; зависит от данных СКО ZTD { "1.7" } cm относительно EUREF); ppp_real::tests; tests/ppp_parity_glab_rtklib.rs (RM-31: PPP RTKLIB v2.4.2-p13 на тех же входных данных согласуется в пределах { "0.05" } m на 240/240 эпох, { "9.7" } mm в последней, при третьей регистрации после двух прогонов, в конфигурации RTKLIB которых не было твёрдого прилива и антенна была поставлена в слот базы; оба случая записаны как выводы; порог паритета SPP был не выполнен, медиана { "1.085" } m против { "0.50" } m; gLAB { "6.0.0" } при первом зарегистрированном прогоне, командная строка поправки { "4" }: PPP в пределах { "0.05" } m на 240/240 эпох и { "5.0" } mm в последней, порог SPP не выполнен, медиана { "1.187" } m, вывод: собственные решения SPP двух эталонных инструментов различаются на { "0.852" } m по медиане, то есть порог был задан жёстче, чем согласие между самими инструментами)
+
+seg-285c8c81e033 = rinex (parse_nav, parse_nav_with)
+
+seg-a0832efb1056 = tests/rinex4_nav_brd400_oracle.rs (IGS BRD400DLR_S RINEX { "4.02" } в сравнении с BRDM00DLR_S RINEX { "3.04" } за 2026-07-19, срез 00-02 h: записи G { "37" } / E { "478" } / C { "72" } сопоставлены в обе стороны, каждое поле идентично, положение на Toe { "0" } m; полные сутки зависят от данных: G { "416" } / E { "5668" } / C { "865" } / J { "118" }); rinex::tests
+
+seg-bc1599eb4b29 = sp3 (Sp3File::clock_s, clock_nodes), precise_products (ClockRinex::from_sp3)
+
+seg-0b017f6fc258 = tests/sp3_clock_igs_oracle.rs (итоговый SP3 IGS с шагом { "15" } min за 2025-02-24 в сравнении с итоговыми часами IGS с шагом { "30" } s, { "32" } спутника GPS: медиана |Δ| в узлах { "2.6e-13" } s; { "3038" } записей в средних точках, СКО { "0.121" } ns, p95 { "0.265" } ns; при удержании значения узла вместо интерполяции СКО { "4.24" } ns); sp3::tests::clock_interpolation_is_linear_between_valid_nodes_and_exact_at_them
+
+seg-5a2ded5bd597 = fusion::kfgins (run, loaders, score), fusion::closed_loop (propagate_increments, fuse_position_lever_arm), fusion::gnss_ins_ekf (update_position_lever_arm)
+
+seg-5c5f9bc7a90a = tests/fusion_kfgins_dataset_oracle.rs (синтетические загрузчики и тесты рычага на вращающейся платформе выполняются всегда; зависит от данных через KSHANA_KFGINS_DIR, прогон 2026-10-13 на демонстрационном наборе KF-GINS: горизонтальное / вертикальное СКО { "0.0109" } / { "0.0090" } m относительно опорной траектории против { "0.0111" } / { "0.0083" } m у KF-GINS на C++, все шесть заранее зарегистрированных порогов выполнены; рычаг выключен { "0.329" } m)
+
+seg-ffaf10c69f30 = interop::testbench (write_motion_csv, write_nmea, export)
+
+seg-25ce559f870b = tests/testbench_gpssdrsim_oracle.rs ({ "6" } тестов: оракул и сценарии, байты экспорта закреплены, читатели NMEA и LLH, четырёхстолбцовый срез ECEF, FINDING run-1 на CSV полной ширины, сетка строк { "10" } Hz)
+
+seg-e93e26936fc3 = inertial::mechanization, inertial::attitude, inertial::imu_errors
+
+seg-add45d97ffaf = tests/classical_strapdown_ins_reference.rs (профили статики/поворота/конического движения, по { "30" } эпох каждый, в сравнении с NaveGo: ориентация побитово идентична { "0" } rad; скорость/положение в пределах названных аналитических границ)
+
+seg-c7a20cc3b4ab = tests/icgem_gravity_reference.rs (синтез GRS80 воспроизводит Сомильяну с точностью { "3.5e-12" }; реальная карта возмущений ICGEM EGM2008 физически правдоподобна)
+
+seg-6e415a0f75f2 = cr3bp (to_moon_centred_icrf, from_moon_centred_icrf, to_moon_centred_icrf_de440)
+
+seg-28bd9e3f225a = tests/cr3bp_to_mci_spice_oracle.rs::cr3bp_to_mci_matches_a_spice_two_vector_frame ({ "72" } случая: { "12" } эпох в январе { "2025" } x точки L1 и L2, два южных гало-состояния L2 и одно начальное состояние DRO из API периодических орбит трёх тел JPL и произвольное состояние; наихудшее положение { "1.8e-7" } m при пороге { "1" } mm, скорость { "1.2e-9" } m/s при { "1e-6" } m/s; обратное преобразование { "2.7e-15" }); cr3bp::tests::moon_centred_map_round_trips_and_sends_the_moon_to_the_origin
+
+seg-49991cf99411 = solar_system (SolarSystemScenario::planetary_kernel_path, KernelOut); ephem_provider (KernelEphemeris)
+
+seg-dca7500cee83 = tests/solar_system_kernel_oracle.rs::kernel_backed_solar_system_matches_spice (Меркурий, Венера, Земля и Луна на 2026-01-01, 2030-06-15 и 2040-12-31: наихудшие { "3.3e-5" } m и { "1.0e-11" } m/s при { "1" } mm и { "1e-6" } m/s; блок ядра и метки точны); tests/solar_system_kernel_oracle.rs::without_a_kernel_the_report_has_no_kernel_block
+
+seg-7a164bdd2e29 = maneuver (porkchop_kernel, PorkchopGrid); ephem_provider (KernelEphemeris)
+
+seg-24424bbd7dd7 = tests/porkchop_de440_oracle.rs::de440_porkchop_matches_spice_and_pykep (от Земли к барицентру Марса, { "16" } отправлений 2026-09-01..2027-01-29 x { "19" } прибытий 2027-06-01..2028-02-26: { "304" } ячейки конечны с обеих сторон, наихудшие C3 { "2.5e-14" } и V-бесконечность { "2.6e-14" } относительно при пороге { "1e-8" }, одна и та же ячейка с минимальным C3, { "9.1997" } km²/s²)
+
+seg-90681122a5e8 = maneuver (optimise_transfer_kernel, TransferObjective, TransferType, TransferOptimum); ephem_provider (KernelEphemeris)
+
+seg-945e4a7acbe5 = tests/transfer_optimiser_oracle.rs::transfer_optimiser_matches_spice_pykep_scipy (от Земли к барицентру Марса, отправления 2026-09-15..2027-01-15 x прибытия 2027-05-01..2028-03-01, Type I/II x min C3 / min V-infinity: наихудшая целевая функция { "8.7e-13" } относительно, даты в пределах { "1e-5" } суток, другая величина в пределах { "2.5e-7" } относительно, при заранее зарегистрированных порогах { "1e-7" }, { "0.01" } суток и { "1e-4" }; docs/design/evidence/cap20cd-transfer-optimiser/); tests/transfer_optimiser_oracle.rs::transfer_optimiser_against_the_published_2026_handbook (вторичный опубликованный источник NASA/TM-2010-216764, таблица { "2" }: Type II min C3 { "9.182" } против { "9.144" } и Type II min V-infinity { "2.564" } против { "2.565" } — MET; Type I min C3 { "10.535" } против { "11.11" }, -5.18 %, NOT MET и утверждается как пропущенный, библиотечный оракул согласуется с Kshana)
+
+seg-d79a333a38ef = maneuver (lambert_multirev, LambertSolution, LambertBranch)
+
+seg-57940d590f8e = tests/lambert_multirev_oracle.rs::multirev_lambert_matches_pykep_on_the_preregistered_cases ({ "382" } случая: { "300" } случайных 3-D, { "18" } около { "180" } deg, { "24" } около минимального времени при M = { "1" }..3, { "40" } гелиоцентрических; { "1058" } решений; числа и порядок ветвей равны; скорости с относительной точностью { "1e-8" }, наихудшее { "1.6e-13" }; в пределах { "1" } % от минимального времени с точностью { "1e-6" }, наихудшее { "7.5e-15" }; внутренняя проверка посадки по Кеплеру попадает для каждого решения в пределах { "4.2e-12" } от |r2|, кроме одного закреплённого вывода на дуге с e = { "0.994" } — это ограничение kepler_universal, а не решателя)
+
+seg-67d3c2e5a311 = maneuver (lambert)
+
+seg-5965501f44b7 = tests/lambert_reference.rs ({ "13" } переходов в сравнении с lamberthub izzo2015; наихудшее |Δv| { "7e-12" } m/s)
+
+seg-559cbdef5e7b = frames, precession, nutation, cio, timescales
+
+seg-3c23a80630da = tests/frame_reference_vectors.rs (сквозная проверка Vallado; векторы SOFA/ERFA)
+
+seg-05552ed067f9 = jd2 (Jd2::from_utc_calendar, utc_to_tai, tai_to_utc, utc_to_ut1, tai_to_tt, earth_rotation_angle); sgp4 (Sgp4::new_at, Sgp4::propagate_at)
+
+seg-47eebaccfd86 = tests/jd2_sofa_time_oracle.rs ({ "224" } моментов UTC: по шесть около каждой из { "27" } високосных секунд 1972-2016, два фиксированных, { "60" } случайных с фиксированным seed в 1972-2026; dtf2d, utctai и taiutc каждая в пределах { "1e-6" } s, наихудшее { "1.9e-11" } s); jd2::tests (a_leap_second_day_is_86401_seconds_long_and_tai_steps_once; tai_to_utc_inverts_utc_to_tai_to_the_microsecond_across_a_leap_second; ut1_runs_through_tai_across_a_leap_second_day; the_two_part_earth_rotation_angle_matches_the_single_f64_one); sgp4::tests::propagate_at_measures_time_from_the_two_part_epoch
+
+seg-5a1b94ecd89e = jd2 (gmst82, From<TwoPartJd>, From<Jd2>); cio (gcrs_to_itrs_matrix_jd2); frames (teme_to_itrf_jd2, itrf_to_teme_jd2); orbit (Propagator::position_in_frame_jd2, own_jd2_utc); ephemeris (EphemerisScenario::two_part_jd)
+
+seg-53fd1421f96e = tests/jd2_earth_rotation_erfa_oracle.rs::two_part_earth_rotation_agrees_with_erfa ({ "40" } двухчастных дат UT1/TT 1980-2050, включая шаги +{ "1" }, +{ "10" }, +{ "50" } us на двух датах: gmst82 в пределах { "1e-12" } rad, наихудшее { "0" }; элементы GCRS в ITRS в пределах { "5e-12" }, наихудшее { "2.7e-14" }; вращение при +1/+10/+{ "50" } us в пределах { "1e-13" } rad от ERFA, наихудшее { "1.1e-14" } rad, тогда как путь с одиночным f64 полностью не различает шаги +{ "1" } и +{ "10" } us); ephemeris::tests::two_part_jd_agrees_with_the_default_and_resolves_microsecond_steps; frames::tests::the_two_part_teme_to_itrf_round_trips_and_resolves_a_microsecond; jd2::tests::gmst82_matches_the_single_f64_gstime_away_from_the_floor; jd2::tests::two_part_types_convert_without_moving_the_instant
+
+seg-dc25004c0845 = precession (precession_matrix); nutation (teme_to_gcrs_matrix); cio (gcrs_to_cirs_matrix_with_offsets)
+
+seg-c3deb78a651c = tests/frames_erfa_vector_oracle.rs::frame_matrices_agree_with_erfa_vectors ({ "40" } эпох TT 1950-2100, dX и dY до { "0.5" } mas: элементы прецессии в пределах { "1e-13" }, наихудшее { "0" }; TEME в GCRS в пределах { "5e-10" } rad, наихудшее { "1.10e-10" } rad; CIO со смещениями в пределах { "1e-13" }, наихудшее { "0" }; нулевые смещения побитово идентичны cio::gcrs_to_cirs_matrix)
+
+seg-351739161c56 = timescales (tai_minus_utc_on_date); jd2 (Jd2::from_utc_calendar, utc_to_tai, tai_to_utc)
+
+seg-e9e659ebde98 = tests/jd2_pre1972_sofa_oracle.rs::pre_1972_utc_conversions_agree_with_erfa ({ "117" } моментов UTC: по четыре около каждого из { "15" } начал выражения TAI-UTC 1960-1972 и { "60" } случайных с фиксированным seed в 1960-1971; dtf2d, utctai и taiutc каждая в пределах { "1e-6" } s, наихудшее { "2.9e-11" } s); tests/jd2_pre1972_sofa_oracle.rs::post_1972_results_are_bit_identical ({ "224" } моментов строки { "1972" }+ не изменились ни на бит)
+
+seg-65230d78e0c2 = glonass (GlonassEphemeris::sv_clock_bias_s, position_ecef, parse_glonass_nav)
+
+seg-6567510c9726 = tests/glonass_broadcast_rtklib_oracle.rs::glonass_broadcast_clock_and_orbit_match_rtklib ({ "292" } случая: { "4" } записи GLONASS из реального вещательного файла IGS MGEX за 2013-01-01 x { "73" } смещения в пределах +/-900 s; часы в пределах { "1e-14" } s, наихудшее { "0" } s; положение в пределах { "0.01" } m, наихудшее { "1.12e-3" } m)
+
+seg-945e951061c2 = sgp4 (MeanElementSet, SgpOrbit, Eop, teme_to_itrs_matrix_eop, gcrs_to_itrs_matrix_eop); jd2 (utc_to_ut1, earth_rotation_angle); nutation (teme_to_gcrs_matrix); cio (gcrs_to_cirs_matrix); frames (polar_motion_matrix)
+
+seg-f11a8313d1ec = tests/earth_orbit_path_sgp4_erfa_oracle.rs (участок { "1" }: { "4432" } положения TEME из { "232" } зафиксированных наборов элементов в сравнении с python-sgp4 { "2.24" }, наихудшее { "6.1e-8" } m, порог { "1" } cm; участок { "2" }: { "108" } моментов, { "23" } из них с параметрами ориентации Земли и один в последнюю секунду суток с високосной секундой, в сравнении с ERFA: GCRS -> ITRS наихудшее { "2.9e-6" } mas, порог { "0.1" } mas; TEME -> ITRS наихудшее { "0.41" } mas, порог { "2" } mas); sgp4::tests (the_itrs_path_matches_the_orbit_module_iau_chain; an_earth_fixed_node_stays_at_its_longitude_at_the_epoch); tests/no_private_models.rs
+
+seg-5235d736ac3e = navsignal (CodeFamily)
+
+seg-532eb9a2900f = navsignal::code_tests (GPS C/A Gold ≈ −{ "23.9" } dB; φ({ "1023" })/10 = { "60" })
+
+seg-6f9de921ca86 = orbit (dop)
+
+seg-b215ace86be9 = tests/dop_reference.rs ({ "8" } геометрий, от хорошо обусловленных до почти вырожденных)
+
+seg-686687c1fa8d = gnss_sim (klobuchar_delay_m)
+
+seg-aee414a8d8ec = tests/klobuchar_reference.rs ({ "10" } случаев по возвышению/азимуту/местному времени, два набора коэффициентов)
+
+seg-1c1d27c45546 = raim (chi2_cdf, chi2_quantile, noncentral_chi2_cdf, normal_cdf, normal_quantile, pbias)
+
+seg-b3663ac963e1 = tests/raim_reference.rs ({ "171" } случай: функция распределения и квантиль χ², функция распределения и квантиль нормального распределения, функция распределения нецентрального χ², pbias по диапазонам P_fa/P_md/избыточности)
+
+seg-afe92c4623d2 = SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — независимая библиотека (Cephes/Boost), иной алгоритм, чем ряд неполной гамма-функции в Kshana; совпадение с относительной точностью ≤{ "1e-6" }. Только ядро. <em>Распределение</em> бюджета P_HMI в ARAIM MHSS больше не остаётся без опубликованного числового оракула — собственный разобранный пример Технической подгруппы ARAIM WG-C теперь подкрепляет отдельную строку «Уровни защиты ARAIM MHSS в сравнении с опубликованными эталонными векторами», совпадение при собственном эталонном TOL_PL = { "5e-2" } m, — поэтому область этой строки — статистическое ядро, а распределение несёт та строка (см. docs/ARAIM_REFERENCE.md)
+
+seg-116377f12c14 = sbas (sbas_protection_level)
+
+seg-f4fa833999f3 = tests/sbas_reference.rs ({ "6" } реальных эпох EGNOS: HPL сопоставлен напрямую, вертикальное d_U проверено без K-коэффициента)
+
+seg-2053116957cc = impairment_eval (auc, confusion_at, roc_curve)
+
+seg-f0853f1adeaa = tests/eval_metrics_reference.rs ({ "5" } наборов данных, { "24" } порогов; точные счётчики + <{ "1e-9" })
+
+seg-ee20bf2a4315 = impairment_eval, eval_stats
+
+seg-f546b062df87 = tests/opssat_ad_reference.rs (реальные данные ESA OPS-SAT, AUC воспроизводит scikit-learn с точностью { "1e-9" }); tests/ai_ml_rf_impairment_detection_evaluation_reference.rs ({ "122" } случая на реальной тестовой выборке OPSSAT-AD: полная матрица ошибок в рабочей точке + Pd/Pfa/точность/F1 в сравнении со scikit-learn, точно по целым числам)
+
+seg-c085cbd2a029 = quantum_trade (qparams_from_adev_curve), detection (chi2_inv_cdf), clock_state (ClockState3)
+
+seg-42b83604390f = tests/scipy_reference.rs (NNLS; χ² при рабочих степенях свободы ≥ { "48" }; Q по ван Лоану)
+
+seg-f571816b43fc = igrf, igrf_data
+
+seg-7bd357bd734a = tests/alternative_complementary_pnt_reference.rs ({ "2520" } глобальных точек × высот в сравнении с ppigrf на эпоху { "2025.0" }; наихудшие |ΔXYZF| { "3.9e-4" } nT, |ΔD| { "2.8e-6" }°, |ΔI| { "3.6e-7" }°)
+
+seg-88c8996b8e2e = quantum_faults, eval_stats, detection
+
+seg-1f37560eef48 = tests/quantum_faults_reference.rs ({ "109" } случаев в сравнении со scipy { "1.17" } norm.cdf/ppf + scikit-learn roc_auc_score; наихудшие |Δ| AUC { "6.9e-8" }, минимально обнаружимая неисправность { "1.3e-8" }, эмпирический AUC { "1.1e-16" })
+
+seg-7353cfaa51c0 = tests/resilience_score_decision_instability_reference.rs ({ "124" } случая в сравнении со scipy { "1.18" } / numpy { "2.4" }: { "61" } τ-b Кендалла с точностью { "2e-16" }, ранжирование точно, среднее Дирихле + процентильный ДИ с точностью { "1e-12" })
+
+seg-1c3ad165ae7d = tests/mcda_ahp_reference.rs (таблица случайных индексов Саати { "1980" } для n={ "1" }..10 ТОЧНО; вектор приоритетов + λ_max + CR в сравнении с SciPy/LAPACK eig на согласованной { "3" }×{ "3" } и несогласованных { "3" }×{ "3" } / { "4" }×{ "4" }, совпадение с точностью <{ "1e-9" })
+
+seg-ffb971fd45e1 = mcda::wsm, mcda::wpm
+
+seg-f10f7b107cb9 = tests/mcda_wsm_reference.rs (оценки WSM + ранжирование) и tests/mcda_wpm_reference.rs (оценки WPM + ранжирование), каждый в сравнении с pymcdm с точностью <{ "1e-9" } на фиксированной матрице решений { "4" }×{ "3" } с критериями выгоды/затрат
+
+seg-3b78f01d1992 = tests/mcda_topsis_reference.rs (коэффициенты близости + ранжирование в сравнении с pymcdm с точностью <{ "1e-9" } на фиксированной матрице { "4" }×{ "3" } с критериями выгоды/затрат)
+
+seg-863ebd5e97c5 = tests/mcda_vikor_reference.rs (индекс Q + ранжирование в сравнении с pymcdm с точностью <{ "1e-9" } на фиксированной матрице { "4" }×{ "3" } с критериями выгоды/затрат)
+
+seg-faaffee99e67 = tests/mcda_promethee_reference.rs (чистый поток превосходства + ранжирование, обычный критерий, в сравнении с pymcdm с точностью <{ "1e-9" } на фиксированной матрице { "4" }×{ "3" } с критериями выгоды/затрат)
+
+seg-c3c1ab11c426 = tests/mcda_electre_reference.rs (матрицы согласия, несогласия и доминирования поэлементно + ядро/множество доминируемых в сравнении с pyDecision с точностью <{ "1e-9" } на фиксированном наборе данных { "4" }×{ "3" } только с критериями выгоды)
+
+seg-08e153bbaef7 = mcda::waspas, mcda::moora
+
+seg-eafdba85247a = tests/mcda_waspas_reference.rs (предпочтения WASPAS + ранжирование) и tests/mcda_moora_reference.rs (оценки MOORA + ранжирование), каждый в сравнении с pymcdm с точностью <{ "1e-9" } на фиксированной матрице решений { "4" }×{ "3" } с критериями выгоды/затрат
+
+seg-3d6cd006d21f = tests/mcda_copras_reference.rs (степени полезности + ранжирование в сравнении с pyDecision с точностью <{ "1e-9" } на фиксированной матрице { "4" }×{ "3" } с критериями выгоды/затрат)
+
+seg-7fb7df3cd534 = tpl (Cusum), security
+
+seg-7600ece37358 = tests/timing_protection_level_under_spoofing_reference.rs ({ "16" } случаев детерминированной задержки ТОЧНО в сравнении с оракулом первого прохождения; { "8" } случаев ARL₁, Монте-Карло @60k испытаний в сравнении с аппроксимацией Зигмунда + опубликованными таблицами Монтгомери)
+
+seg-034d00c5844a = holdover (coast_phase_variance, holdover_seconds)
+
+seg-f41c77ef0855 = tests/gnss_denied_clock_holdover_reference.rs ({ "27" } случаев в сравнении со scipy { "1.18" }: { "12" } дисперсий выбега в сравнении с linalg.expm Q₀₀ по ван Лоану, наихудшая относительная { "1.1e-15" }; { "7" } инверсий holdover в сравнении с optimize.brentq, наихудшая относительная { "1.5e-16" })
+
+seg-817055dfe79a = resilience::diversity (effective_diversity)
+
+seg-9cad75e722bc = tests/resilience_diversity_reference.rs ({ "17" } случаев: { "14" } в сравнении со scikit-bio inv_simpson + { "3" } закреплённых граничных нулевых; наихудшее |Δ| { "0.0" })
+
+seg-140080386c90 = skyline (Skyline::cut_deg, Skyline::visible); frames (look_angles, is_visible_skyline); orbit (UserPath, sky_view, cofactor_from_los); geometry (sky_geometry)
+
+seg-d4dabd188012 = tests/skyline_orekit_oracle.rs (skyline_masks_agree_with_orekit_and_gnss_lib_py_as_pre_registered: { "1173" } углов наблюдения в шести пунктах и на четыре эпохи, шесть таблиц масок, { "142" } множества видимых; наихудшие |d el| { "1.3e-13" } deg и |d az| { "2.3e-13" } deg при пороге { "1e-9" }, наихудшее |d mask| { "1.1e-12" } deg при пороге { "1e-9" }, множества видимых идентичны, ни одно не попало в граничную полосу { "1e-6" } deg, наихудший DOP { "3.3e-13" } относительно и кофактор { "6.6e-13" } от масштаба матрицы при пороге { "1e-9" }; предварительно зарегистрировано e4b9d912); skyline::tests (table_interpolates_linearly_between_rows; table_wraps_through_north_without_a_seam); tests/skyline_scenarios.rs (every_wired_scenario_is_byte_identical_to_the_0_35_0_release)
+
+seg-cec96e27c310 = geometry (sky_geometry, ellipse); orbit (cofactor_from_los)
+
+seg-48069ecceb4a = tests/ellipse_numpy_oracle.rs (ellipse_and_cofactor_agree_with_numpy_as_pre_registered: { "270" } случаев, { "142" } зафиксированных множеств видимых из сравнения skyline при одних общих часах и при одних часах на систему; наихудшие ось { "5.1e-13" } относительно и ориентация { "5.3e-12" } deg, ни один не близок к круговому, кофактор { "1.0e-12" } от масштаба матрицы, при порогах { "1e-9" } и { "1e-6" } deg; предварительно зарегистрировано 0bbeeaee); geometry::tests (ellipse_of_an_analytic_two_by_two_case)
+
+seg-db663720ff55 = sdr
+
+seg-02c8f0d7ea55 = sdr::code_tests (ca_first_ten_chips_match_is_gps_200_octal — первые 10 чипов PRN { "1" }–{ "9" } точно воспроизводят восьмеричные значения IS-GPS-200 таблицы 3-Ia 1440/1620/1710/1744/1133/1455/1131/1454/1626; ca_code_has_1023_chips_and_is_balanced; ca_periodic_autocorrelation_is_three_valued)
+
+seg-e8e5abbe7b58 = fusion (gnss_ins_ekf, tightly_coupled, ukf, coupled)
+
+seg-e941099918ef = fusion::tests (UKF==тождество с линейным KF; выбег при перерыве; NEES); tests/gnss_ins_sensor_fusion_reference.rs ({ "50" } случаев в сравнении с filterpy { "1.4.5" }: апостериорные оценки линейного EKF слабо/тесно связанного и связанного PNT с точностью ≤{ "2.4e-12" }; прогон UKF на 40 эпох, наихудшие |Δx| { "1.9e-7" } / |ΔP| { "9.5e-6" }); tests/gnss_ins_navego_dataset_oracle.rs::loosely_coupled_rms_within_1p2x_of_navego (слабо связанное решение NaveGo v1.4 на реальной поездке NaveGo с IMU Ekinox и GNSS: горизонтальное СКО 0.912x, вертикальное 0.940x, СКО инновации положения 0.861x от NaveGo, среднее нормированное нововведение { "0.395" }; пороги 1.2x, 1.2x, 1.2x и { "1.5" } зафиксированы до прогона)
+
+seg-e53182bd8d30 = cr3bp::tests (STM в сравнении с конечными разностями); tests/cislunar_mission_analysis_reference.rs ({ "5" } членов JPL L2-S NRHO: { "9" }:{ "2" } + { "4" } соседа; наихудшие |ΔC| { "1.5e-5" }, |ΔT|/T { "9.6e-5" }, перилуний { "0.7" } km в единицах длины JPL)
+
+seg-4cac09f2382e = gravity_sh, altpnt::maps, gravimeter
+
+seg-d0ee49fda1e0 = tests/icgem_gravity_anomaly_oracle.rs (egm2008_n70_matches_cited_icgem_values в CI на десяти приведённых узлах ICGEM; egm2008_n70_gravity_anomaly_sa_matches_icgem по полным загруженным сеткам 0.25 deg Чада 9-15N 19-25E и Долины Смерти 35-38N 242-245E, { "794" } узла: СКО { "1.3e-8" } и { "2.6e-8" } mGal, максимум { "2.9e-8" } mGal при заранее зарегистрированных порогах { "0.005" } / { "0.02" } mGal, xval/icgem-egm2008/); gravity_sh::tests
+
+seg-d5b8ca2a48cc = tests/terrain_nav_validation.rs (real_srtm_committed_badwater_tile_reads_real_relief — зафиксированная 6-угловосекундная децимация тайла SRTM v3 N36W117, находящегося в общественном достоянии, помещает бассейн Бэдуотер, самую низкую точку Северной Америки, на −{ "78" } m в пределах геодезического диапазона [−{ "95" },−{ "70" }] m и считывает истинный рельеф восточного хребта тайла ~{ "2.2" } km; кроме того, на двух зафиксированных дословных срезах 361x361 с шагом 1 угловая секунда N36W119 и N36W117: real_srtm_tile_whitney_in_survey_band ({ "4412.1" } m в диапазоне [{ "4380,4430" }] m вокруг геодезической отметки { "4421" } m), real_srtm_tile_badwater_in_survey_band (−{ "78.0" } m в [−{ "95" },−{ "70" }] m) и gdal_cross_check (ближайший узел в точности равен GDAL { "3.8.4" } gdallocationinfo на полных тайлах во всех { "8" } заранее зарегистрированных точках, xval/srtm-ungate/; плюс оракулы разбора: вручную построенная билинейная средняя точка и синтетическая фикстура)
+
+seg-d86971b6e158 = oem
+
+seg-f00dd400fa2d = tests/ccsds_oem_interop_reference.rs ({ "24" } состояния / { "2" } фикстуры декодированы побайтно идентично независимым парсером <c1/>, pos/vel Δ = { "0" }); oem::tests (разбор OEM внешнего инструмента с дополнительными ключевыми словами/комментариями/ковариацией, круговое преобразование запись→чтение полного состояния, допускаются pos+vel+accel, отклоняются только положение и отсутствие обязательных метаданных, круговое преобразование сценария с высокой точностью + приём из внешнего источника); dominance_demonstrators (достижимо + воспроизводимо + круговое преобразование точно + MODELLED-not-VALIDATED)
+
+seg-ab37fdc7a543 = Независимый сторонний парсер CCSDS-502 <c1/> { "0.4.5" } (MIT, <a1>https://pypi.org/project/oem/</a1>) — отдельная кодовая база, которая побайтно идентично декодирует выданные kshana OEM в EME2000/UTC ({ "24" } состояния в { "2" } фикстурах, pos/vel Δ = { "0" }) и чей строгий читатель подтверждает токены метаданных; парсер kshana также согласуется с ним на включённом внешнем OEM. Два честных вывода о совместимости (библиотека oem отвергает принятое в kshana многосегментное представление по каждому спутнику и многозаписные строки ковариации) задокументированы в тесте — поэтому это подтверждает соответствующий стандарту обмен одним объектом, а не полное соответствие CCSDS-502 каждого варианта kshana
+
+seg-3814a35508eb = eo_payload (j2_node_rate, j2_nodal_period, ground_track_spacing_equator_j2, sun_synchronous_inclination)
+
+seg-e26317a36469 = eo_payload::tests (угловой радиус { "64" }° на { "700" } km + уменьшается с высотой, надир→зенит/нулевая дальность, горизонт→ε=0/максимальный центральный угол, ошибки за горизонтом, полоса обзора растёт с FOV / GSD с высотой, интервал между узлами ~{ "2750" } km, сценарий воспроизводим/MODELLED + отклонение неверных входных данных); dominance_demonstrators (достижимо + воспроизводимо + угловой радиус { "64" }° + MODELLED-not-VALIDATED); tests/eo_payload_coverage_orekit_oracle.rs::eo_coverage_matches_orekit_and_geographiclib (высоты 400-1500 km, наклонения 1-98 deg, половина FOV 7.5-50 deg, IFOV 10-50 microrad, отклонение { "30" } и { "89" } deg: каждая величина в пределах своего заранее зарегистрированного порога, флаг непрерывности 168/168); tests/eo_payload_coverage_orekit_oracle.rs::exempt_flag_points_are_the_engines; регрессия tests/eo_payload_coverage_reference.rs
+
+seg-ee8ce4b84732 = space_packet::tests (биты заголовка соответствуют структуре CCSDS-133, кодирование→декодирование возвращает все поля, значения вне диапазона/усечённые отклоняются); tests/ccsds_space_packet_reference.rs ({ "33" } случая в сравнении со spacepackets { "0.32.0" }, включая { "12" } сравнений полных пакетов; несовпавших октетов нет)
+
+seg-6566a3bdb3b4 = space_packet (TimeCode, SecondaryHeader, packet error control, segmentation and reassembly, stream decoding)
+
+seg-f9c3b678f754 = tests/space_packet_ext_oracle.rs (пять заранее зарегистрированных порогов: CRC, коды времени, потоки, пропуски и порядок, PUS TM; несовпадений нет); space_packet::tests
+
+seg-49684da520e1 = spk_writer (SpkSegment, to_bytes, from_bytes, eval, et_from_label, oem_to_spk_segments)
+
+seg-d0468ecef524 = tests/spk_writer_spice_oracle.rs (опись, вычисление, побитовое и побайтовое тождество, преобразование эпох OEM; четыре запланированные проверки мутаций делают его красным)
+
+seg-7b7d5c79bcde = spk_writer (SpkType::Chebyshev3, SpkType::DiffLines21, SpkSegment, InterpolatedSpk)
+
+seg-fa6c68bfeb74 = tests/spk_3_21_spice_oracle.rs (опись, вычисление в обе стороны, побайтовое тождество); spk_writer::tests
+
+seg-2b73bbf7fd60 = adm (AemMessage, ApmMessage, quaternion_a_to_b), ndm_xml
+
+seg-6d6d69a7117e = tests/adm_orekit_oracle.rs (L1 Orekit читает { "33" } файла Kshana, L2 Kshana читает { "31" } файл Orekit, L3 { "135" } поворотов записей; выводы закреплены); adm::tests; ndm_xml::tests
+
+seg-4fc5845019f2 = odm (OpmMessage, OmmMessage, OcmMessage, Section, OcmBlock), ndm_xml
+
+seg-4dd013dd6b9e = tests/odm_orekit_oracle.rs (L1 Orekit читает { "30" } файлов Kshana, L2 Kshana читает { "25" } файлов Orekit; выводы закреплены и утверждаются как повторяющиеся); odm::tests
+
+seg-2e7fd9b81080 = attitude_budget::tests (гравитационно-градиентный момент GG обращается в нуль для симметричного тела, растёт при понижении, линеен по ΔI, квадратичная сумма RSS, сумма долей дисперсии равна 1); tests/attitude_gg_torque_reference.rs ({ "20" } случаев в сравнении с независимым моментом GG по полному тензору T=(3μ/R³)(n̂×(I·n̂)), численно максимизированным по ориентации с помощью linalg Hipparchus { "3.1" }; наихудшее относительное { "6e-15" }, + опубликованная полоса Wertz/Sidi O({ "1e-6" }) s⁻²); tests/attitude_gg_torque_basilisk_oracle.rs::gravity_gradient_torque_matches_basilisk ({ "40" } случаев в сравнении с GravityGradientEffector Basilisk { "2.9.1" }: пик при ориентации { "45" } deg в пределах { "1e-12" } относительно, наихудшее { "2.1e-15" }; выше пика момента нет при { "2000" } случайных ориентаций на случай, { "3" } диагональных и { "5" } общих тензорах инерции, { "5" } высотах)
+
+seg-49b30066ff1b = passes::tests (линейное пересечение при интерполяции и устойчивость к вырождению, проходы от полярных до средних широт, более высокая маска ⇒ не больше проходов); tests/ground_station_pass_prediction_reference.rs ({ "22" } сценария / { "129" } проходов в сравнении с Orekit { "12.2" } ElevationDetector; наихудшие |Δ| AOS/LOS { "0.0000" } s, максимальное возвышение { "0.0014" }°, суммарный доступ { "0.0001" } s, число проходов совпадает)
+
+seg-302a5a17401b = passes (predict_passes_apparent, apparent_look_angles, ApparentOptions, p834_tau_s_deg, p834_tau_deg, p834_theta_m_deg, p834_apparent_elevation_deg, PassesScenario)
+
+seg-be96bc40b05d = tests/pass_predictor_on_path_orekit_oracle.rs ({ "60" } случаев, { "1210" } проходов: AOS/LOS в пределах { "3.4e-6" } s, порог { "5" } ms; максимальное возвышение в пределах { "5.5e-7" } deg, порог { "1e-3" } deg; { "8979" } кажущихся направлений в пределах { "8.8e-7" } deg, порог { "1e-4" } deg); tests/earth_orbit_path_sgp4_erfa_oracle.rs (путь); passes::tests (p834_equations_9_and_14_are_consistent_and_vanish_toward_the_zenith; refraction_lengthens_passes_and_light_time_delays_them); tests/pass_predictor_apparent_orekit_oracle.rs (вывод round-1, закреплён; orekit_p834_coefficient_differs_from_the_recommendation_above_sea_level)
+
+seg-b985f72dcdf4 = linkbudget::tests (форма потерь в свободном пространстве, замыкание уравнения линии); tests/one_way_link_budget_reference.rs (DCT Galileo в X-диапазоне DESCANSO/JPL воспроизведён от начала до конца + { "6" } случаев FSL по ITU-R P.525 для центров диапазонов S/X/Ka DSN; наихудшие |ΔFSL| { "4.6e-3" } dB, |Δнесущая| { "2.5e-2" } dB)
+
+seg-ca02c7483ba8 = lunar_time::tests (скорость в замкнутой форме; круговое преобразование); tests/lunar_coordinate_time_reference.rs (члены собственного потенциала и векового хода LTC в сравнении с опубликованными значениями Ashby & Patla { "2024" } + геоцентрическая скорость Луны в сравнении с JPL DE440)
+
+seg-7ef514b90798 = frame_eop::tests и realtime_frame_eop::tests (все три компонента несут равные, поэлементно идентичные, строго возрастающие наборы эпох по обоим реальным выпускам IERS; совместный набор сужается до пересечения, когда два блока Bulletin B действительно расходятся, а горизонт без общих строк опускается, а не заполняется нулями; пустота таблицы «прогноз против итога» указана в документе, а не подразумевается отсутствием поля; реальная вторая версия заполняет её, сверено строка за строкой; отсутствие более поздней версии — это ошибка, а не молчаливо пустая таблица); tests/joint_eop_table_astropy_erfa_oracle.rs::joint_table_and_predicted_vs_final_tables_match_astropy_and_erfa (таблицы { "3" }, { "4" } и { "6" } сценария от начала до конца: наборы эпох точны, статистика UT1 и полюса в пределах { "1e-9" }, комбинация у Луны в пределах { "1e-5" } от полного вращения ERFA, заявленный статус каждого случая «прогноз против итога»); tests/joint_eop_error_iers_ar2019_oracle.rs::bulletin_a_2019_prediction_error_matches_the_iers_realised_statistics (Kshana/IERS от { "1.001" } до { "1.100" } на сроках от { "1" } до { "90" } суток); перепись строк: tests/embedded_eop_vintage_astropy_preregistered.rs (строка автономных входных данных); регрессия round-1: tests/joint_eop_error_bulletin_a_oracle.rs::measured_error_against_the_iers_accuracy_formula_pole_agrees_ut1_does_not
+
+seg-8d703fef00d5 = realtime_frame_eop, eop
+
+seg-41f91517a4bb = tests/embedded_eop_vintage_astropy_preregistered.rs::vintage_of_every_row_matches_astropy_and_predictions_match_bulletin_a (шесть точных критериев: байты выборки; { "174" } строк; счётчики по версиям и полные списки MJD 30/54/90; флаг P и у движения полюса, и у UT1 в каждой прогнозной строке; перепись голого прогона по умолчанию; каждая прогнозная строка равна IERS Bulletin A Vol. XXXIX No. { "039" } в пределах последней напечатанной цифры, наихудшие { "5.0e-5" } arcsec и { "4.9e-6" } s); tests/embedded_eop_census_astropy_oracle.rs::vintage_census_matches_astropy (регрессионная фиксация прежней выборки из 32 строк под классификатором флагов: { "20" } итоговых, { "12" } оперативных, { "0" } прогнозных); tests/embedded_eop_census_astropy_oracle.rs::rows_called_prediction_only_are_flagged_measured_by_astropy (вывод round-1, сохранён); realtime_frame_eop::tests; tests/operational_eop_predictor_reference.rs
+
+seg-d25312c585d1 = lunar_vlbi (KernelGeometry, delay_partials_beacon_body, delay_partials_stations, LunarVlbiScenario); naif_kernel
+
+seg-1caf84a930c6 = tests/lunar_vlbi_spice_oracle.rs::kernel_delay_and_partials_match_spice_light_times_near_j2000 ({ "75" } задержек на { "25" } эпохах около J2000 для DSS-14, DSS-43 и DSS-63: задержки в пределах { "1" } ps, наихудшее { "0.06" } ps; частные производные маяка в системе тела в пределах { "1e-6" }, наихудшее { "7.4e-9" }; частные производные станций в ITRF93 в пределах { "1e-6" }, наихудшее { "3.8e-11" }); tests/lunar_vlbi_spice_oracle.rs::spice_2024_epochs_finding_is_unchanged; tests/lunar_vlbi_anise_oracle.rs::kernel_delay_matches_the_anise_light_time_difference (перекрёстная проверка вычисления по ядру); tests/naif_kernel_reader_check.rs; lunar_vlbi::tests
+
+seg-5140b9231f4b = naif_kernel (DafFile, SpkKernel, PckKernel); ephem_provider (KernelEphemeris)
+
+seg-3747d76d3c5c = tests/naif_reader_spice_oracle.rs::reader_matches_spice_and_anise_on_the_post_registration_grid ({ "600" } состояний de440s.bsp и { "200" } поворотов MOON_PA_DE440 на { "200" } эпохах 1849-2150 и случайных парах тел, выбранных из собственного хэша коммита предварительной регистрации, в сравнении со SPICE и ANISE на вырезанных ядрах, побитово идентичных ядрам NAIF: наихудшая разница { "0.6" } % от порога, { "1.95e-3" } m в абсолютном выражении); tests/naif_reader_spice_oracle.rs::reader_matches_spice_and_anise_on_the_full_naif_kernels_when_present (то же на полных файлах NAIF, SHA-256 проверена; зависит от данных); tests/naif_kernel_reader_check.rs (инженерная защита, не доказательство); naif_kernel::tests; ephem_provider::tests
+
+seg-92c70de528b4 = lunar_common_mode::tests ({ "8" } библиотечных тестов: разделение аддитивно и восстанавливает dy; ковариация общего режима даёт положительный уровень защиты общего режима, а ковариация только паритета даёт близкий к нулю; проектор аннулирует range(G)); tests/lunar_common_mode_integrity_reference.rs (разделение движка в сравнении с независимым вычислением numpy на побайтно идентичных входных данных по зафиксированной выборке из 366 эпох, относительная И абсолютная ошибка < { "1e-3" }); tests/lunar_common_mode_parity_numpy_oracle.rs::common_mode_split_matches_numpy_lstsq_on_parity_bearing_inputs ({ "1464" } случая с паритетом на геометрии из 8 спутников и подмножестве из 6 спутников по обеим реальным парам межэфемеридных данных: blind_dx, невязка и нормы в пределах { "1e-12" } от |dy|, наихудшее { "1.06e-14" })
+
+seg-5cd36a6d71b9 = lunar_combination (problem, model, estimate, formal_covariance); batch_ls (gauss_newton_qr)
+
+seg-63056b57baab = lunar_combination::tests (восстанавливает смоделированную истину; РСДБ восстанавливает 3-D наблюдаемость станции; детерминированно); tests/lunar_joint_multi_technique_od_reference.rs ({ "6" } геометрий × { "16" } параметров, по { "31" } наблюдению, в сравнении с Левенбергом–Марквардтом Orekit { "12.2" } / Hipparchus на идентичных наблюдениях; восстановленное состояние, наихудшее |Δ| { "1.4e-8" } m); tests/lunar_joint_od_numpy_oracle.rs::joint_solve_linear_algebra_matches_numpy (шесть сетей, включая одну без РСДБ: шаги Гаусса–Ньютона в пределах { "4.3e-11" }, формальные сигмы в пределах { "1.9e-11" }, ошибки станций равны; на { "0.36" } переносимых математических входных данных, { "2.4e-11" } и { "1.3e-11" } на { "0.30" } входных данных)
+
+seg-ef4de80a0e79 = fim
+
+seg-6a5729ed13c5 = tests/fim_observability_reference.rs (собственные значения в сравнении с numpy.linalg.eigh; ковариация CRLB в сравнении с σ²(XᵀX)⁻¹ через numpy.linalg.inv; GDOP/PDOP/HDOP/VDOP/TDOP GNSS из информационной матрицы в сравнении с numpy — всё совпало с точностью { "1e-9" }); fim::tests (собственный решатель Якоби в сравнении со спектрами в замкнутой форме; CRLB в сравнении с замкнутыми формами Kay { "1993" } — постоянная в белом гауссовом шуме σ²/N и подгонка прямой σ²(XᵀX)⁻¹; достижение CRLB по Монте-Карло; тождество Мура–Пенроуза MM⁺M=M; нуль-пространство дефекта датума)
+
+seg-454f4440a5c8 = lunar_frame_realise::tests (восстанавливает внесённое преобразование Гельмерта); tests/lunar_reference_frame_realisation_reference.rs ({ "14" } случаев в сравнении с независимым решателем Умеямы–SVD в замкнутой форме; наихудшие |Δ| сдвига { "2.0e-5" } m, поворота { "5.3e-12" } rad, масштаба { "9.3e-2" } ppb, СКО после подгонки { "6.1e-9" } m)
+
+seg-86ded53b2aac = lunar_service::tests (DOP использует проверенное ядро повторно; PL сводится к случаю южного полюса); tests/lunar_navigation_service_volume_reference.rs (положение каждого спутника в MCI с точностью <{ "1e-3" } m + ТОЧНОЕ множество видимых спутников по всему перебору сетка×эпоха в сравнении с ANISE { "0.10.2" })
+
+seg-01d0c0630ded = lunar_afs::waveform::render, lunar_afs::codes, lunar_afs::frame
+
+seg-38c8b9bffaf9 = tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_chips_match_lans_afs_sim (всегда { "210" } основных кодов AFS-Q; с KSHANA_LANS_RUN и кэшем LSIS все { "630" } кодов, несовпадений чипов нет); tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim (с кэшем LSIS: { "3" } кадра, несовпадений символов нет; { "24" } зафиксированных окна по { "2" } ms, |rho| = { "0.999990" }); tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_full_run_matches_lans_afs_sim (зависит от данных: весь прогон { "23.9" } s, |rho| = { "0.999990" }, наихудший блок { "2" } ms { "0.999948" }, фаза { "8e-9" } rad)
+
+seg-67eae9b2de36 = lunar_afs::frame, lunar_afs::ldpc, lunar_afs::lsis
+
+seg-e73c88408052 = tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim (с кэшем LSIS: { "3" } кадра, которые передаёт LANS-AFS-SIM, построенные из тех же FID, TOI и битов данных: различаются ноль из { "18 000" } символов); tests/lunar_afs_frame_coding_oracle.rs::bch_worked_example_and_crc24_check_value_are_bit_exact (рисунок { "8" } LSIS: 0x045 -> 0x229f61dbb84a0; контрольное значение CRC-24/LTE-A 0xCDE703; выполняется всегда); tests/lunar_afs_frame_coding_oracle.rs::ldpc_codewords_satisfy_the_printed_parity_check_matrices ({ "100" } кодовых слов, ни одной невыполненной проверки напечатанной H); tests/lunar_afs_frame_coding_oracle.rs::decoder_from_parity_check_matrices_recovers_every_frame (декодер только по H, без шума и при { "3" } dB Es/N0, и { "10" } полных кадров); lunar_afs::ldpc::tests::printed_b_inverse_inverts_printed_b; lunar_afs::frame::tests
+
+seg-7c4e5dff6562 = iq::scene (Scene, SatGeometry, TruthRecord)
+
+seg-ba9337fe40c0 = tests/iq_gpssdrsim_cross_generator.rs::scene_geometry_matches_gps_sdr_sim_channels ({ "11" } каналов: наихудшая псевдодальность { "1.6e-3" } m при пороге { "0.05" } m, кодовая фаза { "5.5e-6" } чипа при { "2e-4" }, Доплер { "7.4e-5" } Hz при { "0.02" } Hz, углы наблюдения { "4e-9" } градуса при { "1e-4" }, множество видимых идентично); tests/iq_gpssdrsim_cross_generator.rs::harness_reproduces_the_gps_sdr_sim_program_channel_listing (стенд оракула в точности воспроизводит собственный напечатанный программой список каналов)
+
+seg-80e62d2d7748 = lunar_service::tests (топоцентрическая геометрия в сравнении с вычисленной вручную: над головой, строго на север/восток/запад, антиподальная и вырожденное полярное направление на восток; экспортируемый флаг видимости согласуется с независимым фильтром видимости на полном переборе { "6" } h; экспорт по умолчанию выключен и доказуемо ничего больше не меняет; уровни защиты строго линейны по заданной сигме, а лежащая под ними геометрия не затрагивается); tests/lunar_service_geometry_oracle.rs::look_angles_match_anise_at_selenographic_sites ({ "768" } отсчётов на { "8" } пунктах, { "12" } эпохах и { "8" } спутниках в сравнении с ANISE { "0.10.2" }: азимут и возвышение в пределах { "1e-6" } deg, дальность и положение пункта в пределах { "1" } mm; наихудшие { "2.2e-12" } deg, { "2.1e-13" } deg, { "5.6e-9" } m)
+
+seg-5613845e8514 = attitude_dynamics::tests (apply/solve обратны, нулевой момент у сферического волчка, неподвижная точка на главной оси, сохранение энергии и импульса на коротком прогоне, q̇=½q⊗ω, знак скорости симметричного волчка + прецессия по конусу тела); tests/attitude_dynamics_reference.rs ({ "200" } 000-шаговых прогонов без момента: |q|={ "1" } с точностью { "1e-10" }, кинетическая энергия T=½ωᵀIω сохраняется с относительной точностью { "1e-9" }, |Iω| и вектор инерциального импульса сохраняются с относительной точностью 1e-9/1e-8, как для трёхосной, так и для общей недиагональной инерции; прецессия по конусу тела для симметричного волчка, сплюснутого и вытянутого, воспроизведена с точностью { "1e-6" } в сравнении с аналитическим λ=ω₃(I_a−I_t)/I_t); tests/attitude_dynamics_basilisk_oracle.rs::torque_free_motion_matches_basilisk (две общие недиагональные инерции, { "1e4" } s без момента в сравнении с хабом КА Basilisk { "2.9.1" } с RKF78: кватернион в пределах { "1e-9" }, наихудшее { "3.3e-11" }; угловые скорости тела в пределах { "1e-9" } rad/s, наихудшее { "3.4e-12" })
+
+seg-c7acd78b6a27 = cw_dynamics (propagate, second_order_correction, propagate_second_order)
+
+seg-8edf60f6eb8c = cw_dynamics::tests (Φ({ "0" })=I, развязанные поперечные гармонические колебания); tests/cw_dynamics_reference.rs (Φ в замкнутой форме в сравнении с независимым интегрированием тех же уравнений Хилла методом RK4 с фиксированным шагом с точностью <{ "1e-6" } на трети орбиты; Φ(t)Φ(−t)=I с точностью { "1e-9" }; условие ограниченности ẏ₀=−2n·x₀ замыкает полное состояние через один период с точностью { "1e-9" } без векового дрейфа вдоль трассы за { "10" } орбит; чисто радиальное смещение дрейфует на аналитические −12π·x₀ за орбиту); tests/cw_dynamics_orekit_oracle.rs::cw_second_order_matches_nonlinear_orekit_within_1mm (четыре случая при { "100" } m на трети орбиты в { "500" } km: наихудшее { "1.15e-7" } m при пороге { "1e-3" } m); tests/cw_dynamics_orekit_oracle.rs::cw_disagreement_with_orekit_is_recorded_as_a_finding (одно линейное Φ: от { "1.2" } до { "6.3" } mm, закреплено)
+
+seg-9d7e00484999 = entry_eo_ascent::entry_heating (simulate_entry, inertial_to_relative, EntryHeatingScenario)
+
+seg-e9749b2960a2 = tests/entry_stardust_published.rs (пик { "35.44" } g против опубликованных { "33.4" } g, +{ "6.1" } %, порог { "10" } %; скорость входа относительно планеты { "12.551" } km/s против { "12.6" }, порог { "0.1" } km/s); entry_eo_ascent::entry_heating::tests (энергия во вращающейся системе падает ровно на работу сопротивления; вакуумный выбег сохраняет энергию Якоби; невращающийся баллистический случай совпадает с плоской материальной точкой модуля reentry; замкнутая форма Аллена–Эггерса в своём режиме)
+
+seg-c23c0440cc75 = aocs (AocsConfig, required_torque, motor_torques, rates, rk4_step, simulate, mrp_from_quaternion); aocs_kind (AocsScenario)
+
+seg-4f446e123d4e = tests/aocs_basilisk_oracle.rs ({ "3" } случая, по { "601" } отсчёту: MRP наихудшее { "2.4e-14" }, порог { "1e-9" }; угловая скорость тела { "1.6e-15" } rad/s, порог { "1e-9" }; скорость маховика { "2.9e-11" } rad/s, порог { "1e-6" }; приложенный момент двигателя { "1.2e-13" } N m, порог { "1e-9" }; моменты при t = { "0" } в пределах { "1e-12" } N m; насыщение достигнуто в обоих инструментах); aocs::tests (угловой момент сохраняется, отображение минимальной нормы, ветвь MRP, сходимость при насыщении); aocs_kind::tests
+
+seg-ec141da2fe8e = wahba
+
+seg-7ece946b2cb0 = wahba::tests (A(единичный кватернион)=I; решатель собственных значений Якоби удовлетворяет Kv=λv и сохраняет след на известной симметричной матрице; K симметрична); tests/wahba_reference.rs (TRIAD, q-метод Давенпорта и QUEST воспроизводят оптимальную DCM из scipy.spatial.transform.Rotation.align_vectors на безшумных взвешенных наборах векторов с точностью <{ "1e-9" } rad по не зависящему от системы углу ошибки ориентации; кроме того, q-метод восстанавливает известный поворот при λ_max=Σ весов и нулевых потерях Вабы, решение q-метода минимизирует потери Вабы при возмущении, QUEST согласуется с оптимальным q-методом с точностью <{ "1e-7" } rad, а оптимальная оценка превосходит двухвекторный TRIAD по СКО ошибки ориентации на { "2000" } зашумлённых испытаниях Монте-Карло)
+
+seg-e35ff28ef879 = acquisition
+
+seg-e6a7ff99874a = acquisition::tests (центральный случай Marcum-Q Q_1({ "0" },b)=exp(−b²/2); тождество P_d=Q_M(√(2Mρ),√γ); круговое преобразование P_fa↔порог по M и P_fa; монотонность ROC — P_d растёт с SNR, падает с порогом, P_d→P_fa при SNR→{ "0" }; выигрыш некогерентного накопления повышает P_d при фиксированном P_fa; Marcum-Q монотонна по a и b и ограничена в [{ "0,1" }]); tests/acquisition_reference.rs (обобщённая Marcum Q_M(a,b), P_d, P_fa и обращение P_fa→порог сопоставлены со scipy.stats.ncx2/chi2 на сетке (M,a,b)/(M,P_fa)/(M,SNR) с точностью ~{ "1e-6" })
+
+seg-4f480ce145f7 = lambda
+
+seg-7c55c072cfb7 = lambda::tests (L D Lᵀ восстанавливает Q); tests/lambda_reference.rs (Z-преобразование унимодулярно |det Z|={ "1" } при Q_z=ZᵀQZ положительно определённой, сохраняет определитель и снижает суммарную внедиагональную корреляцию; ILS Шнорра–Эйхнера совпадает с полным перебором на { "300" } случайных ковариациях; полный конвейер декорреляция→поиск→обратное преобразование равен прямому ILS, а Z⁻ᵀZᵀ круговым образом возвращает целые числа; замкнутая форма успешности бутстрэпа совпадает с Монте-Карло на 200k испытаний последовательного условного округления с точностью <{ "0.01" }); tests/lambda_rtklib_oracle.rs::ils_solution_matches_rtklib_lambda_on_300_covariances (фиксированные целые равны результату lambda() из RTKLIB v2.4.2-p13 на { "300" } случайных ковариациях, n от { "2" } до { "10" }, { "226" } из них не решаются округлением; два наилучших квадрата нормы согласуются с относительной точностью { "1e-9" }, измерено { "5.6e-13" })
+
+seg-18befb9e9596 = bplane
+
+seg-5eb675d6585e = bplane::tests (скаляры пролёта удовлетворяют замкнутым формам с двумя согласующимися тождествами |B| и |B|>r_p; угол поворота убывает с радиусом перицентра и достигает пределов δ→{ "0" } / δ→π; отклонение сохраняет скорость v∞ и поворачивает ровно на δ; величина Δv гравитационного манёвра равна { "2" }·v∞·sin(δ/2) и ограничена { "2" }·v∞; оси B-плоскости ортонормированы и ⊥ Ŝ при |B|²=(B·T̂)²+(B·R̂)²; параметр Тиссерана инвариантен при отклонении, сохраняющем v∞, которое всё же меняет a,e,i, и равен { "3" }−(v∞/v_circ)²); tests/bplane_gmat_oracle.rs::bplane_matches_gmat_over_a_hyperbolic_grid; tests/bplane_heliocentric_oracle.rs::assist_delta_v_matches_gmat_asymptotes_and_c3; tests/bplane_heliocentric_oracle.rs::heliocentric_elements_and_tisserand_match_gmat_and_sbpy; tests/bplane_heliocentric_oracle.rs::tisserand_matches_kasuga_jewitt_2019_table_8_1
+
+seg-3111857b93df = crpa
+
+seg-d333f700ca8a = crpa::tests (тождества комплексной арифметики, включая z/z={ "1" }, |exp(jθ)|={ "1" }, zᴴz=|z|²; детерминированное формирование нулей даёт точное единичное усиление по SV и нули помех <{ "1e-9" } на 4-элементной ULA при { "3" } помехах; решётка из N элементов не способна подавить >N−{ "1" } помех, а при меньшем их числе формирует нули минимальной нормы; MVDR остаётся без искажений в направлении SV, пока нуль помехи монотонно углубляется с ростом мощности помехи до <{ "1e-3" } при { "60" } dB); tests/crpa_reference.rs (весовые векторы MVDR и формирования нулей минимальной нормы и получающиеся усиления отклика решётки сопоставлены с независимым вычислением numpy/scipy LAPACK с точностью ~{ "1e-9" })
+
+seg-97d39969aa50 = powerlaw
+
+seg-213c2856bc78 = powerlaw::tests (каждый чистый тип шума показывает характерный наклон ADEV в двойном логарифмическом масштабе — белый ЧМ −½, фликкер-ЧМ { "0" }, ЧМ случайного блуждания +½, белый ФМ −{ "1" }; член фликкер-ЧМ — плоский уровень, равный √({ "2" } ln2·h_{ "{" }-1{ "}" }) на пяти декадах τ; подгонка семейства ЧМ круговым образом возвращает известные h_{ "{" }-2{ "}" },h_{ "{" }-1{ "}" },h_0 из синтетической кривой с точностью <{ "1e-6" }; а уровень кривой, где доминирует фликкер, здесь восстанавливается, тогда как подгонка по дрейфовому базису (quantum_trade::qparams_from_adev_curve) ошибается более чем на { "10" }% при больших τ — закрытие задокументированного пробела); tests/powerlaw_oadev_reference.rs (σ_y(τ) сопоставлена с замкнутыми формами Noise.adev из allantools { "2024.06" } по ряду τ для всех пяти типов шума, плюс подтверждение уровня h_a цепочкой «генератор Касдина allantools → оценка oadev»)
+
+seg-0a7be53acff4 = oem (covariance_block_kvn, parse_covariance_block)
+
+seg-c3f4fe461c45 = oem::tests (симметричная положительно определённая ковариация проходит круговое преобразование KVN→разбор до округления f64 и остаётся симметричной; блок выдаёт ровно { "21" } элемент нижнего треугольника — i+{ "1" } на строку матрицы — с COV_REF_FRAME и без; блок с неверным числом значений и отсутствующий блок оба отклоняются); tests/ccsds_oem_covariance_reference.rs (независимая библиотека oem { "0.4.5" } разбирает сегмент OEM, выданный kshana, и восстанавливает симметричную { "6" }×{ "6" }, совпадающую с входной ковариацией kshana с точностью до округления f64; с возмущённым отрицательным контролем и проверкой того, что oem отвергает вариант с меткой CX_X)
+
+seg-5dd227be45fe = oem { "0.4.5" } (MIT, <a1>https://pypi.org/project/oem/</a1>) — ТОТ ЖЕ независимый парсер CCSDS-502, которому доверяет строка VALIDATED «Совместимость CCSDS OEM», совершенно отдельная кодовая база (собственный токенизатор KVN, конечный автомат раздела ковариации и сборка матриц в numpy). kshana выдаёт полный сегмент OEM с блоком COVARIANCE нижнего треугольника из голых чисел без меток; oem разбирает его и восстанавливает симметричную { "6" }×{ "6" }, совпадающую с входной ковариацией kshana поэлементно с точностью до округления f64 — настоящее круговое преобразование обмена «библиотека против библиотеки» (сравнение с восстановлением в oem, а не с повторным разбором kshana), закрывающее прежний пробел строки «нет сторонней фикстуры»
+
+seg-8fd49e7a4cc3 = inertial::coast (ErrorDynamics, ErrorSource, source_error_m, CoastModel, Contribution, Combination, TrnFixMode, first_crossing_s, InsTrnCoastScenario); вид сценария <c1/>
+
+seg-ece63653ae22 = tests/ins_coast_schuler_navego_oracle.rs::coast_error_model_matches_the_corrected_navego_runs ({ "48" } точек, шесть членов ошибки при { "30" } s до { "3600" } s, тактический класс, { "45" } deg с. ш., горизонтально и с ориентацией на север: каждая точка в пределах { "5" } %, наихудшее +{ "3.70" } % у случайного блуждания скорости при { "1200" } s); inertial::coast::tests (the_error_model_follows_the_leading_order_law_on_a_short_coast; a_bias_error_is_schuler_bounded; doubling_the_coast_scales_each_contribution_by_two_to_its_own_power; every_contributions_closed_form_crossing_agrees_with_the_engines_bisection; the_located_crossing_puts_the_model_on_the_threshold_it_searched_for; the_bias_law_matches_the_engines_stochastic_dead_reckoner_stepped_forward; the_velocity_random_walk_law_matches_a_monte_carlo_of_the_engines_dead_reckoner; the_scale_factor_law_matches_a_double_integration_of_the_engines_imu_error_model; a_full_reset_fix_makes_every_inter_fix_excursion_identical; the_largest_fix_interval_holding_a_threshold_puts_the_peak_on_that_threshold; an_error_free_imu_never_reaches_a_threshold_and_says_so_instead_of_reporting_zero; every_published_field_carries_a_unit_and_a_provenance_class; the_scenario_runs_through_the_engines_public_dispatch_and_is_reproducible); tests/ins_coast_navego_montecarlo_oracle.rs::finding_laws_hold_to_600_s_and_overstate_beyond (вывод round-1 о законах ведущего порядка для плоской Земли, сохранён как регрессия)
+
+seg-14054e77e0d4 = lunar_vlbi_fim::tests ({ "24" } библиотечных теста: аналитический якобиан в сравнении с центральной конечной разностью lunar_vlbi::vlbi_delay_s, взятой по маршруту, который прямо поворачивает собственные координаты состояния и ни разу не обращается к частной производной, согласуется с точностью < { "1e-6" } от 1/c на столбец, две информационные матрицы согласуются с точностью < { "1e-6" } от наибольшего диагонального элемента, а ковариации — с относительной точностью < { "1e-5" }; ортогональная единичная геометрия, ковариация которой равна c·σ_τ по каждой оси в замкнутой форме с точностью { "1e-12" }, — это также единственный случай, где связь равнораспределения точна; спектр ковариации и 3-D сигма каждой станции инвариантны относительно жёсткого поворота всей сети с точностью { "1e-9" }, при блочной фиксации C_rot = R·C·Rᵀ И явном утверждении, что сигмы по осям действительно сдвинулись, так что тест не может пройти вхолостую; ковариация масштабируется точно как σ² и как 1/N; граница следа AM-HM никогда не нарушается; замыкание задержек τ_ik = τ_ij + τ_jk закреплено с точностью до одной ULP на задержках и строках якобиана, причём избыточная базовая линия добавляет информацию, но не ранг; одна эпоха признана с дефицитом ранга и нулевым главным показателем; более длинная дуга при том же числе наблюдений обусловлена лучше; блок маяка показан ненаблюдаемым при этом расписании; пренебрегаемая частная производная дифференциального эффекта Шапиро измеряется конечной разностью во время прогона и выдаётся, а не отбрасывается); tests/lunar_vlbi_campaign_spice_oracle.rs::lunar_vlbi_fim_matches_spice_geometry_and_numpy (сеть с привязкой по умолчанию и свободная сеть: якобиан, построенный по SPICE, расписание из 16 наблюдений идентично, сигмы станций в пределах { "2.2e-3" }, собственные значения { "2.3e-3" }, обусловленность { "2.4e-3" }, главный показатель { "1.0e-3" }, луч зрения { "0.018" } deg, склонение { "0.007" } deg, при порогах { "1" } % и { "0.1" } deg; свободная сеть с рангом 8/9 и нулевым главным показателем, нуль-пространство на { "0.006" } deg в стороне; NumPy на зафиксированном якобиане с точностью { "2e-13" })
+
+seg-484388449426 = lunar_vlbi_fim (epoch_geometry_with, schedule, schedule_jacobian); ephem_provider (KernelEphemeris); naif_kernel
+
+seg-d44b405dbeba = tests/lunar_vlbi_surface_point_spice_oracle.rs::surface_point_covariance_kernel_path_matches_spice_geometry_and_numpy ({ "16" } наблюдений идентичны; ранг 3/3; собственные значения в пределах { "5.9e-5" }; обусловленность { "5.9e-5" }; сигмы маяка в пределах { "1.7e-3" } при { "1e-2" }; СКО { "2.9e-5" }; рычаг { "1.4e-8" }; сигмы P2 { "3.9e-14" } при { "1e-9" }); lunar_vlbi_fim::tests
+
+seg-30cc52d98bbd = lunar_service (lunar_protection_level, lunar_protection_level_with_sigma), lunar (lunar_araim_with_sigma), raim (araim_raim)
+
+seg-9d5628188bd8 = tests/lunar_protection_level_reference.rs ({ "7" } случаев объёма обслуживания — южно-полярный, средних широт, экваториальный, приподнятое нагорье — от { "6" } до { "19" } спутников, σ_URE 10/30/60 m, P_HMI от { "1e-3" } до { "1e-7" }, уровни защиты от { "1.7e2" } до { "6.9e3" } m: HPL/VPL в сравнении с составным оракулом RTKLIB + SciPy, наихудшие |Δ| { "1.061e-8" } m и { "1.044e-8" } m при допуске { "1e-6" } m; DOP в сравнении с собственной (GᵀG)⁻¹ RTKLIB с относительной точностью { "1.790e-14" }; K_fa в сравнении со scipy.stats.norm.isf с относительной точностью { "2.716e-11" }; три отрицательных контроля — сдвиг спутника на { "5" } km, относительное изменение σ_URE на { "1e-6" } и более жёсткий на { "0.1" } % P_HMI — каждый, по измерениям, сдвигает уровень защиты не менее чем в { "171" }× допуска; и защита от устаревшей фикстуры, побитово закрепляющая зафиксированную геометрию за тем, что выдают собственные код орбитальной группировки и код видимости движка, так что зелёный результат не переживёт изменение орбитальной группировки под ним)
+
+seg-842722fa9e91 = araim_reference (araim_reference_protection_levels, published_vectors), raim (araim_protection_level, araim_integrity_risk, normal_quantile)
+
+seg-68b534869ac3 = tests/araim_reference_vectors.rs ({ "2" } опубликованных вектора + { "6" } отрицательных контролей, фикстура tests/fixtures/araim_reference/wgc_araim_reference_vectors.txt: отказ от номинального смещения промахивается мимо опубликованного VPL на { "2.6457" } m, ошибка ISM в { "10" } % — на { "0.2798" } m, K_fa при { "57" } режимах вместо { "12" } — на { "0.4015" } m, ошибка дисперсии целостности +{ "2" } %/+{ "5" } % — на 0.0750/0.1971 m, а ошибка +{ "1" } % сдвигает его лишь на { "0.0339" } m, что указано как предел разрешения проверки, а не скрыто; ответы двух документов каждый промахивается мимо ответа другого более чем на допуск, поэтому векторы не взаимозаменяемы; зафиксированная фикстура и скомпилированные константы — две независимые транскрипции, совпадение которых утверждается, так что опубликованное значение нельзя отредактировать с одной стороны, чтобы проверка прошла; а C_int − C_acc = σ²_URA − σ²_URE = { "0.3125" } m² выполняется для всех { "40" } транскрибированных дисперсий, это арифметическое тождество, которое нарушила бы опечатка при транскрипции)
+
+seg-7e8963a7c86f = lunar_llr, realdata::llr_crd (composing fim, cio, frames, ephem, lunar_frame, lunar_frame_campaign)
+
+seg-617e168e2460 = tests/lunar_llr_real_data.rs ({ "11" } тестов: все { "15" } зафиксированных файлов CRD побайтно идентичны своим записанным дайджестам; все { "349" } записей учтены, { "337" } использованы и { "12" } пропущены по названной причине; каждая архивная дальность внутри реальной огибающей перигея/апогея; веса показаны как РАВНЫЕ bin_rms/√n_raw; координата вдоль луча зрения лучше всего определена для каждой решётки, а развёртка либрации, которая её обеспечивает, измерена отдельно; невязка и её независимое подтверждение по JPL Horizons; чувствительность к наклону геометрии на 0.1 градуса; сравнение со смоделированной кампанией показано равным независимому прогону этого сценария; побитовая фиксация R1 для трёх ранее существовавших лунных пакетов систем отсчёта); lunar_llr::tests ({ "12" }: частная производная дальности в сравнении с центральной конечной разностью смоделированного времени пролёта с относительной точностью < { "1e-6" }; световое время — сошедшийся лунный круговой пробег; сигма датума точно линейна по масштабу весов с точностью { "1e-9" }; блочная диагональность точна; отсутствующий каталог данных отклоняется, а не подменяется; изменённая строка каталога выявляется собственным столбцом радиуса); realdata::llr_crd::tests ({ "7" }: семантика полей, переход через полночь, отказ принимать не-UTC шкалу времени и неподдерживаемую версию формата, и никакой подменной сигмы для пустого интервала); tests/validate_llr_datum_spice_oracle.rs (llr_datum_finding_tz_sigma_one_percent_gap, закреплено; reported_residual_is_the_engine_to_spice_light_time_gap); tests/validate_llr_datum_analytic_fresh_2025.rs::llr_datum_analytic_moon_matches_spice_and_numpy_on_fresh_2025_normal_points ({ "151" } ранее не виденная нормальная точка за 2025-Q2; сигмы и нормы, наихудшее { "1.11e-3" } из { "1e-2" }, обусловленность { "8.95e-4" } из { "2e-2" }, отношения { "1.79e-3" } из { "2e-2" }, учёт, ранги и связь точны)
+
+seg-9e17b852f721 = lunar_llr (llr_geometry_with, LunarLlrDatumScenario); ephem_provider (KernelEphemeris); naif_kernel
+
+seg-ed8e396d7fb6 = tests/validate_llr_datum_kernel_moon_fresh.rs::llr_datum_kernel_moon_matches_spice_and_numpy_on_fresh_normal_points ({ "447" } ранее не виденных нормальных точек за 2019-Q2; сигмы и нормы в пределах { "4.0e-5" } из { "1e-2" }, обусловленность { "1.6e-5" } из { "2e-2" }, отношения { "7.6e-5" } из { "2e-2" }, учёт и ранги точны); tests/validate_llr_datum_kernel_moon.rs (диагностика по ранее виденным данным { "2015" }, { "0.049" } % по tz; не является доказательством для этой строки); lunar_llr::tests
+
+seg-0bd1d423f40a = ephem (moon_position), lunar_llr, realdata::llr_crd
+
+seg-e73eed7ff8b5 = tests/lunar_llr_real_data.rs::the_analytic_moon_series_disagrees_with_jpl_by_the_same_amount ({ "12" } еженедельных геоцентрических состояний, наихудший угол эпохи утверждается < { "0.3" }° и СКО < { "5e5" } m относительно собственного задокументированного заявления модуля, плюс утверждение, что невязка LLR согласуется с радиальным расхождением с точностью < { "5" }×); ::the_measured_residual_is_the_ephemeris_error ({ "337" } реальных нормальных точек)
+
+seg-e6eeb246d545 = integrity::tpl_scalar::tests (ранг 1, слияние/исключение, доминирование смещения, перекрёстная проверка IR); tests/tpl_scalar_numpy_oracle.rs::scalar_mhss_pl_matches_numpy ({ "300" } зафиксированных случаев: оценки подмножеств numpy lstsq, общая ковариация разделения, PL по scipy brentq; PL с относительной точностью { "1e-9" }, наихудшее { "1.2e-10" }; определяющее подмножество точно)
+
+seg-2737758e6542 = integrity::gls_commonmode::tests + tests/gls_reference.rs + tests/gls_whitening_numpy_oracle.rs::whitening_and_mahalanobis_match_numpy_lapack ({ "201" } зафиксированный случай SPD: множитель, отбелённая невязка, оператор отбеливания и квадрат Махаланобиса в сравнении с numpy LAPACK с относительной точностью { "1e-12" }, наихудшее { "7.9e-16" })
+
+seg-d36e19a6e2a9 = integrity::gls_commonmode::tests (separation_alone_is_blind_to_common_mode, degenerate_direction_or_non_pd_gives_no_finite_ceiling, every_nonzero_direction_under_pd_omega_has_a_finite_ceiling); tests/gls_outside_omega_bound_numpy_oracle.rs::undetectable_common_mode_ceiling_matches_numpy_lapack ({ "256" } зафиксированных случая: alpha_ss, alpha_cm и минимум с относительной точностью { "1e-12" } на { "210" } хорошо обусловленных и граничных случаях, наихудшее { "3.3e-15" }; { "40" } плохо обусловленных до обусловленности { "1.3e8" } в пределах заявленной границы, масштабируемой по обусловленности, наихудшее { "1.1e-9" }; шесть точных бесконечностей)
+
+seg-fa85ee9b1daa = tests/lunar_datum_identifiability_reference.rs::decompose_matches_scipy_reference ({ "16" } синтетических матриц SPD 7x7 от хорошо обусловленных до почти вырожденных на { "{" }{ "0,3" }{ "}" }; lambda_min по Шуру / CRLB начала координат / |corr| в сравнении с SciPy/NumPy с относительной точностью <{ "1e-9" })
+
+seg-4fcff50bca2e = lunar_orientation::tests (de440_moon_pa_reproduces_fixture_rows, de440_moon_pa_shows_real_libration); tests/lunar_pa_frame_realisation_guard.rs::the_orientation_series_interpolation_error_is_tens_of_metres_not_sub_metre; tests/lunar_pa_orientation_spice_oracle.rs::interpolated_rotation_matches_direct_kernel_evaluation_off_node ({ "2 000" } случайных эпох вне узлов в сравнении с SPICE pxform на двоичном PCK: угол поворота в пределах { "1.7e-5" } rad, наихудшее { "1.7e-6" } rad, { "3" } m на среднем радиусе)
+
+seg-3e86011ef650 = lunar_llr_geometry (reflectors, stations_itrf, ItrfStation, StationCoordinates, llr_bcrs_one_way_m, body_to_bcrs_tdb, shapiro_leg_m, BcrsEvent); lunar_orientation (try_de440_moon_pa_body_to_inertial); lunar_vlbi (station_inertial_position_itrs)
+
+seg-ef1e57e7bf3d = tests/lunar_llr_geometry_range_oracle.rs::reflector_ranges_bcrs_iers2010_relativistic ({ "192" } нормальные точки ILRS: СКО { "2.81" } m; две станции ITRF2020 в отдельности { "2.96" } m; обе не более { "10" } m); tests/lunar_llr_geometry_range_oracle.rs::round2_finding_is_a_common_offset_of_about_eleven_metres (вытесненная геоцентрическая модель светового времени, { "10.94" } m, закреплено)
+
+seg-32da421d27ef = tests/lunar_coupled_gauge_reference.rs::coupled_gauge_matches_numpy_on_real_de440_rows ({ "9" } собственных значений, defect/dim_spatial/dim_temporal/coupled_dim/p_st_norm и маргинал Шура по { "{" }scale,offset{ "}" } для сетей well_posed из 120 строк и single_epoch из 30 строк, с rel<{ "1e-3" } и abs<{ "1e-3" }); lunar_gauge::tests (coupled_marginal_fisher_is_symmetric_and_psd, oneway_spatial_equals_orbiter_range_row_datum7, twoway_spatial_equals_oneway_spatial_at_same_geometry)
+
+seg-9f0fd0918105 = lunar_gauge, lunar_time
+
+seg-abab0c3bfa30 = tests/lunar_rate_frame_coupling_preregistered.rs (entry1_d_alpha_d_scale_matches_the_published_l_m_for_both_cited_fields: L_m в пределах { "2.8e-6" } от Ashby and Patla { "2024" } с J2 из AIUB-GRL350A/B; entry2_d_alpha_d_radial_matches_the_degree_350_equatorial_gravity_for_both_fields: радиальный элемент в пределах { "8.3e-5" } от экваториальной гравитации степени 350 в pyshtools; entry3_d_alpha_d_velocity_matches_the_de441_lunar_speed: элемент скорости в пределах { "2.5e-3" } от лунной скорости DE441 на { "2000" } эпохах); lunar_gauge::tests; регрессия tests/lunar_rate_frame_coupling_oracle.rs
+
+seg-57b6f02016e4 = lunar_gauge::tests (classify_is_invariant_under_null_basis_rotation - осевой нулевой базис и его поворот на { "0.6" } rad дают одинаковые defect, dim_spatial, dim_temporal, coupled_dim и p_st_norm; classify_direct_sum_null и classify_coupled_null - построенные случаи прямой суммы и действительно связанный случай подтверждают разложение размерности; classify_basis_invariant; index_consts_are_correct); tests/lunar_gauge_classification_scipy_oracle.rs::classify_null_space_matches_scipy_subspace_intersection ({ "72" } построенные матрицы Фишера 9x9 по { "18" } нулевым подпространствам, каждое в четырёх случайных ортонормированных перебазированиях: defect, dim_spatial, dim_temporal и coupled_dim точны; p_st_norm в пределах { "6.0e-15" }, порог { "1e-9" })
+
+seg-e9319e19b9f3 = tests/lunar_interop_budget_reference.rs (raw / rotation-residual / theta_moon / theta_frametie / theta_excess / reducible / irreducible для { "3" } пар поставщиков в сравнении с независимой подгонкой SciPy SVD lstsq в tests/fixtures/inter_ephemeris/reference.json, rel<{ "1e-3" } abs<{ "1e-3" } m; фикстуры и оракул побайтно согласованы через scripts/gen_interop_ref.py на публичных ядрах DE440/INPOP21a/EPM2021 через IMCCE calceph)
+
+seg-89624a7374e9 = tests/lunar_faultobs_reference.rs (faultobs_matches_numpy_scipy_on_real_de440_rows: матрица P⊥ { "84" }×{ "84" } поэлементно, след(P⊥) = parity_dim = { "52" } и ранг(G) = { "32" }, нормы обнаружимости + флаги, квадратичная форма MDB cᵀWP⊥c + значение MDB и счётчики обнаружения/идентификации block-spark для каждой коалиции партнёров воспроизведены в сравнении с независимым оракулом numpy/scipy с rel<{ "1e-3" } abs<{ "1e-3" } при точных целочисленных счётчиках; входные данные побайтно согласованы через examples/gen_faultobs_rows.rs + scripts/gen_faultobs_ref.py)
+
+seg-cbdf069c7baa = telecom_timing (mtie_sliding, mtie_curve_ns, tdev_curve_ns); allan (mtie, time_deviation)
+
+seg-d4dfc8374544 = tests/telecom_timing_reference.rs ({ "17" } коэффициентов усреднения MTIE и { "12" } TDEV на зафиксированном ряду holdover { "2" } 048 отсчётов атомных часов чипового масштаба со старением, фликкером и температурой, в сравнении с allantools { "2024.06" } с относительной точностью <{ "1e-12" } / <{ "1e-9" }, наблюдаемо точно / { "1.1e-15" }; те же кривые, считанные из полного прогона синхронизации времени для телекоммуникаций, принимающего CSV); telecom_timing::tests (скользящий MTIE равен allan::mtie в каждом окне; MTIE и TDEV, выведенные вручную; монотонный MTIE)
+
+seg-776723e1171a = allan (edf_greenhall, greenhall_edf_core); assurance::uncertainty (edf)
+
+seg-d98eb984ce90 = tests/greenhall_edf_allantools.rs (bars_1_to_3_against_allantools; bar_4_wrappers_equal_the_core); tests/greenhall_edf_no_moved_output.rs (uncertainty_edf_is_bit_identical_to_the_0_36_portable_baseline); tests/uncertainty_edf_reference.rs
+
+seg-51a5b33f0b62 = slot_timing (ClockNoise::from_phase_record, fit_weighted, slot_budget, breach_after_sync_s)
+
+seg-02d2f67a9284 = tests/slot_timing_cs5071a_holdout.rs (holdover_inversion_predicts_the_held_out_caesium_record: подгонка по первой трети записи, прогноз выхода за одну сигму при { "0.5" }, { "0.75" }, { "1" }, { "1.5" }, { "2" } и { "2.5" } ns, измерение на остальных двух третях от точки синхронизации каждые { "997" } s; порог, зафиксированный до первого прогона, — множитель { "1.5" } в обе стороны; наблюдаемые отношения от { "0.84" } до { "1.03" }; контроль, в котором односекундная девиация Аллана читается как белый ЧМ, промахивается примерно в { "1 000" } раз и обязан не выполнить порог; мутация, вдвое снижающая уровень белого ЧМ, проваливает тест); slot_timing::tests (a_measured_white_fm_record_recovers_its_level; reduces_to_the_holdover_inversion; ieee1139_conversion_matches_the_powerlaw_module)
+
+seg-83c8f23a4b53 = navsignal (Modulation::psd, spectral_separation_coeff_offset, q_from_ssc); spectrum (psd_nulls_hz, psd_peak_hz, main_lobe_null_to_null_hz, Jammer::ssc)
+
+seg-436f7a545a7b = spectrum::tests (bpsk_main_lobe_null_to_null_is_two_n_times_1_023_mhz — BPSK({ "1" }) { "2.046" } MHz и BPSK({ "10" }) { "20.46" } MHz найдены численно по замкнутой форме; boc11_lobes_are_centred_at_plus_minus_1_023_mhz — нуль на несущей, первый нуль на { "2.046" } MHz, центр лепестка { "1.023" } MHz и точный максимум на { "0.7590" } MHz в сравнении с независимым решением Ньютона для tan y = 2y; ssc_matches_parseval_closed_forms — C/A x C/A 2/(3R_c) = -61.86 dB/Hz, BOC({ "1,1" }) x BOC({ "1,1" }) 1/(3R_c) = -64.87 dB/Hz, C/A x BOC({ "1,1" }) 1/(6R_c) = -67.88 dB/Hz, каждое в пределах { "0.02" } dB; q_values_match_kaplan_hegarty — CW на несущей Q = { "1" }, шум с согласованным спектром Q = { "1.5" }, плоский шум от нуля до нуля Q = { "2.215" }; mboc_is_a_unit_area_one_eleventh_mix)
+
+seg-500eea1d6b4a = sigmf (read, write, encode, decode, parse_meta, meta_to_json); spectrum (welch_psd, fft_in_place, synthesise_iq)
+
+seg-19aa57a32add = sigmf::tests (cf32_round_trip_is_exact_to_single_precision; ci16_round_trip_is_within_half_a_code; ci16_is_little_endian_i_then_q; integer_encoding_counts_saturation; metadata_uses_the_core_namespace; unsupported_types_and_channels_are_refused; sample_start_offsets_into_the_data); spectrum::tests (fft_matches_a_direct_dft; welch_reads_white_noise_as_variance_over_fs_and_keeps_a_tone_s_power — уровень шума в пределах { "2" } % от дисперсии на частоту дискретизации, итог по Парсевалю в пределах { "2" } %, эквивалентная шумовая полоса Ханна { "1.5" } бина; noise_like_synthesis_is_unbiased_through_welch — медиана «Welch минус модель» в пределах { "0.1" } dB через круговое преобразование ci16_le; synthesised_iq_through_sigmf_reproduces_the_model_spectrum); tests/sigmf_welch_oracle.rs::welch_and_sigmf_io_match_scipy_and_sigmf_python (PSD Уэлча в сравнении с scipy { "1.18.1" } signal.welch по каждому бину с относительной точностью { "1e-12" } на { "27" } случаях, наблюдаемо { "6.0e-14" }; пять записей sigmf-python { "1.13.0" } декодированы побитово идентично с идентичными метаданными; записи, созданные крейтом, побитово идентично считываются sigmf-python и валидны по схеме SigMF { "v1.2.6" })
+
+seg-390697edfd7d = ephem (standish_state, standish_elements, standish_nominal_error, ecliptic_to_icrf); ephem_provider (AnalyticSolarSystem); solar_system (SolarSystemScenario)
+
+seg-0e2a03d21df4 = tests/solar_system_standish_preregistered.rs::standish_rms_errors_are_within_explanatory_supplement_table_8_10_1 (барицентры 1800-2050 из таблицы { "1" } и { "3000" } BC-3000 AD из таблицы { "2" }, { "8908" } и { "21857" } эпох, наихудшее СКО { "0.778" } от значения таблицы { "8.10.1" }); tests/solar_system_standish_earth_icrf_preregistered.rs (earth_from_the_split_barycentre_is_within_the_emb_table_8_10_1_rms: Земля через AnalyticSolarSystem и icrf_to_ecliptic, СКО { "0.483" } от значения EMB; icrf_positions_are_within_the_table_8_10_1_rms: положения тел таблицы { "1" } и Земли в ICRF, наихудшее { "0.778" }; earth_minus_barycentre_offset_matches_de441_1950_to_2050: разделение по лунному ряду, наихудшие { "0.088" } deg и { "6.1" } km); ephem::tests (standish_periods_obey_keplers_third_law; a_planet_track_is_one_closed_ellipse). Не определяющая регрессия: tests/solar_system_horizons_reference.rs
+
+seg-af9dc8bcbd0a = ephem_provider (KernelEphemeris::relative_position_utc, utc_to_tdb_jd2); naif_kernel; timescales
+
+seg-02aaea0ff091 = tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_at_utc_epochs ({ "600" } положений на { "200" } эпохах UTC 1973-2026, выбранных по хэшу предварительной регистрации; наихудшее { "0.66" } порога, { "2.96" } m); tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_on_the_full_kernel_when_present (зависит от данных); tests/kernel_ephemeris_skyfield_oracle.rs::barycentre_only_bodies_are_refused_not_substituted; ephem_provider::tests
+
+seg-19387ac03ee7 = radiometric (light_time_solution, two_way_range, shapiro_delay); solar_system (link, link_on); ephem_provider (AnalyticSolarSystem)
+
+seg-12ea8306ca6a = tests/solar_system_light_time_solver_preregistered.rs::light_time_solver_on_de441_positions_matches_horizons_lt_within_1e_6_s (барицентры Меркурия, Венеры, Марса, Юпитера и Сатурна, Солнце и Луна относительно центра Земли, по { "1576" } эпох на интерполированных положениях DE441, наихудшее { "6.7e-9" } s при { "1e-6" } s); не определяющее заявление о точности для аналитического пути: tests/solar_system_light_time_preregistered.rs (СКО c dLT от { "0.17" } до { "0.30" } порога положения из таблицы { "8.10.1" }); solar_system::tests
+
+seg-2e83f70b6649 = body (Body::iau_rotation_et, Body::iau_angles_et, Body)
+
+seg-803d90c9eacb = tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_for_the_fourteen_added_bodies ({ "41" } эпоха с { "1955" } по { "2044" }, { "574" } матрицы в пределах { "1e-9" } rad, наихудший Фобос { "1.43e-10" } rad); tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_at_fresh_epochs ({ "41" } эпоха с { "1961" } по { "2038" }, ранее никогда не сравнивавшихся, { "574" } матрицы в пределах { "1e-9" } rad, наихудший Фобос { "1.38e-10" } rad); tests/body_constants_naif_oracle.rs::constants_match_naif_pck00011_and_gm_de440 ({ "0" } из { "84" } констант четырнадцати тел отличаются от NAIF)
+
+seg-cf5cfbb6b468 = constellation (WalkerSpec::elements, gps_slots, galileo_walker, glonass_slots, GPS_BASELINE_SLOTS, GPS_EXPANDABLE_SLOTS)
+
+seg-92ee79866544 = constellation::tests::walker_24_3_1_reproduces_galileo_os_sdd_table_23 (все { "24" } строк RAAN и средней аномалии с точностью { "1e-9" } deg); constellation::tests::glonass_icd_slot_formula_is_a_walker_24_3_1 (формула слотов из ICD и Walker 24/3/1 дают одни и те же { "24" } пар узла и аргумента широты); constellation::tests::gps_presets_reproduce_the_published_equatorial_crossings (экваториальное пересечение трассы для всех { "36" } позиций GPS по RAAN, аргументу широты и часовому углу { "100.765" } deg: { "35" } в пределах { "0.0108" } deg при пороге округления { "0.015" } deg, а E3F в пределах { "0.06" } deg, потому что строка E3F самой таблицы противоречит её RAAN и аргументу широты примерно на { "0.06" } deg; вековая регрессия узла в пределах { "5" } % от -0.0402 deg/day в таблице); constellation::tests::walker_geometry_identities_are_exact (три тождества интервалов для дельта- и звёздчатых структур до { "1 584" } спутников, с точностью { "1e-9" } deg)
+
+seg-0aaf33611680 = constellation (coverage, dop_at, NormalAccum)
+
+seg-7bc2428f22d9 = constellation::tests::gps_baseline_global_dop_matches_the_sps_performance_standard (медиана HDOP { "0.940" }, { "90" } % { "1.165" }, { "95" } % { "1.255" }, { "98" } % { "1.370" }, среднее { "0.965" } при { "0.94" }, { "1.16" }, { "1.25" }, { "1.37" } и { "0.96" }, порог { "0.03" } для каждого, зафиксирован до первого прогона; медиана PDOP { "1.795" } не выше { "1.815" } из таблицы B.3-1 для ухудшенной смеси из 20-24 спутников; доступность { "100" } % глобально и в наихудшем пункте при { "98" } % и { "88" } % из таблицы 3.8-1); constellation::tests::single_epoch_dop_matches_the_hand_computation (зенит плюс три спутника на возвышении { "30" } deg: HDOP 4/3, VDOP { "2.3094" }, PDOP 8/3, TDOP { "1.5275" }, GDOP { "3.0732" } с точностью { "1e-9" } и равен orbit::dop при общих часах)
+
+seg-54bf21cf90d7 = navsignal (sine_integral, bpsk_power_in_band_closed_form, bpsk_gabor_bandwidth_closed_form_hz, dll_jitter_bandlimited_s, dll_jitter_small_spacing_limit_s, bpsk_offset_ssc_closed_form, altboc_15_10_psd, parse_modulation)
+
+seg-d2b3b13002dd = navsignal::band_limited_tests (sine_integral_matches_tables_and_its_limit — Si({ "1" }), Si(pi), Si({ "2" } pi) с точностью { "1e-12" }; bpsk_power_in_band_closed_form_matches_textbook_and_numeric — { "0.9028" } мощности в главном лепестке для BPSK(1/3), BPSK({ "1" }), BPSK({ "5" }), BPSK({ "10" }), а замкнутая форма равна квадратуре с точностью { "1e-7" } в { "10" }, { "15" }, { "20" } и { "51.15" } MHz; bpsk_gabor_closed_form_matches_numeric_and_asymptote — с точностью { "1e-4" } и асимптота sqrt(B R_c / ({ "2" } pi^{ "2" })); bandlimited_dll_reduces_to_the_textbook_forms — когерентный «ранний–поздний» BPSK({ "1" }) при { "45" } dB-Hz, B_L { "1" } Hz, d { "1" } чип, T { "20" } ms: { "0.0039564" } чипа ({ "1.159" } m) в пределах { "1" } %, некогерентная форма равна navsignal::dll_code_jitter_chips в пределах { "1" } %, предел исчезающего интервала равен своей замкнутой форме с точностью { "1e-5" }; offset_bpsk_ssc_matches_parseval_closed_form — смещения от { "0" } до { "3.2" } R_c в пределах { "0.01" } dB и -71.86 dB/Hz при нулевом смещении для BPSK({ "10" }); altboc_psd_is_unit_area_with_lobes_at_e5a_and_e5b; modulation_labels_round_trip)
+
+seg-56f381a3f611 = leo_signal (max_doppler_hz)
+
+seg-da02936f6d75 = leo_signal::tests::max_doppler_matches_published_xona_and_iridium_figures — Xona Pulsar X1 ({ "1593.3225" } MHz, { "1080" } km) { "33.2" } kHz внутри опубликованных от { "32" } до { "34" } kHz; Iridium ({ "1621" } MHz, { "780" } km) в пределах { "0.5" } kHz от опубликованных { "36" } kHz
+
+seg-f1cdf8728c6b = Опубликованные значения: максимальный доплер Xona Pulsar X1 от { "32" } до { "34" } kHz (Leclère, Marathe & Reid, ION GNSS+ { "2025" }, <a1>https://arxiv.org/abs/2509.19551</a1>); доплер Iridium до +/-36 kHz (Resilient Navigation and Timing Foundation, Recent PNT Improvements and Test Results Based on Low Earth Orbit Satellites). Вращение Земли не учитывается, что сдвигает значение примерно до { "2.3" } kHz; оба опубликованных значения достигаются и без него.
+
+seg-70fb5eb759aa = leo_link::itu (p838_coefficients, p838_k_alpha, rain_specific_attenuation_db_km)
+
+seg-6ef512cefe4d = tests/leo_link_reference.rs (p838_coefficients_reproduce_table5_to_its_printed_digits: все { "115" } строк таблицы { "5" }, от { "1" } GHz до { "1000" } GHz, каждый коэффициент в пределах { "0.6" } от последней напечатанной цифры; наихудшее наблюдаемое { "0.51" })
+
+seg-53d288ecc889 = leo_link::itu (p618_rain_attenuation_db, RainPath)
+
+seg-e1ab19315242 = tests/leo_link_reference.rs (p618_rain_attenuation_matches_the_itu_validation_examples: { "56" } случаев на пяти пунктах, { "14.25" } и { "29" } GHz, от { "0.001" } % до { "1" } %, в пределах { "1e-4" } dB; наблюдаемо { "5e-6" } dB)
+
+seg-cfe59399d0a3 = leo_link::itu (p618_scintillation_db, wet_refractivity, ScintillationPath)
+
+seg-8a35d6b6f974 = tests/leo_link_reference.rs (p618_scintillation_matches_the_itu_validation_examples: { "42" } случая на семи пунктах, { "14.25" } и { "20" } GHz, в пределах { "1e-5" } dB; наблюдаемо { "5e-7" } dB)
+
+seg-f7d2ab81d7d2 = leo_link::itu (p2109_building_entry_loss_db, BuildingClass); detection (normal_inv_cdf)
+
+seg-05bb3df0fcc5 = tests/leo_link_reference.rs (p2109_building_entry_loss_matches_the_itu_workbook: { "568" } значений, { "28" } GHz при { "0" } deg и { "2" } GHz при { "45" } deg, оба класса, P от { "1e-7" } до { "0.998" }, в пределах { "0.001" } dB)
+
+seg-5b682a1911e5 = leo_link::iono (group_delay_m, iono_free_coefficients, iono_free_noise_amplification); leo_link (fspl_db); linkbudget (free_space_loss_db)
