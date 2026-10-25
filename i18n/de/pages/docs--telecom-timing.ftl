@@ -672,14 +672,14 @@ seg-47a256757cfc = <b>Vor dem Verlust</b> ist die Uhr nachgeführt, und ihr Zeit
 seg-3ef60b128bb7 = <b>Was das Referenzszenario zeigt.</b> Bei den festgeschriebenen Eingaben (Rubidium, ±{ "2" } K tägliche Temperaturschwankung, { "24" } h Holdover nach { "1" } h Synchronisation) erreicht die Aufzeichnung einen größten absoluten Zeitfehler von { "603.2" } ns. Sie überschreitet das ePRTC-Budget von { "100" } ns { "8 206" } s nach dem Verlust und die Zuteilung von { "400" } ns nach { "25 713" } s und bleibt den ganzen Tag innerhalb von { "1 100" } ns und { "1.5" } µs. Sie verfehlt die ePRTC-A-Holdover-Hüllkurve { "3 627" } s nach dem Verlust, was zu erwarten ist: Diese Anforderung setzt eine Referenz der Caesium-Klasse voraus. Der Temperaturterm allein kann { "660" } ns erreichen, sodass er bei diesen Eingaben mehr ausmacht als die Alterung ({ "72" } ns am Ende des Tages).
 
 # text
-# c1: tests/telecom_timing_reference.rs
-# c2: allantools
-# c3: tests/fixtures/telecom_timing/holdover_te_series.csv
-# c4: docs/VERIFICATION-MATRIX.md
-seg-ba87d450423c = <c1/> prüft MTIE und TDEV der Szenarioart gegen <c2/> { "2024.06" } an <c3/>, einer CSAC-Holdover-Reihe mit { "2" } 048 Abtastwerten mit Alterung, Flicker und Temperatur. Bei { "17" } Mittelungsfaktoren für MTIE und { "12" } für TDEV stimmt MTIE exakt überein, und TDEV stimmt auf { "1.1e-15" } relativ überein. Dieselben Kurven werden aus einem vollständigen Lauf, der die CSV einliest, wieder ausgelesen. Dies validiert die Schätzer an dieser Aufzeichnung. Es validiert weder den synthetischen Holdover noch die Masken oder die Voreinstellungen, die MODELLED-Zeilen in <c4/> sind.
-
-# text
 seg-6fdc3cc32a2f = <s1>Zurück</s1>Slot-Zeitgebung
 
 # text
 seg-1108b114de88 = <s1>Weiter</s1>Getäuschte Zeit
+
+# text
+# c1: tests/telecom_timing_reference.rs
+# c2: allantools
+# c3: tests/fixtures/telecom_timing/holdover_te_series.csv
+# c4: docs/VERIFICATION-MATRIX.md
+seg-ba87d450423c = <c1/> prüft MTIE und TDEV der Szenarioart gegen <c2/> { "2024.06" } an <c3/>, einer CSAC-Holdover-Reihe mit { "2" } 048 Abtastwerten mit Alterung, Flicker und Temperatur. Bei { "17" } Mittelungsfaktoren für MTIE und { "12" } für TDEV stimmt MTIE exakt überein, und TDEV stimmt auf { "1.1e-15" } relativ überein. Dieselben Kurven werden aus einem vollständigen Lauf, der die CSV einliest, wieder ausgelesen. Dies validiert die Schätzer an dieser Aufzeichnung. Es validiert weder den synthetischen Holdover noch die Masken oder die Voreinstellungen, die Zeilen MODELLED in <c4/> sind.

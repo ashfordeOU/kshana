@@ -154,15 +154,6 @@ seg-3bf8025077fb = <b>Eine Entwurfsentscheidung</b>: eine Zuteilung, Gewichtung,
 seg-4f0aafd7166e = <b>Eine interne Identität</b>: ein numerisches Integral gegen seine eigene analytische Form, ein Rundlauf, eine Inversion, ein Eigenschafts- oder Monotonietest.
 
 # text
-# c1: IntegrationRun
-# c2: IntegrationRun
-# c3: integration_run_only_on_modelled_rows
-# c4: src/verification.rs
-# c5: validated_rows_require_an_external_oracle
-# c6: ExternalDataset
-seg-4f4408e4ebab = <b>Ein Integrationslauf gegen einen realen Host</b> (<c1/>): ein Plugin in einen realen Signal-K-Server oder OpenCPN laden oder die Ausgabe eines realen Gates an einen TCP-Verbraucher einspeisen und prüfen, dass der Host die Eingabe akzeptiert und den erwarteten Zustand zeigt. Er zeigt, dass die Verkabelung funktioniert. Der Host ist keine unabhängige Referenz für irgendeinen Wert, den die Integration trägt, es gibt also nichts Externes zum Vergleichen, und eine solche Zeile (die Zeile der maritimen Integrationen) ist MODELLED, nicht VALIDATED. <c2/> ist eine eigene Art unabhängiger Referenz, nur auf MODELLED-Zeilen erlaubt: <c3/> in <c4/> scheitert, wenn eine VALIDATED-Zeile sie trägt, und <c5/> verlangt bereits, dass jede VALIDATED-Zeile <c6/> ist.
-
-# text
 seg-a39a87c56a16 = <b>Plausibilität an realen Eingaben</b>: reale Daten, die nur als Eingabe dienen, mit Zusicherungen zur Größenordnung statt einem Vergleich mit einem externen Wert.
 
 # text
@@ -170,16 +161,6 @@ seg-db6f5d98b4ef = Eine Toleranz, die nach Kenntnis des Vergleichs gewählt wurd
 
 # text
 seg-f4f18b7549df = Wie die Regel durchgesetzt wird
-
-# text
-# c1: validated_oracle_basis()
-# c2: src/verification.rs
-# c3: tests/verification_rows_declare_an_oracle_basis.rs
-# c4: #[test]
-seg-19a62c7e0aee = Jede VALIDATED-Zeile deklariert in <c1/> in <c2/>, auf welcher Art sie beruht (Measured, Library, Reference, P1 oder P2), die unabhängige Quelle (zitiert aus dem eigenen Referenztext der Zeile) und den einen Test, der den Vergleich trägt. Die Unit-Tests neben der Tabelle scheitern, wenn eine VALIDATED-Zeile nicht deklariert oder doppelt deklariert ist, wenn eine Deklaration eine Zeile nennt, die nicht VALIDATED ist, wenn die deklarierte Quelle nicht die ist, die der Referenztext der Zeile nennt, oder Kshana selbst ist, wenn der deklarierte Test nicht einer ist, den die Zeile zitiert, oder wenn eine P2-Zeile keine unabhängige numerische Bibliothek nennt. <c3/> verlangt dann, dass der deklarierte Test als echtes <c4/> auf der Platte existiert und nicht ignoriert wird. Was die Maschine nicht prüfen kann, ist, ob der genannte Test gegen die deklarierte Quelle vergleicht; das bleibt eine menschliche Lektüre. Zahlen je Art sind hier nicht angegeben: Die Tabelle ist die Quelle.
-
-# text
-seg-e8ae3e380f40 = Bestehende VALIDATED-Zeilen, nach der Regel neu geprüft
 
 # text
 seg-1dd44545a67a = Die Regel wurde auf die bestehenden Zeilen ebenso angewendet wie auf künftige Beförderungen.
@@ -214,9 +195,6 @@ seg-16a4261c77ec = <b>Planetenpositionen im Sonnensystem aus den Standish-Kepler
 
 # text
 seg-8d5b51a942e0 = <b>Lichtlaufzeit zwischen Körpern des Sonnensystems.</b> Der Lichtlaufzeit-Löser wird nun mit den Lichtlaufzeiten von Horizons innerhalb von { "1e-6" } s an Positionen aus DE441 verglichen, ein vorab registrierter Zielwert, der den Positionszielwert nicht erbt.
-
-# text
-seg-e96900bc322f = <b>MODELLED-Zeilen, die die beiden Richtlinien beförderbar machen</b> (nur durch den zeilenweisen Lauf { "0.30" }, nie durch diesen Text): unter P1 die Schranke der Emitter-Geolokalisierung mit TDOA/FDOA (Zeit- und Frequenzdifferenz der Ankunft), die Kopplung von relativistischer Uhrenrate und Bezugssystem, die Synchronisationsmasken der ITU-T (Telecommunication Standardization Sector) (nur für Maskenwerte, die die Empfehlungen als Zahlen abdrucken; die übertragenen Knickpunkte, gegen sich selbst geprüft, zählen nicht) und die Positionierungsschranke für nichtterrestrische 5G-Netze (nur wenn eine veröffentlichte ausgearbeitete Zahl gefunden wird); unter P2 die Gleichtakt-Integritätsblindheit, das skalare Zeitgebungs-Schutzniveau nach MHSS (multiple-hypothesis solution separation) und die GLS-Weißung (generalised least squares). Die beiden Benchmark-Zeilen zur Zeitgebungsintegrität (der Klassifikator für das Stanford-Integritätsdiagramm und der Bewerter der Integritätsabdeckung) sind regelbasierte Klassifikation, keine lineare Algebra, daher erreicht P2 sie nicht; sie brauchen ein unabhängiges Werkzeug, und das einzige gefundene (gLAB) trägt eine nichtkommerzielle Lizenz.
 
 # text
 seg-50a08fe5918b = <b>Konsistenz mit früheren Ablehnungen.</b> Die Vallado-Prüfung der Zeile zum Startfenster würde sich nun unter P1 qualifizieren, wenn ihr Test das abgedruckte ausgearbeitete Beispiel berechnet; der Plan { "0.30" } befördert sie stattdessen über Orekit. Die Übergangstabelle der Mondzeit je Uhrenklasse bleibt MODELLED: Die Tabelle, die sie reproduziert, stammt aus dem eigenen Papier dieses Projekts, das nicht unabhängig ist.
@@ -1407,10 +1385,6 @@ seg-b359e0e92e20 = Zweites IMU-Profil
 seg-1a304949bcf9 = NaveGo ADIS16488 (ARW { "0.3" } deg/√hr, VRW { "0.029" } m/s/√hr), beide auf < { "5" }% zurückgewonnen.
 
 # text
-# c1: KSHANA_KFGINS_DIR
-seg-fea9287d6533 = Ehrlicher Geltungsbereich: Dies validiert das <b>stochastische Fehlermodell</b> gegen Allan-Koeffizienten aus Datenblättern. Der Fahrzeugdatensatz <b>KF-GINS</b> von i2Nav-WHU (WHU: Wuhan University) wird als separate, datengesteuerte Prüfung verwendet: Der lose gekoppelte EKF mit geschlossener Schleife und Fehlerzustand mit dem GNSS-Hebelarmmodell ist eine VALIDATED-Zeile der <a1>Verifikationsmatrix</a1> (<em>Lose gekoppelter GNSS/INS-EKF mit Hebelarm auf dem Datensatz KF-GINS</em>), verglichen mit der C++-Referenztrajektorie von KF-GINS unter Zielwerten, die vor dem Lauf registriert wurden. Er läuft nur dort, wo der Datensatz bereitgestellt wird (<c1/>); ohne ihn laufen die synthetischen Lader- und Hebelarmtests. Die eng gekoppelten Varianten und die Trägerphasenvarianten werden von dieser Zeile nicht abgedeckt (die Zeile für eng gekoppeltes GNSS/INS mit Trägerphase ist MODELLED).
-
-# text
 # c1: src/body.rs
 # c2: src/mars_frame.rs
 # c3: src/ephem_provider.rs
@@ -2062,11 +2036,6 @@ seg-cb9dfbed826d = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <b>Unabhängige Ref
 seg-69a214b7236d = Vorab registrierte Vorhersagen
 
 # text
-# c1: docs/predictions/
-# c2: tests/prediction_frozen.rs
-seg-343fe86f6a50 = Eine vorab registrierte Vorhersage ist ein MODELLED-Ergebnis, das eingefroren wird, bevor Daten existieren, mit denen es bewertet werden kann, wobei das Bewertungsprotokoll zugleich festgelegt wird. Sie ist keine Validierung und fügt keine Zeile im Register hinzu. Jede liegt in <c1/>, mit ihren eingefrorenen Eingaben, ihrem Ergebnis und deren SHA-256-Hashes, und <c2/> schlägt fehl, wenn sich ein eingefrorenes Byte bewegt; auf eine geänderte Annahme wird mit einer neuen, datierten Vorhersage neben der alten geantwortet, nie durch deren Änderung.
-
-# text
 seg-e65d79893e2c = Vorhersage
 
 # text
@@ -2382,9 +2351,6 @@ seg-c5bf3b23d688 = Die in der Linie { "0.28" } hinzugefügten Fähigkeiten werde
 
 # text
 seg-d791a48b3895 = Fähigkeit (Art)
-
-# text
-seg-d4779be2efd8 = Externe unabhängige Referenz, oder warum sie MODELLED bleibt
 
 # text
 # c1: telecom-timing
@@ -2829,15 +2795,6 @@ seg-9b6e59789117 = <b>ebene Familie von Distant-Retrograde-Orbits</b> gegenüber
 seg-c77384abd1cc = <b>Budget der Präzision der HF-Entfernungsmessung</b> gegenüber einer Referenz aus ersten Prinzipien.
 
 # text
-# c1: tests/fixtures/{p1_footprint,lunar_service,eop_prediction,rf_ranging_precision,dro_family_jpl,p2_independent_dop}/
-# c2: src/verification.rs
-# c3: VERIFICATION-MATRIX.md
-# c4: gen_validation_artifacts
-# c5: verification_matrix()
-# c6: tests/verification_artifacts_doc_sync.rs
-seg-a451dbe09e10 = Prüfkörper und Skripte zur Erzeugung der unabhängigen Referenz liegen unter <c1/>. Sie stärken die Nachweise hinter Fähigkeiten, die in der maschinell geprüften Matrix (<c2/>) <b>MODELLED</b> bleiben; es sind Regressionsprüfungen, <b>keine</b> neuen VALIDATED-Zeilen der Matrix, sodass sie die Anzahl der maschinell geprüften Matrix nicht selbst ändern. Diese Anzahl wird hier nicht wiederholt, weil eine von Hand getippte Kopie davon abdriftet: Die aktuelle Aufteilung steht im erzeugten Kopf von <a1><c3/></a1>, den <c4/> aus <c5/> schreibt und <c6/> festlegt.
-
-# text
 seg-a353a63661de = <s1>Zurück</s1>Exporte und Importe zur Interoperabilität
 
 # text
@@ -2914,3 +2871,46 @@ seg-3332c6c1ae86 = GNSS-freie Quantennavigation (src/quantum_nav_od.rs)
 
 # text
 seg-9b46a5add4ab = Fehler-/Anomalieerkennung für Quanten-PNT-Systeme (src/quantum_faults.rs)
+
+# text
+# c1: validated_oracle_basis()
+# c2: src/verification.rs
+# c3: tests/verification_rows_declare_an_oracle_basis.rs
+# c4: #[test]
+seg-19a62c7e0aee = Jede Zeile der Stufe VALIDATED deklariert in <c1/> in <c2/>, auf welcher Art sie beruht (Measured, Library, Reference, P1 oder P2), die unabhängige Quelle (zitiert aus dem eigenen Referenztext der Zeile) und den einen Test, der den Vergleich trägt. Die Unit-Tests neben der Tabelle scheitern, wenn eine Zeile der Stufe VALIDATED nicht deklariert oder doppelt deklariert ist, wenn eine Deklaration eine Zeile nennt, die nicht VALIDATED ist, wenn die deklarierte Quelle nicht die ist, die der Referenztext der Zeile nennt, oder Kshana selbst ist, wenn der deklarierte Test nicht einer ist, den die Zeile zitiert, oder wenn eine P2-Zeile keine unabhängige numerische Bibliothek nennt. <c3/> verlangt dann, dass der deklarierte Test als echter <c4/> auf der Platte existiert und nicht ignoriert wird. Was die Maschine nicht prüfen kann, ist, ob der genannte Test gegen die deklarierte Quelle vergleicht; das bleibt eine menschliche Lektüre. Zahlen je Art sind hier nicht eingetippt: Die Tabelle ist die Quelle.
+
+# text
+# c1: docs/predictions/
+# c2: tests/prediction_frozen.rs
+seg-343fe86f6a50 = Eine vorab registrierte Vorhersage ist ein Ergebnis der Stufe MODELLED, das eingefroren wird, bevor Daten existieren, mit denen es bewertet werden kann, wobei das Bewertungsprotokoll zugleich festgelegt wird. Sie ist keine Validierung und fügt keine Zeile im Register hinzu. Jede liegt in <c1/>, mit ihren eingefrorenen Eingaben, ihrem Ergebnis und deren SHA-256-Hashes, und <c2/> schlägt fehl, wenn sich ein eingefrorenes Byte bewegt; auf eine geänderte Annahme wird mit einer neuen, datierten Vorhersage neben der alten geantwortet, nie durch deren Änderung.
+
+# text
+# c1: IntegrationRun
+# c2: IntegrationRun
+# c3: integration_run_only_on_modelled_rows
+# c4: src/verification.rs
+# c5: validated_rows_require_an_external_oracle
+# c6: ExternalDataset
+seg-4f4408e4ebab = <b>Ein Integrationslauf gegen einen realen Host</b> (<c1/>): ein Plugin in einen realen Signal-K-Server oder OpenCPN laden oder die Ausgabe eines realen Gates an einen TCP-Verbraucher einspeisen und prüfen, dass der Host die Eingabe akzeptiert und den erwarteten Zustand zeigt. Er zeigt, dass die Verkabelung funktioniert. Der Host ist keine unabhängige Referenz für irgendeinen Wert, den die Integration trägt, es gibt also nichts Externes zum Vergleichen, und eine solche Zeile (die Zeile der maritimen Integrationen) ist MODELLED, nicht VALIDATED. <c2/> ist eine eigene Art unabhängiger Referenz, die nur auf Zeilen mit MODELLED erlaubt ist: <c3/> in <c4/> schlägt fehl, wenn eine Zeile mit VALIDATED sie trägt, und <c5/> verlangt bereits von jeder Zeile mit VALIDATED, <c6/> zu sein.
+
+# text
+# c1: tests/fixtures/{p1_footprint,lunar_service,eop_prediction,rf_ranging_precision,dro_family_jpl,p2_independent_dop}/
+# c2: src/verification.rs
+# c3: VERIFICATION-MATRIX.md
+# c4: gen_validation_artifacts
+# c5: verification_matrix()
+# c6: tests/verification_artifacts_doc_sync.rs
+seg-a451dbe09e10 = Prüfkörper und Skripte zur Erzeugung der unabhängigen Referenz liegen unter <c1/>. Sie stärken die Nachweise hinter Fähigkeiten, die in der maschinell geprüften Matrix (<c2/>) <b>MODELLED</b> bleiben; es sind Regressionsprüfungen, <b>keine</b> neuen Zeilen VALIDATED der Matrix, sodass sie die Anzahl der maschinell geprüften Matrix nicht selbst ändern. Diese Anzahl wird hier nicht wiederholt, weil eine von Hand getippte Kopie davon abdriftet: Die aktuelle Aufteilung steht im erzeugten Kopf von <a1><c3/></a1>, den <c4/> aus <c5/> schreibt und <c6/> festlegt.
+
+# text
+seg-d4779be2efd8 = Externe unabhängige Referenz, oder warum sie modelliert bleibt
+
+# text
+seg-e8ae3e380f40 = Bestehende VALIDATED Zeilen, nach der Regel neu geprüft
+
+# text
+seg-e96900bc322f = <b>Zeilen mit MODELLED, die die beiden Richtlinien beförderbar machen</b> (nur durch den zeilenweisen Lauf { "0.30" }, nie durch diesen Text): unter P1 die Schranke der Emitter-Geolokalisierung mit TDOA/FDOA (Zeit- und Frequenzdifferenz der Ankunft), die Kopplung von relativistischer Uhrenrate und Bezugssystem, die Synchronisationsmasken der ITU-T (Telecommunication Standardization Sector) (nur für Maskenwerte, die die Empfehlungen als Zahlen abdrucken; die übertragenen Knickpunkte, gegen sich selbst geprüft, zählen nicht) und die Positionierungsschranke für nichtterrestrische 5G-Netze (nur wenn eine veröffentlichte Beispielrechnung gefunden wird); unter P2 die Blindheit der Integrität gegenüber Gleichtaktfehlern, das skalare Zeitschutzniveau MHSS (Multiple-Hypothesis Solution Separation) und die Weißung mit GLS (generalisierte kleinste Quadrate). Die beiden Benchmark-Zeilen zur Zeitintegrität (der Klassifikator für das Stanford-Integritätsdiagramm und der Bewerter der Integritätsabdeckung) sind regelbasierte Klassifikation, keine lineare Algebra, daher erreicht P2 sie nicht; sie brauchen ein unabhängiges Werkzeug, und das einzige gefundene (gLAB) trägt eine nichtkommerzielle Lizenz.
+
+# text
+# c1: KSHANA_KFGINS_DIR
+seg-fea9287d6533 = Ehrlicher Geltungsbereich: Dies validiert das <b>stochastische Fehlermodell</b> gegen Allan-Koeffizienten aus Datenblättern. Der Fahrzeugdatensatz <b>KF-GINS</b> von i2Nav-WHU (WHU: Wuhan University) wird als separate, datengesteuerte Prüfung verwendet: Der lose gekoppelte EKF mit geschlossener Schleife und Fehlerzustand mit dem GNSS-Hebelarmmodell ist eine VALIDATED Zeile der <a1>Verifikationsmatrix</a1> (<em>Lose gekoppelter GNSS/INS-EKF mit Hebelarm auf dem Datensatz KF-GINS</em>), verglichen mit der C++-Referenztrajektorie von KF-GINS unter Zielwerten, die vor dem Lauf registriert wurden. Er läuft nur dort, wo der Datensatz bereitgestellt wird (<c1/>); ohne ihn laufen die Tests mit synthetischem Loader und Hebelarm. Die eng gekoppelten und die trägerphasenbasierten Varianten werden von dieser Zeile nicht abgedeckt (die Zeile zum trägerphasenbasierten eng gekoppelten GNSS/INS ist MODELLED).

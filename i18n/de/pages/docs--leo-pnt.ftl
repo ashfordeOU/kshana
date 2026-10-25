@@ -542,9 +542,6 @@ seg-e54b0342fa79 = VALIDATED und MODELLED
 seg-dd808d1741f3 = Eine Zeile ist nur dann VALIDATED, wenn ein Test einen veröffentlichten Aufbau reproduziert und die veröffentlichte Zahl innerhalb einer angegebenen Toleranz festlegt; alles andere ist MODELLED, mit seiner Begründung (<a1>VERIFICATION-MATRIX.md</a1>, <a2>MODELLED-RATIONALE.md</a2>).
 
 # text
-seg-592a6cf625c5 = VALIDATED-Zeilen zu LEO-PNT:
-
-# text
 seg-344712930047 = bandbegrenzte Signalleistung in geschlossener Form und Early-Late-Codeverfolgungsjitter an veröffentlichten Betriebspunkten (Betz und Kolodziejski { "2009" }), mit gegengeprüfter Gabor-Bandbreite und gegengeprüftem SSC;
 
 # text
@@ -558,9 +555,6 @@ seg-fc668542b66d = die Skalierung der ionosphärischen Verzögerung erster Ordnu
 
 # text
 seg-59847c667c8b = die global gemittelten SISRE-Gewichte (Montenbruck et al. { "2018" }), der Nutzeralgorithmus des Galileo-ICD gegen RTKLIB an realen Rundsende-Ephemeriden und CRC-24Q gegen seinen Katalog-Prüfwert.
-
-# text
-seg-922761c46f8a = MODELLED-Zeilen zu LEO-PNT: jeder Signalentwurf und jede Bandabwägung, der Mehrband-Wasserfall, jeder Überflug und jede Streckenbilanz als Ganzes, die Voreinstellungen, Positionslösungen mit geringer Energie, die Anpassung und die Formate der Nachricht, Doppler- und gemeinsame Positionierung, PPP-Konvergenz, NTN-Positionierung, Zeitübertragung, polare Abdeckung, die durchgängige Kette, die Spoofing-Monitore und die Ionosphärensondierung sowie jede Kampagne (eine Kampagne setzt Typen zusammen und fügt keine Physik hinzu; ihre Zusammensetzungsidentitäten werden getestet, <a1>CAMPAIGNS.md</a1>). Kein LEO-C/N0, kein Entfernungsmessfehler und keine Positionierungszahl wird mit einer Messung irgendeines Satelliten verglichen.
 
 # text
 seg-3cc1d3f1c0f8 = Ein Szenario ausführen
@@ -725,3 +719,9 @@ seg-ee3c5b58e6fa = <s1>Zurück</s1>Mondbahn und Mondoberfläche als Infrastruktu
 
 # text
 seg-6b951d6413c8 = <s1>Weiter</s1>LEO-Signalentwürfe
+
+# text
+seg-592a6cf625c5 = Zeilen VALIDATED zu LEO-PNT:
+
+# text
+seg-922761c46f8a = Zeilen MODELLED zu LEO-PNT: jeder Signalentwurf und jede Bandabwägung, der Mehrband-Wasserfall, jeder Überflug und jede Streckenbilanz als Ganzes, die Voreinstellungen, Positionslösungen mit geringer Energie, die Anpassung und die Formate der Nachricht, Doppler- und gemeinsame Positionierung, PPP-Konvergenz, NTN-Positionierung, Zeitübertragung, polare Abdeckung, die durchgängige Kette, die Spoofing-Monitore und die Ionosphärensondierung sowie jede Kampagne (eine Kampagne setzt Typen zusammen und fügt keine Physik hinzu; ihre Zusammensetzungsidentitäten werden getestet, <a1>CAMPAIGNS.md</a1>). Keine LEO-C/N0, kein Entfernungsmessfehler und keine Positionierungskennzahl wird mit einer Messung irgendeines Satelliten verglichen.

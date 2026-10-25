@@ -415,9 +415,6 @@ seg-8b5fd4e4ea35 = Jeder mit offenem Kshana kann einen Lauf wiederholen und erh�
 seg-22c9d1934491 = Ehrliche Kennzeichnungen werden durchgereicht.
 
 # text
-seg-c0c9f2748dcd = Jedes Pro-Ergebnis ist als MODELLED gekennzeichnet. Jede Zahl behält die Stufe, die ihr die offene Engine gegeben hat (validiert, modelliert oder PARTNER), nie eine höhere.
-
-# text
 seg-fe62a7a81520 = Design-Optimierer
 
 # text
@@ -498,9 +495,6 @@ seg-aaf8b7feaa9b = Ein Pro-Nutzer gibt an, wie unsicher jede Eingabe ist, und er
 # text
 seg-9176a44d9494 = Es funktioniert mit jedem offenen Szenario. Eingaben werden nach Sobol'-Sensitivitätsindizes oder nach standardisierten Regressionskoeffizienten gereiht, und eine nicht verlässliche Rangfolge wird als solche markiert. Eine lange Studie kann angehalten und fortgesetzt werden.
 
-# text
-seg-c9050f66bedf = <b>Was es nicht leistet.</b> Eingaben werden als unabhängig behandelt. Mehr Läufe verringern den Stichprobenfehler, nicht den Modellfehler: Ein MODELLED-Typ bleibt MODELLED.
-
 # attr:aria-label
 seg-02ef1c43f3d7 = Unsicherheitsansichten
 
@@ -574,9 +568,6 @@ seg-80a916e122e5 = Ein kostenloser Nutzer erhält einen Bericht je Lauf.
 seg-62e6a11bddd9 = Ein Pro-Nutzer erhält mit einem Befehl ein Missionsdossier: Anforderungen, geprüft gegen echte Läufe, eine Verifikationsmatrix mit ihren offenen Punkten und ein PDF (Portable Document Format), in dem sich jede Zahl mit der kostenlosen Engine neu herleiten lässt.
 
 # text
-seg-abcdc63e7121 = Eine auf MODELLED- oder PARTNER-Basis erfüllte Anforderung wird markiert. Anforderungen, die durch Test, Inspektion oder Demonstration zu verifizieren sind, bleiben offene Punkte, wie auch immer der Lauf verlief.
-
-# text
 seg-6a0ace9c0245 = <b>Was es nicht leistet.</b> Simulationsnachweise gelten als Analyse und ersetzen keinen Test, keine Inspektion und keine Demonstration. Ein Dossier ist keine Zertifizierung, keine Qualifikation und keine Akzeptanz durch eine Behörde.
 
 # text
@@ -610,9 +601,6 @@ seg-21ef0770a07c = Mit { "240" } zusätzlichen Satelliten im niedrigen Erdorbit 
 seg-d739debd8759 = Methode: Analyse · Lauf RUN-LEO · gelesener Wert: { "7.5" } min
 
 # text
-seg-1bea7f394d61 = Offener Punkt: MODELLED-Basis
-
-# text
 seg-62352fb0b903 = ppp.cases[{ "0" }].median_convergence_min <= { "10" } min
 
 # text
@@ -635,9 +623,6 @@ seg-2f64c266aaa9 = Mit der LEO-Schicht soll der fusionierte dreidimensionale Pos
 
 # text
 seg-ab3c35475bb8 = Methode: Test · Lauf RUN-LEO · gelesener Wert: { "0.4349" } m
-
-# text
-seg-813bc2c7156f = Offener Punkt: Methode, MODELLED-Basis
 
 # text
 seg-00370d1ef747 = global.availability_pct >= { "95" } %
@@ -670,9 +655,6 @@ seg-c3cd6e0b2c8a = Unter der skriptgesteuerten L-Band-Störung soll das Träger-
 seg-c707f32aa460 = Methode: Analyse · Lauf RUN-SPECTRUM · gelesener Wert: { "44.0752" } dB-Hz
 
 # text
-seg-917d0ea847c5 = Offener Punkt: PARTNER-Basis
-
-# text
 seg-14ff8808abca = timeline.bands[{ "0" }].min_cn0_dbhz >= { "25" } dB-Hz
 
 # text
@@ -701,9 +683,6 @@ seg-3a2678859ea3 = In der verketteten Mission soll innerhalb von { "30" } Minute
 
 # text
 seg-fb11475464de = Methode: Demonstration · Lauf RUN-CAMPAIGN · gelesener Wert: { "1,200" } s
-
-# text
-seg-446c41fcb3ab = Offener Punkt: Methode, PARTNER-Basis
 
 # text
 seg-b6177dbc98f7 = fom.rms_error_relays_m <= { "5" } m
@@ -750,9 +729,6 @@ seg-6cc250f43823 = Seite { "2" } des erzeugten Missionsdossiers
 # text
 seg-dbb08e7c5575 = { "21" } Seiten, ein Befehl. <a1>Das erzeugte PDF öffnen</a1> (Portable Document Format)
 
-# text
-seg-277df27d9586 = Kshana Pro { "0.2.0" } auf offener Engine { "0.29.0" } · <b>kshana-pro mission build</b> · { "5" } Läufe und eine Trade-Studie · { "7" } erreicht, alle auf MODELLED- oder PARTNER-Basis · Dossier-SHA-256 49df1e0e… · Entwicklungs-Build
-
 # attr:aria-label
 seg-583ce9cabfb2 = Weitere Antworten von Kshana Pro
 
@@ -779,9 +755,6 @@ seg-3b9495ecb948 = Ein Pro-Nutzer benennt in einer Reihe von Szenarien die Zahle
 
 # text
 seg-31f8c78ca95e = Sie erweitert die Regressionsprüfung von Szenarien. Eine Monte-Carlo-Zahl wird mit Statistik statt mit einer Toleranz beurteilt, sodass ein neuer Satz zufälliger Seeds nicht als Regression gilt, eine verdoppelte Streuung dagegen schon. Jeder Lauf wird an eine Historie angehängt, in der jeder Datensatz den Hash des vorherigen trägt, und eine Prüfung meldet, ob diese Kette intakt ist.
-
-# text
-seg-01e316af4e6b = <b>Was es nicht leistet.</b> Eine Überwachung belegt, dass eine MODELLED-Zahl stabil blieb oder sich bewegte; sie belegt nicht, dass die Zahl wahr ist. Eine Zahl ohne angegebene Richtung wird gemeldet und lässt nie einen Lauf fehlschlagen.
 
 # text
 seg-ca34b7fbd8a0 = Kampagnenüberwachung · <b>sechs Revisionen, eine Historie</b>
@@ -1260,3 +1233,30 @@ seg-75e59e32a089 = <a1><b>Alles andere</b><s1>contact@ashforde.org · Nachrichte
 
 # text
 seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>
+
+# text
+seg-01e316af4e6b = <b>Was es nicht leistet.</b> Eine Überwachung belegt, dass eine Zahl der Stufe MODELLED stabil blieb oder sich bewegte; sie belegt nicht, dass die Zahl wahr ist. Eine Zahl ohne angegebene Richtung wird gemeldet und lässt nie einen Lauf fehlschlagen.
+
+# text
+seg-1bea7f394d61 = Offener Punkt: Basis MODELLED
+
+# text
+seg-277df27d9586 = Kshana Pro { "0.2.0" } auf offener Engine { "0.29.0" } · <b>kshana-pro mission build</b> · { "5" } Läufe und eine Trade-Studie · { "7" } erreicht, alle auf der Basis MODELLED oder PARTNER · Dossier-SHA-256 49df1e0e… · Entwicklungs-Build
+
+# text
+seg-446c41fcb3ab = Offener Punkt: Methode, Basis PARTNER
+
+# text
+seg-813bc2c7156f = Offener Punkt: Methode, Basis MODELLED
+
+# text
+seg-917d0ea847c5 = Offener Punkt: Basis PARTNER
+
+# text
+seg-abcdc63e7121 = Eine auf Basis MODELLED oder PARTNER erfüllte Anforderung wird markiert. Anforderungen, die durch Test, Inspektion oder Demonstration zu verifizieren sind, bleiben offene Punkte, wie auch immer der Lauf verlief.
+
+# text
+seg-c0c9f2748dcd = Jedes Pro-Ergebnis ist als MODELLED gekennzeichnet. Jede Zahl behält die Stufe, die ihr die offene Engine gegeben hat (validiert, modelliert oder Partner), nie eine höhere.
+
+# text
+seg-c9050f66bedf = <b>Was es nicht leistet.</b> Eingaben werden als unabhängig behandelt. Mehr Läufe verringern den Stichprobenfehler, nicht den Modellfehler: Eine Art, die MODELLED ist, bleibt MODELLED.

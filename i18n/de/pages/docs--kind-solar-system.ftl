@@ -94,12 +94,6 @@ seg-3e24f0bf9ccd = MODELLED, jede Zeile gekennzeichnet: Uranus und Neptun aus Ta
 seg-62b2e925233a = WAS VALIDATED IST UND WAS NICHT Jeder Körper trägt seine eigene Bezeichnung. Merkur bis Saturn und die Erde sind VALIDATED gegen JPL Horizons (Development Ephemeris DE441) innerhalb des Doppelten des nominalen Fehlers der Seite von Standish. Uranus und Neptun aus Table { "1" } überschreiten die Werte der Seite gegen DE441 (um das { "2.0" }- und das { "5.2" }-Fache) und sind MODELLED; ebenso Pluto, der Mond und die sieben Monde, die gegen Horizons gemessen wurden, aber kein p (Kommentar der Szenariodatei, Zeilen { "20" } bis { "25" })
 
 # text
-seg-2b36ac40e457 = Uranus und Neptun aus Standish Table { "1" }, Pluto und die Planetengeschwindigkeiten sind MODELLED, nicht validiert: eine Teilbehauptung wird extern geprüft, aber die gesamte Fähigkeit setzt sich aus modellierten Teilen zusammen, daher bleibt die Fähigkeit MODELLED. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
-
-# text
-seg-c19e6d035b7e = Positionen des Mondes und von sieben großen Monden (Phobos, Deimos, die galileischen Monde, Titan) sind MODELLED, nicht validiert: eine Teilbehauptung wird extern geprüft, aber die gesamte Fähigkeit setzt sich aus modellierten Teilen zusammen, daher bleibt die Fähigkeit MODELLED. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
-
-# text
 seg-ce15aaa5453c = Die physikalischen Konstanten jedes Körpers des Sonnensystems und der Bericht über das gesamte System sind MODELLED, nicht validiert: geprüft gegen die eigene geschlossene bzw. analytische Identität — das findet Übertragungs- und Koeffizientenfehler, ist aber keine externe Referenz. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
 
 # text
@@ -131,3 +125,9 @@ seg-3319b18ac61f = und { "1" } weitere in der Matrix.
 
 # text
 seg-fbac1cbb2422 = MODELLED { "2" } · VALIDATED { "3" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die dieses Kind nennen.
+
+# text
+seg-2b36ac40e457 = Uranus und Neptun aus Standish Table { "1" }, Pluto und die Planetengeschwindigkeiten sind MODELLED, nicht validiert: eine Teilbehauptung wird extern geprüft, aber die gesamte Fähigkeit setzt sich aus modellierten Teilen zusammen, daher bleibt die Fähigkeit modelliert. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
+
+# text
+seg-c19e6d035b7e = Positionen des Mondes und von sieben großen Monden (Phobos, Deimos, die galileischen Monde, Titan) sind MODELLED, nicht validiert: Ein Teilanspruch wird extern geprüft, aber die gesamte Fähigkeit setzt sich aus modellierten Teilen zusammen, daher bleibt die Fähigkeit modelliert. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))

@@ -422,14 +422,6 @@ seg-1230388da233 = direkt angegebene Satelliten, wie angegeben
 seg-1a30004a7f9e = Eine Mischung verbindet sie mit <c1/>. <c2/> ist der Zeitpunkt, zu dem die Elementsätze propagiert wurden, und <c3/> nennt, was vom Text nicht verwendet wurde, mit dem Grund: fehlerhafte oder verwaiste Zeilen von Elementsätzen (mit ihren Zeilennummern), Sätze, die der Parser zurückgewiesen hat, und Sätze, die SGP4 nicht zu diesem Zeitpunkt propagieren konnte (zerfallen oder jenseits seiner Grenzen); insgesamt höchstens { "100" } Einträge, dann ein letzter Eintrag, der den Rest zählt. Eine leere <c4/>-Liste fügt keine Voreinstellungen hinzu. Der Skyplot nennt die Grundlage in seiner Fußzeile.
 
 # text
-# c1: orbit::cofactor_from_los
-# c2: orbit::dop
-# c3: orbit::dop_cov
-# c4: orbit::dop
-# c5: tests/dop_reference.rs
-seg-8560c13c7ea3 = <b>Ein Kern.</b> Die Kofaktormatrix ist <c1/>, der Aufbau der Entwurfsmatrix und die Gauß-Jordan-Inverse hinter <c2/>. <c3/> stellt die Kovarianz bereit und <c4/> ist deren Reduktion, sodass die VALIDATED-Skalare unverändert sind und weiterhin durch <c5/> festgeschrieben werden. Es gibt keine zweite DOP-Implementierung.
-
-# text
 # c1: k σ √λ
 # c2: λ
 # c3: k = √(−2 ln(1 − p))
@@ -515,3 +507,11 @@ seg-745d19d6b35d = <s1>Zurück</s1>Maritime Integrationen
 
 # text
 seg-bbe8dd07d33b = <s1>Weiter</s1>Vertrauen als Sicherheitstelemetrie
+
+# text
+# c1: orbit::cofactor_from_los
+# c2: orbit::dop
+# c3: orbit::dop_cov
+# c4: orbit::dop
+# c5: tests/dop_reference.rs
+seg-8560c13c7ea3 = <b>Ein Kern.</b> Die Kofaktormatrix ist <c1/>, der Aufbau der Entwurfsmatrix und die Gauß-Jordan-Inverse hinter <c2/>. <c3/> stellt die Kovarianz bereit und <c4/> ist deren Reduktion, sodass die Skalare der Stufe VALIDATED unverändert sind und weiterhin durch <c5/> festgeschrieben werden. Es gibt keine zweite DOP-Implementierung.

@@ -347,10 +347,6 @@ seg-20fbf9a3fba7 = Dies sind Prüfungen gegen die veröffentlichten Spezifikatio
 seg-7349c09206ac = Austausch von Bahn, Lage und Kerneln (Bibliothek, { "0.36" })
 
 # text
-# c1: --export
-seg-d5e34188aa96 = Neben den Formaten von <c1/> fügte { "0.36" } Bibliotheks-Leser und -Schreiber für die Standarddateien hinzu, die Missionsanalyse-Werkzeuge austauschen. Sie nehmen Text oder Bytes entgegen und geben sie zurück und berühren keine Datei. Jede ist eine VALIDATED-Zeile der <a1>Verifikationsmatrix</a1>, gegen die dort genannte unabhängige Implementierung:
-
-# text
 # c1: kshana::odm
 # c2: kshana::ndm_xml
 seg-cd8b6f2d43be = <b>CCSDS Orbit Data Messages</b> (<c1/>, mit <c2/> für die XML-Form): OPM, OMM und OCM in Schlüsselwert-Notation (KVN) und NDM/XML, nach CCSDS 502.0-B-3 (OPM und OMM in den Versionen { "3.0" } und { "2.0" }, OCM { "3.0" }). In beide Richtungen gegen Orekit geprüft: Orekit liest die Dateien von Kshana, und Kshana liest die von Orekit. Die verbleibenden Befunde sind durch Tests festgehalten.
@@ -556,3 +552,7 @@ seg-0525f7fbbfd2 = <s1>Weiter</s1>Validierungsstatus
 
 # text
 seg-53a778722c16 = STK .e
+
+# text
+# c1: --export
+seg-d5e34188aa96 = Neben den Formaten von <c1/> fügte { "0.36" } Bibliotheks-Leser und -Schreiber für die Standarddateien hinzu, die Missionsanalyse-Werkzeuge austauschen. Sie nehmen Text oder Bytes entgegen und geben sie zurück und berühren keine Datei. Jede ist eine VALIDATED Zeile der <a1>Verifikationsmatrix</a1>, gegen die dort genannte unabhängige Implementierung:
