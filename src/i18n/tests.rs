@@ -242,3 +242,41 @@ fn numbers_take_the_languages_decimal_mark_and_english_is_rust_formatting() {
         with_lang(l, || assert_eq!(num(2.5, 2), want, "{tag}"));
     }
 }
+
+#[test]
+fn count_variables_are_numbers_so_a_translation_can_pick_the_plural_form() {
+    assert!(is_count_name("n") && is_count_name("n_epochs") && is_count_name("sequence_count"));
+    assert!(!is_count_name("name") && !is_count_name("nominal") && !is_count_name("epochs"));
+    // English prints a count exactly as the text it was: no grouping, no fraction.
+    for n in ["0", "1", "7", "1000", "1234567", "123456789012"] {
+        let v = arg_value("n", n);
+        let fv = match &v {
+            FluentValue::Number(x) => format!("{}", x.as_string()),
+            _ => panic!("{n} is not a number"),
+        };
+        assert_eq!(fv, n);
+    }
+    assert!(matches!(arg_value("n", "1.5"), FluentValue::String(_)));
+    assert!(matches!(arg_value("label", "3"), FluentValue::String(_)));
+}
+
+#[test]
+fn a_plural_selector_in_a_translation_sees_the_count() {
+    let ru = build(
+        "ru",
+        "m = { $n ->\n    [one] { $n } спутник\n    [few] { $n } спутника\n    *[many] { $n } спутников\n}\n",
+    )
+    .unwrap();
+    for (n, want) in [
+        ("1", "1 спутник"),
+        ("3", "3 спутника"),
+        ("5", "5 спутников"),
+        ("21", "21 спутник"),
+    ] {
+        let mut fa = FluentArgs::new();
+        fa.set("n", arg_value("n", n));
+        let pattern = ru.get_message("m").and_then(|m| m.value()).unwrap();
+        let mut errors = Vec::new();
+        assert_eq!(ru.format_pattern(pattern, Some(&fa), &mut errors), want);
+    }
+}
