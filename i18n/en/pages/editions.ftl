@@ -11,8 +11,7 @@ seg-c0d539a3b05e = Free to build on. <s1>Pro when it has to stand up in review.<
 seg-da31637e6dbf = The engine is, and stays, open source under the AGPL-3.0 (GNU Affero General Public License, version { "3" }), with no feature gate. Ashforde® OÜ sustains it with expertise and a proprietary overlay, not with seat fees on the open engine. There are no prices on this site: every paid route starts with a message.
 
 # text
-# c1: 
-seg-dca88d8e959c = <a1>Launch Kshana Studio <c1/></a1>
+seg-f79048f88b5c = Launch Kshana Studio
 
 # text
 seg-3dd36a679942 = See Kshana Pro
@@ -31,9 +30,6 @@ seg-1d45f4717196 = From the repository
 
 # text
 seg-8b49f6477e8f = Open core
-
-# text
-seg-f79048f88b5c = Launch Kshana Studio
 
 # text
 seg-0cad5afda483 = Request an evaluation
@@ -171,10 +167,6 @@ seg-91da86f32a66 = Model-based systems-engineering (MBSE) and programme tooling 
 seg-65b886427270 = Kshana Pro is available under contract. It depends on the open core and never forks it, so nothing is taken out of the free engine.
 
 # text
-# c1: 
-seg-38eaaca53445 = <a1>Request an evaluation <c1/></a1>
-
-# text
 seg-98f81c393a13 = See it amplified
 
 # text
@@ -215,10 +207,6 @@ seg-4d8a03851089 = Commercial support and integration, training and consulting
 seg-23723d311433 = Scoped to your question and delivered under contract, reproducible from scenario, seed and engine version.
 
 # text
-# c1: 
-seg-b6eb33e3149e = <a1>Request a study <c1/></a1>
-
-# text
 seg-164d0c3f0427 = One engine, two licences.
 
 # text
@@ -256,10 +244,6 @@ seg-eb109018312a = Integrate it into a toolchain whose other parts cannot be AGP
 
 # text
 seg-6574581cd2d4 = Get warranty, indemnity or support terms the AGPL disclaims
-
-# text
-# c1: 
-seg-5973b84b88c2 = <a1>Ask about a commercial licence <c1/></a1>
 
 # text
 seg-2cbf39df6210 = Kshana Pro and the other proprietary overlays are separate products under their own contract, not part of either licence. <a1>What the commercial licence covers</a1>
@@ -782,8 +766,7 @@ seg-4b31c9074821 = The bundled campaign pack, { "10" } watched figures over thre
 seg-7a2d9c48a64e = Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro ci</b> · demonstration revisions of <c1/> · history { "6" } records, chain intact, last hash bb2f10eb… · MODELLED
 
 # text
-# c1: 
-seg-0d9fca5fdcfe = <a1>Open in Kshana Studio<c1/></a1>
+seg-9a86ef058d27 = Open in Kshana Studio
 
 # text
 seg-62e8bf260720 = Will our signal plan interfere with GNSS, or suffer from it?
@@ -1098,8 +1081,7 @@ seg-853667670c1f = <b>Models of your hardware.</b> Sensor or resilience models c
 seg-520654f215c5 = <b>Export-controlled resilience models are not publicly offered.</b> Such work is done only under the appropriate clearance and a non-disclosure agreement.
 
 # text
-# c1: 
-seg-890b470ca9ea = <a1>Request a Pro evaluation <c1/></a1>
+seg-6d3d0f8c9b7c = Request a Pro evaluation
 
 # text
 seg-8ea876b3c515 = The charts in this section are drawn from the files the Pro commands wrote for the worked examples that ship with Pro: modelled results, not statements about any real mission. The wording is quoted from the public Kshana Pro page of the open repository.
@@ -1244,20 +1226,16 @@ seg-61a4eb09767f = MCP server guide
 seg-3d2a59a4a52a = No forms, no prices
 
 # text
-# c1: 
-seg-8e875271be58 = <a1><b>Evaluate Kshana Pro</b><s1>Request an evaluation under contract</s1><c1/></a1>
+seg-1aa35b022d85 = <b>Evaluate Kshana Pro</b><s1>Request an evaluation under contract</s1>
 
 # text
-# c1: 
-seg-864996d20436 = <a1><b>Request a custom study</b><s1>Tell us the system and the decision it feeds</s1><c1/></a1>
+seg-f9d8b42c68cc = <b>Request a custom study</b><s1>Tell us the system and the decision it feeds</s1>
 
 # text
-# c1: 
-seg-8204c8ed724b = <a1><b>Commercial licence</b><s1>The open core, for closed integration</s1><c1/></a1>
+seg-2e0c129fb875 = <b>Commercial licence</b><s1>The open core, for closed integration</s1>
 
 # text
-# c1: 
-seg-75e59e32a089 = <a1><b>Anything else</b><s1>contact@ashforde.org · mail goes straight to the team</s1><c1/></a1>
+seg-67341b9eea70 = <b>Anything else</b><s1>contact@ashforde.org · mail goes straight to the team</s1>
 
 # text
 seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>

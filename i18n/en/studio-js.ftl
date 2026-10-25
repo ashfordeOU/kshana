@@ -9792,6 +9792,168 @@ js-meankind-weather-line = Geomagnetic activity index ap is { $ap }.
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:155
 js-meankind-whole-run = over the whole run
 
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+js-mthread-bcol-label = Label
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+js-mthread-bcol-share = Size against the largest position term
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+js-mthread-bcol-sigma = 1-sigma
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+js-mthread-bcol-source = Contribution
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:65
+js-mthread-budget-caption = { $phase }: 1-sigma at entry { $entry }, at the peak { $peak }, at exit { $exit } (position); each contribution below, largest first.
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:131
+js-mthread-chart-title = { $metric } against mission elapsed time, one band per phase
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-kind = Kind
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-label = Label
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-limit = Largest contribution
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-margin = Against the limit
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-peak-pos = Peak position
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-peak-time = Peak clock bias
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-peak-vel = Peak velocity
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-phase = Phase
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-window = Mission time
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:81
+js-mthread-example-not-loaded = the recorded result did not load
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:97
+js-mthread-file-failed = { $name } could not be read: { $reason }.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:27
+js-mthread-kv-elapsed = Mission elapsed time
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:31
+js-mthread-kv-engine = Engine
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:29
+js-mthread-kv-epoch = Epoch (UTC)
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:28
+js-mthread-kv-limits = Phases with a stated limit
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:28
+js-mthread-kv-limits-value = { $n } ({ $met } met, { $missed } not met)
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:26
+js-mthread-kv-phases = Phases
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:30
+js-mthread-kv-seed = Seed
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:25
+js-mthread-kv-title = Thread
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:39
+js-mthread-layout-phases = Equal width per phase
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:39
+js-mthread-layout-time = True mission time
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:148
+js-mthread-limit-title = { $phase }: the stated limit, { $limit }
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:163
+js-mthread-log-scale = logarithmic scale
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:84
+js-mthread-margin-met = { $m }× the limit, met
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:84
+js-mthread-margin-missed = { $m }× the limit, not met
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:107
+js-mthread-metric-pos = Position, 1-sigma
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:107
+js-mthread-metric-time = Clock bias, 1-sigma
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:107
+js-mthread-metric-vel = Velocity, 1-sigma
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:21
+js-mthread-na = n/a
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:67
+js-mthread-no-events = This phase records no events.
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:67
+js-mthread-no-phases = the result holds no phases
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:84
+js-mthread-no-requirement = no limit stated
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:127
+js-mthread-no-series = The result holds no samples of this quantity.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:23
+js-mthread-no-weak = The result names no weakest link.
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:46
+js-mthread-not-json = the result is not JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:47
+js-mthread-not-thread = this is not a mission-thread result (schema { $schema } expected)
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:46
+js-mthread-note-phases = Each phase is drawn with the same width so a short phase is as visible as a long one; the time at which each begins is under the band. Switch to true mission time to see the real proportions. Dashed lines are the limits the document states; a break in the line is a handover.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:47
+js-mthread-note-time = True mission time: a phase of a few minutes can be too narrow to see. Switch to equal widths to read it. Dashed lines are the limits the document states; a break in the line is a handover.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:86
+js-mthread-open-failed = The example could not be opened: { $reason }.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:96
+js-mthread-opened = { $name } read in this page; nothing was sent anywhere.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:78
+js-mthread-opening = Opening the Artemis-class example…
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:74
+js-mthread-prov = Every label on this page is the engine's own; the page copies each number from the result and only scales it.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:85
+js-mthread-recorded = The engine's recorded result (version { $version }): an illustrative chain built from public mission descriptions; the numbers are modelled and stand for nothing real.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:66
+js-mthread-sets-peak = sets the peak
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:91
+js-mthread-too-large = That file is larger than { $mb } MB; it is not read.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:22
+js-mthread-weak-line = The weakest link is the phase <b>{ $phase }</b>: { $margin }× its stated limit, set by { $source }. The margin is the smallest ratio of a stated limit to the phase's peak; above 1 meets the requirement.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:53
+js-mthread-weakest-flag = weakest link
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:158
+js-mthread-weakest-mark = weakest link
+
 # 2026-10-01-studio-rebuild/lib/observatory.mjs:145
 js-obs-cell-extent = { $south }° to { $north }° N, { $west }° to { $east }° E
 
