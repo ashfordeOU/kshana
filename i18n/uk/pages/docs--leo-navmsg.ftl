@@ -56,8 +56,6 @@ seg-9c0643152bbf = { "16" } + { "21" } типово, плюс шкала час�
 
 seg-e0afd541d64c = 22-параметрова модель Liu, Su, Xie, Zhou та Qu ({ "2025" }, <em>Remote Sensing</em> { "17" }({ "16" }):{ "2894" }, doi <a1>10.3390/rs17162894</a1>): { "16" } плюс <c1/>
 
-seg-a6042071a03f = модель «нульового годинника» ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations): поліном в земній системі координат (ECEF) для кожної осі за <c1/> (типовий ступінь { "6" }), без членів годинника, оскільки годинник супутника підлаштовано під системний час (<a1>InsideGNSS</a1>)
-
 seg-5869d6f65796 = { "22" } типово
 
 seg-6663aa3eeebc = Алгоритм користувача (<c1/>) — це послідовність з ICD Galileo (рівняння Кеплера, поправки другої гармоніки, земний вузол), після якої для <c2/> додаються три поліноми вздовж власної системи координат кеплерової орбіти: радіальний уздовж обчисленого положення, поперечний уздовж нормалі до орбіти за скоригованим нахилом і вузлом, уздовж траєкторії доповнює трійку. Годинник додає релятивістський член з ICD <c3/>; для <c4/> це загальна форма <c5/> з полінома та його похідної.
@@ -302,8 +300,6 @@ seg-5098c8b6f813 = { "0.561" } см
 
 seg-5e7fdc441b03 = { "28.774" } см
 
-seg-82d3fa2e27ef = Рядок із нульовим годинником оцінюється відносно годинника, підлаштованого із залишком { "0.24" } м (показник ATOMIC), решта — відносно вільно біжучого годинника, до якого їх підігнано.
-
 seg-769db176020f = <b>Liu та ін. { "2025" }, SISRE залежно від висоти (MODELLED).</b> Той самий сценарій підганяє 22-параметрову модель Kshana на 20-хвилинних дугах на п'яти висотах зі статті, з нахилом кожного супутника:
 
 seg-01e587427a7e = Супутник
@@ -480,19 +476,13 @@ seg-33f4c7af9c53 = Несівна
 
 seg-f4510e898031 = Модель повідомлення
 
-seg-125aac68d94f = PUBLIC, <a1>arXiv { "2509.19551" }</a1>
-
 seg-890aa92157e4 = { "1080" } км, { "53" }°
 
 seg-1eca13ba2309 = X1 { "1593.3225" } МГц
 
 seg-ee9947222a30 = не опубліковано
 
-seg-77af616c1f6e = PUBLIC, arXiv { "2509.19551" }
-
 seg-f016786d7755 = { "520" } км, { "97" }°
-
-seg-780e931bf88d = PUBLIC, <a1>звіт RNTF</a1>, опис орбітального угруповання
 
 seg-d5df094a5f89 = { "781" } км, { "86.4" }°
 
@@ -500,35 +490,25 @@ seg-94bc78cee128 = { "1621" } МГц (діапазон { "1616" }–{ "1626" } �
 
 seg-3f5de7f74502 = не передається
 
-seg-4944294c230f = PUBLIC, <a1>NAVIGATION { "72" }({ "1" })</a1>, опис орбітального угруповання
-
 seg-c2a2761f73b1 = { "550" } км, { "53" }°
 
 seg-2ef501f97eff = діапазон Ku, значення середини діапазону (репрезентативне)
 
 seg-567fab40bd24 = немає (сигнали нагоди)
 
-seg-a76527ba66b6 = PUBLIC, <a1>Sensors { "2023" }</a1>, <a2>Satellite Navigation { "2026" }</a2>
-
 seg-f5dd5086eedd = { "700" } км, { "55" }°
 
 seg-5fa6b60f66b4 = поблизу B1 (у джерелі замасковано; L1 як замінник)
 
-seg-5ebbf0042d7c = REPRESENTATIVE
-
 seg-4f3e5a683682 = { "600" } км, { "97.8" }°
 
 seg-c06f62ca5173 = { "5020" } МГц (центр C-діапазону RNSS)
-
-seg-884c81e55e79 = PUBLIC, <a1>InsideGNSS</a1>
 
 seg-3b1fd041f9ba = { "500" } км (репрезентативне)
 
 seg-522c85402d84 = L1 (репрезентативне)
 
 seg-064b03765e4d = <c1/>, ступінь { "6" }, { "60" } с, оновлюється кожні { "30" } с, нульовий годинник, залишок підлаштування { "0.24" } м
-
-seg-5619bc61b958 = WORKSHOP і PUBLIC
 
 seg-20572d7e348d = { "510" } км, { "97.4" }°
 
@@ -576,10 +556,6 @@ seg-88b5cda10923 = 22-параметрова модель і підгонка Li
 
 seg-7272ebdc1fec = Прецизійні орбіти TU Graz ITSG чотирьох супутників проти таблиць { "4" }, { "5" }, { "6" } і { "8" } статті: відношення вздовж, поперек, радіально та SISRE від { "0.755" } до { "1.138" } на днях зі статті та від { "0.683" } до { "1.186" } на восьми відкладених днях, у межах 1.5x (<c1/>)
 
-seg-94066142a642 = Поліном «нульового годинника» ATOMIC і таблиця п'яти висот
-
-seg-205cdc6a3696 = Факти ATOMIC з InsideGNSS; опублікована таблиця Liu, надрукована поруч із підгонкою Kshana на проінтегрованій орбіті, не зафіксована
-
 seg-8c00ed11609c = Замкнені форми ICD; модель Klobuchar, перевірена за RTKLIB
 
 seg-d5653e0958b5 = SISRE — лише похибка подання: без похибки визначення чи прогнозування орбіти.
@@ -601,3 +577,51 @@ seg-02dc0d42fb21 = sfu
 seg-4d208b6c0eb8 = доба
 
 seg-a7d59ba6e225 = рад
+
+# words to translate: ATOMIC
+# EN: the ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations) "zero-clock" model: an Earth-centred Earth-fixed (ECEF) polynomial per axis in <c1/> (default degree { "6" }), no clock terms because the satellite clock is steered to system time (<a1>InsideGNSS</a1>)
+seg-a6042071a03f = модель «нульового годинника» ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations): поліном в земній системі координат (ECEF) для кожної осі за <c1/> (типовий ступінь { "6" }), без членів годинника, оскільки годинник супутника підлаштовано під системний час (<a1>InsideGNSS</a1>)
+
+# words to translate: PUBLIC
+# EN: PUBLIC, <a1>arXiv { "2509.19551" }</a1>
+seg-125aac68d94f = ПУБЛІЧНИЙ, <a1>arXiv { "2509.19551" }</a1>
+
+# words to translate: PUBLIC
+# EN: PUBLIC, arXiv { "2509.19551" }
+seg-77af616c1f6e = ПУБЛІЧНИЙ, arXiv { "2509.19551" }
+
+# words to translate: PUBLIC
+# EN: PUBLIC, <a1>RNTF report</a1>, constellation description
+seg-780e931bf88d = ПУБЛІЧНИЙ, <a1>звіт RNTF</a1>, опис орбітального угруповання
+
+# words to translate: PUBLIC
+# EN: PUBLIC, <a1>Sensors { "2023" }</a1>, <a2>Satellite Navigation { "2026" }</a2>
+seg-a76527ba66b6 = ПУБЛІЧНИЙ, <a1>Sensors { "2023" }</a1>, <a2>Satellite Navigation { "2026" }</a2>
+
+# words to translate: PUBLIC
+# EN: PUBLIC, <a1>InsideGNSS</a1>
+seg-884c81e55e79 = ПУБЛІЧНИЙ, <a1>InsideGNSS</a1>
+
+# words to translate: ATOMIC
+# EN: ATOMIC zero-clock polynomial and the five-altitude table
+seg-94066142a642 = Поліном «нульового годинника» ATOMIC і таблиця п'яти висот
+
+# words to translate: ATOMIC
+# EN: The zero-clock row is scored against a clock steered with a { "0.24" } m residual (the ATOMIC figure), the others against the free-running clock they fit.
+seg-82d3fa2e27ef = Рядок із нульовим годинником оцінюється відносно годинника, підлаштованого із залишком { "0.24" } м (показник ATOMIC), решта — відносно вільно біжучого годинника, до якого їх підігнано.
+
+# words to translate: PUBLIC
+# EN: PUBLIC, <a1>NAVIGATION { "72" }({ "1" })</a1>, constellation description
+seg-4944294c230f = ПУБЛІЧНИЙ, <a1>NAVIGATION { "72" }({ "1" })</a1>, опис орбітального угруповання
+
+# words to translate: REPRESENTATIVE
+# EN: REPRESENTATIVE
+seg-5ebbf0042d7c = РЕПРЕЗЕНТАТИВНИЙ
+
+# words to translate: WORKSHOP, PUBLIC
+# EN: WORKSHOP and PUBLIC
+seg-5619bc61b958 = СЕМІНАРСЬКИЙ і ПУБЛІЧНИЙ
+
+# words to translate: ATOMIC
+# EN: ATOMIC facts from InsideGNSS; the published Liu table printed beside Kshana's integrated-orbit fit, not pinned
+seg-205cdc6a3696 = Факти ATOMIC з InsideGNSS; опублікована таблиця Liu, надрукована поруч із підгонкою Kshana на проінтегрованій орбіті, не зафіксована

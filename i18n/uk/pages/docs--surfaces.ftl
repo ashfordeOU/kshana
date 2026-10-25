@@ -280,8 +280,6 @@ seg-65ffc53b15fa = файл сценарію
 
 seg-74fac0bacb76 = Run Kshana Scenario
 
-seg-f71e5e2eb4f3 = Оптична лінія часу крізь атмосферу: доступність за майданчиками, рознесення майданчиків, методи покращення, зв'язок між відмовою та holdover (тип сценарію <c1/>; <c2/>; MODELLED, ILLUSTRATIVE майданчики, консультативно)
-
 seg-490147c5e7ec = <b>очікується</b>: подання Studio ще немає; сценарій запускається в засобі запуску сценаріїв Studio та на картці інструментів «Командний рядок»
 
 seg-de2c788670aa = Тест holdover, оцінений за наданим оператором записом похибки часу: базовий рівень, GNSS, вимкнений оператором, holdover, відновлення, виміряні щодо масок ITU-T (тип сценарію <c1/>; <c2/>; MODELLED, консультативно; Kshana нічого не передає і не керує нічим)
@@ -299,8 +297,6 @@ seg-3e16823c1c90 = <c1/> (вбудовано; <c2/> містить виміря�
 seg-126a59c992d9 = <c1/> (лише вбудовано; <c2/> відхиляється)
 
 seg-2010eb196565 = <b>N/A</b> (у { "0.38" } ноутбука немає; сценарії запускаються в будь-якому ноутбуці через <c1/>)
-
-seg-593b7761803d = Місячна орбіта та поверхня як навігаційна та геодезична інфраструктура: узгодженість визначення орбіти, розв'язання неоднозначностей фази несівної, спільне оцінювання систем відліку, космічний зв'язок і чутливість до чисел Лява (тип сценарію <c1/>, <c2/>; <c3/>; MODELLED, ILLUSTRATIVE вхідні дані, консультативно)
 
 seg-34ed7b4d59e4 = <c1/> (і п'ять споріднених прикладів)
 
@@ -405,8 +401,6 @@ seg-b96c18c1f157 = <c1/> (без Монте-Карло, без SVG)
 seg-5b62ca019ebd = <b>N/A</b> (див. рядок можливості)
 
 seg-4f7453d89d9d = MODELLED геометрія; на виході JSON або SVG
-
-seg-c853beadb55e = REPRESENTATIVE пресети із зазначенням походження
 
 seg-52638393d72d = List Scenario Kinds
 
@@ -565,3 +559,15 @@ seg-c5fbfab85e01 = <s1>Далі</s1>Плагін JetBrains
 seg-d5b5bdf6081c = Rust
 
 seg-40a7552d2ba9 = MCP
+
+# words to translate: REPRESENTATIVE
+# EN: REPRESENTATIVE presets with provenance
+seg-c853beadb55e = РЕПРЕЗЕНТАТИВНІ пресети із зазначенням походження
+
+# words to translate: ILLUSTRATIVE
+# EN: Optical timing link through the atmosphere: per-site availability, site diversity, enhancement techniques, outage-to-holdover coupling (scenario kind <c1/>; <c2/>; MODELLED, ILLUSTRATIVE sites, advisory)
+seg-f71e5e2eb4f3 = Оптична лінія часу крізь атмосферу: доступність за майданчиками, рознесення майданчиків, методи покращення, зв'язок між відмовою та holdover (тип сценарію <c1/>; <c2/>; MODELLED, ІЛЮСТРАТИВНІ майданчики, консультативно)
+
+# words to translate: ILLUSTRATIVE
+# EN: Lunar orbit and surface as navigation and geodetic infrastructure: orbit-determination consistency, carrier-phase ambiguity resolution, frame co-estimation, space-tie and Love-number sensitivity (scenario kind <c1/>, <c2/>; <c3/>; MODELLED, ILLUSTRATIVE inputs, advisory)
+seg-593b7761803d = Місячна орбіта та поверхня як навігаційна та геодезична інфраструктура: узгодженість визначення орбіти, розв'язання неоднозначностей фази несівної, спільне оцінювання систем відліку, космічний зв'язок і чутливість до чисел Лява (тип сценарію <c1/>, <c2/>; <c3/>; MODELLED, ІЛЮСТРАТИВНІ вхідні дані, консультативно)

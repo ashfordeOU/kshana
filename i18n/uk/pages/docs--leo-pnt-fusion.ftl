@@ -32,31 +32,17 @@ seg-9872e31ebd72 = Джерела
 
 seg-e20c823f36f3 = X1 на { "1593.3225" } МГц, { "1.023" } Мчип/с, прийнята потужність від −{ "148.2" } до −{ "139.1" } дБВт; X5 на { "1190.51625" } МГц, { "10.23" } Мчип/с, від −{ "144.9" } до −{ "136.2" } дБВт; { "258" } супутників у { "18" } площинах на { "1080" } км, { "53" } і { "97" } град
 
-seg-57b56c874c9b = PUBLIC: <a1>arXiv:{ "2509.19551" }</a1>. Репрезентативно: розподіл між двома нахилами, фазування, похибка дальності
-
 seg-b0c5e502c21b = Iridium Satellite Time and Location (STL): { "66" } супутників, шість майже полярних площин на { "780" } км і { "86.4" } град; пакети на { "1616" }–{ "1626" } МГц, квадратурна фазова маніпуляція (QPSK) зі швидкістю { "25 000" } символів/с; прийнята потужність від { "300" } до { "2400" } разів мінімуму GPS
-
-seg-d65ae64607c1 = PUBLIC: <a1>Resilient Navigation and Timing Foundation (RNTF)</a1>, <a2>National Institute of Standards and Technology (NIST)</a2>, <a3>угруповання</a3>. DERIVED: потужність у дБВт. Репрезентативно: несівна в центрі діапазону, похибка дальності
 
 seg-36771f73c21f = Лише Доплер: { "11.325" } ГГц, маяк OFDM (ортогональне частотне мультиплексування) { "240" } МГц, C/N0 до { "57.07" } дБ-Гц, похибка Доплера { "30" } Гц; перша оболонка з { "1584" } супутників на { "550" } км і { "53" } град
 
-seg-44d4dd41848a = PUBLIC: <a1>Kozhaya, Saroufim і Kassas { "2025" }</a1>, <a2>Federal Communications Commission (FCC) 21-48</a2>. Репрезентативно: фазування, C/N0 на горизонті
-
 seg-2e13de07f9e9 = Двійкова фазова маніпуляція (BPSK) зі швидкістю { "2.046" } Мчип/с поблизу L1 і L5; сантиметрове визначення орбіти
-
-seg-dd94a3839cb3 = PUBLIC: <a1>початкова оцінка</a1>, <a2>GPS Solutions</a2>. Репрезентативно: несівні, потужність, усе експлуатаційне орбітальне угруповання
 
 seg-a34d6a186a36 = Система C-діапазону у виділенні радіонавігаційної супутникової служби (RNSS) від { "5010" } до { "5030" } МГц для систем, параметри яких не є публічними
 
-seg-7712896ff69a = PUBLIC: виділення за <a1>Регламентом радіозв'язку Міжнародного союзу електрозв'язку (ITU)</a1>. Усе інше <b>репрезентативно</b>
-
 seg-89ebc32469d9 = Модель ефемерид і годинника: поліноміальні ефемериди шостого порядку, оновлення кожні { "30" } с, годинник, підстроєний до часу GNSS; SISRE { "0.26" } м
 
-seg-ddbefb8a6723 = PUBLIC: <a1>InsideGNSS</a1>. DERIVED: SISRE. Поєднується з будь-яким орбітальним угрупованням через <c1/>
-
 seg-6389c92e07d4 = Демонстрація на орбіті (IOD) Celeste Європейського космічного агентства (ESA), одна конфігурація параметризованої конструкції сигналу
-
-seg-b8bd6e76aeb2 = PUBLIC орбіта (<a1>ESA</a1>, <a2>реферат Institute of Navigation (ION) { "16907" }</a2>); WORKSHOP параметри сигналу, представлені на семінарі LEO-PNT програми Navigation Innovation and Support Programme (NAVISP) ESA у { "2026" } році
 
 seg-bd7fb6eb444a = Кожне число, отримане із семінару, міститься в модулі <c1/> файла <c2/>, який використовує <c3/> (<c4/> контролює, де вони можуть з'являтися). Як пресет вилучається: кожне число рушія, отримане із семінару, міститься в одному файлі, <c5/>, який <c6/> компілює лише тоді, коли він існує, та у сценаріях лише з репозиторію <c7/>. Видалення цього файла й цих сценаріїв вилучає пресет без змін у коді; усі інші тести, оракули та сценарії працюють без нього, а лічильник файлів сценаріїв у README все одно враховує вилучені файли.
 
@@ -173,3 +159,31 @@ seg-19ba6cc0ca75 = Значення пресетів, позначені як р
 seg-f9f335d67ff8 = <s1>Назад</s1>Навігаційне повідомлення LEO
 
 seg-062138bbb73c = <s1>Далі</s1>Проєктування орбітального угруповання
+
+# words to translate: PUBLIC
+# EN: PUBLIC: <a1>arXiv:{ "2509.19551" }</a1>. Representative: the split between the two inclinations, the phasing, the range error
+seg-57b56c874c9b = ПУБЛІЧНИЙ: <a1>arXiv:{ "2509.19551" }</a1>. Репрезентативно: розподіл між двома нахилами, фазування, похибка дальності
+
+# words to translate: PUBLIC
+# EN: PUBLIC: <a1>Kozhaya, Saroufim and Kassas { "2025" }</a1>, <a2>Federal Communications Commission (FCC) 21-48</a2>. Representative: phasing, horizon C/N0
+seg-44d4dd41848a = ПУБЛІЧНИЙ: <a1>Kozhaya, Saroufim і Kassas { "2025" }</a1>, <a2>Federal Communications Commission (FCC) 21-48</a2>. Репрезентативно: фазування, C/N0 на горизонті
+
+# words to translate: PUBLIC
+# EN: PUBLIC: <a1>initial assessment</a1>, <a2>GPS Solutions</a2>. Representative: carriers, power, the whole operational constellation
+seg-dd94a3839cb3 = ПУБЛІЧНИЙ: <a1>початкова оцінка</a1>, <a2>GPS Solutions</a2>. Репрезентативно: несівні, потужність, усе експлуатаційне орбітальне угруповання
+
+# words to translate: PUBLIC, DERIVED
+# EN: PUBLIC: <a1>InsideGNSS</a1>. DERIVED: the SISRE. Combine with any constellation through <c1/>
+seg-ddbefb8a6723 = ПУБЛІЧНИЙ: <a1>InsideGNSS</a1>. ВИВЕДЕНИЙ: SISRE. Поєднується з будь-яким орбітальним угрупованням через <c1/>
+
+# words to translate: PUBLIC, DERIVED
+# EN: PUBLIC: <a1>Resilient Navigation and Timing Foundation (RNTF)</a1>, <a2>National Institute of Standards and Technology (NIST)</a2>, <a3>constellation</a3>. DERIVED: the power in dBW. Representative: carrier at the band centre, range error
+seg-d65ae64607c1 = ПУБЛІЧНИЙ: <a1>Resilient Navigation and Timing Foundation (RNTF)</a1>, <a2>National Institute of Standards and Technology (NIST)</a2>, <a3>угруповання</a3>. ВИВЕДЕНИЙ: потужність у дБВт. Репрезентативно: несівна в центрі діапазону, похибка дальності
+
+# words to translate: PUBLIC
+# EN: PUBLIC: the <a1>International Telecommunication Union (ITU) Radio Regulations</a1> allocation. Everything else <b>representative</b>
+seg-7712896ff69a = ПУБЛІЧНИЙ: виділення за <a1>Регламентом радіозв'язку Міжнародного союзу електрозв'язку (ITU)</a1>. Усе інше <b>репрезентативно</b>
+
+# words to translate: WORKSHOP, PUBLIC
+# EN: PUBLIC orbit (<a1>ESA</a1>, <a2>Institute of Navigation (ION) abstract { "16907" }</a2>); WORKSHOP signal parameters, presented at the ESA Navigation Innovation and Support Programme (NAVISP) LEO-PNT workshop, { "2026" }
+seg-b8bd6e76aeb2 = ПУБЛІЧНА орбіта (<a1>ESA</a1>, <a2>реферат Institute of Navigation (ION) { "16907" }</a2>); СЕМІНАРСЬКІ параметри сигналу, представлені на семінарі LEO-PNT програми Navigation Innovation and Support Programme (NAVISP) ESA у { "2026" } році

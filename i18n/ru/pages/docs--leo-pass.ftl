@@ -116,39 +116,25 @@ seg-4d49743b3544 = Диапазоны: <c1/> с необязательным п�
 
 seg-bd1e114aaea6 = Диапазон может также называть конструкцию <c1/> (<c2/>, любая конструкция в <c3/> или переданная видом <c4/>; см. <a1>LEO-SIGNAL.md</a1>). Тогда диапазон берёт центральную частоту конструкции (если не задано <c5/>), ширину полосы передачи и скорость следования чипов отслеживаемой компоненты, делит свою EIRP между компонентами конструкции по их долям мощности и на каждой эпохе сообщает C/N0 отслеживаемой компоненты и её дрожание слежения за кодом по схеме «раньше — позже» с ограниченной полосой (Betz и Kolodziejski, { "2009" }, формула вида <c6/>) как ошибку дальности.
 
-seg-1d96501bb12d = Каждая предустановка помечает свои числа как PUBLIC (с URL), REPRESENTATIVE (документированный проектный выбор, никогда не утверждение о реальной системе) или WORKSHOP.
-
 seg-f708914fed48 = Диапазоны
 
 seg-6459abcaeebe = <c1/> (по умолчанию)
-
-seg-a0dab2ebeb1b = REPRESENTATIVE; несущие L, S и C из открытых документов
 
 seg-cd0075385395 = UHF { "450" } MHz (репрезентативная), L { "1191.795" } MHz (центр Galileo E5), S { "2492.028" } MHz (NavIC S, несущая диапазона S Navigation with Indian Constellation), C { "5020" } MHz (центр выделения RNSS (радионавигационная спутниковая служба) { "5010" }–{ "5030" } MHz), каждая { "0" } dBW
 
 seg-3f0de4312fcb = { "550" } km, солнечно-синхронная, Уокер 240/12/1
 
-seg-486f17197d4d = REPRESENTATIVE, для систем диапазона C, параметры которых не опубликованы (например, TrustPoint)
-
 seg-f6696b70591c = C { "5020" } MHz, BPSK({ "10" }) (двоичная фазовая манипуляция при { "10" } × { "1.023" } Mchip/s), изофлюксная
-
-seg-4ae6741795f9 = PUBLIC, <a1>arXiv { "2509.19551" }</a1>, таблицы { "1" }–{ "2" }
 
 seg-a1be637cda63 = X1 { "1593.3225" } MHz, X5 { "1190.51625" } MHz; EIRP из опубликованной минимальной принимаемой мощности при { "10" }°
 
 seg-cb74283148d7 = { "1080" } km, { "53" }° ({ "192" }) и { "97" }° ({ "66" })
 
-seg-5ae1331b91f8 = PUBLIC, <a1>Resilient Navigation and Timing Foundation (RNTF)</a1> и опубликованная орбита
-
 seg-c995dade5aa6 = Satellite Time and Location (STL) на { "1621" } MHz (середина диапазона { "1616" }–{ "1626" } MHz); EIRP из «{ "300" } раз больше, чем у GPS»
 
 seg-dd6322466888 = { "781" } km, { "86.4" }°, { "66" } в { "6" } плоскостях
 
-seg-ad0ba129439b = PUBLIC параметры сигнала (<a1>NAVIGATION { "72" }({ "1" })</a1>), REPRESENTATIVE орбита и EIRP
-
 seg-1931203a036c = маяк Ku { "240" } MHz, только Доплер
-
-seg-0533710bbbe1 = PUBLIC структура сигнала (<a1>PMC10301026</a1>), REPRESENTATIVE орбита и EIRP
 
 seg-cee286338f01 = BPSK { "2.046" } Mchip/s вблизи L1 и L5
 
@@ -156,15 +142,11 @@ seg-fe3cdce92b31 = { "1000" } km, { "55" }°
 
 seg-03d5ae448705 = <c1/> (необязательная)
 
-seg-800f173f2b20 = WORKSHOP параметры сигнала, PUBLIC орбита
-
 seg-e8626249e708 = семь диапазонов конфигурации № 1
 
 seg-cb29553176c7 = { "510" } km, солнечно-синхронная
 
 seg-10f79909a5bc = <b>Предустановка Celeste IOD (in-orbit demonstration) необязательна.</b> Её параметры сигнала были представлены на семинаре по LEO-PNT программы Navigation Innovation and Support Programme (NAVISP) Европейского космического агентства (ESA) в { "2026" } году и пока не имеют открытого источника; они находятся в модуле <c1/> файла <c2/>, используемом <c3/>. Как предустановка удерживается: каждое число движка, полученное с семинара, находится в одном файле, <c4/>, который <c5/> включает в сборку только при его наличии, и в сценариях только для репозитория <c6/>. Удаление этого файла и этих сценариев удерживает предустановку без правки исходного кода; любые другие тесты, оракулы и сценарии работают без неё, а число файлов сценариев в README по-прежнему включает удержанные файлы. Её EIRP и диаграмма откалиброваны по кривой C/N0, показанной на семинаре, поэтому этот сценарий воспроизводит кривую по построению.
-
-seg-9f9ff4fe18f8 = Модель широковещательных эфемерид ATOMIC на основе полинома «нулевых часов» — это предустановка навигационного сообщения, и она не входит в этот вид.
 
 seg-dc496b16046b = Наблюдение LEO в сравнении с GNSS
 
@@ -293,3 +275,39 @@ seg-593081243d8c = <s1>Назад</s1>Конструкции сигналов LE
 seg-468e70f9a669 = <s1>Далее</s1>Навигационное сообщение LEO
 
 seg-072d0d8f618c = Мониторы спуфинга ([spoofer])
+
+# words to translate: REPRESENTATIVE
+# EN: REPRESENTATIVE; L, S and C carriers from public documents
+seg-a0dab2ebeb1b = РЕПРЕЗЕНТАТИВНЫЙ; несущие L, S и C из открытых документов
+
+# words to translate: REPRESENTATIVE
+# EN: REPRESENTATIVE, for C-band systems whose parameters are not public (for example TrustPoint)
+seg-486f17197d4d = РЕПРЕЗЕНТАТИВНЫЙ, для систем диапазона C, параметры которых не опубликованы (например, TrustPoint)
+
+# words to translate: REPRESENTATIVE, PUBLIC
+# EN: PUBLIC signal figures (<a1>NAVIGATION { "72" }({ "1" })</a1>), REPRESENTATIVE orbit and EIRP
+seg-ad0ba129439b = ПУБЛИЧНЫЕ параметры сигнала (<a1>NAVIGATION { "72" }({ "1" })</a1>), РЕПРЕЗЕНТАТИВНАЯ орбита и EIRP
+
+# words to translate: WORKSHOP, PUBLIC
+# EN: WORKSHOP signal parameters, PUBLIC orbit
+seg-800f173f2b20 = СЕМИНАРСКИЕ параметры сигнала, ПУБЛИЧНАЯ орбита
+
+# words to translate: ATOMIC
+# EN: The ATOMIC "zero-clock" polynomial broadcast-ephemeris model is a navigation-message preset and is not part of this kind.
+seg-9f9ff4fe18f8 = Модель широковещательных эфемерид ATOMIC на основе полинома «нулевых часов» — это предустановка навигационного сообщения, и она не входит в этот вид.
+
+# words to translate: REPRESENTATIVE, WORKSHOP, PUBLIC
+# EN: Each preset marks its numbers PUBLIC (with URL), REPRESENTATIVE (a documented design choice, never a claim about a real system) or WORKSHOP.
+seg-1d96501bb12d = Каждая предустановка помечает свои числа как «ПУБЛИЧНЫЙ» (с URL), «РЕПРЕЗЕНТАТИВНЫЙ» (документированный проектный выбор, никогда не утверждение о реальной системе) или «СЕМИНАРСКИЙ».
+
+# words to translate: PUBLIC
+# EN: PUBLIC, <a1>arXiv { "2509.19551" }</a1> Tables { "1" }–{ "2" }
+seg-4ae6741795f9 = ПУБЛИЧНЫЙ, <a1>arXiv { "2509.19551" }</a1>, таблицы { "1" }–{ "2" }
+
+# words to translate: PUBLIC
+# EN: PUBLIC, <a1>Resilient Navigation and Timing Foundation (RNTF)</a1> and the published orbit
+seg-5ae1331b91f8 = ПУБЛИЧНЫЙ, <a1>Resilient Navigation and Timing Foundation (RNTF)</a1> и опубликованная орбита
+
+# words to translate: REPRESENTATIVE, PUBLIC
+# EN: PUBLIC signal structure (<a1>PMC10301026</a1>), REPRESENTATIVE orbit and EIRP
+seg-0533710bbbe1 = ПУБЛИЧНАЯ структура сигнала (<a1>PMC10301026</a1>), РЕПРЕЗЕНТАТИВНАЯ орбита и EIRP

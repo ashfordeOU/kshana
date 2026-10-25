@@ -6,8 +6,6 @@ seg-f2ce7fc60cdf = Формат
 
 seg-d00b65801e9b = Крок
 
-seg-0d580ea8043d = Випробування holdover, оцінене за записом похибки часу, за реальним прогоном рушія v{ $version } на scenarios/holdover-test-example.toml ({ "601" } відлік через кожні { "5" } s). Оператор вилучає GNSS на { "600" } s і відновлює на { "2400" } s; похибка часу дрейфує до { "299" } ns наприкінці holdover, перевищує бюджет { "100" } ns після { "675" } s і повертається в смугу { "100" } ns через { "70" } s після відновлення. Вердикти: базові маски PASS, маски holdover FAIL, обвідна holdover FAIL, відновлення RECOVERED. Виміряно відносно маски, а не схвалення. Час є твердженням оператора, не перевіреним Kshana. Лише консультативно: результат аналізу від дослідницького та інженерного інструмента; це не навігаційне обладнання із затвердженням типу і не послуга забезпечення безпеки життя.
-
 seg-7a1246297c82 = Джерело: <c1/>
 
 seg-6ea3dec83080 = Апаратне тестування хронометражу в контурі: відключіть антену, оцініть holdover
@@ -145,3 +143,7 @@ seg-0cff831a8444 = <c1/> — це тип сценарію, тож він зап�
 seg-432c07a8e6f5 = <s1>Назад</s1>Оманливий час
 
 seg-8499ae539222 = <s1>Далі</s1>Формати журналів годинника
+
+# words to translate: RECOVERED
+# EN: A holdover test scored from a time-error record, from a real run of engine v{ $version } on scenarios/holdover-test-example.toml ({ "601" } samples every { "5" } s). GNSS is removed by the operator at { "600" } s and restored at { "2400" } s; the time error drifts to { "299" } ns at the end of holdover, past the { "100" } ns budget after { "675" } s, and returns inside the { "100" } ns band { "70" } s after restoration. Verdicts: baseline masks PASS, holdover masks FAIL, holdover envelope FAIL, recovery RECOVERED. Measured against the mask, not an approval. The times are the operator's statement, not verified by Kshana. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
+seg-0d580ea8043d = Випробування holdover, оцінене за записом похибки часу, за реальним прогоном рушія v{ $version } на scenarios/holdover-test-example.toml ({ "601" } відлік через кожні { "5" } s). Оператор вилучає GNSS на { "600" } s і відновлює на { "2400" } s; похибка часу дрейфує до { "299" } ns наприкінці holdover, перевищує бюджет { "100" } ns після { "675" } s і повертається в смугу { "100" } ns через { "70" } s після відновлення. Вердикти: базові маски PASS, маски holdover FAIL, обвідна holdover FAIL, відновлення RECOVERED. Виміряно відносно маски, а не схвалення. Час є твердженням оператора, не перевіреним Kshana. Лише консультативно: результат аналізу від дослідницького та інженерного інструмента; це не навігаційне обладнання із затвердженням типу і не послуга забезпечення безпеки життя.
