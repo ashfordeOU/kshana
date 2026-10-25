@@ -6740,6 +6740,662 @@ engine-wasm-options-json-is-not-json = options_json není JSON: { $e }
 
 engine-wasm-input-is-about-bytes-over = vstup má asi { $b64 } bajtů, přes limit { $v2 } bajtů
 
+## src/altpnt/sequential.rs
+
+engine-altpnt-sequential-title = Sekvenční navigace podle terénu (rekurzivní SITAN)
+
+engine-altpnt-sequential-free-inertial-drift-grows = volný inerciální drift (roste)
+
+engine-altpnt-sequential-terrain-matched-bounded = přiřazení k terénu (omezený)
+
+engine-altpnt-sequential-waypoint-full-scale = bod trasy →    plný rozsah { $maxv } m
+
+## src/advanced_report.rs
+
+engine-advanced-report-eyebrow = Zpráva o běhu Kshana
+
+engine-advanced-report-meta = Druh <code>{ $kind }</code> · engine { $engine } · scénář <code>{ $scenario }</code> (otisk souboru { $digest }…)
+
+engine-advanced-report-toc-summary = 1 Souhrn
+
+engine-advanced-report-toc-inputs = 2 Vstupy
+
+engine-advanced-report-toc-results = 3 Výsledky
+
+engine-advanced-report-toc-aggregation = 3a Agregace
+
+engine-advanced-report-toc-companions = 3b Animace a exporty
+
+engine-advanced-report-toc-events = 4 Události
+
+engine-advanced-report-toc-labels = 5 Verifikační štítky
+
+engine-advanced-report-toc-not-modelled = 6 Nemodelováno
+
+engine-advanced-report-toc-reproducibility = 7 Reprodukovatelnost
+
+engine-advanced-report-h-summary = 1. Shrnutí pro vedení
+
+engine-advanced-report-honesty-label = <strong>Štítek otevřenosti</strong> ({ $source }): { $label }
+
+engine-advanced-report-capabilities-used = <strong>Použité schopnosti:</strong> { $n_validated } VALIDATED, { $n_modelled } MODELLED, { $n_partner } PARTNER (využito, ne poskytováno); viz oddíl 5.
+
+engine-advanced-report-member-runs = <strong>Členské běhy:</strong> { $n }, agregované v oddílu 3a.
+
+engine-advanced-report-h-inputs = 2. Vstupy
+
+engine-advanced-report-inputs-note = Každé pole, které soubor scénáře nastavuje, rozvinuté na svou cestu. Jednotky pocházejí z bloku <code>units</code> výsledku (schéma jednotek polí, docs/field-units-schema.json), pokud pole popisuje, jinak z přípony názvu pole; jednotka, kterou neuvádí ani jedno, je zobrazena jako neuvedená.
+
+engine-advanced-report-th-parameter = Parametr
+
+engine-advanced-report-th-value = Hodnota
+
+engine-advanced-report-th-unit = Jednotka
+
+engine-advanced-report-th-unit-source = Zdroj jednotky
+
+engine-advanced-report-h-results = 3. Výsledky
+
+engine-advanced-report-chart-alt = Graf výsledků
+
+engine-advanced-report-also-written-to = { " " }(zapsáno také do { $file })
+
+engine-advanced-report-h-scalars = Skalární výsledky
+
+engine-advanced-report-h-columns = Číselné sloupce
+
+engine-advanced-report-th-result = Výsledek
+
+engine-advanced-report-th-column = Sloupec
+
+engine-advanced-report-th-count = Počet
+
+engine-advanced-report-th-min = Min
+
+engine-advanced-report-th-max = Max
+
+engine-advanced-report-th-first = První
+
+engine-advanced-report-th-last = Poslední
+
+engine-advanced-report-omitted-inputs = <p class="note">Další vstupy (počet: { $n }) jsou z této stránky vynechány; report.json uvádí stejné řádky a dokument s výsledky obsahuje každou hodnotu.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-scalars = <p class="note">Další skalární výsledky (počet: { $n }) jsou z této stránky vynechány; report.json uvádí stejné řádky a dokument s výsledky obsahuje každou hodnotu.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-columns = <p class="note">Další číselné sloupce (počet: { $n }) jsou z této stránky vynechány; report.json uvádí stejné řádky a dokument s výsledky obsahuje každou hodnotu.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-events = <p class="note">Další události (počet: { $n }) jsou z této stránky vynechány; report.json uvádí stejné řádky a dokument s výsledky obsahuje každou hodnotu.</p>{ "\u000A" }
+
+engine-advanced-report-h-aggregation = 3a. Agregace členských běhů
+
+engine-advanced-report-mode = <p>Režim <strong>{ $mode }</strong>.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind = <p>Režim <strong>{ $mode }</strong> nad druhem <code>{ $kind }</code>.</p>{ "\u000A" }
+
+engine-advanced-report-mode-runs = <p>Režim <strong>{ $mode }</strong>, členské běhy: { $n_runs }.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind-runs = <p>Režim <strong>{ $mode }</strong> nad druhem <code>{ $kind }</code>, členské běhy: { $n_runs }.</p>{ "\u000A" }
+
+engine-advanced-report-run-digest = Otisk běhu (SHA-256 z otisků výsledků členů v pořadí spuštění): <code>{ $digest }</code>
+
+engine-advanced-report-table-empty = Tato tabulka nemá žádné řádky: výsledek žádné neuvádí.
+
+engine-advanced-report-distribution-caption = Rozdělení Monte Carlo veličiny { $metric } (vzorky: { $n }), 20 košů stejné šířky; čárkované čáry označují 5., 50. a 95. percentil.
+
+engine-advanced-report-distribution-caption-unit = Rozdělení Monte Carlo veličiny { $metric } (vzorky: { $n }, { $unit }), 20 košů stejné šířky; čárkované čáry označují 5., 50. a 95. percentil.
+
+engine-advanced-report-h-companions = 3b. Animace a exporty
+
+engine-advanced-report-animation-alt = Animace časové řady běhu
+
+engine-advanced-report-animation-caption = Vlastní vzorky běhu se vykreslují za pohyblivým časovým kurzorem (animované kreslení <code>--animate svg</code>; při omezeném pohybu a v tisku ukazuje hotový obraz).
+
+engine-advanced-report-no-animation = Bez animace: { $reason }
+
+engine-advanced-report-no-animation-default = výsledek neobsahuje žádnou časovou řadu
+
+engine-advanced-report-player-written-by = Interaktivní přehrávač zapisuje <code>{ $command }</code>.
+
+engine-advanced-report-written-beside = Zapsáno vedle této zprávy: { $links }.
+
+engine-advanced-report-th-export = Export
+
+engine-advanced-report-th-applies = Platí
+
+engine-advanced-report-th-files-or-reason = Soubory nebo důvod
+
+engine-advanced-report-written-by = zapisuje <code>{ $command }</code>
+
+engine-advanced-report-does-not-apply = neplatí
+
+engine-advanced-report-yes = ano
+
+engine-advanced-report-no = ne
+
+engine-advanced-report-h-events = 4. Časová osa událostí
+
+engine-advanced-report-events-caption = Okna jako pruhy, bodové události jako tečky, na vlastní časové ose běhu.
+
+engine-advanced-report-th-start = Začátek (s)
+
+engine-advanced-report-th-end = Konec (s)
+
+engine-advanced-report-th-event = Událost
+
+engine-advanced-report-th-source = Zdroj
+
+engine-advanced-report-point-event = bodová událost
+
+engine-advanced-report-events-timeline = Časová osa událostí
+
+engine-advanced-report-point-events = bodové události ({ $n })
+
+engine-advanced-report-distribution-of = Rozdělení veličiny { $metric }
+
+engine-advanced-report-max-bin = max. koš { $n }
+
+engine-advanced-report-h-labels = 5. Verifikační štítky
+
+engine-advanced-report-th-capability = Schopnost (požadavek matice)
+
+engine-advanced-report-th-label = Štítek
+
+engine-advanced-report-th-used-by = Používá
+
+engine-advanced-report-th-oracle = Zdroj: orákulum
+
+engine-advanced-report-th-test-evidence = Testovací důkazy
+
+engine-advanced-report-h-figure-tiers = Úrovně jednotlivých hodnot uvedené ve výsledku
+
+engine-advanced-report-th-figure = Hodnota
+
+engine-advanced-report-th-tier = Úroveň
+
+engine-advanced-report-th-matrix-requirement = Požadavek matice
+
+engine-advanced-report-th-applicable = Použitelné
+
+engine-advanced-report-no-attack = ne (není nakonfigurován žádný útok)
+
+engine-advanced-report-h-not-modelled = 6. Nemodelováno a předpoklady
+
+engine-advanced-report-not-modelled-note = Každá položka je citována z místa, kde je uvedena: z dokumentu s výsledky, katalogu druhů, souboru scénáře nebo z důvodu v matici verifikace, proč řádek MODELLED zůstává modelovaný.
+
+engine-advanced-report-th-statement = Tvrzení
+
+engine-advanced-report-h-reproducibility = 7. Záznam reprodukovatelnosti
+
+engine-advanced-report-rk-command = Příkaz k reprodukci
+
+engine-advanced-report-rk-working-directory = Pracovní adresář
+
+engine-advanced-report-rk-engine-version = Verze enginu
+
+engine-advanced-report-rk-source-commit = Zdrojový commit
+
+engine-advanced-report-rk-scenario-file = Soubor scénáře
+
+engine-advanced-report-rk-scenario-sha = SHA-256 souboru scénáře (Secure Hash Algorithm 256-bit)
+
+engine-advanced-report-rk-result-hash = scenario_hash výsledku
+
+engine-advanced-report-rk-result-sha = SHA-256 dokumentu s výsledky
+
+engine-advanced-report-rk-seed = Seed
+
+engine-advanced-report-rk-platform = Platforma
+
+engine-advanced-report-rk-generated = Studie vytvořena (UTC)
+
+engine-advanced-report-rk-determinism = Determinismus
+
+engine-advanced-report-result-hash-none = dokument s výsledky žádný neuvádí
+
+engine-advanced-report-print-note = Chcete-li tuto stránku vytisknout do souboru Portable Document Format (PDF), použijte tiskový dialog prohlížeče a zvolte „Uložit jako PDF“; tisková šablona stylů vyhovuje papíru A4 i US Letter, opakuje záhlaví tabulek na dalších stránkách a oddíly vstupů, výsledků, štítků a reprodukovatelnosti začíná na nové stránce. Engine sám žádné PDF nezapisuje. report.json obsahuje stejný obsah jako tato stránka.
+
+engine-advanced-report-footer = Vytvořeno nástrojem Kshana { $engine }.{ $stamp } Reprodukovatelné ze scénáře + seedu + verze enginu. Svobodný a otevřený software (GNU Affero General Public License, AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">zdroj a dokumentace</a>.
+
+engine-advanced-report-empty-inputs = Scénář nenastavuje žádné pole kromě `kind`: tento druh běžel ve své referenční konfiguraci z dokumentovaných výchozích hodnot.
+
+engine-advanced-report-empty-scalars = Dokument s výsledky neobsahuje žádný skalár mimo svá pole; jeho čísla jsou shrnuta po sloupcích níže.
+
+engine-advanced-report-empty-series = Dokument s výsledky neobsahuje žádné číselné pole: každý výsledek je skalár v tabulce výše.
+
+engine-advanced-report-empty-events = Žádná časovaná událost: scénář nezadává žádné okno ani čas nástupu a výsledek nehlásí žádnou událost. Tento druh vyhodnocuje svou konfiguraci jako jediný případ.
+
+engine-advanced-report-empty-not-modelled = Nic ve výsledku, katalogu druhů, scénáři ani v použitých řádcích matice neuvádí pro tento běh žádné omezení modelování.
+
+engine-advanced-report-capabilities-statement = Každý řádek je řádek verifikační matice, který druhy tohoto běhu uplatňují, se štítkem a orákulem, které mu matice přiřazuje (src/verification.rs, docs/VERIFICATION-MATRIX.md). Štítek hodnotí schopnost tak, jak ji matice zaznamenává; nehodnotí konfiguraci tohoto scénáře a řádek VALIDATED neznamená, že vstupy běhu jsou měřené. Řádek PARTNER je disciplína, na níž běh závisí a kterou Kshana neposkytuje.
+
+engine-advanced-report-no-run-label = Výsledek neobsahuje žádný štítek otevřenosti na úrovni běhu; verifikační štítky použitých schopností jsou uvedeny ve vlastním oddílu a úrovně jednotlivých hodnot tam, kde je výsledek uvádí.
+
+engine-advanced-report-no-seed = Scénář ani výsledek neobsahuje seed. Výsledek je určen výhradně souborem scénáře a sestavením enginu; test determinismu znovu spustí každý přibalený scénář a vyžaduje bajtově shodný výstup.
+
+engine-advanced-report-working-directory = Spusťte příkaz z adresáře, ve kterém byl spuštěn původní běh: cesta ke scénáři i každá relativní cesta k datům uvnitř scénáře se vztahují k němu. Nejprve ověřte soubor scénáře podle scenario_sha256.
+
+engine-advanced-report-determinism-stamped = Stejné bajty scénáře, seed a sestavení enginu dávají stejný dokument s výsledky, kromě jeho značky meta.generated_utc, kterou --study-name zapisuje z hodin; pro bajtově shodný výstup spusťte bez --study-name. Výsledky v pohyblivé řádové čárce jsou pevně dané pro každou platformu; jiný operační systém nebo architektura se může lišit v posledních číslicích.
+
+engine-advanced-report-determinism-plain = Stejné bajty scénáře, seed a sestavení enginu dávají bajtově shodný dokument s výsledky i zprávu; tato zpráva neobsahuje časovou značku. Výsledky v pohyblivé řádové čárce jsou pevně dané pro každou platformu; jiný operační systém nebo architektura se může lišit v posledních číslicích.
+
+engine-advanced-report-not-applicable-no-attack = nepoužitelné (není nakonfigurován žádný útok)
+
+engine-advanced-report-what-ran-default = Scénář `{ $kind }`.
+
+engine-advanced-report-nothing-carried = nic neobsahuje
+
+engine-advanced-report-tbl-sweep-nodes = Uzly rozmítání
+
+engine-advanced-report-tbl-mc-summary = Souhrn rozdělení Monte Carlo (percentily jsou podle nejbližšího pořadí; 95% interval spolehlivosti střední hodnoty je percentilový bootstrap s pevným seedem)
+
+engine-advanced-report-tbl-chain-phases = Fáze řetězce
+
+engine-advanced-report-tbl-shared = Sdílené podmínky
+
+engine-advanced-report-tbl-members = Členové
+
+engine-advanced-report-tbl-combined = Kombinováno napříč členy
+
+engine-advanced-report-tbl-optimiser-best = Nejlepší výsledek optimalizátoru (lokální optimum v uvedených mezích)
+
+engine-advanced-report-tbl-optimiser-trace = Stopa optimalizátoru
+
+engine-advanced-report-tbl-sweep-grid = Mřížka rozmítání
+
+## src/altpnt/terrain.rs
+
+engine-altpnt-terrain-title-terrain-referenced = Navigace podle terénu (TERCOM/SITAN)
+
+engine-altpnt-terrain-title-gravity-map = Navigace podle mapy tíže
+
+engine-altpnt-terrain-title-combined = Kombinovaná alt-PNT z tíže, magnetického pole a terénu
+
+engine-altpnt-terrain-free-inertial-drift = volný inerciální drift
+
+engine-altpnt-terrain-terrain-matched = přiřazení k terénu
+
+engine-altpnt-terrain-gravity-matched = přiřazení k tíži
+
+engine-altpnt-terrain-gravity-only = pouze tíže
+
+engine-altpnt-terrain-magnetic-only = pouze magnetické pole
+
+engine-altpnt-terrain-terrain-only = pouze terén
+
+engine-altpnt-terrain-combined-fused = kombinovaně (fúze)
+
+## src/api.rs
+
+engine-api-chart-provenance-footer = Kshana v{ $version } · scénář { $hash } · kshana.dev
+
+## src/attack_surface.rs
+
+engine-attack-surface-chart-title = Útočná plocha lunární bezpečnosti signálu (P1)
+
+## src/body_pnt.rs
+
+engine-body-pnt-chart-relays-in-view = reléové družice ve výhledu
+
+engine-body-pnt-chart-count = počet
+
+engine-body-pnt-chart-formal-one-sigma-position = formální jedna sigma polohy (log10 m): modře jen konstelace, žlutě s dosahem k Zemi
+
+engine-body-pnt-chart-time-since-epoch = čas od epochy, 0 až { $t_max } s
+
+## src/campaign.rs
+
+engine-campaign-chart-clock-time-error-vs-guard = časová chyba hodin vs ochranná mez (ns)
+
+engine-campaign-chart-cn0-vs-tracking-floor = C/N0 vs práh sledování (dB-Hz)
+
+engine-campaign-chart-protection-level-vs-alert-limit = ochranná úroveň vs mez poplachu (m)
+
+engine-campaign-chart-position-error-vs-threshold = chyba polohy vs práh (m)
+
+engine-campaign-chart-satellites-tracking = sledované družice
+
+engine-campaign-chart-alarm-flags-and-events = příznaky poplachu a události
+
+engine-campaign-chart-mission-time = čas mise { $duration } s
+
+engine-campaign-chart-sweep-percentile-band = , medián s pásmem 5.–95. percentilu přes seedy: { $n_runs }
+
+engine-campaign-chart-sweep-line-at = { $name } ({ $unit }) při { $lead }
+
+engine-campaign-chart-monte-carlo-of = Monte Carlo druhu `{ $scenario_kind }`: seedy: { $n_runs } od { $base_seed } (5., 50., 95. percentil; úsečka = bootstrapový 95% interval spolehlivosti střední hodnoty)
+
+engine-campaign-chart-composed-members = složení členové za sdílených podmínek: { $shared }
+
+engine-campaign-chart-not-available = n/a
+
+## src/cislunar_arc_recovery.rs
+
+engine-cislunar-arc-recovery-chart-title = Cislunární obnovení délky oblouku — estimátor, který nesdílí jakobiány
+
+engine-cislunar-arc-recovery-chart-subtitle = dávkové nejmenší čtverce s konečnými diferencemi · změřená chyba obnovy stavu · bez analytického jakobiánu, bez variační STM, bez tolerance hodnosti SVD
+
+engine-cislunar-arc-recovery-chart-bound = mez { $bound }
+
+engine-cislunar-arc-recovery-chart-gramian-rank-threshold = práh hodnosti gramiánu
+
+engine-cislunar-arc-recovery-chart-monte-carlo-rms = RMS chyba obnovy polohy Monte Carlo (km)
+
+engine-cislunar-arc-recovery-chart-noise-free-worst-ratio = nejhorší poměr obnovy bez šumu (konečná chyba / posunutí)
+
+## src/cislunar_observability.rs
+
+engine-cislunar-observability-chart-title = Cislunární pozorovatelnost na sledovaném oblouku (P6)
+
+engine-cislunar-observability-chart-subtitle = hodnost vs oblouk (jednosměrné spojení jen s měřením vzdálenosti) · spektrum vlastních čísel gramiánu · diferenčně korigované počáteční podmínky DRO + křížová kontrola SRIF · návrh { $modelled }, hodnost/STM/uzavření { $validated }
+
+engine-cislunar-observability-chart-observable-rank = pozorovatelná hodnost vs délka oblouku
+
+engine-cislunar-observability-chart-arc-length = délka oblouku (časové jednotky rotující soustavy, celkem { $arc_hours } h)
+
+engine-cislunar-observability-chart-gramian-eigenvalues = vlastní čísla gramiánu (log10)
+
+engine-cislunar-observability-chart-condition = číslo podmíněnosti κ = { $condition }
+
+## src/conflict_resilience.rs
+
+engine-conflict-resilience-chart-title = Odolnost vrstveného PNT v konfliktu (P7)
+
+engine-conflict-resilience-chart-subtitle = celková ztráta vs intenzita hrozby (MC vs uzavřený tvar) · poměr odolnosti vs korelace odepření · apriorní hodnoty { $modelled }, MC->uzavřený tvar / marginály kopuly { $validated }
+
+engine-conflict-resilience-chart-total-loss-probability = pravděpodobnost celkové ztráty vs intenzita
+
+engine-conflict-resilience-chart-threat-intensity = intenzita hrozby
+
+engine-conflict-resilience-chart-layered-mc = vrstvené MC
+
+engine-conflict-resilience-chart-single-layer = jedna vrstva
+
+engine-conflict-resilience-chart-resilience-ratio = poměr odolnosti vs korelace odepření
+
+engine-conflict-resilience-chart-denial-correlation = korelace odepření ρ
+
+## src/constellation.rs
+
+engine-constellation-chart-availability-pct = dostupnost (%)
+
+engine-constellation-chart-mean-pdop = střední PDOP
+
+## src/earth_gnss_lunar.rs
+
+engine-earth-gnss-lunar-chart-title = Pozemní GNSS ve vzdálenosti Měsíce — C/N0 vs úhel mimo osu antény
+
+engine-earth-gnss-lunar-chart-track-threshold = sledování { $threshold } dB-Hz
+
+engine-earth-gnss-lunar-chart-earth-limb = okraj Země { $angle }°
+
+engine-earth-gnss-lunar-chart-off-boresight-angle = úhel mimo osu antény (deg)
+
+engine-earth-gnss-lunar-chart-cn0 = C/N0 (dB-Hz)
+
+engine-earth-gnss-lunar-chart-legend = zlatá = sledovatelné · červená = příliš slabé · šedá = zakryté Zemí · vysílací diagram { $modelled }
+
+## src/ensemble.rs
+
+engine-ensemble-chart-title = Holdover hodin: pásmo spolehlivosti časové chyby (běhy: { $n_runs })
+
+engine-ensemble-chart-timing-error-ns = časová chyba (ns)
+
+engine-ensemble-chart-spec-threshold = specifikace { $threshold } ns
+
+engine-ensemble-chart-time-s = čas (s)
+
+engine-ensemble-chart-classical-median-band = klasické: { $id } (medián, pásmo 5–95 %)
+
+engine-ensemble-chart-quantum-median-band = kvantové: { $id } (medián, pásmo 5–95 %)
+
+## src/fom_label.rs
+
+engine-fom-verdict-validated = VALIDATED
+
+engine-fom-verdict-modelled = MODELLED
+
+engine-fom-verdict-partial = PARTIAL
+
+## src/frame_eop.rs
+
+engine-frame-eop-chart-title = Rozpočet predikce soustavy / EOP v reálném čase pro lunární čas
+
+engine-frame-eop-chart-ut1-error-ms = chyba UT1 (ms)
+
+engine-frame-eop-chart-position-at-moon-m = poloha na Měsíci (m)
+
+engine-frame-eop-chart-equiv-timing-ns = ekvivalentní čas (ns)
+
+engine-frame-eop-chart-prediction-horizon-days = horizont predikce (dny)
+
+engine-frame-eop-chart-iers-final-floor = konečná spodní mez IERS { $floor_ms } ms
+
+engine-frame-eop-chart-marker-at-moon = ~{ $ut1_ms } ms = ~{ $pos_m } m na Měsíci
+
+engine-frame-eop-chart-growth = ~{ $factor }x, 1 d→{ $far_days } d
+
+## src/fusion/hybrid_ukf.rs
+
+engine-fusion-hybrid-ukf-chart-title = 17stavový hybridní UKF — vnitřní konzistence filtru (modelováno)
+
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + bělost inovací vs 95% pásma χ²; 1,0 = konzistentní. Vnitřní konzistence, ne přesnost.
+
+engine-fusion-hybrid-ukf-chart-target = cíl 1,0
+
+engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (bělost)
+
+engine-fusion-hybrid-ukf-chart-nees = NEES
+
+engine-fusion-hybrid-ukf-chart-consistent = CONSISTENT
+
+engine-fusion-hybrid-ukf-chart-inconsistent = INCONSISTENT
+
+## src/fusion/pack.rs
+
+engine-fusion-pack-chart-title = Horizontální chyba volně vázaného GNSS/INS
+
+engine-fusion-pack-chart-horizontal-error-m = horizontální chyba (m)
+
+engine-fusion-pack-chart-spec-threshold = specifikace { $threshold } m
+
+## src/geometry.rs
+
+engine-geometry-chart-title = Skyplot ({ $label })
+
+engine-geometry-chart-north = S
+
+engine-geometry-chart-east = V
+
+engine-geometry-chart-south = J
+
+engine-geometry-chart-west = Z
+
+engine-geometry-chart-satellite-tooltip = { $system } { $id } az { $az } el { $el }
+
+engine-geometry-chart-satellite-tooltip-hidden = { $system } { $id } az { $az } el { $el } (skryto za obzorem)
+
+engine-geometry-chart-satellite-tooltip-below-mask = { $system } { $id } az { $az } el { $el } (pod maskou)
+
+engine-geometry-chart-no-fix = bez určení polohy
+
+engine-geometry-chart-in-view-hidden = ve výhledu: { $n_visible }, skryto za obzorem: { $n_masked } · { $dop } · prázdné: ve výhledu nejsou
+
+engine-geometry-chart-satellites-as-given = družice podle zadání
+
+engine-geometry-chart-representative-sky = reprezentativní obloha, ne datovaná
+
+engine-geometry-chart-footer = Kshana v{ $version } · geometrie při uvedeném modelu chyb · kshana.dev
+
+## src/gnss_sim.rs
+
+engine-gnss-sim-chart-title = Ochranné úrovně RAIM vs meze poplachu
+
+engine-gnss-sim-chart-protection-level-m = ochranná úroveň (m)
+
+engine-gnss-sim-chart-val = VAL { $alert_v } m
+
+## src/holdover_test.rs
+
+engine-holdover-test-not-recovered-within-record = ; v rámci záznamu neobnoveno
+
+engine-holdover-test-chart-title = Test holdover: časová chyba po krocích
+
+engine-holdover-test-chart-y-title = |časová chyba| (ns)
+
+engine-holdover-test-chart-panel-caption = absolutní časová chyba; krok holdover je vystínován; čárkované čáry jsou rozpočty časové chyby
+
+engine-holdover-test-chart-gnss-removed = GNSS odebráno
+
+engine-holdover-test-chart-gnss-restored = GNSS obnoveno
+
+engine-holdover-test-chart-time-axis = čas na ose záznamu ({ $min } min)
+
+## src/hybrid.rs
+
+engine-hybrid-chart-title = Využití specifikace hybridního PNT při výpadku GNSS (1,0 = specifikace)
+
+engine-hybrid-chart-y-title = využití specifikace
+
+engine-hybrid-chart-spec-line = specifikace (1,0)
+
+engine-hybrid-chart-classical-suite = klasická sada
+
+engine-hybrid-chart-quantum-suite = kvantová sada
+
+## src/hybrid_integrity.rs
+
+engine-hybrid-integrity-chart-availability = dostupnost
+
+engine-hybrid-integrity-chart-precision = preciznost
+
+engine-hybrid-integrity-chart-integrity = integrita
+
+engine-hybrid-integrity-chart-joint-indep = společně (nezávisle)
+
+engine-hybrid-integrity-chart-joint-corr = společně (korelovaně)
+
+engine-hybrid-integrity-chart-title = Společná figura zásluh hybridního optického a rádiového PNT
+
+engine-hybrid-integrity-chart-subtitle = P(dostupné A precizní A s garantovanou integritou)
+
+## src/inertial/mod.rs
+
+engine-inertial-chart-title = Chyba polohy při dead-reckoning během výpadku GNSS
+
+engine-inertial-chart-y-title = chyba polohy (m)
+
+engine-inertial-chart-spec-line = specifikace { $m } m
+
+engine-inertial-chart-classical = klasické: { $id }
+
+engine-inertial-chart-quantum = kvantové: { $id }
+
+## src/iq/campaign/report.rs
+
+engine-iq-campaign-report-roc-aria-label = ROC detekce pro každý monitor
+
+engine-iq-campaign-report-roc-x-title = P_fa (na negativní okno)
+
+engine-iq-campaign-report-curve-aria-label = Degradace C/N0 vs uvedené J/S pro { $rec } událost { $ev }
+
+engine-iq-campaign-report-curve-x-title = uvedené J/S (dB)
+
+engine-iq-campaign-report-curve-y-title = degradace C/N0 (dB)
+
+engine-iq-campaign-report-curve-model-tooltip = { $label }: reference SSC, Q = { $q }
+
+engine-iq-campaign-report-curve-model-legend = reference { $label } (Q = { $q })
+
+engine-iq-campaign-report-curve-more-series = +{ $n } dalších řad v tabulce přehledu
+
+engine-iq-campaign-report-curve-point-tooltip = { $fe } / { $d }: J/S { $x } dB, naměřená degradace { $y } dB
+
+engine-iq-campaign-report-curve-measured-legend = { $fe } / { $d } (naměřeno)
+
+## src/jamming.rs
+
+engine-jamming-chart-title = Viditelné vs sledované družice při rušení (jamming)
+
+engine-jamming-chart-y-title = družice
+
+engine-jamming-chart-four-sv-fix = určení polohy ze 4 družic
+
+engine-jamming-chart-visible = viditelné
+
+engine-jamming-chart-tracking = sledované
+
+## src/leo_fusion/ntn.rs
+
+engine-leo-fusion-ntn-chart-title = Určování polohy 5G NTN: Cramér-Raova mez vzdálenosti podle šířky pásma
+
+engine-leo-fusion-ntn-chart-caption = jedna sigma vzdálenosti (log10 m): úsečka = maska až zenit C/N0; tečka = RMS chyba 3D určení polohy
+
+## src/leo_fusion/ppp.rs
+
+engine-leo-fusion-ppp-chart-title = Konvergence PPP s doplněním o LEO
+
+engine-leo-fusion-ppp-chart-caption = střední horizontální chyba (log10 m) vs minuty
+
+engine-leo-fusion-ppp-chart-n-leo = LEO: { $n }
+
+## src/leo_fusion/pvt_kind.rs
+
+engine-leo-fusion-pvt-kind-chart-doppler-caption = chyba 3D určení polohy z Doppleru (log10 m) vs délka okna
+
+engine-leo-fusion-pvt-kind-chart-doppler-x-label = okno (s)
+
+engine-leo-fusion-pvt-kind-chart-joint-caption = střední PDOP (modře) a VDOP (žlutě), log10, vs počet přidaných družic LEO
+
+engine-leo-fusion-pvt-kind-chart-joint-x-label = přidané družice LEO
+
+engine-leo-fusion-pvt-kind-chart-polar-caption = střední VDOP (log10): šedě GNSS, modře LEO, žlutě fúze
+
+engine-leo-fusion-pvt-kind-chart-polar-x-label = zeměpisná šířka (deg)
+
+engine-leo-fusion-pvt-kind-chart-timing-caption = RMS časová chyba vůči UTC (log10 ns) vs posun C/N0, jedna čára na oscilátor
+
+engine-leo-fusion-pvt-kind-chart-timing-x-label = posun C/N0 (dB)
+
+engine-leo-fusion-pvt-kind-chart-x-range = { $label }: { $x0 } až { $x1 }
+
+## src/leo_navmsg/mod.rs
+
+engine-leo-navmsg-chart-title = Navigační zpráva LEO: SISRE vs interval proložení
+
+engine-leo-navmsg-chart-no-trade-encode-decode = V tomto běhu žádný kompromis; tabulky kódování/dekódování a rozpočtu viz result.json.
+
+engine-leo-navmsg-chart-no-fit-interval-trade = V tomto běhu žádný kompromis intervalu proložení; viz result.json.
+
+engine-leo-navmsg-chart-caption = SISRE RMS jen z dráhy (m, logaritmická osa) vs interval proložení (s)
+
+## src/leo_pass.rs
+
+engine-leo-pass-chart-title = Přelet LEO: C/N0 podle pásma a Doppler
+
+engine-leo-pass-chart-cn0-caption = C/N0 (dB-Hz, 20 až 80): pásma LEO barevně, GNSS šedě
+
+engine-leo-pass-chart-time-axis = čas od epochy, 0 až { $s } s
+
+## src/leo_pnt_chain.rs
+
+engine-leo-pnt-chain-chart-subtitle = návrh signálu -> C/N0 přeletu a jitter kódu -> SISRE zprávy -> fúzní určení polohy · { $label }
+
+engine-leo-pnt-chain-chart-cn0-caption = C/N0 sledované složky během přeletu (dB-Hz, 20 až 80)
+
+engine-leo-pnt-chain-chart-not-available = n/a
+
+## src/leo_signal.rs
+
+engine-leo-signal-chart-title = Návrhy signálů LEO-PNT
+
+engine-leo-signal-chart-psd-axis = posun v rozsahu ±0,6 × vysílací šířka pásma; 0 až −50 dB pod každým vrcholem
+
+engine-leo-signal-chart-jitter-caption = jitter kódu (m, logaritmická osa) vs celkové C/N0 (dB-Hz)
+
+## src/main.rs
+
+engine-main-fail = chyba: { $e }
+
 ## plural forms
 
 engine-e-clock-log-the-log-has-missing-epoch =
