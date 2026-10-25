@@ -15,3 +15,12 @@ Where the guide of a language fixes an advisory sentence, the catalogue copies i
 variants and the glossary terms the guide does not list were translated from English with the guide's vocabulary and the
 engine catalogue's wording; they are the first things for a native reviewer to read, with the `-advisory` and `-mt-notice`
 entries of every language.
+
+## Native review, in this order
+
+The `-advisory` entry (the main value and `.maritime`, `.research-test`, `.short`) is the line every Kshana surface carries.
+For these eight languages the guide fixes only the `.maritime` sentence and the notice, so the other three advisory variants
+and 14 glossary terms were translated from English: **pl, cs, uk, ru, fi, et, ja, zh-Hans**. They go to a native reviewer
+first. Then the same entries in the nine languages whose advisory sentences the guide fixes (de, fr, es, pt-BR, pt-PT, nl, da,
+sv, nb), then the Studio view labels (`studio-view-*`, `studio-telecom-masks`, `studio-ground-track`, `studio-parameter-sweep`,
+`studio-figures-of-merit`), which the engine catalogue has no wording for.
