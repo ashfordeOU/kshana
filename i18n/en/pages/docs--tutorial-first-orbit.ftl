@@ -9,9 +9,6 @@ seg-dcb2d0b170c1 = Source: <c1/>
 seg-f57d8b38bf08 = Tutorial { "1" } — My first orbit: where are the GPS satellites
 
 # text
-seg-9b45bb6fc5fa = Kind:
-
-# text
 # c1: orbit
 # c2: scenarios/orbit-sgp4-gps.toml
 # c3: scenarios/orbit.toml
@@ -44,9 +41,6 @@ seg-356e96d219b5 = exports the satellites’ actual Earth-centred, Earth-fixed (
 
 # text
 seg-ff1666fe175e = The spine is: <b>TLE → SGP4 propagation → ECEF per epoch → visibility → visible-sat count → PDOP → position-sigma = PDOP · σ_UERE</b>, where σ_UERE is the user equivalent range error (the 1-σ ranging error per satellite).
-
-# text
-seg-d44c9bd51a54 = Python:
 
 # text
 seg-379da723ae57 = Or open the <a1>browser Studio</a1> and pick the orbit scenario.

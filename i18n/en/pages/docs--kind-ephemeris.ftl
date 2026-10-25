@@ -10,7 +10,7 @@ seg-e388fdc74ffa = Source: <c1/>
 seg-9860cb88c021 = <c1/> (scenario kind)
 
 # text
-seg-75bcebd6664f = Scenario kind of the engine { "v0.39.0" }, family <a1>Constellations, coverage and geometry</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-11e8c29ecb45 = Scenario kind of the engine v{ $version }, family <a1>Constellations, coverage and geometry</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 # c1: tle
@@ -51,7 +51,7 @@ seg-c59482e7defe = { "1" } 25544U 98067A { "20045.18587073" } .00000950 00000-0 
 seg-c33e3cbba749 = arcsec
 
 # text
-seg-6634ee04c284 = { "2" }.4589e6
+seg-37d29d8303fe = km
 
 # text
 seg-4d208b6c0eb8 = day
@@ -62,9 +62,6 @@ seg-a3697ad561db = Hz
 # text
 seg-cc723fa4fafa = sgp4 (TLE)
 
-# text
-seg-8a5d6b8efc8b = m/s
-
 # attr:alt
 seg-0fd3c58fde09 = The chart the engine writes for scenarios/ephemeris.toml, kind ephemeris
 
@@ -72,7 +69,7 @@ seg-0fd3c58fde09 = The chart the engine writes for scenarios/ephemeris.toml, kin
 seg-3068552e4ab4 = VALIDATED: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-3ed63f4ca0fa = <b>VALIDATED</b> Earth rotation from a two-part UT1 Julian date on the orbit path, so the Earth-fixed position keeps the microsecond a single-f64 date loses (about 3e-9 rad near { "2020" }): jd2::gmst82 (IAU { "1982" } GMST, the TEME convention, on the two parts), cio:
+seg-d291f20074f0 = <b>VALIDATED</b> Earth rotation from a two-part UT1 Julian date on the orbit path, so the Earth-fixed position keeps the microsecond a single-f64 date loses (about { "3e-9" } rad near { "2020" }): jd2::gmst82 (IAU { "1982" } GMST, the TEME convention, on the two parts), cio:
 
 # text
 seg-976416e41291 = <b>VALIDATED</b> SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD. Oracle (ExternalDataset): AIAA 2006-6753 SGP4 verification vectors

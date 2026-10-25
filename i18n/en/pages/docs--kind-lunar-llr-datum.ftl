@@ -10,14 +10,14 @@ seg-8db575fc6d82 = Source: <c1/>
 seg-5329c6c75887 = <c1/> (scenario kind)
 
 # text
-seg-c87c70fc4ee5 = Scenario kind of the engine { "v0.39.0" }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-1f17ef6a853e = Scenario kind of the engine v{ $version }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-25455a33523c = Seven-parameter Helmert lunar frame datum driven by a REAL, ARCHIVED observing campaign rather than a simulated one. Where lunar-frame-campaign removed the injected transform but still stated its station network, its schedule and its per-observation sigma as ILLUSTRATIVE inputs, this kind takes all three from measurement: the epochs are the ground-transmit times of archived ILRS Consolidated Laser Ranging Data normal points, the observations are the laser ranges really fired at the five retroreflector arrays on the Moon, and every observation weight is that normal point's own archived precision bin_rms/sqrt(n_raw) read out of the file. Station coordinates come from the IERS ITRF2020 SLR solution (propagated to epoch by their published velocities) and the reflector coordinates from JPL DE430 Table { "7" } in the mean-Earth/mean-rotation frame the IAU { "2015" } WGCCRE model realises. Range partials accumulate into the joint reflector-coordinate Fisher information matrix and propagate through the same Helmert design into the datum covariance, diagnosed by crate::fim::crlb. Rank, defect, condition, spectrum, unobservable directions in the seven-parameter basis, the weakest direction at full rank and each parameter's share of it are emitted on every run, and an unconstrained parameter is published as NULL with a status. Inter-array correlation is MEASURED at exactly zero rather than assumed, because a laser range touches one array. A record the catalogues cannot place — a station with no published ITRF position — is SKIPPED AND COUNTED, never given a substituted coordinate. WHICH LINKS ARE MEASURED AND WHICH ARE MODELLED IS THE REPORT, NOT A FOOTNOTE: the Moon-centre ephemeris and the IAU body orientation remain modelled and their combined size is emitted as the observed-minus-computed one-way range residual over every point used; troposphere, solid-body tides, station eccentricity, polar motion, UT1-UTC, relativistic delay and station clocks are absent and inside that residual. Because an ephemeris error reaches a covariance only through the direction of each line of sight, every run also re-solves the whole datum with all partials tilted by sensitivity_tilt_deg (sign alternating) and emits the ratio, so the covariance's insensitivity to the modelled ephemeris is a number rather than an argument. The simulated campaign's own figures are RUN and printed beside the measured ones, not transcribed. MODELLED: the seven-parameter figures are a Cramer-Rao bound for a reduced parameter set on a real schedule — not a solved datum, not an LLR analysis and not a geodetic product. The committed real-data slice ships with the repository but not with the published crate; point data_dir at a copy of it.
 
 # text
 # c1: scenarios/lunar-llr-datum.toml
-seg-65dc593cce82 = One run of <c1/> summarises as: lunar-llr-datum: { "337" } archived normal points ({ "349" } parsed) from { "2" } station(s) to { "5" } retroreflector arrays over { "80.9" } d; median measured normal-point precision { "5.13" } mm one-way; reflector information rank 15/15; Helmert rank 7/7 cond { "2" }.399e4; datum translation sigma { "1" }.851746e-2 m; observed-minus-computed one-way residual RMS { "156493.9" } m (the modelled links, chiefly the analytic lunar ephemeris)
+seg-f4359803d67a = One run of <c1/> summarises as: lunar-llr-datum: { "337" } archived normal points ({ "349" } parsed) from { "2" } station(s) to { "5" } retroreflector arrays over { "80.9" } d; median measured normal-point precision { "5.13" } mm one-way; reflector information rank 15/15; Helmert rank 7/7 cond { "2.399e4" }; datum translation sigma { "1.851746e-2" } m; observed-minus-computed one-way residual RMS { "156493.9" } m (the modelled links, chiefly the analytic lunar ephemeris)
 
 # text
 # c1: data_dir
@@ -44,19 +44,10 @@ seg-c95b4d285cbd = The example <c1/> sets, among others:
 seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
 
 # text
-seg-67d9ef3bed84 = { "1" }.4711e-7
-
-# text
 seg-a7d59ba6e225 = rad
 
 # text
 seg-49baab4910f3 = ppb
-
-# text
-seg-52522ba1acd9 = { "2" }.4571e6
-
-# text
-seg-c158f0551072 = { "2" }.4572e6
 
 # text
 seg-37a77f49f048 = ps

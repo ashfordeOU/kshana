@@ -11,8 +11,7 @@ seg-c0d539a3b05e = Free to build on. <s1>Pro when it has to stand up in review.<
 seg-da31637e6dbf = The engine is, and stays, open source under the AGPL-3.0 (GNU Affero General Public License, version { "3" }), with no feature gate. Ashforde® OÜ sustains it with expertise and a proprietary overlay, not with seat fees on the open engine. There are no prices on this site: every paid route starts with a message.
 
 # text
-# c1: 
-seg-dca88d8e959c = <a1>Launch Kshana Studio <c1/></a1>
+seg-f79048f88b5c = Launch Kshana Studio
 
 # text
 seg-3dd36a679942 = See Kshana Pro
@@ -21,7 +20,7 @@ seg-3dd36a679942 = See Kshana Pro
 seg-c25066969008 = Talk to us
 
 # text
-seg-f5d10084cf1d = One engine · <b>kshana { "v0.39.0" }</b>
+seg-a98193f345cc = One engine · <b>kshana v{ $version }</b>
 
 # attr:aria-label
 seg-1368b0d52f1b = Pause the rings
@@ -31,9 +30,6 @@ seg-1d45f4717196 = From the repository
 
 # text
 seg-8b49f6477e8f = Open core
-
-# text
-seg-f79048f88b5c = Launch Kshana Studio
 
 # text
 seg-0cad5afda483 = Request an evaluation
@@ -50,7 +46,7 @@ seg-0adcadeb3854 = The open engine at the centre: one mark per scenario kind ({ 
 # text
 # c1: src/api.rs
 # c2: web/data/verification-matrix.json
-seg-0fa43cb24559 = Engine { "v0.39.0" } · { "87" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
+seg-9e896ee62ea0 = Engine v{ $version } · { "87" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
 
 # attr:aria-label, text
 seg-e1acd19a6ac6 = Compare the editions
@@ -171,10 +167,6 @@ seg-91da86f32a66 = Model-based systems-engineering (MBSE) and programme tooling 
 seg-65b886427270 = Kshana Pro is available under contract. It depends on the open core and never forks it, so nothing is taken out of the free engine.
 
 # text
-# c1: 
-seg-38eaaca53445 = <a1>Request an evaluation <c1/></a1>
-
-# text
 seg-98f81c393a13 = See it amplified
 
 # text
@@ -215,10 +207,6 @@ seg-4d8a03851089 = Commercial support and integration, training and consulting
 seg-23723d311433 = Scoped to your question and delivered under contract, reproducible from scenario, seed and engine version.
 
 # text
-# c1: 
-seg-b6eb33e3149e = <a1>Request a study <c1/></a1>
-
-# text
 seg-164d0c3f0427 = One engine, two licences.
 
 # text
@@ -256,10 +244,6 @@ seg-eb109018312a = Integrate it into a toolchain whose other parts cannot be AGP
 
 # text
 seg-6574581cd2d4 = Get warranty, indemnity or support terms the AGPL disclaims
-
-# text
-# c1: 
-seg-5973b84b88c2 = <a1>Ask about a commercial licence <c1/></a1>
 
 # text
 seg-2cbf39df6210 = Kshana Pro and the other proprietary overlays are separate products under their own contract, not part of either licence. <a1>What the commercial licence covers</a1>
@@ -412,7 +396,7 @@ seg-419cbee4d7ce = share within the limit
 seg-974fe80f65a4 = After { "60" } minutes: <b>{ "1,366" } of { "2,000" } runs</b> within ±{ "20" } ns, a probability of { "0.683" } ({ "95" } % interval { "0.6623" } to { "0.703" })
 
 # text
-seg-74dcc7cfcf04 = Clock holdover with an uncertain noise level · input q_wf (the clock's white-frequency-noise level): uniform({ "4" }.5e-20 to { "2" }.7e-19), ASSUMED · MODELLED · Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "2,000" } engine runs · run digest abab765e…
+seg-9ff0ae72a9c7 = Clock holdover with an uncertain noise level · input q_wf (the clock's white-frequency-noise level): uniform({ "4.5e-20" } to { "2.7e-19" }), ASSUMED · MODELLED · Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "2,000" } engine runs · run digest abab765e…
 
 # attr:aria-label, text
 seg-6555ff9a6d8e = Output
@@ -487,9 +471,6 @@ seg-f6ccb7a322b3 = open items
 seg-241bb8a5c188 = Verification matrix: open a row for the check the dossier made
 
 # text
-seg-b1caff3bd01c = LEO-001
-
-# text
 seg-1771db524c39 = ppp.cases[{ "1" }].median_convergence_min <= { "10" } min
 
 # text
@@ -503,9 +484,6 @@ seg-d739debd8759 = Method: analysis · run RUN-LEO · value read: { "7.5" } min
 
 # text
 seg-1bea7f394d61 = Open item: MODELLED basis
-
-# text
-seg-614ceb046d91 = LEO-002
 
 # text
 seg-62352fb0b903 = ppp.cases[{ "0" }].median_convergence_min <= { "10" } min
@@ -523,9 +501,6 @@ seg-f7fbbb0396f8 = Method: analysis · run RUN-LEO · value read: { "11.5" } min
 seg-cd0df2627f00 = Open item: not met
 
 # text
-seg-5862dd2ed349 = LEO-003
-
-# text
 seg-4f85cb208f09 = fusion.fused.rms_error_3d_m <= { "0.5" } m
 
 # text
@@ -538,9 +513,6 @@ seg-ab3c35475bb8 = Method: test · run RUN-LEO · value read: { "0.4349" } m
 seg-813bc2c7156f = Open item: method, MODELLED basis
 
 # text
-seg-8e18495d3927 = LUN-001
-
-# text
 seg-00370d1ef747 = global.availability_pct >= { "95" } %
 
 # text
@@ -550,9 +522,6 @@ seg-f903fd8d8738 = The lunar relay constellation shall give a position fix with 
 seg-304a072d0a55 = Method: analysis · run RUN-LUNAR · value read: { "21.3286" } %
 
 # text
-seg-c00eb38857c4 = LUN-002
-
-# text
 seg-03344a0f7614 = global.pdop.median <= { "6" }
 
 # text
@@ -560,9 +529,6 @@ seg-9157dc0f0b69 = Where the lunar relay constellation gives a fix, the median p
 
 # text
 seg-8ce652866e44 = Method: analysis · run RUN-LUNAR · value read: { "5.22" } { "1" }
-
-# text
-seg-a778b787900d = SPC-001
 
 # text
 seg-394b87e99d4f = timeline.bands[{ "3" }].min_cn0_dbhz >= { "25" } dB-Hz
@@ -580,9 +546,6 @@ seg-c707f32aa460 = Method: analysis · run RUN-SPECTRUM · value read: { "44.075
 seg-917d0ea847c5 = Open item: PARTNER basis
 
 # text
-seg-39d8a95e426e = SPC-002
-
-# text
 seg-14ff8808abca = timeline.bands[{ "0" }].min_cn0_dbhz >= { "25" } dB-Hz
 
 # text
@@ -595,9 +558,6 @@ seg-fac48ac76f34 = Under the scripted L-band interference, the GPS L1 coarse/acq
 seg-b2d1ec0d6dee = Method: analysis · run RUN-SPECTRUM · value read: { "3.2329" } dB-Hz
 
 # text
-seg-b6a51a0e5fd1 = CMP-001
-
-# text
 seg-5ae7272d2099 = timeline.channels.time_error_ns.values <= timeline.channels.guard_ns.values for all values
 
 # text
@@ -605,9 +565,6 @@ seg-ae1e65b11562 = In the chained jamming, spoofing and holdover mission the clo
 
 # text
 seg-99c163a008d1 = Method: analysis · run RUN-CAMPAIGN · value read: { "51.7825" } ns
-
-# text
-seg-f428cde7c91b = CMP-002
 
 # text
 seg-b0cead50489e = min(timeline.events[].t_s) <= { "30" } min
@@ -622,9 +579,6 @@ seg-fb11475464de = Method: demonstration · run RUN-CAMPAIGN · value read: { "1
 seg-446c41fcb3ab = Open item: method, PARTNER basis
 
 # text
-seg-4a66c926109f = MARS-001
-
-# text
 seg-b6177dbc98f7 = fom.rms_error_relays_m <= { "5" } m
 
 # text
@@ -634,9 +588,6 @@ seg-4ceaa0d03a24 = Around Mars the constellation-only position error shall be { 
 seg-5794fedf0f41 = Method: analysis · run RUN-MARS · value read: { "1.8827" } m
 
 # text
-seg-20d2ffced0f8 = MARS-002
-
-# text
 seg-243a7ff0524b = fom.availability_relays >= { "99" } %
 
 # text
@@ -644,9 +595,6 @@ seg-576583ccb8f3 = Around Mars the constellation shall give a position fix at { 
 
 # text
 seg-32c406b96132 = Method: analysis · run RUN-MARS · value read: { "1" } { "1" }
-
-# text
-seg-21ef20f2d611 = OPS-001
 
 # text
 seg-532fe876e134 = no machine-checkable criterion
@@ -721,28 +669,16 @@ seg-cc02f3327260 = Watched figure · revision
 seg-722c55b5ca9d = Revision r1-published: pass, exit code { "0" }
 
 # text
-seg-feb74c12119e = r1
-
-# text
 seg-7a33a168b020 = pass
 
 # attr:aria-label
 seg-afebb6b7fe91 = Revision r2-documentation: pass, exit code { "0" }
 
-# text
-seg-25ce5d4441a1 = r2
-
 # attr:aria-label
 seg-04be8823d1a4 = Revision r3-weaker-jammer: pass, exit code { "0" }
 
-# text
-seg-e86dc57ad2c1 = r3
-
 # attr:aria-label
 seg-358f8307eb64 = Revision r4-stronger-jammer: fail, exit code { "1" }
-
-# text
-seg-2ee82235c7fb = r4
 
 # text
 seg-70a79ec95bf4 = fail
@@ -750,14 +686,8 @@ seg-70a79ec95bf4 = fail
 # attr:aria-label
 seg-dedab67d8791 = Revision r5-withdrawn: pass, exit code { "0" }
 
-# text
-seg-9a64091483b9 = r5
-
 # attr:aria-label
 seg-507fa1cd9725 = Revision r6-faster-spoofer: pass, exit code { "0" }
-
-# text
-seg-14828b48c835 = r6
 
 # attr:aria-label
 seg-5f91b1908b7f = Verdict of each watched figure at each revision
@@ -836,8 +766,7 @@ seg-4b31c9074821 = The bundled campaign pack, { "10" } watched figures over thre
 seg-7a2d9c48a64e = Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro ci</b> · demonstration revisions of <c1/> · history { "6" } records, chain intact, last hash bb2f10eb… · MODELLED
 
 # text
-# c1: 
-seg-0d9fca5fdcfe = <a1>Open in Kshana Studio<c1/></a1>
+seg-9a86ef058d27 = Open in Kshana Studio
 
 # text
 seg-62e8bf260720 = Will our signal plan interfere with GNSS, or suffer from it?
@@ -1152,8 +1081,7 @@ seg-853667670c1f = <b>Models of your hardware.</b> Sensor or resilience models c
 seg-520654f215c5 = <b>Export-controlled resilience models are not publicly offered.</b> Such work is done only under the appropriate clearance and a non-disclosure agreement.
 
 # text
-# c1: 
-seg-890b470ca9ea = <a1>Request a Pro evaluation <c1/></a1>
+seg-6d3d0f8c9b7c = Request a Pro evaluation
 
 # text
 seg-8ea876b3c515 = The charts in this section are drawn from the files the Pro commands wrote for the worked examples that ship with Pro: modelled results, not statements about any real mission. The wording is quoted from the public Kshana Pro page of the open repository.
@@ -1220,7 +1148,7 @@ seg-6816f4e1a0a0 = Version
 seg-78240346be65 = Latest
 
 # text
-seg-ea3af476281e = Pin { "v0.39.0" }
+seg-1e466f300d6e = Pin v{ $version }
 
 # text
 seg-d8008680650d = For anyone, nothing to install.
@@ -1298,20 +1226,16 @@ seg-61a4eb09767f = MCP server guide
 seg-3d2a59a4a52a = No forms, no prices
 
 # text
-# c1: 
-seg-8e875271be58 = <a1><b>Evaluate Kshana Pro</b><s1>Request an evaluation under contract</s1><c1/></a1>
+seg-1aa35b022d85 = <b>Evaluate Kshana Pro</b><s1>Request an evaluation under contract</s1>
 
 # text
-# c1: 
-seg-864996d20436 = <a1><b>Request a custom study</b><s1>Tell us the system and the decision it feeds</s1><c1/></a1>
+seg-f9d8b42c68cc = <b>Request a custom study</b><s1>Tell us the system and the decision it feeds</s1>
 
 # text
-# c1: 
-seg-8204c8ed724b = <a1><b>Commercial licence</b><s1>The open core, for closed integration</s1><c1/></a1>
+seg-2e0c129fb875 = <b>Commercial licence</b><s1>The open core, for closed integration</s1>
 
 # text
-# c1: 
-seg-75e59e32a089 = <a1><b>Anything else</b><s1>contact@ashforde.org · mail goes straight to the team</s1><c1/></a1>
+seg-67341b9eea70 = <b>Anything else</b><s1>contact@ashforde.org · mail goes straight to the team</s1>
 
 # text
 seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>

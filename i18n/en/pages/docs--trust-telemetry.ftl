@@ -13,7 +13,7 @@ seg-05919ac6cf31 = GNSS trust as security telemetry
 seg-8978c6508ebd = <c1/> turns the per-epoch GNSS trust stream (score 0-100, band, reasons) into signals an operations or security centre already ingests: Prometheus metrics, syslog events in CEF or LEEF for a SIEM, and optionally OpenTelemetry. It reads the stream; it never changes the trust assessment and transmits nothing but telemetry.
 
 # attr:alt
-seg-4fd5ade7f481 = One trust result in three export formats, from real runs of engine { "v0.39.0" } (`kshana trust-telemetry`) on examples/maritime-trust: Prometheus text exposition (the latest trust score is { "5.9" } and the untrusted band is the one set), and the last CEF and LEEF messages. The command publishes nothing unless given a destination, holds no credentials, and transmits no radio signal. Advisory software, not type-approved navigation equipment (IEC { "61108" }, IEC { "61162" }): the operator remains responsible for the navigation of the vessel.
+seg-c711c7fecbfc = One trust result in three export formats, from real runs of engine v{ $version } (`kshana trust-telemetry`) on examples/maritime-trust: Prometheus text exposition (the latest trust score is { "5.9" } and the untrusted band is the one set), and the last CEF and LEEF messages. The command publishes nothing unless given a destination, holds no credentials, and transmits no radio signal. Advisory software, not type-approved navigation equipment (IEC { "61108" }, IEC { "61162" }): the operator remains responsible for the navigation of the vessel.
 
 # text
 # c1: docs/MARITIME-TRUST.md

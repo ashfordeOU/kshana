@@ -9,7 +9,7 @@ seg-45a59bc9ac90 = Source: <c1/>
 seg-3b549536beed = Clocks, timing and holdover (scenario kind family)
 
 # text
-seg-19146bd00f27 = { "9" } scenario kinds of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-9095869ec445 = { "9" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 # c1: kshana scenarios/clock-holdover.toml

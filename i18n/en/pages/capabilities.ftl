@@ -25,9 +25,6 @@ seg-711a38b52c6c = Interference, spoofing, inertial coasting, clocks, orbits, in
 # text
 seg-bb0ea3b97867 = <b>kshana</b> solar-system
 
-# text
-seg-5219ec596e3d = solar-system-tour.toml
-
 # attr:aria-label
 seg-867b30b800b4 = Pause the orbits
 
@@ -54,7 +51,7 @@ seg-bd40522bd78d = The bodies in the run
 
 # text
 # c1: solar-system-tour.toml.toml
-seg-3e295805e212 = Every body in the engine's solar-system run (<c1/>, engine { "v0.39.0" }), at the epoch { "{" }'input': '2026-09-28T00:{ "00" }:{ "00" }', 'jd_tdb': { "2461311.500800722" }{ "}" }:
+seg-437ae6ecbea7 = Every body in the engine's solar-system run (<c1/>, engine v{ $version }), at the epoch { "{" }'input': '2026-09-28T00:{ "00" }:{ "00" }', 'jd_tdb': { "2461311.500800722" }{ "}" }:
 
 # text
 seg-51d73c52ecc6 = Mercury: Validated, { "0.47" } au from the Sun at the epoch, orbital period { "88.0" } days.
@@ -182,7 +179,7 @@ seg-e1ebd491e00e = the row on show, whole grid
 
 # text
 # c1: l-band-waterfall-jamming.toml
-seg-0f40f51945bf = Recorded run of <c1/> (seed { "7" }, engine { "v0.39.0" }): { "5" } GNSS bands, { "3" } jammers over { "60" } s, tracking floor { "25" } dB-Hz. Jammers: chirp privacy device at { "1,575.42" } MHz from { "10" } s to { "40" } s; CW tone on L1 at { "1,575.42" } MHz from { "30" } s to the end; L2 narrowband noise at { "1,227.60" } MHz from { "45" } s to the end.
+seg-5a742c1e1563 = Recorded run of <c1/> (seed { "7" }, engine v{ $version }): { "5" } GNSS bands, { "3" } jammers over { "60" } s, tracking floor { "25" } dB-Hz. Jammers: chirp privacy device at { "1,575.42" } MHz from { "10" } s to { "40" } s; CW tone on L1 at { "1,575.42" } MHz from { "30" } s to the end; L2 narrowband noise at { "1,227.60" } MHz from { "45" } s to the end.
 
 # text
 seg-45d6be782732 = GPS L1 C/A loses lock at { "10" } s and stays lost, lowest { "3.2" } dB-Hz. Galileo E1 loses lock at { "10" } s and recovers at { "40" } s, lowest { "4.4" } dB-Hz. GPS L2C tracks throughout, lowest { "36.9" } dB-Hz. GPS L5 tracks throughout, lowest { "44.1" } dB-Hz. Galileo E5a tracks throughout, lowest { "46.7" } dB-Hz.
@@ -199,9 +196,6 @@ seg-a2774abae554 = Receiver ·
 
 # attr:aria-label
 seg-501e2d375ea6 = Band shown in the readout
-
-# text
-seg-5db1241ac39c = dB-Hz
 
 # text
 seg-32b5bfbec341 = C/N0 on this band, row
@@ -374,11 +368,10 @@ seg-aa8201fbbfb8 = Effective carrier-to-noise density by satellite and time
 
 # text
 # c1: jamming-demo.toml
-seg-7a7d4eb4dfc2 = Engine { "v0.39.0" } · <c1/> · seed { "1" }
+seg-36dece8c7ecc = Engine v{ $version } · <c1/> · seed { "1" }
 
 # text
-# c1: 
-seg-0d9fca5fdcfe = <a1>Open in Kshana Studio<c1/></a1>
+seg-9a86ef058d27 = Open in Kshana Studio
 
 # attr:title
 seg-34a0cf94d83d = Open the run's exports in Kshana Studio: reproducible HTML report, JSON, CSV
@@ -451,7 +444,7 @@ seg-c11b3bbd41e0 = Per-satellite jammer-to-signal ratio for a lunar surface user
 
 # text
 # c1: lunar-jamming.toml
-seg-e73282eb0052 = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-dc724c638e57 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-d9087e48302a = S · X · Ka · Deep Space Network
@@ -525,7 +518,7 @@ seg-05f260bae83e = Timing error over the run
 
 # text
 # c1: clock-holdover.toml
-seg-311895154f75 = Engine { "v0.39.0" } · <c1/> · seed { "42" }
+seg-678c8daa51e9 = Engine v{ $version } · <c1/> · seed { "42" }
 
 # text
 # c1: integrity
@@ -542,7 +535,7 @@ seg-16ae98bcbc09 = Protection levels against the alert limit
 
 # text
 # c1: integrity-raim.toml
-seg-7fbc5a63e41d = Engine { "v0.39.0" } · <c1/> · seed { "7" }
+seg-c6c1ee159f3e = Engine v{ $version } · <c1/> · seed { "7" }
 
 # text
 # c1: telecom-timing
@@ -559,7 +552,7 @@ seg-e367839aa566 = telecom-prtc-holdover-24h
 
 # text
 # c1: telecom-prtc-holdover-24h.toml
-seg-dfa66ced8d75 = Engine { "v0.39.0" } · <c1/> · seed { "20260925" }
+seg-b93510b54de9 = Engine v{ $version } · <c1/> · seed { "20260925" }
 
 # text
 # c1: gnss-ins
@@ -576,7 +569,7 @@ seg-1f26707d3e84 = Position error since GNSS was lost
 
 # text
 # c1: small-uas-jammed-nav.toml
-seg-0006179c23c6 = Engine { "v0.39.0" } · <c1/> · seed { "7" }
+seg-5fe3425693c9 = Engine v{ $version } · <c1/> · seed { "7" }
 
 # text
 # c1: inertial
@@ -593,7 +586,7 @@ seg-68c1750b05dc = Position error over the run
 
 # text
 # c1: imu-deadreckoning.toml
-seg-f832e04c823c = Engine { "v0.39.0" } · <c1/> · seed { "42" }
+seg-896179dcc1ee = Engine v{ $version } · <c1/> · seed { "42" }
 
 # text
 seg-a77c86a0779d = The clock ladder.
@@ -610,7 +603,7 @@ seg-74f2a730d13a = Allan deviation
 # text
 # c1: clock-holdover.toml
 # c2: clock-holdover-labsr.toml
-seg-1aff1fd0a6ac = Engine { "v0.39.0" } · <c1/> + <c2/> · seed { "42" }
+seg-430a5a8f4109 = Engine v{ $version } · <c1/> + <c2/> · seed { "42" }
 
 # text
 seg-e8e071246b56 = Clock classes in the lunar time budget
@@ -628,22 +621,7 @@ seg-7f594def0e93 = Time error after a day
 seg-f3c7378b9e89 = Noise type
 
 # text
-seg-e0455d024186 = optical-master
-
-# text
-seg-547ac2c768d8 = { "1" }.04e-16
-
-# text
 seg-b1a4c34058f0 = { "0.009" } ns
-
-# text
-seg-e66ab9c123ea = flicker-fm
-
-# text
-seg-faa402d701b3 = passive-h-maser
-
-# text
-seg-de2e3e1f5b4b = { "1" }.15e-14
 
 # text
 seg-9275f0f7dd6f = { "0.995" } ns
@@ -652,26 +630,14 @@ seg-9275f0f7dd6f = { "0.995" } ns
 seg-9feefecdcf67 = rafs
 
 # text
-seg-8081b5703214 = { "1" }.00e-11
-
-# text
 seg-b0890de51ac9 = { "2.94" } ns
-
-# text
-seg-bd9480c58a1f = white-fm
-
-# text
-seg-344af0645e80 = mini-rafs
-
-# text
-seg-bee303eda90f = { "5" }.15e-10
 
 # text
 seg-656da7451ecc = { "151" } ns
 
 # text
 # c1: lunar-time-budget.toml
-seg-0a2dd51cd77b = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-af6a8370e012 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-20db2c79b998 = Validated
@@ -701,37 +667,19 @@ seg-b62a1c0ad6d2 = Class id
 seg-a20b4a6e8f53 = chip-scale atomic clock
 
 # text
-seg-e26272815a77 = { "3" }.0e-10
-
-# text
 seg-05ea8bc048d9 = ultra-stable quartz oscillator
-
-# text
-seg-5b7bc95ccae7 = { "1" }.0e-12
 
 # text
 seg-ed3d4bd2d428 = deep space atomic clock
 
 # text
-seg-0b1f00d572e7 = { "1" }.0e-13
-
-# text
 seg-49a994d77d2f = temperature-compensated crystal oscillator
-
-# text
-seg-4e57d76c58fd = { "2" }.0e-10
 
 # text
 seg-e3cfa85c4275 = oven-controlled crystal oscillator
 
 # text
-seg-498638ea234a = { "5" }.0e-12
-
-# text
 seg-1bac97ee312a = rubidium atomic frequency standard
-
-# text
-seg-3396e5d9fde3 = { "3" }.0e-11
 
 # text
 # c1: src/clock_state.rs
@@ -754,22 +702,22 @@ seg-cae10fb9bff8 = Scenario
 seg-653ed743564e = Chip-scale atomic clock (Microsemi SA.45s class)
 
 # text
-seg-2aac8222d1b8 = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10
+seg-03442e4be82d = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)={ "3e-10" }
 
 # text
-seg-fc912222eec1 = Laboratory Sr optical lattice clock, sigma_y(1s)={ "4" }.8e-17 (Oelker et al. { "2019" }…
+seg-90e5b0fa79ee = Laboratory Sr optical lattice clock, sigma_y(1s)={ "4.8e-17" } (Oelker et al. { "2019" }…
 
 # text
 seg-5aa82710b806 = Optical lattice clock
 
 # text
-seg-dcd9cdc7831a = Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv
+seg-0799e57209c8 = Strontium optical lattice clock, space-oriented goal sigma_y(1s)={ "1e-15" } (arXiv
 
 # text
 seg-a09955ccb865 = The engine's TCXO class (EndRun Technologies disciplined-oscillator data…
 
 # text
-seg-3ba0bf5d6d03 = Ultra-stable/optical onboard oscillator class, white-FM sigma_y({ "1" } s) ~ 1e-13…
+seg-982938fe53bc = Ultra-stable/optical onboard oscillator class, white-FM sigma_y({ "1" } s) ~ { "1e-13" }…
 
 # text
 seg-2adc3374e996 = Each model id and its provenance are read from the scenario files.
@@ -792,7 +740,7 @@ seg-ee509f477fe3 = Show the two recorded runs behind the bars <s1>time error aga
 
 # text
 # c1: orbit-molniya.toml
-seg-efe475c3f503 = Engine { "v0.39.0" } · <c1/> · seed { "11" }
+seg-eb3bfbf7b5cf = Engine v{ $version } · <c1/> · seed { "11" }
 
 # text
 seg-ab46d215a6a8 = The timing wall
@@ -983,7 +931,7 @@ seg-5165e977af9e = Predicted time error since the last fix
 
 # text
 # c1: slot-timing-ocxo-leo.toml
-seg-71369a5dd3c9 = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-f8451afc02f2 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-c8cf5a074b99 = After its last GNSS fix the oscillator stays inside the { "100" } ns slot guard for { "651" } s, so it needs a fresh fix about every { "646" } s, { "134" } times a day. The dominant term at the breach is random-walk frequency noise.
@@ -1001,7 +949,7 @@ seg-a0d7b87c6ebb = Lunar time rate: the engine's terms against the published ban
 
 # text
 # c1: lunar-time-offset.toml
-seg-333936e7f09e = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-1d743509f00a = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-30cd6d6f7dc4 = The engine sums the self-potential ({ "57.50" } µs/day) and kinetic (-0.46 µs/day) terms and reports the rate beside the published { "56" } to { "59" } µs/day band. Modelled, not certified.
@@ -1133,7 +1081,7 @@ seg-caa811074b3a = Ground track
 
 # text
 # c1: ephemeris.toml
-seg-28a913c842dd = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-70e2bacd66aa = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-480f90634242 = Earth-orbit runs in Kshana Studio
@@ -1170,7 +1118,7 @@ seg-d2f62402ebf6 = A landed receiver against a representative LunaNet relay set:
 
 # text
 # c1: lunanet-araim.toml
-seg-de2836592b59 = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-b3d3ed0ec310 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-e35acfea1bb1 = Lunar and cislunar runs in Kshana Studio
@@ -1307,7 +1255,7 @@ seg-24022ec573a5 = Relay-navigation position error and its 3-sigma bound
 
 # text
 # c1: mars-pnt-surface.toml
-seg-f75aa531f380 = Engine { "v0.39.0" } · <c1/> · seed { "331514052" }
+seg-27dfb7712270 = Engine v{ $version } · <c1/> · seed { "331514052" }
 
 # text
 seg-2ff194d7e05e = Mars runs in Kshana Studio
@@ -1455,15 +1403,12 @@ seg-1592e576100d = The same user orbit, well inside the GNSS shell, seen by a GP
 seg-eb8696f54db3 = GPS-like only
 
 # text
-seg-9a86ef058d27 = Open in Kshana Studio
-
-# text
 seg-885ff6972872 = GPS-like + Galileo-like
 
 # text
 # c1: orbit-gnss-challenged.toml
 # c2: orbit-multignss.toml
-seg-e8d17aa8b758 = Engine { "v0.39.0" } · <c1/> + <c2/> · seed { "7" }
+seg-8dc1f31f22dc = Engine v{ $version } · <c1/> + <c2/> · seed { "7" }
 
 # text
 seg-04603eb305e3 = <a1>Report, first run</a1><a2>Report, second run</a2>
@@ -1475,7 +1420,7 @@ seg-9ac20decc568 = The app behind every chart.
 seg-68e0fb5eb353 = This is the layout of Kshana Studio as it ships: a library, the scenario you are editing, and the results of the run. Load the real app right here, or open it full screen.
 
 # text
-seg-2dc46062fcc2 = Live engine · { "v0.39.0" }
+seg-dd131d19a42a = Live engine · v{ $version }
 
 # text
 seg-d472b82e557f = <s1>History</s1><s2>Share or embed</s2><s3>Tour</s3><s4>Search</s4>
@@ -1586,7 +1531,7 @@ seg-b4cdec39f4f5 = Standards and formats
 seg-58a8a796c8cb = reference checks
 
 # text
-seg-4616035b83fd = New in { "v0.39.0" }
+seg-3cbba5a3ab3b = New in v{ $version }
 
 # text
 seg-850aca04de28 = Every kind, every command, and the benchmark's misses.
@@ -2120,7 +2065,7 @@ seg-b3f5010bc0f0 = Ballistic re-entry corridor demonstrator (Allen-Eggers, missi
 seg-3612d1148781 = <c1/><a1>reentry</a1>
 
 # attr:title, text
-seg-3fafb0530905 = CCSDS { "133" }.0-B Space Packet framing demonstrator (TM/TC interop).
+seg-8321be113ab1 = CCSDS 133.0-B Space Packet framing demonstrator (TM/TC interop).
 
 # text
 # c1: space-packet
@@ -2861,7 +2806,7 @@ seg-06406b3d0b88 = Fisher information & observability
 seg-4e28248ef77b = Observability & estimation theory
 
 # text
-seg-c5ba44e2e0ad = eigenvalues vs numpy.linalg.eigh · CRLB vs σ²(XᵀX)⁻¹ via numpy.linalg.inv · GNSS DOP from the information matrix, all to 1e-9 · Kay ({ "1993" }) closed forms + Monte-Carlo CRLB attainment
+seg-a5b38d0a8d64 = eigenvalues vs numpy.linalg.eigh · CRLB vs σ²(XᵀX)⁻¹ via numpy.linalg.inv · GNSS DOP from the information matrix, all to { "1e-9" } · Kay ({ "1993" }) closed forms + Monte-Carlo CRLB attainment
 
 # text
 seg-3ee5597d6f8a = A general, reusable Fisher-information / Cramér–Rao layer (src/fim.rs): the information matrix M = HᵀWH, the Cramér–Rao lower bound, observability rank and the datum-defect null space (Moore–Penrose pseudo-inverse), and D/A/E/T-optimal experiment-design scalars from a symmetric Jacobi eigensolver. It underpins the DOP engine, the passive-geolocation bound, and the lunar absolute-station observability result — internal ranging leaves a six-DOF rigid-body datum defect that an Earth-baseline VLBI tie restores for a sparse constellation and sharpens for a rich one, the absolute datum closing at three non-collinear Earth stations.
@@ -2906,7 +2851,7 @@ seg-ad891e3678e4 = Run lunar-frame-realisation in Kshana Studio
 seg-b3ba1e7b197d = Lunar navigation service volume & ARAIM
 
 # text
-seg-db284b8b60fc = ANISE { "0.10.2" } orbits · RTKLIB { "2.4" }.2-p13
+seg-353878596468 = ANISE { "0.10.2" } orbits · RTKLIB 2.4.2-p13
 
 # text
 seg-70b9c02c1f6a = Sweeps an illustrative Moonlight/LCNS-class constellation over a selenographic grid: visibility, dilution of precision, coverage, and per-epoch ARAIM protection levels against a configurable alert limit. The signal-in-space ranging accuracy is a parameter, so the sweep answers a ranging requirement over the whole volume rather than pass/fail at one fixed value.
@@ -3191,7 +3136,7 @@ seg-684494a7877c = Passive RF geolocation (TDOA/FDOA)
 seg-414872cdf952 = Passive RF geolocation
 
 # text
-seg-724a748d11cf = noiseless TDOA forward→inverse to 1e-6 m · J·CRLB = I · GDOP monotone in receivers · estimator attains its CRLB over { "4000" } Monte-Carlo trials
+seg-bed5944d15dd = noiseless TDOA forward→inverse to { "1e-6" } m · J·CRLB = I · GDOP monotone in receivers · estimator attains its CRLB over { "4000" } Monte-Carlo trials
 
 # text
 seg-be8f2a419275 = Locate a jammer or spoofer (or an opportunistic source for reverse-PNT) from time-difference-of-arrival hyperboloids across a receiver network, solved by Gauss–Newton least squares; adding frequency-difference-of-arrival with moving receivers jointly recovers the emitter's position and velocity, with the Cramér–Rao bound on the position covariance from the network geometry. A point-source line-of-sight model — no multipath / NLOS, receiver-clock-bias, or refraction terms.
@@ -3470,7 +3415,7 @@ seg-d8bb6226f2e3 = Skyline-masked visibility, DOP and error ellipse
 seg-6c6e7248496f = Sky geometry
 
 # text
-seg-abc22e5e4ec8 = { "1173" } look angles and { "142" } visible sets match Orekit { "12.2" } and gnss_lib_py { "1.0.4" } to 1e-12; the ellipse matches numpy on { "270" } cases
+seg-94ff262653a6 = { "1173" } look angles and { "142" } visible sets match Orekit { "12.2" } and gnss_lib_py { "1.0.4" } to { "1e-12" }; the ellipse matches numpy on { "270" } cases
 
 # text
 seg-309521d4c9e1 = Which satellites a site can see when buildings, quays, cranes or terrain block part of the sky, and what that does to the dilution of precision (DOP) and the horizontal error ellipse. An azimuth-dependent skyline replaces the single elevation cut-off; the visible set, its DOP and the ellipse come out per epoch and per constellation. A skyline removes line-of-sight satellites and nothing more: it models no reflections, no diffraction and no signal strength.
@@ -3536,7 +3481,7 @@ seg-61817375c8ea = Lunar orbit and surface as navigation and geodetic infrastruc
 seg-d2439abaeabb = numpy/scipy oracles of the numerics; three pre-registered bars NOT MET (xval/lunar-infra/RESULTS.md)
 
 # text
-seg-8f154ae2f950 = Five studies in a restricted three-body model: an onboard Earth-GNSS orbit determination in a near-rectilinear halo orbit against an independent ground range and range-rate determination; joint surface-station and orbiter carrier-phase integer ambiguity fixing (LAMBDA); the Fisher information of a seven-parameter lunar datum with and without orbiter-to-surface ranges; GNSS, VLBI and laser-ranging offsets against the local tie; and sensitivity to the lunar tidal and libration parameters. MODELLED with illustrative inputs: the numerics are checked against independent numpy and scipy programs, not the physics. Under the pre-registered bars, three are NOT MET: an injected force error is not detected at the stated rate (C3), the bootstrapped success rate differs from the numpy oracle by { "1" }.7e-6 against a bar of 1e-9 (Q3), and adding a ranging family does not always lower the pseudo-inverse trace (G3, trace half).
+seg-db45ac2940af = Five studies in a restricted three-body model: an onboard Earth-GNSS orbit determination in a near-rectilinear halo orbit against an independent ground range and range-rate determination; joint surface-station and orbiter carrier-phase integer ambiguity fixing (LAMBDA); the Fisher information of a seven-parameter lunar datum with and without orbiter-to-surface ranges; GNSS, VLBI and laser-ranging offsets against the local tie; and sensitivity to the lunar tidal and libration parameters. MODELLED with illustrative inputs: the numerics are checked against independent numpy and scipy programs, not the physics. Under the pre-registered bars, three are NOT MET: an injected force error is not detected at the stated rate (C3), the bootstrapped success rate differs from the numpy oracle by { "1.7e-6" } against a bar of { "1e-9" } (Q3), and adding a ranging family does not always lower the pseudo-inverse trace (G3, trace half).
 
 # text
 seg-75245f18e82f = <b>GNSS</b> Global Navigation Satellite System · <b>VLBI</b> very long baseline interferometry
@@ -3605,13 +3550,10 @@ seg-7669bdb0e276 = <b>SP3</b> Standard Product { "3" }, a precise-orbit format �
 seg-7ee9f49c4214 = CCSDS OEM / OMM
 
 # text
-seg-4169fd546115 = parses the CCSDS { "502" }.0-B-3 Blue Book OEM example
+seg-be8e034c1a39 = parses the CCSDS 502.0-B-3 Blue Book OEM example
 
 # text
 seg-c43eabf70d02 = <b>CCSDS</b> Consultative Committee for Space Data Systems · <b>OEM</b> orbit ephemeris message · <b>OMM</b> orbit mean-elements message
-
-# text
-seg-0b7a56cee2a6 = IS-GPS-200
 
 # text
 seg-38535c817c56 = broadcast ephemeris → real-data PVT
@@ -3656,9 +3598,6 @@ seg-7df7164eb9ce = Klobuchar L1 delay vs RTKLIB ionmodel · IONEX TEC-map reader
 seg-4a1781bd0be2 = <b>IONEX</b> Ionosphere Map Exchange format · <b>RTKLIB</b> an open-source GNSS positioning library · <b>TEC</b> total electron content
 
 # text
-seg-79183830bf88 = IGRF-14
-
-# text
 seg-288e6032dfa1 = vs official BGS IGRF-14 values
 
 # text
@@ -3668,7 +3607,7 @@ seg-1846bdecdf49 = <b>IGRF-14</b> International Geomagnetic Reference Field, 14t
 seg-d7dda847bb42 = CCSDS { "133.0" }
 
 # text
-seg-7f0221902573 = primary header vs CCSDS { "133" }.0-B-2 + spacepackets-py vectors
+seg-1dac2a4e713d = primary header vs CCSDS 133.0-B-2 + spacepackets-py vectors
 
 # text
 seg-d479ed6aa483 = <b>CCSDS</b> Consultative Committee for Space Data Systems
@@ -3677,7 +3616,7 @@ seg-d479ed6aa483 = <b>CCSDS</b> Consultative Committee for Space Data Systems
 seg-f5a8d68c076f = CCSDS TDM
 
 # text
-seg-767d0efe3911 = parses the CCSDS { "503" }.0-B-2 Blue Book TDM example
+seg-49775f59d7c3 = parses the CCSDS 503.0-B-2 Blue Book TDM example
 
 # text
 seg-026da9803a68 = <b>CCSDS</b> Consultative Committee for Space Data Systems · <b>TDM</b> tracking data message

@@ -10,14 +10,14 @@ seg-40ca4197150b = Source: <c1/>
 seg-a271f371a3cf = <c1/> (scenario kind)
 
 # text
-seg-9839f917de91 = Scenario kind of the engine { "v0.39.0" }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-99ef7c1d552c = Scenario kind of the engine v{ $version }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-62c0dda9fc56 = 3-DOF attitude & pointing error budget: the worst-case gravity-gradient disturbance torque ((3/2)(μ/R³)ΔI) and a root-sum-square pointing-error budget over named 1σ contributors (sensor noise, reaction-wheel jitter, thermal, alignment) with the dominant term, for an orbit altitude + body inertia spread. MODELLED scalar AOCS budget — a pre-hardware complement to Basilisk/42, not a control-loop/6-DoF/flexible-mode simulation.
 
 # text
 # c1: scenarios/attitude-budget.toml
-seg-dbbeb47f585d = One run of <c1/> summarises as: attitude-budget: { "600" } km, ΔI { "40" } kg·m² -> GG torque { "7" }.04e-5 N·m; pointing { "10.7" }" RSS (dominant: reaction_wheel_jitter) (MODELLED scalar budget)
+seg-9fdc45a8aaa3 = One run of <c1/> summarises as: attitude-budget: { "600" } km, ΔI { "40" } kg·m² -> GG torque { "7.04e-5" } N·m; pointing { "10.7" }" RSS (dominant: reaction_wheel_jitter) (MODELLED scalar budget)
 
 # text
 # c1: altitude_km
@@ -31,25 +31,16 @@ seg-7cf112b1bcc3 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>
 seg-91ebbc89f9bb = The example <c1/> sets, among others:
 
 # text
-seg-85c5a52bc733 = star_tracker_noise
+seg-37d29d8303fe = km
 
 # text
 seg-c33e3cbba749 = arcsec
-
-# text
-seg-ae3fc290a5e9 = reaction_wheel_jitter
-
-# text
-seg-9bf97fd336fd = thermal_distortion
 
 # text
 seg-36df1bc710ab = alignment
 
 # text
 seg-d45f0ee66587 = kg*m^{ "2" }
-
-# text
-seg-75f9daefa68c = { "7" }.0383e-5
 
 # text
 seg-3e3ce4fa89aa = N*m
@@ -67,7 +58,7 @@ seg-3068552e4ab4 = VALIDATED: the <a1>verification matrix</a1> rows that name th
 seg-95b159fb5e68 = <b>VALIDATED</b> Gravity-gradient worst-case disturbance torque ((3/2)(μ/R³)ΔI) as the peak over attitude (the validated claim), plus an RSS pointing-error budget over named 1σ contributors with the dominant term (a quadrature sum of caller-supplied numbers Tests: <a1>attitude_gg_torque_reference.rs</a1>.
 
 # text
-seg-0d0faef8cfeb = <b>VALIDATED</b> Gravity-gradient worst-case disturbance torque ((3/2)(μ/R³)ΔI) as the peak over attitude (the validated claim), plus an RSS pointing-error budget over named 1σ . Oracle (ExternalDataset): Basilisk { "2.9.1" } GravityGradientEffector (AVSLab, ISC), an independent C++ implementation of the full-tensor gravity-gradient torque: Kshana's peak (3/2)(μ/R³)ΔI equals Basilisk's torque at the { "45" } deg attitude within 1e-12 relative (worst { "2" }.1e-15) over { "5" } altitudes and { "8" } inertia tensors, and bounds Basilisk's torque over { "2000" } random attitudes per case; tolerance fixed before the comparison. Validated claim: the gravity-
+seg-f7c8d8994896 = <b>VALIDATED</b> Gravity-gradient worst-case disturbance torque ((3/2)(μ/R³)ΔI) as the peak over attitude (the validated claim), plus an RSS pointing-error budget over named 1σ . Oracle (ExternalDataset): Basilisk { "2.9.1" } GravityGradientEffector (AVSLab, ISC), an independent C++ implementation of the full-tensor gravity-gradient torque: Kshana's peak (3/2)(μ/R³)ΔI equals Basilisk's torque at the { "45" } deg attitude within { "1e-12" } relative (worst { "2.1e-15" }) over { "5" } altitudes and { "8" } inertia tensors, and bounds Basilisk's torque over { "2000" } random attitudes per case; tolerance fixed before the comparison. Validated claim: the gravity-
 
 # text
 seg-d2a6cf813e95 = <b>PARTNER</b> Not provided — Kshana is a navigation-performance simulator, not a bus house. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design

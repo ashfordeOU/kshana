@@ -10,7 +10,7 @@ seg-68a2bcb6eedd = Source: <c1/>
 seg-24ce6aee5e53 = <c1/> (scenario kind)
 
 # text
-seg-feeda52b1175 = Scenario kind of the engine { "v0.39.0" }, family <a1>Campaigns</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-931a3d27c0f0 = Scenario kind of the engine v{ $version }, family <a1>Campaigns</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-a07990e776cb = Campaign: existing scenario kinds composed into one run, with every number read from a real run of the named kind. Four sections, in any combination. PHASES: a chained mission on one shared timeline -- each phase runs one or more scenarios (for example jamming, then spoofing, then a clock in holdover with an inertial navigation system coasting beside it, then an integrity alarm, then recovery), their outputs are read into named channels (clock time error against its guard, carrier-to-noise density ratio against the tracking floor, protection level against the alert limit, position error, satellites tracking, alarm flags) by a per-kind preset or by explicit result paths, and resampled onto a common grid by zero-order hold, with phase boundaries and events; state is handed on by carry (a channel continues from the previous phase's end value), handoff (a previous phase's number written into this phase's scenario) and end_at (a phase ends at a time a run computed, such as a spoofing monitor's detection time). SWEEP: a grid over one to three dotted scenario keys of any kind (a whole-number segment indexes an array of tables, as in system.2.sisre_m), with metrics read by result path and, with runs above one, a seeded Monte Carlo ensemble at every node. MONTE_CARLO: realisation k runs at base_seed + k; each metric reports mean, standard deviation, nearest-rank 5th/50th/95th percentiles and a fixed-seed bootstrap { "95" }% confidence interval on the mean. COMPOSE: several scenarios under shared values (one jammer's power and position written into a maritime and a road receiver), with a combined best/worst summary. The result carries a campaign hash, a digest over every member result, and a units entry for every emitted number; the interoperability exports write each member scenario that has geometry as its own file set. Composition identities are tested: a one-phase campaign reproduces the stand-alone run bit for bit, a fixed-seed ensemble is byte-stable, and on a white-frequency-noise clock the ensemble mean falls inside the reported interval with the spread matching sqrt(q_wf * tau). MODELLED: the additive carry and the zero-order hold are modelling choices, and each phase carries the label of the kind that ran it.
@@ -35,35 +35,14 @@ seg-bf339fa14645 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-abd3eac6da41 = The example <c1/> sets, among others:
 
 # text
-seg-a4b89db7b70d = jammer.power_dbw
-
-# text
-seg-3d02d26f3f65 = jammer_power
-
-# text
 seg-8784979d6569 = dBW
 
 # text
 seg-c4f955d5f506 = availability
 
 # text
-seg-402622c7239f = fom.availability_under_jamming
-
-# text
-seg-7535d5c947a3 = mean_js
-
-# text
-seg-1a33d5154547 = fom.mean_js_db
-
-# text
 # c1: scenarios/
 seg-7bcf77278958 = { "22" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
-
-# text
-seg-8351d6842d0a = 46aa07cb58fbfbd3784c2e1ef8d6070508ad5f5c
-
-# text
-seg-850cdffb1ccb = a2eb8762700e16a9ee46cd84731607a73a23fbe4
 
 # text
 seg-38faa927b2bd = lin

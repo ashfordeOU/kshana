@@ -153,6 +153,25 @@ jobs:
                    fonts/FONTS.json vendor/VENDOR.json; do
             [ -f "site/$f" ] || { echo "::error::the staged site is missing $f"; exit 1; }
           done
+      - name: Translations (shared images, language trees, language switcher, sitemaps, size cap)
+        # Design: kshana-pro docs/design/i18n-0.40-design.md (v2). The language trees are generated here from the English
+        # tree plus i18n/ and never committed. A language is built only when its catalogue covers 25 % of the English
+        # segments; the switcher offers exactly the languages built.
+        run: |
+          set -euo pipefail
+          node tools/i18n.mjs images --tree site
+          langs="$(node tools/i18n.mjs langs --min 0.25)"
+          if [ -n "$langs" ]; then
+            node tools/i18n.mjs apply $(printf '%s' "$langs" | tr ',' ' ') --src site --out site --langs "$langs"
+            case ",$langs," in *,ja,*|*,zh-Hans,*)
+              python3 -m pip install --quiet fonttools brotli
+              python3 tools/i18n-fonts.py --tree site $(printf '%s' "$langs" | tr ',' '\n' | grep -E '^(ja|zh-Hans)$' | tr '\n' ' ') ;;
+            esac
+            node tools/i18n.mjs verify $(printf '%s' "$langs" | tr ',' ' ') --src site --dist site
+            node tools/i18n.mjs sitemaps --tree site
+          fi
+          node tools/i18n.mjs english --src site --langs "$langs"
+          node tools/i18n.mjs size --tree site --dist /nonexistent --cap 500
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:

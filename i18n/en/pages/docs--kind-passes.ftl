@@ -10,10 +10,10 @@ seg-2544da673115 = Source: <c1/>
 seg-0db3f4e2402e = <c1/> (scenario kind)
 
 # text
-seg-75bcebd6664f = Scenario kind of the engine { "v0.39.0" }, family <a1>Constellations, coverage and geometry</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-11e8c29ecb45 = Scenario kind of the engine v{ $version }, family <a1>Constellations, coverage and geometry</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
-seg-c16f44dd59c6 = Ground-station pass prediction: the time-domain visibility passes (AOS/TCA/LOS, maximum apparent elevation, duration) of a circular orbit, as SGP4 mean elements at the window start, over a station above an elevation mask across a window, with total access time. SGP4/SDP4 propagation on the IAU 2006/2000A Earth-fixed frame (optional UT1 - UTC and polar motion), ITU-R P.834-9 tropospheric refraction and the downlink light time (both on by default), crossings solved to 1e-7 s and the culmination by golden-section search. The pass geometry is VALIDATED against Orekit { "13.1.8" } at sea-level stations; the scenario's orbit and station are illustrative inputs.
+seg-a4bdfc291fce = Ground-station pass prediction: the time-domain visibility passes (AOS/TCA/LOS, maximum apparent elevation, duration) of a circular orbit, as SGP4 mean elements at the window start, over a station above an elevation mask across a window, with total access time. SGP4/SDP4 propagation on the IAU 2006/2000A Earth-fixed frame (optional UT1 - UTC and polar motion), ITU-R P.834-9 tropospheric refraction and the downlink light time (both on by default), crossings solved to { "1e-7" } s and the culmination by golden-section search. The pass geometry is VALIDATED against Orekit { "13.1.8" } at sea-level stations; the scenario's orbit and station are illustrative inputs.
 
 # text
 # c1: scenarios/passes.toml
@@ -41,6 +41,9 @@ seg-699b650604d4 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 # text
 # c1: scenarios/passes.toml
 seg-9d2941ba37e2 = The example <c1/> sets, among others:
+
+# text
+seg-37d29d8303fe = km
 
 # text
 seg-df90e5910fb4 = hr

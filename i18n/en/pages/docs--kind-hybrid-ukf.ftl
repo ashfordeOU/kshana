@@ -10,14 +10,14 @@ seg-4b84d9846715 = Source: <c1/>
 seg-d8da1a3f1798 = <c1/> (scenario kind)
 
 # text
-seg-6de0af3b46fa = Scenario kind of the engine { "v0.39.0" }, family <a1>Inertial, fusion and quantum sensors</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-7b2721b7588d = Scenario kind of the engine v{ $version }, family <a1>Inertial, fusion and quantum sensors</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-c6edf89eb8d4 = 17-state hybrid quantum+classical tightly-coupled GNSS/INS UKF (MODELLED): { "15" } INS error states + CAI-derived accel-bias correction + a 2-state (phase+frequency) clock from the q-parameter clock engine, driven by the bracketed CAI error model. The figure of merit is filter self-consistency (NEES + innovation-whiteness vs χ² bounds) — a self-consistency statement, NOT a real-world accuracy guarantee. Simulation only; no TRL>{ "3" }, no flight heritage, no external validation.
 
 # text
 # c1: scenarios/hybrid-ukf.toml
-seg-59a9a97f15de = One run of <c1/> summarises as: scenario e8be19a6199e | hybrid-ukf (17-state, MODELLED) | sensor quantum-CAI (q_va { "4" }.82e-14) | clock q_wf { "1" }.00e-26 q_rw { "3" }.00e-30 | NIS { "11" }.85/12 in [{ "10.12" },{ "14.04" }] | NEES { "7" }.11/8 in [{ "6.48" },{ "9.68" }] | CONSISTENT | aided { "0" }.4m -> coast { "7" }.7m over 120s | self-consistency, not accuracy
+seg-d43a562eb9c2 = One run of <c1/> summarises as: scenario e8be19a6199e | hybrid-ukf (17-state, MODELLED) | sensor quantum-CAI (q_va { "4.82e-14" }) | clock q_wf { "1.00e-26" } q_rw { "3.00e-30" } | NIS 11.85/12 in [10.12,{ "14.04" }] | NEES 7.11/8 in [6.48,{ "9.68" }] | CONSISTENT | aided 0.4m -> coast 7.7m over 120s | self-consistency, not accuracy
 
 # text
 # c1: seed
@@ -42,37 +42,10 @@ seg-139800576fb7 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-40773fa1ab5f = The example <c1/> sets, among others:
 
 # text
-seg-436f46b13ad0 = { "7" }.8024e-7
-
-# text
-seg-386c5822abec = cold-atom-interferometer
-
-# text
 seg-5e9c8b22ed24 = Cold-atom (Rb-87 D2) interferometric accelerometer; brackete
 
 # text
-seg-ffd29653164c = { "1" }.0000e-9
-
-# text
-seg-bf5f4f704d31 = ultrastable-optical
-
-# text
 seg-4c8e2caeba5b = Ultra-stable/optical onboard oscillator class, white-FM sigm
-
-# text
-seg-49b7f116f364 = { "1" }.0000e-15
-
-# text
-seg-1bd6e190561b = { "3" }.0000e-30
-
-# text
-seg-ad670a878be8 = 1/s
-
-# text
-seg-41fd2b7fa239 = { "1" }.0000e-26
-
-# text
-seg-e8053d65159c = s^2/s
 
 # text
 seg-debc2f07db78 = true

@@ -11,7 +11,7 @@ seg-724f533ab704 = Kshana home
 seg-3a9b1e33221b = Primary
 
 # text
-seg-1b4ffd61a44f = <s1>kshana</s1> <s2>{ "v0.39.0" }</s2>
+seg-27fce67df246 = <s1>kshana</s1> <s2>v{ $version }</s2>
 
 # attr:aria-label, text
 seg-90eeeb0abcbd = Missions
@@ -89,13 +89,10 @@ seg-37fd98ea8b9c = Kshana Pro
 seg-cf742dee26e9 = contact@ashforde.org
 
 # text
-seg-c47cba2570f1 = ashforde.org
+seg-9ddc420c2f24 = Kshana v{ $version } · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option
 
 # text
-seg-2f1b9c572927 = Kshana { "v0.39.0" } · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option
-
-# text
-seg-f6f42cdb93a4 = Every chart is drawn from a recorded run of engine { "v0.39.0" } and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) { "4.0" }; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) { "3.0" }; coastlines: Natural Earth.
+seg-87c5d84f1f40 = Every chart is drawn from a recorded run of engine v{ $version } and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) { "4.0" }; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) { "3.0" }; coastlines: Natural Earth.
 
 # attr:aria-label
 seg-da4dafedebde = Search pages, sections, scenarios and docs
@@ -114,66 +111,6 @@ seg-e2475745a7e2 = <c1/> <c2/> move
 # text
 # c1: ↵
 seg-510f4297d825 = <c1/> open
-
-# text
-seg-c4f4b2ca0647 = Value
-
-# text
-seg-039b7c5fd78a = Unit
-
-# text
-seg-619be4963365 = text
-
-# text
-seg-37d29d8303fe = km
-
-# text
-seg-0df8f55cbe06 = deg
-
-# text
-seg-0484c5d57886 = not stated
-
-# text
-seg-9a63fde1d8b1 = jamming
-
-# text
-seg-c6ced184b8eb = campaign
-
-# text
-seg-dfd41abc16b5 = Result
-
-# text
-seg-37f058c4e1c3 = count
-
-# text
-seg-e88d3dbcfe0c = MODELLED
-
-# text
-seg-15636cc68f72 = flag
-
-# text
-seg-fe042b2b0657 = body-pnt
-
-# text
-seg-d1dcd8216761 = constellation-design
-
-# text
-seg-8af88a0e2a69 = integrity
-
-# text
-seg-8ea9f458185d = spoof
-
-# text
-seg-9cf5129649ee = spoof-detect
-
-# text
-seg-c46ccd860473 = gnss-ins
-
-# text
-seg-bcc7452b7e9c = clock
-
-# text
-seg-f79dad339a1e = spectrum
 
 # text
 seg-a57cca86b759 = Provenance
@@ -410,9 +347,6 @@ seg-f0d0a3233428 = Interference observatory: method
 seg-17662241242a = Interference observatory: results
 
 # text
-seg-7875ea98c453 = kshana-bench
-
-# text
 seg-d7f5d492f901 = Compliance and test bench
 
 # text
@@ -578,58 +512,34 @@ seg-ca4d42ca6ce0 = Field
 seg-cc45f7524d3a = What it does
 
 # text
+seg-039b7c5fd78a = Unit
+
+# text
+seg-37f058c4e1c3 = count
+
+# text
+seg-e88d3dbcfe0c = MODELLED
+
+# text
 seg-852814f107a7 = Scenario kind pages
 
 # text
 seg-1a26d420ba67 = See also
 
 # text
-seg-e8968e86f31b = Limitations
+seg-c4f4b2ca0647 = Value
 
 # text
-seg-c11e5f5b6d69 = acm-link
+seg-e8968e86f31b = Limitations
 
 # text
 seg-7dc0fcd6ef77 = aocs
 
 # text
-seg-5ecb3c65ee26 = aperture-duty-cycle
+seg-c6ced184b8eb = campaign
 
 # text
-seg-e983c69e8ee9 = araim-reference-check
-
-# text
-seg-5fcb754f0f15 = ascent-losses
-
-# text
-seg-08251e374db8 = attitude-budget
-
-# text
-seg-fa75bb19bd7e = cislunar-arc-recovery
-
-# text
-seg-678e5be0edef = cislunar-observability
-
-# text
-seg-84dffd502195 = combined-altpnt
-
-# text
-seg-8ba65a0bc8b2 = conflict-resilience
-
-# text
-seg-0d7d4d76a64a = contact-schedule
-
-# text
-seg-958395d0a937 = earth-gnss-lunar
-
-# text
-seg-7caea3cf2509 = entry-heating
-
-# text
-seg-eae7300fb67e = eo-coverage
-
-# text
-seg-f1e96496ae7b = eo-radiometry
+seg-bcc7452b7e9c = clock
 
 # text
 seg-00593bd8a3ed = ephemeris
@@ -638,121 +548,16 @@ seg-00593bd8a3ed = ephemeris
 seg-0cb65c6c4f53 = fusion
 
 # text
-seg-78678e563505 = gnss-sim
-
-# text
-seg-91db59553df7 = gnss-ssv
-
-# text
-seg-66c577ed2525 = gravity-map
-
-# text
-seg-fed859a1420b = holdover-test
-
-# text
-seg-878dcc346063 = hybrid-optical-rf
-
-# text
-seg-5cdf19b203e8 = hybrid-ukf
-
-# text
 seg-dbe8c830ef6c = hybrid
-
-# text
-seg-0f32e8152693 = impairment-eval
 
 # text
 seg-eae62828dc7a = inertial
 
 # text
-seg-94ca75acfff5 = ins-trn-coast
+seg-8af88a0e2a69 = integrity
 
 # text
-seg-19f5ff1acc30 = launch-window
-
-# text
-seg-24a377664333 = leo-navmsg
-
-# text
-seg-e028b7c81fe7 = leo-pass
-
-# text
-seg-cb57b7979dfe = leo-pnt-chain
-
-# text
-seg-af38f922e5d4 = leo-ppp
-
-# text
-seg-3f2daaeb0cda = leo-pvt
-
-# text
-seg-13c0cbf526bf = leo-signal
-
-# text
-seg-9816ab434bd7 = link-budget
-
-# text
-seg-55b93761bb7d = lunar-attack-surface
-
-# text
-seg-353fb33d0b0b = lunar-beacon
-
-# text
-seg-8ed9cc7c556b = lunar-differential-pnt
-
-# text
-seg-0babfa26ef5a = lunar-frame-campaign
-
-# text
-seg-1c0728cc20ff = lunar-frame-realisation
-
-# text
-seg-92a7fe914930 = lunar-infrastructure
-
-# text
-seg-7b31f5f31504 = lunar-integrity
-
-# text
-seg-23364dc942d6 = lunar-interop-export
-
-# text
-seg-6d22299772dd = lunar-jamming
-
-# text
-seg-df5f711e975b = lunar-joint-od-clock
-
-# text
-seg-824a303c6e96 = lunar-llr-datum
-
-# text
-seg-aec6397edd71 = lunar-station-coverage
-
-# text
-seg-0e6389403f9c = lunar-time-budget
-
-# text
-seg-7d49a3441fbb = lunar-time-offset
-
-# text
-seg-d8dd776fb051 = lunar-vlbi-fim
-
-# text
-seg-5f426ab61135 = lunar-vlbi
-
-# text
-seg-2d651943051b = mars-pnt
-
-# text
-seg-e1381a145977 = moonlight-service-volume
-
-# text
-seg-4054f31d8f81 = ntn-positioning
-
-# text
-seg-ad9a20bcbe2b = oem-interop
-
-# text
-seg-472aa4b343ff = optical-atmosphere
+seg-9a63fde1d8b1 = jamming
 
 # text
 seg-f8450911ddd6 = orbit
@@ -764,58 +569,19 @@ seg-6dd5a0d55f18 = passes
 seg-786068921d01 = pvt
 
 # text
-seg-2ced450d83c3 = quantum-anomaly-detect
-
-# text
-seg-171c4c6ae1c4 = quantum-gnss-free-nav
-
-# text
-seg-c2bbf5ccbd84 = quantum-time-transfer
-
-# text
-seg-bd05673b04d0 = quantum-trade
-
-# text
-seg-f1528cbbb4b8 = realtime-frame-eop
-
-# text
 seg-63f112536118 = reentry
 
 # text
-seg-b883cb005d96 = slot-timing
+seg-f79dad339a1e = spectrum
 
 # text
-seg-2ab29bc697ad = solar-system
-
-# text
-seg-7bc59650d493 = space-packet
-
-# text
-seg-4073c76e61d6 = space-weather
-
-# text
-seg-f5f6040f6e11 = sweep-nd
+seg-8ea9f458185d = spoof
 
 # text
 seg-460826ea7719 = sweep
 
 # text
-seg-3acd46f87981 = telecom-timing
-
-# text
-seg-c1fad8ddb505 = terrain-nav
-
-# text
-seg-0ede8509a00c = terrain-slam
-
-# text
-seg-32c15342fb3b = time-transfer-budget
-
-# text
 seg-55f3ac33d883 = timetransfer
-
-# text
-seg-179b538f970e = tracking-loop
 
 # text
 seg-a37260157d35 = Inputs
@@ -828,6 +594,15 @@ seg-0ffd6d4b0d8c = From the schema (<c1/>):
 seg-7a473d2b9b37 = Required fields: none
 
 # text
+seg-0484c5d57886 = not stated
+
+# text
+seg-619be4963365 = text
+
+# text
+seg-15636cc68f72 = flag
+
+# text
 seg-473eb8189015 = Run it
 
 # text
@@ -835,6 +610,12 @@ seg-8b01aa51263e = What it gives
 
 # text
 seg-5aa75472f59d = The scalar results of that run, with the units the engine states:
+
+# text
+seg-dfd41abc16b5 = Result
+
+# text
+seg-0df8f55cbe06 = deg
 
 # text
 seg-4798bca2d7a7 = MODELLED: the <a1>verification matrix</a1> rows that name this kind.

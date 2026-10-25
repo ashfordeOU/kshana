@@ -6,7 +6,7 @@
 seg-4a3510c45176 = Source: <c1/>
 
 # text
-seg-3a02a57724ba = Install the Kshana MCP server ({ "v0.39.0" })
+seg-be0bf8294259 = Install the Kshana MCP server (v{ $version })
 
 # text
 seg-261c059bec54 = Advisory, not type-approved navigation equipment: the operator remains responsible for navigation. The server runs on your computer; nothing is sent to Ashforde OÜ.
@@ -71,7 +71,7 @@ seg-deb5187472d1 = Homebrew
 seg-26795c302f8a = brew
 
 # text
-seg-b8822260edfc = formula for { "v0.39.0" }
+seg-ded975fa67fa = formula for v{ $version }
 
 # text
 seg-491167f2310c = Scoop
@@ -85,7 +85,7 @@ seg-667d6dde705b = <c1/> then <c2/>
 seg-f6e9fc5f46fe = Scoop (Windows)
 
 # text
-seg-adfb31d7e2f5 = manifest for { "v0.39.0" }
+seg-bc4762d20004 = manifest for v{ $version }
 
 # text
 seg-f7c0a2fbb0b5 = winget
@@ -111,6 +111,9 @@ seg-b308519d4c8d = <a1>the release page</a1>: <c1/> (Linux x86-64), <c2/>, check
 
 # text
 seg-fdbb9db68f1d = none
+
+# text
+seg-c39cac69f700 = v{ $version }
 
 # text
 seg-d107bc8e1950 = MCP registry
@@ -190,9 +193,6 @@ seg-7da8e7a9d43d = Where: run in a terminal (add <c1/> for every project). Or th
 
 # text
 seg-93d075d31cdd = npx (Node):
-
-# text
-seg-9019347291f2 = Docker:
 
 # text
 seg-ae03b1ad65f1 = kshana-mcp on PATH:

@@ -10,7 +10,7 @@ seg-836d5102f0d1 = Source: <c1/>
 seg-ad4ce0110e8d = <c1/> (scenario kind)
 
 # text
-seg-6de0af3b46fa = Scenario kind of the engine { "v0.39.0" }, family <a1>Inertial, fusion and quantum sensors</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-7b2721b7588d = Scenario kind of the engine v{ $version }, family <a1>Inertial, fusion and quantum sensors</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-04310cd6cbec = MODELLED fault/anomaly detection for quantum PNT systems: a labelled fault catalog (clock frequency-jump/drift/lock-loss; sensor bias-step/dropout), a detection-statistic ROC AUC (with a bootstrap CI from the externally-validated eval_stats) and a minimum-detectable-fault at a fixed false-alarm rate, with the quantum-clock-aided monitor (lower noise) detecting smaller faults — as honest TradeEvidence + representativeness. Gaussian detection-statistic model (AUC = Phi(mu/(sigma*sqrt2))); models the class, illustrative public-source params, no TRL/flight/certification.
@@ -34,6 +34,9 @@ seg-335b8d87e27d = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-c2b10c0bdaf8 = The example <c1/> sets, among others:
 
 # text
+seg-f44afe581836 = { $version }
+
+# text
 seg-25da07e56aa8 = quantum vs classical PNT anomaly detecti
 
 # text
@@ -46,7 +49,7 @@ seg-2f1d14239d1a = The chart the engine writes for scenarios/quantum-anomaly-det
 seg-619127334cf3 = No matrix row names this kind by name; the label on its result is the engine's own, above.
 
 # text
-seg-6153af1976ed = <b>VALIDATED</b> Analytic binormal ROC AUC = Φ(μ/(σ√{ "2" })) and the minimum detectable fault σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d)) underpinning the quantum-fault and anomaly detectors. Oracle (ExternalDataset): scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa et al., JMLR { "2011" }), both BSD-3-Clause — independent libraries computing the same uniquely-defined Gaussian-tail / AUC quantities, matched to the A&S-erf floor (~7e-8). The quantum-vs-classical advantage built on top stays MODELLED
+seg-af9aaf95d4f8 = <b>VALIDATED</b> Analytic binormal ROC AUC = Φ(μ/(σ√{ "2" })) and the minimum detectable fault σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d)) underpinning the quantum-fault and anomaly detectors. Oracle (ExternalDataset): scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa et al., JMLR { "2011" }), both BSD-3-Clause — independent libraries computing the same uniquely-defined Gaussian-tail / AUC quantities, matched to the A&S-erf floor (~{ "7e-8" }). The quantum-vs-classical advantage built on top stays MODELLED
 
 # text
 seg-bb07c8ee153f = <b>PARTNER</b> Not provided — performance models only; cold-atom/clock hardware is a partner's. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design

@@ -18,29 +18,17 @@ seg-8e3556046e63 = Page
 seg-1759a8cce7d6 = Kinds
 
 # text
-seg-7075d6c68c03 = LEO-SIGNAL.md
-
-# text
 # c1: leo-signal
 # c2: spectrum
 seg-cdb06a47be0a = <c1/> (signal designs) and the multi-band <c2/> panels
-
-# text
-seg-582cb48a42e8 = LEO-PASS.md
 
 # text
 # c1: leo-pass
 seg-09894e033033 = <c1/> (pass geometry and link budget per band, low-energy fixes, ionosphere sounding, spoofing monitors)
 
 # text
-seg-a10dfd8fdb96 = LEO-NAVMSG.md
-
-# text
 # c1: leo-navmsg
 seg-f19c0bfe2996 = <c1/> (the broadcast message: fitter, user algorithm, binary and text formats)
-
-# text
-seg-f556249bcdc9 = LEO-PNT-FUSION.md
 
 # text
 # c1: leo-pvt
@@ -49,14 +37,8 @@ seg-f556249bcdc9 = LEO-PNT-FUSION.md
 seg-0fe4979f8309 = <c1/>, <c2/>, <c3/> (fused positioning, precise point positioning, 5G non-terrestrial network (NTN) positioning, timing, polar coverage)
 
 # text
-seg-fdc2bed2d7aa = SPECTRUM.md
-
-# text
 # c1: spectrum
 seg-29013ad5656c = <c1/> (jamming waterfalls and the jammer-to-signal ratio (J/S) per band)
-
-# text
-seg-7ce659a1f423 = CAMPAIGNS.md
 
 # text
 # c1: campaign
@@ -351,7 +333,7 @@ seg-e305279d5b11 = Content
 seg-b09dc4b322d3 = Ephemeris
 
 # text
-seg-226b532441a2 = the Galileo ICD 16-parameter Keplerian set (square root of the semi-major axis, eccentricity, inclination and its rate, right ascension of the node and its rate, argument of perigee, mean anomaly, mean-motion correction, six harmonic corrections, reference time), plus along-track, cross-track and radial correction polynomials; or the Liu et al. { "2025" } 22-parameter model (<a1>doi { "10" }.3390/rs17162894</a1>); or the ATOMIC zero-clock polynomial
+seg-5bda276f6e82 = the Galileo ICD 16-parameter Keplerian set (square root of the semi-major axis, eccentricity, inclination and its rate, right ascension of the node and its rate, argument of perigee, mean anomaly, mean-motion correction, six harmonic corrections, reference time), plus along-track, cross-track and radial correction polynomials; or the Liu et al. { "2025" } 22-parameter model (<a1>doi 10.3390/rs17162894</a1>); or the ATOMIC zero-clock polynomial
 
 # text
 seg-0bdbdd2c923b = Synchronisation
@@ -705,9 +687,6 @@ seg-b4b3dff58f3b = the carrier frequency and the tracked chip rate
 # c4: leo-pass
 # c5: leo-signal
 seg-4def115dba1b = A value is handed on only where the downstream table leaves it unset, and every hand-off is listed in the result's <c1/> array with its value, unit and target. A band of <c2/> must name the design (<c3/>); that is how a <c4/> band carries any <c5/> design on its own too: it takes the design's centre frequency, transmit bandwidth and tracked chip rate, splits its EIRP across the components, and reports the tracked-component C/N0 and the band-limited coherent early-late code-tracking jitter (Betz and Kolodziejski { "2009" }; half-chip spacing, { "1" } Hz loop, { "20" } ms) at every epoch.
-
-# text
-seg-05d76e5275c5 = Scenarios:
 
 # text
 seg-46c7e6f003dd = System

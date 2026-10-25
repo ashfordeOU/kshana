@@ -43,9 +43,6 @@ seg-d4a762001549 = Licence
 seg-2328672e782f = Output licence field
 
 # text
-seg-434757252b42 = ADS-B
-
-# text
 seg-2319c7a6f6e2 = ODbL { "1.0" }
 
 # text
@@ -555,7 +552,7 @@ seg-1aa30db06794 = at least { "2" } jumps arriving in the cell: consecutive repo
 seg-7f9b22254009 = at least { "3" } reported speeds above { "70" } kn in the cell
 
 # text
-seg-6c4ce8666a55 = at least { "5" } distinct vessels reporting the same position (rounded to 1e-4 degrees, about { "11" } m) in the same 10-minute window
+seg-e0d0968e8751 = at least { "5" } distinct vessels reporting the same position (rounded to { "1e-4" } degrees, about { "11" } m) in the same 10-minute window
 
 # text
 # c1: null

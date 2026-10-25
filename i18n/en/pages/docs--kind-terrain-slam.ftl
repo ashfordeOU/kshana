@@ -10,7 +10,7 @@ seg-bb7c9c4d4b5d = Source: <c1/>
 seg-562e59d703e3 = <c1/> (scenario kind)
 
 # text
-seg-255b35ae4f11 = Scenario kind of the engine { "v0.39.0" }, family <a1>GPS-denied alternative PNT</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-216efc4e6fba = Scenario kind of the engine v{ $version }, family <a1>GPS-denied alternative PNT</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-6bdc150ab25b = GPS-denied sequential (recursive) terrain-referenced navigation: a particle filter runs the terrain-match measurement model epoch by epoch (SITAN as a running filter) so a time-varying INS drift is tracked along the track, where the batch terrain-nav only recovers a single constant offset.
@@ -43,12 +43,6 @@ seg-5ceb5b8597ac = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
 # text
 # c1: scenarios/terrain-slam.toml
 seg-48e022b0945e = The example <c1/> sets, among others:
-
-# text
-seg-90ea6f82f297 = { "6" }.0000e-4
-
-# text
-seg-c80ba12e7b8c = -5.0000e-4
 
 # attr:alt
 seg-4aca87f022dc = The chart the engine writes for scenarios/terrain-slam.toml, kind terrain-slam

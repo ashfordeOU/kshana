@@ -16,7 +16,7 @@ seg-1a91f96f22ab = Readers that bring other receivers, solvers and sensors into 
 seg-3176ffff1e44 = <b>Advisory software.</b> Not type-approved navigation equipment. The operator stays responsible for the safe navigation of the vessel.
 
 # attr:alt
-seg-e2aadb4237f5 = What `kshana imu-fit` reads off a stationary IMU log, from a real run of engine { "v0.39.0" } on a made-up log ({ "20,000" } samples at { "100" } Hz, { "200" } s): the accelerometer velocity random walk q_va = { "4" }.02e-06, the gyro angle random walk q_arw = 9e-08, the bias instability { "0.00296" } and the early Allan slopes (-0.51 and -0.49; about -0.5 where white noise dominates). The table beside it is the TOML the command prints. The estimator is checked on synthetic logs only. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
+seg-367ac9b4a8a6 = What `kshana imu-fit` reads off a stationary IMU log, from a real run of engine v{ $version } on a made-up log ({ "20,000" } samples at { "100" } Hz, { "200" } s): the accelerometer velocity random walk q_va = { "4.02e-06" }, the gyro angle random walk q_arw = { "9e-08" }, the bias instability { "0.00296" } and the early Allan slopes (-0.51 and -0.49; about -0.5 where white noise dominates). The table beside it is the TOML the command prints. The estimator is checked on synthetic logs only. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
 
 # text
 # c1: .pos

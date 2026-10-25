@@ -29,7 +29,7 @@ seg-7cc0d4d15c4a = The pipeline
 seg-09a321d36a10 = The steps are separate runs: each takes its inputs from its own scenario file, so you carry a number from one to the next (a slant range from <c1/> into <c2/>, for example) by editing the next file. The <c3/> kind can hold several kinds in one run under shared conditions; see <a1>CAMPAIGNS.md</a1>.
 
 # text
-seg-539ea4e80a77 = Each command below is run from the repository root, and the summary under it is the first line kshana { "0.39.0" } prints for the shipped scenario.
+seg-382ae9161181 = Each command below is run from the repository root, and the summary under it is the first line kshana { $version } prints for the shipped scenario.
 
 # text
 # c1: oem-interop

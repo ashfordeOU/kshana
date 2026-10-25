@@ -62,9 +62,6 @@ seg-507b8c235614 = CZML
 seg-3f237c8956eb = Cesium Language: a JSON (JavaScript Object Notation) array of time-tagged packets, read by CesiumJS
 
 # text
-seg-ddb3b20c55a7 = https://github.com/AnalyticalGraphicsInc/czml-writer/wiki/CZML-Structure
-
-# text
 seg-9c92e0bc42aa = KML
 
 # text
@@ -83,9 +80,6 @@ seg-bf09433a7342 = GeoJSON
 seg-4cfac7667dbc = geographic JSON, Internet Engineering Task Force (IETF) Request for Comments (RFC) { "7946" }
 
 # text
-seg-9ee893953251 = https://www.rfc-editor.org/rfc/rfc7946.html
-
-# text
 # c1: .e
 seg-de0feb450ae1 = STK <c1/>
 
@@ -94,16 +88,10 @@ seg-de0feb450ae1 = STK <c1/>
 seg-96173e7b4238 = the ephemeris file of Ansys Systems Tool Kit (STK), time-position-velocity form <c1/>
 
 # text
-seg-ba8a8312f8e0 = https://help.agi.com/stk/Content/stk/importfiles-02.htm
-
-# text
 seg-8c718f7f9f5d = SigMF
 
 # text
 seg-a2284e8c0034 = Signal Metadata Format: a JSON metadata file and a raw file of complex in-phase and quadrature (IQ) samples
-
-# text
-seg-8b0b187899c9 = https://sigmf.org/
 
 # text
 seg-b38ee3ebd012 = What each file holds
@@ -122,7 +110,7 @@ seg-0def04909935 = <b>Untimed tracks</b> — the waypoints a terrain, gravity or
 
 # text
 # c1: jamming
-seg-9febe49c9eeb = <b>Jammer footprints</b> — for the <c1/> kind, two circles about the jammer: the ground range inside which a satellite at the zenith (the strongest) falls below the tracking threshold, so every satellite is lost, and the range inside which a satellite at the elevation mask (the weakest) does, so tracking starts to fail. Both come from the kind's own link equations (Kaplan and Hegarty, <em>Understanding GPS/GNSS</em> (Global Positioning System / Global Navigation Satellite Systems), 3rd ed., §{ "9.4" }) with the jammer at the receiver's horizon and free-space loss, and the test suite checks that the effective carrier-to-noise density ratio at each radius equals the threshold to 1e-6 dB. The circle is drawn on a sphere of the Earth's mean radius.
+seg-e14d49ae7330 = <b>Jammer footprints</b> — for the <c1/> kind, two circles about the jammer: the ground range inside which a satellite at the zenith (the strongest) falls below the tracking threshold, so every satellite is lost, and the range inside which a satellite at the elevation mask (the weakest) does, so tracking starts to fail. Both come from the kind's own link equations (Kaplan and Hegarty, <em>Understanding GPS/GNSS</em> (Global Positioning System / Global Navigation Satellite Systems), 3rd ed., §{ "9.4" }) with the jammer at the receiver's horizon and free-space loss, and the test suite checks that the effective carrier-to-noise density ratio at each radius equals the threshold to { "1e-6" } dB. The circle is drawn on a sphere of the Earth's mean radius.
 
 # text
 # c1: "id": "document"
@@ -278,7 +266,7 @@ seg-798f3ae1b77d = GeoJSON route.
 # c14: waypoints
 # c15: start + i·step
 # c16: waypoints
-seg-113cf1cd43c9 = <c1/> (library: <c2/>) reads the first <c3/> of a GeoJSON document — a bare geometry, a <c4/>, or a <c5/> — and writes it into the track inputs of <c6/>, <c7/>, <c8/> and <c9/> (<c10/>, <c11/>, <c12/>, <c13/>, <c14/>) before the run. Those kinds fly <c15/>, so a route is accepted when it is exactly that: its two ends (the scenario's <c16/> count is kept), or three or more positions evenly spaced on a straight line in latitude and longitude, to within 1e-7 degree (about { "1" } cm). Any other route is refused and the error names the position furthest off the line. A route for a kind with no trajectory input is refused with that reason. Longitude and latitude are range-checked, which catches a latitude-first file.
+seg-2a04d7d4bafc = <c1/> (library: <c2/>) reads the first <c3/> of a GeoJSON document — a bare geometry, a <c4/>, or a <c5/> — and writes it into the track inputs of <c6/>, <c7/>, <c8/> and <c9/> (<c10/>, <c11/>, <c12/>, <c13/>, <c14/>) before the run. Those kinds fly <c15/>, so a route is accepted when it is exactly that: its two ends (the scenario's <c16/> count is kept), or three or more positions evenly spaced on a straight line in latitude and longitude, to within { "1e-7" } degree (about { "1" } cm). Any other route is refused and the error names the position furthest off the line. A route for a kind with no trajectory input is refused with that reason. Longitude and latitude are range-checked, which catches a latitude-first file.
 
 # text
 # c1: spectrum
@@ -357,12 +345,12 @@ seg-d5e34188aa96 = Beside the <c1/> formats, { "0.36" } added library readers an
 # text
 # c1: kshana::odm
 # c2: kshana::ndm_xml
-seg-97a60d4624c3 = <b>CCSDS Orbit Data Messages</b> (<c1/>, with <c2/> for the XML form): OPM, OMM and OCM in keyword-value notation (KVN) and NDM/XML, per CCSDS { "502" }.0-B-3 (OPM and OMM versions { "3.0" } and { "2.0" }, OCM { "3.0" }). Checked both ways against Orekit: Orekit reads Kshana's files and Kshana reads Orekit's. The findings that remain are pinned by tests.
+seg-cd8b6f2d43be = <b>CCSDS Orbit Data Messages</b> (<c1/>, with <c2/> for the XML form): OPM, OMM and OCM in keyword-value notation (KVN) and NDM/XML, per CCSDS 502.0-B-3 (OPM and OMM versions { "3.0" } and { "2.0" }, OCM { "3.0" }). Checked both ways against Orekit: Orekit reads Kshana's files and Kshana reads Orekit's. The findings that remain are pinned by tests.
 
 # text
 # c1: kshana::adm
 # c2: kshana::ndm_xml
-seg-8cc8e8b1bcf9 = <b>CCSDS Attitude Data Messages</b> (<c1/>, with <c2/>): AEM and APM per CCSDS { "504" }.0-B-2, in KVN and NDM/XML. Checked against Orekit the same way, and the record rotations against Orekit's.
+seg-00b9fc226c06 = <b>CCSDS Attitude Data Messages</b> (<c1/>, with <c2/>): AEM and APM per CCSDS 504.0-B-2, in KVN and NDM/XML. Checked against Orekit the same way, and the record rotations against Orekit's.
 
 # text
 # c1: kshana::spk_writer

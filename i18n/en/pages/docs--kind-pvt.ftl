@@ -10,7 +10,7 @@ seg-aab2f85048b7 = Source: <c1/>
 seg-56f864d32367 = <c1/> (scenario kind)
 
 # text
-seg-77aa6de43477 = Scenario kind of the engine { "v0.39.0" }, family <a1>GNSS measurements, positioning and integrity</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-8e845ce908ee = Scenario kind of the engine v{ $version }, family <a1>GNSS measurements, positioning and integrity</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-b7b67e03f125 = Real-observation single-point positioning: solve a receiver's position from a RINEX { "3" } observation file and a broadcast-navigation file (code pseudoranges, broadcast ephemeris, Klobuchar iono, Saastamoinen/Niell tropo), optionally validated against a surveyed coordinate.
@@ -45,7 +45,7 @@ seg-e94743033275 = { "3.03" } N: GNSS NAV DATA M: MIXED
 seg-e0415c4dab88 = { "3.02" } OBSERVATION DATA M
 
 # text
-seg-e7718c61ad99 = [{ "2" }.9198e6, -5.3837e6, { "1" }.7746e6]
+seg-22ad318a2d61 = [{ "2.9198e6" }, -5.3837e6, { "1.7746e6" }]
 
 # attr:alt
 seg-d76d59644d84 = The chart the engine writes for scenarios/pvt-abmf.toml, kind pvt

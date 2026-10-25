@@ -10,7 +10,7 @@ seg-d0c9bec248b4 = Source: <c1/>
 seg-d226df2bb634 = <c1/> (scenario kind)
 
 # text
-seg-c87c70fc4ee5 = Scenario kind of the engine { "v0.39.0" }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-1f17ef6a853e = Scenario kind of the engine v{ $version }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-8ac5ac006ae7 = Modelled lunar DIFFERENTIAL PNT (a lunar DGNSS/SBAS analogue): a NovaMoon-class reference station at a KNOWN selenographic location computes per-satellite differential corrections from an ILLUSTRATIVE, public-source Moonlight/LCNS-class constellation (NovaMoon referenced only as a system CLASS, not affiliated with ESA), and a user offset by baseline_km applies them so the COMMON-MODE orbit + clock errors cancel. The clock term cancels EXACTLY (an algebraic identity); the orbit term leaves only the line-of-sight-difference projection, which → { "0" } as baseline → { "0" } (the spatial-decorrelation floor) and grows ≈ linearly with baseline. Reports the user 3-D position error WITH vs WITHOUT corrections, the reduction factor, the error-vs-baseline curve, and a user protection level that REUSES the DO-229E SBAS machinery (crate::sbas) with the differential residual σ. MODELLED — exact cancellation identity + first-order decorrelation model; not real-data validated; no TRL/heritage/agency endorsement. Deterministic if seeded.
@@ -45,7 +45,7 @@ seg-1115464be513 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-3f32e0fea066 = The example <c1/> sets, among others:
 
 # text
-seg-8d069ea2fd35 = { "1" }.0000e-4
+seg-37d29d8303fe = km
 
 # text
 seg-549a6103e711 = bit
@@ -55,12 +55,6 @@ seg-f42465f7d066 = ns
 
 # text
 seg-9feefecdcf67 = rafs
-
-# text
-seg-4ea27e7742a7 = { "3" }.1623e-11
-
-# text
-seg-8a5d6b8efc8b = m/s
 
 # attr:alt
 seg-8e67df89448a = The chart the engine writes for scenarios/lunar-differential-pnt.toml, kind lunar-differential-pnt
