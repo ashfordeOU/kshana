@@ -25,7 +25,7 @@ seg-3e7c6608d5c4 = Systems and presets
 # text
 # c1: [[system]]
 # c2: kshana <file>.toml
-seg-c89b1e241636 = A scenario lists its systems as <c1/> tables. This complete scenario joins the GPS baseline constellation with a generic LEO layer and runs as written (<c2/>; engine { "0.39.0" } gives a median position dilution of precision of { "2.43" } for GPS alone and { "1.17" } fused, and a root-mean-square 3D error of { "2.06" } m and { "0.47" } m):
+seg-1031746214ab = A scenario lists its systems as <c1/> tables. This complete scenario joins the GPS baseline constellation with a generic LEO layer and runs as written (<c2/>; engine { $version } gives a median position dilution of precision of { "2.43" } for GPS alone and { "1.17" } fused, and a root-mean-square 3D error of { "2.06" } m and { "0.47" } m):
 
 # text
 # c1: preset = "gps-baseline"
@@ -264,7 +264,7 @@ seg-5019322f4669 = reported, not validated
 seg-7fcb83027ff4 = PPP convergence { "9.6" } → { "7.0" }, { "3.2" }, { "2.1" }, { "1.3" } min with 60/96/192/288 LEO
 
 # text
-seg-730b04abf9a6 = Li et al., <em>Journal of Geodesy</em> { "93" }:{ "749" } ({ "2019" }), <a1>doi { "10" }.1007/s00190-018-1195-2</a1>
+seg-856e73fb2fb5 = Li et al., <em>Journal of Geodesy</em> { "93" }:{ "749" } ({ "2019" }), <a1>doi 10.1007/s00190-018-1195-2</a1>
 
 # text
 seg-a03bc7c3b8a6 = { "7.4" } → { "4.8" }, { "3.2" }, { "2.7" }, { "2.3" } min, monotone

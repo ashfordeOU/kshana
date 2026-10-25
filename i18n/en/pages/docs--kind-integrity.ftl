@@ -10,7 +10,7 @@ seg-4bec24cd43f6 = Source: <c1/>
 seg-dd304550e695 = <c1/> (scenario kind)
 
 # text
-seg-77aa6de43477 = Scenario kind of the engine { "v0.39.0" }, family <a1>GNSS measurements, positioning and integrity</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-8e845ce908ee = Scenario kind of the engine v{ $version }, family <a1>GNSS measurements, positioning and integrity</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-eb7e0c2feb2b = Snapshot / solution-separation / ARAIM RAIM with HPL/VPL and a Stanford diagram.
@@ -46,7 +46,7 @@ seg-7b28ab6567df = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-581a5231b230 = The example <c1/> sets, among others:
 
 # text
-seg-ef8bdfa75e1b = { "1" }.0000e-5
+seg-37d29d8303fe = km
 
 # text
 # c1: scenarios/
@@ -77,10 +77,10 @@ seg-090415eca3b7 = and { "6" } more in the matrix.
 seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM multiple-hypothesis solution separation per the ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels and add_v42_protecti. Oracle (ExternalDataset): Three independent tools, pre-registered (0123cee1) before any fixture or oracle output existed, tolerances fixed then. ({ "1" }) ARAIM: Stanford MAAST for ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, run as a separate program under GNU Octave { "8.4" } with a driver-side unique() compatibility shim (disclosed, no algorithm change), at the ADD TOL_PL of { "0.05" } m: the Rust reproduces the ADD reference implementation on
 
 # text
-seg-30309a43107f = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split. Oracle (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — independent library, matched to 1e-6 relative
+seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split. Oracle (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — independent library, matched to { "1e-6" } relative
 
 # text
-seg-3b179636529f = <b>VALIDATED</b> The distributional core every protection level rests on: the snapshot fault-detection threshold χ²₁₋ₚfₐ(dof), the missed-detection non-centrality pbias=√λ, and . Oracle (ExternalDataset): SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — independent library (Cephes/Boost), a different algorithm from Kshana's incomplete-gamma series; matched to ≤1e-6 rel. Kernel only. The ARAIM MHSS P_HMI budget <em>allocation</em> is no longer without a published numeric oracle — the WG-C ARAIM Technical Subgroup's own worked example now backs the separate 'ARAIM MHSS protection levels against published referen
+seg-78ff7db5ad3d = <b>VALIDATED</b> The distributional core every protection level rests on: the snapshot fault-detection threshold χ²₁₋ₚfₐ(dof), the missed-detection non-centrality pbias=√λ, and . Oracle (ExternalDataset): SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — independent library (Cephes/Boost), a different algorithm from Kshana's incomplete-gamma series; matched to ≤{ "1e-6" } rel. Kernel only. The ARAIM MHSS P_HMI budget <em>allocation</em> is no longer without a published numeric oracle — the WG-C ARAIM Technical Subgroup's own worked example now backs the separate 'ARAIM MHSS protection levels against published referen
 
 # text
 seg-f6b7ca020692 = Family page: <a1>GNSS measurements, positioning and integrity</a1>

@@ -8,7 +8,7 @@ seg-1ae202ecd892 = One engine. <s1>Every door in.</s1>
 seg-895535d4e6f1 = One Rust engine for GNSS (Global Navigation Satellite System) and PNT (positioning, navigation and timing) resilience: a command-line interface (CLI), Rust, Python and JavaScript packages, Kshana Studio in the browser, a JetBrains IDE (integrated development environment) plugin and an MCP (Model Context Protocol) server, so an AI (artificial intelligence) assistant runs the validated engine instead of guessing the maths. Open source under the AGPL-3.0 (GNU Affero General Public License, version { "3" }) or a commercial licence.
 
 # text
-seg-1c700f5fcfe4 = Terminal · <b>kshana</b> <s1>{ "v0.39.0" }</s1>
+seg-5e769032a8f2 = Terminal · <b>kshana</b> <s1>v{ $version }</s1>
 
 # attr:aria-label
 seg-a33627692dbc = Pause the replay
@@ -53,7 +53,7 @@ seg-ddf6febf53c1 = <b>JetBrains</b><s1>IDE plugin</s1>
 seg-daa2ac123c80 = Release
 
 # text
-seg-db8ca4be2419 = Release <b>{ "v0.39.0" }</b>
+seg-75f38b14d6ac = Release <b>v{ $version }</b>
 
 # text
 seg-b02b3eeec184 = scenario kinds
@@ -95,7 +95,7 @@ seg-84812cc9eb32 = Install · AI assistants
 seg-485fee02bbcc = Install in one line. Or none.
 
 # text
-seg-552401224ab9 = Generated from the repository's manifests and cross-checked against its READMEs, so every command matches { "v0.39.0" }. <b>kshana-mcp</b> gives your AI assistant the same engine: a TOML (Tom's Obvious, Minimal Language) scenario in, JSON (JavaScript Object Notation) and CSV (comma-separated values) out.
+seg-fa7515f06aa2 = Generated from the repository's manifests and cross-checked against its READMEs, so every command matches v{ $version }. <b>kshana-mcp</b> gives your AI assistant the same engine: a TOML (Tom's Obvious, Minimal Language) scenario in, JSON (JavaScript Object Notation) and CSV (comma-separated values) out.
 
 # text
 seg-e07e65946b76 = From the manifests
@@ -134,14 +134,13 @@ seg-6816f4e1a0a0 = Version
 seg-78240346be65 = Latest
 
 # text
-seg-ea3af476281e = Pin { "v0.39.0" }
+seg-1e466f300d6e = Pin v{ $version }
 
 # text
 seg-d8008680650d = For anyone, nothing to install.
 
 # text
-# c1: 
-seg-dca88d8e959c = <a1>Launch Kshana Studio <c1/></a1>
+seg-f79048f88b5c = Launch Kshana Studio
 
 # text
 seg-567be575c392 = The engine runs locally as WebAssembly; nothing is uploaded.
@@ -293,7 +292,7 @@ seg-2cff891dc970 = Next step
 
 # text
 # c1: clock-holdover.toml
-seg-8d964e119298 = A recorded session with the kshana-mcp server (Model Context Protocol, engine { "v0.39.0" }): the assistant lists the { "49" } tools, validates <c1/> (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 { "1" }.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 { "19" }.7ns integrity { "1.000" } security n/a (no attack).
+seg-45da99dccd40 = A recorded session with the kshana-mcp server (Model Context Protocol, engine v{ $version }): the assistant lists the { "49" } tools, validates <c1/> (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
 # text
 # c1: animate_scenario
@@ -345,7 +344,7 @@ seg-91fc7df72b42 = <c1/>: Export an `orbit` scenario's propagated constellation 
 
 # text
 # c1: export_omm
-seg-bfbb64102fec = <c1/>: Export an `orbit` scenario's mean elements as a CCSDS { "502" }.0-B-2 OMM (Orbit Mean-Elements Message) catalogue — one OMM per satellite.
+seg-e7086c7b5491 = <c1/>: Export an `orbit` scenario's mean elements as a CCSDS 502.0-B-2 OMM (Orbit Mean-Elements Message) catalogue — one OMM per satellite.
 
 # text
 # c1: export_sp3
@@ -496,11 +495,10 @@ seg-62b5564e8d90 = The recorded session plays here step by step.
 
 # text
 # c1: clock-holdover.toml
-seg-67c39ec4976b = <b>Same run in the Studio:</b> Engine { "v0.39.0" } · <c1/> · seed { "42" }
+seg-2359edf78388 = <b>Same run in the Studio:</b> Engine v{ $version } · <c1/> · seed { "42" }
 
 # text
-# c1: 
-seg-0d9fca5fdcfe = <a1>Open in Kshana Studio<c1/></a1>
+seg-9a86ef058d27 = Open in Kshana Studio
 
 # attr:title
 seg-34a0cf94d83d = Open the run's exports in Kshana Studio: reproducible HTML report, JSON, CSV
@@ -651,7 +649,7 @@ seg-11062cbf180a = Export an <c1/> scenario's propagated constellation as SP3-c 
 
 # text
 # c1: orbit
-seg-e9355a3fcbcb = Export an <c1/> scenario's mean elements as a CCSDS { "502" }.0-B-2 OMM (Orbit Mean-Elements Message) catalogue — one OMM per satellite. Errors if the scenario is not an orbit kind.
+seg-97461f85b298 = Export an <c1/> scenario's mean elements as a CCSDS 502.0-B-2 OMM (Orbit Mean-Elements Message) catalogue — one OMM per satellite. Errors if the scenario is not an orbit kind.
 
 # text
 # c1: orbit
@@ -1065,7 +1063,7 @@ seg-669075196148 = Every way to install it.
 # c1: packaging/channels.json
 # c2: npx
 # c3: uvx
-seg-d4e718831590 = One table, generated from the repository's <c1/> and cross-checked against its READMEs, so each command is the one the README shows, pinned to { "v0.39.0" }. Prebuilt binaries for every operating system, the desktop assistant extension, one-click buttons for Cursor and VS Code, <c2/> and <c3/> launchers, Homebrew, Scoop and winget, the registries, and a self-hosted HTTP mode. Channels marked <b>when published</b> go live with the release.
+seg-53f99a4bf0b6 = One table, generated from the repository's <c1/> and cross-checked against its READMEs, so each command is the one the README shows, pinned to v{ $version }. Prebuilt binaries for every operating system, the desktop assistant extension, one-click buttons for Cursor and VS Code, <c2/> and <c3/> launchers, Homebrew, Scoop and winget, the registries, and a self-hosted HTTP mode. Channels marked <b>when published</b> go live with the release.
 
 # text
 seg-a784b0c22ad5 = Engine and bindings
@@ -1080,7 +1078,7 @@ seg-04af86981ef7 = For anyone, nothing to install. Needs: none.
 seg-5e0edd49cae9 = For engineers who want the kshana command. Needs: Rust.
 
 # text
-seg-67796a9f9c7f = Pinned to { "v0.39.0" }
+seg-2f047531071b = Pinned to v{ $version }
 
 # text
 seg-19baff281ca3 = For Rust developers embedding the engine. Needs: Rust.
@@ -1140,10 +1138,10 @@ seg-13641146503d = Cursor (one click)
 seg-35cf0ee94c60 = For Cursor users. Needs: Node, or Docker.
 
 # attr:aria-label
-seg-b6b7f2970a93 = Copy: npx -y kshana-mcp@{ "0.39.0" }
+seg-a53041e2bd0c = Copy: npx -y kshana-mcp@{ $version }
 
 # text
-seg-ec5092c499ec = npx -y kshana-mcp@{ "0.39.0" }
+seg-ea721373864c = npx -y kshana-mcp@{ $version }
 
 # text
 seg-06487ca9ea53 = Add to Cursor (npx)
@@ -1185,10 +1183,10 @@ seg-76fcc8024f2f = uvx / pipx
 seg-e66aec59caa7 = For Python users, any MCP client. Needs: Python { "3.9" }+ with uv or pipx.
 
 # attr:aria-label
-seg-03e253135bc8 = Copy: uvx kshana-mcp=={ "0.39.0" }
+seg-52b1d8897ac2 = Copy: uvx kshana-mcp=={ $version }
 
 # text
-seg-ae7893882a2f = uvx kshana-mcp=={ "0.39.0" }
+seg-cad43eaead60 = uvx kshana-mcp=={ $version }
 
 # text
 seg-8d5edf392220 = PyPI: kshana-mcp
@@ -1240,9 +1238,6 @@ seg-e74f9c5a4eea = winget install AshfordeOU.KshanaMcp
 
 # text
 seg-274348a3b12b = Appears once Microsoft merges the submission.
-
-# text
-seg-e1a4d1b7ab0e = winget-pkgs
 
 # text
 seg-5c425ea185ee = Prebuilt binary
@@ -1389,8 +1384,7 @@ seg-e47be3bb3de3 = Any bundled scenario, run on your machine as WebAssembly; not
 seg-b21664dae8a2 = Only Kshana Studio, for a course page or a report, with the scenario and view preselected
 
 # text
-# c1: 
-seg-a1eb14667da4 = <a1>Open an embedded view <c1/></a1>
+seg-d124f667aba2 = Open an embedded view
 
 # text
 seg-a08d0d3e393c = kshana <scenario>.toml writes result.json, chart.svg and report.html
@@ -1432,8 +1426,7 @@ seg-4ad1a7669b03 = The MCP server without a Rust toolchain, multi-architecture
 seg-9e409a07b3c9 = Right-click a scenario .toml, Run Kshana Scenario, read the figures in a tool window
 
 # text
-# c1: 
-seg-5adf0fce3ddc = <a1>Open the page <c1/></a1>
+seg-5c54a28b6aec = Open the page
 
 # text
 seg-a942825ac543 = Command line · libraries · formats
@@ -1508,7 +1501,7 @@ seg-0c64bda61e6d = <b>Reproducible</b> from scenario, seed and engine version, w
 seg-ccb6508f25b3 = <b>Documented:</b> concepts, scenario schema, Python API, validation and every tutorial, generated from the repository. <a1>Docs</a1>
 
 # text
-seg-738449ff3ef4 = Run against { "v0.39.0" }
+seg-297fe9331ba9 = Run against v{ $version }
 
 # text
 # c1: clock-holdover
@@ -1549,8 +1542,7 @@ seg-fb4a40bdf623 = run.mjs · Node.js, after <c1/>
 seg-fcdffb554680 = The same package runs in the browser; it is what Kshana Studio uses. <a1>npm docs</a1>
 
 # text
-# c1: 
-seg-4d9255bdc9d0 = <a1>Open in Kshana Studio: clock-holdover <c1/></a1>
+seg-c313ec6ff2e9 = Open in Kshana Studio: clock-holdover
 
 # text
 seg-bca1c3e60fc6 = Interoperability · read and write
@@ -1688,8 +1680,7 @@ seg-844c84c5252d = Prefer to click?
 seg-6b24b242333a = The "Kshana — PNT simulator" plugin: right-click any scenario <c1/>, choose Run Kshana Scenario, and read the figures of merit in a tool window.
 
 # text
-# c1: 
-seg-4130e4cf64aa = <a1>Open in JetBrains Marketplace <c1/></a1>
+seg-65bab13d3eb4 = Open in JetBrains Marketplace
 
 # text
 seg-8b49f6477e8f = Open core
@@ -1709,5 +1700,4 @@ seg-bd7b70852d88 = Run the benchmark.
 seg-193ee1ab991e = <c1/> turns a submission file and a split's truth into a result file, and <c2/> renders result files into a static page. Nothing runs on your behalf and nothing is uploaded.
 
 # text
-# c1: 
-seg-eb0b1bc759e2 = <a1>Open the benchmark <c1/></a1>
+seg-0c50b3629e39 = Open the benchmark

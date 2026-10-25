@@ -10,14 +10,14 @@ seg-de72ae48731d = Source: <c1/>
 seg-81c2da4650c9 = <c1/> (scenario kind)
 
 # text
-seg-db3cc450c66b = Scenario kind of the engine { "v0.39.0" }, family <a1>Clocks, timing and holdover</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-c61e88721556 = Scenario kind of the engine v{ $version }, family <a1>Clocks, timing and holdover</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-e7ab7b55c969 = 1-D trade-study sweep over a clock-pack parameter.
 
 # text
 # c1: scenarios/sweep-clock-stability.toml
-seg-aa6e3e46cc11 = One run of <c1/> summarises as: sweep holdover_s over classical_q_wf ({ "1" }.00e-24..1.00e-18, { "25" } pts, log scale) | quantum { "6600" }.000->{ "6600.000" } | classical { "2610" }.000->{ "250.000" }
+seg-0412c0dbfb75 = One run of <c1/> summarises as: sweep holdover_s over classical_q_wf ({ "1.00e-24" }..1.00e-18, { "25" } pts, log scale) | quantum 6600.000->{ "6600.000" } | classical 2610.000->{ "250.000" }
 
 # text
 # c1: parameter
@@ -37,40 +37,10 @@ seg-2b8d8159bdaf = Optional fields: <c1/>
 seg-73c2e732b0c1 = The example <c1/> sets, among others:
 
 # text
-seg-6175e9556409 = { "2" }.0000e-11
-
-# text
-seg-8652bc3944b3 = csac-sa45s
-
-# text
-seg-8439570fc57a = Microchip SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf is s
-
-# text
-seg-8f372bfd712f = { "9" }.0000e-20
-
-# text
-seg-c1931e3d4d05 = { "5" }.0000e-10
-
-# text
-seg-406c0244c435 = { "1" }.0000e-16
-
-# text
-seg-21a57d1b488f = optical-sr-lattice
+seg-f8a627a78bdb = Microchip SA.45s CSAC datasheet sigma_y(1s)={ "3e-10" }; q_wf is s
 
 # text
 seg-a8d92406e428 = Strontium optical lattice clock, space-oriented goal sigma_y
-
-# text
-seg-9c873491b630 = { "1" }.0000e-30
-
-# text
-seg-b51882ad79ee = { "5" }.0000e-17
-
-# text
-seg-c4c37b86354c = holdover_s
-
-# text
-seg-d195b4ccb553 = classical_q_wf
 
 # text
 seg-8b701f465117 = log

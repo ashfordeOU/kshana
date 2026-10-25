@@ -10,7 +10,7 @@ seg-1ad013ffb9d1 = Source: <c1/>
 seg-54620502f0dd = <c1/> (scenario kind)
 
 # text
-seg-77aa6de43477 = Scenario kind of the engine { "v0.39.0" }, family <a1>GNSS measurements, positioning and integrity</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-8e845ce908ee = Scenario kind of the engine v{ $version }, family <a1>GNSS measurements, positioning and integrity</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-edfcb546d9de = Real-time lunar frame / Earth-orientation prediction budget: P4 Table { "1" } (the frame-error consistency check — post-processed ~{ "0.27" } m ↔ ~{ "0.010" } ms and real-time ~{ "15" } m ↔ ~{ "0.5" } ms, each frame position expressed as its equivalent UT1 error via the L19 lever arm Δr = D_EM·ω⊕·ΔUT1) and Table { "2" } (measured UT1 prediction error vs horizon — the L18 curve read directly off the real IERS finals2000A series: the Bulletin A − Bulletin B final floor and the multi-day persistence-predictor error, each mapped to a Moon-frame position by L19), plus the L21 root-sum-square real-time frame-error budget (EOP + ephemeris + realisation floor). VALIDATED closed form (the L19 lever arm, ω⊕ cross-checked against the CIO Earth-rotation angle) and VALIDATED real data (the L18 curve off the real finals2000A rows); MODELLED are the lunar-relay OD covariance magnitudes and frame-realisation floor (representative allocations) and the persistence predictor (not IERS's operational Bulletin A algorithm). Not a certified real-time frame product.
@@ -40,9 +40,6 @@ seg-66264ec78a4c = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 # text
 # c1: scenarios/realtime-frame-eop.toml
 seg-45a4ed476311 = The example <c1/> sets, among others:
-
-# text
-seg-0483d462766c = bundled-offline-fixture
 
 # text
 seg-c39a26aa1f1e = bundled fixture finals2000A_20260930

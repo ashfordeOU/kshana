@@ -70,14 +70,14 @@ seg-49345663b97c = <c1/> pins an exact SHA-256 per scenario (ten scenarios, one 
 seg-e54b5ff80782 = Output <b>values</b> agree across OS (ubuntu/macOS/Windows)
 
 # text
-seg-143fccfa756d = Yes, to 1e-6
+seg-271bcbff6287 = Yes, to { "1e-6" }
 
 # text
 # c1: reproducibility-matrix
 # c2: golden.rs
 # c3: sgp4_verification.rs
 # c4: determinism.rs
-seg-1f86c653c8de = the <c1/> CI job runs <c2/> (1e-6), <c3/> (2e-5 km), and <c4/> on all three OS
+seg-3c25e00debff = the <c1/> CI job runs <c2/> ({ "1e-6" }), <c3/> ({ "2e-5" } km), and <c4/> on all three OS
 
 # text
 seg-3876618cc821 = A low Earth orbit (LEO) navigation-message frame is the same bytes on every platform and in every build profile, the WebAssembly (WASM) build included
@@ -129,16 +129,16 @@ seg-273a66a3584d = The cross-platform caveat (and how goldens handle it)
 # c1: sqrt
 # c2: ln
 # c3: exp
-seg-c26433cf0f99 = The numerical results are <b>bit-identical on a given platform</b> but may differ in the last few units in the last place (ULP) <b>between</b> platforms. The cause is the platform math library: <c1/>, <c2/>, <c3/> and friends are not required by IEEE-754 (IEEE: Institute of Electrical and Electronics Engineers) to be correctly rounded, so Linux (glibc, the GNU C library), macOS, and Windows can each return a different last bit. Over a long run these ~1e-16 differences accumulate to perhaps ~1e-12 relative.
+seg-9f4ec3dc638d = The numerical results are <b>bit-identical on a given platform</b> but may differ in the last few units in the last place (ULP) <b>between</b> platforms. The cause is the platform math library: <c1/>, <c2/>, <c3/> and friends are not required by IEEE-754 (IEEE: Institute of Electrical and Electronics Engineers) to be correctly rounded, so Linux (glibc, the GNU C library), macOS, and Windows can each return a different last bit. Over a long run these ~{ "1e-16" } differences accumulate to perhaps ~{ "1e-12" } relative.
 
 # text
 # c1: src/test_support.rs
-seg-1ef6f54b7f22 = Two things make that last-place difference larger than it starts, and both are measured rather than assumed. An <b>adaptive integrator</b> chooses its next step from the error estimate through a fifth root, so one unit in the last place changes the step sequence and the two platforms then agree only to the integration tolerance. An <b>iterative estimator</b> (a least-squares fit, an orbit-determination filter) can take a different path to convergence. Kinds built on either can differ between platforms by more than 1e-6 in individual fields; <c1/> records the same regime for the unit tests.
+seg-9297c2585419 = Two things make that last-place difference larger than it starts, and both are measured rather than assumed. An <b>adaptive integrator</b> chooses its next step from the error estimate through a fifth root, so one unit in the last place changes the step sequence and the two platforms then agree only to the integration tolerance. An <b>iterative estimator</b> (a least-squares fit, an orbit-determination filter) can take a different path to convergence. Kinds built on either can differ between platforms by more than { "1e-6" } in individual fields; <c1/> records the same regime for the unit tests.
 
 # text
 # c1: sin
 # c2: leo-ppp-convergence
-seg-e958cb779ccc = The <b>build profile</b> matters in the same way, on one machine. An optimised build on macOS merges a sine and a cosine of one argument into a single call to the system's combined routine, whose sine differs from the lone <c1/> in the last bit for { "379" } of { "200 000" } arguments; an unoptimised build makes the two calls. Measured on aarch64 macOS over the { "138" } scenario files, a debug and a release build of one source give byte-identical result documents for { "102" }. The other { "36" } differ in the last places: { "28" } within 1e-6, one (<c2/>) by { "2" }.8e-6, and seven campaigns only in the digests of their member runs; none differs in a label, a count or a verdict. The byte-identity guarantee above is therefore for one build: the same binary twice.
+seg-c6bd20427abc = The <b>build profile</b> matters in the same way, on one machine. An optimised build on macOS merges a sine and a cosine of one argument into a single call to the system's combined routine, whose sine differs from the lone <c1/> in the last bit for { "379" } of { "200 000" } arguments; an unoptimised build makes the two calls. Measured on aarch64 macOS over the { "138" } scenario files, a debug and a release build of one source give byte-identical result documents for { "102" }. The other { "36" } differ in the last places: { "28" } within { "1e-6" }, one (<c2/>) by { "2.8e-6" }, and seven campaigns only in the digests of their member runs; none differs in a label, a count or a verdict. The byte-identity guarantee above is therefore for one build: the same binary twice.
 
 # text
 seg-ff368c627bd2 = The seeded <b>normal draws</b> are a third, much rarer source: the sampler calls the host exponential and logarithm in its rare branches, and about one draw in a million differs in the last bit between the native and the WASM build.
@@ -175,7 +175,7 @@ seg-8543165b0d7d = <b><c1/></b> enforces byte-identical output across two runs <
 # c3: golden
 # c4: determinism
 # c5: sgp4_verification
-seg-76bc453b824a = <b>The <c1/> CI job</b> runs the four tests above (<c2/>, <c3/>, <c4/>, <c5/>) on <b>ubuntu-latest, macos-latest, and windows-latest</b>, so cross-platform reproducibility is asserted on every push — the shape/input goldens exactly, the numerics to 1e-6, and the SGP4 (Simplified General Perturbations { "4" }) states to 2e-5 km — rather than relying on a single OS.
+seg-8b8b4ba5de30 = <b>The <c1/> CI job</b> runs the four tests above (<c2/>, <c3/>, <c4/>, <c5/>) on <b>ubuntu-latest, macos-latest, and windows-latest</b>, so cross-platform reproducibility is asserted on every push — the shape/input goldens exactly, the numerics to { "1e-6" }, and the SGP4 (Simplified General Perturbations { "4" }) states to { "2e-5" } km — rather than relying on a single OS.
 
 # text
 # c1: tests/golden.rs

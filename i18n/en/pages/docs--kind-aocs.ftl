@@ -10,14 +10,14 @@ seg-5cd8b3d8c098 = Source: <c1/>
 seg-7f2ade997df5 = <c1/> (scenario kind)
 
 # text
-seg-9839f917de91 = Scenario kind of the engine { "v0.39.0" }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-99ef7c1d552c = Scenario kind of the engine v{ $version }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-7eff466eb018 = Spacecraft attitude control: an inertial-pointing slew of a rigid hub with three or more balanced reaction wheels under MRP feedback (L = -K sigma - P omega), minimum-norm wheel torques clipped to each motor's limit, RK4 with a zero-order hold; optionally closed on a multiplicative EKF from a simulated gyro (angle and rate random walk) and star tracker. Reports settling time, final and peak pointing error, peak wheel speed and torque, the saturated fraction, angular-momentum drift and, with the estimator, its attitude error and NEES. The true-state loop is VALIDATED against Basilisk { "2.9.1" }; the estimator is MODELLED.
 
 # text
 # c1: scenarios/aocs-slew.toml
-seg-0b2d0fb833b3 = One run of <c1/> summarises as: aocs: { "4" } wheels, { "600" } s slew from { "82.06" } deg -> settles below { "0.1" } deg at { "481.0" } s | final { "2" }.37e-2 deg | peak wheel { "1797" } rpm | true-state loop
+seg-a499721d08b1 = One run of <c1/> summarises as: aocs: { "4" } wheels, { "600" } s slew from { "82.06" } deg -> settles below { "0.1" } deg at { "481.0" } s | final { "2.37e-2" } deg | peak wheel { "1797" } rpm | true-state loop
 
 # text
 # c1: hub_inertia_kg_m2
@@ -55,9 +55,6 @@ seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a
 
 # text
 seg-b054c73f22e5 = no value
-
-# text
-seg-8fc6630cf94f = { "1" }.4672e-12
 
 # text
 seg-6e22c97374b0 = Result label (the engine's): VALIDATED control law and wheel dynamics (against Basilisk { "2.9.1" } on the true-state loop); this run's inputs are the scenario's own — reaction-wheel attitude control under MRP feedback, inertial pointing, no sensor noise, no friction

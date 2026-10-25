@@ -475,7 +475,7 @@ seg-6e0cb6acc073 = VALIDATED
 # c2: ElevationMask
 # c3: get_dop
 # c4: xval/orekit-skyline/PREREGISTRATION.md
-seg-e2e147d50406 = Orekit { "12.2" } (<c1/> look angles, <c2/>) with gnss_lib_py { "1.0.4" } (<c3/> and the DOP matrix), pre-registered in <c4/> (commit e4b9d912) before either was run: { "1173" } look angles at six sites and four epochs, six tables, { "142" } visible sets; worst elevation { "1" }.3e-13°, azimuth { "2" }.3e-13°, mask { "1" }.1e-12° against 1e-9°; identical visible sets, none in the boundary band; DOP { "3" }.3e-13 relative and cofactor { "6" }.6e-13 of the matrix scale against 1e-9. Scope: table masks, geodetic look angles, the masked set and its common-clock DOP and cofactor.
+seg-1aa76286f152 = Orekit { "12.2" } (<c1/> look angles, <c2/>) with gnss_lib_py { "1.0.4" } (<c3/> and the DOP matrix), pre-registered in <c4/> (commit e4b9d912) before either was run: { "1173" } look angles at six sites and four epochs, six tables, { "142" } visible sets; worst elevation { "1.3e-13" }°, azimuth { "2.3e-13" }°, mask { "1.1e-12" }° against { "1e-9" }°; identical visible sets, none in the boundary band; DOP { "3.3e-13" } relative and cofactor { "6.6e-13" } of the matrix scale against { "1e-9" }. Scope: table masks, geodetic look angles, the masked set and its common-clock DOP and cofactor.
 
 # text
 seg-bbb1828b3db1 = Street-canyon, sector and terrain reductions to a table
@@ -496,7 +496,7 @@ seg-2c53381d48ae = Horizontal error ellipse and per-system cofactor from the geo
 # c1: linalg.inv
 # c2: linalg.eigh
 # c3: xval/numpy-ellipse/PREREGISTRATION.md
-seg-976566c71445 = numpy { "2.5.4" } <c1/> and <c2/> (standard P2) on the { "142" } committed visible sets, common clock and one clock per system, pre-registered in <c3/> (commit 0bbeeaee): { "270" } cases, axes { "5" }.1e-13 relative, orientation { "5" }.3e-12°, cofactor { "1" }.0e-12 of the matrix scale, against 1e-9 and 1e-6°
+seg-ca5db55640a9 = numpy { "2.5.4" } <c1/> and <c2/> (standard P2) on the { "142" } committed visible sets, common clock and one clock per system, pre-registered in <c3/> (commit 0bbeeaee): { "270" } cases, axes { "5.1e-13" } relative, orientation { "5.3e-12" }°, cofactor { "1.0e-12" } of the matrix scale, against { "1e-9" } and { "1e-6" }°
 
 # text
 seg-44e5f9ca28f7 = Sky geometry functions

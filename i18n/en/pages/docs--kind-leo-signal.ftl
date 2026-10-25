@@ -10,7 +10,7 @@ seg-051999733048 = Source: <c1/>
 seg-16ae2a08d3c8 = <c1/> (scenario kind)
 
 # text
-seg-486c478c0598 = Scenario kind of the engine { "v0.39.0" }, family <a1>Low-Earth-orbit navigation</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-49964654d5f4 = Scenario kind of the engine v{ $version }, family <a1>Low-Earth-orbit navigation</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-97b8d07150d4 = LEO-PNT signal designs: parameterised low Earth orbit (LEO) positioning, navigation and timing (PNT) signals for any system, band and structure. A SIGNAL is a band (centre frequency, transmit bandwidth, ITU allocation RNSS/RDSS/MSS/EESS/non-RNSS/other) and components (acquisition, data, pilot; any subset), each with a modulation (BPSK(n) with fractional n, BOC(m,n), MBOC({ "6,1" },p) or a flat OFDM-like band), a power share, optional FDMA sub-carrier offsets, a code length and a data rate. Signals come from compiled-in public preset files (xona-pulsar, iridium-stl, starlink-soo, centispace, generic-c-band, generic-bands; each with its source URL and every unpublished value labelled REPRESENTATIVE) or are written inline. PER SIGNAL: the band-limited power spectral density and the fraction of each component's power the transmit band passes (BPSK closed form beside the numeric value), the RMS (Gabor) bandwidth, the delay-lock-loop code-tracking thermal-noise jitter against C/N0 and early-late spacing from the band-limited coherent (or non-coherent) early-late formula of Betz & Kolodziejski { "2009" } with its unlimited-band textbook form and its vanishing-spacing Gabor bound, the ranging accuracy in metres, the acquisition search space (Doppler bins from the orbit's maximum Doppler plus oscillator and user terms, times code bins), square-law detection probability and the mean serial and code-parallel acquisition time, the spectral separation coefficient of the signal into GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b and E5 AltBOC and of each into the signal with the C/N0 degradation, and the CW, wideband and matched J/S the tracked component tolerates, from the spectrum kind's own SSC machinery. A BAND TRADE: first-order ionospheric delay ({ "40.3" } TEC/f^{ "2" }), free-space loss, ranging accuracy at equal C/N0 and at equal EIRP, and jammer tolerance. Optional SHAPE CHECKS hold a design's spectrum against a described measurement (MODELLED consistency). VALIDATED: the BPSK power-in-band ({ "90.3" } % in the main lobe) and Gabor-bandwidth closed forms, the band-limited jitter reducing to the textbook coherent early-late form and to its Gabor bound, the offset BPSK spectral separation coefficient against its Parseval closed form, the AltBOC spectrum's unit area, and the maximum LEO Doppler against the published Xona Pulsar (32-34 kHz) and Iridium ({ "36" } kHz) figures. MODELLED: every design, power split, C/N0 and jammer level; EFQPSK, CSK and OFDM spectra are approximated.
@@ -35,19 +35,13 @@ seg-b538d3ff9fdb = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-6aaf62f55e65 = The example <c1/> sets, among others:
 
 # text
+seg-37d29d8303fe = km
+
+# text
 seg-9fd02351d844 = ms
 
 # text
 seg-1918189ac2bf = ppm
-
-# text
-seg-8d069ea2fd35 = { "1" }.0000e-4
-
-# text
-seg-097002789a74 = [generic-bands]
-
-# text
-seg-5db1241ac39c = dB-Hz
 
 # text
 seg-05e8854de548 = chip
@@ -61,9 +55,6 @@ seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a
 
 # text
 seg-d12bc1d2b815 = coherent
-
-# text
-seg-8f143a4c8ea1 = dBW/Hz
 
 # text
 seg-37d16b499bc5 = dB

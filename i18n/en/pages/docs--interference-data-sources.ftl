@@ -88,9 +88,6 @@ seg-847ab05a19aa = No. Licence covers non-profit research, non-profit education,
 seg-da7ac24f80cd = Not granted
 
 # text
-seg-83f7d0a8e7d2 = n/a
-
-# text
 seg-9c9da1d1a8e9 = Account tiers apply
 
 # text
@@ -113,9 +110,6 @@ seg-096b365405c5 = Paid tiers
 
 # text
 seg-d49b70c0e59f = Excluded
-
-# text
-seg-69765e8ebd8a = airplanes.live
 
 # text
 seg-6f3bc6e3094e = Page returned HTTP { "403" } to the review, terms not read

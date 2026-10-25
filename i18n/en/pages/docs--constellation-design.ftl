@@ -57,14 +57,14 @@ seg-1ff32b87e030 = Satellites
 seg-f63dd3d7aad4 = Source
 
 # text
-seg-aa9cf1b12aa0 = Global Positioning System (GPS) Standard Positioning Service Performance Standard (SPS PS), 5th edition, April { "2020" }, Tables { "3" }.2-1 and { "3" }.2-3
+seg-9e0514e371e5 = Global Positioning System (GPS) Standard Positioning Service Performance Standard (SPS PS), 5th edition, April { "2020" }, Tables 3.2-1 and 3.2-3
 
 # text
 seg-fb6956d09acc = { "24" } to { "30" }
 
 # text
 # c1: expanded
-seg-e03c6ef072a7 = SPS PS Table { "3" }.2-2: each of the six expandable slots (B1, D2, F2, A2, C4, E3) named in <c1/> is replaced by its fore and aft pair; all six by default
+seg-f679ee0f3a3f = SPS PS Table 3.2-2: each of the six expandable slots (B1, D2, F2, A2, C4, E3) named in <c1/> is replaced by its fore and aft pair; all six by default
 
 # text
 seg-45f3abdcb8d4 = Galileo Open Service Service Definition Document (OS SDD), issue { "1.1" }: Walker 24/3/1, semi-major axis { "29 599.801" } km, { "56" } deg (Table { "1" }), slots of Table { "23" }
@@ -117,10 +117,10 @@ seg-2342ed239300 = VALIDATED, against published documents:
 seg-dc7fe92fcf05 = the Walker generator reproduces all { "24" } rows of Galileo OS SDD Table { "23" }, and the GLONASS ICD slot formula is the same set of { "24" } slots as a Walker 24/3/1;
 
 # text
-seg-778f7e6737ce = the GPS preset reproduces the groundtrack equatorial crossing column of SPS PS Tables { "3" }.2-1 and { "3" }.2-2: { "35" } of { "36" } locations within { "0.0108" } deg against a { "0.015" } deg rounding bar. E3F is held to a looser { "0.06" } deg bar, because the table's own E3F row is inconsistent with its RAAN and argument of latitude: its argument of latitude is { "14.60" } deg ahead of E3's, which moves the crossing by { "7.30" } deg, while the table moves it by { "7.36" } deg;
+seg-686f9543c7c9 = the GPS preset reproduces the groundtrack equatorial crossing column of SPS PS Tables 3.2-1 and 3.2-2: { "35" } of { "36" } locations within { "0.0108" } deg against a { "0.015" } deg rounding bar. E3F is held to a looser { "0.06" } deg bar, because the table's own E3F row is inconsistent with its RAAN and argument of latitude: its argument of latitude is { "14.60" } deg ahead of E3's, which moves the crossing by { "7.30" } deg, while the table moves it by { "7.36" } deg;
 
 # text
-seg-d3aff511387f = the GPS baseline under the SPS PS Appendix B conditions (one sidereal day, { "287" } steps of five minutes, a { "4" } deg grid, all in view, { "5" } deg mask) gives a global HDOP median of { "0.940" }, { "90" } % { "1.165" }, { "95" } % { "1.255" }, { "98" } % { "1.370" } and mean { "0.965" }, against the published { "0.94" }, { "1.16" }, { "1.25" }, { "1.37" } and { "0.96" } (bar { "0.03" }, fixed before the first run). PDOP median { "1.795" } is below the { "1.815" } of Table B.3-1, which describes a degraded 20-24 satellite mix. PDOP of { "6" } or less holds { "100" } % of the time, against { "98" } % global and { "88" } % worst site in Table { "3" }.8-1.
+seg-dc2756c75401 = the GPS baseline under the SPS PS Appendix B conditions (one sidereal day, { "287" } steps of five minutes, a { "4" } deg grid, all in view, { "5" } deg mask) gives a global HDOP median of { "0.940" }, { "90" } % { "1.165" }, { "95" } % { "1.255" }, { "98" } % { "1.370" } and mean { "0.965" }, against the published { "0.94" }, { "1.16" }, { "1.25" }, { "1.37" } and { "0.96" } (bar { "0.03" }, fixed before the first run). PDOP median { "1.795" } is below the { "1.815" } of Table B.3-1, which describes a degraded 20-24 satellite mix. PDOP of { "6" } or less holds { "100" } % of the time, against { "98" } % global and { "88" } % worst site in Table 3.8-1.
 
 # text
 seg-9aac9d8aa228 = Checked against a hand derivation, not an external document: a single-epoch DOP matches the closed form for a zenith satellite and three at { "30" } deg elevation (PDOP 8/3, GDOP { "3.0732" }).
@@ -132,7 +132,7 @@ seg-d946dad08e23 = MODELLED: two-body orbits with an optional secular J2 drift; 
 seg-a6c63abeb7e6 = Bundled scenarios
 
 # text
-seg-cafc6db141f3 = Each line gives what the run prints with kshana { "0.39.0" }.
+seg-3e6a942c84d4 = Each line gives what the run prints with kshana { $version }.
 
 # text
 # c1: scenarios/constellation-multi-gnss-coverage.toml

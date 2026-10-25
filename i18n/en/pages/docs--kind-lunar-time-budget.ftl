@@ -10,14 +10,14 @@ seg-11f512367036 = Source: <c1/>
 seg-f7cd4fcfc62d = <c1/> (scenario kind)
 
 # text
-seg-c87c70fc4ee5 = Scenario kind of the engine { "v0.39.0" }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-1f17ef6a853e = Scenario kind of the engine v{ $version }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-cac3a0bcbfc6 = MODELLED end-to-end Coordinated Lunar Time (LTC) time-error budget: the seven LTC error terms assembled as time-error curves x_i(τ) over a whole averaging-time grid, root-summed into x_Σ(τ), and the clock-vs-frame CROSSOVER τ at which the growing clock term overtakes the constant real-time frame-realisation term (below it the budget is frame-limited, above it clock-limited) — the honest answer to the single-τ artifact. The τ-slopes are closed-form and analytically checkable (clock τ^{ "{" }+1/2{ "}" }/τ^{ "{" }+{ "1" }{ "}" }, floors τ^{ "0" }, measurement τ^{ "{" }-1/2{ "}" }) and the clock rows reproduce the published one-day clock specs (crate::clock_specs); the RF/optical-link, frame-realisation, relativistic-residual and ephemeris floor MAGNITUDES are Modelled budget allocations (documented defaults, caller-overridable), not measurements. The contribution is the reproducible crossover τ, not a certified per-term number; not certified for operational timekeeping.
 
 # text
 # c1: scenarios/lunar-time-budget.toml
-seg-ec92dec108e6 = One run of <c1/> summarises as: lunar-time-budget | clock passive-h-maser | 7-term x_Σ(τ) over { "57" } τ-points ({ "1" }–1e7 s) | crossover τ { "8" }.689e4 s (x { "1" }.001e-9 s) | frame floor { "1" }.001e-9 s | clock x({ "1" } d) { "0.995" } ns (MODELLED)
+seg-8a5c9e451d4e = One run of <c1/> summarises as: lunar-time-budget | clock passive-h-maser | 7-term x_Σ(τ) over { "57" } τ-points ({ "1" }–{ "1e7" } s) | crossover τ { "8.689e4" } s (x { "1.001e-9" } s) | frame floor { "1.001e-9" } s | clock x({ "1" } d) { "0.995" } ns (MODELLED)
 
 # text
 # c1: clock
@@ -33,14 +33,8 @@ seg-7cdc521303eb = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
 seg-c050033b32c3 = The example <c1/> sets, among others:
 
 # text
-seg-faa402d701b3 = passive-h-maser
-
-# text
 # c1: scenarios/
 seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
-
-# text
-seg-050459c49886 = { "1" }.0007e-9
 
 # text
 seg-eebd3e40d0b9 = Result label (the engine's): MODELLED end-to-end LTC time-error budget. The τ-slopes are closed-form and analytically checkable (clock τ^{ "{" }+1/2{ "}" }/τ^{ "{" }+{ "1" }{ "}" }, floors τ^{ "0" }, measurement τ^{ "{" }-1/2{ "}" }) and the clock rows reproduce the published one-day clock specs; the RF/optical link, frame-realisation, relativistic-residual and ephemeris flo

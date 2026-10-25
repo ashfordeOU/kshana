@@ -10,7 +10,7 @@ seg-f7305f3a0b5a = Source: <c1/>
 seg-92b90cb4a839 = <c1/> (scenario kind)
 
 # text
-seg-6de0af3b46fa = Scenario kind of the engine { "v0.39.0" }, family <a1>Inertial, fusion and quantum sensors</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-7b2721b7588d = Scenario kind of the engine v{ $version }, family <a1>Inertial, fusion and quantum sensors</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-5b9a6efe6337 = INS/TRN coasting error model: position error against coast duration, built from IMU coefficients rather than swept as an assumed drift rate. Five growth contributions — accelerometer bias, gyro-bias tilt through gravity, velocity random walk, angle random walk and scale factor against travelled distance — each propagated through a nine-state local-level inertial error model with Schuler feedback at a stated latitude and height (the short-coast leading-order laws t², t³, t^{ "1.5" }, t^{ "2.5" } and t¹/t² are reported beside it) and combined under a STATED rule (root-sum-square by default, or linear-sum, or deterministic-sum with stochastic-rss; all three are computed on every run so the choice is visible rather than buried). The coast durations reaching caller-supplied position thresholds ({ "10" } m and { "50" } m by default) are located by the engine's existing bisection, each with a per-contribution breakdown naming the dominant source, and each single contribution's crossing is additionally inverted algebraically so the two agree. A terrain-relative-navigation mode bounds the coast with periodic position fixes and reports the largest fix interval that holds each threshold; a position-only fix leaves velocity error and tilt alive across the fix, so it does not always bound the coast at any fix rate, and the report says so rather than returning a zero. MODELLED: the IMU class coefficients are representative band figures, not a datasheet, and the terrain-fix residual is an input. An unreached threshold is reported as null with a status, never as a zero. Not a certified inertial-navigation performance product.
@@ -55,44 +55,14 @@ seg-bf51947657c0 = navigation
 seg-195347c63a8a = m/s^{ "2" }
 
 # text
-seg-8a5d6b8efc8b = m/s
-
-# text
-seg-5ccb15d41914 = position-only
-
-# text
 # c1: scenarios/
 seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
-
-# text
-seg-f1308ed8db1b = { "2" }.4517e-4
 
 # text
 seg-5868f641c089 = ug
 
 # text
 seg-1918189ac2bf = ppm
-
-# text
-seg-4ef2a564cc4b = (m/s)/sqrt(hr)
-
-# text
-seg-2775d94bc5e5 = { "1" }.1667e-4
-
-# text
-seg-c92c1e7f28c2 = (m/s)/sqrt(s)
-
-# text
-seg-067f3d0be8b0 = deg/sqrt(hr)
-
-# text
-seg-ebf2b1061ba2 = { "5" }.8178e-7
-
-# text
-seg-d05e7a023382 = rad/sqrt(s)
-
-# text
-seg-87f987bc30d1 = deg/hr
 
 # text
 seg-7eba4c5ee1e4 = Result label (the engine's): MODELLED INS/TRN coasting error budget. Each contribution is propagated through a nine-state local-level inertial error model with Schuler feedback (level platform heading north at a stated site, free-inertial including the unstable vertical channel); its short-coast leading-order laws (bias t^{ "2" }, gy
@@ -107,7 +77,7 @@ seg-3068552e4ab4 = VALIDATED: the <a1>verification matrix</a1> rows that name th
 seg-7bb77ec86a0a = <b>VALIDATED</b> Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random walk, scale factor cruising and under sustained specific force) propagated through a n
 
 # text
-seg-e03c36ac5806 = <b>VALIDATED</b> Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random walk, . Oracle (ExternalDataset): NaveGo v1.4 (commit 24d9488, LGPL-3.0), run as a separate program under GNU Octave { "8.4.0" }: free-inertial coast runs with the same IMU error profile, with one corrected numerical dead band in its quaternion update (qua_update.m: the guard on a rate below 1e-8 rad/s replaced by wnorm == { "0" }, applied to a run-time copy and asserted to match once; with the guard in place a slowly drifting platform attitude froze and cut the
+seg-d69247df315f = <b>VALIDATED</b> Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random walk, . Oracle (ExternalDataset): NaveGo v1.4 (commit 24d9488, LGPL-3.0), run as a separate program under GNU Octave { "8.4.0" }: free-inertial coast runs with the same IMU error profile, with one corrected numerical dead band in its quaternion update (qua_update.m: the guard on a rate below { "1e-8" } rad/s replaced by wnorm == { "0" }, applied to a run-time copy and asserted to match once; with the guard in place a slowly drifting platform attitude froze and cut the
 
 # text
 # c1: label

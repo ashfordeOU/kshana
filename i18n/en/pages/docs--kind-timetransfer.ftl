@@ -10,14 +10,14 @@ seg-2ccebbc74d9f = Source: <c1/>
 seg-289a9f8dc990 = <c1/> (scenario kind)
 
 # text
-seg-db3cc450c66b = Scenario kind of the engine { "v0.39.0" }, family <a1>Clocks, timing and holdover</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-c61e88721556 = Scenario kind of the engine v{ $version }, family <a1>Clocks, timing and holdover</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-ccb244e60d60 = Optical vs RF two-way time/frequency transfer.
 
 # text
 # c1: scenarios/timetransfer.toml
-seg-62ea60348b87 = One run of <c1/> summarises as: scenario 8f9c2e0e31a5 | optical sync_rms { "0" }.98ps range_rms { "0" }.293mm adev(1s) { "1" }.73e-12 | RF sync_rms { "1137" }.3ps range_rms { "341" }.0mm adev(1s) { "8" }.65e-10
+seg-59347fda6c66 = One run of <c1/> summarises as: scenario 8f9c2e0e31a5 | optical sync_rms 0.98ps range_rms 0.293mm adev(1s) { "1.73e-12" } | RF sync_rms 1137.3ps range_rms 341.0mm adev(1s) { "8.65e-10" }
 
 # text
 # c1: seed
@@ -36,46 +36,16 @@ seg-5a70fcb097dc = Optional fields: none
 seg-7b887ea27a86 = The example <c1/> sets, among others:
 
 # text
-seg-451355c08177 = twstft-rf
-
-# text
 seg-2485eaa6dbf4 = Two-way satellite time and frequency transfer (TWSTFT, Ku-ba
-
-# text
-seg-41fd2b7fa239 = { "1" }.0000e-26
-
-# text
-seg-c1931e3d4d05 = { "5" }.0000e-10
-
-# text
-seg-87898641381c = optical-isl
 
 # text
 seg-fa54f1a81b57 = Optical inter-satellite link, picosecond-level synchronizati
 
 # text
-seg-cc39d6cdf69b = { "1" }.0000e-32
-
-# text
-seg-c61113a59ac7 = { "1" }.0000e-12
-
-# text
 seg-a30fe2b87ee2 = mm
 
 # text
-seg-71359e95c5c8 = { "8" }.6527e-10
-
-# text
 seg-37a77f49f048 = ps
-
-# text
-seg-232777f16ea1 = two-way-time-transfer
-
-# text
-seg-ad670a878be8 = 1/s
-
-# text
-seg-e8053d65159c = s^2/s
 
 # attr:alt
 seg-bd76bd68eab3 = The chart the engine writes for scenarios/timetransfer.toml, kind timetransfer

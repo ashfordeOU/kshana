@@ -10,7 +10,7 @@ seg-1b94e5a24a2d = Source: <c1/>
 seg-ee3ecc6e0330 = <c1/> (scenario kind)
 
 # text
-seg-e783a02e7d2e = Scenario kind of the engine { "v0.39.0" }, family <a1>Space-user navigation</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-d07af7221334 = Scenario kind of the engine v{ $version }, family <a1>Space-user navigation</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-d6d7bca305dc = MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it counts, per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and for all together, the signals usable above a C/N0 threshold - availability of at least one and of four signals, maximum outage duration, received C/N0, dilution of precision, main-lobe against sidelobe links - with a booklet, parametric or user-supplied transmit pattern, optional limb-ray ionosphere, plasmasphere and atmosphere effects and an optional weak-signal receiver design; also an onboard GNSS extended Kalman filter for HEO and lunar-transfer craft (orbital dynamics, solar radiation pressure, third bodies, clock) and relative navigation of a multi-craft formation by single-differenced pseudoranges. Checked against the ICG SSV booklet tables under a pre-registration (xval/gnss-ssv)
@@ -46,9 +46,6 @@ seg-8b8f5598c9d7 = [gps, glonass, galileo, bds]
 seg-b02a3ef32d54 = HEO, high-gain nadir and patch zenith antennas, parametric s
 
 # text
-seg-5db1241ac39c = dB-Hz
-
-# text
 seg-666a68730eaa = [booklet-high-gain-nadir, booklet-patch-zenith]
 
 # text
@@ -65,13 +62,7 @@ seg-8974ff39f695 = parametric
 seg-1d65b71c5de0 = { "5" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
 
 # text
-seg-6c6bd7fba3f5 = dB/km
-
-# text
-seg-20b2050f8274 = N-units
-
-# text
-seg-3f013f4d503d = { "1" }.0000e12
+seg-37d29d8303fe = km
 
 # text
 seg-8ac8f00f6c77 = 1/m^{ "3" }

@@ -10,7 +10,7 @@ seg-64813e3da228 = Source: <c1/>
 seg-000bb13909f1 = <c1/> (scenario kind)
 
 # text
-seg-c87c70fc4ee5 = Scenario kind of the engine { "v0.39.0" }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-1f17ef6a853e = Scenario kind of the engine v{ $version }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-7f3e13712f10 = Modelled relativistic Earth–Moon clock rate (Lunar Coordinate Time, LTC/TCL): the secular LTC−TT rate from the self-potential difference and the Moon's kinetic term, reported with the published { "56" }–{ "59" } µs/day band, plus the accumulated offset over a horizon.
@@ -34,13 +34,7 @@ seg-4731141e6aac = The example <c1/> sets, among others:
 seg-4d208b6c0eb8 = day
 
 # text
-seg-f48225cc9801 = us/day
-
-# text
 seg-3843825d0733 = us
-
-# text
-seg-0d2a47a0208e = ns/day
 
 # attr:alt
 seg-e9deb6ed41c1 = The chart the engine writes for scenarios/lunar-time-offset.toml, kind lunar-time-offset
@@ -49,7 +43,7 @@ seg-e9deb6ed41c1 = The chart the engine writes for scenarios/lunar-time-offset.t
 seg-619127334cf3 = No matrix row names this kind by name; the label on its result is the engine's own, above.
 
 # text
-seg-3fc201572d98 = <b>VALIDATED</b> Relativistic Earth-Moon clock-rate (LTC/TCL) + TT/TAI/UTC chaining + ensemble. Oracle (ExternalDataset): Ashby & Patla { "2024" }, 'A Relativistic Framework to Estimate Clock Rates on the Moon', Astronomical Journal { "167" }:{ "149" } (NIST; basis for the IAU/IAG LunaNet LTC): Moon-surface self-potential L_m = { "3" }.13881e-11 and secular total { "56.02" } µs/day matched as published numeric values; geocentric Moon speed cross-checked vs JPL DE440 (de440s.bsp via SPICE)
+seg-982426693747 = <b>VALIDATED</b> Relativistic Earth-Moon clock-rate (LTC/TCL) + TT/TAI/UTC chaining + ensemble. Oracle (ExternalDataset): Ashby & Patla { "2024" }, 'A Relativistic Framework to Estimate Clock Rates on the Moon', Astronomical Journal { "167" }:{ "149" } (NIST; basis for the IAU/IAG LunaNet LTC): Moon-surface self-potential L_m = { "3.13881e-11" } and secular total { "56.02" } µs/day matched as published numeric values; geocentric Moon speed cross-checked vs JPL DE440 (de440s.bsp via SPICE)
 
 # text
 seg-96b65f604cc2 = Honesty: MODELLED, not certified. The headline us/day figure is reference-dependent (Earth geoid W0 vs a lunar selenoid, the time-averaging window, neglected sub-us/day centrifugal/J2 corrections) -> a band, not a single number, is the honest output. Nothing here is validated to sub-nanosecond absolute accuracy or certified for operational timekeeping. The report also gives the accumulated LTC-TT offset over the hori (scenario file comment, lines { "11" } to { "16" })

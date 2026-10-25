@@ -10,7 +10,7 @@ seg-d24f2cccc926 = Source: <c1/>
 seg-3a66efa79aa2 = <c1/> (scenario kind)
 
 # text
-seg-486c478c0598 = Scenario kind of the engine { "v0.39.0" }, family <a1>Low-Earth-orbit navigation</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-49964654d5f4 = Scenario kind of the engine v{ $version }, family <a1>Low-Earth-orbit navigation</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-81d1604171a5 = One LEO-PNT (positioning, navigation and timing from low Earth orbit) system end to end, for any constellation and signal: the leo-signal design named by signal_design (a public preset or an inline [signal] design) sets a [pass] band's centre, bandwidth, chip rate and EIRP split, the leo-pass link budget gives the tracked C/N0 and band-limited code jitter over the pass, a C/N0 line in sin(elevation) and the [navmsg] message's broadcast SISRE (fitted at the pass satellite's altitude) feed every LEO system of the [fusion] leo-pvt joint fix, and optionally the [ppp] leo-ppp cases; every hand-off is listed with its value and unit. MODELLED.
@@ -43,13 +43,7 @@ seg-585a1b0d5950 = The example <c1/> sets, among others:
 seg-be21370c2446 = joint
 
 # text
-seg-5db1241ac39c = dB-Hz
-
-# text
 seg-7f5ad6ab8c23 = GPS
-
-# text
-seg-8620fcfb17d4 = gps-baseline
 
 # text
 seg-f42465f7d066 = ns

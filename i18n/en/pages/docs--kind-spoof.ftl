@@ -10,7 +10,7 @@ seg-09125f609abe = Source: <c1/>
 seg-8bf73eca4115 = <c1/> (scenario kind)
 
 # text
-seg-129531390239 = Scenario kind of the engine { "v0.39.0" }, family <a1>Jamming, spoofing and the spectrum</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-304496607bd7 = Scenario kind of the engine v{ $version }, family <a1>Jamming, spoofing and the spectrum</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-cbd77f6ffd63 = Stochastic time-spoof detector (Neyman–Pearson / χ²₁) with Monte-Carlo P_fa/P_md.
@@ -35,28 +35,10 @@ seg-5a70fcb097dc = Optional fields: none
 seg-adb7ff15a702 = The example <c1/> sets, among others:
 
 # text
-seg-8652bc3944b3 = csac-sa45s
-
-# text
-seg-26c6034392c0 = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_
-
-# text
-seg-8f372bfd712f = { "9" }.0000e-20
-
-# text
-seg-c1931e3d4d05 = { "5" }.0000e-10
-
-# text
-seg-21a57d1b488f = optical-sr-lattice
+seg-b0a5473bec67 = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)={ "3e-10" }; q_
 
 # text
 seg-a8d92406e428 = Strontium optical lattice clock, space-oriented goal sigma_y
-
-# text
-seg-9c873491b630 = { "1" }.0000e-30
-
-# text
-seg-b51882ad79ee = { "5" }.0000e-17
 
 # text
 # c1: scenarios/

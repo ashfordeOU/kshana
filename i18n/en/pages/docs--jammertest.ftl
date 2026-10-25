@@ -18,7 +18,7 @@ seg-a560942cbd27 = <c1/> reads the Jammertest test catalogue and transmission pl
 seg-bc4e7285c38a = Advisory software, not type-approved navigation equipment (IEC { "61108" }, IEC { "61162" }): the operator remains responsible for the navigation of the vessel. Nothing here is endorsed by the Norwegian Public Roads Administration, Nkom or the event organisers; no agreement with them is claimed.
 
 # attr:alt
-seg-3c1e52577331 = Scoring of one synthetic receiver log against a three-test schedule, from a real run of engine { "v0.39.0" } (`kshana jammertest score`). The log is made up: { "1800" } s of NMEA with a { "20" } dB C/N0 drop over two intervals. The schedule lists three slots; the middle slot has no jammer in the log. The score marks { "2" } of { "3" } tests detected (median latency { "0" } s) and { "1" } missed, with { "0" } false-alarm runs over { "0.25" } h of clean time. Nothing here says anything about a real receiver. Advisory software, not type-approved navigation equipment (IEC { "61108" }, IEC { "61162" }): the operator remains responsible for the navigation of the vessel.
+seg-af0edceb1503 = Scoring of one synthetic receiver log against a three-test schedule, from a real run of engine v{ $version } (`kshana jammertest score`). The log is made up: { "1800" } s of NMEA with a { "20" } dB C/N0 drop over two intervals. The schedule lists three slots; the middle slot has no jammer in the log. The score marks { "2" } of { "3" } tests detected (median latency { "0" } s) and { "1" } missed, with { "0" } false-alarm runs over { "0.25" } h of clean time. Nothing here says anything about a real receiver. Advisory software, not type-approved navigation equipment (IEC { "61108" }, IEC { "61162" }): the operator remains responsible for the navigation of the vessel.
 
 # text
 seg-ceaa46bdcb7e = The plan and the catalogue
@@ -130,7 +130,7 @@ seg-473ed6ca71e5 = <c1/> fixed the population, the definitions and the bars befo
 seg-cd75b60bd0db = The { "2025" } SimulaMet NMEA dataset
 
 # text
-seg-eb37fbfa36f5 = The SimulaMet Jammertest { "2025" } NMEA-derived dataset (IEEE DataPort, DOI { "10" }.21227/a7v4-xw11) is <b>not</b> adapted in { "0.38" }. Its page states no licence and says "This dataset requires an IEEE DataPort Subscription to access": the terms do not clearly allow redistribution or an automated fetch, so no adapter or fetch script was written. Using it needs the owner's decision and, ideally, the authors' written agreement.
+seg-87bc2544154b = The SimulaMet Jammertest { "2025" } NMEA-derived dataset (IEEE DataPort, DOI 10.21227/a7v4-xw11) is <b>not</b> adapted in { "0.38" }. Its page states no licence and says "This dataset requires an IEEE DataPort Subscription to access": the terms do not clearly allow redistribution or an automated fetch, so no adapter or fetch script was written. Using it needs the owner's decision and, ideally, the authors' written agreement.
 
 # text
 seg-f8cf777c0caa = Surfaces

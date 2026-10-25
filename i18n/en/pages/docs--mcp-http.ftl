@@ -13,7 +13,7 @@ seg-7ca89d6e0201 = A passage naming third-party AI clients is left out here; it 
 
 # text
 # c1: kshana
-seg-bae789f7f517 = <b>Kshana does not host an endpoint.</b> There is no shared <c1/> server to point a client at. You run it on your own machine, container or cloud project, and you own its access control and cost. The { "0.39.0" } server is the one in this repository: its figures carry their VALIDATED or MODELLED labels exactly as over stdio.
+seg-2f5b3bdb7d0b = <b>Kshana does not host an endpoint.</b> There is no shared <c1/> server to point a client at. You run it on your own machine, container or cloud project, and you own its access control and cost. The { $version } server is the one in this repository: its figures carry their VALIDATED or MODELLED labels exactly as over stdio.
 
 # text
 seg-113a79ece785 = The safe defaults
@@ -33,9 +33,6 @@ seg-9bc8fe53a948 = Bind address
 # c3: --http 8080
 # c4: 127.0.0.1:8080
 seg-82001913f285 = Loopback only (<c1/>, <c2/>). A bare port (<c3/>) means <c4/>.
-
-# text
-seg-07d6870d49a4 = Non-loopback
 
 # text
 # c1: --allow-remote

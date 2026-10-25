@@ -10,10 +10,10 @@ seg-f305ed6dc164 = Source: <c1/>
 seg-f708c26a5139 = <c1/> (scenario kind)
 
 # text
-seg-75bcebd6664f = Scenario kind of the engine { "v0.39.0" }, family <a1>Constellations, coverage and geometry</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-11e8c29ecb45 = Scenario kind of the engine v{ $version }, family <a1>Constellations, coverage and geometry</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
-seg-13280862f885 = Constellation design at scale: Walker DELTA and Walker STAR patterns in the i: T/P/F convention (nodes spread over { "360" } or { "180" } deg, in-plane spacing { "360" }<em>P/T, inter-plane phase offset { "360" }</em>F/T), explicit element lists and multi-shell designs, several constellations in one run, around the Earth, the Moon, Mars or any other planet, Pluto or major moon using the constants in the body module (the same ones the solar-system and body-pnt kinds use). PRESETS from published nominal elements: gps-baseline and gps-expandable (the { "24" } slots and the six fore/aft expandable pairs of the GPS Standard Positioning Service Performance Standard, 5th edition { "2020" }, Tables { "3" }.2-1 to { "3" }.2-3), galileo (Walker 24/3/1 at { "29 599.801" } km and { "56" } deg, Galileo Open Service Service Definition Document issue { "1.1" } Tables { "1" } and { "23" }), beidou and beidou-meo (Walker 24/3/1 at { "21 528" } km and { "55" } deg plus three geostationary satellites at { "80" }, { "110.5" } and { "140" } deg E and three inclined geosynchronous satellites at { "55" } deg, BeiDou Open Service Performance Standard { "3.0" } section { "4.1" }; the MEO phase and the { "118" } deg E inclined-geosynchronous crossing are modelled because the standard does not state them) and glonass (24/3/1 at { "19 100" } km and { "64.8" } deg from the slot formula of the GLONASS Interface Control Document edition { "5.1" } section { "5.2" }). COVERAGE AND DILUTION OF PRECISION: over a latitude/longitude grid and a sampled window with an elevation mask, the number of satellites in view, GDOP, PDOP, HDOP and VDOP per cell, the availability (a fix with PDOP at or below a threshold, { "6" } by default) per cell, globally (area-weighted) and at the worst site, with one receiver clock per constellation unless clock = "common". It scales to thousands of satellites: visibility is a dot product against each satellite's coverage half-angle, and satellites are banded by sub-satellite latitude each epoch so a grid row tests only those that can be in view; the report counts the pair tests saved. The JSON carries the grid maps and downsampled per-satellite ground tracks. VALIDATED: the Walker generator against Galileo OS SDD Table { "23" } and the GLONASS ICD slot formula, the GPS preset against the published equatorial-crossing column of SPS PS Table { "3" }.2-1, and the GPS baseline global HDOP distribution against SPS PS Appendix B (median { "0.94" }, { "95" }% { "1.25" }, mean { "0.96" }, tolerance { "0.03" }). MODELLED: two-body orbits with optional secular J2, a spherical body, geometric visibility only (no signal power, health or terrain), and the relative phase between different systems, which is not a snapshot of any real date.
+seg-de173c9f4034 = Constellation design at scale: Walker DELTA and Walker STAR patterns in the i: T/P/F convention (nodes spread over { "360" } or { "180" } deg, in-plane spacing { "360" }<em>P/T, inter-plane phase offset { "360" }</em>F/T), explicit element lists and multi-shell designs, several constellations in one run, around the Earth, the Moon, Mars or any other planet, Pluto or major moon using the constants in the body module (the same ones the solar-system and body-pnt kinds use). PRESETS from published nominal elements: gps-baseline and gps-expandable (the { "24" } slots and the six fore/aft expandable pairs of the GPS Standard Positioning Service Performance Standard, 5th edition { "2020" }, Tables 3.2-1 to 3.2-3), galileo (Walker 24/3/1 at { "29 599.801" } km and { "56" } deg, Galileo Open Service Service Definition Document issue { "1.1" } Tables { "1" } and { "23" }), beidou and beidou-meo (Walker 24/3/1 at { "21 528" } km and { "55" } deg plus three geostationary satellites at { "80" }, { "110.5" } and { "140" } deg E and three inclined geosynchronous satellites at { "55" } deg, BeiDou Open Service Performance Standard { "3.0" } section { "4.1" }; the MEO phase and the { "118" } deg E inclined-geosynchronous crossing are modelled because the standard does not state them) and glonass (24/3/1 at { "19 100" } km and { "64.8" } deg from the slot formula of the GLONASS Interface Control Document edition { "5.1" } section { "5.2" }). COVERAGE AND DILUTION OF PRECISION: over a latitude/longitude grid and a sampled window with an elevation mask, the number of satellites in view, GDOP, PDOP, HDOP and VDOP per cell, the availability (a fix with PDOP at or below a threshold, { "6" } by default) per cell, globally (area-weighted) and at the worst site, with one receiver clock per constellation unless clock = "common". It scales to thousands of satellites: visibility is a dot product against each satellite's coverage half-angle, and satellites are banded by sub-satellite latitude each epoch so a grid row tests only those that can be in view; the report counts the pair tests saved. The JSON carries the grid maps and downsampled per-satellite ground tracks. VALIDATED: the Walker generator against Galileo OS SDD Table { "23" } and the GLONASS ICD slot formula, the GPS preset against the published equatorial-crossing column of SPS PS Table 3.2-1, and the GPS baseline global HDOP distribution against SPS PS Appendix B (median { "0.94" }, { "95" }% { "1.25" }, mean { "0.96" }, tolerance { "0.03" }). MODELLED: two-body orbits with optional secular J2, a spherical body, geometric visibility only (no signal power, health or terrain), and the relative phase between different systems, which is not a snapshot of any real date.
 
 # text
 # c1: scenarios/leo-pnt-mega-shell.toml
@@ -48,7 +48,7 @@ seg-d72b4c5393e0 = earth
 seg-d9b3c54bd272 = common
 
 # text
-seg-6e91cd39db93 = LEO-PNT
+seg-37d29d8303fe = km
 
 # text
 seg-6411970ba342 = delta
@@ -58,16 +58,10 @@ seg-6411970ba342 = delta
 seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
 
 # text
-seg-ee25b49176d3 = { "3" }.9860e5
-
-# text
 seg-0a6f7f6c66c4 = km^3/s^{ "2" }
 
 # text
 seg-e27476e37522 = Earth
-
-# text
-seg-2ebaa5addd9b = deg/s
 
 # text
 seg-ab9b72b9ffce = Result label (the engine's): MODELLED - two-body Keplerian orbits (optional secular J2) around a spherical body, geometric visibility above an elevation mask, all-in-view dilution of precision with one receiver clock per constellation unless clock = "common"; no signal power, health or terrain. The Walker geometry and the publi
@@ -92,11 +86,11 @@ seg-1272200ad4f2 = <b>MODELLED</b> The <c1/> kind beyond the two pinned cases: e
 
 # text
 # c1: constellation-design
-seg-f4718f190c60 = <b>VALIDATED</b> The <c1/> kind's generators: Walker delta and star patterns in the T/P/F convention (node spacing 360/P or 180/P, in-plane spacing { "360" }·P/T, int. Oracle (ExternalDataset): Published agency documents: Galileo Open Service Service Definition Document issue { "1.1" } (European GNSS Service Centre) Tables { "1" } and { "23" }, the reference constellation at 2016-11-21 { "00" }:{ "00" } UTC; GLONASS Interface Control Document edition { "5.1" } ({ "2008" }) section { "5.2" }, the slot formula for node longitude and argument of latitude; GPS Standard Positioning Service Performance Standard 5th edition (April { "2020" }) Tables { "3" }.2-1, { "3" }.2-2 and
+seg-0c64f22330d2 = <b>VALIDATED</b> The <c1/> kind's generators: Walker delta and star patterns in the T/P/F convention (node spacing 360/P or 180/P, in-plane spacing { "360" }·P/T, int. Oracle (ExternalDataset): Published agency documents: Galileo Open Service Service Definition Document issue { "1.1" } (European GNSS Service Centre) Tables { "1" } and { "23" }, the reference constellation at 2016-11-21 { "00" }:{ "00" } UTC; GLONASS Interface Control Document edition { "5.1" } ({ "2008" }) section { "5.2" }, the slot formula for node longitude and argument of latitude; GPS Standard Positioning Service Performance Standard 5th edition (April { "2020" }) Tables 3.2-1, 3.2-2 and
 
 # text
 # c1: constellation-design
-seg-e9972f4ecd9a = <b>VALIDATED</b> The <c1/> coverage engine on the GPS baseline 24-slot preset under the GPS Standard Positioning Service Performance Standard (SPS PS) Appendix . Oracle (ExternalDataset): GPS SPS PS 5th edition (April { "2020" }) Appendix B sections B.3.2.2 and B.3.2.3, the published global-average HDOP distribution of the fully occupied baseline 24-slot constellation (median { "0.94" }, { "90" } % { "1.16" }, { "95" } % { "1.25" }, { "98" } % { "1.37" }, mean { "0.96" }), Table { "3" }.8-1 (PDOP availability) and Table B.3-1 (ensemble PDOP of a degraded constellation, used only as an upper bound), plus a hand-derived closed form for one epoch. The VDOP and PD
+seg-87c4e19dc780 = <b>VALIDATED</b> The <c1/> coverage engine on the GPS baseline 24-slot preset under the GPS Standard Positioning Service Performance Standard (SPS PS) Appendix . Oracle (ExternalDataset): GPS SPS PS 5th edition (April { "2020" }) Appendix B sections B.3.2.2 and B.3.2.3, the published global-average HDOP distribution of the fully occupied baseline 24-slot constellation (median { "0.94" }, { "90" } % { "1.16" }, { "95" } % { "1.25" }, { "98" } % { "1.37" }, mean { "0.96" }), Table 3.8-1 (PDOP availability) and Table B.3-1 (ensemble PDOP of a degraded constellation, used only as an upper bound), plus a hand-derived closed form for one epoch. The VDOP and PD
 
 # text
 # c1: constellation-design

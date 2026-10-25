@@ -10,7 +10,7 @@ seg-4b695c0dfc9f = Source: <c1/>
 seg-632c0a545845 = <c1/> (scenario kind)
 
 # text
-seg-9839f917de91 = Scenario kind of the engine { "v0.39.0" }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-99ef7c1d552c = Scenario kind of the engine v{ $version }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 # c1: [[contacts]]
@@ -34,16 +34,7 @@ seg-67c665d5c8c0 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
 seg-60f25ccdab6e = The example <c1/> sets, among others:
 
 # text
-seg-cf2143f83112 = navigation-priority
-
-# text
-seg-b10e9f98cad1 = nav-1
-
-# text
 seg-bf51947657c0 = navigation
-
-# text
-seg-097afd3e9601 = comms-1
 
 # text
 seg-b4ff1d640bdf = communications

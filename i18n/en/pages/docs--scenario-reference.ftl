@@ -11,9 +11,6 @@ seg-1e4d5b2f4810 = Every bundled scenario file ({ "182" }), grouped by kind. The
 seg-cb9447893c7f = One satellite over one station: each pass's slant range, elevation and Es/N0 along the pass, the DVB-S2 MODCOD chosen at each step (ETSI EN { "302" } 307-1 Table { "13" } thresholds plus an implementation margin) and the data volume ACM moves against the constant-coding baseline that closes at the mask. MODELLED.
 
 # text
-seg-fe49324ba9ac = acm-link.toml
-
-# text
 seg-e701392324d0 = kind acm-link
 
 # text
@@ -29,16 +26,10 @@ seg-c36379e65043 = <a1>Open in Kshana Studio</a1> · <a2>View on GitHub</a2>
 seg-7eff466eb018 = Spacecraft attitude control: an inertial-pointing slew of a rigid hub with three or more balanced reaction wheels under MRP feedback (L = -K sigma - P omega), minimum-norm wheel torques clipped to each motor's limit, RK4 with a zero-order hold; optionally closed on a multiplicative EKF from a simulated gyro (angle and rate random walk) and star tracker. Reports settling time, final and peak pointing error, peak wheel speed and torque, the saturated fraction, angular-momentum drift and, with the estimator, its attitude error and NEES. The true-state loop is VALIDATED against Basilisk { "2.9.1" }; the estimator is MODELLED.
 
 # text
-seg-f8bd6646969e = aocs-slew.toml
-
-# text
 seg-b6ddd25a35c3 = kind aocs
 
 # attr:title, text
 seg-2756cca2bbd2 = Reaction-wheel attitude slew under MRP feedback, closed on the true state.
-
-# text
-seg-9cb6218c12e3 = aocs-slew-mekf.toml
 
 # attr:title, text
 seg-37ce0a2fdedb = Reaction-wheel attitude slew under MRP feedback, closed on an MEKF estimate.
@@ -49,9 +40,6 @@ seg-37ce0a2fdedb = Reaction-wheel attitude slew under MRP feedback, closed on an
 seg-0cef33b41040 = Aperture duty cycle: the navigation-versus-communications time-share a contact plan implies for a pool of steerable apertures. Takes a contact plan (a list of <c1/> aos_s/los_s windows, each asking for navigation or communications — the same aos_s/los_s vocabulary the <c2/> predictor emits), an aperture count, and an ARBITRATION POLICY (navigation-priority by default, or communications-priority, or non-preemptive first-come-first-served), and reports the navigation duty, the communications duty, the idle duty, and the per-session outage — the contact time a session requested and no aperture served. An exact interval sweep over the window boundaries, so touching windows never contend and no aperture-second is double-counted; navigation, communications and idle aperture-seconds are accumulated independently and close against apertures*horizon_s. The report states the resolved policy, its full definition, and the duty and outage definitions, because a duty figure quoted without its arbitration policy is not reproducible. MODELLED scheduling arithmetic: no slew / retune / changeover time is charged when an aperture changes service or session, no data volume, buffer state, energy budget or link closure enters the decision, and the contact windows are inputs — their geometry is whatever produced them. Not a ground-segment scheduling product.
 
 # text
-seg-a74b1edfa1b7 = aperture-duty-cycle.toml
-
-# text
 seg-944f5a95638f = kind aperture-duty-cycle
 
 # attr:title, text
@@ -59,10 +47,7 @@ seg-b9192c83fdf7 = Aperture duty-cycle demonstrator (ground segment & operations
 
 # text
 # c1: published
-seg-d59266c56e44 = Published ARAIM certification reference vectors: the engine's ARAIM horizontal and vertical protection levels run against the WG-C ARAIM Technical Subgroup's OWN worked numerical examples, at the tolerance (TOL_PL = 5e-2 m) those documents themselves state. Two vectors are committed as fixtures, each carrying its retrieval URL, retrieval date, source-file SHA-256 and page: the Reference Airborne Algorithm Description Document v3.1 ({ "2019" }) Appendix D — self-consistent, and the acceptance vector — and the Milestone { "3" } Report ({ "2016" }) Annex A section A.IX, the statement the research bibliographies cite. Every published input (the 10-satellite 2-constellation geometry matrix, the C_int and C_acc variance diagonals, b_nom, P_sat, P_const and the LPV-200 constant set) and every published output (VPL, HPL, EMT, sigma_v_acc, K_fa_3 and the two constellation-fault modes' sigma_3, sigma_ss_3 and b_3) is reported beside the engine's own number and their absolute difference. The protection-level equation is NOT re-solved here: the reference's mode list is handed to the engine's existing raim::araim_protection_level / araim_integrity_risk, so the bisection and the Gaussian-tail algebra under test are the engine's own; only the geometry, the sub-solutions, the detection thresholds and the published budget split are built for it. EXTERNALLY CHECKED against the { "2019" } vector: VPL { "18.2926" } m vs { "18.3" } m published, HPL { "13.4063" } m vs { "13.45" } m, EMT { "7.2997" } m vs { "7.2998" } m, sigma_v_acc { "1.3694" } m vs { "1.3694" } m, and all six published intermediates to within half a unit in their last printed decimal. The { "2016" } vector carries two internal defects the report states rather than hides — a sign typo in row { "3" } of G, and a K_fa_3 evaluated at { "57" } fault modes while the document states N_fault_max = { "1" } ({ "12" } modes) — so its geometry intermediates reproduce exactly while its protection levels are reported as measured discrepancies and excluded from the acceptance figure; the tolerance is never widened to absorb them. Every emitted numeric field carries a unit and a provenance class, and a transcribed figure is labelled <c1/> so it can never be mistaken for a computed one. SCOPE: only N_fault_max = { "1" } (single-satellite and single-constellation fault modes) is implemented, and a case whose priors require simultaneous multi-event fault subsets is REFUSED rather than silently truncated; fault detection, exclusion, the chi-square consistency check and the double-counting re-allocation step of the reference algorithm are out of scope. This reproduces a published reference algorithm's worked example — it is not a certification, an airworthiness artefact or an approval.
-
-# text
-seg-939f86399b72 = araim-reference-check.toml
+seg-06197409c717 = Published ARAIM certification reference vectors: the engine's ARAIM horizontal and vertical protection levels run against the WG-C ARAIM Technical Subgroup's OWN worked numerical examples, at the tolerance (TOL_PL = { "5e-2" } m) those documents themselves state. Two vectors are committed as fixtures, each carrying its retrieval URL, retrieval date, source-file SHA-256 and page: the Reference Airborne Algorithm Description Document v3.1 ({ "2019" }) Appendix D — self-consistent, and the acceptance vector — and the Milestone { "3" } Report ({ "2016" }) Annex A section A.IX, the statement the research bibliographies cite. Every published input (the 10-satellite 2-constellation geometry matrix, the C_int and C_acc variance diagonals, b_nom, P_sat, P_const and the LPV-200 constant set) and every published output (VPL, HPL, EMT, sigma_v_acc, K_fa_3 and the two constellation-fault modes' sigma_3, sigma_ss_3 and b_3) is reported beside the engine's own number and their absolute difference. The protection-level equation is NOT re-solved here: the reference's mode list is handed to the engine's existing raim::araim_protection_level / araim_integrity_risk, so the bisection and the Gaussian-tail algebra under test are the engine's own; only the geometry, the sub-solutions, the detection thresholds and the published budget split are built for it. EXTERNALLY CHECKED against the { "2019" } vector: VPL { "18.2926" } m vs { "18.3" } m published, HPL { "13.4063" } m vs { "13.45" } m, EMT { "7.2997" } m vs { "7.2998" } m, sigma_v_acc { "1.3694" } m vs { "1.3694" } m, and all six published intermediates to within half a unit in their last printed decimal. The { "2016" } vector carries two internal defects the report states rather than hides — a sign typo in row { "3" } of G, and a K_fa_3 evaluated at { "57" } fault modes while the document states N_fault_max = { "1" } ({ "12" } modes) — so its geometry intermediates reproduce exactly while its protection levels are reported as measured discrepancies and excluded from the acceptance figure; the tolerance is never widened to absorb them. Every emitted numeric field carries a unit and a provenance class, and a transcribed figure is labelled <c1/> so it can never be mistaken for a computed one. SCOPE: only N_fault_max = { "1" } (single-satellite and single-constellation fault modes) is implemented, and a case whose priors require simultaneous multi-event fault subsets is REFUSED rather than silently truncated; fault detection, exclusion, the chi-square consistency check and the double-counting re-allocation step of the reference algorithm are out of scope. This reproduces a published reference algorithm's worked example — it is not a certification, an airworthiness artefact or an approval.
 
 # text
 seg-2c27404856f6 = kind araim-reference-check
@@ -74,9 +59,6 @@ seg-7dcfd56b402b = The engine's ARAIM protection levels against the WG-C subgrou
 seg-34d041d6bd9f = Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere { "1976" } (vertical rise, pitch kick, thrust along velocity), integrating the gravity, drag, steering and back-pressure losses and checking ideal dv minus losses against the burnout speed; max-Q, peak acceleration and burnout state. MODELLED.
 
 # text
-seg-79f8c09a577b = ascent-losses.toml
-
-# text
 seg-6fc2c7863922 = kind ascent-losses
 
 # text
@@ -84,9 +66,6 @@ seg-6ad78e934bec = Gravity-turn ascent losses of an ILLUSTRATIVE two-stage keros
 
 # text
 seg-62c0dda9fc56 = 3-DOF attitude & pointing error budget: the worst-case gravity-gradient disturbance torque ((3/2)(μ/R³)ΔI) and a root-sum-square pointing-error budget over named 1σ contributors (sensor noise, reaction-wheel jitter, thermal, alignment) with the dominant term, for an orbit altitude + body inertia spread. MODELLED scalar AOCS budget — a pre-hardware complement to Basilisk/42, not a control-loop/6-DoF/flexible-mode simulation.
-
-# text
-seg-7ef1b6bee042 = attitude-budget.toml
 
 # text
 seg-602ac3a69ef9 = kind attitude-budget
@@ -101,16 +80,10 @@ seg-a0f7fd8c3838 = 3-DOF attitude & pointing error budget demonstrator (pre-hard
 seg-e7dad1a1ecba = Positioning around any solar-system body: an orbiter or a surface lander around a central body chosen by name (Mars, the Moon, Europa, Ganymede, Titan and the rest of the solar-system catalogue), navigating with one-way pseudoranges from a small Walker navigation constellation around the body (two-body orbits with the body's own J2 secular drift, an unknown user clock) and optionally a clock-free deep-space two-way range from the Earth, whose direction and distance come from the analytic solar-system ephemeris at every epoch. Lines of sight are blocked by the body's mean sphere, and a surface user also needs the elevation mask. Per epoch: relays in view, whether the Earth is above the limb, the constellation-only GDOP and PDOP (geometric and position dilution of precision), the formal one-sigma position uncertainty with and without the Earth row, and the error of a seeded Gauss-Newton least-squares fix each way; over the run: availability, Earth visibility, median PDOP, RMS error and median formal sigma, plus the Earth-to-body light time, round trip, Shapiro delay and Sun separation at the epoch. MODELLED: the relay orbits, the noise levels and the instantaneous measurement model are modelling choices, not validated against a mission's navigation data; the body constants are the published values cited in body.rs, and the Earth geometry inherits the solar-system ephemeris labels.
 
 # text
-seg-b0b8df12cdf6 = europa-surface-pnt.toml
-
-# text
 seg-be0ff8b9fe3b = kind body-pnt
 
 # attr:title, text
 seg-a9e68b95994d = Positioning a lander on Europa: the Jovian-moon case.
-
-# text
-seg-9d02d42e8de1 = mars-orbit-pnt.toml
 
 # attr:title, text
 seg-6e1713545914 = Positioning a low Mars orbiter with a Mars navigation constellation and a deep-space link.
@@ -119,22 +92,13 @@ seg-6e1713545914 = Positioning a low Mars orbiter with a Mars navigation constel
 seg-a07990e776cb = Campaign: existing scenario kinds composed into one run, with every number read from a real run of the named kind. Four sections, in any combination. PHASES: a chained mission on one shared timeline -- each phase runs one or more scenarios (for example jamming, then spoofing, then a clock in holdover with an inertial navigation system coasting beside it, then an integrity alarm, then recovery), their outputs are read into named channels (clock time error against its guard, carrier-to-noise density ratio against the tracking floor, protection level against the alert limit, position error, satellites tracking, alarm flags) by a per-kind preset or by explicit result paths, and resampled onto a common grid by zero-order hold, with phase boundaries and events; state is handed on by carry (a channel continues from the previous phase's end value), handoff (a previous phase's number written into this phase's scenario) and end_at (a phase ends at a time a run computed, such as a spoofing monitor's detection time). SWEEP: a grid over one to three dotted scenario keys of any kind (a whole-number segment indexes an array of tables, as in system.2.sisre_m), with metrics read by result path and, with runs above one, a seeded Monte Carlo ensemble at every node. MONTE_CARLO: realisation k runs at base_seed + k; each metric reports mean, standard deviation, nearest-rank 5th/50th/95th percentiles and a fixed-seed bootstrap { "95" }% confidence interval on the mean. COMPOSE: several scenarios under shared values (one jammer's power and position written into a maritime and a road receiver), with a combined best/worst summary. The result carries a campaign hash, a digest over every member result, and a units entry for every emitted number; the interoperability exports write each member scenario that has geometry as its own file set. Composition identities are tested: a one-phase campaign reproduces the stand-alone run bit for bit, a fixed-seed ensemble is byte-stable, and on a white-frequency-noise clock the ensemble mean falls inside the reported interval with the spread matching sqrt(q_wf * tau). MODELLED: the additive carry and the zero-order hold are modelling choices, and each phase carries the label of the kind that ran it.
 
 # text
-seg-2a8e7d2c72d4 = campaign-jam-spoof-holdover-integrity.toml
-
-# text
 seg-eb1f3742071d = kind campaign
 
 # text
 seg-a40718a9a53e = A chained mission: nominal, jamming, spoofing, GNSS loss with clock holdover and inertial coasting, an integrity alarm, and recovery, on one shared timeline.
 
-# text
-seg-7133d835a046 = campaign-monte-carlo-clock-holdover.toml
-
 # attr:title, text
 seg-1e0ae3e165af = A seeded Monte Carlo ensemble through a campaign, on a case with a closed form.
-
-# text
-seg-455c8430e79a = campaign-optimize-link-budget.toml
 
 # text
 # c1: link-budget
@@ -142,126 +106,66 @@ seg-455c8430e79a = campaign-optimize-link-budget.toml
 seg-e745211204ab = An optimisation through a campaign: the link-budget example's X-band link ({ "55" } dBW EIRP, { "53" } dB/K G/T, { "3" } dB other losses, { "4.5" } dB required Eb/N0), searched over range and data rate for the operating point that leaves exactly { "3" } dB of margin. Each evaluation is an ordinary <c1/> run. The Nelder-Mead simplex works in log-normalised coordinates inside the stated bounds, and every evaluation is listed in the result's <c2/>.
 
 # text
-seg-a7910d5f6f42 = campaign-shared-jammer-sea-road.toml
-
-# text
 seg-decc6966e201 = Cross-domain composition: one jammer, two platforms. A ship in the Gulf of Finland ({ "59.80" } N, { "24.90" } E, the maritime-strait-jamming example's receiver) and a car on a Helsinki coast road ({ "60.17" } N, { "24.94" } E) sit under the same broadband jammer, placed at { "59.80" } N, { "25.44" } E, { "30" } m up (about { "30" } km from the ship and { "50" } km from the car).
-
-# text
-seg-4b1e7c691360 = campaign-spectrum-holdover-integrity.toml
 
 # text
 seg-f2588213d3d3 = A chained mission driven by the L-band spectrum: a chirp jammer takes GPS L1 C/A and Galileo E1, the clock holds over, and a continuous-wave (CW) tone left on the L1 carrier keeps C/A down while E1 recovers, so the receiver falls back to Galileo and its integrity monitor runs on a Galileo-only sky.
 
 # text
-seg-a974f18773e7 = campaign-sweep-jammer-power.toml
-
-# text
 # c1: jamming
 seg-031c509abbfa = A parameter sweep through a campaign: the jamming example's receiver ({ "52" } N, { "4" } E, GPS-like 24-satellite Walker shell) under a broadband jammer { "1" } km away, with the jammer's transmit power swept from -50 dBW ({ "10" } nW) to +{ "10" } dBW ({ "10" } W) in { "5" } dB steps. Each node is an ordinary <c1/> run; the campaign records, per node, the fraction of epochs with at least four satellites still tracking, the mean jammer-to-signal ratio (J/S), and the fewest satellites tracking.
-
-# text
-seg-d9cbd825e659 = leo-focus-data-services.toml
 
 # attr:title, text
 seg-da7647613c60 = LEO-PNT focus area: additional PNT data services in the navigation message.
 
-# text
-seg-7745899fa254 = leo-focus-fused-pnt-sisre.toml
-
 # attr:title, text
 seg-108d1486ec7b = LEO-PNT focus area: MEO + LEO fused PNT.
-
-# text
-seg-5e798cb1bf2c = leo-focus-indoor-uhf.toml
 
 # attr:title, text
 seg-a2beff2ebaa4 = LEO-PNT focus area: indoor navigation with UHF.
 
-# text
-seg-fd1e4034f317 = leo-focus-iot-eirp.toml
-
 # attr:title, text
 seg-c61db40d4251 = LEO-PNT focus area: low-energy positioning for the Internet of Things (IoT) and mobile.
-
-# text
-seg-657dcc876aa8 = leo-focus-ntn-bandwidth.toml
 
 # attr:title, text
 seg-85b70e840ab6 = LEO-PNT focus area: 5G/6G non-terrestrial network (NTN) compatibility.
 
-# text
-seg-72ee73f1b6d5 = leo-focus-ppp-altitude.toml
-
 # attr:title, text
 seg-2d409c46b492 = LEO-PNT focus area: high-accuracy positioning (precise point positioning, PPP).
-
-# text
-seg-260475ea4da9 = leo-resilience-gnss-jammed-leo-carries.toml
 
 # attr:title, text
 seg-5b1936c7d338 = LEO-PNT resilience mission: GNSS jammed, LEO-PNT carries the user, integrity maintained.
 
-# text
-seg-42014751e503 = leo-resilience-multiband-diversity.toml
-
 # attr:title, text
 seg-d238fbcc1f84 = LEO-PNT resilience by band diversity: one jammer, a four-band receiver.
-
-# text
-seg-79698bd7be6b = leo-resilience-spoof-monitors.toml
 
 # attr:title, text
 seg-4a60598e908a = LEO-PNT resilience against spoofing: which monitor sees which spoofer.
 
-# text
-seg-57a45adae67d = leo-vertical-5g-network-timing.toml
-
 # attr:title, text
 seg-45e191fe3971 = LEO-PNT vertical: wireless networks, 5G/6G base-station timing.
-
-# text
-seg-7ba9857b4190 = leo-vertical-asset-tracking-iot.toml
 
 # attr:title, text
 seg-2466e0a2b0ad = LEO-PNT vertical: asset tracking and the Internet of Things (IoT), energy per fix.
 
-# text
-seg-ee00e23ae629 = leo-vertical-autonomous-vehicle.toml
-
 # attr:title, text
 seg-81df59dd795b = LEO-PNT vertical: autonomous vehicles, an urban canyon with a LEO layer.
-
-# text
-seg-44f306679aa1 = leo-vertical-autonomous-vehicle-skyline.toml
 
 # attr:title, text
 seg-7cbec18ce36b = LEO-PNT vertical: the autonomous-vehicle urban canyon, as a flat cut-off and as a street.
 
-# text
-seg-5461d31138b4 = leo-vertical-critical-infrastructure-timing.toml
-
 # attr:title, text
 seg-c5cbb50f640e = LEO-PNT vertical: critical infrastructure timing, holdover with LEO time.
 
-# text
-seg-25f6d62f39b8 = leo-vertical-polar-arctic.toml
-
 # attr:title, text
 seg-abf58b089d72 = LEO-PNT vertical: polar and Arctic users.
-
-# text
-seg-442138fe7874 = leo-vertical-rail-maritime.toml
 
 # attr:title, text
 seg-a7de37959bb9 = LEO-PNT vertical: railway and maritime, the bundled maritime and rail scenarios plus LEO.
 
 # text
 # c1: independence
-seg-3461ee45e9f4 = MODELLED independent-estimator test of the cislunar arc-length observability threshold. That threshold is a RANK read on the observability matrix assembled from the ANALYTIC range Jacobian rows and the ANALYTIC variational state-transition matrix, and its square-root-information-filter cross-check folds those same rows — a consistency check between two numerical machines, not corroboration. This kind supplies the missing arbiter: a batch least-squares estimator that actually RECOVERS the chief's initial state from simulated measurements, with the measurement partials taken as CENTRAL FINITE DIFFERENCES of the composed forward model. It calls no analytic Jacobian row, no variational STM, no singular-value or eigen decomposition, no rank tolerance and no square-root information filter — a source-text guard in tests/cislunar_arc_recovery_reference.rs makes that enforceable — while the dynamics (the same RK4 CR3BP flow), the initial conditions (the same differential-corrected constellation), the scalar observable and the epoch grid are shared deliberately and named in the emitted <c1/> block, because two analyses of one physical problem must agree about the physics to be comparable. Two criteria, each swept over five decades of its own bound: NOISE-FREE RECOVERY (every seeded trial's final state error at most recovery_factor times its a-priori displacement — the rank analogue, with no singular-value tolerance in it) and MONTE-CARLO ESTIMABILITY (the measured RMS position error over a seeded noise ensemble below a stated bound — the estimability analogue, measured rather than predicted). Supports the planar four-state and the spatial six-state, the DRO / L2 halo / L2 NRHO families, range and range-rate observables, and a Moon-centred polar parameterisation in which the transformation is applied to the STATE and the forward model re-differenced there. MEASURED on the published planar DRO grid: the estimator recovers the four-state from { "0.782609" } h against the rank criterion's { "2.086957" } h at rel_tol 1e-6 (ratio { "0.375" }) — the rank threshold is NOT corroborated as a recoverability boundary — while the measured estimability boundary lands in the same grid cell as the formal one, { "5.739130" } h, and the measured error curve reproduces the formal 1-sigma over { "21" } arc lengths to a geometric-mean ratio of { "0.98" }. MODELLED: the constellation design, the epoch grid, the single tracked link, the displacement magnitude, the measurement sigma and the two stated bounds. Not a certified navigation-performance product.
-
-# text
-seg-22da2f4e2f13 = cislunar-arc-recovery.toml
+seg-f994c81583bf = MODELLED independent-estimator test of the cislunar arc-length observability threshold. That threshold is a RANK read on the observability matrix assembled from the ANALYTIC range Jacobian rows and the ANALYTIC variational state-transition matrix, and its square-root-information-filter cross-check folds those same rows — a consistency check between two numerical machines, not corroboration. This kind supplies the missing arbiter: a batch least-squares estimator that actually RECOVERS the chief's initial state from simulated measurements, with the measurement partials taken as CENTRAL FINITE DIFFERENCES of the composed forward model. It calls no analytic Jacobian row, no variational STM, no singular-value or eigen decomposition, no rank tolerance and no square-root information filter — a source-text guard in tests/cislunar_arc_recovery_reference.rs makes that enforceable — while the dynamics (the same RK4 CR3BP flow), the initial conditions (the same differential-corrected constellation), the scalar observable and the epoch grid are shared deliberately and named in the emitted <c1/> block, because two analyses of one physical problem must agree about the physics to be comparable. Two criteria, each swept over five decades of its own bound: NOISE-FREE RECOVERY (every seeded trial's final state error at most recovery_factor times its a-priori displacement — the rank analogue, with no singular-value tolerance in it) and MONTE-CARLO ESTIMABILITY (the measured RMS position error over a seeded noise ensemble below a stated bound — the estimability analogue, measured rather than predicted). Supports the planar four-state and the spatial six-state, the DRO / L2 halo / L2 NRHO families, range and range-rate observables, and a Moon-centred polar parameterisation in which the transformation is applied to the STATE and the forward model re-differenced there. MEASURED on the published planar DRO grid: the estimator recovers the four-state from { "0.782609" } h against the rank criterion's { "2.086957" } h at rel_tol { "1e-6" } (ratio { "0.375" }) — the rank threshold is NOT corroborated as a recoverability boundary — while the measured estimability boundary lands in the same grid cell as the formal one, { "5.739130" } h, and the measured error curve reproduces the formal 1-sigma over { "21" } arc lengths to a geometric-mean ratio of { "0.98" }. MODELLED: the constellation design, the epoch grid, the single tracked link, the displacement magnitude, the measurement sigma and the two stated bounds. Not a certified navigation-performance product.
 
 # text
 seg-ef32cd18fab5 = kind cislunar-arc-recovery
@@ -273,9 +177,6 @@ seg-cc6d08589341 = Independent-estimator test of the cislunar arc-length observa
 seg-7ccd0a3babb8 = MODELLED planar cislunar constellation observability (P6): tracks a four-spacecraft differential-corrected planar-DRO constellation with inter-satellite ranging and reports how much of a spacecraft's four-state [x,y,ẋ,ẏ] the arc makes observable. Emits ({ "1" }) the rank-vs-arc-length table for a single range-only link — instantaneously rank-1, growing toward the full four-state as the arc extends (P6 Table { "1" }); ({ "2" }) the observability-Gramian eigen-spectrum + condition number over the arc; ({ "3" }) the range-only-vs-range+range-rate instantaneous-rank comparison (the Doppler design lever) plus the range-only-singular / range+rate-defined GDOP reporting; and ({ "4" }) an independent SRIF cross-validation whose posterior covariance turns finite / well-conditioned exactly at the arc where the observable rank reaches four. VALIDATED core: the observable rank is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the eigen-spectrum obeys the spectral invariants (trace=Σλ, det=Πλ, Frobenius²=Σλ²); the variational STM is the finite-difference-validated CR3BP STM; the range/range-rate Jacobian rows are finite-difference-validated analytic partials (cross-checked against the crate's 3-D range-rate observable); the four initial conditions are differential-corrected planar DROs that close to a tight periodicity residual and are retrograde; the rank transition is cross-validated against the crate's square-root information filter (posterior covariance finite exactly at full rank, cond(P)=cond(OᵀO)); a rank-deficient snapshot is flagged GDOP-undefined (fim condition=inf), never a bogus finite value — the same singular-geometry guard pvt::solve_spp applies. MODELLED: the constellation design (DRO perilune amplitudes and phases) and the specific rank progression it produces. Not a certified navigation-performance product.
 
 # text
-seg-7f151f741017 = cislunar-observability.toml
-
-# text
 seg-e9866967471c = kind cislunar-observability
 
 # attr:title, text
@@ -285,31 +186,19 @@ seg-1c3d6e1ff20d = Planar cislunar constellation observability over a tracking a
 seg-78cba87823f7 = Clock holdover vs spec; optional Monte-Carlo ensemble (runs > { "1" }).
 
 # text
-seg-8a9a9f5cc4de = clock-ensemble.toml
-
-# text
 seg-9c3bc8bbd361 = kind clock
 
 # attr:title, text
 seg-7d2d780c5649 = Monte Carlo ensemble of the clock-holdover scenario.
 
 # text
-seg-cd8337aa4478 = clock-holdover.toml
-
-# text
 seg-ddd9856d154a = Kshana reference scenario: { "2" } h run, { "10" } min GNSS sync then ~{ "1.8" } h denied. Clock white-FM noise calibrated to published sigma_y({ "1" } s): q_wf = sigma_y(1s)^{ "2" }. Validated against simulated Allan deviation in tests/calibration.rs (~{ "2" }%).
 
 # text
-seg-3998556d0e2d = clock-holdover-labsr.toml
-
-# text
-seg-a96144fadaed = Variant: laboratory-grade strontium optical clock vs CSAC. Lab Sr clocks reach sigma_y({ "1" } s) = { "4" }.8e-17 (Oelker et al. { "2019" }, Nature Photonics).
+seg-460f63835b3f = Variant: laboratory-grade strontium optical clock vs CSAC. Lab Sr clocks reach sigma_y({ "1" } s) = { "4.8e-17" } (Oelker et al. { "2019" }, Nature Photonics).
 
 # text
 seg-f496b7f4c63a = GPS-denied combined gravity + magnetic + terrain navigator: three scalar field channels fused per waypoint for a sharper (lower-CRLB) drift fix than any single field.
-
-# text
-seg-e42cf8431bcc = combined-altpnt.toml
 
 # text
 seg-092f76e5d820 = kind combined-altpnt
@@ -321,19 +210,13 @@ seg-3a39e513f8af = Combined gravity + magnetic + terrain GPS-denied navigator �
 seg-c8f93431680a = MODELLED layered-PNT conflict resilience (P7): a contested-environment user fields several PNT layers (open-service GNSS, wideband GNSS, an authenticated constellation, an augmentation relay), each with a base availability, a 1σ accuracy and a per-vector denial vulnerability to the shared jamming/spoofing threat. An intensity-swept SEEDED Monte-Carlo denies each layer with probability clamp(vulnerability·intensity·vector_weight,{ "0,1" }), fuses the survivors by the closed-form inverse-variance rule σ_fused=(Σ 1/σ_i²)^(−1/2), and reports the total-loss probability (all layers denied), the median fused error and per-layer usable/denial statistics vs intensity. The headline resilience ratio (single-layer vs layered total-loss probability) lands at ~7x under the INDEPENDENCE assumption; a one-factor Gaussian-copula correlated-denial sweep then shows that ~7x collapse toward { "1" } as denial correlation rises (correlation defeats layering). A prior-sensitivity block ranges the headline over the SOURCED vulnerability priors via the mcda tornado + a Dirichlet threat-effort re-allocation + percentile CIs. VALIDATED core: the Monte-Carlo total-loss converges to the closed-form independent product Π_i p_deny_i (within MC standard error at a fixed seed and large N); the inverse-variance fuse is a closed-form identity; at ρ={ "0" } the copula reduces to the independent model and every ρ preserves each layer's marginal denial rate. MODELLED: the per-layer vulnerability/availability/accuracy magnitudes are sourced-but-Modelled inputs (JammerTest { "2024" }, TEXBAT, EASA SIB, RTCA DO-229, LunaNet/IOAG — see conflict_threat_params), and the specific ~7x magnitude and the ratio-vs-correlation curve shape follow from that parameterisation. A §{ "4.2" } per-vector survival breakdown then resolves the shared RF threat into the four named vectors (jamming/spoofing/kinetic/cyber) and reports each vector's usable-PNT graceful-degradation curve S_v(x)=1-Prod_i(1-a_i(1-clamp(susceptibility_i,v·x,{ "0,1" }))) — VALIDATED: the seeded per-layer Monte-Carlo converges to that closed form; jamming is the sharpest vector for the correlated-RF baseline and the RF-immune inertial layer is the decisive survivor. Not a certified navigation-availability product.
 
 # text
-seg-2fefb15b72af = conflict-resilience.toml
-
-# text
 seg-3455b653ea6f = kind conflict-resilience
 
 # attr:title, text
 seg-c768cfa1127f = Layered-PNT conflict resilience (paper P7).
 
 # text
-seg-a1e5e8291c34 = Constellation design at scale: Walker DELTA and Walker STAR patterns in the i: T/P/F convention (nodes spread over { "360" } or { "180" } deg, in-plane spacing { "360" }*P/T, inter-plane phase offset { "360" }*F/T), explicit element lists and multi-shell designs, several constellations in one run, around the Earth, the Moon, Mars or any other planet, Pluto or major moon using the constants in the body module (the same ones the solar-system and body-pnt kinds use). PRESETS from published nominal elements: gps-baseline and gps-expandable (the { "24" } slots and the six fore/aft expandable pairs of the GPS Standard Positioning Service Performance Standard, 5th edition { "2020" }, Tables { "3" }.2-1 to { "3" }.2-3), galileo (Walker 24/3/1 at { "29 599.801" } km and { "56" } deg, Galileo Open Service Service Definition Document issue { "1.1" } Tables { "1" } and { "23" }), beidou and beidou-meo (Walker 24/3/1 at { "21 528" } km and { "55" } deg plus three geostationary satellites at { "80" }, { "110.5" } and { "140" } deg E and three inclined geosynchronous satellites at { "55" } deg, BeiDou Open Service Performance Standard { "3.0" } section { "4.1" }; the MEO phase and the { "118" } deg E inclined-geosynchronous crossing are modelled because the standard does not state them) and glonass (24/3/1 at { "19 100" } km and { "64.8" } deg from the slot formula of the GLONASS Interface Control Document edition { "5.1" } section { "5.2" }). COVERAGE AND DILUTION OF PRECISION: over a latitude/longitude grid and a sampled window with an elevation mask, the number of satellites in view, GDOP, PDOP, HDOP and VDOP per cell, the availability (a fix with PDOP at or below a threshold, { "6" } by default) per cell, globally (area-weighted) and at the worst site, with one receiver clock per constellation unless clock = "common". It scales to thousands of satellites: visibility is a dot product against each satellite's coverage half-angle, and satellites are banded by sub-satellite latitude each epoch so a grid row tests only those that can be in view; the report counts the pair tests saved. The JSON carries the grid maps and downsampled per-satellite ground tracks. VALIDATED: the Walker generator against Galileo OS SDD Table { "23" } and the GLONASS ICD slot formula, the GPS preset against the published equatorial-crossing column of SPS PS Table { "3" }.2-1, and the GPS baseline global HDOP distribution against SPS PS Appendix B (median { "0.94" }, { "95" }% { "1.25" }, mean { "0.96" }, tolerance { "0.03" }). MODELLED: two-body orbits with optional secular J2, a spherical body, geometric visibility only (no signal power, health or terrain), and the relative phase between different systems, which is not a snapshot of any real date.
-
-# text
-seg-8955027a5b9a = constellation-multi-gnss-coverage.toml
+seg-c6b21e897ce0 = Constellation design at scale: Walker DELTA and Walker STAR patterns in the i: T/P/F convention (nodes spread over { "360" } or { "180" } deg, in-plane spacing { "360" }*P/T, inter-plane phase offset { "360" }*F/T), explicit element lists and multi-shell designs, several constellations in one run, around the Earth, the Moon, Mars or any other planet, Pluto or major moon using the constants in the body module (the same ones the solar-system and body-pnt kinds use). PRESETS from published nominal elements: gps-baseline and gps-expandable (the { "24" } slots and the six fore/aft expandable pairs of the GPS Standard Positioning Service Performance Standard, 5th edition { "2020" }, Tables 3.2-1 to 3.2-3), galileo (Walker 24/3/1 at { "29 599.801" } km and { "56" } deg, Galileo Open Service Service Definition Document issue { "1.1" } Tables { "1" } and { "23" }), beidou and beidou-meo (Walker 24/3/1 at { "21 528" } km and { "55" } deg plus three geostationary satellites at { "80" }, { "110.5" } and { "140" } deg E and three inclined geosynchronous satellites at { "55" } deg, BeiDou Open Service Performance Standard { "3.0" } section { "4.1" }; the MEO phase and the { "118" } deg E inclined-geosynchronous crossing are modelled because the standard does not state them) and glonass (24/3/1 at { "19 100" } km and { "64.8" } deg from the slot formula of the GLONASS Interface Control Document edition { "5.1" } section { "5.2" }). COVERAGE AND DILUTION OF PRECISION: over a latitude/longitude grid and a sampled window with an elevation mask, the number of satellites in view, GDOP, PDOP, HDOP and VDOP per cell, the availability (a fix with PDOP at or below a threshold, { "6" } by default) per cell, globally (area-weighted) and at the worst site, with one receiver clock per constellation unless clock = "common". It scales to thousands of satellites: visibility is a dot product against each satellite's coverage half-angle, and satellites are banded by sub-satellite latitude each epoch so a grid row tests only those that can be in view; the report counts the pair tests saved. The JSON carries the grid maps and downsampled per-satellite ground tracks. VALIDATED: the Walker generator against Galileo OS SDD Table { "23" } and the GLONASS ICD slot formula, the GPS preset against the published equatorial-crossing column of SPS PS Table 3.2-1, and the GPS baseline global HDOP distribution against SPS PS Appendix B (median { "0.94" }, { "95" }% { "1.25" }, mean { "0.96" }, tolerance { "0.03" }). MODELLED: two-body orbits with optional secular J2, a spherical body, geometric visibility only (no signal power, health or terrain), and the relative phase between different systems, which is not a snapshot of any real date.
 
 # text
 seg-fa78684a644d = kind constellation-design
@@ -342,22 +225,13 @@ seg-fa78684a644d = kind constellation-design
 seg-22e4cbe23fb2 = Multi-constellation coverage: the four global navigation satellite systems (GNSS) together, as a map of satellites in view, dilution of precision (DOP) and availability over the whole Earth for one day.
 
 # text
-seg-188eaefac38f = leo-pnt-mega-shell.toml
-
-# text
 seg-cd74615ba3dd = A low-Earth-orbit positioning, navigation and timing (PNT) mega-constellation: { "5 000" } satellites in four Walker shells, scored as a coverage and dilution-of-precision (DOP) map.
-
-# text
-seg-588bd57a9d5f = lunar-relay-constellation.toml
 
 # text
 seg-59bb18c802a3 = A lunar relay and navigation constellation: satellites in elliptical lunar frozen orbits (ELFO) plus a circular low-lunar-orbit shell, scored as a coverage and dilution-of-precision (DOP) map over the whole Moon for one day.
 
 # text
 seg-be4e928a5865 = Ground-contact planning for several satellites over several stations: apparent access windows (SGP4, IAU 2006/2000A Earth-fixed frame, ITU-R P.834 refraction, light time), the DVB-S2 ACM data volume of each pass (ETSI EN { "302" } 307-1 Table { "13" } thresholds) and a conflict-free schedule (one satellite per antenna with a turnaround, one station per satellite, priority-weighted delivery capped at each backlog) by a marginal-value greedy, a first-come baseline and an exact branch and bound on small sets, with the greedy's optimality gap. MODELLED.
-
-# text
-seg-e2c38bb12236 = contact-schedule.toml
 
 # text
 seg-64e634b04436 = kind contact-schedule
@@ -367,9 +241,6 @@ seg-b6736838f1d6 = Ground-contact planning: three illustrative satellites over t
 
 # text
 seg-c8a8be4b8894 = Earth-GNSS reception at lunar distance, the weak-signal layer the conflict-resilience paper names and the engine had no model for. A GNSS satellite points its antenna at the Earth; a receiver near the Moon sits about fifteen times the orbital radius away, so three things bite at once. The Earth OCCULTS THE BORESIGHT: from { "26,560" } km it subtends a { "13.9" } deg half-angle, so any lunar-bound ray must leave the transmitter at least that far off nadir, which removes the peak of the beam before any power is computed. What remains is the MAIN-LOBE EDGE AND THE SIDELOBES, the regime the LuGRE payload actually operated in during { "2025" }. And the free-space loss is about { "208" } dB at L1, roughly { "25" } dB more than a terrestrial user pays. The report emits one row per satellite (off-boresight angle, Earth occultation, range, path loss, transmit gain at that angle, received power, carrier-to-noise density) and aggregates only the links clearing the tracking threshold. IT ALSO REPORTS THE CONDITIONING, because that is what defines this layer: every visible satellite lies inside a cone a couple of degrees wide as seen from the Moon, so the lines of sight are nearly parallel, the dilution of precision is enormous, and an Earth-GNSS fix at lunar distance is a TIMING-grade observation far more than a position-grade one. MODELLED, and the transmit pattern is the reason: the gain at angle is a uniform circular aperture (Airy), while a real GPS L1 antenna is a twelve-element helical array with a shaped main lobe and non-Airy sidelobes. Measured patterns exist and are not vendored here, so orderings and orders of magnitude are meaningful while the dB of any single satellite is not. Deliberately ABSENT, each making the budget optimistic: no ionospheric or tropospheric loss on the limb-grazing rays, no polarisation, pointing or implementation loss, and a spherical Earth with no refractive extension. The Moon position is an INPUT (range plus inertial direction) rather than an ephemeris lookup, because the quantity under test is the link and the beam geometry. Upgrading this row to Validated needs a measured transmit pattern and LuGRE normal points; neither is in the repository and neither is invented here.
-
-# text
-seg-2d3b0fc9322a = earth-gnss-lunar.toml
 
 # text
 seg-12fb09af17f6 = kind earth-gnss-lunar
@@ -384,9 +255,6 @@ seg-b7880bc50fd3 = Earth-GNSS reception at lunar distance.
 seg-b843e2e0a4ee = 3-DoF point-mass atmospheric entry over a rotating spherical Earth or Mars (ballistic or lifting at constant bank), RK4, through US76, an exponential or the Mars atmosphere, with Sutton-Graves stagnation-point convective heating (NASA TR R-376): peak deceleration, heat flux and dynamic pressure, heat load, downrange, a rotating-frame energy check and the Allen-Eggers closed form beside it. Peak deceleration is checked against the published Stardust nominal; heating is MODELLED.
 
 # text
-seg-a1fd3cc0c467 = entry-heating-stardust.toml
-
-# text
 seg-435e296b48ab = kind entry-heating
 
 # text
@@ -397,9 +265,6 @@ seg-d7ec70cdbcfc = Stardust sample-return capsule entry: the published case the 
 seg-47b4aea6ed01 = Earth-observation payload footprint & coverage geometry (SMAD space triangle): Earth angular radius, swath width, nadir ground sample distance, maximum off-nadir access, circular period, J2 nodal period and equatorial ground-track spacing with a contiguous-coverage flag, for an orbit altitude, inclination (sun-synchronous by default) and sensor FOV/IFOV. MODELLED spherical-Earth geometry (no radiometry/MTF/atmosphere/jitter/glint); node spacing R_e·(ω − Ω̇)·T_nodal with first-order J2 secular rates.
 
 # text
-seg-c489c55977c8 = eo-coverage.toml
-
-# text
 seg-c2dc08297b0f = kind eo-coverage
 
 # attr:title, text
@@ -407,9 +272,6 @@ seg-a38ba5ac0cda = Earth-observation payload footprint & coverage demonstrator (
 
 # text
 seg-816bd5a5808a = Nadir imager radiometry and image quality: at-aperture radiance of a Lambertian scene, the camera equation, signal and shot/dark/read/quantisation noise and SNR; the system MTF at Nyquist (diffraction x detector x smear x jitter), the relative edge response from it, Q = lambda F/p and the GIQE version { "4" } NIIRS with no MTF compensation. MODELLED.
-
-# text
-seg-89c4be7bd9d1 = eo-radiometry.toml
 
 # text
 seg-fbb405d27780 = kind eo-radiometry
@@ -427,9 +289,6 @@ seg-f178d4dbb034 = Nadir imager radiometry and image quality for an ILLUSTRATIVE
 seg-24266bc264df = Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit) and emit its TEME/GCRS state (position + velocity), ITRF/ECEF position, WGS-84 sub-satellite lat/lon/alt, and per-step station az/el/range + range-rate (Doppler). The satellite comes from a <c1/> or from an analytic <c2/> with its <c3/> (a <c4/> wins when both are given); with a <c5/>, an <c6/> overrides the TLE's own epoch as t = { "0" }.
 
 # text
-seg-dd8b9764362b = ephemeris.toml
-
-# text
 seg-2487ebfca518 = kind ephemeris
 
 # attr:title, text
@@ -439,16 +298,10 @@ seg-b07667365e9d = Ephemeris & ground track — "where is the satellite right no
 seg-ec26df467b88 = Joint Kalman sensor-fusion PNT over the same hybrid inputs.
 
 # text
-seg-c4a74cfb3395 = fusion-pnt.toml
-
-# text
 seg-2771a42a30a7 = kind fusion
 
 # text
 seg-6452c9a86abf = Joint sensor-fusion PNT: a single Kalman filter is the navigator, fusing the clock and inertial states and aided by optical ISL time transfer, rather than composing independent predictors. GNSS denied { "1.8" } h.
-
-# text
-seg-667a680c658c = fusion-pnt-coupled.toml
 
 # text
 # c1: fusion-pnt.toml
@@ -462,31 +315,19 @@ seg-9b62a8213db0 = Coupled joint sensor-fusion PNT: the same suites and GNSS out
 seg-38df285a3f25 = Loosely- and tightly-coupled GNSS/INS error-state EKF.
 
 # text
-seg-9cb8874f9f72 = automotive-urban-canyon.toml
-
-# text
 seg-8e5c015bcaf4 = kind gnss-ins
 
 # text
 seg-8f43fc2f8b71 = Road vehicle through an urban canyon: GNSS/INS dead-reckoning across an underpass and a roadside jammer, against a lane-level budget.
 
 # text
-seg-4897a1d518e5 = gnss-ins.toml
-
-# text
 # c1: inertial
 seg-8eefd1c4bea9 = Loosely-coupled GNSS/INS: the three-axis strapdown navigator disciplined by a 15-state error-state EKF, then coasting through a { "60" } s GNSS outage. Unlike the <c1/> pack (a 1-DOF scalar dead-reckoner with a truth-snap reset at every fix), this runs the genuine closed-loop filter: it learns from noisy fixes while GNSS is up and coasts on the corrected state during the gap. The reported error is the real horizontal residual against truth; each sensor also carries its open-loop free-INS RMS so the filter's value is explicit.
-
-# text
-seg-78e0d3ecee7c = gnss-ins-aviation.toml
 
 # text
 # c1: aircraft
 # c2: [tight]
 seg-e0a3e777d810 = Aviation GNSS/INS with tight coupling: a light aircraft takes off, climbs at { "6" } deg, levels off and flies a { "25" } deg-bank coordinated turn (trajectory profile <c1/>); GNSS is denied for two minutes that cover the turn, the hardest part of a coast because the heading and attitude errors are then projected into the horizontal. Tightly coupled (<c2/>) on a GPS-like SGP4 Walker constellation.
-
-# text
-seg-e1bec1c9cd7b = gnss-ins-maritime.toml
 
 # text
 # c1: gnss-ins.toml
@@ -495,15 +336,9 @@ seg-e1bec1c9cd7b = gnss-ins-maritime.toml
 seg-736606e5f26d = Maritime GNSS/INS: a vessel at { "8" } m/s (about { "15.5" } knots) weaving through full circles at { "1" } deg/s, then a five-minute GNSS outage, on the same closed-loop 15-state GNSS/INS filter as <c1/>. The motion comes from the trajectory library (<c2/>, profile <c3/>): slow, steady turning, the regime of a ship rather than a car.
 
 # text
-seg-4a662c000169 = gnss-ins-rail.toml
-
-# text
 # c1: stop_go
 # c2: [tight]
 seg-d30ac9fd7056 = Rail GNSS/INS with tight coupling: a train runs between stops at { "30" } m/s with gentle { "20" } deg curves (trajectory profile <c1/>), passes a deep cutting where only two satellites stay in view, then a two-minute tunnel. The receiver is tightly coupled (<c2/>): it keeps fusing the pseudoranges of the two satellites it still tracks in the cutting, where a loosely-coupled receiver has no fix at all. Satellites come from a GPS-like SGP4 Walker constellation.
-
-# text
-seg-224677d30691 = small-uas-jammed-nav.toml
 
 # text
 # c1: gnss-ins.toml
@@ -511,9 +346,6 @@ seg-ea32ce169216 = Small uncrewed aircraft under GNSS jamming: how far a flight-
 
 # text
 seg-2ffccc9c1eff = Measurement-domain pseudorange simulation (Klobuchar iono, Saastamoinen/Niell tropo) + RAIM.
-
-# text
-seg-5743d4157a74 = gnss-sim-container-terminal-skyline.toml
 
 # text
 seg-f8ac956d2974 = kind gnss-sim
@@ -524,16 +356,10 @@ seg-f8ac956d2974 = kind gnss-sim
 seg-2bedb057a0e6 = Pseudoranges and RAIM for a straddle carrier on a container quay, with ship-to-shore cranes to seaward and container stacks to landward: the <c1/> scenario under the <c2/> skyline preset.
 
 # text
-seg-342e84a4c6c4 = gnss-sim-raim.toml
-
-# text
 seg-769a624a8ba0 = Measurement-domain GNSS simulation: pseudoranges with ionospheric and tropospheric delays, fed to snapshot RAIM for protection levels.
 
 # text
 seg-d6d7bca305dc = MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it counts, per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and for all together, the signals usable above a C/N0 threshold - availability of at least one and of four signals, maximum outage duration, received C/N0, dilution of precision, main-lobe against sidelobe links - with a booklet, parametric or user-supplied transmit pattern, optional limb-ray ionosphere, plasmasphere and atmosphere effects and an optional weak-signal receiver design; also an onboard GNSS extended Kalman filter for HEO and lunar-transfer craft (orbital dynamics, solar radiation pressure, third bodies, clock) and relative navigation of a multi-craft formation by single-differenced pseudoranges. Checked against the ICG SSV booklet tables under a pre-registration (xval/gnss-ssv)
-
-# text
-seg-ab72867bfca3 = gnss-ssv-formation-heo.toml
 
 # text
 seg-4f53c4dbffec = kind gnss-ssv
@@ -541,26 +367,14 @@ seg-4f53c4dbffec = kind gnss-ssv
 # attr:title, text
 seg-d0f273803537 = Relative navigation of a three-craft formation in the booklet's highly elliptical orbit.
 
-# text
-seg-9a24eb5e7fba = gnss-ssv-heo.toml
-
 # attr:title, text
 seg-f24f61f373d1 = A highly elliptical orbit through the GNSS orbits: what a user sees from perigee to apogee.
-
-# text
-seg-e9fdc5abe240 = gnss-ssv-lunar-weak.toml
 
 # attr:title, text
 seg-ecd09f913362 = GNSS on a lunar transfer, with a weak-signal receiver that earns its sensitivity.
 
-# text
-seg-5034eec4ed42 = gnss-ssv-nav-lunar.toml
-
 # attr:title, text
 seg-8ffd90d739b7 = Onboard GNSS navigation on the way to the Moon: an extended Kalman filter on pseudoranges alone.
-
-# text
-seg-7e646f1eb5d3 = gnss-ssv-shell.toml
 
 # attr:title, text
 seg-f62338a1dd4a = GNSS signal availability on the upper-SSV shell: the booklet's global metric, at a size that runs in a second.
@@ -569,28 +383,16 @@ seg-f62338a1dd4a = GNSS signal availability on the upper-SSV shell: the booklet'
 seg-9a58a7b09423 = GPS-denied gravity-map-matching navigation: a cold-atom gravimeter recovers a constant INS drift from the gravity-anomaly sequence it flies through.
 
 # text
-seg-73d67748fa31 = gps-denied-gravity-nav.toml
-
-# text
 seg-b05ef0179faf = kind gravity-map
 
 # attr:title, text
 seg-475d6eb44bb7 = 60-minute GPS-denied gravity-map-matching benchmark (quantum alt-PNT).
 
-# text
-seg-49d05b93c835 = gps-denied-gravity-nav-egm2008.toml
-
 # attr:title, text
 seg-1590168660bf = 60-minute GPS-denied gravity-map-matching benchmark on the REAL gravity field (WP-10, RM-17).
 
-# text
-seg-2ac67e144f61 = gravity-map-error-mc.toml
-
 # attr:title, text
 seg-b084af0ebe06 = Map-error Monte Carlo on the 60-minute GPS-denied gravity-map benchmark (WP-10, RM-15).
-
-# text
-seg-a93ffd789e02 = gravity-map-nav.toml
 
 # attr:title, text
 seg-37d9e60021db = Quantum gravity-map-matching navigation scenario (GPS-denied alt-PNT).
@@ -599,25 +401,16 @@ seg-37d9e60021db = Quantum gravity-map-matching navigation scenario (GPS-denied 
 seg-c0924aa36e64 = MODELLED holdover test of a timing system, scored from a time-error record the OPERATOR supplies (a linuxptp ptp4l, phc2sys or ts2phc log, a chrony tracking or statistics log, a TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs). The test has four steps and Kshana performs none of them: a locked BASELINE, GNSS REMOVED by the operator (the antenna cable or the simulator output; Kshana transmits and drives nothing) at a stated time, HOLDOVER on the system's own oscillator, and RECOVERY after the operator restores GNSS at a second stated time. The record is split at those two times. Baseline: time-error statistics and the ITU-T masks written for a locked clock. Holdover: statistics, the fractional frequency offset the system held (a least-squares line), the masks written for holdover or an autonomous clock, the ePRTC-A holdover envelope from the stated locked duration, and the time to exceed each time-error budget. Recovery: whether and when |TE| came inside a stated band and stayed there, the peak and the largest step. Every limit is transcribed from a public ITU-T table (the telecom-timing masks); the words are 'measured against the mask', and the two times are the operator's statement, not verified. A record too short for a mask is INCOMPLETE, never extrapolated. See docs/TIMING-HIL.md.
 
 # text
-seg-738071aa3f1c = holdover-test-example.toml
-
-# text
 seg-10b07a5e6990 = kind holdover-test
 
 # text
 seg-e41c625df8c5 = Holdover test, ingestion example: a time-error record scored by the holdover-test kind ("pull the antenna, score the holdover"). The record is split at the two times the OPERATOR states, here GNSS removed at { "600" } s and restored at { "2 400" } s, and each step is measured against the ITU-T masks written for it.
 
 # text
-seg-9875a5f5f781 = holdover-test-ptp4l.toml
-
-# text
 seg-d2d4b620af4b = Holdover test of a linuxptp log: the same four steps as holdover-test-example.toml, with the record read from a ptp4l servo log through [series.clock_log] (format "ptp4l", offsets in ns, the daemon's own time stamps, { "5" } s apart here).
 
 # text
 seg-22cd963c7042 = Hybrid PNT capstone: clock + IMU + time-transfer aiding.
-
-# text
-seg-fc4a760c47d7 = hybrid-pnt.toml
 
 # text
 seg-56269cd82ed4 = kind hybrid
@@ -629,9 +422,6 @@ seg-098fb3a74071 = Hybrid PNT capstone: all-quantum suite (optical clock + cold-
 seg-e6839b50b560 = MODELLED heterogeneous optical + RF PNT joint figure of merit (P5): composes the { "1550" } nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a cross-modality solution-separation RAIM protection level (position AND timing) that fuses the loose RF and tight optical solutions with disparate covariances, the N-station optical clear-sky availability (independent-union { "1" }−Π({ "1" }−a_i) and a spatially-correlated variant), an optical↔RF state/covariance handoff with a PROVEN bit-continuous (no-jump) mean and a NEES χ² consistency gate, and a joint P(available AND precision-grade AND integrity-assured) score with correlation handling. VALIDATED closed form: the ranging CRLB, diffraction footprint, χ² protection-level quantile, union combinatorics, handoff mean-continuity + NEES gate, and the joint independent product. MODELLED: the optical loss allocations, RF/optical σ magnitudes, cloud-climatology inputs, correlations, and P_HMI budget. Not a certified availability/integrity product.
 
 # text
-seg-3cc39564ad42 = hybrid-optical-rf.toml
-
-# text
 seg-e1678a444911 = kind hybrid-optical-rf
 
 # attr:title, text
@@ -639,9 +429,6 @@ seg-2d8e0508a5a5 = Heterogeneous optical + RF PNT joint availability / precision
 
 # text
 seg-c6edf89eb8d4 = 17-state hybrid quantum+classical tightly-coupled GNSS/INS UKF (MODELLED): { "15" } INS error states + CAI-derived accel-bias correction + a 2-state (phase+frequency) clock from the q-parameter clock engine, driven by the bracketed CAI error model. The figure of merit is filter self-consistency (NEES + innovation-whiteness vs χ² bounds) — a self-consistency statement, NOT a real-world accuracy guarantee. Simulation only; no TRL>{ "3" }, no flight heritage, no external validation.
-
-# text
-seg-529fbdfe86f4 = hybrid-ukf.toml
 
 # text
 seg-703bf09ca356 = kind hybrid-ukf
@@ -653,9 +440,6 @@ seg-70f528b547d4 = 17-state hybrid quantum + classical tightly-coupled GNSS/INS 
 seg-98e740d32860 = Machine-learning RF-impairment detection evaluation testbed ({ "13494" }): generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.
 
 # text
-seg-b24848a2b7c4 = impairment-eval.toml
-
-# text
 seg-a65d5e564286 = kind impairment-eval
 
 # attr:title, text
@@ -665,16 +449,10 @@ seg-4725f2524e57 = Machine-learning RF-impairment detection evaluation testbed (
 seg-bdedf28adc48 = 1-DOF inertial dead-reckoning during a GNSS outage.
 
 # text
-seg-e62d04e08e86 = imu-deadreckoning.toml
-
-# text
 seg-39f1050e5129 = kind inertial
 
 # text
 seg-3b8cc1893361 = Dead-reckoning during GNSS outage: cold-atom quantum accelerometer vs navigation-grade. Bias = post-GNSS-calibration residual = published bias stability; q_va = (noise root-PSD)^{ "2" }.
-
-# text
-seg-9117efa2dc66 = quantum-cai-coast.toml
 
 # text
 seg-9035c0bc73eb = Quantum preset: a cold-atom interferometer (CAI) accelerometer, built from its interferometer physics, against a navigation-grade quartz accelerometer during a GNSS outage. A one-dimensional dead-reckoning coast: { "10" } minutes of GNSS, then { "110" } minutes denied.
@@ -683,31 +461,19 @@ seg-9035c0bc73eb = Quantum preset: a cold-atom interferometer (CAI) acceleromete
 seg-5b9a6efe6337 = INS/TRN coasting error model: position error against coast duration, built from IMU coefficients rather than swept as an assumed drift rate. Five growth contributions — accelerometer bias, gyro-bias tilt through gravity, velocity random walk, angle random walk and scale factor against travelled distance — each propagated through a nine-state local-level inertial error model with Schuler feedback at a stated latitude and height (the short-coast leading-order laws t², t³, t^{ "1.5" }, t^{ "2.5" } and t¹/t² are reported beside it) and combined under a STATED rule (root-sum-square by default, or linear-sum, or deterministic-sum with stochastic-rss; all three are computed on every run so the choice is visible rather than buried). The coast durations reaching caller-supplied position thresholds ({ "10" } m and { "50" } m by default) are located by the engine's existing bisection, each with a per-contribution breakdown naming the dominant source, and each single contribution's crossing is additionally inverted algebraically so the two agree. A terrain-relative-navigation mode bounds the coast with periodic position fixes and reports the largest fix interval that holds each threshold; a position-only fix leaves velocity error and tilt alive across the fix, so it does not always bound the coast at any fix rate, and the report says so rather than returning a zero. MODELLED: the IMU class coefficients are representative band figures, not a datasheet, and the terrain-fix residual is an input. An unreached threshold is reported as null with a status, never as a zero. Not a certified inertial-navigation performance product.
 
 # text
-seg-fe370464b849 = ins-trn-coast.toml
-
-# text
 seg-7d03a68ac877 = kind ins-trn-coast
 
 # text
 seg-c6ab90fcbc23 = INS/TRN coasting error model — position error against coast duration, and the coast durations at which it crosses { "10" } m and { "50" } m.
 
 # text
-seg-3b802e04a52a = maritime-port-approach-coast.toml
-
-# text
 seg-542b2d91bff8 = Maritime port approach with GNSS jammed: how long an inertial navigation system (INS) keeps a ship inside the harbour-approach accuracy budget once the Global Navigation Satellite System (GNSS) is lost.
-
-# text
-seg-5fce12079d1b = rail-tunnel-coast.toml
 
 # text
 seg-471f2e00f244 = Rail tunnel coast: how long a train's inertial navigation system (INS) keeps it inside a track-discrimination budget with no Global Navigation Satellite System (GNSS) in a tunnel.
 
 # text
 seg-eb7e0c2feb2b = Snapshot / solution-separation / ARAIM RAIM with HPL/VPL and a Stanford diagram.
-
-# text
-seg-ef74758ec8e2 = araim-gps-galileo.toml
 
 # text
 seg-35c6036b9099 = kind integrity
@@ -717,16 +483,10 @@ seg-35c6036b9099 = kind integrity
 seg-b874df525f79 = Dual-constellation ARAIM availability: GPS + Galileo evaluated with the advanced ARAIM engine, including the constellation-wide fault hypothesis (<c1/>).
 
 # text
-seg-2e2f6601de6b = integrity-harbour-approach.toml
-
-# text
 # c1: integrity
 # c2: user_site
 # c3: harbour-approach
 seg-af9e9ed1468c = ARAIM availability for a vessel entering a harbour: the <c1/> kind with a ground-site user (<c2/>) under the <c3/> skyline preset.
-
-# text
-seg-714a682ded46 = integrity-raim.toml
 
 # attr:title, text
 seg-224a6f0365a0 = GNSS integrity (RAIM) availability over a GPS-like constellation.
@@ -735,16 +495,10 @@ seg-224a6f0365a0 = GNSS integrity (RAIM) availability over a GPS-like constellat
 seg-60bf3f0ff000 = Link-budget jamming: J/S → effective C/N₀ → loss of lock.
 
 # text
-seg-b3c1adfda66b = jamming-demo.toml
-
-# text
 seg-5387b81f072b = kind jamming
 
 # attr:title, text
 seg-38d0df73da5f = RF jamming: a ground-based broadband jammer denying GNSS to a nearby receiver.
-
-# text
-seg-fcf9a33c572b = jamming-harbour-approach-skyline.toml
 
 # text
 # c1: jamming
@@ -752,16 +506,10 @@ seg-fcf9a33c572b = jamming-harbour-approach-skyline.toml
 seg-79c636fca6b1 = A ship entering a harbour under a shore jammer, with the quay buildings ahead taking the low satellites in that direction: the <c1/> scenario under the <c2/> skyline preset.
 
 # text
-seg-7a04ac26925f = maritime-strait-jamming.toml
-
-# text
 seg-d7a49be6aa37 = Maritime GNSS jamming: a shore- or vessel-borne broadband jammer denying the Global Navigation Satellite System (GNSS) to a ship crossing open water.
 
 # text
 seg-7a4e6215a488 = Two-body launch & ascent geometry: launch azimuth(s) (sin Az = cos i / cos lat), minimum reachable inclination, circular velocity, the Earth-rotation eastward bonus, dogleg plane-change Δv when the target inclination is below the site latitude, and the number of daily launch opportunities. MODELLED spherical-Earth geometry (no rotating-Earth velocity-triangle correction, no ascent/drag-loss model).
-
-# text
-seg-e7abdee40fee = launch-window.toml
 
 # text
 seg-6c9aae72c01b = kind launch-window
@@ -773,34 +521,19 @@ seg-41e78567f229 = Launch-window & ascent geometry demonstrator (mission analysi
 seg-867f3e41b5ab = LEO navigation message: the broadcast ephemeris and clock of a low Earth orbit (LEO) positioning, navigation and timing satellite, for any orbit, carrier and model, with optional named presets (Xona Pulsar, Iridium, Starlink, CentiSpace, a representative C-band system, the ATOMIC zero-clock model, Celeste IOD). CONTENT: auxiliary data (SVID, issue of data, band, signal health), synchronisation (week, time of week, a second-order clock polynomial af0-af2 about toc), ephemeris in one of four models -- the Galileo OS SIS ICD 16-parameter Keplerian set; that set plus along-track, cross-track and radial correction polynomials; the Liu et al. { "2025" } 22-parameter model; an ECEF polynomial with no clock terms (ATOMIC zero-clock) -- and other services (a Klobuchar broadcast set, NeQuick-G ai0-ai2 with the effective ionisation level, and system-time-to-UTC parameters with the ICD leap-second logic). FITTER: a truth orbit integrated with zonal J2-J6 or EGM2008 gravity to the chosen degree and drag, and a seeded free or steered clock; Levenberg-Marquardt fit of the Keplerian set on non-singular elements, then linear least-squares correction polynomials; clock fitted net of the relativistic term the user adds. ANALYSES: fit-interval-trade (signal-in-space range error, SISRE, with global-average weights for the orbit altitude, versus fit interval and update period, orbit-only and with clock), model-comparison (four models, parameter count, encoded bits, and Kshana's fit at the Liu et al. altitudes beside the published figures), midpass-update (the highest pass over a user, each message switch's position, clock and user-range jump, worst-geometry jump, PASS/FAIL against a continuity threshold), encode-decode (Kshana's own documented binary frame with CRC-24Q, a per-field half-step quantisation budget, a corrupted-frame check, a RINEX-4-style record export and import labelled a Kshana extension, and a CSV table). VALIDATED: the SISRE weights against the published MEO/GEO table (Montenbruck et al. { "2018" }); the Galileo user algorithm against RTKLIB on real Galileo broadcast ephemerides; CRC-24Q against its catalogue check value and the RTCM { "1005" } example frame. MODELLED: every fit and SISRE figure is representation error against a Kshana-integrated truth (no orbit determination or prediction error); the Liu et al. comparison uses different orbits; the encoding and text formats are Kshana's own.
 
 # text
-seg-9f19be939689 = leo-navmsg-celeste-iod.toml
-
-# text
 seg-784412eac737 = kind leo-navmsg
 
 # text
 seg-af46a64149f5 = ESA Celeste in-orbit demonstration (IOD) preset: the one scenario that uses material presented at the ESA Navigation Innovation and Support Programme (NAVISP) LEO-PNT workshop, { "2026" }. Withhold it from a release by deleting this file and src/leo_navmsg/presets/celeste_iod.rs (see that file's header).
 
 # text
-seg-f21a20798686 = leo-navmsg-encode-decode.toml
-
-# text
 seg-c7deba26589d = LEO navigation message: Kshana's binary encoding, its quantisation budget, and the RINEX-style and CSV exports.
-
-# text
-seg-e2b53ca04b60 = leo-navmsg-fit-interval-trade.toml
 
 # attr:title, text
 seg-6d352d85fb32 = LEO navigation message: signal-in-space range error (SISRE) versus fit interval.
 
 # text
-seg-b189600c3955 = leo-navmsg-midpass-update.toml
-
-# text
 seg-ea14c04a5e2f = LEO navigation message: a message update in the middle of a pass, and whether the user sees a jump.
-
-# text
-seg-7cb95542ecdd = leo-navmsg-model-comparison.toml
 
 # text
 seg-92932c07a7cb = LEO navigation message: four ephemeris models on one orbit, and the Liu et al. { "2025" } SISRE-versus-altitude table.
@@ -809,52 +542,28 @@ seg-92932c07a7cb = LEO navigation message: four ephemeris models on one orbit, a
 seg-c3861f7d717c = LEO pass and link budget, band by band, for LEO-PNT (positioning, navigation and timing from low Earth orbit), system-agnostic: a user (ground, maritime, air or indoor, static or moving) and one or more LEO satellites from a DESIGNED PASS (a circular orbit placed so the user sees one pass of a chosen maximum elevation at a chosen time, sun-synchronous if asked), explicit ELEMENTS, a TLE (two-line element set) through the engine's SGP4, or a WALKER constellation built by the constellation-design code (the highest passes reported). Bands come from a named preset (generic multi-band UHF/L/S/C, generic C band, Xona Pulsar X1/X5, Iridium STL, Starlink as a Doppler-only signal of opportunity, CentiSpace, and an optional Celeste IOD preset marked WORKSHOP) or are written into the scenario; each preset states whether its numbers are PUBLIC (with URL), REPRESENTATIVE or WORKSHOP. Per satellite, band and epoch: elevation, azimuth, range, range rate and range acceleration; free-space path loss; EIRP and the satellite pattern gain (isoflux, Gaussian beam or flat); user antenna gain against elevation (patch, hemispherical or isotropic); gaseous attenuation (ITU-R P.676-10 Annex { "2" }), rain attenuation (ITU-R P.838-3 coefficients and the P.618-14 procedure, from a rain rate and rain height), tropospheric scintillation (ITU-R P.618-14 section { "2.4.1" }), building entry loss for an indoor user (ITU-R P.2109-2), polarisation mismatch, system noise temperature and C/N0 (carrier-to-noise density); Doppler and Doppler rate in closed form from the range rate and range acceleration, each checked against central differences; the first-order ionospheric delay { "40.3" } STEC/f^{ "2" } from a Klobuchar or vertical-TEC slant TEC scaled to the part of the ionosphere below the satellite. Band pairs get the ionosphere-free coefficients, noise amplification and code noise at the pass peak. MEO GNSS satellites (Galileo or GPS presets) are evaluated with the same antenna and noise model from their interface-document received powers, so the LEO bell-shaped pass and the flat GNSS carriers share one plot. An optional [iot] section gives time to first fix, energy per fix and battery life against duty cycle for a stated receiver power budget (MODELLED). Each band pair also gives the slant TEC its geometry-free combination recovers at the peak and that estimate's code-noise sigma (ionosphere sounding). An optional [spoofer] section counterfeits the signals of a claimed position that jumps or is pushed from the true one after an onset and runs two monitors with stated false-alarm and missed-detection probabilities: Doppler and pass-geometry consistency (measured range rates against those predicted from the orbits and an independent prior position and velocity, a generalised least-squares chi-square test over a window, on the GNSS, LEO and all channels) and cross-band consistency (the epoch-to-epoch step of each LEO band pair's model-corrected geometry-free combination), reporting per-epoch statistics and when each monitor detects (MODELLED). VALIDATED components: free-space loss, the P.838-3 coefficients against its Table { "5" }, the P.618-14 rain and scintillation procedures and the P.2109 building entry loss against the ITU-R Study Group { "3" } validation examples, the IS-GPS-200 L1/L2 group-delay ratio, and the static-user maximum Doppler of a circular orbit against arXiv { "2509.19551" } Table { "1" }. MODELLED: EIRPs, patterns, the Chapman fraction of TEC below the satellite and the whole pass.
 
 # text
-seg-940ee90c2631 = leo-focus-science-iono-sounding.toml
-
-# text
 seg-28fc0b60d88c = kind leo-pass
 
 # attr:title, text
 seg-075f98a32d53 = LEO-PNT focus area: LEO-PNT science, ionosphere sounding from the dual-band delay.
 
-# text
-seg-60d03f4a257a = leo-indoor-uhf.toml
-
 # attr:title, text
 seg-e9da73670beb = Indoor LEO-PNT: why a UHF carrier reaches inside a building when L, S and C bands struggle.
-
-# text
-seg-2c90e6cb9a4a = leo-iot-energy.toml
 
 # attr:title, text
 seg-6dfada2dacb6 = Low-energy LEO-PNT for an IoT (Internet of Things) tracker: energy per fix against duty cycle.
 
-# text
-seg-48bc4c2fcfde = leo-pass-celeste-iod-multiband.toml
-
 # attr:title, text
 seg-1007e9b9abdc = ESA Celeste IOD, signal configuration #1, all bands over one pass. WORKSHOP PRESET.
-
-# text
-seg-34114fac2725 = leo-pass-iridium.toml
 
 # attr:title, text
 seg-d3b4252da1ee = Iridium STL (satellite time and location) bursts seen from an aircraft.
 
-# text
-seg-aa957845bc0f = leo-pass-vs-gnss-cn0.toml
-
 # attr:title, text
 seg-78cd6f0c1950 = A LEO-PNT pass against the Galileo satellites in view: C/N0 over one pass.
 
-# text
-seg-562adec0886d = leo-pass-xona-pulsar.toml
-
 # attr:title, text
 seg-d1f7a761386a = Xona Pulsar X1 and X5 over one pass, with the Pulsar constellation's highest passes.
-
-# text
-seg-c5973ec4299d = leo-resilience-spoof-doppler.toml
 
 # attr:title, text
 seg-21c99010d2fe = LEO-PNT resilience against spoofing: Doppler and pass-geometry consistency.
@@ -863,31 +572,19 @@ seg-21c99010d2fe = LEO-PNT resilience against spoofing: Doppler and pass-geometr
 seg-81d1604171a5 = One LEO-PNT (positioning, navigation and timing from low Earth orbit) system end to end, for any constellation and signal: the leo-signal design named by signal_design (a public preset or an inline [signal] design) sets a [pass] band's centre, bandwidth, chip rate and EIRP split, the leo-pass link budget gives the tracked C/N0 and band-limited code jitter over the pass, a C/N0 line in sin(elevation) and the [navmsg] message's broadcast SISRE (fitted at the pass satellite's altitude) feed every LEO system of the [fusion] leo-pvt joint fix, and optionally the [ppp] leo-ppp cases; every hand-off is listed with its value and unit. MODELLED.
 
 # text
-seg-f4d3f4eec93c = celeste-iod-end-to-end.toml
-
-# text
 seg-cf353e8a27df = kind leo-pnt-chain
 
 # text
 seg-1465309100f6 = Celeste IOD end to end (optional preset): the E5 configuration #1 signal -> a Celeste IOD pass -> the Celeste-style navigation message -> GPS + Galileo + Celeste IOD fused fix.
 
 # text
-seg-6e63bc875dcd = leo-pnt-end-to-end.toml
-
-# text
 seg-73db6e9fc765 = LEO-PNT end to end on a generic constellation: signal design -> pass link budget -> navigation message -> fused MEO + LEO fix and precise point positioning convergence.
-
-# text
-seg-df8a185d7e3b = xona-pulsar-end-to-end.toml
 
 # text
 seg-ad6744824a5f = Xona Pulsar end to end: the public X5 signal -> a Pulsar pass -> a LEO navigation message -> GPS + Galileo + Pulsar fused fix and precise point positioning convergence.
 
 # text
-seg-fd0c168f63ee = Precise point positioning (PPP) convergence with GNSS only and with LEO augmentation: a float extended Kalman filter on ionosphere-free code and carrier phase with the static station coordinates, a white receiver clock, one inter-system bias per extra system, a random-walk zenith wet delay mapped by 1/sin(elevation) and a float ambiguity per satellite arc; the precise orbit-and-clock error is white and common to the code and phase of a satellite, so each satellite is one correlated two-row update in a Joseph-stabilised form. Measurements are simulated from the same model with seeded noise over several sites and seeds, and each case (GNSS only first, then each [[case]] of LEO systems, any constellation or preset) reports the median convergence time (the first epoch after which the horizontal and vertical errors stay below the thresholds, { "10" } cm by default), the fraction converged, the median error curves and the filter consistency (the run-averaged position NEES against the two-sided { "95" }% chi-square band). Optionally beside the published Li et al. ({ "2019" }, J. Geod. { "93" }:{ "749" }, doi { "10" }.1007/s00190-018-1195-2) mid-latitude figures: { "9.6" } min for multi-GNSS shortened to { "7.0" }, { "3.2" }, { "2.1" } and { "1.3" } min with { "60" }, { "96" }, { "192" } and { "288" } LEO satellites. MODELLED: a consistency comparison of the trend, not a reproduction of that study's constellations, noise or stations; no ambiguity resolution, cycle slips, phase wind-up, tides or time-correlated product errors.
-
-# text
-seg-536d3fb29734 = leo-ppp-convergence.toml
+seg-32a570f1a4fa = Precise point positioning (PPP) convergence with GNSS only and with LEO augmentation: a float extended Kalman filter on ionosphere-free code and carrier phase with the static station coordinates, a white receiver clock, one inter-system bias per extra system, a random-walk zenith wet delay mapped by 1/sin(elevation) and a float ambiguity per satellite arc; the precise orbit-and-clock error is white and common to the code and phase of a satellite, so each satellite is one correlated two-row update in a Joseph-stabilised form. Measurements are simulated from the same model with seeded noise over several sites and seeds, and each case (GNSS only first, then each [[case]] of LEO systems, any constellation or preset) reports the median convergence time (the first epoch after which the horizontal and vertical errors stay below the thresholds, { "10" } cm by default), the fraction converged, the median error curves and the filter consistency (the run-averaged position NEES against the two-sided { "95" }% chi-square band). Optionally beside the published Li et al. ({ "2019" }, J. Geod. { "93" }:{ "749" }, doi 10.1007/s00190-018-1195-2) mid-latitude figures: { "9.6" } min for multi-GNSS shortened to { "7.0" }, { "3.2" }, { "2.1" } and { "1.3" } min with { "60" }, { "96" }, { "192" } and { "288" } LEO satellites. MODELLED: a consistency comparison of the trend, not a reproduction of that study's constellations, noise or stations; no ambiguity resolution, cycle slips, phase wind-up, tides or time-correlated product errors.
 
 # text
 seg-b2c874e083a6 = kind leo-ppp
@@ -899,48 +596,27 @@ seg-41aaf4d3b4dd = Precise point positioning (PPP) convergence with LEO augmenta
 seg-093aac4b5ff1 = Fused medium-Earth-orbit (MEO) and low-Earth-orbit (LEO) positioning, navigation and timing (PNT) over ANY constellations: each [[system]] is a GNSS preset of the constellation-design kind, a LEO preset (xona-pulsar, iridium-stl, starlink-sop, centispace, generic-c-band, the atomic-zero-clock ephemeris model, or another preset file, each in its own file with its sources marked PUBLIC, WORKSHOP or DERIVED), Walker shells or explicit element sets, with a carrier, a chip rate, a carrier-to-noise density (C/N0) envelope from the elevation mask to the zenith, a signal-in-space range error (SISRE), a Doppler sigma and a clock model (its own receiver clock, so the inter-system bias is estimated, or a known broadcast offset). Four modes. DOPPLER: batch Gauss-Newton positioning from range rate with analytic partials, clock-drift and optional velocity states and an optional height constraint, single- or multi-satellite, the error against window length, the Doppler, Doppler-rate and jerk envelope of each LEO system, and the single-pass along-track and cross-track accuracy against the cross-track offset (the cross-track error grows without bound as the pass goes overhead; a single pass also has a mirror solution across the ground track). A Doppler-only signal of opportunity (starlink-sop) runs here. JOINT: per-epoch weighted least-squares pseudorange fixes from GNSS alone, LEO alone and both, per-measurement sigmas from a delay-lock-loop thermal-noise model at C/N0 plus the SISRE (or a fixed sigma, so a signal model can feed them), the estimated inter-system biases, and PDOP/HDOP/VDOP against the number of LEO satellites added. POLAR: satellites in view and DOP against latitude for GNSS, LEO and both. TIMING: time transfer to Coordinated Universal Time (UTC) from LEO satellites at a known position with a two-state clock filter whose process noise comes from the engine's oscillator classes, against C/N0 and the oscillator, and the IS-GPS-200 system-time-to-UTC expression; with [timing] trace = true every row also reports its time error and predicted sigma at every epoch. VALIDATED: the largest Doppler of an overhead-to-horizon pass against the published Iridium (up to { "36" } kHz) and Xona Pulsar X1 ({ "32" } to { "34" } kHz) figures. MODELLED: everything else; the DOP is checked against a hand-derived case, the fixes against their covariance, and the Doppler model against the range-acceleration identity.
 
 # text
-seg-230b61659b9e = celeste-iod-fused-pvt.toml
-
-# text
 seg-017f8db74a59 = kind leo-pvt
 
 # attr:title, text
 seg-f04402f0a621 = GNSS positioning joined by the two ESA Celeste in-orbit demonstration satellites.
 
-# text
-seg-eaf8c3645696 = leo-doppler-positioning.toml
-
 # attr:title, text
 seg-a1dd93651ffd = Positioning from LEO Doppler alone, over a generic LEO navigation constellation.
-
-# text
-seg-744347b3a6d7 = leo-pvt-fjord-skyline.toml
 
 # text
 # c1: leo-pvt
 # c2: fjord
 seg-923f04fa9b36 = Fused MEO and LEO positioning for a vessel deep in a fjord, where the valley walls hide everything low across the channel: the <c1/> joint mode under the <c2/> skyline preset.
 
-# text
-seg-e578888e420e = leo-timing-utc.toml
-
 # attr:title, text
 seg-00769450ebaa = Time transfer to UTC from LEO satellites, against C/N0 and the receiver oscillator.
-
-# text
-seg-648fb566f5b6 = meo-leo-fused-pvt.toml
 
 # attr:title, text
 seg-f8551465a470 = Fused MEO and LEO pseudorange positioning: GPS and Galileo with a LEO navigation layer.
 
 # text
-seg-752c1b11379e = polar-arctic-leo-coverage.toml
-
-# text
 seg-dde47f233669 = Satellites in view and dilution of precision from the equator to the pole: MEO GNSS alone, a near-polar LEO constellation alone, and both.
-
-# text
-seg-dbe6e5e153a2 = starlink-sop-doppler-positioning.toml
 
 # attr:title, text
 seg-6634bdeb434b = Doppler-only positioning from a broadband constellation used as a signal of opportunity.
@@ -949,22 +625,13 @@ seg-6634bdeb434b = Doppler-only positioning from a broadband constellation used 
 seg-97b8d07150d4 = LEO-PNT signal designs: parameterised low Earth orbit (LEO) positioning, navigation and timing (PNT) signals for any system, band and structure. A SIGNAL is a band (centre frequency, transmit bandwidth, ITU allocation RNSS/RDSS/MSS/EESS/non-RNSS/other) and components (acquisition, data, pilot; any subset), each with a modulation (BPSK(n) with fractional n, BOC(m,n), MBOC({ "6,1" },p) or a flat OFDM-like band), a power share, optional FDMA sub-carrier offsets, a code length and a data rate. Signals come from compiled-in public preset files (xona-pulsar, iridium-stl, starlink-soo, centispace, generic-c-band, generic-bands; each with its source URL and every unpublished value labelled REPRESENTATIVE) or are written inline. PER SIGNAL: the band-limited power spectral density and the fraction of each component's power the transmit band passes (BPSK closed form beside the numeric value), the RMS (Gabor) bandwidth, the delay-lock-loop code-tracking thermal-noise jitter against C/N0 and early-late spacing from the band-limited coherent (or non-coherent) early-late formula of Betz & Kolodziejski { "2009" } with its unlimited-band textbook form and its vanishing-spacing Gabor bound, the ranging accuracy in metres, the acquisition search space (Doppler bins from the orbit's maximum Doppler plus oscillator and user terms, times code bins), square-law detection probability and the mean serial and code-parallel acquisition time, the spectral separation coefficient of the signal into GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b and E5 AltBOC and of each into the signal with the C/N0 degradation, and the CW, wideband and matched J/S the tracked component tolerates, from the spectrum kind's own SSC machinery. A BAND TRADE: first-order ionospheric delay ({ "40.3" } TEC/f^{ "2" }), free-space loss, ranging accuracy at equal C/N0 and at equal EIRP, and jammer tolerance. Optional SHAPE CHECKS hold a design's spectrum against a described measurement (MODELLED consistency). VALIDATED: the BPSK power-in-band ({ "90.3" } % in the main lobe) and Gabor-bandwidth closed forms, the band-limited jitter reducing to the textbook coherent early-late form and to its Gabor bound, the offset BPSK spectral separation coefficient against its Parseval closed form, the AltBOC spectrum's unit area, and the maximum LEO Doppler against the published Xona Pulsar (32-34 kHz) and Iridium ({ "36" } kHz) figures. MODELLED: every design, power split, C/N0 and jammer level; EFQPSK, CSK and OFDM spectra are approximated.
 
 # text
-seg-be8fe8ae0346 = celeste-iod-classical-pilot-signals.toml
-
-# text
 seg-ef202b7d50ed = kind leo-signal
 
 # text
 seg-22cd3a939c19 = Celeste IOD signal designs: the frequency bands and the "Classical Pilot" signal configuration #1 of ESA's Celeste In-Orbit Demonstration (IOD) low Earth orbit (LEO) positioning, navigation and timing (PNT) mission, as parameterised signal designs.
 
 # text
-seg-0d005f06ebff = leo-band-trade.toml
-
-# text
 seg-f5caf70c73f0 = LEO-PNT band trade, UHF to wide C band: what a low Earth orbit (LEO) positioning, navigation and timing (PNT) signal gains and loses in each band, independent of any particular system.
-
-# text
-seg-4337fbfd9323 = xona-pulsar-signals.toml
 
 # text
 # c1: xona-pulsar
@@ -972,9 +639,6 @@ seg-90239179296f = Xona Pulsar signals: the X1 (L1 band) and X5 (L5 band) signal
 
 # text
 seg-953188c11165 = One-way link budget over the CCSDS { "401" } / DSN 810-005 link equation: free-space path loss, C/N₀, Eb/N₀, margin and closure for a transmit EIRP, receive G/T, range, data rate and band (s|x|ka) against a required Eb/N₀. A deterministic engineering calculation from the supplied inputs (not a calibrated terminal datasheet).
-
-# text
-seg-c4b47215db5d = link-budget.toml
 
 # text
 seg-a440eecbe1c9 = kind link-budget
@@ -986,9 +650,6 @@ seg-a1cb069aec22 = One-way link budget demonstrator (comms & link budgets, trade
 seg-004c56ded47f = Lunar surface-navigation signal-security attack surface (P1): composes the open signal-security analyses into one binary-reachable run. Reports ({ "1" }) the AFS received power and its power SURPLUS versus a terrestrial GPS reference, plus the 12-18 dB sensitivity band as a genuine multi-axis sweep over the link inputs (reference level x EIRP x slant range) with the 25x-rounded / 28x-unrounded linear-factor reconciliation. REVISED (rule R4): this reported a { "15.6" } dB power DEFICIT and a 32x/36x factor until the GPS reference was corrected from -125 / -128.5 (which are the dBm figures) to -155 / -158.5 dBW, the ICD-GPS-200 values the jamming module has always carried. The sign inverts: the modelled lunar AFS signal is { "14.4" } dB STRONGER than terrestrial GPS L1 C/A, not weaker. The received power itself did not move by a bit, and the linear factor is the old one over exactly { "1000" }, which is exactly the { "30" } dB dBm-to-dBW offset; ({ "2" }) the required attacker transmit power to spoof (J/S = { "3" } dB) and to deny (J/S = { "30" } dB) at each standoff, the inverse of the J/S link; ({ "3" }) the orbital capture footprint under a real uniform-aperture antenna pattern (Airy [{ "2" } J1(x)/x]^{ "2" }), an altitude-limited sub-hemispheric cap whose limb is NOT captured; ({ "4" }) a computed tracking-loop spoof-capture pull-in outcome (does a matched-code spoofer at a given power advantage and code offset actually drag the DLL/PLL) rather than the asserted { "3" } dB threshold; ({ "5" }) the airless-body geometric horizon reach of a raised surface transmitter; and ({ "6" }) the OSNMA/TESLA authentication budget ({ "20" } bit/s overhead = ~{ "40" } % of a { "50" } bit/s AFS nav message, key-disclosure latency, { "2" }^-40 forgery). An empty body reproduces the P1 baseline; every input is defaulted and overridable. VALIDATED sub-results carry their source module's oracle (closed-form dB radiometry; inverse-J/S round trip; Airy pattern vs A&S Bessel and spherical-cap geometry; DLL/PLL pull-in vs Kaplan & Hegarty; spherical-tangent horizon identity vs eo_payload; OSNMA SIS-ICD field sizing). MODELLED: the representative geometry/power magnitudes and the specific capture-map cell values. Not a certified security product.
 
 # text
-seg-c2f8d2156792 = lunar-attack-surface.toml
-
-# text
 seg-fb3f2dcccbf7 = kind lunar-attack-surface
 
 # attr:title, text
@@ -996,9 +657,6 @@ seg-7a9b909b0918 = Lunar surface-navigation signal-security attack surface (pape
 
 # text
 seg-142ad48fe422 = Surface-beacon augmentation of a lunar orbital navigation service, as a runnable before/after table. A south-polar user sees a sparse orbital set in a narrow patch of sky, so the ranging geometry is ill-conditioned; a few SURVEYED SURFACE BEACONS supply the low-elevation, wide-azimuth line-of-sight rows an all-overhead set lacks, and the horizontal dilution of precision collapses. The scenario reports three configurations at one epoch — satellites alone, satellites plus the visible beacons, and a larger constellation as the alternative route to the same geometry — each with its visible-source counts, its full DOP, and the realised 1-sigma accuracy in METRES obtained by multiplying through a per-beacon user-equivalent ranging error assembled as the root-sum-square of clock-synchronisation, multipath and survey terms. Beacon visibility is the airless-Moon two-height geometric horizon (no atmosphere, so the bound is exact), and the DOP assembly is the same kernel cross-checked against gnss_lib_py in tests/dop_reference.rs. WHY THIS KIND EXISTS: the module behind it has been in the engine and checked against an independent DOP path since L08/L09, but it was not reachable from a run — no kind, no dispatch arm, no bundled file. The README advertised the capability and the verification matrix carried NO row for it at all, so it was simultaneously claimed in prose and unclaimed in the ledger, while being unreachable in the engine. The defaults are the geometry that already carries a committed golden (a user at -80 deg with a { "2" } m antenna, three beacons at -80/0, -79/+{ "60" } and -79/-60 at { "2" } km, a six-satellite illustrative LCNS snapshot at t={ "0" }, a { "5" } deg mask), so a bare run reproduces a table an oracle already covers rather than inventing fresh numbers. MODELLED: the constellation design, the beacon placement and every error-budget magnitude are illustrative inputs, not a fielded survey or a measured link; only the DOP arithmetic, the horizon closed form and the sigma = DOP x sigma_URE relation are externally anchored. Not a service-performance commitment.
-
-# text
-seg-b3834af5b343 = lunar-beacon.toml
 
 # text
 seg-4486fa88f989 = kind lunar-beacon
@@ -1010,9 +668,6 @@ seg-7cc84b0d7998 = Surface-beacon augmentation of a lunar orbital navigation ser
 seg-8ac5ac006ae7 = Modelled lunar DIFFERENTIAL PNT (a lunar DGNSS/SBAS analogue): a NovaMoon-class reference station at a KNOWN selenographic location computes per-satellite differential corrections from an ILLUSTRATIVE, public-source Moonlight/LCNS-class constellation (NovaMoon referenced only as a system CLASS, not affiliated with ESA), and a user offset by baseline_km applies them so the COMMON-MODE orbit + clock errors cancel. The clock term cancels EXACTLY (an algebraic identity); the orbit term leaves only the line-of-sight-difference projection, which → { "0" } as baseline → { "0" } (the spatial-decorrelation floor) and grows ≈ linearly with baseline. Reports the user 3-D position error WITH vs WITHOUT corrections, the reduction factor, the error-vs-baseline curve, and a user protection level that REUSES the DO-229E SBAS machinery (crate::sbas) with the differential residual σ. MODELLED — exact cancellation identity + first-order decorrelation model; not real-data validated; no TRL/heritage/agency endorsement. Deterministic if seeded.
 
 # text
-seg-d26bc8605aca = lunar-differential-pnt.toml
-
-# text
 seg-2707dd910b99 = kind lunar-differential-pnt
 
 # attr:title, text
@@ -1022,19 +677,13 @@ seg-cda1df2b3136 = Lunar DIFFERENTIAL PNT — a lunar DGNSS / SBAS analogue.
 seg-55679aff66db = Seven-parameter Helmert (similarity) frame datum driven by a SIMULATED OBSERVING CAMPAIGN rather than by an injected transform. A network of Earth stations observes a catalogue of lunar-surface beacons over an explicit schedule; the lunar-VLBI delay partials are accumulated over that schedule into a beacon-coordinate Fisher information matrix exactly as lunar-vlbi-fim does; and that information is propagated through the Helmert design A = [I3 | [p]_x | p] at the catalogue points into the datum covariance H = A^T M_b A, diagnosed by crate::fim::crlb. NO transform is injected and nothing is recovered from a planted answer, so the reported datum accuracy derives from the observing programme: halving the delay sigma halves it exactly, and lengthening the arc improves it because the libration the report MEASURES (sub_earth_direction_sweep_deg) is what separates the line-of-sight beacon coordinate from the plane-of-sky ones. Rank, datum defect, condition number, the full spectrum, the unobservable directions IN THE SEVEN-PARAMETER BASIS, the weakest direction even at full rank and each parameter's share of it are emitted on every run; a parameter the campaign does not constrain is published as NULL with a status, never read out of a near-singular inverse. Beacon-error correlation is measured, not assumed: with the stations held fixed no observation touches two beacons so the information matrix is exactly block-diagonal (offblock_fraction { "0" }), and with the stations estimated the Schur-marginalised block is coupled, with the induced correlation printed and the whole propagation re-run with it discarded so the price of an independence assumption is a number. The same propagation under an isotropic per-coordinate sigma, and the recovery error the lunar-frame-realisation scenario reports, are both run here and printed beside the campaign value with their ratios. MODELLED: the beacon catalogue is sourced but the CAMPAIGN is simulated — the station network and the delay sigma are illustrative inputs, individual delay observations are treated as independent, and the Moon-centre ephemeris, station clocks, troposphere and Earth-orientation parameters are held FIXED, so the datum covariance is a Cramer-Rao bound for a reduced parameter set. Not a geodetic product.
 
 # text
-seg-c0645285982d = lunar-frame-campaign.toml
-
-# text
 seg-ff296a13dcc8 = kind lunar-frame-campaign
 
 # attr:title, text
 seg-9b4eae21eb95 = Seven-parameter Helmert lunar frame datum driven by a SIMULATED OBSERVING CAMPAIGN (G9).
 
 # text
-seg-e7746e709c76 = Modelled lunar reference-frame realisation: a 7-parameter Helmert (similarity) datum fit — { "3" } translation, { "3" } small-angle rotation, { "1" } scale — tying an estimated set of selenographic-derived MCMF point coordinates to a datum by weighted least squares (crate::batch_ls::gauss_newton), plus a simple orientation tie expressing the realised small rotation about the ICRF axes relative to the IAU { "2015" } WGCCRE body orientation. The scenario injects a known small transform (translation ~tens of m, rotation ~µrad, scale ~1e-7) into a well-spread synthetic point network, adds seeded Gaussian noise, recovers the datum, and reports the recovered transform, the per-parameter recovery error vs the injected truth, and the post-fit RMS residual. MODELLED self-consistency — recovers an injected similarity transform (noiseless to ~machine precision), NOT a realisation against real tracking/VLBI data; deterministic (seeded); no TRL/heritage/agency endorsement.
-
-# text
-seg-3378390cd8da = lunar-frame-realisation.toml
+seg-0c4c119abfca = Modelled lunar reference-frame realisation: a 7-parameter Helmert (similarity) datum fit — { "3" } translation, { "3" } small-angle rotation, { "1" } scale — tying an estimated set of selenographic-derived MCMF point coordinates to a datum by weighted least squares (crate::batch_ls::gauss_newton), plus a simple orientation tie expressing the realised small rotation about the ICRF axes relative to the IAU { "2015" } WGCCRE body orientation. The scenario injects a known small transform (translation ~tens of m, rotation ~µrad, scale ~{ "1e-7" }) into a well-spread synthetic point network, adds seeded Gaussian noise, recovers the datum, and reports the recovered transform, the per-parameter recovery error vs the injected truth, and the post-fit RMS residual. MODELLED self-consistency — recovers an injected similarity transform (noiseless to ~machine precision), NOT a realisation against real tracking/VLBI data; deterministic (seeded); no TRL/heritage/agency endorsement.
 
 # text
 seg-319137c1458e = kind lunar-frame-realisation
@@ -1047,49 +696,28 @@ seg-c92e66cebc74 = Lunar reference-frame realisation — a 7-parameter Helmert (
 seg-d0fb90f506c9 = MODELLED studies of the Moon's orbit and surface as navigation and geodetic infrastructure, five studies behind one kind selected by <c1/>: od-consistency (onboard Earth-GNSS orbit determination in an NRHO or ELFO against independent ground radiometric orbit determination, judged by their own covariances over a seeded Monte Carlo), carrier-phase (joint surface-orbiter double-differenced carrier phase and integer ambiguity resolution with LAMBDA), frame-coestimation (a surface station and orbiters added to Earth-station ranging for the seven-parameter lunar frame datum), space-tie (GNSS, VLBI and laser ranging on one spacecraft, frame-tie precision against the local-tie error) and geodesy-sensitivity (Fisher information of the lunar Love numbers h2, k2, l2 and the physical libration from laser ranging, orbiter tracking, a surface gravimeter and a surface clock). A restricted three-body model with stated simplifications; the numerics are checked against independent programs and nothing is compared with a measurement of a lunar quantity.
 
 # text
-seg-6c9b5d5725ff = lunar-infrastructure-carrier-phase.toml
-
-# text
 seg-d4a6801f9670 = kind lunar-infrastructure
 
 # text
 seg-a3dc5227b366 = Kshana lunar-infrastructure scenario: carrier-phase, the QUICK example (two short arcs, { "10" } draws, seconds; the scored configuration, three arcs and { "400" } draws, is xval/lunar-infra/scenarios/carrier-phase-scored.toml). MODELLED; the design, inputs and bars are fixed in xval/lunar-infra/PREREGISTRATION.md (committed before any run). ILLUSTRATIVE inputs are labelled with their public sources there.
 
 # text
-seg-00e5bea3ef6d = lunar-infrastructure-frame-coestimation.toml
-
-# text
 seg-1f55219aed27 = Kshana lunar-infrastructure scenario: frame-coestimation. MODELLED; the design, inputs and bars are fixed in xval/lunar-infra/PREREGISTRATION.md (committed before any run). ILLUSTRATIVE inputs are labelled with their public sources there.
-
-# text
-seg-4b2a77d84e1f = lunar-infrastructure-geodesy-sensitivity.toml
 
 # text
 seg-4e990ecb6404 = Kshana lunar-infrastructure scenario: geodesy-sensitivity. MODELLED; the design, inputs and bars are fixed in xval/lunar-infra/PREREGISTRATION.md (committed before any run). ILLUSTRATIVE inputs are labelled with their public sources there.
 
 # text
-seg-457c2b11af51 = lunar-infrastructure-od-consistency.toml
-
-# text
 seg-e27e1de1a233 = Kshana lunar-infrastructure scenario: od-consistency. MODELLED; the design, inputs and bars are fixed in xval/lunar-infra/PREREGISTRATION.md (committed before any run). ILLUSTRATIVE inputs are labelled with their public sources there.
 
 # text
-seg-2f03394ea1fa = lunar-infrastructure-od-consistency-model-error.toml
-
-# text
 seg-30dc631d148f = Kshana lunar-infrastructure scenario: od-consistency with an unmodelled acceleration. MODELLED; the design, inputs and bars are fixed in xval/lunar-infra/PREREGISTRATION.md (committed before any run). ILLUSTRATIVE inputs are labelled with their public sources there.
-
-# text
-seg-95b72ba07c2b = lunar-infrastructure-space-tie.toml
 
 # text
 seg-68eaba3db338 = Kshana lunar-infrastructure scenario: space-tie. MODELLED; the design, inputs and bars are fixed in xval/lunar-infra/PREREGISTRATION.md (committed before any run). ILLUSTRATIVE inputs are labelled with their public sources there.
 
 # text
 seg-4b6daea39f5c = Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay set. sigma_ure_m exposes the signal-in-space ranging accuracy (protection levels scale linearly with it, so sweeping it answers what ranging accuracy an alert limit requires). Defaults to the historical LNIS-class south-pole case.
-
-# text
-seg-e466981a9f70 = lunanet-araim.toml
 
 # text
 seg-01d06e830746 = kind lunar-integrity
@@ -1101,9 +729,6 @@ seg-afb7372a588a = Lunar south-pole integrity: an Artemis-region landed receiver
 seg-5a4dcb93a643 = Modelled lunar interoperability export: emits the lunar reference frame, lunar time scale and lunar ephemeris in LunaNet/IOAG-aligned, CCSDS-based interchange forms with round-trip / field conformance. REUSES the crate's CCSDS OEM { "2.0" } emitter+parser (crate::oem) re-tagged for the lunar context — the OEM REF_FRAME carries the IAU { "2015" } WGCCRE lunar body frame (MOON_ME / MOON_PA), TIME_SYSTEM the lunar time scale (LTC / TCL / UTC), CENTER_NAME = MOON — over a sample illustrative LCNS-class ephemeris (positions from crate::lunar_service, velocity by finite difference). Also emits a LunaNet/IOAG-aligned lunar-time descriptor (scale id, secular rate µs/day from crate::lunar_time, published band, reference surface) that round-trips via serde_json, and wraps the artifacts in the existing KIF envelope (crate::interchange) with the MODELLED honesty label. Reports artifacts emitted, OEM line count, field-conformance pass + present/missing field list, OEM round-trip ok, time-metadata round-trip ok, and KIF byte size. MODELLED — deterministic round-trip + field-name conformance vs published CCSDS OEM + LunaNet/IOAG field semantics is the oracle; NOT a certified interoperability conformance test; illustrative public-source ephemeris, not affiliated with ESA; no TRL/heritage/agency endorsement.
 
 # text
-seg-33f0c81b60de = lunar-interop-export.toml
-
-# text
 seg-e0180b8a7560 = kind lunar-interop-export
 
 # attr:title, text
@@ -1111,10 +736,7 @@ seg-043647362b56 = Lunar interoperability export — LunaNet / IOAG-aligned, CCS
 
 # text
 # c1: jamming
-seg-690a4902d3a6 = Lunar-native RF jamming: per-satellite jammer-to-signal ratio, effective C/N₀ and loss of lock for a selenographic surface user under a lunar surface (or raised) jammer, over the illustrative public-source Moonlight/LCNS-class lunar-orbit constellation. Composes the existing open jamming physics (jamming::j_over_s_db, effective_cn0_dbhz, rx_antenna_gain_db, lock_status, q_factor) with the existing lunar sky geometry (lunar_service::LunarConstellation + topocentric, lunar::selenographic_to_mcmf); no geometry or radiometry is re-derived. Unlike the Earth <c1/> kind, the signal leg is NOT a fixed received power: each satellite's isotropic received power is its own link budget EIRP − FSPL(slant range), so the J/S varies satellite by satellite with lunar range and elevation. Reports ONE ROW PER VISIBLE (epoch, satellite) LINK — azimuth, elevation, slant range, both received powers the J/S is the difference of, the J/S, the nominal and effective C/N₀ and the lock status — plus aggregate figures of merit beside (never in place of) that table, and the same table as a CSV artifact. Every emitted numeric field carries a unit and a provenance class. VALIDATED sub-results carry their source module oracle (the anti-jam equation and J/S link of Kaplan & Hegarty §{ "9.4" }, externally referenced in tests/gnss_denied_jamming_resilience_reference.rs; the lunar geometry of lunar_service). The composition itself is cross-checked against an independent two-link-budget path (linkbudget::received_signal_power_dbw, a different free-space-loss expression) to 1e-9 dB. MODELLED: the illustrative constellation, the representative EIRP / jammer power / antenna gains / noise temperature, and the absence of terrain shadowing, multipath, AGC dynamics and adaptive nulling. Not a certified denial-of-service product. With a jammer configured the report also carries a DENIAL CONTOUR WITH AN UNCERTAINTY BAND rather than a contour read off one scalar: the full measured wanted-signal C/N₀ distribution over the per-satellite table (n, min, p05, p25, median, p75, p95, max, mean, sample stdev, and the sample's own asymmetry), and the contour evaluated at each of those order statistics under BOTH denial criteria the engine recognises — the incumbent power-ratio one (J/S = { "30" } dB, as in attack-surface and tracking-loop) and the loss-of-lock one (effective C/N₀ falling to tracking_threshold_dbhz, the criterion this report's own status column uses) — on both axes of the denial plane (required jammer EIRP at the scenario standoff, denial standoff at the scenario EIRP). The band edges ARE contour(p05) and contour(p95), the same closed-form map applied to the sample's own quantiles: not a sigma fitted to the sample and not median ± k·stdev, with stdev emitted for continuity and used by nothing. A quantile already at or below the tracking threshold has no finite denying J/S and its loss-of-lock columns are null with a counted reason, never a clamped radius.
-
-# text
-seg-0deccbec3b7b = lunar-jamming.toml
+seg-a91a9ad5d8d1 = Lunar-native RF jamming: per-satellite jammer-to-signal ratio, effective C/N₀ and loss of lock for a selenographic surface user under a lunar surface (or raised) jammer, over the illustrative public-source Moonlight/LCNS-class lunar-orbit constellation. Composes the existing open jamming physics (jamming::j_over_s_db, effective_cn0_dbhz, rx_antenna_gain_db, lock_status, q_factor) with the existing lunar sky geometry (lunar_service::LunarConstellation + topocentric, lunar::selenographic_to_mcmf); no geometry or radiometry is re-derived. Unlike the Earth <c1/> kind, the signal leg is NOT a fixed received power: each satellite's isotropic received power is its own link budget EIRP − FSPL(slant range), so the J/S varies satellite by satellite with lunar range and elevation. Reports ONE ROW PER VISIBLE (epoch, satellite) LINK — azimuth, elevation, slant range, both received powers the J/S is the difference of, the J/S, the nominal and effective C/N₀ and the lock status — plus aggregate figures of merit beside (never in place of) that table, and the same table as a CSV artifact. Every emitted numeric field carries a unit and a provenance class. VALIDATED sub-results carry their source module oracle (the anti-jam equation and J/S link of Kaplan & Hegarty §{ "9.4" }, externally referenced in tests/gnss_denied_jamming_resilience_reference.rs; the lunar geometry of lunar_service). The composition itself is cross-checked against an independent two-link-budget path (linkbudget::received_signal_power_dbw, a different free-space-loss expression) to { "1e-9" } dB. MODELLED: the illustrative constellation, the representative EIRP / jammer power / antenna gains / noise temperature, and the absence of terrain shadowing, multipath, AGC dynamics and adaptive nulling. Not a certified denial-of-service product. With a jammer configured the report also carries a DENIAL CONTOUR WITH AN UNCERTAINTY BAND rather than a contour read off one scalar: the full measured wanted-signal C/N₀ distribution over the per-satellite table (n, min, p05, p25, median, p75, p95, max, mean, sample stdev, and the sample's own asymmetry), and the contour evaluated at each of those order statistics under BOTH denial criteria the engine recognises — the incumbent power-ratio one (J/S = { "30" } dB, as in attack-surface and tracking-loop) and the loss-of-lock one (effective C/N₀ falling to tracking_threshold_dbhz, the criterion this report's own status column uses) — on both axes of the denial plane (required jammer EIRP at the scenario standoff, denial standoff at the scenario EIRP). The band edges ARE contour(p05) and contour(p95), the same closed-form map applied to the sample's own quantiles: not a sigma fitted to the sample and not median ± k·stdev, with stdev emitted for continuity and used by nothing. A quantile already at or below the tracking threshold has no finite denying J/S and its loss-of-lock columns are null with a counted reason, never a clamped radius.
 
 # text
 seg-8a38317ae6d1 = kind lunar-jamming
@@ -1126,9 +748,6 @@ seg-7e27d737f4e5 = Lunar-native RF jamming: per-satellite J/S for a lunar surfac
 seg-200e58e189c2 = Modelled joint multi-technique lunar OD + clock batch estimator on a SIMULATED network: a Gauss-Newton snapshot fit that fuses Earth-baseline geodetic VLBI delays, lunar-local station↔satellite ranges and inter-satellite ranges to recover, together, a lunar surface station's 3-D position, a small constellation's positions and every asset's clock offset from an injected truth. The headline honest result — VLBI makes the station's full 3-D position observable where lunar-local ranging alone leaves a weakly-observed direction — is reported as the with-vs-without-VLBI station-error contrast. MODELLED simulated closed-loop recovery (truth shares the observation model), deterministic (seeded), NOT real-data validated; no force-model propagation inside the solver; no TRL/heritage/agency endorsement.
 
 # text
-seg-9f9454faf283 = lunar-joint-od-clock.toml
-
-# text
 seg-ea44c47623c9 = kind lunar-joint-od-clock
 
 # attr:title, text
@@ -1138,22 +757,13 @@ seg-b832efa33b26 = Lunar joint multi-technique OD + clock determination (a SIMUL
 seg-25455a33523c = Seven-parameter Helmert lunar frame datum driven by a REAL, ARCHIVED observing campaign rather than a simulated one. Where lunar-frame-campaign removed the injected transform but still stated its station network, its schedule and its per-observation sigma as ILLUSTRATIVE inputs, this kind takes all three from measurement: the epochs are the ground-transmit times of archived ILRS Consolidated Laser Ranging Data normal points, the observations are the laser ranges really fired at the five retroreflector arrays on the Moon, and every observation weight is that normal point's own archived precision bin_rms/sqrt(n_raw) read out of the file. Station coordinates come from the IERS ITRF2020 SLR solution (propagated to epoch by their published velocities) and the reflector coordinates from JPL DE430 Table { "7" } in the mean-Earth/mean-rotation frame the IAU { "2015" } WGCCRE model realises. Range partials accumulate into the joint reflector-coordinate Fisher information matrix and propagate through the same Helmert design into the datum covariance, diagnosed by crate::fim::crlb. Rank, defect, condition, spectrum, unobservable directions in the seven-parameter basis, the weakest direction at full rank and each parameter's share of it are emitted on every run, and an unconstrained parameter is published as NULL with a status. Inter-array correlation is MEASURED at exactly zero rather than assumed, because a laser range touches one array. A record the catalogues cannot place — a station with no published ITRF position — is SKIPPED AND COUNTED, never given a substituted coordinate. WHICH LINKS ARE MEASURED AND WHICH ARE MODELLED IS THE REPORT, NOT A FOOTNOTE: the Moon-centre ephemeris and the IAU body orientation remain modelled and their combined size is emitted as the observed-minus-computed one-way range residual over every point used; troposphere, solid-body tides, station eccentricity, polar motion, UT1-UTC, relativistic delay and station clocks are absent and inside that residual. Because an ephemeris error reaches a covariance only through the direction of each line of sight, every run also re-solves the whole datum with all partials tilted by sensitivity_tilt_deg (sign alternating) and emits the ratio, so the covariance's insensitivity to the modelled ephemeris is a number rather than an argument. The simulated campaign's own figures are RUN and printed beside the measured ones, not transcribed. MODELLED: the seven-parameter figures are a Cramer-Rao bound for a reduced parameter set on a real schedule — not a solved datum, not an LLR analysis and not a geodetic product. The committed real-data slice ships with the repository but not with the published crate; point data_dir at a copy of it.
 
 # text
-seg-c88dd72748ad = lunar-llr-datum.toml
-
-# text
 seg-f796750036cc = kind lunar-llr-datum
 
 # attr:title, text
 seg-cf209fe904f0 = Seven-parameter Helmert lunar frame datum from a REAL, ARCHIVED observing campaign (V3).
 
-# text
-seg-e02e870dc90e = lunar-station-geodesy-baseline.toml
-
 # attr:title, text
 seg-f0aad2150389 = Lunar reference station geodesy, BASELINE: today's five retroreflector arrays alone.
-
-# text
-seg-fe14abf46aaa = lunar-station-geodesy-with-station.toml
 
 # text
 seg-fb08183a8243 = Lunar reference station geodesy, WITH STATION: the five retroreflector arrays plus one retroreflector and one VLBI beacon at a south-polar lunar reference station site.
@@ -1162,22 +772,13 @@ seg-fb08183a8243 = Lunar reference station geodesy, WITH STATION: the five retro
 seg-f7ea776e70c9 = Modelled lunar reference-station coverage: a Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs. A differential reference station at a known south-polar site corrects a stated constellation (illustrative Keplerian or a tabulated ephemeris) with a stated signal-in-space error, survey error, correction latency and link quantization; per point and over the region it reports the percentile corrected and uncorrected position error (3-D, horizontal, vertical), availability, coverage against a stated threshold, DO-229E protection levels, the coverage radius per azimuth and the correction-link budget at the station and at the worst point. Not a statement about the performance of any real system; not affiliated with or endorsed by any agency. MODELLED.
 
 # text
-seg-9a9f9f38cf2e = lunar-station-coverage.toml
-
-# text
 seg-2255165dd833 = kind lunar-station-coverage
 
 # text
 seg-5c55b91fa564 = Lunar reference-station coverage: what positioning accuracy and protection level a user gets from a lunar differential reference station at a known south-polar site, over the south-polar region and a day.
 
 # text
-seg-1c94a297dac5 = lunar-station-coverage-public-sources.toml
-
-# text
-seg-238e43f0d7fc = Lunar reference-station coverage under the PUBLICLY STATED assumptions: the same kind as lunar-station-coverage.toml, with every input that a public source states set from it and cited by source id; every input no source states is kept from the in-tree default and labelled ILLUSTRATIVE. Sources (retrieved 2026-10-12; titles, identifiers and licences in docs/LUNAR-REFERENCE-STATION.md): S1 arXiv:{ "2602" }.08432v3 S2 IOAG Cislunar PNT Workshop { "2025" }, "Lunar local Differential PNT and Selenodetic Reference Station" (slides) S3 UNOOSA ICG WG-B, Lunar PNT, June { "2024" } (LunarPNT_Jun24_01_04.pdf) S4 IOAG Cislunar { "2026" }, "Moonlight Programme Development Status"
-
-# text
-seg-ce840183bace = lunar-station-coverage-terrain.toml
+seg-e1a3830ad9ed = Lunar reference-station coverage under the PUBLICLY STATED assumptions: the same kind as lunar-station-coverage.toml, with every input that a public source states set from it and cited by source id; every input no source states is kept from the in-tree default and labelled ILLUSTRATIVE. Sources (retrieved 2026-10-12; titles, identifiers and licences in docs/LUNAR-REFERENCE-STATION.md): S1 arXiv:2602.08432v3 S2 IOAG Cislunar PNT Workshop { "2025" }, "Lunar local Differential PNT and Selenodetic Reference Station" (slides) S3 UNOOSA ICG WG-B, Lunar PNT, June { "2024" } (LunarPNT_Jun24_01_04.pdf) S4 IOAG Cislunar { "2026" }, "Moonlight Programme Development Status"
 
 # text
 seg-d168096a3514 = Lunar reference-station coverage with terrain: the bundled lunar-station-coverage scenario with a per-site horizon ray-marched over a real lunar digital elevation model at the station and at every user point, in place of the flat elevation mask alone.
@@ -1186,16 +787,10 @@ seg-d168096a3514 = Lunar reference-station coverage with terrain: the bundled lu
 seg-cac3a0bcbfc6 = MODELLED end-to-end Coordinated Lunar Time (LTC) time-error budget: the seven LTC error terms assembled as time-error curves x_i(τ) over a whole averaging-time grid, root-summed into x_Σ(τ), and the clock-vs-frame CROSSOVER τ at which the growing clock term overtakes the constant real-time frame-realisation term (below it the budget is frame-limited, above it clock-limited) — the honest answer to the single-τ artifact. The τ-slopes are closed-form and analytically checkable (clock τ^{ "{" }+1/2{ "}" }/τ^{ "{" }+{ "1" }{ "}" }, floors τ^{ "0" }, measurement τ^{ "{" }-1/2{ "}" }) and the clock rows reproduce the published one-day clock specs (crate::clock_specs); the RF/optical-link, frame-realisation, relativistic-residual and ephemeris floor MAGNITUDES are Modelled budget allocations (documented defaults, caller-overridable), not measurements. The contribution is the reproducible crossover τ, not a certified per-term number; not certified for operational timekeeping.
 
 # text
-seg-edb595376836 = lunar-station-time-lab.toml
-
-# text
 seg-88a9a6405048 = kind lunar-time-budget
 
 # text
 seg-efaa5b60d16f = Lunar reference station time laboratory: a miniature rubidium clock (miniRAFS) steered to Coordinated Lunar Time (LTC) and then left to free-run.
-
-# text
-seg-bbbd55487a44 = lunar-time-budget.toml
 
 # attr:title, text
 seg-8ea4372cb851 = Coordinated Lunar Time (LTC) end-to-end time-error budget over a tau grid.
@@ -1204,19 +799,13 @@ seg-8ea4372cb851 = Coordinated Lunar Time (LTC) end-to-end time-error budget ove
 seg-7f3e13712f10 = Modelled relativistic Earth–Moon clock rate (Lunar Coordinate Time, LTC/TCL): the secular LTC−TT rate from the self-potential difference and the Moon's kinetic term, reported with the published { "56" }–{ "59" } µs/day band, plus the accumulated offset over a horizon.
 
 # text
-seg-6066415e95e5 = lunar-time-offset.toml
-
-# text
 seg-debab0063d91 = kind lunar-time-offset
 
 # attr:title, text
 seg-b1989c67a1b5 = Lunar coordinate time (LTC/TCL): the relativistic Earth-Moon clock rate.
 
 # text
-seg-c6f6aa4a128b = Modelled lunar geodetic VLBI delay observable: an Earth baseline (two ground stations, GCRS) observes a one-way signal from a NovaMoon-class lunar-surface beacon. Emits the near-field two-range-difference delay, its rate, and the wavefront-curvature near-field correction over a pass — cross-checked against the same-codebase plane-wave Δ-DOR observable in the far-field limit, with finite-difference-verified partials. The default analytic path is MODELLED and carries the frame-consistency, xp=yp={ "0" } polar-motion and plane-wave-vs-near-field caveats. Setting planetary_kernel_path, earth_orientation_kernel_path and moon_orientation_kernel_path runs the kernel path instead (DE440, MOON_PA_DE440, ITRF93; converged barycentric light times; adds the epoch's beacon and station partials), whose Newtonian delay and partials agree with NAIF SPICE converged light times to { "0.06" } ps and { "7" }.4e-9. Not validated against real VLBI data.
-
-# text
-seg-b273c36a170e = lunar-vlbi.toml
+seg-e01f77d493a0 = Modelled lunar geodetic VLBI delay observable: an Earth baseline (two ground stations, GCRS) observes a one-way signal from a NovaMoon-class lunar-surface beacon. Emits the near-field two-range-difference delay, its rate, and the wavefront-curvature near-field correction over a pass — cross-checked against the same-codebase plane-wave Δ-DOR observable in the far-field limit, with finite-difference-verified partials. The default analytic path is MODELLED and carries the frame-consistency, xp=yp={ "0" } polar-motion and plane-wave-vs-near-field caveats. Setting planetary_kernel_path, earth_orientation_kernel_path and moon_orientation_kernel_path runs the kernel path instead (DE440, MOON_PA_DE440, ITRF93; converged barycentric light times; adds the epoch's beacon and station partials), whose Newtonian delay and partials agree with NAIF SPICE converged light times to { "0.06" } ps and { "7.4e-9" }. Not validated against real VLBI data.
 
 # text
 seg-79c5a9295ed5 = kind lunar-vlbi
@@ -1228,9 +817,6 @@ seg-3dd816ab3e2a = Lunar geodetic VLBI: an Earth baseline observing a lunar-surf
 seg-8d967bfd5689 = Lunar-VLBI station-coordinate covariance: the delay partials of the lunar-vlbi observable accumulated over an explicit SCHEDULE (baselines x epochs) into a Fisher information matrix, inverted, and reported as the station coordinate covariance and the per-coordinate station sigma — a computed engine output rather than a scalar delay precision pushed through an assumed isotropic g = { "3" } equipartition factor. The state carries Earth-FIXED (ITRS) station coordinates, so the Jacobian is the inertial partial rotated by each epoch's GCRS->ITRS matrix: Earth rotation is what makes those coordinates observable, and the report MEASURES the Earth-fixed line-of-sight sweep and the beacon declination rather than assuming them. One observation is one (baseline, epoch) pair with BOTH stations above the elevation mask, weighted 1/delay_sigma_s^{ "2" }. Reports rank, datum defect, condition number, the full information spectrum, the covariance matrix, per-station per-axis and 3-D sigmas, and the free-network null space on every run; under a rank deficiency the headline sigma is published as NULL with a status, never read out of a near-singular inverse. The equipartition value c*delay_sigma_s*sqrt(g/N) for the SAME schedule is emitted beside the computed value with the ratio, together with the isotropic trace bound sqrt(p/trace(M)) that AM-HM makes a hard floor — so the ratio is the anisotropy the assumption discarded. The delay closure tau_ik = tau_ij + tau_jk makes only n-1 of the n(n-1)/2 baselines geometrically independent; the report states both counts. MODELLED: the Moon-centre ephemeris, station clocks, troposphere and Earth-orientation parameters are held FIXED and observations are treated as independent, so the covariance is a Cramer-Rao bound for a reduced parameter set, not a predicted session result; the delay sigma, station coordinates and schedule are inputs. The partial the geometric-delay Jacobian leaves out (the differenced Shapiro term) is measured by finite difference and emitted. Not a geodetic product.
 
 # text
-seg-04f48b469c67 = lunar-vlbi-fim.toml
-
-# text
 seg-a558fdefae3d = kind lunar-vlbi-fim
 
 # attr:title, text
@@ -1240,31 +826,19 @@ seg-ef34999556df = Lunar-VLBI station-coordinate covariance from an explicit obs
 seg-3f749aef8d89 = Deep-space Mars PNT: a simulated MARCONI relay constellation (areostationary + inclined relays broadcasting one-way + relaying two-way to a deep-space station) navigates a reference user (transfer | lmo | surface) through the joint one-way/two-way radiometric fusion estimator. Reports per-epoch geometry/visibility, achieved RMS vs truth, and the formal covariance (1σ / 3σ position) — an honest simulated FoM, NOT a certified protection level.
 
 # text
-seg-0e4987137352 = mars-pnt-lmo.toml
-
-# text
 seg-50eb943d4ef7 = kind mars-pnt
 
 # text
 seg-79aed7a6b416 = Mars PNT — Low-Mars-Orbit user navigated against the simulated MARCONI relay constellation (areostationary relays broadcasting one-way + relaying two-way to a deep-space station) through the joint one-way/two-way radiometric fusion estimator.
 
 # text
-seg-b3d1eb28068d = mars-pnt-surface.toml
-
-# text
 seg-852783147633 = Mars PNT — a fixed surface user (a lander / rover on the rotating Mars surface) navigated against the simulated MARCONI relay constellation through the joint one-way/two-way radiometric fusion estimator.
-
-# text
-seg-d0ab4eb55be3 = mars-pnt-transfer.toml
 
 # text
 seg-1b2748b538ae = Mars PNT — a Mars transfer / capture user (a high, eccentric areocentric arc — the long arc a vehicle flies on approach / in a capture orbit) navigated against the simulated MARCONI relay constellation through the joint one-way/two-way radiometric fusion estimator.
 
 # text
 seg-28c6a5644152 = Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-source Moonlight/LCNS-class lunar-orbit constellation (not affiliated with ESA): sweeps a selenographic lat/lon grid over a time horizon and reports DOP / coverage / availability (≥{ "4" } sats AND PDOP < threshold) plus a generalised lunar ARAIM protection-level (HPL/VPL) envelope over the volume. The DOP geometry REUSES the gnss_lib_py-VALIDATED kernel (crate::orbit::dop); the protection level REUSES the LunaNet LNIS lunar ARAIM machinery (crate::lunar, σ_URE≈{ "30" } m) and reduces to the existing south-pole PL as a special case. MODELLED composition: a circular-/elliptical-Keplerian relay set (not the real differential-corrected LCNS/NRHO ephemeris), a mean-rotation Moon (no libration/precessing pole). Deterministic (pure geometry). No TRL/heritage/agency endorsement.
-
-# text
-seg-e383280c2fa7 = moonlight-service-volume.toml
 
 # text
 seg-28938416c04b = kind moonlight-service-volume
@@ -1276,9 +850,6 @@ seg-e9b0a88ff0f9 = Lunar navigation SERVICE-VOLUME analysis — Moonlight / LCNS
 seg-4f0edb786a35 = Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satellite service (MSS) S band (3GPP band n256, downlink { "2170" } to { "2200" } MHz; default carrier { "2172.5" } MHz): the Cramér-Rao bound (CRB) on time of arrival, c / ({ "2" } pi beta sqrt({ "2" } (C/N0) T)) with beta the root-mean-square (Gabor) bandwidth of the flat OFDM spectrum (B/sqrt({ "12" })), and on the Doppler of a complex tone, sqrt({ "3" } / ({ "2" } pi^{ "2" } (C/N0) T^{ "3" })), for each signal (default a { "5" } MHz New Radio channel with { "4.5" } MHz occupied and a { "200" } kHz narrowband channel with { "180" } kHz occupied); then, over any LEO constellation, downlink time-of-arrival fixes with an unknown receiver clock (seeded, with the bound plus a network synchronisation error as the sigma), their PDOP and formal 3D sigma, and a single-satellite Doppler fix over the longest pass with the height held. MODELLED: the bandwidth-to-bound step is the textbook closed form, checked against numerical integration of the flat and band-limited BPSK spectra (internal consistency, no published worked figure pinned), and the positioning accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result.
 
 # text
-seg-2097e24422de = ntn-5g-positioning.toml
-
-# text
 seg-f0ccaa966a0d = kind ntn-positioning
 
 # attr:title, text
@@ -1286,9 +857,6 @@ seg-3ac4d50d5106 = Positioning from a 5G non-terrestrial network (NTN) downlink 
 
 # text
 seg-dbffff25b57f = CCSDS OEM interoperability bridge: import an Orbit Ephemeris Message produced by an external flight-dynamics tool (GMAT/Orekit/STK all emit OEM) and report its segments/objects/frames/epoch-span plus a velocity-consistency check; with no input it round-trips a generated reference orbit and reports the import↔export fidelity. MODELLED structural/physical ingest check, NOT an orbit-accuracy validation of the source.
-
-# text
-seg-3f4a5a1276d6 = oem-interop.toml
 
 # text
 seg-95202f70f915 = kind oem-interop
@@ -1300,16 +868,10 @@ seg-97847b33c55b = CCSDS OEM interoperability-bridge demonstrator (GMAT / Orekit
 seg-a878d9be65b7 = MODELLED optical PNT through the atmosphere: for an optical link and a set of ground sites with stated cloud climates it reports the wavelength- and elevation-dependent clear-air loss (Kim visibility law plus Rayleigh), the Hufnagel-Valley turbulence state (Rytov variance, scintillation index, gamma-gamma parameters, aperture averaging), the weather-driven availability against the link margin (cloud optical depth from a log-normal liquid-water climate, geometric-optics extinction, independent turbulence fade), the link margin needed for target availabilities, the outage-duration distribution, the timing and ranging error growth per outage through the clock holdover model, distance-correlated site-diversity availability, and what-if gains for enhancement techniques (wavelength, receive aperture, adaptive-optics scintillation reduction, extra margin). VALIDATED as implementation of the stated formulas against an independent mpmath oracle: Rytov variance, scintillation index, gamma-gamma fade probability, aperture-averaging factor, cloud and clear-air optical depth. MODELLED: every weather, technique and clock input and the independence and copula assumptions; no measured availability record has been compared. Advisory analysis, not a certified availability or navigation product.
 
 # text
-seg-cde40b8e8dbc = optical-atmosphere-network.toml
-
-# text
 seg-64b58fe6b7e1 = kind optical-atmosphere
 
 # text
 seg-b8648cc3c266 = Optical PNT through the atmosphere: three ILLUSTRATIVE ground sites (a cloudier northern site, a middling central site and a clearer southern site) viewing a LEO optical terminal at { "30" } degrees elevation at { "1550" } nm. The cloud climates are stated inputs, not measurements or any dataset's values, so every availability below is MODELLED. The run reports per site the clear-air loss, the Hufnagel-Valley turbulence state, the availability against the link margin, the margin needed for { "40" } / { "50" } / { "60" } / { "70" } percent (an optical link cannot pass thick cloud, so a site has an availability ceiling that no margin lifts, reported per site), the outage-duration distribution and the timing error growth per outage for three clock classes, then the site-diversity availability of the best { "1" }, { "2" } and { "3" } sites with independent and with distance-correlated weather ({ "500" } km decorrelation length).
-
-# text
-seg-bf64fbd95198 = optical-atmosphere-techniques.toml
 
 # text
 seg-f85f23a4fa5c = Enhancement-technique what-ifs for one ILLUSTRATIVE ground site: a wavelength change, a larger receive aperture, an adaptive-optics scintillation reduction and extra margin, each predicted as an availability gain over the same site's baseline. The gains are stated inputs (Kshana does not model an adaptive-optics loop), a new wavelength or aperture re-evaluates the clear-sky budget, the clear-air loss and the aperture averaging, and everything is MODELLED. The terminal is deliberately margin-limited (about { "3" } dB before the atmosphere) so the techniques matter; the run also states the cloud ceiling that no technique lifts. Targets below { "100" } percent of the margin table are reported as the extra margin needed (negative means a surplus).
@@ -1318,46 +880,25 @@ seg-f85f23a4fa5c = Enhancement-technique what-ifs for one ILLUSTRATIVE ground si
 seg-cb4262b66b8f = GNSS availability + DOP from an orbital constellation (Walker / TLE / RINEX).
 
 # text
-seg-08ffe8da6a7e = orbit-gnss-challenged.toml
-
-# text
 seg-b226ac4eebdf = kind orbit
 
 # attr:title, text
 seg-d181d6872589 = GNSS availability derived from orbital geometry (not hand-authored windows).
 
-# text
-seg-0188ea1dac9e = orbit-molniya.toml
-
 # attr:title, text
 seg-2b9c92371e24 = GNSS availability for a highly-eccentric (Molniya) user, from orbital geometry.
-
-# text
-seg-46d88c2ffce4 = orbit-multignss.toml
 
 # attr:title, text
 seg-05ede69e3c0a = Multi-GNSS availability from orbital geometry: GPS + Galileo combined.
 
-# text
-seg-0c733a25b728 = orbit-real-tle.toml
-
 # attr:title, text
 seg-af8a828667bb = GNSS availability from REAL satellite geometry, via two-line element sets.
-
-# text
-seg-1e805284329e = orbit-rinex.toml
 
 # attr:title, text
 seg-573056b960e6 = GNSS availability from a real RINEX { "3" } broadcast ephemeris.
 
-# text
-seg-0907ec5a48c0 = orbit-sgp4-gps.toml
-
 # attr:title, text
 seg-3540e43e3910 = GNSS availability from the REAL GPS constellation propagated with SGP4/SDP4.
-
-# text
-seg-944dec4fe350 = orbit-urban-canyon-skyline.toml
 
 # text
 # c1: orbit
@@ -1366,10 +907,7 @@ seg-944dec4fe350 = orbit-urban-canyon-skyline.toml
 seg-4fe91b7e2c29 = GNSS availability and dilution of precision at the bottom of a city street: the <c1/> kind with a ground-site user (<c2/>) under the <c3/> skyline preset.
 
 # text
-seg-c16f44dd59c6 = Ground-station pass prediction: the time-domain visibility passes (AOS/TCA/LOS, maximum apparent elevation, duration) of a circular orbit, as SGP4 mean elements at the window start, over a station above an elevation mask across a window, with total access time. SGP4/SDP4 propagation on the IAU 2006/2000A Earth-fixed frame (optional UT1 - UTC and polar motion), ITU-R P.834-9 tropospheric refraction and the downlink light time (both on by default), crossings solved to 1e-7 s and the culmination by golden-section search. The pass geometry is VALIDATED against Orekit { "13.1.8" } at sea-level stations; the scenario's orbit and station are illustrative inputs.
-
-# text
-seg-3c4259d43c8e = passes.toml
+seg-a4bdfc291fce = Ground-station pass prediction: the time-domain visibility passes (AOS/TCA/LOS, maximum apparent elevation, duration) of a circular orbit, as SGP4 mean elements at the window start, over a station above an elevation mask across a window, with total access time. SGP4/SDP4 propagation on the IAU 2006/2000A Earth-fixed frame (optional UT1 - UTC and polar motion), ITU-R P.834-9 tropospheric refraction and the downlink light time (both on by default), crossings solved to { "1e-7" } s and the culmination by golden-section search. The pass geometry is VALIDATED against Orekit { "13.1.8" } at sea-level stations; the scenario's orbit and station are illustrative inputs.
 
 # text
 seg-9f0a005cfe62 = kind passes
@@ -1381,9 +919,6 @@ seg-2b96d360ceda = Ground-station pass prediction demonstrator (ground segment &
 seg-b7b67e03f125 = Real-observation single-point positioning: solve a receiver's position from a RINEX { "3" } observation file and a broadcast-navigation file (code pseudoranges, broadcast ephemeris, Klobuchar iono, Saastamoinen/Niell tropo), optionally validated against a surveyed coordinate.
 
 # text
-seg-dd9d05869c3e = pvt-abmf.toml
-
-# text
 seg-c2f9d49da519 = kind pvt
 
 # attr:title, text
@@ -1391,9 +926,6 @@ seg-65c6fa3d75df = Real-observation single-point positioning (SPP) from a survey
 
 # text
 seg-04310cd6cbec = MODELLED fault/anomaly detection for quantum PNT systems: a labelled fault catalog (clock frequency-jump/drift/lock-loss; sensor bias-step/dropout), a detection-statistic ROC AUC (with a bootstrap CI from the externally-validated eval_stats) and a minimum-detectable-fault at a fixed false-alarm rate, with the quantum-clock-aided monitor (lower noise) detecting smaller faults — as honest TradeEvidence + representativeness. Gaussian detection-statistic model (AUC = Phi(mu/(sigma*sqrt2))); models the class, illustrative public-source params, no TRL/flight/certification.
-
-# text
-seg-4ce6c690b781 = quantum-anomaly-detect.toml
 
 # text
 seg-1e5828af879a = kind quantum-anomaly-detect
@@ -1405,9 +937,6 @@ seg-d3897f9ebb6c = Fault/anomaly detection for quantum PNT systems — labelled 
 seg-790fbfdd80f0 = MODELLED GNSS-free quantum navigation: during a GNSS outage, a quantum (cold-atom interferometer) inertial budget vs a classical navigation-grade INS — position-error growth over the coast, holdover to a position threshold, and the quantum-vs-classical trade as honest TradeEvidence with representativeness. Honest observability note: with no external fix the accelerometer bias is unobservable so the error grows; the quantum sensor slows but does not close that gap. Illustrative public-source device params; models the class, no TRL/flight/certification.
 
 # text
-seg-0c2c7a29da12 = quantum-gnss-free-nav.toml
-
-# text
 seg-95db949095b8 = kind quantum-gnss-free-nav
 
 # text
@@ -1415,9 +944,6 @@ seg-b5e010553b6a = GNSS-free quantum navigation — quantum (cold-atom interfero
 
 # text
 seg-540545e6f846 = MODELLED trusted-quantum-timing chain: an end-to-end quantum (optical-lattice clock + entanglement/single-photon link) vs classical (CSAC + RF two-way) time-transfer budget, a reused timing protection level + a delay/replay-attack security FoM (1-P_md), a clock-anomaly detection probability + CUSUM latency, and the quantum-vs-classical trade as honest TradeEvidence with a representativeness + gaps-to-flight record. Illustrative public-source device/link params; models the class, no TRL/flight/certification claimed.
-
-# text
-seg-4bbd61748cdc = quantum-time-transfer.toml
 
 # text
 seg-6d0a57c5b71d = kind quantum-time-transfer
@@ -1432,9 +958,6 @@ seg-6d837ea24f97 = Trusted quantum timing — end-to-end time-transfer chain, se
 seg-eb55d253dd11 = Quantum-vs-classical PNT trade ({ "13503" }): timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a partner device. The candidate clock is a measured curve (<c1/> + <c2/>, equal length, at least { "2" } points; it wins when both forms are given) or a <c3/>.
 
 # text
-seg-0b28e0427273 = quantum-trade.toml
-
-# text
 seg-09ba30218f38 = kind quantum-trade
 
 # attr:title, text
@@ -1442,9 +965,6 @@ seg-66e430c55836 = Quantum-vs-classical PNT trade with measured-ADEV ingestion (
 
 # text
 seg-edfcb546d9de = Real-time lunar frame / Earth-orientation prediction budget: P4 Table { "1" } (the frame-error consistency check — post-processed ~{ "0.27" } m ↔ ~{ "0.010" } ms and real-time ~{ "15" } m ↔ ~{ "0.5" } ms, each frame position expressed as its equivalent UT1 error via the L19 lever arm Δr = D_EM·ω⊕·ΔUT1) and Table { "2" } (measured UT1 prediction error vs horizon — the L18 curve read directly off the real IERS finals2000A series: the Bulletin A − Bulletin B final floor and the multi-day persistence-predictor error, each mapped to a Moon-frame position by L19), plus the L21 root-sum-square real-time frame-error budget (EOP + ephemeris + realisation floor). VALIDATED closed form (the L19 lever arm, ω⊕ cross-checked against the CIO Earth-rotation angle) and VALIDATED real data (the L18 curve off the real finals2000A rows); MODELLED are the lunar-relay OD covariance magnitudes and frame-realisation floor (representative allocations) and the persistence predictor (not IERS's operational Bulletin A algorithm). Not a certified real-time frame product.
-
-# text
-seg-809c011ad032 = realtime-frame-eop.toml
 
 # text
 seg-e39997960d5d = kind realtime-frame-eop
@@ -1456,9 +976,6 @@ seg-a11177c21b94 = Real-time lunar frame / Earth-orientation (EOP) prediction bu
 seg-039f77066d97 = Allen-Eggers ballistic re-entry corridor: peak deceleration (ballistic-coefficient-independent, V_e^{ "2" } sin|γ|/(2eH)), the velocity and altitude at peak-g, and the peak-heating velocity, for an entry velocity/flight-path-angle/ballistic-coefficient through an exponential atmosphere, plus a planar point-mass integration of the same ballistic entry with gravity, Earth curvature and the US Standard Atmosphere { "1976" } (peak deceleration, speed, altitude and time at the peak). MODELLED ballistic (no-lift) entry; heating output is the peak-heating VELOCITY, not a heat-flux (no aerothermal/TPS model).
 
 # text
-seg-a1f897026df3 = reentry.toml
-
-# text
 seg-bb2002e9948d = kind reentry
 
 # attr:title, text
@@ -1466,9 +983,6 @@ seg-b3f5010bc0f0 = Ballistic re-entry corridor demonstrator (Allen-Eggers, missi
 
 # text
 seg-1b61962464c5 = Slot timing: seconds until a free-running clock leaves the guard of a time-indexed routing or tasking slot (the largest absolute time error the slot tolerates), the contribution of every term at that moment with the dominant one named (fix uncertainty, white phase noise, white, flicker, random-walk and random-run frequency noise, residual frequency offset, temperature, ageing), the time left since the last fix, and the largest fix interval that keeps the clock inside, net of the fix latency. The oscillator is a CLASS default (csac, uso, dsac, tcxo, ocxo or rafs: one cited one-second Allan deviation and an assumed red-noise floor), a telecom-timing DATASHEET PRESET or an inline DATASHEET (Allan-deviation maxima fitted as an envelope, plus ageing and a temperature coefficient), or an inline MEASURED PHASE RECORD (its overlapping Allan deviation fitted by weighted least squares in the white-phase and IEEE Std { "1139" } frequency-modulation basis, so the red-noise floor is measured rather than assumed). A breach beyond the longest averaging time the datasheet or record supports is flagged as extrapolated. An optional spoofing section adds the timing protection level for a receiver in orbit: orbital speed and period, how long a single ground spoofer can reach the satellite per pass, the clock-aided monitor floor and CUSUM detection latency, the conditional bound, the pull a spoofer at a stated maximum ramp rate accumulates before the satellite leaves its reach or an independent check runs, and whether each ground-contact or crosslink check is independent of that spoofer. VALIDATED: the holdover inversion from a fitted record, held out on a real caesium clock measured against a hydrogen maser (tests/slot_timing_cs5071a_holdout.rs, data-gated); on a measured crystal oscillator the held-out prediction is conservative but not within the bar, so the crystal case is MODELLED. MODELLED: class and datasheet sources, the deterministic terms and the spoofing assessment.
-
-# text
-seg-259e2ce0c1b5 = slot-timing-ocxo-leo.toml
 
 # text
 seg-b1c293c644d1 = kind slot-timing
@@ -1480,31 +994,22 @@ seg-65401b133472 = Slot timing: how long an oven-controlled crystal oscillator (
 seg-0549bc926a9b = The whole solar system at one epoch, for PNT (positioning, navigation and timing) around any body. For the Sun, the eight planets, Pluto, the Moon, Phobos, Deimos, Io, Europa, Ganymede, Callisto and Titan it reports the heliocentric position and velocity in the ICRF (International Celestial Reference Frame, equatorial J2000), the heliocentric distance and J2000 ecliptic longitude and latitude, the gravitational parameter, equatorial and mean radius, J2 where published and its reference radius, the sidereal rotation period, the IAU pole and the prime meridian at the epoch, an orbit track sampled over one revolution (heliocentric for planets, parent-centred for moons), and the light time, one-way and two-way range, solar Shapiro delay and Sun separation from an observer body (default Earth); extra from/to links get the same treatment. Positions: the JPL Keplerian elements of Standish and Williams (Table { "1" } for { "1800" } AD to { "2050" } AD, Tables 2a/2b for { "3000" } BC to { "3000" } AD) with each planet's nominal error, the Montenbruck & Gill lunar series for the Earth-Moon split, JPL mean elements with the IAU synchronous rotation rate for the Martian and Galilean moons, and the IAU rotation model for Titan. Light time: the radiometric fixed-point solve, transmitter at its retarded position; Newtonian, with the Shapiro delay reported separately. VALIDATED against JPL Horizons (DE441) within twice the nominal error: Mercury to Saturn and the Earth from Table { "1" } (worst { "1.87" } times nominal) and all eight planets from Tables 2a/2b (worst { "1.71" } times), and the Earth to Mars and Jupiter light time. MODELLED, each row labelled: Uranus and Neptune from Table { "1" } ({ "2.0" } and { "5.2" } times the nominal error against DE441), Pluto (the { "1992" } row; no stated error), the Moon and the seven moons (measured against Horizons, no published bound).
 
 # text
-seg-5219ec596e3d = solar-system-tour.toml
-
-# text
 seg-b1d59d7a3350 = kind solar-system
 
 # attr:title, text
 seg-58fd71afc7b3 = The whole solar system at one epoch.
 
 # text
-seg-5f9450657f85 = CCSDS { "133" }.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact encode↔decode round trip. Deterministic exact bit-layout framing — the agency packet-format interop layer; NOT a conformance certification (no secondary-header/CRC/segmentation logic beyond the flags).
-
-# text
-seg-43ee094f0f48 = space-packet.toml
+seg-de2448d74c2b = CCSDS 133.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact encode↔decode round trip. Deterministic exact bit-layout framing — the agency packet-format interop layer; NOT a conformance certification (no secondary-header/CRC/segmentation logic beyond the flags).
 
 # text
 seg-67928e2d349f = kind space-packet
 
 # attr:title, text
-seg-3fafb0530905 = CCSDS { "133" }.0-B Space Packet framing demonstrator (TM/TC interop).
+seg-8321be113ab1 = CCSDS 133.0-B Space Packet framing demonstrator (TM/TC interop).
 
 # text
-seg-f4dddbd9346e = Space-weather environment model: solar (F10.7/F10.7a) and geomagnetic (Kp, with the definitional Kp↔ap table) activity indices, the Jacchia-1971 exospheric temperature they drive (validated vs published solar-min/mean/max), and the Jacchia-1971 thermospheric neutral density at the diurnal-mean exospheric temperature against the activity-free static profile at a set of altitudes — the solar-cycle density dependence the static atmosphere omits. MODELLED: the density agrees with accelerometer-derived densities (TOLEOS CHAMP and GRACE) within a factor { "2" } at solar maximum but is about { "1" }.7x too dense in the { "2008" } solar minimum.
-
-# text
-seg-18cba1c1ac37 = space-weather.toml
+seg-5f25c5b71f0c = Space-weather environment model: solar (F10.7/F10.7a) and geomagnetic (Kp, with the definitional Kp↔ap table) activity indices, the Jacchia-1971 exospheric temperature they drive (validated vs published solar-min/mean/max), and the Jacchia-1971 thermospheric neutral density at the diurnal-mean exospheric temperature against the activity-free static profile at a set of altitudes — the solar-cycle density dependence the static atmosphere omits. MODELLED: the density agrees with accelerometer-derived densities (TOLEOS CHAMP and GRACE) within a factor { "2" } at solar maximum but is about 1.7x too dense in the { "2008" } solar minimum.
 
 # text
 seg-ce6afe97c0a4 = kind space-weather
@@ -1513,10 +1018,7 @@ seg-ce6afe97c0a4 = kind space-weather
 seg-7c4a93b81a2f = Space-weather environment model demonstrator.
 
 # text
-seg-9aaa16f71dea = L-band spectrum model and waterfall: the whole GNSS L band as one power spectral density (PSD), frequency across, time down, over a scripted jammer timeline. SIGNALS: GPS L1 C/A and L2C (BPSK({ "1" })), Galileo E1 open service (MBOC({ "6,1" },1/11), or BOC({ "1,1" })), GPS L5 and Galileo E5a (BPSK({ "10" })), each at its carrier with the interface-specification minimum received power (IS-GPS-200, IS-GPS-705, Galileo OS SIS ICD) unless overridden; GLONASS, BeiDou and Galileo E6 are not modelled. JAMMERS: continuous-wave tone, flat narrowband noise, linear sawtooth chirp and broadband noise matched to a band's own modulation, each with a centre, a bandwidth, a received power (direct, or EIRP and range through the jamming kind's free-space path loss) and on/off times. Each jammer is scored against each band by its spectral separation coefficient kappa over the receiver bandwidth, and (C/N0)_eff = [1/(C/N0) + sum (J/S) kappa]^-1; for one jammer this equals the jamming kind's anti-jam equation with Q = 1/(R_c kappa), and the report carries that cross-check (and the jamming kind's representative-Q figure beside it). The noise floor is k T_sys with T_sys = T_ant + { "290" } K (F - { "1" }). The waterfall averages each cell over its bin and its row (chirps exactly, whole sweeps plus the partial one; jammers switching mid-row by their duty), so the C/N0 timeline and the picture come from the same numbers; result.json carries the grid block-averaged in power, per-band C/N0 and J/S per row, and per jammer per band the SSC, Q, J/S, in-band J/S and steady C/N0. Optional [iq]: the model drawn as complex IQ at one instant, written to and read back from a SigMF recording (cf32_le or ci16_le), and compared with a Welch estimate. Optional [recording] (native builds): a real SigMF recording's Welch PSD beside the model. VALIDATED: the signal PSDs against the textbook main-lobe widths (BPSK(n) 2n x { "1.023" } MHz null to null; BOC({ "1,1" }) lobes centred at +/-1.023 MHz) and the spectral separation coefficients against their Parseval closed forms and Kaplan & Hegarty's Q = { "1" } (CW) and { "1.5" } (matched). MODELLED: jammer powers, timeline, front-end bandwidths, the continuous-spectrum (no code lines) treatment and the absence of AGC, blanking and antenna pattern.
-
-# text
-seg-ffc47f7788d9 = l-band-waterfall-jamming.toml
+seg-fef00c827c6a = L-band spectrum model and waterfall: the whole GNSS L band as one power spectral density (PSD), frequency across, time down, over a scripted jammer timeline. SIGNALS: GPS L1 C/A and L2C (BPSK({ "1" })), Galileo E1 open service (MBOC(6,1,1/11), or BOC({ "1,1" })), GPS L5 and Galileo E5a (BPSK({ "10" })), each at its carrier with the interface-specification minimum received power (IS-GPS-200, IS-GPS-705, Galileo OS SIS ICD) unless overridden; GLONASS, BeiDou and Galileo E6 are not modelled. JAMMERS: continuous-wave tone, flat narrowband noise, linear sawtooth chirp and broadband noise matched to a band's own modulation, each with a centre, a bandwidth, a received power (direct, or EIRP and range through the jamming kind's free-space path loss) and on/off times. Each jammer is scored against each band by its spectral separation coefficient kappa over the receiver bandwidth, and (C/N0)_eff = [1/(C/N0) + sum (J/S) kappa]^-1; for one jammer this equals the jamming kind's anti-jam equation with Q = 1/(R_c kappa), and the report carries that cross-check (and the jamming kind's representative-Q figure beside it). The noise floor is k T_sys with T_sys = T_ant + { "290" } K (F - { "1" }). The waterfall averages each cell over its bin and its row (chirps exactly, whole sweeps plus the partial one; jammers switching mid-row by their duty), so the C/N0 timeline and the picture come from the same numbers; result.json carries the grid block-averaged in power, per-band C/N0 and J/S per row, and per jammer per band the SSC, Q, J/S, in-band J/S and steady C/N0. Optional [iq]: the model drawn as complex IQ at one instant, written to and read back from a SigMF recording (cf32_le or ci16_le), and compared with a Welch estimate. Optional [recording] (native builds): a real SigMF recording's Welch PSD beside the model. VALIDATED: the signal PSDs against the textbook main-lobe widths (BPSK(n) 2n x { "1.023" } MHz null to null; BOC({ "1,1" }) lobes centred at +/-1.023 MHz) and the spectral separation coefficients against their Parseval closed forms and Kaplan & Hegarty's Q = { "1" } (CW) and { "1.5" } (matched). MODELLED: jammer powers, timeline, front-end bandwidths, the continuous-spectrum (no code lines) treatment and the absence of AGC, blanking and antenna pattern.
 
 # text
 seg-008e207782f6 = kind spectrum
@@ -1524,14 +1026,8 @@ seg-008e207782f6 = kind spectrum
 # text
 seg-ac1083b109f8 = L-band waterfall under jamming: the whole Global Navigation Satellite System (GNSS) L band as one power spectral density (PSD), frequency across, time down, while a scripted sequence of jammers switches on.
 
-# text
-seg-486d03d80aa5 = leo-resilience-js-margin.toml
-
 # attr:title, text
 seg-ed0374fa4677 = LEO-PNT resilience from received power: the jammer-to-signal (J/S) margin.
-
-# text
-seg-1cd0f01f09f3 = multi-band-jamming-waterfall.toml
 
 # text
 seg-859958a06acc = Multi-band jamming waterfall: low Earth orbit (LEO) positioning, navigation and timing (PNT) signals in four bands (UHF, L, S and C) beside GPS and Galileo, each band with its own jammer, drawn as one waterfall per band on one timeline.
@@ -1540,16 +1036,10 @@ seg-859958a06acc = Multi-band jamming waterfall: low Earth orbit (LEO) positioni
 seg-cbd77f6ffd63 = Stochastic time-spoof detector (Neyman–Pearson / χ²₁) with Monte-Carlo P_fa/P_md.
 
 # text
-seg-997a0657b8b5 = spoof-attack.toml
-
-# text
 seg-559fe9211290 = kind spoof
 
 # text
 seg-6e099f8a060a = Active time-spoofing attack: can each clock's integrity monitor catch the spoof before it does harm?
-
-# text
-seg-ed45b966e67d = spoof-meaconing.toml
 
 # attr:title, text
 seg-cb0f7b2ff50b = Time-spoof detection with an explicit attack shape and a stochastic detector.
@@ -1558,25 +1048,16 @@ seg-cb0f7b2ff50b = Time-spoof detection with an explicit attack shape and a stoc
 seg-f43fe94d84e0 = Combined RF/measurement spoof detector (multi-SV RAIM-consistency + AGC + SQM, fused) vs a parameterised attack (power advantage, carrier-phase alignment, time/position push; TEXBAT-style).
 
 # text
-seg-4ad265287441 = maritime-spoof-position-push.toml
-
-# text
 seg-43dad2e00cde = kind spoof-detect
 
 # attr:title, text
 seg-e4cfedcd8a7f = Maritime GNSS spoofing: detecting a transmitter that drags a ship's reported position.
-
-# text
-seg-41e7b07bb072 = spoof-detect.toml
 
 # attr:title, text
 seg-991f79d3fc13 = Combined RF/measurement spoof detector: multi-SV RAIM-consistency + AGC + SQM, fused.
 
 # text
 seg-e7ab7b55c969 = 1-D trade-study sweep over a clock-pack parameter.
-
-# text
-seg-7408823b9fbf = sweep-clock-stability.toml
 
 # text
 seg-0d6c2e664734 = kind sweep
@@ -1586,9 +1067,6 @@ seg-f851ee7b2c6e = Trade study: how does holdover scale with clock stability?
 
 # text
 seg-4f19d4fb1341 = Generic N-D sweep over any pack via dotted TOML keys / JSON metric paths.
-
-# text
-seg-53268aa8ca27 = sweep-nd-inertial.toml
 
 # text
 seg-5fb588430052 = kind sweep-nd
@@ -1603,31 +1081,19 @@ seg-b22e7ba4a1a0 = Generic N-D parameter sweep over ANY scenario kind. Unlike th
 seg-a448b24ded2b = Telecom timing: time error, maximum time interval error (MTIE) and time deviation (TDEV) of a GNSS holdover, checked against ITU-T masks with a PASS or FAIL and a margin per mask. Input is either a SYNTHETIC HOLDOVER (an oscillator preset -- ocxo, rubidium, caesium or csac, each carrying the stability, aging and temperature figures of a named public Microchip datasheet -- plus the GNSS-loss time, record length and sample interval; the free-running clock carries white, flicker and, where the datasheet fit needs it, random-walk frequency noise, linear aging and a sinusoidal temperature term) or an INGESTED SERIES of [time_s, time_error_ns] pairs given inline (and, on native builds only, a CSV file). Masks: ITU-T G.8272 (07/2025) PRTC-A and PRTC-B (max|TE| { "100" } / { "40" } ns, MTIE Tables 1-2, TDEV Tables 3-4); G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) ePRTC locked ({ "30" } ns, Tables 1-2) and ePRTC-A holdover (the Table { "3" } time-error envelope rising from { "30" } ns to { "100" } ns over the holdover period H set by the locked duration, MTIE Table { "4" }, TDEV Table { "5" }); G.8273.2 ({ "2023" }) Amd. { "2" } (11/2025) T-BC/T-TSC classes A-C (max|TE|, constant time error, low-pass-filtered MTIE and TDEV) and class D (max|TE_L| { "5" } ns, the only class D figure not left for further study); G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) reference point C (max|TE_L| { "1100" } / { "600" } / { "100" } ns with MTIE Tables 7-1 to 7-3). Every entry a Recommendation marks for further study is absent rather than filled in, and each report lists what is not implemented. Also reports the time to exceed each maximum-time-error budget (defaults: { "100" } ns ePRTC max|TE_HO|, { "400" } ns network holdover allocation, { "1100" } ns point C, { "1.5" } us class { "4" }), the MTIE/TDEV curves as a CSV table with each mask limit, and a units-and-provenance entry per numeric field. VALIDATED: the MTIE and TDEV estimators against the allantools package on a committed holdover series. MODELLED: the mask tables are transcriptions, and a synthetic holdover is a model built from datasheet maxima, not a measurement of any unit. Not a conformance test.
 
 # text
-seg-9e78d85c42da = telecom-prtc-holdover-24h.toml
-
-# text
 seg-5f1e87304f90 = kind telecom-timing
 
 # text
 seg-999121d87895 = Telecom timing reference: a rubidium clock that loses its Global Navigation Satellite System (GNSS) reference and holds over for { "24" } hours, checked against the masks of the International Telecommunication Union Telecommunication Standardization Sector (ITU-T).
 
 # text
-seg-b26b148a45fa = telecom-synce-eec.toml
-
-# text
 seg-3cfcd6f8717b = Telecom timing, frequency synchronisation: a free-running oven-controlled crystal oscillator (OCXO) set against the synchronous Ethernet equipment clock (EEC) wander generation masks of the International Telecommunication Union Telecommunication Standardization Sector (ITU-T).
-
-# text
-seg-fe9ad7caa546 = telecom-tie-ingest.toml
 
 # text
 seg-afd374569777 = Telecom timing, ingestion example: a time interval error (TIE) series given inline and checked against the masks of the International Telecommunication Union Telecommunication Standardization Sector (ITU-T).
 
 # text
 seg-0d7bf5a4f07e = GPS-denied terrain-referenced navigation (TERCOM/SITAN): a radar/baro altimeter matches the ground-elevation profile against an SRTM-style DEM to recover the INS drift.
-
-# text
-seg-26742a5cf27a = terrain-nav.toml
 
 # text
 seg-eb02c7911f72 = kind terrain-nav
@@ -1639,9 +1105,6 @@ seg-36a3e2b3fb7d = Terrain-referenced navigation (TERCOM/SITAN) — GPS-denied a
 seg-6bdc150ab25b = GPS-denied sequential (recursive) terrain-referenced navigation: a particle filter runs the terrain-match measurement model epoch by epoch (SITAN as a running filter) so a time-varying INS drift is tracked along the track, where the batch terrain-nav only recovers a single constant offset.
 
 # text
-seg-6a2243407520 = terrain-slam.toml
-
-# text
 seg-b83a1fbd3435 = kind terrain-slam
 
 # attr:title, text
@@ -1649,9 +1112,6 @@ seg-6e578a14dc30 = Sequential (recursive) terrain-referenced navigation — GPS-
 
 # text
 seg-9a2bb9809aed = Two-way satellite time and frequency transfer between two stations through a geostationary relay: the two-way equation solved for T_A - T_B with every non-reciprocal term (station equipment delays, Ku-band ionosphere, transponder, Sagnac), a quadrature uncertainty budget whose type A term is the simulated link's TDEV at the averaging time, a simulated link with white and flicker phase noise and a diurnal non-reciprocity, and the stability (rate, residual RMS, TDEV, ADEV) of any supplied BIPM Circular T Section { "1" } series, MJD,ns CSV or IGS RINEX station-clock records. MODELLED.
-
-# text
-seg-be0654017178 = time-transfer-budget.toml
 
 # text
 seg-c988dce87d81 = kind time-transfer-budget
@@ -1663,19 +1123,13 @@ seg-a063a0ecc543 = Two-way satellite time and frequency transfer (TWSTFT) betwee
 seg-ccb244e60d60 = Optical vs RF two-way time/frequency transfer.
 
 # text
-seg-347e7362323c = timetransfer.toml
-
-# text
 seg-69138a582b9a = kind timetransfer
 
 # attr:title, text
 seg-af67eb7dfe4e = Optical inter-satellite time transfer vs classical RF (TWSTFT).
 
 # text
-seg-f5dfcc3a64a7 = Tracking-loop loss of lock: C/N0 -> lock/unlock WITH HYSTERESIS, the time it takes to lose lock, and spoof pull-in as a function of code and carrier offset RATE. The engine's existing denial and capture criteria are ratios on received power (a jammer denies at J/S = { "30" } dB, a spoofer captures at { "3" } dB); real loss of lock is not a power ratio, it is where a loop's jitter plus dynamic stress leaves its tracking-threshold budget. Reports ({ "1" }) carrier (Costas) and code (non-coherent early/late) 1-sigma thermal jitter versus C/N0, squaring loss included, against the stated rules { "3" }*sigma_PLL + theta_e <= { "45" } deg (the 15-degree rule in three-sigma form) and { "3" }*sigma_DLL + ramp lag <= d/2 chips; ({ "2" }) the drop and re-lock C/N0 thresholds with the binding loop named, the re-lock threshold DERIVED from the wider bandwidth a receiver re-pulls-in at rather than asserted, so the hysteresis width must fall between { "5" }*log10(ratio) and { "10" }*log10(ratio) dB; ({ "3" }) the declared time to lose lock from a two-threshold lock detector with confirmation dwells driven over a C/N0 ramp, reported separately from the physical phase-escape time (the Viterbi mean time between cycle slips, in log10 s because it spans hundreds of decades); ({ "4" }) spoof pull-in limits — the largest code slew and carrier Doppler rate a victim's loops can follow, with a map over both axes, because a spoofer that slews faster than these does not capture the loop, it outruns it; and ({ "5" }) the DENIAL RADIUS the loop dynamics imply reported ALONGSIDE the existing power-ratio radius, never in place of it, with their signed difference as its own named field (denial_radius_delta_km) and a definition beside it. Every emitted numeric field carries a unit and a provenance class. VALIDATED closed forms: the carrier and code jitter expressions, the loop-filter reduction sqrt({ "2" }*B_n*T) and the first-order ramp lag are cross-checked against the engine's own sdr correlator stepped forward on seeded synthetic IF — a different route to the same numbers — to { "0.6" } %, { "3.7" } % and { "0.17" } % respectively, and the modified Bessel I0 behind the cycle-slip time against standard tabulated values to 1e-7. The lower validity limit is asserted, not merely stated: below ~{ "32" } dB-Hz at { "1" } ms the real atan discriminator saturates against its +-pi/2 range and measures less jitter than any linear theory. MODELLED: the loop bandwidths, integration time, correlator spacing, pull-in bandwidth ratio, confirmation dwells, jammer power and antenna gains are representative band figures, not a datasheet. NOT modelled: oscillator (Allan-deviation) and vibration jitter, front-end bandwidth limiting, multipath, AGC dynamics, data-bit-transition loss, external aiding, and any half-cycle correction to the Costas cycle-slip formula. Under loop dynamics spoof capture has no radius at all — the binding constraint is offset rate, not power — so that field is null with a reason rather than a fabricated number. Not a certified receiver-performance product.
-
-# text
-seg-fff21e5eaad6 = tracking-loop.toml
+seg-a79dfece857e = Tracking-loop loss of lock: C/N0 -> lock/unlock WITH HYSTERESIS, the time it takes to lose lock, and spoof pull-in as a function of code and carrier offset RATE. The engine's existing denial and capture criteria are ratios on received power (a jammer denies at J/S = { "30" } dB, a spoofer captures at { "3" } dB); real loss of lock is not a power ratio, it is where a loop's jitter plus dynamic stress leaves its tracking-threshold budget. Reports ({ "1" }) carrier (Costas) and code (non-coherent early/late) 1-sigma thermal jitter versus C/N0, squaring loss included, against the stated rules { "3" }*sigma_PLL + theta_e <= { "45" } deg (the 15-degree rule in three-sigma form) and { "3" }*sigma_DLL + ramp lag <= d/2 chips; ({ "2" }) the drop and re-lock C/N0 thresholds with the binding loop named, the re-lock threshold DERIVED from the wider bandwidth a receiver re-pulls-in at rather than asserted, so the hysteresis width must fall between { "5" }*log10(ratio) and { "10" }*log10(ratio) dB; ({ "3" }) the declared time to lose lock from a two-threshold lock detector with confirmation dwells driven over a C/N0 ramp, reported separately from the physical phase-escape time (the Viterbi mean time between cycle slips, in log10 s because it spans hundreds of decades); ({ "4" }) spoof pull-in limits — the largest code slew and carrier Doppler rate a victim's loops can follow, with a map over both axes, because a spoofer that slews faster than these does not capture the loop, it outruns it; and ({ "5" }) the DENIAL RADIUS the loop dynamics imply reported ALONGSIDE the existing power-ratio radius, never in place of it, with their signed difference as its own named field (denial_radius_delta_km) and a definition beside it. Every emitted numeric field carries a unit and a provenance class. VALIDATED closed forms: the carrier and code jitter expressions, the loop-filter reduction sqrt({ "2" }*B_n*T) and the first-order ramp lag are cross-checked against the engine's own sdr correlator stepped forward on seeded synthetic IF — a different route to the same numbers — to { "0.6" } %, { "3.7" } % and { "0.17" } % respectively, and the modified Bessel I0 behind the cycle-slip time against standard tabulated values to { "1e-7" }. The lower validity limit is asserted, not merely stated: below ~{ "32" } dB-Hz at { "1" } ms the real atan discriminator saturates against its +-pi/2 range and measures less jitter than any linear theory. MODELLED: the loop bandwidths, integration time, correlator spacing, pull-in bandwidth ratio, confirmation dwells, jammer power and antenna gains are representative band figures, not a datasheet. NOT modelled: oscillator (Allan-deviation) and vibration jitter, front-end bandwidth limiting, multipath, AGC dynamics, data-bit-transition loss, external aiding, and any half-cycle correction to the Costas cycle-slip formula. Under loop dynamics spoof capture has no radius at all — the binding constraint is offset rate, not power — so that field is null with a reason rather than a fabricated number. Not a certified receiver-performance product.
 
 # text
 seg-0b943d7e5f66 = kind tracking-loop
@@ -1691,9 +1145,6 @@ seg-9ce64f725193 = Study suites
 # c2: study.json
 # c3: study.html
 seg-b871497364ff = A suite is a scenario file that lists other scenarios; <c1/> runs it into one stamped <c2/> and <c3/>. This is the free suite runner, not the paid custom study.
-
-# text
-seg-b289804af8fb = quantum-pnt-demonstrator.suite.toml
 
 # text
 seg-b0569509d058 = Quantum-Enabled PNT Demonstrator — the three application areas as one study.
