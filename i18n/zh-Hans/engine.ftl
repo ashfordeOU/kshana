@@ -6836,3 +6836,56 @@ engine-wasm-plans-json-is-not-json = plans_json 不是字符串的 JSON 数组�
 engine-wasm-options-json-is-not-json = options_json 不是 JSON：{ $e }
 
 engine-wasm-input-is-about-bytes-over = 输入约为 { $b64 } 字节，超过 { $v2 } 字节的上限
+
+## legal
+
+# legal: native review
+engine-legal-compliance-statement = 标记为“evidenced”的行表示，该集合中的某次运行为该行所列能力提供证据支持。这不是框架已被满足的结论，也不表示任何产品已被任何人评级或批准。差距列说明这些运行未能显示的内容。
+
+# legal: native review
+engine-legal-bench-surface-notice = 仅包含车辆运动和已标注的事件区间。此处导出的任何内容都不是射频或基带信号，不对此类信号建模，也不驱动此类信号；事件是一个时间区间，而不是产生干扰的方法。信号由实验室模拟器及其操作人员提供，操作人员负责仅在获准的地方运行（按模拟器自身的安全说明，采用传导或屏蔽方式）。Kshana不公布此类运行的任何结果。
+
+# legal: native review
+engine-legal-iq-campaign-roc-statement = MODELLED：在所给记录上对每个监测器按窗口计算的ROC。每个所述事件窗口为正例，事件之外的每个roc_window_s窗口为负例；当监测器的检验统计量在窗口内达到某一阈值时，该窗口在该阈值下计数。P_fa按每个负例窗口计，而不是按每次检验计。
+
+# legal: native review
+engine-legal-lunanet-afs-advisory = 仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。它依据已发布规范的某一版本检查符号流，对任何LunaNet节点或服务不作任何说明。
+
+# legal: native review
+engine-legal-iqfit-statement = MODELLED：每个拟合数值描述的是开放接收机（所述环路设计和前端链路）在所给记录上的情况，并拟合到该活动的评分结果。它不是对任何其他接收机的测量。预测标记为PREDICTION，并附最近的已测试记录以及超出已测试条件的距离。
+
+# legal: native review
+engine-legal-iqfit-advisory = 仅供参考：分析输出，不是经型式认可的导航设备；预测是带有明示误差的模型输出，不是保证。
+
+# legal: native review
+engine-legal-lunar-time-lab-source-statement = 来源声明，而非主张：2024年6月ICG WG-B月球PNT材料（unoosa.org，LunarPNT_Jun24_01_04.pdf，研究来源S3）描述了站点处的月球时间基准实验室，其时间目标为纳秒级。Kshana引用该目标仅作背景说明，不予采纳，本块中的任何内容都不表明任何实际站点时钟达到了该目标。
+
+# legal: native review
+engine-legal-standards-pack-notice = 标准包依据运行前设定的判据衡量建模场景。它为所列框架行提供证据支持；它不对任何产品评级或批准，标记为MET的判据仅表示该场景的建模输出达到了所设判据。
+
+# legal: native review
+engine-legal-standards-pack-advisory = 仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务；不得作为任何导航或安全决策的唯一依据。
+
+# legal: native review
+engine-legal-geometry-statement = 在所述误差模型下的几何：相对于所述天际线的视线可见性、精度因子（DOP）以及针对独立、等值、零均值高斯测距误差（所述用户等效测距误差）的高斯误差椭圆。它不是对接收机实际误差的预测，实际误差还包含偏差、多路径和非视线误差，它也不是完好性界限。预设星座是具有代表性的几何，而不是该日期该地点的天空。
+
+# legal: native review
+engine-legal-resilience-disclaimer = 基于仿真的自我评估，参照DHS RPCF v2.0。这不是认证或认可，也不代表任何机构（DHS、IEEE或其他）的批准。除非明确标记为VALIDATED，每个子评分均为MODELLED，评分是时间域和检测方面的性能指标，而不是位置域精度。
+
+# legal: native review
+engine-legal-observatory-notice = 劣化单元格表示当天该处有很高比例的航空器报告导航精度低。不归因于任何原因。未被观测或缺失的单元格未经评估，这与无问题不同。仅供参考：不是批准、认证或符合性声明。
+
+# legal: native review
+engine-legal-receiver-trust-advisory = 仅供参考的软件，不是经型式认可的导航设备（IEC 61108、IEC 61162）：船舶航行的责任仍由操作人员承担。
+
+# legal: native review
+engine-legal-evidence-roundtrip-notice = 通过哈希关联四项记录：场景、实验室声明的测试条件、接收机日志，以及该日志相对于所述事件的评分。它不是信号，不是回放方法，也不是认证。场景的运动如何到达接收机（经实验室模拟器回放的文件，采用传导或屏蔽方式）由操作人员负责，此处仅按所述记录。
+
+# legal: native review
+engine-legal-evidence-bundle-disclaimer = 本包是Kshana引擎依据所述接收机日志和所述配置计算结果的技术记录。它不是法律意见，不是关于任何事件或其原因的事实认定，也不是认证。
+
+# legal: native review
+engine-legal-bench-notice = 仅供参考：依据明示的参照进行建模或测量，不是批准、认证或符合性声明。评分描述的是日志或语料，绝非产品。
+
+# legal: native review
+engine-legal-osnma-advisory = 仅供参考：这是分析与监测输出，不是经型式认可的导航设备。此处报告的认证状态不是导航完好性服务，不得作为任何导航或安全决策的唯一依据。

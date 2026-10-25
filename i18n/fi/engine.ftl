@@ -7169,3 +7169,56 @@ engine-wasm-plans-json-is-not-json = plans_json ei ole merkkijonojen JSON-tauluk
 engine-wasm-options-json-is-not-json = options_json ei ole JSON-muotoa: { $e }
 
 engine-wasm-input-is-about-bytes-over = syöte on noin { $b64 } tavua, yli { $v2 } tavun rajan
+
+## legal
+
+# legal: native review
+engine-legal-compliance-statement = Rivi, joka on merkitty ”evidenced”, tarkoittaa, että tämän joukon ajo tukee todisteita rivin nimeämille ominaisuuksille. Se ei ole toteamus siitä, että kehys täyttyy, eikä se tarkoita, että kukaan olisi arvioinut tai hyväksynyt mitään tuotetta. Aukkosarake kertoo, mitä ajot eivät osoita.
+
+# legal: native review
+engine-legal-bench-surface-notice = Vain ajoneuvon liike ja nimetyt tapahtumavälit. Mikään tässä viety ei ole radiotaajuista tai kantataajuista signaalia, ei mallinna sellaista eikä ohjaa sitä, ja tapahtuma on aikaväli, ei resepti häiriön tuottamiseen. Signaalit toimittavat laboratoriosimulaattori ja sen käyttäjä, jotka vastaavat siitä, että ne ajetaan vain siellä, missä se on sallittua (johtimitse tai suojatussa tilassa, simulaattorin omien turvaohjeiden mukaisesti). Kshana ei julkaise tällaisten ajojen tuloksia.
+
+# legal: native review
+engine-legal-iq-campaign-roc-statement = MODELLED: ikkunatason ROC kullekin monitorille annetuilla tallenteilla. Jokainen ilmoitettu tapahtumaikkuna on positiivinen ja jokainen tapahtumien ulkopuolinen roc_window_s-ikkuna negatiivinen; ikkuna lasketaan kynnyksellä, kun monitorin testisuure saavuttaa sen ikkunassa. P_fa on negatiivista ikkunaa kohti, ei testiä kohti.
+
+# legal: native review
+engine-legal-lunanet-afs-advisory = Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei tyyppihyväksytty navigointilaite eikä ihmishengen turvaamiseen tarkoitettu palvelu. Se tarkistaa symbolivirran julkaistun spesifikaation yhtä painosta vasten eikä kerro mitään yhdestäkään LunaNet-solmusta tai -palvelusta.
+
+# legal: native review
+engine-legal-iqfit-statement = MODELLED: jokainen sovitettu luku kuvaa avointa vastaanotinta (nimettyä silmukkasuunnittelua ja etupäätä) sille annetuilla tallenteilla, sovitettuna kampanjan pisteytettyihin tuloksiin. Se ei ole minkään toisen vastaanottimen mittaus. Ennusteet on merkitty PREDICTION, lähimmällä testatulla tallenteella ja etäisyydellä testattujen olosuhteiden ulkopuolelle.
+
+# legal: native review
+engine-legal-iqfit-advisory = Ohjeellinen: analyysitulos, ei tyyppihyväksytty navigointilaite; ennusteet ovat mallin tuloksia ilmoitetulla virheellä, eivät takuita.
+
+# legal: native review
+engine-legal-lunar-time-lab-source-statement = Lähdelausuma, ei väite: ICG WG-B Lunar PNT -aineisto kesäkuulta 2024 (unoosa.org, LunarPNT_Jun24_01_04.pdf, tutkimuksen lähde S3) kuvaa kuun aikaviitelaboratoriota asemalla nanosekuntitason aikatavoitteineen. Kshana siteeraa tätä tavoitetta vain taustaksi; se ei omaksu sitä, eikä mikään tässä lohkossa osoita, että yksikään todellinen asemakello täyttäisi sen.
+
+# legal: native review
+engine-legal-standards-pack-notice = Standardipaketti mittaa mallinnettuja skenaarioita ennen ajoa ilmoitettuja kynnyksiä vasten. Se tukee todisteita niille kehyksen riveille, jotka se nimeää; se ei arvioi tai hyväksy mitään tuotetta, ja MET-merkitty kynnys kertoo vain, että skenaarion mallinnettu tulos täytti ilmoitetun kynnyksen.
+
+# legal: native review
+engine-legal-standards-pack-advisory = Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei tyyppihyväksytty navigointilaite eikä ihmishengen turvaamiseen tarkoitettu palvelu; sitä ei saa käyttää ainoana perusteena navigointia tai turvallisuutta koskevalle päätökselle.
+
+# legal: native review
+engine-legal-geometry-statement = Geometria ilmoitetulla virhemallilla (MODELLED): näköyhteysnäkyvyys ilmoitettua horisonttia vasten, DOP ja gaussinen virhe-ellipsi riippumattomille, yhtä suurille, nollakeskiarvoisille gaussisille etäisyysvirheille ilmoitetulla käyttäjän ekvivalentilla etäisyysvirheellä. Se ei ole ennuste vastaanottimen todellisesta virheestä, jossa on myös harhoja, monitie-etenemistä ja ei-näköyhteysvirheitä, eikä se ole eheysraja. Esiasetetut tähdistöt ovat edustava geometria, eivät kyseisen päivän taivas kyseisessä paikassa.
+
+# legal: native review
+engine-legal-resilience-disclaimer = Simulaatiosta johdettu itsearviointi, suhteutettu DHS RPCF v2.0:aan. Tämä ei ole sertifiointi tai akkreditointi, eikä se edusta minkään viranomaisen hyväksyntää (DHS, IEEE tai muu). Jokainen osapistemäärä on MODELLED, ellei sitä ole nimenomaisesti merkitty VALIDATED, ja pistemäärät ovat aika-alueen ja havaitsemisen hyvyysmittoja, eivät paikka-alueen tarkkuutta.
+
+# legal: native review
+engine-legal-observatory-notice = Heikentynyt solu tarkoittaa, että suuri osa ilma-aluksista ilmoitti siellä kyseisenä päivänä heikon navigointitarkkuuden. Mitään syytä ei esitetä. Solua, jota ei havaittu tai joka puuttuu, ei arvioitu, mikä ei ole sama asia kuin häiriötön. Vain ohjeellinen: ei hyväksyntä, sertifiointi eikä vaatimustenmukaisuusvakuutus.
+
+# legal: native review
+engine-legal-receiver-trust-advisory = Ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite (IEC 61108, IEC 61162): käyttäjä vastaa edelleen aluksen navigoinnista.
+
+# legal: native review
+engine-legal-evidence-roundtrip-notice = Yhdistää neljä tietuetta tiivisteellä (hash): skenaarion, laboratorion ilmoittamat testiolosuhteet, vastaanotinlokin ja kyseisen lokin pisteytyksen ilmoitettuihin tapahtumiin nähden. Se ei ole signaali, ei toistoresepti eikä sertifiointi. Se, miten skenaarion liike pääsi vastaanottimelle (laboratoriosimulaattorilla toistettu tiedosto, johtimitse tai suojatussa tilassa), oli käyttäjän vastuulla, ja se on tässä kirjattu vain ilmoitetulla tavalla.
+
+# legal: native review
+engine-legal-evidence-bundle-disclaimer = Tämä paketti on tekninen tallenne siitä, mitä Kshana-moottori laski ilmoitetusta vastaanotinlokista ilmoitetulla kokoonpanolla. Se ei ole oikeudellinen lausunto, ei tosiasiakonstatointi mistään tapahtumasta tai sen syystä eikä sertifiointi.
+
+# legal: native review
+engine-legal-bench-notice = Ohjeellinen: mallinnettu tai mitattu ilmoitettuja vertailukohtia vasten; ei hyväksyntä, sertifiointi eikä vaatimustenmukaisuusvakuutus. Pistemäärä kuvaa lokia tai aineistoa, ei koskaan tuotetta.
+
+# legal: native review
+engine-legal-osnma-advisory = Ohjeellinen: tämä on analyysi- ja valvontatuloste, ei tyyppihyväksytty navigointilaite. Tässä ilmoitettu todennuksen tila ei ole navigoinnin eheyspalvelu, eikä sitä saa käyttää ainoana perusteena navigointia tai turvallisuutta koskevalle päätökselle.
