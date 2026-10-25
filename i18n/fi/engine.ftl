@@ -7148,6 +7148,632 @@ engine-wasm-options-json-is-not-json = options_json ei ole JSON-muotoa: { $e }
 
 engine-wasm-input-is-about-bytes-over = syöte on noin { $b64 } tavua, yli { $v2 } tavun rajan
 
+## src/altpnt/sequential.rs
+
+engine-altpnt-sequential-title = Sekventiaalinen maastoviitteinen navigointi (rekursiivinen SITAN)
+
+engine-altpnt-sequential-free-inertial-drift-grows = vapaa inertiaalinen ajelehtiminen (kasvaa)
+
+engine-altpnt-sequential-terrain-matched-bounded = maastosovitettu (rajattu)
+
+engine-altpnt-sequential-waypoint-full-scale = reittipiste →    asteikon enimmäisarvo { $maxv } m
+
+## src/advanced_report.rs
+
+engine-advanced-report-eyebrow = Kshana-ajon raportti
+
+engine-advanced-report-meta = Laji <code>{ $kind }</code> · moottori { $engine } · skenaario <code>{ $scenario }</code> (tiedoston tiiviste { $digest }…)
+
+engine-advanced-report-toc-summary = 1 Yhteenveto
+
+engine-advanced-report-toc-inputs = 2 Syötteet
+
+engine-advanced-report-toc-results = 3 Tulokset
+
+engine-advanced-report-toc-aggregation = 3a Yhdistäminen
+
+engine-advanced-report-toc-companions = 3b Animaatio ja viennit
+
+engine-advanced-report-toc-events = 4 Tapahtumat
+
+engine-advanced-report-toc-labels = 5 Todennusmerkinnät
+
+engine-advanced-report-toc-not-modelled = 6 Mallintamatta
+
+engine-advanced-report-toc-reproducibility = 7 Toistettavuus
+
+engine-advanced-report-h-summary = 1. Tiivistelmä
+
+engine-advanced-report-honesty-label = <strong>Rehellisyysmerkintä</strong> ({ $source }): { $label }
+
+engine-advanced-report-capabilities-used = <strong>Käytetyt kyvykkyydet:</strong> { $n_validated } VALIDATED, { $n_modelled } MODELLED, { $n_partner } PARTNER (tuettu mutta ei tarjottu); katso kohta 5.
+
+engine-advanced-report-member-runs = <strong>Jäsenajot:</strong> { $n }, yhdistetty kohdassa 3a.
+
+engine-advanced-report-h-inputs = 2. Syötteet
+
+engine-advanced-report-inputs-note = Jokainen skenaariotiedoston asettama kenttä, litistettynä polkuunsa. Yksiköt tulevat tuloksen <code>units</code>-lohkosta (kenttäyksiköiden skeema, docs/field-units-schema.json), jos se kuvaa kentän, muuten kentän nimen päätteestä; yksikkö, jota kumpikaan ei ilmoita, näytetään merkinnällä ei ilmoitettu.
+
+engine-advanced-report-th-parameter = Parametri
+
+engine-advanced-report-th-value = Arvo
+
+engine-advanced-report-th-unit = Yksikkö
+
+engine-advanced-report-th-unit-source = Yksikön lähde
+
+engine-advanced-report-h-results = 3. Tulokset
+
+engine-advanced-report-chart-alt = Tuloskaavio
+
+engine-advanced-report-also-written-to = { " " }(kirjoitettu myös tiedostoon { $file })
+
+engine-advanced-report-h-scalars = Skalaaritulokset
+
+engine-advanced-report-h-columns = Numeeriset sarakkeet
+
+engine-advanced-report-th-result = Tulos
+
+engine-advanced-report-th-column = Sarake
+
+engine-advanced-report-th-count = Lukumäärä
+
+engine-advanced-report-th-min = Pienin
+
+engine-advanced-report-th-max = Suurin
+
+engine-advanced-report-th-first = Ensimmäinen
+
+engine-advanced-report-th-last = Viimeinen
+
+engine-advanced-report-omitted-inputs = <p class="note">Lisäsyötteitä jätetty pois tältä sivulta: { $n }; report.json luettelee samat rivit, ja tulosasiakirja sisältää jokaisen arvon.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-scalars = <p class="note">Lisäskalaaritulosta jätetty pois tältä sivulta: { $n }; report.json luettelee samat rivit, ja tulosasiakirja sisältää jokaisen arvon.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-columns = <p class="note">Lisänumeerisia sarakkeita jätetty pois tältä sivulta: { $n }; report.json luettelee samat rivit, ja tulosasiakirja sisältää jokaisen arvon.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-events = <p class="note">Lisätapahtumia jätetty pois tältä sivulta: { $n }; report.json luettelee samat rivit, ja tulosasiakirja sisältää jokaisen arvon.</p>{ "\u000A" }
+
+engine-advanced-report-h-aggregation = 3a. Jäsenajojen yhdistäminen
+
+engine-advanced-report-mode = <p>Tila <strong>{ $mode }</strong>.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind = <p>Tila <strong>{ $mode }</strong>, lajina <code>{ $kind }</code>.</p>{ "\u000A" }
+
+engine-advanced-report-mode-runs = <p>Tila <strong>{ $mode }</strong>, jäsenajoja: { $n_runs }.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind-runs = <p>Tila <strong>{ $mode }</strong>, lajina <code>{ $kind }</code>, jäsenajoja: { $n_runs }.</p>{ "\u000A" }
+
+engine-advanced-report-run-digest = Ajon tiiviste (SHA-256 jäsenten tulostiivisteiden yli, lähetysjärjestyksessä): <code>{ $digest }</code>
+
+engine-advanced-report-table-empty = Tässä taulukossa ei ole rivejä: tulos ei luettele yhtään.
+
+engine-advanced-report-distribution-caption = Monte Carlo -jakauma suureelle { $metric } (näytteitä: { $n }), 20 yhtä leveää luokkaa; katkoviivat osoittavat 5., 50. ja 95. persentiilin.
+
+engine-advanced-report-distribution-caption-unit = Monte Carlo -jakauma suureelle { $metric } (näytteitä: { $n }, yksikkö: { $unit }), 20 yhtä leveää luokkaa; katkoviivat osoittavat 5., 50. ja 95. persentiilin.
+
+engine-advanced-report-h-companions = 3b. Animaatio ja viennit
+
+engine-advanced-report-animation-alt = Animaatio ajon aikasarjasta
+
+engine-advanced-report-animation-caption = Ajon omat näytteet piirtyvät esiin liikkuvan aikakursorin takana (<code>--animate svg</code> -valinnan animoitu piirtäminen; se näyttää valmiin kuvan vähennetyn liikkeen asetuksella ja tulostettaessa).
+
+engine-advanced-report-no-animation = Ei animaatiota: { $reason }
+
+engine-advanced-report-no-animation-default = tulos ei sisällä aikasarjaa
+
+engine-advanced-report-player-written-by = Interaktiivisen soittimen kirjoittaa <code>{ $command }</code>.
+
+engine-advanced-report-written-beside = Kirjoitettu tämän raportin viereen: { $links }.
+
+engine-advanced-report-th-export = Vienti
+
+engine-advanced-report-th-applies = Soveltuu
+
+engine-advanced-report-th-files-or-reason = Tiedostot tai syy
+
+engine-advanced-report-written-by = kirjoittaja <code>{ $command }</code>
+
+engine-advanced-report-does-not-apply = ei sovellu
+
+engine-advanced-report-yes = kyllä
+
+engine-advanced-report-no = ei
+
+engine-advanced-report-h-events = 4. Tapahtuma-aikajana
+
+engine-advanced-report-events-caption = Ikkunat palkkeina, pistemäiset tapahtumat pisteinä, ajon omalla aika-akselilla.
+
+engine-advanced-report-th-start = Alku (s)
+
+engine-advanced-report-th-end = Loppu (s)
+
+engine-advanced-report-th-event = Tapahtuma
+
+engine-advanced-report-th-source = Lähde
+
+engine-advanced-report-point-event = pistemäinen tapahtuma
+
+engine-advanced-report-events-timeline = Tapahtuma-aikajana
+
+engine-advanced-report-point-events = pistemäiset tapahtumat ({ $n })
+
+engine-advanced-report-distribution-of = Suureen { $metric } jakauma
+
+engine-advanced-report-max-bin = suurin luokka { $n }
+
+engine-advanced-report-h-labels = 5. Todennusmerkinnät
+
+engine-advanced-report-th-capability = Kyvykkyys (matriisin vaatimus)
+
+engine-advanced-report-th-label = Merkintä
+
+engine-advanced-report-th-used-by = Käyttäjä
+
+engine-advanced-report-th-oracle = Lähde: oraakkeli (riippumaton vertailu)
+
+engine-advanced-report-th-test-evidence = Testitodisteet
+
+engine-advanced-report-h-figure-tiers = Tuloksen ilmoittamat lukukohtaiset tasot
+
+engine-advanced-report-th-figure = Luku
+
+engine-advanced-report-th-tier = Taso
+
+engine-advanced-report-th-matrix-requirement = Matriisin vaatimus
+
+engine-advanced-report-th-applicable = Sovellettavissa
+
+engine-advanced-report-no-attack = ei (hyökkäystä ei ole määritetty)
+
+engine-advanced-report-h-not-modelled = 6. Mallintamatta jätetty ja oletukset
+
+engine-advanced-report-not-modelled-note = Jokainen kohta lainataan paikasta, jossa se esitetään: tulosasiakirja, lajiluettelo, skenaariotiedosto tai todennusmatriisin perustelu sille, miksi MODELLED-rivi pysyy mallinnettuna.
+
+engine-advanced-report-th-statement = Väite
+
+engine-advanced-report-h-reproducibility = 7. Toistettavuustiedot
+
+engine-advanced-report-rk-command = Toistamiskomento
+
+engine-advanced-report-rk-working-directory = Työhakemisto
+
+engine-advanced-report-rk-engine-version = Moottorin versio
+
+engine-advanced-report-rk-source-commit = Lähdekoodin commit
+
+engine-advanced-report-rk-scenario-file = Skenaariotiedosto
+
+engine-advanced-report-rk-scenario-sha = Skenaariotiedoston SHA-256 (Secure Hash Algorithm 256-bit)
+
+engine-advanced-report-rk-result-hash = Tuloksen scenario_hash
+
+engine-advanced-report-rk-result-sha = Tulosasiakirjan SHA-256
+
+engine-advanced-report-rk-seed = Siemenluku (seed)
+
+engine-advanced-report-rk-platform = Alusta
+
+engine-advanced-report-rk-generated = Tutkimus luotu (UTC)
+
+engine-advanced-report-rk-determinism = Determinismi
+
+engine-advanced-report-result-hash-none = tulosasiakirja ei ilmoita sellaista
+
+engine-advanced-report-print-note = Tulostaaksesi tämän sivun Portable Document Format (PDF) -tiedostoon, käytä selaimen tulostusikkunaa ja valitse ”Tallenna PDF-tiedostona”; tulostustyylitiedosto sovittaa sivun A4- ja US Letter -paperille, toistaa taulukoiden otsikot sivulta toiselle ja aloittaa syötteiden, tulosten, merkintöjen ja toistettavuuden osiot uudelta sivulta. Moottori ei kirjoita PDF-tiedostoa itse. report.json sisältää saman sisällön kuin tämä sivu.
+
+engine-advanced-report-footer = Luonut Kshana { $engine }.{ $stamp } Toistettavissa skenaariosta, siemenluvusta (seed) ja moottorin versiosta. Vapaa ja avoimen lähdekoodin (GNU Affero General Public License, AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">lähdekoodi &amp; dokumentaatio</a>.
+
+engine-advanced-report-empty-inputs = Skenaario ei aseta mitään kenttää `kind`-kentän lisäksi: laji ajoi vertailumäärityksensä dokumentoiduilla oletusarvoilla.
+
+engine-advanced-report-empty-scalars = Tulosasiakirja ei sisällä skalaaria taulukoiden ulkopuolella; sen luvut on tiivistetty sarakkeittain alla.
+
+engine-advanced-report-empty-series = Tulosasiakirja ei sisällä numeerista taulukkoa: jokainen tulos on skalaari yllä olevassa taulukossa.
+
+engine-advanced-report-empty-events = Ei ajastettua tapahtumaa: skenaario ei ohjelmoi ikkunaa tai alkuhetkeä eikä tulos ilmoita tapahtumaa. Laji arvioi määrityksensä yhtenä tapauksena.
+
+engine-advanced-report-empty-not-modelled = Mikään tuloksessa, lajiluettelossa, skenaariossa tai käytetyissä matriisiriveissä ei ilmoita tämän ajon mallinnusrajoitusta.
+
+engine-advanced-report-capabilities-statement = Jokainen rivi on todennusmatriisin rivi, jota tämän ajon lajit käyttävät, ja siinä on merkintä ja oraakkeli (riippumaton vertailu), jonka matriisi sille antaa (src/verification.rs, docs/VERIFICATION-MATRIX.md). Merkintä arvioi kyvykkyyden sellaisena kuin matriisi sen kirjaa; se ei arvioi tämän skenaarion määritystä, eikä VALIDATED-rivi tee ajon syötteistä mitattuja. PARTNER-rivi on käytäntö, johon ajo nojaa ja jota Kshana ei tarjoa.
+
+engine-advanced-report-no-run-label = Tulos ei sisällä ajotason rehellisyysmerkintää; käytettyjen kyvykkyyksien todennusmerkinnät luetellaan omassa osiossaan ja lukukohtaiset tasot siellä, missä tulos ne ilmoittaa.
+
+engine-advanced-report-no-seed = Skenaario ja tulos eivät sisällä siemenlukua (seed). Tuloksen määräävät yksin skenaariotiedosto ja moottorin koontiversio; determinismitesti ajaa uudelleen jokaisen mukana toimitetun skenaarion ja vaatii tavu tavulta identtisen tulosteen.
+
+engine-advanced-report-working-directory = Suorita komento hakemistosta, jossa alkuperäinen ajo käynnistettiin: skenaarion polku ja skenaarion sisällä olevat suhteelliset datapolut ratkaistaan sen mukaan. Tarkista skenaariotiedosto ensin arvoa scenario_sha256 vasten.
+
+engine-advanced-report-determinism-stamped = Samat skenaarion tavut, siemenluku (seed) ja moottorin koontiversio antavat saman tulosasiakirjan, lukuun ottamatta sen meta.generated_utc-leimaa, jonka --study-name kirjoittaa kellosta; aja ilman --study-name -valintaa saadaksesi tavu tavulta identtisen tulosteen. Liukulukutulokset on kiinnitetty alustakohtaisesti; toinen käyttöjärjestelmä tai arkkitehtuuri voi poiketa viimeisissä numeroissa.
+
+engine-advanced-report-determinism-plain = Samat skenaarion tavut, siemenluku (seed) ja moottorin koontiversio antavat tavu tavulta identtisen tulosasiakirjan ja raportin; tämä raportti ei sisällä aikaleimaa. Liukulukutulokset on kiinnitetty alustakohtaisesti; toinen käyttöjärjestelmä tai arkkitehtuuri voi poiketa viimeisissä numeroissa.
+
+engine-advanced-report-not-applicable-no-attack = ei sovellu (hyökkäystä ei ole määritetty)
+
+engine-advanced-report-what-ran-default = `{ $kind }`-skenaario.
+
+engine-advanced-report-nothing-carried = ei sisältöä
+
+engine-advanced-report-tbl-sweep-nodes = Pyyhkäisyn solmut
+
+engine-advanced-report-tbl-mc-summary = Monte Carlo -jakauman yhteenveto (persentiilit ovat lähimmän sijan menetelmällä; keskiarvon 95 %:n luottamusväli on kiinteällä siemenluvulla (seed) laskettu persentiili-bootstrap)
+
+engine-advanced-report-tbl-chain-phases = Ketjun vaiheet
+
+engine-advanced-report-tbl-shared = Yhteiset olosuhteet
+
+engine-advanced-report-tbl-members = Jäsenet
+
+engine-advanced-report-tbl-combined = Yhdistetty jäsenten kesken
+
+engine-advanced-report-tbl-optimiser-best = Optimoijan paras (paikallinen optimi annetuilla rajoilla)
+
+engine-advanced-report-tbl-optimiser-trace = Optimoijan jälki
+
+engine-advanced-report-tbl-sweep-grid = Pyyhkäisyn ruudukko
+
+## src/altpnt/terrain.rs
+
+engine-altpnt-terrain-title-terrain-referenced = Maastoviitteinen navigointi (TERCOM/SITAN)
+
+engine-altpnt-terrain-title-gravity-map = Painovoimakarttaan sovitettu navigointi
+
+engine-altpnt-terrain-title-combined = Yhdistetty painovoima-, magneetti- ja maasto-alt-PNT
+
+engine-altpnt-terrain-free-inertial-drift = vapaa inertiaalinen ajelehtiminen
+
+engine-altpnt-terrain-terrain-matched = maastosovitettu
+
+engine-altpnt-terrain-gravity-matched = painovoimasovitettu
+
+engine-altpnt-terrain-gravity-only = vain painovoima
+
+engine-altpnt-terrain-magnetic-only = vain magneettikenttä
+
+engine-altpnt-terrain-terrain-only = vain maasto
+
+engine-altpnt-terrain-combined-fused = yhdistetty (fuusioitu)
+
+## src/api.rs
+
+engine-api-chart-provenance-footer = Kshana v{ $version } · skenaario { $hash } · kshana.dev
+
+## src/attack_surface.rs
+
+engine-attack-surface-chart-title = Kuun signaaliturvallisuuden hyökkäyspinta (P1)
+
+## src/body_pnt.rs
+
+engine-body-pnt-chart-relays-in-view = näkyvissä olevat releet
+
+engine-body-pnt-chart-count = lukumäärä
+
+engine-body-pnt-chart-formal-one-sigma-position = muodollinen yhden sigman paikka (log10 m): sininen vain satelliittitähdistö, keltainen Maa-etäisyyden kanssa
+
+engine-body-pnt-chart-time-since-epoch = aika epookista, 0–{ $t_max } s
+
+## src/campaign.rs
+
+engine-campaign-chart-clock-time-error-vs-guard = kellon aikavirhe vs. suoja-aika (ns)
+
+engine-campaign-chart-cn0-vs-tracking-floor = C/N0 vs. seurantakynnys (dB-Hz)
+
+engine-campaign-chart-protection-level-vs-alert-limit = suojaustaso vs. hälytysraja (m)
+
+engine-campaign-chart-position-error-vs-threshold = paikkavirhe vs. kynnys (m)
+
+engine-campaign-chart-satellites-tracking = seurattavat satelliitit
+
+engine-campaign-chart-alarm-flags-and-events = hälytyslaput ja tapahtumat
+
+engine-campaign-chart-mission-time = tehtäväaika { $duration } s
+
+engine-campaign-chart-sweep-percentile-band = , mediaani ja 5.–95. persentiilin kaista { $n_runs } siemenluvulla (seed)
+
+engine-campaign-chart-sweep-line-at = { $name } ({ $unit }) kohdassa { $lead }
+
+engine-campaign-chart-monte-carlo-of = Lajin `{ $scenario_kind }` Monte Carlo: { $n_runs } siemenlukua (seed) alkaen arvosta { $base_seed } (5., 50., 95. persentiili; palkki = keskiarvon bootstrap-95 %:n luottamusväli)
+
+engine-campaign-chart-composed-members = yhteisissä olosuhteissa koostetut jäsenet: { $shared }
+
+## src/cislunar_arc_recovery.rs
+
+engine-cislunar-arc-recovery-chart-title = Kuunläheisen kaaren pituuden palautus — estimaattori, joka ei jaa jakobiaaneja
+
+engine-cislunar-arc-recovery-chart-subtitle = differenssipohjainen eräpienimmän neliösumman menetelmä · mitattu tilan palautusvirhe · ei analyyttistä jakobiaania, ei variaatio-STM:ää, ei SVD-asteen toleranssia
+
+engine-cislunar-arc-recovery-chart-bound = raja { $bound }
+
+engine-cislunar-arc-recovery-chart-gramian-rank-threshold = Gramin matriisin asteen kynnys
+
+engine-cislunar-arc-recovery-chart-monte-carlo-rms = Monte Carlo -menetelmän RMS-paikanpalautusvirhe (km)
+
+engine-cislunar-arc-recovery-chart-noise-free-worst-ratio = kohinaton huonoin palautussuhde (loppuvirhe / siirtymä)
+
+## src/cislunar_observability.rs
+
+engine-cislunar-observability-chart-title = Kuunläheinen havaittavuus seurantakaaren yli (P6)
+
+engine-cislunar-observability-chart-subtitle = aste vs. kaari (vain etäisyys, yksi linkki) · Gramin matriisin ominaisarvospektri · differentiaalikorjatut DRO-alkuehdot + SRIF-ristiintarkistus · { $modelled } suunnittelu, { $validated } aste/STM/sulkeutuminen
+
+engine-cislunar-observability-chart-observable-rank = havaittava aste vs. kaaren pituus
+
+engine-cislunar-observability-chart-arc-length = kaaren pituus (pyörivän koordinaatiston aikayksiköt, yhteensä { $arc_hours } h)
+
+engine-cislunar-observability-chart-gramian-eigenvalues = Gramin matriisin ominaisarvot (log10)
+
+engine-cislunar-observability-chart-condition = ehtoluku κ = { $condition }
+
+## src/conflict_resilience.rs
+
+engine-conflict-resilience-chart-title = Kerrostetun PNT:n konfliktikestävyys (P7)
+
+engine-conflict-resilience-chart-subtitle = kokonaishäviö vs. uhan voimakkuus (MC vs. suljettu muoto) · kestävyyssuhde vs. estokorrelaatio · { $modelled } priorit, { $validated } MC->suljettu muoto / kopulan reunajakaumat
+
+engine-conflict-resilience-chart-total-loss-probability = kokonaishäviön todennäköisyys vs. voimakkuus
+
+engine-conflict-resilience-chart-threat-intensity = uhan voimakkuus
+
+engine-conflict-resilience-chart-layered-mc = kerrostettu MC
+
+engine-conflict-resilience-chart-single-layer = yksittäinen kerros
+
+engine-conflict-resilience-chart-resilience-ratio = kestävyyssuhde vs. estokorrelaatio
+
+engine-conflict-resilience-chart-denial-correlation = estokorrelaatio ρ
+
+## src/constellation.rs
+
+engine-constellation-chart-availability-pct = saatavuus (%)
+
+engine-constellation-chart-mean-pdop = keskimääräinen PDOP
+
+## src/earth_gnss_lunar.rs
+
+engine-earth-gnss-lunar-chart-title = Maa-GNSS Kuun etäisyydellä — C/N0 suhteessa keilan akselista poikkeamaan
+
+engine-earth-gnss-lunar-chart-track-threshold = seuranta { $threshold } dB-Hz
+
+engine-earth-gnss-lunar-chart-earth-limb = Maan reuna { $angle }°
+
+engine-earth-gnss-lunar-chart-off-boresight-angle = poikkeama keilan akselista (deg)
+
+engine-earth-gnss-lunar-chart-cn0 = C/N0 (dB-Hz)
+
+engine-earth-gnss-lunar-chart-legend = kulta = seurattavissa · punainen = liian heikko · harmaa = Maan peittämä · { $modelled } lähetyskuvio
+
+## src/ensemble.rs
+
+engine-ensemble-chart-title = Kellon holdover: aikavirheen luottamuskaista ({ $n_runs } ajoa)
+
+engine-ensemble-chart-timing-error-ns = aikavirhe (ns)
+
+engine-ensemble-chart-spec-threshold = vaatimus { $threshold } ns
+
+engine-ensemble-chart-time-s = aika (s)
+
+engine-ensemble-chart-classical-median-band = klassinen: { $id } (mediaani, 5–95 %:n kaista)
+
+engine-ensemble-chart-quantum-median-band = kvantti: { $id } (mediaani, 5–95 %:n kaista)
+
+## src/frame_eop.rs
+
+engine-frame-eop-chart-title = Reaaliaikainen koordinaatiston/EOP:n ennustebudjetti Kuun ajanmääritykselle
+
+engine-frame-eop-chart-ut1-error-ms = UT1-virhe (ms)
+
+engine-frame-eop-chart-position-at-moon-m = paikka Kuussa (m)
+
+engine-frame-eop-chart-equiv-timing-ns = vastaava ajoitus (ns)
+
+engine-frame-eop-chart-prediction-horizon-days = ennustehorisontti (päivää)
+
+engine-frame-eop-chart-iers-final-floor = IERS:n lopullinen alaraja { $floor_ms } ms
+
+engine-frame-eop-chart-marker-at-moon = ~{ $ut1_ms } ms = ~{ $pos_m } m Kuussa
+
+engine-frame-eop-chart-growth = ~{ $factor }x, 1 d→{ $far_days } d
+
+## src/fusion/hybrid_ukf.rs
+
+engine-fusion-hybrid-ukf-chart-title = 17-tilainen hybridi-UKF — suotimen sisäinen johdonmukaisuus (mallinnettu)
+
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + innovaation valkoisuus vs. 95 %:n χ²-kaistat; 1.0 = johdonmukainen. Sisäinen johdonmukaisuus, ei tarkkuutta.
+
+engine-fusion-hybrid-ukf-chart-target = tavoite 1.0
+
+engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (valkoisuus)
+
+## src/fusion/pack.rs
+
+engine-fusion-pack-chart-title = Löyhästi kytketty GNSS/INS-vaakavirhe
+
+engine-fusion-pack-chart-horizontal-error-m = vaakavirhe (m)
+
+engine-fusion-pack-chart-spec-threshold = vaatimus { $threshold } m
+
+## src/geometry.rs
+
+engine-geometry-chart-title = Taivaskaavio ({ $label })
+
+engine-geometry-chart-satellite-tooltip = { $system } { $id } az { $az } el { $el }
+
+engine-geometry-chart-satellite-tooltip-hidden = { $system } { $id } az { $az } el { $el } (horisontin peittämä)
+
+engine-geometry-chart-satellite-tooltip-below-mask = { $system } { $id } az { $az } el { $el } (maskin alapuolella)
+
+engine-geometry-chart-no-fix = ei paikkaratkaisua
+
+engine-geometry-chart-in-view-hidden = näkyvissä { $n_visible }, horisontin peittämiä { $n_masked } · { $dop } · ontto: ei näkyvissä
+
+engine-geometry-chart-satellites-as-given = satelliitit annettuina
+
+engine-geometry-chart-representative-sky = edustava taivas, ei päivätty
+
+engine-geometry-chart-footer = Kshana v{ $version } · geometria ilmoitetun virhemallin alla · kshana.dev
+
+## src/gnss_sim.rs
+
+engine-gnss-sim-chart-title = RAIM-suojaustasot vs. hälytysrajat
+
+engine-gnss-sim-chart-protection-level-m = suojaustaso (m)
+
+## src/holdover_test.rs
+
+engine-holdover-test-not-recovered-within-record = ; ei palautunut tallenteen aikana
+
+engine-holdover-test-chart-title = Holdover-testi: aikavirhe vaiheittain
+
+engine-holdover-test-chart-y-title = |aikavirhe| (ns)
+
+engine-holdover-test-chart-panel-caption = aikavirheen itseisarvo; holdover-vaihe varjostettu; katkoviivat ovat aikavirhebudjetit
+
+engine-holdover-test-chart-gnss-removed = GNSS poistettu
+
+engine-holdover-test-chart-gnss-restored = GNSS palautettu
+
+engine-holdover-test-chart-time-axis = aika tallenteen akselilla ({ $min } min)
+
+## src/hybrid.rs
+
+engine-hybrid-chart-title = Hybridi-PNT:n vaatimuksen käyttöaste GNSS-katkon aikana (1.0 = vaatimus)
+
+engine-hybrid-chart-y-title = vaatimuksen käyttöaste
+
+engine-hybrid-chart-spec-line = vaatimus (1.0)
+
+engine-hybrid-chart-classical-suite = klassinen sarja
+
+engine-hybrid-chart-quantum-suite = kvanttisarja
+
+## src/hybrid_integrity.rs
+
+engine-hybrid-integrity-chart-availability = saatavuus
+
+engine-hybrid-integrity-chart-precision = toistotarkkuus
+
+engine-hybrid-integrity-chart-integrity = eheys
+
+engine-hybrid-integrity-chart-joint-indep = yhteinen (riippumaton)
+
+engine-hybrid-integrity-chart-joint-corr = yhteinen (korreloiva)
+
+engine-hybrid-integrity-chart-title = Hybridi optinen + RF PNT:n yhteinen ansioluku
+
+engine-hybrid-integrity-chart-subtitle = P(saatavilla JA toistotarkkuusluokka JA eheys varmistettu)
+
+## src/inertial/mod.rs
+
+engine-inertial-chart-title = Dead-reckoning-paikkavirhe GNSS-katkon aikana
+
+engine-inertial-chart-y-title = paikkavirhe (m)
+
+engine-inertial-chart-spec-line = vaatimus { $m } m
+
+engine-inertial-chart-classical = klassinen: { $id }
+
+engine-inertial-chart-quantum = kvantti: { $id }
+
+## src/iq/campaign/report.rs
+
+engine-iq-campaign-report-roc-aria-label = Havaitsemisen ROC valvojaa kohti
+
+engine-iq-campaign-report-roc-x-title = P_fa (negatiivista ikkunaa kohti)
+
+engine-iq-campaign-report-curve-aria-label = C/N0:n heikkeneminen suhteessa ilmoitettuun J/S-arvoon: { $rec } tapahtuma { $ev }
+
+engine-iq-campaign-report-curve-x-title = ilmoitettu J/S (dB)
+
+engine-iq-campaign-report-curve-y-title = C/N0:n heikkeneminen (dB)
+
+engine-iq-campaign-report-curve-model-tooltip = { $label }: SSC-vertailu, Q = { $q }
+
+engine-iq-campaign-report-curve-model-legend = { $label }-vertailu (Q = { $q })
+
+engine-iq-campaign-report-curve-more-series = +{ $n } lisäsarjaa tulostaulukossa
+
+engine-iq-campaign-report-curve-point-tooltip = { $fe } / { $d }: J/S { $x } dB, mitattu heikkeneminen { $y } dB
+
+engine-iq-campaign-report-curve-measured-legend = { $fe } / { $d } (mitattu)
+
+## src/jamming.rs
+
+engine-jamming-chart-title = Näkyvät vs. seurattavat satelliitit häirinnän (jamming) aikana
+
+engine-jamming-chart-y-title = satelliitit
+
+engine-jamming-chart-four-sv-fix = 4 SV:n paikkaratkaisu
+
+engine-jamming-chart-visible = näkyvissä
+
+engine-jamming-chart-tracking = seurannassa
+
+## src/leo_fusion/ntn.rs
+
+engine-leo-fusion-ntn-chart-title = 5G NTN -paikannus: Cramér–Rao-etäisyysraja kaistanleveyden mukaan
+
+engine-leo-fusion-ntn-chart-caption = etäisyyden yksi sigma (log10 m): palkki = maskista zeniittiin C/N0; piste = 3D-paikkaratkaisun RMS-virhe
+
+## src/leo_fusion/ppp.rs
+
+engine-leo-fusion-ppp-chart-title = PPP:n konvergenssi LEO-täydennyksellä
+
+engine-leo-fusion-ppp-chart-caption = vaakavirheen mediaani (log10 m) minuutteja vastaan
+
+## src/leo_fusion/pvt_kind.rs
+
+engine-leo-fusion-pvt-kind-chart-doppler-caption = 3D-Doppler-paikkaratkaisun virhe (log10 m) suhteessa ikkunan pituuteen
+
+engine-leo-fusion-pvt-kind-chart-doppler-x-label = ikkuna (s)
+
+engine-leo-fusion-pvt-kind-chart-joint-caption = PDOP:n (sininen) ja VDOP:n (keltainen) mediaani, log10, suhteessa lisättyihin LEO-satelliitteihin
+
+engine-leo-fusion-pvt-kind-chart-joint-x-label = lisätyt LEO-satelliitit
+
+engine-leo-fusion-pvt-kind-chart-polar-caption = VDOP:n mediaani (log10): harmaa GNSS, sininen LEO, keltainen fuusioitu
+
+engine-leo-fusion-pvt-kind-chart-polar-x-label = leveysaste (deg)
+
+engine-leo-fusion-pvt-kind-chart-timing-caption = RMS-aikavirhe UTC:hen (log10 ns) suhteessa C/N0-siirtymään, yksi viiva oskillaattoria kohti
+
+engine-leo-fusion-pvt-kind-chart-timing-x-label = C/N0-siirtymä (dB)
+
+engine-leo-fusion-pvt-kind-chart-x-range = { $label }: { $x0 }–{ $x1 }
+
+## src/leo_navmsg/mod.rs
+
+engine-leo-navmsg-chart-title = LEO-navigointiviesti: SISRE vs. sovitusväli
+
+engine-leo-navmsg-chart-no-trade-encode-decode = Tässä ajossa ei kompromissia; koodaus- ja dekoodaustaulukot sekä budjettitaulukot ovat tiedostossa result.json.
+
+engine-leo-navmsg-chart-no-fit-interval-trade = Tässä ajossa ei sovitusvälin kompromissia; katso result.json.
+
+engine-leo-navmsg-chart-caption = pelkän radan SISRE RMS (m, logaritminen asteikko) vs. sovitusväli (s)
+
+## src/leo_pass.rs
+
+engine-leo-pass-chart-title = LEO-ohitus: C/N0 kaistaa kohti ja Doppler
+
+engine-leo-pass-chart-cn0-caption = C/N0 (dB-Hz, 20–80): LEO-kaistat värillisinä, GNSS harmaana
+
+engine-leo-pass-chart-time-axis = aika epookista, 0–{ $s } s
+
+## src/leo_pnt_chain.rs
+
+engine-leo-pnt-chain-chart-subtitle = signaalisuunnittelu -> ohituksen C/N0 ja koodijitteri -> viestin SISRE -> fuusioitu paikkaratkaisu · { $label }
+
+engine-leo-pnt-chain-chart-cn0-caption = Seurattavan komponentin C/N0 ohituksen aikana (dB-Hz, 20–80)
+
+## src/leo_signal.rs
+
+engine-leo-signal-chart-title = LEO-PNT-signaalisuunnitelmat
+
+engine-leo-signal-chart-psd-axis = siirtymä ±0,6 × lähetyskaistanleveys; 0 – −50 dB kunkin huipun alapuolella
+
+engine-leo-signal-chart-jitter-caption = koodijitteri (m, logaritminen asteikko) vs. kokonais-C/N0 (dB-Hz)
+
+## src/main.rs
+
+engine-main-fail = virhe: { $e }
+
 ## plural forms
 
 engine-e-araim-reference-the-priors-need-subsets-of =

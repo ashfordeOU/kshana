@@ -7435,6 +7435,642 @@ engine-wasm-options-json-is-not-json = options_json ei ole JSON: { $e }
 
 engine-wasm-input-is-about-bytes-over = sisend on umbes { $b64 } baiti, üle piiri { $v2 } baiti
 
+## src/altpnt/sequential.rs
+
+engine-altpnt-sequential-title = Järjestikune reljeefipõhine navigatsioon (rekursiivne SITAN)
+
+engine-altpnt-sequential-free-inertial-drift-grows = vaba inertsiaalne triiv (kasvab)
+
+engine-altpnt-sequential-terrain-matched-bounded = reljeefiga sobitatud (piiratud)
+
+engine-altpnt-sequential-waypoint-full-scale = teekonnapunkt →    skaala lõpp { $maxv } m
+
+## src/advanced_report.rs
+
+engine-advanced-report-eyebrow = Kshana käivituse aruanne
+
+engine-advanced-report-meta = Liik <code>{ $kind }</code> · mootor { $engine } · stsenaarium <code>{ $scenario }</code> (faili räsi { $digest }…)
+
+engine-advanced-report-toc-summary = 1 Kokkuvõte
+
+engine-advanced-report-toc-inputs = 2 Sisendid
+
+engine-advanced-report-toc-results = 3 Tulemused
+
+engine-advanced-report-toc-aggregation = 3a Koondamine
+
+engine-advanced-report-toc-companions = 3b Animatsioon ja ekspordid
+
+engine-advanced-report-toc-events = 4 Sündmused
+
+engine-advanced-report-toc-labels = 5 Verifitseerimismärgised
+
+engine-advanced-report-toc-not-modelled = 6 Modelleerimata
+
+engine-advanced-report-toc-reproducibility = 7 Reprodutseeritavus
+
+engine-advanced-report-h-summary = 1. Kokkuvõte juhtidele
+
+engine-advanced-report-honesty-label = <strong>Ausameelsusmärgis</strong> ({ $source }): { $label }
+
+engine-advanced-report-capabilities-used = <strong>Kasutatud võimekused:</strong> { $n_validated } VALIDATED, { $n_modelled } MODELLED, { $n_partner } PARTNER (toetutud, mitte pakutud); vt jaotist 5.
+
+engine-advanced-report-member-runs = <strong>Liikmekäivitused:</strong> { $n }, koondatud jaotises 3a.
+
+engine-advanced-report-h-inputs = 2. Sisendid
+
+engine-advanced-report-inputs-note = Iga stsenaariumifailis määratud väli, tasandatud oma teeni. Ühikud pärinevad tulemuse plokist <code>units</code> (väljaühikute skeem, docs/field-units-schema.json), kui see välja kirjeldab, muidu välja nime järelliitest; ühik, mida kumbki ei esita, kuvatakse kui esitamata.
+
+engine-advanced-report-th-parameter = Parameeter
+
+engine-advanced-report-th-value = Väärtus
+
+engine-advanced-report-th-unit = Ühik
+
+engine-advanced-report-th-unit-source = Ühiku allikas
+
+engine-advanced-report-h-results = 3. Tulemused
+
+engine-advanced-report-chart-alt = Tulemuste diagramm
+
+engine-advanced-report-also-written-to = { " " }(kirjutatud ka faili { $file })
+
+engine-advanced-report-h-scalars = Skalaarsed tulemused
+
+engine-advanced-report-h-columns = Arvulised veerud
+
+engine-advanced-report-th-result = Tulemus
+
+engine-advanced-report-th-column = Veerg
+
+engine-advanced-report-th-count = Arv
+
+engine-advanced-report-th-min = Min
+
+engine-advanced-report-th-max = Max
+
+engine-advanced-report-th-first = Esimene
+
+engine-advanced-report-th-last = Viimane
+
+engine-advanced-report-omitted-inputs = <p class="note">Selle lehe alt on välja jäetud { $n } sisendit; report.json loetleb samu ridu ja tulemusdokument sisaldab kõiki väärtusi.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-scalars = <p class="note">Selle lehe alt on välja jäetud { $n } skalaarset tulemust; report.json loetleb samu ridu ja tulemusdokument sisaldab kõiki väärtusi.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-columns = <p class="note">Selle lehe alt on välja jäetud { $n } arvulist veergu; report.json loetleb samu ridu ja tulemusdokument sisaldab kõiki väärtusi.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-events = <p class="note">Selle lehe alt on välja jäetud { $n } sündmust; report.json loetleb samu ridu ja tulemusdokument sisaldab kõiki väärtusi.</p>{ "\u000A" }
+
+engine-advanced-report-h-aggregation = 3a. Liikmekäivituste koondamine
+
+engine-advanced-report-mode = <p>Režiim <strong>{ $mode }</strong>.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind = <p>Režiim <strong>{ $mode }</strong> liigi <code>{ $kind }</code> üle.</p>{ "\u000A" }
+
+engine-advanced-report-mode-runs = <p>Režiim <strong>{ $mode }</strong>, liikmekäivituste arv: { $n_runs }.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind-runs = <p>Režiim <strong>{ $mode }</strong> liigi <code>{ $kind }</code> üle, liikmekäivituste arv: { $n_runs }.</p>{ "\u000A" }
+
+engine-advanced-report-run-digest = Käivituse räsi (SHA-256 liikmetulemuste räside üle, väljastamise järjekorras): <code>{ $digest }</code>
+
+engine-advanced-report-table-empty = Selles tabelis pole ridu: tulemus ei loetle ühtegi.
+
+engine-advanced-report-distribution-caption = Suuruse { $metric } Monte Carlo jaotus (valimeid: { $n }), 20 võrdse laiusega klassi; katkendjooned tähistavad 5., 50. ja 95. protsentiili.
+
+engine-advanced-report-distribution-caption-unit = Suuruse { $metric } Monte Carlo jaotus (valimeid: { $n }, { $unit }), 20 võrdse laiusega klassi; katkendjooned tähistavad 5., 50. ja 95. protsentiili.
+
+engine-advanced-report-h-companions = 3b. Animatsioon ja ekspordid
+
+engine-advanced-report-animation-alt = Käivituse aegrea animatsioon
+
+engine-advanced-report-animation-caption = Käivituse enda valimid joonistuvad liikuva ajakursori taha (käsu <code>--animate svg</code> animeeritud joonistus; vähendatud liikumise korral ja printimisel näitab see valmis pilti).
+
+engine-advanced-report-no-animation = Animatsiooni pole: { $reason }
+
+engine-advanced-report-no-animation-default = tulemus ei sisalda aegrida
+
+engine-advanced-report-player-written-by = Interaktiivse mängija kirjutab <code>{ $command }</code>.
+
+engine-advanced-report-written-beside = Kirjutatud selle aruande kõrvale: { $links }.
+
+engine-advanced-report-th-export = Eksport
+
+engine-advanced-report-th-applies = Kohaldub
+
+engine-advanced-report-th-files-or-reason = Failid või põhjus
+
+engine-advanced-report-written-by = kirjutab <code>{ $command }</code>
+
+engine-advanced-report-does-not-apply = ei kohaldu
+
+engine-advanced-report-yes = jah
+
+engine-advanced-report-no = ei
+
+engine-advanced-report-h-events = 4. Sündmuste ajajoon
+
+engine-advanced-report-events-caption = Aknad ribadena, punktsündmused punktidena, käivituse enda ajateljel.
+
+engine-advanced-report-th-start = Algus (s)
+
+engine-advanced-report-th-end = Lõpp (s)
+
+engine-advanced-report-th-event = Sündmus
+
+engine-advanced-report-th-source = Allikas
+
+engine-advanced-report-point-event = punktsündmus
+
+engine-advanced-report-events-timeline = Sündmuste ajajoon
+
+engine-advanced-report-point-events = punktsündmused ({ $n })
+
+engine-advanced-report-distribution-of = Suuruse { $metric } jaotus
+
+engine-advanced-report-max-bin = suurim klass { $n }
+
+engine-advanced-report-h-labels = 5. Verifitseerimismärgised
+
+engine-advanced-report-th-capability = Võimekus (maatriksi nõue)
+
+engine-advanced-report-th-label = Märgis
+
+engine-advanced-report-th-used-by = Kasutaja
+
+engine-advanced-report-th-oracle = Allikas: oraakel
+
+engine-advanced-report-th-test-evidence = Testitõendid
+
+engine-advanced-report-h-figure-tiers = Tulemuse esitatud näitajapõhised tasemed
+
+engine-advanced-report-th-figure = Näitaja
+
+engine-advanced-report-th-tier = Tase
+
+engine-advanced-report-th-matrix-requirement = Maatriksi nõue
+
+engine-advanced-report-th-applicable = Kohaldatav
+
+engine-advanced-report-no-attack = ei (rünnakut pole seadistatud)
+
+engine-advanced-report-h-not-modelled = 6. Modelleerimata asjad ja eeldused
+
+engine-advanced-report-not-modelled-note = Iga punkt on tsiteeritud sealt, kus see on esitatud: tulemusdokumendist, liikide kataloogist, stsenaariumifailist või verifitseerimismaatriksi põhjendusest, miks MODELLED rida jääb modelleerituks.
+
+engine-advanced-report-th-statement = Väide
+
+engine-advanced-report-h-reproducibility = 7. Reprodutseeritavuse kirje
+
+engine-advanced-report-rk-command = Reprodutseerimise käsk
+
+engine-advanced-report-rk-working-directory = Töökataloog
+
+engine-advanced-report-rk-engine-version = Mootori versioon
+
+engine-advanced-report-rk-source-commit = Lähtekoodi commit
+
+engine-advanced-report-rk-scenario-file = Stsenaariumifail
+
+engine-advanced-report-rk-scenario-sha = Stsenaariumifaili SHA-256 (Secure Hash Algorithm 256-bit)
+
+engine-advanced-report-rk-result-hash = Tulemuse scenario_hash
+
+engine-advanced-report-rk-result-sha = Tulemusdokumendi SHA-256
+
+engine-advanced-report-rk-seed = Algväärtus (seed)
+
+engine-advanced-report-rk-platform = Platvorm
+
+engine-advanced-report-rk-generated = Uuringu koostamise aeg (UTC)
+
+engine-advanced-report-rk-determinism = Determinism
+
+engine-advanced-report-result-hash-none = tulemusdokument ei esita ühtegi
+
+engine-advanced-report-print-note = Selle lehe printimiseks Portable Document Format (PDF) faili kasuta brauseri printimisdialoogi ja vali „Salvesta PDF-ina“; printimisstiil sobib A4- ja US Letter-paberile, kordab tabelipäiseid lehtede vahel ja alustab sisendite, tulemuste, märgiste ja reprodutseeritavuse jaotisi uuelt lehelt. Mootor ise PDF-i ei kirjuta. report.json sisaldab sama sisu mis see leht.
+
+engine-advanced-report-footer = Koostanud Kshana { $engine }.{ $stamp } Reprodutseeritav stsenaariumi + algväärtuse (seed) + mootori versiooni põhjal. Vaba ja avatud lähtekoodiga (GNU Affero General Public License, AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">lähtekood ja dokumentatsioon</a>.
+
+engine-advanced-report-empty-inputs = Stsenaarium ei määra ühtegi välja peale `kind`: liik käivitas oma etalonseadistuse dokumenteeritud vaikeväärtustega.
+
+engine-advanced-report-empty-scalars = Tulemusdokument ei sisalda ühtegi massiividest väljaspool olevat skalaari; selle arvud on allpool veergude kaupa kokku võetud.
+
+engine-advanced-report-empty-series = Tulemusdokument ei sisalda ühtegi arvmassiivi: iga tulemus on skalaar ülaltoodud tabelis.
+
+engine-advanced-report-empty-events = Ajastatud sündmusi pole: stsenaarium ei skriptiga ühtegi akent ega algusaega ja tulemus ei raporteeri sündmust. Liik hindab oma seadistust ühe juhtumina.
+
+engine-advanced-report-empty-not-modelled = Ei tulemus, liikide kataloog, stsenaarium ega kasutatud maatriksiread esita selle käivituse kohta modelleerimispiirangut.
+
+engine-advanced-report-capabilities-statement = Iga rida on verifitseerimismaatriksi rida, mida selle käivituse liigid rakendavad, koos märgise ja oraakliga, mille maatriks sellele annab (src/verification.rs, docs/VERIFICATION-MATRIX.md). Märgis hindab võimekust nii, nagu maatriks seda registreerib; see ei hinda selle stsenaariumi seadistust ja VALIDATED rida ei tee käivituse sisendeid mõõdetuks. PARTNER rida on distsipliin, millele käivitus toetub ja mida Kshana ei paku.
+
+engine-advanced-report-no-run-label = Tulemus ei sisalda käivitustaseme ausameelsusmärgist; kasutatud võimekuste verifitseerimismärgised on loetletud omaette jaotises ja näitajapõhised tasemed seal, kus tulemus need esitab.
+
+engine-advanced-report-no-seed = Ei stsenaarium ega tulemus sisalda algväärtust (seed). Tulemuse määravad ainult stsenaariumifail ja mootori järk; determinismitest käivitab uuesti iga kaasasoleva stsenaariumi ja nõuab baidi täpsuseni identset väljundit.
+
+engine-advanced-report-working-directory = Käivita käsk kataloogist, kust algne käivitus alustati: stsenaariumi tee ja kõik stsenaariumisisesed suhtelised andmeteed lahendatakse selle suhtes. Kontrolli esmalt stsenaariumifaili vastavust väärtusele scenario_sha256.
+
+engine-advanced-report-determinism-stamped = Samad stsenaariumi baidid, algväärtus (seed) ja mootori järk annavad sama tulemusdokumendi, välja arvatud selle meta.generated_utc tempel, mille --study-name kirjutab kellast; baidi täpsuseni identse väljundi saamiseks käivita ilma --study-name. Ujukomatulemused on fikseeritud platvormi kaupa; teine operatsioonisüsteem või arhitektuur võib erineda viimastes numbrites.
+
+engine-advanced-report-determinism-plain = Samad stsenaariumi baidid, algväärtus (seed) ja mootori järk annavad baidi täpsuseni identse tulemusdokumendi ja aruande; see aruanne ei sisalda ajatemplit. Ujukomatulemused on fikseeritud platvormi kaupa; teine operatsioonisüsteem või arhitektuur võib erineda viimastes numbrites.
+
+engine-advanced-report-not-applicable-no-attack = ei kohaldu (rünnakut pole seadistatud)
+
+engine-advanced-report-what-ran-default = Stsenaarium `{ $kind }`.
+
+engine-advanced-report-nothing-carried = midagi pole kaasas
+
+engine-advanced-report-tbl-sweep-nodes = Pühkimissõlmed
+
+engine-advanced-report-tbl-mc-summary = Monte Carlo jaotuse kokkuvõte (protsentiilid on lähima järgu meetodil; 95% usaldusvahemik keskmisele on fikseeritud algväärtusega (seed) protsentiili bootstrap)
+
+engine-advanced-report-tbl-chain-phases = Ahela faasid
+
+engine-advanced-report-tbl-shared = Ühised tingimused
+
+engine-advanced-report-tbl-members = Liikmed
+
+engine-advanced-report-tbl-combined = Liikmete üleselt kombineeritud
+
+engine-advanced-report-tbl-optimiser-best = Optimeerija parim (lokaalne optimum esitatud piirides)
+
+engine-advanced-report-tbl-optimiser-trace = Optimeerija jälg
+
+engine-advanced-report-tbl-sweep-grid = Pühkimisvõrk
+
+## src/altpnt/terrain.rs
+
+engine-altpnt-terrain-title-terrain-referenced = Reljeefipõhine navigatsioon (TERCOM/SITAN)
+
+engine-altpnt-terrain-title-gravity-map = Gravitatsioonikaardiga sobitatud navigatsioon
+
+engine-altpnt-terrain-title-combined = Kombineeritud gravitatsiooni + magnet- + reljeefipõhine alt-PNT
+
+engine-altpnt-terrain-free-inertial-drift = vaba inertsiaalne triiv
+
+engine-altpnt-terrain-terrain-matched = reljeefiga sobitatud
+
+engine-altpnt-terrain-gravity-matched = gravitatsiooniga sobitatud
+
+engine-altpnt-terrain-gravity-only = ainult gravitatsioon
+
+engine-altpnt-terrain-magnetic-only = ainult magnetväli
+
+engine-altpnt-terrain-terrain-only = ainult reljeef
+
+engine-altpnt-terrain-combined-fused = kombineeritud (liidetud)
+
+## src/api.rs
+
+engine-api-chart-provenance-footer = Kshana v{ $version } · stsenaarium { $hash } · kshana.dev
+
+## src/attack_surface.rs
+
+engine-attack-surface-chart-title = Kuu signaaliturbe ründepind (P1)
+
+## src/body_pnt.rs
+
+engine-body-pnt-chart-relays-in-view = nähtavad releed
+
+engine-body-pnt-chart-count = arv
+
+engine-body-pnt-chart-formal-one-sigma-position = formaalne ühe sigma asukoht (log10 m): sinine ainult satelliidikonstellatsioon, merevaigukollane koos Maa vahemaaga
+
+engine-body-pnt-chart-time-since-epoch = aeg epohhist, 0 kuni { $t_max } s
+
+## src/campaign.rs
+
+engine-campaign-chart-clock-time-error-vs-guard = kella ajaviga vs kaitsevaru (ns)
+
+engine-campaign-chart-cn0-vs-tracking-floor = C/N0 vs jälgimisalumine piir (dB-Hz)
+
+engine-campaign-chart-protection-level-vs-alert-limit = kaitsetase vs häirepiir (m)
+
+engine-campaign-chart-position-error-vs-threshold = asukohaviga vs lävi (m)
+
+engine-campaign-chart-satellites-tracking = jälgitavad satelliidid
+
+engine-campaign-chart-alarm-flags-and-events = häirelipud ja sündmused
+
+engine-campaign-chart-mission-time = missiooniaeg { $duration } s
+
+engine-campaign-chart-sweep-percentile-band = , mediaan koos 5.–95. protsentiili ribaga { $n_runs } algväärtuse (seed) üle
+
+engine-campaign-chart-sweep-line-at = { $name } ({ $unit }) kohal { $lead }
+
+engine-campaign-chart-monte-carlo-of = `{ $scenario_kind }` Monte Carlo: { $n_runs } algväärtust (seed) alates { $base_seed } (5., 50., 95. protsentiil; ribi = keskmise bootstrap 95% usaldusvahemik)
+
+engine-campaign-chart-composed-members = ühiste tingimuste all koostatud liikmed: { $shared }
+
+engine-campaign-chart-not-available = n/a
+
+## src/cislunar_arc_recovery.rs
+
+engine-cislunar-arc-recovery-chart-title = Tsislunaarse kaare pikkuse taastamine — hindaja, mis ei jaga Jacobi maatrikseid
+
+engine-cislunar-arc-recovery-chart-subtitle = lõplike vahede partii vähimruudud · mõõdetud olekutaastuse viga · ilma analüütilise Jacobi maatriksita, ilma variatsioonilise STM-ita, ilma SVD astaklävi tolerantsita
+
+engine-cislunar-arc-recovery-chart-bound = tõke { $bound }
+
+engine-cislunar-arc-recovery-chart-gramian-rank-threshold = Grami maatriksi astaklävi
+
+engine-cislunar-arc-recovery-chart-monte-carlo-rms = Monte Carlo RMS asukohataastuse viga (km)
+
+engine-cislunar-arc-recovery-chart-noise-free-worst-ratio = müravaba halvim taastussuhe (lõppviga / nihe)
+
+## src/cislunar_observability.rs
+
+engine-cislunar-observability-chart-title = Tsislunaarne vaadeldavus jälgimiskaare ulatuses (P6)
+
+engine-cislunar-observability-chart-subtitle = aste vs kaar (ainult vahemaa, üks link) · Grami maatriksi omaspekter · diferentsiaalselt korrigeeritud DRO ICs + SRIF ristkontroll · { $modelled } kavand, { $validated } aste/STM/sulgumine
+
+engine-cislunar-observability-chart-observable-rank = vaadeldav aste vs kaare pikkus
+
+engine-cislunar-observability-chart-arc-length = kaare pikkus (pöörleva taustsüsteemi ajaühikud, kokku { $arc_hours } h)
+
+engine-cislunar-observability-chart-gramian-eigenvalues = Grami maatriksi omaväärtused (log10)
+
+engine-cislunar-observability-chart-condition = tinglikkus κ = { $condition }
+
+## src/conflict_resilience.rs
+
+engine-conflict-resilience-chart-title = Kihilise PNT konfliktikindlus (P7)
+
+engine-conflict-resilience-chart-subtitle = täielik kadu vs ohu intensiivsus (MC vs suletud kuju) · vastupidavussuhe vs keelamise korrelatsioon · { $modelled } eeljaotust, { $validated } MC->suletud kuju / koopula servjaotused
+
+engine-conflict-resilience-chart-total-loss-probability = täieliku kao tõenäosus vs intensiivsus
+
+engine-conflict-resilience-chart-threat-intensity = ohu intensiivsus
+
+engine-conflict-resilience-chart-layered-mc = kihiline MC
+
+engine-conflict-resilience-chart-single-layer = üks kiht
+
+engine-conflict-resilience-chart-resilience-ratio = vastupidavussuhe vs keelamise korrelatsioon
+
+engine-conflict-resilience-chart-denial-correlation = keelamise korrelatsioon ρ
+
+## src/constellation.rs
+
+engine-constellation-chart-availability-pct = kättesaadavus (%)
+
+engine-constellation-chart-mean-pdop = keskmine PDOP
+
+## src/earth_gnss_lunar.rs
+
+engine-earth-gnss-lunar-chart-title = Maa GNSS Kuu kaugusel — C/N0 vs telgemaarne nurk
+
+engine-earth-gnss-lunar-chart-track-threshold = jälgimine { $threshold } dB-Hz
+
+engine-earth-gnss-lunar-chart-earth-limb = Maa serv { $angle }°
+
+engine-earth-gnss-lunar-chart-off-boresight-angle = telgemaarne nurk (deg)
+
+engine-earth-gnss-lunar-chart-cn0 = C/N0 (dB-Hz)
+
+engine-earth-gnss-lunar-chart-legend = kuldne = jälgitav · punane = liiga nõrk · hall = Maa poolt varjatud · { $modelled } saatemuster
+
+## src/ensemble.rs
+
+engine-ensemble-chart-title = Kella holdover (aja hoidmine ilma välise etalonita): ajavea usaldusriba (käivitusi: { $n_runs })
+
+engine-ensemble-chart-timing-error-ns = ajaviga (ns)
+
+engine-ensemble-chart-spec-threshold = spets { $threshold } ns
+
+engine-ensemble-chart-time-s = aeg (s)
+
+engine-ensemble-chart-classical-median-band = klassikaline: { $id } (mediaan, 5–95% riba)
+
+engine-ensemble-chart-quantum-median-band = kvant: { $id } (mediaan, 5–95% riba)
+
+## src/frame_eop.rs
+
+engine-frame-eop-chart-title = Reaalajas taustsüsteemi / EOP prognoosi eelarve Kuu ajastuse jaoks
+
+engine-frame-eop-chart-ut1-error-ms = UT1 viga (ms)
+
+engine-frame-eop-chart-position-at-moon-m = asukoht Kuul (m)
+
+engine-frame-eop-chart-equiv-timing-ns = samaväärne ajastus (ns)
+
+engine-frame-eop-chart-prediction-horizon-days = prognoosihorisont (päeva)
+
+engine-frame-eop-chart-iers-final-floor = IERS lõplik alampiir { $floor_ms } ms
+
+engine-frame-eop-chart-marker-at-moon = ~{ $ut1_ms } ms = ~{ $pos_m } m Kuul
+
+engine-frame-eop-chart-growth = ~{ $factor }x, 1 d→{ $far_days } d
+
+## src/fusion/hybrid_ukf.rs
+
+engine-fusion-hybrid-ukf-chart-title = 17-olekuline hübriid-UKF — filtri enesekooskõla (modelleeritud)
+
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + innovatsiooni valgus vs 95% χ² ribad; 1.0 = kooskõlas. Enesekooskõla, mitte täpsus.
+
+engine-fusion-hybrid-ukf-chart-target = siht 1.0
+
+engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (valgus)
+
+engine-fusion-hybrid-ukf-chart-nees = NEES
+
+## src/fusion/pack.rs
+
+engine-fusion-pack-chart-title = Lõdvalt seotud GNSS/INS horisontaalviga
+
+engine-fusion-pack-chart-horizontal-error-m = horisontaalviga (m)
+
+engine-fusion-pack-chart-spec-threshold = spets { $threshold } m
+
+## src/geometry.rs
+
+engine-geometry-chart-title = Taevakaart ({ $label })
+
+engine-geometry-chart-satellite-tooltip = { $system } { $id } asimuut { $az } kõrgus { $el }
+
+engine-geometry-chart-satellite-tooltip-hidden = { $system } { $id } asimuut { $az } kõrgus { $el } (varjatud silmapiiri poolt)
+
+engine-geometry-chart-satellite-tooltip-below-mask = { $system } { $id } asimuut { $az } kõrgus { $el } (maski all)
+
+engine-geometry-chart-no-fix = lahendus puudub
+
+engine-geometry-chart-in-view-hidden = nähtav { $n_visible }, silmapiiri poolt varjatud { $n_masked } · { $dop } · õõnes: pole nähtav
+
+engine-geometry-chart-satellites-as-given = satelliidid nii, nagu antud
+
+engine-geometry-chart-representative-sky = esinduslik taevas, mitte dateeritud
+
+engine-geometry-chart-footer = Kshana v{ $version } · geomeetria esitatud veamudeli all · kshana.dev
+
+## src/gnss_sim.rs
+
+engine-gnss-sim-chart-title = RAIM kaitsetasemed vs häirepiirid
+
+engine-gnss-sim-chart-protection-level-m = kaitsetase (m)
+
+engine-gnss-sim-chart-val = VAL { $alert_v } m
+
+## src/holdover_test.rs
+
+engine-holdover-test-not-recovered-within-record = ; salvestuse jooksul ei taastunud
+
+engine-holdover-test-chart-title = Holdover-test (aja hoidmine ilma välise etalonita): ajaviga sammu kaupa
+
+engine-holdover-test-chart-y-title = |ajaviga| (ns)
+
+engine-holdover-test-chart-panel-caption = absoluutne ajaviga; holdover-i samm varjutatud; katkendjooned on ajavea eelarved
+
+engine-holdover-test-chart-gnss-removed = GNSS eemaldatud
+
+engine-holdover-test-chart-gnss-restored = GNSS taastatud
+
+engine-holdover-test-chart-time-axis = aeg salvestuse teljel ({ $min } min)
+
+## src/hybrid.rs
+
+engine-hybrid-chart-title = Hübriid-PNT spetsifikatsiooni kasutus GNSS-i katkestuse ajal (1.0 = spets)
+
+engine-hybrid-chart-y-title = spetsifikatsiooni kasutus
+
+engine-hybrid-chart-spec-line = spets (1.0)
+
+engine-hybrid-chart-classical-suite = klassikaline komplekt
+
+engine-hybrid-chart-quantum-suite = kvantkomplekt
+
+## src/hybrid_integrity.rs
+
+engine-hybrid-integrity-chart-availability = kättesaadavus
+
+engine-hybrid-integrity-chart-precision = korduvtäpsus
+
+engine-hybrid-integrity-chart-integrity = terviklikkus
+
+engine-hybrid-integrity-chart-joint-indep = ühine (sõltumatu)
+
+engine-hybrid-integrity-chart-joint-corr = ühine (korreleeritud)
+
+engine-hybrid-integrity-chart-title = Hübriid optilise + RF PNT-i ühine kvaliteedinäitaja
+
+engine-hybrid-integrity-chart-subtitle = P(kättesaadav JA korduvtäpsuse klass JA terviklikkus tagatud)
+
+## src/inertial/mod.rs
+
+engine-inertial-chart-title = Asukohaarvestuse asukohaviga GNSS-i katkestuse ajal
+
+engine-inertial-chart-y-title = asukohaviga (m)
+
+engine-inertial-chart-spec-line = spets { $m } m
+
+engine-inertial-chart-classical = klassikaline: { $id }
+
+engine-inertial-chart-quantum = kvant: { $id }
+
+## src/iq/campaign/report.rs
+
+engine-iq-campaign-report-roc-aria-label = Tuvastamise ROC jälgija kohta
+
+engine-iq-campaign-report-roc-x-title = P_fa (negatiivse akna kohta)
+
+engine-iq-campaign-report-curve-aria-label = C/N0 halvenemine vs esitatud J/S sündmuse { $ev } jaoks ({ $rec })
+
+engine-iq-campaign-report-curve-x-title = esitatud J/S (dB)
+
+engine-iq-campaign-report-curve-y-title = C/N0 halvenemine (dB)
+
+engine-iq-campaign-report-curve-model-tooltip = { $label }: SSC etalon, Q = { $q }
+
+engine-iq-campaign-report-curve-model-legend = { $label } etalon (Q = { $q })
+
+engine-iq-campaign-report-curve-more-series = +{ $n } rida skoorikaardi tabelis
+
+engine-iq-campaign-report-curve-point-tooltip = { $fe } / { $d }: J/S { $x } dB, mõõdetud halvenemine { $y } dB
+
+engine-iq-campaign-report-curve-measured-legend = { $fe } / { $d } (mõõdetud)
+
+## src/jamming.rs
+
+engine-jamming-chart-title = Nähtavad vs jälgitavad satelliidid segamise (jamming) all
+
+engine-jamming-chart-y-title = satelliidid
+
+engine-jamming-chart-four-sv-fix = 4-SV lahendus
+
+engine-jamming-chart-visible = nähtav
+
+engine-jamming-chart-tracking = jälgitav
+
+## src/leo_fusion/ntn.rs
+
+engine-leo-fusion-ntn-chart-title = 5G NTN positsioneerimine: Cramér-Rao vahemaapiir ribalaiuse kaupa
+
+engine-leo-fusion-ntn-chart-caption = vahemaa ühe sigma (log10 m): ribi = mask kuni seniit C/N0; punkt = RMS 3D lahenduse viga
+
+## src/leo_fusion/ppp.rs
+
+engine-leo-fusion-ppp-chart-title = PPP koondumine LEO täiendusega
+
+engine-leo-fusion-ppp-chart-caption = mediaanne horisontaalviga (log10 m) vs minutid
+
+engine-leo-fusion-ppp-chart-n-leo = { $n } LEO
+
+## src/leo_fusion/pvt_kind.rs
+
+engine-leo-fusion-pvt-kind-chart-doppler-caption = 3D Doppleri lahenduse viga (log10 m) vs akna pikkus
+
+engine-leo-fusion-pvt-kind-chart-doppler-x-label = aken (s)
+
+engine-leo-fusion-pvt-kind-chart-joint-caption = mediaanne PDOP (sinine) ja VDOP (merevaigukollane), log10, vs lisatud LEO satelliidid
+
+engine-leo-fusion-pvt-kind-chart-joint-x-label = lisatud LEO satelliidid
+
+engine-leo-fusion-pvt-kind-chart-polar-caption = mediaanne VDOP (log10): hall GNSS, sinine LEO, merevaigukollane liidetud
+
+engine-leo-fusion-pvt-kind-chart-polar-x-label = laiuskraad (deg)
+
+engine-leo-fusion-pvt-kind-chart-timing-caption = RMS ajaviga UTC suhtes (log10 ns) vs C/N0 nihe, üks joon ostsillaatori kohta
+
+engine-leo-fusion-pvt-kind-chart-timing-x-label = C/N0 nihe (dB)
+
+engine-leo-fusion-pvt-kind-chart-x-range = { $label }: { $x0 } kuni { $x1 }
+
+## src/leo_navmsg/mod.rs
+
+engine-leo-navmsg-chart-title = LEO navigatsioonisõnum: SISRE vs sobitusintervall
+
+engine-leo-navmsg-chart-no-trade-encode-decode = Selles käivituses kompromissi pole; kodeerimise/dekodeerimise ja eelarve tabeleid vt result.json.
+
+engine-leo-navmsg-chart-no-fit-interval-trade = Selles käivituses sobitusintervalli kompromissi pole; vt result.json.
+
+engine-leo-navmsg-chart-caption = ainult orbiidi SISRE RMS (m, logaritmiline skaala) vs sobitusintervall (s)
+
+## src/leo_pass.rs
+
+engine-leo-pass-chart-title = LEO ülelend: C/N0 sageduskiire kohta ja Doppler
+
+engine-leo-pass-chart-cn0-caption = C/N0 (dB-Hz, 20 kuni 80): LEO sageduskiired värviga, GNSS hallilt
+
+engine-leo-pass-chart-time-axis = aeg epohhist, 0 kuni { $s } s
+
+## src/leo_pnt_chain.rs
+
+engine-leo-pnt-chain-chart-subtitle = signaali kavand -> ülelennu C/N0 ja koodi värin -> sõnumi SISRE -> liidetud lahendus · { $label }
+
+engine-leo-pnt-chain-chart-cn0-caption = Jälgitud komponendi C/N0 ülelennu jooksul (dB-Hz, 20 kuni 80)
+
+engine-leo-pnt-chain-chart-not-available = n/a
+
+## src/leo_signal.rs
+
+engine-leo-signal-chart-title = LEO-PNT signaalikavandid
+
+engine-leo-signal-chart-psd-axis = nihe ±0.6 × saate ribalaiusest; 0 kuni −50 dB iga tipu all
+
+engine-leo-signal-chart-jitter-caption = koodi värin (m, logaritmiline skaala) vs kogu C/N0 (dB-Hz)
+
+## src/main.rs
+
+engine-main-fail = viga: { $e }
+
 ## plural forms
 
 engine-cislunar-observability-extension-r3-this-run-is =

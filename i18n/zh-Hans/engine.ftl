@@ -6837,6 +6837,594 @@ engine-wasm-options-json-is-not-json = options_json 不是 JSON：{ $e }
 
 engine-wasm-input-is-about-bytes-over = 输入约为 { $b64 } 字节，超过 { $v2 } 字节的上限
 
+engine-altpnt-sequential-title = 序贯地形参考导航（递推 SITAN）
+
+engine-altpnt-sequential-free-inertial-drift-grows = 自由惯性漂移（增长）
+
+engine-altpnt-sequential-terrain-matched-bounded = 地形匹配（有界）
+
+engine-altpnt-sequential-waypoint-full-scale = 航路点 →    满量程 { $maxv } m
+
+engine-advanced-report-eyebrow = Kshana 运行报告
+
+engine-advanced-report-meta = 类型 <code>{ $kind }</code> · 引擎 { $engine } · 场景 <code>{ $scenario }</code>（文件摘要 { $digest }…）
+
+engine-advanced-report-toc-summary = 1 摘要
+
+engine-advanced-report-toc-inputs = 2 输入
+
+engine-advanced-report-toc-results = 3 结果
+
+engine-advanced-report-toc-aggregation = 3a 汇总
+
+engine-advanced-report-toc-companions = 3b 动画与导出
+
+engine-advanced-report-toc-events = 4 事件
+
+engine-advanced-report-toc-labels = 5 验证标签
+
+engine-advanced-report-toc-not-modelled = 6 未建模内容
+
+engine-advanced-report-toc-reproducibility = 7 可复现性
+
+engine-advanced-report-h-summary = 1. 执行摘要
+
+engine-advanced-report-honesty-label = <strong>如实标签</strong>（{ $source }）：{ $label }
+
+engine-advanced-report-capabilities-used = <strong>所用能力：</strong>{ $n_validated } 项 VALIDATED，{ $n_modelled } 项 MODELLED，{ $n_partner } 项 PARTNER（依赖而非提供）；见第 5 节。
+
+engine-advanced-report-member-runs = <strong>成员运行：</strong>{ $n }，汇总见第 3a 节。
+
+engine-advanced-report-h-inputs = 2. 输入
+
+engine-advanced-report-inputs-note = 场景文件设置的每个字段，均展平为其路径。单位取自结果的 <code>units</code> 块（字段单位模式，docs/field-units-schema.json）中对该字段的描述，否则取自字段名后缀；两者均未给出的单位显示为未说明。
+
+engine-advanced-report-th-parameter = 参数
+
+engine-advanced-report-th-value = 值
+
+engine-advanced-report-th-unit = 单位
+
+engine-advanced-report-th-unit-source = 单位来源
+
+engine-advanced-report-h-results = 3. 结果
+
+engine-advanced-report-chart-alt = 结果图表
+
+engine-advanced-report-also-written-to = { " " }（亦写入 { $file }）
+
+engine-advanced-report-h-scalars = 标量结果
+
+engine-advanced-report-h-columns = 数值列
+
+engine-advanced-report-th-result = 结果
+
+engine-advanced-report-th-column = 列
+
+engine-advanced-report-th-count = 计数
+
+engine-advanced-report-th-min = 最小值
+
+engine-advanced-report-th-max = 最大值
+
+engine-advanced-report-th-first = 首个
+
+engine-advanced-report-th-last = 末个
+
+engine-advanced-report-omitted-inputs = <p class="note">本页省略了另外 { $n } 项输入；report.json 列出相同的行，结果文档载有每个值。</p>{ "\u000A" }
+
+engine-advanced-report-omitted-scalars = <p class="note">本页省略了另外 { $n } 项标量结果；report.json 列出相同的行，结果文档载有每个值。</p>{ "\u000A" }
+
+engine-advanced-report-omitted-columns = <p class="note">本页省略了另外 { $n } 个数值列；report.json 列出相同的行，结果文档载有每个值。</p>{ "\u000A" }
+
+engine-advanced-report-omitted-events = <p class="note">本页省略了另外 { $n } 个事件；report.json 列出相同的行，结果文档载有每个值。</p>{ "\u000A" }
+
+engine-advanced-report-h-aggregation = 3a. 成员运行汇总
+
+engine-advanced-report-mode = <p>模式 <strong>{ $mode }</strong>。</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind = <p>模式 <strong>{ $mode }</strong>，针对 <code>{ $kind }</code> 类型。</p>{ "\u000A" }
+
+engine-advanced-report-mode-runs = <p>模式 <strong>{ $mode }</strong>，{ $n_runs } 次成员运行。</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind-runs = <p>模式 <strong>{ $mode }</strong>，针对 <code>{ $kind }</code> 类型，{ $n_runs } 次成员运行。</p>{ "\u000A" }
+
+engine-advanced-report-run-digest = 运行摘要（对各成员结果摘要按调度顺序计算的 SHA-256）：<code>{ $digest }</code>
+
+engine-advanced-report-table-empty = 此表无行：结果未列出任何内容。
+
+engine-advanced-report-distribution-caption = { $metric } 的蒙特卡罗分布（{ $n } 个样本），20 个等宽区间；虚线标出第 5、第 50 和第 95 百分位。
+
+engine-advanced-report-distribution-caption-unit = { $metric } 的蒙特卡罗分布（{ $n } 个样本，{ $unit }），20 个等宽区间；虚线标出第 5、第 50 和第 95 百分位。
+
+engine-advanced-report-h-companions = 3b. 动画与导出
+
+engine-advanced-report-animation-alt = 本次运行时间序列的动画
+
+engine-advanced-report-animation-caption = 本次运行自身的样本在移动的时间游标后逐步绘出（<code>--animate svg</code> 的动态绘制；在减少动态效果设置下和打印时显示完成后的图像）。
+
+engine-advanced-report-no-animation = 无动画：{ $reason }
+
+engine-advanced-report-no-animation-default = 结果不含时间序列
+
+engine-advanced-report-player-written-by = 交互式播放器由 <code>{ $command }</code> 写出。
+
+engine-advanced-report-written-beside = 与本报告写在一起：{ $links }。
+
+engine-advanced-report-th-export = 导出
+
+engine-advanced-report-th-applies = 适用
+
+engine-advanced-report-th-files-or-reason = 文件或原因
+
+engine-advanced-report-written-by = 由 <code>{ $command }</code> 写出
+
+engine-advanced-report-does-not-apply = 不适用
+
+engine-advanced-report-yes = 是
+
+engine-advanced-report-no = 否
+
+engine-advanced-report-h-events = 4. 事件时间线
+
+engine-advanced-report-events-caption = 时间窗以条形表示，点事件以圆点表示，使用本次运行自身的时间轴。
+
+engine-advanced-report-th-start = 开始 (s)
+
+engine-advanced-report-th-end = 结束 (s)
+
+engine-advanced-report-th-event = 事件
+
+engine-advanced-report-th-source = 来源
+
+engine-advanced-report-point-event = 点事件
+
+engine-advanced-report-events-timeline = 事件时间线
+
+engine-advanced-report-point-events = 点事件（{ $n }）
+
+engine-advanced-report-distribution-of = { $metric } 的分布
+
+engine-advanced-report-max-bin = 最大区间 { $n }
+
+engine-advanced-report-h-labels = 5. 验证标签
+
+engine-advanced-report-th-capability = 能力（矩阵要求）
+
+engine-advanced-report-th-label = 标签
+
+engine-advanced-report-th-used-by = 使用方
+
+engine-advanced-report-th-oracle = 来源：参考基准（oracle，独立参照）
+
+engine-advanced-report-th-test-evidence = 测试证据
+
+engine-advanced-report-h-figure-tiers = 结果所述的各数值等级
+
+engine-advanced-report-th-figure = 数值
+
+engine-advanced-report-th-tier = 等级
+
+engine-advanced-report-th-matrix-requirement = 矩阵要求
+
+engine-advanced-report-th-applicable = 是否适用
+
+engine-advanced-report-no-attack = 否（未配置攻击）
+
+engine-advanced-report-h-not-modelled = 6. 未建模内容与假设
+
+engine-advanced-report-not-modelled-note = 每一项均引自其声明之处：结果文档、类型目录、场景文件，或验证矩阵中某一 MODELLED 行仍保持建模状态的理由。
+
+engine-advanced-report-th-statement = 声明
+
+engine-advanced-report-h-reproducibility = 7. 可复现性记录
+
+engine-advanced-report-rk-command = 复现命令
+
+engine-advanced-report-rk-working-directory = 工作目录
+
+engine-advanced-report-rk-engine-version = 引擎版本
+
+engine-advanced-report-rk-source-commit = 源码提交
+
+engine-advanced-report-rk-scenario-file = 场景文件
+
+engine-advanced-report-rk-scenario-sha = 场景文件 SHA-256（安全散列算法 256 位）
+
+engine-advanced-report-rk-result-hash = 结果 scenario_hash
+
+engine-advanced-report-rk-result-sha = 结果文档 SHA-256
+
+engine-advanced-report-rk-seed = 随机种子（seed）
+
+engine-advanced-report-rk-platform = 平台
+
+engine-advanced-report-rk-generated = 研究生成时间（UTC）
+
+engine-advanced-report-rk-determinism = 确定性
+
+engine-advanced-report-result-hash-none = 结果文档未给出
+
+engine-advanced-report-print-note = 如需将本页打印为便携式文档格式（PDF）文件，请使用浏览器的打印对话框并选择“另存为 PDF”；打印样式表适配 A4 和 US Letter 纸张，在各页重复表头，并使输入、结果、标签和可复现性各节从新的一页开始。引擎本身不写出 PDF。report.json 载有与本页相同的内容。
+
+engine-advanced-report-footer = 由 Kshana { $engine } 生成。{ $stamp } 可由场景 + 随机种子（seed）+ 引擎版本复现。自由开源软件（GNU Affero 通用公共许可证，AGPL-3.0）— <a href="https://github.com/AshfordeOU/kshana">源码与文档</a>。
+
+engine-advanced-report-empty-inputs = 场景除 `kind` 外未设置任何字段：该类型按其文档记载的默认值运行了参考配置。
+
+engine-advanced-report-empty-scalars = 结果文档在数组之外不含标量；其数值按列汇总于下。
+
+engine-advanced-report-empty-series = 结果文档不含数值数组：每个结果均为上表中的标量。
+
+engine-advanced-report-empty-events = 无定时事件：场景未编排任何时间窗或起始时刻，结果也未报告任何事件。该类型将其配置作为单一情形进行评估。
+
+engine-advanced-report-empty-not-modelled = 结果、类型目录、场景或所用矩阵行均未对本次运行声明任何建模限制。
+
+engine-advanced-report-capabilities-statement = 每一行都是本次运行所涉各类型用到的一条验证矩阵行，带有矩阵为其给出的标签和参考基准（oracle，独立参照）（src/verification.rs，docs/VERIFICATION-MATRIX.md）。标签按矩阵的记录对能力评级；它不对本场景的配置评级，VALIDATED 行也不表示本次运行的输入为实测值。PARTNER 行是本次运行所依赖、但 Kshana 不提供的一项学科工作。
+
+engine-advanced-report-no-run-label = 结果不含运行级如实标签；其所用能力的验证标签列于各自的小节，结果给出各数值等级之处亦列出这些等级。
+
+engine-advanced-report-no-seed = 场景和结果均不含随机种子（seed）。结果仅由场景文件和引擎构建确定；确定性测试会重新运行每个随附场景，并要求输出逐字节相同。
+
+engine-advanced-report-working-directory = 请在原始运行的启动目录中运行该命令：场景路径以及场景内的任何相对数据路径均相对于该目录解析。请先对照 scenario_sha256 核对场景文件。
+
+engine-advanced-report-determinism-stamped = 相同的场景字节、随机种子（seed）和引擎构建给出相同的结果文档，但其 meta.generated_utc 时间戳除外，该时间戳由 --study-name 根据时钟写入；不使用 --study-name 运行可得到逐字节相同的输出。浮点结果按平台固定；其他操作系统或体系结构可能在末几位数字上有所不同。
+
+engine-advanced-report-determinism-plain = 相同的场景字节、随机种子（seed）和引擎构建给出逐字节相同的结果文档和报告；本报告不含时间戳。浮点结果按平台固定；其他操作系统或体系结构可能在末几位数字上有所不同。
+
+engine-advanced-report-not-applicable-no-attack = 不适用（未配置攻击）
+
+engine-advanced-report-what-ran-default = 一个 `{ $kind }` 场景。
+
+engine-advanced-report-nothing-carried = 无
+
+engine-advanced-report-tbl-sweep-nodes = 扫描节点
+
+engine-advanced-report-tbl-mc-summary = 蒙特卡罗分布摘要（百分位采用最近秩法；均值的 95% 置信区间为固定随机种子（seed）的百分位自助法）
+
+engine-advanced-report-tbl-chain-phases = 链路阶段
+
+engine-advanced-report-tbl-shared = 共享条件
+
+engine-advanced-report-tbl-members = 成员
+
+engine-advanced-report-tbl-combined = 各成员合并
+
+engine-advanced-report-tbl-optimiser-best = 优化器最优解（所述边界内的局部最优）
+
+engine-advanced-report-tbl-optimiser-trace = 优化器轨迹
+
+engine-advanced-report-tbl-sweep-grid = 扫描网格
+
+engine-altpnt-terrain-title-terrain-referenced = 地形参考导航（TERCOM/SITAN）
+
+engine-altpnt-terrain-title-gravity-map = 重力图匹配导航
+
+engine-altpnt-terrain-title-combined = 重力 + 磁 + 地形组合 alt-PNT
+
+engine-altpnt-terrain-free-inertial-drift = 自由惯性漂移
+
+engine-altpnt-terrain-terrain-matched = 地形匹配
+
+engine-altpnt-terrain-gravity-matched = 重力匹配
+
+engine-altpnt-terrain-gravity-only = 仅重力
+
+engine-altpnt-terrain-magnetic-only = 仅磁
+
+engine-altpnt-terrain-terrain-only = 仅地形
+
+engine-altpnt-terrain-combined-fused = 组合（融合）
+
+engine-api-chart-provenance-footer = Kshana v{ $version } · 场景 { $hash } · kshana.dev
+
+engine-attack-surface-chart-title = 月面信号安全攻击面（P1）
+
+engine-body-pnt-chart-relays-in-view = 可见中继
+
+engine-body-pnt-chart-count = 数量
+
+engine-body-pnt-chart-formal-one-sigma-position = 位置形式一倍标准差（log10 m）：蓝色仅星座，琥珀色含地球测距
+
+engine-body-pnt-chart-time-since-epoch = 自历元起的时间，0 至 { $t_max } s
+
+engine-campaign-chart-clock-time-error-vs-guard = 时钟钟差与保护限（ns）
+
+engine-campaign-chart-cn0-vs-tracking-floor = C/N0 与跟踪下限（dB-Hz）
+
+engine-campaign-chart-protection-level-vs-alert-limit = 保护级与告警限（m）
+
+engine-campaign-chart-position-error-vs-threshold = 位置误差与阈值（m）
+
+engine-campaign-chart-satellites-tracking = 跟踪卫星数
+
+engine-campaign-chart-alarm-flags-and-events = 告警标志与事件
+
+engine-campaign-chart-mission-time = 任务时间 { $duration } s
+
+engine-campaign-chart-sweep-percentile-band = ，中位数及 { $n_runs } 个随机种子（seed）的第 5 至第 95 百分位带
+
+engine-campaign-chart-sweep-line-at = { $name }（{ $unit }），在 { $lead }
+
+engine-campaign-chart-monte-carlo-of = `{ $scenario_kind }` 的蒙特卡罗：{ $n_runs } 个随机种子（seed），自 { $base_seed } 起（第 5、第 50、第 95 百分位；条形 = 均值的自助法 95% 置信区间）
+
+engine-campaign-chart-composed-members = 共享条件下的组合成员：{ $shared }
+
+engine-campaign-chart-not-available = 不可用
+
+engine-cislunar-arc-recovery-chart-title = 地月空间弧长恢复——不共享雅可比矩阵的估计器
+
+engine-cislunar-arc-recovery-chart-subtitle = 有限差分批量最小二乘 · 实测状态恢复误差 · 无解析雅可比矩阵，无变分 STM，无 SVD 秩容差
+
+engine-cislunar-arc-recovery-chart-bound = 界 { $bound }
+
+engine-cislunar-arc-recovery-chart-gramian-rank-threshold = 格拉姆矩阵秩阈值
+
+engine-cislunar-arc-recovery-chart-monte-carlo-rms = 蒙特卡罗 RMS 位置恢复误差（km）
+
+engine-cislunar-arc-recovery-chart-noise-free-worst-ratio = 无噪声最差恢复比（最终误差 / 位移）
+
+engine-cislunar-observability-chart-title = 跟踪弧段上的地月空间可观测性（P6）
+
+engine-cislunar-observability-chart-subtitle = 秩与弧长（仅测距单链路） · 格拉姆矩阵特征谱 · 微分修正 DRO 初值 + SRIF 交叉验证 · { $modelled } 设计，{ $validated } 秩/STM/闭合
+
+engine-cislunar-observability-chart-observable-rank = 可观测秩与弧长
+
+engine-cislunar-observability-chart-arc-length = 弧长（旋转系时间单位，共 { $arc_hours } h）
+
+engine-cislunar-observability-chart-gramian-eigenvalues = 格拉姆矩阵特征值（log10）
+
+engine-cislunar-observability-chart-condition = 条件数 κ = { $condition }
+
+engine-conflict-resilience-chart-title = 分层 PNT 冲突韧性（P7）
+
+engine-conflict-resilience-chart-subtitle = 总丧失概率与威胁强度（蒙特卡罗与闭式解） · 韧性比与拒止相关性 · { $modelled } 先验，{ $validated } 蒙特卡罗->闭式解 / copula 边缘分布
+
+engine-conflict-resilience-chart-total-loss-probability = 总丧失概率与强度
+
+engine-conflict-resilience-chart-threat-intensity = 威胁强度
+
+engine-conflict-resilience-chart-layered-mc = 分层蒙特卡罗
+
+engine-conflict-resilience-chart-single-layer = 单层
+
+engine-conflict-resilience-chart-resilience-ratio = 韧性比与拒止相关性
+
+engine-conflict-resilience-chart-denial-correlation = 拒止相关性 ρ
+
+engine-constellation-chart-availability-pct = 可用性（%）
+
+engine-constellation-chart-mean-pdop = 平均 PDOP
+
+engine-earth-gnss-lunar-chart-title = 月球距离处的地球 GNSS——C/N0 与偏离视轴角
+
+engine-earth-gnss-lunar-chart-track-threshold = 跟踪 { $threshold } dB-Hz
+
+engine-earth-gnss-lunar-chart-earth-limb = 地球边缘 { $angle }°
+
+engine-earth-gnss-lunar-chart-off-boresight-angle = 偏离视轴角（deg）
+
+engine-earth-gnss-lunar-chart-legend = 金色 = 可跟踪 · 红色 = 过弱 · 灰色 = 被地球遮挡 · { $modelled } 发射方向图
+
+engine-ensemble-chart-title = 时钟守时（holdover）：时间误差置信带（{ $n_runs } 次运行）
+
+engine-ensemble-chart-timing-error-ns = 时间误差（ns）
+
+engine-ensemble-chart-spec-threshold = 规范 { $threshold } ns
+
+engine-ensemble-chart-time-s = 时间（s）
+
+engine-ensemble-chart-classical-median-band = 经典：{ $id }（中位数，5-95% 带）
+
+engine-ensemble-chart-quantum-median-band = 量子：{ $id }（中位数，5-95% 带）
+
+engine-fom-verdict-validated = VALIDATED
+
+engine-fom-verdict-modelled = MODELLED
+
+engine-fom-verdict-partial = PARTIAL
+
+engine-frame-eop-chart-title = 月球授时的实时坐标系 / EOP 预测预算
+
+engine-frame-eop-chart-ut1-error-ms = UT1 误差（ms）
+
+engine-frame-eop-chart-position-at-moon-m = 月球处位置（m）
+
+engine-frame-eop-chart-equiv-timing-ns = 等效授时（ns）
+
+engine-frame-eop-chart-prediction-horizon-days = 预测时限（天）
+
+engine-frame-eop-chart-iers-final-floor = IERS 最终下限 { $floor_ms } ms
+
+engine-frame-eop-chart-marker-at-moon = ~{ $ut1_ms } ms = 月球处 ~{ $pos_m } m
+
+engine-frame-eop-chart-growth = ~{ $factor }x，1 d→{ $far_days } d
+
+engine-fusion-hybrid-ukf-chart-title = 17 状态混合 UKF——滤波器自洽性（已建模）
+
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + 新息白性与 95% χ² 带；1.0 = 自洽。仅为自洽性，不代表精度。
+
+engine-fusion-hybrid-ukf-chart-target = 目标 1.0
+
+engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS（白性）
+
+engine-fusion-hybrid-ukf-chart-nees = NEES
+
+engine-fusion-hybrid-ukf-chart-consistent = CONSISTENT
+
+engine-fusion-hybrid-ukf-chart-inconsistent = INCONSISTENT
+
+engine-fusion-pack-chart-title = 松耦合 GNSS/INS 水平误差
+
+engine-fusion-pack-chart-horizontal-error-m = 水平误差（m）
+
+engine-fusion-pack-chart-spec-threshold = 规范 { $threshold } m
+
+engine-geometry-chart-title = 天空图（{ $label }）
+
+engine-geometry-chart-north = 北
+
+engine-geometry-chart-east = 东
+
+engine-geometry-chart-south = 南
+
+engine-geometry-chart-west = 西
+
+engine-geometry-chart-satellite-tooltip = { $system } { $id } 方位角 { $az } 高度角 { $el }
+
+engine-geometry-chart-satellite-tooltip-hidden = { $system } { $id } 方位角 { $az } 高度角 { $el }（被天际线遮挡）
+
+engine-geometry-chart-satellite-tooltip-below-mask = { $system } { $id } 方位角 { $az } 高度角 { $el }（低于遮蔽角）
+
+engine-geometry-chart-no-fix = 无定位解
+
+engine-geometry-chart-in-view-hidden = { $n_visible } 颗可见，{ $n_masked } 颗被天际线遮挡 · { $dop } · 空心：不可见
+
+engine-geometry-chart-satellites-as-given = 按给定的卫星
+
+engine-geometry-chart-representative-sky = 代表性天空，非特定日期
+
+engine-geometry-chart-footer = Kshana v{ $version } · 所述误差模型下的几何 · kshana.dev
+
+engine-gnss-sim-chart-title = RAIM 保护级与告警限
+
+engine-gnss-sim-chart-protection-level-m = 保护级（m）
+
+engine-gnss-sim-chart-val = VAL { $alert_v } m
+
+engine-holdover-test-not-recovered-within-record = ；记录内未恢复
+
+engine-holdover-test-chart-title = 守时（holdover）测试：各步骤的钟差
+
+engine-holdover-test-chart-y-title = |钟差|（ns）
+
+engine-holdover-test-chart-panel-caption = 钟差绝对值；守时（holdover）步骤以阴影标出；虚线为钟差预算
+
+engine-holdover-test-chart-gnss-removed = GNSS 已移除
+
+engine-holdover-test-chart-gnss-restored = GNSS 已恢复
+
+engine-holdover-test-chart-time-axis = 记录时间轴上的时间（{ $min } min）
+
+engine-hybrid-chart-title = GNSS 中断期间混合 PNT 规范利用率（1.0 = 规范）
+
+engine-hybrid-chart-y-title = 规范利用率
+
+engine-hybrid-chart-spec-line = 规范（1.0）
+
+engine-hybrid-chart-classical-suite = 经典套件
+
+engine-hybrid-chart-quantum-suite = 量子套件
+
+engine-hybrid-integrity-chart-availability = 可用性
+
+engine-hybrid-integrity-chart-precision = 精密度
+
+engine-hybrid-integrity-chart-integrity = 完好性
+
+engine-hybrid-integrity-chart-joint-indep = 联合（独立）
+
+engine-hybrid-integrity-chart-joint-corr = 联合（相关）
+
+engine-hybrid-integrity-chart-title = 光学 + 射频混合 PNT 联合品质因数
+
+engine-hybrid-integrity-chart-subtitle = P(可用 AND 精密级 AND 完好性有保证)
+
+engine-inertial-chart-title = GNSS 中断期间的航位推算位置误差
+
+engine-inertial-chart-y-title = 位置误差（m）
+
+engine-inertial-chart-spec-line = 规范 { $m } m
+
+engine-inertial-chart-classical = 经典：{ $id }
+
+engine-inertial-chart-quantum = 量子：{ $id }
+
+engine-iq-campaign-report-roc-aria-label = 各监测器的检测 ROC
+
+engine-iq-campaign-report-roc-x-title = P_fa（每个负样本窗口）
+
+engine-iq-campaign-report-curve-aria-label = { $rec } 事件 { $ev } 的 C/N0 劣化与所述 J/S
+
+engine-iq-campaign-report-curve-x-title = 所述 J/S（dB）
+
+engine-iq-campaign-report-curve-y-title = C/N0 劣化（dB）
+
+engine-iq-campaign-report-curve-model-tooltip = { $label }：SSC 参考，Q = { $q }
+
+engine-iq-campaign-report-curve-model-legend = { $label } 参考（Q = { $q }）
+
+engine-iq-campaign-report-curve-more-series = 另有 +{ $n } 个序列见评分表
+
+engine-iq-campaign-report-curve-point-tooltip = { $fe } / { $d }：J/S { $x } dB，实测劣化 { $y } dB
+
+engine-iq-campaign-report-curve-measured-legend = { $fe } / { $d }（实测）
+
+engine-jamming-chart-title = 压制干扰（jamming）下的可见卫星数与跟踪卫星数
+
+engine-jamming-chart-y-title = 卫星数
+
+engine-jamming-chart-four-sv-fix = 4 SV 定位解
+
+engine-jamming-chart-visible = 可见
+
+engine-jamming-chart-tracking = 跟踪
+
+engine-leo-fusion-ntn-chart-title = 5G NTN 定位：按带宽的克拉美-罗测距界
+
+engine-leo-fusion-ntn-chart-caption = 测距一倍标准差（log10 m）：条形 = 遮蔽角至天顶的 C/N0；圆点 = RMS 3D 定位误差
+
+engine-leo-fusion-ppp-chart-title = 带 LEO 增强的 PPP 收敛
+
+engine-leo-fusion-ppp-chart-caption = 水平误差中位数（log10 m）与分钟数
+
+engine-leo-fusion-ppp-chart-n-leo = { $n } 颗 LEO
+
+engine-leo-fusion-pvt-kind-chart-doppler-caption = 3D 多普勒定位误差（log10 m）与窗口长度
+
+engine-leo-fusion-pvt-kind-chart-doppler-x-label = 窗口（s）
+
+engine-leo-fusion-pvt-kind-chart-joint-caption = PDOP 中位数（蓝）与 VDOP 中位数（琥珀），log10，与新增 LEO 卫星数
+
+engine-leo-fusion-pvt-kind-chart-joint-x-label = 新增 LEO 卫星数
+
+engine-leo-fusion-pvt-kind-chart-polar-caption = VDOP 中位数（log10）：灰色 GNSS，蓝色 LEO，琥珀色融合
+
+engine-leo-fusion-pvt-kind-chart-polar-x-label = 纬度（deg）
+
+engine-leo-fusion-pvt-kind-chart-timing-caption = 相对 UTC 的 RMS 钟差（log10 ns）与 C/N0 偏移，每个振荡器一条线
+
+engine-leo-fusion-pvt-kind-chart-timing-x-label = C/N0 偏移（dB）
+
+engine-leo-fusion-pvt-kind-chart-x-range = { $label }：{ $x0 } 至 { $x1 }
+
+engine-leo-navmsg-chart-title = LEO 导航电文：SISRE 与拟合区间
+
+engine-leo-navmsg-chart-no-trade-encode-decode = 本次运行无权衡；编码/解码表和预算表见 result.json。
+
+engine-leo-navmsg-chart-no-fit-interval-trade = 本次运行无拟合区间权衡；见 result.json。
+
+engine-leo-navmsg-chart-caption = 仅轨道 SISRE RMS（m，对数刻度）与拟合区间（s）
+
+engine-leo-pass-chart-title = LEO 过境：各频段 C/N0 与多普勒
+
+engine-leo-pass-chart-cn0-caption = C/N0（dB-Hz，20 至 80）：LEO 频段为彩色，GNSS 为灰色
+
+engine-leo-pass-chart-time-axis = 自历元起的时间，0 至 { $s } s
+
+engine-leo-pnt-chain-chart-subtitle = 信号设计 -> 过境 C/N0 与码抖动 -> 电文 SISRE -> 融合定位解 · { $label }
+
+engine-leo-pnt-chain-chart-cn0-caption = 过境期间被跟踪分量的 C/N0（dB-Hz，20 至 80）
+
+engine-leo-pnt-chain-chart-not-available = 不可用
+
+engine-leo-signal-chart-title = LEO-PNT 信号设计
+
+engine-leo-signal-chart-psd-axis = 发射带宽 ±0.6 倍范围内的偏移；低于各峰值 0 至 −50 dB
+
+engine-leo-signal-chart-jitter-caption = 码抖动（m，对数刻度）与总 C/N0（dB-Hz）
+
+engine-main-fail = 错误：{ $e }
+
 ## legal
 
 # legal: native review

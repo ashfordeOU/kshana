@@ -6695,6 +6695,642 @@ engine-wasm-options-json-is-not-json = options_json は JSON ではありませ�
 
 engine-wasm-input-is-about-bytes-over = 入力は約 { $b64 } バイトで、{ $v2 } バイトの上限を超えています
 
+## src/altpnt/sequential.rs
+
+engine-altpnt-sequential-title = 逐次地形参照航法（再帰的 SITAN）
+
+engine-altpnt-sequential-free-inertial-drift-grows = 自由慣性ドリフト（増大）
+
+engine-altpnt-sequential-terrain-matched-bounded = 地形照合（有界）
+
+engine-altpnt-sequential-waypoint-full-scale = ウェイポイント →    フルスケール { $maxv } m
+
+## src/advanced_report.rs
+
+engine-advanced-report-eyebrow = Kshana 実行レポート
+
+engine-advanced-report-meta = 種別 <code>{ $kind }</code> · エンジン { $engine } · シナリオ <code>{ $scenario }</code>（ファイルダイジェスト { $digest }…）
+
+engine-advanced-report-toc-summary = 1 概要
+
+engine-advanced-report-toc-inputs = 2 入力
+
+engine-advanced-report-toc-results = 3 結果
+
+engine-advanced-report-toc-aggregation = 3a 集計
+
+engine-advanced-report-toc-companions = 3b アニメーションとエクスポート
+
+engine-advanced-report-toc-events = 4 イベント
+
+engine-advanced-report-toc-labels = 5 検証ラベル
+
+engine-advanced-report-toc-not-modelled = 6 モデル化していない事項
+
+engine-advanced-report-toc-reproducibility = 7 再現性
+
+engine-advanced-report-h-summary = 1. エグゼクティブサマリー
+
+engine-advanced-report-honesty-label = <strong>正直さラベル</strong>（{ $source }）：{ $label }
+
+engine-advanced-report-capabilities-used = <strong>使用した機能：</strong> VALIDATED { $n_validated } 件、MODELLED { $n_modelled } 件、PARTNER { $n_partner } 件（依拠するが提供はしない）。5 節を参照してください。
+
+engine-advanced-report-member-runs = <strong>メンバー実行：</strong> { $n }、3a 節で集計しています。
+
+engine-advanced-report-h-inputs = 2. 入力
+
+engine-advanced-report-inputs-note = シナリオファイルが設定するすべてのフィールドを、パスの形に展開して示します。単位は、結果の <code>units</code> ブロック（フィールド単位スキーマ、docs/field-units-schema.json）がそのフィールドを記述している場合はそこから、それ以外はフィールド名の接尾辞から取得します。どちらにも記載がない単位は「記載なし」と表示します。
+
+engine-advanced-report-th-parameter = パラメータ
+
+engine-advanced-report-th-value = 値
+
+engine-advanced-report-th-unit = 単位
+
+engine-advanced-report-th-unit-source = 単位の出典
+
+engine-advanced-report-h-results = 3. 結果
+
+engine-advanced-report-chart-alt = 結果チャート
+
+engine-advanced-report-also-written-to = { " " }（{ $file } にも書き出しました）
+
+engine-advanced-report-h-scalars = スカラー結果
+
+engine-advanced-report-h-columns = 数値列
+
+engine-advanced-report-th-result = 結果
+
+engine-advanced-report-th-column = 列
+
+engine-advanced-report-th-count = 件数
+
+engine-advanced-report-th-min = 最小
+
+engine-advanced-report-th-max = 最大
+
+engine-advanced-report-th-first = 最初
+
+engine-advanced-report-th-last = 最後
+
+engine-advanced-report-omitted-inputs = <p class="note">このページでは、さらに { $n } 件の入力を省略しています。report.json には同じ行が一覧されており、結果ドキュメントにはすべての値が含まれています。</p>{ "\u000A" }
+
+engine-advanced-report-omitted-scalars = <p class="note">このページでは、さらに { $n } 件のスカラー結果を省略しています。report.json には同じ行が一覧されており、結果ドキュメントにはすべての値が含まれています。</p>{ "\u000A" }
+
+engine-advanced-report-omitted-columns = <p class="note">このページでは、さらに { $n } 件の数値列を省略しています。report.json には同じ行が一覧されており、結果ドキュメントにはすべての値が含まれています。</p>{ "\u000A" }
+
+engine-advanced-report-omitted-events = <p class="note">このページでは、さらに { $n } 件のイベントを省略しています。report.json には同じ行が一覧されており、結果ドキュメントにはすべての値が含まれています。</p>{ "\u000A" }
+
+engine-advanced-report-h-aggregation = 3a. メンバー実行の集計
+
+engine-advanced-report-mode = <p>モード <strong>{ $mode }</strong>。</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind = <p>モード <strong>{ $mode }</strong>、対象の種別は <code>{ $kind }</code>。</p>{ "\u000A" }
+
+engine-advanced-report-mode-runs = <p>モード <strong>{ $mode }</strong>、メンバー実行 { $n_runs } 件。</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind-runs = <p>モード <strong>{ $mode }</strong>、対象の種別は <code>{ $kind }</code>、メンバー実行 { $n_runs } 件。</p>{ "\u000A" }
+
+engine-advanced-report-run-digest = 実行ダイジェスト（ディスパッチ順のメンバー結果ダイジェストに対する SHA-256）：<code>{ $digest }</code>
+
+engine-advanced-report-table-empty = この表には行がありません：結果に該当する項目がありません。
+
+engine-advanced-report-distribution-caption = { $metric } のモンテカルロ分布（サンプル { $n } 件）、等幅 20 ビン。破線は 5、50、95 パーセンタイルを示します。
+
+engine-advanced-report-distribution-caption-unit = { $metric } のモンテカルロ分布（サンプル { $n } 件、{ $unit }）、等幅 20 ビン。破線は 5、50、95 パーセンタイルを示します。
+
+engine-advanced-report-h-companions = 3b. アニメーションとエクスポート
+
+engine-advanced-report-animation-alt = 実行の時系列のアニメーション
+
+engine-advanced-report-animation-caption = 移動する時間カーソルの後ろに、この実行自身のサンプルが描画されていきます（<code>--animate svg</code> によるアニメーション描画。動きを抑える設定のときと印刷時には、完成した図を表示します）。
+
+engine-advanced-report-no-animation = アニメーションなし：{ $reason }
+
+engine-advanced-report-no-animation-default = 結果に時系列がありません
+
+engine-advanced-report-player-written-by = インタラクティブプレーヤーは <code>{ $command }</code> が書き出します。
+
+engine-advanced-report-written-beside = このレポートと同じ場所に書き出したファイル：{ $links }。
+
+engine-advanced-report-th-export = エクスポート
+
+engine-advanced-report-th-applies = 適用
+
+engine-advanced-report-th-files-or-reason = ファイルまたは理由
+
+engine-advanced-report-written-by = <code>{ $command }</code> が書き出し
+
+engine-advanced-report-does-not-apply = 適用なし
+
+engine-advanced-report-yes = はい
+
+engine-advanced-report-no = いいえ
+
+engine-advanced-report-h-events = 4. イベントのタイムライン
+
+engine-advanced-report-events-caption = 区間は棒、点イベントは点で、この実行自身の時間軸上に示します。
+
+engine-advanced-report-th-start = 開始 (s)
+
+engine-advanced-report-th-end = 終了 (s)
+
+engine-advanced-report-th-event = イベント
+
+engine-advanced-report-th-source = 出典
+
+engine-advanced-report-point-event = 点イベント
+
+engine-advanced-report-events-timeline = イベントのタイムライン
+
+engine-advanced-report-point-events = 点イベント（{ $n }）
+
+engine-advanced-report-distribution-of = { $metric } の分布
+
+engine-advanced-report-max-bin = 最大ビン { $n }
+
+engine-advanced-report-h-labels = 5. 検証ラベル
+
+engine-advanced-report-th-capability = 機能（マトリクスの要件）
+
+engine-advanced-report-th-label = ラベル
+
+engine-advanced-report-th-used-by = 使用元
+
+engine-advanced-report-th-oracle = 出典：オラクル
+
+engine-advanced-report-th-test-evidence = テストの証拠
+
+engine-advanced-report-h-figure-tiers = 結果が示す数値ごとのティア
+
+engine-advanced-report-th-figure = 数値
+
+engine-advanced-report-th-tier = ティア
+
+engine-advanced-report-th-matrix-requirement = マトリクスの要件
+
+engine-advanced-report-th-applicable = 適用可否
+
+engine-advanced-report-no-attack = いいえ（攻撃は設定されていません）
+
+engine-advanced-report-h-not-modelled = 6. モデル化していない事項と前提
+
+engine-advanced-report-not-modelled-note = 各項目は、記載されている場所から引用しています：結果ドキュメント、種別カタログ、シナリオファイル、または MODELLED の行がそのままである理由を述べた検証マトリクス。
+
+engine-advanced-report-th-statement = 記述
+
+engine-advanced-report-h-reproducibility = 7. 再現性の記録
+
+engine-advanced-report-rk-command = 再現コマンド
+
+engine-advanced-report-rk-working-directory = 作業ディレクトリ
+
+engine-advanced-report-rk-engine-version = エンジンのバージョン
+
+engine-advanced-report-rk-source-commit = ソースコミット
+
+engine-advanced-report-rk-scenario-file = シナリオファイル
+
+engine-advanced-report-rk-scenario-sha = シナリオファイルの SHA-256（Secure Hash Algorithm 256-bit）
+
+engine-advanced-report-rk-result-hash = 結果の scenario_hash
+
+engine-advanced-report-rk-result-sha = 結果ドキュメントの SHA-256
+
+engine-advanced-report-rk-seed = シード
+
+engine-advanced-report-rk-platform = プラットフォーム
+
+engine-advanced-report-rk-generated = スタディ生成日時（UTC）
+
+engine-advanced-report-rk-determinism = 決定性
+
+engine-advanced-report-result-hash-none = 結果ドキュメントには記載がありません
+
+engine-advanced-report-print-note = このページを Portable Document Format（PDF）ファイルとして印刷するには、ブラウザーの印刷ダイアログで「PDF として保存」を選択してください。印刷用スタイルシートは A4 と US Letter の用紙に合わせ、表の見出しをページごとに繰り返し、入力、結果、ラベル、再現性の各節を新しいページから始めます。エンジン自体は PDF を書き出しません。report.json にはこのページと同じ内容が含まれています。
+
+engine-advanced-report-footer = Kshana { $engine } により生成。{ $stamp } シナリオ + シード + エンジンのバージョンから再現可能です。無料のオープンソース（GNU Affero General Public License、AGPL-3.0）— <a href="https://github.com/AshfordeOU/kshana">ソースとドキュメント</a>。
+
+engine-advanced-report-empty-inputs = シナリオは `kind` 以外のフィールドを設定していません：この種別は、文書化された既定値による基準構成で実行されました。
+
+engine-advanced-report-empty-scalars = 結果ドキュメントには、配列の外にスカラーがありません。数値は、以下の列ごとの要約に示します。
+
+engine-advanced-report-empty-series = 結果ドキュメントには数値配列がありません：すべての結果は上の表のスカラーです。
+
+engine-advanced-report-empty-events = 時刻付きのイベントはありません：シナリオは区間や開始時刻を指定しておらず、結果もイベントを報告していません。この種別は、構成を単一のケースとして評価します。
+
+engine-advanced-report-empty-not-modelled = 結果、種別カタログ、シナリオ、使用したマトリクスの行のいずれにも、この実行に関するモデル化上の制限は記載されていません。
+
+engine-advanced-report-capabilities-statement = 各行は、この実行の種別が使用する検証マトリクスの行であり、マトリクスが与えるラベルとオラクルを併記しています（src/verification.rs、docs/VERIFICATION-MATRIX.md）。ラベルはマトリクスの記録どおりに機能を評価するものであり、このシナリオの構成を評価するものではありません。また、VALIDATED の行があっても、実行の入力が実測されたことにはなりません。PARTNER の行は、実行が依拠するものの Kshana が提供しない分野です。
+
+engine-advanced-report-no-run-label = 結果には実行レベルの正直さラベルがありません。使用した機能の検証ラベルは専用の節に、数値ごとのティアは結果が示している場合にそこに一覧しています。
+
+engine-advanced-report-no-seed = シナリオにも結果にもシードがありません。結果はシナリオファイルとエンジンビルドのみで決まります。決定性テストは、同梱のすべてのシナリオを再実行し、バイト単位で同一の出力を要求します。
+
+engine-advanced-report-working-directory = 元の実行を開始したディレクトリからコマンドを実行してください。シナリオのパスと、シナリオ内の相対データパスは、そのディレクトリを基準に解決されます。まず、シナリオファイルを scenario_sha256 と照合してください。
+
+engine-advanced-report-determinism-stamped = シナリオのバイト列、シード、エンジンビルドが同じであれば、結果ドキュメントは同じになります。ただし、--study-name が時計から書き込む meta.generated_utc スタンプは除きます。バイト単位で同一の出力が必要な場合は --study-name を付けずに実行してください。浮動小数点の結果はプラットフォームごとに固定されます。別のオペレーティングシステムやアーキテクチャでは、末尾の桁が異なる場合があります。
+
+engine-advanced-report-determinism-plain = シナリオのバイト列、シード、エンジンビルドが同じであれば、結果ドキュメントとレポートはバイト単位で同一になります。このレポートにはタイムスタンプがありません。浮動小数点の結果はプラットフォームごとに固定されます。別のオペレーティングシステムやアーキテクチャでは、末尾の桁が異なる場合があります。
+
+engine-advanced-report-not-applicable-no-attack = 適用なし（攻撃は設定されていません）
+
+engine-advanced-report-what-ran-default = `{ $kind }` シナリオ。
+
+engine-advanced-report-nothing-carried = 記載なし
+
+engine-advanced-report-tbl-sweep-nodes = スイープのノード
+
+engine-advanced-report-tbl-mc-summary = モンテカルロ分布の要約（パーセンタイルは最近順位法。平均の 95% 信頼区間は固定シードのパーセンタイルブートストラップ）
+
+engine-advanced-report-tbl-chain-phases = チェーンのフェーズ
+
+engine-advanced-report-tbl-shared = 共通の条件
+
+engine-advanced-report-tbl-members = メンバー
+
+engine-advanced-report-tbl-combined = メンバー全体の統合
+
+engine-advanced-report-tbl-optimiser-best = オプティマイザーの最良値（指定した範囲での局所最適）
+
+engine-advanced-report-tbl-optimiser-trace = オプティマイザーのトレース
+
+engine-advanced-report-tbl-sweep-grid = スイープのグリッド
+
+## src/altpnt/terrain.rs
+
+engine-altpnt-terrain-title-terrain-referenced = 地形参照航法（TERCOM/SITAN）
+
+engine-altpnt-terrain-title-gravity-map = 重力マップ照合航法
+
+engine-altpnt-terrain-title-combined = 重力 + 磁気 + 地形の複合 alt-PNT
+
+engine-altpnt-terrain-free-inertial-drift = 自由慣性ドリフト
+
+engine-altpnt-terrain-terrain-matched = 地形照合
+
+engine-altpnt-terrain-gravity-matched = 重力照合
+
+engine-altpnt-terrain-gravity-only = 重力のみ
+
+engine-altpnt-terrain-magnetic-only = 磁気のみ
+
+engine-altpnt-terrain-terrain-only = 地形のみ
+
+engine-altpnt-terrain-combined-fused = 複合（融合）
+
+## src/attack_surface.rs
+
+engine-attack-surface-chart-title = 月面の信号セキュリティ攻撃面（P1）
+
+## src/body_pnt.rs
+
+engine-body-pnt-chart-relays-in-view = 可視の中継局
+
+engine-body-pnt-chart-count = 件数
+
+engine-body-pnt-chart-formal-one-sigma-position = 形式的なワンシグマ位置（log10 m）：青は衛星コンステレーションのみ、琥珀色は地球との距離を併用
+
+engine-body-pnt-chart-time-since-epoch = エポックからの経過時間、0 〜 { $t_max } s
+
+## src/campaign.rs
+
+engine-campaign-chart-clock-time-error-vs-guard = 時計の時刻誤差とガード値（ns）
+
+engine-campaign-chart-cn0-vs-tracking-floor = C/N0 と追尾下限（dB-Hz）
+
+engine-campaign-chart-protection-level-vs-alert-limit = 保護レベルとアラート限界（m）
+
+engine-campaign-chart-position-error-vs-threshold = 位置誤差としきい値（m）
+
+engine-campaign-chart-satellites-tracking = 追尾中の衛星
+
+engine-campaign-chart-alarm-flags-and-events = アラームフラグとイベント
+
+engine-campaign-chart-mission-time = ミッション時間 { $duration } s
+
+engine-campaign-chart-sweep-percentile-band = 、{ $n_runs } 個のシードにおける中央値と 5〜95 パーセンタイル帯
+
+engine-campaign-chart-sweep-line-at = { $name }（{ $unit }）、{ $lead } において
+
+engine-campaign-chart-monte-carlo-of = `{ $scenario_kind }` のモンテカルロ：{ $base_seed } から { $n_runs } 個のシード（5、50、95 パーセンタイル。バー = 平均のブートストラップ 95% 信頼区間）
+
+engine-campaign-chart-composed-members = 共通の条件で構成したメンバー：{ $shared }
+
+engine-campaign-chart-not-available = 該当なし
+
+## src/cislunar_arc_recovery.rs
+
+engine-cislunar-arc-recovery-chart-title = 地球・月間空間（シスルナー）の弧長復元 — ヤコビアンを共有しない推定器
+
+engine-cislunar-arc-recovery-chart-subtitle = 有限差分バッチ最小二乗法 · 実測の状態復元誤差 · 解析ヤコビアンなし、変分 STM なし、SVD ランク許容差なし
+
+engine-cislunar-arc-recovery-chart-bound = 上限 { $bound }
+
+engine-cislunar-arc-recovery-chart-gramian-rank-threshold = グラミアンのランクしきい値
+
+engine-cislunar-arc-recovery-chart-monte-carlo-rms = モンテカルロ RMS 位置復元誤差（km）
+
+engine-cislunar-arc-recovery-chart-noise-free-worst-ratio = ノイズなしの最悪復元比（最終誤差 / 変位）
+
+## src/cislunar_observability.rs
+
+engine-cislunar-observability-chart-title = 追跡弧にわたる地球・月間空間（シスルナー）の可観測性（P6）
+
+engine-cislunar-observability-chart-subtitle = ランク対弧長（距離のみの単一リンク） · グラミアン固有スペクトル · 微分修正済み DRO 初期条件 + SRIF クロスチェック · { $modelled } 設計、{ $validated } ランク/STM/閉合
+
+engine-cislunar-observability-chart-observable-rank = 可観測ランクと弧長
+
+engine-cislunar-observability-chart-arc-length = 弧長（回転座標系の時間単位、合計 { $arc_hours } h）
+
+engine-cislunar-observability-chart-gramian-eigenvalues = グラミアン固有値（log10）
+
+engine-cislunar-observability-chart-condition = 条件数 κ = { $condition }
+
+## src/conflict_resilience.rs
+
+engine-conflict-resilience-chart-title = 多層 PNT の紛争下レジリエンス（P7）
+
+engine-conflict-resilience-chart-subtitle = 脅威強度に対する全喪失（モンテカルロと閉形式） · 拒否相関に対するレジリエンス比 · { $modelled } 事前分布、{ $validated } モンテカルロ->閉形式 / コピュラ周辺分布
+
+engine-conflict-resilience-chart-total-loss-probability = 強度に対する全喪失確率
+
+engine-conflict-resilience-chart-threat-intensity = 脅威強度
+
+engine-conflict-resilience-chart-layered-mc = 多層モンテカルロ
+
+engine-conflict-resilience-chart-single-layer = 単層
+
+engine-conflict-resilience-chart-resilience-ratio = 拒否相関に対するレジリエンス比
+
+engine-conflict-resilience-chart-denial-correlation = 拒否相関 ρ
+
+## src/constellation.rs
+
+engine-constellation-chart-availability-pct = 可用性（%）
+
+engine-constellation-chart-mean-pdop = 平均 PDOP
+
+## src/earth_gnss_lunar.rs
+
+engine-earth-gnss-lunar-chart-title = 月距離での地球 GNSS — C/N0 と軸外角
+
+engine-earth-gnss-lunar-chart-track-threshold = 追尾 { $threshold } dB-Hz
+
+engine-earth-gnss-lunar-chart-earth-limb = 地球の縁 { $angle }°
+
+engine-earth-gnss-lunar-chart-off-boresight-angle = 軸外角（deg）
+
+engine-earth-gnss-lunar-chart-cn0 = C/N0（dB-Hz）
+
+engine-earth-gnss-lunar-chart-legend = 金 = 追尾可能 · 赤 = 弱すぎる · 灰 = 地球に隠蔽 · { $modelled } 送信パターン
+
+## src/ensemble.rs
+
+engine-ensemble-chart-title = 時計のホールドオーバー：時刻誤差の信頼帯（{ $n_runs } 回の実行）
+
+engine-ensemble-chart-timing-error-ns = 時刻誤差（ns）
+
+engine-ensemble-chart-spec-threshold = 仕様 { $threshold } ns
+
+engine-ensemble-chart-time-s = 時間（s）
+
+engine-ensemble-chart-classical-median-band = 従来方式：{ $id }（中央値、5-95% 帯）
+
+engine-ensemble-chart-quantum-median-band = 量子方式：{ $id }（中央値、5-95% 帯）
+
+## src/frame_eop.rs
+
+engine-frame-eop-chart-title = 月面タイミングのためのリアルタイム座標系 / EOP 予測バジェット
+
+engine-frame-eop-chart-ut1-error-ms = UT1 誤差（ms）
+
+engine-frame-eop-chart-position-at-moon-m = 月面での位置（m）
+
+engine-frame-eop-chart-equiv-timing-ns = 等価な時刻（ns）
+
+engine-frame-eop-chart-prediction-horizon-days = 予測期間（日）
+
+engine-frame-eop-chart-iers-final-floor = IERS 確定値の下限 { $floor_ms } ms
+
+engine-frame-eop-chart-marker-at-moon = ~{ $ut1_ms } ms = 月面で ~{ $pos_m } m
+
+engine-frame-eop-chart-growth = ~{ $factor }x、1 d→{ $far_days } d
+
+## src/fusion/hybrid_ukf.rs
+
+engine-fusion-hybrid-ukf-chart-title = 17 状態ハイブリッド UKF — フィルターの自己整合性（モデル化）
+
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + イノベーションの白色性と 95% χ² 帯。1.0 = 整合。自己整合性であり、精度ではありません。
+
+engine-fusion-hybrid-ukf-chart-target = 目標 1.0
+
+engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS（白色性）
+
+## src/fusion/pack.rs
+
+engine-fusion-pack-chart-title = 疎結合 GNSS/INS の水平誤差
+
+engine-fusion-pack-chart-horizontal-error-m = 水平誤差（m）
+
+engine-fusion-pack-chart-spec-threshold = 仕様 { $threshold } m
+
+## src/geometry.rs
+
+engine-geometry-chart-title = スカイプロット（{ $label }）
+
+engine-geometry-chart-north = 北
+
+engine-geometry-chart-east = 東
+
+engine-geometry-chart-south = 南
+
+engine-geometry-chart-west = 西
+
+engine-geometry-chart-satellite-tooltip = { $system } { $id } 方位角 { $az } 仰角 { $el }
+
+engine-geometry-chart-satellite-tooltip-hidden = { $system } { $id } 方位角 { $az } 仰角 { $el }（スカイラインに隠蔽）
+
+engine-geometry-chart-satellite-tooltip-below-mask = { $system } { $id } 方位角 { $az } 仰角 { $el }（マスク角未満）
+
+engine-geometry-chart-no-fix = 測位解なし
+
+engine-geometry-chart-in-view-hidden = 可視 { $n_visible }、スカイラインに隠蔽 { $n_masked } · { $dop } · 中抜き：不可視
+
+engine-geometry-chart-satellites-as-given = 与えられた衛星
+
+engine-geometry-chart-representative-sky = 代表的な空であり、特定の日時のものではありません
+
+engine-geometry-chart-footer = Kshana v{ $version } · 指定した誤差モデルのもとでの幾何 · kshana.dev
+
+## src/gnss_sim.rs
+
+engine-gnss-sim-chart-title = RAIM 保護レベルとアラート限界
+
+engine-gnss-sim-chart-protection-level-m = 保護レベル（m）
+
+## src/holdover_test.rs
+
+engine-holdover-test-not-recovered-within-record = ；記録内では復帰しませんでした
+
+engine-holdover-test-chart-title = ホールドオーバー試験：ステップごとの時刻誤差
+
+engine-holdover-test-chart-y-title = |時刻誤差|（ns）
+
+engine-holdover-test-chart-panel-caption = 時刻誤差の絶対値。ホールドオーバーのステップは網掛け、破線は時刻誤差のバジェット
+
+engine-holdover-test-chart-gnss-removed = GNSS 除去
+
+engine-holdover-test-chart-gnss-restored = GNSS 復旧
+
+engine-holdover-test-chart-time-axis = 記録の時間軸上の時間（{ $min } min）
+
+## src/hybrid.rs
+
+engine-hybrid-chart-title = GNSS 途絶中のハイブリッド PNT の仕様利用率（1.0 = 仕様）
+
+engine-hybrid-chart-y-title = 仕様利用率
+
+engine-hybrid-chart-spec-line = 仕様（1.0）
+
+engine-hybrid-chart-classical-suite = 従来方式スイート
+
+engine-hybrid-chart-quantum-suite = 量子方式スイート
+
+## src/hybrid_integrity.rs
+
+engine-hybrid-integrity-chart-availability = 可用性
+
+engine-hybrid-integrity-chart-precision = 精密度
+
+engine-hybrid-integrity-chart-integrity = インテグリティ（完全性）
+
+engine-hybrid-integrity-chart-joint-indep = 同時（独立）
+
+engine-hybrid-integrity-chart-joint-corr = 同時（相関）
+
+engine-hybrid-integrity-chart-title = 光 + RF ハイブリッド PNT の同時性能指数
+
+engine-hybrid-integrity-chart-subtitle = P(可用 AND 精密度グレード AND インテグリティ保証)
+
+## src/inertial/mod.rs
+
+engine-inertial-chart-title = GNSS 途絶中の推測航法の位置誤差
+
+engine-inertial-chart-y-title = 位置誤差（m）
+
+engine-inertial-chart-spec-line = 仕様 { $m } m
+
+engine-inertial-chart-classical = 従来方式：{ $id }
+
+engine-inertial-chart-quantum = 量子方式：{ $id }
+
+## src/iq/campaign/report.rs
+
+engine-iq-campaign-report-roc-aria-label = モニターごとの検出 ROC
+
+engine-iq-campaign-report-roc-x-title = P_fa（負例ウィンドウあたり）
+
+engine-iq-campaign-report-curve-aria-label = { $rec } のイベント { $ev } における、指定 J/S に対する C/N0 劣化
+
+engine-iq-campaign-report-curve-x-title = 指定 J/S（dB）
+
+engine-iq-campaign-report-curve-y-title = C/N0 劣化（dB）
+
+engine-iq-campaign-report-curve-model-tooltip = { $label }：SSC 基準、Q = { $q }
+
+engine-iq-campaign-report-curve-model-legend = { $label } 基準（Q = { $q }）
+
+engine-iq-campaign-report-curve-more-series = スコアカードの表にさらに { $n } 系列
+
+engine-iq-campaign-report-curve-point-tooltip = { $fe } / { $d }：J/S { $x } dB、実測の劣化 { $y } dB
+
+engine-iq-campaign-report-curve-measured-legend = { $fe } / { $d }（実測）
+
+## src/jamming.rs
+
+engine-jamming-chart-title = ジャミング下での可視衛星数と追尾衛星数
+
+engine-jamming-chart-y-title = 衛星
+
+engine-jamming-chart-four-sv-fix = 4 SV 測位解
+
+engine-jamming-chart-visible = 可視
+
+engine-jamming-chart-tracking = 追尾中
+
+## src/leo_fusion/ntn.rs
+
+engine-leo-fusion-ntn-chart-title = 5G NTN 測位：帯域幅ごとのクラメール・ラオ距離下限
+
+engine-leo-fusion-ntn-chart-caption = 距離のワンシグマ（log10 m）：バー = マスク角から天頂までの C/N0、点 = RMS 3D 測位誤差
+
+## src/leo_fusion/ppp.rs
+
+engine-leo-fusion-ppp-chart-title = LEO 補強による PPP 収束
+
+engine-leo-fusion-ppp-chart-caption = 水平誤差の中央値（log10 m）と時間（分）
+
+engine-leo-fusion-ppp-chart-n-leo = LEO { $n }
+
+## src/leo_fusion/pvt_kind.rs
+
+engine-leo-fusion-pvt-kind-chart-doppler-caption = 3D ドップラー測位誤差（log10 m）とウィンドウ長
+
+engine-leo-fusion-pvt-kind-chart-doppler-x-label = ウィンドウ（s）
+
+engine-leo-fusion-pvt-kind-chart-joint-caption = PDOP（青）と VDOP（琥珀色）の中央値、log10、追加した LEO 衛星数に対して
+
+engine-leo-fusion-pvt-kind-chart-joint-x-label = 追加した LEO 衛星
+
+engine-leo-fusion-pvt-kind-chart-polar-caption = VDOP の中央値（log10）：灰 GNSS、青 LEO、琥珀色 融合
+
+engine-leo-fusion-pvt-kind-chart-polar-x-label = 緯度（deg）
+
+engine-leo-fusion-pvt-kind-chart-timing-caption = UTC に対する RMS 時刻誤差（log10 ns）と C/N0 オフセット、発振器ごとに線を分けて表示
+
+engine-leo-fusion-pvt-kind-chart-timing-x-label = C/N0 オフセット（dB）
+
+engine-leo-fusion-pvt-kind-chart-x-range = { $label }：{ $x0 } 〜 { $x1 }
+
+## src/leo_navmsg/mod.rs
+
+engine-leo-navmsg-chart-title = LEO 航法メッセージ：SISRE とフィット区間
+
+engine-leo-navmsg-chart-no-trade-encode-decode = この実行にはトレードオフがありません。エンコード/デコードとバジェットの表は result.json を参照してください。
+
+engine-leo-navmsg-chart-no-fit-interval-trade = この実行にはフィット区間のトレードオフがありません。result.json を参照してください。
+
+engine-leo-navmsg-chart-caption = 軌道のみの SISRE RMS（m、対数目盛）とフィット区間（s）
+
+## src/leo_pass.rs
+
+engine-leo-pass-chart-title = LEO パス：帯域ごとの C/N0 とドップラー
+
+engine-leo-pass-chart-cn0-caption = C/N0（dB-Hz、20 〜 80）：LEO 帯域は色付き、GNSS は灰色
+
+engine-leo-pass-chart-time-axis = エポックからの経過時間、0 〜 { $s } s
+
+## src/leo_pnt_chain.rs
+
+engine-leo-pnt-chain-chart-subtitle = 信号設計 -> パス C/N0 とコードジッター -> メッセージ SISRE -> 融合測位解 · { $label }
+
+engine-leo-pnt-chain-chart-cn0-caption = パス中の追尾成分の C/N0（dB-Hz、20 〜 80）
+
+engine-leo-pnt-chain-chart-not-available = 該当なし
+
+## src/leo_signal.rs
+
+engine-leo-signal-chart-title = LEO-PNT の信号設計
+
+engine-leo-signal-chart-psd-axis = 送信帯域幅の ±0.6 倍にわたるオフセット、各ピークから 0 〜 −50 dB 下
+
+engine-leo-signal-chart-jitter-caption = コードジッター（m、対数目盛）と総 C/N0（dB-Hz）
+
+## src/main.rs
+
+engine-main-fail = エラー：{ $e }
+
 ## legal
 
 # legal: native review
