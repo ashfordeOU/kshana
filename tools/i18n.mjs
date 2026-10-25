@@ -606,9 +606,33 @@ function csslint(args) {
   if (opt.max !== '' && left.length > +opt.max) process.exit(1);
 }
 
+/** todo: the English page messages a language lacks, in chunks of about 26 KB (the translators' work list). */
+async function todo(args) {
+  const L = await lang();
+  const { opt, pos } = args2opt(args, { root: 'i18n', out: '', chunkKb: '26', page: '' });
+  const l = pos[0];
+  if (!l) { console.error('usage: i18n.mjs todo <lang> [--out DIR] [--chunk-kb 26] [--page slug-prefix]'); process.exit(2); }
+  const chunks = L.todoChunks(opt.root, l, { chunkKb: +opt.chunkKb, page: opt.page });
+  if (opt.out) { mkdirSync(opt.out, { recursive: true }); for (const c of chunks) writeFileSync(join(opt.out, c.name), c.text); }
+  console.log(`todo ${l}: ${chunks.reduce((n, c) => n + c.ids.length, 0)} messages in ${chunks.length} chunks${opt.out ? ' in ' + opt.out : ''}`);
+}
+
+/** merge: put translated messages (chunk files in the same format) into i18n/<lang>/pages/, after the same checks as `check`. */
+async function merge(args) {
+  const L = await lang();
+  const { opt, pos } = args2opt(args, { root: 'i18n', replace: false });
+  const [l, ...files] = pos;
+  if (!l || !files.length) { console.error('usage: i18n.mjs merge <lang> <file.ftl>... [--replace]'); process.exit(2); }
+  const r = L.mergeTranslations(opt.root, l, files.map((f) => readFileSync(f, 'utf8')), { replace: opt.replace });
+  for (const x of r.rejected.slice(0, 50)) console.log(`REJECTED ${x.id}: ${x.why}`);
+  if (r.unknown.length) console.log(`${r.unknown.length} ids are not in the English catalogue (stale chunk?): ${r.unknown.slice(0, 5).join(', ')}`);
+  console.log(`merge ${l}: ${r.added} messages written, ${r.rejected.length} rejected`);
+  if (r.rejected.length) process.exit(1);
+}
+
 const [cmd, ...rest] = process.argv.slice(2);
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
+  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), todo: () => todo(rest), merge: () => merge(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
   if (run) await run();
   else if (!cmd) { console.error('usage: node tools/i18n.mjs extract|apply|check|status|pseudo|csslint'); process.exit(2); }
   else { console.error(`i18n: '${cmd}' is not built yet`); process.exit(2); }

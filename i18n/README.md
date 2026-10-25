@@ -20,9 +20,29 @@ i18n/<lang>/...        the same file names, translated
 3. A message with a count takes a selector for the plural categories of the language.
 4. Never translate code, file names, commands, scenario and kind ids, or the tier and verdict words (see the glossary).
 
+## The translators' loop (pages)
+
+```
+node tools/i18n.mjs status <lang>                    what is translated, missing, orphaned (per language; --json for pages)
+node tools/i18n.mjs todo <lang> --out WORK           the English messages still missing, in chunks of about 26 KB (WORK/001.ftl ...)
+                  [--page docs--agents]              only the pages whose file name starts with this
+# translate the values in a chunk file, keeping every id, { $variable }, { "literal" }, <tag> and { -term }
+node tools/i18n.mjs merge <lang> WORK/001.ftl ...    checks each message against the English one (variables, literals, tags, digits,
+                                                     tier and verdict terms) and writes it into every page file that holds its id;
+                                                     a message that fails is reported and not written
+node tools/i18n.mjs check <lang>                     the whole catalogue of the language (syntax, plural categories, glossary tokens)
+```
+
+`ui.ftl`, `glossary.ftl` and `engine.ftl` are translated as whole files (copy the English file, translate the values).
+The engine version in running text is the variable `{ $version }`: keep it where it is. A number, a version or a symbol in a
+`{ "..." }` literal is kept exactly; the build writes it in the language's own separators.
+
 ## Tools
 
-`node tools/i18n.mjs extract [--src web] [--out i18n/en/pages]` regenerates `i18n/en/pages/` from the built English pages
-(pages that no longer exist are removed). An unchanged English segment keeps its id; a changed one gets a new id.
+`extract` regenerates `i18n/en/pages/` from the built English pages (pages that no longer exist are removed; `--version` or the root
+`Cargo.toml` names the version that becomes `{ $version }`). An unchanged English segment keeps its id; a changed one gets a new id.
 Segments on 25 or more pages are written once to `pages/_shared.ftl`. `pages/_index.json` lists each page's segment ids.
-The remaining commands (apply, check, status, pseudo, csslint) are being built.
+
+`images`, `apply`, `verify`, `english`, `sitemaps`, `langs`, `size`, `pseudo` and `csslint` are the build side (see `.github/workflows/i18n.yml`
+and the translation step of `pages.yml`); `tools/i18n-fonts.py` makes the CJK subsets. Tests: `tools/i18n-negotiation-test.mjs`
+(first-visit language, stored choice) and `tools/i18n-pseudo-test.mjs` (hard-coded text and overflow in the pseudo-locale `en-XA`).
