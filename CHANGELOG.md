@@ -9,6 +9,20 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **An evidence label on every figure and table a run writes.** The result JSON has an `evidence` key, the chart SVG a
+  metadata element and a line under the plot, and the CSV table `# evidence:` comment lines: the tier (`VALIDATED`,
+  `MODELLED` or `PARTNER`, the weakest of the rows) and the ids of the verification-matrix rows the run rests on. Rows
+  and statuses are read from the matrix, not typed; the ids are stable (`VM-` and eight hex digits, a new `ID` column in
+  `docs/VERIFICATION-MATRIX.md`, a frozen list in `tests/fixtures/evidence_ids.txt`). Also on receiver-trust, `jammertest
+  score`, `iq acquire/sweep/track/monitor`, the route exposure report and, inside the signed `config.json`, every
+  evidence pack (`config_version` 1.1; `kshana evidence verify` reports the tier; packs made before 0.40 verify
+  unchanged). `tests/evidence_labels_doc_sync.rs` fails if a figure has no label, a label disagrees with the matrix or a
+  new file writer is neither labelled nor listed with a reason. Outputs that carry none are listed in
+  `docs/SURFACES.md`. The three README demo charts were re-rendered with the label (stripping it restores the old
+  bytes; `docs/revisions/STUDIO15-evidence-label-0.40.md`). No claim changed.
+
 ## [0.39.0] - 2026-10-22
 
 No new features: one command-line fix, dependency updates in the cross-validation tooling, and documentation. The
