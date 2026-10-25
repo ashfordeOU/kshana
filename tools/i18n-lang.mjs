@@ -398,3 +398,68 @@ export function mergeTranslations(root, lang, texts, { replace = false } = {}) {
   }
   return { added, rejected, unknown };
 }
+
+
+/** ---- legal sentences and tier tokens (verify) ---- */
+
+/** Plain text of a message pattern: text, string literals, terms resolved through `terms` (id -> text). Null if it has variables or selectors. */
+export function plainText(pattern, terms = new Map()) {
+  if (!pattern) return null;
+  let out = '';
+  for (const el of pattern.elements) {
+    if (el instanceof TextElement) out += el.value;
+    else if (el instanceof Placeable && el.expression instanceof StringLiteral) out += el.expression.value;
+    else if (el instanceof Placeable && el.expression instanceof TermReference && !el.expression.attribute && terms.has('-' + el.expression.id.name)) out += terms.get('-' + el.expression.id.name);
+    else return null;
+  }
+  return out;
+}
+
+/** The sentences a page must carry complete: the engine-legal-* messages (the engine's own advisories and notices) and the
+ *  glossary's -advisory family, in English and in `lang`. Returns [{id, en, tr}] (tr null when the language lacks it). */
+export function legalSentences(root, lang) {
+  const out = [];
+  const terms = (file) => { const e = entriesOf(file); const m = new Map(); if (e) for (const [id, v] of e.map) if (id.startsWith('-') && v.value) { const t = plainText(v.value); if (t !== null) m.set(id, t); } return m; };
+  const tEn = terms(join(root, 'en', 'glossary.ftl')), tLang = lang === 'en' ? tEn : terms(join(root, lang, 'glossary.ftl'));
+  const norm = (t) => t.replace(/\s+/g, ' ').trim();
+  const eng = entriesOf(join(root, 'en', 'engine.ftl')), engL = lang === 'en' ? eng : entriesOf(join(root, lang, 'engine.ftl'));
+  if (eng) for (const [id, e] of eng.map) {
+    if (!id.startsWith('engine-legal-')) continue;
+    const en = plainText(e.value, tEn);
+    if (en === null) continue;
+    const tr = engL && engL.map.get(id) ? plainText(engL.map.get(id).value, tLang) : null;
+    out.push({ id, en: norm(en), tr: tr === null ? null : norm(tr) });
+  }
+  const g = entriesOf(join(root, 'en', 'glossary.ftl')), gl = lang === 'en' ? g : entriesOf(join(root, lang, 'glossary.ftl'));
+  for (const name of ['-advisory']) {
+    const e = g && g.map.get(name); if (!e) continue;
+    const el = gl && gl.map.get(name);
+    const one = (ent, attr) => plainText(attr ? ent.attributes.find((a) => a.id.name === attr)?.value : ent.value, lang === 'en' ? tEn : tLang);
+    for (const attr of [null, 'maritime', 'research-test', 'short']) {
+      const en = one(e, attr); if (en === null) continue;
+      const tr = el ? one(el, attr) : null;
+      out.push({ id: name + (attr ? '.' + attr : ''), en: norm(en), tr: tr === null ? null : norm(tr) });
+    }
+  }
+  return out;
+}
+
+export const TIER_TOKENS = TOKENS;
+export function tokenRenderings(root, lang) {
+  const g = entriesOf(join(root, lang, 'glossary.ftl')), en = entriesOf(join(root, 'en', 'glossary.ftl'));
+  const term = (t) => '-' + (['VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY'].includes(t) ? 'tier-' : ['MET', 'NOT MET'].includes(t) ? 'verdict-' : 'status-') + t.toLowerCase().replace(/ /g, '-');
+  const out = {};
+  for (const t of TOKENS) { const e = (g && g.map.get(term(t))) || (en && en.map.get(term(t))); out[t] = e ? plainText(e.value) || t : t; }
+  return out;
+}
+
+/** The language's rendering of a glossary term (null when the language has not translated it) and a stem that survives inflection. */
+export function termStem(root, lang, id) {
+  const g = entriesOf(join(root, lang, 'glossary.ftl'));
+  const e = g && g.map.get(id);
+  const t = e && e.value ? plainText(e.value) : null;
+  if (!t) return null;
+  const low = t.toLowerCase();
+  const cut = low.length > 8 ? 3 : low.length > 5 ? 2 : 0;
+  return low.slice(0, low.length - cut);
+}
