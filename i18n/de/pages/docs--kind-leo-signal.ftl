@@ -107,3 +107,34 @@ seg-8eefe4197d7f = <s1>Zurück</s1>leo-pvt
 
 # text
 seg-60423e1ed0ca = <s1>Weiter</s1>link-budget
+
+# text
+seg-37d16b499bc5 = dB
+
+# text
+seg-37d29d8303fe = km
+
+# text
+seg-cb91473bfdda = Themenseite: <a1>LEO-PNT.md</a1>
+
+# text
+seg-a3697ad561db = Hz
+
+# text
+seg-1918189ac2bf = ppm
+
+# text
+seg-49964654d5f4 = Szenario-Kind der Engine v{ $version }, Familie <a1>Low-Earth-orbit navigation</a1>. Hinweis (beratend): Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; ein Kind ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung erworben wird: der Abschnitt Evidence der README).
+
+# text
+seg-c5478f572d21 = Familienseite: <a1>Low-Earth-orbit navigation</a1>
+
+# text
+seg-ae15d15bf151 = Themenseite: <a1>LEO-PASS.md</a1>
+
+# text
+seg-59b976838ef1 = <b>VALIDATED</b> navsignal: das Sinusintegral (sine_integral), der BPSK-R-Leistungsanteil innerhalb eines doppelseitigen Bandes in geschlossener Form (bpsk_power_in_band_closed_form), das Band. Orakel (ExternalDataset): Extern festgelegt: { "90.3" } Prozent Hauptkeulenleistung, der kohärente Early-Late-Jitter am angegebenen Arbeitspunkt, die Tabellenwerte des Sinusintegrals und der spektrale Selbst-Trennungskoeffizient von BPSK 2/({ "3" } R_c) bei Nullversatz. Nur interne Gegenprüfungen, keine externe Validierung: die geschlossene Form der bandbegrenzten BPSK-Gabor-Bandbreite und ihre Asymptote sowie der spektrale Trennungskoeffizient von BPSK mit Versatz bei von null verschiedenen Versätzen, beide
+
+# text
+# c1: leo-signal
+seg-faf2775f3003 = <b>MODELLED</b> Das Kind <c1/>: parametrisierte Signaldesigns (Band, Sendebandbreite, ITU-Zuweisung; Akquisitions-, Daten- und Pilotkomponenten mit BPSK(n), BOC(m,n), MB. Orakel (InternalConsistency): Die validierten geschlossenen Formen der beiden Zeilen darüber, die Quadratgesetz-Identität des Fehlalarms P_d(snr = { "0" }) = P_fa und die mittlere Akquisitionszeit nach Holmes sowie die Reduktion auf die eigene SSC-Kette des Spektrum-Kinds (derselbe Code Jammer::ssc). Die Designs selbst sind Eingaben: Als REPRESENTATIVE oder WORKSHOP markierte Voreinstellungen sind keine veröffentlichten Spezifikationen, erweiterte Feher-QPSK-, Code-Shift-Keying- und OFDM-Spektren werden angenähert, und die Form

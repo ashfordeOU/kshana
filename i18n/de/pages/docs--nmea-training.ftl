@@ -14,3 +14,9 @@ seg-f5e7215e6835 = Objekt
 
 # text
 seg-c5fb6b91dc68 = Grad
+
+# text
+seg-99427ab75a03 = Feld
+
+# text
+seg-bbcdd898d24d = Ganzzahl

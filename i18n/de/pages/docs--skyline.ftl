@@ -44,3 +44,12 @@ seg-587beeccaa11 = Voreinstellung
 
 # text
 seg-98f4f946a7ac = WASM
+
+# text
+seg-4dbf41c0ec3b = Funktion
+
+# text
+seg-2b0d77219437 = Voreinstellungen
+
+# text
+seg-7338b6210228 = Zeile

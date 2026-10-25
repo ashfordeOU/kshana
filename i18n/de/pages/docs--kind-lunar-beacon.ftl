@@ -55,3 +55,9 @@ seg-ebb9724de60a = <s1>Zurück</s1>lunar-attack-surface
 
 # text
 seg-ca9b68783354 = <s1>Weiter</s1>lunar-differential-pnt
+
+# text
+seg-1f17ef6a853e = Szenarioart der Engine v{ $version }, Familie <a1>Mond und cislunarer Raum</a1>. Beratend: Analyseausgabe eines Forschungs- und Entwicklungswerkzeugs, keine typzugelassene Navigationsausrüstung und kein Dienst für die Sicherheit von Menschenleben. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; eine Art ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung verdient wird: der Abschnitt Evidence der README).
+
+# text
+seg-1c1eeb2dcaa0 = Familienseite: <a1>Mond und cislunarer Raum</a1>

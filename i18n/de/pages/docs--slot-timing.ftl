@@ -23,3 +23,6 @@ seg-f63dd3d7aad4 = Quelle
 
 # text
 seg-1ff32b87e030 = Satelliten
+
+# text
+seg-430edd66bda0 = Nicht modelliert

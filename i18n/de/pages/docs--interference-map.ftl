@@ -546,3 +546,117 @@ seg-295e8a28a5b9 = mindestens { "3" } Meldungen in der Zelle, mehr als { "2000" 
 
 # text
 seg-fd21160e6685 = ein Fenster von { "20" } aufeinanderfolgenden Meldungen (Schrittweite { "10" }, Lücken höchstens { "30" } min), dessen mittlerer Radius vom Schwerpunkt { "500" } m bis { "20" } km beträgt, Variationskoeffizient des Radius höchstens { "0.15" }, eine Fahrtrichtung mit einer Gesamtdrehung von mindestens { "270" } Grad (Schritte höchstens { "90" } Grad, netto mindestens { "80" } % der Summe) und mittlere Geschwindigkeit mindestens { "2" } kn
+
+# text
+seg-1aa30db06794 = mindestens { "2" } Sprünge, die in der Zelle eintreffen: aufeinanderfolgende Meldungen mindestens { "1000" } m voneinander entfernt, höchstens { "1" } h auseinander, was mehr als { "70" } kn bedeutet (die implizierte Geschwindigkeit setzt mindestens { "1" } s zwischen den Meldungen an, sodass zwei Meldungen mit demselben Zeitstempel und Positionen im Abstand von { "1" } km oder mehr als Sprung zählen)
+
+# text
+seg-7f9b22254009 = mindestens { "3" } gemeldete Geschwindigkeiten über { "70" } kn in der Zelle
+
+# text
+seg-e0d0968e8751 = mindestens { "5" } verschiedene Schiffe, die dieselbe Position melden (gerundet auf { "1e-4" } Grad, etwa { "11" } m) im selben 10-Minuten-Fenster
+
+# text
+# c1: null
+seg-1bf4c460672c = Zellen mit weniger als { "5" } verschiedenen Schiffen werden nicht veröffentlicht; jede markierte Anzahl unter { "5" }, Null eingeschlossen, wird als <c1/> gemeldet.
+
+# text
+# c1: anomalous
+seg-b2ea2ec6bad1 = <b>Version { "2" }.</b> Version { "1" } qualifizierte einen Detektor aus { "3" } markierten Schiffen und veröffentlichte Anzahlen von { "3" } und { "4" }. Version { "2" } hebt das Minimum markierter Schiffe auf { "5" } an, das Veröffentlichungsminimum, sodass sich ein Urteil <c1/> nie auf weniger Schiffe stützt als auf die Zahl, unter der Anzahlen zurückgehalten werden. Das verschärft die Methode, und es wurde keine Datei der Version { "1" } veröffentlicht.
+
+# text
+seg-25593339aeb0 = <b>Bekannte Ursachen für Fehlalarme</b>, die die Anteilsregel und die Schwellen verringern, aber nicht beseitigen: Schiffe in Flüssen, Kanälen und Häfen nahe einer groben Küstenlinie (dafür gibt es den Binnenlandpuffer von { "2" } km); zwei Schiffe, die eine Kennung teilen, was wie Sprünge aussieht; Transponder mit schlechter Ortung oder Testgeräte; und Kreisfahrten von Lotsenbooten und Suchschiffen, die Kreisen ähneln können. Eine Küstenlinien-Datei im Maßstab { "1" }:{ "10" } Millionen ist auf etwa einen Kilometer genau.
+
+# text
+seg-ac661440a29a = Die Sprung- und Geschwindigkeitsdetektoren vergleichen Meldungen innerhalb einer Eingabedatei; eine auf mehrere Dateien oder Tage verteilte Spur wird nicht zusammengefügt.
+
+# text
+seg-05f789b26904 = <b>Speicher.</b> Die Eingabe wird zeilenweise gelesen und nie als Ganzes gehalten. ADS-B hält nur Zähler je Luftfahrzeug und Zelle. AIS hält jede akzeptierte Meldung in einem kompakten Datensatz (etwa { "40" } Byte), bis ihr Tag ausgewertet ist; der Speicherbedarf wächst also mit der Zahl der AIS-Meldungen in der Eingabe; teilen Sie eine sehr große AIS-Eingabe nach Tagen auf.
+
+# text
+seg-206c78a69ded = Routenexposition
+
+# text
+# c1: --route
+# c2: lat,lon
+# c3: --map
+seg-0d8832796ab7 = <c1/> ist ein GeoJSON-LineString (einzeln, in einem Feature oder in einer FeatureCollection) oder eine CSV aus Zeilen der Form <c2/>. <c3/> nimmt Kartendateien oder Verzeichnisse davon entgegen und darf wiederholt werden. Wegpunkte werden durch gerade Linien in Breite und Länge verbunden, verdichten Sie also lange Abschnitte; ein Abschnitt nimmt in der Länge den kurzen Weg herum, sodass einer, der den Antimeridian ({ "179.5" } E nach { "179.5" } W) quert, ihn auch quert. Die Route wird in Stücke von etwa { "250" } m zerlegt. Jedes Stück wird zwischen seinen eigenen zwei Endpunkten auf einer Kugel mit dem Radius { "6371.0088" } km gemessen (derselbe Pfad, der entscheidet, in welcher Zelle es liegt) und der Zelle zugeordnet, die seinen Mittelpunkt enthält.
+
+# text
+# c1: share_degraded
+# c2: share_not_degraded
+# c3: share_unassessed
+# c4: share_not_observed
+seg-cc5e2553700b = Je Tag und je Quelle gibt der Bericht die Routenlänge und vier Anteile an, die sich zu { "1" } summieren: <c1/>, <c2/>, <c3/> (Zelle vorhanden, aber ohne Urteil) und <c4/> (Zelle fehlt in der Karte). Lesen Sie die letzten beiden zusammen mit dem ersten: Bei einer Route mit niedrigem Anteil beeinträchtigter Zellen und hohem Anteil nicht beobachteter Zellen ist nicht gezeigt, dass sie frei ist. ADS-B- und AIS-Zeilen werden getrennt gemeldet und nie kombiniert. Jede Zeile trägt die Lizenz und die Quellenangabe der Karte.
+
+# text
+seg-3a087d90e317 = Bibliotheksfunktionen
+
+# text
+# c1: kshana::interference_map::api
+seg-67ea1ff00bb8 = Für Aufrufer, die Daten im Speicher halten (Bindings, der MCP-Server, der Browser-Build), stellt das Modul <c1/> dieselben Methoden bereit, mit Text oder Bytes als Eingabe und JSON als Ausgabe, ohne eine Datei oder das Netz zu berühren:
+
+# text
+seg-4dbf41c0ec3b = Funktion
+
+# text
+seg-95f87a38a522 = Eingabe
+
+# text
+seg-0fe8ff25f4a1 = Ausgabe
+
+# text
+seg-9e99af2c1f84 = ADS-B-CSV-Text
+
+# text
+seg-e144f449c5b4 = ein Byte-Slice je readsb-Trace-Datei (gzip oder unkomprimiert)
+
+# text
+seg-7effd7110c4c = AIS-CSV-Text, optional GeoJSON-Text des Landes
+
+# text
+# c1: YYYY-MM-DD
+seg-10c5e0c0a9c8 = Routentext, Karten-GeoJSON-Texte, optional Grenzen <c1/>
+
+# text
+# c1: kshana-route-exposure/v1
+seg-be00d23d96e9 = <c1/>-JSON
+
+# text
+# c1: DayMap
+# c2: file_name
+# c3: <source>-<dataset>-<date>.geojson
+# c4: date
+# c5: geojson
+# c6: DatasetSpec
+# c7: Preset("adsb-lol" | "noaa-marinecadastre" | "kystverket")
+# c8: Custom { licence, licence_url, attribution }
+# c9: DEFAULT_CELL_DEG
+# c10: MapError
+seg-20a842d675c2 = Eine <c1/> hat <c2/> (<c3/>), <c4/> und <c5/> (das v1-Dokument). <c6/> ist <c7/> oder <c8/>; <c9/> ist { "0.5" }. Fehler sind <c10/>. Die Datensatzregeln (zugelassene Voreinstellungen, Lizenztext erforderlich, Art muss passen) gelten genau wie auf der Kommandozeile.
+
+# text
+seg-1195686de09b = Externe Validierung
+
+# text
+# c1: tests/interference_map_reference.rs
+# c2: tests/fixtures/interference_map_ref/PREREGISTRATION.md
+# c3: scripts/gen_interference_map_ref.py
+seg-0de37085f544 = <c1/> vergleicht Kshana mit unabhängigen Implementierungen auf synthetischen Eingaben, mit in <c2/> vorab registrierten Toleranzen: die Bedeutungen der NIC- und NACp-Codes gegen die pyModeS-Dekodierung synthetischer ADS-B-Frames, die Werte „nicht verfügbar“ bei AIS gegen die pyais-Dekodierung synthetischer AIVDM-Sätze, die Zuordnung zu Gitterzellen gegen shapely, die Routenlänge je Zellzustand gegen shapely und GeographicLib sowie die Binnenlandmaskierung gegen shapely und pyproj. Die Fixtures werden von <c3/> erzeugt; CI braucht kein Python. Das validiert, wie die Codes und Feldwerte gelesen werden, und die Geometrie. Es validiert nicht, dass eine markierte Zelle eine Störung ist.
+
+# text
+# c1: src/interference_map/
+# c2: tests/interference_map_cli.rs
+seg-56a3e955cbcc = Alle Tests verwenden synthetisch erzeugte Daten und kein Netz: Unit-Tests in <c1/> und <c2/> für die Befehle von Anfang bis Ende, einschließlich dessen, dass keine Kennung in eine Ausgabe gelangt und dass Zurückweisungen keine Dateien hinterlassen.
+
+# text
+seg-212c43d1a41c = <s1>Zurück</s1>NMEA-Trainingsströme
+
+# text
+seg-7f13ee5d254e = <s1>Weiter</s1>Störungskarte: Datenquellen und Lizenzen
+
+# text
+seg-1fc1794d9388 = ADS-B-Methode (kshana-interference-map/adsb/v2)
+
+# text
+seg-a3a97ab49ed1 = AIS-Methode (kshana-interference-map/ais/v2)

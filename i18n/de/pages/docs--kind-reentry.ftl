@@ -59,3 +59,21 @@ seg-a4b7c16e3fea = <s1>Zurück</s1>realtime-frame-eop
 
 # text
 seg-6166a1c21525 = <s1>Weiter</s1>slot-timing
+
+# text
+seg-99ef7c1d552c = Szenarioart der Engine v{ $version }, Familie <a1>Missionsanalyse, Links und Raumfahrtbetrieb</a1>. Beratend: Analyseausgabe eines Forschungs- und Entwicklungswerkzeugs, keine typzugelassene Navigationsausrüstung und kein Dienst für die Sicherheit von Menschenleben. Jede Bezeichnung hier stammt von der Engine oder der Verifikationsmatrix; eine Art ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Bezeichnung verdient wird: der Abschnitt Evidence der README).
+
+# text
+seg-8f1e7d3f5a07 = Familienseite: <a1>Missionsanalyse, Links und Raumfahrtbetrieb</a1>
+
+# text
+seg-3a3ee499961e = <b>MODELLED</b> Ebener Gravity-Turn-Aufstieg eines mehrstufigen Fahrzeugs über einer nicht rotierenden kugelförmigen Erde durch die US Standard Atmosphere { "1976" } (Dichte und Druck), mit einem Nickimpuls, durch den Düsengegendruck verringertem Schub, Stufenbrennschlüssen bei exakten s
+
+# text
+seg-8e62cc4af6ea = Themenseite: <a1>ENTRY-EO-ASCENT.md</a1>
+
+# text
+seg-05ce408c2dbb = kg/m^{ "2" }
+
+# text
+seg-195347c63a8a = m/s^{ "2" }

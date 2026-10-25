@@ -121,3 +121,9 @@ seg-8b49f6477e8f = Offener Kern
 
 # attr:aria-label, text
 seg-6555ff9a6d8e = Ausgabe
+
+# text
+seg-70a79ec95bf4 = nicht bestanden
+
+# text
+seg-7a33a168b020 = bestanden

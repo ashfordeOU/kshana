@@ -80,3 +80,6 @@ seg-6a42653a8a0f = <s1>Zurück</s1>combined-altpnt
 
 # text
 seg-2bd3e9d1505c = <s1>Weiter</s1>constellation-design
+
+# text
+seg-c4ed27a559df = Themenseite: <a1>RESILIENCE-CROSSWALK.md</a1>
