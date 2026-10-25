@@ -7,3 +7,5 @@ seg-2247a2344710 = Значення
 seg-fdbb9db68f1d = немає
 
 seg-f63dd3d7aad4 = Джерело
+
+seg-c353e7bec219 = Ключ

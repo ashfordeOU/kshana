@@ -9,3 +9,5 @@ seg-abec93a4a488 = рядок або null
 seg-f5e7215e6835 = об'єкт
 
 seg-b993ef559bd0 = Із коду
+
+seg-c353e7bec219 = Ключ
