@@ -25,7 +25,28 @@ engine-e-clock-log-cannot-read-clock-log = impossible de lire le journal d'horlo
 
 engine-e-clock-log-clock-log-path-is-not = un chemin de journal d'horloge n'est pas disponible dans la version WebAssembly ; fournissez le journal sous forme de texte
 
-engine-e-clock-log-the-log-has-missing-epoch = le journal { $format } comporte { $n_missing } époque(s) manquante(s) dans { $n_gaps } lacune(s) sur une grille de { $tau0 } s ; définissez gaps = "longest" pour conserver la plus longue séquence sans lacune ou gaps = "linear" pour interpoler
+engine-e-clock-log-the-log-has-missing-epoch =
+    { $n_missing ->
+        [one]
+            { $n_gaps ->
+                [one] le journal { $format } comporte { $n_missing } époque manquante dans { $n_gaps } lacune sur une grille de { $tau0 } s ; définissez gaps = "longest" pour conserver la plus longue séquence sans lacune ou gaps = "linear" pour interpoler
+                [many] le journal { $format } comporte { $n_missing } époque manquante dans { $n_gaps } de lacunes sur une grille de { $tau0 } s ; définissez gaps = "longest" pour conserver la plus longue séquence sans lacune ou gaps = "linear" pour interpoler
+               *[other] le journal { $format } comporte { $n_missing } époque manquante dans { $n_gaps } lacunes sur une grille de { $tau0 } s ; définissez gaps = "longest" pour conserver la plus longue séquence sans lacune ou gaps = "linear" pour interpoler
+            }
+        [many]
+            { $n_gaps ->
+                [one] le journal { $format } comporte { $n_missing } d'époques manquantes dans { $n_gaps } lacune sur une grille de { $tau0 } s ; définissez gaps = "longest" pour conserver la plus longue séquence sans lacune ou gaps = "linear" pour interpoler
+                [many] le journal { $format } comporte { $n_missing } d'époques manquantes dans { $n_gaps } de lacunes sur une grille de { $tau0 } s ; définissez gaps = "longest" pour conserver la plus longue séquence sans lacune ou gaps = "linear" pour interpoler
+               *[other] le journal { $format } comporte { $n_missing } d'époques manquantes dans { $n_gaps } lacunes sur une grille de { $tau0 } s ; définissez gaps = "longest" pour conserver la plus longue séquence sans lacune ou gaps = "linear" pour interpoler
+            }
+       *[other]
+            { $n_gaps ->
+                [one] le journal { $format } comporte { $n_missing } époques manquantes dans { $n_gaps } lacune sur une grille de { $tau0 } s ; définissez gaps = "longest" pour conserver la plus longue séquence sans lacune ou gaps = "linear" pour interpoler
+                [many] le journal { $format } comporte { $n_missing } époques manquantes dans { $n_gaps } de lacunes sur une grille de { $tau0 } s ; définissez gaps = "longest" pour conserver la plus longue séquence sans lacune ou gaps = "linear" pour interpoler
+               *[other] le journal { $format } comporte { $n_missing } époques manquantes dans { $n_gaps } lacunes sur une grille de { $tau0 } s ; définissez gaps = "longest" pour conserver la plus longue séquence sans lacune ou gaps = "linear" pour interpoler
+            }
+    }
+
 
 engine-e-clock-log-the-log-yields-usable-sample = le journal { $format } fournit { $x } échantillon(s) utilisable(s) ; au moins 3 sont nécessaires
 
@@ -195,7 +216,13 @@ engine-advanced-report-field-units-schema-units-entry = schéma des unités de c
 
 engine-advanced-report-field-units-schema-input-entry = schéma des unités de champ : entrée input `{ $key }`, appariée par nom de champ
 
-engine-advanced-report-rows-of-non-numeric-column = { $n } lignes d'une colonne non numérique
+engine-advanced-report-rows-of-non-numeric-column =
+    { $n ->
+        [one] { $n } ligne d'une colonne non numérique
+        [many] { $n } de lignes d'une colonne non numérique
+       *[other] { $n } lignes d'une colonne non numérique
+    }
+
 
 engine-advanced-report-rows-from-to = { $nums } lignes, de { $fmt_num } à { $fmt_num2 }
 
@@ -297,7 +324,13 @@ engine-e-animation-animation-duration-must-be-between = la durée de l'animation
 
 engine-e-animation-animation-width-must-be-between = la largeur de l'animation doit être comprise entre 480 et 3840 pixels, reçu : { $width }
 
-engine-e-animation-duration-fps-gives-frames-the = durée x fps donne { $n } images ; la séquence d'images nécessite entre 2 et { $v1 }
+engine-e-animation-duration-fps-gives-frames-the =
+    { $n ->
+        [one] durée x fps donne { $n } image ; la séquence d'images nécessite entre 2 et { $v1 }
+        [many] durée x fps donne { $n } d'images ; la séquence d'images nécessite entre 2 et { $v1 }
+       *[other] durée x fps donne { $n } images ; la séquence d'images nécessite entre 2 et { $v1 }
+    }
+
 
 engine-e-animation-result-is-not-json = le résultat n'est pas du JSON : { $e }
 
@@ -369,7 +402,13 @@ engine-e-aocs-kind-estimator-gyro-bias0-rad-must = estimator.gyro_bias0_rad_s do
 
 engine-e-aocs-kind-estimator-star-tracker-every-must = estimator.star_tracker_every_s doit être au moins égal à dt_s
 
-engine-aocs-kind-aocs-wheels-slew-from-deg = aocs : { $n_w } roues, réorientation de { $duration_s } s depuis { $series_err } deg -> { $settle } | final { $final_err } deg | pic de roue { $peak_speed } rpm | { $v7 }
+engine-aocs-kind-aocs-wheels-slew-from-deg =
+    { $n_w ->
+        [one] aocs : { $n_w } roue, réorientation de { $duration_s } s depuis { $series_err } deg -> { $settle } | final { $final_err } deg | pic de roue { $peak_speed } rpm | { $v7 }
+        [many] aocs : { $n_w } de roues, réorientation de { $duration_s } s depuis { $series_err } deg -> { $settle } | final { $final_err } deg | pic de roue { $peak_speed } rpm | { $v7 }
+       *[other] aocs : { $n_w } roues, réorientation de { $duration_s } s depuis { $series_err } deg -> { $settle } | final { $final_err } deg | pic de roue { $peak_speed } rpm | { $v7 }
+    }
+
 
 ## src/aperture_duty.rs
 
@@ -401,9 +440,21 @@ engine-e-api-invalid-scenario = scénario invalide : { $e }
 
 engine-e-api-clock-log = clock_log : { $e }
 
-engine-api-unknown-scenario-kind-did-you = type de scénario { $other } inconnu — vouliez-vous dire { $hint } ? `kshana kinds` liste les { $n } types intégrés.
+engine-api-unknown-scenario-kind-did-you =
+    { $n ->
+        [one] type de scénario { $other } inconnu — vouliez-vous dire { $hint } ? `kshana kinds` liste le seul type intégré ({ $n }).
+        [many] type de scénario { $other } inconnu — vouliez-vous dire { $hint } ? `kshana kinds` liste les { $n } de types intégrés.
+       *[other] type de scénario { $other } inconnu — vouliez-vous dire { $hint } ? `kshana kinds` liste les { $n } types intégrés.
+    }
 
-engine-api-unknown-scenario-kind-kshana-kinds = type de scénario { $other } inconnu. `kshana kinds` liste les { $n } types intégrés.
+
+engine-api-unknown-scenario-kind-kshana-kinds =
+    { $n ->
+        [one] type de scénario { $other } inconnu. `kshana kinds` liste le seul type intégré ({ $n }).
+        [many] type de scénario { $other } inconnu. `kshana kinds` liste les { $n } de types intégrés.
+       *[other] type de scénario { $other } inconnu. `kshana kinds` liste les { $n } types intégrés.
+    }
+
 
 engine-api-required-fields = - **Champs obligatoires :** { $fields }{ "\u000A" }
 
@@ -443,7 +494,13 @@ engine-api-builtins-scenario-quantum-holdover-p95-classical = scénario { $r } |
 
 engine-api-builtins-scenario-spoof-vs-ns-spec = scénario { $r } | leurrage { $scn } contre spéc. { $threshold_ns } ns (P_fa { $target_pfa }) | sécurité quantique { $security_fom } (P_md { $analytic_pmd }, MC { $mc_pmd }) { $det } | sécurité classique { $security_fom2 } (P_md { $analytic_pmd2 }, MC { $mc_pmd2 }) { $det2 }
 
-engine-api-builtins-integrity-satellites-epochs-available-hal = intégrité | { $n_sats } satellites | { $samples_available }/{ $samples_total } époques disponibles ({ $report } %) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V) : { $report2 } événements d'intégrité, { $report3 } HMI
+engine-api-builtins-integrity-satellites-epochs-available-hal =
+    { $n_sats ->
+        [one] intégrité | { $n_sats } satellite | { $samples_available }/{ $samples_total } époques disponibles ({ $report } %) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V) : { $report2 } événements d'intégrité, { $report3 } HMI
+        [many] intégrité | { $n_sats } de satellites | { $samples_available }/{ $samples_total } époques disponibles ({ $report } %) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V) : { $report2 } événements d'intégrité, { $report3 } HMI
+       *[other] intégrité | { $n_sats } satellites | { $samples_available }/{ $samples_total } époques disponibles ({ $report } %) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V) : { $report2 } événements d'intégrité, { $report3 } HMI
+    }
+
 
 engine-api-builtins-lunar-integrity-south-pole-epochs = lunar-integrity | pôle Sud | { $samples_available }/{ $samples_total } époques disponibles ({ $report } %) | AL { $alert_limit_m } m | σ_URE { $sigma_ure_m } m | HPL { $min_hpl_m }–{ $max_hpl_m } m
 
@@ -451,21 +508,207 @@ engine-api-builtins-lunar-time-offset-secular-ltc = lunar-time-offset | taux sé
 
 engine-api-builtins-lunar-vlbi-baseline-km-beacon = lunar-vlbi | base { $baseline_km } km | distance de la balise { $beacon_range_km } km | délai { $report } µs (taux { $delay_rate_s_per_s } s/s) | champ proche { $near_field_correction_us } µs | { $samples } échantillons sur { $horizon_hours } h
 
-engine-api-builtins-lunar-joint-od-clock-sats = lunar-joint-od-clock | { $n_sat } satellites, { $n_earth } stations terrestres | erreur 3-D de station avec VLBI { $station_pos_err_m } m contre distance seule { $station_pos_err_m2 } m ({ $station_observability_improvement_factor }× plus net) | position du satellite RMS { $sat_pos_rms_m } m | erreur d'horloge de station { $station_clock_err_s } s | obs. { $n_obs }/{ $n_params } paramètres
+engine-api-builtins-lunar-joint-od-clock-sats =
+    { $n_sat ->
+        [one]
+            { $n_earth ->
+                [one] lunar-joint-od-clock | { $n_sat } satellite, { $n_earth } station terrestre | erreur 3-D de station avec VLBI { $station_pos_err_m } m contre distance seule { $station_pos_err_m2 } m ({ $station_observability_improvement_factor }× plus net) | position du satellite RMS { $sat_pos_rms_m } m | erreur d'horloge de station { $station_clock_err_s } s | obs. { $n_obs }/{ $n_params } paramètres
+                [many] lunar-joint-od-clock | { $n_sat } satellite, { $n_earth } de stations terrestres | erreur 3-D de station avec VLBI { $station_pos_err_m } m contre distance seule { $station_pos_err_m2 } m ({ $station_observability_improvement_factor }× plus net) | position du satellite RMS { $sat_pos_rms_m } m | erreur d'horloge de station { $station_clock_err_s } s | obs. { $n_obs }/{ $n_params } paramètres
+               *[other] lunar-joint-od-clock | { $n_sat } satellite, { $n_earth } stations terrestres | erreur 3-D de station avec VLBI { $station_pos_err_m } m contre distance seule { $station_pos_err_m2 } m ({ $station_observability_improvement_factor }× plus net) | position du satellite RMS { $sat_pos_rms_m } m | erreur d'horloge de station { $station_clock_err_s } s | obs. { $n_obs }/{ $n_params } paramètres
+            }
+        [many]
+            { $n_earth ->
+                [one] lunar-joint-od-clock | { $n_sat } de satellites, { $n_earth } station terrestre | erreur 3-D de station avec VLBI { $station_pos_err_m } m contre distance seule { $station_pos_err_m2 } m ({ $station_observability_improvement_factor }× plus net) | position du satellite RMS { $sat_pos_rms_m } m | erreur d'horloge de station { $station_clock_err_s } s | obs. { $n_obs }/{ $n_params } paramètres
+                [many] lunar-joint-od-clock | { $n_sat } de satellites, { $n_earth } de stations terrestres | erreur 3-D de station avec VLBI { $station_pos_err_m } m contre distance seule { $station_pos_err_m2 } m ({ $station_observability_improvement_factor }× plus net) | position du satellite RMS { $sat_pos_rms_m } m | erreur d'horloge de station { $station_clock_err_s } s | obs. { $n_obs }/{ $n_params } paramètres
+               *[other] lunar-joint-od-clock | { $n_sat } de satellites, { $n_earth } stations terrestres | erreur 3-D de station avec VLBI { $station_pos_err_m } m contre distance seule { $station_pos_err_m2 } m ({ $station_observability_improvement_factor }× plus net) | position du satellite RMS { $sat_pos_rms_m } m | erreur d'horloge de station { $station_clock_err_s } s | obs. { $n_obs }/{ $n_params } paramètres
+            }
+       *[other]
+            { $n_earth ->
+                [one] lunar-joint-od-clock | { $n_sat } satellites, { $n_earth } station terrestre | erreur 3-D de station avec VLBI { $station_pos_err_m } m contre distance seule { $station_pos_err_m2 } m ({ $station_observability_improvement_factor }× plus net) | position du satellite RMS { $sat_pos_rms_m } m | erreur d'horloge de station { $station_clock_err_s } s | obs. { $n_obs }/{ $n_params } paramètres
+                [many] lunar-joint-od-clock | { $n_sat } satellites, { $n_earth } de stations terrestres | erreur 3-D de station avec VLBI { $station_pos_err_m } m contre distance seule { $station_pos_err_m2 } m ({ $station_observability_improvement_factor }× plus net) | position du satellite RMS { $sat_pos_rms_m } m | erreur d'horloge de station { $station_clock_err_s } s | obs. { $n_obs }/{ $n_params } paramètres
+               *[other] lunar-joint-od-clock | { $n_sat } satellites, { $n_earth } stations terrestres | erreur 3-D de station avec VLBI { $station_pos_err_m } m contre distance seule { $station_pos_err_m2 } m ({ $station_observability_improvement_factor }× plus net) | position du satellite RMS { $sat_pos_rms_m } m | erreur d'horloge de station { $station_clock_err_s } s | obs. { $n_obs }/{ $n_params } paramètres
+            }
+    }
 
-engine-api-builtins-lunar-frame-realisation-points-translation = lunar-frame-realisation | { $n_points } points | erreur de translation { $trans_err_norm_m } m, erreur de rotation { $rot_err_norm_rad } rad, erreur d'échelle { $scale_err_ppb } ppb | résidu RMS { $rms_residual_m } m | convergé { $converged }
 
-engine-api-builtins-moonlight-service-volume-sats-pts = moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+engine-api-builtins-lunar-frame-realisation-points-translation =
+    { $n_points ->
+        [one] lunar-frame-realisation | { $n_points } point | erreur de translation { $trans_err_norm_m } m, erreur de rotation { $rot_err_norm_rad } rad, erreur d'échelle { $scale_err_ppb } ppb | résidu RMS { $rms_residual_m } m | convergé { $converged }
+        [many] lunar-frame-realisation | { $n_points } de points | erreur de translation { $trans_err_norm_m } m, erreur de rotation { $rot_err_norm_rad } rad, erreur d'échelle { $scale_err_ppb } ppb | résidu RMS { $rms_residual_m } m | convergé { $converged }
+       *[other] lunar-frame-realisation | { $n_points } points | erreur de translation { $trans_err_norm_m } m, erreur de rotation { $rot_err_norm_rad } rad, erreur d'échelle { $scale_err_ppb } ppb | résidu RMS { $rms_residual_m } m | convergé { $converged }
+    }
+
+
+engine-api-builtins-moonlight-service-volume-sats-pts =
+    { $n_sats ->
+        [one]
+            { $n_grid_points ->
+                [one]
+                    { $n_epochs ->
+                        [one] moonlight-service-volume | { $n_sats } satellite ({ $geometry_label }) | { $n_grid_points } point × { $n_epochs } époque | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                        [many] moonlight-service-volume | { $n_sats } satellite ({ $geometry_label }) | { $n_grid_points } point × { $n_epochs } d'époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                       *[other] moonlight-service-volume | { $n_sats } satellite ({ $geometry_label }) | { $n_grid_points } point × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                    }
+                [many]
+                    { $n_epochs ->
+                        [one] moonlight-service-volume | { $n_sats } satellite ({ $geometry_label }) | { $n_grid_points } de points × { $n_epochs } époque | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                        [many] moonlight-service-volume | { $n_sats } satellite ({ $geometry_label }) | { $n_grid_points } de points × { $n_epochs } d'époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                       *[other] moonlight-service-volume | { $n_sats } satellite ({ $geometry_label }) | { $n_grid_points } de points × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                    }
+               *[other]
+                    { $n_epochs ->
+                        [one] moonlight-service-volume | { $n_sats } satellite ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } époque | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                        [many] moonlight-service-volume | { $n_sats } satellite ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } d'époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                       *[other] moonlight-service-volume | { $n_sats } satellite ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                    }
+            }
+        [many]
+            { $n_grid_points ->
+                [one]
+                    { $n_epochs ->
+                        [one] moonlight-service-volume | { $n_sats } de satellites ({ $geometry_label }) | { $n_grid_points } point × { $n_epochs } époque | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                        [many] moonlight-service-volume | { $n_sats } de satellites ({ $geometry_label }) | { $n_grid_points } point × { $n_epochs } d'époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                       *[other] moonlight-service-volume | { $n_sats } de satellites ({ $geometry_label }) | { $n_grid_points } point × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                    }
+                [many]
+                    { $n_epochs ->
+                        [one] moonlight-service-volume | { $n_sats } de satellites ({ $geometry_label }) | { $n_grid_points } de points × { $n_epochs } époque | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                        [many] moonlight-service-volume | { $n_sats } de satellites ({ $geometry_label }) | { $n_grid_points } de points × { $n_epochs } d'époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                       *[other] moonlight-service-volume | { $n_sats } de satellites ({ $geometry_label }) | { $n_grid_points } de points × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                    }
+               *[other]
+                    { $n_epochs ->
+                        [one] moonlight-service-volume | { $n_sats } de satellites ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } époque | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                        [many] moonlight-service-volume | { $n_sats } de satellites ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } d'époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                       *[other] moonlight-service-volume | { $n_sats } de satellites ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                    }
+            }
+       *[other]
+            { $n_grid_points ->
+                [one]
+                    { $n_epochs ->
+                        [one] moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } point × { $n_epochs } époque | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                        [many] moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } point × { $n_epochs } d'époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                       *[other] moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } point × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                    }
+                [many]
+                    { $n_epochs ->
+                        [one] moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } de points × { $n_epochs } époque | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                        [many] moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } de points × { $n_epochs } d'époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                       *[other] moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } de points × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                    }
+               *[other]
+                    { $n_epochs ->
+                        [one] moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } époque | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                        [many] moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } d'époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                       *[other] moonlight-service-volume | { $n_sats } satellites ({ $geometry_label }) | { $n_grid_points } points × { $n_epochs } époques | couverture { $coverage_pct } % (PDOP<{ $pdop_threshold }) | satellites { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | disponibilité PL { $pl_availability_pct } % | MODELLED
+                    }
+            }
+    }
+
 
 engine-api-builtins-ephemeris-ure-required-vs-keplerian = { " " }| éphéméride { $report } ({ $provenance }) σ_URE requis { $fmt } contre képlérien { $fmt2 } contre perturbé { $fmt3 } (Δ { $fmt4 })
 
-engine-api-builtins-lunar-differential-pnt-sats-illustrative = lunar-differential-pnt | { $n_sats } satellites (illustratifs, de classe LCNS, sans affiliation) | base { $baseline_km } km | erreur utilisateur { $user_error_uncorrected_m } m → { $user_error_corrected_m } m (réduction ×{ $reduction_factor }) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
+engine-api-builtins-lunar-differential-pnt-sats-illustrative =
+    { $n_sats ->
+        [one] lunar-differential-pnt | { $n_sats } satellite (illustratif, de classe LCNS, sans affiliation) | base { $baseline_km } km | erreur utilisateur { $user_error_uncorrected_m } m → { $user_error_corrected_m } m (réduction ×{ $reduction_factor }) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
+        [many] lunar-differential-pnt | { $n_sats } de satellites (illustratifs, de classe LCNS, sans affiliation) | base { $baseline_km } km | erreur utilisateur { $user_error_uncorrected_m } m → { $user_error_corrected_m } m (réduction ×{ $reduction_factor }) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
+       *[other] lunar-differential-pnt | { $n_sats } satellites (illustratifs, de classe LCNS, sans affiliation) | base { $baseline_km } km | erreur utilisateur { $user_error_uncorrected_m } m → { $user_error_corrected_m } m (réduction ×{ $reduction_factor }) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
+    }
 
-engine-api-builtins-lunar-station-coverage-points-epochs = lunar-station-coverage | { $n_grid_points } points x { $n_epochs } époques x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+
+engine-api-builtins-lunar-station-coverage-points-epochs =
+    { $n_grid_points ->
+        [one]
+            { $n_epochs ->
+                [one]
+                    { $n_trials ->
+                        [one] lunar-station-coverage | { $n_grid_points } point x { $n_epochs } époque x { $n_trials } essai | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                        [many] lunar-station-coverage | { $n_grid_points } point x { $n_epochs } époque x { $n_trials } d'essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                       *[other] lunar-station-coverage | { $n_grid_points } point x { $n_epochs } époque x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                    }
+                [many]
+                    { $n_trials ->
+                        [one] lunar-station-coverage | { $n_grid_points } point x { $n_epochs } d'époques x { $n_trials } essai | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                        [many] lunar-station-coverage | { $n_grid_points } point x { $n_epochs } d'époques x { $n_trials } d'essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                       *[other] lunar-station-coverage | { $n_grid_points } point x { $n_epochs } d'époques x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                    }
+               *[other]
+                    { $n_trials ->
+                        [one] lunar-station-coverage | { $n_grid_points } point x { $n_epochs } époques x { $n_trials } essai | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                        [many] lunar-station-coverage | { $n_grid_points } point x { $n_epochs } époques x { $n_trials } d'essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                       *[other] lunar-station-coverage | { $n_grid_points } point x { $n_epochs } époques x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                    }
+            }
+        [many]
+            { $n_epochs ->
+                [one]
+                    { $n_trials ->
+                        [one] lunar-station-coverage | { $n_grid_points } de points x { $n_epochs } époque x { $n_trials } essai | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                        [many] lunar-station-coverage | { $n_grid_points } de points x { $n_epochs } époque x { $n_trials } d'essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                       *[other] lunar-station-coverage | { $n_grid_points } de points x { $n_epochs } époque x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                    }
+                [many]
+                    { $n_trials ->
+                        [one] lunar-station-coverage | { $n_grid_points } de points x { $n_epochs } d'époques x { $n_trials } essai | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                        [many] lunar-station-coverage | { $n_grid_points } de points x { $n_epochs } d'époques x { $n_trials } d'essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                       *[other] lunar-station-coverage | { $n_grid_points } de points x { $n_epochs } d'époques x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                    }
+               *[other]
+                    { $n_trials ->
+                        [one] lunar-station-coverage | { $n_grid_points } de points x { $n_epochs } époques x { $n_trials } essai | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                        [many] lunar-station-coverage | { $n_grid_points } de points x { $n_epochs } époques x { $n_trials } d'essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                       *[other] lunar-station-coverage | { $n_grid_points } de points x { $n_epochs } époques x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                    }
+            }
+       *[other]
+            { $n_epochs ->
+                [one]
+                    { $n_trials ->
+                        [one] lunar-station-coverage | { $n_grid_points } points x { $n_epochs } époque x { $n_trials } essai | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                        [many] lunar-station-coverage | { $n_grid_points } points x { $n_epochs } époque x { $n_trials } d'essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                       *[other] lunar-station-coverage | { $n_grid_points } points x { $n_epochs } époque x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                    }
+                [many]
+                    { $n_trials ->
+                        [one] lunar-station-coverage | { $n_grid_points } points x { $n_epochs } d'époques x { $n_trials } essai | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                        [many] lunar-station-coverage | { $n_grid_points } points x { $n_epochs } d'époques x { $n_trials } d'essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                       *[other] lunar-station-coverage | { $n_grid_points } points x { $n_epochs } d'époques x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                    }
+               *[other]
+                    { $n_trials ->
+                        [one] lunar-station-coverage | { $n_grid_points } points x { $n_epochs } époques x { $n_trials } essai | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                        [many] lunar-station-coverage | { $n_grid_points } points x { $n_epochs } époques x { $n_trials } d'essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                       *[other] lunar-station-coverage | { $n_grid_points } points x { $n_epochs } époques x { $n_trials } essais | disponibilité { $v4 } % | couverture { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | corrigé p{ $percentile } 3-D { $f } (non corrigé { $f2 }) | HPL max. { $f3 } | MODELLED ; aucune affirmation sur un système réel
+                    }
+            }
+    }
+
 
 engine-api-builtins-terrain-horizon-at-the-station = { " " }| horizon du terrain ({ $sources }) à la station max. { $horizon_max_deg } deg, points utilisateur moyenne des max. { $user_horizon_max_deg_mean } deg
 
-engine-api-builtins-lunar-interop-export-ref-frame = lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } états, OEM { $oem_line_count } lignes | contrôle de format { $v5 } ({ $present_fields } présent(s) / { $missing_fields } manquant(s)) | aller-retour OEM { $v8 } | aller-retour des méta-temps { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+engine-api-builtins-lunar-interop-export-ref-frame =
+    { $n_states ->
+        [one]
+            { $oem_line_count ->
+                [one] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } état, OEM { $oem_line_count } ligne | contrôle de format { $v5 } ({ $present_fields } présent(s) / { $missing_fields } manquant(s)) | aller-retour OEM { $v8 } | aller-retour des méta-temps { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+                [many] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } état, OEM { $oem_line_count } de lignes | contrôle de format { $v5 } ({ $present_fields } présent(s) / { $missing_fields } manquant(s)) | aller-retour OEM { $v8 } | aller-retour des méta-temps { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+               *[other] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } état, OEM { $oem_line_count } lignes | contrôle de format { $v5 } ({ $present_fields } présent(s) / { $missing_fields } manquant(s)) | aller-retour OEM { $v8 } | aller-retour des méta-temps { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+            }
+        [many]
+            { $oem_line_count ->
+                [one] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } d'états, OEM { $oem_line_count } ligne | contrôle de format { $v5 } ({ $present_fields } présent(s) / { $missing_fields } manquant(s)) | aller-retour OEM { $v8 } | aller-retour des méta-temps { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+                [many] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } d'états, OEM { $oem_line_count } de lignes | contrôle de format { $v5 } ({ $present_fields } présent(s) / { $missing_fields } manquant(s)) | aller-retour OEM { $v8 } | aller-retour des méta-temps { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+               *[other] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } d'états, OEM { $oem_line_count } lignes | contrôle de format { $v5 } ({ $present_fields } présent(s) / { $missing_fields } manquant(s)) | aller-retour OEM { $v8 } | aller-retour des méta-temps { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+            }
+       *[other]
+            { $oem_line_count ->
+                [one] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } états, OEM { $oem_line_count } ligne | contrôle de format { $v5 } ({ $present_fields } présent(s) / { $missing_fields } manquant(s)) | aller-retour OEM { $v8 } | aller-retour des méta-temps { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+                [many] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } états, OEM { $oem_line_count } de lignes | contrôle de format { $v5 } ({ $present_fields } présent(s) / { $missing_fields } manquant(s)) | aller-retour OEM { $v8 } | aller-retour des méta-temps { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+               *[other] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } états, OEM { $oem_line_count } lignes | contrôle de format { $v5 } ({ $present_fields } présent(s) / { $missing_fields } manquant(s)) | aller-retour OEM { $v8 } | aller-retour des méta-temps { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+            }
+    }
+
 
 engine-api-builtins-scenario-optical-sync-rms-ps = scénario { $r } | optique sync_rms { $sync_rms_ps }ps range_rms { $range_rms_mm }mm adev(1s) { $adev_tau0 } | RF sync_rms { $sync_rms_ps2 }ps range_rms { $range_rms_mm2 }mm adev(1s) { $adev_tau02 }
 
@@ -497,7 +740,13 @@ engine-e-api-builtins-ephemeris = éphéméride : { $e }
 
 engine-api-builtins-max-el-peak-doppler-khz = { " " }| él. max. { $el }° pic Doppler { $v1 } kHz
 
-engine-api-builtins-scenario-samples-alt-km-lat = scénario { $r } | { $source } | { $n_samples } échantillons | alt. { $alt_min_km }–{ $alt_max_km } km | |lat| ≤ { $r2 }° | vitesse { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
+engine-api-builtins-scenario-samples-alt-km-lat =
+    { $n_samples ->
+        [one] scénario { $r } | { $source } | { $n_samples } échantillon | alt. { $alt_min_km }–{ $alt_max_km } km | |lat| ≤ { $r2 }° | vitesse { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
+        [many] scénario { $r } | { $source } | { $n_samples } d'échantillons | alt. { $alt_min_km }–{ $alt_max_km } km | |lat| ≤ { $r2 }° | vitesse { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
+       *[other] scénario { $r } | { $source } | { $n_samples } échantillons | alt. { $alt_min_km }–{ $alt_max_km } km | |lat| ≤ { $r2 }° | vitesse { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
+    }
+
 
 engine-api-builtins-generic-sweep-of-over-nodes = balayage générique de `{ $kind }` sur [{ $keys }] | { $points } nœuds (forme { $shape }) | métriques [{ $metrics }]
 
@@ -519,7 +768,28 @@ engine-api-builtins-scenario-runs-quantum-holdover-p95 = scénario { $r } | { $r
 
 engine-api-builtins-scenario-quantum-holdover-p95-ns = scénario { $r } | holdover quantique { $holdover_s }s p95 { $ns1 }ns intégrité { $integ } sécurité { $security_na } | holdover classique { $holdover_s2 }s p95 { $ns12 }ns intégrité { $integ2 } sécurité { $security_na }
 
-engine-api-builtins-raim-available-of-epochs-denied = { " " }| RAIM disponible { $n_available } sur { $n_epochs } époques ({ $n_denied } refusées, { $n_alarm } alarmes ; MODELLED)
+engine-api-builtins-raim-available-of-epochs-denied =
+    { $n_epochs ->
+        [one]
+            { $n_alarm ->
+                [one] { " " }| RAIM disponible { $n_available } sur { $n_epochs } époque ({ $n_denied } refusées, { $n_alarm } alarme ; MODELLED)
+                [many] { " " }| RAIM disponible { $n_available } sur { $n_epochs } époque ({ $n_denied } refusées, { $n_alarm } d'alarmes ; MODELLED)
+               *[other] { " " }| RAIM disponible { $n_available } sur { $n_epochs } époque ({ $n_denied } refusées, { $n_alarm } alarmes ; MODELLED)
+            }
+        [many]
+            { $n_alarm ->
+                [one] { " " }| RAIM disponible { $n_available } sur { $n_epochs } d'époques ({ $n_denied } refusées, { $n_alarm } alarme ; MODELLED)
+                [many] { " " }| RAIM disponible { $n_available } sur { $n_epochs } d'époques ({ $n_denied } refusées, { $n_alarm } d'alarmes ; MODELLED)
+               *[other] { " " }| RAIM disponible { $n_available } sur { $n_epochs } d'époques ({ $n_denied } refusées, { $n_alarm } alarmes ; MODELLED)
+            }
+       *[other]
+            { $n_alarm ->
+                [one] { " " }| RAIM disponible { $n_available } sur { $n_epochs } époques ({ $n_denied } refusées, { $n_alarm } alarme ; MODELLED)
+                [many] { " " }| RAIM disponible { $n_available } sur { $n_epochs } époques ({ $n_denied } refusées, { $n_alarm } d'alarmes ; MODELLED)
+               *[other] { " " }| RAIM disponible { $n_available } sur { $n_epochs } époques ({ $n_denied } refusées, { $n_alarm } alarmes ; MODELLED)
+            }
+    }
+
 
 ## src/araim_reference.rs
 
@@ -549,7 +819,13 @@ engine-e-araim-reference-satellite-names-an-undeclared-constellation = un satell
 
 engine-e-araim-reference-every-prior-must-lie-in = chaque a priori doit être compris dans [0, 1)
 
-engine-e-araim-reference-the-priors-need-subsets-of = les a priori nécessitent des sous-ensembles de { $n_fault_max } événements simultanés ; ce chemin en énumère au plus { $most }
+engine-e-araim-reference-the-priors-need-subsets-of =
+    { $n_fault_max ->
+        [one] les a priori nécessitent des sous-ensembles de { $n_fault_max } événement simultané ; ce chemin en énumère au plus { $most }
+        [many] les a priori nécessitent des sous-ensembles de { $n_fault_max } d'événements simultanés ; ce chemin en énumère au plus { $most }
+       *[other] les a priori nécessitent des sous-ensembles de { $n_fault_max } événements simultanés ; ce chemin en énumère au plus { $most }
+    }
+
 
 engine-e-araim-reference-the-all-in-view-solution = la solution avec tous les satellites en vue n'a pas été sélectionnée
 
@@ -721,7 +997,13 @@ engine-bench-tasks-predictions-cover-cases-the-truth = les prédictions couvrent
 
 engine-bench-tasks-case-has-no-number-array = le cas `{ $id }` n'a pas de tableau de nombres
 
-engine-bench-tasks-case-needs-values-has = le cas `{ $id }` nécessite { $n } valeurs, en a { $a }
+engine-bench-tasks-case-needs-values-has =
+    { $n ->
+        [one] le cas `{ $id }` nécessite { $n } valeur, en a { $a }
+        [many] le cas `{ $id }` nécessite { $n } de valeurs, en a { $a }
+       *[other] le cas `{ $id }` nécessite { $n } valeurs, en a { $a }
+    }
+
 
 engine-bench-tasks-case-has-non-finite-value = le cas `{ $id }` a une valeur non finie
 
@@ -737,7 +1019,13 @@ engine-bin-crossover-study-done-inertial-nodes-clock-curves = terminé : inerti
 
 ## src/bin/gen_araim_m3_study.rs
 
-engine-bin-gen-araim-m3-study-user-epochs-ura-values-in = { $n } époques utilisateur x 3 valeurs d'URA en { $dt } s = { $v1 } ms par époque utilisateur ({ $ok } résoluble(s))
+engine-bin-gen-araim-m3-study-user-epochs-ura-values-in =
+    { $n ->
+        [one] { $n } époque utilisateur x 3 valeurs d'URA en { $dt } s = { $v1 } ms par époque utilisateur ({ $ok } résoluble(s))
+        [many] { $n } d'époques utilisateur x 3 valeurs d'URA en { $dt } s = { $v1 } ms par époque utilisateur ({ $ok } résoluble(s))
+       *[other] { $n } époques utilisateur x 3 valeurs d'URA en { $dt } s = { $v1 } ms par époque utilisateur ({ $ok } résoluble(s))
+    }
+
 
 ## src/bin/gen_validation_artifacts.rs
 
@@ -776,11 +1064,27 @@ engine-e-body-pnt-serialising-report = sérialisation du rapport : { $e }
 engine-e-body-pnt-the-report-must-serialise-to = le rapport doit se sérialiser en un objet JSON
 
 engine-body-pnt-positioning-around-user-relays-at =
-    Positionnement autour de { $name } — utilisateur { $user_kind }, { $n_relays } relais à { $r } km, { $n_epochs } époques
-    { "  " }Temps de lumière Terre { $one_way_light_time_s } s aller simple, { $two_way_light_time_s } s aller-retour ; angle Soleil-Terre-corps { $sun_separation_deg } deg
-    { "  " }disponibilité : { $availability_relays } constellation seule, { $availability_with_earth } avec la distance Terre (Terre en vue { $earth_visibility })
-    { "  " }PDOP médian { $opt } ; erreur RMS { $opt2 } constellation seule, { $opt3 } avec la distance Terre
-    { "  " }sigma formel médian { $opt4 } constellation seule, { $opt5 } avec la distance Terre{ "\u000A" }
+    { $n_epochs ->
+        [one]
+            Positionnement autour de { $name } — utilisateur { $user_kind }, { $n_relays } relais à { $r } km, { $n_epochs } époque
+            { "  " }Temps de lumière Terre { $one_way_light_time_s } s aller simple, { $two_way_light_time_s } s aller-retour ; angle Soleil-Terre-corps { $sun_separation_deg } deg
+            { "  " }disponibilité : { $availability_relays } constellation seule, { $availability_with_earth } avec la distance Terre (Terre en vue { $earth_visibility })
+            { "  " }PDOP médian { $opt } ; erreur RMS { $opt2 } constellation seule, { $opt3 } avec la distance Terre
+            { "  " }sigma formel médian { $opt4 } constellation seule, { $opt5 } avec la distance Terre{ "\u000A" }
+        [many]
+            Positionnement autour de { $name } — utilisateur { $user_kind }, { $n_relays } relais à { $r } km, { $n_epochs } d'époques
+            { "  " }Temps de lumière Terre { $one_way_light_time_s } s aller simple, { $two_way_light_time_s } s aller-retour ; angle Soleil-Terre-corps { $sun_separation_deg } deg
+            { "  " }disponibilité : { $availability_relays } constellation seule, { $availability_with_earth } avec la distance Terre (Terre en vue { $earth_visibility })
+            { "  " }PDOP médian { $opt } ; erreur RMS { $opt2 } constellation seule, { $opt3 } avec la distance Terre
+            { "  " }sigma formel médian { $opt4 } constellation seule, { $opt5 } avec la distance Terre{ "\u000A" }
+       *[other]
+            Positionnement autour de { $name } — utilisateur { $user_kind }, { $n_relays } relais à { $r } km, { $n_epochs } époques
+            { "  " }Temps de lumière Terre { $one_way_light_time_s } s aller simple, { $two_way_light_time_s } s aller-retour ; angle Soleil-Terre-corps { $sun_separation_deg } deg
+            { "  " }disponibilité : { $availability_relays } constellation seule, { $availability_with_earth } avec la distance Terre (Terre en vue { $earth_visibility })
+            { "  " }PDOP médian { $opt } ; erreur RMS { $opt2 } constellation seule, { $opt3 } avec la distance Terre
+            { "  " }sigma formel médian { $opt4 } constellation seule, { $opt5 } avec la distance Terre{ "\u000A" }
+    }
+
 
 engine-body-pnt-positioning-around = Positionnement autour de { $name }
 
@@ -1178,7 +1482,13 @@ engine-e-cislunar-observability-sigma-range-must-be-finite = sigma_range_m doit 
 
 engine-e-cislunar-observability-sigma-pos-threshold-km-must = sigma_pos_threshold_km doit être fini et positif, reçu : { $sigma_pos_threshold_km }
 
-engine-cislunar-observability-cislunar-observability-refs-arc-epochs = cislunar-observability | { $c } s/c ({ $refs } références) | arc de { $arc_hours } h, { $rank_arc } époques | rang { $first } → { $last } sur { $state_dim } au long de l'arc | λ du gramien [{ $min_eigenvalue }…{ $max_eigenvalue }] cond { $condition_str } | rang instantané distance seule { $rank_range_only } → distance+taux { $rank_range_rate } ({ $n_links } liaisons) | GDOP distance seule { $ro } distance+taux { $rr } | CI de DRO (résidu de périodicité max. { $max_resid }) | a posteriori SRIF fini à l'époque de rang 4 { $srif_epoch } (vérifié : rang/STM/fermeture de DRO/SRIF ; modélisé : conception)
+engine-cislunar-observability-cislunar-observability-refs-arc-epochs =
+    { $n_links ->
+        [one] cislunar-observability | { $c } s/c ({ $refs } références) | arc de { $arc_hours } h, { $rank_arc } époques | rang { $first } → { $last } sur { $state_dim } au long de l'arc | λ du gramien [{ $min_eigenvalue }…{ $max_eigenvalue }] cond { $condition_str } | rang instantané distance seule { $rank_range_only } → distance+taux { $rank_range_rate } ({ $n_links } liaison) | GDOP distance seule { $ro } distance+taux { $rr } | CI de DRO (résidu de périodicité max. { $max_resid }) | a posteriori SRIF fini à l'époque de rang 4 { $srif_epoch } (vérifié : rang/STM/fermeture de DRO/SRIF ; modélisé : conception)
+        [many] cislunar-observability | { $c } s/c ({ $refs } références) | arc de { $arc_hours } h, { $rank_arc } époques | rang { $first } → { $last } sur { $state_dim } au long de l'arc | λ du gramien [{ $min_eigenvalue }…{ $max_eigenvalue }] cond { $condition_str } | rang instantané distance seule { $rank_range_only } → distance+taux { $rank_range_rate } ({ $n_links } de liaisons) | GDOP distance seule { $ro } distance+taux { $rr } | CI de DRO (résidu de périodicité max. { $max_resid }) | a posteriori SRIF fini à l'époque de rang 4 { $srif_epoch } (vérifié : rang/STM/fermeture de DRO/SRIF ; modélisé : conception)
+       *[other] cislunar-observability | { $c } s/c ({ $refs } références) | arc de { $arc_hours } h, { $rank_arc } époques | rang { $first } → { $last } sur { $state_dim } au long de l'arc | λ du gramien [{ $min_eigenvalue }…{ $max_eigenvalue }] cond { $condition_str } | rang instantané distance seule { $rank_range_only } → distance+taux { $rank_range_rate } ({ $n_links } liaisons) | GDOP distance seule { $ro } distance+taux { $rr } | CI de DRO (résidu de périodicité max. { $max_resid }) | a posteriori SRIF fini à l'époque de rang 4 { $srif_epoch } (vérifié : rang/STM/fermeture de DRO/SRIF ; modélisé : conception)
+    }
+
 
 engine-cislunar-observability-never-rank-of = jamais (rang { $rank } sur { $state_dim })
 
@@ -1186,7 +1496,13 @@ engine-cislunar-observability-family-state-range-rank-threshold = { $base } | fa
 
 engine-cislunar-observability-first-arc-length-at-which = première longueur d'arc pour laquelle l'incertitude formelle à 1σ de la position de l'état INITIAL du satellite principal, σ_pos = sqrt(trace(P_rr)) avec P = (ÕᵀÕ)⁻¹ et Õ la matrice d'observabilité blanchie du bruit de mesure, tombe à { $sigma_pos_threshold_km } km ou moins. C'est le critère selon lequel un seuil de longueur d'arc dépend du bruit : P varie comme σ², donc σ_pos varie comme σ, alors que le critère de rang ci-dessus ne bouge pas avec σ. La borne est un choix d'ingénierie DÉCLARÉ, non ajusté — estimability_sweep rapporte le seuil pour quatre autres bornes.
 
-engine-cislunar-observability-extension-r3-this-run-is = EXTENSION (R3) — cette exécution n'est PAS la configuration DRO plane que décrit le `label` ci-dessus. Dimension d'état { $state_dim } ; famille d'orbites { $family } ; { $n_spacecraft } engins spatiaux ; sigma de mesure de distance { $sigma_range_m } m. Là où `label` dit "planar" et "planar DROs", lisez la famille nommée ici. Ajouts VALIDATED : la STM variationnelle 6x6 est la même STM CR3BP vérifiée par différences finies (crate::cr3bp) utilisée en pleine largeur ; les lignes jacobiennes spatiales de distance / taux de distance sont des dérivées partielles analytiques vérifiées par différences finies, la ligne du taux de distance étant recoupée composante par composante avec deepspace_od::range_rate_observable, indépendante et 3-D, de la bibliothèque ; les conditions initiales halo / NRHO sont des orbites périodiques à correction différentielle issues du même correcteur qui reproduit la NRHO 9:2 australe L2 publiée, prolongées à partir de cette graine publiée, et le résidu de fermeture de chaque membre est rapporté ; les verdicts de RANG à six états sont confirmés par un rang par échelonnement de lignes INDÉPENDANT (élimination de Gauss avec pivot partiel) qui ne partage aucun code avec la voie valeurs propres/SVD. PORTÉE HONNÊTE DU VOLET SRIF : la validation croisée SRIF ci-dessus consomme les MÊMES jacobiennes de mesure et se ramène au même O^T O ; son accord est donc un contrôle de cohérence entre deux machines numériques, et PAS une corroboration indépendante du seuil — il n'est pas compté comme une vérification d'aucun chiffre ici. MODELLED : la conception de la famille (quelles abscisses, amplitudes et phases), la grille d'époques, l'arc à liaison unique et la borne de position déclarée du critère d'estimabilité.
+engine-cislunar-observability-extension-r3-this-run-is =
+    { $n_spacecraft ->
+        [one] EXTENSION (R3) — cette exécution n'est PAS la configuration DRO plane que décrit le `label` ci-dessus. Dimension d'état { $state_dim } ; famille d'orbites { $family } ; { $n_spacecraft } engin spatial ; sigma de mesure de distance { $sigma_range_m } m. Là où `label` dit "planar" et "planar DROs", lisez la famille nommée ici. Ajouts VALIDATED : la STM variationnelle 6x6 est la même STM CR3BP vérifiée par différences finies (crate::cr3bp) utilisée en pleine largeur ; les lignes jacobiennes spatiales de distance / taux de distance sont des dérivées partielles analytiques vérifiées par différences finies, la ligne du taux de distance étant recoupée composante par composante avec deepspace_od::range_rate_observable, indépendante et 3-D, de la bibliothèque ; les conditions initiales halo / NRHO sont des orbites périodiques à correction différentielle issues du même correcteur qui reproduit la NRHO 9:2 australe L2 publiée, prolongées à partir de cette graine publiée, et le résidu de fermeture de chaque membre est rapporté ; les verdicts de RANG à six états sont confirmés par un rang par échelonnement de lignes INDÉPENDANT (élimination de Gauss avec pivot partiel) qui ne partage aucun code avec la voie valeurs propres/SVD. PORTÉE HONNÊTE DU VOLET SRIF : la validation croisée SRIF ci-dessus consomme les MÊMES jacobiennes de mesure et se ramène au même O^T O ; son accord est donc un contrôle de cohérence entre deux machines numériques, et PAS une corroboration indépendante du seuil — il n'est pas compté comme une vérification d'aucun chiffre ici. MODELLED : la conception de la famille (quelles abscisses, amplitudes et phases), la grille d'époques, l'arc à liaison unique et la borne de position déclarée du critère d'estimabilité.
+        [many] EXTENSION (R3) — cette exécution n'est PAS la configuration DRO plane que décrit le `label` ci-dessus. Dimension d'état { $state_dim } ; famille d'orbites { $family } ; { $n_spacecraft } d'engins spatiaux ; sigma de mesure de distance { $sigma_range_m } m. Là où `label` dit "planar" et "planar DROs", lisez la famille nommée ici. Ajouts VALIDATED : la STM variationnelle 6x6 est la même STM CR3BP vérifiée par différences finies (crate::cr3bp) utilisée en pleine largeur ; les lignes jacobiennes spatiales de distance / taux de distance sont des dérivées partielles analytiques vérifiées par différences finies, la ligne du taux de distance étant recoupée composante par composante avec deepspace_od::range_rate_observable, indépendante et 3-D, de la bibliothèque ; les conditions initiales halo / NRHO sont des orbites périodiques à correction différentielle issues du même correcteur qui reproduit la NRHO 9:2 australe L2 publiée, prolongées à partir de cette graine publiée, et le résidu de fermeture de chaque membre est rapporté ; les verdicts de RANG à six états sont confirmés par un rang par échelonnement de lignes INDÉPENDANT (élimination de Gauss avec pivot partiel) qui ne partage aucun code avec la voie valeurs propres/SVD. PORTÉE HONNÊTE DU VOLET SRIF : la validation croisée SRIF ci-dessus consomme les MÊMES jacobiennes de mesure et se ramène au même O^T O ; son accord est donc un contrôle de cohérence entre deux machines numériques, et PAS une corroboration indépendante du seuil — il n'est pas compté comme une vérification d'aucun chiffre ici. MODELLED : la conception de la famille (quelles abscisses, amplitudes et phases), la grille d'époques, l'arc à liaison unique et la borne de position déclarée du critère d'estimabilité.
+       *[other] EXTENSION (R3) — cette exécution n'est PAS la configuration DRO plane que décrit le `label` ci-dessus. Dimension d'état { $state_dim } ; famille d'orbites { $family } ; { $n_spacecraft } engins spatiaux ; sigma de mesure de distance { $sigma_range_m } m. Là où `label` dit "planar" et "planar DROs", lisez la famille nommée ici. Ajouts VALIDATED : la STM variationnelle 6x6 est la même STM CR3BP vérifiée par différences finies (crate::cr3bp) utilisée en pleine largeur ; les lignes jacobiennes spatiales de distance / taux de distance sont des dérivées partielles analytiques vérifiées par différences finies, la ligne du taux de distance étant recoupée composante par composante avec deepspace_od::range_rate_observable, indépendante et 3-D, de la bibliothèque ; les conditions initiales halo / NRHO sont des orbites périodiques à correction différentielle issues du même correcteur qui reproduit la NRHO 9:2 australe L2 publiée, prolongées à partir de cette graine publiée, et le résidu de fermeture de chaque membre est rapporté ; les verdicts de RANG à six états sont confirmés par un rang par échelonnement de lignes INDÉPENDANT (élimination de Gauss avec pivot partiel) qui ne partage aucun code avec la voie valeurs propres/SVD. PORTÉE HONNÊTE DU VOLET SRIF : la validation croisée SRIF ci-dessus consomme les MÊMES jacobiennes de mesure et se ramène au même O^T O ; son accord est donc un contrôle de cohérence entre deux machines numériques, et PAS une corroboration indépendante du seuil — il n'est pas compté comme une vérification d'aucun chiffre ici. MODELLED : la conception de la famille (quelles abscisses, amplitudes et phases), la grille d'époques, l'arc à liaison unique et la borne de position déclarée du critère d'estimabilité.
+    }
+
 
 engine-cislunar-observability-validated-each-constellation-initial-condition = Vérifié : chaque condition initiale de la constellation est une orbite périodique à correction différentielle de la famille { $family }, se refermant sur une période avec le résidu de périodicité rapporté (les DRO planes sont en outre rétrogrades autour de la Lune). La famille est corrigée au rapport de masse Terre-Lune. Modélisé : le choix des paramètres et des phases de la famille (la conception de la constellation). Le nom de clé `dro_provenance` est conservé pour le schéma de document publié ; il porte la famille demandée par cette exécution.
 
@@ -1202,7 +1518,13 @@ engine-e-clock-integrity-integrity-systems-must-name-at = intégrité : systems
 
 engine-e-clock-integrity-integrity-injected-bias-needs-finite = intégrité : injected_bias nécessite des bias_m, t0_s et t1_s finis
 
-engine-e-clock-integrity-integrity-epochs-exceed-the-epoch = intégrité : { $n } époques dépassent le plafond de { $MAX_EPOCHS } époques ; augmentez step_s
+engine-e-clock-integrity-integrity-epochs-exceed-the-epoch =
+    { $n ->
+        [one] intégrité : { $n } époque dépasse le plafond de { $MAX_EPOCHS } époques ; augmentez step_s
+        [many] intégrité : { $n } d'époques dépassent le plafond de { $MAX_EPOCHS } époques ; augmentez step_s
+       *[other] intégrité : { $n } époques dépassent le plafond de { $MAX_EPOCHS } époques ; augmentez step_s
+    }
+
 
 ## src/clock_library/card.rs
 
@@ -1413,11 +1735,23 @@ engine-e-earth-gnss-lunar-back-lobe-suppression-db-must = back_lobe_suppression_
 
 engine-e-earth-gnss-lunar-receiver-range-must-be-outside = receiver_range_m doit être hors de la Terre ; reçu : { $range_m }
 
-engine-earth-gnss-lunar-earth-gnss-at-lunar-distance = Earth-GNSS à distance lunaire — { $n_satellites } satellites, récepteur à { $r } km{ "\u000A" }
+engine-earth-gnss-lunar-earth-gnss-at-lunar-distance =
+    { $n_satellites ->
+        [one] Earth-GNSS à distance lunaire — { $n_satellites } satellite, récepteur à { $r } km{ "\u000A" }
+        [many] Earth-GNSS à distance lunaire — { $n_satellites } de satellites, récepteur à { $r } km{ "\u000A" }
+       *[other] Earth-GNSS à distance lunaire — { $n_satellites } satellites, récepteur à { $r } km{ "\u000A" }
+    }
+
 
 engine-earth-gnss-lunar-earth-limb-from-the-constellation = { "  " }Limbe terrestre vu de la constellation : { $earth_limb_half_angle_deg } deg hors nadir — tout rayon à destination de la Lune doit dépasser cette valeur{ "\u000A" }
 
-engine-earth-gnss-lunar-of-not-occulted-clear-the = { "  " }{ $n_geometrically_visible } sur { $n_satellites } non occultés ; { $n_trackable } franchissent le seuil de poursuite de { $tracking_threshold_dbhz } dB-Hz{ "\u000A" }
+engine-earth-gnss-lunar-of-not-occulted-clear-the =
+    { $n_trackable ->
+        [one] { "  " }{ $n_geometrically_visible } sur { $n_satellites } non occultés ; { $n_trackable } franchit le seuil de poursuite de { $tracking_threshold_dbhz } dB-Hz{ "\u000A" }
+        [many] { "  " }{ $n_geometrically_visible } sur { $n_satellites } non occultés ; { $n_trackable } de franchissent le seuil de poursuite de { $tracking_threshold_dbhz } dB-Hz{ "\u000A" }
+       *[other] { "  " }{ $n_geometrically_visible } sur { $n_satellites } non occultés ; { $n_trackable } franchissent le seuil de poursuite de { $tracking_threshold_dbhz } dB-Hz{ "\u000A" }
+    }
+
 
 engine-earth-gnss-lunar-best-link-db-hz = { "  " }meilleure liaison { $c } dB-Hz{ "\u000A" }
 
@@ -1537,7 +1871,13 @@ engine-e-ephemeris-duration-must-be-non-negative = duration_s doit être non né
 
 engine-e-ephemeris-carrier-hz-must-be-positive = carrier_hz doit être une fréquence positive et finie
 
-engine-ephemeris-ground-track-samples-alt-km = trace au sol { $source } · { $n_samples } échantillons · alt { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
+engine-ephemeris-ground-track-samples-alt-km =
+    { $n_samples ->
+        [one] trace au sol { $source } · { $n_samples } échantillon · alt { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
+        [many] trace au sol { $source } · { $n_samples } d'échantillons · alt { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
+       *[other] trace au sol { $source } · { $n_samples } échantillons · alt { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
+    }
+
 
 ## src/evidence/assemble.rs
 
@@ -2003,15 +2343,33 @@ engine-e-geometry-sky-tle-is-bytes-the = ciel : tle fait { $text } octets ; le 
 
 engine-geometry-element-set-refused = jeu d'éléments refusé : { $e }
 
-engine-geometry-sky-tle-holds-no-complete = ciel : tle ne contient aucun jeu d'éléments complet à deux lignes ; { $n_ignored } lignes ignorées, la première : { $first }
+engine-geometry-sky-tle-holds-no-complete =
+    { $n_ignored ->
+        [one] ciel : tle ne contient aucun jeu d'éléments complet à deux lignes ; { $n_ignored } ligne ignorée, la première : { $first }
+        [many] ciel : tle ne contient aucun jeu d'éléments complet à deux lignes ; { $n_ignored } de lignes ignorées, la première : { $first }
+       *[other] ciel : tle ne contient aucun jeu d'éléments complet à deux lignes ; { $n_ignored } lignes ignorées, la première : { $first }
+    }
+
 
 engine-e-geometry-sky-epoch = ciel : epoch : { $e }
 
 engine-geometry-and-more = { "." }.. et { $more } autres
 
-engine-geometry-element-sets-propagated-by-the = { $n } jeux d'éléments propagés par le SGP4 du moteur (WGS-72) jusqu'à { $iso } puis tournés vers le repère terrestre, avec UT1 pris égal à UTC et sans mouvement du pôle : le ciel que ces jeux d'éléments donnent à cette époque, et non une mesure de celui-ci.
+engine-geometry-element-sets-propagated-by-the =
+    { $n ->
+        [one] { $n } jeu d'éléments propagé par le SGP4 du moteur (WGS-72) jusqu'à { $iso } puis tournés vers le repère terrestre, avec UT1 pris égal à UTC et sans mouvement du pôle : le ciel que ce jeu d'éléments donne à cette époque, et non une mesure de celui-ci.
+        [many] { $n } de jeux d'éléments propagés par le SGP4 du moteur (WGS-72) jusqu'à { $iso } puis tournés vers le repère terrestre, avec UT1 pris égal à UTC et sans mouvement du pôle : le ciel que ces jeux d'éléments donnent à cette époque, et non une mesure de celui-ci.
+       *[other] { $n } jeux d'éléments propagés par le SGP4 du moteur (WGS-72) jusqu'à { $iso } puis tournés vers le repère terrestre, avec UT1 pris égal à UTC et sans mouvement du pôle : le ciel que ces jeux d'éléments donnent à cette époque, et non une mesure de celui-ci.
+    }
 
-engine-geometry-element-sets-propagated-by-the-2 = { $n } jeux d'éléments propagés par le SGP4 du moteur (WGS-72) jusqu'à l'époque du jeu d'éléments le plus récent plus time_s ({ $iso }). Aucune époque n'a été donnée ; il s'agit donc d'un ciel représentatif, et non du ciel d'une date indiquée.
+
+engine-geometry-element-sets-propagated-by-the-2 =
+    { $n ->
+        [one] { $n } jeu d'éléments propagé par le SGP4 du moteur (WGS-72) jusqu'à l'époque du jeu d'éléments le plus récent plus time_s ({ $iso }). Aucune époque n'a été donnée ; il s'agit donc d'un ciel représentatif, et non du ciel d'une date indiquée.
+        [many] { $n } de jeux d'éléments propagés par le SGP4 du moteur (WGS-72) jusqu'à l'époque du jeu d'éléments le plus récent plus time_s ({ $iso }). Aucune époque n'a été donnée ; il s'agit donc d'un ciel représentatif, et non du ciel d'une date indiquée.
+       *[other] { $n } jeux d'éléments propagés par le SGP4 du moteur (WGS-72) jusqu'à l'époque du jeu d'éléments le plus récent plus time_s ({ $iso }). Aucune époque n'a été donnée ; il s'agit donc d'un ciel représentatif, et non du ciel d'une date indiquée.
+    }
+
 
 engine-e-geometry-sky-give-systems-or-tle = ciel : donnez `systems` ou `tle` (avec un `site`), ou `satellites`
 
@@ -2219,7 +2577,13 @@ engine-e-gse-sim-step-must-be-positive-got = step_s doit être positif, reçu :
 
 engine-e-gse-sim-duration-must-be-positive-got = duration_s doit être positif, reçu : { $duration_s }
 
-engine-e-gse-sim-scenario-produces-epochs-need-increase = le scénario produit { $n } époques (≥ 2 nécessaires) ; augmentez duration_s ou diminuez step_s
+engine-e-gse-sim-scenario-produces-epochs-need-increase =
+    { $n ->
+        [one] le scénario produit { $n } époque (≥ 2 nécessaires) ; augmentez duration_s ou diminuez step_s
+        [many] le scénario produit { $n } d'époques (≥ 2 nécessaires) ; augmentez duration_s ou diminuez step_s
+       *[other] le scénario produit { $n } époques (≥ 2 nécessaires) ; augmentez duration_s ou diminuez step_s
+    }
+
 
 ## src/holdover_test.rs
 
@@ -2265,7 +2629,13 @@ engine-e-hybrid-integrity-must-be-finite = { $name } doit être fini
 
 engine-e-hybrid-integrity-rf-other-losses-db-must = rf_other_losses_db doit être fini et >= 0
 
-engine-hybrid-integrity-hybrid-optical-rf-optical-footprint = hybrid-optical-rf | empreinte optique { $footprint_m } m, { $detected_photons } photons -> σ de distance { $c } mm, σ de datation { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | disponibilité { $c4 } % ({ $n_sites } sites) | transfert sans saut { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | FoM conjoint { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | Vérifié par référence externe indépendante : CRLB/χ²-PL/union/transfert ; calculé à partir d'un modèle : σ/climatologie
+engine-hybrid-integrity-hybrid-optical-rf-optical-footprint =
+    { $n_sites ->
+        [one] hybrid-optical-rf | empreinte optique { $footprint_m } m, { $detected_photons } photons -> σ de distance { $c } mm, σ de datation { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | disponibilité { $c4 } % ({ $n_sites } site) | transfert sans saut { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | FoM conjoint { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | Vérifié par référence externe indépendante : CRLB/χ²-PL/union/transfert ; calculé à partir d'un modèle : σ/climatologie
+        [many] hybrid-optical-rf | empreinte optique { $footprint_m } m, { $detected_photons } photons -> σ de distance { $c } mm, σ de datation { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | disponibilité { $c4 } % ({ $n_sites } de sites) | transfert sans saut { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | FoM conjoint { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | Vérifié par référence externe indépendante : CRLB/χ²-PL/union/transfert ; calculé à partir d'un modèle : σ/climatologie
+       *[other] hybrid-optical-rf | empreinte optique { $footprint_m } m, { $detected_photons } photons -> σ de distance { $c } mm, σ de datation { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | disponibilité { $c4 } % ({ $n_sites } sites) | transfert sans saut { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | FoM conjoint { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | Vérifié par référence externe indépendante : CRLB/χ²-PL/union/transfert ; calculé à partir d'un modèle : σ/climatologie
+    }
+
 
 ## src/impairment_eval.rs
 
@@ -2493,7 +2863,13 @@ engine-e-interop-invalid-spectrum-scenario = scénario de spectre invalide : { 
 
 ## src/interop/scene.rs
 
-engine-e-interop-scene-time-samples-is-more-than = { $n } échantillons temporels dépassent ce qu'un export écrit ({ $MAX_SAMPLES })
+engine-e-interop-scene-time-samples-is-more-than =
+    { $n ->
+        [one] { $n } échantillon temporel dépasse ce qu'un export écrit ({ $MAX_SAMPLES })
+        [many] { $n } d'échantillons temporels dépassent ce qu'un export écrit ({ $MAX_SAMPLES })
+       *[other] { $n } échantillons temporels dépassent ce qu'un export écrit ({ $MAX_SAMPLES })
+    }
+
 
 engine-e-interop-scene-objects-samples-is-more-than = { $items } objets x { $times } échantillons dépassent ce qu'un export écrit ({ $MAX_SAMPLES })
 
@@ -2720,7 +3096,13 @@ engine-e-iq-campaign-conditions-at-least-one-expected-group = au moins un groupe
 
 engine-e-iq-campaign-conditions-ids-must-not-be-empty = { $at } : ids ne doit pas être vide
 
-engine-e-iq-campaign-conditions-lists-value-give-one-per = { $at } : { $key } liste { $n } valeur(s) ; donnez-en une par id ({ $ids })
+engine-e-iq-campaign-conditions-lists-value-give-one-per =
+    { $n ->
+        [one] { $at } : { $key } liste { $n } valeur ; donnez-en une par id ({ $ids })
+        [many] { $at } : { $key } liste { $n } de valeurs ; donnez-en une par id ({ $ids })
+       *[other] { $at } : { $key } liste { $n } valeurs ; donnez-en une par id ({ $ids })
+    }
+
 
 engine-e-iq-campaign-conditions-duplicate-id = { $at } : id en double
 
@@ -2886,7 +3268,13 @@ engine-iq-cli-needs-value = { $s } nécessite une valeur
 
 engine-e-iq-cli-cannot-parse = { $k } : impossible d'analyser { $v }
 
-engine-iq-cli-iq-takes-positional-argument-got = iq { $cmd } prend { $n } argument(s) positionnel(s), { $pos } reçu(s)
+engine-iq-cli-iq-takes-positional-argument-got =
+    { $n ->
+        [one] iq { $cmd } prend { $n } argument positionnel, { $pos } reçu(s)
+        [many] iq { $cmd } prend { $n } d'arguments positionnels, { $pos } reçu(s)
+       *[other] iq { $cmd } prend { $n } arguments positionnels, { $pos } reçu(s)
+    }
+
 
 engine-e-iq-cli-cannot-parse-2 = { $k } : impossible d'analyser { $p }
 
@@ -2959,11 +3347,23 @@ engine-e-iq-io-cli-unknown-option = option { $s } inconnue
 
 engine-e-iq-io-cli-format-needs-rate = --format nécessite --rate
 
-engine-iq-io-cli-iq-takes-path-argument-got = iq { $cmd } prend { $n } argument(s) de chemin, { $pos } reçu(s)
+engine-iq-io-cli-iq-takes-path-argument-got =
+    { $n ->
+        [one] iq { $cmd } prend { $n } argument de chemin, { $pos } reçu(s)
+        [many] iq { $cmd } prend { $n } d'arguments de chemin, { $pos } reçu(s)
+       *[other] iq { $cmd } prend { $n } arguments de chemin, { $pos } reçu(s)
+    }
+
 
 engine-iq-io-cli-unknown-iq-command = commande iq { $other } inconnue
 
-engine-iq-io-cli-wrote-samples-hz-to-saturated = { $n } échantillons ({ $to }, { $fs_hz } Hz) écrits dans { $files } ; { $w } élément(s) saturé(s){ $v4 }
+engine-iq-io-cli-wrote-samples-hz-to-saturated =
+    { $n ->
+        [one] { $n } échantillon ({ $to }, { $fs_hz } Hz) écrits dans { $files } ; { $w } élément(s) saturé(s){ $v4 }
+        [many] { $n } d'échantillons ({ $to }, { $fs_hz } Hz) écrits dans { $files } ; { $w } élément(s) saturé(s){ $v4 }
+       *[other] { $n } échantillons ({ $to }, { $fs_hz } Hz) écrits dans { $files } ; { $w } élément(s) saturé(s){ $v4 }
+    }
+
 
 ## src/iq/io/follow.rs
 
@@ -3021,7 +3421,13 @@ engine-e-iq-io-sigmf-stream-core-sample-rate-is-not = { $name } : core:sample_r
 
 engine-e-iq-io-sigmf-stream-at-hz-does-not-match = { $name } : { $f } à { $rate } Hz ne correspond pas à { $f0 } à { $r0 } Hz du premier enregistrement
 
-engine-e-iq-io-sigmf-stream-capture-at-sample-is-out = { $name } : la capture à l'échantillon { $sample_start } est hors d'ordre ou au-delà des { $n_file } échantillons des données
+engine-e-iq-io-sigmf-stream-capture-at-sample-is-out =
+    { $n_file ->
+        [one] { $name } : la capture à l'échantillon { $sample_start } est hors d'ordre ou au-delà de l'unique échantillon ({ $n_file }) des données
+        [many] { $name } : la capture à l'échantillon { $sample_start } est hors d'ordre ou au-delà des { $n_file } d'échantillons des données
+       *[other] { $name } : la capture à l'échantillon { $sample_start } est hors d'ordre ou au-delà des { $n_file } échantillons des données
+    }
+
 
 engine-e-iq-io-sigmf-stream-first-capture-does-not-start = { $name } : la première capture ne commence pas sur une frontière d'octet
 
@@ -3065,7 +3471,13 @@ engine-iq-labfit-iqfit-uncensored-span-db-is-under = l'étendue J/S non censuré
 
 engine-iq-labfit-iqfit-eff-and-delta-are-not = Q_eff et delta ne sont pas identifiables séparément (|corr| { $full } >= { $v2 }) : le modèle ne dépend que de delta - 10 log10 Q_eff
 
-engine-iq-labfit-iqfit-not-fitted-re-acquisitions-observed = non ajusté : { $n_reacq } réacquisitions observées (au moins 3 sont nécessaires)
+engine-iq-labfit-iqfit-not-fitted-re-acquisitions-observed =
+    { $n_reacq ->
+        [one] non ajusté : { $n_reacq } réacquisition observée (au moins 3 sont nécessaires)
+        [many] non ajusté : { $n_reacq } de réacquisitions observées (au moins 3 sont nécessaires)
+       *[other] non ajusté : { $n_reacq } réacquisitions observées (au moins 3 sont nécessaires)
+    }
+
 
 engine-iq-labfit-iqfit-loss-time-rms = loss_time_rms_s[{ $model }]
 
@@ -3102,11 +3514,23 @@ engine-iq-labfit-iqreport-n0-model-delta-eff-db = Modèle C/N0 ({ $q_mode }) : 
 
 engine-iq-labfit-iqreport-held-at-its-stated-value = Q maintenu à sa valeur indiquée : { $why }.{ "\u000A\u000A" }
 
-engine-iq-labfit-iqreport-threshold-direct-median-db-over = J/S de seuil, direct : médiane { $om } dB sur { $n } pertes (IQR { $t }).{ "\u000A\u000A" }
+engine-iq-labfit-iqreport-threshold-direct-median-db-over =
+    { $n ->
+        [one] J/S de seuil, direct : médiane { $om } dB sur { $n } perte (IQR { $t }).{ "\u000A\u000A" }
+        [many] J/S de seuil, direct : médiane { $om } dB sur { $n } de pertes (IQR { $t }).{ "\u000A\u000A" }
+       *[other] J/S de seuil, direct : médiane { $om } dB sur { $n } pertes (IQR { $t }).{ "\u000A\u000A" }
+    }
+
 
 engine-iq-labfit-iqreport-hold-out-leave-one-recording = Mise de côté (un enregistrement laissé de côté à la fois), interpolation : { $bins } intervalles, RMS C/N0 { $om } dB, couverture PI90 { $om2 }
 
-engine-iq-labfit-iqreport-events-loss-time-rms-pi90 = ; { $model } : { $n } événements, RMS du temps de perte { $om } s, couverture PI90 { $om2 }
+engine-iq-labfit-iqreport-events-loss-time-rms-pi90 =
+    { $n ->
+        [one] ; { $model } : { $n } événement, RMS du temps de perte { $om } s, couverture PI90 { $om2 }
+        [many] ; { $model } : { $n } d'événements, RMS du temps de perte { $om } s, couverture PI90 { $om2 }
+       *[other] ; { $model } : { $n } événements, RMS du temps de perte { $om } s, couverture PI90 { $om2 }
+    }
+
 
 engine-iq-labfit-iqreport-validation-table-sha-256-registered =
     SHA-256 de la table de validation `{ $table_sha256 }` (enregistrée { $registered }) :
@@ -3141,7 +3565,13 @@ engine-iq-labfit-report-lab-fit-label-settings-sha =
 
     Libellé : **{ $label }**. SHA-256 des réglages `{ $settings_sha256 }`.{ "\u000A\u000A" }
 
-engine-iq-labfit-report-n0-samples-residual-rms-db = { "\u000A" }{ $n_samples } échantillons C/N0, RMS résiduel { $om } dB.{ $r }{ "\u000A" }
+engine-iq-labfit-report-n0-samples-residual-rms-db =
+    { $n_samples ->
+        [one] { "\u000A" }{ $n_samples } échantillon C/N0, RMS résiduel { $om } dB.{ $r }{ "\u000A" }
+        [many] { "\u000A" }{ $n_samples } d'échantillons C/N0, RMS résiduel { $om } dB.{ $r }{ "\u000A" }
+       *[other] { "\u000A" }{ $n_samples } échantillons C/N0, RMS résiduel { $om } dB.{ $r }{ "\u000A" }
+    }
+
 
 engine-iq-labfit-report-model-parameter-value-bounds-at =
     { "\u000A" }## Modèle : { $model } ({ $label })
@@ -3150,10 +3580,24 @@ engine-iq-labfit-report-model-parameter-value-bounds-at =
     |---|---|---|---|---|{ "\u000A" }
 
 engine-iq-labfit-report-event-time-rms-over-events =
-    { "\u000A" }RMS du temps d'événement { $om } s sur { $n_events } événements ; pertes manquées { $loss_missed } / en trop { $loss_extra }, réacquisitions manquées { $reacq_missed } / en trop { $reacq_extra }.
+    { $n_events ->
+        [one]
+            { "\u000A" }RMS du temps d'événement { $om } s sur { $n_events } événement ; pertes manquées { $loss_missed } / en trop { $loss_extra }, réacquisitions manquées { $reacq_missed } / en trop { $reacq_extra }.
 
-    | exécution | chute dB-Hz | reverrouillage dB-Hz | événements | RMS s |
-    |---|---|---|---|---|{ "\u000A" }
+            | exécution | chute dB-Hz | reverrouillage dB-Hz | événements | RMS s |
+            |---|---|---|---|---|{ "\u000A" }
+        [many]
+            { "\u000A" }RMS du temps d'événement { $om } s sur { $n_events } d'événements ; pertes manquées { $loss_missed } / en trop { $loss_extra }, réacquisitions manquées { $reacq_missed } / en trop { $reacq_extra }.
+
+            | exécution | chute dB-Hz | reverrouillage dB-Hz | événements | RMS s |
+            |---|---|---|---|---|{ "\u000A" }
+       *[other]
+            { "\u000A" }RMS du temps d'événement { $om } s sur { $n_events } événements ; pertes manquées { $loss_missed } / en trop { $loss_extra }, réacquisitions manquées { $reacq_missed } / en trop { $reacq_extra }.
+
+            | exécution | chute dB-Hz | reverrouillage dB-Hz | événements | RMS s |
+            |---|---|---|---|---|{ "\u000A" }
+    }
+
 
 engine-iq-labfit-report-hold-out-folds-all-interpolation =
     { "\u000A" }Mise de côté ({ $scheme }, { $folds } partitions) : tout { $om } s, interpolation { $om2 } s, extrapolation { $om3 } s.
@@ -3263,7 +3707,13 @@ engine-e-iq-short-ids-must-hold-to-satellites = ids doit contenir de 1 à { $MAX
 
 engine-e-iq-short-dopplers-must-be-finite = dopplers doit être fini
 
-engine-e-iq-short-samples-requested-short-run-holds = { $n } échantillons demandés ; une exécution courte contient au plus { $MAX_SAMPLES }
+engine-e-iq-short-samples-requested-short-run-holds =
+    { $n ->
+        [one] { $n } échantillon demandé ; une exécution courte contient au plus { $MAX_SAMPLES }
+        [many] { $n } d'échantillons demandés ; une exécution courte contient au plus { $MAX_SAMPLES }
+       *[other] { $n } échantillons demandés ; une exécution courte contient au plus { $MAX_SAMPLES }
+    }
+
 
 ## src/iq/signals/beidou.rs
 
@@ -3289,7 +3739,13 @@ engine-e-iq-signals-galileo-line-no-code-number-in = ligne { $v1 } : aucun num�
 
 engine-e-iq-signals-galileo-code-appears-twice = le code { $number } apparaît deux fois
 
-engine-e-iq-signals-galileo-codes-the-icd-defines = { $path } : { $n } codes, l'ICD en définit { $CODES_PER_COMPONENT }
+engine-e-iq-signals-galileo-codes-the-icd-defines =
+    { $n ->
+        [one] { $path } : { $n } code, l'ICD en définit { $CODES_PER_COMPONENT }
+        [many] { $path } : { $n } de codes, l'ICD en définit { $CODES_PER_COMPONENT }
+       *[other] { $path } : { $n } codes, l'ICD en définit { $CODES_PER_COMPONENT }
+    }
+
 
 engine-iq-signals-galileo-galileo-e1-prn = Galileo E1-B PRN { $prn }
 
@@ -3657,7 +4113,28 @@ engine-launch-launch-window-lat-az-asc = fenêtre de lancement : lat { $site_la
 
 engine-e-leo-fusion-doppler-every-range-rate-needs-positive = chaque vitesse radiale nécessite un sigma positif et fini
 
-engine-e-leo-fusion-doppler-measurements-cannot-resolve-doppler-unknowns = { $n_meas } mesures ne peuvent pas résoudre { $n } inconnues Doppler
+engine-e-leo-fusion-doppler-measurements-cannot-resolve-doppler-unknowns =
+    { $n_meas ->
+        [one]
+            { $n ->
+                [one] { $n_meas } mesure ne peut pas résoudre { $n } inconnue Doppler
+                [many] { $n_meas } mesure ne peut pas résoudre { $n } d'inconnues Doppler
+               *[other] { $n_meas } mesure ne peut pas résoudre { $n } inconnues Doppler
+            }
+        [many]
+            { $n ->
+                [one] { $n_meas } de mesures ne peuvent pas résoudre { $n } inconnue Doppler
+                [many] { $n_meas } de mesures ne peuvent pas résoudre { $n } d'inconnues Doppler
+               *[other] { $n_meas } de mesures ne peuvent pas résoudre { $n } inconnues Doppler
+            }
+       *[other]
+            { $n ->
+                [one] { $n_meas } mesures ne peuvent pas résoudre { $n } inconnue Doppler
+                [many] { $n_meas } mesures ne peuvent pas résoudre { $n } d'inconnues Doppler
+               *[other] { $n_meas } mesures ne peuvent pas résoudre { $n } inconnues Doppler
+            }
+    }
+
 
 engine-e-leo-fusion-doppler-the-doppler-geometry-is-singular = la géométrie Doppler est singulière
 
@@ -3667,7 +4144,28 @@ engine-e-leo-fusion-doppler-no-covariance = aucune covariance
 
 engine-e-leo-fusion-joint-pvt-every-pseudorange-needs-positive-finite = chaque pseudodistance nécessite un sigma positif et fini
 
-engine-e-leo-fusion-joint-pvt-pseudoranges-cannot-resolve-unknowns-position = { $obs } pseudodistances ne peuvent pas résoudre { $n } inconnues (3 de position + { $n_clock } horloges)
+engine-e-leo-fusion-joint-pvt-pseudoranges-cannot-resolve-unknowns-position =
+    { $n ->
+        [one]
+            { $n_clock ->
+                [one] { $obs } pseudodistances ne peuvent pas résoudre { $n } inconnue (3 de position + { $n_clock } horloge)
+                [many] { $obs } pseudodistances ne peuvent pas résoudre { $n } inconnue (3 de position + { $n_clock } d'horloges)
+               *[other] { $obs } pseudodistances ne peuvent pas résoudre { $n } inconnue (3 de position + { $n_clock } horloges)
+            }
+        [many]
+            { $n_clock ->
+                [one] { $obs } pseudodistances ne peuvent pas résoudre { $n } d'inconnues (3 de position + { $n_clock } horloge)
+                [many] { $obs } pseudodistances ne peuvent pas résoudre { $n } d'inconnues (3 de position + { $n_clock } d'horloges)
+               *[other] { $obs } pseudodistances ne peuvent pas résoudre { $n } d'inconnues (3 de position + { $n_clock } horloges)
+            }
+       *[other]
+            { $n_clock ->
+                [one] { $obs } pseudodistances ne peuvent pas résoudre { $n } inconnues (3 de position + { $n_clock } horloge)
+                [many] { $obs } pseudodistances ne peuvent pas résoudre { $n } inconnues (3 de position + { $n_clock } d'horloges)
+               *[other] { $obs } pseudodistances ne peuvent pas résoudre { $n } inconnues (3 de position + { $n_clock } horloges)
+            }
+    }
+
 
 engine-e-leo-fusion-joint-pvt-satellite-coincides-with-the-position = un satellite coïncide avec l'estimation de position
 
@@ -3687,11 +4185,23 @@ engine-e-leo-fusion-ntn-sync-error-must-be-non = sync_error_m doit être non né
 
 engine-e-leo-fusion-ntn-every-signal-needs-positive-bandwidth = chaque signal nécessite une largeur de bande positive
 
-engine-leo-fusion-ntn-5g-ntn-positioning-at-mhz = Positionnement 5G NTN à { $r } MHz, C/N0 de { $r2 } à { $r3 } dB-Hz, { $n_satellites } satellites ({ $mean_in_view } en vue){ "\u000A" }
+engine-leo-fusion-ntn-5g-ntn-positioning-at-mhz =
+    { $n_satellites ->
+        [one] Positionnement 5G NTN à { $r } MHz, C/N0 de { $r2 } à { $r3 } dB-Hz, { $n_satellites } satellite ({ $mean_in_view } en vue){ "\u000A" }
+        [many] Positionnement 5G NTN à { $r } MHz, C/N0 de { $r2 } à { $r3 } dB-Hz, { $n_satellites } de satellites ({ $mean_in_view } en vue){ "\u000A" }
+       *[other] Positionnement 5G NTN à { $r } MHz, C/N0 de { $r2 } à { $r3 } dB-Hz, { $n_satellites } satellites ({ $mean_in_view } en vue){ "\u000A" }
+    }
+
 
 engine-leo-fusion-ntn-khz-crb-range-to-median = { "  " }{ $name } : { $s } kHz, plage CRB de { $range_sigma_zenith_m } à { $range_sigma_mask_m } m ; 3D formel médian { $s2 } m, erreur RMS { $s3 } m{ "\u000A" }
 
-engine-leo-fusion-ntn-one-satellite-doppler-pass-samples = { "  " }passage Doppler d'un satellite : { $n_obs } échantillons sur { $duration_s } s, erreur horizontale { $horizontal_error_m } m{ "\u000A" }
+engine-leo-fusion-ntn-one-satellite-doppler-pass-samples =
+    { $n_obs ->
+        [one] { "  " }passage Doppler d'un satellite : { $n_obs } échantillon sur { $duration_s } s, erreur horizontale { $horizontal_error_m } m{ "\u000A" }
+        [many] { "  " }passage Doppler d'un satellite : { $n_obs } d'échantillons sur { $duration_s } s, erreur horizontale { $horizontal_error_m } m{ "\u000A" }
+       *[other] { "  " }passage Doppler d'un satellite : { $n_obs } échantillons sur { $duration_s } s, erreur horizontale { $horizontal_error_m } m{ "\u000A" }
+    }
+
 
 engine-leo-fusion-ntn-mhz-n0-db-hz-modelled = { $r } MHz · C/N0 { $r2 }-{ $r3 } dB-Hz · MODELLED
 
@@ -3705,7 +4215,13 @@ engine-e-leo-fusion-ppp-runs-must-be-to-200 = runs doit être compris entre 1 et
 
 engine-e-leo-fusion-ppp-convergence-thresholds-must-be-positive = les seuils de convergence doivent être positifs
 
-engine-leo-fusion-ppp-ppp-convergence-to-horizontal-vertical = Convergence PPP vers { $criterion_horizontal_m } m en horizontal / { $criterion_vertical_m } m en vertical, { $runs_per_case } exécutions par cas, { $n_gnss } satellites GNSS{ "\u000A" }
+engine-leo-fusion-ppp-ppp-convergence-to-horizontal-vertical =
+    { $n_gnss ->
+        [one] Convergence PPP vers { $criterion_horizontal_m } m en horizontal / { $criterion_vertical_m } m en vertical, { $runs_per_case } exécutions par cas, { $n_gnss } satellite GNSS{ "\u000A" }
+        [many] Convergence PPP vers { $criterion_horizontal_m } m en horizontal / { $criterion_vertical_m } m en vertical, { $runs_per_case } exécutions par cas, { $n_gnss } de satellites GNSS{ "\u000A" }
+       *[other] Convergence PPP vers { $criterion_horizontal_m } m en horizontal / { $criterion_vertical_m } m en vertical, { $runs_per_case } exécutions par cas, { $n_gnss } satellites GNSS{ "\u000A" }
+    }
+
 
 engine-leo-fusion-ppp-leo-median-min-converged-nees = { "  " }{ $name } { $n_leo } LEO  médiane { $c } min  convergé { $v4 } %  NEES moyen { $nees_mean }{ "\u000A" }
 
@@ -3737,7 +4253,28 @@ engine-leo-fusion-pvt-kind-leo-pvt-at-over = PVT LEO ({ $mode }) à { $user_lat_
 
 engine-leo-fusion-pvt-kind-sats-at-km-mhz = { "  " }{ $name } { $role } { $n_satellites } sat. à { $mean_altitude_km } km, { $sys } MHz{ $v6 }{ "\u000A" }
 
-engine-leo-fusion-pvt-kind-doppler-fix-measurements-from-satellites = { "  " }Point Doppler : { $n_obs } mesures de { $n_sats } satellites, erreur 3D { $error_3d_m } m (horizontale { $horizontal_error_m } m){ "\u000A" }
+engine-leo-fusion-pvt-kind-doppler-fix-measurements-from-satellites =
+    { $n_obs ->
+        [one]
+            { $n_sats ->
+                [one] { "  " }Point Doppler : { $n_obs } mesure de { $n_sats } satellite, erreur 3D { $error_3d_m } m (horizontale { $horizontal_error_m } m){ "\u000A" }
+                [many] { "  " }Point Doppler : { $n_obs } mesure de { $n_sats } de satellites, erreur 3D { $error_3d_m } m (horizontale { $horizontal_error_m } m){ "\u000A" }
+               *[other] { "  " }Point Doppler : { $n_obs } mesure de { $n_sats } satellites, erreur 3D { $error_3d_m } m (horizontale { $horizontal_error_m } m){ "\u000A" }
+            }
+        [many]
+            { $n_sats ->
+                [one] { "  " }Point Doppler : { $n_obs } de mesures de { $n_sats } satellite, erreur 3D { $error_3d_m } m (horizontale { $horizontal_error_m } m){ "\u000A" }
+                [many] { "  " }Point Doppler : { $n_obs } de mesures de { $n_sats } de satellites, erreur 3D { $error_3d_m } m (horizontale { $horizontal_error_m } m){ "\u000A" }
+               *[other] { "  " }Point Doppler : { $n_obs } de mesures de { $n_sats } satellites, erreur 3D { $error_3d_m } m (horizontale { $horizontal_error_m } m){ "\u000A" }
+            }
+       *[other]
+            { $n_sats ->
+                [one] { "  " }Point Doppler : { $n_obs } mesures de { $n_sats } satellite, erreur 3D { $error_3d_m } m (horizontale { $horizontal_error_m } m){ "\u000A" }
+                [many] { "  " }Point Doppler : { $n_obs } mesures de { $n_sats } de satellites, erreur 3D { $error_3d_m } m (horizontale { $horizontal_error_m } m){ "\u000A" }
+               *[other] { "  " }Point Doppler : { $n_obs } mesures de { $n_sats } satellites, erreur 3D { $error_3d_m } m (horizontale { $horizontal_error_m } m){ "\u000A" }
+            }
+    }
+
 
 engine-leo-fusion-pvt-kind-window-sats-3d-error = { "    " }fenêtre { $window_s } s : { $n_sats } sat., erreur 3D { $f } m{ "\u000A" }
 
@@ -4262,7 +4799,13 @@ engine-live-io-kshana-live-vessel-platform-calibrating = kshana live : platefor
 
 engine-live-io-write-failed = échec d'écriture : { $e }
 
-engine-live-io-kshana-live-dropped-udp-datagram = kshana live : { $n } datagramme(s) udp abandonné(s), que le moteur n'a pas pu prendre ({ $udp_dropped } au total)
+engine-live-io-kshana-live-dropped-udp-datagram =
+    { $n ->
+        [one] kshana live : { $n } datagramme udp abandonné, que le moteur n'a pas pu prendre ({ $udp_dropped } au total)
+        [many] kshana live : { $n } de datagrammes udp abandonnés, que le moteur n'a pas pu prendre ({ $udp_dropped } au total)
+       *[other] kshana live : { $n } datagrammes udp abandonnés, que le moteur n'a pas pu prendre ({ $udp_dropped } au total)
+    }
+
 
 ## src/lunar_afs/codes.rs
 
@@ -4336,11 +4879,44 @@ engine-e-lunar-beacon-comparison-satellites-must-be-at = comparison_n_satellites
 
 engine-e-lunar-beacon-elevation-mask-deg-must-be = elevation_mask_deg doit être dans [0, 90) ; reçu { $mask_deg }
 
-engine-lunar-beacon-satellites-no-beacons = { $n_sats } satellites, sans balise
+engine-lunar-beacon-satellites-no-beacons =
+    { $n_sats ->
+        [one] { $n_sats } satellite, sans balise
+        [many] { $n_sats } de satellites, sans balise
+       *[other] { $n_sats } satellites, sans balise
+    }
 
-engine-lunar-beacon-satellites-visible-beacons = { $n_sats } satellites + { $n_vis_beacons } balises visibles
 
-engine-lunar-beacon-satellites-no-beacons-2 = { $n_cmp } satellites, sans balise
+engine-lunar-beacon-satellites-visible-beacons =
+    { $n_sats ->
+        [one]
+            { $n_vis_beacons ->
+                [one] { $n_sats } satellite + { $n_vis_beacons } balise visible
+                [many] { $n_sats } satellite + { $n_vis_beacons } de balises visibles
+               *[other] { $n_sats } satellite + { $n_vis_beacons } balises visibles
+            }
+        [many]
+            { $n_vis_beacons ->
+                [one] { $n_sats } de satellites + { $n_vis_beacons } balise visible
+                [many] { $n_sats } de satellites + { $n_vis_beacons } de balises visibles
+               *[other] { $n_sats } de satellites + { $n_vis_beacons } balises visibles
+            }
+       *[other]
+            { $n_vis_beacons ->
+                [one] { $n_sats } satellites + { $n_vis_beacons } balise visible
+                [many] { $n_sats } satellites + { $n_vis_beacons } de balises visibles
+               *[other] { $n_sats } satellites + { $n_vis_beacons } balises visibles
+            }
+    }
+
+
+engine-lunar-beacon-satellites-no-beacons-2 =
+    { $n_cmp ->
+        [one] { $n_cmp } satellite, sans balise
+        [many] { $n_cmp } de satellites, sans balise
+       *[other] { $n_cmp } satellites, sans balise
+    }
+
 
 engine-e-lunar-beacon-serialising-beacon-report = sérialisation du rapport de balises : { $e }
 
@@ -4438,13 +5014,55 @@ engine-e-lunar-frame-campaign-solver-must-be-spectral-or = solver doit être "sp
 
 engine-e-lunar-frame-campaign-serializing-lunar-frame-campaign-result = sérialisation du résultat lunar-frame-campaign : { $e }
 
-engine-e-lunar-frame-campaign-no-observation-in-the-campaign = aucune observation de la campagne ne franchit le masque d'élévation côté Terre de { $mask } deg aux deux extrémités d'une base ET le masque de { $earth_mask } deg au-dessus de l'horizon propre de la balise : { $n_epochs } époques x { $v1 } bases x { $n_beacons } balises toutes rejetées. Allongez arc_hours, abaissez un masque ou déplacez les stations.
+engine-e-lunar-frame-campaign-no-observation-in-the-campaign =
+    { $n_epochs ->
+        [one]
+            { $n_beacons ->
+                [one] aucune observation de la campagne ne franchit le masque d'élévation côté Terre de { $mask } deg aux deux extrémités d'une base ET le masque de { $earth_mask } deg au-dessus de l'horizon propre de la balise : { $n_epochs } époque x { $v1 } bases x { $n_beacons } balise toutes rejetées. Allongez arc_hours, abaissez un masque ou déplacez les stations.
+                [many] aucune observation de la campagne ne franchit le masque d'élévation côté Terre de { $mask } deg aux deux extrémités d'une base ET le masque de { $earth_mask } deg au-dessus de l'horizon propre de la balise : { $n_epochs } époque x { $v1 } bases x { $n_beacons } de balises toutes rejetées. Allongez arc_hours, abaissez un masque ou déplacez les stations.
+               *[other] aucune observation de la campagne ne franchit le masque d'élévation côté Terre de { $mask } deg aux deux extrémités d'une base ET le masque de { $earth_mask } deg au-dessus de l'horizon propre de la balise : { $n_epochs } époque x { $v1 } bases x { $n_beacons } balises toutes rejetées. Allongez arc_hours, abaissez un masque ou déplacez les stations.
+            }
+        [many]
+            { $n_beacons ->
+                [one] aucune observation de la campagne ne franchit le masque d'élévation côté Terre de { $mask } deg aux deux extrémités d'une base ET le masque de { $earth_mask } deg au-dessus de l'horizon propre de la balise : { $n_epochs } d'époques x { $v1 } bases x { $n_beacons } balise toutes rejetées. Allongez arc_hours, abaissez un masque ou déplacez les stations.
+                [many] aucune observation de la campagne ne franchit le masque d'élévation côté Terre de { $mask } deg aux deux extrémités d'une base ET le masque de { $earth_mask } deg au-dessus de l'horizon propre de la balise : { $n_epochs } d'époques x { $v1 } bases x { $n_beacons } de balises toutes rejetées. Allongez arc_hours, abaissez un masque ou déplacez les stations.
+               *[other] aucune observation de la campagne ne franchit le masque d'élévation côté Terre de { $mask } deg aux deux extrémités d'une base ET le masque de { $earth_mask } deg au-dessus de l'horizon propre de la balise : { $n_epochs } d'époques x { $v1 } bases x { $n_beacons } balises toutes rejetées. Allongez arc_hours, abaissez un masque ou déplacez les stations.
+            }
+       *[other]
+            { $n_beacons ->
+                [one] aucune observation de la campagne ne franchit le masque d'élévation côté Terre de { $mask } deg aux deux extrémités d'une base ET le masque de { $earth_mask } deg au-dessus de l'horizon propre de la balise : { $n_epochs } époques x { $v1 } bases x { $n_beacons } balise toutes rejetées. Allongez arc_hours, abaissez un masque ou déplacez les stations.
+                [many] aucune observation de la campagne ne franchit le masque d'élévation côté Terre de { $mask } deg aux deux extrémités d'une base ET le masque de { $earth_mask } deg au-dessus de l'horizon propre de la balise : { $n_epochs } époques x { $v1 } bases x { $n_beacons } de balises toutes rejetées. Allongez arc_hours, abaissez un masque ou déplacez les stations.
+               *[other] aucune observation de la campagne ne franchit le masque d'élévation côté Terre de { $mask } deg aux deux extrémités d'une base ET le masque de { $earth_mask } deg au-dessus de l'horizon propre de la balise : { $n_epochs } époques x { $v1 } bases x { $n_beacons } balises toutes rejetées. Allongez arc_hours, abaissez un masque ou déplacez les stations.
+            }
+    }
+
 
 engine-lunar-frame-campaign-full-rank-all-similarity-parameters = rang plein : les 7 paramètres de similitude sont tous contraints par cette campagne (nombre de conditionnement { $condition })
 
 engine-lunar-frame-campaign-rank-deficient-of-similarity-directions = DÉFICIENT EN RANG : { $defect } directions de similitude sur 7 sont inobservables à partir de cette campagne, donc AUCUN sigma de datum n'est publié ; les directions inobservables sont listées dans la base à sept paramètres
 
-engine-lunar-frame-campaign-lunar-frame-campaign-beacons-baselines = lunar-frame-campaign | { $n_beacons } balises x { $v1 } bases x { $n_epochs } époques = { $n_obs } obs (sigma de délai { $sigma_tau } s) | datum de station { $station_datum } | rang de Helmert { $rank }/7 cond { $condition } | sigma de translation du datum { $v5 } contre erreur de récupération de la transformation injectée { $trans_err_norm_m } m (rapport { $v7 })
+engine-lunar-frame-campaign-lunar-frame-campaign-beacons-baselines =
+    { $n_beacons ->
+        [one]
+            { $n_epochs ->
+                [one] lunar-frame-campaign | { $n_beacons } balise x { $v1 } bases x { $n_epochs } époque = { $n_obs } obs (sigma de délai { $sigma_tau } s) | datum de station { $station_datum } | rang de Helmert { $rank }/7 cond { $condition } | sigma de translation du datum { $v5 } contre erreur de récupération de la transformation injectée { $trans_err_norm_m } m (rapport { $v7 })
+                [many] lunar-frame-campaign | { $n_beacons } balise x { $v1 } bases x { $n_epochs } d'époques = { $n_obs } obs (sigma de délai { $sigma_tau } s) | datum de station { $station_datum } | rang de Helmert { $rank }/7 cond { $condition } | sigma de translation du datum { $v5 } contre erreur de récupération de la transformation injectée { $trans_err_norm_m } m (rapport { $v7 })
+               *[other] lunar-frame-campaign | { $n_beacons } balise x { $v1 } bases x { $n_epochs } époques = { $n_obs } obs (sigma de délai { $sigma_tau } s) | datum de station { $station_datum } | rang de Helmert { $rank }/7 cond { $condition } | sigma de translation du datum { $v5 } contre erreur de récupération de la transformation injectée { $trans_err_norm_m } m (rapport { $v7 })
+            }
+        [many]
+            { $n_epochs ->
+                [one] lunar-frame-campaign | { $n_beacons } de balises x { $v1 } bases x { $n_epochs } époque = { $n_obs } obs (sigma de délai { $sigma_tau } s) | datum de station { $station_datum } | rang de Helmert { $rank }/7 cond { $condition } | sigma de translation du datum { $v5 } contre erreur de récupération de la transformation injectée { $trans_err_norm_m } m (rapport { $v7 })
+                [many] lunar-frame-campaign | { $n_beacons } de balises x { $v1 } bases x { $n_epochs } d'époques = { $n_obs } obs (sigma de délai { $sigma_tau } s) | datum de station { $station_datum } | rang de Helmert { $rank }/7 cond { $condition } | sigma de translation du datum { $v5 } contre erreur de récupération de la transformation injectée { $trans_err_norm_m } m (rapport { $v7 })
+               *[other] lunar-frame-campaign | { $n_beacons } de balises x { $v1 } bases x { $n_epochs } époques = { $n_obs } obs (sigma de délai { $sigma_tau } s) | datum de station { $station_datum } | rang de Helmert { $rank }/7 cond { $condition } | sigma de translation du datum { $v5 } contre erreur de récupération de la transformation injectée { $trans_err_norm_m } m (rapport { $v7 })
+            }
+       *[other]
+            { $n_epochs ->
+                [one] lunar-frame-campaign | { $n_beacons } balises x { $v1 } bases x { $n_epochs } époque = { $n_obs } obs (sigma de délai { $sigma_tau } s) | datum de station { $station_datum } | rang de Helmert { $rank }/7 cond { $condition } | sigma de translation du datum { $v5 } contre erreur de récupération de la transformation injectée { $trans_err_norm_m } m (rapport { $v7 })
+                [many] lunar-frame-campaign | { $n_beacons } balises x { $v1 } bases x { $n_epochs } d'époques = { $n_obs } obs (sigma de délai { $sigma_tau } s) | datum de station { $station_datum } | rang de Helmert { $rank }/7 cond { $condition } | sigma de translation du datum { $v5 } contre erreur de récupération de la transformation injectée { $trans_err_norm_m } m (rapport { $v7 })
+               *[other] lunar-frame-campaign | { $n_beacons } balises x { $v1 } bases x { $n_epochs } époques = { $n_obs } obs (sigma de délai { $sigma_tau } s) | datum de station { $station_datum } | rang de Helmert { $rank }/7 cond { $condition } | sigma de translation du datum { $v5 } contre erreur de récupération de la transformation injectée { $trans_err_norm_m } m (rapport { $v7 })
+            }
+    }
+
 
 engine-lunar-frame-campaign-of-beacons-have-no-observation = { $names } balises sur { $beacons } n'ont aucune observation dans ce calendrier ({ $names2 }) ; elles ne portent aucune information, leurs sigmas sont null, et le datum est réalisé à partir des seules balises observées
 
@@ -4526,9 +5144,51 @@ engine-e-lunar-jamming-eccentricity-must-be-in = eccentricity doit être dans [0
 
 engine-e-lunar-jamming-jammer-power-dbw-must-be = jammer.power_dbw doit être fini
 
-engine-lunar-jamming-lunar-jamming-sats-epochs-links = lunar-jamming | { $n_sats } sat., { $n_epochs } époques, { $n_links } liaisons depuis ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (moyenne { $mean_js_db }) | { $n_lost } LOST | disponibilité { $availability_under_jamming } (nominale { $availability_nominal })
+engine-lunar-jamming-lunar-jamming-sats-epochs-links =
+    { $n_epochs ->
+        [one]
+            { $n_links ->
+                [one] lunar-jamming | { $n_sats } sat., { $n_epochs } époque, { $n_links } liaison depuis ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (moyenne { $mean_js_db }) | { $n_lost } LOST | disponibilité { $availability_under_jamming } (nominale { $availability_nominal })
+                [many] lunar-jamming | { $n_sats } sat., { $n_epochs } époque, { $n_links } de liaisons depuis ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (moyenne { $mean_js_db }) | { $n_lost } LOST | disponibilité { $availability_under_jamming } (nominale { $availability_nominal })
+               *[other] lunar-jamming | { $n_sats } sat., { $n_epochs } époque, { $n_links } liaisons depuis ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (moyenne { $mean_js_db }) | { $n_lost } LOST | disponibilité { $availability_under_jamming } (nominale { $availability_nominal })
+            }
+        [many]
+            { $n_links ->
+                [one] lunar-jamming | { $n_sats } sat., { $n_epochs } d'époques, { $n_links } liaison depuis ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (moyenne { $mean_js_db }) | { $n_lost } LOST | disponibilité { $availability_under_jamming } (nominale { $availability_nominal })
+                [many] lunar-jamming | { $n_sats } sat., { $n_epochs } d'époques, { $n_links } de liaisons depuis ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (moyenne { $mean_js_db }) | { $n_lost } LOST | disponibilité { $availability_under_jamming } (nominale { $availability_nominal })
+               *[other] lunar-jamming | { $n_sats } sat., { $n_epochs } d'époques, { $n_links } liaisons depuis ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (moyenne { $mean_js_db }) | { $n_lost } LOST | disponibilité { $availability_under_jamming } (nominale { $availability_nominal })
+            }
+       *[other]
+            { $n_links ->
+                [one] lunar-jamming | { $n_sats } sat., { $n_epochs } époques, { $n_links } liaison depuis ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (moyenne { $mean_js_db }) | { $n_lost } LOST | disponibilité { $availability_under_jamming } (nominale { $availability_nominal })
+                [many] lunar-jamming | { $n_sats } sat., { $n_epochs } époques, { $n_links } de liaisons depuis ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (moyenne { $mean_js_db }) | { $n_lost } LOST | disponibilité { $availability_under_jamming } (nominale { $availability_nominal })
+               *[other] lunar-jamming | { $n_sats } sat., { $n_epochs } époques, { $n_links } liaisons depuis ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (moyenne { $mean_js_db }) | { $n_lost } LOST | disponibilité { $availability_under_jamming } (nominale { $availability_nominal })
+            }
+    }
 
-engine-lunar-jamming-lunar-jamming-sats-epochs-links-2 = lunar-jamming | { $n_sats } sat., { $n_epochs } époques, { $n_links } liaisons depuis ({ $site_lat_deg }, { $site_lon_deg }) | aucun brouilleur (référence lunaire en ciel dégagé) | { $n_lost } LOST | disponibilité { $availability_nominal }
+
+engine-lunar-jamming-lunar-jamming-sats-epochs-links-2 =
+    { $n_epochs ->
+        [one]
+            { $n_links ->
+                [one] lunar-jamming | { $n_sats } sat., { $n_epochs } époque, { $n_links } liaison depuis ({ $site_lat_deg }, { $site_lon_deg }) | aucun brouilleur (référence lunaire en ciel dégagé) | { $n_lost } LOST | disponibilité { $availability_nominal }
+                [many] lunar-jamming | { $n_sats } sat., { $n_epochs } époque, { $n_links } de liaisons depuis ({ $site_lat_deg }, { $site_lon_deg }) | aucun brouilleur (référence lunaire en ciel dégagé) | { $n_lost } LOST | disponibilité { $availability_nominal }
+               *[other] lunar-jamming | { $n_sats } sat., { $n_epochs } époque, { $n_links } liaisons depuis ({ $site_lat_deg }, { $site_lon_deg }) | aucun brouilleur (référence lunaire en ciel dégagé) | { $n_lost } LOST | disponibilité { $availability_nominal }
+            }
+        [many]
+            { $n_links ->
+                [one] lunar-jamming | { $n_sats } sat., { $n_epochs } d'époques, { $n_links } liaison depuis ({ $site_lat_deg }, { $site_lon_deg }) | aucun brouilleur (référence lunaire en ciel dégagé) | { $n_lost } LOST | disponibilité { $availability_nominal }
+                [many] lunar-jamming | { $n_sats } sat., { $n_epochs } d'époques, { $n_links } de liaisons depuis ({ $site_lat_deg }, { $site_lon_deg }) | aucun brouilleur (référence lunaire en ciel dégagé) | { $n_lost } LOST | disponibilité { $availability_nominal }
+               *[other] lunar-jamming | { $n_sats } sat., { $n_epochs } d'époques, { $n_links } liaisons depuis ({ $site_lat_deg }, { $site_lon_deg }) | aucun brouilleur (référence lunaire en ciel dégagé) | { $n_lost } LOST | disponibilité { $availability_nominal }
+            }
+       *[other]
+            { $n_links ->
+                [one] lunar-jamming | { $n_sats } sat., { $n_epochs } époques, { $n_links } liaison depuis ({ $site_lat_deg }, { $site_lon_deg }) | aucun brouilleur (référence lunaire en ciel dégagé) | { $n_lost } LOST | disponibilité { $availability_nominal }
+                [many] lunar-jamming | { $n_sats } sat., { $n_epochs } époques, { $n_links } de liaisons depuis ({ $site_lat_deg }, { $site_lon_deg }) | aucun brouilleur (référence lunaire en ciel dégagé) | { $n_lost } LOST | disponibilité { $availability_nominal }
+               *[other] lunar-jamming | { $n_sats } sat., { $n_epochs } époques, { $n_links } liaisons depuis ({ $site_lat_deg }, { $site_lon_deg }) | aucun brouilleur (référence lunaire en ciel dégagé) | { $n_lost } LOST | disponibilité { $availability_nominal }
+            }
+    }
+
 
 ## src/lunar_llr.rs
 
@@ -4626,7 +5286,73 @@ engine-e-lunar-station-no-case = { $KIND } : aucun cas ({ $j }, { $i }, { $k })
 
 engine-lunar-station-stroke-stroke-width = { " " }stroke="{ $INK }" stroke-width="0.8"
 
-engine-lunar-station-points-epochs-trials = { $n_grid_points } points · { $n_epochs } époques · { $n_trials } essais
+engine-lunar-station-points-epochs-trials =
+    { $n_grid_points ->
+        [one]
+            { $n_epochs ->
+                [one]
+                    { $n_trials ->
+                        [one] { $n_grid_points } point · { $n_epochs } époque · { $n_trials } essai
+                        [many] { $n_grid_points } point · { $n_epochs } époque · { $n_trials } d'essais
+                       *[other] { $n_grid_points } point · { $n_epochs } époque · { $n_trials } essais
+                    }
+                [many]
+                    { $n_trials ->
+                        [one] { $n_grid_points } point · { $n_epochs } d'époques · { $n_trials } essai
+                        [many] { $n_grid_points } point · { $n_epochs } d'époques · { $n_trials } d'essais
+                       *[other] { $n_grid_points } point · { $n_epochs } d'époques · { $n_trials } essais
+                    }
+               *[other]
+                    { $n_trials ->
+                        [one] { $n_grid_points } point · { $n_epochs } époques · { $n_trials } essai
+                        [many] { $n_grid_points } point · { $n_epochs } époques · { $n_trials } d'essais
+                       *[other] { $n_grid_points } point · { $n_epochs } époques · { $n_trials } essais
+                    }
+            }
+        [many]
+            { $n_epochs ->
+                [one]
+                    { $n_trials ->
+                        [one] { $n_grid_points } de points · { $n_epochs } époque · { $n_trials } essai
+                        [many] { $n_grid_points } de points · { $n_epochs } époque · { $n_trials } d'essais
+                       *[other] { $n_grid_points } de points · { $n_epochs } époque · { $n_trials } essais
+                    }
+                [many]
+                    { $n_trials ->
+                        [one] { $n_grid_points } de points · { $n_epochs } d'époques · { $n_trials } essai
+                        [many] { $n_grid_points } de points · { $n_epochs } d'époques · { $n_trials } d'essais
+                       *[other] { $n_grid_points } de points · { $n_epochs } d'époques · { $n_trials } essais
+                    }
+               *[other]
+                    { $n_trials ->
+                        [one] { $n_grid_points } de points · { $n_epochs } époques · { $n_trials } essai
+                        [many] { $n_grid_points } de points · { $n_epochs } époques · { $n_trials } d'essais
+                       *[other] { $n_grid_points } de points · { $n_epochs } époques · { $n_trials } essais
+                    }
+            }
+       *[other]
+            { $n_epochs ->
+                [one]
+                    { $n_trials ->
+                        [one] { $n_grid_points } points · { $n_epochs } époque · { $n_trials } essai
+                        [many] { $n_grid_points } points · { $n_epochs } époque · { $n_trials } d'essais
+                       *[other] { $n_grid_points } points · { $n_epochs } époque · { $n_trials } essais
+                    }
+                [many]
+                    { $n_trials ->
+                        [one] { $n_grid_points } points · { $n_epochs } d'époques · { $n_trials } essai
+                        [many] { $n_grid_points } points · { $n_epochs } d'époques · { $n_trials } d'essais
+                       *[other] { $n_grid_points } points · { $n_epochs } d'époques · { $n_trials } essais
+                    }
+               *[other]
+                    { $n_trials ->
+                        [one] { $n_grid_points } points · { $n_epochs } époques · { $n_trials } essai
+                        [many] { $n_grid_points } points · { $n_epochs } époques · { $n_trials } d'essais
+                       *[other] { $n_grid_points } points · { $n_epochs } époques · { $n_trials } essais
+                    }
+            }
+    }
+
 
 engine-lunar-station-hpl-max = HPL max. { $f }
 
@@ -4748,7 +5474,13 @@ engine-e-lunar-vlbi-fim-equipartition-must-be-positive-and = equipartition_g doi
 
 engine-e-lunar-vlbi-fim-serializing-lunar-vlbi-fim-result = sérialisation du résultat lunar-vlbi-fim : { $e }
 
-engine-e-lunar-vlbi-fim-no-observation-in-the-schedule = aucune observation du calendrier ne franchit le masque d'élévation de { $mask } deg aux deux extrémités d'une base : { $n_epochs } époques x { $v1 } bases toutes rejetées. Allongez arc_hours, abaissez elevation_mask_deg ou déplacez les stations.
+engine-e-lunar-vlbi-fim-no-observation-in-the-schedule =
+    { $n_epochs ->
+        [one] aucune observation du calendrier ne franchit le masque d'élévation de { $mask } deg aux deux extrémités d'une base : { $n_epochs } époque x { $v1 } bases toutes rejetées. Allongez arc_hours, abaissez elevation_mask_deg ou déplacez les stations.
+        [many] aucune observation du calendrier ne franchit le masque d'élévation de { $mask } deg aux deux extrémités d'une base : { $n_epochs } d'époques x { $v1 } bases toutes rejetées. Allongez arc_hours, abaissez elevation_mask_deg ou déplacez les stations.
+       *[other] aucune observation du calendrier ne franchit le masque d'élévation de { $mask } deg aux deux extrémités d'une base : { $n_epochs } époques x { $v1 } bases toutes rejetées. Allongez arc_hours, abaissez elevation_mask_deg ou déplacez les stations.
+    }
+
 
 engine-e-lunar-vlbi-fim-the-datum-leaves-no-parameter = le datum ne laisse aucun paramètre à estimer
 
@@ -4756,7 +5488,28 @@ engine-lunar-vlbi-fim-beacon-mcmf = beacon_mcmf.{ $ax }
 
 engine-lunar-vlbi-fim-rank-deficient-of-directions-are = DÉFICIENT EN RANG : { $defect } directions sur { $dim } sont inobservables, donc aucun sigma par coordonnée n'est rapporté ; la valeur du sous-espace observable ci-dessous est une pseudo-inverse restreinte aux { $rank } directions observables et n'est PAS un sigma de station
 
-engine-lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines = lunar-vlbi-fim | { $n_stations } stations / { $v2 } bases x { $n_epochs } époques = { $n_obs } obs (masque { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } cond { $condition } | sigma de station { $v10 } contre équipartition g={ $g } { $eq_g } m (rapport { $v13 })
+engine-lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines =
+    { $n_stations ->
+        [one]
+            { $n_epochs ->
+                [one] lunar-vlbi-fim | { $n_stations } station / { $v2 } bases x { $n_epochs } époque = { $n_obs } obs (masque { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } cond { $condition } | sigma de station { $v10 } contre équipartition g={ $g } { $eq_g } m (rapport { $v13 })
+                [many] lunar-vlbi-fim | { $n_stations } station / { $v2 } bases x { $n_epochs } d'époques = { $n_obs } obs (masque { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } cond { $condition } | sigma de station { $v10 } contre équipartition g={ $g } { $eq_g } m (rapport { $v13 })
+               *[other] lunar-vlbi-fim | { $n_stations } station / { $v2 } bases x { $n_epochs } époques = { $n_obs } obs (masque { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } cond { $condition } | sigma de station { $v10 } contre équipartition g={ $g } { $eq_g } m (rapport { $v13 })
+            }
+        [many]
+            { $n_epochs ->
+                [one] lunar-vlbi-fim | { $n_stations } de stations / { $v2 } bases x { $n_epochs } époque = { $n_obs } obs (masque { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } cond { $condition } | sigma de station { $v10 } contre équipartition g={ $g } { $eq_g } m (rapport { $v13 })
+                [many] lunar-vlbi-fim | { $n_stations } de stations / { $v2 } bases x { $n_epochs } d'époques = { $n_obs } obs (masque { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } cond { $condition } | sigma de station { $v10 } contre équipartition g={ $g } { $eq_g } m (rapport { $v13 })
+               *[other] lunar-vlbi-fim | { $n_stations } de stations / { $v2 } bases x { $n_epochs } époques = { $n_obs } obs (masque { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } cond { $condition } | sigma de station { $v10 } contre équipartition g={ $g } { $eq_g } m (rapport { $v13 })
+            }
+       *[other]
+            { $n_epochs ->
+                [one] lunar-vlbi-fim | { $n_stations } stations / { $v2 } bases x { $n_epochs } époque = { $n_obs } obs (masque { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } cond { $condition } | sigma de station { $v10 } contre équipartition g={ $g } { $eq_g } m (rapport { $v13 })
+                [many] lunar-vlbi-fim | { $n_stations } stations / { $v2 } bases x { $n_epochs } d'époques = { $n_obs } obs (masque { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } cond { $condition } | sigma de station { $v10 } contre équipartition g={ $g } { $eq_g } m (rapport { $v13 })
+               *[other] lunar-vlbi-fim | { $n_stations } stations / { $v2 } bases x { $n_epochs } époques = { $n_obs } obs (masque { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } cond { $condition } | sigma de station { $v10 } contre équipartition g={ $g } { $eq_g } m (rapport { $v13 })
+            }
+    }
+
 
 ## src/main.rs
 
@@ -4800,7 +5553,13 @@ engine-main-error-cannot-read = erreur : impossible de lire { $validate_file }�
 
 engine-main-ok-kind-resolves-this-kind = ok : { $kind } — le type est reconnu ; ce type n'exige aucun champ (un corps vide exécute sa configuration de référence), il n'y avait donc rien d'autre à vérifier
 
-engine-main-ok-kind-resolves-and-all = ok : { $kind } — le type est reconnu et les { $n_required } entrées de champs obligatoires publiées sont toutes remplies ; les valeurs des champs ne sont pas vérifiées
+engine-main-ok-kind-resolves-and-all =
+    { $n_required ->
+        [one] ok : { $kind } — le type est reconnu et l'unique entrée de champ obligatoire publiée ({ $n_required }) est remplie ; les valeurs des champs ne sont pas vérifiées
+        [many] ok : { $kind } — le type est reconnu et les { $n_required } d'entrées de champs obligatoires publiées sont toutes remplies ; les valeurs des champs ne sont pas vérifiées
+       *[other] ok : { $kind } — le type est reconnu et les { $n_required } entrées de champs obligatoires publiées sont toutes remplies ; les valeurs des champs ne sont pas vérifiées
+    }
+
 
 engine-main-error-study-runs-suite-do = erreur : --study exécute une suite ; ne passez pas en plus un seul fichier de scénario
 
@@ -5019,7 +5778,13 @@ engine-e-mcda-copras-copras-weights-but-criterion-types = COPRAS : { $n } poids
 
 engine-e-mcda-copras-copras-requires-at-least-one = COPRAS : nécessite au moins un critère de coût (Min)
 
-engine-e-mcda-copras-copras-alternative-has-values-but = COPRAS : l'alternative { $i } a { $row } valeurs mais il y a { $n } critères
+engine-e-mcda-copras-copras-alternative-has-values-but =
+    { $n ->
+        [one] COPRAS : l'alternative { $i } a { $row } valeurs mais il y a { $n } critère
+        [many] COPRAS : l'alternative { $i } a { $row } valeurs mais il y a { $n } de critères
+       *[other] COPRAS : l'alternative { $i } a { $row } valeurs mais il y a { $n } critères
+    }
+
 
 engine-e-mcda-copras-copras-alternative-criterion-value-must = COPRAS : la valeur { $x } du critère { $j } de l'alternative { $i } doit être finie et > 0
 
@@ -5029,7 +5794,13 @@ engine-e-mcda-electre-electre-empty-dataset = ELECTRE I : jeu de données vide
 
 engine-e-mcda-electre-electre-no-criteria = ELECTRE I : aucun critère
 
-engine-e-mcda-electre-electre-alternative-has-values-but = ELECTRE I : l'alternative { $i } a { $row } valeurs mais il y a { $n } critères
+engine-e-mcda-electre-electre-alternative-has-values-but =
+    { $n ->
+        [one] ELECTRE I : l'alternative { $i } a { $row } valeurs mais il y a { $n } critère
+        [many] ELECTRE I : l'alternative { $i } a { $row } valeurs mais il y a { $n } de critères
+       *[other] ELECTRE I : l'alternative { $i } a { $row } valeurs mais il y a { $n } critères
+    }
+
 
 engine-e-mcda-electre-electre-alternative-has-non-finite = ELECTRE I : l'alternative { $i } a une valeur non finie
 
@@ -5041,7 +5812,13 @@ engine-e-mcda-moora-moora-no-criteria = MOORA : aucun critère
 
 engine-e-mcda-moora-moora-weights-but-criterion-types = MOORA : { $n } poids mais { $types } types de critère
 
-engine-e-mcda-moora-moora-alternative-has-values-but = MOORA : l'alternative { $i } a { $row } valeurs mais il y a { $n } critères
+engine-e-mcda-moora-moora-alternative-has-values-but =
+    { $n ->
+        [one] MOORA : l'alternative { $i } a { $row } valeurs mais il y a { $n } critère
+        [many] MOORA : l'alternative { $i } a { $row } valeurs mais il y a { $n } de critères
+       *[other] MOORA : l'alternative { $i } a { $row } valeurs mais il y a { $n } critères
+    }
+
 
 engine-e-mcda-moora-moora-alternative-has-non-finite = MOORA : l'alternative { $i } a une valeur non finie
 
@@ -5055,7 +5832,13 @@ engine-e-mcda-promethee-promethee-ii-no-criteria = PROMETHEE II : aucun critèr
 
 engine-e-mcda-promethee-promethee-ii-weights-but-types = PROMETHEE II : { $n } poids mais { $types } types / { $prefs } fonctions de préférence
 
-engine-e-mcda-promethee-promethee-ii-alternative-has-values = PROMETHEE II : l'alternative { $i } a { $row } valeurs mais il y a { $n } critères
+engine-e-mcda-promethee-promethee-ii-alternative-has-values =
+    { $n ->
+        [one] PROMETHEE II : l'alternative { $i } a { $row } valeurs mais il y a { $n } critère
+        [many] PROMETHEE II : l'alternative { $i } a { $row } valeurs mais il y a { $n } de critères
+       *[other] PROMETHEE II : l'alternative { $i } a { $row } valeurs mais il y a { $n } critères
+    }
+
 
 engine-e-mcda-promethee-promethee-ii-alternative-has-non = PROMETHEE II : l'alternative { $i } a une valeur non finie
 
@@ -5067,7 +5850,13 @@ engine-e-mcda-topsis-topsis-no-criteria = TOPSIS : aucun critère
 
 engine-e-mcda-topsis-topsis-weights-but-criterion-types = TOPSIS : { $n } poids mais { $types } types de critère
 
-engine-e-mcda-topsis-topsis-alternative-has-values-but = TOPSIS : l'alternative { $i } a { $row } valeurs mais il y a { $n } critères
+engine-e-mcda-topsis-topsis-alternative-has-values-but =
+    { $n ->
+        [one] TOPSIS : l'alternative { $i } a { $row } valeurs mais il y a { $n } critère
+        [many] TOPSIS : l'alternative { $i } a { $row } valeurs mais il y a { $n } de critères
+       *[other] TOPSIS : l'alternative { $i } a { $row } valeurs mais il y a { $n } critères
+    }
+
 
 engine-e-mcda-topsis-topsis-alternative-has-non-finite = TOPSIS : l'alternative { $i } a une valeur non finie
 
@@ -5091,7 +5880,13 @@ engine-e-mcda-vikor-vikor-no-criteria = VIKOR : aucun critère
 
 engine-e-mcda-vikor-vikor-weights-but-criterion-types = VIKOR : { $n } poids mais { $types } types de critère
 
-engine-e-mcda-vikor-vikor-alternative-has-values-but = VIKOR : l'alternative { $i } a { $row } valeurs mais il y a { $n } critères
+engine-e-mcda-vikor-vikor-alternative-has-values-but =
+    { $n ->
+        [one] VIKOR : l'alternative { $i } a { $row } valeurs mais il y a { $n } critère
+        [many] VIKOR : l'alternative { $i } a { $row } valeurs mais il y a { $n } de critères
+       *[other] VIKOR : l'alternative { $i } a { $row } valeurs mais il y a { $n } critères
+    }
+
 
 engine-e-mcda-vikor-vikor-alternative-has-non-finite = VIKOR : l'alternative { $i } a une valeur non finie
 
@@ -5105,7 +5900,13 @@ engine-e-mcda-waspas-waspas-weights-but-criterion-types = WASPAS : { $n } poids
 
 engine-e-mcda-waspas-waspas-lambda-must-lie-in = WASPAS : lambda { $lambda } doit être compris dans [0, 1]
 
-engine-e-mcda-waspas-waspas-alternative-has-values-but = WASPAS : l'alternative { $i } a { $row } valeurs mais il y a { $n } critères
+engine-e-mcda-waspas-waspas-alternative-has-values-but =
+    { $n ->
+        [one] WASPAS : l'alternative { $i } a { $row } valeurs mais il y a { $n } critère
+        [many] WASPAS : l'alternative { $i } a { $row } valeurs mais il y a { $n } de critères
+       *[other] WASPAS : l'alternative { $i } a { $row } valeurs mais il y a { $n } critères
+    }
+
 
 engine-e-mcda-waspas-waspas-alternative-criterion-value-must = WASPAS : la valeur { $x } du critère { $j } de l'alternative { $i } doit être finie et > 0
 
@@ -5117,7 +5918,13 @@ engine-e-mcda-wpm-wpm-no-criteria = WPM : aucun critère
 
 engine-e-mcda-wpm-wpm-weights-but-criterion-types = WPM : { $n } poids mais { $types } types de critère
 
-engine-e-mcda-wpm-wpm-alternative-has-values-but = WPM : l'alternative { $i } a { $row } valeurs mais il y a { $n } critères
+engine-e-mcda-wpm-wpm-alternative-has-values-but =
+    { $n ->
+        [one] WPM : l'alternative { $i } a { $row } valeurs mais il y a { $n } critère
+        [many] WPM : l'alternative { $i } a { $row } valeurs mais il y a { $n } de critères
+       *[other] WPM : l'alternative { $i } a { $row } valeurs mais il y a { $n } critères
+    }
+
 
 engine-e-mcda-wpm-wpm-alternative-criterion-value-must = WPM : la valeur { $x } du critère { $j } de l'alternative { $i } doit être finie et > 0
 
@@ -5131,7 +5938,13 @@ engine-e-mcda-wsm-criterion-has-an-invalid-weight = le critère '{ $name }' a un
 
 engine-e-mcda-wsm-criterion-weights-sum-to-zero = les poids des critères ont une somme nulle
 
-engine-e-mcda-wsm-alternative-has-values-but-there = l'alternative '{ $name }' a { $values } valeurs mais il y a { $n } critères
+engine-e-mcda-wsm-alternative-has-values-but-there =
+    { $n ->
+        [one] l'alternative '{ $name }' a { $values } valeurs mais il y a { $n } critère
+        [many] l'alternative '{ $name }' a { $values } valeurs mais il y a { $n } de critères
+       *[other] l'alternative '{ $name }' a { $values } valeurs mais il y a { $n } critères
+    }
+
 
 engine-e-mcda-wsm-alternative-has-non-finite-value = l'alternative '{ $name }' a une valeur non finie sur le critère '{ $value }'
 
@@ -5151,7 +5964,13 @@ engine-e-naif-kernel-bad-daf-address-range = plage d'adresses DAF { $first }..={
 
 engine-e-naif-kernel-daf-summary-list-does-not = la liste de résumés DAF ne se termine pas
 
-engine-e-naif-kernel-daf-summary-record-claims-summaries = l'enregistrement de résumés DAF { $rec } déclare { $count } résumés
+engine-e-naif-kernel-daf-summary-record-claims-summaries =
+    { $count ->
+        [one] l'enregistrement de résumés DAF { $rec } déclare { $count } résumé
+        [many] l'enregistrement de résumés DAF { $rec } déclare { $count } de résumés
+       *[other] l'enregistrement de résumés DAF { $rec } déclare { $count } résumés
+    }
+
 
 engine-e-naif-kernel-malformed-type-segment-rsize-intlen = segment de type 2 mal formé : RSIZE { $rsize }, INTLEN { $intlen }, N { $n }
 
@@ -5321,9 +6140,21 @@ engine-e-nmea-synth-config-the-skyline-describes-no-obstruction = la ligne d'hor
 
 engine-nmea-synth-gen-has-ended = { $kind } est terminé
 
-engine-nmea-synth-gen-the-receiver-reports-fix-again = le récepteur signale de nouveau une position ({ $n_used } satellites utilisés)
+engine-nmea-synth-gen-the-receiver-reports-fix-again =
+    { $n_used ->
+        [one] le récepteur signale de nouveau une position ({ $n_used } satellite utilisé)
+        [many] le récepteur signale de nouveau une position ({ $n_used } de satellites utilisés)
+       *[other] le récepteur signale de nouveau une position ({ $n_used } satellites utilisés)
+    }
 
-engine-nmea-synth-gen-the-receiver-has-no-fix = le récepteur n'a pas de position ({ $n_used } satellites utilisables, quatre nécessaires)
+
+engine-nmea-synth-gen-the-receiver-has-no-fix =
+    { $n_used ->
+        [one] le récepteur n'a pas de position ({ $n_used } satellite utilisable, quatre nécessaires)
+        [many] le récepteur n'a pas de position ({ $n_used } de satellites utilisables, quatre nécessaires)
+       *[other] le récepteur n'a pas de position ({ $n_used } satellites utilisables, quatre nécessaires)
+    }
+
 
 ## src/nmea_synth/log.rs
 
@@ -5363,7 +6194,13 @@ engine-observability-gramian-the-tolerance-is-below-the = { " " }La tolérance e
 
 engine-observability-gramian-rank-clamped-from-the-singular = rang ramené du nombre de valeurs singulières { $counted } à min(rows, cols) = min({ $n_rows }, { $n_cols }) = { $shape_bound } pour rel_tol { $rel_tol } : une matrice { $n_rows }x{ $n_cols } ne peut pas avoir un rang { $counted }.{ $floor_note }
 
-engine-observability-gramian-gdop-undefined-rank-deficient-singular = GDOP non défini (géométrie de rang déficient / singulière) : rang { $rank } sur { $n } états, défaut de datum { $v3 }, conditionnement { $v4 }
+engine-observability-gramian-gdop-undefined-rank-deficient-singular =
+    { $n ->
+        [one] GDOP non défini (géométrie de rang déficient / singulière) : rang { $rank } sur { $n } état, défaut de datum { $v3 }, conditionnement { $v4 }
+        [many] GDOP non défini (géométrie de rang déficient / singulière) : rang { $rank } sur { $n } d'états, défaut de datum { $v3 }, conditionnement { $v4 }
+       *[other] GDOP non défini (géométrie de rang déficient / singulière) : rang { $rank } sur { $n } états, défaut de datum { $v3 }, conditionnement { $v4 }
+    }
+
 
 ## src/odf.rs
 
@@ -5503,9 +6340,21 @@ engine-e-oem-oem-missing-originator-header = OEM sans en-tête ORIGINATOR
 
 engine-e-oem-oem-carried-no-segments = l'OEM ne contenait aucun segment
 
-engine-oem-oem-interop-round-tripped-segment = oem-interop : { $segments } segment(s) en aller-retour, { $n_states_total } états ; erreur d'aller-retour max. { $p } km / { $v } km/s (interop MODELLED)
+engine-oem-oem-interop-round-tripped-segment =
+    { $n_states_total ->
+        [one] oem-interop : { $segments } segment(s) en aller-retour, { $n_states_total } état ; erreur d'aller-retour max. { $p } km / { $v } km/s (interop MODELLED)
+        [many] oem-interop : { $segments } segment(s) en aller-retour, { $n_states_total } d'états ; erreur d'aller-retour max. { $p } km / { $v } km/s (interop MODELLED)
+       *[other] oem-interop : { $segments } segment(s) en aller-retour, { $n_states_total } états ; erreur d'aller-retour max. { $p } km / { $v } km/s (interop MODELLED)
+    }
 
-engine-oem-oem-interop-ingested-segment-states = oem-interop : { $segments } segment(s) ingéré(s), { $n_states_total } états issus d'un OEM externe (émetteur { $originator }) (interop MODELLED)
+
+engine-oem-oem-interop-ingested-segment-states =
+    { $n_states_total ->
+        [one] oem-interop : { $segments } segment(s) ingéré(s), { $n_states_total } état issus d'un OEM externe (émetteur { $originator }) (interop MODELLED)
+        [many] oem-interop : { $segments } segment(s) ingéré(s), { $n_states_total } d'états issus d'un OEM externe (émetteur { $originator }) (interop MODELLED)
+       *[other] oem-interop : { $segments } segment(s) ingéré(s), { $n_states_total } états issus d'un OEM externe (émetteur { $originator }) (interop MODELLED)
+    }
+
 
 engine-oem-cov-ref-frame = COV_REF_FRAME = { $frame }{ "\u000A" }
 
@@ -6042,7 +6891,13 @@ engine-e-receiver-trust-geometry-geometry-floor-must-be-in = geometry : floor d
 
 engine-e-receiver-trust-geometry-geometry-floor-is-below-the = geometry : floor ({ $f }) est inférieur au degraded_min du score ({ $degraded_min }) : la géométrie seule pourrait atteindre la bande non fiable
 
-engine-receiver-trust-geometry-geometry-hdop-pdop-vdop-satellites = géométrie { $label } : HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used } satellites{ $v6 }
+engine-receiver-trust-geometry-geometry-hdop-pdop-vdop-satellites =
+    { $n_used ->
+        [one] géométrie { $label } : HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used } satellite{ $v6 }
+        [many] géométrie { $label } : HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used } de satellites{ $v6 }
+       *[other] géométrie { $label } : HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used } satellites{ $v6 }
+    }
+
 
 engine-receiver-trust-geometry-the-geometry-deduction-is-classed = { $why } : la déduction de géométrie est classée comme une incohérence
 
@@ -6050,15 +6905,33 @@ engine-receiver-trust-geometry-reported-not-scored-the-geometry = { $why } : si
 
 engine-receiver-trust-geometry-not-scored-the-score-deducts = non noté (le score ne déduit qu'au-dessus de HDOP { $hdop_max }, de PDOP { $pdop_max } ou en dessous de { $min_used } satellites)
 
-engine-receiver-trust-geometry-derived-from-logged-satellites = dérivé de { $n } satellites journalisés
+engine-receiver-trust-geometry-derived-from-logged-satellites =
+    { $n ->
+        [one] dérivé de { $n } satellite journalisé
+        [many] dérivé de { $n } de satellites journalisés
+       *[other] dérivé de { $n } satellites journalisés
+    }
 
-engine-receiver-trust-geometry-as-the-receiver-reports-it = tel que le récepteur le rapporte, { $n } satellites utilisés
+
+engine-receiver-trust-geometry-as-the-receiver-reports-it =
+    { $n ->
+        [one] tel que le récepteur le rapporte, { $n } satellite utilisé
+        [many] tel que le récepteur le rapporte, { $n } de satellites utilisés
+       *[other] tel que le récepteur le rapporte, { $n } satellites utilisés
+    }
+
 
 engine-receiver-trust-geometry-the-stated-hdop-disagrees-with = le HDOP déclaré { $fmt_dop } diffère, au-delà de la tolérance, du HDOP { $fmt_dop2 } dérivé du ciel déclaré
 
 engine-receiver-trust-geometry-satellites-in-view-but-not = satellites en vue mais non suivis ({ $g } sur { $in_view } à { $low_elev_deg } deg ou plus) : environnement du signal, pas géométrie
 
-engine-receiver-trust-geometry-satellites-fewer-than = { $n } satellites, moins de { $min_used }
+engine-receiver-trust-geometry-satellites-fewer-than =
+    { $n ->
+        [one] { $n } satellite, moins de { $min_used }
+        [many] { $n } de satellites, moins de { $min_used }
+       *[other] { $n } satellites, moins de { $min_used }
+    }
+
 
 engine-receiver-trust-geometry-pdop-above = PDOP { $fmt_dop } au-dessus de { $pdop_max }
 
@@ -6114,7 +6987,13 @@ engine-e-receiver-trust-machines-imu-fit-axis-must-be-or = axis doit valoir 0, 1
 
 engine-e-receiver-trust-machines-imu-fit-expected-mean-must-be-finite = expected_mean doit être fini
 
-engine-e-receiver-trust-machines-imu-fit-the-log-has-samples-at = le journal compte { $n } échantillons ; au moins { $MIN_SAMPLES } sont nécessaires pour un ajustement d'Allan
+engine-e-receiver-trust-machines-imu-fit-the-log-has-samples-at =
+    { $n ->
+        [one] le journal compte { $n } échantillon ; au moins { $MIN_SAMPLES } sont nécessaires pour un ajustement d'Allan
+        [many] le journal compte { $n } d'échantillons ; au moins { $MIN_SAMPLES } sont nécessaires pour un ajustement d'Allan
+       *[other] le journal compte { $n } échantillons ; au moins { $MIN_SAMPLES } sont nécessaires pour un ajustement d'Allan
+    }
+
 
 engine-e-receiver-trust-machines-imu-fit-the-log-time-does-not = le temps du journal n'avance pas
 
@@ -6292,7 +7171,13 @@ engine-e-scenario-time-duration-must-be-finite = time.duration_s doit être fini
 
 engine-e-scenario-time-step-must-not-exceed = time.step_s ({ $step_s }) ne doit pas dépasser time.duration_s ({ $duration_s })
 
-engine-e-scenario-time-grid-too-large-steps = grille temporelle trop grande : { $n } pas dépassent MAX_TIME_STEPS ({ $MAX_TIME_STEPS }) ; utilisez un pas plus grossier ou une durée plus courte
+engine-e-scenario-time-grid-too-large-steps =
+    { $n ->
+        [one] grille temporelle trop grande : { $n } pas dépasse MAX_TIME_STEPS ({ $MAX_TIME_STEPS }) ; utilisez un pas plus grossier ou une durée plus courte
+        [many] grille temporelle trop grande : { $n } de pas dépassent MAX_TIME_STEPS ({ $MAX_TIME_STEPS }) ; utilisez un pas plus grossier ou une durée plus courte
+       *[other] grille temporelle trop grande : { $n } pas dépassent MAX_TIME_STEPS ({ $MAX_TIME_STEPS }) ; utilisez un pas plus grossier ou une durée plus courte
+    }
+
 
 ## src/sdr.rs
 
@@ -6402,7 +7287,13 @@ engine-slot-timing-class-default-sigma-from-red = valeur par défaut de la class
 
 engine-slot-timing-fitted-to-the-allan-deviation = ajusté aux maxima de l'écart-type d'Allan de { $document }, mis à l'échelle pour se situer au niveau de chaque point ou au-dessus
 
-engine-slot-timing-fitted-to-the-overlapping-allan = ajusté à l'écart-type d'Allan chevauchant d'un enregistrement de { $n_samples } échantillons à { $tau0_s } s, dans la base de modulation de fréquence de l'IEEE Std 1139
+engine-slot-timing-fitted-to-the-overlapping-allan =
+    { $n_samples ->
+        [one] ajusté à l'écart-type d'Allan chevauchant d'un enregistrement de { $n_samples } échantillon à { $tau0_s } s, dans la base de modulation de fréquence de l'IEEE Std 1139
+        [many] ajusté à l'écart-type d'Allan chevauchant d'un enregistrement de { $n_samples } d'échantillons à { $tau0_s } s, dans la base de modulation de fréquence de l'IEEE Std 1139
+       *[other] ajusté à l'écart-type d'Allan chevauchant d'un enregistrement de { $n_samples } échantillons à { $tau0_s } s, dans la base de modulation de fréquence de l'IEEE Std 1139
+    }
+
 
 engine-slot-timing-slot-timing-source-guard-ns = slot-timing ({ $n } source) : garde { $c } ns à k={ $k_sigma } dépassée { $fmt_s } après un recalage ({ $fmt_s2 } restant) ; recalage au moins toutes les { $fmt_s3 } ({ $fixes_per_day } par jour) ; terme dominant : { $b }{ $v9 }
 
@@ -6516,7 +7407,13 @@ engine-e-space-packet-cds-field-reserved-sub-ms = P-field CDS { $p } : code sub
 
 engine-e-space-packet-cuc-coarse-does-not-fit = le CUC grossier { $coarse } ne tient pas sur { $c } octets
 
-engine-e-space-packet-cuc-fine-does-not-fit = le CUC fin { $fine } ne tient pas sur { $n } octets
+engine-e-space-packet-cuc-fine-does-not-fit =
+    { $n ->
+        [one] le CUC fin { $fine } ne tient pas sur { $n } octet
+        [many] le CUC fin { $fine } ne tient pas sur { $n } d'octets
+       *[other] le CUC fin { $fine } ne tient pas sur { $n } octets
+    }
+
 
 engine-e-space-packet-cds-days-do-not-fit = les jours CDS { $days } ne tiennent pas sur { $f } octets
 
@@ -6582,7 +7479,13 @@ engine-e-space-packet-data-len-must-be-in = data_len doit être dans 1..=65536
 
 engine-e-space-packet-internal-error-encode-decode-round = erreur interne : discordance de l'aller-retour encodage/décodage
 
-engine-space-packet-space-packet-framed-ccsds-133 = space-packet : { $packet_count } paquet(s) { $v2 } CCSDS-133.0 encadré(s) APID { $apid }, { $total_bytes } octets au total, aller-retour exact ({ $round_trip_ok })
+engine-space-packet-space-packet-framed-ccsds-133 =
+    { $packet_count ->
+        [one] space-packet : { $packet_count } paquet { $v2 } CCSDS-133.0 encadré APID { $apid }, { $total_bytes } octets au total, aller-retour exact ({ $round_trip_ok })
+        [many] space-packet : { $packet_count } de paquets { $v2 } CCSDS-133.0 encadrés APID { $apid }, { $total_bytes } octets au total, aller-retour exact ({ $round_trip_ok })
+       *[other] space-packet : { $packet_count } paquets { $v2 } CCSDS-133.0 encadrés APID { $apid }, { $total_bytes } octets au total, aller-retour exact ({ $round_trip_ok })
+    }
+
 
 ## src/space_weather.rs
 
@@ -6680,9 +7583,21 @@ engine-e-spk-writer-degree-outside-27 = degré { $degree } hors de 1..=27
 
 engine-e-spk-writer-type-13-degree-is-not = le degré { $degree } du type 13 n'est pas impair
 
-engine-e-spk-writer-states-for-epochs = { $states } états pour { $n } époques
+engine-e-spk-writer-states-for-epochs =
+    { $n ->
+        [one] { $states } états pour { $n } époque
+        [many] { $states } états pour { $n } d'époques
+       *[other] { $states } états pour { $n } époques
+    }
 
-engine-e-spk-writer-states-degree-needs = { $n } états ; le degré { $degree } en nécessite { $value }
+
+engine-e-spk-writer-states-degree-needs =
+    { $n ->
+        [one] { $n } état ; le degré { $degree } en nécessite { $value }
+        [many] { $n } d'états ; le degré { $degree } en nécessite { $value }
+       *[other] { $n } états ; le degré { $degree } en nécessite { $value }
+    }
+
 
 engine-e-spk-writer-descriptor-start-is-not-before = le début du descripteur n'est pas antérieur à sa fin
 
@@ -6714,7 +7629,13 @@ engine-e-spk-writer-difference-line-size-is-not = la taille de ligne de différe
 
 engine-e-spk-writer-difference-lines-of-different-sizes = lignes de différences de tailles différentes
 
-engine-e-spk-writer-epochs-for-difference-lines = { $epochs } époques pour { $n } lignes de différences
+engine-e-spk-writer-epochs-for-difference-lines =
+    { $n ->
+        [one] { $epochs } époques pour { $n } ligne de différences
+        [many] { $epochs } époques pour { $n } de lignes de différences
+       *[other] { $epochs } époques pour { $n } lignes de différences
+    }
+
 
 engine-e-spk-writer-difference-line-epochs-are-not = les époques des lignes de différences ne sont pas strictement croissantes
 
@@ -7046,7 +7967,13 @@ engine-e-sweep-sweep-key-follows-an-array = clé de balayage `{ $key }` : `{ $p
 
 engine-e-sweep-unreachable = inatteignable
 
-engine-e-sweep-sweep-key-index-is-past = clé de balayage `{ $key }` : l'indice { $i } dépasse les { $n } entrées du tableau
+engine-e-sweep-sweep-key-index-is-past =
+    { $n ->
+        [one] clé de balayage `{ $key }` : l'indice { $i } dépasse l'unique entrée ({ $n }) du tableau
+        [many] clé de balayage `{ $key }` : l'indice { $i } dépasse les { $n } d'entrées du tableau
+       *[other] clé de balayage `{ $key }` : l'indice { $i } dépasse les { $n } entrées du tableau
+    }
+
 
 engine-e-sweep-sweep-key-parent-is-not = clé de balayage `{ $key }` : le parent de `{ $part }` n'est pas une table
 
@@ -7154,7 +8081,13 @@ engine-telemetry-cli-warning-input-line = avertissement : ligne d'entrée { $li
 
 engine-e-telemetry-cli-cannot-open = impossible d'ouvrir { $p } : { $e }
 
-engine-telemetry-cli-warning-mqtt-messages-were-not = avertissement : { $n } messages MQTT n'ont pas été remis
+engine-telemetry-cli-warning-mqtt-messages-were-not =
+    { $n ->
+        [one] avertissement : { $n } message MQTT n'a pas été remis
+        [many] avertissement : { $n } de messages MQTT n'ont pas été remis
+       *[other] avertissement : { $n } messages MQTT n'ont pas été remis
+    }
+
 
 ## src/telemetry/otlp.rs
 

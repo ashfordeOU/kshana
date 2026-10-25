@@ -25,7 +25,12 @@ engine-e-clock-log-cannot-read-clock-log = kan ikke lese klokkeloggen { $path }:
 
 engine-e-clock-log-clock-log-path-is-not = en sti til klokkelogg er ikke tilgjengelig i WebAssembly-bygget; oppgi loggen som tekst
 
-engine-e-clock-log-the-log-has-missing-epoch = { $format }-loggen har { $n_missing } manglende epoke(r) i { $n_gaps } hull på et { $tau0 } s-rutenett; sett gaps = "longest" for å beholde den lengste hullfrie sekvensen, eller gaps = "linear" for å interpolere
+engine-e-clock-log-the-log-has-missing-epoch =
+    { $n_missing ->
+        [one] { $format }-loggen har { $n_missing } manglende epoke i { $n_gaps } hull på et { $tau0 } s-rutenett; sett gaps = "longest" for å beholde den lengste hullfrie sekvensen, eller gaps = "linear" for å interpolere
+       *[other] { $format }-loggen har { $n_missing } manglende epoker i { $n_gaps } hull på et { $tau0 } s-rutenett; sett gaps = "longest" for å beholde den lengste hullfrie sekvensen, eller gaps = "linear" for å interpolere
+    }
+
 
 engine-e-clock-log-the-log-yields-usable-sample = { $format }-loggen gir { $x } brukbar(e) måleverdi(er); minst 3 trengs
 
@@ -195,7 +200,12 @@ engine-advanced-report-field-units-schema-units-entry = field-units-skjema: unit
 
 engine-advanced-report-field-units-schema-input-entry = field-units-skjema: input-oppføring `{ $key }`, funnet via feltnavn
 
-engine-advanced-report-rows-of-non-numeric-column = { $n } rader i en ikke-numerisk kolonne
+engine-advanced-report-rows-of-non-numeric-column =
+    { $n ->
+        [one] { $n } rad i en ikke-numerisk kolonne
+       *[other] { $n } rader i en ikke-numerisk kolonne
+    }
+
 
 engine-advanced-report-rows-from-to = { $nums } rader, fra { $fmt_num } til { $fmt_num2 }
 
@@ -297,7 +307,12 @@ engine-e-animation-animation-duration-must-be-between = animasjonens varighet m�
 
 engine-e-animation-animation-width-must-be-between = animasjonens bredde må være mellom 480 og 3840 piksler, fikk { $width }
 
-engine-e-animation-duration-fps-gives-frames-the = varighet x fps gir { $n } bilder; bildesekvensen trenger mellom 2 og { $v1 }
+engine-e-animation-duration-fps-gives-frames-the =
+    { $n ->
+        [one] varighet x fps gir { $n } bilde; bildesekvensen trenger mellom 2 og { $v1 }
+       *[other] varighet x fps gir { $n } bilder; bildesekvensen trenger mellom 2 og { $v1 }
+    }
+
 
 engine-e-animation-result-is-not-json = resultatet er ikke JSON: { $e }
 
@@ -401,9 +416,19 @@ engine-e-api-invalid-scenario = ugyldig scenario: { $e }
 
 engine-e-api-clock-log = clock_log: { $e }
 
-engine-api-unknown-scenario-kind-did-you = ukjent scenario-kind { $other } — mente du { $hint }? `kshana kinds` viser alle { $n } innebygde kinds.
+engine-api-unknown-scenario-kind-did-you =
+    { $n ->
+        [one] ukjent scenario-kind { $other } — mente du { $hint }? `kshana kinds` viser den ene innebygde kind ({ $n }).
+       *[other] ukjent scenario-kind { $other } — mente du { $hint }? `kshana kinds` viser alle { $n } innebygde kinds.
+    }
 
-engine-api-unknown-scenario-kind-kshana-kinds = ukjent scenario-kind { $other }. `kshana kinds` viser alle { $n } innebygde kinds.
+
+engine-api-unknown-scenario-kind-kshana-kinds =
+    { $n ->
+        [one] ukjent scenario-kind { $other }. `kshana kinds` viser den ene innebygde kind ({ $n }).
+       *[other] ukjent scenario-kind { $other }. `kshana kinds` viser alle { $n } innebygde kinds.
+    }
+
 
 engine-api-required-fields = - **Obligatoriske felt:** { $fields }{ "\u000A" }
 
@@ -443,7 +468,12 @@ engine-api-builtins-scenario-quantum-holdover-p95-classical = scenario { $r } | 
 
 engine-api-builtins-scenario-spoof-vs-ns-spec = scenario { $r } | spoof { $scn } mot { $threshold_ns } ns-spesifikasjon (P_fa { $target_pfa }) | kvantesikkerhet { $security_fom } (P_md { $analytic_pmd }, MC { $mc_pmd }) { $det } | klassisk sikkerhet { $security_fom2 } (P_md { $analytic_pmd2 }, MC { $mc_pmd2 }) { $det2 }
 
-engine-api-builtins-integrity-satellites-epochs-available-hal = integritet | { $n_sats } satellitter | { $samples_available }/{ $samples_total } epoker tilgjengelige ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): { $report2 } integritetshendelser, { $report3 } HMI
+engine-api-builtins-integrity-satellites-epochs-available-hal =
+    { $n_sats ->
+        [one] integritet | { $n_sats } satellitt | { $samples_available }/{ $samples_total } epoker tilgjengelige ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): { $report2 } integritetshendelser, { $report3 } HMI
+       *[other] integritet | { $n_sats } satellitter | { $samples_available }/{ $samples_total } epoker tilgjengelige ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): { $report2 } integritetshendelser, { $report3 } HMI
+    }
+
 
 engine-api-builtins-lunar-integrity-south-pole-epochs = lunar-integrity | sørpolen | { $samples_available }/{ $samples_total } epoker tilgjengelige ({ $report }%) | AL { $alert_limit_m } m | σ_URE { $sigma_ure_m } m | HPL { $min_hpl_m }–{ $max_hpl_m } m
 
@@ -451,21 +481,62 @@ engine-api-builtins-lunar-time-offset-secular-ltc = lunar-time-offset | sekulær
 
 engine-api-builtins-lunar-vlbi-baseline-km-beacon = lunar-vlbi | grunnlinje { $baseline_km } km | fyravstand { $beacon_range_km } km | forsinkelse { $report } µs (rate { $delay_rate_s_per_s } s/s) | nærfelt { $near_field_correction_us } µs | { $samples } sampler over { $horizon_hours } h
 
-engine-api-builtins-lunar-joint-od-clock-sats = lunar-joint-od-clock | { $n_sat } sats, { $n_earth } jordstasjoner | stasjonens 3D-feil med VLBI { $station_pos_err_m } m mot kun avstand { $station_pos_err_m2 } m ({ $station_observability_improvement_factor }× skarpere) | sat-posisjon RMS { $sat_pos_rms_m } m | stasjonsklokkefeil { $station_clock_err_s } s | obs { $n_obs }/{ $n_params } parametere
+engine-api-builtins-lunar-joint-od-clock-sats =
+    { $n_earth ->
+        [one] lunar-joint-od-clock | { $n_sat } sats, { $n_earth } jordstasjon | stasjonens 3D-feil med VLBI { $station_pos_err_m } m mot kun avstand { $station_pos_err_m2 } m ({ $station_observability_improvement_factor }× skarpere) | sat-posisjon RMS { $sat_pos_rms_m } m | stasjonsklokkefeil { $station_clock_err_s } s | obs { $n_obs }/{ $n_params } parametere
+       *[other] lunar-joint-od-clock | { $n_sat } sats, { $n_earth } jordstasjoner | stasjonens 3D-feil med VLBI { $station_pos_err_m } m mot kun avstand { $station_pos_err_m2 } m ({ $station_observability_improvement_factor }× skarpere) | sat-posisjon RMS { $sat_pos_rms_m } m | stasjonsklokkefeil { $station_clock_err_s } s | obs { $n_obs }/{ $n_params } parametere
+    }
 
-engine-api-builtins-lunar-frame-realisation-points-translation = lunar-frame-realisation | { $n_points } punkter | translasjonsfeil { $trans_err_norm_m } m, rotasjonsfeil { $rot_err_norm_rad } rad, skalafeil { $scale_err_ppb } ppb | rms-residual { $rms_residual_m } m | konvergert { $converged }
 
-engine-api-builtins-moonlight-service-volume-sats-pts = moonlight-service-volume | { $n_sats } sats ({ $geometry_label }) | { $n_grid_points } pkt × { $n_epochs } epoker | dekning { $coverage_pct }% (PDOP<{ $pdop_threshold }) | sats { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL-tilgj. { $pl_availability_pct }% | MODELLED
+engine-api-builtins-lunar-frame-realisation-points-translation =
+    { $n_points ->
+        [one] lunar-frame-realisation | { $n_points } punkt | translasjonsfeil { $trans_err_norm_m } m, rotasjonsfeil { $rot_err_norm_rad } rad, skalafeil { $scale_err_ppb } ppb | rms-residual { $rms_residual_m } m | konvergert { $converged }
+       *[other] lunar-frame-realisation | { $n_points } punkter | translasjonsfeil { $trans_err_norm_m } m, rotasjonsfeil { $rot_err_norm_rad } rad, skalafeil { $scale_err_ppb } ppb | rms-residual { $rms_residual_m } m | konvergert { $converged }
+    }
+
+
+engine-api-builtins-moonlight-service-volume-sats-pts =
+    { $n_epochs ->
+        [one] moonlight-service-volume | { $n_sats } sats ({ $geometry_label }) | { $n_grid_points } pkt × { $n_epochs } epoke | dekning { $coverage_pct }% (PDOP<{ $pdop_threshold }) | sats { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL-tilgj. { $pl_availability_pct }% | MODELLED
+       *[other] moonlight-service-volume | { $n_sats } sats ({ $geometry_label }) | { $n_grid_points } pkt × { $n_epochs } epoker | dekning { $coverage_pct }% (PDOP<{ $pdop_threshold }) | sats { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL-tilgj. { $pl_availability_pct }% | MODELLED
+    }
+
 
 engine-api-builtins-ephemeris-ure-required-vs-keplerian = { " " }| efemeride { $report } ({ $provenance }) σ_URE påkrevd { $fmt } mot Kepler { $fmt2 } mot forstyrret { $fmt3 } (Δ { $fmt4 })
 
 engine-api-builtins-lunar-differential-pnt-sats-illustrative = lunar-differential-pnt | { $n_sats } sats (illustrativ LCNS-klasse, ikke tilknyttet) | grunnlinje { $baseline_km } km | brukerfeil { $user_error_uncorrected_m } m → { $user_error_corrected_m } m ({ $reduction_factor }× reduksjon) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
 
-engine-api-builtins-lunar-station-coverage-points-epochs = lunar-station-coverage | { $n_grid_points } punkter x { $n_epochs } epoker x { $n_trials } forsøk | tilgjengelighet { $v4 } % | dekning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigert p{ $percentile } 3D { $f } (ukorrigert { $f2 }) | HPL maks { $f3 } | MODELLED; ikke en påstand om noe virkelig system
+engine-api-builtins-lunar-station-coverage-points-epochs =
+    { $n_grid_points ->
+        [one]
+            { $n_epochs ->
+                [one] lunar-station-coverage | { $n_grid_points } punkt x { $n_epochs } epoke x { $n_trials } forsøk | tilgjengelighet { $v4 } % | dekning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigert p{ $percentile } 3D { $f } (ukorrigert { $f2 }) | HPL maks { $f3 } | MODELLED; ikke en påstand om noe virkelig system
+               *[other] lunar-station-coverage | { $n_grid_points } punkt x { $n_epochs } epoker x { $n_trials } forsøk | tilgjengelighet { $v4 } % | dekning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigert p{ $percentile } 3D { $f } (ukorrigert { $f2 }) | HPL maks { $f3 } | MODELLED; ikke en påstand om noe virkelig system
+            }
+       *[other]
+            { $n_epochs ->
+                [one] lunar-station-coverage | { $n_grid_points } punkter x { $n_epochs } epoke x { $n_trials } forsøk | tilgjengelighet { $v4 } % | dekning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigert p{ $percentile } 3D { $f } (ukorrigert { $f2 }) | HPL maks { $f3 } | MODELLED; ikke en påstand om noe virkelig system
+               *[other] lunar-station-coverage | { $n_grid_points } punkter x { $n_epochs } epoker x { $n_trials } forsøk | tilgjengelighet { $v4 } % | dekning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigert p{ $percentile } 3D { $f } (ukorrigert { $f2 }) | HPL maks { $f3 } | MODELLED; ikke en påstand om noe virkelig system
+            }
+    }
+
 
 engine-api-builtins-terrain-horizon-at-the-station = { " " }| terrenghorisont ({ $sources }) ved stasjonen maks { $horizon_max_deg } deg, brukerpunkter gjennomsnittlig maks { $user_horizon_max_deg_mean } deg
 
-engine-api-builtins-lunar-interop-export-ref-frame = lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } tilstander, OEM { $oem_line_count } linjer | formatkontroll { $v5 } ({ $present_fields } til stede / { $missing_fields } mangler) | OEM-rundtur { $v8 } | tidsmeta-rundtur { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+engine-api-builtins-lunar-interop-export-ref-frame =
+    { $n_states ->
+        [one]
+            { $oem_line_count ->
+                [one] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } tilstand, OEM { $oem_line_count } linje | formatkontroll { $v5 } ({ $present_fields } til stede / { $missing_fields } mangler) | OEM-rundtur { $v8 } | tidsmeta-rundtur { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+               *[other] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } tilstand, OEM { $oem_line_count } linjer | formatkontroll { $v5 } ({ $present_fields } til stede / { $missing_fields } mangler) | OEM-rundtur { $v8 } | tidsmeta-rundtur { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+            }
+       *[other]
+            { $oem_line_count ->
+                [one] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } tilstander, OEM { $oem_line_count } linje | formatkontroll { $v5 } ({ $present_fields } til stede / { $missing_fields } mangler) | OEM-rundtur { $v8 } | tidsmeta-rundtur { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+               *[other] lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states } tilstander, OEM { $oem_line_count } linjer | formatkontroll { $v5 } ({ $present_fields } til stede / { $missing_fields } mangler) | OEM-rundtur { $v8 } | tidsmeta-rundtur { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+            }
+    }
+
 
 engine-api-builtins-scenario-optical-sync-rms-ps = scenario { $r } | optisk sync_rms { $sync_rms_ps }ps range_rms { $range_rms_mm }mm adev(1s) { $adev_tau0 } | RF sync_rms { $sync_rms_ps2 }ps range_rms { $range_rms_mm2 }mm adev(1s) { $adev_tau02 }
 
@@ -487,7 +558,12 @@ engine-api-builtins-scenario-gnss-ins-quantum-outage = scenario { $r } | gnss-in
 
 engine-api-builtins-scenario-gnss-sim-mean-iono = scenario { $r } | gnss-sim | gjennomsnittlig iono { $mean_iono_m }m tropo { $mean_tropo_m }m | RAIM-tilgj. { $raim_availability } gjennomsnittlig HPL { $mean_hpl_m }m VPL { $mean_vpl_m }m feilrate { $fault_rate }
 
-engine-api-builtins-scenario-spoof-detect-svs-db = scenario { $r } | spoof-detect | { $n_sats } SV-er, +{ $power_advantage_db } dB{ $v4 } | { $push } push | fusjonert score { $score } (terskel { $fusion_threshold }) | { $verdict }
+engine-api-builtins-scenario-spoof-detect-svs-db =
+    { $n_sats ->
+        [one] scenario { $r } | spoof-detect | { $n_sats } SV, +{ $power_advantage_db } dB{ $v4 } | { $push } push | fusjonert score { $score } (terskel { $fusion_threshold }) | { $verdict }
+       *[other] scenario { $r } | spoof-detect | { $n_sats } SV-er, +{ $power_advantage_db } dB{ $v4 } | { $push } push | fusjonert score { $score } (terskel { $fusion_threshold }) | { $verdict }
+    }
+
 
 engine-api-builtins-sweep-over-pts-scale-quantum = sveip { $metric } over { $parameter } ({ $first }..{ $last }, { $points } pkt, { $scale }-skala) | kvante { $first2 }->{ $last2 } | klassisk { $first3 }->{ $last3 }
 
@@ -497,7 +573,12 @@ engine-e-api-builtins-ephemeris = efemeride: { $e }
 
 engine-api-builtins-max-el-peak-doppler-khz = { " " }| maks el { $el }° maks. Doppler { $v1 } kHz
 
-engine-api-builtins-scenario-samples-alt-km-lat = scenario { $r } | { $source } | { $n_samples } sampler | høyde { $alt_min_km }–{ $alt_max_km } km | |lat| ≤ { $r2 }° | fart { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
+engine-api-builtins-scenario-samples-alt-km-lat =
+    { $n_samples ->
+        [one] scenario { $r } | { $source } | { $n_samples } sample | høyde { $alt_min_km }–{ $alt_max_km } km | |lat| ≤ { $r2 }° | fart { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
+       *[other] scenario { $r } | { $source } | { $n_samples } sampler | høyde { $alt_min_km }–{ $alt_max_km } km | |lat| ≤ { $r2 }° | fart { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
+    }
+
 
 engine-api-builtins-generic-sweep-of-over-nodes = generisk sveip av `{ $kind }` over [{ $keys }] | { $points } noder (form { $shape }) | metrikker [{ $metrics }]
 
@@ -519,7 +600,20 @@ engine-api-builtins-scenario-runs-quantum-holdover-p95 = scenario { $r } | { $ru
 
 engine-api-builtins-scenario-quantum-holdover-p95-ns = scenario { $r } | kvante-holdover { $holdover_s }s p95 { $ns1 }ns integritet { $integ } sikkerhet { $security_na } | klassisk holdover { $holdover_s2 }s p95 { $ns12 }ns integritet { $integ2 } sikkerhet { $security_na }
 
-engine-api-builtins-raim-available-of-epochs-denied = { " " }| RAIM tilgjengelig { $n_available } av { $n_epochs } epoker ({ $n_denied } avvist, { $n_alarm } alarmer; MODELLED)
+engine-api-builtins-raim-available-of-epochs-denied =
+    { $n_epochs ->
+        [one]
+            { $n_alarm ->
+                [one] { " " }| RAIM tilgjengelig { $n_available } av { $n_epochs } epoke ({ $n_denied } avvist, { $n_alarm } alarm; MODELLED)
+               *[other] { " " }| RAIM tilgjengelig { $n_available } av { $n_epochs } epoke ({ $n_denied } avvist, { $n_alarm } alarmer; MODELLED)
+            }
+       *[other]
+            { $n_alarm ->
+                [one] { " " }| RAIM tilgjengelig { $n_available } av { $n_epochs } epoker ({ $n_denied } avvist, { $n_alarm } alarm; MODELLED)
+               *[other] { " " }| RAIM tilgjengelig { $n_available } av { $n_epochs } epoker ({ $n_denied } avvist, { $n_alarm } alarmer; MODELLED)
+            }
+    }
+
 
 ## src/araim_reference.rs
 
@@ -549,7 +643,12 @@ engine-e-araim-reference-satellite-names-an-undeclared-constellation = en satell
 
 engine-e-araim-reference-every-prior-must-lie-in = hver a priori-sannsynlighet må ligge i [0, 1)
 
-engine-e-araim-reference-the-priors-need-subsets-of = a priori-sannsynlighetene trenger delmengder med { $n_fault_max } samtidige hendelser; denne banen teller opp høyst { $most }
+engine-e-araim-reference-the-priors-need-subsets-of =
+    { $n_fault_max ->
+        [one] a priori-sannsynlighetene trenger delmengder med { $n_fault_max } samtidig hendelse; denne banen teller opp høyst { $most }
+       *[other] a priori-sannsynlighetene trenger delmengder med { $n_fault_max } samtidige hendelser; denne banen teller opp høyst { $most }
+    }
+
 
 engine-e-araim-reference-the-all-in-view-solution = all-in-view-løsningen ble ikke valgt
 
@@ -721,7 +820,12 @@ engine-bench-tasks-predictions-cover-cases-the-truth = prediksjonene dekker { $p
 
 engine-bench-tasks-case-has-no-number-array = tilfellet `{ $id }` har ingen tallrekke
 
-engine-bench-tasks-case-needs-values-has = tilfellet `{ $id }` trenger { $n } verdier, har { $a }
+engine-bench-tasks-case-needs-values-has =
+    { $n ->
+        [one] tilfellet `{ $id }` trenger { $n } verdi, har { $a }
+       *[other] tilfellet `{ $id }` trenger { $n } verdier, har { $a }
+    }
+
 
 engine-bench-tasks-case-has-non-finite-value = tilfellet `{ $id }` har en ikke-endelig verdi
 
@@ -737,7 +841,12 @@ engine-bin-crossover-study-done-inertial-nodes-clock-curves = ferdig: treghet { 
 
 ## src/bin/gen_araim_m3_study.rs
 
-engine-bin-gen-araim-m3-study-user-epochs-ura-values-in = { $n } brukerepoker x 3 URA-verdier på { $dt } s = { $v1 } ms per brukerepoke ({ $ok } løsbare)
+engine-bin-gen-araim-m3-study-user-epochs-ura-values-in =
+    { $n ->
+        [one] { $n } brukerepoke x 3 URA-verdier på { $dt } s = { $v1 } ms per brukerepoke ({ $ok } løsbare)
+       *[other] { $n } brukerepoker x 3 URA-verdier på { $dt } s = { $v1 } ms per brukerepoke ({ $ok } løsbare)
+    }
+
 
 ## src/bin/gen_validation_artifacts.rs
 
@@ -776,15 +885,48 @@ engine-e-body-pnt-serialising-report = serialiserer rapport: { $e }
 engine-e-body-pnt-the-report-must-serialise-to = rapporten må serialiseres til et JSON-objekt
 
 engine-body-pnt-positioning-around-user-relays-at =
-    Posisjonsbestemmelse rundt { $name } — { $user_kind }-bruker, { $n_relays } reléer på { $r } km, { $n_epochs } epoker
-    { "  " }Jordens lystid { $one_way_light_time_s } s én vei, { $two_way_light_time_s } s tur-retur; vinkel Sol-jord-legeme { $sun_separation_deg } deg
-    { "  " }tilgjengelighet: { $availability_relays } bare konstellasjon, { $availability_with_earth } med jordavstanden (jorden i sikte { $earth_visibility })
-    { "  " }median PDOP { $opt }; RMS-feil { $opt2 } bare konstellasjon, { $opt3 } med jordavstanden
-    { "  " }median formell sigma { $opt4 } bare konstellasjon, { $opt5 } med jordavstanden{ "\u000A" }
+    { $n_relays ->
+        [one]
+            { $n_epochs ->
+                [one]
+                    Posisjonsbestemmelse rundt { $name } — { $user_kind }-bruker, { $n_relays } relé på { $r } km, { $n_epochs } epoke
+                    { "  " }Jordens lystid { $one_way_light_time_s } s én vei, { $two_way_light_time_s } s tur-retur; vinkel Sol-jord-legeme { $sun_separation_deg } deg
+                    { "  " }tilgjengelighet: { $availability_relays } bare konstellasjon, { $availability_with_earth } med jordavstanden (jorden i sikte { $earth_visibility })
+                    { "  " }median PDOP { $opt }; RMS-feil { $opt2 } bare konstellasjon, { $opt3 } med jordavstanden
+                    { "  " }median formell sigma { $opt4 } bare konstellasjon, { $opt5 } med jordavstanden{ "\u000A" }
+               *[other]
+                    Posisjonsbestemmelse rundt { $name } — { $user_kind }-bruker, { $n_relays } relé på { $r } km, { $n_epochs } epoker
+                    { "  " }Jordens lystid { $one_way_light_time_s } s én vei, { $two_way_light_time_s } s tur-retur; vinkel Sol-jord-legeme { $sun_separation_deg } deg
+                    { "  " }tilgjengelighet: { $availability_relays } bare konstellasjon, { $availability_with_earth } med jordavstanden (jorden i sikte { $earth_visibility })
+                    { "  " }median PDOP { $opt }; RMS-feil { $opt2 } bare konstellasjon, { $opt3 } med jordavstanden
+                    { "  " }median formell sigma { $opt4 } bare konstellasjon, { $opt5 } med jordavstanden{ "\u000A" }
+            }
+       *[other]
+            { $n_epochs ->
+                [one]
+                    Posisjonsbestemmelse rundt { $name } — { $user_kind }-bruker, { $n_relays } reléer på { $r } km, { $n_epochs } epoke
+                    { "  " }Jordens lystid { $one_way_light_time_s } s én vei, { $two_way_light_time_s } s tur-retur; vinkel Sol-jord-legeme { $sun_separation_deg } deg
+                    { "  " }tilgjengelighet: { $availability_relays } bare konstellasjon, { $availability_with_earth } med jordavstanden (jorden i sikte { $earth_visibility })
+                    { "  " }median PDOP { $opt }; RMS-feil { $opt2 } bare konstellasjon, { $opt3 } med jordavstanden
+                    { "  " }median formell sigma { $opt4 } bare konstellasjon, { $opt5 } med jordavstanden{ "\u000A" }
+               *[other]
+                    Posisjonsbestemmelse rundt { $name } — { $user_kind }-bruker, { $n_relays } reléer på { $r } km, { $n_epochs } epoker
+                    { "  " }Jordens lystid { $one_way_light_time_s } s én vei, { $two_way_light_time_s } s tur-retur; vinkel Sol-jord-legeme { $sun_separation_deg } deg
+                    { "  " }tilgjengelighet: { $availability_relays } bare konstellasjon, { $availability_with_earth } med jordavstanden (jorden i sikte { $earth_visibility })
+                    { "  " }median PDOP { $opt }; RMS-feil { $opt2 } bare konstellasjon, { $opt3 } med jordavstanden
+                    { "  " }median formell sigma { $opt4 } bare konstellasjon, { $opt5 } med jordavstanden{ "\u000A" }
+            }
+    }
+
 
 engine-body-pnt-positioning-around = Posisjonsbestemmelse rundt { $name }
 
-engine-body-pnt-user-relays-earth-light-time = { $user_kind }-bruker · { $n_relays } reléer · jordens lystid { $one_way_light_time_s } s · MODELLED
+engine-body-pnt-user-relays-earth-light-time =
+    { $n_relays ->
+        [one] { $user_kind }-bruker · { $n_relays } relé · jordens lystid { $one_way_light_time_s } s · MODELLED
+       *[other] { $user_kind }-bruker · { $n_relays } reléer · jordens lystid { $one_way_light_time_s } s · MODELLED
+    }
+
 
 ## src/calibration_ensembles.rs
 
@@ -1178,7 +1320,12 @@ engine-e-cislunar-observability-sigma-range-must-be-finite = sigma_range_m må v
 
 engine-e-cislunar-observability-sigma-pos-threshold-km-must = sigma_pos_threshold_km må være endelig og positiv, fikk { $sigma_pos_threshold_km }
 
-engine-cislunar-observability-cislunar-observability-refs-arc-epochs = cislunar-observability | { $c } s/c ({ $refs } referanser) | { $arc_hours } h bue, { $rank_arc } epoker | rang { $first } → { $last } av { $state_dim } over buen | Gramian λ [{ $min_eigenvalue }…{ $max_eigenvalue }] cond { $condition_str } | momentan rang kun avstand { $rank_range_only } → avstand+rate { $rank_range_rate } ({ $n_links } lenker) | GDOP kun avstand { $ro } avstand+rate { $rr } | DRO ICs (maks periodisitetsresidual { $max_resid }) | SRIF-posterior endelig ved rang-4-epoke { $srif_epoch } (rang/STM/DRO-lukking/SRIF prøvd mot en uavhengig ekstern referanse, utforming beregnet fra en modell)
+engine-cislunar-observability-cislunar-observability-refs-arc-epochs =
+    { $n_links ->
+        [one] cislunar-observability | { $c } s/c ({ $refs } referanser) | { $arc_hours } h bue, { $rank_arc } epoker | rang { $first } → { $last } av { $state_dim } over buen | Gramian λ [{ $min_eigenvalue }…{ $max_eigenvalue }] cond { $condition_str } | momentan rang kun avstand { $rank_range_only } → avstand+rate { $rank_range_rate } ({ $n_links } lenke) | GDOP kun avstand { $ro } avstand+rate { $rr } | DRO ICs (maks periodisitetsresidual { $max_resid }) | SRIF-posterior endelig ved rang-4-epoke { $srif_epoch } (rang/STM/DRO-lukking/SRIF prøvd mot en uavhengig ekstern referanse, utforming beregnet fra en modell)
+       *[other] cislunar-observability | { $c } s/c ({ $refs } referanser) | { $arc_hours } h bue, { $rank_arc } epoker | rang { $first } → { $last } av { $state_dim } over buen | Gramian λ [{ $min_eigenvalue }…{ $max_eigenvalue }] cond { $condition_str } | momentan rang kun avstand { $rank_range_only } → avstand+rate { $rank_range_rate } ({ $n_links } lenker) | GDOP kun avstand { $ro } avstand+rate { $rr } | DRO ICs (maks periodisitetsresidual { $max_resid }) | SRIF-posterior endelig ved rang-4-epoke { $srif_epoch } (rang/STM/DRO-lukking/SRIF prøvd mot en uavhengig ekstern referanse, utforming beregnet fra en modell)
+    }
+
 
 engine-cislunar-observability-never-rank-of = aldri (rang { $rank } av { $state_dim })
 
@@ -1186,7 +1333,12 @@ engine-cislunar-observability-family-state-range-rank-threshold = { $base } | { 
 
 engine-cislunar-observability-first-arc-length-at-which = første buelengde der den formelle 1σ-posisjonsusikkerheten for chiefs INITIELLE tilstand, σ_pos = sqrt(trace(P_rr)) med P = (ÕᵀÕ)⁻¹ og Õ den målestøyblekede observerbarhetsmatrisen, faller til eller under { $sigma_pos_threshold_km } km. Dette er kriteriet der en buelengdeterskel i det hele tatt er støyavhengig: P skalerer som σ², så σ_pos skalerer som σ, mens rangkriteriet ovenfor ikke beveger seg med σ. Grensen er et OPPGITT ingeniørvalg, ikke et tilpasset: estimability_sweep rapporterer terskelen ved fire andre grenser.
 
-engine-cislunar-observability-extension-r3-this-run-is = UTVIDELSE (R3) — denne kjøringen er IKKE den plane DRO-konfigurasjonen som `label` ovenfor beskriver. Tilstandsdimensjon { $state_dim }; banefamilie { $family }; { $n_spacecraft } romfartøyer; avstandsmålingens sigma { $sigma_range_m } m. Der `label` sier "planar" og "planar DROs", les familien som er oppgitt her. VALIDATED tillegg: den variasjonelle 6x6-STM-en er den samme CR3BP-STM-en kontrollert mot endelige differanser (crate::cr3bp) som brukes i full bredde; de romlige Jacobi-radene for avstand / avstandsrate er analytiske partiellderiverte kontrollert mot endelige differanser, der raden for avstandsrate er kontrollert komponent for komponent mot crate-ets uavhengige 3D-funksjon deepspace_od::range_rate_observable; halo- og NRHO-initialbetingelsene er differensialkorrigerte periodiske baner fra den samme korrektoren som reproduserer den publiserte sørlige L2 9:2-NRHO-en, videreført fra det publiserte startpunktet, og lukkingsresidualet for hvert medlem rapporteres; de seks tilstandenes RANG-utfall er bekreftet mot en UAVHENGIG radtrappe-rang (Gauss-eliminasjon med delvis pivotering) som ikke deler kode med egenverdi-/SVD-veien. ÆRLIG OMFANG FOR SRIF-LEDDET: SRIF-krysskontrollen ovenfor bruker de SAMME måle-Jacobi-matrisene og reduseres til den samme O^T O, så samsvaret er en konsistenssjekk mellom to numeriske maskiner, IKKE uavhengig korroborering av terskelen — det telles ikke som prøving mot en uavhengig ekstern referanse av noen størrelse her. MODELLED: familieutformingen (hvilke abscisser, amplituder og faser), epokerutenettet, enkeltlenkebuen og den oppgitte posisjonsgrensen i estimerbarhetskriteriet.
+engine-cislunar-observability-extension-r3-this-run-is =
+    { $n_spacecraft ->
+        [one] UTVIDELSE (R3) — denne kjøringen er IKKE den plane DRO-konfigurasjonen som `label` ovenfor beskriver. Tilstandsdimensjon { $state_dim }; banefamilie { $family }; { $n_spacecraft } romfartøy; avstandsmålingens sigma { $sigma_range_m } m. Der `label` sier "planar" og "planar DROs", les familien som er oppgitt her. VALIDATED tillegg: den variasjonelle 6x6-STM-en er den samme CR3BP-STM-en kontrollert mot endelige differanser (crate::cr3bp) som brukes i full bredde; de romlige Jacobi-radene for avstand / avstandsrate er analytiske partiellderiverte kontrollert mot endelige differanser, der raden for avstandsrate er kontrollert komponent for komponent mot crate-ets uavhengige 3D-funksjon deepspace_od::range_rate_observable; halo- og NRHO-initialbetingelsene er differensialkorrigerte periodiske baner fra den samme korrektoren som reproduserer den publiserte sørlige L2 9:2-NRHO-en, videreført fra det publiserte startpunktet, og lukkingsresidualet for hvert medlem rapporteres; de seks tilstandenes RANG-utfall er bekreftet mot en UAVHENGIG radtrappe-rang (Gauss-eliminasjon med delvis pivotering) som ikke deler kode med egenverdi-/SVD-veien. ÆRLIG OMFANG FOR SRIF-LEDDET: SRIF-krysskontrollen ovenfor bruker de SAMME måle-Jacobi-matrisene og reduseres til den samme O^T O, så samsvaret er en konsistenssjekk mellom to numeriske maskiner, IKKE uavhengig korroborering av terskelen — det telles ikke som prøving mot en uavhengig ekstern referanse av noen størrelse her. MODELLED: familieutformingen (hvilke abscisser, amplituder og faser), epokerutenettet, enkeltlenkebuen og den oppgitte posisjonsgrensen i estimerbarhetskriteriet.
+       *[other] UTVIDELSE (R3) — denne kjøringen er IKKE den plane DRO-konfigurasjonen som `label` ovenfor beskriver. Tilstandsdimensjon { $state_dim }; banefamilie { $family }; { $n_spacecraft } romfartøyer; avstandsmålingens sigma { $sigma_range_m } m. Der `label` sier "planar" og "planar DROs", les familien som er oppgitt her. VALIDATED tillegg: den variasjonelle 6x6-STM-en er den samme CR3BP-STM-en kontrollert mot endelige differanser (crate::cr3bp) som brukes i full bredde; de romlige Jacobi-radene for avstand / avstandsrate er analytiske partiellderiverte kontrollert mot endelige differanser, der raden for avstandsrate er kontrollert komponent for komponent mot crate-ets uavhengige 3D-funksjon deepspace_od::range_rate_observable; halo- og NRHO-initialbetingelsene er differensialkorrigerte periodiske baner fra den samme korrektoren som reproduserer den publiserte sørlige L2 9:2-NRHO-en, videreført fra det publiserte startpunktet, og lukkingsresidualet for hvert medlem rapporteres; de seks tilstandenes RANG-utfall er bekreftet mot en UAVHENGIG radtrappe-rang (Gauss-eliminasjon med delvis pivotering) som ikke deler kode med egenverdi-/SVD-veien. ÆRLIG OMFANG FOR SRIF-LEDDET: SRIF-krysskontrollen ovenfor bruker de SAMME måle-Jacobi-matrisene og reduseres til den samme O^T O, så samsvaret er en konsistenssjekk mellom to numeriske maskiner, IKKE uavhengig korroborering av terskelen — det telles ikke som prøving mot en uavhengig ekstern referanse av noen størrelse her. MODELLED: familieutformingen (hvilke abscisser, amplituder og faser), epokerutenettet, enkeltlenkebuen og den oppgitte posisjonsgrensen i estimerbarhetskriteriet.
+    }
+
 
 engine-cislunar-observability-validated-each-constellation-initial-condition = Prøvd mot en uavhengig ekstern referanse: hver initialbetingelse i konstellasjonen er en differensialkorrigert periodisk bane i { $family }-familien, som lukker seg over én periode til det rapporterte periodisitetsresidualet (plane DRO-er er i tillegg retrograde om Månen). Familien korrigeres ved Jord-Måne-massetilforholdet. Beregnet fra en modell: valget av familieparametere og faser (konstellasjonens utforming). Nøkkelnavnet `dro_provenance` beholdes for det utgitte dokumentskjemaet; det bærer den familien denne kjøringen ba om.
 
@@ -1202,7 +1354,12 @@ engine-e-clock-integrity-integrity-systems-must-name-at = integrity: systems må
 
 engine-e-clock-integrity-integrity-injected-bias-needs-finite = integrity: injected_bias trenger endelige bias_m, t0_s og t1_s
 
-engine-e-clock-integrity-integrity-epochs-exceed-the-epoch = integrity: { $n } epoker overstiger taket på { $MAX_EPOCHS } epoker; øk step_s
+engine-e-clock-integrity-integrity-epochs-exceed-the-epoch =
+    { $n ->
+        [one] integrity: { $n } epoke overstiger taket på { $MAX_EPOCHS } epoker; øk step_s
+       *[other] integrity: { $n } epoker overstiger taket på { $MAX_EPOCHS } epoker; øk step_s
+    }
+
 
 ## src/clock_library/card.rs
 
@@ -1413,7 +1570,12 @@ engine-e-earth-gnss-lunar-back-lobe-suppression-db-must = back_lobe_suppression_
 
 engine-e-earth-gnss-lunar-receiver-range-must-be-outside = receiver_range_m må ligge utenfor jorden; fikk { $range_m }
 
-engine-earth-gnss-lunar-earth-gnss-at-lunar-distance = Jord-GNSS på månens avstand — { $n_satellites } satellitter, mottaker ved { $r } km{ "\u000A" }
+engine-earth-gnss-lunar-earth-gnss-at-lunar-distance =
+    { $n_satellites ->
+        [one] Jord-GNSS på månens avstand — { $n_satellites } satellitt, mottaker ved { $r } km{ "\u000A" }
+       *[other] Jord-GNSS på månens avstand — { $n_satellites } satellitter, mottaker ved { $r } km{ "\u000A" }
+    }
+
 
 engine-earth-gnss-lunar-earth-limb-from-the-constellation = { "  " }Jordens limb sett fra konstellasjonen: { $earth_limb_half_angle_deg } deg fra nadir — enhver stråle mot Månen må overstige dette{ "\u000A" }
 
@@ -1537,7 +1699,12 @@ engine-e-ephemeris-duration-must-be-non-negative = duration_s må være ikke-neg
 
 engine-e-ephemeris-carrier-hz-must-be-positive = carrier_hz må være en positiv, endelig frekvens
 
-engine-ephemeris-ground-track-samples-alt-km = { $source } bakkespor · { $n_samples } sampler · høyde { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
+engine-ephemeris-ground-track-samples-alt-km =
+    { $n_samples ->
+        [one] { $source } bakkespor · { $n_samples } sample · høyde { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
+       *[other] { $source } bakkespor · { $n_samples } sampler · høyde { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
+    }
+
 
 ## src/evidence/assemble.rs
 
@@ -2003,7 +2170,12 @@ engine-e-geometry-sky-tle-is-bytes-the = sky: tle er { $text } bytes; grensen er
 
 engine-geometry-element-set-refused = elementsett avvist: { $e }
 
-engine-geometry-sky-tle-holds-no-complete = sky: tle inneholder ikke noe fullstendig tolinjers elementsett; { $n_ignored } linjer ignorert, den første: { $first }
+engine-geometry-sky-tle-holds-no-complete =
+    { $n_ignored ->
+        [one] sky: tle inneholder ikke noe fullstendig tolinjers elementsett; { $n_ignored } linje ignorert, den første: { $first }
+       *[other] sky: tle inneholder ikke noe fullstendig tolinjers elementsett; { $n_ignored } linjer ignorert, den første: { $first }
+    }
+
 
 engine-e-geometry-sky-epoch = sky: epoch: { $e }
 
@@ -2219,7 +2391,12 @@ engine-e-gse-sim-step-must-be-positive-got = step_s må være positiv, fikk { $s
 
 engine-e-gse-sim-duration-must-be-positive-got = duration_s må være positiv, fikk { $duration_s }
 
-engine-e-gse-sim-scenario-produces-epochs-need-increase = scenarioet gir { $n } epoker (trenger ≥ 2); øk duration_s eller reduser step_s
+engine-e-gse-sim-scenario-produces-epochs-need-increase =
+    { $n ->
+        [one] scenarioet gir { $n } epoke (trenger ≥ 2); øk duration_s eller reduser step_s
+       *[other] scenarioet gir { $n } epoker (trenger ≥ 2); øk duration_s eller reduser step_s
+    }
+
 
 ## src/holdover_test.rs
 
@@ -2265,7 +2442,12 @@ engine-e-hybrid-integrity-must-be-finite = { $name } må være endelig
 
 engine-e-hybrid-integrity-rf-other-losses-db-must = rf_other_losses_db må være endelig og >= 0
 
-engine-hybrid-integrity-hybrid-optical-rf-optical-footprint = hybrid-optical-rf | optisk fotavtrykk { $footprint_m } m, { $detected_photons } fotoner -> avstands-σ { $c } mm, tids-σ { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | tilgjengelighet { $c4 }% ({ $n_sites } steder) | overlevering uten sprang { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | felles FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | prøvd mot en uavhengig ekstern referanse: CRLB/χ²-PL/union/overlevering, beregnet fra en modell: σ/klimatologi
+engine-hybrid-integrity-hybrid-optical-rf-optical-footprint =
+    { $n_sites ->
+        [one] hybrid-optical-rf | optisk fotavtrykk { $footprint_m } m, { $detected_photons } fotoner -> avstands-σ { $c } mm, tids-σ { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | tilgjengelighet { $c4 }% ({ $n_sites } sted) | overlevering uten sprang { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | felles FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | prøvd mot en uavhengig ekstern referanse: CRLB/χ²-PL/union/overlevering, beregnet fra en modell: σ/klimatologi
+       *[other] hybrid-optical-rf | optisk fotavtrykk { $footprint_m } m, { $detected_photons } fotoner -> avstands-σ { $c } mm, tids-σ { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | tilgjengelighet { $c4 }% ({ $n_sites } steder) | overlevering uten sprang { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | felles FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | prøvd mot en uavhengig ekstern referanse: CRLB/χ²-PL/union/overlevering, beregnet fra en modell: σ/klimatologi
+    }
+
 
 ## src/impairment_eval.rs
 
@@ -2273,7 +2455,12 @@ engine-e-impairment-eval-target-pfa-must-be-in = target_pfa må være i [0, 1]
 
 engine-e-impairment-eval-per-class-must-be = n_per_class må være >= 1
 
-engine-impairment-eval-impairment-eval-detector-auc-in = impairment-eval | detektor { $detector } | AUC { $auc_in } inne / { $auc_out } ute (gap { $optimism_gap }{ $v5 }) | Pd { $report } Pfa { $report2 } @ mål { $target_pfa } | { $n_cases } tilfeller | MODELLED syntetisk
+engine-impairment-eval-impairment-eval-detector-auc-in =
+    { $n_cases ->
+        [one] impairment-eval | detektor { $detector } | AUC { $auc_in } inne / { $auc_out } ute (gap { $optimism_gap }{ $v5 }) | Pd { $report } Pfa { $report2 } @ mål { $target_pfa } | { $n_cases } tilfelle | MODELLED syntetisk
+       *[other] impairment-eval | detektor { $detector } | AUC { $auc_in } inne / { $auc_out } ute (gap { $optimism_gap }{ $v5 }) | Pd { $report } Pfa { $report2 } @ mål { $target_pfa } | { $n_cases } tilfeller | MODELLED syntetisk
+    }
+
 
 engine-e-impairment-eval-unknown-detector-energy-agc-sqm = ukjent detektor '{ $other }' (energy|agc|sqm|parity|fused)
 
@@ -2493,7 +2680,12 @@ engine-e-interop-invalid-spectrum-scenario = ugyldig spectrum-scenario: { $e }
 
 ## src/interop/scene.rs
 
-engine-e-interop-scene-time-samples-is-more-than = { $n } tidssampler er mer enn en eksport skriver ({ $MAX_SAMPLES })
+engine-e-interop-scene-time-samples-is-more-than =
+    { $n ->
+        [one] { $n } tidssample er mer enn en eksport skriver ({ $MAX_SAMPLES })
+       *[other] { $n } tidssampler er mer enn en eksport skriver ({ $MAX_SAMPLES })
+    }
+
 
 engine-e-interop-scene-objects-samples-is-more-than = { $items } objekter x { $times } sampler er mer enn en eksport skriver ({ $MAX_SAMPLES })
 
@@ -2720,7 +2912,12 @@ engine-e-iq-campaign-conditions-at-least-one-expected-group = minst én [[expect
 
 engine-e-iq-campaign-conditions-ids-must-not-be-empty = { $at }: ids må ikke være tom
 
-engine-e-iq-campaign-conditions-lists-value-give-one-per = { $at }: { $key } har { $n } verdi(er); oppgi én per id ({ $ids })
+engine-e-iq-campaign-conditions-lists-value-give-one-per =
+    { $n ->
+        [one] { $at }: { $key } har { $n } verdi; oppgi én per id ({ $ids })
+       *[other] { $at }: { $key } har { $n } verdier; oppgi én per id ({ $ids })
+    }
+
 
 engine-e-iq-campaign-conditions-duplicate-id = { $at }: duplisert id
 
@@ -2886,7 +3083,12 @@ engine-iq-cli-needs-value = { $s } trenger en verdi
 
 engine-e-iq-cli-cannot-parse = { $k }: kan ikke tolke { $v }
 
-engine-iq-cli-iq-takes-positional-argument-got = iq { $cmd } tar { $n } posisjonsargument(er), fikk { $pos }
+engine-iq-cli-iq-takes-positional-argument-got =
+    { $n ->
+        [one] iq { $cmd } tar { $n } posisjonsargument, fikk { $pos }
+       *[other] iq { $cmd } tar { $n } posisjonsargumenter, fikk { $pos }
+    }
+
 
 engine-e-iq-cli-cannot-parse-2 = { $k }: kan ikke tolke { $p }
 
@@ -2959,11 +3161,21 @@ engine-e-iq-io-cli-unknown-option = ukjent valg { $s }
 
 engine-e-iq-io-cli-format-needs-rate = --format trenger --rate
 
-engine-iq-io-cli-iq-takes-path-argument-got = iq { $cmd } tar { $n } stiargument(er), fikk { $pos }
+engine-iq-io-cli-iq-takes-path-argument-got =
+    { $n ->
+        [one] iq { $cmd } tar { $n } stiargument, fikk { $pos }
+       *[other] iq { $cmd } tar { $n } stiargumenter, fikk { $pos }
+    }
+
 
 engine-iq-io-cli-unknown-iq-command = ukjent iq-kommando { $other }
 
-engine-iq-io-cli-wrote-samples-hz-to-saturated = skrev { $n } sampler ({ $to }, { $fs_hz } Hz) til { $files }; { $w } mettet(e) element(er){ $v4 }
+engine-iq-io-cli-wrote-samples-hz-to-saturated =
+    { $n ->
+        [one] skrev { $n } sample ({ $to }, { $fs_hz } Hz) til { $files }; { $w } mettet(e) element(er){ $v4 }
+       *[other] skrev { $n } sampler ({ $to }, { $fs_hz } Hz) til { $files }; { $w } mettet(e) element(er){ $v4 }
+    }
+
 
 ## src/iq/io/follow.rs
 
@@ -3021,7 +3233,12 @@ engine-e-iq-io-sigmf-stream-core-sample-rate-is-not = { $name }: core:sample_rat
 
 engine-e-iq-io-sigmf-stream-at-hz-does-not-match = { $name }: { $f } ved { $rate } Hz stemmer ikke med det første opptakets { $f0 } ved { $r0 } Hz
 
-engine-e-iq-io-sigmf-stream-capture-at-sample-is-out = { $name }: capture ved sample { $sample_start } er i feil rekkefølge eller ligger utenfor de { $n_file } samplene i dataene
+engine-e-iq-io-sigmf-stream-capture-at-sample-is-out =
+    { $n_file ->
+        [one] { $name }: capture ved sample { $sample_start } er i feil rekkefølge eller ligger utenfor det eneste samplet i dataene ({ $n_file })
+       *[other] { $name }: capture ved sample { $sample_start } er i feil rekkefølge eller ligger utenfor de { $n_file } samplene i dataene
+    }
+
 
 engine-e-iq-io-sigmf-stream-first-capture-does-not-start = { $name }: den første capturen starter ikke på en bytegrense
 
@@ -3065,7 +3282,12 @@ engine-iq-labfit-iqfit-uncensored-span-db-is-under = ikke-sensurert J/S-spenn { 
 
 engine-iq-labfit-iqfit-eff-and-delta-are-not = Q_eff og delta kan ikke identifiseres hver for seg (|corr| { $full } >= { $v2 }): modellen avhenger bare av delta - 10 log10 Q_eff
 
-engine-iq-labfit-iqfit-not-fitted-re-acquisitions-observed = ikke tilpasset: { $n_reacq } gjenfangster observert (minst 3 trengs)
+engine-iq-labfit-iqfit-not-fitted-re-acquisitions-observed =
+    { $n_reacq ->
+        [one] ikke tilpasset: { $n_reacq } gjenfangst observert (minst 3 trengs)
+       *[other] ikke tilpasset: { $n_reacq } gjenfangster observert (minst 3 trengs)
+    }
+
 
 engine-iq-labfit-iqfit-loss-time-rms = loss_time_rms_s[{ $model }]
 
@@ -3106,7 +3328,12 @@ engine-iq-labfit-iqreport-threshold-direct-median-db-over = Terskel-J/S, direkte
 
 engine-iq-labfit-iqreport-hold-out-leave-one-recording = Tilbakeholdt (utelat ett opptak), interpolasjon: { $bins } intervaller, C/N0 RMS { $om } dB, PI90-dekning { $om2 }
 
-engine-iq-labfit-iqreport-events-loss-time-rms-pi90 = ; { $model }: { $n } hendelser, tapstid-RMS { $om } s, PI90-dekning { $om2 }
+engine-iq-labfit-iqreport-events-loss-time-rms-pi90 =
+    { $n ->
+        [one] ; { $model }: { $n } hendelse, tapstid-RMS { $om } s, PI90-dekning { $om2 }
+       *[other] ; { $model }: { $n } hendelser, tapstid-RMS { $om } s, PI90-dekning { $om2 }
+    }
+
 
 engine-iq-labfit-iqreport-validation-table-sha-256-registered =
     Valideringstabell SHA-256 `{ $table_sha256 }` (registrert { $registered }):
@@ -3141,7 +3368,12 @@ engine-iq-labfit-report-lab-fit-label-settings-sha =
 
     Etikett: **{ $label }**. Innstillinger SHA-256 `{ $settings_sha256 }`.{ "\u000A\u000A" }
 
-engine-iq-labfit-report-n0-samples-residual-rms-db = { "\u000A" }{ $n_samples } C/N0-sampler, residual-RMS { $om } dB.{ $r }{ "\u000A" }
+engine-iq-labfit-report-n0-samples-residual-rms-db =
+    { $n_samples ->
+        [one] { "\u000A" }{ $n_samples } C/N0-sample, residual-RMS { $om } dB.{ $r }{ "\u000A" }
+       *[other] { "\u000A" }{ $n_samples } C/N0-sampler, residual-RMS { $om } dB.{ $r }{ "\u000A" }
+    }
+
 
 engine-iq-labfit-report-model-parameter-value-bounds-at =
     { "\u000A" }## Modell: { $model } ({ $label })
@@ -3150,10 +3382,19 @@ engine-iq-labfit-report-model-parameter-value-bounds-at =
     |---|---|---|---|---|{ "\u000A" }
 
 engine-iq-labfit-report-event-time-rms-over-events =
-    { "\u000A" }Hendelsestid-RMS { $om } s over { $n_events } hendelser; tap oversett { $loss_missed } / ekstra { $loss_extra }, gjenfangster oversett { $reacq_missed } / ekstra { $reacq_extra }.
+    { $n_events ->
+        [one]
+            { "\u000A" }Hendelsestid-RMS { $om } s over { $n_events } hendelse; tap oversett { $loss_missed } / ekstra { $loss_extra }, gjenfangster oversett { $reacq_missed } / ekstra { $reacq_extra }.
 
-    | kjøring | fall dB-Hz | gjenlåsing dB-Hz | hendelser | RMS s |
-    |---|---|---|---|---|{ "\u000A" }
+            | kjøring | fall dB-Hz | gjenlåsing dB-Hz | hendelser | RMS s |
+            |---|---|---|---|---|{ "\u000A" }
+       *[other]
+            { "\u000A" }Hendelsestid-RMS { $om } s over { $n_events } hendelser; tap oversett { $loss_missed } / ekstra { $loss_extra }, gjenfangster oversett { $reacq_missed } / ekstra { $reacq_extra }.
+
+            | kjøring | fall dB-Hz | gjenlåsing dB-Hz | hendelser | RMS s |
+            |---|---|---|---|---|{ "\u000A" }
+    }
+
 
 engine-iq-labfit-report-hold-out-folds-all-interpolation =
     { "\u000A" }Tilbakeholdt ({ $scheme }, { $folds } folder): alle { $om } s, interpolasjon { $om2 } s, ekstrapolasjon { $om3 } s.
@@ -3263,7 +3504,12 @@ engine-e-iq-short-ids-must-hold-to-satellites = ids må inneholde 1 til { $MAX_S
 
 engine-e-iq-short-dopplers-must-be-finite = dopplers må være endelige
 
-engine-e-iq-short-samples-requested-short-run-holds = { $n } sampler forespurt; en kort kjøring rommer høyst { $MAX_SAMPLES }
+engine-e-iq-short-samples-requested-short-run-holds =
+    { $n ->
+        [one] { $n } sample forespurt; en kort kjøring rommer høyst { $MAX_SAMPLES }
+       *[other] { $n } sampler forespurt; en kort kjøring rommer høyst { $MAX_SAMPLES }
+    }
+
 
 ## src/iq/signals/beidou.rs
 
@@ -3289,7 +3535,12 @@ engine-e-iq-signals-galileo-line-no-code-number-in = linje { $v1 }: ingen kodenu
 
 engine-e-iq-signals-galileo-code-appears-twice = kode { $number } forekommer to ganger
 
-engine-e-iq-signals-galileo-codes-the-icd-defines = { $path }: { $n } koder, ICD-en definerer { $CODES_PER_COMPONENT }
+engine-e-iq-signals-galileo-codes-the-icd-defines =
+    { $n ->
+        [one] { $path }: { $n } kode, ICD-en definerer { $CODES_PER_COMPONENT }
+       *[other] { $path }: { $n } koder, ICD-en definerer { $CODES_PER_COMPONENT }
+    }
+
 
 engine-iq-signals-galileo-galileo-e1-prn = Galileo E1-B PRN { $prn }
 
@@ -3657,7 +3908,20 @@ engine-launch-launch-window-lat-az-asc = launch-window: bredde { $site_lat_deg }
 
 engine-e-leo-fusion-doppler-every-range-rate-needs-positive = hver avstandsrate trenger en positiv, endelig sigma
 
-engine-e-leo-fusion-doppler-measurements-cannot-resolve-doppler-unknowns = { $n_meas } målinger kan ikke løse { $n } Doppler-ukjente
+engine-e-leo-fusion-doppler-measurements-cannot-resolve-doppler-unknowns =
+    { $n_meas ->
+        [one]
+            { $n ->
+                [one] { $n_meas } måling kan ikke løse { $n } Doppler-ukjent
+               *[other] { $n_meas } måling kan ikke løse { $n } Doppler-ukjente
+            }
+       *[other]
+            { $n ->
+                [one] { $n_meas } målinger kan ikke løse { $n } Doppler-ukjent
+               *[other] { $n_meas } målinger kan ikke løse { $n } Doppler-ukjente
+            }
+    }
+
 
 engine-e-leo-fusion-doppler-the-doppler-geometry-is-singular = Doppler-geometrien er singulær
 
@@ -3667,7 +3931,20 @@ engine-e-leo-fusion-doppler-no-covariance = ingen kovarians
 
 engine-e-leo-fusion-joint-pvt-every-pseudorange-needs-positive-finite = hver pseudoavstand trenger en positiv, endelig sigma
 
-engine-e-leo-fusion-joint-pvt-pseudoranges-cannot-resolve-unknowns-position = { $obs } pseudoavstander kan ikke løse { $n } ukjente (3 posisjon + { $n_clock } klokker)
+engine-e-leo-fusion-joint-pvt-pseudoranges-cannot-resolve-unknowns-position =
+    { $n ->
+        [one]
+            { $n_clock ->
+                [one] { $obs } pseudoavstander kan ikke løse { $n } ukjent (3 posisjon + { $n_clock } klokke)
+               *[other] { $obs } pseudoavstander kan ikke løse { $n } ukjent (3 posisjon + { $n_clock } klokker)
+            }
+       *[other]
+            { $n_clock ->
+                [one] { $obs } pseudoavstander kan ikke løse { $n } ukjente (3 posisjon + { $n_clock } klokke)
+               *[other] { $obs } pseudoavstander kan ikke løse { $n } ukjente (3 posisjon + { $n_clock } klokker)
+            }
+    }
+
 
 engine-e-leo-fusion-joint-pvt-satellite-coincides-with-the-position = en satellitt faller sammen med posisjonsestimatet
 
@@ -3687,11 +3964,21 @@ engine-e-leo-fusion-ntn-sync-error-must-be-non = sync_error_m må være ikke-neg
 
 engine-e-leo-fusion-ntn-every-signal-needs-positive-bandwidth = hvert signal trenger en positiv båndbredde
 
-engine-leo-fusion-ntn-5g-ntn-positioning-at-mhz = 5G NTN-posisjonsbestemmelse ved { $r } MHz, C/N0 { $r2 } til { $r3 } dB-Hz, { $n_satellites } satellitter ({ $mean_in_view } i sikte){ "\u000A" }
+engine-leo-fusion-ntn-5g-ntn-positioning-at-mhz =
+    { $n_satellites ->
+        [one] 5G NTN-posisjonsbestemmelse ved { $r } MHz, C/N0 { $r2 } til { $r3 } dB-Hz, { $n_satellites } satellitt ({ $mean_in_view } i sikte){ "\u000A" }
+       *[other] 5G NTN-posisjonsbestemmelse ved { $r } MHz, C/N0 { $r2 } til { $r3 } dB-Hz, { $n_satellites } satellitter ({ $mean_in_view } i sikte){ "\u000A" }
+    }
+
 
 engine-leo-fusion-ntn-khz-crb-range-to-median = { "  " }{ $name }: { $s } kHz, CRB-avstand { $range_sigma_zenith_m } til { $range_sigma_mask_m } m; median formell 3D { $s2 } m, RMS-feil { $s3 } m{ "\u000A" }
 
-engine-leo-fusion-ntn-one-satellite-doppler-pass-samples = { "  " }Doppler-passering med én satellitt: { $n_obs } sampler over { $duration_s } s, horisontal feil { $horizontal_error_m } m{ "\u000A" }
+engine-leo-fusion-ntn-one-satellite-doppler-pass-samples =
+    { $n_obs ->
+        [one] { "  " }Doppler-passering med én satellitt: { $n_obs } sample over { $duration_s } s, horisontal feil { $horizontal_error_m } m{ "\u000A" }
+       *[other] { "  " }Doppler-passering med én satellitt: { $n_obs } sampler over { $duration_s } s, horisontal feil { $horizontal_error_m } m{ "\u000A" }
+    }
+
 
 engine-leo-fusion-ntn-mhz-n0-db-hz-modelled = { $r } MHz · C/N0 { $r2 }-{ $r3 } dB-Hz · MODELLED
 
@@ -3705,7 +3992,12 @@ engine-e-leo-fusion-ppp-runs-must-be-to-200 = runs må være 1 til 200
 
 engine-e-leo-fusion-ppp-convergence-thresholds-must-be-positive = konvergensterskler må være positive
 
-engine-leo-fusion-ppp-ppp-convergence-to-horizontal-vertical = PPP-konvergens til { $criterion_horizontal_m } m horisontalt / { $criterion_vertical_m } m vertikalt, { $runs_per_case } kjøringer per tilfelle, { $n_gnss } GNSS-satellitter{ "\u000A" }
+engine-leo-fusion-ppp-ppp-convergence-to-horizontal-vertical =
+    { $n_gnss ->
+        [one] PPP-konvergens til { $criterion_horizontal_m } m horisontalt / { $criterion_vertical_m } m vertikalt, { $runs_per_case } kjøringer per tilfelle, { $n_gnss } GNSS-satellitt{ "\u000A" }
+       *[other] PPP-konvergens til { $criterion_horizontal_m } m horisontalt / { $criterion_vertical_m } m vertikalt, { $runs_per_case } kjøringer per tilfelle, { $n_gnss } GNSS-satellitter{ "\u000A" }
+    }
+
 
 engine-leo-fusion-ppp-leo-median-min-converged-nees = { "  " }{ $name } { $n_leo } LEO  median { $c } min  konvergert { $v4 }%  NEES middelverdi { $nees_mean }{ "\u000A" }
 
@@ -3737,7 +4029,20 @@ engine-leo-fusion-pvt-kind-leo-pvt-at-over = LEO PVT ({ $mode }) ved { $user_lat
 
 engine-leo-fusion-pvt-kind-sats-at-km-mhz = { "  " }{ $name } { $role } { $n_satellites } sats på { $mean_altitude_km } km, { $sys } MHz{ $v6 }{ "\u000A" }
 
-engine-leo-fusion-pvt-kind-doppler-fix-measurements-from-satellites = { "  " }Doppler-posisjonsbestemmelse: { $n_obs } målinger fra { $n_sats } satellitter, 3D-feil { $error_3d_m } m (horisontalt { $horizontal_error_m } m){ "\u000A" }
+engine-leo-fusion-pvt-kind-doppler-fix-measurements-from-satellites =
+    { $n_obs ->
+        [one]
+            { $n_sats ->
+                [one] { "  " }Doppler-posisjonsbestemmelse: { $n_obs } måling fra { $n_sats } satellitt, 3D-feil { $error_3d_m } m (horisontalt { $horizontal_error_m } m){ "\u000A" }
+               *[other] { "  " }Doppler-posisjonsbestemmelse: { $n_obs } måling fra { $n_sats } satellitter, 3D-feil { $error_3d_m } m (horisontalt { $horizontal_error_m } m){ "\u000A" }
+            }
+       *[other]
+            { $n_sats ->
+                [one] { "  " }Doppler-posisjonsbestemmelse: { $n_obs } målinger fra { $n_sats } satellitt, 3D-feil { $error_3d_m } m (horisontalt { $horizontal_error_m } m){ "\u000A" }
+               *[other] { "  " }Doppler-posisjonsbestemmelse: { $n_obs } målinger fra { $n_sats } satellitter, 3D-feil { $error_3d_m } m (horisontalt { $horizontal_error_m } m){ "\u000A" }
+            }
+    }
+
 
 engine-leo-fusion-pvt-kind-window-sats-3d-error = { "    " }vindu { $window_s } s: { $n_sats } sats, 3D-feil { $f } m{ "\u000A" }
 
@@ -4336,11 +4641,26 @@ engine-e-lunar-beacon-comparison-satellites-must-be-at = comparison_n_satellites
 
 engine-e-lunar-beacon-elevation-mask-deg-must-be = elevation_mask_deg må ligge i [0, 90); fikk { $mask_deg }
 
-engine-lunar-beacon-satellites-no-beacons = { $n_sats } satellitter, ingen fyr
+engine-lunar-beacon-satellites-no-beacons =
+    { $n_sats ->
+        [one] { $n_sats } satellitt, ingen fyr
+       *[other] { $n_sats } satellitter, ingen fyr
+    }
 
-engine-lunar-beacon-satellites-visible-beacons = { $n_sats } satellitter + { $n_vis_beacons } synlige fyr
 
-engine-lunar-beacon-satellites-no-beacons-2 = { $n_cmp } satellitter, ingen fyr
+engine-lunar-beacon-satellites-visible-beacons =
+    { $n_sats ->
+        [one] { $n_sats } satellitt + { $n_vis_beacons } synlige fyr
+       *[other] { $n_sats } satellitter + { $n_vis_beacons } synlige fyr
+    }
+
+
+engine-lunar-beacon-satellites-no-beacons-2 =
+    { $n_cmp ->
+        [one] { $n_cmp } satellitt, ingen fyr
+       *[other] { $n_cmp } satellitter, ingen fyr
+    }
+
 
 engine-e-lunar-beacon-serialising-beacon-report = serialiserer fyrrapport: { $e }
 
@@ -4438,13 +4758,23 @@ engine-e-lunar-frame-campaign-solver-must-be-spectral-or = solver må være "spe
 
 engine-e-lunar-frame-campaign-serializing-lunar-frame-campaign-result = serialiserer lunar-frame-campaign-resultat: { $e }
 
-engine-e-lunar-frame-campaign-no-observation-in-the-campaign = ingen observasjon i kampanjen passerer jordsidens høydemaske på { $mask } deg i begge ender av en grunnlinje OG masken på { $earth_mask } deg over fyrets egen horisont: { $n_epochs } epoker x { $v1 } grunnlinjer x { $n_beacons } fyr er alle avvist. Øk arc_hours, senk en maske eller flytt stasjonene.
+engine-e-lunar-frame-campaign-no-observation-in-the-campaign =
+    { $n_epochs ->
+        [one] ingen observasjon i kampanjen passerer jordsidens høydemaske på { $mask } deg i begge ender av en grunnlinje OG masken på { $earth_mask } deg over fyrets egen horisont: { $n_epochs } epoke x { $v1 } grunnlinjer x { $n_beacons } fyr er alle avvist. Øk arc_hours, senk en maske eller flytt stasjonene.
+       *[other] ingen observasjon i kampanjen passerer jordsidens høydemaske på { $mask } deg i begge ender av en grunnlinje OG masken på { $earth_mask } deg over fyrets egen horisont: { $n_epochs } epoker x { $v1 } grunnlinjer x { $n_beacons } fyr er alle avvist. Øk arc_hours, senk en maske eller flytt stasjonene.
+    }
+
 
 engine-lunar-frame-campaign-full-rank-all-similarity-parameters = full rang: alle 7 likhetsparametere er bundet av denne kampanjen (kondisjonstall { $condition })
 
 engine-lunar-frame-campaign-rank-deficient-of-similarity-directions = RANGMANGEL: { $defect } av 7 likhetsretninger kan ikke observeres fra denne kampanjen, så INGEN datum-sigma publiseres; de uobserverbare retningene er oppført i sjuparameter-basisen
 
-engine-lunar-frame-campaign-lunar-frame-campaign-beacons-baselines = lunar-frame-campaign | { $n_beacons } fyr x { $v1 } grunnlinjer x { $n_epochs } epoker = { $n_obs } obs (forsinkelsessigma { $sigma_tau } s) | stasjonsdatum { $station_datum } | Helmert-rang { $rank }/7 kond { $condition } | datum-translasjonssigma { $v5 } mot gjenvinningsfeil for injisert transformasjon { $trans_err_norm_m } m (forhold { $v7 })
+engine-lunar-frame-campaign-lunar-frame-campaign-beacons-baselines =
+    { $n_epochs ->
+        [one] lunar-frame-campaign | { $n_beacons } fyr x { $v1 } grunnlinjer x { $n_epochs } epoke = { $n_obs } obs (forsinkelsessigma { $sigma_tau } s) | stasjonsdatum { $station_datum } | Helmert-rang { $rank }/7 kond { $condition } | datum-translasjonssigma { $v5 } mot gjenvinningsfeil for injisert transformasjon { $trans_err_norm_m } m (forhold { $v7 })
+       *[other] lunar-frame-campaign | { $n_beacons } fyr x { $v1 } grunnlinjer x { $n_epochs } epoker = { $n_obs } obs (forsinkelsessigma { $sigma_tau } s) | stasjonsdatum { $station_datum } | Helmert-rang { $rank }/7 kond { $condition } | datum-translasjonssigma { $v5 } mot gjenvinningsfeil for injisert transformasjon { $trans_err_norm_m } m (forhold { $v7 })
+    }
+
 
 engine-lunar-frame-campaign-of-beacons-have-no-observation = { $names } av { $beacons } fyr har ingen observasjon i denne planen ({ $names2 }); de bærer ingen informasjon, sigmaene deres er null, og datumet realiseres bare fra de observerte fyrene
 
@@ -4526,9 +4856,35 @@ engine-e-lunar-jamming-eccentricity-must-be-in = eccentricity må ligge i [0, 1)
 
 engine-e-lunar-jamming-jammer-power-dbw-must-be = jammer.power_dbw må være endelig
 
-engine-lunar-jamming-lunar-jamming-sats-epochs-links = lunar-jamming | { $n_sats } sats, { $n_epochs } epoker, { $n_links } lenker fra ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (gjennomsnitt { $mean_js_db }) | { $n_lost } LOST | tilgjengelighet { $availability_under_jamming } av { $availability_nominal } nominelt
+engine-lunar-jamming-lunar-jamming-sats-epochs-links =
+    { $n_epochs ->
+        [one]
+            { $n_links ->
+                [one] lunar-jamming | { $n_sats } sats, { $n_epochs } epoke, { $n_links } lenke fra ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (gjennomsnitt { $mean_js_db }) | { $n_lost } LOST | tilgjengelighet { $availability_under_jamming } av { $availability_nominal } nominelt
+               *[other] lunar-jamming | { $n_sats } sats, { $n_epochs } epoke, { $n_links } lenker fra ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (gjennomsnitt { $mean_js_db }) | { $n_lost } LOST | tilgjengelighet { $availability_under_jamming } av { $availability_nominal } nominelt
+            }
+       *[other]
+            { $n_links ->
+                [one] lunar-jamming | { $n_sats } sats, { $n_epochs } epoker, { $n_links } lenke fra ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (gjennomsnitt { $mean_js_db }) | { $n_lost } LOST | tilgjengelighet { $availability_under_jamming } av { $availability_nominal } nominelt
+               *[other] lunar-jamming | { $n_sats } sats, { $n_epochs } epoker, { $n_links } lenker fra ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (gjennomsnitt { $mean_js_db }) | { $n_lost } LOST | tilgjengelighet { $availability_under_jamming } av { $availability_nominal } nominelt
+            }
+    }
 
-engine-lunar-jamming-lunar-jamming-sats-epochs-links-2 = lunar-jamming | { $n_sats } sats, { $n_epochs } epoker, { $n_links } lenker fra ({ $site_lat_deg }, { $site_lon_deg }) | ingen jammer (rent-himmel lunar grunnlinje) | { $n_lost } LOST | tilgjengelighet { $availability_nominal }
+
+engine-lunar-jamming-lunar-jamming-sats-epochs-links-2 =
+    { $n_epochs ->
+        [one]
+            { $n_links ->
+                [one] lunar-jamming | { $n_sats } sats, { $n_epochs } epoke, { $n_links } lenke fra ({ $site_lat_deg }, { $site_lon_deg }) | ingen jammer (rent-himmel lunar grunnlinje) | { $n_lost } LOST | tilgjengelighet { $availability_nominal }
+               *[other] lunar-jamming | { $n_sats } sats, { $n_epochs } epoke, { $n_links } lenker fra ({ $site_lat_deg }, { $site_lon_deg }) | ingen jammer (rent-himmel lunar grunnlinje) | { $n_lost } LOST | tilgjengelighet { $availability_nominal }
+            }
+       *[other]
+            { $n_links ->
+                [one] lunar-jamming | { $n_sats } sats, { $n_epochs } epoker, { $n_links } lenke fra ({ $site_lat_deg }, { $site_lon_deg }) | ingen jammer (rent-himmel lunar grunnlinje) | { $n_lost } LOST | tilgjengelighet { $availability_nominal }
+               *[other] lunar-jamming | { $n_sats } sats, { $n_epochs } epoker, { $n_links } lenker fra ({ $site_lat_deg }, { $site_lon_deg }) | ingen jammer (rent-himmel lunar grunnlinje) | { $n_lost } LOST | tilgjengelighet { $availability_nominal }
+            }
+    }
+
 
 ## src/lunar_llr.rs
 
@@ -4626,7 +4982,20 @@ engine-e-lunar-station-no-case = { $KIND }: ingen case ({ $j }, { $i }, { $k })
 
 engine-lunar-station-stroke-stroke-width = { " " }stroke="{ $INK }" stroke-width="0.8"
 
-engine-lunar-station-points-epochs-trials = { $n_grid_points } punkter · { $n_epochs } epoker · { $n_trials } forsøk
+engine-lunar-station-points-epochs-trials =
+    { $n_grid_points ->
+        [one]
+            { $n_epochs ->
+                [one] { $n_grid_points } punkt · { $n_epochs } epoke · { $n_trials } forsøk
+               *[other] { $n_grid_points } punkt · { $n_epochs } epoker · { $n_trials } forsøk
+            }
+       *[other]
+            { $n_epochs ->
+                [one] { $n_grid_points } punkter · { $n_epochs } epoke · { $n_trials } forsøk
+               *[other] { $n_grid_points } punkter · { $n_epochs } epoker · { $n_trials } forsøk
+            }
+    }
+
 
 engine-lunar-station-hpl-max = HPL maks { $f }
 
@@ -4748,7 +5117,12 @@ engine-e-lunar-vlbi-fim-equipartition-must-be-positive-and = equipartition_g må
 
 engine-e-lunar-vlbi-fim-serializing-lunar-vlbi-fim-result = serialiserer lunar-vlbi-fim-resultat: { $e }
 
-engine-e-lunar-vlbi-fim-no-observation-in-the-schedule = ingen observasjon i planen passerer høydemasken på { $mask } deg i begge ender av en grunnlinje: { $n_epochs } epoker x { $v1 } grunnlinjer er alle avvist. Øk arc_hours, senk elevation_mask_deg eller flytt stasjonene.
+engine-e-lunar-vlbi-fim-no-observation-in-the-schedule =
+    { $n_epochs ->
+        [one] ingen observasjon i planen passerer høydemasken på { $mask } deg i begge ender av en grunnlinje: { $n_epochs } epoke x { $v1 } grunnlinjer er alle avvist. Øk arc_hours, senk elevation_mask_deg eller flytt stasjonene.
+       *[other] ingen observasjon i planen passerer høydemasken på { $mask } deg i begge ender av en grunnlinje: { $n_epochs } epoker x { $v1 } grunnlinjer er alle avvist. Øk arc_hours, senk elevation_mask_deg eller flytt stasjonene.
+    }
+
 
 engine-e-lunar-vlbi-fim-the-datum-leaves-no-parameter = datumet etterlater ingen parameter å estimere
 
@@ -4756,7 +5130,20 @@ engine-lunar-vlbi-fim-beacon-mcmf = beacon_mcmf.{ $ax }
 
 engine-lunar-vlbi-fim-rank-deficient-of-directions-are = RANGMANGEL: { $defect } av { $dim } retninger kan ikke observeres, så ingen sigma per koordinat rapporteres; verdien for det observerbare underrommet nedenfor er en pseudoinvers begrenset til de { $rank } observerbare retningene og er IKKE en stasjonssigma
 
-engine-lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines = lunar-vlbi-fim | { $n_stations } stasjoner / { $v2 } grunnlinjer x { $n_epochs } epoker = { $n_obs } obs (maske { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } kond { $condition } | stasjonssigma { $v10 } mot equipartition g={ $g } { $eq_g } m (forhold { $v13 })
+engine-lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines =
+    { $n_stations ->
+        [one]
+            { $n_epochs ->
+                [one] lunar-vlbi-fim | { $n_stations } stasjon / { $v2 } grunnlinjer x { $n_epochs } epoke = { $n_obs } obs (maske { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } kond { $condition } | stasjonssigma { $v10 } mot equipartition g={ $g } { $eq_g } m (forhold { $v13 })
+               *[other] lunar-vlbi-fim | { $n_stations } stasjon / { $v2 } grunnlinjer x { $n_epochs } epoker = { $n_obs } obs (maske { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } kond { $condition } | stasjonssigma { $v10 } mot equipartition g={ $g } { $eq_g } m (forhold { $v13 })
+            }
+       *[other]
+            { $n_epochs ->
+                [one] lunar-vlbi-fim | { $n_stations } stasjoner / { $v2 } grunnlinjer x { $n_epochs } epoke = { $n_obs } obs (maske { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } kond { $condition } | stasjonssigma { $v10 } mot equipartition g={ $g } { $eq_g } m (forhold { $v13 })
+               *[other] lunar-vlbi-fim | { $n_stations } stasjoner / { $v2 } grunnlinjer x { $n_epochs } epoker = { $n_obs } obs (maske { $mask } deg) | datum { $datum } | rang { $rank }/{ $dim } kond { $condition } | stasjonssigma { $v10 } mot equipartition g={ $g } { $eq_g } m (forhold { $v13 })
+            }
+    }
+
 
 ## src/main.rs
 
@@ -4800,7 +5187,12 @@ engine-main-error-cannot-read = feil: kan ikke lese { $validate_file }: { $e }
 
 engine-main-ok-kind-resolves-this-kind = ok: { $kind } — kind gjenkjennes; denne kind-en krever ingen felt (en tom kropp kjører referanseoppsettet sitt), så det var ikke noe mer å kontrollere
 
-engine-main-ok-kind-resolves-and-all = ok: { $kind } — kind gjenkjennes og alle { $n_required } av de publiserte obligatoriske feltoppføringene er oppfylt; feltverdier kontrolleres ikke
+engine-main-ok-kind-resolves-and-all =
+    { $n_required ->
+        [one] ok: { $kind } — kind gjenkjennes og den publiserte obligatoriske feltoppføringen ({ $n_required }) er oppfylt; feltverdier kontrolleres ikke
+       *[other] ok: { $kind } — kind gjenkjennes og alle { $n_required } av de publiserte obligatoriske feltoppføringene er oppfylt; feltverdier kontrolleres ikke
+    }
+
 
 engine-main-error-study-runs-suite-do = feil: --study kjører en suite; ikke oppgi også en enkelt scenariofil
 
@@ -4989,7 +5381,12 @@ engine-e-mars-od-parameter-has-no-partial-on = en parameter har ingen partiell d
 
 ## src/mars_pnt.rs
 
-engine-mars-pnt-mars-pnt-user-clock-relays = mars-pnt { $r } | { $user }-bruker, { $clock_class }-klokke | { $n_relays } reléer (gjennomsnittlig { $mean_relays_in_view } i sikte) | konvergert pos-RMS { $converged_pos_rms_m } m, formell 1σ { $converged_pos_sigma_m } m (3σ { $converged_pos_3sigma_m } m — kovarians-FoM, ikke en sertifisert PL) | klokkefrekvens-σ { $final_clock_freq_sigma } | kov-PD { $covariance_pd_throughout }
+engine-mars-pnt-mars-pnt-user-clock-relays =
+    { $n_relays ->
+        [one] mars-pnt { $r } | { $user }-bruker, { $clock_class }-klokke | { $n_relays } relé (gjennomsnittlig { $mean_relays_in_view } i sikte) | konvergert pos-RMS { $converged_pos_rms_m } m, formell 1σ { $converged_pos_sigma_m } m (3σ { $converged_pos_3sigma_m } m — kovarians-FoM, ikke en sertifisert PL) | klokkefrekvens-σ { $final_clock_freq_sigma } | kov-PD { $covariance_pd_throughout }
+       *[other] mars-pnt { $r } | { $user }-bruker, { $clock_class }-klokke | { $n_relays } reléer (gjennomsnittlig { $mean_relays_in_view } i sikte) | konvergert pos-RMS { $converged_pos_rms_m } m, formell 1σ { $converged_pos_sigma_m } m (3σ { $converged_pos_3sigma_m } m — kovarians-FoM, ikke en sertifisert PL) | klokkefrekvens-σ { $final_clock_freq_sigma } | kov-PD { $covariance_pd_throughout }
+    }
+
 
 engine-mars-pnt-mars-pnt-user-clock-position = Mars-PNT — { $user }-bruker, { $clock_class }-klokke: 3D-posisjonsfeil mot referanse (konvergert RMS { $converged_pos_rms_m } m)
 
@@ -5015,11 +5412,21 @@ engine-e-mcda-copras-copras-empty-decision-matrix = COPRAS: tom beslutningsmatri
 
 engine-e-mcda-copras-copras-no-criteria = COPRAS: ingen kriterier
 
-engine-e-mcda-copras-copras-weights-but-criterion-types = COPRAS: { $n } vekter, men { $types } kriterietyper
+engine-e-mcda-copras-copras-weights-but-criterion-types =
+    { $n ->
+        [one] COPRAS: { $n } vekt, men { $types } kriterietyper
+       *[other] COPRAS: { $n } vekter, men { $types } kriterietyper
+    }
+
 
 engine-e-mcda-copras-copras-requires-at-least-one = COPRAS: krever minst ett kostnadskriterium (Min)
 
-engine-e-mcda-copras-copras-alternative-has-values-but = COPRAS: alternativ { $i } har { $row } verdier, men det er { $n } kriterier
+engine-e-mcda-copras-copras-alternative-has-values-but =
+    { $n ->
+        [one] COPRAS: alternativ { $i } har { $row } verdier, men det er { $n } kriterium
+       *[other] COPRAS: alternativ { $i } har { $row } verdier, men det er { $n } kriterier
+    }
+
 
 engine-e-mcda-copras-copras-alternative-criterion-value-must = COPRAS: alternativ { $i } kriterium { $j } verdi { $x } må være endelig og > 0
 
@@ -5029,7 +5436,12 @@ engine-e-mcda-electre-electre-empty-dataset = ELECTRE I: tomt datasett
 
 engine-e-mcda-electre-electre-no-criteria = ELECTRE I: ingen kriterier
 
-engine-e-mcda-electre-electre-alternative-has-values-but = ELECTRE I: alternativ { $i } har { $row } verdier, men det er { $n } kriterier
+engine-e-mcda-electre-electre-alternative-has-values-but =
+    { $n ->
+        [one] ELECTRE I: alternativ { $i } har { $row } verdier, men det er { $n } kriterium
+       *[other] ELECTRE I: alternativ { $i } har { $row } verdier, men det er { $n } kriterier
+    }
+
 
 engine-e-mcda-electre-electre-alternative-has-non-finite = ELECTRE I: alternativ { $i } har en ikke-endelig verdi
 
@@ -5039,9 +5451,19 @@ engine-e-mcda-moora-moora-empty-decision-matrix = MOORA: tom beslutningsmatrise
 
 engine-e-mcda-moora-moora-no-criteria = MOORA: ingen kriterier
 
-engine-e-mcda-moora-moora-weights-but-criterion-types = MOORA: { $n } vekter, men { $types } kriterietyper
+engine-e-mcda-moora-moora-weights-but-criterion-types =
+    { $n ->
+        [one] MOORA: { $n } vekt, men { $types } kriterietyper
+       *[other] MOORA: { $n } vekter, men { $types } kriterietyper
+    }
 
-engine-e-mcda-moora-moora-alternative-has-values-but = MOORA: alternativ { $i } har { $row } verdier, men det er { $n } kriterier
+
+engine-e-mcda-moora-moora-alternative-has-values-but =
+    { $n ->
+        [one] MOORA: alternativ { $i } har { $row } verdier, men det er { $n } kriterium
+       *[other] MOORA: alternativ { $i } har { $row } verdier, men det er { $n } kriterier
+    }
+
 
 engine-e-mcda-moora-moora-alternative-has-non-finite = MOORA: alternativ { $i } har en ikke-endelig verdi
 
@@ -5053,9 +5475,19 @@ engine-e-mcda-promethee-promethee-ii-empty-decision-matrix = PROMETHEE II: tom b
 
 engine-e-mcda-promethee-promethee-ii-no-criteria = PROMETHEE II: ingen kriterier
 
-engine-e-mcda-promethee-promethee-ii-weights-but-types = PROMETHEE II: { $n } vekter, men { $types } typer / { $prefs } preferansefunksjoner
+engine-e-mcda-promethee-promethee-ii-weights-but-types =
+    { $n ->
+        [one] PROMETHEE II: { $n } vekt, men { $types } typer / { $prefs } preferansefunksjoner
+       *[other] PROMETHEE II: { $n } vekter, men { $types } typer / { $prefs } preferansefunksjoner
+    }
 
-engine-e-mcda-promethee-promethee-ii-alternative-has-values = PROMETHEE II: alternativ { $i } har { $row } verdier, men det er { $n } kriterier
+
+engine-e-mcda-promethee-promethee-ii-alternative-has-values =
+    { $n ->
+        [one] PROMETHEE II: alternativ { $i } har { $row } verdier, men det er { $n } kriterium
+       *[other] PROMETHEE II: alternativ { $i } har { $row } verdier, men det er { $n } kriterier
+    }
+
 
 engine-e-mcda-promethee-promethee-ii-alternative-has-non = PROMETHEE II: alternativ { $i } har en ikke-endelig verdi
 
@@ -5065,9 +5497,19 @@ engine-e-mcda-topsis-topsis-empty-decision-matrix = TOPSIS: tom beslutningsmatri
 
 engine-e-mcda-topsis-topsis-no-criteria = TOPSIS: ingen kriterier
 
-engine-e-mcda-topsis-topsis-weights-but-criterion-types = TOPSIS: { $n } vekter, men { $types } kriterietyper
+engine-e-mcda-topsis-topsis-weights-but-criterion-types =
+    { $n ->
+        [one] TOPSIS: { $n } vekt, men { $types } kriterietyper
+       *[other] TOPSIS: { $n } vekter, men { $types } kriterietyper
+    }
 
-engine-e-mcda-topsis-topsis-alternative-has-values-but = TOPSIS: alternativ { $i } har { $row } verdier, men det er { $n } kriterier
+
+engine-e-mcda-topsis-topsis-alternative-has-values-but =
+    { $n ->
+        [one] TOPSIS: alternativ { $i } har { $row } verdier, men det er { $n } kriterium
+       *[other] TOPSIS: alternativ { $i } har { $row } verdier, men det er { $n } kriterier
+    }
+
 
 engine-e-mcda-topsis-topsis-alternative-has-non-finite = TOPSIS: alternativ { $i } har en ikke-endelig verdi
 
@@ -5089,9 +5531,19 @@ engine-e-mcda-vikor-vikor-empty-decision-matrix = VIKOR: tom beslutningsmatrise
 
 engine-e-mcda-vikor-vikor-no-criteria = VIKOR: ingen kriterier
 
-engine-e-mcda-vikor-vikor-weights-but-criterion-types = VIKOR: { $n } vekter, men { $types } kriterietyper
+engine-e-mcda-vikor-vikor-weights-but-criterion-types =
+    { $n ->
+        [one] VIKOR: { $n } vekt, men { $types } kriterietyper
+       *[other] VIKOR: { $n } vekter, men { $types } kriterietyper
+    }
 
-engine-e-mcda-vikor-vikor-alternative-has-values-but = VIKOR: alternativ { $i } har { $row } verdier, men det er { $n } kriterier
+
+engine-e-mcda-vikor-vikor-alternative-has-values-but =
+    { $n ->
+        [one] VIKOR: alternativ { $i } har { $row } verdier, men det er { $n } kriterium
+       *[other] VIKOR: alternativ { $i } har { $row } verdier, men det er { $n } kriterier
+    }
+
 
 engine-e-mcda-vikor-vikor-alternative-has-non-finite = VIKOR: alternativ { $i } har en ikke-endelig verdi
 
@@ -5101,11 +5553,21 @@ engine-e-mcda-waspas-waspas-empty-decision-matrix = WASPAS: tom beslutningsmatri
 
 engine-e-mcda-waspas-waspas-no-criteria = WASPAS: ingen kriterier
 
-engine-e-mcda-waspas-waspas-weights-but-criterion-types = WASPAS: { $n } vekter, men { $types } kriterietyper
+engine-e-mcda-waspas-waspas-weights-but-criterion-types =
+    { $n ->
+        [one] WASPAS: { $n } vekt, men { $types } kriterietyper
+       *[other] WASPAS: { $n } vekter, men { $types } kriterietyper
+    }
+
 
 engine-e-mcda-waspas-waspas-lambda-must-lie-in = WASPAS: lambda { $lambda } må ligge i [0, 1]
 
-engine-e-mcda-waspas-waspas-alternative-has-values-but = WASPAS: alternativ { $i } har { $row } verdier, men det er { $n } kriterier
+engine-e-mcda-waspas-waspas-alternative-has-values-but =
+    { $n ->
+        [one] WASPAS: alternativ { $i } har { $row } verdier, men det er { $n } kriterium
+       *[other] WASPAS: alternativ { $i } har { $row } verdier, men det er { $n } kriterier
+    }
+
 
 engine-e-mcda-waspas-waspas-alternative-criterion-value-must = WASPAS: alternativ { $i } kriterium { $j } verdi { $x } må være endelig og > 0
 
@@ -5115,9 +5577,19 @@ engine-e-mcda-wpm-wpm-empty-decision-matrix = WPM: tom beslutningsmatrise
 
 engine-e-mcda-wpm-wpm-no-criteria = WPM: ingen kriterier
 
-engine-e-mcda-wpm-wpm-weights-but-criterion-types = WPM: { $n } vekter, men { $types } kriterietyper
+engine-e-mcda-wpm-wpm-weights-but-criterion-types =
+    { $n ->
+        [one] WPM: { $n } vekt, men { $types } kriterietyper
+       *[other] WPM: { $n } vekter, men { $types } kriterietyper
+    }
 
-engine-e-mcda-wpm-wpm-alternative-has-values-but = WPM: alternativ { $i } har { $row } verdier, men det er { $n } kriterier
+
+engine-e-mcda-wpm-wpm-alternative-has-values-but =
+    { $n ->
+        [one] WPM: alternativ { $i } har { $row } verdier, men det er { $n } kriterium
+       *[other] WPM: alternativ { $i } har { $row } verdier, men det er { $n } kriterier
+    }
+
 
 engine-e-mcda-wpm-wpm-alternative-criterion-value-must = WPM: alternativ { $i } kriterium { $j } verdi { $x } må være endelig og > 0
 
@@ -5131,7 +5603,12 @@ engine-e-mcda-wsm-criterion-has-an-invalid-weight = kriteriet '{ $name }' har en
 
 engine-e-mcda-wsm-criterion-weights-sum-to-zero = kriterievektene summerer til null
 
-engine-e-mcda-wsm-alternative-has-values-but-there = alternativet '{ $name }' har { $values } verdier, men det er { $n } kriterier
+engine-e-mcda-wsm-alternative-has-values-but-there =
+    { $n ->
+        [one] alternativet '{ $name }' har { $values } verdier, men det er { $n } kriterium
+       *[other] alternativet '{ $name }' har { $values } verdier, men det er { $n } kriterier
+    }
+
 
 engine-e-mcda-wsm-alternative-has-non-finite-value = alternativet '{ $name }' har en ikke-endelig verdi på kriteriet '{ $value }'
 
@@ -5321,9 +5798,19 @@ engine-e-nmea-synth-config-the-skyline-describes-no-obstruction = horisontlinjen
 
 engine-nmea-synth-gen-has-ended = { $kind } er avsluttet
 
-engine-nmea-synth-gen-the-receiver-reports-fix-again = mottakeren rapporterer posisjonsbestemmelse igjen ({ $n_used } satellitter brukt)
+engine-nmea-synth-gen-the-receiver-reports-fix-again =
+    { $n_used ->
+        [one] mottakeren rapporterer posisjonsbestemmelse igjen ({ $n_used } satellitt brukt)
+       *[other] mottakeren rapporterer posisjonsbestemmelse igjen ({ $n_used } satellitter brukt)
+    }
 
-engine-nmea-synth-gen-the-receiver-has-no-fix = mottakeren har ingen posisjonsbestemmelse ({ $n_used } brukbare satellitter, fire trengs)
+
+engine-nmea-synth-gen-the-receiver-has-no-fix =
+    { $n_used ->
+        [one] mottakeren har ingen posisjonsbestemmelse ({ $n_used } brukbar satellitt, fire trengs)
+       *[other] mottakeren har ingen posisjonsbestemmelse ({ $n_used } brukbare satellitter, fire trengs)
+    }
+
 
 ## src/nmea_synth/log.rs
 
@@ -5363,7 +5850,12 @@ engine-observability-gramian-the-tolerance-is-below-the = { " " }Toleransen er u
 
 engine-observability-gramian-rank-clamped-from-the-singular = rangen er begrenset fra antallet singulærverdier { $counted } til min(rows, cols) = min({ $n_rows }, { $n_cols }) = { $shape_bound } ved rel_tol { $rel_tol }: en { $n_rows }x{ $n_cols }-matrise kan ikke ha rang { $counted }.{ $floor_note }
 
-engine-observability-gramian-gdop-undefined-rank-deficient-singular = GDOP er udefinert (rangdefekt / singulær geometri): rang { $rank } av { $n } tilstander, datumdefekt { $v3 }, kondisjon { $v4 }
+engine-observability-gramian-gdop-undefined-rank-deficient-singular =
+    { $n ->
+        [one] GDOP er udefinert (rangdefekt / singulær geometri): rang { $rank } av { $n } tilstand, datumdefekt { $v3 }, kondisjon { $v4 }
+       *[other] GDOP er udefinert (rangdefekt / singulær geometri): rang { $rank } av { $n } tilstander, datumdefekt { $v3 }, kondisjon { $v4 }
+    }
+
 
 ## src/odf.rs
 
@@ -5503,9 +5995,19 @@ engine-e-oem-oem-missing-originator-header = OEM mangler headeren ORIGINATOR
 
 engine-e-oem-oem-carried-no-segments = OEM hadde ingen segmenter
 
-engine-oem-oem-interop-round-tripped-segment = oem-interop: rundtur for { $segments } segment(er), { $n_states_total } tilstander; maks rundturfeil { $p } km / { $v } km/s (MODELLED interop)
+engine-oem-oem-interop-round-tripped-segment =
+    { $n_states_total ->
+        [one] oem-interop: rundtur for { $segments } segment(er), { $n_states_total } tilstand; maks rundturfeil { $p } km / { $v } km/s (MODELLED interop)
+       *[other] oem-interop: rundtur for { $segments } segment(er), { $n_states_total } tilstander; maks rundturfeil { $p } km / { $v } km/s (MODELLED interop)
+    }
 
-engine-oem-oem-interop-ingested-segment-states = oem-interop: innlest { $segments } segment(er), { $n_states_total } tilstander fra ekstern OEM (avsender { $originator }) (MODELLED interop)
+
+engine-oem-oem-interop-ingested-segment-states =
+    { $n_states_total ->
+        [one] oem-interop: innlest { $segments } segment(er), { $n_states_total } tilstand fra ekstern OEM (avsender { $originator }) (MODELLED interop)
+       *[other] oem-interop: innlest { $segments } segment(er), { $n_states_total } tilstander fra ekstern OEM (avsender { $originator }) (MODELLED interop)
+    }
+
 
 engine-oem-cov-ref-frame = COV_REF_FRAME = { $frame }{ "\u000A" }
 
@@ -6042,7 +6544,12 @@ engine-e-receiver-trust-geometry-geometry-floor-must-be-in = geometry: floor må
 
 engine-e-receiver-trust-geometry-geometry-floor-is-below-the = geometry: floor ({ $f }) ligger under scorens degraded_min ({ $degraded_min }): geometrien alene kunne nå det ikke-pålitelige båndet
 
-engine-receiver-trust-geometry-geometry-hdop-pdop-vdop-satellites = geometri { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used } satellitter{ $v6 }
+engine-receiver-trust-geometry-geometry-hdop-pdop-vdop-satellites =
+    { $n_used ->
+        [one] geometri { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used } satellitt{ $v6 }
+       *[other] geometri { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used } satellitter{ $v6 }
+    }
+
 
 engine-receiver-trust-geometry-the-geometry-deduction-is-classed = { $why }: geometrifradraget regnes som en inkonsistens
 
@@ -6050,15 +6557,30 @@ engine-receiver-trust-geometry-reported-not-scored-the-geometry = { $why }: rapp
 
 engine-receiver-trust-geometry-not-scored-the-score-deducts = ikke scoret (scoren trekker bare fra over HDOP { $hdop_max }, PDOP { $pdop_max } eller under { $min_used } satellitter)
 
-engine-receiver-trust-geometry-derived-from-logged-satellites = utledet fra { $n } loggførte satellitter
+engine-receiver-trust-geometry-derived-from-logged-satellites =
+    { $n ->
+        [one] utledet fra { $n } loggført satellitt
+       *[other] utledet fra { $n } loggførte satellitter
+    }
 
-engine-receiver-trust-geometry-as-the-receiver-reports-it = slik mottakeren rapporterer det, { $n } satellitter brukt
+
+engine-receiver-trust-geometry-as-the-receiver-reports-it =
+    { $n ->
+        [one] slik mottakeren rapporterer det, { $n } satellitt brukt
+       *[other] slik mottakeren rapporterer det, { $n } satellitter brukt
+    }
+
 
 engine-receiver-trust-geometry-the-stated-hdop-disagrees-with = den oppgitte HDOP { $fmt_dop } avviker fra HDOP { $fmt_dop2 } utledet fra den oppgitte himmelen, utover toleransen
 
 engine-receiver-trust-geometry-satellites-in-view-but-not = satellitter i sikte, men ikke sporet ({ $g } av { $in_view } ved eller over { $low_elev_deg } deg): signalmiljø, ikke geometri
 
-engine-receiver-trust-geometry-satellites-fewer-than = { $n } satellitter, færre enn { $min_used }
+engine-receiver-trust-geometry-satellites-fewer-than =
+    { $n ->
+        [one] { $n } satellitt, færre enn { $min_used }
+       *[other] { $n } satellitter, færre enn { $min_used }
+    }
+
 
 engine-receiver-trust-geometry-pdop-above = PDOP { $fmt_dop } over { $pdop_max }
 
@@ -6114,11 +6636,21 @@ engine-e-receiver-trust-machines-imu-fit-axis-must-be-or = axis må være 0, 1 e
 
 engine-e-receiver-trust-machines-imu-fit-expected-mean-must-be-finite = expected_mean må være endelig
 
-engine-e-receiver-trust-machines-imu-fit-the-log-has-samples-at = loggen har { $n } sampler; minst { $MIN_SAMPLES } trengs for en Allan-tilpasning
+engine-e-receiver-trust-machines-imu-fit-the-log-has-samples-at =
+    { $n ->
+        [one] loggen har { $n } sample; minst { $MIN_SAMPLES } trengs for en Allan-tilpasning
+       *[other] loggen har { $n } sampler; minst { $MIN_SAMPLES } trengs for en Allan-tilpasning
+    }
+
 
 engine-e-receiver-trust-machines-imu-fit-the-log-time-does-not = loggens tid går ikke fremover
 
-engine-e-receiver-trust-machines-imu-fit-the-sample-interval-is-not = samplingsintervallet er ikke jevnt ({ $uneven } av { $n } intervaller avviker med over 25 %): resample loggen først
+engine-e-receiver-trust-machines-imu-fit-the-sample-interval-is-not =
+    { $n ->
+        [one] samplingsintervallet er ikke jevnt ({ $uneven } av { $n } intervall avviker med over 25 %): resample loggen først
+       *[other] samplingsintervallet er ikke jevnt ({ $uneven } av { $n } intervaller avviker med over 25 %): resample loggen først
+    }
+
 
 engine-e-receiver-trust-machines-imu-fit-the-log-is-too-short = loggen er for kort til å danne en Allan-kurve
 
@@ -6402,7 +6934,12 @@ engine-slot-timing-class-default-sigma-from-red = standard for klassen { $c }: s
 
 engine-slot-timing-fitted-to-the-allan-deviation = tilpasset Allan-deviasjonsmaksimaene i { $document }, skalert til å ligge på eller over hvert punkt
 
-engine-slot-timing-fitted-to-the-overlapping-allan = tilpasset den overlappende Allan-deviasjonen til en post på { $n_samples } sampler ved { $tau0_s } s, i IEEE Std 1139-grunnlaget for frekvensmodulasjon
+engine-slot-timing-fitted-to-the-overlapping-allan =
+    { $n_samples ->
+        [one] tilpasset den overlappende Allan-deviasjonen til en post på { $n_samples } sample ved { $tau0_s } s, i IEEE Std 1139-grunnlaget for frekvensmodulasjon
+       *[other] tilpasset den overlappende Allan-deviasjonen til en post på { $n_samples } sampler ved { $tau0_s } s, i IEEE Std 1139-grunnlaget for frekvensmodulasjon
+    }
+
 
 engine-slot-timing-slot-timing-source-guard-ns = slot-timing ({ $n } kilde): guard { $c } ns ved k={ $k_sigma } brytes { $fmt_s } etter en posisjonsbestemmelse ({ $fmt_s2 } igjen); posisjonsbestemmelse minst hver { $fmt_s3 } ({ $fixes_per_day } per døgn); dominerende ledd: { $b }{ $v9 }
 
@@ -6441,8 +6978,15 @@ engine-e-solar-system-unknown-link-body-2 = ukjent lenkelegeme '{ $to }'
 engine-e-solar-system-link-needs-two-different-bodies = en lenke trenger to ulike legemer; fikk { $name }
 
 engine-solar-system-solar-system-at-jd-tdb =
-    Solsystemet ved { $input } (JD { $jd_tdb } TDB), { $n_bodies } legemer, observatør { $observer }
-    { "  " }{ $standish_table }{ "\u000A" }
+    { $n_bodies ->
+        [one]
+            Solsystemet ved { $input } (JD { $jd_tdb } TDB), { $n_bodies } legeme, observatør { $observer }
+            { "  " }{ $standish_table }{ "\u000A" }
+       *[other]
+            Solsystemet ved { $input } (JD { $jd_tdb } TDB), { $n_bodies } legemer, observatør { $observer }
+            { "  " }{ $standish_table }{ "\u000A" }
+    }
+
 
 engine-solar-system-light-time = lystid { $one_way_light_time_s } s
 
@@ -6516,7 +7060,12 @@ engine-e-space-packet-cds-field-reserved-sub-ms = CDS P-felt { $p }: reservert s
 
 engine-e-space-packet-cuc-coarse-does-not-fit = CUC coarse { $coarse } passer ikke i { $c } oktetter
 
-engine-e-space-packet-cuc-fine-does-not-fit = CUC fine { $fine } passer ikke i { $n } oktetter
+engine-e-space-packet-cuc-fine-does-not-fit =
+    { $n ->
+        [one] CUC fine { $fine } passer ikke i { $n } oktett
+       *[other] CUC fine { $fine } passer ikke i { $n } oktetter
+    }
+
 
 engine-e-space-packet-cds-days-do-not-fit = CDS days { $days } passer ikke i { $f } oktetter
 
@@ -6582,7 +7131,12 @@ engine-e-space-packet-data-len-must-be-in = data_len må ligge i 1..=65536
 
 engine-e-space-packet-internal-error-encode-decode-round = intern feil: avvik i rundtur for koding/dekoding
 
-engine-space-packet-space-packet-framed-ccsds-133 = space-packet: innrammet { $packet_count } CCSDS-133.0 { $v2 }-pakke(r) APID { $apid }, { $total_bytes } oktetter totalt, rundtur eksakt ({ $round_trip_ok })
+engine-space-packet-space-packet-framed-ccsds-133 =
+    { $packet_count ->
+        [one] space-packet: innrammet { $packet_count } CCSDS-133.0 { $v2 }-pakke APID { $apid }, { $total_bytes } oktetter totalt, rundtur eksakt ({ $round_trip_ok })
+       *[other] space-packet: innrammet { $packet_count } CCSDS-133.0 { $v2 }-pakker APID { $apid }, { $total_bytes } oktetter totalt, rundtur eksakt ({ $round_trip_ok })
+    }
+
 
 ## src/space_weather.rs
 
@@ -6680,9 +7234,19 @@ engine-e-spk-writer-degree-outside-27 = grad { $degree } utenfor 1..=27
 
 engine-e-spk-writer-type-13-degree-is-not = type 13-grad { $degree } er ikke et oddetall
 
-engine-e-spk-writer-states-for-epochs = { $states } tilstander for { $n } epoker
+engine-e-spk-writer-states-for-epochs =
+    { $n ->
+        [one] { $states } tilstander for { $n } epoke
+       *[other] { $states } tilstander for { $n } epoker
+    }
 
-engine-e-spk-writer-states-degree-needs = { $n } tilstander; grad { $degree } trenger { $value }
+
+engine-e-spk-writer-states-degree-needs =
+    { $n ->
+        [one] { $n } tilstand; grad { $degree } trenger { $value }
+       *[other] { $n } tilstander; grad { $degree } trenger { $value }
+    }
+
 
 engine-e-spk-writer-descriptor-start-is-not-before = deskriptorens start er ikke før slutten
 
@@ -6714,7 +7278,12 @@ engine-e-spk-writer-difference-line-size-is-not = differanselinjens størrelse {
 
 engine-e-spk-writer-difference-lines-of-different-sizes = differanselinjer av ulik størrelse
 
-engine-e-spk-writer-epochs-for-difference-lines = { $epochs } epoker for { $n } differanselinjer
+engine-e-spk-writer-epochs-for-difference-lines =
+    { $n ->
+        [one] { $epochs } epoker for { $n } differanselinje
+       *[other] { $epochs } epoker for { $n } differanselinjer
+    }
+
 
 engine-e-spk-writer-difference-line-epochs-are-not = differanselinjenes epoker øker ikke strengt
 
@@ -7046,7 +7615,12 @@ engine-e-sweep-sweep-key-follows-an-array = sveipenøkkelen `{ $key }`: `{ $part
 
 engine-e-sweep-unreachable = uoppnåelig
 
-engine-e-sweep-sweep-key-index-is-past = sveipenøkkelen `{ $key }`: indeks { $i } er utenfor de { $n } elementene i tabellen
+engine-e-sweep-sweep-key-index-is-past =
+    { $n ->
+        [one] sveipenøkkelen `{ $key }`: indeks { $i } er utenfor det eneste elementet i tabellen ({ $n })
+       *[other] sveipenøkkelen `{ $key }`: indeks { $i } er utenfor de { $n } elementene i tabellen
+    }
+
 
 engine-e-sweep-sweep-key-parent-is-not = sveipenøkkelen `{ $key }`: overordnet til `{ $part }` er ikke en tabell
 
@@ -7154,7 +7728,12 @@ engine-telemetry-cli-warning-input-line = advarsel: inndatalinje { $line_no }: {
 
 engine-e-telemetry-cli-cannot-open = kan ikke åpne { $p }: { $e }
 
-engine-telemetry-cli-warning-mqtt-messages-were-not = advarsel: { $n } MQTT-meldinger ble ikke levert
+engine-telemetry-cli-warning-mqtt-messages-were-not =
+    { $n ->
+        [one] advarsel: { $n } MQTT-melding ble ikke levert
+       *[other] advarsel: { $n } MQTT-meldinger ble ikke levert
+    }
+
 
 ## src/telemetry/otlp.rs
 
