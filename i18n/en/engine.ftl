@@ -4764,6 +4764,8 @@ engine-lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines = lunar-vlbi-fim | { $n_
 
 ## src/main.rs
 
+engine-main-fail = error: { $e }
+
 engine-main-error-validate-needs-scenario-path = error: --validate needs a scenario path
 
 engine-main-error-study-needs-suite-manifest = error: --study needs a suite manifest path
