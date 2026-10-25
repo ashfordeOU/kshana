@@ -1494,12 +1494,24 @@ pub fn lunar_dpnt_svg(r: &LunarDpntReport) -> String {
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Lunar differential PNT — {} sats: corrected error vs baseline (× {:.0} reduction at {:.0} km)</text>",
-        r.n_sats, r.reduction_factor, r.baseline_km
+        "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+        crate::t!(
+            "lunar-dpnt-chart-title",
+            n_sats = r.n_sats,
+            factor = crate::i18n::num(r.reduction_factor, 0),
+            km = crate::i18n::num(r.baseline_km, 0)
+        )
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"34\" font-size=\"11\">uncorrected {:.1} m | corrected {:.2} m | HPL {:.1} m (σ_resid {:.1} m) | MODELLED</text>",
-        r.user_error_uncorrected_m, r.user_error_corrected_m, r.protection_level_m, r.residual_sigma_m
+        "<text x=\"{ml:.0}\" y=\"34\" font-size=\"11\">{}</text>",
+        crate::t!(
+            "lunar-dpnt-chart-subtitle",
+            uncorrected = crate::i18n::num(r.user_error_uncorrected_m, 1),
+            corrected = crate::i18n::num(r.user_error_corrected_m, 2),
+            hpl = crate::i18n::num(r.protection_level_m, 1),
+            sigma = crate::i18n::num(r.residual_sigma_m, 1),
+            label = crate::t!("fom-verdict-modelled")
+        )
     ));
 
     // Uncorrected (standalone) reference line.
@@ -1511,9 +1523,10 @@ pub fn lunar_dpnt_svg(r: &LunarDpntReport) -> String {
         yof(r.user_error_uncorrected_m)
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.1}\" font-size=\"10\" fill=\"{CORAL}\">uncorrected (standalone)</text>",
+        "<text x=\"{:.1}\" y=\"{:.1}\" font-size=\"10\" fill=\"{CORAL}\">{}</text>",
         ml + pw - 150.0,
-        yof(r.user_error_uncorrected_m) - 4.0
+        yof(r.user_error_uncorrected_m) - 4.0,
+        crate::t!("lunar-dpnt-chart-uncorrected-standalone")
     ));
 
     // Corrected-error curve.
@@ -1547,14 +1560,16 @@ pub fn lunar_dpnt_svg(r: &LunarDpntReport) -> String {
         ml + pw
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"11\" text-anchor=\"middle\">baseline (km)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"11\" text-anchor=\"middle\">{}</text>",
         ml + pw / 2.0,
-        h - 14.0
+        h - 14.0,
+        crate::t!("lunar-dpnt-chart-baseline-km")
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"11\">err (m)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"11\">{}</text>",
         6.0,
-        mt + 4.0
+        mt + 4.0,
+        crate::t!("lunar-dpnt-chart-err-m")
     ));
     svg.push_str("</svg>");
     svg

@@ -583,8 +583,8 @@ fn beacon_svg(r: &LunarBeaconReport) -> String {
          <rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     );
     s.push_str(&format!(
-        "<text x=\"24\" y=\"32\" font-size=\"15\" fill=\"{TITLE}\">\
-         Surface-beacon augmentation — PDOP by configuration</text>"
+        "<text x=\"24\" y=\"32\" font-size=\"15\" fill=\"{TITLE}\">{}</text>",
+        crate::t!("lunar-beacon-chart-title")
     ));
     let pdops: Vec<f64> = r
         .rows
@@ -607,24 +607,30 @@ fn beacon_svg(r: &LunarBeaconReport) -> String {
                 s.push_str(&format!(
                     "<rect x=\"{x0:.0}\" y=\"{y:.0}\" width=\"{len:.1}\" height=\"{bar_h:.0}\" \
                      fill=\"{AMBER}\" opacity=\"0.85\"/>\
-                     <text x=\"{:.0}\" y=\"{:.0}\" fill=\"{TITLE}\">PDOP {:.3}</text>",
+                     <text x=\"{:.0}\" y=\"{:.0}\" fill=\"{TITLE}\">{}</text>",
                     x0 + len + 10.0,
                     y + bar_h * 0.65,
-                    d.pdop
+                    crate::t!(
+                        "lunar-beacon-chart-pdop",
+                        pdop = crate::i18n::num(d.pdop, 3)
+                    )
                 ));
             }
             None => s.push_str(&format!(
-                "<text x=\"{x0:.0}\" y=\"{:.0}\" fill=\"{CORAL}\">no solution</text>",
-                y + bar_h * 0.65
+                "<text x=\"{x0:.0}\" y=\"{:.0}\" fill=\"{CORAL}\">{}</text>",
+                y + bar_h * 0.65,
+                crate::t!("lunar-beacon-chart-no-solution")
             )),
         }
     }
     s.push_str(&format!(
-        "<text x=\"24\" y=\"{:.0}\" fill=\"{MUTED}\">lower is better; \
-         per-beacon sigma_URE {:.3} m, mask {:.1} deg</text></svg>",
+        "<text x=\"24\" y=\"{:.0}\" fill=\"{MUTED}\">{}</text></svg>",
         h - 22.0,
-        r.sigma_ure_m,
-        r.elevation_mask_deg
+        crate::t!(
+            "lunar-beacon-chart-footnote",
+            sigma = crate::i18n::num(r.sigma_ure_m, 3),
+            mask = crate::i18n::num(r.elevation_mask_deg, 1)
+        )
     ));
     s
 }
