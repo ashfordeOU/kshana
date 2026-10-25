@@ -80,7 +80,7 @@ kshana scenarios/hybrid-ukf.toml
 
 Loosely- and tightly-coupled GNSS/INS error-state EKF.
 
-Required fields: `seed`, `threshold_m`, `time`, `gnss`, `imu_quantum`, `imu_classical`. Optional: `sis_correlation_s`, `sigma_pos_m`, `sigma_vel_mps`, `lat_deg`, `lon_deg`, `alt_m`, `trajectory`, `tight`.
+Required fields: `seed`, `threshold_m`, `time`, `gnss`, `imu_quantum`, `imu_classical`. Optional: `fix_interval_s`, `sigma_pos_m`, `sigma_vel_mps`, `lat_deg`, `lon_deg`, `alt_m`, `trajectory`, `tight`.
 
 **Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [gnss-ins](by-kind/gnss-ins.md).
 
