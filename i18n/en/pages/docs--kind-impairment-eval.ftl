@@ -10,7 +10,7 @@ seg-2e6b437f3e99 = Source: <c1/>
 seg-134407946837 = <c1/> (scenario kind)
 
 # text
-seg-129531390239 = Scenario kind of the engine { "v0.39.0" }, family <a1>Jamming, spoofing and the spectrum</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-304496607bd7 = Scenario kind of the engine v{ $version }, family <a1>Jamming, spoofing and the spectrum</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-98e740d32860 = Machine-learning RF-impairment detection evaluation testbed ({ "13494" }): generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.
@@ -36,12 +36,6 @@ seg-283510d17885 = The example <c1/> sets, among others:
 
 # text
 seg-6a64be3b3f07 = fused
-
-# text
-seg-5db1241ac39c = dB-Hz
-
-# text
-seg-516cbfef9257 = fused(max-z)
 
 # text
 seg-3db71c5bdd0a = auc_out uses a subtler out-of-tuning-reg

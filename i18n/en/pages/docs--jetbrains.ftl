@@ -9,9 +9,6 @@ seg-f8a0fe9968c4 = Source: <c1/>
 seg-c55e49fd2a72 = Kshana for JetBrains IDEs
 
 # text
-seg-79e807619923 = Install:
-
-# text
 seg-d7280bb554bf = <a1><b>Kshana — PNT simulator</b> on the JetBrains Marketplace</a1> — or, in any JetBrains IDE, <em>Settings → Plugins → Marketplace → search "Kshana"</em>.
 
 # text

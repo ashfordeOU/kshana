@@ -29,13 +29,13 @@ seg-5e5365b80dfb = Scenario <b>campaign-jam-spoof-holdover-integrity</b>
 seg-d0b9f1d1b637 = Nominal
 
 # text
-seg-68b473aebdca = <s1>Engine { "v0.39.0" } · seed { "20260928" }</s1><s2>Real run</s2>
+seg-12d3b7275c99 = <s1>Engine v{ $version } · seed { "20260928" }</s1><s2>Real run</s2>
 
 # attr:title
 seg-2c7bf2e50347 = GNU Affero General Public License, version { "3" }
 
 # text
-seg-99e88c0daa41 = <s1>{ "v0.39.0" }</s1>Open source · <s2>AGPL-3.0</s2> · by Ashforde®
+seg-162d704ff027 = <s1>v{ $version }</s1>Open source · <s2>AGPL-3.0</s2> · by Ashforde®
 
 # text
 seg-69d3fae797e4 = Rehearse the minute <em>GNSS goes dark.</em>
@@ -58,10 +58,7 @@ seg-ec3957c0f5f1 = Press <c1/> to search pages, scenarios and docs
 
 # text
 # c1: 
-seg-428e9d81bb4d = <a1><s1>Kshana Pro</s1><c1/></a1>
-
-# text
-seg-511c8bb00e62 = Same engine, amplified: { "608" } designs, one Pareto front
+seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Same engine, amplified: { "608" } designs, one Pareto front</s2>
 
 # attr:aria-label
 seg-b807a8887172 = Telemetry replayed from the chained campaign run
@@ -96,11 +93,10 @@ seg-5630c799cec1 = Where every trace comes from
 # text
 # c1: fc21ac4
 # c2: campaign-jam-spoof-holdover-integrity.toml
-seg-cdb91893e854 = <b>Campaign:</b> Engine { "v0.39.0" }, build <c1/> · <c2/> · seed { "20260928" }
+seg-46b6db21c09b = <b>Campaign:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
 # text
-# c1: 
-seg-0d9fca5fdcfe = <a1>Open in Kshana Studio<c1/></a1>
+seg-9a86ef058d27 = Open in Kshana Studio
 
 # attr:title
 seg-f70fa3b93b11 = The engine's own report of this run
@@ -123,7 +119,7 @@ seg-a0ef302e2458 = Copy command
 # text
 # c1: fc21ac4
 # c2: constellation-multi-gnss-coverage.toml
-seg-8e37cebad6f6 = <b>Orbits:</b> Engine { "v0.39.0" }, build <c1/> · <c2/> · deterministic, no seed
+seg-c043a94c7564 = <b>Orbits:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 seg-f2d2f2263e63 = The console, the three cards and the log replay one chained run of { "6" } phases and { "18" } member runs on its { "10" } s grid (T+{ "01" }:{ "16" }:{ "10" } of mission time). The orbits are the { "102" } satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual { "0.0034" }°), radii compressed for display. Links are drawn to satellites above the constellation run's { "10" }° mask ({ "25" }° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
@@ -151,7 +147,7 @@ seg-3a3535770138 = <s1>papers on arXiv built on the open engine</s1><s2>Read the
 seg-c44c0fbefc2c = <s1>WASM</s1><s2>runs in the browser as WebAssembly, no install</s2>
 
 # text
-seg-64e285dd36b4 = New in { "v0.39.0" }: every kind, every command, and the benchmark's misses
+seg-9b3429f89f21 = New in v{ $version }: every kind, every command, and the benchmark's misses
 
 # text
 seg-c5fc0ca71fae = Every scenario kind, one page each
@@ -194,7 +190,7 @@ seg-46f65efc3be9 = The waterfall is drawn from the recorded run with JavaScript.
 
 # text
 # c1: l-band-waterfall-jamming.toml
-seg-0f40f51945bf = Recorded run of <c1/> (seed { "7" }, engine { "v0.39.0" }): { "5" } GNSS bands, { "3" } jammers over { "60" } s, tracking floor { "25" } dB-Hz. Jammers: chirp privacy device at { "1,575.42" } MHz from { "10" } s to { "40" } s; CW tone on L1 at { "1,575.42" } MHz from { "30" } s to the end; L2 narrowband noise at { "1,227.60" } MHz from { "45" } s to the end.
+seg-5a742c1e1563 = Recorded run of <c1/> (seed { "7" }, engine v{ $version }): { "5" } GNSS bands, { "3" } jammers over { "60" } s, tracking floor { "25" } dB-Hz. Jammers: chirp privacy device at { "1,575.42" } MHz from { "10" } s to { "40" } s; CW tone on L1 at { "1,575.42" } MHz from { "30" } s to the end; L2 narrowband noise at { "1,227.60" } MHz from { "45" } s to the end.
 
 # text
 seg-45d6be782732 = GPS L1 C/A loses lock at { "10" } s and stays lost, lowest { "3.2" } dB-Hz. Galileo E1 loses lock at { "10" } s and recovers at { "40" } s, lowest { "4.4" } dB-Hz. GPS L2C tracks throughout, lowest { "36.9" } dB-Hz. GPS L5 tracks throughout, lowest { "44.1" } dB-Hz. Galileo E5a tracks throughout, lowest { "46.7" } dB-Hz.
@@ -214,9 +210,6 @@ seg-48dcdfbbe753 = –<s1>dB-Hz</s1>
 
 # text
 seg-bc907a2168d9 = Tracking
-
-# text
-seg-a8b649035b6e = J/S
 
 # attr:aria-label
 seg-14b3348ff8ea = Carrier-to-noise density of each band against the tracking floor
@@ -379,7 +372,7 @@ seg-dc2eb6c3c2a4 = PL = protection level · AL = alert limit · INS = inertial n
 # text
 # c1: fc21ac4
 # c2: campaign-jam-spoof-holdover-integrity.toml
-seg-158dc5936b8c = Engine { "v0.39.0" }, build <c1/> · <c2/> · seed { "20260928" }
+seg-b85e60e05c9f = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
 # text
 seg-4051fcd29291 = One engine for the whole failure chain.
@@ -402,11 +395,10 @@ seg-4fa6a9f6915d = Jamming footprint: mean jammer-to-signal ratio and tracking o
 
 # text
 # c1: maritime-strait-jamming.toml
-seg-07e9981fa0d8 = Engine { "v0.39.0" } · <c1/> · seed { "1" } · receiver moved per cell
+seg-774ec89d13d7 = Engine v{ $version } · <c1/> · seed { "1" } · receiver moved per cell
 
 # text
-# c1: 
-seg-fba341c5e4fd = <a1>Every cell, on Missions<c1/></a1>
+seg-7292d543b1ac = Every cell, on Missions
 
 # text
 seg-08ba18ea712c = Deception
@@ -425,7 +417,7 @@ seg-0f425005ca69 = A spoofer's time offset against each clock's detection bound,
 
 # text
 # c1: spoof-attack.toml
-seg-27a190fb6db6 = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-a9829e27b53b = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # attr:title
 seg-34a0cf94d83d = Open the run's exports in Kshana Studio: reproducible HTML report, JSON, CSV
@@ -468,11 +460,11 @@ seg-01961fd0b949 = Clock time error after GNSS is lost: median and 95th percenti
 
 # text
 # c1: clock-ensemble.toml
-seg-9f7918796f90 = Engine { "v0.39.0" } · <c1/> · seed { "42" }
+seg-ae208f50ab77 = Engine v{ $version } · <c1/> · seed { "42" }
 
 # text
 # c1: lunar-time-budget.toml
-seg-e5e76e9875fc = <b>One-day column:</b> Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-b3ec228c054d = <b>One-day column:</b> Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-a747535696fa = Dead reckoning
@@ -491,7 +483,7 @@ seg-9f97f05ad6bb = Position-error cone after GNSS is lost for two inertial measu
 
 # text
 # c1: small-uas-jammed-nav.toml
-seg-0006179c23c6 = Engine { "v0.39.0" } · <c1/> · seed { "7" }
+seg-5fe3425693c9 = Engine v{ $version } · <c1/> · seed { "7" }
 
 # text
 seg-142a299dff50 = How long a clock stays inside its guard interval after the last fix: the question time-slotted networks care about.
@@ -504,7 +496,7 @@ seg-2b3d148b354d = Predicted time error since the last fix against the slot guar
 
 # text
 # c1: slot-timing-ocxo-leo.toml
-seg-71369a5dd3c9 = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-f8451afc02f2 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-501d3a72ea43 = Integrity
@@ -532,7 +524,7 @@ seg-7a19d976cca6 = Maximum time interval error and time deviation of the holdove
 
 # text
 # c1: telecom-prtc-holdover-24h.toml
-seg-dfa66ced8d75 = Engine { "v0.39.0" } · <c1/> · seed { "20260925" }
+seg-b93510b54de9 = Engine v{ $version } · <c1/> · seed { "20260925" }
 
 # text
 seg-ea5d9e4acbdf = Astrodynamics
@@ -548,7 +540,7 @@ seg-c28ef17609ee = Ground track of the engine's SGP4 propagation of a real two-l
 
 # text
 # c1: ephemeris.toml
-seg-28a913c842dd = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-70e2bacd66aa = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-2bc362b38f3d = Cislunar
@@ -567,7 +559,7 @@ seg-f69a91258669 = Lunar protection levels from the LunaNet advanced RAIM run ag
 
 # text
 # c1: lunanet-araim.toml
-seg-de2836592b59 = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-b3d3ed0ec310 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-2c2d1fdec798 = Emerging sensors
@@ -586,7 +578,7 @@ seg-979452def1d6 = Holdover time of a quantum and a classical clock across a swe
 
 # text
 # c1: sweep-clock-stability.toml
-seg-06aa243df73d = Engine { "v0.39.0" } · <c1/> · seed { "42" }
+seg-ebaa722c5ab6 = Engine v{ $version } · <c1/> · seed { "42" }
 
 # text
 seg-1d2973bd0f2f = Runs everywhere
@@ -620,9 +612,6 @@ seg-430082bf58d4 = ghcr.io image
 
 # text
 seg-afd561090841 = CCSDS OEM
-
-# text
-seg-00fdc1192d2d = SP3
 
 # text
 seg-9d682a8ff731 = CCSDS OEM: Consultative Committee for Space Data Systems Orbit Ephemeris Message. SP3: Standard Product { "3" } orbit format.
@@ -685,14 +674,10 @@ seg-6816f4e1a0a0 = Version
 seg-78240346be65 = Latest
 
 # text
-seg-ea3af476281e = Pin { "v0.39.0" }
+seg-1e466f300d6e = Pin v{ $version }
 
 # text
 seg-d8008680650d = For anyone, nothing to install.
-
-# text
-# c1: 
-seg-dca88d8e959c = <a1>Launch Kshana Studio <c1/></a1>
 
 # text
 seg-567be575c392 = The engine runs locally as WebAssembly; nothing is uploaded.
@@ -777,7 +762,7 @@ seg-2cff891dc970 = Next step
 
 # text
 # c1: clock-holdover.toml
-seg-8d964e119298 = A recorded session with the kshana-mcp server (Model Context Protocol, engine { "v0.39.0" }): the assistant lists the { "49" } tools, validates <c1/> (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 { "1" }.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 { "19" }.7ns integrity { "1.000" } security n/a (no attack).
+seg-45da99dccd40 = A recorded session with the kshana-mcp server (Model Context Protocol, engine v{ $version }): the assistant lists the { "49" } tools, validates <c1/> (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
 # text
 # c1: animate_scenario
@@ -829,7 +814,7 @@ seg-91fc7df72b42 = <c1/>: Export an `orbit` scenario's propagated constellation 
 
 # text
 # c1: export_omm
-seg-bfbb64102fec = <c1/>: Export an `orbit` scenario's mean elements as a CCSDS { "502" }.0-B-2 OMM (Orbit Mean-Elements Message) catalogue — one OMM per satellite.
+seg-e7086c7b5491 = <c1/>: Export an `orbit` scenario's mean elements as a CCSDS 502.0-B-2 OMM (Orbit Mean-Elements Message) catalogue — one OMM per satellite.
 
 # text
 # c1: export_sp3
@@ -980,7 +965,7 @@ seg-62b5564e8d90 = The recorded session plays here step by step.
 
 # text
 # c1: clock-holdover.toml
-seg-67c39ec4976b = <b>Same run in the Studio:</b> Engine { "v0.39.0" } · <c1/> · seed { "42" }
+seg-2359edf78388 = <b>Same run in the Studio:</b> Engine v{ $version } · <c1/> · seed { "42" }
 
 # attr:aria-label
 seg-7e3b4395292e = Spoofing scroll story
@@ -1091,8 +1076,7 @@ seg-665005551d84 = A one-command mission dossier with a verification matrix and 
 seg-455cb5040f80 = Audit-grade, reproducible evidence packs; clock digital twins calibrated to your device's published Allan budget; architecture trade studies ranked on a figure of merit; model-based systems-engineering (MBSE) and programme tooling.
 
 # text
-# c1: 
-seg-890b470ca9ea = <a1>Request a Pro evaluation <c1/></a1>
+seg-6d3d0f8c9b7c = Request a Pro evaluation
 
 # text
 seg-3e30593288a1 = What Pro includes
@@ -1116,8 +1100,7 @@ seg-57320238c0f4 = Export-controlled work under the appropriate clearance and ND
 seg-e36049d768ce = Integration, training and consulting.
 
 # text
-# c1: 
-seg-b6eb33e3149e = <a1>Request a study <c1/></a1>
+seg-b366150de755 = Request a study
 
 # text
 seg-6df96ca25c68 = Why and who it is for

@@ -10,10 +10,10 @@ seg-95f8bd8e0078 = Source: <c1/>
 seg-24c21b5b0cc3 = <c1/> (scenario kind)
 
 # text
-seg-77aa6de43477 = Scenario kind of the engine { "v0.39.0" }, family <a1>GNSS measurements, positioning and integrity</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-8e845ce908ee = Scenario kind of the engine v{ $version }, family <a1>GNSS measurements, positioning and integrity</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
-seg-f4dddbd9346e = Space-weather environment model: solar (F10.7/F10.7a) and geomagnetic (Kp, with the definitional Kp↔ap table) activity indices, the Jacchia-1971 exospheric temperature they drive (validated vs published solar-min/mean/max), and the Jacchia-1971 thermospheric neutral density at the diurnal-mean exospheric temperature against the activity-free static profile at a set of altitudes — the solar-cycle density dependence the static atmosphere omits. MODELLED: the density agrees with accelerometer-derived densities (TOLEOS CHAMP and GRACE) within a factor { "2" } at solar maximum but is about { "1" }.7x too dense in the { "2008" } solar minimum.
+seg-5f25c5b71f0c = Space-weather environment model: solar (F10.7/F10.7a) and geomagnetic (Kp, with the definitional Kp↔ap table) activity indices, the Jacchia-1971 exospheric temperature they drive (validated vs published solar-min/mean/max), and the Jacchia-1971 thermospheric neutral density at the diurnal-mean exospheric temperature against the activity-free static profile at a set of altitudes — the solar-cycle density dependence the static atmosphere omits. MODELLED: the density agrees with accelerometer-derived densities (TOLEOS CHAMP and GRACE) within a factor { "2" } at solar maximum but is about 1.7x too dense in the { "2008" } solar minimum.
 
 # text
 # c1: scenarios/space-weather.toml
@@ -31,6 +31,9 @@ seg-6bb05c41eba2 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>
 seg-c367f1aacd0b = The example <c1/> sets, among others:
 
 # text
+seg-37d29d8303fe = km
+
+# text
 seg-02dc0d42fb21 = sfu
 
 # text
@@ -46,7 +49,7 @@ seg-c1c6f2f73fb5 = The chart the engine writes for scenarios/space-weather.toml,
 seg-15587da59e8e = <b>MODELLED</b> Solar/geomagnetic indices (definitional Kp↔ap table), the Jacchia-1971 exospheric temperature, and the Jacchia { "1971" } thermospheric density (SAO Special Report { "332" }: static diffusion profiles reproducing its Table { "7" }, with the diurnal, geomagne
 
 # text
-seg-b257fec59ddb = <b>MODELLED</b> Solar/geomagnetic indices (definitional Kp↔ap table), the Jacchia-1971 exospheric temperature, and the Jacchia { "1971" } thermospheric density (SAO Special Report { "33" }. Oracle (ExternalDataset): Definitional Kp↔ap table + Jacchia-1971 exospheric-temperature closed form (matched to <{ "1" } K vs the published anchors, tests/space_weather_reference.rs); the density is characterised against pymsis NRLMSISE-00 (an independent NRL model): the { "800" } km solar-cycle swing is { "10" }.4x against NRLMSISE-00 { "13" }.6x. { "0.30" } revision: the calibrated first-order activity factor was replaced by Jacchia { "1971" } (default scenario density at { "40" }
+seg-f8eef6eabfb2 = <b>MODELLED</b> Solar/geomagnetic indices (definitional Kp↔ap table), the Jacchia-1971 exospheric temperature, and the Jacchia { "1971" } thermospheric density (SAO Special Report { "33" }. Oracle (ExternalDataset): Definitional Kp↔ap table + Jacchia-1971 exospheric-temperature closed form (matched to <{ "1" } K vs the published anchors, tests/space_weather_reference.rs); the density is characterised against pymsis NRLMSISE-00 (an independent NRL model): the { "800" } km solar-cycle swing is 10.4x against NRLMSISE-00 13.6x. { "0.30" } revision: the calibrated first-order activity factor was replaced by Jacchia { "1971" } (default scenario density at { "40" }
 
 # text
 # c1: label
@@ -54,7 +57,7 @@ seg-72979b637644 = MODELLED — solar/geomagnetic indices, Jacchia-71 exospheric
 
 # text
 # c1: kshana kinds --json
-seg-20f78914ab9e = MODELLED: the density agrees with accelerometer-derived densities (TOLEOS CHAMP and GRACE) within a factor { "2" } at solar maximum but is about { "1" }.7x too dense in the { "2008" } solar minimum. (kind catalogue (<c1/>))
+seg-0306ee022298 = MODELLED: the density agrees with accelerometer-derived densities (TOLEOS CHAMP and GRACE) within a factor { "2" } at solar maximum but is about 1.7x too dense in the { "2008" } solar minimum. (kind catalogue (<c1/>))
 
 # text
 seg-b86a312077b5 = HONEST SCOPE: MODELLED. The Kp<->ap conversion is the definitional IAGA table and the exospheric temperature is validated against published solar-min/mean/max magnitudes, but the density correction is a CALIBRATED FIRST-ORDER scale-height coupling — it captures the right sign, monotonicity and order of magnitude, NOT the absolute accuracy of a data-validated (NRLMSISE-00) atmosphere. Run: kshana scenarios/space-weath (scenario file comment, lines { "10" } to { "15" })

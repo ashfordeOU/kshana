@@ -57,7 +57,7 @@ seg-f386c2e2e352 = −{ "158.5" } dBW (IS-GPS-200)
 seg-50112ba8867d = { "2.046" } MHz
 
 # text
-seg-a803571414b9 = multiplexed binary offset carrier, MBOC({ "6,1" },1/11), or binary offset carrier BOC({ "1,1" })
+seg-b7755cb9a384 = multiplexed binary offset carrier, MBOC(6,1,1/11), or binary offset carrier BOC({ "1,1" })
 
 # text
 seg-6043a4ef45ca = −{ "157.25" } dBW (Galileo OS SIS ICD Issue { "2.1" }, Table { "12" })
@@ -277,9 +277,6 @@ seg-1ead35e1aad5 = First loss
 seg-bfb55a322ece = Rows tracking
 
 # text
-seg-620d44960985 = gps-l1ca
-
-# text
 seg-5393b075ff7f = { "43.48" } dB-Hz
 
 # text
@@ -289,16 +286,10 @@ seg-863ea3f1fbe9 = { "3.23" } dB-Hz
 seg-9aa0239a3a0c = { "10" } s
 
 # text
-seg-a704a9bf4a13 = galileo-e1
-
-# text
 seg-9979940d2359 = { "44.73" } dB-Hz
 
 # text
 seg-25364ef39455 = { "4.44" } dB-Hz
-
-# text
-seg-a5491ef9afed = gps-l2c
 
 # text
 seg-c8d0bc71cccd = { "41.98" } dB-Hz
@@ -310,13 +301,7 @@ seg-c945914c444c = { "36.86" } dB-Hz
 seg-9ff066fb53a6 = never
 
 # text
-seg-5ba0efdb2f9d = gps-l5
-
-# text
 seg-63d4f00f622d = { "44.08" } dB-Hz
-
-# text
-seg-3ed59143b324 = galileo-e5a
 
 # text
 seg-4321ccaeeca5 = { "46.73" } dB-Hz
@@ -362,9 +347,6 @@ seg-abacb60b16a3 = What the run computes (the designed signals' C/N₀ is that o
 seg-72f051e2d7e1 = Signal
 
 # text
-seg-0dccc11ce023 = generic-uhf
-
-# text
 seg-1c921b6299e4 = representative, BPSK({ "5" }), −{ "150" } dBW
 
 # text
@@ -386,9 +368,6 @@ seg-7d3639369444 = { "3.38" } dB-Hz
 seg-9eef1ec7858f = { "38.51" } dB-Hz
 
 # text
-seg-cc22f5c3fee4 = xona-x5
-
-# text
 seg-c6743d980e6b = published design, −{ "144.9" } dBW
 
 # text
@@ -401,9 +380,6 @@ seg-59fd1427d61b = { "54.51" } dB-Hz
 seg-f2aed7e062bf = { "46.29" } dB-Hz
 
 # text
-seg-4adb84c35a54 = generic-s
-
-# text
 seg-39e207bee75b = { "2492.028" } MHz
 
 # text
@@ -411,9 +387,6 @@ seg-0f47178201ca = { "49.23" } dB-Hz
 
 # text
 seg-c6a19eb8e0b9 = { "41.69" } dB-Hz
-
-# text
-seg-4b164eff04b1 = generic-c-band-leo
 
 # text
 seg-a6f2bb955ca2 = representative, BPSK({ "10" }), −{ "152" } dBW

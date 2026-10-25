@@ -268,7 +268,7 @@ seg-db4fdef1c562 = <b>BPSK(n) — binary phase-shift keying at n × { "1.023" } 
 seg-cdd0f4194f42 = <b>BOC(m, n) — binary offset carrier.</b> A spreading code at n × { "1.023" } Mchip/s multiplied by a square-wave subcarrier at m × { "1.023" } MHz, which splits the spectrum into two lobes either side of the carrier.
 
 # text
-seg-313e27e29fbb = <b>MBOC({ "6,1" },1/11) — multiplexed binary offset carrier.</b> The power spectral density 10/11 × BOC({ "1,1" }) + 1/11 × BOC({ "6,1" }), agreed for Galileo E1 open service and GPS L1C; Galileo transmits it as composite BOC (CBOC).
+seg-35ae5134f2c5 = <b>MBOC(6,1,1/11) — multiplexed binary offset carrier.</b> The power spectral density 10/11 × BOC({ "1,1" }) + 1/11 × BOC({ "6,1" }), agreed for Galileo E1 open service and GPS L1C; Galileo transmits it as composite BOC (CBOC).
 
 # text
 seg-7423f94e3018 = <b>CW — continuous wave.</b> An unmodulated carrier: a single tone.
@@ -585,16 +585,10 @@ seg-c0dfa446e523 = Stands for
 seg-f272d28225ae = Where it comes up
 
 # text
-seg-d4e1e3c01786 = 3GPP
-
-# text
 seg-ffb0596f134b = Third Generation Partnership Project
 
 # text
 seg-77c1b4478387 = the body that writes the 5G standards, including non-terrestrial networks
-
-# text
-seg-f3b681bde3ef = 5G
 
 # text
 seg-eaf19768b977 = fifth-generation mobile network
@@ -733,9 +727,6 @@ seg-f630bcd1d523 = alternative binary offset carrier
 
 # text
 seg-e3acb231cf4d = the Galileo E5 modulation
-
-# text
-seg-47758c901740 = AM-HM
 
 # text
 seg-79b130764f97 = arithmetic mean–harmonic mean (inequality)
@@ -906,9 +897,6 @@ seg-a2418a88886c = cold-atom interferometer
 seg-273a3b8d5385 = see QUANTUM.md
 
 # text
-seg-4a3cceca99a3 = CARIOQA-PMP
-
-# text
 seg-c34db5304197 = Cold Atom Rubidium Interferometer in Orbit for Quantum Accelerometry – Pathfinder Mission Preparation
 
 # text
@@ -943,9 +931,6 @@ seg-43ef1f6cd71d = constant false-alarm rate
 
 # text
 seg-b38b56b63da6 = an acquisition-detector threshold rule
-
-# text
-seg-b811e21a726e = CGCS2000
 
 # text
 seg-46835ce9641a = China Geodetic Coordinate System { "2000" }
@@ -1119,9 +1104,6 @@ seg-66f752e15abc = a sequential change detector
 seg-92ac0357d01e = CV
 
 # text
-seg-b808fbc3c2bf = cross-validation
-
-# text
 seg-28f75c073917 = (common view in time transfer; the context says which)
 
 # text
@@ -1198,9 +1180,6 @@ seg-6d1f2ffa8184 = Deep Space Communications and Navigation Systems Center of Ex
 
 # text
 seg-2e11a1976171 = JPL monograph series
-
-# text
-seg-33cd787cba5c = DGFI-TUM
 
 # text
 seg-10dc0c578b92 = Deutsches Geodätisches Forschungsinstitut der Technischen Universität München (German Geodetic Research Institute at the Technical University of Munich)
@@ -1287,22 +1266,13 @@ seg-aa0d8d4b3a3b = Deep Space Atomic Clock
 seg-e80350ed521f = the NASA trapped-mercury-ion clock
 
 # text
-seg-5dc793649465 = DUT1
-
-# text
 seg-52e838301c0b = UT1 minus UTC
 
 # text
 seg-fbce3b3b7b80 = the Earth-rotation correction
 
 # text
-seg-bac5be544253 = Eb/N0
-
-# text
 seg-8aa996f34920 = energy per bit over noise density
-
-# text
-seg-804c6af7e194 = ECI0
 
 # text
 seg-463b21c0b791 = the inertial frame aligned with the Earth-fixed frame at the start of a run
@@ -1315,9 +1285,6 @@ seg-61f975df5e21 = ECMAScript / ES
 
 # text
 seg-c66e728cd2fa = the standard behind JavaScript / an ES module
-
-# text
-seg-50521b19cb19 = ECOM2
 
 # text
 seg-e1a4fd0a6a76 = Empirical CODE Orbit Model { "2" }
@@ -1383,16 +1350,10 @@ seg-647519f3df17 = ELimination Et Choix Traduisant la REalité (elimination and 
 seg-efb2f919955a = an outranking multi-criteria method
 
 # text
-seg-5f797289f941 = ELP/MPP02
-
-# text
 seg-88a2f1813af8 = Éphéméride Lunaire Parisienne, the MPP02 version (Chapront)
 
 # text
 seg-b1d699d70339 = an analytic lunar theory
-
-# text
-seg-bc14ad42fda9 = EME2000
 
 # text
 seg-aee5eeb23064 = Earth mean equator and equinox of J2000
@@ -1402,9 +1363,6 @@ seg-16d9b8eac95d = an inertial frame
 
 # text
 seg-e676d5eec6e3 = EML
-
-# text
-seg-5d871b00c9d6 = early-minus-late
 
 # text
 seg-f4bba0abbda7 = a code discriminator
@@ -1540,9 +1498,6 @@ seg-55c14f474a10 = FIM
 
 # text
 seg-b68c86e68570 = Fisher information matrix
-
-# text
-seg-98a233ac1169 = FNV-1a
 
 # text
 seg-d39671724dfc = Fowler–Noll–Vo hash, variant 1a
@@ -1701,9 +1656,6 @@ seg-45a8f50bce06 = General Mission Analysis Tool
 seg-60d33e61b446 = NASA
 
 # text
-seg-e75fda401517 = GMM-3
-
-# text
 seg-1edd65c52f46 = Goddard Mars Model { "3" }
 
 # text
@@ -1738,9 +1690,6 @@ seg-3e3f45ad1178 = GRGM / GRGM660PRIM
 
 # text
 seg-948167f5f1c3 = the GRAIL lunar gravity models from NASA Goddard (GRAIL: Gravity Recovery and Interior Laboratory)
-
-# text
-seg-55442ad296d4 = GRS80
 
 # text
 seg-220fae5cfc61 = Geodetic Reference System { "1980" }
@@ -1789,9 +1738,6 @@ seg-1cbf9d6f135d = Stanford-diagram regions
 
 # text
 seg-b320746fafa5 = HP
-
-# text
-seg-156b8d818cef = Hewlett-Packard
 
 # text
 seg-465a952272f3 = HTML
@@ -1881,9 +1827,6 @@ seg-746eae5ce367 = intermediate frequency
 seg-ed568f55aa8f = receiver samples
 
 # text
-seg-03de535e3f58 = IGb14
-
-# text
 seg-cb4aaa2581bb = the IGS realisation of ITRF2014
 
 # text
@@ -1933,9 +1876,6 @@ seg-e77c8324583a = Institut de mécanique céleste et de calcul des éphémérid
 
 # text
 seg-22048a770612 = Paris Observatory; publishes INPOP
-
-# text
-seg-f4103cff2679 = INPOP21a
 
 # text
 seg-9717f14527d3 = Intégration Numérique Planétaire de l'Observatoire de Paris, version 21a
@@ -2023,9 +1963,6 @@ seg-5b4dee02dccc = ITRF93 / ITRF2020
 
 # text
 seg-93458bf3ba01 = International Terrestrial Reference Frame { "1993" } / { "2020" }
-
-# text
-seg-66a3243ed810 = ITU-R
 
 # text
 seg-14dc2a58e2c3 = International Telecommunication Union Radiocommunication Sector
@@ -2565,9 +2502,6 @@ seg-ffa6025b5a70 = NIMA is the former name of the NGA
 seg-af4be907e56c = NLOS
 
 # text
-seg-b797f4062011 = non-line-of-sight
-
-# text
 seg-22ab7d58324b = a reflected-only signal
 
 # text
@@ -2748,9 +2682,6 @@ seg-0c89f304435e = probability of detection / probability of false alarm
 seg-5bde4fd55ead = PEF
 
 # text
-seg-21fc7d9b29e0 = pseudo-Earth-fixed
-
-# text
 seg-eb11dcb816ff = the frame between TEME and ITRF
 
 # text
@@ -2797,9 +2728,6 @@ seg-279251adb2eb = noise on a clock's phase or on its frequency
 
 # text
 seg-685fc49957e2 = PN
-
-# text
-seg-000a38b69055 = pseudo-noise
 
 # text
 seg-209dacf76ff3 = as in PN ranging
@@ -2911,9 +2839,6 @@ seg-a9aedd1f9806 = PyO3 / PyPA / PyPI
 
 # text
 seg-95cead42b0d0 = the Rust–Python binding library / Python Packaging Authority / Python Package Index
-
-# text
-seg-de571425c680 = PZ-90
 
 # text
 seg-96b2c707a6b8 = Parametry Zemli { "1990" }
@@ -3126,9 +3051,6 @@ seg-0c7631f367e8 = SGD
 seg-d58ce1e25c08 = stochastic gradient descent
 
 # text
-seg-ba4721dfee38 = SHA-256
-
-# text
 seg-865e7d1794b6 = Secure Hash Algorithm, 256-bit
 
 # text
@@ -3214,9 +3136,6 @@ seg-453c4506fd59 = SOTA
 
 # text
 seg-7eaa0caa6916 = state of the art
-
-# text
-seg-1203505cee56 = SP1065
 
 # text
 seg-127e73a3610b = NIST Special Publication { "1065" }
@@ -3567,9 +3486,6 @@ seg-39ed84639c60 = USO
 seg-f9f684640e53 = ultra-stable oscillator
 
 # text
-seg-f4f1c18b8af4 = USSA76
-
-# text
 seg-b3a829cb7d84 = US Standard Atmosphere { "1976" }
 
 # text
@@ -3604,9 +3520,6 @@ seg-eaf260aa0e21 = WASPAS
 
 # text
 seg-4da2350f07f2 = Weighted Aggregated Sum Product ASSessment
-
-# text
-seg-86da26971d6a = WG-C
 
 # text
 seg-c9710476b8b5 = Working Group C of the European Union–United States cooperation on satellite navigation
@@ -3716,19 +3629,10 @@ seg-9d0c42560a90 = Abbreviations the website uses that are not in the repository
 seg-67a54ce8c89e = Global Positioning System
 
 # text
-seg-c58d1732ee1e = C/N₀
-
-# text
 seg-814b0d29bbb2 = carrier-to-noise density, in dB-Hz
 
 # text
-seg-0f4e980dc952 = L-band
-
-# text
 seg-f22a269bc575 = the { "1" } to { "2" } GHz radio band GNSS uses
-
-# text
-seg-4af3a96f13b4 = C/A
 
 # text
 seg-1f4360a0405c = coarse/acquisition code of GPS L1
@@ -3750,9 +3654,6 @@ seg-7091aabf8b6d = PL · AL
 
 # text
 seg-12d88ab45197 = protection level · alert limit
-
-# text
-seg-499349b883cd = APV-I
 
 # text
 seg-78134bcc48da = approach with vertical guidance, level I
@@ -3813,9 +3714,6 @@ seg-8541a73eef89 = ADEV · σy(τ)
 
 # text
 seg-a2ae4a40f486 = Allan deviation at averaging time τ
-
-# text
-seg-e94acf1ae023 = ITU-T
 
 # text
 seg-96fae3b4fb8e = International Telecommunication Union, Telecommunication Standardization Sector

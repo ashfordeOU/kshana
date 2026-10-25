@@ -10,14 +10,14 @@ seg-33555d61ddc6 = Source: <c1/>
 seg-618393657d01 = <c1/> (scenario kind)
 
 # text
-seg-db3cc450c66b = Scenario kind of the engine { "v0.39.0" }, family <a1>Clocks, timing and holdover</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-c61e88721556 = Scenario kind of the engine v{ $version }, family <a1>Clocks, timing and holdover</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-78cba87823f7 = Clock holdover vs spec; optional Monte-Carlo ensemble (runs > { "1" }).
 
 # text
 # c1: scenarios/clock-ensemble.toml
-seg-1b8011b12c62 = One run of <c1/> summarises as: scenario 91d2b6d10d14 | { "200" } runs | quantum holdover 6600s [6600-6600] p95 { "8" }.78e-4ns security n/a (no attack) | classical holdover 844s [220-2130] p95 { "167" }.0ns security n/a (no attack)
+seg-dd2ad570a6c9 = One run of <c1/> summarises as: scenario 91d2b6d10d14 | { "200" } runs | quantum holdover 6600s [6600-6600] p95 8.78e-4ns security n/a (no attack) | classical holdover 844s [220-2130] p95 167.0ns security n/a (no attack)
 
 # text
 # c1: seed
@@ -38,40 +38,10 @@ seg-80fe14eb5e79 = Optional fields: <c1/>, <c2/>
 seg-807e7c5a2565 = The example <c1/> sets, among others:
 
 # text
-seg-6175e9556409 = { "2" }.0000e-11
-
-# text
-seg-8652bc3944b3 = csac-sa45s
-
-# text
-seg-26c6034392c0 = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_
-
-# text
-seg-ad670a878be8 = 1/s
-
-# text
-seg-8f372bfd712f = { "9" }.0000e-20
-
-# text
-seg-e8053d65159c = s^2/s
-
-# text
-seg-c1931e3d4d05 = { "5" }.0000e-10
-
-# text
-seg-406c0244c435 = { "1" }.0000e-16
-
-# text
-seg-21a57d1b488f = optical-sr-lattice
+seg-b0a5473bec67 = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)={ "3e-10" }; q_
 
 # text
 seg-a8d92406e428 = Strontium optical lattice clock, space-oriented goal sigma_y
-
-# text
-seg-9c873491b630 = { "1" }.0000e-30
-
-# text
-seg-b51882ad79ee = { "5" }.0000e-17
 
 # text
 # c1: scenarios/

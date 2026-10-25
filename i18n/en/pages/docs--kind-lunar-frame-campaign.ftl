@@ -10,14 +10,14 @@ seg-dd57b833cb20 = Source: <c1/>
 seg-120769aba2cc = <c1/> (scenario kind)
 
 # text
-seg-c87c70fc4ee5 = Scenario kind of the engine { "v0.39.0" }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-1f17ef6a853e = Scenario kind of the engine v{ $version }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-55679aff66db = Seven-parameter Helmert (similarity) frame datum driven by a SIMULATED OBSERVING CAMPAIGN rather than by an injected transform. A network of Earth stations observes a catalogue of lunar-surface beacons over an explicit schedule; the lunar-VLBI delay partials are accumulated over that schedule into a beacon-coordinate Fisher information matrix exactly as lunar-vlbi-fim does; and that information is propagated through the Helmert design A = [I3 | [p]_x | p] at the catalogue points into the datum covariance H = A^T M_b A, diagnosed by crate::fim::crlb. NO transform is injected and nothing is recovered from a planted answer, so the reported datum accuracy derives from the observing programme: halving the delay sigma halves it exactly, and lengthening the arc improves it because the libration the report MEASURES (sub_earth_direction_sweep_deg) is what separates the line-of-sight beacon coordinate from the plane-of-sky ones. Rank, datum defect, condition number, the full spectrum, the unobservable directions IN THE SEVEN-PARAMETER BASIS, the weakest direction even at full rank and each parameter's share of it are emitted on every run; a parameter the campaign does not constrain is published as NULL with a status, never read out of a near-singular inverse. Beacon-error correlation is measured, not assumed: with the stations held fixed no observation touches two beacons so the information matrix is exactly block-diagonal (offblock_fraction { "0" }), and with the stations estimated the Schur-marginalised block is coupled, with the induced correlation printed and the whole propagation re-run with it discarded so the price of an independence assumption is a number. The same propagation under an isotropic per-coordinate sigma, and the recovery error the lunar-frame-realisation scenario reports, are both run here and printed beside the campaign value with their ratios. MODELLED: the beacon catalogue is sourced but the CAMPAIGN is simulated — the station network and the delay sigma are illustrative inputs, individual delay observations are treated as independent, and the Moon-centre ephemeris, station clocks, troposphere and Earth-orientation parameters are held FIXED, so the datum covariance is a Cramer-Rao bound for a reduced parameter set. Not a geodetic product.
 
 # text
 # c1: scenarios/lunar-frame-campaign.toml
-seg-9391bf172f96 = One run of <c1/> summarises as: lunar-frame-campaign | { "4" } beacons x { "3" } baselines x { "49" } epochs = { "64" } obs (delay sigma { "1" }.000e-11 s) | station datum fixed | Helmert rank 7/7 cond { "3" }.798e5 | datum translation sigma { "6.397500" } m vs injected-transform recovery error { "0.3125" } m (ratio { "0.049" })
+seg-2e02c1ff8f48 = One run of <c1/> summarises as: lunar-frame-campaign | { "4" } beacons x { "3" } baselines x { "49" } epochs = { "64" } obs (delay sigma { "1.000e-11" } s) | station datum fixed | Helmert rank 7/7 cond { "3.798e5" } | datum translation sigma { "6.397500" } m vs injected-transform recovery error { "0.3125" } m (ratio { "0.049" })
 
 # text
 # c1: stations
@@ -42,9 +42,6 @@ seg-1d70a5b4a197 = The example <c1/> sets, among others:
 
 # text
 seg-df90e5910fb4 = hr
-
-# text
-seg-e1a5f5892348 = { "1" }.0000e-11
 
 # text
 seg-d9523213de9f = Result label (the engine's): MODELLED campaign-driven lunar frame datum. The seven-parameter Helmert covariance is propagated from a beacon-coordinate information matrix accumulated from the engine's own lunar-VLBI delay partials over an explicit schedule of beacons, baselines and epochs; NO similarity transform is injected and

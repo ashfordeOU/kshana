@@ -10,14 +10,14 @@ seg-4abcbdaddcf8 = Source: <c1/>
 seg-a92dcafd670e = <c1/> (scenario kind)
 
 # text
-seg-9839f917de91 = Scenario kind of the engine { "v0.39.0" }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-99ef7c1d552c = Scenario kind of the engine v{ $version }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-dbffff25b57f = CCSDS OEM interoperability bridge: import an Orbit Ephemeris Message produced by an external flight-dynamics tool (GMAT/Orekit/STK all emit OEM) and report its segments/objects/frames/epoch-span plus a velocity-consistency check; with no input it round-trips a generated reference orbit and reports the import↔export fidelity. MODELLED structural/physical ingest check, NOT an orbit-accuracy validation of the source.
 
 # text
 # c1: scenarios/oem-interop.toml
-seg-74d1a61ac899 = One run of <c1/> summarises as: oem-interop: round-tripped { "2" } segment(s), { "12" } states; max round-trip error { "4" }.88e-7 km / { "4" }.61e-10 km/s (MODELLED interop)
+seg-21eb1c9d7571 = One run of <c1/> summarises as: oem-interop: round-tripped { "2" } segment(s), { "12" } states; max round-trip error { "4.88e-7" } km / { "4.61e-10" } km/s (MODELLED interop)
 
 # text
 # c1: oem_text
@@ -31,16 +31,7 @@ seg-d4117f615cd8 = The example <c1/> sets, among others:
 seg-d7db74d14617 = KSHANA
 
 # text
-seg-aa1bd01503a0 = { "4" }.8822e-7
-
-# text
-seg-79008abea2ac = { "4" }.6115e-10
-
-# text
-seg-e580c8a76e2c = km/s
-
-# text
-seg-7eac39aa42ee = round-trip
+seg-37d29d8303fe = km
 
 # text
 seg-b16f858574ca = Result label (the engine's): MODELLED — CCSDS OEM import/round-trip interop bridge (GMAT/Orekit/STK emit OEM); a structural + physical ingest check, NOT an orbit-accuracy validation of the source

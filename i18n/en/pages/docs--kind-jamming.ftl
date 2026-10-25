@@ -10,7 +10,7 @@ seg-53b1a341460a = Source: <c1/>
 seg-1c9fd1344128 = <c1/> (scenario kind)
 
 # text
-seg-129531390239 = Scenario kind of the engine { "v0.39.0" }, family <a1>Jamming, spoofing and the spectrum</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-304496607bd7 = Scenario kind of the engine v{ $version }, family <a1>Jamming, spoofing and the spectrum</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-60bf3f0ff000 = Link-budget jamming: J/S → effective C/N₀ → loss of lock.
@@ -43,6 +43,9 @@ seg-e4f8d6b2fe1f = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-a2433f85f8d0 = The example <c1/> sets, among others:
 
 # text
+seg-37d29d8303fe = km
+
+# text
 seg-f85a85f0c7e4 = MHz
 
 # text
@@ -50,9 +53,6 @@ seg-9521a296d617 = dBi
 
 # text
 seg-7154243aabbe = broadband
-
-# text
-seg-dc209f04ed54 = [{ "3" }.9264e6, { "2" }.7449e5, { "5" }.0028e6]
 
 # text
 seg-8784979d6569 = dBW

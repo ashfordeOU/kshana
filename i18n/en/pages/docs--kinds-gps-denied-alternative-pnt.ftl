@@ -9,7 +9,7 @@ seg-9d9aeff4f2ee = Source: <c1/>
 seg-d9fdaf3208ca = GPS-denied alternative PNT (scenario kind family)
 
 # text
-seg-3e8b69ca1f6a = { "5" } scenario kinds of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-9fde6af9e09f = { "5" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 # c1: kshana scenarios/combined-altpnt.toml

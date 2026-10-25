@@ -45,20 +45,11 @@ seg-8ff2973d7f5b = σ_URA / SISA (signal-in-space accuracy)
 seg-f993962a5c9b = range-error bound used for <b>integrity</b> (≥ σ_URE)
 
 # text
-seg-ff1061553e05 = b_nom
-
-# text
 # c1: b_k = Σ_i |s_i|·b_nom
 seg-727c7fbe1b01 = maximum nominal range bias folded one-sided into the integrity bound (<c1/>); see §{ "3" }
 
 # text
-seg-15e9ed795151 = P_sat
-
-# text
 seg-a79e42c29c46 = prior probability of an undetected single-satellite fault
-
-# text
-seg-7760928082d2 = P_const
 
 # text
 seg-78c45312d2ff = prior probability of a constellation-wide fault
@@ -78,9 +69,6 @@ seg-8c516e53f595 = { "2" }. Fault hypotheses
 # text
 # c1: H_k
 seg-b6353366ebf0 = ARAIM is a <em>multiple hypothesis solution separation</em> (MHSS) method. For each fault hypothesis <c1/> it forms the all-in-view solution and the sub-solution that excludes the faulted set, and bounds the position error under that hypothesis:
-
-# text
-seg-e7dcdae1905b = Fault-free
 
 # text
 # c1: H_0

@@ -10,14 +10,14 @@ seg-afeb6e26c5ad = Source: <c1/>
 seg-6d1a32afd780 = <c1/> (scenario kind)
 
 # text
-seg-c87c70fc4ee5 = Scenario kind of the engine { "v0.39.0" }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-1f17ef6a853e = Scenario kind of the engine v{ $version }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
-seg-c6f6aa4a128b = Modelled lunar geodetic VLBI delay observable: an Earth baseline (two ground stations, GCRS) observes a one-way signal from a NovaMoon-class lunar-surface beacon. Emits the near-field two-range-difference delay, its rate, and the wavefront-curvature near-field correction over a pass — cross-checked against the same-codebase plane-wave Δ-DOR observable in the far-field limit, with finite-difference-verified partials. The default analytic path is MODELLED and carries the frame-consistency, xp=yp={ "0" } polar-motion and plane-wave-vs-near-field caveats. Setting planetary_kernel_path, earth_orientation_kernel_path and moon_orientation_kernel_path runs the kernel path instead (DE440, MOON_PA_DE440, ITRF93; converged barycentric light times; adds the epoch's beacon and station partials), whose Newtonian delay and partials agree with NAIF SPICE converged light times to { "0.06" } ps and { "7" }.4e-9. Not validated against real VLBI data.
+seg-e01f77d493a0 = Modelled lunar geodetic VLBI delay observable: an Earth baseline (two ground stations, GCRS) observes a one-way signal from a NovaMoon-class lunar-surface beacon. Emits the near-field two-range-difference delay, its rate, and the wavefront-curvature near-field correction over a pass — cross-checked against the same-codebase plane-wave Δ-DOR observable in the far-field limit, with finite-difference-verified partials. The default analytic path is MODELLED and carries the frame-consistency, xp=yp={ "0" } polar-motion and plane-wave-vs-near-field caveats. Setting planetary_kernel_path, earth_orientation_kernel_path and moon_orientation_kernel_path runs the kernel path instead (DE440, MOON_PA_DE440, ITRF93; converged barycentric light times; adds the epoch's beacon and station partials), whose Newtonian delay and partials agree with NAIF SPICE converged light times to { "0.06" } ps and { "7.4e-9" }. Not validated against real VLBI data.
 
 # text
 # c1: scenarios/lunar-vlbi.toml
-seg-9c3070c59338 = One run of <c1/> summarises as: lunar-vlbi | baseline { "10727" } km | beacon range { "402900" } km | delay -10049.126 µs (rate { "1" }.312e-6 s/s) | near-field { "58.9" } µs | { "13" } samples over { "6.0" } h
+seg-92227c085867 = One run of <c1/> summarises as: lunar-vlbi | baseline { "10727" } km | beacon range { "402900" } km | delay -10049.126 µs (rate { "1.312e-6" } s/s) | near-field { "58.9" } µs | { "13" } samples over { "6.0" } h
 
 # text
 # c1: station1_lat_deg
@@ -47,13 +47,7 @@ seg-11450a55fc9d = The example <c1/> sets, among others:
 seg-df90e5910fb4 = hr
 
 # text
-seg-36a2c3a64e17 = { "4" }.0290e5
-
-# text
-seg-8960c19c5fb0 = { "1" }.3118e-6
-
-# text
-seg-6041d55245b5 = s/s
+seg-37d29d8303fe = km
 
 # text
 seg-c1ce24cd6008 = analytic

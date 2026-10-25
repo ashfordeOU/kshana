@@ -113,9 +113,6 @@ seg-5a69a99b9a87 = hex string
 seg-441eb1f43399 = SHA-256 (SHA: Secure Hash Algorithm) over the canonical scenario JSON — the run is reproducible from <c1/>.
 
 # text
-seg-5004ff6917ba = u64
-
-# text
 # c1: seed + 0x9e3779b97f4a7c15
 seg-ba73ba76873e = RNG (random-number generator) seed for the quantum run (classical uses <c1/>).
 
@@ -291,9 +288,6 @@ seg-95f058adb809 = Worst-case (shortest) in-spec coast across outage segments.
 
 # text
 seg-48babfd3bd95 = <b>grid-bounded</b> — a lower bound at the time-step resolution
-
-# text
-seg-ea7e7512604e = ns/s
 
 # text
 seg-41c08973baa1 = Least-squares growth rate of |error| during the outage.

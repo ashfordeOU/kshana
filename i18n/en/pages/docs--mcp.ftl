@@ -87,7 +87,7 @@ seg-ae58a8577aa7 = Export an <c1/> scenario's constellation as SP3-c (Standard P
 
 # text
 # c1: orbit
-seg-26e9f3fc38e2 = Export an <c1/> scenario's elements as a CCSDS (Consultative Committee for Space Data Systems) { "502" }.0-B-2 OMM (Orbit Mean-elements Message) catalogue.
+seg-6a59aacf26bb = Export an <c1/> scenario's elements as a CCSDS (Consultative Committee for Space Data Systems) 502.0-B-2 OMM (Orbit Mean-elements Message) catalogue.
 
 # text
 # c1: orbit
@@ -468,7 +468,7 @@ seg-deb5187472d1 = Homebrew
 seg-26795c302f8a = brew
 
 # text
-seg-b8822260edfc = formula for { "v0.39.0" }
+seg-ded975fa67fa = formula for v{ $version }
 
 # text
 seg-491167f2310c = Scoop
@@ -482,7 +482,7 @@ seg-667d6dde705b = <c1/> then <c2/>
 seg-f6e9fc5f46fe = Scoop (Windows)
 
 # text
-seg-adfb31d7e2f5 = manifest for { "v0.39.0" }
+seg-bc4762d20004 = manifest for v{ $version }
 
 # text
 seg-f7c0a2fbb0b5 = winget
@@ -508,6 +508,9 @@ seg-b308519d4c8d = <a1>the release page</a1>: <c1/> (Linux x86-64), <c2/>, check
 
 # text
 seg-fdbb9db68f1d = none
+
+# text
+seg-c39cac69f700 = v{ $version }
 
 # text
 seg-d107bc8e1950 = MCP registry

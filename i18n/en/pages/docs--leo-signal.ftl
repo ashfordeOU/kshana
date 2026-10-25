@@ -209,7 +209,7 @@ seg-39382eb3a60c = <c1/> puts every signal beside a reference signal: first-orde
 
 # text
 # c1: scenarios/leo-band-trade.toml
-seg-5a4abb14f9dc = <c1/> ({ "50" } TECU, { "1000" } km, { "45" } dB-Hz, { "0" }.5-chip coherent spacing, { "1" } Hz loop, { "20" } ms):
+seg-58ced9eba711 = <c1/> ({ "50" } TECU, { "1000" } km, { "45" } dB-Hz, 0.5-chip coherent spacing, { "1" } Hz loop, { "20" } ms):
 
 # text
 seg-72f051e2d7e1 = Signal
@@ -233,9 +233,6 @@ seg-aba982013f21 = Ranging, equal EIRP
 seg-8b292612e43e = CW J/S tolerance
 
 # text
-seg-0dccc11ce023 = generic-uhf
-
-# text
 seg-53c8b6059c3f = { "465" } MHz, BPSK({ "5" })
 
 # text
@@ -257,9 +254,6 @@ seg-b36b61eaff50 = { "0.086" } m
 seg-37de1532b69e = { "42.1" } dB
 
 # text
-seg-b701bcfe6051 = generic-l
-
-# text
 seg-f16b26301a6b = { "1191.795" } MHz, BPSK({ "10" })
 
 # text
@@ -273,9 +267,6 @@ seg-b1dccfc14bb2 = { "45.00" } dB-Hz
 
 # text
 seg-467afbc3965e = { "45.0" } dB
-
-# text
-seg-4adb84c35a54 = generic-s
 
 # text
 seg-63fc45ce7ef9 = { "2492.028" } MHz, BPSK({ "5" })
@@ -299,9 +290,6 @@ seg-6edbdabf77cb = { "0.388" } m
 seg-b1c384a78d8c = { "41.7" } dB
 
 # text
-seg-dd05f8627505 = generic-c
-
-# text
 seg-d13c29401059 = { "5020" } MHz, BPSK({ "10" })
 
 # text
@@ -318,9 +306,6 @@ seg-d04fb147c95f = { "0.465" } m
 
 # text
 seg-e825ae4d1080 = { "43.4" } dB
-
-# text
-seg-ad93116d3b52 = generic-c-wide
 
 # text
 seg-2f20b409a3df = { "5100" } MHz, BPSK({ "50" })
@@ -352,12 +337,6 @@ seg-9bb6fa0e7a95 = Xona Pulsar
 # text
 # c1: scenarios/xona-pulsar-signals.toml
 seg-d71e8de9cdda = <c1/> at the published minimum received powers against a { "290" } K antenna and a { "2" } dB noise figure (floor −{ "201.98" } dBW/Hz):
-
-# text
-seg-6eb93ec2c475 = X1
-
-# text
-seg-658aa1ad5873 = X5
 
 # text
 seg-4cf70433cc54 = Reference C/N₀
@@ -459,9 +438,6 @@ seg-a582f1a22a07 = { "34.38" } dB-Hz from { "10" } s
 seg-23570b8c7403 = CW at the carrier, −{ "120" } dBW
 
 # text
-seg-620d44960985 = gps-l1ca
-
-# text
 seg-5393b075ff7f = { "43.48" } dB-Hz
 
 # text
@@ -471,9 +447,6 @@ seg-2e935ea7b90e = { "3.38" } dB-Hz from { "20" } s (lost)
 seg-52256ba98a99 = { "16" } MHz chirp, { "50" } mW at { "100" } m
 
 # text
-seg-3ed59143b324 = galileo-e5a
-
-# text
 seg-4321ccaeeca5 = { "46.73" } dB-Hz
 
 # text
@@ -481,9 +454,6 @@ seg-71abaef6924e = { "38.51" } dB-Hz from { "30" } s
 
 # text
 seg-45441a20f061 = { "40" } MHz barrage at { "1185" } MHz, −{ "118" } dBW
-
-# text
-seg-cc22f5c3fee4 = xona-x5
 
 # text
 seg-59fd1427d61b = { "54.51" } dB-Hz

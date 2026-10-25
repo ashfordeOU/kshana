@@ -10,7 +10,7 @@ seg-09644e40e2d8 = Source: <c1/>
 seg-ec92d03eaa6c = <c1/> (scenario kind)
 
 # text
-seg-db3cc450c66b = Scenario kind of the engine { "v0.39.0" }, family <a1>Clocks, timing and holdover</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-c61e88721556 = Scenario kind of the engine v{ $version }, family <a1>Clocks, timing and holdover</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-1b61962464c5 = Slot timing: seconds until a free-running clock leaves the guard of a time-indexed routing or tasking slot (the largest absolute time error the slot tolerates), the contribution of every term at that moment with the dominant one named (fix uncertainty, white phase noise, white, flicker, random-walk and random-run frequency noise, residual frequency offset, temperature, ageing), the time left since the last fix, and the largest fix interval that keeps the clock inside, net of the fix latency. The oscillator is a CLASS default (csac, uso, dsac, tcxo, ocxo or rafs: one cited one-second Allan deviation and an assumed red-noise floor), a telecom-timing DATASHEET PRESET or an inline DATASHEET (Allan-deviation maxima fitted as an envelope, plus ageing and a temperature coefficient), or an inline MEASURED PHASE RECORD (its overlapping Allan deviation fitted by weighted least squares in the white-phase and IEEE Std { "1139" } frequency-modulation basis, so the red-noise floor is measured rather than assumed). A breach beyond the longest averaging time the datasheet or record supports is flagged as extrapolated. An optional spoofing section adds the timing protection level for a receiver in orbit: orbital speed and period, how long a single ground spoofer can reach the satellite per pass, the clock-aided monitor floor and CUSUM detection latency, the conditional bound, the pull a spoofer at a stated maximum ramp rate accumulates before the satellite leaves its reach or an independent check runs, and whether each ground-contact or crosslink check is independent of that spoofer. VALIDATED: the holdover inversion from a fitted record, held out on a real caesium clock measured against a hydrogen maser (tests/slot_timing_cs5071a_holdout.rs, data-gated); on a measured crystal oscillator the held-out prediction is conservative but not within the bar, so the crystal case is MODELLED. MODELLED: class and datasheet sources, the deterministic terms and the spoofing assessment.
@@ -39,37 +39,13 @@ seg-8aee75a55007 = ocxo
 seg-f42465f7d066 = ns
 
 # text
-seg-347dabc0f57f = ground-contact
-
-# text
-seg-cad60c0d2c3d = { "1" }.5000e-10
-
-# text
-seg-3d620bb2c6b6 = 1/d
-
-# text
-seg-a32d7a44dc98 = { "6" }.2610e-23
+seg-37d29d8303fe = km
 
 # text
 seg-df4ca2d859ff = 1/s^{ "3" }
 
 # text
-seg-0dacd3abc520 = { "7" }.3122e-24
-
-# text
-seg-ad670a878be8 = 1/s
-
-# text
-seg-8037202199c5 = { "8" }.0652e-12
-
-# text
 seg-1a282dc35742 = datasheet
-
-# text
-seg-3d727a560fef = { "1" }.1429e-11
-
-# text
-seg-969eb62880cf = 1/K
 
 # text
 seg-c13396b4e57b = Result label (the engine's): MODELLED — time until a free-running clock leaves a routing slot's guard, and the fix cadence that keeps it inside, from a stationary power-law clock model. A datasheet source is an envelope of its maxima, not a measurement of any unit; a class source rests on an assumed red-noise floor.

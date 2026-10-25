@@ -10,7 +10,7 @@ seg-1d36a7dc3fd0 = Source: <c1/>
 seg-7bfd6d049799 = <c1/> (scenario kind)
 
 # text
-seg-255b35ae4f11 = Scenario kind of the engine { "v0.39.0" }, family <a1>GPS-denied alternative PNT</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-216efc4e6fba = Scenario kind of the engine v{ $version }, family <a1>GPS-denied alternative PNT</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-0d7bf5a4f07e = GPS-denied terrain-referenced navigation (TERCOM/SITAN): a radar/baro altimeter matches the ground-elevation profile against an SRTM-style DEM to recover the INS drift.

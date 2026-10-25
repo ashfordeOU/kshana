@@ -63,9 +63,6 @@ seg-88ccaef6fc49 = the run's chart, every scalar of the result document with its
 seg-42a82485f8c8 = the result document and its <c1/> block
 
 # text
-seg-bb2aee0f0a66 = 3a
-
-# text
 seg-f554fbcdd85c = Aggregation (campaigns and sweeps)
 
 # text
@@ -81,9 +78,6 @@ seg-7c0466805f54 = a sweep's node table; a Monte Carlo run's mean, standard devi
 seg-7b5f5b635905 = the campaign result's <c1/>, <c2/>, <c3/> or <c4/> section; a <c5/> or <c6/> result's grid
 
 # text
-seg-0fdfc233f488 = 3b
-
-# text
 seg-3bf44008fc65 = Animation and exports
 
 # text
@@ -97,7 +91,7 @@ seg-64d1073dfadc = the run's animated drawing (the <c1/> output) embedded as an 
 # c4: --export
 seg-ad7792e04197 = the animation exporter (<c1/>), <c2/> and the files the command line wrote (<c3/>, <c4/>)
 
-# attr:aria-label, text
+# text
 seg-3d3781a3691b = Events timeline
 
 # text
@@ -296,9 +290,6 @@ seg-023d5a1fbffc = <b>Crosswalk judgement.</b> Which matrix rows a kind exercise
 # text
 # c1: omitted
 seg-0a7465f4c29a = <b>Caps.</b> The page lists at most { "400" } inputs, { "150" } scalar results, { "60" } numeric columns and { "200" } events; <c1/> counts the rest. A table of more than { "24" } rows inside a scenario (an ingested series) is summarised per column.
-
-# text
-seg-8c5f8711042a = Suites.
 
 # text
 # c1: kshana --study <suite.toml>

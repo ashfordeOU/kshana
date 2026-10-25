@@ -10,14 +10,14 @@ seg-fd8fad481c81 = Source: <c1/>
 seg-e726a6d74d81 = <c1/> (scenario kind)
 
 # text
-seg-6de0af3b46fa = Scenario kind of the engine { "v0.39.0" }, family <a1>Inertial, fusion and quantum sensors</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-7b2721b7588d = Scenario kind of the engine v{ $version }, family <a1>Inertial, fusion and quantum sensors</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-38df285a3f25 = Loosely- and tightly-coupled GNSS/INS error-state EKF.
 
 # text
 # c1: scenarios/gnss-ins.toml
-seg-e6729853e7bb = One run of <c1/> summarises as: scenario c55a6246bd6f | gnss-ins | quantum outage-RMS fused { "1" }.9m vs free { "130" }.7m (hold 60s, avail { "1.00" }) | classical fused { "3" }.1m vs free { "314" }.3m (hold 60s, avail { "1.00" })
+seg-e1e235215947 = One run of <c1/> summarises as: scenario c55a6246bd6f | gnss-ins | quantum outage-RMS fused 1.9m vs free 130.7m (hold 60s, avail { "1.00" }) | classical fused 3.1m vs free 314.3m (hold 60s, avail { "1.00" })
 
 # text
 # c1: seed
@@ -53,23 +53,11 @@ seg-49f2fa051719 = denied
 seg-195347c63a8a = m/s^{ "2" }
 
 # text
-seg-5a1ccd56846c = [{ "0" }, { "0" }, { "1" }.0000e-4]
-
-# text
-seg-0bd5777c4223 = rad/s
-
-# text
-seg-aa775bfcf30d = tactical-imu
-
-# text
 seg-327a2c4885bd = Tactical-grade MEMS/quartz inertial unit: larger residual bi
 
 # text
 # c1: scenarios/
 seg-d1beb62cf742 = { "6" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
-
-# text
-seg-8a5d6b8efc8b = m/s
 
 # text
 seg-b054c73f22e5 = no value

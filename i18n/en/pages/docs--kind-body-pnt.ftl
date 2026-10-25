@@ -10,7 +10,7 @@ seg-02b8d1f1b7df = Source: <c1/>
 seg-e28ba749a2a1 = <c1/> (scenario kind)
 
 # text
-seg-75bcebd6664f = Scenario kind of the engine { "v0.39.0" }, family <a1>Constellations, coverage and geometry</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-11e8c29ecb45 = Scenario kind of the engine v{ $version }, family <a1>Constellations, coverage and geometry</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-e7dad1a1ecba = Positioning around any solar-system body: an orbiter or a surface lander around a central body chosen by name (Mars, the Moon, Europa, Ganymede, Titan and the rest of the solar-system catalogue), navigating with one-way pseudoranges from a small Walker navigation constellation around the body (two-body orbits with the body's own J2 secular drift, an unknown user clock) and optionally a clock-free deep-space two-way range from the Earth, whose direction and distance come from the analytic solar-system ephemeris at every epoch. Lines of sight are blocked by the body's mean sphere, and a surface user also needs the elevation mask. Per epoch: relays in view, whether the Earth is above the limb, the constellation-only GDOP and PDOP (geometric and position dilution of precision), the formal one-sigma position uncertainty with and without the Earth row, and the error of a seeded Gauss-Newton least-squares fix each way; over the run: availability, Earth visibility, median PDOP, RMS error and median formal sigma, plus the Earth-to-body light time, round trip, Shapiro delay and Sun separation at the epoch. MODELLED: the relay orbits, the noise levels and the instantaneous measurement model are modelling choices, not validated against a mission's navigation data; the body constants are the published values cited in body.rs, and the Earth geometry inherits the solar-system ephemeris labels.
@@ -40,6 +40,9 @@ seg-3f1989254167 = The example <c1/> sets, among others:
 seg-5b561b4fd201 = Mars
 
 # text
+seg-37d29d8303fe = km
+
+# text
 seg-debc2f07db78 = true
 
 # text
@@ -50,13 +53,7 @@ seg-2edab0747386 = 2027-02-19T00:{ "00" }:{ "00" }
 seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
 
 # text
-seg-1eef4a8a2344 = { "4" }.2828e13
-
-# text
 seg-753b1683fb7b = m^3/s^{ "2" }
-
-# text
-seg-57dc213997cb = { "1" }.0142e11
 
 # text
 seg-81d4cd54bd62 = Result label (the engine's): MODELLED: two-body relay orbits with J2 secular drift, geometric visibility, Gaussian range noise and an instantaneous measurement model around a body from the published constants; not validated against a mission's navigation data. The Earth-to-body geometry inherits the solar-system ephemeris label

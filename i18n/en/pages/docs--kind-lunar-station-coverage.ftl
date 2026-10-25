@@ -10,7 +10,7 @@ seg-f3231c08fa26 = Source: <c1/>
 seg-1a28838279fe = <c1/> (scenario kind)
 
 # text
-seg-c87c70fc4ee5 = Scenario kind of the engine { "v0.39.0" }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-1f17ef6a853e = Scenario kind of the engine v{ $version }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-f7ea776e70c9 = Modelled lunar reference-station coverage: a Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs. A differential reference station at a known south-polar site corrects a stated constellation (illustrative Keplerian or a tabulated ephemeris) with a stated signal-in-space error, survey error, correction latency and link quantization; per point and over the region it reports the percentile corrected and uncorrected position error (3-D, horizontal, vertical), availability, coverage against a stated threshold, DO-229E protection levels, the coverage radius per azimuth and the correction-link budget at the station and at the worst point. Not a statement about the performance of any real system; not affiliated with or endorsed by any agency. MODELLED.
@@ -69,12 +69,6 @@ seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a
 seg-9feefecdcf67 = rafs
 
 # text
-seg-4ea27e7742a7 = { "3" }.1623e-11
-
-# text
-seg-8a5d6b8efc8b = m/s
-
-# text
 seg-2d84b341a41f = Result label (the engine's): MODELLED
 
 # attr:alt
@@ -92,7 +86,7 @@ seg-8d02b1426187 = <b>MODELLED</b> The three terms a differential correction pic
 
 # text
 # c1: lunar-station-coverage
-seg-8039f17ddc1a = <b>MODELLED</b> Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs (the <c1/> kind): for a differential r. Oracle (InternalConsistency): Arithmetic re-computed by an independent numpy script on exported cases (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; pre-registered in tests/fixtures/lunar_station/PREREGISTRATION.md, committed alone in 9caedf97 before the first run): on { "20" } cases with every error term on, the visible sets and status are identical, the raw range errors agree to { "1" }.4e-14 m, the position-error vectors and magnitudes to { "1" }.4e-9 m agains
+seg-d547d600ee2d = <b>MODELLED</b> Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs (the <c1/> kind): for a differential r. Oracle (InternalConsistency): Arithmetic re-computed by an independent numpy script on exported cases (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; pre-registered in tests/fixtures/lunar_station/PREREGISTRATION.md, committed alone in 9caedf97 before the first run): on { "20" } cases with every error term on, the visible sets and status are identical, the raw range errors agree to { "1.4e-14" } m, the position-error vectors and magnitudes to { "1.4e-9" } m agains
 
 # text
 # c1: label

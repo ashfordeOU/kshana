@@ -122,7 +122,7 @@ seg-a6ee5e2a8b61 = { "10" } m
 seg-329ad585cd9b = ILLUSTRATIVE: no public value exists
 
 # text
-seg-d517dcb8b7ea = { "5" } m, 1e-4, { "42" }
+seg-422a316b806b = { "5" } m, { "1e-4" }, { "42" }
 
 # text
 seg-f37311ad7ef0 = Outputs
@@ -206,7 +206,7 @@ seg-34ed85bb9ac0 = The same masks apply to the <c1/> grid (<c2/>, <c3/> and <c4/
 
 # text
 # c1: tests/fixtures/lunar_terrain/PREREGISTRATION.md
-seg-9e9a8855184b = Checks: the ray march reproduces closed-form horizons (the bare-sphere dip, a crater in a plateau from its centre and off it, a rasterised cone against the analytic cone); the vendored crop is oriented as the source (Shackleton and Haworth floors low, the Malapert massif high); an independent numpy ray-cast on the crop, pre-registered (<c1/>), agrees to { "5" }.5e-10 deg at five sites, which checks the arithmetic, not the terrain. No published polar horizon or illumination figure has been reproduced, so the row stays MODELLED (ledger row "Lunar terrain horizon masks from a stated profile or a polar DEM").
+seg-8d07f0227ab8 = Checks: the ray march reproduces closed-form horizons (the bare-sphere dip, a crater in a plateau from its centre and off it, a rasterised cone against the analytic cone); the vendored crop is oriented as the source (Shackleton and Haworth floors low, the Malapert massif high); an independent numpy ray-cast on the crop, pre-registered (<c1/>), agrees to { "5.5e-10" } deg at five sites, which checks the arithmetic, not the terrain. No published polar horizon or illumination figure has been reproduced, so the row stays MODELLED (ledger row "Lunar terrain horizon masks from a stated profile or a polar DEM").
 
 # text
 # c1: scenarios/lunar-station-coverage-terrain.toml
@@ -273,9 +273,6 @@ seg-5b480535b54b = this model
 seg-6231a005ccc9 = verdict
 
 # text
-seg-3deddd46ad38 = K1
-
-# text
 seg-45dc6ff5d546 = one station gives sub-metre accuracy over the whole south pole, { "300" } km circle (S1, S2, S3)
 
 # text
@@ -285,13 +282,7 @@ seg-4da98cf6180b = coverage { "0.00" }
 seg-70a79ec95bf4 = fail
 
 # text
-seg-f3374daf7022 = K2
-
-# text
 seg-cd0e9021aaa3 = the same, { "600" } km circle (S2 p10, S3 p23)
-
-# text
-seg-b504b492dd54 = K3
 
 # text
 seg-ef9f2ee31c52 = sub-metre with code corrections (S1, S2)
@@ -301,9 +292,6 @@ seg-9f4e2b6991e8 = corrected p95 3-D { "280.6" } m
 
 # text
 seg-ac3c99ec0d15 = <= { "1.5" } m
-
-# text
-seg-8813d9a814d0 = K4
 
 # text
 seg-1b720f1677cc = "decimeter level" from pseudorange corrections (S3 p22, S5 p5)
@@ -318,16 +306,10 @@ seg-70368d910820 = <= { "0.15" } m
 seg-786f940b345e = fail (could not pass at the sources' { "0.30" } m code noise)
 
 # text
-seg-a1df4fed6506 = K5
-
-# text
 seg-da761dde1cae = sub-metre kept at { "600" } s latency (S2 p16)
 
 # text
 seg-2a9db96bd87f = { "293.0" } m
-
-# text
-seg-b0e354a0dd14 = K6
 
 # text
 seg-021336eb5623 = the same accuracy from { "10" } km to { "500" } km baseline (S2 p17)
@@ -398,22 +380,13 @@ seg-a6f8ef268fcc = retrieved
 seg-d04709ddc97d = licence
 
 # text
-seg-8d60e5623807 = S1
-
-# text
 seg-1d4174e911c1 = white paper on a lunar reference station for positioning, timing and science, version { "3" }
-
-# text
-seg-b3916be0b5d1 = arXiv:{ "2602" }.08432v3
 
 # text
 seg-e09e1cc11921 = arXiv (authors' white paper)
 
 # text
 seg-c91720d34bd3 = arXiv non-exclusive licence to distribute { "1.0" } (grants arXiv only)
-
-# text
-seg-6c5343b24f41 = S2
 
 # text
 seg-df12c861db1e = "Lunar local Differential PNT and Selenodetic Reference Station" ({ "27" } slides)
@@ -426,9 +399,6 @@ seg-406990fe43a8 = ICG-IOAG Workshop on Cislunar PNT, February { "2025" }; slide
 
 # text
 seg-58579c3faf2f = none stated; marked releasable to the public from slide { "3" }
-
-# text
-seg-8cf1af593771 = S3
 
 # text
 seg-57df0ef791e6 = "Moonlight: LCNS, and Lunar Pathfinder" ({ "28" } slides)
@@ -444,28 +414,16 @@ seg-23aee49b1347 = UNOOSA, ICG Joint Working Group Session on Lunar PNT, June { 
 seg-f4e53e44f0b5 = none stated; marked releasable to the public
 
 # text
-seg-c123d1fd266e = S4
-
-# text
 seg-b22a694c481d = "Moonlight Programme Development Status" ({ "16" } slides)
 
 # text
-seg-26dcd898b977 = ioag.org/meetings/cislunar2026
-
-# text
 seg-3fd0ab93507d = 2nd ICG-IOAG Cislunar PNT Workshop, February { "2026" }; slides by the European Space Agency and Telespazio
-
-# text
-seg-1a1ed38ad66d = S5
 
 # text
 seg-472771298df7 = "Lunar Reference Time: ESA's Views" ({ "9" } slides)
 
 # text
 seg-6229db9cb23d = Workshop on Cislunar PNT, February { "2026" }; slides by the European Space Agency
-
-# text
-seg-c61cad1c9ec7 = S6
 
 # text
 # c1: LUNAR_SIGMA_URE_M

@@ -10,7 +10,7 @@ seg-3a8c76a2396f = Source: <c1/>
 seg-f9af2813532e = <c1/> (scenario kind)
 
 # text
-seg-6de0af3b46fa = Scenario kind of the engine { "v0.39.0" }, family <a1>Inertial, fusion and quantum sensors</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-7b2721b7588d = Scenario kind of the engine v{ $version }, family <a1>Inertial, fusion and quantum sensors</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 # c1: candidate_adev_taus
@@ -20,7 +20,7 @@ seg-eb55d253dd11 = Quantum-vs-classical PNT trade ({ "13503" }): timing-holdover
 
 # text
 # c1: scenarios/quantum-trade.toml
-seg-e7efcbba3b4c = One run of <c1/> summarises as: quantum-trade | candidate measured-ADEV | timing holdover 2621947s vs 203s ({ "12943" }.62x) | inertial 14108s vs 378s ({ "37" }.34x) | resilience coast 14108s | MODELLED [floor-assumed caveat]
+seg-4f470bc1d82c = One run of <c1/> summarises as: quantum-trade | candidate measured-ADEV | timing holdover 2621947s vs 203s (12943.62x) | inertial 14108s vs 378s (37.34x) | resilience coast 14108s | MODELLED [floor-assumed caveat]
 
 # text
 # c1: timing_threshold_s
@@ -44,15 +44,6 @@ seg-f2cc0830b53f = The example <c1/> sets, among others:
 seg-ee5bcbbe0167 = csac
 
 # text
-seg-bd34d823dd55 = [{ "5" }.0000e-16, { "1" }.6000e-16, { "6" }.0000e-17, { "4" }.0000e-17, { "6" }.0000e-17,
-
-# text
-seg-65ed8dc161d9 = { "2" }.0000e-8
-
-# text
-seg-273d9e30f344 = measured-ADEV
-
-# text
 seg-98151954f217 = false
 
 # text
@@ -71,7 +62,7 @@ seg-c74c63ffd859 = The chart the engine writes for scenarios/quantum-trade.toml,
 seg-7400f24ec992 = MODELLED { "1" } · VALIDATED { "2" }: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-19a3af358954 = <b>VALIDATED</b> Power-law (white-FM + red-noise-floor) NNLS recovery from a published measured ⁸⁸Sr optical-clock-transition Allan deviation — reproducing σ_y(τ) and the headline { "4" }.7e-16/√τ short-τ scaling with a genuine measured long-τ floor, rather than Tests: <a1>optical_clock_adev_reference.rs</a1>.
+seg-93310aaa6ead = <b>VALIDATED</b> Power-law (white-FM + red-noise-floor) NNLS recovery from a published measured ⁸⁸Sr optical-clock-transition Allan deviation — reproducing σ_y(τ) and the headline 4.7e-16/√τ short-τ scaling with a genuine measured long-τ floor, rather than Tests: <a1>optical_clock_adev_reference.rs</a1>.
 
 # text
 seg-fc46e95688ba = <b>VALIDATED</b> Measured-ADEV NNLS fit, NEES/NIS χ² consistency bands, and the clock van-Loan discrete process-noise (holdover-coast) covariance — the trade engine's computational spine Tests: <a1>scipy_reference.rs</a1>.
@@ -80,7 +71,7 @@ seg-fc46e95688ba = <b>VALIDATED</b> Measured-ADEV NNLS fit, NEES/NIS χ² consis
 seg-6e2b62136cef = <b>MODELLED</b> Measured-ADEV ingestion (NNLS), trade table (timing/inertial holdover + benefit), resilience-vs-time envelope; floor caveat carried on the artifact.
 
 # text
-seg-1bc24485d3e3 = <b>VALIDATED</b> Measured-ADEV NNLS fit, NEES/NIS χ² consistency bands, and the clock van-Loan discrete process-noise (holdover-coast) covariance — the trade engine's computatio. Oracle (ExternalDataset): scipy { "1.17.1" } — optimize.nnls / stats.chi2.ppf / linalg.expm; NNLS+Q exact, χ² <5e-4 at operating dof. Kernels only — device-performance numbers stay Modelled (next row)
+seg-b577b8464cf7 = <b>VALIDATED</b> Measured-ADEV NNLS fit, NEES/NIS χ² consistency bands, and the clock van-Loan discrete process-noise (holdover-coast) covariance — the trade engine's computatio. Oracle (ExternalDataset): scipy { "1.17.1" } — optimize.nnls / stats.chi2.ppf / linalg.expm; NNLS+Q exact, χ² <{ "5e-4" } at operating dof. Kernels only — device-performance numbers stay Modelled (next row)
 
 # text
 seg-6b8aa8cd6d3e = <b>MODELLED</b> Measured-ADEV ingestion (NNLS), trade table (timing/inertial holdover + benefit), resilience-vs-time envelope; floor caveat carried on the artifact. Runnable fr. Oracle (ExternalDataset): The measured-ADEV→PSD fit (NNLS) kernel is matched to scipy.optimize.nnls (tests/scipy_reference.rs / tests/quantum_vs_classical_pnt_trade_reference.rs) — an independent external kernel; but the trade NUMBERS quantify (never validate) a partner clock/CAI, so the trade itself stays MODELLED, no validation halo

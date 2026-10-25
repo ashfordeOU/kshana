@@ -10,7 +10,7 @@ seg-73929aeded02 = Source: <c1/>
 seg-218f00012d0e = <c1/> (scenario kind)
 
 # text
-seg-db3cc450c66b = Scenario kind of the engine { "v0.39.0" }, family <a1>Clocks, timing and holdover</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-c61e88721556 = Scenario kind of the engine v{ $version }, family <a1>Clocks, timing and holdover</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-c0924aa36e64 = MODELLED holdover test of a timing system, scored from a time-error record the OPERATOR supplies (a linuxptp ptp4l, phc2sys or ts2phc log, a chrony tracking or statistics log, a TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs). The test has four steps and Kshana performs none of them: a locked BASELINE, GNSS REMOVED by the operator (the antenna cable or the simulator output; Kshana transmits and drives nothing) at a stated time, HOLDOVER on the system's own oscillator, and RECOVERY after the operator restores GNSS at a second stated time. The record is split at those two times. Baseline: time-error statistics and the ITU-T masks written for a locked clock. Holdover: statistics, the fractional frequency offset the system held (a least-squares line), the masks written for holdover or an autonomous clock, the ePRTC-A holdover envelope from the stated locked duration, and the time to exceed each time-error budget. Recovery: whether and when |TE| came inside a stated band and stayed there, the peak and the largest step. Every limit is transcribed from a public ITU-T table (the telecom-timing masks); the words are 'measured against the mask', and the two times are the operator's statement, not verified. A record too short for a mask is INCOMPLETE, never extrapolated. See docs/TIMING-HIL.md.
@@ -35,9 +35,6 @@ seg-ad4f9c40e317 = The example <c1/> sets, among others:
 
 # text
 seg-f0517ab67e28 = [prtc-a, eprtc-a-holdover]
-
-# text
-seg-8815c1c6a682 = ptp4l
 
 # text
 seg-fe13d0e59509 = ptp4l[{ "1000.000" }]: master offset -4 s2 freq + { "1200" } pa

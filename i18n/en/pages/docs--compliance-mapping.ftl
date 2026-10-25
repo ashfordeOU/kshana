@@ -22,37 +22,19 @@ seg-245fe1f87b08 = File
 seg-d104ce416298 = US DHS Resilient PNT Conformance Framework, v2.0
 
 # text
-seg-50a82d7cc4d5 = dhs-rpcf.md
-
-# text
 seg-0f7279ffb619 = IMO guidance on GNSS interference for ships
-
-# text
-seg-58aa4b6d5399 = imo-ships.md
 
 # text
 seg-f318176b86de = EASA guidance on GNSS interference for aviation
 
 # text
-seg-548751bf5071 = easa-aviation.md
-
-# text
 seg-7939ac1eea3b = EU NIS2 Directive, Article { "21" }
-
-# text
-seg-c6f445d4ae8b = nis2-art21.md
 
 # text
 seg-f2eccc9b815f = EN { "16803" } (paid standard; by part and catalogue-visible clause numbers only)
 
 # text
-seg-213926f594d4 = en-16803.md
-
-# text
 seg-4970f6c15605 = NIST IR 8323r1, Foundational PNT Profile (January { "2023" })
-
-# text
-seg-9f3a692d2568 = nist-ir-8323r1.md
 
 # text
 # c1: kshana standards-pack list
@@ -65,25 +47,16 @@ seg-9c0eb89a2fbe = Pack
 seg-191baf9f2738 = DHS Resilient PNT Conformance Framework, test profiles for levels { "1" } to { "4" }
 
 # text
-seg-1e2131c76dff = dhs-rpcf-test-profiles.md
-
-# text
 seg-13e63b993f26 = IMO MSC.1/Circ.1575, shipborne PNT data processing: accuracy levels and integrity
-
-# text
-seg-30e523a669f2 = imo-circ-1575.md
 
 # text
 seg-aa77ffe0acbf = ICAO Doc { "9849" } Appendix F, monitor, assess and mitigate GNSS interference
 
 # text
-seg-7c65bd32ffdd = icao-doc9849-appf.md
-
-# text
 seg-b9387be0e4f1 = Each file lists its source documents with version, URL, date read and what was and was not checked. Sources were read on 2026-10-09 (the NIST profile on 2026-10-18; the EASA bulletin and the EN { "16803" } catalogue pages were checked again on 2026-10-10). Where a source could only be read through a mirror or a catalogue page, the file says so.
 
 # attr:alt
-seg-1cef1f470024 = Every test of the three scored standards packs, from real runs of engine { "v0.39.0" } (`kshana standards-pack run`): dhs-rpcf: { "6" } met, { "1" } not met, { "2" } need an input; imo-circ-1575: { "1" } met, { "4" } not met, { "2" } need an input; icao-doc9849-appf: { "6" } met, { "0" } not met, { "2" } need an input. In all, { "13" } met, { "5" } not met and { "6" } need an input the engine does not have (a receiver log or equipment documentation). Each bar was stated before the run; a miss is kept as a miss. A met bar says a modelled scenario met a stated bar, nothing about a product. The packs support evidence for the rows they cite; they are not an assessment. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service; it must not be the sole basis for any navigation or safety decision.
+seg-e98e25897176 = Every test of the three scored standards packs, from real runs of engine v{ $version } (`kshana standards-pack run`): dhs-rpcf: { "6" } met, { "1" } not met, { "2" } need an input; imo-circ-1575: { "1" } met, { "4" } not met, { "2" } need an input; icao-doc9849-appf: { "6" } met, { "0" } not met, { "2" } need an input. In all, { "13" } met, { "5" } not met and { "6" } need an input the engine does not have (a receiver log or equipment documentation). Each bar was stated before the run; a miss is kept as a miss. A met bar says a modelled scenario met a stated bar, nothing about a product. The packs support evidence for the rows they cite; they are not an assessment. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service; it must not be the sole basis for any navigation or safety decision.
 
 # text
 seg-092dd691ca17 = The report
@@ -150,9 +123,6 @@ seg-8d216d42c776 = Receiver-log trust assessment
 
 # text
 seg-4377e24c36f5 = per-epoch trust state of a real receiver's own log, alarm times, and agreement with events stated before the run
-
-# text
-seg-ea0657d850a3 = receiver-trust
 
 # text
 seg-766182e85848 = Jamming link-budget effects

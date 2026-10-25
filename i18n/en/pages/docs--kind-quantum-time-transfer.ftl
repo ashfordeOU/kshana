@@ -10,14 +10,14 @@ seg-eee91dc5741d = Source: <c1/>
 seg-05060df7f0b7 = <c1/> (scenario kind)
 
 # text
-seg-db3cc450c66b = Scenario kind of the engine { "v0.39.0" }, family <a1>Clocks, timing and holdover</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-c61e88721556 = Scenario kind of the engine v{ $version }, family <a1>Clocks, timing and holdover</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-540545e6f846 = MODELLED trusted-quantum-timing chain: an end-to-end quantum (optical-lattice clock + entanglement/single-photon link) vs classical (CSAC + RF two-way) time-transfer budget, a reused timing protection level + a delay/replay-attack security FoM (1-P_md), a clock-anomaly detection probability + CUSUM latency, and the quantum-vs-classical trade as honest TradeEvidence with a representativeness + gaps-to-flight record. Illustrative public-source device/link params; models the class, no TRL/flight/certification claimed.
 
 # text
 # c1: scenarios/quantum-time-transfer.toml
-seg-7a112f2f96dd = One run of <c1/> summarises as: quantum-time-transfer | quantum chain { "1" }.233e-12s vs classical { "5" }.292e-9s | PL { "555.24" } ns | security Pd { "1.000" } (Pfa 1e-3) | anomaly Pd { "0.761" } | trade quantum wins 2/2 | MODELLED
+seg-ed79bfe80fe7 = One run of <c1/> summarises as: quantum-time-transfer | quantum chain 1.233e-12s vs classical 5.292e-9s | PL { "555.24" } ns | security Pd { "1.000" } (Pfa { "1e-3" }) | anomaly Pd { "0.761" } | trade quantum wins 2/2 | MODELLED
 
 # text
 # c1: integration_s
@@ -34,25 +34,16 @@ seg-80e94491c3df = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-6b03fa15a60d = The example <c1/> sets, among others:
 
 # text
-seg-38acf55af6c1 = { "5" }.0000e-9
-
-# text
-seg-ffd29653164c = { "1" }.0000e-9
-
-# text
 seg-37d16b499bc5 = dB
-
-# text
-seg-bb6033b5247b = { "5" }.2915e-9
 
 # text
 seg-f42465f7d066 = ns
 
 # text
-seg-501f5b1fab66 = { "1" }.2332e-12
+seg-a3697ad561db = Hz
 
 # text
-seg-a3697ad561db = Hz
+seg-f44afe581836 = { $version }
 
 # attr:alt
 seg-09760f892c7b = The chart the engine writes for scenarios/quantum-time-transfer.toml, kind quantum-time-transfer

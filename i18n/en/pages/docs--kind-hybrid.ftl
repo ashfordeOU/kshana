@@ -10,7 +10,7 @@ seg-d91dc5633e67 = Source: <c1/>
 seg-3b43d9c5624d = <c1/> (scenario kind)
 
 # text
-seg-6de0af3b46fa = Scenario kind of the engine { "v0.39.0" }, family <a1>Inertial, fusion and quantum sensors</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-7b2721b7588d = Scenario kind of the engine v{ $version }, family <a1>Inertial, fusion and quantum sensors</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-22cd963c7042 = Hybrid PNT capstone: clock + IMU + time-transfer aiding.
@@ -43,49 +43,22 @@ seg-f33278986879 = The example <c1/> sets, among others:
 seg-195347c63a8a = m/s^{ "2" }
 
 # text
-seg-41b2c44e9193 = nav-grade-quartz
-
-# text
 seg-7bebd09c614b = Navigation-grade quartz accelerometer (Honeywell QA-2000 / G
-
-# text
-seg-2bf6c2d012ac = { "3" }.8416e-8
 
 # text
 seg-3a1d8c59a4c9 = (m/s^{ "2" })^2/Hz
 
 # text
-seg-4fcc536a45d1 = { "5" }.8800e-7
-
-# text
-seg-c2089951999f = cold-atom-quat
-
-# text
 seg-4f5fd1bc8a4e = Exail hybrid quantum accelerometer triad, bias stability { "5.8" }
 
 # text
-seg-827c82f4fd15 = { "4" }.6656e-8
-
-# text
-seg-ad670a878be8 = 1/s
-
-# text
-seg-8652bc3944b3 = csac-sa45s
-
-# text
-seg-2aac8222d1b8 = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10
+seg-03442e4be82d = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)={ "3e-10" }
 
 # text
 seg-98151954f217 = false
 
 # text
-seg-0bd5777c4223 = rad/s
-
-# text
 seg-cc7a61264c3f = (m/s^{ "2" })^2/s
-
-# text
-seg-ffafec72635b = (rad/s)^2/Hz
 
 # text
 seg-49bff8dc860e = Navigation-grade quartz accelerometer (H

@@ -10,14 +10,14 @@ seg-0482fec5b0f6 = Source: <c1/>
 seg-830c574e871b = <c1/> (scenario kind)
 
 # text
-seg-e197d32d0aca = Scenario kind of the engine { "v0.39.0" }, family <a1>Optical PNT</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-72ad48275ebe = Scenario kind of the engine v{ $version }, family <a1>Optical PNT</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-e6839b50b560 = MODELLED heterogeneous optical + RF PNT joint figure of merit (P5): composes the { "1550" } nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a cross-modality solution-separation RAIM protection level (position AND timing) that fuses the loose RF and tight optical solutions with disparate covariances, the N-station optical clear-sky availability (independent-union { "1" }−Π({ "1" }−a_i) and a spatially-correlated variant), an optical↔RF state/covariance handoff with a PROVEN bit-continuous (no-jump) mean and a NEES χ² consistency gate, and a joint P(available AND precision-grade AND integrity-assured) score with correlation handling. VALIDATED closed form: the ranging CRLB, diffraction footprint, χ² protection-level quantile, union combinatorics, handoff mean-continuity + NEES gate, and the joint independent product. MODELLED: the optical loss allocations, RF/optical σ magnitudes, cloud-climatology inputs, correlations, and P_HMI budget. Not a certified availability/integrity product.
 
 # text
 # c1: scenarios/hybrid-optical-rf.toml
-seg-a3a81f33afb8 = One run of <c1/> summarises as: hybrid-optical-rf | optical footprint { "700" } m, { "1489" } photons -> ranging σ { "0.194" } mm, timing σ { "1.30" } ps | cross-RAIM HPL { "6.2" } m / VPL { "6.6" } m / TPL { "13.3" } ns (protected) | availability { "99.5" }% ({ "5" } sites) | handoff no-jump OK NEES { "3.34" }∈[{ "0.48" },{ "11.14" }] in-gate | joint FoM { "0.993" } (A { "0.995" } · P { "0.995" } · I { "1.000" }) | Validated CRLB/χ²-PL/union/handoff, Modelled σ/climatology
+seg-30904e2367fc = One run of <c1/> summarises as: hybrid-optical-rf | optical footprint { "700" } m, { "1489" } photons -> ranging σ { "0.194" } mm, timing σ { "1.30" } ps | cross-RAIM HPL { "6.2" } m / VPL { "6.6" } m / TPL { "13.3" } ns (protected) | availability { "99.5" }% ({ "5" } sites) | handoff no-jump OK NEES { "3.34" }∈[0.48,{ "11.14" }] in-gate | joint FoM { "0.993" } (A { "0.995" } · P { "0.995" } · I { "1.000" }) | Validated CRLB/χ²-PL/union/handoff, Modelled σ/climatology
 
 # text
 # c1: wavelength_nm
@@ -70,28 +70,13 @@ seg-73e5cf56c92c = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-27338c8b2e5f = The example <c1/> sets, among others:
 
 # text
-seg-65ed8dc161d9 = { "2" }.0000e-8
-
-# text
 seg-37d16b499bc5 = dB
-
-# text
-seg-e1a5f5892348 = { "1" }.0000e-11
-
-# text
-seg-8a5d6b8efc8b = m/s
-
-# text
-seg-ffd29653164c = { "1" }.0000e-9
 
 # text
 seg-98151954f217 = false
 
 # text
 seg-debc2f07db78 = true
-
-# text
-seg-5e8ac6dfd221 = { "1" }.3256e-8
 
 # text
 seg-7b9ce4689508 = Result label (the engine's): Heterogeneous optical + RF PNT joint availability / precision / integrity figure of merit (P5). VALIDATED closed form: the photon-limited ranging CRLB (σ_τ/√N) and diffraction footprint (λ/D·range), the χ² cross-modality protection-level quantile, the N-station independent-union availability ({ "1" } − Π(
@@ -110,7 +95,7 @@ seg-a8923a682728 = <b>MODELLED</b> The hybrid-optical-rf report states the link 
 seg-28abb5a84eaa = <b>MODELLED</b> The hybrid-optical-rf report states an RF link availability, composed from quantities the engine already computes rather than from an imported climatology, and . Oracle (InternalConsistency): No external oracle, and ExternalDataset is declined. The two inputs are an Eb/N0 margin and a C/N0 threshold crossing, both functions of a MODELLED EIRP, figure of merit and lumped loss allocation; there is no measured availability record for an Earth-Moon optical/RF hybrid service to check the composed figure against. The checks that exist are internal and are stated as such: the composition is recomputed from the r
 
 # text
-seg-bbaf0af46c73 = <b>MODELLED</b> The hybrid-optical-rf report emits the optical-versus-RF ranging ratio with the ONE configuration both legs were evaluated at carried in the same object: the sa. Oracle (InternalConsistency): No external oracle for the RATIO, and ExternalDataset is declined deliberately. The underlying RF chain does have one -- tests/validate_p5_rf_ranging_precision.rs checks linkbudget::link_budget and navsignal::dll_code_jitter_chips against an independent Python/NumPy fixture and against the hardcoded Kaplan & Hegarty worked value ({ "2" }.814e-3 chip / { "0.825" } m at { "45" } dB-Hz) -- and the optical CRLB has its own closed-form row
+seg-888004543d37 = <b>MODELLED</b> The hybrid-optical-rf report emits the optical-versus-RF ranging ratio with the ONE configuration both legs were evaluated at carried in the same object: the sa. Oracle (InternalConsistency): No external oracle for the RATIO, and ExternalDataset is declined deliberately. The underlying RF chain does have one -- tests/validate_p5_rf_ranging_precision.rs checks linkbudget::link_budget and navsignal::dll_code_jitter_chips against an independent Python/NumPy fixture and against the hardcoded Kaplan & Hegarty worked value ({ "2.814e-3" } chip / { "0.825" } m at { "45" } dB-Hz) -- and the optical CRLB has its own closed-form row
 
 # text
 seg-db5ff373b50f = <b>MODELLED</b> The hybrid-optical-rf report states what the cross-modality chi-square monitor can actually DETECT, not only that it passes a fault-free case: the minimum detec. Oracle (InternalConsistency): Two internal oracles, no external dataset. ({ "1" }) Closed-form round trip: the minimum detectable bias is produced by inverting the non-central chi-square tail on the non-centrality (raim::pbias) and is verified by feeding the resulting non-centrality back through raim::noncentral_chi2_cdf at the monitor's own threshold, which must return P_md. ({ "2" }) Injection vs analysis: a bias is written into the RF estimate of one axis

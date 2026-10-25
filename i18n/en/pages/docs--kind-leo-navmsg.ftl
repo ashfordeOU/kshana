@@ -10,14 +10,14 @@ seg-648c27220789 = Source: <c1/>
 seg-087287602b47 = <c1/> (scenario kind)
 
 # text
-seg-486c478c0598 = Scenario kind of the engine { "v0.39.0" }, family <a1>Low-Earth-orbit navigation</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-49964654d5f4 = Scenario kind of the engine v{ $version }, family <a1>Low-Earth-orbit navigation</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-867f3e41b5ab = LEO navigation message: the broadcast ephemeris and clock of a low Earth orbit (LEO) positioning, navigation and timing satellite, for any orbit, carrier and model, with optional named presets (Xona Pulsar, Iridium, Starlink, CentiSpace, a representative C-band system, the ATOMIC zero-clock model, Celeste IOD). CONTENT: auxiliary data (SVID, issue of data, band, signal health), synchronisation (week, time of week, a second-order clock polynomial af0-af2 about toc), ephemeris in one of four models -- the Galileo OS SIS ICD 16-parameter Keplerian set; that set plus along-track, cross-track and radial correction polynomials; the Liu et al. { "2025" } 22-parameter model; an ECEF polynomial with no clock terms (ATOMIC zero-clock) -- and other services (a Klobuchar broadcast set, NeQuick-G ai0-ai2 with the effective ionisation level, and system-time-to-UTC parameters with the ICD leap-second logic). FITTER: a truth orbit integrated with zonal J2-J6 or EGM2008 gravity to the chosen degree and drag, and a seeded free or steered clock; Levenberg-Marquardt fit of the Keplerian set on non-singular elements, then linear least-squares correction polynomials; clock fitted net of the relativistic term the user adds. ANALYSES: fit-interval-trade (signal-in-space range error, SISRE, with global-average weights for the orbit altitude, versus fit interval and update period, orbit-only and with clock), model-comparison (four models, parameter count, encoded bits, and Kshana's fit at the Liu et al. altitudes beside the published figures), midpass-update (the highest pass over a user, each message switch's position, clock and user-range jump, worst-geometry jump, PASS/FAIL against a continuity threshold), encode-decode (Kshana's own documented binary frame with CRC-24Q, a per-field half-step quantisation budget, a corrupted-frame check, a RINEX-4-style record export and import labelled a Kshana extension, and a CSV table). VALIDATED: the SISRE weights against the published MEO/GEO table (Montenbruck et al. { "2018" }); the Galileo user algorithm against RTKLIB on real Galileo broadcast ephemerides; CRC-24Q against its catalogue check value and the RTCM { "1005" } example frame. MODELLED: every fit and SISRE figure is representation error against a Kshana-integrated truth (no orbit determination or prediction error); the Liu et al. comparison uses different orbits; the encoding and text formats are Kshana's own.
 
 # text
 # c1: scenarios/leo-navmsg-celeste-iod.toml
-seg-00df98332e5e = One run of <c1/> summarises as: LEO navigation message — { "510" } km, { "97.4" } deg, gravity degree { "20" }, model kepler-rac SISRE weights: w_R { "0.459" }, w_AC^{ "2" } 1/2.53 (mask { "0" } deg) encode-decode: kepler-rac model, frame { "152" } bytes ({ "1156" } payload bits, { "891" } ephemeris+clock bits), CRC-24Q 0x58ADF2 quantisation: largest position change { "0.52" } mm, clock { "0.09" } mm; SISRE exact { "0.0013" } m, quantised { "0.0013" } m corrupted frame rejected: true; RINEX round trip { "4" }.43e-6 m; CSV round trip { "0" }.00e0 m fit-interval trade over { "1800" } s (usage period = fit interval): kepler16 { "60" } s SISRE orbit RMS { "0.0003" } m max { "0.0015" } m with clock RMS { "0.0006" } m kepler16 { "120" } s SISRE orbit RMS { "0.0003" } m max { "0.0015" } m with clock RMS { "0.0007" } m kepler16 { "300" } s SISRE orbit RMS { "0.0036" } m max { "0.0141" } m with clock RMS { "0.0037" } m kepler16 { "600" } s SISRE orbit RMS { "0.0293" } m max { "0.1023" } m with clock RMS { "0.0293" } m kepler16 { "900" } s SISRE orbit RMS { "0.1073" } m max { "0.3812" } m with clock RMS { "0.1075" } m kepler-rac { "60" } s SISRE orbit RMS { "0.0000" } m max { "0.0000" } m with clock RMS { "0.0005" } m kepler-rac { "120" } s SISRE orbit RMS { "0.0001" } m max { "0.0002" } m with clock RMS { "0.0007" } m kepler-rac { "300" } s SISRE orbit RMS { "0.0005" } m max { "0.0021" } m with clock RMS { "0.0012" } m kepler-rac { "600" } s SISRE orbit RMS { "0.0097" } m max { "0.0395" } m with clock RMS { "0.0096" } m kepler-rac { "900" } s SISRE orbit RMS { "0.0388" } m max { "0.1143" } m with clock RMS { "0.0390" } m The 16-parameter Keplerian set degrades from { "0.0003" } m at { "60" } s to { "0.1073" } m at { "900" } s: one Keplerian set with twice-per-revolution harmonics cannot follow the higher-frequency gravity terms and the drag of a LEO arc for more than a few minutes, and its least-squares residual oscillates across the window. The along/cross/radial polynomials, of higher degree than the Keplerian set spans, absorb what is left, giving { "0.0388" } m at { "900" } s.
+seg-e5a4f0290e9e = One run of <c1/> summarises as: LEO navigation message — { "510" } km, { "97.4" } deg, gravity degree { "20" }, model kepler-rac SISRE weights: w_R { "0.459" }, w_AC^{ "2" } 1/2.53 (mask { "0" } deg) encode-decode: kepler-rac model, frame { "152" } bytes ({ "1156" } payload bits, { "891" } ephemeris+clock bits), CRC-24Q 0x58ADF2 quantisation: largest position change { "0.52" } mm, clock { "0.09" } mm; SISRE exact { "0.0013" } m, quantised { "0.0013" } m corrupted frame rejected: true; RINEX round trip { "4.43e-6" } m; CSV round trip { "0.00e0" } m fit-interval trade over { "1800" } s (usage period = fit interval): kepler16 { "60" } s SISRE orbit RMS { "0.0003" } m max { "0.0015" } m with clock RMS { "0.0006" } m kepler16 { "120" } s SISRE orbit RMS { "0.0003" } m max { "0.0015" } m with clock RMS { "0.0007" } m kepler16 { "300" } s SISRE orbit RMS { "0.0036" } m max { "0.0141" } m with clock RMS { "0.0037" } m kepler16 { "600" } s SISRE orbit RMS { "0.0293" } m max { "0.1023" } m with clock RMS { "0.0293" } m kepler16 { "900" } s SISRE orbit RMS { "0.1073" } m max { "0.3812" } m with clock RMS { "0.1075" } m kepler-rac { "60" } s SISRE orbit RMS { "0.0000" } m max { "0.0000" } m with clock RMS { "0.0005" } m kepler-rac { "120" } s SISRE orbit RMS { "0.0001" } m max { "0.0002" } m with clock RMS { "0.0007" } m kepler-rac { "300" } s SISRE orbit RMS { "0.0005" } m max { "0.0021" } m with clock RMS { "0.0012" } m kepler-rac { "600" } s SISRE orbit RMS { "0.0097" } m max { "0.0395" } m with clock RMS { "0.0096" } m kepler-rac { "900" } s SISRE orbit RMS { "0.0388" } m max { "0.1143" } m with clock RMS { "0.0390" } m The 16-parameter Keplerian set degrades from { "0.0003" } m at { "60" } s to { "0.1073" } m at { "900" } s: one Keplerian set with twice-per-revolution harmonics cannot follow the higher-frequency gravity terms and the drag of a LEO arc for more than a few minutes, and its least-squares residual oscillates across the window. The along/cross/radial polynomials, of higher degree than the Keplerian set spans, absorb what is left, giving { "0.0388" } m at { "900" } s.
 
 # text
 # c1: name
@@ -41,9 +41,6 @@ seg-3adfcd7e275c = The example <c1/> sets, among others:
 seg-8243db187e2f = [encode-decode, fit-interval-trade]
 
 # text
-seg-973e95d48900 = celeste-iod
-
-# text
 seg-e866d042aab8 = Celeste IOD message (workshop preset)
 
 # text
@@ -57,22 +54,10 @@ seg-1d65b71c5de0 = { "5" } bundled scenarios use this kind; the others are in <a
 seg-debc2f07db78 = true
 
 # text
-seg-af7dbde19f4d = 0x58ADF2
-
-# text
-seg-e0271cc7c0ef = 0xCDE703
-
-# text
 seg-549a6103e711 = bit
 
 # text
 seg-fb689f03361c = byte
-
-# text
-seg-d86879977dda = kepler-rac
-
-# text
-seg-38eac32543b9 = { "9" }.4929e-5
 
 # text
 seg-c60901596100 = Result label (the engine's): MIXED — VALIDATED building blocks, MODELLED results. The SISRE weights reproduce the published MEO/GEO table (Montenbruck et al. { "2018" }), the Galileo ICD user algorithm reproduces RTKLIB on real Galileo broadcast ephemerides, and CRC-24Q reproduces its catalogue check value and the RTCM { "1005" } example f
@@ -100,17 +85,17 @@ seg-2b24c2669c23 = <b>VALIDATED</b> The <c1/> kind's fitter and trade: a truth o
 seg-ddb27b07b9af = and { "7" } more in the matrix.
 
 # text
-seg-4c51491b3eea = <b>VALIDATED</b> leo_navmsg::sisre::sisre_weights: the radial weight w_R and the squared transverse weight w_AC^{ "2" } as averages of cos^{ "2" } and half sin^{ "2" } of the line-of-sight nadir . Oracle (ExternalDataset): The published SISRE weighting-factor table of Montenbruck, Steigenberger and Hauschild ({ "2018" }), Multi-GNSS signal-in-space range error assessment - Methodology and results, Advances in Space Research { "61" }({ "12" }):3020-3038, doi { "10" }.1016/j.asr.2018.03.041: GPS { "0.98" } and 1/49, GLONASS { "0.98" } and 1/45, Galileo { "0.98" } and 1/61, BeiDou MEO { "0.98" } and 1/54, BeiDou IGSO/GEO { "0.99" } and 1/126. The same average evaluated at LEO radii gives the
+seg-053dae66c1be = <b>VALIDATED</b> leo_navmsg::sisre::sisre_weights: the radial weight w_R and the squared transverse weight w_AC^{ "2" } as averages of cos^{ "2" } and half sin^{ "2" } of the line-of-sight nadir . Oracle (ExternalDataset): The published SISRE weighting-factor table of Montenbruck, Steigenberger and Hauschild ({ "2018" }), Multi-GNSS signal-in-space range error assessment - Methodology and results, Advances in Space Research { "61" }({ "12" }):3020-3038, doi 10.1016/j.asr.2018.03.041: GPS { "0.98" } and 1/49, GLONASS { "0.98" } and 1/45, Galileo { "0.98" } and 1/61, BeiDou MEO { "0.98" } and 1/54, BeiDou IGSO/GEO { "0.99" } and 1/126. The same average evaluated at LEO radii gives the
 
 # text
-seg-d8146999b6ba = <b>VALIDATED</b> leo_navmsg::elements::kepler_point: the Galileo OS SIS ICD Keplerian evaluation (Kepler's equation, second-harmonic corrections, Earth-fixed node) written separ. Oracle (ExternalDataset): RTKLIB { "2.4" }.2-p13 eph2pos ECEF positions (an independent implementation of the same ICD algorithm) for real BKG/IGS broadcast records of 2024-09-10, both committed with provenance in tests/fixtures/rinex_sp3_interop (NOTICE, rinex_ecef_reference.txt, brdc_multignss_slice.rnx). This validates the Keplerian user algorithm; the along/cross/radial corrections added on top are covered by their own rows, and the Liu terms b
+seg-5b43ffde4634 = <b>VALIDATED</b> leo_navmsg::elements::kepler_point: the Galileo OS SIS ICD Keplerian evaluation (Kepler's equation, second-harmonic corrections, Earth-fixed node) written separ. Oracle (ExternalDataset): RTKLIB 2.4.2-p13 eph2pos ECEF positions (an independent implementation of the same ICD algorithm) for real BKG/IGS broadcast records of 2024-09-10, both committed with provenance in tests/fixtures/rinex_sp3_interop (NOTICE, rinex_ecef_reference.txt, brdc_multignss_slice.rnx). This validates the Keplerian user algorithm; the along/cross/radial corrections added on top are covered by their own rows, and the Liu terms b
 
 # text
 seg-5b4f1e63795f = <b>VALIDATED</b> leo_navmsg::codec::crc24q: generator polynomial 0x1864CFB, initial value { "0" }, no reflection, no final XOR, the check the Kshana LEO frame carries over every prece. Oracle (ExternalDataset): The CRC catalogue check value for these parameters (reveng.sourceforge.io CRC catalogue, CRC-24/LTE-A: width { "24" }, poly 0x864CFB, init { "0" }, check 0xCDE703), which are the CRC-24Q parameters of RTCM { "10403" } and the Galileo OS SIS ICD, and the message-type { "1005" } example frame printed in RTCM { "10403" }
 
 # text
 # c1: leo-navmsg
-seg-57508e4b173d = <b>VALIDATED</b> The <c1/> kind's fitter and trade: a truth orbit integrated with zonal J2-J6 or EGM2008 gravity to the chosen degree and drag, and a seeded free or steer. Oracle (ExternalDataset): Real precise science orbits as truth (TU Graz IfG/ITSG operational reduced-dynamic orbits, free for any use with acknowledgment; SHA-256 values in the fixture NOTICE) fitted by the 16-parameter set over { "20" } and { "30" } min arcs, against the statistics Liu et al. { "2025" } (Remote Sensing { "17" }({ "16" }):{ "2894" }, CC BY { "4.0" }) publish for the same satellites and days: along, cross and radial RMS each within { "1" }.5x (measured { "0.804" } to { "1.087" }), SISR
+seg-6e2719a28884 = <b>VALIDATED</b> The <c1/> kind's fitter and trade: a truth orbit integrated with zonal J2-J6 or EGM2008 gravity to the chosen degree and drag, and a seeded free or steer. Oracle (ExternalDataset): Real precise science orbits as truth (TU Graz IfG/ITSG operational reduced-dynamic orbits, free for any use with acknowledgment; SHA-256 values in the fixture NOTICE) fitted by the 16-parameter set over { "20" } and { "30" } min arcs, against the statistics Liu et al. { "2025" } (Remote Sensing { "17" }({ "16" }):{ "2894" }, CC BY { "4.0" }) publish for the same satellites and days: along, cross and radial RMS each within 1.5x (measured { "0.804" } to { "1.087" }), SISR
 
 # text
 # c1: limitations[0]

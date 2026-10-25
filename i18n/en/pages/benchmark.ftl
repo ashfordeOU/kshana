@@ -8,8 +8,7 @@ seg-0c0ce6abb920 = Same logs, same rules. <s1>Scores in the open.</s1>
 seg-cb2911864ea1 = kshana-bench is a fixed set of tasks, splits and metrics for GNSS interference detection and timing holdover, so that different methods can be compared on the same data. A submission is a file; nothing runs on the submitter's behalf. Baselines are the engine's own monitors, with bars written down before the first scored run.
 
 # text
-# c1: 
-seg-984e2dd33bd6 = <a1>See the board <c1/></a1>
+seg-11b19c2fd000 = See the board
 
 # text
 seg-b77706a0b8b5 = Read the specification
@@ -86,9 +85,6 @@ seg-26740783c99e = Task (b): detection on IQ test results
 
 # text
 seg-6f1b3b3729bf = kshana iq monitors: cn0_drop (CUSUM) <s1>kshana-bench/2.0.0</s1>
-
-# text
-seg-83f7d0a8e7d2 = n/a
 
 # text
 seg-7e2dd8e3fb49 = carried: docs/design/DETECTION-ROC.md section { "3" }: the R1 campaign of tests/iq_campaign_roc.rs, run 2026-10-13; not re-run for bench v1. Bar R1 (AUC >= { "0.95" }) was NOT MET.

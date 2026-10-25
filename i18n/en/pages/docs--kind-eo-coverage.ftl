@@ -10,7 +10,7 @@ seg-fc32bcd32dec = Source: <c1/>
 seg-d72c017ca1fa = <c1/> (scenario kind)
 
 # text
-seg-9839f917de91 = Scenario kind of the engine { "v0.39.0" }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-99ef7c1d552c = Scenario kind of the engine v{ $version }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-47b4aea6ed01 = Earth-observation payload footprint & coverage geometry (SMAD space triangle): Earth angular radius, swath width, nadir ground sample distance, maximum off-nadir access, circular period, J2 nodal period and equatorial ground-track spacing with a contiguous-coverage flag, for an orbit altitude, inclination (sun-synchronous by default) and sensor FOV/IFOV. MODELLED spherical-Earth geometry (no radiometry/MTF/atmosphere/jitter/glint); node spacing R_e·(ω − Ω̇)·T_nodal with first-order J2 secular rates.
@@ -32,6 +32,9 @@ seg-609c5b7bc6f1 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
 seg-14f19837e422 = The example <c1/> sets, among others:
 
 # text
+seg-37d29d8303fe = km
+
+# text
 seg-98151954f217 = false
 
 # text
@@ -50,7 +53,7 @@ seg-3068552e4ab4 = VALIDATED: the <a1>verification matrix</a1> rows that name th
 seg-d86d43628cf3 = <b>VALIDATED</b> SMAD space-triangle geometry: Earth angular radius, swath width, nadir GSD, maximum off-nadir access and circular period, plus the first-order J2 nodal period (eo_payload::j2_nodal_period) and the equatorial ground-track spacing R_e (omega_ Tests: <a1>eo_payload_coverage_reference.rs</a1>.
 
 # text
-seg-173d647425a2 = <b>VALIDATED</b> SMAD space-triangle geometry: Earth angular radius, swath width, nadir GSD, maximum off-nadir access and circular period, plus the first-order J2 nodal period (. Oracle (ExternalDataset): Orekit { "12.2" } (Apache-2.0) and GeographicLib { "2.1" } (MIT), both run as separate programs, pre-registered (766823f3) before the engine change and any oracle run: sphere quantities within 1e-9 relative (worst: angular radius { "5" }.4e-16, swath { "7" }.0e-13, access { "1" }.9e-14), period 1e-12 ({ "1" }.6e-16), nadir GSD 1e-7 ({ "2" }.9e-10), the J2 nodal period and node spacing within { "0.1" } % of an Orekit numerical J2 propagation with a node detector ({ "1" }
+seg-9938f1de9eb8 = <b>VALIDATED</b> SMAD space-triangle geometry: Earth angular radius, swath width, nadir GSD, maximum off-nadir access and circular period, plus the first-order J2 nodal period (. Oracle (ExternalDataset): Orekit { "12.2" } (Apache-2.0) and GeographicLib { "2.1" } (MIT), both run as separate programs, pre-registered (766823f3) before the engine change and any oracle run: sphere quantities within { "1e-9" } relative (worst: angular radius { "5.4e-16" }, swath { "7.0e-13" }, access { "1.9e-14" }), period { "1e-12" } ({ "1.6e-16" }), nadir GSD { "1e-7" } ({ "2.9e-10" }), the J2 nodal period and node spacing within { "0.1" } % of an Orekit numerical J2 propagation with a node detector ({ "1" }
 
 # text
 # c1: label
