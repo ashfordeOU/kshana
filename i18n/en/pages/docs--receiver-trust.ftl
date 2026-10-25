@@ -364,24 +364,25 @@ seg-812991f245cd = For a vessel every epoch after calibration also gets a score 
 seg-ada5a0a52315 = so a monitor costs nothing while below <c1/> of its threshold (default { "0.5" }), half its weight at its threshold, and all of it at <c2/> times the threshold (default { "1.5" }); the score is non-increasing in every statistic. A source that does not report at an epoch keeps its last statistic for <c3/> (default { "10" } s: two cycles of a C/N0 sentence sent every { "5" } s), as an alarm and as a deduction alike.
 
 # text
-# c1: cn0-drop
-# c2: agc
-# c3: jam-ind
-# c4: loss-of-lock
-# c5: position-jump
-# c6: raim
-# c7: clock
-# c8: solve-failure
-# c9: kinematic
-# c10: heading-course
-# c11: speed-log
-# c12: sea-level
-# c13: cn0-spread
-# c14: cn0-rise
-# c15: time-consistency
-# c16: osnma
-# c17: geometry
-seg-328b77fd5ae6 = The rounding is half up (<s1>floor(x * { "10" } + { "0.5" }) / { "10" }</s1>), the band is that of the rounded score, and the clamp comes before the rounding. Only monitors whose points are above zero are listed in the deductions, with their ratio and unrounded points, largest points first; deductions with equal points are listed in the order of the monitor names <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>. A monitor whose test is pass or fail (a failed solve, a failed authentication) is given the ratio { "1.5" }, the full weight. The listed points are those before the clamp at { "0" }.
+# c1: floor(x * 10 + 0.5) / 10
+# c2: cn0-drop
+# c3: agc
+# c4: jam-ind
+# c5: loss-of-lock
+# c6: position-jump
+# c7: raim
+# c8: clock
+# c9: solve-failure
+# c10: kinematic
+# c11: heading-course
+# c12: speed-log
+# c13: sea-level
+# c14: cn0-spread
+# c15: cn0-rise
+# c16: time-consistency
+# c17: osnma
+# c18: geometry
+seg-6c06de24ebfe = The rounding is half up (<c1/>), the band is that of the rounded score, and the clamp comes before the rounding. Only monitors whose points are above zero are listed in the deductions, with their ratio and unrounded points, largest points first; deductions with equal points are listed in the order of the monitor names <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>. A monitor whose test is pass or fail (a failed solve, a failed authentication) is given the ratio { "1.5" }, the full weight. The listed points are those before the clamp at { "0" }.
 
 # text
 seg-e36961d46c41 = Weight (points)
@@ -472,21 +473,23 @@ seg-0a50145c2bfa = The status is descriptive and the label (below) is what matte
 seg-93e49a562493 = <b>The label</b> (always reported, never scored). Every epoch's <c1/> is <c2/> (HDOP at most <c3/> { "2" }, PDOP at most <c4/> { "3" } and at least <c5/> { "6" } satellites), <c6/> (HDOP above <c7/> { "4" }, PDOP above <c8/> { "6" } or fewer than <c9/> { "5" } satellites), <c10/> between the two, or <c11/>. The epoch's note always opens with the label and the numbers, for example "geometry fair: HDOP { "1.105" }, PDOP { "1.831" }, VDOP { "1.410" }, { "8" } satellites; not scored (the score deducts only above HDOP { "4" }, PDOP { "6" } or below { "5" } satellites)", and adds ", signal loss" when it holds.
 
 # text
-# c1: cap_points
-# c2: full_ratio
-# c3: floor
-# c4: degraded_min
-# c5: [score]
-# c6: degraded_min
-# c7: degraded_min
-# c8: 100 - degraded_min
-# c9: floor
-# c10: degraded_min
-# c11: monitors_run
-# c12: [score.weights]
-# c13: geometry_model.cap_in_force
-# c14: geometry_model.floor_in_force
-seg-0d5f9c7475c4 = <b>The geometry monitor</b> (vessel score). It deducts <b>nothing unless the geometry is poor</b>: its ratio is <s1>max(hdop / hdop_max, pdop / pdop_max, min_used / n_used)</s1>, and while that is at most { "1" } (good or fair geometry, a GPS-only open sky of { "8" } satellites included) it costs nothing, so such a log scores exactly as in { "0.35" }. Above { "1" } the deduction ramps linearly to <c1/> ({ "15" }) at <c2/> ({ "1.5" } times the thresholds: HDOP { "6" }, PDOP { "9" }, { "3" } satellites): { "7.5" } points at ratio { "1.25" } (HDOP { "5" }, or { "4" } satellites), { "15" } from { "1.5" } on (score { "85" }, degraded). On its own it can never take the score below <c3/> (default: the score's <c4/>, { "55" }), so geometry alone reaches the degraded band at most and never the untrusted one: the cap in force is <s2>min(cap_points, { "100" } - floor)</s2>, so a <c5/> table that raises <c6/> (a { "0.35" } one with <c7/> { "90" }, say) lowers the cap to <c8/> rather than being refused, and a <c9/> set below <c10/> is refused. The monitor raises no alarm; it is listed last in <c11/> when it decided at any epoch (a vessel whose log gives the geometry), and is not counted in the { "0.35" } identity; it is not a <c12/> entry (setting one is refused), and the cap and floor in force are recorded in <c13/> and <c14/>. A poor epoch's note says why, for example "geometry poor: HDOP { "5.200" }, PDOP { "7.900" }, VDOP { "4.100" }, { "7" } satellites; degraded by geometry: HDOP { "5.200" } above { "4" } (derived from { "7" } logged satellites); not an inconsistency".
+# c1: max(hdop / hdop_max, pdop / pdop_max, min_used / n_used)
+# c2: cap_points
+# c3: full_ratio
+# c4: floor
+# c5: degraded_min
+# c6: min(cap_points, 100 - floor)
+# c7: [score]
+# c8: degraded_min
+# c9: degraded_min
+# c10: 100 - degraded_min
+# c11: floor
+# c12: degraded_min
+# c13: monitors_run
+# c14: [score.weights]
+# c15: geometry_model.cap_in_force
+# c16: geometry_model.floor_in_force
+seg-13838e036fae = <b>The geometry monitor</b> (vessel score). It deducts <b>nothing unless the geometry is poor</b>: its ratio is <c1/>, and while that is at most { "1" } (good or fair geometry, a GPS-only open sky of { "8" } satellites included) it costs nothing, so such a log scores exactly as in { "0.35" }. Above { "1" } the deduction ramps linearly to <c2/> ({ "15" }) at <c3/> ({ "1.5" } times the thresholds: HDOP { "6" }, PDOP { "9" }, { "3" } satellites): { "7.5" } points at ratio { "1.25" } (HDOP { "5" }, or { "4" } satellites), { "15" } from { "1.5" } on (score { "85" }, degraded). On its own it can never take the score below <c4/> (default: the score's <c5/>, { "55" }), so geometry alone reaches the degraded band at most and never the untrusted one: the cap in force is <c6/>, so a <c7/> table that raises <c8/> (a { "0.35" } one with <c9/> { "90" }, say) lowers the cap to <c10/> rather than being refused, and a <c11/> set below <c12/> is refused. The monitor raises no alarm; it is listed last in <c13/> when it decided at any epoch (a vessel whose log gives the geometry), and is not counted in the { "0.35" } identity; it is not a <c14/> entry (setting one is refused), and the cap and floor in force are recorded in <c15/> and <c16/>. A poor epoch's note says why, for example "geometry poor: HDOP { "5.200" }, PDOP { "7.900" }, VDOP { "4.100" }, { "7" } satellites; degraded by geometry: HDOP { "5.200" } above { "4" } (derived from { "7" } logged satellites); not an inconsistency".
 
 # text
 # c1: score.deductions[].class
@@ -526,12 +529,13 @@ seg-e06597696553 = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/> otherwise; <c7/> dur
 seg-5fc0eb79c51b = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>; and <c11/> when the geometry is poor and the stated HDOP disagrees with the stated sky (below)
 
 # text
-# c1: reported_derived_mismatch: true
-# c2: inconsistency
-# c3: reported_derived_mismatch
-# c4: geometry_summary.hdop_mismatch
-# c5: geometry
-seg-b50184bb5cb9 = <b>The guard against a forged poor sky.</b> A spoofer could send a thin GSV, or report a high HDOP, to buy tolerance. The engine labels and does not forgive: no other check is widened by a poor geometry, and the HDOP the receiver states (GSA within the hold, else GGA) is compared with the HDOP derived from the sky it states. When they differ by more than <s1>max(reported_vs_derived_tol, reported_vs_derived_rel × derived HDOP)</s1> ({ "1.0" }, or { "25" } % of the derived HDOP, whichever is larger), the epoch carries <c1/> and, when the geometry is poor, its deduction is classed <c2/>. With good or fair geometry the disagreement is reported and not scored: nothing is deducted unless the geometry is poor. This is a deliberate choice ({ "0.36" }): "zero unless poor" holds for every epoch, so good and fair geometry score exactly as in { "0.35" }, and a forged HDOP is never silent. The flag (<c3/>) is on every epoch of the result and every live line, the note says "…beyond the tolerance: reported, not scored (the geometry is not poor)" or "…: the geometry deduction is classed an inconsistency", <c4/> counts the epochs, and the evidence summary page shows the count, zero included. The { "25" } % is a <b>REPRESENTATIVE</b> engineering choice, not a measured or standard figure: a receiver that solves for one clock per constellation, or with a subset of the satellites it tracks (an elevation mask, a C/N0 cut, a RAIM exclusion), states an HDOP that differs from the single-clock HDOP of every tracked satellite by an amount that grows with the HDOP, so a fixed tolerance alone would read natural poor geometry as an inconsistency. A larger difference still reads as one. A deduction classed <c5/> is a statement about the sky, not a finding that no attack occurred.
+# c1: max(reported_vs_derived_tol, reported_vs_derived_rel × derived HDOP)
+# c2: reported_derived_mismatch: true
+# c3: inconsistency
+# c4: reported_derived_mismatch
+# c5: geometry_summary.hdop_mismatch
+# c6: geometry
+seg-1b5e88a4aae4 = <b>The guard against a forged poor sky.</b> A spoofer could send a thin GSV, or report a high HDOP, to buy tolerance. The engine labels and does not forgive: no other check is widened by a poor geometry, and the HDOP the receiver states (GSA within the hold, else GGA) is compared with the HDOP derived from the sky it states. When they differ by more than <c1/> ({ "1.0" }, or { "25" } % of the derived HDOP, whichever is larger), the epoch carries <c2/> and, when the geometry is poor, its deduction is classed <c3/>. With good or fair geometry the disagreement is reported and not scored: nothing is deducted unless the geometry is poor. This is a deliberate choice ({ "0.36" }): "zero unless poor" holds for every epoch, so good and fair geometry score exactly as in { "0.35" }, and a forged HDOP is never silent. The flag (<c4/>) is on every epoch of the result and every live line, the note says "…beyond the tolerance: reported, not scored (the geometry is not poor)" or "…: the geometry deduction is classed an inconsistency", <c5/> counts the epochs, and the evidence summary page shows the count, zero included. The { "25" } % is a <b>REPRESENTATIVE</b> engineering choice, not a measured or standard figure: a receiver that solves for one clock per constellation, or with a subset of the satellites it tracks (an elevation mask, a C/N0 cut, a RAIM exclusion), states an HDOP that differs from the single-clock HDOP of every tracked satellite by an amount that grows with the HDOP, so a fixed tolerance alone would read natural poor geometry as an inconsistency. A larger difference still reads as one. A deduction classed <c6/> is a statement about the sky, not a finding that no attack occurred.
 
 # text
 # c1: low_elev_deg
@@ -588,8 +592,9 @@ seg-be21b5a31382 = the score's own <c1/>: the ramp reaches <c2/> at { "1.5" } ti
 seg-e922a5342a3c = the score's <c1/> ({ "55" })
 
 # text
-# c1: degraded_min
-seg-b496a2c3d8ba = geometry alone never reaches the untrusted band; the cap in force is <s1>min(cap_points, { "100" } - floor)</s1>; a floor below <c1/> is refused
+# c1: min(cap_points, 100 - floor)
+# c2: degraded_min
+seg-09fe8c435ece = geometry alone never reaches the untrusted band; the cap in force is <c1/>; a floor below <c2/> is refused
 
 # text
 # c1: hdop_max

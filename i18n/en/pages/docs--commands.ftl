@@ -116,9 +116,6 @@ seg-028684a0cf3d = Standards packs
 seg-2d2bb8b8e7e7 = which satellites' navigation data a receiver can authenticate
 
 # text
-seg-f2313e24baa0 = <s1>kshana osnma verify examples/osnma/pages-good.txt --public-key "$(cat examples/osnma/public-key.txt)" --json</s1>
-
-# text
 seg-bf8cd5a45deb = OSNMA
 
 # text

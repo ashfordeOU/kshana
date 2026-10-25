@@ -68,7 +68,8 @@ seg-c9f61c3348ef = computed
 
 # text
 # c1: ρ̇ = d·Δv/ρ
-seg-5cae1a1070b0 = Range rate <c1/>, range acceleration <s1>ρ̈ = (|Δv|² − ρ̇² + d·Δa)/ρ</s1>
+# c2: ρ̈ = (|Δv|² − ρ̇² + d·Δa)/ρ
+seg-ebd800ec3d47 = Range rate <c1/>, range acceleration <c2/>
 
 # text
 seg-232b42b71f03 = closed form; every run checks both against central differences of the propagated range and reports the largest difference
@@ -105,7 +106,8 @@ seg-883702244778 = isoflux to an edge elevation, Gaussian main lobe <c1/> dB, or
 seg-b6e91c5252d3 = User antenna
 
 # text
-seg-d8548fe34d4b = patch <s1>G_z + { "10" }·q·log10(sin el)</s1> dBic, hemispherical or isotropic
+# c1: G_z + 10·q·log10(sin el)
+seg-ed92a0abf62f = patch <c1/> dBic, hemispherical or isotropic
 
 # text
 seg-0ac54d232e0a = Gaseous attenuation
@@ -149,9 +151,6 @@ seg-82735c7f3ea5 = antenna floor + sky emission of the absorbing path ({ "275" }
 
 # text
 seg-53ce973b0ee7 = C/N0 (carrier-to-noise density)
-
-# text
-seg-bdd3a33b2c5d = <s1>EIRP + G_sat − L_fs − L_gas − L_rain − L_scint − L_BEL − L_pol + G_user − { "10" }·log10(kT) − L_impl</s1>
 
 # text
 seg-fa01d060cf1a = Ionospheric group delay
@@ -388,10 +387,11 @@ seg-6cdf9830433e = <c1/> also writes the interactive player (<c2/>, the pass epo
 seg-d3a0fc36329a = Ionosphere sounding
 
 # text
-# c1: geometry_free_stec_tecu
-# c2: geometry_free_stec_sigma_tecu
-# c3: scenarios/leo-focus-science-iono-sounding.toml
-seg-3ca6a7636ff8 = Every band pair also gives the slant TEC its geometry-free code combination recovers at the pass peak, <s1>STEC = (P₂ − P₁)·f₁²f₂² / ({ "40.3" }·(f₁² − f₂²))</s1>, and the 1-sigma of that estimate from the two bands' code noise at the peak (<c1/>, <c2/>). The estimate equals the model's slant TEC by construction: the combination is exact at first order. The sigma is what makes a band plan a better or worse sounder: <c3/> (four bands over Tromsø) recovers { "18.85" } TEC units from every pair, with a 1-sigma of { "0.017" } TEC units for UHF with L and { "2.9" } for S with C. Thermal code noise only; no multipath or inter-frequency bias. MODELLED.
+# c1: STEC = (P₂ − P₁)·f₁²f₂² / (40.3·(f₁² − f₂²))
+# c2: geometry_free_stec_tecu
+# c3: geometry_free_stec_sigma_tecu
+# c4: scenarios/leo-focus-science-iono-sounding.toml
+seg-1e64715af2ff = Every band pair also gives the slant TEC its geometry-free code combination recovers at the pass peak, <c1/>, and the 1-sigma of that estimate from the two bands' code noise at the peak (<c2/>, <c3/>). The estimate equals the model's slant TEC by construction: the combination is exact at first order. The sigma is what makes a band plan a better or worse sounder: <c4/> (four bands over Tromsø) recovers { "18.85" } TEC units from every pair, with a 1-sigma of { "0.017" } TEC units for UHF with L and { "2.9" } for S with C. Thermal code noise only; no multipath or inter-frequency bias. MODELLED.
 
 # text
 # c1: [spoofer]
@@ -436,7 +436,8 @@ seg-2174c7725e48 = measured range rates against those predicted from the orbits 
 # text
 # c1: δx
 # c2: g·δx
-seg-d628187203b3 = a position error <c1/> moves a range rate by <c2/>, <s1>g = −(Δv − ρ̇u)/ρ</s1>: a LEO satellite's transverse speed over its range is about { "25" } times a MEO satellite's, so the same error is about { "25" } times larger in LEO Doppler
+# c3: g = −(Δv − ρ̇u)/ρ
+seg-14eab06a47d5 = a position error <c1/> moves a range rate by <c2/>, <c3/>: a LEO satellite's transverse speed over its range is about { "25" } times a MEO satellite's, so the same error is about { "25" } times larger in LEO Doppler
 
 # text
 seg-390ac49b3c09 = Cross-band consistency

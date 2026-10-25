@@ -109,21 +109,24 @@ seg-ef7f547609ad = linuxptp <c1/> (the slave or boundary clock's servo)
 
 # text
 # c1: -m
-seg-65bc7cee1c4e = run with <c1/> and keep the lines <s1>ptp4l[time]: master offset N sK freq ...</s1>
+# c2: ptp4l[time]: master offset N sK freq ...
+seg-f548a2ae96e5 = run with <c1/> and keep the lines <c2/>
 
 # text
 # c1: phc2sys
 seg-9a3b58be1b0b = linuxptp <c1/>
 
 # text
-seg-614c952244a8 = the lines <s1>phc2sys[time]: CLOCK_REALTIME phc offset N sK ...</s1>
+# c1: phc2sys[time]: CLOCK_REALTIME phc offset N sK ...
+seg-77255f8f5fef = the lines <c1/>
 
 # text
 # c1: ts2phc
 seg-2cf9256bd790 = linuxptp <c1/>
 
 # text
-seg-be77cafc45f1 = the lines <s1>ts2phc[time]: /dev/ptpN offset N sK ...</s1>
+# c1: ts2phc[time]: /dev/ptpN offset N sK ...
+seg-c667a97b92a8 = the lines <c1/>
 
 # text
 # c1: tracking.log

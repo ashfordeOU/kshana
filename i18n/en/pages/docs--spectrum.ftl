@@ -178,9 +178,10 @@ seg-64d7a14a198e = Each gives either <c1/>, or an effective isotropic radiated p
 # text
 # c1: [receiver]
 # c2: N₀ = k·T_sys
-# c3: T_ant
-# c4: F
-seg-64010688867a = The receiver (<c1/>) sets the noise floor, <c2/> with <s1>T_sys = T_ant + { "290" } K × (F − { "1" })</s1> for antenna temperature <c3/> and noise figure <c4/>, and the tracking threshold.
+# c3: T_sys = T_ant + 290 K × (F − 1)
+# c4: T_ant
+# c5: F
+seg-8e718c09f7d8 = The receiver (<c1/>) sets the noise floor, <c2/> with <c3/> for antenna temperature <c4/> and noise figure <c5/>, and the tracking threshold.
 
 # text
 # c1: [grid]
@@ -198,13 +199,15 @@ seg-a550e89c2907 = The interference chain
 # c1: G_s
 # c2: G_j
 # c3: B
-seg-6090ea6e4d73 = For a signal of unit-area spectrum <c1/> and a jammer of unit-power spectrum <c2/>, the spectral separation coefficient (SSC) over the receiver band <c3/> is <s1>κ = ∫_B G_s(f) G_j(f) df</s1>, and the effective carrier-to-noise density with several jammers is
+# c4: κ = ∫_B G_s(f) G_j(f) df
+seg-12a2c08191c0 = For a signal of unit-area spectrum <c1/> and a jammer of unit-power spectrum <c2/>, the spectral separation coefficient (SSC) over the receiver band <c3/> is <c4/>, and the effective carrier-to-noise density with several jammers is
 
 # text
 # c1: jamming
-# c2: jamming_kind_cross_check
-# c3: jamming
-seg-e18e6893fd17 = (Betz { "2001" }; Kaplan & Hegarty, <em>Understanding GPS/GNSS</em>, 3rd ed., §{ "9.4" }). For one jammer this is exactly the <c1/> kind's anti-jam equation with <s1>Q = 1/(R_c κ)</s1>; the report's <c2/> block runs the <c3/> kind's own functions on the same link inputs and prints the difference, which is zero to rounding.
+# c2: Q = 1/(R_c κ)
+# c3: jamming_kind_cross_check
+# c4: jamming
+seg-5c556163af62 = (Betz { "2001" }; Kaplan & Hegarty, <em>Understanding GPS/GNSS</em>, 3rd ed., §{ "9.4" }). For one jammer this is exactly the <c1/> kind's anti-jam equation with <c2/>; the report's <c3/> block runs the <c4/> kind's own functions on the same link inputs and prints the difference, which is zero to rounding.
 
 # text
 # c1: jamming

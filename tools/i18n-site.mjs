@@ -22,7 +22,7 @@ export function switcherHtml(lang, here, langs, label) {
     const href = (l === 'en' ? '' : '/' + l) + here;
     return `<li><a href="${href}" hreflang="${l}" lang="${l}" data-lang-switch="${l}"${l === lang ? ' aria-current="true"' : ''}>${esc(NAMES[l])}<span class="lang-tag">${l}</span></a></li>`;
   }).join('');
-  return `<details class="lang-menu"><summary class="icon-btn" aria-label="${esc(label)}: ${esc(NAMES[lang])}" title="${esc(label)}">${GLOBE}<span class="lang-code">${esc(lang)}</span></summary><ul>${items}</ul></details>`;
+  return `<details class="lang-menu"><summary class="icon-btn" aria-label="${esc(label)}: ${esc(NAMES[lang])}" title="${esc(label)}">${GLOBE}<span class="lang-code">${esc(lang)}</span></summary><ul translate="no">${items}</ul></details>`;
 }
 
 /**
@@ -43,6 +43,11 @@ export function decoratePage(html, ctx) {
       const href = d ?? s2;
       if (href.startsWith('#')) return `${a}"${pre}${here}${href}"`;
       if (/^[a-z][a-z0-9+.-]*:|^\/\//i.test(href)) return m;
+      if (href.startsWith('/')) { // root-absolute: keep the text as written, add the language
+        const pth = href.split(/[?#]/)[0].replace(/\/index\.html$/, '/').replace(/\.html$/, '');
+        if (pageSet.has(pth) || pageSet.has(pth + '/') || pageSet.has(pth.replace(/\/$/, ''))) return `${a}"${pre}${href}"`;
+        return m;
+      }
       const u = new URL(href, 'https://x' + dirOfPage);
       const p = u.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
       if (pageSet.has(p) || pageSet.has(p + '/') || pageSet.has(p.replace(/\/$/, ''))) return `${a}"${pre}${p}${u.search}${u.hash}"`;
@@ -50,7 +55,7 @@ export function decoratePage(html, ctx) {
     });
     // relative asset and script URLs keep resolving against the page's own directory
     if (!/<base\b/i.test(out)) out = out.replace(/<head\b[^>]*>/i, (h) => `${h}<base href="${dirOfPage}">`);
-  } else {
+  } else if (langs.length) {
     const L = JSON.stringify(langs);
     const head = asset('lang-head.js').replace('@LANGS@', L).replace('@RE@', langs.join('|'));
     out = out.replace(/(<script>try\{var t=localStorage\.getItem\('kshana-theme'\)[^<]*<\/script>)/, `$1<script>${head}</script>`);
@@ -59,6 +64,7 @@ export function decoratePage(html, ctx) {
   const alt = ['en', ...langs].map((l) => `<link rel="alternate" hreflang="${l}" href="${origin}${l === 'en' ? '' : '/' + l}${here}">`).join('') + `<link rel="alternate" hreflang="x-default" href="${origin}${here}">`;
   // a page with nothing translated is the English page with the notice: canonical to English, no hreflang for itself
   const untouched = lang !== 'en' && ctx.translated === 0;
+  if (lang === 'en' && !langs.length) return out;
   out = out.replace('</head>', `<link rel="stylesheet" href="/css/i18n.css">${untouched ? '' : alt}<link rel="canonical" href="${origin}${untouched || lang === 'en' ? '' : pre}${here}"></head>`);
 
   const label = msg('site-lang-label') || 'Language';

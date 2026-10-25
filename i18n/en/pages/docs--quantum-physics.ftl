@@ -62,9 +62,6 @@ seg-8902ae6f313c = Per shot, fringe contrast <c1/>, atom number <c2/> — the sh
 seg-b95d4d1e45f0 = Per-shot acceleration sensitivity
 
 # text
-seg-9e886f7da83f = <s1>σ_a = σ_Φ / (k_eff·T²)</s1>
-
-# text
 seg-c97f2fd35d48 = Phase noise referred to acceleration.
 
 # text
@@ -141,9 +138,6 @@ seg-f8b407b3b2fb = Rotation systematic for a moving vehicle (Lan et al. { "2012"
 seg-9eaff8d90a83 = AC-Stark (light-shift) phase (AC: alternating current)
 
 # text
-seg-4c9e25bdf7f2 = <s1>Φ_LS = (δ_LS,{ "1" } − δ_LS,{ "3" })/Ω_eff</s1>
-
-# text
 seg-62630dc178e6 = One-photon light shift; a <em>constant</em> shift cancels by π/2–π–π/2 symmetry (Peters { "2001" }; Gauguet { "2008" }).
 
 # text
@@ -155,13 +149,15 @@ seg-bcb9cb9c6219 = The closing of the loop is the point: <c1/> produces exactly 
 # c2: N = 10⁶
 # c3: C = 0.5
 # c4: T_c = 0.5 s
-# c5: σ_Φ = 2×10⁻³ rad
-# c6: σ_a ≈ 1.24×10⁻⁶ m/s²
-# c7: n_a ≈ 0.09 µg/√Hz
-# c8: σ_a ≈ 5.8×10⁻⁵ m/s²
-# c9: a_max ≈ 1.95×10⁻³ m/s²
-# c10: Φ(1 g)
-seg-74856100f540 = A worked figure (Rb-87, <c1/>, <c2/>, <c3/>, <c4/>): <s1>Φ({ "1" } g) ≈ { "1.58" }×10⁴ rad</s1>, <c5/>, <c6/> (≈ { "0.13" } µg) per shot, and a shot-noise floor <c7/>. With a modest platform vibration PSD <s2>S_a = { "10" }⁻¹⁰ (m/s²)²/Hz</s2> the <b>vibration-limited</b> per-shot floor is <c8/> (≈ { "5.9" } µg) — about { "46" }× the shot-noise floor, showing why real devices are vibration-, not projection-, limited. The same interferometer reads specific force unambiguously only within <c9/> (≈ { "199" } µg), about { "1 571" } resolution cells: <c10/> is thousands of fringes, so a single reading of { "1" } g is aliased.
+# c5: Φ(1 g) ≈ 1.58×10⁴ rad
+# c6: σ_Φ = 2×10⁻³ rad
+# c7: σ_a ≈ 1.24×10⁻⁶ m/s²
+# c8: n_a ≈ 0.09 µg/√Hz
+# c9: S_a = 10⁻¹⁰ (m/s²)²/Hz
+# c10: σ_a ≈ 5.8×10⁻⁵ m/s²
+# c11: a_max ≈ 1.95×10⁻³ m/s²
+# c12: Φ(1 g)
+seg-e2363d639ccc = A worked figure (Rb-87, <c1/>, <c2/>, <c3/>, <c4/>): <c5/>, <c6/>, <c7/> (≈ { "0.13" } µg) per shot, and a shot-noise floor <c8/>. With a modest platform vibration PSD <c9/> the <b>vibration-limited</b> per-shot floor is <c10/> (≈ { "5.9" } µg) — about { "46" }× the shot-noise floor, showing why real devices are vibration-, not projection-, limited. The same interferometer reads specific force unambiguously only within <c11/> (≈ { "199" } µg), about { "1 571" } resolution cells: <c12/> is thousands of fringes, so a single reading of { "1" } g is aliased.
 
 # text
 seg-c209b86f41d8 = What is NOT modelled (and why the floor is optimistic)

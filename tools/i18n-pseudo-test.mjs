@@ -51,7 +51,7 @@ const probe = () => {
   const LEAF = 'p,li,h1,h2,h3,h4,h5,h6,td,th,dt,dd,figcaption,summary,button,label,caption,blockquote,option,legend';
   const bad = [];
   for (const el of document.body.querySelectorAll(LEAF)) {
-    if (el.closest('script,style,svg,pre,code,textarea,[data-no-i18n],[translate=no],[data-engine-output]')) continue;
+    if (el.closest('script,style,svg,pre,code,textarea,[data-no-i18n],[translate=no],[data-engine-output],.lang-menu')) continue;
     if (el.querySelector(LEAF)) continue;
     const st = getComputedStyle(el);
     if (st.display === 'none' || st.visibility === 'hidden') continue;

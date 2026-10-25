@@ -100,9 +100,10 @@ seg-323dd205d238 = { "3" }. Protection levels
 
 # text
 # c1: (p_fault, threshold, σ)
-# c2: N
-# c3: PL
-seg-6e9a6e230016 = For each axis (vertical, horizontal) and each hypothesis the engine builds a mode <c1/> where the threshold is the solution-separation detection limit at the false-alert multiplier <s1>K_fa = Φ⁻¹({ "1" } − P_fa / 2N)</s1> (a Bonferroni split of the continuity budget over the <c2/> hypotheses). The protection level is the smallest bound <c3/> whose summed integrity risk
+# c2: K_fa = Φ⁻¹(1 − P_fa / 2N)
+# c3: N
+# c4: PL
+seg-9ab2676d2554 = For each axis (vertical, horizontal) and each hypothesis the engine builds a mode <c1/> where the threshold is the solution-separation detection limit at the false-alert multiplier <c2/> (a Bonferroni split of the continuity budget over the <c3/> hypotheses). The protection level is the smallest bound <c4/> whose summed integrity risk
 
 # text
 seg-05c0d8fc855c = Implementation note.

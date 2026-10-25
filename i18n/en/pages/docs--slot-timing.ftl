@@ -76,9 +76,10 @@ seg-e23d0ac960aa = linear ageing rate
 
 # text
 # c1: t²·σ_y²(t)
-# c2: t
-# c3: E(t) = guard
-seg-4f300a8cc8df = Each FM term equals <c1/> for its own noise type, with <s1>σ_y²(τ) = 3σ_PM²/τ² + q_wf/τ + h_F + q_rw·τ/3 + q_rr·τ³/20</s1> (Zucca and Tavella, IEEE Trans. UFFC { "52" }({ "2" }), { "2005" }). For white, random-walk and random-run FM that relation is exact. For flicker FM it is the conventional estimate of the time-prediction error (Riley, NIST SP { "1065" }): flicker FM has no closed form without a low-frequency cut-off. The frequency offsets add in magnitude because their signs are unknown, so the deterministic part is a worst case. Every term is non-negative and non-decreasing in <c2/>, so <c3/> has one root, found by bracketing and bisection.
+# c2: σ_y²(τ) = 3σ_PM²/τ² + q_wf/τ + h_F + q_rw·τ/3 + q_rr·τ³/20
+# c3: t
+# c4: E(t) = guard
+seg-43e5f75b369c = Each FM term equals <c1/> for its own noise type, with <c2/> (Zucca and Tavella, IEEE Trans. UFFC { "52" }({ "2" }), { "2005" }). For white, random-walk and random-run FM that relation is exact. For flicker FM it is the conventional estimate of the time-prediction error (Riley, NIST SP { "1065" }): flicker FM has no closed form without a low-frequency cut-off. The frequency offsets add in magnitude because their signs are unknown, so the deterministic part is a worst case. Every term is non-negative and non-decreasing in <c3/>, so <c4/> has one root, found by bracketing and bisection.
 
 # text
 seg-f9038fba23e2 = Where the clock comes from

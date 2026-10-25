@@ -499,9 +499,6 @@ seg-21ef0770a07c = With { "240" } low Earth orbit (LEO) satellites added, precis
 seg-d739debd8759 = Method: analysis · run RUN-LEO · value read: { "7.5" } min
 
 # text
-seg-2149719ad5d1 = <s1>`ppp.cases[{ "1" }].median_convergence_min <= { "10" } min`: { "7.5" } min <= { "10" } min is true</s1>
-
-# text
 seg-1bea7f394d61 = Open item: MODELLED basis
 
 # text
@@ -517,9 +514,6 @@ seg-d25f22bab194 = With GPS and Galileo alone, precise point positioning (PPP) s
 seg-f7fbbb0396f8 = Method: analysis · run RUN-LEO · value read: { "11.5" } min
 
 # text
-seg-4b713a60d5df = <s1>`ppp.cases[{ "0" }].median_convergence_min <= { "10" } min`: { "11.5" } min <= { "10" } min is false</s1>
-
-# text
 seg-cd0df2627f00 = Open item: not met
 
 # text
@@ -530,9 +524,6 @@ seg-2f64c266aaa9 = With the LEO layer the fused three-dimensional position error
 
 # text
 seg-ab3c35475bb8 = Method: test · run RUN-LEO · value read: { "0.4349" } m
-
-# text
-seg-f25080764d6f = <s1>`fusion.fused.rms_error_3d_m <= { "0.5" } m`: { "0.434888" } m <= { "0.5" } m is true</s1>
 
 # text
 seg-813bc2c7156f = Open item: method, MODELLED basis
@@ -547,9 +538,6 @@ seg-f903fd8d8738 = The lunar relay constellation shall give a position fix with 
 seg-304a072d0a55 = Method: analysis · run RUN-LUNAR · value read: { "21.3286" } %
 
 # text
-seg-a0408e5e9f20 = <s1>`global.availability_pct >= { "95" } %`: { "21.3286" } % >= { "95" } % is false</s1>
-
-# text
 seg-03344a0f7614 = global.pdop.median <= { "6" }
 
 # text
@@ -557,9 +545,6 @@ seg-9157dc0f0b69 = Where the lunar relay constellation gives a fix, the median p
 
 # text
 seg-8ce652866e44 = Method: analysis · run RUN-LUNAR · value read: { "5.22" } { "1" }
-
-# text
-seg-35c661afa24e = <s1>`global.pdop.median <= { "6" }`: { "5.22" } <= { "6" } is true</s1>
 
 # text
 seg-394b87e99d4f = timeline.bands[{ "3" }].min_cn0_dbhz >= { "25" } dB-Hz
@@ -572,9 +557,6 @@ seg-c3cd6e0b2c8a = Under the scripted L-band interference, the GPS L5 carrier-to
 
 # text
 seg-c707f32aa460 = Method: analysis · run RUN-SPECTRUM · value read: { "44.0752" } dB-Hz
-
-# text
-seg-3ef94f5666ce = <s1>`timeline.bands[{ "3" }].min_cn0_dbhz >= { "25" } dB-Hz`: { "44.075187" } dB-Hz >= { "25" } dB-Hz is true</s1>
 
 # text
 seg-917d0ea847c5 = Open item: PARTNER basis
@@ -592,9 +574,6 @@ seg-fac48ac76f34 = Under the scripted L-band interference, the GPS L1 coarse/acq
 seg-b2d1ec0d6dee = Method: analysis · run RUN-SPECTRUM · value read: { "3.2329" } dB-Hz
 
 # text
-seg-506bdc2da066 = <s1>`timeline.bands[{ "0" }].min_cn0_dbhz >= { "25" } dB-Hz`: { "3.232859" } dB-Hz >= { "25" } dB-Hz is false</s1>
-
-# text
 seg-5ae7272d2099 = timeline.channels.time_error_ns.values <= timeline.channels.guard_ns.values for all values
 
 # text
@@ -604,9 +583,6 @@ seg-ae1e65b11562 = In the chained jamming, spoofing and holdover mission the clo
 seg-99c163a008d1 = Method: analysis · run RUN-CAMPAIGN · value read: { "51.7825" } ns
 
 # text
-seg-743a265017c2 = <s1>`timeline.channels.time_error_ns.values <= timeline.channels.guard_ns.values` for all: { "275" } of { "458" } elements satisfy (first failing); element { "214" }: { "51.782497" } ns <= { "50" } ns</s1>
-
-# text
 seg-b0cead50489e = min(timeline.events[].t_s) <= { "30" } min
 
 # text
@@ -614,9 +590,6 @@ seg-3a2678859ea3 = In the chained mission a spoofing alarm shall be raised withi
 
 # text
 seg-fb11475464de = Method: demonstration · run RUN-CAMPAIGN · value read: { "1,200" } s
-
-# text
-seg-d8118eec8cc3 = <s1>`min(timeline.events[].t_s) <= { "30" } min`: { "1200" } s <= { "1800" } s is true</s1>
 
 # text
 seg-446c41fcb3ab = Open item: method, PARTNER basis
@@ -631,9 +604,6 @@ seg-4ceaa0d03a24 = Around Mars the constellation-only position error shall be { 
 seg-5794fedf0f41 = Method: analysis · run RUN-MARS · value read: { "1.8827" } m
 
 # text
-seg-0ec0496b4b3b = <s1>`fom.rms_error_relays_m <= { "5" } m`: { "1.882704" } m <= { "5" } m is true</s1>
-
-# text
 seg-243a7ff0524b = fom.availability_relays >= { "99" } %
 
 # text
@@ -641,9 +611,6 @@ seg-576583ccb8f3 = Around Mars the constellation shall give a position fix at { 
 
 # text
 seg-32c406b96132 = Method: analysis · run RUN-MARS · value read: { "1" } { "1" }
-
-# text
-seg-babfef95a714 = <s1>`fom.availability_relays >= { "99" } %`: { "1" } >= { "0.99" } is true</s1>
 
 # text
 seg-532fe876e134 = no machine-checkable criterion
@@ -1236,9 +1203,6 @@ seg-f0e7f4300315 = Copy: pip install kshana
 
 # text
 seg-f8b955a55c46 = pip install kshana
-
-# text
-seg-cb514a218f5b = <s1>python -c "import kshana; print(kshana.version())"</s1>
 
 # text
 seg-965e1b5d2d99 = PyPI: kshana

@@ -34,9 +34,6 @@ seg-8c83544270b5 = Signature
 seg-fa90b5cd182b = Returns
 
 # text
-seg-739f0149ed89 = <s1>(toml: str) -> RunOutput</s1>
-
-# text
 # c1: .json
 # c2: .svg
 # c3: .summary
@@ -49,13 +46,7 @@ seg-739f0149ed89 = <s1>(toml: str) -> RunOutput</s1>
 seg-6f62744a47df = typed result (<c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>)
 
 # text
-seg-59078368274e = <s1>(toml: str) -> str</s1>
-
-# text
 seg-67cd4e7f6ad0 = result document as a JSON (JavaScript Object Notation) string
-
-# text
-seg-cbb70dbf70f9 = <s1>(toml: str) -> tuple[str, str, str]</s1>
 
 # text
 seg-8246b2be7aaf = available scenario kinds + metadata (parsed)
@@ -65,13 +56,7 @@ seg-8246b2be7aaf = available scenario kinds + metadata (parsed)
 seg-b5ad97d3ec18 = the same metadata as ONE JSON-array string, not a list (kept for existing callers; use <c1/> for the parsed list)
 
 # text
-seg-47ab9e388ffb = <s1>(toml: str) -> list[str]</s1>
-
-# text
 seg-8ce669f8e1d0 = error messages (empty if valid)
-
-# text
-seg-0b53710dedc0 = <s1>(toml: str) -> str | None</s1>
 
 # text
 # c1: invalid_input
@@ -90,19 +75,10 @@ seg-c62c5ab99132 = engine version
 seg-fdaaf33250d1 = assess a real receiver log described by a <c1/> scenario: result document, per-epoch trust CSV, chart and summary; a <c2/> table adds the maritime monitors and the 0-100 trust score with reasons (advisory)
 
 # text
-seg-018042004e12 = <s1>(session_toml, nmea) -> dict</s1>
-
-# text
 seg-0fb76af3d043 = a bounded NMEA excerpt scored the way live mode scores it: per-epoch state, 0-100 score and reasons, a summary (no socket, no gate; advisory)
 
 # text
-seg-4b6d82db8b16 = <s1>(session_toml, log) -> dict</s1>
-
-# text
 seg-6ecd9bb3a1cd = a vessel's NMEA log as a batch run: the score model and every epoch's score with its deductions (advisory)
-
-# text
-seg-0da0bc795812 = <s1>(catalog_json, plans, log_start_utc, location=None, local_offset_h={ "2.0" }, year=None) -> dict</s1>
 
 # text
 # c1: events_toml
@@ -110,22 +86,13 @@ seg-0da0bc795812 = <s1>(catalog_json, plans, log_start_utc, location=None, local
 seg-7cd62f15bc3c = the published Jammertest catalogue and plan as scheduled-truth events (<c1/>, <c2/>); planned slots, not recorded on-air times
 
 # text
-seg-36b144c36012 = <s1>(session_toml, log, catalog_json, plans, location=None, local_offset_h={ "2.0" }, log_start_utc=None, year=None, recover_hold_s={ "10.0" }, guard_s={ "60.0" }) -> dict</s1>
-
-# text
 seg-1e2faf2894e3 = a receiver log scored against that schedule: per-test latency, missed, time to recover, false alarms (MODELLED; a signed pack needs the command line)
-
-# text
-seg-20b53f0faaee = <s1>(session_toml, log, from_s, to_s, title=None, created_utc=None, seed_hex=None) -> dict</s1>
 
 # text
 # c1: files
 # c2: public_key
 # c3: seed_hex
 seg-f94eaef45f04 = a signed evidence pack for a window of the log, in memory: <c1/>, <c2/>, <c3/> (keep it private); a technical record, not a legal opinion
-
-# text
-seg-ab08a000173c = <s1>(files, public_key=None, full_log=None, require_timestamp=False) -> dict</s1>
 
 # text
 # c1: verdict
@@ -142,9 +109,6 @@ seg-bf13e70f1d5c = the CLI's <c1/> artifacts as text
 seg-1e5eb44bec6f = which interoperability formats apply to a scenario, without running it
 
 # text
-seg-edbe2b734018 = <s1>(toml, format) -> dict</s1>
-
-# text
 # c1: czml
 # c2: kml
 # c3: geojson
@@ -157,14 +121,8 @@ seg-edbe2b734018 = <s1>(toml, format) -> dict</s1>
 seg-f61d1659ed80 = <c1/>, <c2/>, <c3/>, <c4/> or <c5/> in memory: <c6/>, each file <c7/> (<c8/> text or <c9/>)
 
 # text
-seg-50bc57645e92 = <s1>(toml, geojson) -> str</s1>
-
-# text
 # c1: --import-route
 seg-bef8250e8453 = a GeoJSON route written into a waypoint-track scenario (<c1/>)
-
-# text
-seg-c65946aa9b1b = <s1>(toml, format="svg", fps=None, duration_s=None, width=None) -> dict</s1>
 
 # text
 # c1: {summary, files}
@@ -172,9 +130,6 @@ seg-e25bcb6342db = the run's time series as an animated SVG, an HTML player or u
 
 # text
 seg-9b24b9cf0510 = the bundled reference scenarios and their TOML
-
-# text
-seg-f3c621a00f86 = <s1>(files, token, replace=False) -> dict</s1>
 
 # text
 # c1: {files, notes}
@@ -188,28 +143,20 @@ seg-f62c11fe1e7d = bind an RFC { "3161" } token (bytes or base64) to a pack in m
 seg-95fe54b500a7 = a new signing key in memory: <c1/> (PRIVATE), <c2/>, <c3/>, <c4/>; Python only
 
 # text
-seg-c3beee7f7a5d = <s1>(i, q, fs_hz, signal, prns, ..., pll_bws=None, dll_bws=None, spacings=None, coherents=None, design=None) -> dict</s1>
-
-# text
 # c1: iq sweep
 seg-646e6aba13db = replay one recording across loop designs (<c1/>): per design and PRN steady-state jitter, lock fractions and C/N0; one acquisition per PRN, every channel on the same samples
-
-# text
-seg-61c9c6b902d3 = <s1>(path, hash=False) -> dict</s1>, <s2>(directory, recursive=False, hash=False) -> list</s2>
 
 # text
 # c1: hash
 seg-08d46de5e7cd = describe one recording, or every recording in a folder (reads files; <c1/> reads them fully)
 
 # text
-seg-183b031624db = <s1>(toml, epoch=None) -> dict</s1>
-
-# text
-# c1: gnss-ins
-# c2: jamming
-# c3: gnss-sim
-# c4: notice
-seg-065cf8ede342 = a scenario's vehicle motion and events for a laboratory GNSS simulator, in memory: <s1>{ "{" }files: { "{" }suffix: text{ "}" }, notes, notice{ "}" }</s1>; kinds <c1/>, <c2/>, <c3/>; no signal is written, keep <c4/> with the files
+# c1: {files: {suffix: text}, notes, notice}
+# c2: gnss-ins
+# c3: jamming
+# c4: gnss-sim
+# c5: notice
+seg-7d9cc8394e65 = a scenario's vehicle motion and events for a laboratory GNSS simulator, in memory: <c1/>; kinds <c2/>, <c3/>, <c4/>; no signal is written, keep <c5/> with the files
 
 # text
 # c1: runs
@@ -237,19 +184,10 @@ seg-ce6b819604a9 = one pack run: each test <c1/>, <c2/> or <c3/> with measured a
 seg-0f701bc523c6 = the LunaNet AFS implementation checked against the printed tables and worked examples of LSIS-AFS V1.0 (bars B1 to B10; B4 reports one pinned miss)
 
 # text
-seg-4545b80806c4 = <s1>(symbols, max_sp_errors={ "0" }) -> dict</s1>
-
-# text
 seg-82aecf261c46 = an AFS symbol stream (text of { "0" } and { "1" }) checked for sync pattern, SB1 decoding, FID, TOI continuity and spacing; LDPC and CRC-24Q of subframes { "2" } to { "4" } are not verified
 
 # text
-seg-2f89d4bac9dd = <s1>(frames={ "1" }, toi0={ "0" }) -> str</s1>
-
-# text
 seg-f72ab45ae10b = a test symbol stream with placeholder subframes (not a waveform)
-
-# text
-seg-8d95391f0361 = <s1>(scoring_toml, scenario_toml, conditions, log, from_s, to_s, title=None, created_utc=None, seed_hex=None) -> dict</s1>
 
 # text
 # c1: docs/spec/TEST-CONDITIONS.md
@@ -257,19 +195,10 @@ seg-8d95391f0361 = <s1>(scoring_toml, scenario_toml, conditions, log, from_s, to
 seg-1da34527bb64 = the signed laboratory round-trip pack linking scenario, test conditions (<c1/>), receiver log and score by hash; as <c2/>
 
 # text
-seg-944124a1d3a7 = <s1>(truth_json, predictions_json, threshold=None) -> str</s1>
-
-# text
 seg-dd3726fec672 = a kshana-bench result file (JSON text) from a truth file and a predictions file; MODELLED
 
 # text
-seg-91d596735289 = <s1>(results: list[str]) -> str</s1>
-
-# text
 seg-b82a110c324c = kshana-bench result files rendered as the static leaderboard page (HTML)
-
-# text
-seg-15d90c1c4fb3 = <s1>(data, format="", start_gst=None, merkle_root_hex="", public_keys=None, reference_time=None, max_time_error=None) -> dict</s1>
 
 # text
 # c1: kshana osnma verify --json
@@ -295,9 +224,6 @@ seg-58b8aa919eaf = Galileo OSNMA authentication of I/NAV pages or a UBX stream i
 seg-15e4601cd88c = the satellites a site sees under an azimuth-dependent skyline: per satellite <c1/> / <c2/>, GDOP, PDOP, HDOP, VDOP, TDOP, the east-north-up cofactor and covariance and the horizontal error ellipses; <c3/> is JSON or TOML text or a dict (<c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>); the visibility decision and the ellipse are checked against independent libraries, the rest is MODELLED, and the result carries the advisory (<c14/>, <c15/> say whether the sky is representative or from element sets)
 
 # text
-seg-5af5dc6f4d69 = <s1>(request, seed={ "0" }, n={ "1000" }) -> dict</s1>
-
-# text
 # c1: n
 # c2: request
 seg-51ac7cd68154 = <c1/> ({ "1" } to { "5000" }) seeded least-squares errors on the visible set of <c2/>, with their empirical covariance, RMS and the fraction inside the { "95" } % ellipse
@@ -317,29 +243,17 @@ seg-f900de61f6e9 = a skyline section (table, street canyon, sectors, terrain) re
 seg-824f3c5951fa = the skyplot of <c1/> as static SVG text
 
 # text
-seg-d83d6a3fc647 = <s1>(input, format, host="", input_kind="jsonl", expose_position=False, syslog_all=False, unix_nano={ "0" }) -> str</s1>
-
-# text
 # c1: jsonl
 # c2: receiver-trust
 # c3: kshana trust-telemetry
 seg-0ffb65c8f5f3 = a trust stream (<c1/>) or <c2/> result as Prometheus text, CEF or LEEF syslog lines or an OTLP JSON payload, with the <c3/> encoders; nothing is sent and no clock is read (syslog lines carry no timestamp)
 
 # text
-seg-560972c78de3 = <s1>(source, csv, dataset, cell_deg=None, licence=None, licence_url=None, attribution=None, land_geojson=None) -> list[dict]</s1>
-
-# text
 # c1: kshana-interference-map/v1
 seg-c1ab3dbbe2f2 = a GNSS interference map from ADS-B or AIS CSV text: one dict per UTC day with <c1/> GeoJSON (aggregate only; a degraded cell does not name interference as the cause)
 
 # text
-seg-a1a89b7762d2 = <s1>(route, maps, date_from=None, date_to=None) -> str</s1>
-
-# text
 seg-ff4bc7fdbce7 = share of a route through degraded cells of those maps, as JSON text (not a forecast; unobserved cells are not evidence of a clear route)
-
-# text
-seg-4d8253854bfe = <s1>(toml, seed=None) -> dict</s1>
 
 # text
 # c1: nmea
@@ -357,28 +271,16 @@ seg-d70bccba0e03 = synthetic bridge NMEA for crew training plus the instructor l
 seg-3fe13851ac82 = the GNSS IQ signal names <c1/>, <c2/> and <c3/> accept (<c4/>, <c5/>, <c6/>, ...)
 
 # text
-seg-dd3c932422ce = <s1>(fs_hz, duration_s, signal, prns, **options) -> dict</s1>
-
-# text
 # c1: samples_i
 # c2: samples_q
 # c3: truth
 seg-50bf4ad4e23a = a multi-satellite GNSS IQ scene in memory: <c1/> / <c2/> and per-epoch <c3/>
 
 # text
-seg-22ec0756d110 = <s1>(fs_hz, window_s, nav_text, rx_lat, rx_lon, rx_alt, **options) -> dict</s1>
-
-# text
 seg-b3199839a37c = the same, with each GPS satellite at its broadcast-ephemeris geometry from a RINEX (Receiver Independent Exchange Format) navigation message
 
 # text
-seg-ec70dc991d5f = <s1>(i, q, fs_hz, signal, prns, **options) -> list[dict]</s1>
-
-# text
 seg-8f0f9efea46b = FFT (fast Fourier transform) acquisition of each PRN (pseudorandom noise code): Doppler, code phase, statistic, threshold
-
-# text
-seg-a62ce202dfa6 = <s1>(i, q, fs_hz, signal, prn, **options) -> dict</s1>
 
 # text
 # c1: kshana.acq-surface/1
@@ -388,19 +290,10 @@ seg-a62ce202dfa6 = <s1>(i, q, fs_hz, signal, prn, **options) -> dict</s1>
 seg-3bf994f3f1bf = the whole acquisition surface of one PRN (<c1/>): <c2/> correlation power, the peak and two fine-Doppler refinements (<c3/>, <c4/>)
 
 # text
-seg-8928b5b418c6 = <s1>(i, q, fs_hz, signal, prns, **options) -> dict</s1>
-
-# text
 seg-393572e31421 = acquire, then track each PRN: per-epoch Doppler, code phase, lock indicators, C/N0, prompt correlator
 
 # text
-seg-2dea3bca9ecb = <s1>(i, q, fs_hz, **options) -> dict</s1>
-
-# text
 seg-bc39efdb015a = the receiver front-end chain (band-pass, notch, blanking, excision, AGC (automatic gain control), quantiser) over complex samples
-
-# text
-seg-a5dd26bf2dde = <s1>(toml: str) -> dict</s1>
 
 # text
 # c1: iq-labfit
@@ -421,9 +314,6 @@ seg-0ab8531d0465 = parse a <c1/> file (a path or TOML text) into its resolved de
 seg-9c3467d4451e = read a binary tracking-epoch file (<c1/>, as <c2/> writes it): the <c3/> and one dict per epoch in <c4/>
 
 # text
-seg-7c1d1ab7fec0 = <s1>(path, signal=None, prns=None, power=False, spectral=False, settings=None, ...) -> dict</s1>
-
-# text
 # c1: iq monitor
 # c2: series
 # c3: events
@@ -435,9 +325,6 @@ seg-469303e33d2a = the IQ detection monitors over a recording in one streaming p
 # c1: kshana.test-conditions/1
 # c2: hash
 seg-bb5c5008f1a8 = validate a lab test-condition file (<c1/>, TOML or JSON, a path or text) and return it resolved, with its <c2/>
-
-# text
-seg-7937f47eeabc = <s1>(campaign, out_dir, workers={ "0" }, resume=True, max_cells=None, dry_run=False) -> dict</s1>
 
 # text
 # c1: kshana.campaign/1

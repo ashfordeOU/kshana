@@ -104,8 +104,9 @@ seg-a7c478360464 = A tutorial that checks the engine against itself proves nothi
 # text
 # c1: a
 # c2: tests/tutorials.rs::tutorial1_satellites_are_in_the_gps_meo_shell
-# c3: a
-seg-cadeadafc9a8 = <b>{ "1" }. The satellites sit on the real GPS medium-Earth-orbit (MEO) shell.</b> The GPS nominal semi-major axis is <b>a = { "26,560" } km</b>, altitude ≈ { "20,180" } km above the mean Earth radius of { "6,378" } km (IS-GPS-200, the GPS interface specification; the GPS Standard Positioning Service (SPS) Performance Standard, US Department of Defense (DoD); Misra & Enge, <em>Global Positioning System</em>, 2nd ed.). PG01’s instantaneous radius of <b>{ "26,480.9" } km</b> lies within a few hundred km of <c1/> — exactly what real GPS eccentricity (~{ "0.005" }–{ "0.02" }) produces. The test <c2/> asserts <s1>{ "26000" } km < |r(PG01)| < { "27200" } km</s1> against this published <c3/>, which is <b>external to Kshana</b>.
+# c3: 26000 km < |r(PG01)| < 27200 km
+# c4: a
+seg-eec62069a957 = <b>{ "1" }. The satellites sit on the real GPS medium-Earth-orbit (MEO) shell.</b> The GPS nominal semi-major axis is <b>a = { "26,560" } km</b>, altitude ≈ { "20,180" } km above the mean Earth radius of { "6,378" } km (IS-GPS-200, the GPS interface specification; the GPS Standard Positioning Service (SPS) Performance Standard, US Department of Defense (DoD); Misra & Enge, <em>Global Positioning System</em>, 2nd ed.). PG01’s instantaneous radius of <b>{ "26,480.9" } km</b> lies within a few hundred km of <c1/> — exactly what real GPS eccentricity (~{ "0.005" }–{ "0.02" }) produces. The test <c2/> asserts <c3/> against this published <c4/>, which is <b>external to Kshana</b>.
 
 # text
 # c1: T = 2π√(a³/μ)
