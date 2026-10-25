@@ -2164,7 +2164,7 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
     let mut s = crate::chart::frame_open(
         w,
         h,
-        "LEO-PNT signal designs",
+        &crate::t!("leo-signal-chart-title"),
         &crate::t!(
             "leo-signal-left-band-limited-psd-of",
             reference_spacing_chips = r.reference_spacing_chips
@@ -2183,14 +2183,14 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
             .fold(f64::NEG_INFINITY, f64::max);
         s.push_str(&format!(
             "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"11\" fill=\"{colour}\">{}</text>\
-             <text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"9\" fill=\"{MUTED}\">{:.3} MHz, {} MHz</text>",
+             <text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"9\" fill=\"{MUTED}\">{} MHz, {} MHz</text>",
             lx - 8.0,
             top + ph / 2.0,
             esc(&run.design.name),
             lx - 8.0,
             top + ph / 2.0 + 12.0,
-            run.design.centre_hz / 1e6,
-            run.design.tx_bandwidth_hz / 1e6
+            crate::i18n::num(run.design.centre_hz / 1e6, 3),
+            crate::i18n::num_plain(run.design.tx_bandwidth_hz / 1e6)
         ));
         s.push_str(&format!(
             "<rect x=\"{lx:.1}\" y=\"{top:.1}\" width=\"{lw:.1}\" height=\"{ph:.1}\" fill=\"none\" stroke=\"{AXIS}\"/>"
@@ -2209,9 +2209,10 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
         ));
     }
     s.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\" fill=\"{MUTED}\">offset across ±0.6 × transmit bandwidth; 0 to −50 dB below each peak</text>",
+        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\" fill=\"{MUTED}\">{}</text>",
         lx + lw / 2.0,
-        70.0 + n as f64 * row_h + 4.0
+        70.0 + n as f64 * row_h + 4.0,
+        crate::t!("leo-signal-chart-psd-axis")
     ));
     // Jitter panel.
     let (px, py, pw, ph) = (590.0, 80.0, 370.0, 360.0);
@@ -2220,7 +2221,7 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
         py,
         pw,
         py + ph,
-        "code jitter (m, log scale) vs total C/N0 (dB-Hz)",
+        &crate::t!("leo-signal-chart-jitter-caption"),
     ));
     let cn0s = &r.cn0_dbhz;
     let (c_lo, c_hi) = (
@@ -2266,18 +2267,19 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
             px - 5.0,
             y + 3.0,
             if dec >= 0.0 {
-                format!("{}", 10f64.ppowf(dec))
+                crate::i18n::num_plain(10f64.ppowf(dec))
             } else {
-                format!("{:.prec$}", 10f64.ppowf(dec), prec = (-dec) as usize)
+                crate::i18n::num(10f64.ppowf(dec), (-dec) as usize)
             }
         ));
         dec += 1.0;
     }
     for c in cn0s {
         s.push_str(&format!(
-            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\" fill=\"{MUTED}\">{c:.0}</text>",
+            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\" fill=\"{MUTED}\">{}</text>",
             xc(*c),
-            py + ph + 14.0
+            py + ph + 14.0,
+            crate::i18n::num(*c, 0)
         ));
     }
     for (k, run) in runs.iter().enumerate() {
