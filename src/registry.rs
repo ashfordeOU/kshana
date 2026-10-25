@@ -90,13 +90,9 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         Passes,
         LinkBudget,
         LunarTimeBudget,
-        /// `lunar-ascent`.
         LunarAscent,
-        /// `lunar-surface`.
         LunarSurfaceMap,
-        /// `lunar-descent`.
         LunarLanding,
-        /// `lunar-orbit-rendezvous`.
         LunarRendezvous,
         RealtimeFrameEop,
         HybridOpticalRf,
