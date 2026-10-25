@@ -9954,16 +9954,16 @@ js-mthread-weakest-flag = weakest link
 # 2026-10-01-studio-rebuild/lib/mission-thread.mjs:158
 js-mthread-weakest-mark = weakest link
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:145
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:147
 js-obs-cell-extent = { $south }° to { $north }° N, { $west }° to { $east }° E
 
 # 2026-10-01-studio-rebuild/observatory/observatory.js:89
 js-obs-cell-read = { $state }: { $cell }. Sampled { $sampled }, affected { $affected }.
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:173
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:175
 js-obs-cell-title = { $state }; sampled { $sampled }, affected { $affected }
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:172
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:174
 js-obs-cell-title-reason = { $state } ({ $reason }); sampled { $sampled }, affected { $affected }
 
 # 2026-10-01-studio-rebuild/observatory/observatory.js:71
@@ -10011,7 +10011,7 @@ js-obs-col-state = State
 # 2026-10-01-studio-rebuild/observatory/observatory.js:111
 js-obs-col-why = Why not observed
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:130
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:132
 js-obs-day-alt = { $degraded } cells degraded, { $notDegraded } not degraded, { $notObserved } not observed, on { $date }.
 
 # 2026-10-01-studio-rebuild/observatory/observatory.js:63
@@ -10038,58 +10038,58 @@ js-obs-ds-product = Product
 # 2026-10-01-studio-rebuild/observatory/observatory.js:128
 js-obs-ds-written-by = Written by Kshana
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:94
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:96
 js-obs-err-cause = { $name } states a cause other than "not attributed"; this page shows none
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:68
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:70
 js-obs-err-feature-polygon = { $name }: feature { $n } is not a cell polygon
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:66
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:68
 js-obs-err-feature-state = { $name }: feature { $n } has the state "{ $state }", which is not one of { $states }
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:98
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:100
 js-obs-err-incident-object = { $name }: incident { $n } is not an object
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:60
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:62
 js-obs-err-no-date = { $name } states no date
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:61
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:63
 js-obs-err-no-features = { $name } has no features
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:95
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:97
 js-obs-err-no-incidents = { $name } has no incident list
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:59
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:61
 js-obs-err-not-day = { $name } is not a { $schema } file
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:93
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:95
 js-obs-err-not-incident = { $name } is not a { $schema } file
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:44
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:46
 js-obs-err-not-json = { $what } is not JSON ({ $reason })
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:108
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:110
 js-obs-err-not-manifest = { $name } is not a { $schema } file
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:44
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:46
 js-obs-err-not-object = { $what } is not a JSON object
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:43
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:45
 js-obs-err-not-text = { $what } is not text or is larger than { $mib } MiB
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:62
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:64
 js-obs-err-states = { $name } names states other than the three this page shows
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:122
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:124
 js-obs-file-matches = matches
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:122
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:124
 js-obs-file-mismatch = does not match
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:122
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:124
 js-obs-file-no-hash = no hash stated
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:120
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:122
 js-obs-file-not-opened = not opened
 
 # 2026-10-01-studio-rebuild/observatory/observatory.js:119
@@ -10119,7 +10119,7 @@ js-obs-kv-not-observed = Not observed (published)
 # 2026-10-01-studio-rebuild/observatory/observatory.js:69
 js-obs-kv-scope = Scope
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:176
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:178
 js-obs-map-aria = { $summary } The table below lists every cell.
 
 # 2026-10-01-studio-rebuild/lib/observatory.mjs:20
@@ -10137,13 +10137,13 @@ js-obs-na = n/a
 # 2026-10-01-studio-rebuild/observatory/observatory.js:69
 js-obs-no = no
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:159
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:161
 js-obs-no-cells = No cells in this file
 
 # 2026-10-01-studio-rebuild/observatory/observatory.js:45
 js-obs-no-day-file = The files for { $date } have no day file (.geojson), so there is nothing to show for it.
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:137
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:139
 js-obs-no-degraded = No degraded cells this day.
 
 # 2026-10-01-studio-rebuild/observatory/observatory.js:47
@@ -10158,10 +10158,10 @@ js-obs-no-manifest = No manifest was opened for this day, so the files cannot be
 # 2026-10-01-studio-rebuild/observatory/observatory.js:129
 js-obs-no-notice = This file carries no notice. The advisory statement at the top of this page applies all the same.
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:146
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:148
 js-obs-no-reason = no reason stated
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:26
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:28
 js-obs-not-clear = Not observed is not clear.
 
 # 2026-10-01-studio-rebuild/observatory/observatory.js:41
@@ -10170,10 +10170,10 @@ js-obs-not-readable = { $name }: not a file this page reads (.geojson, .incident
 # 2026-10-01-studio-rebuild/observatory/observatory.js:68
 js-obs-not-stated = not stated
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:136
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:138
 js-obs-note-day-wide = This was a day-wide-effect day: the day's background was itself high, so no cell could be called that day. That is not a statement that the sky was clean.
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:139
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:141
 js-obs-note-summary-mismatch = The summary the file states does not match the cells it lists; the numbers are shown as written.
 
 # 2026-10-01-studio-rebuild/observatory/observatory.js:47
@@ -10197,13 +10197,13 @@ js-obs-opened-days-files = Opened { $days } days from { $files } files. Read her
 # 2026-10-01-studio-rebuild/observatory/observatory.js:43
 js-obs-read-failed = { $name }: could not be read ({ $reason }).
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:30
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:32
 js-obs-reason-day-wide = the day's background was itself high, so no cell could be called that day
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:28
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:30
 js-obs-reason-insufficient = too few aircraft were sampled to make a call
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:29
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:31
 js-obs-reason-no-background = there was no background for the day to compare the cell with
 
 # 2026-10-01-studio-rebuild/observatory/observatory.js:66
@@ -10224,22 +10224,22 @@ js-obs-state-not-degraded = Not degraded
 # 2026-10-01-studio-rebuild/lib/observatory.mjs:17
 js-obs-state-not-observed = Not observed
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:55
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:57
 js-obs-the-day-file = the day file
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:90
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:92
 js-obs-the-incident-file = the incident file
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:105
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:107
 js-obs-the-manifest = the manifest
 
 # 2026-10-01-studio-rebuild/observatory/observatory.js:32
 js-obs-too-large = { $name }: larger than { $mib } MiB; open a smaller file.
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:129
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:131
 js-obs-unstated-number = an unstated number of
 
-# 2026-10-01-studio-rebuild/lib/observatory.mjs:38
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:40
 js-obs-withheld = withheld
 
 # 2026-10-01-studio-rebuild/observatory/observatory.js:69
@@ -10484,6 +10484,234 @@ js-opt-y-extra-margin = extra margin, dB
 
 # 2026-10-01-studio-rebuild/lib/optical.mjs:150
 js-opt-y-p-longer = P(longer)
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:47
+js-replay-band-calibrating = calibrating
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:49
+js-replay-band-degraded = degraded
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:48
+js-replay-band-nominal = nominal
+
+# 2026-10-01-studio-rebuild/replay/replay.js:89
+js-replay-band-run-ended = { $band } · run ended
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:50
+js-replay-band-untrusted = untrusted
+
+# 2026-10-01-studio-rebuild/replay/replay.js:101
+js-replay-clock = T+{ $t } of { $max }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:235
+js-replay-coast-hidden = coast hidden: this log's invented positions fall on land
+
+# 2026-10-01-studio-rebuild/replay/replay.js:76
+js-replay-coast-note = Coast: { $source }, illustration only.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:76
+js-replay-coast-note-hidden = { $reason }.
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:217
+js-replay-coast-window = Natural Earth 1:10 million, { $window } window
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:226
+js-replay-coast-world = Natural Earth 1:110 million (the Studio's world outline), coarse
+
+# 2026-10-01-studio-rebuild/replay/replay.js:63
+js-replay-demo-trust-log = { $title } (trust log)
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-east = east
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-north = north
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-south = south
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-west = west
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:141
+js-replay-dirs-and = { $list } and { $last }
+
+# 2026-10-01-studio-rebuild/replay/replay.js:168
+js-replay-drawing-animation = Drawing the animation…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:177
+js-replay-drawing-frames = Drawing the frames…
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:140
+js-replay-every-direction = every direction
+
+# 2026-10-01-studio-rebuild/replay/replay.js:149
+js-replay-file-error = { $name }: { $error }
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:481
+js-replay-kinds-convergence-horizontal = Convergence: median horizontal error
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:482
+js-replay-kinds-convergence-vertical = Convergence: median vertical error
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-course = Reported course
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-heading = Heading (gyro)
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-position-error = Position error
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-receiver = Receiver
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-run-time = Run time
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-satellites = Satellites used / in view
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-sky = Sky
+
+# 2026-10-01-studio-rebuild/replay/replay.js:52
+js-replay-legend = Legend
+
+# 2026-10-01-studio-rebuild/replay/replay.js:54
+js-replay-legend-no-fix = no fix
+
+# 2026-10-01-studio-rebuild/replay/replay.js:54
+js-replay-legend-true-track = true track
+
+# 2026-10-01-studio-rebuild/replay/replay.js:107
+js-replay-moment = Moment at T+{ $t }:
+
+# 2026-10-01-studio-rebuild/replay/replay.js:76
+js-replay-no-coast = No coast is drawn: none is bundled for this window.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:92
+js-replay-no-gsv = no GSV in this log
+
+# 2026-10-01-studio-rebuild/replay/replay.js:143
+js-replay-not-json = { $name }: not JSON.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:89
+js-replay-not-scored = not scored
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:27
+js-replay-obs-not-attributed = not attributed
+
+# 2026-10-01-studio-rebuild/replay/replay.js:135
+js-replay-open-failed = { $id } could not be opened: { $reason }.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:47
+js-replay-open-file = Open a file…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:153
+js-replay-opened = Opened { $name } in panel { $n }. Read here; nothing was uploaded.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:133
+js-replay-opening = Opening { $id }…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:104
+js-replay-pause = Pause
+
+# 2026-10-01-studio-rebuild/replay/replay.js:104
+js-replay-play = Play
+
+# 2026-10-01-studio-rebuild/replay/replay.js:154
+js-replay-read-failed = { $name }: could not be read or drawn ({ $reason }).
+
+# 2026-10-01-studio-rebuild/replay/replay.js:139
+js-replay-reading = Reading { $name }…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:217
+js-replay-reduced-motion = Reduced motion is preferred, so the replay starts at 1x and does not play by itself.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:46
+js-replay-run = Run
+
+# 2026-10-01-studio-rebuild/replay/replay.js:46
+js-replay-run-shown = Run shown in panel { $n }
+
+# 2026-10-01-studio-rebuild/replay/replay.js:172
+js-replay-saved-svg = Saved { $name } ({ $size } kB): every frame in one file, drawn from the same rows as this page.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:181
+js-replay-saved-zip = Saved { $name } ({ $size } MB): one SVG per frame, a manifest of the rows behind each, and a README.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:147
+js-replay-src-instructor = Your file { $name }: no engine score or sky comes with an instructor log alone.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:150
+js-replay-src-trust = Your file { $name }: a trust result carries no sky or heading, so those are not drawn.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:254
+js-replay-status-ready = { $a } and { $b }: synthetic runs, scored by the engine. Press Play, or move the clock.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:134
+js-replay-status-synthetic = { $titles }: synthetic runs, scored by the engine.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:134
+js-replay-status-synthetic-no-coast = { $titles }: synthetic runs, scored by the engine. Coastline unavailable.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:51
+js-replay-strip-label = Trust score over the run
+
+# 2026-10-01-studio-rebuild/replay/replay.js:23
+js-replay-titles-and = { $a } and { $b }
+
+# 2026-10-01-studio-rebuild/replay/replay.js:141
+js-replay-too-large = { $name } is larger than this page reads.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:75
+js-replay-track = Track of { $n } log rows, north up.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:75
+js-replay-track-widened = Track of { $n } log rows, north up, widened to show the nearest coast.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict = Verdict
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:198
+js-replay-verdict-degraded = { $dur } degraded, none untrusted
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict-early = Verdict (early)
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict-fine = From the log and the engine's score only; synthetic, advisory, not a detection-performance figure.
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:196
+js-replay-verdict-first = first below nominal at T+{ $t }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:195
+js-replay-verdict-first-after = first below nominal at T+{ $t }, { $dur } after the first event began (T+{ $onset })
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:196
+js-replay-verdict-first-before = first below nominal at T+{ $t }, before the first event's onset (T+{ $onset })
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:193
+js-replay-verdict-lowest = Lowest trust score { $score } ({ $band }) at T+{ $t }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:194
+js-replay-verdict-never-left = the score never left the nominal band
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:201
+js-replay-verdict-no-fix = no fix for { $dur }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:199
+js-replay-verdict-not-scored = Not scored: the engine's trust score is shown for the library runs
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:200
+js-replay-verdict-peak-error = largest logged position error { $err } m at T+{ $t }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:197
+js-replay-verdict-untrusted = { $dur } in the untrusted band
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict-wait = Shown when this run ends, at T+{ $t }.
 
 # 2026-10-01-studio-rebuild/lib/ssv.mjs:178
 js-ssv-altitude-label = Altitude and measurements used
