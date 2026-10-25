@@ -503,31 +503,13 @@ engine-api-builtins-lunar-frame-realisation-points-translation =
     }
 
 
-engine-api-builtins-moonlight-service-volume-sats-pts =
-    { $n_epochs ->
-        [one] moonlight-service-volume | { $n_sats } satelliter ({ $geometry_label }) | { $n_grid_points } punkter × { $n_epochs } epok | täckning { $coverage_pct }% (PDOP<{ $pdop_threshold }) | satelliter { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL-tillgänglighet { $pl_availability_pct }% | MODELLED
-       *[other] moonlight-service-volume | { $n_sats } satelliter ({ $geometry_label }) | { $n_grid_points } punkter × { $n_epochs } epoker | täckning { $coverage_pct }% (PDOP<{ $pdop_threshold }) | satelliter { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL-tillgänglighet { $pl_availability_pct }% | MODELLED
-    }
-
+engine-api-builtins-moonlight-service-volume-sats-pts = moonlight-service-volume | { $n_sats } satelliter ({ $geometry_label }) | { $n_grid_points } punkter × { $n_epochs } epoker | täckning { $coverage_pct }% (PDOP<{ $pdop_threshold }) | satelliter { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL-tillgänglighet { $pl_availability_pct }% | MODELLED
 
 engine-api-builtins-ephemeris-ure-required-vs-keplerian = { " " }| efemerid { $report } ({ $provenance }) σ_URE som krävs { $fmt } mot Kepler { $fmt2 } mot perturberad { $fmt3 } (Δ { $fmt4 })
 
 engine-api-builtins-lunar-differential-pnt-sats-illustrative = lunar-differential-pnt | { $n_sats } satelliter (illustrativ LCNS-klass, inte knuten till någon organisation) | baslinje { $baseline_km } km | användarfel { $user_error_uncorrected_m } m → { $user_error_corrected_m } m ({ $reduction_factor }× minskning) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
 
-engine-api-builtins-lunar-station-coverage-points-epochs =
-    { $n_grid_points ->
-        [one]
-            { $n_epochs ->
-                [one] lunar-station-coverage | { $n_grid_points } punkt x { $n_epochs } epok x { $n_trials } försök | tillgänglighet { $v4 } % | täckning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigerad p{ $percentile } 3D { $f } (okorrigerad { $f2 }) | HPL max { $f3 } | MODELLED; inget påstående om något verkligt system
-               *[other] lunar-station-coverage | { $n_grid_points } punkt x { $n_epochs } epoker x { $n_trials } försök | tillgänglighet { $v4 } % | täckning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigerad p{ $percentile } 3D { $f } (okorrigerad { $f2 }) | HPL max { $f3 } | MODELLED; inget påstående om något verkligt system
-            }
-       *[other]
-            { $n_epochs ->
-                [one] lunar-station-coverage | { $n_grid_points } punkter x { $n_epochs } epok x { $n_trials } försök | tillgänglighet { $v4 } % | täckning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigerad p{ $percentile } 3D { $f } (okorrigerad { $f2 }) | HPL max { $f3 } | MODELLED; inget påstående om något verkligt system
-               *[other] lunar-station-coverage | { $n_grid_points } punkter x { $n_epochs } epoker x { $n_trials } försök | tillgänglighet { $v4 } % | täckning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigerad p{ $percentile } 3D { $f } (okorrigerad { $f2 }) | HPL max { $f3 } | MODELLED; inget påstående om något verkligt system
-            }
-    }
-
+engine-api-builtins-lunar-station-coverage-points-epochs = lunar-station-coverage | { $n_grid_points } punkter x { $n_epochs } epoker x { $n_trials } försök | tillgänglighet { $v4 } % | täckning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigerad p{ $percentile } 3D { $f } (okorrigerad { $f2 }) | HPL max { $f3 } | MODELLED; inget påstående om något verkligt system
 
 engine-api-builtins-terrain-horizon-at-the-station = { " " }| terränghorisont ({ $sources }) vid stationen max { $horizon_max_deg } deg, användarpunkter medelmax { $user_horizon_max_deg_mean } deg
 
@@ -867,39 +849,11 @@ engine-e-body-pnt-serialising-report = serialiserar rapport: { $e }
 engine-e-body-pnt-the-report-must-serialise-to = rapporten måste serialiseras till ett JSON-objekt
 
 engine-body-pnt-positioning-around-user-relays-at =
-    { $n_relays ->
-        [one]
-            { $n_epochs ->
-                [one]
-                    Positionsbestämning runt { $name } — { $user_kind }-användare, { $n_relays } relä på { $r } km, { $n_epochs } epok
-                    { "  " }Jordens ljustid { $one_way_light_time_s } s enkel väg, { $two_way_light_time_s } s tur och retur; vinkel Sol-Jorden-kropp { $sun_separation_deg } deg
-                    { "  " }tillgänglighet: { $availability_relays } enbart konstellation, { $availability_with_earth } med jordavståndet (Jorden i sikte { $earth_visibility })
-                    { "  " }median-PDOP { $opt }; RMS-fel { $opt2 } enbart konstellation, { $opt3 } med jordavståndet
-                    { "  " }formell mediansigma { $opt4 } enbart konstellation, { $opt5 } med jordavståndet{ "\u000A" }
-               *[other]
-                    Positionsbestämning runt { $name } — { $user_kind }-användare, { $n_relays } relä på { $r } km, { $n_epochs } epoker
-                    { "  " }Jordens ljustid { $one_way_light_time_s } s enkel väg, { $two_way_light_time_s } s tur och retur; vinkel Sol-Jorden-kropp { $sun_separation_deg } deg
-                    { "  " }tillgänglighet: { $availability_relays } enbart konstellation, { $availability_with_earth } med jordavståndet (Jorden i sikte { $earth_visibility })
-                    { "  " }median-PDOP { $opt }; RMS-fel { $opt2 } enbart konstellation, { $opt3 } med jordavståndet
-                    { "  " }formell mediansigma { $opt4 } enbart konstellation, { $opt5 } med jordavståndet{ "\u000A" }
-            }
-       *[other]
-            { $n_epochs ->
-                [one]
-                    Positionsbestämning runt { $name } — { $user_kind }-användare, { $n_relays } reläer på { $r } km, { $n_epochs } epok
-                    { "  " }Jordens ljustid { $one_way_light_time_s } s enkel väg, { $two_way_light_time_s } s tur och retur; vinkel Sol-Jorden-kropp { $sun_separation_deg } deg
-                    { "  " }tillgänglighet: { $availability_relays } enbart konstellation, { $availability_with_earth } med jordavståndet (Jorden i sikte { $earth_visibility })
-                    { "  " }median-PDOP { $opt }; RMS-fel { $opt2 } enbart konstellation, { $opt3 } med jordavståndet
-                    { "  " }formell mediansigma { $opt4 } enbart konstellation, { $opt5 } med jordavståndet{ "\u000A" }
-               *[other]
-                    Positionsbestämning runt { $name } — { $user_kind }-användare, { $n_relays } reläer på { $r } km, { $n_epochs } epoker
-                    { "  " }Jordens ljustid { $one_way_light_time_s } s enkel väg, { $two_way_light_time_s } s tur och retur; vinkel Sol-Jorden-kropp { $sun_separation_deg } deg
-                    { "  " }tillgänglighet: { $availability_relays } enbart konstellation, { $availability_with_earth } med jordavståndet (Jorden i sikte { $earth_visibility })
-                    { "  " }median-PDOP { $opt }; RMS-fel { $opt2 } enbart konstellation, { $opt3 } med jordavståndet
-                    { "  " }formell mediansigma { $opt4 } enbart konstellation, { $opt5 } med jordavståndet{ "\u000A" }
-            }
-    }
-
+    Positionsbestämning runt { $name } — { $user_kind }-användare, { $n_relays } reläer på { $r } km, { $n_epochs } epoker
+    { "  " }Jordens ljustid { $one_way_light_time_s } s enkel väg, { $two_way_light_time_s } s tur och retur; vinkel Sol-Jorden-kropp { $sun_separation_deg } deg
+    { "  " }tillgänglighet: { $availability_relays } enbart konstellation, { $availability_with_earth } med jordavståndet (Jorden i sikte { $earth_visibility })
+    { "  " }median-PDOP { $opt }; RMS-fel { $opt2 } enbart konstellation, { $opt3 } med jordavståndet
+    { "  " }formell mediansigma { $opt4 } enbart konstellation, { $opt5 } med jordavståndet{ "\u000A" }
 
 engine-body-pnt-positioning-around = Positionsbestämning runt { $name }
 
@@ -4953,20 +4907,7 @@ engine-e-lunar-station-no-case = { $KIND }: inget fall ({ $j }, { $i }, { $k })
 
 engine-lunar-station-stroke-stroke-width = { " " }stroke="{ $INK }" stroke-width="0.8"
 
-engine-lunar-station-points-epochs-trials =
-    { $n_grid_points ->
-        [one]
-            { $n_epochs ->
-                [one] { $n_grid_points } punkt · { $n_epochs } epok · { $n_trials } försök
-               *[other] { $n_grid_points } punkt · { $n_epochs } epoker · { $n_trials } försök
-            }
-       *[other]
-            { $n_epochs ->
-                [one] { $n_grid_points } punkter · { $n_epochs } epok · { $n_trials } försök
-               *[other] { $n_grid_points } punkter · { $n_epochs } epoker · { $n_trials } försök
-            }
-    }
-
+engine-lunar-station-points-epochs-trials = { $n_grid_points } punkter · { $n_epochs } epoker · { $n_trials } försök
 
 engine-lunar-station-hpl-max = HPL max { $f }
 
