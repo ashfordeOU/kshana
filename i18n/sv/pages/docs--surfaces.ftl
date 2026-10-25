@@ -20,6 +20,10 @@ seg-206c78a69ded = Ruttexponering
 
 seg-4dbf41c0ec3b = Funktion
 
+seg-d5b5bdf6081c = Rust
+
+seg-40a7552d2ba9 = MCP
+
 seg-1194bde1c9df = Källa: <c1/>
 
 seg-4d8a164605fb = Varje förmåga finns på de ytor där den är meningsfull; där en yta inte kan bära en förmåga står det <b>N/A</b> i cellen, tillsammans med skälet. Samma motor körs bakom varje yta: ingångarna för Python, WebAssembly och MCP för förmågorna i { "0.35" } är tunna omslag kring <c1/>, som anropar den kod som kommandoraden kör.
