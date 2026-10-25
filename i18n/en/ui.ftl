@@ -342,9 +342,9 @@ studio-observatory-the-observatory-writes-a-few = The observatory writes a few f
 # observatory
 studio-observatory-open-a-day = Open a day
 # observatory
-studio-observatory-larr = &larr;
+studio-observatory-larr = ←
 # observatory
-studio-observatory-rarr = &rarr;
+studio-observatory-rarr = →
 # observatory
 studio-observatory-the-three-states = The three states
 # observatory
@@ -354,13 +354,13 @@ studio-observatory-the-png-you-opened-as = The PNG you opened, as it is. Cells t
 # observatory
 studio-observatory-cells-drawn-from-the-file = Cells, drawn from the file
 # observatory
-studio-observatory-plate-carr-eacute-e-no = Plate carr&eacute;e, no base map. Hover a cell, or use the table, for its state and counts. A place with no cell was not observed.
+studio-observatory-plate-carr-eacute-e-no = Plate carrée, no base map. Hover a cell, or use the table, for its state and counts. A place with no cell was not observed.
 # observatory
 studio-observatory-hover-or-focus-a-cell = Hover or focus a cell for its state.
 # observatory
 studio-observatory-every-cell-in-the-file = Every cell in the file
 # observatory
-studio-observatory-a-count-the-file-withholds = A count the file withholds (fewer than 5 aircraft) reads &ldquo;withheld&rdquo;, never 0.
+studio-observatory-a-count-the-file-withholds = A count the file withholds (fewer than 5 aircraft) reads “withheld”, never 0.
 # observatory
 studio-observatory-files-and-their-hashes = Files and their hashes
 # observatory
@@ -368,7 +368,7 @@ studio-observatory-dataset-licence-and-notice = Dataset, licence and notice
 # observatory
 studio-observatory-what-this-page-does-and = What this page does and does not show
 # observatory
-studio-observatory-products-are-released-at-least = Products are released at least 24 hours after the end of the UTC day, on cells of 0.5 degrees or coarser. This is never a live view and it never says &ldquo;now&rdquo;.
+studio-observatory-products-are-released-at-least = Products are released at least 24 hours after the end of the UTC day, on cells of 0.5 degrees or coarser. This is never a live view and it never says “now”.
 # observatory
 studio-observatory-it-shows-no-cause-no = It shows no cause, no country, no force and no source of interference, no alert, no comparison between places or days, and no AIS. ADS-B and AIS are never combined.
 # observatory
