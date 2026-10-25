@@ -49,10 +49,19 @@ pub fn run_typed(toml: &str, lang: Option<String>) -> Result<JsValue, JsValue> {
 }
 
 /// The available scenario kinds and their metadata, already parsed: the typed form of
-/// [`list_kinds`], which keeps its JSON-string return for existing callers.
+/// [`list_kinds`], which keeps its JSON-string return for existing callers. `lang` (a tag such as
+/// `de`; omitted is English) is the language of each `description`; names and fields do not change.
 #[wasm_bindgen(unchecked_return_type = "KindMeta[]")]
-pub fn scenario_kinds() -> JsValue {
-    json_parse(&crate::api::list_scenario_kinds_json())
+pub fn scenario_kinds(lang: Option<String>) -> Result<JsValue, JsValue> {
+    kinds_in(&lang).map(|j| json_parse(&j))
+}
+
+/// The kinds document, in English or in `lang`.
+fn kinds_in(lang: &Option<String>) -> Result<String, JsValue> {
+    match lang.as_deref() {
+        None => Ok(crate::api::list_scenario_kinds_json()),
+        Some(l) => crate::api::list_scenario_kinds_json_lang(l).map_err(|e| JsValue::from_str(&e)),
+    }
 }
 
 /// Run a scenario given as a TOML string; returns the result document as a JSON
@@ -104,10 +113,11 @@ pub fn run_all(toml: &str, lang: Option<String>) -> Result<String, JsValue> {
 }
 
 /// List the available scenario kinds and their metadata as a JSON array (name,
-/// description, required and optional fields), for programmatic introspection.
+/// description, required and optional fields), for programmatic introspection. `lang` (a tag such
+/// as `de`; omitted is English) is the language of each `description`.
 #[wasm_bindgen]
-pub fn list_kinds() -> String {
-    crate::api::list_scenario_kinds_json()
+pub fn list_kinds(lang: Option<String>) -> Result<String, JsValue> {
+    kinds_in(&lang)
 }
 
 /// The modules a scenario kind's verification-matrix rows name where they differ from the kind's

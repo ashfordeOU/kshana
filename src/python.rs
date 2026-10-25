@@ -327,9 +327,11 @@ fn receiver_trust(toml: &str) -> PyResult<PyRunOutput> {
         .map_err(PyValueError::new_err)
 }
 
+/// The kinds' metadata, already parsed; `lang` is the language of each `description`.
 #[pyfunction]
-fn scenario_kinds<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyAny>> {
-    let json = crate::api::list_scenario_kinds_json();
+#[pyo3(signature = (lang=None))]
+fn scenario_kinds<'py>(py: Python<'py>, lang: Option<&str>) -> PyResult<Bound<'py, PyAny>> {
+    let json = kinds_json(lang)?;
     let v: serde_json::Value =
         serde_json::from_str(&json).map_err(|e| PyValueError::new_err(e.to_string()))?;
     json_to_py(py, &v)
@@ -371,8 +373,17 @@ fn run_full(toml: &str, lang: Option<&str>) -> PyResult<(String, String, String)
 /// [`scenario_kinds`], which returns the same metadata already parsed, and keeps its
 /// string return so existing callers do not break; new code should call `scenario_kinds`.
 #[pyfunction]
-fn list_kinds() -> String {
-    crate::api::list_scenario_kinds_json()
+#[pyo3(signature = (lang=None))]
+fn list_kinds(lang: Option<&str>) -> PyResult<String> {
+    kinds_json(lang)
+}
+
+/// The kinds document, in English or in `lang`.
+fn kinds_json(lang: Option<&str>) -> PyResult<String> {
+    match lang {
+        None => Ok(crate::api::list_scenario_kinds_json()),
+        Some(l) => crate::api::list_scenario_kinds_json_lang(l).map_err(PyValueError::new_err),
+    }
 }
 
 /// Run a scenario; on failure return the structured error *kind* tag
