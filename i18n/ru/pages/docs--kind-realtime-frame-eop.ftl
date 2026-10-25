@@ -47,3 +47,5 @@ seg-bc51b666d070 = Ошибка предсказания ориентации З
 seg-653fad5e0afe = <s1>Предыдущий</s1>quantum-trade
 
 seg-5abe534d4ef1 = <s1>Следующий</s1>reentry
+
+seg-a2889fb2b42a = Тематическая страница: <a1>integrations.md</a1>
