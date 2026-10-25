@@ -11,3 +11,5 @@ seg-6e0cb6acc073 = VALIDATED
 seg-60cd077d82a7 = Модель
 
 seg-c5ce76c91ff7 = Позначка
+
+seg-7670cf4ceda3 = Типове значення
