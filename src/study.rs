@@ -188,10 +188,10 @@ pub fn run_suite(suite: &Suite, base_dir: &Path) -> Result<StudyOutput, String> 
         .expect("StudyArtifact (Strings + serde_json::Value) always serialises");
 
     let html = render_html(&suite.title, suite.description.as_deref(), &resolved);
-    let summary = format!(
-        "study \"{}\": {} scenarios",
-        suite.title,
-        suite.scenarios.len()
+    let summary = crate::t!(
+        "study-summary",
+        title = suite.title,
+        n_scenarios = suite.scenarios.len()
     );
 
     Ok(StudyOutput {
@@ -210,19 +210,39 @@ fn html_escape(s: &str) -> String {
         .replace('\'', "&#39;")
 }
 
-/// The timing-domain figures of merit, in report order, paired with a human label
-/// and unit — the same set the per-scenario report uses, so the comparison table
-/// and the scorecard never drift on the FoM names. (Mirrors `FOM_LABELS` in
-/// [`crate::api`]; kept here to avoid widening that module's surface.)
-const FOM_LABELS: &[(&str, &str, &str)] = &[
-    ("holdover_s", "Holdover", "s"),
-    ("timing_rms_ns", "Timing RMS", "ns"),
-    ("timing_p95_ns", "Timing p95", "ns"),
-    ("resilience_slope_ns_per_s", "Resilience slope", "ns/s"),
-    ("availability", "Availability", ""),
-    ("integrity", "Integrity", ""),
-    ("security", "Security", ""),
+/// The timing-domain figures of merit, in report order: the same set the per-scenario report
+/// uses, so the comparison table and the scorecard never drift on the FoM names. (Mirrors
+/// `FOM_LABELS` in [`crate::api`]; kept here to avoid widening that module's surface.) The
+/// label with its unit is [`metric_label`].
+const FOM_KEYS: &[&str] = &[
+    "holdover_s",
+    "timing_rms_ns",
+    "timing_p95_ns",
+    "resilience_slope_ns_per_s",
+    "availability",
+    "integrity",
+    "security",
 ];
+
+/// The row label of a figure of merit, with its unit, in the current language.
+fn metric_label(key: &str) -> String {
+    match key {
+        "holdover_s" => crate::t!("study-metric-holdover"),
+        "timing_rms_ns" => crate::t!("study-metric-timing-rms"),
+        "timing_p95_ns" => crate::t!("study-metric-timing-p95"),
+        "resilience_slope_ns_per_s" => crate::t!("study-metric-resilience-slope"),
+        "availability" => crate::t!("study-metric-availability"),
+        "integrity" => crate::t!("study-metric-integrity"),
+        "security" => crate::t!("study-metric-security"),
+        other => other.to_string(),
+    }
+}
+
+/// A catalogue message that is plain text, escaped for an HTML text node.
+macro_rules! tx {
+    ($id:literal) => { html_escape(&crate::t!($id)) };
+    ($id:literal, $($k:ident = $v:expr),+ $(,)?) => { html_escape(&crate::t!($id, $($k = $v),+)) };
+}
 
 /// A FoM value, looked up across the clock blocks of one scenario. Returns the
 /// first present-and-numeric value found (preferring `quantum`, then `classical`,
@@ -249,14 +269,18 @@ fn render_html(title: &str, description: Option<&str>, scenarios: &[Resolved]) -
     let title_e = html_escape(title);
 
     // Column headers: one per scenario.
-    let mut head_cols = String::from("<th>Metric</th><th>Validation</th>");
+    let mut head_cols = format!(
+        "<th>{}</th><th>{}</th>",
+        tx!("study-th-metric"),
+        tx!("study-th-validation")
+    );
     for r in scenarios {
         head_cols.push_str(&format!("<th class=\"num\">{}</th>", html_escape(&r.label)));
     }
 
     // One row per FoM that at least one scenario reports.
     let mut body = String::new();
-    for (key, label, unit) in FOM_LABELS {
+    for key in FOM_KEYS {
         let any = scenarios.iter().any(|r| fom_value(&r.foms, key).is_some());
         if !any {
             continue;
@@ -264,11 +288,7 @@ fn render_html(title: &str, description: Option<&str>, scenarios: &[Resolved]) -
         let Some(tier) = crate::fom_label::tier_for(key) else {
             continue;
         };
-        let metric = if unit.is_empty() {
-            (*label).to_string()
-        } else {
-            format!("{label} ({unit})")
-        };
+        let metric = metric_label(key);
         let mut row = format!(
             "<tr><td>{}</td><td><span class=\"tier\">{}</span></td>",
             html_escape(&metric),
@@ -276,12 +296,13 @@ fn render_html(title: &str, description: Option<&str>, scenarios: &[Resolved]) -
         );
         for r in scenarios {
             match fom_value(&r.foms, key) {
-                Some(_) if r.not_applicable.iter().any(|n| n == key) => {
-                    row.push_str("<td class=\"num\">n/a (no attack)</td>")
-                }
+                Some(_) if r.not_applicable.iter().any(|n| n == key) => row.push_str(&format!(
+                    "<td class=\"num\">{}</td>",
+                    tx!("study-not-applicable-no-attack")
+                )),
                 Some(v) => row.push_str(&format!(
                     "<td class=\"num\">{}</td>",
-                    crate::api::format_fom_value(v)
+                    crate::i18n::localise_decimal(crate::api::format_fom_value(v))
                 )),
                 None => row.push_str("<td class=\"num\">&mdash;</td>"),
             }
@@ -298,10 +319,24 @@ fn render_html(title: &str, description: Option<&str>, scenarios: &[Resolved]) -
     };
 
     let theme = crate::palette::page_css();
+    let lang = html_escape(crate::i18n::current().tag());
+    let page_title = tx!("study-page-title", title = title);
+    let eyebrow = tx!("study-eyebrow");
+    let h_comparison = tx!("study-h-comparison");
+    let tier_note = crate::t!(
+        "study-tier-note",
+        validated = crate::t!("fom-verdict-validated"),
+        modelled = crate::t!("fom-verdict-modelled")
+    );
+    let footer = crate::t!(
+        "study-footer",
+        version = env!("CARGO_PKG_VERSION"),
+        n_scenarios = scenarios.len()
+    );
     format!(
-        "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\"/>\n\
+        "<!doctype html>\n<html lang=\"{lang}\">\n<head>\n<meta charset=\"utf-8\"/>\n\
          <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>\n\
-         <title>{title_e} \u{2014} Kshana study</title>\n<style>\n\
+         <title>{page_title}</title>\n<style>\n\
          {theme}\
          body{{font-family:{FONT_SANS};background:var(--bg);color:var(--fg);line-height:1.55;\
          max-width:1000px;margin:0 auto;padding:2rem 1.25rem 3rem}}\
@@ -319,22 +354,14 @@ fn render_html(title: &str, description: Option<&str>, scenarios: &[Resolved]) -
          .tier-note{{font-size:.8rem;opacity:.75;margin:.5rem 0 1rem}}\
          footer{{margin-top:2rem;padding-top:1rem;border-top:1px solid var(--line);font-size:.85rem;opacity:.75}}\
          </style>\n</head>\n<body>\n\
-         <p class=\"eyebrow\">\u{915}\u{94d}\u{937}\u{923} \u{b7} the precise instant</p>\n\
+         <p class=\"eyebrow\">{eyebrow}</p>\n\
          <h1>{title_e}</h1>\n\
          {desc_block}\
-         <h2>Side-by-side comparison</h2>\n\
+         <h2>{h_comparison}</h2>\n\
          <table><thead><tr>{head_cols}</tr></thead><tbody>{body}</tbody></table>\n\
-         <p class=\"tier-note\">Each figure of merit is tagged VALIDATED (checked against an \
-         external oracle) or MODELLED (first-principles, internally tested), derived from the \
-         verification matrix. Columns are independent scenarios; values are not normalised \
-         across scenarios.</p>\n\
-         <footer>Generated by Kshana {version} as an aggregated study of {n} scenarios. \
-         Each scenario is reproducible from its scenario + seed + engine version. \
-         Free and open source (AGPL-3.0) \u{2014} \
-         <a href=\"https://github.com/AshfordeOU/kshana\">source &amp; docs</a>.</footer>\n\
+         <p class=\"tier-note\">{tier_note}</p>\n\
+         <footer>{footer}</footer>\n\
          </body>\n</html>\n",
-        version = env!("CARGO_PKG_VERSION"),
-        n = scenarios.len(),
     )
 }
 

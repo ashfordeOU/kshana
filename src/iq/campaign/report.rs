@@ -396,6 +396,41 @@ fn fmt(x: Option<f64>, digits: usize) -> String {
         .unwrap_or_else(|| "—".into())
 }
 
+/// [`fmt`] for a number a person reads: the current language's decimal mark.
+fn fmt_h(x: Option<f64>, digits: usize) -> String {
+    crate::i18n::localise_decimal(fmt(x, digits))
+}
+
+/// A catalogue message that is plain text, escaped for a text node (as [`esc`] does).
+macro_rules! tx {
+    ($id:literal) => { esc(&crate::t!($id)) };
+    ($id:literal, $($k:ident = $v:expr),+ $(,)?) => { esc(&crate::t!($id, $($k = $v),+)) };
+}
+
+/// One header cell of a table; `class` is the cell's attribute text (` class="l"` or empty) and the
+/// text is the catalogue message, which may carry its own markup.
+fn th(class: &str, text: &str) -> String {
+    format!("<th{class}>{text}</th>")
+}
+
+/// The word of a scorecard row's scope (`run` or `event`) or verdict (`PASS`, `FAIL`), in the
+/// current language; anything else as it is.
+fn scope_word(scope: &str) -> String {
+    match scope {
+        "run" => crate::t!("iq-campaign-report-scope-run"),
+        "event" => crate::t!("iq-campaign-report-scope-event"),
+        other => other.to_string(),
+    }
+}
+
+fn verdict_word(verdict: &str) -> String {
+    match verdict {
+        "PASS" => crate::t!("lunar-interop-chart-pass"),
+        "FAIL" => crate::t!("lunar-interop-chart-fail"),
+        other => other.to_string(),
+    }
+}
+
 /// Categorical series slots defined in the page style (`--s1`..`--s8`).
 const SERIES_SLOTS: usize = 8;
 
@@ -481,11 +516,11 @@ pub fn rocs(cells: &[CellResult]) -> Vec<super::detect::Roc> {
 
 /// The detection ROC section: one curve per kind and a table.
 fn roc_section(rocs: &[super::detect::Roc]) -> String {
-    let mut s = String::from("<h2>Detection ROC</h2>");
-    let _ = write!(
-        s,
-        "<p class=\"note\">Labelled <b>{MODELLED}</b>. Each stated event window is a positive and each window of the configured length outside the events a negative. A window counts at a threshold when the monitor's own test statistic reaches it in the window. P<sub>fa</sub> is per negative window, not per test. The same figures are in <code>roc.json</code>.</p>"
-    );
+    let mut s = format!("<h2>{}</h2>", tx!("iq-campaign-report-roc-heading"));
+    s.push_str(&crate::t!(
+        "iq-campaign-report-roc-note",
+        label = crate::t!("fom-verdict-modelled")
+    ));
     let (w, ht, ml, mr, mt, mb) = (420.0, 320.0, 48.0, 16.0, 12.0, 40.0);
     let sx = |x: f64| ml + x * (w - ml - mr);
     let sy = |y: f64| mt + (1.0 - y) * (ht - mt - mb);
@@ -554,7 +589,17 @@ fn roc_section(rocs: &[super::detect::Roc]) -> String {
     s.push_str("</svg>");
     legend.push_str("</div>");
     s.push_str(&legend);
-    s.push_str("<div class=\"wrap\"><table><thead><tr><th class=\"l\">Alarm kind</th><th>Positives</th><th>Negatives</th><th>AUC</th><th>Threshold</th><th>P<sub>d</sub> at it</th><th>P<sub>fa</sub> at it</th></tr></thead><tbody>");
+    let _ = write!(
+        s,
+        "<div class=\"wrap\"><table><thead><tr>{}{}{}{}{}{}{}</tr></thead><tbody>",
+        th(" class=\"l\"", &tx!("iq-campaign-report-th-alarm-kind")),
+        th("", &tx!("iq-campaign-report-th-positives")),
+        th("", &tx!("iq-campaign-report-th-negatives")),
+        th("", &tx!("iq-campaign-report-th-auc")),
+        th("", &tx!("iq-campaign-report-th-threshold")),
+        th("", &crate::t!("iq-campaign-report-th-pd-at-it")),
+        th("", &crate::t!("iq-campaign-report-th-pfa-at-it"))
+    );
     for r in rocs {
         let _ = write!(
             s,
@@ -562,10 +607,10 @@ fn roc_section(rocs: &[super::detect::Roc]) -> String {
             esc(&r.kind),
             r.positives,
             r.negatives,
-            fmt(r.auc, 3),
-            fmt(r.threshold, 3),
-            fmt(r.at_threshold.map(|a| a[1]), 3),
-            fmt(r.at_threshold.map(|a| a[0]), 3)
+            fmt_h(r.auc, 3),
+            fmt_h(r.threshold, 3),
+            fmt_h(r.at_threshold.map(|a| a[1]), 3),
+            fmt_h(r.at_threshold.map(|a| a[0]), 3)
         );
     }
     s.push_str("</tbody></table></div>");
@@ -583,31 +628,50 @@ fn html(
     let mut h = String::new();
     let _ = write!(
         h,
-        "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>Campaign {}</title><style>{}</style></head><body><main>",
-        esc(&plan.name),
+        "<!doctype html><html lang=\"{}\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>{}</title><style>{}</style></head><body><main>",
+        esc(crate::i18n::current().tag()),
+        tx!("iq-campaign-report-title", name = plan.name),
         style()
     );
     let _ = write!(
         h,
-        "<h1>Lab replay campaign: {}</h1><p class=\"meta\">Data class <b>{}</b> · Kshana {} · {} recording(s) × {} front end(s) × {} design(s) = {} cells, {} done · digest <code>{}</code></p>",
-        esc(&plan.name),
-        plan.data_class.as_str(),
-        esc(&plan.engine_version),
-        plan.recordings.len(),
-        plan.frontends.len(),
-        plan.designs.len(),
-        plan.cells.len(),
-        present,
-        digest.unwrap_or("(incomplete: not every cell is done)")
+        "<h1>{}</h1><p class=\"meta\">{}</p>",
+        tx!("iq-campaign-report-heading", name = plan.name),
+        crate::t!(
+            "iq-campaign-report-meta",
+            data_class = plan.data_class.as_str(),
+            engine = esc(&plan.engine_version),
+            n_recordings = plan.recordings.len(),
+            n_frontends = plan.frontends.len(),
+            n_designs = plan.designs.len(),
+            n_cells = plan.cells.len(),
+            n_done = present,
+            digest = digest
+                .map(str::to_string)
+                .unwrap_or_else(|| crate::t!("iq-campaign-report-digest-incomplete"))
+        )
     );
-    let _ = write!(
-        h,
-        "<p class=\"note\">Measured values come from tracking the recordings. Dashed lines labelled <b>{MODELLED}</b> are the analytic spectral-separation reference <code>{}</code> at the lab's stated J/S, with Q from the stated interference type. They are a model of the stated condition, not a measurement and not a simulation of the interference.</p>",
-        esc(REFERENCE_FORMULA)
-    );
+    h.push_str(&crate::t!(
+        "iq-campaign-report-reference-note",
+        label = crate::t!("fom-verdict-modelled"),
+        formula = esc(REFERENCE_FORMULA)
+    ));
 
     // Summary per (recording, frontend, design).
-    h.push_str("<h2>Summary</h2><div class=\"wrap\"><table><thead><tr><th class=\"l\">Recording</th><th class=\"l\">Front end</th><th class=\"l\">Design</th><th>Satellites</th><th>Mean availability</th><th>Events lost</th><th>Median re-acq (s)</th><th>Pass</th><th>Fail</th></tr></thead><tbody>");
+    let _ = write!(
+        h,
+        "<h2>{}</h2><div class=\"wrap\"><table><thead><tr>{}{}{}{}{}{}{}{}{}</tr></thead><tbody>",
+        tx!("iq-campaign-report-summary-heading"),
+        th(" class=\"l\"", &tx!("iq-campaign-report-th-recording")),
+        th(" class=\"l\"", &tx!("iq-campaign-report-th-front-end")),
+        th(" class=\"l\"", &tx!("iq-campaign-report-th-design")),
+        th("", &tx!("iq-campaign-report-th-satellites")),
+        th("", &tx!("iq-campaign-report-th-mean-availability")),
+        th("", &tx!("iq-campaign-report-th-events-lost")),
+        th("", &tx!("iq-campaign-report-th-median-reacq")),
+        th("", &tx!("iq-campaign-report-th-pass")),
+        th("", &tx!("iq-campaign-report-th-fail"))
+    );
     let mut groups: BTreeMap<(String, String, String), Vec<&Row>> = BTreeMap::new();
     for r in rows {
         groups
@@ -633,9 +697,9 @@ fn html(
             esc(fe),
             esc(d),
             run.len(),
-            fmt(mean_av, 3),
+            fmt_h(mean_av, 3),
             ev.len(),
-            fmt(med, 2)
+            fmt_h(med, 2)
         );
     }
     h.push_str("</tbody></table></div>");
@@ -649,7 +713,11 @@ fn html(
             .push(c);
     }
     if !by_event.is_empty() {
-        h.push_str("<h2>C/N0 degradation against stated J/S</h2>");
+        let _ = write!(
+            h,
+            "<h2>{}</h2>",
+            tx!("iq-campaign-report-degradation-heading")
+        );
     }
     for ((rec, ev), cs) in &by_event {
         h.push_str(&chart(rec, ev, cs));
@@ -661,10 +729,30 @@ fn html(
 
     // Full scorecard.
     let note = match plan.scoring.cn0_estimator.name() {
-        "nwpr" => "NWPR (reads low by about 8 dB \u{b7} Bn\u{b7}T under the loop's own jitter, so its readings depend on the loop design)",
-        _ => "M2M4 (insensitive to the loop's own jitter)",
+        "nwpr" => crate::t!("iq-campaign-report-scorecard-note-nwpr"),
+        _ => crate::t!("iq-campaign-report-scorecard-note-m2m4"),
     };
-    let _ = write!(h, "<h2>Scorecard</h2><p class=\"meta\">The same rows as <code>scorecard.csv</code>. Re-acquisition is measured from the event offset; outage is measured from the loss of lock. The C/N0 column and the degradation curves use the {note} estimate; both estimates are in <code>scorecard.json</code>.</p><div class=\"wrap\"><table><thead><tr><th class=\"l\">Recording</th><th class=\"l\">Front end</th><th class=\"l\">Design</th><th>Sat</th><th class=\"l\">Scope</th><th class=\"l\">Event</th><th>Avail.</th><th>Loss (s)</th><th>J/S at loss</th><th>Re-acq (s)</th><th>Outage (s)</th><th>C/N0</th><th>PLL σ (°)</th><th>DLL σ (chip)</th><th>False locks</th><th class=\"l\">Verdict</th></tr></thead><tbody>");
+    let _ = write!(
+        h,
+        "<h2>{}</h2>{note}<div class=\"wrap\"><table><thead><tr>{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}</tr></thead><tbody>",
+        tx!("iq-campaign-report-scorecard-heading"),
+        th(" class=\"l\"", &tx!("iq-campaign-report-th-recording")),
+        th(" class=\"l\"", &tx!("iq-campaign-report-th-front-end")),
+        th(" class=\"l\"", &tx!("iq-campaign-report-th-design")),
+        th("", &tx!("iq-campaign-report-th-sat")),
+        th(" class=\"l\"", &tx!("iq-campaign-report-th-scope")),
+        th(" class=\"l\"", &tx!("iq-campaign-report-th-event")),
+        th("", &tx!("iq-campaign-report-th-avail")),
+        th("", &tx!("iq-campaign-report-th-loss")),
+        th("", &tx!("iq-campaign-report-th-js-at-loss")),
+        th("", &tx!("iq-campaign-report-th-reacq")),
+        th("", &tx!("iq-campaign-report-th-outage")),
+        th("", &tx!("iq-campaign-report-th-cn0")),
+        th("", &tx!("iq-campaign-report-th-pll")),
+        th("", &tx!("iq-campaign-report-th-dll")),
+        th("", &tx!("iq-campaign-report-th-false-locks")),
+        th(" class=\"l\"", &tx!("iq-campaign-report-th-verdict"))
+    );
     for r in rows {
         let ev = if r.scope == "event" {
             format!("{} ({})", esc(&r.event_id), esc(&r.event_type))
@@ -678,19 +766,23 @@ fn html(
             esc(&r.frontend),
             esc(&r.design),
             r.sat,
-            r.scope,
-            fmt(r.availability, 3),
-            fmt(r.time_to_loss_s, 2),
-            fmt(r.js_at_loss_db, 1),
-            fmt(r.reacq_time_s, 2),
-            fmt(r.outage_s, 2),
-            fmt(r.cn0_dbhz, 1),
-            fmt(r.pll_jitter_deg, 2),
-            fmt(r.dll_jitter_chips, 4),
+            esc(&scope_word(&r.scope)),
+            fmt_h(r.availability, 3),
+            fmt_h(r.time_to_loss_s, 2),
+            fmt_h(r.js_at_loss_db, 1),
+            fmt_h(r.reacq_time_s, 2),
+            fmt_h(r.outage_s, 2),
+            fmt_h(r.cn0_dbhz, 1),
+            fmt_h(r.pll_jitter_deg, 2),
+            fmt_h(r.dll_jitter_chips, 4),
             r.false_lock_episodes,
             r.verdict,
             esc(&r.failed_bars.join(", ")),
-            if r.verdict.is_empty() { "—" } else { &r.verdict }
+            if r.verdict.is_empty() {
+                "—".to_string()
+            } else {
+                esc(&verdict_word(&r.verdict))
+            }
         );
     }
     h.push_str("</tbody></table></div></main></body></html>\n");

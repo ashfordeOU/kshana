@@ -18,8 +18,15 @@ EXCLUDED_GROUPS = [
         ],
     ),
     (
+        'whole message: a table column heading whose English ends "in" (the AUC on the in-distribution data); one heading, not assembled',
+        [
+            "bench-site-col-auc-in",
+        ],
+    ),
+    (
         'value word: the placeholder "n/a" shown in place of a missing number; one word, not a sentence piece',
         [
+            "bench-site-not-available",
             "campaign-chart-not-available",
             "leo-pnt-chain-chart-not-available",
         ],
@@ -107,6 +114,7 @@ EXCLUDED_GROUPS = [
     (
         "whole line: one complete summary line, returned as the result's `summary`; the `let x = t!(..)` is only returned or stored, no other message is built from it",
         [
+            "study-summary",
             "aocs-kind-aocs-wheels-slew-from-deg",
             "aperture-duty-aperture-duty-cycle-session-on",
             "api-builtins-combined-altpnt-free-inertial-drift",

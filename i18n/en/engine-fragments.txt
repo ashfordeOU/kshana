@@ -1,5 +1,5 @@
 # Messages that are pieces of a sentence assembled at run time. Do not translate them word for word:
 # the order of the pieces changes across languages. Each is to be merged into one whole-sentence
 # message with placeables; the list may only shrink (tests/i18n_catalogue.rs). id: reason
-# (98 flagged entries that are not sentence pieces are excluded, with reasons, in EXCLUDED of scripts/i18n_fragments.py)
+# (101 flagged entries that are not sentence pieces are excluded, with reasons, in EXCLUDED of scripts/i18n_fragments.py)
 
