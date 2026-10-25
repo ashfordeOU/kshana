@@ -189,6 +189,7 @@ pub mod kalman;
 pub mod kepler;
 pub mod lambda;
 pub mod launch;
+pub mod legal;
 pub mod leo_fusion;
 pub mod leo_link;
 pub mod leo_navmsg;
