@@ -3059,11 +3059,31 @@ impl HybridOpticalRfScenario {
         let ph = h - mt - mb;
         let axis_y = mt + ph;
         let bars = [
-            ("availability", c.fom.availability, BLUE),
-            ("precision", c.fom.precision_grade, AMBER),
-            ("integrity", c.fom.integrity_assured, LIME),
-            ("joint (indep)", c.fom.joint_independent, MAGENTA),
-            ("joint (corr)", c.fom.joint_correlated, CYAN),
+            (
+                crate::t!("hybrid-integrity-chart-availability"),
+                c.fom.availability,
+                BLUE,
+            ),
+            (
+                crate::t!("hybrid-integrity-chart-precision"),
+                c.fom.precision_grade,
+                AMBER,
+            ),
+            (
+                crate::t!("hybrid-integrity-chart-integrity"),
+                c.fom.integrity_assured,
+                LIME,
+            ),
+            (
+                crate::t!("hybrid-integrity-chart-joint-indep"),
+                c.fom.joint_independent,
+                MAGENTA,
+            ),
+            (
+                crate::t!("hybrid-integrity-chart-joint-corr"),
+                c.fom.joint_correlated,
+                CYAN,
+            ),
         ];
         let n = bars.len() as f64;
         let slot = pw / n;
@@ -3078,10 +3098,12 @@ impl HybridOpticalRfScenario {
             "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
         ));
         svg.push_str(&format!(
-            "<text x=\"{ml:.0}\" y=\"22\" font-size=\"15\" font-weight=\"bold\">Hybrid optical + RF PNT joint figure of merit</text>"
+            "<text x=\"{ml:.0}\" y=\"22\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+            crate::t!("hybrid-integrity-chart-title")
         ));
         svg.push_str(&format!(
-            "<text x=\"{ml:.0}\" y=\"38\" font-size=\"11\" fill=\"{MUTED}\">P(available AND precision-grade AND integrity-assured)</text>"
+            "<text x=\"{ml:.0}\" y=\"38\" font-size=\"11\" fill=\"{MUTED}\">{}</text>",
+            crate::t!("hybrid-integrity-chart-subtitle")
         ));
         // Axes and 0.25/0.5/0.75/1.0 gridlines.
         svg.push_str(&format!(
@@ -3098,9 +3120,10 @@ impl HybridOpticalRfScenario {
                 ml + pw
             ));
             svg.push_str(&format!(
-                "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"{MUTED}\">{g:.2}</text>",
+                "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"{MUTED}\">{}</text>",
                 ml - 6.0,
-                gy + 4.0
+                gy + 4.0,
+                crate::i18n::num(g, 2)
             ));
         }
         for (idx, (label, value, color)) in bars.iter().enumerate() {
@@ -3112,8 +3135,9 @@ impl HybridOpticalRfScenario {
                 "<rect x=\"{x:.1}\" y=\"{y:.1}\" width=\"{bw:.1}\" height=\"{bh:.1}\" fill=\"{color}\"/>"
             ));
             svg.push_str(&format!(
-                "<text x=\"{cx:.1}\" y=\"{:.1}\" text-anchor=\"middle\" fill=\"{TITLE}\">{value:.3}</text>",
-                y - 5.0
+                "<text x=\"{cx:.1}\" y=\"{:.1}\" text-anchor=\"middle\" fill=\"{TITLE}\">{}</text>",
+                y - 5.0,
+                crate::i18n::num(*value, 3)
             ));
             svg.push_str(&format!(
                 "<text x=\"{cx:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\">{label}</text>",

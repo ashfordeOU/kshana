@@ -757,7 +757,7 @@ fn summary_line(r: &HoldoverTestRun) -> String {
                 "holdover-test-recovered-after-gnss-returned",
                 t = crate::i18n::localise_decimal(format!("{:.0}", t))
             ),
-            None => "; not recovered within the record".to_string(),
+            None => crate::t!("holdover-test-not-recovered-within-record"),
         },
         None => String::new(),
     };
@@ -778,8 +778,12 @@ fn summary_line(r: &HoldoverTestRun) -> String {
 fn to_svg(sc: &HoldoverTestScenario, r: &HoldoverTestRun) -> String {
     use crate::palette::chart::{AMBER, BLUE, INK_3, MUTED};
     let (w, h) = (900.0, 460.0);
-    let mut s =
-        crate::chart::frame_open(w, h, "Holdover test: time error by step", &summary_line(r));
+    let mut s = crate::chart::frame_open(
+        w,
+        h,
+        &crate::t!("holdover-test-chart-title"),
+        &summary_line(r),
+    );
     let (lx, top, pw, ph) = (80.0, 80.0, 760.0, 320.0);
     let rec = &r.record;
     let n = rec.te_ns.len();
@@ -796,14 +800,14 @@ fn to_svg(sc: &HoldoverTestScenario, r: &HoldoverTestRun) -> String {
         pw,
         ph,
         y_max,
-        "|time error| (ns)",
+        &crate::t!("holdover-test-chart-y-title"),
     ));
     s.push_str(&crate::chart::panel_axes(
         lx,
         top,
         pw,
         top + ph,
-        "absolute time error; holdover step shaded; dashed lines are the time-error budgets",
+        &crate::t!("holdover-test-chart-panel-caption"),
     ));
     let t_span = ((n - 1) as f64 * rec.dt_s).max(1e-9);
     let x_of = |t: f64| lx + pw * (t - rec.t0_s) / t_span;
@@ -831,17 +835,23 @@ fn to_svg(sc: &HoldoverTestScenario, r: &HoldoverTestRun) -> String {
             let y = top + ph - ph * b.max_abs_te_ns / y_max;
             s.push_str(&format!(
                 "<line x1=\"{lx:.0}\" y1=\"{y:.1}\" x2=\"{:.0}\" y2=\"{y:.1}\" stroke=\"{INK_3}\" stroke-dasharray=\"4 3\"/>\
-                 <text x=\"{:.0}\" y=\"{:.1}\" font-size=\"10\" fill=\"{MUTED}\" text-anchor=\"end\">{:.0} ns</text>",
+                 <text x=\"{:.0}\" y=\"{:.1}\" font-size=\"10\" fill=\"{MUTED}\" text-anchor=\"end\">{} ns</text>",
                 lx + pw,
                 lx + pw - 4.0,
                 y - 3.0,
-                b.max_abs_te_ns
+                crate::i18n::num(b.max_abs_te_ns, 0)
             ));
         }
     }
     for (t, label) in [
-        (Some(sc.test.gnss_removed_s), "GNSS removed"),
-        (sc.test.gnss_restored_s, "GNSS restored"),
+        (
+            Some(sc.test.gnss_removed_s),
+            crate::t!("holdover-test-chart-gnss-removed"),
+        ),
+        (
+            sc.test.gnss_restored_s,
+            crate::t!("holdover-test-chart-gnss-restored"),
+        ),
     ] {
         if let Some(t) = t {
             let x = x_of(t);
@@ -855,10 +865,13 @@ fn to_svg(sc: &HoldoverTestScenario, r: &HoldoverTestRun) -> String {
         }
     }
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">time on the record's axis ({:.1} min)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">{}</text>",
         lx + pw / 2.0,
         top + ph + 28.0,
-        t_span / 60.0
+        crate::t!(
+            "holdover-test-chart-time-axis",
+            min = crate::i18n::num(t_span / 60.0, 1)
+        )
     ));
     s.push_str("</svg>");
     s

@@ -646,7 +646,7 @@ fn ntn_svg(r: &NtnReport) -> String {
     let mut s = crate::chart::frame_open(
         w,
         h,
-        "5G NTN positioning: Cramér-Rao range bound by bandwidth",
+        &crate::t!("leo-fusion-ntn-chart-title"),
         &crate::t!(
             "leo-fusion-ntn-mhz-n0-db-hz-modelled",
             r = crate::i18n::localise_decimal(format!("{:.1}", r.carrier_hz / 1e6)),
@@ -660,7 +660,7 @@ fn ntn_svg(r: &NtnReport) -> String {
         top,
         pw,
         top + ph,
-        "range one-sigma (log10 m): bar = mask to zenith C/N0; dot = RMS 3D fix error",
+        &crate::t!("leo-fusion-ntn-chart-caption"),
     ));
     let vals: Vec<f64> = r
         .signals
@@ -714,9 +714,11 @@ fn ntn_svg(r: &NtnReport) -> String {
         ));
     }
     s.push_str(&format!(
-        "<text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{hi:.0} m</text><text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{lo:.0} m</text></svg>",
+        "<text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{} m</text><text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{} m</text></svg>",
         top + 10.0,
-        top + ph
+        crate::i18n::num(hi, 0),
+        top + ph,
+        crate::i18n::num(lo, 0)
     ));
     s
 }
