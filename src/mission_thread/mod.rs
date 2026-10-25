@@ -20,6 +20,7 @@ pub mod budget;
 pub mod conversions;
 pub mod handover;
 pub mod phase;
+pub mod scenario;
 pub mod sensors;
 
 use phase::{EvidenceLabel, Frame, NavState, PhaseOutcome, Timescale};
