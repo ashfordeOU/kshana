@@ -352,11 +352,14 @@ pub fn run_spoof_detect(scn: &SpoofDetectScenario) -> SpoofDetectResult {
         fired.push("SQM");
     }
     let verdict = if decision.fused.alert {
-        format!("SPOOF DETECTED (fused) — layers: {}", fired.join("+"))
+        crate::t!(
+            "spoof-detect-spoof-detected-fused-layers",
+            fired = fired.join("+")
+        )
     } else if !fired.is_empty() {
-        format!(
-            "single-layer indication ({}) below the fused threshold — corroboration needed",
-            fired.join("+")
+        crate::t!(
+            "spoof-detect-single-layer-indication-below-the",
+            fired = fired.join("+")
         )
     } else {
         "no spoof indication".to_string()

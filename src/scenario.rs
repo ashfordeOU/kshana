@@ -54,27 +54,30 @@ impl TimeCfg {
     /// of grid points (`n` such that the run iterates `0..=n`).
     pub fn validate(&self) -> Result<usize, String> {
         if !self.step_s.is_finite() || self.step_s <= 0.0 {
-            return Err(format!(
-                "time.step_s must be finite and > 0 (got {})",
-                self.step_s
+            return Err(crate::terr!(
+                "e-scenario-time-step-must-be-finite",
+                step_s = self.step_s
             ));
         }
         if !self.duration_s.is_finite() || self.duration_s <= 0.0 {
-            return Err(format!(
-                "time.duration_s must be finite and > 0 (got {})",
-                self.duration_s
+            return Err(crate::terr!(
+                "e-scenario-time-duration-must-be-finite",
+                duration_s = self.duration_s
             ));
         }
         if self.step_s > self.duration_s {
-            return Err(format!(
-                "time.step_s ({}) must not exceed time.duration_s ({})",
-                self.step_s, self.duration_s
+            return Err(crate::terr!(
+                "e-scenario-time-step-must-not-exceed",
+                step_s = self.step_s,
+                duration_s = self.duration_s
             ));
         }
         let n = (self.duration_s / self.step_s).round();
         if !n.is_finite() || n > MAX_TIME_STEPS as f64 {
-            return Err(format!(
-                "time grid too large: {n} steps exceeds MAX_TIME_STEPS ({MAX_TIME_STEPS}); use a coarser step or shorter duration"
+            return Err(crate::terr!(
+                "e-scenario-time-grid-too-large-steps",
+                n = n,
+                MAX_TIME_STEPS = MAX_TIME_STEPS
             ));
         }
         Ok(n as usize)

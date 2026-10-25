@@ -728,21 +728,28 @@ enum Seg {
 
 fn parse_path(path: &str) -> Result<Vec<Seg>, String> {
     if path.is_empty() {
-        return Err("empty result path".into());
+        return Err(crate::terr!("e-campaign-empty-result-path"));
     }
     path.split('.')
         .map(|part| {
             if part.is_empty() {
-                return Err(format!("result path `{path}` has an empty segment"));
+                return Err(crate::terr!(
+                    "e-campaign-result-path-has-an-empty",
+                    path = path
+                ));
             }
             if let Some(name) = part.strip_suffix("[]") {
                 return Ok(Seg::Each(name.to_string()));
             }
             if let (Some(open), true) = (part.find('['), part.ends_with(']')) {
                 let name = &part[..open];
-                let idx: i64 = part[open + 1..part.len() - 1]
-                    .parse()
-                    .map_err(|_| format!("result path `{path}`: bad index in `{part}`"))?;
+                let idx: i64 = part[open + 1..part.len() - 1].parse().map_err(|_| {
+                    crate::terr!(
+                        "e-campaign-result-path-bad-index-in",
+                        path = path,
+                        part = part
+                    )
+                })?;
                 return Ok(Seg::Index(name.to_string(), idx));
             }
             Ok(Seg::Key(part.to_string()))
@@ -755,18 +762,21 @@ fn child<'a>(v: &'a Value, name: &str, path: &str) -> Result<&'a Value, String> 
         return Ok(v);
     }
     v.get(name)
-        .ok_or_else(|| format!("result path `{path}`: no field `{name}`"))
+        .ok_or_else(|| crate::terr!("e-campaign-result-path-no-field", path = path, name = name))
 }
 
 fn index<'a>(v: &'a Value, i: i64, path: &str) -> Result<&'a Value, String> {
     let a = v
         .as_array()
-        .ok_or_else(|| format!("result path `{path}`: indexed value is not an array"))?;
+        .ok_or_else(|| crate::terr!("e-campaign-result-path-indexed-value-is", path = path))?;
     let n = a.len() as i64;
     let j = if i < 0 { n + i } else { i };
     if j < 0 || j >= n {
-        return Err(format!(
-            "result path `{path}`: index {i} out of range ({n})"
+        return Err(crate::terr!(
+            "e-campaign-result-path-index-out-of",
+            path = path,
+            i = i,
+            n = n
         ));
     }
     Ok(&a[j as usize])
@@ -777,8 +787,9 @@ fn leaf(v: &Value, path: &str) -> Result<f64, String> {
         Value::Number(n) => Ok(n.as_f64().unwrap_or(f64::NAN)),
         Value::Bool(b) => Ok(if *b { 1.0 } else { 0.0 }),
         Value::Null => Ok(f64::NAN),
-        _ => Err(format!(
-            "result path `{path}`: value is not a number or a flag"
+        _ => Err(crate::terr!(
+            "e-campaign-result-path-value-is-not",
+            path = path
         )),
     }
 }
@@ -793,9 +804,9 @@ fn collect(v: &Value, segs: &[Seg], path: &str, out: &mut Vec<f64>) -> Result<()
         Seg::Key(k) => collect(child(v, k, path)?, rest, path, out),
         Seg::Index(k, i) => collect(index(child(v, k, path)?, *i, path)?, rest, path, out),
         Seg::Each(k) => {
-            let a = child(v, k, path)?
-                .as_array()
-                .ok_or_else(|| format!("result path `{path}`: `{k}` is not an array"))?;
+            let a = child(v, k, path)?.as_array().ok_or_else(|| {
+                crate::terr!("e-campaign-result-path-is-not-an", path = path, k = k)
+            })?;
             for e in a {
                 collect(e, rest, path, out)?;
             }
@@ -808,8 +819,9 @@ fn collect(v: &Value, segs: &[Seg], path: &str, out: &mut Vec<f64>) -> Result<()
 fn eval_scalar(root: &Value, path: &str) -> Result<Option<f64>, String> {
     let segs = parse_path(path)?;
     if segs.iter().any(|s| matches!(s, Seg::Each(_))) {
-        return Err(format!(
-            "result path `{path}` must name one value, not rows"
+        return Err(crate::terr!(
+            "e-campaign-result-path-must-name-one",
+            path = path
         ));
     }
     let mut out = Vec::new();
@@ -841,9 +853,13 @@ fn eval_rows(root: &Value, path: &str) -> Result<Rows, String> {
     let Seg::Each(name) = &segs[pos] else {
         unreachable!("`pos` is the position of a `[]` segment")
     };
-    let arr = child(cur, name, path)?
-        .as_array()
-        .ok_or_else(|| format!("result path `{path}`: `{name}` is not an array"))?;
+    let arr = child(cur, name, path)?.as_array().ok_or_else(|| {
+        crate::terr!(
+            "e-campaign-result-path-is-not-an-2",
+            path = path,
+            name = name
+        )
+    })?;
     let mut rows = Vec::with_capacity(arr.len());
     for e in arr {
         let mut out = Vec::new();
@@ -875,12 +891,8 @@ fn resolve_unit(declared: &Option<String>, doc: &Value, path: &str) -> Result<St
     if let Some(u) = declared {
         return Ok(u.clone());
     }
-    unit_in_doc(doc, path).ok_or_else(|| {
-        format!(
-            "metric path `{path}` has no entry in that kind's units block; declare its \
-             `unit` in the campaign"
-        )
-    })
+    unit_in_doc(doc, path)
+        .ok_or_else(|| crate::terr!("e-campaign-metric-path-has-no-entry", path = path))
 }
 
 fn check_name(what: &str, name: &str) -> Result<(), String> {
@@ -889,8 +901,10 @@ fn check_name(what: &str, name: &str) -> Result<(), String> {
             .chars()
             .all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-')
     {
-        return Err(format!(
-            "{what} `{name}` must be non-empty letters, digits, `_` or `-`"
+        return Err(crate::terr!(
+            "e-campaign-must-be-non-empty-letters",
+            what = what,
+            name = name
         ));
     }
     Ok(())
@@ -939,12 +953,16 @@ impl Ledger {
     fn run(&mut self, label: String, scn: &toml::Value) -> Result<Member, String> {
         let kind = kind_of(scn);
         if kind == "campaign" {
-            return Err(format!("{label}: a campaign cannot contain a campaign"));
+            return Err(crate::terr!(
+                "e-campaign-campaign-cannot-contain-campaign",
+                label = label
+            ));
         }
-        let src = toml::to_string(scn).map_err(|e| format!("{label}: serialise: {e}"))?;
+        let src = toml::to_string(scn)
+            .map_err(|e| crate::terr!("e-campaign-serialise", label = label, e = e))?;
         let out = crate::api::run_toml_untiered(&src).map_err(|e| format!("{label}: {e}"))?;
         let doc: Value = serde_json::from_str(&out.json)
-            .map_err(|e| format!("{label}: result did not parse: {e}"))?;
+            .map_err(|e| crate::terr!("e-campaign-result-did-not-parse", label = label, e = e))?;
         let input = serde_json::to_value(scn).map_err(|e| format!("{label}: {e}"))?;
         self.runs.push((label, out.json.clone()));
         Ok(Member {
@@ -959,17 +977,18 @@ impl Ledger {
 fn seed_of(scn: &toml::Value, key: &str) -> Result<u64, String> {
     let mut cur = scn;
     for part in key.split('.') {
-        cur = cur
-            .get(part)
-            .ok_or_else(|| format!("seed key `{key}`: no field `{part}` in the scenario"))?;
+        cur = cur.get(part).ok_or_else(|| {
+            crate::terr!("e-campaign-seed-key-no-field-in", key = key, part = part)
+        })?;
     }
     cur.as_integer()
         .and_then(|i| u64::try_from(i).ok())
-        .ok_or_else(|| format!("seed key `{key}` is not a non-negative integer"))
+        .ok_or_else(|| crate::terr!("e-campaign-seed-key-is-not-non", key = key))
 }
 
 fn with_seed(scn: &toml::Value, key: &str, seed: u64) -> Result<toml::Value, String> {
-    let s = i64::try_from(seed).map_err(|_| format!("seed {seed} does not fit a TOML integer"))?;
+    let s = i64::try_from(seed)
+        .map_err(|_| crate::terr!("e-campaign-seed-does-not-fit-toml", seed = seed))?;
     let mut out = scn.clone();
     crate::sweep::set_dotted_value(&mut out, key, toml::Value::Integer(s))?;
     Ok(out)
@@ -1048,26 +1067,38 @@ fn presets(kind: &str, side: &str) -> (Vec<SeriesSpec>, Vec<EventSpec>) {
     match kind {
         "clock" => (
             vec![
-                spec("time_error_ns", &st, &format!("{side}.series[].error_ns")),
+                spec(
+                    "time_error_ns",
+                    &st,
+                    &crate::t!("campaign-series-error-ns", side = side),
+                ),
                 spec("guard_ns", &st, "threshold_ns"),
             ],
             vec![],
         ),
         "spoof" => (
             vec![
-                spec("time_error_ns", &st, &format!("{side}.series[].offset_ns")),
+                spec(
+                    "time_error_ns",
+                    &st,
+                    &crate::t!("campaign-series-offset-ns", side = side),
+                ),
                 spec("guard_ns", &st, "threshold_ns"),
             ],
             vec![EventSpec {
                 label: "clock-aided spoofing monitor alarms".into(),
-                at: Some(format!("{side}.detect_time_s")),
+                at: Some(crate::t!("campaign-detect-time", side = side)),
                 when: None,
                 alarm: true,
             }],
         ),
         "gnss-ins" => (
             vec![
-                spec("position_error_m", &st, &format!("{side}.series[].error_m")),
+                spec(
+                    "position_error_m",
+                    &st,
+                    &crate::t!("campaign-series-error", side = side),
+                ),
                 spec("position_threshold_m", &st, "threshold_m"),
             ],
             vec![],
@@ -1143,7 +1174,7 @@ fn extract(m: &Member, s: &SeriesSpec) -> Result<Option<Vec<(f64, f64)>>, String
     let t_rows = match eval_rows(&m.doc, &s.t) {
         Ok(Rows::Rows(r)) => r,
         Ok(Rows::Scalar(_)) => {
-            return Err(ctx(format!("time path `{}` must name rows with `[]`", s.t)))
+            return Err(ctx(crate::t!("campaign-time-path-must-name-rows", t = s.t)))
         }
         Err(e) if s.optional => {
             let _ = e;
@@ -1161,9 +1192,7 @@ fn extract(m: &Member, s: &SeriesSpec) -> Result<Option<Vec<(f64, f64)>>, String
         (None, _) => None,
         (Some(c), Some(t)) => {
             if !matches!(c.as_str(), "below" | "above" | "abs_above") {
-                return Err(ctx(format!(
-                    "compare `{c}` is not below, above or abs_above"
-                )));
+                return Err(ctx(crate::t!("campaign-compare-is-not-below-above", c = c)));
             }
             Some(match t {
                 Threshold::Value(v) => *v,
@@ -1171,7 +1200,7 @@ fn extract(m: &Member, s: &SeriesSpec) -> Result<Option<Vec<(f64, f64)>>, String
                     let (r, pp) = target(m, p);
                     eval_scalar(r, pp)
                         .map_err(ctx)?
-                        .ok_or_else(|| ctx(format!("threshold `{p}` is null")))?
+                        .ok_or_else(|| ctx(crate::t!("campaign-threshold-is-null", p = p)))?
                 }
             })
         }
@@ -1188,7 +1217,7 @@ fn extract(m: &Member, s: &SeriesSpec) -> Result<Option<Vec<(f64, f64)>>, String
             Some("mean") | None => Ok(finite.iter().sum::<f64>() / finite.len() as f64),
             Some("min") => Ok(finite.iter().copied().fold(f64::INFINITY, f64::min)),
             Some("max") => Ok(finite.iter().copied().fold(f64::NEG_INFINITY, f64::max)),
-            Some(r) => Err(ctx(format!("reduce `{r}` is not mean, min, max or count"))),
+            Some(r) => Err(ctx(crate::t!("campaign-reduce-is-not-mean-min", r = r))),
         }
     };
     let mut out = Vec::with_capacity(t_rows.len());
@@ -1196,9 +1225,9 @@ fn extract(m: &Member, s: &SeriesSpec) -> Result<Option<Vec<(f64, f64)>>, String
         let t = match tr.as_slice() {
             [t] => *t,
             _ => {
-                return Err(ctx(format!(
-                    "time path `{}` gives several values per row",
-                    s.t
+                return Err(ctx(crate::t!(
+                    "campaign-time-path-gives-several-values",
+                    t = s.t
                 )))
             }
         };
@@ -1206,9 +1235,10 @@ fn extract(m: &Member, s: &SeriesSpec) -> Result<Option<Vec<(f64, f64)>>, String
             Rows::Scalar(v) => *v,
             Rows::Rows(r) => {
                 let row = r.get(i).ok_or_else(|| {
-                    ctx(format!(
-                        "value path `{}` has fewer rows than `{}`",
-                        s.y, s.t
+                    ctx(crate::t!(
+                        "campaign-value-path-has-fewer-rows",
+                        y = s.y,
+                        t = s.t
                     ))
                 })?;
                 reduce(row)?
@@ -1226,12 +1256,12 @@ fn extract(m: &Member, s: &SeriesSpec) -> Result<Option<Vec<(f64, f64)>>, String
     }
     if let Rows::Rows(r) = &y {
         if r.len() != t_rows.len() {
-            return Err(ctx(format!(
-                "value path `{}` has {} rows, time path `{}` has {}",
-                s.y,
-                r.len(),
-                s.t,
-                t_rows.len()
+            return Err(ctx(crate::t!(
+                "campaign-value-path-has-rows-time",
+                y = s.y,
+                r = r.len(),
+                t = s.t,
+                t_rows = t_rows.len()
             )));
         }
     }
@@ -1292,10 +1322,13 @@ fn run_chain(
     let step = cfg
         .timeline
         .as_ref()
-        .ok_or("a campaign with phases needs a [timeline] with step_s")?
+        .ok_or_else(|| crate::terr!("e-campaign-campaign-with-phases-needs-timeline"))?
         .step_s;
     if !(step.is_finite() && step > 0.0) {
-        return Err(format!("timeline.step_s must be positive, got {step}"));
+        return Err(crate::terr!(
+            "e-campaign-timeline-step-must-be-positive",
+            step = step
+        ));
     }
     let mut states: Vec<PhaseState> = Vec::with_capacity(cfg.phases.len());
     let mut phases_out = Vec::with_capacity(cfg.phases.len());
@@ -1309,53 +1342,66 @@ fn run_chain(
     for (pi, ph) in cfg.phases.iter().enumerate() {
         check_name("phase name", &ph.name)?;
         if names.contains(&ph.name.as_str()) {
-            return Err(format!("phase `{}` is named twice", ph.name));
+            return Err(crate::terr!(
+                "e-campaign-phase-is-named-twice",
+                name = ph.name
+            ));
         }
         names.push(&ph.name);
         if !(ph.duration_s.is_finite() && ph.duration_s >= 0.0) {
-            return Err(format!(
-                "phase `{}`: duration_s must be non-negative",
-                ph.name
+            return Err(crate::terr!(
+                "e-campaign-phase-duration-must-be-non",
+                name = ph.name
             ));
         }
         if ph.runs.is_empty() {
-            return Err(format!("phase `{}` has no runs", ph.name));
+            return Err(crate::terr!("e-campaign-phase-has-no-runs", name = ph.name));
         }
         // Handoffs write into this phase's scenarios before they run.
         let mut scenarios: Vec<toml::Value> = ph.runs.iter().map(|r| r.scenario.clone()).collect();
         for h in &ph.handoff {
             if pi == 0 {
-                return Err(format!(
-                    "phase `{}`: the first phase has nothing to hand on from",
-                    ph.name
+                return Err(crate::terr!(
+                    "e-campaign-phase-the-first-phase-has",
+                    name = ph.name
                 ));
             }
             let (value, unit) = if let Some(ch) = h.from.strip_prefix("channel:") {
                 let (v, u) = prev_end.get(ch).ok_or_else(|| {
-                    format!(
-                        "phase `{}`: handoff from channel `{ch}`, which the previous phase \
-                         did not end with",
-                        ph.name
+                    crate::terr!(
+                        "e-campaign-phase-handoff-from-channel-which",
+                        name = ph.name,
+                        ch = ch
                     )
                 })?;
                 (*v, h.unit.clone().unwrap_or_else(|| u.clone()))
             } else {
                 let m = prev_members.get(h.from_run).ok_or_else(|| {
-                    format!(
-                        "phase `{}`: handoff from_run {} does not exist",
-                        ph.name, h.from_run
+                    crate::terr!(
+                        "e-campaign-phase-handoff-from-run-does",
+                        name = ph.name,
+                        from_run = h.from_run
                     )
                 })?;
-                let v = eval_scalar(&m.doc, &h.from)?
-                    .ok_or_else(|| format!("phase `{}`: handoff `{}` is null", ph.name, h.from))?;
+                let v = eval_scalar(&m.doc, &h.from)?.ok_or_else(|| {
+                    crate::terr!(
+                        "e-campaign-phase-handoff-is-null",
+                        name = ph.name,
+                        from = h.from
+                    )
+                })?;
                 (v, resolve_unit(&h.unit, &m.doc, &h.from)?)
             };
             let v = value * h.scale + h.offset;
             let scn = scenarios.get_mut(h.run).ok_or_else(|| {
-                format!("phase `{}`: handoff run {} does not exist", ph.name, h.run)
+                crate::terr!(
+                    "e-campaign-phase-handoff-run-does-not",
+                    name = ph.name,
+                    run = h.run
+                )
             })?;
             crate::sweep::set_dotted(scn, &h.to, v)
-                .map_err(|e| format!("phase `{}`: {e}", ph.name))?;
+                .map_err(|e| crate::terr!("e-campaign-phase", name = ph.name, e = e))?;
             handoffs.push(HandoffOut {
                 phase: ph.name.clone(),
                 from: h.from.clone(),
@@ -1367,16 +1413,20 @@ fn run_chain(
         }
         let mut members = Vec::with_capacity(scenarios.len());
         for (ri, scn) in scenarios.iter().enumerate() {
-            members.push(ledger.run(format!("phase {}/run {ri}", ph.name), scn)?);
+            members.push(ledger.run(
+                crate::t!("campaign-phase-run", name = ph.name, ri = ri),
+                scn,
+            )?);
         }
         // The phase length: its duration, or earlier if a run says so.
         let mut dur = ph.duration_s;
         let mut ended_by = "duration_s".to_string();
         if let Some(p) = &ph.end_at {
             let m = members.get(ph.end_at_run).ok_or_else(|| {
-                format!(
-                    "phase `{}`: end_at_run {} does not exist",
-                    ph.name, ph.end_at_run
+                crate::terr!(
+                    "e-campaign-phase-end-at-run-does",
+                    name = ph.name,
+                    end_at_run = ph.end_at_run
                 )
             })?;
             match eval_scalar(&m.doc, p)? {
@@ -1386,10 +1436,10 @@ fn run_chain(
                         dur = local;
                         ended_by = format!("end_at {p} = {x} s");
                     } else {
-                        ended_by = format!("duration_s (end_at {p} = {x} s is later)");
+                        ended_by = crate::t!("campaign-duration-end-at-is-later", p = p, x = x);
                     }
                 }
-                _ => ended_by = format!("duration_s (end_at {p} is null)"),
+                _ => ended_by = crate::t!("campaign-duration-end-at-is-null", p = p),
             }
         }
         let t1 = t0 + dur;
@@ -1405,22 +1455,27 @@ fn run_chain(
         for (rc, m) in ph.runs.iter().zip(&members) {
             let side = rc.side.as_deref().unwrap_or("classical");
             if !matches!(side, "classical" | "quantum") {
-                return Err(format!(
-                    "phase `{}`: side `{side}` is not classical or quantum",
-                    ph.name
+                return Err(crate::terr!(
+                    "e-campaign-phase-side-is-not-classical",
+                    name = ph.name,
+                    side = side
                 ));
             }
             if !(rc.skip_s.is_finite() && rc.skip_s >= 0.0) {
-                return Err(format!("phase `{}`: skip_s must be non-negative", ph.name));
+                return Err(crate::terr!(
+                    "e-campaign-phase-skip-must-be-non",
+                    name = ph.name
+                ));
             }
             let (pre_s, pre_e) = presets(&m.kind, side);
             let specs = rc.series.clone().unwrap_or(pre_s);
             let evs = rc.events.clone().unwrap_or(pre_e);
             for r in rc.alarms.clone().unwrap_or_else(|| preset_rules(&m.kind)) {
                 if !matches!(r.compare.as_str(), "below" | "above" | "abs_above") {
-                    return Err(format!(
-                        "phase `{}`: alarm compare `{}` is not below, above or abs_above",
-                        ph.name, r.compare
+                    return Err(crate::terr!(
+                        "e-campaign-phase-alarm-compare-is-not",
+                        name = ph.name,
+                        compare = r.compare
                     ));
                 }
                 let thr = match &r.threshold {
@@ -1428,7 +1483,11 @@ fn run_chain(
                     Threshold::Path(p) => match p.strip_prefix("channel:") {
                         Some(c) => RuleThreshold::Channel(c.to_string()),
                         None => RuleThreshold::Value(eval_scalar(&m.doc, p)?.ok_or_else(|| {
-                            format!("phase `{}`: alarm threshold `{p}` is null", ph.name)
+                            crate::terr!(
+                                "e-campaign-phase-alarm-threshold-is-null",
+                                name = ph.name,
+                                p = p
+                            )
                         })?),
                     },
                 };
@@ -1439,22 +1498,27 @@ fn run_chain(
             for s in &specs {
                 let (unit, label) = match (channel_meta(&s.channel), &s.unit) {
                     (Some((u, _)), Some(du)) if du != u => {
-                        return Err(format!(
-                            "phase `{}`: channel `{}` is in {u}, not {du}",
-                            ph.name, s.channel
+                        return Err(crate::terr!(
+                            "e-campaign-phase-channel-is-in-not",
+                            name = ph.name,
+                            channel = s.channel,
+                            u = u,
+                            du = du
                         ))
                     }
                     (Some((u, l)), _) => (u.to_string(), l.to_string()),
                     (None, Some(du)) => (du.clone(), s.channel.clone()),
                     (None, None) => {
-                        return Err(format!(
-                            "phase `{}`: channel `{}` needs a unit",
-                            ph.name, s.channel
+                        return Err(crate::terr!(
+                            "e-campaign-phase-channel-needs-unit",
+                            name = ph.name,
+                            channel = s.channel
                         ))
                     }
                 };
                 check_name("channel", &s.channel)?;
-                let Some(raw) = extract(m, s).map_err(|e| format!("phase `{}`: {e}", ph.name))?
+                let Some(raw) = extract(m, s)
+                    .map_err(|e| crate::terr!("e-campaign-phase", name = ph.name, e = e))?
                 else {
                     continue;
                 };
@@ -1470,9 +1534,10 @@ fn run_chain(
                     continue;
                 }
                 if state.channels.contains_key(&s.channel) {
-                    return Err(format!(
-                        "phase `{}`: two runs both provide channel `{}`",
-                        ph.name, s.channel
+                    return Err(crate::terr!(
+                        "e-campaign-phase-two-runs-both-provide",
+                        name = ph.name,
+                        channel = s.channel
                     ));
                 }
                 state.channels.insert(
@@ -1523,15 +1588,17 @@ fn run_chain(
         let mut carried = BTreeMap::new();
         for ch in &ph.carry {
             let (offset, _) = prev_end.get(ch).ok_or_else(|| {
-                format!(
-                    "phase `{}` carries `{ch}`, which the previous phase did not end with",
-                    ph.name
+                crate::terr!(
+                    "e-campaign-phase-carries-which-the-previous",
+                    name = ph.name,
+                    ch = ch
                 )
             })?;
             let c = state.channels.get_mut(ch).ok_or_else(|| {
-                format!(
-                    "phase `{}` carries `{ch}` but no run of it provides `{ch}`",
-                    ph.name
+                crate::terr!(
+                    "e-campaign-phase-carries-but-no-run",
+                    name = ph.name,
+                    ch = ch
                 )
             })?;
             for s in &mut c.samples {
@@ -1609,9 +1676,11 @@ fn run_chain(
         for (name, c) in &st.channels {
             match channels.get(name) {
                 Some(prev) if prev.unit != c.unit => {
-                    return Err(format!(
-                        "channel `{name}` is in {} in one phase and {} in another",
-                        prev.unit, c.unit
+                    return Err(crate::terr!(
+                        "e-campaign-channel-is-in-in-one",
+                        name = name,
+                        unit = prev.unit,
+                        unit2 = c.unit
                     ))
                 }
                 Some(_) => {}
@@ -1692,13 +1761,16 @@ fn metric_values(m: &Member, metrics: &[MetricCfg]) -> Result<Vec<Option<f64>>, 
 
 fn check_metrics(metrics: &[MetricCfg]) -> Result<(), String> {
     if metrics.is_empty() {
-        return Err("at least one metric is needed".into());
+        return Err(crate::terr!("e-campaign-at-least-one-metric-is"));
     }
     let mut seen = Vec::new();
     for m in metrics {
         check_name("metric name", &m.name)?;
         if seen.contains(&m.name.as_str()) {
-            return Err(format!("metric `{}` is named twice", m.name));
+            return Err(crate::terr!(
+                "e-campaign-metric-is-named-twice",
+                name = m.name
+            ));
         }
         seen.push(&m.name);
     }
@@ -1719,7 +1791,7 @@ fn ensemble(
     for k in 0..runs {
         let seed = base_seed
             .checked_add(k as u64)
-            .ok_or("seed overflow in the ensemble")?;
+            .ok_or_else(|| crate::terr!("e-campaign-seed-overflow-in-the-ensemble"))?;
         let sk = with_seed(scn, seed_key, seed)?;
         let m = ledger.run(format!("{label}/seed {seed}"), &sk)?;
         for (c, v) in cols.iter_mut().zip(metric_values(&m, metrics)?) {
@@ -1729,14 +1801,17 @@ fn ensemble(
             first = Some(m);
         }
     }
-    Ok((cols, first.ok_or("an ensemble needs at least one run")?))
+    Ok((
+        cols,
+        first.ok_or_else(|| crate::terr!("e-campaign-an-ensemble-needs-at-least"))?,
+    ))
 }
 
 fn run_sweep(cfg: &SweepCfg, seed: u64, ledger: &mut Ledger) -> Result<SweepOut, String> {
     if cfg.axes.is_empty() || cfg.axes.len() > 3 {
-        return Err(format!(
-            "a sweep takes one to three axes, got {}",
-            cfg.axes.len()
+        return Err(crate::terr!(
+            "e-campaign-sweep-takes-one-to-three",
+            axes = cfg.axes.len()
         ));
     }
     check_metrics(&cfg.metrics)?;
@@ -1744,17 +1819,29 @@ fn run_sweep(cfg: &SweepCfg, seed: u64, ledger: &mut Ledger) -> Result<SweepOut,
     for a in &cfg.axes {
         check_name("axis name", &a.name)?;
         if seen.contains(&a.name.as_str()) {
-            return Err(format!("axis `{}` is named twice", a.name));
+            return Err(crate::terr!(
+                "e-campaign-axis-is-named-twice",
+                name = a.name
+            ));
         }
         seen.push(&a.name);
         if a.steps < 2 {
-            return Err(format!("axis `{}` needs at least two steps", a.name));
+            return Err(crate::terr!(
+                "e-campaign-axis-needs-at-least-two",
+                name = a.name
+            ));
         }
         if !matches!(a.scale.as_str(), "lin" | "log") {
-            return Err(format!("axis `{}`: scale must be lin or log", a.name));
+            return Err(crate::terr!(
+                "e-campaign-axis-scale-must-be-lin",
+                name = a.name
+            ));
         }
         if a.scale == "log" && (a.start <= 0.0 || a.stop <= 0.0) {
-            return Err(format!("axis `{}`: a log axis needs positive ends", a.name));
+            return Err(crate::terr!(
+                "e-campaign-axis-log-axis-needs-positive",
+                name = a.name
+            ));
         }
     }
     let runs = cfg.runs.max(1);
@@ -1785,7 +1872,7 @@ fn run_sweep(cfg: &SweepCfg, seed: u64, ledger: &mut Ledger) -> Result<SweepOut,
         for (a, &v) in cfg.axes.iter().zip(&coords) {
             crate::sweep::set_dotted(&mut node, &a.key, v)?;
         }
-        let label = format!("sweep node {flat}");
+        let label = crate::t!("campaign-sweep-node", flat = flat);
         let (metrics, unit_doc) = if runs == 1 {
             let m = ledger.run(label, &node)?;
             let vals = metric_values(&m, &cfg.metrics)?;
@@ -1879,7 +1966,7 @@ fn run_monte_carlo(
     ledger: &mut Ledger,
 ) -> Result<MonteCarloOut, String> {
     if cfg.runs < 2 {
-        return Err("monte_carlo.runs must be at least two".into());
+        return Err(crate::terr!("e-campaign-monte-carlo-runs-must-be"));
     }
     check_metrics(&cfg.metrics)?;
     let base = match cfg.base_seed {
@@ -1920,7 +2007,7 @@ fn run_monte_carlo(
 
 fn run_compose(cfg: &ComposeCfg, ledger: &mut Ledger) -> Result<ComposeOut, String> {
     if cfg.members.is_empty() {
-        return Err("compose needs at least one member".into());
+        return Err(crate::terr!("e-campaign-compose-needs-at-least-one"));
     }
     let mut shared = BTreeMap::new();
     for s in &cfg.shared {
@@ -1933,9 +2020,9 @@ fn run_compose(cfg: &ComposeCfg, ledger: &mut Ledger) -> Result<ComposeOut, Stri
             _ => false,
         };
         if !numeric {
-            return Err(format!(
-                "shared value `{}` must be a number or numbers",
-                s.name
+            return Err(crate::terr!(
+                "e-campaign-shared-value-must-be-number",
+                name = s.name
             ));
         }
         let v = serde_json::to_value(&s.value).map_err(|e| e.to_string())?;
@@ -1949,7 +2036,10 @@ fn run_compose(cfg: &ComposeCfg, ledger: &mut Ledger) -> Result<ComposeOut, Stri
             )
             .is_some()
         {
-            return Err(format!("shared value `{}` is named twice", s.name));
+            return Err(crate::terr!(
+                "e-campaign-shared-value-is-named-twice",
+                name = s.name
+            ));
         }
     }
     let mut members = BTreeMap::new();
@@ -1959,12 +2049,15 @@ fn run_compose(cfg: &ComposeCfg, ledger: &mut Ledger) -> Result<ComposeOut, Stri
         check_metrics(&mem.metrics)?;
         let mut scn = mem.scenario.clone();
         for (name, key) in &mem.bind {
-            let s =
-                cfg.shared.iter().find(|s| &s.name == name).ok_or_else(|| {
-                    format!("member `{}` binds unknown shared `{name}`", mem.label)
-                })?;
+            let s = cfg.shared.iter().find(|s| &s.name == name).ok_or_else(|| {
+                crate::terr!(
+                    "e-campaign-member-binds-unknown-shared",
+                    label = mem.label,
+                    name = name
+                )
+            })?;
             crate::sweep::set_dotted_value(&mut scn, key, s.value.clone())
-                .map_err(|e| format!("member `{}`: {e}", mem.label))?;
+                .map_err(|e| crate::terr!("e-campaign-member", label = mem.label, e = e))?;
         }
         let m = ledger.run(format!("member {}", mem.label), &scn)?;
         let vals = metric_values(&m, &mem.metrics)?;
@@ -1973,9 +2066,12 @@ fn run_compose(cfg: &ComposeCfg, ledger: &mut Ledger) -> Result<ComposeOut, Stri
             let unit = resolve_unit(&mc.unit, &m.doc, &mc.path)?;
             match metric_units.get(&mc.name) {
                 Some(u) if *u != unit => {
-                    return Err(format!(
-                        "metric `{}` is in {u} for one member and {unit} for `{}`",
-                        mc.name, mem.label
+                    return Err(crate::terr!(
+                        "e-campaign-metric-is-in-for-one",
+                        name = mc.name,
+                        u = u,
+                        unit = unit,
+                        label = mem.label
                     ))
                 }
                 Some(_) => {}
@@ -1993,7 +2089,10 @@ fn run_compose(cfg: &ComposeCfg, ledger: &mut Ledger) -> Result<ComposeOut, Stri
             metrics: mm,
         };
         if members.insert(mem.label.clone(), out).is_some() {
-            return Err(format!("member `{}` is named twice", mem.label));
+            return Err(crate::terr!(
+                "e-campaign-member-is-named-twice",
+                label = mem.label
+            ));
         }
     }
     let mut combined = BTreeMap::new();
@@ -2047,8 +2146,8 @@ fn run_compose(cfg: &ComposeCfg, ledger: &mut Ledger) -> Result<ComposeOut, Stri
 /// written in. Phase hand-offs and sweep or seed values are applied at run time and are not
 /// in these tables. The interoperability exports use this list.
 pub fn member_scenarios(src: &str) -> Result<Vec<(String, toml::Value)>, String> {
-    let cfg: CampaignScenario =
-        toml::from_str(src).map_err(|e| format!("invalid campaign scenario: {e}"))?;
+    let cfg: CampaignScenario = toml::from_str(src)
+        .map_err(|e| crate::terr!("e-campaign-invalid-campaign-scenario", e = e))?;
     let mut out = Vec::new();
     for p in &cfg.phases {
         for (k, r) in p.runs.iter().enumerate() {
@@ -2071,10 +2170,14 @@ pub fn member_scenarios(src: &str) -> Result<Vec<(String, toml::Value)>, String>
             let mut scn = mem.scenario.clone();
             for (name, key) in &mem.bind {
                 let s = c.shared.iter().find(|s| &s.name == name).ok_or_else(|| {
-                    format!("member `{}` binds unknown shared `{name}`", mem.label)
+                    crate::terr!(
+                        "e-campaign-member-binds-unknown-shared",
+                        label = mem.label,
+                        name = name
+                    )
                 })?;
                 crate::sweep::set_dotted_value(&mut scn, key, s.value.clone())
-                    .map_err(|e| format!("member `{}`: {e}", mem.label))?;
+                    .map_err(|e| crate::terr!("e-campaign-member", label = mem.label, e = e))?;
             }
             out.push((mem.label.clone(), scn));
         }
@@ -2085,15 +2188,16 @@ pub fn member_scenarios(src: &str) -> Result<Vec<(String, toml::Value)>, String>
 /// The campaign hash: SHA-256 of the canonical JSON form of the campaign document
 /// (keys sorted), so formatting and key order in the TOML do not change it.
 pub fn campaign_hash(src: &str) -> Result<String, String> {
-    let v: toml::Value = toml::from_str(src).map_err(|e| format!("invalid campaign: {e}"))?;
+    let v: toml::Value =
+        toml::from_str(src).map_err(|e| crate::terr!("e-campaign-invalid-campaign", e = e))?;
     let canon = serde_json::to_string(&v).map_err(|e| e.to_string())?;
     Ok(sha256_hex(&canon))
 }
 
 /// Run a campaign given as TOML, returning the result and every member result.
 pub fn run_campaign_detailed(src: &str) -> Result<CampaignRun, String> {
-    let cfg: CampaignScenario =
-        toml::from_str(src).map_err(|e| format!("invalid campaign scenario: {e}"))?;
+    let cfg: CampaignScenario = toml::from_str(src)
+        .map_err(|e| crate::terr!("e-campaign-invalid-campaign-scenario", e = e))?;
     // A campaign with no section composes nothing and says so (its summary names it);
     // like every other kind, the bare `kind = "campaign"` document runs.
     let hash = campaign_hash(src)?;
@@ -2104,23 +2208,30 @@ pub fn run_campaign_detailed(src: &str) -> Result<CampaignRun, String> {
         Some(run_chain(&cfg, &mut ledger)?.0)
     };
     let sweep = match &cfg.sweep {
-        Some(s) => Some(run_sweep(s, cfg.seed, &mut ledger).map_err(|e| format!("sweep: {e}"))?),
+        Some(s) => Some(
+            run_sweep(s, cfg.seed, &mut ledger)
+                .map_err(|e| crate::terr!("e-campaign-sweep", e = e))?,
+        ),
         None => None,
     };
     let monte_carlo = match &cfg.monte_carlo {
         Some(m) => Some(
-            run_monte_carlo(m, cfg.seed, &mut ledger).map_err(|e| format!("monte_carlo: {e}"))?,
+            run_monte_carlo(m, cfg.seed, &mut ledger)
+                .map_err(|e| crate::terr!("e-campaign-monte-carlo", e = e))?,
         ),
         None => None,
     };
     let compose = match &cfg.compose {
-        Some(c) => Some(run_compose(c, &mut ledger).map_err(|e| format!("compose: {e}"))?),
+        Some(c) => Some(
+            run_compose(c, &mut ledger).map_err(|e| crate::terr!("e-campaign-compose", e = e))?,
+        ),
         None => None,
     };
     let optimize = match &cfg.optimize {
-        Some(o) => {
-            Some(optimize::run_optimize(o, &mut ledger).map_err(|e| format!("optimize: {e}"))?)
-        }
+        Some(o) => Some(
+            optimize::run_optimize(o, &mut ledger)
+                .map_err(|e| crate::terr!("e-campaign-optimize", e = e))?,
+        ),
         None => None,
     };
     let mut digest = Sha256::new();
@@ -2195,7 +2306,7 @@ fn stat_units(b: &mut UnitsBuilder, prefix: &str, unit: &str, what: &str) {
             &format!("{prefix}.{k}"),
             unit,
             Computed,
-            &format!("{d} of {what} across the realisations"),
+            &crate::t!("campaign-of-across-the-realisations", d = d, what = what),
         );
     }
 }
@@ -2272,23 +2383,18 @@ pub fn units(r: &CampaignResult) -> Value {
         for ch in carried {
             let unit = t.channels.get(ch).map_or("1", |c| c.unit.as_str());
             b.add(
-                &format!("timeline.phases[].carried.{ch}"),
+                &crate::t!("campaign-timeline-phases-carried", ch = ch),
                 unit,
                 Computed,
-                &format!(
-                    "value of {ch} at the end of the previous phase, added to this phase's {ch}"
-                ),
+                &crate::t!("campaign-value-of-at-the-end", ch = ch),
             );
         }
         for (name, c) in &t.channels {
             b.add(
-                &format!("timeline.channels.{name}.values[]"),
+                &crate::t!("campaign-timeline-channels-values", name = name),
                 &c.unit,
                 Computed,
-                &format!(
-                    "{} on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
-                    c.label
-                ),
+                &crate::t!("campaign-on-the-timeline-grid-the", label = c.label),
             );
         }
     }
@@ -2302,30 +2408,34 @@ pub fn units(r: &CampaignResult) -> Value {
         );
         for (name, a) in &s.axes {
             b.add(
-                &format!("sweep.axes.{name}.values[]"),
+                &crate::t!("campaign-sweep-axes-values", name = name),
                 &a.unit,
                 Computed,
-                &format!("values of the scenario key {} along axis {name}", a.key),
+                &crate::t!(
+                    "campaign-values-of-the-scenario-key",
+                    key = a.key,
+                    name = name
+                ),
             );
             b.add(
-                &format!("sweep.nodes[].coords.{name}"),
+                &crate::t!("campaign-sweep-nodes-coords", name = name),
                 &a.unit,
                 Computed,
-                &format!("value of the scenario key {} at this node", a.key),
+                &crate::t!("campaign-value-of-the-scenario-key", key = a.key),
             );
         }
         for (name, m) in &s.metrics {
             if s.runs == 1 {
                 b.add(
-                    &format!("sweep.nodes[].metrics.{name}"),
+                    &crate::t!("campaign-sweep-nodes-metrics", name = name),
                     &m.unit,
                     Computed,
-                    &format!("{} of the node's result", m.path),
+                    &crate::t!("campaign-of-the-node-result", path = m.path),
                 );
             } else {
                 stat_units(
                     &mut b,
-                    &format!("sweep.nodes[].metrics.{name}"),
+                    &crate::t!("campaign-sweep-nodes-metrics", name = name),
                     &m.unit,
                     &m.path,
                 );
@@ -2341,7 +2451,7 @@ pub fn units(r: &CampaignResult) -> Value {
             "seed of realisation zero; realisation k runs at base_seed + k",
         );
         for (name, m) in &mc.metrics {
-            let p = format!("monte_carlo.metrics.{name}");
+            let p = crate::t!("campaign-monte-carlo-metrics", name = name);
             b.add(
                 &format!("{p}.n"),
                 "count",
@@ -2353,34 +2463,34 @@ pub fn units(r: &CampaignResult) -> Value {
                 &format!("{p}.samples[]"),
                 &m.unit,
                 Computed,
-                &format!("{} of each realisation, in seed order", m.path),
+                &crate::t!("campaign-of-each-realisation-in-seed", path = m.path),
             );
         }
     }
     if let Some(c) = &r.compose {
         for (name, s) in &c.shared {
             let path = if s.value.is_array() {
-                format!("compose.shared.{name}.value[]")
+                crate::t!("campaign-compose-shared-value", name = name)
             } else {
-                format!("compose.shared.{name}.value")
+                crate::t!("campaign-compose-shared-value-2", name = name)
             };
             b.add(
                 &path,
                 &s.unit,
                 Input,
-                &format!("shared value {name}, written into every member that binds it"),
+                &crate::t!("campaign-shared-value-written-into-every", name = name),
             );
         }
         for (name, unit) in &c.metric_units {
             b.add(
-                &format!("compose.members.*.metrics.{name}"),
+                &crate::t!("campaign-compose-members-metrics", name = name),
                 unit,
                 Computed,
-                &format!("metric {name} read from the member's result"),
+                &crate::t!("campaign-metric-read-from-the-member", name = name),
             );
         }
         for (name, o) in &c.combined {
-            let p = format!("compose.combined.{name}");
+            let p = crate::t!("campaign-compose-combined", name = name);
             b.add(
                 &format!("{p}.members"),
                 "count",
@@ -2391,19 +2501,19 @@ pub fn units(r: &CampaignResult) -> Value {
                 &format!("{p}.min"),
                 &o.unit,
                 Computed,
-                &format!("smallest {name} across the members"),
+                &crate::t!("campaign-smallest-across-the-members", name = name),
             );
             b.add(
                 &format!("{p}.max"),
                 &o.unit,
                 Computed,
-                &format!("largest {name} across the members"),
+                &crate::t!("campaign-largest-across-the-members", name = name),
             );
             b.add(
                 &format!("{p}.mean"),
                 &o.unit,
                 Computed,
-                &format!("mean {name} across the members"),
+                &crate::t!("campaign-mean-across-the-members", name = name),
             );
         }
     }
@@ -2425,7 +2535,7 @@ pub fn to_json(r: &CampaignResult) -> Result<String, String> {
         report: r,
         units: units(r),
     })
-    .map_err(|e| format!("failed to serialise campaign result: {e}"))
+    .map_err(|e| crate::terr!("e-campaign-failed-to-serialise-campaign-result", e = e))
 }
 
 /// A one-line summary.
@@ -2435,21 +2545,21 @@ pub fn summary(r: &CampaignResult) -> String {
         let alarm_s = t.channels.get("alarm").map_or(0.0, |c| {
             c.values.iter().filter(|v| **v == Some(1.0)).count() as f64 * t.step_s
         });
-        parts.push(format!(
-            "chain: {} phases over {:.0} s, {} events, alarm raised on {:.0} s of the grid",
-            t.phases.len(),
-            t.duration_s,
-            t.events.len(),
-            alarm_s
+        parts.push(crate::t!(
+            "campaign-chain-phases-over-events-alarm",
+            phases = t.phases.len(),
+            duration_s = crate::i18n::localise_decimal(format!("{:.0}", t.duration_s)),
+            events = t.events.len(),
+            alarm_s = crate::i18n::localise_decimal(format!("{:.0}", alarm_s))
         ));
     }
     if let Some(s) = &r.sweep {
-        parts.push(format!(
-            "sweep of `{}`: {} nodes over [{}]{}",
-            s.scenario_kind,
-            s.nodes.len(),
-            s.axis_order.join(", "),
-            if s.runs > 1 {
+        parts.push(crate::t!(
+            "campaign-sweep-of-nodes-over",
+            scenario_kind = s.scenario_kind,
+            nodes = s.nodes.len(),
+            axis_order = s.axis_order.join(", "),
+            v4 = if s.runs > 1 {
                 format!(", {} seeds each", s.runs)
             } else {
                 String::new()
@@ -2457,13 +2567,17 @@ pub fn summary(r: &CampaignResult) -> String {
         ));
     }
     if let Some(m) = &r.monte_carlo {
-        parts.push(format!(
-            "monte carlo of `{}`: {} seeds",
-            m.scenario_kind, m.runs
+        parts.push(crate::t!(
+            "campaign-monte-carlo-of-seeds",
+            scenario_kind = m.scenario_kind,
+            runs = m.runs
         ));
     }
     if let Some(c) = &r.compose {
-        parts.push(format!("compose: {} members", c.members.len()));
+        parts.push(crate::t!(
+            "campaign-compose-members",
+            members = c.members.len()
+        ));
     }
     if let Some(o) = &r.optimize {
         parts.push(optimize::summary_part(o));
@@ -2479,9 +2593,9 @@ pub fn summary(r: &CampaignResult) -> String {
                 .into(),
         );
     }
-    parts.push(format!(
-        "{} member runs (MODELLED)",
-        r.reproducibility.runs_total
+    parts.push(crate::t!(
+        "campaign-member-runs-modelled",
+        runs_total = r.reproducibility.runs_total
     ));
     parts.join(" | ")
 }
@@ -2756,12 +2870,12 @@ fn sweep_svg(sw: &SweepOut, top: f64, w: f64) -> (String, f64) {
     let (ml, mr, ph) = (80.0_f64, 24.0_f64, 160.0_f64);
     let pw = w - ml - mr;
     let mut s = String::new();
-    let caption = format!(
-        "sweep of `{}` over {} ({} nodes{}; each line on its own range)",
-        sw.scenario_kind,
-        sw.axis_order.join(" x "),
-        sw.nodes.len(),
-        if sw.runs > 1 {
+    let caption = crate::t!(
+        "campaign-sweep-of-over-nodes-each",
+        scenario_kind = sw.scenario_kind,
+        axis_order = sw.axis_order.join(" x "),
+        nodes = sw.nodes.len(),
+        v4 = if sw.runs > 1 {
             format!(
                 ", median with 5th-95th percentile band over {} seeds",
                 sw.runs
@@ -2972,9 +3086,9 @@ pub fn to_svg(r: &CampaignResult) -> String {
         w,
         h,
         &r.title,
-        &format!(
-            "campaign {} | MODELLED composition; every value read from a real run of the named kind",
-            &r.scenario_hash[..12]
+        &crate::t!(
+            "campaign-campaign-modelled-composition-every-value",
+            r = &r.scenario_hash[..12]
         ),
     );
     svg.push_str(&body);

@@ -39,8 +39,12 @@ enum Class {
 
 /// Read a v1 map document from GeoJSON text.
 pub fn load_map(text: &str) -> Result<LoadedMap, MapError> {
-    let v: Value = serde_json::from_str(text)
-        .map_err(|e| MapError::Format(format!("map is not valid JSON: {e}")))?;
+    let v: Value = serde_json::from_str(text).map_err(|e| {
+        MapError::Format(crate::terr!(
+            "e-interference-map-route-map-is-not-valid-json",
+            e = e
+        ))
+    })?;
     let m = v.get("kshana_interference_map").ok_or_else(|| {
         MapError::Format(
             "not a Kshana interference map (no `kshana_interference_map` member)".into(),
@@ -96,8 +100,12 @@ pub fn load_map(text: &str) -> Result<LoadedMap, MapError> {
 pub fn parse_route(text: &str) -> Result<Vec<(f64, f64)>, MapError> {
     let t = text.trim_start();
     let pts = if t.starts_with('{') {
-        let v: Value = serde_json::from_str(t)
-            .map_err(|e| MapError::Format(format!("route: invalid JSON: {e}")))?;
+        let v: Value = serde_json::from_str(t).map_err(|e| {
+            MapError::Format(crate::terr!(
+                "e-interference-map-route-route-invalid-json",
+                e = e
+            ))
+        })?;
         let line =
             find_line(&v).ok_or_else(|| MapError::Format("route: no LineString found".into()))?;
         line.iter()
@@ -119,9 +127,9 @@ pub fn parse_route(text: &str) -> Result<Vec<(f64, f64)>, MapError> {
             match (lat, lon) {
                 (Some(a), Some(b)) => out.push((a, b)),
                 _ => {
-                    return Err(MapError::Format(format!(
-                        "route: line {} is not `lat,lon`",
-                        n + 1
+                    return Err(MapError::Format(crate::terr!(
+                        "e-interference-map-route-route-line-is-not-lat",
+                        v1 = n + 1
                     )))
                 }
             }

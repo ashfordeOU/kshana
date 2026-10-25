@@ -106,13 +106,13 @@ fn shell_rows(table: &[Value], res: &[BandResult], tag: &str, tol: f64) -> Vec<V
             tol,
         ));
         out.push(mod_cell(
-            &format!("{key} MOD1 min"),
+            &crate::t!("ssv-check-mod1-min", key = key),
             &row["mod1"],
             a.max_outage_1_min,
             a.never_available_1,
         ));
         out.push(mod_cell(
-            &format!("{key} MOD4 min"),
+            &crate::t!("ssv-check-mod4-min", key = key),
             &row["mod4"],
             a.max_outage_4_min,
             a.never_available_4,
@@ -269,7 +269,7 @@ pub fn run(tables: &str, size: Size, glonass_table_4_2: bool) -> Result<Value, S
         .zip(S0_EXPECTED)
         .map(|(s, e)| {
             cell(
-                &format!("MRTP {} dBW", s.name),
+                &crate::t!("ssv-check-mrtp-dbw", name = s.name),
                 Some(e),
                 mrtp_dbw(s, 36_000.0),
                 0.1,
@@ -352,7 +352,8 @@ pub fn run(tables: &str, size: Size, glonass_table_4_2: bool) -> Result<Value, S
     );
 
     // S5: HEO.
-    let heo = super::scenario::preset_orbit("heo").ok_or("heo preset")?;
+    let heo = super::scenario::preset_orbit("heo")
+        .ok_or_else(|| crate::terr!("e-ssv-check-heo-preset"))?;
     let heo_min = match size {
         Size::Full => (1.5 * heo.period_min()).round(),
         Size::Reduced => 1440.0,
@@ -374,7 +375,8 @@ pub fn run(tables: &str, size: Size, glonass_table_4_2: bool) -> Result<Value, S
     );
 
     // S6: lunar, perigee to apogee.
-    let lunar = super::scenario::preset_orbit("lunar-transfer").ok_or("lunar preset")?;
+    let lunar = super::scenario::preset_orbit("lunar-transfer")
+        .ok_or_else(|| crate::terr!("e-ssv-check-lunar-preset"))?;
     let lun_min = match size {
         Size::Full => (0.5 * lunar.period_min()).round(),
         Size::Reduced => 1440.0,

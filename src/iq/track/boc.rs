@@ -108,14 +108,15 @@ impl BocTracking {
     pub fn validate(&self, spacing_chips: f64) -> Result<(), String> {
         let max = self.kind.max_spacing_chips();
         if !(spacing_chips > 0.0 && spacing_chips < max) {
-            return Err(format!(
-                "BOC tracking needs an early-late spacing in (0, {max:.4}) chips so that E and L \
-                 stay on the main peak (got {spacing_chips})"
+            return Err(crate::terr!(
+                "e-iq-track-boc-boc-tracking-needs-an-early",
+                max = crate::i18n::localise_decimal(format!("{:.4}", max)),
+                spacing_chips = spacing_chips
             ));
         }
         if let Some(b) = self.bump_jump {
             if b.threshold == 0 {
-                return Err("bump-jump threshold must be at least 1".into());
+                return Err(crate::terr!("e-iq-track-boc-bump-jump-threshold-must-be"));
             }
         }
         Ok(())

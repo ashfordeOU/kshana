@@ -148,56 +148,72 @@ pub fn drag_peaks(e: &EventCfg) -> (f64, f64) {
 
 /// Plain-language description of an event with its parameters.
 pub fn describe(e: &EventCfg, bearing: Option<f64>) -> String {
-    let when = format!(
-        "from T+{:.0} s for {:.0} s (onset ramp {:.0} s, recovery ramp {:.0} s)",
-        e.start_s, e.duration_s, e.ramp_s, e.recovery_s
+    let when = crate::t!(
+        "nmea-synth-log-from-for-onset-ramp-recovery",
+        start_s = crate::i18n::localise_decimal(format!("{:.0}", e.start_s)),
+        duration_s = crate::i18n::localise_decimal(format!("{:.0}", e.duration_s)),
+        ramp_s = crate::i18n::localise_decimal(format!("{:.0}", e.ramp_s)),
+        recovery_s = crate::i18n::localise_decimal(format!("{:.0}", e.recovery_s))
     );
     let cf = match e.counterfeit_cn0_dbhz {
-        Some(c) => format!("; every tracked satellite shows {c:.0} dB-Hz while it lasts"),
+        Some(c) => crate::t!(
+            "nmea-synth-log-every-tracked-satellite-shows-db",
+            c = crate::i18n::localise_decimal(format!("{:.0}", c))
+        ),
         None => "; the genuine C/N0 pattern is kept".to_string(),
     };
     let body = match e.kind {
-        EventKind::Jamming => format!(
-            "jamming: received C/N0 falls by up to {:.0} dB (per-satellite spread {:.0} dB); \
-             satellites drop out and the fix is lost when fewer than four remain usable",
-            e.cn0_drop_db.unwrap_or(0.0),
-            e.spread_db.unwrap_or(6.0)
+        EventKind::Jamming => crate::t!(
+            "nmea-synth-log-jamming-received-n0-falls-by",
+            cn0_drop_db =
+                crate::i18n::localise_decimal(format!("{:.0}", e.cn0_drop_db.unwrap_or(0.0))),
+            spread_db = crate::i18n::localise_decimal(format!("{:.0}", e.spread_db.unwrap_or(6.0)))
         ),
         EventKind::DragOff => {
             let dir = match (e.bearing_deg, e.relative_bearing_deg, bearing) {
-                (Some(b), _, _) => format!("towards {b:.0} deg true"),
-                (_, Some(r), Some(t)) => format!(
-                    "towards {t:.0} deg true ({r:.0} deg relative to the course at onset, then \
-                     held)"
+                (Some(b), _, _) => crate::t!(
+                    "nmea-synth-log-towards-deg-true",
+                    b = crate::i18n::localise_decimal(format!("{:.0}", b))
+                ),
+                (_, Some(r), Some(t)) => crate::t!(
+                    "nmea-synth-log-towards-deg-true-deg-relative",
+                    t = crate::i18n::localise_decimal(format!("{:.0}", t)),
+                    r = crate::i18n::localise_decimal(format!("{:.0}", r))
                 ),
                 _ => String::new(),
             };
             let (pv, pa) = drag_peaks(e);
-            format!(
-                "position drag-off: the reported position walks {:.0} m away {dir} while the \
-                 receiver keeps a valid fix (false track peaks at {pv:.2} m/s and \
-                 {pa:.4} m/s^2){cf}",
-                e.final_offset_m.unwrap_or(0.0)
+            crate::t!(
+                "nmea-synth-log-position-drag-off-the-reported",
+                final_offset_m = crate::i18n::localise_decimal(format!(
+                    "{:.0}",
+                    e.final_offset_m.unwrap_or(0.0)
+                )),
+                dir = dir,
+                pv = crate::i18n::localise_decimal(format!("{:.2}", pv)),
+                pa = crate::i18n::localise_decimal(format!("{:.4}", pa)),
+                cf = cf
             )
         }
-        EventKind::TimeSpoof => format!(
-            "time spoof: reported UTC moves {:+.1} s from true; position stays true{cf}",
-            e.offset_s.unwrap_or(0.0)
+        EventKind::TimeSpoof => crate::t!(
+            "nmea-synth-log-time-spoof-reported-utc-moves",
+            offset_s = crate::i18n::localise_decimal(format!("{:+.1}", e.offset_s.unwrap_or(0.0))),
+            cf = cf
         ),
-        EventKind::ReplayDelay => format!(
-            "replay delay (meaconing style): position{} lags the truth by {:.1} s{cf}",
-            if e.affect_time.unwrap_or(true) {
+        EventKind::ReplayDelay => crate::t!(
+            "nmea-synth-log-replay-delay-meaconing-style-position",
+            v1 = if e.affect_time.unwrap_or(true) {
                 " and time"
             } else {
                 ""
             },
-            e.delay_s.unwrap_or(0.0)
+            delay_s = crate::i18n::localise_decimal(format!("{:.1}", e.delay_s.unwrap_or(0.0))),
+            cf = cf
         ),
-        EventKind::NaturalDegradation => format!(
-            "natural degradation: the sky closes behind a stated skyline ({}); satellites \
-             behind it stay listed with no SNR and are not used, the C/N0 of the rest is \
-             unchanged, and nothing is counterfeit",
-            e.skyline
+        EventKind::NaturalDegradation => crate::t!(
+            "nmea-synth-log-natural-degradation-the-sky-closes",
+            e = e
+                .skyline
                 .as_ref()
                 .map_or_else(|| "none".to_string(), |k| k.source())
         ),
@@ -251,17 +267,25 @@ impl InstructorLog {
     /// Readable text for the debrief.
     pub fn to_text(&self) -> String {
         let mut o = String::new();
-        o.push_str(&format!("INSTRUCTOR LOG: {}\n", self.scenario));
+        o.push_str(&crate::t!(
+            "nmea-synth-log-instructor-log",
+            scenario = self.scenario
+        ));
         o.push_str(&format!("{}\n\n", self.warning));
         if !self.description.is_empty() {
             o.push_str(&format!("{}\n\n", self.description));
         }
         if !self.trainer_note.is_empty() {
-            o.push_str(&format!("Trainer note: {}\n\n", self.trainer_note));
+            o.push_str(&crate::t!(
+                "nmea-synth-log-trainer-note",
+                trainer_note = self.trainer_note
+            ));
         }
-        o.push_str(&format!(
-            "Start {}   duration {:.0} s   seed {}\n\n",
-            self.start_utc, self.duration_s, self.seed
+        o.push_str(&crate::t!(
+            "nmea-synth-log-start-duration-seed",
+            start_utc = self.start_utc,
+            duration_s = crate::i18n::localise_decimal(format!("{:.0}", self.duration_s)),
+            seed = self.seed
         ));
         o.push_str("EVENTS INJECTED\n");
         if self.events.is_empty() {
@@ -274,12 +298,15 @@ impl InstructorLog {
             ));
         }
         let s = &self.summary;
-        o.push_str(&format!(
-            "\nPEAKS  true: {:.1} kn, {:.4} m/s^2   reported: {:.1} kn, {:.4} m/s^2\n",
-            s.true_peak_sog_kn,
-            s.true_peak_accel_mps2,
-            s.reported_peak_sog_kn,
-            s.reported_peak_accel_mps2
+        o.push_str(&crate::t!(
+            "nmea-synth-log-peaks-true-kn-reported-kn",
+            true_peak_sog_kn = crate::i18n::localise_decimal(format!("{:.1}", s.true_peak_sog_kn)),
+            true_peak_accel_mps2 =
+                crate::i18n::localise_decimal(format!("{:.4}", s.true_peak_accel_mps2)),
+            reported_peak_sog_kn =
+                crate::i18n::localise_decimal(format!("{:.1}", s.reported_peak_sog_kn)),
+            reported_peak_accel_mps2 =
+                crate::i18n::localise_decimal(format!("{:.4}", s.reported_peak_accel_mps2))
         ));
         o.push_str("\nTIMELINE\n");
         for t in &self.timeline {

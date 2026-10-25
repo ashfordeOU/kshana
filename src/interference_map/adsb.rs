@@ -424,7 +424,9 @@ impl AdsbAggregator {
             flate2::read::GzDecoder::new(bytes)
                 .take(max_decompressed + 1)
                 .read_to_end(&mut out)
-                .map_err(|e| MapError::Format(format!("gzip: {e}")))?;
+                .map_err(|e| {
+                    MapError::Format(crate::terr!("e-interference-map-adsb-gzip", e = e))
+                })?;
             if out.len() as u64 > max_decompressed {
                 return Err(MapError::Format(
                     "gzip: decompressed size over the limit".into(),
@@ -434,8 +436,9 @@ impl AdsbAggregator {
         } else {
             bytes.to_vec()
         };
-        let v: Value = serde_json::from_slice(&text)
-            .map_err(|e| MapError::Format(format!("trace JSON: {e}")))?;
+        let v: Value = serde_json::from_slice(&text).map_err(|e| {
+            MapError::Format(crate::terr!("e-interference-map-adsb-trace-json", e = e))
+        })?;
         let id = v
             .get("icao")
             .and_then(Value::as_str)

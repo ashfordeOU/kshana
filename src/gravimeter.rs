@@ -853,14 +853,20 @@ fn reference_grid(
             let path = r
                 .gfc_path
                 .as_deref()
-                .ok_or("gravity-map: reference model \"gfc\" needs `gfc_path`")?;
-            let text = std::fs::read_to_string(path)
-                .map_err(|e| format!("gravity-map: cannot read gfc_path {path}: {e}"))?;
+                .ok_or_else(|| crate::terr!("e-gravimeter-gravity-map-reference-model-gfc"))?;
+            let text = std::fs::read_to_string(path).map_err(|e| {
+                crate::terr!(
+                    "e-gravimeter-gravity-map-cannot-read-gfc",
+                    path = path,
+                    e = e
+                )
+            })?;
             SphericalHarmonicField::from_gfc(&text, r.nmax)?
         }
         other => {
-            return Err(format!(
-                "gravity-map: unknown reference model `{other}` (use \"egm2008\" or \"gfc\")"
+            return Err(crate::terr!(
+                "e-gravimeter-gravity-map-unknown-reference-model",
+                other = other
             ))
         }
     };
@@ -868,8 +874,9 @@ fn reference_grid(
         "wgs84" => WGS84_ELLIPSOID,
         "grs80" => GRS80_ELLIPSOID,
         other => {
-            return Err(format!(
-                "gravity-map: unknown ellipsoid `{other}` (use \"wgs84\" or \"grs80\")"
+            return Err(crate::terr!(
+                "e-gravimeter-gravity-map-unknown-ellipsoid-use",
+                other = other
             ))
         }
     };
@@ -933,10 +940,10 @@ fn map_error_monte_carlo(
     truth: &dyn Fn(f64, f64) -> f64,
 ) -> Result<MapErrorMcSummary, String> {
     if mc.realisations == 0 {
-        return Err("gravity-map: map_error_mc.realisations must be at least 1".into());
+        return Err(crate::terr!("e-gravimeter-gravity-map-map-error-mc"));
     }
     if mc.realisations > 10_000 {
-        return Err("gravity-map: map_error_mc.realisations is capped at 10000".into());
+        return Err(crate::terr!("e-gravimeter-gravity-map-map-error-mc-2"));
     }
     let (s, n, w, e) = sample_box(cfg);
     let mut errs = Vec::with_capacity(mc.realisations);

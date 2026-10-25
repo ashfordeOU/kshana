@@ -282,7 +282,7 @@ impl RunOutput {
             None => "Kshana \u{2014} scenario result".to_string(),
         };
         let generation_stamp = match extract_meta_str(&self.json, "generated_utc") {
-            Some(ts) => format!(" Study generated {}.", html_escape(&ts)),
+            Some(ts) => crate::t!("api-study-generated", html_escape = html_escape(&ts)),
             None => String::new(),
         };
         let theme = crate::palette::page_css();
@@ -345,7 +345,8 @@ struct Kind {
 // rather than something provable infallible at this call site, so the failure is
 // propagated to the caller instead of being asserted away.
 fn json_of<T: serde::Serialize>(v: &T) -> Result<String, String> {
-    serde_json::to_string_pretty(v).map_err(|e| format!("failed to serialise report to JSON: {e}"))
+    serde_json::to_string_pretty(v)
+        .map_err(|e| crate::terr!("e-api-failed-to-serialise-report-to", e = e))
 }
 
 /// [`json_of`], plus the report's `units` block.
@@ -431,8 +432,8 @@ fn json_of_with_units_and_tiers<T: serde::Serialize>(
     roots: &[&str],
     fields: &[&str],
 ) -> Result<String, String> {
-    let doc =
-        serde_json::to_value(v).map_err(|e| format!("failed to serialise report to JSON: {e}"))?;
+    let doc = serde_json::to_value(v)
+        .map_err(|e| crate::terr!("e-api-failed-to-serialise-report-to", e = e))?;
     json_of(&Documented {
         report: v,
         units: crate::field_schema::units_block(units),
@@ -451,12 +452,13 @@ struct ClockLogTable {
 
 /// The `measured` block of a clock run, when the scenario names a clock log.
 fn clock_log_measured(src: &str) -> Result<Option<crate::clock_log::MeasuredPhaseReport>, String> {
-    let t: ClockLogTable = toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
+    let t: ClockLogTable =
+        toml::from_str(src).map_err(|e| crate::terr!("e-api-invalid-scenario", e = e))?;
     t.clock_log
         .as_ref()
         .map(|c| {
             crate::clock_log::MeasuredPhaseReport::from_input(c)
-                .map_err(|e| format!("clock_log: {e}"))
+                .map_err(|e| crate::terr!("e-api-clock-log", e = e))
         })
         .transpose()
 }
@@ -937,14 +939,15 @@ impl ScenarioKind {
             // overwhelmingly likely cause is a slip of one or two characters.
             other => {
                 return Err(KshanaError::InvalidInput(match nearest_kind(other) {
-                    Some(hint) => format!(
-                        "unknown scenario kind {other:?} — did you mean {hint:?}? \
-                         `kshana kinds` lists all {n} built-in kinds.",
+                    Some(hint) => crate::t!(
+                        "api-unknown-scenario-kind-did-you",
+                        other = format!("{:?}", other),
+                        hint = format!("{:?}", hint),
                         n = list_scenario_kinds().len()
                     ),
-                    None => format!(
-                        "unknown scenario kind {other:?}. `kshana kinds` lists all {n} \
-                         built-in kinds.",
+                    None => crate::t!(
+                        "api-unknown-scenario-kind-kshana-kinds",
+                        other = format!("{:?}", other),
                         n = list_scenario_kinds().len()
                     ),
                 }))
@@ -1405,13 +1408,13 @@ together, so `tle|orbit+epoch` reads \"a `tle`, or an `orbit` with an `epoch`\".
 
     for m in &kinds {
         s.push_str(&format!("## `{}`\n\n{}\n\n", m.name, m.description));
-        s.push_str(&format!(
-            "- **Required fields:** {}\n",
-            fields(m.required_fields)
+        s.push_str(&crate::t!(
+            "api-required-fields",
+            fields = fields(m.required_fields)
         ));
-        s.push_str(&format!(
-            "- **Optional fields:** {}\n\n",
-            fields(m.optional_fields)
+        s.push_str(&crate::t!(
+            "api-optional-fields",
+            fields = fields(m.optional_fields)
         ));
     }
     s
@@ -1434,14 +1437,14 @@ pub fn validate_scenario(src: &str) -> Vec<String> {
     //    earliest problem to report, so we return it on its own.
     let value: toml::Value = match toml::from_str(src) {
         Ok(v) => v,
-        Err(e) => return vec![format!("TOML parse error: {e}")],
+        Err(e) => return vec![crate::t!("api-toml-parse-error", e = e)],
     };
 
     // 2. Classify the kind via the existing classifier (defaults to Clock for an
     //    absent/unknown kind, exactly as the runner does).
     let kind = match ScenarioKind::classify(src) {
         Ok(k) => k,
-        Err(e) => return vec![format!("could not classify scenario kind: {e}")],
+        Err(e) => return vec![crate::t!("api-could-not-classify-scenario-kind", e = e)],
     };
     let kind_name = kind.as_str();
 
@@ -1476,11 +1479,17 @@ pub fn validate_scenario(src: &str) -> Vec<String> {
                 })
                 .collect::<Vec<_>>()
                 .join(" or ");
-            violations.push(format!(
-                "{kind_name}: missing required field(s) — {options}"
+            violations.push(crate::t!(
+                "api-missing-required-field",
+                kind_name = kind_name,
+                options = options
             ));
         } else {
-            violations.push(format!("{kind_name}: missing required field \"{entry}\""));
+            violations.push(crate::t!(
+                "api-missing-required-field-2",
+                kind_name = kind_name,
+                entry = entry
+            ));
         }
     }
     violations
@@ -1492,13 +1501,13 @@ pub fn validate_scenario(src: &str) -> Vec<String> {
 pub fn export_sp3(src: &str) -> Result<String, String> {
     match ScenarioKind::classify(src).map_err(|e| e.to_string())? {
         ScenarioKind::Orbit => {
-            let scn: crate::orbit::OrbitClockScenario =
-                toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
+            let scn: crate::orbit::OrbitClockScenario = toml::from_str(src)
+                .map_err(|e| crate::terr!("e-api-invalid-orbit-scenario", e = e))?;
             scn.to_sp3_string()
         }
-        k => Err(format!(
-            "SP3 export requires an orbit scenario, not '{}'",
-            k.as_str()
+        k => Err(crate::terr!(
+            "e-api-sp3-export-requires-an-orbit",
+            k = k.as_str()
         )),
     }
 }
@@ -1510,7 +1519,7 @@ pub fn auto_export_sp3(src: &str) -> Result<Option<String>, String> {
         return Ok(None);
     }
     let scn: crate::orbit::OrbitClockScenario =
-        toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
+        toml::from_str(src).map_err(|e| crate::terr!("e-api-invalid-orbit-scenario", e = e))?;
     if scn.export_sp3 {
         Ok(Some(scn.to_sp3_string()?))
     } else {
@@ -1527,13 +1536,13 @@ pub fn auto_export_sp3(src: &str) -> Result<Option<String>, String> {
 pub fn export_omm(src: &str) -> Result<String, String> {
     match ScenarioKind::classify(src).map_err(|e| e.to_string())? {
         ScenarioKind::Orbit => {
-            let scn: crate::orbit::OrbitClockScenario =
-                toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
+            let scn: crate::orbit::OrbitClockScenario = toml::from_str(src)
+                .map_err(|e| crate::terr!("e-api-invalid-orbit-scenario", e = e))?;
             scn.to_omm_string()
         }
-        k => Err(format!(
-            "OMM export requires an orbit scenario, not '{}'",
-            k.as_str()
+        k => Err(crate::terr!(
+            "e-api-omm-export-requires-an-orbit",
+            k = k.as_str()
         )),
     }
 }
@@ -1545,7 +1554,7 @@ pub fn auto_export_omm(src: &str) -> Result<Option<String>, String> {
         return Ok(None);
     }
     let scn: crate::orbit::OrbitClockScenario =
-        toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
+        toml::from_str(src).map_err(|e| crate::terr!("e-api-invalid-orbit-scenario", e = e))?;
     if scn.export_omm {
         Ok(Some(scn.to_omm_string()?))
     } else {
@@ -1578,13 +1587,13 @@ pub fn animate_toml(
 pub fn export_oem(src: &str) -> Result<String, String> {
     match ScenarioKind::classify(src).map_err(|e| e.to_string())? {
         ScenarioKind::Orbit => {
-            let scn: crate::orbit::OrbitClockScenario =
-                toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
+            let scn: crate::orbit::OrbitClockScenario = toml::from_str(src)
+                .map_err(|e| crate::terr!("e-api-invalid-orbit-scenario", e = e))?;
             scn.to_oem_string()
         }
-        k => Err(format!(
-            "OEM export requires an orbit scenario, not '{}'",
-            k.as_str()
+        k => Err(crate::terr!(
+            "e-api-oem-export-requires-an-orbit",
+            k = k.as_str()
         )),
     }
 }
@@ -1596,7 +1605,7 @@ pub fn auto_export_oem(src: &str) -> Result<Option<String>, String> {
         return Ok(None);
     }
     let scn: crate::orbit::OrbitClockScenario =
-        toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
+        toml::from_str(src).map_err(|e| crate::terr!("e-api-invalid-orbit-scenario", e = e))?;
     if scn.export_oem {
         Ok(Some(scn.to_oem_string()?))
     } else {
@@ -1612,7 +1621,7 @@ pub fn auto_export_oem(src: &str) -> Result<Option<String>, String> {
 /// `toml` serialises it ahead of any `[section]` headers.
 pub fn inject_eop(src: &str, finals2000a_body: &str) -> Result<String, String> {
     let mut value: toml::Value =
-        toml::from_str(src).map_err(|e| format!("invalid scenario TOML: {e}"))?;
+        toml::from_str(src).map_err(|e| crate::terr!("e-api-invalid-scenario-toml", e = e))?;
     let table = value
         .as_table_mut()
         .ok_or_else(|| "scenario TOML is not a table".to_string())?;
@@ -1620,7 +1629,8 @@ pub fn inject_eop(src: &str, finals2000a_body: &str) -> Result<String, String> {
         "eop_finals2000a".to_string(),
         toml::Value::String(finals2000a_body.to_string()),
     );
-    toml::to_string(&value).map_err(|e| format!("could not re-serialise scenario: {e}"))
+    toml::to_string(&value)
+        .map_err(|e| crate::terr!("e-api-could-not-re-serialise-scenario", e = e))
 }
 
 /// Splice a study-metadata block into an already-rendered result JSON document,
@@ -1691,14 +1701,20 @@ impl Scenario for crate::jamming::JammingScenario {
         let sky = self.sky().map_err(KshanaError::InvalidInput)?;
         let r = crate::jamming::run_jamming_sky(self, sky.as_ref())
             .map_err(KshanaError::InvalidInput)?;
-        let summary = format!(
-            "scenario {} | jamming {} | availability under jamming {:.2} (nominal {:.2}) | min tracking {} | mean J/S {}",
-            &r.scenario_hash[..12],
-            if r.jammer_present { "ON" } else { "OFF" },
-            r.fom.availability_under_jamming,
-            r.fom.availability_nominal,
-            r.fom.min_tracking,
-            if r.fom.mean_js_db.is_nan() { "n/a".to_string() } else { format!("{:.1} dB", r.fom.mean_js_db) },
+        let summary = crate::t!(
+            "api-scenario-jamming-availability-under-jamming",
+            r = &r.scenario_hash[..12],
+            v2 = if r.jammer_present { "ON" } else { "OFF" },
+            availability_under_jamming =
+                crate::i18n::localise_decimal(format!("{:.2}", r.fom.availability_under_jamming)),
+            availability_nominal =
+                crate::i18n::localise_decimal(format!("{:.2}", r.fom.availability_nominal)),
+            min_tracking = r.fom.min_tracking,
+            v6 = if r.fom.mean_js_db.is_nan() {
+                "n/a".to_string()
+            } else {
+                format!("{:.1} dB", r.fom.mean_js_db)
+            }
         );
         let json = match crate::skyline::SkylineSummary::of(
             self.skyline.as_ref(),
@@ -1793,8 +1809,9 @@ fn run_toml_inner(src: &str, tiers: bool) -> Result<RunOutput, String> {
 /// own block with it too.
 pub fn append_figure_tiers(json: &str, block: &serde_json::Value) -> Result<String, String> {
     if without_figure_tiers(json).is_some() {
-        return Err(format!(
-            "the result document already carries `{FIGURE_TIERS_KEY}`"
+        return Err(crate::terr!(
+            "e-api-the-result-document-already-carries",
+            FIGURE_TIERS_KEY = FIGURE_TIERS_KEY
         ));
     }
     let body = json.trim_end();
@@ -1802,7 +1819,7 @@ pub fn append_figure_tiers(json: &str, block: &serde_json::Value) -> Result<Stri
         "figure_tiers: the result document is not a pretty JSON object".to_string()
     })?;
     let pretty = serde_json::to_string_pretty(block)
-        .map_err(|e| format!("failed to serialise figure_tiers: {e}"))?;
+        .map_err(|e| crate::terr!("e-api-failed-to-serialise-figure-tiers", e = e))?;
     let nested = pretty.replace('\n', "\n  ");
     let mut out = String::with_capacity(json.len() + nested.len() + 32);
     out.push_str(head);

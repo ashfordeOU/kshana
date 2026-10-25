@@ -201,14 +201,18 @@ impl TdmFile {
                 State::Header => {
                     if line == "META_START" {
                         if version.is_none() {
-                            return Err("TDM: META_START before CCSDS_TDM_VERS header".to_string());
+                            return Err(crate::terr!("e-ccsds-tdm-tdm-meta-start-before-ccsds"));
                         }
                         cur_meta = TdmMeta::default();
                         state = State::Meta;
                         continue;
                     }
-                    let (k, v) = split_kvn(line)
-                        .ok_or_else(|| format!("TDM: malformed header line: {line:?}"))?;
+                    let (k, v) = split_kvn(line).ok_or_else(|| {
+                        crate::terr!(
+                            "e-ccsds-tdm-tdm-malformed-header-line",
+                            line = format!("{:?}", line)
+                        )
+                    })?;
                     match k {
                         "CCSDS_TDM_VERS" => version = Some(v.to_string()),
                         "CREATION_DATE" => creation_date = v.to_string(),
@@ -229,8 +233,12 @@ impl TdmFile {
                         state = State::Data;
                         continue;
                     }
-                    let (k, v) = split_kvn(line)
-                        .ok_or_else(|| format!("TDM: malformed metadata line: {line:?}"))?;
+                    let (k, v) = split_kvn(line).ok_or_else(|| {
+                        crate::terr!(
+                            "e-ccsds-tdm-tdm-malformed-metadata-line",
+                            line = format!("{:?}", line)
+                        )
+                    })?;
                     apply_meta_key(&mut cur_meta, k, v)?;
                 }
                 State::Data => {
@@ -242,23 +250,40 @@ impl TdmFile {
                         state = State::Header;
                         continue;
                     }
-                    let (k, v) = split_kvn(line)
-                        .ok_or_else(|| format!("TDM: malformed data line: {line:?}"))?;
+                    let (k, v) = split_kvn(line).ok_or_else(|| {
+                        crate::terr!(
+                            "e-ccsds-tdm-tdm-malformed-data-line",
+                            line = format!("{:?}", line)
+                        )
+                    })?;
                     if !is_data_keyword(k) {
-                        return Err(format!("TDM: unrecognised data keyword {k:?}"));
+                        return Err(crate::terr!(
+                            "e-ccsds-tdm-tdm-unrecognised-data-keyword",
+                            k = format!("{:?}", k)
+                        ));
                     }
                     // The value field is `epoch value`: an ISO/CCSDS time tag then
                     // the numeric observable, whitespace-separated.
                     let mut it = v.split_whitespace();
-                    let epoch = it
-                        .next()
-                        .ok_or_else(|| format!("TDM: data line {k:?} missing epoch"))?;
-                    let val_str = it
-                        .next()
-                        .ok_or_else(|| format!("TDM: data line {k:?} missing value"))?;
-                    let value = val_str
-                        .parse::<f64>()
-                        .map_err(|_| format!("TDM: data line {k:?} bad value {val_str:?}"))?;
+                    let epoch = it.next().ok_or_else(|| {
+                        crate::terr!(
+                            "e-ccsds-tdm-tdm-data-line-missing-epoch",
+                            k = format!("{:?}", k)
+                        )
+                    })?;
+                    let val_str = it.next().ok_or_else(|| {
+                        crate::terr!(
+                            "e-ccsds-tdm-tdm-data-line-missing-value",
+                            k = format!("{:?}", k)
+                        )
+                    })?;
+                    let value = val_str.parse::<f64>().map_err(|_| {
+                        crate::terr!(
+                            "e-ccsds-tdm-tdm-data-line-bad-value",
+                            k = format!("{:?}", k),
+                            val_str = format!("{:?}", val_str)
+                        )
+                    })?;
                     cur_data.push(TdmObs {
                         epoch: epoch.to_string(),
                         key: k.to_string(),
@@ -269,7 +294,9 @@ impl TdmFile {
         }
 
         if state != State::Header {
-            return Err("TDM: unterminated segment (missing META_STOP/DATA_STOP)".to_string());
+            return Err(crate::terr!(
+                "e-ccsds-tdm-tdm-unterminated-segment-missing-meta"
+            ));
         }
         let version = version.ok_or_else(|| "TDM: missing CCSDS_TDM_VERS header".to_string())?;
 
@@ -288,13 +315,22 @@ impl TdmFile {
     /// re-parses to a structure equal (modulo numeric formatting) to the input.
     pub fn to_tdm_string(&self) -> String {
         let mut out = String::new();
-        out.push_str(&format!("CCSDS_TDM_VERS = {}\n", self.version));
-        out.push_str(&format!("CREATION_DATE = {}\n", self.creation_date));
+        out.push_str(&crate::t!(
+            "ccsds-tdm-ccsds-tdm-vers",
+            version = self.version
+        ));
+        out.push_str(&crate::t!(
+            "ccsds-tdm-creation-date",
+            creation_date = self.creation_date
+        ));
         out.push_str(&format!("ORIGINATOR = {}\n", self.originator));
         for seg in &self.segments {
             out.push('\n');
             out.push_str("META_START\n");
-            out.push_str(&format!("TIME_SYSTEM = {}\n", seg.meta.time_system));
+            out.push_str(&crate::t!(
+                "ccsds-tdm-time-system",
+                time_system = seg.meta.time_system
+            ));
             for (i, p) in seg.meta.participants.iter().enumerate() {
                 out.push_str(&format!("PARTICIPANT_{} = {}\n", i + 1, p));
             }
@@ -305,19 +341,25 @@ impl TdmFile {
                 out.push_str(&format!("PATH = {}\n", seg.meta.path));
             }
             if let Some(b) = &seg.meta.transmit_band {
-                out.push_str(&format!("TRANSMIT_BAND = {b}\n"));
+                out.push_str(&crate::t!("ccsds-tdm-transmit-band", b = b));
             }
             if let Some(b) = &seg.meta.receive_band {
-                out.push_str(&format!("RECEIVE_BAND = {b}\n"));
+                out.push_str(&crate::t!("ccsds-tdm-receive-band", b = b));
             }
             if let Some(n) = seg.meta.turnaround_numerator {
-                out.push_str(&format!("TURNAROUND_NUMERATOR = {}\n", fmt_num(n)));
+                out.push_str(&crate::t!(
+                    "ccsds-tdm-turnaround-numerator",
+                    fmt_num = fmt_num(n)
+                ));
             }
             if let Some(d) = seg.meta.turnaround_denominator {
-                out.push_str(&format!("TURNAROUND_DENOMINATOR = {}\n", fmt_num(d)));
+                out.push_str(&crate::t!(
+                    "ccsds-tdm-turnaround-denominator",
+                    fmt_num = fmt_num(d)
+                ));
             }
             if let Some(u) = &seg.meta.range_units {
-                out.push_str(&format!("RANGE_UNITS = {u}\n"));
+                out.push_str(&crate::t!("ccsds-tdm-range-units", u = u));
             }
             for (k, v) in &seg.meta.other {
                 out.push_str(&format!("{k} = {v}\n"));
@@ -410,18 +452,20 @@ fn apply_meta_key(meta: &mut TdmMeta, key: &str, value: &str) -> Result<(), Stri
         "TRANSMIT_BAND" => meta.transmit_band = Some(value.to_string()),
         "RECEIVE_BAND" => meta.receive_band = Some(value.to_string()),
         "TURNAROUND_NUMERATOR" => {
-            meta.turnaround_numerator = Some(
-                value
-                    .parse()
-                    .map_err(|_| format!("TDM: bad TURNAROUND_NUMERATOR {value:?}"))?,
-            )
+            meta.turnaround_numerator = Some(value.parse().map_err(|_| {
+                crate::terr!(
+                    "e-ccsds-tdm-tdm-bad-turnaround-numerator",
+                    value = format!("{:?}", value)
+                )
+            })?)
         }
         "TURNAROUND_DENOMINATOR" => {
-            meta.turnaround_denominator = Some(
-                value
-                    .parse()
-                    .map_err(|_| format!("TDM: bad TURNAROUND_DENOMINATOR {value:?}"))?,
-            )
+            meta.turnaround_denominator = Some(value.parse().map_err(|_| {
+                crate::terr!(
+                    "e-ccsds-tdm-tdm-bad-turnaround-denominator",
+                    value = format!("{:?}", value)
+                )
+            })?)
         }
         "RANGE_UNITS" => meta.range_units = Some(value.to_string()),
         _ if key.starts_with("PARTICIPANT_") => {

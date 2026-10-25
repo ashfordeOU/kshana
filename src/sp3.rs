@@ -196,9 +196,15 @@ impl Sp3File {
         let mut out = String::new();
         let s = &self.header.start;
         // Header line 1: version, position mode, start epoch, epoch count.
-        out.push_str(&format!(
-            "#cP{:4} {:2} {:2} {:2} {:2} {:11.8}  {:6} ORBIT IGS14 HLM KSHANA\n",
-            s.year, s.month, s.day, s.hour, s.minute, s.second, self.header.num_epochs,
+        out.push_str(&crate::t!(
+            "sp3-cp-orbit-igs14-hlm-kshana",
+            year = format!("{:4}", s.year),
+            month = format!("{:2}", s.month),
+            day = format!("{:2}", s.day),
+            hour = format!("{:2}", s.hour),
+            minute = format!("{:2}", s.minute),
+            second = crate::i18n::localise_decimal(format!("{:11.8}", s.second)),
+            num_epochs = format!("{:6}", self.header.num_epochs)
         ));
         // `+` satellite list: count then three-character ids packed from column 9.
         let mut plus = format!("+   {:2}   ", self.header.sat_ids.len());
@@ -462,9 +468,15 @@ impl Sp3Interpolator {
 /// `year month day hour minute second`.
 fn parse_epoch(tokens: &[&str]) -> Result<EpochUtc, String> {
     if tokens.len() < 6 {
-        return Err(format!("epoch needs 6 time fields, got {}", tokens.len()));
+        return Err(crate::terr!(
+            "e-sp3-epoch-needs-time-fields-got",
+            tokens = tokens.len()
+        ));
     }
-    let p_i = |s: &str, what: &str| s.parse::<i64>().map_err(|_| format!("bad {what}: {s:?}"));
+    let p_i = |s: &str, what: &str| {
+        s.parse::<i64>()
+            .map_err(|_| crate::terr!("e-rinex-obs-bad", what = what, s = format!("{:?}", s)))
+    };
     Ok(EpochUtc {
         year: p_i(tokens[0], "year")? as i32,
         month: p_i(tokens[1], "month")? as u32,
@@ -473,7 +485,7 @@ fn parse_epoch(tokens: &[&str]) -> Result<EpochUtc, String> {
         minute: p_i(tokens[4], "minute")? as u32,
         second: tokens[5]
             .parse::<f64>()
-            .map_err(|_| format!("bad second: {:?}", tokens[5]))?,
+            .map_err(|_| crate::terr!("e-sp3-bad-second", tokens = format!("{:?}", tokens[5])))?,
     })
 }
 
@@ -506,10 +518,10 @@ fn parse_record_values(body: &str) -> Result<[f64; 4], String> {
             .get(start..end)
             .map(str::trim)
             .filter(|s| !s.is_empty())
-            .ok_or_else(|| format!("record needs 4 values, missing column {}", k + 1))?;
+            .ok_or_else(|| crate::terr!("e-sp3-record-needs-values-missing-column", v1 = k + 1))?;
         *slot = field
             .parse::<f64>()
-            .map_err(|_| format!("bad number: {field:?}"))?;
+            .map_err(|_| crate::terr!("e-sp3-bad-number", field = format!("{:?}", field)))?;
     }
     Ok(nums)
 }
@@ -522,15 +534,25 @@ pub fn parse_sp3(text: &str) -> Result<Sp3File, String> {
     let mut lines = text.lines();
 
     // --- Line 1: version, P/V mode, start epoch, number of epochs. ---
-    let first = lines.next().ok_or("empty SP3 input")?;
+    let first = lines
+        .next()
+        .ok_or_else(|| crate::terr!("e-sp3-empty-sp3-input"))?;
     if !first.starts_with('#') {
-        return Err(format!("first line is not an SP3 header: {first:?}"));
+        return Err(crate::terr!(
+            "e-sp3-first-line-is-not-an",
+            first = format!("{:?}", first)
+        ));
     }
     let version = first
         .chars()
         .nth(1)
         .filter(|c| *c == 'c' || *c == 'd')
-        .ok_or_else(|| format!("unsupported SP3 version in {first:?}"))?;
+        .ok_or_else(|| {
+            crate::terr!(
+                "e-sp3-unsupported-sp3-version-in",
+                first = format!("{:?}", first)
+            )
+        })?;
     let has_velocity = first.chars().nth(2) == Some('V');
     // After the `#cP` prefix the rest is whitespace-separated: the 6 epoch
     // fields then the epoch count.
@@ -538,7 +560,7 @@ pub fn parse_sp3(text: &str) -> Result<Sp3File, String> {
     let start = parse_epoch(&rest)?;
     let num_epochs: usize = rest
         .get(6)
-        .ok_or("missing epoch count on header line 1")?
+        .ok_or_else(|| crate::terr!("e-sp3-missing-epoch-count-on-header"))?
         .parse()
         .map_err(|_| "bad epoch count")?;
 
@@ -591,11 +613,16 @@ pub fn parse_sp3(text: &str) -> Result<Sp3File, String> {
                 .get(1..4)
                 .map(|s| s.trim().to_string())
                 .filter(|s| !s.is_empty())
-                .ok_or_else(|| format!("record has no satellite id: {line:?}"))?;
+                .ok_or_else(|| {
+                    crate::terr!(
+                        "e-sp3-record-has-no-satellite-id",
+                        line = format!("{:?}", line)
+                    )
+                })?;
             let vals = parse_record_values(line.get(4..).unwrap_or(""))?;
             let epoch = current
                 .as_mut()
-                .ok_or("position record before any epoch header")?;
+                .ok_or_else(|| crate::terr!("e-sp3-position-record-before-any-epoch"))?;
             if is_pos {
                 epoch.sats.push(Sp3SatState {
                     sat,
@@ -614,7 +641,7 @@ pub fn parse_sp3(text: &str) -> Result<Sp3File, String> {
     }
 
     if epochs.is_empty() {
-        return Err("SP3 file contained no epoch records".into());
+        return Err(crate::terr!("e-sp3-sp3-file-contained-no-epoch"));
     }
 
     Ok(Sp3File {
@@ -706,9 +733,13 @@ fn exp_field(line: &str, range: std::ops::Range<usize>) -> Result<Option<u32>, S
     if f.is_empty() {
         return Ok(None);
     }
-    f.parse::<u32>()
-        .map(Some)
-        .map_err(|_| format!("bad accuracy exponent {f:?} in {line:?}"))
+    f.parse::<u32>().map(Some).map_err(|_| {
+        crate::terr!(
+            "e-sp3-bad-accuracy-exponent-in",
+            f = format!("{:?}", f),
+            line = format!("{:?}", line)
+        )
+    })
 }
 
 /// Read the accuracy codes of an SP3-c/d file (see [`Sp3Accuracy`]). The header `+` and `++`
@@ -737,10 +768,9 @@ pub fn parse_sp3_accuracy(text: &str) -> Result<Sp3Accuracy, String> {
                 exps.push(if t.is_empty() {
                     None
                 } else {
-                    Some(
-                        t.parse::<u32>()
-                            .map_err(|_| format!("bad header accuracy {t:?}"))?,
-                    )
+                    Some(t.parse::<u32>().map_err(|_| {
+                        crate::terr!("e-sp3-bad-header-accuracy", t = format!("{:?}", t))
+                    })?)
                 });
             }
         } else if line.starts_with('+') {
@@ -750,9 +780,9 @@ pub fn parse_sp3_accuracy(text: &str) -> Result<Sp3Accuracy, String> {
             let tok: Vec<&str> = line[2..].split_whitespace().collect();
             let num = |i: usize| -> Result<f64, String> {
                 tok.get(i)
-                    .ok_or_else(|| format!("short %f line {line:?}"))?
+                    .ok_or_else(|| crate::terr!("e-sp3-short-line", line = format!("{:?}", line)))?
                     .parse::<f64>()
-                    .map_err(|_| format!("bad %f base in {line:?}"))
+                    .map_err(|_| crate::terr!("e-sp3-bad-base-in", line = format!("{:?}", line)))
             };
             acc.pos_vel_base = num(0)?;
             acc.clock_base = num(1)?;
@@ -771,7 +801,7 @@ pub fn parse_sp3_accuracy(text: &str) -> Result<Sp3Accuracy, String> {
             };
             acc.records
                 .last_mut()
-                .ok_or("position record before any epoch header")?
+                .ok_or_else(|| crate::terr!("e-sp3-position-record-before-any-epoch"))?
                 .push(rec);
         }
     }

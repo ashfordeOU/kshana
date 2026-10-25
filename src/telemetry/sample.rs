@@ -166,35 +166,40 @@ pub struct TrustSample {
 /// no verdict says nothing. Out-of-range or non-finite numbers are errors rather than
 /// being clamped, so a format change is noticed instead of hidden.
 pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
-    let v: Value = serde_json::from_str(line.trim()).map_err(|e| format!("not JSON: {e}"))?;
-    let obj = v.as_object().ok_or("not a JSON object")?;
+    let v: Value = serde_json::from_str(line.trim())
+        .map_err(|e| crate::terr!("e-telemetry-sample-not-json", e = e))?;
+    let obj = v
+        .as_object()
+        .ok_or_else(|| crate::terr!("e-telemetry-sample-not-json-object"))?;
     let num = |keys: &[&str]| -> Result<Option<f64>, String> {
         for k in keys {
             if let Some(x) = obj.get(*k) {
                 if x.is_null() {
                     return Ok(None);
                 }
-                let f = x.as_f64().ok_or_else(|| format!("`{k}` is not a number"))?;
+                let f = x
+                    .as_f64()
+                    .ok_or_else(|| crate::terr!("e-telemetry-sample-is-not-number", k = k))?;
                 if !f.is_finite() {
-                    return Err(format!("`{k}` is not finite"));
+                    return Err(crate::terr!("e-telemetry-sample-is-not-finite", k = k));
                 }
                 return Ok(Some(f));
             }
         }
         Ok(None)
     };
-    let t_s = num(&["t_s", "t"])?.ok_or("missing `t_s`")?;
+    let t_s = num(&["t_s", "t"])?.ok_or_else(|| crate::terr!("e-telemetry-sample-missing"))?;
     let score = num(&["score"])?;
     if let Some(s) = score {
         if !(0.0..=100.0).contains(&s) {
-            return Err(format!("`score` {s} outside 0..=100"));
+            return Err(crate::terr!("e-telemetry-sample-score-outside-100", s = s));
         }
     }
     let band = Band::parse(
         obj.get("state")
             .or_else(|| obj.get("band"))
             .and_then(Value::as_str)
-            .ok_or("missing `state`")?,
+            .ok_or_else(|| crate::terr!("e-telemetry-sample-missing-state"))?,
     );
     let mut reasons: Vec<String> = Vec::new();
     let mut push = |name: &str| {
@@ -222,7 +227,7 @@ pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
         }
         for item in r
             .as_array()
-            .ok_or_else(|| format!("`{key}` is not an array"))?
+            .ok_or_else(|| crate::terr!("e-telemetry-sample-is-not-an-array", key = key))?
         {
             let name = match item {
                 Value::String(s) => Some(s.as_str()),
@@ -231,7 +236,11 @@ pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
                     .find_map(|k| o.get(*k).and_then(Value::as_str)),
                 _ => None,
             };
-            push(name.ok_or_else(|| format!("a `{key}` entry has no name"))?);
+            push(
+                name.ok_or_else(|| {
+                    crate::terr!("e-telemetry-sample-entry-has-no-name", key = key)
+                })?,
+            );
         }
     }
     let position = match obj.get("position") {
@@ -241,7 +250,9 @@ pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
                 o.get(k)
                     .and_then(Value::as_f64)
                     .filter(|x| x.is_finite())
-                    .ok_or_else(|| format!("`position.{k}` is missing or not a finite number"))
+                    .ok_or_else(|| {
+                        crate::terr!("e-telemetry-sample-position-is-missing-or-not", k = k)
+                    })
             };
             Some(Position {
                 lat_deg: f("lat_deg")?,
@@ -249,7 +260,7 @@ pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
                 height_m: f("height_m")?,
             })
         }
-        Some(_) => return Err("`position` is not an object or null".into()),
+        Some(_) => return Err(crate::terr!("e-telemetry-sample-position-is-not-an-object")),
     };
     let geometry = match obj.get("geometry") {
         None | Some(Value::Null) => None,
@@ -257,7 +268,7 @@ pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
             let status = o
                 .get("status")
                 .and_then(Value::as_str)
-                .ok_or("`geometry.status` is missing or not a string")?;
+                .ok_or_else(|| crate::terr!("e-telemetry-sample-geometry-status-is-missing-or"))?;
             let f = |k: &str| -> Result<Option<f64>, String> {
                 match o.get(k) {
                     None | Some(Value::Null) => Ok(None),
@@ -265,7 +276,9 @@ pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
                         .as_f64()
                         .filter(|v| v.is_finite() && *v >= 0.0)
                         .map(Some)
-                        .ok_or_else(|| format!("`geometry.{k}` is not a finite number >= 0")),
+                        .ok_or_else(|| {
+                            crate::terr!("e-telemetry-sample-geometry-is-not-finite-number", k = k)
+                        }),
                 }
             };
             Some(GeometrySample {
@@ -277,17 +290,25 @@ pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
                 label: match o.get("label") {
                     None | Some(Value::Null) => None,
                     Some(Value::String(l)) => Some(known(&GEOMETRY_LABELS, l).unwrap_or("unknown")),
-                    Some(_) => return Err("`geometry.label` is not a string".into()),
+                    Some(_) => {
+                        return Err(crate::terr!(
+                            "e-telemetry-sample-geometry-label-is-not-string"
+                        ))
+                    }
                 },
                 classes: class_set(reason_class.values().copied()),
                 signal_loss: match o.get("signal_loss") {
                     None | Some(Value::Null) => None,
                     Some(Value::Bool(b)) => Some(*b),
-                    Some(_) => return Err("`geometry.signal_loss` is not a boolean".into()),
+                    Some(_) => {
+                        return Err(crate::terr!(
+                            "e-telemetry-sample-geometry-signal-loss-is-not"
+                        ))
+                    }
                 },
             })
         }
-        Some(_) => return Err("`geometry` is not an object or null".into()),
+        Some(_) => return Err(crate::terr!("e-telemetry-sample-geometry-is-not-an-object")),
     };
     let gate = obj.get("gate").and_then(Value::as_str).map(str::to_string);
     let time_label = ["time", "time_label"]
@@ -376,16 +397,19 @@ pub fn from_epoch_trust(e: &EpochTrust) -> TrustSample {
 
 /// The samples of a `receiver-trust` result document (`<stem>.result.json`).
 pub fn from_result_json(json: &str) -> Result<Vec<TrustSample>, String> {
-    let v: Value = serde_json::from_str(json).map_err(|e| format!("result is not JSON: {e}"))?;
-    let epochs = v.get("epochs").ok_or("result has no `epochs`")?;
+    let v: Value = serde_json::from_str(json)
+        .map_err(|e| crate::terr!("e-animation-result-is-not-json", e = e))?;
+    let epochs = v
+        .get("epochs")
+        .ok_or_else(|| crate::terr!("e-telemetry-sample-result-has-no-epochs"))?;
     // A result written before 0.36 has no `geometry` on its epochs: its samples carry none,
     // rather than the `unknown` the record type defaults to, so it renders as it always did.
     let has_geometry: Vec<bool> = epochs
         .as_array()
         .map(|a| a.iter().map(|e| e.get("geometry").is_some()).collect())
         .unwrap_or_default();
-    let epochs: Vec<EpochTrust> =
-        serde_json::from_value(epochs.clone()).map_err(|e| format!("bad `epochs`: {e}"))?;
+    let epochs: Vec<EpochTrust> = serde_json::from_value(epochs.clone())
+        .map_err(|e| crate::terr!("e-telemetry-sample-bad-epochs", e = e))?;
     Ok(epochs
         .iter()
         .enumerate()

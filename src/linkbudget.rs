@@ -501,16 +501,21 @@ impl LinkBudgetScenario {
             "s" => Band::S,
             "x" => Band::X,
             "ka" => Band::Ka,
-            other => return Err(format!("unknown band '{other}' (expected s|x|ka)")),
+            other => {
+                return Err(crate::terr!(
+                    "e-linkbudget-unknown-band-expected-ka",
+                    other = other
+                ))
+            }
         };
         if !self.range_km.is_finite() || self.range_km <= 0.0 {
-            return Err("range_km must be finite and positive".to_string());
+            return Err(crate::terr!("e-linkbudget-range-km-must-be-finite"));
         }
         if !self.data_rate_bps.is_finite() || self.data_rate_bps <= 0.0 {
-            return Err("data_rate_bps must be finite and positive".to_string());
+            return Err(crate::terr!("e-linkbudget-data-rate-bps-must-be"));
         }
         if !self.other_losses_db.is_finite() || self.other_losses_db < 0.0 {
-            return Err("other_losses_db must be finite and >= 0".to_string());
+            return Err(crate::terr!("e-linkbudget-other-losses-db-must-be"));
         }
         let p = LinkParams {
             band,
@@ -522,7 +527,7 @@ impl LinkBudgetScenario {
         };
         if let Some(t) = self.tsys_k {
             if !t.is_finite() || t <= 0.0 {
-                return Err("tsys_k must be finite and positive when supplied".to_string());
+                return Err(crate::terr!("e-linkbudget-tsys-must-be-finite-and"));
             }
         }
         let r = link_budget(&p, self.required_eb_n0_db);
@@ -593,16 +598,15 @@ impl LinkBudgetScenario {
                     serde_json::json!({"unit": "dB", "provenance": "computed"});
             }
         }
-        let summary = format!(
-            "link-budget: {}-band, {:.0} km, {:.0} bit/s -> FSPL {:.1} dB, Eb/N0 {:.1} dB, \
-             margin {:.1} dB ({})",
-            self.band.to_ascii_lowercase(),
-            self.range_km,
-            self.data_rate_bps,
-            r.fsl_db,
-            r.eb_n0_db,
-            r.margin_db,
-            if r.closes { "closes" } else { "does NOT close" }
+        let summary = crate::t!(
+            "linkbudget-link-budget-band-km-bit",
+            value = self.band.to_ascii_lowercase(),
+            range_km = crate::i18n::localise_decimal(format!("{:.0}", self.range_km)),
+            data_rate_bps = crate::i18n::localise_decimal(format!("{:.0}", self.data_rate_bps)),
+            fsl_db = crate::i18n::localise_decimal(format!("{:.1}", r.fsl_db)),
+            eb_n0_db = crate::i18n::localise_decimal(format!("{:.1}", r.eb_n0_db)),
+            margin_db = crate::i18n::localise_decimal(format!("{:.1}", r.margin_db)),
+            v7 = if r.closes { "closes" } else { "does NOT close" }
         );
         let json = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
         Ok((json, summary))

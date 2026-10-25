@@ -202,20 +202,20 @@ pub(crate) fn acquire_inits(
     let mut inits = Vec::new();
     for (code, need) in codes.iter().zip(&needed) {
         if samples.len() < *need {
-            return Err(Fail::Run(format!(
-                "{}: recording holds {} samples, {need} needed to acquire",
-                code.name(),
-                samples.len()
+            return Err(Fail::Run(crate::t!(
+                "iq-cli-track-recording-holds-samples-needed-to",
+                code = code.name(),
+                samples = samples.len(),
+                need = need
             )));
         }
         let found = acquire_peak(&samples, spec, code, &cfg).map_err(Fail::Run)?;
         if !found.acquired {
-            return Err(Fail::Run(format!(
-                "{}: not acquired (statistic {:.2} < threshold {:.2}); raise --doppler-max, \
-                 --acq-coherent or --acq-noncoherent, or check the recording",
-                code.name(),
-                found.statistic,
-                found.threshold
+            return Err(Fail::Run(crate::t!(
+                "iq-cli-track-not-acquired-statistic-threshold-raise",
+                code = code.name(),
+                statistic = crate::i18n::localise_decimal(format!("{:.2}", found.statistic)),
+                threshold = crate::i18n::localise_decimal(format!("{:.2}", found.threshold))
             )));
         }
         let arc: Arc<dyn SpreadingCode + Send + Sync> = Arc::new(code.clone());
@@ -248,10 +248,10 @@ pub(crate) fn run_extra_taps<'a>(
         match &found {
             None => found = Some((d.name().to_string(), taps)),
             Some((first, t)) if *t != taps => {
-                return Err(Fail::Usage(format!(
-                    "designs {first:?} and {:?} differ in integration.extra_taps_chips; the \
-                     designs of one run must agree so every output record has the same columns",
-                    d.name()
+                return Err(Fail::Usage(crate::t!(
+                    "iq-cli-track-designs-and-differ-in-integration",
+                    first = format!("{:?}", first),
+                    d = format!("{:?}", d.name())
                 )))
             }
             Some(_) => {}
@@ -289,10 +289,7 @@ pub(crate) fn epochs_writer(
     let fmt = match a.get("--epochs-format") {
         Some(f) => EpochFormat::parse(f).map_err(Fail::Usage)?,
         None => EpochFormat::from_path(p).ok_or_else(|| {
-            Fail::Usage(format!(
-                "--epochs {p}: name the format with --epochs-format csv|jsonl|bin, or end the \
-                 path in .csv, .jsonl or .bin"
-            ))
+            Fail::Usage(crate::t!("iq-cli-track-epochs-name-the-format-with", p = p))
         })?,
     };
     Ok(Some(fmt.writer(create(p)?, header)?))
@@ -470,15 +467,7 @@ pub(crate) fn sampling_warnings(spec: &SampleSpec, codes: &[SignalCode]) -> Vec<
                 "fs_hz": spec.fs_hz,
                 "chip_rate_hz": rate,
                 "samples_per_chip": r,
-                "message": format!(
-                    "{} Hz is {r} samples per chip of {}: commensurate sampling turns the code \
-                     discriminator into a staircase (at 2 samples/chip the DLL dithers, about \
-                     0.09 chip RMS code error at 45 dB-Hz); code-loop jitter and bias from this \
-                     recording are not representative. Use a rate that is not a multiple of half \
-                     the chip rate to judge code loops.",
-                    spec.fs_hz,
-                    c.name()
-                ),
+                "message": crate::t!("iq-cli-track-hz-is-samples-per-chip", fs_hz = spec.fs_hz, r = r, c = c.name()),
             }));
         }
     }

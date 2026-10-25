@@ -109,7 +109,11 @@ pub fn score(arch: &PntArchitecture, sim: &SimSummary) -> ResilienceProfile {
         let v = if arch.has(t) { mq } else { 0.0 };
         DimensionScore::modelled(
             v,
-            format!("{t:?} = declared({}) x mean source quality", arch.has(t)),
+            crate::t!(
+                "resilience-score-declared-mean-source-quality",
+                t = format!("{:?}", t),
+                arch = arch.has(t)
+            ),
         )
     };
 
@@ -243,8 +247,10 @@ fn assign_level_from_rpcf(
         4
     };
     let level = if bounded { raw } else { raw.min(2) };
-    let basis = format!(
-        "weakest RPCF sub-score = {min_sub:.3}; bounded-degradation = {bounded} (caps at Level 2 if unbounded)"
+    let basis = crate::t!(
+        "resilience-score-weakest-rpcf-sub-score-bounded",
+        min_sub = crate::i18n::localise_decimal(format!("{:.3}", min_sub)),
+        bounded = bounded
     );
     (level, basis)
 }

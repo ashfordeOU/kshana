@@ -127,8 +127,12 @@ impl PlatformCfg {
     pub fn validate(&self) -> Result<(), String> {
         let bounded = |name: &str, v: Option<f64>, lo: f64, hi: f64| -> Result<(), String> {
             match v {
-                Some(x) if !(x.is_finite() && x > lo && x <= hi) => Err(format!(
-                    "platform: {name} must be in ({lo}, {hi}] (got {x})"
+                Some(x) if !(x.is_finite() && x > lo && x <= hi) => Err(crate::terr!(
+                    "e-receiver-trust-platform-platform-must-be-in-got",
+                    name = name,
+                    lo = lo,
+                    hi = hi,
+                    x = x
                 )),
                 _ => Ok(()),
             }
@@ -142,8 +146,9 @@ impl PlatformCfg {
                 ("heading_sensor", self.heading_sensor),
             ];
             if let Some((name, _)) = stray.iter().find(|(_, set)| *set) {
-                return Err(format!(
-                    "platform: {name} applies only to kind = \"vessel\" (kind is \"static\")"
+                return Err(crate::terr!(
+                    "e-receiver-trust-platform-platform-applies-only-to-kind",
+                    name = name
                 ));
             }
             return Ok(());

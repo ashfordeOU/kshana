@@ -130,7 +130,11 @@ impl WeakSignalReceiver {
             if v.is_finite() && v > 0.0 {
                 Ok(())
             } else {
-                Err(format!("receiver.{n} must be a positive number, got {v}"))
+                Err(crate::terr!(
+                    "e-ssv-weak-receiver-must-be-positive-number",
+                    n = n,
+                    v = v
+                ))
             }
         };
         pos("t_coh_s", self.t_coh_s)?;

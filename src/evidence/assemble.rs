@@ -62,11 +62,11 @@ fn parse_time(arg: &str, start_label: Option<&str>) -> Result<f64, String> {
         return if x.is_finite() {
             Ok(x)
         } else {
-            Err(format!("`{arg}` is not finite"))
+            Err(crate::terr!("e-evidence-assemble-is-not-finite", arg = arg))
         };
     }
     let t = parse_rfc3339_utc(arg)
-        .ok_or_else(|| format!("`{arg}` is neither seconds nor an ISO-8601 UTC time"))?;
+        .ok_or_else(|| crate::terr!("e-evidence-assemble-is-neither-seconds-nor-an", arg = arg))?;
     let start = start_label.and_then(parse_rfc3339_utc).ok_or(
         "the log does not state a parseable start time; give seconds since the first epoch",
     )?;
@@ -159,9 +159,11 @@ pub fn build_receiver_trust_pack_full(
         .map(|e| serde_json::to_value(e).map_err(|e| e.to_string()))
         .collect::<Result<_, _>>()?;
     if epochs.is_empty() {
-        return Err(format!(
-            "no epoch of the log falls between {t0} s and {t1} s (the log spans 0 to {} s)",
-            result.log.duration_s
+        return Err(crate::terr!(
+            "e-evidence-assemble-no-epoch-of-the-log",
+            t0 = t0,
+            t1 = t1,
+            duration_s = result.log.duration_s
         ));
     }
     let mut scn_v = serde_json::to_value(scn).map_err(|e| e.to_string())?;
@@ -187,9 +189,14 @@ pub fn build_receiver_trust_pack_full(
         "geometry_model": result.geometry_model,
     });
     for (k, v) in extra_config {
-        let o = config.as_object_mut().ok_or("config is not an object")?;
+        let o = config
+            .as_object_mut()
+            .ok_or_else(|| crate::terr!("e-evidence-assemble-config-is-not-an-object"))?;
         if o.insert((*k).to_string(), v.clone()).is_some() {
-            return Err(format!("config.json already has an entry `{k}`"));
+            return Err(crate::terr!(
+                "e-evidence-assemble-config-json-already-has-an",
+                k = k
+            ));
         }
     }
     // The window's bytes, where every epoch in it reports its source span; otherwise the

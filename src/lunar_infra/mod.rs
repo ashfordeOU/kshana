@@ -122,11 +122,24 @@ impl LunarInfrastructureScenario {
                     &self.monte_carlo.clone().unwrap_or_default(),
                     seed,
                 )?;
-                let s = format!(
-                    "lunar-infrastructure od-consistency: GNSS {:.1} m vs ground {:.1} m position sigma, mean q {:.2} (chi-square 6 expects 6)",
-                    v["gnss_estimate"]["position_sigma_m"].as_f64().unwrap_or(f64::NAN),
-                    v["ground_estimate"]["position_sigma_m"].as_f64().unwrap_or(f64::NAN),
-                    v["consistency"]["mean_q"].as_f64().unwrap_or(f64::NAN),
+                let s = crate::t!(
+                    "lunar-infra-lunar-infrastructure-od-consistency-gnss",
+                    v = crate::i18n::localise_decimal(format!(
+                        "{:.1}",
+                        v["gnss_estimate"]["position_sigma_m"]
+                            .as_f64()
+                            .unwrap_or(f64::NAN)
+                    )),
+                    v2 = crate::i18n::localise_decimal(format!(
+                        "{:.1}",
+                        v["ground_estimate"]["position_sigma_m"]
+                            .as_f64()
+                            .unwrap_or(f64::NAN)
+                    )),
+                    v3 = crate::i18n::localise_decimal(format!(
+                        "{:.2}",
+                        v["consistency"]["mean_q"].as_f64().unwrap_or(f64::NAN)
+                    ))
                 );
                 (v, s)
             }
@@ -146,11 +159,21 @@ impl LunarInfrastructureScenario {
                     .and_then(|a| a.last())
                     .cloned()
                     .unwrap_or(Value::Null);
-                let s = format!(
-                    "lunar-infrastructure carrier-phase: {} ambiguities, ILS success {:.3} (bootstrap {:.3}) on the longest arc",
-                    last["double_difference_ambiguities"],
-                    last["monte_carlo_success_rate"].as_f64().unwrap_or(f64::NAN),
-                    last["bootstrapped_success_rate_decorrelated"].as_f64().unwrap_or(f64::NAN),
+                let s = crate::t!(
+                    "lunar-infra-lunar-infrastructure-carrier-phase-ambiguities",
+                    last = last["double_difference_ambiguities"],
+                    last2 = crate::i18n::localise_decimal(format!(
+                        "{:.3}",
+                        last["monte_carlo_success_rate"]
+                            .as_f64()
+                            .unwrap_or(f64::NAN)
+                    )),
+                    last3 = crate::i18n::localise_decimal(format!(
+                        "{:.3}",
+                        last["bootstrapped_success_rate_decorrelated"]
+                            .as_f64()
+                            .unwrap_or(f64::NAN)
+                    ))
                 );
                 (v, s)
             }
@@ -162,10 +185,16 @@ impl LunarInfrastructureScenario {
                     RANDOM_STATION_SETS,
                     seed,
                 )?;
-                let s = format!(
-                    "lunar-infrastructure frame-coestimation: smallest information eigenvalue x{:.2} with orbiter links, CRLB trace x{:.3}",
-                    v["lambda_min_ratio"].as_f64().unwrap_or(f64::NAN),
-                    v["crlb_trace_ratio"].as_f64().unwrap_or(f64::NAN),
+                let s = crate::t!(
+                    "lunar-infra-lunar-infrastructure-frame-coestimation-smallest",
+                    v = crate::i18n::localise_decimal(format!(
+                        "{:.2}",
+                        v["lambda_min_ratio"].as_f64().unwrap_or(f64::NAN)
+                    )),
+                    v2 = crate::i18n::localise_decimal(format!(
+                        "{:.3}",
+                        v["crlb_trace_ratio"].as_f64().unwrap_or(f64::NAN)
+                    ))
                 );
                 (v, s)
             }
@@ -176,11 +205,16 @@ impl LunarInfrastructureScenario {
                     .and_then(|a| a.last())
                     .cloned()
                     .unwrap_or(Value::Null);
-                let s = format!(
-                    "lunar-infrastructure space-tie: {} sweep points on {} arcs; laser-vs-GNSS x translation sigma {:.4} m at the registered local tie",
-                    last["sweep"].as_array().map_or(0, |x| x.len()),
-                    v["arcs"].as_array().map_or(0, |x| x.len()),
-                    last["sweep"][0]["offsets"]["slr_minus_gnss"]["translation_sigma_m"][0].as_f64().unwrap_or(f64::NAN),
+                let s = crate::t!(
+                    "lunar-infra-lunar-infrastructure-space-tie-sweep",
+                    last = last["sweep"].as_array().map_or(0, |x| x.len()),
+                    v = v["arcs"].as_array().map_or(0, |x| x.len()),
+                    last2 = crate::i18n::localise_decimal(format!(
+                        "{:.4}",
+                        last["sweep"][0]["offsets"]["slr_minus_gnss"]["translation_sigma_m"][0]
+                            .as_f64()
+                            .unwrap_or(f64::NAN)
+                    ))
                 );
                 (v, s)
             }
@@ -193,18 +227,28 @@ impl LunarInfrastructureScenario {
                     &self.gravimeter.clone().unwrap_or_default(),
                     &self.clock.clone().unwrap_or_default(),
                 )?;
-                let s = format!(
-                    "lunar-infrastructure geodesy-sensitivity: CRLB sigma h2 {:.2e}, k2 {:.2e}, l2 {:.2e}",
-                    v["crlb_sigma"][0].as_f64().unwrap_or(f64::NAN),
-                    v["crlb_sigma"][1].as_f64().unwrap_or(f64::NAN),
-                    v["crlb_sigma"][2].as_f64().unwrap_or(f64::NAN),
+                let s = crate::t!(
+                    "lunar-infra-lunar-infrastructure-geodesy-sensitivity-crlb",
+                    v = crate::i18n::localise_decimal(format!(
+                        "{:.2e}",
+                        v["crlb_sigma"][0].as_f64().unwrap_or(f64::NAN)
+                    )),
+                    v2 = crate::i18n::localise_decimal(format!(
+                        "{:.2e}",
+                        v["crlb_sigma"][1].as_f64().unwrap_or(f64::NAN)
+                    )),
+                    v3 = crate::i18n::localise_decimal(format!(
+                        "{:.2e}",
+                        v["crlb_sigma"][2].as_f64().unwrap_or(f64::NAN)
+                    ))
                 );
                 (v, s)
             }
             other => {
-                return Err(format!(
-                    "unknown study `{other}`: expected one of {}",
-                    STUDIES.join(", ")
+                return Err(crate::terr!(
+                    "e-lunar-infra-unknown-study-expected-one-of",
+                    other = other,
+                    studies = STUDIES.join(", ")
                 ))
             }
         };

@@ -55,9 +55,9 @@ impl DataType {
             "cf32_le" => Ok(DataType::Cf32Le),
             "ci16_le" => Ok(DataType::Ci16Le),
             "ci8" => Ok(DataType::Ci8),
-            other => Err(format!(
-                "unsupported SigMF core:datatype {other:?}: this reader handles the complex \
-                 types cf32_le, ci16_le and ci8"
+            other => Err(crate::terr!(
+                "e-sigmf-unsupported-sigmf-core-datatype-this",
+                other = format!("{:?}", other)
             )),
         }
     }
@@ -249,12 +249,13 @@ impl Meta {
 
 /// Parse a `.sigmf-meta` JSON document.
 pub fn parse_meta(json: &str) -> Result<Meta, String> {
-    let meta: Meta =
-        serde_json::from_str(json).map_err(|e| format!("invalid SigMF metadata: {e}"))?;
+    let meta: Meta = serde_json::from_str(json)
+        .map_err(|e| crate::terr!("e-iq-io-sigmf-stream-invalid-sigmf-metadata", e = e))?;
     if let Some(ch) = meta.global.num_channels {
         if ch != 1 {
-            return Err(format!(
-                "SigMF core:num_channels = {ch}: only single-channel recordings are read"
+            return Err(crate::terr!(
+                "e-sigmf-sigmf-core-num-channels-only",
+                ch = ch
             ));
         }
     }
@@ -264,7 +265,8 @@ pub fn parse_meta(json: &str) -> Result<Meta, String> {
 
 /// Serialise a metadata document as pretty-printed `.sigmf-meta` JSON.
 pub fn meta_to_json(meta: &Meta) -> Result<String, String> {
-    serde_json::to_string_pretty(meta).map_err(|e| format!("cannot serialise SigMF metadata: {e}"))
+    serde_json::to_string_pretty(meta)
+        .map_err(|e| crate::terr!("e-sigmf-cannot-serialise-sigmf-metadata", e = e))
 }
 
 /// Serialise `meta` with extension fields of one SigMF extension namespace (`ns`), the way
@@ -284,25 +286,35 @@ pub fn meta_to_json_with_extensions(
 ) -> Result<String, String> {
     use serde_json::{json, Value};
     if ns.is_empty() || ns == "core" || !ns.chars().all(|c| c.is_ascii_alphanumeric() || c == '_') {
-        return Err(format!("invalid SigMF extension namespace {ns:?}"));
+        return Err(crate::terr!(
+            "e-sigmf-invalid-sigmf-extension-namespace",
+            ns = format!("{:?}", ns)
+        ));
     }
     if annotations.len() > meta.annotations.len() {
-        return Err(format!(
-            "{} annotation extension maps for {} annotations",
-            annotations.len(),
-            meta.annotations.len()
+        return Err(crate::terr!(
+            "e-sigmf-annotation-extension-maps-for-annotations",
+            annotations = annotations.len(),
+            annotations2 = meta.annotations.len()
         ));
     }
     let prefix = format!("{ns}:");
-    let mut v =
-        serde_json::to_value(meta).map_err(|e| format!("cannot serialise SigMF metadata: {e}"))?;
+    let mut v = serde_json::to_value(meta)
+        .map_err(|e| crate::terr!("e-sigmf-cannot-serialise-sigmf-metadata", e = e))?;
     let merge = |obj: &mut serde_json::Map<String, Value>, ext: &serde_json::Map<String, Value>| {
         for (k, val) in ext {
             if !k.starts_with(&prefix) {
-                return Err(format!("extension key {k:?} is not in namespace {ns:?}"));
+                return Err(crate::terr!(
+                    "e-sigmf-extension-key-is-not-in",
+                    k = format!("{:?}", k),
+                    ns = format!("{:?}", ns)
+                ));
             }
             if obj.contains_key(k) {
-                return Err(format!("extension key {k:?} is already present"));
+                return Err(crate::terr!(
+                    "e-sigmf-extension-key-is-already-present",
+                    k = format!("{:?}", k)
+                ));
             }
             obj.insert(k.clone(), val.clone());
         }
@@ -310,7 +322,7 @@ pub fn meta_to_json_with_extensions(
     };
     let g = v["global"]
         .as_object_mut()
-        .ok_or("global is not an object")?;
+        .ok_or_else(|| crate::terr!("e-sigmf-global-is-not-an-object"))?;
     let decl = json!({"name": ns, "version": version, "optional": true});
     match g.get_mut("core:extensions") {
         Some(Value::Array(a)) => a.push(decl),
@@ -321,11 +333,16 @@ pub fn meta_to_json_with_extensions(
     merge(g, global)?;
     let anns = v["annotations"]
         .as_array_mut()
-        .ok_or("annotations is not an array")?;
+        .ok_or_else(|| crate::terr!("e-sigmf-annotations-is-not-an-array"))?;
     for (a, ext) in anns.iter_mut().zip(annotations) {
-        merge(a.as_object_mut().ok_or("annotation is not an object")?, ext)?;
+        merge(
+            a.as_object_mut()
+                .ok_or_else(|| crate::terr!("e-sigmf-annotation-is-not-an-object"))?,
+            ext,
+        )?;
     }
-    serde_json::to_string_pretty(&v).map_err(|e| format!("cannot serialise SigMF metadata: {e}"))
+    serde_json::to_string_pretty(&v)
+        .map_err(|e| crate::terr!("e-sigmf-cannot-serialise-sigmf-metadata", e = e))
 }
 
 /// The `ns:` extension fields of the `global` object and of every annotation of a SigMF
@@ -341,8 +358,8 @@ pub fn annotation_extension_fields(
     ),
     String,
 > {
-    let v: serde_json::Value =
-        serde_json::from_str(json).map_err(|e| format!("invalid SigMF metadata JSON: {e}"))?;
+    let v: serde_json::Value = serde_json::from_str(json)
+        .map_err(|e| crate::terr!("e-sigmf-invalid-sigmf-metadata-json", e = e))?;
     let prefix = format!("{ns}:");
     let pick = |o: &serde_json::Value| -> serde_json::Map<String, serde_json::Value> {
         o.as_object()
@@ -450,7 +467,7 @@ impl Recording {
     pub fn sample_rate_hz(&self) -> Result<f64, String> {
         match self.meta.global.sample_rate {
             Some(r) if r.is_finite() && r > 0.0 => Ok(r),
-            _ => Err("the SigMF recording states no positive core:sample_rate".to_string()),
+            _ => Err(crate::terr!("e-sigmf-the-sigmf-recording-states-no")),
         }
     }
 }
@@ -463,9 +480,10 @@ pub fn read(meta_json: &str, data: &[u8], full_scale: f64) -> Result<Recording, 
     let start = meta.captures.first().map(|c| c.sample_start).unwrap_or(0) as usize;
     let off = start.saturating_mul(dt.bytes_per_sample());
     if off > data.len() {
-        return Err(format!(
-            "SigMF capture starts at sample {start}, beyond the {} samples in the data",
-            data.len() / dt.bytes_per_sample()
+        return Err(crate::terr!(
+            "e-sigmf-sigmf-capture-starts-at-sample",
+            start = start,
+            data = data.len() / dt.bytes_per_sample()
         ));
     }
     let samples = decode(&data[off..], dt, full_scale);

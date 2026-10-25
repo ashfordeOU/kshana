@@ -256,10 +256,10 @@ pub fn run_formation(
 ) -> Result<FormationResult, String> {
     let nav = &cfg.nav;
     if cfg.offsets_deg.is_empty() {
-        return Err("a formation needs at least one deputy".into());
+        return Err(crate::terr!("e-ssv-formation-formation-needs-at-least-one"));
     }
     if !(nav.duration_min > 0.0 && nav.step_s > 0.0) {
-        return Err("duration_min and step_s must be positive".into());
+        return Err(crate::terr!("e-ssv-formation-duration-min-and-step-must"));
     }
     let sats = signal_table(nav)?;
     let mut rng = ChaCha8Rng::seed_from_u64(nav.seed);

@@ -40,7 +40,7 @@ pub fn parse_utc(s: &str) -> Result<i64, String> {
         && b[16] == b':'
         && b[19] == b'Z';
     if !ok {
-        return Err("expected YYYY-MM-DDTHH:MM:SSZ".into());
+        return Err(crate::terr!("e-nmea-synth-clock-expected-yyyy-mm-ddthh-mm"));
     }
     let n = |a: usize, z: usize| {
         s[a..z]
@@ -62,11 +62,11 @@ pub fn parse_utc(s: &str) -> Result<i64, String> {
         || mi > 59
         || se > 59
     {
-        return Err("date or time out of range (years 1980 to 2099)".into());
+        return Err(crate::terr!("e-nmea-synth-clock-date-or-time-out-of"));
     }
     let days = days_from_civil(y, mo, d);
     if civil_from_days(days) != (y, mo, d) {
-        return Err("no such calendar date".into());
+        return Err(crate::terr!("e-nmea-synth-clock-no-such-calendar-date"));
     }
     Ok(((days * 24 + h) * 60 + mi) * 60_000 + se * 1000)
 }

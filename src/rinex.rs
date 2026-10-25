@@ -138,7 +138,7 @@ pub fn parse_d(s: &str) -> Result<f64, String> {
     let normalized = t.replace(['D', 'd'], "E");
     normalized
         .parse::<f64>()
-        .map_err(|_| format!("not a number: {s:?}"))
+        .map_err(|_| crate::terr!("e-osnma-cli-not-number", s = format!("{:?}", s)))
 }
 
 /// Returned by [`col`] when a requested column boundary falls inside a
@@ -286,9 +286,9 @@ pub fn parse_nav_with(text: &str, opts: NavParseOptions) -> Result<Vec<RinexEphe
         if head.starts_with('>') {
             // A RINEX 3 file (or a headerless body that did not start as RINEX 4)
             // with a RINEX 4 record header in it: walking on would desynchronise.
-            return Err(format!(
-                "unsupported navigation record header {head:?}: a line beginning with \
-                 '>' is a RINEX 4 record header, not a RINEX 3 navigation record"
+            return Err(crate::terr!(
+                "e-rinex-unsupported-navigation-record-header-line",
+                head = format!("{:?}", head)
             ));
         }
         let system = head.chars().next().unwrap_or(' ');
@@ -305,7 +305,7 @@ pub fn parse_nav_with(text: &str, opts: NavParseOptions) -> Result<Vec<RinexEphe
         let prn: u8 = col(head, 1, 3)
             .trim()
             .parse()
-            .map_err(|_| format!("bad PRN in {head:?}"))?;
+            .map_err(|_| crate::terr!("e-rinex-bad-prn-in", head = format!("{:?}", head)))?;
         if system == 'C' && is_beidou_geo(prn) && !opts.include_beidou_geo {
             // BeiDou GEO uses a different rotation; skipped unless asked for.
             i += nlines;
@@ -342,8 +342,9 @@ fn parse_nav_v4(
             continue;
         }
         if !head.starts_with('>') {
-            return Err(format!(
-                "RINEX 4 navigation: expected a '>' record header, found {head:?}"
+            return Err(crate::terr!(
+                "e-rinex-rinex-navigation-expected-record-header",
+                head = format!("{:?}", head)
             ));
         }
         // The record body runs to the next '>' line (or the end of the file).
@@ -361,7 +362,7 @@ fn parse_nav_v4(
             let prn: u8 = sv
                 .get(1..)
                 .and_then(|p| p.trim().parse().ok())
-                .ok_or_else(|| format!("bad PRN in {head:?}"))?;
+                .ok_or_else(|| crate::terr!("e-rinex-bad-prn-in", head = format!("{:?}", head)))?;
             let skip_geo = system == 'C' && is_beidou_geo(prn) && !opts.include_beidou_geo;
             if !skip_geo {
                 if body.len() < 8 {
@@ -369,16 +370,20 @@ fn parse_nav_v4(
                         // An incomplete trailing record cannot be read.
                         break;
                     }
-                    return Err(format!(
-                        "RINEX 4 record {head:?} has {} lines, a {msg} ephemeris needs 8",
-                        body.len()
+                    return Err(crate::terr!(
+                        "e-rinex-rinex-record-has-lines-ephemeris",
+                        head = format!("{:?}", head),
+                        body = body.len(),
+                        msg = msg
                     ));
                 }
                 // The SV/epoch line must name the satellite of its record header.
                 if col(body[0], 0, 3) != sv {
-                    return Err(format!(
-                        "RINEX 4 record {head:?} is followed by {:?}, not {sv}",
-                        body[0]
+                    return Err(crate::terr!(
+                        "e-rinex-rinex-record-is-followed-by",
+                        head = format!("{:?}", head),
+                        body = format!("{:?}", body[0]),
+                        sv = sv
                     ));
                 }
                 out.push(decode_keplerian_record(system, prn, &body[..8])?);

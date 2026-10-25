@@ -63,7 +63,7 @@ fn parse(args: &[String]) -> Result<Opts, String> {
         let mut val = |name: &str| {
             it.next()
                 .cloned()
-                .ok_or_else(|| format!("{name} needs a value"))
+                .ok_or_else(|| crate::terr!("e-evidence-cli-needs-value", name = name))
         };
         match a.as_str() {
             "--input" => o.input = Some(val("--input")?),
@@ -79,7 +79,12 @@ fn parse(args: &[String]) -> Result<Opts, String> {
                 o.cef = Some(match val("--format")?.as_str() {
                     "cef" => true,
                     "leef" => false,
-                    f => return Err(format!("unknown --format `{f}` (cef or leef)")),
+                    f => {
+                        return Err(crate::terr!(
+                            "e-telemetry-cli-unknown-format-cef-or-leef",
+                            f = f
+                        ))
+                    }
                 })
             }
             "--syslog-all" => o.syslog_all = true,
@@ -99,11 +104,13 @@ fn parse(args: &[String]) -> Result<Opts, String> {
                 )
             }
             "-h" | "--help" => return Err(String::new()),
-            x => return Err(format!("unknown option `{x}`")),
+            x => return Err(crate::terr!("e-telemetry-cli-unknown-option", x = x)),
         }
     }
     if o.input.is_some() && o.result.is_some() {
-        return Err("--input and --result are alternatives".into());
+        return Err(crate::terr!(
+            "e-telemetry-cli-input-and-result-are-alternatives"
+        ));
     }
     Ok(o)
 }
@@ -159,22 +166,28 @@ fn run_inner(o: &Opts) -> Result<(), String> {
     if let Some(l) = &listen {
         let addr: SocketAddr = l
             .to_socket_addrs()
-            .map_err(|e| format!("--listen {l}: {e}"))?
+            .map_err(|e| crate::terr!("e-telemetry-cli-listen", l = l, e = e))?
             .next()
-            .ok_or_else(|| format!("--listen {l}: no address"))?;
+            .ok_or_else(|| crate::terr!("e-telemetry-cli-listen-no-address", l = l))?;
         if !addr.ip().is_loopback() {
             eprintln!(
-                "warning: /metrics is served without authentication on {addr}; \
-                 bind to localhost or put it behind your own access control"
+                "{}",
+                crate::t!(
+                    "telemetry-cli-warning-metrics-is-served-without",
+                    addr = addr
+                )
             );
         }
-        let bound =
-            prometheus::serve(addr, Arc::clone(&reg)).map_err(|e| format!("bind {addr}: {e}"))?;
-        eprintln!("serving http://{bound}/metrics");
+        let bound = prometheus::serve(addr, Arc::clone(&reg))
+            .map_err(|e| crate::terr!("e-telemetry-cli-bind", addr = addr, e = e))?;
+        eprintln!(
+            "{}",
+            crate::t!("telemetry-cli-serving-http-metrics", bound = bound)
+        );
     }
 
     let host = o.host.clone().unwrap_or_else(|| "kshana".into());
-    syslog::check_host(&host).map_err(|e| format!("--host: {e}"))?;
+    syslog::check_host(&host).map_err(|e| crate::terr!("e-telemetry-cli-host", e = e))?;
     let cef = o.cef.unwrap_or(true);
     let fmt = if cef { Format::Cef } else { Format::Leef };
     let failures = reg
@@ -182,7 +195,9 @@ fn run_inner(o: &Opts) -> Result<(), String> {
         .map(|r| r.syslog_failure_counter())
         .map_err(|_| "registry poisoned".to_string())?;
     let sink = match (&o.syslog_udp, &o.syslog_tcp) {
-        (Some(_), Some(_)) => return Err("--syslog-udp and --syslog-tcp are alternatives".into()),
+        (Some(_), Some(_)) => {
+            return Err(crate::terr!("e-telemetry-cli-syslog-udp-and-syslog-tcp"))
+        }
         (Some(a), None) => Some(SyslogSink::start(
             a,
             Proto::Udp,
@@ -200,7 +215,9 @@ fn run_inner(o: &Opts) -> Result<(), String> {
         (None, None) => None,
     };
     if o.octet_counting && o.syslog_tcp.is_none() {
-        return Err("--syslog-octet-counting applies to --syslog-tcp".into());
+        return Err(crate::terr!(
+            "e-telemetry-cli-syslog-octet-counting-applies-to"
+        ));
     }
 
     let topics = {
@@ -212,8 +229,9 @@ fn run_inner(o: &Opts) -> Result<(), String> {
         ] {
             if let Some(v) = v {
                 if v.is_empty() || v.contains(['#', '+', '\0']) || v.starts_with('/') {
-                    return Err(format!(
-                        "{name}: a topic part must be non-empty, without #, + or a leading /"
+                    return Err(crate::terr!(
+                        "e-telemetry-cli-topic-part-must-be-non",
+                        name = name
                     ));
                 }
             }
@@ -241,7 +259,9 @@ fn run_inner(o: &Opts) -> Result<(), String> {
 
     #[cfg(not(feature = "otlp"))]
     if o.otlp.is_some() {
-        return Err("--otlp needs a build with `--features otlp`".into());
+        return Err(crate::terr!(
+            "e-telemetry-cli-otlp-needs-build-with-features"
+        ));
     }
     #[cfg(feature = "otlp")]
     let exporter = match &o.otlp {
@@ -253,7 +273,10 @@ fn run_inner(o: &Opts) -> Result<(), String> {
     let mut n_epochs = 0usize;
     let mut handle = |s: Result<TrustSample, String>, line_no: usize| match s {
         Err(e) => {
-            eprintln!("warning: input line {line_no}: {e}");
+            eprintln!(
+                "{}",
+                crate::t!("telemetry-cli-warning-input-line", line_no = line_no, e = e)
+            );
             if let Ok(mut r) = reg.lock() {
                 r.observe_input_error();
             }
@@ -307,7 +330,8 @@ fn run_inner(o: &Opts) -> Result<(), String> {
     };
 
     if let Some(path) = &o.result {
-        let text = std::fs::read_to_string(path).map_err(|e| format!("cannot read {path}: {e}"))?;
+        let text = std::fs::read_to_string(path)
+            .map_err(|e| crate::terr!("e-interference-map-cli-cannot-read", path = path, e = e))?;
         for (i, s) in sample::from_result_json(&text)?.into_iter().enumerate() {
             handle(Ok(s), i + 1);
         }
@@ -315,11 +339,12 @@ fn run_inner(o: &Opts) -> Result<(), String> {
         let reader: Box<dyn BufRead> = match o.input.as_deref() {
             None | Some("-") => Box::new(std::io::BufReader::new(std::io::stdin())),
             Some(p) => Box::new(std::io::BufReader::new(
-                std::fs::File::open(p).map_err(|e| format!("cannot open {p}: {e}"))?,
+                std::fs::File::open(p)
+                    .map_err(|e| crate::terr!("e-telemetry-cli-cannot-open", p = p, e = e))?,
             )),
         };
         for (i, line) in reader.lines().enumerate() {
-            let line = line.map_err(|e| format!("read error: {e}"))?;
+            let line = line.map_err(|e| crate::terr!("e-gravity-sh-read-error", e = e))?;
             if line.trim().is_empty() {
                 continue;
             }
@@ -342,7 +367,10 @@ fn run_inner(o: &Opts) -> Result<(), String> {
         t.finish();
         let n = dropped.load(std::sync::atomic::Ordering::Relaxed);
         if n > 0 {
-            eprintln!("warning: {n} MQTT messages were not delivered");
+            eprintln!(
+                "{}",
+                crate::t!("telemetry-cli-warning-mqtt-messages-were-not", n = n)
+            );
         }
     }
     let _ = n_epochs;

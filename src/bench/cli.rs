@@ -45,7 +45,7 @@ fn flag<'a>(args: &'a [String], name: &str) -> Result<Option<&'a str>, BenchErro
         Some(i) => args
             .get(i + 1)
             .map(|v| Some(v.as_str()))
-            .ok_or_else(|| BenchError(format!("{name} needs a value"))),
+            .ok_or_else(|| BenchError(crate::t!("bench-cli-needs-value", name = name))),
     }
 }
 
@@ -65,30 +65,36 @@ fn check(
         if valued.contains(&a) {
             i += 2;
         } else if a.starts_with("--") {
-            return Err(BenchError(format!("unknown option `{a}`")));
+            return Err(BenchError(crate::t!("bench-cli-unknown-option", a = a)));
         } else {
             pos.push(a.to_string());
             i += 1;
         }
     }
     if !positionals_allowed && !pos.is_empty() {
-        return Err(BenchError(format!("unexpected argument `{}`", pos[0])));
+        return Err(BenchError(crate::t!(
+            "bench-cli-unexpected-argument",
+            pos = pos[0]
+        )));
     }
     Ok(pos)
 }
 
 fn read(p: &str) -> Result<String, BenchError> {
-    std::fs::read_to_string(p).map_err(|e| BenchError(format!("cannot read {p}: {e}")))
+    std::fs::read_to_string(p)
+        .map_err(|e| BenchError(crate::t!("bench-cli-cannot-read", p = p, e = e)))
 }
 
 fn write(p: &Path, text: &str) -> Result<(), BenchError> {
     if let Some(d) = p.parent() {
         if !d.as_os_str().is_empty() {
-            std::fs::create_dir_all(d)
-                .map_err(|e| BenchError(format!("cannot create {}: {e}", d.display())))?;
+            std::fs::create_dir_all(d).map_err(|e| {
+                BenchError(crate::t!("bench-cli-cannot-create", d = d.display(), e = e))
+            })?;
         }
     }
-    std::fs::write(p, text).map_err(|e| BenchError(format!("cannot write {}: {e}", p.display())))
+    std::fs::write(p, text)
+        .map_err(|e| BenchError(crate::t!("bench-cli-cannot-write", p = p.display(), e = e)))
 }
 
 fn pretty(v: &Value) -> String {
@@ -101,8 +107,8 @@ fn secret(args: &[String]) -> Result<Option<Vec<u8>>, BenchError> {
     match flag(args, "--seed-file")? {
         None => Ok(None),
         Some(p) => {
-            let mut b =
-                std::fs::read(p).map_err(|e| BenchError(format!("cannot read {p}: {e}")))?;
+            let mut b = std::fs::read(p)
+                .map_err(|e| BenchError(crate::t!("bench-cli-cannot-read", p = p, e = e)))?;
             while matches!(b.last(), Some(b'\n' | b'\r')) {
                 b.pop();
             }
@@ -119,7 +125,7 @@ fn task_arg(args: &[String]) -> Result<&str, BenchError> {
     if matches!(t, "a" | "b" | "c" | "d") {
         Ok(t)
     } else {
-        Err(BenchError(format!("unknown task `{t}` (a, b, c or d)")))
+        Err(BenchError(crate::t!("bench-cli-unknown-task-or", t = t)))
     }
 }
 
@@ -206,9 +212,12 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
             }
             write(Path::new(need(rest, "--out")?), &pretty(&doc))?;
             println!(
-                "{} scored epochs in {} folder(s)",
-                t.labels.len(),
-                t.folders.len()
+                "{}",
+                crate::t!(
+                    "bench-cli-scored-epochs-in-folder",
+                    labels = t.labels.len(),
+                    folders = t.folders.len()
+                )
             );
             Ok(0)
         }
@@ -244,7 +253,10 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
             };
             write(&out.join("cases.json"), &pretty(&cases))?;
             write(&out.join("truth.json"), &pretty(&truth))?;
-            println!("wrote {0}/cases.json and {0}/truth.json", out.display());
+            println!(
+                "{}",
+                crate::t!("bench-cli-wrote-cases-json-and-truth", out = out.display())
+            );
             Ok(0)
         }
         "score" => {
@@ -278,14 +290,17 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
             let s = secret(rest)?.ok_or_else(|| BenchError("--seed-file is required".into()))?;
             let c = need(rest, "--commitment")?;
             if super::is_exposed(c) {
-                println!("REFUSED: this commitment is provisional and its seed was exposed; it is not a release holdout");
+                println!(
+                    "{}",
+                    crate::t!("bench-cli-refused-this-commitment-is-provisional")
+                );
                 return Ok(1);
             }
             if reveal_check(task_arg(rest)?, &s, c) {
                 println!("match");
                 Ok(0)
             } else {
-                println!("MISMATCH: the seed is not the one behind this commitment");
+                println!("{}", crate::t!("bench-cli-mismatch-the-seed-is-not"));
                 Ok(1)
             }
         }
@@ -299,7 +314,7 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
             let mut bad = 0;
             for f in &files {
                 let v: Value = serde_json::from_str(&read(f)?)
-                    .map_err(|e| BenchError(format!("{f} is not JSON: {e}")))?;
+                    .map_err(|e| BenchError(crate::t!("bench-cli-is-not-json", f = f, e = e)))?;
                 let p = validate_result(&v);
                 if p.is_empty() {
                     println!("{f}: valid");
@@ -326,7 +341,9 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
                 let p = PathBuf::from(i);
                 if p.is_dir() {
                     let mut v: Vec<PathBuf> = std::fs::read_dir(&p)
-                        .map_err(|e| BenchError(format!("cannot read {i}: {e}")))?
+                        .map_err(|e| {
+                            BenchError(crate::t!("bench-cli-cannot-read-2", i = i, e = e))
+                        })?
                         .flatten()
                         .map(|e| e.path())
                         .filter(|x| x.to_string_lossy().ends_with(".result.json"))
@@ -340,8 +357,9 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
             let results: Vec<Value> = files
                 .iter()
                 .map(|f| {
-                    serde_json::from_str(&read(&f.to_string_lossy())?)
-                        .map_err(|e| BenchError(format!("{} is not JSON: {e}", f.display())))
+                    serde_json::from_str(&read(&f.to_string_lossy())?).map_err(|e| {
+                        BenchError(crate::t!("bench-cli-is-not-json", f = f.display(), e = e))
+                    })
                 })
                 .collect::<Result<_, _>>()?;
             let html = if fragment {
@@ -350,11 +368,16 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
                 site::leaderboard_html(&results)?
             };
             write(Path::new(need(rest, "--out")?), &html)?;
-            println!("{} result(s) rendered", results.len());
+            println!(
+                "{}",
+                crate::t!("bench-cli-result-rendered", results = results.len())
+            );
             Ok(0)
         }
-        other => Err(BenchError(format!(
-            "unknown subcommand `{other}`\n{BENCH_USAGE}"
+        other => Err(BenchError(crate::t!(
+            "bench-cli-unknown-subcommand",
+            other = other,
+            BENCH_USAGE = BENCH_USAGE
         ))),
     }
 }
@@ -362,9 +385,15 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
 /// One baseline: write its predictions and its scored result.
 fn emit(out: &Path, stem: &str, truth_text: &str, preds: &Value) -> Result<(), BenchError> {
     let ptext = pretty(preds);
-    write(&out.join(format!("{stem}.predictions.json")), &ptext)?;
+    write(
+        &out.join(crate::t!("bench-cli-predictions-json", stem = stem)),
+        &ptext,
+    )?;
     let r = super::score(truth_text, &ptext, None)?;
-    write(&out.join(format!("{stem}.result.json")), &format!("{r}\n"))?;
+    write(
+        &out.join(crate::t!("bench-cli-result-json", stem = stem)),
+        &format!("{r}\n"),
+    )?;
     println!("{stem}");
     Ok(())
 }
@@ -394,16 +423,22 @@ fn seal_cmd(rest: &[String]) -> Result<i32, BenchError> {
         opts.mode(0o600);
     }
     let mut f = opts.open(path).map_err(|e| {
-        BenchError(format!(
-            "cannot create {} (an existing seed file is never overwritten): {e}",
-            path.display()
+        BenchError(crate::t!(
+            "bench-cli-cannot-create-an-existing-seed",
+            path = path.display(),
+            e = e
         ))
     })?;
-    f.write_all(format!("{s}\n").as_bytes())
-        .map_err(|e| BenchError(format!("cannot write {}: {e}", path.display())))?;
+    f.write_all(format!("{s}\n").as_bytes()).map_err(|e| {
+        BenchError(crate::t!(
+            "bench-cli-cannot-write-2",
+            path = path.display(),
+            e = e
+        ))
+    })?;
     eprintln!(
-        "seed written to {}: keep it out of version control and out of any message; only the hash below is public",
-        path.display()
+        "{}",
+        crate::t!("bench-cli-seed-written-to-keep-it", path = path.display())
     );
     println!("{}", seal(task, s.as_bytes()));
     Ok(0)
@@ -431,7 +466,7 @@ fn baseline(args: &[String]) -> Result<i32, BenchError> {
             &out.join("b-test-kshana-iq-cn0-drop.result.json"),
             &pretty(&r),
         )?;
-        println!("b-test-kshana-iq-cn0-drop (carried, not re-run)");
+        println!("{}", crate::t!("bench-cli-test-kshana-iq-cn0-drop"));
         return Ok(0);
     }
     let split = Split::parse(need(args, "--split")?)?;
@@ -440,7 +475,7 @@ fn baseline(args: &[String]) -> Result<i32, BenchError> {
             let t = tasks::a_load(Path::new(need(args, "--data")?), Some(split))?;
             let truth_text = pretty(&tasks::a_truth_json(&t, split));
             write(
-                &out.join(format!("a-{}.truth.json", split.name())),
+                &out.join(crate::t!("bench-cli-truth-json", split = split.name())),
                 &truth_text,
             )?;
             for (stat, doc) in tasks::a_baselines(&t, split.name()) {
@@ -453,7 +488,7 @@ fn baseline(args: &[String]) -> Result<i32, BenchError> {
             let (_, truth) = tasks::c_files(&cases, split);
             let truth_text = pretty(&truth);
             write(
-                &out.join(format!("c-{}.truth.json", split.name())),
+                &out.join(crate::t!("bench-cli-truth-json-2", split = split.name())),
                 &truth_text,
             )?;
             for b in C_BASELINES {
@@ -467,7 +502,7 @@ fn baseline(args: &[String]) -> Result<i32, BenchError> {
             let (_, truth) = tasks::d_files(split, scale, sec.as_deref())?;
             let truth_text = pretty(&truth);
             write(
-                &out.join(format!("d-{}.truth.json", split.name())),
+                &out.join(crate::t!("bench-cli-truth-json-3", split = split.name())),
                 &truth_text,
             )?;
             let seed = tasks::d_seed(split, sec.as_deref())?;
@@ -477,7 +512,7 @@ fn baseline(args: &[String]) -> Result<i32, BenchError> {
                 let doc = tasks::scores_doc(
                     "d",
                     split.name(),
-                    &format!("impairment-eval baseline: {}", det.name()),
+                    &crate::t!("bench-cli-impairment-eval-baseline", det = det.name()),
                     &scores,
                 );
                 emit(
@@ -530,14 +565,15 @@ fn manifest(args: &[String]) -> Result<i32, BenchError> {
     let mut dirs = Vec::new();
     crate::receiver_trust::calibration::find_scenarios(&root, &mut dirs);
     if dirs.is_empty() {
-        return Err(BenchError(format!(
-            "no scenario.json under {}",
-            root.display()
+        return Err(BenchError(crate::t!(
+            "bench-cli-no-scenario-json-under",
+            root = root.display()
         )));
     }
     let (archive_sha, archive_bytes) = match flag(args, "--archive")? {
         Some(p) => {
-            let b = std::fs::read(p).map_err(|e| BenchError(format!("cannot read {p}: {e}")))?;
+            let b = std::fs::read(p)
+                .map_err(|e| BenchError(crate::t!("bench-cli-cannot-read", p = p, e = e)))?;
             (sha256_hex(&b), b.len() as u64)
         }
         None => (
@@ -614,7 +650,7 @@ fn verify_manifest(args: &[String]) -> Result<i32, BenchError> {
     };
     let root = PathBuf::from(need(args, "--root")?);
     let m: Value = serde_json::from_str(&read(path)?)
-        .map_err(|e| BenchError(format!("{path} is not JSON: {e}")))?;
+        .map_err(|e| BenchError(crate::t!("bench-cli-is-not-json-2", path = path, e = e)))?;
     let mut entries: Vec<(String, Option<String>)> = Vec::new();
     if let Some(a) = m.get("archive") {
         if let Some(f) = a["file"].as_str() {
@@ -662,7 +698,16 @@ fn verify_manifest(args: &[String]) -> Result<i32, BenchError> {
             }
         }
     }
-    println!("{ok} ok, {bad} mismatched, {missing} missing, {unpinned} unpinned");
+    println!(
+        "{}",
+        crate::t!(
+            "bench-cli-ok-mismatched-missing-unpinned",
+            ok = ok,
+            bad = bad,
+            missing = missing,
+            unpinned = unpinned
+        )
+    );
     Ok(i32::from(bad > 0 || missing > 0))
 }
 

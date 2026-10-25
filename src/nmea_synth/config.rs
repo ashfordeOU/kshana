@@ -467,14 +467,18 @@ fn fin(name: &str, v: f64) -> Result<(), String> {
     if v.is_finite() {
         Ok(())
     } else {
-        Err(format!("{name} must be a finite number"))
+        Err(crate::terr!(
+            "e-nmea-synth-config-must-be-finite-number",
+            name = name
+        ))
     }
 }
 
 impl TrainingScenario {
     /// Parse and validate a scenario from TOML text.
     pub fn parse(text: &str) -> Result<Self, String> {
-        let s: TrainingScenario = toml::from_str(text).map_err(|e| format!("scenario: {e}"))?;
+        let s: TrainingScenario = toml::from_str(text)
+            .map_err(|e| crate::terr!("e-jammertest-dataset-scenario", e = e))?;
         s.validate()?;
         Ok(s)
     }
@@ -502,14 +506,21 @@ impl TrainingScenario {
                     .into(),
             );
         }
-        super::clock::parse_utc(&m.start_utc)
-            .map_err(|e| format!("scenario.start_utc {:?}: {e}", m.start_utc))?;
+        super::clock::parse_utc(&m.start_utc).map_err(|e| {
+            crate::terr!(
+                "e-nmea-synth-config-scenario-start-utc",
+                start_utc = format!("{:?}", m.start_utc),
+                e = e
+            )
+        })?;
         fin("scenario.duration_s", m.duration_s)?;
         if !(1.0..=86_400.0).contains(&m.duration_s) {
-            return Err("scenario.duration_s must lie in 1 to 86400 s".into());
+            return Err(crate::terr!(
+                "e-nmea-synth-config-scenario-duration-must-lie-in"
+            ));
         }
         if ![1.0, 2.0, 5.0, 10.0].contains(&m.rate_hz) {
-            return Err("scenario.rate_hz must be 1, 2, 5 or 10".into());
+            return Err(crate::terr!("e-nmea-synth-config-scenario-rate-hz-must-be"));
         }
         let v = &self.vessel;
         for (n, x) in [
@@ -520,10 +531,12 @@ impl TrainingScenario {
             fin(n, x)?;
         }
         if !(-89.0..=89.0).contains(&v.lat_deg) || !(-180.0..=180.0).contains(&v.lon_deg) {
-            return Err("vessel position must lie within 89 degrees of the equator".into());
+            return Err(crate::terr!(
+                "e-nmea-synth-config-vessel-position-must-lie-within"
+            ));
         }
         if !(0.0..=60.0).contains(&v.speed_kn) {
-            return Err("vessel.speed_kn must lie in 0 to 60".into());
+            return Err(crate::terr!("e-nmea-synth-config-vessel-speed-kn-must-lie"));
         }
         let pos = |x: f64| x.is_finite() && x > 0.0;
         let limits_ok = pos(v.max_rot_deg_per_min)
@@ -531,26 +544,36 @@ impl TrainingScenario {
             && pos(v.max_rot_accel_deg_per_s2)
             && pos(v.max_accel_kn_per_min);
         if !limits_ok {
-            return Err("vessel rate-of-turn and acceleration limits must be positive".into());
+            return Err(crate::terr!("e-nmea-synth-config-vessel-rate-of-turn-and"));
         }
         if self.waypoints.is_empty() && v.heading_deg.is_none() {
-            return Err("give at least one [[waypoint]] or vessel.heading_deg".into());
+            return Err(crate::terr!(
+                "e-nmea-synth-config-give-at-least-one-waypoint"
+            ));
         }
         for (i, w) in self.waypoints.iter().enumerate() {
             fin("waypoint latitude", w.lat_deg)?;
             fin("waypoint longitude", w.lon_deg)?;
             if !(-89.0..=89.0).contains(&w.lat_deg) || !(-180.0..=180.0).contains(&w.lon_deg) {
-                return Err(format!("waypoint {} is out of range", i + 1));
+                return Err(crate::terr!(
+                    "e-nmea-synth-config-waypoint-is-out-of-range",
+                    v1 = i + 1
+                ));
             }
             if let Some(s) = w.speed_kn {
                 if !(0.0..=60.0).contains(&s) {
-                    return Err(format!("waypoint {} speed_kn must lie in 0 to 60", i + 1));
+                    return Err(crate::terr!(
+                        "e-nmea-synth-config-waypoint-speed-kn-must-lie",
+                        v1 = i + 1
+                    ));
                 }
             }
         }
         let r = &self.receiver;
         if r.systems.is_empty() {
-            return Err("receiver.systems must name at least one constellation".into());
+            return Err(crate::terr!(
+                "e-nmea-synth-config-receiver-systems-must-name-at"
+            ));
         }
         for s in &r.systems {
             super::sky::System::parse(s)?;
@@ -571,18 +594,27 @@ impl TrainingScenario {
         }
         for s in &self.output.sentences {
             if !super::config::ALL_SENTENCES.contains(&s.as_str()) {
-                return Err(format!(
-                    "output.sentences: {s:?} is not one of {}",
-                    ALL_SENTENCES.join(", ")
+                return Err(crate::terr!(
+                    "e-nmea-synth-config-output-sentences-is-not-one",
+                    s = format!("{:?}", s),
+                    all_sentences = ALL_SENTENCES.join(", ")
                 ));
             }
         }
         if !(self.output.log_interval_s.is_finite() && self.output.log_interval_s >= 1.0) {
-            return Err("output.log_interval_s must be at least 1".into());
+            return Err(crate::terr!(
+                "e-nmea-synth-config-output-log-interval-must-be"
+            ));
         }
         for (i, e) in self.events.iter().enumerate() {
-            e.validate(m.duration_s)
-                .map_err(|why| format!("event {} ({}): {why}", i + 1, e.kind.name()))?;
+            e.validate(m.duration_s).map_err(|why| {
+                crate::terr!(
+                    "e-nmea-synth-config-event",
+                    v1 = i + 1,
+                    kind = e.kind.name(),
+                    why = why
+                )
+            })?;
         }
         Ok(())
     }
@@ -599,13 +631,19 @@ impl EventCfg {
             fin(n, x)?;
         }
         if self.start_s < 0.0 || self.start_s >= run_s {
-            return Err("start_s must lie inside the run".into());
+            return Err(crate::terr!(
+                "e-nmea-synth-config-start-must-lie-inside-the"
+            ));
         }
         if self.duration_s <= 0.0 || self.ramp_s < 0.0 || self.recovery_s < 0.0 {
-            return Err("duration_s must be positive; ramp_s and recovery_s not negative".into());
+            return Err(crate::terr!(
+                "e-nmea-synth-config-duration-must-be-positive-ramp"
+            ));
         }
         if self.ramp_s > self.duration_s {
-            return Err("ramp_s must not exceed duration_s".into());
+            return Err(crate::terr!(
+                "e-nmea-synth-config-ramp-must-not-exceed-duration"
+            ));
         }
         // Parameters that belong to other kinds.
         let used: &[(&str, bool)] = &[
@@ -655,11 +693,16 @@ impl EventCfg {
             ),
         ];
         if let Some((n, _)) = used.iter().find(|(_, bad)| *bad) {
-            return Err(format!("{n} does not apply to this kind"));
+            return Err(crate::terr!(
+                "e-nmea-synth-config-does-not-apply-to-this",
+                n = n
+            ));
         }
         if let Some(c) = self.counterfeit_cn0_dbhz {
             if !(20.0..=60.0).contains(&c) {
-                return Err("counterfeit_cn0_dbhz must lie in 20 to 60".into());
+                return Err(crate::terr!(
+                    "e-nmea-synth-config-counterfeit-cn0-dbhz-must-lie"
+                ));
             }
         }
         // A time ramp must not make reported time stand still or run backwards.
@@ -678,22 +721,26 @@ impl EventCfg {
         };
         match self.kind {
             EventKind::Jamming => {
-                let d = self.cn0_drop_db.ok_or("cn0_drop_db is required")?;
+                let d = self
+                    .cn0_drop_db
+                    .ok_or_else(|| crate::terr!("e-nmea-synth-config-cn0-drop-db-is-required"))?;
                 fin("cn0_drop_db", d)?;
                 if !(0.0..=80.0).contains(&d) {
-                    return Err("cn0_drop_db must lie in 0 to 80".into());
+                    return Err(crate::terr!("e-nmea-synth-config-cn0-drop-db-must-lie"));
                 }
                 if let Some(s) = self.spread_db {
                     if !(0.0..=30.0).contains(&s) {
-                        return Err("spread_db must lie in 0 to 30".into());
+                        return Err(crate::terr!("e-nmea-synth-config-spread-db-must-lie-in"));
                     }
                 }
             }
             EventKind::DragOff => {
-                let d = self.final_offset_m.ok_or("final_offset_m is required")?;
+                let d = self
+                    .final_offset_m
+                    .ok_or_else(|| crate::terr!("e-nmea-synth-config-final-offset-is-required"))?;
                 fin("final_offset_m", d)?;
                 if !(0.0..=500_000.0).contains(&d) {
-                    return Err("final_offset_m must lie in 0 to 500000".into());
+                    return Err(crate::terr!("e-nmea-synth-config-final-offset-must-lie-in"));
                 }
                 let peak = |ramp: f64| {
                     if ramp > 0.0 {
@@ -706,30 +753,39 @@ impl EventCfg {
                     fin("max_accel_mps2", a)?;
                     let need = peak(self.ramp_s).max(peak(self.recovery_s));
                     if a <= 0.0 || need > a {
-                        return Err(format!(
-                            "the drag would accelerate the false track at up to {need:.3} m/s^2, \
-                             above max_accel_mps2 = {a}; lengthen ramp_s/recovery_s"
+                        return Err(crate::terr!(
+                            "e-nmea-synth-config-the-drag-would-accelerate-the",
+                            need = crate::i18n::localise_decimal(format!("{:.3}", need)),
+                            a = a
                         ));
                     }
                 }
                 match (self.bearing_deg, self.relative_bearing_deg) {
                     (Some(b), None) | (None, Some(b)) => fin("bearing", b)?,
-                    _ => return Err("give exactly one of bearing_deg, relative_bearing_deg".into()),
+                    _ => {
+                        return Err(crate::terr!(
+                            "e-nmea-synth-config-give-exactly-one-of-bearing"
+                        ))
+                    }
                 }
             }
             EventKind::TimeSpoof => {
-                let o = self.offset_s.ok_or("offset_s is required")?;
+                let o = self
+                    .offset_s
+                    .ok_or_else(|| crate::terr!("e-nmea-synth-config-offset-is-required"))?;
                 fin("offset_s", o)?;
                 if o == 0.0 || o.abs() > 86_400.0 {
-                    return Err("offset_s must be non-zero and within a day".into());
+                    return Err(crate::terr!("e-nmea-synth-config-offset-must-be-non-zero"));
                 }
                 monotone(o, 1.0)?;
             }
             EventKind::ReplayDelay => {
-                let d = self.delay_s.ok_or("delay_s is required")?;
+                let d = self
+                    .delay_s
+                    .ok_or_else(|| crate::terr!("e-nmea-synth-config-delay-is-required"))?;
                 fin("delay_s", d)?;
                 if !(d > 0.0 && d <= 3600.0) {
-                    return Err("delay_s must lie in 0 to 3600".into());
+                    return Err(crate::terr!("e-nmea-synth-config-delay-must-lie-in-to"));
                 }
                 if self.affect_time.unwrap_or(true) {
                     // The delay ramps follow smoothstep, whose steepest slope is 1.5 times
@@ -742,7 +798,9 @@ impl EventCfg {
                     "a skyline table is required (for example skyline = { preset = \"fjord\" })",
                 )?;
                 if sk.build()?.is_empty() {
-                    return Err("the skyline describes no obstruction".into());
+                    return Err(crate::terr!(
+                        "e-nmea-synth-config-the-skyline-describes-no-obstruction"
+                    ));
                 }
             }
         }

@@ -252,7 +252,7 @@ pub fn rinex_import(text: &str) -> Result<Vec<LeoNavMessage>, String> {
         .iter()
         .position(|l| l.contains("END OF HEADER"))
         .map(|p| p + 1)
-        .ok_or("no END OF HEADER line")?;
+        .ok_or_else(|| crate::terr!("e-leo-navmsg-text-no-end-of-header-line"))?;
     let mut out = Vec::new();
     while i < lines.len() {
         let head = lines[i];
@@ -262,22 +262,38 @@ pub fn rinex_import(text: &str) -> Result<Vec<LeoNavMessage>, String> {
         }
         let parts: Vec<&str> = head.split_whitespace().collect();
         if parts.len() < 4 || parts[0] != ">" || parts[1] != "EPH" {
-            return Err(format!("expected a '> EPH' record header, got {head:?}"));
+            return Err(crate::terr!(
+                "e-leo-navmsg-text-expected-eph-record-header-got",
+                head = format!("{:?}", head)
+            ));
         }
         let svid: u8 = parts[2]
             .strip_prefix('L')
             .and_then(|s| s.parse().ok())
-            .ok_or_else(|| format!("bad satellite id {:?}", parts[2]))?;
+            .ok_or_else(|| {
+                crate::terr!(
+                    "e-leo-navmsg-text-bad-satellite-id",
+                    parts = format!("{:?}", parts[2])
+                )
+            })?;
         let rtype = parts[3];
-        let ep = lines.get(i + 1).ok_or("missing epoch line")?;
+        let ep = lines
+            .get(i + 1)
+            .ok_or_else(|| crate::terr!("e-leo-navmsg-text-missing-epoch-line"))?;
         let ew: Vec<&str> = ep.get(..23).unwrap_or("").split_whitespace().collect();
         if ew.len() != 7 {
-            return Err(format!("bad epoch line {ep:?}"));
+            return Err(crate::terr!(
+                "e-leo-navmsg-text-bad-epoch-line",
+                ep = format!("{:?}", ep)
+            ));
         }
         let num = |k: usize| -> Result<i64, String> {
-            ew[k]
-                .parse()
-                .map_err(|_| format!("bad epoch field in {ep:?}"))
+            ew[k].parse().map_err(|_| {
+                crate::terr!(
+                    "e-leo-navmsg-text-bad-epoch-field-in",
+                    ep = format!("{:?}", ep)
+                )
+            })
         };
         let (week_e, tow_e) = from_calendar(
             num(1)?,
@@ -296,13 +312,18 @@ pub fn rinex_import(text: &str) -> Result<Vec<LeoNavMessage>, String> {
                 .collect::<Result<_, _>>()?
         };
         if clk.len() != 3 {
-            return Err(format!("epoch line needs three clock terms: {ep:?}"));
+            return Err(crate::terr!(
+                "e-leo-navmsg-text-epoch-line-needs-three-clock",
+                ep = format!("{:?}", ep)
+            ));
         }
         let mut j = i + 2;
         let mut next = |n: usize| -> Result<Vec<f64>, String> {
             let mut v = Vec::new();
             while v.len() < n {
-                let l = lines.get(j).ok_or("record truncated")?;
+                let l = lines
+                    .get(j)
+                    .ok_or_else(|| crate::terr!("e-leo-navmsg-text-record-truncated"))?;
                 v.extend(parse_fields(l)?);
                 j += 1;
             }
@@ -399,7 +420,12 @@ pub fn rinex_import(text: &str) -> Result<Vec<LeoNavMessage>, String> {
                         },
                     }
                 }
-                other => return Err(format!("unknown record type {other:?}")),
+                other => {
+                    return Err(crate::terr!(
+                        "e-leo-navmsg-text-unknown-record-type",
+                        other = format!("{:?}", other)
+                    ))
+                }
             };
             let clock = (t[1] != 0.0).then_some(ClockPoly {
                 toc: tow_e + (week_e as f64 - week as f64) * 604_800.0,
@@ -537,9 +563,9 @@ pub fn csv_export(msgs: &[LeoNavMessage], schema: &CsvSchema) -> Result<String, 
             m.ephemeris,
             EphemerisModel::Kepler16 { .. } | EphemerisModel::KeplerRac { .. }
         ) {
-            return Err(format!(
-                "the CSV table carries kepler16 and kepler-rac messages; got {}",
-                m.ephemeris.code()
+            return Err(crate::terr!(
+                "e-leo-navmsg-text-the-csv-table-carries-kepler16",
+                m = m.ephemeris.code()
             ));
         }
         let row: Vec<String> = schema
@@ -560,7 +586,11 @@ pub fn csv_export(msgs: &[LeoNavMessage], schema: &CsvSchema) -> Result<String, 
 /// Import a CSV table written by [`csv_export`] under `schema`.
 pub fn csv_import(text: &str, schema: &CsvSchema) -> Result<Vec<LeoNavMessage>, String> {
     let mut lines = text.lines().filter(|l| !l.trim().is_empty());
-    let header: Vec<&str> = lines.next().ok_or("empty CSV")?.split(',').collect();
+    let header: Vec<&str> = lines
+        .next()
+        .ok_or_else(|| crate::terr!("e-leo-navmsg-text-empty-csv"))?
+        .split(',')
+        .collect();
     let keys: Vec<Option<&str>> = header
         .iter()
         .map(|h| {
@@ -575,26 +605,29 @@ pub fn csv_import(text: &str, schema: &CsvSchema) -> Result<Vec<LeoNavMessage>, 
     for line in lines {
         let cells: Vec<&str> = line.split(',').collect();
         if cells.len() != header.len() {
-            return Err(format!(
-                "row has {} cells, header {}",
-                cells.len(),
-                header.len()
+            return Err(crate::terr!(
+                "e-leo-navmsg-text-row-has-cells-header",
+                cells = cells.len(),
+                header = header.len()
             ));
         }
         let mut map = std::collections::BTreeMap::new();
         for (k, c) in keys.iter().zip(&cells) {
             if let (Some(k), false) = (k, c.trim().is_empty()) {
-                let v: f64 = c
-                    .trim()
-                    .parse()
-                    .map_err(|_| format!("bad number {c:?} in column {k}"))?;
+                let v: f64 = c.trim().parse().map_err(|_| {
+                    crate::terr!(
+                        "e-leo-navmsg-text-bad-number-in-column",
+                        c = format!("{:?}", c),
+                        k = k
+                    )
+                })?;
                 map.insert(k.to_string(), v);
             }
         }
         let g = |k: &str| -> Result<f64, String> {
             map.get(k)
                 .copied()
-                .ok_or_else(|| format!("CSV row lacks {k}"))
+                .ok_or_else(|| crate::terr!("e-leo-navmsg-text-csv-row-lacks", k = k))
         };
         let kep = Keplerian {
             toe: g("toe")?,

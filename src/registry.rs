@@ -337,7 +337,7 @@ impl PackRegistry {
     ) -> Result<Box<dyn crate::api::Scenario>, String> {
         match self.scenarios.get(id) {
             Some(factory) => factory.build(src),
-            None => Err(format!("unknown scenario id: {id}")),
+            None => Err(crate::terr!("e-registry-unknown-scenario-id", id = id)),
         }
     }
 

@@ -1112,9 +1112,9 @@ pub fn parse_epoch_jd(s: &str) -> Result<f64, String> {
     let d: Vec<&str> = date.split('-').collect();
     let h: Vec<&str> = time.split(':').collect();
     if d.len() != 3 || h.len() < 2 {
-        return Err(format!("epoch '{s}' is not YYYY-MM-DDTHH:MM:SS"));
+        return Err(crate::terr!("e-leo-pass-epoch-is-not-yyyy-mm", s = s));
     }
-    let bad = |_| format!("epoch '{s}' is not YYYY-MM-DDTHH:MM:SS");
+    let bad = |_| crate::t!("leo-pass-epoch-is-not-yyyy-mm", s = s);
     let y: i32 = d[0].parse().map_err(bad)?;
     let mo: u32 = d[1].parse().map_err(bad)?;
     let da: u32 = d[2].parse().map_err(bad)?;
@@ -1122,12 +1122,12 @@ pub fn parse_epoch_jd(s: &str) -> Result<f64, String> {
     let mi: u32 = h[1].parse().map_err(bad)?;
     let ss: f64 = if h.len() > 2 {
         h[2].parse()
-            .map_err(|_| format!("epoch '{s}' has a bad seconds field"))?
+            .map_err(|_| crate::terr!("e-leo-pass-epoch-has-bad-seconds-field", s = s))?
     } else {
         0.0
     };
     if !(1..=12).contains(&mo) || !(1..=31).contains(&da) || hh > 23 || mi > 59 || ss >= 61.0 {
-        return Err(format!("epoch '{s}' is out of range"));
+        return Err(crate::terr!("e-leo-pass-epoch-is-out-of-range", s = s));
     }
     Ok(crate::timescales::julian_date(y, mo, da, hh, mi, ss))
 }
@@ -1238,10 +1238,11 @@ fn apply_band_cfg(
                 .cloned()
                 .or_else(|| crate::leo_signal::public_signal(n))
                 .ok_or_else(|| {
-                    format!(
-                        "band '{}': unknown signal design '{n}'; public designs: {}",
-                        c.name,
-                        crate::leo_signal::public_signal_names().join(", ")
+                    crate::terr!(
+                        "e-leo-pass-band-unknown-signal-design-public",
+                        name = c.name,
+                        n = n,
+                        v2 = crate::leo_signal::public_signal_names().join(", ")
                     )
                 })?,
         ),
@@ -1253,15 +1254,10 @@ fn apply_band_cfg(
             let f = c
                 .frequency_mhz
                 .or_else(|| design.as_ref().map(|d| d.centre_hz / 1e6))
-                .ok_or_else(|| {
-                    format!(
-                        "band '{}' is not in the system preset: give frequency_mhz and eirp_dbw",
-                        c.name
-                    )
-                })?;
+                .ok_or_else(|| crate::terr!("e-leo-pass-band-is-not-in-the", name = c.name))?;
             let e = c
                 .eirp_dbw
-                .ok_or_else(|| format!("band '{}' needs eirp_dbw", c.name))?;
+                .ok_or_else(|| crate::terr!("e-leo-pass-band-needs-eirp-dbw", name = c.name))?;
             Band {
                 name: c.name.clone(),
                 f_hz: f * 1e6,
@@ -1309,8 +1305,9 @@ fn apply_band_cfg(
                 rolloff_deg: 5.0,
             },
             o => {
-                return Err(format!(
-                    "pattern must be isoflux, gaussian or flat; got '{o}'"
+                return Err(crate::terr!(
+                    "e-leo-pass-pattern-must-be-isoflux-gaussian",
+                    o = o
                 ))
             }
         };
@@ -1342,10 +1339,13 @@ fn apply_band_cfg(
         b.ranging = r;
     }
     if !(b.f_hz > 1e7 && b.f_hz < 1e11) {
-        return Err(format!("band '{}' frequency out of range", b.name));
+        return Err(crate::terr!(
+            "e-leo-pass-band-frequency-out-of-range",
+            name = b.name
+        ));
     }
     if b.base_source_is_scenario_override(c) {
-        b.source = format!("{} (overridden in the scenario)", b.source);
+        b.source = crate::t!("leo-pass-overridden-in-the-scenario", source = b.source);
     }
     Ok(b)
 }
@@ -1372,9 +1372,9 @@ fn resolve_bands(
         match subset {
             Some(names) => {
                 for n in names {
-                    let b = p
-                        .band(n)
-                        .ok_or_else(|| format!("system '{}' has no band '{n}'", p.id))?;
+                    let b = p.band(n).ok_or_else(|| {
+                        crate::terr!("e-leo-pass-system-has-no-band", id = p.id, n = n)
+                    })?;
                     bands.push(band_from_preset(b, &src));
                 }
             }
@@ -1394,10 +1394,10 @@ fn resolve_bands(
         }
     }
     if bands.is_empty() {
-        return Err("a LEO satellite needs at least one band".to_string());
+        return Err(crate::terr!("e-leo-pass-leo-satellite-needs-at-least"));
     }
     if bands.len() > 12 {
-        return Err("at most 12 bands per satellite".to_string());
+        return Err(crate::terr!("e-leo-pass-at-most-12-bands-per"));
     }
     Ok(bands)
 }
@@ -1408,9 +1408,10 @@ fn system_by_name(name: Option<&str>) -> Result<Option<&'static SystemPreset>, S
         Some("none") => Ok(None),
         Some(n) => presets::by_id(n).map(Some).ok_or_else(|| {
             let ids: Vec<&str> = presets::all().iter().map(|p| p.id).collect();
-            format!(
-                "unknown system '{n}'; presets in this build: {}",
-                ids.join(", ")
+            crate::t!(
+                "leo-pass-unknown-system-presets-in-this",
+                n = n,
+                ids = ids.join(", ")
             )
         }),
     }
@@ -1611,8 +1612,12 @@ fn inclination_for(
                 .and_then(|p| p.shells.first())
                 .is_some_and(|s| s.inclination_deg.is_none()));
     if sso {
-        return sun_synchronous_inclination_rad(alt_m)
-            .ok_or_else(|| format!("no sun-synchronous orbit at {:.0} km", alt_m / 1e3));
+        return sun_synchronous_inclination_rad(alt_m).ok_or_else(|| {
+            crate::terr!(
+                "e-leo-pass-no-sun-synchronous-orbit-at",
+                v1 = crate::i18n::localise_decimal(format!("{:.0}", alt_m / 1e3))
+            )
+        });
     }
     let i = sat
         .inclination_deg
@@ -1676,9 +1681,10 @@ impl LeoPassScenario {
         let duration = self.duration_s.unwrap_or(900.0);
         let step = self.step_s.unwrap_or(5.0);
         if !(duration > 0.0 && step > 0.0) || duration / step > 20_000.0 || duration > 86_400.0 {
-            return Err(format!(
-                "duration_s (at most 86400) and step_s must be positive with at most 20000 \
-                 epochs; got {duration} and {step}"
+            return Err(crate::terr!(
+                "e-leo-pass-duration-at-most-86400-and",
+                duration = duration,
+                step = step
             ));
         }
         let (env, user_out) = self.env(jd0)?;
@@ -1714,12 +1720,13 @@ impl LeoPassScenario {
             }
             out.push((
                 s.id.clone(),
-                format!(
-                    "{} LEO satellite, {:.0} km, {:.1} deg ({})",
-                    s.system,
-                    s.altitude_m / 1e3,
-                    s.inclination_deg,
-                    s.orbit_source
+                crate::t!(
+                    "leo-pass-leo-satellite-km-deg",
+                    system = s.system,
+                    s = crate::i18n::localise_decimal(format!("{:.0}", s.altitude_m / 1e3)),
+                    inclination_deg =
+                        crate::i18n::localise_decimal(format!("{:.1}", s.inclination_deg)),
+                    orbit_source = s.orbit_source
                 ),
                 st,
             ));
@@ -1729,9 +1736,9 @@ impl LeoPassScenario {
         Ok(PassTracks {
             epoch_jd_utc: jd0,
             epoch_label: if self.epoch.is_some() {
-                format!("the scenario's `epoch` {epoch}, read as UTC")
+                crate::t!("leo-pass-the-scenario-epoch-read-as", epoch = epoch)
             } else {
-                format!("the kind's default epoch {epoch} UTC (the scenario gives none)")
+                crate::t!("leo-pass-the-kind-default-epoch-utc", epoch = epoch)
             },
             times_s: times,
             satellites: out,
@@ -1756,20 +1763,21 @@ impl LeoPassScenario {
             "maritime" => (10.0, 8.0),
             "air" => (10_000.0, 230.0),
             o => {
-                return Err(format!(
-                    "user.environment must be ground, maritime, air or indoor; got '{o}'"
+                return Err(crate::terr!(
+                    "e-leo-pass-user-environment-must-be-ground",
+                    o = o
                 ))
             }
         };
         let lat = u.lat_deg.unwrap_or(48.1);
         let lon = u.lon_deg.unwrap_or(11.6);
         if !(-90.0..=90.0).contains(&lat) {
-            return Err("user.lat_deg must be within +/-90".into());
+            return Err(crate::terr!("e-leo-pass-user-lat-deg-must-be"));
         }
         let height = u.height_m.unwrap_or(h_def);
         let speed = u.speed_m_s.unwrap_or(v_def);
         if !(0.0..=3000.0).contains(&speed) || !(-500.0..=100_000.0).contains(&height) {
-            return Err("user speed must be 0 to 3000 m/s and height -500 to 100000 m".into());
+            return Err(crate::terr!("e-leo-pass-user-speed-must-be-to"));
         }
         let antenna = match u.antenna.as_deref().unwrap_or("patch") {
             "patch" => UserAntenna::Patch {
@@ -1781,17 +1789,13 @@ impl LeoPassScenario {
                 gain_dbi: u.gain_dbi.unwrap_or(0.0),
             },
             "isotropic" => UserAntenna::Isotropic,
-            o => {
-                return Err(format!(
-                    "user.antenna must be patch, hemispherical or isotropic; got '{o}'"
-                ))
-            }
+            o => return Err(crate::terr!("e-leo-pass-user-antenna-must-be-patch", o = o)),
         };
         let indoor = if envname == "indoor" {
             let class = BuildingClass::parse(u.building.as_deref().unwrap_or("traditional"))?;
             let p = u.building_probability.unwrap_or(0.5);
             if !(p > 0.0 && p < 1.0) {
-                return Err("user.building_probability must be in (0, 1)".into());
+                return Err(crate::terr!("e-leo-pass-user-building-probability-must-be"));
             }
             Some((class, p))
         } else {
@@ -1836,8 +1840,9 @@ impl LeoPassScenario {
                 shell_m: io.shell_height_km.unwrap_or(350.0) * 1e3,
             },
             o => {
-                return Err(format!(
-                    "ionosphere.model must be klobuchar, vtec or none; got '{o}'"
+                return Err(crate::terr!(
+                    "e-leo-pass-ionosphere-model-must-be-klobuchar",
+                    o = o
                 ))
             }
         };
@@ -1918,8 +1923,9 @@ impl LeoPassScenario {
                             "ascending" => PassDirection::Ascending,
                             "descending" => PassDirection::Descending,
                             o => {
-                                return Err(format!(
-                                    "direction must be ascending or descending; got '{o}'"
+                                return Err(crate::terr!(
+                                    "e-leo-pass-direction-must-be-ascending-or",
+                                    o = o
                                 ))
                             }
                         },
@@ -1938,7 +1944,10 @@ impl LeoPassScenario {
                     let e = s.eccentricity.unwrap_or(0.0);
                     let a = RE_EARTH + alt_m;
                     if !(0.0..0.9).contains(&e) || a * (1.0 - e) <= RE_EARTH + 100e3 {
-                        return Err(format!("satellite {id}: bad eccentricity or perigee"));
+                        return Err(crate::terr!(
+                            "e-leo-pass-satellite-bad-eccentricity-or-perigee",
+                            id = id
+                        ));
                     }
                     let el = Elements {
                         a_m: a,
@@ -1958,8 +1967,9 @@ impl LeoPassScenario {
                     let (l1, l2) = match (&s.tle_line1, &s.tle_line2) {
                         (Some(a), Some(b)) => (a, b),
                         _ => {
-                            return Err(format!(
-                                "satellite {id}: tle needs tle_line1 and tle_line2"
+                            return Err(crate::terr!(
+                                "e-leo-pass-satellite-tle-needs-tle-line1",
+                                id = id
                             ))
                         }
                     };
@@ -1969,7 +1979,12 @@ impl LeoPassScenario {
                         None,
                     )
                 }
-                o => return Err(format!("orbit must be pass, elements or tle; got '{o}'")),
+                o => {
+                    return Err(crate::terr!(
+                        "e-leo-pass-orbit-must-be-pass-elements",
+                        o = o
+                    ))
+                }
             };
             let st0 = motion.state(0.0)?;
             let r0 = (st0.r[0] * st0.r[0] + st0.r[1] * st0.r[1] + st0.r[2] * st0.r[2]).sqrt();
@@ -2001,7 +2016,9 @@ impl LeoPassScenario {
             let design = match &c.design {
                 Some(d) => d.clone(),
                 None => {
-                    let p = system.ok_or("leo_constellation needs a system or a design")?;
+                    let p = system.ok_or_else(|| {
+                        crate::terr!("e-leo-pass-leo-constellation-needs-system-or")
+                    })?;
                     let shells = p
                         .shells
                         .iter()
@@ -2009,7 +2026,9 @@ impl LeoPassScenario {
                             let inc = match s.inclination_deg {
                                 Some(i) => i,
                                 None => sun_synchronous_inclination_rad(s.altitude_km * 1e3)
-                                    .ok_or("no sun-synchronous inclination")?
+                                    .ok_or_else(|| {
+                                        crate::terr!("e-leo-pass-no-sun-synchronous-inclination")
+                                    })?
                                     .to_degrees(),
                             };
                             Ok(crate::constellation::ShellCfg {
@@ -2042,7 +2061,7 @@ impl LeoPassScenario {
             };
             let built = design.build(&body)?;
             if built.elements.len() > 5000 {
-                return Err("leo_constellation: at most 5000 satellites".into());
+                return Err(crate::terr!("e-leo-pass-leo-constellation-at-most-5000"));
             }
             // Rank by the highest elevation reached in the window, on a coarse grid.
             let mut ranked: Vec<(f64, usize)> = Vec::new();
@@ -2083,7 +2102,7 @@ impl LeoPassScenario {
             }
         }
         if out.is_empty() {
-            return Err("no LEO satellite rises above the mask in the window".into());
+            return Err(crate::terr!("e-leo-pass-no-leo-satellite-rises-above"));
         }
         Ok(out)
     }
@@ -2391,7 +2410,7 @@ impl LeoPassScenario {
         let bound = c.iono_rate_bound_m_s.unwrap_or(0.01);
         let window = c.window_s.unwrap_or(step);
         if !(window > 0.0 && window <= 3600.0) {
-            return Err("spoofer.window_s must be in (0, 3600]".into());
+            return Err(crate::terr!("e-leo-pass-spoofer-window-must-be-in"));
         }
         let wn = ((window / step).round() as usize).max(1);
         let sim_iono = c.simulate_iono.unwrap_or(false);
@@ -2431,9 +2450,10 @@ impl LeoPassScenario {
             Some(list) => {
                 for b in list {
                     if !names.iter().any(|n| n.eq_ignore_ascii_case(b)) {
-                        return Err(format!(
-                            "spoofer.bands: '{b}' is not a band of any LEO satellite ({})",
-                            names.join(", ")
+                        return Err(crate::terr!(
+                            "e-leo-pass-spoofer-bands-is-not-band",
+                            b = b,
+                            names = names.join(", ")
                         ));
                     }
                 }
@@ -2798,8 +2818,13 @@ impl LeoPassScenario {
         let cons = g.constellation.clone().unwrap_or_else(|| "galileo".into());
         let default_band = if cons.starts_with("gps") { "L1" } else { "E1" };
         let bname = g.band.clone().unwrap_or_else(|| default_band.to_string());
-        let band = gnss_meo::gnss_band(&cons, &bname)
-            .ok_or_else(|| format!("no GNSS signal '{bname}' for constellation '{cons}'"))?;
+        let band = gnss_meo::gnss_band(&cons, &bname).ok_or_else(|| {
+            crate::terr!(
+                "e-leo-pass-no-gnss-signal-for-constellation",
+                bname = bname,
+                cons = cons
+            )
+        })?;
         let excess = g.excess_power_db.unwrap_or(2.0);
         let cfg = ConstellationCfg {
             name: cons.clone(),
@@ -2814,7 +2839,7 @@ impl LeoPassScenario {
             .elements
             .first()
             .map(|e| e.a_m)
-            .ok_or("empty GNSS constellation")?;
+            .ok_or_else(|| crate::terr!("e-leo-pass-empty-gnss-constellation"))?;
         let rho_ref = presets::slant_range_m(a_ref - RE_EARTH, band.min_power_elevation_deg);
         let pol = polarisation_loss_db(band.polarisation, 1.0, env.rx_pol, env.rx_ar_db);
         let mut sats_out = Vec::new();
@@ -2910,9 +2935,11 @@ impl LeoPassScenario {
                     let ib = names.iter().position(|n| n.eq_ignore_ascii_case(b));
                     match (ia, ib) {
                         (Some(x), Some(y)) if x != y => Ok((x, y)),
-                        _ => Err(format!(
-                            "iono_free_pairs: '{a}'/'{b}' are not two distinct bands of {}",
-                            s.id
+                        _ => Err(crate::terr!(
+                            "e-leo-pass-iono-free-pairs-are-not",
+                            a = a,
+                            b = b,
+                            id = s.id
                         )),
                     }
                 })
@@ -3015,7 +3042,7 @@ impl LeoPassScenario {
             fix_compute_s: c.fix_compute_s.unwrap_or(0.1),
         };
         if !(rx.active_power_mw > 0.0 && rx.sleep_power_uw >= 0.0 && rx.battery_mwh > 0.0) {
-            return Err("iot powers and battery must be positive".into());
+            return Err(crate::terr!("e-leo-pass-iot-powers-and-battery-must"));
         }
         let aided = c.aided_doppler_uncertainty_hz.unwrap_or(500.0);
         let intervals = c
@@ -3025,7 +3052,7 @@ impl LeoPassScenario {
         let use_peak = match c.cn0_from.as_deref().unwrap_or("median") {
             "median" => false,
             "peak" => true,
-            o => return Err(format!("iot.cn0_from must be median or peak; got '{o}'")),
+            o => return Err(crate::terr!("e-leo-pass-iot-cn0-from-must-be", o = o)),
         };
         let mut rows = Vec::new();
         if let (Some(s), Some(so)) = (sats.first(), out.first()) {
@@ -3114,23 +3141,30 @@ impl LeoPassScenario {
             sleep_power_uw: rx.sleep_power_uw,
             battery_mwh: rx.battery_mwh,
             assumptions: vec![
-                format!(
-                    "detection threshold {:.1} dB after integration",
-                    rx.detection_snr_db
+                crate::t!(
+                    "leo-pass-detection-threshold-db-after-integration",
+                    detection_snr_db =
+                        crate::i18n::localise_decimal(format!("{:.1}", rx.detection_snr_db))
                 ),
-                format!(
-                    "coherent integration at most {:.0} ms, capped by the Doppler rate",
-                    rx.max_coherent_s * 1e3
+                crate::t!(
+                    "leo-pass-coherent-integration-at-most-ms",
+                    rx = crate::i18n::localise_decimal(format!("{:.0}", rx.max_coherent_s * 1e3))
                 ),
                 if rx.parallel_code_search {
                     "parallel (FFT) code search: one Doppler bin per dwell".to_string()
                 } else {
-                    format!("serial search with {} correlators", rx.correlators)
+                    crate::t!(
+                        "leo-pass-serial-search-with-correlators",
+                        correlators = rx.correlators
+                    )
                 },
                 "cold start: Doppler uncertainty is the orbit's static-user envelope (LEO) or \
                  the larger of the pass maximum and 5 kHz (GNSS); message demodulation added"
                     .to_string(),
-                format!("hot start: Doppler known to +/-{aided:.0} Hz, ephemeris valid"),
+                crate::t!(
+                    "leo-pass-hot-start-doppler-known-to",
+                    aided = crate::i18n::localise_decimal(format!("{:.0}", aided))
+                ),
                 "C/N0 from the pass (median over the visible epochs unless peak is asked)"
                     .to_string(),
             ],
@@ -3324,7 +3358,8 @@ const UNITS: &[(&str, &str, &str, &str)] = &[
 ];
 
 fn report_json(r: &LeoPassReport) -> Result<String, String> {
-    let mut doc = serde_json::to_value(r).map_err(|e| format!("serialising report: {e}"))?;
+    let mut doc = serde_json::to_value(r)
+        .map_err(|e| crate::terr!("e-body-pnt-serialising-report", e = e))?;
     match doc.as_object_mut() {
         Some(o) => {
             let mut units = crate::solar_system::units_block_from(UNITS);
@@ -3338,9 +3373,10 @@ fn report_json(r: &LeoPassReport) -> Result<String, String> {
             }
             o.insert("units".into(), units);
         }
-        None => return Err("the report must serialise to a JSON object".to_string()),
+        None => return Err(crate::terr!("e-body-pnt-the-report-must-serialise-to")),
     }
-    serde_json::to_string_pretty(&doc).map_err(|e| format!("serialising report: {e}"))
+    serde_json::to_string_pretty(&doc)
+        .map_err(|e| crate::terr!("e-body-pnt-serialising-report", e = e))
 }
 
 fn opt(v: Option<f64>, unit: &str) -> String {
@@ -3350,69 +3386,76 @@ fn opt(v: Option<f64>, unit: &str) -> String {
 
 /// The text summary.
 pub fn summary(r: &LeoPassReport) -> String {
-    let mut s = format!(
-        "LEO pass link budget, {} user at {:.2}, {:.2}; {} LEO satellite(s), {} s window\n",
-        r.user.environment,
-        r.user.lat_deg,
-        r.user.lon_deg,
-        r.satellites.len(),
-        r.duration_s
+    let mut s = crate::t!(
+        "leo-pass-leo-pass-link-budget-user",
+        environment = r.user.environment,
+        lat_deg = crate::i18n::localise_decimal(format!("{:.2}", r.user.lat_deg)),
+        lon_deg = crate::i18n::localise_decimal(format!("{:.2}", r.user.lon_deg)),
+        satellites = r.satellites.len(),
+        duration_s = r.duration_s
     );
     for sat in &r.satellites {
-        s.push_str(&format!(
-            "  {} [{} {}]: {:.0} km, max elevation {:.1} deg at {:.0} s, {:.0} s above the mask\n",
-            sat.id,
-            sat.system,
-            sat.source_kind,
-            sat.altitude_m / 1e3,
-            sat.pass.max_elevation_deg,
-            sat.pass.tca_s,
-            sat.pass.duration_above_mask_s
+        s.push_str(&crate::t!(
+            "leo-pass-km-max-elevation-deg-at",
+            id = sat.id,
+            system = sat.system,
+            source_kind = sat.source_kind,
+            sat = crate::i18n::localise_decimal(format!("{:.0}", sat.altitude_m / 1e3)),
+            max_elevation_deg =
+                crate::i18n::localise_decimal(format!("{:.1}", sat.pass.max_elevation_deg)),
+            tca_s = crate::i18n::localise_decimal(format!("{:.0}", sat.pass.tca_s)),
+            duration_above_mask_s =
+                crate::i18n::localise_decimal(format!("{:.0}", sat.pass.duration_above_mask_s))
         ));
         for b in &sat.bands {
-            s.push_str(&format!(
-                "    {:>8} {:>10.3} MHz: C/N0 peak {} median {}; |Doppler| max {}; iono {}\n",
-                b.name,
-                b.frequency_hz / 1e6,
-                opt(b.peak_cn0_dbhz, "dB-Hz"),
-                opt(b.median_cn0_dbhz, "dB-Hz"),
-                opt(b.max_abs_doppler_hz.map(|x| x / 1e3), "kHz"),
-                b.iono_delay_at_peak_m
+            s.push_str(&crate::t!(
+                "leo-pass-mhz-n0-peak-median-doppler",
+                name = format!("{:>8}", b.name),
+                b = crate::i18n::localise_decimal(format!("{:>10.3}", b.frequency_hz / 1e6)),
+                opt = opt(b.peak_cn0_dbhz, "dB-Hz"),
+                opt2 = opt(b.median_cn0_dbhz, "dB-Hz"),
+                opt3 = opt(b.max_abs_doppler_hz.map(|x| x / 1e3), "kHz"),
+                b2 = b
+                    .iono_delay_at_peak_m
                     .map(|x| format!("{x:.2} m"))
                     .unwrap_or_else(|| "n/a".into())
             ));
         }
     }
     if let Some(g) = &r.gnss {
-        s.push_str(&format!(
-            "  GNSS {} {}: {} in view, C/N0 {} to {} (median {})\n",
-            g.constellation,
-            g.band,
-            g.satellites_in_view,
-            opt(g.min_cn0_dbhz, "dB-Hz"),
-            opt(g.max_cn0_dbhz, "dB-Hz"),
-            opt(g.median_cn0_dbhz, "dB-Hz")
+        s.push_str(&crate::t!(
+            "leo-pass-gnss-in-view-n0-to",
+            constellation = g.constellation,
+            band = g.band,
+            satellites_in_view = g.satellites_in_view,
+            opt = opt(g.min_cn0_dbhz, "dB-Hz"),
+            opt2 = opt(g.max_cn0_dbhz, "dB-Hz"),
+            opt3 = opt(g.median_cn0_dbhz, "dB-Hz")
         ));
     }
     if let Some(c) = &r.comparison {
-        s.push_str(&format!(
-            "  LEO {} peak {:.1} dB-Hz is {:.1} dB above the GNSS median; above the strongest \
-             GNSS carrier for {:.0} s\n",
-            c.leo_band,
-            c.leo_peak_cn0_dbhz,
-            c.leo_peak_above_gnss_median_db,
-            c.leo_seconds_above_gnss_max
+        s.push_str(&crate::t!(
+            "leo-pass-leo-peak-db-hz-is",
+            leo_band = c.leo_band,
+            leo_peak_cn0_dbhz =
+                crate::i18n::localise_decimal(format!("{:.1}", c.leo_peak_cn0_dbhz)),
+            leo_peak_above_gnss_median_db =
+                crate::i18n::localise_decimal(format!("{:.1}", c.leo_peak_above_gnss_median_db)),
+            leo_seconds_above_gnss_max =
+                crate::i18n::localise_decimal(format!("{:.0}", c.leo_seconds_above_gnss_max))
         ));
     }
     if let Some(iot) = &r.iot {
         for row in &iot.rows {
-            s.push_str(&format!(
-                "  IoT {}: cold TTFF {:.1} s ({:.0} mJ), hot {:.2} s ({:.1} mJ)\n",
-                row.signal,
-                row.cold.ttff_s,
-                row.cold.energy_per_fix_mj,
-                row.hot.ttff_s,
-                row.hot.energy_per_fix_mj
+            s.push_str(&crate::t!(
+                "leo-pass-iot-cold-ttff-mj-hot",
+                signal = row.signal,
+                ttff_s = crate::i18n::localise_decimal(format!("{:.1}", row.cold.ttff_s)),
+                energy_per_fix_mj =
+                    crate::i18n::localise_decimal(format!("{:.0}", row.cold.energy_per_fix_mj)),
+                ttff_s2 = crate::i18n::localise_decimal(format!("{:.2}", row.hot.ttff_s)),
+                energy_per_fix_mj2 =
+                    crate::i18n::localise_decimal(format!("{:.1}", row.hot.energy_per_fix_mj))
             ));
         }
     }
@@ -3421,16 +3464,15 @@ pub fn summary(r: &LeoPassReport) -> String {
             (Some(t), Some(o)) => format!("{t:.0} s ({o:.1} m)"),
             _ => "not detected".to_string(),
         };
-        s.push_str(&format!(
-            "  Spoofer from {:.0} s (jump {:.1} m, push {:.3} m/s): Doppler test GNSS {}, LEO \
-             {}, fused {}; cross-band {}\n",
-            sp.onset_s,
-            sp.offset_m,
-            sp.push_rate_m_s,
-            t(&sp.gnss),
-            t(&sp.leo),
-            t(&sp.fused),
-            t(&sp.cross_band)
+        s.push_str(&crate::t!(
+            "leo-pass-spoofer-from-jump-push-doppler",
+            onset_s = crate::i18n::localise_decimal(format!("{:.0}", sp.onset_s)),
+            offset_m = crate::i18n::localise_decimal(format!("{:.1}", sp.offset_m)),
+            push_rate_m_s = crate::i18n::localise_decimal(format!("{:.3}", sp.push_rate_m_s)),
+            t = t(&sp.gnss),
+            t2 = t(&sp.leo),
+            t3 = t(&sp.fused),
+            t4 = t(&sp.cross_band)
         ));
     }
     s
@@ -3443,11 +3485,15 @@ const COLOURS: [&str; 8] = [CYAN, BLUE, LIME, MAGENTA, INK_2, AMBER, CORAL, INK_
 pub fn to_svg(r: &LeoPassReport) -> String {
     let (w, h) = (900.0, 520.0);
     let sub = match &r.comparison {
-        Some(c) => format!(
-            "{} user · LEO peak {:.1} dB-Hz, {:.1} dB above the GNSS median · MODELLED",
-            r.user.environment, c.leo_peak_cn0_dbhz, c.leo_peak_above_gnss_median_db
+        Some(c) => crate::t!(
+            "leo-pass-user-leo-peak-db-hz",
+            environment = r.user.environment,
+            leo_peak_cn0_dbhz =
+                crate::i18n::localise_decimal(format!("{:.1}", c.leo_peak_cn0_dbhz)),
+            leo_peak_above_gnss_median_db =
+                crate::i18n::localise_decimal(format!("{:.1}", c.leo_peak_above_gnss_median_db))
         ),
-        None => format!("{} user · MODELLED", r.user.environment),
+        None => crate::t!("leo-pass-user-modelled", environment = r.user.environment),
     };
     let mut s = crate::chart::frame_open(w, h, "LEO pass: C/N0 per band and Doppler", &sub);
     let (ml, pw) = (70.0, 800.0);
@@ -3525,9 +3571,9 @@ pub fn to_svg(r: &LeoPassReport) -> String {
         top2,
         pw,
         top2 + ph2,
-        &format!(
-            "Doppler of each LEO satellite's first band (±{:.1} kHz full scale)",
-            dmax / 1e3
+        &crate::t!(
+            "leo-pass-doppler-of-each-leo-satellite",
+            v1 = crate::i18n::localise_decimal(format!("{:.1}", dmax / 1e3))
         ),
     ));
     s.push_str(&format!(

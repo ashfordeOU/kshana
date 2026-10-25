@@ -218,9 +218,12 @@ pub fn quantise(value: f64, scale_pow2: i32, bits: u32, signed: bool) -> Result<
         (0.0, 2f64.ppowi(bits as i32) - 1.0)
     };
     if !(q >= lo && q <= hi) {
-        return Err(format!(
-            "{value:e} at scale 2^{scale_pow2} does not fit {bits} {} bits",
-            if signed { "signed" } else { "unsigned" }
+        return Err(crate::terr!(
+            "e-gps-lnav-at-scale-does-not-fit",
+            value = crate::i18n::localise_decimal(format!("{:e}", value)),
+            scale_pow2 = scale_pow2,
+            bits = bits,
+            v1 = if signed { "signed" } else { "unsigned" }
         ));
     }
     let mask = (1u64 << bits) - 1;
@@ -299,7 +302,7 @@ pub fn data_words(
         let (_, raw) = values
             .iter()
             .find(|(n, _)| *n == spec.name)
-            .ok_or_else(|| format!("no value for {}", spec.name))?;
+            .ok_or_else(|| crate::terr!("e-gps-lnav-no-value-for", name = spec.name))?;
         let total: u32 = spec.pieces.iter().map(|p| p.2).sum();
         let mut remaining = total;
         for &(word, first, len) in spec.pieces {

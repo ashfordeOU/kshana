@@ -79,5 +79,8 @@ fn write_interop_table(root: &Path) {
         .expect("docs/INTEROP.md has the table end marker");
     let updated = format!("{}{}{}", &doc[..a], table, &doc[b..]);
     std::fs::write(&path, updated).unwrap_or_else(|e| panic!("write docs/INTEROP.md: {e}"));
-    eprintln!("wrote docs/INTEROP.md (export table)");
+    eprintln!(
+        "{}",
+        kshana::t!("bin-gen-validation-artifacts-wrote-docs-interop-md-export")
+    );
 }

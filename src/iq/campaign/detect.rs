@@ -65,10 +65,14 @@ impl MonitorsSpec {
     /// Check the settings.
     pub fn validate(&self) -> Result<(), String> {
         if !(self.detect_grace_s.is_finite() && self.detect_grace_s >= 0.0) {
-            return Err("monitors.detect_grace_s must be >= 0".into());
+            return Err(crate::terr!(
+                "e-iq-campaign-detect-monitors-detect-grace-must-be"
+            ));
         }
         if !(self.roc_window_s.is_finite() && self.roc_window_s > 0.0) {
-            return Err("monitors.roc_window_s must be positive".into());
+            return Err(crate::terr!(
+                "e-iq-campaign-detect-monitors-roc-window-must-be"
+            ));
         }
         Ok(())
     }

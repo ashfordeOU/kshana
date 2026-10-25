@@ -91,7 +91,11 @@ fn ascii_guard(line: &str, label: &str) -> Result<(), String> {
     if line.is_ascii() {
         Ok(())
     } else {
-        Err(format!("non-ASCII characters in TLE {label}: {line:?}"))
+        Err(crate::terr!(
+            "e-tle-non-ascii-characters-in-tle",
+            label = label,
+            line = format!("{:?}", line)
+        ))
     }
 }
 
@@ -99,9 +103,14 @@ fn ascii_guard(line: &str, label: &str) -> Result<(), String> {
 /// line is too short for the range — callers have already run [`ascii_guard`], so
 /// byte offsets equal character offsets and `get` only guards the length.
 fn col<'a>(line: &'a str, a: usize, z: usize, what: &str) -> Result<&'a str, String> {
-    line.get(a..z)
-        .map(str::trim)
-        .ok_or_else(|| format!("TLE truncated reading {what} (columns {}..{})", a + 1, z))
+    line.get(a..z).map(str::trim).ok_or_else(|| {
+        crate::terr!(
+            "e-tle-tle-truncated-reading-columns",
+            what = what,
+            v1 = a + 1,
+            z = z
+        )
+    })
 }
 
 /// The TLE line checksum: the sum of the digits in columns 1..68 (each `-` counts
@@ -127,15 +136,21 @@ pub fn verify_checksum(line: &str, label: &str) -> Result<(), String> {
         .as_bytes()
         .get(68)
         .copied()
-        .ok_or_else(|| format!("TLE {label} too short for a column-69 checksum"))?;
+        .ok_or_else(|| crate::terr!("e-tle-tle-too-short-for-column", label = label))?;
     if !want.is_ascii_digit() {
-        return Err(format!("TLE {label} has no checksum digit in column 69"));
+        return Err(crate::terr!(
+            "e-tle-tle-has-no-checksum-digit",
+            label = label
+        ));
     }
     let want = (want - b'0') as u32;
     let got = tle_checksum(line);
     if want != got {
-        return Err(format!(
-            "TLE {label} checksum mismatch: column 69 says {want}, computed {got}"
+        return Err(crate::terr!(
+            "e-tle-tle-checksum-mismatch-column-69",
+            label = label,
+            want = want,
+            got = got
         ));
     }
     Ok(())
@@ -154,21 +169,27 @@ pub fn parse_tle(line1: &str, line2: &str) -> Result<Tle, String> {
     ascii_guard(line1, "line 1")?;
     ascii_guard(line2, "line 2")?;
     if !line1.starts_with("1 ") || line1.len() < 63 {
-        return Err(format!("not a TLE line 1: {line1:?}"));
+        return Err(crate::terr!(
+            "e-tle-not-tle-line",
+            line1 = format!("{:?}", line1)
+        ));
     }
     if !line2.starts_with("2 ") || line2.len() < 63 {
-        return Err(format!("not a TLE line 2: {line2:?}"));
+        return Err(crate::terr!(
+            "e-tle-not-tle-line-2",
+            line2 = format!("{:?}", line2)
+        ));
     }
     let num = |s: &str, what: &str| -> Result<f64, String> {
         s.trim()
             .parse::<f64>()
-            .map_err(|_| format!("invalid {what} in TLE: {s:?}"))
+            .map_err(|_| crate::terr!("e-tle-invalid-in-tle", what = what, s = format!("{:?}", s)))
     };
     // Epoch: two-digit year (57-99 -> 19xx, 00-56 -> 20xx) and day-of-year.
     let yy: i64 = col(line1, 18, 20, "epoch year")?.parse().map_err(|_| {
-        format!(
-            "invalid epoch year in TLE: {:?}",
-            col(line1, 18, 20, "").ok()
+        crate::terr!(
+            "e-tle-invalid-epoch-year-in-tle",
+            col = format!("{:?}", col(line1, 18, 20, "").ok())
         )
     })?;
     let year = if yy < 57 { 2000 + yy } else { 1900 + yy };
@@ -235,12 +256,15 @@ pub struct TleIdentity {
 pub fn parse_tle_identity(line1: &str) -> Result<TleIdentity, String> {
     ascii_guard(line1, "line 1")?;
     if !line1.starts_with("1 ") || line1.len() < 63 {
-        return Err(format!("not a TLE line 1: {line1:?}"));
+        return Err(crate::terr!(
+            "e-tle-not-tle-line",
+            line1 = format!("{:?}", line1)
+        ));
     }
     let norad_cat_id: u32 = col(line1, 2, 7, "catalogue number")?.parse().map_err(|_| {
-        format!(
-            "invalid catalogue number in TLE: {:?}",
-            col(line1, 2, 7, "").ok()
+        crate::terr!(
+            "e-tle-invalid-catalogue-number-in-tle",
+            col = format!("{:?}", col(line1, 2, 7, "").ok())
         )
     })?;
 
@@ -289,15 +313,22 @@ fn check_elements(
     mean_motion_rev_day: f64,
 ) -> Result<(), String> {
     if !(0.0..=180.0).contains(&inclination_deg) {
-        return Err(format!(
-            "inclination out of range [0, 180] deg: {inclination_deg}"
+        return Err(crate::terr!(
+            "e-tle-inclination-out-of-range-180",
+            inclination_deg = inclination_deg
         ));
     }
     if !(0.0..1.0).contains(&eccentricity) {
-        return Err(format!("eccentricity out of range [0, 1): {eccentricity}"));
+        return Err(crate::terr!(
+            "e-tle-eccentricity-out-of-range",
+            eccentricity = eccentricity
+        ));
     }
     if mean_motion_rev_day.is_nan() || mean_motion_rev_day <= 0.0 {
-        return Err(format!("non-positive mean motion: {mean_motion_rev_day}"));
+        return Err(crate::terr!(
+            "e-tle-non-positive-mean-motion",
+            mean_motion_rev_day = mean_motion_rev_day
+        ));
     }
     Ok(())
 }
@@ -306,14 +337,21 @@ fn check_elements(
 /// mantissa (implied leading `.`), and a signed power-of-ten exponent — e.g.
 /// sign `" "`, mantissa `"28098"`, exponent `"-4"` is `+0.28098e-4`.
 fn parse_decimal_exp(sign: &str, mant: &str, exp: &str, what: &str) -> Result<f64, String> {
-    let m: f64 = format!("0.{}", mant.trim())
-        .parse()
-        .map_err(|_| format!("invalid {what} mantissa in TLE: {mant:?}"))?;
+    let m: f64 = format!("0.{}", mant.trim()).parse().map_err(|_| {
+        crate::terr!(
+            "e-tle-invalid-mantissa-in-tle",
+            what = what,
+            mant = format!("{:?}", mant)
+        )
+    })?;
     let v = if sign.trim() == "-" { -m } else { m };
-    let e: i32 = exp
-        .trim()
-        .parse()
-        .map_err(|_| format!("invalid {what} exponent in TLE: {exp:?}"))?;
+    let e: i32 = exp.trim().parse().map_err(|_| {
+        crate::terr!(
+            "e-tle-invalid-exponent-in-tle",
+            what = what,
+            exp = format!("{:?}", exp)
+        )
+    })?;
     Ok(v * 10f64.ppowi(e))
 }
 
@@ -323,11 +361,14 @@ fn parse_decimal_exp(sign: &str, mant: &str, exp: &str, what: &str) -> Result<f6
 pub fn parse_line2(line2: &str) -> Result<Orbit, String> {
     ascii_guard(line2, "line 2")?;
     if !line2.starts_with("2 ") || line2.len() < 63 {
-        return Err(format!("not a TLE line 2: {line2:?}"));
+        return Err(crate::terr!(
+            "e-tle-not-tle-line-2",
+            line2 = format!("{:?}", line2)
+        ));
     }
     let num = |s: &str, what: &str| -> Result<f64, String> {
         s.parse::<f64>()
-            .map_err(|_| format!("invalid {what} in TLE: {s:?}"))
+            .map_err(|_| crate::terr!("e-tle-invalid-in-tle", what = what, s = format!("{:?}", s)))
     };
     let inclination_deg = num(col(line2, 8, 16, "inclination")?, "inclination")?;
     let raan_deg = num(col(line2, 17, 25, "RAAN")?, "RAAN")?;
@@ -445,11 +486,9 @@ pub fn parse_propagators_report(text: &str, opts: ParseOpts) -> Result<ParseRepo
                 }
                 None => {
                     let satnum = line.get(2..7).unwrap_or("?????").trim();
-                    warnings.push(format!(
-                        "satellite {satnum}: line-2-only element set parsed as analytic \
-                         Keplerian (two-body) elements — the line-1 drag/B* and SGP4 secular \
-                         terms are absent, so this orbit drifts from a true SGP4 fit away from \
-                         epoch; supply the matching line 1 for SGP4 accuracy"
+                    warnings.push(crate::t!(
+                        "tle-satellite-line-only-element-set",
+                        satnum = satnum
                     ));
                     out.push(Propagator::Kepler(parse_line2(line)?));
                 }
