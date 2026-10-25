@@ -890,10 +890,13 @@ pub fn lunar_report_svg(r: &LunarReport) -> String {
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Lunar south-pole HPL ({:.0}% available, AL {:.0} m, σ_URE {:.0} m)</text>",
-        r.availability() * 100.0,
-        r.alert_limit_m,
-        r.sigma_ure_m
+        "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+        crate::t!(
+            "lunar-chart-title",
+            availability = crate::i18n::num(r.availability() * 100.0, 0),
+            al = crate::i18n::num(r.alert_limit_m, 0),
+            sigma = crate::i18n::num(r.sigma_ure_m, 0)
+        )
     ));
     // Alert-limit line.
     svg.push_str(&format!(

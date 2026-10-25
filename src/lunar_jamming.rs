@@ -1747,8 +1747,8 @@ pub fn to_svg(r: &LunarJammingReport) -> String {
          <rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"20\" font-size=\"15\" font-weight=\"bold\">\
-         Per-satellite J/S vs elevation, lunar surface user</text>"
+        "<text x=\"{ml:.0}\" y=\"20\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+        crate::t!("lunar-jamming-chart-title")
     ));
     let js_hi = r
         .links
@@ -1769,7 +1769,14 @@ pub fn to_svg(r: &LunarJammingReport) -> String {
     };
     let pad = (js_hi - js_lo) * 0.1;
     let (y_lo, y_hi) = (js_lo - pad, js_hi + pad);
-    svg.push_str(&crate::chart::y_axis(ml, mt, pw, ph, y_hi, "J/S (dB)"));
+    svg.push_str(&crate::chart::y_axis(
+        ml,
+        mt,
+        pw,
+        ph,
+        y_hi,
+        &crate::t!("lunar-jamming-chart-y-title"),
+    ));
     svg.push_str(&format!(
         "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>\
          <line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>",
@@ -1793,24 +1800,27 @@ pub fn to_svg(r: &LunarJammingReport) -> String {
         ));
     }
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">\
-         satellite elevation (deg)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">{}</text>",
         ml + pw / 2.0,
-        axis_y + 34.0
+        axis_y + 34.0,
+        crate::t!("lunar-jamming-chart-x-title")
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"42\" fill=\"{LIME}\">LOCKED</text>\
-         <text x=\"{:.0}\" y=\"58\" fill=\"{AMBER}\">DEGRADED</text>\
-         <text x=\"{:.0}\" y=\"74\" fill=\"{CORAL}\">LOST</text>",
+        "<text x=\"{:.0}\" y=\"42\" fill=\"{LIME}\">{}</text>\
+         <text x=\"{:.0}\" y=\"58\" fill=\"{AMBER}\">{}</text>\
+         <text x=\"{:.0}\" y=\"74\" fill=\"{CORAL}\">{}</text>",
         ml + 10.0,
+        crate::t!("lunar-jamming-chart-locked"),
         ml + 10.0,
-        ml + 10.0
+        crate::t!("lunar-jamming-chart-degraded"),
+        ml + 10.0,
+        crate::t!("lunar-jamming-chart-lost")
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" fill=\"{MUTED}\">{} links</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" fill=\"{MUTED}\">{}</text>",
         ml + pw,
         mt + 14.0,
-        r.fom.n_links
+        crate::t!("lunar-jamming-chart-n-links", n_links = r.fom.n_links)
     ));
     svg.push_str("</svg>");
     svg

@@ -804,7 +804,7 @@ pub fn to_svg(r: &SolarSystemReport) -> String {
     let mut s = crate::chart::frame_open(
         w,
         h,
-        "Solar system — J2000 ecliptic, top-down",
+        &crate::t!("solar-system-chart-title"),
         &crate::t!(
             "solar-system-epoch-positions-from-the-standish",
             input = r.epoch.input,
@@ -812,15 +812,15 @@ pub fn to_svg(r: &SolarSystemReport) -> String {
         ),
     );
     let panels = [
-        (40.0, "Inner system (to Mars)", 1.75),
-        (500.0, "Whole system (to Pluto)", 50.0),
+        (40.0, crate::t!("solar-system-chart-inner"), 1.75),
+        (500.0, crate::t!("solar-system-chart-whole"), 50.0),
     ];
     for (x0, caption, extent_au) in panels {
         let (pw, top) = (420.0, 70.0);
         let cx = x0 + pw / 2.0;
         let cy = top + pw / 2.0;
         let k = (pw / 2.0) / (extent_au * crate::ephem::AU_M);
-        s.push_str(&crate::chart::panel_axes(x0, top, pw, top + pw, caption));
+        s.push_str(&crate::chart::panel_axes(x0, top, pw, top + pw, &caption));
         s.push_str(&format!(
             "<circle cx=\"{cx:.1}\" cy=\"{cy:.1}\" r=\"4\" fill=\"{AMBER}\"/>"
         ));
@@ -863,9 +863,8 @@ pub fn to_svg(r: &SolarSystemReport) -> String {
         }
     }
     s.push_str(&format!(
-        "<text x=\"40\" y=\"510\" font-size=\"10\" fill=\"{MUTED}\">green: VALIDATED against \
-         JPL Horizons · amber: MODELLED · moons are listed in result.json with parent-centred \
-         tracks</text></svg>"
+        "<text x=\"40\" y=\"510\" font-size=\"10\" fill=\"{MUTED}\">{}</text></svg>",
+        crate::t!("solar-system-chart-legend")
     ));
     s
 }

@@ -280,3 +280,32 @@ fn a_plural_selector_in_a_translation_sees_the_count() {
         assert_eq!(ru.format_pattern(pattern, Some(&fa), &mut errors), want);
     }
 }
+
+#[test]
+fn a_registered_catalogue_replaces_the_embedded_one_and_a_bad_one_changes_nothing() {
+    // Estonian: a catalogue with one message, as a page would register it after fetching the file.
+    let ftl = "engine-e-clock-log-unknown-gap-policy-expected-refuse = tundmatu: { $other }\n";
+    register_catalogue("et", ftl).unwrap();
+    let et = resolve("et").unwrap();
+    assert_eq!(
+        tr_in(
+            &et,
+            "e-clock-log-unknown-gap-policy-expected-refuse",
+            &[("other", "x".to_string())]
+        ),
+        "tundmatu: x"
+    );
+    // A message the registered catalogue lacks is English.
+    assert_eq!(tr_in(&et, "no-such-message", &[]), "no-such-message");
+    assert!(register_catalogue("et", "this is = { broken").is_err());
+    assert_eq!(
+        tr_in(
+            &et,
+            "e-clock-log-unknown-gap-policy-expected-refuse",
+            &[("other", "y".to_string())]
+        ),
+        "tundmatu: y"
+    );
+    assert!(register_catalogue("tlh", ftl).is_err());
+    assert!(register_catalogue("en", ftl).is_err());
+}

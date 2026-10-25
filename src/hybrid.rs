@@ -617,7 +617,7 @@ pub fn to_svg(result: &HybridResult) -> String {
     svg.push_str(&format!(
         "<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">{}</text>",
         ml,
-        crate::t!("hybrid-chart-title")
+        crate::t!("hybrid-chart-title", lit_1_0 = crate::i18n::num(1.0_f64, 1))
     ));
     svg.push_str(&crate::chart::y_axis(
         ml,
@@ -639,7 +639,10 @@ pub fn to_svg(result: &HybridResult) -> String {
         "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">{}</text>",
         ml + 4.0,
         thr_y - 4.0,
-        crate::t!("hybrid-chart-spec-line")
+        crate::t!(
+            "hybrid-chart-spec-line",
+            lit_1_0 = crate::i18n::num(1.0_f64, 1)
+        )
     ));
     svg.push_str(&format!(
         "<polyline fill=\"none\" stroke=\"{AMBER}\" stroke-width=\"2\" points=\"{}\"/>",

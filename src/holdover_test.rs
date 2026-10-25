@@ -751,27 +751,34 @@ fn summary_line(r: &HoldoverTestRun) -> String {
         .iter()
         .map(|(_, m)| format!("{} {}", m.id, m.verdict))
         .collect();
-    let rec = match &r.recovery {
-        Some(x) => match x.time_to_recover_s {
-            Some(t) => crate::t!(
-                "holdover-test-recovered-after-gnss-returned",
-                t = crate::i18n::localise_decimal(format!("{:.0}", t))
-            ),
-            None => crate::t!("holdover-test-not-recovered-within-record"),
-        },
-        None => String::new(),
-    };
-    crate::t!(
-        "holdover-test-holdover-test-holdover-max-te",
-        hold = crate::i18n::localise_decimal(format!(
-            "{:.0}",
-            hold.map(|h| (h.rec.te_ns.len() - 1) as f64 * h.rec.dt_s)
-                .unwrap_or(0.0)
-        )),
-        max_abs = crate::i18n::localise_decimal(format!("{:.1}", max_abs)),
-        masks = masks.join(", "),
-        rec = rec
-    )
+    let hold_s = crate::i18n::localise_decimal(format!(
+        "{:.0}",
+        hold.map(|h| (h.rec.te_ns.len() - 1) as f64 * h.rec.dt_s)
+            .unwrap_or(0.0)
+    ));
+    let max_abs = crate::i18n::localise_decimal(format!("{:.1}", max_abs));
+    let masks = masks.join(", ");
+    match r.recovery.as_ref().map(|x| x.time_to_recover_s) {
+        Some(Some(t)) => crate::t!(
+            "holdover-test-holdover-recovered-after-gnss-returned",
+            hold = hold_s,
+            max_abs = max_abs,
+            masks = masks,
+            t = crate::i18n::localise_decimal(format!("{:.0}", t))
+        ),
+        Some(None) => crate::t!(
+            "holdover-test-holdover-not-recovered-within-record",
+            hold = hold_s,
+            max_abs = max_abs,
+            masks = masks
+        ),
+        None => crate::t!(
+            "holdover-test-holdover-test-holdover-max-te",
+            hold = hold_s,
+            max_abs = max_abs,
+            masks = masks
+        ),
+    }
 }
 
 /// |TE| against time with the three steps shaded and the budgets drawn.

@@ -343,15 +343,18 @@ pub fn to_svg(r: &QuantumAnomalyReport) -> String {
     format!(
         "<svg xmlns='http://www.w3.org/2000/svg' width='320' height='220' font-family='{FONT_SANS}' fill='{TEXT}'>\
          <rect width='320' height='220' fill='{BG}'/>\
-         <text x='10' y='20' font-size='12'>quantum-anomaly-detect AUC (MODELLED)</text>\
+         <text x='10' y='20' font-size='12'>{}</text>\
          <rect x='60' y='{:.1}' width='60' height='{:.1}' fill='{LIME}'/>\
-         <text x='62' y='210' font-size='10'>quantum</text>\
+         <text x='62' y='210' font-size='10'>{}</text>\
          <rect x='180' y='{:.1}' width='60' height='{:.1}' fill='{CORAL}'/>\
-         <text x='182' y='210' font-size='10'>classical</text></svg>",
+         <text x='182' y='210' font-size='10'>{}</text></svg>",
+        crate::t!("quantum-faults-chart-title"),
         200.0 - qh,
         qh,
+        crate::t!("quantum-faults-chart-quantum"),
         200.0 - ch,
-        ch
+        ch,
+        crate::t!("quantum-faults-chart-classical")
     )
 }
 

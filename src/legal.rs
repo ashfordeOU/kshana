@@ -4,10 +4,11 @@
 //! translator may translate; [`text`] gives the one a person reads, in the current language.
 //! `tests/i18n_legal.rs` checks that every English message equals its constant.
 
-/// Every legal text: the message id, then the constant it translates.
+/// Every legal text (the modules that are not built for WebAssembly contribute theirs only natively): the message id, then the constant it translates.
 pub const LEGAL: &[(&str, &str)] = &[
     ("legal-compliance-statement", crate::compliance::STATEMENT),
     ("legal-bench-surface-notice", crate::surface::BENCH_NOTICE),
+    #[cfg(not(target_arch = "wasm32"))]
     (
         "legal-iq-campaign-roc-statement",
         crate::iq::campaign::report::ROC_STATEMENT,
@@ -16,7 +17,9 @@ pub const LEGAL: &[(&str, &str)] = &[
         "legal-lunanet-afs-advisory",
         crate::iq::lunanet_afs::ADVISORY,
     ),
+    #[cfg(not(target_arch = "wasm32"))]
     ("legal-iqfit-statement", crate::iq::labfit::iqfit::STATEMENT),
+    #[cfg(not(target_arch = "wasm32"))]
     ("legal-iqfit-advisory", crate::iq::labfit::iqfit::ADVISORY),
     (
         "legal-lunar-time-lab-source-statement",
@@ -40,6 +43,7 @@ pub const LEGAL: &[(&str, &str)] = &[
         "legal-receiver-trust-advisory",
         crate::receiver_trust::ADVISORY,
     ),
+    #[cfg(not(target_arch = "wasm32"))]
     (
         "legal-evidence-roundtrip-notice",
         crate::evidence::roundtrip::NOTICE,

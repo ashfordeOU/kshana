@@ -226,7 +226,8 @@ pub fn a_baselines(t: &ATruth, split: &str) -> Vec<(Stat, Value)> {
                 .collect();
             let name = crate::t!(
                 "bench-tasks-kshana-receiver-trust-35-default",
-                s = s.config_field()
+                s = s.config_field(),
+                lit_0_35 = crate::i18n::num(0.35_f64, 2)
             );
             (s, scores_doc("a", split, &name, &scores))
         })

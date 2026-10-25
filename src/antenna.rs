@@ -722,18 +722,17 @@ pub fn capture_footprint_sweep(
         hp.iter().copied().fold(f64::INFINITY, f64::min),
         hp.iter().copied().fold(f64::NEG_INFINITY, f64::max),
     );
-    let grid = crate::t!(
-        "antenna-altitude-beamwidth-deg-points",
-        a_lo = crate::i18n::localise_decimal(format!("{:.0}", a_lo)),
-        a_hi = crate::i18n::localise_decimal(format!("{:.0}", a_hi)),
-        b_lo = crate::i18n::localise_decimal(format!("{:.3}", b_lo)),
-        b_hi = crate::i18n::localise_decimal(format!("{:.3}", b_hi)),
-        points = points.len()
-    );
+    let a_lo = crate::i18n::localise_decimal(format!("{:.0}", a_lo));
+    let a_hi = crate::i18n::localise_decimal(format!("{:.0}", a_hi));
+    let b_lo = crate::i18n::localise_decimal(format!("{:.3}", b_lo));
+    let b_hi = crate::i18n::localise_decimal(format!("{:.3}", b_hi));
     let statement = if reached {
         crate::t!(
             "antenna-limb-capture-is-reached-on",
-            grid = grid,
+            a_lo = a_lo,
+            a_hi = a_hi,
+            b_lo = b_lo,
+            b_hi = b_hi,
             points = points.iter().filter(|p| p.limb_captured).count(),
             points2 = points.len(),
             crossings = crossings.len(),
@@ -745,7 +744,11 @@ pub fn capture_footprint_sweep(
     } else {
         crate::t!(
             "antenna-limb-capture-is-not-reached",
-            grid = grid,
+            a_lo = a_lo,
+            a_hi = a_hi,
+            b_lo = b_lo,
+            b_hi = b_hi,
+            points = points.len(),
             limb_js_db = crate::i18n::localise_decimal(format!("{:.3}", b.limb_js_db)),
             altitude_m = crate::i18n::localise_decimal(format!("{:.0}", b.altitude_m)),
             hpbw_deg = crate::i18n::localise_decimal(format!("{:.3}", b.hpbw_deg)),

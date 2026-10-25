@@ -1900,7 +1900,8 @@ pub fn check_mask(
                 let note = crate::t!(
                     "telecom-timing-the-mask-is-defined-through",
                     MAX_FILTER_DT_S = MAX_FILTER_DT_S,
-                    dt_s = rec.dt_s
+                    dt_s = rec.dt_s,
+                    lit_0_1 = crate::i18n::num(0.1_f64, 1)
                 );
                 for (metric, present, source) in [
                     (
@@ -2309,27 +2310,40 @@ fn summary_line(r: &TelecomRun) -> String {
         .iter()
         .map(|m| format!("{} {}", m.id, m.verdict))
         .collect();
-    let first_budget = r.budgets.first().map(|b| match b.time_to_exceed_s {
-        Some(t) => crate::t!(
-            "telecom-timing-ns-budget-exceeded-after",
-            max_abs_te_ns = crate::i18n::localise_decimal(format!("{:.0}", b.max_abs_te_ns)),
-            t = crate::i18n::localise_decimal(format!("{:.0}", t))
-        ),
+    let max_abs_ns = crate::i18n::localise_decimal(format!("{:.1}", max_abs));
+    let span_s = crate::i18n::localise_decimal(format!(
+        "{:.0}",
+        (r.record.te_ns.len() - 1) as f64 * r.record.dt_s
+    ));
+    let masks = masks.join(", ");
+    match r.budgets.first() {
+        Some(b) => {
+            let budget_ns = crate::i18n::localise_decimal(format!("{:.0}", b.max_abs_te_ns));
+            match b.time_to_exceed_s {
+                Some(t) => crate::t!(
+                    "telecom-timing-max-te-ns-budget-exceeded-after",
+                    max_abs = max_abs_ns,
+                    v2 = span_s,
+                    masks = masks,
+                    max_abs_te_ns = budget_ns,
+                    t = crate::i18n::localise_decimal(format!("{:.0}", t))
+                ),
+                None => crate::t!(
+                    "telecom-timing-max-te-ns-budget-never-exceeded",
+                    max_abs = max_abs_ns,
+                    v2 = span_s,
+                    masks = masks,
+                    max_abs_te_ns = budget_ns
+                ),
+            }
+        }
         None => crate::t!(
-            "telecom-timing-ns-budget-never-exceeded",
-            max_abs_te_ns = crate::i18n::localise_decimal(format!("{:.0}", b.max_abs_te_ns))
+            "telecom-timing-telecom-timing-max-te-ns",
+            max_abs = max_abs_ns,
+            v2 = span_s,
+            masks = masks
         ),
-    });
-    crate::t!(
-        "telecom-timing-telecom-timing-max-te-ns",
-        max_abs = crate::i18n::localise_decimal(format!("{:.1}", max_abs)),
-        v2 = crate::i18n::localise_decimal(format!(
-            "{:.0}",
-            (r.record.te_ns.len() - 1) as f64 * r.record.dt_s
-        )),
-        masks = masks.join(", "),
-        first_budget = first_budget.unwrap_or_default()
-    )
+    }
 }
 
 fn csv_table(r: &TelecomRun) -> String {
@@ -2379,7 +2393,7 @@ pub fn to_svg(r: &TelecomRun) -> String {
     let mut s = crate::chart::frame_open(
         w,
         h,
-        "Telecom timing: time error, MTIE and TDEV",
+        &crate::t!("telecom-timing-chart-title"),
         &summary_line(r),
     );
     // Left panel: |TE| (ns) vs time (h).
@@ -2399,14 +2413,14 @@ pub fn to_svg(r: &TelecomRun) -> String {
         pw,
         ph,
         y_max,
-        "|time error| (ns)",
+        &crate::t!("telecom-timing-chart-y-title"),
     ));
     s.push_str(&crate::chart::panel_axes(
         lx,
         top,
         pw,
         top + ph,
-        "absolute time error against the budgets",
+        &crate::t!("telecom-timing-chart-te-caption"),
     ));
     let t_span = ((n - 1) as f64 * rec.dt_s).max(1e-9);
     let stride = (n / 600).max(1);
@@ -2439,17 +2453,21 @@ pub fn to_svg(r: &TelecomRun) -> String {
         let x = lx + pw * (t0 - rec.t0_s) / t_span;
         s.push_str(&format!(
             "<line x1=\"{x:.1}\" y1=\"{top:.0}\" x2=\"{x:.1}\" y2=\"{:.0}\" stroke=\"{BLUE}\" stroke-dasharray=\"2 3\"/>\
-             <text x=\"{:.1}\" y=\"{:.0}\" font-size=\"10\" fill=\"{BLUE}\">holdover</text>",
+             <text x=\"{:.1}\" y=\"{:.0}\" font-size=\"10\" fill=\"{BLUE}\">{}</text>",
             top + ph,
             x + 3.0,
-            top + 12.0
+            top + 12.0,
+            crate::t!("telecom-timing-chart-holdover")
         ));
     }
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">time ({:.1} h record)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">{}</text>",
         lx + pw / 2.0,
         top + ph + 28.0,
-        t_span / 3600.0
+        crate::t!(
+            "telecom-timing-chart-time-record",
+            h = crate::i18n::num(t_span / 3600.0, 1)
+        )
     ));
     // Right panel: log-log MTIE / TDEV.
     let (rx, rw) = (660.0, 480.0);
@@ -2458,7 +2476,7 @@ pub fn to_svg(r: &TelecomRun) -> String {
         top,
         rw,
         top + ph,
-        "MTIE (solid), TDEV (dashed), first MTIE mask (grey), ns",
+        &crate::t!("telecom-timing-chart-mtie-caption"),
     ));
     let mut vals: Vec<f64> = r
         .mtie

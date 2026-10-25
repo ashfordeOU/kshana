@@ -208,6 +208,7 @@ pub fn to_markdown(r: &LabFitIqReport) -> String {
                 om2 = om(i.bins_pi90_coverage, 3)
             ));
             for g in &i.events {
+                s.push_str("; ");
                 s.push_str(&crate::t!(
                     "iq-labfit-iqreport-events-loss-time-rms-pi90",
                     model = g.model.as_str(),

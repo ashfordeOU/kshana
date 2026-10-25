@@ -300,38 +300,51 @@ impl LunarTimeBudgetScenario {
         let json = serde_json::to_string_pretty(&v).map_err(|e| e.to_string())?;
 
         let x_1day_ns = x_clock_ns(clock, 86_400.0);
-        let summary = crate::t!(
-            "lunar-time-budget-scenario-lunar-time-budget-clock-term",
-            clock = budget.clock,
-            taus = taus.len(),
-            taus2 = crate::i18n::localise_decimal(format!(
-                "{:.0}",
-                taus.first().copied().unwrap_or(0.0)
-            )),
-            taus3 = crate::i18n::localise_decimal(format!(
-                "{:.0e}",
-                taus.last().copied().unwrap_or(0.0)
-            )),
-            crossover_tau_s =
-                crate::i18n::localise_decimal(format!("{:.3e}", budget.crossover_tau_s)),
-            crossover_x_s = crate::i18n::localise_decimal(format!("{:.3e}", budget.crossover_x_s)),
-            frame_term_s = crate::i18n::localise_decimal(format!("{:.3e}", budget.frame_term_s)),
-            x_1day_ns = crate::i18n::localise_decimal(format!("{:.3}", x_1day_ns))
-        );
         let summary = match &lab {
-            None => summary,
-            Some(lab) => {
-                crate::t!(
-                    "lunar-time-budget-scenario-time-lab-to-ltc-ns",
-                    summary = summary,
-                    lab = lab.clock_name(),
-                    lab2 = lab.mode(),
-                    lab3 = crate::i18n::localise_decimal(format!(
-                        "{:.3}",
-                        lab.total_at(86_400.0) * 1e9
-                    ))
-                )
-            }
+            None => crate::t!(
+                "lunar-time-budget-scenario-lunar-time-budget-clock-term",
+                clock = budget.clock,
+                taus = taus.len(),
+                taus2 = crate::i18n::localise_decimal(format!(
+                    "{:.0}",
+                    taus.first().copied().unwrap_or(0.0)
+                )),
+                taus3 = crate::i18n::localise_decimal(format!(
+                    "{:.0e}",
+                    taus.last().copied().unwrap_or(0.0)
+                )),
+                crossover_tau_s =
+                    crate::i18n::localise_decimal(format!("{:.3e}", budget.crossover_tau_s)),
+                crossover_x_s =
+                    crate::i18n::localise_decimal(format!("{:.3e}", budget.crossover_x_s)),
+                frame_term_s =
+                    crate::i18n::localise_decimal(format!("{:.3e}", budget.frame_term_s)),
+                x_1day_ns = crate::i18n::localise_decimal(format!("{:.3}", x_1day_ns))
+            ),
+            Some(lab) => crate::t!(
+                "lunar-time-budget-scenario-lunar-time-budget-clock-term-time-lab",
+                clock = budget.clock,
+                taus = taus.len(),
+                taus2 = crate::i18n::localise_decimal(format!(
+                    "{:.0}",
+                    taus.first().copied().unwrap_or(0.0)
+                )),
+                taus3 = crate::i18n::localise_decimal(format!(
+                    "{:.0e}",
+                    taus.last().copied().unwrap_or(0.0)
+                )),
+                crossover_tau_s =
+                    crate::i18n::localise_decimal(format!("{:.3e}", budget.crossover_tau_s)),
+                crossover_x_s =
+                    crate::i18n::localise_decimal(format!("{:.3e}", budget.crossover_x_s)),
+                frame_term_s =
+                    crate::i18n::localise_decimal(format!("{:.3e}", budget.frame_term_s)),
+                x_1day_ns = crate::i18n::localise_decimal(format!("{:.3}", x_1day_ns)),
+                lab = lab.clock_name(),
+                lab2 = lab.mode(),
+                lab3 =
+                    crate::i18n::localise_decimal(format!("{:.3}", lab.total_at(86_400.0) * 1e9))
+            ),
         };
         Ok((json, summary))
     }
