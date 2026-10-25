@@ -93,7 +93,7 @@ struct Ssv {
 
 /// The tli-and-cruise phase.
 pub struct TliCruise {
-    dv_mps: f64,
+    pub(super) dv_mps: f64,
     dv_sigma_fraction: f64,
     pointing_sigma_rad: f64,
     step_s: f64,
@@ -106,11 +106,19 @@ pub struct TliCruise {
 
 /// Builds the phase from its model table.
 pub fn ctor(t: &toml::Table) -> Result<Box<dyn MissionPhase>, String> {
-    let m = Model::new(KIND, t);
-    m.only(&[
-        "tli_dv_mps",
-        "tli_dv_sigma_fraction",
-        "tli_pointing_sigma_rad",
+    Ok(Box::new(parse(t, KIND, true, &[])?))
+}
+
+/// Reads the coast model: the burn keys only when `with_burn`, plus `extra` keys another phase
+/// that reuses the coast (the entry phase) reads itself.
+pub(super) fn parse(
+    t: &toml::Table,
+    kind: &'static str,
+    with_burn: bool,
+    extra: &[&str],
+) -> Result<TliCruise, String> {
+    let m = Model::new(kind, t);
+    let mut allowed = vec![
         "step_s",
         "process_q_acc",
         "clock_q_f",
@@ -123,7 +131,16 @@ pub fn ctor(t: &toml::Table) -> Result<Box<dyn MissionPhase>, String> {
         "ground_range_rate_sigma_mps",
         "ground_interval_s",
         "ground_duty",
-    ])?;
+    ];
+    if with_burn {
+        allowed.extend([
+            "tli_dv_mps",
+            "tli_dv_sigma_fraction",
+            "tli_pointing_sigma_rad",
+        ]);
+    }
+    allowed.extend(extra.iter().copied());
+    m.only(&allowed)?;
     let ground = if t.contains_key("ground_range_sigma_m") {
         let duty = if t.contains_key("ground_duty") {
             let d = m.num("ground_duty")?;
@@ -160,17 +177,18 @@ pub fn ctor(t: &toml::Table) -> Result<Box<dyn MissionPhase>, String> {
             ));
         }
     }
-    Ok(Box::new(TliCruise {
-        dv_mps: m.nonneg("tli_dv_mps")?,
-        dv_sigma_fraction: m.nonneg("tli_dv_sigma_fraction")?,
-        pointing_sigma_rad: m.nonneg("tli_pointing_sigma_rad")?,
+    let burn = |key: &str| if with_burn { m.nonneg(key) } else { Ok(0.0) };
+    Ok(TliCruise {
+        dv_mps: burn("tli_dv_mps")?,
+        dv_sigma_fraction: burn("tli_dv_sigma_fraction")?,
+        pointing_sigma_rad: burn("tli_pointing_sigma_rad")?,
         step_s: m.pos("step_s")?,
         q_acc: m.num_or("process_q_acc", 1.0e-13)?,
         clock_q_f: m.nonneg("clock_q_f")?,
         clock_q_d: m.nonneg("clock_q_d")?,
         ground,
         ssv,
-    }))
+    })
 }
 
 /// The Moon from a kernel, everything else from the analytic series: the provider the cut that has
@@ -472,6 +490,21 @@ impl MissionPhase for TliCruise {
         ctx: &ThreadCtx,
         phase: &PhaseCtx,
     ) -> Result<PhaseOutcome, String> {
+        self.coast(KIND, true, entry, ctx, phase)
+    }
+}
+
+impl TliCruise {
+    /// The coast: the burn when `with_burn`, then the propagation with its updates. The entry
+    /// phase runs it with no burn under its own kind name.
+    pub(super) fn coast(
+        &self,
+        kind: &'static str,
+        with_burn: bool,
+        entry: &NavState,
+        ctx: &ThreadCtx,
+        phase: &PhaseCtx,
+    ) -> Result<PhaseOutcome, String> {
         if entry.frame != Frame::Gcrf {
             return Err(format!(
                 "{KIND}: expects a GCRF entry state, got {:?}; state the entry in gcrf",
@@ -512,13 +545,16 @@ impl MissionPhase for TliCruise {
                 p[i][j] += p_burn[i][j];
             }
         }
-        let mut events = vec![Event {
-            t_s: t0,
-            what: format!(
-                "TLI burn of {:.1} m/s along the velocity: size error {:.2} m/s, pointing error {:.2} m/s per cross axis",
-                self.dv_mps, sm, sp
-            ),
-        }];
+        let mut events = Vec::new();
+        if with_burn {
+            events.push(Event {
+                t_s: t0,
+                what: format!(
+                    "TLI burn of {:.1} m/s along the velocity: size error {:.2} m/s, pointing error {:.2} m/s per cross axis",
+                    self.dv_mps, sm, sp
+                ),
+            });
+        }
 
         // The standing-in orbit and the gnss-ssv windows.
         let ssv_w: Vec<SsvWindow> = match (&self.ssv, use_ssv) {
@@ -694,6 +730,9 @@ impl MissionPhase for TliCruise {
                 label: EvidenceLabel::modelled(),
             },
         ];
+        if !with_burn {
+            rows.retain(|r| !r.source.starts_with("TLI burn error"));
+        }
         if use_ground {
             if let Some(g) = &self.ground {
                 rows.push(BudgetRow {
@@ -737,8 +776,10 @@ impl MissionPhase for TliCruise {
             } else {
                 "gnss-ssv"
             }
-        } else {
+        } else if with_burn {
             "TLI burn error (untracked growth)"
+        } else {
+            "entry covariance (untracked growth)"
         };
         let mut exit = entry.clone();
         exit.t_s = t0 + dur;
@@ -764,7 +805,7 @@ impl MissionPhase for TliCruise {
         };
         let budget = PhaseBudget {
             phase_id: phase.id.clone(),
-            kind: KIND.to_string(),
+            kind: kind.to_string(),
             entry_sigma_pos_m: entry_pos,
             entry_sigma_vel_mps: entry_vel,
             entry_sigma_time_s: entry.sigma_time_s(),

@@ -17,7 +17,7 @@ pub struct BudgetRow {
     pub source: String,
     /// The 1-sigma of the contribution.
     pub sigma: f64,
-    /// The unit of `sigma`: `m`, `m/s` or `s`.
+    /// The unit of `sigma`: `m`, `m/s`, `s` or `deg`.
     pub unit: String,
     /// The evidence label of this line.
     pub label: EvidenceLabel,

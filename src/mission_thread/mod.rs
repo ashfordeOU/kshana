@@ -12,9 +12,9 @@
 //! its phases. Public sources only; not affiliated with or endorsed by any agency. Nothing is
 //! transmitted and no hardware is driven.
 //!
-//! Ownership: the Earth-side phase kinds are in `earth/`, the lunar ones in `lunar/`. A kind that
-//! is registered but not written yet is a stub that fails loudly at run time, so a phase is never
-//! silently skipped.
+//! Ownership: the Earth-side phase kinds are in `earth/`, the lunar ones in `lunar/`. Every registered
+//! kind is written; a document that names an unknown kind is refused with the list of known ones, so a
+//! phase is never silently skipped.
 
 pub mod budget;
 pub mod conversions;
@@ -230,43 +230,11 @@ pub struct PhaseKindInfo {
     pub segment: &'static str,
     /// The constructor.
     pub ctor: PhaseCtor,
-    /// False while the kind is a stub that errors at run time.
+    /// False while a kind is registered but not written: it then errors when run.
     pub implemented: bool,
 }
 
-/// A phase kind that is registered but not written: it parses its table and fails when run.
-struct Stub {
-    kind: &'static str,
-}
-
-impl MissionPhase for Stub {
-    fn kind(&self) -> &'static str {
-        self.kind
-    }
-
-    fn run(
-        &self,
-        _entry: &NavState,
-        _ctx: &ThreadCtx,
-        _phase: &PhaseCtx,
-    ) -> Result<PhaseOutcome, String> {
-        Err(format!(
-            "phase kind `{}` is registered but not implemented in this build",
-            self.kind
-        ))
-    }
-}
-
-macro_rules! stub_ctor {
-    ($name:expr) => {
-        |_t: &toml::Table| -> Result<Box<dyn MissionPhase>, String> {
-            Ok(Box::new(Stub { kind: $name }))
-        }
-    };
-}
-
-/// Every registered phase kind. The Earth kinds are written by the Earth-segment owner and the
-/// lunar kinds by the lunar-segment owner; each replaces its stub here.
+/// Every registered phase kind: the four Earth kinds and the four lunar kinds.
 pub static PHASE_KINDS: &[PhaseKindInfo] = &[
     PhaseKindInfo {
         kind: "launch-ascent",
@@ -289,8 +257,8 @@ pub static PHASE_KINDS: &[PhaseKindInfo] = &[
     PhaseKindInfo {
         kind: "entry",
         segment: "earth",
-        ctor: stub_ctor!("entry"),
-        implemented: false,
+        ctor: earth::entry::ctor,
+        implemented: true,
     },
     PhaseKindInfo {
         kind: "lunar-orbit-rendezvous",
@@ -386,14 +354,12 @@ mod tests {
     }
 
     #[test]
-    fn a_stub_fails_loudly_when_run_and_an_unknown_kind_lists_the_known_ones() {
+    fn every_kind_is_implemented_and_an_unknown_kind_lists_the_known_ones() {
+        assert!(PHASE_KINDS.iter().all(|k| k.implemented));
+        // A kind whose table lacks what it needs is refused when built, naming the key.
         let info = phase_kind("entry").unwrap();
-        let p = (info.ctor)(&toml::Table::new()).unwrap();
-        assert_eq!(p.kind(), "entry");
-        let ctx = ThreadCtx::new("2028-01-01T00:00:00Z", 1);
-        let pctx = ctx.phase_ctx(0, "ascent", 600.0);
-        let e = run_phase(p.as_ref(), &entry(), &ctx, &pctx).unwrap_err();
-        assert!(e.contains("not implemented"), "{e}");
+        let e = (info.ctor)(&toml::Table::new()).err().unwrap();
+        assert!(e.contains("needs"), "{e}");
         let e = phase_kind("warp-drive").err().unwrap();
         assert!(
             e.contains("launch-ascent") && e.contains("lunar-ascent"),
