@@ -87,7 +87,7 @@ seg-ae58a8577aa7 = Export an <c1/> scenario's constellation as SP3-c (Standard P
 
 # text
 # c1: orbit
-seg-26e9f3fc38e2 = Export an <c1/> scenario's elements as a CCSDS (Consultative Committee for Space Data Systems) { "502" }.0-B-2 OMM (Orbit Mean-elements Message) catalogue.
+seg-6a59aacf26bb = Export an <c1/> scenario's elements as a CCSDS (Consultative Committee for Space Data Systems) 502.0-B-2 OMM (Orbit Mean-elements Message) catalogue.
 
 # text
 # c1: orbit

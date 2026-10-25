@@ -17,7 +17,7 @@ seg-28c6a5644152 = Modelled lunar navigation service-volume analysis from an ILL
 
 # text
 # c1: scenarios/moonlight-service-volume.toml
-seg-e495cf3317bd = One run of <c1/> summarises as: moonlight-service-volume | { "8" } sats (illustrative LCNS-class, not affiliated) | { "24" } pts × { "12" } epochs | coverage { "37.8" }% (PDOP<{ "6.0" }) | sats { "4" }–{ "7" } | PDOP { "2" }.19/13.74/180.30 | HPL { "139" }–{ "4177" } m | PL avail { "0.0" }% | MODELLED
+seg-8516d1ded5dd = One run of <c1/> summarises as: moonlight-service-volume | { "8" } sats (illustrative LCNS-class, not affiliated) | { "24" } pts × { "12" } epochs | coverage { "37.8" }% (PDOP<{ "6.0" }) | sats { "4" }–{ "7" } | PDOP 2.19/13.74/180.30 | HPL { "139" }–{ "4177" } m | PL avail { "0.0" }% | MODELLED
 
 # text
 # c1: n_sats
@@ -59,7 +59,7 @@ seg-edb738273a3a = The chart the engine writes for scenarios/moonlight-service-v
 seg-619127334cf3 = No matrix row names this kind by name; the label on its result is the engine's own, above.
 
 # text
-seg-3cade6da3816 = <b>VALIDATED</b> Moonlight-class lunar DOP / coverage / availability + generalised lunar ARAIM protection levels over a service volume. Oracle (ExternalDataset): Independent third-party authority ANISE { "0.10.2" } astro::Orbit Keplerian propagator (Nyx Space, MPL-2.0) — an equinoctial two-body code path distinct from kshana's Newton-Raphson Kepler; per-satellite MCI position agrees to <1e-3 m and the derived visible-satellite count/set matches exactly at every grid point. The DOP kernel is gnss_lib_py-validated; integrity uses published LunaNet/LCNS parameters
+seg-1974d1d64c9c = <b>VALIDATED</b> Moonlight-class lunar DOP / coverage / availability + generalised lunar ARAIM protection levels over a service volume. Oracle (ExternalDataset): Independent third-party authority ANISE { "0.10.2" } astro::Orbit Keplerian propagator (Nyx Space, MPL-2.0) — an equinoctial two-body code path distinct from kshana's Newton-Raphson Kepler; per-satellite MCI position agrees to <{ "1e-3" } m and the derived visible-satellite count/set matches exactly at every grid point. The DOP kernel is gnss_lib_py-validated; integrity uses published LunaNet/LCNS parameters
 
 # text
 seg-47f496c1d603 = <b>VALIDATED</b> Per-satellite topocentric look angles (azimuth clockwise from north, elevation) and slant range at a named selenographic site, given the satellite in the site's. Oracle (ExternalDataset): ANISE { "0.10.2" } (Nyx Space, MPL-2.0, run as a tool from xval/anise-service-geometry, binary lunar-look-angles-xval, which calls no Kshana code): ANISE's own azimuth, elevation and range routine (azimuth_elevation_range_sez) from sites built by its latitude-longitude-altitude constructor on the pck00011 Moon (sphere { "1737.4" } km), with the satellites rotated into MOON_PA_DE440 through moon_pa_de440_200625.bpc. { "768" } samples o

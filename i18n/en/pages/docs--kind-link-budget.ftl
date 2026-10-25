@@ -35,25 +35,13 @@ seg-2305502051b6 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-588476f4ae75 = The example <c1/> sets, among others:
 
 # text
-seg-85f0dd777f48 = bit/s
-
-# text
 seg-8784979d6569 = dBW
-
-# text
-seg-dd7f800ae665 = dB/K
 
 # text
 seg-37d16b499bc5 = dB
 
 # text
 seg-debc2f07db78 = true
-
-# text
-seg-5db1241ac39c = dB-Hz
-
-# text
-seg-96975db96f2b = dBW/K/Hz
 
 # text
 seg-a3697ad561db = Hz

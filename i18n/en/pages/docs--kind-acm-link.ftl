@@ -47,16 +47,10 @@ seg-dfe78b9d0811 = GHz
 seg-37d16b499bc5 = dB
 
 # text
-seg-02704b884d48 = Msymbol/s
-
-# text
 seg-b77b8420b4f5 = Mbit
 
 # text
 seg-eeaa777e4301 = 8PSK 3/4
-
-# text
-seg-dd7f800ae665 = dB/K
 
 # text
 seg-d62795b9fdc0 = Result label (the engine's): MODELLED — DVB-S2 adaptive coding and modulation over the passes of one satellite at one station: clear-sky Es/N0 along each apparent pass, the most efficient MODCOD clearing its ETSI EN { "302" } 307-1 Table { "13" } threshold plus a margin, against the constant-coding MODCOD that closes at the mask; no rain f

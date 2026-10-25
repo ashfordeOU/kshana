@@ -67,9 +67,6 @@ seg-906440b861cd = Frame
 seg-20bc4439d3d7 = SP { "68" } + SB1 { "52" } + { "5880" } interleaved symbols = { "6000" } symbols = { "12" } s at { "500" } symbol/s
 
 # text
-seg-26f3053d23ba = SB1
-
-# text
 seg-a242d95d701f = { "9" } bits (FID { "2" }, TOI { "7" }), BCH({ "51,8" }), generator { "763" } octal, with the document's 256-hypothesis correlation decoder
 
 # text
@@ -147,16 +144,10 @@ seg-b74d5800a039 = Bar
 seg-53a7343c076e = Claim
 
 # text
-seg-130752d50d69 = B1
-
-# text
 seg-e75915599d5e = AFS-I first and last { "24" } chips, { "210" } PRNs
 
 # text
 seg-f654db18922f = <b>MET</b>, { "420" } of { "420" }
-
-# text
-seg-9cb6e6203ccd = B1b
 
 # text
 seg-55d0d7168ceb = the printed G2 initial state is the state after the printed delay
@@ -165,22 +156,13 @@ seg-55d0d7168ceb = the printed G2 initial state is the state after the printed d
 seg-41590da4d1ac = <b>NOT MET</b>, { "0" } of { "210" }: the claim had the direction wrong. Post hoc (B1c, not pre-registered): the printed state is the state after { "2047" } minus the delay, { "210" } of { "210" }
 
 # text
-seg-c6157a8d7d4c = B2
-
-# text
 seg-b94947c99f9a = Legendre({ "10223" }) equals Table D-1
 
 # text
 seg-75c8da01c0f1 = MET
 
 # text
-seg-1b3ef0a9f029 = B3
-
-# text
 seg-e3402e2420bd = AFS-Q primary first and last { "24" } chips, { "210" } PRNs
-
-# text
-seg-d9938a55a38c = B4
 
 # text
 seg-678604d6e463 = Legendre({ "1499" }) equals Table E-1 and tertiary first and last { "24" } chips, { "210" } PRNs
@@ -190,25 +172,16 @@ seg-678604d6e463 = Legendre({ "1499" }) equals Table E-1 and tertiary first and 
 seg-17b1420f8c0c = <b>NOT MET</b>, { "420" } of { "421" }: the Legendre sequence matches and { "419" } of { "420" } code columns match. The last { "24" } chips printed for PRN { "147" } (<c1/>) are the same value printed for PRN { "151" }, whose code the generator reproduces; two different Weil indices ({ "607" } and { "612" }) do not give the same last { "24" } chips, so the PRN { "147" } entry is most likely a misprint in the document. It cannot be settled without the separate Annex { "3" } code file. Pinned by a test
 
 # text
-seg-ad58e60db865 = B5
-
-# text
 seg-aea9620e7bf1 = secondary codes S0 to S3 equal Table { "10" }
 
 # text
 seg-2996e986d247 = <b>MET</b> (the document's own constants)
 
 # text
-seg-421e61b12e3c = B6
-
-# text
 seg-23c9277f62e6 = SB1 worked example of Figure { "8" }
 
 # text
 seg-fb70493dcdcf = <b>MET</b>: 0x045 encodes to 0x229F61DBB84A0 and decodes to FID { "0" }, TOI { "69" } (one example)
-
-# text
-seg-82b4c426f0ec = B7
 
 # text
 # c1: 123456789
@@ -218,22 +191,13 @@ seg-acce07c33dec = CRC-24Q check value for <c1/>
 seg-71c490aca8d7 = <b>MET</b>: 0xCDE703 (the catalogue value, outside the specification)
 
 # text
-seg-de2927905878 = B8
-
-# text
 seg-789b31d53873 = frame arithmetic
-
-# text
-seg-2d9d6da7aae0 = B9
 
 # text
 seg-5b5da00ad1c8 = interleave then de-interleave
 
 # text
 seg-80f9cd313ec4 = <b>MET</b> (a property, MODELLED)
-
-# text
-seg-ca723fb9fc59 = B10
 
 # text
 seg-92a7addfdb8c = synchronisation pattern

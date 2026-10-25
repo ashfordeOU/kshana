@@ -215,9 +215,6 @@ seg-48dcdfbbe753 = –<s1>dB-Hz</s1>
 # text
 seg-bc907a2168d9 = Tracking
 
-# text
-seg-a8b649035b6e = J/S
-
 # attr:aria-label
 seg-14b3348ff8ea = Carrier-to-noise density of each band against the tracking floor
 
@@ -622,9 +619,6 @@ seg-430082bf58d4 = ghcr.io image
 seg-afd561090841 = CCSDS OEM
 
 # text
-seg-00fdc1192d2d = SP3
-
-# text
 seg-9d682a8ff731 = CCSDS OEM: Consultative Committee for Space Data Systems Orbit Ephemeris Message. SP3: Standard Product { "3" } orbit format.
 
 # text
@@ -777,7 +771,7 @@ seg-2cff891dc970 = Next step
 
 # text
 # c1: clock-holdover.toml
-seg-8d964e119298 = A recorded session with the kshana-mcp server (Model Context Protocol, engine { "v0.39.0" }): the assistant lists the { "49" } tools, validates <c1/> (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 { "1" }.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 { "19" }.7ns integrity { "1.000" } security n/a (no attack).
+seg-8332e6081748 = A recorded session with the kshana-mcp server (Model Context Protocol, engine { "v0.39.0" }): the assistant lists the { "49" } tools, validates <c1/> (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
 # text
 # c1: animate_scenario
@@ -829,7 +823,7 @@ seg-91fc7df72b42 = <c1/>: Export an `orbit` scenario's propagated constellation 
 
 # text
 # c1: export_omm
-seg-bfbb64102fec = <c1/>: Export an `orbit` scenario's mean elements as a CCSDS { "502" }.0-B-2 OMM (Orbit Mean-Elements Message) catalogue — one OMM per satellite.
+seg-e7086c7b5491 = <c1/>: Export an `orbit` scenario's mean elements as a CCSDS 502.0-B-2 OMM (Orbit Mean-Elements Message) catalogue — one OMM per satellite.
 
 # text
 # c1: export_sp3

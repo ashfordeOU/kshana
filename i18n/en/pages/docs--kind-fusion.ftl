@@ -44,34 +44,16 @@ seg-56bca36cabba = The example <c1/> sets, among others:
 seg-195347c63a8a = m/s^{ "2" }
 
 # text
-seg-41b2c44e9193 = nav-grade-quartz
-
-# text
 seg-5d3f15c0688a = Navigation-grade quartz accelerometer; illustrative noise-dr
-
-# text
-seg-973c908f9162 = { "1" }.0000e-7
 
 # text
 seg-3a1d8c59a4c9 = (m/s^{ "2" })^2/Hz
 
 # text
-seg-c2089951999f = cold-atom-quat
-
-# text
 seg-6ddd8a067e26 = Cold-atom accelerometer, low long-tau velocity-random-walk;
 
 # text
-seg-ffd29653164c = { "1" }.0000e-9
-
-# text
-seg-ad670a878be8 = 1/s
-
-# text
-seg-8652bc3944b3 = csac-sa45s
-
-# text
-seg-2aac8222d1b8 = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10
+seg-03442e4be82d = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)={ "3e-10" }
 
 # text
 # c1: scenarios/
@@ -81,13 +63,7 @@ seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a
 seg-98151954f217 = false
 
 # text
-seg-0bd5777c4223 = rad/s
-
-# text
 seg-cc7a61264c3f = (m/s^{ "2" })^2/s
-
-# text
-seg-ffafec72635b = (rad/s)^2/Hz
 
 # text
 seg-e79eecc14bea = Navigation-grade quartz accelerometer; i

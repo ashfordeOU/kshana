@@ -41,9 +41,6 @@ seg-7ff965e77d23 = The example <c1/> sets, among others:
 seg-a3697ad561db = Hz
 
 # text
-seg-5db1241ac39c = dB-Hz
-
-# text
 seg-409755afa2dd = NR { "5" } MHz
 
 # text
@@ -51,9 +48,6 @@ seg-a99a71f7178a = NB { "200" } kHz
 
 # text
 seg-d04c7f65307d = index
-
-# text
-seg-8a5d6b8efc8b = m/s
 
 # text
 seg-3a0cde9988c3 = Result label (the engine's): MODELLED positioning from Cramér-Rao bounds: the bandwidth-to-bound step is a textbook closed form (checked against numerical integration, not against a published worked figure); the accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result
@@ -68,7 +62,7 @@ seg-3068552e4ab4 = VALIDATED: the <a1>verification matrix</a1> rows that name th
 seg-056b5f3c8201 = <b>VALIDATED</b> The Cramér-Rao bound on time of arrival from the root-mean-square (Gabor) bandwidth, c/({ "2" } pi beta sqrt({ "2" } (C/N0) T)), for a flat OFDM spectrum (beta = B/sqrt({ "12" })), a band-limited BPSK spectrum (closed-form numerator) or any spectrum by quadr Tests: <a1>leo_fusion_scenarios.rs</a1>.
 
 # text
-seg-5a3709350db1 = <b>VALIDATED</b> The Cramér-Rao bound on time of arrival from the root-mean-square (Gabor) bandwidth, c/({ "2" } pi beta sqrt({ "2" } (C/N0) T)), for a flat OFDM spectrum (beta = B/sqrt({ "12" }). Oracle (ExternalDataset): Published worked values (P1): Bachl, Lei and Nabeel, arXiv:{ "2608.10270" } ({ "2026" }), single-SSB bounds of NR NTN reproduced from the 3GPP TS { "38.211" } SSB map through Kshana own numeric functions (W_rms { "1.9616" } vs { "1.96" } MHz, sigma_t { "38.755" } vs { "39" } us, sigma_f { "100" }.79/87.28 vs 101/87 Hz, sigma_rho { "0" }.5970/0.5831 vs { "0" }.60/0.58 m, each within half a unit of the printed last digit); Betz { "2001" } Table { "1" } BPSK-R RMS bandwidths ({ "1" }.128/3.477 vs
+seg-c188cecaf468 = <b>VALIDATED</b> The Cramér-Rao bound on time of arrival from the root-mean-square (Gabor) bandwidth, c/({ "2" } pi beta sqrt({ "2" } (C/N0) T)), for a flat OFDM spectrum (beta = B/sqrt({ "12" }). Oracle (ExternalDataset): Published worked values (P1): Bachl, Lei and Nabeel, arXiv:{ "2608.10270" } ({ "2026" }), single-SSB bounds of NR NTN reproduced from the 3GPP TS { "38.211" } SSB map through Kshana own numeric functions (W_rms { "1.9616" } vs { "1.96" } MHz, sigma_t { "38.755" } vs { "39" } us, sigma_f 100.79/87.28 vs 101/87 Hz, sigma_rho 0.5970/0.5831 vs 0.60/0.58 m, each within half a unit of the printed last digit); Betz { "2001" } Table { "1" } BPSK-R RMS bandwidths (1.128/3.477 vs
 
 # text
 # c1: label

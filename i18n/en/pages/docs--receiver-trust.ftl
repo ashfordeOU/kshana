@@ -223,9 +223,6 @@ seg-98ead58c671d = Needs
 seg-f6e6df453260 = mean C/N0 over the satellites common with the baseline falls by <c1/> or more (default { "6" } dB)
 
 # text
-seg-f15bcf8c5804 = C/N0
-
-# text
 # c1: sats_lost
 seg-d9bf6efc6835 = tracked satellites fall <c1/> or more below the baseline median (default { "4" })
 

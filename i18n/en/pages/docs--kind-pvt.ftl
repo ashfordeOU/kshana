@@ -45,7 +45,7 @@ seg-e94743033275 = { "3.03" } N: GNSS NAV DATA M: MIXED
 seg-e0415c4dab88 = { "3.02" } OBSERVATION DATA M
 
 # text
-seg-e7718c61ad99 = [{ "2" }.9198e6, -5.3837e6, { "1" }.7746e6]
+seg-22ad318a2d61 = [{ "2.9198e6" }, -5.3837e6, { "1.7746e6" }]
 
 # attr:alt
 seg-d76d59644d84 = The chart the engine writes for scenarios/pvt-abmf.toml, kind pvt

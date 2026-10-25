@@ -17,7 +17,7 @@ seg-55679aff66db = Seven-parameter Helmert (similarity) frame datum driven by a 
 
 # text
 # c1: scenarios/lunar-frame-campaign.toml
-seg-9391bf172f96 = One run of <c1/> summarises as: lunar-frame-campaign | { "4" } beacons x { "3" } baselines x { "49" } epochs = { "64" } obs (delay sigma { "1" }.000e-11 s) | station datum fixed | Helmert rank 7/7 cond { "3" }.798e5 | datum translation sigma { "6.397500" } m vs injected-transform recovery error { "0.3125" } m (ratio { "0.049" })
+seg-2e02c1ff8f48 = One run of <c1/> summarises as: lunar-frame-campaign | { "4" } beacons x { "3" } baselines x { "49" } epochs = { "64" } obs (delay sigma { "1.000e-11" } s) | station datum fixed | Helmert rank 7/7 cond { "3.798e5" } | datum translation sigma { "6.397500" } m vs injected-transform recovery error { "0.3125" } m (ratio { "0.049" })
 
 # text
 # c1: stations
@@ -42,9 +42,6 @@ seg-1d70a5b4a197 = The example <c1/> sets, among others:
 
 # text
 seg-df90e5910fb4 = hr
-
-# text
-seg-e1a5f5892348 = { "1" }.0000e-11
 
 # text
 seg-d9523213de9f = Result label (the engine's): MODELLED campaign-driven lunar frame datum. The seven-parameter Helmert covariance is propagated from a beacon-coordinate information matrix accumulated from the engine's own lunar-VLBI delay partials over an explicit schedule of beacons, baselines and epochs; NO similarity transform is injected and

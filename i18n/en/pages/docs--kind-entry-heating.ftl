@@ -48,13 +48,7 @@ seg-96504cafb034 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-1b68d973fd30 = The example <c1/> sets, among others:
 
 # text
-seg-978a3a67f8f2 = us76
-
-# text
 seg-d72b4c5393e0 = earth
-
-# text
-seg-8a5d6b8efc8b = m/s
 
 # text
 seg-a44edb1eb84d = kg
@@ -70,9 +64,6 @@ seg-1a89d87a48a5 = NACA Report { "1381" } ({ "1958" }) ballistic consta
 
 # text
 seg-3159fc595ac9 = kg/m^{ "3" }
-
-# text
-seg-97ea243b6112 = { "9" }.5628e-13
 
 # text
 seg-2721e146b7be = Result label (the engine's): MODELLED — 3-DoF point-mass entry over a rotating spherical planet (central gravity, no J2), co-rotating windless atmosphere, constant C_D, L/D and bank, RK4; convective stagnation-point heating per NASA TR R-376 ({ "1971" }), cold wall, NO radiative heating, NO TPS/ablation response, NOT 6-DoF

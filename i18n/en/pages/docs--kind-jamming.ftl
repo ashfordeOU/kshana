@@ -52,9 +52,6 @@ seg-9521a296d617 = dBi
 seg-7154243aabbe = broadband
 
 # text
-seg-dc209f04ed54 = [{ "3" }.9264e6, { "2" }.7449e5, { "5" }.0028e6]
-
-# text
 seg-8784979d6569 = dBW
 
 # text

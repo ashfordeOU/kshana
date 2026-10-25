@@ -40,7 +40,7 @@ seg-304ffba9669f = <b>CCSDS OEM</b> (Orbit Ephemeris Message)
 seg-68d762928f76 = read <b>and</b> write
 
 # text
-seg-57de2a5184c5 = CCSDS { "502" }.0-B Orbit Data Messages, KVN (keyword-value notation) form
+seg-eea6e5c8c220 = CCSDS 502.0-B Orbit Data Messages, KVN (keyword-value notation) form
 
 # text
 # c1: parse_oem
@@ -50,7 +50,7 @@ seg-57de2a5184c5 = CCSDS { "502" }.0-B Orbit Data Messages, KVN (keyword-value n
 # c5: covariance_block_kvn
 # c6: parse_covariance_block
 # c7: src/oem.rs
-seg-8a1861f58600 = Tabulated state-vector ephemeris ingested by GMAT, Orekit, STK (Systems Tool Kit). <c1/> reads it back; <b>validated by recovering the verbatim CCSDS { "502" }.0-B-3 Figure G-11 Blue Book example</b> (<a1><c2/></a1>). The optional { "6" }×{ "6" } position/velocity <b>covariance block</b> (<c3/>, the 21-element lower-triangle KVN serialization with an optional <c4/>) is both written (<c5/>) and read (<c6/>), round-trip-symmetric (<a2><c7/></a2> tests).
+seg-be700901c03e = Tabulated state-vector ephemeris ingested by GMAT, Orekit, STK (Systems Tool Kit). <c1/> reads it back; <b>validated by recovering the verbatim CCSDS 502.0-B-3 Figure G-11 Blue Book example</b> (<a1><c2/></a1>). The optional { "6" }×{ "6" } position/velocity <b>covariance block</b> (<c3/>, the 21-element lower-triangle KVN serialization with an optional <c4/>) is both written (<c5/>) and read (<c6/>), round-trip-symmetric (<a2><c7/></a2> tests).
 
 # text
 seg-3c439cc66ea6 = <b>CCSDS OMM</b> (Orbit Mean-Elements Message)
@@ -59,7 +59,7 @@ seg-3c439cc66ea6 = <b>CCSDS OMM</b> (Orbit Mean-Elements Message)
 seg-4a2ce9f33ab2 = write
 
 # text
-seg-905b56e89deb = CCSDS { "502" }.0-B-2, KVN form
+seg-8e9f975d443b = CCSDS 502.0-B-2, KVN form
 
 # text
 # c1: orbit
@@ -72,17 +72,17 @@ seg-fb5218415d68 = Standards-track publication of SGP4/TLE (SGP4: Simplified Gen
 seg-08425c4b2093 = <b>CCSDS TDM</b> (Tracking Data Message)
 
 # text
-seg-2d054cccaf34 = CCSDS { "503" }.0-B Tracking Data Message, KVN form
+seg-bf870037a77d = CCSDS 503.0-B Tracking Data Message, KVN form
 
 # text
 # c1: tests/ccsds_reference.rs
-seg-ea0235f5c2bf = Range / Doppler / angle tracking records a DSN/ESTRACK (ESTRACK: European Space Tracking network) pass delivers to an OD (orbit determination) system. <b>Validated by recovering the verbatim CCSDS { "503" }.0-B-2 Figure E-9 Blue Book example</b> (<a1><c1/></a1>).
+seg-cd96db42ab43 = Range / Doppler / angle tracking records a DSN/ESTRACK (ESTRACK: European Space Tracking network) pass delivers to an OD (orbit determination) system. <b>Validated by recovering the verbatim CCSDS 503.0-B-2 Figure E-9 Blue Book example</b> (<a1><c1/></a1>).
 
 # text
 seg-4dd7358264b8 = <b>CCSDS Space Packet</b> ({ "133.0" })
 
 # text
-seg-10aeb44a705e = CCSDS { "133" }.0-B-2 Space Packet Protocol
+seg-40accc5f1a67 = CCSDS 133.0-B-2 Space Packet Protocol
 
 # text
 # c1: spacepackets-py
@@ -123,10 +123,10 @@ seg-17769f14095d = NORAD / Celestrak, AIAA (American Institute of Aeronautics an
 seg-8d4dd42edc89 = Propagated by the validated SGP4/SDP4 (SDP4: Simplified Deep-space Perturbations { "4" }) core ({ "4.12" } mm vs the { "666" } official AIAA vectors).
 
 # text
-seg-c45230b59f2a = <b>RINEX { "3" }.0x</b> (observation)
+seg-498aac915067 = <b>RINEX 3.0x</b> (observation)
 
 # text
-seg-e18f4f468bd6 = RINEX { "3" }.0x OBS ({ "4.00" } expected to parse, never exercised on a { "4.00" } file)
+seg-437d07b5aa4f = RINEX 3.0x OBS ({ "4.00" } expected to parse, never exercised on a { "4.00" } file)
 
 # text
 # c1: parse_obs
@@ -329,9 +329,6 @@ seg-cbe7a7ce7317 = <b>TT</b> (Terrestrial Time)
 # text
 # c1: jd_tt
 seg-25191c1a4135 = Precession/nutation/CIO argument evaluation (<c1/>).
-
-# text
-seg-d13ea0bff1bb = UT1
 
 # text
 # c1: jd_ut1

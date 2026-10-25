@@ -87,9 +87,6 @@ seg-8d3b7d2ef815 = <b>Position:</b> WGS { "84" }, Earth-fixed (ECEF: <c1/> throu
 seg-93a2975d2a19 = <b>Velocity:</b> Earth-fixed axes, relative to the Earth.
 
 # text
-seg-2725294a8af5 = Attitude:
-
-# text
 # c1: heading_deg
 # c2: pitch_deg
 # c3: roll_deg
@@ -113,9 +110,6 @@ seg-224b53995157 = <b>Height follows the scenario.</b> For <c1/>, <c2/> is the k
 seg-f78a354f96ee = <b>NMEA <c1/> placeholders.</b> Fix quality ({ "1" }), satellites used ({ "12" }) and HDOP ({ "1.0" }) are written only to make the sentence well formed. They say nothing about the scenario's geometry or any receiver state.
 
 # text
-seg-f59d18e8c76d = Time:
-
-# text
 # c1: time_s
 seg-f5cd510aac0c = <c1/> after the epoch, UTC, leap seconds not modelled.
 
@@ -124,7 +118,7 @@ seg-f5cd510aac0c = <c1/> after the epoch, UTC, leap seconds not modelled.
 seg-d2a2f655760d = <b>NMEA heights are ellipsoidal.</b> The <c1/> altitude holds the ellipsoidal height and the geoid separation is written as { "0.0" }. A simulator that treats the altitude as height above mean sea level will place the vehicle off by the local geoid undulation.
 
 # text
-seg-233521e973f9 = <b>Round-trip tolerances</b> (tested by reading each file back): CSV position { "0.1" } mm, latitude and longitude 1e-9 degree, velocity { "0.1" } mm/s, angles 1e-6 degree; NMEA horizontal position { "5" } mm, height { "1" } mm, speed { "0.001" } knot, course { "0.001" } degree.
+seg-ee3a9a3ec84d = <b>Round-trip tolerances</b> (tested by reading each file back): CSV position { "0.1" } mm, latitude and longitude { "1e-9" } degree, velocity { "0.1" } mm/s, angles { "1e-6" } degree; NMEA horizontal position { "5" } mm, height { "1" } mm, speed { "0.001" } knot, course { "0.001" } degree.
 
 # text
 seg-a554992d2694 = Loading the files into a simulator

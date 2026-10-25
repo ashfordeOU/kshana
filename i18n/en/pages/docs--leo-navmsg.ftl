@@ -102,7 +102,7 @@ seg-9c0643152bbf = { "16" } + { "21" } by default, plus the time scale
 
 # text
 # c1: ȧ, ṅ, Crs3, Crc3, Crs1, Crc1
-seg-713f8671b558 = the 22-parameter model of Liu, Su, Xie, Zhou and Qu ({ "2025" }, <em>Remote Sensing</em> { "17" }({ "16" }):{ "2894" }, doi <a1>{ "10" }.3390/rs17162894</a1>): the { "16" } plus <c1/>
+seg-e0afd541d64c = the 22-parameter model of Liu, Su, Xie, Zhou and Qu ({ "2025" }, <em>Remote Sensing</em> { "17" }({ "16" }):{ "2894" }, doi <a1>10.3390/rs17162894</a1>): the { "16" } plus <c1/>
 
 # text
 # c1: τ = (t − t_ref) / 64 s
@@ -159,7 +159,7 @@ seg-4404a677d185 = <c1/> integrates the orbit with a fixed-step fourth-order Run
 # c6: M0
 # c7: toe
 # c8: liu22
-seg-1c397d9c23f4 = <c1/> fits the Keplerian set with Levenberg–Marquardt on non-singular elements (<c2/>, <c3/>, <c4/>): a LEO orbit is almost circular, so <c5/> and <c6/> alone are nearly indistinguishable. It starts from the osculating state at <c7/> with the J2 node rate. Weak zero-centred priors bound the rates and harmonics that a short arc cannot resolve; with a { "1" } cm observation weight they act only in those null directions. The <c8/> fit instead takes the paper's Section { "2.3" } start and estimator: it starts with every correction term zero, has no priors (plain least squares) and keeps the paper's 100-iteration cap. It stops on Kshana's own parameter-convergence rule, when every parameter step is below 1e-3 of its formal standard deviation; the paper stops instead when the RMS changes by less than { "0.1" } mm. The RAC polynomials are then fitted to the along/cross/radial residuals by linear least squares, and the clock polynomial to the truth clock minus the relativistic term the user will add back.
+seg-ae3052e66b2a = <c1/> fits the Keplerian set with Levenberg–Marquardt on non-singular elements (<c2/>, <c3/>, <c4/>): a LEO orbit is almost circular, so <c5/> and <c6/> alone are nearly indistinguishable. It starts from the osculating state at <c7/> with the J2 node rate. Weak zero-centred priors bound the rates and harmonics that a short arc cannot resolve; with a { "1" } cm observation weight they act only in those null directions. The <c8/> fit instead takes the paper's Section { "2.3" } start and estimator: it starts with every correction term zero, has no priors (plain least squares) and keeps the paper's 100-iteration cap. It stops on Kshana's own parameter-convergence rule, when every parameter step is below { "1e-3" } of its formal standard deviation; the paper stops instead when the RMS changes by less than { "0.1" } mm. The RAC polynomials are then fitted to the along/cross/radial residuals by linear least squares, and the clock polynomial to the truth clock minus the relativistic term the user will add back.
 
 # text
 # c1: src/celeste_iod.rs
@@ -175,7 +175,7 @@ seg-c2b181269367 = Signal-in-space range error
 
 # text
 # c1: sisre.rs
-seg-ace7273e107c = <c1/> uses the global-average SISRE of Montenbruck, Steigenberger and Hauschild ({ "2018" }, <em>Advances in Space Research</em> { "61" }({ "12" }):{ "3020" }–{ "3038" }, doi <a1>{ "10" }.1016/j.asr.2018.03.041</a1>):
+seg-63462a1abc95 = <c1/> uses the global-average SISRE of Montenbruck, Steigenberger and Hauschild ({ "2018" }, <em>Advances in Space Research</em> { "61" }({ "12" }):{ "3020" }–{ "3038" }, doi <a1>10.1016/j.asr.2018.03.041</a1>):
 
 # text
 # c1: cos² η
@@ -537,16 +537,10 @@ seg-16c489b75f44 = Kshana (orbit-only RMS)
 seg-ee4816ca13c1 = ratio
 
 # text
-seg-ca9f5e38e3d1 = GRACE-A
-
-# text
 seg-510349500d23 = { "8.88" } cm
 
 # text
 seg-a97bde451ec2 = { "4.25" } cm
-
-# text
-seg-b1ad9ca1f43c = GRACE-C
 
 # text
 seg-b6c1d48847d9 = { "475" } km
@@ -558,13 +552,7 @@ seg-f79249e9bd75 = { "6.21" } cm
 seg-9b6757a674a5 = { "2.87" } cm
 
 # text
-seg-9c5a653a6ad5 = Sentinel-2A
-
-# text
 seg-62008169ca69 = { "2.20" } cm
-
-# text
-seg-914640aa7ad9 = HY-2A
 
 # text
 seg-06a4bcde0ea3 = { "966" } km
@@ -574,9 +562,6 @@ seg-9e5e06ec23c3 = { "2.11" } cm
 
 # text
 seg-41ce80bc0b62 = { "1.25" } cm
-
-# text
-seg-96853a145cc9 = Sentinel-6A
 
 # text
 seg-c9f63cd8bd07 = { "0.75" } cm
@@ -681,7 +666,7 @@ seg-a1875f7088b0 = whole message after quantisation: position within { "1.126" }
 seg-6e818708b695 = a frame with one flipped bit is rejected: true;
 
 # text
-seg-27cb9a839d9d = RINEX-style round trip within { "5" }.0e-06 m, CSV round trip within { "0" }.0e+{ "00" } m.
+seg-31fe0f6b133d = RINEX-style round trip within { "5.0e-06" } m, CSV round trip within { "0.0e+00" } m.
 
 # text
 seg-405cf34090cc = Platform independence
@@ -735,9 +720,6 @@ seg-7e9018f82811 = week
 seg-45cbfedb6f0e = clock (flag bit { "0" })
 
 # text
-seg-6041d55245b5 = s/s
-
-# text
 seg-05d274f5ce99 = s/s^{ "2" }
 
 # text
@@ -750,22 +732,13 @@ seg-3fb59c8238cb = semicircle
 seg-d173e8d7026c = m^{ "0.5" }
 
 # text
-seg-7195818017aa = semicircle/s
-
-# text
 seg-a7d59ba6e225 = rad
 
 # text
 seg-48c8bfb6e914 = along/cross/radial corrections (model { "2" })
 
 # text
-seg-5ba622872f6c = log2(s)
-
-# text
 seg-131652f53721 = Liu et al. { "2025" } extras (model { "3" })
-
-# text
-seg-8a5d6b8efc8b = m/s
 
 # text
 seg-fccf37a24fc4 = semicircle/s^{ "2" }
@@ -775,9 +748,6 @@ seg-ebde561c17ab = ECEF polynomial (model { "4" })
 
 # text
 seg-822c7482547c = Klobuchar (flag bit { "1" })
-
-# text
-seg-ba8bf7442ac9 = s/semicircle
 
 # text
 seg-7dd6e8bcaf43 = s/semicircle^{ "2" }
@@ -790,9 +760,6 @@ seg-734162101b2d = NeQuick-G (flag bit { "2" })
 
 # text
 seg-02dc0d42fb21 = sfu
-
-# text
-seg-cb3f3a9bd700 = sfu/deg
 
 # text
 seg-ddbb363f4593 = sfu/deg^{ "2" }
@@ -811,7 +778,7 @@ seg-4d208b6c0eb8 = day
 # c5: nDot
 # c6: kepler-rac
 # c7: quantisation_budget
-seg-9bb25b448e36 = A value outside its field's range is refused, not wrapped. The ranges were checked by encoding fits at { "300" } to { "2000" } km, inclinations from { "0" }° to { "140" }° and fit intervals up to { "20" } minutes: <c1/> and <c2/> are wide because on a near-equatorial orbit the node is poorly defined and the fit shares the J2 drift of the argument of latitude between them, and <c3/> and <c4/> because the 22-parameter fit over { "20" } minutes absorbs part of the short-period oscillation of the semi-major axis. Since { "0.30" } the 22-parameter fit is the paper's plain least squares without priors, and an equatorial { "800" } km fit then needs <c5/> of about { "6" }.3e-10 semicircle/s^{ "2" }, so its scale went from { "2" }^-60 to { "2" }^-58. The degree-7 along-track corrections of <c6/> fit the 22-bit coefficient range up to { "15" } minutes; a longer fit can exceed it and is then refused. <c7/> reports, for every ephemeris and clock field, the largest position and range change a half-step change makes over the usage period, and the whole-message change after quantisation.
+seg-545755e7b26f = A value outside its field's range is refused, not wrapped. The ranges were checked by encoding fits at { "300" } to { "2000" } km, inclinations from { "0" }° to { "140" }° and fit intervals up to { "20" } minutes: <c1/> and <c2/> are wide because on a near-equatorial orbit the node is poorly defined and the fit shares the J2 drift of the argument of latitude between them, and <c3/> and <c4/> because the 22-parameter fit over { "20" } minutes absorbs part of the short-period oscillation of the semi-major axis. Since { "0.30" } the 22-parameter fit is the paper's plain least squares without priors, and an equatorial { "800" } km fit then needs <c5/> of about { "6.3e-10" } semicircle/s^{ "2" }, so its scale went from { "2" }^-60 to { "2" }^-58. The degree-7 along-track corrections of <c6/> fit the 22-bit coefficient range up to { "15" } minutes; a longer fit can exceed it and is then refused. <c7/> reports, for every ephemeris and clock field, the largest position and range change a half-step change makes over the usage period, and the whole-message change after quantisation.
 
 # text
 seg-1ad17f3d3643 = Text exports
@@ -895,9 +862,6 @@ seg-77af616c1f6e = PUBLIC, arXiv { "2509.19551" }
 
 # text
 seg-f016786d7755 = { "520" } km, { "97" }°
-
-# text
-seg-6eb93ec2c475 = X1
 
 # text
 seg-780e931bf88d = PUBLIC, <a1>RNTF report</a1>, constellation description
@@ -1009,9 +973,6 @@ seg-0f5e73171fe0 = Galileo ICD user algorithm
 seg-29ad977ef423 = RTKLIB <c1/> on four real Galileo broadcast ephemerides, { "1" } mm per axis (<c2/>)
 
 # text
-seg-aa98ffdd2a6a = CRC-24Q
-
-# text
 # c1: 0xCDE703
 seg-ecec254e8219 = catalogue check value <c1/>; RTCM { "10403" } { "1005" } example frame
 
@@ -1044,7 +1005,7 @@ seg-88b5cda10923 = Liu et al. { "2025" } 22-parameter model and fit
 
 # text
 # c1: tests/leo_navmsg_fit_real_orbit_oracle.rs
-seg-2bfa54b617b0 = TU Graz ITSG precise orbits of four satellites against the paper's Tables { "4" }, { "5" }, { "6" } and { "8" }: along, cross, radial and SISRE ratios { "0.755" } to { "1.138" } on the paper days and { "0.683" } to { "1.186" } on eight held-out days, inside { "1" }.5x (<c1/>)
+seg-7272ebdc1fec = TU Graz ITSG precise orbits of four satellites against the paper's Tables { "4" }, { "5" }, { "6" } and { "8" }: along, cross, radial and SISRE ratios { "0.755" } to { "1.138" } on the paper days and { "0.683" } to { "1.186" } on eight held-out days, inside 1.5x (<c1/>)
 
 # text
 seg-94066142a642 = ATOMIC zero-clock polynomial and the five-altitude table

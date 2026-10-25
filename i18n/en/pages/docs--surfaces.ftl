@@ -129,9 +129,6 @@ seg-86c0548edb03 = <b>pending</b>: the Maritime trust page does not show it yet 
 seg-dffdbf379423 = <c1/> as a running process (stdin, followed file, TCP, UDP, <c2/>, <c3/>)
 
 # text
-seg-022d69954878 = N/A
-
-# text
 seg-bb4f68155884 = Tools: Command line card (the command to run; a browser is not a process in the data path)
 
 # text

@@ -17,7 +17,7 @@ seg-cb4262b66b8f = GNSS availability + DOP from an orbital constellation (Walker
 
 # text
 # c1: scenarios/orbit-rinex.toml
-seg-da078d0675f1 = One run of <c1/> summarises as: scenario bffc887db977 | 77/361 samples GNSS-nominal | best PDOP { "2.53" } pos { "2" }.53m | quantum holdover 0s p95 { "6" }.49e-5ns integrity { "1.000" } security n/a (no attack) | classical holdover 0s p95 { "25" }.0ns integrity { "1.000" } security n/a (no attack)
+seg-97680b4587c8 = One run of <c1/> summarises as: scenario bffc887db977 | 77/361 samples GNSS-nominal | best PDOP { "2.53" } pos 2.53m | quantum holdover 0s p95 6.49e-5ns integrity { "1.000" } security n/a (no attack) | classical holdover 0s p95 25.0ns integrity { "1.000" } security n/a (no attack)
 
 # text
 # c1: seed
@@ -45,40 +45,10 @@ seg-c818cc4f87da = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-364139ff447d = The example <c1/> sets, among others:
 
 # text
-seg-8652bc3944b3 = csac-sa45s
-
-# text
 seg-d5063dda3971 = Microchip SA.45s / SA65 chip-scale atomic clock, sigma_y(1s)
 
 # text
-seg-eb9f878eef80 = { "1" }.0000e-28
-
-# text
-seg-ad670a878be8 = 1/s
-
-# text
-seg-8f372bfd712f = { "9" }.0000e-20
-
-# text
-seg-e8053d65159c = s^2/s
-
-# text
-seg-e1a5f5892348 = { "1" }.0000e-11
-
-# text
-seg-21a57d1b488f = optical-sr-lattice
-
-# text
 seg-a8d92406e428 = Strontium optical lattice clock, space-oriented goal sigma_y
-
-# text
-seg-1dfb9ef3a8d3 = { "1" }.0000e-40
-
-# text
-seg-9c873491b630 = { "1" }.0000e-30
-
-# text
-seg-49b7f116f364 = { "1" }.0000e-15
 
 # text
 seg-799fe1216562 = { "3.04" } N: GNSS NAV DATA G: GPS
@@ -97,7 +67,7 @@ seg-3b652c0da6de = The chart the engine writes for scenarios/orbit-rinex.toml, k
 seg-5c031aaa3a33 = MODELLED { "4" } · VALIDATED { "4" }: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-3ed63f4ca0fa = <b>VALIDATED</b> Earth rotation from a two-part UT1 Julian date on the orbit path, so the Earth-fixed position keeps the microsecond a single-f64 date loses (about 3e-9 rad near { "2020" }): jd2::gmst82 (IAU { "1982" } GMST, the TEME convention, on the two parts), cio:
+seg-d291f20074f0 = <b>VALIDATED</b> Earth rotation from a two-part UT1 Julian date on the orbit path, so the Earth-fixed position keeps the microsecond a single-f64 date loses (about { "3e-9" } rad near { "2020" }): jd2::gmst82 (IAU { "1982" } GMST, the TEME convention, on the two parts), cio:
 
 # text
 seg-a150aaacf072 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split Tests: <a1>dop_reference.rs</a1>.
@@ -115,7 +85,7 @@ seg-be831b52a339 = and { "4" } more in the matrix.
 seg-f70076ea4a77 = <b>VALIDATED</b> Allan/modified/Hadamard deviation + power-law noise ID with χ² CIs. Oracle (ExternalDataset): NIST SP { "1065" } (Riley) / Stable32 reference deviations on NBS14
 
 # text
-seg-30309a43107f = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split. Oracle (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — independent library, matched to 1e-6 relative
+seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split. Oracle (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — independent library, matched to { "1e-6" } relative
 
 # text
 seg-5278ccdaf16f = <b>MODELLED</b> Closed-form coast-error growth + holdover-to-threshold; quantum-clock classes. Oracle (ReferenceImpl): Multi-step clock_state covariance recursion (same-codebase cross-check); the underlying coast-variance & holdover-inversion kernel is externally validated vs scipy (see 'Clock-holdover coast-variance & threshold inversion'). The per-class red-noise-floor holdover figures stay MODELLED

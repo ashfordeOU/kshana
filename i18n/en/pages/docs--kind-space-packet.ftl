@@ -13,7 +13,7 @@ seg-525499bc01cd = <c1/> (scenario kind)
 seg-9839f917de91 = Scenario kind of the engine { "v0.39.0" }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
-seg-5f9450657f85 = CCSDS { "133" }.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact encode↔decode round trip. Deterministic exact bit-layout framing — the agency packet-format interop layer; NOT a conformance certification (no secondary-header/CRC/segmentation logic beyond the flags).
+seg-de2448d74c2b = CCSDS 133.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact encode↔decode round trip. Deterministic exact bit-layout framing — the agency packet-format interop layer; NOT a conformance certification (no secondary-header/CRC/segmentation logic beyond the flags).
 
 # text
 # c1: scenarios/space-packet.toml
@@ -46,7 +46,7 @@ seg-5b3bc9761db4 = First
 seg-52036320db9b = TM
 
 # text
-seg-b041efd61f92 = Result label (the engine's): CCSDS { "133" }.0-B Space Packet primary-header framing — exact, deterministic bit layout, encode↔decode round-trip verified; NOT a conformance certification (no secondary header / CRC / segmentation logic beyond the flags)
+seg-f336ba92871f = Result label (the engine's): CCSDS 133.0-B Space Packet primary-header framing — exact, deterministic bit layout, encode↔decode round-trip verified; NOT a conformance certification (no secondary header / CRC / segmentation logic beyond the flags)
 
 # attr:alt
 seg-af1cf9aa9938 = The chart the engine writes for scenarios/space-packet.toml, kind space-packet
@@ -55,13 +55,13 @@ seg-af1cf9aa9938 = The chart the engine writes for scenarios/space-packet.toml, 
 seg-3068552e4ab4 = VALIDATED: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-f4da4b1ebf26 = <b>VALIDATED</b> CCSDS { "133" }.0-B Space Packet primary-header encode/decode (version/type/sec-hdr/APID/seq-flags/count/data-length) + a framing scenario. Tests: <a1>ccsds_space_packet_reference.rs</a1>.
+seg-ff1f36904d38 = <b>VALIDATED</b> CCSDS 133.0-B Space Packet primary-header encode/decode (version/type/sec-hdr/APID/seq-flags/count/data-length) + a framing scenario. Tests: <a1>ccsds_space_packet_reference.rs</a1>.
 
 # text
-seg-094923fa12bf = <b>VALIDATED</b> CCSDS { "133" }.0-B-2 Space Packet extensions beside the primary header: a secondary header carrying a CCSDS { "301" }.0-B time code (CUC or CDS, explicit or implicit P-field) and ancillary data, the CRC-16 packet error control field, segmentation of a Tests: <a1>space_packet_ext_oracle.rs</a1>.
+seg-82c617034322 = <b>VALIDATED</b> CCSDS 133.0-B-2 Space Packet extensions beside the primary header: a secondary header carrying a CCSDS 301.0-B time code (CUC or CDS, explicit or implicit P-field) and ancillary data, the CRC-16 packet error control field, segmentation of a Tests: <a1>space_packet_ext_oracle.rs</a1>.
 
 # text
-seg-8701980f5104 = <b>VALIDATED</b> CCSDS { "133" }.0-B Space Packet primary-header encode/decode (version/type/sec-hdr/APID/seq-flags/count/data-length) + a framing scenario. Runnable from the CLI/bind. Oracle (ExternalDataset): spacepackets { "0.32.0" } (us-irs/spacepackets-py, R. Mueller, Apache-2.0) — an independent third-party implementation of CCSDS { "133" }.0-B-2; kshana's encode_packet/decode_packet matched byte-exact (the 6-octet primary header for { "33" } cases + the full encoded packet for { "12" })
+seg-94f3381476ee = <b>VALIDATED</b> CCSDS 133.0-B Space Packet primary-header encode/decode (version/type/sec-hdr/APID/seq-flags/count/data-length) + a framing scenario. Runnable from the CLI/bind. Oracle (ExternalDataset): spacepackets { "0.32.0" } (us-irs/spacepackets-py, R. Mueller, Apache-2.0) — an independent third-party implementation of CCSDS 133.0-B-2; kshana's encode_packet/decode_packet matched byte-exact (the 6-octet primary header for { "33" } cases + the full encoded packet for { "12" })
 
 # text
 seg-8f1e7d3f5a07 = Family page: <a1>Mission analysis, links and space operations</a1>

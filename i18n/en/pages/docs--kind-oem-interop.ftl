@@ -17,7 +17,7 @@ seg-dbffff25b57f = CCSDS OEM interoperability bridge: import an Orbit Ephemeris 
 
 # text
 # c1: scenarios/oem-interop.toml
-seg-74d1a61ac899 = One run of <c1/> summarises as: oem-interop: round-tripped { "2" } segment(s), { "12" } states; max round-trip error { "4" }.88e-7 km / { "4" }.61e-10 km/s (MODELLED interop)
+seg-21eb1c9d7571 = One run of <c1/> summarises as: oem-interop: round-tripped { "2" } segment(s), { "12" } states; max round-trip error { "4.88e-7" } km / { "4.61e-10" } km/s (MODELLED interop)
 
 # text
 # c1: oem_text
@@ -29,18 +29,6 @@ seg-d4117f615cd8 = The example <c1/> sets, among others:
 
 # text
 seg-d7db74d14617 = KSHANA
-
-# text
-seg-aa1bd01503a0 = { "4" }.8822e-7
-
-# text
-seg-79008abea2ac = { "4" }.6115e-10
-
-# text
-seg-e580c8a76e2c = km/s
-
-# text
-seg-7eac39aa42ee = round-trip
 
 # text
 seg-b16f858574ca = Result label (the engine's): MODELLED — CCSDS OEM import/round-trip interop bridge (GMAT/Orekit/STK emit OEM); a structural + physical ingest check, NOT an orbit-accuracy validation of the source

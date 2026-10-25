@@ -115,13 +115,13 @@ seg-18568cec6c91 = Tables 2a/2b, all eight planets, { "15" } epochs from about {
 seg-7f3aa4a24e8f = Table { "1" } Uranus and Neptune exceed the page's figures against DE441: { "2.04" } and { "5.16" } times the nominal longitude error. They are pinned under six times and stay MODELLED.
 
 # text
-seg-26c59c02e8b7 = Pluto: within { "39.2" } arcsec in longitude and { "1" }.14e9 m in distance.
+seg-41d2f404224b = Pluto: within { "39.2" } arcsec in longitude and { "1.14e9" } m in distance.
 
 # text
 seg-11c31908ba69 = Moons, worst angle seen from the planet over { "2000" } to { "2040" }: Phobos { "5.65" } deg, Deimos { "0.38" }, Io { "0.40" }, Europa { "1.63" }, Ganymede { "0.22" }, Callisto { "0.27" }, Titan { "3.31" }. The geocentric Moon: { "0.046" } deg.
 
 # text
-seg-0450cafdd103 = Planet velocities: worst relative error { "3" }.72e-3 of the speed (MODELLED).
+seg-24d36a3ce8d4 = Planet velocities: worst relative error { "3.72e-3" } of the speed (MODELLED).
 
 # text
 seg-0bae9b8d09ea = The Moon and the seven moons are measured with pinned bars, but no published bound exists to validate them against, so they are MODELLED.

@@ -35,28 +35,10 @@ seg-5a70fcb097dc = Optional fields: none
 seg-adb7ff15a702 = The example <c1/> sets, among others:
 
 # text
-seg-8652bc3944b3 = csac-sa45s
-
-# text
-seg-26c6034392c0 = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_
-
-# text
-seg-8f372bfd712f = { "9" }.0000e-20
-
-# text
-seg-c1931e3d4d05 = { "5" }.0000e-10
-
-# text
-seg-21a57d1b488f = optical-sr-lattice
+seg-b0a5473bec67 = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)={ "3e-10" }; q_
 
 # text
 seg-a8d92406e428 = Strontium optical lattice clock, space-oriented goal sigma_y
-
-# text
-seg-9c873491b630 = { "1" }.0000e-30
-
-# text
-seg-b51882ad79ee = { "5" }.0000e-17
 
 # text
 # c1: scenarios/

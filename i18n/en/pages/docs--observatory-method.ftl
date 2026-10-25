@@ -17,7 +17,7 @@ seg-d0e1d6cadc10 = Version <c1/>, built on <c2/>. Advisory only: this is a descr
 seg-c5eab49b8d6f = What the observatory publishes
 
 # text
-seg-50cb290ef21b = One product per UTC day and region, from one open aircraft-position archive. Each cell of a fixed { "0" }.5-degree latitude-longitude grid is in one of <b>three states</b>:
+seg-165ae7646608 = One product per UTC day and region, from one open aircraft-position archive. Each cell of a fixed 0.5-degree latitude-longitude grid is in one of <b>three states</b>:
 
 # text
 seg-b652b86e6b8e = State
@@ -110,7 +110,7 @@ seg-96cf298985c6 = <b>Regional runs.</b> With <c1/>, only reports inside the box
 seg-2e7007b56a44 = Relation to the NACp-versus-almanac-HDOP method
 
 # text
-seg-2bd8c090e348 = Pleninger, Topkova and Steiner, "GNSS interference detection: Methodology utilising ADS-B NACp indicator and GPS almanac data", The Aeronautical Journal { "129" } ({ "1331" }), { "206" } to { "223" } ({ "2025" }), doi { "10" }.1017/aer.2024.67, compare the position error implied by an aircraft's NACp with the HDOP (horizontal dilution of precision) of the GPS constellation from almanac data, and flag an aircraft as affected when the two disagree; the paper evaluates the method on deliberate GPS jamming experiments.
+seg-4892485e534b = Pleninger, Topkova and Steiner, "GNSS interference detection: Methodology utilising ADS-B NACp indicator and GPS almanac data", The Aeronautical Journal { "129" } ({ "1331" }), { "206" } to { "223" } ({ "2025" }), doi 10.1017/aer.2024.67, compare the position error implied by an aircraft's NACp with the HDOP (horizontal dilution of precision) of the GPS constellation from almanac data, and flag an aircraft as affected when the two disagree; the paper evaluates the method on deliberate GPS jamming experiments.
 
 # text
 seg-74ec1aca8a22 = <b>What we used.</b> Only the published abstract and bibliographic record. The full text was not available to us (paywalled), so we know neither its mapping from NACp to an error estimate, nor its HDOP computation, nor its thresholds, and we do not claim to reproduce them.

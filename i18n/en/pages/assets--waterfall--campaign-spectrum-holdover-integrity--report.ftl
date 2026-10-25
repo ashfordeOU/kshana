@@ -49,22 +49,13 @@ seg-b2016159c9d0 = Campaign: existing scenario kinds composed into one run, with
 seg-6a0f61a35bbd = campaign 1ce2687e8ded | L-band jamming from the spectrum, clock holdover and a Galileo-only fallback | chain: { "3" } phases over { "910" } s, { "0" } events, alarm raised on { "600" } s of the grid | { "8" } member runs (MODELLED)
 
 # text
-seg-7f65a2549f2a = reproducibility.runs_total
-
-# text
 seg-b6e90dac44bb = { "8" } count
 
 # text
 seg-006d9a3357c7 = seed
 
 # text
-seg-93d2821e603f = timeline.duration_s
-
-# text
 seg-a87f505b392c = { "910" } s
-
-# text
-seg-56e2e8bec317 = timeline.step_s
 
 # text
 seg-b8031585e676 = { "1" } s
@@ -107,28 +98,10 @@ seg-e7a3536563a3 = no units entry and no unit suffix
 seg-82f6232fc55f = onset
 
 # text
-seg-8652bc3944b3 = csac-sa45s
+seg-cabae9a04571 = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)={ "3e-10" }; q_wf=sigma_y(1s)^{ "2" }.
 
 # text
-seg-97587cbd03d2 = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^{ "2" }.
-
-# text
-seg-8f372bfd712f = { "9" }.0000e-20
-
-# text
-seg-c1931e3d4d05 = { "5" }.0000e-10
-
-# text
-seg-21a57d1b488f = optical-sr-lattice
-
-# text
-seg-b666ac0d5bd0 = Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:{ "1503.08457" }); not flown.
-
-# text
-seg-9c873491b630 = { "1" }.0000e-30
-
-# text
-seg-b51882ad79ee = { "5" }.0000e-17
+seg-1bfc6cedb26d = Strontium optical lattice clock, space-oriented goal sigma_y(1s)={ "1e-15" } (arXiv:{ "1503.08457" }); not flown.
 
 # text
 seg-ca448daf5ec7 = nominal
@@ -161,28 +134,10 @@ seg-74ef048a0f7f = chirp
 seg-37d16b499bc5 = dB
 
 # text
-seg-5db1241ac39c = dB-Hz
-
-# text
-seg-37ea36122979 = cn0_l1ca_dbhz
-
-# text
-seg-157b201b3d85 = timeline.t_s[]
-
-# text
 seg-a30a29521ea1 = timeline.bands[{ "0" }].cn0_effective_dbhz[]
 
 # text
-seg-b7a7470aa5b7 = cn0_e1_dbhz
-
-# text
 seg-37d549267c40 = timeline.bands[{ "1" }].cn0_effective_dbhz[]
-
-# text
-seg-5238c273c47b = cn0_floor_dbhz
-
-# text
-seg-55320353e024 = receiver.tracking_threshold_dbhz
 
 # text
 seg-91193731c820 = alarm
@@ -191,19 +146,10 @@ seg-91193731c820 = alarm
 seg-7dce961e2c67 = below
 
 # text
-seg-ef8bdfa75e1b = { "1" }.0000e-5
-
-# text
-seg-0918f47d9920 = [time_error_ns]
-
-# text
 seg-085cbc64bab2 = holdover
 
 # text
 seg-49f2fa051719 = denied
-
-# text
-seg-01b8dae6e7c0 = galileo-fallback
 
 # text
 seg-5227e5852dc4 = CW tone on L1
@@ -228,12 +174,6 @@ seg-b25d620cafa5 = Result chart (also written to campaign-spectrum-holdover-inte
 
 # text
 seg-e8028e7aa5bd = Scalar results
-
-# text
-seg-58feb7a598a6 = 1ce2687e8ded87c7fcb679798d3887c994934dc791b43fed638e9d5d87f0264a
-
-# text
-seg-60d2ba213cd2 = 70ecec54840a50d25543baba8cda6b0d140df028a8979dda0329ac57ee0b3111
 
 # text
 seg-561ae7fac9ad = alarm flag: { "1" } while any monitor of the phase alarms
@@ -316,9 +256,6 @@ seg-434af0316376 = clock, spectrum, integrity
 
 # text
 seg-8f498e2d08fd = nothing carried
-
-# text
-seg-ecf330b46c3e = duration_s
 
 # text
 seg-1de059047ee1 = clock, spectrum
@@ -447,22 +384,22 @@ seg-68d898769311 = <s1>VALIDATED</s1><br/><s2>exercised</s2>
 seg-d65278a45179 = NIST SP { "1065" } (Riley) / Stable32 reference deviations on NBS14 <em>(ExternalDataset)</em>
 
 # text
-seg-df7fe7ddcee2 = tests/allan_reference.rs (NBS14 vs Stable32 to 1e-4); allan::tests
+seg-a59477833676 = tests/allan_reference.rs (NBS14 vs Stable32 to { "1e-4" }); allan::tests
 
 # text
 seg-83b033b4e913 = <b>Integrity (RAIM/ARAIM/SBAS)</b><br/><s1>ARAIM multiple-hypothesis solution separation per the ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels and add_v42_protection_levels_ecef: subset determination by the P_THRES and FC_THRES rules, VPL, HPL, the effective monitor threshold EMT and sigma_acc); chi-squared snapshot RAIM fault detection with single-satellite exclusion (raim::snapshot_raim, raim::snapshot_raim_fde) and slope-based HPL/VPL on the geodetic local level; and the SBAS DO-229E protection-level combination (sbas::sbas_protection_level) on the L1 service. NOT covered, stated plainly: the uniform-sigma convenience functions raim::araim_raim and raim::araim_dual_raim are NOT ADD-conformant (on matched inputs they miss Stanford MAAST by { "0.75" } m VPL / { "4.04" } m HPL and { "0.39" } m VPL / { "1.93" } m HPL, a finding); the dual-frequency multi-constellation (DFMC) L5 SBAS comparison is a finding ({ "308" } user-epoch pairs with no GEO in view are protected by Kshana and not by MAAST, whose GEO-reception gate Kshana does not model); raim::solution_separation_raim has no external comparison</s1>
 
 # text
-seg-63b1320607fc = Three independent tools, pre-registered (0123cee1) before any fixture or oracle output existed, tolerances fixed then. ({ "1" }) ARAIM: Stanford MAAST for ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, run as a separate program under GNU Octave { "8.4" } with a driver-side unique() compatibility shim (disclosed, no algorithm change), at the ADD TOL_PL of { "0.05" } m: the Rust reproduces the ADD reference implementation on { "270" } real cases. Disclosed: the Kshana ADD path was written after the pre-registration, following the ADD as MAAST implements it; an independent hold-out by the reviewer ({ "270" } new user geometries and a second integrity support message, MAAST re-run against the frozen code) passed at the same bar. ({ "2" }) Snapshot RAIM: RTKLIB v2.4.2-p13 (BSD-2) estpos/valsol/raim_fde in a separate C harness for detection and exclusion; the slope PL from RTKLIB matinv/xyz2enu plus SciPy { "1.18.1" } chi2/ncx2, where both sides evaluate the same closed form (Brown; Parkinson and Axelrad), so the PL check covers the implementation, not the formula. ({ "3" }) SBAS: Stanford MAAST (commit 7d32b049) usr_vhpl, unmodified, on MAAST own recorded WAAS broadcasts: L1 levels within 1e-4 m after the K rescaling and an equal protected set. The same comparisons produced the findings stated in the capability: the uniform-sigma ARAIM functions are not ADD-conformant, and the L5 set equality fails on { "308" } pairs with no GEO in view (the levels on the { "3267" } pairs both tools protect agree to 1e-13 m). The DO-229E/DO-316 K-factors are transcribed constants and the real geometry is an input; neither is counted as an oracle. { "0.30" } revision: snapshot_raim protection levels moved from the radial to the geodetic local level (up to { "0.31" } m HPL and { "0.14" } m VPL at { "16" } deg N) <em>(ExternalDataset)</em>
+seg-1e8e03d70e49 = Three independent tools, pre-registered (0123cee1) before any fixture or oracle output existed, tolerances fixed then. ({ "1" }) ARAIM: Stanford MAAST for ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, run as a separate program under GNU Octave { "8.4" } with a driver-side unique() compatibility shim (disclosed, no algorithm change), at the ADD TOL_PL of { "0.05" } m: the Rust reproduces the ADD reference implementation on { "270" } real cases. Disclosed: the Kshana ADD path was written after the pre-registration, following the ADD as MAAST implements it; an independent hold-out by the reviewer ({ "270" } new user geometries and a second integrity support message, MAAST re-run against the frozen code) passed at the same bar. ({ "2" }) Snapshot RAIM: RTKLIB v2.4.2-p13 (BSD-2) estpos/valsol/raim_fde in a separate C harness for detection and exclusion; the slope PL from RTKLIB matinv/xyz2enu plus SciPy { "1.18.1" } chi2/ncx2, where both sides evaluate the same closed form (Brown; Parkinson and Axelrad), so the PL check covers the implementation, not the formula. ({ "3" }) SBAS: Stanford MAAST (commit 7d32b049) usr_vhpl, unmodified, on MAAST own recorded WAAS broadcasts: L1 levels within { "1e-4" } m after the K rescaling and an equal protected set. The same comparisons produced the findings stated in the capability: the uniform-sigma ARAIM functions are not ADD-conformant, and the L5 set equality fails on { "308" } pairs with no GEO in view (the levels on the { "3267" } pairs both tools protect agree to { "1e-13" } m). The DO-229E/DO-316 K-factors are transcribed constants and the real geometry is an input; neither is counted as an oracle. { "0.30" } revision: snapshot_raim protection levels moved from the radial to the geodetic local level (up to { "0.31" } m HPL and { "0.14" } m VPL at { "16" } deg N) <em>(ExternalDataset)</em>
 
 # text
-seg-427d13e8acd8 = tests/integrity_araim_stanford_oracle.rs::araim_mhss_matches_stanford_maast_add_v4_2 ({ "270" } real-geometry cases, Celestrak GPS+Galileo and IGS SP3: worst |dVPL| { "2" }.2e-3 m, |dHPL| { "1" }.1e-3 m, |dEMT| { "2" }.1e-10 m against the ADD TOL_PL { "0.05" } m); tests/integrity_araim_stanford_oracle.rs::uniform_sigma_matched_gap_finding (the uniform-sigma gaps, pinned); tests/integrity_snapshot_raim_rtklib_oracle.rs::snapshot_raim_decisions_and_slope_levels_match_rtklib (real IGS ABMF 2018-05-13, { "288" } epochs, { "2016" } cases with injected { "10" } to { "100" } m biases: 2016/2016 detection and 801/801 exclusion decisions identical, slope HPL/VPL within { "2" }.7e-12 m against 1e-6 m); tests/integrity_sbas_stanford_oracle.rs::sbas_l1_protection_levels_match_stanford_maast_on_real_waas_messages ({ "2868" } user-epoch pairs on real WAAS broadcasts, the same protected set, worst |dVPL| { "7" }.1e-6 m and |dHPL| { "1" }.6e-5 m against 1e-4 m); tests/integrity_sbas_stanford_oracle.rs::sbas_l5_finding_geo_reception_gate (the L5 finding, pinned); tests/igs_real_data.rs and tests/araim_dual_real_data.rs (plausibility on real IGS SP3 and Celestrak geometry, kept as regression checks, not oracles)
+seg-c7fea4d91077 = tests/integrity_araim_stanford_oracle.rs::araim_mhss_matches_stanford_maast_add_v4_2 ({ "270" } real-geometry cases, Celestrak GPS+Galileo and IGS SP3: worst |dVPL| { "2.2e-3" } m, |dHPL| { "1.1e-3" } m, |dEMT| { "2.1e-10" } m against the ADD TOL_PL { "0.05" } m); tests/integrity_araim_stanford_oracle.rs::uniform_sigma_matched_gap_finding (the uniform-sigma gaps, pinned); tests/integrity_snapshot_raim_rtklib_oracle.rs::snapshot_raim_decisions_and_slope_levels_match_rtklib (real IGS ABMF 2018-05-13, { "288" } epochs, { "2016" } cases with injected { "10" } to { "100" } m biases: 2016/2016 detection and 801/801 exclusion decisions identical, slope HPL/VPL within { "2.7e-12" } m against { "1e-6" } m); tests/integrity_sbas_stanford_oracle.rs::sbas_l1_protection_levels_match_stanford_maast_on_real_waas_messages ({ "2868" } user-epoch pairs on real WAAS broadcasts, the same protected set, worst |dVPL| { "7.1e-6" } m and |dHPL| { "1.6e-5" } m against { "1e-4" } m); tests/integrity_sbas_stanford_oracle.rs::sbas_l5_finding_geo_reception_gate (the L5 finding, pinned); tests/igs_real_data.rs and tests/araim_dual_real_data.rs (plausibility on real IGS SP3 and Celestrak geometry, kept as regression checks, not oracles)
 
 # text
 seg-149fe811bf38 = <b>GNSS geometry / dilution of precision (DOP)</b><br/><s1>GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split</s1>
 
 # text
-seg-e477514e6823 = gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — independent library, matched to 1e-6 relative <em>(ExternalDataset)</em>
+seg-7a0a4255a7bc = gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — independent library, matched to { "1e-6" } relative <em>(ExternalDataset)</em>
 
 # text
 seg-b215ace86be9 = tests/dop_reference.rs ({ "8" } geometries, well-conditioned → near-singular)
@@ -471,7 +408,7 @@ seg-b215ace86be9 = tests/dop_reference.rs ({ "8" } geometries, well-conditioned 
 seg-297ff9f941f8 = <b>RAIM/ARAIM integrity statistical kernel (χ² / non-central χ² / normal laws)</b><br/><s1>The distributional core every protection level rests on: the snapshot fault-detection threshold χ²₁₋ₚfₐ(dof), the missed-detection non-centrality pbias=√λ, and the K_fa/K_md/K_V solution-separation multipliers</s1>
 
 # text
-seg-dc43e4f10703 = SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — independent library (Cephes/Boost), a different algorithm from Kshana's incomplete-gamma series; matched to ≤1e-6 rel. Kernel only. The ARAIM MHSS P_HMI budget *allocation* is no longer without a published numeric oracle — the WG-C ARAIM Technical Subgroup's own worked example now backs the separate 'ARAIM MHSS protection levels against published reference vectors' row, matched at the reference's own TOL_PL = 5e-2 m — so this row's scope is the statistical kernel and that row carries the allocation (see docs/ARAIM_REFERENCE.md) <em>(ExternalDataset)</em>
+seg-598f8f50a209 = SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — independent library (Cephes/Boost), a different algorithm from Kshana's incomplete-gamma series; matched to ≤{ "1e-6" } rel. Kernel only. The ARAIM MHSS P_HMI budget *allocation* is no longer without a published numeric oracle — the WG-C ARAIM Technical Subgroup's own worked example now backs the separate 'ARAIM MHSS protection levels against published reference vectors' row, matched at the reference's own TOL_PL = { "5e-2" } m — so this row's scope is the statistical kernel and that row carries the allocation (see docs/ARAIM_REFERENCE.md) <em>(ExternalDataset)</em>
 
 # text
 seg-b3663ac963e1 = tests/raim_reference.rs ({ "171" } cases: χ² CDF/quantile, normal CDF/quantile, non-central χ² CDF, pbias across the P_fa/P_md/redundancy ranges)
@@ -495,7 +432,7 @@ seg-7bdc599e36e7 = <b>Onboard clock state estimation</b><br/><s1>3-state (phase/
 seg-c2be1d1c210a = filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan { "1978" } block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): on IGS final { "30" } s clocks of { "11" } GPS Block IIF satellites (2025-08-17 to { "30" }), with Q fitted to the first-half ADEV and the filter scored on the held-out second half, the filter is consistent one step ahead ({ "0.906" } to { "0.971" } of epochs inside its { "95" } % band, bar { "90" } %) but over-confident at one hour on { "9" } of { "11" } clocks ({ "0.486" } to { "0.829" }) and its innovation sums fall outside [{ "2.4" }, { "3.6" }] on { "5" }. The fitted white-phase noise is zero on every satellite, and the hour-scale error (periodic terms, flicker FM) is not in the 3-state model. { "0.30" } round { "2" }, an extended filter (flicker FM and once- and twice-per-revolution states) on fresh held-out IGS clocks of 2025-09-01 to { "14" } (pre-registered 4b1a841e), a finding (stays MODELLED): the one-step and one-hour consistency criteria hold on all { "11" } satellites ({ "0.948" } to { "0.988" } and { "0.907" } to { "0.996" }), but the innovation-sum criterion fails on G24 ({ "0.964" }) and G30 ({ "1.929" }) against [{ "2.4" }, { "3.6" }]. D9 round { "3" }, the round-2 extended filter, tuning and criteria unchanged after the frozen clock_library conditioning detector, on fresh IGS clocks of 2026-04-01 to { "14" } (pre-registered fb475550), a finding (stays MODELLED): (a) one-step { "0.941" } to { "0.968" } and (c) triple-NIS mean { "2.641" } to { "3.549" } hold on all { "11" } satellites; (b) one hour fails on G09 ({ "0.894" }) and G26 ({ "0.876" }) against { "0.90" } <em>(ReferenceImpl)</em>
 
 # text
-seg-64183c09f9cd = clock_state::tests (analytic van-Loan Q; NEES; PSD positivity); tests/clock_state_reference.rs (full predict+update trajectory — state x and { "3" }×{ "3" } covariance P over { "1925" } steps / { "4" } parameter sets vs filterpy { "1.4.5" }; worst |relΔ| { "2" }.8e-14); tests/clock_state_igs_holdout_oracle.rs::three_state_filter_on_held_out_igs_clocks_finding (pins the finding); tests/clock_state_ext_igs_fresh_oracle.rs::extended_filter_on_fresh_igs_clocks_finding; tests/clock_state_ext_igs_conditioned_oracle.rs::conditioned_extended_filter_finding (D9 round { "3" })
+seg-3016100a7015 = clock_state::tests (analytic van-Loan Q; NEES; PSD positivity); tests/clock_state_reference.rs (full predict+update trajectory — state x and { "3" }×{ "3" } covariance P over { "1925" } steps / { "4" } parameter sets vs filterpy { "1.4.5" }; worst |relΔ| { "2.8e-14" }); tests/clock_state_igs_holdout_oracle.rs::three_state_filter_on_held_out_igs_clocks_finding (pins the finding); tests/clock_state_ext_igs_fresh_oracle.rs::extended_filter_on_fresh_igs_clocks_finding; tests/clock_state_ext_igs_conditioned_oracle.rs::conditioned_extended_filter_finding (D9 round { "3" })
 
 # text
 seg-e4bef4182564 = <b>Spoofing detection</b><br/><s1>Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM</s1>
@@ -531,7 +468,7 @@ seg-2cd027eda1b7 = none: a partner-owned discipline, with no module and no test 
 seg-b27d4592c6c9 = none: a partner-owned discipline
 
 # text
-seg-323a9c9863ca = <b>Closed-form L-band signal power spectral densities and spectral separation coefficients</b><br/><s1>Unit-area power spectral densities of GPS L1 C/A and L2C (BPSK({ "1" })), GPS L5 and Galileo E5a (BPSK({ "10" })), sine-BOC({ "1,1" }) and Galileo E1 MBOC({ "6,1" },1/11) (navsignal::Modulation::psd, with an MBOC variant added), their numerically located nulls and maxima (spectrum::psd_nulls_hz, psd_peak_hz, main_lobe_null_to_null_hz), and the spectral separation coefficient of a signal against any spectrum at any offset (navsignal::spectral_separation_coeff_offset) or against a tone, flat noise, a chirp or matched noise (spectrum::Jammer::ssc), with the anti-jam coefficient Q = 1/(R_c kappa)</s1>
+seg-ce8203f753a6 = <b>Closed-form L-band signal power spectral densities and spectral separation coefficients</b><br/><s1>Unit-area power spectral densities of GPS L1 C/A and L2C (BPSK({ "1" })), GPS L5 and Galileo E5a (BPSK({ "10" })), sine-BOC({ "1,1" }) and Galileo E1 MBOC(6,1,1/11) (navsignal::Modulation::psd, with an MBOC variant added), their numerically located nulls and maxima (spectrum::psd_nulls_hz, psd_peak_hz, main_lobe_null_to_null_hz), and the spectral separation coefficient of a signal against any spectrum at any offset (navsignal::spectral_separation_coeff_offset) or against a tone, flat noise, a chirp or matched noise (spectrum::Jammer::ssc), with the anti-jam coefficient Q = 1/(R_c kappa)</s1>
 
 # text
 seg-d18e4cf8151d = Published textbook values: the BPSK(n) main lobe of 2n x { "1.023" } MHz null to null and the anti-jam coefficients Q = { "1" } for a narrowband (CW) jammer and Q = { "1.5" } for a spread-spectrum jammer matched to C/A (Kaplan & Hegarty, Understanding GPS/GNSS, 3rd ed., section { "9.4" }); the BOC(m,n) main lobes centred at plus or minus m x { "1.023" } MHz (Betz, Binary Offset Carrier Modulations for Radionavigation, NAVIGATION { "48" }({ "4" }), { "2001" }); the spectral separation coefficients -61.8, -64.8 and -67.8 dB/Hz for C/A with C/A, BOC({ "1,1" }) with BOC({ "1,1" }) and C/A with BOC({ "1,1" }) (Betz { "2001" }; Hein et al., MBOC: The New Optimized Spreading Modulation Recommended for Galileo L1 OS and GPS L1C, Inside GNSS, May/June { "2006" }), reproduced here from their Parseval autocorrelation closed forms. The BOC({ "1,1" }) maximum is not at { "1.023" } MHz: the lobe spans the carrier null to { "2.046" } MHz and peaks at { "0.759" } MHz, and the test pins both. The MBOC mix is the ICD definition, checked for unit area and linearity only <em>(ExternalDataset)</em>
@@ -546,16 +483,16 @@ seg-05405e350575 = <b>L-band spectrum waterfall with per-band J/S and effective 
 seg-28ba5fbe87fb = Reduction to the existing `jamming` kind's anti-jam equation and link budget (the same code, called on the same inputs), and the k T0 F noise-floor closed form. The signal spectra underneath are the validated row above; the jammer powers, timeline and front-end bandwidths are scenario inputs, the spectra are continuous (no spreading-code lines), and no automatic gain control, blanking or antenna pattern acts on the jammer. No measured jammed spectrum is in the repository to check the composite against. The `jamming` kind's Q table (CW and narrowband { "1" }, broadband and swept { "2" } since { "0.36" }: the textbook values, pinned to the navsignal closed forms) agrees with this model's CW value and differs from what it derives for noise matched to C/A ({ "1.5" }) and for flat null-to-null noise without in-band normalisation ({ "2.2" }); the report prints both <em>(InternalConsistency)</em>
 
 # text
-seg-649981bcf131 = spectrum::tests (agrees_with_the_jamming_kind_chain — J/S equal to jamming::j_over_s_db and effective C/N0 equal to jamming::effective_cn0_dbhz with Q = 1/(R_c kappa) to 1e-9 dB, and the { "32.105" } dB anchor of the jamming kind's own test; noise_floor_is_kt0f; chirp_window_splits_whole_and_partial_sweeps; duty_weights_partial_rows; demo_scenario_runs_and_denies_l1_while_l5_survives; defaults_run_with_no_jammer; bad_inputs_are_refused)
+seg-266d9c05d9be = spectrum::tests (agrees_with_the_jamming_kind_chain — J/S equal to jamming::j_over_s_db and effective C/N0 equal to jamming::effective_cn0_dbhz with Q = 1/(R_c kappa) to { "1e-9" } dB, and the { "32.105" } dB anchor of the jamming kind's own test; noise_floor_is_kt0f; chirp_window_splits_whole_and_partial_sweeps; duty_weights_partial_rows; demo_scenario_runs_and_denies_l1_while_l5_survives; defaults_run_with_no_jammer; bad_inputs_are_refused)
 
 # text
 seg-f29ad3935bf4 = <b>SigMF recording input and output, and Welch spectral estimates of complex IQ</b><br/><s1>sigmf: read and write Signal Metadata Format recordings (JSON .sigmf-meta with the core global, captures and annotations fields; raw .sigmf-data as cf32_le, ci16_le or ci8, the integer decoders shared with realdata::iqif::load_iq), all on strings and byte buffers. spectrum::welch_psd: Hann-windowed, overlapped, averaged periodograms, density-scaled, on an in-crate radix-2 transform (spectrum::fft_in_place). Those two are the validated claim. spectrum::synthesise_iq draws the model as IQ, and the `spectrum` kind's [iq] section runs model to IQ to SigMF to Welch and compares with the model; its [recording] section estimates a real recording (native builds); the synthesis and those model comparisons are outside the validated claim</s1>
 
 # text
-seg-edfc4a4b2791 = scipy { "1.18.1" } scipy.signal.welch (BSD-3-Clause) with the same periodic Hann window, overlap, density scaling, no detrend and two-sided mean average: every bin within 1e-12 relative (observed { "6" }.0e-14) over { "27" } cases, with segment counts taken from scipy's own spectrogram. sigmf-python { "1.13.0" } (LGPL-3.0, run as a tool) writes five third-party recordings (cf32_le, ci16_le, ci8, two captures with annotations, a non-zero first sample_start) that the crate decodes bit-identically with identical core fields, and reads the crate's recordings back bit-identically; the SigMF { "v1.2.6" } metadata schema reports zero errors on the crate's metadata. Tolerances fixed before the first comparison. Outside the claim: spectrum::synthesise_iq and the [iq] and [recording] comparisons with the model (a synthesis has no single right answer; a periodic chirp shows lines, Fresnel ripple and edge tails the smooth model omits, total power within { "2" } %), the integer-to-float scaling convention (the crate divides by { "32767" } and { "127" }, sigmf-python's autoscale by { "2" }^{ "15" } and { "2" }^{ "7" }, which the specification leaves open; the comparison uses raw codes), multi-channel recordings and the data types the reader refuses <em>(ExternalDataset)</em>
+seg-9fbda6f95522 = scipy { "1.18.1" } scipy.signal.welch (BSD-3-Clause) with the same periodic Hann window, overlap, density scaling, no detrend and two-sided mean average: every bin within { "1e-12" } relative (observed { "6.0e-14" }) over { "27" } cases, with segment counts taken from scipy's own spectrogram. sigmf-python { "1.13.0" } (LGPL-3.0, run as a tool) writes five third-party recordings (cf32_le, ci16_le, ci8, two captures with annotations, a non-zero first sample_start) that the crate decodes bit-identically with identical core fields, and reads the crate's recordings back bit-identically; the SigMF { "v1.2.6" } metadata schema reports zero errors on the crate's metadata. Tolerances fixed before the first comparison. Outside the claim: spectrum::synthesise_iq and the [iq] and [recording] comparisons with the model (a synthesis has no single right answer; a periodic chirp shows lines, Fresnel ripple and edge tails the smooth model omits, total power within { "2" } %), the integer-to-float scaling convention (the crate divides by { "32767" } and { "127" }, sigmf-python's autoscale by { "2" }^{ "15" } and { "2" }^{ "7" }, which the specification leaves open; the comparison uses raw codes), multi-channel recordings and the data types the reader refuses <em>(ExternalDataset)</em>
 
 # text
-seg-b849f63f4381 = sigmf::tests (cf32_round_trip_is_exact_to_single_precision; ci16_round_trip_is_within_half_a_code; ci16_is_little_endian_i_then_q; integer_encoding_counts_saturation; metadata_uses_the_core_namespace; unsupported_types_and_channels_are_refused; sample_start_offsets_into_the_data); spectrum::tests (fft_matches_a_direct_dft; welch_reads_white_noise_as_variance_over_fs_and_keeps_a_tone_s_power — floor within { "2" } % of variance over sample rate, Parseval total within { "2" } %, Hann equivalent noise bandwidth { "1.5" } bins; noise_like_synthesis_is_unbiased_through_welch — median Welch-minus-model within { "0.1" } dB through a ci16_le round trip; synthesised_iq_through_sigmf_reproduces_the_model_spectrum); tests/sigmf_welch_oracle.rs::welch_and_sigmf_io_match_scipy_and_sigmf_python (Welch PSD vs scipy { "1.18.1" } signal.welch per bin to 1e-12 relative over { "27" } cases, observed { "6" }.0e-14; five sigmf-python { "1.13.0" } recordings decoded bit-identically with identical metadata; crate-written recordings read back bit-identically by sigmf-python and schema-valid against SigMF { "v1.2.6" })
+seg-19aa57a32add = sigmf::tests (cf32_round_trip_is_exact_to_single_precision; ci16_round_trip_is_within_half_a_code; ci16_is_little_endian_i_then_q; integer_encoding_counts_saturation; metadata_uses_the_core_namespace; unsupported_types_and_channels_are_refused; sample_start_offsets_into_the_data); spectrum::tests (fft_matches_a_direct_dft; welch_reads_white_noise_as_variance_over_fs_and_keeps_a_tone_s_power — floor within { "2" } % of variance over sample rate, Parseval total within { "2" } %, Hann equivalent noise bandwidth { "1.5" } bins; noise_like_synthesis_is_unbiased_through_welch — median Welch-minus-model within { "0.1" } dB through a ci16_le round trip; synthesised_iq_through_sigmf_reproduces_the_model_spectrum); tests/sigmf_welch_oracle.rs::welch_and_sigmf_io_match_scipy_and_sigmf_python (Welch PSD vs scipy { "1.18.1" } signal.welch per bin to { "1e-12" } relative over { "27" } cases, observed { "6.0e-14" }; five sigmf-python { "1.13.0" } recordings decoded bit-identically with identical metadata; crate-written recordings read back bit-identically by sigmf-python and schema-valid against SigMF { "v1.2.6" })
 
 # text
 seg-21776d0c118c = <b>A chained mission across scenario kinds on one shared timeline</b><br/><s1>The `campaign` kind's phases: each phase runs one or more scenarios of existing kinds through run_toml, reads their outputs into named channels (clock time error and guard, mean effective carrier-to-noise density ratio and tracking floor, vertical protection level and alert limit, position error, satellites tracking, alarm flags) by per-kind presets or explicit result paths, places them at the phase start and holds them onto a common grid, with phase boundaries and events; state is handed on by carry (a channel continues from the previous phase's end value), handoff (a previous phase's number written into the next scenario) and end_at (a phase ends at a time a run computed, such as a spoofing monitor's detection time); a campaign hash and a digest over every member result</s1>
@@ -642,13 +579,7 @@ seg-107c29c96eec = not recorded: this engine was built without the KSHANA_GIT_CO
 seg-c9ee69e3ce3e = Scenario file
 
 # text
-seg-4b1e7c691360 = campaign-spectrum-holdover-integrity.toml
-
-# text
 seg-af5108e0fed4 = Scenario file SHA-256 (Secure Hash Algorithm 256-bit)
-
-# text
-seg-0fb9d3e61763 = 88f7d33f660c94afa81cd60ec0de435be8f4dc34b00bf544b28a58d9841d53f7
 
 # text
 seg-73916816595e = Result scenario_hash

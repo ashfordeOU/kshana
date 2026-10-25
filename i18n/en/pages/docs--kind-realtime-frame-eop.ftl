@@ -42,9 +42,6 @@ seg-66264ec78a4c = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-45a4ed476311 = The example <c1/> sets, among others:
 
 # text
-seg-0483d462766c = bundled-offline-fixture
-
-# text
 seg-c39a26aa1f1e = bundled fixture finals2000A_20260930
 
 # text

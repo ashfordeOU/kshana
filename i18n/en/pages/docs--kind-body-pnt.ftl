@@ -50,13 +50,7 @@ seg-2edab0747386 = 2027-02-19T00:{ "00" }:{ "00" }
 seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
 
 # text
-seg-1eef4a8a2344 = { "4" }.2828e13
-
-# text
 seg-753b1683fb7b = m^3/s^{ "2" }
-
-# text
-seg-57dc213997cb = { "1" }.0142e11
 
 # text
 seg-81d4cd54bd62 = Result label (the engine's): MODELLED: two-body relay orbits with J2 secular drift, geometric visibility, Gaussian range noise and an instantaneous measurement model around a body from the published constants; not validated against a mission's navigation data. The Earth-to-body geometry inherits the solar-system ephemeris label

@@ -17,7 +17,7 @@ seg-7ccd0a3babb8 = MODELLED planar cislunar constellation observability (P6): tr
 
 # text
 # c1: scenarios/cislunar-observability.toml
-seg-26e8109c29ac = One run of <c1/> summarises as: cislunar-observability | { "4" } s/c ({ "3" } refs) | { "6.0" } h arc, { "24" } epochs | rank { "1" } → { "4" } of { "4" } over arc | Gramian λ [{ "2" }.92e-11…{ "5" }.98e-2] cond { "2" }.05e9 | instantaneous rank range-only { "2" } → range+rate { "4" } ({ "3" } links) | GDOP range-only undefined range+rate { "6.353" } | DRO ICs (max periodicity residual { "4" }.7e-9) | SRIF posterior finite at rank-4 epoch { "8" } (Validated rank/STM/DRO-closure/SRIF, Modelled design)
+seg-a59f2fa9efb9 = One run of <c1/> summarises as: cislunar-observability | { "4" } s/c ({ "3" } refs) | { "6.0" } h arc, { "24" } epochs | rank { "1" } → { "4" } of { "4" } over arc | Gramian λ [{ "2.92e-11" }…{ "5.98e-2" }] cond { "2.05e9" } | instantaneous rank range-only { "2" } → range+rate { "4" } ({ "3" } links) | GDOP range-only undefined range+rate { "6.353" } | DRO ICs (max periodicity residual { "4.7e-9" }) | SRIF posterior finite at rank-4 epoch { "8" } (Validated rank/STM/DRO-closure/SRIF, Modelled design)
 
 # text
 # c1: mu
@@ -50,9 +50,6 @@ seg-6d584e86deba = ratio (dimensionless)
 
 # text
 seg-1767b216650d = defined
-
-# text
-seg-373f80e8d191 = { "2" }.0452e9
 
 # text
 seg-fc5d34345fdd = Result label (the engine's): MODELLED planar cislunar constellation observability (P6). VALIDATED core: the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^{ "2" } = sum eig^{ "2" }

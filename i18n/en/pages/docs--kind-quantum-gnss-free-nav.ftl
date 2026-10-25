@@ -17,7 +17,7 @@ seg-790fbfdd80f0 = MODELLED GNSS-free quantum navigation: during a GNSS outage, 
 
 # text
 # c1: scenarios/quantum-gnss-free-nav.toml
-seg-0eb278f8f801 = One run of <c1/> summarises as: quantum-gnss-free-nav | outage 300s | quantum pos err { "0.00" } m vs classical { "37.31" } m ({ "8289" }.5x) | holdover quantum 44721s vs classical 534s (thr { "100" } m) | trade quantum wins 2/2 | MODELLED
+seg-dd74f248373d = One run of <c1/> summarises as: quantum-gnss-free-nav | outage 300s | quantum pos err { "0.00" } m vs classical { "37.31" } m (8289.5x) | holdover quantum 44721s vs classical 534s (thr { "100" } m) | trade quantum wins 2/2 | MODELLED
 
 # text
 # c1: outage_s
@@ -31,13 +31,7 @@ seg-960491d74173 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>
 seg-88d9dfe0353a = The example <c1/> sets, among others:
 
 # text
-seg-241a8e6863d2 = { "5" }.0000e-5
-
-# text
 seg-195347c63a8a = m/s^{ "2" }
-
-# text
-seg-973c908f9162 = { "1" }.0000e-7
 
 # attr:alt
 seg-1bdbf1a737b2 = The chart the engine writes for scenarios/quantum-gnss-free-nav.toml, kind quantum-gnss-free-nav

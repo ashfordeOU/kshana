@@ -24,7 +24,7 @@ seg-6a1906d8d4ad = About { "95" }% line coverage, gated at { "85" }% in continuo
 seg-a9f4f2795fb5 = Licence: AGPL-3.0-only, or a commercial licence
 
 # text
-seg-7434ec8c2ff0 = DOI { "10" }.5281/zenodo.20528627
+seg-3f6b9ca5e225 = DOI 10.5281/zenodo.20528627
 
 # attr:alt
 seg-7fcbe854ebc4 = Rehearse the minute GNSS goes dark: Kshana's mission console, drawn from a real run of the engine, a chained jamming, spoofing, holdover and integrity campaign over the { "102" } satellites of GPS, Galileo, BeiDou and GLONASS
@@ -251,7 +251,7 @@ seg-a42cfefa5e6d = <b>Validation and provenance</b> → <a1>docs/VALIDATION.md</
 seg-07b9e03942cb = <b>Verification matrix</b> → <a1>docs/VERIFICATION-MATRIX.md</a1>
 
 # text
-seg-b41edf63f1e1 = <b>Cite</b> → <a1>CITATION.cff</a1> · DOI <a2>{ "10" }.5281/zenodo.20528627</a2>
+seg-9390336ecc01 = <b>Cite</b> → <a1>CITATION.cff</a1> · DOI <a2>10.5281/zenodo.20528627</a2>
 
 # text
 seg-d4a762001549 = Licence
