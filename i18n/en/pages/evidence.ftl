@@ -120,8 +120,7 @@ seg-6adbc42697f9 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, 
 # text
 # c1: orbit-sgp4-gps.toml
 # c2: 17
-# c3: 
-seg-222805ff00cf = <a1>Open in Kshana Studio: the same propagator, <c1/><s1> · seed <c2/></s1><c3/></a1>
+seg-58ca3da25e69 = Open in Kshana Studio: the same propagator, <c1/><s1> · seed <c2/></s1>
 
 # attr:title
 seg-813d6d41b891 = Copy the command that reproduces it
@@ -158,8 +157,7 @@ seg-c5d5cf50c8a9 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, 
 # text
 # c1: integrity-raim.toml
 # c2: 7
-# c3: 
-seg-50770ade1556 = <a1>Open in Kshana Studio: the kernel at work, <c1/><s1> · seed <c2/></s1><c3/></a1>
+seg-011e33e27f59 = Open in Kshana Studio: the kernel at work, <c1/><s1> · seed <c2/></s1>
 
 # text
 seg-e02df7620fc7 = Numerical (Cowell) orbit propagation against Orekit over a 24-hour arc: worst difference { "0.08" } m in force tiers { "1" } to { "5" }.
@@ -243,8 +241,7 @@ seg-2a2794bda50f = Engine v{ $version }, build <c1/> · <c2/> · deterministic, 
 # text
 # c1: clock-holdover.toml
 # c2: 42
-# c3: 
-seg-a5b3e41b1b0d = <a1>Open in Kshana Studio: the estimators on a clock, <c1/><s1> · seed <c2/></s1><c3/></a1>
+seg-fc6a00946a11 = Open in Kshana Studio: the estimators on a clock, <c1/><s1> · seed <c2/></s1>
 
 # text
 seg-4f484b09471e = Holdover prediction on a measured caesium clock record: predicted over measured between { "0.84" } and { "1.03" }, inside the pre-set factor of { "1.5" }.
@@ -275,8 +272,7 @@ seg-275351654591 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, 
 
 # text
 # c1: slot-timing-ocxo-leo.toml
-# c2: 
-seg-20741725be9f = <a1>Open in Kshana Studio: the same inversion, <c1/><s1> · deterministic</s1><c2/></a1>
+seg-c131867720cc = Open in Kshana Studio: the same inversion, <c1/><s1> · deterministic</s1>
 
 # text
 seg-05dd599ce14a = One cell per capability.
@@ -5959,8 +5955,7 @@ seg-006d9a3357c7 = seed
 seg-678c8daa51e9 = Engine v{ $version } · <c1/> · seed { "42" }
 
 # text
-# c1: 
-seg-0d9fca5fdcfe = <a1>Open in Kshana Studio<c1/></a1>
+seg-9a86ef058d27 = Open in Kshana Studio
 
 # attr:title
 seg-34a0cf94d83d = Open the run's exports in Kshana Studio: reproducible HTML report, JSON, CSV
@@ -6223,8 +6218,7 @@ seg-1e1e6d431868 = Kshana Pro: a mission dossier and an evidence pack
 seg-20582558a93f = Kshana Pro packages the evidence a review or procurement board asks for, reproducibly. What it builds on: this ledger, where every capability names its oracle and its test, and the stamp every result carries. In one command, a mission dossier checks every requirement against real runs and writes a verification matrix with its open items and a PDF (Portable Document Format).
 
 # text
-# c1: 
-seg-890b470ca9ea = <a1>Request a Pro evaluation <c1/></a1>
+seg-6d3d0f8c9b7c = Request a Pro evaluation
 
 # text
 seg-1c8effb9400a = See a real dossier
@@ -6236,8 +6230,7 @@ seg-c24f4ecd4d42 = A custom study: your question, answered
 seg-bead5a126394 = A custom study answers your own question with the same labels: every figure Validated or Modelled, not a certification. Export-controlled work is handled under clearance and NDA (non-disclosure agreement).
 
 # text
-# c1: 
-seg-b6eb33e3149e = <a1>Request a study <c1/></a1>
+seg-b366150de755 = Request a study
 
 # text
 seg-6df96ca25c68 = Why and who it is for
@@ -6249,8 +6242,7 @@ seg-1aff28e3a49a = Compare methods on the same logs.
 seg-5c0bc250857a = kshana-bench fixes the tasks, splits and metrics for GNSS interference detection and timing holdover, with baselines whose bars were written down before the first scored run. A score describes a log or a corpus, never a product.
 
 # text
-# c1: 
-seg-eb0b1bc759e2 = <a1>Open the benchmark <c1/></a1>
+seg-0c50b3629e39 = Open the benchmark
 
 # attr:aria-label, text
 seg-fa599e1294b9 = Research and citation
@@ -6262,7 +6254,10 @@ seg-9bff81726f3f = Published research.
 seg-7563b76b2e24 = { "6" } papers on arXiv, the open preprint archive, built on the open engine. Each opens to a figure rerun on the engine, its findings, the command and its DOI (Digital Object Identifier).
 
 # text
-seg-c08c27e6bac3 = Lunar navigation<s1><s2>{ "18" } September { "2026" }</s2> · arXiv:{ "2610.23871" }</s1>
+seg-71fadc5b5a0b = Lunar navigation
+
+# text
+seg-99f49da3e2c2 = <s1>{ "18" } September { "2026" }</s1> · arXiv:{ "2610.23871" }
 
 # text
 seg-4215aedbd38b = Cislunar navigation is an observability problem: arc-length thresholds, Gramian conditioning, and the Doppler lever
@@ -6271,12 +6266,10 @@ seg-4215aedbd38b = Cislunar navigation is an observability problem: arc-length t
 seg-b98018947305 = In cislunar space dilution of precision does not apply: range-only links leave the velocity unobservable at any instant, so requirements belong in arc-length, conditioning and measurement-type budgets.
 
 # text
-# c1: 
-seg-e94b00e75d6e = <a1>Abstract <c1/></a1>
+seg-d44879bf12ee = Abstract
 
 # text
-# c1: 
-seg-98e880759dbd = <a1>PDF <c1/></a1>
+seg-417a52c9c154 = PDF
 
 # text
 seg-4f7300f35cc4 = DOI 10.48550/arXiv.2610.23871
@@ -6342,7 +6335,7 @@ seg-e1324f491348 = BibTeX · baweja2026cislunar
 seg-02ae60696338 = Copy BibTeX
 
 # text
-seg-22c586c6000b = Lunar navigation<s1><s2>{ "7" } July { "2026" }</s2> · arXiv:{ "2607.06212" }</s1>
+seg-814e10300308 = <s1>{ "7" } July { "2026" }</s1> · arXiv:{ "2607.06212" }
 
 # text
 seg-cb5ae69b24b2 = The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis
@@ -6399,7 +6392,7 @@ seg-c3952de0ac25 = kshana lunar-beacon.toml
 seg-3863c17f1d12 = BibTeX · baweja2026cost
 
 # text
-seg-5c3bd1c94790 = Lunar navigation<s1><s2>{ "29" } June { "2026" }</s2> · arXiv:{ "2607.02566" }</s1>
+seg-756a63fd185f = <s1>{ "29" } June { "2026" }</s1> · arXiv:{ "2607.02566" }
 
 # text
 seg-75c6caf87321 = Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination
@@ -6459,7 +6452,10 @@ seg-4d7b3cc885e1 = kshana lunar-joint-od-clock.toml
 seg-4a67b5769164 = BibTeX · baweja2026earth
 
 # text
-seg-5e319b243ab2 = Timing integrity<s1><s2>{ "23" } June { "2026" }</s2> · arXiv:{ "2606.24210" }</s1>
+seg-a846e806e577 = Timing integrity
+
+# text
+seg-7334fb10a58d = <s1>{ "23" } June { "2026" }</s1> · arXiv:{ "2606.24210" }
 
 # text
 seg-d919ca966a9e = A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error Under GNSS Spoofing
@@ -6509,7 +6505,10 @@ seg-f9d26d561e77 = cargo run --release --example tpl_jammertest
 seg-1e7f0f12f1d8 = BibTeX · baweja2026conditional
 
 # text
-seg-cacc9e88dce2 = Resilience scoring<s1><s2>{ "22" } June { "2026" }</s2> · arXiv:{ "2607.05415" }</s1>
+seg-71f2b94fc8ed = Resilience scoring
+
+# text
+seg-0bf6d80a9ac4 = <s1>{ "22" } June { "2026" }</s1> · arXiv:{ "2607.05415" }
 
 # text
 seg-e1901a8f71a6 = How Stable Is a PNT Resilience Score? Decision-Instability of Single-Number Resilience Ratings under Framework-Aligned Weighting
@@ -6559,7 +6558,10 @@ seg-164b725640f2 = cargo run --release --example resilience_report -- paper-arti
 seg-068c8bc02d18 = BibTeX · baweja2026stable
 
 # text
-seg-dc082b5d5c49 = Radio-frequency interference<s1><s2>{ "20" } June { "2026" }</s2> · arXiv:{ "2606.22054" } · version { "2" }</s1>
+seg-bc499c388907 = Radio-frequency interference
+
+# text
+seg-0411e7a125dd = <s1>{ "20" } June { "2026" }</s1> · arXiv:{ "2606.22054" } · version { "2" }
 
 # text
 seg-1a9e30bfff32 = Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of RF-Impairment Detectors from In-Distribution Statistics
