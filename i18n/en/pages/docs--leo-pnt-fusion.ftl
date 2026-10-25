@@ -107,13 +107,11 @@ seg-12cdcc633ae0 = One kind, four modes (<c1/>).
 # text
 # c1: f_D
 # c2: λ
-# c3: ρ̇ = −λ f_D = u·(v_s − v_u) + ḋ
-# c4: u
-# c5: ḋ
-# c6: ∂ρ̇/∂r = −(I − u uᵀ)(v_s − v_u)/ρ
-# c7: doppler_only = true
-# c8: starlink-sop
-seg-72b5d8cc82ea = <b>Doppler.</b> A receiver measuring Doppler <c1/> at wavelength <c2/> observes the range rate <c3/>, with <c4/> the line of sight and <c5/> the receiver clock drift. A batch Gauss-Newton fit solves the position, the drift and optionally a constant velocity, with analytic partials <c6/>: only the satellite velocity across the line of sight carries position information, so the geometry is how the lines of sight turn during the window. The report gives the error against window length, the Doppler, Doppler-rate and jerk envelope of each system, and a single-pass table. One pass locates the user along the track (the time of zero Doppler) and across it (the steepness of the Doppler curve); the cross-track error grows without bound as the pass goes overhead, and the mirror image across the ground track fits almost as well (only the Earth's rotation separates them). A Doppler-only system (<c7/>, the <c8/> preset) runs in this mode.
+# c3: u
+# c4: ḋ
+# c5: doppler_only = true
+# c6: starlink-sop
+seg-c9419a8b3b1f = <b>Doppler.</b> A receiver measuring Doppler <c1/> at wavelength <c2/> observes the range rate <s1>ρ̇ = −λ f_D = u·(v_s − v_u) + ḋ</s1>, with <c3/> the line of sight and <c4/> the receiver clock drift. A batch Gauss-Newton fit solves the position, the drift and optionally a constant velocity, with analytic partials <s2>∂ρ̇/∂r = −(I − u uᵀ)(v_s − v_u)/ρ</s2>: only the satellite velocity across the line of sight carries position information, so the geometry is how the lines of sight turn during the window. The report gives the error against window length, the Doppler, Doppler-rate and jerk envelope of each system, and a single-pass table. One pass locates the user along the track (the time of zero Doppler) and across it (the steepness of the Doppler curve); the cross-track error grows without bound as the pass goes overhead, and the mirror image across the ground track fits almost as well (only the Earth's rotation separates them). A Doppler-only system (<c5/>, the <c6/> preset) runs in this mode.
 
 # text
 seg-007d143c7fb4 = <b>Joint.</b> Each epoch, weighted least squares over the pseudoranges of the GNSS systems alone, the LEO systems alone and all of them, one receiver clock per system (the inter-system bias, ISB, is estimated) or a known broadcast offset on the reference time scale. It reports the geometric, position, horizontal, vertical and time dilution of precision (GDOP, PDOP, HDOP, VDOP, TDOP), the errors, the estimated biases, and the DOP against the number of LEO satellites added to the GNSS geometry.
@@ -123,8 +121,7 @@ seg-22f136a0c96f = <b>Polar.</b> Satellites in view, median DOP and availability
 
 # text
 # c1: slot-timing
-# c2: Δt_UTC = Δt_LS + A0 + A1 (t_E − t_ot + 604800 (WN − WN_t))
-seg-1034557258d1 = <b>Timing.</b> At a known position every LEO pseudorange is a clock measurement. The receiver runs a two-state (phase, frequency) Kalman filter whose process noise is the oscillator class's white and random-walk frequency noise (the <c1/> and clock models), holds time between passes, and converts system time to Coordinated Universal Time (UTC) with the IS-GPS-200 expression <c2/>; the uncertainty of the broadcast offset is a per-run bias.
+seg-5b70b0018cd5 = <b>Timing.</b> At a known position every LEO pseudorange is a clock measurement. The receiver runs a two-state (phase, frequency) Kalman filter whose process noise is the oscillator class's white and random-walk frequency noise (the <c1/> and clock models), holds time between passes, and converts system time to Coordinated Universal Time (UTC) with the IS-GPS-200 expression <s1>Δt_UTC = Δt_LS + A0 + A1 (t_E − t_ot + { "604800" } (WN − WN_t))</s1>; the uncertainty of the broadcast offset is a per-run bias.
 
 # text
 seg-0d76fcc05e7d = A float precise point positioning (PPP) extended Kalman filter (EKF) on ionosphere-free code and phase: static coordinates, a white receiver clock, one inter-system bias per extra system, a random-walk zenith wet delay, and a float ambiguity per satellite arc. The precise orbit-and-clock error is common to a satellite's code and phase, so each satellite is one correlated two-row update, in a Joseph-stabilised form that keeps the covariance positive definite over thousands of millimetre-level phase updates. Measurements are simulated from the same model, so the normalised estimation error squared (NEES) of the position must follow a chi-square law with three degrees of freedom; the test checks it over Monte Carlo seeds. Convergence is the first epoch after which the horizontal and vertical errors stay below the thresholds ({ "10" } cm) until the end of the run.
@@ -133,11 +130,9 @@ seg-0d76fcc05e7d = A float precise point positioning (PPP) extended Kalman filte
 seg-630384148ec7 = A LEO satellite crosses the sky in about ten minutes, a MEO satellite moves a few degrees, so LEO arcs separate the ambiguities from the position far sooner.
 
 # text
-# c1: c / (2π β sqrt(2 (C/N0) T))
-# c2: β
-# c3: B/√12
-# c4: sqrt(3 / (2π² (C/N0) T³))
-seg-17f9cf9cc24d = A 5G non-terrestrial network (NTN) downlink in the mobile-satellite service (MSS) S band, 3rd Generation Partnership Project (3GPP) band n256 ({ "2170" } to { "2200" } MHz). The Cramér-Rao bound (CRB) on time of arrival is <c1/>, with <c2/> the root-mean-square (Gabor) bandwidth (<c3/> for a flat OFDM spectrum), and on the frequency of a tone <c4/>. The kind compares channels (by default a { "5" } MHz New Radio channel and a { "200" } kHz narrowband channel) through downlink time-of-arrival fixes with an unknown receiver clock and a single-satellite Doppler fix over a pass.
+# c1: β
+# c2: B/√12
+seg-7bb0cd4db5c9 = A 5G non-terrestrial network (NTN) downlink in the mobile-satellite service (MSS) S band, 3rd Generation Partnership Project (3GPP) band n256 ({ "2170" } to { "2200" } MHz). The Cramér-Rao bound (CRB) on time of arrival is <s1>c / (2π β sqrt({ "2" } (C/N0) T))</s1>, with <c1/> the root-mean-square (Gabor) bandwidth (<c2/> for a flat OFDM spectrum), and on the frequency of a tone <s2>sqrt({ "3" } / (2π² (C/N0) T³))</s2>. The kind compares channels (by default a { "5" } MHz New Radio channel and a { "200" } kHz narrowband channel) through downlink time-of-arrival fixes with an unknown receiver clock and a single-satellite Doppler fix over a pass.
 
 # text
 seg-a6c63abeb7e6 = Bundled scenarios

@@ -31,6 +31,9 @@ seg-7cf112b1bcc3 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>
 seg-91ebbc89f9bb = The example <c1/> sets, among others:
 
 # text
+seg-37d29d8303fe = km
+
+# text
 seg-c33e3cbba749 = arcsec
 
 # text

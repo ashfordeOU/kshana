@@ -47,11 +47,10 @@ seg-76f7739f8b17 = <b><c1/></b> — the optical clock holds the entire { "6600" 
 seg-0ba48fccffae = <b><c1/></b> — the CSAC breaches the { "20" } ns spec at ~{ "2610" } s, less than half the outage. Its p95 phase error ({ "19.7" } ns) sits right at the spec line.
 
 # text
-# c1: security n/a (no attack)
-# c2: fom.security
-# c3: applicable: false
-# c4: figure_tiers
-seg-b745d05e2bf1 = <b><c1/></b> — this scenario configures no attack, so there is nothing to detect and the summary does not print a number. The JSON still carries each clock’s analytic spoof-detectability bound in <c2/> ({ "0.997" } for the optical clock; { "0.000" } for the CSAC, whose own coast noise over the window already exceeds { "20" } ns), marked <c3/> in the <c4/> block. Scoring detection against a real attack is the <a1>Tutorial { "3" }</a1> story.
+# c1: fom.security
+# c2: applicable: false
+# c3: figure_tiers
+seg-19d55c455c26 = <b><s1>security n/a (no attack)</s1></b> — this scenario configures no attack, so there is nothing to detect and the summary does not print a number. The JSON still carries each clock’s analytic spoof-detectability bound in <c1/> ({ "0.997" } for the optical clock; { "0.000" } for the CSAC, whose own coast noise over the window already exceeds { "20" } ns), marked <c2/> in the <c3/> block. Scoring detection against a real attack is the <a1>Tutorial { "3" }</a1> story.
 
 # text
 # c1: integrity 1.000
@@ -62,13 +61,11 @@ seg-510e1cd8ed40 = <b><c1/></b> — here this is <em>filter self-consistency</em
 seg-7cc0ba5e5d13 = The non-circular oracle: why { "2610" } s for the CSAC?
 
 # text
-# c1: q_wf = σ_y(1 s)²
-# c2: tests/calibration.rs
-seg-2958401e00ca = For a white-frequency-modulation (white-FM) clock the 1-σ phase error grows as <b>σ_x(T) ≈ √(q_wf · T)</b>, where <c1/> has units of s². This relation is from <b>NIST Special Publication { "1065" }</b> (Riley, <em>Handbook of Frequency Stability Analysis</em>) — the σ_y(τ)↔phase relations — the <em>same</em> SP-1065 relation that <c2/> validates the engine’s Allan deviation against to ~{ "2" } %.
+# c1: tests/calibration.rs
+seg-b0c9a7d12883 = For a white-frequency-modulation (white-FM) clock the 1-σ phase error grows as <b>σ_x(T) ≈ √(q_wf · T)</b>, where <s1>q_wf = σ_y({ "1" } s)²</s1> has units of s². This relation is from <b>NIST Special Publication { "1065" }</b> (Riley, <em>Handbook of Frequency Stability Analysis</em>) — the σ_y(τ)↔phase relations — the <em>same</em> SP-1065 relation that <c1/> validates the engine’s Allan deviation against to ~{ "2" } %.
 
 # text
-# c1: q_wf = (3×10⁻¹⁰)² = 9×10⁻²⁰ s²
-seg-d6c8f68b42b9 = For the CSAC, <c1/>. Solve for the time the 1-σ phase reaches { "20" } ns = { "2" }×{ "10" }⁻⁸ s:
+seg-dc1841572e6a = For the CSAC, <s1>q_wf = ({ "3" }×{ "10" }⁻¹⁰)² = { "9" }×{ "10" }⁻²⁰ s²</s1>. Solve for the time the 1-σ phase reaches { "20" } ns = { "2" }×{ "10" }⁻⁸ s:
 
 # text
 # c1: holdover_s

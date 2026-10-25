@@ -46,6 +46,9 @@ seg-6c0897da2efa = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-8c6bb203352d = The example <c1/> sets, among others:
 
 # text
+seg-37d29d8303fe = km
+
+# text
 seg-a3697ad561db = Hz
 
 # text

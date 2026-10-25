@@ -92,8 +92,7 @@ seg-dcd03b326110 = How stability is measured
 # text
 # c1: σ_y(τ)
 # c2: τ
-# c3: σ_y(1 s) = 3×10⁻¹⁰
-seg-2181832c6253 = <b>Allan deviation (<c1/>).</b> In plain terms: <em>the standard way to state how stable a clock is over a given averaging time <c2/>.</em> A clock datasheet quotes, e.g., <c3/>. Kshana validates its clock model by computing the Allan deviation of its own output and checking it matches the published number. (Reference: Riley, NIST SP { "1065" } — National Institute of Standards and Technology Special Publication { "1065" }.)
+seg-c1f97d4a2ef7 = <b>Allan deviation (<c1/>).</b> In plain terms: <em>the standard way to state how stable a clock is over a given averaging time <c2/>.</em> A clock datasheet quotes, e.g., <s1>σ_y({ "1" } s) = { "3" }×{ "10" }⁻¹⁰</s1>. Kshana validates its clock model by computing the Allan deviation of its own output and checking it matches the published number. (Reference: Riley, NIST SP { "1065" } — National Institute of Standards and Technology Special Publication { "1065" }.)
 
 # text
 seg-11cbe561e633 = <b>PSD — Power Spectral Density.</b> How a noise's power is distributed across frequencies; the formal way to specify white / random-walk / flicker noise.
@@ -170,10 +169,9 @@ seg-4dfaee63262d = <b>Integrity (<c1/>).</b> In plain terms: <em>how often the s
 # text
 # c1: security
 # c2: P_md
-# c3: security n/a (no attack)
-# c4: applicable: false
-# c5: figure_tiers
-seg-5af09f5129e0 = <b>Security score (<c1/>).</b> In plain terms: <em>how likely a spoofing attack is to be caught.</em> It is the probability that the configured attack is detected — one minus the missed-detection probability <c2/> — derived from the clock's stability. It only means something when the scenario configures a spoofing attack. With no attack configured, the one-line summary prints <c3/> and the result marks the figure <c4/> in its <c5/> block; the value stays in the document and means "not applicable", not "zero security".
+# c3: applicable: false
+# c4: figure_tiers
+seg-eed0abc99e1c = <b>Security score (<c1/>).</b> In plain terms: <em>how likely a spoofing attack is to be caught.</em> It is the probability that the configured attack is detected — one minus the missed-detection probability <c2/> — derived from the clock's stability. It only means something when the scenario configures a spoofing attack. With no attack configured, the one-line summary prints <s1>security n/a (no attack)</s1> and the result marks the figure <c3/> in its <c4/> block; the value stays in the document and means "not applicable", not "zero security".
 
 # text
 # c1: pdop_min
@@ -182,15 +180,12 @@ seg-70113d509997 = <b>PDOP — position dilution of precision (keys such as <c1/
 # text
 # c1: σ_y(τ)
 # c2: τ
-# c3: sigma_y(1 s) = 3e-10
-seg-a445bf9a3c5f = <b>sigma_y (<c1/>, the Allan deviation).</b> In plain terms: <em>how much a clock's rate wobbles when averaged over a time <c2/>.</em> A datasheet line such as <c3/> means the rate, averaged over one second, varies by about { "3" } parts in 10¹⁰. Smaller is a more stable clock. See "How stability is measured" above.
+seg-1ce352cc7285 = <b>sigma_y (<c1/>, the Allan deviation).</b> In plain terms: <em>how much a clock's rate wobbles when averaged over a time <c2/>.</em> A datasheet line such as <s1>sigma_y({ "1" } s) = { "3e-10" }</s1> means the rate, averaged over one second, varies by about { "3" } parts in 10¹⁰. Smaller is a more stable clock. See "How stability is measured" above.
 
 # text
-# c1: σ_y²(τ) = q_wf / τ
-# c2: q_wf = sigma_y(1 s)²
-# c3: q_rw
-# c4: drift
-seg-03b4bb05148d = <b>q_wf — white-frequency noise intensity.</b> In plain terms: <em>the strength of the fast, random jitter in a clock's rate.</em> It is the coefficient in <c1/> for white frequency noise, so a scenario sets <c2/> from the datasheet's one-second Allan deviation. Its companions are <c3/> (random-walk frequency noise) and <c4/> (ageing); see "How errors are modelled" above.
+# c1: q_rw
+# c2: drift
+seg-5edf8719ecd9 = <b>q_wf — white-frequency noise intensity.</b> In plain terms: <em>the strength of the fast, random jitter in a clock's rate.</em> It is the coefficient in <s1>σ_y²(τ) = q_wf / τ</s1> for white frequency noise, so a scenario sets <s2>q_wf = sigma_y({ "1" } s)²</s2> from the datasheet's one-second Allan deviation. Its companions are <c1/> (random-walk frequency noise) and <c2/> (ageing); see "How errors are modelled" above.
 
 # text
 seg-074a1337ed99 = Telecom timing terms

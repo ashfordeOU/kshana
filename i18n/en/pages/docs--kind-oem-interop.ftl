@@ -31,6 +31,9 @@ seg-d4117f615cd8 = The example <c1/> sets, among others:
 seg-d7db74d14617 = KSHANA
 
 # text
+seg-37d29d8303fe = km
+
+# text
 seg-b16f858574ca = Result label (the engine's): MODELLED — CCSDS OEM import/round-trip interop bridge (GMAT/Orekit/STK emit OEM); a structural + physical ingest check, NOT an orbit-accuracy validation of the source
 
 # attr:alt

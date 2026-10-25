@@ -46,6 +46,9 @@ seg-7b28ab6567df = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-581a5231b230 = The example <c1/> sets, among others:
 
 # text
+seg-37d29d8303fe = km
+
+# text
 # c1: scenarios/
 seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
 

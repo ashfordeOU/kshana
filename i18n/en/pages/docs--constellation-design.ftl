@@ -98,14 +98,13 @@ seg-6cb532d0bca9 = How it scales
 # text
 # c1: r
 # c2: ε
-# c3: λ = arccos((R/r)·cos ε) − ε
-# c4: cos λ
-# c5: φ
-# c6: λ_max
-# c7: φ
-# c8: work
-# c9: leo-pnt-mega-shell
-seg-988ae3272c1f = A satellite at radius <c1/> is above an elevation mask <c2/> exactly when its central angle from the user is at most <c3/>, so the visibility test is one dot product against <c4/>. Each epoch the satellites are also sorted by sub-satellite latitude, and a grid row at latitude <c5/> only tests the satellites within <c6/> of <c7/>. Both are exact on a spherical body, and a unit test holds every map to a brute-force scan with the direct elevation test. The <c8/> block reports the pair tests a brute-force scan would make and the ones made. The unit test's { "5" } 000-satellite design on a { "10" } deg grid ({ "648" } points, { "6" } epochs) keeps { "9.9" } % of the { "19 440 000" } brute-force pair tests; the bundled <c9/> scenario ({ "5 000" } satellites, { "648" } points, { "12" } epochs) runs in about { "0.14" } s with the release command-line binary on an Apple-silicon laptop. Wall-clock times vary with the machine and its load. The engine uses no threads, clock or filesystem, so it runs unchanged as WebAssembly.
+# c3: cos λ
+# c4: φ
+# c5: λ_max
+# c6: φ
+# c7: work
+# c8: leo-pnt-mega-shell
+seg-3f5828a49508 = A satellite at radius <c1/> is above an elevation mask <c2/> exactly when its central angle from the user is at most <s1>λ = arccos((R/r)·cos ε) − ε</s1>, so the visibility test is one dot product against <c3/>. Each epoch the satellites are also sorted by sub-satellite latitude, and a grid row at latitude <c4/> only tests the satellites within <c5/> of <c6/>. Both are exact on a spherical body, and a unit test holds every map to a brute-force scan with the direct elevation test. The <c7/> block reports the pair tests a brute-force scan would make and the ones made. The unit test's { "5" } 000-satellite design on a { "10" } deg grid ({ "648" } points, { "6" } epochs) keeps { "9.9" } % of the { "19 440 000" } brute-force pair tests; the bundled <c8/> scenario ({ "5 000" } satellites, { "648" } points, { "12" } epochs) runs in about { "0.14" } s with the release command-line binary on an Apple-silicon laptop. Wall-clock times vary with the machine and its load. The engine uses no threads, clock or filesystem, so it runs unchanged as WebAssembly.
 
 # text
 seg-abba032ee1c7 = What is checked, and against what

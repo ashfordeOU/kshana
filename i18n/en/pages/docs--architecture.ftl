@@ -263,14 +263,13 @@ seg-eedaeae2a7e7 = Typed dispatch and the structured API
 seg-ca47f566eaee = Dispatch is on a typed <c1/> enum, not a raw string match: <c2/> resolves the <c3/> field to a variant, and the dispatcher matches on it exhaustively — adding a pack is a compile-checked change, not a string typo. Two typed surfaces sit alongside the string-returning <c4/> (kept for the CLI and existing bindings):
 
 # text
-# c1: run_scenario(src) -> Result<RunOutput, KshanaError>
-# c2: InvalidInput
-# c3: NonConvergence
-# c4: Unsupported
-# c5: IoError
-# c6: kind_tag()
-# c7: error_kind(toml)
-seg-167c47049329 = <b><c1/></b> — the typed entry, with a structured error taxonomy (<c2/>, <c3/>, <c4/>, <c5/>). Each error carries a stable <c6/> so a caller can branch on the failure category instead of parsing the message. The bindings expose this as <c7/>.
+# c1: InvalidInput
+# c2: NonConvergence
+# c3: Unsupported
+# c4: IoError
+# c5: kind_tag()
+# c6: error_kind(toml)
+seg-e6dc02f6680b = <b><s1>run_scenario(src) -> Result<RunOutput, KshanaError></s1></b> — the typed entry, with a structured error taxonomy (<c1/>, <c2/>, <c3/>, <c4/>). Each error carries a stable <c5/> so a caller can branch on the failure category instead of parsing the message. The bindings expose this as <c6/>.
 
 # text
 # c1: list_scenario_kinds() -> Vec<ScenarioMeta>
@@ -381,8 +380,7 @@ seg-7bc5df56e4e5 = { "8" }. Determinism & reproducibility
 
 # text
 # c1: ChaCha8Rng
-# c2: (scenario, seed, engine version) → identical bits
-seg-fb95c37c7bb9 = All randomness flows through a single seeded <c1/> per run; the step order is fixed, so <c2/>.
+seg-f8b7f576ecdd = All randomness flows through a single seeded <c1/> per run; the step order is fixed, so <s1>(scenario, seed, engine version) → identical bits</s1>.
 
 # text
 # c1: scenario_hash

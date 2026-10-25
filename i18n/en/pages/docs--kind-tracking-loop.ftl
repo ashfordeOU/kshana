@@ -68,6 +68,9 @@ seg-05e8854de548 = chip
 seg-b054c73f22e5 = no value
 
 # text
+seg-37d29d8303fe = km
+
+# text
 seg-773fff0feaf7 = bracketed
 
 # text

@@ -43,6 +43,9 @@ seg-687f2930a40d = downlink
 seg-9fd02351d844 = ms
 
 # text
+seg-37d29d8303fe = km
+
+# text
 seg-e794d481aed4 = plane
 
 # text
