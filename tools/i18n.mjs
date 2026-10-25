@@ -343,8 +343,8 @@ async function status(args) {
   const langs = pos.length ? pos : L.LANGS;
   const res = langs.map((l) => L.statusLang(opt.root, l));
   if (opt.json) { console.log(JSON.stringify(res, null, 1)); return; }
-  console.log('lang      translated   missing  total   pages not started  orphans');
-  for (const r of res) console.log(`${r.lang.padEnd(8)} ${String(r.translated).padStart(10)} ${String(r.missing).padStart(9)} ${String(r.total).padStart(6)} ${String(r.pagesNotStarted).padStart(18)} ${String(r.orphans.length).padStart(8)}`);
+  console.log('lang      translated   missing   total  coverage  pages >= 80%  pages not started  orphans');
+  for (const r of res) { const ok80 = r.rows.filter((x) => x.translated + x.missing && x.translated / (x.translated + x.missing) >= 0.8).length; console.log(`${r.lang.padEnd(8)} ${String(r.translated).padStart(10)} ${String(r.missing).padStart(9)} ${String(r.total).padStart(7)} ${((100 * r.translated) / (r.total || 1)).toFixed(1).padStart(8)}%  ${String(ok80).padStart(5)} of ${String(r.rows.length).padEnd(4)} ${String(r.pagesNotStarted).padStart(18)} ${String(r.orphans.length).padStart(8)}`); }
 }
 
 async function check(args) {
@@ -517,7 +517,7 @@ async function langsCmd(args) {
  *  code spans and link targets must be equal, and the machine-translation notice must be present (design v2, section 5). */
 async function verify(args) {
   const L = await lang();
-  const { opt, pos } = args2opt(args, { src: 'web', dist: 'dist', skip: 'studio,playground,assets' });
+  const { opt, pos } = args2opt(args, { src: 'web', dist: 'dist', root: 'i18n', skip: 'studio,playground,assets' });
   const pages = walk(opt.src, [...String(opt.skip).split(',').filter(Boolean), ...L.LANGS, 'en-XA']);
   const langs = pos.length ? pos : L.LANGS.filter((l) => existsSync(join(opt.dist, l)));
   const visible = (h) => h.replace(/<(script|style|svg|template|head)\b[\s\S]*?<\/\1>/gi, ' ').replace(/<[^>]*>/g, ' ');
@@ -528,6 +528,10 @@ async function verify(args) {
   let bad = 0;
   for (const lang of langs) {
     let n = 0;
+    const rend = L.tokenRenderings(opt.root, lang);
+    const legal = L.legalSentences(opt.root, lang);
+    const taStem = L.termStem(opt.root, lang, '-term-type-approved');
+    const mt = (() => { try { const b = L.bundleFor(lang, [join(opt.root, lang, 'glossary.ftl'), join(opt.root, lang, 'ui.ftl')]); const m = b.getMessage('notice-machine-translation'); return m && m.value ? b.formatPattern(m.value, {}) : null; } catch { return null; } })();
     for (const rel of pages) {
       const p = join(opt.dist, lang, rel);
       if (!existsSync(p)) { console.log(`ERROR ${lang}/${rel}: page missing`); bad++; continue; }
@@ -545,6 +549,31 @@ async function verify(args) {
       const b = all(t).map((h) => norm(h, '/' + lang)).filter((h) => !/^[a-z]+:/i.test(h)).sort();
       if (a.join('\n') !== b.join('\n')) { bad++; n++; console.log(`ERROR ${lang}/${rel}: the link targets differ from the English page`); }
       if (!/class="i18n-notice"/.test(tr)) { bad++; n++; console.log(`ERROR ${lang}/${rel}: the machine-translation notice is missing`); }
+      else if (mt && !tr.includes(mt.replace(/&/g, '&amp;').replace(/</g, '&lt;'))) { bad++; n++; console.log(`ERROR ${lang}/${rel}: the machine-translation notice is not the language's own text`); }
+      // tier, verdict and status tokens: the count of each on the page equals the English count (as the language renders it)
+      const vt = (h) => visible(h).replace(/&nbsp;/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ').replace(/\s+/g, ' ');
+      const ve = vt(en), vtr = vt(t);
+      const count = (txt, w) => { if (!w) return 0; let c = 0, i = 0; for (;;) { i = txt.indexOf(w, i); if (i < 0) break; const pre = txt[i - 1] || ' ', post = txt[i + w.length] || ' '; if (!/[A-Za-z]/.test(pre) && !/[A-Za-z]/.test(post)) c++; i += w.length; } return c; };
+      for (const tk of L.TIER_TOKENS) {
+        let ce = count(ve, tk); if (tk === 'MET') ce -= count(ve, 'NOT MET');
+        const r = rend[tk];
+        let ct = count(vtr, r) + (r !== tk ? count(vtr, tk) : 0); if (tk === 'MET') ct -= count(vtr, rend['NOT MET']) + (rend['NOT MET'] !== 'NOT MET' ? count(vtr, 'NOT MET') : 0);
+        if (ce !== ct) { bad++; n++; console.log(`ERROR ${lang}/${rel}: ${tk} appears ${ct} times, the English page has ${ce}`); }
+      }
+      // the advisory: every place the English page says "type-approved" is still said in the translation (the glossary's rendering of the term, or English where untranslated)
+      if (taStem) {
+        const lowE = ve.toLowerCase(), lowT = vtr.toLowerCase();
+        const cnt = (txt, w) => { let c = 0, i = 0; for (;;) { i = txt.indexOf(w, i); if (i < 0) break; c++; i += w.length; } return c; };
+        const ne = cnt(lowE, 'type-approved');
+        if (ne && cnt(lowT, taStem) + cnt(lowT, 'type-approved') < ne) { bad++; n++; console.log(`ERROR ${lang}/${rel}: the advisory wording is incomplete (the English page says "type-approved" ${ne} times; the translation has ${cnt(lowT, taStem) + cnt(lowT, 'type-approved')})`); }
+      }
+      // the advisories and notices the engine and the glossary fix: present, and exactly the language's sentence (or English where the segment is not translated yet)
+      const norm2 = (x) => x.replace(/\s+/g, ' ');
+      for (const sn of legal) {
+        if (!ve.includes(sn.en)) continue;
+        if (sn.tr === null) continue;
+        if (!vtr.includes(sn.tr) && !vtr.includes(sn.en)) { bad++; n++; console.log(`ERROR ${lang}/${rel}: the sentence ${sn.id} is missing or altered (it must read exactly as the language's catalogue says)`); }
+      }
     }
     console.log(`${lang}: ${pages.length} pages verified, ${n} problems`);
   }
