@@ -19,7 +19,7 @@
 
 import { createHash } from 'node:crypto';
 import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync, statSync, rmSync, copyFileSync } from 'node:fs';
-import { join, relative, dirname, sep } from 'node:path';
+import { join, relative, dirname, sep, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const BLOCK = new Set(['address', 'article', 'aside', 'blockquote', 'body', 'caption', 'dd', 'details', 'div', 'dl', 'dt',
@@ -659,9 +659,113 @@ async function merge(args) {
   if (r.rejected.length) process.exit(1);
 }
 
+// ---- jsx: the t(id, english, vars) call sites of the Studio and site scripts become a catalogue ----
+
+/** Parse a JS string, template (no ${}) or { one: "..", other: ".." } literal starting at i (after spaces). Returns {value, end} or null. */
+function jsLiteral(src, i) {
+  while (/\s/.test(src[i] || '')) i++;
+  const q = src[i];
+  if (q === '"' || q === "'" || q === '`') {
+    let out = '';
+    for (let j = i + 1; j < src.length; j++) {
+      const c = src[j];
+      if (c === '\\') { const n = src[++j]; out += n === 'n' ? '\n' : n === 't' ? '\t' : n === 'u' ? (() => { const h = src.slice(j + 1, j + 5); j += 4; return String.fromCharCode(parseInt(h, 16)); })() : n; continue; }
+      if (q === '`' && c === '$' && src[j + 1] === '{') return { error: 'template literal with ${}: write the placeables as { $name } and pass the values as the third argument' };
+      if (c === q) return { value: out, end: j + 1 };
+      out += c;
+    }
+    return null;
+  }
+  if (q === '{') {
+    const obj = {};
+    let j = i + 1;
+    for (;;) {
+      while (/[\s,]/.test(src[j] || '')) j++;
+      if (src[j] === '}') return { value: obj, end: j + 1 };
+      const km = /^([A-Za-z0-9_]+)\s*:/.exec(src.slice(j, j + 40));
+      if (!km) return null;
+      j += km[0].length;
+      const v = jsLiteral(src, j);
+      if (!v || v.error || typeof v.value !== 'string') return v || null;
+      obj[km[1]] = v.value; j = v.end;
+    }
+  }
+  return null;
+}
+
+/** All t(...) call sites in a source: [{id, en, line, file}] and errors. A call is `t(` not preceded by a word character or a dot. */
+export function jsCallSites(src, file) {
+  const out = [], errors = [];
+  const re = /(?<![\w.$])t\(\s*(["'])([\w-]+)\1\s*,/g;
+  let m;
+  while ((m = re.exec(src))) {
+    const line = src.slice(0, m.index).split('\n').length;
+    const lit = jsLiteral(src, re.lastIndex);
+    if (!lit) { errors.push(`${file}:${line}: ${m[2]}: the English text must be a string literal or { one: "..", other: ".." }`); continue; }
+    if (lit.error) { errors.push(`${file}:${line}: ${m[2]}: ${lit.error}`); continue; }
+    out.push({ id: m[2], en: lit.value, line, file });
+  }
+  return { out, errors };
+}
+
+function jsxFtl(sites, header) {
+  const lines = [header, ''];
+  const byId = new Map();
+  const errors = [];
+  for (const s of sites) {
+    const prev = byId.get(s.id);
+    if (prev) { if (JSON.stringify(prev.en) !== JSON.stringify(s.en)) errors.push(`${s.file}:${s.line}: ${s.id} has different English at ${prev.file}:${prev.line}`); continue; }
+    byId.set(s.id, s);
+  }
+  const bad = (t, s) => /\n/.test(t) ? 'a newline' : /^\s|\s$/.test(t) ? 'leading or trailing space (build the spacing in code)' : /[{}]/.test(t.replace(/\{ \$[A-Za-z0-9_-]+ \}/g, '')) ? 'a brace that is not a { $name } placeable' : null;
+  for (const s of [...byId.values()].sort((a, b) => a.id.localeCompare(b.id))) {
+    lines.push(`# ${s.file}:${s.line}`);
+    if (typeof s.en === 'string') {
+      const b = bad(s.en); if (b) errors.push(`${s.file}:${s.line}: ${s.id}: ${b}`);
+      lines.push(`${s.id} = ${s.en}`);
+    } else {
+      if (s.en.other === undefined) errors.push(`${s.file}:${s.line}: ${s.id}: a plural needs an 'other' form`);
+      lines.push(`${s.id} =`, '    { $n ->');
+      for (const k of ['zero', 'one', 'two', 'few', 'many']) if (s.en[k] !== undefined) { const b = bad(s.en[k]); if (b) errors.push(`${s.file}:${s.line}: ${s.id}[${k}]: ${b}`); lines.push(`        [${k}] ${s.en[k]}`); }
+      const b = bad(s.en.other || ''); if (b) errors.push(`${s.file}:${s.line}: ${s.id}[other]: ${b}`);
+      lines.push(`       *[other] ${s.en.other}`, '    }');
+    }
+    lines.push('');
+  }
+  return { text: lines.join('\n'), errors, count: byId.size };
+}
+
+/** jsx --src DIR[,DIR] --out i18n/en/studio-js.ftl [--check] [--lint]: write (or verify) the English catalogue of the scripts' t() calls. */
+function jsx(args) {
+  const { opt } = args2opt(args, { src: '', out: '', check: false, lint: false, skip: 'recorded,pkg,data,assets,node_modules,vendor' });
+  const skip = String(opt.skip).split(',');
+  const files = [], shown = new Map();
+  const gather = (p, root) => { const st = statSync(p); if (st.isDirectory()) { for (const e of readdirSync(p)) if (!skip.includes(e)) gather(join(p, e), root); } else if (/\.(m?js)$/.test(p) && !/\.test\.m?js$/.test(p) && !/(^|\/)tools_/.test(p)) { files.push(p); shown.set(p, relative(dirname(root), p).split(sep).join('/')); } };
+  for (const d of String(opt.src).split(',').filter(Boolean)) gather(d, resolve(d));
+  const sites = [], errors = [];
+  for (const f of files) { const r = jsCallSites(readFileSync(f, 'utf8'), shown.get(f)); sites.push(...r.out); errors.push(...r.errors); }
+  const out = jsxFtl(sites, `# Generated by tools/i18n.mjs jsx from the t(id, english, vars) calls of ${String(opt.src).split(',').map((d) => d.replace(/\/+$/, '').split('/').pop()).join(', ')}. Do not edit: change the call site.\n# Translators: copy to i18n/<lang>/, translate the values, keep ids, { $variables } and plural categories.`);
+  errors.push(...out.errors);
+  for (const e of errors.slice(0, 40)) console.log('ERROR ' + e);
+  if (opt.lint) {
+    const dom = /(?:\.textContent|\.innerText|\.title|\.placeholder|\.alt)\s*=\s*(["'`])((?:(?!\1).)*[A-Za-z]{3,}\s+[A-Za-z]{2,}(?:(?!\1).)*)\1|setAttribute\(\s*["'](?:aria-label|title|placeholder|alt)["']\s*,\s*(["'`])((?:(?!\3).)*[A-Za-z]{3,}\s+[A-Za-z]{2,}(?:(?!\3).)*)\3/g;
+    let n = 0; const per = [];
+    for (const f of files) { const t = readFileSync(f, 'utf8'); let c = 0; let m; while ((m = dom.exec(t))) { c++; if (c <= 2 && per.length < 12) per.push(`${relative(process.cwd(), f)}: ${(m[2] || m[4]).slice(0, 60)}`); } n += c; }
+    console.log(`lint: ${n} text literals reach the DOM outside t()${per.length ? '; e.g.\n  ' + per.join('\n  ') : ''}`);
+  }
+  if (opt.out) {
+    if (opt.check) {
+      const cur = existsSync(opt.out) ? readFileSync(opt.out, 'utf8') : '';
+      if (cur !== out.text) { console.log(`ERROR ${opt.out} is out of date: run node tools/i18n.mjs jsx --src <the same directories> --out ${opt.out}`); process.exit(1); }
+    } else if (!errors.length) { mkdirSync(dirname(opt.out), { recursive: true }); writeFileSync(opt.out, out.text); }
+  }
+  console.log(`jsx: ${out.count} messages from ${sites.length} call sites in ${files.length} files${errors.length ? ', ' + errors.length + ' errors' : ''}`);
+  if (errors.length) process.exit(1);
+}
+
 const [cmd, ...rest] = process.argv.slice(2);
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), todo: () => todo(rest), merge: () => merge(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
+  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), jsx: async () => jsx(rest), todo: () => todo(rest), merge: () => merge(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
   if (run) await run();
   else if (!cmd) { console.error('usage: node tools/i18n.mjs extract|apply|check|status|pseudo|csslint'); process.exit(2); }
   else { console.error(`i18n: '${cmd}' is not built yet`); process.exit(2); }
