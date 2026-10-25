@@ -1,0 +1,62 @@
+{
+  "a1": {
+    "bars": {
+      "max_3d_m": 500.0,
+      "rms_radial_m": 60.0
+    },
+    "comparisons": 144,
+    "first_jd_tdb": 2460676.5,
+    "max_3d_difference_m": 33.10628919246682,
+    "max_3d_met": true,
+    "rms_radial_difference_m": 2.3892330720413626,
+    "rms_radial_met": true,
+    "secondary_analytic_orientation": {
+      "max_3d_difference_m": 33.82133394132419,
+      "rms_radial_difference_m": 2.4720851797946484
+    },
+    "status": "MET"
+  },
+  "a2": {
+    "bars": {
+      "end_position_m": 25000.0,
+      "periapsis_radius_m": 10000.0
+    },
+    "end_position_difference_m": 136822.88056811388,
+    "end_position_met": false,
+    "hours_tested": 2136,
+    "maneuver_hours": 13,
+    "periapsis_met": false,
+    "periapsis_radius_difference_m": 28371.81733658025,
+    "secondary_analytic_orientation": {
+      "end_position_difference_m": 136823.22941153488,
+      "periapsis_radius_difference_m": 28371.811535182875
+    },
+    "status": "NOT MET",
+    "window_hours": 156,
+    "window_start_index": 145,
+    "window_start_jd_tdb": 2459951.541666667
+  },
+  "advisory": "Advisory software, not certified navigation equipment.",
+  "document": "xval/mission-thread-lunar oracle rows A1 and A2",
+  "inputs": {
+    "a1_lro_horizons.json": "c52d682fd17eaff5b25d4bf392f910daebbfe90784be1c7ed3ca3db6dd97919e",
+    "a1_lro_horizons.json_path": "tests/fixtures/mission_thread_lunar/a1_lro_horizons.json",
+    "a2_capstone_horizons.json": "b62bd475d593505a936749526a96cadec14077e66c02d2fc58f3c9d0b418edde",
+    "a2_capstone_horizons.json_path": "tests/fixtures/mission_thread_lunar/a2_capstone_horizons.json",
+    "gravity_table": {
+      "path": "jggrx_0660b_sha.tab (the full PDS table, 26 692 624 bytes; the committed crop to degree 150 is tests/fixtures/mission_thread_lunar/jggrx_0660b_sha_to150.tab)",
+      "sha256": "500e47e0ae2fa32d30615ea4af9ed6cca3a60e05c332d918692596a425708534"
+    }
+  },
+  "model": {
+    "drag_and_radiation_pressure": "none",
+    "gravity": "GRAIL GL0660B, degree and order 150, GM 4.9028003056e12 m3/s2",
+    "integrator": "Dormand-Prince, rtol 1e-12, atol 1e-9, h_max 60 s",
+    "primary_orientation": "DE440 principal-axis series (De440LunarEnvironment::orientation_only)",
+    "relativity": "Schwarzschild term on",
+    "secondary_orientation": "analytic (AnalyticLunarEnvironment), reported without a bar",
+    "third_bodies": "Earth and Sun, analytic series"
+  },
+  "preregistration": "xval/mission-thread-lunar/PREREGISTRATION.md, Amendments 1 to 5",
+  "tests": "the propagator the lunar kinds share; no navigation filter, signal or budget"
+}
