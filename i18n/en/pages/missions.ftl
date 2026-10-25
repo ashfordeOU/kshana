@@ -177,8 +177,7 @@ seg-aa8201fbbfb8 = Effective carrier-to-noise density by satellite and time
 seg-36dece8c7ecc = Engine v{ $version } · <c1/> · seed { "1" }
 
 # text
-# c1: 
-seg-0d9fca5fdcfe = <a1>Open in Kshana Studio<c1/></a1>
+seg-9a86ef058d27 = Open in Kshana Studio
 
 # attr:title
 seg-34a0cf94d83d = Open the run's exports in Kshana Studio: reproducible HTML report, JSON, CSV
@@ -208,49 +207,49 @@ seg-cb273d6705c6 = SVG
 # c1: 
 # c2: jamming-demo
 # c3: 
-seg-ec20ca58b238 = <a1><s1><c1/>jamming</s1><c2/><s2>A ground jammer near a receiver: every satellite's signal-to-noise and lock state as it comes on.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-f209b9b563cd = <s1><c1/>jamming</s1><c2/><s2>A ground jammer near a receiver: every satellite's signal-to-noise and lock state as it comes on.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: spoof-detect
 # c3: 
-seg-bc6135676355 = <a1><s1><c1/>spoof-detect</s1><c2/><s2>A fused spoof detector: consistency across satellites, receiver gain and signal shape, and which monitor fires.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-c6f870b61fd3 = <s1><c1/>spoof-detect</s1><c2/><s2>A fused spoof detector: consistency across satellites, receiver gain and signal shape, and which monitor fires.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: spoof-attack
 # c3: 
-seg-57d8c0b1b9eb = <a1><s1><c1/>spoof</s1><c2/><s2>An active time-spoofing attack: does each clock's integrity monitor catch the push?</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-bf863421ff62 = <s1><c1/>spoof</s1><c2/><s2>An active time-spoofing attack: does each clock's integrity monitor catch the push?</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: spoof-meaconing
 # c3: 
-seg-0ae63b889cae = <a1><s1><c1/>spoof</s1><c2/><s2>A delayed rebroadcast of real signals drags the time solution; the detector has its own bound.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-57b869d18b65 = <s1><c1/>spoof</s1><c2/><s2>A delayed rebroadcast of real signals drags the time solution; the detector has its own bound.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: conflict-resilience
 # c3: 
-seg-9e7c44159ac6 = <a1><s1><c1/>conflict-resilience</s1><c2/><s2>Layered navigation under rising threat intensity: the chance of losing every layer at once.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-4a874625b796 = <s1><c1/>conflict-resilience</s1><c2/><s2>Layered navigation under rising threat intensity: the chance of losing every layer at once.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: combined-altpnt
 # c3: 
-seg-eb221aac09c5 = <a1><s1><c1/>combined-altpnt</s1><c2/><s2>Gravity, magnetic and terrain matching fused into one navigator that needs no satellites.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-7bcd81558d78 = <s1><c1/>combined-altpnt</s1><c2/><s2>Gravity, magnetic and terrain matching fused into one navigator that needs no satellites.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: gps-denied-gravity-nav
 # c3: 
-seg-084f3deb4155 = <a1><s1><c1/>gravity-map</s1><c2/><s2>An hour without satellites, navigating on a gravity map with a quantum sensor.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-a8ec958e97d5 = <s1><c1/>gravity-map</s1><c2/><s2>An hour without satellites, navigating on a gravity map with a quantum sensor.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: terrain-nav
 # c3: 
-seg-27de276d78e4 = <a1><s1><c1/>terrain-nav</s1><c2/><s2>Terrain-referenced navigation: measured heights matched to a map while satellites are denied.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-2a1f6fa6eaf9 = <s1><c1/>terrain-nav</s1><c2/><s2>Terrain-referenced navigation: measured heights matched to a map while satellites are denied.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 seg-a2fca37a7d4e = campaign<b>New</b>
@@ -312,9 +311,8 @@ seg-71d7ccb4c89a = Custom: export-controlled resilience work under the appropria
 # text
 seg-b366150de755 = Request a study
 
-# text
-# c1: 
-seg-dc8587e446d1 = <a1>Compare the editions <c1/></a1>
+# attr:aria-label, text
+seg-e1acd19a6ac6 = Compare the editions
 
 # text
 seg-43f2006c4390 = Defensive use only: protecting your own navigation and timing, resilience assessment and holdover planning. Kshana does not model targeting, interception or guidance. It drives no radio hardware and transmits nothing: its signal-level output is baseband IQ sample files for software receivers.
@@ -348,55 +346,55 @@ seg-5e4996d54625 = Engine v{ $version } · <c1/> · seed { "7" }
 # c1: 
 # c2: orbit-gnss-challenged
 # c3: 
-seg-4699f1edd35e = <a1><s1><c1/>orbit</s1><c2/><s2>Navigation-satellite availability for a spacecraft inside the constellation shell, from real geometry.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-8afdd0925641 = <s1><c1/>orbit</s1><c2/><s2>Navigation-satellite availability for a spacecraft inside the constellation shell, from real geometry.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: orbit-molniya
 # c3: 
-seg-7c2982c2f488 = <a1><s1><c1/>orbit</s1><c2/><s2>The same question for a highly eccentric orbit that climbs above the constellation.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-eb67e6145fc3 = <s1><c1/>orbit</s1><c2/><s2>The same question for a highly eccentric orbit that climbs above the constellation.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: orbit-sgp4-gps
 # c3: 
-seg-36eeab41adde = <a1><s1><c1/>orbit</s1><c2/><s2>Availability from the real GPS constellation, propagated from two-line element sets.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-8ffc336b1405 = <s1><c1/>orbit</s1><c2/><s2>Availability from the real GPS constellation, propagated from two-line element sets.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: orbit-multignss
 # c3: 
-seg-06f2f5baa0b1 = <a1><s1><c1/>orbit</s1><c2/><s2>GPS and Galileo together: how much a second constellation adds overhead.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-3d921a1ac332 = <s1><c1/>orbit</s1><c2/><s2>GPS and Galileo together: how much a second constellation adds overhead.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: slot-timing-ocxo-leo
 # c3: 
-seg-f06ed80cf6ad = <a1><s1><c1/>slot-timing</s1><c2/><s2>How long an oven-controlled crystal clock on a small low-orbit satellite stays inside its routing slot.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-9da3f67ccc7e = <s1><c1/>slot-timing</s1><c2/><s2>How long an oven-controlled crystal clock on a small low-orbit satellite stays inside its routing slot.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: ephemeris
 # c3: 
-seg-98b08acc8cae = <a1><s1><c1/>ephemeris</s1><c2/><s2>Where the satellite is right now, and the ground track it draws.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-d6a6af392fbd = <s1><c1/>ephemeris</s1><c2/><s2>Where the satellite is right now, and the ground track it draws.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: passes
 # c3: 
-seg-edad2add626c = <a1><s1><c1/>passes</s1><c2/><s2>Ground-station pass prediction for the operations team.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-6623d2b68ca4 = <s1><c1/>passes</s1><c2/><s2>Ground-station pass prediction for the operations team.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: link-budget
 # c3: 
-seg-24d1c1be6cbc = <a1><s1><c1/>link-budget</s1><c2/><s2>A one-way link budget, from transmitter power to receiver margin.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-8bde11fca8e4 = <s1><c1/>link-budget</s1><c2/><s2>A one-way link budget, from transmitter power to receiver margin.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: space-weather
 # c3: 
-seg-cee70379b52d = <a1><s1><c1/>space-weather</s1><c2/><s2>The space-weather environment a mission flies through.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-4d1f5a21ad1b = <s1><c1/>space-weather</s1><c2/><s2>The space-weather environment a mission flies through.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 seg-c7d4ba58426e = constellation-design<b>New</b>
@@ -476,10 +474,6 @@ seg-0ad832459b0a = <c1/> 5G from orbit
 seg-d6be591a2a72 = <c1/> end to end
 
 # text
-# c1: 
-seg-dd05c0b35c66 = <a1>Open the orbit console <c1/></a1>
-
-# text
 seg-70b595b24024 = GNSS availability and dilution of precision from real geometry
 
 # text
@@ -523,79 +517,79 @@ seg-b3d3ed0ec310 = Engine v{ $version } · <c1/> · deterministic, no seed
 # c1: 
 # c2: moonlight-service-volume
 # c3: 
-seg-28f93d52946d = <a1><s1><c1/>moonlight-service-volume</s1><c2/><s2>Coverage and protection levels of a lunar navigation service across its service volume.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-ea8e3b78fa02 = <s1><c1/>moonlight-service-volume</s1><c2/><s2>Coverage and protection levels of a lunar navigation service across its service volume.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: lunanet-araim
 # c3: 
-seg-ee46a2b94649 = <a1><s1><c1/>lunar-integrity</s1><c2/><s2>Integrity for a landed receiver in the lunar south-pole region.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-bff75aa8bcda = <s1><c1/>lunar-integrity</s1><c2/><s2>Integrity for a landed receiver in the lunar south-pole region.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: earth-gnss-lunar
 # c3: 
-seg-ecb7194e79ad = <a1><s1><c1/>earth-gnss-lunar</s1><c2/><s2>How much of Earth's navigation signal still reaches a receiver at the Moon.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-505223f958dd = <s1><c1/>earth-gnss-lunar</s1><c2/><s2>How much of Earth's navigation signal still reaches a receiver at the Moon.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: lunar-jamming
 # c3: 
-seg-3eed2a54d1e8 = <a1><s1><c1/>lunar-jamming</s1><c2/><s2>Jamming a lunar surface user, satellite by satellite.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-7de98f114567 = <s1><c1/>lunar-jamming</s1><c2/><s2>Jamming a lunar surface user, satellite by satellite.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: lunar-time-offset
 # c3: 
-seg-a89838f9caaf = <a1><s1><c1/>lunar-time-offset</s1><c2/><s2>The relativistic rate between Earth and Moon clocks, against the published band.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-872704ccc18d = <s1><c1/>lunar-time-offset</s1><c2/><s2>The relativistic rate between Earth and Moon clocks, against the published band.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: lunar-time-budget
 # c3: 
-seg-b599123a7ecb = <a1><s1><c1/>lunar-time-budget</s1><c2/><s2>The end-to-end time-error budget for coordinated lunar time, clock class by clock class.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-7bcd7122ca23 = <s1><c1/>lunar-time-budget</s1><c2/><s2>The end-to-end time-error budget for coordinated lunar time, clock class by clock class.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: lunar-vlbi
 # c3: 
-seg-e7632c39a795 = <a1><s1><c1/>lunar-vlbi</s1><c2/><s2>Two Earth radio telescopes observing a beacon on the lunar near side.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-a0d433ec7ae0 = <s1><c1/>lunar-vlbi</s1><c2/><s2>Two Earth radio telescopes observing a beacon on the lunar near side.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: cislunar-observability
 # c3: 
-seg-2c5fce829593 = <a1><s1><c1/>cislunar-observability</s1><c2/><s2>Can a small constellation near the Moon be tracked, and over how long an arc?</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-f48740a80c8e = <s1><c1/>cislunar-observability</s1><c2/><s2>Can a small constellation near the Moon be tracked, and over how long an arc?</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: lunar-attack-surface
 # c3: 
-seg-5c827deaeb5f = <a1><s1><c1/>lunar-attack-surface</s1><c2/><s2>The signal-security attack surface for navigation on the lunar surface.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-2d88643c2a6b = <s1><c1/>lunar-attack-surface</s1><c2/><s2>The signal-security attack surface for navigation on the lunar surface.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: lunar-beacon
 # c3: 
-seg-9255299e59eb = <a1><s1><c1/>lunar-beacon</s1><c2/><s2>Surface beacons that augment a lunar orbital navigation service.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-f07c3fd3c0a2 = <s1><c1/>lunar-beacon</s1><c2/><s2>Surface beacons that augment a lunar orbital navigation service.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: mars-pnt-lmo
 # c3: 
-seg-a3412e71fe8c = <a1><s1><c1/>mars-pnt</s1><c2/><s2>A low Mars orbiter navigating against a relay constellation.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-6f580e043fda = <s1><c1/>mars-pnt</s1><c2/><s2>A low Mars orbiter navigating against a relay constellation.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: mars-pnt-surface
 # c3: 
-seg-e4298f19a51f = <a1><s1><c1/>mars-pnt</s1><c2/><s2>A lander on the rotating surface of Mars.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-cdc1867a57b4 = <s1><c1/>mars-pnt</s1><c2/><s2>A lander on the rotating surface of Mars.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: mars-pnt-transfer
 # c3: 
-seg-1fcf2cbe92d6 = <a1><s1><c1/>mars-pnt</s1><c2/><s2>A spacecraft arriving at Mars on a high, eccentric arc.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-920a40d074a6 = <s1><c1/>mars-pnt</s1><c2/><s2>A spacecraft arriving at Mars on a high, eccentric arc.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 seg-1471c58562c2 = Relays in frozen elliptical orbits that linger over the lunar south pole, scored over the whole Moon.
@@ -650,43 +644,43 @@ seg-b5a5d1167ff9 = Engine v{ $version } · <c1/> · deterministic, no seed
 # c1: 
 # c2: small-uas-jammed-nav
 # c3: 
-seg-94d0eba9e17c = <a1><s1><c1/>gnss-ins</s1><c2/><s2>A small drone loses satellites to a jammer: how long each inertial unit keeps it in budget.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-714f98c66b0f = <s1><c1/>gnss-ins</s1><c2/><s2>A small drone loses satellites to a jammer: how long each inertial unit keeps it in budget.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: gnss-ins
 # c3: 
-seg-8d8a641ae1f4 = <a1><s1><c1/>gnss-ins</s1><c2/><s2>Satellite navigation blended with a strapdown inertial navigator, then coasting through an outage.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-88ea2d93f58b = <s1><c1/>gnss-ins</s1><c2/><s2>Satellite navigation blended with a strapdown inertial navigator, then coasting through an outage.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: ins-trn-coast
 # c3: 
-seg-1d343a25fbd3 = <a1><s1><c1/>ins-trn-coast</s1><c2/><s2>Inertial coasting with terrain fixes: position error against coast time.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-299d5ba007a3 = <s1><c1/>ins-trn-coast</s1><c2/><s2>Inertial coasting with terrain fixes: position error against coast time.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: integrity-raim
 # c3: 
-seg-5a90730102fe = <a1><s1><c1/>integrity</s1><c2/><s2>Receiver integrity-monitoring availability over a GPS-like constellation.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-a131f50905d7 = <s1><c1/>integrity</s1><c2/><s2>Receiver integrity-monitoring availability over a GPS-like constellation.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: araim-gps-galileo
 # c3: 
-seg-2e575bf93ed2 = <a1><s1><c1/>integrity</s1><c2/><s2>Advanced integrity monitoring with GPS and Galileo together.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-3ef822db1bd1 = <s1><c1/>integrity</s1><c2/><s2>Advanced integrity monitoring with GPS and Galileo together.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: araim-reference-check
 # c3: 
-seg-bf8834450467 = <a1><s1><c1/>araim-reference-check</s1><c2/><s2>The engine's protection levels against the working group's own worked examples.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-702e53e0a39b = <s1><c1/>araim-reference-check</s1><c2/><s2>The engine's protection levels against the working group's own worked examples.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: gnss-sim-raim
 # c3: 
-seg-53062436c86e = <a1><s1><c1/>gnss-sim</s1><c2/><s2>Pseudoranges simulated with ionosphere and troposphere, then checked for integrity.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-e853235fbb83 = <s1><c1/>gnss-sim</s1><c2/><s2>Pseudoranges simulated with ionosphere and troposphere, then checked for integrity.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 seg-14f26f918e3d = Seconds inside the position budget, flight-controller MEMS (micro-electromechanical systems) against a tactical-grade IMU (inertial measurement unit)
@@ -724,31 +718,31 @@ seg-6817a97b0e32 = Engine v{ $version } · <c1/> · deterministic, no seed
 # c1: 
 # c2: maritime-strait-jamming
 # c3: 
-seg-45c114e7bcf4 = <a1><s1><c1/>jamming<b>New</b></s1><c2/><s2>A shore or ship jammer across a strait: jammer-to-signal ratio and satellites kept.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-5992817749a7 = <s1><c1/>jamming<b>New</b></s1><c2/><s2>A shore or ship jammer across a strait: jammer-to-signal ratio and satellites kept.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: maritime-spoof-position-push
 # c3: 
-seg-2ad68f66084d = <a1><s1><c1/>spoof-detect<b>New</b></s1><c2/><s2>A spoofer drags a ship's reported position; which detectors catch it, and when.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-04389c157d50 = <s1><c1/>spoof-detect<b>New</b></s1><c2/><s2>A spoofer drags a ship's reported position; which detectors catch it, and when.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: maritime-port-approach-coast
 # c3: 
-seg-098e5c7ec923 = <a1><s1><c1/>ins-trn-coast<b>New</b></s1><c2/><s2>Satellites jammed on the port approach: how long each inertial grade can coast.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-69a31ed3ca90 = <s1><c1/>ins-trn-coast<b>New</b></s1><c2/><s2>Satellites jammed on the port approach: how long each inertial grade can coast.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: imu-deadreckoning
 # c3: 
-seg-e5efb6e298c2 = <a1><s1><c1/>inertial</s1><c2/><s2>Dead reckoning through an outage: a cold-atom accelerometer against a navigation-grade unit.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-efce3ddb95a5 = <s1><c1/>inertial</s1><c2/><s2>Dead reckoning through an outage: a cold-atom accelerometer against a navigation-grade unit.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: clock-holdover
 # c3: 
-seg-e6211c8814a5 = <a1><s1><c1/>clock</s1><c2/><s2>The reference case: a clock synchronised to satellites, then free-running when they are denied.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-bfbe27342831 = <s1><c1/>clock</s1><c2/><s2>The reference case: a clock synchronised to satellites, then free-running when they are denied.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 seg-ffdef4005e60 = One jammer, a ship and a car: the same transmitter, two very different outcomes.
@@ -800,7 +794,7 @@ seg-ac863f2fe773 = Engine v{ $version } · <c1/> · seed { "7" }
 # c1: 
 # c2: automotive-urban-canyon
 # c3: 
-seg-cc013e365559 = <a1><s1><c1/>gnss-ins<b>New</b></s1><c2/><s2>A car through an urban canyon, an underpass and a roadside jammer, against a lane budget.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-4118ddbdcaee = <s1><c1/>gnss-ins<b>New</b></s1><c2/><s2>A car through an urban canyon, an underpass and a roadside jammer, against a lane budget.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 seg-547136c7d4dc = An autonomous vehicle through an urban canyon, with a low-orbit layer added.
@@ -841,13 +835,13 @@ seg-f8d2a38c8073 = Engine v{ $version } · <c1/> · deterministic, no seed
 # c1: 
 # c2: rail-tunnel-coast
 # c3: 
-seg-09362af9e11a = <a1><s1><c1/>ins-trn-coast<b>New</b></s1><c2/><s2>A train in a tunnel: seconds of inertial coast before it can no longer tell its track.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-5df30a2cd03a = <s1><c1/>ins-trn-coast<b>New</b></s1><c2/><s2>A train in a tunnel: seconds of inertial coast before it can no longer tell its track.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: terrain-slam
 # c3: 
-seg-e43bcf606853 = <a1><s1><c1/>terrain-slam</s1><c2/><s2>Recursive terrain-referenced navigation that keeps bounding the inertial drift.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-989491be63bc = <s1><c1/>terrain-slam</s1><c2/><s2>Recursive terrain-referenced navigation that keeps bounding the inertial drift.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 seg-993f30571991 = Seconds of free-inertial coast before the track-discrimination budget and a wider one
@@ -881,25 +875,25 @@ seg-ae208f50ab77 = Engine v{ $version } · <c1/> · seed { "42" }
 # c1: 
 # c2: clock-holdover-labsr
 # c3: 
-seg-9464ec10936c = <a1><s1><c1/>clock</s1><c2/><s2>A laboratory strontium optical clock against a chip-scale atomic clock.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-dc6595a80c3c = <s1><c1/>clock</s1><c2/><s2>A laboratory strontium optical clock against a chip-scale atomic clock.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: clock-ensemble
 # c3: 
-seg-3c3248b92f7c = <a1><s1><c1/>clock</s1><c2/><s2>A Monte Carlo ensemble of holdover runs: the spread, not one lucky draw.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-2259c02c65d1 = <s1><c1/>clock</s1><c2/><s2>A Monte Carlo ensemble of holdover runs: the spread, not one lucky draw.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: sweep-clock-stability
 # c3: 
-seg-792cff51bc75 = <a1><s1><c1/>sweep</s1><c2/><s2>How holdover scales with clock stability, as a trade study.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-797a31051152 = <s1><c1/>sweep</s1><c2/><s2>How holdover scales with clock stability, as a trade study.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: timetransfer
 # c3: 
-seg-c362f7aaa3df = <a1><s1><c1/>timetransfer</s1><c2/><s2>Optical time transfer between satellites against classical two-way radio transfer.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-756d447d43c9 = <s1><c1/>timetransfer</s1><c2/><s2>Optical time transfer between satellites against classical two-way radio transfer.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 seg-c51c3658a5b9 = A seeded Monte Carlo ensemble of a free-running clock, against its closed form.
@@ -951,19 +945,19 @@ seg-b93510b54de9 = Engine v{ $version } · <c1/> · seed { "20260925" }
 # c1: 
 # c2: telecom-prtc-holdover-24h
 # c3: 
-seg-4ec195e1479b = <a1><s1><c1/>telecom-timing</s1><c2/><s2>A rubidium timing reference loses satellites for a day: time error against the telecom masks.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-34222f383a1d = <s1><c1/>telecom-timing</s1><c2/><s2>A rubidium timing reference loses satellites for a day: time error against the telecom masks.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: telecom-tie-ingest
 # c3: 
-seg-e16c3b6d6cbf = <a1><s1><c1/>telecom-timing</s1><c2/><s2>Bring your own time-error series and score it against the telecom masks.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-fbd5e8d65102 = <s1><c1/>telecom-timing</s1><c2/><s2>Bring your own time-error series and score it against the telecom masks.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: quantum-time-transfer
 # c3: 
-seg-1e5affcd802c = <a1><s1><c1/>quantum-time-transfer</s1><c2/><s2>A trusted quantum timing chain: transfer, secure dissemination and anomaly detection.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-31eb1b498220 = <s1><c1/>quantum-time-transfer</s1><c2/><s2>A trusted quantum timing chain: transfer, secure dissemination and anomaly detection.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 seg-ed9f547861df = ntn-positioning<b>New</b>
@@ -1006,31 +1000,31 @@ seg-ebaa722c5ab6 = Engine v{ $version } · <c1/> · seed { "42" }
 # c1: 
 # c2: quantum-trade
 # c3: 
-seg-c08b77d73c9f = <a1><s1><c1/>quantum-trade</s1><c2/><s2>Quantum against classical navigation, with measured clock-stability data ingested.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-bc88cae52827 = <s1><c1/>quantum-trade</s1><c2/><s2>Quantum against classical navigation, with measured clock-stability data ingested.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: hybrid-pnt
 # c3: 
-seg-3926f730be5d = <a1><s1><c1/>hybrid</s1><c2/><s2>An all-quantum navigation suite against an all-classical one, with satellites denied.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-3ad831e5b328 = <s1><c1/>hybrid</s1><c2/><s2>An all-quantum navigation suite against an all-classical one, with satellites denied.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: pvt-abmf
 # c3: 
-seg-91b768cd0f8e = <a1><s1><c1/>pvt</s1><c2/><s2>Single-point positioning from real measurements logged at a surveyed ground station.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-6d9120bc8620 = <s1><c1/>pvt</s1><c2/><s2>Single-point positioning from real measurements logged at a surveyed ground station.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: impairment-eval
 # c3: 
-seg-306f764510dc = <a1><s1><c1/>impairment-eval</s1><c2/><s2>A testbed that scores radio-impairment detectors on labelled cases.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-dd6243d762c1 = <s1><c1/>impairment-eval</s1><c2/><s2>A testbed that scores radio-impairment detectors on labelled cases.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 # c1: 
 # c2: sweep-nd-inertial
 # c3: 
-seg-df572e013e9d = <a1><s1><c1/>sweep-nd</s1><c2/><s2>A many-axis parameter sweep over an inertial scenario.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3></a1>
+seg-1d3b81df1579 = <s1><c1/>sweep-nd</s1><c2/><s2>A many-axis parameter sweep over an inertial scenario.</s2><s3><s4>Recorded run</s4>Open in Kshana Studio<c3/></s3>
 
 # text
 seg-9d785689b9b1 = leo-navmsg<b>New</b>
