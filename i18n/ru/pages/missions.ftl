@@ -69,3 +69,29 @@ seg-caa811074b3a = Трасса на поверхности
 seg-70e2bacd66aa = Движок v{ $version } · <c1/> · детерминированно, без seed
 
 seg-b3d3ed0ec310 = Движок v{ $version } · <c1/> · детерминированно, без seed
+
+seg-7994e9983f27 = Детерминировано по сценарию, начальному значению (seed) и версии движка
+
+seg-9d3ee6a5613e = Прогоны
+
+seg-b03984610dc0 = Лунные
+
+seg-6f253e0464fe = Морские
+
+seg-89b8c169580f = TLE / SGP4
+
+seg-29ac12d9da06 = RINEX { "3" }
+
+seg-d0569b1ce6bb = SP3-c / d
+
+seg-7ee9f49c4214 = CCSDS OEM / OMM
+
+seg-2e6ee2b113b4 = IEEE { "1139" }
+
+seg-2eb6d1b0483d = RAIM / ARAIM
+
+seg-da3532b1444d = SBAS / DO-229E
+
+seg-a863d1da4182 = CCSDS { "401" } / DSN
+
+seg-fa37e351f6b4 = Копировать
