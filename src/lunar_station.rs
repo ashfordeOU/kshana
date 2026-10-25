@@ -2113,8 +2113,11 @@ pub fn lunar_station_coverage_svg(r: &LunarStationCoverageReport) -> String {
          <rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     );
     svg.push_str(&format!(
-        "<text x=\"20\" y=\"24\" font-size=\"15\" font-weight=\"bold\" fill=\"{INK}\">Lunar reference station: p{:.0} corrected 3-D error over the south-polar region (MODELLED)</text>",
-        r.percentile
+        "<text x=\"20\" y=\"24\" font-size=\"15\" font-weight=\"bold\" fill=\"{INK}\">{}</text>",
+        crate::t!(
+            "lunar-station-chart-title",
+            percentile = crate::i18n::num(r.percentile, 0)
+        )
     ));
     svg.push_str(&format!(
         "<circle cx=\"{cx:.1}\" cy=\"{cy:.1}\" r=\"{rad:.1}\" fill=\"none\" stroke=\"{AXIS}\"/>"
@@ -2167,11 +2170,16 @@ pub fn lunar_station_coverage_svg(r: &LunarStationCoverageReport) -> String {
         sy - 5.0
     ));
     svg.push_str(&format!(
-        "<text x=\"{cx:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\">0° E</text>",
-        cy - rad - 6.0
+        "<text x=\"{cx:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\">{}</text>",
+        cy - rad - 6.0,
+        crate::t!("lunar-station-chart-zero-east")
     ));
     // Side panel.
-    let f = |v: Option<f64>, unit: &str| v.map_or("n/a".to_string(), |v| format!("{v:.3} {unit}"));
+    let f = |v: Option<f64>, unit: &str| {
+        v.map_or(crate::t!("campaign-chart-not-available"), |v| {
+            format!("{} {unit}", crate::i18n::num(v, 3))
+        })
+    };
     let lines = [
         crate::t!(
             "lunar-station-points-epochs-trials",
@@ -2179,11 +2187,27 @@ pub fn lunar_station_coverage_svg(r: &LunarStationCoverageReport) -> String {
             n_epochs = r.n_epochs,
             n_trials = r.n_trials
         ),
-        format!("threshold {thr} m at p{:.0}", r.percentile),
-        format!("availability {:.1} %", 100.0 * r.region.availability),
-        format!("coverage {:.1} %", 100.0 * r.region.coverage_fraction),
-        format!("corrected 3-D {}", f(r.region.corrected_p_3d_m, "m")),
-        format!("uncorrected 3-D {}", f(r.region.uncorrected_p_3d_m, "m")),
+        crate::t!(
+            "lunar-station-chart-threshold",
+            thr = crate::i18n::num_plain(thr),
+            percentile = crate::i18n::num(r.percentile, 0)
+        ),
+        crate::t!(
+            "lunar-station-chart-availability",
+            v = crate::i18n::num(100.0 * r.region.availability, 1)
+        ),
+        crate::t!(
+            "lunar-station-chart-coverage",
+            v = crate::i18n::num(100.0 * r.region.coverage_fraction, 1)
+        ),
+        crate::t!(
+            "lunar-station-chart-corrected-3d",
+            f = f(r.region.corrected_p_3d_m, "m")
+        ),
+        crate::t!(
+            "lunar-station-chart-uncorrected-3d",
+            f = f(r.region.uncorrected_p_3d_m, "m")
+        ),
         crate::t!("lunar-station-hpl-max", f = f(r.region.hpl_max_m, "m")),
         crate::t!(
             "lunar-station-sise-los",
@@ -2204,10 +2228,10 @@ pub fn lunar_station_coverage_svg(r: &LunarStationCoverageReport) -> String {
         ));
     }
     for (k, (c, label)) in [
-        (LIME, "≤ half the threshold"),
-        (CYAN, "≤ threshold"),
-        (AMBER, "≤ twice the threshold"),
-        (CORAL, "above twice the threshold"),
+        (LIME, crate::t!("lunar-station-chart-legend-half")),
+        (CYAN, crate::t!("lunar-station-chart-legend-within")),
+        (AMBER, crate::t!("lunar-station-chart-legend-twice")),
+        (CORAL, crate::t!("lunar-station-chart-legend-above")),
     ]
     .iter()
     .enumerate()
@@ -2219,9 +2243,11 @@ pub fn lunar_station_coverage_svg(r: &LunarStationCoverageReport) -> String {
         ));
     }
     svg.push_str(&format!(
-        "<text x=\"560\" y=\"392\">◆ station · dashed: distance to which coverage holds at 95 %</text>\
-         <text x=\"20\" y=\"{:.0}\" font-size=\"10\" fill=\"{INK_3}\">MODELLED under stated assumptions; not a statement about any real system; not affiliated with or endorsed by any agency.</text></svg>",
-        h - 14.0
+        "<text x=\"560\" y=\"392\">{}</text>\
+         <text x=\"20\" y=\"{:.0}\" font-size=\"10\" fill=\"{INK_3}\">{}</text></svg>",
+        crate::t!("lunar-station-chart-station-note"),
+        h - 14.0,
+        crate::t!("lunar-station-chart-disclaimer")
     ));
     svg
 }
