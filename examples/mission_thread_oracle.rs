@@ -83,7 +83,12 @@ fn norm3(a: [f64; 3]) -> f64 {
 }
 
 /// Runs the phase from `start` for `hours` and returns the exit state.
-fn run_phase(ctx: &ThreadCtx, start: &[f64; 6], hours: u32) -> Result<[f64; 6], String> {
+fn run_phase(
+    ctx: &ThreadCtx,
+    start: &[f64; 6],
+    start_s: f64,
+    hours: u32,
+) -> Result<[f64; 6], String> {
     let model: toml::Table = toml::from_str(
         "tli_dv_mps = 0.0\ntli_dv_sigma_fraction = 0.0\ntli_pointing_sigma_rad = 0.0\n\
          step_s = 3600.0\nprocess_q_acc = 0.0\nclock_q_f = 0.0\nclock_q_d = 0.0\n",
@@ -91,7 +96,7 @@ fn run_phase(ctx: &ThreadCtx, start: &[f64; 6], hours: u32) -> Result<[f64; 6], 
     .map_err(|e| e.to_string())?;
     let phase = tli_cruise::ctor(&model)?;
     let entry = NavState::diagonal(
-        0.0,
+        start_s,
         Frame::Gcrf,
         *start,
         1.0,
@@ -115,7 +120,7 @@ fn compare(
     let mut per = Vec::new();
     let mut h = STEP_H;
     while h <= WINDOW_H {
-        let x = run_phase(ctx, start, h)?;
+        let x = run_phase(ctx, start, 0.0, h)?;
         let want = at(rows, START_JD_TDB + f64::from(h) / 24.0)?;
         let dp = norm3([x[0] - want.x[0], x[1] - want.x[1], x[2] - want.x[2]]);
         let dv = norm3([x[3] - want.x[3], x[4] - want.x[4], x[5] - want.x[5]]);
@@ -137,7 +142,7 @@ fn diagnose(rows: &[State], ctx: &ThreadCtx) -> Result<Vec<Value>, String> {
         if w[1].jd_tdb - w[0].jd_tdb > 1.0 / 24.0 + 1e-6 {
             continue;
         }
-        let x = run_phase(ctx, &w[0].x, 1)?;
+        let x = run_phase(ctx, &w[0].x, (w[0].jd_tdb - START_JD_TDB) * 86_400.0, 1)?;
         let dp = [x[0] - w[1].x[0], x[1] - w[1].x[1], x[2] - w[1].x[2]];
         let dv = [x[3] - w[1].x[3], x[4] - w[1].x[4], x[5] - w[1].x[5]];
         out.push(json!({
