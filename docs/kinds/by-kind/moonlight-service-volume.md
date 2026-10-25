@@ -61,7 +61,9 @@ The scalar results of that run, with the units the engine states:
 
 ## Evidence
 
-No matrix row names this kind by name; the label on its result is the engine's own, above.
+MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
+
+- **MODELLED** The `lunar-surface` kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the terrain skyline of `moonlight-service-volume`; a single-site run equals that kind's
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 

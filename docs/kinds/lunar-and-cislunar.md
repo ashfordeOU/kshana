@@ -13,17 +13,17 @@ Topic pages: [LUNAR-REFERENCE-STATION](../LUNAR-REFERENCE-STATION.md), [LUNAR-IN
 | [`lunar-integrity`](by-kind/lunar-integrity.md) | Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay set. | MODELLED (result label) |
 | [`lunar-time-offset`](by-kind/lunar-time-offset.md) | Modelled relativistic Earth–Moon clock rate (Lunar Coordinate Time, LTC/TCL): the secular LTC−TT rate from the self-potential difference and the Moon's kinetic term, reported with the published 56–59  | MODELLED (result label) |
 | [`lunar-time-budget`](by-kind/lunar-time-budget.md) | MODELLED end-to-end Coordinated Lunar Time (LTC) time-error budget: the seven LTC error terms assembled as time-error curves x_i(τ) over a whole averaging-time grid, root-summed into x_Σ(τ), and the c | MODELLED |
-| [`lunar-ascent`](by-kind/lunar-ascent.md) | MODELLED powered ascent from a south-polar surface site to the rendezvous orbit, and the position-velocity covariance it carries back to orbit (Artemis-class). | MODELLED (result label) |
-| [`lunar-surface`](by-kind/lunar-surface.md) | MODELLED surface positioning and timing availability by site and season for Artemis-class south-polar sites. | MODELLED (result label) |
-| [`lunar-descent`](by-kind/lunar-descent.md) | MODELLED landing-dispersion budget for a powered descent to a south-polar site (Artemis-class). | MODELLED (result label) |
-| [`lunar-orbit-rendezvous`](by-kind/lunar-orbit-rendezvous.md) | MODELLED relative navigation for an Orion-lander style docking in a low lunar orbit or an elliptical polar orbit (Artemis-class). | MODELLED (result label) |
+| [`lunar-ascent`](by-kind/lunar-ascent.md) | MODELLED powered ascent from a south-polar surface site to the rendezvous orbit, and the position-velocity covariance it carries back to orbit (Artemis-class). | MODELLED |
+| [`lunar-surface`](by-kind/lunar-surface.md) | MODELLED surface positioning and timing availability by site and season for Artemis-class south-polar sites. | MODELLED |
+| [`lunar-descent`](by-kind/lunar-descent.md) | MODELLED landing-dispersion budget for a powered descent to a south-polar site (Artemis-class). | MODELLED |
+| [`lunar-orbit-rendezvous`](by-kind/lunar-orbit-rendezvous.md) | MODELLED relative navigation for an Orion-lander style docking in a low lunar orbit or an elliptical polar orbit (Artemis-class). | MODELLED |
 | [`lunar-vlbi`](by-kind/lunar-vlbi.md) | Modelled lunar geodetic VLBI delay observable: an Earth baseline (two ground stations, GCRS) observes a one-way signal from a NovaMoon-class lunar-surface beacon. | MODELLED 3 · VALIDATED 3 |
 | [`lunar-vlbi-fim`](by-kind/lunar-vlbi-fim.md) | Lunar-VLBI station-coordinate covariance: the delay partials of the lunar-vlbi observable accumulated over an explicit SCHEDULE (baselines x epochs) into a Fisher information matrix, inverted, and rep | MODELLED 3 · VALIDATED 2 |
 | [`lunar-joint-od-clock`](by-kind/lunar-joint-od-clock.md) | Modelled joint multi-technique lunar OD + clock batch estimator on a SIMULATED network: a Gauss-Newton snapshot fit that fuses Earth-baseline geodetic VLBI delays, lunar-local station↔satellite ranges | MODELLED (result label) |
 | [`lunar-frame-realisation`](by-kind/lunar-frame-realisation.md) | Modelled lunar reference-frame realisation: a 7-parameter Helmert (similarity) datum fit — 3 translation, 3 small-angle rotation, 1 scale — tying an estimated set of selenographic-derived MCMF point c | MODELLED (result label) |
 | [`lunar-frame-campaign`](by-kind/lunar-frame-campaign.md) | Seven-parameter Helmert (similarity) frame datum driven by a SIMULATED OBSERVING CAMPAIGN rather than by an injected transform. | MODELLED 2 · VALIDATED 3 |
 | [`lunar-llr-datum`](by-kind/lunar-llr-datum.md) | Seven-parameter Helmert lunar frame datum driven by a REAL, ARCHIVED observing campaign rather than a simulated one. | VALIDATED |
-| [`moonlight-service-volume`](by-kind/moonlight-service-volume.md) | Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-source Moonlight/LCNS-class lunar-orbit constellation (not affiliated with ESA): sweeps a selenographic lat/lon grid over | MODELLED (result label) |
+| [`moonlight-service-volume`](by-kind/moonlight-service-volume.md) | Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-source Moonlight/LCNS-class lunar-orbit constellation (not affiliated with ESA): sweeps a selenographic lat/lon grid over | MODELLED |
 | [`lunar-differential-pnt`](by-kind/lunar-differential-pnt.md) | Modelled lunar DIFFERENTIAL PNT (a lunar DGNSS/SBAS analogue): a NovaMoon-class reference station at a KNOWN selenographic location computes per-satellite differential corrections from an ILLUSTRATIVE | MODELLED (result label) |
 | [`lunar-station-coverage`](by-kind/lunar-station-coverage.md) | Modelled lunar reference-station coverage: a Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs. | MODELLED |
 | [`lunar-beacon`](by-kind/lunar-beacon.md) | Surface-beacon augmentation of a lunar orbital navigation service, as a runnable before/after table. | MODELLED |
@@ -83,7 +83,7 @@ MODELLED powered ascent from a south-polar surface site to the rendezvous orbit,
 
 Required fields: none. Optional: `site_lat_deg`, `site_lon_deg`, `ascent_s`, `specific_force_m_s2`, `insertion_altitude_km`, `accel_bias_ug`, `align_arcmin`, `gyro_bias_deg_per_hr`, `surface_pos_sigma_m`, `surface_vel_sigma_m_s`, `cutoff_sigma_m_s`, `afs_mode`, `n_relays`, `mask_deg`, `afs_cn0_dbhz`, `sis_ure_m`, `afs_first_fix_s`, `afs_interval_s`, `baseline_km`, `lunar_time_mode`, `time_since_sync_days`.
 
-**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [lunar-ascent](by-kind/lunar-ascent.md).
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [lunar-ascent](by-kind/lunar-ascent.md).
 
 ```sh
 kshana scenarios/lunar-ascent.toml
@@ -97,7 +97,7 @@ MODELLED surface positioning and timing availability by site and season for Arte
 
 Required fields: none. Optional: `sites`, `season_dates`, `window_days`, `step_min`, `stay_days`, `timing_floor_s`, `n_sats`, `sma_km`, `eccentricity`, `inc_deg`, `argp_deg`, `mask_deg`, `pdop_threshold`, `earth_mask_deg`, `sun_mask_deg`, `terrain`.
 
-**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [lunar-surface](by-kind/lunar-surface.md).
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [lunar-surface](by-kind/lunar-surface.md).
 
 ```sh
 kshana scenarios/lunar-surface.toml
@@ -111,7 +111,7 @@ MODELLED landing-dispersion budget for a powered descent to a south-polar site (
 
 Required fields: none. Optional: `site_lat_deg`, `site_lon_deg`, `more_site_lats_deg`, `descent_s`, `specific_force_m_s2`, `horizontal_speed_m_s`, `accel_bias_ug`, `align_arcmin`, `gyro_bias_deg_per_hr`, `carried_pos_sigma_m`, `carried_vel_sigma_m_s`, `guidance_sigma_m`, `afs_mode`, `n_relays`, `mask_deg`, `afs_cn0_dbhz`, `sis_ure_m`, `afs_first_fix_s`, `afs_interval_s`, `baseline_km`, `trn_source`, `trn_fix_time_s`, `trn_altimeter_sigma_m`, `trn_map_sigma_m`, `dem_descriptor`, `trn_window_m`, `trn_height_sigma_m`, `trn_registration_sigma_m`, `lunar_time_mode`, `time_since_sync_days`, `n_trials`, `seed`.
 
-**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [lunar-descent](by-kind/lunar-descent.md).
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [lunar-descent](by-kind/lunar-descent.md).
 
 ```sh
 kshana scenarios/lunar-descent.toml
@@ -125,7 +125,7 @@ MODELLED relative navigation for an Orion-lander style docking in a low lunar or
 
 Required fields: none. Optional: `orbit`, `sma_km`, `eccentricity`, `inc_deg`, `argp_deg`, `mean_anomaly_deg`, `separation_m`, `arc_s`, `step_s`, `n_relays`, `afs_cn0_dbhz`, `isl_cn0_dbhz`, `integration_s`, `sis_ure_m`, `common_mode_fraction`, `target_pos_sigma_m`, `target_vel_sigma_m_s`, `carried_pos_sigma_m`, `carried_vel_sigma_m_s`, `filter_model`, `n_trials`, `seed`, `conv_threshold_m`, `gravity_table_path`, `gravity_degree`.
 
-**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [lunar-orbit-rendezvous](by-kind/lunar-orbit-rendezvous.md).
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [lunar-orbit-rendezvous](by-kind/lunar-orbit-rendezvous.md).
 
 ```sh
 kshana scenarios/lunar-orbit-rendezvous.toml
@@ -223,7 +223,7 @@ Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-s
 
 Required fields: none. Optional: `n_sats`, `sma_km`, `eccentricity`, `inc_deg`, `argp_deg`, `lat_min_deg`, `lat_max_deg`, `lat_step_deg`, `lon_min_deg`, `lon_max_deg`, `lon_step_deg`, `horizon_hours`, `step_min`, `elev_mask_deg`, `pdop_threshold`, `alert_limit_m`, `p_hmi`, `perturbed`, `sigma_ure_m`, `export_site_lat_deg`, `export_site_lon_deg`, `export_antenna`, `ephemeris_path`, `planetary_kernel_path`, `epoch_utc`, `terrain`.
 
-**Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [moonlight-service-volume](by-kind/moonlight-service-volume.md).
+**Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [moonlight-service-volume](by-kind/moonlight-service-volume.md).
 
 ```sh
 kshana scenarios/moonlight-service-volume.toml

@@ -47,11 +47,15 @@ fn the_fixtures_match_their_recorded_hashes() {
         sha(&format!("{DIR}/a2_capstone_horizons.json")),
         r["inputs"]["a2_capstone_horizons.json"]
     );
+    // PIN-SCOPE:    the bytes of the committed degree-150 GRAIL GL0660B crop file
+    // PIN-EXCLUDES: the full table the crop was cut from (its own hash is pinned below) and every result computed from it
     assert_eq!(
         sha(&format!("{DIR}/jggrx_0660b_sha_to150.tab")),
         "5fd5fffa91288f33fb1c917eaddca9fa28bcb05d0e096998dd7c3a577130cb5b"
     );
     // The original GRAIL table the run used is the one the repository already records.
+    // PIN-SCOPE:    the bytes of the original GL0660B spherical-harmonic table (the value the repository records for it)
+    // PIN-EXCLUDES: the crop, the Horizons files and every number the run computed
     assert_eq!(
         r["inputs"]["gravity_table"]["sha256"],
         "500e47e0ae2fa32d30615ea4af9ed6cca3a60e05c332d918692596a425708534"
@@ -216,6 +220,8 @@ mod recompute {
         );
         // A2, from the stored window start.
         let refs = parse(&format!("{dir}/a2_capstone_horizons.json"));
+        // PIN-SCOPE:    the number of hourly states in the committed CAPSTONE Horizons fixture
+        // PIN-EXCLUDES: their values, the window chosen from them and every result
         assert_eq!(refs.len(), 2137);
         let i0 = stored["a2"]["window_start_index"].as_u64().unwrap() as usize;
         let end = &refs[i0 + 156];
