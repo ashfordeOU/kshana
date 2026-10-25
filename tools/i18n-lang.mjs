@@ -148,6 +148,22 @@ export function applyPage({ html, segs, bundle, lang, vars = {} }) {
 const PLURAL_NEEDS = (lang) => new Intl.PluralRules(BCP47[lang] || lang).resolvedOptions().pluralCategories;
 const TOKENS = ['NOT CORROBORATED', 'NOT MET', 'VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY', 'MET', 'PREDICTION', 'CORROBORATED', 'REFUSED', 'DEGRADED', 'DEFICIENT', 'OBSERVED', 'LOST', 'MISMATCH', 'VERIFIED', 'CONSISTENT', 'INCONSISTENT'];
 
+/** How many times each all-caps tier, verdict and status token stands in a message text (a { -tier-modelled } term counts as its token; NOT MET is not MET).
+ *  A translation must have exactly the English counts: a lowercase "validated" or "modelled" is a word and stays a word, never the label. */
+export function capsCounts(text, rend = {}) {
+  let t = text.replace(/\{ -(tier|verdict|status)-([a-z-]+) \}/g, (_, k, n) => n.toUpperCase().replace(/-/g, ' '));
+  const out = {};
+  for (const tk of TOKENS) {
+    const forms = [...new Set([tk, rend[tk] || tk])];
+    let c = 0;
+    for (const f of forms) { let i = 0; for (;;) { i = t.indexOf(f, i); if (i < 0) break; const pre = t[i - 1] || ' ', post = t[i + f.length] || ' '; if (!/[A-Za-z]/.test(pre) && !/[A-Za-z]/.test(post)) c++; i += f.length; } }
+    if (tk === 'MET') for (const f of new Set(['NOT MET', rend['NOT MET'] || 'NOT MET'])) { let i = 0; for (;;) { i = t.indexOf(f, i); if (i < 0) break; c--; i += f.length; } }
+    if (c) out[tk] = c;
+  }
+  return out;
+}
+const capsDiff = (a, b) => { const ks = new Set([...Object.keys(a), ...Object.keys(b)]); const d = []; for (const k of ks) if ((a[k] || 0) !== (b[k] || 0)) d.push(`${k}: ${b[k] || 0} instead of ${a[k] || 0}`); return d.join(', '); };
+
 /** What a message must keep: variables, terms, string literals, and (for page text) tags. */
 export function signature(entry) {
   const vars = [], terms = [], lits = [], selects = [];
@@ -179,7 +195,7 @@ function entriesOf(file) {
 export function checkLang(root, lang) {
   const errors = [], warnings = [];
   const need = PLURAL_NEEDS(lang);
-  const names = ['ui.ftl', 'glossary.ftl'];
+  const names = existsSync(join(root, 'en')) ? readdirSync(join(root, 'en')).filter((f) => f.endsWith('.ftl') && f !== 'engine.ftl').sort() : ['ui.ftl', 'glossary.ftl'];
   const langDir = join(root, lang);
   const files = [];
   for (const n of names) files.push(n);
@@ -193,6 +209,7 @@ export function checkLang(root, lang) {
     return e ? textOfPattern(e.value) : null;
   };
   const tokenTerm = (t) => '-' + (['VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY'].includes(t) ? 'tier-' : ['MET', 'NOT MET'].includes(t) ? 'verdict-' : 'status-') + t.toLowerCase().replace(/ /g, '-');
+  const rendMap = tokenRenderings(root, lang);
   let n = 0;
   for (const f of [...files, ...engine]) {
     const en = entriesOf(join(root, 'en', f));
@@ -215,10 +232,11 @@ export function checkLang(root, lang) {
         const have = new Set([...keys, def]);
         if (/^\$/.test('$') && sel.selector instanceof VariableReference) for (const c of need) if (!have.has(c)) errors.push(`${here}: select lacks the plural category [${c}] (${lang} needs ${need.join(', ')})`);
       }
-      if (f.startsWith('pages/') || f === 'ui.ftl') {
+      if (f.startsWith('pages/') || (f !== 'glossary.ftl' && f !== 'engine.ftl')) {
         const enText = flat(src), trText = flat(e);
         if (tagsOf(enText) !== tagsOf(trText) && !a.selects.length) errors.push(`${here}: markup tags differ (English: ${tagsOf(enText) || 'none'}; here: ${tagsOf(trText) || 'none'})`);
         if (f.startsWith('pages/') && digits(strip(enText)) !== digits(strip(trText))) errors.push(`${here}: digits in the text differ from the English (numbers must stay in their placeables)`);
+        if (!a.selects.length) { const cd = capsDiff(capsCounts(enText), capsCounts(trText, rendMap)); if (cd) errors.push(`${here}: the tier, verdict and status words differ from the English (${cd}); a lowercase word stays a word`); }
         if (f.startsWith('pages/')) for (const t of TOKENS) {
           const re = new RegExp(`(?<![A-Z])${t}(?![A-Z])`);
           const en2 = t === 'MET' ? enText.replace(/NOT MET/g, '') : enText;
@@ -351,6 +369,7 @@ export function mergeTranslations(root, lang, texts, { replace = false } = {}) {
   const out = new Map(); // file -> Map id -> text
   const rejected = [], unknown = [];
   let added = 0;
+  const rend0 = tokenRenderings(root, lang);
   const gl = (() => { const g = entriesOf(join(root, lang, 'glossary.ftl')), en = entriesOf(join(root, 'en', 'glossary.ftl')); return (id) => { const e = (g && g.map.get(id)) || (en && en.map.get(id)); return e ? textOfPattern(e.value) : null; }; })();
   const tokenTerm = (t) => '-' + (['VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY'].includes(t) ? 'tier-' : ['MET', 'NOT MET'].includes(t) ? 'verdict-' : 'status-') + t.toLowerCase().replace(/ /g, '-');
   for (const text of texts) {
@@ -367,6 +386,7 @@ export function mergeTranslations(root, lang, texts, { replace = false } = {}) {
       else if (a.lits.join('\0') !== b.lits.join('\0')) why = 'string-literal placeables differ';
       else if (!a.selects.length && tagsOf(flat(src)) !== tagsOf(flat(e))) why = 'markup tags differ';
       else if (digits(strip(flat(src))) !== digits(strip(flat(e)))) why = 'digits differ';
+      else if (!a.selects.length && capsDiff(capsCounts(flat(src)), capsCounts(flat(e), rend0))) why = `the tier, verdict and status words differ (${capsDiff(capsCounts(flat(src)), capsCounts(flat(e), rend0))}); a lowercase word stays a word`;
       else {
         const t = flat(e);
         for (const tk of TOKENS) {
@@ -397,4 +417,222 @@ export function mergeTranslations(root, lang, texts, { replace = false } = {}) {
     if (changed) writeFileSync(p, next.trimEnd() + '\n');
   }
   return { added, rejected, unknown };
+}
+
+
+/** ---- legal sentences and tier tokens (verify) ---- */
+
+/** Plain text of a message pattern: text, string literals, terms resolved through `terms` (id -> text). Null if it has variables or selectors. */
+export function plainText(pattern, terms = new Map()) {
+  if (!pattern) return null;
+  let out = '';
+  for (const el of pattern.elements) {
+    if (el instanceof TextElement) out += el.value;
+    else if (el instanceof Placeable && el.expression instanceof StringLiteral) out += el.expression.value;
+    else if (el instanceof Placeable && el.expression instanceof TermReference && !el.expression.attribute && terms.has('-' + el.expression.id.name)) out += terms.get('-' + el.expression.id.name);
+    else return null;
+  }
+  return out;
+}
+
+/** The sentences a page must carry complete: the engine-legal-* messages (the engine's own advisories and notices) and the
+ *  glossary's -advisory family, in English and in `lang`. Returns [{id, en, tr}] (tr null when the language lacks it). */
+export function legalSentences(root, lang) {
+  const out = [];
+  const terms = (file) => { const e = entriesOf(file); const m = new Map(); if (e) for (const [id, v] of e.map) if (id.startsWith('-') && v.value) { const t = plainText(v.value); if (t !== null) m.set(id, t); } return m; };
+  const tEn = terms(join(root, 'en', 'glossary.ftl')), tLang = lang === 'en' ? tEn : terms(join(root, lang, 'glossary.ftl'));
+  const norm = (t) => t.replace(/\s+/g, ' ').trim();
+  const eng = entriesOf(join(root, 'en', 'engine.ftl')), engL = lang === 'en' ? eng : entriesOf(join(root, lang, 'engine.ftl'));
+  if (eng) for (const [id, e] of eng.map) {
+    if (!id.startsWith('engine-legal-')) continue;
+    const en = plainText(e.value, tEn);
+    if (en === null) continue;
+    const tr = engL && engL.map.get(id) ? plainText(engL.map.get(id).value, tLang) : null;
+    out.push({ id, en: norm(en), tr: tr === null ? null : norm(tr) });
+  }
+  const g = entriesOf(join(root, 'en', 'glossary.ftl')), gl = lang === 'en' ? g : entriesOf(join(root, lang, 'glossary.ftl'));
+  for (const name of ['-advisory']) {
+    const e = g && g.map.get(name); if (!e) continue;
+    const el = gl && gl.map.get(name);
+    const one = (ent, attr) => plainText(attr ? ent.attributes.find((a) => a.id.name === attr)?.value : ent.value, lang === 'en' ? tEn : tLang);
+    for (const attr of [null, 'maritime', 'research-test', 'short']) {
+      const en = one(e, attr); if (en === null) continue;
+      const tr = el ? one(el, attr) : null;
+      out.push({ id: name + (attr ? '.' + attr : ''), en: norm(en), tr: tr === null ? null : norm(tr) });
+    }
+  }
+  return out;
+}
+
+export const TIER_TOKENS = TOKENS;
+export function tokenRenderings(root, lang) {
+  const g = entriesOf(join(root, lang, 'glossary.ftl')), en = entriesOf(join(root, 'en', 'glossary.ftl'));
+  const term = (t) => '-' + (['VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY'].includes(t) ? 'tier-' : ['MET', 'NOT MET'].includes(t) ? 'verdict-' : 'status-') + t.toLowerCase().replace(/ /g, '-');
+  const out = {};
+  for (const t of TOKENS) { const e = (g && g.map.get(term(t))) || (en && en.map.get(term(t))); out[t] = e ? plainText(e.value) || t : t; }
+  return out;
+}
+
+/** The language's rendering of a glossary term (null when the language has not translated it) and a stem that survives inflection. */
+export function termStem(root, lang, id) {
+  const g = entriesOf(join(root, lang, 'glossary.ftl'));
+  const e = g && g.map.get(id);
+  const t = e && e.value ? plainText(e.value) : null;
+  if (!t) return null;
+  const low = t.toLowerCase();
+  const cut = low.length > 8 ? 3 : low.length > 5 ? 2 : 0;
+  return low.slice(0, low.length - cut);
+}
+
+
+/** ---- migrate: carry translations to the ids a segment moved to ---- */
+
+import { execFileSync } from 'node:child_process';
+
+/** The English page messages of a git revision: Map id -> skeleton. */
+export function oldEnglish(rev, root = 'i18n') {
+  const git = (...a) => execFileSync('git', a, { encoding: 'utf8', maxBuffer: 1 << 28 });
+  const files = git('ls-tree', '--name-only', `${rev}:${root}/en/pages`).split('\n').filter((f) => f.endsWith('.ftl'));
+  const map = new Map();
+  for (const f of files) for (const m of git('show', `${rev}:${root}/en/pages/${f}`).matchAll(/^(seg-[0-9a-f]{12}) = (.*)$/gm)) map.set(m[1], m[2]);
+  return map;
+}
+
+const plainKey = (skel) => skel.replace(/<\/?[a-z]+\d*\/?>/g, '').replace(/\{ "([^"]*)" \}/g, '$1').replace(/\{ \$version \}/g, 'VERSION').replace(/\s+/g, ' ').trim();
+
+/** Adapt a translation's numbered tags to the new English skeleton: a placeholder <cN/> the new skeleton lacks is dropped (a decoration that left the
+ *  segment), a pair it lacks is unwrapped (the segment lost its lone wrapper). Null when the tag sets still differ. */
+function adaptTags(tr, newSkel) {
+  const want = tagsOf(newSkel);
+  let out = tr;
+  for (let i = 0; i < 8 && tagsOf(out) !== want; i++) {
+    const has = (t) => new RegExp(`<${t}>|<${t}/>`).test(newSkel);
+    out = out.replace(/<(c\d+)\/>/g, (m, t) => (has(t) ? m : ''));
+    out = out.replace(/<((?:a|s)\d+)>([\s\S]*?)<\/\1>/g, (m, t, inner) => (has(t) ? m : inner));
+    out = out.replace(/\s+/g, ' ').trim();
+  }
+  return tagsOf(out) === want ? out : null;
+}
+
+/** Carry the translations of `lang` whose English segment moved id (same text, new id) to the new id; drop the orphans.
+ *  `old` is oldEnglish(rev). Returns {moved, dropped:[ids], unmatched:[ids], retag:[ids]}; with dryRun nothing is written. */
+export function migrateLang(root, lang, old, { dryRun = false } = {}) {
+  const { where } = pageMessages(root);
+  const en = new Map();
+  for (const f of new Set([...where.values()].flatMap((x) => [...x]))) for (const m of readText(join(root, 'en', 'pages', f)).matchAll(/^(seg-[0-9a-f]{12}) = (.*)$/gm)) en.set(m[1], m[2]);
+  const byKey = new Map();
+  for (const [id, skel] of en) { const k = plainKey(skel); if (!byKey.has(k)) byKey.set(k, []); byKey.get(k).push(id); }
+  const dir = join(root, lang, 'pages');
+  const moved = [], dropped = [], unmatched = [], retag = [], chunks = [], orphanBlocks = [];
+  const used = new Set();
+  const files = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.ftl')) : [];
+  const have = new Set();
+  for (const f of files) for (const m of readText(join(dir, f)).matchAll(/^(seg-[0-9a-f]{12}) =/gm)) have.add(m[1]);
+  let merged = 0;
+  for (const f of files) {
+    const text = readText(join(dir, f));
+    const keep = [];
+    let changed = false;
+    for (const b of text.split(/\n\n+/)) {
+      const m = /^(seg-[0-9a-f]{12}) = ([\s\S]*)$/m.exec(b);
+      if (!m || en.has(m[1])) { keep.push(b); continue; }
+      changed = true;
+      const oskel = old.get(m[1]);
+      const cands = oskel ? byKey.get(plainKey(oskel)) : null;
+      if (!cands || cands.length !== 1) { (oskel ? unmatched : dropped).push(m[1]); orphanBlocks.push(`# ${oskel || '(not in the old English either)'}\n${b.trim()}`); continue; }
+      const nid = cands[0];
+      if (have.has(nid)) { merged++; continue; } // the same text already has its own translation under that id
+      if (used.has(nid) && !chunks.some((c) => c.startsWith(nid))) { dropped.push(m[1]); continue; }
+      const val = adaptTags(m[2].trim(), en.get(nid));
+      if (val === null) { retag.push(m[1]); orphanBlocks.push(`# ${oskel}\n${b.trim()}`); continue; }
+      used.add(nid);
+      chunks.push(`${nid} = ${val}`);
+      moved.push([m[1], nid]);
+    }
+    if (changed && !dryRun) writeFileSync(join(dir, f), keep.join('\n\n').trimEnd() + '\n');
+  }
+  if (orphanBlocks.length && !dryRun) writeFileSync(join(root, lang, '_orphans.txt'), `# Translations whose English segment no longer exists (the English changed, or it could not be carried over). Kept so work can be recovered; not read by the build.\n\n${orphanBlocks.join('\n\n')}\n`);
+  if (chunks.length && !dryRun) {
+    const r = mergeTranslations(root, lang, [chunks.join('\n\n') + '\n']);
+    if (r.rejected.length) retag.push(...r.rejected.map((x) => x.id));
+  }
+  return { moved: moved.length, merged, pairs: moved, dropped, unmatched, retag };
+}
+
+
+/** ---- todo and merge for a whole-file catalogue (ui, glossary, studio-js, site-js, studio-pages, data) ---- */
+
+const blockId = (b) => { const m = /^(-?[A-Za-z][\w-]*) =/m.exec(b); return m ? m[1] : null; };
+
+/** The messages of an .ftl text with their attached comments: [{id, text}] in file order. */
+function messageBlocks(text) {
+  const p = new FluentParser({ withSpans: true }).parse(text);
+  const out = [];
+  for (const e of p.body) {
+    if (!(e instanceof Message) && !(e instanceof Term)) continue;
+    const start = e.comment && e.comment.span ? e.comment.span.start : e.span.start;
+    out.push({ id: (e instanceof Term ? '-' : '') + e.id.name, text: text.slice(start, e.span.end).trim() });
+  }
+  return out;
+}
+
+/** Chunks of the English messages that `lang`'s copy of `file` lacks. */
+export function todoFileChunks(root, lang, file, chunkKb = 26) {
+  const lp = join(root, lang, file);
+  const have = new Set(existsSync(lp) ? messageBlocks(readText(lp)).map((m) => m.id) : []);
+  const need = messageBlocks(readText(join(root, 'en', file))).filter((m) => !have.has(m.id)).map((m) => m.text);
+  const chunks = [];
+  let cur = [], size = 0;
+  for (const b of need) { cur.push(b); size += b.length + 2; if (size >= chunkKb * 1024) { chunks.push(cur); cur = []; size = 0; } }
+  if (cur.length) chunks.push(cur);
+  return chunks.map((c, i) => ({ name: String(i + 1).padStart(3, '0') + '.ftl', count: c.length, text: c.join('\n\n') + '\n' }));
+}
+
+/** Append translated messages to i18n/<lang>/<file> after the checks of `check` (variables, literals, tags, digits for text files). */
+export function mergeFile(root, lang, file, texts) {
+  const enE = entriesOf(join(root, 'en', file));
+  const rendF = tokenRenderings(root, lang);
+  const lp = join(root, lang, file);
+  const old = existsSync(lp) ? readText(lp) : `# ${file} (${lang}): translations\n\n`;
+  const have = new Set(existsSync(lp) ? messageBlocks(readText(lp)).map((m) => m.id) : []);
+  const rejected = [], unknown = [];
+  let add = '', n = 0;
+  for (const text of texts) {
+    const p = new FluentParser({ withSpans: true }).parse(text);
+    for (const e of p.body) {
+      if (e instanceof Junk) { rejected.push({ id: '(junk)', why: 'syntax error near "' + e.content.split('\n')[0].slice(0, 50) + '"' }); continue; }
+      if (!(e instanceof Message) && !(e instanceof Term)) continue;
+      const id = (e instanceof Term ? '-' : '') + e.id.name;
+      const src = enE.map.get(id);
+      if (!src) { unknown.push(id); continue; }
+      if (have.has(id)) continue;
+      const a = signature(src), b = signature(e);
+      let why = null;
+      if (a.vars.join() !== b.vars.join()) why = 'variables differ';
+      else if (a.lits.join('\0') !== b.lits.join('\0')) why = 'string-literal placeables differ';
+      else if (file !== 'glossary.ftl' && !a.selects.length && tagsOf(flat(src)) !== tagsOf(flat(e))) why = 'markup tags differ';
+      else if (file !== 'glossary.ftl' && !a.selects.length && digits(strip(flat(src))) !== digits(strip(flat(e)))) why = 'digits differ';
+      else if (file !== 'glossary.ftl' && file !== 'engine.ftl' && !a.selects.length && capsDiff(capsCounts(flat(src)), capsCounts(flat(e), rendF))) why = `the tier, verdict and status words differ (${capsDiff(capsCounts(flat(src)), capsCounts(flat(e), rendF))}); a lowercase word stays a word`;
+      if (why) { rejected.push({ id, why }); continue; }
+      add += text.slice(e.span.start, e.span.end).trim() + '\n\n'; have.add(id); n++;
+    }
+  }
+  if (n) { mkdirSync(dirname(lp), { recursive: true }); writeFileSync(lp, old.trimEnd() + '\n\n' + add.trimEnd() + '\n'); }
+  return { added: n, rejected, unknown };
+}
+
+
+/** Coverage of the whole-file catalogues of a language: [{file, translated, total}]. */
+export function statusFiles(root, lang) {
+  const files = readdirSync(join(root, 'en')).filter((f) => f.endsWith('.ftl') && f !== 'engine.ftl').sort();
+  const rows = [];
+  for (const f of files) {
+    const en = messageBlocks(readText(join(root, 'en', f))).map((m) => m.id);
+    const lp = join(root, lang, f);
+    const have = new Set(existsSync(lp) ? messageBlocks(readText(lp)).map((m) => m.id) : []);
+    rows.push({ file: f, translated: en.filter((i) => have.has(i)).length, total: en.length });
+  }
+  const ep = join(root, 'en', 'engine.ftl');
+  if (existsSync(ep)) { const en = messageBlocks(readText(ep)).map((m) => m.id); const lp = join(root, lang, 'engine.ftl'); const have = new Set(existsSync(lp) ? messageBlocks(readText(lp)).map((m) => m.id) : []); rows.push({ file: 'engine.ftl', translated: en.filter((i) => have.has(i)).length, total: en.length }); }
+  return rows;
 }
