@@ -5,6 +5,8 @@
 
 ## src/clock_log.rs
 
+## src/clock_log.rs
+
 engine-e-clock-log-unknown-clock-log-format-expected = format de journal d'horloge { $other } inconnu ; l'un des formats suivants est attendu : { $format_names }
 
 engine-e-clock-log-unknown-gap-policy-expected-refuse = politique de lacune { $other } inconnue ; refuse, longest ou linear est attendu
@@ -7401,3 +7403,558 @@ engine-wasm-plans-json-is-not-json = plans_json n'est pas un tableau JSON de cha
 engine-wasm-options-json-is-not-json = options_json n'est pas du JSON : { $e }
 
 engine-wasm-input-is-about-bytes-over = l'entrée fait environ { $b64 } octets, au-delà de la limite de { $v2 } octets
+
+## src/altpnt/sequential.rs
+
+engine-altpnt-sequential-title = Navigation séquentielle référencée au terrain (SITAN récursif)
+
+engine-altpnt-sequential-free-inertial-drift-grows = dérive inertielle libre (croissante)
+
+engine-altpnt-sequential-terrain-matched-bounded = recalage sur le terrain (bornée)
+
+engine-altpnt-sequential-waypoint-full-scale = point de passage →    pleine échelle { $maxv } m
+
+## src/advanced_report.rs
+
+engine-advanced-report-eyebrow = Rapport d'exécution Kshana
+
+engine-advanced-report-meta = Type <code>{ $kind }</code> · moteur { $engine } · scénario <code>{ $scenario }</code> (condensat du fichier { $digest }…)
+
+engine-advanced-report-toc-summary = 1 Synthèse
+
+engine-advanced-report-toc-inputs = 2 Entrées
+
+engine-advanced-report-toc-results = 3 Résultats
+
+engine-advanced-report-toc-aggregation = 3a Agrégation
+
+engine-advanced-report-toc-companions = 3b Animation et exports
+
+engine-advanced-report-toc-events = 4 Événements
+
+engine-advanced-report-toc-labels = 5 Étiquettes de vérification
+
+engine-advanced-report-toc-not-modelled = 6 Non modélisé
+
+engine-advanced-report-toc-reproducibility = 7 Reproductibilité
+
+engine-advanced-report-h-summary = 1. Synthèse
+
+engine-advanced-report-honesty-label = <strong>Étiquette de franchise</strong> ({ $source }) : { $label }
+
+engine-advanced-report-capabilities-used = <strong>Capacités utilisées :</strong> { $n_validated } VALIDATED, { $n_modelled } MODELLED, { $n_partner } PARTNER (sur lesquelles on s'appuie, non fournies) ; voir la section 5.
+
+engine-advanced-report-member-runs = <strong>Exécutions membres :</strong> { $n }, agrégées à la section 3a.
+
+engine-advanced-report-h-inputs = 2. Entrées
+
+engine-advanced-report-inputs-note = Chaque champ que définit le fichier de scénario, aplati selon son chemin. Les unités proviennent du bloc <code>units</code> du résultat (le schéma des unités de champ, docs/field-units-schema.json) lorsqu'il décrit le champ, sinon du suffixe du nom de champ ; une unité qu'aucun des deux n'indique est affichée comme non indiquée.
+
+engine-advanced-report-th-parameter = Paramètre
+
+engine-advanced-report-th-value = Valeur
+
+engine-advanced-report-th-unit = Unité
+
+engine-advanced-report-th-unit-source = Source de l'unité
+
+engine-advanced-report-h-results = 3. Résultats
+
+engine-advanced-report-chart-alt = Graphique des résultats
+
+engine-advanced-report-also-written-to = { " " }(également écrit dans { $file })
+
+engine-advanced-report-h-scalars = Résultats scalaires
+
+engine-advanced-report-h-columns = Colonnes numériques
+
+engine-advanced-report-th-result = Résultat
+
+engine-advanced-report-th-column = Colonne
+
+engine-advanced-report-th-count = Nombre
+
+engine-advanced-report-th-min = Min
+
+engine-advanced-report-th-max = Max
+
+engine-advanced-report-th-first = Premier
+
+engine-advanced-report-th-last = Dernier
+
+engine-advanced-report-omitted-inputs = <p class="note">{ $n } autres entrées sont omises de cette page ; report.json liste les mêmes lignes, et le document de résultat contient chaque valeur.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-scalars = <p class="note">{ $n } autres résultats scalaires sont omis de cette page ; report.json liste les mêmes lignes, et le document de résultat contient chaque valeur.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-columns = <p class="note">{ $n } autres colonnes numériques sont omises de cette page ; report.json liste les mêmes lignes, et le document de résultat contient chaque valeur.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-events = <p class="note">{ $n } autres événements sont omis de cette page ; report.json liste les mêmes lignes, et le document de résultat contient chaque valeur.</p>{ "\u000A" }
+
+engine-advanced-report-h-aggregation = 3a. Agrégation des exécutions membres
+
+engine-advanced-report-mode = <p>Mode <strong>{ $mode }</strong>.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind = <p>Mode <strong>{ $mode }</strong> sur le type <code>{ $kind }</code>.</p>{ "\u000A" }
+
+engine-advanced-report-mode-runs = <p>Mode <strong>{ $mode }</strong>, { $n_runs } exécutions membres.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind-runs = <p>Mode <strong>{ $mode }</strong> sur le type <code>{ $kind }</code>, { $n_runs } exécutions membres.</p>{ "\u000A" }
+
+engine-advanced-report-run-digest = Condensat de l'exécution (SHA-256 des condensats des résultats membres, dans l'ordre de distribution) : <code>{ $digest }</code>
+
+engine-advanced-report-table-empty = Ce tableau n'a aucune ligne : le résultat n'en liste aucune.
+
+engine-advanced-report-distribution-caption = Distribution Monte Carlo de { $metric } ({ $n } échantillons), 20 intervalles de largeur égale ; les lignes en tirets marquent les 5e, 50e et 95e centiles.
+
+engine-advanced-report-distribution-caption-unit = Distribution Monte Carlo de { $metric } ({ $n } échantillons, { $unit }), 20 intervalles de largeur égale ; les lignes en tirets marquent les 5e, 50e et 95e centiles.
+
+engine-advanced-report-h-companions = 3b. Animation et exports
+
+engine-advanced-report-animation-alt = Animation des séries temporelles de l'exécution
+
+engine-advanced-report-animation-caption = Les échantillons propres de l'exécution se tracent derrière un curseur temporel mobile (le tracé animé de <code>--animate svg</code> ; il affiche l'image finale en cas de mouvement réduit et à l'impression).
+
+engine-advanced-report-no-animation = Aucune animation : { $reason }
+
+engine-advanced-report-no-animation-default = le résultat ne contient aucune série temporelle
+
+engine-advanced-report-player-written-by = Le lecteur interactif est écrit par <code>{ $command }</code>.
+
+engine-advanced-report-written-beside = Écrit à côté de ce rapport : { $links }.
+
+engine-advanced-report-th-export = Export
+
+engine-advanced-report-th-applies = S'applique
+
+engine-advanced-report-th-files-or-reason = Fichiers ou raison
+
+engine-advanced-report-written-by = écrit par <code>{ $command }</code>
+
+engine-advanced-report-does-not-apply = ne s'applique pas
+
+engine-advanced-report-yes = oui
+
+engine-advanced-report-no = non
+
+engine-advanced-report-h-events = 4. Chronologie des événements
+
+engine-advanced-report-events-caption = Fenêtres sous forme de barres, événements ponctuels sous forme de points, sur l'axe temporel propre de l'exécution.
+
+engine-advanced-report-th-start = Début (s)
+
+engine-advanced-report-th-end = Fin (s)
+
+engine-advanced-report-th-event = Événement
+
+engine-advanced-report-th-source = Source
+
+engine-advanced-report-point-event = événement ponctuel
+
+engine-advanced-report-events-timeline = Chronologie des événements
+
+engine-advanced-report-point-events = événements ponctuels ({ $n })
+
+engine-advanced-report-distribution-of = Distribution de { $metric }
+
+engine-advanced-report-max-bin = intervalle max. { $n }
+
+engine-advanced-report-h-labels = 5. Étiquettes de vérification
+
+engine-advanced-report-th-capability = Capacité (exigence de la matrice)
+
+engine-advanced-report-th-label = Étiquette
+
+engine-advanced-report-th-used-by = Utilisée par
+
+engine-advanced-report-th-oracle = Source : référence indépendante
+
+engine-advanced-report-th-test-evidence = Preuve par essai
+
+engine-advanced-report-h-figure-tiers = Niveaux par valeur indiqués par le résultat
+
+engine-advanced-report-th-figure = Valeur
+
+engine-advanced-report-th-tier = Niveau
+
+engine-advanced-report-th-matrix-requirement = Exigence de la matrice
+
+engine-advanced-report-th-applicable = Applicable
+
+engine-advanced-report-no-attack = non (aucune attaque configurée)
+
+engine-advanced-report-h-not-modelled = 6. Non modélisé, et hypothèses
+
+engine-advanced-report-not-modelled-note = Chaque élément est cité à l'endroit où il est énoncé : le document de résultat, le catalogue des types, le fichier de scénario, ou la raison pour laquelle une ligne MODELLED de la matrice de vérification reste à l'état de modèle.
+
+engine-advanced-report-th-statement = Énoncé
+
+engine-advanced-report-h-reproducibility = 7. Fiche de reproductibilité
+
+engine-advanced-report-rk-command = Commande pour reproduire
+
+engine-advanced-report-rk-working-directory = Répertoire de travail
+
+engine-advanced-report-rk-engine-version = Version du moteur
+
+engine-advanced-report-rk-source-commit = Commit source
+
+engine-advanced-report-rk-scenario-file = Fichier de scénario
+
+engine-advanced-report-rk-scenario-sha = SHA-256 du fichier de scénario (Secure Hash Algorithm 256 bits)
+
+engine-advanced-report-rk-result-hash = scenario_hash du résultat
+
+engine-advanced-report-rk-result-sha = SHA-256 du document de résultat
+
+engine-advanced-report-rk-seed = Graine
+
+engine-advanced-report-rk-platform = Plateforme
+
+engine-advanced-report-rk-generated = Étude générée (UTC)
+
+engine-advanced-report-rk-determinism = Déterminisme
+
+engine-advanced-report-result-hash-none = le document de résultat n'en indique aucun
+
+engine-advanced-report-print-note = Pour imprimer cette page dans un fichier Portable Document Format (PDF), utilisez la boîte de dialogue d'impression du navigateur et choisissez « Enregistrer au format PDF » ; la feuille de style d'impression s'adapte au papier A4 et US Letter, répète les en-têtes de tableau d'une page à l'autre et commence les sections entrées, résultats, étiquettes et reproductibilité sur une nouvelle page. Le moteur n'écrit lui-même aucun PDF. report.json contient le même contenu que cette page.
+
+engine-advanced-report-footer = Généré par Kshana { $engine }.{ $stamp } Reproductible à partir du scénario + de la graine + de la version du moteur. Libre et open source (GNU Affero General Public License, AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">source &amp; documentation</a>.
+
+engine-advanced-report-empty-inputs = Le scénario ne définit aucun champ en dehors de `kind` : le type a exécuté sa configuration de référence avec ses valeurs par défaut documentées.
+
+engine-advanced-report-empty-scalars = Le document de résultat ne contient aucun scalaire en dehors de ses tableaux ; ses nombres sont résumés par colonne ci-dessous.
+
+engine-advanced-report-empty-series = Le document de résultat ne contient aucun tableau numérique : chaque résultat est un scalaire dans le tableau ci-dessus.
+
+engine-advanced-report-empty-events = Aucun événement horodaté : le scénario ne programme aucune fenêtre ni aucun instant de début et le résultat ne rapporte aucun événement. Le type évalue sa configuration comme un seul cas.
+
+engine-advanced-report-empty-not-modelled = Rien dans le résultat, le catalogue des types, le scénario ou les lignes de matrice utilisées n'énonce de limite de modélisation pour cette exécution.
+
+engine-advanced-report-capabilities-statement = Chaque ligne est une ligne de la matrice de vérification que les types de cette exécution mobilisent, avec l'étiquette et la référence indépendante que lui donne la matrice (src/verification.rs, docs/VERIFICATION-MATRIX.md). Une étiquette qualifie la capacité telle que la matrice la consigne ; elle ne qualifie pas la configuration de ce scénario, et une ligne VALIDATED ne fait pas des entrées de l'exécution des valeurs mesurées. Une ligne PARTNER est une discipline sur laquelle l'exécution s'appuie et que Kshana ne fournit pas.
+
+engine-advanced-report-no-run-label = Le résultat ne porte aucune étiquette de franchise au niveau de l'exécution ; les étiquettes de vérification des capacités utilisées sont listées dans leur propre section, ainsi que les niveaux par valeur lorsque le résultat les indique.
+
+engine-advanced-report-no-seed = Ni le scénario ni le résultat ne contient de graine. Le résultat est déterminé par le seul fichier de scénario et la seule compilation du moteur ; le test de déterminisme réexécute chaque scénario fourni et exige une sortie identique à l'octet près.
+
+engine-advanced-report-working-directory = Lancez la commande depuis le répertoire où l'exécution d'origine a été démarrée : le chemin du scénario, et tout chemin de données relatif à l'intérieur du scénario, sont résolus par rapport à lui. Vérifiez d'abord le fichier de scénario par rapport à scenario_sha256.
+
+engine-advanced-report-determinism-stamped = Les mêmes octets de scénario, la même graine et la même compilation du moteur donnent le même document de résultat, à l'exception de son horodatage meta.generated_utc, que --study-name écrit à partir de l'horloge ; lancez sans --study-name pour une sortie identique à l'octet près. Les résultats en virgule flottante sont figés par plateforme ; un autre système d'exploitation ou une autre architecture peut différer sur les derniers chiffres.
+
+engine-advanced-report-determinism-plain = Les mêmes octets de scénario, la même graine et la même compilation du moteur donnent un document de résultat et un rapport identiques à l'octet près ; ce rapport ne porte aucun horodatage. Les résultats en virgule flottante sont figés par plateforme ; un autre système d'exploitation ou une autre architecture peut différer sur les derniers chiffres.
+
+engine-advanced-report-not-applicable-no-attack = sans objet (aucune attaque configurée)
+
+engine-advanced-report-what-ran-default = Un scénario `{ $kind }`.
+
+engine-advanced-report-nothing-carried = rien n'est porté
+
+engine-advanced-report-tbl-sweep-nodes = Nœuds du balayage
+
+engine-advanced-report-tbl-mc-summary = Synthèse de la distribution Monte Carlo (les centiles sont au rang le plus proche ; l'intervalle de confiance à 95 % sur la moyenne est un bootstrap par centiles à graine fixe)
+
+engine-advanced-report-tbl-chain-phases = Phases de la chaîne
+
+engine-advanced-report-tbl-shared = Conditions partagées
+
+engine-advanced-report-tbl-members = Membres
+
+engine-advanced-report-tbl-combined = Combiné sur les membres
+
+engine-advanced-report-tbl-optimiser-best = Meilleur de l'optimiseur (un optimum local sur les bornes indiquées)
+
+engine-advanced-report-tbl-optimiser-trace = Trace de l'optimiseur
+
+engine-advanced-report-tbl-sweep-grid = Grille de balayage
+
+## src/altpnt/terrain.rs
+
+engine-altpnt-terrain-title-terrain-referenced = Navigation référencée au terrain (TERCOM/SITAN)
+
+engine-altpnt-terrain-title-gravity-map = Navigation par recalage sur carte gravimétrique
+
+engine-altpnt-terrain-title-combined = alt-PNT combiné gravité + magnétique + terrain
+
+engine-altpnt-terrain-free-inertial-drift = dérive inertielle libre
+
+engine-altpnt-terrain-terrain-matched = recalage sur le terrain
+
+engine-altpnt-terrain-gravity-matched = recalage gravimétrique
+
+engine-altpnt-terrain-gravity-only = gravité seule
+
+engine-altpnt-terrain-magnetic-only = magnétique seul
+
+engine-altpnt-terrain-terrain-only = terrain seul
+
+engine-altpnt-terrain-combined-fused = combiné (fusionné)
+
+## src/api.rs
+
+engine-api-chart-provenance-footer = Kshana v{ $version } · scénario { $hash } · kshana.dev
+
+## src/attack_surface.rs
+
+engine-attack-surface-chart-title = Surface d'attaque de la sécurité des signaux lunaires (P1)
+
+## src/body_pnt.rs
+
+engine-body-pnt-chart-relays-in-view = relais en vue
+
+engine-body-pnt-chart-count = nombre
+
+engine-body-pnt-chart-formal-one-sigma-position = position formelle à un sigma (log10 m) : constellation seule en bleu, avec la distance Terre en ambre
+
+engine-body-pnt-chart-time-since-epoch = temps depuis l'époque, 0 à { $t_max } s
+
+## src/campaign.rs
+
+engine-campaign-chart-clock-time-error-vs-guard = erreur de temps de l'horloge par rapport à la garde (ns)
+
+engine-campaign-chart-cn0-vs-tracking-floor = C/N0 par rapport au plancher de suivi (dB-Hz)
+
+engine-campaign-chart-protection-level-vs-alert-limit = niveau de protection par rapport à la limite d'alerte (m)
+
+engine-campaign-chart-position-error-vs-threshold = erreur de position par rapport au seuil (m)
+
+engine-campaign-chart-satellites-tracking = satellites suivis
+
+engine-campaign-chart-alarm-flags-and-events = indicateurs d'alarme et événements
+
+engine-campaign-chart-mission-time = temps de mission de { $duration } s
+
+engine-campaign-chart-sweep-percentile-band = , médiane avec bande du 5e au 95e centile sur { $n_runs } graines
+
+engine-campaign-chart-sweep-line-at = { $name } ({ $unit }) à { $lead }
+
+engine-campaign-chart-monte-carlo-of = Monte Carlo de `{ $scenario_kind }` : { $n_runs } graines à partir de { $base_seed } (5e, 50e, 95e centile ; barre = intervalle de confiance bootstrap à 95 % sur la moyenne)
+
+engine-campaign-chart-composed-members = membres composés sous conditions partagées : { $shared }
+
+engine-campaign-chart-not-available = n/d
+
+## src/cislunar_arc_recovery.rs
+
+engine-cislunar-arc-recovery-chart-title = Récupération de la longueur d'arc cislunaire — un estimateur qui ne partage pas les jacobiennes
+
+engine-cislunar-arc-recovery-chart-subtitle = moindres carrés par lots à différences finies · erreur mesurée de récupération de l'état · ni jacobienne analytique, ni STM variationnelle, ni tolérance de rang SVD
+
+engine-cislunar-arc-recovery-chart-bound = borne { $bound }
+
+engine-cislunar-arc-recovery-chart-gramian-rank-threshold = Seuil de rang du gramien
+
+engine-cislunar-arc-recovery-chart-monte-carlo-rms = Erreur RMS de récupération de position par Monte Carlo (km)
+
+engine-cislunar-arc-recovery-chart-noise-free-worst-ratio = pire rapport de récupération sans bruit (erreur finale / déplacement)
+
+## src/cislunar_observability.rs
+
+engine-cislunar-observability-chart-title = Observabilité cislunaire sur un arc de suivi (P6)
+
+engine-cislunar-observability-chart-subtitle = rang selon l'arc (liaison unique en distance seule) · spectre propre du gramien · CI DRO corrigées par différentiation + recoupement SRIF · conception { $modelled }, rang/STM/fermeture { $validated }
+
+engine-cislunar-observability-chart-observable-rank = rang observable selon la longueur d'arc
+
+engine-cislunar-observability-chart-arc-length = longueur d'arc (unités de temps du référentiel tournant, { $arc_hours } h au total)
+
+engine-cislunar-observability-chart-gramian-eigenvalues = valeurs propres du gramien (log10)
+
+engine-cislunar-observability-chart-condition = conditionnement κ = { $condition }
+
+## src/conflict_resilience.rs
+
+engine-conflict-resilience-chart-title = Résilience PNT en couches en situation de conflit (P7)
+
+engine-conflict-resilience-chart-subtitle = perte totale selon l'intensité de la menace (MC contre forme fermée) · rapport de résilience selon la corrélation du déni · a priori { $modelled }, MC->forme fermée / marginales de copule { $validated }
+
+engine-conflict-resilience-chart-total-loss-probability = probabilité de perte totale selon l'intensité
+
+engine-conflict-resilience-chart-threat-intensity = intensité de la menace
+
+engine-conflict-resilience-chart-layered-mc = MC en couches
+
+engine-conflict-resilience-chart-single-layer = couche unique
+
+engine-conflict-resilience-chart-resilience-ratio = rapport de résilience selon la corrélation du déni
+
+engine-conflict-resilience-chart-denial-correlation = corrélation du déni ρ
+
+## src/constellation.rs
+
+engine-constellation-chart-availability-pct = disponibilité ( %)
+
+engine-constellation-chart-mean-pdop = PDOP moyen
+
+## src/earth_gnss_lunar.rs
+
+engine-earth-gnss-lunar-chart-title = GNSS terrestre à distance lunaire — C/N0 selon l'angle hors axe
+
+engine-earth-gnss-lunar-chart-track-threshold = suivi { $threshold } dB-Hz
+
+engine-earth-gnss-lunar-chart-earth-limb = limbe terrestre { $angle }°
+
+engine-earth-gnss-lunar-chart-off-boresight-angle = angle hors axe (deg)
+
+engine-earth-gnss-lunar-chart-cn0 = C/N0 (dB-Hz)
+
+engine-earth-gnss-lunar-chart-legend = or = suivable · rouge = trop faible · gris = occulté par la Terre · diagramme d'émission { $modelled }
+
+## src/ensemble.rs
+
+engine-ensemble-chart-title = Holdover d'horloge : bande de confiance de l'erreur de synchronisation ({ $n_runs } exécutions)
+
+engine-ensemble-chart-timing-error-ns = erreur de synchronisation (ns)
+
+engine-ensemble-chart-spec-threshold = spéc. { $threshold } ns
+
+engine-ensemble-chart-time-s = temps (s)
+
+engine-ensemble-chart-classical-median-band = classique : { $id } (médiane, bande 5-95 %)
+
+engine-ensemble-chart-quantum-median-band = quantique : { $id } (médiane, bande 5-95 %)
+
+## src/fom_label.rs
+
+engine-fom-verdict-validated = VALIDATED
+
+engine-fom-verdict-modelled = MODELLED
+
+engine-fom-verdict-partial = PARTIAL
+
+## src/frame_eop.rs
+
+engine-frame-eop-chart-title = Budget de prédiction temps réel du référentiel / EOP pour la synchronisation lunaire
+
+engine-frame-eop-chart-ut1-error-ms = erreur UT1 (ms)
+
+engine-frame-eop-chart-position-at-moon-m = position à la Lune (m)
+
+engine-frame-eop-chart-equiv-timing-ns = synchronisation équiv. (ns)
+
+engine-frame-eop-chart-prediction-horizon-days = horizon de prédiction (jours)
+
+engine-frame-eop-chart-iers-final-floor = plancher final de l'IERS { $floor_ms } ms
+
+engine-frame-eop-chart-marker-at-moon = ~{ $ut1_ms } ms = ~{ $pos_m } m à la Lune
+
+engine-frame-eop-chart-growth = ~{ $factor }x, 1 j→{ $far_days } j
+
+## src/fusion/hybrid_ukf.rs
+
+engine-fusion-hybrid-ukf-chart-title = UKF hybride à 17 états — auto-cohérence du filtre (modélisé)
+
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + blancheur de l'innovation par rapport aux bandes χ² à 95 % ; 1.0 = cohérent. Auto-cohérence, pas exactitude.
+
+engine-fusion-hybrid-ukf-chart-target = cible 1.0
+
+engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (blancheur)
+
+engine-fusion-hybrid-ukf-chart-nees = NEES
+
+engine-fusion-hybrid-ukf-chart-consistent = COHÉRENT
+
+engine-fusion-hybrid-ukf-chart-inconsistent = INCOHÉRENT
+
+## src/fusion/pack.rs
+
+engine-fusion-pack-chart-title = Erreur horizontale GNSS/INS à couplage lâche
+
+engine-fusion-pack-chart-horizontal-error-m = erreur horizontale (m)
+
+engine-fusion-pack-chart-spec-threshold = spéc. { $threshold } m
+
+## src/geometry.rs
+
+engine-geometry-chart-title = Diagramme du ciel ({ $label })
+
+engine-geometry-chart-north = N
+
+engine-geometry-chart-east = E
+
+engine-geometry-chart-south = S
+
+engine-geometry-chart-west = O
+
+engine-geometry-chart-satellite-tooltip = { $system } { $id } az { $az } él { $el }
+
+engine-geometry-chart-satellite-tooltip-hidden = { $system } { $id } az { $az } él { $el } (masqué par le profil d'horizon)
+
+engine-geometry-chart-satellite-tooltip-below-mask = { $system } { $id } az { $az } él { $el } (sous le masque)
+
+engine-geometry-chart-no-fix = pas de position
+
+engine-geometry-chart-in-view-hidden = { $n_visible } en vue, { $n_masked } masqués par le profil d'horizon · { $dop } · creux : pas en vue
+
+engine-geometry-chart-satellites-as-given = satellites tels que fournis
+
+engine-geometry-chart-representative-sky = ciel représentatif, non daté
+
+engine-geometry-chart-footer = Kshana v{ $version } · géométrie sous un modèle d'erreur indiqué · kshana.dev
+
+## src/gnss_sim.rs
+
+engine-gnss-sim-chart-title = Niveaux de protection RAIM par rapport aux limites d'alerte
+
+engine-gnss-sim-chart-protection-level-m = niveau de protection (m)
+
+engine-gnss-sim-chart-val = VAL { $alert_v } m
+
+engine-gnss-sim-chart-hpl = HPL
+
+engine-gnss-sim-chart-vpl = VPL
+
+## src/main.rs
+
+engine-main-fail = erreur : { $e }
+
+## legal (advisories, disclaimers and notices; the English text is the source, the constant in code is what machine files carry)
+
+# legal: native review
+engine-legal-compliance-statement = Une ligne marquée evidenced signifie qu'une exécution de cet ensemble apporte des éléments de preuve en faveur des capacités que nomme la ligne. Ce n'est pas la constatation qu'un cadre de référence est respecté, et cela ne signifie pas qu'un produit a été évalué ou approuvé par quiconque. La colonne d'écart indique ce que les exécutions ne montrent pas.
+
+# legal: native review
+engine-legal-bench-surface-notice = Mouvement du véhicule et intervalles d'événements étiquetés uniquement. Rien de ce qui est exporté ici n'est un signal radiofréquence ou en bande de base, ne le modélise ni ne le pilote, et un événement est un intervalle de temps, non une méthode pour produire de l'interférence. Le simulateur de laboratoire et son opérateur fournissent les signaux et sont responsables de ne les exécuter que là où cela est autorisé (en conduit ou blindé, selon les instructions de sécurité propres au simulateur). Kshana ne publie aucun résultat issu de telles exécutions.
+
+# legal: native review
+engine-legal-iq-campaign-roc-statement = MODELLED : ROC au niveau des fenêtres de chaque moniteur sur les enregistrements fournis. Chaque fenêtre d'événement indiquée est un positif et chaque fenêtre roc_window_s hors des événements un négatif ; une fenêtre compte à un seuil lorsque la statistique de test du moniteur l'atteint dans la fenêtre. P_fa est par fenêtre négative, non par test.
+
+# legal: native review
+engine-legal-lunanet-afs-advisory = À titre consultatif : sortie d'analyse d'un outil de recherche et d'ingénierie, et non un équipement de navigation homologué ni un service de sauvegarde de la vie humaine. Il vérifie un flux de symboles par rapport à une édition d'une spécification publiée et ne dit rien d'aucun nœud ou service LunaNet.
+
+# legal: native review
+engine-legal-iqfit-statement = MODELLED : chaque nombre ajusté décrit le récepteur ouvert (la conception de boucle nommée et la chaîne de front-end) sur les enregistrements fournis, ajusté aux résultats notés de la campagne. Ce n'est pas une mesure d'un autre récepteur. Les prédictions sont étiquetées PREDICTION, avec l'enregistrement testé le plus proche et la distance hors des conditions testées.
+
+# legal: native review
+engine-legal-iqfit-advisory = À titre consultatif : sortie d'analyse, et non un équipement de navigation homologué ; les prédictions sont des sorties de modèle avec une erreur indiquée, non des garanties.
+
+# legal: native review
+engine-legal-lunar-time-lab-source-statement = Énoncé de source, non une affirmation : la documentation ICG WG-B Lunar PNT de juin 2024 (unoosa.org, LunarPNT_Jun24_01_04.pdf, source S3 de l'étude) décrit un laboratoire de référence de temps lunaire à la station avec un objectif de temps de l'ordre de la nanoseconde. Kshana cite cet objectif pour le contexte seulement ; elle ne l'adopte pas, et rien dans ce bloc ne montre qu'une horloge de station réelle l'atteigne.
+
+# legal: native review
+engine-legal-standards-pack-notice = Un paquet de normes mesure des scénarios modélisés par rapport à des seuils fixés avant l'exécution. Il apporte des éléments de preuve en faveur des lignes de cadre qu'il nomme ; il n'évalue ni n'approuve aucun produit, et un seuil MET dit seulement que la sortie modélisée du scénario a atteint le seuil indiqué.
+
+# legal: native review
+engine-legal-standards-pack-advisory = À titre consultatif : sortie d'analyse d'un outil de recherche et d'ingénierie, et non un équipement de navigation homologué ni un service de sauvegarde de la vie humaine ; elle ne doit pas être l'unique fondement d'une décision de navigation ou de sécurité.
+
+# legal: native review
+engine-legal-geometry-statement = Géométrie sous un modèle d'erreur indiqué (MODELLED) : visibilité en ligne directe par rapport au profil d'horizon indiqué, dilution de précision et ellipse d'erreur gaussienne pour des erreurs de distance gaussiennes indépendantes, égales et de moyenne nulle, de l'erreur équivalente de distance utilisateur indiquée. Ce n'est pas une prédiction de l'erreur réelle d'un récepteur, qui comporte aussi des biais, des trajets multiples et des erreurs hors ligne directe, et ce n'est pas une borne d'intégrité. Les constellations prédéfinies sont une géométrie représentative, non le ciel de cette date à cet endroit.
+
+# legal: native review
+engine-legal-resilience-disclaimer = Auto-évaluation issue de la simulation, alignée sur DHS RPCF v2.0. Ce n'est ni une certification ni une accréditation, et elle ne représente l'approbation d'aucune autorité (DHS, IEEE ou autre). Chaque sous-score est MODELLED sauf s'il est explicitement étiqueté VALIDATED, et les scores sont des indicateurs de mérite pour le domaine temporel et la détection, non une exactitude dans le domaine de la position.
+
+# legal: native review
+engine-legal-observatory-notice = Une cellule dégradée signifie qu'une forte proportion d'aéronefs y ont signalé une faible exactitude de navigation ce jour-là. Aucune cause n'est attribuée. Une cellule non observée, ou absente, n'a pas été évaluée, ce qui n'est pas la même chose que dégagée. À titre consultatif seulement : ni une approbation, ni une certification, ni une déclaration de conformité.
+
+# legal: native review
+engine-legal-receiver-trust-advisory = Logiciel à titre consultatif, et non un équipement de navigation homologué (IEC 61108, IEC 61162) : l'opérateur reste responsable de la navigation du navire.
+
+# legal: native review
+engine-legal-evidence-roundtrip-notice = Relie quatre enregistrements par condensat : le scénario, les conditions d'essai indiquées du laboratoire, le journal du récepteur et la note de ce journal par rapport aux événements indiqués. Ce n'est pas un signal, pas une méthode de rejeu et pas une certification. La manière dont le mouvement du scénario est parvenu au récepteur (un fichier joué par un simulateur de laboratoire, en conduit ou blindé) relevait de la responsabilité de l'opérateur et n'est consignée ici que telle qu'indiquée.
+
+# legal: native review
+engine-legal-evidence-bundle-disclaimer = Ce paquet est un enregistrement technique de ce que le moteur Kshana a calculé à partir du journal de récepteur indiqué avec la configuration indiquée. Ce n'est pas un avis juridique, pas une constatation de fait sur un événement ou sa cause, et pas une certification.
+
+# legal: native review
+engine-legal-bench-notice = À titre consultatif : modélisé ou mesuré par rapport à des références indiquées, et non une approbation, une certification ou une déclaration de conformité. Une note décrit un journal ou un corpus, jamais un produit.
+
+# legal: native review
+engine-legal-osnma-advisory = À titre consultatif : il s'agit d'une sortie d'analyse et de surveillance, et non d'un équipement de navigation homologué. L'état d'authentification rapporté ici n'est pas un service d'intégrité de navigation et ne doit pas être l'unique fondement d'une décision de navigation ou de sécurité.

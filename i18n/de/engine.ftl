@@ -5,6 +5,8 @@
 
 ## src/clock_log.rs
 
+## src/clock_log.rs
+
 engine-e-clock-log-unknown-clock-log-format-expected = unbekanntes Uhrenlog-Format { $other }; erwartet wird eines von { $format_names }
 
 engine-e-clock-log-unknown-gap-policy-expected-refuse = unbekannte Lückenrichtlinie { $other }; erwartet wird refuse, longest oder linear
@@ -7401,3 +7403,558 @@ engine-wasm-plans-json-is-not-json = plans_json ist kein JSON-Array aus Zeichenk
 engine-wasm-options-json-is-not-json = options_json ist kein JSON: { $e }
 
 engine-wasm-input-is-about-bytes-over = die Eingabe hat etwa { $b64 } Bytes, über dem Limit von { $v2 } Bytes
+
+## src/altpnt/sequential.rs
+
+engine-altpnt-sequential-title = Sequenzielle geländegestützte Navigation (rekursives SITAN)
+
+engine-altpnt-sequential-free-inertial-drift-grows = freie Inertialdrift (wächst)
+
+engine-altpnt-sequential-terrain-matched-bounded = geländegestützt (begrenzt)
+
+engine-altpnt-sequential-waypoint-full-scale = Wegpunkt →    Skalenendwert { $maxv } m
+
+## src/advanced_report.rs
+
+engine-advanced-report-eyebrow = Kshana-Laufbericht
+
+engine-advanced-report-meta = Art <code>{ $kind }</code> · Engine { $engine } · Szenario <code>{ $scenario }</code> (Dateiprüfsumme { $digest }…)
+
+engine-advanced-report-toc-summary = 1 Zusammenfassung
+
+engine-advanced-report-toc-inputs = 2 Eingaben
+
+engine-advanced-report-toc-results = 3 Ergebnisse
+
+engine-advanced-report-toc-aggregation = 3a Aggregation
+
+engine-advanced-report-toc-companions = 3b Animation und Exporte
+
+engine-advanced-report-toc-events = 4 Ereignisse
+
+engine-advanced-report-toc-labels = 5 Verifikationskennzeichnungen
+
+engine-advanced-report-toc-not-modelled = 6 Nicht modelliert
+
+engine-advanced-report-toc-reproducibility = 7 Reproduzierbarkeit
+
+engine-advanced-report-h-summary = 1. Zusammenfassung
+
+engine-advanced-report-honesty-label = <strong>Redlichkeitskennzeichnung</strong> ({ $source }): { $label }
+
+engine-advanced-report-capabilities-used = <strong>Verwendete Fähigkeiten:</strong> { $n_validated } VALIDATED, { $n_modelled } MODELLED, { $n_partner } PARTNER (vorausgesetzt, nicht bereitgestellt); siehe Abschnitt 5.
+
+engine-advanced-report-member-runs = <strong>Teilläufe:</strong> { $n }, aggregiert in Abschnitt 3a.
+
+engine-advanced-report-h-inputs = 2. Eingaben
+
+engine-advanced-report-inputs-note = Jedes Feld, das die Szenariodatei setzt, auf seinen Pfad abgeflacht. Die Einheiten stammen aus dem Block <code>units</code> des Ergebnisses (dem Feldeinheiten-Schema, docs/field-units-schema.json), sofern er das Feld beschreibt, andernfalls aus dem Suffix des Feldnamens; eine Einheit, die keines von beiden angibt, wird als nicht angegeben dargestellt.
+
+engine-advanced-report-th-parameter = Parameter
+
+engine-advanced-report-th-value = Wert
+
+engine-advanced-report-th-unit = Einheit
+
+engine-advanced-report-th-unit-source = Einheitenquelle
+
+engine-advanced-report-h-results = 3. Ergebnisse
+
+engine-advanced-report-chart-alt = Ergebnisdiagramm
+
+engine-advanced-report-also-written-to = { " " }(auch geschrieben nach { $file })
+
+engine-advanced-report-h-scalars = Skalare Ergebnisse
+
+engine-advanced-report-h-columns = Numerische Spalten
+
+engine-advanced-report-th-result = Ergebnis
+
+engine-advanced-report-th-column = Spalte
+
+engine-advanced-report-th-count = Anzahl
+
+engine-advanced-report-th-min = Min
+
+engine-advanced-report-th-max = Max
+
+engine-advanced-report-th-first = Erster
+
+engine-advanced-report-th-last = Letzter
+
+engine-advanced-report-omitted-inputs = <p class="note">{ $n } weitere Eingaben sind auf dieser Seite ausgelassen; report.json führt dieselben Zeilen auf, und das Ergebnisdokument enthält jeden Wert.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-scalars = <p class="note">{ $n } weitere skalare Ergebnisse sind auf dieser Seite ausgelassen; report.json führt dieselben Zeilen auf, und das Ergebnisdokument enthält jeden Wert.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-columns = <p class="note">{ $n } weitere numerische Spalten sind auf dieser Seite ausgelassen; report.json führt dieselben Zeilen auf, und das Ergebnisdokument enthält jeden Wert.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-events = <p class="note">{ $n } weitere Ereignisse sind auf dieser Seite ausgelassen; report.json führt dieselben Zeilen auf, und das Ergebnisdokument enthält jeden Wert.</p>{ "\u000A" }
+
+engine-advanced-report-h-aggregation = 3a. Aggregation der Teilläufe
+
+engine-advanced-report-mode = <p>Modus <strong>{ $mode }</strong>.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind = <p>Modus <strong>{ $mode }</strong> über die Art <code>{ $kind }</code>.</p>{ "\u000A" }
+
+engine-advanced-report-mode-runs = <p>Modus <strong>{ $mode }</strong>, { $n_runs } Teilläufe.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind-runs = <p>Modus <strong>{ $mode }</strong> über die Art <code>{ $kind }</code>, { $n_runs } Teilläufe.</p>{ "\u000A" }
+
+engine-advanced-report-run-digest = Laufprüfsumme (SHA-256 über die Ergebnisprüfsummen der Teilläufe, in Ausführungsreihenfolge): <code>{ $digest }</code>
+
+engine-advanced-report-table-empty = Diese Tabelle hat keine Zeilen: Das Ergebnis führt keine auf.
+
+engine-advanced-report-distribution-caption = Monte-Carlo-Verteilung von { $metric } ({ $n } Stichproben), 20 gleich breite Klassen; gestrichelte Linien markieren das 5., 50. und 95. Perzentil.
+
+engine-advanced-report-distribution-caption-unit = Monte-Carlo-Verteilung von { $metric } ({ $n } Stichproben, { $unit }), 20 gleich breite Klassen; gestrichelte Linien markieren das 5., 50. und 95. Perzentil.
+
+engine-advanced-report-h-companions = 3b. Animation und Exporte
+
+engine-advanced-report-animation-alt = Animation der Zeitreihen des Laufs
+
+engine-advanced-report-animation-caption = Die eigenen Stichproben des Laufs zeichnen sich hinter einem wandernden Zeitcursor ein (die animierte Zeichnung von <code>--animate svg</code>; bei reduzierter Bewegung und im Druck zeigt sie das fertige Bild).
+
+engine-advanced-report-no-animation = Keine Animation: { $reason }
+
+engine-advanced-report-no-animation-default = das Ergebnis enthält keine Zeitreihe
+
+engine-advanced-report-player-written-by = Der interaktive Player wird von <code>{ $command }</code> geschrieben.
+
+engine-advanced-report-written-beside = Neben diesem Bericht geschrieben: { $links }.
+
+engine-advanced-report-th-export = Export
+
+engine-advanced-report-th-applies = Anwendbar
+
+engine-advanced-report-th-files-or-reason = Dateien oder Grund
+
+engine-advanced-report-written-by = geschrieben von <code>{ $command }</code>
+
+engine-advanced-report-does-not-apply = nicht anwendbar
+
+engine-advanced-report-yes = ja
+
+engine-advanced-report-no = nein
+
+engine-advanced-report-h-events = 4. Ereigniszeitachse
+
+engine-advanced-report-events-caption = Zeitfenster als Balken, Punktereignisse als Punkte, auf der eigenen Zeitachse des Laufs.
+
+engine-advanced-report-th-start = Beginn (s)
+
+engine-advanced-report-th-end = Ende (s)
+
+engine-advanced-report-th-event = Ereignis
+
+engine-advanced-report-th-source = Quelle
+
+engine-advanced-report-point-event = Punktereignis
+
+engine-advanced-report-events-timeline = Ereigniszeitachse
+
+engine-advanced-report-point-events = Punktereignisse ({ $n })
+
+engine-advanced-report-distribution-of = Verteilung von { $metric }
+
+engine-advanced-report-max-bin = größte Klasse { $n }
+
+engine-advanced-report-h-labels = 5. Verifikationskennzeichnungen
+
+engine-advanced-report-th-capability = Fähigkeit (Matrixanforderung)
+
+engine-advanced-report-th-label = Kennzeichnung
+
+engine-advanced-report-th-used-by = Verwendet von
+
+engine-advanced-report-th-oracle = Quelle: unabhängige Referenz
+
+engine-advanced-report-th-test-evidence = Testnachweis
+
+engine-advanced-report-h-figure-tiers = Vom Ergebnis angegebene Stufen je Kennzahl
+
+engine-advanced-report-th-figure = Kennzahl
+
+engine-advanced-report-th-tier = Stufe
+
+engine-advanced-report-th-matrix-requirement = Matrixanforderung
+
+engine-advanced-report-th-applicable = Anwendbar
+
+engine-advanced-report-no-attack = nein (kein Angriff konfiguriert)
+
+engine-advanced-report-h-not-modelled = 6. Nicht modelliert, und Annahmen
+
+engine-advanced-report-not-modelled-note = Jeder Punkt ist von der Stelle zitiert, an der er angegeben ist: das Ergebnisdokument, der Artenkatalog, die Szenariodatei oder die Begründung der Verifikationsmatrix, warum eine Zeile MODELLED bleibt.
+
+engine-advanced-report-th-statement = Aussage
+
+engine-advanced-report-h-reproducibility = 7. Reproduzierbarkeitsprotokoll
+
+engine-advanced-report-rk-command = Befehl zur Reproduktion
+
+engine-advanced-report-rk-working-directory = Arbeitsverzeichnis
+
+engine-advanced-report-rk-engine-version = Engine-Version
+
+engine-advanced-report-rk-source-commit = Quell-Commit
+
+engine-advanced-report-rk-scenario-file = Szenariodatei
+
+engine-advanced-report-rk-scenario-sha = SHA-256 der Szenariodatei (Secure Hash Algorithm, 256 Bit)
+
+engine-advanced-report-rk-result-hash = Ergebnis scenario_hash
+
+engine-advanced-report-rk-result-sha = SHA-256 des Ergebnisdokuments
+
+engine-advanced-report-rk-seed = Seed
+
+engine-advanced-report-rk-platform = Plattform
+
+engine-advanced-report-rk-generated = Studie erzeugt (UTC)
+
+engine-advanced-report-rk-determinism = Determinismus
+
+engine-advanced-report-result-hash-none = das Ergebnisdokument gibt keinen an
+
+engine-advanced-report-print-note = Um diese Seite in eine Portable-Document-Format-Datei (PDF) zu drucken, verwenden Sie den Druckdialog des Browsers und wählen Sie „Als PDF speichern“; das Druckformat passt auf A4- und US-Letter-Papier, wiederholt Tabellenköpfe über Seiten hinweg und beginnt die Abschnitte Eingaben, Ergebnisse, Kennzeichnungen und Reproduzierbarkeit auf einer neuen Seite. Die Engine schreibt selbst kein PDF. report.json enthält denselben Inhalt wie diese Seite.
+
+engine-advanced-report-footer = Erzeugt von Kshana { $engine }.{ $stamp } Reproduzierbar aus Szenario + Seed + Engine-Version. Frei und quelloffen (GNU Affero General Public License, AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">Quellcode &amp; Dokumentation</a>.
+
+engine-advanced-report-empty-inputs = Das Szenario setzt kein Feld außer `kind`: Die Art lief mit ihrer Referenzkonfiguration aus ihren dokumentierten Standardwerten.
+
+engine-advanced-report-empty-scalars = Das Ergebnisdokument enthält keinen Skalar außerhalb seiner Arrays; seine Zahlen sind unten nach Spalten zusammengefasst.
+
+engine-advanced-report-empty-series = Das Ergebnisdokument enthält kein numerisches Array: Jedes Ergebnis ist ein Skalar in der Tabelle oben.
+
+engine-advanced-report-empty-events = Kein zeitgebundenes Ereignis: Das Szenario skriptet kein Zeitfenster und keinen Einsatzzeitpunkt, und das Ergebnis meldet kein Ereignis. Die Art wertet ihre Konfiguration als einen Fall aus.
+
+engine-advanced-report-empty-not-modelled = Nichts im Ergebnis, im Artenkatalog, im Szenario oder in den verwendeten Matrixzeilen nennt eine Modellierungsgrenze für diesen Lauf.
+
+engine-advanced-report-capabilities-statement = Jede Zeile ist eine Verifikationsmatrix-Zeile, die die Arten dieses Laufs ausüben, mit der Kennzeichnung und der unabhängigen Referenz, die die Matrix ihr zuweist (src/verification.rs, docs/VERIFICATION-MATRIX.md). Eine Kennzeichnung bewertet die Fähigkeit so, wie die Matrix sie festhält; sie bewertet nicht die Konfiguration dieses Szenarios, und eine VALIDATED-Zeile macht die Eingaben des Laufs nicht zu gemessenen. Eine PARTNER-Zeile ist eine Disziplin, auf die sich der Lauf stützt und die Kshana nicht bereitstellt.
+
+engine-advanced-report-no-run-label = Das Ergebnis trägt keine Redlichkeitskennzeichnung auf Laufebene; die Verifikationskennzeichnungen der verwendeten Fähigkeiten stehen in einem eigenen Abschnitt, und die Stufen je Kennzahl dort, wo das Ergebnis sie angibt.
+
+engine-advanced-report-no-seed = Weder das Szenario noch das Ergebnis enthält einen Seed. Das Ergebnis ist allein durch die Szenariodatei und den Engine-Build festgelegt; der Determinismustest führt jedes mitgelieferte Szenario erneut aus und verlangt byte-identische Ausgabe.
+
+engine-advanced-report-working-directory = Führen Sie den Befehl in dem Verzeichnis aus, in dem der ursprüngliche Lauf gestartet wurde: Der Szenariopfad und jeder relative Datenpfad im Szenario werden relativ dazu aufgelöst. Prüfen Sie die Szenariodatei zuerst gegen scenario_sha256.
+
+engine-advanced-report-determinism-stamped = Dieselben Szenario-Bytes, derselbe Seed und derselbe Engine-Build ergeben dasselbe Ergebnisdokument, mit Ausnahme seines Stempels meta.generated_utc, den --study-name aus der Uhr schreibt; für byte-identische Ausgabe führen Sie den Lauf ohne --study-name aus. Gleitkommaergebnisse sind je Plattform festgelegt; ein anderes Betriebssystem oder eine andere Architektur kann sich in den letzten Stellen unterscheiden.
+
+engine-advanced-report-determinism-plain = Dieselben Szenario-Bytes, derselbe Seed und derselbe Engine-Build ergeben ein byte-identisches Ergebnisdokument und einen byte-identischen Bericht; dieser Bericht trägt keinen Zeitstempel. Gleitkommaergebnisse sind je Plattform festgelegt; ein anderes Betriebssystem oder eine andere Architektur kann sich in den letzten Stellen unterscheiden.
+
+engine-advanced-report-not-applicable-no-attack = nicht anwendbar (kein Angriff konfiguriert)
+
+engine-advanced-report-what-ran-default = Ein Szenario der Art `{ $kind }`.
+
+engine-advanced-report-nothing-carried = nichts enthalten
+
+engine-advanced-report-tbl-sweep-nodes = Durchlaufknoten
+
+engine-advanced-report-tbl-mc-summary = Zusammenfassung der Monte-Carlo-Verteilung (Perzentile sind Nearest-Rank; das 95-%-Konfidenzintervall des Mittelwerts ist ein Perzentil-Bootstrap mit festem Seed)
+
+engine-advanced-report-tbl-chain-phases = Kettenphasen
+
+engine-advanced-report-tbl-shared = Gemeinsame Bedingungen
+
+engine-advanced-report-tbl-members = Teilnehmer
+
+engine-advanced-report-tbl-combined = Über die Teilnehmer kombiniert
+
+engine-advanced-report-tbl-optimiser-best = Bester Wert des Optimierers (ein lokales Optimum innerhalb der angegebenen Grenzen)
+
+engine-advanced-report-tbl-optimiser-trace = Optimierer-Verlauf
+
+engine-advanced-report-tbl-sweep-grid = Durchlaufraster
+
+## src/altpnt/terrain.rs
+
+engine-altpnt-terrain-title-terrain-referenced = Geländegestützte Navigation (TERCOM/SITAN)
+
+engine-altpnt-terrain-title-gravity-map = Schwerekartengestützte Navigation
+
+engine-altpnt-terrain-title-combined = Kombiniertes Schwere- + Magnetik- + Gelände-alt-PNT
+
+engine-altpnt-terrain-free-inertial-drift = freie Inertialdrift
+
+engine-altpnt-terrain-terrain-matched = geländegestützt
+
+engine-altpnt-terrain-gravity-matched = schweregestützt
+
+engine-altpnt-terrain-gravity-only = nur Schwere
+
+engine-altpnt-terrain-magnetic-only = nur Magnetik
+
+engine-altpnt-terrain-terrain-only = nur Gelände
+
+engine-altpnt-terrain-combined-fused = kombiniert (fusioniert)
+
+## src/api.rs
+
+engine-api-chart-provenance-footer = Kshana v{ $version } · Szenario { $hash } · kshana.dev
+
+## src/attack_surface.rs
+
+engine-attack-surface-chart-title = Angriffsfläche der Signalsicherheit auf dem Mond (P1)
+
+## src/body_pnt.rs
+
+engine-body-pnt-chart-relays-in-view = Relais in Sicht
+
+engine-body-pnt-chart-count = Anzahl
+
+engine-body-pnt-chart-formal-one-sigma-position = formale Ein-Sigma-Position (log10 m): blau nur Konstellation, bernstein mit der Erdentfernung
+
+engine-body-pnt-chart-time-since-epoch = Zeit seit Epoche, 0 bis { $t_max } s
+
+## src/campaign.rs
+
+engine-campaign-chart-clock-time-error-vs-guard = Uhrzeitfehler gegenüber Schutzgrenze (ns)
+
+engine-campaign-chart-cn0-vs-tracking-floor = C/N0 gegenüber Tracking-Untergrenze (dB-Hz)
+
+engine-campaign-chart-protection-level-vs-alert-limit = Schutzniveau gegenüber Alarmgrenze (m)
+
+engine-campaign-chart-position-error-vs-threshold = Positionsfehler gegenüber Schwelle (m)
+
+engine-campaign-chart-satellites-tracking = verfolgte Satelliten
+
+engine-campaign-chart-alarm-flags-and-events = Alarmmarken und Ereignisse
+
+engine-campaign-chart-mission-time = { $duration } s Missionszeit
+
+engine-campaign-chart-sweep-percentile-band = , Median mit Perzentilband vom 5. bis 95. Perzentil über { $n_runs } Seeds
+
+engine-campaign-chart-sweep-line-at = { $name } ({ $unit }) bei { $lead }
+
+engine-campaign-chart-monte-carlo-of = Monte Carlo von `{ $scenario_kind }`: { $n_runs } Seeds ab { $base_seed } (5., 50., 95. Perzentil; Balken = Bootstrap-95-%-Konfidenzintervall des Mittelwerts)
+
+engine-campaign-chart-composed-members = zusammengesetzte Teilnehmer unter gemeinsamen Bedingungen: { $shared }
+
+engine-campaign-chart-not-available = n/v
+
+## src/cislunar_arc_recovery.rs
+
+engine-cislunar-arc-recovery-chart-title = Wiedergewinnung der Bogenlänge im cislunaren Raum — ein Schätzer, der die Jacobi-Matrizen nicht teilt
+
+engine-cislunar-arc-recovery-chart-subtitle = Batch-Kleinste-Quadrate mit finiten Differenzen · gemessener Zustandswiedergewinnungsfehler · keine analytische Jacobi-Matrix, keine variationelle STM, keine SVD-Rangtoleranz
+
+engine-cislunar-arc-recovery-chart-bound = Grenze { $bound }
+
+engine-cislunar-arc-recovery-chart-gramian-rank-threshold = Gramian-Rangschwelle
+
+engine-cislunar-arc-recovery-chart-monte-carlo-rms = Monte-Carlo-RMS-Positionswiedergewinnungsfehler (km)
+
+engine-cislunar-arc-recovery-chart-noise-free-worst-ratio = schlechtestes rauschfreies Wiedergewinnungsverhältnis (Endfehler / Verschiebung)
+
+## src/cislunar_observability.rs
+
+engine-cislunar-observability-chart-title = Cislunare Beobachtbarkeit über einen Tracking-Bogen (P6)
+
+engine-cislunar-observability-chart-subtitle = Rang gegenüber Bogen (Einzelverbindung nur Entfernung) · Gramian-Eigenspektrum · differentialkorrigierte DRO-Anfangsbedingungen + SRIF-Gegenprüfung · { $modelled } Entwurf, { $validated } Rang/STM/Schließung
+
+engine-cislunar-observability-chart-observable-rank = beobachtbarer Rang gegenüber Bogenlänge
+
+engine-cislunar-observability-chart-arc-length = Bogenlänge (Zeiteinheiten im rotierenden Bezugssystem, { $arc_hours } h gesamt)
+
+engine-cislunar-observability-chart-gramian-eigenvalues = Gramian-Eigenwerte (log10)
+
+engine-cislunar-observability-chart-condition = Kondition κ = { $condition }
+
+## src/conflict_resilience.rs
+
+engine-conflict-resilience-chart-title = Konfliktresilienz geschichteter PNT (P7)
+
+engine-conflict-resilience-chart-subtitle = Totalausfall gegenüber Bedrohungsintensität (MC gegenüber geschlossener Form) · Resilienzverhältnis gegenüber Ausfallkorrelation · { $modelled } Vorannahmen, { $validated } MC->geschlossene Form / Copula-Randverteilungen
+
+engine-conflict-resilience-chart-total-loss-probability = Totalausfallwahrscheinlichkeit gegenüber Intensität
+
+engine-conflict-resilience-chart-threat-intensity = Bedrohungsintensität
+
+engine-conflict-resilience-chart-layered-mc = geschichtetes MC
+
+engine-conflict-resilience-chart-single-layer = einzelne Schicht
+
+engine-conflict-resilience-chart-resilience-ratio = Resilienzverhältnis gegenüber Ausfallkorrelation
+
+engine-conflict-resilience-chart-denial-correlation = Ausfallkorrelation ρ
+
+## src/constellation.rs
+
+engine-constellation-chart-availability-pct = Verfügbarkeit (%)
+
+engine-constellation-chart-mean-pdop = mittlerer PDOP
+
+## src/earth_gnss_lunar.rs
+
+engine-earth-gnss-lunar-chart-title = Erd-GNSS in Monddistanz — C/N0 gegenüber Off-Boresight-Winkel
+
+engine-earth-gnss-lunar-chart-track-threshold = Tracking { $threshold } dB-Hz
+
+engine-earth-gnss-lunar-chart-earth-limb = Erdlimb { $angle }°
+
+engine-earth-gnss-lunar-chart-off-boresight-angle = Off-Boresight-Winkel (deg)
+
+engine-earth-gnss-lunar-chart-cn0 = C/N0 (dB-Hz)
+
+engine-earth-gnss-lunar-chart-legend = Gold = verfolgbar · Rot = zu schwach · Grau = von der Erde verdeckt · { $modelled } Sendediagramm
+
+## src/ensemble.rs
+
+engine-ensemble-chart-title = Uhren-holdover: Konfidenzband des Zeitfehlers ({ $n_runs } Läufe)
+
+engine-ensemble-chart-timing-error-ns = Zeitfehler (ns)
+
+engine-ensemble-chart-spec-threshold = Spez. { $threshold } ns
+
+engine-ensemble-chart-time-s = Zeit (s)
+
+engine-ensemble-chart-classical-median-band = klassisch: { $id } (Median, 5-95-%-Band)
+
+engine-ensemble-chart-quantum-median-band = Quanten: { $id } (Median, 5-95-%-Band)
+
+## src/fom_label.rs
+
+engine-fom-verdict-validated = VALIDATED
+
+engine-fom-verdict-modelled = MODELLED
+
+engine-fom-verdict-partial = PARTIAL
+
+## src/frame_eop.rs
+
+engine-frame-eop-chart-title = Echtzeit-Vorhersagebudget für Bezugssystem / EOP bei Mondzeitgebung
+
+engine-frame-eop-chart-ut1-error-ms = UT1-Fehler (ms)
+
+engine-frame-eop-chart-position-at-moon-m = Position am Mond (m)
+
+engine-frame-eop-chart-equiv-timing-ns = äquiv. Zeitgebung (ns)
+
+engine-frame-eop-chart-prediction-horizon-days = Vorhersagehorizont (Tage)
+
+engine-frame-eop-chart-iers-final-floor = IERS-Untergrenze der Endwerte { $floor_ms } ms
+
+engine-frame-eop-chart-marker-at-moon = ~{ $ut1_ms } ms = ~{ $pos_m } m am Mond
+
+engine-frame-eop-chart-growth = ~{ $factor }x, 1 d→{ $far_days } d
+
+## src/fusion/hybrid_ukf.rs
+
+engine-fusion-hybrid-ukf-chart-title = Hybrid-UKF mit 17 Zuständen — Selbstkonsistenz des Filters (aus einem Modell berechnet)
+
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + Innovationsweißheit gegenüber 95-%-χ²-Bändern; 1.0 = konsistent. Selbstkonsistenz, nicht Genauigkeit.
+
+engine-fusion-hybrid-ukf-chart-target = Ziel 1.0
+
+engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (Weißheit)
+
+engine-fusion-hybrid-ukf-chart-nees = NEES
+
+engine-fusion-hybrid-ukf-chart-consistent = KONSISTENT
+
+engine-fusion-hybrid-ukf-chart-inconsistent = INKONSISTENT
+
+## src/fusion/pack.rs
+
+engine-fusion-pack-chart-title = Horizontaler Fehler einer lose gekoppelten GNSS/INS
+
+engine-fusion-pack-chart-horizontal-error-m = horizontaler Fehler (m)
+
+engine-fusion-pack-chart-spec-threshold = Spez. { $threshold } m
+
+## src/geometry.rs
+
+engine-geometry-chart-title = Skyplot ({ $label })
+
+engine-geometry-chart-north = N
+
+engine-geometry-chart-east = O
+
+engine-geometry-chart-south = S
+
+engine-geometry-chart-west = W
+
+engine-geometry-chart-satellite-tooltip = { $system } { $id } Az { $az } El { $el }
+
+engine-geometry-chart-satellite-tooltip-hidden = { $system } { $id } Az { $az } El { $el } (von der Skyline verdeckt)
+
+engine-geometry-chart-satellite-tooltip-below-mask = { $system } { $id } Az { $az } El { $el } (unter der Maske)
+
+engine-geometry-chart-no-fix = keine Lösung
+
+engine-geometry-chart-in-view-hidden = { $n_visible } in Sicht, { $n_masked } von der Skyline verdeckt · { $dop } · hohl: nicht in Sicht
+
+engine-geometry-chart-satellites-as-given = Satelliten wie angegeben
+
+engine-geometry-chart-representative-sky = repräsentativer Himmel, kein datierter
+
+engine-geometry-chart-footer = Kshana v{ $version } · Geometrie unter einem angegebenen Fehlermodell · kshana.dev
+
+## src/gnss_sim.rs
+
+engine-gnss-sim-chart-title = RAIM-Schutzniveaus gegenüber Alarmgrenzen
+
+engine-gnss-sim-chart-protection-level-m = Schutzniveau (m)
+
+engine-gnss-sim-chart-val = VAL { $alert_v } m
+
+engine-gnss-sim-chart-hpl = HPL
+
+engine-gnss-sim-chart-vpl = VPL
+
+## src/main.rs
+
+engine-main-fail = Fehler: { $e }
+
+## legal (advisories, disclaimers and notices; the English text is the source, the constant in code is what machine files carry)
+
+# legal: native review
+engine-legal-compliance-statement = Eine als „evidenced“ gekennzeichnete Zeile bedeutet, dass ein Lauf in diesem Satz Belege für die Fähigkeiten liefert, die die Zeile nennt. Es ist keine Feststellung, dass ein Rahmenwerk erfüllt ist, und es bedeutet nicht, dass irgendjemand ein Produkt bewertet oder genehmigt hat. Die Spalte „gap“ gibt an, was die Läufe nicht zeigen.
+
+# legal: native review
+engine-legal-bench-surface-notice = Nur Fahrzeugbewegung und gekennzeichnete Ereignisintervalle. Nichts, was hier exportiert wird, ist ein Hochfrequenz- oder Basisbandsignal, modelliert eines oder steuert eines, und ein Ereignis ist ein Zeitintervall, keine Anleitung zur Erzeugung von Störungen. Der Laborsimulator und sein Betreiber liefern die Signale und sind dafür verantwortlich, sie nur dort auszuführen, wo dies zulässig ist (leitungsgebunden oder abgeschirmt, gemäß den eigenen Sicherheitshinweisen des Simulators). Kshana veröffentlicht keine Ergebnisse aus solchen Läufen.
+
+# legal: native review
+engine-legal-iq-campaign-roc-statement = MODELLED: ROC auf Fensterebene jedes Monitors auf den angegebenen Aufzeichnungen. Jedes angegebene Ereignisfenster ist ein Positivum und jedes roc_window_s-Fenster außerhalb der Ereignisse ein Negativum; ein Fenster zählt bei einer Schwelle, wenn die Teststatistik des Monitors sie im Fenster erreicht. P_fa bezieht sich auf das einzelne Negativfenster, nicht auf den einzelnen Test.
+
+# legal: native review
+engine-legal-lunanet-afs-advisory = Hinweis: Analyseausgabe eines Forschungs- und Entwicklungswerkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst. Es prüft einen Symbolstrom gegen eine Ausgabe einer veröffentlichten Spezifikation und sagt nichts über einen LunaNet-Knoten oder -Dienst aus.
+
+# legal: native review
+engine-legal-iqfit-statement = MODELLED: Jede angepasste Zahl beschreibt den offenen Empfänger (den benannten Schleifenentwurf und die Front-End-Kette) auf den Aufzeichnungen, die ihm vorlagen, angepasst an die bewerteten Ergebnisse der Kampagne. Sie ist keine Messung irgendeines anderen Empfängers. Vorhersagen sind mit PREDICTION gekennzeichnet, mit der nächstgelegenen getesteten Aufzeichnung und dem Abstand außerhalb der getesteten Bedingungen.
+
+# legal: native review
+engine-legal-iqfit-advisory = Hinweis: Analyseausgabe, keine typzugelassene Navigationsausrüstung; Vorhersagen sind Modellausgaben mit angegebenem Fehler, keine Garantien.
+
+# legal: native review
+engine-legal-lunar-time-lab-source-statement = Quellenangabe, keine Behauptung: Das Material der ICG WG-B Lunar PNT vom Juni 2024 (unoosa.org, LunarPNT_Jun24_01_04.pdf, Quelle S3 der Studie) beschreibt ein Mondzeitreferenzlabor an der Station mit einem Zeitziel im Nanosekundenbereich. Kshana zitiert dieses Ziel nur als Kontext; es übernimmt es nicht, und nichts in diesem Block zeigt, dass eine reale Stationsuhr es erreicht.
+
+# legal: native review
+engine-legal-standards-pack-notice = Ein Normenpaket misst modellierte Szenarien an Zielwerten, die vor dem Lauf festgelegt wurden. Es liefert Belege für die Rahmenwerk-Zeilen, die es nennt; es bewertet oder genehmigt kein Produkt, und ein Zielwert mit dem Urteil MET besagt nur, dass die modellierte Ausgabe des Szenarios den angegebenen Zielwert erreicht hat.
+
+# legal: native review
+engine-legal-standards-pack-advisory = Hinweis: Analyseausgabe eines Forschungs- und Entwicklungswerkzeugs, keine typzugelassene Navigationsausrüstung und kein Safety-of-Life-Dienst; sie darf nicht die alleinige Grundlage für eine Navigations- oder Sicherheitsentscheidung sein.
+
+# legal: native review
+engine-legal-geometry-statement = Geometrie unter einem angegebenen Fehlermodell (MODELLED): Sichtbarkeit in Sichtlinie gegenüber der angegebenen Skyline, Dilution of Precision und eine gaußsche Fehlerellipse für unabhängige, gleiche, mittelwertfreie gaußsche Entfernungsfehler mit dem angegebenen nutzeräquivalenten Entfernungsfehler. Sie ist keine Vorhersage des realen Fehlers eines Empfängers, der außerdem Biase, Mehrwegeausbreitung und Nicht-Sichtlinien-Fehler hat, und keine Integritätsgrenze. Voreingestellte Konstellationen sind eine repräsentative Geometrie, nicht der Himmel dieses Datums an diesem Ort.
+
+# legal: native review
+engine-legal-resilience-disclaimer = Aus Simulation abgeleitete Selbstbewertung, ausgerichtet an DHS RPCF v2.0. Dies ist keine Zertifizierung oder Akkreditierung und stellt keine Genehmigung durch eine Behörde dar (DHS, IEEE oder sonstige). Jeder Teilwert ist MODELLED, sofern nicht ausdrücklich als VALIDATED gekennzeichnet, und die Werte sind Gütemaße im Zeitbereich und der Detektion, keine Genauigkeit im Positionsbereich.
+
+# legal: native review
+engine-legal-observatory-notice = Eine beeinträchtigte Zelle bedeutet, dass ein hoher Anteil der Luftfahrzeuge dort an diesem Tag eine geringe Navigationsgenauigkeit gemeldet hat. Es wird keine Ursache zugeschrieben. Eine Zelle, die nicht beobachtet wird oder fehlt, wurde nicht bewertet, was nicht dasselbe ist wie unauffällig. Nur beratend: keine Genehmigung, Zertifizierung oder Konformitätsaussage.
+
+# legal: native review
+engine-legal-receiver-trust-advisory = Beratende Software, keine typzugelassene Navigationsausrüstung (IEC 61108, IEC 61162): Der Betreiber bleibt für die Navigation des Schiffes verantwortlich.
+
+# legal: native review
+engine-legal-evidence-roundtrip-notice = Verknüpft vier Aufzeichnungen per Hash: das Szenario, die angegebenen Testbedingungen des Labors, das Empfängerlog und die Bewertung dieses Logs gegenüber den angegebenen Ereignissen. Es ist kein Signal, keine Wiedergabeanleitung und keine Zertifizierung. Wie die Bewegung des Szenarios zum Empfänger gelangte (eine über einen Laborsimulator abgespielte Datei, leitungsgebunden oder abgeschirmt), lag in der Verantwortung des Betreibers und wird hier nur wie angegeben festgehalten.
+
+# legal: native review
+engine-legal-evidence-bundle-disclaimer = Dieses Paket ist eine technische Aufzeichnung dessen, was die Kshana-Engine aus dem angegebenen Empfängerlog mit der angegebenen Konfiguration berechnet hat. Es ist kein Rechtsgutachten, keine Tatsachenfeststellung zu einem Ereignis oder seiner Ursache und keine Zertifizierung.
+
+# legal: native review
+engine-legal-bench-notice = Hinweis: aus einem Modell berechnet oder gegen angegebene Referenzen gemessen, keine Genehmigung, Zertifizierung oder Konformitätsaussage. Ein Wert beschreibt ein Log oder einen Korpus, nie ein Produkt.
+
+# legal: native review
+engine-legal-osnma-advisory = Hinweis: Dies ist Analyse- und Überwachungsausgabe und keine typzugelassene Navigationsausrüstung. Der hier gemeldete Authentifizierungsstatus ist kein Navigationsintegritätsdienst und darf nicht die alleinige Grundlage für eine Navigations- oder Sicherheitsentscheidung sein.
