@@ -5,6 +5,8 @@
 
 ## src/clock_log.rs
 
+## src/clock_log.rs
+
 engine-e-clock-log-unknown-clock-log-format-expected = onbekend kloklogformaat { $other }; verwacht een van { $format_names }
 
 engine-e-clock-log-unknown-gap-policy-expected-refuse = onbekend hiaatbeleid { $other }; verwacht refuse, longest of linear
@@ -7401,3 +7403,558 @@ engine-wasm-plans-json-is-not-json = plans_json is geen JSON-array van tekenreek
 engine-wasm-options-json-is-not-json = options_json is geen JSON: { $e }
 
 engine-wasm-input-is-about-bytes-over = de invoer is ongeveer { $b64 } bytes, boven de limiet van { $v2 } bytes
+
+## src/altpnt/sequential.rs
+
+engine-altpnt-sequential-title = Sequentiële terreinreferentienavigatie (recursieve SITAN)
+
+engine-altpnt-sequential-free-inertial-drift-grows = vrij-inertiale drift (groeit)
+
+engine-altpnt-sequential-terrain-matched-bounded = terreingematcht (begrensd)
+
+engine-altpnt-sequential-waypoint-full-scale = waypoint →    volledige schaal { $maxv } m
+
+## src/advanced_report.rs
+
+engine-advanced-report-eyebrow = Kshana-runrapport
+
+engine-advanced-report-meta = Soort <code>{ $kind }</code> · engine { $engine } · scenario <code>{ $scenario }</code> (bestandsdigest { $digest }…)
+
+engine-advanced-report-toc-summary = 1 Samenvatting
+
+engine-advanced-report-toc-inputs = 2 Invoer
+
+engine-advanced-report-toc-results = 3 Resultaten
+
+engine-advanced-report-toc-aggregation = 3a Aggregatie
+
+engine-advanced-report-toc-companions = 3b Animatie en exports
+
+engine-advanced-report-toc-events = 4 Gebeurtenissen
+
+engine-advanced-report-toc-labels = 5 Verificatielabels
+
+engine-advanced-report-toc-not-modelled = 6 Niet gemodelleerd
+
+engine-advanced-report-toc-reproducibility = 7 Reproduceerbaarheid
+
+engine-advanced-report-h-summary = 1. Samenvatting voor het management
+
+engine-advanced-report-honesty-label = <strong>Eerlijkheidslabel</strong> ({ $source }): { $label }
+
+engine-advanced-report-capabilities-used = <strong>Gebruikte mogelijkheden:</strong> { $n_validated } VALIDATED, { $n_modelled } MODELLED, { $n_partner } PARTNER (waarop wordt vertrouwd, niet geleverd); zie sectie 5.
+
+engine-advanced-report-member-runs = <strong>Deelruns:</strong> { $n }, geaggregeerd in sectie 3a.
+
+engine-advanced-report-h-inputs = 2. Invoer
+
+engine-advanced-report-inputs-note = Elk veld dat het scenariobestand instelt, afgevlakt tot zijn pad. Eenheden komen uit het <code>units</code>-blok van het resultaat (het veldeenhedenschema, docs/field-units-schema.json) waar dat het veld beschrijft, anders uit het achtervoegsel van de veldnaam; een eenheid die geen van beide noemt, wordt weergegeven als niet vermeld.
+
+engine-advanced-report-th-parameter = Parameter
+
+engine-advanced-report-th-value = Waarde
+
+engine-advanced-report-th-unit = Eenheid
+
+engine-advanced-report-th-unit-source = Bron van de eenheid
+
+engine-advanced-report-h-results = 3. Resultaten
+
+engine-advanced-report-chart-alt = Resultaatgrafiek
+
+engine-advanced-report-also-written-to = { " " }(ook geschreven naar { $file })
+
+engine-advanced-report-h-scalars = Scalaire resultaten
+
+engine-advanced-report-h-columns = Numerieke kolommen
+
+engine-advanced-report-th-result = Resultaat
+
+engine-advanced-report-th-column = Kolom
+
+engine-advanced-report-th-count = Aantal
+
+engine-advanced-report-th-min = Min
+
+engine-advanced-report-th-max = Max
+
+engine-advanced-report-th-first = Eerste
+
+engine-advanced-report-th-last = Laatste
+
+engine-advanced-report-omitted-inputs = <p class="note">{ $n } verdere invoerwaarden zijn op deze pagina weggelaten; report.json bevat dezelfde rijen en het resultaatdocument bevat elke waarde.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-scalars = <p class="note">{ $n } verdere scalaire resultaten zijn op deze pagina weggelaten; report.json bevat dezelfde rijen en het resultaatdocument bevat elke waarde.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-columns = <p class="note">{ $n } verdere numerieke kolommen zijn op deze pagina weggelaten; report.json bevat dezelfde rijen en het resultaatdocument bevat elke waarde.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-events = <p class="note">{ $n } verdere gebeurtenissen zijn op deze pagina weggelaten; report.json bevat dezelfde rijen en het resultaatdocument bevat elke waarde.</p>{ "\u000A" }
+
+engine-advanced-report-h-aggregation = 3a. Aggregatie van deelruns
+
+engine-advanced-report-mode = <p>Modus <strong>{ $mode }</strong>.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind = <p>Modus <strong>{ $mode }</strong> over de soort <code>{ $kind }</code>.</p>{ "\u000A" }
+
+engine-advanced-report-mode-runs = <p>Modus <strong>{ $mode }</strong>, { $n_runs } deelruns.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind-runs = <p>Modus <strong>{ $mode }</strong> over de soort <code>{ $kind }</code>, { $n_runs } deelruns.</p>{ "\u000A" }
+
+engine-advanced-report-run-digest = Run-digest (SHA-256 over de resultaatdigests van de deelruns, in verzendvolgorde): <code>{ $digest }</code>
+
+engine-advanced-report-table-empty = Deze tabel heeft geen rijen: het resultaat vermeldt er geen.
+
+engine-advanced-report-distribution-caption = Monte Carlo-verdeling van { $metric } ({ $n } samples), 20 klassen van gelijke breedte; gestreepte lijnen markeren het 5e, 50e en 95e percentiel.
+
+engine-advanced-report-distribution-caption-unit = Monte Carlo-verdeling van { $metric } ({ $n } samples, { $unit }), 20 klassen van gelijke breedte; gestreepte lijnen markeren het 5e, 50e en 95e percentiel.
+
+engine-advanced-report-h-companions = 3b. Animatie en exports
+
+engine-advanced-report-animation-alt = Animatie van de tijdreeks van de run
+
+engine-advanced-report-animation-caption = De eigen samples van de run die zich opbouwen achter een bewegende tijdcursor (de geanimeerde tekening van <code>--animate svg</code>; bij beperkte beweging en in print toont zij het voltooide beeld).
+
+engine-advanced-report-no-animation = Geen animatie: { $reason }
+
+engine-advanced-report-no-animation-default = het resultaat bevat geen tijdreeks
+
+engine-advanced-report-player-written-by = De interactieve speler wordt geschreven door <code>{ $command }</code>.
+
+engine-advanced-report-written-beside = Naast dit rapport geschreven: { $links }.
+
+engine-advanced-report-th-export = Export
+
+engine-advanced-report-th-applies = Van toepassing
+
+engine-advanced-report-th-files-or-reason = Bestanden of reden
+
+engine-advanced-report-written-by = geschreven door <code>{ $command }</code>
+
+engine-advanced-report-does-not-apply = niet van toepassing
+
+engine-advanced-report-yes = ja
+
+engine-advanced-report-no = nee
+
+engine-advanced-report-h-events = 4. Tijdlijn van gebeurtenissen
+
+engine-advanced-report-events-caption = Vensters als balken, puntgebeurtenissen als stippen, op de eigen tijdas van de run.
+
+engine-advanced-report-th-start = Begin (s)
+
+engine-advanced-report-th-end = Einde (s)
+
+engine-advanced-report-th-event = Gebeurtenis
+
+engine-advanced-report-th-source = Bron
+
+engine-advanced-report-point-event = puntgebeurtenis
+
+engine-advanced-report-events-timeline = Tijdlijn van gebeurtenissen
+
+engine-advanced-report-point-events = puntgebeurtenissen ({ $n })
+
+engine-advanced-report-distribution-of = Verdeling van { $metric }
+
+engine-advanced-report-max-bin = max. klasse { $n }
+
+engine-advanced-report-h-labels = 5. Verificatielabels
+
+engine-advanced-report-th-capability = Mogelijkheid (matrixvereiste)
+
+engine-advanced-report-th-label = Label
+
+engine-advanced-report-th-used-by = Gebruikt door
+
+engine-advanced-report-th-oracle = Bron: onafhankelijke referentie
+
+engine-advanced-report-th-test-evidence = Testbewijs
+
+engine-advanced-report-h-figure-tiers = Per cijfer door het resultaat vermelde niveaus
+
+engine-advanced-report-th-figure = Cijfer
+
+engine-advanced-report-th-tier = Niveau
+
+engine-advanced-report-th-matrix-requirement = Matrixvereiste
+
+engine-advanced-report-th-applicable = Van toepassing
+
+engine-advanced-report-no-attack = nee (geen aanval geconfigureerd)
+
+engine-advanced-report-h-not-modelled = 6. Niet gemodelleerd, en aannamen
+
+engine-advanced-report-not-modelled-note = Elk punt is geciteerd uit de plaats waar het wordt vermeld: het resultaatdocument, de soortencatalogus, het scenariobestand, of de reden van de verificatiematrix waarom een MODELLED-rij gemodelleerd blijft.
+
+engine-advanced-report-th-statement = Verklaring
+
+engine-advanced-report-h-reproducibility = 7. Reproductierecord
+
+engine-advanced-report-rk-command = Opdracht om te reproduceren
+
+engine-advanced-report-rk-working-directory = Werkmap
+
+engine-advanced-report-rk-engine-version = Engineversie
+
+engine-advanced-report-rk-source-commit = Broncommit
+
+engine-advanced-report-rk-scenario-file = Scenariobestand
+
+engine-advanced-report-rk-scenario-sha = SHA-256 van het scenariobestand (Secure Hash Algorithm 256-bit)
+
+engine-advanced-report-rk-result-hash = Resultaat scenario_hash
+
+engine-advanced-report-rk-result-sha = SHA-256 van het resultaatdocument
+
+engine-advanced-report-rk-seed = Seed
+
+engine-advanced-report-rk-platform = Platform
+
+engine-advanced-report-rk-generated = Studie gegenereerd (UTC)
+
+engine-advanced-report-rk-determinism = Determinisme
+
+engine-advanced-report-result-hash-none = het resultaatdocument vermeldt er geen
+
+engine-advanced-report-print-note = Om deze pagina naar een Portable Document Format-bestand (PDF) af te drukken, gebruikt u het afdrukvenster van de browser en kiest u “Opslaan als PDF”; het printstijlblad past op A4- en US Letter-papier, herhaalt tabelkoppen over pagina’s en begint de secties invoer, resultaten, labels en reproduceerbaarheid op een nieuwe pagina. De engine schrijft zelf geen PDF. report.json bevat dezelfde inhoud als deze pagina.
+
+engine-advanced-report-footer = Gegenereerd door Kshana { $engine }.{ $stamp } Reproduceerbaar vanuit scenario + seed + engineversie. Gratis en open source (GNU Affero General Public License, AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">broncode &amp; documentatie</a>.
+
+engine-advanced-report-empty-inputs = Het scenario stelt geen veld in behalve `kind`: de soort draaide zijn referentieconfiguratie vanuit de gedocumenteerde standaardwaarden.
+
+engine-advanced-report-empty-scalars = Het resultaatdocument bevat geen scalaire waarde buiten zijn arrays; de getallen ervan worden hieronder per kolom samengevat.
+
+engine-advanced-report-empty-series = Het resultaatdocument bevat geen numerieke array: elk resultaat is een scalaire waarde in de tabel hierboven.
+
+engine-advanced-report-empty-events = Geen getimede gebeurtenis: het scenario scripteert geen venster of begintijdstip en het resultaat meldt geen gebeurtenis. De soort evalueert zijn configuratie als één geval.
+
+engine-advanced-report-empty-not-modelled = Niets in het resultaat, de soortencatalogus, het scenario of de gebruikte matrixrijen vermeldt een modelleringsbeperking voor deze run.
+
+engine-advanced-report-capabilities-statement = Elke rij is een verificatiematrixrij die de soorten van deze run aanspreken, met het label en de onafhankelijke referentie die de matrix eraan geeft (src/verification.rs, docs/VERIFICATION-MATRIX.md). Een label beoordeelt de mogelijkheid zoals de matrix die vastlegt; het beoordeelt niet de configuratie van dit scenario, en een VALIDATED-rij maakt de invoer van de run niet tot gemeten invoer. Een PARTNER-rij is een discipline waarop de run vertrouwt en die Kshana niet levert.
+
+engine-advanced-report-no-run-label = Het resultaat bevat geen eerlijkheidslabel op runniveau; de verificatielabels van de gebruikte mogelijkheden staan in hun eigen sectie, en de niveaus per cijfer waar het resultaat ze vermeldt.
+
+engine-advanced-report-no-seed = Noch het scenario, noch het resultaat bevat een seed. Het resultaat wordt uitsluitend bepaald door het scenariobestand en de engine-build; de determinismetest draait elk meegeleverd scenario opnieuw en eist byte-identieke uitvoer.
+
+engine-advanced-report-working-directory = Voer de opdracht uit vanuit de map waarin de oorspronkelijke run is gestart: het scenariopad en elk relatief datapad binnen het scenario worden daartegen opgelost. Controleer eerst het scenariobestand aan de hand van scenario_sha256.
+
+engine-advanced-report-determinism-stamped = Dezelfde scenariobytes, seed en engine-build geven hetzelfde resultaatdocument, behalve de stempel meta.generated_utc, die --study-name uit de klok schrijft; draai zonder --study-name voor byte-identieke uitvoer. Floating-pointresultaten zijn per platform vastgelegd; een ander besturingssysteem of een andere architectuur kan in de laatste cijfers afwijken.
+
+engine-advanced-report-determinism-plain = Dezelfde scenariobytes, seed en engine-build geven een byte-identiek resultaatdocument en rapport; dit rapport bevat geen tijdstempel. Floating-pointresultaten zijn per platform vastgelegd; een ander besturingssysteem of een andere architectuur kan in de laatste cijfers afwijken.
+
+engine-advanced-report-not-applicable-no-attack = niet van toepassing (geen aanval geconfigureerd)
+
+engine-advanced-report-what-ran-default = Een `{ $kind }`-scenario.
+
+engine-advanced-report-nothing-carried = niets opgenomen
+
+engine-advanced-report-tbl-sweep-nodes = Sweepknooppunten
+
+engine-advanced-report-tbl-mc-summary = Samenvatting van de Monte Carlo-verdeling (percentielen zijn nearest-rank; het 95%-betrouwbaarheidsinterval van het gemiddelde is een percentiel-bootstrap met vaste seed)
+
+engine-advanced-report-tbl-chain-phases = Ketenfasen
+
+engine-advanced-report-tbl-shared = Gedeelde omstandigheden
+
+engine-advanced-report-tbl-members = Leden
+
+engine-advanced-report-tbl-combined = Gecombineerd over de leden
+
+engine-advanced-report-tbl-optimiser-best = Beste van de optimaliseerder (een lokaal optimum binnen de vermelde grenzen)
+
+engine-advanced-report-tbl-optimiser-trace = Spoor van de optimaliseerder
+
+engine-advanced-report-tbl-sweep-grid = Sweeprooster
+
+## src/altpnt/terrain.rs
+
+engine-altpnt-terrain-title-terrain-referenced = Terreinreferentienavigatie (TERCOM/SITAN)
+
+engine-altpnt-terrain-title-gravity-map = Navigatie met zwaartekrachtkaartmatching
+
+engine-altpnt-terrain-title-combined = Gecombineerde alt-PNT met zwaartekracht + magnetisme + terrein
+
+engine-altpnt-terrain-free-inertial-drift = vrij-inertiale drift
+
+engine-altpnt-terrain-terrain-matched = terreingematcht
+
+engine-altpnt-terrain-gravity-matched = zwaartekrachtgematcht
+
+engine-altpnt-terrain-gravity-only = alleen zwaartekracht
+
+engine-altpnt-terrain-magnetic-only = alleen magnetisch
+
+engine-altpnt-terrain-terrain-only = alleen terrein
+
+engine-altpnt-terrain-combined-fused = gecombineerd (gefuseerd)
+
+## src/api.rs
+
+engine-api-chart-provenance-footer = Kshana v{ $version } · scenario { $hash } · kshana.dev
+
+## src/attack_surface.rs
+
+engine-attack-surface-chart-title = Aanvalsoppervlak voor maansignaalbeveiliging (P1)
+
+## src/body_pnt.rs
+
+engine-body-pnt-chart-relays-in-view = relays in zicht
+
+engine-body-pnt-chart-count = aantal
+
+engine-body-pnt-chart-formal-one-sigma-position = formele eensigma-positie (log10 m): alleen blauwe constellatie, amber met de afstand tot de aarde
+
+engine-body-pnt-chart-time-since-epoch = tijd sinds epoch, 0 tot { $t_max } s
+
+## src/campaign.rs
+
+engine-campaign-chart-clock-time-error-vs-guard = kloktijdfout t.o.v. guard (ns)
+
+engine-campaign-chart-cn0-vs-tracking-floor = C/N0 t.o.v. trackingondergrens (dB-Hz)
+
+engine-campaign-chart-protection-level-vs-alert-limit = beschermingsniveau t.o.v. alarmgrens (m)
+
+engine-campaign-chart-position-error-vs-threshold = positiefout t.o.v. drempel (m)
+
+engine-campaign-chart-satellites-tracking = satellieten in tracking
+
+engine-campaign-chart-alarm-flags-and-events = alarmvlaggen en gebeurtenissen
+
+engine-campaign-chart-mission-time = { $duration } s missietijd
+
+engine-campaign-chart-sweep-percentile-band = , mediaan met 5e-95e-percentielband over { $n_runs } seeds
+
+engine-campaign-chart-sweep-line-at = { $name } ({ $unit }) bij { $lead }
+
+engine-campaign-chart-monte-carlo-of = Monte Carlo van `{ $scenario_kind }`: { $n_runs } seeds vanaf { $base_seed } (5e, 50e, 95e percentiel; balk = bootstrap-95%-betrouwbaarheidsinterval van het gemiddelde)
+
+engine-campaign-chart-composed-members = samengestelde leden onder gedeelde omstandigheden: { $shared }
+
+engine-campaign-chart-not-available = n.v.t.
+
+## src/cislunar_arc_recovery.rs
+
+engine-cislunar-arc-recovery-chart-title = Cislunair herstel van de booglengte — een schatter die de Jacobianen niet deelt
+
+engine-cislunar-arc-recovery-chart-subtitle = batch-kleinstekwadraten met eindige differenties · gemeten toestandsherstelfout · geen analytische Jacobiaan, geen variationele STM, geen SVD-ranktolerantie
+
+engine-cislunar-arc-recovery-chart-bound = grens { $bound }
+
+engine-cislunar-arc-recovery-chart-gramian-rank-threshold = Gramian-rangdrempel
+
+engine-cislunar-arc-recovery-chart-monte-carlo-rms = Monte Carlo-RMS-fout van het positieherstel (km)
+
+engine-cislunar-arc-recovery-chart-noise-free-worst-ratio = ruisvrije slechtste herstelverhouding (eindfout / verplaatsing)
+
+## src/cislunar_observability.rs
+
+engine-cislunar-observability-chart-title = Cislunaire waarneembaarheid over een trackingboog (P6)
+
+engine-cislunar-observability-chart-subtitle = rang t.o.v. boog (enkele link met alleen afstand) · Gramian-eigenspectrum · differentieel gecorrigeerde DRO-beginvoorwaarden + SRIF-kruiscontrole · ontwerp { $modelled }, rang/STM/sluiting { $validated }
+
+engine-cislunar-observability-chart-observable-rank = waarneembare rang t.o.v. booglengte
+
+engine-cislunar-observability-chart-arc-length = booglengte (tijdseenheden van het roterende stelsel, { $arc_hours } h in totaal)
+
+engine-cislunar-observability-chart-gramian-eigenvalues = Gramian-eigenwaarden (log10)
+
+engine-cislunar-observability-chart-condition = conditie κ = { $condition }
+
+## src/conflict_resilience.rs
+
+engine-conflict-resilience-chart-title = Conflictweerbaarheid van gelaagde PNT (P7)
+
+engine-conflict-resilience-chart-subtitle = totaal verlies t.o.v. dreigingsintensiteit (MC t.o.v. gesloten vorm) · weerbaarheidsverhouding t.o.v. ontkenningscorrelatie · { $modelled } a-priori's, { $validated } MC->gesloten vorm / copula-marginalen
+
+engine-conflict-resilience-chart-total-loss-probability = kans op totaal verlies t.o.v. intensiteit
+
+engine-conflict-resilience-chart-threat-intensity = dreigingsintensiteit
+
+engine-conflict-resilience-chart-layered-mc = gelaagde MC
+
+engine-conflict-resilience-chart-single-layer = enkele laag
+
+engine-conflict-resilience-chart-resilience-ratio = weerbaarheidsverhouding t.o.v. ontkenningscorrelatie
+
+engine-conflict-resilience-chart-denial-correlation = ontkenningscorrelatie ρ
+
+## src/constellation.rs
+
+engine-constellation-chart-availability-pct = beschikbaarheid (%)
+
+engine-constellation-chart-mean-pdop = gemiddelde PDOP
+
+## src/earth_gnss_lunar.rs
+
+engine-earth-gnss-lunar-chart-title = Aarde-GNSS op maanafstand — C/N0 t.o.v. off-boresight-hoek
+
+engine-earth-gnss-lunar-chart-track-threshold = track { $threshold } dB-Hz
+
+engine-earth-gnss-lunar-chart-earth-limb = aardrand { $angle }°
+
+engine-earth-gnss-lunar-chart-off-boresight-angle = off-boresight-hoek (deg)
+
+engine-earth-gnss-lunar-chart-cn0 = C/N0 (dB-Hz)
+
+engine-earth-gnss-lunar-chart-legend = goud = volgbaar · rood = te zwak · grijs = door de aarde afgeschermd · zendpatroon { $modelled }
+
+## src/ensemble.rs
+
+engine-ensemble-chart-title = Klok-holdover: betrouwbaarheidsband van de tijdfout ({ $n_runs } runs)
+
+engine-ensemble-chart-timing-error-ns = tijdfout (ns)
+
+engine-ensemble-chart-spec-threshold = spec { $threshold } ns
+
+engine-ensemble-chart-time-s = tijd (s)
+
+engine-ensemble-chart-classical-median-band = klassiek: { $id } (mediaan, 5-95%-band)
+
+engine-ensemble-chart-quantum-median-band = kwantum: { $id } (mediaan, 5-95%-band)
+
+## src/fom_label.rs
+
+engine-fom-verdict-validated = VALIDATED
+
+engine-fom-verdict-modelled = MODELLED
+
+engine-fom-verdict-partial = PARTIAL
+
+## src/frame_eop.rs
+
+engine-frame-eop-chart-title = Realtime voorspellingsbudget voor stelsel / EOP voor maantijdsynchronisatie
+
+engine-frame-eop-chart-ut1-error-ms = UT1-fout (ms)
+
+engine-frame-eop-chart-position-at-moon-m = positie bij de maan (m)
+
+engine-frame-eop-chart-equiv-timing-ns = equiv. tijdsynchronisatie (ns)
+
+engine-frame-eop-chart-prediction-horizon-days = voorspellingshorizon (dagen)
+
+engine-frame-eop-chart-iers-final-floor = IERS-definitieve ondergrens { $floor_ms } ms
+
+engine-frame-eop-chart-marker-at-moon = ~{ $ut1_ms } ms = ~{ $pos_m } m bij de maan
+
+engine-frame-eop-chart-growth = ~{ $factor }x, 1 d→{ $far_days } d
+
+## src/fusion/hybrid_ukf.rs
+
+engine-fusion-hybrid-ukf-chart-title = Hybride UKF met 17 toestanden — zelfconsistentie van het filter (gemodelleerd)
+
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + innovatiewitheid t.o.v. 95%-χ²-banden; 1.0 = consistent. Zelfconsistentie, geen nauwkeurigheid.
+
+engine-fusion-hybrid-ukf-chart-target = doel 1.0
+
+engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (witheid)
+
+engine-fusion-hybrid-ukf-chart-nees = NEES
+
+engine-fusion-hybrid-ukf-chart-consistent = CONSISTENT
+
+engine-fusion-hybrid-ukf-chart-inconsistent = INCONSISTENT
+
+## src/fusion/pack.rs
+
+engine-fusion-pack-chart-title = Horizontale fout van losgekoppelde GNSS/INS
+
+engine-fusion-pack-chart-horizontal-error-m = horizontale fout (m)
+
+engine-fusion-pack-chart-spec-threshold = spec { $threshold } m
+
+## src/geometry.rs
+
+engine-geometry-chart-title = Skyplot ({ $label })
+
+engine-geometry-chart-north = N
+
+engine-geometry-chart-east = O
+
+engine-geometry-chart-south = Z
+
+engine-geometry-chart-west = W
+
+engine-geometry-chart-satellite-tooltip = { $system } { $id } az { $az } el { $el }
+
+engine-geometry-chart-satellite-tooltip-hidden = { $system } { $id } az { $az } el { $el } (verborgen door de skyline)
+
+engine-geometry-chart-satellite-tooltip-below-mask = { $system } { $id } az { $az } el { $el } (onder het masker)
+
+engine-geometry-chart-no-fix = geen positiebepaling
+
+engine-geometry-chart-in-view-hidden = { $n_visible } in zicht, { $n_masked } verborgen door de skyline · { $dop } · hol: niet in zicht
+
+engine-geometry-chart-satellites-as-given = satellieten zoals opgegeven
+
+engine-geometry-chart-representative-sky = representatieve hemel, geen hemel van een bepaalde datum
+
+engine-geometry-chart-footer = Kshana v{ $version } · geometrie onder een vermeld foutmodel · kshana.dev
+
+## src/gnss_sim.rs
+
+engine-gnss-sim-chart-title = RAIM-beschermingsniveaus t.o.v. alarmgrenzen
+
+engine-gnss-sim-chart-protection-level-m = beschermingsniveau (m)
+
+engine-gnss-sim-chart-val = VAL { $alert_v } m
+
+engine-gnss-sim-chart-hpl = HPL
+
+engine-gnss-sim-chart-vpl = VPL
+
+## src/main.rs
+
+engine-main-fail = fout: { $e }
+
+## legal (advisories, disclaimers and notices; the English text is the source, the constant in code is what machine files carry)
+
+# legal: native review
+engine-legal-compliance-statement = Een rij die als evidenced is gemarkeerd, betekent dat een run in deze set bewijs levert voor de mogelijkheden die de rij noemt. Het is geen bevinding dat een kader is gehaald, en het betekent niet dat een product door wie dan ook is beoordeeld of goedgekeurd. De kolom met hiaten vermeldt wat de runs niet aantonen.
+
+# legal: native review
+engine-legal-bench-surface-notice = Alleen voertuigbeweging en gelabelde gebeurtenisintervallen. Niets wat hier wordt geëxporteerd is, modelleert of stuurt een radiofrequent signaal of basisbandsignaal, en een gebeurtenis is een tijdsinterval, geen recept om interferentie te veroorzaken. De laboratoriumsimulator en de bediener ervan leveren de signalen en zijn verantwoordelijk voor het uitvoeren ervan uitsluitend waar dat is toegestaan (geleid of afgeschermd, volgens de eigen veiligheidsinstructies van de simulator). Kshana publiceert geen resultaten van dergelijke runs.
+
+# legal: native review
+engine-legal-iq-campaign-roc-statement = MODELLED: ROC op vensterniveau van elke monitor op de opgegeven opnamen. Elk vermeld gebeurtenisvenster is een positief en elk roc_window_s-venster buiten de gebeurtenissen een negatief; een venster telt bij een drempel mee wanneer de teststatistiek van de monitor die in het venster bereikt. P_fa geldt per negatief venster, niet per test.
+
+# legal: native review
+engine-legal-lunanet-afs-advisory = Adviserend: analyse-uitvoer van een onderzoeks- en engineeringtool, geen typegoedgekeurde navigatieapparatuur en geen safety-of-life-dienst. Het controleert een symbolenstroom tegen één editie van een gepubliceerde specificatie en zegt niets over enig LunaNet-knooppunt of enige LunaNet-dienst.
+
+# legal: native review
+engine-legal-iqfit-statement = MODELLED: elk gefit getal beschrijft de open ontvanger (het genoemde lusontwerp en de front-end-keten) op de opnamen die hij kreeg, gefit aan de gescoorde resultaten van de campagne. Het is geen meting van enige andere ontvanger. Voorspellingen zijn gelabeld PREDICTION, met de dichtstbijzijnde geteste opname en de afstand buiten de geteste omstandigheden.
+
+# legal: native review
+engine-legal-iqfit-advisory = Adviserend: analyse-uitvoer, geen typegoedgekeurde navigatieapparatuur; voorspellingen zijn modeluitvoer met vermelde fout, geen garanties.
+
+# legal: native review
+engine-legal-lunar-time-lab-source-statement = Bronverklaring, geen bewering: het ICG WG-B Lunar PNT-materiaal van juni 2024 (unoosa.org, LunarPNT_Jun24_01_04.pdf, bron S3 van de studie) beschrijft een maantijdreferentielaboratorium op het station met een tijddoel op nanosecondeniveau. Kshana citeert dat doel alleen als context; het neemt het niet over, en niets in dit blok toont aan dat enige echte stationsklok het haalt.
+
+# legal: native review
+engine-legal-standards-pack-notice = Een standaardenpakket meet gemodelleerde scenario's tegen drempels die vóór de run zijn vermeld. Het levert bewijs voor de kaderrijen die het noemt; het beoordeelt of keurt geen enkel product goed, en een MET-drempel zegt alleen dat de gemodelleerde uitvoer van het scenario de vermelde drempel haalde.
+
+# legal: native review
+engine-legal-standards-pack-advisory = Adviserend: analyse-uitvoer van een onderzoeks- en engineeringtool, geen typegoedgekeurde navigatieapparatuur en geen safety-of-life-dienst; het mag niet de enige grondslag zijn voor enige navigatie- of veiligheidsbeslissing.
+
+# legal: native review
+engine-legal-geometry-statement = Geometrie onder een vermeld foutmodel (MODELLED): zichtlijnzichtbaarheid tegen de vermelde skyline, precisieverdunning en een Gaussische foutellips voor onafhankelijke, gelijke Gaussische afstandsfouten met nulgemiddelde van de vermelde gebruikersequivalente afstandsfout. Het is geen voorspelling van de werkelijke fout van een ontvanger, die ook biases, multipath en fouten zonder zichtlijn heeft, en het is geen integriteitsgrens. Voorinstelde constellaties zijn een representatieve geometrie, niet de hemel van die datum op die plaats.
+
+# legal: native review
+engine-legal-resilience-disclaimer = Uit simulatie afgeleide zelfbeoordeling afgestemd op DHS RPCF v2.0. Dit is geen certificering of accreditatie, en het vertegenwoordigt geen goedkeuring door enige autoriteit (DHS, IEEE of anderszins). Elke deelscore is MODELLED tenzij uitdrukkelijk als VALIDATED gelabeld, en de scores zijn kengetallen voor het tijddomein en detectie, geen nauwkeurigheid in het positiedomein.
+
+# legal: native review
+engine-legal-observatory-notice = Een gedegradeerde cel betekent dat daar die dag een groot aandeel van de vliegtuigen een lage navigatienauwkeurigheid meldde. Er wordt geen oorzaak toegeschreven. Een cel die niet is waargenomen, of ontbreekt, is niet beoordeeld, wat niet hetzelfde is als vrij. Alleen adviserend: geen goedkeuring, certificering of verklaring van conformiteit.
+
+# legal: native review
+engine-legal-receiver-trust-advisory = Adviserende software, geen typegoedgekeurde navigatieapparatuur (IEC 61108, IEC 61162): de gezagvoerder of exploitant blijft verantwoordelijk voor de navigatie van het vaartuig.
+
+# legal: native review
+engine-legal-evidence-roundtrip-notice = Koppelt vier records via hash: het scenario, de vermelde testomstandigheden van het laboratorium, het ontvangerlog en de score van dat log tegen de vermelde gebeurtenissen. Het is geen signaal, geen afspeelrecept en geen certificering. Hoe de beweging van het scenario de ontvanger bereikte (een bestand afgespeeld via een laboratoriumsimulator, geleid of afgeschermd) was de verantwoordelijkheid van de exploitant en wordt hier alleen vastgelegd zoals vermeld.
+
+# legal: native review
+engine-legal-evidence-bundle-disclaimer = Dit pakket is een technisch record van wat de Kshana-engine heeft berekend uit het vermelde ontvangerlog met de vermelde configuratie. Het is geen juridisch oordeel, geen vaststelling van feiten over enige gebeurtenis of de oorzaak ervan, en geen certificering.
+
+# legal: native review
+engine-legal-bench-notice = Adviserend: gemodelleerd of gemeten tegen vermelde referenties, geen goedkeuring, certificering of verklaring van conformiteit. Een score beschrijft een log of corpus, nooit een product.
+
+# legal: native review
+engine-legal-osnma-advisory = Adviserend: dit is analyse- en monitoringuitvoer en geen typegoedgekeurde navigatieapparatuur. De hier gemelde authenticatiestatus is geen navigatie-integriteitsdienst en mag niet de enige grondslag zijn voor enige navigatie- of veiligheidsbeslissing.

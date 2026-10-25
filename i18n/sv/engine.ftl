@@ -5,6 +5,8 @@
 
 ## src/clock_log.rs
 
+## src/clock_log.rs
+
 engine-e-clock-log-unknown-clock-log-format-expected = okänt klockloggformat { $other }; förväntade ett av { $format_names }
 
 engine-e-clock-log-unknown-gap-policy-expected-refuse = okänd luckpolicy { $other }; förväntade refuse, longest eller linear
@@ -7401,3 +7403,558 @@ engine-wasm-plans-json-is-not-json = plans_json är inte en JSON-matris av strä
 engine-wasm-options-json-is-not-json = options_json är inte JSON: { $e }
 
 engine-wasm-input-is-about-bytes-over = indata är cirka { $b64 } bytes, över gränsen på { $v2 } bytes
+
+## src/altpnt/sequential.rs
+
+engine-altpnt-sequential-title = Sekventiell terrängreferensnavigering (rekursiv SITAN)
+
+engine-altpnt-sequential-free-inertial-drift-grows = fri tröghetsdrift (växer)
+
+engine-altpnt-sequential-terrain-matched-bounded = terrängmatchad (begränsad)
+
+engine-altpnt-sequential-waypoint-full-scale = vägpunkt →    full skala { $maxv } m
+
+## src/advanced_report.rs
+
+engine-advanced-report-eyebrow = Kshana körningsrapport
+
+engine-advanced-report-meta = Typ <code>{ $kind }</code> · motor { $engine } · scenario <code>{ $scenario }</code> (filsammandrag { $digest }…)
+
+engine-advanced-report-toc-summary = 1 Sammanfattning
+
+engine-advanced-report-toc-inputs = 2 Indata
+
+engine-advanced-report-toc-results = 3 Resultat
+
+engine-advanced-report-toc-aggregation = 3a Aggregering
+
+engine-advanced-report-toc-companions = 3b Animation och exporter
+
+engine-advanced-report-toc-events = 4 Händelser
+
+engine-advanced-report-toc-labels = 5 Verifieringsetiketter
+
+engine-advanced-report-toc-not-modelled = 6 Ej modellerat
+
+engine-advanced-report-toc-reproducibility = 7 Reproducerbarhet
+
+engine-advanced-report-h-summary = 1. Sammanfattning
+
+engine-advanced-report-honesty-label = <strong>Ärlighetsetikett</strong> ({ $source }): { $label }
+
+engine-advanced-report-capabilities-used = <strong>Använda förmågor:</strong> { $n_validated } VALIDATED, { $n_modelled } MODELLED, { $n_partner } PARTNER (som förutsätts, inte tillhandahålls); se avsnitt 5.
+
+engine-advanced-report-member-runs = <strong>Medlemskörningar:</strong> { $n }, aggregerade i avsnitt 3a.
+
+engine-advanced-report-h-inputs = 2. Indata
+
+engine-advanced-report-inputs-note = Varje fält som scenariofilen sätter, utplattat till sin sökväg. Enheter hämtas från resultatets <code>units</code>-block (fältenhetsschemat, docs/field-units-schema.json) där det beskriver fältet, annars från fältnamnets ändelse; en enhet som ingen av dem anger visas som ej angiven.
+
+engine-advanced-report-th-parameter = Parameter
+
+engine-advanced-report-th-value = Värde
+
+engine-advanced-report-th-unit = Enhet
+
+engine-advanced-report-th-unit-source = Enhetskälla
+
+engine-advanced-report-h-results = 3. Resultat
+
+engine-advanced-report-chart-alt = Resultatdiagram
+
+engine-advanced-report-also-written-to = { " " }(skrivs också till { $file })
+
+engine-advanced-report-h-scalars = Skalära resultat
+
+engine-advanced-report-h-columns = Numeriska kolumner
+
+engine-advanced-report-th-result = Resultat
+
+engine-advanced-report-th-column = Kolumn
+
+engine-advanced-report-th-count = Antal
+
+engine-advanced-report-th-min = Min
+
+engine-advanced-report-th-max = Max
+
+engine-advanced-report-th-first = Första
+
+engine-advanced-report-th-last = Sista
+
+engine-advanced-report-omitted-inputs = <p class="note">{ $n } ytterligare indata utelämnas från den här sidan; report.json listar samma rader, och resultatdokumentet innehåller varje värde.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-scalars = <p class="note">{ $n } ytterligare skalära resultat utelämnas från den här sidan; report.json listar samma rader, och resultatdokumentet innehåller varje värde.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-columns = <p class="note">{ $n } ytterligare numeriska kolumner utelämnas från den här sidan; report.json listar samma rader, och resultatdokumentet innehåller varje värde.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-events = <p class="note">{ $n } ytterligare händelser utelämnas från den här sidan; report.json listar samma rader, och resultatdokumentet innehåller varje värde.</p>{ "\u000A" }
+
+engine-advanced-report-h-aggregation = 3a. Aggregering av medlemskörningar
+
+engine-advanced-report-mode = <p>Läge <strong>{ $mode }</strong>.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind = <p>Läge <strong>{ $mode }</strong> över typen <code>{ $kind }</code>.</p>{ "\u000A" }
+
+engine-advanced-report-mode-runs = <p>Läge <strong>{ $mode }</strong>, { $n_runs } medlemskörningar.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind-runs = <p>Läge <strong>{ $mode }</strong> över typen <code>{ $kind }</code>, { $n_runs } medlemskörningar.</p>{ "\u000A" }
+
+engine-advanced-report-run-digest = Körningssammandrag (SHA-256 över medlemmarnas resultatsammandrag, i utskickningsordning): <code>{ $digest }</code>
+
+engine-advanced-report-table-empty = Den här tabellen har inga rader: resultatet listar inga.
+
+engine-advanced-report-distribution-caption = Monte Carlo-fördelning av { $metric } ({ $n } sampel), 20 lika breda intervall; streckade linjer markerar 5:e, 50:e och 95:e percentilen.
+
+engine-advanced-report-distribution-caption-unit = Monte Carlo-fördelning av { $metric } ({ $n } sampel, { $unit }), 20 lika breda intervall; streckade linjer markerar 5:e, 50:e och 95:e percentilen.
+
+engine-advanced-report-h-companions = 3b. Animation och exporter
+
+engine-advanced-report-animation-alt = Animation av körningens tidsserie
+
+engine-advanced-report-animation-caption = Körningens egna sampel ritas upp bakom en rörlig tidsmarkör (den animerade ritningen från <code>--animate svg</code>; den visar den färdiga bilden vid reducerad rörelse och vid utskrift).
+
+engine-advanced-report-no-animation = Ingen animation: { $reason }
+
+engine-advanced-report-no-animation-default = resultatet innehåller ingen tidsserie
+
+engine-advanced-report-player-written-by = Den interaktiva spelaren skrivs av <code>{ $command }</code>.
+
+engine-advanced-report-written-beside = Skrivs bredvid den här rapporten: { $links }.
+
+engine-advanced-report-th-export = Export
+
+engine-advanced-report-th-applies = Gäller
+
+engine-advanced-report-th-files-or-reason = Filer eller orsak
+
+engine-advanced-report-written-by = skrivs av <code>{ $command }</code>
+
+engine-advanced-report-does-not-apply = gäller inte
+
+engine-advanced-report-yes = ja
+
+engine-advanced-report-no = nej
+
+engine-advanced-report-h-events = 4. Händelsetidslinje
+
+engine-advanced-report-events-caption = Fönster som staplar, punkthändelser som punkter, på körningens egen tidsaxel.
+
+engine-advanced-report-th-start = Start (s)
+
+engine-advanced-report-th-end = Slut (s)
+
+engine-advanced-report-th-event = Händelse
+
+engine-advanced-report-th-source = Källa
+
+engine-advanced-report-point-event = punkthändelse
+
+engine-advanced-report-events-timeline = Händelsetidslinje
+
+engine-advanced-report-point-events = punkthändelser ({ $n })
+
+engine-advanced-report-distribution-of = Fördelning av { $metric }
+
+engine-advanced-report-max-bin = största intervall { $n }
+
+engine-advanced-report-h-labels = 5. Verifieringsetiketter
+
+engine-advanced-report-th-capability = Förmåga (matriskrav)
+
+engine-advanced-report-th-label = Etikett
+
+engine-advanced-report-th-used-by = Används av
+
+engine-advanced-report-th-oracle = Källa: oberoende referens
+
+engine-advanced-report-th-test-evidence = Testbelägg
+
+engine-advanced-report-h-figure-tiers = Nivåer per värde som resultatet anger
+
+engine-advanced-report-th-figure = Värde
+
+engine-advanced-report-th-tier = Nivå
+
+engine-advanced-report-th-matrix-requirement = Matriskrav
+
+engine-advanced-report-th-applicable = Tillämplig
+
+engine-advanced-report-no-attack = nej (ingen attack konfigurerad)
+
+engine-advanced-report-h-not-modelled = 6. Ej modellerat, och antaganden
+
+engine-advanced-report-not-modelled-note = Varje punkt citeras från där den anges: resultatdokumentet, typkatalogen, scenariofilen eller verifieringsmatrisens skäl till att en MODELLED-rad förblir modellerad.
+
+engine-advanced-report-th-statement = Påstående
+
+engine-advanced-report-h-reproducibility = 7. Reproducerbarhetsunderlag
+
+engine-advanced-report-rk-command = Kommando för att reproducera
+
+engine-advanced-report-rk-working-directory = Arbetskatalog
+
+engine-advanced-report-rk-engine-version = Motorversion
+
+engine-advanced-report-rk-source-commit = Källcommit
+
+engine-advanced-report-rk-scenario-file = Scenariofil
+
+engine-advanced-report-rk-scenario-sha = Scenariofilens SHA-256 (Secure Hash Algorithm 256-bit)
+
+engine-advanced-report-rk-result-hash = Resultatets scenario_hash
+
+engine-advanced-report-rk-result-sha = Resultatdokumentets SHA-256
+
+engine-advanced-report-rk-seed = Frö
+
+engine-advanced-report-rk-platform = Plattform
+
+engine-advanced-report-rk-generated = Studien genererad (UTC)
+
+engine-advanced-report-rk-determinism = Determinism
+
+engine-advanced-report-result-hash-none = resultatdokumentet anger ingen
+
+engine-advanced-report-print-note = För att skriva ut den här sidan till en Portable Document Format-fil (PDF), använd webbläsarens utskriftsdialog och välj ”Spara som PDF”; utskriftsformatmallen passar pappersformaten A4 och US Letter, upprepar tabellhuvuden över sidor och startar avsnitten indata, resultat, etiketter och reproducerbarhet på en ny sida. Motorn skriver ingen PDF själv. report.json innehåller samma innehåll som den här sidan.
+
+engine-advanced-report-footer = Genererad av Kshana { $engine }.{ $stamp } Reproducerbar från scenario + frö + motorversion. Gratis och öppen källkod (GNU Affero General Public License, AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">källkod &amp; dokumentation</a>.
+
+engine-advanced-report-empty-inputs = Scenariot sätter inget fält utöver `kind`: typen körde sin referenskonfiguration från sina dokumenterade standardvärden.
+
+engine-advanced-report-empty-scalars = Resultatdokumentet innehåller inget skalärt värde utanför sina fält; dess tal sammanfattas per kolumn nedan.
+
+engine-advanced-report-empty-series = Resultatdokumentet innehåller ingen numerisk array: varje resultat är ett skalärt värde i tabellen ovan.
+
+engine-advanced-report-empty-events = Ingen tidsatt händelse: scenariot skriptar inget fönster eller starttid och resultatet rapporterar ingen händelse. Typen utvärderar sin konfiguration som ett enda fall.
+
+engine-advanced-report-empty-not-modelled = Inget i resultatet, typkatalogen, scenariot eller de använda matrisraderna anger någon modelleringsbegränsning för den här körningen.
+
+engine-advanced-report-capabilities-statement = Varje rad är en verifieringsmatrisrad som den här körningens typer utnyttjar, med den etikett och den oberoende referens som matrisen ger den (src/verification.rs, docs/VERIFICATION-MATRIX.md). En etikett graderar förmågan så som matrisen registrerar den; den graderar inte det här scenariots konfiguration, och en VALIDATED-rad gör inte körningens indata uppmätta. En PARTNER-rad är en disciplin som körningen förutsätter och som Kshana inte tillhandahåller.
+
+engine-advanced-report-no-run-label = Resultatet har ingen ärlighetsetikett på körningsnivå; verifieringsetiketterna för de förmågor som användes listas i sitt eget avsnitt, och nivåerna per värde där resultatet anger dem.
+
+engine-advanced-report-no-seed = Varken scenariot eller resultatet innehåller något frö. Resultatet bestäms enbart av scenariofilen och motorbygget; determinismtestet kör om varje medföljande scenario och kräver byte-identisk utdata.
+
+engine-advanced-report-working-directory = Kör kommandot från den katalog där den ursprungliga körningen startades: scenariosökvägen, och varje relativ datasökväg i scenariot, tolkas relativt den. Kontrollera först scenariofilen mot scenario_sha256.
+
+engine-advanced-report-determinism-stamped = Samma scenariobytes, frö och motorbygge ger samma resultatdokument, utom dess meta.generated_utc-stämpel, som --study-name skriver från klockan; kör utan --study-name för byte-identisk utdata. Flyttalsresultat är låsta per plattform; ett annat operativsystem eller en annan arkitektur kan skilja sig i de sista siffrorna.
+
+engine-advanced-report-determinism-plain = Samma scenariobytes, frö och motorbygge ger ett byte-identiskt resultatdokument och en byte-identisk rapport; den här rapporten har ingen tidsstämpel. Flyttalsresultat är låsta per plattform; ett annat operativsystem eller en annan arkitektur kan skilja sig i de sista siffrorna.
+
+engine-advanced-report-not-applicable-no-attack = ej tillämpligt (ingen attack konfigurerad)
+
+engine-advanced-report-what-ran-default = Ett `{ $kind }`-scenario.
+
+engine-advanced-report-nothing-carried = inget medföljer
+
+engine-advanced-report-tbl-sweep-nodes = Svepnoder
+
+engine-advanced-report-tbl-mc-summary = Sammanfattning av Monte Carlo-fördelning (percentiler är närmaste rang; det 95-procentiga konfidensintervallet för medelvärdet är en percentil-bootstrap med fast frö)
+
+engine-advanced-report-tbl-chain-phases = Kedjefaser
+
+engine-advanced-report-tbl-shared = Delade villkor
+
+engine-advanced-report-tbl-members = Medlemmar
+
+engine-advanced-report-tbl-combined = Kombinerat över medlemmar
+
+engine-advanced-report-tbl-optimiser-best = Optimerarens bästa (ett lokalt optimum över de angivna gränserna)
+
+engine-advanced-report-tbl-optimiser-trace = Optimerarens spår
+
+engine-advanced-report-tbl-sweep-grid = Svepnät
+
+## src/altpnt/terrain.rs
+
+engine-altpnt-terrain-title-terrain-referenced = Terrängreferensnavigering (TERCOM/SITAN)
+
+engine-altpnt-terrain-title-gravity-map = Gravitationskartmatchad navigering
+
+engine-altpnt-terrain-title-combined = Kombinerad gravitation + magnetfält + terräng alt-PNT
+
+engine-altpnt-terrain-free-inertial-drift = fri tröghetsdrift
+
+engine-altpnt-terrain-terrain-matched = terrängmatchad
+
+engine-altpnt-terrain-gravity-matched = gravitationsmatchad
+
+engine-altpnt-terrain-gravity-only = enbart gravitation
+
+engine-altpnt-terrain-magnetic-only = enbart magnetfält
+
+engine-altpnt-terrain-terrain-only = enbart terräng
+
+engine-altpnt-terrain-combined-fused = kombinerad (fusionerad)
+
+## src/api.rs
+
+engine-api-chart-provenance-footer = Kshana v{ $version } · scenario { $hash } · kshana.dev
+
+## src/attack_surface.rs
+
+engine-attack-surface-chart-title = Attackyta för månsignalsäkerhet (P1)
+
+## src/body_pnt.rs
+
+engine-body-pnt-chart-relays-in-view = reläer i sikte
+
+engine-body-pnt-chart-count = antal
+
+engine-body-pnt-chart-formal-one-sigma-position = formell positions-ett-sigma (log10 m): enbart blå konstellation, bärnstensfärgad med jordavstånd
+
+engine-body-pnt-chart-time-since-epoch = tid sedan epok, 0 till { $t_max } s
+
+## src/campaign.rs
+
+engine-campaign-chart-clock-time-error-vs-guard = klockans tidsfel mot skyddsmarginal (ns)
+
+engine-campaign-chart-cn0-vs-tracking-floor = C/N0 mot spårningsgolv (dB-Hz)
+
+engine-campaign-chart-protection-level-vs-alert-limit = skyddsnivå mot larmgräns (m)
+
+engine-campaign-chart-position-error-vs-threshold = positionsfel mot tröskel (m)
+
+engine-campaign-chart-satellites-tracking = spårade satelliter
+
+engine-campaign-chart-alarm-flags-and-events = larmflaggor och händelser
+
+engine-campaign-chart-mission-time = { $duration } s uppdragstid
+
+engine-campaign-chart-sweep-percentile-band = , median med 5:e–95:e percentilband över { $n_runs } frön
+
+engine-campaign-chart-sweep-line-at = { $name } ({ $unit }) vid { $lead }
+
+engine-campaign-chart-monte-carlo-of = Monte Carlo av `{ $scenario_kind }`: { $n_runs } frön från { $base_seed } (5:e, 50:e, 95:e percentilen; stapel = bootstrap-konfidensintervall på 95 % för medelvärdet)
+
+engine-campaign-chart-composed-members = sammansatta medlemmar under delade villkor: { $shared }
+
+engine-campaign-chart-not-available = saknas
+
+## src/cislunar_arc_recovery.rs
+
+engine-cislunar-arc-recovery-chart-title = Cislunar återvinning av båglängd — en estimator som inte delar jacobianerna
+
+engine-cislunar-arc-recovery-chart-subtitle = batch-minstakvadrat med finita differenser · uppmätt tillståndsåtervinningsfel · ingen analytisk Jacobian, ingen variationell STM, ingen SVD-rangtolerans
+
+engine-cislunar-arc-recovery-chart-bound = gräns { $bound }
+
+engine-cislunar-arc-recovery-chart-gramian-rank-threshold = Gramian-rangtröskel
+
+engine-cislunar-arc-recovery-chart-monte-carlo-rms = Monte Carlo-RMS för positionsåtervinningsfel (km)
+
+engine-cislunar-arc-recovery-chart-noise-free-worst-ratio = sämsta brusfria återvinningskvot (slutfel / förflyttning)
+
+## src/cislunar_observability.rs
+
+engine-cislunar-observability-chart-title = Cislunar observerbarhet över en spårningsbåge (P6)
+
+engine-cislunar-observability-chart-subtitle = rang mot båge (enkellänk med enbart avstånd) · Gramian-egenspektrum · differentialkorrigerade DRO-begynnelsevillkor + SRIF-korskontroll · { $modelled } utformning, { $validated } rang/STM/slutning
+
+engine-cislunar-observability-chart-observable-rank = observerbar rang mot båglängd
+
+engine-cislunar-observability-chart-arc-length = båglängd (tidsenheter i roterande system, { $arc_hours } h totalt)
+
+engine-cislunar-observability-chart-gramian-eigenvalues = Gramian-egenvärden (log10)
+
+engine-cislunar-observability-chart-condition = konditionstal κ = { $condition }
+
+## src/conflict_resilience.rs
+
+engine-conflict-resilience-chart-title = Lagerbaserad PNT-motståndskraft i konflikt (P7)
+
+engine-conflict-resilience-chart-subtitle = totalbortfall mot hotintensitet (MC mot sluten form) · motståndskraftskvot mot nekandekorrelation · { $modelled } a priori, { $validated } MC->sluten form / copula-marginaler
+
+engine-conflict-resilience-chart-total-loss-probability = sannolikhet för totalbortfall mot intensitet
+
+engine-conflict-resilience-chart-threat-intensity = hotintensitet
+
+engine-conflict-resilience-chart-layered-mc = lagerbaserad MC
+
+engine-conflict-resilience-chart-single-layer = enkelt lager
+
+engine-conflict-resilience-chart-resilience-ratio = motståndskraftskvot mot nekandekorrelation
+
+engine-conflict-resilience-chart-denial-correlation = nekandekorrelation ρ
+
+## src/constellation.rs
+
+engine-constellation-chart-availability-pct = tillgänglighet (%)
+
+engine-constellation-chart-mean-pdop = medel-PDOP
+
+## src/earth_gnss_lunar.rs
+
+engine-earth-gnss-lunar-chart-title = Jord-GNSS på månavstånd — C/N0 mot vinkel från huvudriktningen
+
+engine-earth-gnss-lunar-chart-track-threshold = spåra { $threshold } dB-Hz
+
+engine-earth-gnss-lunar-chart-earth-limb = Jordens rand { $angle }°
+
+engine-earth-gnss-lunar-chart-off-boresight-angle = vinkel från huvudriktningen (deg)
+
+engine-earth-gnss-lunar-chart-cn0 = C/N0 (dB-Hz)
+
+engine-earth-gnss-lunar-chart-legend = guld = spårbar · röd = för svag · grå = skymd av jorden · { $modelled } sändningsmönster
+
+## src/ensemble.rs
+
+engine-ensemble-chart-title = Klock-holdover: konfidensband för tidsfel ({ $n_runs } körningar)
+
+engine-ensemble-chart-timing-error-ns = tidsfel (ns)
+
+engine-ensemble-chart-spec-threshold = spec { $threshold } ns
+
+engine-ensemble-chart-time-s = tid (s)
+
+engine-ensemble-chart-classical-median-band = klassisk: { $id } (median, band 5–95 %)
+
+engine-ensemble-chart-quantum-median-band = kvant: { $id } (median, band 5–95 %)
+
+## src/fom_label.rs
+
+engine-fom-verdict-validated = VALIDATED
+
+engine-fom-verdict-modelled = MODELLED
+
+engine-fom-verdict-partial = PARTIAL
+
+## src/frame_eop.rs
+
+engine-frame-eop-chart-title = Realtidsbudget för system-/EOP-prediktion för tidshållning på månen
+
+engine-frame-eop-chart-ut1-error-ms = UT1-fel (ms)
+
+engine-frame-eop-chart-position-at-moon-m = position vid månen (m)
+
+engine-frame-eop-chart-equiv-timing-ns = motsv. tidsfel (ns)
+
+engine-frame-eop-chart-prediction-horizon-days = prediktionshorisont (dagar)
+
+engine-frame-eop-chart-iers-final-floor = IERS slutgiltigt golv { $floor_ms } ms
+
+engine-frame-eop-chart-marker-at-moon = ~{ $ut1_ms } ms = ~{ $pos_m } m vid månen
+
+engine-frame-eop-chart-growth = ~{ $factor }x, 1 d→{ $far_days } d
+
+## src/fusion/hybrid_ukf.rs
+
+engine-fusion-hybrid-ukf-chart-title = Hybrid UKF med 17 tillstånd — filtrets självkonsistens (modelled)
+
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + innovationsvithet mot 95-procentiga χ²-band; 1.0 = konsistent. Självkonsistens, inte noggrannhet.
+
+engine-fusion-hybrid-ukf-chart-target = mål 1.0
+
+engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (vithet)
+
+engine-fusion-hybrid-ukf-chart-nees = NEES
+
+engine-fusion-hybrid-ukf-chart-consistent = KONSISTENT
+
+engine-fusion-hybrid-ukf-chart-inconsistent = INKONSISTENT
+
+## src/fusion/pack.rs
+
+engine-fusion-pack-chart-title = Löst kopplat GNSS/INS horisontellt fel
+
+engine-fusion-pack-chart-horizontal-error-m = horisontellt fel (m)
+
+engine-fusion-pack-chart-spec-threshold = spec { $threshold } m
+
+## src/geometry.rs
+
+engine-geometry-chart-title = Skyplot ({ $label })
+
+engine-geometry-chart-north = N
+
+engine-geometry-chart-east = O
+
+engine-geometry-chart-south = S
+
+engine-geometry-chart-west = V
+
+engine-geometry-chart-satellite-tooltip = { $system } { $id } az { $az } el { $el }
+
+engine-geometry-chart-satellite-tooltip-hidden = { $system } { $id } az { $az } el { $el } (skymd av skylinen)
+
+engine-geometry-chart-satellite-tooltip-below-mask = { $system } { $id } az { $az } el { $el } (under masken)
+
+engine-geometry-chart-no-fix = ingen positionsbestämning
+
+engine-geometry-chart-in-view-hidden = { $n_visible } i sikte, { $n_masked } skymda av skylinen · { $dop } · ofylld: ej i sikte
+
+engine-geometry-chart-satellites-as-given = satelliter som angivna
+
+engine-geometry-chart-representative-sky = representativ himmel, inte en daterad
+
+engine-geometry-chart-footer = Kshana v{ $version } · geometri under en angiven felmodell · kshana.dev
+
+## src/gnss_sim.rs
+
+engine-gnss-sim-chart-title = RAIM-skyddsnivåer mot larmgränser
+
+engine-gnss-sim-chart-protection-level-m = skyddsnivå (m)
+
+engine-gnss-sim-chart-val = VAL { $alert_v } m
+
+engine-gnss-sim-chart-hpl = HPL
+
+engine-gnss-sim-chart-vpl = VPL
+
+## src/main.rs
+
+engine-main-fail = fel: { $e }
+
+## legal (advisories, disclaimers and notices; the English text is the source, the constant in code is what machine files carry)
+
+# legal: native review
+engine-legal-compliance-statement = En rad markerad som evidenced betyder att en körning i den här uppsättningen ger belägg för de förmågor som raden nämner. Det är inte ett konstaterande att ett ramverk är uppfyllt, och det betyder inte att någon produkt har betygsatts eller godkänts av någon. Kolumnen för glapp anger vad körningarna inte visar.
+
+# legal: native review
+engine-legal-bench-surface-notice = Endast fordonsrörelse och märkta händelseintervall. Inget som exporteras här är, modellerar eller driver en radiofrekvens- eller basbandssignal, och en händelse är ett tidsintervall, inte ett recept för att framställa störning. Laboratoriesimulatorn och dess operatör tillhandahåller signalerna och ansvarar för att köra dem endast där det är tillåtet (ledningsbundet eller skärmat, enligt simulatorns egna säkerhetsanvisningar). Kshana publicerar inga resultat från sådana körningar.
+
+# legal: native review
+engine-legal-iq-campaign-roc-statement = MODELLED: ROC på fönsternivå för varje monitor på de givna inspelningarna. Varje angivet händelsefönster är ett positivt och varje roc_window_s-fönster utanför händelserna ett negativt; ett fönster räknas vid en tröskel när monitorns teststatistika når den i fönstret. P_fa gäller per negativt fönster, inte per test.
+
+# legal: native review
+engine-legal-lunanet-afs-advisory = Rådgivande: analysutdata från ett forsknings- och utvecklingsverktyg, inte typgodkänd navigationsutrustning och inte en safety-of-life-tjänst. Den kontrollerar en symbolström mot en utgåva av en publicerad specifikation och säger ingenting om någon LunaNet-nod eller -tjänst.
+
+# legal: native review
+engine-legal-iqfit-statement = MODELLED: varje anpassat tal beskriver den öppna mottagaren (den namngivna slingutformningen och front-end-kedjan) på de inspelningar den fick, anpassat till kampanjens poängsatta resultat. Det är inte en mätning av någon annan mottagare. Prediktioner märks PREDICTION, med den närmaste testade inspelningen och avståndet utanför de testade förhållandena.
+
+# legal: native review
+engine-legal-iqfit-advisory = Rådgivande: analysutdata, inte typgodkänd navigationsutrustning; prediktioner är modellutdata med angivet fel, inte garantier.
+
+# legal: native review
+engine-legal-lunar-time-lab-source-statement = Källuppgift, inte ett påstående: ICG WG-B Lunar PNT-materialet från juni 2024 (unoosa.org, LunarPNT_Jun24_01_04.pdf, källa S3 i studien) beskriver ett tidsreferenslaboratorium för månen vid stationen med ett tidsmål på nanosekundsnivå. Kshana citerar det målet enbart som sammanhang; den antar det inte, och inget i det här blocket visar att någon verklig stationsklocka uppfyller det.
+
+# legal: native review
+engine-legal-standards-pack-notice = Ett standardpaket mäter modellerade scenarier mot trösklar som anges före körningen. Det ger belägg för de ramverksrader det nämner; det betygsätter eller godkänner ingen produkt, och en MET-tröskel säger endast att scenariots modellerade utdata nådde den angivna tröskeln.
+
+# legal: native review
+engine-legal-standards-pack-advisory = Rådgivande: analysutdata från ett forsknings- och utvecklingsverktyg, inte typgodkänd navigationsutrustning och inte en safety-of-life-tjänst; den får inte vara den enda grunden för något navigations- eller säkerhetsbeslut.
+
+# legal: native review
+engine-legal-geometry-statement = Geometri under en angiven felmodell (MODELLED): siktlinjesynlighet mot den angivna skylinen, geometrisk försämring av precisionen och en gaussisk felellips för oberoende, lika, nollmedelvärdes gaussiska avståndsfel med det angivna användarekvivalenta avståndsfelet. Det är inte en prediktion av en mottagares verkliga fel, som också har systematiska fel, flervägsfel och fel utan siktlinje, och det är inte en integritetsgräns. Förinställda konstellationer är en representativ geometri, inte himlen den dagen på den platsen.
+
+# legal: native review
+engine-legal-resilience-disclaimer = Simuleringsbaserad självbedömning i linje med DHS RPCF v2.0. Det här är inte en certifiering eller ackreditering, och det representerar inget godkännande från någon myndighet (DHS, IEEE eller annan). Varje delpoäng är MODELLED om den inte uttryckligen märks VALIDATED, och poängen är tidsdomän- och detektionsnyckeltal, inte noggrannhet i positionsdomänen.
+
+# legal: native review
+engine-legal-observatory-notice = En försämrad cell betyder att en hög andel flygplan rapporterade låg navigeringsnoggrannhet där den dagen. Ingen orsak anges. En cell som inte observeras, eller saknas, bedömdes inte, vilket inte är detsamma som fri. Endast rådgivande: inte ett godkännande, en certifiering eller ett utlåtande om överensstämmelse.
+
+# legal: native review
+engine-legal-receiver-trust-advisory = Rådgivande programvara, inte typgodkänd navigationsutrustning (IEC 61108, IEC 61162): operatören är fortsatt ansvarig för fartygets navigering.
+
+# legal: native review
+engine-legal-evidence-roundtrip-notice = Länkar fyra poster med sammandrag: scenariot, laboratoriets angivna testvillkor, mottagarloggen och poängen för den loggen mot de angivna händelserna. Det är inte en signal, inte ett recept för återspelning och inte en certifiering. Hur scenariots rörelse nådde mottagaren (en fil som spelats upp genom en laboratoriesimulator, ledningsbundet eller skärmat) var operatörens ansvar och registreras här endast som angivet.
+
+# legal: native review
+engine-legal-evidence-bundle-disclaimer = Det här paketet är en teknisk redovisning av vad Kshana-motorn beräknade från den angivna mottagarloggen med den angivna konfigurationen. Det är inte ett juridiskt utlåtande, inte ett konstaterande av faktum om någon händelse eller dess orsak och inte en certifiering.
+
+# legal: native review
+engine-legal-bench-notice = Rådgivande: modellerat eller uppmätt mot angivna referenser, inte ett godkännande, en certifiering eller ett utlåtande om överensstämmelse. En poäng beskriver en logg eller ett korpus, aldrig en produkt.
+
+# legal: native review
+engine-legal-osnma-advisory = Rådgivande: det här är analys- och övervakningsutdata och inte typgodkänd navigationsutrustning. Autentiseringsstatusen som rapporteras här är inte en integritetstjänst för navigering och får inte vara den enda grunden för något navigations- eller säkerhetsbeslut.
