@@ -5,6 +5,7 @@
 //! availability, the pass and contact planners, the entry corridor) and carries its numbers as
 //! stated, MODELLED inputs.
 
+pub mod entry;
 pub mod filter;
 pub mod ground_network;
 pub mod launch;
