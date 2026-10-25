@@ -23,8 +23,6 @@ engine-e-clock-log-cannot-read-clock-log = záznam hodin { $path } nelze přeč�
 
 engine-e-clock-log-clock-log-path-is-not = cesta k záznamu hodin není v sestavení WebAssembly k dispozici; zadejte záznam jako text
 
-engine-e-clock-log-the-log-has-missing-epoch = záznam ve formátu { $format }: chybějící epochy: { $n_missing }, mezery: { $n_gaps }, mřížka { $tau0 } s; nastavte gaps = "longest" pro zachování nejdelšího úseku bez mezer nebo gaps = "linear" pro interpolaci
-
 engine-e-clock-log-the-log-yields-usable-sample = záznam ve formátu { $format } poskytuje použitelné vzorky: { $x }; je potřeba alespoň 3
 
 engine-e-clock-log-not-rinex-clock-file-no = není soubor hodin RINEX: chybí záznam END OF HEADER
@@ -193,8 +191,6 @@ engine-advanced-report-field-units-schema-units-entry = schéma jednotek polí: 
 
 engine-advanced-report-field-units-schema-input-entry = schéma jednotek polí: položka input `{ $key }`, přiřazená podle názvu pole
 
-engine-advanced-report-rows-of-non-numeric-column = řádky nečíselného sloupce: { $n }
-
 engine-advanced-report-rows-from-to = řádky: { $nums }, od { $fmt_num } do { $fmt_num2 }
 
 engine-advanced-report-phase-ended-by = fáze { $name } (ukončena: { $ended })
@@ -287,8 +283,6 @@ engine-e-animation-animation-duration-must-be-between = délka animace musí bý
 
 engine-e-animation-animation-width-must-be-between = šířka animace musí být mezi 480 a 3840 pixely, zadáno: { $width }
 
-engine-e-animation-duration-fps-gives-frames-the = duration x fps dává snímky: { $n }; sekvence snímků vyžaduje počet mezi 2 a { $v1 }
-
 engine-e-animation-result-is-not-json = výsledek není JSON: { $e }
 
 engine-animation-mission-time = čas mise ({ $lay })
@@ -347,8 +341,6 @@ engine-e-aocs-kind-estimator-gyro-bias0-rad-must = estimator.gyro_bias0_rad_s mu
 
 engine-e-aocs-kind-estimator-star-tracker-every-must = estimator.star_tracker_every_s musí být alespoň dt_s
 
-engine-aocs-kind-aocs-wheels-slew-from-deg = aocs: kola: { $n_w }, { $duration_s } s, přeorientování z { $series_err } deg -> { $settle } | konečná { $final_err } deg | špička kola { $peak_speed } rpm | { $v7 }
-
 ## src/aperture_duty.rs
 
 engine-e-aperture-duty-unknown-service-expected-navigation-nav = neznámá služba '{ $other }' (očekává se navigation|nav nebo communications|comms)
@@ -378,10 +370,6 @@ engine-e-api-failed-to-serialise-report-to = zpráva se nepodařilo serializovat
 engine-e-api-invalid-scenario = neplatný scénář: { $e }
 
 engine-e-api-clock-log = clock_log: { $e }
-
-engine-api-unknown-scenario-kind-did-you = neznámý druh scénáře { $other } — mysleli jste { $hint }? `kshana kinds` vypíše všechny vestavěné druhy ({ $n }).
-
-engine-api-unknown-scenario-kind-kshana-kinds = neznámý druh scénáře { $other }. `kshana kinds` vypíše všechny vestavěné druhy ({ $n }).
 
 engine-api-required-fields = - **Povinná pole:** { $fields }{ "\u000A" }
 
@@ -421,29 +409,15 @@ engine-api-builtins-scenario-quantum-holdover-p95-classical = scénář { $r } |
 
 engine-api-builtins-scenario-spoof-vs-ns-spec = scénář { $r } | spoof { $scn } vs specifikace { $threshold_ns } ns (P_fa { $target_pfa }) | kvantová bezpečnost { $security_fom } (P_md { $analytic_pmd }, MC { $mc_pmd }) { $det } | klasická bezpečnost { $security_fom2 } (P_md { $analytic_pmd2 }, MC { $mc_pmd2 }) { $det2 }
 
-engine-api-builtins-integrity-satellites-epochs-available-hal = integrita | družice: { $n_sats } | dostupné epochy: { $samples_available }/{ $samples_total } ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): události integrity { $report2 }, HMI { $report3 }
-
 engine-api-builtins-lunar-integrity-south-pole-epochs = lunar-integrity | jižní pól | dostupné epochy: { $samples_available }/{ $samples_total } ({ $report }%) | AL { $alert_limit_m } m | σ_URE { $sigma_ure_m } m | HPL { $min_hpl_m }–{ $max_hpl_m } m
 
 engine-api-builtins-lunar-time-offset-secular-ltc = lunar-time-offset | sekulární rychlost LTC−TT { $secular_rate_us_per_day } µs/day (pásmo { $band_low }–{ $band_high }) | vlastní potenciál { $self_potential_us_per_day } kinetická { $kinetic_us_per_day } | posun @ { $horizon_days } d = { $offset_at_horizon_us } µs
 
 engine-api-builtins-lunar-vlbi-baseline-km-beacon = lunar-vlbi | základna { $baseline_km } km | vzdálenost majáku { $beacon_range_km } km | zpoždění { $report } µs (rychlost { $delay_rate_s_per_s } s/s) | blízké pole { $near_field_correction_us } µs | vzorky: { $samples } za { $horizon_hours } h
 
-engine-api-builtins-lunar-joint-od-clock-sats = lunar-joint-od-clock | družice: { $n_sat }, pozemní stanice: { $n_earth } | 3-D chyba stanice s VLBI { $station_pos_err_m } m oproti pouze měření vzdálenosti { $station_pos_err_m2 } m (zlepšení { $station_observability_improvement_factor }×) | RMS polohy družice { $sat_pos_rms_m } m | chyba hodin stanice { $station_clock_err_s } s | pozorování { $n_obs }/{ $n_params } parametrů
-
-engine-api-builtins-lunar-frame-realisation-points-translation = lunar-frame-realisation | body: { $n_points } | chyba translace { $trans_err_norm_m } m, chyba rotace { $rot_err_norm_rad } rad, chyba měřítka { $scale_err_ppb } ppb | rms reziduí { $rms_residual_m } m | konvergence { $converged }
-
-engine-api-builtins-moonlight-service-volume-sats-pts = moonlight-service-volume | družice: { $n_sats } ({ $geometry_label }) | { $n_grid_points } bodů × { $n_epochs } epoch | pokrytí { $coverage_pct }% (PDOP<{ $pdop_threshold }) | družice { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | dostupnost PL { $pl_availability_pct }% | MODELLED
-
 engine-api-builtins-ephemeris-ure-required-vs-keplerian = { " " }| efemeridy { $report } ({ $provenance }) požadované σ_URE { $fmt } oproti keplerovským { $fmt2 } oproti poruchovým { $fmt3 } (Δ { $fmt4 })
 
-engine-api-builtins-lunar-differential-pnt-sats-illustrative = lunar-differential-pnt | družice: { $n_sats } (ilustrativní třída LCNS, bez příslušnosti) | základna { $baseline_km } km | chyba uživatele { $user_error_uncorrected_m } m → { $user_error_corrected_m } m (snížení { $reduction_factor }×) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
-
-engine-api-builtins-lunar-station-coverage-points-epochs = lunar-station-coverage | { $n_grid_points } bodů x { $n_epochs } epoch x { $n_trials } pokusů | dostupnost { $v4 } % | pokrytí { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korigovaná p{ $percentile } 3-D { $f } (nekorigovaná { $f2 }) | HPL max { $f3 } | MODELLED; nejde o tvrzení o žádném skutečném systému
-
 engine-api-builtins-terrain-horizon-at-the-station = { " " }| horizont terénu ({ $sources }) u stanice max { $horizon_max_deg } deg, uživatelské body: průměr max { $user_horizon_max_deg_mean } deg
-
-engine-api-builtins-lunar-interop-export-ref-frame = lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | stavy: { $n_states }, OEM: řádky { $oem_line_count } | shoda { $v5 } (přítomná pole: { $present_fields }, chybějící: { $missing_fields }) | OEM round-trip { $v8 } | time-meta round-trip { $v9 } | KIF { $kif_bytes } bytes | MODELLED
 
 ## src/api/builtins.rs
 
@@ -467,8 +441,6 @@ engine-api-builtins-scenario-gnss-ins-quantum-outage = scénář { $r } | gnss-i
 
 engine-api-builtins-scenario-gnss-sim-mean-iono = scénář { $r } | gnss-sim | střední iono { $mean_iono_m }m tropo { $mean_tropo_m }m | dostupnost RAIM { $raim_availability } střední HPL { $mean_hpl_m }m VPL { $mean_vpl_m }m četnost poruch { $fault_rate }
 
-engine-api-builtins-scenario-spoof-detect-svs-db = scénář { $r } | spoof-detect | družice: { $n_sats }, +{ $power_advantage_db } dB{ $v4 } | posun { $push } | fúzní skóre { $score } (práh { $fusion_threshold }) | { $verdict }
-
 engine-api-builtins-sweep-over-pts-scale-quantum = průchod { $metric } přes { $parameter } ({ $first }..{ $last }, body: { $points }, měřítko: { $scale }) | kvantový { $first2 }->{ $last2 } | klasický { $first3 }->{ $last3 }
 
 engine-api-builtins-scenario-samples-gnss-nominal-best = scénář { $r } | { $nominal }/{ $series } vzorků GNSS nominální | nejlepší PDOP { $fnum } poloha { $posm } | kvantový holdover { $holdover_s }s p95 { $ns1 }ns integrita { $integ } bezpečnost { $security_na } | klasický holdover { $holdover_s2 }s p95 { $ns12 }ns integrita { $integ2 } bezpečnost { $security_na }
@@ -476,8 +448,6 @@ engine-api-builtins-scenario-samples-gnss-nominal-best = scénář { $r } | { $n
 engine-e-api-builtins-ephemeris = efemeridy: { $e }
 
 engine-api-builtins-max-el-peak-doppler-khz = { " " }| max. elevace { $el }° špička Doppler { $v1 } kHz
-
-engine-api-builtins-scenario-samples-alt-km-lat = scénář { $r } | { $source } | vzorky: { $n_samples } | výška { $alt_min_km }–{ $alt_max_km } km | |lat| ≤ { $r2 }° | rychlost { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
 
 engine-api-builtins-generic-sweep-of-over-nodes = obecný průchod `{ $kind }` přes [{ $keys }] | uzly: { $points } (tvar { $shape }) | metriky [{ $metrics }]
 
@@ -498,8 +468,6 @@ engine-e-api-builtins-clock-log-needs-runs-measured = { "[" }clock_log] vyžaduj
 engine-api-builtins-scenario-runs-quantum-holdover-p95 = scénář { $r } | běhy: { $runs } | kvantový holdover { $mean }s [{ $p05 }-{ $p95 }] p95 { $ns1 }ns bezpečnost { $security_na } | klasický holdover { $mean2 }s [{ $p052 }-{ $p952 }] p95 { $ns12 }ns bezpečnost { $security_na }
 
 engine-api-builtins-scenario-quantum-holdover-p95-ns = scénář { $r } | kvantový holdover { $holdover_s }s p95 { $ns1 }ns integrita { $integ } bezpečnost { $security_na } | klasický holdover { $holdover_s2 }s p95 { $ns12 }ns integrita { $integ2 } bezpečnost { $security_na }
-
-engine-api-builtins-raim-available-of-epochs-denied = { " " }| RAIM dostupný v { $n_available } z { $n_epochs } epoch (odepřeno: { $n_denied }, poplachy: { $n_alarm }; MODELLED)
 
 ## src/araim_reference.rs
 
@@ -528,8 +496,6 @@ engine-e-araim-reference-sat-needs-one-value-per = P_sat vyžaduje jednu hodnotu
 engine-e-araim-reference-satellite-names-an-undeclared-constellation = družice uvádí nedeklarovanou konstelaci
 
 engine-e-araim-reference-every-prior-must-lie-in = každá apriorní hodnota musí ležet v [0, 1)
-
-engine-e-araim-reference-the-priors-need-subsets-of = apriorní hodnoty vyžadují podmnožiny { $n_fault_max } současných událostí; tato cesta jich vyjmenuje nejvýše { $most }
 
 engine-e-araim-reference-the-all-in-view-solution = řešení se všemi družicemi v dohledu nebylo vybráno
 
@@ -691,8 +657,6 @@ engine-bench-tasks-predictions-cover-cases-the-truth = predikce pokrývají př�
 
 engine-bench-tasks-case-has-no-number-array = případ `{ $id }` nemá pole čísel
 
-engine-bench-tasks-case-needs-values-has = případ `{ $id }` vyžaduje hodnoty: { $n }, má { $a }
-
 engine-bench-tasks-case-has-non-finite-value = případ `{ $id }` má nekonečnou nebo nečíselnou hodnotu
 
 ## src/bin/crossover_study.rs
@@ -706,8 +670,6 @@ engine-bin-crossover-study-error-cannot-create = chyba: { $dir } nelze vytvořit
 engine-bin-crossover-study-done-inertial-nodes-clock-curves = hotovo: inerciální uzly { $nodes }, křivky hodin { $curves } (seed 42)
 
 ## src/bin/gen_araim_m3_study.rs
-
-engine-bin-gen-araim-m3-study-user-epochs-ura-values-in = uživatelské epochy: { $n } x 3 hodnoty URA za { $dt } s = { $v1 } ms na uživatelskou epochu (řešitelné: { $ok })
 
 ## src/bin/gen_validation_artifacts.rs
 
@@ -743,16 +705,7 @@ engine-e-body-pnt-serialising-report = serializace zprávy: { $e }
 
 engine-e-body-pnt-the-report-must-serialise-to = zpráva se musí serializovat na objekt JSON
 
-engine-body-pnt-positioning-around-user-relays-at =
-    Určování polohy kolem { $name } — uživatel { $user_kind }, relé: { $n_relays } ve { $r } km, epochy: { $n_epochs }
-    { "  " }Světelný čas k Zemi { $one_way_light_time_s } s jedním směrem, { $two_way_light_time_s } s tam a zpět; úhel Slunce–Země–těleso { $sun_separation_deg } deg
-    { "  " }dostupnost: { $availability_relays } pouze konstelace, { $availability_with_earth } se vzdáleností k Zemi (Země v dohledu { $earth_visibility })
-    { "  " }medián PDOP { $opt }; chyba RMS { $opt2 } pouze konstelace, { $opt3 } se vzdáleností k Zemi
-    { "  " }medián formální sigmy { $opt4 } pouze konstelace, { $opt5 } se vzdáleností k Zemi{ "\u000A" }
-
 engine-body-pnt-positioning-around = Určování polohy kolem { $name }
-
-engine-body-pnt-user-relays-earth-light-time = uživatel { $user_kind } · relé: { $n_relays } · světelný čas k Zemi { $one_way_light_time_s } s · MODELLED
 
 ## src/calibration_ensembles.rs
 
@@ -1096,15 +1049,11 @@ engine-e-cislunar-observability-sigma-range-must-be-finite = sigma_range_m musí
 
 engine-e-cislunar-observability-sigma-pos-threshold-km-must = sigma_pos_threshold_km musí být konečné a kladné, zadáno: { $sigma_pos_threshold_km }
 
-engine-cislunar-observability-cislunar-observability-refs-arc-epochs = cislunar-observability | { $c } s/c (reference: { $refs }) | oblouk { $arc_hours } h, { $rank_arc } epoch | hodnost { $first } → { $last } z { $state_dim } na oblouku | Gramián λ [{ $min_eigenvalue }…{ $max_eigenvalue }] cond { $condition_str } | okamžitá hodnost pouze vzdálenost { $rank_range_only } → vzdálenost+rychlost { $rank_range_rate } (spoje: { $n_links }) | GDOP pouze vzdálenost { $ro } vzdálenost+rychlost { $rr } | počáteční podmínky DRO (max. reziduum periodicity { $max_resid }) | posteriorní SRIF konečný v epoše s hodností 4 { $srif_epoch } (ověřeno: hodnost/STM/uzavření DRO/SRIF, modelován: návrh)
-
 engine-cislunar-observability-never-rank-of = nikdy (hodnost { $rank } z { $state_dim })
 
 engine-cislunar-observability-family-state-range-rank-threshold = { $base } | rodina { $family }, { $state_dim } stavů, { $n_spacecraft } s/c, σ_range { $sigma_range_m } m | práh hodnosti { $rank_thr } (mřížka { $c } h) | práh odhadnutelnosti (σ_pos ≤ { $sigma_pos_threshold_km } km) { $est_thr }
 
 engine-cislunar-observability-first-arc-length-at-which = první délka oblouku, při níž formální nejistota polohy 1σ POČÁTEČNÍHO stavu hlavního tělesa (chief), σ_pos = sqrt(trace(P_rr)) s P = (ÕᵀÕ)⁻¹ a Õ maticí pozorovatelnosti vybělenou šumem měření, klesne na { $sigma_pos_threshold_km } km nebo pod. Je to kritérium, při kterém je práh délky oblouku vůbec závislý na šumu: P roste s σ², takže σ_pos roste s σ, zatímco kritérium hodnosti výše se se σ nemění. Mez je UVEDENÁ inženýrská volba, nikoli fitovaná — estimability_sweep uvádí práh při čtyřech dalších mezích.
-
-engine-cislunar-observability-extension-r3-this-run-is = ROZŠÍŘENÍ (R3) — tento běh NENÍ rovinnou konfigurací DRO, kterou popisuje `label` výše. Rozměr stavu { $state_dim }; rodina drah { $family }; družice: { $n_spacecraft }; sigma měření vzdálenosti { $sigma_range_m } m. Kde `label` říká „planar“ a „planar DROs“, čtěte zde uvedenou rodinu. VALIDATED doplňky: variační STM 6x6 je táž STM CR3BP ověřená konečnými diferencemi (crate::cr3bp), použitá v plné šířce; řádky prostorového Jacobiánu vzdálenosti / rychlosti změny vzdálenosti jsou analytické parciální derivace ověřené konečnými diferencemi, řádek rychlosti změny vzdálenosti křížově ověřen složku po složce proti nezávislé 3-D deepspace_od::range_rate_observable v tomto crate; počáteční podmínky halo / NRHO jsou diferenciálně korigované periodické dráhy z téhož korektoru, který reprodukuje publikovanou jižní NRHO L2 9:2, pokračované z tohoto publikovaného semene, a reziduum uzavření každého člena je uvedeno; šestistavové verdikty HODNOSTI jsou potvrzeny NEZÁVISLOU hodností z řádkově odstupňovaného tvaru (Gaussova eliminace s částečným pivotováním), která sdílí s cestou vlastních čísel/SVD nulový kód. ÚPRIMNÝ ROZSAH VĚTVE SRIF: křížová validace SRIF výše spotřebovává TUTÉŽ měřicí Jacobiány a redukuje se na totéž O^T O, takže její shoda je kontrola konzistence mezi dvěma numerickými stroji, NIKOLI nezávislé potvrzení prahu — nepočítá se jako validace žádné zde uvedené hodnoty. MODELLED: návrh rodiny (které úsečky, amplitudy a fáze), mřížka epoch, jednospojový oblouk a uvedená mez polohy kritéria odhadnutelnosti.
 
 engine-cislunar-observability-validated-each-constellation-initial-condition = Ověřeno: každá počáteční podmínka konstelace je diferenciálně korigovaná periodická dráha rodiny { $family }, uzavírající se za jednu periodu na uvedené reziduum periodicity (rovinné DRO jsou navíc retrográdní kolem Měsíce). Rodina je korigována při poměru hmotností Země–Měsíc. Modelováno: volba parametrů a fází rodiny (návrh konstelace). Název klíče `dro_provenance` je zachován kvůli schématu vydaného dokumentu; nese libovolnou rodinu, o kterou tento běh požádal.
 
@@ -1119,8 +1068,6 @@ engine-e-clock-integrity-integrity-mask-deg-must-lie = integrity: mask_deg musí
 engine-e-clock-integrity-integrity-systems-must-name-at = integrity: systems musí uvádět alespoň jednu předvolbu
 
 engine-e-clock-integrity-integrity-injected-bias-needs-finite = integrity: injected_bias vyžaduje konečné bias_m, t0_s a t1_s
-
-engine-e-clock-integrity-integrity-epochs-exceed-the-epoch = integrity: epochy ({ $n }) překračují strop { $MAX_EPOCHS } epoch; zvyšte step_s
 
 ## src/clock_library/card.rs
 
@@ -1333,8 +1280,6 @@ engine-e-earth-gnss-lunar-back-lobe-suppression-db-must = back_lobe_suppression_
 
 engine-e-earth-gnss-lunar-receiver-range-must-be-outside = receiver_range_m musí ležet vně Země; zadáno { $range_m }
 
-engine-earth-gnss-lunar-earth-gnss-at-lunar-distance = Earth-GNSS ve měsíční vzdálenosti — družice: { $n_satellites }, přijímač ve { $r } km{ "\u000A" }
-
 engine-earth-gnss-lunar-earth-limb-from-the-constellation = { "  " }Limb Země z konstelace: { $earth_limb_half_angle_deg } deg od nadiru — každý paprsek směřující k Měsíci tuto hodnotu musí překročit{ "\u000A" }
 
 engine-earth-gnss-lunar-of-not-occulted-clear-the = { "  " }nezakryto: { $n_geometrically_visible } z { $n_satellites }; práh sledování { $tracking_threshold_dbhz } dB-Hz překonává { $n_trackable }{ "\u000A" }
@@ -1450,8 +1395,6 @@ engine-e-ephemeris-step-must-be-positive = step_s musí být kladné
 engine-e-ephemeris-duration-must-be-non-negative = duration_s musí být nezáporné
 
 engine-e-ephemeris-carrier-hz-must-be-positive = carrier_hz musí být kladná konečná frekvence
-
-engine-ephemeris-ground-track-samples-alt-km = { $source } pozemní stopa · vzorky: { $n_samples } · výška { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
 
 ## src/evidence/assemble.rs
 
@@ -1919,8 +1862,6 @@ engine-e-geometry-sky-tle-is-bytes-the = sky: tle má { $text } B; limit je { $M
 
 engine-geometry-element-set-refused = sada elementů odmítnuta: { $e }
 
-engine-geometry-sky-tle-holds-no-complete = sky: tle neobsahuje úplnou dvouřádkovou sadu elementů; řádků ignorováno: { $n_ignored }, první: { $first }
-
 engine-e-geometry-sky-epoch = sky: epocha: { $e }
 
 engine-geometry-and-more = { "." }.. a další: { $more }
@@ -2135,8 +2076,6 @@ engine-e-gse-sim-step-must-be-positive-got = step_s musí být kladné, zadáno:
 
 engine-e-gse-sim-duration-must-be-positive-got = duration_s musí být kladné, zadáno: { $duration_s }
 
-engine-e-gse-sim-scenario-produces-epochs-need-increase = scénář vytváří epoch: { $n } (je třeba ≥ 2); zvyšte duration_s nebo snižte step_s
-
 ## src/holdover_test.rs
 
 engine-e-holdover-test-the-record-holds-non-finite = záznam obsahuje nekonečnou časovou chybu
@@ -2181,15 +2120,11 @@ engine-e-hybrid-integrity-must-be-finite = { $name } musí být konečné
 
 engine-e-hybrid-integrity-rf-other-losses-db-must = rf_other_losses_db musí být konečné a >= 0
 
-engine-hybrid-integrity-hybrid-optical-rf-optical-footprint = hybrid-optical-rf | optická stopa { $footprint_m } m, fotonů: { $detected_photons } -> σ určování vzdálenosti { $c } mm, σ určování času { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | dostupnost { $c4 } % (stanovišť: { $n_sites }) | předání bez skoku { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | společné FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | ověřeno: CRLB/χ²-PL/sjednocení/předání, modelováno: σ/klimatologie
-
 ## src/impairment_eval.rs
 
 engine-e-impairment-eval-target-pfa-must-be-in = target_pfa musí ležet v [0, 1]
 
 engine-e-impairment-eval-per-class-must-be = n_per_class musí být >= 1
-
-engine-impairment-eval-impairment-eval-detector-auc-in = impairment-eval | detektor { $detector } | AUC { $auc_in } vstup / { $auc_out } výstup (rozdíl { $optimism_gap }{ $v5 }) | Pd { $report } Pfa { $report2 } @ cíl { $target_pfa } | případů: { $n_cases } | MODELLED syntetická data
 
 engine-e-impairment-eval-unknown-detector-energy-agc-sqm = neznámý detektor '{ $other }' (energy|agc|sqm|parity|fused)
 
@@ -2623,8 +2558,6 @@ engine-e-iq-campaign-conditions-at-least-one-expected-group = je vyžadována al
 
 engine-e-iq-campaign-conditions-ids-must-not-be-empty = { $at }: ids nesmí být prázdné
 
-engine-e-iq-campaign-conditions-lists-value-give-one-per = { $at }: { $key } uvádí hodnot: { $n }; zadejte jednu na každé id ({ $ids })
-
 engine-e-iq-campaign-conditions-duplicate-id = { $at }: duplicitní id
 
 engine-e-iq-campaign-conditions-offset-must-be-after-onset = { $at }: offset_s musí být po onset_s
@@ -2783,8 +2716,6 @@ engine-iq-cli-needs-value = { $s } vyžaduje hodnotu
 
 engine-e-iq-cli-cannot-parse = { $k }: nelze zpracovat { $v }
 
-engine-iq-cli-iq-takes-positional-argument-got = iq { $cmd } přijímá pozičních argumentů: { $n }, zadáno: { $pos }
-
 engine-e-iq-cli-cannot-parse-2 = { $k }: nelze zpracovat { $p }
 
 engine-iq-cli-unknown-iq-processing-command-expected = neznámý příkaz zpracování iq { $other }; očekáváno scene, acquire, track, sweep, labfit, frontend, monitor, campaign nebo conditions
@@ -2843,11 +2774,7 @@ engine-e-iq-io-cli-unknown-option = neznámá volba { $s }
 
 engine-e-iq-io-cli-format-needs-rate = --format vyžaduje --rate
 
-engine-iq-io-cli-iq-takes-path-argument-got = iq { $cmd } přijímá argumentů cesty: { $n }, zadáno: { $pos }
-
 engine-iq-io-cli-unknown-iq-command = neznámý příkaz iq { $other }
-
-engine-iq-io-cli-wrote-samples-hz-to-saturated = zapsáno vzorků: { $n } ({ $to }, { $fs_hz } Hz) do { $files }; nasycených prvků: { $w }{ $v4 }
 
 ## src/iq/io/follow.rs
 
@@ -2905,8 +2832,6 @@ engine-e-iq-io-sigmf-stream-core-sample-rate-is-not = { $name }: core:sample_rat
 
 engine-e-iq-io-sigmf-stream-at-hz-does-not-match = { $name }: { $f } při { $rate } Hz neodpovídá hodnotě { $f0 } při { $r0 } Hz prvního záznamu
 
-engine-e-iq-io-sigmf-stream-capture-at-sample-is-out = { $name }: zachycení na vzorku { $sample_start } je mimo pořadí nebo za { $n_file } vzorky v datech
-
 engine-e-iq-io-sigmf-stream-first-capture-does-not-start = { $name }: první zachycení nezačíná na hranici bajtu
 
 engine-e-iq-io-sigmf-stream-channel-requested-the-recording-has = požadován kanál { $channel }; záznam má kanálů: { $channels } (kanály se číslují od 0)
@@ -2947,8 +2872,6 @@ engine-iq-labfit-iqfit-uncensored-span-db-is-under = necenzurovaný rozsah J/S {
 
 engine-iq-labfit-iqfit-eff-and-delta-are-not = Q_eff a delta nelze identifikovat odděleně (|corr| { $full } >= { $v2 }): model závisí pouze na delta - 10 log10 Q_eff
 
-engine-iq-labfit-iqfit-not-fitted-re-acquisitions-observed = neproloženo: pozorovaných opětovných akvizic: { $n_reacq } (jsou třeba alespoň 3)
-
 engine-e-iq-labfit-iqfit-unknown-mode-only-validation = neznámý režim `{ $m }` (pouze `validation`)
 
 engine-e-iq-labfit-iqfit-validation-pi90-coverage-must-be = validation.pi90_coverage musí být [lower, upper] v rozmezí [0, 1]
@@ -2981,11 +2904,7 @@ engine-iq-labfit-iqreport-n0-model-delta-eff-db = Model C/N0 ({ $q_mode }): `del
 
 engine-iq-labfit-iqreport-held-at-its-stated-value = Q ponecháno na uvedené hodnotě: { $why }.{ "\u000A\u000A" }
 
-engine-iq-labfit-iqreport-threshold-direct-median-db-over = Práh J/S, přímo: medián { $om } dB z { $n } ztrát (IQR { $t }).{ "\u000A\u000A" }
-
 engine-iq-labfit-iqreport-hold-out-leave-one-recording = Hold-out (vynechání jednoho záznamu), interpolace: binů { $bins }, RMS C/N0 { $om } dB, pokrytí PI90 { $om2 }
-
-engine-iq-labfit-iqreport-events-loss-time-rms-pi90 = ; { $model }: událostí { $n }, RMS času ztráty { $om } s, pokrytí PI90 { $om2 }
 
 engine-iq-labfit-iqreport-validation-table-sha-256-registered =
     SHA-256 validační tabulky `{ $table_sha256 }` (registrováno { $registered }):
@@ -3020,18 +2939,10 @@ engine-iq-labfit-report-lab-fit-label-settings-sha =
 
     Označení: **{ $label }**. SHA-256 nastavení `{ $settings_sha256 }`.{ "\u000A\u000A" }
 
-engine-iq-labfit-report-n0-samples-residual-rms-db = { "\u000A" }Vzorků C/N0: { $n_samples }, reziduální RMS { $om } dB.{ $r }{ "\u000A" }
-
 engine-iq-labfit-report-model-parameter-value-bounds-at =
     { "\u000A" }## Model: { $model } ({ $label })
 
     | parametr | hodnota | meze | na mezi | směrodatná odchylka bootstrapu (95 %) |
-    |---|---|---|---|---|{ "\u000A" }
-
-engine-iq-labfit-report-event-time-rms-over-events =
-    { "\u000A" }RMS času událostí { $om } s z { $n_events } událostí; ztráty vynechané { $loss_missed } / přidané { $loss_extra }, opětovné akvizice vynechané { $reacq_missed } / přidané { $reacq_extra }.
-
-    | běh | pokles dB-Hz | opětovné uzamčení dB-Hz | události | RMS s |
     |---|---|---|---|---|{ "\u000A" }
 
 engine-iq-labfit-report-hold-out-folds-all-interpolation =
@@ -3120,8 +3031,6 @@ engine-e-iq-short-ids-must-hold-to-satellites = ids musí obsahovat 1 až { $MAX
 
 engine-e-iq-short-dopplers-must-be-finite = dopplers musí být konečné
 
-engine-e-iq-short-samples-requested-short-run-holds = požadováno vzorků: { $n }; krátký běh obsahuje nejvýše { $MAX_SAMPLES }
-
 ## src/iq/signals/by_name.rs
 
 engine-e-iq-signals-by-name-prn-is-out-of-range = { $signal }: PRN { $id } je mimo rozsah
@@ -3137,8 +3046,6 @@ engine-e-iq-signals-galileo-line-no = řádek { $v1 }: chybí ';'
 engine-e-iq-signals-galileo-line-no-code-number-in = řádek { $v1 }: chybí číslo kódu v { $label }
 
 engine-e-iq-signals-galileo-code-appears-twice = kód { $number } se vyskytuje dvakrát
-
-engine-e-iq-signals-galileo-codes-the-icd-defines = { $path }: kódů { $n }, ICD definuje { $CODES_PER_COMPONENT }
 
 ## src/iq/signals/lunanet.rs
 
@@ -3504,11 +3411,7 @@ engine-e-leo-fusion-ntn-sync-error-must-be-non = sync_error_m musí být nezápo
 
 engine-e-leo-fusion-ntn-every-signal-needs-positive-bandwidth = každý signál vyžaduje kladnou šířku pásma
 
-engine-leo-fusion-ntn-5g-ntn-positioning-at-mhz = určování polohy 5G NTN na { $r } MHz, C/N0 { $r2 } až { $r3 } dB-Hz, družic: { $n_satellites } (ve výhledu { $mean_in_view }){ "\u000A" }
-
 engine-leo-fusion-ntn-khz-crb-range-to-median = { "  " }{ $name }: { $s } kHz, rozsah CRB { $range_sigma_zenith_m } až { $range_sigma_mask_m } m; medián formální 3D { $s2 } m, chyba RMS { $s3 } m{ "\u000A" }
-
-engine-leo-fusion-ntn-one-satellite-doppler-pass-samples = { "  " }přelet s Dopplerem z jedné družice: vzorků { $n_obs } za { $duration_s } s, horizontální chyba { $horizontal_error_m } m{ "\u000A" }
 
 engine-leo-fusion-ntn-mhz-n0-db-hz-modelled = { $r } MHz · C/N0 { $r2 }-{ $r3 } dB-Hz · MODELLED
 
@@ -3521,8 +3424,6 @@ engine-e-leo-fusion-ppp-duration-and-step-must-be = trvání a krok musí být k
 engine-e-leo-fusion-ppp-runs-must-be-to-200 = počet běhů musí být 1 až 200
 
 engine-e-leo-fusion-ppp-convergence-thresholds-must-be-positive = prahy konvergence musí být kladné
-
-engine-leo-fusion-ppp-ppp-convergence-to-horizontal-vertical = konvergence PPP na { $criterion_horizontal_m } m horizontálně / { $criterion_vertical_m } m vertikálně, běhů na případ: { $runs_per_case }, družic GNSS: { $n_gnss }{ "\u000A" }
 
 engine-leo-fusion-ppp-leo-median-min-converged-nees = { "  " }{ $name } LEO: { $n_leo }  medián { $c } min  konvergovalo { $v4 }%  NEES průměr { $nees_mean }{ "\u000A" }
 
@@ -3551,12 +3452,6 @@ engine-e-leo-fusion-pvt-kind-timing-mode-needs-leo-system = režim timing vyžad
 engine-e-leo-fusion-pvt-kind-unknown-clock-class = neznámá třída hodin { $c }
 
 engine-leo-fusion-pvt-kind-leo-pvt-at-over = LEO PVT ({ $mode }) v { $user_lat_deg }, { $user_lon_deg } za { $duration_s } s{ "\u000A" }
-
-engine-leo-fusion-pvt-kind-sats-at-km-mhz = { "  " }{ $name } { $role } družic: { $n_satellites } ve výšce { $mean_altitude_km } km, { $sys } MHz{ $v6 }{ "\u000A" }
-
-engine-leo-fusion-pvt-kind-doppler-fix-measurements-from-satellites = { "  " }určení polohy z Dopplera: měření { $n_obs } z družic { $n_sats }, 3D chyba { $error_3d_m } m (horizontálně { $horizontal_error_m } m){ "\u000A" }
-
-engine-leo-fusion-pvt-kind-window-sats-3d-error = { "    " }okno { $window_s } s: družic { $n_sats }, 3D chyba { $f } m{ "\u000A" }
 
 engine-leo-fusion-pvt-kind-overhead-pass-max-doppler-hz = { "  " }{ $system } přelet nad hlavou: max. Doppler { $max_doppler_hz } Hz, rychlost { $max_doppler_rate_hz_s } Hz/s, ryv { $max_doppler_jerk_hz_s2 } Hz/s^2{ "\u000A" }
 
@@ -4075,8 +3970,6 @@ engine-live-io-kshana-live-vessel-platform-calibrating = kshana live: platforma 
 
 engine-live-io-write-failed = zápis selhal: { $e }
 
-engine-live-io-kshana-live-dropped-udp-datagram = kshana live: zahozeno datagramů udp: { $n }, které engine nemohl převzít (celkem { $udp_dropped })
-
 ## src/lunar_afs/codes.rs
 
 engine-e-lunar-afs-codes-afs-prn-is-outside = AFS PRN { $prn } je mimo rozsah 1..={ $MAX_PRN }
@@ -4136,12 +4029,6 @@ engine-e-lunar-beacon-satellites-must-be-at-least = n_satellites musí být ales
 engine-e-lunar-beacon-comparison-satellites-must-be-at = comparison_n_satellites musí být alespoň 1
 
 engine-e-lunar-beacon-elevation-mask-deg-must-be = elevation_mask_deg musí ležet v [0, 90); zadáno { $mask_deg }
-
-engine-lunar-beacon-satellites-no-beacons = družic: { $n_sats }, bez majáků
-
-engine-lunar-beacon-satellites-visible-beacons = družic: { $n_sats } + viditelných majáků: { $n_vis_beacons }
-
-engine-lunar-beacon-satellites-no-beacons-2 = družic: { $n_cmp }, bez majáků
 
 engine-e-lunar-beacon-serialising-beacon-report = serializace zprávy o majácích: { $e }
 
@@ -4587,8 +4474,6 @@ engine-main-error-cannot-read = chyba: nelze číst { $validate_file }: { $e }
 
 engine-main-ok-kind-resolves-this-kind = ok: { $kind } — kind se rozpoznal; tento kind nevyžaduje žádné pole (prázdné tělo spustí jeho referenční konfiguraci), takže nebylo co dalšího kontrolovat
 
-engine-main-ok-kind-resolves-and-all = ok: { $kind } — kind se rozpoznal a všech { $n_required } jeho publikovaných záznamů povinných polí je splněno; hodnoty polí se nekontrolují
-
 engine-main-error-study-runs-suite-do = chyba: --study spouští sadu; nezadávejte zároveň soubor jednoho scénáře
 
 engine-main-warning-study-name-is-ignored = upozornění: --study-name se s --study ignoruje; studie se jmenuje podle `title =` v manifestu sady
@@ -4800,11 +4685,7 @@ engine-e-mcda-copras-copras-empty-decision-matrix = COPRAS: prázdná rozhodovac
 
 engine-e-mcda-copras-copras-no-criteria = COPRAS: žádná kritéria
 
-engine-e-mcda-copras-copras-weights-but-criterion-types = COPRAS: vah { $n }, ale typů kritérií { $types }
-
 engine-e-mcda-copras-copras-requires-at-least-one = COPRAS: vyžaduje alespoň jedno nákladové kritérium (Min)
-
-engine-e-mcda-copras-copras-alternative-has-values-but = COPRAS: alternativa { $i } má hodnot { $row }, ale kritérií je { $n }
 
 engine-e-mcda-copras-copras-alternative-criterion-value-must = COPRAS: alternativa { $i }, kritérium { $j }: hodnota { $x } musí být konečná a > 0
 
@@ -4814,8 +4695,6 @@ engine-e-mcda-electre-electre-empty-dataset = ELECTRE I: prázdný soubor dat
 
 engine-e-mcda-electre-electre-no-criteria = ELECTRE I: žádná kritéria
 
-engine-e-mcda-electre-electre-alternative-has-values-but = ELECTRE I: alternativa { $i } má hodnot { $row }, ale kritérií je { $n }
-
 engine-e-mcda-electre-electre-alternative-has-non-finite = ELECTRE I: alternativa { $i } má nekonečnou hodnotu
 
 ## src/mcda/moora.rs
@@ -4823,10 +4702,6 @@ engine-e-mcda-electre-electre-alternative-has-non-finite = ELECTRE I: alternativ
 engine-e-mcda-moora-moora-empty-decision-matrix = MOORA: prázdná rozhodovací matice
 
 engine-e-mcda-moora-moora-no-criteria = MOORA: žádná kritéria
-
-engine-e-mcda-moora-moora-weights-but-criterion-types = MOORA: vah { $n }, ale typů kritérií { $types }
-
-engine-e-mcda-moora-moora-alternative-has-values-but = MOORA: alternativa { $i } má hodnot { $row }, ale kritérií je { $n }
 
 engine-e-mcda-moora-moora-alternative-has-non-finite = MOORA: alternativa { $i } má nekonečnou hodnotu
 
@@ -4838,10 +4713,6 @@ engine-e-mcda-promethee-promethee-ii-empty-decision-matrix = PROMETHEE II: práz
 
 engine-e-mcda-promethee-promethee-ii-no-criteria = PROMETHEE II: žádná kritéria
 
-engine-e-mcda-promethee-promethee-ii-weights-but-types = PROMETHEE II: vah { $n }, ale typů { $types } / preferenčních funkcí { $prefs }
-
-engine-e-mcda-promethee-promethee-ii-alternative-has-values = PROMETHEE II: alternativa { $i } má hodnot { $row }, ale kritérií je { $n }
-
 engine-e-mcda-promethee-promethee-ii-alternative-has-non = PROMETHEE II: alternativa { $i } má nekonečnou hodnotu
 
 ## src/mcda/topsis.rs
@@ -4849,10 +4720,6 @@ engine-e-mcda-promethee-promethee-ii-alternative-has-non = PROMETHEE II: alterna
 engine-e-mcda-topsis-topsis-empty-decision-matrix = TOPSIS: prázdná rozhodovací matice
 
 engine-e-mcda-topsis-topsis-no-criteria = TOPSIS: žádná kritéria
-
-engine-e-mcda-topsis-topsis-weights-but-criterion-types = TOPSIS: vah { $n }, ale typů kritérií { $types }
-
-engine-e-mcda-topsis-topsis-alternative-has-values-but = TOPSIS: alternativa { $i } má hodnot { $row }, ale kritérií je { $n }
 
 engine-e-mcda-topsis-topsis-alternative-has-non-finite = TOPSIS: alternativa { $i } má nekonečnou hodnotu
 
@@ -4874,10 +4741,6 @@ engine-e-mcda-vikor-vikor-empty-decision-matrix = VIKOR: prázdná rozhodovací 
 
 engine-e-mcda-vikor-vikor-no-criteria = VIKOR: žádná kritéria
 
-engine-e-mcda-vikor-vikor-weights-but-criterion-types = VIKOR: vah { $n }, ale typů kritérií { $types }
-
-engine-e-mcda-vikor-vikor-alternative-has-values-but = VIKOR: alternativa { $i } má hodnot { $row }, ale kritérií je { $n }
-
 engine-e-mcda-vikor-vikor-alternative-has-non-finite = VIKOR: alternativa { $i } má nekonečnou hodnotu
 
 ## src/mcda/waspas.rs
@@ -4886,11 +4749,7 @@ engine-e-mcda-waspas-waspas-empty-decision-matrix = WASPAS: prázdná rozhodovac
 
 engine-e-mcda-waspas-waspas-no-criteria = WASPAS: žádná kritéria
 
-engine-e-mcda-waspas-waspas-weights-but-criterion-types = WASPAS: vah { $n }, ale typů kritérií { $types }
-
 engine-e-mcda-waspas-waspas-lambda-must-lie-in = WASPAS: lambda { $lambda } musí ležet v [0, 1]
-
-engine-e-mcda-waspas-waspas-alternative-has-values-but = WASPAS: alternativa { $i } má hodnot { $row }, ale kritérií je { $n }
 
 engine-e-mcda-waspas-waspas-alternative-criterion-value-must = WASPAS: alternativa { $i }, kritérium { $j }: hodnota { $x } musí být konečná a > 0
 
@@ -4899,10 +4758,6 @@ engine-e-mcda-waspas-waspas-alternative-criterion-value-must = WASPAS: alternati
 engine-e-mcda-wpm-wpm-empty-decision-matrix = WPM: prázdná rozhodovací matice
 
 engine-e-mcda-wpm-wpm-no-criteria = WPM: žádná kritéria
-
-engine-e-mcda-wpm-wpm-weights-but-criterion-types = WPM: vah { $n }, ale typů kritérií { $types }
-
-engine-e-mcda-wpm-wpm-alternative-has-values-but = WPM: alternativa { $i } má hodnot { $row }, ale kritérií je { $n }
 
 engine-e-mcda-wpm-wpm-alternative-criterion-value-must = WPM: alternativa { $i }, kritérium { $j }: hodnota { $x } musí být konečná a > 0
 
@@ -4915,8 +4770,6 @@ engine-e-mcda-wsm-decision-matrix-has-no-alternatives = rozhodovací matice nem�
 engine-e-mcda-wsm-criterion-has-an-invalid-weight = kritérium '{ $name }' má neplatnou váhu { $weight }
 
 engine-e-mcda-wsm-criterion-weights-sum-to-zero = součet vah kritérií je nula
-
-engine-e-mcda-wsm-alternative-has-values-but-there = alternativa '{ $name }' má hodnot { $values }, ale kritérií je { $n }
 
 engine-e-mcda-wsm-alternative-has-non-finite-value = alternativa '{ $name }' má nekonečnou hodnotu u kritéria '{ $value }'
 
@@ -4935,8 +4788,6 @@ engine-e-naif-kernel-daf-address-beyond-the-end = adresa DAF { $addr } je za kon
 engine-e-naif-kernel-bad-daf-address-range = chybný rozsah adres DAF { $first }..={ $last }
 
 engine-e-naif-kernel-daf-summary-list-does-not = seznam souhrnů DAF nekončí
-
-engine-e-naif-kernel-daf-summary-record-claims-summaries = záznam souhrnů DAF { $rec } uvádí souhrnů: { $count }
 
 engine-e-naif-kernel-malformed-type-segment-rsize-intlen = poškozený segment typu 2: RSIZE { $rsize }, INTLEN { $intlen }, N { $n }
 
@@ -5102,10 +4953,6 @@ engine-e-nmea-synth-config-the-skyline-describes-no-obstruction = obrys horizont
 
 engine-nmea-synth-gen-has-ended = { $kind } skončilo
 
-engine-nmea-synth-gen-the-receiver-reports-fix-again = přijímač opět hlásí řešení polohy (použitých družic: { $n_used })
-
-engine-nmea-synth-gen-the-receiver-has-no-fix = přijímač nemá řešení polohy (použitelných družic: { $n_used }, potřebné jsou čtyři)
-
 ## src/nmea_synth/log.rs
 
 engine-nmea-synth-log-from-for-onset-ramp-recovery = od T+{ $start_s } s po dobu { $duration_s } s (náběh { $ramp_s } s, doběh { $recovery_s } s)
@@ -5143,8 +4990,6 @@ engine-e-nmea-synth-sky-receiver-systems-unknown-constellation-gps = receiver.sy
 engine-observability-gramian-the-tolerance-is-below-the = { " " }Tolerance je pod úrovní šumu čtení hodnosti ve f64 { $RANK_TOLERANCE_NOISE_FLOOR } (= sqrt(f64::EPSILON)): jí odpovídající mez vlastních čísel rel_tol^2 = { $v1 } leží pod zaokrouhlovacím šumem Gramovy matice, takže další směry jsou aritmetický zbytek, nikoli pozorovatelnost.
 
 engine-observability-gramian-rank-clamped-from-the-singular = hodnost omezena z počtu singulárních hodnot { $counted } na min(rows, cols) = min({ $n_rows }, { $n_cols }) = { $shape_bound } při rel_tol { $rel_tol }: matice { $n_rows }x{ $n_cols } nemůže mít hodnost { $counted }.{ $floor_note }
-
-engine-observability-gramian-gdop-undefined-rank-deficient-singular = GDOP nedefinován (geometrie s nedostatečnou hodností / singulární): hodnost { $rank } z { $n } stavů, defekt datumu { $v3 }, podmíněnost { $v4 }
 
 ## src/odf.rs
 
@@ -5267,10 +5112,6 @@ engine-e-oem-oem-missing-creation-date-header = v OEM chybí hlavička CREATION_
 engine-e-oem-oem-missing-originator-header = v OEM chybí hlavička ORIGINATOR
 
 engine-e-oem-oem-carried-no-segments = OEM neobsahovalo žádné segmenty
-
-engine-oem-oem-interop-round-tripped-segment = oem-interop: zpětně převedeno segmentů: { $segments }, stavů: { $n_states_total }; maximální chyba zpětného převodu { $p } km / { $v } km/s (MODELLED interop)
-
-engine-oem-oem-interop-ingested-segment-states = oem-interop: načteno segmentů: { $segments }, stavů: { $n_states_total } z externího OEM (původce { $originator }) (MODELLED interop)
 
 engine-e-oem-no-covariance-start-block = žádný blok COVARIANCE_START
 
@@ -5437,8 +5278,6 @@ engine-pvt-3d-error-rms-max = { " " }| 3D chyba RMS { $rms } m (max { $max } m)
 
 engine-pvt-post-fit-rms = { " " }| RMS po fitu { $mean_postfit_rms_m } m
 
-engine-pvt-pvt-sat-nav-epochs-solved = pvt { $r } | družic v navigaci: { $n_satellites_nav } | vyřešeno epoch: { $epochs_solved }/{ $epochs_total } | průměr družic { $mean_n_used }, PDOP { $mean_pdop }{ $acc }
-
 engine-pvt-single-point-positioning-3d-error = Jednobodové určení polohy — 3D chyba vůči zaměřeným souřadnicím (RMS { $rms_3d_m } m)
 
 engine-pvt-single-point-positioning-post-fit = Jednobodové určení polohy — RMS reziduí po fitu (průměr { $mean_postfit_rms_m } m)
@@ -5514,8 +5353,6 @@ engine-e-realdata-ion-sdr-element-outside-the-document = element mimo dokument
 engine-e-realdata-ion-sdr-text-outside-the-document = text mimo dokument
 
 engine-e-realdata-ion-sdr-element-left-open = ponechané otevřené elementy: { $stack }
-
-engine-e-realdata-ion-sdr-expected-one-root-element-found = očekáván jeden kořenový element, nalezeno { $n }
 
 engine-e-realdata-ion-sdr-unknown-frequency-format = neznámý formát frekvence { $f }
 
@@ -5677,8 +5514,6 @@ engine-e-receiver-trust-geometry-geometry-floor-must-be-in = geometry: floor mus
 
 engine-e-receiver-trust-geometry-geometry-floor-is-below-the = geometry: floor ({ $f }) je pod hodnotou degraded_min skóre ({ $degraded_min }): samotná geometrie by mohla dosáhnout pásma nedůvěry
 
-engine-receiver-trust-geometry-geometry-hdop-pdop-vdop-satellites = geometrie { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, družic: { $n_used }{ $v6 }
-
 ## src/receiver_trust/geometry.rs
 
 engine-receiver-trust-geometry-the-geometry-deduction-is-classed = { $why }: odpočet za geometrii je klasifikován jako nesrovnalost
@@ -5687,15 +5522,9 @@ engine-receiver-trust-geometry-reported-not-scored-the-geometry = { $why }: uved
 
 engine-receiver-trust-geometry-not-scored-the-score-deducts = nehodnoceno (skóre odečítá body jen nad HDOP { $hdop_max }, PDOP { $pdop_max } nebo při počtu použitých družic pod { $min_used })
 
-engine-receiver-trust-geometry-derived-from-logged-satellites = odvozeno ze zaznamenaných družic: { $n }
-
-engine-receiver-trust-geometry-as-the-receiver-reports-it = podle hlášení přijímače, použité družice: { $n }
-
 engine-receiver-trust-geometry-the-stated-hdop-disagrees-with = uvedený HDOP { $fmt_dop } se mimo toleranci liší od HDOP { $fmt_dop2 } odvozeného z uvedené oblohy
 
 engine-receiver-trust-geometry-satellites-in-view-but-not = družice v dohledu, ale nesledované ({ $g } z { $in_view } na úrovni { $low_elev_deg } deg nebo výše): prostředí signálu, nikoli geometrie
-
-engine-receiver-trust-geometry-satellites-fewer-than = družice: { $n }, méně než { $min_used }
 
 engine-receiver-trust-geometry-pdop-above = PDOP { $fmt_dop } nad { $pdop_max }
 
@@ -5751,11 +5580,7 @@ engine-e-receiver-trust-machines-imu-fit-axis-must-be-or = osa musí být 0, 1 n
 
 engine-e-receiver-trust-machines-imu-fit-expected-mean-must-be-finite = expected_mean musí být konečné
 
-engine-e-receiver-trust-machines-imu-fit-the-log-has-samples-at = záznam obsahuje vzorky: { $n }; pro proložení Allanovy odchylky je jich potřeba alespoň { $MIN_SAMPLES }
-
 engine-e-receiver-trust-machines-imu-fit-the-log-time-does-not = čas záznamu neplyne vpřed
-
-engine-e-receiver-trust-machines-imu-fit-the-sample-interval-is-not = interval vzorkování není rovnoměrný (intervaly lišící se o více než 25 %: { $uneven } z { $n }): nejprve záznam převzorkujte
 
 engine-e-receiver-trust-machines-imu-fit-the-log-is-too-short = záznam je příliš krátký pro vytvoření Allanovy křivky
 
@@ -5919,8 +5744,6 @@ engine-e-scenario-time-duration-must-be-finite = time.duration_s musí být kone
 
 engine-e-scenario-time-step-must-not-exceed = time.step_s ({ $step_s }) nesmí překročit time.duration_s ({ $duration_s })
 
-engine-e-scenario-time-grid-too-large-steps = časová mřížka je příliš velká: počet kroků { $n } překračuje MAX_TIME_STEPS ({ $MAX_TIME_STEPS }); použijte hrubší krok nebo kratší trvání
-
 ## src/sdr.rs
 
 engine-sdr-sampling-rate-is-commensurate-with = vzorkovací frekvence je souměřitelná s frekvencí kódu ({ $samples_per_chip } vzorků/chip, { $offset_from_integer_samples } vzorků od celého čísla): replika kódu s podržením nultého řádu nedokáže rozlišit změnu fáze kódu pod { $dead_band_chips } chipů, takže diskriminátor Early/Late je místo trojúhelníku schodovitý s mrtvým pásmem o jednom vzorku a DLL se ustálí na špatném zpoždění. Posuňte vzorkovací frekvenci mimo celočíselný násobek (5 MHz je 4.8876 vzorků/chip; 25 MHz je 24.4379) nebo vzorkujte dostatečně nadměrně, aby bylo mrtvé pásmo pod přesností fáze kódu, kterou potřebujete.
@@ -6027,8 +5850,6 @@ engine-slot-timing-class-default-sigma-from-red = výchozí hodnota třídy { $c
 
 engine-slot-timing-fitted-to-the-allan-deviation = proloženo maximy Allanovy odchylky z { $document }, škálováno tak, aby leželo na úrovni všech bodů nebo nad nimi
 
-engine-slot-timing-fitted-to-the-overlapping-allan = proloženo překrývající se Allanovou odchylkou záznamu o { $n_samples } vzorcích při { $tau0_s } s, v bázi frekvenční modulace podle IEEE Std 1139
-
 engine-slot-timing-slot-timing-source-guard-ns = slot-timing (zdroj { $n }): ochranný interval { $c } ns při k={ $k_sigma } vydrží { $fmt_s } po určení polohy (zbývá { $fmt_s2 }); určení polohy alespoň každých { $fmt_s3 } ({ $fixes_per_day } za den); dominantní člen: { $b }{ $v9 }
 
 ## src/solar_system.rs
@@ -6064,10 +5885,6 @@ engine-e-solar-system-unknown-link-body = neznámé těleso spoje '{ $from }'
 engine-e-solar-system-unknown-link-body-2 = neznámé těleso spoje '{ $to }'
 
 engine-e-solar-system-link-needs-two-different-bodies = spoj vyžaduje dvě různá tělesa; zadáno { $name }
-
-engine-solar-system-solar-system-at-jd-tdb =
-    Sluneční soustava v { $input } (JD { $jd_tdb } TDB), tělesa: { $n_bodies }, pozorovatel { $observer }
-    { "  " }{ $standish_table }{ "\u000A" }
 
 engine-solar-system-light-time = světelný čas { $one_way_light_time_s } s
 
@@ -6139,8 +5956,6 @@ engine-e-space-packet-cds-field-reserved-sub-ms = CDS P-pole { $p }: rezervovan�
 
 engine-e-space-packet-cuc-coarse-does-not-fit = hrubá část CUC { $coarse } se nevejde do oktetů: { $c }
 
-engine-e-space-packet-cuc-fine-does-not-fit = jemná část CUC { $fine } se nevejde do oktetů: { $n }
-
 engine-e-space-packet-cds-days-do-not-fit = dny CDS { $days } se nevejdou do oktetů: { $f }
 
 engine-e-space-packet-cds-ms-of-day-above = ms dne CDS { $ms_of_day } nad 86 400 999
@@ -6206,8 +6021,6 @@ engine-e-space-packet-packet-count-must-be = packet_count musí být >= 1
 engine-e-space-packet-data-len-must-be-in = data_len musí být v rozsahu 1..=65536
 
 engine-e-space-packet-internal-error-encode-decode-round = interní chyba: nesoulad při zakódování a zpětném dekódování
-
-engine-space-packet-space-packet-framed-ccsds-133 = space-packet: zarámováno CCSDS-133.0, typ { $v2 }, pakety: { $packet_count }, APID { $apid }, celkem { $total_bytes } oktetů, zpětná konverze přesná ({ $round_trip_ok })
 
 ## src/space_weather.rs
 
@@ -6301,10 +6114,6 @@ engine-e-spk-writer-degree-outside-27 = stupeň { $degree } mimo 1..=27
 
 engine-e-spk-writer-type-13-degree-is-not = stupeň { $degree } typu 13 není lichý
 
-engine-e-spk-writer-states-for-epochs = stavy: { $states }, epochy: { $n }
-
-engine-e-spk-writer-states-degree-needs = stavy: { $n }; stupeň { $degree } vyžaduje { $value }
-
 engine-e-spk-writer-descriptor-start-is-not-before = začátek deskriptoru není před jeho koncem
 
 engine-e-spk-writer-epochs-are-not-strictly-increasing = epochy nejsou striktně rostoucí
@@ -6334,8 +6143,6 @@ engine-e-spk-writer-type-21-segment-needs-at = segment typu 21 vyžaduje alespo�
 engine-e-spk-writer-difference-line-size-is-not = velikost diferenční řádky { $dlsize } není 4 MAXDIM + 11 pro MAXDIM v rozsahu 15..=25
 
 engine-e-spk-writer-difference-lines-of-different-sizes = diferenční řádky různých velikostí
-
-engine-e-spk-writer-epochs-for-difference-lines = epochy: { $epochs }, diferenční řádky: { $n }
 
 engine-e-spk-writer-difference-line-epochs-are-not = epochy diferenčních řádek nejsou striktně rostoucí
 
@@ -6651,8 +6458,6 @@ engine-e-sweep-sweep-key-follows-an-array = klíč přehledu `{ $key }`: `{ $par
 
 engine-e-sweep-unreachable = nedosažitelné
 
-engine-e-sweep-sweep-key-index-is-past = klíč přehledu `{ $key }`: index { $i } je za položkami pole: { $n }
-
 engine-e-sweep-sweep-key-parent-is-not = klíč přehledu `{ $key }`: rodič `{ $part }` není tabulka
 
 engine-e-sweep-sweep-key-no-field = klíč přehledu `{ $key }`: žádné pole `{ $part }`
@@ -6756,8 +6561,6 @@ engine-e-telemetry-cli-otlp-needs-build-with-features = --otlp vyžaduje sestave
 engine-telemetry-cli-warning-input-line = varování: vstupní řádek { $line_no }: { $e }
 
 engine-e-telemetry-cli-cannot-open = nelze otevřít { $p }: { $e }
-
-engine-telemetry-cli-warning-mqtt-messages-were-not = varování: nedoručené zprávy MQTT: { $n }
 
 ## src/telemetry/otlp.rs
 
@@ -6936,6 +6739,748 @@ engine-wasm-plans-json-is-not-json = plans_json není pole JSON s řetězci: { $
 engine-wasm-options-json-is-not-json = options_json není JSON: { $e }
 
 engine-wasm-input-is-about-bytes-over = vstup má asi { $b64 } bajtů, přes limit { $v2 } bajtů
+
+## plural forms
+
+engine-e-clock-log-the-log-has-missing-epoch =
+    záznam ve formátu { $format } má { $n_missing ->
+        [one] { $n_missing } chybějící epochu
+        [few] { $n_missing } chybějící epochy
+        [many] { $n_missing } chybějící epochy
+       *[other] { $n_missing } chybějících epoch
+    }, počet mezer: { $n_gaps }, mřížka { $tau0 } s; nastavte gaps = "longest" pro zachování nejdelšího úseku bez mezer nebo gaps = "linear" pro interpolaci
+
+engine-advanced-report-rows-of-non-numeric-column =
+    { $n ->
+        [one] { $n } řádek nečíselného sloupce
+        [few] { $n } řádky nečíselného sloupce
+        [many] { $n } řádku nečíselného sloupce
+       *[other] { $n } řádků nečíselného sloupce
+    }
+
+engine-e-animation-duration-fps-gives-frames-the =
+    duration x fps dává { $n ->
+        [one] { $n } snímek
+        [few] { $n } snímky
+        [many] { $n } snímku
+       *[other] { $n } snímků
+    }; sekvence snímků vyžaduje počet mezi 2 a { $v1 }
+
+engine-aocs-kind-aocs-wheels-slew-from-deg =
+    aocs: { $n_w ->
+        [one] { $n_w } kolo
+        [few] { $n_w } kola
+        [many] { $n_w } kola
+       *[other] { $n_w } kol
+    }, { $duration_s } s, přeorientování z { $series_err } deg -> { $settle } | konečná { $final_err } deg | špička kola { $peak_speed } rpm | { $v7 }
+
+engine-api-unknown-scenario-kind-did-you =
+    neznámý druh scénáře { $other } — mysleli jste { $hint }? `kshana kinds` vypíše { $n ->
+        [one] { $n } vestavěný druh.
+        [few] všechny { $n } vestavěné druhy.
+        [many] všech { $n } vestavěného druhu.
+       *[other] všech { $n } vestavěných druhů.
+    }
+
+engine-api-unknown-scenario-kind-kshana-kinds =
+    neznámý druh scénáře { $other }. `kshana kinds` vypíše { $n ->
+        [one] { $n } vestavěný druh.
+        [few] všechny { $n } vestavěné druhy.
+        [many] všech { $n } vestavěného druhu.
+       *[other] všech { $n } vestavěných druhů.
+    }
+
+engine-api-builtins-integrity-satellites-epochs-available-hal =
+    integrita | { $n_sats ->
+        [one] { $n_sats } družice
+        [few] { $n_sats } družice
+        [many] { $n_sats } družice
+       *[other] { $n_sats } družic
+    } | dostupné epochy: { $samples_available }/{ $samples_total } ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): události integrity { $report2 }, HMI { $report3 }
+
+engine-api-builtins-lunar-joint-od-clock-sats =
+    lunar-joint-od-clock | { $n_sat ->
+        [one] { $n_sat } družice
+        [few] { $n_sat } družice
+        [many] { $n_sat } družice
+       *[other] { $n_sat } družic
+    }, počet pozemních stanic: { $n_earth } | 3-D chyba stanice s VLBI { $station_pos_err_m } m oproti pouze měření vzdálenosti { $station_pos_err_m2 } m (zlepšení { $station_observability_improvement_factor }×) | RMS polohy družice { $sat_pos_rms_m } m | chyba hodin stanice { $station_clock_err_s } s | pozorování { $n_obs }/{ $n_params } parametrů
+
+engine-api-builtins-lunar-frame-realisation-points-translation =
+    lunar-frame-realisation | { $n_points ->
+        [one] { $n_points } bod
+        [few] { $n_points } body
+        [many] { $n_points } bodu
+       *[other] { $n_points } bodů
+    } | chyba translace { $trans_err_norm_m } m, chyba rotace { $rot_err_norm_rad } rad, chyba měřítka { $scale_err_ppb } ppb | rms reziduí { $rms_residual_m } m | konvergence { $converged }
+
+engine-api-builtins-moonlight-service-volume-sats-pts =
+    moonlight-service-volume | { $n_sats ->
+        [one] { $n_sats } družice
+        [few] { $n_sats } družice
+        [many] { $n_sats } družice
+       *[other] { $n_sats } družic
+    } ({ $geometry_label }) | počet bodů × epoch: { $n_grid_points } × { $n_epochs } | pokrytí { $coverage_pct }% (PDOP<{ $pdop_threshold }) | družice { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | dostupnost PL { $pl_availability_pct }% | MODELLED
+
+engine-api-builtins-lunar-differential-pnt-sats-illustrative =
+    lunar-differential-pnt | { $n_sats ->
+        [one] { $n_sats } družice
+        [few] { $n_sats } družice
+        [many] { $n_sats } družice
+       *[other] { $n_sats } družic
+    } (ilustrativní třída LCNS, bez příslušnosti) | základna { $baseline_km } km | chyba uživatele { $user_error_uncorrected_m } m → { $user_error_corrected_m } m (snížení { $reduction_factor }×) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
+
+engine-api-builtins-lunar-station-coverage-points-epochs = lunar-station-coverage | body × epochy × pokusy: { $n_grid_points } × { $n_epochs } × { $n_trials } | dostupnost { $v4 } % | pokrytí { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korigovaná p{ $percentile } 3-D { $f } (nekorigovaná { $f2 }) | HPL max { $f3 } | MODELLED; nejde o tvrzení o žádném skutečném systému
+
+engine-api-builtins-lunar-interop-export-ref-frame =
+    lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states ->
+        [one] { $n_states } stav
+        [few] { $n_states } stavy
+        [many] { $n_states } stavu
+       *[other] { $n_states } stavů
+    }, OEM: počet řádků { $oem_line_count } | shoda { $v5 } (přítomná pole: { $present_fields }, chybějící: { $missing_fields }) | OEM round-trip { $v8 } | time-meta round-trip { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+
+engine-api-builtins-scenario-spoof-detect-svs-db =
+    scénář { $r } | spoof-detect | { $n_sats ->
+        [one] { $n_sats } družice
+        [few] { $n_sats } družice
+        [many] { $n_sats } družice
+       *[other] { $n_sats } družic
+    }, +{ $power_advantage_db } dB{ $v4 } | posun { $push } | fúzní skóre { $score } (práh { $fusion_threshold }) | { $verdict }
+
+engine-api-builtins-scenario-samples-alt-km-lat =
+    scénář { $r } | { $source } | { $n_samples ->
+        [one] { $n_samples } vzorek
+        [few] { $n_samples } vzorky
+        [many] { $n_samples } vzorku
+       *[other] { $n_samples } vzorků
+    } | výška { $alt_min_km }–{ $alt_max_km } km | |lat| ≤ { $r2 }° | rychlost { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
+
+engine-api-builtins-raim-available-of-epochs-denied =
+    { " " }| RAIM dostupný: { $n_available } z { $n_epochs ->
+        [one] { $n_epochs } epochy
+        [few] { $n_epochs } epoch
+        [many] { $n_epochs } epochy
+       *[other] { $n_epochs } epoch
+    } (odepřeno: { $n_denied }, poplachy: { $n_alarm }; MODELLED)
+
+engine-e-araim-reference-the-priors-need-subsets-of =
+    apriorní hodnoty vyžadují podmnožiny { $n_fault_max ->
+        [one] { $n_fault_max } současné události
+        [few] { $n_fault_max } současných událostí
+        [many] { $n_fault_max } současné události
+       *[other] { $n_fault_max } současných událostí
+    }; tato cesta jich vyjmenuje nejvýše { $most }
+
+engine-bench-tasks-case-needs-values-has =
+    případ `{ $id }` vyžaduje { $n ->
+        [one] { $n } hodnotu
+        [few] { $n } hodnoty
+        [many] { $n } hodnoty
+       *[other] { $n } hodnot
+    }, má { $a }
+
+engine-bin-gen-araim-m3-study-user-epochs-ura-values-in =
+    { $n ->
+        [one] { $n } uživatelská epocha
+        [few] { $n } uživatelské epochy
+        [many] { $n } uživatelské epochy
+       *[other] { $n } uživatelských epoch
+    } x 3 hodnoty URA za { $dt } s = { $v1 } ms na uživatelskou epochu (řešitelné: { $ok })
+
+engine-body-pnt-positioning-around-user-relays-at =
+    Určování polohy kolem { $name } — uživatel { $user_kind }, { $n_relays } relé ve { $r } km, { $n_epochs ->
+        [one] { $n_epochs } epocha
+        [few] { $n_epochs } epochy
+        [many] { $n_epochs } epochy
+       *[other] { $n_epochs } epoch
+    }
+    { "  " }Světelný čas k Zemi { $one_way_light_time_s } s jedním směrem, { $two_way_light_time_s } s tam a zpět; úhel Slunce–Země–těleso { $sun_separation_deg } deg
+    { "  " }dostupnost: { $availability_relays } pouze konstelace, { $availability_with_earth } se vzdáleností k Zemi (Země v dohledu { $earth_visibility })
+    { "  " }medián PDOP { $opt }; chyba RMS { $opt2 } pouze konstelace, { $opt3 } se vzdáleností k Zemi
+    { "  " }medián formální sigmy { $opt4 } pouze konstelace, { $opt5 } se vzdáleností k Zemi{ "\u000A" }
+
+engine-body-pnt-user-relays-earth-light-time = uživatel { $user_kind } · { $n_relays } relé · světelný čas k Zemi { $one_way_light_time_s } s · MODELLED
+
+engine-cislunar-observability-cislunar-observability-refs-arc-epochs =
+    cislunar-observability | { $c } s/c (reference: { $refs }) | oblouk { $arc_hours } h, { $rank_arc } epoch | hodnost { $first } → { $last } z { $state_dim } na oblouku | Gramián λ [{ $min_eigenvalue }…{ $max_eigenvalue }] cond { $condition_str } | okamžitá hodnost pouze vzdálenost { $rank_range_only } → vzdálenost+rychlost { $rank_range_rate } ({ $n_links ->
+        [one] { $n_links } spoj
+        [few] { $n_links } spoje
+        [many] { $n_links } spoje
+       *[other] { $n_links } spojů
+    }) | GDOP pouze vzdálenost { $ro } vzdálenost+rychlost { $rr } | počáteční podmínky DRO (max. reziduum periodicity { $max_resid }) | posteriorní SRIF konečný v epoše s hodností 4 { $srif_epoch } (ověřeno: hodnost/STM/uzavření DRO/SRIF, modelován: návrh)
+
+engine-cislunar-observability-extension-r3-this-run-is =
+    ROZŠÍŘENÍ (R3) — tento běh NENÍ rovinnou konfigurací DRO, kterou popisuje `label` výše. Rozměr stavu { $state_dim }; rodina drah { $family }; { $n_spacecraft ->
+        [one] { $n_spacecraft } družice
+        [few] { $n_spacecraft } družice
+        [many] { $n_spacecraft } družice
+       *[other] { $n_spacecraft } družic
+    }; sigma měření vzdálenosti { $sigma_range_m } m. Kde `label` říká „planar“ a „planar DROs“, čtěte zde uvedenou rodinu. VALIDATED doplňky: variační STM 6x6 je táž STM CR3BP ověřená konečnými diferencemi (crate::cr3bp), použitá v plné šířce; řádky prostorového Jacobiánu vzdálenosti / rychlosti změny vzdálenosti jsou analytické parciální derivace ověřené konečnými diferencemi, řádek rychlosti změny vzdálenosti křížově ověřen složku po složce proti nezávislé 3-D deepspace_od::range_rate_observable v tomto crate; počáteční podmínky halo / NRHO jsou diferenciálně korigované periodické dráhy z téhož korektoru, který reprodukuje publikovanou jižní NRHO L2 9:2, pokračované z tohoto publikovaného semene, a reziduum uzavření každého člena je uvedeno; šestistavové verdikty HODNOSTI jsou potvrzeny NEZÁVISLOU hodností z řádkově odstupňovaného tvaru (Gaussova eliminace s částečným pivotováním), která sdílí s cestou vlastních čísel/SVD nulový kód. ÚPRIMNÝ ROZSAH VĚTVE SRIF: křížová validace SRIF výše spotřebovává TUTÉŽ měřicí Jacobiány a redukuje se na totéž O^T O, takže její shoda je kontrola konzistence mezi dvěma numerickými stroji, NIKOLI nezávislé potvrzení prahu — nepočítá se jako validace žádné zde uvedené hodnoty. MODELLED: návrh rodiny (které úsečky, amplitudy a fáze), mřížka epoch, jednospojový oblouk a uvedená mez polohy kritéria odhadnutelnosti.
+
+engine-e-clock-integrity-integrity-epochs-exceed-the-epoch =
+    integrity: { $n ->
+        [one] { $n } epocha překračuje
+        [few] { $n } epochy překračují
+        [many] { $n } epochy překračuje
+       *[other] { $n } epoch překračuje
+    } strop { $MAX_EPOCHS } epoch; zvyšte step_s
+
+engine-earth-gnss-lunar-earth-gnss-at-lunar-distance =
+    Earth-GNSS ve měsíční vzdálenosti — { $n_satellites ->
+        [one] { $n_satellites } družice
+        [few] { $n_satellites } družice
+        [many] { $n_satellites } družice
+       *[other] { $n_satellites } družic
+    }, přijímač ve { $r } km{ "\u000A" }
+
+engine-ephemeris-ground-track-samples-alt-km =
+    { $source } pozemní stopa · { $n_samples ->
+        [one] { $n_samples } vzorek
+        [few] { $n_samples } vzorky
+        [many] { $n_samples } vzorku
+       *[other] { $n_samples } vzorků
+    } · výška { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
+
+engine-geometry-sky-tle-holds-no-complete =
+    sky: tle neobsahuje úplnou dvouřádkovou sadu elementů; { $n_ignored ->
+        [one] { $n_ignored } řádek ignorován
+        [few] { $n_ignored } řádky ignorovány
+        [many] { $n_ignored } řádku ignorováno
+       *[other] { $n_ignored } řádků ignorováno
+    }, první: { $first }
+
+engine-e-gse-sim-scenario-produces-epochs-need-increase =
+    scénář vytváří { $n ->
+        [one] { $n } epochu
+        [few] { $n } epochy
+        [many] { $n } epochy
+       *[other] { $n } epoch
+    } (je třeba ≥ 2); zvyšte duration_s nebo snižte step_s
+
+engine-hybrid-integrity-hybrid-optical-rf-optical-footprint =
+    hybrid-optical-rf | optická stopa { $footprint_m } m, fotonů: { $detected_photons } -> σ určování vzdálenosti { $c } mm, σ určování času { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | dostupnost { $c4 } % ({ $n_sites ->
+        [one] { $n_sites } stanoviště
+        [few] { $n_sites } stanoviště
+        [many] { $n_sites } stanoviště
+       *[other] { $n_sites } stanovišť
+    }) | předání bez skoku { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | společné FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | ověřeno: CRLB/χ²-PL/sjednocení/předání, modelováno: σ/klimatologie
+
+engine-impairment-eval-impairment-eval-detector-auc-in =
+    impairment-eval | detektor { $detector } | AUC { $auc_in } vstup / { $auc_out } výstup (rozdíl { $optimism_gap }{ $v5 }) | Pd { $report } Pfa { $report2 } @ cíl { $target_pfa } | { $n_cases ->
+        [one] { $n_cases } případ
+        [few] { $n_cases } případy
+        [many] { $n_cases } případu
+       *[other] { $n_cases } případů
+    } | MODELLED syntetická data
+
+engine-e-iq-campaign-conditions-lists-value-give-one-per =
+    { $at }: { $key } uvádí { $n ->
+        [one] { $n } hodnotu
+        [few] { $n } hodnoty
+        [many] { $n } hodnoty
+       *[other] { $n } hodnot
+    }; zadejte jednu na každé id ({ $ids })
+
+engine-iq-cli-iq-takes-positional-argument-got =
+    iq { $cmd } přijímá { $n ->
+        [one] { $n } poziční argument
+        [few] { $n } poziční argumenty
+        [many] { $n } pozičního argumentu
+       *[other] { $n } pozičních argumentů
+    }, zadáno: { $pos }
+
+engine-iq-io-cli-iq-takes-path-argument-got =
+    iq { $cmd } přijímá { $n ->
+        [one] { $n } argument cesty
+        [few] { $n } argumenty cesty
+        [many] { $n } argumentu cesty
+       *[other] { $n } argumentů cesty
+    }, zadáno: { $pos }
+
+engine-iq-io-cli-wrote-samples-hz-to-saturated =
+    { $n ->
+        [one] zapsán { $n } vzorek
+        [few] zapsány { $n } vzorky
+        [many] zapsáno { $n } vzorku
+       *[other] zapsáno { $n } vzorků
+    } ({ $to }, { $fs_hz } Hz) do { $files }; nasycených prvků: { $w }{ $v4 }
+
+engine-e-iq-io-sigmf-stream-capture-at-sample-is-out =
+    { $name }: zachycení na vzorku { $sample_start } je mimo pořadí nebo za { $n_file ->
+        [one] { $n_file } vzorkem
+        [few] { $n_file } vzorky
+        [many] { $n_file } vzorky
+       *[other] { $n_file } vzorky
+    } v datech
+
+engine-iq-labfit-iqfit-not-fitted-re-acquisitions-observed =
+    neproloženo: { $n_reacq ->
+        [one] pozorována { $n_reacq } opětovná akvizice
+        [few] pozorovány { $n_reacq } opětovné akvizice
+        [many] pozorováno { $n_reacq } opětovné akvizice
+       *[other] pozorováno { $n_reacq } opětovných akvizic
+    } (jsou třeba alespoň 3)
+
+engine-iq-labfit-iqreport-threshold-direct-median-db-over =
+    Práh J/S, přímo: medián { $om } dB z { $n ->
+        [one] { $n } ztráty
+        [few] { $n } ztrát
+        [many] { $n } ztráty
+       *[other] { $n } ztrát
+    } (IQR { $t }).{ "\u000A\u000A" }
+
+engine-iq-labfit-iqreport-events-loss-time-rms-pi90 =
+    ; { $model }: { $n ->
+        [one] { $n } událost
+        [few] { $n } události
+        [many] { $n } události
+       *[other] { $n } událostí
+    }, RMS času ztráty { $om } s, pokrytí PI90 { $om2 }
+
+engine-iq-labfit-report-n0-samples-residual-rms-db =
+    { "\u000A" }{ $n_samples ->
+        [one] { $n_samples } vzorek
+        [few] { $n_samples } vzorky
+        [many] { $n_samples } vzorku
+       *[other] { $n_samples } vzorků
+    } C/N0, reziduální RMS { $om } dB.{ $r }{ "\u000A" }
+
+engine-iq-labfit-report-event-time-rms-over-events =
+    { "\u000A" }RMS času událostí { $om } s z { $n_events ->
+        [one] { $n_events } události
+        [few] { $n_events } událostí
+        [many] { $n_events } události
+       *[other] { $n_events } událostí
+    }; ztráty vynechané { $loss_missed } / přidané { $loss_extra }, opětovné akvizice vynechané { $reacq_missed } / přidané { $reacq_extra }.
+
+    | běh | pokles dB-Hz | opětovné uzamčení dB-Hz | události | RMS s |
+    |---|---|---|---|---|{ "\u000A" }
+
+engine-e-iq-short-samples-requested-short-run-holds =
+    { $n ->
+        [one] požadován { $n } vzorek
+        [few] požadovány { $n } vzorky
+        [many] požadováno { $n } vzorku
+       *[other] požadováno { $n } vzorků
+    }; krátký běh obsahuje nejvýše { $MAX_SAMPLES }
+
+engine-e-iq-signals-galileo-codes-the-icd-defines =
+    { $path }: { $n ->
+        [one] { $n } kód
+        [few] { $n } kódy
+        [many] { $n } kódu
+       *[other] { $n } kódů
+    }, ICD definuje { $CODES_PER_COMPONENT }
+
+engine-leo-fusion-ntn-5g-ntn-positioning-at-mhz =
+    určování polohy 5G NTN na { $r } MHz, C/N0 { $r2 } až { $r3 } dB-Hz, { $n_satellites ->
+        [one] { $n_satellites } družice
+        [few] { $n_satellites } družice
+        [many] { $n_satellites } družice
+       *[other] { $n_satellites } družic
+    } (ve výhledu { $mean_in_view }){ "\u000A" }
+
+engine-leo-fusion-ntn-one-satellite-doppler-pass-samples =
+    { "  " }přelet s Dopplerem z jedné družice: { $n_obs ->
+        [one] { $n_obs } vzorek
+        [few] { $n_obs } vzorky
+        [many] { $n_obs } vzorku
+       *[other] { $n_obs } vzorků
+    } za { $duration_s } s, horizontální chyba { $horizontal_error_m } m{ "\u000A" }
+
+engine-leo-fusion-ppp-ppp-convergence-to-horizontal-vertical =
+    konvergence PPP na { $criterion_horizontal_m } m horizontálně / { $criterion_vertical_m } m vertikálně, běhů na případ: { $runs_per_case }, { $n_gnss ->
+        [one] { $n_gnss } družice GNSS
+        [few] { $n_gnss } družice GNSS
+        [many] { $n_gnss } družice GNSS
+       *[other] { $n_gnss } družic GNSS
+    }{ "\u000A" }
+
+engine-leo-fusion-pvt-kind-sats-at-km-mhz =
+    { "  " }{ $name } { $role } { $n_satellites ->
+        [one] { $n_satellites } družice
+        [few] { $n_satellites } družice
+        [many] { $n_satellites } družice
+       *[other] { $n_satellites } družic
+    } ve výšce { $mean_altitude_km } km, { $sys } MHz{ $v6 }{ "\u000A" }
+
+engine-leo-fusion-pvt-kind-doppler-fix-measurements-from-satellites =
+    { "  " }určení polohy z Dopplera: { $n_obs } měření z { $n_sats ->
+        [one] { $n_sats } družice
+        [few] { $n_sats } družic
+        [many] { $n_sats } družice
+       *[other] { $n_sats } družic
+    }, 3D chyba { $error_3d_m } m (horizontálně { $horizontal_error_m } m){ "\u000A" }
+
+engine-leo-fusion-pvt-kind-window-sats-3d-error =
+    { "    " }okno { $window_s } s: { $n_sats ->
+        [one] { $n_sats } družice
+        [few] { $n_sats } družice
+        [many] { $n_sats } družice
+       *[other] { $n_sats } družic
+    }, 3D chyba { $f } m{ "\u000A" }
+
+engine-live-io-kshana-live-dropped-udp-datagram =
+    kshana live: { $n ->
+        [one] zahozen { $n } datagram udp, který engine nemohl převzít
+        [few] zahozeny { $n } datagramy udp, které engine nemohl převzít
+        [many] zahozeno { $n } datagramu udp, který engine nemohl převzít
+       *[other] zahozeno { $n } datagramů udp, které engine nemohl převzít
+    } (celkem { $udp_dropped })
+
+engine-lunar-beacon-satellites-no-beacons =
+    { $n_sats ->
+        [one] { $n_sats } družice, bez majáků
+        [few] { $n_sats } družice, bez majáků
+        [many] { $n_sats } družice, bez majáků
+       *[other] { $n_sats } družic, bez majáků
+    }
+
+engine-lunar-beacon-satellites-visible-beacons =
+    { $n_sats ->
+        [one] { $n_sats } družice
+        [few] { $n_sats } družice
+        [many] { $n_sats } družice
+       *[other] { $n_sats } družic
+    } + počet viditelných majáků: { $n_vis_beacons }
+
+engine-lunar-beacon-satellites-no-beacons-2 =
+    { $n_cmp ->
+        [one] { $n_cmp } družice, bez majáků
+        [few] { $n_cmp } družice, bez majáků
+        [many] { $n_cmp } družice, bez majáků
+       *[other] { $n_cmp } družic, bez majáků
+    }
+
+engine-main-ok-kind-resolves-and-all =
+    ok: { $kind } — kind se rozpoznal a { $n_required ->
+        [one] jeho { $n_required } publikovaný záznam povinného pole je splněn
+        [few] všechny jeho { $n_required } publikované záznamy povinných polí jsou splněny
+        [many] všech { $n_required } jeho publikovaných záznamů povinných polí je splněno
+       *[other] všech { $n_required } jeho publikovaných záznamů povinných polí je splněno
+    }; hodnoty polí se nekontrolují
+
+engine-e-mcda-copras-copras-weights-but-criterion-types =
+    COPRAS: { $n ->
+        [one] { $n } váha
+        [few] { $n } váhy
+        [many] { $n } váhy
+       *[other] { $n } vah
+    }, ale typů kritérií { $types }
+
+engine-e-mcda-copras-copras-alternative-has-values-but =
+    COPRAS: alternativa { $i } má hodnot { $row }, ale { $n ->
+        [one] existuje { $n } kritérium
+        [few] existují { $n } kritéria
+        [many] existuje { $n } kritéria
+       *[other] existuje { $n } kritérií
+    }
+
+engine-e-mcda-electre-electre-alternative-has-values-but =
+    ELECTRE I: alternativa { $i } má hodnot { $row }, ale { $n ->
+        [one] existuje { $n } kritérium
+        [few] existují { $n } kritéria
+        [many] existuje { $n } kritéria
+       *[other] existuje { $n } kritérií
+    }
+
+engine-e-mcda-moora-moora-weights-but-criterion-types =
+    MOORA: { $n ->
+        [one] { $n } váha
+        [few] { $n } váhy
+        [many] { $n } váhy
+       *[other] { $n } vah
+    }, ale typů kritérií { $types }
+
+engine-e-mcda-moora-moora-alternative-has-values-but =
+    MOORA: alternativa { $i } má hodnot { $row }, ale { $n ->
+        [one] existuje { $n } kritérium
+        [few] existují { $n } kritéria
+        [many] existuje { $n } kritéria
+       *[other] existuje { $n } kritérií
+    }
+
+engine-e-mcda-promethee-promethee-ii-weights-but-types =
+    PROMETHEE II: { $n ->
+        [one] { $n } váha
+        [few] { $n } váhy
+        [many] { $n } váhy
+       *[other] { $n } vah
+    }, ale typů { $types } / preferenčních funkcí { $prefs }
+
+engine-e-mcda-promethee-promethee-ii-alternative-has-values =
+    PROMETHEE II: alternativa { $i } má hodnot { $row }, ale { $n ->
+        [one] existuje { $n } kritérium
+        [few] existují { $n } kritéria
+        [many] existuje { $n } kritéria
+       *[other] existuje { $n } kritérií
+    }
+
+engine-e-mcda-topsis-topsis-weights-but-criterion-types =
+    TOPSIS: { $n ->
+        [one] { $n } váha
+        [few] { $n } váhy
+        [many] { $n } váhy
+       *[other] { $n } vah
+    }, ale typů kritérií { $types }
+
+engine-e-mcda-topsis-topsis-alternative-has-values-but =
+    TOPSIS: alternativa { $i } má hodnot { $row }, ale { $n ->
+        [one] existuje { $n } kritérium
+        [few] existují { $n } kritéria
+        [many] existuje { $n } kritéria
+       *[other] existuje { $n } kritérií
+    }
+
+engine-e-mcda-vikor-vikor-weights-but-criterion-types =
+    VIKOR: { $n ->
+        [one] { $n } váha
+        [few] { $n } váhy
+        [many] { $n } váhy
+       *[other] { $n } vah
+    }, ale typů kritérií { $types }
+
+engine-e-mcda-vikor-vikor-alternative-has-values-but =
+    VIKOR: alternativa { $i } má hodnot { $row }, ale { $n ->
+        [one] existuje { $n } kritérium
+        [few] existují { $n } kritéria
+        [many] existuje { $n } kritéria
+       *[other] existuje { $n } kritérií
+    }
+
+engine-e-mcda-waspas-waspas-weights-but-criterion-types =
+    WASPAS: { $n ->
+        [one] { $n } váha
+        [few] { $n } váhy
+        [many] { $n } váhy
+       *[other] { $n } vah
+    }, ale typů kritérií { $types }
+
+engine-e-mcda-waspas-waspas-alternative-has-values-but =
+    WASPAS: alternativa { $i } má hodnot { $row }, ale { $n ->
+        [one] existuje { $n } kritérium
+        [few] existují { $n } kritéria
+        [many] existuje { $n } kritéria
+       *[other] existuje { $n } kritérií
+    }
+
+engine-e-mcda-wpm-wpm-weights-but-criterion-types =
+    WPM: { $n ->
+        [one] { $n } váha
+        [few] { $n } váhy
+        [many] { $n } váhy
+       *[other] { $n } vah
+    }, ale typů kritérií { $types }
+
+engine-e-mcda-wpm-wpm-alternative-has-values-but =
+    WPM: alternativa { $i } má hodnot { $row }, ale { $n ->
+        [one] existuje { $n } kritérium
+        [few] existují { $n } kritéria
+        [many] existuje { $n } kritéria
+       *[other] existuje { $n } kritérií
+    }
+
+engine-e-mcda-wsm-alternative-has-values-but-there =
+    alternativa '{ $name }' má hodnot { $values }, ale { $n ->
+        [one] existuje { $n } kritérium
+        [few] existují { $n } kritéria
+        [many] existuje { $n } kritéria
+       *[other] existuje { $n } kritérií
+    }
+
+engine-e-naif-kernel-daf-summary-record-claims-summaries =
+    záznam souhrnů DAF { $rec } uvádí { $count ->
+        [one] { $count } souhrn
+        [few] { $count } souhrny
+        [many] { $count } souhrnu
+       *[other] { $count } souhrnů
+    }
+
+engine-nmea-synth-gen-the-receiver-reports-fix-again =
+    přijímač opět hlásí řešení polohy ({ $n_used ->
+        [one] použita { $n_used } družice
+        [few] použity { $n_used } družice
+        [many] použito { $n_used } družice
+       *[other] použito { $n_used } družic
+    })
+
+engine-nmea-synth-gen-the-receiver-has-no-fix =
+    přijímač nemá řešení polohy ({ $n_used ->
+        [one] { $n_used } použitelná družice
+        [few] { $n_used } použitelné družice
+        [many] { $n_used } použitelné družice
+       *[other] { $n_used } použitelných družic
+    }, potřebné jsou čtyři)
+
+engine-observability-gramian-gdop-undefined-rank-deficient-singular =
+    GDOP nedefinován (geometrie s nedostatečnou hodností / singulární): hodnost { $rank } z { $n ->
+        [one] { $n } stavu
+        [few] { $n } stavů
+        [many] { $n } stavu
+       *[other] { $n } stavů
+    }, defekt datumu { $v3 }, podmíněnost { $v4 }
+
+engine-oem-oem-interop-round-tripped-segment =
+    oem-interop: zpětně převedeno segmentů: { $segments }, { $n_states_total ->
+        [one] { $n_states_total } stav
+        [few] { $n_states_total } stavy
+        [many] { $n_states_total } stavu
+       *[other] { $n_states_total } stavů
+    }; maximální chyba zpětného převodu { $p } km / { $v } km/s (MODELLED interop)
+
+engine-oem-oem-interop-ingested-segment-states =
+    oem-interop: načteno segmentů: { $segments }, { $n_states_total ->
+        [one] { $n_states_total } stav
+        [few] { $n_states_total } stavy
+        [many] { $n_states_total } stavu
+       *[other] { $n_states_total } stavů
+    } z externího OEM (původce { $originator }) (MODELLED interop)
+
+engine-pvt-pvt-sat-nav-epochs-solved =
+    pvt { $r } | { $n_satellites_nav ->
+        [one] { $n_satellites_nav } družice
+        [few] { $n_satellites_nav } družice
+        [many] { $n_satellites_nav } družice
+       *[other] { $n_satellites_nav } družic
+    } v navigaci | vyřešeno epoch: { $epochs_solved }/{ $epochs_total } | průměr družic { $mean_n_used }, PDOP { $mean_pdop }{ $acc }
+
+engine-e-realdata-ion-sdr-expected-one-root-element-found =
+    očekáván jeden kořenový element, { $n ->
+        [one] nalezen { $n } kořenový element
+        [few] nalezeny { $n } kořenové elementy
+        [many] nalezeno { $n } kořenového elementu
+       *[other] nalezeno { $n } kořenových elementů
+    }
+
+engine-receiver-trust-geometry-geometry-hdop-pdop-vdop-satellites =
+    geometrie { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used ->
+        [one] { $n_used } družice
+        [few] { $n_used } družice
+        [many] { $n_used } družice
+       *[other] { $n_used } družic
+    }{ $v6 }
+
+engine-receiver-trust-geometry-derived-from-logged-satellites =
+    odvozeno { $n ->
+        [one] z { $n } zaznamenané družice
+        [few] ze { $n } zaznamenaných družic
+        [many] z { $n } zaznamenané družice
+       *[other] z { $n } zaznamenaných družic
+    }
+
+engine-receiver-trust-geometry-as-the-receiver-reports-it =
+    podle hlášení přijímače { $n ->
+        [one] { $n } použitá družice
+        [few] { $n } použité družice
+        [many] { $n } použité družice
+       *[other] { $n } použitých družic
+    }
+
+engine-receiver-trust-geometry-satellites-fewer-than =
+    { $n ->
+        [one] { $n } družice
+        [few] { $n } družice
+        [many] { $n } družice
+       *[other] { $n } družic
+    }, méně než { $min_used }
+
+engine-e-receiver-trust-machines-imu-fit-the-log-has-samples-at =
+    záznam obsahuje { $n ->
+        [one] { $n } vzorek
+        [few] { $n } vzorky
+        [many] { $n } vzorku
+       *[other] { $n } vzorků
+    }; pro proložení Allanovy odchylky je jich potřeba alespoň { $MIN_SAMPLES }
+
+engine-e-receiver-trust-machines-imu-fit-the-sample-interval-is-not =
+    interval vzorkování není rovnoměrný (intervaly lišící se o více než 25 %: { $uneven } z { $n ->
+        [one] { $n } intervalu
+        [few] { $n } intervalů
+        [many] { $n } intervalu
+       *[other] { $n } intervalů
+    }): nejprve záznam převzorkujte
+
+engine-e-scenario-time-grid-too-large-steps =
+    časová mřížka je příliš velká: { $n ->
+        [one] { $n } krok překračuje
+        [few] { $n } kroky překračují
+        [many] { $n } kroku překračuje
+       *[other] { $n } kroků překračuje
+    } MAX_TIME_STEPS ({ $MAX_TIME_STEPS }); použijte hrubší krok nebo kratší trvání
+
+engine-slot-timing-fitted-to-the-overlapping-allan =
+    proloženo překrývající se Allanovou odchylkou záznamu o { $n_samples ->
+        [one] { $n_samples } vzorku
+        [few] { $n_samples } vzorcích
+        [many] { $n_samples } vzorku
+       *[other] { $n_samples } vzorcích
+    } při { $tau0_s } s, v bázi frekvenční modulace podle IEEE Std 1139
+
+engine-solar-system-solar-system-at-jd-tdb =
+    Sluneční soustava v { $input } (JD { $jd_tdb } TDB), { $n_bodies ->
+        [one] { $n_bodies } těleso
+        [few] { $n_bodies } tělesa
+        [many] { $n_bodies } tělesa
+       *[other] { $n_bodies } těles
+    }, pozorovatel { $observer }
+    { "  " }{ $standish_table }{ "\u000A" }
+
+engine-e-space-packet-cuc-fine-does-not-fit =
+    jemná část CUC { $fine } se nevejde do { $n ->
+        [one] { $n } oktetu
+        [few] { $n } oktetů
+        [many] { $n } oktetu
+       *[other] { $n } oktetů
+    }
+
+engine-space-packet-space-packet-framed-ccsds-133 =
+    space-packet: { $packet_count ->
+        [one] zarámován { $packet_count } paket CCSDS-133.0 typu { $v2 }
+        [few] zarámovány { $packet_count } pakety CCSDS-133.0 typu { $v2 }
+        [many] zarámováno { $packet_count } paketu CCSDS-133.0 typu { $v2 }
+       *[other] zarámováno { $packet_count } paketů CCSDS-133.0 typu { $v2 }
+    }, APID { $apid }, celkem { $total_bytes } oktetů, zpětná konverze přesná ({ $round_trip_ok })
+
+engine-e-spk-writer-states-for-epochs =
+    stavy: { $states } pro { $n ->
+        [one] { $n } epochu
+        [few] { $n } epochy
+        [many] { $n } epochy
+       *[other] { $n } epoch
+    }
+
+engine-e-spk-writer-states-degree-needs =
+    { $n ->
+        [one] { $n } stav
+        [few] { $n } stavy
+        [many] { $n } stavu
+       *[other] { $n } stavů
+    }; stupeň { $degree } vyžaduje { $value }
+
+engine-e-spk-writer-epochs-for-difference-lines =
+    epochy: { $epochs } pro { $n ->
+        [one] { $n } diferenční řádek
+        [few] { $n } diferenční řádky
+        [many] { $n } diferenčního řádku
+       *[other] { $n } diferenčních řádků
+    }
+
+engine-e-sweep-sweep-key-index-is-past =
+    klíč přehledu `{ $key }`: index { $i } je za { $n ->
+        [one] { $n } položkou pole
+        [few] { $n } položkami pole
+        [many] { $n } položkami pole
+       *[other] { $n } položkami pole
+    }
+
+engine-telemetry-cli-warning-mqtt-messages-were-not =
+    varování: { $n ->
+        [one] { $n } zpráva MQTT nebyla doručena
+        [few] { $n } zprávy MQTT nebyly doručeny
+        [many] { $n } zprávy MQTT nebylo doručeno
+       *[other] { $n } zpráv MQTT nebylo doručeno
+    }
 
 ## legal
 
