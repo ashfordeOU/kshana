@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Moving the engine's human-facing text into the catalogue
 
-The tool is localised in sixteen languages beside English. `src/i18n/` is the framework,
+The tool is localised in seventeen languages beside English. `src/i18n/` is the framework,
 `i18n/en/engine.ftl` the source catalogue, `i18n/<tag>/engine.ftl` the translations. This page is the
 working rule for moving a string out of the Rust source, by hand, where `scripts/i18n_codemod.py` could not.
 
@@ -60,3 +60,10 @@ hashes) plus the catalogue test: English output must not move, and no pinned has
 documents or data (a ledger row, a unit definition, a provenance string). Each file's remainder is either
 converted or recorded in `tests/fixtures/i18n/allow.json` with a reason (`machine-document`, `data`,
 `developer`, `identifier`); `tests/i18n_ratchet.rs` fails if a file has more than its allowance.
+
+## The English-identity check on whole runs
+
+`scripts/i18n_compare.py <baseline-binary> <current-binary> [scenario ...]` runs bundled scenarios with a
+baseline binary (built before the batch) and the current one and compares every output file byte for byte
+(result.json, chart.svg, report.html, report.json, table.csv, stdout). A batch is done when it prints
+`0 differences`. Take the baseline with `cp target/release/kshana <somewhere>` BEFORE the first edit.
