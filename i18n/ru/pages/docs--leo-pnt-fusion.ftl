@@ -32,31 +32,17 @@ seg-9872e31ebd72 = Источники
 
 seg-e20c823f36f3 = X1 на { "1593.3225" } МГц, { "1.023" } Мчип/с, принимаемая мощность от −{ "148.2" } до −{ "139.1" } дБВт; X5 на { "1190.51625" } МГц, { "10.23" } Мчип/с, от −{ "144.9" } до −{ "136.2" } дБВт; { "258" } спутников в { "18" } плоскостях на высоте { "1080" } км, { "53" } и { "97" } град
 
-seg-57b56c874c9b = PUBLIC: <a1>arXiv:{ "2509.19551" }</a1>. Representative: разделение между двумя наклонениями, фазирование, ошибка дальности
-
 seg-b0c5e502c21b = Iridium Satellite Time and Location (STL): { "66" } спутников, шесть почти полярных плоскостей на высоте { "780" } км и { "86.4" } град; пакеты на { "1616" }–{ "1626" } МГц, квадратурная фазовая манипуляция (QPSK) со скоростью { "25 000" } символ/с; принимаемая мощность в { "300" }–{ "2400" } раз выше минимума GPS
-
-seg-d65ae64607c1 = PUBLIC: <a1>Resilient Navigation and Timing Foundation (RNTF)</a1>, <a2>National Institute of Standards and Technology (NIST)</a2>, <a3>орбитальная группировка</a3>. DERIVED: мощность в дБВт. Representative: несущая в центре диапазона, ошибка дальности
 
 seg-36771f73c21f = Только Доплер: { "11.325" } ГГц, маяк с ортогональным частотным мультиплексированием (OFDM) { "240" } МГц, C/N0 до { "57.07" } дБ-Гц, ошибка Доплера { "30" } Гц; первая оболочка из { "1584" } спутников на высоте { "550" } км и { "53" } град
 
-seg-44d4dd41848a = PUBLIC: <a1>Kozhaya, Saroufim and Kassas { "2025" }</a1>, <a2>Federal Communications Commission (FCC) 21-48</a2>. Representative: фазирование, C/N0 у горизонта
-
 seg-2e13de07f9e9 = Двоичная фазовая манипуляция (BPSK) со скоростью { "2.046" } Мчип/с вблизи L1 и L5; определение орбиты с точностью до сантиметров
-
-seg-dd94a3839cb3 = PUBLIC: <a1>первоначальная оценка</a1>, <a2>GPS Solutions</a2>. Representative: несущие, мощность, вся действующая орбитальная группировка
 
 seg-a34d6a186a36 = Система диапазона C в распределении радионавигационной спутниковой службы (RNSS) { "5010" }–{ "5030" } МГц, для систем, параметры которых не публикуются
 
-seg-7712896ff69a = PUBLIC: распределение <a1>Регламента радиосвязи Международного союза электросвязи (ITU)</a1>. Всё остальное — <b>representative</b>
-
 seg-89ebc32469d9 = Модель эфемерид и часов: эфемериды в виде полинома шестого порядка, обновление каждые { "30" } с, часы, синхронизируемые со временем GNSS; SISRE { "0.26" } м
 
-seg-ddbefb8a6723 = PUBLIC: <a1>InsideGNSS</a1>. DERIVED: SISRE. Сочетается с любой орбитальной группировкой через <c1/>
-
 seg-6389c92e07d4 = Демонстрация на орбите (IOD) Celeste Европейского космического агентства (ESA), одна конфигурация параметризованной конструкции сигнала
-
-seg-b8bd6e76aeb2 = PUBLIC орбита (<a1>ESA</a1>, <a2>тезисы Института навигации (ION) { "16907" }</a2>); WORKSHOP параметры сигнала, представленные на семинаре ESA по LEO-PNT в рамках Программы инноваций и поддержки в области навигации (NAVISP), { "2026" }
 
 seg-bd7fb6eb444a = Все числа, полученные из семинара, находятся в модуле <c1/> файла <c2/>, который используется в <c3/> (<c4/> проверяет, где они могут появляться). Как предустановка скрывается: все числа движка, полученные из семинара, находятся в одном файле, <c5/>, который <c6/> компилирует только при его наличии, а также в сценариях, существующих только в репозитории, <c7/>. Удаление этого файла и этих сценариев скрывает предустановку без правки исходного кода; все остальные тесты, оракулы и сценарии выполняются без неё, а число файлов сценариев в README по-прежнему учитывает скрытые файлы.
 
@@ -173,3 +159,31 @@ seg-19ba6cc0ca75 = Значения предустановок, помеченн
 seg-f9f335d67ff8 = <s1>Назад</s1>Навигационное сообщение LEO
 
 seg-062138bbb73c = <s1>Далее</s1>Проектирование орбитальной группировки
+
+# words to translate: PUBLIC, DERIVED
+# EN: PUBLIC: <a1>Resilient Navigation and Timing Foundation (RNTF)</a1>, <a2>National Institute of Standards and Technology (NIST)</a2>, <a3>constellation</a3>. DERIVED: the power in dBW. Representative: carrier at the band centre, range error
+seg-d65ae64607c1 = ПУБЛИЧНЫЙ: <a1>Resilient Navigation and Timing Foundation (RNTF)</a1>, <a2>National Institute of Standards and Technology (NIST)</a2>, <a3>орбитальная группировка</a3>. ПРОИЗВОДНЫЙ: мощность в дБВт. Representative: несущая в центре диапазона, ошибка дальности
+
+# words to translate: PUBLIC
+# EN: PUBLIC: the <a1>International Telecommunication Union (ITU) Radio Regulations</a1> allocation. Everything else <b>representative</b>
+seg-7712896ff69a = ПУБЛИЧНЫЙ: распределение <a1>Регламента радиосвязи Международного союза электросвязи (ITU)</a1>. Всё остальное — <b>representative</b>
+
+# words to translate: WORKSHOP, PUBLIC
+# EN: PUBLIC orbit (<a1>ESA</a1>, <a2>Institute of Navigation (ION) abstract { "16907" }</a2>); WORKSHOP signal parameters, presented at the ESA Navigation Innovation and Support Programme (NAVISP) LEO-PNT workshop, { "2026" }
+seg-b8bd6e76aeb2 = ПУБЛИЧНАЯ орбита (<a1>ESA</a1>, <a2>тезисы Института навигации (ION) { "16907" }</a2>); СЕМИНАРСКИЕ параметры сигнала, представленные на семинаре ESA по LEO-PNT в рамках Программы инноваций и поддержки в области навигации (NAVISP), { "2026" }
+
+# words to translate: PUBLIC
+# EN: PUBLIC: <a1>arXiv:{ "2509.19551" }</a1>. Representative: the split between the two inclinations, the phasing, the range error
+seg-57b56c874c9b = ПУБЛИЧНЫЙ: <a1>arXiv:{ "2509.19551" }</a1>. Representative: разделение между двумя наклонениями, фазирование, ошибка дальности
+
+# words to translate: PUBLIC
+# EN: PUBLIC: <a1>Kozhaya, Saroufim and Kassas { "2025" }</a1>, <a2>Federal Communications Commission (FCC) 21-48</a2>. Representative: phasing, horizon C/N0
+seg-44d4dd41848a = ПУБЛИЧНЫЙ: <a1>Kozhaya, Saroufim and Kassas { "2025" }</a1>, <a2>Federal Communications Commission (FCC) 21-48</a2>. Representative: фазирование, C/N0 у горизонта
+
+# words to translate: PUBLIC
+# EN: PUBLIC: <a1>initial assessment</a1>, <a2>GPS Solutions</a2>. Representative: carriers, power, the whole operational constellation
+seg-dd94a3839cb3 = ПУБЛИЧНЫЙ: <a1>первоначальная оценка</a1>, <a2>GPS Solutions</a2>. Representative: несущие, мощность, вся действующая орбитальная группировка
+
+# words to translate: PUBLIC, DERIVED
+# EN: PUBLIC: <a1>InsideGNSS</a1>. DERIVED: the SISRE. Combine with any constellation through <c1/>
+seg-ddbefb8a6723 = ПУБЛИЧНЫЙ: <a1>InsideGNSS</a1>. ПРОИЗВОДНЫЙ: SISRE. Сочетается с любой орбитальной группировкой через <c1/>

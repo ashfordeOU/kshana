@@ -122,39 +122,25 @@ seg-4d49743b3544 = Діапазони: <c1/> з необов'язковою пі
 
 seg-bd1e114aaea6 = Діапазон також може вказувати конструкцію <c1/> (<c2/>, будь-яка конструкція в <c3/> або та, яку передає тип <c4/>; див. <a1>LEO-SIGNAL.md</a1>). Тоді діапазон бере з конструкції центральну частоту (якщо не задано <c5/>), смугу передавання та частоту чипів відстежуваної компоненти, розподіляє свою EIRP між компонентами конструкції за їхніми частками потужності та на кожній епосі повідомляє C/N0 відстежуваної компоненти й обмежений смугою джитер раннього-пізнього відстеження коду (Betz і Kolodziejski { "2009" }, формула типу <c6/>) як похибку далекометрії.
 
-seg-1d96501bb12d = Кожен пресет позначає свої числа як PUBLIC (з URL), REPRESENTATIVE (задокументований конструкторський вибір, ніколи не твердження про реальну систему) або WORKSHOP.
-
 seg-f708914fed48 = Діапазони
 
 seg-6459abcaeebe = <c1/> (типово)
-
-seg-a0dab2ebeb1b = REPRESENTATIVE; несівні L, S і C із публічних документів
 
 seg-cd0075385395 = UHF { "450" } МГц (репрезентативно), L { "1191.795" } МГц (центр Galileo E5), S { "2492.028" } МГц (NavIC S, несівна S-діапазону Navigation with Indian Constellation), C { "5020" } МГц (центр виділення RNSS (радіонавігаційна супутникова служба) { "5010" }–{ "5030" } МГц), кожна { "0" } дБВт
 
 seg-3f0de4312fcb = { "550" } км, сонячно-синхронна, Walker 240/12/1
 
-seg-486f17197d4d = REPRESENTATIVE, для систем C-діапазону, параметри яких не є публічними (наприклад, TrustPoint)
-
 seg-f6696b70591c = C { "5020" } МГц, BPSK({ "10" }) (двійкова фазова маніпуляція зі швидкістю { "10" } × { "1.023" } Мчип/с), ізофлюкс
-
-seg-4ae6741795f9 = PUBLIC, <a1>arXiv { "2509.19551" }</a1>, таблиці { "1" }–{ "2" }
 
 seg-a1be637cda63 = X1 { "1593.3225" } МГц, X5 { "1190.51625" } МГц; EIRP за опублікованою мінімальною прийнятою потужністю при { "10" }°
 
 seg-cb74283148d7 = { "1080" } км, { "53" }° ({ "192" }) і { "97" }° ({ "66" })
 
-seg-5ae1331b91f8 = PUBLIC, <a1>Resilient Navigation and Timing Foundation (RNTF)</a1> та опублікована орбіта
-
 seg-c995dade5aa6 = Satellite Time and Location (STL) на { "1621" } МГц (середина { "1616" }–{ "1626" } МГц); EIRP за «{ "300" } разів GPS»
 
 seg-dd6322466888 = { "781" } км, { "86.4" }°, { "66" } у { "6" } площинах
 
-seg-ad0ba129439b = PUBLIC показники сигналу (<a1>NAVIGATION { "72" }({ "1" })</a1>), REPRESENTATIVE орбіта та EIRP
-
 seg-1931203a036c = маяк Ku { "240" } МГц, лише Доплер
-
-seg-0533710bbbe1 = PUBLIC структура сигналу (<a1>PMC10301026</a1>), REPRESENTATIVE орбіта та EIRP
 
 seg-cee286338f01 = BPSK { "2.046" } Мчип/с поблизу L1 і L5
 
@@ -162,15 +148,11 @@ seg-fe3cdce92b31 = { "1000" } км, { "55" }°
 
 seg-03d5ae448705 = <c1/> (необов'язково)
 
-seg-800f173f2b20 = WORKSHOP параметри сигналу, PUBLIC орбіта
-
 seg-e8626249e708 = сім діапазонів конфігурації №1
 
 seg-cb29553176c7 = { "510" } км, сонячно-синхронна
 
 seg-10f79909a5bc = <b>Пресет Celeste IOD (демонстрація на орбіті) є необов'язковим.</b> Його параметри сигналу було представлено на семінарі LEO-PNT програми Navigation Innovation and Support Programme (NAVISP) Європейського космічного агентства (ESA) у { "2026" } році й досі не мають публічного джерела; вони містяться в модулі <c1/> файла <c2/>, який використовує <c3/>. Як пресет вилучається: кожне число рушія, отримане із семінару, міститься в одному файлі, <c4/>, який <c5/> компілює лише тоді, коли він існує, та у сценаріях лише з репозиторію <c6/>. Видалення цього файла й цих сценаріїв вилучає пресет без змін у коді; усі інші тести, оракули та сценарії працюють без нього, а лічильник файлів сценаріїв у README все одно враховує вилучені файли. Його EIRP і промінь відкалібровано за трасою C/N0, показаною на семінарі, тож цей сценарій відтворює трасу за побудовою.
-
-seg-9f9ff4fe18f8 = Поліноміальна модель бортових ефемерид ATOMIC із «нульовим годинником» є пресетом навігаційного повідомлення і не входить до цього типу.
 
 seg-dc496b16046b = Спостереження LEO порівняно з GNSS
 
@@ -293,3 +275,39 @@ seg-593081243d8c = <s1>Назад</s1>Конструкції сигналів LE
 seg-468e70f9a669 = <s1>Далі</s1>Навігаційне повідомлення LEO
 
 seg-072d0d8f618c = Монітори спуфінгу ([spoofer])
+
+# words to translate: REPRESENTATIVE, WORKSHOP, PUBLIC
+# EN: Each preset marks its numbers PUBLIC (with URL), REPRESENTATIVE (a documented design choice, never a claim about a real system) or WORKSHOP.
+seg-1d96501bb12d = Кожен пресет позначає свої числа як ПУБЛІЧНІ (з URL), РЕПРЕЗЕНТАТИВНІ (задокументований конструкторський вибір, ніколи не твердження про реальну систему) або СЕМІНАРСЬКІ.
+
+# words to translate: PUBLIC
+# EN: PUBLIC, <a1>arXiv { "2509.19551" }</a1> Tables { "1" }–{ "2" }
+seg-4ae6741795f9 = ПУБЛІЧНИЙ, <a1>arXiv { "2509.19551" }</a1>, таблиці { "1" }–{ "2" }
+
+# words to translate: PUBLIC
+# EN: PUBLIC, <a1>Resilient Navigation and Timing Foundation (RNTF)</a1> and the published orbit
+seg-5ae1331b91f8 = ПУБЛІЧНИЙ, <a1>Resilient Navigation and Timing Foundation (RNTF)</a1> та опублікована орбіта
+
+# words to translate: REPRESENTATIVE, PUBLIC
+# EN: PUBLIC signal structure (<a1>PMC10301026</a1>), REPRESENTATIVE orbit and EIRP
+seg-0533710bbbe1 = ПУБЛІЧНА структура сигналу (<a1>PMC10301026</a1>), РЕПРЕЗЕНТАТИВНА орбіта та EIRP
+
+# words to translate: REPRESENTATIVE
+# EN: REPRESENTATIVE; L, S and C carriers from public documents
+seg-a0dab2ebeb1b = РЕПРЕЗЕНТАТИВНИЙ; несівні L, S і C із публічних документів
+
+# words to translate: REPRESENTATIVE
+# EN: REPRESENTATIVE, for C-band systems whose parameters are not public (for example TrustPoint)
+seg-486f17197d4d = РЕПРЕЗЕНТАТИВНИЙ, для систем C-діапазону, параметри яких не є публічними (наприклад, TrustPoint)
+
+# words to translate: REPRESENTATIVE, PUBLIC
+# EN: PUBLIC signal figures (<a1>NAVIGATION { "72" }({ "1" })</a1>), REPRESENTATIVE orbit and EIRP
+seg-ad0ba129439b = ПУБЛІЧНІ показники сигналу (<a1>NAVIGATION { "72" }({ "1" })</a1>), РЕПРЕЗЕНТАТИВНА орбіта та EIRP
+
+# words to translate: WORKSHOP, PUBLIC
+# EN: WORKSHOP signal parameters, PUBLIC orbit
+seg-800f173f2b20 = СЕМІНАРСЬКІ параметри сигналу, ПУБЛІЧНА орбіта
+
+# words to translate: ATOMIC
+# EN: The ATOMIC "zero-clock" polynomial broadcast-ephemeris model is a navigation-message preset and is not part of this kind.
+seg-9f9ff4fe18f8 = Поліноміальна модель бортових ефемерид ATOMIC із «нульовим годинником» є пресетом навігаційного повідомлення і не входить до цього типу.

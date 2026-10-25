@@ -14,8 +14,6 @@ seg-6752521002b2 = Часть
 
 seg-2b0d77219437 = Предустановки
 
-seg-125aac68d94f = PUBLIC, <a1>arXiv { "2509.19551" }</a1>
-
 seg-c5ce76c91ff7 = Метка
 
 seg-587beeccaa11 = Пресет
@@ -60,8 +58,6 @@ seg-4c22d21ea8f0 = опорная и максимальная принимаем
 
 seg-c6b46532af9a = Сценарий берёт сигналы из <c1/> и из встроенных таблиц <c2/>. Без того и другого он анализирует предустановку <c3/>.
 
-seg-a917a5ccfb79 = По одному файлу в <c1/>, скомпилированному внутрь, каждый со ссылкой на URL своего источника. Значение, которое источник не публикует, помечается REPRESENTATIVE в файле и в отчёте.
-
 seg-7159574bf255 = Сигналы
 
 seg-c2831d853b1d = Заявленные приближения
@@ -72,33 +68,17 @@ seg-332a08bef0de = улучшенная квадратурная фазовая 
 
 seg-d37420c5c9f5 = пакеты <c1/> Satellite Time and Location (STL), квадратурная фазовая манипуляция (QPSK) со скоростью { "25" } ксимвол/с, { "780" } км, только Доплер и время
 
-seg-a765878134e2 = PUBLIC, <a1>отчёт Resilient Navigation and Timing Foundation (RNTF)</a1>
-
 seg-5ca54b21f017 = несущая в середине диапазона от { "1616" } до { "1626" } МГц; принимаемая мощность выведена из опубликованных значений в { "300" }–{ "2400" } раз выше Global Positioning System (GPS)
 
 seg-e43d1db73131 = <c1/>, маяк OFDM { "240" } МГц, только Доплер
 
-seg-ff9e0075e868 = PUBLIC, <a1>NAVIGATION { "72" }({ "1" })</a1>
-
-seg-fee9a553c9ae = плоский спектр; центр канала и высота оболочки REPRESENTATIVE; опубликованное отношение мощности несущей к спектральной плотности шума (C/N₀) около { "57" } дБ-Гц задаётся через приёмник
-
 seg-f89372b5231e = <c1/>, <c2/>, BPSK со скоростью { "2.046" } Мчип/с
-
-seg-2e6475b25d55 = PUBLIC, <a1>PubMed Central PMC10301026</a1>
-
-seg-ac53cebe5303 = несущие размещены на несущих GPS L1 и L5 («вблизи» в источнике); длина кода REPRESENTATIVE
 
 seg-cb1420efc108 = <c1/>, { "5020" } МГц, BPSK({ "10" }) в полосе { "20" } МГц
 
-seg-895f6039fce2 = REPRESENTATIVE, для систем диапазона C, параметры которых не публикуются (например, TrustPoint)
-
 seg-a407aaab864c = вся конструкция
 
-seg-2f679a429dae = REPRESENTATIVE, распределения из <a1>Регламента радиосвязи ITU</a1>; несущая UHF { "465" } МГц из публичного <s1>обзора сигналов LEO-PNT openRECEIVER</s1>
-
 seg-2054d9ce8a0d = вся конструкция (включая полосу и модуляцию UHF)
-
-seg-24360342e8e6 = Полиномиальные эфемериды ATOMIC «с нулевыми часами» — это модель навигационного сообщения, а не конструкция сигнала, и относятся к работе над навигационным сообщением, а не к этой странице.
 
 seg-ebfc032d7898 = Что вычисляется для каждого сигнала
 
@@ -385,3 +365,43 @@ seg-3a9fe081eb89 = openRECEIVER, <em>LEO-PNT Signals: Inside CELESTE's Four Band
 seg-18b16c83dd7c = <s1>Назад</s1>Позиционирование, навигация и время по LEO
 
 seg-50fe3f8ae7ec = <s1>Далее</s1>Пролёт LEO и бюджет линии
+
+# words to translate: PUBLIC
+# EN: PUBLIC, <a1>arXiv { "2509.19551" }</a1>
+seg-125aac68d94f = ПУБЛИЧНЫЙ, <a1>arXiv { "2509.19551" }</a1>
+
+# words to translate: REPRESENTATIVE
+# EN: One file each under <c1/>, compiled in, each citing its source URL. A value the source does not publish is labelled REPRESENTATIVE in the file and in the report.
+seg-a917a5ccfb79 = По одному файлу в <c1/>, скомпилированному внутрь, каждый со ссылкой на URL своего источника. Значение, которое источник не публикует, помечается как «РЕПРЕЗЕНТАТИВНЫЙ» в файле и в отчёте.
+
+# words to translate: PUBLIC
+# EN: PUBLIC, <a1>Resilient Navigation and Timing Foundation (RNTF) report</a1>
+seg-a765878134e2 = ПУБЛИЧНЫЙ, <a1>отчёт Resilient Navigation and Timing Foundation (RNTF)</a1>
+
+# words to translate: PUBLIC
+# EN: PUBLIC, <a1>NAVIGATION { "72" }({ "1" })</a1>
+seg-ff9e0075e868 = ПУБЛИЧНЫЙ, <a1>NAVIGATION { "72" }({ "1" })</a1>
+
+# words to translate: PUBLIC
+# EN: PUBLIC, <a1>PubMed Central PMC10301026</a1>
+seg-2e6475b25d55 = ПУБЛИЧНЫЙ, <a1>PubMed Central PMC10301026</a1>
+
+# words to translate: REPRESENTATIVE
+# EN: carriers placed at the GPS L1 and L5 carriers ("near" in the source); code length REPRESENTATIVE
+seg-ac53cebe5303 = несущие размещены на несущих GPS L1 и L5 («вблизи» в источнике); длина кода РЕПРЕЗЕНТАТИВНАЯ
+
+# words to translate: REPRESENTATIVE
+# EN: REPRESENTATIVE, allocations from the <a1>ITU Radio Regulations</a1>; the { "465" } MHz UHF carrier from the public <s1>openRECEIVER survey of LEO-PNT signals</s1>
+seg-2f679a429dae = РЕПРЕЗЕНТАТИВНЫЙ, распределения из <a1>Регламента радиосвязи ITU</a1>; несущая UHF { "465" } МГц из публичного <s1>обзора сигналов LEO-PNT openRECEIVER</s1>
+
+# words to translate: REPRESENTATIVE
+# EN: flat spectrum; channel centre and shell altitude REPRESENTATIVE; the published carrier-to-noise-density ratio (C/N₀) of about { "57" } dB-Hz is set through the receiver
+seg-fee9a553c9ae = плоский спектр; центр канала и высота оболочки РЕПРЕЗЕНТАТИВНЫЕ; опубликованное отношение мощности несущей к спектральной плотности шума (C/N₀) около { "57" } дБ-Гц задаётся через приёмник
+
+# words to translate: REPRESENTATIVE
+# EN: REPRESENTATIVE, for C-band systems whose parameters are not public (such as TrustPoint)
+seg-895f6039fce2 = РЕПРЕЗЕНТАТИВНЫЙ, для систем диапазона C, параметры которых не публикуются (например, TrustPoint)
+
+# words to translate: ATOMIC
+# EN: The ATOMIC "zero-clock" polynomial ephemeris is a navigation-message model, not a signal design, and lives with the navigation-message work, not here.
+seg-24360342e8e6 = Полиномиальные эфемериды ATOMIC «с нулевыми часами» — это модель навигационного сообщения, а не конструкция сигнала, и относятся к работе над навигационным сообщением, а не к этой странице.

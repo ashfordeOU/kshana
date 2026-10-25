@@ -28,8 +28,6 @@ seg-c4b64eb26210 = ICRF (екваторіальна J2000), геліоцентр
 
 seg-6096a0ab243b = Standish Table { "1" } ({ "1800" } AD до { "2050" } AD)
 
-seg-5c9a8d4716f5 = Мітка результату (рушія): MIXED: кожне тіло має власну мітку. Положення планет VALIDATED щодо JPL Horizons у межах подвійної номінальної похибки Standish (від Меркурія до Сатурна та Земля з Table { "1" }; усі вісім планет з Tables 2a/2b); Уран і Нептун з Table { "1" }, Плутон, Місяць і сім супутників є MODELLED.
-
 seg-537aa8010e50 = Діаграма, яку рушій записує для scenarios/solar-system-tour.toml, тип solar-system
 
 seg-7432155d5fec = <b>VALIDATED</b> Тип <c1/> із planetary_kernel_path: кожне подане тіло, власний код NAIF якого містить SPK, бере своє геліоцентричне положення та швидкість J2000 з ядра через власний зчитувач рушія (мітка KERNEL), зв'язок, обидва кінці якого
@@ -45,8 +43,6 @@ seg-735fb0bc1705 = <b>VALIDATED</b> Геліоцентричні положен�
 seg-ab1192de28f5 = <b>VALIDATED</b> Ньютонівський односторонній світловий час від будь-якого тіла до будь-якого іншого, прийнятий на епоху, розв'язаний радіометричним розв'язувачем світлового часу з нерухомою точкою (radiometric::light_t. Оракул (ExternalDataset): односторонній низхідний ньютонівський світловий час JPL Horizons DE441 LT (VEC_CORR=LT, спостерігач у центрі Землі), попередньо зареєстровано (480037d3, поправка 54d5c86f, що змінила лише крок вузлів інтерполяції після того, як перша вибірка не пройшла передумову точності інтерполяції { "10" } m, до порівняння будь-якого світлового часу) з порогом { "1e-6" } s на світловий час, розв'язувач отримав барицентричні положення DE441, тож ітерація запізнілого передавача видима
 
 seg-5a2e745828ea = <b>MODELLED</b> Положення Урана та Нептуна з Standish Table { "1" } (типове в межах { "1800" } AD до { "2050" } AD), Плутона з рядка { "1992" } Table { "1" }, який актуальна сторінка JPL більше не наводить. Оракул (ExternalDataset): виміряно щодо JPL Horizons DE441 (ті самі зафіксовані фікстури), але не підтверджено: заявлені в Table { "1" } значення для Урана та Нептуна перевищено до { "2.0" } і { "5.2" } разів щодо геліоцентричних положень DE441 (Нептун вкладається в них щодо барицентричних положень, що наводить на думку про негеліоцентричну підгонку), сторінка не вказує похибки для Плутона, а для швидкостей опублікованої межі не існує. Tables 2a/2b відповідають своїм
-
-seg-0131b082906b = MIXED: кожне тіло має власну мітку. Положення планет VALIDATED щодо JPL Horizons у межах подвійної номінальної похибки Standish (від Меркурія до Сатурна та Земля з Table { "1" }; усі вісім планет з Tables 2a/2b); Уран і Нептун з Table { "1" }, Плутон, Місяць і сім супутників є MODELLED. Світловий час ньютонівський, за тими самими положеннями. (результат <c1/>)
 
 seg-3e24f0bf9ccd = MODELLED, кожен рядок позначено: Уран і Нептун з Table { "1" } ({ "2.0" } і { "5.2" } номінальної похибки щодо DE441), Плутон (рядок { "1992" }; похибку не вказано), Місяць і сім супутників (виміряно щодо Horizons, опублікованої межі немає). (каталог типів (<c1/>))
 
@@ -77,3 +73,11 @@ seg-4d208b6c0eb8 = доба
 seg-3319b18ac61f = і ще { "1" } у матриці.
 
 seg-fbac1cbb2422 = MODELLED { "2" } · VALIDATED { "3" }: рядки <a1>матриці верифікації</a1>, що називають цей вид.
+
+# words to translate: MIXED
+# EN: Result label (the engine's): MIXED: each body carries its own label. Planet positions are VALIDATED against JPL Horizons within twice the Standish nominal error (Mercury to Saturn and the Earth from Table { "1" }; all eight planets from Tables 2a/2b); Uranus and Neptune from Table { "1" }, Pluto, the Moon and the seven moons are MODELLED.
+seg-5c9a8d4716f5 = Мітка результату (рушія): ЗМІШАНИЙ: кожне тіло має власну мітку. Положення планет VALIDATED щодо JPL Horizons у межах подвійної номінальної похибки Standish (від Меркурія до Сатурна та Земля з Table { "1" }; усі вісім планет з Tables 2a/2b); Уран і Нептун з Table { "1" }, Плутон, Місяць і сім супутників є MODELLED.
+
+# words to translate: MIXED
+# EN: MIXED: each body carries its own label. Planet positions are VALIDATED against JPL Horizons within twice the Standish nominal error (Mercury to Saturn and the Earth from Table { "1" }; all eight planets from Tables 2a/2b); Uranus and Neptune from Table { "1" }, Pluto, the Moon and the seven moons are MODELLED. Light times are Newtonian, from the same positions. (result <c1/>)
+seg-0131b082906b = ЗМІШАНИЙ: кожне тіло має власну мітку. Положення планет VALIDATED щодо JPL Horizons у межах подвійної номінальної похибки Standish (від Меркурія до Сатурна та Земля з Table { "1" }; усі вісім планет з Tables 2a/2b); Уран і Нептун з Table { "1" }, Плутон, Місяць і сім супутників є MODELLED. Світловий час ньютонівський, за тими самими положеннями. (результат <c1/>)

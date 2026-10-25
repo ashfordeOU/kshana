@@ -36,8 +36,6 @@ seg-c1020ac47091 = Що обчислює один прогін
 
 seg-f708914fed48 = Діапазони
 
-seg-486f17197d4d = REPRESENTATIVE, для систем C-діапазону, параметри яких не є публічними (наприклад, TrustPoint)
-
 seg-03d5ae448705 = <c1/> (необов'язково)
 
 seg-fde146239f5d = Результат одного прогону
@@ -103,8 +101,6 @@ seg-cb8eee06e664 = одна система наскрізно: конструк�
 seg-d28e18170f82 = будь-що з наведеного, з'єднане в ланцюг на одній часовій шкалі, перебране, запущене як ансамбль Монте-Карло або скомпоноване за спільних умов
 
 seg-5479654fabfd = Ланцюг передає значення в коді (див. нижче <a1>Наскрізний ланцюг LEO-PNT</a1>): конструкція сигналу задає розподіл EIRP (еквівалентної ізотропно випромінюваної потужності) діапазону проходу та відстежувану частоту чипів; прохід дає відстежуване C/N0 і джитер коду; SISRE навігаційного повідомлення та C/N0 проходу зважують вимірювання LEO злитого визначення.
-
-seg-a0331a21413c = Типові конструкції використовують публічні центри діапазонів; кожна є REPRESENTATIVE, а не сигналом якоїсь системи (<c1/>, <c2/>).
 
 seg-a86ce24d81de = Діапазон
 
@@ -174,47 +170,29 @@ seg-e75e48eeeca1 = BPSK(n) — це двійкова фазова маніпул
 
 seg-02f71b44edf5 = Пресети сигналів і систем
 
-seg-c60ce9c32b57 = REPRESENTATIVE, центри діапазонів з Регламенту радіозв'язку ITU
-
 seg-58fae66f7c12 = <c1/> (конструкції сигналів): наведена вище таблиця діапазонів; <c2/> (типове значення <c3/>): UHF на { "450" } МГц, L, S і C на наведених вище центрах, EIRP { "0" } дБВт на діапазон, шар Walker 240/12/1 на { "550" } км, сонячно-синхронний
 
 seg-5d918965c00c = BPSK({ "10" }) на { "5020" } МГц, ізофлюксний промінь
 
-seg-dddb031a7e2e = PUBLIC: Leclère, Marathe і Reid, Institute of Navigation (ION) GNSS+ { "2025" }, <a1>arXiv { "2509.19551" }</a1>
-
 seg-67fc4039084d = X1 на { "1593.3225" } МГц ({ "1.023" } Мчип/с) і X5 на { "1190.51625" } МГц ({ "10.23" } Мчип/с), опубліковані мінімальна та максимальна прийняті потужності, { "258" } супутників приблизно на { "1080" } км (оболонки { "53" } і { "97" } град)
-
-seg-f17f98d1ae0b = PUBLIC: <a1>брифінг Resilient Navigation and Timing Foundation (RNTF)</a1>
 
 seg-c6694cdbb02b = пакети в діапазоні { "1616" }–{ "1626" } МГц, Доплер до ±{ "36" } кГц, { "66" } супутників на { "780" } км ({ "781" } км у пресеті <c1/>), прийнята потужність «від { "300" } до { "2400" } разів GPS»
 
 seg-704ec002a889 = <c1/> / <c2/> / <c3/> (типи сигналу, проходу та позиціонування)
 
-seg-a4a3a7c7bc22 = PUBLIC показники сигналу: Kozhaya, Saroufim і Kassas, <a1>NAVIGATION { "72" }({ "1" })</a1>; REPRESENTATIVE орбіта
-
 seg-49985bf11216 = маяк Ku-діапазону { "240" } МГц, що використовується лише для Доплера, C/N0 близько { "57" } дБ-Гц
-
-seg-84cb50b019e0 = PUBLIC структура сигналу: <a1>PMC10301026</a1>; REPRESENTATIVE орбіта та потужність
 
 seg-1c50faed9f1e = BPSK зі швидкістю { "2.046" } Мчип/с поблизу L1 і L5
 
 seg-c72e9b87f116 = <c1/> (<c2/> у типі повідомлення)
 
-seg-3dd4136094c0 = PUBLIC: <a1>InsideGNSS, корисне навантаження ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations)</a1>
-
 seg-4f0cff24b4fd = поліноміальні ефемериди 6-го порядку без членів годинника (годинник підстроєно до часу GNSS)
 
-seg-9d1e7aebcd84 = WORKSHOP: представлено на семінарі LEO-PNT ESA NAVISP у { "2026" } році
-
 seg-28c2e7ae6065 = конфігурація сигналу № 1 демонстрації на орбіті та структура повідомлення, в одному файлі, який можна вилучити
-
-seg-9f0d16f43993 = Кожен пресет позначає свої числа як PUBLIC (з URL), REPRESENTATIVE (задокументований конструкторський вибір, ніколи не твердження про реальну систему) або WORKSHOP, і результат кожного прогону, що його використовує, вказує, яким саме.
 
 seg-556fe9c6c3b1 = Навігаційне повідомлення
 
 seg-a220662ed8de = Навігаційне повідомлення LEO (<a1>LEO-NAVMSG.md</a1>) несе чотири частини; цю структуру поділяють Galileo Open Service Signal-in-Space Interface Control Document (OS SIS ICD) та опубліковані пропозиції для LEO:
-
-seg-5bda276f6e82 = 16-параметровий кеплерів набір з ICD Galileo (квадратний корінь великої піввісі, ексцентриситет, нахил і його швидкість, пряме піднесення вузла та його швидкість, аргумент перигею, середня аномалія, поправка середнього руху, шість гармонічних поправок, опорний час) плюс поліноми поправок уздовж траси, упоперек траси та радіальної; або 22-параметрова модель Liu та ін. { "2025" } (<a1>doi 10.3390/rs17162894</a1>); або поліном ATOMIC із нульовим годинником
 
 seg-8a7dabfece01 = номер тижня й час тижня (TOW), а також поліном годинника другого порядку (af0, af1, af2 щодо toc)
 
@@ -402,8 +380,54 @@ seg-be428c21bd27 = прохід відтворює пікове сумарне C
 
 seg-bf44ba47e48b = записує результат, діаграму, розширений звіт (який вбудовує анімований прохід і посилається на експорти), інтерактивний програвач, а також файли ефемерид CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON і STK (Systems Tool Kit) з геометрією проходу.
 
-seg-a08e67a32d60 = Ланцюг є MODELLED: він не додає фізики, і кожен етап зберігає власні позначення. Модель C/N0 етапу позиціонування є прямою за sin(кута місця), тож форма, специфічна для проходу, зводиться до двох чисел; етап повідомлення не моделює визначення орбіти, через що <c1/> є заявленим вхідним параметром ({ "0.25" } м у вбудованих сценаріях, репрезентативно для дециметрового бортового визначення орбіти та підстроєного годинника з точністю до чипа, про які повідомляє корисне навантаження ATOMIC: <a1>https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/</a1>).
-
 seg-ee3c5b58e6fa = <s1>Назад</s1>Орбіта й поверхня Місяця як інфраструктура
 
 seg-6b951d6413c8 = <s1>Далі</s1>Конструкції сигналів LEO
+
+# words to translate: REPRESENTATIVE
+# EN: The generic designs use public band centres; each is REPRESENTATIVE, not any system's signal (<c1/>, <c2/>).
+seg-a0331a21413c = Типові конструкції використовують публічні центри діапазонів; кожна є РЕПРЕЗЕНТАТИВНА, а не сигналом якоїсь системи (<c1/>, <c2/>).
+
+# words to translate: REPRESENTATIVE
+# EN: REPRESENTATIVE, band centres from the ITU Radio Regulations
+seg-c60ce9c32b57 = РЕПРЕЗЕНТАТИВНИЙ, центри діапазонів з Регламенту радіозв'язку ITU
+
+# words to translate: PUBLIC
+# EN: PUBLIC: <a1>Resilient Navigation and Timing Foundation (RNTF) briefing</a1>
+seg-f17f98d1ae0b = ПУБЛІЧНИЙ: <a1>брифінг Resilient Navigation and Timing Foundation (RNTF)</a1>
+
+# words to translate: REPRESENTATIVE, PUBLIC
+# EN: PUBLIC signal figures: Kozhaya, Saroufim and Kassas, <a1>NAVIGATION { "72" }({ "1" })</a1>; REPRESENTATIVE orbit
+seg-a4a3a7c7bc22 = ПУБЛІЧНІ показники сигналу: Kozhaya, Saroufim і Kassas, <a1>NAVIGATION { "72" }({ "1" })</a1>; РЕПРЕЗЕНТАТИВНА орбіта
+
+# words to translate: WORKSHOP
+# EN: WORKSHOP: presented at the ESA NAVISP LEO-PNT workshop, { "2026" }
+seg-9d1e7aebcd84 = СЕМІНАРСЬКИЙ: представлено на семінарі LEO-PNT ESA NAVISP у { "2026" } році
+
+# words to translate: REPRESENTATIVE, WORKSHOP, PUBLIC
+# EN: Every preset marks its numbers PUBLIC (with a URL), REPRESENTATIVE (a documented design choice, never a claim about a real system) or WORKSHOP, and the result of every run that uses one says which.
+seg-9f0d16f43993 = Кожен пресет позначає свої числа як ПУБЛІЧНІ (з URL), РЕПРЕЗЕНТАТИВНІ (задокументований конструкторський вибір, ніколи не твердження про реальну систему) або СЕМІНАРСЬКІ, і результат кожного прогону, що його використовує, вказує, яким саме.
+
+# words to translate: ATOMIC
+# EN: The chain is MODELLED: it adds no physics, and each stage keeps its own labels. The positioning stage's C/N0 model is a straight line in sin(elevation), so a pass-specific shape is reduced to two numbers; the message stage models no orbit determination, which is why <c1/> is a stated input ({ "0.25" } m in the bundled scenarios, representative of the decimetre-level on-board orbit determination and steered chip-scale clock the ATOMIC payload reports: <a1>https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/</a1>).
+seg-a08e67a32d60 = Ланцюг є MODELLED: він не додає фізики, і кожен етап зберігає власні позначення. Модель C/N0 етапу позиціонування є прямою за sin(кута місця), тож форма, специфічна для проходу, зводиться до двох чисел; етап повідомлення не моделює визначення орбіти, через що <c1/> є заявленим вхідним параметром ({ "0.25" } м у вбудованих сценаріях, репрезентативно для дециметрового бортового визначення орбіти та підстроєного годинника з точністю до чипа, про які повідомляє корисне навантаження ATOMIC: <a1>https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/</a1>).
+
+# words to translate: REPRESENTATIVE
+# EN: REPRESENTATIVE, for C-band systems whose parameters are not public (for example TrustPoint)
+seg-486f17197d4d = РЕПРЕЗЕНТАТИВНИЙ, для систем C-діапазону, параметри яких не є публічними (наприклад, TrustPoint)
+
+# words to translate: PUBLIC
+# EN: PUBLIC: Leclère, Marathe and Reid, Institute of Navigation (ION) GNSS+ { "2025" }, <a1>arXiv { "2509.19551" }</a1>
+seg-dddb031a7e2e = ПУБЛІЧНИЙ: Leclère, Marathe і Reid, Institute of Navigation (ION) GNSS+ { "2025" }, <a1>arXiv { "2509.19551" }</a1>
+
+# words to translate: REPRESENTATIVE, PUBLIC
+# EN: PUBLIC signal structure: <a1>PMC10301026</a1>; REPRESENTATIVE orbit and power
+seg-84cb50b019e0 = ПУБЛІЧНА структура сигналу: <a1>PMC10301026</a1>; РЕПРЕЗЕНТАТИВНА орбіта та потужність
+
+# words to translate: PUBLIC, ATOMIC
+# EN: PUBLIC: <a1>InsideGNSS, ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations) payload</a1>
+seg-3dd4136094c0 = ПУБЛІЧНИЙ: <a1>InsideGNSS, корисне навантаження ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations)</a1>
+
+# words to translate: ATOMIC
+# EN: the Galileo ICD 16-parameter Keplerian set (square root of the semi-major axis, eccentricity, inclination and its rate, right ascension of the node and its rate, argument of perigee, mean anomaly, mean-motion correction, six harmonic corrections, reference time), plus along-track, cross-track and radial correction polynomials; or the Liu et al. { "2025" } 22-parameter model (<a1>doi 10.3390/rs17162894</a1>); or the ATOMIC zero-clock polynomial
+seg-5bda276f6e82 = 16-параметровий кеплерів набір з ICD Galileo (квадратний корінь великої піввісі, ексцентриситет, нахил і його швидкість, пряме піднесення вузла та його швидкість, аргумент перигею, середня аномалія, поправка середнього руху, шість гармонічних поправок, опорний час) плюс поліноми поправок уздовж траси, упоперек траси та радіальної; або 22-параметрова модель Liu та ін. { "2025" } (<a1>doi 10.3390/rs17162894</a1>); або поліном ATOMIC із нульовим годинником
