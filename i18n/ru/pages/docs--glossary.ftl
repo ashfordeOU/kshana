@@ -2440,8 +2440,6 @@ seg-c788fe80678e = ядро планетных констант
 
 seg-46a00fdc9d5b = SPICE
 
-seg-417a52c9c154 = PDF
-
 seg-c462c83b47df = Portable Document Format
 
 seg-98aa544ec4de = Pd / Pfa
@@ -2473,3 +2471,5 @@ seg-430b3c681347 = RTKLIB
 seg-051a168f774c = TCXO
 
 seg-ba5d469b1c66 = VLBI
+
+seg-417a52c9c154 = PDF
