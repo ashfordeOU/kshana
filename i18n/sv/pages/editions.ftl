@@ -4,8 +4,6 @@ seg-f79048f88b5c = Starta Kshana Studio
 
 seg-a613a7447e3f = Skräddarsydd studie
 
-seg-0d9fca5fdcfe = <a1>Öppna i Kshana Studio<c1/></a1>
-
 seg-e07e65946b76 = Från manifesten
 
 seg-8b738c82a006 = Välj hur du vill installera
@@ -27,9 +25,6 @@ seg-78240346be65 = Senaste
 seg-1e466f300d6e = Lås v{ $version }
 
 seg-d8008680650d = För alla, inget att installera.
-
-# c1:
-seg-dca88d8e959c = <a1>Starta Kshana Studio <c1/></a1>
 
 seg-567be575c392 = Motorn körs lokalt som WebAssembly; ingenting laddas upp.
 
@@ -191,8 +186,6 @@ seg-91da86f32a66 = Verktyg för modellbaserad systemteknik (MBSE) och programhan
 
 seg-65b886427270 = Kshana Pro finns tillgängligt under avtal. Den bygger på den öppna kärnan och forkar den aldrig, så ingenting tas bort från den kostnadsfria motorn.
 
-seg-38eaaca53445 = <a1>Begär en utvärdering <c1/></a1>
-
 seg-98f81c393a13 = Se den förstärkt
 
 seg-89520bff6699 = Betalt arbete · utfört åt dig
@@ -219,8 +212,6 @@ seg-4d8a03851089 = Kommersiellt stöd och integration, utbildning och konsulttj�
 
 seg-23723d311433 = Avgränsat till din fråga och levererat under avtal, reproducerbart utifrån scenario, frö och motorversion.
 
-seg-b6eb33e3149e = <a1>Begär en studie <c1/></a1>
-
 seg-164d0c3f0427 = En motor, två licenser.
 
 seg-fcdf1186bc1d = Välj den som passar hur du använder den. Båda omfattar samma öppna motor; ingenting undanhålls från någondera.
@@ -246,8 +237,6 @@ seg-dcd24d7e0916 = Kör en nätverkstjänst på en ändrad motor utan skyldighet
 seg-eb109018312a = Integrera den i en verktygskedja vars övriga delar inte kan vara AGPL
 
 seg-6574581cd2d4 = Få garanti-, skadeersättnings- eller supportvillkor som AGPL friskriver sig från
-
-seg-5973b84b88c2 = <a1>Fråga om en kommersiell licens <c1/></a1>
 
 seg-2cbf39df6210 = Kshana Pro och de andra proprietära överläggen är separata produkter under egna avtal, inte en del av någon av licenserna. <a1>Vad den kommersiella licensen omfattar</a1>
 
@@ -791,8 +780,6 @@ seg-853667670c1f = <b>Modeller av din hårdvara.</b> Sensor- eller resiliensmode
 
 seg-520654f215c5 = <b>Exportkontrollerade resiliensmodeller erbjuds inte offentligt.</b> Sådant arbete utförs bara under lämplig säkerhetsprövning och ett sekretessavtal.
 
-seg-890b470ca9ea = <a1>Begär en Pro-utvärdering <c1/></a1>
-
 seg-8ea876b3c515 = Diagrammen i det här avsnittet är ritade utifrån de filer som Pro-kommandona skrev för de genomgångsexempel som levereras med Pro: modellerade resultat, inte uttalanden om något verkligt uppdrag. Formuleringarna är citerade från den publika Kshana Pro-sidan i det öppna arkivet.
 
 seg-306d36fd66d5 = Så går en skräddarsydd studie till
@@ -819,12 +806,16 @@ seg-87783088bafd = Installera den öppna kärnan
 
 seg-3d2a59a4a52a = Inga formulär, inga priser
 
-seg-8e875271be58 = <a1><b>Utvärdera Kshana Pro</b><s1>Begär en utvärdering under avtal</s1><c1/></a1>
-
-seg-864996d20436 = <a1><b>Begär en skräddarsydd studie</b><s1>Berätta vilket system och vilket beslut det ska ligga till grund för</s1><c1/></a1>
-
-seg-8204c8ed724b = <a1><b>Kommersiell licens</b><s1>Den öppna kärnan, för sluten integration</s1><c1/></a1>
-
-seg-75e59e32a089 = <a1><b>Något annat</b><s1>contact@ashforde.org · e-posten går direkt till teamet</s1><c1/></a1>
-
 seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>
+
+seg-1aa35b022d85 = <b>Utvärdera Kshana Pro</b><s1>Begär en utvärdering under avtal</s1>
+
+seg-f9d8b42c68cc = <b>Begär en skräddarsydd studie</b><s1>Berätta vilket system och vilket beslut det ska ligga till grund för</s1>
+
+seg-2e0c129fb875 = <b>Kommersiell licens</b><s1>Den öppna kärnan, för sluten integration</s1>
+
+seg-67341b9eea70 = <b>Något annat</b><s1>contact@ashforde.org · e-posten går direkt till teamet</s1>
+
+seg-9a86ef058d27 = Öppna i Kshana Studio
+
+seg-6d3d0f8c9b7c = Begär en Pro-utvärdering

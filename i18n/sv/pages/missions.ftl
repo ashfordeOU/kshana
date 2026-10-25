@@ -24,8 +24,6 @@ seg-aa8201fbbfb8 = Effektiv bärvåg-till-brus-täthet per satellit och tid
 
 seg-36dece8c7ecc = Motor v{ $version } · <c1/> · frö { "1" }
 
-seg-0d9fca5fdcfe = <a1>Öppna i Kshana Studio<c1/></a1>
-
 seg-34a0cf94d83d = Öppna körningens exporter i Kshana Studio: reproducerbar HTML-rapport, JSON, CSV
 
 seg-92ab4fe6f441 = Ladda ned de ritade data som kommaseparerade värden
@@ -234,22 +232,6 @@ seg-a046384e01c1 = Berörda standarder
 
 seg-ca88ce3da030 = Varje satellits C/N₀ under en jammer
 
-seg-ec20ca58b238 = <a1><s1><c1/>jamming</s1><c2/><s2>En markjammer nära en mottagare: varje satellits signal-brusförhållande och låsningstillstånd när den slås på.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-bc6135676355 = <a1><s1><c1/>spoof-detect</s1><c2/><s2>En sammanslagen spoofingdetektor: samstämmighet mellan satelliter, mottagarförstärkning och signalform, och vilken övervakning som slår larm.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-57d8c0b1b9eb = <a1><s1><c1/>spoof</s1><c2/><s2>En aktiv tidsspoofingattack: fångar varje klockas integritetsövervakning upp knuffen?</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-0ae63b889cae = <a1><s1><c1/>spoof</s1><c2/><s2>En fördröjd återutsändning av verkliga signaler drar tidslösningen; detektorn har sin egen gräns.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-9e7c44159ac6 = <a1><s1><c1/>conflict-resilience</s1><c2/><s2>Lagrad navigering under stigande hotintensitet: risken att förlora alla lager samtidigt.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-eb221aac09c5 = <a1><s1><c1/>combined-altpnt</s1><c2/><s2>Gravitations-, magnet- och terrängmatchning sammanförda i en enda navigator som inte behöver några satelliter.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-084f3deb4155 = <a1><s1><c1/>gravity-map</s1><c2/><s2>En timme utan satelliter, navigering på en gravitationskarta med en kvantsensor.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-27de276d78e4 = <a1><s1><c1/>terrain-nav</s1><c2/><s2>Terrängreferensnavigering: uppmätta höjder matchade mot en karta medan satelliter är nekade.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
 seg-a2fca37a7d4e = kampanj<b>Ny</b>
 
 seg-beadeea0976f = En kedjad körning: nominell, jamming, spoofing, holdover, ett integritetslarm och återhämtning.
@@ -286,8 +268,6 @@ seg-04d539c39f45 = Skräddarsydd studie lägger till
 
 seg-71d7ccb4c89a = Skräddarsytt: exportkontrollerat resiliensarbete under lämplig säkerhetsprövning och NDA (sekretessavtal).
 
-seg-dc8587e446d1 = <a1>Jämför utgåvorna <c1/></a1>
-
 seg-43f2006c4390 = Endast defensiv användning: att skydda din egen navigering och tidssynkronisering, resiliensbedömning och holdover-planering. Kshana modellerar inte målsökning, avlyssning eller styrning. Den styr ingen radiohårdvara och sänder ingenting: dess utdata på signalnivå är IQ-samplingsfiler i basband för mottagare i programvara.
 
 seg-d5fd96a1e0f5 = GNSS-avbrott ovanför eller inuti konstellationen, klockdrift mellan positionsbestämningar, gles geometri
@@ -295,24 +275,6 @@ seg-d5fd96a1e0f5 = GNSS-avbrott ovanför eller inuti konstellationen, klockdrift
 seg-0ab7434ba617 = GNSS-tillgänglighet för en rymdfarkost inuti skalet
 
 seg-5e4996d54625 = Motor v{ $version } · <c1/> · frö { "7" }
-
-seg-4699f1edd35e = <a1><s1><c1/>orbit</s1><c2/><s2>Tillgång till navigationssatelliter för en rymdfarkost inuti konstellationens skal, utifrån verklig geometri.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-7c2982c2f488 = <a1><s1><c1/>orbit</s1><c2/><s2>Samma fråga för en starkt excentrisk bana som stiger över konstellationen.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-36eeab41adde = <a1><s1><c1/>orbit</s1><c2/><s2>Tillgänglighet från den verkliga GPS-konstellationen, propagerad utifrån tvåradiga elementuppsättningar.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-06f2f5baa0b1 = <a1><s1><c1/>orbit</s1><c2/><s2>GPS och Galileo tillsammans: hur mycket en andra konstellation tillför i zenit.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-f06ed80cf6ad = <a1><s1><c1/>slot-timing</s1><c2/><s2>Hur länge en ugnsstyrd kristallklocka på en liten satellit i låg omloppsbana stannar inom sin routingslucka.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-98b08acc8cae = <a1><s1><c1/>ephemeris</s1><c2/><s2>Var satelliten befinner sig just nu, och det markspår den ritar.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-edad2add626c = <a1><s1><c1/>passes</s1><c2/><s2>Överflygningsprognos för markstationer, för driftteamet.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-24d1c1be6cbc = <a1><s1><c1/>link-budget</s1><c2/><s2>En länkbudget i en riktning, från sändareffekt till mottagarmarginal.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-cee70379b52d = <a1><s1><c1/>space-weather</s1><c2/><s2>Rymdvädermiljön som ett uppdrag flyger genom.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
 
 seg-c7d4ba58426e = constellation-design<b>Ny</b>
 
@@ -360,8 +322,6 @@ seg-0ad832459b0a = <c1/> 5G från omloppsbana
 
 seg-d6be591a2a72 = <c1/> från början till slut
 
-seg-dd05c0b35c66 = <a1>Öppna omloppskonsolen <c1/></a1>
-
 seg-70b595b24024 = GNSS-tillgänglighet och geometrisk försämring av precisionen utifrån verklig geometri
 
 seg-0f56b05db5c7 = Klockans tidsfel genom varje lucka i täckningen
@@ -381,32 +341,6 @@ seg-e744b274e9bc = LunaNet
 seg-b63611c29399 = IERS-konventioner
 
 seg-ba196fe5b466 = Integritet vid månens sydpol, från en verklig körning
-
-seg-28f93d52946d = <a1><s1><c1/>moonlight-service-volume</s1><c2/><s2>Täckning och skyddsnivåer för en lunar navigeringstjänst över hela dess tjänstevolym.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-ee46a2b94649 = <a1><s1><c1/>lunar-integrity</s1><c2/><s2>Integritet för en landad mottagare i området kring månens sydpol.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-ecb7194e79ad = <a1><s1><c1/>earth-gnss-lunar</s1><c2/><s2>Hur mycket av jordens navigationssignal som fortfarande når en mottagare vid månen.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-3eed2a54d1e8 = <a1><s1><c1/>lunar-jamming</s1><c2/><s2>Jamming av en användare på månens yta, satellit för satellit.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-a89838f9caaf = <a1><s1><c1/>lunar-time-offset</s1><c2/><s2>Den relativistiska takten mellan jordens och månens klockor, mot det publicerade bandet.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-b599123a7ecb = <a1><s1><c1/>lunar-time-budget</s1><c2/><s2>Tidsfelsbudgeten från början till slut för samordnad lunar tid, klockklass för klockklass.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-e7632c39a795 = <a1><s1><c1/>lunar-vlbi</s1><c2/><s2>Två radioteleskop på jorden som observerar en fyr på månens närsida.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-2c5fce829593 = <a1><s1><c1/>cislunar-observability</s1><c2/><s2>Kan en liten konstellation nära månen spåras, och över hur lång båge?</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-5c827deaeb5f = <a1><s1><c1/>lunar-attack-surface</s1><c2/><s2>Attackytan för signalsäkerheten vid navigering på månens yta.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-9255299e59eb = <a1><s1><c1/>lunar-beacon</s1><c2/><s2>Ytbaserade fyrar som förstärker en lunar navigeringstjänst i omloppsbana.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-a3412e71fe8c = <a1><s1><c1/>mars-pnt</s1><c2/><s2>En omloppsfarkost i låg marsbana som navigerar mot en relä-konstellation.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-e4298f19a51f = <a1><s1><c1/>mars-pnt</s1><c2/><s2>En landare på Mars roterande yta.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-1fcf2cbe92d6 = <a1><s1><c1/>mars-pnt</s1><c2/><s2>En rymdfarkost som anländer till Mars på en hög, excentrisk båge.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
 
 seg-1471c58562c2 = Reläer i frusna elliptiska banor som dröjer sig kvar över månens sydpol, bedömda över hela månen.
 
@@ -438,20 +372,6 @@ seg-4ec86eeffec3 = Integritet med två konstellationer, från en verklig körnin
 
 seg-b5a5d1167ff9 = Motor v{ $version } · <c1/> · deterministisk, inget frö
 
-seg-94d0eba9e17c = <a1><s1><c1/>gnss-ins</s1><c2/><s2>En liten drönare förlorar satelliter till en jammer: hur länge varje tröghetsenhet håller den inom budget.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-8d8a641ae1f4 = <a1><s1><c1/>gnss-ins</s1><c2/><s2>Satellitnavigering blandad med en fastmonterad tröghetsnavigator, och därefter glidning genom ett avbrott.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-1d343a25fbd3 = <a1><s1><c1/>ins-trn-coast</s1><c2/><s2>Tröghetsglidning med terrängpositionsbestämningar: positionsfel mot glidtid.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-5a90730102fe = <a1><s1><c1/>integrity</s1><c2/><s2>Tillgänglighet för mottagarens integritetsövervakning över en GPS-lik konstellation.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-2e575bf93ed2 = <a1><s1><c1/>integrity</s1><c2/><s2>Avancerad integritetsövervakning med GPS och Galileo tillsammans.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-bf8834450467 = <a1><s1><c1/>araim-reference-check</s1><c2/><s2>Motorns skyddsnivåer mot arbetsgruppens egna genomgångna exempel.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-53062436c86e = <a1><s1><c1/>gnss-sim</s1><c2/><s2>Simulerade pseudoavstånd med jonosfär och troposfär, därefter kontrollerade för integritet.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
 seg-14f26f918e3d = Sekunder inom positionsbudgeten, MEMS (mikroelektromekaniska system) i flygstyrenhet mot en IMU (tröghetsmätenhet) av taktisk klass
 
 seg-8bfe307eae07 = Horisontella och vertikala skyddsnivåer mot larmgränserna
@@ -471,16 +391,6 @@ seg-957854f079f2 = Glidtid för fri tröghetsnavigering per IMU-klass, maritime-
 seg-fb8f8296c82a = Ritas utifrån den registrerade körningen av <c1/> när sidans skript har lästs in.
 
 seg-6817a97b0e32 = Motor v{ $version } · <c1/> · deterministisk, inget frö
-
-seg-45c114e7bcf4 = <a1><s1><c1/>jamming<b>Ny</b></s1><c2/><s2>En jammer på land eller ombord över ett sund: kvot mellan störsignal och signal samt behållna satelliter.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-2ad68f66084d = <a1><s1><c1/>spoof-detect<b>Ny</b></s1><c2/><s2>En spoofer drar ett fartygs rapporterade position; vilka detektorer fångar upp det, och när.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-098e5c7ec923 = <a1><s1><c1/>ins-trn-coast<b>Ny</b></s1><c2/><s2>Satelliter störda vid hamninseglingen: hur länge varje tröghetsklass kan glida.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-e5efb6e298c2 = <a1><s1><c1/>inertial</s1><c2/><s2>Koppelnavigering genom ett avbrott: en kallatomaccelerometer mot en enhet av navigeringsklass.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-e6211c8814a5 = <a1><s1><c1/>clock</s1><c2/><s2>Referensfallet: en klocka synkroniserad mot satelliter som sedan går fritt när de nekas.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
 
 seg-ffdef4005e60 = En jammer, ett fartyg och en bil: samma sändare, två mycket olika utfall.
 
@@ -510,8 +420,6 @@ seg-f837ebcf8461 = Genom stadskanjonen, från en verklig körning
 
 seg-ac863f2fe773 = Motor v{ $version } · <c1/> · frö { "7" }
 
-seg-cc013e365559 = <a1><s1><c1/>gnss-ins<b>Ny</b></s1><c2/><s2>En bil genom en stadskanjon, en underföring och en jammer vid vägkanten, mot en filbudget.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
 seg-547136c7d4dc = Ett autonomt fordon genom en stadskanjon, med ett lager i låg omloppsbana tillagt.
 
 seg-923bba9fbf57 = Positionsfel genom underföringen och jammern, MEMS för fordonsbruk mot en IMU av taktisk klass, mot en budget på filnivå
@@ -532,10 +440,6 @@ seg-5c5db4d36c8e = Ritas utifrån den registrerade körningen av <c1/> när sida
 
 seg-f8d2a38c8073 = Motor v{ $version } · <c1/> · deterministisk, inget frö
 
-seg-09362af9e11a = <a1><s1><c1/>ins-trn-coast<b>Ny</b></s1><c2/><s2>Ett tåg i en tunnel: sekunder av tröghetsglidning innan det inte längre kan avgöra vilket spår det går på.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-e43bcf606853 = <a1><s1><c1/>terrain-slam</s1><c2/><s2>Rekursiv terrängreferensnavigering som hela tiden håller tröghetsdriften i schack.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
 seg-993f30571991 = Sekunder av fri tröghetsglidning innan budgeten för spårurskiljning överskrids, och en vidare budget
 
 seg-cf6a1672e76d = Den feltermen som dominerar vid varje korsning
@@ -549,14 +453,6 @@ seg-6479274cf1f3 = Förlust av GNSS-tidsreferensen, tidsspoofing, klockdrift i h
 seg-b8a8446a29f1 = ITU-T G.8272
 
 seg-a01724559050 = Ett Monte Carlo-ensemble av klockor, från en verklig körning
-
-seg-9464ec10936c = <a1><s1><c1/>clock</s1><c2/><s2>En optisk strontiumklocka i laboratorium mot en chipskalig atomklocka.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-3c3248b92f7c = <a1><s1><c1/>clock</s1><c2/><s2>Ett Monte Carlo-ensemble av holdover-körningar: spridningen, inte en enda lycklig dragning.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-792cff51bc75 = <a1><s1><c1/>sweep</s1><c2/><s2>Hur holdover skalar med klockstabilitet, som en avvägningsstudie.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-c362f7aaa3df = <a1><s1><c1/>timetransfer</s1><c2/><s2>Optisk tidsöverföring mellan satelliter mot klassisk tvåvägs radioöverföring.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
 
 seg-c51c3658a5b9 = Ett Monte Carlo-ensemble med frö av en fritt gående klocka, mot dess slutna form.
 
@@ -582,12 +478,6 @@ seg-cb5e51c39a7f = Förlust av GNSS-tidsreferensen vid en primär referenstidskl
 
 seg-c89c91bfd2ac = Tidsfel mot ITU-T-maskerna
 
-seg-4ec195e1479b = <a1><s1><c1/>telecom-timing</s1><c2/><s2>En rubidiumbaserad tidsreferens förlorar satelliterna i ett dygn: tidsfel mot telekommaskerna.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-e16c3b6d6cbf = <a1><s1><c1/>telecom-timing</s1><c2/><s2>Ta med din egen tidsfelsserie och bedöm den mot telekommaskerna.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-1e5affcd802c = <a1><s1><c1/>quantum-time-transfer</s1><c2/><s2>En betrodd kvanttidskedja: överföring, säker spridning och avvikelsedetektering.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
 seg-ed9f547861df = ntn-positioning<b>Ny</b>
 
 seg-95e9679a7b30 = Positionering utifrån en 5G-nedlänk i ett icke-terrestriellt nät i mobilsatellitbandet S.
@@ -603,16 +493,6 @@ seg-732ef593b749 = Motorn innehåller gränserna i ITU-T G.8272, G.8272.1, G.827
 seg-65d4b1e42d8c = Vilket som helst av ovanstående, som ett experiment
 
 seg-a4da82d24f24 = Holdover mot klockstabilitet, en avvägningsstudie
-
-seg-c08b77d73c9f = <a1><s1><c1/>quantum-trade</s1><c2/><s2>Kvant mot klassisk navigering, med inlästa uppmätta data om klockstabilitet.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-3926f730be5d = <a1><s1><c1/>hybrid</s1><c2/><s2>En helt kvantbaserad navigeringssvit mot en helt klassisk, med nekade satelliter.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-91b768cd0f8e = <a1><s1><c1/>pvt</s1><c2/><s2>Enpunktspositionering utifrån verkliga mätningar loggade vid en inmätt markstation.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-306f764510dc = <a1><s1><c1/>impairment-eval</s1><c2/><s2>En testbädd som bedömer detektorer för radiostörningar på märkta fall.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
-
-seg-df572e013e9d = <a1><s1><c1/>sweep-nd</s1><c2/><s2>Ett parametersvep över många axlar för ett tröghetsscenario.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3></a1>
 
 seg-9d785689b9b1 = leo-navmsg<b>Ny</b>
 
@@ -841,3 +721,121 @@ seg-d10b07c40c97 = Börja med <a1>Installera</a1>
 seg-0e6be0d623f6 = <b>Gratis i dag:</b> allt i den öppna motorn. Kommersiell licens för den öppna kärnan: sluten eller proprietär integrering utan AGPL-förpliktelser.
 
 seg-9b505908a6e2 = Kshana <b>styr ingen radiohårdvara och sänder ingenting</b>. Den innehåller en GNSS-mottagare i programvara för inspelade och genererade IQ-data och kan skriva syntetiska IQ-filer i basband, men den är <b>inte RF-signalgeneratorhårdvara</b> och <b>inte heller en GNSS-mottagare i hårdvara eller en certifierad sådan</b>. Den är ett studie- och avvägningsinstrument: den simulerar vad jamming, spoofing och signalförlust gör med en navigerings- och tidslösning, och talar om vilka av dess svar som är kontrollerade. <b>Ingen flygprodukt.</b>
+
+seg-f209b9b563cd = <s1><c1/>jamming</s1><c2/><s2>En markjammer nära en mottagare: varje satellits signal-brusförhållande och låsningstillstånd när den slås på.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-c6f870b61fd3 = <s1><c1/>spoof-detect</s1><c2/><s2>En sammanslagen spoofingdetektor: samstämmighet mellan satelliter, mottagarförstärkning och signalform, och vilken övervakning som slår larm.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-bf863421ff62 = <s1><c1/>spoof</s1><c2/><s2>En aktiv tidsspoofingattack: fångar varje klockas integritetsövervakning upp knuffen?</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-57b869d18b65 = <s1><c1/>spoof</s1><c2/><s2>En fördröjd återutsändning av verkliga signaler drar tidslösningen; detektorn har sin egen gräns.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-4a874625b796 = <s1><c1/>conflict-resilience</s1><c2/><s2>Lagrad navigering under stigande hotintensitet: risken att förlora alla lager samtidigt.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-7bcd81558d78 = <s1><c1/>combined-altpnt</s1><c2/><s2>Gravitations-, magnet- och terrängmatchning sammanförda i en enda navigator som inte behöver några satelliter.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-a8ec958e97d5 = <s1><c1/>gravity-map</s1><c2/><s2>En timme utan satelliter, navigering på en gravitationskarta med en kvantsensor.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-2a1f6fa6eaf9 = <s1><c1/>terrain-nav</s1><c2/><s2>Terrängreferensnavigering: uppmätta höjder matchade mot en karta medan satelliter är nekade.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-8afdd0925641 = <s1><c1/>orbit</s1><c2/><s2>Tillgång till navigationssatelliter för en rymdfarkost inuti konstellationens skal, utifrån verklig geometri.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-eb67e6145fc3 = <s1><c1/>orbit</s1><c2/><s2>Samma fråga för en starkt excentrisk bana som stiger över konstellationen.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-8ffc336b1405 = <s1><c1/>orbit</s1><c2/><s2>Tillgänglighet från den verkliga GPS-konstellationen, propagerad utifrån tvåradiga elementuppsättningar.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-3d921a1ac332 = <s1><c1/>orbit</s1><c2/><s2>GPS och Galileo tillsammans: hur mycket en andra konstellation tillför i zenit.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-9da3f67ccc7e = <s1><c1/>slot-timing</s1><c2/><s2>Hur länge en ugnsstyrd kristallklocka på en liten satellit i låg omloppsbana stannar inom sin routingslucka.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-d6a6af392fbd = <s1><c1/>ephemeris</s1><c2/><s2>Var satelliten befinner sig just nu, och det markspår den ritar.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-6623d2b68ca4 = <s1><c1/>passes</s1><c2/><s2>Överflygningsprognos för markstationer, för driftteamet.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-8bde11fca8e4 = <s1><c1/>link-budget</s1><c2/><s2>En länkbudget i en riktning, från sändareffekt till mottagarmarginal.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-4d1f5a21ad1b = <s1><c1/>space-weather</s1><c2/><s2>Rymdvädermiljön som ett uppdrag flyger genom.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-ea8e3b78fa02 = <s1><c1/>moonlight-service-volume</s1><c2/><s2>Täckning och skyddsnivåer för en lunar navigeringstjänst över hela dess tjänstevolym.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-bff75aa8bcda = <s1><c1/>lunar-integrity</s1><c2/><s2>Integritet för en landad mottagare i området kring månens sydpol.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-505223f958dd = <s1><c1/>earth-gnss-lunar</s1><c2/><s2>Hur mycket av jordens navigationssignal som fortfarande når en mottagare vid månen.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-7de98f114567 = <s1><c1/>lunar-jamming</s1><c2/><s2>Jamming av en användare på månens yta, satellit för satellit.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-872704ccc18d = <s1><c1/>lunar-time-offset</s1><c2/><s2>Den relativistiska takten mellan jordens och månens klockor, mot det publicerade bandet.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-7bcd7122ca23 = <s1><c1/>lunar-time-budget</s1><c2/><s2>Tidsfelsbudgeten från början till slut för samordnad lunar tid, klockklass för klockklass.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-a0d433ec7ae0 = <s1><c1/>lunar-vlbi</s1><c2/><s2>Två radioteleskop på jorden som observerar en fyr på månens närsida.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-f48740a80c8e = <s1><c1/>cislunar-observability</s1><c2/><s2>Kan en liten konstellation nära månen spåras, och över hur lång båge?</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-2d88643c2a6b = <s1><c1/>lunar-attack-surface</s1><c2/><s2>Attackytan för signalsäkerheten vid navigering på månens yta.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-f07c3fd3c0a2 = <s1><c1/>lunar-beacon</s1><c2/><s2>Ytbaserade fyrar som förstärker en lunar navigeringstjänst i omloppsbana.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-6f580e043fda = <s1><c1/>mars-pnt</s1><c2/><s2>En omloppsfarkost i låg marsbana som navigerar mot en relä-konstellation.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-cdc1867a57b4 = <s1><c1/>mars-pnt</s1><c2/><s2>En landare på Mars roterande yta.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-920a40d074a6 = <s1><c1/>mars-pnt</s1><c2/><s2>En rymdfarkost som anländer till Mars på en hög, excentrisk båge.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-714f98c66b0f = <s1><c1/>gnss-ins</s1><c2/><s2>En liten drönare förlorar satelliter till en jammer: hur länge varje tröghetsenhet håller den inom budget.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-88ea2d93f58b = <s1><c1/>gnss-ins</s1><c2/><s2>Satellitnavigering blandad med en fastmonterad tröghetsnavigator, och därefter glidning genom ett avbrott.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-299d5ba007a3 = <s1><c1/>ins-trn-coast</s1><c2/><s2>Tröghetsglidning med terrängpositionsbestämningar: positionsfel mot glidtid.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-a131f50905d7 = <s1><c1/>integrity</s1><c2/><s2>Tillgänglighet för mottagarens integritetsövervakning över en GPS-lik konstellation.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-3ef822db1bd1 = <s1><c1/>integrity</s1><c2/><s2>Avancerad integritetsövervakning med GPS och Galileo tillsammans.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-702e53e0a39b = <s1><c1/>araim-reference-check</s1><c2/><s2>Motorns skyddsnivåer mot arbetsgruppens egna genomgångna exempel.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-e853235fbb83 = <s1><c1/>gnss-sim</s1><c2/><s2>Simulerade pseudoavstånd med jonosfär och troposfär, därefter kontrollerade för integritet.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-5992817749a7 = <s1><c1/>jamming<b>Ny</b></s1><c2/><s2>En jammer på land eller ombord över ett sund: kvot mellan störsignal och signal samt behållna satelliter.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-04389c157d50 = <s1><c1/>spoof-detect<b>Ny</b></s1><c2/><s2>En spoofer drar ett fartygs rapporterade position; vilka detektorer fångar upp det, och när.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-69a31ed3ca90 = <s1><c1/>ins-trn-coast<b>Ny</b></s1><c2/><s2>Satelliter störda vid hamninseglingen: hur länge varje tröghetsklass kan glida.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-efce3ddb95a5 = <s1><c1/>inertial</s1><c2/><s2>Koppelnavigering genom ett avbrott: en kallatomaccelerometer mot en enhet av navigeringsklass.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-bfbe27342831 = <s1><c1/>clock</s1><c2/><s2>Referensfallet: en klocka synkroniserad mot satelliter som sedan går fritt när de nekas.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-4118ddbdcaee = <s1><c1/>gnss-ins<b>Ny</b></s1><c2/><s2>En bil genom en stadskanjon, en underföring och en jammer vid vägkanten, mot en filbudget.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-5df30a2cd03a = <s1><c1/>ins-trn-coast<b>Ny</b></s1><c2/><s2>Ett tåg i en tunnel: sekunder av tröghetsglidning innan det inte längre kan avgöra vilket spår det går på.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-989491be63bc = <s1><c1/>terrain-slam</s1><c2/><s2>Rekursiv terrängreferensnavigering som hela tiden håller tröghetsdriften i schack.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-dc6595a80c3c = <s1><c1/>clock</s1><c2/><s2>En optisk strontiumklocka i laboratorium mot en chipskalig atomklocka.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-2259c02c65d1 = <s1><c1/>clock</s1><c2/><s2>Ett Monte Carlo-ensemble av holdover-körningar: spridningen, inte en enda lycklig dragning.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-797a31051152 = <s1><c1/>sweep</s1><c2/><s2>Hur holdover skalar med klockstabilitet, som en avvägningsstudie.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-756d447d43c9 = <s1><c1/>timetransfer</s1><c2/><s2>Optisk tidsöverföring mellan satelliter mot klassisk tvåvägs radioöverföring.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-34222f383a1d = <s1><c1/>telecom-timing</s1><c2/><s2>En rubidiumbaserad tidsreferens förlorar satelliterna i ett dygn: tidsfel mot telekommaskerna.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-fbd5e8d65102 = <s1><c1/>telecom-timing</s1><c2/><s2>Ta med din egen tidsfelsserie och bedöm den mot telekommaskerna.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-31eb1b498220 = <s1><c1/>quantum-time-transfer</s1><c2/><s2>En betrodd kvanttidskedja: överföring, säker spridning och avvikelsedetektering.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-bc88cae52827 = <s1><c1/>quantum-trade</s1><c2/><s2>Kvant mot klassisk navigering, med inlästa uppmätta data om klockstabilitet.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-3ad831e5b328 = <s1><c1/>hybrid</s1><c2/><s2>En helt kvantbaserad navigeringssvit mot en helt klassisk, med nekade satelliter.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-6d9120bc8620 = <s1><c1/>pvt</s1><c2/><s2>Enpunktspositionering utifrån verkliga mätningar loggade vid en inmätt markstation.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-dd6243d762c1 = <s1><c1/>impairment-eval</s1><c2/><s2>En testbädd som bedömer detektorer för radiostörningar på märkta fall.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-1d3b81df1579 = <s1><c1/>sweep-nd</s1><c2/><s2>Ett parametersvep över många axlar för ett tröghetsscenario.</s2><s3><s4>Registrerad körning</s4>Öppna i Kshana Studio<c3/></s3>
+
+seg-9a86ef058d27 = Öppna i Kshana Studio
+
+seg-e1acd19a6ac6 = Jämför utgåvorna

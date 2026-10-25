@@ -12,8 +12,6 @@ seg-a613a7447e3f = Skräddarsydd studie
 
 seg-501d3a72ea43 = Integritet
 
-seg-0d9fca5fdcfe = <a1>Öppna i Kshana Studio<c1/></a1>
-
 seg-34a0cf94d83d = Öppna körningens exporter i Kshana Studio: reproducerbar HTML-rapport, JSON, CSV
 
 seg-92ab4fe6f441 = Ladda ned de ritade data som kommaseparerade värden
@@ -159,8 +157,6 @@ seg-02926579bdbf = Inspelad körning
 seg-7635e731e2ed = Kopiera: cargo install kshana
 
 seg-a438a9c22d93 = cargo install kshana
-
-seg-eb0b1bc759e2 = <a1>Öppna benchmarken <c1/></a1>
 
 seg-d6476863f862 = Förmåga
 
@@ -1644,7 +1640,7 @@ seg-ca481f2d8f9e = Bekräftelse från oberoende skattare av tröskeln för bågs
 
 seg-3d5fbf896209 = En skattare med batch-minsta kvadrat som ÅTERSKAPAR chief-satellitens begynnelsetillstånd från simulerade mätningar mellan satelliter över växande prefix av samma epokrutnät som tabellen rang mot båge använder, med mätpartialerna tagna som centrala finita differenser av den sammansatta framåtmodellen. Den använder ingenting av det maskineri som tröskeln mättes med — ingen analytisk jakobianrad, ingen variationell tillståndsövergångsmatris, ingen singulärvärdes- eller egenvärdesuppdelning, ingen rangtolerans, inget filter med kvadratrot av informationen — och delar bara dynamiken, begynnelsevillkoren, den skalära observabeln och epokrutnätet, vart och ett namngivet i det utsända dokumentet. Två kriterier, båda svepta: återställning utan brus (rangens motsvarighet) och skattbarhet med Monte Carlo (skattbarhetens motsvarighet, mätt mot en känd referens i stället för förutsagd ur en kovarians). Kan köras som scenariotypen <c1/>
 
-seg-60e30948cee7 = En separat skattare i den här kodbasen med en annan algoritm och en disjunkt kodväg: olinjär viktad Gauss-Newton med partialer från finita differenser, vars utlåtande läses som ett uppmätt fel i tillståndsåterställning i km och mm/s. Den har inget uttryck gemensamt med Gramianens väg via rang och kovarians, och separationen UPPRÄTTHÅLLS av en vakt på källtexten i stället för att bara påstås. UPPMÄTT på det publicerade plana DRO-rutnätet: SKATTBARHETSkriteriet är CORROBORATED — den uppmätta Monte Carlo-gränsen är { "5.739130" } h mot den formella { "5.739130" } h (kvot { "1.0000" }), och det uppmätta RMS återskapar den formella 1σ över { "21" } bågsträckor till en geometrisk medelkvot på { "0.9804" }. RANGkriteriet är NOT CORROBORATED som gräns för återställbarhet: skattaren återställer från { "0.782609" } h mot Gramianens { "2.086957" } h, kvot { "0.375" }, och vid { "1.826087" } h — det sista prefixet som rangavläsningen poängsätter till { "3" } av { "4" } — återställer den till { "1.96e-5" } av den a priori förskjutningen. Återställningsgränsen är oförändrad över tre tiopotenser av sin egen gräns medan rangtröskeln spänner från 'aldrig' till { "0.782609" } h över fyra tiopotenser av rel_tol, och de två sammanfaller exakt vid rel_tol = { "1e-8" }. Det spannet noterades först som att det nådde { "0.260870" } h; den siffran var en ARTEFAKT, framkallad av en rangavläsning som räknade { "4" } riktningar från { "2" } mätrader under flyttalsbruset i f64, och den rättas här i stället för att få stå kvar. Rangavläsningen begränsas nu av Sylvesters olikhet med orsaken utsänd, och det rättade spannet mättas vid exakt den båge där den oberoende skattaren återställer, vilket stärker den här radens korsvalidering i stället för att försvaga den: den publicerade { "1e-6" } är en konservativ KONVENTION för singulärvärden, inte ett påstående om återställbarhet. Samma mönster rumsligt: NRHO { "9.290323" } h mot { "21.677419" } h, halo { "22.978723" } h mot { "39.829787" } h, med skattbarheten överens exakt i båda. Det plana DRO-fallet med sex tillstånd återställs vid ingen båge, vilket oberoende återskapar den familjens strukturella datumdefekt från en skattare som inte fått veta något om den. INTE externt förankrad — dynamiken och begynnelsevillkoren delas med analysen som testas och ingen offentlig datamängd publicerar en sådan tröskel — så ExternalDataset avstår
+seg-60e30948cee7 = En separat skattare i den här kodbasen med en annan algoritm och en disjunkt kodväg: olinjär viktad Gauss-Newton med partialer från finita differenser, vars utlåtande läses som ett uppmätt fel i tillståndsåterställning i km och mm/s. Den har inget uttryck gemensamt med Gramianens väg via rang och kovarians, och separationen UPPRÄTTHÅLLS av en vakt på källtexten i stället för att bara påstås. UPPMÄTT på det publicerade plana DRO-rutnätet: SKATTBARHETSkriteriet är CORROBORATED — den uppmätta Monte Carlo-gränsen är { "5.739130" } h mot den formella { "5.739130" } h (kvot { "1.0000" }), och det uppmätta RMS återskapar den formella 1σ över { "21" } bågsträckor till en geometrisk medelkvot på { "0.9804" }. RANGkriteriet är INTE styrkt som gräns för återställbarhet: skattaren återställer från { "0.782609" } h mot Gramianens { "2.086957" } h, kvot { "0.375" }, och vid { "1.826087" } h — det sista prefixet som rangavläsningen poängsätter till { "3" } av { "4" } — återställer den till { "1.96e-5" } av den a priori förskjutningen. Återställningsgränsen är oförändrad över tre tiopotenser av sin egen gräns medan rangtröskeln spänner från 'aldrig' till { "0.782609" } h över fyra tiopotenser av rel_tol, och de två sammanfaller exakt vid rel_tol = { "1e-8" }. Det spannet noterades först som att det nådde { "0.260870" } h; den siffran var en ARTEFAKT, framkallad av en rangavläsning som räknade { "4" } riktningar från { "2" } mätrader under flyttalsbruset i f64, och den rättas här i stället för att få stå kvar. Rangavläsningen begränsas nu av Sylvesters olikhet med orsaken utsänd, och det rättade spannet mättas vid exakt den båge där den oberoende skattaren återställer, vilket stärker den här radens korsvalidering i stället för att försvaga den: den publicerade { "1e-6" } är en konservativ KONVENTION för singulärvärden, inte ett påstående om återställbarhet. Samma mönster rumsligt: NRHO { "9.290323" } h mot { "21.677419" } h, halo { "22.978723" } h mot { "39.829787" } h, med skattbarheten överens exakt i båda. Det plana DRO-fallet med sex tillstånd återställs vid ingen båge, vilket oberoende återskapar den familjens strukturella datumdefekt från en skattare som inte fått veta något om den. INTE externt förankrad — dynamiken och begynnelsevillkoren delas med analysen som testas och ingen offentlig datamängd publicerar en sådan tröskel — så ExternalDataset avstår
 
 seg-f839285852d9 = Lunar servicevolym från verklig, hämtad konstellationsgeometri
 
@@ -2504,11 +2500,7 @@ seg-d0566d4db829 = Återskapa det
 
 seg-1d45f4717196 = Från arkivet
 
-seg-b6eb33e3149e = <a1>Begär en studie <c1/></a1>
-
 seg-ac7e1a5e344a = Pro
-
-seg-890b470ca9ea = <a1>Begär en Pro-utvärdering <c1/></a1>
 
 seg-8f101c803442 = Varje förmåga bär <s1>sin evidens.</s1>
 
@@ -2562,8 +2554,6 @@ seg-1d60624d525d = Hur det kontrollerades
 
 seg-6adbc42697f9 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministiskt, inget frö
 
-seg-222805ff00cf = <a1>Öppna i Kshana Studio: samma propagator, <c1/><s1> · frö <c2/></s1><c3/></a1>
-
 seg-813d6d41b891 = Kopiera kommandot som återskapar det
 
 seg-a0ef302e2458 = Kopiera kommando
@@ -2583,8 +2573,6 @@ seg-87734f6c52a2 = En kvadrat per SciPy-fall, grupperade per kärna.
 seg-4957eddb39ed = referens · SciPy
 
 seg-c5d5cf50c8a9 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministiskt, inget frö
-
-seg-50770ade1556 = <a1>Öppna i Kshana Studio: kärnan i arbete, <c1/><s1> · frö <c2/></s1><c3/></a1>
 
 seg-e02df7620fc7 = Numerisk (Cowell) banpropagering mot Orekit över en 24-timmarsbåge: sämsta skillnad { "0.08" } m i kraftnivåerna { "1" } till { "5" }.
 
@@ -2632,8 +2620,6 @@ seg-9993e306ae64 = referens · NIST SP { "1065" }
 
 seg-2a2794bda50f = Motor v{ $version }, bygge <c1/> · <c2/> · deterministiskt, inget frö
 
-seg-a5b3e41b1b0d = <a1>Öppna i Kshana Studio: skattarna på en klocka, <c1/><s1> · frö <c2/></s1><c3/></a1>
-
 seg-4f484b09471e = Holdover-prediktion på en uppmätt cesiumklockserie: predikterat över uppmätt mellan { "0.84" } och { "1.03" }, inom den förinställda faktorn { "1.5" }.
 
 seg-4321e1b6bc12 = Klockor · holdover
@@ -2649,8 +2635,6 @@ seg-46c1dbe5c6bc = Uppmätt och predikterat tidsfel mot glidtid, och kvotfönstr
 seg-449f52c56c67 = referens · uppmätt cesiumserie
 
 seg-275351654591 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministiskt, inget frö
-
-seg-20741725be9f = <a1>Öppna i Kshana Studio: samma inversion, <c1/><s1> · deterministiskt</s1><c2/></a1>
 
 seg-05dd599ce14a = En cell per förmåga.
 
@@ -4056,15 +4040,9 @@ seg-9bff81726f3f = Publicerad forskning.
 
 seg-7563b76b2e24 = { "6" } artiklar på arXiv, det öppna preprintarkivet, byggda på den öppna motorn. Var och en öppnar en siffra som körts om på motorn, dess iakttagelser, kommandot och dess DOI (Digital Object Identifier).
 
-seg-c08c27e6bac3 = Månnavigering<s1><s2>{ "18" } september { "2026" }</s2> · arXiv:{ "2610.23871" }</s1>
-
 seg-4215aedbd38b = Cislunar navigation is an observability problem: arc-length thresholds, Gramian conditioning, and the Doppler lever
 
 seg-b98018947305 = I cislunär rymd gäller inte dilution of precision: länkar med enbart avstånd lämnar hastigheten icke observerbar vid varje enskilt ögonblick, så krav hör hemma i budgetar för båglängd, konditionering och mätningstyp.
-
-seg-e94b00e75d6e = <a1>Sammanfattning <c1/></a1>
-
-seg-98e880759dbd = <a1>PDF <c1/></a1>
 
 seg-4f7300f35cc4 = DOI 10.48550/arXiv.2610.23871
 
@@ -4104,8 +4082,6 @@ seg-e1324f491348 = BibTeX · baweja2026cislunar
 
 seg-02ae60696338 = Kopiera BibTeX
 
-seg-22c586c6000b = Månnavigering<s1><s2>{ "7" } juli { "2026" }</s2> · arXiv:{ "2607.06212" }</s1>
-
 seg-cb5ae69b24b2 = The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis
 
 seg-2d8cdfcc974c = Planerade banor klumpar ihop sig rakt ovanför en användare vid månens sydpol; några avståndsbeacons på närliggande höjder rättar till geometrin billigare än fler satelliter.
@@ -4139,8 +4115,6 @@ seg-a635fe4b7597 = Kopiera: kshana lunar-beacon.toml
 seg-c3952de0ac25 = kshana lunar-beacon.toml
 
 seg-3863c17f1d12 = BibTeX · baweja2026cost
-
-seg-5c3bd1c94790 = Månnavigering<s1><s2>{ "29" } juni { "2026" }</s2> · arXiv:{ "2607.02566" }</s1>
 
 seg-75c6caf87321 = Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination
 
@@ -4178,8 +4152,6 @@ seg-4d7b3cc885e1 = kshana lunar-joint-od-clock.toml
 
 seg-4a67b5769164 = BibTeX · baweja2026earth
 
-seg-5e319b243ab2 = Tidssynkroniseringens integritet<s1><s2>{ "23" } juni { "2026" }</s2> · arXiv:{ "2606.24210" }</s1>
-
 seg-d919ca966a9e = A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error Under GNSS Spoofing
 
 seg-913d89357229 = En registrerad spoofing visar en tidsmottagare som levererar tid som är långt mer fel än den rapporterar; ingen ovillkorlig gräns finns, så artikeln begränsar det oupptäckta felet villkorligt. <s1><b>GNSS</b> Global Navigation Satellite System</s1>
@@ -4210,8 +4182,6 @@ seg-f9d26d561e77 = cargo run --release --example tpl_jammertest
 
 seg-1e7f0f12f1d8 = BibTeX · baweja2026conditional
 
-seg-cacc9e88dce2 = Resiliensbedömning<s1><s2>{ "22" } juni { "2026" }</s2> · arXiv:{ "2607.05415" }</s1>
-
 seg-e1901a8f71a6 = How Stable Is a PNT Resilience Score? Decision-Instability of Single-Number Resilience Ratings under Framework-Aligned Weighting
 
 seg-0c986779c8c0 = Resiliensbetyg i ett enda tal för positionering, navigering och tidssynkronisering är stabila endast där en utformning dominerar; viktning, hot och deklarerade tekniker kan vända dem. <s1><b>PNT</b> positionering, navigering och tidssynkronisering</s1>
@@ -4241,8 +4211,6 @@ seg-b9a73904adfc = Kopiera: cargo run --release --example resilience_report -- p
 seg-164b725640f2 = cargo run --release --example resilience_report -- paper-artifacts/resilience-study.json
 
 seg-068c8bc02d18 = BibTeX · baweja2026stable
-
-seg-dc082b5d5c49 = Radiofrekvensstörning<s1><s2>{ "20" } juni { "2026" }</s2> · arXiv:{ "2606.22054" } · version { "2" }</s1>
 
 seg-1a9e30bfff32 = Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of RF-Impairment Detectors from In-Distribution Statistics
 
@@ -4283,3 +4251,43 @@ seg-41d86044a528 = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simu
 seg-c97e87cbcdd5 = BibTeX för motorn
 
 seg-24ff0a7466d6 = BibTeX
+
+seg-0c50b3629e39 = Öppna benchmarken
+
+seg-58ca3da25e69 = Öppna i Kshana Studio: samma propagator, <c1/><s1> · frö <c2/></s1>
+
+seg-011e33e27f59 = Öppna i Kshana Studio: kärnan i arbete, <c1/><s1> · frö <c2/></s1>
+
+seg-fc6a00946a11 = Öppna i Kshana Studio: skattarna på en klocka, <c1/><s1> · frö <c2/></s1>
+
+seg-c131867720cc = Öppna i Kshana Studio: samma inversion, <c1/><s1> · deterministiskt</s1>
+
+seg-d44879bf12ee = Sammanfattning
+
+seg-9a86ef058d27 = Öppna i Kshana Studio
+
+seg-a846e806e577 = Tidssynkroniseringens integritet
+
+seg-417a52c9c154 = PDF
+
+seg-b366150de755 = Beställ en studie
+
+seg-6d3d0f8c9b7c = Begär en Pro-utvärdering
+
+seg-71fadc5b5a0b = Månnavigering
+
+seg-99f49da3e2c2 = <s1>{ "18" } september { "2026" }</s1> · arXiv:{ "2610.23871" }
+
+seg-814e10300308 = <s1>{ "7" } juli { "2026" }</s1> · arXiv:{ "2607.06212" }
+
+seg-756a63fd185f = <s1>{ "29" } juni { "2026" }</s1> · arXiv:{ "2607.02566" }
+
+seg-7334fb10a58d = <s1>{ "23" } juni { "2026" }</s1> · arXiv:{ "2606.24210" }
+
+seg-71f2b94fc8ed = Poängsättning av resiliens
+
+seg-0bf6d80a9ac4 = <s1>{ "22" } juni { "2026" }</s1> · arXiv:{ "2607.05415" }
+
+seg-bc499c388907 = Radiofrekvensstörning
+
+seg-0411e7a125dd = <s1>{ "20" } juni { "2026" }</s1> · arXiv:{ "2606.22054" } · version { "2" }
