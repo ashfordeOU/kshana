@@ -46,19 +46,7 @@ seg-54608f1d0bd1 = Positioning around any solar-system body: an orbiter or a sur
 seg-f10169621729 = Positioning around Mars — orbiter user, { "12" } relays at { "10000" } km, { "296" } epochs Earth light time { "338.3" } s one-way, { "676.6" } s round trip; Sun-Earth-body angle { "175.4" } deg availability: { "1.000" } constellation only, { "1.000" } with the Earth range (Earth in view { "0.811" }) median PDOP { "1.375" } ; RMS error { "1.883" } m constellation only, { "1.629" } m with the Earth range median formal sigma { "1.375" } m constellation only, { "1.304" } m with the Earth range
 
 # text
-seg-eaa6f823d3b8 = fom.availability_relays
-
-# text
-seg-89ae8b6c3bda = fom.availability_with_earth
-
-# text
-seg-1860e5ed02ae = fom.rms_error_relays_m
-
-# text
 seg-677b64729afd = { "1.882705" } m
-
-# text
-seg-16ed42a34266 = fom.rms_error_with_earth_m
 
 # text
 seg-2a2f83a6cbd2 = { "1.62856" } m
@@ -119,25 +107,10 @@ seg-0ee24216644e = Result chart (also written to mars-orbit-pnt.chart.svg)
 seg-e8028e7aa5bd = Scalar results
 
 # text
-seg-1eef4a8a2344 = { "4" }.2828e13
-
-# text
 seg-753b1683fb7b = m^3/s^{ "2" }
 
 # text
-seg-57dc213997cb = { "1" }.0142e11
-
-# text
-seg-a712a112e6a5 = { "5" }.1481e-6
-
-# text
 seg-e27476e37522 = Earth
-
-# text
-seg-3546e825a10a = { "2" }.0285e11
-
-# text
-seg-a112cefa2188 = { "2" }.4615e6
 
 # text
 seg-4d208b6c0eb8 = day
@@ -162,12 +135,6 @@ seg-5b3bc9761db4 = First
 
 # text
 seg-07d0de61cfe9 = Last
-
-# text
-seg-9fd8b2e57c1c = { "1" }.0141e11
-
-# text
-seg-a8266defdfe5 = { "3" }.6895e6
 
 # text
 seg-464b0c55ec6a = 3b. Animation and exports
@@ -373,13 +340,7 @@ seg-107c29c96eec = not recorded: this engine was built without the KSHANA_GIT_CO
 seg-c9ee69e3ce3e = Scenario file
 
 # text
-seg-9d02d42e8de1 = mars-orbit-pnt.toml
-
-# text
 seg-af5108e0fed4 = Scenario file SHA-256 (Secure Hash Algorithm 256-bit)
-
-# text
-seg-627f99ff99a4 = 813ff12e5f8119636bd43bf164c08f061b97b6bb5e5da9362bec98f1e1d2f8e8
 
 # text
 seg-73916816595e = Result scenario_hash

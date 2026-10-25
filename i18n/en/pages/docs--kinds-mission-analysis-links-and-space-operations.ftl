@@ -67,7 +67,7 @@ seg-44c4890ba07e = Ground-contact planning for several satellites over several s
 seg-19ab136e9f9b = Aperture duty cycle: the navigation-versus-communications time-share a contact plan implies for a pool of steerable apertures.
 
 # text
-seg-1ad2f4211513 = CCSDS { "133" }.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact encode↔deco
+seg-ee0c649ca8b2 = CCSDS 133.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact encode↔deco
 
 # text
 seg-e561f3a749db = CCSDS OEM interoperability bridge: import an Orbit Ephemeris Message produced by an external flight-dynamics tool (GMAT/Orekit/STK all emit OEM) and report its segments/objects/frames/epoch-span plus
@@ -330,7 +330,7 @@ seg-1e06e06d4325 = <b>Ledger:</b> MODELLED. Full page, with the inputs, results,
 seg-a8b38ed8e029 = The chart the engine writes for scenarios/aperture-duty-cycle.toml, kind aperture-duty-cycle
 
 # text
-seg-5f9450657f85 = CCSDS { "133" }.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact encode↔decode round trip. Deterministic exact bit-layout framing — the agency packet-format interop layer; NOT a conformance certification (no secondary-header/CRC/segmentation logic beyond the flags).
+seg-de2448d74c2b = CCSDS 133.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact encode↔decode round trip. Deterministic exact bit-layout framing — the agency packet-format interop layer; NOT a conformance certification (no secondary-header/CRC/segmentation logic beyond the flags).
 
 # text
 # c1: apid

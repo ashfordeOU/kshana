@@ -170,32 +170,17 @@ seg-a77d1a8a62b5 = <a1>RECEIVER-TRUST</a1>, <a2>MARITIME-TRUST</a2>
 seg-c311dfc2a161 = the same scoring on a stream as it arrives (stdin, a file being appended, TCP or UDP), the <c1/> sentence and the optional gate; <c2/> is the whole of it with no input or output
 
 # text
-seg-44bf125d21a2 = MARITIME-TRUST
-
-# text
 seg-07b2d6edf7b9 = a signed, hash-chained pack of a log window, its configuration and the engine's result, verifiable offline; optional RFC { "3161" } timestamp token
-
-# text
-seg-15c120f39544 = EVIDENCE-PACKS
 
 # text
 # c1: otlp
 seg-32d08730b9c0 = the trust stream as Prometheus metrics, syslog events (CEF or LEEF) and optional OpenTelemetry (<c1/> feature, off by default)
 
 # text
-seg-92cee9ba4566 = TRUST-TELEMETRY
-
-# text
 seg-53311b8c3b93 = synthetic bridge NMEA { "0183" } with scripted jamming, drag-off, time spoof and replay events and an instructor log, for crew training (text only)
 
 # text
-seg-325b65264114 = NMEA-TRAINING
-
-# text
 seg-f7cc3cfbdfc6 = aggregate degraded-navigation maps from openly licensed aircraft and ship reports, and a route's exposure to them; local files only
-
-# text
-seg-3e98f68e3a04 = INTERFERENCE-MAP
 
 # text
 # c1: osnma::cli::verify_report
@@ -210,13 +195,7 @@ seg-bf8cd5a45deb = OSNMA
 seg-843a83b82283 = maps Kshana outputs to public resilience frameworks and fills the mapping from result documents; <c1/> and <c2/> take texts, not paths
 
 # text
-seg-a0cb0d8fd9ac = compliance/
-
-# text
 seg-e16c483479ce = a scenario's vehicle motion and events as a motion CSV, NMEA, waypoint text and events files for a laboratory GNSS simulator; no signal is written
-
-# text
-seg-b0a1d80d0238 = TEST-BENCH
 
 # text
 seg-044c58c98397 = Integrations for boats (the Signal K plugin, OpenCPN gate mode and the reference build) call the command-line tool; see <a1>MARINE-INTEGRATIONS</a1>.

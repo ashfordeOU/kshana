@@ -92,7 +92,7 @@ seg-cbb39b4105ac = every requirement the Recommendations mark 'for further study
 
 # text
 # c1: not_implemented[1]
-seg-fb503c324c03 = high-pass-filtered dynamic time error (dTE_H, G.8273.2 Table 7-7 and G.8271.1 clauses { "7.3" }.2-7.3.3) (result <c1/>)
+seg-a70f575aeb21 = high-pass-filtered dynamic time error (dTE_H, G.8273.2 Table 7-7 and G.8271.1 clauses 7.3.2-7.3.3) (result <c1/>)
 
 # text
 # c1: not_implemented[2]

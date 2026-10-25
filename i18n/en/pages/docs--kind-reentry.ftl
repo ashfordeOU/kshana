@@ -36,9 +36,6 @@ seg-576245fd5b70 = The example <c1/> sets, among others:
 seg-05ce408c2dbb = kg/m^{ "2" }
 
 # text
-seg-8a5d6b8efc8b = m/s
-
-# text
 seg-195347c63a8a = m/s^{ "2" }
 
 # text
@@ -54,7 +51,7 @@ seg-c860b8679b47 = <b>MODELLED</b> Peak deceleration (ballistic-coefficient-inde
 seg-3a3ee499961e = <b>MODELLED</b> Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere { "1976" } (density and pressure), with a pitch kick, thrust reduced by the nozzle back-pressure, stage burnouts at exact s
 
 # text
-seg-b096992948ec = <b>MODELLED</b> Peak deceleration (ballistic-coefficient-independent), velocity + altitude at peak-g, and peak-heating velocity for an exponential-atmosphere ballistic entry. R. Oracle (InternalConsistency): Closed-form Allen–Eggers analytic entry, additionally cross-checked vs a scipy { "1.18" } solve_ivp (DOP853) numerical integration of the SAME drag-only entry ODE (tests/ballistic_re_entry_corridor_reference.rs, { "36" } cases, worst a_max rel { "2" }.9e-9) — a numeric-integral-vs-own-analytic-form check, so still InternalConsistency, NOT an external validation. MODELLED ballistic (no lift), no aerothermal/TPS — heating output is a ve
+seg-84abc0b9f859 = <b>MODELLED</b> Peak deceleration (ballistic-coefficient-independent), velocity + altitude at peak-g, and peak-heating velocity for an exponential-atmosphere ballistic entry. R. Oracle (InternalConsistency): Closed-form Allen–Eggers analytic entry, additionally cross-checked vs a scipy { "1.18" } solve_ivp (DOP853) numerical integration of the SAME drag-only entry ODE (tests/ballistic_re_entry_corridor_reference.rs, { "36" } cases, worst a_max rel { "2.9e-9" }) — a numeric-integral-vs-own-analytic-form check, so still InternalConsistency, NOT an external validation. MODELLED ballistic (no lift), no aerothermal/TPS — heating output is a ve
 
 # text
 # c1: label

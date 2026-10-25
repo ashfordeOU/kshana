@@ -35,35 +35,14 @@ seg-bf339fa14645 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-abd3eac6da41 = The example <c1/> sets, among others:
 
 # text
-seg-a4b89db7b70d = jammer.power_dbw
-
-# text
-seg-3d02d26f3f65 = jammer_power
-
-# text
 seg-8784979d6569 = dBW
 
 # text
 seg-c4f955d5f506 = availability
 
 # text
-seg-402622c7239f = fom.availability_under_jamming
-
-# text
-seg-7535d5c947a3 = mean_js
-
-# text
-seg-1a33d5154547 = fom.mean_js_db
-
-# text
 # c1: scenarios/
 seg-7bcf77278958 = { "22" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
-
-# text
-seg-8351d6842d0a = 46aa07cb58fbfbd3784c2e1ef8d6070508ad5f5c
-
-# text
-seg-850cdffb1ccb = a2eb8762700e16a9ee46cd84731607a73a23fbe4
 
 # text
 seg-38faa927b2bd = lin

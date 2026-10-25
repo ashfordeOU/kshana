@@ -17,7 +17,7 @@ seg-2ffccc9c1eff = Measurement-domain pseudorange simulation (Klobuchar iono, Sa
 
 # text
 # c1: scenarios/gnss-sim-raim.toml
-seg-d661c84c4a2c = One run of <c1/> summarises as: scenario ab854d9d7886 | gnss-sim | mean iono { "19" }.9m tropo { "6" }.8m | RAIM avail { "0.82" } mean HPL { "22" }.2m VPL { "39" }.9m fault-rate { "0.000" }
+seg-db93cbad6c6d = One run of <c1/> summarises as: scenario ab854d9d7886 | gnss-sim | mean iono 19.9m tropo 6.8m | RAIM avail { "0.82" } mean HPL 22.2m VPL 39.9m fault-rate { "0.000" }
 
 # text
 # c1: seed
@@ -46,7 +46,7 @@ seg-ee0d38971d08 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-c7b57e696bc3 = The example <c1/> sets, among others:
 
 # text
-seg-8a8e032aa370 = [{ "3" }.8200e-8, { "1" }.4900e-8, -1.7900e-7, { "0" }]
+seg-1abddf8ecdc5 = [{ "3.8200e-8" }, { "1.4900e-8" }, -1.7900e-7, { "0" }]
 
 # text
 # c1: scenarios/
@@ -65,13 +65,13 @@ seg-ccc44a4ac68e = <b>VALIDATED</b> Klobuchar single-frequency L1 slant ionosphe
 seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM multiple-hypothesis solution separation per the ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels and add_v42_protecti. Oracle (ExternalDataset): Three independent tools, pre-registered (0123cee1) before any fixture or oracle output existed, tolerances fixed then. ({ "1" }) ARAIM: Stanford MAAST for ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, run as a separate program under GNU Octave { "8.4" } with a driver-side unique() compatibility shim (disclosed, no algorithm change), at the ADD TOL_PL of { "0.05" } m: the Rust reproduces the ADD reference implementation on
 
 # text
-seg-30309a43107f = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split. Oracle (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — independent library, matched to 1e-6 relative
+seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split. Oracle (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — independent library, matched to { "1e-6" } relative
 
 # text
-seg-8d3cffef327f = <b>VALIDATED</b> Klobuchar single-frequency L1 slant ionospheric group delay from the eight broadcast α/β coefficients. Oracle (ExternalDataset): RTKLIB ionmodel (tomojitakasu/RTKLIB, src/rtkcmn.c) — independent reference implementation compiled from source; matched to < 1e-4 m
+seg-752829346523 = <b>VALIDATED</b> Klobuchar single-frequency L1 slant ionospheric group delay from the eight broadcast α/β coefficients. Oracle (ExternalDataset): RTKLIB ionmodel (tomojitakasu/RTKLIB, src/rtkcmn.c) — independent reference implementation compiled from source; matched to < { "1e-4" } m
 
 # text
-seg-3b179636529f = <b>VALIDATED</b> The distributional core every protection level rests on: the snapshot fault-detection threshold χ²₁₋ₚfₐ(dof), the missed-detection non-centrality pbias=√λ, and . Oracle (ExternalDataset): SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — independent library (Cephes/Boost), a different algorithm from Kshana's incomplete-gamma series; matched to ≤1e-6 rel. Kernel only. The ARAIM MHSS P_HMI budget <em>allocation</em> is no longer without a published numeric oracle — the WG-C ARAIM Technical Subgroup's own worked example now backs the separate 'ARAIM MHSS protection levels against published referen
+seg-78ff7db5ad3d = <b>VALIDATED</b> The distributional core every protection level rests on: the snapshot fault-detection threshold χ²₁₋ₚfₐ(dof), the missed-detection non-centrality pbias=√λ, and . Oracle (ExternalDataset): SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — independent library (Cephes/Boost), a different algorithm from Kshana's incomplete-gamma series; matched to ≤{ "1e-6" } rel. Kernel only. The ARAIM MHSS P_HMI budget <em>allocation</em> is no longer without a published numeric oracle — the WG-C ARAIM Technical Subgroup's own worked example now backs the separate 'ARAIM MHSS protection levels against published referen
 
 # text
 seg-f6b7ca020692 = Family page: <a1>GNSS measurements, positioning and integrity</a1>

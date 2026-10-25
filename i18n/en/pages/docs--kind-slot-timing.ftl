@@ -39,37 +39,10 @@ seg-8aee75a55007 = ocxo
 seg-f42465f7d066 = ns
 
 # text
-seg-347dabc0f57f = ground-contact
-
-# text
-seg-cad60c0d2c3d = { "1" }.5000e-10
-
-# text
-seg-3d620bb2c6b6 = 1/d
-
-# text
-seg-a32d7a44dc98 = { "6" }.2610e-23
-
-# text
 seg-df4ca2d859ff = 1/s^{ "3" }
 
 # text
-seg-0dacd3abc520 = { "7" }.3122e-24
-
-# text
-seg-ad670a878be8 = 1/s
-
-# text
-seg-8037202199c5 = { "8" }.0652e-12
-
-# text
 seg-1a282dc35742 = datasheet
-
-# text
-seg-3d727a560fef = { "1" }.1429e-11
-
-# text
-seg-969eb62880cf = 1/K
 
 # text
 seg-c13396b4e57b = Result label (the engine's): MODELLED — time until a free-running clock leaves a routing slot's guard, and the fix cadence that keeps it inside, from a stationary power-law clock model. A datasheet source is an envelope of its maxima, not a measurement of any unit; a class source rests on an assumed red-noise floor.

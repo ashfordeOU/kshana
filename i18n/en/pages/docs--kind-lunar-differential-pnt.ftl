@@ -45,9 +45,6 @@ seg-1115464be513 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-3f32e0fea066 = The example <c1/> sets, among others:
 
 # text
-seg-8d069ea2fd35 = { "1" }.0000e-4
-
-# text
 seg-549a6103e711 = bit
 
 # text
@@ -55,12 +52,6 @@ seg-f42465f7d066 = ns
 
 # text
 seg-9feefecdcf67 = rafs
-
-# text
-seg-4ea27e7742a7 = { "3" }.1623e-11
-
-# text
-seg-8a5d6b8efc8b = m/s
 
 # attr:alt
 seg-8e67df89448a = The chart the engine writes for scenarios/lunar-differential-pnt.toml, kind lunar-differential-pnt

@@ -192,9 +192,6 @@ seg-7da8e7a9d43d = Where: run in a terminal (add <c1/> for every project). Or th
 seg-93d075d31cdd = npx (Node):
 
 # text
-seg-9019347291f2 = Docker:
-
-# text
 seg-ae03b1ad65f1 = kshana-mcp on PATH:
 
 # text

@@ -31,9 +31,6 @@ seg-79da500e2726 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
 # c1: scenarios/lunanet-araim.toml
 seg-21d10aa98c33 = The example <c1/> sets, among others:
 
-# text
-seg-8d069ea2fd35 = { "1" }.0000e-4
-
 # attr:alt
 seg-610fa190a393 = The chart the engine writes for scenarios/lunanet-araim.toml, kind lunar-integrity
 
@@ -44,7 +41,7 @@ seg-619127334cf3 = No matrix row names this kind by name; the label on its resul
 seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM multiple-hypothesis solution separation per the ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels and add_v42_protecti. Oracle (ExternalDataset): Three independent tools, pre-registered (0123cee1) before any fixture or oracle output existed, tolerances fixed then. ({ "1" }) ARAIM: Stanford MAAST for ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, run as a separate program under GNU Octave { "8.4" } with a driver-side unique() compatibility shim (disclosed, no algorithm change), at the ADD TOL_PL of { "0.05" } m: the Rust reproduces the ADD reference implementation on
 
 # text
-seg-33aa5160948a = <b>VALIDATED</b> The lunar protection level's geometry-to-covariance step — (GᵀG)⁻¹ over the all-in-view and every single-fault sub-geometry, projected onto the local vertical a. Oracle (ExternalDataset): Two established third-party implementations composed, both run offline, with the fixture regenerated end-to-end and verified byte-identical. RTKLIB { "2.4" }.2-p13 (T. Takasu, BSD-2-Clause), commit 71db0ff, src/rtkcmn.c compiled from C source with -ULAPACK: lsq() → matinv() → ludcmp()/lubksb() inverts the normal matrix by Crout LU with partial pivoting, an algorithm unrelated to kshana's hand-written Gauss-Jordan invert4()
+seg-1903c67a762d = <b>VALIDATED</b> The lunar protection level's geometry-to-covariance step — (GᵀG)⁻¹ over the all-in-view and every single-fault sub-geometry, projected onto the local vertical a. Oracle (ExternalDataset): Two established third-party implementations composed, both run offline, with the fixture regenerated end-to-end and verified byte-identical. RTKLIB 2.4.2-p13 (T. Takasu, BSD-2-Clause), commit 71db0ff, src/rtkcmn.c compiled from C source with -ULAPACK: lsq() → matinv() → ludcmp()/lubksb() inverts the normal matrix by Crout LU with partial pivoting, an algorithm unrelated to kshana's hand-written Gauss-Jordan invert4()
 
 # text
 seg-1c1eeb2dcaa0 = Family page: <a1>Lunar and cislunar</a1>

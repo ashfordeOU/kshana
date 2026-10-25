@@ -42,7 +42,10 @@ const decode = (s) => s
       lsquo: '‘', rsquo: '’', ldquo: '“', rdquo: '”', bull: '•', check: '✓', zwj: '‍' })[n]);
 
 // A standalone number or version: not part of an identifier (L1, E5a, kshana-0.39, 2x).
-const NUM = /(?<![\p{L}\p{N}_.\-/#$])(?:v?\d+(?:\.\d+){2,}|\d+(?:[.,   ]\d{3})*(?:[.,]\d+)?)(?![\p{L}\p{N}_\-/])/gu;
+const NUM = /(?<![\p{L}\p{N}_.\-/#$])(?:\d+(?:\.\d+)?[eE][-+]?\d+|v?\d+(?:\.\d+){2,}|\d+(?:[.,   ]\d{3})*(?:[.,]\d+)?)(?![\p{L}\p{N}_\-/]|[.,]\d)/gu;
+// A lone token that is an identifier, a unit or a formula (csac-sa45s, 1/s, s^2/s) is data, not prose.
+const IDENT = /^[\p{L}\p{N}_.:/^*+=<>()%[\]-]+$/u;
+const isData = (skel) => !/\s/.test(skel) && !/[<{]/.test(skel) && IDENT.test(skel) && /[-_.:/^0-9]/.test(skel);
 
 const esc = (s) => s.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
 
@@ -123,7 +126,7 @@ function segmentOf(nodes) {
   };
   const skel = norm(kids.map((k) => render(k)).join('')).trim();
   const letters = skel.replace(/\{ "[^"]*" \}/g, '').replace(/<[^>]*>/g, '');
-  if (!hasLetters(letters) || skel.length < 2) return null;
+  if (!hasLetters(letters) || skel.length < 2 || isData(skel)) return null;
   // source range of the kept nodes (the apply step replaces exactly this range)
   const startOf = (n) => (n.k === 'el' ? n.s : n.s), endOf = (n) => (n.k === 'el' ? (n.ce ?? n.kids.length ? (n.ce ?? endOf(n.kids[n.kids.length - 1])) : n.os) : n.e);
   const f = kids[0], l = kids[kids.length - 1];

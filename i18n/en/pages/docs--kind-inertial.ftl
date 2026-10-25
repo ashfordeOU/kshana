@@ -17,7 +17,7 @@ seg-bdedf28adc48 = 1-DOF inertial dead-reckoning during a GNSS outage.
 
 # text
 # c1: scenarios/imu-deadreckoning.toml
-seg-737c9a365819 = One run of <c1/> summarises as: scenario fc9191cef784 | quantum holdover 6600s p95 { "41" }.39m | classical holdover 350s p95 { "30629" }.9m
+seg-55b5599ef867 = One run of <c1/> summarises as: scenario fc9191cef784 | quantum holdover 6600s p95 41.39m | classical holdover 350s p95 30629.9m
 
 # text
 # c1: seed
@@ -40,37 +40,16 @@ seg-bd021b5dff80 = The example <c1/> sets, among others:
 seg-195347c63a8a = m/s^{ "2" }
 
 # text
-seg-ef8bdfa75e1b = { "1" }.0000e-5
-
-# text
-seg-41b2c44e9193 = nav-grade-quartz
-
-# text
 seg-7bebd09c614b = Navigation-grade quartz accelerometer (Honeywell QA-2000 / G
-
-# text
-seg-e1e0298b8f2e = { "1" }.0000e-13
 
 # text
 seg-cc7a61264c3f = (m/s^{ "2" })^2/s
 
 # text
-seg-2bf6c2d012ac = { "3" }.8416e-8
-
-# text
 seg-3a1d8c59a4c9 = (m/s^{ "2" })^2/Hz
 
 # text
-seg-4fcc536a45d1 = { "5" }.8800e-7
-
-# text
-seg-c2089951999f = cold-atom-quat
-
-# text
 seg-8a9e52e38b05 = Exail hybrid quantum accelerometer triad: bias stability 6e-
-
-# text
-seg-827c82f4fd15 = { "4" }.6656e-8
 
 # text
 seg-ca448daf5ec7 = nominal
@@ -78,9 +57,6 @@ seg-ca448daf5ec7 = nominal
 # text
 # c1: scenarios/
 seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
-
-# text
-seg-8a5d6b8efc8b = m/s
 
 # text
 seg-b054c73f22e5 = no value

@@ -27,7 +27,7 @@ seg-6499faeb5966 = SonarQube Cloud quality gate status
 seg-bcc02d802ca2 = Release { "v0.39.0" }
 
 # text
-seg-966e693eb710 = <a1><s1>Licence: AGPL-3.0-only</s1></a1> <br/> <a2><s2>DOI { "10" }.5281/zenodo.20528627, the Zenodo concept record of every release</s2></a2>
+seg-ca94ec23de8d = <a1><s1>Licence: AGPL-3.0-only</s1></a1> <br/> <a2><s2>DOI 10.5281/zenodo.20528627, the Zenodo concept record of every release</s2></a2>
 
 # text
 seg-51c45cd1350f = A commercial licence is available from Ashforde® OÜ, see Editions
@@ -98,9 +98,6 @@ seg-5d38953cc90c = Command line.
 # text
 # c1: kshana kinds | head
 seg-272de29ffed5 = <c1/> (any closed standard output) no longer panics: the program exits quietly with status { "141" }, as other tools do for a closed pipe. Other write errors still report themselves.
-
-# text
-seg-6bfc82cb606e = Dependencies.
 
 # text
 # c1: memmap2
@@ -280,7 +277,7 @@ seg-d8e0e028074b = <b>Ledger status: MODELLED.</b> Agreement between a receiver'
 seg-4ae07c273ac4 = RTKLIB <c1/>, NovAtel OEM7, RTCM { "3" } MSM4/MSM7 C/N0, GNSS-SDR monitor streams, an IMU log as a second sensor, a ROS { "2" } package and a <c2/> bridge all end in the same receiver-trust timeline. <c3/> reads the sensor parameters the hybrid and fusion scenarios need off a stationary IMU log, so a scenario can be run with the sensor you actually have.
 
 # attr:alt
-seg-e2aadb4237f5 = What `kshana imu-fit` reads off a stationary IMU log, from a real run of engine { "v0.39.0" } on a made-up log ({ "20,000" } samples at { "100" } Hz, { "200" } s): the accelerometer velocity random walk q_va = { "4" }.02e-06, the gyro angle random walk q_arw = 9e-08, the bias instability { "0.00296" } and the early Allan slopes (-0.51 and -0.49; about -0.5 where white noise dominates). The table beside it is the TOML the command prints. The estimator is checked on synthetic logs only. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
+seg-c67f9d6f244e = What `kshana imu-fit` reads off a stationary IMU log, from a real run of engine { "v0.39.0" } on a made-up log ({ "20,000" } samples at { "100" } Hz, { "200" } s): the accelerometer velocity random walk q_va = { "4.02e-06" }, the gyro angle random walk q_arw = { "9e-08" }, the bias instability { "0.00296" } and the early Allan slopes (-0.51 and -0.49; about -0.5 where white noise dominates). The table beside it is the TOML the command prints. The estimator is checked on synthetic logs only. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
 
 # text
 seg-06b5a44f6e23 = <b>Ledger status: MODELLED.</b> Self-written fixtures only; no capture from a real receiver, IMU, GNSS-SDR run or ROS graph was read. <a1>Machine inputs</a1>.
@@ -427,7 +424,7 @@ seg-a2c5e9565be3 = Lunar infrastructure (<c1/>)
 seg-7ddfa195b5e4 = The Moon's orbit and surface as navigation and geodetic infrastructure, in five studies chosen by <c1/>: <b>od-consistency</b> (an onboard Earth-GNSS orbit determination in a halo orbit against an independent ground one), <b>carrier-phase</b> (integer ambiguity fixing between surface stations and an orbiter), <b>frame-coestimation</b> (the lunar datum from Earth-station ranging with and without orbiter links), <b>space-tie</b> (laser, VLBI and GNSS offsets on one spacecraft against the local-tie error) and <b>geodesy-sensitivity</b> (which observable family sees the Love numbers h2, k2 and l2). The model is a restricted three-body one with stated simplifications and illustrative inputs. Full page: <a1>docs/LUNAR-INFRASTRUCTURE.md</a1>.
 
 # attr:alt
-seg-7244fe3c4ec0 = Consistency of an onboard Earth-GNSS orbit determination in a near-rectilinear halo orbit with an independent ground orbit determination, from real runs of engine { "v0.39.0" } on scenarios/lunar-infrastructure-od-consistency.toml and the model-error variant ({ "400" } trials each). Mean normalised difference q is { "5.81" } with no model error and { "5.95" } with an injected acceleration error of 3e-10 m/s2, against { "6" } expected: the two orbit solutions are consistent (bar C1 MET). The share of trials above the { "95" } % point is { "0.040" } and { "0.052" }; the bar for detecting the injected error was at least { "0.5" }, so it is NOT MET (C3): the onboard solution is known to about { "352" } m against { "23" } m for the ground one, so a ten-metre displacement hides inside its covariance. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
+seg-41ffdc1afb26 = Consistency of an onboard Earth-GNSS orbit determination in a near-rectilinear halo orbit with an independent ground orbit determination, from real runs of engine { "v0.39.0" } on scenarios/lunar-infrastructure-od-consistency.toml and the model-error variant ({ "400" } trials each). Mean normalised difference q is { "5.81" } with no model error and { "5.95" } with an injected acceleration error of { "3e-10" } m/s2, against { "6" } expected: the two orbit solutions are consistent (bar C1 MET). The share of trials above the { "95" } % point is { "0.040" } and { "0.052" }; the bar for detecting the injected error was at least { "0.5" }, so it is NOT MET (C3): the onboard solution is known to about { "352" } m against { "23" } m for the ground one, so a ten-metre displacement hides inside its covariance. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
 
 # attr:alt
 seg-99e45bbe61a5 = Carrier-phase integer ambiguity fixing between lunar surface stations and an orbiter, from the committed result of the scored run of engine { "v0.39.0" } (tests/fixtures/lunar_infra/phase_full_run.json: { "3" } arc lengths, a Monte Carlo of { "400" } draws each, written by scenarios/carrier-phase-scored.toml). { "1" } day: success { "1.0" } % (standard error { "0.5" } %), { "134" } ambiguities, orbiter position sigma { "45.6" } m float and { "18.5" } m fixed; { "2" } day: success { "0.5" } % (standard error { "0.4" } %), { "259" } ambiguities, orbiter position sigma { "21.5" } m float and { "8.7" } m fixed; { "3" } day: success { "2.8" } % (standard error { "0.8" } %), { "375" } ambiguities, orbiter position sigma { "6.3" } m float and { "2.1" } m fixed. Integer fixing is not achieved: success stays between { "1" } % and { "3" } % at { "25" } dBi, and at the registered { "12" } dBi the problem cannot be formed. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
@@ -436,13 +433,13 @@ seg-99e45bbe61a5 = Carrier-phase integer ambiguity fixing between lunar surface 
 seg-9f4b05265e11 = Precision of the seven-parameter lunar datum (three translations, a scale and three rotations) from Earth-station ranging, with and without orbiter-to-surface-station ranges, from a real run of engine { "v0.39.0" } on scenarios/lunar-infrastructure-frame-coestimation.toml. The Cramer-Rao sigma of the translations and rotations falls with the orbiter links (for example t_z from { "0.98" } m to { "0.046" } m); the smallest information eigenvalue rises 111-fold and the CRLB trace falls to { "1.0" } % (bar F3 MET). This assumes the orbit is known in the lunar axes, with its error carried by the orbiter range sigma of { "1" } m. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
 
 # attr:alt
-seg-62ec19fb410e = Precision of the offsets between laser ranging, VLBI and GNSS positions of one spacecraft, against the error of the ground local tie, from a real run of engine { "v0.39.0" } on scenarios/lunar-infrastructure-space-tie.toml (one { "6" }.56-day arc, technique sigmas GNSS { "10" } m, VLBI { "1" } m, laser { "0.1" } m). With a local tie from { "1" } mm to { "1" } m, the laser-minus-GNSS translation sigma stays near { "1.04" } m until the tie reaches { "1" } m: it is limited by the measurement noise of the techniques, not by the local tie. The floor set by the tie alone is the square root of two times its sigma. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
+seg-367c68e625ac = Precision of the offsets between laser ranging, VLBI and GNSS positions of one spacecraft, against the error of the ground local tie, from a real run of engine { "v0.39.0" } on scenarios/lunar-infrastructure-space-tie.toml (one 6.56-day arc, technique sigmas GNSS { "10" } m, VLBI { "1" } m, laser { "0.1" } m). With a local tie from { "1" } mm to { "1" } m, the laser-minus-GNSS translation sigma stays near { "1.04" } m until the tie reaches { "1" } m: it is limited by the measurement noise of the techniques, not by the local tie. The floor set by the tie alone is the square root of two times its sigma. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
 
 # attr:alt
-seg-4bbfe072dde1 = Which observable family is sensitive to the lunar Love numbers h2, k2 and l2, from a real run of engine { "v0.39.0" } on scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Each cell is the RMS partial derivative of a family's observations with respect to a parameter, in that family's own units (so cells are compared across a row, not down a column); a dash means the family has no sensitivity. laser ranging: h2 { "7.6" }, k2 none, l2 { "9.8" }. orbiter tracking: h2 none, k2 { "0.00086" }, l2 none. surface gravimeter: h2 { "2" }.9e+{ "03" }, k2 { "4" }.3e+{ "03" }, l2 none. surface clock: h2 { "2" }.8e-17, k2 { "2" }.8e-17, l2 none. With all four families, the Cramer-Rao sigma is { "0.36" } % of nominal h2, { "0.52" } % of k2 and { "1.16" } % of l2. Adding a family never lowered the smallest eigenvalue ({ "28" } of { "28" } additions), but the trace of the pseudo-inverse was no larger in only { "16" } of { "28" }: that half of bar G3 is NOT MET. The orbiter family sees the line-of-sight integral of the k2 acceleration, an upper-end figure. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
+seg-a5f7c8844baf = Which observable family is sensitive to the lunar Love numbers h2, k2 and l2, from a real run of engine { "v0.39.0" } on scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Each cell is the RMS partial derivative of a family's observations with respect to a parameter, in that family's own units (so cells are compared across a row, not down a column); a dash means the family has no sensitivity. laser ranging: h2 { "7.6" }, k2 none, l2 { "9.8" }. orbiter tracking: h2 none, k2 { "0.00086" }, l2 none. surface gravimeter: h2 { "2.9e+03" }, k2 { "4.3e+03" }, l2 none. surface clock: h2 { "2.8e-17" }, k2 { "2.8e-17" }, l2 none. With all four families, the Cramer-Rao sigma is { "0.36" } % of nominal h2, { "0.52" } % of k2 and { "1.16" } % of l2. Adding a family never lowered the smallest eigenvalue ({ "28" } of { "28" } additions), but the trace of the pseudo-inverse was no larger in only { "16" } of { "28" }: that half of bar G3 is NOT MET. The orbiter family sees the line-of-sight integral of the k2 acceleration, an upper-end figure. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
 
 # text
-seg-77613a5c5b2d = <b>Ledger status: MODELLED, and three bars are NOT MET.</b> The numerics are checked against independent numpy and scipy programs; nothing is compared with a measurement of a lunar quantity, and nothing is VALIDATED. Met: the two orbit solutions are consistent (mean q { "5.81" } against { "6" } expected), and orbiter links raise the smallest datum eigenvalue about 111-fold, assuming a known orbit. <b>Not met</b>: the injected 3e-10 m/s2 model error is <b>not detected</b> (C3: the onboard solution is known to about { "350" } m, so about ten metres hides in its covariance); <b>integer fixing is not achieved</b> ({ "1" } to { "3" } % success at { "25" } dBi, and at the registered { "12" } dBi the problem cannot be formed); and the trace half of G3 for adding an observable family (the trace rose in { "12" } of { "28" } additions, each time because the family raised the rank). Each miss is pinned by a test. <a1>Lunar infrastructure</a1>.
+seg-13b2d6533adf = <b>Ledger status: MODELLED, and three bars are NOT MET.</b> The numerics are checked against independent numpy and scipy programs; nothing is compared with a measurement of a lunar quantity, and nothing is VALIDATED. Met: the two orbit solutions are consistent (mean q { "5.81" } against { "6" } expected), and orbiter links raise the smallest datum eigenvalue about 111-fold, assuming a known orbit. <b>Not met</b>: the injected { "3e-10" } m/s2 model error is <b>not detected</b> (C3: the onboard solution is known to about { "350" } m, so about ten metres hides in its covariance); <b>integer fixing is not achieved</b> ({ "1" } to { "3" } % success at { "25" } dBi, and at the registered { "12" } dBi the problem cannot be formed); and the trace half of G3 for adding an observable family (the trace rose in { "12" } of { "28" } additions, each time because the family raised the rank). Each miss is pinned by a test. <a1>Lunar infrastructure</a1>.
 
 # text
 seg-1b484c7d2d35 = Open <a1>kshana.dev/studio</a1> and the whole engine runs in your browser, compiled to WebAssembly. Nothing to install, and nothing is uploaded. The Studio has two views of the same engine, and a switch in the header moves between them, keeping the scenario, the view and any settings you changed.
@@ -654,7 +651,7 @@ seg-a7cfe6f135f1 = Orbit & geometry
 # text
 # c1: gps-ops
 # c2: i:T/P/F
-seg-9b58ebb4a660 = SGP4/SDP4 propagation (validated to { "4.12" } mm against all { "666" } AIAA 2006-6753 vectors); real two-line elements (a committed, date-stamped Celestrak <c1/> snapshot) or synthetic Walker-delta constellations whose mean elements realise the <c2/> formula to under { "1" } km over a { "24" } h propagation; multi-constellation visibility, <b>dilution of precision — geometric, position, horizontal, vertical and time (GDOP/PDOP/HDOP/VDOP/TDOP), validated to 1e-6 against gnss_lib_py { "1.0.4" }, Stanford NAV Lab</b> (Navigation and Autonomous Vehicles Laboratory), and GNSS availability; a gradient-free constellation-design optimiser, streets-of-coverage minimum-satellite sizing, a multi-constellation comparison tool, and a Walker <b>design sweep</b> that tabulates coverage / PDOP / revisit-time over a planes × satellites grid and reports the Pareto-optimal designs.
+seg-a8d9e454eaaa = SGP4/SDP4 propagation (validated to { "4.12" } mm against all { "666" } AIAA 2006-6753 vectors); real two-line elements (a committed, date-stamped Celestrak <c1/> snapshot) or synthetic Walker-delta constellations whose mean elements realise the <c2/> formula to under { "1" } km over a { "24" } h propagation; multi-constellation visibility, <b>dilution of precision — geometric, position, horizontal, vertical and time (GDOP/PDOP/HDOP/VDOP/TDOP), validated to { "1e-6" } against gnss_lib_py { "1.0.4" }, Stanford NAV Lab</b> (Navigation and Autonomous Vehicles Laboratory), and GNSS availability; a gradient-free constellation-design optimiser, streets-of-coverage minimum-satellite sizing, a multi-constellation comparison tool, and a Walker <b>design sweep</b> that tabulates coverage / PDOP / revisit-time over a planes × satellites grid and reports the Pareto-optimal designs.
 
 # text
 seg-a5a572db3bed = Numerical propagator
@@ -666,7 +663,7 @@ seg-a5a572db3bed = Numerical propagator
 # c4: NumericalPropagator
 # c5: DormandPrince853
 # c6: tests/numerical_cowell_propagator_reference.rs
-seg-3e2f126fa18b = A <b>Cowell</b> numerical propagator (<c1/>) complementing the analytic SGP4/SDP4 path, with a hierarchical <b>seven-perturbation</b> force model (<c2/>): two-body + the full <b>J2–J6 zonal</b> field (the Earth-oblateness zonal harmonic coefficients J2 to J6; the exact analytic gradient of its disturbing potential), an optional <b>EGM2008 tesseral spherical-harmonic geopotential to degree/order { "70" }</b> (Earth Gravitational Model { "2008" }; <c3/>; real NGA — US (United States) National Geospatial-Intelligence Agency — coefficients, Holmes–Featherstone normalized-Legendre recurrence, cross-checked against the closed-form Legendre functions and the analytic ∇V identity), <b>epoch-driven Sun and Moon third-body</b> gravity (a built-in low-precision ephemeris, no DE/SPK — Development Ephemeris / SPICE Spacecraft and Planet Kernel — kernel), <b>solar-radiation pressure</b> (cannonball model with a conical umbra+penumbra shadow), <b>atmospheric drag</b> (Vallado piecewise-exponential density, co-rotating atmosphere), the <b>post-Newtonian Schwarzschild relativistic correction</b>, and the <b>Lense–Thirring frame-dragging</b> term (IERS — International Earth Rotation and Reference Systems Service — Conventions { "2010" } §{ "10" }, linear in Earth's angular momentum, ~{ "1" }–{ "2" } orders below Schwarzschild) — driven by a choice of two adaptive integrators (RK4 — fourth-order Runge–Kutta — step-doubling or the <b>Dormand–Prince RK5({ "4" })</b> embedded pair). <b>Validated against Orekit { "12.2" }</b> (CS GROUP, Apache-2.0) <c4/>/<c5/> — { "278" } epochs across LEO (low Earth orbit) + GTO (geostationary transfer orbit), the conservative-force tiers agreeing to a worst-case <b>|Δr| { "0.08" } m over { "24" } h</b> (<c6/>); the atmospheric-drag tier is characterised separately (≈ { "333" } m / { "24" } h) and the absolute Sun/Moon-ephemeris and density inputs stay honestly <b>Modelled</b>. Additional internal evidence (not external validation): the unperturbed orbit is checked against the exact universal-variable Kepler solution to <b>sub-metre over { "24" } h</b>, energy/angular-momentum conserve to ~1e-9, and each perturbation matches a hand-derived closed-form signature.
+seg-de6ef6ab1aaf = A <b>Cowell</b> numerical propagator (<c1/>) complementing the analytic SGP4/SDP4 path, with a hierarchical <b>seven-perturbation</b> force model (<c2/>): two-body + the full <b>J2–J6 zonal</b> field (the Earth-oblateness zonal harmonic coefficients J2 to J6; the exact analytic gradient of its disturbing potential), an optional <b>EGM2008 tesseral spherical-harmonic geopotential to degree/order { "70" }</b> (Earth Gravitational Model { "2008" }; <c3/>; real NGA — US (United States) National Geospatial-Intelligence Agency — coefficients, Holmes–Featherstone normalized-Legendre recurrence, cross-checked against the closed-form Legendre functions and the analytic ∇V identity), <b>epoch-driven Sun and Moon third-body</b> gravity (a built-in low-precision ephemeris, no DE/SPK — Development Ephemeris / SPICE Spacecraft and Planet Kernel — kernel), <b>solar-radiation pressure</b> (cannonball model with a conical umbra+penumbra shadow), <b>atmospheric drag</b> (Vallado piecewise-exponential density, co-rotating atmosphere), the <b>post-Newtonian Schwarzschild relativistic correction</b>, and the <b>Lense–Thirring frame-dragging</b> term (IERS — International Earth Rotation and Reference Systems Service — Conventions { "2010" } §{ "10" }, linear in Earth's angular momentum, ~{ "1" }–{ "2" } orders below Schwarzschild) — driven by a choice of two adaptive integrators (RK4 — fourth-order Runge–Kutta — step-doubling or the <b>Dormand–Prince RK5({ "4" })</b> embedded pair). <b>Validated against Orekit { "12.2" }</b> (CS GROUP, Apache-2.0) <c4/>/<c5/> — { "278" } epochs across LEO (low Earth orbit) + GTO (geostationary transfer orbit), the conservative-force tiers agreeing to a worst-case <b>|Δr| { "0.08" } m over { "24" } h</b> (<c6/>); the atmospheric-drag tier is characterised separately (≈ { "333" } m / { "24" } h) and the absolute Sun/Moon-ephemeris and density inputs stay honestly <b>Modelled</b>. Additional internal evidence (not external validation): the unperturbed orbit is checked against the exact universal-variable Kepler solution to <b>sub-metre over { "24" } h</b>, energy/angular-momentum conserve to ~{ "1e-9" }, and each perturbation matches a hand-derived closed-form signature.
 
 # text
 seg-57b120fb0aac = Maneuvers & trajectory design
@@ -698,7 +695,7 @@ seg-6af8e99df46d = Alt-PNT (GPS-denied)
 # c5: .hgt
 # c6: src/altpnt/terrain.rs
 # c7: src/igrf.rs
-seg-6218240b1951 = A cold-atom <b>gravimeter measurement model</b> whose white-noise floor (<c1/>, ASD = amplitude spectral density) is derived from the CAI accelerometer physics; a low-degree, fully-normalised <b>spherical-harmonic gravity-anomaly field</b> (checked against the closed-form Legendre functions and a hand-derived single-term anomaly) plus synthetic mascons; the <b>gravity-functional synthesis kernel</b> (<c2/> / <c3/>) — the "map reader" a gravity-aided navigator matches against — is validated against the <b>GRS80 normal-gravity standard</b> (Geodetic Reference System { "1980" }), reproducing the closed-form Somigliana normal gravity and the published γ_e / γ_p to <b>{ "3" }.5e-12</b> and producing a physically-bounded disturbance map from the real ICGEM (International Centre for Global Earth Models) <b>EGM2008</b> field (RMS — root mean square — ≈ { "26" } mGal, max ≈ { "89" } mGal at d/o { "70" }; <c4/>); and a <b>gravity-map-matching particle filter</b> that recovers a GPS-denied track from the anomaly sequence it flies through. It extends to <b>terrain-referenced navigation</b> (TERCOM/SITAN — terrain contour matching / Sandia Inertial Terrain-Aided Navigation — against an SRTM (Shuttle Radar Topography Mission) <c5/> DEM (digital elevation model), <c6/>), an <b>IGRF-14 geomagnetic main field</b> (14th-generation International Geomagnetic Reference Field) to degree/order { "13" } (<c7/>, checked against the tilted-dipole closed form and ∇V finite differences), and a <b>combined gravity + magnetic + terrain</b> navigator that fuses all three scalar channels through one particle filter (information is additive — no channel makes the fix worse). A <b>60-minute GPS-denied benchmark</b> (a ~{ "700" } km / one-hour outage where the inertial solution drifts to ~{ "70" } km) is recovered to <b>~{ "145" } m (< { "500" } m)</b> by a hierarchical coarse-to-fine matcher — the ESA NAVISP (Navigation Innovation and Support Programme) <em>Quantum Wayfarer</em> target.
+seg-f43c3807e894 = A cold-atom <b>gravimeter measurement model</b> whose white-noise floor (<c1/>, ASD = amplitude spectral density) is derived from the CAI accelerometer physics; a low-degree, fully-normalised <b>spherical-harmonic gravity-anomaly field</b> (checked against the closed-form Legendre functions and a hand-derived single-term anomaly) plus synthetic mascons; the <b>gravity-functional synthesis kernel</b> (<c2/> / <c3/>) — the "map reader" a gravity-aided navigator matches against — is validated against the <b>GRS80 normal-gravity standard</b> (Geodetic Reference System { "1980" }), reproducing the closed-form Somigliana normal gravity and the published γ_e / γ_p to <b>{ "3.5e-12" }</b> and producing a physically-bounded disturbance map from the real ICGEM (International Centre for Global Earth Models) <b>EGM2008</b> field (RMS — root mean square — ≈ { "26" } mGal, max ≈ { "89" } mGal at d/o { "70" }; <c4/>); and a <b>gravity-map-matching particle filter</b> that recovers a GPS-denied track from the anomaly sequence it flies through. It extends to <b>terrain-referenced navigation</b> (TERCOM/SITAN — terrain contour matching / Sandia Inertial Terrain-Aided Navigation — against an SRTM (Shuttle Radar Topography Mission) <c5/> DEM (digital elevation model), <c6/>), an <b>IGRF-14 geomagnetic main field</b> (14th-generation International Geomagnetic Reference Field) to degree/order { "13" } (<c7/>, checked against the tilted-dipole closed form and ∇V finite differences), and a <b>combined gravity + magnetic + terrain</b> navigator that fuses all three scalar channels through one particle filter (information is additive — no channel makes the fix worse). A <b>60-minute GPS-denied benchmark</b> (a ~{ "700" } km / one-hour outage where the inertial solution drifts to ~{ "70" } km) is recovered to <b>~{ "145" } m (< { "500" } m)</b> by a hierarchical coarse-to-fine matcher — the ESA NAVISP (Navigation Innovation and Support Programme) <em>Quantum Wayfarer</em> target.
 
 # text
 seg-f9582184adea = Fusion
@@ -724,7 +721,7 @@ seg-4e28248ef77b = Observability & estimation theory
 # c2: numpy.linalg.eigh
 # c3: numpy.linalg.inv
 # c4: tests/fim_observability_reference.rs
-seg-02676cd897a3 = A general, reusable <b>Fisher-information / Cramér–Rao</b> layer (<c1/>): the information matrix M = HᵀWH, the <b>Cramér–Rao lower bound</b>, observability <b>rank and datum-defect null space</b> (Moore–Penrose pseudo-inverse), and <b>D/A/E/T-optimal</b> experiment-design scalars from a symmetric Jacobi eigensolver. <b>Validated</b> — eigenvalues vs <c2/>, the CRLB covariance vs σ²(XᵀX)⁻¹ via <c3/>, and GNSS DOP from the information matrix, all matched to <b>1e-9</b> (<c4/>), and additionally cross-checked against the <b>Kay ({ "1993" })</b> closed-form bounds with Monte-Carlo CRLB attainment. It underpins the DOP engine, the passive-geolocation CRLB, and the lunar absolute-station <b>observability theorem</b> (below).
+seg-d257fe3ffb61 = A general, reusable <b>Fisher-information / Cramér–Rao</b> layer (<c1/>): the information matrix M = HᵀWH, the <b>Cramér–Rao lower bound</b>, observability <b>rank and datum-defect null space</b> (Moore–Penrose pseudo-inverse), and <b>D/A/E/T-optimal</b> experiment-design scalars from a symmetric Jacobi eigensolver. <b>Validated</b> — eigenvalues vs <c2/>, the CRLB covariance vs σ²(XᵀX)⁻¹ via <c3/>, and GNSS DOP from the information matrix, all matched to <b>{ "1e-9" }</b> (<c4/>), and additionally cross-checked against the <b>Kay ({ "1993" })</b> closed-form bounds with Monte-Carlo CRLB attainment. It underpins the DOP engine, the passive-geolocation CRLB, and the lunar absolute-station <b>observability theorem</b> (below).
 
 # text
 seg-e386dced1d16 = Lunar & cislunar
@@ -813,7 +810,7 @@ seg-99766b79a00a = Augmentation (SBAS)
 # c2: zsiki/rtklib_ws
 # c3: waasprotlevels()
 # c4: tests/sbas_reference.rs
-seg-4b2ad3fce953 = <b>SBAS / WAAS protection levels</b> (WAAS = the Wide Area Augmentation System) in the DO-229E weighted-least-squares form (precision-approach and en-route K-factors) and the <b>L1/L5 dual-frequency ionosphere-free</b> combination (L1 and L5 being two GPS civil signal bands; IS-GPS-705, the GPS interface specification for the L5 signal, γ₁₅ ≈ { "1.793" }) that underpins DO-316 — <c1/>. The protection-level algorithm is <b>externally validated against the RTKLIB SBAS-PL fork</b> (RTKLIB = the open real-time-kinematic positioning library; PL = protection level) (<c2/> <c3/>, Siki & Takács { "2017" }, DO-229D — the previous revision of DO-229 — App. J) run on <b>real EGNOS data</b> (European Geostationary Navigation Overlay Service), reproducing its HPL to < 2e-3 m (<c4/>); gLAB (the GNSS Laboratory tool suite) { "v6.0.0" } confirmed the identical convention.
+seg-26f9b0740b48 = <b>SBAS / WAAS protection levels</b> (WAAS = the Wide Area Augmentation System) in the DO-229E weighted-least-squares form (precision-approach and en-route K-factors) and the <b>L1/L5 dual-frequency ionosphere-free</b> combination (L1 and L5 being two GPS civil signal bands; IS-GPS-705, the GPS interface specification for the L5 signal, γ₁₅ ≈ { "1.793" }) that underpins DO-316 — <c1/>. The protection-level algorithm is <b>externally validated against the RTKLIB SBAS-PL fork</b> (RTKLIB = the open real-time-kinematic positioning library; PL = protection level) (<c2/> <c3/>, Siki & Takács { "2017" }, DO-229D — the previous revision of DO-229 — App. J) run on <b>real EGNOS data</b> (European Geostationary Navigation Overlay Service), reproducing its HPL to < { "2e-3" } m (<c4/>); gLAB (the GNSS Laboratory tool suite) { "v6.0.0" } confirmed the identical convention.
 
 # text
 seg-69a0269c4732 = Clock & timing
@@ -827,7 +824,7 @@ seg-69a0269c4732 = Clock & timing
 # c6: clock_state
 # c7: src/tpl.rs
 # c8: cargo run --example tpl_jammertest
-seg-d8c3cd0f87d0 = Two-state Kalman holdover (Joseph-form covariance, NIS/NEES — normalised innovation squared / normalised estimation error squared — consistency health); Allan-family stability (ADEV / MDEV / TDEV / HDEV / MTIE — Allan, modified Allan, time and Hadamard deviation, and maximum time interval error) with noise-type-specific confidence intervals and a full <b>IEEE-1139 five-coefficient power-law fit</b> (IEEE Std { "1139" }, the Institute of Electrical and Electronics Engineers frequency-and-time metrology definitions) — the estimators are validated on real hardware against <b>Stable32</b>: a <b>real 5071A caesium primary standard vs a hydrogen maser</b> ({ "556,990" } phase samples, { "16" } averaging factors, OADEV/OHDEV — overlapping Allan/Hadamard deviation — to 1e-3; <c1/>) and the <b>canonical Stable32 PHASE.DAT</b> regression series ({ "139" } averaging factors, OADEV/MDEV/TDEV to 1e-3; <c2/>); the ADEV/MDEV/TDEV estimators and the telecom <b>MTIE</b> wander metric are additionally cross-checked against the <b>independent allantools { "2024.06" }</b> library to <b>< 1e-9</b> on the NIST SP { "1065" } series (<c3/>, <c4/>); geometric corrections (Sagnac, GNSS common-view); and the operational transfer methods — <b>TWSTFT</b> (two-way satellite time and frequency transfer) with the BIPM (International Bureau of Weights and Measures) Sagnac closed form, <b>GNSS common-view</b>, <b>PPP</b> (precise point positioning) ionosphere-free time transfer, a free-space <b>optical</b> link with turbulence scintillation, and an inverse-variance <b>clock-ensemble (paper) timescale</b> below the best contributing clock. A <b>GNSS-denied clock-holdover calculator</b> (<c5/>) exposes the closed-form van-Loan coast-error growth as a <em>holdover-to-threshold</em> inversion — how long a clock free-runs before its timing error exceeds budget — across representative classical and quantum-clock classes; <b>modelled</b> (cross-checked against the multi-step <c6/> covariance recursion), and honest that for a very stable clock the holdover to a tight threshold is set by the <em>assumed</em> long-tau noise floor, not the cited ADEV. A <b>conditional Timing Protection Level</b> (<c7/>) extends holdover to spoofing: a bound on the <em>undetected</em> time error, given an independent cross-check, that composes a k-sigma monitor floor, the van-Loan coast variance over the detection latency, and a CUSUM (cumulative-sum) time-to-alarm. Calibrated on a real recorded spoof (JammerTest { "2024" }) and reproducible via <c8/>; <b>MODELLED</b> composition (no integrity-risk-per-hour budget), conditional on detection — there is no finite <em>unconditional</em> bound.
+seg-1bc8393336f9 = Two-state Kalman holdover (Joseph-form covariance, NIS/NEES — normalised innovation squared / normalised estimation error squared — consistency health); Allan-family stability (ADEV / MDEV / TDEV / HDEV / MTIE — Allan, modified Allan, time and Hadamard deviation, and maximum time interval error) with noise-type-specific confidence intervals and a full <b>IEEE-1139 five-coefficient power-law fit</b> (IEEE Std { "1139" }, the Institute of Electrical and Electronics Engineers frequency-and-time metrology definitions) — the estimators are validated on real hardware against <b>Stable32</b>: a <b>real 5071A caesium primary standard vs a hydrogen maser</b> ({ "556,990" } phase samples, { "16" } averaging factors, OADEV/OHDEV — overlapping Allan/Hadamard deviation — to { "1e-3" }; <c1/>) and the <b>canonical Stable32 PHASE.DAT</b> regression series ({ "139" } averaging factors, OADEV/MDEV/TDEV to { "1e-3" }; <c2/>); the ADEV/MDEV/TDEV estimators and the telecom <b>MTIE</b> wander metric are additionally cross-checked against the <b>independent allantools { "2024.06" }</b> library to <b>< { "1e-9" }</b> on the NIST SP { "1065" } series (<c3/>, <c4/>); geometric corrections (Sagnac, GNSS common-view); and the operational transfer methods — <b>TWSTFT</b> (two-way satellite time and frequency transfer) with the BIPM (International Bureau of Weights and Measures) Sagnac closed form, <b>GNSS common-view</b>, <b>PPP</b> (precise point positioning) ionosphere-free time transfer, a free-space <b>optical</b> link with turbulence scintillation, and an inverse-variance <b>clock-ensemble (paper) timescale</b> below the best contributing clock. A <b>GNSS-denied clock-holdover calculator</b> (<c5/>) exposes the closed-form van-Loan coast-error growth as a <em>holdover-to-threshold</em> inversion — how long a clock free-runs before its timing error exceeds budget — across representative classical and quantum-clock classes; <b>modelled</b> (cross-checked against the multi-step <c6/> covariance recursion), and honest that for a very stable clock the holdover to a tight threshold is set by the <em>assumed</em> long-tau noise floor, not the cited ADEV. A <b>conditional Timing Protection Level</b> (<c7/>) extends holdover to spoofing: a bound on the <em>undetected</em> time error, given an independent cross-check, that composes a k-sigma monitor floor, the van-Loan coast variance over the detection latency, and a CUSUM (cumulative-sum) time-to-alarm. Calibrated on a real recorded spoof (JammerTest { "2024" }) and reproducible via <c8/>; <b>MODELLED</b> composition (no integrity-risk-per-hour budget), conditional on detection — there is no finite <em>unconditional</em> bound.
 
 # text
 seg-835df2d05f2a = GNSS measurement domain
@@ -898,7 +895,7 @@ seg-3245639083ac = Decision analysis & trade-off (MCDA)
 # text
 # c1: src/mcda/
 # c2: tests/mcda_*_reference.rs
-seg-2ac7272f725b = A full <b>multi-criteria decision-analysis</b> (MCDA) suite (<c1/>) spanning all four method families — value aggregation (<b>WSM</b>, <b>WPM</b>, <b>WASPAS</b> — weighted sum model, weighted product model, weighted aggregated sum product assessment), distance-to-ideal (<b>TOPSIS</b>, Technique for Order of Preference by Similarity to Ideal Solution), compromise programming (<b>VIKOR</b>, from the Serbian for multi-criteria optimisation and compromise solution), and outranking (<b>PROMETHEE II</b>, Preference Ranking Organization Method for Enrichment of Evaluations; <b>ELECTRE I</b>, from the French for elimination and choice expressing reality), plus ratio-system <b>MOORA</b> (Multi-Objective Optimization on the basis of Ratio Analysis) and proportional <b>COPRAS</b> (Complex Proportional Assessment) — with <b>AHP</b> (Analytic Hierarchy Process) pairwise-comparison priority weighting (Consistency Ratio), a <b>Pareto</b> non-dominated front, weight-<b>sensitivity</b> analysis, and multi-attribute <b>utility</b> scoring. The nine aggregators reproduce the independent third-party libraries <b>pymcdm</b> (WSM / WPM / WASPAS / MOORA / TOPSIS / VIKOR / PROMETHEE II) and <b>pyDecision</b> (ELECTRE I, COPRAS) to <b>< 1e-9</b>, and the AHP priority vector + Consistency Ratio match Saaty's Random-Index table and the SciPy/LAPACK principal eigensolver to < 1e-9 (<c2/>). <b>VALIDATED</b> — the decision layer under the trade-study engine.
+seg-f2acdcb1bf93 = A full <b>multi-criteria decision-analysis</b> (MCDA) suite (<c1/>) spanning all four method families — value aggregation (<b>WSM</b>, <b>WPM</b>, <b>WASPAS</b> — weighted sum model, weighted product model, weighted aggregated sum product assessment), distance-to-ideal (<b>TOPSIS</b>, Technique for Order of Preference by Similarity to Ideal Solution), compromise programming (<b>VIKOR</b>, from the Serbian for multi-criteria optimisation and compromise solution), and outranking (<b>PROMETHEE II</b>, Preference Ranking Organization Method for Enrichment of Evaluations; <b>ELECTRE I</b>, from the French for elimination and choice expressing reality), plus ratio-system <b>MOORA</b> (Multi-Objective Optimization on the basis of Ratio Analysis) and proportional <b>COPRAS</b> (Complex Proportional Assessment) — with <b>AHP</b> (Analytic Hierarchy Process) pairwise-comparison priority weighting (Consistency Ratio), a <b>Pareto</b> non-dominated front, weight-<b>sensitivity</b> analysis, and multi-attribute <b>utility</b> scoring. The nine aggregators reproduce the independent third-party libraries <b>pymcdm</b> (WSM / WPM / WASPAS / MOORA / TOPSIS / VIKOR / PROMETHEE II) and <b>pyDecision</b> (ELECTRE I, COPRAS) to <b>< { "1e-9" }</b>, and the AHP priority vector + Consistency Ratio match Saaty's Random-Index table and the SciPy/LAPACK principal eigensolver to < { "1e-9" } (<c2/>). <b>VALIDATED</b> — the decision layer under the trade-study engine.
 
 # text
 seg-37b8c9397544 = Space environment
@@ -926,7 +923,7 @@ seg-dca720256d85 = Machine-learning evaluation & trade
 # c12: src/realdata/
 # c13: src/crossover.rs
 # c14: cargo run --bin crossover_study
-seg-c85c016ccd5f = An <b>RF-impairment detection evaluation testbed</b> (<c1/>, <c2/>): a labelled, parameter-grounded <b>synthetic</b> corpus (nominal / jamming / spoof-time / spoof-position / multipath), a detector-agnostic <b>ROC/AUC</b> (receiver operating characteristic / area under the curve) harness scoring any detector (energy | agc | sqm | parity | fused) with per-class Pd (probability of detection) at a target Pfa (probability of false alarm), and the in- vs out-of-distribution <b>optimism gap</b> (distribution-shift mode). Plus a <b>quantum-vs-classical PNT trade</b> (<c3/>, <c4/>) quantifying a candidate clock's timing/inertial holdover benefit from a <b>measured-ADEV</b> curve vs a classical baseline, with the long-τ floor caveat carried on the artifact and a GNSS-denied resilience-vs-time envelope. The evaluation <b>metrics</b> (AUC / confusion / Pd-Pmd, Pmd being the probability of missed detection) are <b>validated to an exact match against scikit-learn { "1.9.0" }</b> — including on <b>real ESA OPS-SAT telemetry</b> (the OPSSAT-AD anomaly-detection dataset, Ruszczak et al. { "2025" }, CC BY { "4.0" } — Creative Commons Attribution { "4.0" }), where Kshana's Mann–Whitney ROC AUC reproduces scikit-learn's <c5/> to < 1e-9 on the held-out test split and a transparent peak-count detector separates the labelled anomalies at AUC ≈ { "0.85" } (<c6/>) — and the trade engine's numerical <b>kernels</b> (ADEV NNLS — non-negative least squares — fit, χ² consistency bands, van-Loan clock Q) <b>against scipy { "1.17.1" }</b>; the device-benefit numbers built on top stay <b>MODELLED</b> operating characteristics — never field/IQ (in-phase/quadrature sample) data, no good/bad verdict. Building on the testbed, a deeper <b>optimism-gap study</b> (<c7/>, <c8/>, <c9/>) scores a <b>13-detector</b> panel (energy/AGC/SQM/parity plus seeded logistic-regression and one-hidden-layer-MLP — multi-layer perceptron — detectors), fits in- vs out-of-distribution <b>scaling laws</b> with a permutation null, and learns a <b>leave-one-out predictor</b> of out-of-distribution degradation from in-distribution statistics (<c10/>). A <b>software-defined-receiver front end</b> (<c11/> — raw IQ/IF (intermediate-frequency) → correlator early/prompt/late taps → SQM) and <b>real-data ingest adapters</b> (<c12/> — RINEX, u-blox UBX (the u-blox binary protocol), GnssLogger, JammerTest, Yunnan, SatGrid) let the same detectors run over recordings supplied locally (no datasets are committed). The <b>quantum-vs-classical resilience crossover map</b> under parameter uncertainty (<c13/>; <c14/>) regenerates the inertial and clock crossover studies behind the Results figures.
+seg-42a6a6cf21c6 = An <b>RF-impairment detection evaluation testbed</b> (<c1/>, <c2/>): a labelled, parameter-grounded <b>synthetic</b> corpus (nominal / jamming / spoof-time / spoof-position / multipath), a detector-agnostic <b>ROC/AUC</b> (receiver operating characteristic / area under the curve) harness scoring any detector (energy | agc | sqm | parity | fused) with per-class Pd (probability of detection) at a target Pfa (probability of false alarm), and the in- vs out-of-distribution <b>optimism gap</b> (distribution-shift mode). Plus a <b>quantum-vs-classical PNT trade</b> (<c3/>, <c4/>) quantifying a candidate clock's timing/inertial holdover benefit from a <b>measured-ADEV</b> curve vs a classical baseline, with the long-τ floor caveat carried on the artifact and a GNSS-denied resilience-vs-time envelope. The evaluation <b>metrics</b> (AUC / confusion / Pd-Pmd, Pmd being the probability of missed detection) are <b>validated to an exact match against scikit-learn { "1.9.0" }</b> — including on <b>real ESA OPS-SAT telemetry</b> (the OPSSAT-AD anomaly-detection dataset, Ruszczak et al. { "2025" }, CC BY { "4.0" } — Creative Commons Attribution { "4.0" }), where Kshana's Mann–Whitney ROC AUC reproduces scikit-learn's <c5/> to < { "1e-9" } on the held-out test split and a transparent peak-count detector separates the labelled anomalies at AUC ≈ { "0.85" } (<c6/>) — and the trade engine's numerical <b>kernels</b> (ADEV NNLS — non-negative least squares — fit, χ² consistency bands, van-Loan clock Q) <b>against scipy { "1.17.1" }</b>; the device-benefit numbers built on top stay <b>MODELLED</b> operating characteristics — never field/IQ (in-phase/quadrature sample) data, no good/bad verdict. Building on the testbed, a deeper <b>optimism-gap study</b> (<c7/>, <c8/>, <c9/>) scores a <b>13-detector</b> panel (energy/AGC/SQM/parity plus seeded logistic-regression and one-hidden-layer-MLP — multi-layer perceptron — detectors), fits in- vs out-of-distribution <b>scaling laws</b> with a permutation null, and learns a <b>leave-one-out predictor</b> of out-of-distribution degradation from in-distribution statistics (<c10/>). A <b>software-defined-receiver front end</b> (<c11/> — raw IQ/IF (intermediate-frequency) → correlator early/prompt/late taps → SQM) and <b>real-data ingest adapters</b> (<c12/> — RINEX, u-blox UBX (the u-blox binary protocol), GnssLogger, JammerTest, Yunnan, SatGrid) let the same detectors run over recordings supplied locally (no datasets are committed). The <b>quantum-vs-classical resilience crossover map</b> under parameter uncertainty (<c13/>; <c14/>) regenerates the inertial and clock crossover studies behind the Results figures.
 
 # text
 seg-330098e4fc97 = Quantum-Enabled PNT demonstrator
@@ -1470,7 +1467,7 @@ seg-d9303165ec68 = AIAA 2006-6753 (Vallado <c1/>) + head-to-head vs the independ
 seg-c00ca18a862c = Reference frames — IAU 2000A/B nutation, IAU 2006/2000A CIO chain, ERA
 
 # text
-seg-6d0a3ca42f27 = <b>bit-for-bit</b> (X,Y to 1e-14, s to 1e-18, ERA to 1e-12)
+seg-e8888d1c6043 = <b>bit-for-bit</b> (X,Y to { "1e-14" }, s to { "1e-18" }, ERA to { "1e-12" })
 
 # text
 # c1: eraXys06a
@@ -1494,7 +1491,7 @@ seg-aff9d97f7ce7 = ANISE (pure-Rust NAIF/SPICE), same IERS <c1/> EOP, { "8" } ep
 seg-ae3d9181e784 = EGM2008 geopotential (degree/order { "70" })
 
 # text
-seg-3c7d3a3fccb9 = acceleration = ∇V to <b>< 1e-6</b>; zonal collapse to validated J2
+seg-6e4faf2840b7 = acceleration = ∇V to <b>< { "1e-6" }</b>; zonal collapse to validated J2
 
 # text
 seg-97cb148bacb9 = NGA EGM2008 coefficients + analytic ∇V identity
@@ -1503,7 +1500,7 @@ seg-97cb148bacb9 = NGA EGM2008 coefficients + analytic ∇V identity
 seg-96a34ac92ddd = Gravity-functional synthesis (gravity-aided / GNSS-free nav map)
 
 # text
-seg-91454373e0a5 = GRS80 Somigliana + γ_e/γ_p to <b>{ "3" }.5e-12</b>; real EGM2008 disturbance map physical (RMS ≈ { "26" } mGal, d/o { "70" })
+seg-160e9b967b94 = GRS80 Somigliana + γ_e/γ_p to <b>{ "3.5e-12" }</b>; real EGM2008 disturbance map physical (RMS ≈ { "26" } mGal, d/o { "70" })
 
 # text
 # c1: tests/icgem_gravity_reference.rs
@@ -1522,7 +1519,7 @@ seg-e952996d4cbb = NIST SP { "1065" } (Riley), 1000-point Table 31/32
 seg-4522ada8bd8c = Allan estimators on a <b>real measured caesium clock</b>
 
 # text
-seg-6b7164682201 = OADEV/OHDEV to <b>1e-3</b> (observed ≤ 3e-5), { "16" } averaging factors
+seg-de7a506c8db9 = OADEV/OHDEV to <b>{ "1e-3" }</b> (observed ≤ { "3e-5" }), { "16" } averaging factors
 
 # text
 # c1: tests/cs5071a_reference.rs
@@ -1532,7 +1529,7 @@ seg-df056c922da4 = Stable32 on a real 5071A Cs vs H-maser, { "556,990" } pts (<c
 seg-c763b3e39cdd = Allan estimators on the <b>canonical Stable32 PHASE.DAT</b>
 
 # text
-seg-a9401b394c03 = OADEV/MDEV/TDEV to <b>1e-3</b> (observed ≤ 5e-5), { "139" } averaging factors
+seg-ea18bbe1f92d = OADEV/MDEV/TDEV to <b>{ "1e-3" }</b> (observed ≤ { "5e-5" }), { "139" } averaging factors
 
 # text
 # c1: tests/phasedat_reference.rs
@@ -1564,7 +1561,7 @@ seg-ebd031892fb8 = Orekit { "12.2" } <c1/>/<c2/> (CS GROUP), <c3/>
 seg-906f9f0b1eae = Cowell drag tier + absolute Sun/Moon-ephemeris & density inputs
 
 # text
-seg-767f62a02844 = drag tier characterised ≈ { "333" } m / { "24" } h; unperturbed matches universal-variable Kepler sub-m, energy/momentum ~1e-9
+seg-fda11bd250a7 = drag tier characterised ≈ { "333" } m / { "24" } h; unperturbed matches universal-variable Kepler sub-m, energy/momentum ~{ "1e-9" }
 
 # text
 seg-c8db4d50b17a = built-in low-precision ephemeris + analytic Kepler
@@ -1717,7 +1714,7 @@ seg-79e43be132e8 = EU ARAIM TR (technical report) / DO-316; Celestrak <c1/> 2021
 seg-2c76bcdc9ffb = GNSS geometry / DOP (GDOP/PDOP/HDOP/VDOP/TDOP)
 
 # text
-seg-afd6608c23ab = match to <b>1e-6 relative</b> across { "8" } geometries (well-conditioned → near-singular)
+seg-3ac1cbcac5b3 = match to <b>{ "1e-6" } relative</b> across { "8" } geometries (well-conditioned → near-singular)
 
 # text
 # c1: tests/dop_reference.rs
@@ -1727,7 +1724,7 @@ seg-5a2015e52db6 = gnss_lib_py { "1.0.4" } (Stanford NAV Lab) — independent li
 seg-6c228ebcfd7e = ML detector-evaluation metrics (AUC/ROC/confusion/Pd-Pmd/precision/F1)
 
 # text
-seg-65d1301cb8e0 = <b>exact counts + < 1e-9</b> over { "5" } datasets × { "24" } thresholds
+seg-0e7439b380e1 = <b>exact counts + < { "1e-9" }</b> over { "5" } datasets × { "24" } thresholds
 
 # text
 # c1: tests/eval_metrics_reference.rs
@@ -1738,7 +1735,7 @@ seg-e48b80c3e7c9 = Anomaly-detection ROC AUC on <b>real ESA OPS-SAT telemetry</b
 
 # text
 # c1: ≈ 0.85
-seg-618539089f16 = AUC reproduces scikit-learn to <b>< 1e-9</b>; peak-count detector AUC <c1/> on the labelled test split
+seg-84259ebdd712 = AUC reproduces scikit-learn to <b>< { "1e-9" }</b>; peak-count detector AUC <c1/> on the labelled test split
 
 # text
 # c1: roc_auc_score
@@ -1749,7 +1746,7 @@ seg-423c3bd384e0 = scikit-learn <c1/> on the OPSSAT-AD test split (Ruszczak et a
 seg-be3029628c5e = Quantum-trade numerical kernels (ADEV NNLS fit · χ² consistency bands · van-Loan clock Q)
 
 # text
-seg-8156953ffc15 = NNLS + Q <b>exact</b>; χ² <b>< 5e-4</b> at operating dof ≥ { "48" }
+seg-cfcb5961daa8 = NNLS + Q <b>exact</b>; χ² <b>< { "5e-4" }</b> at operating dof ≥ { "48" }
 
 # text
 # c1: optimize.nnls
@@ -1762,7 +1759,7 @@ seg-5a9032fc0e3a = scipy { "1.17.1" } — <c1/> / <c2/> / <c3/> (<c4/>)
 seg-790692520df3 = MTIE / MDEV / TDEV telecom wander metrics (ITU-T G.810/G.823/G.8261/G.811 — the International Telecommunication Union's Telecommunication Standardization Sector recommendations)
 
 # text
-seg-1b4b07ae46f2 = MTIE ({ "9" } averaging factors, bit-exact) and MDEV + TDEV ({ "8" } factors, <b>< 1e-9</b> relative) on the NIST SP { "1065" } LCG (linear congruential generator) series
+seg-4d847a7e8da6 = MTIE ({ "9" } averaging factors, bit-exact) and MDEV + TDEV ({ "8" } factors, <b>< { "1e-9" }</b> relative) on the NIST SP { "1065" } LCG (linear congruential generator) series
 
 # text
 # c1: mtie
@@ -1776,7 +1773,7 @@ seg-bf75fab95385 = allantools { "2024.06" } <c1/> / <c2/> / <c3/> — independen
 seg-4d0da08d3a81 = MCDA trade-study methods — all four decision families, nine externally-validated aggregators (WSM · WPM · WASPAS · MOORA · COPRAS · TOPSIS · VIKOR · PROMETHEE II · ELECTRE I) plus <b>AHP</b> pairwise-comparison priority weighting
 
 # text
-seg-d72b1870e04b = scores / rankings / concordance matrices reproduced to <b>< 1e-9</b>
+seg-425d078b33ee = scores / rankings / concordance matrices reproduced to <b>< { "1e-9" }</b>
 
 # text
 # c1: tests/mcda_*_reference.rs
@@ -2325,7 +2322,7 @@ seg-3d0b7051eef3 = Export an <c1/> scenario's constellation as SP3-c (Standard P
 
 # text
 # c1: orbit
-seg-bc5aa3a4a22c = Export an <c1/> scenario's elements as a CCSDS (Consultative Committee for Space Data Systems) { "502" }.0-B-2 OMM (Orbit Mean-elements Message) catalogue
+seg-a895db8949e0 = Export an <c1/> scenario's elements as a CCSDS (Consultative Committee for Space Data Systems) 502.0-B-2 OMM (Orbit Mean-elements Message) catalogue
 
 # text
 # c1: orbit
@@ -2623,25 +2620,25 @@ seg-f472e43c1100 = What it shows
 seg-332bbdef19c8 = Engine command
 
 # text
-seg-129c336eb174 = <a1><em>Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of RF-Impairment Detectors from In-Distribution Statistics</em></a1><br/><s1>arXiv:{ "2606.22054" } · <a2>doi:{ "10" }.48550/arXiv.2606.22054</a2></s1>
+seg-51cbd78a124a = <a1><em>Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of RF-Impairment Detectors from In-Distribution Statistics</em></a1><br/><s1>arXiv:{ "2606.22054" } · <a2>doi:10.48550/arXiv.2606.22054</a2></s1>
 
 # text
 seg-54fb697cb9d9 = The drop in a GNSS interference detector's score once conditions shift can be predicted from in-distribution statistics alone, on an open synthetic testbed and then on open field recordings.
 
 # text
-seg-61958c137bb9 = <a1><em>A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error Under GNSS Spoofing</em></a1><br/><s1>arXiv:{ "2606.24210" } · <a2>doi:{ "10" }.48550/arXiv.2606.24210</a2></s1>
+seg-e37784b7192d = <a1><em>A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error Under GNSS Spoofing</em></a1><br/><s1>arXiv:{ "2606.24210" } · <a2>doi:10.48550/arXiv.2606.24210</a2></s1>
 
 # text
 seg-c185f93e008a = A GNSS timing receiver under spoofing has no finite unconditional bound on undetected time error, so the paper gives a conditional one, calibrated on a recorded over-the-air spoof from the public JammerTest { "2024" } campaign.
 
 # text
-seg-3d642caed52c = <a1><em>How Stable Is a PNT Resilience Score? Decision-Instability of Single-Number Resilience Ratings under Framework-Aligned Weighting</em></a1><br/><s1>arXiv:{ "2607.05415" } · <a2>doi:{ "10" }.48550/arXiv.2607.05415</a2></s1>
+seg-dba4bd61e5a1 = <a1><em>How Stable Is a PNT Resilience Score? Decision-Instability of Single-Number Resilience Ratings under Framework-Aligned Weighting</em></a1><br/><s1>arXiv:{ "2607.05415" } · <a2>doi:10.48550/arXiv.2607.05415</a2></s1>
 
 # text
 seg-e71540c0579c = A single composite resilience score is a stable basis for a decision only where one design dominates; where designs contend, re-weighting alone can change the winner.
 
 # text
-seg-10fa0b94d7bb = <a1><em>Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination</em></a1><br/><s1>arXiv:{ "2607.02566" } · <a2>doi:{ "10" }.48550/arXiv.2607.02566</a2></s1>
+seg-f66a5adc8949 = <a1><em>Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination</em></a1><br/><s1>arXiv:{ "2607.02566" } · <a2>doi:10.48550/arXiv.2607.02566</a2></s1>
 
 # text
 seg-dd984a53aecc = Ranging inside a lunar constellation leaves a surface station's absolute position unobservable; a very-long-baseline interferometry (VLBI) delay from Earth restores it when the constellation is sparse, and sharpens it when it is rich.
@@ -2652,7 +2649,7 @@ seg-dd984a53aecc = Ranging inside a lunar constellation leaves a surface station
 seg-17f3813ba35c = the <c1/> kind: <c2/>
 
 # text
-seg-89dc62e68e69 = <a1><em>The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis</em></a1><br/><s1>arXiv:{ "2607.06212" } · <a2>doi:{ "10" }.48550/arXiv.2607.06212</a2></s1>
+seg-801cab2ca61b = <a1><em>The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis</em></a1><br/><s1>arXiv:{ "2607.06212" } · <a2>doi:10.48550/arXiv.2607.06212</a2></s1>
 
 # text
 seg-9ffe7a7bb94b = Planned constellations of four to six satellites give poor geometry at the lunar south pole, and a few surface ranging beacons fix it far more cheaply than more satellites.
@@ -2663,7 +2660,7 @@ seg-9ffe7a7bb94b = Planned constellations of four to six satellites give poor ge
 seg-b86f49a7274e = the <c1/> kind: <c2/>
 
 # text
-seg-a73f70e9073d = <a1><em>Cislunar navigation is an observability problem: arc-length thresholds, Gramian conditioning, and the Doppler lever</em></a1><br/><s1>arXiv:{ "2610.23871" } · <a2>doi:{ "10" }.48550/arXiv.2610.23871</a2></s1>
+seg-43ac1ea20bcd = <a1><em>Cislunar navigation is an observability problem: arc-length thresholds, Gramian conditioning, and the Doppler lever</em></a1><br/><s1>arXiv:{ "2610.23871" } · <a2>doi:10.48550/arXiv.2610.23871</a2></s1>
 
 # text
 seg-ebd135b19e35 = Dilution of precision is undefined for range-only cislunar tracking, because velocity is unobservable at a snapshot, so the paper uses the observability Gramian on four planar distant retrograde orbits: range-only is rank { "2" } of { "4" } at a snapshot and needs an arc of about { "2.09" } h to become fully observable, with conditioning improving as the arc lengthens; range-rate (Doppler) gives rank { "4" } instantly; and co-estimating a station with satellite states and clocks stays rank-deficient by one unless an external interferometric observable is added. Requirements belong in arc-length, conditioning and measurement-type budgets, not DOP.
@@ -2683,7 +2680,7 @@ seg-f4d1ec6fc464 = Cite
 
 # text
 # c1: CITATION.cff
-seg-1ba63fe86f89 = If you use Kshana in academic or technical work, please cite the version you used, with the scenario and seed. <a1><c1/></a1> holds the machine-readable metadata, and GitHub shows a "Cite this repository" button from it. Every release is archived on Zenodo; the concept DOI (Digital Object Identifier) <a2>{ "10" }.5281/zenodo.20528627</a2> always resolves to the latest version.
+seg-8116ddf9a8e7 = If you use Kshana in academic or technical work, please cite the version you used, with the scenario and seed. <a1><c1/></a1> holds the machine-readable metadata, and GitHub shows a "Cite this repository" button from it. Every release is archived on Zenodo; the concept DOI (Digital Object Identifier) <a2>10.5281/zenodo.20528627</a2> always resolves to the latest version.
 
 # text
 seg-6721eda6b4d6 = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simulator with quantum-sensor performance models</em>. <a1>Ashforde OÜ</a1>. <a2>https://doi.org/10.5281/zenodo.20528627</a2>
@@ -2799,7 +2796,7 @@ seg-8e80d89eb666 = Example output (clock holdover — note how the Integrity and
 # c6: applicable: false
 # c7: spoof
 # c8: figure_tiers
-seg-770ca69b2a70 = The optical clock's 95th-percentile (p95) timing error is { "1" }.20e-4 ns: the summary prints small values with significant digits rather than rounding them to <c1/>. <c2/> reads <c3/> because this scenario configures no attack, so there is nothing to detect. The JSON result still carries each clock's analytic spoof-detectability bound in <c4/> ({ "0.997" } for the optical clock, { "0.000" } for the chip-scale atomic clock, whose own noise over the monitoring window exceeds the { "20" } ns spec), and its <c5/> block marks that figure <c6/>. The <c7/> scenario kind scores detection against an injected attack. <c8/> also gives every reported figure its verification tier — VALIDATED (checked against an external oracle) or MODELLED — and the verification-matrix row the tier is read from. The orbit scenario additionally reports a geometry block — fraction of samples with a fix, and best/median position dilution of precision (PDOP) and position accuracy — alongside the clock result.
+seg-6cec0f5c28ca = The optical clock's 95th-percentile (p95) timing error is { "1.20e-4" } ns: the summary prints small values with significant digits rather than rounding them to <c1/>. <c2/> reads <c3/> because this scenario configures no attack, so there is nothing to detect. The JSON result still carries each clock's analytic spoof-detectability bound in <c4/> ({ "0.997" } for the optical clock, { "0.000" } for the chip-scale atomic clock, whose own noise over the monitoring window exceeds the { "20" } ns spec), and its <c5/> block marks that figure <c6/>. The <c7/> scenario kind scores detection against an injected attack. <c8/> also gives every reported figure its verification tier — VALIDATED (checked against an external oracle) or MODELLED — and the verification-matrix row the tier is read from. The orbit scenario additionally reports a geometry block — fraction of samples with a fix, and best/median position dilution of precision (PDOP) and position accuracy — alongside the clock result.
 
 # text
 seg-b1ceeefaa419 = Read these two numbers carefully.
@@ -3204,9 +3201,6 @@ seg-2885b69ceef1 = <b>Every <c1/> tag publishes all channels automatically, in o
 seg-8222e46bc13c = Install / get
 
 # text
-seg-ec770515c32a = crates.io
-
-# text
 seg-7f77f517d809 = Rust library + CLI
 
 # text
@@ -3223,9 +3217,6 @@ seg-1ec26f00ffb1 = npm
 
 # text
 seg-e1d5f87f1af5 = WebAssembly module + JS wrapper
-
-# text
-seg-b3050584d39e = ghcr.io
 
 # text
 seg-300434512f54 = multi-arch OCI (Open Container Initiative) image — no toolchain needed
@@ -3275,9 +3266,6 @@ seg-68ff97cfdc03 = DOI
 
 # text
 seg-d4be2535e13e = a citable archive of every release
-
-# text
-seg-0ba3ed1e27d0 = kshana.dev
 
 # text
 seg-bd0423a27417 = open in a browser
@@ -3635,13 +3623,13 @@ seg-a19f72f631ef = Virtanen et al. — <em>SciPy { "1.0" }</em>, <a1>Nature Meth
 
 # text
 # c1: tests/dop_reference.rs
-seg-7cceb0525138 = Knowles, Kanhere, Neamati & Gao — <em>gnss_lib_py</em>, <a1>SoftwareX { "27" } ({ "2024" })</a1>: used both as open prior art (see <em>Comparison & open prior art</em> below) and as the <b>independent DOP oracle</b> the GDOP/PDOP/HDOP/VDOP/TDOP computation is matched to 1e-6 (<c1/>).
+seg-fa00dee84096 = Knowles, Kanhere, Neamati & Gao — <em>gnss_lib_py</em>, <a1>SoftwareX { "27" } ({ "2024" })</a1>: used both as open prior art (see <em>Comparison & open prior art</em> below) and as the <b>independent DOP oracle</b> the GDOP/PDOP/HDOP/VDOP/TDOP computation is matched to { "1e-6" } (<c1/>).
 
 # text
 seg-1e6e8a68cebb = Montenbruck & Gill — <em>Satellite Orbits: Models, Methods and Applications</em> (<a1>Springer</a1>): the force models behind the force-model fit to agency precise ephemerides.
 
 # text
-seg-2c53f9b7e894 = Howell — <em>Three-dimensional, periodic, halo orbits</em>, Celestial Mechanics { "32" }({ "1" }) ({ "1984" }), <a1>doi:{ "10" }.1007/BF01358403</a1>; Zimovan-Spreen, Howell & Davis — <em>Near rectilinear halo orbits and nearby higher-period dynamical structures</em>, Astrodynamics { "6" } ({ "2022" }), <a2>doi:{ "10" }.1007/s42064-021-0125-x</a2> (the halo/NRHO families the CR3BP differential corrector reproduces).
+seg-144cdd7fbc19 = Howell — <em>Three-dimensional, periodic, halo orbits</em>, Celestial Mechanics { "32" }({ "1" }) ({ "1984" }), <a1>doi:10.1007/BF01358403</a1>; Zimovan-Spreen, Howell & Davis — <em>Near rectilinear halo orbits and nearby higher-period dynamical structures</em>, Astrodynamics { "6" } ({ "2022" }), <a2>doi:10.1007/s42064-021-0125-x</a2> (the halo/NRHO families the CR3BP differential corrector reproduces).
 
 # text
 seg-93a7e383053b = <b>Device & method physics</b> — the cited sources behind the sensor models:
@@ -3650,7 +3638,7 @@ seg-93a7e383053b = <b>Device & method physics</b> — the cited sources behind t
 seg-fc2aa6fa1340 = Origlia, Schiller, Bongs et al. — <a1>arXiv:{ "1503.08457" }</a1> (strontium optical lattice clock, space-oriented goal).
 
 # text
-seg-c86f51ce379b = Oelker et al., <em>Nature Photonics</em> ({ "2019" }) — <a1>doi:{ "10" }.1038/s41566-019-0493-4</a1> (laboratory Sr clock, { "4.8" }×{ "10" }⁻¹⁷).
+seg-f735c2528052 = Oelker et al., <em>Nature Photonics</em> ({ "2019" }) — <a1>doi:10.1038/s41566-019-0493-4</a1> (laboratory Sr clock, { "4.8" }×{ "10" }⁻¹⁷).
 
 # text
 seg-80b2a7b012fd = Templier et al., <em>Science Advances</em> ({ "2022" }) — <a1>arXiv:{ "2209.13209" }</a1> (hybrid quantum accelerometer triad).
@@ -3663,7 +3651,7 @@ seg-621d684f6fc1 = Giorgetta et al., <em>Nature Photonics</em> { "7" }, { "434" 
 
 # text
 # c1: src/navsignal.rs
-seg-2a9b4ef5e169 = Betz — <em>Binary Offset Carrier Modulations for Radionavigation</em>, NAVIGATION { "48" }({ "4" }) ({ "2001" }), <a1>doi:{ "10" }.1002/j.2161-4296.2001.tb00247.x</a1> (the BOC modulation and spectral-separation theory behind <c1/>).
+seg-e8299332a4ba = Betz — <em>Binary Offset Carrier Modulations for Radionavigation</em>, NAVIGATION { "48" }({ "4" }) ({ "2001" }), <a1>doi:10.1002/j.2161-4296.2001.tb00247.x</a1> (the BOC modulation and spectral-separation theory behind <c1/>).
 
 # text
 seg-27d20763d6cb = Kaplan & Hegarty (eds.) — <em>Understanding GPS/GNSS: Principles and Applications</em> (3rd ed., Artech House, { "2017" }): the anti-jam effective-C/N₀ equation and the early–late DLL code-tracking thermal-noise jitter the nav-signal and jamming models use.
@@ -3681,13 +3669,13 @@ seg-d8b2eecaaa5f = González et al. — <a1>NaveGo</a1> ({ "2017" }): the open, 
 seg-7c7beb74ddac = Iiyama, Casadesús Vila & Gao — <a1><em>LuPNT</em></a1> (ION GNSS+ { "2023" }, Stanford NavLab): open lunar-PNT simulator.
 
 # text
-seg-33ff81b7796a = Knowles, Kanhere, Neamati & Gao — <em>gnss_lib_py</em>, SoftwareX { "27" } ({ "2024" }), <a1>doi:{ "10" }.1016/j.softx.2024.101811</a1>: open GNSS data analysis.
+seg-fef89f16b111 = Knowles, Kanhere, Neamati & Gao — <em>gnss_lib_py</em>, SoftwareX { "27" } ({ "2024" }), <a1>doi:10.1016/j.softx.2024.101811</a1>: open GNSS data analysis.
 
 # text
-seg-8cf6d32b8472 = Li, Zaminpardaz, Kealy & Greentree — <em>Quantum sensors for enhanced positioning and navigation: a comprehensive review</em>, GPS Solutions { "30" }({ "1" }):{ "62" } ({ "2026" }), <a1>doi:{ "10" }.1007/s10291-026-02030-y</a1>.
+seg-9c5ebe5384bc = Li, Zaminpardaz, Kealy & Greentree — <em>Quantum sensors for enhanced positioning and navigation: a comprehensive review</em>, GPS Solutions { "30" }({ "1" }):{ "62" } ({ "2026" }), <a1>doi:10.1007/s10291-026-02030-y</a1>.
 
 # text
-seg-e6908856e574 = Bertone et al. — <em>Earth and Space Science</em> { "8" }({ "6" }) ({ "2021" }), <a1>doi:{ "10" }.1029/2020EA001454</a1>: GRAIL reduced-dynamic OD, the empirical-acceleration floor the LRO fit reproduces.
+seg-7d2b42ba7454 = Bertone et al. — <em>Earth and Space Science</em> { "8" }({ "6" }) ({ "2021" }), <a1>doi:10.1029/2020EA001454</a1>: GRAIL reduced-dynamic OD, the empirical-acceleration floor the LRO fit reproduces.
 
 # text
 seg-2658a9477dd9 = <s1>Next</s1>Concepts primer

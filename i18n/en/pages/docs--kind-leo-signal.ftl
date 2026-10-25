@@ -41,15 +41,6 @@ seg-9fd02351d844 = ms
 seg-1918189ac2bf = ppm
 
 # text
-seg-8d069ea2fd35 = { "1" }.0000e-4
-
-# text
-seg-097002789a74 = [generic-bands]
-
-# text
-seg-5db1241ac39c = dB-Hz
-
-# text
 seg-05e8854de548 = chip
 
 # text
@@ -61,9 +52,6 @@ seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a
 
 # text
 seg-d12bc1d2b815 = coherent
-
-# text
-seg-8f143a4c8ea1 = dBW/Hz
 
 # text
 seg-37d16b499bc5 = dB

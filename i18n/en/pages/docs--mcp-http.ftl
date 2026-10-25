@@ -35,9 +35,6 @@ seg-9bc8fe53a948 = Bind address
 seg-82001913f285 = Loopback only (<c1/>, <c2/>). A bare port (<c3/>) means <c4/>.
 
 # text
-seg-07d6870d49a4 = Non-loopback
-
-# text
 # c1: --allow-remote
 # c2: KSHANA_MCP_HTTP_TOKEN
 seg-f2adda2d3e22 = Needs <c1/> <b>and</b> a bearer token in the <c2/> environment variable ({ "16" } characters or more). Without both, the server refuses to start. With both it prints a warning that it is listening beyond this machine.

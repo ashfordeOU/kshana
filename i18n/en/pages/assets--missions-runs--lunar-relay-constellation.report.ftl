@@ -46,18 +46,6 @@ seg-5bdd50b2add3 = Constellation design at scale: Walker DELTA and Walker STAR p
 seg-19dc9c333bac = constellation-design: { "14" } satellites (Lunar relay) around the Moon; availability { "21.33" }% (PDOP <= { "6" } at { "10" } deg mask), worst site { "0.00" }%, median PDOP { "5.22" }, mean { "3.2" } in view; { "648" } grid points x { "48" } epochs (MODELLED)
 
 # text
-seg-f6679869d382 = global.availability_pct
-
-# text
-seg-c1e4dfa8fc50 = global.worst_site_availability_pct
-
-# text
-seg-f99faed2241a = global.pdop.median
-
-# text
-seg-cf322d38eb0d = global.mean_visible
-
-# text
 seg-6f3f1d88f1d9 = { "3.1858" } count
 
 # text
@@ -144,12 +132,6 @@ seg-0a6f7f6c66c4 = km^3/s^{ "2" }
 
 # text
 seg-d55ac0c63354 = Moon
-
-# text
-seg-1c12540e8e2b = { "1" }.5250e-4
-
-# text
-seg-2ebaa5addd9b = deg/s
 
 # text
 seg-98151954f217 = false
@@ -295,25 +277,25 @@ seg-b522845840d5 = <b>Walker constellation geometry and the published nominal sl
 seg-68d898769311 = <s1>VALIDATED</s1><br/><s2>exercised</s2>
 
 # text
-seg-cd34f41abb90 = Published agency documents: Galileo Open Service Service Definition Document issue { "1.1" } (European GNSS Service Centre) Tables { "1" } and { "23" }, the reference constellation at 2016-11-21 { "00" }:{ "00" } UTC; GLONASS Interface Control Document edition { "5.1" } ({ "2008" }) section { "5.2" }, the slot formula for node longitude and argument of latitude; GPS Standard Positioning Service Performance Standard 5th edition (April { "2020" }) Tables { "3" }.2-1, { "3" }.2-2 and { "3" }.2-3, including the groundtrack equatorial crossing column, which is an independent statement of the Earth-fixed geometry the preset must reproduce. Validates the generators and the transcription; the BeiDou medium-orbit phase and inclined-geosynchronous nodes are not published and are not covered <em>(ExternalDataset)</em>
+seg-099f4a4c600d = Published agency documents: Galileo Open Service Service Definition Document issue { "1.1" } (European GNSS Service Centre) Tables { "1" } and { "23" }, the reference constellation at 2016-11-21 { "00" }:{ "00" } UTC; GLONASS Interface Control Document edition { "5.1" } ({ "2008" }) section { "5.2" }, the slot formula for node longitude and argument of latitude; GPS Standard Positioning Service Performance Standard 5th edition (April { "2020" }) Tables 3.2-1, 3.2-2 and 3.2-3, including the groundtrack equatorial crossing column, which is an independent statement of the Earth-fixed geometry the preset must reproduce. Validates the generators and the transcription; the BeiDou medium-orbit phase and inclined-geosynchronous nodes are not published and are not covered <em>(ExternalDataset)</em>
 
 # text
-seg-3bc08677700e = constellation::tests::walker_24_3_1_reproduces_galileo_os_sdd_table_23 (all { "24" } RAAN and mean-anomaly rows to 1e-9 deg); constellation::tests::glonass_icd_slot_formula_is_a_walker_24_3_1 (the ICD slot formula and a Walker 24/3/1 are the same { "24" } node and argument-of-latitude pairs); constellation::tests::gps_presets_reproduce_the_published_equatorial_crossings (the groundtrack equatorial crossing of all { "36" } GPS locations from RAAN, argument of latitude and the { "100.765" } deg hour angle: { "35" } within { "0.0108" } deg against a { "0.015" } deg rounding bar, and E3F within { "0.06" } deg because the table's own E3F row is inconsistent with its RAAN and argument of latitude by about { "0.06" } deg; the secular nodal regression within { "5" } % of the table's -0.0402 deg/day); constellation::tests::walker_geometry_identities_are_exact (the three spacing identities for delta and star patterns up to { "1 584" } satellites, to 1e-9 deg)
+seg-92ee79866544 = constellation::tests::walker_24_3_1_reproduces_galileo_os_sdd_table_23 (all { "24" } RAAN and mean-anomaly rows to { "1e-9" } deg); constellation::tests::glonass_icd_slot_formula_is_a_walker_24_3_1 (the ICD slot formula and a Walker 24/3/1 are the same { "24" } node and argument-of-latitude pairs); constellation::tests::gps_presets_reproduce_the_published_equatorial_crossings (the groundtrack equatorial crossing of all { "36" } GPS locations from RAAN, argument of latitude and the { "100.765" } deg hour angle: { "35" } within { "0.0108" } deg against a { "0.015" } deg rounding bar, and E3F within { "0.06" } deg because the table's own E3F row is inconsistent with its RAAN and argument of latitude by about { "0.06" } deg; the secular nodal regression within { "5" } % of the table's -0.0402 deg/day); constellation::tests::walker_geometry_identities_are_exact (the three spacing identities for delta and star patterns up to { "1 584" } satellites, to { "1e-9" } deg)
 
 # text
 seg-43c393c05d87 = <b>Global dilution of precision of the GPS baseline constellation</b><br/><s1>The `constellation-design` coverage engine on the GPS baseline 24-slot preset under the GPS Standard Positioning Service Performance Standard (SPS PS) Appendix B conditions (one sidereal day, { "287" } five-minute steps, a { "4" } x { "4" } deg global grid weighted by the cosine of latitude, all in view, { "5" } deg mask, one receiver clock): the global HDOP distribution, the PDOP median and the PDOP-at-most-6 availability, globally and at the worst site</s1>
 
 # text
-seg-f5f9103889f4 = GPS SPS PS 5th edition (April { "2020" }) Appendix B sections B.3.2.2 and B.3.2.3, the published global-average HDOP distribution of the fully occupied baseline 24-slot constellation (median { "0.94" }, { "90" } % { "1.16" }, { "95" } % { "1.25" }, { "98" } % { "1.37" }, mean { "0.96" }), Table { "3" }.8-1 (PDOP availability) and Table B.3-1 (ensemble PDOP of a degraded constellation, used only as an upper bound), plus a hand-derived closed form for one epoch. The VDOP and PDOP distributions of the full constellation are published only as a figure, so PDOP is pinned one-sided; the worst time-space point (HDOP { "2.40" } and VDOP { "5.22" } here, { "2.49" } and { "5.43" } published) depends on the grid and is reported, not pinned <em>(ExternalDataset)</em>
+seg-360ae86a7d83 = GPS SPS PS 5th edition (April { "2020" }) Appendix B sections B.3.2.2 and B.3.2.3, the published global-average HDOP distribution of the fully occupied baseline 24-slot constellation (median { "0.94" }, { "90" } % { "1.16" }, { "95" } % { "1.25" }, { "98" } % { "1.37" }, mean { "0.96" }), Table 3.8-1 (PDOP availability) and Table B.3-1 (ensemble PDOP of a degraded constellation, used only as an upper bound), plus a hand-derived closed form for one epoch. The VDOP and PDOP distributions of the full constellation are published only as a figure, so PDOP is pinned one-sided; the worst time-space point (HDOP { "2.40" } and VDOP { "5.22" } here, { "2.49" } and { "5.43" } published) depends on the grid and is reported, not pinned <em>(ExternalDataset)</em>
 
 # text
-seg-fdd10683634c = constellation::tests::gps_baseline_global_dop_matches_the_sps_performance_standard (HDOP median { "0.940" }, { "90" } % { "1.165" }, { "95" } % { "1.255" }, { "98" } % { "1.370" }, mean { "0.965" } against { "0.94" }, { "1.16" }, { "1.25" }, { "1.37" } and { "0.96" }, bar { "0.03" } on each fixed before the first run; PDOP median { "1.795" } at or below Table B.3-1's { "1.815" } for a degraded 20-24 satellite mix; availability { "100" } % global and at the worst site against Table { "3" }.8-1's { "98" } % and { "88" } %); constellation::tests::single_epoch_dop_matches_the_hand_computation (zenith plus three satellites at { "30" } deg elevation: HDOP 4/3, VDOP { "2.3094" }, PDOP 8/3, TDOP { "1.5275" }, GDOP { "3.0732" } to 1e-9, and equal to orbit::dop with a common clock)
+seg-7bc2428f22d9 = constellation::tests::gps_baseline_global_dop_matches_the_sps_performance_standard (HDOP median { "0.940" }, { "90" } % { "1.165" }, { "95" } % { "1.255" }, { "98" } % { "1.370" }, mean { "0.965" } against { "0.94" }, { "1.16" }, { "1.25" }, { "1.37" } and { "0.96" }, bar { "0.03" } on each fixed before the first run; PDOP median { "1.795" } at or below Table B.3-1's { "1.815" } for a degraded 20-24 satellite mix; availability { "100" } % global and at the worst site against Table 3.8-1's { "98" } % and { "88" } %); constellation::tests::single_epoch_dop_matches_the_hand_computation (zenith plus three satellites at { "30" } deg elevation: HDOP 4/3, VDOP { "2.3094" }, PDOP 8/3, TDOP { "1.5275" }, GDOP { "3.0732" } to { "1e-9" }, and equal to orbit::dop with a common clock)
 
 # text
 seg-9412c58540b7 = <b>Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body</b><br/><s1>The `constellation-design` kind beyond the two pinned cases: explicit and multi-shell designs, several constellations per run with one receiver clock per constellation, the Earth, the Moon and Mars from the body constants, the BeiDou preset (medium-orbit phase and { "118" } deg E inclined-geosynchronous crossing modelled), per-cell satellites in view, GDOP, PDOP, HDOP, VDOP and availability, downsampled ground tracks, and a sub-satellite-latitude visibility prefilter that runs a { "5" } 000-satellite design on a { "10" } deg grid in a fraction of a second</s1>
 
 # text
-seg-5d825b054c2a = Internal consistency: the brute-force elevation scan, the hand-computed and orbit::dop reductions, and the closed-form Walker and geosynchronous geometry. Two-body orbits with an optional secular J2, a spherical body with the local vertical along the radius, geometric visibility only (no signal power, satellite health, terrain or third-body perturbation), and the relative phase between systems taken from different reference epochs, so it is not a snapshot of any date. { "0.30" } review, a finding (stays MODELLED): the presets meet the published one-sided DOP-availability floors (BeiDou OS Performance Standard { "3.0" }, Galileo OS SDD) at { "100" } %, but with the engine's PDOP doubled in a scratch copy they still meet them (worst point { "99.36" } %), so the floors cannot detect even a { "100" } % error in the quantity this row computes; tightening them after the run would be a post-hoc tolerance. Promotion needs a two-sided comparison of DOP values on identical geometry with a pre-set tolerance. { "0.30" } round { "2" } (tests/coverage_dop_full_oracle.rs, pre-registered add671d6), a finding (stays MODELLED): Orekit { "12.2" } positions, elevation, azimuth and ground tracks with gnss_lib_py { "1.0.4" } GDOP/PDOP/HDOP/VDOP (common clock) and a numpy inverse (one clock per constellation) agree on every bar on the Galileo, GPS, BeiDou, Galileo+GPS (one clock each) and a 1584-satellite Earth design (DOP within 2e-14 relative, identical fix, availability and visibility counts). On the Moon and Mars designs the elements, positions, visibility and tracks agree, but DOP exceeds the pre-set 1e-9 relative bar in cells whose largest PDOP is { "1434" } or more (up to 8e-6), and { "4" } cells differ by one fix epoch on numerically singular geometry (engine pivot 1e-10 against numpy rank), so the row is not validated. { "0.30" } revisions: the TDOP/GDOP reference clock is now the lowest-numbered constellation in view (constellation-multi-gnss-coverage global GDOP max { "2.2236" } -> { "2.1205" }, mean { "1.122" } -> { "1.131" }), and per-constellation visible counts are summed as integers <em>(InternalConsistency)</em>
+seg-bd67ada016ea = Internal consistency: the brute-force elevation scan, the hand-computed and orbit::dop reductions, and the closed-form Walker and geosynchronous geometry. Two-body orbits with an optional secular J2, a spherical body with the local vertical along the radius, geometric visibility only (no signal power, satellite health, terrain or third-body perturbation), and the relative phase between systems taken from different reference epochs, so it is not a snapshot of any date. { "0.30" } review, a finding (stays MODELLED): the presets meet the published one-sided DOP-availability floors (BeiDou OS Performance Standard { "3.0" }, Galileo OS SDD) at { "100" } %, but with the engine's PDOP doubled in a scratch copy they still meet them (worst point { "99.36" } %), so the floors cannot detect even a { "100" } % error in the quantity this row computes; tightening them after the run would be a post-hoc tolerance. Promotion needs a two-sided comparison of DOP values on identical geometry with a pre-set tolerance. { "0.30" } round { "2" } (tests/coverage_dop_full_oracle.rs, pre-registered add671d6), a finding (stays MODELLED): Orekit { "12.2" } positions, elevation, azimuth and ground tracks with gnss_lib_py { "1.0.4" } GDOP/PDOP/HDOP/VDOP (common clock) and a numpy inverse (one clock per constellation) agree on every bar on the Galileo, GPS, BeiDou, Galileo+GPS (one clock each) and a 1584-satellite Earth design (DOP within { "2e-14" } relative, identical fix, availability and visibility counts). On the Moon and Mars designs the elements, positions, visibility and tracks agree, but DOP exceeds the pre-set { "1e-9" } relative bar in cells whose largest PDOP is { "1434" } or more (up to { "8e-6" }), and { "4" } cells differ by one fix epoch on numerically singular geometry (engine pivot { "1e-10" } against numpy rank), so the row is not validated. { "0.30" } revisions: the TDOP/GDOP reference clock is now the lowest-numbered constellation in view (constellation-multi-gnss-coverage global GDOP max { "2.2236" } -> { "2.1205" }, mean { "1.122" } -> { "1.131" }), and per-constellation visible counts are summed as integers <em>(InternalConsistency)</em>
 
 # text
 seg-4d15849bdf7c = constellation::tests (prefilter_matches_brute_force_exactly — every map and counter equals a scan with the direct elevation test; five_thousand_satellites_on_a_coarse_grid — { "5 000" } satellites, prints the run time and the pair tests kept; a_clock_per_constellation_needs_one_more_satellite; beidou_geo_and_igso_geometry; lunar_shell_runs_around_the_moon; presets_are_earth_only_and_errors_are_clear; preset_counts); tests/constellation_availability_published_spec_oracle.rs::presets_meet_the_published_dop_availability (regression check only); tests/coverage_dop_full_oracle.rs::finding_is_pinned; tests/coverage_dop_gnss_lib_py_oracle.rs (regression)
@@ -403,13 +385,7 @@ seg-107c29c96eec = not recorded: this engine was built without the KSHANA_GIT_CO
 seg-c9ee69e3ce3e = Scenario file
 
 # text
-seg-588bd57a9d5f = lunar-relay-constellation.toml
-
-# text
 seg-af5108e0fed4 = Scenario file SHA-256 (Secure Hash Algorithm 256-bit)
-
-# text
-seg-4ed4ac824d4f = d626dcb56d0749b58bae19d446a5d869cecc3126ce499d0862c2be2a2665dff3
 
 # text
 seg-73916816595e = Result scenario_hash

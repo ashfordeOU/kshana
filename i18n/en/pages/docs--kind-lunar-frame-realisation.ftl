@@ -13,11 +13,11 @@ seg-a092c5795651 = <c1/> (scenario kind)
 seg-c87c70fc4ee5 = Scenario kind of the engine { "v0.39.0" }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
-seg-e7746e709c76 = Modelled lunar reference-frame realisation: a 7-parameter Helmert (similarity) datum fit — { "3" } translation, { "3" } small-angle rotation, { "1" } scale — tying an estimated set of selenographic-derived MCMF point coordinates to a datum by weighted least squares (crate::batch_ls::gauss_newton), plus a simple orientation tie expressing the realised small rotation about the ICRF axes relative to the IAU { "2015" } WGCCRE body orientation. The scenario injects a known small transform (translation ~tens of m, rotation ~µrad, scale ~1e-7) into a well-spread synthetic point network, adds seeded Gaussian noise, recovers the datum, and reports the recovered transform, the per-parameter recovery error vs the injected truth, and the post-fit RMS residual. MODELLED self-consistency — recovers an injected similarity transform (noiseless to ~machine precision), NOT a realisation against real tracking/VLBI data; deterministic (seeded); no TRL/heritage/agency endorsement.
+seg-0c4c119abfca = Modelled lunar reference-frame realisation: a 7-parameter Helmert (similarity) datum fit — { "3" } translation, { "3" } small-angle rotation, { "1" } scale — tying an estimated set of selenographic-derived MCMF point coordinates to a datum by weighted least squares (crate::batch_ls::gauss_newton), plus a simple orientation tie expressing the realised small rotation about the ICRF axes relative to the IAU { "2015" } WGCCRE body orientation. The scenario injects a known small transform (translation ~tens of m, rotation ~µrad, scale ~{ "1e-7" }) into a well-spread synthetic point network, adds seeded Gaussian noise, recovers the datum, and reports the recovered transform, the per-parameter recovery error vs the injected truth, and the post-fit RMS residual. MODELLED self-consistency — recovers an injected similarity transform (noiseless to ~machine precision), NOT a realisation against real tracking/VLBI data; deterministic (seeded); no TRL/heritage/agency endorsement.
 
 # text
 # c1: scenarios/lunar-frame-realisation.toml
-seg-8d0c51fff1e4 = One run of <c1/> summarises as: lunar-frame-realisation | { "8" } points | translation err { "3" }.125e-1 m, rotation err { "3" }.418e-7 rad, scale err -5.891e2 ppb | rms residual { "0.887" } m | converged false
+seg-32d5e2749e64 = One run of <c1/> summarises as: lunar-frame-realisation | { "8" } points | translation err { "3.125e-1" } m, rotation err { "3.418e-7" } rad, scale err -5.891e2 ppb | rms residual { "0.887" } m | converged false
 
 # text
 # c1: n_points
@@ -44,9 +44,6 @@ seg-49baab4910f3 = ppb
 
 # text
 seg-98151954f217 = false
-
-# text
-seg-6ae3ffe85fc4 = { "3" }.4182e-7
 
 # text
 seg-a7d59ba6e225 = rad

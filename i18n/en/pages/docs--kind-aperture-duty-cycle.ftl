@@ -34,16 +34,7 @@ seg-67c665d5c8c0 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
 seg-60f25ccdab6e = The example <c1/> sets, among others:
 
 # text
-seg-cf2143f83112 = navigation-priority
-
-# text
-seg-b10e9f98cad1 = nav-1
-
-# text
 seg-bf51947657c0 = navigation
-
-# text
-seg-097afd3e9601 = comms-1
 
 # text
 seg-b4ff1d640bdf = communications

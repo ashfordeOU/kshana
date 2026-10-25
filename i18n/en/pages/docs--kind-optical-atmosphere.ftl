@@ -40,9 +40,6 @@ seg-8adae3ea6e60 = The example <c1/> sets, among others:
 seg-687f2930a40d = downlink
 
 # text
-seg-f762ba193157 = { "1" }.7000e-14
-
-# text
 seg-9fd02351d844 = ms
 
 # text

@@ -53,9 +53,6 @@ seg-ada3fcf67363 = JavaScript and WebAssembly
 seg-3a8aaca44139 = the engine in the browser or Node
 
 # text
-seg-e561238ec76d = README.npm.md
-
-# text
 seg-11f45c210cb7 = tools for AI assistants
 
 # text
@@ -85,9 +82,6 @@ seg-8bf334eb2479 = Plugin skills
 # c12: /studio/ssv/
 # c13: /studio/tools/
 seg-badb28cdede3 = the engine in the browser, no install, nothing uploaded: the <a1>Simple and Advanced views</a1>, plus <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> and <c13/>
-
-# text
-seg-9339634acc7e = kshana.dev/studio
 
 # text
 seg-50514d2fddfa = ROS { "2" }

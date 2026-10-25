@@ -42,7 +42,7 @@ seg-c3c3f63df966 = Shell mode: the booklet's global metric
 
 # text
 # c1: [shell]
-seg-91a6cc0d83e4 = <c1/> places a user on a sphere (default { "36,000" } km altitude with a nadir-pointing hemispherical antenna, the upper SSV; or { "8,000" } km with an omnidirectional antenna, the lower SSV) on a { "2" },562-point icosphere grid and counts, over { "14" } days at 1-minute steps, the share of (user, epoch) pairs with at least one and at least four signals, per constellation and combined, and the longest outage at the worst user. The sweep uses the closed-form visibility interval in central angle (a beam cone, Earth blockage by the { "6378" } km sphere plus { "50" } km, the user hemisphere and the RF range limit) and runs in seconds in a release build; a property test checks it against the general geometric predicate.
+seg-f1e153c95b13 = <c1/> places a user on a sphere (default { "36,000" } km altitude with a nadir-pointing hemispherical antenna, the upper SSV; or { "8,000" } km with an omnidirectional antenna, the lower SSV) on a 2,562-point icosphere grid and counts, over { "14" } days at 1-minute steps, the share of (user, epoch) pairs with at least one and at least four signals, per constellation and combined, and the longest outage at the worst user. The sweep uses the closed-form visibility interval in central angle (a beam cone, Earth blockage by the { "6378" } km sphere plus { "50" } km, the user hemisphere and the RF range limit) and runs in seconds in a release build; a property test checks it against the general geometric predicate.
 
 # attr:alt
 seg-20272d9969c2 = Signal availability for a user on a sphere at { "36000" } km altitude with a hemisphere antenna, from a real run of engine { "v0.39.0" } on scenarios/gnss-ssv-shell.toml (a reduced run: { "162" } users, { "3" } days, { "10" } min steps), at a { "20" } dB-Hz threshold. For each constellation and band, two bars: the share of (user, epoch) pairs with at least one signal and with at least four. Combined, L1: { "99.4" } % at least one, { "73.2" } % at least four, longest outage below four signals { "160" } min. Combined, L5: { "100.0" } % at least one, { "99.9" } % at least four, longest outage below four signals { "20" } min. MODELLED: a modelled study from stated inputs, not a measurement and not a service-volume claim for any system. The reduced size is not the booklet comparison. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
@@ -128,16 +128,10 @@ seg-32c0ea7929e2 = run { "1" } (pre-registered reading)
 seg-abe521171d2f = GLONASS-angle variant (diagnostic)
 
 # text
-seg-ed898878ba83 = S0
-
-# text
 seg-9489ef691574 = minimum radiated power, { "13" } signals, within { "0.1" } dB
 
 # text
 seg-75c8da01c0f1 = MET
-
-# text
-seg-8d60e5623807 = S1
 
 # text
 seg-4b7e0252355c = upper SSV geometry (table B4)
@@ -149,9 +143,6 @@ seg-e3c870085a6c = NOT MET ({ "43" } of { "52" } cells)
 seg-b57b1f9b0b43 = all { "52" } cells in tolerance
 
 # text
-seg-6c5343b24f41 = S2
-
-# text
 seg-6bf57763d120 = lower SSV (table { "5.2" })
 
 # text
@@ -159,9 +150,6 @@ seg-c9349a3a0185 = NOT MET ({ "48" } of { "52" })
 
 # text
 seg-056eae8e55d1 = all { "52" }
-
-# text
-seg-8cf1af593771 = S3
 
 # text
 seg-805e4402f556 = upper SSV with 15/20/25 dB-Hz (table B9)
@@ -173,9 +161,6 @@ seg-a8d9a1f66989 = NOT MET ({ "122" } of { "155" })
 seg-7a6fd0eb8f77 = { "153" } of { "155" }
 
 # text
-seg-c123d1fd266e = S4
-
-# text
 seg-cb1a6f558a09 = six GEO missions
 
 # text
@@ -183,9 +168,6 @@ seg-e4759e8d2baa = NOT MET ({ "132" } of { "156" })
 
 # text
 seg-3e59e79791e2 = all { "156" }
-
-# text
-seg-1a1ed38ad66d = S5
 
 # text
 seg-76d88834ab69 = HEO mission
@@ -197,25 +179,16 @@ seg-1c06414304a0 = NOT MET ({ "18" } of { "26" })
 seg-b1656692859b = { "21" } of { "26" }
 
 # text
-seg-c61cad1c9ec7 = S6
-
-# text
 seg-d4cedd711485 = lunar mission
 
 # text
 seg-b52333886109 = NOT MET ({ "23" } of { "26" })
 
 # text
-seg-5bde8ff69a77 = S7
-
-# text
 seg-479a041e2b62 = parametric pattern against measured GPS L1 panel patterns
 
 # text
 seg-b514bc035c86 = NOT MET (RMS { "6.3" } to { "8.8" } dB against { "3" } dB)
-
-# text
-seg-83f7d0a8e7d2 = n/a
 
 # text
 seg-dd703fdea949 = The booklet is internally inconsistent about GLONASS's reference off-boresight angle: tables B2 and B6 print { "20" } and { "28" } degrees, table { "4.2" } prints { "26" } and { "34" }. Run { "1" } used the first (what the pre-registration named); almost every miss in S1 to S5 is GLONASS. The variant, committed to as a diagnostic before it was run, uses the second, and then the upper SSV, lower SSV and GEO missions agree cell for cell, outages included. The variant does not replace run { "1" }. <b>No row is VALIDATED</b>: the booklet is a simulation, the verdict rule requires S0 to S3 under the pre-registered reading, and the remaining misses (GPS L1 at { "20" } dB-Hz, HEO Galileo, QZSS and NavIC, the lunar GLONASS rows) are not explained.

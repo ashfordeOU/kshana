@@ -9,9 +9,6 @@ seg-b59f529012a6 = Source: <c1/>
 seg-e66a5042182e = Tutorial { "2" } — Clock holdover: how long can you coast
 
 # text
-seg-9b45bb6fc5fa = Kind:
-
-# text
 # c1: clock
 # c2: scenarios/clock-holdover.toml
 # c3: scenarios/clock.toml
@@ -36,9 +33,6 @@ seg-3d53622dbe12 = <b>Quantum</b>: a strontium optical lattice clock, space goal
 seg-e25af6d0752f = <b>Classical</b>: a Microchip SA.45s chip-scale atomic clock (CSAC), σ_y({ "1" } s) = { "3" }×{ "10" }⁻¹⁰ (datasheet) — a deployed commercial part.
 
 # text
-seg-d44c9bd51a54 = Python:
-
-# text
 seg-08f3fdc9252a = Read the one-line summary
 
 # text
@@ -46,7 +40,7 @@ seg-baa0cc808987 = With seed = { "42" }, the { "20" } ns spec, and the { "6600" 
 
 # text
 # c1: quantum holdover 6600s
-seg-39da7dce531b = <b><c1/></b> — the optical clock holds the entire { "6600" } s outage without breaching { "20" } ns. Its 95th-percentile phase error is { "1" }.20e-4 ns, about a ten-thousandth of a nanosecond: it barely moves.
+seg-76f7739f8b17 = <b><c1/></b> — the optical clock holds the entire { "6600" } s outage without breaching { "20" } ns. Its 95th-percentile phase error is { "1.20e-4" } ns, about a ten-thousandth of a nanosecond: it barely moves.
 
 # text
 # c1: classical holdover 2610s

@@ -52,9 +52,6 @@ seg-e45e1b565e62 = The technical bar (non-negotiable)
 seg-2c397872e2f5 = These are hard invariants, enforced by CI and review, that no decision overrides:
 
 # text
-seg-34a6debbbfff = Reproducibility.
-
-# text
 # c1: (scenario, seed, engine_version)
 seg-70cb5a174c2f = <c1/> must reproduce a run bit-for-bit. A change that makes this non-deterministic is a bug, not a feature.
 

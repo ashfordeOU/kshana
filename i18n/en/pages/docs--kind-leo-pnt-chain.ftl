@@ -43,13 +43,7 @@ seg-585a1b0d5950 = The example <c1/> sets, among others:
 seg-be21370c2446 = joint
 
 # text
-seg-5db1241ac39c = dB-Hz
-
-# text
 seg-7f5ad6ab8c23 = GPS
-
-# text
-seg-8620fcfb17d4 = gps-baseline
 
 # text
 seg-f42465f7d066 = ns

@@ -51,19 +51,7 @@ seg-d613181f3fe3 = The example <c1/> sets, among others:
 seg-ffb002276b21 = um
 
 # text
-seg-e32cd1aa5610 = e/s
-
-# text
-seg-37bc8faed152 = { "5" }.0000e-4
-
-# text
 seg-1c15591babed = px
-
-# text
-seg-2f11d52e4176 = cycles/mm
-
-# text
-seg-d8a22da6ff48 = W/m^2/um
 
 # text
 seg-e94f9ad9e6c4 = Result label (the engine's): MODELLED — nadir imager radiometry (Lambertian scene, camera equation, shot/dark/read/quantisation noise), system MTF at Nyquist (diffraction x detector x smear x jitter), relative edge response, Q = lambda F/p and GIQE { "4" } NIIRS with no MTF compensation; the NIIRS is an empirical regression on modell
@@ -75,7 +63,7 @@ seg-bf7b52f7a01e = The chart the engine writes for scenarios/eo-radiometry.toml,
 seg-562a7cf2859c = <b>MODELLED</b> Nadir imager signal-to-noise budget (Lambertian scene radiance, camera equation, shot, dark, read and quantisation noise), the system MTF at Nyquist as the product of unobscured-aperture diffraction, detector aperture, linear smear and Gaus
 
 # text
-seg-e057ffe83db9 = <b>MODELLED</b> Nadir imager signal-to-noise budget (Lambertian scene radiance, camera equation, shot, dark, read and quantisation noise), the system MTF at Nyquist as the prod. Oracle (InternalConsistency): Closed forms: the diffraction MTF at half cutoff, the one-pixel ramp edge of a pure detector aperture (RER { "1" }), the normal-CDF edge of a Gaussian blur (RER = erf({ "0" }.5/(sigma sqrt { "2" }))), shot-noise scaling, and the GIQE { "4" } coefficients as published (Leachtenauer et al., Applied Optics { "36" }({ "32" }), { "1997" }). WHAT IS NOT: no external imager, measured MTF or rated image has been compared; the GIQE is an empirical regression with its
+seg-dadea618d757 = <b>MODELLED</b> Nadir imager signal-to-noise budget (Lambertian scene radiance, camera equation, shot, dark, read and quantisation noise), the system MTF at Nyquist as the prod. Oracle (InternalConsistency): Closed forms: the diffraction MTF at half cutoff, the one-pixel ramp edge of a pure detector aperture (RER { "1" }), the normal-CDF edge of a Gaussian blur (RER = erf(0.5/(sigma sqrt { "2" }))), shot-noise scaling, and the GIQE { "4" } coefficients as published (Leachtenauer et al., Applied Optics { "36" }({ "32" }), { "1997" }). WHAT IS NOT: no external imager, measured MTF or rated image has been compared; the GIQE is an empirical regression with its
 
 # text
 # c1: label

@@ -52,9 +52,6 @@ seg-e27476e37522 = Earth
 seg-e6e209ad07e0 = Europa
 
 # text
-seg-7d23bf00dff7 = { "2" }.4613e6
-
-# text
 seg-4d208b6c0eb8 = day
 
 # text
@@ -93,10 +90,10 @@ seg-3319b18ac61f = and { "1" } more in the matrix.
 seg-ad3da7fe8e46 = <b>VALIDATED</b> The <c1/> kind with planetary_kernel_path: each reported body whose own NAIF code the SPK holds takes its heliocentric J2000 position and velocity from. Oracle (ExternalDataset): NAIF SPICE Toolkit (CSPICE N0067 through spiceypy { "8.3.0" }) spkezr heliocentric states on the full de440s.bsp, a separate program that calls no Kshana code (tests/fixtures/solar_system_kernel/, NOTICE.md); the engine reads bit-for-bit de440s cuts. Pre-registered f8e946ea. A Library check of the wiring: DE440 itself and the analytic bodies are not validated here. Results: docs/design/evidence/cap31-solar-system-kernel/RE
 
 # text
-seg-e34284449ca7 = <b>VALIDATED</b> Heliocentric positions of Mercury, Venus, the Earth-Moon barycentre, the Earth, Mars, Jupiter and Saturn from Standish Table { "1" } ({ "1800" } AD to { "2050" } AD), and of all . Oracle (ExternalDataset): JPL Horizons DE441 geometric heliocentric vectors (ecliptic and ICRF), fetched after the pre-registration commits { "80451866" }, 8d38a28b and 558cc807. Bar: per planet and component, RMS at most { "1" }.0x the approximate errors of the Explanatory Supplement 3rd ed. Table { "8.10.1" } (the EMB row for the Earth); the Earth-EMB split is checked directly against DE441 { "399" } minus { "3" }, at most { "0.3" } deg and { "8.1" } km at every epoch 1950-2050 (th
+seg-735fb0bc1705 = <b>VALIDATED</b> Heliocentric positions of Mercury, Venus, the Earth-Moon barycentre, the Earth, Mars, Jupiter and Saturn from Standish Table { "1" } ({ "1800" } AD to { "2050" } AD), and of all . Oracle (ExternalDataset): JPL Horizons DE441 geometric heliocentric vectors (ecliptic and ICRF), fetched after the pre-registration commits { "80451866" }, 8d38a28b and 558cc807. Bar: per planet and component, RMS at most 1.0x the approximate errors of the Explanatory Supplement 3rd ed. Table { "8.10.1" } (the EMB row for the Earth); the Earth-EMB split is checked directly against DE441 { "399" } minus { "3" }, at most { "0.3" } deg and { "8.1" } km at every epoch 1950-2050 (th
 
 # text
-seg-656c63d55aea = <b>VALIDATED</b> The Newtonian one-way light time from any body to any other, received at an epoch, solved by the radiometric fixed-point light-time solver (radiometric::light_t. Oracle (ExternalDataset): JPL Horizons DE441 one-way down-leg Newtonian light time LT (VEC_CORR=LT, observer the Earth centre), pre-registered (480037d3, amendment 54d5c86f changing only the interpolation node spacing after the first fetch failed its { "10" } m interpolation precondition, before any light time was compared) with a bar of 1e-6 s per light time, the solver fed DE441 barycentric positions so the retarded-transmitter iteration is visib
+seg-ab1192de28f5 = <b>VALIDATED</b> The Newtonian one-way light time from any body to any other, received at an epoch, solved by the radiometric fixed-point light-time solver (radiometric::light_t. Oracle (ExternalDataset): JPL Horizons DE441 one-way down-leg Newtonian light time LT (VEC_CORR=LT, observer the Earth centre), pre-registered (480037d3, amendment 54d5c86f changing only the interpolation node spacing after the first fetch failed its { "10" } m interpolation precondition, before any light time was compared) with a bar of { "1e-6" } s per light time, the solver fed DE441 barycentric positions so the retarded-transmitter iteration is visib
 
 # text
 seg-5a2e745828ea = <b>MODELLED</b> Positions of Uranus and Neptune from Standish Table { "1" } (the default inside { "1800" } AD to { "2050" } AD), Pluto from the { "1992" } Table { "1" } row the current JPL page no longer li. Oracle (ExternalDataset): Measured against JPL Horizons DE441 (the same committed fixtures), but not validated: Table { "1" }'s stated figures for Uranus and Neptune are exceeded by up to { "2.0" } and { "5.2" } times against DE441 heliocentric positions (Neptune meets them against barycentric positions, which suggests the fit was not heliocentric), the page states no error for Pluto, and no published bound exists for the velocities. Tables 2a/2b meet their ow

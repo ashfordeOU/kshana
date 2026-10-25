@@ -264,7 +264,7 @@ seg-5019322f4669 = reported, not validated
 seg-7fcb83027ff4 = PPP convergence { "9.6" } → { "7.0" }, { "3.2" }, { "2.1" }, { "1.3" } min with 60/96/192/288 LEO
 
 # text
-seg-730b04abf9a6 = Li et al., <em>Journal of Geodesy</em> { "93" }:{ "749" } ({ "2019" }), <a1>doi { "10" }.1007/s00190-018-1195-2</a1>
+seg-856e73fb2fb5 = Li et al., <em>Journal of Geodesy</em> { "93" }:{ "749" } ({ "2019" }), <a1>doi 10.1007/s00190-018-1195-2</a1>
 
 # text
 seg-a03bc7c3b8a6 = { "7.4" } → { "4.8" }, { "3.2" }, { "2.7" }, { "2.3" } min, monotone

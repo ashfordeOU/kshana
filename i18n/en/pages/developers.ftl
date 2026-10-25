@@ -293,7 +293,7 @@ seg-2cff891dc970 = Next step
 
 # text
 # c1: clock-holdover.toml
-seg-8d964e119298 = A recorded session with the kshana-mcp server (Model Context Protocol, engine { "v0.39.0" }): the assistant lists the { "49" } tools, validates <c1/> (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 { "1" }.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 { "19" }.7ns integrity { "1.000" } security n/a (no attack).
+seg-8332e6081748 = A recorded session with the kshana-mcp server (Model Context Protocol, engine { "v0.39.0" }): the assistant lists the { "49" } tools, validates <c1/> (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
 # text
 # c1: animate_scenario
@@ -345,7 +345,7 @@ seg-91fc7df72b42 = <c1/>: Export an `orbit` scenario's propagated constellation 
 
 # text
 # c1: export_omm
-seg-bfbb64102fec = <c1/>: Export an `orbit` scenario's mean elements as a CCSDS { "502" }.0-B-2 OMM (Orbit Mean-Elements Message) catalogue — one OMM per satellite.
+seg-e7086c7b5491 = <c1/>: Export an `orbit` scenario's mean elements as a CCSDS 502.0-B-2 OMM (Orbit Mean-Elements Message) catalogue — one OMM per satellite.
 
 # text
 # c1: export_sp3
@@ -651,7 +651,7 @@ seg-11062cbf180a = Export an <c1/> scenario's propagated constellation as SP3-c 
 
 # text
 # c1: orbit
-seg-e9355a3fcbcb = Export an <c1/> scenario's mean elements as a CCSDS { "502" }.0-B-2 OMM (Orbit Mean-Elements Message) catalogue — one OMM per satellite. Errors if the scenario is not an orbit kind.
+seg-97461f85b298 = Export an <c1/> scenario's mean elements as a CCSDS 502.0-B-2 OMM (Orbit Mean-Elements Message) catalogue — one OMM per satellite. Errors if the scenario is not an orbit kind.
 
 # text
 # c1: orbit
@@ -1240,9 +1240,6 @@ seg-e74f9c5a4eea = winget install AshfordeOU.KshanaMcp
 
 # text
 seg-274348a3b12b = Appears once Microsoft merges the submission.
-
-# text
-seg-e1a4d1b7ab0e = winget-pkgs
 
 # text
 seg-5c425ea185ee = Prebuilt binary

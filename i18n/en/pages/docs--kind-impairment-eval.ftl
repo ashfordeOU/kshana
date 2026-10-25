@@ -38,12 +38,6 @@ seg-283510d17885 = The example <c1/> sets, among others:
 seg-6a64be3b3f07 = fused
 
 # text
-seg-5db1241ac39c = dB-Hz
-
-# text
-seg-516cbfef9257 = fused(max-z)
-
-# text
 seg-3db71c5bdd0a = auc_out uses a subtler out-of-tuning-reg
 
 # text

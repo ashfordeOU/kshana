@@ -53,15 +53,6 @@ seg-078f09d100fa = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-557db767b9c3 = The example <c1/> sets, among others:
 
 # text
-seg-089aa029830d = { "6" }.0000e-6
-
-# text
-seg-08cf1e35c707 = { "3" }.0000e-6
-
-# text
-seg-7ccd82d25d25 = { "2" }.0000e-6
-
-# text
 seg-df8d5e07e737 = mGal
 
 # attr:alt

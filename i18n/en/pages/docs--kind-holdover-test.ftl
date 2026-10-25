@@ -37,9 +37,6 @@ seg-ad4f9c40e317 = The example <c1/> sets, among others:
 seg-f0517ab67e28 = [prtc-a, eprtc-a-holdover]
 
 # text
-seg-8815c1c6a682 = ptp4l
-
-# text
 seg-fe13d0e59509 = ptp4l[{ "1000.000" }]: master offset -4 s2 freq + { "1200" } pa
 
 # text

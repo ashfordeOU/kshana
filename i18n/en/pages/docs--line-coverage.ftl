@@ -73,9 +73,6 @@ seg-32861ca47b0c = the same job fails below <c1/> (<c2/>) — the floor is enfor
 seg-63b9b152cde7 = The command, verbatim from <c1/>:
 
 # text
-seg-4a783a8c26bf = Re-measuring
-
-# text
 # c1: main
 # c2: lcov.info
 seg-121c43cf260f = Every push to <c1/> re-runs the job and attaches a fresh <c2/>. To move the published figure, download the artifact from a green run and sum it:

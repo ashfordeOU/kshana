@@ -17,7 +17,7 @@ seg-95222c3659cd = Telecom timing: masks, sources and presets
 seg-5a604e063370 = This page lists every limit the <c1/> scenario kind checks, where each one comes from, and what was left out. The code is <c2/>. The reference scenario is <c3/>, the frequency-synchronisation one is <c4/>, and the ingestion example is <c5/>.
 
 # text
-seg-691cc8cc254d = <b>Abbreviations.</b> ITU-T is the International Telecommunication Union Telecommunication Standardization Sector. GNSS is Global Navigation Satellite System. TE is time error, the difference between a clock's time and the reference time. max|TE| is the largest absolute time error. MTIE is maximum time interval error: the largest peak-to-peak time error inside any observation window of length τ (tau). TDEV is time deviation, a root-mean-square measure of time wander at averaging time τ. cTE is constant time error (the average offset). dTE is dynamic time error (the part that moves). TE_L and dTE_L are the time error after a first-order low-pass filter with a { "0.1" } hertz (Hz) bandwidth; dTE_H is the part above that filter. TE_HO is time error in holdover. PRTC is primary reference time clock. ePRTC is enhanced PRTC. T-BC is telecom boundary clock and T-TSC is telecom time slave clock. PTP is the Precision Time Protocol. PPS is pulse per second. OCXO is oven-controlled crystal oscillator. CSAC is chip-scale atomic clock. CSV is comma-separated values. ADEV is Allan deviation (σ_y), the standard measure of frequency stability. ns is nanoseconds and µs is microseconds. ppb is parts per billion (a fractional frequency of 1e-9), and MHz is megahertz. Amd. is an amendment to a Recommendation, and Y.1367 and the like are the same Recommendation's number in the ITU-T Y series.
+seg-f078828b2325 = <b>Abbreviations.</b> ITU-T is the International Telecommunication Union Telecommunication Standardization Sector. GNSS is Global Navigation Satellite System. TE is time error, the difference between a clock's time and the reference time. max|TE| is the largest absolute time error. MTIE is maximum time interval error: the largest peak-to-peak time error inside any observation window of length τ (tau). TDEV is time deviation, a root-mean-square measure of time wander at averaging time τ. cTE is constant time error (the average offset). dTE is dynamic time error (the part that moves). TE_L and dTE_L are the time error after a first-order low-pass filter with a { "0.1" } hertz (Hz) bandwidth; dTE_H is the part above that filter. TE_HO is time error in holdover. PRTC is primary reference time clock. ePRTC is enhanced PRTC. T-BC is telecom boundary clock and T-TSC is telecom time slave clock. PTP is the Precision Time Protocol. PPS is pulse per second. OCXO is oven-controlled crystal oscillator. CSAC is chip-scale atomic clock. CSV is comma-separated values. ADEV is Allan deviation (σ_y), the standard measure of frequency stability. ns is nanoseconds and µs is microseconds. ppb is parts per billion (a fractional frequency of { "1e-9" }), and MHz is megahertz. Amd. is an amendment to a Recommendation, and Y.1367 and the like are the same Recommendation's number in the ITU-T Y series.
 
 # text
 # c1: allantools
@@ -85,12 +85,6 @@ seg-1efb6779348a = ITU-T G.8272 (07/2025): PRTC-A and PRTC-B, locked mode
 
 # text
 seg-3c513ef2fd3b = Quantity
-
-# text
-seg-6ca108227a87 = PRTC-A
-
-# text
-seg-84f20cf2278d = PRTC-B
 
 # text
 seg-f63dd3d7aad4 = Source
@@ -604,7 +598,7 @@ seg-f30740907f6a = Temperature
 seg-c789847129bd = Microchip (Vectron) OX-208, { "10" } MHz; datasheet Rev 12-1-2021
 
 # text
-seg-214b3faa6fe8 = { "1" } s: 5e-12; { "10" } s: 8e-12; { "100" } s: 1e-11; { "1 000" } s: 5e-11
+seg-cefcf7025826 = { "1" } s: { "5e-12" }; { "10" } s: { "8e-12" }; { "100" } s: { "1e-11" }; { "1 000" } s: { "5e-11" }
 
 # text
 seg-85f8b8fbbae6 = ±{ "0.15" } ppb/day after { "72" } h (f ≤ { "10" } MHz)
@@ -616,37 +610,37 @@ seg-0c6d3ae4e409 = ±{ "0.4" } ppb, { "0" } °C to +{ "70" } °C, referenced to 
 seg-53ac4dcaf8b1 = Microchip 8040C Rubidium Frequency Standard, standard performance; DS00003047A (2/20)
 
 # text
-seg-fd35b1b57859 = { "1" } s: { "3" }.0e-11; { "100" } s: { "3" }.0e-12
+seg-ccb8b3a41af4 = { "1" } s: { "3.0e-11" }; { "100" } s: { "3.0e-12" }
 
 # text
 seg-ae0f630aba4b = <5e-11/month after { "30" } days
 
 # text
-seg-301ad97cd259 = temperature coefficient <3E-10, { "0" } °C to { "50" } °C
+seg-dbb2a780ceb9 = temperature coefficient <{ "3E-10" }, { "0" } °C to { "50" } °C
 
 # text
 seg-79d5b7a3a453 = Microchip 5071A, high-performance tube; DS00002980D (5/25)
 
 # text
-seg-ee3ea45b9390 = { "1" } s: { "5" }.0e-12; { "10" } s: { "3" }.5e-12; { "100" } s: { "8" }.5e-13; { "1 000" } s: { "2" }.7e-13; 10⁴ s: { "8" }.5e-14; 10⁵ s: { "2" }.7e-14; { "5" } days: { "1" }.0e-14; { "30" } days: { "1" }.0e-14
+seg-62572a695878 = { "1" } s: { "5.0e-12" }; { "10" } s: { "3.5e-12" }; { "100" } s: { "8.5e-13" }; { "1 000" } s: { "2.7e-13" }; 10⁴ s: { "8.5e-14" }; 10⁵ s: { "2.7e-14" }; { "5" } days: { "1.0e-14" }; { "30" } days: { "1.0e-14" }
 
 # text
-seg-cbc867e5a7bb = no rate published; lifetime change ≤{ "5" }.0e-14
+seg-1fbdd6edc376 = no rate published; lifetime change ≤{ "5.0e-14" }
 
 # text
-seg-ec44b6a4bc17 = ±{ "8" }.0e-14 versus environment ({ "0" } °C to { "50" } °C, humidity, magnetic field, shock)
+seg-bb485faf403a = ±{ "8.0e-14" } versus environment ({ "0" } °C to { "50" } °C, humidity, magnetic field, shock)
 
 # text
 seg-889f4dc6cafc = Microchip SA.45s CSAC, options { "001" } and { "003" }; DS00002985D (5/23)
 
 # text
-seg-f4cea3eca3b9 = { "1" } s: 3e-10; { "10" } s: 1e-10; { "100" } s: 3e-11; { "1 000" } s: 1e-11
+seg-ecee1cb2a670 = { "1" } s: { "3e-10" }; { "10" } s: { "1e-10" }; { "100" } s: { "3e-11" }; { "1 000" } s: { "1e-11" }
 
 # text
 seg-c90e2f590297 = <9e-10/month after { "30" } days
 
 # text
-seg-008576b51eea = ±5e-10, −{ "10" } °C to { "70" } °C
+seg-5b1bd12aea0f = ±{ "5e-10" }, −{ "10" } °C to { "70" } °C
 
 # text
 seg-63ba00e95bbc = Document links: <a1>OX-208</a1>, <a2>8040C</a2>, <a3>5071A</a3>, <a4>SA.45s</a4>.
@@ -667,7 +661,7 @@ seg-0e5ab055094a = <b>Flicker floor.</b> The floor is never below the ADEV at th
 seg-ebefbd6f119b = <b>Aging.</b> A monthly figure is converted at { "30" } days per month and applied as a linear frequency drift from the moment of loss. The caesium preset has no aging.
 
 # text
-seg-7d215b1e0f3e = <b>Temperature.</b> The stated bound is read linearly over half the operating span (for example ±5e-10 over −{ "10" } °C to { "70" } °C gives { "1" }.25e-11 per kelvin), then driven by a sinusoidal temperature profile whose amplitude and period are scenario inputs. Nothing on a datasheet says the dependence is linear; this is a worst-case reading.
+seg-bb08c7b5baf5 = <b>Temperature.</b> The stated bound is read linearly over half the operating span (for example ±{ "5e-10" } over −{ "10" } °C to { "70" } °C gives { "1.25e-11" } per kelvin), then driven by a sinusoidal temperature profile whose amplitude and period are scenario inputs. Nothing on a datasheet says the dependence is linear; this is a worst-case reading.
 
 # text
 seg-47a256757cfc = <b>Before the loss</b> the clock is disciplined and its time error is white phase noise with a stated 1-sigma value.
@@ -683,7 +677,7 @@ seg-edb7b16b6c0e = Validation
 # c2: allantools
 # c3: tests/fixtures/telecom_timing/holdover_te_series.csv
 # c4: docs/VERIFICATION-MATRIX.md
-seg-91e66b763387 = <c1/> checks the kind's MTIE and TDEV against <c2/> { "2024.06" } on <c3/>, a { "2" } 048-sample CSAC holdover series with aging, flicker and temperature. On { "17" } MTIE and { "12" } TDEV averaging factors, MTIE agrees exactly and TDEV agrees to { "1" }.1e-15 relative. The same curves are read back out of a full run that ingests the CSV. This validates the estimators on that record. It does not validate the synthetic holdover, the masks or the presets, which are MODELLED rows in <c4/>.
+seg-ba87d450423c = <c1/> checks the kind's MTIE and TDEV against <c2/> { "2024.06" } on <c3/>, a { "2" } 048-sample CSAC holdover series with aging, flicker and temperature. On { "17" } MTIE and { "12" } TDEV averaging factors, MTIE agrees exactly and TDEV agrees to { "1.1e-15" } relative. The same curves are read back out of a full run that ingests the CSV. This validates the estimators on that record. It does not validate the synthetic holdover, the masks or the presets, which are MODELLED rows in <c4/>.
 
 # text
 seg-6fdc3cc32a2f = <s1>Previous</s1>Slot timing

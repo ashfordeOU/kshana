@@ -164,9 +164,6 @@ seg-a046384e01c1 = Standards involved
 seg-2eb6d1b0483d = RAIM / ARAIM
 
 # text
-seg-0b7a56cee2a6 = IS-GPS-200
-
-# text
 seg-2e6ee2b113b4 = IEEE { "1139" }
 
 # text
@@ -436,9 +433,6 @@ seg-7f8233ac04d9 = leo-pnt-chain<b>New</b>
 
 # text
 seg-4b28a0f6ded7 = One low-orbit navigation system end to end: signal design, pass link budget, navigation message and the fix.
-
-# text
-seg-6e91cd39db93 = LEO-PNT
 
 # text
 seg-4f5f69dcb63f = A low-orbit navigation layer, scored before it flies.
@@ -997,9 +991,6 @@ seg-65d4b1e42d8c = Any of the above, as an experiment
 
 # text
 seg-29ac12d9da06 = RINEX { "3" }
-
-# text
-seg-79183830bf88 = IGRF-14
 
 # text
 seg-a4da82d24f24 = Holdover against clock stability, a trade study

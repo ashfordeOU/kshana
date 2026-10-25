@@ -47,9 +47,6 @@ seg-7b33bdb70a30 = The example <c1/> sets, among others:
 seg-5fad84cbb2be = nrho
 
 # text
-seg-fe8612aa6662 = space-tie
-
-# text
 # c1: scenarios/
 seg-d1beb62cf742 = { "6" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
 

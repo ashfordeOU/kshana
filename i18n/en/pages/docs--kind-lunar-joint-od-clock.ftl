@@ -17,7 +17,7 @@ seg-200e58e189c2 = Modelled joint multi-technique lunar OD + clock batch estimat
 
 # text
 # c1: scenarios/lunar-joint-od-clock.toml
-seg-a571cc6b6bd7 = One run of <c1/> summarises as: lunar-joint-od-clock | { "3" } sats, { "6" } Earth stations | station 3-D err with VLBI { "3.54" } m vs range-only { "2184.02" } m ({ "617.5" }× sharper) | sat pos RMS { "2.20" } m | station clk err { "2" }.87e-10 s | obs 40/16 params
+seg-6419390eeae4 = One run of <c1/> summarises as: lunar-joint-od-clock | { "3" } sats, { "6" } Earth stations | station 3-D err with VLBI { "3.54" } m vs range-only { "2184.02" } m ({ "617.5" }× sharper) | sat pos RMS { "2.20" } m | station clk err { "2.87e-10" } s | obs 40/16 params
 
 # text
 # c1: n_sat
@@ -45,19 +45,7 @@ seg-be3bcad756cc = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-ef164af52468 = The example <c1/> sets, among others:
 
 # text
-seg-e1a5f5892348 = { "1" }.0000e-11
-
-# text
-seg-10ac1f4fb043 = { "1" }.2364e6
-
-# text
-seg-436a411718ea = { "1" }.3404e9
-
-# text
 seg-6f788a1278b9 = 1/({ "10" }^{ "6" } m)^{ "2" }
-
-# text
-seg-05ccf67159ff = { "2" }.1590e6
 
 # attr:alt
 seg-cfa051b87e59 = The chart the engine writes for scenarios/lunar-joint-od-clock.toml, kind lunar-joint-od-clock
@@ -66,10 +54,10 @@ seg-cfa051b87e59 = The chart the engine writes for scenarios/lunar-joint-od-cloc
 seg-619127334cf3 = No matrix row names this kind by name; the label on its result is the engine's own, above.
 
 # text
-seg-c4843a1db759 = <b>VALIDATED</b> Batch fusion of VLBI + lunar-local range + inter-sat range to recover station+constellation positions and clocks. Oracle (ExternalDataset): P2: numpy { "2.4.6" } (numpy.linalg.lstsq with LAPACK gelsd, numpy.linalg.inv; BSD-3) recomputes each Gauss-Newton step, the converged weighted-least-squares solution, the formal sigmas and the station error on the committed Jacobians and observations of six simulated networks, pre-registered (5094bc31) at max(1e-8, { "100" } kappa eps) relative. The first run failed the no-VLBI network ({ "6" }.1e-7 against 1e-8, a normal-equation in
+seg-4c6914c162d1 = <b>VALIDATED</b> Batch fusion of VLBI + lunar-local range + inter-sat range to recover station+constellation positions and clocks. Oracle (ExternalDataset): P2: numpy { "2.4.6" } (numpy.linalg.lstsq with LAPACK gelsd, numpy.linalg.inv; BSD-3) recomputes each Gauss-Newton step, the converged weighted-least-squares solution, the formal sigmas and the station error on the committed Jacobians and observations of six simulated networks, pre-registered (5094bc31) at max({ "1e-8" }, { "100" } kappa eps) relative. The first run failed the no-VLBI network ({ "6.1e-7" } against { "1e-8" }, a normal-equation in
 
 # text
-seg-a10457a0250e = <b>VALIDATED</b> Fisher information M=HᵀWH, Cramér–Rao lower bound, observability rank / datum-defect null space (Moore–Penrose pseudo-inverse), and D/A/E/T-optimal experiment-d. Oracle (ExternalDataset): NumPy { "2.4.1" } (numpy.linalg.eigh / .inv; BSD-3-Clause, LAPACK-backed) — an independent third-party authority computing the same uniquely-defined eigenvalues, σ²(XᵀX)⁻¹ Cramér–Rao covariance and GNSS dilution-of-precision factors by a different algorithm (LAPACK divide-and-conquer + LU) than Kshana's cyclic-Jacobi sweep and spectral pseudo-inverse; matched to 1e-9. The same external-library class already validates the D
+seg-5b3f6008f5a7 = <b>VALIDATED</b> Fisher information M=HᵀWH, Cramér–Rao lower bound, observability rank / datum-defect null space (Moore–Penrose pseudo-inverse), and D/A/E/T-optimal experiment-d. Oracle (ExternalDataset): NumPy { "2.4.1" } (numpy.linalg.eigh / .inv; BSD-3-Clause, LAPACK-backed) — an independent third-party authority computing the same uniquely-defined eigenvalues, σ²(XᵀX)⁻¹ Cramér–Rao covariance and GNSS dilution-of-precision factors by a different algorithm (LAPACK divide-and-conquer + LU) than Kshana's cyclic-Jacobi sweep and spectral pseudo-inverse; matched to { "1e-9" }. The same external-library class already validates the D
 
 # text
 seg-af12da412a10 = <b>MODELLED</b> Fisher-information observability of the joint lunar solve: without Earth baselines the absolute-frame datum lies in the null space of HᵀWH (station position uno. Oracle (InternalConsistency): Analytic datum-defect structure — the unobservable absolute-frame mode lies in the null space of the Fisher information (closed-form), the rank threshold matches the published 3-station design rationale, and the estimator attains the resulting CRLB in Monte-Carlo. The lunar geometry itself is a representative network (not a flown ephemeris), so the row stays MODELLED; the underlying FIM/CRLB engine is checked against

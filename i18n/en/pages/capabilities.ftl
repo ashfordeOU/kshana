@@ -25,9 +25,6 @@ seg-711a38b52c6c = Interference, spoofing, inertial coasting, clocks, orbits, in
 # text
 seg-bb0ea3b97867 = <b>kshana</b> solar-system
 
-# text
-seg-5219ec596e3d = solar-system-tour.toml
-
 # attr:aria-label
 seg-867b30b800b4 = Pause the orbits
 
@@ -199,9 +196,6 @@ seg-a2774abae554 = Receiver ·
 
 # attr:aria-label
 seg-501e2d375ea6 = Band shown in the readout
-
-# text
-seg-5db1241ac39c = dB-Hz
 
 # text
 seg-32b5bfbec341 = C/N0 on this band, row
@@ -628,22 +622,7 @@ seg-7f594def0e93 = Time error after a day
 seg-f3c7378b9e89 = Noise type
 
 # text
-seg-e0455d024186 = optical-master
-
-# text
-seg-547ac2c768d8 = { "1" }.04e-16
-
-# text
 seg-b1a4c34058f0 = { "0.009" } ns
-
-# text
-seg-e66ab9c123ea = flicker-fm
-
-# text
-seg-faa402d701b3 = passive-h-maser
-
-# text
-seg-de2e3e1f5b4b = { "1" }.15e-14
 
 # text
 seg-9275f0f7dd6f = { "0.995" } ns
@@ -652,19 +631,7 @@ seg-9275f0f7dd6f = { "0.995" } ns
 seg-9feefecdcf67 = rafs
 
 # text
-seg-8081b5703214 = { "1" }.00e-11
-
-# text
 seg-b0890de51ac9 = { "2.94" } ns
-
-# text
-seg-bd9480c58a1f = white-fm
-
-# text
-seg-344af0645e80 = mini-rafs
-
-# text
-seg-bee303eda90f = { "5" }.15e-10
 
 # text
 seg-656da7451ecc = { "151" } ns
@@ -701,37 +668,19 @@ seg-b62a1c0ad6d2 = Class id
 seg-a20b4a6e8f53 = chip-scale atomic clock
 
 # text
-seg-e26272815a77 = { "3" }.0e-10
-
-# text
 seg-05ea8bc048d9 = ultra-stable quartz oscillator
-
-# text
-seg-5b7bc95ccae7 = { "1" }.0e-12
 
 # text
 seg-ed3d4bd2d428 = deep space atomic clock
 
 # text
-seg-0b1f00d572e7 = { "1" }.0e-13
-
-# text
 seg-49a994d77d2f = temperature-compensated crystal oscillator
-
-# text
-seg-4e57d76c58fd = { "2" }.0e-10
 
 # text
 seg-e3cfa85c4275 = oven-controlled crystal oscillator
 
 # text
-seg-498638ea234a = { "5" }.0e-12
-
-# text
 seg-1bac97ee312a = rubidium atomic frequency standard
-
-# text
-seg-3396e5d9fde3 = { "3" }.0e-11
 
 # text
 # c1: src/clock_state.rs
@@ -754,22 +703,22 @@ seg-cae10fb9bff8 = Scenario
 seg-653ed743564e = Chip-scale atomic clock (Microsemi SA.45s class)
 
 # text
-seg-2aac8222d1b8 = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10
+seg-03442e4be82d = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)={ "3e-10" }
 
 # text
-seg-fc912222eec1 = Laboratory Sr optical lattice clock, sigma_y(1s)={ "4" }.8e-17 (Oelker et al. { "2019" }…
+seg-90e5b0fa79ee = Laboratory Sr optical lattice clock, sigma_y(1s)={ "4.8e-17" } (Oelker et al. { "2019" }…
 
 # text
 seg-5aa82710b806 = Optical lattice clock
 
 # text
-seg-dcd9cdc7831a = Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv
+seg-0799e57209c8 = Strontium optical lattice clock, space-oriented goal sigma_y(1s)={ "1e-15" } (arXiv
 
 # text
 seg-a09955ccb865 = The engine's TCXO class (EndRun Technologies disciplined-oscillator data…
 
 # text
-seg-3ba0bf5d6d03 = Ultra-stable/optical onboard oscillator class, white-FM sigma_y({ "1" } s) ~ 1e-13…
+seg-982938fe53bc = Ultra-stable/optical onboard oscillator class, white-FM sigma_y({ "1" } s) ~ { "1e-13" }…
 
 # text
 seg-2adc3374e996 = Each model id and its provenance are read from the scenario files.
@@ -2120,7 +2069,7 @@ seg-b3f5010bc0f0 = Ballistic re-entry corridor demonstrator (Allen-Eggers, missi
 seg-3612d1148781 = <c1/><a1>reentry</a1>
 
 # attr:title, text
-seg-3fafb0530905 = CCSDS { "133" }.0-B Space Packet framing demonstrator (TM/TC interop).
+seg-8321be113ab1 = CCSDS 133.0-B Space Packet framing demonstrator (TM/TC interop).
 
 # text
 # c1: space-packet
@@ -2861,7 +2810,7 @@ seg-06406b3d0b88 = Fisher information & observability
 seg-4e28248ef77b = Observability & estimation theory
 
 # text
-seg-c5ba44e2e0ad = eigenvalues vs numpy.linalg.eigh · CRLB vs σ²(XᵀX)⁻¹ via numpy.linalg.inv · GNSS DOP from the information matrix, all to 1e-9 · Kay ({ "1993" }) closed forms + Monte-Carlo CRLB attainment
+seg-a5b38d0a8d64 = eigenvalues vs numpy.linalg.eigh · CRLB vs σ²(XᵀX)⁻¹ via numpy.linalg.inv · GNSS DOP from the information matrix, all to { "1e-9" } · Kay ({ "1993" }) closed forms + Monte-Carlo CRLB attainment
 
 # text
 seg-3ee5597d6f8a = A general, reusable Fisher-information / Cramér–Rao layer (src/fim.rs): the information matrix M = HᵀWH, the Cramér–Rao lower bound, observability rank and the datum-defect null space (Moore–Penrose pseudo-inverse), and D/A/E/T-optimal experiment-design scalars from a symmetric Jacobi eigensolver. It underpins the DOP engine, the passive-geolocation bound, and the lunar absolute-station observability result — internal ranging leaves a six-DOF rigid-body datum defect that an Earth-baseline VLBI tie restores for a sparse constellation and sharpens for a rich one, the absolute datum closing at three non-collinear Earth stations.
@@ -2906,7 +2855,7 @@ seg-ad891e3678e4 = Run lunar-frame-realisation in Kshana Studio
 seg-b3ba1e7b197d = Lunar navigation service volume & ARAIM
 
 # text
-seg-db284b8b60fc = ANISE { "0.10.2" } orbits · RTKLIB { "2.4" }.2-p13
+seg-353878596468 = ANISE { "0.10.2" } orbits · RTKLIB 2.4.2-p13
 
 # text
 seg-70b9c02c1f6a = Sweeps an illustrative Moonlight/LCNS-class constellation over a selenographic grid: visibility, dilution of precision, coverage, and per-epoch ARAIM protection levels against a configurable alert limit. The signal-in-space ranging accuracy is a parameter, so the sweep answers a ranging requirement over the whole volume rather than pass/fail at one fixed value.
@@ -3191,7 +3140,7 @@ seg-684494a7877c = Passive RF geolocation (TDOA/FDOA)
 seg-414872cdf952 = Passive RF geolocation
 
 # text
-seg-724a748d11cf = noiseless TDOA forward→inverse to 1e-6 m · J·CRLB = I · GDOP monotone in receivers · estimator attains its CRLB over { "4000" } Monte-Carlo trials
+seg-bed5944d15dd = noiseless TDOA forward→inverse to { "1e-6" } m · J·CRLB = I · GDOP monotone in receivers · estimator attains its CRLB over { "4000" } Monte-Carlo trials
 
 # text
 seg-be8f2a419275 = Locate a jammer or spoofer (or an opportunistic source for reverse-PNT) from time-difference-of-arrival hyperboloids across a receiver network, solved by Gauss–Newton least squares; adding frequency-difference-of-arrival with moving receivers jointly recovers the emitter's position and velocity, with the Cramér–Rao bound on the position covariance from the network geometry. A point-source line-of-sight model — no multipath / NLOS, receiver-clock-bias, or refraction terms.
@@ -3470,7 +3419,7 @@ seg-d8bb6226f2e3 = Skyline-masked visibility, DOP and error ellipse
 seg-6c6e7248496f = Sky geometry
 
 # text
-seg-abc22e5e4ec8 = { "1173" } look angles and { "142" } visible sets match Orekit { "12.2" } and gnss_lib_py { "1.0.4" } to 1e-12; the ellipse matches numpy on { "270" } cases
+seg-94ff262653a6 = { "1173" } look angles and { "142" } visible sets match Orekit { "12.2" } and gnss_lib_py { "1.0.4" } to { "1e-12" }; the ellipse matches numpy on { "270" } cases
 
 # text
 seg-309521d4c9e1 = Which satellites a site can see when buildings, quays, cranes or terrain block part of the sky, and what that does to the dilution of precision (DOP) and the horizontal error ellipse. An azimuth-dependent skyline replaces the single elevation cut-off; the visible set, its DOP and the ellipse come out per epoch and per constellation. A skyline removes line-of-sight satellites and nothing more: it models no reflections, no diffraction and no signal strength.
@@ -3536,7 +3485,7 @@ seg-61817375c8ea = Lunar orbit and surface as navigation and geodetic infrastruc
 seg-d2439abaeabb = numpy/scipy oracles of the numerics; three pre-registered bars NOT MET (xval/lunar-infra/RESULTS.md)
 
 # text
-seg-8f154ae2f950 = Five studies in a restricted three-body model: an onboard Earth-GNSS orbit determination in a near-rectilinear halo orbit against an independent ground range and range-rate determination; joint surface-station and orbiter carrier-phase integer ambiguity fixing (LAMBDA); the Fisher information of a seven-parameter lunar datum with and without orbiter-to-surface ranges; GNSS, VLBI and laser-ranging offsets against the local tie; and sensitivity to the lunar tidal and libration parameters. MODELLED with illustrative inputs: the numerics are checked against independent numpy and scipy programs, not the physics. Under the pre-registered bars, three are NOT MET: an injected force error is not detected at the stated rate (C3), the bootstrapped success rate differs from the numpy oracle by { "1" }.7e-6 against a bar of 1e-9 (Q3), and adding a ranging family does not always lower the pseudo-inverse trace (G3, trace half).
+seg-db45ac2940af = Five studies in a restricted three-body model: an onboard Earth-GNSS orbit determination in a near-rectilinear halo orbit against an independent ground range and range-rate determination; joint surface-station and orbiter carrier-phase integer ambiguity fixing (LAMBDA); the Fisher information of a seven-parameter lunar datum with and without orbiter-to-surface ranges; GNSS, VLBI and laser-ranging offsets against the local tie; and sensitivity to the lunar tidal and libration parameters. MODELLED with illustrative inputs: the numerics are checked against independent numpy and scipy programs, not the physics. Under the pre-registered bars, three are NOT MET: an injected force error is not detected at the stated rate (C3), the bootstrapped success rate differs from the numpy oracle by { "1.7e-6" } against a bar of { "1e-9" } (Q3), and adding a ranging family does not always lower the pseudo-inverse trace (G3, trace half).
 
 # text
 seg-75245f18e82f = <b>GNSS</b> Global Navigation Satellite System · <b>VLBI</b> very long baseline interferometry
@@ -3605,13 +3554,10 @@ seg-7669bdb0e276 = <b>SP3</b> Standard Product { "3" }, a precise-orbit format �
 seg-7ee9f49c4214 = CCSDS OEM / OMM
 
 # text
-seg-4169fd546115 = parses the CCSDS { "502" }.0-B-3 Blue Book OEM example
+seg-be8e034c1a39 = parses the CCSDS 502.0-B-3 Blue Book OEM example
 
 # text
 seg-c43eabf70d02 = <b>CCSDS</b> Consultative Committee for Space Data Systems · <b>OEM</b> orbit ephemeris message · <b>OMM</b> orbit mean-elements message
-
-# text
-seg-0b7a56cee2a6 = IS-GPS-200
 
 # text
 seg-38535c817c56 = broadcast ephemeris → real-data PVT
@@ -3656,9 +3602,6 @@ seg-7df7164eb9ce = Klobuchar L1 delay vs RTKLIB ionmodel · IONEX TEC-map reader
 seg-4a1781bd0be2 = <b>IONEX</b> Ionosphere Map Exchange format · <b>RTKLIB</b> an open-source GNSS positioning library · <b>TEC</b> total electron content
 
 # text
-seg-79183830bf88 = IGRF-14
-
-# text
 seg-288e6032dfa1 = vs official BGS IGRF-14 values
 
 # text
@@ -3668,7 +3611,7 @@ seg-1846bdecdf49 = <b>IGRF-14</b> International Geomagnetic Reference Field, 14t
 seg-d7dda847bb42 = CCSDS { "133.0" }
 
 # text
-seg-7f0221902573 = primary header vs CCSDS { "133" }.0-B-2 + spacepackets-py vectors
+seg-1dac2a4e713d = primary header vs CCSDS 133.0-B-2 + spacepackets-py vectors
 
 # text
 seg-d479ed6aa483 = <b>CCSDS</b> Consultative Committee for Space Data Systems
@@ -3677,7 +3620,7 @@ seg-d479ed6aa483 = <b>CCSDS</b> Consultative Committee for Space Data Systems
 seg-f5a8d68c076f = CCSDS TDM
 
 # text
-seg-767d0efe3911 = parses the CCSDS { "503" }.0-B-2 Blue Book TDM example
+seg-49775f59d7c3 = parses the CCSDS 503.0-B-2 Blue Book TDM example
 
 # text
 seg-026da9803a68 = <b>CCSDS</b> Consultative Committee for Space Data Systems · <b>TDM</b> tracking data message

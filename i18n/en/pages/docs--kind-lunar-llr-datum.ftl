@@ -17,7 +17,7 @@ seg-25455a33523c = Seven-parameter Helmert lunar frame datum driven by a REAL, A
 
 # text
 # c1: scenarios/lunar-llr-datum.toml
-seg-65dc593cce82 = One run of <c1/> summarises as: lunar-llr-datum: { "337" } archived normal points ({ "349" } parsed) from { "2" } station(s) to { "5" } retroreflector arrays over { "80.9" } d; median measured normal-point precision { "5.13" } mm one-way; reflector information rank 15/15; Helmert rank 7/7 cond { "2" }.399e4; datum translation sigma { "1" }.851746e-2 m; observed-minus-computed one-way residual RMS { "156493.9" } m (the modelled links, chiefly the analytic lunar ephemeris)
+seg-f4359803d67a = One run of <c1/> summarises as: lunar-llr-datum: { "337" } archived normal points ({ "349" } parsed) from { "2" } station(s) to { "5" } retroreflector arrays over { "80.9" } d; median measured normal-point precision { "5.13" } mm one-way; reflector information rank 15/15; Helmert rank 7/7 cond { "2.399e4" }; datum translation sigma { "1.851746e-2" } m; observed-minus-computed one-way residual RMS { "156493.9" } m (the modelled links, chiefly the analytic lunar ephemeris)
 
 # text
 # c1: data_dir
@@ -44,19 +44,10 @@ seg-c95b4d285cbd = The example <c1/> sets, among others:
 seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
 
 # text
-seg-67d9ef3bed84 = { "1" }.4711e-7
-
-# text
 seg-a7d59ba6e225 = rad
 
 # text
 seg-49baab4910f3 = ppb
-
-# text
-seg-52522ba1acd9 = { "2" }.4571e6
-
-# text
-seg-c158f0551072 = { "2" }.4572e6
 
 # text
 seg-37a77f49f048 = ps

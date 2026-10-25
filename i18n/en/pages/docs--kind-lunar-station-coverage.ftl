@@ -69,12 +69,6 @@ seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a
 seg-9feefecdcf67 = rafs
 
 # text
-seg-4ea27e7742a7 = { "3" }.1623e-11
-
-# text
-seg-8a5d6b8efc8b = m/s
-
-# text
 seg-2d84b341a41f = Result label (the engine's): MODELLED
 
 # attr:alt
@@ -92,7 +86,7 @@ seg-8d02b1426187 = <b>MODELLED</b> The three terms a differential correction pic
 
 # text
 # c1: lunar-station-coverage
-seg-8039f17ddc1a = <b>MODELLED</b> Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs (the <c1/> kind): for a differential r. Oracle (InternalConsistency): Arithmetic re-computed by an independent numpy script on exported cases (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; pre-registered in tests/fixtures/lunar_station/PREREGISTRATION.md, committed alone in 9caedf97 before the first run): on { "20" } cases with every error term on, the visible sets and status are identical, the raw range errors agree to { "1" }.4e-14 m, the position-error vectors and magnitudes to { "1" }.4e-9 m agains
+seg-d547d600ee2d = <b>MODELLED</b> Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs (the <c1/> kind): for a differential r. Oracle (InternalConsistency): Arithmetic re-computed by an independent numpy script on exported cases (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; pre-registered in tests/fixtures/lunar_station/PREREGISTRATION.md, committed alone in 9caedf97 before the first run): on { "20" } cases with every error term on, the visible sets and status are identical, the raw range errors agree to { "1.4e-14" } m, the position-error vectors and magnitudes to { "1.4e-9" } m agains
 
 # text
 # c1: label

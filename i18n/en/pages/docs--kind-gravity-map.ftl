@@ -17,7 +17,7 @@ seg-9a58a7b09423 = GPS-denied gravity-map-matching navigation: a cold-atom gravi
 
 # text
 # c1: scenarios/gravity-map-nav.toml
-seg-f1d69432dcf6 = One run of <c1/> summarises as: gravity-map | free-inertial drift { "78302" } m | gravity-matched { "1882" } m | matching sigma { "2" }.000e0 mGal
+seg-c8caaff45826 = One run of <c1/> summarises as: gravity-map | free-inertial drift { "78302" } m | gravity-matched { "1882" } m | matching sigma { "2.000e0" } mGal
 
 # text
 # c1: nmax
@@ -48,18 +48,6 @@ seg-54272925e770 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 # text
 # c1: scenarios/gravity-map-nav.toml
 seg-5dfee3a0cc22 = The example <c1/> sets, among others:
-
-# text
-seg-260ace2c6a04 = { "4" }.0000e-6
-
-# text
-seg-7ccd82d25d25 = { "2" }.0000e-6
-
-# text
-seg-2588ac5b9e61 = { "1" }.0000e-6
-
-# text
-seg-973c908f9162 = { "1" }.0000e-7
 
 # text
 # c1: scenarios/

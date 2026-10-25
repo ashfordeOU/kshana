@@ -124,7 +124,7 @@ seg-c35a20fa2529 = Maturity
 seg-cef61e912cd0 = CSAC (e.g. SA.45s)
 
 # text
-seg-f7751dd2d02c = datasheet σ_y({ "1" } s) ≈ 3e-10
+seg-4a016be9bca9 = datasheet σ_y({ "1" } s) ≈ { "3e-10" }
 
 # text
 seg-38cc72b2405c = <b>deployed</b> commercial part (radiation-tolerant space variants exist)
@@ -133,7 +133,7 @@ seg-38cc72b2405c = <b>deployed</b> commercial part (radiation-tolerant space var
 seg-d38d20629ed6 = Strontium optical-lattice clock
 
 # text
-seg-c5a7c833093d = σ_y({ "1" } s) goal ≈ 1e-15 (arXiv:{ "1503.08457" })
+seg-1f0d3ec00922 = σ_y({ "1" } s) goal ≈ { "1e-15" } (arXiv:{ "1503.08457" })
 
 # text
 seg-1496e0c42086 = <b>ground-lab</b> — Kshana knows of no published in-orbit performance for one
@@ -154,7 +154,7 @@ seg-84a68aeb467d = Optical-clock figures in Kshana are <em>space goals on ground
 seg-a204c1b854fa = Benchmark: ACES/PHARAO on the ISS (operational since April { "2025" })
 
 # text
-seg-dfb241a1cb84 = The ESA (European Space Agency) <b>ACES/PHARAO</b> payload (ACES: Atomic Clock Ensemble in Space; PHARAO: Projet d'Horloge Atomique par Refroidissement d'Atomes en Orbite) — a laser-cooled caesium clock plus an active hydrogen maser, operating on the ISS (International Space Station) since April { "2025" } — is the current operational on-orbit clock-stability benchmark (target fractional stability of order 1e-16 after a few days of integration). Kshana's optical-clock model represents a <em>more aggressive</em> ground-lab goal than ACES's flown caesium/maser performance; when comparing Kshana's optical numbers to "what has actually flown", ACES/PHARAO is the honest reference point, and it is a microwave/maser system, not an optical-lattice clock.
+seg-fb88de1257bd = The ESA (European Space Agency) <b>ACES/PHARAO</b> payload (ACES: Atomic Clock Ensemble in Space; PHARAO: Projet d'Horloge Atomique par Refroidissement d'Atomes en Orbite) — a laser-cooled caesium clock plus an active hydrogen maser, operating on the ISS (International Space Station) since April { "2025" } — is the current operational on-orbit clock-stability benchmark (target fractional stability of order { "1e-16" } after a few days of integration). Kshana's optical-clock model represents a <em>more aggressive</em> ground-lab goal than ACES's flown caesium/maser performance; when comparing Kshana's optical numbers to "what has actually flown", ACES/PHARAO is the honest reference point, and it is a microwave/maser system, not an optical-lattice clock.
 
 # text
 seg-9d2e850cb986 = The exact ACES in-orbit performance figures should be cited from ESA's published results as they are released; the point here is the <em>maturity gap</em>, not a specific number — Kshana's optical figures are goals, not flown performance.
