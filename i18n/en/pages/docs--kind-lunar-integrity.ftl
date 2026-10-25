@@ -10,7 +10,7 @@ seg-8ed008b206de = Source: <c1/>
 seg-26f0cf6d63c0 = <c1/> (scenario kind)
 
 # text
-seg-c87c70fc4ee5 = Scenario kind of the engine { "v0.39.0" }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-1f17ef6a853e = Scenario kind of the engine v{ $version }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-4b6daea39f5c = Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay set. sigma_ure_m exposes the signal-in-space ranging accuracy (protection levels scale linearly with it, so sweeping it answers what ranging accuracy an alert limit requires). Defaults to the historical LNIS-class south-pole case.

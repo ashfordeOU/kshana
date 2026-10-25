@@ -10,7 +10,7 @@ seg-a83b25413fd8 = Source: <c1/>
 seg-92b24377c9be = <c1/> (scenario kind)
 
 # text
-seg-255b35ae4f11 = Scenario kind of the engine { "v0.39.0" }, family <a1>GPS-denied alternative PNT</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-216efc4e6fba = Scenario kind of the engine v{ $version }, family <a1>GPS-denied alternative PNT</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-f496b7f4c63a = GPS-denied combined gravity + magnetic + terrain navigator: three scalar field channels fused per waypoint for a sharper (lower-CRLB) drift fix than any single field.

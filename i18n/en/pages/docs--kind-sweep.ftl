@@ -10,7 +10,7 @@ seg-de72ae48731d = Source: <c1/>
 seg-81c2da4650c9 = <c1/> (scenario kind)
 
 # text
-seg-db3cc450c66b = Scenario kind of the engine { "v0.39.0" }, family <a1>Clocks, timing and holdover</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-c61e88721556 = Scenario kind of the engine v{ $version }, family <a1>Clocks, timing and holdover</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-e7ab7b55c969 = 1-D trade-study sweep over a clock-pack parameter.

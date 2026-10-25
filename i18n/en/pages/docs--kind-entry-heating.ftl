@@ -10,7 +10,7 @@ seg-13b9e9187ab9 = Source: <c1/>
 seg-3a3f732cc2dd = <c1/> (scenario kind)
 
 # text
-seg-9839f917de91 = Scenario kind of the engine { "v0.39.0" }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-99ef7c1d552c = Scenario kind of the engine v{ $version }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-b843e2e0a4ee = 3-DoF point-mass atmospheric entry over a rotating spherical Earth or Mars (ballistic or lifting at constant bank), RK4, through US76, an exponential or the Mars atmosphere, with Sutton-Graves stagnation-point convective heating (NASA TR R-376): peak deceleration, heat flux and dynamic pressure, heat load, downrange, a rotating-frame energy check and the Allen-Eggers closed form beside it. Peak deceleration is checked against the published Stardust nominal; heating is MODELLED.

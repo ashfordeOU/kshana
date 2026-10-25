@@ -10,7 +10,7 @@ seg-0e3518dc3ddb = Source: <c1/>
 seg-1428025a91e1 = <c1/> (scenario kind)
 
 # text
-seg-75bcebd6664f = Scenario kind of the engine { "v0.39.0" }, family <a1>Constellations, coverage and geometry</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-11e8c29ecb45 = Scenario kind of the engine v{ $version }, family <a1>Constellations, coverage and geometry</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-cb4262b66b8f = GNSS availability + DOP from an orbital constellation (Walker / TLE / RINEX).

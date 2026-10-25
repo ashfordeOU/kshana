@@ -9,7 +9,7 @@ seg-963749981a7c = Source: <c1/>
 seg-079c8b284c44 = Optical PNT (scenario kind family)
 
 # text
-seg-60c699d80e91 = { "2" } scenario kinds of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-6dea687b727b = { "2" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 # c1: kshana scenarios/optical-atmosphere-network.toml

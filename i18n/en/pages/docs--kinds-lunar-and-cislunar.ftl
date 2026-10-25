@@ -9,7 +9,7 @@ seg-a240ef37dc6d = Source: <c1/>
 seg-befef5f2f8dd = Lunar and cislunar (scenario kind family)
 
 # text
-seg-13064f22de25 = { "20" } scenario kinds of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-f964724ea446 = { "20" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 # c1: kshana scenarios/lunar-infrastructure-od-consistency.toml

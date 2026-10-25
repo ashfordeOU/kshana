@@ -10,7 +10,7 @@ seg-43227f4c8295 = Source: <c1/>
 seg-2a4cb69bc920 = <c1/> (scenario kind)
 
 # text
-seg-255b35ae4f11 = Scenario kind of the engine { "v0.39.0" }, family <a1>GPS-denied alternative PNT</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-216efc4e6fba = Scenario kind of the engine v{ $version }, family <a1>GPS-denied alternative PNT</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-9a58a7b09423 = GPS-denied gravity-map-matching navigation: a cold-atom gravimeter recovers a constant INS drift from the gravity-anomaly sequence it flies through.

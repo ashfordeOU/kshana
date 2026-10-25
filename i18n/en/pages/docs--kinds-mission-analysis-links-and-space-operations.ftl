@@ -9,7 +9,7 @@ seg-69ee217ed8e0 = Source: <c1/>
 seg-f5091cbeecbf = Mission analysis, links and space operations (scenario kind family)
 
 # text
-seg-d68e9e27f237 = { "14" } scenario kinds of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-d0eea6d9d1ad = { "14" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 # c1: kshana scenarios/launch-window.toml

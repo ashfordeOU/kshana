@@ -10,7 +10,7 @@ seg-937ebbbd612c = Source: <c1/>
 seg-6af6f07f5f5a = <c1/> (scenario kind)
 
 # text
-seg-db3cc450c66b = Scenario kind of the engine { "v0.39.0" }, family <a1>Clocks, timing and holdover</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-c61e88721556 = Scenario kind of the engine v{ $version }, family <a1>Clocks, timing and holdover</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-9a2bb9809aed = Two-way satellite time and frequency transfer between two stations through a geostationary relay: the two-way equation solved for T_A - T_B with every non-reciprocal term (station equipment delays, Ku-band ionosphere, transponder, Sagnac), a quadrature uncertainty budget whose type A term is the simulated link's TDEV at the averaging time, a simulated link with white and flicker phase noise and a diurnal non-reciprocity, and the stability (rate, residual RMS, TDEV, ADEV) of any supplied BIPM Circular T Section { "1" } series, MJD,ns CSV or IGS RINEX station-clock records. MODELLED.

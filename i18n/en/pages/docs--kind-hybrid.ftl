@@ -10,7 +10,7 @@ seg-d91dc5633e67 = Source: <c1/>
 seg-3b43d9c5624d = <c1/> (scenario kind)
 
 # text
-seg-6de0af3b46fa = Scenario kind of the engine { "v0.39.0" }, family <a1>Inertial, fusion and quantum sensors</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-7b2721b7588d = Scenario kind of the engine v{ $version }, family <a1>Inertial, fusion and quantum sensors</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-22cd963c7042 = Hybrid PNT capstone: clock + IMU + time-transfer aiding.

@@ -82,7 +82,7 @@ export const catalogueFiles = (root, lang, rel) => [
 ];
 
 /** Replace segments in html by their translations. Returns {html, translated, missing, errors}. */
-export function applyPage({ html, segs, bundle, lang }) {
+export function applyPage({ html, segs, bundle, lang, vars = {} }) {
   const edits = [];
   let translated = 0, missing = 0;
   const errors = [];
@@ -93,7 +93,7 @@ export function applyPage({ html, segs, bundle, lang }) {
     if (!msg || !msg.value) return null;
     const errs = [];
     let str;
-    try { str = bundle.formatPattern(msg.value, {}, errs); } catch (e) { errors.push(`${id}: ${e.message}`); return null; }
+    try { str = bundle.formatPattern(msg.value, vars, errs); } catch (e) { errors.push(`${id}: ${e.message}`); return null; }
     if (errs.length) { errors.push(`${id}: ${errs[0].message}`); return null; }
     return str;
   };

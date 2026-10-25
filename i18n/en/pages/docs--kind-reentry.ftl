@@ -10,7 +10,7 @@ seg-c95aec0d2943 = Source: <c1/>
 seg-91424dc65b3e = <c1/> (scenario kind)
 
 # text
-seg-9839f917de91 = Scenario kind of the engine { "v0.39.0" }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-99ef7c1d552c = Scenario kind of the engine v{ $version }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-039f77066d97 = Allen-Eggers ballistic re-entry corridor: peak deceleration (ballistic-coefficient-independent, V_e^{ "2" } sin|γ|/(2eH)), the velocity and altitude at peak-g, and the peak-heating velocity, for an entry velocity/flight-path-angle/ballistic-coefficient through an exponential atmosphere, plus a planar point-mass integration of the same ballistic entry with gravity, Earth curvature and the US Standard Atmosphere { "1976" } (peak deceleration, speed, altitude and time at the peak). MODELLED ballistic (no-lift) entry; heating output is the peak-heating VELOCITY, not a heat-flux (no aerothermal/TPS model).

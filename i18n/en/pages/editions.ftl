@@ -21,7 +21,7 @@ seg-3dd36a679942 = See Kshana Pro
 seg-c25066969008 = Talk to us
 
 # text
-seg-f5d10084cf1d = One engine · <b>kshana { "v0.39.0" }</b>
+seg-a98193f345cc = One engine · <b>kshana v{ $version }</b>
 
 # attr:aria-label
 seg-1368b0d52f1b = Pause the rings
@@ -50,7 +50,7 @@ seg-0adcadeb3854 = The open engine at the centre: one mark per scenario kind ({ 
 # text
 # c1: src/api.rs
 # c2: web/data/verification-matrix.json
-seg-0fa43cb24559 = Engine { "v0.39.0" } · { "87" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
+seg-9e896ee62ea0 = Engine v{ $version } · { "87" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
 
 # attr:aria-label, text
 seg-e1acd19a6ac6 = Compare the editions
@@ -1166,7 +1166,7 @@ seg-6816f4e1a0a0 = Version
 seg-78240346be65 = Latest
 
 # text
-seg-ea3af476281e = Pin { "v0.39.0" }
+seg-1e466f300d6e = Pin v{ $version }
 
 # text
 seg-d8008680650d = For anyone, nothing to install.

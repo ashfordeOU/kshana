@@ -51,7 +51,7 @@ seg-bd40522bd78d = The bodies in the run
 
 # text
 # c1: solar-system-tour.toml.toml
-seg-3e295805e212 = Every body in the engine's solar-system run (<c1/>, engine { "v0.39.0" }), at the epoch { "{" }'input': '2026-09-28T00:{ "00" }:{ "00" }', 'jd_tdb': { "2461311.500800722" }{ "}" }:
+seg-437ae6ecbea7 = Every body in the engine's solar-system run (<c1/>, engine v{ $version }), at the epoch { "{" }'input': '2026-09-28T00:{ "00" }:{ "00" }', 'jd_tdb': { "2461311.500800722" }{ "}" }:
 
 # text
 seg-51d73c52ecc6 = Mercury: Validated, { "0.47" } au from the Sun at the epoch, orbital period { "88.0" } days.
@@ -179,7 +179,7 @@ seg-e1ebd491e00e = the row on show, whole grid
 
 # text
 # c1: l-band-waterfall-jamming.toml
-seg-0f40f51945bf = Recorded run of <c1/> (seed { "7" }, engine { "v0.39.0" }): { "5" } GNSS bands, { "3" } jammers over { "60" } s, tracking floor { "25" } dB-Hz. Jammers: chirp privacy device at { "1,575.42" } MHz from { "10" } s to { "40" } s; CW tone on L1 at { "1,575.42" } MHz from { "30" } s to the end; L2 narrowband noise at { "1,227.60" } MHz from { "45" } s to the end.
+seg-5a742c1e1563 = Recorded run of <c1/> (seed { "7" }, engine v{ $version }): { "5" } GNSS bands, { "3" } jammers over { "60" } s, tracking floor { "25" } dB-Hz. Jammers: chirp privacy device at { "1,575.42" } MHz from { "10" } s to { "40" } s; CW tone on L1 at { "1,575.42" } MHz from { "30" } s to the end; L2 narrowband noise at { "1,227.60" } MHz from { "45" } s to the end.
 
 # text
 seg-45d6be782732 = GPS L1 C/A loses lock at { "10" } s and stays lost, lowest { "3.2" } dB-Hz. Galileo E1 loses lock at { "10" } s and recovers at { "40" } s, lowest { "4.4" } dB-Hz. GPS L2C tracks throughout, lowest { "36.9" } dB-Hz. GPS L5 tracks throughout, lowest { "44.1" } dB-Hz. Galileo E5a tracks throughout, lowest { "46.7" } dB-Hz.
@@ -368,7 +368,7 @@ seg-aa8201fbbfb8 = Effective carrier-to-noise density by satellite and time
 
 # text
 # c1: jamming-demo.toml
-seg-7a7d4eb4dfc2 = Engine { "v0.39.0" } · <c1/> · seed { "1" }
+seg-36dece8c7ecc = Engine v{ $version } · <c1/> · seed { "1" }
 
 # text
 # c1: 
@@ -445,7 +445,7 @@ seg-c11b3bbd41e0 = Per-satellite jammer-to-signal ratio for a lunar surface user
 
 # text
 # c1: lunar-jamming.toml
-seg-e73282eb0052 = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-dc724c638e57 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-d9087e48302a = S · X · Ka · Deep Space Network
@@ -519,7 +519,7 @@ seg-05f260bae83e = Timing error over the run
 
 # text
 # c1: clock-holdover.toml
-seg-311895154f75 = Engine { "v0.39.0" } · <c1/> · seed { "42" }
+seg-678c8daa51e9 = Engine v{ $version } · <c1/> · seed { "42" }
 
 # text
 # c1: integrity
@@ -536,7 +536,7 @@ seg-16ae98bcbc09 = Protection levels against the alert limit
 
 # text
 # c1: integrity-raim.toml
-seg-7fbc5a63e41d = Engine { "v0.39.0" } · <c1/> · seed { "7" }
+seg-c6c1ee159f3e = Engine v{ $version } · <c1/> · seed { "7" }
 
 # text
 # c1: telecom-timing
@@ -553,7 +553,7 @@ seg-e367839aa566 = telecom-prtc-holdover-24h
 
 # text
 # c1: telecom-prtc-holdover-24h.toml
-seg-dfa66ced8d75 = Engine { "v0.39.0" } · <c1/> · seed { "20260925" }
+seg-b93510b54de9 = Engine v{ $version } · <c1/> · seed { "20260925" }
 
 # text
 # c1: gnss-ins
@@ -570,7 +570,7 @@ seg-1f26707d3e84 = Position error since GNSS was lost
 
 # text
 # c1: small-uas-jammed-nav.toml
-seg-0006179c23c6 = Engine { "v0.39.0" } · <c1/> · seed { "7" }
+seg-5fe3425693c9 = Engine v{ $version } · <c1/> · seed { "7" }
 
 # text
 # c1: inertial
@@ -587,7 +587,7 @@ seg-68c1750b05dc = Position error over the run
 
 # text
 # c1: imu-deadreckoning.toml
-seg-f832e04c823c = Engine { "v0.39.0" } · <c1/> · seed { "42" }
+seg-896179dcc1ee = Engine v{ $version } · <c1/> · seed { "42" }
 
 # text
 seg-a77c86a0779d = The clock ladder.
@@ -604,7 +604,7 @@ seg-74f2a730d13a = Allan deviation
 # text
 # c1: clock-holdover.toml
 # c2: clock-holdover-labsr.toml
-seg-1aff1fd0a6ac = Engine { "v0.39.0" } · <c1/> + <c2/> · seed { "42" }
+seg-430a5a8f4109 = Engine v{ $version } · <c1/> + <c2/> · seed { "42" }
 
 # text
 seg-e8e071246b56 = Clock classes in the lunar time budget
@@ -638,7 +638,7 @@ seg-656da7451ecc = { "151" } ns
 
 # text
 # c1: lunar-time-budget.toml
-seg-0a2dd51cd77b = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-af6a8370e012 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-20db2c79b998 = Validated
@@ -741,7 +741,7 @@ seg-ee509f477fe3 = Show the two recorded runs behind the bars <s1>time error aga
 
 # text
 # c1: orbit-molniya.toml
-seg-efe475c3f503 = Engine { "v0.39.0" } · <c1/> · seed { "11" }
+seg-eb3bfbf7b5cf = Engine v{ $version } · <c1/> · seed { "11" }
 
 # text
 seg-ab46d215a6a8 = The timing wall
@@ -932,7 +932,7 @@ seg-5165e977af9e = Predicted time error since the last fix
 
 # text
 # c1: slot-timing-ocxo-leo.toml
-seg-71369a5dd3c9 = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-f8451afc02f2 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-c8cf5a074b99 = After its last GNSS fix the oscillator stays inside the { "100" } ns slot guard for { "651" } s, so it needs a fresh fix about every { "646" } s, { "134" } times a day. The dominant term at the breach is random-walk frequency noise.
@@ -950,7 +950,7 @@ seg-a0d7b87c6ebb = Lunar time rate: the engine's terms against the published ban
 
 # text
 # c1: lunar-time-offset.toml
-seg-333936e7f09e = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-1d743509f00a = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-30cd6d6f7dc4 = The engine sums the self-potential ({ "57.50" } µs/day) and kinetic (-0.46 µs/day) terms and reports the rate beside the published { "56" } to { "59" } µs/day band. Modelled, not certified.
@@ -1082,7 +1082,7 @@ seg-caa811074b3a = Ground track
 
 # text
 # c1: ephemeris.toml
-seg-28a913c842dd = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-70e2bacd66aa = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-480f90634242 = Earth-orbit runs in Kshana Studio
@@ -1119,7 +1119,7 @@ seg-d2f62402ebf6 = A landed receiver against a representative LunaNet relay set:
 
 # text
 # c1: lunanet-araim.toml
-seg-de2836592b59 = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-b3d3ed0ec310 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-e35acfea1bb1 = Lunar and cislunar runs in Kshana Studio
@@ -1256,7 +1256,7 @@ seg-24022ec573a5 = Relay-navigation position error and its 3-sigma bound
 
 # text
 # c1: mars-pnt-surface.toml
-seg-f75aa531f380 = Engine { "v0.39.0" } · <c1/> · seed { "331514052" }
+seg-27dfb7712270 = Engine v{ $version } · <c1/> · seed { "331514052" }
 
 # text
 seg-2ff194d7e05e = Mars runs in Kshana Studio
@@ -1412,7 +1412,7 @@ seg-885ff6972872 = GPS-like + Galileo-like
 # text
 # c1: orbit-gnss-challenged.toml
 # c2: orbit-multignss.toml
-seg-e8d17aa8b758 = Engine { "v0.39.0" } · <c1/> + <c2/> · seed { "7" }
+seg-8dc1f31f22dc = Engine v{ $version } · <c1/> + <c2/> · seed { "7" }
 
 # text
 seg-04603eb305e3 = <a1>Report, first run</a1><a2>Report, second run</a2>
@@ -1424,7 +1424,7 @@ seg-9ac20decc568 = The app behind every chart.
 seg-68e0fb5eb353 = This is the layout of Kshana Studio as it ships: a library, the scenario you are editing, and the results of the run. Load the real app right here, or open it full screen.
 
 # text
-seg-2dc46062fcc2 = Live engine · { "v0.39.0" }
+seg-dd131d19a42a = Live engine · v{ $version }
 
 # text
 seg-d472b82e557f = <s1>History</s1><s2>Share or embed</s2><s3>Tour</s3><s4>Search</s4>
@@ -1535,7 +1535,7 @@ seg-b4cdec39f4f5 = Standards and formats
 seg-58a8a796c8cb = reference checks
 
 # text
-seg-4616035b83fd = New in { "v0.39.0" }
+seg-3cbba5a3ab3b = New in v{ $version }
 
 # text
 seg-850aca04de28 = Every kind, every command, and the benchmark's misses.

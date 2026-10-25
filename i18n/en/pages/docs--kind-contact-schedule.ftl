@@ -10,7 +10,7 @@ seg-b79fcddea1d6 = Source: <c1/>
 seg-040d160b3fdd = <c1/> (scenario kind)
 
 # text
-seg-9839f917de91 = Scenario kind of the engine { "v0.39.0" }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-99ef7c1d552c = Scenario kind of the engine v{ $version }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-be4e928a5865 = Ground-contact planning for several satellites over several stations: apparent access windows (SGP4, IAU 2006/2000A Earth-fixed frame, ITU-R P.834 refraction, light time), the DVB-S2 ACM data volume of each pass (ETSI EN { "302" } 307-1 Table { "13" } thresholds) and a conflict-free schedule (one satellite per antenna with a turnaround, one station per satellite, priority-weighted delivery capped at each backlog) by a marginal-value greedy, a first-come baseline and an exact branch and bound on small sets, with the greedy's optimality gap. MODELLED.
