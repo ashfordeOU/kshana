@@ -6708,6 +6708,646 @@ engine-wasm-options-json-is-not-json = options_json не є JSON: { $e }
 
 engine-wasm-input-is-about-bytes-over = вхідні дані займають близько { $b64 } байт, понад ліміт у { $v2 } байт
 
+## src/altpnt/sequential.rs
+
+engine-altpnt-sequential-title = Послідовна навігація за рельєфом місцевості (рекурсивний SITAN)
+
+engine-altpnt-sequential-free-inertial-drift-grows = дрейф вільної інерціальної навігації (зростає)
+
+engine-altpnt-sequential-terrain-matched-bounded = із зіставленням за рельєфом (обмежений)
+
+engine-altpnt-sequential-waypoint-full-scale = шляхова точка →    повна шкала { $maxv } m
+
+## src/advanced_report.rs
+
+engine-advanced-report-eyebrow = Звіт про запуск Kshana
+
+engine-advanced-report-meta = Тип <code>{ $kind }</code> · рушій { $engine } · сценарій <code>{ $scenario }</code> (дайджест файлу { $digest }…)
+
+engine-advanced-report-toc-summary = 1 Підсумок
+
+engine-advanced-report-toc-inputs = 2 Вхідні дані
+
+engine-advanced-report-toc-results = 3 Результати
+
+engine-advanced-report-toc-aggregation = 3a Агрегування
+
+engine-advanced-report-toc-companions = 3b Анімація та експорт
+
+engine-advanced-report-toc-events = 4 Події
+
+engine-advanced-report-toc-labels = 5 Мітки верифікації
+
+engine-advanced-report-toc-not-modelled = 6 Не змодельовано
+
+engine-advanced-report-toc-reproducibility = 7 Відтворюваність
+
+engine-advanced-report-h-summary = 1. Загальний підсумок
+
+engine-advanced-report-honesty-label = <strong>Мітка чесності</strong> ({ $source }): { $label }
+
+engine-advanced-report-capabilities-used = <strong>Використані можливості:</strong> { $n_validated } VALIDATED, { $n_modelled } MODELLED, { $n_partner } PARTNER (використовуються, але не надаються); див. розділ 5.
+
+engine-advanced-report-member-runs = <strong>Запуски-учасники:</strong> { $n }, агреговано в розділі 3a.
+
+engine-advanced-report-h-inputs = 2. Вхідні дані
+
+engine-advanced-report-inputs-note = Кожне поле, яке задає файл сценарію, розгорнуте до свого шляху. Одиниці беруться з блоку <code>units</code> результату (схема одиниць полів, docs/field-units-schema.json), де він описує поле, інакше із суфікса імені поля; одиниця, яку не вказано ніде, показується як не вказана.
+
+engine-advanced-report-th-parameter = Параметр
+
+engine-advanced-report-th-value = Значення
+
+engine-advanced-report-th-unit = Одиниця
+
+engine-advanced-report-th-unit-source = Джерело одиниці
+
+engine-advanced-report-h-results = 3. Результати
+
+engine-advanced-report-chart-alt = Діаграма результату
+
+engine-advanced-report-also-written-to = { " " }(також записано в { $file })
+
+engine-advanced-report-h-scalars = Скалярні результати
+
+engine-advanced-report-h-columns = Числові стовпці
+
+engine-advanced-report-th-result = Результат
+
+engine-advanced-report-th-column = Стовпець
+
+engine-advanced-report-th-count = Кількість
+
+engine-advanced-report-th-min = Мін.
+
+engine-advanced-report-th-max = Макс.
+
+engine-advanced-report-th-first = Перше
+
+engine-advanced-report-th-last = Останнє
+
+engine-advanced-report-omitted-inputs = <p class="note">Вхідні дані, що не помістилися на цій сторінці: { $n }; report.json містить ті самі рядки, а документ результату містить кожне значення.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-scalars = <p class="note">Скалярні результати, що не помістилися на цій сторінці: { $n }; report.json містить ті самі рядки, а документ результату містить кожне значення.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-columns = <p class="note">Числові стовпці, що не помістилися на цій сторінці: { $n }; report.json містить ті самі рядки, а документ результату містить кожне значення.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-events = <p class="note">Події, що не помістилися на цій сторінці: { $n }; report.json містить ті самі рядки, а документ результату містить кожне значення.</p>{ "\u000A" }
+
+engine-advanced-report-h-aggregation = 3a. Агрегування запусків-учасників
+
+engine-advanced-report-mode = <p>Режим <strong>{ $mode }</strong>.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind = <p>Режим <strong>{ $mode }</strong> для типу <code>{ $kind }</code>.</p>{ "\u000A" }
+
+engine-advanced-report-mode-runs = <p>Режим <strong>{ $mode }</strong>, запусків-учасників: { $n_runs }.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind-runs = <p>Режим <strong>{ $mode }</strong> для типу <code>{ $kind }</code>, запусків-учасників: { $n_runs }.</p>{ "\u000A" }
+
+engine-advanced-report-run-digest = Дайджест запуску (SHA-256 за дайджестами результатів учасників у порядку диспетчеризації): <code>{ $digest }</code>
+
+engine-advanced-report-table-empty = Ця таблиця не має рядків: результат не містить жодного.
+
+engine-advanced-report-distribution-caption = Розподіл Монте-Карло для { $metric } (вибірок: { $n }), 20 стовпців однакової ширини; штрихові лінії позначають 5-й, 50-й і 95-й перцентилі.
+
+engine-advanced-report-distribution-caption-unit = Розподіл Монте-Карло для { $metric } (вибірок: { $n }, { $unit }), 20 стовпців однакової ширини; штрихові лінії позначають 5-й, 50-й і 95-й перцентилі.
+
+engine-advanced-report-h-companions = 3b. Анімація та експорт
+
+engine-advanced-report-animation-alt = Анімація часових рядів запуску
+
+engine-advanced-report-animation-caption = Власні відліки запуску, що малюються за рухомим курсором часу (анімоване малювання за <code>--animate svg</code>; за зменшеного руху та під час друку показано готове зображення).
+
+engine-advanced-report-no-animation = Без анімації: { $reason }
+
+engine-advanced-report-no-animation-default = результат не містить часових рядів
+
+engine-advanced-report-player-written-by = Інтерактивний програвач записує <code>{ $command }</code>.
+
+engine-advanced-report-written-beside = Записано поруч із цим звітом: { $links }.
+
+engine-advanced-report-th-export = Експорт
+
+engine-advanced-report-th-applies = Застосовується
+
+engine-advanced-report-th-files-or-reason = Файли або причина
+
+engine-advanced-report-written-by = записує <code>{ $command }</code>
+
+engine-advanced-report-does-not-apply = не застосовується
+
+engine-advanced-report-yes = так
+
+engine-advanced-report-no = ні
+
+engine-advanced-report-h-events = 4. Часова шкала подій
+
+engine-advanced-report-events-caption = Вікна як смуги, точкові події як крапки, на власній осі часу запуску.
+
+engine-advanced-report-th-start = Початок (s)
+
+engine-advanced-report-th-end = Кінець (s)
+
+engine-advanced-report-th-event = Подія
+
+engine-advanced-report-th-source = Джерело
+
+engine-advanced-report-point-event = точкова подія
+
+engine-advanced-report-events-timeline = Часова шкала подій
+
+engine-advanced-report-point-events = точкові події ({ $n })
+
+engine-advanced-report-distribution-of = Розподіл { $metric }
+
+engine-advanced-report-max-bin = макс. стовпець { $n }
+
+engine-advanced-report-h-labels = 5. Мітки верифікації
+
+engine-advanced-report-th-capability = Можливість (вимога матриці)
+
+engine-advanced-report-th-label = Мітка
+
+engine-advanced-report-th-used-by = Використовується в
+
+engine-advanced-report-th-oracle = Джерело: оракул
+
+engine-advanced-report-th-test-evidence = Докази тестування
+
+engine-advanced-report-h-figure-tiers = Рівні для окремих показників, указані в результаті
+
+engine-advanced-report-th-figure = Показник
+
+engine-advanced-report-th-tier = Рівень
+
+engine-advanced-report-th-matrix-requirement = Вимога матриці
+
+engine-advanced-report-th-applicable = Застосовно
+
+engine-advanced-report-no-attack = ні (атаку не налаштовано)
+
+engine-advanced-report-h-not-modelled = 6. Не змодельовано та припущення
+
+engine-advanced-report-not-modelled-note = Кожен пункт процитовано з місця, де його вказано: документ результату, каталог типів, файл сценарію або причина в матриці верифікації, через яку рядок MODELLED лишається змодельованим.
+
+engine-advanced-report-th-statement = Твердження
+
+engine-advanced-report-h-reproducibility = 7. Запис відтворюваності
+
+engine-advanced-report-rk-command = Команда для відтворення
+
+engine-advanced-report-rk-working-directory = Робочий каталог
+
+engine-advanced-report-rk-engine-version = Версія рушія
+
+engine-advanced-report-rk-source-commit = Коміт вихідного коду
+
+engine-advanced-report-rk-scenario-file = Файл сценарію
+
+engine-advanced-report-rk-scenario-sha = SHA-256 файлу сценарію (Secure Hash Algorithm 256-bit)
+
+engine-advanced-report-rk-result-hash = scenario_hash результату
+
+engine-advanced-report-rk-result-sha = SHA-256 документа результату
+
+engine-advanced-report-rk-seed = Зерно (seed)
+
+engine-advanced-report-rk-platform = Платформа
+
+engine-advanced-report-rk-generated = Дослідження згенеровано (UTC)
+
+engine-advanced-report-rk-determinism = Детермінізм
+
+engine-advanced-report-result-hash-none = документ результату його не містить
+
+engine-advanced-report-print-note = Щоб надрукувати цю сторінку у файл Portable Document Format (PDF), скористайтеся діалогом друку браузера й виберіть «Зберегти як PDF»; таблиця стилів друку підганяє сторінку під папір A4 і US Letter, повторює заголовки таблиць на кожній сторінці та починає розділи вхідних даних, результатів, міток і відтворюваності з нової сторінки. Сам рушій не записує жодного PDF. report.json містить той самий вміст, що й ця сторінка.
+
+engine-advanced-report-footer = Згенеровано Kshana { $engine }.{ $stamp } Відтворюється зі сценарію, зерна (seed) та версії рушія. Вільне програмне забезпечення з відкритим кодом (GNU Affero General Public License, AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">код і документація</a>.
+
+engine-advanced-report-empty-inputs = Сценарій не задає жодного поля, окрім `kind`: тип виконав свою еталонну конфігурацію з документованих типових значень.
+
+engine-advanced-report-empty-scalars = Документ результату не містить скалярів поза своїми масивами; його числа підсумовано нижче за стовпцями.
+
+engine-advanced-report-empty-series = Документ результату не містить числового масиву: кожен результат є скаляром у таблиці вище.
+
+engine-advanced-report-empty-events = Немає подій із часом: сценарій не задає жодного вікна чи моменту початку, а результат не повідомляє про жодну подію. Тип оцінює свою конфігурацію як один випадок.
+
+engine-advanced-report-empty-not-modelled = Ні результат, ні каталог типів, ні сценарій, ні використані рядки матриці не вказують обмеження моделювання для цього запуску.
+
+engine-advanced-report-capabilities-statement = Кожен рядок є рядком матриці верифікації, яку задіюють типи цього запуску, з міткою та оракулом, які надає їй матриця (src/verification.rs, docs/VERIFICATION-MATRIX.md). Мітка оцінює можливість так, як її записано в матриці; вона не оцінює конфігурацію цього сценарію, а рядок VALIDATED не робить вхідні дані запуску виміряними. Рядок PARTNER — це дисципліна, на яку запуск покладається і яку Kshana не надає.
+
+engine-advanced-report-no-run-label = Результат не містить мітки чесності на рівні запуску; мітки верифікації використаних можливостей наведено в окремому розділі, а рівні окремих показників — там, де їх указує результат.
+
+engine-advanced-report-no-seed = Ні сценарій, ні результат не містять зерна (seed). Результат визначається лише файлом сценарію та збіркою рушія; тест детермінізму повторно виконує кожен вбудований сценарій і вимагає побайтово ідентичного виводу.
+
+engine-advanced-report-working-directory = Запускайте команду з каталогу, у якому було розпочато початковий запуск: шлях до сценарію та будь-який відносний шлях до даних усередині сценарію визначаються відносно нього. Спершу звірте файл сценарію з scenario_sha256.
+
+engine-advanced-report-determinism-stamped = Ті самі байти сценарію, зерно (seed) і збірка рушія дають той самий документ результату, окрім його позначки meta.generated_utc, яку --study-name записує з годинника; запустіть без --study-name, щоб отримати побайтово ідентичний вивід. Результати з рухомою комою зафіксовано для кожної платформи; інша операційна система чи архітектура може відрізнятися в останніх цифрах.
+
+engine-advanced-report-determinism-plain = Ті самі байти сценарію, зерно (seed) і збірка рушія дають побайтово ідентичні документ результату та звіт; цей звіт не містить позначки часу. Результати з рухомою комою зафіксовано для кожної платформи; інша операційна система чи архітектура може відрізнятися в останніх цифрах.
+
+engine-advanced-report-not-applicable-no-attack = не застосовується (атаку не налаштовано)
+
+engine-advanced-report-what-ran-default = Сценарій `{ $kind }`.
+
+engine-advanced-report-nothing-carried = нічого не містить
+
+engine-advanced-report-tbl-sweep-nodes = Вузли розгортки
+
+engine-advanced-report-tbl-mc-summary = Підсумок розподілу Монте-Карло (перцентилі визначено за найближчим рангом; 95% довірчий інтервал середнього є перцентильним бутстрепом із фіксованим зерном)
+
+engine-advanced-report-tbl-chain-phases = Фази ланцюга
+
+engine-advanced-report-tbl-shared = Спільні умови
+
+engine-advanced-report-tbl-members = Учасники
+
+engine-advanced-report-tbl-combined = Об'єднано за учасниками
+
+engine-advanced-report-tbl-optimiser-best = Найкращий результат оптимізатора (локальний оптимум у заданих межах)
+
+engine-advanced-report-tbl-optimiser-trace = Трасування оптимізатора
+
+engine-advanced-report-tbl-sweep-grid = Сітка розгортки
+
+## src/altpnt/terrain.rs
+
+engine-altpnt-terrain-title-terrain-referenced = Навігація за рельєфом місцевості (TERCOM/SITAN)
+
+engine-altpnt-terrain-title-gravity-map = Навігація із зіставленням за картою гравітації
+
+engine-altpnt-terrain-title-combined = Комбінована гравітаційна + магнітна + рельєфна alt-PNT
+
+engine-altpnt-terrain-free-inertial-drift = дрейф вільної інерціальної навігації
+
+engine-altpnt-terrain-terrain-matched = із зіставленням за рельєфом
+
+engine-altpnt-terrain-gravity-matched = із зіставленням за гравітацією
+
+engine-altpnt-terrain-gravity-only = лише гравітація
+
+engine-altpnt-terrain-magnetic-only = лише магнітне поле
+
+engine-altpnt-terrain-terrain-only = лише рельєф
+
+engine-altpnt-terrain-combined-fused = комбіновано (з об'єднанням)
+
+## src/api.rs
+
+engine-api-chart-provenance-footer = Kshana v{ $version } · сценарій { $hash } · kshana.dev
+
+## src/attack_surface.rs
+
+engine-attack-surface-chart-title = Поверхня атаки на безпеку місячного сигналу (P1)
+
+## src/body_pnt.rs
+
+engine-body-pnt-chart-relays-in-view = ретрансляторів у полі зору
+
+engine-body-pnt-chart-count = кількість
+
+engine-body-pnt-chart-formal-one-sigma-position = формальна одна сигма положення (log10 m): синє — лише орбітальне угруповання, бурштинове — із земною дальністю
+
+engine-body-pnt-chart-time-since-epoch = час від епохи, від 0 до { $t_max } s
+
+## src/campaign.rs
+
+engine-campaign-chart-clock-time-error-vs-guard = похибка часу годинника проти запасу (ns)
+
+engine-campaign-chart-cn0-vs-tracking-floor = C/N0 проти порога стеження (dB-Hz)
+
+engine-campaign-chart-protection-level-vs-alert-limit = рівень захисту проти порога тривоги (m)
+
+engine-campaign-chart-position-error-vs-threshold = похибка положення проти порога (m)
+
+engine-campaign-chart-satellites-tracking = супутників у стеженні
+
+engine-campaign-chart-alarm-flags-and-events = прапорці тривог і події
+
+engine-campaign-chart-mission-time = час місії: { $duration } s
+
+engine-campaign-chart-sweep-percentile-band = , медіана зі смугою від 5-го до 95-го перцентиля за зернами (seed): { $n_runs }
+
+engine-campaign-chart-sweep-line-at = { $name } ({ $unit }) за { $lead }
+
+engine-campaign-chart-monte-carlo-of = Монте-Карло для `{ $scenario_kind }`: зерен (seed): { $n_runs }, починаючи з { $base_seed } (5-й, 50-й, 95-й перцентилі; смуга = бутстрепний 95% довірчий інтервал середнього)
+
+engine-campaign-chart-composed-members = складені учасники за спільних умов: { $shared }
+
+engine-campaign-chart-not-available = н/д
+
+## src/cislunar_arc_recovery.rs
+
+engine-cislunar-arc-recovery-chart-title = Відновлення довжини дуги в цисмісячному просторі — оцінювач, що не використовує спільних якобіанів
+
+engine-cislunar-arc-recovery-chart-subtitle = пакетний метод найменших квадратів зі скінченними різницями · виміряна похибка відновлення стану · без аналітичного якобіана, без варіаційної STM, без допуску рангу SVD
+
+engine-cislunar-arc-recovery-chart-bound = межа { $bound }
+
+engine-cislunar-arc-recovery-chart-gramian-rank-threshold = поріг рангу граміана
+
+engine-cislunar-arc-recovery-chart-monte-carlo-rms = RMS похибка відновлення положення за Монте-Карло (km)
+
+engine-cislunar-arc-recovery-chart-noise-free-worst-ratio = найгірше відношення відновлення без шуму (кінцева похибка / зміщення)
+
+## src/cislunar_observability.rs
+
+engine-cislunar-observability-chart-title = Спостережуваність у цисмісячному просторі на дузі стеження (P6)
+
+engine-cislunar-observability-chart-subtitle = ранг залежно від дуги (одна лінія зв'язку лише за дальністю) · власний спектр граміана · диференційно скоригована DRO ІУ + перехресна перевірка SRIF · проєкт: { $modelled }, ранг/STM/замикання: { $validated }
+
+engine-cislunar-observability-chart-observable-rank = спостережуваний ранг залежно від довжини дуги
+
+engine-cislunar-observability-chart-arc-length = довжина дуги (одиниці часу в системі, що обертається, усього { $arc_hours } h)
+
+engine-cislunar-observability-chart-gramian-eigenvalues = власні значення граміана (log10)
+
+engine-cislunar-observability-chart-condition = число обумовленості κ = { $condition }
+
+## src/conflict_resilience.rs
+
+engine-conflict-resilience-chart-title = Стійкість багаторівневої PNT до конфлікту (P7)
+
+engine-conflict-resilience-chart-subtitle = повна втрата залежно від інтенсивності загрози (MC проти замкненої форми) · коефіцієнт стійкості залежно від кореляції відмов · апріорні: { $modelled }, MC->замкнена форма / маргінали копули: { $validated }
+
+engine-conflict-resilience-chart-total-loss-probability = імовірність повної втрати залежно від інтенсивності
+
+engine-conflict-resilience-chart-threat-intensity = інтенсивність загрози
+
+engine-conflict-resilience-chart-layered-mc = багаторівневий MC
+
+engine-conflict-resilience-chart-single-layer = один рівень
+
+engine-conflict-resilience-chart-resilience-ratio = коефіцієнт стійкості залежно від кореляції відмов
+
+engine-conflict-resilience-chart-denial-correlation = кореляція відмов ρ
+
+## src/constellation.rs
+
+engine-constellation-chart-availability-pct = доступність (%)
+
+engine-constellation-chart-mean-pdop = середній PDOP
+
+## src/earth_gnss_lunar.rs
+
+engine-earth-gnss-lunar-chart-title = Земна GNSS на місячній відстані — C/N0 залежно від кута від осі променя
+
+engine-earth-gnss-lunar-chart-track-threshold = стеження { $threshold } dB-Hz
+
+engine-earth-gnss-lunar-chart-earth-limb = лімб Землі { $angle }°
+
+engine-earth-gnss-lunar-chart-off-boresight-angle = кут від осі променя (deg)
+
+engine-earth-gnss-lunar-chart-cn0 = C/N0 (dB-Hz)
+
+engine-earth-gnss-lunar-chart-legend = золотий = можливе стеження · червоний = занадто слабкий · сірий = закрито Землею · діаграма передавання: { $modelled }
+
+## src/ensemble.rs
+
+engine-ensemble-chart-title = Holdover (утримання часу) годинника: довірча смуга похибки часу (запусків: { $n_runs })
+
+engine-ensemble-chart-timing-error-ns = похибка часу (ns)
+
+engine-ensemble-chart-spec-threshold = специфікація { $threshold } ns
+
+engine-ensemble-chart-time-s = час (s)
+
+engine-ensemble-chart-classical-median-band = класичний: { $id } (медіана, смуга 5–95%)
+
+engine-ensemble-chart-quantum-median-band = квантовий: { $id } (медіана, смуга 5–95%)
+
+## src/frame_eop.rs
+
+engine-frame-eop-chart-title = Бюджет прогнозу системи координат / EOP у реальному часі для місячного часу
+
+engine-frame-eop-chart-ut1-error-ms = похибка UT1 (ms)
+
+engine-frame-eop-chart-position-at-moon-m = положення на Місяці (m)
+
+engine-frame-eop-chart-equiv-timing-ns = еквівалентний час (ns)
+
+engine-frame-eop-chart-prediction-horizon-days = горизонт прогнозу (днів)
+
+engine-frame-eop-chart-iers-final-floor = нижня межа IERS final { $floor_ms } ms
+
+engine-frame-eop-chart-marker-at-moon = ~{ $ut1_ms } ms = ~{ $pos_m } m на Місяці
+
+engine-frame-eop-chart-growth = ~{ $factor }x, 1 d→{ $far_days } d
+
+## src/fusion/hybrid_ukf.rs
+
+engine-fusion-hybrid-ukf-chart-title = 17-станний гібридний UKF — самоузгодженість фільтра (modelled)
+
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + білизна інновацій проти 95% смуг χ²; 1.0 = узгоджено. Самоузгодженість, а не точність.
+
+engine-fusion-hybrid-ukf-chart-target = ціль 1.0
+
+engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (білизна)
+
+## src/fusion/pack.rs
+
+engine-fusion-pack-chart-title = Горизонтальна похибка слабкозв'язаної GNSS/INS
+
+engine-fusion-pack-chart-horizontal-error-m = горизонтальна похибка (m)
+
+engine-fusion-pack-chart-spec-threshold = специфікація { $threshold } m
+
+## src/geometry.rs
+
+engine-geometry-chart-title = Скайплот ({ $label })
+
+engine-geometry-chart-north = Пн
+
+engine-geometry-chart-east = Сх
+
+engine-geometry-chart-south = Пд
+
+engine-geometry-chart-west = Зх
+
+engine-geometry-chart-satellite-tooltip = { $system } { $id } аз. { $az } кут м. { $el }
+
+engine-geometry-chart-satellite-tooltip-hidden = { $system } { $id } аз. { $az } кут м. { $el } (закрито горизонтом)
+
+engine-geometry-chart-satellite-tooltip-below-mask = { $system } { $id } аз. { $az } кут м. { $el } (нижче маски)
+
+engine-geometry-chart-no-fix = немає розв'язку
+
+engine-geometry-chart-in-view-hidden = у полі зору: { $n_visible }, закрито горизонтом: { $n_masked } · { $dop } · порожні: поза полем зору
+
+engine-geometry-chart-satellites-as-given = супутники як задано
+
+engine-geometry-chart-representative-sky = репрезентативне небо, а не датоване
+
+engine-geometry-chart-footer = Kshana v{ $version } · геометрія за заданою моделлю похибок · kshana.dev
+
+## src/gnss_sim.rs
+
+engine-gnss-sim-chart-title = Рівні захисту RAIM проти порогів тривоги
+
+engine-gnss-sim-chart-protection-level-m = рівень захисту (m)
+
+## src/holdover_test.rs
+
+engine-holdover-test-not-recovered-within-record = ; не відновлено в межах запису
+
+engine-holdover-test-chart-title = Тест holdover (утримання часу): похибка часу за кроками
+
+engine-holdover-test-chart-y-title = |похибка часу| (ns)
+
+engine-holdover-test-chart-panel-caption = абсолютна похибка часу; крок holdover (утримання часу) затінено; штрихові лінії — бюджети похибки часу
+
+engine-holdover-test-chart-gnss-removed = GNSS вимкнено
+
+engine-holdover-test-chart-gnss-restored = GNSS відновлено
+
+engine-holdover-test-chart-time-axis = час на осі запису ({ $min } min)
+
+## src/hybrid.rs
+
+engine-hybrid-chart-title = Використання специфікації гібридною PNT під час відмови GNSS (1.0 = специфікація)
+
+engine-hybrid-chart-y-title = використання специфікації
+
+engine-hybrid-chart-spec-line = специфікація (1.0)
+
+engine-hybrid-chart-classical-suite = класичний комплект
+
+engine-hybrid-chart-quantum-suite = квантовий комплект
+
+## src/hybrid_integrity.rs
+
+engine-hybrid-integrity-chart-availability = доступність
+
+engine-hybrid-integrity-chart-precision = прецизійність
+
+engine-hybrid-integrity-chart-integrity = цілісність
+
+engine-hybrid-integrity-chart-joint-indep = спільно (незалежно)
+
+engine-hybrid-integrity-chart-joint-corr = спільно (корельовано)
+
+engine-hybrid-integrity-chart-title = Спільний показник якості гібридної оптичної + RF PNT
+
+engine-hybrid-integrity-chart-subtitle = P(доступно ТА прецизійного класу ТА з гарантованою цілісністю)
+
+## src/inertial/mod.rs
+
+engine-inertial-chart-title = Похибка положення при зчисленні шляху під час відмови GNSS
+
+engine-inertial-chart-y-title = похибка положення (m)
+
+engine-inertial-chart-spec-line = специфікація { $m } m
+
+engine-inertial-chart-classical = класичний: { $id }
+
+engine-inertial-chart-quantum = квантовий: { $id }
+
+## src/iq/campaign/report.rs
+
+engine-iq-campaign-report-roc-aria-label = ROC виявлення для кожного монітора
+
+engine-iq-campaign-report-roc-x-title = P_fa (на негативне вікно)
+
+engine-iq-campaign-report-curve-aria-label = Деградація C/N0 залежно від заданого J/S для { $rec } події { $ev }
+
+engine-iq-campaign-report-curve-x-title = заданий J/S (dB)
+
+engine-iq-campaign-report-curve-y-title = деградація C/N0 (dB)
+
+engine-iq-campaign-report-curve-model-tooltip = { $label }: еталон SSC, Q = { $q }
+
+engine-iq-campaign-report-curve-model-legend = еталон { $label } (Q = { $q })
+
+engine-iq-campaign-report-curve-more-series = ще рядів у таблиці показників: +{ $n }
+
+engine-iq-campaign-report-curve-point-tooltip = { $fe } / { $d }: J/S { $x } dB, виміряна деградація { $y } dB
+
+engine-iq-campaign-report-curve-measured-legend = { $fe } / { $d } (виміряно)
+
+## src/jamming.rs
+
+engine-jamming-chart-title = Видимі супутники проти тих, що в стеженні, під час глушіння (jamming)
+
+engine-jamming-chart-y-title = супутники
+
+engine-jamming-chart-four-sv-fix = розв'язок за 4 SV
+
+engine-jamming-chart-visible = видимі
+
+engine-jamming-chart-tracking = у стеженні
+
+## src/leo_fusion/ntn.rs
+
+engine-leo-fusion-ntn-chart-title = Позиціонування 5G NTN: межа Крамера–Рао для дальності залежно від смуги пропускання
+
+engine-leo-fusion-ntn-chart-caption = одна сигма дальності (log10 m): смуга = від маски до зеніту C/N0; крапка = RMS 3D похибки розв'язку
+
+## src/leo_fusion/ppp.rs
+
+engine-leo-fusion-ppp-chart-title = Збіжність PPP із доповненням LEO
+
+engine-leo-fusion-ppp-chart-caption = медіана горизонтальної похибки (log10 m) залежно від хвилин
+
+engine-leo-fusion-ppp-chart-n-leo = LEO: { $n }
+
+## src/leo_fusion/pvt_kind.rs
+
+engine-leo-fusion-pvt-kind-chart-doppler-caption = 3D похибка доплерівського розв'язку (log10 m) залежно від довжини вікна
+
+engine-leo-fusion-pvt-kind-chart-doppler-x-label = вікно (s)
+
+engine-leo-fusion-pvt-kind-chart-joint-caption = медіана PDOP (синій) і VDOP (бурштиновий), log10, залежно від кількості доданих супутників LEO
+
+engine-leo-fusion-pvt-kind-chart-joint-x-label = додано супутників LEO
+
+engine-leo-fusion-pvt-kind-chart-polar-caption = медіана VDOP (log10): сірий — GNSS, синій — LEO, бурштиновий — об'єднаний
+
+engine-leo-fusion-pvt-kind-chart-polar-x-label = широта (deg)
+
+engine-leo-fusion-pvt-kind-chart-timing-caption = RMS похибка часу відносно UTC (log10 ns) залежно від зсуву C/N0, одна лінія на генератор (осцилятор)
+
+engine-leo-fusion-pvt-kind-chart-timing-x-label = зсув C/N0 (dB)
+
+engine-leo-fusion-pvt-kind-chart-x-range = { $label }: від { $x0 } до { $x1 }
+
+## src/leo_navmsg/mod.rs
+
+engine-leo-navmsg-chart-title = Навігаційне повідомлення LEO: SISRE залежно від інтервалу апроксимації
+
+engine-leo-navmsg-chart-no-trade-encode-decode = У цьому запуску немає компромісного аналізу; таблиці кодування/декодування та бюджету див. у result.json.
+
+engine-leo-navmsg-chart-no-fit-interval-trade = У цьому запуску немає компромісного аналізу інтервалу апроксимації; див. result.json.
+
+engine-leo-navmsg-chart-caption = SISRE RMS лише за орбітою (m, логарифмічна шкала) залежно від інтервалу апроксимації (s)
+
+## src/leo_pass.rs
+
+engine-leo-pass-chart-title = Прохід LEO: C/N0 за діапазонами та Доплер
+
+engine-leo-pass-chart-cn0-caption = C/N0 (dB-Hz, від 20 до 80): діапазони LEO кольоровим, GNSS сірим
+
+engine-leo-pass-chart-time-axis = час від епохи, від 0 до { $s } s
+
+## src/leo_pnt_chain.rs
+
+engine-leo-pnt-chain-chart-subtitle = проєкт сигналу -> C/N0 проходу та джитер коду -> SISRE повідомлення -> об'єднаний розв'язок · { $label }
+
+engine-leo-pnt-chain-chart-cn0-caption = C/N0 компонента, що відстежується, протягом проходу (dB-Hz, від 20 до 80)
+
+engine-leo-pnt-chain-chart-not-available = н/д
+
+## src/leo_signal.rs
+
+engine-leo-signal-chart-title = Проєкти сигналів LEO-PNT
+
+engine-leo-signal-chart-psd-axis = зсув у межах ±0.6 × смуга передавання; від 0 до −50 dB нижче кожного піка
+
+engine-leo-signal-chart-jitter-caption = джитер коду (m, логарифмічна шкала) залежно від сумарного C/N0 (dB-Hz)
+
+## src/main.rs
+
+engine-main-fail = помилка: { $e }
+
 ## plural forms
 
 engine-e-clock-log-the-log-has-missing-epoch =
