@@ -225,9 +225,6 @@ seg-f48fdf6252cd = <b>Integrationen:</b> ein ROS-{ "2" }-Paket (<c1/>: NavSatFix
 seg-1a8727ad42bb = <b>Home-Assistant-MQTT-Exporter</b> für Vertrauenstelemetrie: <c1/> und <c2/> (Discovery-Nachrichten und ein JSON-Zustandsdokument; nur Veröffentlichen, keine Zugangsdaten oder TLS) sowie <c3/> als Text in Python, WebAssembly und MCP.
 
 # text
-seg-f1cb2c2881c9 = Sieben MODELLED-Registerzeilen zu dem Obigen. Nichts davon ist VALIDATED: Es wurde keine Aufzeichnung eines realen Empfängers, einer Basisstation, einer IMU, eines GNSS-SDR-Laufs, eines ROS-Graphen oder eines MQTT-Brokers gelesen.
-
-# text
 # c1: optical-atmosphere
 # c2: [timeseries]
 # c3: duration_h
@@ -378,14 +375,6 @@ seg-8c2691f38d28 = <c1/>: Sperrradius der Schleifendynamik { "75.2" } → { "53.
 seg-096a24491872 = und die Kampagnen und Spektrum-Gegenprüfungen, die diese enthalten.
 
 # text
-# c1: jamming
-# c2: lunar-jamming
-# c3: tracking-loop
-# c4: impairment-eval
-# c5: jamming_kind_cross_check
-seg-ecdf60335064 = <b>Betroffene Verbraucher:</b> die Kinds <c1/>, <c2/>, <c3/> und <c4/>, der <c5/> der Spektrum-Kinds, die MODELLED-Referenzkurve der IQ-Kampagne und das labfit-Standard-Q sowie der Interop-Szenenexport.
-
-# text
 # c1: DialogWrapper
 # c2: Messages.showChooseDialog
 # c3: FileChooserDescriptor
@@ -419,9 +408,6 @@ seg-cfc47d9d9237 = Die DIGESTs seiner Zellen sind neu festgelegt.
 
 # text
 seg-fcfa0de18b05 = Die vorab registrierte Festlegung der bewerteten Ergebnisse bleibt aktiv und lässt sich weiterhin exakt reproduzieren: In ihrem Hash werden nur jene sechs Felder, die sich durch diese nach der Registrierung vorgenommene Korrektur geändert haben, auf ihre Werte vor der Korrektur zurückabgebildet. Die korrigierten Werte sind für sich festgelegt.
-
-# text
-seg-b96d34bb1d36 = Es wurde kein Zielwert geändert, und keine VALIDATED-Zeile, keine Abbildung und keine Zahl im Web hat sich verschoben.
 
 # text
 # c1: unobserved_beacons
@@ -797,9 +783,6 @@ seg-a059d10c5330 = <b>Die 3-Sigma-Grenze des clock-ensemble deckt jetzt den Flic
 
 # text
 seg-c7308350b6d4 = <b>Eingabe des MCP-Servers gehärtet.</b> Die Szenario-Tools des MCP-Servers akzeptieren jetzt nur Inline-Inhalt und lehnen Dateiquellenfelder ab; die Eingabegröße ist begrenzt. Hinweis: <a1>GHSA-8wpf-hqg5-6xjr</a1>.
-
-# text
-seg-065c4431197e = Lab-Replay: eine Tracking-Engine, Erkennungsmonitore und ein Kampagnenläufer für GNSS-IQ-Aufzeichnungen, mit den dazugehörigen Schleifenentwürfen, C/N0-Schätzern und Bewertungen. Evidenzklasse: Alles Folgende ist <b>MODELLED</b> oder auf interne Konsistenz gegen geschlossene Formen und gesäte Simulation geprüft; nichts davon fügt eine VALIDATED-Zeile hinzu, und das Verifikationsregister ist unverändert ({ "251" } Zeilen: { "124" } validiert, { "123" } modelliert, { "4" } Partner). Es ist eine Software-Analyseschicht: Nichts hier synthetisiert eine Wellenform eines Störsenders oder Spoofers, und nichts sendet.
 
 # text
 seg-912ecb44cee4 = Lab-Replay: Testbedingungen, Kampagnenläufer und Bewertung ({ "0.34.0" }).
@@ -1751,13 +1734,6 @@ seg-c49d5cdb36e1 = <c1/>: Die erzwungene Schranke für die simulierte Allan-Abwe
 seg-4fde8788f95f = <b>Szenarioart <c1/>: ein Spektrummodell und Wasserfall für das L-Band</b> (<c2/>, <c3/>, <c4/>). Das gesamte GNSS-L-Band als eine spektrale Leistungsdichte (PSD): GPS L1 Coarse/Acquisition (C/A) und L2 Civil (L2C) (BPSK({ "1" })), Galileo E1 (Multiplexed Binary Offset Carrier, MBOC(6,1,1/11), oder BOC({ "1,1" })), GPS L5 und Galileo E5a (BPSK({ "10" })), ein kT-Rauschteppich mit einer Rauschzahl des Empfängers sowie Dauerstrich-Jammer (CW), Schmalband-, Chirp- und Matched-Noise-Jammer auf einer skriptgesteuerten Zeitachse. Jeder Jammer wird pro Band über seinen spektralen Trennungskoeffizienten (SSC) bewertet, woraus sich das Störer-zu-Signal-Verhältnis (J/S) und die effektive Träger-zu-Rauschleistungsdichte (C/N0) pro Band und Zeile ergeben. Das Diagramm ist ein SVG-Wasserfall mit C/N0-Balken; result.json enthält das Gitter, in der Leistung blockweise gemittelt. Optionales <c5/> zeichnet das Modell als IQ-Samples, schreibt und liest eine Aufnahme im Signal Metadata Format (SigMF) (<c6/>, <c7/>) und vergleicht eine Welch-Schätzung mit dem Modell; optionales <c8/> schätzt eine echte SigMF-Datei. Mitgeliefertes Beispiel <c9/>: Ein Chirp nimmt L1 C/A und E1 bei { "10" } s, ein CW-Ton auf dem L1-Träger hält C/A nach dem Ende des Chirps bei { "17.98" } dB-Hz, während sich E1, dessen Spektrum dort eine Nullstelle hat, erholt; L5 und E5a bleiben unberührt.
 
 # text
-seg-fa9976349886 = Neue VALIDATED-Zeile: die Signal-PSDs und SSCs, gegen die Hauptkeule von BPSK(n) mit 2n x { "1.023" } MHz, die um +/-1.023 MHz zentrierten Keulen von BOC({ "1,1" }), die geschlossenen Parseval-Formen hinter den veröffentlichten SSCs von -61.8 / -64.8 / -67.8 dB/Hz und das Lehrbuch-Q = { "1" } (CW) und { "1.5" } (Matched). Das PSD-Maximum von BOC({ "1,1" }) liegt bei +/-0.759 MHz, nicht in der Keulenmitte; der Test legt beides fest.
-
-# text
-# c1: jamming
-seg-411431a9b26b = Zwei neue MODELLED-Zeilen: der Wasserfall und die C/N0-Zeitleiste, die sich genau auf die Kette der Art <c1/> reduzieren (in jedem Bericht gegengeprüft), sowie der SigMF-Codec und der Welch-Schätzer. Im Repository liegt keine Aufnahme von Dritten.
-
-# text
 # c1: navsignal
 # c2: spectral_separation_coeff_offset
 seg-5c5c695e7c0a = <c1/>: eine MBOC-Variante und <c2/>.
@@ -2153,17 +2129,6 @@ seg-0cf179a34252 = Ein breites Capability-Release. Es bringt zwei vollständig <
 seg-267e50f8dd56 = <b>Lauffähige Szenarien</b>: jedes ein registriertes Szenario-<c1/>, über die Engine ausgeliefert und in der CI durchgängig durch <c2/> belegt (das jedes mitgelieferte <c3/> ausführt und bei jeder nicht lauffähigen Fixture hart fehlschlägt):
 
 # text
-# c1: conflict-resilience
-# c2: src/conflict_resilience.rs
-# c3: src/conflict_threat_params.rs
-seg-c87fc11dd86b = <b>Konfliktresilienz geschichteter PNT</b> (<c1/>, <c2/>): eine Monte-Carlo-Resilienz-Engine mit festem Seed für eine mehrschichtige PNT-Architektur, mit einem Modell des <b>Überlebens bei graceful degradation je Vektor</b> nach §{ "4.2" } (vier benannte Bedrohungsvektoren, die geschlossene Form des Überlebens nutzbarer PNT, gegen die die Monte-Carlo-Läufe je Schicht konvergieren, im Ergebnis-JSON ausgegeben) und dokumentierter, gegen Abweichung abgesicherter Herkunft der Bedrohungsparameter (<c3/>). MODELLED-Architekturen; die Konvergenz der Überlebens-Monte-Carlo → geschlossene Form ist der validierte Kern.
-
-# text
-# c1: cislunar-observability
-# c2: src/cislunar_observability.rs
-seg-9c69e4d8ade9 = <b>Cislunare Beobachtbarkeit</b> (<c1/>, <c2/>): ein Eigenspektrum der Beobachtbarkeits-Gramian über einen Bogen, ein durch Differentialkorrektur gewonnener Seeder für retrograde Fernbahnen (DRO) und eine unabhängige Gegenprüfung mit einem Square-Root-Information-Filter, dessen A-posteriori-Kovarianz genau bei vollem Beobachtbarkeitsrang endlich wird. MODELLED-Konstellation; die Invarianten von Rang/Gramian/STM/SRIF sind der validierte Kern.
-
-# text
 # c1: hybrid-optical-rf
 # c2: src/hybrid_integrity.rs
 # c3: src/optical_availability.rs
@@ -2317,9 +2282,6 @@ seg-f6de783bfd29 = <b>Lagedynamik</b> (<c1/>, MODELLED): momentenfreie Eulerglei
 seg-339bc18b9fc4 = <b>Kreuzvalidierung modellierter Fähigkeiten</b> gegen unabhängige externe Referenzen, womit die Validierungsmatrix auf { "39" } Zeilen VALIDATED kommt, jede durch einen externen Datensatz gestützt (das Ehrlichkeits-Gate der CI verbietet den Status VALIDATED ohne einen solchen). Die neuesten Validierungen gegen externe unabhängige Referenzen: die <b>gemessene Stabilitätskurve optischer Uhren</b> (der ADEV-Kurvenfit von <c1/> reproduziert das veröffentlichte σ_y(τ) der ⁸⁸Sr-Optischen-Gitteruhr von Norcia et al., <em>Science</em> { "366" }:{ "93" } ({ "2019" }), Zenodo 10.5281/zenodo.3382347, CC-BY-4.0, unter <c2/> mitgeliefert); die <b>Erzeugung des GPS-L1-C/A-Spreizcodes</b> (das G1/G2-LFSR von <c3/> reproduziert die Oktalwerte der Codephase aus IS-GPS-200 Tabelle 3-Ia für PRN { "1" }–{ "9" }); und der <b>SRTM-Höhenmodell-Leser auf realem Gelände</b> (<c4/> liest eine mitgelieferte gemeinfreie NASA/USGS-SRTM-v3-Kachel, N36W117 / Death Valley, und platziert Badwater Basin innerhalb seines dokumentierten Vermessungsbandes).
 
 # text
-seg-665d0dde637b = <b>Neue MODELLED-Fähigkeiten</b>, jede intern gegen eine geschlossene Form oder einen Schwesterpfad im Code gegengeprüft: Relativbewegungsdynamik nach Clohessy–Wiltshire / Hill, passive Emitterlokalisierung per TDOA/FDOA, Lagebestimmung nach Wahba/TRIAD/QUEST, Auflösung ganzzahliger Mehrdeutigkeiten der GNSS-Trägerphase (LAMBDA), B-Plane-Targeting & Gravity-Assist nach Patched-Conic, CRPA-Anti-Jam-Array-Beamforming, GNSS-Square-Law-Akquisitionsstatistik, Fringe-Mehrdeutigkeit / Dynamikbereich quanteninertialer Sensoren, IEEE-1139-Potenzgesetz-Uhrenrauschen + Flicker-FM-Untergrenze und CCSDS-OEM-Austausch von Kovarianzblöcken.
-
-# text
 seg-b3f53d5e3c3a = <b>Evidenzregister aus einer einzigen Quelle</b> mit erzeugter Verifikationsdokumentation und einem Wächter gegen Abweichung; ein durchsuchbares Validierungsregister auf kshana.dev mit Tiefenlinks zur Evidenz je Karte.
 
 # text
@@ -2388,18 +2350,6 @@ seg-5dca3defcfe3 = Die Kalman-Uhrenkovarianz bleibt positiv semidefinit und symm
 seg-c861779f04ca = Doc-Sync-Wächter: Jeder öffentliche String mit Validierungszahlen, die Zitiermetadaten, die erzeugte Abbildung und die Bild-URLs der READMEs je Oberfläche sind alle an ihre maßgebliche Quelle gebunden.
 
 # text
-# c1: kind
-# c2: TradeEvidence
-seg-0540044c92a6 = Dieses Release fügt der offenen Engine zwei MODELLED-Anwendungssuiten hinzu: einen <b>Demonstrator für quantengestützte PNT</b> (vertrauenswürdige Quanten-Zeitübertragung, GNSS-freie Quantennavigation, Quanten-Fehler-/Anomalieerkennung) und eine <b>PNT-Suite für Mond / cislunaren Raum</b> (Mond-Koordinatenzeit, Mond-VLBI, gemeinsame OD+Uhr, Frame-Realisierung, Service-Volume, differenzielle PNT, Interoperabilitätsexport), jede aus einem einzigen <c1/> ausführbar und jede mit einem ehrlichen <c2/>-Datensatz sowie einem Register zu Repräsentativität / Lücken bis zum Flug. Es bringt außerdem <b>sechs neue Validierungen gegen externe unabhängige Referenzen</b>, womit die maschinell geprüfte Validierungsmatrix auf <b>{ "15" } VALIDATED · { "42" } MODELLED · { "4" } PARTNER</b> über ihre { "61" } Zeilen kommt. Die neuen Anwendungszahlen sind MODELLED aus illustrativen Parametern öffentlicher Quellen, ohne TRL, Flugerfahrung, Zertifizierung oder Billigung durch eine Agentur, und die wiederverwendeten validierten Kerne sind als solche gekennzeichnet.
-
-# text
-# c1: quantum-time-transfer
-# c2: quantum-gnss-free-nav
-# c3: quantum-anomaly-detect
-# c4: TradeEvidence
-seg-82a1822f53e2 = <b>Demonstrator-Suite für quantengestützte PNT</b> (<c1/>, <c2/>, <c3/>). Drei lauffähige MODELLED-Anwendungsbereiche hinter der Engine, jeder mit Ausgabe von <c4/> plus einem Datensatz zu Repräsentativität / Lücken bis zum Flug:
-
-# text
 # c1: src/timetransfer_chain.rs
 seg-07532f03a1f1 = <b>Vertrauenswürdige Quanten-Zeitübertragung</b> (<c1/>): ein Zweiwege-Budget aus optischer Gitteruhr + photonischer Strecke gegenüber CSAC + HF, das das Schutzniveau der Zeitgebung wiederverwendet, mit einem Sicherheitsgütemaß gegen Verzögerungs-/Replay-Angriffe ({ "1" } − P_md) und Uhrenanomalie-Erkennung + CUSUM-Latenz.
 
@@ -2415,17 +2365,6 @@ seg-6188f1c6893a = <b>Quanten-Fehler-/Anomalieerkennung</b> (<c1/>): ein gelabel
 # c1: src/quantum_devices.rs
 # c2: src/qtrade.rs
 seg-9e22314b1337 = Eine gemeinsame Bibliothek von Fehlermodellen für Quantengeräte (<c1/>) und ein einheitliches Trade-Harness Quanten gegen klassisch (<c2/>) bilden die Grundlage aller drei.
-
-# text
-# c1: kind
-# c2: src/lunar_time.rs
-# c3: src/lunar_vlbi.rs
-# c4: src/lunar_combination.rs
-# c5: src/lunar_frame_realise.rs
-# c6: src/lunar_service.rs
-# c7: src/lunar_dpnt.rs
-# c8: src/lunar_interop.rs
-seg-808e20f28556 = <b>PNT-Suite für Mond / cislunaren Raum.</b> Sieben lauffähige MODELLED-<c1/>s, aufgesetzt auf den CR3BP-Kern: <b>Mond-Koordinatenzeit</b> (säkulare Rate LTC/TCL − TT, <c2/>), geodätische <b>Mond-VLBI</b>-Verzögerungsobservable (<c3/>), <b>gemeinsamer Batch-Estimator für Multitechnik-OD + Uhr</b> (<c4/>), <b>Realisierung des Bezugssystems</b> (7-Parameter-Helmert + IAU-{ "2015" }-WGCCRE-Anbindung, <c5/>), Analyse des <b>Service-Volume der Klasse Moonlight / LCNS</b> (<c6/>), <b>differenzielle PNT auf dem Mond</b> (<c7/>) und ein <b>an LunaNet / IOAG ausgerichteter Interoperabilitätsexport</b> (CCSDS-OEM + Mondzeitskala im KIF-Umschlag, <c8/>). Alle MODELLED aus illustrativen Parametern öffentlicher Quellen; nicht gegen reale VLBI-/Gateway-Bahnverfolgung validiert; keine Zugehörigkeit zu einer Agentur und keine Billigung durch eine solche.
 
 # text
 seg-a892ce052e3c = <b>Sechs neue Validierungen gegen externe unabhängige Referenzen</b> (die Validierungsmatrix steht jetzt bei { "15" } validierten):
@@ -2455,10 +2394,6 @@ seg-751c5ac90229 = <b>Klobuchar-Broadcast-Ionosphärenmodell</b>: validiert gege
 # c1: tests/raim_reference.rs
 # c2: tests/sbas_reference.rs
 seg-dcc6d4e04a5c = <b>RAIM-Detektionskern</b> ({ "171" } Fälle, <c1/>) und das <b>SBAS-DO-229E-Schutzniveau</b> an realen EGNOS-Daten (RTKLIB-SBAS-PL-Fork, <c2/>): beide validiert gegen ihre externen unabhängigen Referenzen.
-
-# text
-# c1: src/representativeness.rs
-seg-3f6c1ff0b3a4 = <b>Register zu Repräsentativität & Lücken bis zum Flug</b> (<c1/>). Ein strukturierter Datensatz, den jeder Demonstrator ausgibt: was repräsentativ ist, was vereinfacht ist und was zwischen dem Modell und dem Flug steht, der ehrliche Begleiter jedes MODELLED-Trades.
 
 # text
 # c1: --study-name
@@ -2557,12 +2492,6 @@ seg-9b77c2d36241 = <b>Hinweis für nachgelagerte Nutzer:</b> Dies ist eine Copyl
 # c9: skip_from_py_object
 # c10: RunOutput
 seg-51e32f15b7ea = <b><c1/> von { "0.24" } auf { "0.29" } angehoben</b>, um RUSTSEC-2026-0176 / RUSTSEC-2026-0177 (GHSA-36hh-v3qg-5jq4 / GHSA-chgr-c6px-7xpp) aus externen OSV-/Abhängigkeitsscans zu beseitigen. Beides sind Hinweise auf <em>Funktionsebene</em>, deren betroffene Funktionen (<c2/>/<c3/>, <c4/>) Kshana nie aufruft, und <c5/> ist eine optionale Abhängigkeit (Feature <c6/>), die tatsächliche Gefährdung war also null; die Anhebung hält aber den Scan für nachgelagerte Auditoren sauber. <c7/> wurde auf die API von pyo3 { "0.29" } migriert (Bound-Rückgabetyp für <c8/>; explizites <c9/> an der pyclass <c10/>). Alle { "11" } Python-Binding-Tests bestehen gegen die neu gebaute Erweiterung.
-
-# text
-# c1: scenarios/<kind>.toml
-# c2: tests/dominance_demonstrators.rs
-# c3: VALIDATED
-seg-8d9332df5c74 = <b>Elf neue lauffähige Szenarioarten: Demonstratoren mit zwei Ausschreibungen, eine CCSDS-Interop-Brücke und eine Suite für Missionsanalyse / Umgebung in erster Ordnung (alle MODELLED, additiv; bestehende Reproduzierbarkeits-Goldens unverändert).</b> Jede ist per CLI / Python / WASM / MCP aufrufbar, liefert ein <c1/> mit und trägt ein ausdrückliches MODELLED-Label in ihrem Ergebnis-JSON und in der einzeiligen Zusammenfassung (ein Test je Art in <c2/> prüft, dass das Label vorhanden ist und dass die Ausgabe nie den String <c3/> enthält):
 
 # text
 # c1: impairment-eval
@@ -3558,9 +3487,6 @@ seg-bc9c9a0247d1 = Nicht erfüllt: Die NWPR-C/N0 der Engine liegt { "2.3" }–{ 
 
 # text
 seg-7c32867b5c27 = MODELLED; Registerzeile „IQ tracking engine against GNSS-SDR { "0.0.19" } on independent recordings“.
-
-# text
-seg-6ba057fab559 = <b>Zwei VALIDATED-Zeilen für Codes der IQ-Schicht</b> (DS-GIQ-06b, PRO-39).
 
 # text
 seg-55524624777b = <b>BeiDou B1I.</b> Alle { "63" } primären B1I-Codes stimmen Chip für Chip mit dem unabhängigen Generator von GNSS-SDR { "v0.0.19" } überein (Zielwert vorab registriert bei 911106d1). Nur die Ausgabe dieses Programms ist eingecheckt: die B1I-PRN-Codes, die das öffentliche ICD definiert, als Präfix und Hash.
@@ -5269,11 +5195,6 @@ seg-f8274120bff2 = <c1/> liest ein Protokoll von u-blox UBX, RINEX { "3" } (mit 
 seg-55669fe92932 = Ein Minor-Release. Validierungsrunden { "2" } und Pakete der Welle 1 heben die Verifikationsmatrix von { "223" } Zeilen ({ "93" } VALIDATED) bei { "0.29.3" } auf { "249" } Zeilen ({ "123" } VALIDATED, { "122" } MODELLED, { "4" } PARTNER); jede Beförderung wurde gegen eine unabhängige Referenz bei einer vor dem Lauf festgelegten Toleranz geprüft, und jede Abweichung ist als Befund veröffentlicht. Neu: ein nativer Leser für NAIF-Kernel und ein Pfad für DE440, ein validierter Pfad für SGP4-nach-ITRS-Propagation und Zeit, eine gemessene Uhrenbibliothek, ein Referenzgenerator für LunaNet AFS, Löser mit erweiterter Genauigkeit und Quadratwurzel-Information sowie reale lunare IQ-Verarbeitung an LuGRE-Daten. Veröffentlichte Zahlen, die sich verschoben haben, sind unten als Revisionen aufgeführt.
 
 # text
-# c1: docs/VALIDATION.md
-# c2: docs/VERIFICATION-MATRIX.md
-seg-f75f1878045e = Siebenundzwanzig Zeilen der Verifikationsmatrix werden VALIDATED, nachdem eine unabhängige Referenz innerhalb einer vor dem ersten Vergleich festgelegten Toleranz übereinstimmte (die Beförderungsregel in <c1/>): zehn in einer ersten Validierungsrunde und siebzehn in einer zweiten. Einundfünfzig MODELLED-Zeilen wurden in der ersten Runde einer externen unabhängigen Referenz unterzogen und die übrigen zuordenbaren Zeilen in der zweiten; jede Abweichung ist unten als Befund festgehalten, statt weggestimmt zu werden. Drei Zeilen wurden aufgeteilt, damit ein validierter Teil keinen nicht validierten Rest trägt, was die Matrix von { "223" } auf { "226" } Zeilen bringt; die seither eingearbeiteten Validierungspakete bringen sie auf { "249" }. Die Zahlen werden aus der erzeugten <c2/> gelesen.
-
-# text
 seg-8d542741fa77 = nach Runde { "1" }
 
 # text
@@ -5631,9 +5552,6 @@ seg-82e9fba684dc = <b>Mondgeodätische VLBI, Kernel-Pfad</b> (Bibliothek, neue Z
 seg-03c47d262ff3 = <b>LEO-Ephemeridenmodell mit 22 Parametern nach Liu et al. { "2025" } und sein Fit</b> (Measured, neue Zeile, abgespalten von der Zeile der wählbaren Modelle): reale präzise Bahnen innerhalb des 1.5-Fachen der veröffentlichten Statistik an Tagen der Veröffentlichung und an zurückgehaltenen Tagen ({ "0.683" } bis { "1.186" }); die Skalenkonvention von n_dot ist übernommen und wird durch diesen Vergleich nicht validiert, und die Abbruchregel ist die Parameterkonvergenzregel von Kshana, nicht die RMS-Änderungsregel der Veröffentlichung. Das ATOMIC-Polynom und die Tabelle mit fünf Höhen bleiben MODELLED.
 
 # text
-seg-b49f96eb52ad = Bestehende VALIDATED-Zeilen neu abgestützt (keine Änderung der Anzahl).
-
-# text
 seg-4e26bec3297c = <b>Planetenpositionen aus den JPL-Standish-Elementen</b> und <b>Lichtlaufzeit zwischen Körpern des Sonnensystems</b>: die nachträglichen Zielwerte mit doppeltem Nennwert werden durch vorregistrierte Vergleiche mit JPL Horizons DE441 ersetzt (RMS höchstens der Wert der Tabelle { "8.10.1" } des Explanatory Supplement, schlechtester Wert { "0.778" }, einschließlich der Aufteilung der Erde und der ICRF-Rotation; Lichtlaufzeiten innerhalb von { "1e-6" } s von Horizons auf DE441-Positionen, schlechtester Wert { "6.7e-9" } s). Ihre Kennzeichen "Grenze nach dem Vergleich festgelegt" sind entfernt.
 
 # text
@@ -5748,10 +5666,6 @@ seg-e4205dfdb0d2 = Höhentabelle von Liu, Kshana (Verhältnis): GRACE-A { "5.40"
 seg-4655e8ee7bab = LEO-Navigationsnachricht <c1/> Skala { "2" }^-60 -> { "2" }^-58 (nicht vorregistriert, offengelegt; außerhalb des Fit-Vergleichs); der CRC des liu22-Beispielframes 0x62373A -> 0xDED99C.
 
 # text
-# c1: docs/LEO-NAVMSG.md
-seg-3f565c0ca2bf = Verifikationstabelle <c1/>: die Zeile zu Liu und ATOMIC aufgeteilt in eine VALIDATED-Zeile mit 22 Parametern und eine MODELLED-Zeile zu ATOMIC und der Fünf-Höhen-Tabelle.
-
-# text
 seg-537f5d80b66c = Zeilentext zur DE440-Hauptachsenorientierung des Mondes: Spanne 2024-2025 / { "731" } Zeilen -> 2014-2030 / { "6 209" } Zeilen; "clamps silently" -> Fehler außerhalb ihrer Spanne.
 
 # text
@@ -5810,13 +5724,7 @@ seg-76c94424e828 = <c1/> neu erzeugt für die neuen und entfernten Felder oben.
 seg-717c51e1cca0 = Validierungspakete
 
 # text
-seg-4ec44f8a5f8e = D12, erweiterte Genauigkeit und ein Quadratwurzel-Löser (zwei neue VALIDATED-Zeilen: { "226" } -> { "228" } Zeilen, { "110" } -> { "112" } validiert).
-
-# text
 seg-d28005966948 = Teil { "1" }, unabhängige Referenz mit erweiterter Genauigkeit:
-
-# text
-seg-9a5f94973450 = Mond-Bezugssystemdatum bei geschätzten Stationen: eine unabhängige Referenz mit erweiterter Genauigkeit aus 50-stelligem mpmath (vorregistriert 804662d5, konditionsskalierte Zielwerte aus einer a-priori-Rückwärtsfehlerformel) stimmt an einem neuen Kampagnendatum (2026-03-18) und am ursprünglichen Szenario vom 2024-01-01 überein; neue VALIDATED-Zeile unter P2. Sie entscheidet den früheren Streit um doppelte Genauigkeit: die Datums-Sigmas der Engine weichen um bis zu { "9.7e-6" } ab, die Inversions- und Eigenwertwege von NumPy um bis zu { "6.2e-6" } und seine Cholesky- und QR-Wege um etwa { "1e-8" }. Die Engine liegt innerhalb ihrer Fehlerschranke, ist aber etwa tausendmal weniger genau als ein Faktorisierungsweg.
 
 # text
 seg-b055435a2138 = Umgebung der unabhängigen Referenz: mpmath { "1.3.0" } hinzugefügt.
@@ -5826,11 +5734,6 @@ seg-d0c2b2a8e635 = Revisionen: keine. Keine Golden-Datei und keine veröffentlic
 
 # text
 seg-50b53908fb7c = Teil { "2" }, Datumslöser mit Quadratwurzel-Information:
-
-# text
-# c1: linalg_sr
-# c2: solver = "srif"
-seg-4c6089cfac5e = Neuer optional zuschaltbarer Löser mit Quadratwurzel-Information (<c1/>; <c2/> im Szenario lunar-frame-campaign): Householder-QR, Marginalisierung über den Dreiecksfaktor, eine Jacobi-SVD für das Spektrum und kompensierte Produkte allein aus korrekt gerundeten Operationen. Gegenüber der unabhängigen Referenz mit 50 Stellen (vorregistriert b41908c9) stimmen seine Datums-Sigmas an einem neuen Datum (2026-06-09) bis { "3e-13" } überein; bei den Eingaben vom 2026-03-18 und 2024-01-01 weicht der Standardlöser um bis zu { "1e-5" } ab. Neue VALIDATED-Zeile unter P2. Der Standardlöser und seine Ausgabe sind unverändert. Die vorregistrierten Zielwerte belegen Fehler nur oberhalb von etwa { "2e-7" } relativ: sie weisen den Standardlöser zurück, nicht aber ein umgekehrtes Householder-Vorzeichen, ein unkompensiertes Skalarprodukt oder eine spektrale Endinversion, und die Zeile sagt das.
 
 # text
 # c1: fim::crlb_srif
@@ -5854,9 +5757,6 @@ seg-3b24e7fa36bf = Die Aussage der Zeile zur Kampagne mit erweiterter Genauigkei
 seg-4fad02ab4b6d = Revisionen: keine. Keine Golden-Datei und keine veröffentlichte Zahl ändert sich; die Zeile "Lunar frame datum from an observing campaign" ist unverändert und bleibt MODELLED (Entscheidung des Gründers 2026-10-02, Option A).
 
 # text
-seg-627d3357d620 = D4, Rückgrat der JPL-Kernel-Ephemeriden, Phase { "1" } (vier neue VALIDATED-Zeilen: { "228" } -> { "232" } Zeilen, { "112" } -> { "116" } validiert).
-
-# text
 seg-30e8a645191f = Der NAIF-Kernel-Leser hat eine eigene Zeile.
 
 # text
@@ -5875,19 +5775,6 @@ seg-e0b5ea7af969 = <b><c1/></b>: DE440- (oder beliebige SPK-Typ-2-) Positionen �
 # c3: planetary_kernel_path
 # c4: moon_ephemeris
 seg-6c7dae98601e = <b>Optional zuschaltbarer Kernel-Mond für <c1/> und <c2/></b>: ein Schlüssel <c3/> liest den geozentrischen Mondmittelpunkt aus dem Kernel; sonst ändert sich nichts, und der Bericht erhält einen Block <c4/>, der den Kernel und seinen SHA-256 nennt. Ohne den Schlüssel sind beide Berichte bytegleich mit früher.
-
-# text
-# c1: tests/lunar_vlbi_surface_point_spice_oracle.rs
-seg-74e8def84747 = <b>Kovarianz eines Punkts auf der Mondoberfläche auf dem Kernel-Pfad</b> (neue VALIDATED-Zeile): bei festen Stationen und der Bake auf dem DE440-Mond stimmt die Kovarianz der Bake mit einer SPICE-Lichtlaufzeit-Jacobi-Matrix (schlechtester Wert { "1.7e-3" } gegenüber einem Zielwert von { "1" } %) und einer NumPy-Inversion ({ "4e-14" } gegenüber { "1e-9" }) überein, vorregistriert 4a51256 (<c1/>). Die Zeile des analytischen Pfads bleibt MODELLED: beim analytischen Mond liegt ihr kleinstes Bake-Sigma { "3.9" } % unter der unabhängigen Referenz.
-
-# text
-# c1: tests/validate_llr_datum_kernel_moon_fresh.rs
-seg-55002d236ab0 = <b>Mond-Bezugssystemdatum aus einer realen Kampagne, Kernel-Mondmittelpunkt</b> (neue VALIDATED-Zeile): auf { "447" } ungesehenen Normalpunkten aus dem 2. Quartal 2019, vorregistriert 830d945a, bevor einer abgerufen wurde, stimmt die Datumskovarianz auf dem Kernel-Pfad mit der unveränderten SPICE- und NumPy-Referenz innerhalb von { "7.6e-5" } gegenüber Zielwerten von { "1" } % und { "2" } % überein (<c1/>). Der Gründer entschied, dass diese Zeile nur an frischen Punkten hochgestuft wird; die Diagnose mit bereits gesehenen Daten (c51f8b2) ist ein Befund, kein Beleg. Der Zielwert unterscheidet Mondmodelle nicht: auch der analytische Mond besteht auf demselben Ausschnitt (schlechtester Wert { "3.8e-3" }), die geplante Mutation (der Kernel-Mond eine Stunde zu spät) wurde nicht erkannt, und an der Faltung bestand auch ein um etwa { "4,650" } km falscher Mondmittelpunkt (der Mond bezogen auf den Erde-Mond-Schwerpunkt). Die Zeile behauptet die Kovarianz auf diesem Pfad, nicht den Mondmittelpunkt, und sagt das.
-
-# text
-# c1: KernelEphemeris::relative_position_utc
-# c2: tests/kernel_ephemeris_skyfield_oracle.rs
-seg-f147f9257b8b = <b>Positionen von Sonne, Mond, Merkur und Venus aus DE440 bei UTC-Epochen</b> (neue VALIDATED-Zeile): <c1/> stimmt mit Skyfield { "1.54" } auf { "600" } Positionen zwischen { "1973" } und { "2026" } überein, schlechtester Wert { "2.96" } m, innerhalb eines vorregistrierten Zielwerts (0bfafe6d), der durch die zweitermige Reihe TDB − TT festgelegt ist (<c2/>). Planetenpositionen erhalten jetzt diese neue Kernel-Zeile; die Standish-Zeile und die Zeile der Planetenmonde sind unverändert, und die Monde warten auf ein Szenario, das sie braucht (Entscheidung des Gründers).
 
 # text
 # c1: tests/validate_llr_datum_kernel_moon.rs
@@ -5913,21 +5800,6 @@ seg-95b8207466a3 = D9, gemessene Uhrenbibliothek "Clock Atlas" (drei neue Zeilen
 seg-1f8644486f5d = <b>Gemessene Uhrenbibliothek (<c1/>).</b> Gerätekarten (weißes Phasenrauschen, weiße, Flicker- und Random-Walk-Frequenzmodulation, eine lineare Frequenzdrift und optional Phasenterme mit ein- bis vierfacher Frequenz pro Umlauf), angepasst an eine benannte gemessene Uhrenaufzeichnung und an zurückgehaltenen Daten bewertet; lückenbewusste Allan- und Hadamard-Varianzen; ein Konditionierungsdetektor, der jede Lücke, jeden Phasenausreißer, jeden Phasensprung, jeden Burst und jeden Frequenzsprung protokolliert und nichts von Datei- oder Tagesgrenzen weiß; Umwandlung einer Karte in das Rauschmodell der Slot-Zeitgebung, das erweiterte Kalman-Uhrenmodell und die Rauschpegel des Spoofing-Monitors. Leser für RINEX- und IGS-Uhrendateien, BIPM-Dateien je Labor und Circular T Abschnitt { "1" } (<c2/>); eine gepoolte, hierarchische Alterungsschranke für UTC(k) (<c3/>, noch nicht bewertet).
 
 # text
-# c1: allan::lag1_noise_id
-# c2: autocorr_noise_id
-# c3: tests/clock_library_lag1_noise_id_allantools.rs
-seg-93add052ae56 = <b>Rauschidentifikation per Autokorrelation bei Lag 1</b> (<c1/>, Riley und Greenhall { "2004" }), neue VALIDATED-Zeile (Bibliothek): stimmt mit allantools { "2024.6" } <c2/> auf { "140" } Fällen überein, ganze Zahlen identisch, schlechteste Differenz { "9.6e-13" } gegenüber einem Zielwert von { "1e-9" } (vorregistriert 2ec76864; <c3/>).
-
-# text
-# c1: tests/clock_library_device_cards_oracle.rs
-# c2: tests/clock_library_f9p_cards_oracle.rs
-seg-1fcea6ee6136 = <b>Gemessene Gerätekarten mit Vorhersage auf zurückgehaltenen Daten</b>, neue MODELLED-Zeile (ein Befund): Fit auf einem Drittel, Vorhersage der Allan-Abweichung der anderen zwei Drittel innerhalb eines Faktors von { "1.5" } (vorregistriert 2ec76864). GPS Block IIF auf einem frischen IGS-Fenster (2026-03-01 bis { "14" }): { "10" } von { "11" }; G27 ist auf der Zwei-Stunden-Skala optimistisch (schlechtester Faktor { "1.510" }). Caesium (innerhalb, { "1.070" }), OCXO (außerhalb, { "2.348" }) und Strontium (innerhalb) werden berichtet, nicht blind. Die Empfängerkarte des JammerTest sowie die Karten für den Galileo-Maser und die Deep Space Atomic Clock sind blockiert. Eine Modellklasse für den ZED-F9P-Empfänger-TCXO auf { "12" } statischen Stationen in Wroclaw (Zenodo { "6488497" }) scheitert: { "1" } von { "11" } blinden Stationen in einem offengelegten korrigierten Neulauf (<c1/>, <c2/>).
-
-# text
-# c1: tests/clock_library_periodic_cards_oracle.rs
-seg-26fa898f6272 = <b>GPS-Block-IIF-Karten mit Termen pro Umlauf</b>, neue MODELLED-Zeile (ein Befund): auf einem zweiten frischen Fenster (2026-04-01 bis { "14" }) liegen { "9" } von { "11" } innerhalb des Zielwerts; G03 ({ "1.947" }) und G25 ({ "1.581" }) sind optimistisch, weil ihre zurückgehaltenen Aufzeichnungen verrauschter sind als ihre Fit-Drittel; ohne die periodischen Terme scheitern alle { "11" } (vorregistriert fb475550; <c1/>).
-
-# text
 # c1: tests/clock_state_ext_igs_conditioned_oracle.rs
 seg-ef456da29319 = <b>M002, Zustandsschätzung der Borduhr, Runde { "3" }</b> (ein Befund, bleibt MODELLED): nach dem eingefrorenen Konditionierungsdetektor erfüllt das erweiterte Filter aus Runde 2 mit unveränderter Abstimmung und unveränderten Kriterien (a) und (c) erstmals auf allen { "11" } Satelliten; (b) scheitert bei G09 ({ "0.894" }) und G26 ({ "0.876" }) (vorregistriert fb475550; <c1/>).
 
@@ -5945,9 +5817,6 @@ seg-09abf996ed16 = Umgebung der unabhängigen Referenz: die Wroclaw-ZED-F9P-Aufz
 
 # text
 seg-b05fa0811a3e = Revisionen: keine. Keine Golden-Datei, keine veröffentlichte Zahl und kein bestehender Testwert ändert sich; auf M001 (Holdover-Neuverankerung) wird nicht reagiert, weil keine Uhrenklasse hochgestuft wurde.
-
-# text
-seg-986f4075210b = D8, ein validierter Propagations-, Bezugssystem- und Zeitpfad (drei neue VALIDATED-Zeilen und M131 hochgestuft: { "235" } -> { "238" } Zeilen, validiert { "117" } -> { "121" }).
 
 # text
 seg-d7a612528765 = Die Erdorbit-Arten, die eigene Zweikörper-, säkulare J2- oder nur auf Sternzeit beruhende Modelle mitführten, teilen sich jetzt einen Pfad: SGP4/SDP4-Elementsätze mit zweiteiligen Julianischen Daten, überführt in das GCRS und das ITRS (International Terrestrial Reference System) über die Kette IAU (International Astronomical Union) 2006/2000A, mit optionalen Erdorientierungsparametern.
@@ -5992,22 +5861,7 @@ seg-86ecad91a601 = Die Art <c1/> führt einen neuen Prädiktor für scheinbare �
 seg-9ce091899bf1 = <c1/> sorgt dafür, dass die Geometrie-, Zeit- und Propagationskerne des Pakets keine private Kepler-Propagation, keine säkularen J2-Raten und keine reine Sternzeitrotation mitführen; benannte schnelle Stufen und Physik, die Gegenstand einer Zeile ist, sind begründete Ausnahmen.
 
 # text
-# c1: dtf2d
-# c2: utctai
-# c3: taiutc
-seg-cf4ae964c5d1 = Neue VALIDATED-Zeile "Two-part Julian dates and leap seconds on the Earth-orbit time path": pyerfa { "2.0.1.5" } <c1/>/<c2/>/<c3/> auf { "224" } Zeitpunkten rund um alle { "27" } Schaltsekunden innerhalb von { "1e-6" } s (vorregistriert e947e69d); schlechtester Wert { "1.9e-11" } s.
-
-# text
-# c1: c2t06a
-# c2: pnm06a
-# c3: ee06a
-seg-c0dec16ea932 = Neue VALIDATED-Zeile "One Earth-orbit path": TEME-Positionen von { "232" } Elementsätzen gegenüber python-sgp4 { "2.24" } (Vallados Referenz-SGP4) innerhalb von { "6.1e-8" } m (Zielwert { "1" } cm), und die Rotationen GCRS -> ITRS und TEME -> ITRS gegenüber ERFA <c1/>, <c2/> und <c3/> innerhalb von { "2.9e-6" } mas und { "0.41" } mas (Zielwerte { "0.1" } und { "2" } mas), mit Erdorientierungsparametern (vorregistriert 72ea9eb0). Offengelegt: der erste Lauf scheiterte bei 2016-12-31T23:{ "59" }:{ "59.5" } um eine Sekunde Rotation; UT1 wurde an einem Schaltsekundentag aus dem quasi-Julianischen UTC-Datum genommen, die Engine geht jetzt über TAI, und der zweite Lauf stimmt bei unveränderten Zielwerten überein.
-
-# text
 seg-a72ccdc2516e = M131 "LEO coverage and dilution of precision for polar and Arctic users against MEO GNSS" wird VALIDATED: Orekit { "13.1.8" } nimmt die GCRS-Zustände der Engine, rotiert sie und berechnet Sichtbarkeit und DOP (NumPy für Mehr-Uhren-Gruppen); Positionen innerhalb von { "6.8e-5" } m (Zielwert { "0.2" } m), Anzahlen sichtbarer Satelliten identisch bei 4040/4040 Stichproben, mittleres DOP innerhalb von { "2.3e-11" } relativ.
-
-# text
-seg-db498ac8e135 = Neue VALIDATED-Zeile "Apparent ground-station pass prediction with refraction and light time": Orekit { "13.1.8" } propagiert dieselben Elementsätze in einem TEME, das es nach der angegebenen Definition aufbaut, mit ITU-R-P.834-Refraktion und seinem Lichtlaufzeit-Messmodell, über { "60" } Fälle an Stationen auf Meereshöhe: { "1210" } Überflüge, Durchgänge innerhalb von { "3.4e-6" } s (Zielwert { "5" } ms), maximale Elevation innerhalb von { "5.5e-7" } Grad, scheinbare Richtung innerhalb von { "8.8e-7" } Grad (Zielwert { "1e-4" } Grad).
 
 # text
 seg-ab87bb0ee63d = Befunde, festgeschrieben: die ersten Vergleiche der vollen Aussage mit Orekit Ende zu Ende verfehlten ihre Positions- und Richtungszielwerte, nicht wegen der Engine, sondern weil das SDP4 von Orekit { "13.1.8" } bei kreisförmigen (e = { "0" }) Deep-Space-Bahnen vom Referenz-SGP4 abweicht (bis zu { "67" } m) und sein Standard-TEME auf der Nutation nach IERS { "1996" } (IAU { "1980" }) aufbaut, etwa { "72" } Millibogensekunden von der Kette IAU 2006/2000A entfernt ({ "2.7" } m bei LEO). Der Koeffizient von h*theta0^{ "2" } in ITU-R P.834 ist bei Orekit { "0.011380" }, wo die Empfehlung { "0.01380" } druckt; der Vergleich erfolgt auf Meereshöhe, wo der Term verschwindet, und die Differenz darüber ist festgeschrieben.
@@ -6055,20 +5909,8 @@ seg-1d09f0582781 = <b>Referenzgenerator für das LunaNet Augmented Forward Signa
 seg-7b8cb0461377 = <c1/> und <c2/>: eine Aufzeichnung kann Erweiterungsfelder mit Namensraum tragen, die in <c3/> deklariert sind.
 
 # text
-seg-a9465820a1fc = Neue VALIDATED-Zeile "LunaNet AFS baseband rendering against an independent generator, given its channel state": gegenüber LANS-AFS-SIM (BSD-2-Clause, Commit 480c6bf3, S-Band-Build) null Chip-Abweichungen über die Codes der PRNs { "1" } bis { "210" }, null Symbolabweichungen über die drei Frames des Laufs und eine normierte komplexe Korrelation von { "0.999990" } über { "23.9" } s seiner eigenen Abtastwerte (schlechtester Block von { "2" } ms { "0.999948" }), innerhalb von Zielwerten, die vor dem Vergleich festgelegt wurden (vorregistriert 986ac280). Sie steuert den Renderer mit dem eigenen Kanalzustand des Simulators an und deckt weder die Leistungsaufteilung aus der Träger-Rauschleistungsdichte noch das Schreiben von SigMF und 8 Bit ab.
-
-# text
-seg-07edced2764a = Neue VALIDATED-Zeile "LunaNet AFS frame channel coding, FID { "0" }": die Frames mit 6000 Symbolen sind Symbol für Symbol gleich denen von LANS-AFS-SIM (vorregistriert 986ac280); der Subframe-1-Code reproduziert das Rechenbeispiel in Abbildung { "8" } des LSIS, und der CRC-24 den Prüfwert aus dem Katalog CRC-24/LTE-A.
-
-# text
 # c1: xval/lunar-afs/fetch_lsis.sh
 seg-ab94ac9f41fc = Beide hochgestuften Zeilen sind an den LSIS-Cache datengebunden: ihr Test zur unabhängigen Referenz wird mit einem Hinweis übersprungen, bis <c1/> ausgeführt wurde.
-
-# text
-seg-89a4bc4a766e = Befund (neue MODELLED-Zeile), "LunaNet AFS spreading-code generation": von { "2 937 232" } erzeugten Chips und Bits, die mit den Tabellen des Standards und den Dateien von Annex { "3" } verglichen wurden, weicht einer ab, die "last { "24" } chips" aus Tabelle E-5 für den tertiären PRN { "147" }, die die Zelle von PRN { "151" } dupliziert, während die eigene Datei von Annex { "3" } des Standards mit dem Generator übereinstimmt. Das Kriterium null Abweichungen wird verfehlt.
-
-# text
-seg-d4e76301323f = Befund (neue MODELLED-Zeile), "LunaNet AFS closed-loop decodability": drei vorregistrierte Läufe gegen PocketSDR-AFS; der dritte erfüllte seine Zielwerte für Tracking und Dekodierung vollständig, nicht aber seine Absicherung, dass ein Receiver-Build mit reiner Druckausgabe das Protokoll des festgelegten Builds reproduziert, weil sich schon zwei Läufe des unveränderten Empfängers in ihren Akquisitionsaufzeichnungen unterscheiden.
 
 # text
 # c1: lunar_service
@@ -6282,10 +6124,6 @@ seg-071f4db017c5 = <b>Fusionierte MEO- + LEO-Positionierung, -Navigation und -Ze
 seg-f28f7a441263 = <c1/> hat vier Modi: Doppler-Positionierung (Batch-Ausgleichung nach kleinsten Quadraten auf der Entfernungsrate mit Uhrendrift- und Geschwindigkeitszuständen, ein reiner Doppler-Gelegenheitssignalmodus, die Along-Track- und Cross-Track-Genauigkeit eines einzelnen Überflugs sowie die Hüllkurve aus Doppler, Dopplerrate und Ruck); gemeinsame GNSS- + LEO-gewichtete kleinste Quadrate mit einer Uhr je System (die Intersystemabweichung) oder einem bekannten Versatz, Sigmas je Messung als Eingaben und dem DOP gegenüber der Anzahl der LEO-Satelliten; polare und arktische Abdeckung gegenüber der Breite; und LEO-Zeitübertragung zur koordinierten Weltzeit (UTC) gegenüber C/N0 und dem Empfängeroszillator mit dem Ausdruck von Systemzeit zu UTC aus IS-GPS-200.
 
 # text
-# c1: leo-ppp
-seg-57afa384aabd = <c1/>: ein Extended-Kalman-Filter für Float-Precise-Point-Positioning (PPP) auf ionosphärenfreiem Code und ionosphärenfreier Phase, nur GNSS und mit LEO-Unterstützung, mit seiner Konvergenzzeit und einem Monte-Carlo-NEES-Konsistenztest (normalisiertes quadratisches Schätzfehlermaß). Das mitgelieferte Szenario ergibt { "7.4" } min mit vier MEO-Systemen und { "4.8" }, { "3.2" }, { "2.7" } und { "2.3" } min mit { "60" }, { "96" }, { "192" } und { "288" } LEO-Satelliten, neben den { "9.6" }, { "7.0" }, { "3.2" }, { "2.1" } und { "1.3" } min von Li et al. (J. Geod. { "93" }:{ "749" }, { "2019" }) als MODELLED-Vergleich des Trends.
-
-# text
 # c1: ntn-positioning
 seg-3fa0556b3737 = <c1/>: Positionierung in 5G-Nicht-Terrestrischen-Netzen (NTN) im mobilen Satelliten-S-Band 3GPP n256 aus der Cramér-Rao-Schranke für Ankunftszeit und Doppler.
 
@@ -6411,10 +6249,6 @@ seg-bae66dac04cc = Szenarien der Schwerpunktbereiche: <c1/>, <c2/>, <c3/>, <c4/>
 seg-c7947d9cc592 = Vertikale Kampagnen, jede animiert und mit Export ihrer LEO-Überflüge: <c1/>, <c2/> (die mitgelieferten Szenarien für See und Schiene plus LEO), <c3/>, <c4/>, <c5/>, <c6/>. Einzeilige Ergebnisse in <c7/>.
 
 # text
-# c1: tests/leo_resilience_verticals.rs
-seg-222ad0b777f8 = Drei MODELLED-Matrixzeilen: der Spoofing-Monitor für Doppler und Überflug-Geometrie, der Spoofing-Monitor zwischen den Bändern und die Ionosphärensondierung. <c1/> prüft die Monitore (still vor dem Einsatz, die Doppler-Statistik quadratisch im Sprung, der ionosphärische Sprung eines Bodenspoofers und keiner bei einem ionosphärenbewussten), die Sondierungsidentität, die Zeitgebungsspur gegenüber den Zeilenstatistiken und dass der Export einer Kampagne dem jedes Mitglieds entspricht.
-
-# text
 # c1: leo-pass
 # c2: docs/LEO-PASS.md
 # c3: docs/LEO-PNT.md
@@ -6504,10 +6338,6 @@ seg-c11823028688 = kshana.dev, Kshana Studio und die README
 seg-fb584cf84218 = <b>Ein neu gestaltetes kshana.dev.</b> Die einzelne Playground-Seite wird durch eine mehrseitige Website ersetzt: Home, Missions, Capabilities, Evidence, Developers, Editions und Docs, mit Kshana Studio einen Klick entfernt. Jedes Diagramm, jede Karte und jede Zahl darauf ist ein aufgezeichneter Lauf der Engine dieser Version, mit dem Szenario und einem Link, der denselben Lauf im Studio wieder öffnet; der Build der Website lehnt eine Aufzeichnung ab, die mit einem anderen Engine-Commit gemacht wurde. Die Dokumentationsseiten werden aus <c1/> des Repositorys erzeugt, die Installationsoptionen aus seinen Kanälen. Schriften und Skriptbibliotheken werden von kshana.dev selbst ausgeliefert, sodass keine Seite etwas bei einem Drittanbieter-Host anfordert. Alte Adressen (<c2/>, <c3/>, Share-Links <c4/>, Embed-Links <c5/> und die übrigen) leiten an ihren neuen Ort weiter, und eine unbekannte Adresse erhält eine { "404" }-Seite.
 
 # text
-# c1: ?scenario=…&tab=…
-seg-9fa1c542332b = <b>Kshana Studio, ein Dashboard für jede Fähigkeit.</b> Das Studio öffnet mit einem Startbildschirm mit Domänenkacheln und guten ersten Läufen und führt einen Lauf dann durch fünf nummerierte Schritte: Szenario wählen, Parameter setzen, die Engine lokal im Browser ausführen, die Ergebnisse lesen (zuerst die Kennzahlen, jede mit einem PASS- oder FAIL-Chip, wo der Lauf eine Schwelle nennt, dann die Panels) und teilen oder exportieren. Ein Suchfeld findet Szenarien, Domänen und die Felder darin und springt zum Bedienelement; Läufe können angeheftet und verglichen werden; ein Brotkrumenpfad zeigt, wo man ist; auf einem Telefon werden die Schritte zu einer Schrittleiste. Jede Szenarioart hat ihre Ansicht, einschließlich Spektrum-Wasserfall, Sonnensystem, Konstellationsabdeckung, Kampagnen, der Animation, dem Laufbericht, den Interoperabilitätsexporten und der Kette im niedrigen Erdorbit. Ein Deep Link (<c1/>) öffnet denselben Lauf auf dem genannten Panel.
-
-# text
 seg-dcf2788bb430 = <b>Forschung und Zitierung.</b> Die Seite Evidence listet die fünf Kshana-Veröffentlichungen auf arXiv ({ "2606.22054" }, { "2606.24210" }, { "2607.02566" }, { "2607.05415" } und { "2607.06212" }), jede mit einer Zusammenfassung, einer von dieser Engine berechneten Abbildung, dem Befehl, der sie reproduziert, einem Studio-Link und BibTeX, neben dem Hinweis, wie die Software zu zitieren ist. Die README erhält denselben Abschnitt Research.
 
 # text
@@ -6522,15 +6352,6 @@ seg-167a59e94101 = <c1/> und die Seite Editions der Website sagen, was die propr
 # c2: tools/capture_studio_shots.mjs
 # c3: docs/
 seg-f57f0a610943 = <b>Eine neu geschriebene README.</b> Kurze Abschnitte, ein Bild je Abschnitt, das Kshana-Zeichen, zwei Badge-Reihen, erzeugte Bilder zu Architektur, Szenarioablauf, Kette im niedrigen Erdorbit und Verifikation (<c1/>, das bei einem veralteten Bild fehlschlägt) sowie Studio-Screenshots, die <c2/> aus dem laufenden Studio aufnimmt. Die READMEs von crates.io, PyPI, npm und MCP-Server folgen demselben Design. Langes Referenzmaterial wird eingeklappt oder nach <c3/> verlegt.
-
-# text
-# c1: <scenario>.report.html
-# c2: wrote …
-# c3: <scenario>.report.json
-# c4: RunOutput::html_report()
-# c5: OracleKind::modelled_reason()
-# c6: docs/MODELLED-RATIONALE.md
-seg-e06522ca762e = <b><c1/> ist jetzt der erweiterte Laufbericht</b>, der unter Added beschrieben ist, und die Zeile <c2/> der CLI nennt auch <c3/>. Die einseitige Auswertung, die er ersetzt hat, ist als <c4/> unverändert, den die Python- und WebAssembly-Bindungen weiterhin liefern. <c5/> stellt den Satz bereit, den <c6/> für jede MODELLED-Zeile ausgibt; dieses Dokument ist unverändert.
 
 # text
 # c1: result.json
@@ -6647,11 +6468,6 @@ seg-5ecbf0787f39 = <b>Szenarioart <c1/></b> (<c2/>): Sekunden, bis eine freilauf
 seg-40dd4c16b760 = <b>Gemessene Untergrenze des roten Rauschens.</b> Die überlappende Allan-Abweichung einer Phasenaufzeichnung wird mit gewichteten kleinsten Quadraten in der Basis aus weißer Phase und Frequenzmodulation nach IEEE Std { "1139" } angepasst (<c1/>), jeder Punkt gewichtet mit seinen äquivalenten Freiheitsgraden, sodass eine Holdover-Antwort auf der eigenen Untergrenze der Uhr beruhen kann statt auf der Klassenannahme. Ein ungewichteter Fit setzte eine falsche Flicker-Untergrenze auf eine Testaufzeichnung mit weißem Rauschen und verkürzte eine Verletzung bei { "2 000" } s um { "30" } %.
 
 # text
-# c1: tests/slot_timing_cs5071a_holdout.rs
-# c2: realdata-clock
-seg-22c09748488b = <b>Validierung der Holdover-Inversion auf zurückgehaltenen Daten an einer realen Uhr</b> (<c1/>): angepasst auf dem ersten Drittel der Aufzeichnung Caesium 5071A gegen Wasserstoffmaser liegen die vorhergesagten Ein-Sigma-Verletzungen bei sechs Schwellen von { "0.5" } bis { "2.5" } ns bei { "0.84" } bis { "1.03" } der Verletzungen, die an den anderen zwei Dritteln gemessen wurden, gegenüber einem Zielwert von { "1.5" }, der vor dem ersten Lauf des Tests festgelegt wurde. Eine Kontrolle (die Allan-Abweichung bei einer Sekunde als weißes Rauschen gelesen) verfehlt ihn um einen Faktor von etwa { "1 000" } und besteht den Zielwert nicht. Neue VALIDATED-Zeile im Register; der Workflow <c2/> führt sie jetzt aus.
-
-# text
 # c1: tests/slot_timing_ocxo_holdout.rs
 # c2: scripts/fetch_ocxo.sh
 # c3: fix_frequency_sigma
@@ -6752,11 +6568,6 @@ seg-8faf1981d797 = <b>Eine Art <c1/> antwortet in den Einheiten eines Zeitgebung
 # text
 # c1: [time_s, time_error_ns]
 seg-9e5325e1b0ca = Die Eingabe ist entweder ein synthetischer Holdover oder eine eigene Reihe. Der synthetische nutzt eine von vier Oszillator-Voreinstellungen (ein ofengesteuerter Quarzoszillator, ein Rubidiumnormal, ein Caesiumnormal und eine Atomuhr im Chip-Maßstab), jede mit den Stabilitäts-, Alterungs- und Temperaturwerten eines benannten Microchip-Datenblatts. Wie diese Werte zu weißem, Flicker- und Random-Walk-Frequenzrauschen, zu Alterung und zu einem Temperaturterm werden, ist in jedem Bericht angegeben und mit MODELLED gekennzeichnet. Eine eigene Reihe sind Paare <c1/>, inline (so läuft es im Browser) oder, bei nativen Builds, aus einer Datei mit kommagetrennten Werten. Die MTIE/TDEV-Tabelle, mit der Grenze jeder gewählten Maske daneben, wird als CSV-Artefakt des Laufs geschrieben.
-
-# text
-# c1: scenarios/telecom-prtc-holdover-24h.toml
-# c2: scenarios/telecom-tie-ingest.toml
-seg-a23a96819dee = <c1/> ist ein Rubidium-Holdover über 24 Stunden mit Alterung, Flicker und einem täglichen Temperaturzyklus: sein größter Zeitfehler beträgt { "603.2" } ns, er überschreitet { "100" } ns { "8 206" } s nach dem Verlust und bleibt den ganzen Tag innerhalb von { "1.5" } Mikrosekunden, und er besteht die Holdover-Hüllkurve der erweiterten PRTC nicht, wie es eine Uhr tun sollte, die nicht der Caesium-Klasse angehört. <c2/> zeigt die Inline-Eingabe. MTIE und TDEV, die die Art meldet, werden gegenüber dem Paket allantools an einer festgeschriebenen Holdover-Reihe mit { "2" } 048 Abtastwerten geprüft, exakt für MTIE und bis { "1.1e-15" } für TDEV, sodass die Matrix eine VALIDATED-Zeile und zwei MODELLED-Zeilen hinzugewinnt (die Transkription der Masken und die Voreinstellungen) und jetzt bei <b>{ "171" } Zeilen — { "65" } VALIDATED, { "102" } MODELLED, { "4" } PARTNER</b> steht. Die Abdeckung der Felder-Einheiten steigt von { "60" } von { "61" } Arten auf { "61" } von { "62" } und von { "1,742" } auf { "1,788" } beschriebene Felder. Die Art ist neu und additiv: kein bestehendes Szenario, keine Festschreibung und keine veröffentlichte Zahl verschiebt sich.
 
 # text
 seg-5bb1ad9a34ec = Der Playground führt die Engine in einem Web Worker im Hintergrund aus, sodass ein langsames Szenario die Seite nicht mehr einfriert.
@@ -7117,13 +6928,6 @@ seg-4d60d4ea4d7d = Die Seite scrollt auf einem Telefon nicht mehr seitwärts. Be
 # c2: web/counts.test.mjs
 # c3: tests/web_validation_counts_doc_sync.rs
 seg-f6ec6a64071d = Der Fähigkeitsexplorer führte mit seiner eigenen Kartenzahl ("{ "46" } capability cards … { "17" } backed by an external oracle") neben READMEs, die { "64" } von { "168" } sagen. Er führt jetzt mit der Verifikationsmatrix, gelesen aus der erzeugten <c1/> (derselben Matrix, an die die Zahlen der README festgeschrieben sind), und nennt die Karten danach als die Zusammenfassungsschicht, die sie sind. <c2/>, ein neuer Schritt im Workflow der kontinuierlichen Integration (CI), prüft die Arithmetik und gleicht README.md und die Beschreibungen der Seite gegeneinander ab; <c3/> legt die Verdrahtung von der Rust-Seite fest.
-
-# text
-# c1: docs/POSITIONING.md
-# c2: telecom-timing
-# c3: docs/TELECOM-TIMING.md
-# c4: ROADMAP.md
-seg-606098743e57 = <b>Die öffentliche Beschreibung führt jetzt mit Zeitgebung und Holdover, der am besten validierten Domäne.</b> Der Anfang der README und <c1/> stellen Kshana als offene, reproduzierbare, nach Herkunft gekennzeichnete Evidenz-Engine für PNT-Resilienz dar: Zeitgebung und Holdover kritischer Infrastruktur zuerst (die Schätzer für Allan, modifizierte Allan, Zeitabweichung und maximalen Zeitintervallfehler sowie die Inversion der Koppelvarianz im Holdover sind die VALIDATED-Zeilen dahinter), Quanten als neutrale Methode zum Abwägen Quanten gegenüber klassisch, deren Ergebnisse MODELLED gekennzeichnet sind, und lunare / cislunare sowie Deep-Space-Navigation als gepflegte Fähigkeiten statt als Schlagzeile. Beide Seiten sagen jetzt, was Kshana nicht ist — kein Signalsimulator für Hochfrequenz oder Hardware-in-the-Loop-Aufbau, kein Ersatz für MATLAB/Simulink, STK oder Orekit — und verweisen auf die neue Art <c2/> und <c3/>. Die alte Zeile "there is no good open tool" ist weg: eine Suche, die nichts findet, ist kein Beleg dafür, dass nichts existiert. <c4/> erhält eine undatierte Prioritätenfolge (Zeitgebung zuerst, der Quantenvergleich zweitens, Mond gepflegt) und verliert drei veraltete Punkte (Coriolis- und Lichtverschiebungs-Systematiken, die NRHO-Anfangsbedingungen und das lunare Szenario, alle ausgeliefert); die Zeile der README "Coriolis and light-shift remain roadmap" wird auf dieselbe Weise korrigiert.
 
 # text
 # c1: docs/CAPABILITY.md
@@ -8888,3 +8692,199 @@ seg-15f45d8ccb0f = <s1>Zurück</s1>Wo Kshana steht
 
 # text
 seg-cd8a14a9e8ec = <s1>Weiter</s1>Lizenzierung
+
+# text
+# c1: kind
+# c2: TradeEvidence
+seg-0540044c92a6 = Dieses Release fügt der offenen Engine zwei Anwendungssuiten der Stufe MODELLED hinzu: einen <b>Demonstrator für quantengestützte PNT</b> (vertrauenswürdige Quanten-Zeitübertragung, GNSS-freie Quantennavigation, Quanten-Fehler-/Anomalieerkennung) und eine <b>PNT-Suite für Mond / cislunaren Raum</b> (Mond-Koordinatenzeit, Mond-VLBI, gemeinsame OD+Uhr, Frame-Realisierung, Service-Volume, differenzielle PNT, Interoperabilitätsexport), jede aus einem einzigen <c1/> ausführbar und jede mit einem ehrlichen <c2/>-Datensatz sowie einem Register zu Repräsentativität / Lücken bis zum Flug. Es bringt außerdem <b>sechs neue Validierungen gegen externe unabhängige Referenzen</b> und erhöht damit die maschinengeprüfte Validierungsmatrix auf <b>{ "15" } VALIDATED · { "42" } MODELLED · { "4" } PARTNER</b> in ihren { "61" } Zeilen. Die neuen Anwendungszahlen sind MODELLED und stammen aus illustrativen Parametern öffentlicher Quellen, ohne TRL, Flugerfahrung, Zertifizierung oder Billigung durch eine Agentur; die validierten Kerne, die sie wiederverwenden, sind als solche gekennzeichnet.
+
+# text
+seg-065c4431197e = Lab-Replay: eine Tracking-Engine, Erkennungsmonitore und ein Kampagnenläufer für GNSS-IQ-Aufzeichnungen, mit den dazugehörigen Schleifenentwürfen, C/N0-Schätzern und Bewertungen. Evidenzklasse: Alles Folgende ist <b>MODELLED</b> oder auf interne Konsistenz gegen geschlossene Formen und gesäte Simulation geprüft; nichts davon fügt eine Zeile der Stufe VALIDATED hinzu, und das Verifikationsregister ist unverändert ({ "251" } Zeilen: { "124" } validiert, { "123" } modelliert, { "4" } Partner). Es ist eine Software-Analyseschicht: Nichts hier synthetisiert eine Wellenform eines Störsenders oder Spoofers, und nichts sendet.
+
+# text
+seg-07edced2764a = Neue Zeile der Stufe VALIDATED "LunaNet AFS frame channel coding, FID { "0" }": die Frames mit 6000 Symbolen sind Symbol für Symbol gleich denen von LANS-AFS-SIM (vorregistriert 986ac280); der Subframe-1-Code reproduziert das Rechenbeispiel in Abbildung { "8" } des LSIS, und der CRC-24 den Prüfwert aus dem Katalog CRC-24/LTE-A.
+
+# text
+# c1: tests/clock_library_device_cards_oracle.rs
+# c2: tests/clock_library_f9p_cards_oracle.rs
+seg-1fcea6ee6136 = <b>Gemessene Gerätekarten mit Vorhersage auf zurückgehaltenen Daten</b>, neue Zeile der Stufe MODELLED (ein Befund): Fit auf einem Drittel, Vorhersage der Allan-Abweichung der anderen zwei Drittel innerhalb eines Faktors von { "1.5" } (vorregistriert 2ec76864). GPS Block IIF auf einem frischen IGS-Fenster (2026-03-01 bis { "14" }): { "10" } von { "11" }; G27 ist auf der Zwei-Stunden-Skala optimistisch (schlechtester Faktor { "1.510" }). Caesium (innerhalb, { "1.070" }), OCXO (außerhalb, { "2.348" }) und Strontium (innerhalb) werden berichtet, nicht blind. Die Empfängerkarte des JammerTest sowie die Karten für den Galileo-Maser und die Deep Space Atomic Clock sind blockiert. Eine Modellklasse für den TCXO des Empfängers ZED-F9P an { "12" } statischen Stationen in Wroclaw (Zenodo { "6488497" }) scheitert: { "1" } von { "11" } blinden Stationen in einem offengelegten, korrigierten erneuten Lauf (<c1/>, <c2/>).
+
+# text
+# c1: tests/leo_resilience_verticals.rs
+seg-222ad0b777f8 = Drei Matrixzeilen der Stufe MODELLED: der Spoofing-Monitor für Doppler und Überflug-Geometrie, der Spoofing-Monitor zwischen den Bändern und die Ionosphärensondierung. <c1/> prüft die Monitore (still vor dem Einsatz, die Doppler-Statistik quadratisch im Sprung, der ionosphärische Sprung eines Bodenspoofers und keiner bei einem ionosphärenbewussten), die Sondierungsidentität, die Zeitgebungsspur gegenüber den Zeilenstatistiken und dass der Export einer Kampagne dem jedes Mitglieds entspricht.
+
+# text
+# c1: tests/slot_timing_cs5071a_holdout.rs
+# c2: realdata-clock
+seg-22c09748488b = <b>Validierung der Holdover-Inversion auf zurückgehaltenen Daten an einer realen Uhr</b> (<c1/>): angepasst auf dem ersten Drittel der Aufzeichnung Caesium 5071A gegen Wasserstoffmaser liegen die vorhergesagten Ein-Sigma-Verletzungen bei sechs Schwellen von { "0.5" } bis { "2.5" } ns bei { "0.84" } bis { "1.03" } der Verletzungen, die an den anderen zwei Dritteln gemessen wurden, gegenüber einem Zielwert von { "1.5" }, der vor dem ersten Lauf des Tests festgelegt wurde. Eine Kontrolle (die Allan-Abweichung bei einer Sekunde als weißes Rauschen gelesen) verfehlt ihn um einen Faktor von etwa { "1 000" } und scheitert am Zielwert. Neue Registerzeile der Stufe VALIDATED; der Workflow <c2/> führt sie jetzt aus.
+
+# text
+# c1: tests/clock_library_periodic_cards_oracle.rs
+seg-26fa898f6272 = <b>GPS-Block-IIF-Karten mit Termen pro Umlauf</b>, neue Zeile der Stufe MODELLED (ein Befund): auf einem zweiten frischen Fenster (2026-04-01 bis { "14" }) liegen { "9" } von { "11" } innerhalb des Zielwerts; G03 ({ "1.947" }) und G25 ({ "1.581" }) sind optimistisch, weil ihre zurückgehaltenen Aufzeichnungen verrauschter sind als ihre Fit-Drittel; ohne die periodischen Terme scheitern alle { "11" } (vorregistriert fb475550; <c1/>).
+
+# text
+# c1: docs/LEO-NAVMSG.md
+seg-3f565c0ca2bf = Verifikationstabelle <c1/>: die Zeile zu Liu und ATOMIC aufgeteilt in eine Zeile mit 22 Parametern der Stufe VALIDATED und eine Zeile zu ATOMIC und der Fünf-Höhen-Tabelle der Stufe MODELLED.
+
+# text
+# c1: src/representativeness.rs
+seg-3f6c1ff0b3a4 = <b>Register zu Repräsentativität & Lücken bis zum Flug</b> (<c1/>). Ein strukturierter Datensatz, den jeder Demonstrator ausgibt: was repräsentativ ist, was vereinfacht ist und was zwischen dem Modell und dem Flug steht, der ehrliche Begleiter jedes Trades der Stufe MODELLED.
+
+# text
+# c1: jamming
+seg-411431a9b26b = Zwei neue Zeilen (MODELLED): der Wasserfall und die C/N0-Zeitleiste, die sich genau auf die Kette der Art <c1/> reduzieren (in jedem Bericht gegengeprüft), sowie der SigMF-Codec und der Welch-Schätzer. Im Repository liegt keine Aufnahme von Dritten.
+
+# text
+# c1: linalg_sr
+# c2: solver = "srif"
+seg-4c6089cfac5e = Neuer optional zuschaltbarer Löser mit Quadratwurzel-Information (<c1/>; <c2/> im Szenario lunar-frame-campaign): Householder-QR, Marginalisierung über den Dreiecksfaktor, eine Jacobi-SVD für das Spektrum und kompensierte Produkte allein aus korrekt gerundeten Operationen. Gegenüber der unabhängigen Referenz mit 50 Stellen (vorregistriert b41908c9) stimmen seine Datums-Sigmas an einem neuen Datum (2026-06-09) bis { "3e-13" } überein; bei den Eingaben vom 2026-03-18 und 2024-01-01 weicht der Standardlöser um bis zu { "1e-5" } ab. Neue Zeile VALIDATED unter P2. Der Standardlöser und seine Ausgabe bleiben unverändert. Die vorregistrierten Zielwerte bescheinigen Fehler nur oberhalb von etwa { "2e-7" } relativ: Sie weisen den Standardlöser zurück, nicht aber ein umgekehrtes Householder-Vorzeichen, ein unkompensiertes Skalarprodukt oder eine spektrale Endinverse, und die Zeile sagt das.
+
+# text
+seg-4ec44f8a5f8e = D12, erweiterte Genauigkeit und ein Quadratwurzel-Löser (zwei neue Zeilen VALIDATED: { "226" } -> { "228" } Zeilen, { "110" } -> { "112" } validiert).
+
+# text
+# c1: tests/validate_llr_datum_kernel_moon_fresh.rs
+seg-55002d236ab0 = <b>Mond-Bezugssystemdatum aus einer realen Kampagne, Kernel-Mondmittelpunkt</b> (neue Zeile VALIDATED): auf { "447" } ungesehenen Normalpunkten aus dem 2. Quartal 2019, vorregistriert 830d945a, bevor einer abgerufen wurde, stimmt die Datumskovarianz auf dem Kernel-Pfad mit der unveränderten SPICE- und NumPy-Referenz innerhalb von { "7.6e-5" } gegenüber Zielwerten von { "1" } % und { "2" } % überein (<c1/>). Der Gründer entschied, dass diese Zeile nur an frischen Punkten hochgestuft wird; die Diagnose mit bereits gesehenen Daten (c51f8b2) ist ein Befund, kein Beleg. Der Zielwert unterscheidet Mondmodelle nicht: Auch der analytische Mond besteht auf demselben Ausschnitt (schlechtester Wert { "3.8e-3" }), die geplante Mutation (der Kernel-Mond eine Stunde zu spät) wurde nicht erkannt, und bei der Faltung bestand auch ein um etwa { "4,650" } km falscher Mondmittelpunkt (der Mond um den Erde-Mond-Schwerpunkt genommen). Die Zeile beansprucht die Kovarianz auf diesem Pfad, nicht den Mondmittelpunkt, und sagt das.
+
+# text
+# c1: leo-ppp
+seg-57afa384aabd = <c1/>: ein Extended-Kalman-Filter für Float-Precise-Point-Positioning (PPP) auf ionosphärenfreiem Code und ionosphärenfreier Phase, nur GNSS und mit LEO-Unterstützung, mit seiner Konvergenzzeit und einem Monte-Carlo-NEES-Konsistenztest (normalisiertes quadratisches Schätzfehlermaß). Das mitgelieferte Szenario ergibt { "7.4" } min mit vier MEO-Systemen und { "4.8" }, { "3.2" }, { "2.7" } und { "2.3" } min mit { "60" }, { "96" }, { "192" } und { "288" } LEO-Satelliten, neben den { "9.6" }, { "7.0" }, { "3.2" }, { "2.1" } und { "1.3" } min von Li et al. (J. Geod. { "93" }:{ "749" }, { "2019" }) als Vergleich MODELLED des Trends.
+
+# text
+# c1: docs/POSITIONING.md
+# c2: telecom-timing
+# c3: docs/TELECOM-TIMING.md
+# c4: ROADMAP.md
+seg-606098743e57 = <b>Die öffentliche Beschreibung führt jetzt mit Zeitgebung und Holdover, der am besten validierten Domäne.</b> Der Anfang der README und <c1/> stellen Kshana als offene, reproduzierbare, nach Herkunft gekennzeichnete Evidenz-Engine für PNT-Resilienz dar: Zeitgebung und Holdover kritischer Infrastruktur zuerst (die Schätzer für Allan, modifizierte Allan, Zeitabweichung und maximalen Zeitintervallfehler sowie die Inversion der Koppelvarianz im Holdover sind die Zeilen VALIDATED dahinter), Quanten als neutrale Methode zum Abwägen Quanten gegenüber klassisch, deren Ergebnisse MODELLED gekennzeichnet sind, und lunare / cislunare sowie Deep-Space-Navigation als gepflegte Fähigkeiten statt als Schlagzeile. Beide Seiten sagen jetzt, was Kshana nicht ist -- kein Hochfrequenz-Signalsimulator und kein Hardware-in-the-Loop-Aufbau, kein Ersatz für MATLAB/Simulink, STK oder Orekit -- und verweisen auf die neue Art <c2/> und auf <c3/>. Die alte Zeile "Es gibt kein gutes offenes Werkzeug" ist entfernt: Eine Suche, die nichts findet, ist kein Beleg dafür, dass nichts existiert. <c4/> erhält eine undatierte Prioritätsreihenfolge (zuerst Zeitgebung, an zweiter Stelle die Quantenabwägung, Mond gepflegt) und verliert drei veraltete Punkte (Coriolis- und Lichtverschiebungs-Systematiken, die NRHO-Anfangsbedingungen und das Mondszenario, alle ausgeliefert); die Zeile der README "Coriolis und Lichtverschiebung bleiben Roadmap" wird auf dieselbe Weise korrigiert.
+
+# text
+seg-627d3357d620 = D4, Rückgrat der JPL-Kernel-Ephemeriden, Phase { "1" } (vier neue Zeilen VALIDATED: { "228" } -> { "232" } Zeilen, { "112" } -> { "116" } validiert).
+
+# text
+seg-665d0dde637b = <b>Neue Fähigkeiten MODELLED</b>, jede intern gegen eine geschlossene Form oder einen Schwesterpfad im Code gegengeprüft: Relativbewegungsdynamik nach Clohessy–Wiltshire / Hill, passive Emitterlokalisierung per TDOA/FDOA, Lagebestimmung nach Wahba/TRIAD/QUEST, Auflösung ganzzahliger Mehrdeutigkeiten der GNSS-Trägerphase (LAMBDA), B-Plane-Targeting & Gravity-Assist nach Patched-Conic, CRPA-Anti-Jam-Array-Beamforming, GNSS-Square-Law-Akquisitionsstatistik, Fringe-Mehrdeutigkeit / Dynamikbereich quanteninertialer Sensoren, IEEE-1139-Potenzgesetz-Uhrenrauschen + Flicker-FM-Untergrenze und Austausch von CCSDS-OEM-Kovarianzblöcken.
+
+# text
+seg-6ba057fab559 = <b>Zwei Zeilen VALIDATED für Codes der IQ-Schicht</b> (DS-GIQ-06b, PRO-39).
+
+# text
+# c1: tests/lunar_vlbi_surface_point_spice_oracle.rs
+seg-74e8def84747 = <b>Kovarianz eines Punkts auf der Mondoberfläche auf dem Kernel-Pfad</b> (neue Zeile VALIDATED): bei festen Stationen und der Bake auf dem DE440-Mond stimmt die Kovarianz der Bake mit einer SPICE-Lichtlaufzeit-Jacobi-Matrix (schlechtester Wert { "1.7e-3" } gegenüber einem Zielwert von { "1" } %) und einer NumPy-Inversion ({ "4e-14" } gegenüber { "1e-9" }) überein, vorregistriert 4a51256 (<c1/>). Die Zeile des analytischen Pfads bleibt MODELLED: beim analytischen Mond liegt ihr kleinstes Bake-Sigma { "3.9" } % unter der unabhängigen Referenz.
+
+# text
+# c1: kind
+# c2: src/lunar_time.rs
+# c3: src/lunar_vlbi.rs
+# c4: src/lunar_combination.rs
+# c5: src/lunar_frame_realise.rs
+# c6: src/lunar_service.rs
+# c7: src/lunar_dpnt.rs
+# c8: src/lunar_interop.rs
+seg-808e20f28556 = <b>PNT-Suite für Mond / cislunaren Raum.</b> Sieben lauffähige <c1/>s (MODELLED), aufgesetzt auf den CR3BP-Kern: <b>Mond-Koordinatenzeit</b> (säkulare Rate LTC/TCL − TT, <c2/>), geodätische <b>Mond-VLBI</b>-Verzögerungsobservable (<c3/>), <b>gemeinsamer Batch-Estimator für Multitechnik-OD + Uhr</b> (<c4/>), <b>Realisierung des Bezugssystems</b> (7-Parameter-Helmert + IAU-{ "2015" }-WGCCRE-Anbindung, <c5/>), Analyse des <b>Service-Volume der Klasse Moonlight / LCNS</b> (<c6/>), <b>differenzielle PNT auf dem Mond</b> (<c7/>) und ein <b>an LunaNet / IOAG ausgerichteter Interoperabilitätsexport</b> (CCSDS-OEM + lunare Zeitskala im KIF-Umschlag, <c8/>). Alle MODELLED aus illustrativen Parametern öffentlicher Quellen; nicht gegen reale VLBI- / Gateway-Verfolgung validiert; keine Zugehörigkeit zu und keine Bestätigung durch eine Behörde.
+
+# text
+# c1: quantum-time-transfer
+# c2: quantum-gnss-free-nav
+# c3: quantum-anomaly-detect
+# c4: TradeEvidence
+seg-82a1822f53e2 = <b>Demonstrator-Suite für quantengestützte PNT</b> (<c1/>, <c2/>, <c3/>). Drei lauffähige Anwendungsbereiche (MODELLED) hinter der Engine, jeder mit Ausgabe von <c4/> plus einem Datensatz zu Repräsentativität / Lücken bis zum Flug:
+
+# text
+seg-89a4bc4a766e = Befund (neue Zeile MODELLED), "LunaNet AFS spreading-code generation": von { "2 937 232" } erzeugten Chips und Bits, die mit den Tabellen des Standards und den Dateien von Annex { "3" } verglichen wurden, weicht einer ab, die "last { "24" } chips" aus Tabelle E-5 für den tertiären PRN { "147" }, die die Zelle von PRN { "151" } dupliziert, während die eigene Datei von Annex { "3" } des Standards mit dem Generator übereinstimmt. Das Kriterium null Abweichungen wird verfehlt.
+
+# text
+# c1: scenarios/<kind>.toml
+# c2: tests/dominance_demonstrators.rs
+# c3: VALIDATED
+seg-8d9332df5c74 = <b>Elf neue lauffähige Szenarioarten: Demonstratoren mit zwei Ausschreibungen, eine CCSDS-Interop-Brücke und eine Suite für Missionsanalyse / Umgebung in erster Ordnung (alle MODELLED, additiv; bestehende Reproduzierbarkeits-Goldens unverändert).</b> Jede ist per CLI / Python / WASM / MCP aufrufbar, liefert ein <c1/> mit und trägt ein ausdrückliches Label MODELLED in ihrem Ergebnis-JSON und in der einzeiligen Zusammenfassung (ein Test je Art in <c2/> prüft, dass das Label vorhanden ist und dass die Ausgabe nie den String <c3/> enthält):
+
+# text
+# c1: allan::lag1_noise_id
+# c2: autocorr_noise_id
+# c3: tests/clock_library_lag1_noise_id_allantools.rs
+seg-93add052ae56 = <b>Rauschidentifikation per Autokorrelation bei Lag 1</b> (<c1/>, Riley und Greenhall { "2004" }), neue Zeile VALIDATED (Bibliothek): stimmt mit allantools { "2024.6" } <c2/> auf { "140" } Fällen überein, ganze Zahlen identisch, schlechteste Differenz { "9.6e-13" } gegenüber einem Zielwert von { "1e-9" } (vorregistriert 2ec76864; <c3/>).
+
+# text
+seg-986f4075210b = D8, ein validierter Propagations-, Bezugssystem- und Zeitpfad (drei neue Zeilen VALIDATED und M131 hochgestuft: { "235" } -> { "238" } Zeilen, validiert { "117" } -> { "121" }).
+
+# text
+seg-9a5f94973450 = Mond-Bezugssystemdatum bei geschätzten Stationen: eine unabhängige Referenz mit erweiterter Genauigkeit aus 50-stelligem mpmath (vorregistriert 804662d5, konditionsskalierte Zielwerte aus einer a-priori-Rückwärtsfehlerformel) stimmt an einem neuen Kampagnendatum (2026-03-18) und am ursprünglichen Szenario vom 2024-01-01 überein; neue Zeile VALIDATED unter P2. Sie entscheidet den früheren Streit um doppelte Genauigkeit: die Datums-Sigmas der Engine weichen um bis zu { "9.7e-6" } ab, die Inversions- und Eigenwertwege von NumPy um bis zu { "6.2e-6" } und seine Cholesky- und QR-Wege um etwa { "1e-8" }. Die Engine liegt innerhalb ihrer Fehlerschranke, ist aber etwa tausendmal weniger genau als ein Faktorisierungsweg.
+
+# text
+# c1: cislunar-observability
+# c2: src/cislunar_observability.rs
+seg-9c69e4d8ade9 = <b>Cislunare Beobachtbarkeit</b> (<c1/>, <c2/>): ein Eigenspektrum der Beobachtbarkeits-Gramian über einen Bogen, ein durch Differentialkorrektur gewonnener Seeder für retrograde Fernbahnen (DRO) und eine unabhängige Gegenprüfung mit einem Square-Root-Information-Filter, dessen A-posteriori-Kovarianz genau bei vollem Beobachtbarkeitsrang endlich wird. Konstellation MODELLED; die Invarianten von Rang/Gramian/STM/SRIF sind der validierte Kern.
+
+# text
+# c1: ?scenario=…&tab=…
+seg-9fa1c542332b = <b>Kshana Studio, ein Dashboard für jede Fähigkeit.</b> Das Studio öffnet mit einem Startbildschirm mit Domänenkacheln und guten ersten Läufen und führt einen Lauf dann durch fünf nummerierte Schritte: Szenario wählen, Parameter setzen, die Engine lokal im Browser ausführen, die Ergebnisse lesen (zuerst die Kennzahlen, jede mit einem Chip PASS oder FAIL, wo der Lauf eine Schwelle nennt, dann die Panels) und teilen oder exportieren. Ein Suchfeld findet Szenarien, Domänen und die Felder darin und springt zum Bedienelement; Läufe können angeheftet und verglichen werden; eine Pfadanzeige zeigt, wo Sie sich befinden; auf dem Smartphone werden die Schritte zu einer Schrittleiste. Jede Szenarioart hat ihre Ansicht, darunter den Spektrum-Wasserfall, das Sonnensystem, die Konstellationsabdeckung, Kampagnen, die Animation, den Laufbericht, die Interoperabilitätsexporte und die Kette für niedrige Erdumlaufbahnen. Ein Deep-Link (<c1/>) öffnet denselben Lauf im genannten Panel.
+
+# text
+# c1: scenarios/telecom-prtc-holdover-24h.toml
+# c2: scenarios/telecom-tie-ingest.toml
+seg-a23a96819dee = <c1/> ist ein Rubidium-Holdover über 24 Stunden mit Alterung, Flicker und einem täglichen Temperaturzyklus: sein größter Zeitfehler beträgt { "603.2" } ns, er überschreitet { "100" } ns { "8 206" } s nach dem Verlust und bleibt den ganzen Tag innerhalb von { "1.5" } Mikrosekunden, und er besteht die Holdover-Hüllkurve der erweiterten PRTC nicht, wie es eine Uhr tun sollte, die nicht der Caesium-Klasse angehört. <c2/> zeigt die Inline-Eingabe. MTIE und TDEV, die die Art meldet, werden gegenüber dem Paket allantools an einer festgeschriebenen Holdover-Reihe mit { "2" } 048 Abtastwerten geprüft, exakt für MTIE und auf { "1.1e-15" } für TDEV, sodass die Matrix eine Zeile VALIDATED und zwei Zeilen MODELLED hinzugewinnt (die Transkription der Masken und die Voreinstellungen) und nun bei <b>{ "171" } Zeilen steht — { "65" } VALIDATED, { "102" } MODELLED, { "4" } PARTNER</b>. Die Abdeckung der Feldeinheiten geht von { "60" } von { "61" } Arten auf { "61" } von { "62" } und von { "1,742" } auf { "1,788" } beschriebene Felder. Die Art ist neu und additiv: Kein bestehendes Szenario, keine Festschreibung und keine veröffentlichte Zahl verschiebt sich.
+
+# text
+seg-a9465820a1fc = Neue Zeile VALIDATED "LunaNet AFS baseband rendering against an independent generator, given its channel state": gegenüber LANS-AFS-SIM (BSD-2-Clause, Commit 480c6bf3, S-Band-Build) null Chip-Abweichungen über die Codes der PRNs { "1" } bis { "210" }, null Symbolabweichungen über die drei Frames des Laufs und eine normierte komplexe Korrelation von { "0.999990" } über { "23.9" } s seiner eigenen Abtastwerte (schlechtester Block von { "2" } ms { "0.999948" }), innerhalb von Zielwerten, die vor dem Vergleich festgelegt wurden (vorregistriert 986ac280). Sie steuert den Renderer mit dem eigenen Kanalzustand des Simulators an und deckt weder die Leistungsaufteilung aus der Trägerrauschdichte noch das Schreiben von SigMF und 8 Bit ab.
+
+# text
+seg-b49f96eb52ad = Bestehende Zeilen VALIDATED neu abgestützt (keine Änderung der Anzahl).
+
+# text
+seg-b96d34bb1d36 = Es wurde kein Zielwert geändert, und keine Zeile VALIDATED, keine Abbildung und keine Zahl im Web hat sich verschoben.
+
+# text
+# c1: c2t06a
+# c2: pnm06a
+# c3: ee06a
+seg-c0dec16ea932 = Neue Zeile VALIDATED "One Earth-orbit path": TEME-Positionen von { "232" } Elementsätzen gegenüber python-sgp4 { "2.24" } (Vallados Referenz-SGP4) innerhalb von { "6.1e-8" } m (Zielwert { "1" } cm), und die Rotationen GCRS -> ITRS und TEME -> ITRS gegenüber ERFA <c1/>, <c2/> und <c3/> innerhalb von { "2.9e-6" } mas und { "0.41" } mas (Zielwerte { "0.1" } und { "2" } mas), mit Erdorientierungsparametern (vorregistriert 72ea9eb0). Offengelegt: der erste Lauf scheiterte bei 2016-12-31T23:{ "59" }:{ "59.5" } um eine Sekunde Rotation; UT1 wurde an einem Schaltsekundentag aus dem quasi-julianischen Datum von UTC genommen, die Engine geht nun über TAI, und der zweite Lauf stimmt bei unveränderten Zielwerten überein.
+
+# text
+# c1: conflict-resilience
+# c2: src/conflict_resilience.rs
+# c3: src/conflict_threat_params.rs
+seg-c87fc11dd86b = <b>Konfliktresilienz geschichteter PNT</b> (<c1/>, <c2/>) — eine Monte-Carlo-Resilienz-Engine mit festem Seed für eine mehrschichtige PNT-Architektur, mit einem Modell des <b>Überlebens bei graceful degradation je Vektor</b> nach §{ "4.2" } (vier benannte Bedrohungsvektoren, die geschlossene Form des Überlebens nutzbarer PNT, gegen die die Monte-Carlo-Läufe je Schicht konvergieren, im Ergebnis-JSON ausgegeben) und dokumentierter, gegen Abweichung abgesicherter Herkunft der Bedrohungsparameter (<c3/>). Die Architekturen sind MODELLED; die Konvergenz des Überlebens-Monte-Carlo → geschlossene Form ist der validierte Kern.
+
+# text
+# c1: dtf2d
+# c2: utctai
+# c3: taiutc
+seg-cf4ae964c5d1 = Neue VALIDATED Zeile "Two-part Julian dates and leap seconds on the Earth-orbit time path": pyerfa { "2.0.1.5" } <c1/>/<c2/>/<c3/> auf { "224" } Zeitpunkten rund um alle { "27" } Schaltsekunden innerhalb von { "1e-6" } s (vorregistriert e947e69d); schlechtester Wert { "1.9e-11" } s.
+
+# text
+seg-d4e76301323f = Befund (neue MODELLED Zeile), "LunaNet AFS closed-loop decodability": drei vorregistrierte Läufe gegen PocketSDR-AFS; der dritte erfüllte seine Zielwerte für Tracking und Dekodierung vollständig, nicht aber seine Absicherung, dass ein Empfänger-Build mit reiner Druckausgabe das Protokoll des festgelegten Builds reproduziert, weil sich schon zwei Läufe des unveränderten Empfängers in ihren Akquisitionsaufzeichnungen unterscheiden.
+
+# text
+seg-db498ac8e135 = Neue VALIDATED Zeile "Apparent ground-station pass prediction with refraction and light time": Orekit { "13.1.8" } propagiert dieselben Elementsätze in einem TEME, das es nach der angegebenen Definition aufbaut, mit ITU-R-P.834-Refraktion und seinem Lichtlaufzeit-Messmodell, über { "60" } Fälle an Stationen auf Meereshöhe: { "1210" } Überflüge, Durchgänge innerhalb von { "3.4e-6" } s (Zielwert { "5" } ms), maximale Elevation innerhalb von { "5.5e-7" } Grad, scheinbare Richtung innerhalb von { "8.8e-7" } Grad (Zielwert { "1e-4" } Grad).
+
+# text
+# c1: <scenario>.report.html
+# c2: wrote …
+# c3: <scenario>.report.json
+# c4: RunOutput::html_report()
+# c5: OracleKind::modelled_reason()
+# c6: docs/MODELLED-RATIONALE.md
+seg-e06522ca762e = <b><c1/> ist jetzt der erweiterte Laufbericht</b>, der unter Added beschrieben ist, und die Zeile <c2/> der CLI nennt auch <c3/>. Die einseitige Auswertung, die er ersetzt hat, ist als <c4/> unverändert, den die Python- und WebAssembly-Bindungen weiterhin liefern. <c5/> stellt den Satz bereit, den <c6/> für jede Zeile mit MODELLED ausgibt; dieses Dokument ist unverändert.
+
+# text
+# c1: jamming
+# c2: lunar-jamming
+# c3: tracking-loop
+# c4: impairment-eval
+# c5: jamming_kind_cross_check
+seg-ecdf60335064 = <b>Betroffene Verbraucher:</b> die Arten <c1/>, <c2/>, <c3/> und <c4/>, der <c5/> der Spektrum-Arten, die Referenzkurve der IQ-Kampagne, die MODELLED ist, und das labfit-Standard-Q sowie der Interop-Szenenexport.
+
+# text
+# c1: KernelEphemeris::relative_position_utc
+# c2: tests/kernel_ephemeris_skyfield_oracle.rs
+seg-f147f9257b8b = <b>Positionen von Sonne, Mond, Merkur und Venus aus DE440 bei UTC-Epochen</b> (neue VALIDATED Zeile): <c1/> stimmt mit Skyfield { "1.54" } auf { "600" } Positionen zwischen { "1973" } und { "2026" } überein, schlechtester Wert { "2.96" } m, innerhalb eines vorregistrierten Zielwerts (0bfafe6d), der durch die zweitermige Reihe TDB − TT festgelegt ist (<c2/>). Planetenpositionen erhalten jetzt diese neue Kernel-Zeile; die Standish-Zeile und die Zeile der Planetenmonde sind unverändert, und die Monde warten auf ein Szenario, das sie braucht (Entscheidung des Gründers).
+
+# text
+seg-f1cb2c2881c9 = Sieben MODELLED Registerzeilen zu dem Obigen. Nichts davon ist VALIDATED: Es wurde keine Aufzeichnung eines realen Empfängers, einer Basisstation, einer IMU, eines GNSS-SDR-Laufs, eines ROS-Graphen oder eines MQTT-Brokers gelesen.
+
+# text
+# c1: docs/VALIDATION.md
+# c2: docs/VERIFICATION-MATRIX.md
+seg-f75f1878045e = Siebenundzwanzig Zeilen der Verifikationsmatrix werden VALIDATED, nachdem eine unabhängige Referenz innerhalb einer vor dem ersten Vergleich festgelegten Toleranz übereinstimmte (die Beförderungsregel in <c1/>): zehn in einer ersten Validierungsrunde und siebzehn in einer zweiten. Einundfünfzig MODELLED Zeilen wurden in der ersten Runde einer externen unabhängigen Referenz unterzogen und die übrigen zuordenbaren Zeilen in der zweiten; jede Abweichung ist unten als Befund festgehalten, statt weggestimmt zu werden. Drei Zeilen wurden aufgeteilt, damit ein validierter Teil keinen nicht validierten Rest mitträgt, wodurch die Matrix von { "223" } auf { "226" } Zeilen wächst; die seither eingearbeiteten Validierungspakete bringen sie auf { "249" }. Die Zahlen werden aus der erzeugten <c2/> gelesen.
+
+# text
+seg-fa9976349886 = Neue VALIDATED Zeile: die Signal-PSDs und SSCs, gegen die Hauptkeule von BPSK(n) mit 2n x { "1.023" } MHz, die um +/-1.023 MHz zentrierten Keulen von BOC({ "1,1" }), die geschlossenen Parseval-Formen hinter den veröffentlichten SSCs von -61.8 / -64.8 / -67.8 dB/Hz und das Lehrbuch-Q = { "1" } (CW) und { "1.5" } (Matched). Das PSD-Maximum von BOC({ "1,1" }) liegt bei +/-0.759 MHz, nicht in der Keulenmitte; der Test legt beides fest.

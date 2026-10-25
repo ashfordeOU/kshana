@@ -312,9 +312,6 @@ seg-c0e0c18bd867 = Evidenzstufen: VALIDATED, MODELLED, PARTNER
 seg-61c0aa107fd9 = Jede Fähigkeit in der maschinell geprüften Verifikationsmatrix (<a1><c1/></a1>) trägt eine von drei Stufen.
 
 # text
-seg-13fb20435df3 = <b>VALIDATED.</b> In einfachen Worten: <em>gegen die Antwort eines anderen geprüft.</em> Die Ausgabe der Fähigkeit wurde mit einer unabhängigen externen Referenz verglichen — echten Messdaten, einer unabhängigen, von jemand anderem geschriebenen Bibliothek oder veröffentlichten Referenzwerten — und stimmte innerhalb einer angegebenen Toleranz überein. Eine Prüfung in der Continuous Integration weist eine VALIDATED-Zeile zurück, die keine externe Referenz nennt.
-
-# text
 # c1: MODELLED-RATIONALE.md
 seg-a5dfb48e4dcb = <b>MODELLED.</b> In einfachen Worten: <em>aus solider Physik aufgebaut und auf interne Konsistenz geprüft, aber noch nicht mit einer äußeren Antwort verglichen.</em> Die Zahlen sind für Vergleiche und Entwurfsabwägungen aussagekräftig; sie sind kein Beleg dafür, dass ein reales Gerät sich so verhalten wird. <a1><c1/></a1> erklärt, warum jede solche Zeile modelliert ist.
 
@@ -3773,3 +3770,6 @@ seg-c5da9d350518 = <s1>Zurück</s1>Einführung in die Konzepte
 
 # text
 seg-670504be0531 = <s1>Weiter</s1>Studio-Leitfaden
+
+# text
+seg-13fb20435df3 = <b>VALIDATED.</b> In einfachen Worten: <em>gegen die Antwort eines anderen geprüft.</em> Die Ausgabe der Fähigkeit wurde mit einer unabhängigen externen Referenz verglichen — echten Messdaten, einer unabhängigen, von jemand anderem geschriebenen Bibliothek oder veröffentlichten Referenzwerten — und stimmte innerhalb einer angegebenen Toleranz überein. Eine Prüfung in der Continuous Integration weist eine Zeile der Stufe VALIDATED zurück, die keine externe Referenz nennt.

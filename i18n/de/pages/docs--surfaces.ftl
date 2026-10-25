@@ -834,9 +834,6 @@ seg-b96c18c1f157 = <c1/> (kein Monte Carlo, kein SVG)
 seg-5b62ca019ebd = <b>N/A</b> (siehe die Fähigkeitenzeile)
 
 # text
-seg-4f7453d89d9d = MODELLED-Geometrie; JSON oder SVG als Ausgabe
-
-# text
 seg-c853beadb55e = REPRÄSENTATIVE Voreinstellungen mit Herkunft
 
 # text
@@ -1109,3 +1106,6 @@ seg-4e3bbacda9ac = <s1>Zurück</s1>Kshana aus einem Agenten verwenden
 
 # text
 seg-c5fbfab85e01 = <s1>Weiter</s1>JetBrains-Plugin
+
+# text
+seg-4f7453d89d9d = Geometrie MODELLED; JSON oder SVG als Ausgabe

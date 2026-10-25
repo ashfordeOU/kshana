@@ -24,10 +24,6 @@ seg-a92dcafd670e = <c1/> (Szenario-Kind)
 seg-dbffff25b57f = CCSDS-OEM-Interoperabilitätsbrücke: Importiert eine Orbit Ephemeris Message, die von einem externen Flugdynamik-Werkzeug erzeugt wurde (GMAT/Orekit/STK geben alle OEM aus), und gibt ihre Segmente/Objekte/Bezugssysteme/Epochenspanne sowie eine Geschwindigkeits-Konsistenzprüfung aus; ohne Eingabe führt sie eine erzeugte Referenzbahn im Rundlauf und gibt die Import↔Export-Treue aus. MODELLED strukturelle/physikalische Einlesprüfung, KEINE Bahngenauigkeits-Validierung der Quelle.
 
 # text
-# c1: scenarios/oem-interop.toml
-seg-21eb1c9d7571 = Ein Lauf von <c1/> fasst sich zusammen als: oem-interop: im Rundlauf { "2" } Segment(e), { "12" } Zustände; maximaler Rundlauffehler { "4.88e-7" } km / { "4.61e-10" } km/s (MODELLED-Interop)
-
-# text
 # c1: oem_text
 seg-54c35d9fbfd9 = Optionale Felder: <c1/>
 
@@ -67,3 +63,7 @@ seg-833df8eedc34 = <s1>Zurück</s1>ntn-positioning
 
 # text
 seg-28254e1b38d4 = <s1>Weiter</s1>optical-atmosphere
+
+# text
+# c1: scenarios/oem-interop.toml
+seg-21eb1c9d7571 = Ein Lauf von <c1/> fasst sich zusammen als: oem-interop: im Rundlauf { "2" } Segment(e), { "12" } Zustände; maximaler Rundlauffehler { "4.88e-7" } km / { "4.61e-10" } km/s (Interop der Stufe MODELLED)

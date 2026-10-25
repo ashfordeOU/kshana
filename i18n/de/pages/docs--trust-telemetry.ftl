@@ -419,13 +419,6 @@ seg-bb927aab7541 = nicht als Feld übernommen (kein CEF-Wörterbuchschlüssel is
 seg-6a80d53b2163 = <c1/>, nur solange es gilt
 
 # text
-# c1: cs6
-# c2: flexString1
-# c3: flexString
-# c4: tests/cef_reference.rs
-seg-1f099d4ef4b6 = In CEF verwendet die Geometrie nur benutzerdefinierte Felder aus dem Wörterbuch (keine erfundenen Schlüssel); das Label läuft in <c1/> statt in <c2/>, weil der Logstash-CEF-Codec die <c3/>-Felder nicht abbildet. Die Geometrieereignisse von { "1.3" }, einschließlich der Label-Fälle, sind Teil der VALIDATED-CEF-Zeile: Beide Referenz-Parser lesen sie wie geschrieben zurück (<c4/>, Änderungen { "4" } und { "5" }, jeweils registriert, bevor einer der Parser an seinen Fällen lief). Die Felder für Label, VDOP und Satellitenzahl werden nach jedem früheren Feld und jeder früheren Reihe angehängt und nur bei Eingaben, die das Label tragen, sodass eine Eingabe ohne Label genau wie zuvor ausgegeben wird.
-
-# text
 # c1: cs2=
 # c2: \
 # c3: |
@@ -463,3 +456,10 @@ seg-c3111d73a8b0 = <s1>Zurück</s1>Himmelsgeometrie und Horizontlinien
 
 # text
 seg-4c539b667a05 = <s1>Weiter</s1>Galileo-OSNMA-Verifikation
+
+# text
+# c1: cs6
+# c2: flexString1
+# c3: flexString
+# c4: tests/cef_reference.rs
+seg-1f099d4ef4b6 = In CEF verwendet die Geometrie nur benutzerdefinierte Felder aus dem Wörterbuch (keine erfundenen Schlüssel); das Label läuft in <c1/> statt in <c2/>, weil der Logstash-CEF-Codec die <c3/>-Felder nicht abbildet. Die Geometrieereignisse von { "1.3" }, einschließlich der Label-Fälle, sind Teil der CEF-Zeile der Stufe VALIDATED: Beide Referenz-Parser lesen sie wie geschrieben zurück (<c4/>, Änderungen { "4" } und { "5" }, jeweils registriert, bevor einer der Parser an seinen Fällen lief). Die Felder für Label, VDOP und Satellitenzahl werden nach jedem früheren Feld und jeder früheren Reihe angehängt, und nur für Eingaben, die das Label tragen, sodass eine Eingabe ohne Label genau wie zuvor ausgegeben wird.

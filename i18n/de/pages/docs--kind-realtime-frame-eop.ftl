@@ -4,9 +4,6 @@
 seg-7400f24ec992 = MODELLED { "1" } · VALIDATED { "2" }: die Zeilen der <a1>Verifikationsmatrix</a1>, die diesen Typ nennen.
 
 # text
-seg-ddf4702f78e5 = Ehrlichkeit: VALIDATED sind die geschlossene Form (der Hebelarm L19, omega_earth gegengeprüft am CIO-Erdrotationswinkel) und reale Daten (die UT1- und Polbewegungskurven L18 aus den realen finals2000A-Zeilen). DERIVED ist die Untergrenze der Realisierung des Bezugssystems (das Post-Fit-Residuum der Helmert-Transformation). MODELLED sind die Größenordnungen der Kovarianz der Bahnbestimmung des Mondrelais ({ "0.27" } m nachverarbeitet, ~{ "14.4" } m in Echtzeit bei einer Stunde Latenz — gerundet, nicht rückgerechnet, alle (Kommentar der Szenariodatei, Zeilen { "27" } bis { "32" })
-
-# text
 seg-bc51b666d070 = Der Vorhersagefehler einer betriebsnahen Erdorientierungsvorhersage, gemessen als Vorhersage gegenüber Endwert, ist MODELLED, nicht validiert: geprüft gegen eine separate Implementierung in derselben Codebasis — unabhängig von der geprüften Einheit, aber nicht extern maßgeblich. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
 
 # text
@@ -97,3 +94,6 @@ seg-a233df86be95 = Echtzeit-Budget der Vorhersage von Mondbezugssystem / Erdorie
 # text
 # c1: kshana kinds --json
 seg-60e7ee7e6e3e = VALIDATED geschlossene Form (der L19-Hebelarm, ω⊕ gegengeprüft gegen den CIO-Erdrotationswinkel) und VALIDATED reale Daten (die L18-Kurve aus den realen finals2000A-Zeilen); MODELLED sind die Größenordnungen der Kovarianz der Bahnbestimmung des Mondrelais und die Untergrenze der Bezugssystemrealisierung (repräsentative Zuweisungen) sowie der Persistenz-Prädiktor (nicht der operative Bulletin-A-Algorithmus des IERS). (Kind-Katalog (<c1/>))
+
+# text
+seg-ddf4702f78e5 = Ehrlichkeit: Die geschlossene Form (der Hebelarm L19, omega_earth gegengeprüft am CIO-Erdrotationswinkel) ist VALIDATED, und reale Daten (die UT1- und Polbewegungskurven L18 aus den realen finals2000A-Zeilen) sind VALIDATED. DERIVED ist die Untergrenze der Realisierung des Bezugssystems (das Post-Fit-Residuum der Helmert-Transformation). MODELLED sind die Größenordnungen der Kovarianz der Bahnbestimmung des Mondrelais ({ "0.27" } m nachverarbeitet, ~{ "14.4" } m in Echtzeit bei einer Stunde Latenz — gerundet, nicht rückgerechnet, alle (Kommentar der Szenariodatei, Zeilen { "27" } bis { "32" })

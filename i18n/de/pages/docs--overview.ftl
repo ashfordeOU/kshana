@@ -884,9 +884,6 @@ seg-503f53e7874b = <b>Die einfache Ansicht</b> ist das, womit das Studio sich ö
 seg-c45a4adf8209 = Kshana Studio, einfache Ansicht, auf dem mitgelieferten Szenario integrity-raim, Engine { "v0.38.0" } lokal laufend. Die Frage: Erfüllt die Geometrie die Alarmgrenzen (horizontales und vertikales Schutzniveau)? Die Antwort zuerst, gekennzeichnet als Live-Ergebnis: Ja, überwiegend: für { "95.3" } % der { "12" } h. Die Fehlerschranke des Empfängers blieb bei { "344" } von { "361" } Prüfungen unter den Alarmgrenzen ({ "40" } m horizontal und { "50" } m vertikal), und keine Lösung war irreführend. Kennzahlen: Zeit, in der der Lösung vertraut werden kann, { "95.3" } %, längste Lücke { "10" } min, typische Fehlerschranke { "6.5" } / { "13" } m, irreführende Lösungen { "0" }. Daneben Andere Einstellungen ausprobieren mit fünf davon (der Entfernungsfehler, die beiden Alarmgrenzen, die Dauer und die Elevationsmaske) und Erneut ausführen, dann die eingeklappten Abschnitte Erweiterte Einstellungen ({ "13" } weitere), So wird das berechnet ({ "8" } validiert, { "6" } modelliert) und Für Forschende. Darunter die Ansichten dieses Ergebnisses und die gegen die Alarmgrenze aufgetragenen Schutzniveaus.
 
 # text
-seg-6767f63a1153 = <b>Die erweiterte Ansicht</b> ist das vollständige Dashboard: die Szenariobibliothek, fünf nummerierte Schritte (Wählen, Einstellen, Ausführen, Ergebnisse lesen, Teilen oder exportieren), die Kennzahlen mit PASS- und FAIL-Chips, wo der Lauf einen Schwellenwert angibt, und jedes Panel: Übersicht, Diagramme, Karten, Wiedergabe, der Bericht der Engine und Exporte. Ein Suchfeld erreicht Szenarien, Bereiche und die Felder darin, und Sie können bis zu vier Läufe anheften und nebeneinander vergleichen.
-
-# text
 seg-48e01a0f5cb8 = Der Startbildschirm der einfachen Ansicht und die erweiterte Ansicht nach einem Lauf
 
 # attr:alt
@@ -1649,9 +1646,6 @@ seg-e31cf348fc57 = SGP4 gegen alle { "666" } Referenzvektoren von AIAA 2006-6753
 
 # text
 seg-707e2cf795f6 = <b>{ "176" } von { "388" }</b> Fähigkeiten gegen unabhängige externe Referenzen validiert; { "208" } ehrlich als modelliert gekennzeichnet. Jede Zeile der Verifikationsmatrix nennt eine Fähigkeit, die unabhängige Referenz, gegen die sie geprüft wird, den Test, der die Prüfung ausführt, und die Kennzeichnung, die daraus folgt. Die kontinuierliche Integration (CI) macht es unmöglich, eine Fähigkeit ohne unabhängige externe Referenz VALIDATED zu nennen.
-
-# attr:alt
-seg-2f81cf391eae = Wie eine Fähigkeit ihre Kennzeichnung erwirbt. Jede Zeile der Verifikationsmatrix nennt eine Fähigkeit, die unabhängige Referenz, gegen die sie geprüft wird, den Test, der die Prüfung in der kontinuierlichen Integration ausführt, und die Kennzeichnung, die daraus folgt. Eine Zeile darf nur mit einer unabhängigen externen Referenz VALIDATED sein; sonst ist sie MODELLED, oder PARTNER, wenn ein Hardwarepartner sie verantwortet. Beispiel: SGP4/SDP4, Cowell 6-DOF + Störungen, Batch-/sequentielle OD, unabhängige Referenz AIAA 2006-6753 SGP4-Verifikationsvektoren, Test tests/sgp4_verification.rs, Kennzeichnung VALIDATED. Aktuelle Zahlen: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER von { "388" } Zeilen. Insgesamt sind { "176" } Fähigkeiten gegen unabhängige externe Referenzen validiert; { "208" } weitere sind ehrlich als MODELLED gekennzeichnet, und { "4" } sind im Besitz von PARTNER.
 
 # text
 seg-23d73e23b368 = Zeilen
@@ -2534,9 +2528,6 @@ seg-eedfcdbe2b1c = die gesamte offene Engine, alle { "87" } Szenarioarten, keine
 seg-af56c940e13a = ein proprietäres Overlay auf derselben Engine, unter Vertrag
 
 # text
-seg-cd381d248ffb = eine MODELLED-PNT-Resilienzstudie Ihres Systems, für Sie erstellt
-
-# text
 seg-c25a3f546887 = AGPL-3.0 (GNU Affero General Public License, Version { "3" }) oder eine kommerzielle Lizenz
 
 # text
@@ -2793,12 +2784,6 @@ seg-3c18807029e2 = Animationsexport.
 # c7: prefers-color-scheme
 # c8: prefers-reduced-motion
 seg-69473251bb01 = <c1/> schreibt <c2/> (Cascading-Style-Sheets-Keyframes (CSS), kein Skript), <c3/> (Wiedergabe, Pause, Scrubben, Geschwindigkeit und synchronisierte Panels, ohne externe Ressource) und <c4/> (<c5/>, … plus <c6/> mit den Bildern pro Sekunde und der Dauer). Eine Kampagne spielt ihre Phasen und Alarme ab, ein Spektrumlauf sein Wasserfalldiagramm; das Design folgt <c7/> und <c8/> zeigt das fertige Bild. Sie stellt die eigenen Samples des Laufs dar, bei erneutem Lauf byte-identisch, und fügt keine Evidenz hinzu. Siehe <a1>docs/ANIMATION.md</a1>.
-
-# text
-# c1: title
-# c2: scenarios = [ … ]
-# c3: scenarios/quantum-pnt-demonstrator.suite.toml
-seg-627e3a4e3f7d = Ein <b>Suite</b>-Manifest ist eine kleine TOML-Datei (Tom's Obvious, Minimal Language) — ein <c1/> und ein <c2/>-Array von Szenariopfaden —, die die Engine nacheinander ausführt, wobei jedes Ergebnis (mit seinen MODELLED-/VALIDATED-Labels) in ein selbstbeschreibendes Studienartefakt gefaltet wird. Siehe <a1><c3/></a1>.
 
 # text
 # c1: --export-sp3
@@ -3684,3 +3669,18 @@ seg-2658a9477dd9 = <s1>Weiter</s1>Einführung in die Konzepte
 
 # text
 seg-90a95738b32d = Mond-Infrastruktur (lunar-infrastructure)
+
+# attr:alt
+seg-2f81cf391eae = Wie eine Fähigkeit ihre Kennzeichnung erwirbt. Jede Zeile der Verifikationsmatrix nennt eine Fähigkeit, die unabhängige Referenz, gegen die sie geprüft wird, den Test, der die Prüfung in der kontinuierlichen Integration ausführt, und die Kennzeichnung, die daraus folgt. Eine Zeile darf nur mit einer unabhängigen externen Referenz VALIDATED sein; sonst ist sie MODELLED, oder PARTNER, wenn ein Hardwarepartner sie verantwortet. Beispiel: SGP4/SDP4, Cowell 6-DOF + Störungen, Batch-/sequentielle OD, unabhängige Referenz AIAA 2006-6753 SGP4-Verifikationsvektoren, Test tests/sgp4_verification.rs, Kennzeichnung VALIDATED. Aktuelle Zahlen: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER von { "388" } Zeilen. Insgesamt sind { "176" } Fähigkeiten gegen unabhängige externe Referenzen validiert; { "208" } weitere sind ehrlich als MODELLED gekennzeichnet und { "4" } gehören einem Hardwarepartner.
+
+# text
+# c1: title
+# c2: scenarios = [ … ]
+# c3: scenarios/quantum-pnt-demonstrator.suite.toml
+seg-627e3a4e3f7d = Ein <b>Suite</b>-Manifest ist eine kleine TOML-Datei (Tom's Obvious, Minimal Language) — ein <c1/> und ein <c2/>-Array von Szenariopfaden —, die die Engine nacheinander ausführt, wobei jedes Ergebnis (mit seinen Labels MODELLED / VALIDATED) in ein selbstbeschreibendes Studienartefakt gefaltet wird. Siehe <a1><c3/></a1>.
+
+# text
+seg-6767f63a1153 = <b>Die erweiterte Ansicht</b> ist das vollständige Dashboard: die Szenariobibliothek, fünf nummerierte Schritte (Wählen, Einstellen, Ausführen, Ergebnisse lesen, Teilen oder exportieren), die Kennzahlen mit Chips PASS und FAIL, wo der Lauf einen Schwellenwert angibt, und jedes Panel: Übersicht, Diagramme, Karten, Wiedergabe, der Bericht der Engine und Exporte. Ein Suchfeld erreicht Szenarien, Bereiche und die Felder darin, und Sie können bis zu vier Läufe anheften und nebeneinander vergleichen.
+
+# text
+seg-cd381d248ffb = eine PNT-Resilienzstudie Ihres Systems (MODELLED), für Sie erstellt

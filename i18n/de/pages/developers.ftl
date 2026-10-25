@@ -583,18 +583,6 @@ seg-ced10df38705 = Gibt den TOML-Text eines mitgelieferten Referenzszenarios zur
 seg-2d2aa3ea533c = Führt ein Kshana-Szenario aus und gibt seinen Bericht zurück: eine Zusammenfassung für die Leitung, die Eingaben, jede Ergebniskennzahl mit ihrer Einheit und ihrer Kennzeichnung VALIDATED oder MODELLED, die Ereignisse, die Fähigkeitszeilen, die der Lauf ausgeübt hat, und einen Reproduzierbarkeitsnachweis (Engine-Version, SHA-256-Digests von Szenario und Ergebnis, Seed, der Befehl, der es reproduziert). <c1/> ist <c2/> (Standard; die maschinenlesbare <c3/>) oder <c4/> (die druckbare, eigenständige <c5/> mit eingebettetem Diagramm). Der Bericht einer Kampagne enthält außerdem ihre Durchlauftabelle oder die Monte-Carlo-Verteilung. Der Bericht ist eine reine Funktion des Szenarios: Es wird keine Uhr gelesen.
 
 # text
-# c1: format
-# c2: svg
-# c3: html
-# c4: frames
-# c5: manifest.json
-# c6: fps
-# c7: duration_s
-# c8: width
-# c9: files
-seg-9bb33a881133 = Führt ein Kshana-Szenario aus und gibt seine Zeitreihe als Animation zurück. <c1/> ist <c2/> (Standard: eine animierte SVG, ohne Skript), <c3/> (eine eigenständige Wiedergabeseite) oder <c4/> (nummerierte statische SVG-Einzelbilder plus <c5/>, höchstens { "120" } Einzelbilder in einer Antwort). Optional <c6/> ({ "1" } bis { "60" }, Standard { "12" }), <c7/> ({ "0.5" } bis { "600" }, Standard { "8" }) und <c8/> ({ "480" } bis { "3840" } Pixel, Standard { "960" }). Das erste Inhaltselement ist eine JSON-Zusammenfassung dessen, was gezeichnet wurde: der Zeitbereich und die Einheit, die Diagrammtitel, die Anzahl der Phasen und Ereignisse, ob ein Spektrum-Wasserfall vorhanden ist, die Ergebnispfade, aus denen die Kurven gelesen wurden, jede weggelassene Reihe und die Dateinamen. Die Dateien folgen, je ein Inhaltselement, in der Reihenfolge, in der die <c9/> der Zusammenfassung sie auflistet. Eine Art, deren Ergebnis keine abgetastete Zeitachse hat, wird mit einer Meldung abgelehnt, die das sagt. Die Animation ist eine MODELLED-Darstellung der eigenen Zahlen des Laufs; dasselbe Szenario mit denselben Optionen ergibt byteidentische Dateien.
-
-# text
 # c1: czml
 # c2: kml
 # c3: geojson
@@ -1707,3 +1695,15 @@ seg-193ee1ab991e = <c1/> macht aus einer Einreichungsdatei und der Wahrheit eine
 # text
 # c1:
 seg-eb0b1bc759e2 = <a1>Den Benchmark öffnen <c1/></a1>
+
+# text
+# c1: format
+# c2: svg
+# c3: html
+# c4: frames
+# c5: manifest.json
+# c6: fps
+# c7: duration_s
+# c8: width
+# c9: files
+seg-9bb33a881133 = Führt ein Kshana-Szenario aus und gibt seine Zeitreihe als Animation zurück. <c1/> ist <c2/> (Standard: eine animierte SVG, ohne Skript), <c3/> (eine eigenständige Wiedergabeseite) oder <c4/> (nummerierte statische SVG-Einzelbilder plus <c5/>, höchstens { "120" } Einzelbilder in einer Antwort). Optional <c6/> ({ "1" } bis { "60" }, Standard { "12" }), <c7/> ({ "0.5" } bis { "600" }, Standard { "8" }) und <c8/> ({ "480" } bis { "3840" } Pixel, Standard { "960" }). Das erste Inhaltselement ist eine JSON-Zusammenfassung dessen, was gezeichnet wurde: der Zeitbereich und die Einheit, die Diagrammtitel, die Anzahl der Phasen und Ereignisse, ob ein Spektrum-Wasserfall vorhanden ist, die Ergebnispfade, aus denen die Verläufe gelesen wurden, alle weggelassenen Reihen und die Dateinamen. Die Dateien folgen, je ein Inhaltselement, in der Reihenfolge, in der die <c9/> der Zusammenfassung sie aufführt. Eine Art, deren Ergebnis keine abgetastete Zeitachse hat, wird mit einer entsprechenden Meldung abgelehnt. Die Animation ist eine Darstellung der eigenen Zahlen des Laufs und gilt als MODELLED; dasselbe Szenario und dieselben Optionen ergeben byteidentische Dateien.
