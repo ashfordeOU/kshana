@@ -1,0 +1,34 @@
+# Messages whose numbers are passed as placeables, so each language formats them (decimal mark).
+# Translators keep the placeables; format of a line: id: variables.
+bench-tasks-kshana-receiver-trust-35-default: lit_0_35
+e-animation-animation-duration-must-be-between: lit_0_5
+e-body-pnt-user-altitude-must-be-positive: lit_0_9
+e-constellation-eccentricity-must-lie-in: lit_0_9
+e-constellation-grid-step-deg-must-lie: lit_0_25
+e-leo-navmsg-fit-sample-and-eval-step: lit_0_5
+e-leo-navmsg-truth-eccentricity-must-be-in-for: lit_0_1
+e-tracking-loop-tracking-loop-correlator-spacing-chips: lit_1_9
+fusion-hybrid-ukf-chart-subtitle: lit_1_0
+fusion-hybrid-ukf-chart-target: lit_1_0
+hybrid-chart-spec-line: lit_1_0
+hybrid-chart-title: lit_1_0
+iq-cli-track-hz-is-samples-per-chip: lit_0_09
+kind-araim-reference-check-description: lit_18_2926 lit_18_3 lit_13_4063 lit_13_45 lit_7_2997 lit_7_2998 lit_1_3694
+kind-cislunar-arc-recovery-description: lit_0_782609 lit_2_086957 lit_0_375 lit_5_739130 lit_0_98
+kind-constellation-design-description: lit_110_5 lit_64_8 lit_0_94 lit_1_25 lit_0_96 lit_0_03
+kind-earth-gnss-lunar-description: lit_13_9
+kind-leo-pass-description: lit_40_3
+kind-leo-ppp-description: lit_9_6 lit_7_0 lit_3_2 lit_2_1 lit_1_3
+kind-leo-signal-description: lit_40_3 lit_90_3
+kind-lunar-attack-surface-description: lit_15_6 lit_128_5 lit_158_5 lit_14_4
+kind-lunar-vlbi-description: lit_0_06
+kind-ntn-positioning-description: lit_2172_5 lit_4_5
+kind-realtime-frame-eop-description: lit_0_27 lit_0_010 lit_0_5
+kind-solar-system-description: lit_1_87 lit_1_71 lit_2_0 lit_5_2
+kind-space-weather-description: lit_1_7
+kind-spectrum-description: lit_1_023 lit_1_5
+kind-telecom-timing-description: lit_1_5
+kind-tracking-loop-description: lit_0_6 lit_3_7 lit_0_17
+leo-signal-chart-psd-axis: lit_0_6
+sdr-sampling-rate-is-commensurate-with: lit_4_8876 lit_24_4379
+telecom-timing-the-mask-is-defined-through: lit_0_1

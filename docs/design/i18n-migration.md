@@ -41,6 +41,15 @@ converted once and the machine copy is still English.
 6. Markup stays in Rust. Convert the text nodes only: `format!("<text x=\"{x}\">{}</text>", t!("id"))`, never
    the tags. A text node that is a single placeholder needs no message.
 
+## No sentence pieces
+
+A message is a whole sentence (or a whole line). Never write a message that starts or ends in the middle of a
+sentence the code finishes with another message: word order and agreement change across languages. An
+optional clause is a second whole-sentence message chosen in Rust by separate `t!` calls in a branch (no
+computed ids); a list of independent clauses is one message per clause, joined in Rust with a separator
+(`"; "`). `scripts/i18n_fragments.py` lists what still looks like a piece; an entry that is not (a CSS blob, a
+whole summary line, a locator, a file name) is excluded there with its reason, never silently.
+
 ## Checking
 
 ```

@@ -1689,8 +1689,12 @@ pub fn stanford_svg(diagram: &StanfordDiagram) -> String {
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"20\" font-size=\"14\" font-weight=\"bold\">Stanford diagram — integrity ({} epochs, AL = {al:.0} m)</text>",
-        diagram.len()
+        "<text x=\"{ml:.0}\" y=\"20\" font-size=\"14\" font-weight=\"bold\">{}</text>",
+        crate::t!(
+            "raim-stanford-chart-title",
+            n_epochs = diagram.len(),
+            al = crate::i18n::num(al, 0)
+        )
     ));
     // Integrity boundary PL = error: above it the protection level bounds the error.
     svg.push_str(&format!(
@@ -1724,13 +1728,15 @@ pub fn stanford_svg(diagram: &StanfordDiagram) -> String {
         ml + pw
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">position error (m)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">{}</text>",
         ml + pw / 2.0,
-        h - 16.0
+        h - 16.0,
+        crate::t!("inertial-chart-y-title")
     ));
     let lbl_y = mt + ph / 2.0;
     svg.push_str(&format!(
-        "<text x=\"16\" y=\"{lbl_y:.0}\" transform=\"rotate(-90 16 {lbl_y:.0})\" text-anchor=\"middle\">protection level (m)</text>"
+        "<text x=\"16\" y=\"{lbl_y:.0}\" transform=\"rotate(-90 16 {lbl_y:.0})\" text-anchor=\"middle\">{}</text>",
+        crate::t!("gnss-sim-chart-protection-level-m")
     ));
     // Points.
     for p in diagram.points() {
@@ -2389,8 +2395,11 @@ pub fn availability_svg(report: &RaimAvailabilityReport) -> String {
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">RAIM protection levels and availability ({:.0}% available)</text>",
-        report.availability() * 100.0
+        "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+        crate::t!(
+            "raim-chart-title",
+            availability = crate::i18n::num(report.availability() * 100.0, 0)
+        )
     ));
     svg.push_str(&crate::chart::y_axis(
         ml,
@@ -2398,7 +2407,7 @@ pub fn availability_svg(report: &RaimAvailabilityReport) -> String {
         pw,
         ph,
         y_max,
-        "protection level (m)",
+        &crate::t!("gnss-sim-chart-protection-level-m"),
     ));
     // Axes.
     svg.push_str(&format!(
@@ -2409,14 +2418,22 @@ pub fn availability_svg(report: &RaimAvailabilityReport) -> String {
         ml + pw
     ));
     // Alert-limit lines.
-    for (al, colour, label) in [(report.al_h_m, CORAL, "HAL"), (report.al_v_m, AMBER, "VAL")] {
+    for (k, (al, colour)) in [(report.al_h_m, CORAL), (report.al_v_m, AMBER)]
+        .into_iter()
+        .enumerate()
+    {
         let y = yof(al);
+        let label = if k == 0 {
+            crate::t!("raim-chart-hal", al = crate::i18n::num(al, 0))
+        } else {
+            crate::t!("raim-chart-val", al = crate::i18n::num(al, 0))
+        };
         svg.push_str(&format!(
             "<line x1=\"{ml:.0}\" y1=\"{y:.1}\" x2=\"{:.0}\" y2=\"{y:.1}\" stroke=\"{colour}\" stroke-dasharray=\"6 4\"/>",
             ml + pw
         ));
         svg.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{colour}\">{label} {al:.0} m</text>",
+            "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{colour}\">{label}</text>",
             ml + pw - 70.0,
             y - 4.0
         ));
@@ -2443,14 +2460,17 @@ pub fn availability_svg(report: &RaimAvailabilityReport) -> String {
     }
     // Legend and axis label.
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">time (s)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">{}</text>",
         ml + pw / 2.0,
-        h - 12.0
+        h - 12.0,
+        crate::t!("ensemble-chart-time-s")
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"44\" fill=\"{CYAN}\">HPL</text><text x=\"{:.0}\" y=\"60\" fill=\"{MAGENTA}\">VPL</text>",
+        "<text x=\"{:.0}\" y=\"44\" fill=\"{CYAN}\">{}</text><text x=\"{:.0}\" y=\"60\" fill=\"{MAGENTA}\">{}</text>",
         ml + 10.0,
-        ml + 10.0
+        crate::t!("gnss-sim-chart-hpl"),
+        ml + 10.0,
+        crate::t!("gnss-sim-chart-vpl")
     ));
     svg.push_str("</svg>");
     svg

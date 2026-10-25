@@ -49,10 +49,19 @@ pub fn run_typed(toml: &str, lang: Option<String>) -> Result<JsValue, JsValue> {
 }
 
 /// The available scenario kinds and their metadata, already parsed: the typed form of
-/// [`list_kinds`], which keeps its JSON-string return for existing callers.
+/// [`list_kinds`], which keeps its JSON-string return for existing callers. `lang` (a tag such as
+/// `de`; omitted is English) is the language of each `description`; names and fields do not change.
 #[wasm_bindgen(unchecked_return_type = "KindMeta[]")]
-pub fn scenario_kinds() -> JsValue {
-    json_parse(&crate::api::list_scenario_kinds_json())
+pub fn scenario_kinds(lang: Option<String>) -> Result<JsValue, JsValue> {
+    kinds_in(&lang).map(|j| json_parse(&j))
+}
+
+/// The kinds document, in English or in `lang`.
+fn kinds_in(lang: &Option<String>) -> Result<String, JsValue> {
+    match lang.as_deref() {
+        None => Ok(crate::api::list_scenario_kinds_json()),
+        Some(l) => crate::api::list_scenario_kinds_json_lang(l).map_err(|e| JsValue::from_str(&e)),
+    }
 }
 
 /// Run a scenario given as a TOML string; returns the result document as a JSON
@@ -104,10 +113,11 @@ pub fn run_all(toml: &str, lang: Option<String>) -> Result<String, JsValue> {
 }
 
 /// List the available scenario kinds and their metadata as a JSON array (name,
-/// description, required and optional fields), for programmatic introspection.
+/// description, required and optional fields), for programmatic introspection. `lang` (a tag such
+/// as `de`; omitted is English) is the language of each `description`.
 #[wasm_bindgen]
-pub fn list_kinds() -> String {
-    crate::api::list_scenario_kinds_json()
+pub fn list_kinds(lang: Option<String>) -> Result<String, JsValue> {
+    kinds_in(&lang)
 }
 
 /// The modules a scenario kind's verification-matrix rows name where they differ from the kind's
@@ -135,6 +145,26 @@ pub fn error_kind(toml: &str, lang: Option<String>) -> String {
         .err()
         .map(|e| e.kind_tag().to_string())
         .unwrap_or_default()
+}
+
+/// Run a scenario ONCE in `lang` and return what a person reads, as an object `{summary, svg}`. The
+/// result document and CSV are not part of it: they are the English run's (`run_typed`), so a page
+/// shows the English result at once and calls this afterwards to localise the summary and the chart.
+#[wasm_bindgen(unchecked_return_type = "{ summary: string; svg: string }")]
+pub fn run_human(toml: &str, lang: &str) -> Result<JsValue, JsValue> {
+    let h = crate::api::run_toml_human(toml, lang).map_err(|e| JsValue::from_str(&e))?;
+    Ok(json_parse(
+        &serde_json::json!({"summary": h.summary, "svg": h.svg}).to_string(),
+    ))
+}
+
+/// Use `ftl` (the text of `i18n/<lang>/engine.ftl`) as the catalogue of language `tag`. The WebAssembly
+/// build embeds English only; a page fetches the file of the chosen language and registers it here
+/// before `run_human`, `run_typed(.., lang)` or `list_kinds(lang)`. Throws if the tag is not a supported
+/// language or the text is not a valid catalogue; the page then stays in English.
+#[wasm_bindgen]
+pub fn register_catalogue(tag: &str, ftl: &str) -> Result<(), JsValue> {
+    crate::i18n::register_catalogue(tag, ftl).map_err(|e| JsValue::from_str(&e))
 }
 
 /// Why a scenario fails, as a JSON object string `{"kind", "code", "message"}` (`message` in `lang`,

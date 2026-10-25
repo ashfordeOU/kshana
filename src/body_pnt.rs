@@ -459,7 +459,10 @@ impl BodyPntScenario {
             let alt = user_cfg.altitude_km.unwrap_or(400.0) * 1e3;
             let e = user_cfg.eccentricity.unwrap_or(0.0);
             if !(0.0..0.9).contains(&e) || alt <= 0.0 {
-                return Err(crate::terr!("e-body-pnt-user-altitude-must-be-positive"));
+                return Err(crate::terr!(
+                    "e-body-pnt-user-altitude-must-be-positive",
+                    lit_0_9 = crate::i18n::num(0.9_f64, 1)
+                ));
             }
             let a = radius + alt;
             if a * (1.0 - e) <= radius {

@@ -159,6 +159,7 @@ __all__ = [
     "list_kinds",
     "error_kind",
     "error_info",
+    "run_human",
     "version",
     "receiver_trust",
     "receiver_trust_replay",
@@ -658,29 +659,36 @@ def skyplot_svg(request: str | dict[str, Any]) -> str:
     """The skyplot of ``request`` (as for ``sky_geometry``) as static SVG text. Raises
     ``ValueError``."""
 
-def scenario_kinds() -> list[KindMeta]:
+def scenario_kinds(lang: Optional[str] = None) -> list[KindMeta]:
     """The available scenario kinds and their metadata (name, description, required
     and optional fields). A required entry is usually one key; ``a|b`` means at
     least one of them and ``a+b`` means all of them together (e.g.
-    ``tle|orbit+epoch``). Every kind except ``clock`` must also set ``kind``."""
+    ``tle|orbit+epoch``). Every kind except ``clock`` must also set ``kind``.
+    ``lang`` (a tag such as ``"de"``; ``None`` is English) is the language of each
+    ``description``; names and fields are the same in every language. Raises
+    ``ValueError`` for an unsupported tag."""
 
 def validate_toml(toml: str, lang: Optional[str] = None) -> list[str]:
     """Validate a scenario TOML string without raising: a list of error messages,
     empty if valid. Executes the scenario, so it surfaces parse, config, and
     runtime errors."""
 
-def list_kinds() -> str:
+def list_kinds(lang: Optional[str] = None) -> str:
     """The scenario kinds and metadata as ONE JSON-array string, not a list.
 
     It returns the same metadata as :func:`scenario_kinds`, serialised; iterating
     the result walks characters, not kinds. It stays a string so existing callers
     do not break. For a Python list of dictionaries call :func:`scenario_kinds`,
-    or ``json.loads(list_kinds())``."""
+    or ``json.loads(list_kinds())``. ``lang`` is as for :func:`scenario_kinds`."""
 
 def error_kind(toml: str, lang: Optional[str] = None) -> Optional[ErrorKind]:
     """Run a scenario; on failure return the structured error *kind* tag
     (``invalid_input``/``non_convergence``/``unsupported``/``io_error``) instead of
     raising. Returns ``None`` on success."""
+
+def run_human(toml: str, lang: str) -> tuple[str, str]:
+    """Run a scenario once in ``lang`` and return ``(summary, svg)``, what a person reads. The result
+    document and CSV are the English run's (:func:`run_typed`), not this run's."""
 
 def error_info(toml: str, lang: Optional[str] = None) -> Optional[dict[str, Any]]:
     """Why a scenario fails: ``None`` when it runs, else ``{"kind", "code", "message"}``. The message
