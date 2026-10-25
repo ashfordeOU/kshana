@@ -1,0 +1,18 @@
+# Messages whose numbers are passed as placeables, so each language formats them (decimal mark).
+# Translators keep the placeables; format of a line: id: variables.
+bench-tasks-kshana-receiver-trust-35-default: lit_0_35
+e-animation-animation-duration-must-be-between: lit_0_5
+e-body-pnt-user-altitude-must-be-positive: lit_0_9
+e-constellation-eccentricity-must-lie-in: lit_0_9
+e-constellation-grid-step-deg-must-lie: lit_0_25
+e-leo-navmsg-fit-sample-and-eval-step: lit_0_5
+e-leo-navmsg-truth-eccentricity-must-be-in-for: lit_0_1
+e-tracking-loop-tracking-loop-correlator-spacing-chips: lit_1_9
+fusion-hybrid-ukf-chart-subtitle: lit_1_0
+fusion-hybrid-ukf-chart-target: lit_1_0
+hybrid-chart-spec-line: lit_1_0
+hybrid-chart-title: lit_1_0
+iq-cli-track-hz-is-samples-per-chip: lit_0_09
+leo-signal-chart-psd-axis: lit_0_6
+sdr-sampling-rate-is-commensurate-with: lit_4_8876 lit_24_4379
+telecom-timing-the-mask-is-defined-through: lit_0_1

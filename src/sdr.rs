@@ -313,7 +313,9 @@ impl ChipGrid {
                 crate::i18n::localise_decimal(format!("{:.6}", self.samples_per_chip)),
             offset_from_integer_samples =
                 crate::i18n::localise_decimal(format!("{:.3e}", self.offset_from_integer_samples)),
-            dead_band_chips = crate::i18n::localise_decimal(format!("{:.6}", self.dead_band_chips))
+            dead_band_chips = crate::i18n::localise_decimal(format!("{:.6}", self.dead_band_chips)),
+            lit_4_8876 = crate::i18n::num(4.8876_f64, 4),
+            lit_24_4379 = crate::i18n::num(24.4379_f64, 4)
         ))
     }
 }

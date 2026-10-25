@@ -860,7 +860,10 @@ pub fn to_svg(result: &HybridUkfResult) -> String {
     ));
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"42\" font-size=\"11\" fill=\"{MUTED}\">{}</text>",
-        crate::t!("fusion-hybrid-ukf-chart-subtitle")
+        crate::t!(
+            "fusion-hybrid-ukf-chart-subtitle",
+            lit_1_0 = crate::i18n::num(1.0_f64, 1)
+        )
     ));
     // Axis.
     svg.push_str(&format!(
@@ -880,7 +883,10 @@ pub fn to_svg(result: &HybridUkfResult) -> String {
         "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{LIME}\">{}</text>",
         ml + 4.0,
         one_y - 4.0,
-        crate::t!("fusion-hybrid-ukf-chart-target")
+        crate::t!(
+            "fusion-hybrid-ukf-chart-target",
+            lit_1_0 = crate::i18n::num(1.0_f64, 1)
+        )
     ));
 
     // Two bar groups.
