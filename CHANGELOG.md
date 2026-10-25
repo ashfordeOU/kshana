@@ -11,6 +11,19 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- The `mission-thread` scenario kind (`scenarios/mission-thread-artemis-class.toml`, `docs/MISSION-THREAD.md`): the
+  navigation and timing error budget of a chain of phases from launch to entry, every number MODELLED and every input stated.
+  Eight phase kinds: `launch-ascent`, `leo-rendezvous` (Clohessy-Wiltshire relative covariance over sensor legs, docking
+  window), `tli-and-cruise` (Cowell propagation with a finite-difference state-transition matrix, burn error, `gnss-ssv` and
+  ground-tracking updates, the Moon from an optional DE440 kernel cut), `entry` (flight-path-angle sigma, corridor
+  probability, peak deceleration at the corridor edges, landing footprint) and the four lunar kinds. Handover rules
+  (`carry`, `inflate`, `reacquire`), frame and timescale conversions as their own budget rows, an optional ground-network
+  overlay that sets each phase's tracking duty, the margin against stated requirements and the weakest link. The example
+  follows the sequence of a public NASA concept-of-operations slide deck with ILLUSTRATIVE numbers.
+  The cislunar propagation was compared with the public Artemis I trajectory over a 72 h arc against a bar fixed in
+  `xval/mission-thread/PREREGISTRATION.md` before the run: **NOT MET** (45 km and 0.25 m/s against 5 km and 0.05 m/s). The
+  diagnostic places the miss in five small impulsive events in the reference; between them the force model reproduces the
+  hourly states to a median of 0.4 m. The row stays MODELLED (`xval/mission-thread/RESULTS.md`).
 - The lunar segment of the Artemis-class mission thread: four scenario kinds, each also a phase kind of the
   `mission-thread` interface (`src/mission_thread/lunar/`), every one MODELLED.
   - `lunar-orbit-rendezvous`: relative navigation to docking in a 100 km circular polar orbit or a 100 km by 3000 km
