@@ -377,8 +377,7 @@ fn the_scenario_result_records_the_score_model_and_the_csv_the_reasons() {
         .any(|o| o == "marine"));
     let header = plain_csv.lines().nth(1).unwrap();
     assert!(header.ends_with(",alarms,score,score_reasons"), "{header}");
-    assert!(out
-        .csv
+    assert!(plain_csv
         .lines()
         .next()
         .unwrap()
