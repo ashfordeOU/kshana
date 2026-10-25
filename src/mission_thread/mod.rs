@@ -26,13 +26,48 @@ use phase::{EvidenceLabel, Frame, NavState, PhaseOutcome, Timescale};
 use sha2::{Digest, Sha256};
 
 /// The thread-level context every phase runs in.
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone)]
 pub struct ThreadCtx {
     /// The thread's epoch, as a UTC ISO-8601 string; mission elapsed time is seconds since it.
     pub epoch_utc: String,
     /// The thread's seed. Each phase gets its own derived seed ([`ThreadCtx::phase_seed`]), so a
     /// phase run on its own returns the numbers it returns inside the thread.
     pub seed: u64,
+    /// An optional JPL SPK kernel holding the Moon and the Earth. Where it covers an epoch the
+    /// frame conversions take the Moon's state from it; elsewhere they fall back to the analytic
+    /// series and say so in the budget line.
+    pub moon_kernel: Option<std::sync::Arc<crate::ephem_provider::KernelEphemeris>>,
+}
+
+impl std::fmt::Debug for ThreadCtx {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ThreadCtx")
+            .field("epoch_utc", &self.epoch_utc)
+            .field("seed", &self.seed)
+            .field(
+                "moon_kernel_sha256",
+                &self
+                    .moon_kernel
+                    .as_ref()
+                    .map(|k| k.kernel_sha256().to_string()),
+            )
+            .finish()
+    }
+}
+
+impl PartialEq for ThreadCtx {
+    fn eq(&self, other: &Self) -> bool {
+        self.epoch_utc == other.epoch_utc
+            && self.seed == other.seed
+            && self
+                .moon_kernel
+                .as_ref()
+                .map(|k| k.kernel_sha256().to_string())
+                == other
+                    .moon_kernel
+                    .as_ref()
+                    .map(|k| k.kernel_sha256().to_string())
+    }
 }
 
 impl ThreadCtx {
@@ -41,7 +76,20 @@ impl ThreadCtx {
         ThreadCtx {
             epoch_utc: epoch_utc.to_string(),
             seed,
+            moon_kernel: None,
         }
+    }
+
+    /// The same context with a JPL SPK kernel (it must hold the Moon, 301, and the Earth, 399,
+    /// relative to the Earth-Moon barycentre) as the source of the Moon's state.
+    pub fn with_moon_kernel(mut self, kernel: crate::ephem_provider::KernelEphemeris) -> Self {
+        self.moon_kernel = Some(std::sync::Arc::new(kernel));
+        self
+    }
+
+    /// [`ThreadCtx::with_moon_kernel`] reading the kernel from a file.
+    pub fn with_moon_kernel_file(self, path: &std::path::Path) -> Result<Self, String> {
+        Ok(self.with_moon_kernel(crate::ephem_provider::KernelEphemeris::open(path)?))
     }
 
     /// The seed of the phase with the given id: the first eight bytes of SHA-256 over the thread
