@@ -339,3 +339,7 @@ seg-cbb264f9962e = Огляд
 seg-7fdb07b3b0ca = Місячний і цисмісячний
 
 seg-e88d3dbcfe0c = MODELLED
+
+seg-039b7c5fd78a = Одиниця
+
+seg-37f058c4e1c3 = кількість

@@ -9,3 +9,5 @@ seg-379f49bff6fb = Python
 seg-f917e7fcac09 = Що це
 
 seg-e0426ffe2628 = Примітка
+
+seg-d6476863f862 = Можливість
