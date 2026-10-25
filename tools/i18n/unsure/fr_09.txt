@@ -1,0 +1,14 @@
+engine-legal-compliance-statement | "evidenced" kept as literal label value; "cadre de référence est respecté" for "framework is met"
+engine-legal-bench-surface-notice | "conducted" rendered "en conduit" (conducted/shielded set-up), "authorised" -> "autorisé" (not a claim)
+engine-legal-lunar-time-lab-source-statement | "does not adopt it" rendered with Kshana as feminine "elle"
+engine-legal-geometry-statement | long technical sentence, "non-line-of-sight" -> "hors ligne directe"
+engine-legal-lunanet-afs-advisory | no glossary translation block; "safety-of-life" -> "sauvegarde de la vie humaine"
+engine-legal-standards-pack-advisory | same safety-of-life rendering
+engine-legal-iqfit-statement | "front-end chain" kept as "front-end"
+engine-legal-observatory-notice | "clear" -> "dégagée"
+engine-advanced-report-honesty-label | "Honesty label" -> "Étiquette de franchise"
+engine-advanced-report-th-oracle | "oracle" -> glossary "référence indépendante"
+engine-advanced-report-h-figure-tiers | "tiers" -> "niveaux"
+engine-advanced-report-not-modelled-note | lowercase "stays modelled" -> "reste à l'état de modèle"
+engine-fusion-hybrid-ukf-chart-title | lowercase "modelled" -> "modélisé"
+engine-geometry-chart-in-view-hidden | "hollow" -> "creux"; "skyline" -> "profil d'horizon"
