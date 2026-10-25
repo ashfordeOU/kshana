@@ -2874,17 +2874,22 @@ fn sweep_svg(sw: &SweepOut, top: f64, w: f64) -> (String, f64) {
     let (ml, mr, ph) = (80.0_f64, 24.0_f64, 160.0_f64);
     let pw = w - ml - mr;
     let mut s = String::new();
-    let caption = crate::t!(
-        "campaign-sweep-of-over-nodes-each",
-        scenario_kind = sw.scenario_kind,
-        axis_order = sw.axis_order.join(" x "),
-        nodes = sw.nodes.len(),
-        v4 = if sw.runs > 1 {
-            crate::t!("campaign-chart-sweep-percentile-band", n_runs = sw.runs)
-        } else {
-            String::new()
-        }
-    );
+    let caption = if sw.runs > 1 {
+        crate::t!(
+            "campaign-sweep-of-over-nodes-each-percentile-band",
+            scenario_kind = sw.scenario_kind,
+            axis_order = sw.axis_order.join(" x "),
+            nodes = sw.nodes.len(),
+            n_runs = sw.runs
+        )
+    } else {
+        crate::t!(
+            "campaign-sweep-of-over-nodes-each",
+            scenario_kind = sw.scenario_kind,
+            axis_order = sw.axis_order.join(" x "),
+            nodes = sw.nodes.len()
+        )
+    };
     let ptop = top + 20.0;
     let bottom = ptop + ph;
     s.push_str(&crate::chart::panel_axes(ml, ptop, pw, bottom, &caption));

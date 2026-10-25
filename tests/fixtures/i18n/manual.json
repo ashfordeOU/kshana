@@ -1883,17 +1883,6 @@
   ]
  },
  {
-  "id": "campaign-chart-sweep-percentile-band",
-  "error": false,
-  "parts": [
-   ", median with 5th-95th percentile band over ",
-   {
-    "var": "n_runs"
-   },
-   " seeds"
-  ]
- },
- {
   "id": "campaign-chart-sweep-line-at",
   "error": false,
   "parts": [
@@ -4869,6 +4858,350 @@
    {
     "var": "om2"
    }
+  ]
+ },
+ {
+  "id": "iq-cli-scene-written-by-kshana-iq-scene-integer-scale",
+  "error": false,
+  "parts": [
+   "written by kshana iq scene: a SIMULATED scene, not a recording; integer scale: 1 LSB = ",
+   {
+    "var": "sc"
+   },
+   " noise-normalised units (expected RMS ",
+   {
+    "var": "v1"
+   },
+   " LSB per component), ",
+   {
+    "var": "clipped"
+   },
+   " element(s) clipped"
+  ]
+ },
+ {
+  "id": "iq-cli-scene-written-by-kshana-iq-scene",
+  "error": false,
+  "parts": [
+   "written by kshana iq scene: a SIMULATED scene, not a recording"
+  ]
+ },
+ {
+  "id": "iq-cli-scene-written-by-kshana-iq-scene-2-integer-scale",
+  "error": false,
+  "parts": [
+   "written by kshana iq scene; integer scale: 1 LSB = ",
+   {
+    "var": "sc"
+   },
+   " noise-normalised units (expected RMS ",
+   {
+    "var": "v1"
+   },
+   " LSB per component), ",
+   {
+    "var": "clipped"
+   },
+   " element(s) clipped"
+  ]
+ },
+ {
+  "id": "iq-cli-scene-written-by-kshana-iq-scene-2",
+  "error": false,
+  "parts": [
+   "written by kshana iq scene"
+  ]
+ },
+ {
+  "id": "iq-cli-scene-wrote-samples-hz-to-truth-integer-scale",
+  "error": false,
+  "parts": [
+   "wrote ",
+   {
+    "var": "samples"
+   },
+   " samples (",
+   {
+    "var": "format"
+   },
+   ", ",
+   {
+    "var": "fs_hz"
+   },
+   " Hz) to ",
+   {
+    "var": "data_path"
+   },
+   "; ",
+   {
+    "var": "truth_records"
+   },
+   " truth records to ",
+   {
+    "var": "truth_path"
+   },
+   "; ",
+   {
+    "var": "meta_note"
+   },
+   "; channel: ",
+   {
+    "var": "chan_desc"
+   },
+   "; integer scale: 1 LSB = ",
+   {
+    "var": "sc"
+   },
+   " noise-normalised units (expected RMS ",
+   {
+    "var": "v1"
+   },
+   " LSB per component), ",
+   {
+    "var": "clipped"
+   },
+   " element(s) clipped"
+  ]
+ },
+ {
+  "id": "iq-cli-scene-wrote-samples-hz-to-truth",
+  "error": false,
+  "parts": [
+   "wrote ",
+   {
+    "var": "samples"
+   },
+   " samples (",
+   {
+    "var": "format"
+   },
+   ", ",
+   {
+    "var": "fs_hz"
+   },
+   " Hz) to ",
+   {
+    "var": "data_path"
+   },
+   "; ",
+   {
+    "var": "truth_records"
+   },
+   " truth records to ",
+   {
+    "var": "truth_path"
+   },
+   "; ",
+   {
+    "var": "meta_note"
+   },
+   "; channel: ",
+   {
+    "var": "chan_desc"
+   }
+  ]
+ },
+ {
+  "id": "campaign-sweep-of-over-nodes-each-percentile-band",
+  "error": false,
+  "parts": [
+   "sweep of `",
+   {
+    "var": "scenario_kind"
+   },
+   "` over ",
+   {
+    "var": "axis_order"
+   },
+   " (",
+   {
+    "var": "nodes"
+   },
+   " nodes, median with 5th-95th percentile band over ",
+   {
+    "var": "n_runs"
+   },
+   " seeds; each line on its own range)"
+  ]
+ },
+ {
+  "id": "campaign-sweep-of-over-nodes-each",
+  "error": false,
+  "parts": [
+   "sweep of `",
+   {
+    "var": "scenario_kind"
+   },
+   "` over ",
+   {
+    "var": "axis_order"
+   },
+   " (",
+   {
+    "var": "nodes"
+   },
+   " nodes; each line on its own range)"
+  ]
+ },
+ {
+  "id": "antenna-limb-capture-is-reached-on",
+  "error": false,
+  "parts": [
+   "limb capture IS reached on this grid (altitude ",
+   {
+    "var": "a_lo"
+   },
+   "-",
+   {
+    "var": "a_hi"
+   },
+   " m x beamwidth ",
+   {
+    "var": "b_lo"
+   },
+   "-",
+   {
+    "var": "b_hi"
+   },
+   " deg, ",
+   {
+    "var": "points2"
+   },
+   " points): ",
+   {
+    "var": "points"
+   },
+   " of ",
+   {
+    "var": "points2"
+   },
+   " sampled operating points capture the limb and ",
+   {
+    "var": "crossings"
+   },
+   " axis crossing(s) were located; the strongest limb J/S sampled is ",
+   {
+    "var": "limb_js_db"
+   },
+   " dB at altitude ",
+   {
+    "var": "altitude_m"
+   },
+   " m / beamwidth ",
+   {
+    "var": "hpbw_deg"
+   },
+   " deg, against a ",
+   {
+    "var": "thr"
+   },
+   " dB capture threshold."
+  ]
+ },
+ {
+  "id": "antenna-limb-capture-is-not-reached",
+  "error": false,
+  "parts": [
+   "limb capture is NOT reached anywhere on this grid (altitude ",
+   {
+    "var": "a_lo"
+   },
+   "-",
+   {
+    "var": "a_hi"
+   },
+   " m x beamwidth ",
+   {
+    "var": "b_lo"
+   },
+   "-",
+   {
+    "var": "b_hi"
+   },
+   " deg, ",
+   {
+    "var": "points"
+   },
+   " points) - not zero capture, but no limb capture: the best limb J/S is ",
+   {
+    "var": "limb_js_db"
+   },
+   " dB at altitude ",
+   {
+    "var": "altitude_m"
+   },
+   " m / beamwidth ",
+   {
+    "var": "hpbw_deg"
+   },
+   " deg, ",
+   {
+    "var": "shortfall"
+   },
+   " dB short of the ",
+   {
+    "var": "thr"
+   },
+   " dB capture threshold; that operating point would capture the limb at ",
+   {
+    "var": "limb_capture_tx_power_dbw"
+   },
+   " dBW transmit power against the ",
+   {
+    "var": "p_tx_dbw"
+   },
+   " dBW flown."
+  ]
+ },
+ {
+  "id": "lunar-time-budget-scenario-lunar-time-budget-clock-term-time-lab",
+  "error": false,
+  "parts": [
+   "lunar-time-budget | clock ",
+   {
+    "var": "clock"
+   },
+   " | 7-term x_Σ(τ) over ",
+   {
+    "var": "taus"
+   },
+   " τ-points (",
+   {
+    "var": "taus2"
+   },
+   "–",
+   {
+    "var": "taus3"
+   },
+   " s) | crossover τ ",
+   {
+    "var": "crossover_tau_s"
+   },
+   " s (x ",
+   {
+    "var": "crossover_x_s"
+   },
+   " s) | frame floor ",
+   {
+    "var": "frame_term_s"
+   },
+   " s | clock x(1 d) ",
+   {
+    "var": "x_1day_ns"
+   },
+   " ns (MODELLED) | time lab: ",
+   {
+    "var": "lab"
+   },
+   " ",
+   {
+    "var": "lab2"
+   },
+   " to LTC, x(1 d) ",
+   {
+    "var": "lab3"
+   },
+   " ns (MODELLED)"
   ]
  }
 ]
