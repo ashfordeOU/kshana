@@ -41,3 +41,5 @@ seg-cfc345f0dc0d = Коридор баллистического входа в �
 seg-a4b7c16e3fea = <s1>Предыдущий</s1>realtime-frame-eop
 
 seg-6166a1c21525 = <s1>Следующий</s1>slot-timing
+
+seg-195347c63a8a = м/с^{ "2" }

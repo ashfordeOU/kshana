@@ -1423,3 +1423,1035 @@ seg-529f02f85a76 = камера Lunar Reconnaissance Orbiter
 seg-c5da9d350518 = <s1>Назад</s1>Введение в понятия
 
 seg-670504be0531 = <s1>Далее</s1>Руководство по Studio
+
+seg-507b8c235614 = CZML
+
+seg-0b76641dee1a = Cesium Language
+
+seg-fd0a7af2ebeb = формат сцен JSON для CesiumJS
+
+seg-1aefbc0b799d = дБ / дБВт / дБ-Гц
+
+seg-8a0d954bd13b = децибел / децибел-ватт / децибел-герц
+
+seg-c485de5bcd85 = отношение мощностей, абсолютная мощность и единица C/N0
+
+seg-6c0cbce59df5 = DC
+
+seg-ddd7d412fce7 = постоянный ток
+
+seg-0ea7fccee332 = предел нулевой частоты
+
+seg-521e2abbe12d = DCM
+
+seg-3db4487dc2a4 = матрица направляющих косинусов
+
+seg-9d3d9ca79a9d = матрица поворота
+
+seg-364a2fcec10b = DCO
+
+seg-110b1eb4f532 = Developer Certificate of Origin
+
+seg-1545bd59f5ef = DCT
+
+seg-8b6866288bea = таблица управления проектом
+
+seg-80d95f099e9a = таблица бюджета линии связи (пример Galileo в X-диапазоне из JPL DESCANSO)
+
+seg-7f9734bd79bc = DE / DE421 / DE430 / DE440 / DE441
+
+seg-ed8d5c361e79 = JPL Development Ephemeris (версии { "421" }, { "430" }, { "440" }, { "441" })
+
+seg-748af19e3f0b = планетные и лунные эфемериды; «класса DE» означает точность такого класса
+
+seg-6f880928ce0c = DEM
+
+seg-eed6ad669d4c = цифровая модель рельефа
+
+seg-920f5ff86fa2 = DESCANSO
+
+seg-6d1f2ffa8184 = Deep Space Communications and Navigation Systems Center of Excellence
+
+seg-2e11a1976171 = серия монографий JPL
+
+seg-10dc0c578b92 = Deutsches Geodätisches Forschungsinstitut der Technischen Universität München (Германский геодезический исследовательский институт при Мюнхенском техническом университете)
+
+seg-e7cedd55549e = размещает центр данных EUROLAS
+
+seg-4389ecd5c81a = DGNSS
+
+seg-fb8c5992354b = дифференциальная GNSS
+
+seg-3fed847ae9ec = DHS
+
+seg-2845322fad33 = Министерство внутренней безопасности
+
+seg-6b487421c547 = США
+
+seg-9e06c8655623 = DoD
+
+seg-7a7ea4a3f0d5 = Министерство обороны
+
+seg-1f6c4757bee5 = DOF / DoF
+
+seg-e1daefad0696 = степень свободы
+
+seg-bf5bc69cb873 = см. 1-DOF выше
+
+seg-3b5c7c9b324d = DOR / Δ-DOR
+
+seg-3e0b6392f4d9 = дифференциальные односторонние измерения дальности / дельта-дифференциальные односторонние измерения дальности
+
+seg-6ba2d3b5b724 = угловое сопровождение в дальнем космосе
+
+seg-58c55b8ab7fe = DP5 / RK4 / RK5 / DOP853
+
+seg-ea9b38a5d810 = Дорман–Принс { "5" }({ "4" }) / Рунге–Кутта { "4" } / Рунге–Кутта { "5" } / Дорман–Принс { "8" }({ "5,3" })
+
+seg-00ecc6de9912 = численные интеграторы
+
+seg-16c4bf2faef3 = DRMS
+
+seg-8128cc0c1482 = среднеквадратичное расстояние
+
+seg-a8ed04890ded = см. 2DRMS
+
+seg-c9ab798458cb = DS00002980D / DS00002985D / DS00003047A
+
+seg-371644e70b75 = номера документов с описаниями изделий Microchip
+
+seg-f25e5c4de1e5 = DSAC
+
+seg-aa0d8d4b3a3b = Deep Space Atomic Clock
+
+seg-e80350ed521f = часы NASA на ионах ртути в ловушке
+
+seg-52e838301c0b = UT1 минус UTC
+
+seg-fbce3b3b7b80 = поправка на вращение Земли
+
+seg-8aa996f34920 = энергия на бит относительно спектральной плотности шума
+
+seg-463b21c0b791 = инерциальная система, совпадающая с Земной системой координат в начале прогона
+
+seg-4dc987bd9dbf = используется экспортом для взаимодействия leo-pass
+
+seg-61f975df5e21 = ECMAScript / ES
+
+seg-c66e728cd2fa = стандарт, лежащий в основе JavaScript / модуль ES
+
+seg-e1a4fd0a6a76 = Empirical CODE Orbit Model { "2" }
+
+seg-2967e958f353 = модель солнечного давления для GNSS (CODE: Center for Orbit Determination in Europe)
+
+seg-244af4062ccc = ECSS
+
+seg-b74029376aba = European Cooperation for Space Standardization
+
+seg-d452e23d503a = ECSS-E-ST-10-02 — её стандарт верификации
+
+seg-becb6685ff13 = ED
+
+seg-b6448e14a567 = документ EUROCAE
+
+seg-ee4ada9c4c6e = как в ED-259A
+
+seg-8a57ce8403b1 = EDL
+
+seg-0f065f2290f3 = вход в атмосферу, спуск и посадка
+
+seg-69f37001de44 = EEE
+
+seg-18a1b66286ee = электрические, электронные и электромеханические (компоненты)
+
+seg-f814c1301059 = обеспечение качества космической продукции
+
+seg-08e455b17435 = EGM / EGM2008
+
+seg-1ed72a253035 = Earth Gravitational Model (выпуск { "2008" })
+
+seg-074e3ceb394e = NGA
+
+seg-69ba7307ea4c = EIGEN
+
+seg-4272020c0ebd = European Improved Gravity model of the Earth by New techniques
+
+seg-a49ce7809382 = ELECTRE
+
+seg-647519f3df17 = ELimination Et Choix Traduisant la REalité (исключение и выбор, выражающие реальность)
+
+seg-efb2f919955a = многокритериальный метод превосходства
+
+seg-88a2f1813af8 = Éphéméride Lunaire Parisienne, версия MPP02 (Chapront)
+
+seg-b1d699d70339 = аналитическая лунная теория
+
+seg-aee5eeb23064 = средний экватор и равноденствие Земли эпохи J2000
+
+seg-16d9b8eac95d = инерциальная система координат
+
+seg-e676d5eec6e3 = EML
+
+seg-f4bba0abbda7 = кодовый дискриминатор
+
+seg-0e4110d33849 = EMT
+
+seg-103c6de62575 = эффективный порог монитора
+
+seg-4b2101113387 = выходная величина ARAIM
+
+seg-0e2817aec74a = ENU / NED
+
+seg-56d5cf1544d9 = восток–север–вверх / север–восток–вниз
+
+seg-aae7610833a7 = локальные горизонтные системы координат
+
+seg-c7d5c5d5c5b2 = EO
+
+seg-24907930c730 = наблюдение Земли
+
+seg-38f9c209c4ac = EPM / EPM2021
+
+seg-d15e1559b7f7 = Ephemerides of Planets and the Moon (выпуск { "2021" })
+
+seg-bd2a27a17f6d = эфемериды IAA RAS
+
+seg-01a8e43fb6c7 = ERA
+
+seg-eb78ffaf7e1d = угол вращения Земли
+
+seg-966ed500f705 = ESKF
+
+seg-e79112a3132a = фильтр Калмана по вектору ошибок
+
+seg-25c6b6b19d75 = ESS
+
+seg-fe2b7be913f0 = эффективный размер выборки
+
+seg-57ce1c1b617b = для фильтра частиц
+
+seg-f529300f944b = ESSR
+
+seg-869be8388d26 = European Space Software Repository
+
+seg-536d66d208e4 = ESA
+
+seg-27be9c1d7090 = ET
+
+seg-7cc2ef5b0748 = эфемеридное время
+
+seg-e0c49639649e = название TDB в SPICE
+
+seg-80de6914a5ec = EUROCAE
+
+seg-76897dd8c3be = Европейская организация по оборудованию для гражданской авиации
+
+seg-b4f12b7813dd = EUROLAS
+
+seg-857527c69d6e = Европейская лазерная сеть
+
+seg-fa7025d88c88 = лазерная дальнометрия спутников и Луны
+
+seg-13fc009b947c = FAQ
+
+seg-f5581b33ae89 = часто задаваемые вопросы
+
+seg-67d10fd4a4e0 = FCC
+
+seg-0a558c281968 = Федеральная комиссия по связи (США)
+
+seg-f6ade8c24d27 = FCNN
+
+seg-6098513947b8 = полносвязная нейронная сеть
+
+seg-1de7b4410369 = FD
+
+seg-4e73ff36d37f = конечная разность
+
+seg-e43312a5fbbe = FDE
+
+seg-d6c9fb239b59 = обнаружение и исключение отказов
+
+seg-8f9d11564223 = FES / FES2004
+
+seg-1a1cf1501056 = Finite Element Solution (выпуск { "2004" })
+
+seg-878b4a645ae9 = модель океанских приливов
+
+seg-55c14f474a10 = FIM
+
+seg-b68c86e68570 = информационная матрица Фишера
+
+seg-d39671724dfc = хеш Фаулера–Нолла–Во, вариант 1a
+
+seg-3354ad42f7dd = используется для фиксации эталонных выходных данных
+
+seg-efca4decfec0 = FOC / IOV
+
+seg-793d96ab9856 = полная эксплуатационная готовность / проверка на орбите
+
+seg-ce13cca7f222 = поколения спутников (Galileo, Xona Pulsar)
+
+seg-58df7305e218 = FOV / IFOV
+
+seg-cafe1f8733ec = поле зрения / мгновенное поле зрения
+
+seg-4f7168e895d2 = FPGA / MCU / RTOS
+
+seg-abde801ec70b = программируемая пользователем вентильная матрица / микроконтроллер / операционная система реального времени
+
+seg-a082e4570309 = FSL / FSPL
+
+seg-3a8ee2932a46 = потери в свободном пространстве / потери на трассе в свободном пространстве
+
+seg-4535dadf79df = ITU-R P.525
+
+seg-c0209066dc76 = ГБ / КБ / МБ
+
+seg-184bb3d8b345 = гигабайт / килобайт / мегабайт
+
+seg-8094e61fdd76 = GCRF
+
+seg-6c6337c7a855 = Geocentric Celestial Reference Frame
+
+seg-f050f2b8dee1 = GDAL
+
+seg-98b12fcceb01 = Geospatial Data Abstraction Library
+
+seg-1cef8718c772 = GEO
+
+seg-6131e4ea7858 = геостационарная орбита
+
+seg-bf09433a7342 = GeoJSON
+
+seg-f8654e88af67 = Geographic JavaScript Object Notation
+
+seg-70dc52cd5059 = IETF RFC { "7946" }
+
+seg-bb8fbd2ebc28 = GG
+
+seg-b93ed4ab2b79 = градиент гравитации
+
+seg-d8ef4d361e86 = как в гравитационно-градиентном моменте
+
+seg-12fd4eb15c4d = ГГц / кГц
+
+seg-0769cc8be024 = гигагерц / килогерц
+
+seg-3946b69535e4 = GIM
+
+seg-ef5fc608b0e5 = глобальная карта ионосферы
+
+seg-8cbbff1bc1d1 = GINS / KF-GINS
+
+seg-fbe37a571772 = интеграция GNSS/INS / набор данных и код фильтра Калмана GNSS/INS Уханьского университета
+
+seg-deca3cbe41ac = GIS
+
+seg-36275ece527d = географическая информационная система
+
+seg-ebe8194d12b3 = GIVE
+
+seg-6a99c12984b5 = вертикальная ошибка сетки ионосферы
+
+seg-20a40777d78a = термин сообщений SBAS
+
+seg-6fbfc5108833 = gLAB
+
+seg-1be22ebbedc3 = GNSS-Lab Tool
+
+seg-93b2c5b68af0 = пакет обработки данных GNSS, распространяемый ESA
+
+seg-2aa0f3147ad5 = GLIBC
+
+seg-096e00cb9d9b = библиотека GNU C
+
+seg-2630ae5f0bc5 = Глобальная навигационная спутниковая система России (Globalnaya Navigatsionnaya Sputnikovaya Sistema)
+
+seg-361f1f18d454 = GLS
+
+seg-397d58b727ee = обобщённый метод наименьших квадратов
+
+seg-9bb2492e5d5d = GM
+
+seg-6bd8e46e9131 = гравитационный параметр
+
+seg-e3a296392ac0 = гравитационная постоянная, умноженная на массу тела
+
+seg-45a8f50bce06 = General Mission Analysis Tool
+
+seg-60d33e61b446 = NASA
+
+seg-1edd65c52f46 = Goddard Mars Model { "3" }
+
+seg-45abee95253b = гравитационное поле Марса
+
+seg-558ea1e07042 = GMST
+
+seg-d3c4914f0d13 = среднее звёздное время по Гринвичу
+
+seg-d853b1084a52 = GNC
+
+seg-34a9ddce3d5f = наведение, навигация и управление
+
+seg-d33e343f6635 = GPOD
+
+seg-2ef6bb5a52fc = Grid Processing On Demand
+
+seg-14782f821cde = GR
+
+seg-762f364a05f3 = общая теория относительности
+
+seg-3e3f45ad1178 = GRGM / GRGM660PRIM
+
+seg-948167f5f1c3 = модели гравитационного поля Луны GRAIL от NASA Goddard (GRAIL: Gravity Recovery and Interior Laboratory)
+
+seg-220fae5cfc61 = Geodetic Reference System { "1980" }
+
+seg-bb3c2a337ae8 = GSD
+
+seg-691791646eb3 = размер пикселя на местности
+
+seg-448d7036fefe = GSE
+
+seg-d05b88e7d5c5 = наземное вспомогательное оборудование
+
+seg-95d29f8138f9 = GSFC
+
+seg-2e1460089fed = Центр космических полётов имени Годдарда
+
+seg-7680e0663a5b = HDEV / OHDEV
+
+seg-1fd1e3322c86 = девиация Адамара / перекрывающаяся девиация Адамара
+
+seg-bb846135ceb4 = мера стабильности, нечувствительная к дрейфу
+
+seg-0edc4eed2775 = HIL
+
+seg-956a26e1ff6d = аппаратура в контуре
+
+seg-48523cdbbbf5 = HMI / MI
+
+seg-d77e079194df = опасно вводящая в заблуждение информация / вводящая в заблуждение информация
+
+seg-1cbf9d6f135d = области диаграммы Стэнфорда
+
+seg-b320746fafa5 = HP
+
+seg-465a952272f3 = HTML
+
+seg-45a46390d3ba = HyperText Markup Language
+
+seg-25206f1161f0 = IAA RAS
+
+seg-1a4f063e3583 = Институт прикладной астрономии Российской академии наук
+
+seg-9f434fdc21f2 = IAG
+
+seg-08fb84d2e01a = Международная ассоциация геодезии
+
+seg-e4d6251ec64d = IAGA / V-MOD (VMOD)
+
+seg-01880debd7e0 = Международная ассоциация геомагнетизма и аэрономии / её рабочая группа V-MOD (моделирование геомагнитного поля)
+
+seg-28805f15bae8 = поддерживает IGRF
+
+seg-d4ce72152bf2 = IC
+
+seg-fa95c4e7fdc2 = начальное условие
+
+seg-e4c4373d0c76 = ICAO
+
+seg-2fccffbaf4dc = Международная организация гражданской авиации
+
+seg-c2d2d459177d = ICD
+
+seg-a018300615e2 = документ управления интерфейсом
+
+seg-433b45040abd = как в Galileo OS SIS ICD
+
+seg-5e1e49c5000e = ICGEM
+
+seg-c17be0db9e83 = Международный центр глобальных моделей Земли
+
+seg-e9650a618b38 = ID
+
+seg-e40875ab1090 = идентификатор (или идентификация, как в ID типа шума)
+
+seg-c643488ba1ea = IEEE
+
+seg-e4b50d4d890f = Институт инженеров по электротехнике и электронике
+
+seg-91966e2931d4 = IETF / RFC
+
+seg-0804111ad44d = Internet Engineering Task Force / Request for Comments
+
+seg-ce9375732735 = IF
+
+seg-746eae5ce367 = промежуточная частота
+
+seg-ed568f55aa8f = отсчёты приёмника
+
+seg-cb4aaa2581bb = реализация ITRF2014 от IGS
+
+seg-bfa8e6d5d0d1 = IGRF / IGRF14
+
+seg-55fed0afea05 = International Geomagnetic Reference Field
+
+seg-669611e731d0 = IGRF-14 (файл IGRF14.shc) — 14-е поколение
+
+seg-f7cf8ff44256 = IGSO
+
+seg-4833bd1e9c03 = наклонная геосинхронная орбита
+
+seg-2080ff6f98fd = IIF
+
+seg-cf7a31e569cd = GPS Block II Follow-on
+
+seg-8a19be8033a9 = поколение спутников GPS
+
+seg-68cc1c937ce9 = ILRS
+
+seg-53cc8d1f6824 = International Laser Ranging Service
+
+seg-fb5255ba4bc1 = ILS
+
+seg-b8af4d02e031 = целочисленный метод наименьших квадратов
+
+seg-a214c483b8a8 = разрешение неоднозначностей
+
+seg-4740fb9ef0b9 = IMCCE
+
+seg-e77c8324583a = Institut de mécanique céleste et de calcul des éphémérides
+
+seg-22048a770612 = Парижская обсерватория; публикует INPOP
+
+seg-9717f14527d3 = Intégration Numérique Planétaire de l'Observatoire de Paris, версия 21a
+
+seg-577acd29f11b = планетные эфемериды
+
+seg-cdb9ea77f5a6 = IOAG
+
+seg-87f308314cd4 = Interagency Operations Advisory Group
+
+seg-690414990ad8 = ION / ITM
+
+seg-b2fbe0c3507a = Институт навигации / его Международное техническое совещание
+
+seg-53abad80634c = IoT
+
+seg-9b766d557bd1 = Интернет вещей
+
+seg-1b41d114662e = IR
+
+seg-ff2d89b32d07 = риск для целостности
+
+seg-2dc9fcadccd6 = вероятность опасно вводящей в заблуждение информации
+
+seg-02aeac5e2435 = IRE
+
+seg-9c9c0011de8c = Institute of Radio Engineers
+
+seg-3fbae7e11fca = предшественник IEEE
+
+seg-9e3d84279d56 = смещение часов между двумя GNSS
+
+seg-2ffee4396fbd = ISL
+
+seg-505dee046f7a = межспутниковая линия связи
+
+seg-010ea5a76e2e = ISM
+
+seg-330b25f923db = сообщение поддержки целостности
+
+seg-1f5a14efd417 = ARAIM
+
+seg-0ee7fcdaf5a9 = ISO
+
+seg-8c1341375f17 = Международная организация по стандартизации
+
+seg-8291ac1ccba6 = ISO { "8601" } — её формат даты и времени
+
+seg-5b4dee02dccc = ITRF93 / ITRF2020
+
+seg-93458bf3ba01 = International Terrestrial Reference Frame { "1993" } / { "2020" }
+
+seg-14dc2a58e2c3 = Сектор радиосвязи Международного союза электросвязи
+
+seg-0e8094e4d45c = его рекомендации серии P моделируют распространение радиоволн
+
+seg-3e325d97365e = IVS
+
+seg-6f8a6ec848a6 = International VLBI Service for Geodesy and Astrometry
+
+seg-2dd00d470e14 = JD / MJD
+
+seg-107e6683f70d = юлианская дата / модифицированная юлианская дата
+
+seg-996d4952554f = JMLR
+
+seg-a1ef35b98931 = Journal of Machine Learning Research
+
+seg-d370f89393c7 = JOSA
+
+seg-12c154fcd073 = Journal of the Optical Society of America
+
+seg-58fb16c8a046 = JRC / JRC122785
+
+seg-82f85268028f = Объединённый исследовательский центр Европейской комиссии / один из номеров его отчётов
+
+seg-23f5be8ff49e = JS
+
+seg-516ee91e60c5 = JavaScript
+
+seg-02d421e784cd = JavaScript Object Notation
+
+seg-4da0210abab0 = JSTSP
+
+seg-9d88dcfe6818 = IEEE Journal of Selected Topics in Signal Processing
+
+seg-919a951f3d02 = KF
+
+seg-436a208697f1 = фильтр Калмана
+
+seg-9c92e0bc42aa = KML
+
+seg-caf09d501881 = Keyhole Markup Language
+
+seg-ffe25881cef6 = стандарт OGC, читаемый Google Earth
+
+seg-6e9501f1d4ff = KP16 / KRAC / LU22 / APOL
+
+seg-e1552da90a21 = метки типов записей в собственном текстовом формате навигационного сообщения LEO в Kshana
+
+seg-3269a4e6b3e3 = расширение Kshana, а не стандарт
+
+seg-b7f0168b6037 = KPI
+
+seg-a5ff89f0923d = ключевой показатель эффективности
+
+seg-1c4a7ccef434 = KSC
+
+seg-73a4bf4da46f = Космический центр имени Кеннеди
+
+seg-e401e5d923f0 = KVN
+
+seg-09f93b4d4d0b = Keyword = Value Notation
+
+seg-7379ade4ee0e = текстовая форма сообщений CCSDS
+
+seg-a24cf86216d0 = LANS
+
+seg-2ee81a2bc69b = Lunar Augmented Navigation Service
+
+seg-849e3161b64b = LAPACK
+
+seg-3b4f3c08a5ba = Linear Algebra PACKage
+
+seg-69cd99d2f937 = LCG
+
+seg-bcddea3df96d = линейный конгруэнтный генератор
+
+seg-8927ca404e64 = генератор тестовой серии NIST SP { "1065" }
+
+seg-0b9b908055cf = LCNS
+
+seg-f9200a1b7246 = Lunar Communications and Navigation Services
+
+seg-5253cae4b05b = служба ESA Moonlight
+
+seg-2361aef1e2e3 = LCRNS
+
+seg-470ea343b5ac = Lunar Communications Relay and Navigation Systems
+
+seg-8fc87d3026e5 = LFSR
+
+seg-bfecf2f88f17 = регистр сдвига с линейной обратной связью
+
+seg-5b09c8e3f127 = генерация расширяющих кодов
+
+seg-944b45f65820 = LGPL
+
+seg-1e1bf7d7dc79 = GNU Lesser General Public License
+
+seg-0d4d5316b1d8 = LIL
+
+seg-6d040101c6fa = закон повторного логарифма
+
+seg-e48d4b1feeaf = LLI / SSI
+
+seg-81ace10136b6 = индикатор потери захвата / индикатор мощности сигнала
+
+seg-7d95179a5a1f = флаги наблюдений RINEX
+
+seg-2ac0ebb389e7 = LLR
+
+seg-29bcbb78931b = лазерная дальнометрия Луны
+
+seg-20deda97c876 = LLVM
+
+seg-5a84a3219546 = инфраструктура компиляторов LLVM (первоначально Low Level Virtual Machine)
+
+seg-277ed5c4cbcc = LNAV
+
+seg-d2fa9c420999 = устаревшее навигационное сообщение
+
+seg-7f5ad6ab8c23 = GPS
+
+seg-6379745571a9 = LNCSS
+
+seg-b8c48f2bfaf0 = лунная навигационная и коммуникационная спутниковая система
+
+seg-4ce3c0ea7a31 = примеры исследований орбитальных группировок в NAVIGATION { "70" }({ "4" }), navi.613
+
+seg-b13c5776e35b = LNIS
+
+seg-7c67c5753d20 = LunaNet Interoperability Specification
+
+seg-881578d31056 = LNSS
+
+seg-25d4f3a4d3f6 = Lunar Navigation Satellite System
+
+seg-97ff1706b4bd = предлагаемая лунная орбитальная группировка
+
+seg-ec733de1adc5 = LPV / LPV-200
+
+seg-40d72ae4bc9a = характеристики курсового маяка с вертикальным наведением / его категория с высотой принятия решения { "200" } футов
+
+seg-090ba62634a8 = заход на посадку в авиации
+
+seg-b4921e83ddc9 = LRO
+
+seg-2d1b9f5efdb1 = Lunar Reconnaissance Orbiter
+
+seg-8f782bde5659 = LS
+
+seg-c5bc49526464 = високосные секунды
+
+seg-54ea05b82cb4 = как в Δt_LS
+
+seg-15111a93c6d7 = LT
+
+seg-35231d8b9b39 = время распространения света
+
+seg-4729314afd46 = LTE
+
+seg-1a7e158f020f = Long-Term Evolution
+
+seg-3c1b3acc46d9 = стандарт сотовой связи 4G
+
+seg-3530cdaca137 = LU
+
+seg-58ad64b9d450 = LU-разложение (нижняя и верхняя треугольные матрицы)
+
+seg-ef1a45eba6aa = LuGRE
+
+seg-72ec36312101 = Lunar GNSS Receiver Experiment
+
+seg-84874825a5d1 = полетел на Луну в { "2025" } году
+
+seg-e6719690faa2 = LuPNT
+
+seg-be19fb902b36 = лунная библиотека PNT Стэнфорда
+
+seg-893ba320da76 = название
+
+seg-fc68b2fb9529 = MAAST
+
+seg-e98d356a165f = MATLAB Algorithm Availability Simulation Tool
+
+seg-a24b3840d248 = Стэнфорд
+
+seg-71063143c8be = MAIT
+
+seg-2d7aa60c26ba = изготовление, сборка, интеграция и испытания
+
+seg-0397322eae11 = MAR099 / JUP365 / SAT441
+
+seg-bd57191f860b = решения JPL для эфемерид спутников лун Марса, Юпитера и Сатурна
+
+seg-9b0688bfc31e = идентификаторы
+
+seg-a8748c38de15 = MASPS
+
+seg-e25a3738b952 = минимальные стандарты характеристик авиационных систем
+
+seg-16a3c8f74c1c = MATLAB
+
+seg-bebc110fded7 = MATrix LABoratory
+
+seg-e722ea781fdf = программный продукт для численных вычислений
+
+seg-7c03fb6e56f6 = MAUT
+
+seg-e409f72ac9ab = теория многоатрибутной полезности
+
+seg-4a29ddd9b24e = MC
+
+seg-19a7ad528cf3 = MCD
+
+seg-202b82bfefcf = Mars Climate Database
+
+seg-371da1e857e8 = MCDA
+
+seg-17d89019fd4a = многокритериальный анализ решений
+
+seg-b522fc3d6c82 = MCI / MCMF
+
+seg-f5544acf642a = лунно-центрическая инерциальная / лунно-центрическая, лунно-связанная
+
+seg-f7b59f61da60 = MDB
+
+seg-0c674a59d087 = минимально обнаруживаемое смещение
+
+seg-c769430226c3 = MDEV
+
+seg-33a4628c6e67 = модифицированная девиация Аллана
+
+seg-bde3f0e5dfa7 = MEMS
+
+seg-8b08f307de8a = микроэлектромеханические системы
+
+seg-c960c0e048b7 = MeO / MLRO
+
+seg-48623f76be86 = MéO (Métrologie Optique), лазерная станция в Грассе / Matera Laser Ranging Observatory
+
+seg-a8fcbefbbf4c = станции лазерной дальнометрии Луны
+
+seg-8b597c678c3f = ME / PA
+
+seg-cb56efe2fb70 = средняя Земля / главные оси
+
+seg-f30f1a2778cf = две лунные связанные с телом системы координат (MOON_ME, MOON_PA)
+
+seg-308d4c93a8a3 = MGEX
+
+seg-b2b632cd52d2 = Multi-GNSS Experiment
+
+seg-86fd2d84ed21 = IGS
+
+seg-79f8412f30f2 = MIT
+
+seg-70012b81c998 = Массачусетский технологический институт
+
+seg-e9d7062835a9 = как в лицензии MIT
+
+seg-a0b70e8c4c38 = MLP
+
+seg-77abd5634603 = многослойный перцептрон
+
+seg-6975432180f6 = небольшая нейронная сеть
+
+seg-a4be7b1d83e3 = MOD / TOD
+
+seg-421b9611e897 = средняя на дату / истинная на дату
+
+seg-1af66f9b771d = системы координат экватора и равноденствия
+
+seg-b5db821f8008 = MOORA
+
+seg-7f763036e34d = Multi-Objective Optimisation on the basis of Ratio Analysis
+
+seg-d26a24b5d9f0 = MOPS
+
+seg-e8707522cf5f = минимальные эксплуатационные стандарты характеристик
+
+seg-cd0720a78dbb = MPL
+
+seg-bcdaf8567381 = Mozilla Public License
+
+seg-0f45b55420be = MRO110 / MRO110B2
+
+seg-61415a003e40 = модели гравитационного поля Mars Reconnaissance Orbiter { "110" } и 110B2
+
+seg-8404f70361e7 = MSRV
+
+seg-26a6a79755f9 = минимальная поддерживаемая версия Rust
+
+seg-959fe8ad53df = MTF
+
+seg-70d61ab4eb42 = модуляционная передаточная функция
+
+seg-7f60d1ac40ad = оптическая съёмка
+
+seg-8598e499c145 = MVDR
+
+seg-c767dc9ae21a = отклик с минимальной дисперсией без искажений
+
+seg-83f57219e5b7 = адаптивное формирование диаграммы направленности
+
+seg-e1ee50b3ea0a = MWL
+
+seg-12d9510328d2 = микроволновая линия связи
+
+seg-639266912f59 = линия передачи времени ACES
+
+seg-5ac07401e4f8 = NaN
+
+seg-722d679807ee = не число
+
+seg-0e4abc653325 = NavIC
+
+seg-355821380384 = Navigation with Indian Constellation
+
+seg-fc13b86a8365 = NAVISP
+
+seg-2eb6cc573946 = Navigation Innovation and Support Programme
+
+seg-b518d44847fa = NAV / OBS
+
+seg-c6965d4d7202 = навигация (сообщение) / наблюдение
+
+seg-1729ddf0eafa = два типа файлов RINEX; Stanford NAV Lab — это Navigation and Autonomous Vehicles Laboratory
+
+seg-f239334e4928 = NBS / NBS14
+
+seg-c8e5edff04d7 = бывшее Национальное бюро стандартов США / набор эталонных данных по стабильности частоты NBS14
+
+seg-3d1ac5146fea = используется для проверки оценщиков Аллана
+
+seg-37879f5ad9e0 = NEES / NIS
+
+seg-9610f0449fb2 = нормализованный квадрат ошибки оценки / нормализованный квадрат инновации
+
+seg-af167a77a1dc = тесты согласованности фильтра
+
+seg-beb7a86721ec = National Geospatial-Intelligence Agency
+
+seg-7aa223cbfe13 = NGS / NOAA
+
+seg-3845b0011dcb = National Geodetic Survey / National Oceanic and Atmospheric Administration
+
+seg-4a1040c5f2fa = NIMA / TR8350
+
+seg-4cf62b739fc6 = National Imagery and Mapping Agency / её технический отчёт TR8350.2 (определение WGS { "84" })
+
+seg-ffa6025b5a70 = NIMA — прежнее название NGA
+
+seg-af4be907e56c = NLOS
+
+seg-22ab7d58324b = сигнал, пришедший только по отражённому пути
+
+seg-9887902c13a1 = NNLS
+
+seg-b4cb6d6bfce4 = неотрицательный метод наименьших квадратов
+
+seg-af8ca8550600 = NORAD
+
+seg-07428e7224cf = Командование воздушно-космической обороны Северной Америки
+
+seg-4edb033e3432 = ведёт общедоступный каталог спутников
+
+seg-dd984e16dbcd = NP
+
+seg-f92816d7c936 = Нейман–Пирсон
+
+seg-fc214695fa83 = теория обнаружения
+
+seg-3ef8006482bb = NPA
+
+seg-81a072ee0520 = неточный заход на посадку
+
+seg-b9fd2cf6a2b9 = авиация
+
+seg-e6cb557ee6d1 = NPB
+
+seg-18510a95b308 = нутация–прецессия–смещение
+
+seg-b4562efbafdf = матрица IAU 2006/2000A
+
+seg-c5d8932f6956 = NRL / NRLMSISE-00
+
+seg-9c9f5eac83b2 = Naval Research Laboratory / его модель атмосферы Mass Spectrometer and Incoherent Scatter Radar Extended, { "2000" } г.
+
+seg-bf373b9cd0c6 = NTN
+
+seg-0ae939342934 = нетеррестриальная сеть
+
+seg-1ae0305d8455 = 5G со спутников
+
+seg-20b98c32226f = NTRS
+
+seg-1470d2af037a = NASA Technical Reports Server
+
+seg-243d375db224 = OC-0 … OC-13
+
+seg-d36b43dd505c = идентификаторы завышенных заявлений
+
+seg-47ba87f3730b = строки CLAIMS-VS-REALITY.md
+
+seg-e0689f1fc932 = OCI
+
+seg-1a3377171d89 = Open Container Initiative
+
+seg-b5bf07ed6c8c = формат образов контейнеров
+
+seg-7b56c21cca93 = ODE / SDE
+
+seg-722bdf2ca73a = обыкновенное / стохастическое дифференциальное уравнение
+
+seg-a4da10cb1150 = ODM
+
+seg-b1c25bfe0612 = сообщения с данными об орбите
+
+seg-35fe6a2f3de3 = семейство CCSDS, включающее OEM и OMM
+
+seg-c06d6aa8ba3a = OGC
+
+seg-eb1feb23de1c = Open Geospatial Consortium
+
+seg-9737495b035c = OLS / WLS
+
+seg-63bf35c31a6a = обычный / взвешенный метод наименьших квадратов
+
+seg-487fb3dcfd01 = OPS-SAT / OPSSAT-AD
+
+seg-4be3f4155fc8 = спутник-лаборатория ESA для программного обеспечения на орбите / его набор данных для обнаружения аномалий
+
+seg-14b642ea59e1 = OSIP
+
+seg-4871060090a0 = Open Space Innovation Platform
+
+seg-251b3ff3eb9b = OSNMA / TESLA
+
+seg-aa0d98a5c95a = Open Service Navigation Message Authentication / Timed Efficient Stream Loss-tolerant Authentication
+
+seg-95b6b14facf1 = аутентификация сигналов Galileo
+
+seg-501a89e8b32b = OS / OSes
+
+seg-5a526cda4166 = Open Service (Galileo, BeiDou) или операционная система (системы)
+
+seg-6db10af375e3 = какое из значений имеется в виду, ясно из контекста
+
+seg-584a7e7d4f5e = OU
+
+seg-937187abcdf6 = Орнштейн–Уленбек
+
+seg-9be9042ec983 = шумовой процесс с возвратом к среднему
+
+seg-08c583f40405 = PA
+
+seg-9a24d9f45aa4 = обеспечение качества продукции (также точный заход на посадку, как в K_H,PA)
+
+seg-65ad442b3faa = PCK
+
+seg-c788fe80678e = ядро планетных констант
+
+seg-46a00fdc9d5b = SPICE
+
+seg-417a52c9c154 = PDF
+
+seg-c462c83b47df = Portable Document Format
+
+seg-98aa544ec4de = Pd / Pfa
+
+seg-0c89f304435e = вероятность обнаружения / вероятность ложной тревоги
+
+seg-5bde4fd55ead = PEF
+
+seg-eb11dcb816ff = система координат между TEME и ITRF
+
+seg-4682fd9daa70 = PG01 / PRN120 / GSAT0101
+
+seg-47cc346307a6 = идентификаторы спутников: метка спутника GPS в SP3, номер псевдослучайного шума SBAS, название спутника Galileo

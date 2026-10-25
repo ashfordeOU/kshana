@@ -43,3 +43,5 @@ seg-bb182ed41520 = Оценка по структуре устойчивости
 seg-6a42653a8a0f = <s1>Назад</s1>combined-altpnt
 
 seg-2bd3e9d1505c = <s1>Далее</s1>constellation-design
+
+seg-c4ed27a559df = Тематическая страница: <a1>RESILIENCE-CROSSWALK.md</a1>

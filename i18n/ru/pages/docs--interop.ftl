@@ -217,3 +217,13 @@ seg-bcd613e62c69 = <s1>Назад</s1>Экспорт анимации
 seg-0525f7fbbfd2 = <s1>Далее</s1>Статус валидации
 
 seg-53a778722c16 = STK .e
+
+seg-b03d56f501c3 = Вид
+
+seg-357c2320b43a = да
+
+seg-507b8c235614 = CZML
+
+seg-bf09433a7342 = GeoJSON
+
+seg-9c92e0bc42aa = KML

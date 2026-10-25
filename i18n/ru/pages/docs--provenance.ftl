@@ -13,3 +13,9 @@ seg-6e0cb6acc073 = VALIDATED
 seg-f63dd3d7aad4 = Источник
 
 seg-638b8d451550 = Датчик
+
+seg-d4a762001549 = Лицензия
+
+seg-60cd077d82a7 = Модель
+
+seg-2afa300864a9 = Параметры

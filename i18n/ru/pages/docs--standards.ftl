@@ -7,3 +7,5 @@ seg-9120d3e96e5e = чтение
 seg-5ad814c7ef9e = Примечания
 
 seg-aab745a65e76 = Модуль
+
+seg-bf09433a7342 = GeoJSON
