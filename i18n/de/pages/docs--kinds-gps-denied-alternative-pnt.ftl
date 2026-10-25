@@ -1,0 +1,16 @@
+# docs--kinds-gps-denied-alternative-pnt: translations (de)
+
+# text
+seg-b03d56f501c3 = Typ
+
+# text
+seg-f496b7f4c63a = GPS-gesperrter kombinierter Schwere-, Magnet- und Gelände-Navigator: drei skalare Feldkanäle, je Wegpunkt fusioniert, für eine schärfere Driftkorrektur (niedrigere CRLB) als mit jedem einzelnen Feld.
+
+# attr:alt
+seg-498b1aea3770 = Das Diagramm, das die Engine für scenarios/combined-altpnt.toml schreibt, Typ combined-altpnt
+
+# text
+seg-c8f93431680a = MODELLED Konfliktresilienz geschichteten PNT (P7): Ein Nutzer in umkämpfter Umgebung setzt mehrere PNT-Schichten ein (Open-Service-GNSS, Breitband-GNSS, eine authentifizierte Konstellation, ein Augmentations-Relais), jede mit einer Basisverfügbarkeit, einer 1σ-Genauigkeit und einer Verwundbarkeit je Vektor gegenüber der gemeinsamen Jamming-/Spoofing-Bedrohung. Ein nach Intensität variiertes Monte-Carlo mit SEED sperrt jede Schicht mit der Wahrscheinlichkeit clamp(Verwundbarkeit·Intensität·Vektorgewicht,{ "0,1" }), fusioniert die überlebenden Schichten nach der geschlossenen Inverse-Varianz-Regel σ_fused=(Σ 1/σ_i²)^(−1/2) und meldet die Gesamtausfallwahrscheinlichkeit (alle Schichten gesperrt), den mittleren fusionierten Fehler sowie Statistiken zu Nutzbarkeit und Sperrung je Schicht über der Intensität. Das Kern-Resilienzverhältnis (Gesamtausfallwahrscheinlichkeit einer einzelnen Schicht gegenüber der geschichteten) liegt unter der UNABHÄNGIGKEITS-Annahme bei ~7x; ein anschließender Sweep mit korrelierter Sperrung über eine Ein-Faktor-Gauß-Kopula zeigt dann, dass dieses ~7x gegen { "1" } zusammenbricht, wenn die Sperrkorrelation steigt (Korrelation hebelt die Schichtung aus). Ein Block zur Prior-Sensitivität variiert den Kernwert über die QUELLENBASIERTEN Verwundbarkeits-Priors per mcda-Tornado + Dirichlet-Neuverteilung des Bedrohungsaufwands + Perzentil-Konfidenzintervallen. VALIDATED-Kern: Der Monte-Carlo-Gesamtausfall konvergiert gegen das geschlossene unabhängige Produkt Π_i p_deny_i (innerhalb des Monte-Carlo-Standardfehlers bei festem Seed und großem N); die Inverse-Varianz-Fusion ist eine geschlossene Identität; bei ρ={ "0" } reduziert sich die Kopula auf das unabhängige Modell, und jedes ρ erhält die Rand-Sperrrate jeder Schicht. MODELLED: Die Größenordnungen von Verwundbarkeit/Verfügbarkeit/Genauigkeit je Schicht sind quellenbasierte, aber modellierte Eingaben (JammerTest { "2024" }, TEXBAT, EASA SIB, RTCA DO-229, LunaNet/IOAG – siehe conflict_threat_params), und die konkrete ~7x-Größenordnung sowie der Kurvenverlauf Verhältnis gegen Korrelation folgen aus dieser Parametrisierung. Eine Aufschlüsselung des Überlebens je Vektor nach §{ "4.2" } löst dann die gemeinsame HF-Bedrohung in die vier benannten Vektoren (Jamming/Spoofing/kinetisch/Cyber) auf und meldet die Kurve des allmählichen Leistungsabfalls nutzbaren PNT je Vektor S_v(x)=1-Prod_i(1-a_i(1-clamp(susceptibility_i,v·x,{ "0,1" }))) – VALIDATED: Das Monte-Carlo je Schicht mit Seed konvergiert gegen diese geschlossene Form; Jamming ist der schärfste Vektor für die korrelierte HF-Basislinie, und die HF-immune Inertialschicht ist der entscheidende Überlebende. Kein zertifiziertes Produkt zur Navigationsverfügbarkeit.
+
+# attr:alt
+seg-4dd2bcc206db = Das Diagramm, das die Engine für scenarios/conflict-resilience.toml schreibt, Typ conflict-resilience
