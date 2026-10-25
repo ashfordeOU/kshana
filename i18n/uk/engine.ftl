@@ -6803,8 +6803,6 @@ engine-e-telemetry-sample-bad-epochs = хибні `epochs`: { $e }
 
 ## src/telemetry/syslog.rs
 
-engine-telemetry-syslog-cef-gnss-trust = CEF:0|{ $cef_header_escape }|{ $cef_header_escape2 }|{ $cef_header_escape3 }|{ $EVENT_PREFIX }.{ $band }|довіра до GNSS { $band }|{ $cef_severity }|{ $ext }
-
 engine-e-telemetry-syslog-host-is-bytes-syslog-host = хост займає { $host } байт; ім'я хоста syslog має бути не довшим за 255
 
 engine-e-telemetry-syslog-host-must-be-printable-ascii = хост має складатися з друкованих символів ASCII без пробілів
