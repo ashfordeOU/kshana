@@ -2522,11 +2522,11 @@ engine-e-interference-map-observatory-is-not-publishable-yet-its = { $day } kan 
 
 engine-interference-map-observatory-kshana-observatory-ads = KSHANA OBSERVATORIUM  ADS-B  { $date }
 
-engine-interference-map-observatory-deg-cells-utc-day-not = { $trim_deg } DEG CELLER  UTC-DAG  EJ OBSERVERAD ÄR INTE KLAR  INGEN ORSAK ANGES
+engine-interference-map-observatory-deg-cells-utc-day-not = { $trim_deg } DEG CELLER  UTC-DAG  NOT OBSERVED ÄR INTE KLAR  INGEN ORSAK ANGES
 
 engine-interference-map-observatory-source-licence = KÄLLA { $dataset }  LICENS { $dataset2 }
 
-engine-interference-map-observatory-degraded-not-degraded-not-observed = { $summary } FÖRSÄMRADE  { $summary2 } EJ FÖRSÄMRADE  { $summary3 } EJ OBSERVERADE (PUBLICERADE CELLER)
+engine-interference-map-observatory-degraded-not-degraded-not-observed = { $summary } DEGRADED  { $summary2 } NOT DEGRADED  { $summary3 } NOT OBSERVED (PUBLICERADE CELLER)
 
 engine-interference-map-observatory-kshana-observatory-ads-navigation-accuracy = Kshana-observatoriet, ADS-B-karta över navigeringsnoggrannhet, { $date }
 
@@ -6287,7 +6287,7 @@ engine-realtime-frame-eop-measured-over-the-real-series = Uppmätt över den ver
 
 engine-realtime-frame-eop-measured-over-genuine-two-vintage = Uppmätt över ett äkta par med två utgåvor: den utgåva som gavs ut ({ $eop_source }) innehåller verkliga Bulletin A-prediktioner bortom sin egen dataavgränsning, och den arkiverade senare utgåvan ({ $c }) innehåller de slutgiltiga Bulletin B-värden som dessa datum till sist fick. Tre prognoser poängsätts mot det slutgiltiga värdet — själva den arkiverade Bulletin A-prediktionen, den här cratens anpassning i operativ stil över den utgivna utgåvan och persistens vid avgränsningen.
 
-engine-realtime-frame-eop-empty-and-deliberately-so-later = TOM, och avsiktligt: en senare utgåva angavs ({ $c }) men inget datum finns både som Bulletin A-PREDIKTION i den utgivna filen ({ $eop_source }) och som Bulletin B-SLUTGILTIGT värde i den senare vid någon begärd horisont. Ingen rad syntetiseras.
+engine-realtime-frame-eop-empty-and-deliberately-so-later = TOM, och avsiktligt: en senare utgåva angavs ({ $c }) men inget datum finns både som Bulletin A-PREDICTION i den utgivna filen ({ $eop_source }) och som Bulletin B-SLUTGILTIGT värde i den senare vid någon begärd horisont. Ingen rad syntetiseras.
 
 engine-realtime-frame-eop-empty-and-deliberately-so-scoring = TOM, och avsiktligt. För att poängsätta en ÄKTA ARKIVERAD prediktion krävs två utgåvor av samma finals2000A-produkt; den här körningen fick en ({ $eop_source }). Repositoriet levererar ingen arkiverad tidigare utgåva, och ingen TILLVERKAS genom att störa den utgåva som finns — ett syntetiserat arkiv skulle göra varje tal i den här tabellen till en mätning av störningen. Ange en verklig arkiverad senare utgåva via `eop_finals2000a_later` för att fylla den. Tills dess finns de äkta felen mellan prediktion och slutgiltigt värde som den här rapporten innehåller i `table5_operational_vs_persistence`, där prognosen är den här cratens egen och referensen är det senare publicerade slutgiltiga Bulletin B-värdet.
 
@@ -6385,7 +6385,7 @@ engine-realtime-frame-eop-rows-rms-light-time-ns-2 = { $t6 }.rows[].*.{ $p }.rms
 
 engine-realtime-frame-eop-measured-over-genuine-two-vintage-2 = Uppmätt över ett äkta par med två utgåvor: den PREDIKTERADE UT1 i Bulletin A i den utgivna filen ({ $eop_source }) differentierad mot det slutgiltiga Bulletin B-värdet i den arkiverade senare utgåvan ({ $c }), vid { $predicted_vs_final } horisont(er).
 
-engine-realtime-frame-eop-empty-and-deliberately-so-an = TOM, och avsiktligt: en arkiverad senare utgåva angavs ({ $c }) men inget datum finns både som Bulletin A-PREDIKTION i den utgivna filen ({ $eop_source }) och som Bulletin B-SLUTGILTIGT värde i den senare vid någon begärd horisont, så det finns ingen residual mellan prediktion och slutgiltigt värde att redovisa. Ingen rad syntetiseras.
+engine-realtime-frame-eop-empty-and-deliberately-so-an = TOM, och avsiktligt: en arkiverad senare utgåva angavs ({ $c }) men inget datum finns både som Bulletin A-PREDICTION i den utgivna filen ({ $eop_source }) och som Bulletin B-SLUTGILTIGT värde i den senare vid någon begärd horisont, så det finns ingen residual mellan prediktion och slutgiltigt värde att redovisa. Ingen rad syntetiseras.
 
 engine-realtime-frame-eop-empty-and-deliberately-so-predicted-2 = TOM, och avsiktligt: en residual mellan prediktion och slutgiltigt värde kräver TVÅ utgåvor av samma finals2000A-produkt. Den här körningen fick en ({ $eop_source }). Dess Bulletin A-prediktionsrader gäller framtida datum som ännu inte har något slutgiltigt Bulletin B-värde, så residualen finns inte att mäta och ingen hittas på här. Ange en arkiverad senare utgåva via `eop_finals2000a_later` för att fylla den här tabellen. Tills dess är den flerdagarstillväxt som redovisas i `table2_error_vs_horizon` PERSISTENS-prediktorn poängsatt över de verkliga slutgiltiga värdena — ett verkligt uppmätt fel, men en prediktor beräknad ur en modell, utan extern referens, och inte residualen för IERS Bulletin A-prediktionen.
 
