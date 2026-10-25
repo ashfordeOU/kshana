@@ -51,6 +51,12 @@ pub struct RunScenarioRequest {
     /// When true, also return the result chart as an SVG text block. Default false.
     #[serde(default)]
     pub include_chart: bool,
+    /// Language of the summary, the chart text and any error message: `en` (default), `nl`, `pl`,
+    /// `pt-BR`, `pt-PT`, `fi`, `sv`, `da`, `nb`, `cs`, `uk`, `ru`, `de`, `fr`, `es`, `et`, `ja` or
+    /// `zh-Hans`. The result JSON is the same in every language. An error carries its stable
+    /// `code` (`E-...`, the same in every language) in the error data.
+    #[serde(default)]
+    pub lang: Option<String>,
 }
 
 /// Parameters for [`KshanaServer::assess_receiver_log`].
@@ -327,10 +333,12 @@ impl KshanaServer {
         Parameters(RunScenarioRequest {
             toml,
             include_chart,
+            lang,
         }): Parameters<RunScenarioRequest>,
     ) -> Result<CallToolResult, McpError> {
         inline_only(&toml)?;
-        match kshana::api::run_toml(&toml) {
+        let lang = lang.as_deref().unwrap_or("en");
+        match kshana::api::run_toml_lang(&toml, lang) {
             Ok(out) => {
                 let mut contents = vec![
                     ContentBlock::text(out.summary),
@@ -341,10 +349,17 @@ impl KshanaServer {
                 }
                 Ok(CallToolResult::success(contents))
             }
-            Err(e) => Err(McpError::invalid_params(
-                format!("scenario run failed: {e}"),
-                None,
-            )),
+            Err(e) => {
+                // The code of the failure is data, so a client matches on it, not on the text.
+                let data = serde_json::from_str::<serde_json::Value>(
+                    &kshana::api::error_info_json(&toml, lang),
+                )
+                .ok();
+                Err(McpError::invalid_params(
+                    format!("scenario run failed: {e}"),
+                    data,
+                ))
+            }
         }
     }
 
