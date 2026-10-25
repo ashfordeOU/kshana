@@ -16,6 +16,8 @@ seg-a4f1e7d2041e = Familjesida: <a1>Konstellationer, täckning och geometri</a1>
 
 seg-58413589a025 = MODELLED { "2" } · VALIDATED { "2" }: raderna i <a1>verifieringsmatrisen</a1> som nämner den här typen.
 
+seg-df90e5910fb4 = hr
+
 seg-2544da673115 = Källa: <c1/>
 
 seg-0db3f4e2402e = <c1/> (scenariotyp)

@@ -81,4 +81,10 @@ seg-8b49f6477e8f = Öppen kärna
 
 seg-6555ff9a6d8e = Utdata
 
+seg-70a79ec95bf4 = ej klarat
+
+seg-7a33a168b020 = klarat
+
 seg-2192262e26c1 = nådd
+
+seg-a91762c0aabe = Gratis

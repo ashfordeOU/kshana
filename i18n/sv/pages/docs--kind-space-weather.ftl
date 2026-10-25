@@ -6,6 +6,12 @@ seg-8e845ce908ee = Scenariotyp i motor v{ $version }, familj <a1>GNSS-mätningar
 
 seg-f6b7ca020692 = Familjesida: <a1>GNSS-mätningar, positionering och integritet</a1>
 
+seg-95f8bd8e0078 = Källa: <c1/>
+
+seg-24c21b5b0cc3 = <c1/> (scenariotyp)
+
+seg-5f25c5b71f0c = Modell av rymdvädermiljön: indexen för sol- (F10.7/F10.7a) och geomagnetisk (Kp, med den definitionsmässiga tabellen Kp↔ap) aktivitet, den exosfäriska temperatur enligt Jacchia-1971 som de driver (validerad mot publicerade värden för solminimum/medel/maximum), och den termosfäriska neutraldensiteten enligt Jacchia-1971 vid den dygnsmedelvärdade exosfäriska temperaturen mot den aktivitetsfria statiska profilen vid en uppsättning höjder — solcykelberoendet i densiteten som den statiska atmosfären utelämnar. MODELLED: densiteten stämmer med accelerometerhärledda densiteter (TOLEOS CHAMP och GRACE) inom en faktor { "2" } vid solmaximum men är omkring 1.7x för tät vid solminimum { "2008" }.
+
 seg-f2c2860db799 = En körning av <c1/> sammanfattas som: space-weather: F10.7={ "180" } F10.7a={ "165" } Kp={ "4.0" } (ap={ "27" }) -> T_inf={ "1047" } K; densitet x1.49 vid { "300" } km (MODELLED)
 
 seg-6bb05c41eba2 = Valfria fält: <c1/>, <c2/>, <c3/>, <c4/>

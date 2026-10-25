@@ -2622,6 +2622,76 @@ seg-952626fc6feb = resilience::arch, resilience::score, resilience::diversity, r
 
 seg-921e4d47fd96 = resilience::score::tests (monotonicity, composite bounds, level cap, modelled-provenance); resilience::diversity::tests (inverse-Simpson, common-mode, SPOF)
 
+seg-718240555c3c = resilience::stats, resilience::study, resilience::panel
+
+seg-0e1bd42aca5a = resilience::stats::tests (handräknat Kendall-tau-exempel, Dirichlet-simplex, flip-rate); resilience::study::tests (stabilitetskontroll, instabilitetsvittne, deklarerat mot uppmätt, diversitetskollaps)
+
+seg-246c5acb36ac = representativeness
+
+seg-300e70ee2f22 = representativeness::tests (validated-needs-external-anchor, modelled-needs-gap, modelled-TRL-ceiling, malformed-band, JSON-fält)
+
+seg-03c943a8f1fc = qtrade
+
+seg-2d5a97db03cb = qtrade::tests (nyttans polaritet högre/lägre-är-bättre, packar in ett verkligt TradeResult troget, oärligt belägg avvisas, validerat kvalitetsmått kräver extern förankring, deterministisk JSON)
+
+seg-fe77856b9e9d = quantum_devices::tests (klockkort ärliga+ordnade; sammanflätningens precision ~1/sqrt(tau); detekterad frekvens -10x/10dB; mörkerräkningar försämrar; systematiska golv begränsar; kort modelled+valid)
+
+seg-65f4bc801f94 = timetransfer_chain::tests (precisionen förbättras med integrationen; kvant kan vinna OCH förlora; PL ändlig-positiv; säkerhetsmåttet i [{ "0,1" }] och växer med attackfördröjningen; avvikelsens Pd monoton; trade is_honest)
+
+seg-52d8ccc852f8 = quantum_nav_od::tests (kvant slår klassisk över ett långt bortfall; fördelen beror på bortfallets längd; trade is_honest); tests/gnss_free_quantum_navigation_reference.rs (tillväxt av positionsfel vid dödräkning mot en oberoende dubbelintegration i Octave + det publicerade bruset från Freier-2016 som ankare)
+
+seg-8e49ee940482 = quantum_faults::tests (analytiska kända AUC-värden; empirisk bootstrap-AUC omsluter den slutna formen; kvant detekterar mindre fel / högre AUC; fördelen försvinner för enorma fel; katalog med 5 klasser; trade is_honest)
+
+seg-d0119a3cb762 = geolocation
+
+seg-f85f780a9859 = geolocation::tests (brusfri TDOA framåt→invers till { "1e-6" } m; J·CRLB=I med en symmetrisk PD-kovarians; spåret av CRLB:s positionsvarians är icke-växande när en mottagare läggs till; gemensam TDOA+FDOA återskapar en rörlig sändares position+hastighet; <{ "4" } mottagare avvisas); tests/geolocation_reference.rs (rundturer över fyra geometrier med ett 3D-diversifierat nätverk; Gauss–Newton-skattaren når sin Cramér–Rao-gräns — den empiriska felkovariansen följer den analytiska gränsen över { "4000" } Monte Carlo-försök); tests/geolocation_crlb_published_oracle.rs (ho_chan_1993_maximum_tdoa; ho_xu_2004_fig7_with_the_authors_corrected_source; ho_xu_2004_bound_matches_the_authors_code; finding_ho_chan_ottawa_printed_values_are_not_the_bound och finding_ho_xu_fig7_printed_source_is_not_the_plotted_one, fastlåsta)
+
+seg-47854be05818 = entry_eo_ascent::entry_heating (stagnation_heat_flux, simulate_entry)
+
+seg-067596c7a683 = entry_eo_ascent::entry_heating::tests::heat_flux_relation_has_the_published_form_and_constants; entry_eo_ascent::entry_heating::tests::lift_lowers_peak_deceleration_and_heat_flux_of_a_shallow_entry; entry_eo_ascent::entry_heating::tests::mars_entry_runs_with_the_mars_constants; tests/entry_stardust_published.rs (registrerar { "746" } W/cm2 för Stardust utan tröskel)
+
+seg-b15628833cf8 = entry_eo_ascent::eo_radiometry (Imager, snr_budget, giqe4_niirs, EoRadiometryScenario)
+
+seg-86769d0258ad = entry_eo_ascent::eo_radiometry::tests::diffraction_mtf_has_its_closed_form_values; entry_eo_ascent::eo_radiometry::tests::a_pure_pixel_aperture_has_a_ramp_edge_and_rer_one; entry_eo_ascent::eo_radiometry::tests::a_gaussian_blur_has_the_normal_cdf_edge; entry_eo_ascent::eo_radiometry::tests::snr_budget_scales_as_shot_noise_when_signal_dominates; entry_eo_ascent::eo_radiometry::tests::giqe4_switches_coefficients_at_rer_0_9_and_falls_with_gsd
+
+seg-4e91b2b5c9e1 = entry_eo_ascent::ascent (simulate_ascent, AscentScenario); reentry::us76_pressure
+
+seg-a5f4b59e7ca1 = entry_eo_ascent::ascent::tests::the_loss_identity_holds_to_integration_error; entry_eo_ascent::ascent::tests::vertical_vacuum_burn_has_only_gravity_loss_and_stays_vertical; entry_eo_ascent::ascent::tests::us76_pressure_has_the_standard_values; entry_eo_ascent::ascent::tests::a_larger_kick_lowers_burnout_flight_path_angle
+
+seg-70ffbdec1a87 = twstft_budget (counter_readings, solve_offset, combined_uncertainty, flicker_phase, two_way_series, series_stability); time_transfer_budget (TimeTransferBudgetScenario, read_series)
+
+seg-998c0585be86 = twstft_budget::tests (tvåvägsekvationen återskapar offseten exakt; Sagnac-termen är lika med BIPM:s slutna loopform; den jonosfäriska termen följer frekvensuppdelningen och troposfären upphävs; flickerfas har en platt TDEV; en dygnsrest lyfter TDEV nära ett halvt dygn; en reciprocitetsbias förskjuter offseten och inte TDEV; serien stability tar bort en drift); time_transfer_budget::tests
+
+seg-d36d667bfa06 = optical_atmosphere (rytov_variance, scintillation, gamma_gamma_cdf, fade_margin_db, aperture_averaging_factor, cloud_optical_depth, clear_air_optical_depth); optical_linkbudget (optical_link_budget_atmosphere)
+
+seg-eb08517c6ca2 = tests/optical_atmosphere_reference.rs (förhandsregistrerade trösklar A1-A3 mot den oberoende mpmath-referensen: { "216" } Rytov-rutnätspunkter, sämsta relativa fel { "3.4e-7" } mot en tröskel på { "1e-6" }, scintillation sämst { "4.5e-16" }, aperturfaktor sämst { "5.7e-16" }, { "96" } gamma-gamma-fadingsannolikheter sämst { "1.3e-12" } i log10, moln och optiskt djup i klarluft sämst { "6.6e-16" }); tests/optical_atmosphere_no_moved_output.rs (tröskel A5: länkbudgeten med sammanslagen förlust och de befintliga utdata för platstillgänglighet är bitidentiska med basens commit över { "1,000" } parameteruppsättningar)
+
+seg-70e033b9dcab = optical_weather; optical_sitediv; optical_techniques; optical_atmosphere_scenario
+
+seg-66ac747dbe38 = tests/optical_atmosphere_identities.rs (tröskel A4: rho = { "0" } är lika med den oberoende unionen och rho = { "1" } den bästa enskilda platsen till { "1e-12" }, och noll monotonicitetsbrott i antalet platser och i korrelationen; den första körningen av tröskeln missade med { "3e-9" } eftersom den normala CDF som användes var Abramowitz-Stegun-formen på { "1.5e-7" }, ett implementationsfel som ersattes av den ofullständiga gamma-CDF med tröskeln oförändrad); optical_weather::tests och optical_sitediv::tests (monoton marginal, molntaket som sluten form, identiteterna för bortfallens varaktighet, inversion av marginalsökningen)
+
+seg-95a61b2025cb = optical_outage_holdover (couple, clock_psds); holdover (coast_phase_sigma, holdover_seconds, phase_to_range_m)
+
+seg-b47fe3bc618f = tests/optical_atmosphere_identities.rs (tröskel A6: tidsfelet per bortfall är lika med holdover::coast_phase_sigma och avståndsfelet är lika med phase_to_range_m bit för bit över { "9" } klockor, { "3" } medelvaraktigheter, { "3" } spridningar och { "4" } kvantiler); optical_outage_holdover::tests
+
+seg-86ae3e4b0c16 = optical_timeseries (site_series, SiteModel, SeriesSpec, Series); optical_atmosphere_scenario (TimeseriesSpec)
+
+seg-a19b90ab43ec = tests/optical_atmosphere_timeseries.rs (trösklarna T1-T6 i xval/optical-atmosphere/PREREGISTRATION-timeseries.md, fastställda före första körningen: samma frö ger samma byte och ett annat frö ger andra byte; ingen nyckel utan tabellen; över { "8760" } h vid { "600" } s, frön { "37" } och { "38" }, den realiserade tillgängligheten för var och en av de tre standardplatserna inom { "6" } punkter från den angivna (sämst { "3.3" }) och den realiserade molnandelen inom { "5" } punkter från den angivna sannolikheten (sämst { "2.1" }); marginalen är lika med budgeten minus de två fadingarna och up är lika med marginal ej negativ vid varje steg; inget icke-portabelt matematikanrop i modulen; för långa körningar och felaktiga steg vägras)
+
+seg-3c8d970a385d = odf (parse_odf, Odf, OdfObservation, OdfRamp, seconds_1950); mars_od (DopplerModel, RampTable, compress_two_way, MarsDynamics, fit, fit_damped); naif_kernel (SPK type { "1" }); gravity_pds (SphericalHarmonicField::from_shadr)
+
+seg-09bfff22ee94 = tests/mro_odf_reader_label_oracle.rs (en verklig MRO ODF, 2007-304/305, mot sin PDS-etikett: antal poster, gruppernas positioner, stationer, start- och stopptider och datatyper stämmer; filslutstabellens radantal missar med en, en inkonsistens i etiketten, fastlåst som ett fynd); odf::tests (handbyggd rundtur för en post, epok { "1950" }); tests/mro_odf_short_arc_od_oracle.rs (datastyrd, indata fastlåsta med SHA-256, månatlig CI med verkliga data krävs: Doppler förutsagd från MRO-navigationsrekonstruktionen mro_psp5 på de poängsatta passen DSS { "63" } och DSS { "14" }, { "12.5" } mHz RMS, tröskel { "30" } mHz, uppnådd; den registrerade banbestämningen gav ingen bana, fastlåst som ett fynd; körning { "2" } med en dämpad skattare, registrerad för sig: bana { "0.36" } km RMS och { "0.53" } km som mest mot mro_psp5, uppnådd, Doppler efter anpassning { "48.6" } mHz mot { "30" } mHz, inte uppnådd, fastlåst som ett fynd; SPK type { "1" }-läsare mot CSPICE, { "5e-7" } m); mars_od::tests
+
+seg-526efea83384 = aocs_mekf (Mekf, GyroSim, attitude_error, spd_solve6); aocs_kind (estimator)
+
+seg-1650d00d45ad = aocs_mekf::tests::mekf_is_consistent_over_monte_carlo_seeds ({ "40" } frön, medelvärde av NEES med sex frihetsgrader över andra halvan inom { "4.5" } till { "7.5" }); aocs_mekf::tests::star_tracker_updates_bound_the_attitude_error; aocs_mekf::tests::attitude_error_is_the_body_frame_small_angle; aocs_kind::tests::estimator_loop_runs_and_reports_consistency
+
+seg-4da98593fe6a = aperture_duty::tests (ett fönster som slutar exakt när nästa börjar konkurrerar inte, och att flytta det en sekund tidigare kostar exakt en sekund — skyddet mot fel på ett; överlappande fönster utöver antalet aperturer försätter sessionen med lägre rang i bortfall, med konkurrensintervallet fastlåst; arbitreringspolicyn avgör vilken tjänst som håller aperturen, med alla tre policyernas siffror fastlåsta på en plan; först-till-kvarn avbryter inte en session som redan håller en apertur; en session som förlorar arbitreringen vid sin start får en apertur när en blir ledig; de tre belastningarna redovisar varje tillgänglig aperturssekund över { "3" } policyer × { "4" } antal aperturer; att lägga till en apertur ökar aldrig någon sessions bortfall, uppmätt över { "200" } pseudoslumpmässiga planer × { "3" } policyer × varje antal aperturer; tillräckligt många aperturer för varje session lämnar inget bortfall alls; rapporteringshorisonten klipper planen och sätter nämnaren för belastningen; en prediktad passlista blir en kontaktplan utan en andra fönstertyp; den medföljande planens belastningstal är motorutdata för en och två aperturer; rapporten anger den policy som gav talen; varje redovisad siffra bär en enhet och en proveniensklass; scenariot är reproducerbart och deklarerar sig självt som MODELLED; scenariot avvisar en plan det inte kan schemalägga); api::tests::aperture_duty_cycle_kind_round_trips_through_the_dispatch
+
+seg-875ebc4e1cc4 = lunar_jamming (composing jamming, lunar_service, lunar)
+
+seg-d206adbe8e04 = lunar_jamming::tests ({ "17" } bibliotekstester: j_over_s_equals_the_difference_of_two_independent_link_budget_runs; the_report_prints_both_link_budget_legs_so_the_difference_is_checkable_from_it; the_scenario_reports_one_j_over_s_row_per_visible_satellite_and_never_a_median; a_single_median_j_over_s_would_misreport_the_outcome_that_the_table_reports; a_closer_jammer_raises_j_over_s_by_exactly_the_free_space_loss_difference; a_more_distant_satellite_is_the_weaker_signal_so_it_carries_the_higher_j_over_s; j_over_s_is_invariant_to_the_user_antenna_boresight_gain; a_narrowband_jammer_leaves_no_higher_effective_cn0_than_broadband_at_equal_js; a_selenographic_jammer_gets_its_range_from_the_shared_lunar_geometry; a_strong_enough_jammer_takes_every_lunar_link_below_the_tracking_threshold; no_jammer_is_a_clean_sky_lunar_baseline_with_an_undefined_j_over_s; raising_the_elevation_mask_can_only_remove_rows_never_change_the_ones_that_remain; every_emitted_numeric_field_has_a_unit_and_a_provenance_class; the_csv_table_carries_every_row_of_the_json_table; the_run_is_deterministic_and_the_dispatch_surface_is_populated; bad_inputs_are_rejected_rather_than_producing_a_number); api::tests::lunar_jamming_kind_round_trips_through_the_dispatch_with_a_per_satellite_table
+
 seg-ec5736cbb3b4 = lunar_jamming (denial_js_db, range_for_free_space_path_loss_m, Cn0Distribution, DenialContourPoint, ContourBand, DenialContour; inverting jamming::effective_cn0_dbhz, jamming::j_over_s_db and jamming::free_space_path_loss_db)
 
 seg-cdcfbbc52ae5 = lunar_jamming::tests ({ "10" } lib tests: the_contour_is_the_exact_inverse_of_the_functions_the_rows_were_scored_with; the_band_is_the_measured_quantiles_pushed_through_the_contour_not_a_sigma; the_asymmetry_the_band_carries_is_the_samples_own_shape_bent_by_the_criterion; the_contour_is_monotone_in_cn0_measured_over_a_dense_sweep_not_assumed; the_band_recovers_the_split_verdict_the_single_scalar_contour_lost; the_distribution_is_the_tables_own_order_statistics_and_keeps_the_rows; a_link_already_below_the_threshold_gets_a_null_contour_point_not_a_number; a_clean_sky_run_has_no_contour_at_all_rather_than_an_empty_one; the_denial_threshold_is_the_same_thirty_decibels_the_rest_of_the_engine_uses; the_units_block_describes_the_contour_and_names_nothing_the_report_omits)
@@ -2734,6 +2804,74 @@ seg-c4c5426a700b = lunar_techniques::tests (combine_is_additive_order_independen
 seg-c5ebc071ce3e = lunar_interop_budget::tests (monotonicity in budget; RSS budget reduction under a per-provider CRLB; worked rotation tolerance at the lunar lever arm; binding-term = rotation)
 
 seg-f4fbaefa3a11 = lunar_interop_budget::tests (CommonEphemeris zeroes the budget; CommonFrameTie < PerProvider; irreducible_fraction > { "0.5" } on the real splits; convention ordering)
+
+seg-0b39643e9152 = lunar_faultobs::tests — byzantine_c3_rank_deficient_but_nonzero_is_undetectable (nollskilt men rangdefekt block ⇒ block_spark { "1" }, f_detect { "0" }; oberoende kolumner ⇒ block_spark { "2" }, f_detect { "1" }), byzantine_real_network_uniform_bias_is_clock_offset (en kamrat som äger alla mätningar för en nod = ett klockoffsetfel ∈ range(G), oupptäckbart, med ett tydligt spektralt gap i Gram-matrisen), byzantine_redundant_net_identifies_at_least_one (sex oberoende kamrater med en mätning vardera ⇒ block_spark { "7" }, f_identify { "3" }), byzantine_analytic_spark_identity_projector + byzantine_detect_identify_relations (handfallen P⊥ = I fastlåser f_detect = block_spark − { "1" }, f_identify = ⌊(block_spark − { "1" })/2⌋)
+
+seg-70a340255eb6 = lunar_faultobs::tests — holdover_floor_self_ref_and_anchored (självrefererande nät: den gemensamma takten ligger i N(GᵀWG), temporal_gauge_dim { "2" }; efter en extern rad som binder takten: takten utdriven ur gaugen, temporal_gauge_dim { "1" } med den gemensamma offseten kvar)
+
+seg-11fe79ac46b3 = lunar_faultobs::tests — provider_mismatch_split_common_undetectable_differential_detectable (gemensam bias oupptäckbar, differentiell upptäckbar), slope_infinity_in_range_finite_detectable (g7: lutning ∞ för b ∈ range(G), ändlig för b ∉ range(G)), pernode_rank_is_state_dim_minus_eight (§{ "0" }: rank(GᵀWG) = state_dim − { "8" }, den 8-dimensionella gaugen är hela nollrummet med ett spektralt gap på >{ "1e6" })
+
+seg-95c049581604 = telecom_timing (MASKS, eprtc_a_holdover_limit_ns, check_curve, check_mask)
+
+seg-35e253f27caa = telecom_timing::tests (mask_boundaries_follow_the_tables_exactly — öppna och slutna ändar, gapet τ = { "400" } s i tabell 7-3 i G.8271.1, kontinuitet vid varje brytpunkt som tabellerna implicerar; a_curve_exactly_on_the_limit_passes_and_just_above_fails; eprtc_a_holdover_envelope_follows_table_3; a_coarse_record_is_not_evaluated_against_a_filtered_mask); tests/telecom_timing_reference.rs (telecom_timing_kind_round_trips_through_the_dispatch); tests/telecom_masks_itu_printed_values.rs (mask_values_match_the_numbers_the_recommendations_print; figure_7_2_label_at_1_3_s_is_not_its_own_table_value)
+
+seg-f8b7bc046be6 = telecom_timing (MASKS, Segment::tau_exponent, MeasurementFilter::LowPass10HzAtSource, MaskCondition::Autonomous)
+
+seg-3ae5550f6aaa = telecom_timing::tests (g811_prc_masks_follow_clause_6_1; g812_masks_follow_tables_3_4_6_and_7; g8262_masks_follow_tables_1_3_4_and_5; g8262_1_eeec_masks_follow_tables_1_and_3; a_linear_piece_is_evaluated_without_powf; wander_masks_pass_a_quiet_white_fm_flicker_series; wander_masks_fail_the_same_series_scaled_up)
+
+seg-82af02048968 = clock_log (read_input, MeasuredPhaseReport, MEASURED_UNITS, TELECOM_LOG_UNITS); telecom_timing (SeriesInput::clock_log); api (clock kind [clock_log])
+
+seg-df411365b9ab = clock_log::tests (handskrivna loggar per format: huvuden, avgränsare, enheter, frekvensintegration, TICC-kanaler och lägen, gap och policyer, vägranden); tests/clock_log_allantools.rs (den förhandsregistrerade jämförelsen: b1_each_log_reads_to_the_reference_phase; b2_adev_tdev_and_mtie_agree_with_allantools; b3_a_telecom_series_read_from_a_log_equals_the_same_samples; b3_the_clock_kind_measured_block_is_opt_in)
+
+seg-0a789b9f3db1 = clock_log (parse_linuxptp, parse_chrony, grid_timed_offsets)
+
+seg-b1a8738d620b = clock_log::tests (ptp4l_reads_the_locked_offsets_in_ns; linuxptp_reads_only_the_named_program; ts2phc_gap_is_refused_or_filled; linuxptp_reads_syslog_prefixed_lines_and_picks_an_interface; linuxptp_refuses_a_servo_that_never_locks_and_backwards_stamps; chrony_tracking_reads_the_local_offset_in_seconds; chrony_statistics_needs_a_source_when_there_are_two; chrony_columns_of_the_other_log_are_not_read; clock_selector_is_refused_for_timelab_and_ticc_only) på testdatat i tests/fixtures/clock_log/linuxptp_chrony/
+
+seg-5fb2f4812479 = holdover_test (HoldoverTestScenario, recovery, linear_fit); telecom_timing (check_mask, check_envelope, budget_results)
+
+seg-d028f2b41fe8 = holdover_test::tests (the_record_is_split_at_the_stated_times; holdover_figures_match_a_hand_computation; recovery_is_timed_from_the_restoration; masks_are_measured_on_the_step_their_condition_names; a_record_with_no_baseline_says_so; bad_inputs_are_refused_with_the_reason; the_report_carries_the_label_the_units_and_no_conformance_word; a_ptp4l_log_is_scored_end_to_end)
+
+seg-ea770cfea799 = ssv (constellations, geom, sweep, pattern, check)
+
+seg-9a49009f27cd = ssv::geom::tests (the_grid_has_the_booklets_2562_points_on_the_unit_sphere; the_interval_form_equals_the_general_predicate; a_user_behind_the_earth_is_blocked_and_one_beside_the_limb_is_not); ssv::sweep::tests (a_small_shell_run_is_internally_consistent; pdop_of_a_regular_tetrahedron_like_set_is_finite_and_a_flat_set_is_not); ssv::pattern::tests (table_b10_antenna_reads_as_gain_against_angle_from_the_boresight)
+
+seg-05a12f571867 = ssv (limb, weak)
+
+seg-4b5cbdee9714 = ssv::limb::tests (the_chapman_layer_peaks_at_its_height_with_its_density; the_surface_limb_bends_about_one_and_a_third_degrees; plasmaspheric_tec_is_a_few_tecu_for_an_equatorial_gps_to_geo_ray); ssv::weak::tests (longer_integration_lowers_the_acquisition_threshold; aiding_narrows_the_search_and_the_loop; a_conventional_receiver_is_far_above_the_ssv_signal_levels); ssv::scenario::tests (the_limb_medium_adds_statistics_and_can_cost_signals; a_weak_signal_receiver_replaces_the_fixed_threshold)
+
+seg-89cac0893981 = ssv::nav (run_nav, Ekf)
+
+seg-18bbbb4578fc = ssv::nav::tests (the_filter_converges_where_signals_are_plentiful_and_is_deterministic; the_covariance_is_consistent_with_the_error; without_signals_the_filter_coasts_and_the_gap_is_reported); ssv::scenario::tests (navigation_and_formation_run_and_report)
+
+seg-59bd0b502622 = ssv::formation (run_formation, RelEkf)
+
+seg-70f8b2a10f03 = ssv::formation::tests (differencing_beats_subtracting_absolute_estimates_and_is_deterministic); ssv::scenario::tests (navigation_and_formation_run_and_report; formation_needs_navigation_and_one_mode_only)
+
+seg-9f89545da2ca = inertial::cai_error_terms::tests (raman_transfer_short_pulse_limit_matches_the_acceleration_transfer_function; white_raman_phase_closed_form_matches_quadrature; short_pulse_band_limited_closed_form_matches_quadrature; cheinet_2008_white_phase_noise_requirement_is_reproduced; delay_term_closed_form_matches_exact_filter_quadrature; defocus_phase_is_position_independent_and_tilt_cancels; curvature_bias_monte_carlo_matches_closed_form; curvature_bias_limiting_cases; classical_aided_resolution_monte_carlo_matches_closed_form; multi_t_resolution_monte_carlo_matches_closed_form; ambiguity_limits_and_inverse)
+
+seg-869454221ef4 = telecom_timing (PRESETS, fit_noise, with_flicker_floor, synthesize_holdover); models (ClockModel)
+
+seg-2fb7b4c2396c = telecom_timing::tests (every_preset_carries_a_named_datasheet_and_figures; the_noise_fit_envelopes_every_datasheet_point; pure_aging_matches_its_closed_form — den diskreta åldringsrampen inom { "0.1" } % av (1/2)·D·t² över ett dygn; same_seed_same_series_and_hash_different_seed_different_series); tests/oscillator_presets_measured.rs (caesium_finding_pinned; rubidium_finding_pinned; csac_finding_pinned; ocxo_preset_has_no_measured_record)
+
+seg-d31b872adcb6 = slot_timing (predicted_error_s, breach_after_sync_s, terms_at, slot_budget, ClockNoise::from_datasheet, SlotTimingScenario); clock_state (ClockClass::Tcxo, Ocxo, Rafs, source)
+
+seg-8eba4f60f78e = tests/slot_timing_igs_holdout.rs ({ "10" } satellitklockor i GPS Block IIF, { "14" } dygn av slutliga IGS-klockor: { "8" } inom tröskeln på { "1.5" }, G25 och G30 optimistiska med upp till ungefär 2x, fastlåsta); tests/slot_timing_ocxo_holdout.rs (en uppmätt OCXO: förutsägelsen på undanhållna data aldrig optimistisk, { "0.59" } till { "0.70" } av det uppmätta brottet; i urvalet inom { "0.98" } till { "1.17" }; utan termen för frekvensen vid positionsbestämningen är förutsägelsen i urvalet optimistisk vid varje tröskel); slot_timing::tests (fix_frequency_uncertainty_alone_is_linear_in_time; reduces_to_the_holdover_inversion — varje klass mot holdover::holdover_seconds till { "1e-9" }; white_fm_with_fix_error_has_its_closed_form; flicker_floor_alone_is_linear_in_time; ageing_alone_is_quadratic_in_time; frequency_offsets_add_in_magnitude; the_error_at_the_breach_is_the_guard; datasheet_fit_envelopes_every_point; datasheet_classes_match_their_presets_at_one_second; a_breach_beyond_the_datasheet_is_flagged_as_extrapolated; the_report_carries_the_result_and_a_unit_for_each_field)
+
+seg-a1318b5603cd = orbital_timing (orbital_timing, visibility_half_angle_rad, max_pass_s, crosslink_neighbour_is_outside_footprint)
+
+seg-4c4e4d92c416 = orbital_timing::tests (reduces_to_the_terrestrial_tpl — exakt tpl::timing_protection_level_ns när klockan saknar flicker-, vitfas- eller slumpvandringsterm; leo_geometry_matches_its_closed_forms; crosslink_independence_follows_the_footprint; an_independent_check_caps_the_ramp_before_the_pass_ends; a_crosslink_inside_the_footprint_does_not_count; a_ramp_below_the_reference_is_never_detected)
+
+seg-06c475d7eb73 = spectrum (SpectrumScenario, SpectrumModel::bin_psd_w_per_hz, SpectrumModel::band_state, effective_cn0_multi_dbhz, system_temp_k, Jammer::power_fraction_in, Jammer::duty)
+
+seg-266d9c05d9be = spectrum::tests (agrees_with_the_jamming_kind_chain — J/S lika med jamming::j_over_s_db och effektivt C/N0 lika med jamming::effective_cn0_dbhz med Q = 1/(R_c kappa) till { "1e-9" } dB, och ankaret på { "32.105" } dB i jamming-typens eget test; noise_floor_is_kt0f; chirp_window_splits_whole_and_partial_sweeps; duty_weights_partial_rows; demo_scenario_runs_and_denies_l1_while_l5_survives; defaults_run_with_no_jammer; bad_inputs_are_refused)
+
+seg-1d43f89b7a30 = ephem (standish_state, StandishElements::state_at_mean_anomaly, Planet::Pluto); solar_system (position_label)
+
+seg-1af48aec2408 = tests/solar_system_horizons_reference.rs (standish_table1_uranus_and_neptune_exceed_the_nominal_error: fastlåst vid { "2.04" } och { "5.16" } gånger det nominella longitudfelet, under sex gånger; pluto_from_the_1992_row_is_measured_not_validated: inom { "39" } bågsekunder och { "1.14e9" } m; standish_velocities_track_horizons_to_one_percent: sämst { "3.7e-3" } av farten); ephem::tests (standish_velocity_is_the_derivative_of_the_position; pluto_has_no_table2_row_and_no_stated_error)
+
+seg-de8a26ea4d61 = ephem (satellite_state, Satellite, SatelliteMethod, moon_icrf, moon_icrf_velocity); ephem_provider (AnalyticSolarSystem)
+
+seg-06601f6fb837 = tests/solar_system_horizons_reference.rs (moons_track_horizons_to_the_measured_angles: sämsta vinkelfel sett från planeten över { "2000" } till { "2040" }, Phobos { "5.65" } grader, Deimos { "0.38" }, Io { "0.40" }, Europa { "1.63" }, Ganymedes { "0.22" }, Callisto { "0.27" }, Titan { "3.31" }; geocentric_moon_tracks_horizons: { "0.046" } grader); ephem::tests (moons_sit_at_their_mean_distance_and_move_at_their_mean_speed); ephem_provider::tests (earth_and_moon_balance_about_their_barycentre)
 
 seg-24749f350eb2 = body (Body::by_name, Body::facts, Body::prime_meridian, SOLAR_SYSTEM, BodyFacts); solar_system (SolarSystemScenario, position_label)
 

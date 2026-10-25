@@ -28,6 +28,8 @@ seg-1759a8cce7d6 = Slag
 
 seg-564133d6a0c4 = Konstellationer kring vilken kropp som helst
 
+seg-b88a2a9497c2 = Verktyg
+
 seg-a683980168f7 = Docker
 
 seg-f3a2279d6df7 = Kommando eller knapp

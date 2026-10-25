@@ -10,6 +10,16 @@ seg-1c1eeb2dcaa0 = Familjesida: <a1>Måne och cislunart</a1>
 
 seg-3bc1761c76ab = { "3" } medföljande scenarier använder den här typen; de övriga finns i <a1><c1/></a1>.
 
+seg-6f4246bd8f6f = <b>MODELLED</b> Differentiell referensstation av NovaMoon-klass: bortagande av gemensamt läge + residual som växer med baslinjen + DGNSS-skyddsnivåer. Oberoende referens (InternalConsistency): Identitet för differentiellt felbortagande + återanvändning av PL-maskineriet i DO-229E SBAS; lösningen med enkeldifferens + WLS korskontrolleras dessutom mot RTKLIB:s lsq()/matinv() (Takasu, BSD-2-Clause, kompilerad C) — oberoende lösarkod, men samma första ordningens algebra för skillnaden i siktlinje, så fortfarande InternalConsistency
+
+seg-8d02b1426187 = <b>MODELLED</b> De tre termer som en differentiell korrektion får mellan den epok den beräknas vid och den epok den används vid, var och en tidigare lämnad som omodellerat utrymme:. Oberoende referens (InternalConsistency): Slutna identiteter och självkonsistens: kvantiseringsvariansen step²/12 för likformig kvantiserare, den exakta kovarianspropageringen (GᵀG)⁻¹GᵀRG(GᵀG)⁻¹ som kollapsar till σ·PDOP för lika σ, inmätningstermens överföring { "1" }:{ "1" } som en följd av û_user ≈ û_ref, samt slutning av kvadraturen vid bortkoppling. Korskontrollen av PDOP mot orbit::dop delar normalmatrisen [−û, { "1" }], så den är en konsistenskontroll och är märkt som en sådan i stället för som en
+
+seg-7171b2e3f29d = Lunar differentiell PNT är MODELLED, inte validerad: kontrollerad mot sin egen slutna eller analytiska identitet — fångar avskrivnings- och koefficientfel, men är ingen extern oberoende referens. (verifieringsmatris (docs/MODELLED-RATIONALE.md))
+
+seg-35f1876d023e = Lunar differentiell PNT — residualbudget för korrektionslänken är MODELLED, inte validerad: kontrollerad mot sin egen slutna eller analytiska identitet — fångar avskrivnings- och koefficientfel, men är ingen extern oberoende referens. (verifieringsmatris (docs/MODELLED-RATIONALE.md))
+
+seg-8f8871ac8a0f = Ämnessida: <a1>LUNAR-REFERENCE-STATION.md</a1>
+
 seg-f3231c08fa26 = Källa: <c1/>
 
 seg-1a28838279fe = <c1/> (scenariotyp)

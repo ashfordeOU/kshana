@@ -8,6 +8,14 @@ seg-1c1eeb2dcaa0 = Familjesida: <a1>Måne och cislunart</a1>
 
 seg-3bc1761c76ab = { "3" } medföljande scenarier använder den här typen; de övriga finns i <a1><c1/></a1>.
 
+seg-8f8871ac8a0f = Ämnessida: <a1>LUNAR-REFERENCE-STATION.md</a1>
+
+seg-fd34d760edb1 = <b>VALIDATED</b> Datumkovariansen för Helmert med sju parametrar, där de två simulerade indata ersatts av uppmätta: schemat är sändningsepokerna från marken för { "337" } arkiverade normalpunkter för ILRS lunar laseravståndsmätning (2015-04-08 till 2015-06-27, Grasse MeO { "7" } Tester: <a1>lunar_llr_real_data.rs</a1>.
+
+seg-49baab4910f3 = ppb
+
+seg-a7d59ba6e225 = rad
+
 seg-8db575fc6d82 = Källa: <c1/>
 
 seg-5329c6c75887 = <c1/> (scenariotyp)
