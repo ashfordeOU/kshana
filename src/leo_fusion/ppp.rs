@@ -806,7 +806,7 @@ fn ppp_svg(r: &PppReport) -> String {
     let mut s = crate::chart::frame_open(
         w,
         h,
-        "PPP convergence with LEO augmentation",
+        &crate::t!("leo-fusion-ppp-chart-title"),
         &crate::t!(
             "leo-fusion-ppp-median-horizontal-error-across-runs",
             runs_per_case = r.runs_per_case
@@ -818,7 +818,7 @@ fn ppp_svg(r: &PppReport) -> String {
         top,
         pw,
         top + ph,
-        "median horizontal error (log10 m) against minutes",
+        &crate::t!("leo-fusion-ppp-chart-caption"),
     ));
     let palette = [INK_3, BLUE, CYAN, LIME, CORAL, MAGENTA, INK_2];
     let n = r
@@ -842,11 +842,11 @@ fn ppp_svg(r: &PppReport) -> String {
             pts.join(" ")
         ));
         s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{}\">{} LEO</text>",
+            "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{}\">{}</text>",
             ml + 10.0 + 90.0 * k as f64,
             top + ph + 30.0,
             palette[k % palette.len()],
-            c.n_leo
+            crate::t!("leo-fusion-ppp-chart-n-leo", n = c.n_leo)
         ));
     }
     let yc = y(r.criterion_horizontal_m);

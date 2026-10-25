@@ -1953,5 +1953,547 @@
    },
    " · kshana.dev"
   ]
+ },
+ {
+  "id": "holdover-test-not-recovered-within-record",
+  "error": false,
+  "parts": [
+   "; not recovered within the record"
+  ]
+ },
+ {
+  "id": "holdover-test-chart-title",
+  "error": false,
+  "parts": [
+   "Holdover test: time error by step"
+  ]
+ },
+ {
+  "id": "holdover-test-chart-y-title",
+  "error": false,
+  "parts": [
+   "|time error| (ns)"
+  ]
+ },
+ {
+  "id": "holdover-test-chart-panel-caption",
+  "error": false,
+  "parts": [
+   "absolute time error; holdover step shaded; dashed lines are the time-error budgets"
+  ]
+ },
+ {
+  "id": "holdover-test-chart-gnss-removed",
+  "error": false,
+  "parts": [
+   "GNSS removed"
+  ]
+ },
+ {
+  "id": "holdover-test-chart-gnss-restored",
+  "error": false,
+  "parts": [
+   "GNSS restored"
+  ]
+ },
+ {
+  "id": "holdover-test-chart-time-axis",
+  "error": false,
+  "parts": [
+   "time on the record's axis (",
+   {
+    "var": "min"
+   },
+   " min)"
+  ]
+ },
+ {
+  "id": "hybrid-chart-title",
+  "error": false,
+  "parts": [
+   "Hybrid PNT spec utilization during GNSS outage (1.0 = spec)"
+  ]
+ },
+ {
+  "id": "hybrid-chart-y-title",
+  "error": false,
+  "parts": [
+   "spec utilization"
+  ]
+ },
+ {
+  "id": "hybrid-chart-spec-line",
+  "error": false,
+  "parts": [
+   "spec (1.0)"
+  ]
+ },
+ {
+  "id": "hybrid-chart-classical-suite",
+  "error": false,
+  "parts": [
+   "classical suite"
+  ]
+ },
+ {
+  "id": "hybrid-chart-quantum-suite",
+  "error": false,
+  "parts": [
+   "quantum suite"
+  ]
+ },
+ {
+  "id": "inertial-chart-title",
+  "error": false,
+  "parts": [
+   "Dead-reckoning position error during GNSS outage"
+  ]
+ },
+ {
+  "id": "inertial-chart-y-title",
+  "error": false,
+  "parts": [
+   "position error (m)"
+  ]
+ },
+ {
+  "id": "inertial-chart-spec-line",
+  "error": false,
+  "parts": [
+   "spec ",
+   {
+    "var": "m"
+   },
+   " m"
+  ]
+ },
+ {
+  "id": "inertial-chart-classical",
+  "error": false,
+  "parts": [
+   "classical: ",
+   {
+    "var": "id"
+   }
+  ]
+ },
+ {
+  "id": "inertial-chart-quantum",
+  "error": false,
+  "parts": [
+   "quantum: ",
+   {
+    "var": "id"
+   }
+  ]
+ },
+ {
+  "id": "hybrid-integrity-chart-availability",
+  "error": false,
+  "parts": [
+   "availability"
+  ]
+ },
+ {
+  "id": "hybrid-integrity-chart-precision",
+  "error": false,
+  "parts": [
+   "precision"
+  ]
+ },
+ {
+  "id": "hybrid-integrity-chart-integrity",
+  "error": false,
+  "parts": [
+   "integrity"
+  ]
+ },
+ {
+  "id": "hybrid-integrity-chart-joint-indep",
+  "error": false,
+  "parts": [
+   "joint (indep)"
+  ]
+ },
+ {
+  "id": "hybrid-integrity-chart-joint-corr",
+  "error": false,
+  "parts": [
+   "joint (corr)"
+  ]
+ },
+ {
+  "id": "hybrid-integrity-chart-title",
+  "error": false,
+  "parts": [
+   "Hybrid optical + RF PNT joint figure of merit"
+  ]
+ },
+ {
+  "id": "hybrid-integrity-chart-subtitle",
+  "error": false,
+  "parts": [
+   "P(available AND precision-grade AND integrity-assured)"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-roc-aria-label",
+  "error": false,
+  "parts": [
+   "Detection ROC per monitor"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-roc-x-title",
+  "error": false,
+  "parts": [
+   "P_fa (per negative window)"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-curve-aria-label",
+  "error": false,
+  "parts": [
+   "C/N0 degradation against stated J/S for ",
+   {
+    "var": "rec"
+   },
+   " event ",
+   {
+    "var": "ev"
+   }
+  ]
+ },
+ {
+  "id": "iq-campaign-report-curve-x-title",
+  "error": false,
+  "parts": [
+   "stated J/S (dB)"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-curve-y-title",
+  "error": false,
+  "parts": [
+   "C/N0 degradation (dB)"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-curve-model-tooltip",
+  "error": false,
+  "parts": [
+   {
+    "var": "label"
+   },
+   ": SSC reference, Q = ",
+   {
+    "var": "q"
+   }
+  ]
+ },
+ {
+  "id": "iq-campaign-report-curve-model-legend",
+  "error": false,
+  "parts": [
+   {
+    "var": "label"
+   },
+   " reference (Q = ",
+   {
+    "var": "q"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-curve-more-series",
+  "error": false,
+  "parts": [
+   "+",
+   {
+    "var": "n"
+   },
+   " more series in the scorecard table"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-curve-point-tooltip",
+  "error": false,
+  "parts": [
+   {
+    "var": "fe"
+   },
+   " / ",
+   {
+    "var": "d"
+   },
+   ": J/S ",
+   {
+    "var": "x"
+   },
+   " dB, measured degradation ",
+   {
+    "var": "y"
+   },
+   " dB"
+  ]
+ },
+ {
+  "id": "iq-campaign-report-curve-measured-legend",
+  "error": false,
+  "parts": [
+   {
+    "var": "fe"
+   },
+   " / ",
+   {
+    "var": "d"
+   },
+   " (measured)"
+  ]
+ },
+ {
+  "id": "jamming-chart-title",
+  "error": false,
+  "parts": [
+   "Satellites visible vs. tracking under jamming"
+  ]
+ },
+ {
+  "id": "jamming-chart-y-title",
+  "error": false,
+  "parts": [
+   "satellites"
+  ]
+ },
+ {
+  "id": "jamming-chart-four-sv-fix",
+  "error": false,
+  "parts": [
+   "4-SV fix"
+  ]
+ },
+ {
+  "id": "jamming-chart-visible",
+  "error": false,
+  "parts": [
+   "visible"
+  ]
+ },
+ {
+  "id": "jamming-chart-tracking",
+  "error": false,
+  "parts": [
+   "tracking"
+  ]
+ },
+ {
+  "id": "leo-fusion-pvt-kind-chart-doppler-caption",
+  "error": false,
+  "parts": [
+   "3D Doppler-fix error (log10 m) against window length"
+  ]
+ },
+ {
+  "id": "leo-fusion-pvt-kind-chart-doppler-x-label",
+  "error": false,
+  "parts": [
+   "window (s)"
+  ]
+ },
+ {
+  "id": "leo-fusion-pvt-kind-chart-joint-caption",
+  "error": false,
+  "parts": [
+   "median PDOP (blue) and VDOP (amber), log10, against LEO satellites added"
+  ]
+ },
+ {
+  "id": "leo-fusion-pvt-kind-chart-joint-x-label",
+  "error": false,
+  "parts": [
+   "LEO satellites added"
+  ]
+ },
+ {
+  "id": "leo-fusion-pvt-kind-chart-polar-caption",
+  "error": false,
+  "parts": [
+   "median VDOP (log10): grey GNSS, blue LEO, amber fused"
+  ]
+ },
+ {
+  "id": "leo-fusion-pvt-kind-chart-polar-x-label",
+  "error": false,
+  "parts": [
+   "latitude (deg)"
+  ]
+ },
+ {
+  "id": "leo-fusion-pvt-kind-chart-timing-caption",
+  "error": false,
+  "parts": [
+   "RMS time error to UTC (log10 ns) against C/N0 offset, one line per oscillator"
+  ]
+ },
+ {
+  "id": "leo-fusion-pvt-kind-chart-timing-x-label",
+  "error": false,
+  "parts": [
+   "C/N0 offset (dB)"
+  ]
+ },
+ {
+  "id": "leo-fusion-pvt-kind-chart-x-range",
+  "error": false,
+  "parts": [
+   {
+    "var": "label"
+   },
+   ": ",
+   {
+    "var": "x0"
+   },
+   " to ",
+   {
+    "var": "x1"
+   }
+  ]
+ },
+ {
+  "id": "leo-fusion-ppp-chart-title",
+  "error": false,
+  "parts": [
+   "PPP convergence with LEO augmentation"
+  ]
+ },
+ {
+  "id": "leo-fusion-ppp-chart-caption",
+  "error": false,
+  "parts": [
+   "median horizontal error (log10 m) against minutes"
+  ]
+ },
+ {
+  "id": "leo-fusion-ppp-chart-n-leo",
+  "error": false,
+  "parts": [
+   {
+    "var": "n"
+   },
+   " LEO"
+  ]
+ },
+ {
+  "id": "leo-fusion-ntn-chart-title",
+  "error": false,
+  "parts": [
+   "5G NTN positioning: Cramér-Rao range bound by bandwidth"
+  ]
+ },
+ {
+  "id": "leo-fusion-ntn-chart-caption",
+  "error": false,
+  "parts": [
+   "range one-sigma (log10 m): bar = mask to zenith C/N0; dot = RMS 3D fix error"
+  ]
+ },
+ {
+  "id": "leo-navmsg-chart-title",
+  "error": false,
+  "parts": [
+   "LEO navigation message: SISRE versus fit interval"
+  ]
+ },
+ {
+  "id": "leo-navmsg-chart-no-trade-encode-decode",
+  "error": false,
+  "parts": [
+   "No trade in this run; see result.json for the encode/decode and budget tables."
+  ]
+ },
+ {
+  "id": "leo-navmsg-chart-no-fit-interval-trade",
+  "error": false,
+  "parts": [
+   "No fit-interval trade in this run; see result.json."
+  ]
+ },
+ {
+  "id": "leo-navmsg-chart-caption",
+  "error": false,
+  "parts": [
+   "orbit-only SISRE RMS (m, log scale) vs fit interval (s)"
+  ]
+ },
+ {
+  "id": "leo-pass-chart-title",
+  "error": false,
+  "parts": [
+   "LEO pass: C/N0 per band and Doppler"
+  ]
+ },
+ {
+  "id": "leo-pass-chart-cn0-caption",
+  "error": false,
+  "parts": [
+   "C/N0 (dB-Hz, 20 to 80): LEO bands in colour, GNSS in grey"
+  ]
+ },
+ {
+  "id": "leo-pass-chart-time-axis",
+  "error": false,
+  "parts": [
+   "time since epoch, 0 to ",
+   {
+    "var": "s"
+   },
+   " s"
+  ]
+ },
+ {
+  "id": "leo-pnt-chain-chart-subtitle",
+  "error": false,
+  "parts": [
+   "signal design -> pass C/N0 and code jitter -> message SISRE -> fused fix · ",
+   {
+    "var": "label"
+   }
+  ]
+ },
+ {
+  "id": "leo-pnt-chain-chart-cn0-caption",
+  "error": false,
+  "parts": [
+   "Tracked-component C/N0 over the pass (dB-Hz, 20 to 80)"
+  ]
+ },
+ {
+  "id": "leo-pnt-chain-chart-not-available",
+  "error": false,
+  "parts": [
+   "n/a"
+  ]
+ },
+ {
+  "id": "leo-signal-chart-title",
+  "error": false,
+  "parts": [
+   "LEO-PNT signal designs"
+  ]
+ },
+ {
+  "id": "leo-signal-chart-psd-axis",
+  "error": false,
+  "parts": [
+   "offset across ±0.6 × transmit bandwidth; 0 to −50 dB below each peak"
+  ]
+ },
+ {
+  "id": "leo-signal-chart-jitter-caption",
+  "error": false,
+  "parts": [
+   "code jitter (m, log scale) vs total C/N0 (dB-Hz)"
+  ]
  }
 ]

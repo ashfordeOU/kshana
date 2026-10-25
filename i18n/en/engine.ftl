@@ -2728,11 +2728,35 @@ engine-holdover-test-recovered-after-gnss-returned = ; recovered { $t } s after 
 
 engine-holdover-test-holdover-test-holdover-max-te = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }{ $rec } (MODELLED, measured against the mask)
 
+engine-holdover-test-not-recovered-within-record = ; not recovered within the record
+
+engine-holdover-test-chart-title = Holdover test: time error by step
+
+engine-holdover-test-chart-y-title = |time error| (ns)
+
+engine-holdover-test-chart-panel-caption = absolute time error; holdover step shaded; dashed lines are the time-error budgets
+
+engine-holdover-test-chart-gnss-removed = GNSS removed
+
+engine-holdover-test-chart-gnss-restored = GNSS restored
+
+engine-holdover-test-chart-time-axis = time on the record's axis ({ $min } min)
+
 ## src/hybrid.rs
 
 engine-e-hybrid-coupled-sigma-pr-must-be = coupled.sigma_pr_m must be finite and > 0, got { $sigma_pr_m }
 
 engine-e-hybrid-coupled-ba-must-be-and = coupled.q_ba must be >= 0 and coupled.bias_var > 0
+
+engine-hybrid-chart-title = Hybrid PNT spec utilization during GNSS outage (1.0 = spec)
+
+engine-hybrid-chart-y-title = spec utilization
+
+engine-hybrid-chart-spec-line = spec (1.0)
+
+engine-hybrid-chart-classical-suite = classical suite
+
+engine-hybrid-chart-quantum-suite = quantum suite
 
 ## src/hybrid_integrity.rs
 
@@ -2747,6 +2771,20 @@ engine-e-hybrid-integrity-must-be-finite = { $name } must be finite
 engine-e-hybrid-integrity-rf-other-losses-db-must = rf_other_losses_db must be finite and >= 0
 
 engine-hybrid-integrity-hybrid-optical-rf-optical-footprint = hybrid-optical-rf | optical footprint { $footprint_m } m, { $detected_photons } photons -> ranging σ { $c } mm, timing σ { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | availability { $c4 }% ({ $n_sites } sites) | handoff no-jump { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | joint FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | Validated CRLB/χ²-PL/union/handoff, Modelled σ/climatology
+
+engine-hybrid-integrity-chart-availability = availability
+
+engine-hybrid-integrity-chart-precision = precision
+
+engine-hybrid-integrity-chart-integrity = integrity
+
+engine-hybrid-integrity-chart-joint-indep = joint (indep)
+
+engine-hybrid-integrity-chart-joint-corr = joint (corr)
+
+engine-hybrid-integrity-chart-title = Hybrid optical + RF PNT joint figure of merit
+
+engine-hybrid-integrity-chart-subtitle = P(available AND precision-grade AND integrity-assured)
 
 ## src/impairment_eval.rs
 
@@ -2793,6 +2831,16 @@ engine-inertial-coast-ins-trn-coast-imu-combination = ins-trn-coast | { $grade }
 ## src/inertial/mod.rs
 
 engine-inertial-va-derived-from-cold-atom = { $provenance } (q_va derived from cold-atom-interferometer physics)
+
+engine-inertial-chart-title = Dead-reckoning position error during GNSS outage
+
+engine-inertial-chart-y-title = position error (m)
+
+engine-inertial-chart-spec-line = spec { $m } m
+
+engine-inertial-chart-classical = classical: { $id }
+
+engine-inertial-chart-quantum = quantum: { $id }
 
 ## src/inline_only.rs
 
@@ -3228,6 +3276,28 @@ engine-e-iq-campaign-conditions-events-and-overlap-on-shared = events '{ $id }' 
 engine-e-iq-campaign-detect-monitors-detect-grace-must-be = monitors.detect_grace_s must be >= 0
 
 engine-e-iq-campaign-detect-monitors-roc-window-must-be = monitors.roc_window_s must be positive
+
+## src/iq/campaign/report.rs
+
+engine-iq-campaign-report-roc-aria-label = Detection ROC per monitor
+
+engine-iq-campaign-report-roc-x-title = P_fa (per negative window)
+
+engine-iq-campaign-report-curve-aria-label = C/N0 degradation against stated J/S for { $rec } event { $ev }
+
+engine-iq-campaign-report-curve-x-title = stated J/S (dB)
+
+engine-iq-campaign-report-curve-y-title = C/N0 degradation (dB)
+
+engine-iq-campaign-report-curve-model-tooltip = { $label }: SSC reference, Q = { $q }
+
+engine-iq-campaign-report-curve-model-legend = { $label } reference (Q = { $q })
+
+engine-iq-campaign-report-curve-more-series = +{ $n } more series in the scorecard table
+
+engine-iq-campaign-report-curve-point-tooltip = { $fe } / { $d }: J/S { $x } dB, measured degradation { $y } dB
+
+engine-iq-campaign-report-curve-measured-legend = { $fe } / { $d } (measured)
 
 ## src/iq/campaign/runner.rs
 
@@ -4081,6 +4151,16 @@ engine-e-jamming-crpa-bandwidth-mhz-must-be = crpa.bandwidth_mhz must be positiv
 
 engine-e-jamming-terrain-the-section-needs-jammer = terrain: the section needs a [jammer]
 
+engine-jamming-chart-title = Satellites visible vs. tracking under jamming
+
+engine-jamming-chart-y-title = satellites
+
+engine-jamming-chart-four-sv-fix = 4-SV fix
+
+engine-jamming-chart-visible = visible
+
+engine-jamming-chart-tracking = tracking
+
 ## src/jamming_rx.rs
 
 engine-e-jamming-rx-acquisition-acquisition-threshold-dbhz-must = acquisition.acquisition_threshold_dbhz ({ $acquisition_threshold_dbhz }) must be finite and at or above tracking_threshold_dbhz ({ $tracking_threshold_dbhz })
@@ -4175,6 +4255,10 @@ engine-leo-fusion-ntn-one-satellite-doppler-pass-samples = { "  " }one-satellite
 
 engine-leo-fusion-ntn-mhz-n0-db-hz-modelled = { $r } MHz · C/N0 { $r2 }-{ $r3 } dB-Hz · MODELLED
 
+engine-leo-fusion-ntn-chart-title = 5G NTN positioning: Cramér-Rao range bound by bandwidth
+
+engine-leo-fusion-ntn-chart-caption = range one-sigma (log10 m): bar = mask to zenith C/N0; dot = RMS 3D fix error
+
 ## src/leo_fusion/ppp.rs
 
 engine-e-leo-fusion-ppp-ppp-needs-at-least-one = PPP needs at least one system
@@ -4190,6 +4274,12 @@ engine-leo-fusion-ppp-ppp-convergence-to-horizontal-vertical = PPP convergence t
 engine-leo-fusion-ppp-leo-median-min-converged-nees = { "  " }{ $name } { $n_leo } LEO  median { $c } min  converged { $v4 }%  NEES mean { $nees_mean }{ "\u000A" }
 
 engine-leo-fusion-ppp-median-horizontal-error-across-runs = median horizontal error across { $runs_per_case } runs · MODELLED
+
+engine-leo-fusion-ppp-chart-title = PPP convergence with LEO augmentation
+
+engine-leo-fusion-ppp-chart-caption = median horizontal error (log10 m) against minutes
+
+engine-leo-fusion-ppp-chart-n-leo = { $n } LEO
 
 ## src/leo_fusion/presets/mod.rs
 
@@ -4232,6 +4322,24 @@ engine-leo-fusion-pvt-kind-lat-vdop-gnss-leo-fused = { "  " }lat { $lat_deg }: V
 engine-leo-fusion-pvt-kind-n0-db-rms-ns-95 = { "  " }{ $clock } C/N0 { $cn0_offset_db } dB: RMS { $row } ns, 95% { $row2 } ns, max { $row3 } ns (in view { $fraction_in_view }){ "\u000A" }
 
 engine-leo-fusion-pvt-kind-leo-pvt-mode = LEO PVT — { $mode } mode
+
+engine-leo-fusion-pvt-kind-chart-doppler-caption = 3D Doppler-fix error (log10 m) against window length
+
+engine-leo-fusion-pvt-kind-chart-doppler-x-label = window (s)
+
+engine-leo-fusion-pvt-kind-chart-joint-caption = median PDOP (blue) and VDOP (amber), log10, against LEO satellites added
+
+engine-leo-fusion-pvt-kind-chart-joint-x-label = LEO satellites added
+
+engine-leo-fusion-pvt-kind-chart-polar-caption = median VDOP (log10): grey GNSS, blue LEO, amber fused
+
+engine-leo-fusion-pvt-kind-chart-polar-x-label = latitude (deg)
+
+engine-leo-fusion-pvt-kind-chart-timing-caption = RMS time error to UTC (log10 ns) against C/N0 offset, one line per oscillator
+
+engine-leo-fusion-pvt-kind-chart-timing-x-label = C/N0 offset (dB)
+
+engine-leo-fusion-pvt-kind-chart-x-range = { $label }: { $x0 } to { $x1 }
 
 ## src/leo_fusion/system.rs
 
@@ -4385,6 +4493,14 @@ engine-leo-navmsg-the-16-parameter-keplerian-set = The 16-parameter Keplerian se
 engine-leo-navmsg-the-16-parameter-keplerian-set-2 = The 16-parameter Keplerian set goes from { $a } m at { $lo } s to { $b } m at { $hi } s.
 
 engine-leo-navmsg-km-deg-gravity-degree-representation = { $res } km, { $res2 } deg, gravity degree { $gravity_degree } · representation error against the truth · MODELLED
+
+engine-leo-navmsg-chart-title = LEO navigation message: SISRE versus fit interval
+
+engine-leo-navmsg-chart-no-trade-encode-decode = No trade in this run; see result.json for the encode/decode and budget tables.
+
+engine-leo-navmsg-chart-no-fit-interval-trade = No fit-interval trade in this run; see result.json.
+
+engine-leo-navmsg-chart-caption = orbit-only SISRE RMS (m, log scale) vs fit interval (s)
 
 ## src/leo_navmsg/tests.rs
 
@@ -4568,6 +4684,12 @@ engine-leo-pass-user-modelled = { $environment } user · MODELLED
 
 engine-leo-pass-doppler-of-each-leo-satellite = Doppler of each LEO satellite's first band (±{ $v1 } kHz full scale)
 
+engine-leo-pass-chart-title = LEO pass: C/N0 per band and Doppler
+
+engine-leo-pass-chart-cn0-caption = C/N0 (dB-Hz, 20 to 80): LEO bands in colour, GNSS in grey
+
+engine-leo-pass-chart-time-axis = time since epoch, 0 to { $s } s
+
 ## src/leo_pnt_chain.rs
 
 engine-e-leo-pnt-chain-invalid-table = invalid [{ $what }] table: { $e }
@@ -4615,6 +4737,12 @@ engine-leo-pnt-chain-values-handed-between-stages-modelled = { "  " }{ $doc } va
 engine-leo-pnt-chain-code-tracking-jitter-the-ranging = Code-tracking jitter, the ranging error (m, 0 to { $jmax })
 
 engine-leo-pnt-chain-sisre-gnss-only-rms-3d = SISRE { $f } · GNSS only RMS 3D { $f2 } · GNSS + LEO RMS 3D { $f3 }
+
+engine-leo-pnt-chain-chart-subtitle = signal design -> pass C/N0 and code jitter -> message SISRE -> fused fix · { $label }
+
+engine-leo-pnt-chain-chart-cn0-caption = Tracked-component C/N0 over the pass (dB-Hz, 20 to 80)
+
+engine-leo-pnt-chain-chart-not-available = n/a
 
 ## src/leo_signal.rs
 
@@ -4679,6 +4807,12 @@ engine-e-leo-signal-shape-check-signal-is-not = shape check: signal { $signal } 
 engine-leo-signal-scenario-leo-signal-signals-noise = scenario leo-signal | { $runs } signals | noise floor { $n0_db } dBW/Hz{ $v3 }{ $v4 }
 
 engine-leo-signal-left-band-limited-psd-of = left: band-limited PSD of each design (dB below peak, across its transmit band); right: code jitter vs total C/N0 at { $reference_spacing_chips } chip spacing
+
+engine-leo-signal-chart-title = LEO-PNT signal designs
+
+engine-leo-signal-chart-psd-axis = offset across ±0.6 × transmit bandwidth; 0 to −50 dB below each peak
+
+engine-leo-signal-chart-jitter-caption = code jitter (m, log scale) vs total C/N0 (dB-Hz)
 
 ## src/linkbudget.rs
 

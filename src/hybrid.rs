@@ -614,14 +614,18 @@ pub fn to_svg(result: &HybridResult) -> String {
     svg.push_str(&format!(
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
-    svg.push_str(&format!("<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Hybrid PNT spec utilization during GNSS outage (1.0 = spec)</text>", ml));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+        ml,
+        crate::t!("hybrid-chart-title")
+    ));
     svg.push_str(&crate::chart::y_axis(
         ml,
         mt,
         pw,
         ph,
         y_max,
-        "spec utilization",
+        &crate::t!("hybrid-chart-y-title"),
     ));
     svg.push_str(&format!(
         "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>"
@@ -632,9 +636,10 @@ pub fn to_svg(result: &HybridResult) -> String {
     ));
     svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{thr_y:.1}\" x2=\"{:.0}\" y2=\"{thr_y:.1}\" stroke=\"{CORAL}\" stroke-dasharray=\"6 4\"/>", ml + pw));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">spec (1.0)</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">{}</text>",
         ml + 4.0,
-        thr_y - 4.0
+        thr_y - 4.0,
+        crate::t!("hybrid-chart-spec-line")
     ));
     svg.push_str(&format!(
         "<polyline fill=\"none\" stroke=\"{AMBER}\" stroke-width=\"2\" points=\"{}\"/>",
@@ -645,17 +650,20 @@ pub fn to_svg(result: &HybridResult) -> String {
         points(q)
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">time (s)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">{}</text>",
         ml + pw / 2.0,
-        h - 12.0
+        h - 12.0,
+        crate::t!("ensemble-chart-time-s")
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"44\" fill=\"{AMBER}\">classical suite</text>",
-        ml + 10.0
+        "<text x=\"{:.0}\" y=\"44\" fill=\"{AMBER}\">{}</text>",
+        ml + 10.0,
+        crate::t!("hybrid-chart-classical-suite")
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"60\" fill=\"{CYAN}\">quantum suite</text>",
-        ml + 10.0
+        "<text x=\"{:.0}\" y=\"60\" fill=\"{CYAN}\">{}</text>",
+        ml + 10.0,
+        crate::t!("hybrid-chart-quantum-suite")
     ));
     svg.push_str("</svg>");
     svg

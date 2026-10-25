@@ -1479,7 +1479,7 @@ fn to_svg(res: &Resolved, rows: &[TradeRow], doc: &Value) -> String {
     let mut s = crate::chart::frame_open(
         w,
         h,
-        "LEO navigation message: SISRE versus fit interval",
+        &crate::t!("leo-navmsg-chart-title"),
         &crate::t!(
             "leo-navmsg-km-deg-gravity-degree-representation",
             res = crate::i18n::localise_decimal(format!("{:.0}", res.orbit.altitude_m / 1e3)),
@@ -1493,9 +1493,9 @@ fn to_svg(res: &Resolved, rows: &[TradeRow], doc: &Value) -> String {
     let (ml, mt, pw, ph) = (80.0, 70.0, 780.0, 340.0);
     if rows.is_empty() {
         let msg = if doc.get("encode_decode").is_some() {
-            "No trade in this run; see result.json for the encode/decode and budget tables."
+            crate::t!("leo-navmsg-chart-no-trade-encode-decode")
         } else {
-            "No fit-interval trade in this run; see result.json."
+            crate::t!("leo-navmsg-chart-no-fit-interval-trade")
         };
         s.push_str(&format!(
             "<text x=\"{ml}\" y=\"{:.0}\" font-size=\"13\">{msg}</text></svg>",
@@ -1530,24 +1530,26 @@ fn to_svg(res: &Resolved, rows: &[TradeRow], doc: &Value) -> String {
         mt,
         pw,
         mt + ph,
-        "orbit-only SISRE RMS (m, log scale) vs fit interval (s)",
+        &crate::t!("leo-navmsg-chart-caption"),
     ));
     let mut e = ymin;
     while e <= ymax + 1e-9 {
         let y = yp(10f64.ppowf(e));
         s.push_str(&format!(
-            "<line x1=\"{ml}\" y1=\"{y:.1}\" x2=\"{:.0}\" y2=\"{y:.1}\" stroke=\"{GRID}\"/><text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"11\" fill=\"{MUTED}\">1e{e:.0}</text>",
+            "<line x1=\"{ml}\" y1=\"{y:.1}\" x2=\"{:.0}\" y2=\"{y:.1}\" stroke=\"{GRID}\"/><text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"11\" fill=\"{MUTED}\">1e{}</text>",
             ml + pw,
             ml - 6.0,
-            y + 4.0
+            y + 4.0,
+            crate::i18n::num(e, 0)
         ));
         e += 1.0;
     }
     for &x in &xs {
         s.push_str(&format!(
-            "<text x=\"{:.1}\" y=\"{:.0}\" text-anchor=\"middle\" font-size=\"11\" fill=\"{MUTED}\">{x:.0}</text>",
+            "<text x=\"{:.1}\" y=\"{:.0}\" text-anchor=\"middle\" font-size=\"11\" fill=\"{MUTED}\">{}</text>",
             xp(x),
-            mt + ph + 16.0
+            mt + ph + 16.0,
+            crate::i18n::num(x, 0)
         ));
     }
     let colours = [AMBER, CYAN, MAGENTA, CORAL];
