@@ -1947,7 +1947,7 @@ impl ConstellationDesignScenario {
 /// One map panel: caption, cell value in `[0, 1]` (`None` = no fix), the two colour ends
 /// and the two key labels.
 type Panel<'a> = (
-    &'static str,
+    String,
     Box<dyn Fn(usize, usize) -> Option<f64> + 'a>,
     [u8; 3],
     [u8; 3],
@@ -2018,7 +2018,7 @@ fn to_svg(cov: &CoverageResult, body: &Body, summary: &str, thr: f64) -> String 
         .max(p_lo + 0.5);
     let panels: [Panel; 2] = [
         (
-            "availability (%)",
+            crate::t!("constellation-chart-availability-pct"),
             Box::new(|a, o| Some(cov.availability_pct[a][o] / 100.0)),
             [0x2a, 0x1f, 0x14],
             [0xe8, 0xc3, 0x8a],
@@ -2026,12 +2026,12 @@ fn to_svg(cov: &CoverageResult, body: &Body, summary: &str, thr: f64) -> String 
             "100%".into(),
         ),
         (
-            "mean PDOP",
+            crate::t!("constellation-chart-mean-pdop"),
             Box::new(move |a, o| cov.mean_pdop[a][o].map(|p| 1.0 - (p - p_lo) / (p_hi - p_lo))),
             [0x2a, 0x1f, 0x14],
             [0x9f, 0xd4, 0xc6],
-            format!("{p_hi:.2}+"),
-            format!("{p_lo:.2}"),
+            format!("{}+", crate::i18n::num(p_hi, 2)),
+            crate::i18n::num(p_lo, 2),
         ),
     ];
     for (pi, (caption, val, c_lo, c_hi, l_lo, l_hi)) in panels.iter().enumerate() {

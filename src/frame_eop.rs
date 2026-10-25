@@ -1997,7 +1997,8 @@ pub fn frame_eop_svg(curve: &[HorizonError]) -> String {
         "<rect width=\"{SVG_W:.0}\" height=\"{SVG_H:.0}\" fill=\"{BG}\"/>"
     ));
     s.push_str(&format!(
-        "<text x=\"{ML:.0}\" y=\"22\" font-size=\"15\" font-weight=\"bold\" fill=\"{TITLE}\">Real-time frame / EOP prediction budget for lunar timing</text>"
+        "<text x=\"{ML:.0}\" y=\"22\" font-size=\"15\" font-weight=\"bold\" fill=\"{TITLE}\">{}</text>",
+        crate::t!("frame-eop-chart-title")
     ));
 
     // --- shared horizon (x) axis helpers ---
@@ -2011,7 +2012,7 @@ pub fn frame_eop_svg(curve: &[HorizonError]) -> String {
         PW,
         PANEL_H,
         A_Y_MAX_MS,
-        "UT1 error (ms)",
+        &crate::t!("frame-eop-chart-ut1-error-ms"),
     ));
     // axes
     s.push_str(&format!(
@@ -2036,9 +2037,13 @@ pub fn frame_eop_svg(curve: &[HorizonError]) -> String {
         ML + PW
     ));
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{LIME}\">IERS final floor {floor_ms:.3} ms</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{LIME}\">{}</text>",
         ML + 6.0,
-        floor_y - 4.0
+        floor_y - 4.0,
+        crate::t!(
+            "frame-eop-chart-iers-final-floor",
+            floor_ms = crate::i18n::num(floor_ms, 3)
+        )
     ));
     // ~0.5 ms / 15 m marker line.
     let mark_y = a_y_of_ms(MARKER_UT1_MS);
@@ -2047,9 +2052,14 @@ pub fn frame_eop_svg(curve: &[HorizonError]) -> String {
         ML + PW
     ));
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">~{MARKER_UT1_MS} ms = ~{MARKER_POS_M:.0} m at Moon</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">{}</text>",
         ML + 6.0,
-        mark_y - 4.0
+        mark_y - 4.0,
+        crate::t!(
+            "frame-eop-chart-marker-at-moon",
+            ut1_ms = crate::i18n::num_plain(MARKER_UT1_MS),
+            pos_m = crate::i18n::num(MARKER_POS_M, 0)
+        )
     ));
     // ~5-day vertical marker.
     let mark_x = x_of_days(MARKER_HORIZON_DAYS);
@@ -2057,9 +2067,10 @@ pub fn frame_eop_svg(curve: &[HorizonError]) -> String {
         "<line x1=\"{mark_x:.1}\" y1=\"{PANEL_A_TOP:.0}\" x2=\"{mark_x:.1}\" y2=\"{a_axis_y:.0}\" stroke=\"{AMBER}\" stroke-dasharray=\"3 3\"/>"
     ));
     s.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.0}\" fill=\"{AMBER}\">~{MARKER_HORIZON_DAYS:.0} d</text>",
+        "<text x=\"{:.1}\" y=\"{:.0}\" fill=\"{AMBER}\">~{} d</text>",
         mark_x + 4.0,
-        PANEL_A_TOP + 14.0
+        PANEL_A_TOP + 14.0,
+        crate::i18n::num(MARKER_HORIZON_DAYS, 0)
     ));
     // measured UT1-error curve.
     let a_pts: Vec<(f64, f64)> = curve
@@ -2080,7 +2091,7 @@ pub fn frame_eop_svg(curve: &[HorizonError]) -> String {
         PW,
         PANEL_H,
         B_Y_MAX_M,
-        "position at Moon (m)",
+        &crate::t!("frame-eop-chart-position-at-moon-m"),
     ));
     s.push_str(&format!(
         "<line x1=\"{ML:.0}\" y1=\"{PANEL_B_TOP:.0}\" x2=\"{ML:.0}\" y2=\"{b_axis_y:.0}\" stroke=\"{AXIS}\"/>"
@@ -2101,16 +2112,18 @@ pub fn frame_eop_svg(curve: &[HorizonError]) -> String {
         let pos_m = B_Y_MAX_M * frac;
         let ns = pos_m / C_M_S * 1e9;
         s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"start\" fill=\"{MUTED}\" font-size=\"11\">{ns:.0} ns</text>",
+            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"start\" fill=\"{MUTED}\" font-size=\"11\">{} ns</text>",
             right_x + 6.0,
-            y + 4.0
+            y + 4.0,
+            crate::i18n::num(ns, 0)
         ));
     }
     let rc = PANEL_B_TOP + PANEL_H / 2.0;
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{rc:.1}\" text-anchor=\"middle\" fill=\"{MUTED}\" font-size=\"12\" transform=\"rotate(90 {:.0} {rc:.1})\">equiv. timing (ns)</text>",
+        "<text x=\"{:.0}\" y=\"{rc:.1}\" text-anchor=\"middle\" fill=\"{MUTED}\" font-size=\"12\" transform=\"rotate(90 {:.0} {rc:.1})\">{}</text>",
         SVG_W - 16.0,
-        SVG_W - 16.0
+        SVG_W - 16.0,
+        crate::t!("frame-eop-chart-equiv-timing-ns")
     ));
     // 15 m marker line.
     let m15_y = b_y_of_m(MARKER_POS_M);
@@ -2119,10 +2132,11 @@ pub fn frame_eop_svg(curve: &[HorizonError]) -> String {
         ML + PW
     ));
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">{MARKER_POS_M:.0} m ({:.1} ns)</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">{} m ({} ns)</text>",
         ML + 6.0,
         m15_y - 4.0,
-        MARKER_POS_M / C_M_S * 1e9
+        crate::i18n::num(MARKER_POS_M, 0),
+        crate::i18n::num(MARKER_POS_M / C_M_S * 1e9, 1)
     ));
     // ~5-day vertical marker.
     s.push_str(&format!(
@@ -2148,16 +2162,22 @@ pub fn frame_eop_svg(curve: &[HorizonError]) -> String {
     // horizon shown are whatever the real data produce (see [`growth_annotation`]).
     if let Some((factor, far_days)) = growth_annotation(curve) {
         s.push_str(&format!(
-            "<text x=\"{:.1}\" y=\"{:.0}\" fill=\"{AMBER}\">~{factor:.1}x, 1 d\u{2192}{far_days:.0} d</text>",
+            "<text x=\"{:.1}\" y=\"{:.0}\" fill=\"{AMBER}\">{}</text>",
             mark_x + 4.0,
             PANEL_B_TOP + 16.0,
+            crate::t!(
+                "frame-eop-chart-growth",
+                factor = crate::i18n::num(factor, 1),
+                far_days = crate::i18n::num(far_days, 0)
+            ),
         ));
     }
     // horizon axis label.
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">prediction horizon (days)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">{}</text>",
         ML + PW / 2.0,
-        SVG_H - 12.0
+        SVG_H - 12.0,
+        crate::t!("frame-eop-chart-prediction-horizon-days")
     ));
 
     s.push_str("</svg>");
