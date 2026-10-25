@@ -1255,3 +1255,5 @@ seg-6b1bb731f966 = Доверенное квантовое время — скв
 seg-3332c6c1ae86 = Квантовая навигация без GNSS (src/quantum_nav_od.rs)
 
 seg-9b46a5add4ab = Обнаружение неисправностей / аномалий в квантовых системах PNT (src/quantum_faults.rs)
+
+seg-0b905100d91c = Вещательная модель ионосферы (Klobuchar, IS-GPS-200 (IS: Interface Specification)) → наклонная задержка на L1
