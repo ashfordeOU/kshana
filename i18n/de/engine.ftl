@@ -7958,3 +7958,135 @@ engine-legal-bench-notice = Hinweis: aus einem Modell berechnet oder gegen angeg
 
 # legal: native review
 engine-legal-osnma-advisory = Hinweis: Dies ist Analyse- und Überwachungsausgabe und keine typzugelassene Navigationsausrüstung. Der hier gemeldete Authentifizierungsstatus ist kein Navigationsintegritätsdienst und darf nicht die alleinige Grundlage für eine Navigations- oder Sicherheitsentscheidung sein.
+
+## added by the second pass
+
+engine-holdover-test-not-recovered-within-record = ; innerhalb der Aufzeichnung nicht wiederhergestellt
+
+engine-holdover-test-chart-title = Holdover-Test: Zeitfehler je Schritt
+
+engine-holdover-test-chart-y-title = |Zeitfehler| (ns)
+
+engine-holdover-test-chart-panel-caption = absoluter Zeitfehler; Holdover-Schritt schattiert; gestrichelte Linien sind die Zeitfehlerbudgets
+
+engine-holdover-test-chart-gnss-removed = GNSS entfernt
+
+engine-holdover-test-chart-gnss-restored = GNSS wiederhergestellt
+
+engine-holdover-test-chart-time-axis = Zeit auf der Achse der Aufzeichnung ({ $min } min)
+
+engine-hybrid-chart-title = Spezifikationsauslastung des hybriden PNT bei GNSS-Ausfall (1.0 = Spezifikation)
+
+engine-hybrid-chart-y-title = Spezifikationsauslastung
+
+engine-hybrid-chart-spec-line = Spezifikation (1.0)
+
+engine-hybrid-chart-classical-suite = klassische Sensorsuite
+
+engine-hybrid-chart-quantum-suite = Quanten-Sensorsuite
+
+engine-hybrid-integrity-chart-availability = Verfügbarkeit
+
+engine-hybrid-integrity-chart-precision = Präzision
+
+engine-hybrid-integrity-chart-integrity = Integrität
+
+engine-hybrid-integrity-chart-joint-indep = gemeinsam (unabh.)
+
+engine-hybrid-integrity-chart-joint-corr = gemeinsam (korr.)
+
+engine-hybrid-integrity-chart-title = Gemeinsame Gütezahl für hybrides optisches + HF-PNT
+
+engine-hybrid-integrity-chart-subtitle = P(verfügbar AND präzisionstauglich AND integritätsgesichert)
+
+engine-inertial-chart-title = Positionsfehler der Koppelnavigation bei GNSS-Ausfall
+
+engine-inertial-chart-y-title = Positionsfehler (m)
+
+engine-inertial-chart-spec-line = Spezifikation { $m } m
+
+engine-inertial-chart-classical = klassisch: { $id }
+
+engine-inertial-chart-quantum = Quanten: { $id }
+
+engine-iq-campaign-report-roc-aria-label = Detektions-ROC je Monitor
+
+engine-iq-campaign-report-roc-x-title = P_fa (je Negativfenster)
+
+engine-iq-campaign-report-curve-aria-label = C/N0-Degradation gegen angegebenes J/S für { $rec } Ereignis { $ev }
+
+engine-iq-campaign-report-curve-x-title = angegebenes J/S (dB)
+
+engine-iq-campaign-report-curve-y-title = C/N0-Degradation (dB)
+
+engine-iq-campaign-report-curve-model-tooltip = { $label }: SSC-Referenz, Q = { $q }
+
+engine-iq-campaign-report-curve-model-legend = { $label }-Referenz (Q = { $q })
+
+engine-iq-campaign-report-curve-more-series = +{ $n } weitere Reihe(n) in der Scorecard-Tabelle
+
+engine-iq-campaign-report-curve-point-tooltip = { $fe } / { $d }: J/S { $x } dB, gemessene Degradation { $y } dB
+
+engine-iq-campaign-report-curve-measured-legend = { $fe } / { $d } (gemessen)
+
+engine-jamming-chart-title = Sichtbare Satelliten vs. verfolgte Satelliten unter Jamming
+
+engine-jamming-chart-y-title = Satelliten
+
+engine-jamming-chart-four-sv-fix = 4-SV-Lösung
+
+engine-jamming-chart-visible = sichtbar
+
+engine-jamming-chart-tracking = verfolgt
+
+engine-leo-fusion-ntn-chart-title = 5G-NTN-Positionierung: Cramér-Rao-Entfernungsschranke nach Bandbreite
+
+engine-leo-fusion-ntn-chart-caption = Entfernungs-Einsigma (log10 m): Balken = Maske bis Zenit-C/N0; Punkt = RMS des 3D-Lösungsfehlers
+
+engine-leo-fusion-ppp-chart-title = PPP-Konvergenz mit LEO-Unterstützung
+
+engine-leo-fusion-ppp-chart-caption = medianer Horizontalfehler (log10 m) gegen Minuten
+
+engine-leo-fusion-pvt-kind-chart-doppler-caption = 3D-Doppler-Lösungsfehler (log10 m) gegen Fensterlänge
+
+engine-leo-fusion-pvt-kind-chart-doppler-x-label = Fenster (s)
+
+engine-leo-fusion-pvt-kind-chart-joint-caption = medianer PDOP (blau) und VDOP (bernsteinfarben), log10, gegen hinzugefügte LEO-Satelliten
+
+engine-leo-fusion-pvt-kind-chart-joint-x-label = hinzugefügte LEO-Satelliten
+
+engine-leo-fusion-pvt-kind-chart-polar-caption = medianer VDOP (log10): grau GNSS, blau LEO, bernsteinfarben fusioniert
+
+engine-leo-fusion-pvt-kind-chart-polar-x-label = Breite (Grad)
+
+engine-leo-fusion-pvt-kind-chart-timing-caption = RMS-Zeitfehler zu UTC (log10 ns) gegen C/N0-Versatz, eine Linie je Oszillator
+
+engine-leo-fusion-pvt-kind-chart-timing-x-label = C/N0-Versatz (dB)
+
+engine-leo-fusion-pvt-kind-chart-x-range = { $label }: { $x0 } bis { $x1 }
+
+engine-leo-navmsg-chart-title = LEO-Navigationsnachricht: SISRE gegen Anpassungsintervall
+
+engine-leo-navmsg-chart-no-trade-encode-decode = Kein Zielkonflikt in diesem Lauf; Kodier-/Dekodier- und Budgettabellen siehe result.json.
+
+engine-leo-navmsg-chart-no-fit-interval-trade = Kein Anpassungsintervall-Zielkonflikt in diesem Lauf; siehe result.json.
+
+engine-leo-navmsg-chart-caption = SISRE-RMS nur aus der Bahn (m, logarithmische Skala) gegen Anpassungsintervall (s)
+
+engine-leo-pass-chart-title = LEO-Überflug: C/N0 je Band und Doppler
+
+engine-leo-pass-chart-cn0-caption = C/N0 (dB-Hz, 20 bis 80): LEO-Bänder farbig, GNSS grau
+
+engine-leo-pass-chart-time-axis = Zeit seit Epoche, 0 bis { $s } s
+
+engine-leo-pnt-chain-chart-subtitle = Signalentwurf -> Überflug-C/N0 und Code-Jitter -> Nachrichten-SISRE -> fusionierte Lösung · { $label }
+
+engine-leo-pnt-chain-chart-cn0-caption = C/N0 der verfolgten Komponente über den Überflug (dB-Hz, 20 bis 80)
+
+engine-leo-pnt-chain-chart-not-available = n. v.
+
+engine-leo-signal-chart-title = LEO-PNT-Signalentwürfe
+
+engine-leo-signal-chart-psd-axis = Versatz über ±0.6 × Sendebandbreite; 0 bis −50 dB unter jedem Maximum
+
+engine-leo-signal-chart-jitter-caption = Code-Jitter (m, logarithmische Skala) gegen gesamtes C/N0 (dB-Hz)
