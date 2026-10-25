@@ -278,3 +278,49 @@ seg-ccb244e60d60 = Optische gegen HF-Zweiweg-Zeit-/Frequenzübertragung.
 
 # text
 seg-f6ff1c8c78db = Lock-Verlust der Tracking-Schleife: C/N0 -> Lock/Unlock MIT HYSTERESE, die Zeit bis zum Lock-Verlust und Spoof-Pull-in als Funktion der RATE von Code- und Trägerversatz. Die bestehenden Verweigerungs- und Capture-Kriterien der Engine sind Verhältnisse der Empfangsleistung (ein Jammer verweigert bei J/S = { "30" } dB, ein Spoofer übernimmt bei { "3" } dB); der reale Lock-Verlust ist kein Leistungsverhältnis, sondern dort, wo der Jitter einer Schleife plus dynamische Belastung ihr Tracking-Schwellenbudget verlässt. Gibt aus ({ "1" }) den thermischen 1-Sigma-Jitter von Träger- (Costas) und Code-Schleife (nichtkohärent Early/Late) gegen C/N0, Quadrierungsverlust eingeschlossen, gegen die angegebenen Regeln { "3" }<em>sigma_PLL + theta_e <= { "45" } deg (die 15-Grad-Regel in Drei-Sigma-Form) und { "3" }</em>sigma_DLL + Rampennachlauf <= d/2 Chips; ({ "2" }) die C/N0-Schwellen für Abfall und erneutes Locken mit der benannten bindenden Schleife, wobei die Schwelle für das erneute Locken aus der breiteren Bandbreite, mit der ein Empfänger wieder einzieht, ABGELEITET und nicht behauptet wird, sodass die Hysteresebreite zwischen { "5" }<em>log10(Verhältnis) und { "10" }</em>log10(Verhältnis) dB liegen muss; ({ "3" }) die deklarierte Zeit bis zum Lock-Verlust aus einem Zwei-Schwellen-Lock-Detektor mit Bestätigungs-Verweilzeiten, getrieben über eine C/N0-Rampe, getrennt ausgewiesen von der physikalischen Phasenausbruchszeit (die mittlere Viterbi-Zeit zwischen Cycle Slips, in log10 s, weil sie sich über Hunderte von Dekaden erstreckt); ({ "4" }) Spoof-Pull-in-Grenzen — die größte Code-Verschiebung und Träger-Dopplerrate, denen die Schleifen eines Opfers folgen können, mit einer Karte über beide Achsen, denn ein Spoofer, der schneller verschiebt als diese, übernimmt die Schleife nicht, er überholt sie; und ({ "5" }) den VERWEIGERUNGSRADIUS, den die Schleifendynamik impliziert, AUSGEWIESEN NEBEN dem bestehenden Leistungsverhältnis-Radius, nie an dessen Stelle, mit ihrer vorzeichenbehafteten Differenz als eigenem benanntem Feld (denial_radius_delta_km) und einer Definition daneben. Jedes ausgegebene numerische Feld trägt eine Einheit und eine Herkunftsklasse. VALIDATED geschlossene Formen: die Ausdrücke für den Träger- und Code-Jitter, die Schleifenfilter-Reduktion sqrt({ "2" }<em>B_n</em>T) und der Rampennachlauf erster Ordnung sind gegen den eigenen sdr-Korrelator der Engine, vorwärts geschaltet auf synthetischer ZF mit Seed, gegengeprüft — ein anderer Weg zu denselben Zahlen — auf { "0.6" } %, { "3.7" } % bzw. { "0.17" } %, und die modifizierte Bessel-I0 hinter der Cycle-Slip-Zeit gegen übliche tabellierte Werte auf { "1e-7" }. Die untere Gültigkeitsgrenze wird behauptet, nicht nur genannt: Unterhalb von ~{ "32" } dB-Hz bei { "1" } ms sättigt der reale atan-Diskriminator an seinem Bereich von +-pi/2 und misst weniger Jitter als jede lineare Theorie. MODELLED: die Schleifenbandbreiten, die Integrationszeit, der Korrelatorabstand, das Pull-in-Bandbreitenverhältnis, die Bestätigungs-Verweilzeiten, die Jammer-Leistung und die Antennengewinne sind repräsentative Bandwerte, kein Datenblatt. NICHT modelliert: Oszillator-(Allan-Abweichungs-) und Vibrationsjitter, Begrenzung der Front-End-Bandbreite, Mehrweg, AGC-Dynamik, Datenbit-Übergangsverlust, externe Stützung und jede Halbzyklus-Korrektur der Costas-Cycle-Slip-Formel. Unter Schleifendynamik hat die Spoof-Übernahme überhaupt keinen Radius — die bindende Randbedingung ist die Versatzrate, nicht die Leistung —, sodass dieses Feld mit einer Begründung null ist, statt eine erfundene Zahl zu tragen. Kein zertifiziertes Produkt zur Bewertung der Empfängerleistung.
+
+# text
+# c1: docs/SCENARIOS.md
+seg-45cb12242d59 = Quelle: <c1/>
+
+# text
+# c1: kshana::api::run_toml
+seg-843d88cee576 = Die { "87" } eingebauten Szenarioarten, über die <c1/> verteilt, jeweils mit ihrer einzeiligen Beschreibung und ihren erforderlichen / optionalen Feldern in TOML (Tom's Obvious, Minimal Language).
+
+# text
+# c1: api::list_scenario_kinds()
+# c2: cargo run --bin gen_validation_artifacts
+# c3: list_scenario_kinds
+seg-2860d14bd619 = Diese Datei wird aus <c1/> — der einzigen Quelle der Wahrheit — von <c2/> <b>erzeugt</b>; bearbeiten Sie die Quelle, nicht diese Datei. Jede Bindung (das Python-Paket, das Werkzeug <c3/> des MCP-Servers (Model Context Protocol) und der WebAssembly-(WASM-)Playground) stellt denselben Katalog bereit, sodass das hier Aufgeführte genau das ist, was jede Oberfläche ausführen kann. Die Beschreibungen sind knapp und lösen ihre Abkürzungen nicht immer auf; jede ist in <a1>GLOSSARY.md</a1> ausgeschrieben.
+
+# text
+# c1: clock
+# c2: kind = "<name>"
+# c3: kind
+# c4: clock
+# c5: kind
+# c6: |
+# c7: +
+# c8: tle|orbit+epoch
+# c9: tle
+# c10: orbit
+# c11: epoch
+seg-28b0dbf53a2c = Jedes Szenario außer <c1/> muss auf oberster Ebene auch <c2/> setzen: Ein Dokument ohne <c3/> läuft als <c4/>, weshalb <c5/> in den erforderlichen Feldern keiner Art unten wiederholt wird. Ein erforderlicher Eintrag kann Alternativen nennen: <c6/> trennt Formen, von denen mindestens eine vorhanden sein muss, und <c7/> verbindet Felder, die zusammen auftreten müssen, sodass <c8/> liest: „ein <c9/> oder ein <c10/> mit einem <c11/>“.
+
+# text
+seg-6317db731879 = Beschreibung
+
+# text
+seg-6c9d3eec1bd7 = Erforderliche Felder:
+
+# text
+seg-05a3e7f57b33 = Optionale Felder:
+
+# text
+seg-c01773d5f190 = (keine)
+
+# text
+seg-4178135b91eb = <s1>Zurück</s1>Durchgearbeitetes Beispiel: Pipeline mit mehreren Werkzeugen
+
+# text
+seg-c9afb81f21d8 = <s1>Weiter</s1>Jede Szenarioart, nach Familie
