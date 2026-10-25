@@ -7,10 +7,6 @@ seg-f79048f88b5c = Kshana Studio starten
 seg-a613a7447e3f = Individuelle Studie
 
 # text
-# c1:
-seg-0d9fca5fdcfe = <a1>In Kshana Studio öffnen<c1/></a1>
-
-# text
 seg-e07e65946b76 = Aus den Manifesten
 
 # attr:aria-label
@@ -42,10 +38,6 @@ seg-1e466f300d6e = v{ $version } festlegen
 
 # text
 seg-d8008680650d = Für alle, ohne Installation.
-
-# text
-# c1:
-seg-dca88d8e959c = <a1>Kshana Studio starten <c1/></a1>
 
 # text
 seg-567be575c392 = Die Engine läuft lokal als WebAssembly; nichts wird hochgeladen.
@@ -291,10 +283,6 @@ seg-91da86f32a66 = Werkzeuge für modellbasiertes Systems Engineering (MBSE) und
 seg-65b886427270 = Kshana Pro ist unter Vertrag erhältlich. Es hängt vom offenen Kern ab und forkt ihn nie, daher wird der kostenlosen Engine nichts entnommen.
 
 # text
-# c1:
-seg-38eaaca53445 = <a1>Evaluierung anfragen <c1/></a1>
-
-# text
 seg-98f81c393a13 = Verstärkt ansehen
 
 # text
@@ -335,10 +323,6 @@ seg-4d8a03851089 = Kommerzieller Support und Integration, Schulung und Beratung
 seg-23723d311433 = Auf Ihre Frage zugeschnitten und unter Vertrag geliefert, reproduzierbar aus Szenario, Seed und Engine-Version.
 
 # text
-# c1:
-seg-b6eb33e3149e = <a1>Studie anfragen <c1/></a1>
-
-# text
 seg-164d0c3f0427 = Eine Engine, zwei Lizenzen.
 
 # text
@@ -376,10 +360,6 @@ seg-eb109018312a = Sie in eine Toolchain integrieren, deren andere Teile nicht A
 
 # text
 seg-6574581cd2d4 = Gewährleistungs-, Freistellungs- oder Supportbedingungen erhalten, die die AGPL ausschließt
-
-# text
-# c1:
-seg-5973b84b88c2 = <a1>Nach einer kommerziellen Lizenz fragen <c1/></a1>
 
 # text
 seg-2cbf39df6210 = Kshana Pro und die anderen proprietären Ergänzungsschichten sind getrennte Produkte unter eigenem Vertrag und nicht Teil einer der beiden Lizenzen. <a1>Was die kommerzielle Lizenz abdeckt</a1>
@@ -1172,10 +1152,6 @@ seg-853667670c1f = <b>Modelle Ihrer Hardware.</b> Auf Ihre Hardware kalibrierte 
 seg-520654f215c5 = <b>Exportkontrollierte Resilienzmodelle werden nicht öffentlich angeboten.</b> Solche Arbeit wird nur unter der angemessenen Sicherheitsüberprüfung und einer Geheimhaltungsvereinbarung erledigt.
 
 # text
-# c1:
-seg-890b470ca9ea = <a1>Pro-Evaluierung anfragen <c1/></a1>
-
-# text
 seg-8ea876b3c515 = Die Diagramme in diesem Abschnitt sind aus den Dateien gezeichnet, die die Pro-Befehle für die mit Pro ausgelieferten durchgerechneten Beispiele geschrieben haben: modellierte Ergebnisse, keine Aussagen über eine reale Mission. Der Wortlaut ist von der öffentlichen Seite zu Kshana Pro im offenen Repository zitiert.
 
 # attr:aria-label
@@ -1216,22 +1192,6 @@ seg-87783088bafd = Den Open Core installieren
 seg-3d2a59a4a52a = Keine Formulare, keine Preise
 
 # text
-# c1:
-seg-8e875271be58 = <a1><b>Kshana Pro evaluieren</b><s1>Eine Evaluierung unter Vertrag anfragen</s1><c1/></a1>
-
-# text
-# c1:
-seg-864996d20436 = <a1><b>Eine individuelle Studie anfragen</b><s1>Nennen Sie uns das System und die Entscheidung, die es speist</s1><c1/></a1>
-
-# text
-# c1:
-seg-8204c8ed724b = <a1><b>Kommerzielle Lizenz</b><s1>Der Open Core, für geschlossene Integration</s1><c1/></a1>
-
-# text
-# c1:
-seg-75e59e32a089 = <a1><b>Alles andere</b><s1>contact@ashforde.org · Nachrichten gehen direkt an das Team</s1><c1/></a1>
-
-# text
 seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>
 
 # text
@@ -1260,3 +1220,17 @@ seg-c0c9f2748dcd = Jedes Pro-Ergebnis ist als MODELLED gekennzeichnet. Jede Zahl
 
 # text
 seg-c9050f66bedf = <b>Was es nicht leistet.</b> Eingaben werden als unabhängig behandelt. Mehr Läufe verringern den Stichprobenfehler, nicht den Modellfehler: Eine Art, die MODELLED ist, bleibt MODELLED.
+
+seg-1aa35b022d85 = <b>Kshana Pro evaluieren</b><s1>Eine Evaluierung unter Vertrag anfragen</s1>
+
+seg-f9d8b42c68cc = <b>Eine individuelle Studie anfragen</b><s1>Nennen Sie uns das System und die Entscheidung, die es speist</s1>
+
+seg-2e0c129fb875 = <b>Kommerzielle Lizenz</b><s1>Der Open Core, für geschlossene Integration</s1>
+
+seg-67341b9eea70 = <b>Alles andere</b><s1>contact@ashforde.org · Nachrichten gehen direkt an das Team</s1>
+
+# text
+seg-9a86ef058d27 = In Kshana Studio öffnen
+
+# text
+seg-6d3d0f8c9b7c = Pro-Evaluierung anfragen

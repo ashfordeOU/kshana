@@ -47,10 +47,6 @@ seg-d34ffe4fa777 = Spoofing
 # text
 seg-501d3a72ea43 = Integrität
 
-# text
-# c1:
-seg-0d9fca5fdcfe = <a1>In Kshana Studio öffnen<c1/></a1>
-
 # attr:title
 seg-34a0cf94d83d = Die Exporte des Laufs in Kshana Studio öffnen: reproduzierbarer HTML-Bericht, JSON, CSV
 
@@ -157,10 +153,6 @@ seg-1e466f300d6e = v{ $version } festlegen
 
 # text
 seg-d8008680650d = Für alle, ohne Installation.
-
-# text
-# c1:
-seg-dca88d8e959c = <a1>Kshana Studio starten <c1/></a1>
 
 # text
 seg-567be575c392 = Die Engine läuft lokal als WebAssembly; nichts wird hochgeladen.
@@ -490,10 +482,6 @@ seg-12f050093898 = Warum jeder sie braucht
 seg-d997b6a5a416 = Warum Pro, noch mehr
 
 # text
-# c1:
-seg-b6eb33e3149e = <a1>Studie anfragen <c1/></a1>
-
-# text
 seg-4ff013b472ff = Welches Design sollen wir fliegen?
 
 # attr:aria-label
@@ -513,10 +501,6 @@ seg-7fbde256debf = nicht erreicht
 
 # text
 seg-f6ccb7a322b3 = offene Punkte
-
-# text
-# c1:
-seg-890b470ca9ea = <a1>Pro-Evaluierung anfragen <c1/></a1>
 
 # attr:title
 seg-813d6d41b891 = Den Befehl kopieren, der es reproduziert
@@ -575,13 +559,6 @@ seg-f0e9de10d9ef = cargo install kshana<s1>Kopieren</s1>
 # text
 # c1: ⌘K
 seg-ec3957c0f5f1 = Drücken Sie <c1/>, um Seiten, Szenarien und Dokumentation zu durchsuchen
-
-# text
-# c1:
-seg-428e9d81bb4d = <a1><s1>Kshana Pro</s1><c1/></a1>
-
-# text
-seg-511c8bb00e62 = Dieselbe Engine, verstärkt: { "608" } Entwürfe, eine Pareto-Front
 
 # attr:aria-label
 seg-b807a8887172 = Aus dem verketteten Kampagnenlauf wiedergegebene Telemetrie
@@ -851,10 +828,6 @@ seg-4fa6a9f6915d = Jamming-Fußabdruck: mittleres Verhältnis von Störer zu Sig
 # text
 # c1: maritime-strait-jamming.toml
 seg-774ec89d13d7 = Engine v{ $version } · <c1/> · Startwert { "1" } · Empfänger je Zelle bewegt
-
-# text
-# c1:
-seg-fba341c5e4fd = <a1>Jede Zelle, unter Missionen<c1/></a1>
 
 # text
 seg-08ba18ea712c = Täuschung
@@ -1165,3 +1138,18 @@ seg-905e5eef45e5 = <b>{ "12" } Anforderungen</b> gegen reale Läufe geprüft, PD
 
 # text
 seg-7d9ee2bfbb90 = Finden Sie heraus, wo Ihre Zeitgebung bricht, bevor sie es tut.
+
+seg-7292d543b1ac = Jede Zelle, unter Missionen
+
+# text
+seg-9a86ef058d27 = In Kshana Studio öffnen
+
+# text
+seg-b366150de755 = Studie anfragen
+
+# text
+seg-6d3d0f8c9b7c = Pro-Evaluierung anfragen
+
+# text
+# c1: 
+seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Dieselbe Engine, verstärkt: { "608" } Entwürfe, eine Pareto-Front</s2>
