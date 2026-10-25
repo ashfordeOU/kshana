@@ -117,6 +117,7 @@ impl ThreadCtx {
             seed: self.phase_seed(id),
             nav: Vec::new(),
             time: phase::TimeSource::Gnss,
+            ground_duty: None,
         }
     }
 
@@ -130,6 +131,7 @@ impl ThreadCtx {
             seed: self.phase_seed(&spec.id),
             nav: spec.nav.clone(),
             time: spec.time,
+            ground_duty: None,
         }
     }
 
@@ -172,6 +174,9 @@ pub struct PhaseCtx {
     pub nav: Vec<phase::NavSource>,
     /// The time source the document gives the phase.
     pub time: phase::TimeSource,
+    /// The fraction of the phase a ground station can track the vehicle, from the ground-network
+    /// overlay; `None` when the document has no overlay (a phase then uses its own stated value).
+    pub ground_duty: Option<f64>,
 }
 
 impl PhaseCtx {
@@ -278,8 +283,8 @@ pub static PHASE_KINDS: &[PhaseKindInfo] = &[
     PhaseKindInfo {
         kind: "tli-and-cruise",
         segment: "earth",
-        ctor: stub_ctor!("tli-and-cruise"),
-        implemented: false,
+        ctor: earth::tli_cruise::ctor,
+        implemented: true,
     },
     PhaseKindInfo {
         kind: "entry",

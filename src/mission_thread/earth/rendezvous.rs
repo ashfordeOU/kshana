@@ -118,7 +118,7 @@ pub fn ctor(t: &toml::Table) -> Result<Box<dyn MissionPhase>, String> {
     }))
 }
 
-fn mul(a: &Mat6, b: &Mat6) -> Mat6 {
+pub(super) fn mul(a: &Mat6, b: &Mat6) -> Mat6 {
     let mut c = [[0.0; 6]; 6];
     for i in 0..6 {
         for j in 0..6 {
@@ -128,7 +128,7 @@ fn mul(a: &Mat6, b: &Mat6) -> Mat6 {
     c
 }
 
-fn transpose(a: &Mat6) -> Mat6 {
+pub(super) fn transpose(a: &Mat6) -> Mat6 {
     let mut t = [[0.0; 6]; 6];
     for i in 0..6 {
         for j in 0..6 {
