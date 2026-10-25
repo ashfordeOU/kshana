@@ -576,16 +576,19 @@ fn bench_writes_the_same_documents() {
                     "--out", "baseline",
                 ])
             },
-            step(&[
-                "bench",
-                "score",
-                "--truth",
-                "baseline/d-dev.truth.json",
-                "--predictions",
-                "baseline/d-dev-energy-cn0-drop.predictions.json",
-                "--out",
-                "scored.json",
-            ]),
+            Step {
+                human: false,
+                ..step(&[
+                    "bench",
+                    "score",
+                    "--truth",
+                    "baseline/d-dev.truth.json",
+                    "--predictions",
+                    "baseline/d-dev-energy-cn0-drop.predictions.json",
+                    "--out",
+                    "scored.json",
+                ])
+            },
             step(&[
                 "bench", "baseline", "--task", "b", "--split", "test", "--out", "b",
             ]),
@@ -783,5 +786,21 @@ fn bench_export_writes_the_same_files() {
             ])
         }],
         &[],
+    );
+}
+
+#[test]
+fn a_scenario_run_with_exports_writes_the_same_files() {
+    let setup = |dir: &Path| {
+        copy("scenarios/gnss-ins.toml", dir, "g.toml");
+    };
+    assert_language_independent(
+        "scenario-export",
+        &setup,
+        &[step(&[
+            "g.toml", "--export", "czml", "--export", "geojson", "--export", "kml",
+        ])],
+        // The chart and the page are for a person; their text is in the language.
+        &[".svg", ".html"],
     );
 }
