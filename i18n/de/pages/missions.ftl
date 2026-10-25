@@ -37,10 +37,6 @@ seg-aa8201fbbfb8 = Effektive Träger-zu-Rausch-Dichte je Satellit und Zeit
 # c1: jamming-demo.toml
 seg-36dece8c7ecc = Engine v{ $version } · <c1/> · Seed { "1" }
 
-# text
-# c1:
-seg-0d9fca5fdcfe = <a1>In Kshana Studio öffnen<c1/></a1>
-
 # attr:title
 seg-34a0cf94d83d = Die Exporte des Laufs in Kshana Studio öffnen: reproduzierbarer HTML-Bericht, JSON, CSV
 
@@ -365,54 +361,6 @@ seg-a046384e01c1 = Beteiligte Normen
 seg-ca88ce3da030 = C/N₀ jedes Satelliten unter einem Jammer
 
 # text
-# c1:
-# c2: jamming-demo
-# c3:
-seg-ec20ca58b238 = <a1><s1><c1/>jamming</s1><c2/><s2>Ein Boden-Jammer nahe einem Empfänger: Signal-Rausch-Verhältnis und Lock-Zustand jedes Satelliten, sobald er sich einschaltet.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: spoof-detect
-# c3:
-seg-bc6135676355 = <a1><s1><c1/>spoof-detect</s1><c2/><s2>Ein fusionierter Spoofing-Detektor: Konsistenz über Satelliten, Empfängerverstärkung und Signalform hinweg, und welcher Monitor auslöst.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: spoof-attack
-# c3:
-seg-57d8c0b1b9eb = <a1><s1><c1/>spoof</s1><c2/><s2>Ein aktiver Zeit-Spoofing-Angriff: Fängt der Integritätsmonitor jeder Uhr die Verschiebung?</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: spoof-meaconing
-# c3:
-seg-0ae63b889cae = <a1><s1><c1/>spoof</s1><c2/><s2>Eine verzögerte Wiederausstrahlung realer Signale zieht die Zeitlösung; der Detektor hat seine eigene Schranke.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: conflict-resilience
-# c3:
-seg-9e7c44159ac6 = <a1><s1><c1/>conflict-resilience</s1><c2/><s2>Geschichtete Navigation bei steigender Bedrohungsintensität: die Wahrscheinlichkeit, jede Schicht auf einmal zu verlieren.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: combined-altpnt
-# c3:
-seg-eb221aac09c5 = <a1><s1><c1/>combined-altpnt</s1><c2/><s2>Schwerefeld-, Magnetfeld- und Geländeabgleich, fusioniert zu einem Navigator, der keine Satelliten braucht.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: gps-denied-gravity-nav
-# c3:
-seg-084f3deb4155 = <a1><s1><c1/>gravity-map</s1><c2/><s2>Eine Stunde ohne Satelliten, navigierend auf einer Schwerekarte mit einem Quantensensor.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: terrain-nav
-# c3:
-seg-27de276d78e4 = <a1><s1><c1/>terrain-nav</s1><c2/><s2>Geländereferenzierte Navigation: gemessene Höhen werden mit einer Karte abgeglichen, während Satelliten verwehrt sind.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
 seg-a2fca37a7d4e = campaign<b>Neu</b>
 
 # text
@@ -467,10 +415,6 @@ seg-04d539c39f45 = Individuelle Studie ergänzt
 seg-71d7ccb4c89a = Individuell: exportkontrollierte Resilienzarbeit unter der passenden Sicherheitsfreigabe und NDA (Geheimhaltungsvereinbarung).
 
 # text
-# c1:
-seg-dc8587e446d1 = <a1>Die Editionen vergleichen <c1/></a1>
-
-# text
 seg-43f2006c4390 = Nur defensive Nutzung: Schutz der eigenen Navigation und Zeitgebung, Resilienzbewertung und Holdover-Planung. Kshana modelliert keine Zielführung, Abfangung oder Lenkung. Es steuert keine Funk-Hardware und sendet nichts: Seine Ausgabe auf Signalebene sind Basisband-IQ-Abtastdateien für Software-Empfänger.
 
 # text
@@ -482,60 +426,6 @@ seg-0ab7434ba617 = GNSS-Verfügbarkeit für ein Raumfahrzeug innerhalb der Schal
 # text
 # c1: orbit-gnss-challenged.toml
 seg-5e4996d54625 = Engine v{ $version } · <c1/> · Startwert { "7" }
-
-# text
-# c1:
-# c2: orbit-gnss-challenged
-# c3:
-seg-4699f1edd35e = <a1><s1><c1/>orbit</s1><c2/><s2>Verfügbarkeit von Navigationssatelliten für ein Raumfahrzeug innerhalb der Konstellationsschale, aus realer Geometrie.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: orbit-molniya
-# c3:
-seg-7c2982c2f488 = <a1><s1><c1/>orbit</s1><c2/><s2>Dieselbe Frage für eine stark exzentrische Bahn, die über die Konstellation hinaus ansteigt.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: orbit-sgp4-gps
-# c3:
-seg-36eeab41adde = <a1><s1><c1/>orbit</s1><c2/><s2>Verfügbarkeit aus der realen GPS-Konstellation, propagiert aus Zweizeilen-Elementsätzen.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: orbit-multignss
-# c3:
-seg-06f2f5baa0b1 = <a1><s1><c1/>orbit</s1><c2/><s2>GPS und Galileo zusammen: wie viel eine zweite Konstellation über dem Kopf hinzufügt.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: slot-timing-ocxo-leo
-# c3:
-seg-f06ed80cf6ad = <a1><s1><c1/>slot-timing</s1><c2/><s2>Wie lange eine ofengeregelte Quarzuhr auf einem kleinen Satelliten niedriger Umlaufbahn innerhalb ihres Routing-Slots bleibt.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: ephemeris
-# c3:
-seg-98b08acc8cae = <a1><s1><c1/>ephemeris</s1><c2/><s2>Wo der Satellit gerade ist, und die Bodenspur, die er zeichnet.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: passes
-# c3:
-seg-edad2add626c = <a1><s1><c1/>passes</s1><c2/><s2>Überflugvorhersage für Bodenstationen, für das Betriebsteam.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: link-budget
-# c3:
-seg-24d1c1be6cbc = <a1><s1><c1/>link-budget</s1><c2/><s2>Ein Streckenbudget in einer Richtung, von der Sendeleistung bis zur Empfängerreserve.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: space-weather
-# c3:
-seg-cee70379b52d = <a1><s1><c1/>space-weather</s1><c2/><s2>Die Weltraumwetterumgebung, durch die eine Mission fliegt.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
 
 # text
 seg-c7d4ba58426e = constellation-design<b>Neu</b>
@@ -615,10 +505,6 @@ seg-0ad832459b0a = <c1/> 5G aus dem Orbit
 seg-d6be591a2a72 = <c1/> durchgängig
 
 # text
-# c1:
-seg-dd05c0b35c66 = <a1>Die Orbitkonsole öffnen <c1/></a1>
-
-# text
 seg-70b595b24024 = GNSS-Verfügbarkeit und Verdünnung der Genauigkeit aus realer Geometrie
 
 # text
@@ -647,84 +533,6 @@ seg-b63611c29399 = IERS-Konventionen
 
 # text
 seg-ba196fe5b466 = Integrität am lunaren Südpol, aus einem realen Lauf
-
-# text
-# c1:
-# c2: moonlight-service-volume
-# c3:
-seg-28f93d52946d = <a1><s1><c1/>moonlight-service-volume</s1><c2/><s2>Abdeckung und Schutzniveaus eines lunaren Navigationsdienstes über sein Servicevolumen.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: lunanet-araim
-# c3:
-seg-ee46a2b94649 = <a1><s1><c1/>lunar-integrity</s1><c2/><s2>Integrität für einen gelandeten Empfänger in der lunaren Südpolregion.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: earth-gnss-lunar
-# c3:
-seg-ecb7194e79ad = <a1><s1><c1/>earth-gnss-lunar</s1><c2/><s2>Wie viel vom Navigationssignal der Erde einen Empfänger am Mond noch erreicht.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: lunar-jamming
-# c3:
-seg-3eed2a54d1e8 = <a1><s1><c1/>lunar-jamming</s1><c2/><s2>Jamming eines Nutzers an der lunaren Oberfläche, Satellit für Satellit.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: lunar-time-offset
-# c3:
-seg-a89838f9caaf = <a1><s1><c1/>lunar-time-offset</s1><c2/><s2>Die relativistische Rate zwischen Erd- und Monduhren, gegen das veröffentlichte Band.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: lunar-time-budget
-# c3:
-seg-b599123a7ecb = <a1><s1><c1/>lunar-time-budget</s1><c2/><s2>Das durchgängige Zeitfehlerbudget für koordinierte lunare Zeit, Uhrenklasse für Uhrenklasse.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: lunar-vlbi
-# c3:
-seg-e7632c39a795 = <a1><s1><c1/>lunar-vlbi</s1><c2/><s2>Zwei Radioteleskope auf der Erde beobachten eine Bake auf der erdzugewandten Seite des Mondes.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: cislunar-observability
-# c3:
-seg-2c5fce829593 = <a1><s1><c1/>cislunar-observability</s1><c2/><s2>Kann eine kleine Konstellation nahe dem Mond verfolgt werden, und über wie langen Bogen?</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: lunar-attack-surface
-# c3:
-seg-5c827deaeb5f = <a1><s1><c1/>lunar-attack-surface</s1><c2/><s2>Die Angriffsfläche der Signalsicherheit für die Navigation an der lunaren Oberfläche.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: lunar-beacon
-# c3:
-seg-9255299e59eb = <a1><s1><c1/>lunar-beacon</s1><c2/><s2>Oberflächenbaken, die einen lunaren orbitalen Navigationsdienst ergänzen.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: mars-pnt-lmo
-# c3:
-seg-a3412e71fe8c = <a1><s1><c1/>mars-pnt</s1><c2/><s2>Ein Orbiter in niedriger Marsumlaufbahn navigiert gegen eine Relaiskonstellation.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: mars-pnt-surface
-# c3:
-seg-e4298f19a51f = <a1><s1><c1/>mars-pnt</s1><c2/><s2>Ein Lander auf der rotierenden Oberfläche des Mars.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: mars-pnt-transfer
-# c3:
-seg-1fcf2cbe92d6 = <a1><s1><c1/>mars-pnt</s1><c2/><s2>Ein Raumfahrzeug trifft auf einem hohen, exzentrischen Bogen am Mars ein.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
 
 # text
 seg-1471c58562c2 = Relais auf eingefrorenen elliptischen Bahnen, die über dem lunaren Südpol verweilen, bewertet über den ganzen Mond.
@@ -773,48 +581,6 @@ seg-4ec86eeffec3 = Integrität mit zwei Konstellationen, aus einem realen Lauf
 seg-b5a5d1167ff9 = Engine v{ $version } · <c1/> · deterministisch, kein Startwert
 
 # text
-# c1:
-# c2: small-uas-jammed-nav
-# c3:
-seg-94d0eba9e17c = <a1><s1><c1/>gnss-ins</s1><c2/><s2>Eine kleine Drohne verliert Satelliten an einen Jammer: wie lange jede Inertialeinheit sie im Budget hält.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: gnss-ins
-# c3:
-seg-8d8a641ae1f4 = <a1><s1><c1/>gnss-ins</s1><c2/><s2>Satellitennavigation, gemischt mit einem Strapdown-Inertialnavigator, dann Auslauf durch einen Ausfall.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: ins-trn-coast
-# c3:
-seg-1d343a25fbd3 = <a1><s1><c1/>ins-trn-coast</s1><c2/><s2>Inertialer Auslauf mit Geländelösungen: Positionsfehler gegen Auslaufzeit.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: integrity-raim
-# c3:
-seg-5a90730102fe = <a1><s1><c1/>integrity</s1><c2/><s2>Verfügbarkeit der Integritätsüberwachung im Empfänger über einer GPS-ähnlichen Konstellation.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: araim-gps-galileo
-# c3:
-seg-2e575bf93ed2 = <a1><s1><c1/>integrity</s1><c2/><s2>Fortgeschrittene Integritätsüberwachung mit GPS und Galileo zusammen.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: araim-reference-check
-# c3:
-seg-bf8834450467 = <a1><s1><c1/>araim-reference-check</s1><c2/><s2>Die Schutzniveaus der Engine gegen die eigenen durchgerechneten Beispiele der Arbeitsgruppe.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: gnss-sim-raim
-# c3:
-seg-53062436c86e = <a1><s1><c1/>gnss-sim</s1><c2/><s2>Pseudoentfernungen, simuliert mit Ionosphäre und Troposphäre, dann auf Integrität geprüft.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
 seg-14f26f918e3d = Sekunden innerhalb des Positionsbudgets, MEMS (mikroelektromechanische Systeme) eines Flugcontrollers gegen eine IMU (Inertialmesseinheit) taktischer Klasse
 
 # text
@@ -845,36 +611,6 @@ seg-fb8f8296c82a = Gezeichnet aus dem aufgezeichneten Lauf von <c1/>, sobald das
 # text
 # c1: maritime-port-approach-coast.toml
 seg-6817a97b0e32 = Engine v{ $version } · <c1/> · deterministisch, kein Startwert
-
-# text
-# c1:
-# c2: maritime-strait-jamming
-# c3:
-seg-45c114e7bcf4 = <a1><s1><c1/>jamming<b>Neu</b></s1><c2/><s2>Ein Jammer an Land oder auf einem Schiff über einer Meerenge: Verhältnis von Störer zu Signal und behaltene Satelliten.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: maritime-spoof-position-push
-# c3:
-seg-2ad68f66084d = <a1><s1><c1/>spoof-detect<b>Neu</b></s1><c2/><s2>Ein Spoofer zieht die gemeldete Position eines Schiffes; welche Detektoren fangen es, und wann.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: maritime-port-approach-coast
-# c3:
-seg-098e5c7ec923 = <a1><s1><c1/>ins-trn-coast<b>Neu</b></s1><c2/><s2>Satelliten auf der Hafeneinfahrt gestört: wie lange jede Inertialklasse auslaufen kann.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: imu-deadreckoning
-# c3:
-seg-e5efb6e298c2 = <a1><s1><c1/>inertial</s1><c2/><s2>Koppelnavigation durch einen Ausfall: ein Kaltatom-Beschleunigungsmesser gegen eine Einheit der Navigationsklasse.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: clock-holdover
-# c3:
-seg-e6211c8814a5 = <a1><s1><c1/>clock</s1><c2/><s2>Der Referenzfall: eine auf Satelliten synchronisierte Uhr, die dann frei läuft, wenn sie verwehrt werden.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
 
 # text
 seg-ffdef4005e60 = Ein Jammer, ein Schiff und ein Auto: derselbe Sender, zwei sehr verschiedene Ergebnisse.
@@ -920,12 +656,6 @@ seg-f837ebcf8461 = Durch die Straßenschlucht, aus einem realen Lauf
 seg-ac863f2fe773 = Engine v{ $version } · <c1/> · Startwert { "7" }
 
 # text
-# c1:
-# c2: automotive-urban-canyon
-# c3:
-seg-cc013e365559 = <a1><s1><c1/>gnss-ins<b>Neu</b></s1><c2/><s2>Ein Auto durch eine Straßenschlucht, eine Unterführung und einen Jammer am Straßenrand, gegen ein Fahrspurbudget.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
 seg-547136c7d4dc = Ein autonomes Fahrzeug durch eine Straßenschlucht, mit einer ergänzten Schicht niedriger Umlaufbahn.
 
 # text
@@ -958,18 +688,6 @@ seg-5c5db4d36c8e = Gezeichnet aus dem aufgezeichneten Lauf von <c1/>, sobald das
 seg-f8d2a38c8073 = Engine v{ $version } · <c1/> · deterministisch, kein Startwert
 
 # text
-# c1:
-# c2: rail-tunnel-coast
-# c3:
-seg-09362af9e11a = <a1><s1><c1/>ins-trn-coast<b>Neu</b></s1><c2/><s2>Ein Zug in einem Tunnel: Sekunden inertialen Auslaufs, bevor er sein Gleis nicht mehr unterscheiden kann.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: terrain-slam
-# c3:
-seg-e43bcf606853 = <a1><s1><c1/>terrain-slam</s1><c2/><s2>Rekursive geländereferenzierte Navigation, die die inertiale Drift laufend begrenzt.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
 seg-993f30571991 = Sekunden frei-inertialen Auslaufs vor dem Budget zur Gleisunterscheidung und einem weiteren
 
 # text
@@ -989,30 +707,6 @@ seg-b8a8446a29f1 = ITU-T G.8272
 
 # text
 seg-a01724559050 = Ein Monte-Carlo-Uhrenensemble, aus einem realen Lauf
-
-# text
-# c1:
-# c2: clock-holdover-labsr
-# c3:
-seg-9464ec10936c = <a1><s1><c1/>clock</s1><c2/><s2>Eine optische Strontium-Laboruhr gegen eine Chip-Scale-Atomuhr.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: clock-ensemble
-# c3:
-seg-3c3248b92f7c = <a1><s1><c1/>clock</s1><c2/><s2>Ein Monte-Carlo-Ensemble von Holdover-Läufen: die Streuung, nicht eine glückliche Ziehung.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: sweep-clock-stability
-# c3:
-seg-792cff51bc75 = <a1><s1><c1/>sweep</s1><c2/><s2>Wie Holdover mit der Uhrenstabilität skaliert, als Trade-Studie.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: timetransfer
-# c3:
-seg-c362f7aaa3df = <a1><s1><c1/>timetransfer</s1><c2/><s2>Optische Zeitübertragung zwischen Satelliten gegen klassische Zweiwege-Funkübertragung.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
 
 # text
 seg-c51c3658a5b9 = Ein Monte-Carlo-Ensemble mit festem Startwert einer freilaufenden Uhr, gegen ihre geschlossene Form.
@@ -1051,24 +745,6 @@ seg-cb5e51c39a7f = Verlust der GNSS-Zeitreferenz an einer primären Referenzzeit
 seg-c89c91bfd2ac = Zeitfehler gegen die ITU-T-Masken
 
 # text
-# c1:
-# c2: telecom-prtc-holdover-24h
-# c3:
-seg-4ec195e1479b = <a1><s1><c1/>telecom-timing</s1><c2/><s2>Eine Rubidium-Zeitreferenz verliert einen Tag lang Satelliten: Zeitfehler gegen die Telekommunikationsmasken.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: telecom-tie-ingest
-# c3:
-seg-e16c3b6d6cbf = <a1><s1><c1/>telecom-timing</s1><c2/><s2>Bringen Sie Ihre eigene Zeitfehlerreihe mit und bewerten Sie sie gegen die Telekommunikationsmasken.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: quantum-time-transfer
-# c3:
-seg-1e5affcd802c = <a1><s1><c1/>quantum-time-transfer</s1><c2/><s2>Eine vertrauenswürdige Quanten-Zeitgebungskette: Übertragung, sichere Verteilung und Anomalieerkennung.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
 seg-ed9f547861df = ntn-positioning<b>Neu</b>
 
 # text
@@ -1091,36 +767,6 @@ seg-65d4b1e42d8c = Jedes der obigen, als Experiment
 
 # text
 seg-a4da82d24f24 = Holdover gegen Uhrenstabilität, eine Trade-Studie
-
-# text
-# c1:
-# c2: quantum-trade
-# c3:
-seg-c08b77d73c9f = <a1><s1><c1/>quantum-trade</s1><c2/><s2>Quanten- gegen klassische Navigation, mit eingelesenen gemessenen Daten zur Uhrenstabilität.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: hybrid-pnt
-# c3:
-seg-3926f730be5d = <a1><s1><c1/>hybrid</s1><c2/><s2>Eine rein quantenbasierte Navigationssuite gegen eine rein klassische, bei verwehrten Satelliten.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: pvt-abmf
-# c3:
-seg-91b768cd0f8e = <a1><s1><c1/>pvt</s1><c2/><s2>Einzelpunktpositionierung aus realen Messungen, die an einer vermessenen Bodenstation aufgezeichnet wurden.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: impairment-eval
-# c3:
-seg-306f764510dc = <a1><s1><c1/>impairment-eval</s1><c2/><s2>Ein Prüfstand, der Detektoren für Funkbeeinträchtigungen an gelabelten Fällen bewertet.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
-
-# text
-# c1:
-# c2: sweep-nd-inertial
-# c3:
-seg-df572e013e9d = <a1><s1><c1/>sweep-nd</s1><c2/><s2>Ein vieldimensionaler Parameterdurchlauf über ein Inertialszenario.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3></a1>
 
 # text
 seg-9d785689b9b1 = leo-navmsg<b>Neu</b>
@@ -1467,3 +1113,123 @@ seg-0e6be0d623f6 = <b>Heute frei:</b> alles in der offenen Engine. Kommerzielle 
 
 # text
 seg-9b505908a6e2 = Kshana <b>steuert keine Funk-Hardware und sendet nichts</b>. Es enthält einen Software-GNSS-Empfänger für aufgezeichnete und erzeugte IQ-Daten und kann synthetische Basisband-IQ-Dateien schreiben, ist aber <b>keine HF-Signalgenerator-Hardware</b> und <b>kein Hardware- oder zertifizierter GNSS-Empfänger</b>. Es ist ein Studien- und Abwägungsinstrument: Es simuliert, was Jamming, Spoofing und Signalverlust mit einer Navigations- und Zeitlösung machen, und sagt Ihnen, welche seiner Antworten validiert sind. <b>Kein Flugprodukt.</b>
+
+seg-f209b9b563cd = <s1><c1/>jamming</s1><c2/><s2>Ein Boden-Jammer nahe einem Empfänger: Signal-Rausch-Verhältnis und Lock-Zustand jedes Satelliten, sobald er sich einschaltet.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-c6f870b61fd3 = <s1><c1/>spoof-detect</s1><c2/><s2>Ein fusionierter Spoofing-Detektor: Konsistenz über Satelliten, Empfängerverstärkung und Signalform hinweg, und welcher Monitor auslöst.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-bf863421ff62 = <s1><c1/>spoof</s1><c2/><s2>Ein aktiver Zeit-Spoofing-Angriff: Fängt der Integritätsmonitor jeder Uhr die Verschiebung?</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-57b869d18b65 = <s1><c1/>spoof</s1><c2/><s2>Eine verzögerte Wiederausstrahlung realer Signale zieht die Zeitlösung; der Detektor hat seine eigene Schranke.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-4a874625b796 = <s1><c1/>conflict-resilience</s1><c2/><s2>Geschichtete Navigation bei steigender Bedrohungsintensität: die Wahrscheinlichkeit, jede Schicht auf einmal zu verlieren.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-7bcd81558d78 = <s1><c1/>combined-altpnt</s1><c2/><s2>Schwerefeld-, Magnetfeld- und Geländeabgleich, fusioniert zu einem Navigator, der keine Satelliten braucht.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-a8ec958e97d5 = <s1><c1/>gravity-map</s1><c2/><s2>Eine Stunde ohne Satelliten, navigierend auf einer Schwerekarte mit einem Quantensensor.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-2a1f6fa6eaf9 = <s1><c1/>terrain-nav</s1><c2/><s2>Geländereferenzierte Navigation: gemessene Höhen werden mit einer Karte abgeglichen, während Satelliten verwehrt sind.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-8afdd0925641 = <s1><c1/>orbit</s1><c2/><s2>Verfügbarkeit von Navigationssatelliten für ein Raumfahrzeug innerhalb der Konstellationsschale, aus realer Geometrie.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-eb67e6145fc3 = <s1><c1/>orbit</s1><c2/><s2>Dieselbe Frage für eine stark exzentrische Bahn, die über die Konstellation hinaus ansteigt.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-8ffc336b1405 = <s1><c1/>orbit</s1><c2/><s2>Verfügbarkeit aus der realen GPS-Konstellation, propagiert aus Zweizeilen-Elementsätzen.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-3d921a1ac332 = <s1><c1/>orbit</s1><c2/><s2>GPS und Galileo zusammen: wie viel eine zweite Konstellation über dem Kopf hinzufügt.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-9da3f67ccc7e = <s1><c1/>slot-timing</s1><c2/><s2>Wie lange eine ofengeregelte Quarzuhr auf einem kleinen Satelliten niedriger Umlaufbahn innerhalb ihres Routing-Slots bleibt.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-d6a6af392fbd = <s1><c1/>ephemeris</s1><c2/><s2>Wo der Satellit gerade ist, und die Bodenspur, die er zeichnet.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-6623d2b68ca4 = <s1><c1/>passes</s1><c2/><s2>Überflugvorhersage für Bodenstationen, für das Betriebsteam.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-8bde11fca8e4 = <s1><c1/>link-budget</s1><c2/><s2>Ein Streckenbudget in einer Richtung, von der Sendeleistung bis zur Empfängerreserve.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-4d1f5a21ad1b = <s1><c1/>space-weather</s1><c2/><s2>Die Weltraumwetterumgebung, durch die eine Mission fliegt.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-ea8e3b78fa02 = <s1><c1/>moonlight-service-volume</s1><c2/><s2>Abdeckung und Schutzniveaus eines lunaren Navigationsdienstes über sein Servicevolumen.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-bff75aa8bcda = <s1><c1/>lunar-integrity</s1><c2/><s2>Integrität für einen gelandeten Empfänger in der lunaren Südpolregion.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-505223f958dd = <s1><c1/>earth-gnss-lunar</s1><c2/><s2>Wie viel vom Navigationssignal der Erde einen Empfänger am Mond noch erreicht.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-7de98f114567 = <s1><c1/>lunar-jamming</s1><c2/><s2>Jamming eines Nutzers an der lunaren Oberfläche, Satellit für Satellit.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-872704ccc18d = <s1><c1/>lunar-time-offset</s1><c2/><s2>Die relativistische Rate zwischen Erd- und Monduhren, gegen das veröffentlichte Band.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-7bcd7122ca23 = <s1><c1/>lunar-time-budget</s1><c2/><s2>Das durchgängige Zeitfehlerbudget für koordinierte lunare Zeit, Uhrenklasse für Uhrenklasse.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-a0d433ec7ae0 = <s1><c1/>lunar-vlbi</s1><c2/><s2>Zwei Radioteleskope auf der Erde beobachten eine Bake auf der erdzugewandten Seite des Mondes.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-f48740a80c8e = <s1><c1/>cislunar-observability</s1><c2/><s2>Kann eine kleine Konstellation nahe dem Mond verfolgt werden, und über wie langen Bogen?</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-2d88643c2a6b = <s1><c1/>lunar-attack-surface</s1><c2/><s2>Die Angriffsfläche der Signalsicherheit für die Navigation an der lunaren Oberfläche.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-f07c3fd3c0a2 = <s1><c1/>lunar-beacon</s1><c2/><s2>Oberflächenbaken, die einen lunaren orbitalen Navigationsdienst ergänzen.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-6f580e043fda = <s1><c1/>mars-pnt</s1><c2/><s2>Ein Orbiter in niedriger Marsumlaufbahn navigiert gegen eine Relaiskonstellation.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-cdc1867a57b4 = <s1><c1/>mars-pnt</s1><c2/><s2>Ein Lander auf der rotierenden Oberfläche des Mars.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-920a40d074a6 = <s1><c1/>mars-pnt</s1><c2/><s2>Ein Raumfahrzeug trifft auf einem hohen, exzentrischen Bogen am Mars ein.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-714f98c66b0f = <s1><c1/>gnss-ins</s1><c2/><s2>Eine kleine Drohne verliert Satelliten an einen Jammer: wie lange jede Inertialeinheit sie im Budget hält.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-88ea2d93f58b = <s1><c1/>gnss-ins</s1><c2/><s2>Satellitennavigation, gemischt mit einem Strapdown-Inertialnavigator, dann Auslauf durch einen Ausfall.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-299d5ba007a3 = <s1><c1/>ins-trn-coast</s1><c2/><s2>Inertialer Auslauf mit Geländelösungen: Positionsfehler gegen Auslaufzeit.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-a131f50905d7 = <s1><c1/>integrity</s1><c2/><s2>Verfügbarkeit der Integritätsüberwachung im Empfänger über einer GPS-ähnlichen Konstellation.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-3ef822db1bd1 = <s1><c1/>integrity</s1><c2/><s2>Fortgeschrittene Integritätsüberwachung mit GPS und Galileo zusammen.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-702e53e0a39b = <s1><c1/>araim-reference-check</s1><c2/><s2>Die Schutzniveaus der Engine gegen die eigenen durchgerechneten Beispiele der Arbeitsgruppe.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-e853235fbb83 = <s1><c1/>gnss-sim</s1><c2/><s2>Pseudoentfernungen, simuliert mit Ionosphäre und Troposphäre, dann auf Integrität geprüft.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-5992817749a7 = <s1><c1/>jamming<b>Neu</b></s1><c2/><s2>Ein Jammer an Land oder auf einem Schiff über einer Meerenge: Verhältnis von Störer zu Signal und behaltene Satelliten.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-04389c157d50 = <s1><c1/>spoof-detect<b>Neu</b></s1><c2/><s2>Ein Spoofer zieht die gemeldete Position eines Schiffes; welche Detektoren fangen es, und wann.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-69a31ed3ca90 = <s1><c1/>ins-trn-coast<b>Neu</b></s1><c2/><s2>Satelliten auf der Hafeneinfahrt gestört: wie lange jede Inertialklasse auslaufen kann.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-efce3ddb95a5 = <s1><c1/>inertial</s1><c2/><s2>Koppelnavigation durch einen Ausfall: ein Kaltatom-Beschleunigungsmesser gegen eine Einheit der Navigationsklasse.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-bfbe27342831 = <s1><c1/>clock</s1><c2/><s2>Der Referenzfall: eine auf Satelliten synchronisierte Uhr, die dann frei läuft, wenn sie verwehrt werden.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-4118ddbdcaee = <s1><c1/>gnss-ins<b>Neu</b></s1><c2/><s2>Ein Auto durch eine Straßenschlucht, eine Unterführung und einen Jammer am Straßenrand, gegen ein Fahrspurbudget.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-5df30a2cd03a = <s1><c1/>ins-trn-coast<b>Neu</b></s1><c2/><s2>Ein Zug in einem Tunnel: Sekunden inertialen Auslaufs, bevor er sein Gleis nicht mehr unterscheiden kann.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-989491be63bc = <s1><c1/>terrain-slam</s1><c2/><s2>Rekursive geländereferenzierte Navigation, die die inertiale Drift laufend begrenzt.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-dc6595a80c3c = <s1><c1/>clock</s1><c2/><s2>Eine optische Strontium-Laboruhr gegen eine Chip-Scale-Atomuhr.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-2259c02c65d1 = <s1><c1/>clock</s1><c2/><s2>Ein Monte-Carlo-Ensemble von Holdover-Läufen: die Streuung, nicht eine glückliche Ziehung.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-797a31051152 = <s1><c1/>sweep</s1><c2/><s2>Wie Holdover mit der Uhrenstabilität skaliert, als Trade-Studie.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-756d447d43c9 = <s1><c1/>timetransfer</s1><c2/><s2>Optische Zeitübertragung zwischen Satelliten gegen klassische Zweiwege-Funkübertragung.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-34222f383a1d = <s1><c1/>telecom-timing</s1><c2/><s2>Eine Rubidium-Zeitreferenz verliert einen Tag lang Satelliten: Zeitfehler gegen die Telekommunikationsmasken.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-fbd5e8d65102 = <s1><c1/>telecom-timing</s1><c2/><s2>Bringen Sie Ihre eigene Zeitfehlerreihe mit und bewerten Sie sie gegen die Telekommunikationsmasken.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-31eb1b498220 = <s1><c1/>quantum-time-transfer</s1><c2/><s2>Eine vertrauenswürdige Quanten-Zeitgebungskette: Übertragung, sichere Verteilung und Anomalieerkennung.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-bc88cae52827 = <s1><c1/>quantum-trade</s1><c2/><s2>Quanten- gegen klassische Navigation, mit eingelesenen gemessenen Daten zur Uhrenstabilität.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-3ad831e5b328 = <s1><c1/>hybrid</s1><c2/><s2>Eine rein quantenbasierte Navigationssuite gegen eine rein klassische, bei verwehrten Satelliten.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-6d9120bc8620 = <s1><c1/>pvt</s1><c2/><s2>Einzelpunktpositionierung aus realen Messungen, die an einer vermessenen Bodenstation aufgezeichnet wurden.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-dd6243d762c1 = <s1><c1/>impairment-eval</s1><c2/><s2>Ein Prüfstand, der Detektoren für Funkbeeinträchtigungen an gelabelten Fällen bewertet.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+seg-1d3b81df1579 = <s1><c1/>sweep-nd</s1><c2/><s2>Ein vieldimensionaler Parameterdurchlauf über ein Inertialszenario.</s2><s3><s4>Aufgezeichneter Lauf</s4>In Kshana Studio öffnen<c3/></s3>
+
+# text
+seg-9a86ef058d27 = In Kshana Studio öffnen
+
+# attr:aria-label, text
+seg-e1acd19a6ac6 = Editionen vergleichen

@@ -7,10 +7,6 @@ seg-0c0ce6abb920 = Gleiche Logs, gleiche Regeln. <s1>Ergebnisse offen einsehbar.
 seg-cb2911864ea1 = kshana-bench ist ein fester Satz von Aufgaben, Aufteilungen und Metriken für die Erkennung von GNSS-Störungen und für Timing-Holdover, damit sich verschiedene Methoden auf denselben Daten vergleichen lassen. Eine Einreichung ist eine Datei; im Auftrag des Einreichenden wird nichts ausgeführt. Basislinien sind die eigenen Monitore der Engine, mit Zielwerten, die vor dem ersten gewerteten Lauf festgehalten wurden.
 
 # text
-# c1:
-seg-984e2dd33bd6 = <a1>Rangliste ansehen <c1/></a1>
-
-# text
 seg-b77706a0b8b5 = Spezifikation lesen
 
 # attr:aria-label
@@ -189,3 +185,5 @@ seg-23023a10ef10 = Nur beratend: Die Ergebnisse von Kshana sind modelliert oder 
 # c1: kshana bench score
 # c2: kshana bench leaderboard
 seg-b30115d8c2eb = Selbst ausführen: <c1/> macht aus einer Einreichung und der Truth einer Aufteilung eine Ergebnisdatei; <c2/> stellt Ergebnisdateien auf dieser Seite dar.
+
+seg-11b19c2fd000 = Rangliste ansehen

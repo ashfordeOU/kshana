@@ -372,10 +372,6 @@ seg-aa8201fbbfb8 = Effektive Träger-zu-Rausch-Dichte je Satellit und Zeit
 # c1: jamming-demo.toml
 seg-36dece8c7ecc = Engine v{ $version } · <c1/> · Seed { "1" }
 
-# text
-# c1:
-seg-0d9fca5fdcfe = <a1>In Kshana Studio öffnen<c1/></a1>
-
 # attr:title
 seg-34a0cf94d83d = Die Exporte des Laufs in Kshana Studio öffnen: reproduzierbarer HTML-Bericht, JSON, CSV
 
