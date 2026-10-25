@@ -7958,3 +7958,137 @@ engine-legal-bench-notice = Vejledende: modelleret eller målt mod angivne refer
 
 # legal: native review
 engine-legal-osnma-advisory = Vejledende: dette er analyse- og overvågningsoutput og ikke typegodkendt navigationsudstyr. Den autentificeringsstatus, der rapporteres her, er ikke en navigationsintegritetstjeneste og må ikke være det eneste grundlag for nogen navigations- eller sikkerhedsbeslutning.
+
+## added by the second pass
+
+engine-holdover-test-not-recovered-within-record = ; ikke genoprettet inden for optagelsen
+
+engine-holdover-test-chart-title = Holdover-test: tidsfejl pr. trin
+
+engine-holdover-test-chart-y-title = |tidsfejl| (ns)
+
+engine-holdover-test-chart-panel-caption = absolut tidsfejl; holdover-trin skraveret; stiplede linjer er tidsfejlbudgetterne
+
+engine-holdover-test-chart-gnss-removed = GNSS fjernet
+
+engine-holdover-test-chart-gnss-restored = GNSS genoprettet
+
+engine-holdover-test-chart-time-axis = tid på optagelsens akse ({ $min } min)
+
+engine-hybrid-chart-title = Udnyttelse af specifikationen for hybrid PNT under GNSS-udfald (1.0 = specifikation)
+
+engine-hybrid-chart-y-title = udnyttelse af specifikationen
+
+engine-hybrid-chart-spec-line = specifikation (1.0)
+
+engine-hybrid-chart-classical-suite = klassisk suite
+
+engine-hybrid-chart-quantum-suite = kvantesuite
+
+engine-hybrid-integrity-chart-availability = tilgængelighed
+
+engine-hybrid-integrity-chart-precision = præcision
+
+engine-hybrid-integrity-chart-integrity = integritet
+
+engine-hybrid-integrity-chart-joint-indep = fælles (uafh.)
+
+engine-hybrid-integrity-chart-joint-corr = fælles (korr.)
+
+engine-hybrid-integrity-chart-title = Fælles kvalitetsmål for hybrid optisk + RF PNT
+
+engine-hybrid-integrity-chart-subtitle = P(tilgængelig AND præcisionsklasse AND integritetssikret)
+
+engine-inertial-chart-title = Positionsfejl ved dødregning under GNSS-udfald
+
+engine-inertial-chart-y-title = positionsfejl (m)
+
+engine-inertial-chart-spec-line = specifikation { $m } m
+
+engine-inertial-chart-classical = klassisk: { $id }
+
+engine-inertial-chart-quantum = kvante: { $id }
+
+engine-iq-campaign-report-roc-aria-label = Detektions-ROC pr. monitor
+
+engine-iq-campaign-report-roc-x-title = P_fa (pr. negativt vindue)
+
+engine-iq-campaign-report-curve-aria-label = C/N0-degradering mod angivet J/S for { $rec }, hændelse { $ev }
+
+engine-iq-campaign-report-curve-x-title = angivet J/S (dB)
+
+engine-iq-campaign-report-curve-y-title = C/N0-degradering (dB)
+
+engine-iq-campaign-report-curve-model-tooltip = { $label }: SSC-reference, Q = { $q }
+
+engine-iq-campaign-report-curve-model-legend = { $label }-reference (Q = { $q })
+
+engine-iq-campaign-report-curve-more-series = +{ $n } flere serier i scorekorttabellen
+
+engine-iq-campaign-report-curve-point-tooltip = { $fe } / { $d }: J/S { $x } dB, målt degradering { $y } dB
+
+engine-iq-campaign-report-curve-measured-legend = { $fe } / { $d } (målt)
+
+engine-jamming-chart-title = Synlige satellitter mod sporede under jamming
+
+engine-jamming-chart-y-title = satellitter
+
+engine-jamming-chart-four-sv-fix = 4-SV-positionsbestemmelse
+
+engine-jamming-chart-visible = synlige
+
+engine-jamming-chart-tracking = sporede
+
+engine-leo-fusion-ntn-chart-title = 5G NTN-positionering: Cramér-Rao-afstandsgrænse efter båndbredde
+
+engine-leo-fusion-ntn-chart-caption = afstand, ét sigma (log10 m): søjle = maske til zenit C/N0; prik = RMS-fejl for 3D-positionsbestemmelse
+
+engine-leo-fusion-ppp-chart-title = PPP-konvergens med LEO-augmentering
+
+engine-leo-fusion-ppp-chart-caption = median vandret fejl (log10 m) mod minutter
+
+engine-leo-fusion-ppp-chart-n-leo = { $n } LEO
+
+engine-leo-fusion-pvt-kind-chart-doppler-caption = fejl for 3D-Doppler-positionsbestemmelse (log10 m) mod vindueslængde
+
+engine-leo-fusion-pvt-kind-chart-doppler-x-label = vindue (s)
+
+engine-leo-fusion-pvt-kind-chart-joint-caption = median PDOP (blå) og VDOP (rav), log10, mod tilføjede LEO-satellitter
+
+engine-leo-fusion-pvt-kind-chart-joint-x-label = tilføjede LEO-satellitter
+
+engine-leo-fusion-pvt-kind-chart-polar-caption = median VDOP (log10): grå GNSS, blå LEO, rav fusioneret
+
+engine-leo-fusion-pvt-kind-chart-polar-x-label = breddegrad (deg)
+
+engine-leo-fusion-pvt-kind-chart-timing-caption = RMS-tidsfejl til UTC (log10 ns) mod C/N0-forskydning, én linje pr. oscillator
+
+engine-leo-fusion-pvt-kind-chart-timing-x-label = C/N0-forskydning (dB)
+
+engine-leo-fusion-pvt-kind-chart-x-range = { $label }: { $x0 } til { $x1 }
+
+engine-leo-navmsg-chart-title = LEO-navigationsbesked: SISRE mod tilpasningsinterval
+
+engine-leo-navmsg-chart-no-trade-encode-decode = Ingen afvejning i denne kørsel; se result.json for tabellerne over kodning/afkodning og budget.
+
+engine-leo-navmsg-chart-no-fit-interval-trade = Ingen afvejning af tilpasningsinterval i denne kørsel; se result.json.
+
+engine-leo-navmsg-chart-caption = SISRE RMS kun fra bane (m, log-skala) mod tilpasningsinterval (s)
+
+engine-leo-pass-chart-title = LEO-passage: C/N0 pr. bånd og Doppler
+
+engine-leo-pass-chart-cn0-caption = C/N0 (dB-Hz, 20 til 80): LEO-bånd i farve, GNSS i gråt
+
+engine-leo-pass-chart-time-axis = tid siden epoke, 0 til { $s } s
+
+engine-leo-pnt-chain-chart-subtitle = signaludformning -> passage C/N0 og kodejitter -> besked SISRE -> fusioneret positionsbestemmelse · { $label }
+
+engine-leo-pnt-chain-chart-cn0-caption = C/N0 for sporet komponent over passagen (dB-Hz, 20 til 80)
+
+engine-leo-pnt-chain-chart-not-available = ikke tilgængelig
+
+engine-leo-signal-chart-title = LEO-PNT-signaludformninger
+
+engine-leo-signal-chart-psd-axis = forskydning på tværs af ±0.6 × senderbåndbredde; 0 til −50 dB under hver top
+
+engine-leo-signal-chart-jitter-caption = kodejitter (m, log-skala) mod samlet C/N0 (dB-Hz)
