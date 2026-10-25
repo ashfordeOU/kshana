@@ -163,6 +163,10 @@ jobs:
           langs="$(node tools/i18n.mjs langs --min 0.25)"
           if [ -n "$langs" ]; then
             node tools/i18n.mjs apply $(printf '%s' "$langs" | tr ',' ' ') --src site --out site --langs "$langs"
+            case ",$langs," in *,ja,*|*,zh-Hans,*)
+              python3 -m pip install --quiet fonttools brotli
+              python3 tools/i18n-fonts.py --tree site $(printf '%s' "$langs" | tr ',' '\n' | grep -E '^(ja|zh-Hans)$' | tr '\n' ' ') ;;
+            esac
             node tools/i18n.mjs verify $(printf '%s' "$langs" | tr ',' ' ') --src site --dist site
             node tools/i18n.mjs sitemaps --tree site
           fi
