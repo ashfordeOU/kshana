@@ -244,8 +244,6 @@ seg-aa8201fbbfb8 = Effektiv bärvåg-till-brus-täthet per satellit och tid
 
 seg-36dece8c7ecc = Motor v{ $version } · <c1/> · frö { "1" }
 
-seg-0d9fca5fdcfe = <a1>Öppna i Kshana Studio<c1/></a1>
-
 seg-34a0cf94d83d = Öppna körningens exporter i Kshana Studio: reproducerbar HTML-rapport, JSON, CSV
 
 seg-92ab4fe6f441 = Ladda ned de ritade data som kommaseparerade värden

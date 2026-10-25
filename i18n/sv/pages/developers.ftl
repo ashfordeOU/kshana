@@ -2,8 +2,6 @@
 
 seg-b02b3eeec184 = scenariotyper
 
-seg-0d9fca5fdcfe = <a1>Öppna i Kshana Studio<c1/></a1>
-
 seg-34a0cf94d83d = Öppna körningens exporter i Kshana Studio: reproducerbar HTML-rapport, JSON, CSV
 
 seg-92ab4fe6f441 = Ladda ned de ritade data som kommaseparerade värden
@@ -103,9 +101,6 @@ seg-78240346be65 = Senaste
 seg-1e466f300d6e = Lås v{ $version }
 
 seg-d8008680650d = För alla, inget att installera.
-
-# c1:
-seg-dca88d8e959c = <a1>Starta Kshana Studio <c1/></a1>
 
 seg-567be575c392 = Motorn körs lokalt som WebAssembly; ingenting laddas upp.
 
@@ -996,8 +991,6 @@ seg-e47be3bb3de3 = Valfritt medföljande scenario, körs på din dator som WebAs
 
 seg-b21664dae8a2 = Endast Kshana Studio, för en kurssida eller en rapport, med scenario och vy förvalda
 
-seg-a1eb14667da4 = <a1>Öppna en inbäddad vy <c1/></a1>
-
 seg-a08d0d3e393c = kshana <scenario>.toml skriver result.json, chart.svg och report.html
 
 seg-3a0042586da7 = Utdata är deterministiska utifrån scenario, frö och motorversion, så en incheckad result.json är ett regressionstest (CI: kontinuerlig integration): kör om och jämför
@@ -1023,8 +1016,6 @@ seg-1c19f8c0ad84 = { "49" } verktyg som en AI-assistent kan anropa, vart och ett
 seg-4ad1a7669b03 = MCP-servern utan Rust-verktygskedja, för flera arkitekturer
 
 seg-9e409a07b3c9 = Högerklicka på ett scenario .toml, Run Kshana Scenario, läs måtten i ett verktygsfönster
-
-seg-5adf0fce3ddc = <a1>Öppna sidan <c1/></a1>
 
 seg-a942825ac543 = Kommandorad · bibliotek · format
 
@@ -1073,8 +1064,6 @@ seg-84695d64a758 = Paketet har också <c1/> och <c2/>. <a1>Python-dokumentation<
 seg-fb4a40bdf623 = run.mjs · Node.js, efter <c1/>
 
 seg-fcdffb554680 = Samma paket körs i webbläsaren; det är vad Kshana Studio använder. <a1>npm-dokumentation</a1>
-
-seg-4d9255bdc9d0 = <a1>Öppna i Kshana Studio: clock-holdover <c1/></a1>
 
 seg-bca1c3e60fc6 = Interoperabilitet · läsa och skriva
 
@@ -1158,8 +1147,6 @@ seg-844c84c5252d = Föredrar du att klicka?
 
 seg-6b24b242333a = Pluginet "Kshana — PNT simulator": högerklicka på ett valfritt scenario <c1/>, välj Run Kshana Scenario och läs kvalitetsmåtten i ett verktygsfönster.
 
-seg-4130e4cf64aa = <a1>Öppna i JetBrains Marketplace <c1/></a1>
-
 seg-8b49f6477e8f = Öppen kärna
 
 seg-3a199156b86e = Varje yta på den här sidan är den fria öppna kärnan, under AGPL-3.0 eller en kommersiell licens för sluten integration. Behöver du den integrerad i din verktygskedja, eller en studie gjord åt dig? <a1>Skräddarsydd studie</a1>. Bevispaket och kalibrerade modeller: <a2>Kshana Pro</a2>.
@@ -1170,4 +1157,16 @@ seg-bd7b70852d88 = Kör benchmarken.
 
 seg-193ee1ab991e = <c1/> omvandlar en inlämningsfil och en delmängds referens till en resultatfil, och <c2/> renderar resultatfiler till en statisk sida. Ingenting körs för din räkning och ingenting laddas upp.
 
-seg-eb0b1bc759e2 = <a1>Öppna benchmarken <c1/></a1>
+seg-d124f667aba2 = Öppna en inbäddad vy
+
+seg-5c54a28b6aec = Öppna sidan
+
+seg-c313ec6ff2e9 = Öppna i Kshana Studio: clock-holdover
+
+seg-65bab13d3eb4 = Öppna i JetBrains Marketplace
+
+seg-0c50b3629e39 = Öppna benchmarken
+
+seg-f79048f88b5c = Starta Kshana Studio
+
+seg-9a86ef058d27 = Öppna i Kshana Studio
