@@ -501,11 +501,14 @@ export function migrateLang(root, lang, old, { dryRun = false } = {}) {
   const en = new Map();
   for (const f of new Set([...where.values()].flatMap((x) => [...x]))) for (const m of readText(join(root, 'en', 'pages', f)).matchAll(/^(seg-[0-9a-f]{12}) = (.*)$/gm)) en.set(m[1], m[2]);
   const byKey = new Map();
-  for (const [id, skel] of en) if (!old.has(id)) { const k = plainKey(skel); if (!byKey.has(k)) byKey.set(k, []); byKey.get(k).push(id); }
+  for (const [id, skel] of en) { const k = plainKey(skel); if (!byKey.has(k)) byKey.set(k, []); byKey.get(k).push(id); }
   const dir = join(root, lang, 'pages');
   const moved = [], dropped = [], unmatched = [], retag = [], chunks = [], orphanBlocks = [];
   const used = new Set();
   const files = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.ftl')) : [];
+  const have = new Set();
+  for (const f of files) for (const m of readText(join(dir, f)).matchAll(/^(seg-[0-9a-f]{12}) =/gm)) have.add(m[1]);
+  let merged = 0;
   for (const f of files) {
     const text = readText(join(dir, f));
     const keep = [];
@@ -518,6 +521,7 @@ export function migrateLang(root, lang, old, { dryRun = false } = {}) {
       const cands = oskel ? byKey.get(plainKey(oskel)) : null;
       if (!cands || cands.length !== 1) { (oskel ? unmatched : dropped).push(m[1]); orphanBlocks.push(`# ${oskel || '(not in the old English either)'}\n${b.trim()}`); continue; }
       const nid = cands[0];
+      if (have.has(nid)) { merged++; continue; } // the same text already has its own translation under that id
       if (used.has(nid) && !chunks.some((c) => c.startsWith(nid))) { dropped.push(m[1]); continue; }
       const val = adaptTags(m[2].trim(), en.get(nid));
       if (val === null) { retag.push(m[1]); orphanBlocks.push(`# ${oskel}\n${b.trim()}`); continue; }
@@ -532,5 +536,5 @@ export function migrateLang(root, lang, old, { dryRun = false } = {}) {
     const r = mergeTranslations(root, lang, [chunks.join('\n\n') + '\n']);
     if (r.rejected.length) retag.push(...r.rejected.map((x) => x.id));
   }
-  return { moved: moved.length, pairs: moved, dropped, unmatched, retag };
+  return { moved: moved.length, merged, pairs: moved, dropped, unmatched, retag };
 }

@@ -863,7 +863,7 @@ async function migrate(args) {
   const langs = pos.length ? pos : L.LANGS.filter((l) => existsSync(join(opt.root, l, 'pages')));
   for (const l of langs) {
     const r = L.migrateLang(opt.root, l, old, { dryRun: opt.dryRun });
-    console.log(`migrate ${l}: ${r.moved} segments moved to their new id, ${r.dropped.length} orphans dropped, ${r.unmatched.length} unmatched (English changed: retranslate), ${r.retag.length} need retranslating (markup differs)${opt.dryRun ? ' (dry run)' : ''}`);
+    console.log(`migrate ${l}: ${r.moved} segments moved to their new id, ${r.merged} dropped because the same text already has a translation, ${r.dropped.length} orphans dropped, ${r.unmatched.length} unmatched (English changed: retranslate), ${r.retag.length} need retranslating (markup differs)${opt.dryRun ? ' (dry run)' : ''}`);
   }
 }
 
