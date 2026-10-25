@@ -294,8 +294,9 @@ impl PyRunOutput {
 /// accessors `.array()`, `.columns()` and `.series()`). Raises
 /// `ValueError` if invalid.
 #[pyfunction]
-fn run_typed(toml: &str) -> PyResult<PyRunOutput> {
-    crate::api::run_toml(toml)
+#[pyo3(signature = (toml, lang=None))]
+fn run_typed(toml: &str, lang: Option<&str>) -> PyResult<PyRunOutput> {
+    crate::api::run_toml_lang(toml, lang.unwrap_or("en"))
         .map(|o| PyRunOutput {
             json: o.json,
             svg: o.svg,
@@ -338,8 +339,9 @@ fn scenario_kinds<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyAny>> {
 /// messages (empty if the scenario is valid). Note: this executes the scenario,
 /// so it surfaces both parse/config errors and runtime failures.
 #[pyfunction]
-fn validate_toml(toml: &str) -> Vec<String> {
-    match crate::api::run_scenario(toml) {
+#[pyo3(signature = (toml, lang=None))]
+fn validate_toml(toml: &str, lang: Option<&str>) -> Vec<String> {
+    match crate::api::run_scenario_lang(toml, lang.unwrap_or("en")) {
         Ok(_) => vec![],
         Err(e) => vec![e.to_string()],
     }
@@ -348,16 +350,18 @@ fn validate_toml(toml: &str) -> Vec<String> {
 /// Run a scenario given as a TOML string; returns the result document as a JSON
 /// string. Raises `ValueError` if the scenario is invalid.
 #[pyfunction]
-fn run(toml: &str) -> PyResult<String> {
-    crate::api::run_toml(toml)
+#[pyo3(signature = (toml, lang=None))]
+fn run(toml: &str, lang: Option<&str>) -> PyResult<String> {
+    crate::api::run_toml_lang(toml, lang.unwrap_or("en"))
         .map(|o| o.json)
         .map_err(PyValueError::new_err)
 }
 
 /// Run a scenario; returns `(json, svg, summary)`.
 #[pyfunction]
-fn run_full(toml: &str) -> PyResult<(String, String, String)> {
-    crate::api::run_toml(toml)
+#[pyo3(signature = (toml, lang=None))]
+fn run_full(toml: &str, lang: Option<&str>) -> PyResult<(String, String, String)> {
+    crate::api::run_toml_lang(toml, lang.unwrap_or("en"))
         .map(|o| (o.json, o.svg, o.summary))
         .map_err(PyValueError::new_err)
 }
@@ -376,10 +380,29 @@ fn list_kinds() -> String {
 /// raising, so a caller can pattern-match on the failure category. Returns `None`
 /// on success.
 #[pyfunction]
-fn error_kind(toml: &str) -> Option<String> {
-    crate::api::run_scenario(toml)
+#[pyo3(signature = (toml, lang=None))]
+fn error_kind(toml: &str, lang: Option<&str>) -> Option<String> {
+    crate::api::run_scenario_lang(toml, lang.unwrap_or("en"))
         .err()
         .map(|e| e.kind_tag().to_string())
+}
+
+/// Why a scenario fails: `None` when it runs, else a dict `{"kind", "code", "message"}` with the
+/// message in `lang` and the code (`E-...`, or `None`) the same in every language.
+#[pyfunction]
+#[pyo3(signature = (toml, lang=None))]
+fn error_info<'py>(
+    py: Python<'py>,
+    toml: &str,
+    lang: Option<&str>,
+) -> PyResult<Option<Bound<'py, PyAny>>> {
+    let json = crate::api::error_info_json(toml, lang.unwrap_or("en"));
+    if json.is_empty() {
+        return Ok(None);
+    }
+    let v: serde_json::Value =
+        serde_json::from_str(&json).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    json_to_py(py, &v).map(Some)
 }
 
 /// Engine version (the crate version).
@@ -2407,6 +2430,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(validate_toml, m)?)?;
     m.add_function(wrap_pyfunction!(list_kinds, m)?)?;
     m.add_function(wrap_pyfunction!(error_kind, m)?)?;
+    m.add_function(wrap_pyfunction!(error_info, m)?)?;
     m.add_function(wrap_pyfunction!(version, m)?)?;
     m.add_function(wrap_pyfunction!(receiver_trust, m)?)?;
     m.add_function(wrap_pyfunction!(receiver_trust_replay, m)?)?;

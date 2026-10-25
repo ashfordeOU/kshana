@@ -7410,3 +7410,40 @@ engine-wasm-plans-json-is-not-json = plans_json is not a JSON array of strings: 
 engine-wasm-options-json-is-not-json = options_json is not JSON: { $e }
 
 engine-wasm-input-is-about-bytes-over = input is about { $b64 } bytes, over the { $v2 }-byte limit
+
+## legal (advisories, disclaimers and notices; the English text is the source, the constant in code is what machine files carry)
+
+engine-legal-compliance-statement = A row marked evidenced means a run in this set supports evidence for the capabilities the row names. It is not a finding that a framework is met, and it does not mean any product has been rated or approved by anyone. The gap column states what the runs do not show.
+
+engine-legal-bench-surface-notice = Vehicle motion and labelled event intervals only. Nothing exported here is, models or drives a radio-frequency or baseband signal, and an event is a time interval, not a recipe for producing interference. The laboratory simulator and its operator supply the signals and are responsible for running them only where that is authorised (conducted or shielded, per the simulator's own safety instructions). Kshana publishes no results from such runs.
+
+engine-legal-iq-campaign-roc-statement = MODELLED: window-level ROC of each monitor on the recordings given. Each stated event window is a positive and each roc_window_s window outside the events a negative; a window counts at a threshold when the monitor's test statistic reaches it in the window. P_fa is per negative window, not per test.
+
+engine-legal-lunanet-afs-advisory = Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. It checks a symbol stream against one edition of a published specification and says nothing about any LunaNet node or service.
+
+engine-legal-iqfit-statement = MODELLED: every fitted number describes the open receiver (the named loop design and front-end chain) on the recordings it was given, fitted to the campaign's scored results. It is not a measurement of any other receiver. Predictions are labelled PREDICTION, with the nearest tested recording and the distance outside the tested conditions.
+
+engine-legal-iqfit-advisory = Advisory: analysis output, not type-approved navigation equipment; predictions are model outputs with stated error, not guarantees.
+
+engine-legal-lunar-time-lab-source-statement = Source statement, not a claim: the ICG WG-B Lunar PNT material of June 2024 (unoosa.org, LunarPNT_Jun24_01_04.pdf, source S3 of the study) describes a lunar time reference laboratory at the station with a nanosecond-level time target. Kshana quotes that target for context only; it does not adopt it, and nothing in this block shows that any real station clock meets it.
+
+engine-legal-standards-pack-notice = A standards pack measures modelled scenarios against bars stated before the run. It supports evidence for the framework rows it names; it does not rate or approve any product, and a MET bar says only that the scenario's modelled output met the stated bar.
+
+engine-legal-standards-pack-advisory = Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service; it must not be the sole basis for any navigation or safety decision.
+
+engine-legal-geometry-statement = Geometry under a stated error model (MODELLED): line-of-sight visibility against the stated skyline, dilution of precision and a Gaussian error ellipse for independent, equal, zero-mean Gaussian range errors of the stated user-equivalent range error. It is not a prediction of a receiver's real error, which also has biases, multipath and non-line-of-sight errors, and it is not an integrity bound. Preset constellations are a representative geometry, not the sky of that date at that place.
+
+engine-legal-resilience-disclaimer = Simulation-derived self-assessment aligned to DHS RPCF v2.0. This is not a certification or accreditation, and it represents no authority approval (DHS, IEEE, or otherwise). Every sub-score is MODELLED unless explicitly tagged VALIDATED, and the scores are timing-domain and detection figures of merit, not position-domain accuracy.
+
+engine-legal-observatory-notice = A degraded cell means a high share of aircraft reported low navigation accuracy there that day. No cause is attributed. A cell that is not observed, or absent, was not assessed, which is not the same as clear. Advisory only: not an approval, certification or statement of conformance.
+
+engine-legal-receiver-trust-advisory = Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
+
+engine-legal-evidence-roundtrip-notice = Links four records by hash: the scenario, the laboratory's stated test conditions, the receiver log and the score of that log against the stated events. It is not a signal, not a replay recipe and not a certification. How the scenario's motion reached the receiver (a file played through a laboratory simulator, conducted or shielded) was the operator's responsibility and is recorded here only as stated.
+
+engine-legal-evidence-bundle-disclaimer = This pack is a technical record of what the Kshana engine computed from the stated receiver log with the stated configuration. It is not a legal opinion, not a finding of fact about any event or its cause, and not a certification.
+
+engine-legal-bench-notice = Advisory: modelled or measured against stated references, not an approval, certification or statement of conformance. A score describes a log or corpus, never a product.
+
+engine-legal-osnma-advisory = Advisory: this is analysis and monitoring output and not type-approved navigation equipment. The authentication status reported here is not a navigation integrity service and must not be the sole basis for any navigation or safety decision.
+

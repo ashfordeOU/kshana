@@ -16,7 +16,25 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::path::{Path, PathBuf};
 
 /// Messages that have no original template to compare with: new text, with the reason.
-const NEW_MESSAGES: &[(&str, &str)] = &[(
+const NEW_MESSAGES: &[(&str, &str)] = &[
+    ("legal-compliance-statement", "legal text; tests/i18n_legal.rs compares it with its constant"),
+    ("legal-bench-surface-notice", "legal text; tests/i18n_legal.rs compares it with its constant"),
+    ("legal-iq-campaign-roc-statement", "legal text; tests/i18n_legal.rs compares it with its constant"),
+    ("legal-lunanet-afs-advisory", "legal text; tests/i18n_legal.rs compares it with its constant"),
+    ("legal-iqfit-statement", "legal text; tests/i18n_legal.rs compares it with its constant"),
+    ("legal-iqfit-advisory", "legal text; tests/i18n_legal.rs compares it with its constant"),
+    ("legal-lunar-time-lab-source-statement", "legal text; tests/i18n_legal.rs compares it with its constant"),
+    ("legal-standards-pack-notice", "legal text; tests/i18n_legal.rs compares it with its constant"),
+    ("legal-standards-pack-advisory", "legal text; tests/i18n_legal.rs compares it with its constant"),
+    ("legal-geometry-statement", "legal text; tests/i18n_legal.rs compares it with its constant"),
+    ("legal-resilience-disclaimer", "legal text; tests/i18n_legal.rs compares it with its constant"),
+    ("legal-observatory-notice", "legal text; tests/i18n_legal.rs compares it with its constant"),
+    ("legal-receiver-trust-advisory", "legal text; tests/i18n_legal.rs compares it with its constant"),
+    ("legal-evidence-roundtrip-notice", "legal text; tests/i18n_legal.rs compares it with its constant"),
+    ("legal-evidence-bundle-disclaimer", "legal text; tests/i18n_legal.rs compares it with its constant"),
+    ("legal-bench-notice", "legal text; tests/i18n_legal.rs compares it with its constant"),
+    ("legal-osnma-advisory", "legal text; tests/i18n_legal.rs compares it with its constant"),
+    (
     "main-fail",
     "the command line's `error: ` label for a failed run, which was a literal next to the printed error",
 )];
