@@ -299,3 +299,102 @@ export function pseudoFtl(text) {
   }
   return out.join('\n');
 }
+
+
+/** ---- todo and merge (the translators' loop) ---- */
+
+/** Every English page message with its comments, and where it lives: Map id -> {text, files:Set}. */
+export function pageMessages(root) {
+  const idx = JSON.parse(readText(join(root, 'en', 'pages', '_index.json')));
+  const sharedEn = new Set(idx.shared);
+  const where = new Map(); // id -> Set of file names
+  for (const [rel, info] of Object.entries(idx.pages)) for (const id of info.segments) { if (!where.has(id)) where.set(id, new Set()); where.get(id).add(sharedEn.has(id) ? '_shared.ftl' : slugOf(rel) + '.ftl'); }
+  const msgs = new Map(); // id -> {block (comments plus the message), entry}
+  for (const f of new Set([...where.values()].flatMap((s) => [...s]))) {
+    const text = readText(join(root, 'en', 'pages', f));
+    const blocks = text.split(/\n\n+/);
+    for (const b of blocks) { const m = /^seg-[0-9a-f]{12}/m.exec(b); if (m && !msgs.has(m[0])) msgs.set(m[0], b.trim()); }
+  }
+  return { where, msgs };
+}
+
+/** The English messages a language lacks, as chunks of about chunkKb: [{name, text, ids}]. A page filter is a slug prefix. */
+export function todoChunks(root, lang, { chunkKb = 26, page = '' } = {}) {
+  const { where, msgs } = pageMessages(root);
+  const have = new Set();
+  const dir = join(root, lang, 'pages');
+  if (existsSync(dir)) for (const f of readdirSync(dir)) if (f.endsWith('.ftl')) for (const e of parseFtl(readText(join(dir, f))).ast.body) if (e instanceof Message) have.add(e.id.name + '@' + f);
+  const need = [];
+  for (const [id, files] of where) {
+    if (page && ![...files].some((f) => f.startsWith(page))) continue;
+    if ([...files].every((f) => have.has(id + '@' + f))) continue;
+    need.push(id);
+  }
+  const chunks = [];
+  let cur = [], size = 0;
+  for (const id of need) {
+    const b = msgs.get(id);
+    if (!b) continue;
+    cur.push(id); size += b.length + 2;
+    if (size >= chunkKb * 1024) { chunks.push(cur); cur = []; size = 0; }
+  }
+  if (cur.length) chunks.push(cur);
+  return chunks.map((ids, i) => ({ name: String(i + 1).padStart(3, '0') + '.ftl', ids, text: ids.map((id) => msgs.get(id)).join('\n\n') + '\n' }));
+}
+
+/** Merge translated page messages into i18n/<lang>/pages/: each into every page file that holds its id. Rejects (and reports) any message that breaks
+ *  the English message's variables, literals, tags or digits. Returns {added, rejected:[{id, why}], unknown:[id]}. */
+export function mergeTranslations(root, lang, texts, { replace = false } = {}) {
+  const { where } = pageMessages(root);
+  const enIndex = new Map();
+  for (const f of new Set([...where.values()].flatMap((s) => [...s]))) for (const e of parseFtl(readText(join(root, 'en', 'pages', f))).ast.body) if (e instanceof Message) enIndex.set(e.id.name, e);
+  const out = new Map(); // file -> Map id -> text
+  const rejected = [], unknown = [];
+  let added = 0;
+  const gl = (() => { const g = entriesOf(join(root, lang, 'glossary.ftl')), en = entriesOf(join(root, 'en', 'glossary.ftl')); return (id) => { const e = (g && g.map.get(id)) || (en && en.map.get(id)); return e ? textOfPattern(e.value) : null; }; })();
+  const tokenTerm = (t) => '-' + (['VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY'].includes(t) ? 'tier-' : ['MET', 'NOT MET'].includes(t) ? 'verdict-' : 'status-') + t.toLowerCase().replace(/ /g, '-');
+  for (const text of texts) {
+    const p = new FluentParser({ withSpans: true }).parse(text);
+    for (const e of p.body) {
+      if (e instanceof Junk) { rejected.push({ id: '(junk)', why: 'syntax error near "' + e.content.split('\n')[0].slice(0, 50) + '"' }); continue; }
+      if (!(e instanceof Message)) continue;
+      const id = e.id.name;
+      const src = enIndex.get(id);
+      if (!src || !where.has(id)) { unknown.push(id); continue; }
+      const a = signature(src), b = signature(e);
+      let why = null;
+      if (a.vars.join() !== b.vars.join()) why = 'variables differ';
+      else if (a.lits.join('\0') !== b.lits.join('\0')) why = 'string-literal placeables differ';
+      else if (!a.selects.length && tagsOf(flat(src)) !== tagsOf(flat(e))) why = 'markup tags differ';
+      else if (digits(strip(flat(src))) !== digits(strip(flat(e)))) why = 'digits differ';
+      else {
+        const t = flat(e);
+        for (const tk of TOKENS) {
+          const re = new RegExp(`(?<![A-Z])${tk}(?![A-Z])`);
+          const en2 = tk === 'MET' ? flat(src).replace(/NOT MET/g, '') : flat(src);
+          if (re.test(en2)) { const r = gl(tokenTerm(tk)); if (r && !t.includes(r) && !(tk === 'MET' && t.includes('NOT MET'))) { why = `the term ${tk} must appear as "${r}"`; break; } }
+        }
+      }
+      if (why) { rejected.push({ id, why }); continue; }
+      const body = text.slice(e.span.start, e.span.end).trim();
+      for (const f of where.get(id)) { if (!out.has(f)) out.set(f, new Map()); out.get(f).set(id, body); }
+    }
+  }
+  const dir = join(root, lang, 'pages');
+  mkdirSync(dir, { recursive: true });
+  for (const [f, add] of out) {
+    const p = join(dir, f);
+    const old = existsSync(p) ? readText(p) : `# ${f.replace(/\.ftl$/, '')}: translations (${lang})\n\n`;
+    const have = new Map();
+    for (const b of old.split(/\n\n+/)) { const m = /^(seg-[0-9a-f]{12})/m.exec(b); if (m) have.set(m[1], b.trim()); }
+    let next = old.trimEnd() + '\n\n';
+    let changed = false;
+    if (replace) { // rewrite the file with replaced messages
+      const kept = old.split(/\n\n+/).filter((b) => { const m = /^(seg-[0-9a-f]{12})/m.exec(b); return !(m && add.has(m[1])); });
+      next = kept.join('\n\n').trimEnd() + '\n\n';
+    }
+    for (const [id, body] of add) { if (have.has(id) && !replace) continue; next += body + '\n\n'; added++; changed = true; }
+    if (changed) writeFileSync(p, next.trimEnd() + '\n');
+  }
+  return { added, rejected, unknown };
+}
