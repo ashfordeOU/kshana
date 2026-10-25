@@ -17,9 +17,11 @@ Advisory software, not certified navigation equipment. Kshana transmits nothing 
 
 Each core is a function of `(config, entry state, thread context)`; a standalone run builds the default entry (a
 Moon-centred inertial covariance of 100 m and 0.1 m/s, a 1 microsecond LTC clock) and the default epoch
-2028-01-01, and a thread run takes the entry from the previous phase. The thread, not a phase, converts frames and
-timescales and applies the handover rule; a phase never resets a covariance, only hands on the one it ends with, and
-refuses a frame or a clock timescale it cannot use (`Mci` and an LTC or TT clock) with the reason.
+2028-01-01, and a thread run takes the entry from the previous phase. The thread, not a core, converts frames and
+timescales and applies the handover rule: a phase wrapper converts the entry state onto `Mci` (or `Mcmf` for the surface
+map) and an LTC clock through the thread's conversions, and the conversion lines are added to the phase's budget. A frame
+or timescale the thread cannot convert (ITRF, for example) is refused with the thread's message; a core called directly
+with a frame it cannot use refuses it with the reason. A phase never resets a covariance, only hands on the one it ends with.
 
 ## What each phase does
 

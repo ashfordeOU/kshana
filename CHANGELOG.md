@@ -47,7 +47,9 @@ breaking changes are called out explicitly.
   The row stays MODELLED, and the miss is pinned by `tests/mission_thread_lunar_oracles.rs`.
 - B1 (the rendezvous estimate's consistency with its own model) is MET on the fourth estimator design, mean NEES 5.85
   to 5.93 against a band of [5.2, 6.8]; the three earlier designs, an extended Kalman filter in three variants,
-  missed it. The history is in `xval/mission-thread-lunar/RESULTS.md`.
+  missed it. A fifth change, made after the shipped 2 h scenario was found to send 4 of 50 trials into a local
+  minimum (mean NEES 1e9), runs the Gauss-Newton fit on a growing arc with step halving; B1 is unchanged by it and
+  the shipped scenarios give 6.51 and 6.33. The history is in `xval/mission-thread-lunar/RESULTS.md`.
 - Nothing here is VALIDATED: the oracle rows test the shared propagator, not a navigation filter, signal or budget.
 
 
