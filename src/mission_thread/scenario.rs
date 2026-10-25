@@ -939,11 +939,14 @@ label = "validated"
     }
 
     #[test]
-    fn a_registered_stub_stops_the_thread_loudly() {
+    fn a_phase_whose_model_the_kind_refuses_stops_the_thread_naming_the_phase() {
         let scn = MissionThreadScenario::parse(&DOC.replace("kind = \"mock\"", "kind = \"entry\""))
             .unwrap();
         let e = run_thread(&scn).unwrap_err();
-        assert!(e.contains("not implemented"), "{e}");
+        assert!(
+            e.contains("phase `first`") && e.contains("unknown model key"),
+            "{e}"
+        );
     }
 
     #[test]
