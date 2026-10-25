@@ -1,5 +1,15 @@
 # docs--all-surfaces: translations (uk)
 
+seg-f917e7fcac09 = Що це
+
+seg-fcd0ebea49bc = Командний рядок
+
+seg-379f49bff6fb = Python
+
+seg-ada3fcf67363 = JavaScript і WebAssembly
+
+seg-97ea215c09db = Бібліотека Rust
+
 seg-79d36dadd711 = Джерело: <c1/>
 
 seg-c594fec64a5a = Один рушій, однакові результати всюди. <a1><c1/></a1> перелічує для кожної команди й виду, яка поверхня її несе, а яка ні (з причиною).
@@ -59,13 +69,3 @@ seg-f8cf777c0caa = Поверхні
 seg-b7b4540e63b6 = <s1>Попередня</s1>Кожна команда
 
 seg-ce2349a1306f = <s1>Наступна</s1>Домени можливостей
-
-seg-fcd0ebea49bc = Командний рядок
-
-seg-379f49bff6fb = Python
-
-seg-ada3fcf67363 = JavaScript і WebAssembly
-
-seg-97ea215c09db = Бібліотека Rust
-
-seg-f917e7fcac09 = Що це

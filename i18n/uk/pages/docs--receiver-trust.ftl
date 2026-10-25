@@ -1,7 +1,9 @@
 # docs--receiver-trust: translations (uk)
 
-seg-2247a2344710 = Значення
-
 seg-adc34608c46b = Клас
 
+seg-2247a2344710 = Значення
+
 seg-fdbb9db68f1d = немає
+
+seg-f63dd3d7aad4 = Джерело
