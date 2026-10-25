@@ -79,19 +79,23 @@ pub fn encode_packet(
     data: &[u8],
 ) -> Result<Vec<u8>, String> {
     if version > 0b111 {
-        return Err("version exceeds 3 bits".to_string());
+        return Err(crate::terr!("e-space-packet-version-exceeds-bits"));
     }
     if apid > 0x07FF {
-        return Err("APID exceeds 11 bits (0..=2047)".to_string());
+        return Err(crate::terr!("e-space-packet-apid-exceeds-11-bits-2047"));
     }
     if sequence_count > 0x3FFF {
-        return Err("sequence_count exceeds 14 bits (0..=16383)".to_string());
+        return Err(crate::terr!(
+            "e-space-packet-sequence-count-exceeds-14-bits"
+        ));
     }
     if data.is_empty() {
-        return Err("data field must be at least one octet".to_string());
+        return Err(crate::terr!("e-space-packet-data-field-must-be-at"));
     }
     if data.len() > 65536 {
-        return Err("data field exceeds 65536 octets".to_string());
+        return Err(crate::terr!(
+            "e-space-packet-data-field-exceeds-65536-octets"
+        ));
     }
     let word1: u16 = ((version as u16) << 13)
         | ((is_telecommand as u16) << 12)
@@ -112,9 +116,9 @@ pub fn encode_packet(
 /// length does not match the bytes present.
 pub fn decode_packet(bytes: &[u8]) -> Result<(PrimaryHeader, Vec<u8>), String> {
     if bytes.len() < 6 {
-        return Err(format!(
-            "packet shorter than the 6-octet header: {} bytes",
-            bytes.len()
+        return Err(crate::terr!(
+            "e-space-packet-packet-shorter-than-the-octet",
+            bytes = bytes.len()
         ));
     }
     let word1 = u16::from_be_bytes([bytes[0], bytes[1]]);
@@ -132,9 +136,11 @@ pub fn decode_packet(bytes: &[u8]) -> Result<(PrimaryHeader, Vec<u8>), String> {
     let data_len = data_length_field as usize + 1;
     let total = 6 + data_len;
     if bytes.len() != total {
-        return Err(format!(
-            "declared data length {data_len} (+6 header) = {total} octets, but buffer is {}",
-            bytes.len()
+        return Err(crate::terr!(
+            "e-space-packet-declared-data-length-header-octets",
+            data_len = data_len,
+            total = total,
+            bytes = bytes.len()
         ));
     }
     Ok((header, bytes[6..].to_vec()))
@@ -173,11 +179,15 @@ impl CucFormat {
     /// A CUC format; errors outside the one-octet P-field's 1..=4 coarse and 0..=3 fine octets.
     pub fn new(epoch: CucEpoch, coarse_octets: u8, fine_octets: u8) -> Result<Self, String> {
         if !(1..=4).contains(&coarse_octets) {
-            return Err(format!("CUC coarse octets {coarse_octets} outside 1..=4"));
+            return Err(crate::terr!(
+                "e-space-packet-cuc-coarse-octets-outside",
+                coarse_octets = coarse_octets
+            ));
         }
         if fine_octets > 3 {
-            return Err(format!(
-                "CUC fine octets {fine_octets} outside 0..=3 (the extended P-field is not supported)"
+            return Err(crate::terr!(
+                "e-space-packet-cuc-fine-octets-outside-the",
+                fine_octets = fine_octets
             ));
         }
         Ok(CucFormat {
@@ -199,16 +209,19 @@ impl CucFormat {
     /// Read a CUC P-field. Errors on the extension flag or a non-CUC identification.
     pub fn from_p_field(p: u8) -> Result<Self, String> {
         if p & 0x80 != 0 {
-            return Err(format!(
-                "CUC P-field {p:#04X}: extended P-field not supported"
+            return Err(crate::terr!(
+                "e-space-packet-cuc-field-extended-field-not",
+                p = format!("{:#04X}", p)
             ));
         }
         let epoch = match (p >> 4) & 0b111 {
             0b001 => CucEpoch::Ccsds1958,
             0b010 => CucEpoch::Agency,
             id => {
-                return Err(format!(
-                    "P-field {p:#04X}: time code id {id:03b} is not CUC"
+                return Err(crate::terr!(
+                    "e-space-packet-field-time-code-id-is",
+                    p = format!("{:#04X}", p),
+                    id = format!("{:03b}", id)
                 ))
             }
         };
@@ -296,13 +309,21 @@ impl CdsFormat {
     /// reserved sub-millisecond code `11`.
     pub fn from_p_field(p: u8) -> Result<Self, String> {
         if p & 0x80 != 0 || (p >> 4) & 0b111 != 0b100 {
-            return Err(format!("P-field {p:#04X} is not a CDS P-field"));
+            return Err(crate::terr!(
+                "e-space-packet-field-is-not-cds-field",
+                p = format!("{:#04X}", p)
+            ));
         }
         let submillis = match p & 0b11 {
             0b00 => CdsSubmillis::None,
             0b01 => CdsSubmillis::Microseconds,
             0b10 => CdsSubmillis::Picoseconds,
-            _ => return Err(format!("CDS P-field {p:#04X}: reserved sub-ms code 11")),
+            _ => {
+                return Err(crate::terr!(
+                    "e-space-packet-cds-field-reserved-sub-ms",
+                    p = format!("{:#04X}", p)
+                ))
+            }
         };
         Ok(CdsFormat {
             epoch: if p & 0b1000 != 0 {
@@ -430,24 +451,35 @@ impl TimeCode {
             (TimeCodeFormat::Cuc(f), TimeValue::Cuc(t)) => {
                 let (c, n) = (f.coarse_octets as usize, f.fine_octets as usize);
                 if !fits(t.coarse, c) {
-                    return Err(format!("CUC coarse {} does not fit {c} octets", t.coarse));
+                    return Err(crate::terr!(
+                        "e-space-packet-cuc-coarse-does-not-fit",
+                        coarse = t.coarse,
+                        c = c
+                    ));
                 }
                 if !fits(t.fine, n) || (n == 0 && t.fine != 0) {
-                    return Err(format!("CUC fine {} does not fit {n} octets", t.fine));
+                    return Err(crate::terr!(
+                        "e-space-packet-cuc-fine-does-not-fit",
+                        fine = t.fine,
+                        n = n
+                    ));
                 }
                 push_be(&mut out, t.coarse, c);
                 push_be(&mut out, t.fine, n);
             }
             (TimeCodeFormat::Cds(f), TimeValue::Cds(t)) => {
                 if !fits(t.days, f.day_octets()) {
-                    return Err(format!(
-                        "CDS days {} do not fit {} octets",
-                        t.days,
-                        f.day_octets()
+                    return Err(crate::terr!(
+                        "e-space-packet-cds-days-do-not-fit",
+                        days = t.days,
+                        f = f.day_octets()
                     ));
                 }
                 if t.ms_of_day > 86_400_999 {
-                    return Err(format!("CDS ms of day {} above 86 400 999", t.ms_of_day));
+                    return Err(crate::terr!(
+                        "e-space-packet-cds-ms-of-day-above",
+                        ms_of_day = t.ms_of_day
+                    ));
                 }
                 let max_sub = match f.submillis {
                     CdsSubmillis::None => 0,
@@ -455,16 +487,17 @@ impl TimeCode {
                     CdsSubmillis::Picoseconds => 999_999_999,
                 };
                 if t.submillis > max_sub {
-                    return Err(format!(
-                        "CDS sub-millisecond {} above {max_sub}",
-                        t.submillis
+                    return Err(crate::terr!(
+                        "e-space-packet-cds-sub-millisecond-above",
+                        submillis = t.submillis,
+                        max_sub = max_sub
                     ));
                 }
                 push_be(&mut out, t.days, f.day_octets());
                 push_be(&mut out, t.ms_of_day, 4);
                 push_be(&mut out, t.submillis, f.submillis_octets());
             }
-            _ => return Err("time code format and value are of different codes".into()),
+            _ => return Err(crate::terr!("e-space-packet-time-code-format-and-value")),
         }
         Ok(out)
     }
@@ -476,15 +509,18 @@ impl TimeCode {
         let (format, start) = match implicit {
             Some(f) => (f, 0),
             None => {
-                let p = *bytes.first().ok_or("time code: no P-field octet")?;
+                let p = *bytes
+                    .first()
+                    .ok_or_else(|| crate::terr!("e-space-packet-time-code-no-field-octet"))?;
                 (TimeCodeFormat::from_p_field(p)?, 1)
             }
         };
         let end = start + format.t_field_len();
         if bytes.len() < end {
-            return Err(format!(
-                "time code needs {end} octets, {} present",
-                bytes.len()
+            return Err(crate::terr!(
+                "e-space-packet-time-code-needs-octets-present",
+                end = end,
+                bytes = bytes.len()
             ));
         }
         let t = &bytes[start..end];
@@ -546,23 +582,23 @@ impl SecondaryHeader {
             (Some(TimeCodeLayout::ExplicitPField), Some(tc)) => tc.encode(true)?,
             (Some(TimeCodeLayout::ImplicitPField(f)), Some(tc)) => {
                 if tc.format != f {
-                    return Err("time code format differs from the implicit P-field".into());
+                    return Err(crate::terr!("e-space-packet-time-code-format-differs-from"));
                 }
                 tc.encode(false)?
             }
-            (Some(_), None) => return Err("the format has a time code field; none given".into()),
-            (None, Some(_)) => return Err("the format has no time code field".into()),
+            (Some(_), None) => return Err(crate::terr!("e-space-packet-the-format-has-time-code")),
+            (None, Some(_)) => return Err(crate::terr!("e-space-packet-the-format-has-no-time")),
         };
         if self.ancillary.len() != format.ancillary_octets {
-            return Err(format!(
-                "ancillary data is {} octets; the format says {}",
-                self.ancillary.len(),
-                format.ancillary_octets
+            return Err(crate::terr!(
+                "e-space-packet-ancillary-data-is-octets-the",
+                ancillary = self.ancillary.len(),
+                ancillary_octets = format.ancillary_octets
             ));
         }
         out.extend_from_slice(&self.ancillary);
         if out.is_empty() {
-            return Err("a secondary header must hold at least one octet".into());
+            return Err(crate::terr!("e-space-packet-secondary-header-must-hold-at"));
         }
         Ok(out)
     }
@@ -583,9 +619,10 @@ impl SecondaryHeader {
         };
         let end = n + format.ancillary_octets;
         if bytes.len() < end {
-            return Err(format!(
-                "secondary header needs {end} octets, {} present",
-                bytes.len()
+            return Err(crate::terr!(
+                "e-space-packet-secondary-header-needs-octets-present",
+                end = end,
+                bytes = bytes.len()
             ));
         }
         Ok((
@@ -662,8 +699,12 @@ pub fn encode_packet_with(
     let mut data = match (&format.secondary_header, secondary_header) {
         (Some(f), Some(sh)) => sh.encode(f)?,
         (None, None) => Vec::new(),
-        (Some(_), None) => return Err("the format has a secondary header; none given".into()),
-        (None, Some(_)) => return Err("the format has no secondary header".into()),
+        (Some(_), None) => {
+            return Err(crate::terr!(
+                "e-space-packet-the-format-has-secondary-header"
+            ))
+        }
+        (None, Some(_)) => return Err(crate::terr!("e-space-packet-the-format-has-no-secondary")),
     };
     data.extend_from_slice(user_data);
     if format.pec {
@@ -692,22 +733,25 @@ pub fn encode_packet_with(
 pub fn decode_packet_with(bytes: &[u8], format: &PacketFormat) -> Result<DecodedPacket, String> {
     let (header, data) = decode_packet(bytes)?;
     if header.secondary_header != format.secondary_header.is_some() {
-        return Err(format!(
-            "secondary-header flag {} disagrees with the format",
-            u8::from(header.secondary_header)
+        return Err(crate::terr!(
+            "e-space-packet-secondary-header-flag-disagrees-with",
+            v1 = u8::from(header.secondary_header)
         ));
     }
     let pec_len = if format.pec { 2 } else { 0 };
     if data.len() < pec_len {
-        return Err("data field shorter than the PEC".into());
+        return Err(crate::terr!("e-space-packet-data-field-shorter-than-the"));
     }
     let body = &data[..data.len() - pec_len];
     let pec = if format.pec {
         if !pec_ok(bytes) {
-            return Err(format!(
-                "PEC {:04X} does not match the CRC {:04X} of the packet",
-                u16::from_be_bytes([bytes[bytes.len() - 2], bytes[bytes.len() - 1]]),
-                crc16_ccitt_false(&bytes[..bytes.len() - 2])
+            return Err(crate::terr!(
+                "e-space-packet-pec-does-not-match-the",
+                v1 = format!(
+                    "{:04X}",
+                    u16::from_be_bytes([bytes[bytes.len() - 2], bytes[bytes.len() - 1]])
+                ),
+                crc16_ccitt_false = format!("{:04X}", crc16_ccitt_false(&bytes[..bytes.len() - 2]))
             ));
         }
         Some(u16::from_be_bytes([
@@ -761,13 +805,13 @@ impl Segmenter {
         user_data: &[u8],
     ) -> Result<Vec<Vec<u8>>, String> {
         if user_data.is_empty() {
-            return Err("nothing to segment: empty user data".into());
+            return Err(crate::terr!("e-space-packet-nothing-to-segment-empty-user"));
         }
         if self.max_user_octets == 0 {
-            return Err("max_user_octets must be at least 1".into());
+            return Err(crate::terr!("e-space-packet-max-user-octets-must-be"));
         }
         if first_count > 0x3FFF {
-            return Err("first_count exceeds 14 bits (0..=16383)".into());
+            return Err(crate::terr!("e-space-packet-first-count-exceeds-14-bits"));
         }
         let chunks: Vec<&[u8]> = user_data.chunks(self.max_user_octets).collect();
         let n = chunks.len();
@@ -843,7 +887,11 @@ impl Reassembler {
         let h = &p.header;
         match self.apid {
             Some(a) if a != h.apid => {
-                return self.fail(format!("APID {} where {a} was expected", h.apid))
+                return self.fail(crate::t!(
+                    "space-packet-apid-where-was-expected",
+                    apid = h.apid,
+                    a = a
+                ))
             }
             _ => self.apid = Some(h.apid),
         }
@@ -851,17 +899,22 @@ impl Reassembler {
             let step = (h.sequence_count + 16384 - last) % 16384;
             if step != 1 {
                 let msg = if step == 0 {
-                    format!("sequence count {} repeated", h.sequence_count)
+                    crate::t!(
+                        "space-packet-sequence-count-repeated",
+                        sequence_count = h.sequence_count
+                    )
                 } else if step < 8192 {
-                    format!(
-                        "sequence count gap: {} after {last} ({} packet(s) missing)",
-                        h.sequence_count,
-                        step - 1
+                    crate::t!(
+                        "space-packet-sequence-count-gap-after-packet",
+                        sequence_count = h.sequence_count,
+                        last = last,
+                        v2 = step - 1
                     )
                 } else {
-                    format!(
-                        "sequence count out of order: {} after {last}",
-                        h.sequence_count
+                    crate::t!(
+                        "space-packet-sequence-count-out-of-order",
+                        sequence_count = h.sequence_count,
+                        last = last
                     )
                 };
                 return self.fail(msg);
@@ -884,9 +937,15 @@ impl Reassembler {
                 Ok(Some(u))
             }
             (f @ (SequenceFlags::Continuation | SequenceFlags::Last), None) => {
-                self.fail(format!("{f:?} packet with no unit open"))
+                self.fail(crate::t!(
+                    "space-packet-packet-with-no-unit-open",
+                    f = format!("{:?}", f)
+                ))
             }
-            (f, Some(_)) => self.fail(format!("{f:?} packet while a unit is open")),
+            (f, Some(_)) => self.fail(crate::t!(
+                "space-packet-packet-while-unit-is-open",
+                f = format!("{:?}", f)
+            )),
         }
     }
 }
@@ -897,12 +956,15 @@ pub fn reassemble(format: &PacketFormat, packets: &[Vec<u8>]) -> Result<Vec<Vec<
     let mut r = Reassembler::new(*format);
     let mut units = Vec::new();
     for (i, p) in packets.iter().enumerate() {
-        if let Some(u) = r.push(p).map_err(|e| format!("packet {i}: {e}"))? {
+        if let Some(u) = r
+            .push(p)
+            .map_err(|e| crate::terr!("e-space-packet-packet", i = i, e = e))?
+        {
             units.push(u);
         }
     }
     if r.is_open() {
-        return Err("the sequence ends with a unit still open (no last packet)".into());
+        return Err(crate::terr!("e-space-packet-the-sequence-ends-with-unit"));
     }
     Ok(units)
 }
@@ -1016,13 +1078,13 @@ impl SpacePacketScenario {
     /// Run the scenario, returning `(json, summary)`.
     pub fn run_json(&self) -> Result<(String, String), String> {
         if self.apid > 0x07FF {
-            return Err("apid must be in 0..=2047".to_string());
+            return Err(crate::terr!("e-space-packet-apid-must-be-in-2047"));
         }
         if self.packet_count == 0 {
-            return Err("packet_count must be >= 1".to_string());
+            return Err(crate::terr!("e-space-packet-packet-count-must-be"));
         }
         if self.data_len == 0 || self.data_len > 65536 {
-            return Err("data_len must be in 1..=65536".to_string());
+            return Err(crate::terr!("e-space-packet-data-len-must-be-in"));
         }
         let mut packets = Vec::new();
         let mut total_bytes = 0usize;
@@ -1061,7 +1123,9 @@ impl SpacePacketScenario {
             }
         }
         if !round_trip_ok {
-            return Err("internal error: encode/decode round trip mismatch".to_string());
+            return Err(crate::terr!(
+                "e-space-packet-internal-error-encode-decode-round"
+            ));
         }
         let json = serde_json::json!({
             "kind": "space-packet",
@@ -1078,14 +1142,13 @@ impl SpacePacketScenario {
             "round_trip_exact": round_trip_ok,
             "first_packet": packets.first(),
         });
-        let summary = format!(
-            "space-packet: framed {} CCSDS-133.0 {} packet(s) APID {}, {} octets total, \
-             round-trip exact ({})",
-            self.packet_count,
-            if self.telecommand { "TC" } else { "TM" },
-            self.apid,
-            total_bytes,
-            round_trip_ok
+        let summary = crate::t!(
+            "space-packet-space-packet-framed-ccsds-133",
+            packet_count = self.packet_count,
+            v2 = if self.telecommand { "TC" } else { "TM" },
+            apid = self.apid,
+            total_bytes = total_bytes,
+            round_trip_ok = round_trip_ok
         );
         let json = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
         Ok((json, summary))

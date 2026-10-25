@@ -134,17 +134,23 @@ fn extract_foms(root: &serde_json::Value) -> serde_json::Value {
 /// cannot be read or fails to run.
 pub fn run_suite(suite: &Suite, base_dir: &Path) -> Result<StudyOutput, String> {
     if suite.scenarios.is_empty() {
-        return Err("study has no scenarios to run".to_string());
+        return Err(crate::terr!("e-study-study-has-no-scenarios-to"));
     }
     let mut resolved: Vec<Resolved> = Vec::with_capacity(suite.scenarios.len());
     for entry in &suite.scenarios {
         let path = base_dir.join(&entry.path);
-        let src = std::fs::read_to_string(&path)
-            .map_err(|e| format!("cannot read scenario {}: {e}", path.display()))?;
+        let src = std::fs::read_to_string(&path).map_err(|e| {
+            crate::terr!("e-study-cannot-read-scenario", path = path.display(), e = e)
+        })?;
         let out = crate::api::run_toml(&src)
-            .map_err(|e| format!("scenario {} failed: {e}", path.display()))?;
-        let root: serde_json::Value = serde_json::from_str(&out.json)
-            .map_err(|e| format!("scenario {} produced unparseable JSON: {e}", path.display()))?;
+            .map_err(|e| crate::terr!("e-study-scenario-failed", path = path.display(), e = e))?;
+        let root: serde_json::Value = serde_json::from_str(&out.json).map_err(|e| {
+            crate::terr!(
+                "e-study-scenario-produced-unparseable-json",
+                path = path.display(),
+                e = e
+            )
+        })?;
         let scenario_hash = root
             .get("scenario_hash")
             .and_then(|v| v.as_str())

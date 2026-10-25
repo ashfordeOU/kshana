@@ -242,28 +242,33 @@ impl CampaignSpec {
     /// Parse TOML or JSON and validate the parts that need no files.
     pub fn parse(text: &str) -> Result<Self, String> {
         let s: CampaignSpec = if text.trim_start().starts_with('{') {
-            serde_json::from_str(text).map_err(|e| format!("campaign (JSON): {e}"))?
+            serde_json::from_str(text)
+                .map_err(|e| crate::terr!("e-iq-campaign-spec-campaign-json", e = e))?
         } else {
-            toml::from_str(text).map_err(|e| format!("campaign (TOML): {e}"))?
+            toml::from_str(text)
+                .map_err(|e| crate::terr!("e-iq-campaign-spec-campaign-toml", e = e))?
         };
         if s.schema != SCHEMA {
-            return Err(format!(
-                "schema must be \"{SCHEMA}\" (got \"{}\")",
-                s.schema
+            return Err(crate::terr!(
+                "e-iq-campaign-conditions-schema-must-be-got",
+                SCHEMA = SCHEMA,
+                schema = s.schema
             ));
         }
         if s.inputs.conditions.is_empty() {
-            return Err("inputs.conditions must list at least one file or glob".into());
+            return Err(crate::terr!(
+                "e-iq-campaign-spec-inputs-conditions-must-list-at"
+            ));
         }
         if !(s.run.max_seconds.is_finite() && s.run.max_seconds >= 0.0) {
-            return Err("run.max_seconds must be >= 0".into());
+            return Err(crate::terr!("e-iq-campaign-spec-run-max-seconds-must-be"));
         }
         let mut names = std::collections::BTreeSet::new();
         for f in s.frontends() {
             if f.name.trim().is_empty() || !names.insert(f.name.clone()) {
-                return Err(format!(
-                    "frontend names must be non-empty and unique ('{}')",
-                    f.name
+                return Err(crate::terr!(
+                    "e-iq-campaign-spec-frontend-names-must-be-non",
+                    name = f.name
                 ));
             }
         }
@@ -344,7 +349,10 @@ impl LoadedCampaign {
             check(pattern.parent().unwrap_or(Path::new(".")))?;
             let found = expand_glob(&pattern)?;
             if found.is_empty() {
-                return Err(format!("inputs.conditions: '{pat}' matches no file"));
+                return Err(crate::terr!(
+                    "e-iq-campaign-spec-inputs-conditions-matches-no-file",
+                    pat = pat
+                ));
             }
             files.extend(found);
         }
@@ -358,18 +366,20 @@ impl LoadedCampaign {
         conditions.sort_by(|a, b| a.1.recording.id.cmp(&b.1.recording.id));
         for w in conditions.windows(2) {
             if w[0].1.recording.id == w[1].1.recording.id {
-                return Err(format!(
-                    "recording id '{}' appears in both {} and {}",
-                    w[0].1.recording.id,
-                    w[0].0.display(),
-                    w[1].0.display()
+                return Err(crate::terr!(
+                    "e-iq-campaign-spec-recording-id-appears-in-both",
+                    w = w[0].1.recording.id,
+                    w2 = w[0].0.display(),
+                    w3 = w[1].0.display()
                 ));
             }
         }
         let designs = match &spec.inputs.designs {
             None => {
                 if !spec.inputs.design_names.is_empty() {
-                    return Err("inputs.design_names needs inputs.designs".into());
+                    return Err(crate::terr!(
+                        "e-iq-campaign-spec-inputs-design-names-needs-inputs"
+                    ));
                 }
                 vec![Design::builtin_default()]
             }
@@ -388,9 +398,10 @@ impl LoadedCampaign {
                         .iter()
                         .map(|n| {
                             file.get(n).cloned().ok_or_else(|| {
-                                format!(
-                                    "inputs.design_names: no design '{n}' in {}",
-                                    path.display()
+                                crate::terr!(
+                                    "e-iq-campaign-spec-inputs-design-names-no-design",
+                                    n = n,
+                                    path = path.display()
                                 )
                             })
                         })

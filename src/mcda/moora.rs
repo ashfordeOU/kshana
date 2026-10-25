@@ -53,28 +53,33 @@ pub fn moora(
 ) -> Result<MooraResult, String> {
     let m = matrix.len();
     if m == 0 {
-        return Err("MOORA: empty decision matrix".into());
+        return Err(crate::terr!("e-mcda-moora-moora-empty-decision-matrix"));
     }
     let n = weights.len();
     if n == 0 {
-        return Err("MOORA: no criteria".into());
+        return Err(crate::terr!("e-mcda-moora-moora-no-criteria"));
     }
     if types.len() != n {
-        return Err(format!(
-            "MOORA: {} weights but {} criterion types",
-            n,
-            types.len()
+        return Err(crate::terr!(
+            "e-mcda-moora-moora-weights-but-criterion-types",
+            n = n,
+            types = types.len()
         ));
     }
     for (i, row) in matrix.iter().enumerate() {
         if row.len() != n {
-            return Err(format!(
-                "MOORA: alternative {i} has {} values but there are {n} criteria",
-                row.len()
+            return Err(crate::terr!(
+                "e-mcda-moora-moora-alternative-has-values-but",
+                i = i,
+                row = row.len(),
+                n = n
             ));
         }
         if row.iter().any(|v| !v.is_finite()) {
-            return Err(format!("MOORA: alternative {i} has a non-finite value"));
+            return Err(crate::terr!(
+                "e-mcda-moora-moora-alternative-has-non-finite",
+                i = i
+            ));
         }
     }
 
@@ -83,7 +88,10 @@ pub fn moora(
     for j in 0..n {
         let l2 = matrix.iter().map(|r| r[j] * r[j]).sum::<f64>().sqrt();
         if l2 <= 0.0 {
-            return Err(format!("MOORA: criterion {j} has zero L2 norm"));
+            return Err(crate::terr!(
+                "e-mcda-moora-moora-criterion-has-zero-l2",
+                j = j
+            ));
         }
         for i in 0..m {
             norm[i][j] = matrix[i][j] / l2;

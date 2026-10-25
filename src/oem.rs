@@ -178,22 +178,37 @@ impl OemFile {
     /// ephemeris lines (km, km/s). Segments are separated by a blank line.
     pub fn to_oem_string(&self) -> String {
         let mut out = String::new();
-        out.push_str(&format!("CCSDS_OEM_VERS = {}\n", self.version));
-        out.push_str(&format!(
-            "CREATION_DATE = {}\n",
-            iso8601(&self.creation_date)
+        out.push_str(&crate::t!("oem-ccsds-oem-vers", version = self.version));
+        out.push_str(&crate::t!(
+            "oem-creation-date",
+            iso8601 = iso8601(&self.creation_date)
         ));
         out.push_str(&format!("ORIGINATOR = {}\n", self.originator));
         for seg in &self.segments {
             out.push('\n');
             out.push_str("META_START\n");
-            out.push_str(&format!("OBJECT_NAME = {}\n", seg.meta.object_name));
+            out.push_str(&crate::t!(
+                "oem-object-name",
+                object_name = seg.meta.object_name
+            ));
             out.push_str(&format!("OBJECT_ID = {}\n", seg.meta.object_id));
-            out.push_str(&format!("CENTER_NAME = {}\n", seg.meta.center_name));
-            out.push_str(&format!("REF_FRAME = {}\n", seg.meta.ref_frame));
-            out.push_str(&format!("TIME_SYSTEM = {}\n", seg.meta.time_system));
-            out.push_str(&format!("START_TIME = {}\n", iso8601(&seg.meta.start)));
-            out.push_str(&format!("STOP_TIME = {}\n", iso8601(&seg.meta.stop)));
+            out.push_str(&crate::t!(
+                "oem-center-name",
+                center_name = seg.meta.center_name
+            ));
+            out.push_str(&crate::t!("oem-ref-frame", ref_frame = seg.meta.ref_frame));
+            out.push_str(&crate::t!(
+                "ccsds-tdm-time-system",
+                time_system = seg.meta.time_system
+            ));
+            out.push_str(&crate::t!(
+                "oem-start-time",
+                iso8601 = iso8601(&seg.meta.start)
+            ));
+            out.push_str(&crate::t!(
+                "oem-stop-time",
+                iso8601 = iso8601(&seg.meta.stop)
+            ));
             out.push_str("META_STOP\n");
             out.push('\n');
             for st in &seg.states {
@@ -228,45 +243,47 @@ fn parse_iso8601_epoch(s: &str) -> Result<EpochUtc, String> {
     let s = s.trim();
     let (date, time) = s
         .split_once('T')
-        .ok_or_else(|| format!("epoch missing 'T' date/time separator: {s}"))?;
+        .ok_or_else(|| crate::terr!("e-oem-epoch-missing-date-time-separator", s = s))?;
     let d: Vec<&str> = date.split('-').collect();
     if d.len() != 3 {
-        return Err(format!(
-            "unsupported OEM epoch date '{date}' (expected yyyy-mm-dd)"
+        return Err(crate::terr!(
+            "e-oem-unsupported-oem-epoch-date-expected",
+            date = date
         ));
     }
     let time = time.strip_suffix('Z').unwrap_or(time);
     let t: Vec<&str> = time.split(':').collect();
     if t.len() != 3 {
-        return Err(format!(
-            "unsupported OEM epoch time '{time}' (expected HH:MM:SS)"
+        return Err(crate::terr!(
+            "e-oem-unsupported-oem-epoch-time-expected",
+            time = time
         ));
     }
     let year: i32 = d[0]
         .parse()
-        .map_err(|_| format!("bad epoch year: {}", d[0]))?;
+        .map_err(|_| crate::terr!("e-oem-bad-epoch-year", d = d[0]))?;
     let month: u32 = d[1]
         .parse()
-        .map_err(|_| format!("bad epoch month: {}", d[1]))?;
+        .map_err(|_| crate::terr!("e-oem-bad-epoch-month", d = d[1]))?;
     let day: u32 = d[2]
         .parse()
-        .map_err(|_| format!("bad epoch day: {}", d[2]))?;
+        .map_err(|_| crate::terr!("e-oem-bad-epoch-day", d = d[2]))?;
     let hour: u32 = t[0]
         .parse()
-        .map_err(|_| format!("bad epoch hour: {}", t[0]))?;
+        .map_err(|_| crate::terr!("e-oem-bad-epoch-hour", t = t[0]))?;
     let minute: u32 = t[1]
         .parse()
-        .map_err(|_| format!("bad epoch minute: {}", t[1]))?;
+        .map_err(|_| crate::terr!("e-oem-bad-epoch-minute", t = t[1]))?;
     let second: f64 = t[2]
         .parse()
-        .map_err(|_| format!("bad epoch second: {}", t[2]))?;
+        .map_err(|_| crate::terr!("e-oem-bad-epoch-second", t = t[2]))?;
     if !(1..=12).contains(&month)
         || !(1..=31).contains(&day)
         || hour > 23
         || minute > 59
         || !(0.0..61.0).contains(&second)
     {
-        return Err(format!("OEM epoch field out of range: {s}"));
+        return Err(crate::terr!("e-oem-oem-epoch-field-out-of", s = s));
     }
     Ok(EpochUtc {
         year,
@@ -316,7 +333,8 @@ pub fn parse_oem(text: &str) -> Result<OemFile, String> {
         if line == "META_START" {
             break;
         }
-        let (k, v) = split_kv(line).ok_or_else(|| format!("unexpected OEM header line: {line}"))?;
+        let (k, v) = split_kv(line)
+            .ok_or_else(|| crate::terr!("e-oem-unexpected-oem-header-line", line = line))?;
         match k.as_str() {
             "CCSDS_OEM_VERS" => version = Some(v),
             "CREATION_DATE" => creation_date = Some(parse_iso8601_epoch(&v)?),
@@ -334,7 +352,7 @@ pub fn parse_oem(text: &str) -> Result<OemFile, String> {
             continue;
         }
         if line != "META_START" {
-            return Err(format!("expected META_START, found: {line}"));
+            return Err(crate::terr!("e-oem-expected-meta-start-found", line = line));
         }
         lines.next(); // consume META_START
 
@@ -356,8 +374,8 @@ pub fn parse_oem(text: &str) -> Result<OemFile, String> {
                 saw_meta_stop = true;
                 break;
             }
-            let (k, v) =
-                split_kv(line).ok_or_else(|| format!("unexpected OEM metadata line: {line}"))?;
+            let (k, v) = split_kv(line)
+                .ok_or_else(|| crate::terr!("e-oem-unexpected-oem-metadata-line", line = line))?;
             match k.as_str() {
                 "OBJECT_NAME" => object_name = Some(v),
                 "OBJECT_ID" => object_id = Some(v),
@@ -370,16 +388,21 @@ pub fn parse_oem(text: &str) -> Result<OemFile, String> {
             }
         }
         if !saw_meta_stop {
-            return Err("OEM segment metadata missing META_STOP".to_string());
+            return Err(crate::terr!("e-oem-oem-segment-metadata-missing-meta"));
         }
         let meta = OemMetadata {
-            object_name: object_name.ok_or("OEM metadata missing OBJECT_NAME")?,
-            object_id: object_id.ok_or("OEM metadata missing OBJECT_ID")?,
-            center_name: center_name.ok_or("OEM metadata missing CENTER_NAME")?,
-            ref_frame: ref_frame.ok_or("OEM metadata missing REF_FRAME")?,
-            time_system: time_system.ok_or("OEM metadata missing TIME_SYSTEM")?,
-            start: start.ok_or("OEM metadata missing START_TIME")?,
-            stop: stop.ok_or("OEM metadata missing STOP_TIME")?,
+            object_name: object_name
+                .ok_or_else(|| crate::terr!("e-oem-oem-metadata-missing-object-name"))?,
+            object_id: object_id
+                .ok_or_else(|| crate::terr!("e-oem-oem-metadata-missing-object-id"))?,
+            center_name: center_name
+                .ok_or_else(|| crate::terr!("e-oem-oem-metadata-missing-center-name"))?,
+            ref_frame: ref_frame
+                .ok_or_else(|| crate::terr!("e-oem-oem-metadata-missing-ref-frame"))?,
+            time_system: time_system
+                .ok_or_else(|| crate::terr!("e-oem-oem-metadata-missing-time-system"))?,
+            start: start.ok_or_else(|| crate::terr!("e-oem-oem-metadata-missing-start-time"))?,
+            stop: stop.ok_or_else(|| crate::terr!("e-oem-oem-metadata-missing-stop-time"))?,
         };
 
         // data block: ephemeris lines until the next META_START or EOF, skipping
@@ -410,16 +433,17 @@ pub fn parse_oem(text: &str) -> Result<OemFile, String> {
             let epoch = parse_iso8601_epoch(toks[0])?;
             let n = toks.len() - 1;
             if n != 6 && n != 9 {
-                return Err(format!(
-                    "OEM data line needs position+velocity (6) or +acceleration (9) \
-                     components, got {n}: {line}"
+                return Err(crate::terr!(
+                    "e-oem-oem-data-line-needs-position",
+                    n = n,
+                    line = line
                 ));
             }
             let mut vals = [0.0f64; 6];
             for (k, t) in toks[1..7].iter().enumerate() {
-                vals[k] = t
-                    .parse::<f64>()
-                    .map_err(|_| format!("non-numeric OEM state value '{t}' in: {line}"))?;
+                vals[k] = t.parse::<f64>().map_err(|_| {
+                    crate::terr!("e-oem-non-numeric-oem-state-value", t = t, line = line)
+                })?;
             }
             states.push(OemStateLine {
                 epoch,
@@ -431,9 +455,11 @@ pub fn parse_oem(text: &str) -> Result<OemFile, String> {
     }
 
     Ok(OemFile {
-        version: version.ok_or("OEM missing CCSDS_OEM_VERS header")?,
-        creation_date: creation_date.ok_or("OEM missing CREATION_DATE header")?,
-        originator: originator.ok_or("OEM missing ORIGINATOR header")?,
+        version: version.ok_or_else(|| crate::terr!("e-oem-oem-missing-ccsds-oem-vers"))?,
+        creation_date: creation_date
+            .ok_or_else(|| crate::terr!("e-oem-oem-missing-creation-date-header"))?,
+        originator: originator
+            .ok_or_else(|| crate::terr!("e-oem-oem-missing-originator-header"))?,
         segments,
     })
 }
@@ -597,7 +623,7 @@ impl OemInteropScenario {
 
         let parsed = parse_oem(&oem_text)?;
         if parsed.segments.is_empty() {
-            return Err("OEM carried no segments".to_string());
+            return Err(crate::terr!("e-oem-oem-carried-no-segments"));
         }
 
         let mut n_states_total = 0usize;
@@ -657,20 +683,18 @@ impl OemInteropScenario {
             "round_trip_max_vel_error_km_s": rt_vel,
         });
         let summary = match (rt_pos, rt_vel) {
-            (Some(p), Some(v)) => format!(
-                "oem-interop: round-tripped {} segment(s), {} states; max round-trip \
-                 error {:.2e} km / {:.2e} km/s (MODELLED interop)",
-                parsed.segments.len(),
-                n_states_total,
-                p,
-                v
+            (Some(p), Some(v)) => crate::t!(
+                "oem-oem-interop-round-tripped-segment",
+                segments = parsed.segments.len(),
+                n_states_total = n_states_total,
+                p = crate::i18n::localise_decimal(format!("{:.2e}", p)),
+                v = crate::i18n::localise_decimal(format!("{:.2e}", v))
             ),
-            _ => format!(
-                "oem-interop: ingested {} segment(s), {} states from external OEM \
-                 (originator {}) (MODELLED interop)",
-                parsed.segments.len(),
-                n_states_total,
-                parsed.originator
+            _ => crate::t!(
+                "oem-oem-interop-ingested-segment-states",
+                segments = parsed.segments.len(),
+                n_states_total = n_states_total,
+                originator = parsed.originator
             ),
         };
         let json = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
@@ -696,7 +720,7 @@ pub fn covariance_block_kvn(epoch: &str, cov: &Covariance6, cov_ref_frame: Optio
     let mut s = String::from("COVARIANCE_START\n");
     s.push_str(&format!("EPOCH = {epoch}\n"));
     if let Some(frame) = cov_ref_frame {
-        s.push_str(&format!("COV_REF_FRAME = {frame}\n"));
+        s.push_str(&crate::t!("oem-cov-ref-frame", frame = frame));
     }
     for (i, row) in cov.iter().enumerate() {
         let cells: Vec<String> = (0..=i).map(|j| format!("{:.15e}", row[j])).collect();
@@ -715,9 +739,11 @@ pub fn covariance_block_kvn(epoch: &str, cov: &Covariance6, cov_ref_frame: Optio
 pub fn parse_covariance_block(text: &str) -> Result<Covariance6, String> {
     let start = text
         .find("COVARIANCE_START")
-        .ok_or("no COVARIANCE_START block")?;
+        .ok_or_else(|| crate::terr!("e-oem-no-covariance-start-block"))?;
     let rest = &text[start..];
-    let stop = rest.find("COVARIANCE_STOP").ok_or("no COVARIANCE_STOP")?;
+    let stop = rest
+        .find("COVARIANCE_STOP")
+        .ok_or_else(|| crate::terr!("e-oem-no-covariance-stop"))?;
     let body = &rest[..stop];
 
     let mut vals: Vec<f64> = Vec::with_capacity(21);
@@ -734,14 +760,14 @@ pub fn parse_covariance_block(text: &str) -> Result<Covariance6, String> {
         for tok in line.split_whitespace() {
             vals.push(
                 tok.parse::<f64>()
-                    .map_err(|e| format!("bad covariance value '{tok}': {e}"))?,
+                    .map_err(|e| crate::terr!("e-oem-bad-covariance-value", tok = tok, e = e))?,
             );
         }
     }
     if vals.len() != 21 {
-        return Err(format!(
-            "expected 21 covariance values, found {}",
-            vals.len()
+        return Err(crate::terr!(
+            "e-oem-expected-21-covariance-values-found",
+            vals = vals.len()
         ));
     }
     let mut cov = [[0.0f64; 6]; 6];

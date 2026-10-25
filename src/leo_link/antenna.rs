@@ -180,8 +180,9 @@ impl Polarisation {
             "rhcp" => Ok(Self::Rhcp),
             "lhcp" => Ok(Self::Lhcp),
             "linear" => Ok(Self::Linear),
-            o => Err(format!(
-                "polarisation must be rhcp, lhcp or linear; got '{o}'"
+            o => Err(crate::terr!(
+                "e-leo-link-antenna-polarisation-must-be-rhcp-lhcp",
+                o = o
             )),
         }
     }

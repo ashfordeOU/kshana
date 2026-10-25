@@ -34,15 +34,19 @@ const OID_SHA512: &[u8] = &[0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x03
 
 /// One DER element: (tag, content, rest).
 fn tlv(b: &[u8]) -> Result<(u8, &[u8], &[u8]), String> {
-    let tag = *b.first().ok_or("truncated DER")?;
-    let l0 = *b.get(1).ok_or("truncated DER")?;
+    let tag = *b
+        .first()
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-truncated-der"))?;
+    let l0 = *b
+        .get(1)
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-truncated-der"))?;
     let (len, hdr) = match l0 {
-        0x80 => return Err("indefinite-length BER is not supported".into()),
+        0x80 => return Err(crate::terr!("e-evidence-tsr-indefinite-length-ber-is-not")),
         n if n < 0x80 => (usize::from(n), 2),
         n => {
             let k = usize::from(n & 0x7f);
             if k == 0 || k > 4 || b.len() < 2 + k {
-                return Err("bad DER length".into());
+                return Err(crate::terr!("e-evidence-tsa-bad-der-length"));
             }
             let mut v = 0usize;
             for x in &b[2..2 + k] {
@@ -51,9 +55,11 @@ fn tlv(b: &[u8]) -> Result<(u8, &[u8], &[u8]), String> {
             (v, 2 + k)
         }
     };
-    let end = hdr.checked_add(len).ok_or("bad DER length")?;
+    let end = hdr
+        .checked_add(len)
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-bad-der-length"))?;
     if b.len() < end {
-        return Err("truncated DER".into());
+        return Err(crate::terr!("e-evidence-tsa-truncated-der"));
     }
     Ok((tag, &b[hdr..end], &b[end..]))
 }
@@ -61,7 +67,12 @@ fn tlv(b: &[u8]) -> Result<(u8, &[u8], &[u8]), String> {
 fn expect<'a>(b: &'a [u8], tag: u8, what: &str) -> Result<(&'a [u8], &'a [u8]), String> {
     let (t, c, r) = tlv(b)?;
     if t != tag {
-        return Err(format!("expected {what} (tag {tag:#04x}), found {t:#04x}"));
+        return Err(crate::terr!(
+            "e-evidence-tsr-expected-tag-found",
+            what = what,
+            tag = format!("{:#04x}", tag),
+            t = format!("{:#04x}", t)
+        ));
     }
     Ok((c, r))
 }
@@ -75,23 +86,25 @@ pub fn parse_token(der: &[u8]) -> Result<TokenInfo, String> {
         // PKIStatusInfo { status INTEGER, ... } then the token.
         let (st, _, _) = tlv(first)?;
         if st != 0x02 {
-            return Err("malformed PKIStatusInfo".into());
+            return Err(crate::terr!("e-evidence-tsr-malformed-pkistatusinfo"));
         }
         let (_, status, _) = tlv(first)?;
         if status.len() != 1 || status[0] > 1 {
-            return Err("the timestamp response was not granted".into());
+            return Err(crate::terr!(
+                "e-evidence-tsr-the-timestamp-response-was-not"
+            ));
         }
         let (c, _) = expect(after, 0x30, "timeStampToken")?;
         c
     } else if first_tag == 0x06 {
         outer
     } else {
-        return Err("not a timestamp token".into());
+        return Err(crate::terr!("e-evidence-tsr-not-timestamp-token"));
     };
     // ContentInfo: OID, [0] SignedData
     let (ct, rest) = expect(content_info, 0x06, "contentType")?;
     if ct != OID_SIGNED_DATA {
-        return Err("the token's content type is not CMS SignedData".into());
+        return Err(crate::terr!("e-evidence-tsr-the-token-content-type-is"));
     }
     let (wrapped, _) = expect(rest, 0xA0, "[0] content")?;
     let (signed, _) = expect(wrapped, 0x30, "SignedData")?;
@@ -100,7 +113,7 @@ pub fn parse_token(der: &[u8]) -> Result<TokenInfo, String> {
     let (encap, _) = expect(rest, 0x30, "encapContentInfo")?;
     let (ect, rest) = expect(encap, 0x06, "eContentType")?;
     if ect != OID_TST_INFO {
-        return Err("the token does not carry a TSTInfo".into());
+        return Err(crate::terr!("e-evidence-tsr-the-token-does-not-carry"));
     }
     let (e0, _) = expect(rest, 0xA0, "[0] eContent")?;
     let (tst, _) = expect(e0, 0x04, "eContent OCTET STRING")?;
@@ -116,7 +129,11 @@ pub fn parse_token(der: &[u8]) -> Result<TokenInfo, String> {
         o if o == OID_SHA256 => "sha256",
         o if o == OID_SHA384 => "sha384",
         o if o == OID_SHA512 => "sha512",
-        _ => return Err("message imprint uses an unsupported hash algorithm".into()),
+        _ => {
+            return Err(crate::terr!(
+                "e-evidence-tsr-message-imprint-uses-an-unsupported"
+            ))
+        }
     };
     let want_len = match hash_alg {
         "sha256" => 32,
@@ -124,9 +141,11 @@ pub fn parse_token(der: &[u8]) -> Result<TokenInfo, String> {
         _ => 64,
     };
     if digest.len() != want_len {
-        return Err(format!(
-            "the imprint is {} bytes, not the {want_len} {hash_alg} gives",
-            digest.len()
+        return Err(crate::terr!(
+            "e-evidence-tsr-the-imprint-is-bytes-not",
+            digest = digest.len(),
+            want_len = want_len,
+            hash_alg = hash_alg
         ));
     }
     let (_, rest) = expect(rest, 0x02, "serialNumber")?;
@@ -141,13 +160,15 @@ pub fn parse_token(der: &[u8]) -> Result<TokenInfo, String> {
 /// `YYYYMMDDHHMMSS[.f+]Z` to RFC 3339.
 fn general_time(b: &[u8]) -> Result<String, String> {
     let s = std::str::from_utf8(b).map_err(|_| "genTime is not text")?;
-    let s = s.strip_suffix('Z').ok_or("genTime is not UTC")?;
+    let s = s
+        .strip_suffix('Z')
+        .ok_or_else(|| crate::terr!("e-evidence-tsr-gentime-is-not-utc"))?;
     let (main, frac) = match s.split_once('.') {
         Some((m, f)) => (m, Some(f)),
         None => (s, None),
     };
     if main.len() != 14 || !main.bytes().all(|c| c.is_ascii_digit()) {
-        return Err("malformed genTime".into());
+        return Err(crate::terr!("e-evidence-tsr-malformed-gentime"));
     }
     let mut o = format!(
         "{}-{}-{}T{}:{}:{}",
@@ -160,14 +181,14 @@ fn general_time(b: &[u8]) -> Result<String, String> {
     );
     if let Some(f) = frac {
         if f.is_empty() || !f.bytes().all(|c| c.is_ascii_digit()) {
-            return Err("malformed genTime".into());
+            return Err(crate::terr!("e-evidence-tsr-malformed-gentime"));
         }
         o.push('.');
         o.push_str(f);
     }
     o.push('Z');
     if crate::telemetry::time::parse_rfc3339_utc(&o).is_none() {
-        return Err("genTime is not a real calendar time".into());
+        return Err(crate::terr!("e-evidence-tsr-gentime-is-not-real-calendar"));
     }
     Ok(o)
 }

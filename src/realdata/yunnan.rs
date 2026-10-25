@@ -48,14 +48,15 @@ impl TimedCn0 {
 /// `observation<HH>.json`. Non-positive slots (untracked satellites) are skipped.
 /// Returns a parse error if the text is not a JSON object or has no `recordTime`.
 pub fn cn0_series(json_text: &str) -> Result<Vec<TimedCn0>, String> {
-    let v: Value = serde_json::from_str(json_text).map_err(|e| format!("parse JSON: {e}"))?;
+    let v: Value = serde_json::from_str(json_text)
+        .map_err(|e| crate::terr!("e-realdata-yunnan-parse-json", e = e))?;
     let obj = v
         .as_object()
-        .ok_or("expected a JSON object at the top level")?;
+        .ok_or_else(|| crate::terr!("e-realdata-yunnan-expected-json-object-at-the"))?;
     let times = obj
         .get("recordTime")
         .and_then(Value::as_array)
-        .ok_or("missing recordTime array")?;
+        .ok_or_else(|| crate::terr!("e-realdata-yunnan-missing-recordtime-array"))?;
 
     let mut out = Vec::new();
     for sys in SYSTEMS {

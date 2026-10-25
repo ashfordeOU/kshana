@@ -1090,12 +1090,17 @@ impl IntensityGrid {
         let max = self.max.unwrap_or(1.0);
         let steps = self.steps.unwrap_or(11);
         if !(min.is_finite() && max.is_finite()) || max <= min {
-            return Err(format!(
-                "intensity grid must have finite min < max, got [{min}, {max}]"
+            return Err(crate::terr!(
+                "e-conflict-resilience-intensity-grid-must-have-finite",
+                min = min,
+                max = max
             ));
         }
         if steps < 2 {
-            return Err(format!("intensity grid needs >= 2 steps, got {steps}"));
+            return Err(crate::terr!(
+                "e-conflict-resilience-intensity-grid-needs-steps-got",
+                steps = steps
+            ));
         }
         Ok((0..steps)
             .map(|i| min + (max - min) * i as f64 / (steps - 1) as f64)
@@ -1117,11 +1122,16 @@ impl CorrelationGrid {
             .clone()
             .unwrap_or_else(|| vec![0.0, 0.2, 0.4, 0.6, 0.8, 0.95]);
         if v.is_empty() {
-            return Err("correlation grid must have at least one value".to_string());
+            return Err(crate::terr!(
+                "e-conflict-resilience-correlation-grid-must-have-at"
+            ));
         }
         for &r in &v {
             if !(0.0..=1.0).contains(&r) {
-                return Err(format!("correlation values must lie in [0, 1], got {r}"));
+                return Err(crate::terr!(
+                    "e-conflict-resilience-correlation-values-must-lie-in",
+                    r = r
+                ));
             }
         }
         Ok(v)
@@ -1222,35 +1232,48 @@ impl ConflictResilienceScenario {
     fn compute(&self) -> Result<Computed, String> {
         let (layers, priors) = self.resolved();
         if layers.is_empty() {
-            return Err("conflict-resilience needs at least one layer".to_string());
+            return Err(crate::terr!(
+                "e-conflict-resilience-conflict-resilience-needs-at-least"
+            ));
         }
         for (i, l) in layers.iter().enumerate() {
             if !(0.0..=1.0).contains(&l.availability) {
-                return Err(format!(
-                    "layer {i} availability {} not in [0, 1]",
-                    l.availability
+                return Err(crate::terr!(
+                    "e-conflict-resilience-layer-availability-not-in",
+                    i = i,
+                    availability = l.availability
                 ));
             }
             if !(l.sigma_m.is_finite() && l.sigma_m > 0.0) {
-                return Err(format!("layer {i} sigma_m must be finite and positive"));
+                return Err(crate::terr!(
+                    "e-conflict-resilience-layer-sigma-must-be-finite",
+                    i = i
+                ));
             }
             if !(l.vulnerability.is_finite() && l.vulnerability >= 0.0) {
-                return Err(format!("layer {i} vulnerability must be finite and >= 0"));
+                return Err(crate::terr!(
+                    "e-conflict-resilience-layer-vulnerability-must-be-finite",
+                    i = i
+                ));
             }
             if !(l.vector_weight.is_finite() && l.vector_weight >= 0.0) {
-                return Err(format!("layer {i} vector_weight must be finite and >= 0"));
+                return Err(crate::terr!(
+                    "e-conflict-resilience-layer-vector-weight-must-be",
+                    i = i
+                ));
             }
         }
         let primary = self.primary_layer.unwrap_or(0);
         if primary >= layers.len() {
-            return Err(format!(
-                "primary_layer {primary} out of range (0..{})",
-                layers.len()
+            return Err(crate::terr!(
+                "e-conflict-resilience-primary-layer-out-of-range",
+                primary = primary,
+                layers = layers.len()
             ));
         }
         let trials = self.trials.unwrap_or(4000);
         if trials == 0 {
-            return Err("trials must be >= 1".to_string());
+            return Err(crate::terr!("e-conflict-resilience-trials-must-be"));
         }
         let seed = self.seed.unwrap_or(20_260_709);
         let grid = self
@@ -1511,25 +1534,33 @@ fn summary(c: &Computed) -> String {
         .min_by(|a, b| a.survival_at_reference.total_cmp(&b.survival_at_reference))
         .map(|v| v.name)
         .unwrap_or("");
-    format!(
-        "conflict-resilience | {} layers ({} baseline) | reference intensity {:.2} | \
-         resilience ratio closed-form {:.2}x MC {:.2}x (layered vs single-layer) | \
-         correlation defeats layering: ratio {:.2}x @ rho {:.2} -> {:.2}x @ rho {:.2} | \
-         prior CI [{ratio_lo}-{ratio_hi}]x | per-vector survival @ ref jam {:.0}% spoof {:.0}% kinetic {:.0}% cyber {:.0}% (sharpest {sharpest}) | \
-         ~7x headline MODELLED, VALIDATED MC->closed-form / fuse-identity / copula-marginals / per-vector-survival",
-        c.layers.len(),
-        c.primary,
-        c.reference_intensity,
-        c.ratio_closed_form,
-        c.ratio_mc_independent,
-        first.map(|s| s.resilience_ratio).unwrap_or(f64::NAN),
-        first.map(|s| s.rho).unwrap_or(0.0),
-        last.map(|s| s.resilience_ratio).unwrap_or(f64::NAN),
-        last.map(|s| s.rho).unwrap_or(0.0),
-        surv("jamming"),
-        surv("spoofing"),
-        surv("kinetic"),
-        surv("cyber"),
+    crate::t!(
+        "conflict-resilience-conflict-resilience-layers-baseline-reference",
+        layers = c.layers.len(),
+        primary = c.primary,
+        reference_intensity =
+            crate::i18n::localise_decimal(format!("{:.2}", c.reference_intensity)),
+        ratio_closed_form = crate::i18n::localise_decimal(format!("{:.2}", c.ratio_closed_form)),
+        ratio_mc_independent =
+            crate::i18n::localise_decimal(format!("{:.2}", c.ratio_mc_independent)),
+        first = crate::i18n::localise_decimal(format!(
+            "{:.2}",
+            first.map(|s| s.resilience_ratio).unwrap_or(f64::NAN)
+        )),
+        first2 =
+            crate::i18n::localise_decimal(format!("{:.2}", first.map(|s| s.rho).unwrap_or(0.0))),
+        last = crate::i18n::localise_decimal(format!(
+            "{:.2}",
+            last.map(|s| s.resilience_ratio).unwrap_or(f64::NAN)
+        )),
+        last2 = crate::i18n::localise_decimal(format!("{:.2}", last.map(|s| s.rho).unwrap_or(0.0))),
+        ratio_lo = ratio_lo,
+        ratio_hi = ratio_hi,
+        surv = crate::i18n::localise_decimal(format!("{:.0}", surv("jamming"))),
+        surv2 = crate::i18n::localise_decimal(format!("{:.0}", surv("spoofing"))),
+        surv3 = crate::i18n::localise_decimal(format!("{:.0}", surv("kinetic"))),
+        surv4 = crate::i18n::localise_decimal(format!("{:.0}", surv("cyber"))),
+        sharpest = sharpest
     )
 }
 

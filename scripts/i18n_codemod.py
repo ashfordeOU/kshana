@@ -379,12 +379,20 @@ def ftl_message(mid, pieces):
             else:
                 out.append(ftl_text(piece, idx == 0, idx == len(ln) - 1))
         rendered.append("".join(out))
-    # blank lines at the very start or end of the value would be trimmed by Fluent
+    # Fluent trims blank lines at the start and the end of a value: a value that starts or ends with
+    # newlines gets them back as string-literal placeables joined to the nearest line of text
+    lead = 0
     while len(rendered) > 1 and rendered[0] == "":
-        rendered[0] = fl_literal("\n")
-        break
-    if len(rendered) > 1 and rendered[-1] == "":
-        rendered[-1] = fl_literal("\n")
+        rendered.pop(0)
+        lead += 1
+    trail = 0
+    while len(rendered) > 1 and rendered[-1] == "":
+        rendered.pop()
+        trail += 1
+    if lead:
+        rendered[0] = fl_literal("\n" * lead) + rendered[0]
+    if trail:
+        rendered[-1] = rendered[-1] + fl_literal("\n" * trail)
     if len(rendered) == 1:
         return f"{mid} = {rendered[0]}\n"
     body = "\n".join(("    " + l) if l != "" else "" for l in rendered)
@@ -676,7 +684,7 @@ def rust_expr(expr, spec):
         return expr
     inner = f'format!("{{:{spec}}}", {expr})'
     if FLOAT_SPEC.search(spec) and not re.search(r"[xXobp?]$", spec):
-        return f"crate::i18n::localise_decimal({inner})"
+        return f"{CUR_CRATE}::i18n::localise_decimal({inner})"
     return inner
 
 

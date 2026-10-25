@@ -145,7 +145,10 @@ pub fn sisa_index(m: f64) -> u32 {
 /// accuracy in metres for both signal pairs.
 pub fn ephemeris_from_rinex(r: &RinexEphemeris) -> Result<GalEphemeris, String> {
     if r.system != 'E' {
-        return Err(format!("record is system {}, not Galileo", r.system));
+        return Err(crate::terr!(
+            "e-gnss-navmsg-galileo-record-is-system-not-galileo",
+            system = r.system
+        ));
     }
     let h = r.sv_health.max(0.0) as u32;
     let sisa = sisa_index(r.sv_accuracy);

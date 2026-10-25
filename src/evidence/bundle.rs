@@ -294,24 +294,28 @@ pub fn create_bundle_attested(
     if !(input.window.from_s.is_finite() && input.window.to_s.is_finite())
         || input.window.from_s > input.window.to_s
     {
-        return Err(EvidenceError::BadWindow(format!(
-            "from {} to {}",
-            input.window.from_s, input.window.to_s
+        return Err(EvidenceError::BadWindow(crate::terr!(
+            "e-evidence-bundle-from-to",
+            from_s = input.window.from_s,
+            to_s = input.window.to_s
         )));
     }
     if let Some(c) = input.created_utc {
         if !crate::telemetry::time::is_rfc3339_utc_z(c) {
-            return Err(EvidenceError::BadCreated(format!(
-                "`{c}` is not a UTC time like 2026-01-02T03:04:05Z"
+            return Err(EvidenceError::BadCreated(crate::terr!(
+                "e-evidence-bundle-is-not-utc-time-like",
+                c = c
             )));
         }
     }
     let (kind, start, end) = match input.slice {
         Some((s, e)) => {
             if s > e || e > input.log_bytes.len() {
-                return Err(EvidenceError::BadSlice(format!(
-                    "{s}..{e} in a log of {} bytes",
-                    input.log_bytes.len()
+                return Err(EvidenceError::BadSlice(crate::terr!(
+                    "e-evidence-bundle-in-log-of-bytes",
+                    s = s,
+                    e = e,
+                    log_bytes = input.log_bytes.len()
                 )));
             }
             (SliceKind::ByteRange, s, e)

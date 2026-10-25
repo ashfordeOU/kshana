@@ -193,9 +193,9 @@ fn ramp(rec: &[u8]) -> OdfRamp {
 /// records or no orbit-data group is found.
 pub fn parse_odf(bytes: &[u8]) -> Result<Odf, String> {
     if bytes.is_empty() || bytes.len() % 36 != 0 {
-        return Err(format!(
-            "{} bytes is not a whole number of 36-byte records",
-            bytes.len()
+        return Err(crate::terr!(
+            "e-odf-bytes-is-not-whole-number",
+            bytes = bytes.len()
         ));
     }
     let n = bytes.len() / 36;
@@ -220,7 +220,10 @@ pub fn parse_odf(bytes: &[u8]) -> Result<Odf, String> {
             continue;
         }
         let Some(g) = out.groups.last_mut() else {
-            return Err(format!("record {} precedes any group header", i + 1));
+            return Err(crate::terr!(
+                "e-odf-record-precedes-any-group-header",
+                v1 = i + 1
+            ));
         };
         g.rows += 1;
         match current {
@@ -242,7 +245,7 @@ pub fn parse_odf(bytes: &[u8]) -> Result<Odf, String> {
         }
     }
     if !out.groups.iter().any(|g| g.primary_key == 109) {
-        return Err("no orbit data group".into());
+        return Err(crate::terr!("e-odf-no-orbit-data-group"));
     }
     Ok(out)
 }

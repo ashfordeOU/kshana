@@ -144,8 +144,11 @@ impl FilterPriorCfg {
             ("sigma_gyro_bias", self.sigma_gyro_bias),
         ] {
             if !(v.is_finite() && v > 0.0) {
-                return Err(format!(
-                    "{slot}.filter_prior.{name} must be finite and > 0, got {v}"
+                return Err(crate::terr!(
+                    "e-fusion-pack-filter-prior-must-be-finite",
+                    slot = slot,
+                    name = name,
+                    v = v
                 ));
             }
         }
@@ -836,15 +839,15 @@ impl GnssInsScenario {
     pub fn validate(&self) -> Result<(), String> {
         if let Some(tc) = &self.tight {
             if !(tc.sigma_range_m.is_finite() && tc.sigma_range_m > 0.0) {
-                return Err(format!(
-                    "tight.sigma_range_m must be finite and > 0, got {}",
-                    tc.sigma_range_m
+                return Err(crate::terr!(
+                    "e-fusion-pack-tight-sigma-range-must-be",
+                    sigma_range_m = tc.sigma_range_m
                 ));
             }
             if !(tc.mask_deg.is_finite() && (-90.0..90.0).contains(&tc.mask_deg)) {
-                return Err(format!(
-                    "tight.mask_deg must be in [-90, 90), got {}",
-                    tc.mask_deg
+                return Err(crate::terr!(
+                    "e-fusion-pack-tight-mask-deg-must-be",
+                    mask_deg = tc.mask_deg
                 ));
             }
         }

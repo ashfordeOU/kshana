@@ -129,10 +129,11 @@ impl AcqConfig {
 pub fn samples_per_period(spec: &SampleSpec, code: &dyn SpreadingCode) -> Result<usize, String> {
     let spc = spec.fs_hz * code.period_s();
     if !(spc.is_finite() && spc >= 2.0) || (spc - spc.round()).abs() > 1e-6 {
-        return Err(format!(
-            "{} Hz does not hold a whole number of samples per {} period ({spc} samples)",
-            spec.fs_hz,
-            code.name()
+        return Err(crate::terr!(
+            "e-iq-acq-hz-does-not-hold-whole",
+            fs_hz = spec.fs_hz,
+            code = code.name(),
+            spc = spc
         ));
     }
     Ok(spc.round() as usize)
@@ -219,9 +220,10 @@ impl<'a> RowEngine<'a> {
         let block = spc * cfg.coherent_periods;
         let needed = block * cfg.noncoherent;
         if samples.len() < needed {
-            return Err(format!(
-                "{} samples supplied, {needed} needed",
-                samples.len()
+            return Err(crate::terr!(
+                "e-acquisition-samples-supplied-needed",
+                samples = samples.len(),
+                needed = needed
             ));
         }
         let fs = spec.fs_hz;
@@ -246,7 +248,7 @@ impl<'a> RowEngine<'a> {
             .sum();
         let sigma2 = power / needed as f64;
         if sigma2.is_nan() || sigma2 <= 0.0 {
-            return Err("the samples carry no power".into());
+            return Err(crate::terr!("e-acquisition-the-samples-carry-no-power"));
         }
         Ok(Self {
             samples,
@@ -315,13 +317,17 @@ pub(crate) fn power_rows(
 
 fn check_cfg(cfg: &AcqConfig) -> Result<(), String> {
     if cfg.coherent_periods == 0 || cfg.noncoherent == 0 {
-        return Err("coherent_periods and noncoherent must be positive".into());
+        return Err(crate::terr!(
+            "e-iq-acq-coherent-periods-and-noncoherent-must"
+        ));
     }
     if !(cfg.doppler_step_hz > 0.0 && cfg.doppler_max_hz >= 0.0) {
-        return Err("the Doppler grid needs a positive step and a non-negative maximum".into());
+        return Err(crate::terr!(
+            "e-acquisition-the-doppler-grid-needs-positive"
+        ));
     }
     if !(cfg.pfa > 0.0 && cfg.pfa < 1.0) {
-        return Err("pfa must lie in (0, 1)".into());
+        return Err(crate::terr!("e-acquisition-pfa-must-lie-in"));
     }
     Ok(())
 }
@@ -473,8 +479,10 @@ pub fn acquire_source(
         got += n;
     }
     if got < needed {
-        return Err(IqError::Format(format!(
-            "stream ended after {got} of {needed} samples"
+        return Err(IqError::Format(crate::terr!(
+            "e-iq-acq-stream-ended-after-of-samples",
+            got = got,
+            needed = needed
         )));
     }
     acquire(&buf, &spec, code, cfg).map_err(IqError::Format)
@@ -535,23 +543,23 @@ impl CfarConfig {
     fn check(&self, samples_per_period: usize) -> Result<(), String> {
         let n = self.reference_cells;
         if n < 2 || n % 2 != 0 {
-            return Err(format!(
-                "CFAR reference cells must be even and at least 2 (got {n})"
-            ));
+            return Err(crate::terr!("e-iq-acq-cfar-reference-cells-must-be", n = n));
         }
         if self.stride_lags == 0 {
-            return Err("CFAR stride must be at least 1 lag".into());
+            return Err(crate::terr!("e-iq-acq-cfar-stride-must-be-at"));
         }
         if !(self.pfa_cell > 0.0 && self.pfa_cell < 1.0) {
-            return Err(format!(
-                "CFAR per-cell Pfa must lie in (0, 1) (got {})",
-                self.pfa_cell
+            return Err(crate::terr!(
+                "e-iq-acq-cfar-per-cell-pfa-must",
+                pfa_cell = self.pfa_cell
             ));
         }
         let reach = self.guard_lags + (n / 2) * self.stride_lags;
         if 2 * reach >= samples_per_period {
-            return Err(format!(
-                "CFAR window reaches {reach} lags each side, too wide for a {samples_per_period}-lag period"
+            return Err(crate::terr!(
+                "e-iq-acq-cfar-window-reaches-lags-each",
+                reach = reach,
+                samples_per_period = samples_per_period
             ));
         }
         Ok(())

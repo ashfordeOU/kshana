@@ -29,7 +29,9 @@ pub const MAX_EXCERPT_EPOCHS: usize = 20_000;
 pub fn assess_vessel_log(session_toml: &str, log: &[u8]) -> Result<ReceiverTrustResult, String> {
     let scn = parse_live_scenario(session_toml)?;
     if !scn.monitors.platform.is_vessel() {
-        return Err("a vessel assessment needs [platform] kind = \"vessel\"".into());
+        return Err(crate::terr!(
+            "e-receiver-trust-assess-vessel-assessment-needs-platform-kind"
+        ));
     }
     run_receiver_trust_bytes(&scn, log, None)
 }
@@ -82,9 +84,10 @@ pub fn assess_stream_excerpt(
     excerpt: &[u8],
 ) -> Result<ExcerptAssessment, String> {
     if excerpt.len() > MAX_EXCERPT_BYTES {
-        return Err(format!(
-            "excerpt is {} bytes; the limit is {MAX_EXCERPT_BYTES}",
-            excerpt.len()
+        return Err(crate::terr!(
+            "e-receiver-trust-assess-excerpt-is-bytes-the-limit",
+            excerpt = excerpt.len(),
+            MAX_EXCERPT_BYTES = MAX_EXCERPT_BYTES
         ));
     }
     let scn = parse_live_scenario(session_toml)?;
@@ -94,8 +97,9 @@ pub fn assess_stream_excerpt(
     let mut push = |out: super::live::LiveOut| -> Result<(), String> {
         epochs.extend(out.reports);
         if epochs.len() > MAX_EXCERPT_EPOCHS {
-            return Err(format!(
-                "excerpt holds more than {MAX_EXCERPT_EPOCHS} epochs; cut it shorter"
+            return Err(crate::terr!(
+                "e-receiver-trust-assess-excerpt-holds-more-than-epochs",
+                MAX_EXCERPT_EPOCHS = MAX_EXCERPT_EPOCHS
             ));
         }
         Ok(())
@@ -112,10 +116,10 @@ pub fn assess_stream_excerpt(
         .filter(|e| e.state != TrustState::Calibrating)
         .collect();
     if after.is_empty() {
-        return Err(format!(
-            "the excerpt ends inside the {} s calibration window ({} epochs): nothing was scored",
-            scn.monitors.calibration_s,
-            epochs.len()
+        return Err(crate::terr!(
+            "e-receiver-trust-assess-the-excerpt-ends-inside-the",
+            calibration_s = scn.monitors.calibration_s,
+            epochs = epochs.len()
         ));
     }
     let count = |s: TrustState| after.iter().filter(|e| e.state == s).count();

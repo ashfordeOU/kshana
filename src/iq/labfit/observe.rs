@@ -98,23 +98,30 @@ pub fn observe(timeline: &Timeline, cond: &Conditions, cfg: &ObserveCfg) -> RunO
         .map(|e| epoch_map(e, cfg.band.as_deref()))
         .collect();
     if maps.iter().all(|m| m.is_empty()) {
-        out.unusable = Some(format!(
-            "the log carries no per-satellite C/N0{} (observables: [{}])",
-            cfg.band
+        out.unusable = Some(crate::t!(
+            "iq-labfit-observe-the-log-carries-no-per",
+            cfg = cfg
+                .band
                 .as_ref()
                 .map_or(String::new(), |b| format!(" in band {b}")),
-            timeline.observables.join(", ")
+            observables = timeline.observables.join(", ")
         ));
         return out;
     }
     let onset = cond.onset_s;
     let k_on = timeline.epochs.partition_point(|e| e.t_s < onset);
     if k_on == 0 {
-        out.unusable = Some(format!("no epoch before the onset at {onset} s"));
+        out.unusable = Some(crate::t!(
+            "iq-labfit-observe-no-epoch-before-the-onset",
+            onset = onset
+        ));
         return out;
     }
     if k_on >= n {
-        out.unusable = Some(format!("no epoch at or after the onset at {onset} s"));
+        out.unusable = Some(crate::t!(
+            "iq-labfit-observe-no-epoch-at-or-after",
+            onset = onset
+        ));
         return out;
     }
     let pre_start = cfg.pre_window_s.map_or(f64::NEG_INFINITY, |w| onset - w);

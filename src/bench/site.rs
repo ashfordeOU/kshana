@@ -115,24 +115,24 @@ fn render(results: &[Value], fragment: bool) -> Result<String, BenchError> {
     for (i, r) in results.iter().enumerate() {
         let p = validate_result(r);
         if !p.is_empty() {
-            return Err(BenchError(format!(
-                "result {} is not valid: {}",
-                i + 1,
-                p.join("; ")
+            return Err(BenchError(crate::t!(
+                "bench-site-result-is-not-valid",
+                v1 = i + 1,
+                p = p.join("; ")
             )));
         }
         if r["split"] == "holdout" && r["task"] == "d" {
             match r["holdout_commitment"].as_str() {
                 None => {
-                    return Err(BenchError(format!(
-                        "result {} is a task (d) holdout result without a `holdout_commitment`",
-                        i + 1
+                    return Err(BenchError(crate::t!(
+                        "bench-site-result-is-task-holdout-result",
+                        v1 = i + 1
                     )))
                 }
                 Some(c) if super::is_exposed(c) => {
-                    return Err(BenchError(format!(
-                        "result {} is scored on a provisional, exposed holdout seed: not a release holdout",
-                        i + 1
+                    return Err(BenchError(crate::t!(
+                        "bench-site-result-is-scored-on-provisional",
+                        v1 = i + 1
                     )))
                 }
                 Some(_) => {}
@@ -140,9 +140,11 @@ fn render(results: &[Value], fragment: bool) -> Result<String, BenchError> {
         }
         let v = r["spec_version"].as_str().unwrap_or("");
         if v.rsplit('/').next().and_then(|x| x.split('.').next()) != Some(major) {
-            return Err(BenchError(format!(
-                "result {} was scored under {v}; this page is for {SPEC_VERSION}",
-                i + 1
+            return Err(BenchError(crate::t!(
+                "bench-site-result-was-scored-under-this",
+                v1 = i + 1,
+                v = v,
+                SPEC_VERSION = SPEC_VERSION
             )));
         }
     }

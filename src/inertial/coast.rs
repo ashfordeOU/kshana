@@ -186,9 +186,9 @@ impl ImuGrade {
             "tactical" => Ok(ImuGrade::Tactical),
             "industrial" => Ok(ImuGrade::Industrial),
             "consumer" => Ok(ImuGrade::Consumer),
-            other => Err(format!(
-                "unknown imu_grade {other:?}; expected one of navigation, tactical, \
-                 industrial, consumer"
+            other => Err(crate::terr!(
+                "e-inertial-coast-unknown-imu-grade-expected-one",
+                other = format!("{:?}", other)
             )),
         }
     }
@@ -432,9 +432,9 @@ impl Combination {
             "rss" => Ok(Combination::Rss),
             "linear-sum" => Ok(Combination::LinearSum),
             "det-sum-stoch-rss" => Ok(Combination::DetSumStochRss),
-            other => Err(format!(
-                "unknown combination {other:?}; expected one of rss, linear-sum, \
-                 det-sum-stoch-rss"
+            other => Err(crate::terr!(
+                "e-inertial-coast-unknown-combination-expected-one-of",
+                other = format!("{:?}", other)
             )),
         }
     }
@@ -493,9 +493,9 @@ impl TrnFixMode {
             "none" => Ok(TrnFixMode::None),
             "position-only" => Ok(TrnFixMode::PositionOnly),
             "full-reset" => Ok(TrnFixMode::FullReset),
-            other => Err(format!(
-                "unknown trn_fix_mode {other:?}; expected one of none, position-only, \
-                 full-reset"
+            other => Err(crate::terr!(
+                "e-inertial-coast-unknown-trn-fix-mode-expected",
+                other = format!("{:?}", other)
             )),
         }
     }
@@ -1513,7 +1513,11 @@ impl InsTrnCoastScenario {
             ("gyro_arw_deg_per_sqrt_hr", p.gyro_arw_deg_per_sqrt_hr),
         ] {
             if !v.is_finite() || v < 0.0 {
-                return Err(format!("{name} must be finite and non-negative (got {v})"));
+                return Err(crate::terr!(
+                    "e-inertial-coast-must-be-finite-and-non",
+                    name = name,
+                    v = v
+                ));
             }
         }
         Ok(p)
@@ -1524,14 +1528,17 @@ impl InsTrnCoastScenario {
         let ts = match &self.crossing_thresholds_m {
             None => DEFAULT_CROSSING_THRESHOLDS_M.to_vec(),
             Some(v) if v.is_empty() => {
-                return Err("crossing_thresholds_m must name at least one threshold".into())
+                return Err(crate::terr!(
+                    "e-inertial-coast-crossing-thresholds-must-name-at"
+                ))
             }
             Some(v) => v.clone(),
         };
         for t in &ts {
             if !t.is_finite() || *t <= 0.0 {
-                return Err(format!(
-                    "crossing_thresholds_m entries must be finite and positive (got {t})"
+                return Err(crate::terr!(
+                    "e-inertial-coast-crossing-thresholds-entries-must-be",
+                    t = t
                 ));
             }
         }
@@ -1542,7 +1549,9 @@ impl InsTrnCoastScenario {
     fn resolve_grades(&self) -> Result<Vec<ImuGrade>, String> {
         match &self.grades {
             None => Ok(ImuGrade::all().to_vec()),
-            Some(v) if v.is_empty() => Err("grades must name at least one IMU class".into()),
+            Some(v) if v.is_empty() => {
+                Err(crate::terr!("e-inertial-coast-grades-must-name-at-least"))
+            }
             Some(v) => v.iter().map(|g| ImuGrade::parse(g)).collect(),
         }
     }
@@ -1552,14 +1561,13 @@ impl InsTrnCoastScenario {
         let v = self.speed_m_s.unwrap_or(DEFAULT_SPEED_M_S);
         let a = self.ref_accel_m_s2.unwrap_or(0.0);
         if !v.is_finite() || v < 0.0 {
-            return Err(format!(
-                "speed_m_s must be finite and non-negative (got {v})"
+            return Err(crate::terr!(
+                "e-inertial-coast-speed-must-be-finite-and",
+                v = v
             ));
         }
         if !a.is_finite() || a < 0.0 {
-            return Err(format!(
-                "ref_accel_m_s2 must be finite and non-negative (got {a})"
-            ));
+            return Err(crate::terr!("e-inertial-coast-ref-accel-s2-must-be", a = a));
         }
         Ok((v, a))
     }
@@ -1569,12 +1577,16 @@ impl InsTrnCoastScenario {
         let lat = self.latitude_deg.unwrap_or(DEFAULT_LATITUDE_DEG);
         let h = self.height_m.unwrap_or(DEFAULT_HEIGHT_M);
         if !lat.is_finite() || lat.abs() >= 89.0 {
-            return Err(format!(
-                "latitude_deg must be finite and within (-89, 89) (got {lat})"
+            return Err(crate::terr!(
+                "e-inertial-coast-latitude-deg-must-be-finite",
+                lat = lat
             ));
         }
         if !h.is_finite() || !(-1_000.0..=100_000.0).contains(&h) {
-            return Err(format!("height_m must be within [-1000, 100000] (got {h})"));
+            return Err(crate::terr!(
+                "e-inertial-coast-height-must-be-within-1000",
+                h = h
+            ));
         }
         Ok((lat, h))
     }
@@ -1597,11 +1609,17 @@ impl InsTrnCoastScenario {
             ("mission_duration_s", mission),
         ] {
             if !v.is_finite() || v < 0.0 {
-                return Err(format!("{name} must be finite and non-negative (got {v})"));
+                return Err(crate::terr!(
+                    "e-inertial-coast-must-be-finite-and-non",
+                    name = name,
+                    v = v
+                ));
             }
         }
         if mission <= 0.0 {
-            return Err("mission_duration_s must be positive".into());
+            return Err(crate::terr!(
+                "e-inertial-coast-mission-duration-must-be-positive"
+            ));
         }
         Ok((mode, interval, residual, mission))
     }
@@ -1615,8 +1633,10 @@ impl InsTrnCoastScenario {
             .drift_band_hi_m_per_s
             .unwrap_or(DEFAULT_DRIFT_BAND_HI_M_PER_S);
         if !lo.is_finite() || !hi.is_finite() || lo <= 0.0 || hi <= lo {
-            return Err(format!(
-                "drift band must satisfy 0 < lo < hi (got lo={lo}, hi={hi})"
+            return Err(crate::terr!(
+                "e-inertial-coast-drift-band-must-satisfy-lo",
+                lo = lo,
+                hi = hi
             ));
         }
         Ok((lo, hi))
@@ -1654,8 +1674,9 @@ impl InsTrnCoastScenario {
     pub fn run_json(&self) -> Result<(String, String), String> {
         let doc = self.compute()?;
         let summary = doc.summary.clone();
-        let json = serde_json::to_string_pretty(&doc.json)
-            .map_err(|e| format!("serializing ins-trn-coast result: {e}"))?;
+        let json = serde_json::to_string_pretty(&doc.json).map_err(|e| {
+            crate::terr!("e-inertial-coast-serializing-ins-trn-coast-result", e = e)
+        })?;
         Ok((json, summary))
     }
 
@@ -1880,15 +1901,15 @@ impl InsTrnCoastScenario {
             let heads: Vec<String> = (0..thresholds.len().min(2))
                 .map(|i| format!("{:.0} m at {} ({})", thresholds[i], show(i), dom(i)))
                 .collect();
-            format!(
-                "ins-trn-coast | {} IMU, {:.0} m/s, combination {} | {} | TRN {} peak {:.1} m over {:.0} s",
-                params.grade,
-                speed,
-                comb.as_str(),
-                heads.join(" | "),
-                mode.as_str(),
-                trn.peak_error_m,
-                mission,
+            crate::t!(
+                "inertial-coast-ins-trn-coast-imu-combination",
+                grade = params.grade,
+                speed = crate::i18n::localise_decimal(format!("{:.0}", speed)),
+                comb = comb.as_str(),
+                heads = heads.join(" | "),
+                mode = mode.as_str(),
+                peak_error_m = crate::i18n::localise_decimal(format!("{:.1}", trn.peak_error_m)),
+                mission = crate::i18n::localise_decimal(format!("{:.0}", mission))
             )
         };
 

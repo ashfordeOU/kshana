@@ -109,10 +109,13 @@ impl DeviceCard {
     pub fn fit_phase_records(name: &str, records: &[PhaseSeries]) -> Result<DeviceCard, String> {
         let tau0 = records
             .first()
-            .ok_or_else(|| format!("{name}: no records"))?
+            .ok_or_else(|| crate::terr!("e-clock-library-card-no-records", name = name))?
             .tau0;
         if records.iter().any(|r| r.tau0 != tau0) {
-            return Err(format!("{name}: records at different tau0"));
+            return Err(crate::terr!(
+                "e-clock-library-card-records-at-different-tau0",
+                name = name
+            ));
         }
         let mut detrended = Vec::with_capacity(records.len());
         let mut conditioning = ConditioningLog::default();
@@ -172,8 +175,13 @@ impl DeviceCard {
         periods: &[f64],
     ) -> Result<DeviceCard, String> {
         let (clean, conditioning) = condition(fit);
-        let (resid, c2, amps) = remove_quadratic_and_periodic(&clean, periods)
-            .ok_or_else(|| format!("{name}: periodic least squares failed"))?;
+        let (resid, c2, amps) =
+            remove_quadratic_and_periodic(&clean, periods).ok_or_else(|| {
+                crate::terr!(
+                    "e-clock-library-card-periodic-least-squares-failed",
+                    name = name
+                )
+            })?;
         let mut card = Self::fit_phase_records(name, &[resid])?;
         card.drift_per_s = 2.0 * c2;
         card.periodic = periods.iter().copied().zip(amps).collect();
@@ -202,9 +210,11 @@ impl DeviceCard {
             .filter(|p| p.edf >= MIN_FIT_EDF && p.adev.is_finite() && p.adev > 0.0)
             .collect();
         if used.len() < 3 {
-            return Err(format!(
-                "{name}: {} stability points with edf >= {MIN_FIT_EDF}; a card needs three",
-                used.len()
+            return Err(crate::terr!(
+                "e-clock-library-card-stability-points-with-edf-card",
+                name = name,
+                used = used.len(),
+                MIN_FIT_EDF = MIN_FIT_EDF
             ));
         }
         let trip: Vec<(f64, f64, f64)> = used.iter().map(|p| (p.tau_s, p.adev, p.edf)).collect();

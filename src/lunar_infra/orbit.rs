@@ -110,15 +110,18 @@ impl OrbitSpec {
                     r: [self.x0.unwrap_or(1.0220), 0.0, self.z0.unwrap_or(-0.1800)],
                     v: [0.0, self.vy0.unwrap_or(-0.1020), 0.0],
                 };
-                let orb = differential_correct_halo(&guess, EARTH_MOON_MU, 1e-11, 80)
-                    .ok_or("the NRHO differential correction did not converge from the seed")?;
+                let orb = differential_correct_halo(&guess, EARTH_MOON_MU, 1e-11, 80).ok_or_else(
+                    || crate::terr!("e-lunar-infra-orbit-the-nrho-differential-correction-did"),
+                )?;
                 Ok((to_arr(&orb.ic), Some(orb.period * T_UNIT_S)))
             }
             "elfo" => {
                 let rp = (R_MOON_M + self.perilune_alt_km.unwrap_or(500.0) * 1e3) / L_M;
                 let ra = (R_MOON_M + self.apolune_alt_km.unwrap_or(10_000.0) * 1e3) / L_M;
                 if !(rp > 0.0 && ra > rp) {
-                    return Err("elfo needs 0 < perilune altitude < apolune altitude".into());
+                    return Err(crate::terr!(
+                        "e-lunar-infra-orbit-elfo-needs-perilune-altitude-apolune"
+                    ));
                 }
                 let inc = self.inc_deg.unwrap_or(56.0).to_radians();
                 let a = 0.5 * (rp + ra);
@@ -141,7 +144,10 @@ impl OrbitSpec {
                     None,
                 ))
             }
-            other => Err(format!("unknown orbit family `{other}`: nrho or elfo")),
+            other => Err(crate::terr!(
+                "e-lunar-infra-orbit-unknown-orbit-family-nrho-or",
+                other = other
+            )),
         }
     }
 
@@ -149,7 +155,7 @@ impl OrbitSpec {
     pub fn build(&self, arc_days: f64) -> Result<RefOrbit, String> {
         let dt_s = self.sample_s();
         if !(dt_s > 0.0 && arc_days > 0.0) {
-            return Err("sample_s and arc_days must be positive".into());
+            return Err(crate::terr!("e-lunar-infra-orbit-sample-and-arc-days-must"));
         }
         let n = ((arc_days * 86_400.0 / dt_s).round() as usize).max(2);
         let (x0, period_s) = self.initial()?;

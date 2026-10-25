@@ -177,7 +177,12 @@ pub fn word_value(
         "wn" => f64::from(gst.wn % 4096),
         "tow" => f64::from(gst.tow),
         "reserved" | "spare" => 0.0,
-        _ => return Err(format!("no Galileo field {name}")),
+        _ => {
+            return Err(crate::terr!(
+                "e-gnss-navmsg-gal-inav-no-galileo-field",
+                name = name
+            ))
+        }
     })
 }
 
@@ -188,17 +193,23 @@ pub fn encode_word(
     iono: &GalIono,
     gst: &Gst,
 ) -> Result<Vec<u8>, String> {
-    let l = layout(wt).ok_or_else(|| format!("word type {wt} is not encoded here"))?;
+    let l = layout(wt)
+        .ok_or_else(|| crate::terr!("e-gnss-navmsg-gal-inav-word-type-is-not-encoded", wt = wt))?;
     pack(l, |n| word_value(wt, e, iono, gst, n))
 }
 
 /// Decode a 128-bit word of type 1 to 5 (the type is read from its first 6 bits).
 pub fn decode_word(word: &[u8]) -> Result<(u32, Vec<Decoded>), String> {
     if word.len() != WORD_BITS {
-        return Err(format!("{} bits, expected {WORD_BITS}", word.len()));
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gal-inav-bits-expected",
+            word = word.len(),
+            WORD_BITS = WORD_BITS
+        ));
     }
     let wt = read_bits(word, 0, 6) as u32;
-    let l = layout(wt).ok_or_else(|| format!("word type {wt} is not decoded here"))?;
+    let l = layout(wt)
+        .ok_or_else(|| crate::terr!("e-gnss-navmsg-gal-inav-word-type-is-not-decoded", wt = wt))?;
     Ok((wt, unpack(l, word)?))
 }
 
@@ -218,7 +229,11 @@ pub struct OddPageExtras {
 /// The even and odd 120-bit page parts of a nominal page carrying `word`, CRC filled.
 pub fn page_parts(word: &[u8], x: &OddPageExtras) -> Result<(Vec<u8>, Vec<u8>), String> {
     if word.len() != WORD_BITS {
-        return Err(format!("{} bits, expected {WORD_BITS}", word.len()));
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gal-inav-bits-expected",
+            word = word.len(),
+            WORD_BITS = WORD_BITS
+        ));
     }
     let mut even = vec![0u8, 0u8];
     even.extend_from_slice(&word[..112]);
@@ -240,20 +255,28 @@ pub fn page_parts(word: &[u8], x: &OddPageExtras) -> Result<(Vec<u8>, Vec<u8>), 
 /// nominal page type, the tail bits and the CRC.
 pub fn read_page(even: &[u8], odd: &[u8]) -> Result<(Vec<u8>, OddPageExtras), String> {
     if even.len() != PART_BITS || odd.len() != PART_BITS {
-        return Err("page parts must be 120 bits".into());
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gal-inav-page-parts-must-be-120"
+        ));
     }
     if even[0] != 0 || odd[0] != 1 {
-        return Err("even/odd flags are not 0 then 1".into());
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gal-inav-even-odd-flags-are-not"
+        ));
     }
     if even[1] != 0 || odd[1] != 0 {
-        return Err("not a nominal page (page type 1 is an alert page)".into());
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gal-inav-not-nominal-page-page-type"
+        ));
     }
     if even[114..].iter().chain(&odd[114..]).any(|&t| t != 0) {
-        return Err("tail bits are not zero".into());
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gal-fnav-tail-bits-are-not-zero"
+        ));
     }
     let covered: Vec<u8> = even[..114].iter().chain(&odd[..82]).copied().collect();
     if crc24q(&covered) != read_bits(odd, 82, 24) as u32 {
-        return Err("CRC-24Q mismatch".into());
+        return Err(crate::terr!("e-gnss-navmsg-gal-fnav-crc-24q-mismatch"));
     }
     let mut word = even[2..114].to_vec();
     word.extend_from_slice(&odd[2..18]);
@@ -270,7 +293,11 @@ pub fn read_page(even: &[u8], odd: &[u8]) -> Result<(Vec<u8>, OddPageExtras), St
 /// interleaved part.
 pub fn encode_part_symbols(part: &[u8]) -> Result<Vec<u8>, String> {
     if part.len() != PART_BITS {
-        return Err(format!("{} bits, expected {PART_BITS}", part.len()));
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gal-inav-bits-expected-2",
+            part = part.len(),
+            PART_BITS = PART_BITS
+        ));
     }
     let mut state = 0u8;
     let coded = conv_encode(part, &mut state, true);
@@ -284,13 +311,16 @@ pub fn encode_part_symbols(part: &[u8]) -> Result<Vec<u8>, String> {
 /// errors the decoder's path implies.
 pub fn decode_part_symbols(symbols: &[u8]) -> Result<(Vec<u8>, u32), String> {
     if symbols.len() != PART_SYMBOLS {
-        return Err(format!(
-            "{} symbols, expected {PART_SYMBOLS}",
-            symbols.len()
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gal-inav-symbols-expected",
+            symbols = symbols.len(),
+            PART_SYMBOLS = PART_SYMBOLS
         ));
     }
     if symbols[..10] != bits_of(SYNC)[..] {
-        return Err("synchronisation pattern not found".into());
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gal-fnav-synchronisation-pattern-not-found"
+        ));
     }
     let d = deinterleave(&symbols[10..], INTERLEAVER_COLS, INTERLEAVER_ROWS);
     Ok(viterbi(&d, 0, Some(0), true))
@@ -321,13 +351,16 @@ pub fn ephemeris_from_words(
             .iter()
             .find(|(k, _)| *k == t)
             .map(|(_, d)| d.as_slice())
-            .ok_or_else(|| format!("word type {t} missing"))
+            .ok_or_else(|| crate::terr!("e-gnss-navmsg-gal-inav-word-type-missing", t = t))
     };
     let v = |t: u32, n: &str| -> Result<f64, String> { Ok(get(w(t)?, n)?.value) };
     let iod = v(1, "iodnav")?;
     for t in 2..=4 {
         if v(t, "iodnav")? != iod {
-            return Err(format!("IOD_nav of word type {t} differs from word type 1"));
+            return Err(crate::terr!(
+                "e-gnss-navmsg-gal-inav-iod-nav-of-word-type",
+                t = t
+            ));
         }
     }
     let e = GalEphemeris {

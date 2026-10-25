@@ -113,15 +113,23 @@ pub fn parse_xml(text: &str) -> Result<XmlElement, String> {
     while i < b.len() {
         if b[i] == b'<' {
             if text[i..].starts_with("<!--") {
-                let end = text[i..].find("-->").ok_or("unterminated comment")?;
+                let end = text[i..]
+                    .find("-->")
+                    .ok_or_else(|| crate::terr!("e-ndm-xml-unterminated-comment"))?;
                 i += end + 3;
             } else if text[i..].starts_with("<?") || text[i..].starts_with("<!") {
-                let end = text[i..].find('>').ok_or("unterminated declaration")?;
+                let end = text[i..]
+                    .find('>')
+                    .ok_or_else(|| crate::terr!("e-ndm-xml-unterminated-declaration"))?;
                 i += end + 1;
             } else if text[i..].starts_with("</") {
-                let end = text[i..].find('>').ok_or("unterminated closing tag")?;
+                let end = text[i..]
+                    .find('>')
+                    .ok_or_else(|| crate::terr!("e-realdata-ion-sdr-unterminated-closing-tag"))?;
                 let name = text[i + 2..i + end].trim();
-                let el = stack.pop().ok_or("unbalanced closing tag")?;
+                let el = stack
+                    .pop()
+                    .ok_or_else(|| crate::terr!("e-realdata-ion-sdr-unbalanced-closing-tag"))?;
                 if el.name != name {
                     return Err(format!(
                         "closing tag </{name}> does not match <{}>",
@@ -148,7 +156,7 @@ pub fn parse_xml(text: &str) -> Result<XmlElement, String> {
                     j += 1;
                 }
                 if j >= b.len() {
-                    return Err("unterminated tag".into());
+                    return Err(crate::terr!("e-realdata-ion-sdr-unterminated-tag"));
                 }
                 let mut inner = &text[i + 1..j];
                 let self_closing = inner.ends_with('/');
@@ -169,18 +177,24 @@ pub fn parse_xml(text: &str) -> Result<XmlElement, String> {
                         .ok_or(format!("attribute without value in <{}>", el.name))?;
                     let key = rest[..eq].trim().to_string();
                     let after = rest[eq + 1..].trim_start();
-                    let q = after.chars().next().ok_or("attribute value missing")?;
+                    let q = after.chars().next().ok_or_else(|| {
+                        crate::terr!("e-realdata-ion-sdr-attribute-value-missing")
+                    })?;
                     if q != '"' && q != '\'' {
                         return Err(format!("unquoted attribute {key} in <{}>", el.name));
                     }
-                    let close = after[1..].find(q).ok_or("unterminated attribute value")?;
+                    let close = after[1..]
+                        .find(q)
+                        .ok_or_else(|| crate::terr!("e-ndm-xml-unterminated-attribute-value"))?;
                     el.attrs.push((key, unescape(&after[1..1 + close])));
                     rest = after[close + 2..].trim_start();
                 }
                 if self_closing {
                     stack
                         .last_mut()
-                        .ok_or("element outside the document")?
+                        .ok_or_else(|| {
+                            crate::terr!("e-realdata-ion-sdr-element-outside-the-document")
+                        })?
                         .children
                         .push(el);
                 } else {
@@ -192,7 +206,9 @@ pub fn parse_xml(text: &str) -> Result<XmlElement, String> {
             let end = text[i..].find('<').map(|e| i + e).unwrap_or(b.len());
             let t = unescape(text[i..end].trim());
             if !t.is_empty() {
-                let top = stack.last_mut().ok_or("text outside the document")?;
+                let top = stack
+                    .last_mut()
+                    .ok_or_else(|| crate::terr!("e-realdata-ion-sdr-text-outside-the-document"))?;
                 if !top.text.is_empty() {
                     top.text.push(' ');
                 }
@@ -202,12 +218,18 @@ pub fn parse_xml(text: &str) -> Result<XmlElement, String> {
         }
     }
     if stack.len() != 1 {
-        return Err(format!("{} element(s) left open", stack.len() - 1));
+        return Err(crate::terr!(
+            "e-realdata-ion-sdr-element-left-open",
+            stack = stack.len() - 1
+        ));
     }
     let mut doc = stack.pop().unwrap_or_default();
     match doc.children.len() {
         1 => Ok(doc.children.remove(0)),
-        n => Err(format!("expected one root element, found {n}")),
+        n => Err(crate::terr!(
+            "e-realdata-ion-sdr-expected-one-root-element-found",
+            n = n
+        )),
     }
 }
 
@@ -225,7 +247,12 @@ fn freq_hz(el: &XmlElement) -> Result<f64, String> {
         Some(f) if f == "khz" => 1e3,
         Some(f) if f == "mhz" => 1e6,
         Some(f) if f == "ghz" => 1e9,
-        Some(f) => return Err(format!("unknown frequency format {f:?}")),
+        Some(f) => {
+            return Err(crate::terr!(
+                "e-realdata-ion-sdr-unknown-frequency-format",
+                f = format!("{:?}", f)
+            ))
+        }
     };
     Ok(v * scale)
 }
@@ -250,7 +277,12 @@ impl Encoding {
             "OB" => Encoding::OffsetBinary,
             "SM" | "SMV" => Encoding::SignMagnitude,
             "SIGN" => Encoding::Sign,
-            other => return Err(format!("unsupported encoding {other:?}")),
+            other => {
+                return Err(crate::terr!(
+                    "e-realdata-ion-sdr-unsupported-encoding",
+                    other = format!("{:?}", other)
+                ))
+            }
         })
     }
 
@@ -406,9 +438,9 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
         [s] => *s,
         [] => return Err("no <stream> element".into()),
         _ => {
-            return Err(format!(
-                "{} streams: only single-stream files are read",
-                streams.len()
+            return Err(crate::terr!(
+                "e-realdata-ion-sdr-streams-only-single-stream-files",
+                streams = streams.len()
             ))
         }
     };
@@ -431,9 +463,9 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
         footer_bytes = int(b, "sizefooter")?.unwrap_or(0);
         let cycles = int(b, "cycles")?.unwrap_or(0);
         if cycles != 0 && (header_bytes != 0 || footer_bytes != 0) {
-            return Err(format!(
-                "a block of {cycles} cycles with a header or footer repeats; only a single \
-                 block spanning the file is read"
+            return Err(crate::terr!(
+                "e-realdata-ion-sdr-block-of-cycles-with-header",
+                cycles = cycles
             ));
         }
     }
@@ -441,8 +473,10 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
     let word_bytes = int(chunk, "sizeword")?.ok_or("<chunk> lacks sizeword")?;
     let words_per_chunk = int(chunk, "countwords")?.ok_or("<chunk> lacks countwords")?;
     if word_bytes == 0 || word_bytes > 8 || words_per_chunk == 0 {
-        return Err(format!(
-            "chunk of {words_per_chunk} words of {word_bytes} bytes"
+        return Err(crate::terr!(
+            "e-realdata-ion-sdr-chunk-of-words-of-bytes",
+            words_per_chunk = words_per_chunk,
+            word_bytes = word_bytes
         ));
     }
     let little_endian = setting(chunk, "endian").is_some_and(|e| e.eq_ignore_ascii_case("little"));
@@ -474,7 +508,12 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
         "IQ" => SampleFormat::Iq,
         "QI" => SampleFormat::Qi,
         "IF" => SampleFormat::If,
-        other => return Err(format!("unsupported sample format {other:?}")),
+        other => {
+            return Err(crate::terr!(
+                "e-realdata-ion-sdr-unsupported-sample-format",
+                other = format!("{:?}", other)
+            ))
+        }
     };
     let slot = if format == SampleFormat::If {
         packed_bits
@@ -486,8 +525,10 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
         || slot > 32
         || (format != SampleFormat::If && packed_bits % 2 != 0)
     {
-        return Err(format!(
-            "quantization {quantization} in {packed_bits} packed bits per sample"
+        return Err(crate::terr!(
+            "e-realdata-ion-sdr-quantization-in-packed-bits-per",
+            quantization = quantization,
+            packed_bits = packed_bits
         ));
     }
     let encoding = Encoding::parse(&text_of("encoding")?)?;
@@ -599,9 +640,10 @@ pub fn write_sdrx(layout: &SdrLayout, comment: &str) -> Result<String, String> {
     }
     let base = layout.sample_rate_hz / layout.samples_per_lump as f64;
     if base * layout.samples_per_lump as f64 != layout.sample_rate_hz {
-        return Err(format!(
-            "a sample rate of {} Hz is not a whole multiple of the rate factor {}",
-            layout.sample_rate_hz, layout.samples_per_lump
+        return Err(crate::terr!(
+            "e-realdata-ion-sdr-sample-rate-of-hz-is",
+            sample_rate_hz = layout.sample_rate_hz,
+            samples_per_lump = layout.samples_per_lump
         ));
     }
     let encoding = match layout.encoding {
@@ -691,13 +733,15 @@ pub fn decode(
 ) -> Result<Vec<Cf64>, String> {
     let per_chunk = layout.samples_per_chunk();
     if per_chunk == 0 {
-        return Err("a chunk holds no whole lump".into());
+        return Err(crate::terr!("e-realdata-ion-sdr-chunk-holds-no-whole-lump"));
     }
     let total = layout.sample_count(data.len());
     if start + n > total {
-        return Err(format!(
-            "samples {start}..{} requested, the file holds {total}",
-            start + n
+        return Err(crate::terr!(
+            "e-realdata-ion-sdr-samples-requested-the-file-holds",
+            start = start,
+            v1 = start + n,
+            total = total
         ));
     }
     let chunk_bytes = layout.chunk_bytes();

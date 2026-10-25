@@ -61,7 +61,8 @@ pub(crate) fn parse_toml<T: serde::de::DeserializeOwned>(
     src: &str,
     label: &str,
 ) -> Result<T, String> {
-    toml::from_str(src).map_err(|e| format!("invalid {label} scenario: {e}"))
+    toml::from_str(src)
+        .map_err(|e| crate::terr!("e-api-builtins-invalid-scenario", label = label, e = e))
 }
 
 /// Parse, run and (when the kind provides one) tier a built-in kind. This is the whole
@@ -87,11 +88,14 @@ impl Scenario for crate::inertial::InertialScenario {
         let scn = self;
         scn.time.validate()?;
         let r = crate::inertial::run_inertial(scn);
-        let summary = format!(
-            "scenario {} | quantum holdover {:.0}s p95 {:.2}m | classical holdover {:.0}s p95 {:.1}m",
-            &r.scenario_hash[..12],
-            r.quantum.fom.holdover_s, r.quantum.fom.pos_p95_m,
-            r.classical.fom.holdover_s, r.classical.fom.pos_p95_m,
+        let summary = crate::t!(
+            "api-builtins-scenario-quantum-holdover-p95-classical",
+            r = &r.scenario_hash[..12],
+            holdover_s = crate::i18n::localise_decimal(format!("{:.0}", r.quantum.fom.holdover_s)),
+            pos_p95_m = crate::i18n::localise_decimal(format!("{:.2}", r.quantum.fom.pos_p95_m)),
+            holdover_s2 =
+                crate::i18n::localise_decimal(format!("{:.0}", r.classical.fom.holdover_s)),
+            pos_p95_m2 = crate::i18n::localise_decimal(format!("{:.1}", r.classical.fom.pos_p95_m))
         );
         Ok(RunOutput {
             json: json_of_with_units(&r, crate::inertial::UNITS)?,
@@ -118,11 +122,23 @@ impl Scenario for crate::spoof::SpoofScenario {
             c.detect_time_s
                 .map_or_else(|| "undetected".to_string(), |t| format!("detected {t:.0}s"))
         };
-        let summary = format!(
-            "scenario {} | spoof {:?} vs {:.3} ns spec (P_fa {:.3}) | quantum security {:.3} (P_md {:.3}, MC {:.3}) {} | classical security {:.3} (P_md {:.3}, MC {:.3}) {}",
-            &r.scenario_hash[..12], scn.attack.resolved_shape(), r.threshold_ns, scn.attack.target_pfa,
-            r.quantum.security_fom, r.quantum.detection.analytic_pmd, r.quantum.detection.mc_pmd, det(&r.quantum),
-            r.classical.security_fom, r.classical.detection.analytic_pmd, r.classical.detection.mc_pmd, det(&r.classical),
+        let summary = crate::t!(
+            "api-builtins-scenario-spoof-vs-ns-spec",
+            r = &r.scenario_hash[..12],
+            scn = format!("{:?}", scn.attack.resolved_shape()),
+            threshold_ns = crate::i18n::localise_decimal(format!("{:.3}", r.threshold_ns)),
+            target_pfa = crate::i18n::localise_decimal(format!("{:.3}", scn.attack.target_pfa)),
+            security_fom = crate::i18n::localise_decimal(format!("{:.3}", r.quantum.security_fom)),
+            analytic_pmd =
+                crate::i18n::localise_decimal(format!("{:.3}", r.quantum.detection.analytic_pmd)),
+            mc_pmd = crate::i18n::localise_decimal(format!("{:.3}", r.quantum.detection.mc_pmd)),
+            det = det(&r.quantum),
+            security_fom2 =
+                crate::i18n::localise_decimal(format!("{:.3}", r.classical.security_fom)),
+            analytic_pmd2 =
+                crate::i18n::localise_decimal(format!("{:.3}", r.classical.detection.analytic_pmd)),
+            mc_pmd2 = crate::i18n::localise_decimal(format!("{:.3}", r.classical.detection.mc_pmd)),
+            det2 = det(&r.classical)
         );
         Ok(RunOutput {
             json: json_of_with_units(&r, crate::spoof::UNITS)?,
@@ -186,19 +202,19 @@ fn run_integrity(scn: &crate::raim::IntegrityScenario) -> Result<RunOutput, Stri
     scn.time.validate()?;
     let n_sats = scn.all_satellites()?.len();
     let report = scn.run()?;
-    let summary = format!(
-        "integrity | {} satellites | {}/{} epochs available ({:.1}%) | HAL {:.0} m VAL {:.0} m | sigma {:.1} m | Stanford(V): {} integrity events, {} HMI",
-        n_sats,
-        report.samples_available,
-        report.samples_total,
-        report.availability() * 100.0,
-        report.al_h_m,
-        report.al_v_m,
-        scn.sigma_uere_m,
-        report.stanford.integrity_events(),
-        report
+    let summary = crate::t!(
+        "api-builtins-integrity-satellites-epochs-available-hal",
+        n_sats = n_sats,
+        samples_available = report.samples_available,
+        samples_total = report.samples_total,
+        report = crate::i18n::localise_decimal(format!("{:.1}", report.availability() * 100.0)),
+        al_h_m = crate::i18n::localise_decimal(format!("{:.0}", report.al_h_m)),
+        al_v_m = crate::i18n::localise_decimal(format!("{:.0}", report.al_v_m)),
+        sigma_uere_m = crate::i18n::localise_decimal(format!("{:.1}", scn.sigma_uere_m)),
+        report2 = report.stanford.integrity_events(),
+        report3 = report
             .stanford
-            .count(crate::raim::StanfordRegion::HazardouslyMisleadingInformation),
+            .count(crate::raim::StanfordRegion::HazardouslyMisleadingInformation)
     );
     let (_, sky) = scn.user_and_sky()?;
     let json = match crate::skyline::SkylineSummary::of(
@@ -238,15 +254,15 @@ impl BuiltinKind for crate::raim::IntegrityScenario {
 
 fn run_lunar_integrity(scn: &crate::lunar::LunarScenario) -> Result<RunOutput, String> {
     let report = scn.run();
-    let summary = format!(
-        "lunar-integrity | south pole | {}/{} epochs available ({:.1}%) | AL {:.0} m | σ_URE {:.0} m | HPL {:.0}–{:.0} m",
-        report.samples_available,
-        report.samples_total,
-        report.availability() * 100.0,
-        report.alert_limit_m,
-        report.sigma_ure_m,
-        report.min_hpl_m,
-        report.max_hpl_m,
+    let summary = crate::t!(
+        "api-builtins-lunar-integrity-south-pole-epochs",
+        samples_available = report.samples_available,
+        samples_total = report.samples_total,
+        report = crate::i18n::localise_decimal(format!("{:.1}", report.availability() * 100.0)),
+        alert_limit_m = crate::i18n::localise_decimal(format!("{:.0}", report.alert_limit_m)),
+        sigma_ure_m = crate::i18n::localise_decimal(format!("{:.0}", report.sigma_ure_m)),
+        min_hpl_m = crate::i18n::localise_decimal(format!("{:.0}", report.min_hpl_m)),
+        max_hpl_m = crate::i18n::localise_decimal(format!("{:.0}", report.max_hpl_m))
     );
     Ok(RunOutput {
         json: json_of_with_units(&report, crate::lunar::UNITS)?,
@@ -271,15 +287,19 @@ impl BuiltinKind for crate::lunar::LunarScenario {
 
 fn run_lunar_time(scn: &crate::lunar_time::LunarTimeScenario) -> Result<RunOutput, String> {
     let report = scn.run();
-    let summary = format!(
-        "lunar-time-offset | secular LTC−TT rate {:.2} µs/day (band {:.0}–{:.0}) | self-pot {:.2} kinetic {:.2} | offset @ {:.2} d = {:.2} µs",
-        report.secular_rate_us_per_day,
-        report.band_low,
-        report.band_high,
-        report.self_potential_us_per_day,
-        report.kinetic_us_per_day,
-        report.horizon_days,
-        report.offset_at_horizon_us,
+    let summary = crate::t!(
+        "api-builtins-lunar-time-offset-secular-ltc",
+        secular_rate_us_per_day =
+            crate::i18n::localise_decimal(format!("{:.2}", report.secular_rate_us_per_day)),
+        band_low = crate::i18n::localise_decimal(format!("{:.0}", report.band_low)),
+        band_high = crate::i18n::localise_decimal(format!("{:.0}", report.band_high)),
+        self_potential_us_per_day =
+            crate::i18n::localise_decimal(format!("{:.2}", report.self_potential_us_per_day)),
+        kinetic_us_per_day =
+            crate::i18n::localise_decimal(format!("{:.2}", report.kinetic_us_per_day)),
+        horizon_days = crate::i18n::localise_decimal(format!("{:.2}", report.horizon_days)),
+        offset_at_horizon_us =
+            crate::i18n::localise_decimal(format!("{:.2}", report.offset_at_horizon_us))
     );
     Ok(RunOutput {
         json: json_of_with_units(&report, crate::lunar_time::UNITS)?,
@@ -304,15 +324,17 @@ impl BuiltinKind for crate::lunar_time::LunarTimeScenario {
 
 fn run_lunar_vlbi(scn: &crate::lunar_vlbi::LunarVlbiScenario) -> Result<RunOutput, String> {
     let report = scn.try_run()?;
-    let summary = format!(
-        "lunar-vlbi | baseline {:.0} km | beacon range {:.0} km | delay {:.3} µs (rate {:.3e} s/s) | near-field {:.1} µs | {} samples over {:.1} h",
-        report.baseline_km,
-        report.beacon_range_km,
-        report.delay_s * 1e6,
-        report.delay_rate_s_per_s,
-        report.near_field_correction_us,
-        report.samples,
-        report.horizon_hours,
+    let summary = crate::t!(
+        "api-builtins-lunar-vlbi-baseline-km-beacon",
+        baseline_km = crate::i18n::localise_decimal(format!("{:.0}", report.baseline_km)),
+        beacon_range_km = crate::i18n::localise_decimal(format!("{:.0}", report.beacon_range_km)),
+        report = crate::i18n::localise_decimal(format!("{:.3}", report.delay_s * 1e6)),
+        delay_rate_s_per_s =
+            crate::i18n::localise_decimal(format!("{:.3e}", report.delay_rate_s_per_s)),
+        near_field_correction_us =
+            crate::i18n::localise_decimal(format!("{:.1}", report.near_field_correction_us)),
+        samples = report.samples,
+        horizon_hours = crate::i18n::localise_decimal(format!("{:.1}", report.horizon_hours))
     );
     Ok(RunOutput {
         json: json_of_with_units(&report, crate::lunar_vlbi::UNITS)?,
@@ -339,17 +361,24 @@ fn run_lunar_combination(
     scn: &crate::lunar_combination::LunarCombinationScenario,
 ) -> Result<RunOutput, String> {
     let report = scn.run();
-    let summary = format!(
-        "lunar-joint-od-clock | {} sats, {} Earth stations | station 3-D err with VLBI {:.2} m vs range-only {:.2} m ({:.1}× sharper) | sat pos RMS {:.2} m | station clk err {:.2e} s | obs {}/{} params",
-        report.n_sat,
-        report.n_earth,
-        report.with_vlbi.station_pos_err_m,
-        report.without_vlbi.station_pos_err_m,
-        report.station_observability_improvement_factor,
-        report.with_vlbi.sat_pos_rms_m,
-        report.with_vlbi.station_clock_err_s,
-        report.with_vlbi.n_obs,
-        report.with_vlbi.n_params,
+    let summary = crate::t!(
+        "api-builtins-lunar-joint-od-clock-sats",
+        n_sat = report.n_sat,
+        n_earth = report.n_earth,
+        station_pos_err_m =
+            crate::i18n::localise_decimal(format!("{:.2}", report.with_vlbi.station_pos_err_m)),
+        station_pos_err_m2 =
+            crate::i18n::localise_decimal(format!("{:.2}", report.without_vlbi.station_pos_err_m)),
+        station_observability_improvement_factor = crate::i18n::localise_decimal(format!(
+            "{:.1}",
+            report.station_observability_improvement_factor
+        )),
+        sat_pos_rms_m =
+            crate::i18n::localise_decimal(format!("{:.2}", report.with_vlbi.sat_pos_rms_m)),
+        station_clock_err_s =
+            crate::i18n::localise_decimal(format!("{:.2e}", report.with_vlbi.station_clock_err_s)),
+        n_obs = report.with_vlbi.n_obs,
+        n_params = report.with_vlbi.n_params
     );
     Ok(RunOutput {
         json: json_of_with_units(&report, crate::lunar_combination::UNITS)?,
@@ -376,14 +405,16 @@ fn run_lunar_frame_realise(
     scn: &crate::lunar_frame_realise::LunarFrameRealiseScenario,
 ) -> Result<RunOutput, String> {
     let report = scn.run();
-    let summary = format!(
-        "lunar-frame-realisation | {} points | translation err {:.3e} m, rotation err {:.3e} rad, scale err {:.3e} ppb | rms residual {:.3} m | converged {}",
-        report.n_points,
-        report.trans_err_norm_m,
-        report.rot_err_norm_rad,
-        report.scale_err_ppb,
-        report.rms_residual_m,
-        report.converged,
+    let summary = crate::t!(
+        "api-builtins-lunar-frame-realisation-points-translation",
+        n_points = report.n_points,
+        trans_err_norm_m =
+            crate::i18n::localise_decimal(format!("{:.3e}", report.trans_err_norm_m)),
+        rot_err_norm_rad =
+            crate::i18n::localise_decimal(format!("{:.3e}", report.rot_err_norm_rad)),
+        scale_err_ppb = crate::i18n::localise_decimal(format!("{:.3e}", report.scale_err_ppb)),
+        rms_residual_m = crate::i18n::localise_decimal(format!("{:.3}", report.rms_residual_m)),
+        converged = report.converged
     );
     Ok(RunOutput {
         json: json_of_with_units(&report, crate::lunar_frame_realise::UNITS)?,
@@ -423,21 +454,23 @@ fn run_lunar_service(
         }
         Some(_) => "retrieved constellation definition, published-elements",
     };
-    let mut summary = format!(
-        "moonlight-service-volume | {} sats ({geometry_label}) | {} pts × {} epochs | coverage {:.1}% (PDOP<{:.1}) | sats {}–{} | PDOP {:.2}/{:.2}/{:.2} | HPL {:.0}–{:.0} m | PL avail {:.1}% | MODELLED",
-        report.n_sats,
-        report.n_grid_points,
-        report.n_epochs,
-        report.coverage_pct,
-        report.pdop_threshold,
-        report.min_sats,
-        report.max_sats,
-        report.pdop_min,
-        report.pdop_mean,
-        report.pdop_max,
-        report.hpl_min_m,
-        report.hpl_max_m,
-        report.pl_availability_pct,
+    let mut summary = crate::t!(
+        "api-builtins-moonlight-service-volume-sats-pts",
+        n_sats = report.n_sats,
+        geometry_label = geometry_label,
+        n_grid_points = report.n_grid_points,
+        n_epochs = report.n_epochs,
+        coverage_pct = crate::i18n::localise_decimal(format!("{:.1}", report.coverage_pct)),
+        pdop_threshold = crate::i18n::localise_decimal(format!("{:.1}", report.pdop_threshold)),
+        min_sats = report.min_sats,
+        max_sats = report.max_sats,
+        pdop_min = crate::i18n::localise_decimal(format!("{:.2}", report.pdop_min)),
+        pdop_mean = crate::i18n::localise_decimal(format!("{:.2}", report.pdop_mean)),
+        pdop_max = crate::i18n::localise_decimal(format!("{:.2}", report.pdop_max)),
+        hpl_min_m = crate::i18n::localise_decimal(format!("{:.0}", report.hpl_min_m)),
+        hpl_max_m = crate::i18n::localise_decimal(format!("{:.0}", report.hpl_max_m)),
+        pl_availability_pct =
+            crate::i18n::localise_decimal(format!("{:.1}", report.pl_availability_pct))
     );
     // Appended only when `ephemeris_path` named a file, so the default summary
     // line is unchanged: the sigma requirement under the retrieved geometry and
@@ -447,18 +480,18 @@ fn run_lunar_service(
             Some(x) => format!("{x:.4} m"),
             None => "n/a".to_string(),
         };
-        summary.push_str(&format!(
-            " | ephemeris {} ({}) σ_URE required {} vs Keplerian {} vs perturbed {} (Δ {})",
-            report
+        summary.push_str(&crate::t!(
+            "api-builtins-ephemeris-ure-required-vs-keplerian",
+            report = report
                 .ephemeris
                 .as_ref()
                 .map(|e| e.name.as_str())
                 .unwrap_or(""),
-            c.ephemeris.provenance,
-            fmt(c.ephemeris.sigma_required_m),
-            fmt(c.keplerian.sigma_required_m),
-            fmt(c.perturbed.sigma_required_m),
-            fmt(c.sigma_requirement_delta_vs_keplerian_m),
+            provenance = c.ephemeris.provenance,
+            fmt = fmt(c.ephemeris.sigma_required_m),
+            fmt2 = fmt(c.keplerian.sigma_required_m),
+            fmt3 = fmt(c.perturbed.sigma_required_m),
+            fmt4 = fmt(c.sigma_requirement_delta_vs_keplerian_m)
         ));
     }
     // G11: publish the per-satellite geometry as a long-form runtime artifact.
@@ -523,15 +556,18 @@ impl BuiltinKind for crate::lunar_service::LunarServiceScenario {
 
 fn run_lunar_dpnt(scn: &crate::lunar_dpnt::LunarDpntScenario) -> Result<RunOutput, String> {
     let report = scn.run();
-    let summary = format!(
-        "lunar-differential-pnt | {} sats (illustrative LCNS-class, not affiliated) | baseline {:.0} km | user error {:.2} m → {:.4} m ({:.0}× reduction) | HPL {:.1} m (σ_resid {:.1} m) | MODELLED",
-        report.n_sats,
-        report.baseline_km,
-        report.user_error_uncorrected_m,
-        report.user_error_corrected_m,
-        report.reduction_factor,
-        report.protection_level_m,
-        report.residual_sigma_m,
+    let summary = crate::t!(
+        "api-builtins-lunar-differential-pnt-sats-illustrative",
+        n_sats = report.n_sats,
+        baseline_km = crate::i18n::localise_decimal(format!("{:.0}", report.baseline_km)),
+        user_error_uncorrected_m =
+            crate::i18n::localise_decimal(format!("{:.2}", report.user_error_uncorrected_m)),
+        user_error_corrected_m =
+            crate::i18n::localise_decimal(format!("{:.4}", report.user_error_corrected_m)),
+        reduction_factor = crate::i18n::localise_decimal(format!("{:.0}", report.reduction_factor)),
+        protection_level_m =
+            crate::i18n::localise_decimal(format!("{:.1}", report.protection_level_m)),
+        residual_sigma_m = crate::i18n::localise_decimal(format!("{:.1}", report.residual_sigma_m))
     );
     Ok(RunOutput {
         json: json_of(&report)?,
@@ -559,26 +595,30 @@ fn run_lunar_station_coverage(
 ) -> Result<RunOutput, String> {
     let report = scn.run()?;
     let f = |v: Option<f64>| v.map_or("n/a".to_string(), |v| format!("{v:.3} m"));
-    let mut summary = format!(
-        "lunar-station-coverage | {} points x {} epochs x {} trials | availability {:.1} % | coverage {:.1} % (p{:.0} <= {} m) | corrected p{:.0} 3-D {} (uncorrected {}) | HPL max {} | MODELLED; not a statement about any real system",
-        report.n_grid_points,
-        report.n_epochs,
-        report.n_trials,
-        100.0 * report.region.availability,
-        100.0 * report.region.coverage_fraction,
-        report.percentile,
-        report.inputs_echo.accuracy_threshold_m,
-        report.percentile,
-        f(report.region.corrected_p_3d_m),
-        f(report.region.uncorrected_p_3d_m),
-        f(report.region.hpl_max_m),
+    let mut summary = crate::t!(
+        "api-builtins-lunar-station-coverage-points-epochs",
+        n_grid_points = report.n_grid_points,
+        n_epochs = report.n_epochs,
+        n_trials = report.n_trials,
+        v4 = crate::i18n::localise_decimal(format!("{:.1}", 100.0 * report.region.availability)),
+        v5 = crate::i18n::localise_decimal(format!(
+            "{:.1}",
+            100.0 * report.region.coverage_fraction
+        )),
+        percentile = crate::i18n::localise_decimal(format!("{:.0}", report.percentile)),
+        accuracy_threshold_m = report.inputs_echo.accuracy_threshold_m,
+        f = f(report.region.corrected_p_3d_m),
+        f2 = f(report.region.uncorrected_p_3d_m),
+        f3 = f(report.region.hpl_max_m)
     );
     if let Some(t) = &report.terrain {
-        summary.push_str(&format!(
-            " | terrain horizon ({}) at the station max {:.1} deg, user points mean max {:.1} deg",
-            t.station.sources.join(" + "),
-            t.station.horizon_max_deg,
-            t.user_horizon_max_deg_mean
+        summary.push_str(&crate::t!(
+            "api-builtins-terrain-horizon-at-the-station",
+            sources = t.station.sources.join(" + "),
+            horizon_max_deg =
+                crate::i18n::localise_decimal(format!("{:.1}", t.station.horizon_max_deg)),
+            user_horizon_max_deg_mean =
+                crate::i18n::localise_decimal(format!("{:.1}", t.user_horizon_max_deg_mean))
         ));
     }
     Ok(RunOutput {
@@ -606,18 +646,30 @@ fn run_lunar_interop(
     scn: &crate::lunar_interop::LunarInteropScenario,
 ) -> Result<RunOutput, String> {
     let report = scn.run();
-    let summary = format!(
-        "lunar-interop-export | REF_FRAME {} / TIME_SYSTEM {} | {} states, OEM {} lines | conformance {} ({} present / {} missing) | OEM round-trip {} | time-meta round-trip {} | KIF {} bytes | MODELLED",
-        report.frame,
-        report.time_system,
-        report.n_states,
-        report.oem_line_count,
-        if report.conformance.pass { "PASS" } else { "FAIL" },
-        report.conformance.present_fields.len(),
-        report.conformance.missing_fields.len(),
-        if report.oem_roundtrip_ok { "ok" } else { "fail" },
-        if report.time_metadata_roundtrip_ok { "ok" } else { "fail" },
-        report.kif_bytes,
+    let summary = crate::t!(
+        "api-builtins-lunar-interop-export-ref-frame",
+        frame = report.frame,
+        time_system = report.time_system,
+        n_states = report.n_states,
+        oem_line_count = report.oem_line_count,
+        v5 = if report.conformance.pass {
+            "PASS"
+        } else {
+            "FAIL"
+        },
+        present_fields = report.conformance.present_fields.len(),
+        missing_fields = report.conformance.missing_fields.len(),
+        v8 = if report.oem_roundtrip_ok {
+            "ok"
+        } else {
+            "fail"
+        },
+        v9 = if report.time_metadata_roundtrip_ok {
+            "ok"
+        } else {
+            "fail"
+        },
+        kif_bytes = report.kif_bytes
     );
     Ok(RunOutput {
         json: json_of_with_units(&report, crate::lunar_interop::UNITS)?,
@@ -642,11 +694,16 @@ impl BuiltinKind for crate::lunar_interop::LunarInteropScenario {
 
 fn run_time_transfer(scn: &crate::timetransfer::TimeTransferScenario) -> Result<RunOutput, String> {
     let r = crate::timetransfer::run_timetransfer(scn);
-    let summary = format!(
-        "scenario {} | optical sync_rms {:.2}ps range_rms {:.3}mm adev(1s) {:.2e} | RF sync_rms {:.1}ps range_rms {:.1}mm adev(1s) {:.2e}",
-        &r.scenario_hash[..12],
-        r.quantum.fom.sync_rms_ps, r.quantum.fom.range_rms_mm, r.quantum.fom.adev_tau0,
-        r.classical.fom.sync_rms_ps, r.classical.fom.range_rms_mm, r.classical.fom.adev_tau0,
+    let summary = crate::t!(
+        "api-builtins-scenario-optical-sync-rms-ps",
+        r = &r.scenario_hash[..12],
+        sync_rms_ps = crate::i18n::localise_decimal(format!("{:.2}", r.quantum.fom.sync_rms_ps)),
+        range_rms_mm = crate::i18n::localise_decimal(format!("{:.3}", r.quantum.fom.range_rms_mm)),
+        adev_tau0 = crate::i18n::localise_decimal(format!("{:.2e}", r.quantum.fom.adev_tau0)),
+        sync_rms_ps2 = crate::i18n::localise_decimal(format!("{:.1}", r.classical.fom.sync_rms_ps)),
+        range_rms_mm2 =
+            crate::i18n::localise_decimal(format!("{:.1}", r.classical.fom.range_rms_mm)),
+        adev_tau02 = crate::i18n::localise_decimal(format!("{:.2e}", r.classical.fom.adev_tau0))
     );
     Ok(RunOutput {
         json: json_of_with_units(&r, crate::timetransfer::UNITS)?,
@@ -673,16 +730,19 @@ fn run_quantum_time_transfer(
     scn: &crate::timetransfer_chain::QuantumTimeTransferScenario,
 ) -> Result<RunOutput, String> {
     let r = scn.run();
-    let summary = format!(
-        "quantum-time-transfer | quantum chain {:.3e}s vs classical {:.3e}s | PL {:.2} ns | security Pd {:.3} (Pfa {:.0e}) | anomaly Pd {:.3} | trade quantum wins {}/{} | MODELLED",
-        r.quantum_chain_sigma_s,
-        r.classical_chain_sigma_s,
-        r.protection_level_ns,
-        r.security_pd,
-        r.monitor_pfa,
-        r.anomaly_pd,
-        r.trade.quantum_wins(),
-        r.trade.foms.len(),
+    let summary = crate::t!(
+        "api-builtins-quantum-time-transfer-quantum-chain",
+        quantum_chain_sigma_s =
+            crate::i18n::localise_decimal(format!("{:.3e}", r.quantum_chain_sigma_s)),
+        classical_chain_sigma_s =
+            crate::i18n::localise_decimal(format!("{:.3e}", r.classical_chain_sigma_s)),
+        protection_level_ns =
+            crate::i18n::localise_decimal(format!("{:.2}", r.protection_level_ns)),
+        security_pd = crate::i18n::localise_decimal(format!("{:.3}", r.security_pd)),
+        monitor_pfa = crate::i18n::localise_decimal(format!("{:.0e}", r.monitor_pfa)),
+        anomaly_pd = crate::i18n::localise_decimal(format!("{:.3}", r.anomaly_pd)),
+        r = r.trade.quantum_wins(),
+        foms = r.trade.foms.len()
     );
     Ok(RunOutput {
         json: json_of_with_units(&r, crate::timetransfer_chain::UNITS)?,
@@ -709,17 +769,19 @@ fn run_quantum_gnss_free_nav(
     scn: &crate::quantum_nav_od::QuantumNavOdScenario,
 ) -> Result<RunOutput, String> {
     let r = scn.run();
-    let summary = format!(
-        "quantum-gnss-free-nav | outage {:.0}s | quantum pos err {:.2} m vs classical {:.2} m ({:.1}x) | holdover quantum {:.0}s vs classical {:.0}s (thr {:.0} m) | trade quantum wins {}/{} | MODELLED",
-        r.outage_s,
-        r.quantum_pos_err_m,
-        r.classical_pos_err_m,
-        r.improvement_x,
-        r.quantum_holdover_s,
-        r.classical_holdover_s,
-        r.threshold_m,
-        r.trade.quantum_wins(),
-        r.trade.foms.len(),
+    let summary = crate::t!(
+        "api-builtins-quantum-gnss-free-nav-outage",
+        outage_s = crate::i18n::localise_decimal(format!("{:.0}", r.outage_s)),
+        quantum_pos_err_m = crate::i18n::localise_decimal(format!("{:.2}", r.quantum_pos_err_m)),
+        classical_pos_err_m =
+            crate::i18n::localise_decimal(format!("{:.2}", r.classical_pos_err_m)),
+        improvement_x = crate::i18n::localise_decimal(format!("{:.1}", r.improvement_x)),
+        quantum_holdover_s = crate::i18n::localise_decimal(format!("{:.0}", r.quantum_holdover_s)),
+        classical_holdover_s =
+            crate::i18n::localise_decimal(format!("{:.0}", r.classical_holdover_s)),
+        threshold_m = crate::i18n::localise_decimal(format!("{:.0}", r.threshold_m)),
+        r = r.trade.quantum_wins(),
+        foms = r.trade.foms.len()
     );
     Ok(RunOutput {
         json: json_of_with_units(&r, crate::quantum_nav_od::UNITS)?,
@@ -746,15 +808,17 @@ fn run_quantum_anomaly_detect(
     scn: &crate::quantum_faults::QuantumAnomalyScenario,
 ) -> Result<RunOutput, String> {
     let r = scn.run();
-    let summary = format!(
-        "quantum-anomaly-detect | AUC quantum {:.4} vs classical {:.4} | min-detectable fault quantum {:.3} vs classical {:.3} | {} fault classes | trade quantum wins {}/{} | MODELLED",
-        r.quantum_auc,
-        r.classical_auc,
-        r.quantum_min_detectable,
-        r.classical_min_detectable,
-        r.fault_catalog.len(),
-        r.trade.quantum_wins(),
-        r.trade.foms.len(),
+    let summary = crate::t!(
+        "api-builtins-quantum-anomaly-detect-auc-quantum",
+        quantum_auc = crate::i18n::localise_decimal(format!("{:.4}", r.quantum_auc)),
+        classical_auc = crate::i18n::localise_decimal(format!("{:.4}", r.classical_auc)),
+        quantum_min_detectable =
+            crate::i18n::localise_decimal(format!("{:.3}", r.quantum_min_detectable)),
+        classical_min_detectable =
+            crate::i18n::localise_decimal(format!("{:.3}", r.classical_min_detectable)),
+        fault_catalog = r.fault_catalog.len(),
+        r = r.trade.quantum_wins(),
+        foms = r.trade.foms.len()
     );
     Ok(RunOutput {
         json: json_of_with_units(&r, crate::quantum_faults::UNITS)?,
@@ -780,14 +844,27 @@ impl BuiltinKind for crate::quantum_faults::QuantumAnomalyScenario {
 fn run_hybrid(scn: &crate::hybrid::HybridScenario) -> Result<RunOutput, String> {
     scn.time.validate()?;
     if scn.coupled.is_some() {
-        return Err("[coupled] applies to the fusion kind only".into());
+        return Err(crate::terr!("e-api-builtins-coupled-applies-to-the-fusion"));
     }
     let r = crate::hybrid::run_hybrid(scn);
-    let summary = format!(
-        "scenario {} | quantum PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {} | classical PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {}",
-        &r.scenario_hash[..12],
-        r.quantum.fom.pnt_holdover_s, r.quantum.fom.timing_holdover_s, r.quantum.fom.position_holdover_s, integ(r.quantum.fom.integrity), SECURITY_NA,
-        r.classical.fom.pnt_holdover_s, r.classical.fom.timing_holdover_s, r.classical.fom.position_holdover_s, integ(r.classical.fom.integrity), SECURITY_NA,
+    let summary = crate::t!(
+        "api-builtins-scenario-quantum-pnt-holdover-integrity",
+        r = &r.scenario_hash[..12],
+        pnt_holdover_s =
+            crate::i18n::localise_decimal(format!("{:.0}", r.quantum.fom.pnt_holdover_s)),
+        timing_holdover_s =
+            crate::i18n::localise_decimal(format!("{:.0}", r.quantum.fom.timing_holdover_s)),
+        position_holdover_s =
+            crate::i18n::localise_decimal(format!("{:.0}", r.quantum.fom.position_holdover_s)),
+        integ = integ(r.quantum.fom.integrity),
+        security_na = SECURITY_NA,
+        pnt_holdover_s2 =
+            crate::i18n::localise_decimal(format!("{:.0}", r.classical.fom.pnt_holdover_s)),
+        timing_holdover_s2 =
+            crate::i18n::localise_decimal(format!("{:.0}", r.classical.fom.timing_holdover_s)),
+        position_holdover_s2 =
+            crate::i18n::localise_decimal(format!("{:.0}", r.classical.fom.position_holdover_s)),
+        integ2 = integ(r.classical.fom.integrity)
     );
     Ok(RunOutput {
         json: json_of_with_units_and_tiers(
@@ -821,11 +898,24 @@ fn run_fusion(scn: &crate::hybrid::HybridScenario) -> Result<RunOutput, String> 
         cc.validate()?;
     }
     let r = crate::fusion::run_fusion(scn);
-    let summary = format!(
-        "scenario {} | fused | quantum PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {} | classical PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {}",
-        &r.scenario_hash[..12],
-        r.quantum.fom.pnt_holdover_s, r.quantum.fom.timing_holdover_s, r.quantum.fom.position_holdover_s, integ(r.quantum.fom.integrity), SECURITY_NA,
-        r.classical.fom.pnt_holdover_s, r.classical.fom.timing_holdover_s, r.classical.fom.position_holdover_s, integ(r.classical.fom.integrity), SECURITY_NA,
+    let summary = crate::t!(
+        "api-builtins-scenario-fused-quantum-pnt-holdover",
+        r = &r.scenario_hash[..12],
+        pnt_holdover_s =
+            crate::i18n::localise_decimal(format!("{:.0}", r.quantum.fom.pnt_holdover_s)),
+        timing_holdover_s =
+            crate::i18n::localise_decimal(format!("{:.0}", r.quantum.fom.timing_holdover_s)),
+        position_holdover_s =
+            crate::i18n::localise_decimal(format!("{:.0}", r.quantum.fom.position_holdover_s)),
+        integ = integ(r.quantum.fom.integrity),
+        security_na = SECURITY_NA,
+        pnt_holdover_s2 =
+            crate::i18n::localise_decimal(format!("{:.0}", r.classical.fom.pnt_holdover_s)),
+        timing_holdover_s2 =
+            crate::i18n::localise_decimal(format!("{:.0}", r.classical.fom.timing_holdover_s)),
+        position_holdover_s2 =
+            crate::i18n::localise_decimal(format!("{:.0}", r.classical.fom.position_holdover_s)),
+        integ2 = integ(r.classical.fom.integrity)
     );
     Ok(RunOutput {
         json: json_of_with_units_and_tiers(
@@ -852,16 +942,35 @@ fn run_hybrid_ukf(scn: &crate::fusion::hybrid_ukf::HybridUkfScenario) -> Result<
     scn.time.validate()?;
     let r = crate::fusion::hybrid_ukf::run_hybrid_ukf(scn);
     let c = &r.consistency;
-    let summary = format!(
-        "scenario {} | hybrid-ukf (17-state, MODELLED) | sensor {} (q_va {:.2e}) | clock q_wf {:.2e} q_rw {:.2e} | NIS {:.2}/{} in [{:.2},{:.2}] | NEES {:.2}/{} in [{:.2},{:.2}] | {} | aided {:.1}m -> coast {:.1}m over {:.0}s | self-consistency, not accuracy",
-        &r.scenario_hash[..12],
-        if r.quantum_cai { "quantum-CAI" } else { "classical" },
-        r.effective_q_va,
-        r.clock_q_wf, r.clock_q_rw,
-        c.nis_mean, c.nis_dof, c.nis_chi2_lower_95, c.nis_chi2_upper_95,
-        c.nees_mean, c.nees_dof, c.nees_chi2_lower_95, c.nees_chi2_upper_95,
-        if c.consistent { "CONSISTENT" } else { "INCONSISTENT" },
-        r.coast.aided_pos_rms_m, r.coast.coast_end_pos_rms_m, r.coast.coast_duration_s,
+    let summary = crate::t!(
+        "api-builtins-scenario-hybrid-ukf-17-state",
+        r = &r.scenario_hash[..12],
+        v2 = if r.quantum_cai {
+            "quantum-CAI"
+        } else {
+            "classical"
+        },
+        effective_q_va = crate::i18n::localise_decimal(format!("{:.2e}", r.effective_q_va)),
+        clock_q_wf = crate::i18n::localise_decimal(format!("{:.2e}", r.clock_q_wf)),
+        clock_q_rw = crate::i18n::localise_decimal(format!("{:.2e}", r.clock_q_rw)),
+        nis_mean = crate::i18n::localise_decimal(format!("{:.2}", c.nis_mean)),
+        nis_dof = c.nis_dof,
+        nis_chi2_lower_95 = crate::i18n::localise_decimal(format!("{:.2}", c.nis_chi2_lower_95)),
+        nis_chi2_upper_95 = crate::i18n::localise_decimal(format!("{:.2}", c.nis_chi2_upper_95)),
+        nees_mean = crate::i18n::localise_decimal(format!("{:.2}", c.nees_mean)),
+        nees_dof = c.nees_dof,
+        nees_chi2_lower_95 = crate::i18n::localise_decimal(format!("{:.2}", c.nees_chi2_lower_95)),
+        nees_chi2_upper_95 = crate::i18n::localise_decimal(format!("{:.2}", c.nees_chi2_upper_95)),
+        v14 = if c.consistent {
+            "CONSISTENT"
+        } else {
+            "INCONSISTENT"
+        },
+        aided_pos_rms_m = crate::i18n::localise_decimal(format!("{:.1}", r.coast.aided_pos_rms_m)),
+        coast_end_pos_rms_m =
+            crate::i18n::localise_decimal(format!("{:.1}", r.coast.coast_end_pos_rms_m)),
+        coast_duration_s =
+            crate::i18n::localise_decimal(format!("{:.0}", r.coast.coast_duration_s))
     );
     Ok(RunOutput {
         json: json_of_with_units(&r, crate::fusion::hybrid_ukf::UNITS)?,
@@ -888,11 +997,22 @@ fn run_gnss_ins(scn: &crate::fusion::pack::GnssInsScenario) -> Result<RunOutput,
     scn.time.validate()?;
     scn.validate()?;
     let r = crate::fusion::pack::run_gnss_ins(scn);
-    let summary = format!(
-        "scenario {} | gnss-ins | quantum outage-RMS fused {:.1}m vs free {:.1}m (hold {:.0}s, avail {:.2}) | classical fused {:.1}m vs free {:.1}m (hold {:.0}s, avail {:.2})",
-        &r.scenario_hash[..12],
-        r.quantum.fused_outage_rms_m, r.quantum.free_outage_rms_m, r.quantum.fom.holdover_s, r.quantum.fom.availability,
-        r.classical.fused_outage_rms_m, r.classical.free_outage_rms_m, r.classical.fom.holdover_s, r.classical.fom.availability,
+    let summary = crate::t!(
+        "api-builtins-scenario-gnss-ins-quantum-outage",
+        r = &r.scenario_hash[..12],
+        fused_outage_rms_m =
+            crate::i18n::localise_decimal(format!("{:.1}", r.quantum.fused_outage_rms_m)),
+        free_outage_rms_m =
+            crate::i18n::localise_decimal(format!("{:.1}", r.quantum.free_outage_rms_m)),
+        holdover_s = crate::i18n::localise_decimal(format!("{:.0}", r.quantum.fom.holdover_s)),
+        availability = crate::i18n::localise_decimal(format!("{:.2}", r.quantum.fom.availability)),
+        fused_outage_rms_m2 =
+            crate::i18n::localise_decimal(format!("{:.1}", r.classical.fused_outage_rms_m)),
+        free_outage_rms_m2 =
+            crate::i18n::localise_decimal(format!("{:.1}", r.classical.free_outage_rms_m)),
+        holdover_s2 = crate::i18n::localise_decimal(format!("{:.0}", r.classical.fom.holdover_s)),
+        availability2 =
+            crate::i18n::localise_decimal(format!("{:.2}", r.classical.fom.availability))
     );
     Ok(RunOutput {
         json: json_of_with_units(&r, crate::fusion::pack::UNITS)?,
@@ -920,11 +1040,16 @@ fn run_gnss_sim(scn: &crate::gnss_sim::GnssSimScenario) -> Result<RunOutput, Str
     let (alert_h, alert_v) = (scn.alert_limit_h_m, scn.alert_limit_v_m);
     let sky = scn.sky()?;
     let r = crate::gnss_sim::run_gnss_sim_sky(scn, sky.as_ref());
-    let summary = format!(
-        "scenario {} | gnss-sim | mean iono {:.1}m tropo {:.1}m | RAIM avail {:.2} mean HPL {:.1}m VPL {:.1}m fault-rate {:.3}",
-        &r.scenario_hash[..12],
-        r.fom.mean_iono_m, r.fom.mean_tropo_m,
-        r.fom.raim_availability, r.fom.mean_hpl_m, r.fom.mean_vpl_m, r.fom.fault_rate,
+    let summary = crate::t!(
+        "api-builtins-scenario-gnss-sim-mean-iono",
+        r = &r.scenario_hash[..12],
+        mean_iono_m = crate::i18n::localise_decimal(format!("{:.1}", r.fom.mean_iono_m)),
+        mean_tropo_m = crate::i18n::localise_decimal(format!("{:.1}", r.fom.mean_tropo_m)),
+        raim_availability =
+            crate::i18n::localise_decimal(format!("{:.2}", r.fom.raim_availability)),
+        mean_hpl_m = crate::i18n::localise_decimal(format!("{:.1}", r.fom.mean_hpl_m)),
+        mean_vpl_m = crate::i18n::localise_decimal(format!("{:.1}", r.fom.mean_vpl_m)),
+        fault_rate = crate::i18n::localise_decimal(format!("{:.3}", r.fom.fault_rate))
     );
     let json = match crate::skyline::SkylineSummary::of(
         scn.skyline.as_ref(),
@@ -963,16 +1088,22 @@ impl BuiltinKind for crate::gnss_sim::GnssSimScenario {
 
 fn run_spoof_detect(scn: &crate::spoof_detect::SpoofDetectScenario) -> Result<RunOutput, String> {
     let r = crate::spoof_detect::run_spoof_detect(scn);
-    let summary = format!(
-        "scenario {} | spoof-detect | {} SVs, +{:.1} dB{} | {:?} push | fused score {:.2} (thr {:.2}) | {}",
-        &r.scenario_hash[..12],
-        r.n_sats,
-        r.attack.power_advantage_db,
-        if r.attack.carrier_aligned { ", carrier-aligned" } else { "" },
-        r.attack.push,
-        r.decision.fused.score,
-        scn.detector.fusion_threshold,
-        r.verdict,
+    let summary = crate::t!(
+        "api-builtins-scenario-spoof-detect-svs-db",
+        r = &r.scenario_hash[..12],
+        n_sats = r.n_sats,
+        power_advantage_db =
+            crate::i18n::localise_decimal(format!("{:.1}", r.attack.power_advantage_db)),
+        v4 = if r.attack.carrier_aligned {
+            ", carrier-aligned"
+        } else {
+            ""
+        },
+        push = format!("{:?}", r.attack.push),
+        score = crate::i18n::localise_decimal(format!("{:.2}", r.decision.fused.score)),
+        fusion_threshold =
+            crate::i18n::localise_decimal(format!("{:.2}", scn.detector.fusion_threshold)),
+        verdict = r.verdict
     );
     Ok(RunOutput {
         json: json_of_with_units(&r, crate::spoof_detect::UNITS)?,
@@ -999,12 +1130,19 @@ fn run_sweep(scn: &crate::sweep::SweepScenario) -> Result<RunOutput, String> {
     scn.base.time.validate()?;
     let r = crate::sweep::run_sweep(scn)?;
     let (first, last) = (r.points.first(), r.points.last());
-    let summary = format!(
-        "sweep {} over {} ({:.2e}..{:.2e}, {} pts, {} scale) | quantum {:.3}->{:.3} | classical {:.3}->{:.3}",
-        r.metric, r.parameter,
-        first.map_or(0.0, |p| p.value), last.map_or(0.0, |p| p.value), r.points.len(), r.scale,
-        first.map_or(0.0, |p| p.quantum), last.map_or(0.0, |p| p.quantum),
-        first.map_or(0.0, |p| p.classical), last.map_or(0.0, |p| p.classical),
+    let summary = crate::t!(
+        "api-builtins-sweep-over-pts-scale-quantum",
+        metric = r.metric,
+        parameter = r.parameter,
+        first = crate::i18n::localise_decimal(format!("{:.2e}", first.map_or(0.0, |p| p.value))),
+        last = crate::i18n::localise_decimal(format!("{:.2e}", last.map_or(0.0, |p| p.value))),
+        points = r.points.len(),
+        scale = r.scale,
+        first2 = crate::i18n::localise_decimal(format!("{:.3}", first.map_or(0.0, |p| p.quantum))),
+        last2 = crate::i18n::localise_decimal(format!("{:.3}", last.map_or(0.0, |p| p.quantum))),
+        first3 =
+            crate::i18n::localise_decimal(format!("{:.3}", first.map_or(0.0, |p| p.classical))),
+        last3 = crate::i18n::localise_decimal(format!("{:.3}", last.map_or(0.0, |p| p.classical)))
     );
     Ok(RunOutput {
         json: json_of_with_units(&r, &crate::sweep::units(&r.parameter, &r.metric))?,
@@ -1050,13 +1188,20 @@ fn run_orbit(scn: &crate::orbit::OrbitClockScenario) -> Result<RunOutput, String
         .iter()
         .filter(|s| s.gnss == GnssState::Nominal)
         .count();
-    let summary = format!(
-        "scenario {} | {}/{} samples GNSS-nominal | best PDOP {} pos {} | quantum holdover {:.0}s p95 {}ns integrity {} security {} | classical holdover {:.0}s p95 {}ns integrity {} security {}",
-        &r.scenario_hash[..12],
-        nominal, r.quantum.series.len(),
-        fnum(geometry.best_pdop), posm(geometry.best_position_sigma_m),
-        r.quantum.fom.holdover_s, ns1(r.quantum.fom.timing_p95_ns), integ(r.quantum.fom.integrity), SECURITY_NA,
-        r.classical.fom.holdover_s, ns1(r.classical.fom.timing_p95_ns), integ(r.classical.fom.integrity), SECURITY_NA,
+    let summary = crate::t!(
+        "api-builtins-scenario-samples-gnss-nominal-best",
+        r = &r.scenario_hash[..12],
+        nominal = nominal,
+        series = r.quantum.series.len(),
+        fnum = fnum(geometry.best_pdop),
+        posm = posm(geometry.best_position_sigma_m),
+        holdover_s = crate::i18n::localise_decimal(format!("{:.0}", r.quantum.fom.holdover_s)),
+        ns1 = ns1(r.quantum.fom.timing_p95_ns),
+        integ = integ(r.quantum.fom.integrity),
+        security_na = SECURITY_NA,
+        holdover_s2 = crate::i18n::localise_decimal(format!("{:.0}", r.classical.fom.holdover_s)),
+        ns12 = ns1(r.classical.fom.timing_p95_ns),
+        integ2 = integ(r.classical.fom.integrity)
     );
     #[derive(serde::Serialize)]
     struct OrbitOutput<'a> {
@@ -1097,24 +1242,32 @@ impl BuiltinKind for crate::orbit::OrbitClockScenario {
 }
 
 fn run_ephemeris(scn: &crate::ephemeris::EphemerisScenario) -> Result<RunOutput, String> {
-    let r = crate::ephemeris::run_ephemeris(scn).map_err(|e| format!("ephemeris: {e}"))?;
+    let r = crate::ephemeris::run_ephemeris(scn)
+        .map_err(|e| crate::terr!("e-api-builtins-ephemeris", e = e))?;
     let pass = match (r.max_elevation_deg, r.peak_doppler_hz) {
         (Some(el), Some(d)) => {
-            format!(" | max el {el:.1}° peak Doppler {:.1} kHz", d / 1000.0)
+            crate::t!(
+                "api-builtins-max-el-peak-doppler-khz",
+                el = crate::i18n::localise_decimal(format!("{:.1}", el)),
+                v1 = crate::i18n::localise_decimal(format!("{:.1}", d / 1000.0))
+            )
         }
         _ => String::new(),
     };
-    let summary = format!(
-        "scenario {} | {} | {} samples | alt {:.0}–{:.0} km | |lat| ≤ {:.1}° | speed {:.0}–{:.0} m/s{}",
-        &r.scenario_hash[..12],
-        r.source,
-        r.n_samples,
-        r.alt_min_km,
-        r.alt_max_km,
-        r.lat_max_deg.abs().max(r.lat_min_deg.abs()),
-        r.speed_min_m_s,
-        r.speed_max_m_s,
-        pass,
+    let summary = crate::t!(
+        "api-builtins-scenario-samples-alt-km-lat",
+        r = &r.scenario_hash[..12],
+        source = r.source,
+        n_samples = r.n_samples,
+        alt_min_km = crate::i18n::localise_decimal(format!("{:.0}", r.alt_min_km)),
+        alt_max_km = crate::i18n::localise_decimal(format!("{:.0}", r.alt_max_km)),
+        r2 = crate::i18n::localise_decimal(format!(
+            "{:.1}",
+            r.lat_max_deg.abs().max(r.lat_min_deg.abs())
+        )),
+        speed_min_m_s = crate::i18n::localise_decimal(format!("{:.0}", r.speed_min_m_s)),
+        speed_max_m_s = crate::i18n::localise_decimal(format!("{:.0}", r.speed_max_m_s)),
+        pass = pass
     );
     Ok(RunOutput {
         json: json_of_with_units(&r, crate::ephemeris::UNITS)?,
@@ -2389,13 +2542,13 @@ impl BuiltinKind for crate::lunar_jamming::LunarJammingScenario {
 
 fn run_sweep_nd(scn: &crate::sweep::GenericSweepScenario) -> Result<RunOutput, String> {
     let r = crate::sweep::run_generic_sweep(scn)?;
-    let summary = format!(
-        "generic sweep of `{}` over [{}] | {} nodes (shape {:?}) | metrics [{}]",
-        r.kind,
-        r.keys.join(", "),
-        r.points.len(),
-        r.shape,
-        r.metrics.join(", "),
+    let summary = crate::t!(
+        "api-builtins-generic-sweep-of-over-nodes",
+        kind = r.kind,
+        keys = r.keys.join(", "),
+        points = r.points.len(),
+        shape = format!("{:?}", r.shape),
+        metrics = r.metrics.join(", ")
     );
     Ok(RunOutput {
         json: json_of_with_units(&r, crate::sweep::GENERIC_UNITS)?,
@@ -2421,23 +2574,31 @@ impl BuiltinKind for crate::sweep::GenericSweepScenario {
 fn run_gravity_map(cfg: &crate::gravimeter::GravityMapBenchmarkCfg) -> Result<RunOutput, String> {
     let run = crate::gravimeter::run_gravity_map_scenario(cfg)?;
     let r = run.nav;
-    let mut summary = format!(
-        "gravity-map | free-inertial drift {:.0} m | gravity-matched {:.0} m | matching sigma {:.3e} mGal",
-        r.free_inertial_drift_m, r.map_matched_error_m, r.measurement_sigma_mgal,
+    let mut summary = crate::t!(
+        "api-builtins-gravity-map-free-inertial-drift",
+        free_inertial_drift_m =
+            crate::i18n::localise_decimal(format!("{:.0}", r.free_inertial_drift_m)),
+        map_matched_error_m =
+            crate::i18n::localise_decimal(format!("{:.0}", r.map_matched_error_m)),
+        measurement_sigma_mgal =
+            crate::i18n::localise_decimal(format!("{:.3e}", r.measurement_sigma_mgal))
     );
     if let Some(rf) = &run.reference {
-        summary.push_str(&format!(
-            " | reference degree {} anomaly std {:.1} mGal",
-            rf.reference_nmax, rf.reference_anomaly_std_mgal
+        summary.push_str(&crate::t!(
+            "api-builtins-reference-degree-anomaly-std-mgal",
+            reference_nmax = rf.reference_nmax,
+            reference_anomaly_std_mgal =
+                crate::i18n::localise_decimal(format!("{:.1}", rf.reference_anomaly_std_mgal))
         ));
     }
     if let Some(mc) = &run.map_error_mc {
-        summary.push_str(&format!(
-            " | map-error MC x{} p95 {:.0} m, {:.0}% within {:.0} m",
-            mc.realisations,
-            mc.matched_error_p95_m,
-            100.0 * mc.fraction_within_target,
-            mc.target_m
+        summary.push_str(&crate::t!(
+            "api-builtins-map-error-mc-p95-within",
+            realisations = mc.realisations,
+            matched_error_p95_m =
+                crate::i18n::localise_decimal(format!("{:.0}", mc.matched_error_p95_m)),
+            v3 = crate::i18n::localise_decimal(format!("{:.0}", 100.0 * mc.fraction_within_target)),
+            target_m = crate::i18n::localise_decimal(format!("{:.0}", mc.target_m))
         ));
     }
     // The optional blocks are absent unless configured, so a scenario without
@@ -2492,12 +2653,21 @@ impl BuiltinKind for crate::gravimeter::GravityMapBenchmarkCfg {
 
 fn run_terrain(cfg: &crate::altpnt::terrain::TerrainNavCfg) -> Result<RunOutput, String> {
     let r = crate::altpnt::terrain::run_terrain_nav(cfg);
-    let summary = format!(
-        "terrain-nav | free-inertial drift {:.0} m | terrain-matched {:.0} m ({:.0}x cut) | matching sigma {:.1} m",
-        r.free_inertial_drift_m,
-        r.matched_error_m,
-        if r.matched_error_m > 0.0 { r.free_inertial_drift_m / r.matched_error_m } else { 0.0 },
-        r.measurement_sigma_m,
+    let summary = crate::t!(
+        "api-builtins-terrain-nav-free-inertial-drift",
+        free_inertial_drift_m =
+            crate::i18n::localise_decimal(format!("{:.0}", r.free_inertial_drift_m)),
+        matched_error_m = crate::i18n::localise_decimal(format!("{:.0}", r.matched_error_m)),
+        v3 = crate::i18n::localise_decimal(format!(
+            "{:.0}",
+            if r.matched_error_m > 0.0 {
+                r.free_inertial_drift_m / r.matched_error_m
+            } else {
+                0.0
+            }
+        )),
+        measurement_sigma_m =
+            crate::i18n::localise_decimal(format!("{:.1}", r.measurement_sigma_m))
     );
     Ok(RunOutput {
         json: json_of_with_units(&r, crate::altpnt::terrain::TERRAIN_NAV_UNITS)?,
@@ -2524,17 +2694,27 @@ fn run_terrain_slam(
     cfg: &crate::altpnt::sequential::SequentialTrnCfg,
 ) -> Result<RunOutput, String> {
     let r = crate::altpnt::sequential::run_sequential_trn(cfg);
-    let summary = format!(
-        "terrain-slam | {} waypoints | free-inertial RMS {:.0} m (final {:.0} m) | terrain-matched RMS {:.0} m (final {:.0} m, {:.0}x cut) | mean ESS {:.0}/{} | matching sigma {:.1} m",
-        r.waypoints,
-        r.free_inertial_rms_m,
-        r.free_inertial_final_m,
-        r.matched_rms_m,
-        r.matched_final_m,
-        if r.matched_rms_m > 0.0 { r.free_inertial_rms_m / r.matched_rms_m } else { 0.0 },
-        r.mean_ess,
-        cfg.n_particles.max(1),
-        r.measurement_sigma_m,
+    let summary = crate::t!(
+        "api-builtins-terrain-slam-waypoints-free-inertial",
+        waypoints = r.waypoints,
+        free_inertial_rms_m =
+            crate::i18n::localise_decimal(format!("{:.0}", r.free_inertial_rms_m)),
+        free_inertial_final_m =
+            crate::i18n::localise_decimal(format!("{:.0}", r.free_inertial_final_m)),
+        matched_rms_m = crate::i18n::localise_decimal(format!("{:.0}", r.matched_rms_m)),
+        matched_final_m = crate::i18n::localise_decimal(format!("{:.0}", r.matched_final_m)),
+        v6 = crate::i18n::localise_decimal(format!(
+            "{:.0}",
+            if r.matched_rms_m > 0.0 {
+                r.free_inertial_rms_m / r.matched_rms_m
+            } else {
+                0.0
+            }
+        )),
+        mean_ess = crate::i18n::localise_decimal(format!("{:.0}", r.mean_ess)),
+        cfg = cfg.n_particles.max(1),
+        measurement_sigma_m =
+            crate::i18n::localise_decimal(format!("{:.1}", r.measurement_sigma_m))
     );
     Ok(RunOutput {
         json: json_of_with_units(&r, crate::altpnt::sequential::UNITS)?,
@@ -2561,13 +2741,14 @@ fn run_combined_alt_pnt(
     cfg: &crate::altpnt::terrain::CombinedAltPntCfg,
 ) -> Result<RunOutput, String> {
     let r = crate::altpnt::terrain::run_combined_altpnt_scenario(cfg)?;
-    let summary = format!(
-        "combined-altpnt | free-inertial drift {:.0} m | gravity {:.0} m magnetic {:.0} m terrain {:.0} m | FUSED {:.0} m",
-        r.free_inertial_drift_m,
-        r.gravity_only_m,
-        r.magnetic_only_m,
-        r.terrain_only_m,
-        r.combined_m,
+    let summary = crate::t!(
+        "api-builtins-combined-altpnt-free-inertial-drift",
+        free_inertial_drift_m =
+            crate::i18n::localise_decimal(format!("{:.0}", r.free_inertial_drift_m)),
+        gravity_only_m = crate::i18n::localise_decimal(format!("{:.0}", r.gravity_only_m)),
+        magnetic_only_m = crate::i18n::localise_decimal(format!("{:.0}", r.magnetic_only_m)),
+        terrain_only_m = crate::i18n::localise_decimal(format!("{:.0}", r.terrain_only_m)),
+        combined_m = crate::i18n::localise_decimal(format!("{:.0}", r.combined_m))
     );
     Ok(RunOutput {
         json: json_of_with_units(&r, crate::altpnt::terrain::COMBINED_ALTPNT_UNITS)?,
@@ -2607,17 +2788,25 @@ fn run_clock(scn: &crate::scenario::Scenario, src: Option<&str>) -> Result<RunOu
     }
     if scn.runs > 1 {
         if measured_of(src)?.is_some() {
-            return Err("[clock_log] needs runs = 1: a measured log is one record".into());
+            return Err(crate::terr!("e-api-builtins-clock-log-needs-runs-measured"));
         }
         // Monte Carlo ensemble: report confidence bands instead of one run.
         let r = crate::ensemble::run_ensemble(scn);
         let q = &r.quantum;
         let c = &r.classical;
-        let summary = format!(
-            "scenario {} | {} runs | quantum holdover {:.0}s [{:.0}-{:.0}] p95 {}ns security {} | classical holdover {:.0}s [{:.0}-{:.0}] p95 {}ns security {}",
-            &r.scenario_hash[..12], r.runs,
-            q.holdover_s.mean, q.holdover_s.p05, q.holdover_s.p95, ns1(q.timing_p95_ns.mean), SECURITY_NA,
-            c.holdover_s.mean, c.holdover_s.p05, c.holdover_s.p95, ns1(c.timing_p95_ns.mean), SECURITY_NA,
+        let summary = crate::t!(
+            "api-builtins-scenario-runs-quantum-holdover-p95",
+            r = &r.scenario_hash[..12],
+            runs = r.runs,
+            mean = crate::i18n::localise_decimal(format!("{:.0}", q.holdover_s.mean)),
+            p05 = crate::i18n::localise_decimal(format!("{:.0}", q.holdover_s.p05)),
+            p95 = crate::i18n::localise_decimal(format!("{:.0}", q.holdover_s.p95)),
+            ns1 = ns1(q.timing_p95_ns.mean),
+            security_na = SECURITY_NA,
+            mean2 = crate::i18n::localise_decimal(format!("{:.0}", c.holdover_s.mean)),
+            p052 = crate::i18n::localise_decimal(format!("{:.0}", c.holdover_s.p05)),
+            p952 = crate::i18n::localise_decimal(format!("{:.0}", c.holdover_s.p95)),
+            ns12 = ns1(c.timing_p95_ns.mean)
         );
         return Ok(RunOutput {
             json: json_of_with_units_and_tiers(
@@ -2636,18 +2825,26 @@ fn run_clock(scn: &crate::scenario::Scenario, src: Option<&str>) -> Result<RunOu
     if let Some(cfg) = &scn.integrity {
         r.integrity_fom = Some(crate::clock_integrity::run(scn, cfg)?);
     }
-    let mut summary = format!(
-        "scenario {} | quantum holdover {:.0}s p95 {}ns integrity {} security {} | classical holdover {:.0}s p95 {}ns integrity {} security {}",
-        &r.scenario_hash[..12],
-        r.quantum.fom.holdover_s, ns1(r.quantum.fom.timing_p95_ns), integ(r.quantum.fom.integrity), SECURITY_NA,
-        r.classical.fom.holdover_s, ns1(r.classical.fom.timing_p95_ns), integ(r.classical.fom.integrity), SECURITY_NA,
+    let mut summary = crate::t!(
+        "api-builtins-scenario-quantum-holdover-p95-ns",
+        r = &r.scenario_hash[..12],
+        holdover_s = crate::i18n::localise_decimal(format!("{:.0}", r.quantum.fom.holdover_s)),
+        ns1 = ns1(r.quantum.fom.timing_p95_ns),
+        integ = integ(r.quantum.fom.integrity),
+        security_na = SECURITY_NA,
+        holdover_s2 = crate::i18n::localise_decimal(format!("{:.0}", r.classical.fom.holdover_s)),
+        ns12 = ns1(r.classical.fom.timing_p95_ns),
+        integ2 = integ(r.classical.fom.integrity)
     );
     let units: Vec<crate::field_schema::FieldUnit> = match &r.integrity_fom {
         None => crate::report::UNITS.to_vec(),
         Some(f) => {
-            summary.push_str(&format!(
-                " | RAIM available {} of {} epochs ({} denied, {} alarms; MODELLED)",
-                f.n_available, f.n_epochs, f.n_denied, f.n_alarm
+            summary.push_str(&crate::t!(
+                "api-builtins-raim-available-of-epochs-denied",
+                n_available = f.n_available,
+                n_epochs = f.n_epochs,
+                n_denied = f.n_denied,
+                n_alarm = f.n_alarm
             ));
             crate::report::UNITS
                 .iter()
@@ -2697,7 +2894,7 @@ impl Scenario for crate::scenario::Scenario {
 impl BuiltinKind for crate::scenario::Scenario {
     const KIND: ScenarioKind = ScenarioKind::Clock;
     fn parse(src: &str) -> Result<Self, String> {
-        toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))
+        toml::from_str(src).map_err(|e| crate::terr!("e-api-invalid-scenario", e = e))
     }
 }
 

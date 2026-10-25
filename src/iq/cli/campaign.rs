@@ -29,13 +29,13 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     if a.pos.first().map(String::as_str) == Some("report") {
         a.need_pos(2, "campaign report")?;
         let s = report::build(Path::new(&a.pos[1])).map_err(Fail::Run)?;
-        return Ok(format!(
-            "report rebuilt: {} of {} cell(s), {} row(s), {} failing a bar; digest {}",
-            s.cells_present,
-            s.cells_total,
-            s.rows,
-            s.rows_failed,
-            s.digest.as_deref().unwrap_or("(incomplete)")
+        return Ok(crate::t!(
+            "iq-cli-campaign-report-rebuilt-of-cell-row",
+            cells_present = s.cells_present,
+            cells_total = s.cells_total,
+            rows = s.rows,
+            rows_failed = s.rows_failed,
+            s = s.digest.as_deref().unwrap_or("(incomplete)")
         ));
     }
     a.need_pos(1, "campaign")?;
@@ -57,15 +57,15 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         crate::iq::campaign::runner::write_atomic(std::path::Path::new(p), text.as_bytes())
             .map_err(|e| Fail::Run(format!("{p}: {e}")))?;
     }
-    let mut msg = format!(
-        "campaign {}: {} cell(s); {} already done, {} run now, {} failed, {} pending\noutput: {}",
-        s.name,
-        s.cells_total,
-        s.cells_skipped,
-        s.cells_run,
-        s.cells_failed.len(),
-        s.cells_pending,
-        s.out_dir
+    let mut msg = crate::t!(
+        "iq-cli-campaign-campaign-cell-already-done-run",
+        name = s.name,
+        cells_total = s.cells_total,
+        cells_skipped = s.cells_skipped,
+        cells_run = s.cells_run,
+        cells_failed = s.cells_failed.len(),
+        cells_pending = s.cells_pending,
+        out_dir = s.out_dir
     );
     if opts.dry_run {
         msg.push_str("\n(dry run: nothing was processed)");
@@ -76,9 +76,11 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         None => {}
     }
     if let Some((key, e)) = s.cells_failed.first() {
-        return Err(Fail::Run(format!(
-            "{msg}\nfirst failure ({}…): {e}",
-            &key[..12.min(key.len())]
+        return Err(Fail::Run(crate::t!(
+            "iq-cli-campaign-first-failure",
+            msg = msg,
+            key = &key[..12.min(key.len())],
+            e = e
         )));
     }
     Ok(msg)
@@ -90,10 +92,11 @@ pub(crate) fn conditions(args: &[String]) -> Result<String, Fail> {
     a.need_pos(1, "conditions")?;
     let tc = TestConditions::load(Path::new(&a.pos[0])).map_err(Fail::Usage)?;
     let resolved = serde_json::to_string_pretty(&tc).unwrap_or_default();
-    Ok(format!(
-        "{resolved}\nOK: {} event(s), {} expected satellite(s); condition hash {}",
-        tc.events.len(),
-        tc.expected.iter().map(|g| g.ids.len()).sum::<usize>(),
-        tc.hash()
+    Ok(crate::t!(
+        "iq-cli-campaign-ok-event-expected-satellite-condition",
+        resolved = resolved,
+        events = tc.events.len(),
+        tc = tc.expected.iter().map(|g| g.ids.len()).sum::<usize>(),
+        tc2 = tc.hash()
     ))
 }

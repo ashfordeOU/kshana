@@ -81,7 +81,8 @@ impl RawEntry {
 /// each of which would otherwise produce a meaningless empty study. Matches the
 /// crate's existing `toml`-parse error style (a short prefixed message).
 pub fn parse_suite(src: &str) -> Result<Suite, String> {
-    let raw: RawSuite = toml::from_str(src).map_err(|e| format!("invalid suite manifest: {e}"))?;
+    let raw: RawSuite =
+        toml::from_str(src).map_err(|e| crate::terr!("e-suite-invalid-suite-manifest", e = e))?;
 
     let title = raw
         .title

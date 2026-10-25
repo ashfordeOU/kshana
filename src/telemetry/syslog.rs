@@ -90,32 +90,44 @@ fn num(x: f64) -> String {
 /// the score and the offset are not integers. `cfp1` is left out when the source gives no score. `dvchost`
 /// is the sending host.
 pub fn cef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> String {
-    let mut ext = format!(
-        "cat=gnss-trust dvchost={} cs1Label=band cs1={}",
-        cef_ext_escape(host),
-        s.band.label()
+    let mut ext = crate::t!(
+        "telemetry-syslog-cat-gnss-trust-dvchost-cs1label",
+        cef_ext_escape = cef_ext_escape(host),
+        band = s.band.label()
     );
     if !s.reasons.is_empty() {
-        ext.push_str(&format!(
-            " cs2Label=reasons cs2={}",
-            cef_ext_escape(&s.reasons.join(","))
+        ext.push_str(&crate::t!(
+            "telemetry-syslog-cs2label-reasons-cs2",
+            cef_ext_escape = cef_ext_escape(&s.reasons.join(","))
         ));
     }
     if let Some(p) = prev {
-        ext.push_str(&format!(" cs3Label=previousBand cs3={}", p.label()));
+        ext.push_str(&crate::t!(
+            "telemetry-syslog-cs3label-previousband-cs3",
+            p = p.label()
+        ));
     }
     if let Some(sc) = s.score {
-        ext.push_str(&format!(" cfp1Label=trustScore cfp1={}", num(sc)));
+        ext.push_str(&crate::t!(
+            "telemetry-syslog-cfp1label-trustscore-cfp1",
+            num = num(sc)
+        ));
     }
-    ext.push_str(&format!(
-        " cfp2Label=epochOffsetSeconds cfp2={}",
-        num(s.t_s)
+    ext.push_str(&crate::t!(
+        "telemetry-syslog-cfp2label-epochoffsetseconds-cfp2",
+        num = num(s.t_s)
     ));
     if let Some(l) = &s.time_label {
-        ext.push_str(&format!(" cs4Label=logTime cs4={}", cef_ext_escape(l)));
+        ext.push_str(&crate::t!(
+            "telemetry-syslog-cs4label-logtime-cs4",
+            cef_ext_escape = cef_ext_escape(l)
+        ));
     }
     if let Some(g) = &s.gate {
-        ext.push_str(&format!(" cs5Label=gate cs5={}", cef_ext_escape(g)));
+        ext.push_str(&crate::t!(
+            "telemetry-syslog-cs5label-gate-cs5",
+            cef_ext_escape = cef_ext_escape(g)
+        ));
     }
     if let Some(g) = &s.geometry {
         // Schema 1.3 only, in CEF dictionary custom fields (cs1 to cs5 are taken): cs6 the
@@ -128,30 +140,41 @@ pub fn cef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> St
             (true, None) => String::new(),
             (false, None) => format!(";{}", g.classes.join(",")),
         };
-        ext.push_str(&format!(" cs6Label=geometry cs6={}{classes}", g.status));
+        ext.push_str(&crate::t!(
+            "telemetry-syslog-cs6label-geometry-cs6",
+            status = g.status,
+            classes = classes
+        ));
         if let Some(h) = g.hdop {
-            ext.push_str(&format!(" cfp3Label=geometryHdop cfp3={}", num(h)));
+            ext.push_str(&crate::t!(
+                "telemetry-syslog-cfp3label-geometryhdop-cfp3",
+                num = num(h)
+            ));
         }
         if let Some(p) = g.pdop {
-            ext.push_str(&format!(" cfp4Label=geometryPdop cfp4={}", num(p)));
+            ext.push_str(&crate::t!(
+                "telemetry-syslog-cfp4label-geometrypdop-cfp4",
+                num = num(p)
+            ));
         }
         // From inputs that carry the label (0.36): the satellites used in cn1, appended. The
         // VDOP is not carried: the four floating-point custom fields are taken.
         if let (Some(_), Some(n)) = (g.label, g.n_used) {
-            ext.push_str(&format!(
-                " cn1Label=geometryUsedSatellites cn1={}",
-                n as i64
+            ext.push_str(&crate::t!(
+                "telemetry-syslog-cn1label-geometryusedsatellites-cn1",
+                v1 = n as i64
             ));
         }
     }
-    format!(
-        "CEF:0|{}|{}|{}|{EVENT_PREFIX}.{}|GNSS trust {}|{}|{ext}",
-        cef_header_escape(VENDOR),
-        cef_header_escape(PRODUCT),
-        cef_header_escape(version),
-        s.band.label(),
-        s.band.label(),
-        cef_severity(s.band)
+    crate::t!(
+        "telemetry-syslog-cef-gnss-trust",
+        cef_header_escape = cef_header_escape(VENDOR),
+        cef_header_escape2 = cef_header_escape(PRODUCT),
+        cef_header_escape3 = cef_header_escape(version),
+        EVENT_PREFIX = EVENT_PREFIX,
+        band = s.band.label(),
+        cef_severity = cef_severity(s.band),
+        ext = ext
     )
 }
 
@@ -225,13 +248,15 @@ pub fn leef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> S
 /// multiply the output. Empty is fine (the default name is used).
 pub fn check_host(host: &str) -> Result<(), String> {
     if host.len() > 255 {
-        return Err(format!(
-            "host is {} bytes; a syslog host name is at most 255",
-            host.len()
+        return Err(crate::terr!(
+            "e-telemetry-syslog-host-is-bytes-syslog-host",
+            host = host.len()
         ));
     }
     if !host.chars().all(|c| c.is_ascii_graphic()) {
-        return Err("host must be printable ASCII without spaces".into());
+        return Err(crate::terr!(
+            "e-telemetry-syslog-host-must-be-printable-ascii"
+        ));
     }
     Ok(())
 }

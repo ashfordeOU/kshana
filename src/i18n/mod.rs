@@ -241,6 +241,9 @@ fn build(tag: &str, source: &str) -> Result<Bundle, String> {
     // Fluent wraps every placeable in Unicode isolation marks by default; the output must be
     // exactly the text of the message, so they are off (none of the languages is right to left).
     bundle.set_use_isolating(false);
+    if tag == PSEUDO {
+        bundle.set_transform(Some(pseudo::accent_text));
+    }
     bundle
         .add_resource(resource)
         .map_err(|errs| format!("{tag}/engine.ftl has duplicate messages: {errs:?}"))?;
@@ -261,7 +264,7 @@ fn bundle_of(tag: &str) -> Arc<Bundle> {
         return b.clone();
     }
     let source = if tag == PSEUDO {
-        pseudo::pseudo_catalogue(english_source())
+        english_source().to_string()
     } else {
         catalogue_source(tag).unwrap_or("").to_string()
     };
@@ -286,8 +289,10 @@ pub fn tr_in(lang: &Lang, id: &str, args: &[(&str, String)]) -> String {
         let bundle = bundle_of(tag);
         if let Some(pattern) = bundle.get_message(id).and_then(|m| m.value()) {
             let mut errors = Vec::new();
-            let s = bundle.format_pattern(pattern, Some(&fa), &mut errors);
-            return s.into_owned();
+            let s = bundle
+                .format_pattern(pattern, Some(&fa), &mut errors)
+                .into_owned();
+            return if tag == PSEUDO { pseudo::wrap(&s) } else { s };
         }
         if tag == "en" {
             break;
@@ -361,13 +366,19 @@ pub fn localise_decimal(s: String) -> String {
     }
 }
 
+/// A message argument as a string. A function rather than `.to_string()` so that the `Display`
+/// bound, not a method lookup, decides the type of a closure parameter (`map_err(|e| t!(.., e = e))`).
+pub fn arg<T: std::fmt::Display + ?Sized>(v: &T) -> String {
+    v.to_string()
+}
+
 /// A message: `t!("id")` or `t!("id", name = value, ...)`. Each value is turned into a string with
 /// `to_string()`; format numbers first with [`num`].
 #[macro_export]
 macro_rules! t {
     ($id:literal) => { $crate::i18n::tr($id, &[]) };
     ($id:literal, $($k:ident = $v:expr),+ $(,)?) => {
-        $crate::i18n::tr($id, &[$((stringify!($k), ($v).to_string())),+])
+        $crate::i18n::tr($id, &[$((stringify!($k), $crate::i18n::arg(&($v)))),+])
     };
 }
 
@@ -377,7 +388,7 @@ macro_rules! t {
 macro_rules! terr {
     ($id:literal) => { $crate::i18n::terr($id, &[]) };
     ($id:literal, $($k:ident = $v:expr),+ $(,)?) => {
-        $crate::i18n::terr($id, &[$((stringify!($k), ($v).to_string())),+])
+        $crate::i18n::terr($id, &[$((stringify!($k), $crate::i18n::arg(&($v)))),+])
     };
 }
 

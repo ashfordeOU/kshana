@@ -933,7 +933,10 @@ impl LunarStationCoverageScenario {
             ("alert_limit_m", self.alert_limit_m),
         ] {
             if !(v.is_finite() && v > 0.0) {
-                return bad(&format!("{name} must be finite and positive"));
+                return bad(&crate::t!(
+                    "lunar-station-must-be-finite-and-positive",
+                    name = name
+                ));
             }
         }
         for (name, v) in [
@@ -946,7 +949,10 @@ impl LunarStationCoverageScenario {
             ("residual_sigma_m", self.residual_sigma_m),
         ] {
             if !(v.is_finite() && v >= 0.0) {
-                return bad(&format!("{name} must be finite and not negative"));
+                return bad(&crate::t!(
+                    "lunar-station-must-be-finite-and-not",
+                    name = name
+                ));
             }
         }
         if let Some(r) = &self.receiver {
@@ -1008,10 +1014,10 @@ impl LunarStationCoverageScenario {
         let work =
             self.user_points().len() as f64 * self.epochs().len() as f64 * self.n_trials as f64;
         if work > MAX_WORK {
-            return bad(&format!(
-                "n_points x n_epochs x n_trials = {work:.0} exceeds {MAX_WORK:.0}; lower n_trials, \
-                 coarsen grid_lat_step_deg (or list fewer points), or raise t_step_s / shorten \
-                 t_span_s"
+            return bad(&crate::t!(
+                "lunar-station-points-epochs-trials-exceeds-lower",
+                work = crate::i18n::localise_decimal(format!("{:.0}", work)),
+                MAX_WORK = crate::i18n::localise_decimal(format!("{:.0}", MAX_WORK))
             ));
         }
         Ok(())
@@ -1064,7 +1070,11 @@ impl LunarStationCoverageScenario {
     pub fn run(&self) -> Result<LunarStationCoverageReport, String> {
         if let Some(k) = &self.kind {
             if k != KIND {
-                return Err(format!("kind must be {KIND}; got {k}"));
+                return Err(crate::terr!(
+                    "e-lunar-station-kind-must-be-got",
+                    KIND = KIND,
+                    k = k
+                ));
             }
         }
         self.validate()?;
@@ -1076,9 +1086,12 @@ impl LunarStationCoverageScenario {
                 if let Some(until) = eph.covered_until_s() {
                     let last = self.epochs().last().copied().unwrap_or(0.0) + self.latency_s;
                     if last > until + 1e-6 {
-                        return Err(format!(
-                            "{KIND}: the ephemeris {path} covers {until} s but the run reaches \
-                             {last} s (the last epoch plus latency_s); shorten t_span_s"
+                        return Err(crate::terr!(
+                            "e-lunar-station-the-ephemeris-covers-but-the",
+                            KIND = KIND,
+                            path = path,
+                            until = until,
+                            last = last
                         ));
                     }
                 }
@@ -1392,7 +1405,13 @@ impl LunarStationCoverageScenario {
         let pts = self.user_points();
         let epochs = self.epochs();
         if j >= pts.len() || i >= epochs.len() || k >= self.n_trials {
-            return Err(format!("{KIND}: no case ({j}, {i}, {k})"));
+            return Err(crate::terr!(
+                "e-lunar-station-no-case",
+                KIND = KIND,
+                j = j,
+                i = i,
+                k = k
+            ));
         }
         let kep = self.keplerian();
         let eph;
@@ -2106,7 +2125,7 @@ pub fn lunar_station_coverage_svg(r: &LunarStationCoverageReport) -> String {
         match p.corrected_p_3d_m {
             Some(v) => {
                 let stroke = if v > thr {
-                    format!(" stroke=\"{INK}\" stroke-width=\"0.8\"")
+                    crate::t!("lunar-station-stroke-stroke-width", INK = INK)
                 } else {
                     String::new()
                 };
@@ -2154,20 +2173,28 @@ pub fn lunar_station_coverage_svg(r: &LunarStationCoverageReport) -> String {
     // Side panel.
     let f = |v: Option<f64>, unit: &str| v.map_or("n/a".to_string(), |v| format!("{v:.3} {unit}"));
     let lines = [
-        format!(
-            "{} points · {} epochs · {} trials",
-            r.n_grid_points, r.n_epochs, r.n_trials
+        crate::t!(
+            "lunar-station-points-epochs-trials",
+            n_grid_points = r.n_grid_points,
+            n_epochs = r.n_epochs,
+            n_trials = r.n_trials
         ),
         format!("threshold {thr} m at p{:.0}", r.percentile),
         format!("availability {:.1} %", 100.0 * r.region.availability),
         format!("coverage {:.1} %", 100.0 * r.region.coverage_fraction),
         format!("corrected 3-D {}", f(r.region.corrected_p_3d_m, "m")),
         format!("uncorrected 3-D {}", f(r.region.uncorrected_p_3d_m, "m")),
-        format!("HPL max {}", f(r.region.hpl_max_m, "m")),
-        format!("SISE (LOS) {:.2} m", r.error_model.los_sise_sigma_m),
-        format!(
-            "survey {} m · latency {} s · {} bits",
-            s.survey_sigma_m, s.latency_s, s.quantization_bits
+        crate::t!("lunar-station-hpl-max", f = f(r.region.hpl_max_m, "m")),
+        crate::t!(
+            "lunar-station-sise-los",
+            los_sise_sigma_m =
+                crate::i18n::localise_decimal(format!("{:.2}", r.error_model.los_sise_sigma_m))
+        ),
+        crate::t!(
+            "lunar-station-survey-latency-bits",
+            survey_sigma_m = s.survey_sigma_m,
+            latency_s = s.latency_s,
+            quantization_bits = s.quantization_bits
         ),
     ];
     for (k, l) in lines.iter().enumerate() {

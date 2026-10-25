@@ -146,8 +146,9 @@ impl SurfaceFormat {
             "csv" => Ok(Self::Csv),
             "json" => Ok(Self::Json),
             "bin" | "binary" => Ok(Self::Binary),
-            _ => Err(format!(
-                "unknown surface format {s:?}: expected csv, json or bin"
+            _ => Err(crate::terr!(
+                "e-iq-acq-surface-unknown-surface-format-expected-csv",
+                s = format!("{:?}", s)
             )),
         }
     }
@@ -170,9 +171,10 @@ impl Surface {
     ) -> Result<Self, String> {
         let spc_cells = super::acq::samples_per_period(spec, code)? * cfg.doppler_bins().len();
         if spc_cells > MAX_SURFACE_CELLS {
-            return Err(format!(
-                "the surface would hold {spc_cells} cells (limit {MAX_SURFACE_CELLS}): widen \
-                 the Doppler step or narrow the Doppler range"
+            return Err(crate::terr!(
+                "e-iq-acq-surface-the-surface-would-hold-cells",
+                spc_cells = spc_cells,
+                MAX_SURFACE_CELLS = MAX_SURFACE_CELLS
             ));
         }
         let found = acquire(samples, spec, code, cfg)?;
@@ -338,11 +340,12 @@ impl Surface {
         let mut line = Vec::new();
         r.read_until(b'\n', &mut line).map_err(io)?;
         let header: SurfaceHeader = serde_json::from_slice(&line)
-            .map_err(|e| IqError::Format(format!("surface header: {e}")))?;
+            .map_err(|e| IqError::Format(crate::terr!("e-iq-acq-surface-surface-header", e = e)))?;
         if header.schema != SURFACE_SCHEMA {
-            return Err(IqError::Format(format!(
-                "surface schema {:?}; expected {SURFACE_SCHEMA:?}",
-                header.schema
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-acq-surface-surface-schema-expected",
+                schema = format!("{:?}", header.schema),
+                SURFACE_SCHEMA = format!("{:?}", SURFACE_SCHEMA)
             )));
         }
         let (rows, cols) = (header.doppler_bins_hz.len(), header.samples_per_period);
@@ -354,8 +357,9 @@ impl Surface {
         let mut grid = Vec::with_capacity(rows);
         let mut buf = vec![0u8; 8 * cols];
         for _ in 0..rows {
-            r.read_exact(&mut buf)
-                .map_err(|e| IqError::Format(format!("surface body: {e}")))?;
+            r.read_exact(&mut buf).map_err(|e| {
+                IqError::Format(crate::terr!("e-iq-acq-surface-surface-body", e = e))
+            })?;
             grid.push(
                 buf.chunks_exact(8)
                     .map(|c| f64::from_le_bytes(c.try_into().unwrap_or([0; 8])))
