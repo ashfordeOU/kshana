@@ -2141,7 +2141,7 @@ fn waterfall_svg(
     let mut s = crate::chart::frame_open(
         w,
         h,
-        "L-band spectrum waterfall",
+        &crate::t!("spectrum-chart-title"),
         &crate::t!(
             "spectrum-frequency-across-time-down-colour",
             n0_db = crate::i18n::localise_decimal(format!("{:.1}", n0_db))
@@ -2191,9 +2191,10 @@ fn waterfall_svg(
         ));
     }
     s.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"{MUTED}\">frequency (MHz)</text>",
+        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"{MUTED}\">{}</text>",
         x0 + pw / 2.0,
-        y0 + ph + 34.0
+        y0 + ph + 34.0,
+        crate::t!("spectrum-chart-frequency-mhz")
     ));
     let mut seen: Vec<f64> = Vec::new();
     for b in &model.bands {
@@ -2257,9 +2258,10 @@ fn time_axis(s: &mut String, t_rows: &[f64], x0: f64, y0: f64, ph: f64) {
         ));
     }
     s.push_str(&format!(
-        "<text x=\"16\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"{MUTED}\" transform=\"rotate(-90 16 {:.1})\">time (s)</text>",
+        "<text x=\"16\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"{MUTED}\" transform=\"rotate(-90 16 {:.1})\">{}</text>",
         y0 + ph / 2.0,
-        y0 + ph / 2.0
+        y0 + ph / 2.0,
+        crate::t!("ensemble-chart-time-s")
     ));
 }
 
@@ -2285,11 +2287,12 @@ fn colour_bar(
     }
     s.push_str(&format!(
         "<text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"{MUTED}\">{lo_db:.0}</text>\
-         <text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"{MUTED}\">{hi_db:.0} dBW/Hz</text>",
+         <text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"{MUTED}\">{} dBW/Hz</text>",
         lo_x,
         label_y,
         bx + bw_ + 4.0,
-        label_y
+        label_y,
+        crate::i18n::num(hi_db, 0)
     ));
 }
 
@@ -2320,7 +2323,7 @@ fn cn0_bars(
         y0,
         bpw,
         y0 + ph,
-        "C/N0 (dB-Hz): nominal (grey) / minimum",
+        &crate::t!("spectrum-chart-cn0-caption"),
     ));
     let cmax = 60.0;
     let xb = |c: f64| bx0 + (c.clamp(0.0, cmax) / cmax) * bpw;
@@ -2340,23 +2343,27 @@ fn cn0_bars(
         s.push_str(&format!(
             "<rect x=\"{bx0:.1}\" y=\"{:.1}\" width=\"{:.1}\" height=\"{bar_h}\" fill=\"{AXIS}\"/>\
              <rect x=\"{bx0:.1}\" y=\"{:.1}\" width=\"{:.1}\" height=\"{bar_h}\" fill=\"{col}\"/>\
-             <text x=\"{bx0:.1}\" y=\"{:.1}\" font-size=\"{font}\" fill=\"{TEXT}\">{} {:.1} / {:.1}</text>",
+             <text x=\"{bx0:.1}\" y=\"{:.1}\" font-size=\"{font}\" fill=\"{TEXT}\">{} {} / {}</text>",
             yc - st.bar_dy,
             (xb(nom) - bx0).max(0.5),
             yc,
             (xb(min_c) - bx0).max(0.5),
             yc - st.label_dy,
             esc(&b.name),
-            nom,
-            min_c
+            crate::i18n::num(nom, 1),
+            crate::i18n::num(min_c, 1)
         ));
     }
     let xt = xb(thr);
     s.push_str(&format!(
         "<line x1=\"{xt:.1}\" y1=\"{y0:.1}\" x2=\"{xt:.1}\" y2=\"{:.1}\" stroke=\"{CORAL}\" stroke-dasharray=\"5 4\"/>\
-         <text x=\"{xt:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\" fill=\"{CORAL}\">threshold {thr:.0}</text>",
+         <text x=\"{xt:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\" fill=\"{CORAL}\">{}</text>",
         y0 + ph,
-        y0 + ph + 16.0
+        y0 + ph + 16.0,
+        crate::t!(
+            "spectrum-chart-threshold",
+            thr = crate::i18n::num(thr, 0)
+        )
     ));
     if st.ticks {
         for k in 0..=3 {
@@ -2445,7 +2452,7 @@ fn multi_band_svg(
     let mut s = crate::chart::frame_open(
         w,
         h,
-        "Multi-band spectrum waterfall",
+        &crate::t!("spectrum-chart-multi-title"),
         &crate::t!(
             "spectrum-each-panel-its-own-frequency",
             n0_db = crate::i18n::localise_decimal(format!("{:.1}", n0_db))
@@ -2468,10 +2475,10 @@ fn multi_band_svg(
         for (t, anchor) in ["start", "middle", "end"].iter().enumerate() {
             let f = fa + (fb - fa) * t as f64 / 2.0;
             s.push_str(&format!(
-                "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"{anchor}\" font-size=\"10\" fill=\"{MUTED}\">{:.1}</text>",
+                "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"{anchor}\" font-size=\"10\" fill=\"{MUTED}\">{}</text>",
                 xf(f),
                 y0 + ph + 16.0,
-                f / 1e6
+                crate::i18n::num(f / 1e6, 1)
             ));
         }
         let mut row = 0usize;
@@ -2491,9 +2498,10 @@ fn multi_band_svg(
         }
     }
     s.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"{MUTED}\">frequency (MHz)</text>",
+        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"{MUTED}\">{}</text>",
         x0 + total_w / 2.0,
-        y0 + ph + 52.0
+        y0 + ph + 52.0,
+        crate::t!("spectrum-chart-frequency-mhz")
     ));
     time_axis(&mut s, t_rows, x0, y0, ph);
     let (bx, by) = (x0, h - 18.0);
