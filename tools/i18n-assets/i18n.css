@@ -9,9 +9,10 @@
 .lang-menu li a[aria-current="true"]{color:var(--ink);font-weight:600}
 .lang-menu li a .lang-tag{color:var(--ink-3);font:11px/1.6 var(--f-mono)}
 .nav.on-dark .lang-menu>summary{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.18);color:var(--space-ink-2)}
-.i18n-notice,.i18n-detected{margin-block:0 16px;padding:10px 14px;border:1px solid var(--line-2);border-inline-start:3px solid var(--tim);border-radius:10px;background:var(--surface);color:var(--ink-2);font-size:14px;line-height:1.5}
+.i18n-notice,.i18n-detected{box-sizing:border-box;width:min(var(--max,1200px),100% - 2*var(--gut,16px));margin-inline:auto;margin-block:76px 0;position:relative;z-index:2;padding:10px 14px;border:1px solid var(--line-2);border-inline-start:3px solid var(--tim);border-radius:10px;background:var(--surface);color:var(--ink-2);font-size:14px;line-height:1.5}
 .i18n-notice p,.i18n-detected p{margin:0}
 .i18n-notice p+p{margin-block-start:6px}
+.i18n-notice+.i18n-detected,.i18n-detected+.i18n-notice{margin-block-start:8px}
 .i18n-detected{display:flex;gap:12px;align-items:baseline;justify-content:space-between}
 .i18n-detected button{flex:none;border:0;background:none;color:var(--ink-3);cursor:pointer;font:inherit;padding:0 4px}
 .i18n-advisory{font-size:13px;color:var(--ink-3)}
