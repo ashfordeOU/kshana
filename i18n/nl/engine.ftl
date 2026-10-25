@@ -516,20 +516,7 @@ engine-api-builtins-lunar-frame-realisation-points-translation =
     }
 
 
-engine-api-builtins-moonlight-service-volume-sats-pts =
-    { $n_sats ->
-        [one]
-            { $n_epochs ->
-                [one] moonlight-service-volume | { $n_sats } sat ({ $geometry_label }) | { $n_grid_points } punten × { $n_epochs } epoch | dekking { $coverage_pct }% (PDOP<{ $pdop_threshold }) | sats { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL-beschikbaarheid { $pl_availability_pct }% | MODELLED
-               *[other] moonlight-service-volume | { $n_sats } sat ({ $geometry_label }) | { $n_grid_points } punten × { $n_epochs } epochs | dekking { $coverage_pct }% (PDOP<{ $pdop_threshold }) | sats { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL-beschikbaarheid { $pl_availability_pct }% | MODELLED
-            }
-       *[other]
-            { $n_epochs ->
-                [one] moonlight-service-volume | { $n_sats } sats ({ $geometry_label }) | { $n_grid_points } punten × { $n_epochs } epoch | dekking { $coverage_pct }% (PDOP<{ $pdop_threshold }) | sats { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL-beschikbaarheid { $pl_availability_pct }% | MODELLED
-               *[other] moonlight-service-volume | { $n_sats } sats ({ $geometry_label }) | { $n_grid_points } punten × { $n_epochs } epochs | dekking { $coverage_pct }% (PDOP<{ $pdop_threshold }) | sats { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL-beschikbaarheid { $pl_availability_pct }% | MODELLED
-            }
-    }
-
+engine-api-builtins-moonlight-service-volume-sats-pts = moonlight-service-volume | { $n_sats } sats ({ $geometry_label }) | { $n_grid_points } punten × { $n_epochs } epochs | dekking { $coverage_pct }% (PDOP<{ $pdop_threshold }) | sats { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL-beschikbaarheid { $pl_availability_pct }% | MODELLED
 
 engine-api-builtins-ephemeris-ure-required-vs-keplerian = { " " }| efemeride { $report } ({ $provenance }) σ_URE vereist { $fmt } t.o.v. Kepler { $fmt2 } t.o.v. verstoord { $fmt3 } (Δ { $fmt4 })
 
@@ -540,36 +527,7 @@ engine-api-builtins-lunar-differential-pnt-sats-illustrative =
     }
 
 
-engine-api-builtins-lunar-station-coverage-points-epochs =
-    { $n_grid_points ->
-        [one]
-            { $n_epochs ->
-                [one]
-                    { $n_trials ->
-                        [one] lunar-station-coverage | { $n_grid_points } punt x { $n_epochs } epoch x { $n_trials } trial | beschikbaarheid { $v4 } % | dekking { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | gecorrigeerd p{ $percentile } 3D { $f } (ongecorrigeerd { $f2 }) | HPL max { $f3 } | MODELLED; geen uitspraak over enig echt systeem
-                       *[other] lunar-station-coverage | { $n_grid_points } punt x { $n_epochs } epoch x { $n_trials } trials | beschikbaarheid { $v4 } % | dekking { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | gecorrigeerd p{ $percentile } 3D { $f } (ongecorrigeerd { $f2 }) | HPL max { $f3 } | MODELLED; geen uitspraak over enig echt systeem
-                    }
-               *[other]
-                    { $n_trials ->
-                        [one] lunar-station-coverage | { $n_grid_points } punt x { $n_epochs } epochs x { $n_trials } trial | beschikbaarheid { $v4 } % | dekking { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | gecorrigeerd p{ $percentile } 3D { $f } (ongecorrigeerd { $f2 }) | HPL max { $f3 } | MODELLED; geen uitspraak over enig echt systeem
-                       *[other] lunar-station-coverage | { $n_grid_points } punt x { $n_epochs } epochs x { $n_trials } trials | beschikbaarheid { $v4 } % | dekking { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | gecorrigeerd p{ $percentile } 3D { $f } (ongecorrigeerd { $f2 }) | HPL max { $f3 } | MODELLED; geen uitspraak over enig echt systeem
-                    }
-            }
-       *[other]
-            { $n_epochs ->
-                [one]
-                    { $n_trials ->
-                        [one] lunar-station-coverage | { $n_grid_points } punten x { $n_epochs } epoch x { $n_trials } trial | beschikbaarheid { $v4 } % | dekking { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | gecorrigeerd p{ $percentile } 3D { $f } (ongecorrigeerd { $f2 }) | HPL max { $f3 } | MODELLED; geen uitspraak over enig echt systeem
-                       *[other] lunar-station-coverage | { $n_grid_points } punten x { $n_epochs } epoch x { $n_trials } trials | beschikbaarheid { $v4 } % | dekking { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | gecorrigeerd p{ $percentile } 3D { $f } (ongecorrigeerd { $f2 }) | HPL max { $f3 } | MODELLED; geen uitspraak over enig echt systeem
-                    }
-               *[other]
-                    { $n_trials ->
-                        [one] lunar-station-coverage | { $n_grid_points } punten x { $n_epochs } epochs x { $n_trials } trial | beschikbaarheid { $v4 } % | dekking { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | gecorrigeerd p{ $percentile } 3D { $f } (ongecorrigeerd { $f2 }) | HPL max { $f3 } | MODELLED; geen uitspraak over enig echt systeem
-                       *[other] lunar-station-coverage | { $n_grid_points } punten x { $n_epochs } epochs x { $n_trials } trials | beschikbaarheid { $v4 } % | dekking { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | gecorrigeerd p{ $percentile } 3D { $f } (ongecorrigeerd { $f2 }) | HPL max { $f3 } | MODELLED; geen uitspraak over enig echt systeem
-                    }
-            }
-    }
-
+engine-api-builtins-lunar-station-coverage-points-epochs = lunar-station-coverage | { $n_grid_points } punten x { $n_epochs } epochs x { $n_trials } trials | beschikbaarheid { $v4 } % | dekking { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | gecorrigeerd p{ $percentile } 3D { $f } (ongecorrigeerd { $f2 }) | HPL max { $f3 } | MODELLED; geen uitspraak over enig echt systeem
 
 engine-api-builtins-terrain-horizon-at-the-station = { " " }| terreinhorizon ({ $sources }) bij het station max { $horizon_max_deg } deg, gebruikerspunten gemiddeld max { $user_horizon_max_deg_mean } deg
 
@@ -930,39 +888,11 @@ engine-e-body-pnt-serialising-report = rapport serialiseren: { $e }
 engine-e-body-pnt-the-report-must-serialise-to = het rapport moet naar een JSON-object serialiseren
 
 engine-body-pnt-positioning-around-user-relays-at =
-    { $n_relays ->
-        [one]
-            { $n_epochs ->
-                [one]
-                    Positiebepaling rond { $name } — { $user_kind }-gebruiker, { $n_relays } relay op { $r } km, { $n_epochs } epoch
-                    { "  " }Lichttijd naar de aarde { $one_way_light_time_s } s enkele reis, { $two_way_light_time_s } s heen en terug; hoek zon-aarde-lichaam { $sun_separation_deg } deg
-                    { "  " }beschikbaarheid: { $availability_relays } alleen constellatie, { $availability_with_earth } met de aardafstand (aarde in zicht { $earth_visibility })
-                    { "  " }mediane PDOP { $opt }; RMS-fout { $opt2 } alleen constellatie, { $opt3 } met de aardafstand
-                    { "  " }mediane formele sigma { $opt4 } alleen constellatie, { $opt5 } met de aardafstand{ "\u000A" }
-               *[other]
-                    Positiebepaling rond { $name } — { $user_kind }-gebruiker, { $n_relays } relay op { $r } km, { $n_epochs } epochs
-                    { "  " }Lichttijd naar de aarde { $one_way_light_time_s } s enkele reis, { $two_way_light_time_s } s heen en terug; hoek zon-aarde-lichaam { $sun_separation_deg } deg
-                    { "  " }beschikbaarheid: { $availability_relays } alleen constellatie, { $availability_with_earth } met de aardafstand (aarde in zicht { $earth_visibility })
-                    { "  " }mediane PDOP { $opt }; RMS-fout { $opt2 } alleen constellatie, { $opt3 } met de aardafstand
-                    { "  " }mediane formele sigma { $opt4 } alleen constellatie, { $opt5 } met de aardafstand{ "\u000A" }
-            }
-       *[other]
-            { $n_epochs ->
-                [one]
-                    Positiebepaling rond { $name } — { $user_kind }-gebruiker, { $n_relays } relays op { $r } km, { $n_epochs } epoch
-                    { "  " }Lichttijd naar de aarde { $one_way_light_time_s } s enkele reis, { $two_way_light_time_s } s heen en terug; hoek zon-aarde-lichaam { $sun_separation_deg } deg
-                    { "  " }beschikbaarheid: { $availability_relays } alleen constellatie, { $availability_with_earth } met de aardafstand (aarde in zicht { $earth_visibility })
-                    { "  " }mediane PDOP { $opt }; RMS-fout { $opt2 } alleen constellatie, { $opt3 } met de aardafstand
-                    { "  " }mediane formele sigma { $opt4 } alleen constellatie, { $opt5 } met de aardafstand{ "\u000A" }
-               *[other]
-                    Positiebepaling rond { $name } — { $user_kind }-gebruiker, { $n_relays } relays op { $r } km, { $n_epochs } epochs
-                    { "  " }Lichttijd naar de aarde { $one_way_light_time_s } s enkele reis, { $two_way_light_time_s } s heen en terug; hoek zon-aarde-lichaam { $sun_separation_deg } deg
-                    { "  " }beschikbaarheid: { $availability_relays } alleen constellatie, { $availability_with_earth } met de aardafstand (aarde in zicht { $earth_visibility })
-                    { "  " }mediane PDOP { $opt }; RMS-fout { $opt2 } alleen constellatie, { $opt3 } met de aardafstand
-                    { "  " }mediane formele sigma { $opt4 } alleen constellatie, { $opt5 } met de aardafstand{ "\u000A" }
-            }
-    }
-
+    Positiebepaling rond { $name } — { $user_kind }-gebruiker, { $n_relays } relays op { $r } km, { $n_epochs } epochs
+    { "  " }Lichttijd naar de aarde { $one_way_light_time_s } s enkele reis, { $two_way_light_time_s } s heen en terug; hoek zon-aarde-lichaam { $sun_separation_deg } deg
+    { "  " }beschikbaarheid: { $availability_relays } alleen constellatie, { $availability_with_earth } met de aardafstand (aarde in zicht { $earth_visibility })
+    { "  " }mediane PDOP { $opt }; RMS-fout { $opt2 } alleen constellatie, { $opt3 } met de aardafstand
+    { "  " }mediane formele sigma { $opt4 } alleen constellatie, { $opt5 } met de aardafstand{ "\u000A" }
 
 engine-body-pnt-positioning-around = Positiebepaling rond { $name }
 
@@ -5086,36 +5016,7 @@ engine-e-lunar-station-no-case = { $KIND }: geen geval ({ $j }, { $i }, { $k })
 
 engine-lunar-station-stroke-stroke-width = { " " }stroke="{ $INK }" stroke-width="0.8"
 
-engine-lunar-station-points-epochs-trials =
-    { $n_grid_points ->
-        [one]
-            { $n_epochs ->
-                [one]
-                    { $n_trials ->
-                        [one] { $n_grid_points } punt · { $n_epochs } epoch · { $n_trials } trial
-                       *[other] { $n_grid_points } punt · { $n_epochs } epoch · { $n_trials } trials
-                    }
-               *[other]
-                    { $n_trials ->
-                        [one] { $n_grid_points } punt · { $n_epochs } epochs · { $n_trials } trial
-                       *[other] { $n_grid_points } punt · { $n_epochs } epochs · { $n_trials } trials
-                    }
-            }
-       *[other]
-            { $n_epochs ->
-                [one]
-                    { $n_trials ->
-                        [one] { $n_grid_points } punten · { $n_epochs } epoch · { $n_trials } trial
-                       *[other] { $n_grid_points } punten · { $n_epochs } epoch · { $n_trials } trials
-                    }
-               *[other]
-                    { $n_trials ->
-                        [one] { $n_grid_points } punten · { $n_epochs } epochs · { $n_trials } trial
-                       *[other] { $n_grid_points } punten · { $n_epochs } epochs · { $n_trials } trials
-                    }
-            }
-    }
-
+engine-lunar-station-points-epochs-trials = { $n_grid_points } punten · { $n_epochs } epochs · { $n_trials } trials
 
 engine-lunar-station-hpl-max = HPL max { $f }
 

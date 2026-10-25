@@ -495,31 +495,13 @@ engine-api-builtins-lunar-frame-realisation-points-translation =
     }
 
 
-engine-api-builtins-moonlight-service-volume-sats-pts =
-    { $n_epochs ->
-        [one] moonlight-service-volume | { $n_sats } sats ({ $geometry_label }) | { $n_grid_points } pkt × { $n_epochs } epoke | dekning { $coverage_pct }% (PDOP<{ $pdop_threshold }) | sats { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL-tilgj. { $pl_availability_pct }% | MODELLED
-       *[other] moonlight-service-volume | { $n_sats } sats ({ $geometry_label }) | { $n_grid_points } pkt × { $n_epochs } epoker | dekning { $coverage_pct }% (PDOP<{ $pdop_threshold }) | sats { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL-tilgj. { $pl_availability_pct }% | MODELLED
-    }
-
+engine-api-builtins-moonlight-service-volume-sats-pts = moonlight-service-volume | { $n_sats } sats ({ $geometry_label }) | { $n_grid_points } pkt × { $n_epochs } epoker | dekning { $coverage_pct }% (PDOP<{ $pdop_threshold }) | sats { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | PL-tilgj. { $pl_availability_pct }% | MODELLED
 
 engine-api-builtins-ephemeris-ure-required-vs-keplerian = { " " }| efemeride { $report } ({ $provenance }) σ_URE påkrevd { $fmt } mot Kepler { $fmt2 } mot forstyrret { $fmt3 } (Δ { $fmt4 })
 
 engine-api-builtins-lunar-differential-pnt-sats-illustrative = lunar-differential-pnt | { $n_sats } sats (illustrativ LCNS-klasse, ikke tilknyttet) | grunnlinje { $baseline_km } km | brukerfeil { $user_error_uncorrected_m } m → { $user_error_corrected_m } m ({ $reduction_factor }× reduksjon) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
 
-engine-api-builtins-lunar-station-coverage-points-epochs =
-    { $n_grid_points ->
-        [one]
-            { $n_epochs ->
-                [one] lunar-station-coverage | { $n_grid_points } punkt x { $n_epochs } epoke x { $n_trials } forsøk | tilgjengelighet { $v4 } % | dekning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigert p{ $percentile } 3D { $f } (ukorrigert { $f2 }) | HPL maks { $f3 } | MODELLED; ikke en påstand om noe virkelig system
-               *[other] lunar-station-coverage | { $n_grid_points } punkt x { $n_epochs } epoker x { $n_trials } forsøk | tilgjengelighet { $v4 } % | dekning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigert p{ $percentile } 3D { $f } (ukorrigert { $f2 }) | HPL maks { $f3 } | MODELLED; ikke en påstand om noe virkelig system
-            }
-       *[other]
-            { $n_epochs ->
-                [one] lunar-station-coverage | { $n_grid_points } punkter x { $n_epochs } epoke x { $n_trials } forsøk | tilgjengelighet { $v4 } % | dekning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigert p{ $percentile } 3D { $f } (ukorrigert { $f2 }) | HPL maks { $f3 } | MODELLED; ikke en påstand om noe virkelig system
-               *[other] lunar-station-coverage | { $n_grid_points } punkter x { $n_epochs } epoker x { $n_trials } forsøk | tilgjengelighet { $v4 } % | dekning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigert p{ $percentile } 3D { $f } (ukorrigert { $f2 }) | HPL maks { $f3 } | MODELLED; ikke en påstand om noe virkelig system
-            }
-    }
-
+engine-api-builtins-lunar-station-coverage-points-epochs = lunar-station-coverage | { $n_grid_points } punkter x { $n_epochs } epoker x { $n_trials } forsøk | tilgjengelighet { $v4 } % | dekning { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | korrigert p{ $percentile } 3D { $f } (ukorrigert { $f2 }) | HPL maks { $f3 } | MODELLED; ikke en påstand om noe virkelig system
 
 engine-api-builtins-terrain-horizon-at-the-station = { " " }| terrenghorisont ({ $sources }) ved stasjonen maks { $horizon_max_deg } deg, brukerpunkter gjennomsnittlig maks { $user_horizon_max_deg_mean } deg
 
@@ -885,39 +867,11 @@ engine-e-body-pnt-serialising-report = serialiserer rapport: { $e }
 engine-e-body-pnt-the-report-must-serialise-to = rapporten må serialiseres til et JSON-objekt
 
 engine-body-pnt-positioning-around-user-relays-at =
-    { $n_relays ->
-        [one]
-            { $n_epochs ->
-                [one]
-                    Posisjonsbestemmelse rundt { $name } — { $user_kind }-bruker, { $n_relays } relé på { $r } km, { $n_epochs } epoke
-                    { "  " }Jordens lystid { $one_way_light_time_s } s én vei, { $two_way_light_time_s } s tur-retur; vinkel Sol-jord-legeme { $sun_separation_deg } deg
-                    { "  " }tilgjengelighet: { $availability_relays } bare konstellasjon, { $availability_with_earth } med jordavstanden (jorden i sikte { $earth_visibility })
-                    { "  " }median PDOP { $opt }; RMS-feil { $opt2 } bare konstellasjon, { $opt3 } med jordavstanden
-                    { "  " }median formell sigma { $opt4 } bare konstellasjon, { $opt5 } med jordavstanden{ "\u000A" }
-               *[other]
-                    Posisjonsbestemmelse rundt { $name } — { $user_kind }-bruker, { $n_relays } relé på { $r } km, { $n_epochs } epoker
-                    { "  " }Jordens lystid { $one_way_light_time_s } s én vei, { $two_way_light_time_s } s tur-retur; vinkel Sol-jord-legeme { $sun_separation_deg } deg
-                    { "  " }tilgjengelighet: { $availability_relays } bare konstellasjon, { $availability_with_earth } med jordavstanden (jorden i sikte { $earth_visibility })
-                    { "  " }median PDOP { $opt }; RMS-feil { $opt2 } bare konstellasjon, { $opt3 } med jordavstanden
-                    { "  " }median formell sigma { $opt4 } bare konstellasjon, { $opt5 } med jordavstanden{ "\u000A" }
-            }
-       *[other]
-            { $n_epochs ->
-                [one]
-                    Posisjonsbestemmelse rundt { $name } — { $user_kind }-bruker, { $n_relays } reléer på { $r } km, { $n_epochs } epoke
-                    { "  " }Jordens lystid { $one_way_light_time_s } s én vei, { $two_way_light_time_s } s tur-retur; vinkel Sol-jord-legeme { $sun_separation_deg } deg
-                    { "  " }tilgjengelighet: { $availability_relays } bare konstellasjon, { $availability_with_earth } med jordavstanden (jorden i sikte { $earth_visibility })
-                    { "  " }median PDOP { $opt }; RMS-feil { $opt2 } bare konstellasjon, { $opt3 } med jordavstanden
-                    { "  " }median formell sigma { $opt4 } bare konstellasjon, { $opt5 } med jordavstanden{ "\u000A" }
-               *[other]
-                    Posisjonsbestemmelse rundt { $name } — { $user_kind }-bruker, { $n_relays } reléer på { $r } km, { $n_epochs } epoker
-                    { "  " }Jordens lystid { $one_way_light_time_s } s én vei, { $two_way_light_time_s } s tur-retur; vinkel Sol-jord-legeme { $sun_separation_deg } deg
-                    { "  " }tilgjengelighet: { $availability_relays } bare konstellasjon, { $availability_with_earth } med jordavstanden (jorden i sikte { $earth_visibility })
-                    { "  " }median PDOP { $opt }; RMS-feil { $opt2 } bare konstellasjon, { $opt3 } med jordavstanden
-                    { "  " }median formell sigma { $opt4 } bare konstellasjon, { $opt5 } med jordavstanden{ "\u000A" }
-            }
-    }
-
+    Posisjonsbestemmelse rundt { $name } — { $user_kind }-bruker, { $n_relays } reléer på { $r } km, { $n_epochs } epoker
+    { "  " }Jordens lystid { $one_way_light_time_s } s én vei, { $two_way_light_time_s } s tur-retur; vinkel Sol-jord-legeme { $sun_separation_deg } deg
+    { "  " }tilgjengelighet: { $availability_relays } bare konstellasjon, { $availability_with_earth } med jordavstanden (jorden i sikte { $earth_visibility })
+    { "  " }median PDOP { $opt }; RMS-feil { $opt2 } bare konstellasjon, { $opt3 } med jordavstanden
+    { "  " }median formell sigma { $opt4 } bare konstellasjon, { $opt5 } med jordavstanden{ "\u000A" }
 
 engine-body-pnt-positioning-around = Posisjonsbestemmelse rundt { $name }
 
@@ -4982,20 +4936,7 @@ engine-e-lunar-station-no-case = { $KIND }: ingen case ({ $j }, { $i }, { $k })
 
 engine-lunar-station-stroke-stroke-width = { " " }stroke="{ $INK }" stroke-width="0.8"
 
-engine-lunar-station-points-epochs-trials =
-    { $n_grid_points ->
-        [one]
-            { $n_epochs ->
-                [one] { $n_grid_points } punkt · { $n_epochs } epoke · { $n_trials } forsøk
-               *[other] { $n_grid_points } punkt · { $n_epochs } epoker · { $n_trials } forsøk
-            }
-       *[other]
-            { $n_epochs ->
-                [one] { $n_grid_points } punkter · { $n_epochs } epoke · { $n_trials } forsøk
-               *[other] { $n_grid_points } punkter · { $n_epochs } epoker · { $n_trials } forsøk
-            }
-    }
-
+engine-lunar-station-points-epochs-trials = { $n_grid_points } punkter · { $n_epochs } epoker · { $n_trials } forsøk
 
 engine-lunar-station-hpl-max = HPL maks { $f }
 
