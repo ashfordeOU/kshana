@@ -222,15 +222,17 @@ seg-6d18d8a8dc78 = <b>Terrain and horizon masking: addressed in { "0.36" }, with
 # text
 # c1: [receiver]
 # c2: src/lunar_receiver.rs
-seg-4bde4adf46e8 = <b>Multipath and receiver hardware: addressed in { "0.36" } as an opt-in, with limits.</b> A <c1/> section (<c2/>) adds elevation-dependent multipath <s1>a + b exp(-el / el0)</s1> at the user and the station (the DO-229 functional form; on the Moon every value is ILLUSTRATIVE), the station's multipath optionally first-order Gauss-Markov over epochs, early-minus-late DLL code noise from C/N0, and per-channel inter-channel biases. What remains: antenna phase-centre and group-delay variation are not modelled; no lunar measurement fixes the multipath values; the correction-link budget block does not include the receiver terms.
+# c3: a + b exp(-el / el0)
+seg-b58b3ff1ef20 = <b>Multipath and receiver hardware: addressed in { "0.36" } as an opt-in, with limits.</b> A <c1/> section (<c2/>) adds elevation-dependent multipath <c3/> at the user and the station (the DO-229 functional form; on the Moon every value is ILLUSTRATIVE), the station's multipath optionally first-order Gauss-Markov over epochs, early-minus-late DLL code noise from C/N0, and per-channel inter-channel biases. What remains: antenna phase-centre and group-delay variation are not modelled; no lunar measurement fixes the multipath values; the correction-link budget block does not include the receiver terms.
 
 # text
 seg-677252c2d3e5 = Ephemeris-error growth over the latency: addressed in { "0.36" } as an opt-in, with limits.
 
 # text
 # c1: orbit_err_growth_m_per_s
-# c2: tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md
-seg-7c2d603b3a9d = <c1/> adds a linear growth of the broadcast orbit error with age (range 1-sigma <s1>rate x latency / sqrt({ "3" })</s1>), on top of the frozen-error re-projection; linear growth is the first-order term of a propagated state error (checked to { "1" } % at { "600" } s against the in-tree two-body propagation). What remains: no public source gives a lunar growth rate (ILLUSTRATIVE); no along-track/radial structure; the correction-link budget block uses the frozen model. The K5 addendum (<c2/>, pre-registered alone) runs K5 at { "0.001" }, { "0.01" } and { "0.1" } m/s: it fails in every case ({ "369.8" } m, { "2315" } m, { "22797" } m against a { "1.5" } m bar), as stated before the run.
+# c2: rate x latency / sqrt(3)
+# c3: tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md
+seg-3af08edab1cc = <c1/> adds a linear growth of the broadcast orbit error with age (range 1-sigma <c2/>), on top of the frozen-error re-projection; linear growth is the first-order term of a propagated state error (checked to { "1" } % at { "600" } s against the in-tree two-body propagation). What remains: no public source gives a lunar growth rate (ILLUSTRATIVE); no along-track/radial structure; the correction-link budget block uses the frozen model. The K5 addendum (<c3/>, pre-registered alone) runs K5 at { "0.001" }, { "0.01" } and { "0.1" } m/s: it fails in every case ({ "369.8" } m, { "2315" } m, { "22797" } m against a { "1.5" } m bar), as stated before the run.
 
 # text
 # c1: [solution]

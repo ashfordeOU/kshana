@@ -15,4 +15,5 @@
 .i18n-detected{display:flex;gap:12px;align-items:baseline;justify-content:space-between}
 .i18n-detected button{flex:none;border:0;background:none;color:var(--ink-3);cursor:pointer;font:inherit;padding:0 4px}
 .i18n-advisory{font-size:13px;color:var(--ink-3)}
-@media (max-width:560px){.lang-menu .lang-code{display:none}.lang-menu>summary{min-width:36px;padding-inline:0}}
+@media (max-width:560px){.lang-menu .lang-code{display:none}.lang-menu>summary{min-width:36px;padding-inline:0}.nav .pill .pill-l{display:none}}
+@media (max-width:440px){.nav .brand-t{display:none}.nav .pill{padding-inline:9px}}

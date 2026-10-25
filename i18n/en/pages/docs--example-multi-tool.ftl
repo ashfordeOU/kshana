@@ -41,8 +41,9 @@ seg-4b732dd54291 = GMAT, Orekit and STK all <em>export</em> CCSDS Orbit Ephemeri
 # text
 # c1: oem_text
 # c2: kshana scenarios/orbit-sgp4-gps.toml --export-oem gps.oem
-# c3: label
-seg-f0efa9b9a8d4 = It reports the segments, objects, frames and epoch span and a velocity-consistency check, showing the ephemeris was ingested faithfully (round-trip error below { "1" }×{ "10" }⁻⁶ km). Given an external file in <c1/> instead, it reports what it parsed: fed the OEM that <c2/> writes, it prints <s1>oem-interop: ingested { "30" } segment(s), { "10830" } states from external OEM (originator KSHANA) (MODELLED interop)</s1>. The <c3/> is explicit that this is a structural and physical ingest check, not an orbit-accuracy validation of the source.
+# c3: oem-interop: ingested 30 segment(s), 10830 states from external OEM (originator KSHANA) (MODELLED interop)
+# c4: label
+seg-3136cfd5a40e = It reports the segments, objects, frames and epoch span and a velocity-consistency check, showing the ephemeris was ingested faithfully (round-trip error below { "1" }×{ "10" }⁻⁶ km). Given an external file in <c1/> instead, it reports what it parsed: fed the OEM that <c2/> writes, it prints <c3/>. The <c4/> is explicit that this is a structural and physical ingest check, not an orbit-accuracy validation of the source.
 
 # text
 # c1: passes

@@ -76,27 +76,29 @@ seg-2c181d5e0942 = Save the Node.js version as a <c1/> file (or set <c2/> in you
 # c3: json
 # c4: svg
 # c5: summary
-# c6: data: ResultDocument
-# c7: scenario_kinds()
-# c8: KindMeta[]
-# c9: name
-# c10: ScenarioKind
-# c11: error_kind()
-# c12: ErrorKind
-# c13: ""
-# c14: ResultDocument
-# c15: schema_version
-# c16: engine_version
-# c17: units
-# c18: FieldUnit
-seg-8b746b0c3d2c = TypeScript sees typed results: <c1/> returns a <c2/> (<c3/>, <c4/>, <c5/>, <s1>csv: string | null</s1>, <c6/>), <c7/> a <c8/> whose <c9/> is the <c10/> union of every kind, and <c11/> an <c12/> (or <c13/> on success). Each result document's own fields vary by kind; <c14/> types the shared envelope (<c15/>, <c16/>, and the <c17/> block of <c18/>s).
+# c6: csv: string | null
+# c7: data: ResultDocument
+# c8: scenario_kinds()
+# c9: KindMeta[]
+# c10: name
+# c11: ScenarioKind
+# c12: error_kind()
+# c13: ErrorKind
+# c14: ""
+# c15: ResultDocument
+# c16: schema_version
+# c17: engine_version
+# c18: units
+# c19: FieldUnit
+seg-06eb982ef260 = TypeScript sees typed results: <c1/> returns a <c2/> (<c3/>, <c4/>, <c5/>, <c6/>, <c7/>), <c8/> a <c9/> whose <c10/> is the <c11/> union of every kind, and <c12/> an <c13/> (or <c14/> on success). Each result document's own fields vary by kind; <c15/> types the shared envelope (<c16/>, <c17/>, and the <c18/> block of <c19/>s).
 
 # text
 # c1: kind_modules()
 # c2: field_importance()
 # c3: iq_signals()
 # c4: iq_run_short
-seg-79d2b53c315c = Four more functions describe the engine to a front end. <c1/> returns a JSON object from kind to the modules its verification-matrix rows name, <c2/> one from kind to the result fields that answer its question (display metadata; the engine never reads it), <c3/> the signal names <c4/> accepts, and <s1>iq_run_short(fs_hz, duration_s, signal, ids, dopplers_hz, cn0_dbhz, seed)</s1> a short synthetic IQ scene, acquired and tracked in memory (at most { "0.25" } s, { "1,000,000" } samples and { "8" } satellites), with the same answer as the native build.
+# c5: iq_run_short(fs_hz, duration_s, signal, ids, dopplers_hz, cn0_dbhz, seed)
+seg-31d983ae7036 = Four more functions describe the engine to a front end. <c1/> returns a JSON object from kind to the modules its verification-matrix rows name, <c2/> one from kind to the result fields that answer its question (display metadata; the engine never reads it), <c3/> the signal names <c4/> accepts, and <c5/> a short synthetic IQ scene, acquired and tracked in memory (at most { "0.25" } s, { "1,000,000" } samples and { "8" } satellites), with the same answer as the native build.
 
 # text
 # c1: run

@@ -55,7 +55,8 @@ seg-00eae74cb1e6 = space-vehicle identifier (SVID), issue of data (IOD), band id
 seg-0bdbdd2c923b = Synchronisation
 
 # text
-seg-3945dda43235 = week number, time of week (TOW) of transmission, and a second-order clock polynomial <s1>af0 + af1·(t − toc) + af2·(t − toc)²</s1>
+# c1: af0 + af1·(t − toc) + af2·(t − toc)²
+seg-8120237b02ea = week number, time of week (TOW) of transmission, and a second-order clock polynomial <c1/>
 
 # text
 seg-b09dc4b322d3 = Ephemeris
@@ -104,7 +105,8 @@ seg-9c0643152bbf = { "16" } + { "21" } by default, plus the time scale
 seg-e0afd541d64c = the 22-parameter model of Liu, Su, Xie, Zhou and Qu ({ "2025" }, <em>Remote Sensing</em> { "17" }({ "16" }):{ "2894" }, doi <a1>10.3390/rs17162894</a1>): the { "16" } plus <c1/>
 
 # text
-seg-fc1a1e79070c = the ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations) "zero-clock" model: an Earth-centred Earth-fixed (ECEF) polynomial per axis in <s1>τ = (t − t_ref) / { "64" } s</s1> (default degree { "6" }), no clock terms because the satellite clock is steered to system time (<a1>InsideGNSS</a1>)
+# c1: τ = (t − t_ref) / 64 s
+seg-a6042071a03f = the ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations) "zero-clock" model: an Earth-centred Earth-fixed (ECEF) polynomial per axis in <c1/> (default degree { "6" }), no clock terms because the satellite clock is steered to system time (<a1>InsideGNSS</a1>)
 
 # text
 seg-5869d6f65796 = { "22" } by default
@@ -119,14 +121,15 @@ seg-6663aa3eeebc = The user algorithm (<c1/>) is the Galileo ICD sequence (Keple
 
 # text
 # c1: A = A0 + ȧ·tk
-# c2: ½·ṅ·tk
-# c3: ṅ
-# c4: Crs1·sin Φ + Crc1·cos Φ + Crs3·sin 3Φ + Crc3·cos 3Φ
-# c5: Φ
-# c6: ṅ
+# c2: n = √(μ/A0³) + Δn + ṅ·tk
+# c3: ½·ṅ·tk
+# c4: ṅ
+# c5: Crs1·sin Φ + Crc1·cos Φ + Crs3·sin 3Φ + Crc3·cos 3Φ
+# c6: Φ
 # c7: ṅ
-# c8: nDot
-seg-5b05dcde1b90 = The Liu et al. terms follow the paper's user algorithm (Section { "2.2" }, Eq. 1-7): <c1/>, <s1>n = √(μ/A0³) + Δn + ṅ·tk</s1> (releases before { "0.30" } used the Global Positioning System (GPS) civil-navigation convention <c2/>, so a <c3/> they wrote is twice the paper's), and <c4/> added to the radius, <c5/> the uncorrected argument of latitude. The <c6/> scale convention is transcribed from the paper's Eq. { "1" }; the comparison with the paper on real orbits does not depend on it (a factor ½ on <c7/> leaves every fitted figure unchanged), so the meaning of a transmitted <c8/> value is not validated there.
+# c8: ṅ
+# c9: nDot
+seg-b3935a85a7b2 = The Liu et al. terms follow the paper's user algorithm (Section { "2.2" }, Eq. 1-7): <c1/>, <c2/> (releases before { "0.30" } used the Global Positioning System (GPS) civil-navigation convention <c3/>, so a <c4/> they wrote is twice the paper's), and <c5/> added to the radius, <c6/> the uncorrected argument of latitude. The <c7/> scale convention is transcribed from the paper's Eq. { "1" }; the comparison with the paper on real orbits does not depend on it (a factor ½ on <c8/> leaves every fitted figure unchanged), so the meaning of a transmitted <c9/> value is not validated there.
 
 # text
 seg-9a83292bffcf = Two readings are Kshana's own and are stated as such:
@@ -143,8 +146,9 @@ seg-3472ce139588 = The fitter
 
 # text
 # c1: truth.rs
-# c2: gravity_degree = 0
-seg-c4ecdc8f6aa5 = <c1/> integrates the orbit with a fixed-step fourth-order Runge–Kutta in a frame that turns into Earth-fixed axes by one rotation, <s1>θ(t) = θ0 + Ω̇e·t</s1>, the same single rotation a broadcast user algorithm applies. Gravity is two-body (<c2/>), the zonal harmonics J2 to J6 ({ "2" } to { "6" }), or the Earth Gravitational Model { "2008" } (EGM2008) field to degree and order { "7" } to { "70" }, whose tesseral terms carry the short-period signature that makes a LEO fit hard. Drag is optional (static exponential density). The clock is free-running (bias, drift, drift rate and white frequency noise at a stated one-second Allan deviation, plus the periodic relativistic term) or steered (a first-order Gauss–Markov residual).
+# c2: θ(t) = θ0 + Ω̇e·t
+# c3: gravity_degree = 0
+seg-4404a677d185 = <c1/> integrates the orbit with a fixed-step fourth-order Runge–Kutta in a frame that turns into Earth-fixed axes by one rotation, <c2/>, the same single rotation a broadcast user algorithm applies. Gravity is two-body (<c3/>), the zonal harmonics J2 to J6 ({ "2" } to { "6" }), or the Earth Gravitational Model { "2008" } (EGM2008) field to degree and order { "7" } to { "70" }, whose tesseral terms carry the short-period signature that makes a LEO fit hard. Drag is optional (static exponential density). The clock is free-running (bias, drift, drift rate and white frequency noise at a stated one-second Allan deviation, plus the periodic relativistic term) or steered (a first-order Gauss–Markov residual).
 
 # text
 # c1: fit.rs
@@ -741,9 +745,6 @@ seg-fccf37a24fc4 = semicircle/s^{ "2" }
 
 # text
 seg-ebde561c17ab = ECEF polynomial (model { "4" })
-
-# text
-seg-aa450fdb465e = <s1>x_k, y_k, z_k (k >= { "1" })</s1>
 
 # text
 seg-822c7482547c = Klobuchar (flag bit { "1" })

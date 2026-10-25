@@ -213,7 +213,8 @@ seg-94058315dfe4 = Input
 # c1: <svid> <gst_seconds> <60 hex digits>
 # c2: #
 # c3: gst_seconds
-seg-7b929b7b3357 = <b>Plain page format.</b> One page pair per line: <c1/>, <c2/> comments allowed. <c3/> is GST in seconds (<s1>week * { "604800" } + time of week</s1>) at the start of the page; the hex is the { "240" } bits of the even and odd halves (tails included), most significant bit first.
+# c4: week * 604800 + time of week
+seg-d696f298c4a2 = <b>Plain page format.</b> One page pair per line: <c1/>, <c2/> comments allowed. <c3/> is GST in seconds (<c4/>) at the start of the page; the hex is the { "240" } bits of the even and odd halves (tails included), most significant bit first.
 
 # text
 # c1: SVID,NumNavBits,NavBitsHEX
@@ -238,8 +239,10 @@ seg-47118a577876 = Text output gives the status per satellite and, with <c1/>, p
 seg-e2af23b756f5 = From Python and WebAssembly
 
 # text
-# c1: kshana osnma verify --json
-seg-9b559d2a6998 = <s1>kshana.osnma_verify(data, format="", start_gst=None, merkle_root_hex="", public_keys=None, reference_time=None, max_time_error=None)</s1> (Python) and <s2>osnma_verify(input_base64, format, start_gst, merkle_root_hex, public_keys, reference_time, max_time_error)</s2> (WebAssembly) run the same verifier on bytes in memory and return the JSON <c1/> prints, advisory included. The MCP server does not carry it: the input is a long raw receiver stream better served by the command line and Python, and an agent tool would add a large-input surface for no benefit. The same advisory and the same limits apply; the status is not a navigation integrity service.
+# c1: kshana.osnma_verify(data, format="", start_gst=None, merkle_root_hex="", public_keys=None, reference_time=None, max_time_error=None)
+# c2: osnma_verify(input_base64, format, start_gst, merkle_root_hex, public_keys, reference_time, max_time_error)
+# c3: kshana osnma verify --json
+seg-4edf83a818d1 = <c1/> (Python) and <c2/> (WebAssembly) run the same verifier on bytes in memory and return the JSON <c3/> prints, advisory included. The MCP server does not carry it: the input is a long raw receiver stream better served by the command line and Python, and an agent tool would add a large-input surface for no benefit. The same advisory and the same limits apply; the status is not a navigation integrity service.
 
 # text
 seg-0987c3b00a14 = Tests and test data

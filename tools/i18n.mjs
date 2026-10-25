@@ -79,7 +79,9 @@ function* tokens(html) {
 }
 
 let CUR = '';
-const looksLikeProse = (v) => { const t = norm(v).trim(); return t.split(' ').length >= 4 && /[(]|; |: | the | and | of | for | with /.test(t); };
+const STOP = new Set(['the', 'and', 'of', 'for', 'with', 'is', 'are', 'to', 'in', 'on', 'a', 'an', 'as', 'by', 'from', 'at', 'or', 'not', 'that', 'this', 'each', 'all']);
+// Prose inside a code element (a test description, not a command or engine output): at least six plain words and a function word.
+const looksLikeProse = (v) => { if (!/^[\w:./-]+(?: and [\w:./-]+)* \(/.test(norm(v).trim())) return false; const w = norm(v).trim().split(' '); const plain = w.filter((x) => /^[A-Za-z][a-z]{2,}[,.;:]?$|^[a-z]{1,3}$/.test(x)); return plain.length >= 6 && plain.some((x) => STOP.has(x.replace(/[,.;:]$/, ''))); };
 const norm = (t) => t.replace(/\s+/g, ' ');
 const hasLetters = (t) => /\p{L}/u.test(t);
 
@@ -121,7 +123,7 @@ function segmentOf(nodes) {
   const rawCode = (txt, n) => {
     codes.push(norm(txt).trim());
     const name = `c${++cnt.c}`;
-    tags[name] = { h: n.k === 'el' ? CUR.slice(n.s, n.ce ?? n.os) + (n.ce === undefined ? n.kids.map((x) => CUR.slice(x.s, x.e)).join('') : '') : CUR.slice(n.s, n.e) };
+    tags[name] = { at: n.s, h: n.k === 'el' ? CUR.slice(n.s, n.ce ?? n.os) + (n.ce === undefined ? n.kids.map((x) => CUR.slice(x.s, x.e)).join('') : '') : CUR.slice(n.s, n.e) };
     return `<${name}/>`;
   };
   const render = (n, first, last) => {
@@ -129,14 +131,14 @@ function segmentOf(nodes) {
     if (n.k === 'br') return '<br/>';
     if (n.k === 'code' && looksLikeProse(n.v)) { // prose inside a code element: translatable text, the element kept around it
       const tag = `s${++cnt.s}`;
-      tags[tag] = { o: CUR.slice(n.s, n.os), c: `</${n.name}>` };
+      tags[tag] = { at: n.s, o: CUR.slice(n.s, n.os).replace(/^<(\w+)/, '<$1 data-i18n-t'), c: `</${n.name}>` };
       return `<${tag}>${fmtText(n.v, true)}</${tag}>`;
     }
     if (n.k === 'code') return rawCode(n.v, n);
     if (isDeco(n)) return rawCode(textOf(n), n);
     let tag;
     if (n.name === 'a') tag = `a${++cnt.a}`; else if (n.name === 'strong' || n.name === 'b') tag = 'b'; else if (n.name === 'em' || n.name === 'i') tag = 'em'; else tag = `s${++cnt.s}`;
-    tags[tag] = { o: CUR.slice(n.s, n.os), c: n.cs !== undefined ? CUR.slice(n.cs, n.ce) : '' };
+    tags[tag] = { at: n.s, o: CUR.slice(n.s, n.os), c: n.cs !== undefined ? CUR.slice(n.cs, n.ce) : '' };
     return `<${tag}>${n.kids.map((k) => render(k)).join('')}</${tag}>`;
   };
   const skel = norm(kids.map((k) => render(k)).join('')).trim();
@@ -372,11 +374,11 @@ async function pseudo(args) {
 async function apply(args) {
   const L = await lang();
   const S = await site();
-  const { opt, pos } = args2opt(args, { src: 'web', root: 'i18n', out: 'dist', skip: 'studio,playground,assets', origin: 'https://kshana.dev', langs: '' });
+  const { opt, pos } = args2opt(args, { src: 'web', root: 'i18n', out: 'dist', skip: 'studio,playground,assets', origin: 'https://kshana.dev', langs: null });
   const skip = String(opt.skip).split(',').filter(Boolean);
   const pages = walk(opt.src, skip);
   const langs = pos.length ? pos : L.LANGS;
-  const offered = opt.langs ? opt.langs.split(',').filter(Boolean) : [...new Set([...L.LANGS, ...langs])];
+  const offered = opt.langs != null ? opt.langs.split(',').filter(Boolean) : [...new Set([...L.LANGS, ...langs])];
   const report = [];
   for (const lang of langs) {
     let T = 0, M = 0;
@@ -404,8 +406,8 @@ async function apply(args) {
 async function english(args) {
   const L = await lang();
   const S = await site();
-  const { opt } = args2opt(args, { src: 'web', root: 'i18n', out: '', skip: 'studio,playground,assets', origin: 'https://kshana.dev', langs: '' });
-  const offered = opt.langs ? opt.langs.split(',').filter(Boolean) : L.LANGS;
+  const { opt } = args2opt(args, { src: 'web', root: 'i18n', out: '', skip: 'studio,playground,assets', origin: 'https://kshana.dev', langs: null });
+  const offered = opt.langs != null ? opt.langs.split(',').filter(Boolean) : L.LANGS;
   const out = opt.out || opt.src;
   const pages = walk(opt.src, [...String(opt.skip).split(',').filter(Boolean), ...L.LANGS]);
   const all = walk(opt.src, []);
@@ -489,9 +491,47 @@ async function langsCmd(args) {
   console.log(out.join(','));
 }
 
+/** verify: compare every page of a language tree with its English page: the multiset of numeric values (separators ignored),
+ *  code spans and link targets must be equal, and the machine-translation notice must be present (design v2, section 5). */
+async function verify(args) {
+  const L = await lang();
+  const { opt, pos } = args2opt(args, { src: 'web', dist: 'dist', skip: 'studio,playground,assets' });
+  const pages = walk(opt.src, String(opt.skip).split(',').filter(Boolean));
+  const langs = pos.length ? pos : L.LANGS.filter((l) => existsSync(join(opt.dist, l)));
+  const visible = (h) => h.replace(/<(script|style|svg|template|head)\b[\s\S]*?<\/\1>/gi, ' ').replace(/<[^>]*>/g, ' ');
+  // digit runs: invariant under the locale's group and decimal separators, which is all a translation may change
+  const nums = (h) => (visible(h).replace(/&[a-z#0-9]+;/gi, ' ').match(/\d+/g) || []).sort().join(' ');
+  const codes = (h) => (h.match(/<code\b[^>]*>[\s\S]*?<\/code>/gi) || []).filter((c) => !/^<code\b[^>]*data-i18n-t/i.test(c)).map((c) => c.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim()).filter((c) => !looksLikeProse(c.replace(/&[a-z#0-9]+;/gi, ' '))).sort().join('\n');
+  const hrefs = (h, pre) => (h.match(/<a\b[^>]*?\shref="([^"]*)"/gi) || []).map((a) => a.match(/href="([^"]*)"/)[1].replace(new RegExp('^' + pre), '')).filter((x) => !x.startsWith('#')).sort().join('\n');
+  let bad = 0;
+  for (const lang of langs) {
+    let n = 0;
+    for (const rel of pages) {
+      const p = join(opt.dist, lang, rel);
+      if (!existsSync(p)) { console.log(`ERROR ${lang}/${rel}: page missing`); bad++; continue; }
+      const en = readFileSync(join(opt.src, rel), 'utf8'), tr = readFileSync(p, 'utf8');
+      // the notices and the switcher are added by apply: drop them before comparing
+      const strip = (h) => h.replace(/<div class="i18n-notice"[\s\S]*?<\/div>/, '').replace(/<details class="lang-menu"[\s\S]*?<\/details>/, '').replace(/<template id="i18n-detected"[\s\S]*?<\/template>/, '');
+      const t = strip(tr);
+      const diff = (x, y, sep) => { const cnt = new Map(); for (const k of x.split(sep)) cnt.set(k, (cnt.get(k) || 0) + 1); for (const k of y.split(sep)) cnt.set(k, (cnt.get(k) || 0) - 1); return [...cnt].filter(([, v]) => v).slice(0, 4).map(([k, v]) => `${v > 0 ? '-' : '+'}${JSON.stringify(k.slice(0, 60))}`).join(' '); };
+      if (nums(en) !== nums(t)) { bad++; n++; console.log(`ERROR ${lang}/${rel}: the numeric values differ from the English page (${diff(nums(en), nums(t), ' ')})`); }
+      if (codes(en) !== codes(t)) { bad++; n++; console.log(`ERROR ${lang}/${rel}: the code spans differ from the English page (${diff(codes(en), codes(t), '\n')})`); }
+      const here = '/' + rel.replace(/(^|\/)index\.html$/, '$1').replace(/\.html$/, '');
+      const norm = (h, pre) => { let x = pre ? h.replace(new RegExp('^' + pre + '(?=/)'), '') : h; if (x.startsWith(here + '#')) x = x.slice(here.length); return x; };
+      const all = (h) => (h.match(/<a\b[^>]*?\shref="([^"]*)"/gi) || []).map((x) => x.match(/href="([^"]*)"/)[1]);
+      const a = all(en).map((h) => norm(h, '')).filter((h) => !/^[a-z]+:/i.test(h)).sort();
+      const b = all(t).map((h) => norm(h, '/' + lang)).filter((h) => !/^[a-z]+:/i.test(h)).sort();
+      if (a.join('\n') !== b.join('\n')) { bad++; n++; console.log(`ERROR ${lang}/${rel}: the link targets differ from the English page`); }
+      if (!/class="i18n-notice"/.test(tr)) { bad++; n++; console.log(`ERROR ${lang}/${rel}: the machine-translation notice is missing`); }
+    }
+    console.log(`${lang}: ${pages.length} pages verified, ${n} problems`);
+  }
+  if (bad) process.exit(1);
+}
+
 const [cmd, ...rest] = process.argv.slice(2);
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
+  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
   if (run) await run();
   else if (!cmd) { console.error('usage: node tools/i18n.mjs extract|apply|check|status|pseudo|csslint'); process.exit(2); }
   else { console.error(`i18n: '${cmd}' is not built yet`); process.exit(2); }

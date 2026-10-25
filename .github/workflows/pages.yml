@@ -163,6 +163,7 @@ jobs:
           langs="$(node tools/i18n.mjs langs --min 0.25)"
           if [ -n "$langs" ]; then
             node tools/i18n.mjs apply $(printf '%s' "$langs" | tr ',' ' ') --src site --out site --langs "$langs"
+            node tools/i18n.mjs verify $(printf '%s' "$langs" | tr ',' ' ') --src site --dist site
             node tools/i18n.mjs sitemaps --tree site
           fi
           node tools/i18n.mjs english --src site --langs "$langs"
