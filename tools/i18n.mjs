@@ -395,6 +395,16 @@ async function apply(args) {
       mkdirSync(dirname(dst), { recursive: true });
       writeFileSync(dst, S.decoratePage(r.html, { lang, rel, bundle, missing: r.missing, translated: r.translated, pages, origin: opt.origin, langs: offered }));
     }
+    // /<lang>/studio/... stubs: set the language and go to the Studio (which reads ?lang=)
+    const studioPages = existsSync(join(opt.src, 'studio')) ? walk(join(opt.src, 'studio'), ['recorded', 'pkg', 'assets', 'data', 'lib']).filter((r) => /^([\w-]+\/)?index\.html$/.test(r)).map((r) => 'studio/' + r) : [];
+    const sbundle = L.bundleFor(lang, [join(opt.root, lang, 'glossary.ftl'), join(opt.root, lang, 'ui.ftl')]);
+    const stitle = (() => { try { const m = sbundle.getMessage('studio-title'); return m && m.value ? sbundle.formatPattern(m.value, {}) : 'Kshana Studio'; } catch { return 'Kshana Studio'; } })();
+    for (const rel of studioPages) {
+      const target = '/' + rel.replace(/index\.html$/, '');
+      const dst = join(opt.out, lang, rel);
+      mkdirSync(dirname(dst), { recursive: true });
+      writeFileSync(dst, `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>${stitle.replace(/</g, '&lt;')}</title><link rel="canonical" href="${opt.origin}${target}"><script>location.replace(${JSON.stringify(target + '?lang=' + lang)}+location.hash)</script></head><body><a href="${target}?lang=${lang}">${stitle.replace(/</g, '&lt;')}</a></body></html>\n`);
+    }
     const loc = (rel) => `${opt.origin}/${lang}${S.pageUrl(rel)}`;
     writeFileSync(join(opt.out, lang, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${listed.map((rel) => `  <url><loc>${loc(rel)}</loc></url>`).join('\n')}\n</urlset>\n`);
     report.push(`${lang}: ${T} segments translated, ${M} left in English, ${pages.length} pages`);
