@@ -487,6 +487,27 @@ pub fn kind_figures(kind: &str) -> Option<&'static [(&'static str, &'static str)
             ("frame_term_s", ""),
             ("time_lab.ltc_realisation_ns", "Lunar station time laboratory: miniRAFS holdover against LTC"),
         ],
+        "lunar-ascent" => &[
+            ("insertion.dispersion_velocity_m_s", ""),
+            ("insertion.nav_sigma_position_m", ""),
+            ("insertion.nav_sigma_velocity_m_s", ""),
+        ],
+        "lunar-descent" => &[
+            ("touchdown.ellipse_3sigma_semi_major_m", ""),
+            ("touchdown.nav_sigma_east_m", ""),
+            ("inertial_only_sigma_east_m", ""),
+            ("monte_carlo.mean_nees", ""),
+        ],
+        "lunar-orbit-rendezvous" => &[
+            ("final_rel_pos_sigma_lvlh_m.total", ""),
+            ("fix_availability", ""),
+            ("monte_carlo.mean_nees", ""),
+        ],
+        "lunar-surface" => &[
+            ("exit_state.timing_floor_s", ""),
+            ("exit_state.longest_timing_gap_h", ""),
+            ("exit_state.stay_days", ""),
+        ],
         "lunar-time-offset" => &[
             ("secular_rate_us_per_day", ""),
             ("self_potential_us_per_day", ""),
