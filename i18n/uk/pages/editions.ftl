@@ -1,8 +1,10 @@
 # editions: translations (uk)
 
-seg-8b49f6477e8f = Відкрите ядро
+seg-f79048f88b5c = Запустити Kshana Studio
 
-seg-6555ff9a6d8e = Вихід
+seg-a613a7447e3f = Індивідуальне дослідження
+
+seg-9a86ef058d27 = Відкрити в Kshana Studio
 
 seg-e07e65946b76 = З маніфестів
 
@@ -72,8 +74,6 @@ seg-34908f7d11bb = crates.io: kshana-mcp
 
 seg-61a4eb09767f = Посібник із сервера MCP
 
-seg-f79048f88b5c = Запустити Kshana Studio
+seg-8b49f6477e8f = Відкрите ядро
 
-seg-a613a7447e3f = Індивідуальне дослідження
-
-seg-9a86ef058d27 = Відкрити в Kshana Studio
+seg-6555ff9a6d8e = Вихід

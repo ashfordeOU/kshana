@@ -1,12 +1,14 @@
 # docs--skyline: translations (uk)
 
-seg-2bd2101ce454 = Поверхня
+seg-f917e7fcac09 = Що це
 
 seg-6c6e7248496f = Геометрія неба
 
 seg-379f49bff6fb = Python
 
-seg-f917e7fcac09 = Що це
+seg-2bd2101ce454 = Поверхня
+
+seg-ad856ad710eb = Статус
 
 seg-cbf0f9bcd2d8 = Оракул
 
@@ -18,4 +20,10 @@ seg-bbb1828b3db1 = Зведення міського каньйону, сект�
 
 seg-2c53381d48ae = Горизонтальний еліпс похибки та кофактор для кожної системи з коваріації геометрії
 
-seg-ad856ad710eb = Статус
+seg-de6c33774c9c = CLI
+
+seg-587beeccaa11 = Передналаштування
+
+seg-b03d56f501c3 = Вид
+
+seg-4dbf41c0ec3b = Функція
