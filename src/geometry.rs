@@ -1171,7 +1171,11 @@ pub fn skyplot_svg(req: &SkyRequest) -> Result<String, String> {
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" viewBox=\"0 0 {w} {h}\" \
          font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{TEXT}\">\
          <rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>\
-         <text x=\"20\" y=\"28\" font-size=\"15\" font-weight=\"bold\" fill=\"{TITLE}\">Skyplot ({LABEL})</text>"
+         <text x=\"20\" y=\"28\" font-size=\"15\" font-weight=\"bold\" fill=\"{TITLE}\">{}</text>",
+        crate::t!(
+            "geometry-chart-title",
+            label = crate::t!("fom-verdict-modelled")
+        )
     );
     if let Some(sk) = &sky {
         // The whole disc shaded, then the open sky (inside the skyline polygon) cut back out.
@@ -1191,12 +1195,18 @@ pub fn skyplot_svg(req: &SkyRequest) -> Result<String, String> {
         let rr = r * (90.0 - el) / 90.0;
         out.push_str(&format!(
             "<circle cx=\"{cx}\" cy=\"{cy}\" r=\"{rr:.2}\" fill=\"none\" stroke=\"{AXIS}\"/>\
-             <text x=\"{:.2}\" y=\"{:.2}\" fill=\"{MUTED}\" font-size=\"10\">{el:.0}°</text>",
+             <text x=\"{:.2}\" y=\"{:.2}\" fill=\"{MUTED}\" font-size=\"10\">{}°</text>",
             cx + 3.0,
-            cy - rr - 3.0
+            cy - rr - 3.0,
+            crate::i18n::num(el, 0)
         ));
     }
-    for (az, lab) in [(0.0_f64, "N"), (90.0, "E"), (180.0, "S"), (270.0, "W")] {
+    for (az, lab) in [
+        (0.0_f64, crate::t!("geometry-chart-north")),
+        (90.0, crate::t!("geometry-chart-east")),
+        (180.0, crate::t!("geometry-chart-south")),
+        (270.0, crate::t!("geometry-chart-west")),
+    ] {
         let a = az.to_radians();
         let (x, y) = (cx + 1.07 * r * a.psin(), cy - 1.07 * r * a.pcos());
         out.push_str(&format!(
@@ -1215,20 +1225,36 @@ pub fn skyplot_svg(req: &SkyRequest) -> Result<String, String> {
         let colour = SERIES[k % SERIES.len()];
         let (x, y) = xy(s.az_deg, s.el_deg);
         let fill = if s.visible { colour } else { "none" };
-        let why = if s.masked {
-            " (hidden by the skyline)"
+        let (system, id) = (xml_escape(&s.system), xml_escape(&s.id));
+        let (az, el) = (crate::i18n::num(s.az_deg, 1), crate::i18n::num(s.el_deg, 1));
+        let tip = if s.masked {
+            crate::t!(
+                "geometry-chart-satellite-tooltip-hidden",
+                system = system,
+                id = id,
+                az = az,
+                el = el
+            )
         } else if s.visible {
-            ""
+            crate::t!(
+                "geometry-chart-satellite-tooltip",
+                system = system,
+                id = id,
+                az = az,
+                el = el
+            )
         } else {
-            " (below the mask)"
+            crate::t!(
+                "geometry-chart-satellite-tooltip-below-mask",
+                system = system,
+                id = id,
+                az = az,
+                el = el
+            )
         };
         out.push_str(&format!(
             "<circle cx=\"{x:.2}\" cy=\"{y:.2}\" r=\"5\" fill=\"{fill}\" stroke=\"{colour}\" stroke-width=\"1.5\">\
-             <title>{} {} az {:.1} el {:.1}{why}</title></circle>",
-            xml_escape(&s.system),
-            xml_escape(&s.id),
-            s.az_deg,
-            s.el_deg,
+             <title>{tip}</title></circle>"
         ));
     }
     for (k, name) in systems.iter().enumerate() {
@@ -1253,26 +1279,32 @@ pub fn skyplot_svg(req: &SkyRequest) -> Result<String, String> {
                 vdop = crate::i18n::localise_decimal(format!("{:.2}", d.vdop))
             )
         })
-        .unwrap_or_else(|| "no fix".into());
+        .unwrap_or_else(|| crate::t!("geometry-chart-no-fix"));
     out.push_str(&format!(
-        "<text x=\"20\" y=\"50\" fill=\"{MUTED}\" font-size=\"11\">{} in view, {} hidden by the \
-         skyline · {dop} · hollow: not in view</text>",
-        g.n_visible, g.n_masked
+        "<text x=\"20\" y=\"50\" fill=\"{MUTED}\" font-size=\"11\">{}</text>",
+        crate::t!(
+            "geometry-chart-in-view-hidden",
+            n_visible = g.n_visible,
+            n_masked = g.n_masked,
+            dop = dop
+        )
     ));
     // The sky's basis, from engine-made strings only (the epoch is formatted here).
     let basis = match (&g.epoch_utc, g.sky_source.contains("tle-at-epoch")) {
         (Some(e), true) => crate::t!("geometry-tle-sky-at-not-measurement", e = e),
-        _ if g.sky_source == "satellites" => "satellites as given".to_string(),
-        _ => "representative sky, not a dated one".to_string(),
+        _ if g.sky_source == "satellites" => crate::t!("geometry-chart-satellites-as-given"),
+        _ => crate::t!("geometry-chart-representative-sky"),
     };
     out.push_str(&format!(
         "<text x=\"20\" y=\"590\" fill=\"{MUTED}\" font-size=\"10\">{basis}</text>"
     ));
     out.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"590\" text-anchor=\"end\" fill=\"{MUTED}\" font-size=\"10\">Kshana v{} \
-         · geometry under a stated error model · kshana.dev</text></svg>",
+        "<text x=\"{:.1}\" y=\"590\" text-anchor=\"end\" fill=\"{MUTED}\" font-size=\"10\">{}</text></svg>",
         w - 10.0,
-        env!("CARGO_PKG_VERSION")
+        crate::t!(
+            "geometry-chart-footer",
+            version = env!("CARGO_PKG_VERSION")
+        )
     ));
     Ok(out)
 }

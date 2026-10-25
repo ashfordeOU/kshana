@@ -491,31 +491,34 @@ fn roc_section(rocs: &[super::detect::Roc]) -> String {
     let sy = |y: f64| mt + (1.0 - y) * (ht - mt - mb);
     let _ = write!(
         s,
-        "<svg viewBox=\"0 0 {w} {ht}\" role=\"img\" aria-label=\"Detection ROC per monitor\">"
+        "<svg viewBox=\"0 0 {w} {ht}\" role=\"img\" aria-label=\"{}\">",
+        crate::t!("iq-campaign-report-roc-aria-label")
     );
     for i in 0..=5 {
         let v = i as f64 / 5.0;
         let _ = write!(
             s,
-            "<line x1=\"{ml}\" x2=\"{:.1}\" y1=\"{:.1}\" y2=\"{:.1}\" stroke=\"var(--grid)\"/><text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\">{v:.1}</text><text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\">{v:.1}</text>",
+            "<line x1=\"{ml}\" x2=\"{:.1}\" y1=\"{:.1}\" y2=\"{:.1}\" stroke=\"var(--grid)\"/><text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\">{tick}</text><text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\">{tick}</text>",
             w - mr,
             sy(v),
             sy(v),
             ml - 6.0,
             sy(v) + 4.0,
             sx(v),
-            ht - mb + 16.0
+            ht - mb + 16.0,
+            tick = crate::i18n::num(v, 1)
         );
     }
     let _ = write!(
         s,
-        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"var(--ink2)\" stroke-dasharray=\"4 4\"/><text x=\"{:.1}\" y=\"{}\" text-anchor=\"middle\">P_fa (per negative window)</text><text x=\"12\" y=\"{:.1}\" text-anchor=\"middle\" transform=\"rotate(-90 12 {:.1})\">P_d</text>",
+        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"var(--ink2)\" stroke-dasharray=\"4 4\"/><text x=\"{:.1}\" y=\"{}\" text-anchor=\"middle\">{}</text><text x=\"12\" y=\"{:.1}\" text-anchor=\"middle\" transform=\"rotate(-90 12 {:.1})\">P_d</text>",
         sx(0.0),
         sy(0.0),
         sx(1.0),
         sy(1.0),
         (ml + w - mr) / 2.0,
         ht - 4.0,
+        crate::t!("iq-campaign-report-roc-x-title"),
         (mt + ht - mb) / 2.0,
         (mt + ht - mb) / 2.0
     );
@@ -746,12 +749,15 @@ fn chart(rec: &str, ev: &str, cs: &[&Curve]) -> String {
     let mut s = String::new();
     let _ = write!(
         s,
-        "<h3>{} · {} ({})</h3><svg viewBox=\"0 0 {w} {ht}\" role=\"img\" aria-label=\"C/N0 degradation against stated J/S for {} event {}\">",
+        "<h3>{} · {} ({})</h3><svg viewBox=\"0 0 {w} {ht}\" role=\"img\" aria-label=\"{}\">",
         esc(rec),
         esc(ev),
         esc(&ty),
-        esc(rec),
-        esc(ev)
+        crate::t!(
+            "iq-campaign-report-curve-aria-label",
+            rec = esc(rec),
+            ev = esc(ev)
+        )
     );
     // Grid and axes.
     let ystep = ((y1 - y0) / 5.0).max(1.0).ceil();
@@ -759,12 +765,13 @@ fn chart(rec: &str, ev: &str, cs: &[&Curve]) -> String {
     while y <= y1 + 1e-9 {
         let _ = write!(
             s,
-            "<line x1=\"{ml}\" x2=\"{}\" y1=\"{:.1}\" y2=\"{:.1}\" stroke=\"var(--grid)\"/><text x=\"{}\" y=\"{:.1}\" text-anchor=\"end\">{y}</text>",
+            "<line x1=\"{ml}\" x2=\"{}\" y1=\"{:.1}\" y2=\"{:.1}\" stroke=\"var(--grid)\"/><text x=\"{}\" y=\"{:.1}\" text-anchor=\"end\">{}</text>",
             w - mr,
             sy(y),
             sy(y),
             ml - 6.0,
-            sy(y) + 4.0
+            sy(y) + 4.0,
+            crate::i18n::num_plain(y)
         );
         y += ystep;
     }
@@ -773,19 +780,22 @@ fn chart(rec: &str, ev: &str, cs: &[&Curve]) -> String {
     while x <= x1 + 1e-9 {
         let _ = write!(
             s,
-            "<text x=\"{:.1}\" y=\"{}\" text-anchor=\"middle\">{x}</text>",
+            "<text x=\"{:.1}\" y=\"{}\" text-anchor=\"middle\">{}</text>",
             sx(x),
-            ht - mb + 16.0
+            ht - mb + 16.0,
+            crate::i18n::num_plain(x)
         );
         x += xstep;
     }
     let _ = write!(
         s,
-        "<text x=\"{:.1}\" y=\"{}\" text-anchor=\"middle\">stated J/S (dB)</text><text x=\"12\" y=\"{:.1}\" text-anchor=\"middle\" transform=\"rotate(-90 12 {:.1})\">C/N0 degradation (dB)</text>",
+        "<text x=\"{:.1}\" y=\"{}\" text-anchor=\"middle\">{}</text><text x=\"12\" y=\"{:.1}\" text-anchor=\"middle\" transform=\"rotate(-90 12 {:.1})\">{}</text>",
         (ml + w - mr) / 2.0,
         ht - 4.0,
+        crate::t!("iq-campaign-report-curve-x-title"),
         (mt + ht - mb) / 2.0,
-        (mt + ht - mb) / 2.0
+        (mt + ht - mb) / 2.0,
+        crate::t!("iq-campaign-report-curve-y-title")
     );
     let path = |p: &[(f64, f64)]| -> String {
         p.iter()
@@ -805,22 +815,33 @@ fn chart(rec: &str, ev: &str, cs: &[&Curve]) -> String {
     if !mp.is_empty() {
         let _ = write!(
             s,
-            "<path d=\"{}\" fill=\"none\" stroke=\"var(--ink2)\" stroke-width=\"2\" stroke-dasharray=\"6 4\"><title>{MODELLED}: SSC reference, Q = {}</title></path>",
+            "<path d=\"{}\" fill=\"none\" stroke=\"var(--ink2)\" stroke-width=\"2\" stroke-dasharray=\"6 4\"><title>{}</title></path>",
             path(&mp),
-            fmt(q, 2)
+            crate::t!(
+                "iq-campaign-report-curve-model-tooltip",
+                label = crate::t!("fom-verdict-modelled"),
+                q = crate::i18n::localise_decimal(fmt(q, 2))
+            )
         );
         let _ = write!(
             legend,
-            "<span><i class=\"sw mod\"></i>{MODELLED} reference (Q = {})</span>",
-            fmt(q, 2)
+            "<span><i class=\"sw mod\"></i>{}</span>",
+            crate::t!(
+                "iq-campaign-report-curve-model-legend",
+                label = crate::t!("fom-verdict-modelled"),
+                q = crate::i18n::localise_decimal(fmt(q, 2))
+            )
         );
     }
     for (i, ((fe, d), m)) in series.iter().enumerate() {
         if i >= SERIES_SLOTS {
             let _ = write!(
                 legend,
-                "<span>+{} more series in the scorecard table</span>",
-                series.len() - SERIES_SLOTS
+                "<span>{}</span>",
+                crate::t!(
+                    "iq-campaign-report-curve-more-series",
+                    n = series.len() - SERIES_SLOTS
+                )
             );
             break;
         }
@@ -834,18 +855,26 @@ fn chart(rec: &str, ev: &str, cs: &[&Curve]) -> String {
         for (x, y) in &p {
             let _ = write!(
                 s,
-                "<circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"4\" fill=\"{var}\" stroke=\"var(--surface)\" stroke-width=\"2\"><title>{} / {}: J/S {x} dB, measured degradation {y:.2} dB</title></circle>",
+                "<circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"4\" fill=\"{var}\" stroke=\"var(--surface)\" stroke-width=\"2\"><title>{}</title></circle>",
                 sx(*x),
                 sy(*y),
-                esc(fe),
-                esc(d)
+                crate::t!(
+                    "iq-campaign-report-curve-point-tooltip",
+                    fe = esc(fe),
+                    d = esc(d),
+                    x = crate::i18n::num_plain(*x),
+                    y = crate::i18n::num(*y, 2)
+                )
             );
         }
         let _ = write!(
             legend,
-            "<span><i class=\"sw\" style=\"background:{var}\"></i>{} / {} (measured)</span>",
-            esc(fe),
-            esc(d)
+            "<span><i class=\"sw\" style=\"background:{var}\"></i>{}</span>",
+            crate::t!(
+                "iq-campaign-report-curve-measured-legend",
+                fe = esc(fe),
+                d = esc(d)
+            )
         );
     }
     let _ = write!(s, "</svg><div class=\"legend\">{legend}</div>");
