@@ -43,7 +43,7 @@ async function collect(base, url) {
   await page.waitForTimeout(+opt.wait);
   const states = [];
   await page.addStyleTag({ content: '#lang-sel,.lang-menu{display:none!important}' }).catch(() => {});
-  const grab = async (label) => states.push([label, (await page.evaluate(() => document.body.innerText).catch(() => '')).replace(/\s+/g, ' ').trim()]);
+  const grab = async (label) => states.push([label, (await page.evaluate(() => document.body.innerText).catch(() => '')).replace(/\d\d:\d\d:\d\d/g, 'hh:mm:ss').replace(/\s+/g, ' ').trim()]); // clock times differ between runs
   await grab('load');
   if (opt.tabs === 'true') {
     const tabs = await page.$$('[role=tab]:not([hidden])');
