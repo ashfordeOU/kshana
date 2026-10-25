@@ -311,7 +311,7 @@ engine-e-animation-no-animation-format-given-expected = geen animatieformaat opg
 
 engine-e-animation-animation-fps-must-be-between = animatie-fps moet tussen 1 en 60 liggen, ontvangen: { $fps }
 
-engine-e-animation-animation-duration-must-be-between = animatieduur moet tussen 0.5 s en 600 s liggen, ontvangen: { $duration_s }
+engine-e-animation-animation-duration-must-be-between = animatieduur moet tussen { $lit_0_5 } s en 600 s liggen, ontvangen: { $duration_s }
 
 engine-e-animation-animation-width-must-be-between = animatiebreedte moet tussen 480 en 3840 pixels liggen, ontvangen: { $width }
 
@@ -344,11 +344,9 @@ engine-animation-further-series-were-found-but = { " " }{ $omitted } overige ree
 
 ## src/antenna.rs
 
-engine-antenna-altitude-beamwidth-deg-points = hoogte { $a_lo }-{ $a_hi } m x bundelbreedte { $b_lo }-{ $b_hi } deg, { $points } punten
+engine-antenna-limb-capture-is-reached-on = limb-capture WORDT bereikt op dit raster (hoogte { $a_lo }-{ $a_hi } m x bundelbreedte { $b_lo }-{ $b_hi } deg, { $points2 } punten): { $points } van { $points2 } bemonsterde werkpunten vangen de limb en { $crossings } askruising(en) zijn gelokaliseerd; de sterkste bemonsterde limb-J/S is { $limb_js_db } dB op hoogte { $altitude_m } m / bundelbreedte { $hpbw_deg } deg, tegenover een capture-drempel van { $thr } dB.
 
-engine-antenna-limb-capture-is-reached-on = limb-capture WORDT bereikt op dit raster ({ $grid }): { $points } van { $points2 } bemonsterde werkpunten vangen de limb en { $crossings } askruising(en) zijn gelokaliseerd; de sterkste bemonsterde limb-J/S is { $limb_js_db } dB op hoogte { $altitude_m } m / bundelbreedte { $hpbw_deg } deg, tegenover een capture-drempel van { $thr } dB.
-
-engine-antenna-limb-capture-is-not-reached = limb-capture wordt NERGENS bereikt op dit raster ({ $grid }) - niet nul capture, maar geen limb-capture: de beste limb-J/S is { $limb_js_db } dB op hoogte { $altitude_m } m / bundelbreedte { $hpbw_deg } deg, { $shortfall } dB onder de capture-drempel van { $thr } dB; dat werkpunt zou de limb vangen bij { $limb_capture_tx_power_dbw } dBW zendvermogen tegenover de { $p_tx_dbw } dBW die werd gevlogen.
+engine-antenna-limb-capture-is-not-reached = limb-capture wordt NERGENS bereikt op dit raster (hoogte { $a_lo }-{ $a_hi } m x bundelbreedte { $b_lo }-{ $b_hi } deg, { $points } punten) - niet nul capture, maar geen limb-capture: de beste limb-J/S is { $limb_js_db } dB op hoogte { $altitude_m } m / bundelbreedte { $hpbw_deg } deg, { $shortfall } dB onder de capture-drempel van { $thr } dB; dat werkpunt zou de limb vangen bij { $limb_capture_tx_power_dbw } dBW zendvermogen tegenover de { $p_tx_dbw } dBW die werd gevlogen.
 
 engine-e-antenna-azimuths-must-strictly-increase = azimuts moeten strikt oplopen
 
@@ -809,7 +807,7 @@ engine-bench-site-result-was-scored-under-this = resultaat { $v1 } is gescoord o
 
 engine-bench-tasks-score-for-is-not-number = score voor `{ $k }` is geen getal
 
-engine-bench-tasks-kshana-receiver-trust-35-default = kshana receiver-trust { $s } (0.35 standaard monitorstatistiek)
+engine-bench-tasks-kshana-receiver-trust-35-default = kshana receiver-trust { $s } ({ $lit_0_35 } standaard monitorstatistiek)
 
 engine-bench-tasks-malformed-clock-line = misvormde klokregel `{ $line }`
 
@@ -871,7 +869,7 @@ engine-e-body-pnt-duration-and-step-must-be = duration_s en step_s moeten positi
 
 engine-e-body-pnt-user-kind-must-be-orbiter = user.kind moet orbiter of surface zijn; ontvangen: '{ $k }'
 
-engine-e-body-pnt-user-altitude-must-be-positive = de hoogte van de gebruiker moet positief zijn en de excentriciteit in [0, 0.9) liggen
+engine-e-body-pnt-user-altitude-must-be-positive = de hoogte van de gebruiker moet positief zijn en de excentriciteit in [0, { $lit_0_9 }) liggen
 
 engine-e-body-pnt-the-user-orbit-periapsis-is = de periapsis van de baan van de gebruiker ligt onder het oppervlak
 
@@ -1127,7 +1125,7 @@ engine-campaign-compose-members = compose: { $members } leden
 
 engine-campaign-member-runs-modelled = { $runs_total } runs van leden (MODELLED)
 
-engine-campaign-sweep-of-over-nodes-each = sweep van `{ $scenario_kind }` over { $axis_order } ({ $nodes } knooppunten{ $v4 }; elke lijn op een eigen bereik)
+engine-campaign-sweep-of-over-nodes-each = sweep van `{ $scenario_kind }` over { $axis_order } ({ $nodes } knooppunten; elke lijn op een eigen bereik)
 
 engine-campaign-campaign-modelled-composition-every-value = campagne { $r } | MODELLED samenstelling; elke waarde gelezen uit een echte run van het genoemde type
 
@@ -1423,7 +1421,7 @@ engine-e-constellation-needs-altitude-km-or-semi = { $what }: heeft altitude_km 
 
 engine-e-constellation-semi-major-axis-km-is = { $what }: halve lange as { $v1 } km ligt niet boven de straal van { $name }
 
-engine-e-constellation-eccentricity-must-lie-in = { $what }: excentriciteit { $e } moet in [0, 0.9) liggen
+engine-e-constellation-eccentricity-must-lie-in = { $what }: excentriciteit { $e } moet in [0, { $lit_0_9 }) liggen
 
 engine-e-constellation-perigee-is-below-the-surface = { $what }: het perigeum ligt onder het oppervlak van { $name }
 
@@ -1455,7 +1453,7 @@ engine-e-constellation-mask-deg-must-lie-in = mask_deg moet in [0, 90) liggen
 
 engine-e-constellation-pdop-threshold-must-be-positive = pdop_threshold moet positief zijn
 
-engine-e-constellation-grid-step-deg-must-lie = grid_step_deg moet in [0.25, 90] liggen
+engine-e-constellation-grid-step-deg-must-lie = grid_step_deg moet in [{ $lit_0_25 }, 90] liggen
 
 engine-e-constellation-need-90-lat-min-deg = -90 <= lat_min_deg < lat_max_deg <= 90 is nodig
 
@@ -2410,9 +2408,7 @@ engine-e-holdover-test-step-with-mask-has-no = een stap met een masker heeft gee
 
 engine-e-holdover-test-cannot-read-csv-path = kan csv_path { $path } niet lezen: { $e }
 
-engine-holdover-test-recovered-after-gnss-returned = ; hersteld { $t } s nadat GNSS terugkeerde
-
-engine-holdover-test-holdover-test-holdover-max-te = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }{ $rec } (MODELLED, gemeten tegen het masker)
+engine-holdover-test-holdover-test-holdover-max-te = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks } (MODELLED, gemeten tegen het masker)
 
 ## src/hybrid.rs
 
@@ -3096,17 +3092,15 @@ engine-iq-cli-scene-n0-profile-segment = { $chan_desc }; C/N0-profiel ({ $segmen
 
 engine-iq-cli-scene-truth-format-must-be-csv = --truth-format moet csv of jsonl zijn (ontvangen: { $other })
 
-engine-iq-cli-scene-integer-scale-lsb-noise-normalised = ; geheeltallige schaal: 1 LSB = { $sc } ruisgenormaliseerde eenheden (verwachte RMS { $v1 } LSB per component), { $clipped } element(en) afgekapt
-
-engine-iq-cli-scene-written-by-kshana-iq-scene = geschreven door kshana iq scene: een GESIMULEERDE scène, geen opname{ $scale_note }
+engine-iq-cli-scene-written-by-kshana-iq-scene = geschreven door kshana iq scene: een GESIMULEERDE scène, geen opname
 
 engine-iq-cli-scene-ion-sdr-metadata = ION SDR-metadata { $path }
 
 engine-iq-cli-scene-sigmf-data-meta = SigMF-data { $data_path }, meta { $meta_path }
 
-engine-iq-cli-scene-written-by-kshana-iq-scene-2 = geschreven door kshana iq scene{ $scale_note }
+engine-iq-cli-scene-written-by-kshana-iq-scene-2 = geschreven door kshana iq scene
 
-engine-iq-cli-scene-wrote-samples-hz-to-truth = { $samples } samples ({ $format }, { $fs_hz } Hz) geschreven naar { $data_path }; { $truth_records } referentierecords naar { $truth_path }; { $meta_note }; kanaal: { $chan_desc }{ $scale_note }
+engine-iq-cli-scene-wrote-samples-hz-to-truth = { $samples } samples ({ $format }, { $fs_hz } Hz) geschreven naar { $data_path }; { $truth_records } referentierecords naar { $truth_path }; { $meta_note }; kanaal: { $chan_desc }
 
 engine-iq-cli-scene-sigmf-data = { $sigmf_base }.sigmf-data
 
@@ -3139,7 +3133,7 @@ engine-iq-cli-track-designs-and-differ-in-integration = ontwerpen { $first } en 
 
 engine-iq-cli-track-epochs-name-the-format-with = --epochs { $p }: noem het formaat met --epochs-format csv|jsonl|bin, of laat het pad eindigen op .csv, .jsonl of .bin
 
-engine-iq-cli-track-hz-is-samples-per-chip = { $fs_hz } Hz is { $r } samples per chip van { $c }: commensurabele sampling maakt van de codediscriminator een trap (bij 2 samples/chip dithert de DLL, ongeveer 0.09 chip RMS-codefout bij 45 dB-Hz); codelusjitter en -bias uit deze opname zijn niet representatief. Gebruik een frequentie die geen veelvoud is van de helft van de chipfrequentie om codelussen te beoordelen.
+engine-iq-cli-track-hz-is-samples-per-chip = { $fs_hz } Hz is { $r } samples per chip van { $c }: commensurabele sampling maakt van de codediscriminator een trap (bij 2 samples/chip dithert de DLL, ongeveer { $lit_0_09 } chip RMS-codefout bij 45 dB-Hz); codelusjitter en -bias uit deze opname zijn niet representatief. Gebruik een frequentie die geen veelvoud is van de helft van de chipfrequentie om codelussen te beoordelen.
 
 ## src/iq/io/batch.rs
 
@@ -3325,10 +3319,9 @@ engine-iq-labfit-iqreport-hold-out-leave-one-recording = Achtergehouden set (een
 
 engine-iq-labfit-iqreport-events-loss-time-rms-pi90 =
     { $n ->
-        [one] ; { $model }: { $n } gebeurtenis, verliestijd-RMS { $om } s, PI90-dekking { $om2 }
-       *[other] ; { $model }: { $n } gebeurtenissen, verliestijd-RMS { $om } s, PI90-dekking { $om2 }
+        [one] { $model }: { $n } gebeurtenis, verliestijd-RMS { $om } s, PI90-dekking { $om2 }
+       *[other] { $model }: { $n } gebeurtenissen, verliestijd-RMS { $om } s, PI90-dekking { $om2 }
     }
-
 
 engine-iq-labfit-iqreport-validation-table-sha-256-registered =
     Validatietabel-SHA-256 `{ $table_sha256 }` (geregistreerd { $registered }):
@@ -4161,7 +4154,7 @@ engine-leo-navmsg-unknown-preset-available = onbekende voorinstelling '{ $k }'; 
 
 engine-e-leo-navmsg-fit-interval-must-be-10 = fit_interval_s moet 10-3600 s zijn en update_period_s in (0, fit_interval_s]; ontvangen: { $fit_interval_s } en { $update_period_s }
 
-engine-e-leo-navmsg-fit-sample-and-eval-step = fit_sample_s en eval_step_s moeten 0.5-60 s zijn
+engine-e-leo-navmsg-fit-sample-and-eval-step = fit_sample_s en eval_step_s moeten { $lit_0_5 }-60 s zijn
 
 engine-e-leo-navmsg-carrier-hz-must-exceed-10 = carrier_hz moet 10 MHz overschrijden; ontvangen: { $carrier_hz }
 
@@ -4260,7 +4253,7 @@ engine-e-leo-navmsg-text-csv-row-lacks = CSV-rij mist { $k }
 
 engine-e-leo-navmsg-truth-orbit-altitude-must-be-between = de baanhoogte moet tussen 100 km en 3000 km liggen; ontvangen: { $cfg } km
 
-engine-e-leo-navmsg-truth-eccentricity-must-be-in-for = de excentriciteit moet voor een LEO-fit in [0, 0.1) liggen; ontvangen: { $eccentricity }
+engine-e-leo-navmsg-truth-eccentricity-must-be-in-for = de excentriciteit moet voor een LEO-fit in [0, { $lit_0_1 }) liggen; ontvangen: { $eccentricity }
 
 engine-e-leo-navmsg-truth-integration-step-must-be-in = de integratiestap moet in (0, 30] s liggen; ontvangen: { $step_s }
 
@@ -5098,8 +5091,6 @@ engine-lunar-time-budget-scenario-total-false = { $i },{ $tau },total,{ $total }
 
 engine-lunar-time-budget-scenario-lunar-time-budget-clock-term = lunar-time-budget | klok { $clock } | 7-termen x_Σ(τ) over { $taus } τ-punten ({ $taus2 }–{ $taus3 } s) | kruispunt τ { $crossover_tau_s } s (x { $crossover_x_s } s) | framevloer { $frame_term_s } s | klok x(1 d) { $x_1day_ns } ns (MODELLED)
 
-engine-lunar-time-budget-scenario-time-lab-to-ltc-ns = { $summary } | timelab: { $lab } { $lab2 } naar LTC, x(1 d) { $lab3 } ns (MODELLED)
-
 ## src/lunar_time_lab.rs
 
 engine-e-lunar-time-lab-time-lab-unknown-clock-expected = time_lab: onbekende klok { $other }; verwacht een van optical-master, passive-h-maser, rafs, mini-rafs, of geef een device_card op
@@ -5842,19 +5833,11 @@ engine-nmea-synth-gen-the-receiver-has-no-fix =
 
 engine-nmea-synth-log-from-for-onset-ramp-recovery = vanaf T+{ $start_s } s gedurende { $duration_s } s (inzetramp { $ramp_s } s, herstelramp { $recovery_s } s)
 
-engine-nmea-synth-log-every-tracked-satellite-shows-db = ; elke gevolgde satelliet toont { $c } dB-Hz zolang het duurt
-
 engine-nmea-synth-log-jamming-received-n0-falls-by = jamming: ontvangen C/N0 daalt met maximaal { $cn0_drop_db } dB (spreiding per satelliet { $spread_db } dB); satellieten vallen weg en de positiebepaling gaat verloren wanneer minder dan vier bruikbaar blijven
 
 engine-nmea-synth-log-towards-deg-true = richting { $b } deg ware koers
 
 engine-nmea-synth-log-towards-deg-true-deg-relative = richting { $t } deg ware koers ({ $r } deg relatief ten opzichte van de koers bij aanvang, daarna aangehouden)
-
-engine-nmea-synth-log-position-drag-off-the-reported = positie-drag-off: de gemelde positie loopt { $final_offset_m } m weg { $dir } terwijl de ontvanger een geldige positiebepaling houdt (het valse spoor piekt op { $pv } m/s en { $pa } m/s^2){ $cf }
-
-engine-nmea-synth-log-time-spoof-reported-utc-moves = tijdspoofing: gemelde UTC wijkt { $offset_s } s af van de ware tijd; de positie blijft waar{ $cf }
-
-engine-nmea-synth-log-replay-delay-meaconing-style-position = replay-vertraging (meaconing-stijl): positie{ $v1 } ijlt { $delay_s } s achter op de referentie{ $cf }
 
 engine-nmea-synth-log-natural-degradation-the-sky-closes = natuurlijke degradatie: de hemel sluit zich achter een opgegeven skyline ({ $e }); satellieten erachter blijven vermeld zonder SNR en worden niet gebruikt, de C/N0 van de overige is ongewijzigd en niets is nagemaakt
 
@@ -6763,11 +6746,11 @@ engine-receiver-trust-scenario-trusted-throughout-no-monitor-alarmed = de hele t
 
 engine-receiver-trust-scenario-first-alarm-at-untrusted-for = eerste alarm op { $t } s; niet vertrouwd gedurende { $untrusted_epochs } en gedegradeerd gedurende { $degraded_epochs } van { $after_cal } epochs na de kalibratie
 
-engine-receiver-trust-scenario-of-stated-events-detected-within = ; { $events_detected } van { $events_evaluable } opgegeven gebeurtenissen gedetecteerd binnen { $detect_tol_s } s
+engine-receiver-trust-scenario-of-stated-events-detected-within = { $events_detected } van { $events_evaluable } opgegeven gebeurtenissen gedetecteerd binnen { $detect_tol_s } s
 
-engine-receiver-trust-scenario-of-n0-predictions-within-db = ; { $predictions_agreeing } van { $predictions_evaluable } C/N0-voorspellingen binnen { $cn0_tol_db } dB
+engine-receiver-trust-scenario-of-n0-predictions-within-db = { $predictions_agreeing } van { $predictions_evaluable } C/N0-voorspellingen binnen { $cn0_tol_db } dB
 
-engine-receiver-trust-scenario-trust-score-lowest-final = ; vertrouwensscore laagste { $min }, laatste { $last }
+engine-receiver-trust-scenario-trust-score-lowest-final = vertrouwensscore laagste { $min }, laatste { $last }
 
 engine-receiver-trust-scenario-scenario-receiver-trust-log-epochs = scenario { $r } | receiver-trust | log { $format_name }, { $epochs } epochs over { $duration_s } s | monitors { $monitors_run } | { $verdict }
 
@@ -6854,7 +6837,7 @@ engine-e-scenario-time-grid-too-large-steps =
 
 ## src/sdr.rs
 
-engine-sdr-sampling-rate-is-commensurate-with = de samplefrequentie is commensurabel met de codefrequentie ({ $samples_per_chip } samples/chip, { $offset_from_integer_samples } samples van een geheel getal): de zero-order-hold-codereplica kan een codefaseverandering onder { $dead_band_chips } chips niet onderscheiden, dus de Early/Late-discriminator is een trap met een dode band van een sample in plaats van een driehoek en de DLL stabiliseert op de verkeerde vertraging. Verschuif de samplefrequentie weg van het gehele veelvoud (5 MHz is 4.8876 samples/chip; 25 MHz is 24.4379) of oversample ver genoeg zodat de dode band onder de codefasenauwkeurigheid ligt die u nodig hebt.
+engine-sdr-sampling-rate-is-commensurate-with = de samplefrequentie is commensurabel met de codefrequentie ({ $samples_per_chip } samples/chip, { $offset_from_integer_samples } samples van een geheel getal): de zero-order-hold-codereplica kan een codefaseverandering onder { $dead_band_chips } chips niet onderscheiden, dus de Early/Late-discriminator is een trap met een dode band van een sample in plaats van een driehoek en de DLL stabiliseert op de verkeerde vertraging. Verschuif de samplefrequentie weg van het gehele veelvoud (5 MHz is { $lit_4_8876 } samples/chip; 25 MHz is { $lit_24_4379 }) of oversample ver genoeg zodat de dode band onder de codefasenauwkeurigheid ligt die u nodig hebt.
 
 ## src/sgp4.rs
 
@@ -7709,7 +7692,7 @@ engine-e-telecom-timing-the-series-must-be-uniformly = de reeks moet gelijkmatig
 
 engine-e-telecom-timing-csv-line-is-not-time = CSV-regel { $v1 } is niet `time_s,time_error_ns`
 
-engine-telecom-timing-the-mask-is-defined-through = het masker is gedefinieerd via een laagdoorlaatfilter van 0.1 Hz, dat deze engine alleen toepast bij sampleintervallen van { $MAX_FILTER_DT_S } s of minder; deze opname is elke { $dt_s } s bemonsterd
+engine-telecom-timing-the-mask-is-defined-through = het masker is gedefinieerd via een laagdoorlaatfilter van { $lit_0_1 } Hz, dat deze engine alleen toepast bij sampleintervallen van { $MAX_FILTER_DT_S } s of minder; deze opname is elke { $dt_s } s bemonsterd
 
 engine-e-telecom-timing-give-either-holdover-or-series = geef [holdover] of [series] op, niet beide
 
@@ -7717,11 +7700,7 @@ engine-e-telecom-timing-give-either-series-samples-or = geef series.samples of s
 
 engine-e-telecom-timing-locked-duration-days-must-be = locked_duration_days moet eindig en >= 0 zijn
 
-engine-telecom-timing-ns-budget-exceeded-after = ; budget van { $max_abs_te_ns } ns overschreden na { $t } s
-
-engine-telecom-timing-ns-budget-never-exceeded = ; budget van { $max_abs_te_ns } ns nooit overschreden
-
-engine-telecom-timing-telecom-timing-max-te-ns = telecom-timing: max|TE| { $max_abs } ns over { $v2 } s; { $masks }{ $first_budget } (MODELLED)
+engine-telecom-timing-telecom-timing-max-te-ns = telecom-timing: max|TE| { $max_abs } ns over { $v2 } s; { $masks } (MODELLED)
 
 engine-telecom-timing-mtie-limit-ns = ,{ $id }_mtie_limit_ns
 
@@ -7882,8 +7861,6 @@ engine-telemetry-syslog-cfp4label-geometrypdop-cfp4 = { " " }cfp4Label=geometryP
 
 engine-telemetry-syslog-cn1label-geometryusedsatellites-cn1 = { " " }cn1Label=geometryUsedSatellites cn1={ $v1 }
 
-engine-telemetry-syslog-cef-gnss-trust = CEF:0|{ $cef_header_escape }|{ $cef_header_escape2 }|{ $cef_header_escape3 }|{ $EVENT_PREFIX }.{ $band }|GNSS trust { $band }|{ $cef_severity }|{ $ext }
-
 engine-e-telemetry-syslog-host-is-bytes-syslog-host = host is { $host } bytes; een syslog-hostnaam is hooguit 255 bytes
 
 engine-e-telemetry-syslog-host-must-be-printable-ascii = host moet afdrukbaar ASCII zonder spaties zijn
@@ -7958,7 +7935,7 @@ engine-e-tracking-loop-tracking-loop-must-be-finite = tracking-loop: { $name } m
 
 engine-e-tracking-loop-tracking-loop-must-be-positive = tracking-loop: { $name } moet positief zijn (kreeg { $v })
 
-engine-e-tracking-loop-tracking-loop-correlator-spacing-chips = tracking-loop: correlator_spacing_chips moet onder 1.9 chips liggen (kreeg { $correlator_spacing_chips })
+engine-e-tracking-loop-tracking-loop-correlator-spacing-chips = tracking-loop: correlator_spacing_chips moet onder { $lit_1_9 } chips liggen (kreeg { $correlator_spacing_chips })
 
 engine-e-tracking-loop-tracking-loop-pullin-bandwidth-ratio = tracking-loop: pullin_bandwidth_ratio moet minstens 1 zijn (kreeg { $pullin_bandwidth_ratio }) — een lus die opnieuw invangt met een SMALLERE bandbreedte dan waarmee hij volgt, zou de hysterese omkeren
 
@@ -8332,8 +8309,6 @@ engine-campaign-chart-alarm-flags-and-events = alarmvlaggen en gebeurtenissen
 
 engine-campaign-chart-mission-time = { $duration } s missietijd
 
-engine-campaign-chart-sweep-percentile-band = , mediaan met 5e-95e-percentielband over { $n_runs } seeds
-
 engine-campaign-chart-sweep-line-at = { $name } ({ $unit }) bij { $lead }
 
 engine-campaign-chart-monte-carlo-of = Monte Carlo van `{ $scenario_kind }`: { $n_runs } seeds vanaf { $base_seed } (5e, 50e, 95e percentiel; balk = bootstrap-95%-betrouwbaarheidsinterval van het gemiddelde)
@@ -8452,9 +8427,9 @@ engine-frame-eop-chart-growth = ~{ $factor }x, 1 d→{ $far_days } d
 
 engine-fusion-hybrid-ukf-chart-title = Hybride UKF met 17 toestanden — zelfconsistentie van het filter (gemodelleerd)
 
-engine-fusion-hybrid-ukf-chart-subtitle = NEES + innovatiewitheid t.o.v. 95%-χ²-banden; 1.0 = consistent. Zelfconsistentie, geen nauwkeurigheid.
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + innovatiewitheid t.o.v. 95%-χ²-banden; { $lit_1_0 } = consistent. Zelfconsistentie, geen nauwkeurigheid.
 
-engine-fusion-hybrid-ukf-chart-target = doel 1.0
+engine-fusion-hybrid-ukf-chart-target = doel { $lit_1_0 }
 
 engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (witheid)
 
@@ -8571,8 +8546,6 @@ engine-legal-osnma-advisory = Adviserend: dit is analyse- en monitoringuitvoer e
 
 ## added by the second pass
 
-engine-holdover-test-not-recovered-within-record = ; niet hersteld binnen de registratie
-
 engine-holdover-test-chart-title = Holdover-test: tijdfout per stap
 
 engine-holdover-test-chart-y-title = |tijdfout| (ns)
@@ -8585,11 +8558,11 @@ engine-holdover-test-chart-gnss-restored = GNSS hersteld
 
 engine-holdover-test-chart-time-axis = tijd op de as van de registratie ({ $min } min)
 
-engine-hybrid-chart-title = Benutting van de specificatie van hybride PNT tijdens GNSS-uitval (1.0 = specificatie)
+engine-hybrid-chart-title = Benutting van de specificatie van hybride PNT tijdens GNSS-uitval ({ $lit_1_0 } = specificatie)
 
 engine-hybrid-chart-y-title = benutting van de specificatie
 
-engine-hybrid-chart-spec-line = specificatie (1.0)
+engine-hybrid-chart-spec-line = specificatie ({ $lit_1_0 })
 
 engine-hybrid-chart-classical-suite = klassieke set
 
@@ -8699,6 +8672,454 @@ engine-leo-pnt-chain-chart-not-available = n.v.t.
 
 engine-leo-signal-chart-title = LEO-PNT-signaalontwerpen
 
-engine-leo-signal-chart-psd-axis = offset over ±0.6 × zendbandbreedte; 0 tot −50 dB onder elke piek
+engine-leo-signal-chart-psd-axis = offset over ±{ $lit_0_6 } × zendbandbreedte; 0 tot −50 dB onder elke piek
 
 engine-leo-signal-chart-jitter-caption = codejitter (m, logaritmische schaal) vs totale C/N0 (dB-Hz)
+
+## added in the 0.40 delta
+
+engine-campaign-sweep-of-over-nodes-each-percentile-band = sweep van `{ $scenario_kind }` over { $axis_order } ({ $nodes } knooppunten, mediaan met een percentielband van 5e-95e percentiel over { $n_runs } seeds; elke lijn op een eigen bereik)
+
+engine-holdover-test-holdover-not-recovered-within-record = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }; niet hersteld binnen de opname (MODELLED, gemeten tegen het masker)
+
+engine-holdover-test-holdover-recovered-after-gnss-returned = holdover-test: holdover { $hold } s, max|TE| { $max_abs } ns; { $masks }; hersteld { $t } s nadat GNSS terugkeerde (MODELLED, gemeten tegen het masker)
+
+engine-iq-cli-scene-written-by-kshana-iq-scene-integer-scale = geschreven door kshana iq scene: een GESIMULEERDE scène, geen opname; gehele schaal: 1 LSB = { $sc } ruisgenormaliseerde eenheden (verwachte RMS { $v1 } LSB per component), { $clipped } element(en) afgekapt
+
+engine-iq-cli-scene-written-by-kshana-iq-scene-2-integer-scale = geschreven door kshana iq scene; gehele schaal: 1 LSB = { $sc } ruisgenormaliseerde eenheden (verwachte RMS { $v1 } LSB per component), { $clipped } element(en) afgekapt
+
+engine-iq-cli-scene-wrote-samples-hz-to-truth-integer-scale = { $samples } samples ({ $format }, { $fs_hz } Hz) geschreven naar { $data_path }; { $truth_records } referentierecords naar { $truth_path }; { $meta_note }; kanaal: { $chan_desc }; gehele schaal: 1 LSB = { $sc } ruisgenormaliseerde eenheden (verwachte RMS { $v1 } LSB per component), { $clipped } element(en) afgekapt
+
+engine-lunar-chart-title = HPL zuidpool van de maan ({ $availability }% beschikbaar, AL { $al } m, σ_URE { $sigma } m)
+
+engine-lunar-beacon-chart-title = Uitbreiding met oppervlaktebakens — PDOP per configuratie
+
+engine-lunar-beacon-chart-pdop = PDOP { $pdop }
+
+engine-lunar-beacon-chart-no-solution = geen oplossing
+
+engine-lunar-beacon-chart-footnote = lager is beter; sigma_URE per baken { $sigma } m, masker { $mask } deg
+
+engine-lunar-combination-chart-title = Gezamenlijke maanbaanbepaling + klok — 3D-positiefout van het station (VLBI herstelt de waarneembaarheid)
+
+engine-lunar-combination-chart-subtitle = { $n_sat } satellieten, { $n_earth } aardstations · verbeteringsfactor { $factor }×
+
+engine-lunar-combination-chart-with-vlbi = met VLBI: { $m } m
+
+engine-lunar-combination-chart-range-only = alleen afstand: { $m } m
+
+engine-lunar-combination-chart-axis-note = log10 stationsfout (m); geconvergeerd met/zonder = { $with }/{ $without }
+
+engine-lunar-dpnt-chart-title = Differentiële PNT op de maan — { $n_sats } satellieten: gecorrigeerde fout t.o.v. basislijn (× { $factor } reductie bij { $km } km)
+
+engine-lunar-dpnt-chart-subtitle = ongecorrigeerd { $uncorrected } m | gecorrigeerd { $corrected } m | HPL { $hpl } m (σ_resid { $sigma } m) | { $label }
+
+engine-lunar-dpnt-chart-uncorrected-standalone = ongecorrigeerd (standalone)
+
+engine-lunar-dpnt-chart-baseline-km = basislijn (km)
+
+engine-lunar-dpnt-chart-err-m = fout (m)
+
+engine-lunar-frame-realise-chart-title = Realisatie van het referentiestelsel van de maan — herstel van 7 Helmert-parameters
+
+engine-lunar-frame-realise-chart-subtitle = { $n_points } punten · RMS-residu { $rms } m · geconvergeerd { $converged }
+
+engine-lunar-frame-realise-chart-tx = tx (m)
+
+engine-lunar-frame-realise-chart-ty = ty (m)
+
+engine-lunar-frame-realise-chart-tz = tz (m)
+
+engine-lunar-frame-realise-chart-theta-x = θx (µrad)
+
+engine-lunar-frame-realise-chart-theta-y = θy (µrad)
+
+engine-lunar-frame-realise-chart-theta-z = θz (µrad)
+
+engine-lunar-frame-realise-chart-scale = schaal (ppb)
+
+engine-lunar-frame-realise-chart-row = { $label }: geïnjecteerd { $inj } { $unit } · hersteld { $rec } { $unit } · fout { $err }
+
+engine-lunar-interop-chart-title = Interoperabiliteitsexport voor de maan — CCSDS OEM + KIF (afgestemd op LunaNet/IOAG)
+
+engine-lunar-interop-chart-header = REF_FRAME = { $frame } | TIME_SYSTEM = { $time_system } | { $n_states } toestanden | OEM { $oem_lines } regels
+
+engine-lunar-interop-chart-artifacts = artefacten: { $list }
+
+engine-lunar-interop-chart-pass = PASS
+
+engine-lunar-interop-chart-fail = FAIL
+
+engine-lunar-interop-chart-ok = OK
+
+engine-lunar-interop-chart-conformance = veldformaatcontrole: { $verdict } ({ $present } aanwezig, { $missing } ontbrekend, { $data_lines } gegevensregels)
+
+engine-lunar-interop-chart-roundtrip = OEM-roundtrip: { $oem } | roundtrip van tijdmetadata: { $time_metadata } | KIF { $kif_bytes } bytes
+
+engine-lunar-interop-chart-footnote = Roundtrip / veldformaatcontrole t.o.v. CCSDS OEM + gepubliceerde veldsemantiek van LunaNet/IOAG. { $label } — geen gecertificeerde conformiteitstest voor interoperabiliteit; geen goedkeuring door een agentschap.
+
+engine-lunar-jamming-chart-title = J/S per satelliet t.o.v. elevatie, gebruiker op het maanoppervlak
+
+engine-lunar-jamming-chart-y-title = J/S (dB)
+
+engine-lunar-jamming-chart-x-title = satellietelevatie (deg)
+
+engine-lunar-jamming-chart-locked = LOCKED
+
+engine-lunar-jamming-chart-degraded = DEGRADED
+
+engine-lunar-jamming-chart-lost = LOST
+
+engine-lunar-jamming-chart-n-links = { $n_links } verbindingen
+
+engine-lunar-service-chart-title = Servicevolume op de maan — { $n_sats } satellieten, { $n_points } punten × { $n_epochs } epochs: { $coverage }% dekking (PDOP&lt;{ $threshold })
+
+engine-lunar-service-chart-subtitle = satellieten { $min_sats }–{ $max_sats } | HPL { $hpl_min }–{ $hpl_max } m | VPL { $vpl_min }–{ $vpl_max } m | PL-beschikbaarheid { $pl_avail }% (AL { $al } m, σ_URE { $sigma } m)
+
+engine-lunar-service-chart-pdop-min = PDOP min { $v }
+
+engine-lunar-service-chart-pdop-mean = PDOP gemiddeld { $v }
+
+engine-lunar-service-chart-pdop-max = PDOP max { $v }
+
+engine-lunar-station-chart-title = Referentiestation op de maan: p{ $percentile } gecorrigeerde 3D-fout over het zuidpoolgebied (MODELLED)
+
+engine-lunar-station-chart-zero-east = 0° O
+
+engine-lunar-station-chart-threshold = drempel { $thr } m bij p{ $percentile }
+
+engine-lunar-station-chart-availability = beschikbaarheid { $v } %
+
+engine-lunar-station-chart-coverage = dekking { $v } %
+
+engine-lunar-station-chart-corrected-3d = gecorrigeerd 3D { $f }
+
+engine-lunar-station-chart-uncorrected-3d = ongecorrigeerd 3D { $f }
+
+engine-lunar-station-chart-legend-half = ≤ de helft van de drempel
+
+engine-lunar-station-chart-legend-within = ≤ drempel
+
+engine-lunar-station-chart-legend-twice = ≤ tweemaal de drempel
+
+engine-lunar-station-chart-legend-above = boven tweemaal de drempel
+
+engine-lunar-station-chart-station-note = ◆ station · gestreept: afstand tot waar de dekking 95 % houdt
+
+engine-lunar-station-chart-disclaimer = MODELLED onder de vermelde aannames; geen uitspraak over enig echt systeem; niet verbonden aan of onderschreven door enig agentschap.
+
+engine-lunar-time-chart-title = Coördinatentijd van de maan LTC−TT (snelheid { $rate } µs/dag, band { $low }–{ $high })
+
+engine-lunar-time-chart-offset = { $offset } µs bij { $days } d
+
+engine-lunar-time-budget-scenario-lunar-time-budget-clock-term-time-lab = lunar-time-budget | klok { $clock } | 7-termen x_Σ(τ) over { $taus } τ-punten ({ $taus2 }–{ $taus3 } s) | kruispunt τ { $crossover_tau_s } s (x { $crossover_x_s } s) | frame-ondergrens { $frame_term_s } s | klok x(1 d) { $x_1day_ns } ns (MODELLED) | tijdlab: { $lab } { $lab2 } naar LTC, x(1 d) { $lab3 } ns (MODELLED)
+
+engine-lunar-vlbi-chart-title = VLBI-vertraging op de maan (basislijn { $baseline } km, bakenafstand { $range } km, nabije veld { $near_field } µs)
+
+engine-lunar-vlbi-chart-footnote = vertraging { $delay } µs op het epoch · { $samples } samples over { $hours } h
+
+engine-mars-pnt-chart-formal-3sigma = formeel 3σ (covariantie, geen gecertificeerd PL)
+
+engine-nmea-synth-log-position-drag-off-counterfeit-cn0 = position drag-off: de gerapporteerde positie loopt { $final_offset_m } m weg { $dir } terwijl de ontvanger een geldige positiebepaling houdt (het valse spoor piekt op { $pv } m/s en { $pa } m/s^2); elke gevolgde satelliet toont { $c } dB-Hz zolang het duurt
+
+engine-nmea-synth-log-position-drag-off-genuine-cn0 = position drag-off: de gerapporteerde positie loopt { $final_offset_m } m weg { $dir } terwijl de ontvanger een geldige positiebepaling houdt (het valse spoor piekt op { $pv } m/s en { $pa } m/s^2); het echte C/N0-patroon blijft behouden
+
+engine-nmea-synth-log-time-spoof-counterfeit-cn0 = time spoof: de gerapporteerde UTC verschuift { $offset_s } s ten opzichte van de ware tijd; de positie blijft juist; elke gevolgde satelliet toont { $c } dB-Hz zolang het duurt
+
+engine-nmea-synth-log-time-spoof-genuine-cn0 = time spoof: de gerapporteerde UTC verschuift { $offset_s } s ten opzichte van de ware tijd; de positie blijft juist; het echte C/N0-patroon blijft behouden
+
+engine-nmea-synth-log-replay-delay-counterfeit-cn0 = replay delay (meaconing-achtig): positie{ $v1 } loopt { $delay_s } s achter op de referentie; elke gevolgde satelliet toont { $c } dB-Hz zolang het duurt
+
+engine-nmea-synth-log-replay-delay-genuine-cn0 = replay delay (meaconing-achtig): positie{ $v1 } loopt { $delay_s } s achter op de referentie; het echte C/N0-patroon blijft behouden
+
+engine-pvt-chart-3d-error-m = 3D-fout (m)
+
+engine-pvt-chart-postfit-rms-m = post-fit-RMS (m)
+
+engine-quantum-faults-chart-title = quantum-anomaly-detect AUC (MODELLED)
+
+engine-quantum-faults-chart-quantum = kwantum
+
+engine-quantum-faults-chart-classical = klassiek
+
+engine-quantum-nav-od-chart-title = quantum-gnss-free-nav (MODELLED)
+
+engine-raim-stanford-chart-title = Stanford-diagram — integriteit ({ $n_epochs } epochs, AL = { $al } m)
+
+engine-raim-chart-title = RAIM-beschermingsniveaus en beschikbaarheid ({ $availability }% beschikbaar)
+
+engine-raim-chart-hal = HAL { $al } m
+
+engine-raim-chart-val = VAL { $al } m
+
+engine-receiver-trust-chart-track-caption = door de ontvanger gerapporteerd spoor, noord boven
+
+engine-receiver-trust-chart-start = start
+
+engine-receiver-trust-chart-end-of-log = einde van het logbestand
+
+engine-receiver-trust-chart-no-positions = geen posities in het logbestand
+
+engine-receiver-trust-chart-score-axis = vertrouwensscore, 0 tot 100
+
+engine-receiver-trust-chart-legend-vessel = vertrouwen: groen nominaal (score op of boven { $nominal }), oranje gedegradeerd (op of boven { $degraded }), rood niet vertrouwd, grijs kalibrerend
+
+engine-receiver-trust-chart-legend = vertrouwen: groen nominaal, oranje gedegradeerd, rood niet vertrouwd, grijs kalibrerend
+
+engine-receiver-trust-chart-advisory = Adviserende software, geen typegoedgekeurde navigatieapparatuur; de exploitant blijft verantwoordelijk.
+
+engine-receiver-trust-chart-cn0-axis = gemiddelde C/N0, dB-Hz
+
+engine-report-chart-title = Klok-holdover: tijdfout tijdens GNSS-uitval
+
+engine-slot-timing-chart-aria = Voorspelde tijdfout t.o.v. de tijd sinds de laatste positiebepaling, met de slotguard
+
+engine-slot-timing-chart-time-since-fix = tijd sinds positiebepaling, 0 tot { $t }
+
+engine-slot-timing-chart-predicted-error = voorspelde tijdfout (ns); gestreept: guard { $guard } ns
+
+engine-slot-timing-never = nooit
+
+engine-solar-system-chart-title = Zonnestelsel — J2000-ecliptica, bovenaanzicht
+
+engine-solar-system-chart-inner = Binnenste zonnestelsel (tot Mars)
+
+engine-solar-system-chart-whole = Volledig zonnestelsel (tot Pluto)
+
+engine-solar-system-chart-legend = groen: VALIDATED tegen JPL Horizons · oranje: MODELLED · manen staan in result.json met sporen rond hun moederlichaam
+
+engine-spectrum-chart-title = L-band-spectrumwaterval
+
+engine-spectrum-chart-multi-title = Spectrumwaterval met meerdere banden
+
+engine-spectrum-chart-frequency-mhz = frequentie (MHz)
+
+engine-spectrum-chart-cn0-caption = C/N0 (dB-Hz): nominaal (grijs) / minimum
+
+engine-spectrum-chart-threshold = drempel { $thr }
+
+engine-spoof-chart-title = Time-spoof-detectie: offset t.o.v. klokondersteunde detectiegrenzen
+
+engine-spoof-chart-offset-ns = spoof-offset (ns)
+
+engine-spoof-chart-spoof-offset = spoof-offset
+
+engine-spoof-chart-quantum-bound = kwantumdetectiegrens
+
+engine-spoof-chart-classical-bound = klassieke detectiegrens
+
+engine-sweep-chart-title = { $metric } t.o.v. { $parameter } (schaal { $scale })
+
+engine-sweep-nd-chart-title = { $n_dims }D-sweep van `{ $kind }` — { $n_nodes } knooppunten
+
+engine-sweep-nd-chart-axes = assen: { $axes } (vorm { $shape })
+
+engine-sweep-nd-chart-metrics = metrics: { $metrics } — volledig raster in JSON
+
+engine-sweep-nd-chart-line-title = sweep van `{ $kind }` over { $key }
+
+engine-sweep-nd-chart-y-title = metriek
+
+engine-telecom-timing-max-te-ns-budget-never-exceeded = telecom-timing: max|TE| { $max_abs } ns over { $v2 } s; { $masks }; budget van { $max_abs_te_ns } ns nooit overschreden (MODELLED)
+
+engine-telecom-timing-max-te-ns-budget-exceeded-after = telecom-timing: max|TE| { $max_abs } ns over { $v2 } s; { $masks }; budget van { $max_abs_te_ns } ns overschreden na { $t } s (MODELLED)
+
+engine-telecom-timing-chart-title = Telecom-tijdsynchronisatie: tijdfout, MTIE en TDEV
+
+engine-telecom-timing-chart-y-title = |tijdfout| (ns)
+
+engine-telecom-timing-chart-te-caption = absolute tijdfout t.o.v. de budgetten
+
+engine-telecom-timing-chart-holdover = holdover
+
+engine-telecom-timing-chart-time-record = tijd (opname van { $h } h)
+
+engine-telecom-timing-chart-mtie-caption = MTIE (doorgetrokken), TDEV (gestreept), eerste MTIE-masker (grijs), ns
+
+engine-timetransfer-chart-title = Synchronisatiefout van tijdoverdracht (optisch vs RF)
+
+engine-timetransfer-chart-y-title = synchronisatiefout (ps)
+
+engine-timetransfer-chart-spec = spec { $mm } mm = { $ps } ps
+
+engine-timetransfer-chart-x-title = meettijd (s)
+
+engine-timetransfer-chart-rf = RF: { $id }
+
+engine-timetransfer-chart-optical = optisch: { $id }
+
+engine-timetransfer-chain-chart-title = quantum-time-transfer (MODELLED)
+
+engine-kind-clock-description = Klok-holdover t.o.v. specificatie; optioneel Monte-Carlo-ensemble (runs > 1).
+
+engine-kind-inertial-description = 1-DOF inertiale koppelnavigatie tijdens een GNSS-uitval.
+
+engine-kind-orbit-description = GNSS-beschikbaarheid + DOP van een baanconstellatie (Walker / TLE / RINEX).
+
+engine-kind-ephemeris-description = Efemeride & grondspoor: propageer één satelliet (TLE→SGP4 of analytische baan) en geef zijn TEME/GCRS-toestand (positie + snelheid), ITRF/ECEF-positie, WGS-84-subsatellietbreedte/-lengte/-hoogte en per stap azimut/elevatie/afstand + afstandssnelheid (Doppler) van het station af. De satelliet komt uit een `tle` of uit een analytische `orbit` met zijn `epoch` (een `tle` wint als beide zijn opgegeven); bij een `tle` overschrijft een `epoch` het eigen epoch van de TLE als t = 0.
+
+engine-kind-integrity-description = Snapshot- / oplossingsscheiding- / ARAIM-RAIM met HPL/VPL en een Stanford-diagram.
+
+engine-kind-lunar-integrity-description = ARAIM-beschermingsniveaupas voor de zuidpool van de maan tegenover een representatieve LunaNet-relaisset. sigma_ure_m geeft de nauwkeurigheid van de afstandsmeting in de signaalruimte weer (beschermingsniveaus schalen er lineair mee, zodat een sweep erover beantwoordt welke afstandsnauwkeurigheid een alarmgrens vereist). Standaard het historische LNIS-achtige zuidpoolgeval.
+
+engine-kind-lunar-time-offset-description = Gemodelleerde relativistische klokgang aarde–maan (Lunar Coordinate Time, LTC/TCL): de seculiere LTC−TT-snelheid uit het verschil in zelfpotentiaal en de kinetische term van de maan, gerapporteerd met de gepubliceerde band van 56–59 µs/dag, plus de opgebouwde offset over een horizon.
+
+engine-kind-lunar-vlbi-description = Gemodelleerde geodetische VLBI-vertragingsobservabele op de maan: een aardbasislijn (twee grondstations, GCRS) observeert een eenrichtingssignaal van een baken op het maanoppervlak van de klasse NovaMoon. Geeft de nabije-veldvertraging uit twee afstandsverschillen, de snelheid ervan en de golffrontkrommingscorrectie voor het nabije veld over een pass — gecontroleerd tegen dezelfde vlakke-golf-Δ-DOR-observabele uit dezelfde codebase in de verre-veldlimiet, met partiële afgeleiden die zijn geverifieerd met eindige verschillen. Het standaard analytische pad is MODELLED en draagt de voorbehouden over frameconsistentie, xp=yp=0-poolbeweging en vlakke golf versus nabij veld. Wie planetary_kernel_path, earth_orientation_kernel_path en moon_orientation_kernel_path instelt, draait in plaats daarvan het kernelpad (DE440, MOON_PA_DE440, ITRF93; geconvergeerde barycentrische lichttijden; voegt de partiële afgeleiden van baken en station van het epoch toe), waarvan de newtoniaanse vertraging en partiële afgeleiden overeenkomen met de geconvergeerde lichttijden van NAIF SPICE tot { $lit_0_06 } ps en 7.4e-9. Niet gevalideerd tegen echte VLBI-gegevens.
+
+engine-kind-lunar-joint-od-clock-description = Gemodelleerde gezamenlijke multitechniek-baanbepaling van de maan + klok-batchschatter op een GESIMULEERD netwerk: een Gauss-Newton-snapshotfit die geodetische VLBI-vertragingen over een aardbasislijn, lokale afstanden tussen station en satelliet op de maan en afstanden tussen satellieten samenvoegt om samen de 3D-positie van een station op het maanoppervlak, de posities van een kleine constellatie en de klokoffset van elk object te herstellen uit een geïnjecteerde referentie. Het belangrijkste eerlijke resultaat — VLBI maakt de volledige 3D-positie van het station waarneembaar waar lokale afstandsmeting op de maan alleen een zwak waarneembare richting overlaat — wordt gerapporteerd als het contrast in stationsfout met en zonder VLBI. MODELLED gesimuleerd herstel in gesloten lus (de referentie deelt het waarnemingsmodel), deterministisch (met seed), NIET gevalideerd met echte gegevens; geen krachtmodelpropagatie binnen de oplosser; geen TRL/heritage/goedkeuring door een agentschap.
+
+engine-kind-lunar-frame-realisation-description = Gemodelleerde realisatie van het referentiestelsel van de maan: een 7-parameter Helmert-datumfit (gelijkvormigheid) — 3 translaties, 3 kleine rotaties, 1 schaal — die een geschatte set van uit selenografische gegevens afgeleide MCMF-puntcoördinaten door gewogen kleinste kwadraten aan een datum koppelt (crate::batch_ls::gauss_newton), plus een eenvoudige oriëntatiekoppeling die de gerealiseerde kleine rotatie om de ICRF-assen uitdrukt ten opzichte van de lichaamsoriëntatie volgens IAU 2015 WGCCRE. Het scenario injecteert een bekende kleine transformatie (translatie ~tientallen m, rotatie ~µrad, schaal ~1e-7) in een goed gespreid synthetisch puntennetwerk, voegt gezaaide gaussische ruis toe, herstelt het datum en rapporteert de herstelde transformatie, de herstelfout per parameter t.o.v. de geïnjecteerde referentie en het post-fit-RMS-residu. MODELLED zelfconsistentie — herstelt een geïnjecteerde gelijkvormigheidstransformatie (ruisloos tot ~machineprecisie), GEEN realisatie tegen echte tracking-/VLBI-gegevens; deterministisch (met seed); geen TRL/heritage/goedkeuring door een agentschap.
+
+engine-kind-moonlight-service-volume-description = Gemodelleerde analyse van het navigatieservicevolume op de maan voor een ILLUSTRATIEVE constellatie van het type Moonlight/LCNS in een maanbaan op basis van openbare bronnen (niet verbonden aan ESA): doorloopt een selenografisch breedte-/lengteraster over een tijdshorizon en rapporteert DOP / dekking / beschikbaarheid (≥4 satellieten EN PDOP < drempel) plus een gegeneraliseerde ARAIM-beschermingsniveau-omhullende (HPL/VPL) van de maan over het volume. De DOP-geometrie HERGEBRUIKT de gnss_lib_py-VALIDATED kernel (crate::orbit::dop); het beschermingsniveau HERGEBRUIKT de LunaNet-LNIS-ARAIM-machinerie voor de maan (crate::lunar, σ_URE≈30 m) en reduceert als speciaal geval tot het bestaande PL voor de zuidpool. MODELLED samenstelling: een cirkelvormige/elliptische Kepler-relaisset (niet de echte differentieel gecorrigeerde LCNS/NRHO-efemeride), een maan met gemiddelde rotatie (geen libratie/precessiepool). Deterministisch (zuivere geometrie). Geen TRL/heritage/goedkeuring door een agentschap.
+
+engine-kind-lunar-differential-pnt-description = Gemodelleerde DIFFERENTIËLE PNT op de maan (een maananaloog van DGNSS/SBAS): een referentiestation van de klasse NovaMoon op een BEKENDE selenografische locatie berekent differentiële correcties per satelliet voor een ILLUSTRATIEVE constellatie van het type Moonlight/LCNS op basis van openbare bronnen (NovaMoon alleen genoemd als systeem-KLASSE, niet verbonden aan ESA), en een gebruiker op baseline_km afstand past die toe zodat de GEMEENSCHAPPELIJKE baan- + klokfouten wegvallen. De klokterm valt EXACT weg (een algebraïsche identiteit); de baanterm laat alleen de projectie van het verschil in zichtlijn over, die → 0 gaat als basislijn → 0 (de ruimtelijke decorrelatievloer) en ≈ lineair groeit met de basislijn. Rapporteert de 3D-positiefout van de gebruiker INCLUSIEF versus EXCLUSIEF correcties, de reductiefactor, de fout-versus-basislijncurve en een gebruikersbeschermingsniveau dat de DO-229E-SBAS-machinerie (crate::sbas) HERGEBRUIKT met de differentiële rest σ. MODELLED — exacte opheffingsidentiteit + eerste-orde-decorrelatiemodel; niet gevalideerd met echte gegevens; geen TRL/heritage/goedkeuring door een agentschap. Deterministisch bij gebruik van een seed.
+
+engine-kind-lunar-station-coverage-description = Gemodelleerde dekking van een referentiestation op de maan: een Monte-Carlo-sweep van het differentiële PNT-model voor de maan over een zuidpolair gebruikersraster en een dag aan epochs. Een differentieel referentiestation op een bekende zuidpolaire locatie corrigeert een vermelde constellatie (illustratief Kepler of een getabelleerde efemeride) met een vermelde fout in de signaalruimte, meetfout, correctielatentie en linkkwantisatie; per punt en over het gebied rapporteert het de percentiel van de gecorrigeerde en ongecorrigeerde positiefout (3D, horizontaal, verticaal), beschikbaarheid, dekking tegen een vermelde drempel, DO-229E-beschermingsniveaus, de dekkingsstraal per azimut en het correctielinkbudget bij het station en op het slechtste punt. Geen uitspraak over de prestaties van enig echt systeem; niet verbonden aan of onderschreven door enig agentschap. MODELLED.
+
+engine-kind-lunar-interop-export-description = Gemodelleerde interoperabiliteitsexport voor de maan: geeft het referentiestelsel, de tijdschaal en de efemeride van de maan uit in op LunaNet/IOAG afgestemde, op CCSDS gebaseerde uitwisselingsvormen met roundtrip- en veldformaatcontrole. HERGEBRUIKT de CCSDS-OEM-2.0-emitter+parser van de crate (crate::oem), voor de maancontext van een nieuw label voorzien — de OEM-REF_FRAME draagt het maanlichaamsstelsel IAU 2015 WGCCRE (MOON_ME / MOON_PA), TIME_SYSTEM de tijdschaal van de maan (LTC / TCL / UTC), CENTER_NAME = MOON — over een voorbeeld van een illustratieve efemeride van het type LCNS (posities uit crate::lunar_service, snelheid door eindige verschillen). Geeft ook een op LunaNet/IOAG afgestemde descriptor van de maantijd uit (schaal-id, seculiere snelheid µs/dag uit crate::lunar_time, gepubliceerde band, referentieoppervlak) die via serde_json een roundtrip doorstaat, en verpakt de artefacten in de bestaande KIF-envelop (crate::interchange) met het eerlijkheidslabel MODELLED. Rapporteert uitgegeven artefacten, aantal OEM-regels, resultaat van de veldformaatcontrole + lijst van aanwezige/ontbrekende velden, OEM-roundtrip ok, roundtrip van tijdmetadata ok en KIF-grootte in bytes. MODELLED — de onafhankelijke referentie is een deterministische roundtrip + controle van veldnamen tegen gepubliceerde CCSDS-OEM- en LunaNet/IOAG-veldsemantiek; GEEN gecertificeerde conformiteitstest voor interoperabiliteit; illustratieve efemeride uit openbare bronnen, niet verbonden aan ESA; geen TRL/heritage/goedkeuring door een agentschap.
+
+engine-kind-timetransfer-description = Optische vs RF tweewegs tijd-/frequentieoverdracht.
+
+engine-kind-quantum-anomaly-detect-description = MODELLED fout-/anomaliedetectie voor kwantum-PNT-systemen: een gelabelde foutencatalogus (klokfrequentiesprong/-drift/-lock-verlies; sensorbiasstap/-uitval), een detectiestatistiek met ROC-AUC (met een bootstrap-BI uit de extern gevalideerde eval_stats) en een minimaal detecteerbare fout bij een vast vals-alarmpercentage, waarbij de met een kwantumklok ondersteunde monitor (lagere ruis) kleinere fouten detecteert — als eerlijke TradeEvidence + representativiteit. Gaussiaans detectiestatistiekmodel (AUC = Phi(mu/(sigma*sqrt2))); modelleert de klasse, illustratieve parameters uit openbare bronnen, geen TRL/vlucht/certificering.
+
+engine-kind-quantum-gnss-free-nav-description = MODELLED GNSS-vrije kwantumnavigatie: tijdens een GNSS-uitval een inertiaal budget van een kwantum (koudeatoominterferometer) tegenover een klassiek INS van navigatieklasse — groei van de positiefout over de uitloop, holdover tot een positiedrempel en de afweging kwantum-versus-klassiek als eerlijke TradeEvidence met representativiteit. Eerlijke waarneembaarheidsnotitie: zonder externe positiebepaling is de versnellingsmeterbias niet waarneembaar, dus de fout groeit; de kwantumsensor vertraagt maar dicht die kloof niet. Illustratieve apparaatparameters uit openbare bronnen; modelleert de klasse, geen TRL/vlucht/certificering.
+
+engine-kind-quantum-time-transfer-description = MODELLED keten voor vertrouwde kwantumtijdsynchronisatie: een end-to-end budget voor tijdoverdracht met kwantum (optische-roosterklok + verstrengeling/enkelvoudige-fotonlink) versus klassiek (CSAC + RF tweewegs), een hergebruikt tijdbeschermingsniveau + een veiligheids-FoM tegen vertragings-/replay-aanvallen (1-P_md), een detectiekans voor klokanomalieën + CUSUM-latentie, en de afweging kwantum-versus-klassiek als eerlijke TradeEvidence met een record van representativiteit + hiaten tot vlucht. Illustratieve apparaat-/linkparameters uit openbare bronnen; modelleert de klasse, geen TRL/vlucht/certificering geclaimd.
+
+engine-kind-hybrid-description = Hybride PNT-capstone: klok + IMU + ondersteuning door tijdoverdracht.
+
+engine-kind-fusion-description = Gezamenlijke Kalman-sensorfusie-PNT over dezelfde hybride invoer.
+
+engine-kind-hybrid-ukf-description = Hybride kwantum+klassieke, nauw gekoppelde GNSS/INS-UKF met 17 toestanden (MODELLED): 15 INS-foutentoestanden + uit CAI afgeleide versnellingsbiascorrectie + een klok met 2 toestanden (fase+frequentie) uit de q-parameterklokengine, aangestuurd door het begrensde CAI-foutmodel. De kwaliteitsmaat is zelfconsistentie van het filter (NEES + innovatiewitheid t.o.v. χ²-grenzen) — een uitspraak over zelfconsistentie, GEEN garantie voor nauwkeurigheid in de praktijk. Alleen simulatie; geen TRL>3, geen vluchtheritage, geen externe validatie.
+
+engine-kind-gnss-ins-description = Losjes en nauw gekoppelde GNSS/INS-foutentoestand-EKF.
+
+engine-kind-gnss-sim-description = Pseudorange-simulatie in het meetdomein (Klobuchar-iono, Saastamoinen/Niell-tropo) + RAIM.
+
+engine-kind-jamming-description = Linkbudget-jamming: J/S → effectieve C/N₀ → verlies van lock.
+
+engine-kind-spoof-description = Stochastische time-spoof-detector (Neyman–Pearson / χ²₁) met Monte-Carlo-P_fa/P_md.
+
+engine-kind-spoof-detect-description = Gecombineerde RF-/meting-spoofdetector (multi-SV RAIM-consistentie + AGC + SQM, gefuseerd) tegenover een geparametriseerde aanval (vermogensvoordeel, draaggolffase-uitlijning, tijd-/positieduw; TEXBAT-stijl).
+
+engine-kind-sweep-description = 1D-afwegingssweep over een klokpakketparameter.
+
+engine-kind-sweep-nd-description = Generieke N-D-sweep over elk pakket via TOML-sleutels met punten / JSON-metriekpaden.
+
+engine-kind-gravity-map-description = GPS-vrije navigatie met zwaartekrachtkaartmatching: een koudeatoomgravimeter herstelt een constante INS-drift uit de zwaartekrachtanomaliereeks waar hij doorheen vliegt.
+
+engine-kind-terrain-nav-description = GPS-vrije terreinreferentienavigatie (TERCOM/SITAN): een radar-/barohoogtemeter matcht het hoogteprofiel van de grond met een DEM in SRTM-stijl om de INS-drift te herstellen.
+
+engine-kind-terrain-slam-description = GPS-vrije sequentiële (recursieve) terreinreferentienavigatie: een deeltjesfilter draait het terreinmatch-meetmodel epoch voor epoch (SITAN als lopend filter), zodat een in de tijd variërende INS-drift langs het spoor wordt gevolgd, terwijl de batch-terrain-nav slechts één constante offset herstelt.
+
+engine-kind-combined-altpnt-description = GPS-vrije gecombineerde navigator voor zwaartekracht + magnetisme + terrein: drie scalaire veldkanalen per waypoint gefuseerd voor een scherpere driftbepaling (lagere CRLB) dan met één enkel veld.
+
+engine-kind-pvt-description = Eenpuntspositiebepaling met echte waarnemingen: bepaal de positie van een ontvanger uit een RINEX-3-waarnemingsbestand en een broadcast-navigatiebestand (codepseudoranges, broadcast-efemeride, Klobuchar-iono, Saastamoinen/Niell-tropo), optioneel gevalideerd tegen een ingemeten coördinaat.
+
+engine-kind-mars-pnt-description = PNT voor de diepe ruimte bij Mars: een gesimuleerde MARCONI-relaisconstellatie (areostationair + hellende relais die eenrichting uitzenden + tweerichting doorgeven aan een diepruimtestation) navigeert een referentiegebruiker (transfer | lmo | surface) via de gezamenlijke eenrichting-/tweerichting-radiometrische fusieschatter. Rapporteert geometrie/zichtbaarheid per epoch, bereikte RMS t.o.v. de referentie en de formele covariantie (1σ / 3σ positie) — een eerlijke gesimuleerde FoM, GEEN gecertificeerd beschermingsniveau.
+
+engine-kind-impairment-eval-description = Evaluatietestbed voor AI/ML-detectie van RF-verstoringen (13494): genereer een gelabeld, op parameters gegrond SYNTHETISCH corpus (nominaal/jamming/spoof-time/spoof-position/multipath), beoordeel een detector (energy|agc|sqm|parity|fused) met het detectoronafhankelijke harnas en rapporteer AUC/ROC/verwarringsmatrix + Pd per klasse bij een doel-Pfa, plus de optimismekloof tussen in- en buiten-de-verdeling. Alleen MODELLED werkingskarakteristieken — nooit veld/IQ, geen oordeel goed/slecht.
+
+engine-kind-quantum-trade-description = Afweging kwantum-versus-klassiek PNT (13503): voordeel in timing-holdover + inertiale holdover van een kandidaatklok (een gemeten ADEV-curve — het scharnierpunt voor verdedigbaarheid — of een kwantumklokklasse) t.o.v. een klassieke basislijnklasse, met het voorbehoud over de aanname van de lange-tau-ondergrens op het artefact meegedragen, plus een GNSS-ontzegde weerbaarheid-versus-tijd-omhullende. MODELLED; kwantificeert (valideert nooit) een partnerapparaat. De kandidaatklok is een gemeten curve (`candidate_adev_taus` + `candidate_adev_values`, even lang, minstens 2 punten; die wint als beide vormen zijn opgegeven) of een `candidate_clock_class`.
+
+engine-kind-space-weather-description = Ruimteweermodel van de omgeving: zonne- (F10.7/F10.7a) en geomagnetische (Kp, met de definitionele Kp↔ap-tabel) activiteitsindices, de Jacchia-1971-exosferische temperatuur die ze aansturen (gevalideerd tegen gepubliceerde zonneminimum/-gemiddelde/-maximum), en de Jacchia-1971-thermosferische neutrale dichtheid bij de dagelijks gemiddelde exosferische temperatuur tegenover het activiteitsvrije statische profiel op een reeks hoogten — de afhankelijkheid van de dichtheid van de zonnecyclus die de statische atmosfeer weglaat. MODELLED: de dichtheid komt bij zonnemaximum binnen een factor 2 overeen met uit versnellingsmeters afgeleide dichtheden (TOLEOS CHAMP en GRACE), maar is in het zonneminimum van 2008 ongeveer { $lit_1_7 }x te dicht.
+
+engine-kind-oem-interop-description = CCSDS-OEM-interoperabiliteitsbrug: importeer een Orbit Ephemeris Message van een extern vluchtdynamicatool (GMAT/Orekit/STK geven allemaal OEM uit) en rapporteer de segmenten/objecten/stelsels/epoch-spanne plus een snelheidsconsistentiecontrole; zonder invoer doorloopt het een roundtrip van een gegenereerde referentiebaan en rapporteert het de getrouwheid van import↔export. MODELLED structurele/fysische importcontrole, GEEN validatie van de baannauwkeurigheid van de bron.
+
+engine-kind-launch-window-description = Tweelichamen-lanceer- en stijggeometrie: lanceerazimut(en) (sin Az = cos i / cos lat), minimaal bereikbare inclinatie, cirkelsnelheid, de oostwaartse bonus van de aardrotatie, Δv voor het dogleg-vlakwissel wanneer de doelinclinatie onder de breedte van de lanceerplaats ligt, en het aantal dagelijkse lanceermogelijkheden. MODELLED geometrie met bolvormige aarde (geen snelheidsdriehoekcorrectie voor roterende aarde, geen model voor stijg-/weerstandsverlies).
+
+engine-kind-reentry-description = Ballistisch Allen-Eggers-terugkeercorridor: piekvertraging (onafhankelijk van de ballistische coëfficiënt, V_e^2 sin|γ|/(2eH)), de snelheid en hoogte bij piek-g en de snelheid bij piekverhitting, voor een intreesnelheid/baanhoek/ballistische coëfficiënt door een exponentiële atmosfeer, plus een vlakke puntmassa-integratie van dezelfde ballistische terugkeer met zwaartekracht, aardkromming en de US Standard Atmosphere 1976 (piekvertraging, snelheid, hoogte en tijd bij de piek). MODELLED ballistische (liftloze) terugkeer; de verhittingsuitvoer is de SNELHEID bij piekverhitting, geen warmteflux (geen aerothermisch/TPS-model).
+
+engine-kind-eo-coverage-description = Voetafdruk en dekkingsgeometrie van een aardobservatielading (SMAD-ruimtedriehoek): hoekstraal van de aarde, zwathbreedte, nadir-grondmonsterafstand, maximale off-nadir-toegang, cirkelperiode, J2-knoopperiode en grondspoorafstand op de evenaar met een vlag voor aaneengesloten dekking, voor een baanhoogte, inclinatie (standaard zonsynchroon) en sensor-FOV/IFOV. MODELLED geometrie met bolvormige aarde (geen radiometrie/MTF/atmosfeer/jitter/glint); knoopafstand R_e·(ω − Ω̇)·T_nodal met eerste-orde-seculiere J2-snelheden.
+
+engine-kind-space-packet-description = Framing volgens het CCSDS 133.0-B Space Packet Protocol: codeer een synthetische TM/TC-pakketstroom (primaire header van 6 octetten + gegevensveld) en rapporteer de headerdecodering per pakket, het totaal aan octetten en een exacte roundtrip van codering↔decodering. Deterministische exacte framing van de bitindeling — de interoperabiliteitslaag voor pakketformaten van agentschappen; GEEN conformiteitscertificering (geen secundaire-header-/CRC-/segmentatielogica buiten de vlaggen).
+
+engine-kind-attitude-budget-description = 3-DOF-houdings- en richtfoutbudget: het zwaartekrachtgradiëntverstoringsmoment in het ergste geval ((3/2)(μ/R³)ΔI) en een root-sum-square-richtfoutbudget over genoemde 1σ-bijdragers (sensorruis, reactiewieljitter, thermisch, uitlijning) met de dominante term, voor een baanhoogte + spreiding van de traagheid van het lichaam. MODELLED scalair AOCS-budget — een aanvulling van vóór de hardware op Basilisk/42, geen regellus-/6-DoF-/flexibele-modussimulatie.
+
+engine-kind-passes-description = Voorspelling van grondstationpasses: de passes met zichtbaarheid in het tijddomein (AOS/TCA/LOS, maximale schijnbare elevatie, duur) van een cirkelbaan, als SGP4-gemiddelde elementen aan het begin van het venster, over een station boven een elevatiemasker binnen een venster, met totale toegangstijd. SGP4/SDP4-propagatie op het aardvaste stelsel IAU 2006/2000A (optioneel UT1 - UTC en poolbeweging), ITU-R P.834-9-troposferische refractie en de lichttijd van de downlink (beide standaard aan), doorgangen opgelost tot 1e-7 s en de culminatie met gulden-snede-zoeken. De passgeometrie is VALIDATED tegen Orekit 13.1.8 bij stations op zeeniveau; de baan en het station van het scenario zijn illustratieve invoer.
+
+engine-kind-link-budget-description = Eenwegs-linkbudget volgens de linkvergelijking van CCSDS 401 / DSN 810-005: vrije-ruimteverlies, C/N₀, Eb/N₀, marge en sluiting voor een zend-EIRP, ontvangst-G/T, afstand, datasnelheid en band (s|x|ka) tegenover een vereiste Eb/N₀. Een deterministische technische berekening uit de aangeleverde invoer (geen gekalibreerd terminaldatasheet).
+
+engine-kind-lunar-time-budget-description = MODELLED end-to-end tijdfoutbudget voor Coordinated Lunar Time (LTC): de zeven LTC-foutentermen samengesteld als tijdfoutcurven x_i(τ) over een volledig gemiddelde-tijdraster, wortelgesommeerd tot x_Σ(τ), en het KRUISPUNT τ tussen klok en frame waar de groeiende klokterm de constante realisatieterm van het realtime-frame inhaalt (eronder is het budget frame-beperkt, erboven klok-beperkt) — het eerlijke antwoord op het artefact met één τ. De τ-hellingen zijn in gesloten vorm en analytisch controleerbaar (klok τ^{ "{" }+1/2{ "}" }/τ^{ "{" }+1{ "}" }, ondergrenzen τ^0, meting τ^{ "{" }-1/2{ "}" }) en de klokrijen reproduceren de gepubliceerde klokspecificaties voor één dag (crate::clock_specs); de GROOTTEN van de ondergrenzen voor RF-/optische link, frame-realisatie, relativistisch residu en efemeride zijn gemodelleerde budgettoewijzingen (gedocumenteerde standaardwaarden, door de aanroeper te overschrijven), geen metingen. De bijdrage is het reproduceerbare kruispunt τ, geen gecertificeerd getal per term; niet gecertificeerd voor operationele tijdwaarneming.
+
+engine-kind-hybrid-optical-rf-description = MODELLED heterogene gezamenlijke kwaliteitsmaat voor optische + RF-PNT (P5): stelt samen het optische tweewegs-linkbudget van 1550 nm (door fotonen beperkte CRLB voor tweewegsafstandsmeting σ_τ/√N en diffractievoetafdruk λ/D·afstand), een kruismodaal RAIM-beschermingsniveau met oplossingsscheiding (positie EN tijd) dat de losse RF- en nauwe optische oplossingen met uiteenlopende covarianties fuseert, de optische beschikbaarheid bij heldere hemel voor N stations (onafhankelijke unie 1−Π(1−a_i) en een ruimtelijk gecorreleerde variant), een optisch↔RF-overdracht van toestand/covariantie met een BEWEZEN bitcontinu (sprongloos) gemiddelde en een NEES-χ²-consistentiepoort, en een gezamenlijke score P(beschikbaar EN precisieklasse EN integriteit gewaarborgd) met correlatieafhandeling. VALIDATED gesloten vorm: de CRLB voor afstandsmeting, de diffractievoetafdruk, het χ²-kwantiel van het beschermingsniveau, de combinatoriek van de unie, de continuïteit van het gemiddelde bij de overdracht + NEES-poort en het gezamenlijke onafhankelijke product. MODELLED: de optische verliestoewijzingen, de σ-grootten van RF/optisch, de invoer uit de wolkenklimatologie, de correlaties en het P_HMI-budget. Geen gecertificeerd beschikbaarheids-/integriteitsproduct.
+
+engine-kind-cislunar-observability-description = MODELLED waarneembaarheid van een vlakke cislunaire constellatie (P6): volgt een constellatie van vier differentieel gecorrigeerde vlakke DRO-ruimtevaartuigen met afstandsmeting tussen satellieten en rapporteert hoeveel van de vier toestanden [x,y,ẋ,ẏ] van een ruimtevaartuig de boog waarneembaar maakt. Geeft (1) de tabel rang-versus-booglengte voor één link met alleen afstand — direct rang 1, groeiend naar de volledige vier toestanden naarmate de boog zich uitstrekt (P6 Tabel 1); (2) het eigenspectrum van de waarneembaarheidsgramiaan + conditiegetal over de boog; (3) de vergelijking van directe rang tussen alleen afstand en afstand+afstandssnelheid (de Doppler-ontwerphefboom) plus de rapportage van GDOP die bij alleen afstand singulier en bij afstand+snelheid gedefinieerd is; en (4) een onafhankelijke SRIF-kruisvalidatie waarvan de posterieure covariantie eindig / goed geconditioneerd wordt precies bij de boog waar de waarneembare rang vier bereikt. VALIDATED kern: de waarneembare rang is een rangonthullende singuliere-waardedrempel, gecontroleerd tegen de eigenrang van de gramiaan; het eigenspectrum voldoet aan de spectrale invarianten (trace=Σλ, det=Πλ, Frobenius²=Σλ²); de variationele STM is de met eindige verschillen gevalideerde CR3BP-STM; de rijen van de afstands-/afstandssnelheidsjacobiaan zijn met eindige verschillen gevalideerde analytische partiële afgeleiden (gecontroleerd tegen de 3D-afstandssnelheidsobservabele van de crate); de vier beginvoorwaarden zijn differentieel gecorrigeerde vlakke DRO's die sluiten tot een krap periodiciteitsresidu en retrograad zijn; de rangovergang is kruisgevalideerd tegen het wortelinformatiefilter van de crate (posterieure covariantie eindig precies bij volledige rang, cond(P)=cond(OᵀO)); een rangdeficiënte snapshot wordt gemarkeerd als GDOP-ongedefinieerd (fim condition=inf), nooit als een valse eindige waarde — dezelfde bewaking tegen singuliere geometrie die pvt::solve_spp toepast. MODELLED: het constellatieontwerp (DRO-perilunamplitudes en -fasen) en de specifieke rangprogressie die het oplevert. Geen gecertificeerd product voor navigatieprestaties.
+
+engine-kind-conflict-resilience-description = MODELLED weerbaarheid van gelaagde PNT bij conflict (P7): een gebruiker in een betwiste omgeving beschikt over meerdere PNT-lagen (open-service-GNSS, breedband-GNSS, een geauthenticeerde constellatie, een augmentatierelais), elk met een basisbeschikbaarheid, een 1σ-nauwkeurigheid en een kwetsbaarheid voor ontzegging per vector voor de gedeelde jamming-/spoofingdreiging. Een Monte-Carlo met seed en gesweepte intensiteit ontzegt elke laag met kans clamp(vulnerability·intensity·vector_weight,0,1), fuseert de overlevenden met de gesloten inverse-variantieregel σ_fused=(Σ 1/σ_i²)^(−1/2) en rapporteert de kans op totaal verlies (alle lagen ontzegd), de mediane gefuseerde fout en gebruikbaarheids-/ontzeggingsstatistieken per laag t.o.v. intensiteit. De kopcijfer voor de weerbaarheidsverhouding (totaalverliskans met één laag t.o.v. gelaagd) komt uit op ~7x onder de ONAFHANKELIJKHEIDSaanname; een gecorreleerde-ontzeggingssweep met één-factor-gaussische copula laat vervolgens zien dat die ~7x naar 1 instort naarmate de ontzeggingscorrelatie stijgt (correlatie ondermijnt gelaagdheid). Een blok voor priorgevoeligheid laat het kopcijfer variëren over de BRONVERMELDE kwetsbaarheidspriors via de mcda-tornado + een Dirichlet-herverdeling van de dreigingsinspanning + percentiel-BI's. VALIDATED kern: het totale verlies uit de Monte-Carlo convergeert naar het gesloten onafhankelijke product Π_i p_deny_i (binnen de Monte-Carlo-standaardfout bij een vaste seed en groot N); de inverse-variantiefusie is een gesloten identiteit; bij ρ=0 reduceert de copula tot het onafhankelijke model en behoudt elke ρ de marginale ontzeggingsfrequentie van elke laag. MODELLED: de grootten van kwetsbaarheid/beschikbaarheid/nauwkeurigheid per laag zijn bronvermelde maar gemodelleerde invoer (JammerTest 2024, TEXBAT, EASA SIB, RTCA DO-229, LunaNet/IOAG — zie conflict_threat_params), en de specifieke grootte van ~7x en de vorm van de curve verhouding-versus-correlatie volgen uit die parametrisering. Een uitsplitsing van overleving per vector in §4.2 splitst vervolgens de gedeelde RF-dreiging op in de vier genoemde vectoren (jamming/spoofing/kinetisch/cyber) en rapporteert de curve van geleidelijke degradatie van bruikbare PNT per vector S_v(x)=1-Prod_i(1-a_i(1-clamp(susceptibility_i,v·x,0,1))) — VALIDATED: de Monte-Carlo met seed per laag convergeert naar die gesloten vorm; jamming is de scherpste vector voor de gecorreleerde RF-basislijn en de RF-immune inertiale laag is de beslissende overlever. Geen gecertificeerd product voor navigatiebeschikbaarheid.
+
+engine-kind-lunar-attack-surface-description = Aanvalsoppervlak voor signaalbeveiliging bij navigatie op het maanoppervlak (P1): voegt de open analyses van signaalbeveiliging samen tot één run die met de binary bereikbaar is. Rapporteert (1) het AFS-ontvangstvermogen en het vermogensOVERSCHOT t.o.v. een terrestrische GPS-referentie, plus de gevoeligheidsband van 12-18 dB als een echte multi-assige sweep over de linkinvoer (referentieniveau x EIRP x schuine afstand) met de afstemming van de lineaire factor 25x afgerond / 28x niet afgerond. HERZIEN (regel R4): dit rapporteerde een vermogenSTEKORT van { $lit_15_6 } dB en een factor 32x/36x totdat de GPS-referentie werd gecorrigeerd van -125 / -{ $lit_128_5 } (dat zijn de dBm-waarden) naar -155 / -{ $lit_158_5 } dBW, de ICD-GPS-200-waarden die de jammingmodule altijd heeft gehanteerd. Het teken keert om: het gemodelleerde AFS-signaal van de maan is { $lit_14_4 } dB STERKER dan terrestrische GPS L1 C/A, niet zwakker. Het ontvangstvermogen zelf is geen bit verschoven, en de lineaire factor is de oude gedeeld door precies 1000, wat precies de offset van 30 dB tussen dBm en dBW is; (2) het vereiste zendvermogen van de aanvaller om te spoofen (J/S = 3 dB) en te ontzeggen (J/S = 30 dB) op elke afstand, de inverse van de J/S-link; (3) de orbitale capture-voetafdruk onder een echt antennepatroon met uniforme apertuur (Airy [2 J1(x)/x]^2), een door hoogte beperkte subhemisferische kap waarvan de limb NIET wordt gevangen; (4) een berekende uitkomst van het pull-in van spoof-capture door de volglus (sleept een spoofer met passende code bij een gegeven vermogensvoordeel en codeoffset de DLL/PLL daadwerkelijk mee) in plaats van de beweerde drempel van 3 dB; (5) het geometrische horizonbereik op een luchtloos lichaam van een verhoogde oppervlaktezender; en (6) het OSNMA/TESLA-authenticatiebudget (20 bit/s overhead = ~40 % van een AFS-navigatiebericht van 50 bit/s, latentie van sleutelvrijgave, 2^-40 vervalsing). Een lege body reproduceert de P1-basislijn; elke invoer heeft een standaardwaarde en kan worden overschreven. VALIDATED deelresultaten dragen de onafhankelijke referentie van hun bronmodule (gesloten dB-radiometrie; roundtrip van inverse J/S; Airy-patroon t.o.v. A&S-Bessel en bolkapgeometrie; DLL/PLL-pull-in t.o.v. Kaplan & Hegarty; bolraaklijnhorizonidentiteit t.o.v. eo_payload; veldgroottes van OSNMA SIS-ICD). MODELLED: de representatieve geometrie-/vermogensgrootten en de specifieke celwaarden van de capture-kaart. Geen gecertificeerd beveiligingsproduct.
+
+engine-kind-realtime-frame-eop-description = Voorspellingsbudget voor het realtime-maanstelsel / de aardoriëntatie: P4 Tabel 1 (de consistentiecontrole van de framefout — nabewerkt ~{ $lit_0_27 } m ↔ ~{ $lit_0_010 } ms en realtime ~15 m ↔ ~{ $lit_0_5 } ms, elke framepositie uitgedrukt als de equivalente UT1-fout via de L19-hefboomarm Δr = D_EM·ω⊕·ΔUT1) en Tabel 2 (gemeten UT1-voorspellingsfout t.o.v. horizon — de L18-curve rechtstreeks afgelezen uit de echte IERS-finals2000A-reeks: de ondergrens Bulletin A − Bulletin B final en de meerdaagse fout van de persistentievoorspeller, elk door L19 omgezet naar een positie in het maanstelsel), plus het L21 root-sum-square-budget voor de realtime framefout (EOP + efemeride + realisatieondergrens). VALIDATED gesloten vorm (de L19-hefboomarm, ω⊕ gecontroleerd tegen de CIO-aardrotatiehoek) en VALIDATED echte gegevens (de L18-curve uit de echte finals2000A-rijen); MODELLED zijn de grootten van de OD-covariantie van maanrelais en de realisatieondergrens van het frame (representatieve toewijzingen) en de persistentievoorspeller (niet het operationele Bulletin A-algoritme van de IERS). Geen gecertificeerd realtime-framproduct.
+
+engine-kind-aperture-duty-cycle-description = Duty cycle van de apertuur: de tijdverdeling tussen navigatie en communicatie die een contactplan impliceert voor een pool van stuurbare aperturen. Neemt een contactplan (een lijst `[[contacts]]` met aos_s/los_s-vensters, elk met een verzoek om navigatie of communicatie — hetzelfde aos_s/los_s-vocabulaire dat de `passes`-voorspeller uitgeeft), een aantal aperturen en een ARBITRAGEBELEID (standaard navigatieprioriteit, of communicatieprioriteit, of niet-preëmptief first-come-first-served), en rapporteert de navigatieduty, de communicatieduty, de inactieve duty en de uitval per sessie — de contacttijd die een sessie vroeg en die geen apertuur bediende. Een exacte intervalsweep over de venstergrenzen, zodat aaneensluitende vensters nooit concurreren en geen aperturesseconde dubbel wordt geteld; navigatie-, communicatie- en inactieve aperturesseconden worden onafhankelijk opgeteld en sluiten tegen apertures*horizon_s. Het rapport vermeldt het toegepaste beleid, de volledige definitie ervan en de definities van duty en uitval, omdat een dutycijfer zonder arbitragebeleid niet reproduceerbaar is. MODELLED planningsrekenwerk: er wordt geen slew-/hertune-/overschakeltijd gerekend wanneer een apertuur van dienst of sessie wisselt, er komen geen datavolume, bufferstatus, energiebudget of linksluiting in de beslissing voor, en de contactvensters zijn invoer — hun geometrie is wat ze ook heeft voortgebracht. Geen product voor planning van grondsegmenten.
+
+engine-kind-lunar-jamming-description = RF-jamming eigen aan de maan: jammer-tot-signaalverhouding per satelliet, effectieve C/N₀ en verlies van lock voor een selenografische gebruiker op het oppervlak onder een jammer op het maanoppervlak (of verhoogd), over de illustratieve constellatie van het type Moonlight/LCNS in een maanbaan op basis van openbare bronnen. Stelt de bestaande open jammingfysica (jamming::j_over_s_db, effective_cn0_dbhz, rx_antenna_gain_db, lock_status, q_factor) samen met de bestaande hemelgeometrie van de maan (lunar_service::LunarConstellation + topocentric, lunar::selenographic_to_mcmf); er wordt geen geometrie of radiometrie opnieuw afgeleid. Anders dan bij de aardse `jamming`-kind is het signaalbeen GEEN vast ontvangstvermogen: het isotrope ontvangstvermogen van elke satelliet is zijn eigen linkbudget EIRP − FSPL(schuine afstand), zodat de J/S per satelliet varieert met afstand en elevatie op de maan. Rapporteert ÉÉN RIJ PER ZICHTBARE (epoch, satelliet)-LINK — azimut, elevatie, schuine afstand, beide ontvangstvermogens waarvan de J/S het verschil is, de J/S, de nominale en effectieve C/N₀ en de lockstatus — plus aggregaatkwaliteitsmaten naast (nooit in plaats van) die tabel, en dezelfde tabel als CSV-artefact. Elk uitgegeven numeriek veld draagt een eenheid en een herkomstklasse. VALIDATED deelresultaten dragen de onafhankelijke referentie van hun bronmodule (de anti-jamvergelijking en J/S-link van Kaplan & Hegarty §9.4, extern gerefereerd in tests/gnss_denied_jamming_resilience_reference.rs; de maangeometrie van lunar_service). De samenstelling zelf is gecontroleerd tegen een onafhankelijk pad met twee linkbudgetten (linkbudget::received_signal_power_dbw, een andere uitdrukking voor vrije-ruimteverlies) tot 1e-9 dB. MODELLED: de illustratieve constellatie, de representatieve EIRP / jammervermogen / antennewinsten / ruistemperatuur, en de afwezigheid van terreinschaduw, multipath, AGC-dynamiek en adaptieve nulling. Geen gecertificeerd product voor denial-of-service. Is een jammer geconfigureerd, dan bevat het rapport ook een ONTZEGGINGSCONTOUR INCLUSIEF EEN ONZEKERHEIDSBAND in plaats van een contour afgelezen uit één scalaire waarde: de volledig gemeten verdeling van de gewenste-signaal-C/N₀ over de tabel per satelliet (n, min, p05, p25, mediaan, p75, p95, max, gemiddelde, steekproefstandaarddeviatie en de eigen asymmetrie van de steekproef), en de contour geëvalueerd op elk van die ordestatistieken onder BEIDE ontzeggingscriteria die de engine herkent — het gevestigde vermogensverhoudingscriterium (J/S = 30 dB, zoals in attack-surface en tracking-loop) en het criterium van verlies van lock (effectieve C/N₀ die daalt tot tracking_threshold_dbhz, het criterium dat de eigen statuskolom van dit rapport gebruikt) — op beide assen van het ontzeggingsvlak (vereiste jammer-EIRP op de afstand van het scenario, ontzeggingsafstand bij de EIRP van het scenario). De bandranden ZIJN contour(p05) en contour(p95), dezelfde gesloten afbeelding toegepast op de eigen kwantielen van de steekproef: geen sigma gefit aan de steekproef en niet mediaan ± k·stdev, waarbij stdev wordt uitgegeven voor continuïteit en door niets wordt gebruikt. Een kwantiel dat al op of onder de trackingdrempel ligt, heeft geen eindige ontzeggende J/S en zijn kolommen voor verlies van lock zijn null met een getelde reden, nooit een afgekapte straal.
+
+engine-kind-ins-trn-coast-description = INS/TRN-uitloopfoutmodel: positiefout t.o.v. uitloopduur, opgebouwd uit IMU-coëfficiënten in plaats van gesweept als een aangenomen driftsnelheid. Vijf groeibijdragen — versnellingsmeterbias, gyrobiaskanteling via zwaartekracht, snelheidsrandomwalk, hoekrandomwalk en schaalfactor t.o.v. afgelegde afstand — elk gepropageerd door een inertiaal foutmodel met negen toestanden op lokaal niveau met Schuler-terugkoppeling op een vermelde breedte en hoogte (de leidende-ordewetten voor korte uitloop t², t³, t^1.5, t^2.5 en t¹/t² worden er naast gerapporteerd) en gecombineerd onder een VERMELDE regel (standaard root-sum-square, of lineaire som, of deterministische som met stochastische rss; alle drie worden bij elke run berekend, zodat de keuze zichtbaar is in plaats van verstopt). De uitloopduren die door de aanroeper opgegeven positiedrempels bereiken (standaard 10 m en 50 m) worden gelokaliseerd met de bestaande bisectie van de engine, elk met een uitsplitsing per bijdrage die de dominante bron noemt, en de kruising van elke afzonderlijke bijdrage wordt bovendien algebraïsch geïnverteerd zodat beide overeenkomen. Een modus met terreinrelatieve navigatie begrenst de uitloop met periodieke positiebepalingen en rapporteert het grootste interval tussen positiebepalingen dat elke drempel houdt; een positiebepaling met alleen positie laat snelheidsfout en kanteling over de positiebepaling heen bestaan, zodat de uitloop niet bij elke bepalingsfrequentie altijd wordt begrensd, en het rapport zegt dat in plaats van een nul terug te geven. MODELLED: de klassecoëfficiënten van de IMU zijn representatieve bandwaarden, geen datasheet, en het residu van de terreinbepaling is invoer. Een niet bereikte drempel wordt gerapporteerd als null met een status, nooit als nul. Geen gecertificeerd product voor prestaties van inertiale navigatie.
+
+engine-kind-lunar-vlbi-fim-description = Covariantie van stationscoördinaten voor VLBI op de maan: de vertragingspartiële afgeleiden van de lunar-vlbi-observabele, opgebouwd over een expliciet SCHEMA (basislijnen x epochs) tot een Fisher-informatiematrix, geïnverteerd en gerapporteerd als de covariantie van de stationscoördinaten en de station-sigma per coördinaat — een berekende engine-uitvoer in plaats van een scalaire vertragingsprecisie die door een aangenomen isotrope g = 3-equipartitiefactor wordt geduwd. De toestand draagt AARDVASTE (ITRS) stationscoördinaten, dus de jacobiaan is de inertiale partiële afgeleide geroteerd met de GCRS->ITRS-matrix van elk epoch: aardrotatie is wat die coördinaten waarneembaar maakt, en het rapport METEN de aardvaste zichtlijnsweep en de declinatie van het baken in plaats van ze aan te nemen. Eén waarneming is één paar (basislijn, epoch) met BEIDE stations boven het elevatiemasker, gewogen met 1/delay_sigma_s^2. Rapporteert bij elke run rang, datumdefect, conditiegetal, het volledige informatiespectrum, de covariantiematrix, sigma's per station per as en in 3D, en de nulruimte van het vrije netwerk; bij een rangdeficiëntie wordt de kop-sigma gepubliceerd als NULL met een status, nooit afgelezen uit een bijna singuliere inverse. De equipartitiewaarde c*delay_sigma_s*sqrt(g/N) voor HETZELFDE schema wordt naast de berekende waarde uitgegeven met de verhouding, samen met de isotrope sporengrens sqrt(p/trace(M)) die AM-HM tot een harde ondergrens maakt — zodat de verhouding de anisotropie is die de aanname heeft weggegooid. De vertragingssluiting tau_ik = tau_ij + tau_jk maakt slechts n-1 van de n(n-1)/2 basislijnen geometrisch onafhankelijk; het rapport vermeldt beide aantallen. MODELLED: de efemeride van het maancentrum, stationsklokken, troposfeer en aardoriëntatieparameters worden VAST gehouden en waarnemingen worden als onafhankelijk behandeld, zodat de covariantie een Cramér-Rao-grens is voor een gereduceerde parameterset, geen voorspeld sessieresultaat; de vertragings-sigma, stationscoördinaten en het schema zijn invoer. De partiële afgeleide die de jacobiaan van de geometrische vertraging weglaat (de gedifferentieerde Shapiro-term) wordt met eindige verschillen gemeten en uitgegeven. Geen geodetisch product.
+
+engine-kind-tracking-loop-description = Verlies van lock van de volglus: C/N0 -> lock/unlock INCLUSIEF HYSTERESE, de tijd die nodig is om lock te verliezen, en spoof-pull-in als functie van de SNELHEID van code- en draaggolfoffset. De bestaande ontzeggings- en capture-criteria van de engine zijn verhoudingen van ontvangstvermogen (een jammer ontzegt bij J/S = 30 dB, een spoofer vangt bij 3 dB); echt verlies van lock is geen vermogensverhouding, het is waar de jitter van een lus plus dynamische belasting het budget van zijn volgdrempel overschrijdt. Rapporteert (1) 1-sigma-thermische jitter van draaggolf (Costas) en code (niet-coherent early/late) t.o.v. C/N0, inclusief kwadrateringsverlies, tegen de vermelde regels 3*sigma_PLL + theta_e <= 45 deg (de 15-gradenregel in driesigmavorm) en 3*sigma_DLL + ramp lag <= d/2 chips; (2) de C/N0-drempels voor loslaten en opnieuw locken met de bepalende lus genoemd, de drempel voor opnieuw locken AFGELEID uit de bredere bandbreedte waarmee een ontvanger opnieuw pull-in doet in plaats van beweerd, zodat de hysteresebreedte tussen 5*log10(ratio) en 10*log10(ratio) dB moet vallen; (3) de verklaarde tijd tot verlies van lock van een lockdetector met twee drempels en bevestigingsverblijftijden, aangedreven over een C/N0-ramp, afzonderlijk gerapporteerd van de fysieke tijd tot faseontsnapping (de gemiddelde Viterbi-tijd tussen cycle slips, in log10 s omdat die honderden decaden beslaat); (4) spoof-pull-in-limieten — de grootste codeslew en Doppler-snelheid van de draaggolf die de lussen van een slachtoffer kunnen volgen, met een kaart over beide assen, omdat een spoofer die sneller slewt dan deze de lus niet vangt maar hem voorbijloopt; en (5) de ONTZEGGINGSRADIUS die de luisdynamiek impliceert, gerapporteerd NAAST de bestaande radius op basis van vermogensverhouding, nooit in plaats ervan, met hun verschil met teken als eigen benoemd veld (denial_radius_delta_km) en een definitie ernaast. Elk uitgegeven numeriek veld draagt een eenheid en een herkomstklasse. VALIDATED gesloten vormen: de uitdrukkingen voor jitter van draaggolf en code, de reductie van het lusfilter sqrt(2*B_n*T) en de eerste-ordeachterstand van de ramp zijn gecontroleerd tegen de eigen sdr-correlator van de engine, voortgezet op synthetische IF met seed — een andere route naar dezelfde getallen — tot respectievelijk { $lit_0_6 } %, { $lit_3_7 } % en { $lit_0_17 } %, en de gemodificeerde Bessel-functie I0 achter de tijd tot cycle slip tegen standaard getabelleerde waarden tot 1e-7. De ondergrens van de geldigheid is afgedwongen, niet slechts vermeld: onder ~32 dB-Hz bij 1 ms verzadigt de echte atan-discriminator tegen zijn bereik van +-pi/2 en meet hij minder jitter dan enige lineaire theorie. MODELLED: de lusbandbreedten, integratietijd, correlatorafstand, pull-in-bandbreedteverhouding, bevestigingsverblijftijden, jammervermogen en antennewinsten zijn representatieve bandwaarden, geen datasheet. NIET gemodelleerd: jitter van oscillator (Allan-deviatie) en trillingen, bandbreedtebeperking van de front-end, multipath, AGC-dynamiek, verlies door databitovergangen, externe ondersteuning, en elke halve-cyclus-correctie op de Costas-cycle-slipformule. Onder luisdynamiek heeft spoof-capture helemaal geen radius — de bepalende beperking is de offsetsnelheid, niet het vermogen — dus dat veld is null met een reden in plaats van een verzonnen getal. Geen gecertificeerd product voor prestaties van ontvangers.
+
+engine-kind-araim-reference-check-description = Gepubliceerde ARAIM-referentievectoren voor certificering: de ARAIM-beschermingsniveaus (horizontaal en verticaal) van de engine, gedraaid tegen de EIGEN uitgewerkte numerieke voorbeelden van de WG-C ARAIM Technical Subgroup, op de tolerantie (TOL_PL = 5e-2 m) die die documenten zelf vermelden. Twee vectoren zijn als fixtures vastgelegd, elk met zijn ophaal-URL, ophaaldatum, SHA-256 van het bronbestand en pagina: de Reference Airborne Algorithm Description Document v3.1 (2019) Appendix D — zelfconsistent, en de acceptatievector — en het Milestone 3 Report (2016) Annex A sectie A.IX, de verklaring die de onderzoeksbibliografieën citeren. Elke gepubliceerde invoer (de geometriematrix van 10 satellieten in 2 constellaties, de varianties-diagonalen C_int en C_acc, b_nom, P_sat, P_const en de constantenset van LPV-200) en elke gepubliceerde uitvoer (VPL, HPL, EMT, sigma_v_acc, K_fa_3 en sigma_3, sigma_ss_3 en b_3 van de twee constellatiefoutmodi) wordt naast het eigen getal van de engine en hun absolute verschil gerapporteerd. De beschermingsniveauvergelijking wordt hier NIET opnieuw opgelost: de modelijst van de referentie wordt doorgegeven aan de bestaande raim::araim_protection_level / araim_integrity_risk van de engine, zodat de bisectie en de gaussische staartalgebra die worden getest die van de engine zelf zijn; alleen de geometrie, de deeloplossingen, de detectiedrempels en de gepubliceerde budgetverdeling worden ervoor gebouwd. EXTERN GECONTROLEERD tegen de vector van 2019: VPL { $lit_18_2926 } m vs { $lit_18_3 } m gepubliceerd, HPL { $lit_13_4063 } m vs { $lit_13_45 } m, EMT { $lit_7_2997 } m vs { $lit_7_2998 } m, sigma_v_acc { $lit_1_3694 } m vs { $lit_1_3694 } m, en alle zes gepubliceerde tussenresultaten binnen een halve eenheid in hun laatst afgedrukte decimaal. De vector van 2016 bevat twee interne gebreken die het rapport vermeldt in plaats van verbergt — een tekentypfout in rij 3 van G, en een K_fa_3 die is geëvalueerd bij 57 foutmodi terwijl het document N_fault_max = 1 (12 modi) vermeldt — zodat de geometrische tussenresultaten exact worden gereproduceerd terwijl de beschermingsniveaus worden gerapporteerd als gemeten afwijkingen en worden uitgesloten van het acceptatiecijfer; de tolerantie wordt nooit verruimd om ze op te vangen. Elk uitgegeven numeriek veld draagt een eenheid en een herkomstklasse, en een overgenomen cijfer wordt gelabeld `published` zodat het nooit voor een berekend cijfer kan worden aangezien. REIKWIJDTE: alleen N_fault_max = 1 (foutmodi met één satelliet en één constellatie) is geïmplementeerd, en een geval waarvan de priors gelijktijdige multi-eventfoutsubsets vereisen wordt REFUSED in plaats van stilzwijgend afgekapt; foutdetectie, -uitsluiting, de chikwadraat-consistentiecontrole en de herallocatiestap tegen dubbeltelling van het referentie-algoritme vallen buiten de reikwijdte. Dit reproduceert een uitgewerkt voorbeeld van een gepubliceerd referentie-algoritme — het is geen certificering, geen luchtwaardigheidsartefact en geen goedkeuring.
+
+engine-kind-lunar-frame-campaign-description = Zevenparameter-Helmert-framedatum (gelijkvormigheid) aangestuurd door een GESIMULEERDE WAARNEEMCAMPAGNE in plaats van door een geïnjecteerde transformatie. Een netwerk van aardstations observeert een catalogus van bakens op het maanoppervlak volgens een expliciet schema; de VLBI-vertragingspartiëlen van de maan worden over dat schema opgebouwd tot een Fisher-informatiematrix van baken-coördinaten, precies zoals lunar-vlbi-fim doet; en die informatie wordt gepropageerd door het Helmert-ontwerp A = [I3 | [p]_x | p] op de cataloguspunten tot de datumcovariantie H = A^T M_b A, gediagnosticeerd door crate::fim::crlb. GEEN transformatie wordt geïnjecteerd en niets wordt hersteld uit een geplant antwoord, dus de gerapporteerde datumnauwkeurigheid komt voort uit het waarneemprogramma: een gehalveerde vertragings-sigma halveert haar exact, en een langere boog verbetert haar omdat de libratie die het rapport METEN (sub_earth_direction_sweep_deg) de zichtlijncoördinaat van het baken scheidt van die in het hemelvlak. Rang, datumdefect, conditiegetal, het volledige spectrum, de onwaarneembare richtingen IN DE ZEVENPARAMETERBASIS, de zwakste richting ook bij volle rang en het aandeel van elke parameter daarin worden bij elke run uitgegeven; een parameter die de campagne niet vastlegt wordt gepubliceerd als NULL met een status, nooit afgelezen uit een bijna singuliere inverse. Correlatie van bakenfouten wordt gemeten, niet aangenomen: met vastgehouden stations raakt geen waarneming twee bakens, zodat de informatiematrix exact blokdiagonaal is (offblock_fraction 0), en met geschatte stations is het Schur-gemarginaliseerde blok gekoppeld, met de geïnduceerde correlatie afgedrukt en de hele propagatie opnieuw gedraaid met die correlatie weggelaten, zodat de prijs van een onafhankelijkheidsaanname een getal is. Dezelfde propagatie onder een isotrope sigma per coördinaat, en de herstelfout die het scenario lunar-frame-realisation rapporteert, worden hier beide gedraaid en afgedrukt naast de campagnewaarde met hun verhoudingen. MODELLED: de bakencatalogus is bronvermeld maar de CAMPAGNE is gesimuleerd — het stationsnetwerk en de vertragings-sigma zijn illustratieve invoer, afzonderlijke vertragingswaarnemingen worden als onafhankelijk behandeld, en de efemeride van het maancentrum, stationsklokken, troposfeer en aardoriëntatieparameters worden VAST gehouden, zodat de datumcovariantie een Cramér-Rao-grens is voor een gereduceerde parameterset. Geen geodetisch product.
+
+engine-kind-lunar-llr-datum-description = Zevenparameter-Helmert-framedatum voor de maan aangestuurd door een ECHTE, GEARCHIVEERDE waarneemcampagne in plaats van een gesimuleerde. Waar lunar-frame-campaign de geïnjecteerde transformatie verwijderde maar zijn stationsnetwerk, schema en sigma per waarneming nog als ILLUSTRATIEVE invoer vermeldde, neemt deze kind alle drie uit metingen: de epochs zijn de zendtijden vanaf de grond van gearchiveerde normal points van ILRS Consolidated Laser Ranging Data, de waarnemingen zijn de laserafstanden die echt zijn afgevuurd op de vijf retroreflectorarrays op de maan, en elk waarnemingsgewicht is de eigen gearchiveerde precisie bin_rms/sqrt(n_raw) van dat normal point, uit het bestand gelezen. Stationscoördinaten komen uit de IERS-ITRF2020-SLR-oplossing (naar het epoch gepropageerd met hun gepubliceerde snelheden) en de reflectorcoördinaten uit JPL DE430 Tabel 7 in het gemiddelde-aarde-/gemiddelde-rotatiestelsel dat het IAU 2015 WGCCRE-model realiseert. Afstandspartiëlen worden opgebouwd tot de gezamenlijke Fisher-informatiematrix van reflectorcoördinaten en gepropageerd door hetzelfde Helmert-ontwerp tot de datumcovariantie, gediagnosticeerd door crate::fim::crlb. Rang, defect, conditie, spectrum, onwaarneembare richtingen in de zevenparameterbasis, de zwakste richting bij volle rang en het aandeel van elke parameter daarin worden bij elke run uitgegeven, en een niet vastgelegde parameter wordt gepubliceerd als NULL met een status. Correlatie tussen arrays wordt GEMETEN op exact nul in plaats van aangenomen, omdat een laserafstand één array raakt. Een record dat de catalogi niet kunnen plaatsen — een station zonder gepubliceerde ITRF-positie — wordt OVERGESLAGEN EN GETELD, nooit voorzien van een vervangende coördinaat. WELKE LINKS GEMETEN EN WELKE MODELLED ZIJN, IS HET RAPPORT, GEEN VOETNOOT: de efemeride van het maancentrum en de IAU-lichaamsoriëntatie blijven gemodelleerd en hun gecombineerde grootte wordt uitgegeven als het residu waargenomen-min-berekend van de eenwegsafstand over elk gebruikt punt; troposfeer, vastelichaamsgetijden, stationsexcentriciteit, poolbeweging, UT1-UTC, relativistische vertraging en stationsklokken ontbreken en zitten in dat residu. Omdat een efemeridefout een covariantie alleen via de richting van elke zichtlijn bereikt, lost elke run bovendien het hele datum opnieuw op met alle partiëlen gekanteld met sensitivity_tilt_deg (met wisselend teken) en geeft de verhouding uit, zodat de ongevoeligheid van de covariantie voor de gemodelleerde efemeride een getal is in plaats van een argument. De eigen cijfers van de gesimuleerde campagne worden GEDRAAID en naast de gemeten cijfers afgedrukt, niet overgenomen. MODELLED: de zevenparametercijfers zijn een Cramér-Rao-grens voor een gereduceerde parameterset op een echt schema — geen opgelost datum, geen LLR-analyse en geen geodetisch product. De vastgelegde echte-gegevensslice wordt met de repository meegeleverd maar niet met de gepubliceerde crate; wijs data_dir naar een kopie ervan.
+
+engine-kind-lunar-beacon-description = Uitbreiding van een orbitale navigatiedienst voor de maan met oppervlaktebakens, als een uitvoerbare tabel voor/na. Een zuidpolaire gebruiker ziet een ijle orbitale set in een smal stuk hemel, zodat de afstandsgeometrie slecht geconditioneerd is; een paar INGEMETEN OPPERVLAKTEBAKENS levert de zichtlijnrijen met lage elevatie en brede azimut die een geheel bovenliggende set mist, en de horizontale precisieverdunning stort in. Het scenario rapporteert drie configuraties op één epoch — alleen satellieten, satellieten plus de zichtbare bakens, en een grotere constellatie als alternatieve route naar dezelfde geometrie — elk met zijn aantallen zichtbare bronnen, zijn volledige DOP en de gerealiseerde 1-sigma-nauwkeurigheid in METERS, verkregen door te vermenigvuldigen met een gebruikersequivalente afstandsfout per baken, samengesteld als de root-sum-square van termen voor klok-synchronisatie, multipath en inmeting. Zichtbaarheid van bakens is de geometrische horizon met twee hoogten op de luchtloze maan (geen atmosfeer, dus de grens is exact), en de DOP-opbouw is dezelfde kernel die is gecontroleerd tegen gnss_lib_py in tests/dop_reference.rs. WAAROM DEZE KIND BESTAAT: de module erachter zit in de engine en is sinds L08/L09 gecontroleerd tegen een onafhankelijk DOP-pad, maar was niet bereikbaar vanuit een run — geen kind, geen dispatch-arm, geen meegeleverd bestand. De README maakte reclame voor de mogelijkheid en de verificatiematrix had er GEEN rij voor, zodat ze tegelijk in proza werd beweerd en in het register niet werd geclaimd, terwijl ze in de engine onbereikbaar was. De standaardwaarden zijn de geometrie die al een vastgelegde golden draagt (een gebruiker op -80 deg met een antenne van 2 m, drie bakens op -80/0, -79/+60 en -79/-60 op 2 km, een illustratieve LCNS-snapshot van zes satellieten op t=0, een masker van 5 deg), zodat een kale run een tabel reproduceert die een onafhankelijke referentie al dekt in plaats van nieuwe getallen te verzinnen. MODELLED: het constellatieontwerp, de plaatsing van de bakens en elke grootte in het foutenbudget zijn illustratieve invoer, geen in gebruik zijnde inmeting of gemeten link; alleen de DOP-rekenkunde, de gesloten vorm van de horizon en de relatie sigma = DOP x sigma_URE zijn extern verankerd. Geen toezegging over de prestaties van de dienst.
+
+engine-kind-earth-gnss-lunar-description = Ontvangst van aard-GNSS op maanafstand, de zwaksignaallaag die het conflictweerbaarheidsartikel noemt en waarvoor de engine geen model had. Een GNSS-satelliet richt zijn antenne op de aarde; een ontvanger bij de maan zit ongeveer vijftien keer de baanstraal verder weg, dus drie dingen spelen tegelijk. De aarde BEDEKT DE BORESIGHT: vanaf 26.560 km beslaat ze een halve hoek van { $lit_13_9 } deg, dus elke straal richting de maan moet de zender minstens zo ver van nadir verlaten, wat de piek van de bundel verwijdert voordat er vermogen wordt berekend. Wat overblijft is de RAND VAN DE HOOFDLOB EN DE ZIJLOBBEN, het regime waarin de LuGRE-lading in 2025 werkelijk opereerde. En het vrije-ruimteverlies is ongeveer 208 dB op L1, grofweg 25 dB meer dan een terrestrische gebruiker betaalt. Het rapport geeft één rij per satelliet uit (off-boresight-hoek, aardbedekking, afstand, padverlies, zendwinst onder die hoek, ontvangstvermogen, draaggolf-ruisdichtheid) en aggregeert alleen de links die de volgdrempel halen. HET RAPPORTEERT OOK DE CONDITIONERING, omdat dat deze laag definieert: elke zichtbare satelliet ligt binnen een kegel van een paar graden breed gezien vanaf de maan, dus de zichtlijnen zijn bijna parallel, de precisieverdunning is enorm, en een aard-GNSS-positiebepaling op maanafstand is veel meer een waarneming van TIJDSYNCHRONISATIEklasse dan van positieklasse. MODELLED, en het zendpatroon is de reden: de winst onder een hoek is een uniforme cirkelvormige apertuur (Airy), terwijl een echte GPS-L1-antenne een helixarray met twaalf elementen is met een gevormde hoofdlob en niet-Airy-zijlobben. Gemeten patronen bestaan en zijn hier niet meegeleverd, dus rangordes en ordes van grootte zijn zinvol terwijl de dB van een enkele satelliet dat niet is. Bewust AFWEZIG, elk met een optimistischer budget als gevolg: geen ionosferisch of troposferisch verlies op de limb-rakende stralen, geen polarisatie-, richt- of implementatieverlies, en een bolvormige aarde zonder refractieve uitbreiding. De positie van de maan is INVOER (afstand plus inertiale richting) in plaats van een efemeride-opzoeking, omdat de te testen grootheid de link en de bundelgeometrie is. Om deze rij op te waarderen naar Gevalideerd zijn een gemeten zendpatroon en LuGRE-normal points nodig; geen van beide staat in de repository en geen van beide wordt hier verzonnen.
+
+engine-kind-lunar-infrastructure-description = MODELLED studies van de baan en het oppervlak van de maan als navigatie- en geodetische infrastructuur, vijf studies achter één kind geselecteerd met `study`: od-consistency (aan boord uitgevoerde baanbepaling met aard-GNSS in een NRHO of ELFO tegenover onafhankelijke radiometrische baanbepaling vanaf de grond, beoordeeld op hun eigen covarianties over een Monte-Carlo met seed), carrier-phase (gezamenlijke dubbel gedifferentieerde draaggolffase van oppervlak en orbiter en oplossing van geheeltallige ambiguïteit met LAMBDA), frame-coestimation (een oppervlaktestation en orbiters toegevoegd aan afstandsmeting van aardstations voor het zevenparameter-maanframedatum), space-tie (GNSS, VLBI en laserafstandsmeting op één ruimtevaartuig, precisie van de frame-koppeling tegenover de fout van de lokale koppeling) en geodesy-sensitivity (Fisher-informatie van de Love-getallen h2, k2, l2 van de maan en de fysieke libratie uit laserafstandsmeting, orbitertracking, een gravimeter op het oppervlak en een klok op het oppervlak). Een beperkt drielichamenmodel met vermelde vereenvoudigingen; de numerieke methoden worden gecontroleerd tegen onafhankelijke programma's en niets wordt vergeleken met een meting van een grootheid van de maan.
+
+engine-kind-cislunar-arc-recovery-description = MODELLED test met een onafhankelijke schatter van de drempel voor waarneembaarheid van de booglengte in de cislunaire ruimte. Die drempel is een RANG-uitlezing van de waarneembaarheidsmatrix, opgebouwd uit de ANALYTISCHE rijen van de afstandsjacobiaan en de ANALYTISCHE variationele toestandsovergangsmatrix, en de kruiscontrole met het wortelinformatiefilter vouwt diezelfde rijen — een consistentiecontrole tussen twee numerieke machines, geen bevestiging. Deze kind levert de ontbrekende scheidsrechter: een batch-kleinstekwadratenschatter die de begintoestand van de chief daadwerkelijk HERSTELT uit gesimuleerde metingen, waarbij de meetpartiëlen worden genomen als CENTRALE EINDIGE VERSCHILLEN van het samengestelde voorwaartse model. Ze roept geen analytische jacobiaanrij aan, geen variationele STM, geen singuliere-waarde- of eigenwaardeontbinding, geen ranktolerantie en geen wortelinformatiefilter — een bronteksbewaking in tests/cislunar_arc_recovery_reference.rs maakt dat afdwingbaar — terwijl de dynamica (dezelfde RK4-CR3BP-stroom), de beginvoorwaarden (dezelfde differentieel gecorrigeerde constellatie), de scalaire observabele en het epoch-raster bewust worden gedeeld en worden genoemd in het uitgegeven `independence`-blok, omdat twee analyses van één fysisch probleem het over de fysica eens moeten zijn om vergelijkbaar te zijn. Twee criteria, elk gesweept over vijf decaden van zijn eigen grens: HERSTEL ZONDER RUIS (de eindtoestandsfout van elke trial met seed hoogstens recovery_factor maal zijn a-priori-verplaatsing — het ranganaloog, zonder singuliere-waardetolerantie erin) en MONTE-CARLO-SCHATBAARHEID (de gemeten RMS-positiefout over een ruisensemble met seed onder een vermelde grens — het schatbaarheidsanaloog, gemeten in plaats van voorspeld). Ondersteunt de vlakke vier toestanden en de ruimtelijke zes toestanden, de families DRO / L2-halo / L2-NRHO, observabelen voor afstand en afstandssnelheid, en een op de maan gecentreerde polaire parametrisering waarin de transformatie op de TOESTAND wordt toegepast en het voorwaartse model daar opnieuw wordt gedifferentieerd. GEMETEN op het gepubliceerde vlakke DRO-raster: de schatter herstelt de vier toestanden vanaf { $lit_0_782609 } h tegenover { $lit_2_086957 } h van het rangcriterium bij rel_tol 1e-6 (verhouding { $lit_0_375 }) — de rangdrempel is NIET bevestigd als herstelbaarheidsgrens — terwijl de gemeten schatbaarheidsgrens in dezelfde rastercel valt als de formele, { $lit_5_739130 } h, en de gemeten foutcurve de formele 1-sigma over 21 booglengten reproduceert met een meetkundig-gemiddelde verhouding van { $lit_0_98 }. MODELLED: het constellatieontwerp, het epoch-raster, de ene gevolgde link, de grootte van de verplaatsing, de meet-sigma en de twee vermelde grenzen. Geen gecertificeerd product voor navigatieprestaties.
+
+engine-kind-telecom-timing-description = Telecom-tijdsynchronisatie: tijdfout, maximale tijdintervalfout (MTIE) en tijdafwijking (TDEV) van een GNSS-holdover, gecontroleerd tegen ITU-T-maskers met een PASS of FAIL en een marge per masker. Invoer is een SYNTHETISCHE HOLDOVER (een oscillatorvoorinstelling -- ocxo, rubidium, caesium of csac, elk met de stabiliteits-, veroudering- en temperatuurcijfers van een genoemde openbare Microchip-datasheet -- plus de GNSS-verliestijd, opnamelengte en sampleinterval; de vrijlopende klok draagt witte, flicker- en, waar de datasheetfit dat nodig heeft, random-walk-frequentieruis, lineaire veroudering en een sinusvormige temperatuurterm) of een GEÏMPORTEERDE REEKS van paren [time_s, time_error_ns] inline gegeven (en, alleen op native builds, een CSV-bestand). Maskers: ITU-T G.8272 (07/2025) PRTC-A en PRTC-B (max|TE| 100 / 40 ns, MTIE Tabellen 1-2, TDEV Tabellen 3-4); G.8272.1 (2024) Amd. 1 (07/2025) ePRTC locked (30 ns, Tabellen 1-2) en ePRTC-A holdover (de tijdfoutomhullende van Tabel 3 die stijgt van 30 ns tot 100 ns over de holdoverperiode H bepaald door de gelockte duur, MTIE Tabel 4, TDEV Tabel 5); G.8273.2 (2023) Amd. 2 (11/2025) T-BC/T-TSC-klassen A-C (max|TE|, constante tijdfout, laagdoorlaatgefilterde MTIE en TDEV) en klasse D (max|TE_L| 5 ns, het enige cijfer van klasse D dat niet voor nadere studie is overgelaten); G.8271.1 (2022) Amd. 3 (05/2025) referentiepunt C (max|TE_L| 1100 / 600 / 100 ns met MTIE Tabellen 7-1 tot 7-3). Elk item dat een Aanbeveling voor nadere studie markeert ontbreekt in plaats van te worden ingevuld, en elk rapport vermeldt wat niet is geïmplementeerd. Rapporteert ook de tijd tot overschrijding van elk maximaal tijdfoutbudget (standaard: 100 ns ePRTC max|TE_HO|, 400 ns toewijzing voor netwerkholdover, 1100 ns punt C, { $lit_1_5 } us klasse 4), de MTIE-/TDEV-curven als CSV-tabel met elke maskerlimiet, en een eenheden-en-herkomstitem per numeriek veld. VALIDATED: de MTIE- en TDEV-schatters tegen het pakket allantools op een vastgelegde holdoverreeks. MODELLED: de maskertabellen zijn transcripties, en een synthetische holdover is een model opgebouwd uit datasheetmaxima, geen meting van enig apparaat. Geen conformiteitstest.
+
+engine-kind-slot-timing-description = Slottiming: seconden tot een vrijlopende klok de guard verlaat van een tijdgeïndexeerd routerings- of taakslot (de grootste absolute tijdfout die het slot verdraagt), de bijdrage van elke term op dat moment met de dominante genoemd (onzekerheid van de positiebepaling, witte faseruis, witte, flicker-, random-walk- en random-run-frequentieruis, residuele frequentieoffset, temperatuur, veroudering), de tijd die nog rest sinds de laatste positiebepaling, en het grootste interval tussen positiebepalingen dat de klok binnen houdt, na aftrek van de latentie van de positiebepaling. De oscillator is een KLASSE-standaard (csac, uso, dsac, tcxo, ocxo of rafs: één geciteerde Allan-deviatie van één seconde en een aangenomen rode-ruisondergrens), een DATASHEET-VOORINSTELLING van telecom-timing of een inline DATASHEET (Allan-deviatiemaxima gefit als omhullende, plus veroudering en een temperatuurcoëfficiënt), of een inline GEMETEN FASERECORD (waarvan de overlappende Allan-deviatie met gewogen kleinste kwadraten wordt gefit in de witte-fase- en IEEE Std 1139-frequentiemodulatiebasis, zodat de rode-ruisondergrens wordt gemeten in plaats van aangenomen). Een overschrijding voorbij de langste middelingstijd die de datasheet of het record ondersteunt wordt gemarkeerd als geëxtrapoleerd. Een optionele spoofingsectie voegt het tijdbeschermingsniveau toe voor een ontvanger in een baan: baansnelheid en -periode, hoe lang een enkele spoofer op de grond de satelliet per pass kan bereiken, de ondergrens van de klokondersteunde monitor en CUSUM-detectielatentie, de voorwaardelijke grens, de afwijking die een spoofer met een vermelde maximale rampsnelheid opbouwt voordat de satelliet buiten zijn bereik komt of een onafhankelijke controle draait, en of elke controle via grondcontact of crosslink onafhankelijk is van die spoofer. VALIDATED: de holdoverinversie uit een gefit record, achtergehouden op een echte caesiumklok gemeten tegen een waterstofmaser (tests/slot_timing_cs5071a_holdout.rs, gegevensafhankelijk); bij een gemeten kristaloscillator is de achtergehouden voorspelling conservatief maar niet binnen de drempel, dus het kristalgeval is MODELLED. MODELLED: klasse- en datasheetbronnen, de deterministische termen en de spoofingbeoordeling.
+
+engine-kind-spectrum-description = L-bandspectrummodel en waterval: de hele GNSS-L-band als één vermogensspectrale dichtheid (PSD), frequentie horizontaal, tijd naar beneden, over een geschreven jammertijdlijn. SIGNALEN: GPS L1 C/A en L2C (BPSK(1)), Galileo E1 open service (MBOC(6,1,1/11), of BOC(1,1)), GPS L5 en Galileo E5a (BPSK(10)), elk op zijn draaggolf met het minimale ontvangstvermogen uit de interfacespecificatie (IS-GPS-200, IS-GPS-705, Galileo OS SIS ICD) tenzij overschreven; GLONASS, BeiDou en Galileo E6 worden niet gemodelleerd. JAMMERS: continue-golftoon, vlakke smalbandruis, lineaire zaagtandchirp en breedbandruis afgestemd op de eigen modulatie van een band, elk met een centrum, een bandbreedte, een ontvangstvermogen (direct, of EIRP en afstand via het vrije-ruimteverlies van de jamming-kind) en aan-/uittijden. Elke jammer wordt per band beoordeeld met zijn spectrale scheidingscoëfficiënt kappa over de ontvangerbandbreedte, en (C/N0)_eff = [1/(C/N0) + sum (J/S) kappa]^-1; voor één jammer is dit gelijk aan de anti-jamvergelijking van de jamming-kind met Q = 1/(R_c kappa), en het rapport draagt die kruiscontrole (en het representatieve Q-cijfer van de jamming-kind ernaast). De ruisvloer is k T_sys met T_sys = T_ant + 290 K (F - 1). De waterval middelt elke cel over zijn bin en zijn rij (chirps exact, hele sweeps plus de gedeeltelijke; jammers die midden in een rij schakelen volgens hun duty), zodat de C/N0-tijdlijn en het beeld uit dezelfde getallen komen; result.json draagt het raster in vermogen blokgemiddeld, C/N0 en J/S per band per rij, en per jammer per band de SSC, Q, J/S, J/S in de band en stabiele C/N0. Optioneel [iq]: het model getekend als complexe IQ op één moment, geschreven naar en teruggelezen uit een SigMF-opname (cf32_le of ci16_le), en vergeleken met een Welch-schatting. Optioneel [recording] (native builds): de Welch-PSD van een echte SigMF-opname naast het model. VALIDATED: de signaal-PSD's tegen de leerboekbreedtes van de hoofdlob (BPSK(n) 2n x { $lit_1_023 } MHz nul tot nul; BOC(1,1)-lobben gecentreerd op +/-{ $lit_1_023 } MHz) en de spectrale scheidingscoëfficiënten tegen hun gesloten vormen van Parseval en de Q = 1 (CW) en { $lit_1_5 } (afgestemd) van Kaplan & Hegarty. MODELLED: jammervermogens, tijdlijn, front-endbandbreedtes, de behandeling met continu spectrum (geen codelijnen) en de afwezigheid van AGC, blanking en antennepatroon.
+
+engine-kind-solar-system-description = Het hele zonnestelsel op één epoch, voor PNT (positiebepaling, navigatie en tijdsynchronisatie) rond elk lichaam. Voor de zon, de acht planeten, Pluto, de maan, Phobos, Deimos, Io, Europa, Ganymedes, Callisto en Titan rapporteert het de heliocentrische positie en snelheid in het ICRF (International Celestial Reference Frame, equatoriaal J2000), de heliocentrische afstand en de J2000-eclipticale lengte en breedte, de gravitatieparameter, equatoriale en gemiddelde straal, J2 waar gepubliceerd en de referentiestraal ervan, de siderische rotatieperiode, de IAU-pool en de nulmeridiaan op het epoch, een baanspoor bemonsterd over één omloop (heliocentrisch voor planeten, moederlichaamgecentreerd voor manen), en de lichttijd, eenwegs- en tweewegsafstand, zonne-Shapiro-vertraging en zonsafstand vanaf een waarnemerslichaam (standaard de aarde); extra from/to-links krijgen dezelfde behandeling. Posities: de JPL-Kepler-elementen van Standish en Williams (Tabel 1 voor 1800 AD tot 2050 AD, Tabellen 2a/2b voor 3000 BC tot 3000 AD) met de nominale fout van elke planeet, de maanreeks van Montenbruck & Gill voor de splitsing aarde-maan, JPL-gemiddelde elementen met de synchrone IAU-rotatiesnelheid voor de manen van Mars en van Jupiter (Galileï), en het IAU-rotatiemodel voor Titan. Lichttijd: de radiometrische vastepuntsoplossing, zender op zijn vertraagde positie; newtoniaans, met de Shapiro-vertraging apart gerapporteerd. VALIDATED tegen JPL Horizons (DE441) binnen tweemaal de nominale fout: Mercurius tot Saturnus en de aarde uit Tabel 1 (slechtste { $lit_1_87 } maal nominaal) en alle acht planeten uit Tabellen 2a/2b (slechtste { $lit_1_71 } maal), en de lichttijd aarde-Mars en aarde-Jupiter. MODELLED, elke rij gelabeld: Uranus en Neptunus uit Tabel 1 ({ $lit_2_0 } en { $lit_5_2 } maal de nominale fout tegen DE441), Pluto (de rij van 1992; geen vermelde fout), de maan en de zeven manen (gemeten tegen Horizons, geen gepubliceerde grens).
+
+engine-kind-body-pnt-description = Positiebepaling rond elk lichaam in het zonnestelsel: een orbiter of een lander op het oppervlak rond een centraal lichaam dat bij naam wordt gekozen (Mars, de maan, Europa, Ganymedes, Titan en de rest van de catalogus van het zonnestelsel), navigerend met eenwegs-pseudoranges van een kleine Walker-navigatieconstellatie rond het lichaam (tweelichamenbanen met de eigen seculiere J2-drift van het lichaam, een onbekende gebruikersklok) en optioneel een klokvrije diepruimte-tweewegsafstand vanaf de aarde, waarvan richting en afstand op elk epoch uit de analytische efemeride van het zonnestelsel komen. Zichtlijnen worden geblokkeerd door de gemiddelde bol van het lichaam, en een gebruiker op het oppervlak heeft ook het elevatiemasker nodig. Per epoch: relais in zicht, of de aarde boven de limb staat, de GDOP en PDOP (geometrische en positionele precisieverdunning) met alleen de constellatie, de formele eenssigma-positieonzekerheid met en zonder de aardrij, en de fout van een Gauss-Newton-kleinstekwadratenpositiebepaling met seed in beide gevallen; over de run: beschikbaarheid, zichtbaarheid van de aarde, mediane PDOP, RMS-fout en mediane formele sigma, plus de lichttijd aarde-lichaam, heen-en-terugreis, Shapiro-vertraging en zonsafstand op het epoch. MODELLED: de relaisbanen, de ruisniveaus en het momentane meetmodel zijn modelleerkeuzes, niet gevalideerd tegen navigatiegegevens van een missie; de lichaamsconstanten zijn de gepubliceerde waarden die in body.rs worden geciteerd, en de aardgeometrie erft de labels van de efemeride van het zonnestelsel.
+
+engine-kind-constellation-design-description = Constellatieontwerp op schaal: Walker-DELTA- en Walker-STAR-patronen in de i: T/P/F-conventie (knopen verdeeld over 360 of 180 deg, afstand in het vlak 360*P/T, faseoffset tussen vlakken 360*F/T), expliciete elementenlijsten en ontwerpen met meerdere schillen, meerdere constellaties in één run, rond de aarde, de maan, Mars of een andere planeet, Pluto of grote maan met de constanten uit de lichaamsmodule (dezelfde die de kinds solar-system en body-pnt gebruiken). VOORINSTELLINGEN uit gepubliceerde nominale elementen: gps-baseline en gps-expandable (de 24 slots en de zes voor-/achteruitbreidbare paren van de GPS Standard Positioning Service Performance Standard, 5e editie 2020, Tabellen 3.2-1 tot 3.2-3), galileo (Walker 24/3/1 op 29 599.801 km en 56 deg, Galileo Open Service Service Definition Document issue 1.1 Tabellen 1 en 23), beidou en beidou-meo (Walker 24/3/1 op 21 528 km en 55 deg plus drie geostationaire satellieten op 80, { $lit_110_5 } en 140 deg O en drie hellende geosynchrone satellieten op 55 deg, BeiDou Open Service Performance Standard 3.0 sectie 4.1; de MEO-fase en de kruising van de hellende geosynchrone baan op 118 deg O worden gemodelleerd omdat de standaard ze niet vermeldt) en glonass (24/3/1 op 19 100 km en { $lit_64_8 } deg uit de slotformule van het GLONASS Interface Control Document editie 5.1 sectie 5.2). DEKKING EN PRECISIEVERDUNNING: over een breedte-/lengteraster en een bemonsterd venster met een elevatiemasker, het aantal satellieten in zicht, GDOP, PDOP, HDOP en VDOP per cel, de beschikbaarheid (een positiebepaling met PDOP op of onder een drempel, standaard 6) per cel, globaal (oppervlaktegewogen) en op de slechtste locatie, met één ontvangerklok per constellatie tenzij clock = "common". Het schaalt naar duizenden satellieten: zichtbaarheid is een inproduct met de halve dekkingshoek van elke satelliet, en satellieten worden elk epoch ingedeeld in banden naar breedte van het subsatellietpunt, zodat een rasterrij alleen die test die in zicht kunnen zijn; het rapport telt de bespaarde paartests. De JSON draagt de rasterkaarten en gedownsamplede grondsporen per satelliet. VALIDATED: de Walker-generator tegen Galileo OS SDD Tabel 23 en de GLONASS-ICD-slotformule, de GPS-voorinstelling tegen de gepubliceerde kolom met equatorkruisingen van SPS PS Tabel 3.2-1, en de globale HDOP-verdeling van de GPS-basislijn tegen SPS PS Appendix B (mediaan { $lit_0_94 }, 95% { $lit_1_25 }, gemiddelde { $lit_0_96 }, tolerantie { $lit_0_03 }). MODELLED: tweelichamenbanen met optionele seculiere J2, een bolvormig lichaam, alleen geometrische zichtbaarheid (geen signaalvermogen, gezondheid of terrein), en de relatieve fase tussen verschillende systemen, die geen snapshot van enige echte datum is.
+
+engine-kind-campaign-description = Campagne: bestaande scenario-kinds samengesteld tot één run, waarbij elk getal uit een echte run van de genoemde kind wordt gelezen. Vier secties, in elke combinatie. FASEN: een geketende missie op één gedeelde tijdlijn -- elke fase draait een of meer scenario's (bijvoorbeeld jamming, dan spoofing, dan een klok in holdover met een inertiaal navigatiesysteem dat ernaast uitloopt, dan een integriteitsalarm, dan herstel), hun uitvoer wordt in benoemde kanalen gelezen (klok-tijdfout t.o.v. haar guard, draaggolf-ruisdichtheidsverhouding t.o.v. de volgvloer, beschermingsniveau t.o.v. de alarmgrens, positiefout, volgende satellieten, alarmvlaggen) via een voorinstelling per kind of expliciete resultaatpaden, en met zero-order hold op een gemeenschappelijk raster herbemonsterd, met fasegrenzen en gebeurtenissen; de toestand wordt doorgegeven door carry (een kanaal gaat verder vanaf de eindwaarde van de vorige fase), handoff (een getal van een vorige fase geschreven in het scenario van deze fase) en end_at (een fase eindigt op een tijd die een run berekende, zoals de detectietijd van een spoofingmonitor). SWEEP: een raster over een tot drie sleutels met punten van een scenario van elke kind (een geheel-getalsegment indexeert een array van tabellen, zoals in system.2.sisre_m), met metrics gelezen via resultaatpad en, bij meer dan één run, een Monte-Carlo-ensemble met seed op elk knooppunt. MONTE_CARLO: realisatie k draait op base_seed + k; elke metric rapporteert gemiddelde, standaarddeviatie, nearest-rank 5e/50e/95e percentielen en een bootstrap-betrouwbaarheidsinterval van 95% met vaste seed op het gemiddelde. COMPOSE: meerdere scenario's onder gedeelde waarden (het vermogen en de positie van één jammer geschreven in een maritieme en een wegontvanger), met een gecombineerde best/slechtste-samenvatting. Het resultaat draagt een campagnehash, een digest over elk lidresultaat en een eenhedenitem voor elk uitgegeven getal; de interoperabiliteitsexports schrijven elk lidscenario met geometrie als eigen bestandsset. Samenstellingsidentiteiten worden getest: een campagne met één fase reproduceert de losstaande run bit voor bit, een ensemble met vaste seed is byte-stabiel, en bij een klok met witte frequentieruis valt het ensemblegemiddelde binnen het gerapporteerde interval, waarbij de spreiding overeenkomt met sqrt(q_wf * tau). MODELLED: de additieve carry en de zero-order hold zijn modelleerkeuzes, en elke fase draagt het label van de kind die haar draaide.
+
+engine-kind-leo-signal-description = LEO-PNT-signaalontwerpen: geparametriseerde PNT-signalen (positiebepaling, navigatie en tijdsynchronisatie) in een lage aardbaan (LEO) voor elk systeem, elke band en elke structuur. Een SIGNAAL is een band (middenfrequentie, zendbandbreedte, ITU-toewijzing RNSS/RDSS/MSS/EESS/non-RNSS/other) en componenten (acquisitie, data, pilot; elke deelverzameling), elk met een modulatie (BPSK(n) met fractionele n, BOC(m,n), MBOC(6,1,p) of een vlakke OFDM-achtige band), een vermogensaandeel, optionele FDMA-subdraaggolfoffsets, een codelengte en een datasnelheid. Signalen komen uit ingebouwde openbare voorinstellingsbestanden (xona-pulsar, iridium-stl, starlink-soo, centispace, generic-c-band, generic-bands; elk met zijn bron-URL en elke niet-gepubliceerde waarde gelabeld REPRESENTATIVE) of worden inline geschreven. PER SIGNAAL: de bandbegrensde vermogensspectrale dichtheid en de fractie van het vermogen van elke component die de zendband doorlaat (gesloten vorm voor BPSK naast de numerieke waarde), de RMS-bandbreedte (Gabor), de thermische-ruisjitter van codevolging door de delay-lock-loop t.o.v. C/N0 en early-late-afstand uit de bandbegrensde coherente (of niet-coherente) early-late-formule van Betz & Kolodziejski 2009 met haar leerboekvorm voor onbegrensde band en haar Gabor-grens voor verdwijnende afstand, de afstandsnauwkeurigheid in meters, de acquisitiezoekruimte (Doppler-bins uit de maximale Doppler van de baan plus oscillator- en gebruikerstermen, maal codebins), kwadratische detectiekans en de gemiddelde seriële en codeparallelle acquisitietijd, de spectrale scheidingscoëfficiënt van het signaal in GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b en E5 AltBOC en van elk daarvan in het signaal met de C/N0-degradatie, en de CW-, breedband- en afgestemde J/S die de gevolgde component verdraagt, uit de eigen SSC-machinerie van de spectrum-kind. Een BANDAFWEGING: eerste-orde-ionosferische vertraging ({ $lit_40_3 } TEC/f^2), vrije-ruimteverlies, afstandsnauwkeurigheid bij gelijke C/N0 en bij gelijke EIRP, en jammertolerantie. Optionele VORMCONTROLES leggen het spectrum van een ontwerp naast een beschreven meting (MODELLED consistentie). VALIDATED: het BPSK-vermogen in de band ({ $lit_90_3 } % in de hoofdlob) en de gesloten vormen voor Gabor-bandbreedte, de bandbegrensde jitter die reduceert tot de coherente early-late-leerboekvorm en tot zijn Gabor-grens, de spectrale scheidingscoëfficiënt van offset-BPSK tegen zijn gesloten vorm van Parseval, de eenheidsoppervlakte van het AltBOC-spectrum, en de maximale LEO-Doppler tegen de gepubliceerde cijfers van Xona Pulsar (32-34 kHz) en Iridium (36 kHz). MODELLED: elk ontwerp, elke vermogensverdeling, C/N0 en jammerniveau; EFQPSK-, CSK- en OFDM-spectra worden benaderd.
+
+engine-kind-leo-pass-description = LEO-pass en linkbudget, band voor band, voor LEO-PNT (positiebepaling, navigatie en tijdsynchronisatie vanuit een lage aardbaan), systeemonafhankelijk: een gebruiker (grond, maritiem, lucht of binnenshuis, statisch of bewegend) en een of meer LEO-satellieten uit een ONTWORPEN PASS (een cirkelbaan geplaatst zodat de gebruiker op een gekozen tijd één pass met een gekozen maximale elevatie ziet, zonsynchroon indien gevraagd), expliciete ELEMENTEN, een TLE (two-line element set) via de SGP4 van de engine, of een WALKER-constellatie gebouwd door de code voor constellatieontwerp (de hoogste passes worden gerapporteerd). Banden komen uit een benoemde voorinstelling (generiek multiband UHF/L/S/C, generieke C-band, Xona Pulsar X1/X5, Iridium STL, Starlink als signal of opportunity met alleen Doppler, CentiSpace, en een optionele Celeste IOD-voorinstelling gemarkeerd WORKSHOP) of worden in het scenario geschreven; elke voorinstelling vermeldt of haar getallen PUBLIC (met URL), REPRESENTATIVE of WORKSHOP zijn. Per satelliet, band en epoch: elevatie, azimut, afstand, afstandssnelheid en afstandsversnelling; vrije-ruimtepadverlies; EIRP en de patroonwinst van de satelliet (isoflux, gaussische bundel of vlak); gebruikersantennewinst t.o.v. elevatie (patch, hemisferisch of isotroop); gasvormige verzwakking (ITU-R P.676-10 Annex 2), regenverzwakking (ITU-R P.838-3-coëfficiënten en de P.618-14-procedure, uit een regenintensiteit en regenhoogte), troposferische scintillatie (ITU-R P.618-14 sectie 2.4.1), gebouwpenetratieverlies voor een gebruiker binnenshuis (ITU-R P.2109-2), polarisatiemismatch, systeemruistemperatuur en C/N0 (draaggolf-ruisdichtheid); Doppler en Doppler-snelheid in gesloten vorm uit de afstandssnelheid en afstandsversnelling, elk gecontroleerd tegen centrale verschillen; de eerste-orde-ionosferische vertraging { $lit_40_3 } STEC/f^2 uit een Klobuchar- of verticale-TEC-schuine TEC geschaald naar het deel van de ionosfeer onder de satelliet. Bandparen krijgen de ionosfeervrije coëfficiënten, ruisversterking en coderuis op de piek van de pass. MEO-GNSS-satellieten (Galileo- of GPS-voorinstellingen) worden met hetzelfde antenne- en ruismodel geëvalueerd uit hun ontvangstvermogens uit de interfacedocumenten, zodat de klokvormige LEO-pass en de vlakke GNSS-draaggolven één grafiek delen. Een optionele [iot]-sectie geeft tijd tot eerste positiebepaling, energie per positiebepaling en batterijduur t.o.v. duty cycle voor een vermeld vermogensbudget van de ontvanger (MODELLED). Elk bandpaar geeft ook de schuine TEC die zijn geometrievrije combinatie op de piek herstelt en de coderuis-sigma van die schatting (ionosfeersondering). Een optionele [spoofer]-sectie vervalst de signalen van een geclaimde positie die springt of wordt geduwd vanaf de ware na een start en draait twee monitors met vermelde kansen op vals alarm en gemiste detectie: consistentie van Doppler en passgeometrie (gemeten afstandssnelheden tegen die voorspeld uit de banen en een onafhankelijke eerdere positie en snelheid, een gegeneraliseerde-kleinstekwadraten-chikwadraattest over een venster, op de GNSS-, LEO- en alle kanalen) en consistentie tussen banden (de stap van epoch tot epoch van de modelgecorrigeerde geometrievrije combinatie van elk LEO-bandpaar), met rapportage van statistieken per epoch en wanneer elke monitor detecteert (MODELLED). VALIDATED componenten: vrije-ruimteverlies, de P.838-3-coëfficiënten tegen haar Tabel 5, de procedures P.618-14 voor regen en scintillatie en het P.2109-gebouwpenetratieverlies tegen de validatievoorbeelden van ITU-R Study Group 3, de groepsvertragingsverhouding L1/L2 van IS-GPS-200, en de maximale Doppler van een gebruiker in rust voor een cirkelbaan tegen arXiv 2509.19551 Tabel 1. MODELLED: EIRP's, patronen, de Chapman-fractie van de TEC onder de satelliet en de hele pass.
+
+engine-kind-leo-navmsg-description = LEO-navigatiebericht: de broadcast-efemeride en -klok van een PNT-satelliet (positiebepaling, navigatie en tijdsynchronisatie) in een lage aardbaan (LEO), voor elke baan, draaggolf en elk model, met optionele benoemde voorinstellingen (Xona Pulsar, Iridium, Starlink, CentiSpace, een representatief C-bandsysteem, het ATOMIC-nulklokmodel, Celeste IOD). INHOUD: hulpgegevens (SVID, issue of data, band, signaalgezondheid), synchronisatie (week, tijd van de week, een tweede-orde-klokpolynoom af0-af2 rond toc), efemeride in een van vier modellen -- de Kepler-set met 16 parameters uit de Galileo OS SIS ICD; die set plus polynomen voor correcties langs het spoor, dwars op het spoor en radiaal; het model met 22 parameters van Liu et al. 2025; een ECEF-polynoom zonder kloktermen (ATOMIC-nulklok) -- en andere diensten (een Klobuchar-broadcastset, NeQuick-G ai0-ai2 met het effectieve ionisatieniveau, en parameters voor systeemtijd naar UTC met de ICD-schrikkelseconde-logica). FITTER: een referentiebaan geïntegreerd met zonale J2-J6- of EGM2008-zwaartekracht tot de gekozen graad en weerstand, en een klok met seed, vrij of gestuurd; Levenberg-Marquardt-fit van de Kepler-set op niet-singuliere elementen, daarna lineaire kleinstekwadraten-correctiepolynomen; klok gefit na aftrek van de relativistische term die de gebruiker toevoegt. ANALYSES: fit-interval-trade (afstandsfout in de signaalruimte, SISRE, met wereldgemiddelde gewichten voor de baanhoogte, t.o.v. fitinterval en updateperiode, alleen baan en met klok), model-comparison (vier modellen, aantal parameters, gecodeerde bits, en de fit van Kshana op de hoogten van Liu et al. naast de gepubliceerde cijfers), midpass-update (de hoogste pass over een gebruiker, de sprong in positie, klok en gebruikersafstand bij elke berichtwissel, de sprong bij de slechtste geometrie, PASS/FAIL tegen een continuïteitsdrempel), encode-decode (het eigen gedocumenteerde binaire frame van Kshana met CRC-24Q, een kwantisatiebudget van een halve stap per veld, een controle op een beschadigd frame, een export en import van een record in RINEX-4-stijl gelabeld als Kshana-extensie, en een CSV-tabel). VALIDATED: de SISRE-gewichten tegen de gepubliceerde MEO/GEO-tabel (Montenbruck et al. 2018); het Galileo-gebruikersalgoritme tegen RTKLIB op echte Galileo-broadcast-efemeriden; CRC-24Q tegen zijn catalogus-controlewaarde en het RTCM 1005-voorbeeldframe. MODELLED: elk fit- en SISRE-cijfer is representatiefout tegen een door Kshana geïntegreerde referentie (geen baanbepalings- of voorspellingsfout); de vergelijking met Liu et al. gebruikt andere banen; de coderings- en tekstformaten zijn van Kshana zelf.
+
+engine-kind-leo-pvt-description = Gefuseerde PNT (positiebepaling, navigatie en tijdsynchronisatie) met satellieten in een middelhoge aardbaan (MEO) en een lage aardbaan (LEO) over ELKE constellatie: elke [[system]] is een GNSS-voorinstelling van de constellation-design-kind, een LEO-voorinstelling (xona-pulsar, iridium-stl, starlink-sop, centispace, generic-c-band, het atomic-zero-clock-efemeridemodel, of een ander voorinstellingsbestand, elk in een eigen bestand met zijn bronnen gemarkeerd PUBLIC, WORKSHOP of DERIVED), Walker-schillen of expliciete elementensets, met een draaggolf, een chipsnelheid, een omhullende voor de draaggolf-ruisdichtheid (C/N0) van het elevatiemasker tot het zenit, een afstandsfout in de signaalruimte (SISRE), een Doppler-sigma en een klokmodel (zijn eigen ontvangerklok, zodat de bias tussen systemen wordt geschat, of een bekende broadcast-offset). Vier modi. DOPPLER: batch-Gauss-Newton-positiebepaling uit afstandssnelheid met analytische partiëlen, klokdrift en optionele snelheidstoestanden en een optionele hoogtebeperking, met een of meer satellieten, de fout t.o.v. vensterlengte, de omhullende van Doppler, Doppler-snelheid en jerk van elk LEO-systeem, en de nauwkeurigheid langs en dwars op het spoor bij één pass t.o.v. de dwarsoffset (de dwarsspoorfout groeit onbegrensd naarmate de pass over het zenit gaat; een enkele pass heeft ook een spiegeloplossing over het grondspoor). Een signal of opportunity met alleen Doppler (starlink-sop) draait hier. JOINT: gewogen-kleinstekwadraten-pseudorange-positiebepalingen per epoch uit alleen GNSS, alleen LEO en beide, sigma's per meting uit een thermisch-ruismodel van de delay-lock-loop bij C/N0 plus de SISRE (of een vaste sigma, zodat een signaalmodel ze kan voeden), de geschatte biases tussen systemen, en PDOP/HDOP/VDOP t.o.v. het aantal toegevoegde LEO-satellieten. POLAR: satellieten in zicht en DOP t.o.v. breedtegraad voor GNSS, LEO en beide. TIMING: tijdoverdracht naar Coordinated Universal Time (UTC) vanaf LEO-satellieten op een bekende positie met een klokfilter met twee toestanden waarvan de procesruis uit de oscillatorklassen van de engine komt, t.o.v. C/N0 en de oscillator, en de IS-GPS-200-uitdrukking voor systeemtijd naar UTC; met [timing] trace = true rapporteert elke rij ook zijn tijdfout en voorspelde sigma op elk epoch. VALIDATED: de grootste Doppler van een pass van zenit tot horizon tegen de gepubliceerde cijfers van Iridium (tot 36 kHz) en Xona Pulsar X1 (32 tot 34 kHz). MODELLED: al het andere; de DOP is gecontroleerd tegen een met de hand afgeleid geval, de positiebepalingen tegen hun covariantie en het Doppler-model tegen de identiteit voor afstandsversnelling.
+
+engine-kind-leo-ppp-description = Convergentie van precise point positioning (PPP) met alleen GNSS en met LEO-augmentatie: een float uitgebreid Kalman-filter op ionosfeervrije code en draaggolffase met de statische stationscoördinaten, een witte ontvangerklok, één bias tussen systemen per extra systeem, een random-walk-zenit-natte-vertraging afgebeeld met 1/sin(elevatie) en een float-ambiguïteit per satellietboog; de fout in de precieze baan en klok is wit en gemeenschappelijk voor de code en fase van een satelliet, dus elke satelliet is één gecorreleerde update met twee rijen in een Joseph-gestabiliseerde vorm. Metingen worden uit hetzelfde model gesimuleerd met ruis met seed over meerdere locaties en seeds, en elk geval (eerst alleen GNSS, dan elke [[case]] van LEO-systemen, elke constellatie of voorinstelling) rapporteert de mediane convergentietijd (het eerste epoch waarna de horizontale en verticale fouten onder de drempels blijven, standaard 10 cm), de geconvergeerde fractie, de mediane foutcurven en de filterconsistentie (de over runs gemiddelde positie-NEES tegen de tweezijdige 95%-chikwadraatband). Optioneel naast de gepubliceerde cijfers voor gematigde breedten van Li et al. (2019, J. Geod. 93:749, doi 10.1007/s00190-018-1195-2): { $lit_9_6 } min voor multi-GNSS, verkort tot { $lit_7_0 }, { $lit_3_2 }, { $lit_2_1 } en { $lit_1_3 } min met 60, 96, 192 en 288 LEO-satellieten. MODELLED: een consistentievergelijking van de trend, geen reproductie van de constellaties, ruis of stations van die studie; geen ambiguïteitsoplossing, cycle slips, phase wind-up, getijden of in de tijd gecorreleerde productfouten.
+
+engine-kind-ntn-positioning-description = Positiebepaling vanuit een 5G-downlink van een niet-terrestrisch netwerk (NTN) in de S-band van de mobiele satellietdienst (MSS) (3GPP-band n256, downlink 2170 tot 2200 MHz; standaarddraaggolf { $lit_2172_5 } MHz): de Cramér-Rao-grens (CRB) op aankomsttijd, c / (2 pi beta sqrt(2 (C/N0) T)) met beta de root-mean-square-bandbreedte (Gabor) van het vlakke OFDM-spectrum (B/sqrt(12)), en op de Doppler van een complexe toon, sqrt(3 / (2 pi^2 (C/N0) T^3)), voor elk signaal (standaard een New Radio-kanaal van 5 MHz met { $lit_4_5 } MHz bezet en een smalbandkanaal van 200 kHz met 180 kHz bezet); daarna, over elke LEO-constellatie, downlink-aankomsttijdpositiebepalingen met een onbekende ontvangerklok (met seed, met de grens plus een netwerksynchronisatiefout als sigma), hun PDOP en formele 3D-sigma, en een Doppler-positiebepaling met één satelliet over de langste pass met vastgehouden hoogte. MODELLED: de stap van bandbreedte naar grens is de gesloten leerboekvorm, gecontroleerd tegen numerieke integratie van de vlakke en bandbegrensde BPSK-spectra (interne consistentie, geen gepubliceerd uitgewerkt cijfer vastgepind), en de positioneringsnauwkeurigheid is een grens op een kanaal zonder multipath met een vermelde synchronisatiefout, geen behaald resultaat.
+
+engine-kind-leo-pnt-chain-description = Eén LEO-PNT-systeem (positiebepaling, navigatie en tijdsynchronisatie vanuit een lage aardbaan) end-to-end, voor elke constellatie en elk signaal: het leo-signal-ontwerp genoemd door signal_design (een openbare voorinstelling of een inline [signal]-ontwerp) bepaalt het centrum, de bandbreedte, de chipsnelheid en de EIRP-verdeling van een [pass]-band, het leo-pass-linkbudget geeft de gevolgde C/N0 en de bandbegrensde codejitter over de pass, een C/N0-lijn in sin(elevatie) en de broadcast-SISRE van het [navmsg]-bericht (gefit op de hoogte van de passatelliet) voeden elk LEO-systeem van de gezamenlijke leo-pvt-positiebepaling van [fusion], en optioneel de leo-ppp-gevallen van [ppp]; elke overdracht wordt vermeld met zijn waarde en eenheid. MODELLED.
+
+engine-kind-contact-schedule-description = Planning van grondcontacten voor meerdere satellieten over meerdere stations: schijnbare toegangsvensters (SGP4, aardvast stelsel IAU 2006/2000A, ITU-R P.834-refractie, lichttijd), het DVB-S2-ACM-datavolume van elke pass (drempels uit ETSI EN 302 307-1 Tabel 13) en een conflictvrij schema (één satelliet per antenne met een omschakeltijd, één station per satelliet, prioriteitsgewogen levering begrensd door elke achterstand) via een greedy op marginale waarde, een first-come-basislijn en een exacte branch and bound op kleine sets, met de optimaliteitskloof van de greedy. MODELLED.
+
+engine-kind-acm-link-description = Eén satelliet boven één station: de schuine afstand, elevatie en Es/N0 van elke pass langs de pass, de DVB-S2-MODCOD gekozen bij elke stap (drempels uit ETSI EN 302 307-1 Tabel 13 plus een implementatiemarge) en het datavolume dat ACM verplaatst t.o.v. de basislijn met constante codering die bij het masker sluit. MODELLED.
+
+engine-kind-aocs-description = Houdingsregeling van ruimtevaartuigen: een inertiale richt-slew van een rigide hub met drie of meer gebalanceerde reactiewielen onder MRP-terugkoppeling (L = -K sigma - P omega), wielmomenten met minimale norm begrensd op de limiet van elke motor, RK4 met een zero-order hold; optioneel gesloten op een multiplicatief EKF uit een gesimuleerde gyro (hoek- en snelheidsrandomwalk) en sterrenvolger. Rapporteert insteltijd, eind- en piekrichtfout, piekwielsnelheid en -moment, de verzadigde fractie, drift van het impulsmoment en, met de schatter, zijn houdingsfout en NEES. De ware-toestandslus is VALIDATED tegen Basilisk 2.9.1; de schatter is MODELLED.
+
+engine-kind-entry-heating-description = Atmosferische terugkeer van een 3-DoF-puntmassa over een roterende bolvormige aarde of Mars (ballistisch of liftend bij constante rolhoek), RK4, door US76, een exponentiële of de atmosfeer van Mars, met convectieve verhitting van het stuwpunt volgens Sutton-Graves (NASA TR R-376): piekvertraging, warmteflux en dynamische druk, warmtelast, downrange, een energiecontrole in het roterende stelsel en de gesloten vorm van Allen-Eggers ernaast. De piekvertraging wordt gecontroleerd tegen het gepubliceerde nominale geval van Stardust; de verhitting is MODELLED.
+
+engine-kind-eo-radiometry-description = Radiometrie en beeldkwaliteit van een nadir-beeldvormer: apertuurstraling van een lambertiaanse scène, de cameravergelijking, signaal en shot-/dark-/read-/kwantisatieruis en SNR; de systeem-MTF bij Nyquist (diffractie x detector x smear x jitter), de relatieve randrespons daaruit, Q = lambda F/p en de GIQE-versie 4 NIIRS zonder MTF-compensatie. MODELLED.
+
+engine-kind-ascent-losses-description = Vlakke gravity-turn-stijging van een voertuig met meerdere trappen over een niet-roterende bolvormige aarde door de US Standard Atmosphere 1976 (verticale stijging, pitch kick, stuwkracht langs de snelheid), met integratie van de zwaartekracht-, weerstands-, stuur- en tegendrukverliezen en een controle van ideale dv min verliezen tegen de uitbrandsnelheid; max-Q, piekversnelling en uitbrandtoestand. MODELLED.
+
+engine-kind-time-transfer-budget-description = Tweewegs-satelliettijd- en -frequentieoverdracht tussen twee stations via een geostationair relais: de tweewegsvergelijking opgelost voor T_A - T_B met elke niet-reciproke term (vertragingen van stationsapparatuur, Ku-band-ionosfeer, transponder, Sagnac), een kwadratisch onzekerheidsbudget waarvan de type-A-term de TDEV van de gesimuleerde link bij de middelingstijd is, een gesimuleerde link met witte en flicker-faseruis en een dagelijkse niet-reciprociteit, en de stabiliteit (snelheid, residuele RMS, TDEV, ADEV) van elke aangeleverde BIPM Circular T Sectie 1-reeks, MJD,ns-CSV of IGS-RINEX-stationsklokrecords. MODELLED.
+
+engine-kind-optical-atmosphere-description = MODELLED optische PNT door de atmosfeer: voor een optische link en een set grondlocaties met vermelde wolkenklimaten rapporteert het het golflengte- en elevatieafhankelijke verlies in heldere lucht (zichtbaarheidswet van Kim plus Rayleigh), de Hufnagel-Valley-turbulentietoestand (Rytov-variantie, scintillatie-index, gamma-gamma-parameters, apertuurmiddeling), de weergedreven beschikbaarheid t.o.v. de linkmarge (optische wolkendiepte uit een lognormaal klimaat van vloeibaar water, extinctie volgens geometrische optica, onafhankelijke turbulentiefading), de linkmarge die nodig is voor doelbeschikbaarheden, de verdeling van de uitvalduur, de groei van timing- en afstandsfout per uitval via het klok-holdovermodel, afstandsgecorreleerde beschikbaarheid met sitediversiteit, en what-if-winsten voor verbeteringstechnieken (golflengte, ontvangstapertuur, scintillatiereductie met adaptieve optica, extra marge). VALIDATED als implementatie van de vermelde formules tegen een onafhankelijke mpmath-referentie: Rytov-variantie, scintillatie-index, gamma-gamma-faalkans, apertuurmiddelingsfactor, optische diepte van wolken en heldere lucht. MODELLED: elke invoer voor weer, techniek en klok en de aannames over onafhankelijkheid en copula; er is geen gemeten beschikbaarheidsrecord vergeleken. Adviserende analyse, geen gecertificeerd beschikbaarheids- of navigatieproduct.
+
+engine-kind-holdover-test-description = MODELLED holdovertest van een tijdsynchronisatiesysteem, beoordeeld op basis van een tijdfoutrecord dat de EXPLOITANT aanlevert (een linuxptp-ptp4l-, phc2sys- of ts2phc-log, een chrony-tracking- of statistiekenlog, een TICC-, TimeLab- of RINEX-klokbestand, of paren time_s,time_error_ns). De test heeft vier stappen en Kshana voert er geen enkele uit: een gelockte BASELINE, GNSS VERWIJDERD door de exploitant (de antennekabel of de simulatoruitvoer; Kshana zendt niets uit en stuurt niets aan) op een vermelde tijd, HOLDOVER op de eigen oscillator van het systeem, en HERSTEL nadat de exploitant GNSS op een tweede vermelde tijd herstelt. Het record wordt op die twee tijden gesplitst. Baseline: tijdfoutstatistieken en de ITU-T-maskers voor een gelockte klok. Holdover: statistieken, de fractionele frequentieoffset die het systeem hield (een kleinstekwadratenlijn), de maskers voor holdover of een autonome klok, de ePRTC-A-holdoveromhullende uit de vermelde gelockte duur, en de tijd tot overschrijding van elk tijdfoutbudget. Herstel: of en wanneer |TE| binnen een vermelde band kwam en daar bleef, de piek en de grootste stap. Elke limiet is overgenomen uit een openbare ITU-T-tabel (de maskers van telecom-timing); de bewoording is 'gemeten tegen het masker', en de twee tijden zijn de verklaring van de exploitant, niet geverifieerd. Een record dat te kort is voor een masker is INCOMPLETE, nooit geëxtrapoleerd. Zie docs/TIMING-HIL.md.
+
+engine-kind-gnss-ssv-description = MODELLED GNSS-beschikbaarheid en linksterkte in het Space Service Volume en daarbuiten: voor een gebruiker op een bol (de globale schil van het ICG-boekje) of op een Kepler-baan (van LEO tot maantransfer) telt het, per constellatie (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) en voor alle samen, de bruikbare signalen boven een C/N0-drempel - beschikbaarheid van minstens één en van vier signalen, maximale uitvalduur, ontvangen C/N0, precisieverdunning, links via hoofdlob tegenover zijlobben - met een zendpatroon uit het boekje, parametrisch of door de gebruiker aangeleverd, optionele limb-straaleffecten van ionosfeer, plasmasfeer en atmosfeer en een optioneel ontwerp voor een zwaksignaalontvanger; ook een GNSS-uitgebreid-Kalman-filter aan boord voor HEO- en maantransfervaartuigen (baandynamica, zonnestralingsdruk, derde lichamen, klok) en relatieve navigatie van een formatie van meerdere vaartuigen via enkelvoudig gedifferentieerde pseudoranges. Gecontroleerd tegen de tabellen van het ICG-SSV-boekje onder een preregistratie (xval/gnss-ssv)
