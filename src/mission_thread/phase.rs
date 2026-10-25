@@ -31,6 +31,35 @@ pub enum Frame {
     Lvlh,
 }
 
+impl Frame {
+    /// The name used in documents and results.
+    pub fn name(self) -> &'static str {
+        match self {
+            Frame::Gcrf => "gcrf",
+            Frame::Itrf => "itrf",
+            Frame::Mci => "mci",
+            Frame::Mcmf => "mcmf",
+            Frame::Lvlh => "lvlh",
+        }
+    }
+
+    /// Parses a frame name from a document.
+    pub fn parse(s: &str) -> Result<Self, String> {
+        Ok(match s {
+            "gcrf" => Frame::Gcrf,
+            "itrf" => Frame::Itrf,
+            "mci" => Frame::Mci,
+            "mcmf" => Frame::Mcmf,
+            "lvlh" => Frame::Lvlh,
+            other => {
+                return Err(format!(
+                    "unknown frame `{other}`; expected one of gcrf, itrf, mci, mcmf, lvlh"
+                ))
+            }
+        })
+    }
+}
+
 /// The timescale a clock state is stated in.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Timescale {
@@ -42,6 +71,33 @@ pub enum Timescale {
     Utc,
     /// Lunar Coordinate Time.
     Ltc,
+}
+
+impl Timescale {
+    /// The name used in documents and results.
+    pub fn name(self) -> &'static str {
+        match self {
+            Timescale::Tt => "tt",
+            Timescale::Tdb => "tdb",
+            Timescale::Utc => "utc",
+            Timescale::Ltc => "ltc",
+        }
+    }
+
+    /// Parses a timescale name from a document.
+    pub fn parse(s: &str) -> Result<Self, String> {
+        Ok(match s {
+            "tt" => Timescale::Tt,
+            "tdb" => Timescale::Tdb,
+            "utc" => Timescale::Utc,
+            "ltc" => Timescale::Ltc,
+            other => {
+                return Err(format!(
+                    "unknown timescale `{other}`; expected one of tt, tdb, utc, ltc"
+                ))
+            }
+        })
+    }
 }
 
 /// Where a phase gets its position and velocity from.
@@ -356,6 +412,12 @@ pub struct PhaseSpec {
     pub nav: Vec<NavSource>,
     /// Time source the phase uses.
     pub time: TimeSource,
+    /// The frame the phase needs its entry state in; the thread converts at the handover. `None`
+    /// keeps the previous phase's frame.
+    pub frame: Option<Frame>,
+    /// The timescale the phase needs its clock in; the thread converts at the handover. `None`
+    /// keeps the previous phase's timescale.
+    pub timescale: Option<Timescale>,
     /// How this phase hands over to the next.
     pub handover: HandoverRule,
     /// What the phase must meet.
