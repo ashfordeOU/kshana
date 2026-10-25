@@ -272,8 +272,8 @@ pub static PHASE_KINDS: &[PhaseKindInfo] = &[
     PhaseKindInfo {
         kind: "leo-rendezvous",
         segment: "earth",
-        ctor: stub_ctor!("leo-rendezvous"),
-        implemented: false,
+        ctor: earth::rendezvous::ctor,
+        implemented: true,
     },
     PhaseKindInfo {
         kind: "tli-and-cruise",

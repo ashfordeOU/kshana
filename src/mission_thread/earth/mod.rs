@@ -9,3 +9,4 @@ pub mod filter;
 pub mod launch;
 pub mod model;
 pub mod orbit;
+pub mod rendezvous;
