@@ -86,27 +86,60 @@ export function applyPage({ html, segs, bundle, lang }) {
   const edits = [];
   let translated = 0, missing = 0;
   const errors = [];
-  for (const s of segs) {
+  const text = [], attrs = [];
+  const format = (s) => {
     const id = segId(s);
     const msg = bundle.getMessage(id);
-    if (!msg || !msg.value) { missing++; continue; }
+    if (!msg || !msg.value) return null;
     const errs = [];
     let str;
-    try { str = bundle.formatPattern(msg.value, {}, errs); } catch (e) { errors.push(`${id}: ${e.message}`); missing++; continue; }
-    if (errs.length) { errors.push(`${id}: ${errs[0].message}`); missing++; continue; }
-    try {
-      if (s.attr) {
-        const tk = html.slice(s.at).match(/^<[^>]*>/)[0];
-        const re = new RegExp(`(\\s${s.attr}\\s*=\\s*)("[^"]*"|'[^']*')`, 'i');
-        const nt = tk.replace(re, (_, a) => `${a}"${attrEsc(str)}"`);
-        edits.push({ start: s.at, end: s.at + tk.length, text: nt });
-      } else edits.push({ start: s.start, end: s.end, text: renderHtml(str, s.tags) });
-      translated++;
-    } catch (e) { errors.push(`${id}: ${e.message}`); missing++; }
+    try { str = bundle.formatPattern(msg.value, {}, errs); } catch (e) { errors.push(`${id}: ${e.message}`); return null; }
+    if (errs.length) { errors.push(`${id}: ${errs[0].message}`); return null; }
+    return str;
+  };
+  // pass 1: text segments (rendered after the attributes inside them are applied to their English tags)
+  for (const s of segs) if (!s.attr) { const str = format(s); text.push({ s, str }); }
+  // pass 2: attributes (last in the document first, so offsets inside a kept element stay valid); one inside a translated
+  // text segment is written into that segment's own tag, and several on one tag compose
+  const own = new Map(); // tag offset -> current tag text of a standalone edit
+  const done = new Set();
+  for (const s of segs.filter((x) => x.attr).sort((x, y) => y.at - x.at)) {
+    const str = format(s);
+    if (str === null) { missing++; continue; }
+    const re = new RegExp(`(\\s${s.attr}\\s*=\\s*)("[^"]*"|'[^']*')`, 'i');
+    const put = (tag) => tag.replace(re, (_, a) => `${a}"${attrEsc(str)}"`);
+    const owner = text.find((t) => t.str !== null && s.at >= t.s.start && s.at < t.s.end);
+    if (owner) {
+      let ok = false;
+      for (const tg of Object.values(owner.s.tags)) {
+        if (tg.o !== undefined && tg.at === s.at) { tg.o = put(tg.o); ok = true; break; }
+        if (tg.h !== undefined && s.at >= tg.at && s.at < tg.at + tg.h.length) {
+          const off = s.at - tg.at;
+          const cur = tg.h.slice(off).match(/^<[^>]*>/)[0];
+          tg.h = tg.h.slice(0, off) + put(cur) + tg.h.slice(off + cur.length);
+          ok = true; break;
+        }
+      }
+      if (ok) { translated++; continue; }
+    }
+    own.set(s.at, put(own.get(s.at) ?? html.slice(s.at).match(/^<[^>]*>/)[0]));
+    translated++;
+  }
+  for (const [at, nt] of own) edits.push({ start: at, end: at + html.slice(at).match(/^<[^>]*>/)[0].length, text: nt });
+  // pass 3: text segments
+  for (const { s, str } of text) {
+    if (str === null) { missing++; continue; }
+    try { edits.push({ start: s.start, end: s.end, text: renderHtml(str, s.tags) }); translated++; }
+    catch (e) { errors.push(`${segId(s)}: ${e.message}`); missing++; }
   }
   edits.sort((a, b) => b.start - a.start);
   let out = html;
-  for (const e of edits) out = out.slice(0, e.start) + e.text + out.slice(e.end);
+  let lastStart = Infinity;
+  for (const e of edits) {
+    if (e.end > lastStart) { errors.push(`overlapping edits at ${e.start}`); continue; }
+    out = out.slice(0, e.start) + e.text + out.slice(e.end);
+    lastStart = e.start;
+  }
   return { html: out, translated, missing, errors };
 }
 
@@ -246,7 +279,9 @@ export function pseudoText(text) {
     if (i % 2) { out += p; continue; }
     out += p.replace(/\p{L}/gu, (c) => { letters++; return ACCENT[c] ?? c; });
   }
-  return out + '~'.repeat(Math.min(Math.round(letters * 0.35), 60));
+  const pad = Math.min(Math.round(letters * 0.35), 60); // breakable padding: runs of up to 5 tildes between spaces
+  const runs = []; for (let n = pad; n > 0; n -= 5) runs.push('~'.repeat(Math.min(5, n)));
+  return out + (runs.length ? ' ' + runs.join(' ') : '');
 }
 
 /** Pseudo-locale catalogue text from an English .ftl text: values wrapped in ⟦ ⟧, structure untouched. */

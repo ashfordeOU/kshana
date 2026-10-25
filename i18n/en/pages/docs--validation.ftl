@@ -264,9 +264,10 @@ seg-2ea6a14cac1c = Kalman estimator + integrity bound
 # text
 # c1: src/kalman.rs
 # c2: q_wf*T + q_rw*T^3/3
-# c3: R=1e-26 / Q≈1e-30
-# c4: src/run.rs
-seg-63b6915343b1 = <c1/>: a two-state (phase, frequency) filter whose exact van Loan process noise matches the truth model; coasting reproduces the analytic holdover variance <c2/> to { "1e-9" }. The covariance update is in <b>Joseph stabilised form</b> <s1>P⁺ = (I−KH)P(I−KH)ᵀ + KRKᵀ</s1>, which stays positive-semidefinite (Cholesky-checked) through { "500" } predict/update steps at an extreme <c3/> ratio, and agrees with the naive form to { "1e-9" } where the latter is well-conditioned. The run layer reports Integrity as the fraction of outage samples inside the 3-sigma protection bound (<c4/>).
+# c3: P⁺ = (I−KH)P(I−KH)ᵀ + KRKᵀ
+# c4: R=1e-26 / Q≈1e-30
+# c5: src/run.rs
+seg-8c8f8a5eba5a = <c1/>: a two-state (phase, frequency) filter whose exact van Loan process noise matches the truth model; coasting reproduces the analytic holdover variance <c2/> to { "1e-9" }. The covariance update is in <b>Joseph stabilised form</b> <c3/>, which stays positive-semidefinite (Cholesky-checked) through { "500" } predict/update steps at an extreme <c4/> ratio, and agrees with the naive form to { "1e-9" } where the latter is well-conditioned. The run layer reports Integrity as the fraction of outage samples inside the 3-sigma protection bound (<c5/>).
 
 # text
 seg-f332f06e80f9 = Filter self-consistency (NIS (normalised innovation squared) / NEES (normalised estimation error squared))
@@ -301,12 +302,13 @@ seg-6ab219622143 = Security (spoof-detection score)
 
 # text
 # c1: src/security.rs
-# c2: k
-# c3: [0,1]
-# c4: tau
-# c5: k
-# c6: r
-seg-c8075576018f = <c1/>: the monitor 1-sigma floor <s1>sqrt(r/m + q_wf*tau + q_rw*tau^3/3)</s1> and the resulting <c2/>-sigma minimum-detectable offset and <c3/> score are hand-derived and unit-tested. The model (innovation / RAIM-style (RAIM: receiver autonomous integrity monitoring) clock-aided detection) is sound; the <em>parameters</em> (monitoring window <c4/>, detection multiplier <c5/>, measurement noise <c6/>) are representative, not fitted to a specific receiver.
+# c2: sqrt(r/m + q_wf*tau + q_rw*tau^3/3)
+# c3: k
+# c4: [0,1]
+# c5: tau
+# c6: k
+# c7: r
+seg-29dd10011ed1 = <c1/>: the monitor 1-sigma floor <c2/> and the resulting <c3/>-sigma minimum-detectable offset and <c4/> score are hand-derived and unit-tested. The model (innovation / RAIM-style (RAIM: receiver autonomous integrity monitoring) clock-aided detection) is sound; the <em>parameters</em> (monitoring window <c5/>, detection multiplier <c6/>, measurement noise <c7/>) are representative, not fitted to a specific receiver.
 
 # text
 seg-ca51e4f1e19c = Spoofing-attack detection
@@ -400,15 +402,16 @@ seg-8ac776795d40 = Cold-atom-interferometer (CAI) accelerometer physics (first-p
 # c2: k_eff = 4pi/lambda ~ 1.611e7 rad/m
 # c3: Phi = k_eff*a*T^2 ~ 1.580e4 rad
 # c4: T = 10 ms
-# c5: C = 0.5
-# c6: N = 1e6
-# c7: sigma_a ~ 1.24e-6 m/s^2
-# c8: 1/T^2
-# c9: 1/sqrt(N)
-# c10: q_va()
-# c11: AccelModel
-# c12: QUANTUM.md
-seg-6b9d5299cbc8 = <c1/>: a three-pulse Mach-Zehnder cold-atom interferometer. Hand-verified against textbook geometry — Rb-87 <c2/>; <c3/> at { "1" } g, <c4/>; projection noise <s1>sigma_Phi = 1/(C*sqrt(N)) = { "2e-3" } rad</s1> at <c5/>, <c6/>; per-shot <c7/>; the <c8/> and <c9/> scaling laws; exponential contrast decay. <c10/> <b>derives</b> the white-acceleration PSD (power spectral density) the classical <c11/> consumes. Honest scope: the <b>quantum-projection-noise floor</b> only (~{ "0.09" } ug/sqrtHz here) — far below real, vibration-limited devices (1-50 ug/sqrtHz); the vibration tensor, Coriolis and light-shift systematics are not yet modelled (see <a1><c12/></a1>).
+# c5: sigma_Phi = 1/(C*sqrt(N)) = 2e-3 rad
+# c6: C = 0.5
+# c7: N = 1e6
+# c8: sigma_a ~ 1.24e-6 m/s^2
+# c9: 1/T^2
+# c10: 1/sqrt(N)
+# c11: q_va()
+# c12: AccelModel
+# c13: QUANTUM.md
+seg-4eafc81873ed = <c1/>: a three-pulse Mach-Zehnder cold-atom interferometer. Hand-verified against textbook geometry — Rb-87 <c2/>; <c3/> at { "1" } g, <c4/>; projection noise <c5/> at <c6/>, <c7/>; per-shot <c8/>; the <c9/> and <c10/> scaling laws; exponential contrast decay. <c11/> <b>derives</b> the white-acceleration PSD (power spectral density) the classical <c12/> consumes. Honest scope: the <b>quantum-projection-noise floor</b> only (~{ "0.09" } ug/sqrtHz here) — far below real, vibration-limited devices (1-50 ug/sqrtHz); the vibration tensor, Coriolis and light-shift systematics are not yet modelled (see <a1><c13/></a1>).
 
 # text
 seg-ed78f40a8d80 = Gyro bias + angular random walk (ARW) -> tilt -> gravity coupling
@@ -444,9 +447,10 @@ seg-49c4a2532dca = NaveGo cross-validation (IMU (inertial measurement unit) nois
 # c1: tests/navego_imu_crossval.rs
 # c2: github.com/rodralez/NaveGo
 # c3: navego_example_allan.m
-# c4: < 5%
-# c5: .mat
-seg-bf97248a4fc7 = <c1/>: an external cross-check against <b>NaveGo</b> (R. Gonzalez, open-source INS/GNSS (INS: inertial navigation system) toolbox, <c2/>). Reproduces the synthetic round-trip of NaveGo's <c3/> on its <b>published Microstrain 3DM-GX3-35 reference profile</b>: driving our (NBS14/Stable32-validated) overlapping-ADEV estimator with white sensor noise at NaveGo's 1-σ levels recovers the velocity- and angle-random-walk (VRW, ARW) coefficients (<s1>ADEV({ "1" } s) = σ·√dt</s1>) to <c4/> (actual ~{ "0.4" }%), with the white-noise branch at the −1/2 slope. Confirms our Allan pipeline and NaveGo's VRW/ARW definitions agree. The { "40" } MB recorded STIM300 <c5/> log is not ingested (binary-format-gated).
+# c4: ADEV(1 s) = σ·√dt
+# c5: < 5%
+# c6: .mat
+seg-e558aa705560 = <c1/>: an external cross-check against <b>NaveGo</b> (R. Gonzalez, open-source INS/GNSS (INS: inertial navigation system) toolbox, <c2/>). Reproduces the synthetic round-trip of NaveGo's <c3/> on its <b>published Microstrain 3DM-GX3-35 reference profile</b>: driving our (NBS14/Stable32-validated) overlapping-ADEV estimator with white sensor noise at NaveGo's 1-σ levels recovers the velocity- and angle-random-walk (VRW, ARW) coefficients (<c4/>) to <c5/> (actual ~{ "0.4" }%), with the white-noise branch at the −1/2 slope. Confirms our Allan pipeline and NaveGo's VRW/ARW definitions agree. The { "40" } MB recorded STIM300 <c6/> log is not ingested (binary-format-gated).
 
 # text
 seg-171b215f0526 = Scale factor, finer cross-axis terms
@@ -664,7 +668,9 @@ seg-958f03424508 = J2 secular nodal/apsidal drift
 
 # text
 # c1: src/orbit.rs
-seg-78c79e52bb77 = <c1/>: <s1>Omega_dot = -1.5 n J2 (Re/p)^{ "2" } cos i</s1>, <s2>argp_dot = { "0.75" } n J2 (Re/p)^{ "2" } (5cos^{ "2" } i - { "1" })</s2> (Vallado); node regresses (prograde) / advances (retrograde) / is stationary (polar), and apsides freeze at the critical inclination { "63.4" } deg — hand-derived sign/zero tests. Two-body + secular only, not osculating.
+# c2: Omega_dot = -1.5 n J2 (Re/p)^2 cos i
+# c3: argp_dot = 0.75 n J2 (Re/p)^2 (5cos^2 i - 1)
+seg-336b9581c47c = <c1/>: <c2/>, <c3/> (Vallado); node regresses (prograde) / advances (retrograde) / is stationary (polar), and apsides freeze at the critical inclination { "63.4" } deg — hand-derived sign/zero tests. Two-body + secular only, not osculating.
 
 # text
 seg-dcba8d368326 = Line-of-sight visibility (Earth occultation + elevation mask)
@@ -688,9 +694,11 @@ seg-988d3fedb7f5 = Constellation-design optimiser + streets-of-coverage geometry
 # c3: {planes × sats × inclination}
 # c4: DesignObjective
 # c5: coverage_half_angle_rad
-# c6: street_half_width_rad
-# c7: λ < π/s ⇒ None
-seg-dc3183c63478 = <c1/>: <c2/> searches the <c3/> grid and returns the cell that best meets a <c4/> (min satellites for a coverage target / max coverage / min worst-PDOP (PDOP: position dilution of precision)) — a test asserts the pick equals an independent brute-force scan of the same sweep, and a worked example confirms a GPS (Global Positioning System) Walker 24/6/1 design covers at least as well as a thinned 18-satellite one. The analytical <b>streets-of-coverage</b> closed forms (<c5/> <s1>λ = arccos(Re/r·cos ε) − ε</s1>; <c6/> <s2>cos c = cos λ / cos(π/s)</s2>, Rider/Beste) are hand-verified against textbook geometry (GPS at a { "5" }° mask: λ ≈ { "71.16" }°, 4-sat street half-width ≈ { "62.83" }°) and detect the under-population gap (<c7/>). The full Rider minimum-satellite <em>global</em>-coverage solver (the seam-sensitive plane count) is not yet implemented.
+# c6: λ = arccos(Re/r·cos ε) − ε
+# c7: street_half_width_rad
+# c8: cos c = cos λ / cos(π/s)
+# c9: λ < π/s ⇒ None
+seg-2a636487a4e6 = <c1/>: <c2/> searches the <c3/> grid and returns the cell that best meets a <c4/> (min satellites for a coverage target / max coverage / min worst-PDOP (PDOP: position dilution of precision)) — a test asserts the pick equals an independent brute-force scan of the same sweep, and a worked example confirms a GPS (Global Positioning System) Walker 24/6/1 design covers at least as well as a thinned 18-satellite one. The analytical <b>streets-of-coverage</b> closed forms (<c5/> <c6/>; <c7/> <c8/>, Rider/Beste) are hand-verified against textbook geometry (GPS at a { "5" }° mask: λ ≈ { "71.16" }°, 4-sat street half-width ≈ { "62.83" }°) and detect the under-population gap (<c9/>). The full Rider minimum-satellite <em>global</em>-coverage solver (the seam-sensitive plane count) is not yet implemented.
 
 # text
 seg-a1c1364cc45a = Dilution of precision (GDOP/PDOP/HDOP/VDOP/TDOP (GDOP: geometric dilution of precision; HDOP: horizontal dilution of precision; VDOP: vertical dilution of precision; TDOP: time dilution of precision)) -> position accuracy
@@ -978,10 +986,11 @@ seg-133eed361425 = Post-Newtonian (Schwarzschild) relativistic correction
 # c1: src/forces.rs
 # c2: relativistic_accel
 # c3: β = γ = 1
-# c4: 3μ²/(c²r³)·r̂
-# c5: ≈1.9e-9
-# c6: μ(4μ + 3v²r)/(c²r³)
-seg-3df140f537e3 = <c1/>: <c2/> (IERS <c3/> form <s1>a = (μ/c²r³)·{ "{" }[4μ/r − v²]·r + { "4" }(r·v)·v{ "}" }</s1>) collapses on a circular orbit to the closed form <c4/> (radial, <b>outward</b>, off-axis components exactly zero), shows the textbook <b><c5/> LEO ratio to two-body</b>, matches the hand-simplified radial-velocity form <c6/> to < { "1e-12" }, and in the propagator <b>perturbs the orbit while holding the semi-major axis to under a metre/day</b> — the conservative opposite of drag's decay.
+# c4: a = (μ/c²r³)·{[4μ/r − v²]·r + 4(r·v)·v}
+# c5: 3μ²/(c²r³)·r̂
+# c6: ≈1.9e-9
+# c7: μ(4μ + 3v²r)/(c²r³)
+seg-c8e26480f148 = <c1/>: <c2/> (IERS <c3/> form <c4/>) collapses on a circular orbit to the closed form <c5/> (radial, <b>outward</b>, off-axis components exactly zero), shows the textbook <b><c6/> LEO ratio to two-body</b>, matches the hand-simplified radial-velocity form <c7/> to < { "1e-12" }, and in the propagator <b>perturbs the orbit while holding the semi-major axis to under a metre/day</b> — the conservative opposite of drag's decay.
 
 # text
 # c1: ForceModel
@@ -1473,12 +1482,14 @@ seg-d1d2dc7906c8 = Range & 1/2/3-way Doppler (Moyer two-leg solve)
 # c1: src/radiometric.rs
 # c2: one_way_range
 # c3: two_way_range
-# c4: one_way_doppler
-# c5: two_way_doppler
-# c6: three_way_doppler
-# c7: c·τ
-# c8: −(f/c)·ρ̇
-seg-6f31ce85ac7c = <c1/>: <c2/>/<c3/> compose the D0 retarded (down-leg) and advanced (up-leg) light-time solutions; the full round-trip convention is <s1>ρ₂ = c·(τ_up + τ_down)</s1> (m), documented and consistent. <c4/>/<c5/>/<c6/> form the carrier shift <s2>f_D = −(M·f_ul/c)·(ρ̇_up + ρ̇_down)</s2> (Hz) from the line-of-sight range rate, <b>sign convention: an approaching spacecraft gives a positive (blue) shift</b>. Tests: two-way range = sum of legs to <{ "1" } mm (~{ "2" } AU Earth–Sun round trip); one-way range = <c7/> exactly; one-way Doppler matches the analytic <c8/> for a radial constant-velocity emitter to ppt; three-way with co-located stations collapses byte-for-byte to two-way.
+# c4: ρ₂ = c·(τ_up + τ_down)
+# c5: one_way_doppler
+# c6: two_way_doppler
+# c7: three_way_doppler
+# c8: f_D = −(M·f_ul/c)·(ρ̇_up + ρ̇_down)
+# c9: c·τ
+# c10: −(f/c)·ρ̇
+seg-e2176b844df8 = <c1/>: <c2/>/<c3/> compose the D0 retarded (down-leg) and advanced (up-leg) light-time solutions; the full round-trip convention is <c4/> (m), documented and consistent. <c5/>/<c6/>/<c7/> form the carrier shift <c8/> (Hz) from the line-of-sight range rate, <b>sign convention: an approaching spacecraft gives a positive (blue) shift</b>. Tests: two-way range = sum of legs to <{ "1" } mm (~{ "2" } AU Earth–Sun round trip); one-way range = <c9/> exactly; one-way Doppler matches the analytic <c10/> for a radial constant-velocity emitter to ppt; three-way with co-located stations collapses byte-for-byte to two-way.
 
 # text
 seg-638697be5b5b = Coherent transponder turn-around (exact DSN ratios)
@@ -1506,10 +1517,11 @@ seg-16b9fdd916a7 = Δ-DOR (CCSDS { "506" } plane-of-sky)
 
 # text
 # c1: delta_dor
-# c2: B⃗
-# c3: −B·sin(Δθ)/c
-# c4: |Δτ| ≈ B·Δθ/c
-seg-713374eb2670 = <c1/>: the differential plane-of-sky delay <s1>Δτ = −B⃗·(ŝ_sc − ŝ_quasar)/c</s1> (s) for an interferometer baseline <c2/> (CCSDS 506.1-B). Tested: matches the exact analytic projection <c3/> for a known baseline-aligned offset to { "1e-15" } s, the small-angle magnitude <c4/>, and the <b>null</b> (a spacecraft co-aligned with the quasar gives exactly zero differential delay).
+# c2: Δτ = −B⃗·(ŝ_sc − ŝ_quasar)/c
+# c3: B⃗
+# c4: −B·sin(Δθ)/c
+# c5: |Δτ| ≈ B·Δθ/c
+seg-93055e944306 = <c1/>: the differential plane-of-sky delay <c2/> (s) for an interferometer baseline <c3/> (CCSDS 506.1-B). Tested: matches the exact analytic projection <c4/> for a known baseline-aligned offset to { "1e-15" } s, the small-angle magnitude <c5/>, and the <b>null</b> (a spacecraft co-aligned with the quasar gives exactly zero differential delay).
 
 # text
 seg-4e5258bb04d5 = Plasma 1/f² dual-frequency calibration
@@ -1637,12 +1649,13 @@ seg-452f32dace80 = Radiometric measurement partials (range/Doppler) for the SRIF
 # c1: range_observable
 # c2: range_rate_observable
 # c3: ρ = |r_sc − r_sta|
-# c4: ∂ρ̇_obs/∂y = c
-# c5: range_partial_matches_finite_difference
-# c6: range_rate_partials_match_finite_difference
-# c7: radiometric_update_reduces_covariance_in_observed_direction
-# c8: range_rate_update_observes_velocity
-seg-b6ffb687aaa6 = <c1/> / <c2/>: the line-of-sight range <c3/> (∂ρ/∂r = û, ∂ρ/∂v = { "0" }) and range rate <s1>ρ̇ = û·(v_sc − v_sta)</s1> (∂ρ̇/∂v = û, ∂ρ̇/∂r = (v_rel − ρ̇·û)/ρ) partials that connect the D1 observables to the filter state, plus the one-way-Doppler clock-frequency partial <c4/>. Tests: both partials match a <b>central finite difference of the observable to { "1e-6" }</b> (<c5/>, <c6/>); a single range update <b>shrinks the covariance in the observed (line-of-sight, LOS) direction by ≫{ "1000" }×</b> and keeps it positive-definite (PD), and a Doppler update shrinks the LOS <b>velocity</b> variance (<c7/>, <c8/>).
+# c4: ρ̇ = û·(v_sc − v_sta)
+# c5: ∂ρ̇_obs/∂y = c
+# c6: range_partial_matches_finite_difference
+# c7: range_rate_partials_match_finite_difference
+# c8: radiometric_update_reduces_covariance_in_observed_direction
+# c9: range_rate_update_observes_velocity
+seg-6661d241cdaf = <c1/> / <c2/>: the line-of-sight range <c3/> (∂ρ/∂r = û, ∂ρ/∂v = { "0" }) and range rate <c4/> (∂ρ̇/∂v = û, ∂ρ̇/∂r = (v_rel − ρ̇·û)/ρ) partials that connect the D1 observables to the filter state, plus the one-way-Doppler clock-frequency partial <c5/>. Tests: both partials match a <b>central finite difference of the observable to { "1e-6" }</b> (<c6/>, <c7/>); a single range update <b>shrinks the covariance in the observed (line-of-sight, LOS) direction by ≫{ "1000" }×</b> and keeps it positive-definite (PD), and a Doppler update shrinks the LOS <b>velocity</b> variance (<c8/>, <c9/>).
 
 # text
 seg-9a2cb6292477 = Mars-LMO end-to-end OD from radiometric data
@@ -1679,9 +1692,10 @@ seg-26a4bfa8e6ad = MARCONI constellation (areostationary radius, occultation)
 
 # text
 # c1: MarconiConstellation
-# c2: mars_gmm3
-# c3: chord_clears_sphere
-seg-a9ee079d2e5d = <c1/>: a five-relay set — three <b>areostationary</b> relays at <s1>r = (μ/ω²)^{ "{" }1/3{ "}" } ≈ { "20 428" } km</s1> (the Mars synchronous radius from published μ/spin-rate; tested in the <b>{ "20 400" }–{ "20 500" } km</b> band) equally spaced { "120" }° in longitude with { "5" }° inclination, plus two relays in a higher ({ "1.4" }× areostationary) { "60" }°-inclined circular orbit for plane-of-sky coverage. Per-epoch relay states are forward-integrated under <c2/> gravity; the <b>Mars-occultation</b> visibility test is the chord-clears-sphere geometry (<c3/>, tested: a diametrically-opposite relay is occulted, an overhead relay is visible). <b>Honest scope:</b> a minimal representative broadcast-plus-relay geometry built from published Mars constants — not a specific flight constellation design.
+# c2: r = (μ/ω²)^{1/3} ≈ 20 428 km
+# c3: mars_gmm3
+# c4: chord_clears_sphere
+seg-f2c2e1b83411 = <c1/>: a five-relay set — three <b>areostationary</b> relays at <c2/> (the Mars synchronous radius from published μ/spin-rate; tested in the <b>{ "20 400" }–{ "20 500" } km</b> band) equally spaced { "120" }° in longitude with { "5" }° inclination, plus two relays in a higher ({ "1.4" }× areostationary) { "60" }°-inclined circular orbit for plane-of-sky coverage. Per-epoch relay states are forward-integrated under <c3/> gravity; the <b>Mars-occultation</b> visibility test is the chord-clears-sphere geometry (<c4/>, tested: a diametrically-opposite relay is occulted, an overhead relay is visible). <b>Honest scope:</b> a minimal representative broadcast-plus-relay geometry built from published Mars constants — not a specific flight constellation design.
 
 # text
 # c1: mars-pnt
@@ -1703,9 +1717,6 @@ seg-3a01d13ad2e7 = <c1/> / <c2/> is wired as the <c3/> scenario across all surfa
 
 # text
 seg-28a49a455a74 = MARCONI / LightShip targets reproduced: <b>< { "100" } m orbiter</b>, <b>< { "15" } m rover</b>
-
-# text
-seg-73878256be42 = <s1>validated (synthetic closed-loop, under stated assumptions)</s1>
 
 # text
 # c1: tests/mars_pnt_targets.rs
@@ -1751,19 +1762,22 @@ seg-4c7a29bc3003 = <c1/>, <c2/>/<c3/>, <c4/>, <c5/>. <b>Oracle: an internal clos
 seg-b4e3228c84b8 = Lunar geodetic VLBI — near-field delay for an Earth baseline observing a lunar beacon (<c1/>)
 
 # text
-# c1: src/radiometric.rs
-# c2: src/frames.rs
-# c3: src/cio.rs
-# c4: src/ephem.rs
-# c5: src/lunar.rs
-# c6: src/lunar_frame.rs
-# c7: lunar-vlbi
-seg-10ee634993cc = A geodetic VLBI (very-long-baseline interferometry) observable for two Earth ground stations (a baseline) observing a one-way signal from a NovaMoon-class transmitter on the lunar surface. The Moon is <b>near-field</b>, not a plane wave, so the geometric delay is the exact two-range difference <s1>tau_geom = (|r2 − r_B| − |r1 − r_B|)/c</s1> rather than the plane-of-sky projection. The full observable adds the station clock-offset difference and a differenced Earth-potential Shapiro term (reused from <c1/>). Stations are placed in geocentric inertial (GCRS) coordinates via <c2/> + <c3/>; the beacon via <c4/> (geocentric Moon) + <c5/> (selenographic→MCMF (MCMF: Moon-centred, Moon-fixed)) + <c6/> (IAU-2015 ME body-fixed→inertial). The <c7/> scenario samples the delay, its finite-difference rate, and the near-field correction over a pass.
+# c1: tau_geom = (|r2 − r_B| − |r1 − r_B|)/c
+# c2: src/radiometric.rs
+# c3: src/frames.rs
+# c4: src/cio.rs
+# c5: src/ephem.rs
+# c6: src/lunar.rs
+# c7: src/lunar_frame.rs
+# c8: lunar-vlbi
+seg-bbb634953ebf = A geodetic VLBI (very-long-baseline interferometry) observable for two Earth ground stations (a baseline) observing a one-way signal from a NovaMoon-class transmitter on the lunar surface. The Moon is <b>near-field</b>, not a plane wave, so the geometric delay is the exact two-range difference <c1/> rather than the plane-of-sky projection. The full observable adds the station clock-offset difference and a differenced Earth-potential Shapiro term (reused from <c2/>). Stations are placed in geocentric inertial (GCRS) coordinates via <c3/> + <c4/>; the beacon via <c5/> (geocentric Moon) + <c6/> (selenographic→MCMF (MCMF: Moon-centred, Moon-fixed)) + <c7/> (IAU-2015 ME body-fixed→inertial). The <c8/> scenario samples the delay, its finite-difference rate, and the near-field correction over a pass.
 
 # text
 # c1: delta_dor
 # c2: src/radiometric.rs
-seg-e701b9b023e0 = The <b>oracle</b> is the same-codebase plane-wave Δ-DOR observable <c1/> in <c2/>: in the far-field limit (a synthetic beacon at { "1e15" } m) the geometric delay must collapse to <s1>−(B·ŝ_B)/c = delta_dor(r_B, [0,{ "0,0" }], B)</s1> to machine precision; at true lunar distance the wavefront-curvature near-field correction is non-zero (tens to hundreds of µs). The beacon partials <s2>dtau/dr_B = ((r_B−r2)/|r_B−r2| − (r_B−r1)/|r_B−r1|)/c</s2> (and the station partials) are verified by central finite difference (relative error < { "1e-5" }).
+# c3: −(B·ŝ_B)/c = delta_dor(r_B, [0,0,0], B)
+# c4: dtau/dr_B = ((r_B−r2)/|r_B−r2| − (r_B−r1)/|r_B−r1|)/c
+seg-b2b758337ebc = The <b>oracle</b> is the same-codebase plane-wave Δ-DOR observable <c1/> in <c2/>: in the far-field limit (a synthetic beacon at { "1e15" } m) the geometric delay must collapse to <c3/> to machine precision; at true lunar distance the wavefront-curvature near-field correction is non-zero (tens to hundreds of µs). The beacon partials <c4/> (and the station partials) are verified by central finite difference (relative error < { "1e-5" }).
 
 # text
 seg-107b9d328f69 = Lunar geodetic VLBI delay + partials
@@ -1802,8 +1816,9 @@ seg-8bed75c5402d = Lunar joint multi-technique OD + clock — simulated closed-l
 # text
 # c1: crate::batch_ls::gauss_newton_qr
 # c2: src/lunar_vlbi.rs
-# c3: lunar-joint-od-clock
-seg-8698f388e92d = A single-epoch (snapshot) batch least-squares fit (<c1/>, a Householder QR step since { "0.30" }) that <b>fuses the geodetic-VLBI, radiometric/lunar-local-ranging and inter-satellite-ranging techniques</b> on a SIMULATED lunar network to recover, <em>together</em>, a lunar surface station's 3-D position, a small constellation's per-satellite positions, and every asset's clock offset. The observables are: ({ "1" }) Earth-baseline geodetic VLBI delays to the lunar station treated as the beacon (reusing <c2/>, geocentric inertial) — the headline technique; ({ "2" }) Earth-station→satellite geocentric radiometric ranges (which multilaterate the constellation from the well-spread Earth stations) and station↔satellite lunar-local ranges (MCI (Moon-centred inertial) Euclidean distance plus the differenced clock term); ({ "3" }) inter-satellite ranges (same form); plus a single station-clock sync pseudo-observation that anchors the otherwise-unobservable common clock offset. The state vector is <s1>[station_pos({ "3" }), { "{" }sat_pos({ "3" }){ "}" }×N_sat, station_clk, { "{" }sat_clk{ "}" }×N_sat]</s1>. There is <b>no force-model propagation inside the solver</b> — the satellites are fixed, distinct, illustrative points on a representative lunar orbit; this is a deliberately clean snapshot fit. Internally, positions are scaled and clocks are estimated in range-equivalent metres so the normal matrix stays well-conditioned in f64; the VLBI and lunar-distance ranges are mean-removed about the nominal geometry so the finite-difference Jacobian does not suffer catastrophic cancellation. The <c3/> scenario runs the solve with and without the VLBI legs on the same seed/truth and reports both solutions plus the station-observability improvement factor.
+# c3: [station_pos(3), {sat_pos(3)}×N_sat, station_clk, {sat_clk}×N_sat]
+# c4: lunar-joint-od-clock
+seg-d518eead07c4 = A single-epoch (snapshot) batch least-squares fit (<c1/>, a Householder QR step since { "0.30" }) that <b>fuses the geodetic-VLBI, radiometric/lunar-local-ranging and inter-satellite-ranging techniques</b> on a SIMULATED lunar network to recover, <em>together</em>, a lunar surface station's 3-D position, a small constellation's per-satellite positions, and every asset's clock offset. The observables are: ({ "1" }) Earth-baseline geodetic VLBI delays to the lunar station treated as the beacon (reusing <c2/>, geocentric inertial) — the headline technique; ({ "2" }) Earth-station→satellite geocentric radiometric ranges (which multilaterate the constellation from the well-spread Earth stations) and station↔satellite lunar-local ranges (MCI (Moon-centred inertial) Euclidean distance plus the differenced clock term); ({ "3" }) inter-satellite ranges (same form); plus a single station-clock sync pseudo-observation that anchors the otherwise-unobservable common clock offset. The state vector is <c3/>. There is <b>no force-model propagation inside the solver</b> — the satellites are fixed, distinct, illustrative points on a representative lunar orbit; this is a deliberately clean snapshot fit. Internally, positions are scaled and clocks are estimated in range-equivalent metres so the normal matrix stays well-conditioned in f64; the VLBI and lunar-distance ranges are mean-removed about the nominal geometry so the finite-difference Jacobian does not suffer catastrophic cancellation. The <c4/> scenario runs the solve with and without the VLBI legs on the same seed/truth and reports both solutions plus the station-observability improvement factor.
 
 # text
 # c1: vlbi_restores_station_observability
@@ -1842,18 +1857,19 @@ seg-7620f3a821f6 = Lunar reference-frame realisation — 7-parameter Helmert dat
 # c1: src/lunar_frame.rs
 # c2: p_i
 # c3: q_i
-# c4: R(θ) = rz(θz)·ry(θy)·rx(θx)
-# c5: crate::precession::{rx, ry, rz, matmul, mat_vec}
-# c6: [tx, ty, tz, θx, θy, θz, s]
-# c7: crate::batch_ls::gauss_newton
-# c8: q_i
-# c9: p_i
-# c10: z
-# c11: 1/σ²
-# c12: x0 = zeros
-# c13: icrf_orientation_tie
-# c14: transpose(crate::lunar_frame::icrf_to_iau_moon(jd_tdb))
-seg-6e7adf9b1b03 = Where <c1/> <em>applies</em> the IAU { "2015" } WGCCRE lunar body orientation (a forward model), this module <em>estimates</em> (realises) a lunar reference frame from a network of estimated point coordinates tied to a datum. The estimation core is a classic <b>7-parameter similarity (Helmert) transform</b> — three translation, three small-angle rotation and one scale parameter — mapping points <c2/> (estimated frame) to <c3/> (datum frame) as <s1>q_i = t + ({ "1" } + s)·R(θ)·p_i</s1>, with <c4/> built from <c5/>. The seven parameters <c6/> are estimated from ≥ { "3" } non-collinear point pairs by weighted least squares through <c7/>: the forward model predicts every <c8/> from its <c9/> and flattens all three components of all points into the observable vector, the observed datum coordinates form <c10/>, the weights are <c11/>, and the solve starts from <c12/>. Rotation angles are estimated in µrad and scale in ppb so the finite-difference Jacobian stays well-scaled at the lunar-surface coordinate magnitude (~{ "1.7e6" } m). A small <c13/> composes the realised small rotation through the IAU body→ICRF orientation (<c14/>) and returns the realised frame's residual small-angle offset about the ICRF axes — a deliberately simple frame-of-expression change, <b>not</b> an independent estimate of the lunar pole.
+# c4: q_i = t + (1 + s)·R(θ)·p_i
+# c5: R(θ) = rz(θz)·ry(θy)·rx(θx)
+# c6: crate::precession::{rx, ry, rz, matmul, mat_vec}
+# c7: [tx, ty, tz, θx, θy, θz, s]
+# c8: crate::batch_ls::gauss_newton
+# c9: q_i
+# c10: p_i
+# c11: z
+# c12: 1/σ²
+# c13: x0 = zeros
+# c14: icrf_orientation_tie
+# c15: transpose(crate::lunar_frame::icrf_to_iau_moon(jd_tdb))
+seg-240271b9d7de = Where <c1/> <em>applies</em> the IAU { "2015" } WGCCRE lunar body orientation (a forward model), this module <em>estimates</em> (realises) a lunar reference frame from a network of estimated point coordinates tied to a datum. The estimation core is a classic <b>7-parameter similarity (Helmert) transform</b> — three translation, three small-angle rotation and one scale parameter — mapping points <c2/> (estimated frame) to <c3/> (datum frame) as <c4/>, with <c5/> built from <c6/>. The seven parameters <c7/> are estimated from ≥ { "3" } non-collinear point pairs by weighted least squares through <c8/>: the forward model predicts every <c9/> from its <c10/> and flattens all three components of all points into the observable vector, the observed datum coordinates form <c11/>, the weights are <c12/>, and the solve starts from <c13/>. Rotation angles are estimated in µrad and scale in ppb so the finite-difference Jacobian stays well-scaled at the lunar-surface coordinate magnitude (~{ "1.7e6" } m). A small <c14/> composes the realised small rotation through the IAU body→ICRF orientation (<c15/>) and returns the realised frame's residual small-angle offset about the ICRF axes — a deliberately simple frame-of-expression change, <b>not</b> an independent estimate of the lunar pole.
 
 # text
 # c1: lunar-frame-realisation
@@ -1923,11 +1939,12 @@ seg-4ff4929f71df = Lunar differential PNT — common-mode cancellation + baselin
 # c3: c_i
 # c4: −e_i · û_ref,i + c_i
 # c5: −e_i · û_user,i + c_i
-# c6: c_i
-# c7: [x, y, z, clock]
-# c8: crate::orbit::invert4
-# c9: crate::sbas::sbas_protection_level
-seg-f022e4a62dc2 = A lunar DGNSS (differential satellite navigation) / SBAS analogue: a <b>NovaMoon-class reference station</b> at a <em>known</em> selenographic location computes per-satellite differential corrections from an <b>illustrative, public-source Moonlight / LCNS-class</b> constellation, and a roving user offset from it by a baseline applies them so the <b>common-mode</b> broadcast-ephemeris errors cancel. Each satellite <c1/> carries an injected common 3-D orbit-error vector <c2/> and a common clock error <c3/>. The reference station's pseudorange residual is the correction <c4/>; the user's raw error is <c5/>; the corrected user error is their difference <s1>−e_i · (û_user,i − û_ref,i)</s1>. The <b>clock term <c6/> cancels exactly</b> (it is identical in both observations), and the <b>orbit term collapses to the projection onto the difference of the two line-of-sight unit vectors</b>, which → { "0" } as the baseline → { "0" } (the spatial-decorrelation floor) and grows ≈ linearly with baseline. The per-satellite corrected range errors are mapped through the user geometry by a small dependency-light weighted-least-squares snapshot solve (<c7/> state via <c8/>; a constant range bias is absorbed by the clock unknown rather than corrupting the fix) to give the user <b>position</b> error. The user <b>protection level reuses the DO-229E SBAS protection-level machinery</b> (<c9/>, Precision-Approach K-factors) with the differential residual σ as each satellite's 1-σ error budget.
+# c6: −e_i · (û_user,i − û_ref,i)
+# c7: c_i
+# c8: [x, y, z, clock]
+# c9: crate::orbit::invert4
+# c10: crate::sbas::sbas_protection_level
+seg-8f94c4bf3fe6 = A lunar DGNSS (differential satellite navigation) / SBAS analogue: a <b>NovaMoon-class reference station</b> at a <em>known</em> selenographic location computes per-satellite differential corrections from an <b>illustrative, public-source Moonlight / LCNS-class</b> constellation, and a roving user offset from it by a baseline applies them so the <b>common-mode</b> broadcast-ephemeris errors cancel. Each satellite <c1/> carries an injected common 3-D orbit-error vector <c2/> and a common clock error <c3/>. The reference station's pseudorange residual is the correction <c4/>; the user's raw error is <c5/>; the corrected user error is their difference <c6/>. The <b>clock term <c7/> cancels exactly</b> (it is identical in both observations), and the <b>orbit term collapses to the projection onto the difference of the two line-of-sight unit vectors</b>, which → { "0" } as the baseline → { "0" } (the spatial-decorrelation floor) and grows ≈ linearly with baseline. The per-satellite corrected range errors are mapped through the user geometry by a small dependency-light weighted-least-squares snapshot solve (<c8/> state via <c9/>; a constant range bias is absorbed by the clock unknown rather than corrupting the fix) to give the user <b>position</b> error. The user <b>protection level reuses the DO-229E SBAS protection-level machinery</b> (<c10/>, Precision-Approach K-factors) with the differential residual σ as each satellite's 1-σ error budget.
 
 # text
 # c1: crate::lunar_service::LunarConstellation

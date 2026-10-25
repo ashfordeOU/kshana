@@ -53,10 +53,11 @@ seg-fc718a805b28 = It is <b>not</b> a multi-satellite RAIM (receiver autonomous 
 # c2: orbit
 # c3: hybrid
 # c4: fusion
-# c5: fom.security
-# c6: applicable: false
-# c7: figure_tiers
-seg-3ebba8320db8 = The output says so. The <c1/>, <c2/>, <c3/> and <c4/> kinds configure no attack, so their one-line summary prints <s1>security n/a (no attack)</s1> instead of a number, and their result document marks <c5/> as <c6/>, with the reason, in its <c7/> block. The value itself stays in the document for anyone who wants the bound.
+# c5: security n/a (no attack)
+# c6: fom.security
+# c7: applicable: false
+# c8: figure_tiers
+seg-ae770e25031e = The output says so. The <c1/>, <c2/>, <c3/> and <c4/> kinds configure no attack, so their one-line summary prints <c5/> instead of a number, and their result document marks <c6/> as <c7/>, with the reason, in its <c8/> block. The value itself stays in the document for anyone who wants the bound.
 
 # text
 # c1: src/raim.rs
@@ -87,8 +88,9 @@ seg-8dd60e98088d = <b>Solution-separation RAIM (MHSS: multiple-hypothesis soluti
 
 # text
 # c1: araim_raim
-# c2: K_md
-seg-88609871303d = <b>ARAIM (advanced receiver autonomous integrity monitoring) integrity-risk (P_HMI) budget</b> — <c1/> solves the smallest HPL/VPL whose summed probability of hazardously-misleading information <s1>P_HMI = Σ_k p_fault,k · Q((PL − T_k)/σ_k)</s1> (Blanch et al., <em>Baseline ARAIM</em>) meets an explicit integrity-risk allocation, and reports the risk the levels achieve — so integrity can be traded against the alert limit directly, instead of leaving it implicit in a fixed <c2/> multiplier.
+# c2: P_HMI = Σ_k p_fault,k · Q((PL − T_k)/σ_k)
+# c3: K_md
+seg-719e27fdd2c1 = <b>ARAIM (advanced receiver autonomous integrity monitoring) integrity-risk (P_HMI) budget</b> — <c1/> solves the smallest HPL/VPL whose summed probability of hazardously-misleading information <c2/> (Blanch et al., <em>Baseline ARAIM</em>) meets an explicit integrity-risk allocation, and reports the risk the levels achieve — so integrity can be traded against the alert limit directly, instead of leaving it implicit in a fixed <c3/> multiplier.
 
 # text
 # c1: (error, PL)

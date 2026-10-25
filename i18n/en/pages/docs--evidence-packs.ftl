@@ -85,8 +85,10 @@ seg-b517814b077d = optional RFC { "3161" } timestamp token
 seg-6ad4c5f3afbe = <b>Log slice.</b> The reader reports the source byte span of each epoch, so the slice is the smallest byte range that holds every epoch in the window (<c1/>): NMEA, u-blox UBX, RINEX { "3" } observations and Android logs. It is hashed as raw bytes, never as decoded text. For a live feed or RINEX { "2" } there is no span; the whole log is then bundled and the manifest says <c2/> (the window limits which epochs are reported, not which bytes are included). The summary states which applies. A slice is a record of the window's bytes, not a stand-alone log: for example a RINEX slice has no file header.
 
 # text
-# c1: chain_head
-seg-06f945550f42 = <b>Hash chain.</b> The manifest lists the files in a fixed order. <s1>link₀ = SHA-256("kshana- evidence-chain/1")</s1>; for each file, <s2>linkᵢ = SHA-256(linkᵢ₋₁ ‖ SHA-256(file) ‖ len(name) ‖ name)</s2> (length as { "4" } bytes, big-endian). The last link is <c1/>. Reordering, removing or substituting a file changes the chain; the signature covers the chain.
+# c1: link₀ = SHA-256("kshana- evidence-chain/1")
+# c2: linkᵢ = SHA-256(linkᵢ₋₁ ‖ SHA-256(file) ‖ len(name) ‖ name)
+# c3: chain_head
+seg-c4c81cbd4981 = <b>Hash chain.</b> The manifest lists the files in a fixed order. <c1/>; for each file, <c2/> (length as { "4" } bytes, big-endian). The last link is <c3/>. Reordering, removing or substituting a file changes the chain; the signature covers the chain.
 
 # text
 seg-1147c5b0d348 = Verify a pack
@@ -282,9 +284,10 @@ seg-80e55f2d3496 = Hash chain.
 # text
 # c1: link0
 # c2: kshana-evidence-chain/1
-# c3: SHA-256(file)
-# c4: sha256
-seg-67d1ecb58522 = <c1/> is SHA-256 of the { "23" } ASCII bytes <c2/>. For each artifact in order, <s1>link = SHA-256( previous_link ({ "32" } bytes) ‖ SHA-256(file) ({ "32" } bytes) ‖ len(name) as { "4" } bytes big-endian ‖ name as UTF-8 )</s1>, where <c3/> is taken from the manifest's recorded <c4/> for that artifact (so the chain is a property of the manifest and is checked against it, not against the files).
+# c3: link = SHA-256( previous_link (32 bytes) ‖ SHA-256(file) (32 bytes) ‖ len(name) as 4 bytes big-endian ‖ name as UTF-8 )
+# c4: SHA-256(file)
+# c5: sha256
+seg-9346fe50efac = <c1/> is SHA-256 of the { "23" } ASCII bytes <c2/>. For each artifact in order, <c3/>, where <c4/> is taken from the manifest's recorded <c5/> for that artifact (so the chain is a property of the manifest and is checked against it, not against the files).
 
 # text
 # c1: code

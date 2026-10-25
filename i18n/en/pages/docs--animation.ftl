@@ -78,17 +78,18 @@ seg-fa8388ae976e = The frame sequence
 
 # text
 # c1: round(duration × fps)
-# c2: manifest.json
-# c3: fps
-# c4: duration_s
-# c5: frame_count
-# c6: frame_pattern
-# c7: frame_%04d.svg
-# c8: t_start
-# c9: t_end
-# c10: frame_times
-# c11: frame_NNNN.svg
-seg-1b2f1543dd50 = The sequence has exactly <c1/> frames. Frame <em>i</em> shows the timeline up to <s1>t_start + (t_end − t_start) × i / (n − { "1" })</s1>, so the first frame is the start and the last is the finished picture. <c2/> records <c3/>, <c4/>, <c5/>, <c6/> (<c7/>), the pixel size, <c8/>, <c9/>, the mission time of every frame (<c10/>), the phases, the events and the sources. A re-export into the same directory first removes every <c11/> already there (and nothing else), so a shorter sequence never leaves frames of a longer one behind for the encoder to read.
+# c2: t_start + (t_end − t_start) × i / (n − 1)
+# c3: manifest.json
+# c4: fps
+# c5: duration_s
+# c6: frame_count
+# c7: frame_pattern
+# c8: frame_%04d.svg
+# c9: t_start
+# c10: t_end
+# c11: frame_times
+# c12: frame_NNNN.svg
+seg-db4b53abe7d6 = The sequence has exactly <c1/> frames. Frame <em>i</em> shows the timeline up to <c2/>, so the first frame is the start and the last is the finished picture. <c3/> records <c4/>, <c5/>, <c6/>, <c7/> (<c8/>), the pixel size, <c9/>, <c10/>, the mission time of every frame (<c11/>), the phases, the events and the sources. A re-export into the same directory first removes every <c12/> already there (and nothing else), so a shorter sequence never leaves frames of a longer one behind for the encoder to read.
 
 # text
 # c1: ffmpeg

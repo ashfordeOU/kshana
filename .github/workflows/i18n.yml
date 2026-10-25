@@ -55,6 +55,8 @@ jobs:
           node tools/i18n.mjs pseudo
           node tools/i18n.mjs apply en-XA --src "$RUNNER_TEMP/site" --out "$RUNNER_TEMP/dist"
           node tools/i18n.mjs english --src "$RUNNER_TEMP/site"
+      - name: Applied pages keep every number, code span and link of the English page
+        run: node tools/i18n.mjs verify en-XA --src "$RUNNER_TEMP/site" --dist "$RUNNER_TEMP/dist"
       - name: Language negotiation
         run: node tools/i18n-negotiation-test.mjs --en "$RUNNER_TEMP/site"
       - name: Pseudo-locale test (hard-coded text, overflow at 1440 and 390 px)

@@ -57,9 +57,10 @@ seg-7387a718a7c3 = Sharp-edged intervals, clockwise from <c1/> (included) to <c2
 seg-2768e3772b56 = Terrain
 
 # text
-# c1: R_eff = 4/3 × 6371 km
-# c2: height_m
-seg-504f67044d44 = Points reduced to a table: elevation <s1>atan((height_m − d²/({ "2" } R_eff)) / d)</s1>, with the curvature drop for <c1/> (a chosen, stated constant). <c2/> is above the antenna.
+# c1: atan((height_m − d²/(2 R_eff)) / d)
+# c2: R_eff = 4/3 × 6371 km
+# c3: height_m
+seg-5a5c08a77b86 = Points reduced to a table: elevation <c1/>, with the curvature drop for <c2/> (a chosen, stated constant). <c3/> is above the antenna.
 
 # text
 # c1: preset = "<name>"
@@ -85,14 +86,16 @@ seg-f7fd13e569e3 = The street canyon
 # c3: a
 # c4: az
 # c5: θ = az − s
-# c6: h
-seg-6bf8eab76d03 = A street runs along azimuth <c1/>, <c2/> metres between the walls, the antenna <c3/> metres up on the centreline. Along azimuth <c4/>, with <c5/>, the ray reaches a wall after <s1>d(az) = (w/2) / |sin θ|</s1>, so a wall of height <c6/> cuts at
+# c6: d(az) = (w/2) / |sin θ|
+# c7: h
+seg-290f563c1ff7 = A street runs along azimuth <c1/>, <c2/> metres between the walls, the antenna <c3/> metres up on the centreline. Along azimuth <c4/>, with <c5/>, the ray reaches a wall after <c6/>, so a wall of height <c7/> cuts at
 
 # text
 # c1: length_m = L
-# c2: antenna_m
-# c3: width_m
-seg-f478d582e644 = The open strip lies along the street. With <c1/> (the antenna at the middle) a ray leaves through an open end, and the wall cuts nothing, when <s1>d(az) · |cos θ| > L/2</s1>. A wall no taller than the antenna cuts nothing. <c2/> defaults to { "1.5" } m (a car roof or a hand-held receiver, a stated choice); a new canyon needs <c3/>.
+# c2: d(az) · |cos θ| > L/2
+# c3: antenna_m
+# c4: width_m
+seg-8662708f4f32 = The open strip lies along the street. With <c1/> (the antenna at the middle) a ray leaves through an open end, and the wall cuts nothing, when <c2/>. A wall no taller than the antenna cuts nothing. <c3/> defaults to { "1.5" } m (a car roof or a hand-held receiver, a stated choice); a new canyon needs <c4/>.
 
 # text
 seg-2b0d77219437 = Presets
@@ -217,16 +220,17 @@ seg-fae979b3b96f = <b>Backward compatibility.</b> Without a <c1/> section a scen
 seg-fe88e0ad01e9 = <b>What is refused</b>, with the reason in the message: a skyline on an orbiting <c1/>; <c2/> and <c3/> together; an unknown preset; a canyon without <c4/>; a table that is not strictly increasing in <c5/>; an elevation outside <c6/>; an empty sector; a non-positive terrain distance; input over the caps; any unknown key.
 
 # text
-# c1: source
-# c2: preset:<name>
-# c3: preset:<name>+overrides
-# c4: custom
-# c5: open_fraction
-# c6: max(mask_deg, skyline)
-# c7: 1 − sin(cut)
-# c8: provenance
-# c9: units
-seg-db66cd43ba18 = <b>The result</b> gains <s1>skyline: { "{" } source, open_fraction, provenance { "}" }</s1> when the section is present: <c1/> is <c2/>, <c3/> or <c4/>; <c5/> is the fraction of the upper hemisphere's solid angle above <c6/> (the mean of <c7/> over azimuth: { "1" } for a zero mask, { "0.5" } for a flat { "30" }° cut); <c8/> is the preset's line or the scenario's own. Units and provenance classes are in the <c9/> block.
+# c1: skyline: { source, open_fraction, provenance }
+# c2: source
+# c3: preset:<name>
+# c4: preset:<name>+overrides
+# c5: custom
+# c6: open_fraction
+# c7: max(mask_deg, skyline)
+# c8: 1 − sin(cut)
+# c9: provenance
+# c10: units
+seg-d1b10a0c833f = <b>The result</b> gains <c1/> when the section is present: <c2/> is <c3/>, <c4/> or <c5/>; <c6/> is the fraction of the upper hemisphere's solid angle above <c7/> (the mean of <c8/> over azimuth: { "1" } for a zero mask, { "0.5" } for a flat { "30" }° cut); <c9/> is the preset's line or the scenario's own. Units and provenance classes are in the <c10/> block.
 
 # text
 # c1: kshana example <name>
@@ -334,11 +338,13 @@ seg-c802cf2a2e30 = A request:
 # c10: [[system]]
 # c11: time_s
 # c12: leo-pvt
-# c13: site
-# c14: user_ecef_m
-# c15: "common"
-# c16: σ_UERE
-seg-698e36615f59 = <c1/> are the engine's constellation presets (<c2/>'s <c3/>, <c4/>, <c5/>, <c6/>, ...; the LEO presets <c7/>, <c8/>, ...) or a full <c9/> <c10/> table, propagated to <c11/> (Keplerian with secular J2, the <c12/> joint-mode orbits). Their relative phases come from different reference epochs, so the sky is <b>a representative geometry, not the sky of that date at that place</b>. Satellites may instead (or as well) be given directly: <s1>"satellites": [{ "{" }"id": "G05", "system": "GPS", "az_deg": { "120" }, "el_deg": { "35" }{ "}" }, ...]</s1>, or with <s2>"ecef_m": [x, y, z]</s2> and a <c13/> or <c14/>. Defaults: each system's own mask ({ "5" }° GNSS, { "10" }° LEO; { "5" }° for satellites given directly), one receiver clock per system (<c15/> for one shared clock), <c16/> { "1" } m (a representative dual-frequency budget line), confidence { "0.95" }. Input caps: at most { "2000" } satellites above the horizon (a system table asking for more is refused before it is built) and { "16" } receiver clocks.
+# c13: "satellites": [{"id": "G05", "system": "GPS", "az_deg": 120, "el_deg": 35}, ...]
+# c14: "ecef_m": [x, y, z]
+# c15: site
+# c16: user_ecef_m
+# c17: "common"
+# c18: σ_UERE
+seg-c3c44c1967ba = <c1/> are the engine's constellation presets (<c2/>'s <c3/>, <c4/>, <c5/>, <c6/>, ...; the LEO presets <c7/>, <c8/>, ...) or a full <c9/> <c10/> table, propagated to <c11/> (Keplerian with secular J2, the <c12/> joint-mode orbits). Their relative phases come from different reference epochs, so the sky is <b>a representative geometry, not the sky of that date at that place</b>. Satellites may instead (or as well) be given directly: <c13/>, or with <c14/> and a <c15/> or <c16/>. Defaults: each system's own mask ({ "5" }° GNSS, { "10" }° LEO; { "5" }° for satellites given directly), one receiver clock per system (<c17/> for one shared clock), <c18/> { "1" } m (a representative dual-frequency budget line), confidence { "0.95" }. Input caps: at most { "2000" } satellites above the horizon (a system table asking for more is refused before it is built) and { "16" } receiver clocks.
 
 # text
 seg-6408f9b02ccb = A dated sky from element sets.
@@ -394,9 +400,11 @@ seg-8560c13c7ea3 = <b>One kernel.</b> The cofactor matrix is <c1/>, the design-m
 # text
 # c1: k σ √λ
 # c2: λ
-# c3: √5.991 = 2.448
-# c4: [0, 180)
-seg-1f30f26cdbc7 = <b>The ellipse.</b> Semi-axes <c1/> for the eigenvalues <c2/> of the east-north block, with <s1>k = √(−{ "2" } ln({ "1" } − p))</s1> (<c3/> at { "95" } %, { "1" } at { "39.35" } %), and the major axis's azimuth <s2>½ atan2({ "2" } Q_EN, Q_NN − Q_EE)</s2> in <c4/> from north.
+# c3: k = √(−2 ln(1 − p))
+# c4: √5.991 = 2.448
+# c5: ½ atan2(2 Q_EN, Q_NN − Q_EE)
+# c6: [0, 180)
+seg-cb1be3e04419 = <b>The ellipse.</b> Semi-axes <c1/> for the eigenvalues <c2/> of the east-north block, with <c3/> (<c4/> at { "95" } %, { "1" } at { "39.35" } %), and the major axis's azimuth <c5/> in <c6/> from north.
 
 # text
 seg-2bd2101ce454 = Surface
@@ -409,10 +417,11 @@ seg-de6c33774c9c = CLI
 
 # text
 # c1: kshana sky <request.json|toml>
-# c2: --monte-carlo <n> --seed <s>
-# c3: --svg
-# c4: kshana skyline --preset <name> | --presets | --profile <file>
-seg-a373b30c7146 = <c1/> or <s1>kshana sky --site <lat,lon[,h]> (--systems <a,b> | --tle <file>) [--epoch] [--tle-system] [--time] [--mask] [--skyline-preset] [--uere] [--clock]</s1>, with <c2/> or <c3/>; <c4/>
+# c2: kshana sky --site <lat,lon[,h]> (--systems <a,b> | --tle <file>) [--epoch] [--tle-system] [--time] [--mask] [--skyline-preset] [--uere] [--clock]
+# c3: --monte-carlo <n> --seed <s>
+# c4: --svg
+# c5: kshana skyline --preset <name> | --presets | --profile <file>
+seg-f8dc86bd9da2 = <c1/> or <c2/>, with <c3/> or <c4/>; <c5/>
 
 # text
 seg-d5b5bdf6081c = Rust

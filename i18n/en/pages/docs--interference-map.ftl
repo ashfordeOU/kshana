@@ -610,13 +610,7 @@ seg-9e99af2c1f84 = ADS-B CSV text
 seg-e144f449c5b4 = one byte slice per readsb trace file (gzip or plain)
 
 # text
-seg-3ab8de05ed95 = <s1>ais_maps_from_csv(csv, &DatasetSpec, cell_deg, Option<&str>)</s1>
-
-# text
 seg-7effd7110c4c = AIS CSV text, optional land GeoJSON text
-
-# text
-seg-ec04dfab6221 = <s1>route_exposure(route_text, &[&str], from, to)</s1>
 
 # text
 # c1: YYYY-MM-DD
@@ -633,10 +627,11 @@ seg-be00d23d96e9 = <c1/> JSON
 # c4: date
 # c5: geojson
 # c6: DatasetSpec
-# c7: Custom { licence, licence_url, attribution }
-# c8: DEFAULT_CELL_DEG
-# c9: MapError
-seg-932abc37242b = A <c1/> has <c2/> (<c3/>), <c4/> and <c5/> (the v1 document). <c6/> is <s1>Preset("adsb-lol" | "noaa-marinecadastre" | "kystverket")</s1> or <c7/>; <c8/> is { "0.5" }. Errors are <c9/>. The dataset rules (approved presets, licence text required, kind must match) apply exactly as on the command line.
+# c7: Preset("adsb-lol" | "noaa-marinecadastre" | "kystverket")
+# c8: Custom { licence, licence_url, attribution }
+# c9: DEFAULT_CELL_DEG
+# c10: MapError
+seg-20a842d675c2 = A <c1/> has <c2/> (<c3/>), <c4/> and <c5/> (the v1 document). <c6/> is <c7/> or <c8/>; <c9/> is { "0.5" }. Errors are <c10/>. The dataset rules (approved presets, licence text required, kind must match) apply exactly as on the command line.
 
 # text
 seg-1195686de09b = External validation
