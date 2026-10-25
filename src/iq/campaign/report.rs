@@ -444,7 +444,8 @@ svg{max-width:100%;height:auto}svg text{fill:var(--ink2);font-size:11px}
 pub const ROC_SCHEMA: &str = "kshana.campaign-roc/1";
 
 /// What the detection ROC is.
-const ROC_STATEMENT: &str = "MODELLED: window-level ROC of each monitor on the recordings given. \
+pub(crate) const ROC_STATEMENT: &str =
+    "MODELLED: window-level ROC of each monitor on the recordings given. \
 Each stated event window is a positive and each roc_window_s window outside the events a \
 negative; a window counts at a threshold when the monitor's test statistic reaches it in the \
 window. P_fa is per negative window, not per test.";

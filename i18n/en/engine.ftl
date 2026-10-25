@@ -13,6 +13,16 @@
 #     is never translated.
 #   * Machine-readable output (JSON keys, CSV headers, file names) never comes from this file.
 
+## src/altpnt/sequential.rs
+
+engine-altpnt-sequential-title = Sequential terrain-referenced navigation (recursive SITAN)
+
+engine-altpnt-sequential-free-inertial-drift-grows = free-inertial drift (grows)
+
+engine-altpnt-sequential-terrain-matched-bounded = terrain-matched (bounded)
+
+engine-altpnt-sequential-waypoint-full-scale = waypoint →    full scale { $maxv } m
+
 ## src/clock_log.rs
 
 engine-e-clock-log-unknown-clock-log-format-expected = unknown clock-log format { $other }; expected one of { $format_names }
@@ -249,6 +259,256 @@ engine-advanced-report-input-file = Input file { $path }
 
 engine-advanced-report-study-generated = { " " }Study generated { $esc }.
 
+engine-advanced-report-eyebrow = Kshana run report
+
+engine-advanced-report-meta = Kind <code>{ $kind }</code> · engine { $engine } · scenario <code>{ $scenario }</code> (file digest { $digest }…)
+
+engine-advanced-report-toc-summary = 1 Summary
+
+engine-advanced-report-toc-inputs = 2 Inputs
+
+engine-advanced-report-toc-results = 3 Results
+
+engine-advanced-report-toc-aggregation = 3a Aggregation
+
+engine-advanced-report-toc-companions = 3b Animation and exports
+
+engine-advanced-report-toc-events = 4 Events
+
+engine-advanced-report-toc-labels = 5 Verification labels
+
+engine-advanced-report-toc-not-modelled = 6 Not modelled
+
+engine-advanced-report-toc-reproducibility = 7 Reproducibility
+
+engine-advanced-report-h-summary = 1. Executive summary
+
+engine-advanced-report-honesty-label = <strong>Honesty label</strong> ({ $source }): { $label }
+
+engine-advanced-report-capabilities-used = <strong>Capabilities used:</strong> { $n_validated } VALIDATED, { $n_modelled } MODELLED, { $n_partner } PARTNER (relied on, not provided); see section 5.
+
+engine-advanced-report-member-runs = <strong>Member runs:</strong> { $n }, aggregated in section 3a.
+
+engine-advanced-report-h-inputs = 2. Inputs
+
+engine-advanced-report-inputs-note = Every field the scenario file sets, flattened to its path. Units come from the result's <code>units</code> block (the field-units schema, docs/field-units-schema.json) where it describes the field, otherwise from the field-name suffix; a unit neither states is shown as not stated.
+
+engine-advanced-report-th-parameter = Parameter
+
+engine-advanced-report-th-value = Value
+
+engine-advanced-report-th-unit = Unit
+
+engine-advanced-report-th-unit-source = Unit source
+
+engine-advanced-report-h-results = 3. Results
+
+engine-advanced-report-chart-alt = Result chart
+
+engine-advanced-report-also-written-to = { " " }(also written to { $file })
+
+engine-advanced-report-h-scalars = Scalar results
+
+engine-advanced-report-h-columns = Numeric columns
+
+engine-advanced-report-th-result = Result
+
+engine-advanced-report-th-column = Column
+
+engine-advanced-report-th-count = Count
+
+engine-advanced-report-th-min = Min
+
+engine-advanced-report-th-max = Max
+
+engine-advanced-report-th-first = First
+
+engine-advanced-report-th-last = Last
+
+engine-advanced-report-omitted-inputs = <p class="note">{ $n } further inputs are left out of this page; report.json lists the same rows, and the result document carries every value.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-scalars = <p class="note">{ $n } further scalar results are left out of this page; report.json lists the same rows, and the result document carries every value.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-columns = <p class="note">{ $n } further numeric columns are left out of this page; report.json lists the same rows, and the result document carries every value.</p>{ "\u000A" }
+
+engine-advanced-report-omitted-events = <p class="note">{ $n } further events are left out of this page; report.json lists the same rows, and the result document carries every value.</p>{ "\u000A" }
+
+engine-advanced-report-h-aggregation = 3a. Aggregation of member runs
+
+engine-advanced-report-mode = <p>Mode <strong>{ $mode }</strong>.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind = <p>Mode <strong>{ $mode }</strong> over the <code>{ $kind }</code> kind.</p>{ "\u000A" }
+
+engine-advanced-report-mode-runs = <p>Mode <strong>{ $mode }</strong>, { $n_runs } member runs.</p>{ "\u000A" }
+
+engine-advanced-report-mode-kind-runs = <p>Mode <strong>{ $mode }</strong> over the <code>{ $kind }</code> kind, { $n_runs } member runs.</p>{ "\u000A" }
+
+engine-advanced-report-run-digest = Run digest (SHA-256 over the member result digests, in dispatch order): <code>{ $digest }</code>
+
+engine-advanced-report-table-empty = This table has no rows: the result lists none.
+
+engine-advanced-report-distribution-caption = Monte Carlo distribution of { $metric } ({ $n } samples), 20 equal-width bins; dashed lines mark the 5th, 50th and 95th percentiles.
+
+engine-advanced-report-distribution-caption-unit = Monte Carlo distribution of { $metric } ({ $n } samples, { $unit }), 20 equal-width bins; dashed lines mark the 5th, 50th and 95th percentiles.
+
+engine-advanced-report-h-companions = 3b. Animation and exports
+
+engine-advanced-report-animation-alt = Animation of the run's time series
+
+engine-advanced-report-animation-caption = The run's own samples drawing in behind a moving time cursor (the animated drawing of <code>--animate svg</code>; it shows the finished picture under reduced motion and in print).
+
+engine-advanced-report-no-animation = No animation: { $reason }
+
+engine-advanced-report-no-animation-default = the result carries no time series
+
+engine-advanced-report-player-written-by = The interactive player is written by <code>{ $command }</code>.
+
+engine-advanced-report-written-beside = Written beside this report: { $links }.
+
+engine-advanced-report-th-export = Export
+
+engine-advanced-report-th-applies = Applies
+
+engine-advanced-report-th-files-or-reason = Files or reason
+
+engine-advanced-report-written-by = written by <code>{ $command }</code>
+
+engine-advanced-report-does-not-apply = does not apply
+
+engine-advanced-report-yes = yes
+
+engine-advanced-report-no = no
+
+engine-advanced-report-h-events = 4. Events timeline
+
+engine-advanced-report-events-caption = Windows as bars, point events as dots, on the run's own time axis.
+
+engine-advanced-report-th-start = Start (s)
+
+engine-advanced-report-th-end = End (s)
+
+engine-advanced-report-th-event = Event
+
+engine-advanced-report-th-source = Source
+
+engine-advanced-report-point-event = point event
+
+engine-advanced-report-events-timeline = Events timeline
+
+engine-advanced-report-point-events = point events ({ $n })
+
+engine-advanced-report-distribution-of = Distribution of { $metric }
+
+engine-advanced-report-max-bin = max bin { $n }
+
+engine-advanced-report-h-labels = 5. Verification labels
+
+engine-advanced-report-th-capability = Capability (matrix requirement)
+
+engine-advanced-report-th-label = Label
+
+engine-advanced-report-th-used-by = Used by
+
+engine-advanced-report-th-oracle = Source: oracle
+
+engine-advanced-report-th-test-evidence = Test evidence
+
+engine-advanced-report-h-figure-tiers = Per-figure tiers stated by the result
+
+engine-advanced-report-th-figure = Figure
+
+engine-advanced-report-th-tier = Tier
+
+engine-advanced-report-th-matrix-requirement = Matrix requirement
+
+engine-advanced-report-th-applicable = Applicable
+
+engine-advanced-report-no-attack = no (no attack configured)
+
+engine-advanced-report-h-not-modelled = 6. Not modelled, and assumptions
+
+engine-advanced-report-not-modelled-note = Each item is quoted from where it is stated: the result document, the kind catalogue, the scenario file, or the verification matrix's reason a MODELLED row stays modelled.
+
+engine-advanced-report-th-statement = Statement
+
+engine-advanced-report-h-reproducibility = 7. Reproducibility record
+
+engine-advanced-report-rk-command = Command to reproduce
+
+engine-advanced-report-rk-working-directory = Working directory
+
+engine-advanced-report-rk-engine-version = Engine version
+
+engine-advanced-report-rk-source-commit = Source commit
+
+engine-advanced-report-rk-scenario-file = Scenario file
+
+engine-advanced-report-rk-scenario-sha = Scenario file SHA-256 (Secure Hash Algorithm 256-bit)
+
+engine-advanced-report-rk-result-hash = Result scenario_hash
+
+engine-advanced-report-rk-result-sha = Result document SHA-256
+
+engine-advanced-report-rk-seed = Seed
+
+engine-advanced-report-rk-platform = Platform
+
+engine-advanced-report-rk-generated = Study generated (UTC)
+
+engine-advanced-report-rk-determinism = Determinism
+
+engine-advanced-report-result-hash-none = the result document states none
+
+engine-advanced-report-print-note = To print this page to a Portable Document Format (PDF) file, use the browser's print dialog and choose “Save as PDF”; the print stylesheet fits A4 and US Letter paper, repeats table headers across pages and starts the inputs, results, labels and reproducibility sections on a new page. The engine writes no PDF itself. report.json carries the same content as this page.
+
+engine-advanced-report-footer = Generated by Kshana { $engine }.{ $stamp } Reproducible from scenario + seed + engine version. Free and open source (GNU Affero General Public License, AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">source &amp; docs</a>.
+
+engine-advanced-report-empty-inputs = The scenario sets no field beyond `kind`: the kind ran its reference configuration from its documented defaults.
+
+engine-advanced-report-empty-scalars = The result document carries no scalar outside its arrays; its numbers are summarised by column below.
+
+engine-advanced-report-empty-series = The result document carries no numeric array: every result is a scalar in the table above.
+
+engine-advanced-report-empty-events = No timed event: the scenario scripts no window or onset time and the result reports no event. The kind evaluates its configuration as one case.
+
+engine-advanced-report-empty-not-modelled = Nothing in the result, the kind catalogue, the scenario or the matrix rows used states a modelling limitation for this run.
+
+engine-advanced-report-capabilities-statement = Each row is a verification-matrix row this run's kinds exercise, with the label and the oracle the matrix gives it (src/verification.rs, docs/VERIFICATION-MATRIX.md). A label grades the capability as the matrix records it; it does not grade this scenario's configuration, and a VALIDATED row does not make the run's inputs measured. A PARTNER row is a discipline the run relies on that Kshana does not provide.
+
+engine-advanced-report-no-run-label = The result carries no run-level honesty label; the verification labels of the capabilities it used are listed in their own section, and the per-figure tiers where the result states them.
+
+engine-advanced-report-no-seed = Neither the scenario nor the result carries a seed. The result is fixed by the scenario file and the engine build alone; the determinism test re-runs every bundled scenario and requires byte-identical output.
+
+engine-advanced-report-working-directory = Run the command from the directory the original run was started in: the scenario path, and any relative data path inside the scenario, resolve against it. Check the scenario file against scenario_sha256 first.
+
+engine-advanced-report-determinism-stamped = Same scenario bytes, seed and engine build give the same result document, except its meta.generated_utc stamp, which --study-name writes from the clock; run without --study-name for byte-identical output. Floating-point results are pinned per platform; another operating system or architecture may differ in the last digits.
+
+engine-advanced-report-determinism-plain = Same scenario bytes, seed and engine build give a byte-identical result document and report; this report carries no timestamp. Floating-point results are pinned per platform; another operating system or architecture may differ in the last digits.
+
+engine-advanced-report-not-applicable-no-attack = not applicable (no attack configured)
+
+engine-advanced-report-what-ran-default = A `{ $kind }` scenario.
+
+engine-advanced-report-nothing-carried = nothing carried
+
+engine-advanced-report-tbl-sweep-nodes = Sweep nodes
+
+engine-advanced-report-tbl-mc-summary = Monte Carlo distribution summary (percentiles are nearest-rank; the 95% confidence interval on the mean is a fixed-seed percentile bootstrap)
+
+engine-advanced-report-tbl-chain-phases = Chain phases
+
+engine-advanced-report-tbl-shared = Shared conditions
+
+engine-advanced-report-tbl-members = Members
+
+engine-advanced-report-tbl-combined = Combined across members
+
+engine-advanced-report-tbl-optimiser-best = Optimiser best (a local optimum over the stated bounds)
+
+engine-advanced-report-tbl-optimiser-trace = Optimiser trace
+
+engine-advanced-report-tbl-sweep-grid = Sweep grid
+
 ## src/altpnt/maps.rs
 
 engine-e-altpnt-maps-emag2-line-expected-comma-separated = EMAG2 line { $v1 }: expected 8 comma-separated columns, found { $p }
@@ -292,6 +552,26 @@ engine-e-altpnt-terrain-hgt-window-length = { "." }hgt window length { $bytes } 
 engine-e-altpnt-terrain-combined-altpnt-unknown-magnetic-grid = combined-altpnt: unknown magnetic_grid column `{ $other }` (use "sealevel" or "upcont")
 
 engine-e-altpnt-terrain-combined-altpnt-cannot-read-magnetic = combined-altpnt: cannot read magnetic_grid csv_path { $csv_path }: { $e }
+
+engine-altpnt-terrain-title-terrain-referenced = Terrain-referenced navigation (TERCOM/SITAN)
+
+engine-altpnt-terrain-title-gravity-map = Gravity-map matched navigation
+
+engine-altpnt-terrain-title-combined = Combined gravity + magnetic + terrain alt-PNT
+
+engine-altpnt-terrain-free-inertial-drift = free-inertial drift
+
+engine-altpnt-terrain-terrain-matched = terrain-matched
+
+engine-altpnt-terrain-gravity-matched = gravity-matched
+
+engine-altpnt-terrain-gravity-only = gravity only
+
+engine-altpnt-terrain-magnetic-only = magnetic only
+
+engine-altpnt-terrain-terrain-only = terrain only
+
+engine-altpnt-terrain-combined-fused = combined (fused)
 
 ## src/animation.rs
 
@@ -442,6 +722,8 @@ engine-api-scenario-jamming-availability-under-jamming = scenario { $r } | jammi
 engine-e-api-the-result-document-already-carries = the result document already carries `{ $FIGURE_TIERS_KEY }`
 
 engine-e-api-failed-to-serialise-figure-tiers = failed to serialise figure_tiers: { $e }
+
+engine-api-chart-provenance-footer = Kshana v{ $version } · scenario { $hash } · kshana.dev
 
 ## src/api/builtins.rs
 
@@ -600,6 +882,8 @@ engine-attack-surface-mast-reach-km-osnma-bit = Mast reach: { $a } km | OSNMA { 
 engine-attack-surface-limb-captured-on-grid-crossing = Limb: captured on { $na }x{ $nb } grid, { $crossings } crossing(s)
 
 engine-attack-surface-limb-not-captured-on-grid = Limb: not captured on { $na }x{ $nb } grid; needs { $best_limb_capture_tx_power_dbw } dBW (flown { $p_tx_dbw })
+
+engine-attack-surface-chart-title = Lunar signal-security attack surface (P1)
 
 ## src/attitude_budget.rs
 
@@ -793,6 +1077,14 @@ engine-body-pnt-positioning-around-user-relays-at =
 engine-body-pnt-positioning-around = Positioning around { $name }
 
 engine-body-pnt-user-relays-earth-light-time = { $user_kind } user · { $n_relays } relays · Earth light time { $one_way_light_time_s } s · MODELLED
+
+engine-body-pnt-chart-relays-in-view = relays in view
+
+engine-body-pnt-chart-count = count
+
+engine-body-pnt-chart-formal-one-sigma-position = formal one-sigma position (log10 m): blue constellation only, amber with the Earth range
+
+engine-body-pnt-chart-time-since-epoch = time since epoch, 0 to { $t_max } s
 
 ## src/calibration_ensembles.rs
 
@@ -1022,6 +1314,30 @@ engine-campaign-sweep-of-over-nodes-each = sweep of `{ $scenario_kind }` over { 
 
 engine-campaign-campaign-modelled-composition-every-value = campaign { $r } | MODELLED composition; every value read from a real run of the named kind
 
+engine-campaign-chart-clock-time-error-vs-guard = clock time error vs guard (ns)
+
+engine-campaign-chart-cn0-vs-tracking-floor = C/N0 vs tracking floor (dB-Hz)
+
+engine-campaign-chart-protection-level-vs-alert-limit = protection level vs alert limit (m)
+
+engine-campaign-chart-position-error-vs-threshold = position error vs threshold (m)
+
+engine-campaign-chart-satellites-tracking = satellites tracking
+
+engine-campaign-chart-alarm-flags-and-events = alarm flags and events
+
+engine-campaign-chart-mission-time = { $duration } s mission time
+
+engine-campaign-chart-sweep-percentile-band = , median with 5th-95th percentile band over { $n_runs } seeds
+
+engine-campaign-chart-sweep-line-at = { $name } ({ $unit }) at { $lead }
+
+engine-campaign-chart-monte-carlo-of = Monte Carlo of `{ $scenario_kind }`: { $n_runs } seeds from { $base_seed } (5th, 50th, 95th percentile; bar = bootstrap 95% confidence interval on the mean)
+
+engine-campaign-chart-composed-members = composed members under shared conditions: { $shared }
+
+engine-campaign-chart-not-available = n/a
+
 ## src/campaign/optimize.rs
 
 engine-e-campaign-optimize-an-optimisation-takes-one-to = an optimisation takes one to three params, got { $params }
@@ -1168,6 +1484,18 @@ engine-cislunar-arc-recovery-the-gramian-rank-criterion-is = the Gramian rank cr
 
 engine-cislunar-arc-recovery-cislunar-arc-recovery-family-state = cislunar-arc-recovery | { $family } family, { $state_dim }-state, { $n_spacecraft } s/c, { $observable } observable, { $coordinates } parameterisation | { $arc_hours } h arc, { $epochs } epochs (grid { $grid_hours } h), { $trials } trials, seed { $seed } | finite-difference partials, no analytic Jacobian / STM / SVD / SRIF | noise-free recovery from { $nf } (factor { $recovery_factor }) vs Gramian rank threshold { $gram } | Monte-Carlo estimability from { $est } (RMS pos ≤ { $error_bound_km } km, σ { $sigma_range_m } m) vs Gramian estimability { $gram_est } | end-of-arc RMS pos { $last } km
 
+engine-cislunar-arc-recovery-chart-title = Cislunar arc-length recovery — an estimator that does not share the Jacobians
+
+engine-cislunar-arc-recovery-chart-subtitle = finite-difference batch least squares · measured state recovery error · no analytic Jacobian, no variational STM, no SVD rank tolerance
+
+engine-cislunar-arc-recovery-chart-bound = bound { $bound }
+
+engine-cislunar-arc-recovery-chart-gramian-rank-threshold = Gramian rank threshold
+
+engine-cislunar-arc-recovery-chart-monte-carlo-rms = Monte-Carlo RMS position recovery error (km)
+
+engine-cislunar-arc-recovery-chart-noise-free-worst-ratio = noise-free worst recovery ratio (final error / displacement)
+
 ## src/cislunar_observability.rs
 
 engine-e-cislunar-observability-unknown-family-expected-one-of = unknown family `{ $other }`: expected one of dro, halo, nrho
@@ -1197,6 +1525,18 @@ engine-cislunar-observability-first-arc-length-at-which = first arc length at wh
 engine-cislunar-observability-extension-r3-this-run-is = EXTENSION (R3) — this run is NOT the planar DRO configuration the `label` above describes. State dimension { $state_dim }; orbit family { $family }; { $n_spacecraft } spacecraft; range measurement sigma { $sigma_range_m } m. Where `label` says "planar" and "planar DROs", read the family named here. VALIDATED additions: the 6x6 variational STM is the same finite-difference-validated CR3BP STM (crate::cr3bp) used at full width; the spatial range / range-rate Jacobian rows are finite-difference-validated analytic partials, the range-rate row cross-checked component-for-component against the crate's independent 3-D deepspace_od::range_rate_observable; the halo / NRHO initial conditions are differential-corrected periodic orbits from the same corrector that reproduces the published L2 southern 9:2 NRHO, continued from that published seed, and each member's closure residual is reported; the six-state RANK verdicts are confirmed against an INDEPENDENT row-echelon rank (Gaussian elimination with partial pivoting) that shares no code with the eigen/SVD route. HONEST SCOPE OF THE SRIF LEG: the SRIF cross-validation above consumes the SAME measurement Jacobians and reduces to the same O^T O, so its agreement is a consistency check between two numerical machines, NOT independent corroboration of the threshold — it is not counted as validation of any figure here. MODELLED: the family design (which abscissae, amplitudes and phases), the epoch grid, the single-link arc, and the stated position bound of the estimability criterion.
 
 engine-cislunar-observability-validated-each-constellation-initial-condition = Validated: each constellation initial condition is a differential-corrected periodic orbit of the { $family } family, closing over one period to the reported periodicity residual (planar DROs are additionally retrograde about the Moon). The family is corrected at the Earth-Moon mass ratio. Modelled: the choice of family parameters and phases (the constellation design). The key name `dro_provenance` is retained for the released document schema; it carries whichever family this run asked for.
+
+engine-cislunar-observability-chart-title = Cislunar observability over a tracking arc (P6)
+
+engine-cislunar-observability-chart-subtitle = rank-vs-arc (range-only single link) · Gramian eigen-spectrum · differential-corrected DRO ICs + SRIF cross-check · { $modelled } design, { $validated } rank/STM/closure
+
+engine-cislunar-observability-chart-observable-rank = observable rank vs arc length
+
+engine-cislunar-observability-chart-arc-length = arc length (rotating-frame time units, { $arc_hours } h total)
+
+engine-cislunar-observability-chart-gramian-eigenvalues = Gramian eigenvalues (log10)
+
+engine-cislunar-observability-chart-condition = condition κ = { $condition }
 
 ## src/clock_integrity.rs
 
@@ -1281,6 +1621,22 @@ engine-e-conflict-resilience-trials-must-be = trials must be >= 1
 
 engine-conflict-resilience-conflict-resilience-layers-baseline-reference = conflict-resilience | { $layers } layers ({ $primary } baseline) | reference intensity { $reference_intensity } | resilience ratio closed-form { $ratio_closed_form }x MC { $ratio_mc_independent }x (layered vs single-layer) | correlation defeats layering: ratio { $first }x @ rho { $first2 } -> { $last }x @ rho { $last2 } | prior CI [{ $ratio_lo }-{ $ratio_hi }]x | per-vector survival @ ref jam { $surv }% spoof { $surv2 }% kinetic { $surv3 }% cyber { $surv4 }% (sharpest { $sharpest }) | ~7x headline MODELLED, VALIDATED MC->closed-form / fuse-identity / copula-marginals / per-vector-survival
 
+engine-conflict-resilience-chart-title = Layered-PNT conflict resilience (P7)
+
+engine-conflict-resilience-chart-subtitle = total-loss vs threat intensity (MC vs closed form) · resilience ratio vs denial correlation · { $modelled } priors, { $validated } MC->closed-form / copula marginals
+
+engine-conflict-resilience-chart-total-loss-probability = total-loss probability vs intensity
+
+engine-conflict-resilience-chart-threat-intensity = threat intensity
+
+engine-conflict-resilience-chart-layered-mc = layered MC
+
+engine-conflict-resilience-chart-single-layer = single layer
+
+engine-conflict-resilience-chart-resilience-ratio = resilience ratio vs denial correlation
+
+engine-conflict-resilience-chart-denial-correlation = denial correlation ρ
+
 ## src/constellation.rs
 
 engine-e-constellation-unknown-central-body-expected-planet = unknown central body { $name }: expected a planet, Pluto, the Moon or a major moon (earth, moon, mars, europa, titan, ...; see crate::body::SOLAR_SYSTEM)
@@ -1346,6 +1702,10 @@ engine-e-constellation-satellites-exceeds-the-50-000 = { $total } satellites exc
 engine-constellation-constellation-design-satellites-around-the = constellation-design: { $total } satellites ({ $names }) around the { $name }; availability { $global_availability_pct }% (PDOP <= { $pdop_threshold } at { $mask_deg } deg mask), worst site { $worst_site_availability_pct }%, median PDOP { $cov }, mean { $global_mean_visible } in view; { $grid_points } grid points x { $epochs } epochs (MODELLED)
 
 engine-constellation-constellation-coverage-over-the = Constellation coverage over the { $name }
+
+engine-constellation-chart-availability-pct = availability (%)
+
+engine-constellation-chart-mean-pdop = mean PDOP
 
 ## src/contact_schedule.rs
 
@@ -1436,6 +1796,32 @@ engine-earth-gnss-lunar-gdop-pdop-hdop-vdop-tdop = { "  " }GDOP { $gdop }  PDOP 
 engine-earth-gnss-lunar-sweep-over-epochs-signal-availability = { "  " }SWEEP over { $epochs } epochs / { $span_s } s: signal availability { $signal_availability }, FIX availability { $fix_availability }{ "\u000A" }
 
 engine-earth-gnss-lunar-trackable-links-mean-max-best = { "    " }trackable links mean { $mean_trackable }, max { $max_trackable }; best C/N0 { $w }; best PDOP { $w2 }{ "\u000A" }
+
+engine-earth-gnss-lunar-chart-title = Earth-GNSS at lunar distance — C/N0 against off-boresight angle
+
+engine-earth-gnss-lunar-chart-track-threshold = track { $threshold } dB-Hz
+
+engine-earth-gnss-lunar-chart-earth-limb = Earth limb { $angle }°
+
+engine-earth-gnss-lunar-chart-off-boresight-angle = off-boresight angle (deg)
+
+engine-earth-gnss-lunar-chart-cn0 = C/N0 (dB-Hz)
+
+engine-earth-gnss-lunar-chart-legend = gold = trackable · red = too weak · grey = Earth-occulted · { $modelled } transmit pattern
+
+## src/ensemble.rs
+
+engine-ensemble-chart-title = Clock holdover: timing-error confidence band ({ $n_runs } runs)
+
+engine-ensemble-chart-timing-error-ns = timing error (ns)
+
+engine-ensemble-chart-spec-threshold = spec { $threshold } ns
+
+engine-ensemble-chart-time-s = time (s)
+
+engine-ensemble-chart-classical-median-band = classical: { $id } (median, 5-95% band)
+
+engine-ensemble-chart-quantum-median-band = quantum: { $id } (median, 5-95% band)
 
 ## src/entry_eo_ascent/ascent.rs
 
@@ -1919,6 +2305,33 @@ engine-e-field-schema-unit-is-the-empty-string = `unit` is the empty string
 
 engine-e-field-schema-provenance-is-outside-the-vocabulary = `provenance` { $prov_str } is outside the vocabulary
 
+## src/fom_label.rs
+
+# The validation-tier words. The glossary: one message per word, shown next to a figure of merit in the study report and the run summary.
+engine-fom-verdict-validated = VALIDATED
+
+engine-fom-verdict-modelled = MODELLED
+
+engine-fom-verdict-partial = PARTIAL
+
+## src/frame_eop.rs
+
+engine-frame-eop-chart-title = Real-time frame / EOP prediction budget for lunar timing
+
+engine-frame-eop-chart-ut1-error-ms = UT1 error (ms)
+
+engine-frame-eop-chart-position-at-moon-m = position at Moon (m)
+
+engine-frame-eop-chart-equiv-timing-ns = equiv. timing (ns)
+
+engine-frame-eop-chart-prediction-horizon-days = prediction horizon (days)
+
+engine-frame-eop-chart-iers-final-floor = IERS final floor { $floor_ms } ms
+
+engine-frame-eop-chart-marker-at-moon = ~{ $ut1_ms } ms = ~{ $pos_m } m at Moon
+
+engine-frame-eop-chart-growth = ~{ $factor }x, 1 d→{ $far_days } d
+
 ## src/frugal.rs
 
 engine-e-frugal-cost-bracket-must-be-finite = cost bracket must be finite, non-negative, ordered low≤nominal≤high, and carry a source
@@ -1938,6 +2351,22 @@ engine-e-fusion-carrier-tc-constellation-has-no-satellites = constellation has n
 engine-e-fusion-carrier-tc-max-sats-must-be-when = max_sats must be >= 1 when set
 
 engine-e-fusion-carrier-tc-slip-satellite-out-of-range = slip satellite { $sat } out of range
+
+## src/fusion/hybrid_ukf.rs
+
+engine-fusion-hybrid-ukf-chart-title = 17-state hybrid UKF — filter self-consistency (modelled)
+
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + innovation-whiteness vs 95% χ² bands; 1.0 = consistent. Self-consistency, not accuracy.
+
+engine-fusion-hybrid-ukf-chart-target = target 1.0
+
+engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (whiteness)
+
+engine-fusion-hybrid-ukf-chart-nees = NEES
+
+engine-fusion-hybrid-ukf-chart-consistent = CONSISTENT
+
+engine-fusion-hybrid-ukf-chart-inconsistent = INCONSISTENT
 
 ## src/fusion/kfgins.rs
 
@@ -1974,6 +2403,12 @@ engine-e-fusion-pack-filter-prior-must-be-finite = { $slot }.filter_prior.{ $nam
 engine-e-fusion-pack-tight-sigma-range-must-be = tight.sigma_range_m must be finite and > 0, got { $sigma_range_m }
 
 engine-e-fusion-pack-tight-mask-deg-must-be = tight.mask_deg must be in [-90, 90), got { $mask_deg }
+
+engine-fusion-pack-chart-title = Loosely-coupled GNSS/INS horizontal error
+
+engine-fusion-pack-chart-horizontal-error-m = horizontal error (m)
+
+engine-fusion-pack-chart-spec-threshold = spec { $threshold } m
 
 ## src/fusion/trajectory.rs
 
@@ -2063,6 +2498,32 @@ engine-e-geometry-invalid-skyline-json = invalid skyline (JSON): { $e }
 
 engine-e-geometry-invalid-skyline-toml = invalid skyline (TOML): { $e }
 
+engine-geometry-chart-title = Skyplot ({ $label })
+
+engine-geometry-chart-north = N
+
+engine-geometry-chart-east = E
+
+engine-geometry-chart-south = S
+
+engine-geometry-chart-west = W
+
+engine-geometry-chart-satellite-tooltip = { $system } { $id } az { $az } el { $el }
+
+engine-geometry-chart-satellite-tooltip-hidden = { $system } { $id } az { $az } el { $el } (hidden by the skyline)
+
+engine-geometry-chart-satellite-tooltip-below-mask = { $system } { $id } az { $az } el { $el } (below the mask)
+
+engine-geometry-chart-no-fix = no fix
+
+engine-geometry-chart-in-view-hidden = { $n_visible } in view, { $n_masked } hidden by the skyline · { $dop } · hollow: not in view
+
+engine-geometry-chart-satellites-as-given = satellites as given
+
+engine-geometry-chart-representative-sky = representative sky, not a dated one
+
+engine-geometry-chart-footer = Kshana v{ $version } · geometry under a stated error model · kshana.dev
+
 ## src/glonass.rs
 
 engine-e-glonass-bad-glonass-prn-in = bad GLONASS PRN in { $head }
@@ -2144,6 +2605,18 @@ engine-e-gnss-navmsg-at-lsb-does-not-fit = { $name }: { $value } at LSB { $value
 engine-e-gnss-navmsg-bits-layout-needs = { $bits } bits, layout needs { $need }
 
 engine-e-gnss-navmsg-no-field = no field { $name }
+
+## src/gnss_sim.rs
+
+engine-gnss-sim-chart-title = RAIM protection levels vs alert limits
+
+engine-gnss-sim-chart-protection-level-m = protection level (m)
+
+engine-gnss-sim-chart-val = VAL { $alert_v } m
+
+engine-gnss-sim-chart-hpl = HPL
+
+engine-gnss-sim-chart-vpl = VPL
 
 ## src/gps_lnav.rs
 
@@ -7410,3 +7883,40 @@ engine-wasm-plans-json-is-not-json = plans_json is not a JSON array of strings: 
 engine-wasm-options-json-is-not-json = options_json is not JSON: { $e }
 
 engine-wasm-input-is-about-bytes-over = input is about { $b64 } bytes, over the { $v2 }-byte limit
+
+## legal (advisories, disclaimers and notices; the English text is the source, the constant in code is what machine files carry)
+
+engine-legal-compliance-statement = A row marked evidenced means a run in this set supports evidence for the capabilities the row names. It is not a finding that a framework is met, and it does not mean any product has been rated or approved by anyone. The gap column states what the runs do not show.
+
+engine-legal-bench-surface-notice = Vehicle motion and labelled event intervals only. Nothing exported here is, models or drives a radio-frequency or baseband signal, and an event is a time interval, not a recipe for producing interference. The laboratory simulator and its operator supply the signals and are responsible for running them only where that is authorised (conducted or shielded, per the simulator's own safety instructions). Kshana publishes no results from such runs.
+
+engine-legal-iq-campaign-roc-statement = MODELLED: window-level ROC of each monitor on the recordings given. Each stated event window is a positive and each roc_window_s window outside the events a negative; a window counts at a threshold when the monitor's test statistic reaches it in the window. P_fa is per negative window, not per test.
+
+engine-legal-lunanet-afs-advisory = Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. It checks a symbol stream against one edition of a published specification and says nothing about any LunaNet node or service.
+
+engine-legal-iqfit-statement = MODELLED: every fitted number describes the open receiver (the named loop design and front-end chain) on the recordings it was given, fitted to the campaign's scored results. It is not a measurement of any other receiver. Predictions are labelled PREDICTION, with the nearest tested recording and the distance outside the tested conditions.
+
+engine-legal-iqfit-advisory = Advisory: analysis output, not type-approved navigation equipment; predictions are model outputs with stated error, not guarantees.
+
+engine-legal-lunar-time-lab-source-statement = Source statement, not a claim: the ICG WG-B Lunar PNT material of June 2024 (unoosa.org, LunarPNT_Jun24_01_04.pdf, source S3 of the study) describes a lunar time reference laboratory at the station with a nanosecond-level time target. Kshana quotes that target for context only; it does not adopt it, and nothing in this block shows that any real station clock meets it.
+
+engine-legal-standards-pack-notice = A standards pack measures modelled scenarios against bars stated before the run. It supports evidence for the framework rows it names; it does not rate or approve any product, and a MET bar says only that the scenario's modelled output met the stated bar.
+
+engine-legal-standards-pack-advisory = Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service; it must not be the sole basis for any navigation or safety decision.
+
+engine-legal-geometry-statement = Geometry under a stated error model (MODELLED): line-of-sight visibility against the stated skyline, dilution of precision and a Gaussian error ellipse for independent, equal, zero-mean Gaussian range errors of the stated user-equivalent range error. It is not a prediction of a receiver's real error, which also has biases, multipath and non-line-of-sight errors, and it is not an integrity bound. Preset constellations are a representative geometry, not the sky of that date at that place.
+
+engine-legal-resilience-disclaimer = Simulation-derived self-assessment aligned to DHS RPCF v2.0. This is not a certification or accreditation, and it represents no authority approval (DHS, IEEE, or otherwise). Every sub-score is MODELLED unless explicitly tagged VALIDATED, and the scores are timing-domain and detection figures of merit, not position-domain accuracy.
+
+engine-legal-observatory-notice = A degraded cell means a high share of aircraft reported low navigation accuracy there that day. No cause is attributed. A cell that is not observed, or absent, was not assessed, which is not the same as clear. Advisory only: not an approval, certification or statement of conformance.
+
+engine-legal-receiver-trust-advisory = Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
+
+engine-legal-evidence-roundtrip-notice = Links four records by hash: the scenario, the laboratory's stated test conditions, the receiver log and the score of that log against the stated events. It is not a signal, not a replay recipe and not a certification. How the scenario's motion reached the receiver (a file played through a laboratory simulator, conducted or shielded) was the operator's responsibility and is recorded here only as stated.
+
+engine-legal-evidence-bundle-disclaimer = This pack is a technical record of what the Kshana engine computed from the stated receiver log with the stated configuration. It is not a legal opinion, not a finding of fact about any event or its cause, and not a certification.
+
+engine-legal-bench-notice = Advisory: modelled or measured against stated references, not an approval, certification or statement of conformance. A score describes a log or corpus, never a product.
+
+engine-legal-osnma-advisory = Advisory: this is analysis and monitoring output and not type-approved navigation equipment. The authentication status reported here is not a navigation integrity service and must not be the sole basis for any navigation or safety decision.
+

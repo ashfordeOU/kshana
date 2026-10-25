@@ -72,11 +72,14 @@ fn with_provenance(svg: String, hash12: &str) -> String {
     let w = parse_svg_dim(&svg, "width").unwrap_or(800.0);
     let h = parse_svg_dim(&svg, "height").unwrap_or(420.0);
     let footer = format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" fill=\"{MUTED}\" font-size=\"10\" font-family=\"{FONT_SANS}\">Kshana v{} \u{00b7} scenario {} \u{00b7} kshana.dev</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" fill=\"{MUTED}\" font-size=\"10\" font-family=\"{FONT_SANS}\">{}</text>",
         w - 8.0,
         h - 6.0,
-        env!("CARGO_PKG_VERSION"),
-        hash12,
+        crate::t!(
+            "api-chart-provenance-footer",
+            version = env!("CARGO_PKG_VERSION"),
+            hash = hash12
+        ),
     );
     match svg.rfind("</svg>") {
         Some(i) => {
@@ -243,7 +246,7 @@ fn fom_tier_table(json: &str) -> String {
                 "<tr>{clock_cell}<td>{}</td><td class=\"num\">{}</td><td><span class=\"tier\">{}</span></td></tr>",
                 html_escape(&metric),
                 shown,
-                tier.tag(),
+                tier.label(),
             ));
         }
     }
@@ -1807,6 +1810,22 @@ pub fn run_scenario_lang(src: &str, lang: &str) -> Result<RunOutput, KshanaError
     let wanted = crate::i18n::resolve(lang).map_err(KshanaError::InvalidInput)?;
     crate::i18n::with_lang(wanted, || ScenarioKind::classify(src))?;
     run_toml_lang(src, lang).map_err(KshanaError::InvalidInput)
+}
+
+/// Run `src` in language `lang` and, if it fails, describe the failure as a JSON object
+/// `{"kind": <kind_tag>, "code": <stable code or null>, "message": <text in the language>}`.
+/// Returns an empty string when the run succeeds. The code is the same in every language; callers
+/// match on `kind` and `code`, never on the message.
+pub fn error_info_json(src: &str, lang: &str) -> String {
+    match run_scenario_lang(src, lang) {
+        Ok(_) => String::new(),
+        Err(e) => serde_json::json!({
+            "kind": e.kind_tag(),
+            "code": e.code(),
+            "message": e.to_string(),
+        })
+        .to_string(),
+    }
 }
 
 fn run_toml_in_current_language(src: &str) -> Result<RunOutput, String> {

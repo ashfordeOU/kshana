@@ -158,6 +158,7 @@ __all__ = [
     "validate_toml",
     "list_kinds",
     "error_kind",
+    "error_info",
     "version",
     "receiver_trust",
     "receiver_trust_replay",
@@ -265,17 +266,20 @@ class RunOutput:
         scenario kind emits no table — in which case no file is created."""
     def __repr__(self) -> str: ...
 
-def run(toml: str) -> str:
+def run(toml: str, lang: Optional[str] = None) -> str:
     """Run a scenario (TOML string); return the result document as JSON. Raises
-    ``ValueError`` if the scenario is invalid."""
+    ``ValueError`` if the scenario is invalid. ``lang`` (``de``, ``pt-BR``, ``zh-Hans``, ...) is the
+    language of the error message; the result document is the same in every language."""
 
-def run_full(toml: str) -> tuple[str, str, str]:
-    """Run a scenario; return ``(json, svg, summary)``."""
+def run_full(toml: str, lang: Optional[str] = None) -> tuple[str, str, str]:
+    """Run a scenario; return ``(json, svg, summary)``. The summary and the chart text are in
+    ``lang`` (default English); the JSON is always the English run's."""
 
-def run_typed(toml: str) -> RunOutput:
+def run_typed(toml: str, lang: Optional[str] = None) -> RunOutput:
     """Run a scenario; return a typed :class:`RunOutput` with ``.json``/``.svg``/
     ``.summary``/``.csv``/``.data()``/``.write_csv()``. Raises ``ValueError`` if
-    invalid."""
+    invalid. ``.summary`` and ``.svg`` are in ``lang`` (default English); ``.json`` and ``.csv``
+    are always the English run's."""
 
 def receiver_trust(toml: str) -> RunOutput:
     """Assess a real receiver log described by a ``receiver-trust`` scenario (TOML text).
@@ -660,7 +664,7 @@ def scenario_kinds() -> list[KindMeta]:
     least one of them and ``a+b`` means all of them together (e.g.
     ``tle|orbit+epoch``). Every kind except ``clock`` must also set ``kind``."""
 
-def validate_toml(toml: str) -> list[str]:
+def validate_toml(toml: str, lang: Optional[str] = None) -> list[str]:
     """Validate a scenario TOML string without raising: a list of error messages,
     empty if valid. Executes the scenario, so it surfaces parse, config, and
     runtime errors."""
@@ -673,10 +677,15 @@ def list_kinds() -> str:
     do not break. For a Python list of dictionaries call :func:`scenario_kinds`,
     or ``json.loads(list_kinds())``."""
 
-def error_kind(toml: str) -> Optional[ErrorKind]:
+def error_kind(toml: str, lang: Optional[str] = None) -> Optional[ErrorKind]:
     """Run a scenario; on failure return the structured error *kind* tag
     (``invalid_input``/``non_convergence``/``unsupported``/``io_error``) instead of
     raising. Returns ``None`` on success."""
+
+def error_info(toml: str, lang: Optional[str] = None) -> Optional[dict[str, Any]]:
+    """Why a scenario fails: ``None`` when it runs, else ``{"kind", "code", "message"}``. The message
+    is in ``lang``; ``code`` (``E-...``, or ``None`` when the message has none) is the same in every
+    language, so match on it, never on the message."""
 
 def version() -> str:
     """The engine version (the crate version)."""

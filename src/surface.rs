@@ -913,7 +913,7 @@ pub fn bench_leaderboard(results: &[String], max_bytes: usize) -> Result<String,
 /// (`sources = true`), as Markdown, led by [`crate::compliance::STATEMENT`].
 pub fn compliance_mapping(sources: bool) -> String {
     use crate::compliance::mapping::{framework_table_md, sources_md, Framework};
-    let mut s = format!("> {}\n\n", crate::compliance::STATEMENT);
+    let mut s = format!("> {}\n\n", crate::legal::text("legal-compliance-statement"));
     for fw in Framework::ALL {
         let body = if sources {
             sources_md(fw)

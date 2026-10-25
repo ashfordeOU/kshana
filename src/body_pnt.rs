@@ -834,9 +834,16 @@ pub fn to_svg(r: &BodyPntReport) -> String {
         top1,
         pw,
         top1 + ph1,
-        "relays in view",
+        &crate::t!("body-pnt-chart-relays-in-view"),
     ));
-    s.push_str(&crate::chart::y_axis(ml, top1, pw, ph1, n_max, "count"));
+    s.push_str(&crate::chart::y_axis(
+        ml,
+        top1,
+        pw,
+        ph1,
+        n_max,
+        &crate::t!("body-pnt-chart-count"),
+    ));
     let bw = (pw / r.epochs.len().max(1) as f64).max(1.0);
     for e in &r.epochs {
         let hgt = ph1 * e.n_relays_visible as f64 / n_max;
@@ -853,7 +860,7 @@ pub fn to_svg(r: &BodyPntReport) -> String {
         top2,
         pw,
         top2 + ph2,
-        "formal one-sigma position (log10 m): blue constellation only, amber with the Earth range",
+        &crate::t!("body-pnt-chart-formal-one-sigma-position"),
     ));
     let logs: Vec<f64> = r
         .epochs
@@ -897,16 +904,21 @@ pub fn to_svg(r: &BodyPntReport) -> String {
         }
     }
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{lo:.0} m</text>\
-         <text x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{hi:.0} m</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{} m</text>\
+         <text x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{} m</text>",
         ml - 60.0,
         top2 + ph2,
+        crate::i18n::num(lo, 0),
         ml - 60.0,
-        top2 + 10.0
+        top2 + 10.0,
+        crate::i18n::num(hi, 0)
     ));
     s.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"470\" font-size=\"10\" fill=\"{MUTED}\">time since epoch, 0 to {:.0} s</text></svg>",
-        t_max
+        "<text x=\"{ml:.0}\" y=\"470\" font-size=\"10\" fill=\"{MUTED}\">{}</text></svg>",
+        crate::t!(
+            "body-pnt-chart-time-since-epoch",
+            t_max = crate::i18n::num(t_max, 0)
+        )
     ));
     s
 }

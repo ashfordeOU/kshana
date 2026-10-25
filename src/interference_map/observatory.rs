@@ -199,7 +199,7 @@ fn region_json(region: Option<(f64, f64, f64, f64)>) -> Value {
     }
 }
 
-const NOTICE: &str = "A degraded cell means a high share of aircraft reported low navigation accuracy there that day. No cause is attributed. A cell that is not observed, or absent, was not assessed, which is not the same as clear. Advisory only: not an approval, certification or statement of conformance.";
+pub(crate) const NOTICE: &str = "A degraded cell means a high share of aircraft reported low navigation accuracy there that day. No cause is attributed. A cell that is not observed, or absent, was not assessed, which is not the same as clear. Advisory only: not an approval, certification or statement of conformance.";
 
 /// Build the product of one day from the method's output for that day.
 pub fn build_product(
