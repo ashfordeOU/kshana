@@ -7450,3 +7450,56 @@ engine-wasm-plans-json-is-not-json = plans_json ei ole stringide JSON-massiiv: {
 engine-wasm-options-json-is-not-json = options_json ei ole JSON: { $e }
 
 engine-wasm-input-is-about-bytes-over = sisend on umbes { $b64 } baiti, üle piiri { $v2 } baiti
+
+## legal
+
+# legal: native review
+engine-legal-compliance-statement = „evidenced“ märgitud rida tähendab, et selle komplekti käivitus toetab tõendeid rea nimetatud võimekuste jaoks. See ei ole järeldus, et raamistik on täidetud, ega tähenda, et keegi oleks mõnda toodet hinnanud või heaks kiitnud. Lünkade veerg näitab, mida käivitused ei näita.
+
+# legal: native review
+engine-legal-bench-surface-notice = Ainult sõiduki liikumine ja märgitud sündmusintervallid. Miski siin eksporditust ei ole raadiosagedus- ega baasribasignaal, ei modelleeri sellist signaali ega juhi seda ning sündmus on ajavahemik, mitte retsept häirete tekitamiseks. Signaalid annavad laborisimulaator ja selle operaator, kes vastutavad nende käivitamise eest ainult seal, kus see on lubatud (juhtmega või varjestatud ruumis, simulaatori enda ohutusjuhiste kohaselt). Kshana ei avalda selliste käivituste tulemusi.
+
+# legal: native review
+engine-legal-iq-campaign-roc-statement = MODELLED: aknatasemel ROC iga monitori kohta antud salvestistel. Iga esitatud sündmuseaken on positiivne ja iga sündmustest väljaspool olev roc_window_s aken negatiivne; aken loetakse lävel arvesse, kui monitori testsuurus selle aknas saavutab. P_fa on negatiivse akna kohta, mitte testi kohta.
+
+# legal: native review
+engine-legal-lunanet-afs-advisory = Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus. See kontrollib sümbolivoogu avaldatud spetsifikatsiooni ühe väljaande vastu ega ütle midagi ühegi LunaNeti sõlme ega teenuse kohta.
+
+# legal: native review
+engine-legal-iqfit-statement = MODELLED: iga sobitatud arv kirjeldab avatud vastuvõtjat (nimetatud ahelakujundust ja sisendtrakti) talle antud salvestistel, sobitatud kampaania hinnatud tulemustele. See ei ole ühegi teise vastuvõtja mõõtmine. Ennustused on märgitud PREDICTION, koos lähima testitud salvestise ja kaugusega testitud tingimustest väljaspool.
+
+# legal: native review
+engine-legal-iqfit-advisory = Nõuandev: analüüsitulemus, mitte tüübikinnitust omav navigatsiooniseade; ennustused on mudeli väljundid teatatud veaga, mitte garantiid.
+
+# legal: native review
+engine-legal-lunar-time-lab-source-statement = Allikaavaldus, mitte väide: ICG WG-B Lunar PNT materjal juunist 2024 (unoosa.org, LunarPNT_Jun24_01_04.pdf, uuringu allikas S3) kirjeldab jaama juures asuvat kuu ajaetaloni laborit nanosekunditasemel ajaeesmärgiga. Kshana tsiteerib seda eesmärki ainult konteksti jaoks; see ei võta seda omaks ja miski selles plokis ei näita, et ükski tegelik jaama kell seda täidaks.
+
+# legal: native review
+engine-legal-standards-pack-notice = Standardite pakett mõõdab modelleeritud stsenaariume enne käivitust esitatud lävede suhtes. See toetab tõendeid nimetatud raamistiku ridade jaoks; see ei hinda ega kiida heaks ühtegi toodet ning MET-märgitud lävi ütleb ainult, et stsenaariumi modelleeritud väljund täitis esitatud läve.
+
+# legal: native review
+engine-legal-standards-pack-advisory = Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus; seda ei tohi kasutada ainsa alusena ühegi navigatsiooni- ega ohutusotsuse tegemisel.
+
+# legal: native review
+engine-legal-geometry-statement = Geomeetria esitatud veamudeli korral (MODELLED): otsenähtavus esitatud silmapiiri suhtes, DOP ja gaussi vea-ellips sõltumatute, võrdsete, nullkeskmiste gaussi kaugusvigade jaoks esitatud kasutaja ekvivalentse kaugusveaga. See ei ole ennustus vastuvõtja tegeliku vea kohta, milles on ka nihkeid, mitmeteelevi ja otsenähtavuseta vigu, ning see ei ole terviklikkuse piir. Eelseadistatud konstellatsioonid on esinduslik geomeetria, mitte selle kuupäeva taevas selles kohas.
+
+# legal: native review
+engine-legal-resilience-disclaimer = Simulatsioonist tuletatud enesehinnang, seostatud DHS RPCF v2.0-ga. See ei ole sertifitseerimine ega akrediteerimine ega esinda ühegi asutuse (DHS, IEEE või muu) heakskiitu. Iga alamskoor on MODELLED, kui seda pole selgesõnaliselt märgitud VALIDATED, ning skoorid on ajadomeeni ja tuvastamise kvaliteedinäitajad, mitte asukohadomeeni täpsus.
+
+# legal: native review
+engine-legal-observatory-notice = Halvenenud lahter tähendab, et suur osa õhusõidukitest teatas seal sel päeval madalast navigatsioonitäpsusest. Ühtegi põhjust ei omistata. Lahter, mida ei vaadeldud või mis puudub, ei olnud hinnatud, mis ei ole sama mis häireteta. Ainult nõuandev: mitte heakskiit, sertifitseerimine ega vastavusavaldus.
+
+# legal: native review
+engine-legal-receiver-trust-advisory = Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade (IEC 61108, IEC 61162): laeva navigeerimise eest vastutab jätkuvalt operaator.
+
+# legal: native review
+engine-legal-evidence-roundtrip-notice = Seob neli kirjet räsiga (hash): stsenaarium, labori esitatud katsetingimused, vastuvõtjalogi ja selle logi skoor esitatud sündmuste suhtes. See ei ole signaal, mitte taasesituse retsept ega sertifitseerimine. See, kuidas stsenaariumi liikumine vastuvõtjani jõudis (laborisimulaatoriga esitatud fail, juhtmega või varjestatud ruumis), oli operaatori vastutus ja on siin kirjas ainult nii, nagu see esitati.
+
+# legal: native review
+engine-legal-evidence-bundle-disclaimer = See pakett on tehniline kirje sellest, mida Kshana mootor arvutas esitatud vastuvõtjalogist esitatud konfiguratsiooniga. See ei ole õiguslik arvamus, mitte faktide kindlakstegemine ühegi sündmuse või selle põhjuse kohta ega sertifitseerimine.
+
+# legal: native review
+engine-legal-bench-notice = Nõuandev: modelleeritud või mõõdetud teatatud etalonide suhtes; mitte heakskiit, sertifitseerimine ega vastavusavaldus. Skoor kirjeldab logi või korpust, mitte kunagi toodet.
+
+# legal: native review
+engine-legal-osnma-advisory = Nõuandev: see on analüüsi- ja seiretulemus, mitte tüübikinnitust omav navigatsiooniseade. Siin esitatud autentimise olek ei ole navigatsiooni terviklikkuse teenus ega tohi olla ainus alus ühegi navigatsiooni- ega ohutusotsuse tegemisel.
