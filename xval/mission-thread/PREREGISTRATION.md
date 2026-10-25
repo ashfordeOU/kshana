@@ -80,4 +80,10 @@ absence of other burns in the window come from the description text, not from th
 
 ## Amendments
 
-None yet.
+**Amendment 1, 2026-10-25, made before any comparison run.** The request fixed under "The reference" asked for states from
+2022-11-16 00:00 TDB to 2022-12-12 00:00 TDB. Horizons refused it: it carries no ephemeris for the target before
+2022-11-16 08:46:00.3328 TDB (the start of the as-flown trajectory named in the description), and the trajectory ends on
+2022-12-11, so a span past that would be refused too. No state vector was returned and none has been seen. The request is
+changed to the span the comparison uses and nothing more: **2022-11-16 18:00 to 2022-11-19 18:00 TDB**, one-hour steps, the
+same target, centre, frame, units and format. The window, the model, the six comparison epochs and both bars are unchanged.
+`xval/mission-thread/fetch_data.sh` carries the new request.
