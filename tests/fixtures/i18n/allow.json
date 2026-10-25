@@ -6,7 +6,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/advanced_report.rs": {
-   "count": 541,
+   "count": 477,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/altpnt/sequential.rs": {
@@ -37,6 +37,10 @@
    "count": 83,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/api/kind_descriptions.rs": {
+   "count": 154,
+   "reason": "machine-document: the English descriptions of the scenario kinds, which are the machine document (list_scenario_kinds_json); the catalogue copies are engine-kind-*-description and tests/i18n_kinds.rs compares them"
+  },
   "src/araim_reference.rs": {
    "count": 104,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
@@ -58,8 +62,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bench/site.rs": {
-   "count": 25,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 10,
+   "reason": "identifier: JSON pointers and keys of the result files; the page text is in the catalogue"
   },
   "src/bench/tasks.rs": {
    "count": 39,
@@ -227,7 +231,7 @@
   },
   "src/evidence/html.rs": {
    "count": 31,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "reason": "signed-artifact: summary.html is hashed into manifest.json and signed, so it is English in every language (built under with_lang(english) in bundle.rs); not converted on purpose"
   },
   "src/evidence/lab.rs": {
    "count": 3,
@@ -407,7 +411,7 @@
   },
   "src/interference_map/observatory.rs": {
    "count": 109,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "reason": "machine-document and developer: JSON keys and notes of the published files, the PNG text (hashed into the manifest, built in English), and command-line error messages not yet converted"
   },
   "src/interference_map/output.rs": {
    "count": 9,
@@ -470,8 +474,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/campaign/report.rs": {
-   "count": 27,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 16,
+   "reason": "machine-document and data: JSON keys, CSV header, file names, schema tags, the page's CSS, and ROC_STATEMENT (a legal constant carried in roc.json; its catalogue copy is legal-iq-campaign-roc-statement); the HTML text is in the catalogue"
   },
   "src/iq/campaign/runner.rs": {
    "count": 27,
@@ -1270,8 +1274,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/resilience/report.rs": {
-   "count": 2,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 1,
+   "reason": "machine-document: DISCLAIMER, the constant carried in the JSON report (its catalogue copy is legal-resilience-disclaimer, used by the HTML page)"
   },
   "src/resilience/score.rs": {
    "count": 12,
@@ -1362,8 +1366,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/study.rs": {
-   "count": 8,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 4,
+   "reason": "identifier and data: FoM keys, JSON key, the page's CSS; the HTML text is in the catalogue"
   },
   "src/suite.rs": {
    "count": 2,

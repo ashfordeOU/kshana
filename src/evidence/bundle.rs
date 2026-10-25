@@ -352,15 +352,19 @@ pub fn create_bundle_attested(
             sha256: sha256_hex(&slice_bytes),
         },
     };
-    let summary = html::render(&html::SummaryInput {
-        title: input.title,
-        engine_version: input.engine_version,
-        created_utc: input.created_utc,
-        window: input.window,
-        log: &log,
-        signer: &signer,
-        config: &input.config,
-        epochs: &input.epochs,
+    // summary.html is hashed into the manifest and signed: it is built in English whatever the
+    // language of the run, so a pack's bytes never depend on the language it was made in.
+    let summary = crate::i18n::with_lang(crate::i18n::Lang::english(), || {
+        html::render(&html::SummaryInput {
+            title: input.title,
+            engine_version: input.engine_version,
+            created_utc: input.created_utc,
+            window: input.window,
+            log: &log,
+            signer: &signer,
+            config: &input.config,
+            epochs: &input.epochs,
+        })
     });
 
     let summary = summary.into_bytes();
@@ -425,6 +429,34 @@ pub fn create_bundle_attested(
 #[cfg(test)]
 mod tests {
     use super::slice_for_window;
+
+    /// A pack is signed: made in another language it is the same files, byte for byte.
+    #[test]
+    fn a_pack_made_in_another_language_is_the_same_pack() {
+        let log = b"synthetic log bytes\n".repeat(20);
+        let make = || {
+            let input = super::EvidenceInput {
+                title: "t",
+                engine_version: "0.0.0-test",
+                log_format: "nmea",
+                log_file_name: "dir/x.nmea",
+                log_bytes: &log,
+                start_label: None,
+                slice: None,
+                window: super::Window {
+                    from_s: 0.0,
+                    to_s: 2.0,
+                },
+                config: serde_json::json!({"cn0_drop_db": 6.0}),
+                epochs: vec![serde_json::json!({"t_s": 1.0, "state": "nominal", "alarms": []})],
+                created_utc: None,
+            };
+            super::create_bundle(&input, &[9u8; 32], None).unwrap()
+        };
+        let english = make();
+        let xa = crate::i18n::resolve("en-XA").unwrap();
+        assert_eq!(crate::i18n::with_lang(xa, make), english);
+    }
 
     #[test]
     fn window_slice_spans_the_epochs_inside_it() {

@@ -186,3 +186,7 @@ telemetry-cli-warning-mqtt-messages-were-not: n
 telemetry-prometheus-kshana-trust-reason-epochs-total: n
 e-time-transfer-budget-must-be-finite: n
 e-time-transfer-budget-must-be-finite-2: n
+iq-campaign-report-meta: n_recordings n_frontends n_designs n_cells n_done
+study-summary: n_scenarios
+study-footer: n_scenarios
+resilience-report-summary: n_validated n_modelled

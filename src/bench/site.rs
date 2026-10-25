@@ -7,7 +7,7 @@ use std::collections::BTreeMap;
 
 use serde_json::Value;
 
-use super::{validate_result, BenchError, NOTICE, SPEC_VERSION};
+use super::{validate_result, BenchError, SPEC_VERSION};
 
 /// Escape text for an HTML text or attribute position.
 pub fn esc(s: &str) -> String {
@@ -27,17 +27,24 @@ pub fn esc(s: &str) -> String {
 
 fn num(v: Option<&Value>, digits: usize) -> String {
     match v.and_then(Value::as_f64) {
-        Some(x) => format!("{x:.digits$}"),
-        None => "n/a".into(),
+        Some(x) => crate::i18n::num(x, digits),
+        None => crate::t!("bench-site-not-available"),
     }
 }
 
-const TITLES: [(&str, &str); 4] = [
-    ("a", "Task (a): detection on receiver logs"),
-    ("b", "Task (b): detection on IQ"),
-    ("c", "Task (c): timing holdover prediction"),
-    ("d", "Task (d): out-of-distribution optimism gap"),
-];
+/// The tasks in page order.
+const TASKS: [&str; 4] = ["a", "b", "c", "d"];
+
+/// The heading of a task's section, in the current language.
+fn task_title(task: &str) -> String {
+    match task {
+        "a" => crate::t!("bench-site-title-a"),
+        "b" => crate::t!("bench-site-title-b"),
+        "c" => crate::t!("bench-site-title-c"),
+        "d" => crate::t!("bench-site-title-d"),
+        other => other.to_string(),
+    }
+}
 
 fn sort_key(task: &str, r: &Value) -> f64 {
     let m = &r["metrics"];
@@ -54,11 +61,23 @@ fn sort_key(task: &str, r: &Value) -> f64 {
     }
 }
 
-fn columns(task: &str) -> &'static [&'static str] {
+fn columns(task: &str) -> Vec<String> {
     match task {
-        "c" => &["RMSE 3600 s (ns)", "RMSE 300 s (ns)", "RMSE 7200 s (ns)"],
-        "d" => &["AUC in", "AUC out", "Optimism gap", "Flag"],
-        _ => &["AUC", "P_d at P_fa cap (upper bound)"],
+        "c" => vec![
+            crate::t!("bench-site-col-rmse-3600"),
+            crate::t!("bench-site-col-rmse-300"),
+            crate::t!("bench-site-col-rmse-7200"),
+        ],
+        "d" => vec![
+            crate::t!("bench-site-col-auc-in"),
+            crate::t!("bench-site-col-auc-out"),
+            crate::t!("bench-site-col-optimism-gap"),
+            crate::t!("bench-site-col-flag"),
+        ],
+        _ => vec![
+            crate::t!("bench-site-col-auc"),
+            crate::t!("bench-site-col-pd-at-pfa-cap"),
+        ],
     }
 }
 
@@ -83,9 +102,9 @@ fn cells(task: &str, r: &Value) -> Vec<String> {
             num(m.get("auc_out"), 3),
             num(m.get("optimism_gap"), 3),
             match m.get("optimistic").and_then(Value::as_bool) {
-                Some(true) => "optimistic".into(),
-                Some(false) => "within tolerance".into(),
-                None => "n/a".into(),
+                Some(true) => crate::t!("bench-site-flag-optimistic"),
+                Some(false) => crate::t!("bench-site-flag-within-tolerance"),
+                None => crate::t!("bench-site-not-available"),
             },
         ],
         _ => vec![num(m.get("auc"), 3), num(m.get("pd_at_pfa_cap"), 3)],
@@ -160,31 +179,49 @@ fn render(results: &[Value], fragment: bool) -> Result<String, BenchError> {
     }
     let mut body = String::new();
     if results.is_empty() {
-        body.push_str("<p class=\"kb-none\">No results published yet. A row appears here only when a result file is scored and added; nothing on this page is an estimate.</p>\n");
+        body.push_str(&format!(
+            "<p class=\"kb-none\">{}</p>\n",
+            esc(&crate::t!("bench-site-none-published"))
+        ));
     }
-    for (task, title) in TITLES {
+    for task in TASKS {
         if results.is_empty() {
             break;
         }
+        let title = task_title(task);
         let mine: Vec<_> = groups.iter().filter(|((t, _), _)| t == task).collect();
-        body.push_str(&format!("<section><h3>{}</h3>\n", esc(title)));
+        body.push_str(&format!("<section><h3>{}</h3>\n", esc(&title)));
         if mine.is_empty() {
-            body.push_str("<p class=\"kb-none\">No results yet for this task.</p>\n</section>\n");
+            body.push_str(&format!(
+                "<p class=\"kb-none\">{}</p>\n</section>\n",
+                esc(&crate::t!("bench-site-none-for-task"))
+            ));
             continue;
         }
         for ((_, split), rows) in mine {
             let mut rows = rows.clone();
             rows.sort_by(|a, b| sort_key(task, a).total_cmp(&sort_key(task, b)));
             body.push_str(&format!(
-                "<div class=\"kb-scroll\" tabindex=\"0\" role=\"region\" aria-label=\"{} {} results\"><table><caption>Split: {}</caption><thead><tr><th scope=\"col\">System</th>",
-                esc(title),
-                esc(split),
-                esc(split)
+                "<div class=\"kb-scroll\" tabindex=\"0\" role=\"region\" aria-label=\"{}\"><table><caption>{}</caption><thead><tr><th scope=\"col\">{}</th>",
+                esc(&crate::t!(
+                    "bench-site-region-label",
+                    title = title,
+                    split = split
+                )),
+                esc(&crate::t!("bench-site-caption-split", split = split)),
+                esc(&crate::t!("bench-site-th-system"))
             ));
             for c in columns(task) {
-                body.push_str(&format!("<th scope=\"col\" class=\"kb-n\">{}</th>", esc(c)));
+                body.push_str(&format!(
+                    "<th scope=\"col\" class=\"kb-n\">{}</th>",
+                    esc(&c)
+                ));
             }
-            body.push_str("<th scope=\"col\">Provenance</th><th scope=\"col\">Truth SHA-256</th></tr></thead><tbody>\n");
+            body.push_str(&format!(
+                "<th scope=\"col\">{}</th><th scope=\"col\">{}</th></tr></thead><tbody>\n",
+                esc(&crate::t!("bench-site-th-provenance")),
+                esc(&crate::t!("bench-site-th-truth-sha256"))
+            ));
             for r in rows {
                 let sys = &r["system"];
                 let name = sys["name"].as_str().unwrap_or("");
@@ -203,10 +240,11 @@ fn render(results: &[Value], fragment: bool) -> Result<String, BenchError> {
                     body.push_str(&format!("<td class=\"kb-n\">{}</td>", esc(&c)));
                 }
                 let prov = match r["provenance"].as_str() {
-                    Some("carried") => {
-                        format!("carried: {}", r["provenance_note"].as_str().unwrap_or(""))
-                    }
-                    _ => "scored".into(),
+                    Some("carried") => crate::t!(
+                        "bench-site-provenance-carried",
+                        note = r["provenance_note"].as_str().unwrap_or("")
+                    ),
+                    _ => crate::t!("bench-site-provenance-scored"),
                 };
                 let th = r["truth_sha256"].as_str().unwrap_or("");
                 body.push_str(&format!(
@@ -220,18 +258,22 @@ fn render(results: &[Value], fragment: bool) -> Result<String, BenchError> {
         body.push_str("</section>\n");
     }
     let board = format!(
-        "<section class=\"kb-board\" aria-labelledby=\"kb-title\">\n<style>{css}</style>\n<h2 class=\"kb-h1\" id=\"kb-title\">kshana-bench leaderboard</h2>\n<p class=\"kb-lede\">Result files scored under <code>{spec}</code>. A row says this file scored this number on this split. It does not mean any product has been rated or approved by anyone, and no organisation is named as an endorser.</p>\n<p class=\"kb-notice\">{notice}</p>\n{body}<p class=\"kb-foot\">Every score is modelled unless a row says an external oracle agreed. Licence of the specification and manifests: CC-BY-4.0 / CC0 proposed, owner decision pending. The real-data holdout is not secret: see the specification, section 4.</p>\n</section>\n",
+        "<section class=\"kb-board\" aria-labelledby=\"kb-title\">\n<style>{css}</style>\n<h2 class=\"kb-h1\" id=\"kb-title\">{heading}</h2>\n<p class=\"kb-lede\">{lede}</p>\n<p class=\"kb-notice\">{notice}</p>\n{body}<p class=\"kb-foot\">{foot}</p>\n</section>\n",
         css = BOARD_CSS,
-        spec = esc(SPEC_VERSION),
-        notice = esc(NOTICE),
+        heading = esc(&crate::t!("bench-site-heading")),
+        lede = crate::t!("bench-site-lede", spec = esc(SPEC_VERSION)),
+        notice = esc(&crate::t!("legal-bench-notice")),
+        foot = esc(&crate::t!("bench-site-foot")),
         body = body
     );
     if fragment {
         return Ok(board);
     }
     Ok(format!(
-        "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>kshana-bench leaderboard</title>\n<meta name=\"description\" content=\"Scores of submitted result files under kshana-bench {spec}. Advisory only.\">\n<style>{page}</style>\n</head>\n<body>\n<main>\n{board}</main>\n</body>\n</html>\n",
-        spec = esc(SPEC_VERSION),
+        "<!doctype html>\n<html lang=\"{lang}\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>{heading}</title>\n<meta name=\"description\" content=\"{description}\">\n<style>{page}</style>\n</head>\n<body>\n<main>\n{board}</main>\n</body>\n</html>\n",
+        lang = esc(crate::i18n::current().tag()),
+        heading = esc(&crate::t!("bench-site-heading")),
+        description = esc(&crate::t!("bench-site-meta-description", spec = SPEC_VERSION)),
         page = PAGE_CSS,
         board = board
     ))
