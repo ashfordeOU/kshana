@@ -230,8 +230,13 @@ impl LunarEphemeris {
     /// Read and parse the file at `path`, hashing its exact bytes so the report can tie
     /// every derived figure to them.
     pub fn load(path: &str) -> Result<Self, String> {
-        let text = std::fs::read_to_string(path)
-            .map_err(|e| format!("cannot read lunar ephemeris {path}: {e}"))?;
+        let text = std::fs::read_to_string(path).map_err(|e| {
+            crate::terr!(
+                "e-lunar-ephemeris-cannot-read-lunar-ephemeris",
+                path = path,
+                e = e
+            )
+        })?;
         let mut e = Self::parse(&text)?;
         e.path = path.to_string();
         Ok(e)
@@ -252,9 +257,10 @@ impl LunarEphemeris {
             }
             if lineno == 0 {
                 if line.trim() != MAGIC {
-                    return Err(format!(
-                        "lunar ephemeris: first line must be `{MAGIC}`, found `{}`",
-                        line.trim()
+                    return Err(crate::terr!(
+                        "e-lunar-ephemeris-lunar-ephemeris-first-line-must",
+                        MAGIC = MAGIC,
+                        line = line.trim()
                     ));
                 }
                 saw_magic = true;
@@ -278,19 +284,24 @@ impl LunarEphemeris {
             }
         }
         if !saw_magic {
-            return Err("lunar ephemeris: file is empty".to_string());
+            return Err(crate::terr!(
+                "e-lunar-ephemeris-lunar-ephemeris-file-is-empty"
+            ));
         }
         let format = match meta_of(&meta, "format").as_str() {
             "states" => EphemerisFormat::States,
             "elements" => EphemerisFormat::Elements,
             other => {
-                return Err(format!(
-                    "lunar ephemeris: `# format:` must be `states` or `elements`, found `{other}`"
+                return Err(crate::terr!(
+                    "e-lunar-ephemeris-lunar-ephemeris-format-must-be",
+                    other = other
                 ))
             }
         };
         if rows.is_empty() {
-            return Err("lunar ephemeris: no data rows".to_string());
+            return Err(crate::terr!(
+                "e-lunar-ephemeris-lunar-ephemeris-no-data-rows"
+            ));
         }
 
         let mut out = LunarEphemeris {
@@ -311,10 +322,12 @@ impl LunarEphemeris {
     }
 
     fn column(columns: &[String], name: &str) -> Result<usize, String> {
-        columns
-            .iter()
-            .position(|c| c == name)
-            .ok_or_else(|| format!("lunar ephemeris: missing column `{name}`"))
+        columns.iter().position(|c| c == name).ok_or_else(|| {
+            crate::terr!(
+                "e-lunar-ephemeris-lunar-ephemeris-missing-column",
+                name = name
+            )
+        })
     }
 
     fn parse_elements(&mut self, columns: &[String], rows: &[&str]) -> Result<(), String> {
@@ -325,8 +338,9 @@ impl LunarEphemeris {
             "" | "mci" => StateFrame::Mci,
             "icrf" => StateFrame::Icrf,
             other => {
-                return Err(format!(
-                    "lunar ephemeris: `# elements_frame:` must be `icrf` or `mci`, found `{other}`"
+                return Err(crate::terr!(
+                    "e-lunar-ephemeris-lunar-ephemeris-elements-frame-must",
+                    other = other
                 ))
             }
         };
@@ -335,10 +349,9 @@ impl LunarEphemeris {
                 meta_of(&self.meta, "epoch_jd_tdb")
                     .parse::<f64>()
                     .map_err(|e| {
-                        format!(
-                            "lunar ephemeris: `elements_frame: icrf` needs `# epoch_jd_tdb:` (the \
-                         epoch the elements are referred to, which is also where the \
-                         ICRF-to-Moon-fixed rotation is evaluated): {e}"
+                        crate::terr!(
+                            "e-lunar-ephemeris-lunar-ephemeris-elements-frame-icrf",
+                            e = e
                         )
                     })?;
         }
@@ -369,23 +382,35 @@ impl LunarEphemeris {
             let f: Vec<&str> = row.split(',').map(str::trim).collect();
             let at = |i: usize| -> Result<f64, String> {
                 f.get(i)
-                    .ok_or_else(|| format!("lunar ephemeris: short element row {}", n + 1))?
+                    .ok_or_else(|| {
+                        crate::terr!(
+                            "e-lunar-ephemeris-lunar-ephemeris-short-element-row",
+                            v1 = n + 1
+                        )
+                    })?
                     .parse::<f64>()
-                    .map_err(|e| format!("lunar ephemeris: element row {}: {e}", n + 1))
+                    .map_err(|e| {
+                        crate::terr!(
+                            "e-lunar-ephemeris-lunar-ephemeris-element-row",
+                            v1 = n + 1,
+                            e = e
+                        )
+                    })
             };
             let get = |k: usize| at(idx[k]);
             let sma_km = get(1)?;
             let ecc = get(2)?;
             if !(sma_km.is_finite() && sma_km > 0.0) {
-                return Err(format!(
-                    "lunar ephemeris: element row {} has a non-positive semi-major axis",
-                    n + 1
+                return Err(crate::terr!(
+                    "e-lunar-ephemeris-lunar-ephemeris-element-row-has",
+                    v1 = n + 1
                 ));
             }
             if !(0.0..1.0).contains(&ecc) {
-                return Err(format!(
-                    "lunar ephemeris: element row {} has eccentricity {ecc}, outside [0, 1)",
-                    n + 1
+                return Err(crate::terr!(
+                    "e-lunar-ephemeris-lunar-ephemeris-element-row-has-2",
+                    v1 = n + 1,
+                    ecc = ecc
                 ));
             }
             let anom = at(anom_idx)?;
@@ -411,8 +436,9 @@ impl LunarEphemeris {
             "icrf" => StateFrame::Icrf,
             "mci" => StateFrame::Mci,
             other => {
-                return Err(format!(
-                    "lunar ephemeris: a `states` file needs `# frame: icrf` or `# frame: mci`, found `{other}`"
+                return Err(crate::terr!(
+                    "e-lunar-ephemeris-lunar-ephemeris-states-file-needs",
+                    other = other
                 ))
             }
         };
@@ -421,9 +447,7 @@ impl LunarEphemeris {
                 meta_of(&self.meta, "epoch_jd_tdb")
                     .parse::<f64>()
                     .map_err(|e| {
-                        format!(
-                            "lunar ephemeris: an `icrf` states file needs `# epoch_jd_tdb:`: {e}"
-                        )
+                        crate::terr!("e-lunar-ephemeris-lunar-ephemeris-an-icrf-states", e = e)
                     })?;
         }
         let want = ["sat", "t_s", "x_km", "y_km", "z_km"];
@@ -436,17 +460,28 @@ impl LunarEphemeris {
             let f: Vec<&str> = row.split(',').map(str::trim).collect();
             let get = |k: usize| -> Result<f64, String> {
                 f.get(idx[k])
-                    .ok_or_else(|| format!("lunar ephemeris: short state row {}", n + 1))?
+                    .ok_or_else(|| {
+                        crate::terr!(
+                            "e-lunar-ephemeris-lunar-ephemeris-short-state-row",
+                            v1 = n + 1
+                        )
+                    })?
                     .parse::<f64>()
-                    .map_err(|e| format!("lunar ephemeris: state row {}: {e}", n + 1))
+                    .map_err(|e| {
+                        crate::terr!(
+                            "e-lunar-ephemeris-lunar-ephemeris-state-row",
+                            v1 = n + 1,
+                            e = e
+                        )
+                    })
             };
             let sat = get(0)? as usize;
             let t = get(1)?;
             let r = [get(2)? * 1000.0, get(3)? * 1000.0, get(4)? * 1000.0];
             if !(t.is_finite() && r.iter().all(|c| c.is_finite())) {
-                return Err(format!(
-                    "lunar ephemeris: state row {} is not finite",
-                    n + 1
+                return Err(crate::terr!(
+                    "e-lunar-ephemeris-lunar-ephemeris-state-row-is",
+                    v1 = n + 1
                 ));
             }
             while tracks.len() <= sat {
@@ -458,10 +493,12 @@ impl LunarEphemeris {
             let tr = &mut tracks[sat];
             if let Some(&last) = tr.t_s.last() {
                 if t <= last {
-                    return Err(format!(
-                        "lunar ephemeris: state row {} for satellite {sat} goes back in time \
-                         ({t} after {last}); epochs must be strictly increasing per satellite",
-                        n + 1
+                    return Err(crate::terr!(
+                        "e-lunar-ephemeris-lunar-ephemeris-state-row-for",
+                        v1 = n + 1,
+                        sat = sat,
+                        t = t,
+                        last = last
                     ));
                 }
             }
@@ -690,40 +727,27 @@ pub fn source_block(e: &LunarEphemeris) -> EphemerisSourceBlock {
         published_frame_tie_angle_deg(2_451_545.0)
     });
     let note = match e.format() {
-        EphemerisFormat::States => format!(
-            "Tabulated Moon-centred state ephemeris ({} frame), Lagrange-interpolated at \
-             order {LAGRANGE_ORDER} between table epochs and reduced to MCMF by {}. The \
-             states are NOT propagated by this engine. Provenance class \
-             `published-ephemeris`: distinct from every element-derived figure.",
-            e.state_frame().as_str(),
-            match e.state_frame() {
+        EphemerisFormat::States => crate::t!(
+            "lunar-ephemeris-tabulated-moon-centred-state-ephemeris",
+            e = e.state_frame().as_str(),
+            LAGRANGE_ORDER = LAGRANGE_ORDER,
+            v2 = match e.state_frame() {
                 StateFrame::Icrf =>
                     "the IAU 2015 / WGCCRE lunar orientation (precessing pole, analytic libration)",
                 StateFrame::Mci => "the mean-rotation lunar spin model",
             }
         ),
-        EphemerisFormat::Elements if e.state_frame() == StateFrame::Icrf => format!(
-            "Published constellation DEFINITION stated in Moon-centred ICRF (`{}`), \
-             propagated by this engine's own Kepler solver in that same inertial frame and \
-             reduced to MCMF by the IAU 2015 / WGCCRE lunar orientation (precessing pole, \
-             analytic physical libration) at each epoch. NO frame approximation: the source \
-             names the frame and the epoch, and both are used. Provenance class \
-             `published-elements`: distinct from every kernel-derived figure.",
-            if published_frame.is_empty() {
+        EphemerisFormat::Elements if e.state_frame() == StateFrame::Icrf => crate::t!(
+            "lunar-ephemeris-published-constellation-definition-stated-in",
+            v1 = if published_frame.is_empty() {
                 "ICRF"
             } else {
                 published_frame.as_str()
             }
         ),
-        EphemerisFormat::Elements => format!(
-            "Published constellation DEFINITION, propagated by this engine's own Kepler \
-             solver and reduced by the mean-rotation lunar spin model — exactly the path \
-             the illustrative constellation takes, so the only difference between the two \
-             runs is the constellation design. The source states the elements in the `{}` \
-             frame; they are read here as MCI, which tilts the constellation by \
-             `published_frame_tie_angle_deg`. Provenance class `published-elements`: \
-             distinct from every kernel-derived figure.",
-            if published_frame.is_empty() {
+        EphemerisFormat::Elements => crate::t!(
+            "lunar-ephemeris-published-constellation-definition-propagated-by",
+            v1 = if published_frame.is_empty() {
                 "(unstated)"
             } else {
                 published_frame.as_str()

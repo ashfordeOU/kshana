@@ -69,8 +69,9 @@ impl AnimationFormat {
             "svg" => Ok(AnimationFormat::Svg),
             "html" => Ok(AnimationFormat::Html),
             "frames" => Ok(AnimationFormat::Frames),
-            other => Err(format!(
-                "unknown animation format '{other}'; expected svg, html, frames or all"
+            other => Err(crate::terr!(
+                "e-animation-unknown-animation-format-expected-svg",
+                other = other
             )),
         }
     }
@@ -94,7 +95,9 @@ impl AnimationFormat {
             .map(|(f, _)| *f)
             .collect();
         if out.is_empty() {
-            return Err("no animation format given; expected svg, html, frames or all".into());
+            return Err(crate::terr!(
+                "e-animation-no-animation-format-given-expected"
+            ));
         }
         Ok(out)
     }
@@ -128,28 +131,29 @@ impl AnimationOptions {
     /// Refuse settings that cannot produce a sensible animation.
     pub fn validate(&self) -> Result<(), String> {
         if !(1..=60).contains(&self.fps) {
-            return Err(format!(
-                "animation fps must be between 1 and 60, got {}",
-                self.fps
+            return Err(crate::terr!(
+                "e-animation-animation-fps-must-be-between",
+                fps = self.fps
             ));
         }
         if !self.duration_s.is_finite() || !(0.5..=600.0).contains(&self.duration_s) {
-            return Err(format!(
-                "animation duration must be between 0.5 s and 600 s, got {}",
-                self.duration_s
+            return Err(crate::terr!(
+                "e-animation-animation-duration-must-be-between",
+                duration_s = self.duration_s
             ));
         }
         if !(480..=3840).contains(&self.width) {
-            return Err(format!(
-                "animation width must be between 480 and 3840 pixels, got {}",
-                self.width
+            return Err(crate::terr!(
+                "e-animation-animation-width-must-be-between",
+                width = self.width
             ));
         }
         let n = self.frame_count();
         if !(2..=Self::MAX_FRAMES).contains(&n) {
-            return Err(format!(
-                "duration x fps gives {n} frames; the frame sequence needs between 2 and {}",
-                Self::MAX_FRAMES
+            return Err(crate::terr!(
+                "e-animation-duration-fps-gives-frames-the",
+                n = n,
+                v1 = Self::MAX_FRAMES
             ));
         }
         Ok(())
@@ -848,8 +852,9 @@ fn humanise(field: &str, unit: &str) -> String {
 /// `kind` names the scenario kind for titles and errors; `None` reads the document's
 /// own `kind` field.
 pub fn extract_timeline(json: &str, kind: Option<&str>) -> Result<Timeline, AnimationError> {
-    let doc: Value = serde_json::from_str(json)
-        .map_err(|e| AnimationError::Invalid(format!("result is not JSON: {e}")))?;
+    let doc: Value = serde_json::from_str(json).map_err(|e| {
+        AnimationError::Invalid(crate::terr!("e-animation-result-is-not-json", e = e))
+    })?;
     let kind = kind
         .map(str::to_string)
         .or_else(|| doc.get("kind").and_then(Value::as_str).map(str::to_string))
@@ -1216,10 +1221,18 @@ impl Layout {
 /// cursor, and six series (`.s0`-`.s5` strokes, `.f0`-`.f5` fills).
 fn theme_classes(t: &[&str; 18]) -> String {
     let [bg, fg, mu, gr, ax, ph0, ph1, phl, cur, alarm, s0, s1, s2, s3, s4, s5, ..] = *t;
-    let mut css = format!(
-        ".bg{{fill:{bg}}}.fg{{fill:{fg}}}.mu{{fill:{mu}}}.gr{{stroke:{gr}}}\
-         .ax{{stroke:{ax}}}.ph0{{fill:{ph0}}}.ph1{{fill:{ph1}}}.phl{{fill:{phl}}}\
-         .ev{{stroke:{mu}}}.eva{{stroke:{alarm}}}.evt{{fill:{mu}}}.evta{{fill:{alarm}}}.cur{{stroke:{cur}}}"
+    let mut css = crate::t!(
+        "animation-bg-fill-fg-fill-mu",
+        bg = bg,
+        fg = fg,
+        mu = mu,
+        gr = gr,
+        ax = ax,
+        ph0 = ph0,
+        ph1 = ph1,
+        phl = phl,
+        alarm = alarm,
+        cur = cur
     );
     for (i, c) in [s0, s1, s2, s3, s4, s5].iter().enumerate() {
         let _ = write!(css, ".s{i}{{stroke:{c}}}");
@@ -1258,10 +1271,9 @@ fn light_css() -> String {
 }
 
 fn common_css() -> String {
-    format!(
-        "text{{font-family:{}}}\
-         .tr{{fill:none;stroke-width:1.6;stroke-linejoin:round}}.ev,.eva{{stroke-dasharray:3 3}}.cur{{stroke-width:1.4}}",
-        crate::palette::chart::FONT_SANS
+    crate::t!(
+        "animation-text-font-family-tr-fill",
+        v1 = crate::palette::chart::FONT_SANS
     )
 }
 
@@ -1467,7 +1479,7 @@ fn svg_scaffold(out: &mut String, tl: &Timeline, lay: &Layout) {
         if lay.tdisp.0 == "epoch" {
             "epoch index".to_string()
         } else {
-            format!("mission time ({})", lay.tdisp.0)
+            crate::t!("animation-mission-time", lay = lay.tdisp.0)
         }
     );
 }
@@ -1739,7 +1751,7 @@ pub fn render_frames(tl: &Timeline, opts: &AnimationOptions) -> Vec<AnimationFil
         let tc = tl.t0 + (tl.t1 - tl.t0) * i as f64 / (n - 1) as f64;
         times.push(tc);
         files.push(AnimationFile {
-            name: format!("frame_{i:04}.svg"),
+            name: crate::t!("animation-frame-svg", i = format!("{:04}", i)),
             content: render_frame(tl, &lay, tc, &css),
         });
     }
@@ -1764,10 +1776,7 @@ pub fn render_frames(tl: &Timeline, opts: &AnimationOptions) -> Vec<AnimationFil
         "events": tl.events.iter().map(|e| serde_json::json!({"t": e.t, "label": e.label, "alarm": e.alarm})).collect::<Vec<_>>(),
         "sources": tl.sources,
         "omitted": tl.omitted,
-        "encode": format!(
-            "ffmpeg -framerate {} -i frame_%04d.svg -pix_fmt yuv420p animation.mp4  (needs an ffmpeg built with librsvg; otherwise rasterise the frames first)",
-            opts.fps
-        ),
+        "encode": crate::t!("animation-ffmpeg-framerate-frame-04d-svg", fps = opts.fps),
         "tier": "MODELLED: a rendering of the run's own samples; it adds no evidence",
     });
     files.push(AnimationFile {
@@ -1830,15 +1839,30 @@ fn player_data(tl: &Timeline, opts: &AnimationOptions) -> Value {
 /// The player's custom properties for both themes, from [`LIGHT`] and [`DARK`].
 fn player_vars() -> String {
     let vars = |t: &[&str; 18]| {
-        format!(
-            "--bg:{};--panel:{};--fg:{};--mu:{};--grid:{};--axis:{};--ph0:{};--ph1:{};--cur:{};--alarm:{};--s0:{};--s1:{};--s2:{};--s3:{};--s4:{};--s5:{}",
-            t[0], t[16], t[7], t[17], t[3], t[4], t[5], t[6], t[8], t[9], t[10], t[11], t[12], t[13], t[14], t[15]
+        crate::t!(
+            "animation-bg-panel-fg-mu-grid",
+            t = t[0],
+            t2 = t[16],
+            t3 = t[7],
+            t4 = t[17],
+            t5 = t[3],
+            t6 = t[4],
+            t7 = t[5],
+            t8 = t[6],
+            t9 = t[8],
+            t10 = t[9],
+            t11 = t[10],
+            t12 = t[11],
+            t13 = t[12],
+            t14 = t[13],
+            t15 = t[14],
+            t16 = t[15]
         )
     };
-    format!(
-        ":root{{color-scheme:light dark;{}}}\n@media (prefers-color-scheme: dark){{:root{{{}}}}}\n",
-        vars(&LIGHT),
-        vars(&DARK)
+    crate::t!(
+        "animation-root-color-scheme-light-dark",
+        vars = vars(&LIGHT),
+        vars2 = vars(&DARK)
     )
 }
 
@@ -1934,9 +1958,11 @@ pub fn render_html(tl: &Timeline, opts: &AnimationOptions) -> String {
     let omitted = if tl.omitted.is_empty() {
         String::new()
     } else {
-        format!(
-            " {} further series were found but not drawn (the player shows at most {MAX_CHARTS} panels of {MAX_TRACES} traces); they are listed in the manifest of the frames export.",
-            tl.omitted.len()
+        crate::t!(
+            "animation-further-series-were-found-but",
+            omitted = tl.omitted.len(),
+            MAX_CHARTS = MAX_CHARTS,
+            MAX_TRACES = MAX_TRACES
         )
     };
     let css = player_css();

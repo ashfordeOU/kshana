@@ -773,22 +773,18 @@ fn build_ranging_comparison(
         && rf_sigma_range_m > 0.0;
 
     let refusal_reason = if !averaging_times_match {
-        format!(
-            "REFUSED: the two legs are not at a common averaging time. The optical leg \
-             accumulates over integration_s = {} s; the RF leg's loop noise bandwidth \
-             B_L = {} Hz averages over 1/(2*B_L) = {} s. A ratio of two sigmas taken at \
-             different averaging times is not a comparison, so none is quoted. Remove the \
-             rf_dll_bandwidth_hz override (it then defaults to 1/(2*integration_s)) or set \
-             it to {} Hz.",
-            inp.integration_s,
-            inp.dll_bandwidth_hz,
-            rf_equivalent_averaging_s,
-            1.0 / (2.0 * inp.integration_s)
+        crate::t!(
+            "hybrid-integrity-refused-the-two-legs-are",
+            integration_s = inp.integration_s,
+            dll_bandwidth_hz = inp.dll_bandwidth_hz,
+            rf_equivalent_averaging_s = rf_equivalent_averaging_s,
+            v4 = 1.0 / (2.0 * inp.integration_s)
         )
     } else if !legs_usable {
-        format!(
-            "REFUSED: a leg is not a usable positive finite sigma (optical {opt_sigma_range_m} \
-             m, RF {rf_sigma_range_m} m), so no ratio is formed."
+        crate::t!(
+            "hybrid-integrity-refused-leg-is-not-usable",
+            opt_sigma_range_m = opt_sigma_range_m,
+            rf_sigma_range_m = rf_sigma_range_m
         )
     } else {
         String::new()
@@ -2466,7 +2462,10 @@ impl HybridOpticalRfScenario {
             ("pulse_rms_ps", pulse_rms_s),
         ] {
             if !v.is_finite() || v <= 0.0 {
-                return Err(format!("{name} must be finite and positive"));
+                return Err(crate::terr!(
+                    "e-entry-eo-ascent-entry-heating-must-be-finite-and-positive",
+                    name = name
+                ));
             }
         }
 
@@ -2744,7 +2743,12 @@ impl HybridOpticalRfScenario {
             "s" => (Band::S, "s"),
             "x" => (Band::X, "x"),
             "ka" => (Band::Ka, "ka"),
-            other => return Err(format!("unknown rf_band '{other}' (expected s|x|ka)")),
+            other => {
+                return Err(crate::terr!(
+                    "e-hybrid-integrity-unknown-rf-band-expected-ka",
+                    other = other
+                ))
+            }
         };
         let eirp_dbw = self.rf_eirp_dbw.unwrap_or(26.0);
         let g_over_t_db = self.rf_g_over_t_db.unwrap_or(53.0);
@@ -2780,11 +2784,14 @@ impl HybridOpticalRfScenario {
             ("rf_required_eb_n0_db", required_eb_n0_db),
         ] {
             if !v.is_finite() {
-                return Err(format!("{name} must be finite"));
+                return Err(crate::terr!(
+                    "e-hybrid-integrity-must-be-finite",
+                    name = name
+                ));
             }
         }
         if !other_losses_db.is_finite() || other_losses_db < 0.0 {
-            return Err("rf_other_losses_db must be finite and >= 0".to_string());
+            return Err(crate::terr!("e-hybrid-integrity-rf-other-losses-db-must"));
         }
         for (name, v) in [
             ("rf_data_rate_bps", data_rate_bps),
@@ -2793,7 +2800,10 @@ impl HybridOpticalRfScenario {
             ("rf_dll_bandwidth_hz", dll_bandwidth_hz),
         ] {
             if !v.is_finite() || v <= 0.0 {
-                return Err(format!("{name} must be finite and positive"));
+                return Err(crate::terr!(
+                    "e-entry-eo-ascent-entry-heating-must-be-finite-and-positive",
+                    name = name
+                ));
             }
         }
         if !tracking_threshold_dbhz.is_finite() || !degraded_margin_db.is_finite() {
@@ -3000,43 +3010,44 @@ impl HybridOpticalRfScenario {
     }
 
     fn summary(&self, c: &Computed) -> String {
-        format!(
-            "hybrid-optical-rf | optical footprint {:.0} m, {:.0} photons -> ranging σ {:.3} mm, \
-             timing σ {:.2} ps | cross-RAIM HPL {:.1} m / VPL {:.1} m / TPL {:.1} ns ({}) | \
-             availability {:.1}% ({} sites) | handoff no-jump {} NEES {:.2}∈[{:.2},{:.2}] {} | \
-             joint FoM {:.3} (A {:.3} · P {:.3} · I {:.3}) | Validated CRLB/χ²-PL/union/handoff, \
-             Modelled σ/climatology",
-            c.optical.footprint_m,
-            c.detected_photons,
-            c.opt_pos_sigma_m * 1e3,
-            c.opt_clock_sigma_s * 1e12,
-            c.cross.hpl_m,
-            c.cross.vpl_m,
-            c.cross.tpl_s * 1e9,
-            if c.protected {
+        crate::t!(
+            "hybrid-integrity-hybrid-optical-rf-optical-footprint",
+            footprint_m = crate::i18n::localise_decimal(format!("{:.0}", c.optical.footprint_m)),
+            detected_photons = crate::i18n::localise_decimal(format!("{:.0}", c.detected_photons)),
+            c = crate::i18n::localise_decimal(format!("{:.3}", c.opt_pos_sigma_m * 1e3)),
+            c2 = crate::i18n::localise_decimal(format!("{:.2}", c.opt_clock_sigma_s * 1e12)),
+            hpl_m = crate::i18n::localise_decimal(format!("{:.1}", c.cross.hpl_m)),
+            vpl_m = crate::i18n::localise_decimal(format!("{:.1}", c.cross.vpl_m)),
+            c3 = crate::i18n::localise_decimal(format!("{:.1}", c.cross.tpl_s * 1e9)),
+            v8 = if c.protected {
                 "protected"
             } else {
                 "UNPROTECTED"
             },
-            c.availability.correlated_union * 100.0,
-            c.availability.n_sites,
-            if c.handoff.mean_continuous {
+            c4 = crate::i18n::localise_decimal(format!(
+                "{:.1}",
+                c.availability.correlated_union * 100.0
+            )),
+            n_sites = c.availability.n_sites,
+            v11 = if c.handoff.mean_continuous {
                 "OK"
             } else {
                 "JUMP"
             },
-            c.handoff.final_nees,
-            c.handoff.nees_gate.0,
-            c.handoff.nees_gate.1,
-            if c.handoff.nees_in_gate {
+            final_nees = crate::i18n::localise_decimal(format!("{:.2}", c.handoff.final_nees)),
+            c5 = crate::i18n::localise_decimal(format!("{:.2}", c.handoff.nees_gate.0)),
+            c6 = crate::i18n::localise_decimal(format!("{:.2}", c.handoff.nees_gate.1)),
+            v15 = if c.handoff.nees_in_gate {
                 "in-gate"
             } else {
                 "OUT"
             },
-            c.fom.score,
-            c.fom.availability,
-            c.fom.precision_grade,
-            c.fom.integrity_assured,
+            score = crate::i18n::localise_decimal(format!("{:.3}", c.fom.score)),
+            availability = crate::i18n::localise_decimal(format!("{:.3}", c.fom.availability)),
+            precision_grade =
+                crate::i18n::localise_decimal(format!("{:.3}", c.fom.precision_grade)),
+            integrity_assured =
+                crate::i18n::localise_decimal(format!("{:.3}", c.fom.integrity_assured))
         )
     }
 

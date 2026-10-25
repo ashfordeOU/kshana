@@ -184,7 +184,11 @@ fn station(s: &StationSpec, up: f64, down: f64) -> Result<Station, String> {
         if v.is_finite() {
             Ok(())
         } else {
-            Err(format!("{}: {n} must be finite", s.name))
+            Err(crate::terr!(
+                "e-time-transfer-budget-must-be-finite",
+                name = s.name,
+                n = n
+            ))
         }
     };
     ok(s.lat_deg, "lat_deg")?;
@@ -193,9 +197,9 @@ fn station(s: &StationSpec, up: f64, down: f64) -> Result<Station, String> {
     ok(s.tx_delay_ns, "tx_delay_ns")?;
     ok(s.rx_delay_ns, "rx_delay_ns")?;
     if !(s.slant_tec_tecu.is_finite() && s.slant_tec_tecu >= 0.0) {
-        return Err(format!(
-            "{}: slant_tec_tecu must be finite and non-negative",
-            s.name
+        return Err(crate::terr!(
+            "e-time-transfer-budget-slant-tec-tecu-must-be",
+            name = s.name
         ));
     }
     let r = geodetic_to_ecef(Geodetic {
@@ -241,7 +245,11 @@ pub fn read_series(spec: &SeriesSpec) -> Result<Vec<(f64, f64)>, String> {
                         if i == 0 {
                             continue; // header
                         }
-                        return Err(format!("{p}: line {}: not MJD,ns", i + 1));
+                        return Err(crate::terr!(
+                            "e-time-transfer-budget-line-not-mjd-ns",
+                            p = p,
+                            v1 = i + 1
+                        ));
                     };
                     out.push((m * 86_400.0, v * 1e-9));
                 }
@@ -250,16 +258,20 @@ pub fn read_series(spec: &SeriesSpec) -> Result<Vec<(f64, f64)>, String> {
         "rinex-clock" => {
             for p in &spec.paths {
                 let clk = crate::precise_products::parse_clock_rinex_records(&read(p)?, "AR")?;
-                let s = clk
-                    .sats
-                    .get(&spec.code)
-                    .ok_or_else(|| format!("{p}: no AR records for {}", spec.code))?;
+                let s = clk.sats.get(&spec.code).ok_or_else(|| {
+                    crate::terr!(
+                        "e-time-transfer-budget-no-ar-records-for",
+                        p = p,
+                        code = spec.code
+                    )
+                })?;
                 out.extend(s.iter().copied());
             }
         }
         f => {
-            return Err(format!(
-                "unknown series format {f:?} (circular-t, mjd-csv, rinex-clock)"
+            return Err(crate::terr!(
+                "e-time-transfer-budget-unknown-series-format-circular-mjd",
+                f = format!("{:?}", f)
             ))
         }
     }
@@ -287,14 +299,20 @@ impl TimeTransferBudgetScenario {
             if v.is_finite() && v > 0.0 {
                 Ok(())
             } else {
-                Err(format!("{n} must be finite and positive"))
+                Err(crate::terr!(
+                    "e-aocs-kind-must-be-finite-and-positive",
+                    n = n
+                ))
             }
         };
         let nonneg = |v: f64, n: &str| {
             if v.is_finite() && v >= 0.0 {
                 Ok(())
             } else {
-                Err(format!("{n} must be finite and non-negative"))
+                Err(crate::terr!(
+                    "e-entry-eo-ascent-eo-radiometry-must-be-finite-and-non",
+                    n = n
+                ))
             }
         };
         pos(self.uplink_ghz, "uplink_ghz")?;
@@ -331,12 +349,17 @@ impl TimeTransferBudgetScenario {
             (self.reciprocity_bias_ns, "reciprocity_bias_ns"),
         ] {
             if !v.is_finite() {
-                return Err(format!("{n} must be finite"));
+                return Err(crate::terr!(
+                    "e-time-transfer-budget-must-be-finite-2",
+                    n = n
+                ));
             }
         }
         let n = (self.span_days * 86_400.0 / self.step_s).round() as usize;
         if !(16..=20_000).contains(&n) {
-            return Err("span_days / step_s must give 16 to 20000 measurements".into());
+            return Err(crate::terr!(
+                "e-time-transfer-budget-span-days-step-must-give"
+            ));
         }
         let (up, down) = (self.uplink_ghz * 1e9, self.downlink_ghz * 1e9);
         let a = station(&self.station_a, up, down)?;
@@ -446,17 +469,17 @@ impl TimeTransferBudgetScenario {
             },
             "series": series_json,
         });
-        let summary = format!(
-            "time-transfer-budget: {} - {} offset {:.3} ns (Sagnac {:.3} ns, ionosphere {:.4} ns); combined u {:.3} ns (type A {:.3} ns at {:.0} s); {} real series (MODELLED)",
-            self.station_a.name,
-            self.station_b.name,
-            ns(terms.offset()),
-            ns(terms.sagnac),
-            ns(terms.ionosphere),
-            ns(uc),
-            ns(type_a),
-            self.averaging_s,
-            self.series.len()
+        let summary = crate::t!(
+            "time-transfer-budget-time-transfer-budget-offset-ns",
+            name = self.station_a.name,
+            name2 = self.station_b.name,
+            ns = crate::i18n::localise_decimal(format!("{:.3}", ns(terms.offset()))),
+            ns2 = crate::i18n::localise_decimal(format!("{:.3}", ns(terms.sagnac))),
+            ns3 = crate::i18n::localise_decimal(format!("{:.4}", ns(terms.ionosphere))),
+            ns4 = crate::i18n::localise_decimal(format!("{:.3}", ns(uc))),
+            ns5 = crate::i18n::localise_decimal(format!("{:.3}", ns(type_a))),
+            averaging_s = crate::i18n::localise_decimal(format!("{:.0}", self.averaging_s)),
+            series = self.series.len()
         );
         let text = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
         Ok((text, summary))

@@ -137,7 +137,10 @@ pub fn detection_miss_impact(
         ("vpl", vpl_m),
     ] {
         if !v.is_finite() || v < 0.0 {
-            return Err(format!("{n} must be finite and non-negative"));
+            return Err(crate::terr!(
+                "e-entry-eo-ascent-eo-radiometry-must-be-finite-and-non",
+                n = n
+            ));
         }
     }
     let horizontal = axis_impact(

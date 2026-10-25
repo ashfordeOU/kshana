@@ -74,16 +74,29 @@ pub fn parse_clock_rinex_records(text: &str, record: &str) -> Result<ClockRinex,
         }
         let t: Vec<&str> = line.split_whitespace().collect();
         if t.len() < 10 {
-            return Err(format!("short {record} record: {line:?}"));
+            return Err(crate::terr!(
+                "e-precise-products-short-record",
+                record = record,
+                line = format!("{:?}", line)
+            ));
         }
         let num = |s: &str| -> Result<f64, String> {
-            s.replace(['D', 'd'], "E")
-                .parse::<f64>()
-                .map_err(|_| format!("bad number {s:?} in {line:?}"))
+            s.replace(['D', 'd'], "E").parse::<f64>().map_err(|_| {
+                crate::terr!(
+                    "e-precise-products-bad-number-in",
+                    s = format!("{:?}", s),
+                    line = format!("{:?}", line)
+                )
+            })
         };
         let int = |s: &str| -> Result<u32, String> {
-            s.parse::<u32>()
-                .map_err(|_| format!("bad field {s:?} in {line:?}"))
+            s.parse::<u32>().map_err(|_| {
+                crate::terr!(
+                    "e-precise-products-bad-field-in",
+                    s = format!("{:?}", s),
+                    line = format!("{:?}", line)
+                )
+            })
         };
         let sat = t[1].to_string();
         let ts = gps_seconds(
@@ -174,11 +187,15 @@ pub fn parse_antex_satellites(text: &str) -> Result<SatelliteAntennas, String> {
     let epoch = |s: &str| -> Result<f64, String> {
         let t: Vec<&str> = s.split_whitespace().collect();
         if t.len() < 6 {
-            return Err(format!("bad ANTEX epoch {s:?}"));
+            return Err(crate::terr!(
+                "e-precise-products-bad-antex-epoch",
+                s = format!("{:?}", s)
+            ));
         }
         let p = |x: &str| {
-            x.parse::<f64>()
-                .map_err(|_| format!("bad ANTEX epoch {s:?}"))
+            x.parse::<f64>().map_err(|_| {
+                crate::terr!("e-precise-products-bad-antex-epoch", s = format!("{:?}", s))
+            })
         };
         Ok(gps_seconds(
             p(t[0])? as i32,
@@ -229,7 +246,14 @@ pub fn parse_antex_satellites(text: &str) -> Result<SatelliteAntennas, String> {
                     let v: Vec<f64> = body
                         .split_whitespace()
                         .take(3)
-                        .map(|x| x.parse::<f64>().map_err(|_| format!("bad offset {body:?}")))
+                        .map(|x| {
+                            x.parse::<f64>().map_err(|_| {
+                                crate::terr!(
+                                    "e-precise-products-bad-offset",
+                                    body = format!("{:?}", body)
+                                )
+                            })
+                        })
                         .collect::<Result<_, _>>()?;
                     if v.len() == 3 {
                         a.offsets

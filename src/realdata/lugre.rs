@@ -48,9 +48,9 @@ pub const IQS_FOOTER_BYTES: usize = 3;
 pub fn parse_iqs_sdrx(text: &str) -> Result<SdrLayout, String> {
     let mut l = parse_sdrx(text)?;
     if l.encoding != Encoding::TwosComplement {
-        return Err(format!(
-            "coding {:?}: a LuGRE batch is two's complement",
-            l.encoding
+        return Err(crate::terr!(
+            "e-realdata-lugre-coding-lugre-batch-is-two",
+            encoding = format!("{:?}", l.encoding)
         ));
     }
     l.fill_lsb_first = false;
@@ -91,13 +91,16 @@ impl IqsHeader {
     /// Parse the first [`IQS_HEADER_BYTES`] of an IQS file.
     pub fn parse(bytes: &[u8]) -> Result<Self, String> {
         if bytes.len() < IQS_HEADER_BYTES {
-            return Err(format!(
-                "{} bytes: shorter than the IQS header",
-                bytes.len()
+            return Err(crate::terr!(
+                "e-realdata-lugre-bytes-shorter-than-the-iqs",
+                bytes = bytes.len()
             ));
         }
         if bytes[0] != b'q' || &bytes[1..4] != b"IQS" {
-            return Err(format!("not an IQS frame: {:?}", &bytes[..4]));
+            return Err(crate::terr!(
+                "e-realdata-lugre-not-an-iqs-frame",
+                bytes = format!("{:?}", &bytes[..4])
+            ));
         }
         let payload_bytes = u32::from_le_bytes(bytes[6..10].try_into().expect("4 bytes"));
         let p = &bytes[10..];
@@ -130,27 +133,31 @@ impl IqsHeader {
     pub fn disagreements(&self, layout: &SdrLayout, file_len: usize) -> Vec<String> {
         let mut v = Vec::new();
         if layout.sample_rate_hz != self.sampling_freq_hz {
-            v.push(format!(
-                "sample rate: metadata {} Hz, header {} Hz",
-                layout.sample_rate_hz, self.sampling_freq_hz
+            v.push(crate::t!(
+                "realdata-lugre-sample-rate-metadata-hz-header",
+                sample_rate_hz = layout.sample_rate_hz,
+                sampling_freq_hz = self.sampling_freq_hz
             ));
         }
         if layout.quantization != self.quant_bits as u32 {
-            v.push(format!(
-                "quantisation: metadata {} bits, header {} bits",
-                layout.quantization, self.quant_bits
+            v.push(crate::t!(
+                "realdata-lugre-quantisation-metadata-bits-header-bits",
+                quantization = layout.quantization,
+                quant_bits = self.quant_bits
             ));
         }
         if layout.center_freq_hz != self.central_freq_hz {
-            v.push(format!(
-                "centre frequency: metadata {} Hz, header {} Hz",
-                layout.center_freq_hz, self.central_freq_hz
+            v.push(crate::t!(
+                "realdata-lugre-centre-frequency-metadata-hz-header",
+                center_freq_hz = layout.center_freq_hz,
+                central_freq_hz = self.central_freq_hz
             ));
         }
         if layout.translated_freq_hz != self.intermediate_freq_hz {
-            v.push(format!(
-                "intermediate frequency: metadata {} Hz, header {} Hz",
-                layout.translated_freq_hz, self.intermediate_freq_hz
+            v.push(crate::t!(
+                "realdata-lugre-intermediate-frequency-metadata-hz-header",
+                translated_freq_hz = layout.translated_freq_hz,
+                intermediate_freq_hz = self.intermediate_freq_hz
             ));
         }
         let complex = self.samples_type % 2 == 1;
@@ -158,22 +165,26 @@ impl IqsHeader {
             v.push("sample type: real against complex".into());
         }
         if layout.sample_count(file_len) != self.n_samples as usize {
-            v.push(format!(
-                "sample count: metadata layout gives {}, header {}",
-                layout.sample_count(file_len),
-                self.n_samples
+            v.push(crate::t!(
+                "realdata-lugre-sample-count-metadata-layout-gives",
+                layout = layout.sample_count(file_len),
+                n_samples = self.n_samples
             ));
         }
         if layout.header_bytes != IQS_HEADER_BYTES || layout.footer_bytes != IQS_FOOTER_BYTES {
-            v.push(format!(
-                "header/footer: metadata {}/{} bytes, format {IQS_HEADER_BYTES}/{IQS_FOOTER_BYTES}",
-                layout.header_bytes, layout.footer_bytes
+            v.push(crate::t!(
+                "realdata-lugre-header-footer-metadata-bytes-format",
+                header_bytes = layout.header_bytes,
+                footer_bytes = layout.footer_bytes,
+                IQS_HEADER_BYTES = IQS_HEADER_BYTES,
+                IQS_FOOTER_BYTES = IQS_FOOTER_BYTES
             ));
         }
         if file_len != IQS_HEADER_BYTES + self.sample_bytes() + IQS_FOOTER_BYTES {
-            v.push(format!(
-                "file length {file_len} is not header + {} sample bytes + footer",
-                self.sample_bytes()
+            v.push(crate::t!(
+                "realdata-lugre-file-length-is-not-header",
+                file_len = file_len,
+                value = self.sample_bytes()
             ));
         }
         v
@@ -217,10 +228,10 @@ fn fields(line: &str) -> Fields {
 fn get<T: std::str::FromStr>(f: &[(String, String)], key: &str) -> Result<T, String> {
     f.iter()
         .find(|(k, _)| k == key)
-        .ok_or(format!("field {key} missing"))?
+        .ok_or(crate::t!("realdata-lugre-field-missing", key = key))?
         .1
         .parse()
-        .map_err(|_| format!("field {key} unreadable"))
+        .map_err(|_| crate::terr!("e-realdata-lugre-field-unreadable", key = key))
 }
 
 /// One satellite measurement of a RAW message.
@@ -258,7 +269,7 @@ pub fn parse_raw(text: &str) -> Result<Vec<RawEpoch>, String> {
         if line.trim().is_empty() {
             continue;
         }
-        let ctx = |e: String| format!("RAW line {}: {e}", n + 1);
+        let ctx = |e: String| crate::t!("realdata-lugre-raw-line", v1 = n + 1, e = e);
         let (flat, groups) = fields(line);
         if get::<String>(&flat, "messageType").map_err(ctx)? != "RAW" {
             return Err(ctx("not a RAW message".into()));
@@ -324,7 +335,7 @@ pub fn parse_acq(text: &str) -> Result<Vec<AcqRecord>, String> {
         if line.trim().is_empty() {
             continue;
         }
-        let ctx = |e: String| format!("ACQ line {}: {e}", n + 1);
+        let ctx = |e: String| crate::t!("realdata-lugre-acq-line", v1 = n + 1, e = e);
         let (flat, groups) = fields(line);
         if get::<String>(&flat, "messageType").map_err(ctx)? != "ACQ" {
             return Err(ctx("not an ACQ message".into()));
@@ -377,7 +388,7 @@ pub fn parse_nav(text: &str) -> Result<Vec<NavSolution>, String> {
         if line.trim().is_empty() {
             continue;
         }
-        let ctx = |e: String| format!("NAV line {}: {e}", n + 1);
+        let ctx = |e: String| crate::t!("realdata-lugre-nav-line", v1 = n + 1, e = e);
         let (f, _) = fields(line);
         out.push(NavSolution {
             rx_time_s: get(&f, "rxTime").map_err(ctx)?,
@@ -412,13 +423,13 @@ pub fn parse_clk(text: &str) -> Result<Vec<(f64, f64, f64)>, String> {
                 .split(',')
                 .map(|x| x.trim().parse::<f64>())
                 .collect::<Result<_, _>>()
-                .map_err(|_| format!("CLK row {}: unreadable", n + 2))?;
+                .map_err(|_| crate::terr!("e-realdata-lugre-clk-row-unreadable", v1 = n + 2))?;
             match v.as_slice() {
                 [t, b, d] => Ok((*t, *b, *d)),
-                _ => Err(format!(
-                    "CLK row {}: {} columns, expected 3",
-                    n + 2,
-                    v.len()
+                _ => Err(crate::terr!(
+                    "e-realdata-lugre-clk-row-columns-expected",
+                    v1 = n + 2,
+                    v = v.len()
                 )),
             }
         })

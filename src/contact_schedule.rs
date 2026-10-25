@@ -213,14 +213,20 @@ impl LinkConfig {
             if v.is_finite() && v > 0.0 {
                 Ok(())
             } else {
-                Err(format!("link.{n} must be finite and positive"))
+                Err(crate::terr!(
+                    "e-contact-schedule-link-must-be-finite-and",
+                    n = n
+                ))
             }
         };
         let nonneg = |v: f64, n: &str| {
             if v.is_finite() && v >= 0.0 {
                 Ok(())
             } else {
-                Err(format!("link.{n} must be finite and >= 0"))
+                Err(crate::terr!(
+                    "e-contact-schedule-link-must-be-finite-and-2",
+                    n = n
+                ))
             }
         };
         pos(self.frequency_ghz, "frequency_ghz")?;
@@ -230,7 +236,7 @@ impl LinkConfig {
         nonneg(self.zenith_atm_loss_db, "zenith_atm_loss_db")?;
         nonneg(self.implementation_margin_db, "implementation_margin_db")?;
         if !self.eirp_dbw.is_finite() {
-            return Err("link.eirp_dbw must be finite".into());
+            return Err(crate::terr!("e-contact-schedule-link-eirp-dbw-must-be"));
         }
         Ok(())
     }
@@ -672,26 +678,35 @@ fn start_jd(e: [f64; 6]) -> Result<Jd2, String> {
 
 fn validate_sat(s: &SatelliteSpec) -> Result<(), String> {
     if !(s.altitude_km.is_finite() && s.altitude_km > 100.0 && s.altitude_km < 40_000.0) {
-        return Err(format!(
-            "satellite '{}': altitude_km must be in (100, 40000)",
-            s.name
+        return Err(crate::terr!(
+            "e-contact-schedule-satellite-altitude-km-must-be",
+            name = s.name
         ));
     }
     if !(0.0..=180.0).contains(&s.inclination_deg) {
-        return Err(format!(
-            "satellite '{}': inclination_deg must be in [0, 180]",
-            s.name
+        return Err(crate::terr!(
+            "e-contact-schedule-satellite-inclination-deg-must-be",
+            name = s.name
         ));
     }
     if !(s.backlog_mbit.is_finite() && s.backlog_mbit >= 0.0) {
-        return Err(format!("satellite '{}': backlog_mbit must be >= 0", s.name));
+        return Err(crate::terr!(
+            "e-contact-schedule-satellite-backlog-mbit-must-be",
+            name = s.name
+        ));
     }
     if !(s.priority.is_finite() && s.priority > 0.0) {
-        return Err(format!("satellite '{}': priority must be > 0", s.name));
+        return Err(crate::terr!(
+            "e-contact-schedule-satellite-priority-must-be",
+            name = s.name
+        ));
     }
     if let Some(e) = s.eirp_dbw {
         if !e.is_finite() {
-            return Err(format!("satellite '{}': eirp_dbw must be finite", s.name));
+            return Err(crate::terr!(
+                "e-contact-schedule-satellite-eirp-dbw-must-be",
+                name = s.name
+            ));
         }
     }
     Ok(())
@@ -699,24 +714,27 @@ fn validate_sat(s: &SatelliteSpec) -> Result<(), String> {
 
 fn validate_station(s: &StationSpec) -> Result<(), String> {
     if !(-90.0..=90.0).contains(&s.lat_deg) || !s.lon_deg.is_finite() {
-        return Err(format!(
-            "station '{}': lat_deg in [-90, 90], lon_deg finite",
-            s.name
+        return Err(crate::terr!(
+            "e-contact-schedule-station-lat-deg-in-90",
+            name = s.name
         ));
     }
     if !(0.0..90.0).contains(&s.mask_deg) {
-        return Err(format!("station '{}': mask_deg must be in [0, 90)", s.name));
+        return Err(crate::terr!(
+            "e-contact-schedule-station-mask-deg-must-be",
+            name = s.name
+        ));
     }
     if !(0.0..=3000.0).contains(&s.alt_m) {
-        return Err(format!(
-            "station '{}': alt_m must be in [0, 3000] (ITU-R P.834 range)",
-            s.name
+        return Err(crate::terr!(
+            "e-contact-schedule-station-alt-must-be-in",
+            name = s.name
         ));
     }
     if !(s.setup_s.is_finite() && s.setup_s >= 0.0 && s.g_over_t_db.is_finite()) {
-        return Err(format!(
-            "station '{}': setup_s >= 0 and g_over_t_db finite",
-            s.name
+        return Err(crate::terr!(
+            "e-contact-schedule-station-setup-and-over-db",
+            name = s.name
         ));
     }
     Ok(())
@@ -724,10 +742,10 @@ fn validate_station(s: &StationSpec) -> Result<(), String> {
 
 fn validate_window(hours: f64, step: f64) -> Result<(), String> {
     if !(hours.is_finite() && hours > 0.0 && hours <= 168.0) {
-        return Err("duration_hours must be in (0, 168]".into());
+        return Err(crate::terr!("e-contact-schedule-duration-hours-must-be-in"));
     }
     if !(step.is_finite() && step > 0.0 && step <= 300.0) {
-        return Err("step_s must be in (0, 300]".into());
+        return Err(crate::terr!("e-contact-schedule-step-must-be-in-300"));
     }
     Ok(())
 }
@@ -938,10 +956,12 @@ impl ContactScheduleScenario {
         validate_window(self.duration_hours, self.step_s)?;
         self.link.validate()?;
         if self.satellites.is_empty() || self.stations.is_empty() {
-            return Err("at least one satellite and one station are required".into());
+            return Err(crate::terr!(
+                "e-contact-schedule-at-least-one-satellite-and"
+            ));
         }
         if self.satellites.len() > 32 || self.stations.len() > 32 {
-            return Err("at most 32 satellites and 32 stations".into());
+            return Err(crate::terr!("e-contact-schedule-at-most-32-satellites-and"));
         }
         for s in &self.satellites {
             validate_sat(s)?;
@@ -1105,17 +1125,16 @@ impl ContactScheduleScenario {
                 "exact_limit": EXACT_LIMIT,
             },
         });
-        let summary = format!(
-            "contact-schedule: {} satellites x {} stations over {:.0} h -> {} candidate \
-             contacts, {} scheduled; {:.0} of {:.0} Mbit delivered{} (MODELLED)",
-            self.satellites.len(),
-            self.stations.len(),
-            self.duration_hours,
-            cands.len(),
-            greedy.len(),
-            total_del,
-            total_backlog,
-            match &optimal {
+        let summary = crate::t!(
+            "contact-schedule-contact-schedule-satellites-stations-over",
+            satellites = self.satellites.len(),
+            stations = self.stations.len(),
+            duration_hours = crate::i18n::localise_decimal(format!("{:.0}", self.duration_hours)),
+            cands = cands.len(),
+            greedy = greedy.len(),
+            total_del = crate::i18n::localise_decimal(format!("{:.0}", total_del)),
+            total_backlog = crate::i18n::localise_decimal(format!("{:.0}", total_backlog)),
+            v8 = match &optimal {
                 Some((_, o)) if *o > 0.0 => format!(
                     "; greedy within {:.2}% of optimum",
                     100.0 * (1.0 - g_obj / o)
@@ -1319,13 +1338,13 @@ impl AcmLinkScenario {
             "passes": passes,
             "modcod_usage": modcod_usage,
         });
-        let summary = format!(
-            "acm-link: {} pass(es); ACM {:.0} Mbit vs CCM {} {:.0} Mbit{} (MODELLED)",
-            pairs.len(),
-            acm,
-            ccm.map(|m| m.name).unwrap_or("none"),
-            ccm_v,
-            if ccm_v > 0.0 {
+        let summary = crate::t!(
+            "contact-schedule-acm-link-pass-es-acm",
+            pairs = pairs.len(),
+            acm = crate::i18n::localise_decimal(format!("{:.0}", acm)),
+            ccm = ccm.map(|m| m.name).unwrap_or("none"),
+            ccm_v = crate::i18n::localise_decimal(format!("{:.0}", ccm_v)),
+            v5 = if ccm_v > 0.0 {
                 format!(" -> gain x{:.2}", acm / ccm_v)
             } else {
                 String::new()

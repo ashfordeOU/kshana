@@ -157,26 +157,30 @@ impl AttitudeBudgetScenario {
     /// Run the scenario, returning `(json, summary)`.
     pub fn run_json(&self) -> Result<(String, String), String> {
         if !self.altitude_km.is_finite() || self.altitude_km <= 0.0 {
-            return Err("altitude_km must be finite and positive".to_string());
+            return Err(crate::terr!("e-attitude-budget-altitude-km-must-be-finite"));
         }
         if !self.i_max_kg_m2.is_finite()
             || !self.i_min_kg_m2.is_finite()
             || self.i_max_kg_m2 <= 0.0
             || self.i_min_kg_m2 <= 0.0
         {
-            return Err("inertias must be finite and positive".to_string());
+            return Err(crate::terr!(
+                "e-attitude-budget-inertias-must-be-finite-and"
+            ));
         }
         if self.i_max_kg_m2 < self.i_min_kg_m2 {
-            return Err("i_max_kg_m2 must be >= i_min_kg_m2".to_string());
+            return Err(crate::terr!("e-attitude-budget-max-kg-m2-must-be"));
         }
         if self.contributors.is_empty() {
-            return Err("at least one pointing contributor is required".to_string());
+            return Err(crate::terr!(
+                "e-attitude-budget-at-least-one-pointing-contributor"
+            ));
         }
         for c in &self.contributors {
             if !c.sigma_arcsec.is_finite() || c.sigma_arcsec < 0.0 {
-                return Err(format!(
-                    "contributor '{}' sigma must be finite and >= 0",
-                    c.name
+                return Err(crate::terr!(
+                    "e-attitude-budget-contributor-sigma-must-be-finite",
+                    name = c.name
                 ));
             }
         }
@@ -210,10 +214,13 @@ impl AttitudeBudgetScenario {
                 "variance_fraction": if total > 0.0 { (c.sigma_arcsec * c.sigma_arcsec) / (total * total) } else { 0.0 },
             })).collect::<Vec<_>>(),
         });
-        let summary = format!(
-            "attitude-budget: {:.0} km, ΔI {:.0} kg·m² -> GG torque {:.2e} N·m; \
-             pointing {:.1}\" RSS (dominant: {}) (MODELLED scalar budget)",
-            self.altitude_km, delta_i, t_gg, total, dominant
+        let summary = crate::t!(
+            "attitude-budget-attitude-budget-km-kg-gg",
+            altitude_km = crate::i18n::localise_decimal(format!("{:.0}", self.altitude_km)),
+            delta_i = crate::i18n::localise_decimal(format!("{:.0}", delta_i)),
+            t_gg = crate::i18n::localise_decimal(format!("{:.2e}", t_gg)),
+            total = crate::i18n::localise_decimal(format!("{:.1}", total)),
+            dominant = dominant
         );
         let json = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
         Ok((json, summary))

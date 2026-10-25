@@ -263,8 +263,8 @@ fn malformed_counts(r: &Run) -> Option<String> {
         match r.json.get(p) {
             Some(v) => v
                 .as_u64()
-                .ok_or_else(|| format!("`{p}` is not a non-negative integer")),
-            None => Err(format!("`{p}` is missing")),
+                .ok_or_else(|| crate::terr!("e-compliance-is-not-non-negative-integer", p = p)),
+            None => Err(crate::terr!("e-compliance-is-missing", p = p)),
         }
     };
     let counts = (|| {
@@ -277,11 +277,15 @@ fn malformed_counts(r: &Run) -> Option<String> {
     })();
     match counts {
         Err(e) => Some(e),
-        Ok((ee, ed, _, _)) if ed > ee => Some(format!(
-            "events_detected {ed} exceeds events_evaluable {ee}"
+        Ok((ee, ed, _, _)) if ed > ee => Some(crate::t!(
+            "compliance-events-detected-exceeds-events-evaluable",
+            ed = ed,
+            ee = ee
         )),
-        Ok((_, _, pe, pa)) if pa > pe => Some(format!(
-            "predictions_agreeing {pa} exceeds predictions_evaluable {pe}"
+        Ok((_, _, pe, pa)) if pa > pe => Some(crate::t!(
+            "compliance-predictions-agreeing-exceeds-predictions-evaluable",
+            pa = pa,
+            pe = pe
         )),
         Ok(_) => None,
     }
@@ -416,10 +420,10 @@ pub fn assess(runs: &[Run], mut unrecognised: Vec<String>) -> Report {
     let (runs, malformed): (Vec<&Run>, Vec<&Run>) =
         runs.iter().partition(|r| malformed_counts(r).is_none());
     for r in malformed {
-        unrecognised.push(format!(
-            "{}: receiver-trust counts malformed ({}); excluded",
-            r.label,
-            malformed_counts(r).unwrap_or_default()
+        unrecognised.push(crate::t!(
+            "compliance-receiver-trust-counts-malformed-excluded",
+            label = r.label,
+            malformed_counts = malformed_counts(r).unwrap_or_default()
         ));
     }
     let capabilities: Vec<CapabilityEvidence> = CAPABILITIES
@@ -501,8 +505,8 @@ pub struct RunInput<'a> {
 /// notes for how the kind is found.
 pub fn run_from_text(input: &RunInput<'_>) -> Result<Run, String> {
     let label = input.label;
-    let json: Value =
-        serde_json::from_str(input.result_json).map_err(|e| format!("{label}: not JSON: {e}"))?;
+    let json: Value = serde_json::from_str(input.result_json)
+        .map_err(|e| crate::terr!("e-compliance-not-json", label = label, e = e))?;
     let kind = kind_of(label, input.scenario_toml, &json)?;
     Ok(Run {
         label: label.to_string(),
@@ -546,7 +550,7 @@ pub fn load_runs(paths: &[std::path::PathBuf]) -> (Vec<Run>, Vec<String>) {
         let text = match std::fs::read_to_string(p) {
             Ok(t) => t,
             Err(e) => {
-                bad.push(format!("{label}: cannot read: {e}"));
+                bad.push(crate::t!("compliance-cannot-read", label = label, e = e));
                 continue;
             }
         };
@@ -594,24 +598,29 @@ fn kind_of(label: &str, scenario_toml: Option<&str>, json: &Value) -> Result<Str
     });
     let kind = match (sibling, own) {
         (Some(s), Some(o)) if s != o => {
-            return Err(format!(
-                "{label}: the sibling scenario says kind `{s}` but the result says `{o}`; not used"
+            return Err(crate::terr!(
+                "e-compliance-the-sibling-scenario-says-kind",
+                label = label,
+                s = s,
+                o = o
             ))
         }
         (Some(s), _) => s,
         (None, Some(o)) => o.to_string(),
         (None, None) => {
-            return Err(format!(
-                "{label}: scenario kind not found (no sibling scenario file, not a \
-                 receiver-trust result, no top-level `kind`)"
+            return Err(crate::terr!(
+                "e-compliance-scenario-kind-not-found-no",
+                label = label
             ))
         }
     };
     if known_kind(&kind) {
         Ok(kind)
     } else {
-        Err(format!(
-            "{label}: `{kind}` is not a scenario kind the engine knows; not used"
+        Err(crate::terr!(
+            "e-compliance-is-not-scenario-kind-the",
+            label = label,
+            kind = kind
         ))
     }
 }
@@ -633,7 +642,10 @@ impl Report {
     pub fn to_markdown(&self) -> String {
         let mut s = String::from("# Compliance report\n\n");
         s.push_str(&format!("> {}\n\n", self.statement));
-        s.push_str(&format!("Written by kshana {}.\n\n", self.engine_version));
+        s.push_str(&crate::t!(
+            "compliance-written-by-kshana",
+            engine_version = self.engine_version
+        ));
         s.push_str("## Runs read\n\n");
         if self.runs.is_empty() {
             s.push_str("None. Every row below is therefore not evidenced.\n\n");
@@ -702,13 +714,13 @@ impl Report {
                  met.\n\n",
             );
             for f in &self.standards_packs {
-                s.push_str(&format!(
-                    "### {} ({})\n\n{} test(s) with every stated bar met, {} with a bar not met, {} needing input.\n\n",
-                    cell(&f.title),
-                    cell(&f.run),
-                    f.met,
-                    f.not_met,
-                    f.needs_input
+                s.push_str(&crate::t!(
+                    "compliance-test-with-every-stated-bar",
+                    cell = cell(&f.title),
+                    cell2 = cell(&f.run),
+                    met = f.met,
+                    not_met = f.not_met,
+                    needs_input = f.needs_input
                 ));
                 s.push_str("| Row | Reference | Pack tests | Outcome |\n|---|---|---|---|\n");
                 for r in &f.rows {

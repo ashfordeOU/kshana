@@ -110,8 +110,9 @@ impl Format {
             "geojson" | "json-geo" => Ok(Format::GeoJson),
             "stk" | "stk-e" | "e" => Ok(Format::Stk),
             "sigmf" => Ok(Format::Sigmf),
-            other => Err(format!(
-                "unknown export format '{other}'; expected one of czml, kml, geojson, stk, sigmf, all or list"
+            other => Err(crate::terr!(
+                "e-interop-unknown-export-format-expected-one",
+                other = other
             )),
         }
     }
@@ -203,8 +204,9 @@ pub fn campaign_members(src: &str) -> Result<Vec<(String, String)>, ExportError>
     let members = crate::campaign::member_scenarios(src).map_err(ExportError::Failed)?;
     let mut out: Vec<(String, String)> = Vec::new();
     for (label, scn) in members {
-        let text = toml::to_string(&scn)
-            .map_err(|e| ExportError::Failed(format!("member {label}: {e}")))?;
+        let text = toml::to_string(&scn).map_err(|e| {
+            ExportError::Failed(crate::terr!("e-interop-member", label = label, e = e))
+        })?;
         if !out.iter().any(|(_, t)| *t == text) {
             out.push((label, text));
         }
@@ -234,7 +236,11 @@ pub fn export_campaign(src: &str, fmt: Format) -> Result<Vec<ExportFile>, Export
             }
             Err(ExportError::NotApplicable(_)) => {}
             Err(ExportError::Failed(e)) => {
-                return Err(ExportError::Failed(format!("member {label}: {e}")))
+                return Err(ExportError::Failed(crate::terr!(
+                    "e-interop-member",
+                    label = label,
+                    e = e
+                )))
             }
         }
     }
@@ -306,7 +312,7 @@ pub fn plan(src: &str) -> Vec<(Format, Result<(), String>)> {
 fn reason_of(e: &ExportError) -> String {
     match e {
         ExportError::NotApplicable(w) => w.clone(),
-        ExportError::Failed(m) => format!("the scenario could not be exported: {m}"),
+        ExportError::Failed(m) => crate::t!("interop-the-scenario-could-not-be", m = m),
     }
 }
 
@@ -318,8 +324,8 @@ fn sigmf_applicability(src: &str) -> Result<(), String> {
                 .into(),
         );
     }
-    let scn: crate::spectrum::SpectrumScenario =
-        toml::from_str(src).map_err(|e| format!("invalid spectrum scenario: {e}"))?;
+    let scn: crate::spectrum::SpectrumScenario = toml::from_str(src)
+        .map_err(|e| crate::terr!("e-interop-invalid-spectrum-scenario", e = e))?;
     if scn.iq.is_none() {
         return Err(
             "this spectrum scenario has no [iq] block, so no samples are synthesised to record"
@@ -331,8 +337,9 @@ fn sigmf_applicability(src: &str) -> Result<(), String> {
 
 fn export_sigmf(src: &str) -> Result<Vec<ExportFile>, ExportError> {
     sigmf_applicability(src).map_err(ExportError::NotApplicable)?;
-    let scn: crate::spectrum::SpectrumScenario = toml::from_str(src)
-        .map_err(|e| ExportError::Failed(format!("invalid spectrum scenario: {e}")))?;
+    let scn: crate::spectrum::SpectrumScenario = toml::from_str(src).map_err(|e| {
+        ExportError::Failed(crate::terr!("e-interop-invalid-spectrum-scenario", e = e))
+    })?;
     let (meta, data) = scn
         .export_sigmf()
         .map_err(ExportError::Failed)?

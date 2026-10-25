@@ -66,11 +66,11 @@ fn the_selection_order_is_flag_then_environment_then_english() {
     assert_eq!(select_with(None, &lc).unwrap().tag(), "es");
     let lang = env(&[("LANG", "ja_JP.UTF-8")]);
     assert_eq!(select_with(None, &lang).unwrap().tag(), "ja");
-    assert_eq!(select_with(None, &env(&[])).unwrap().tag(), "en");
+    assert_eq!(select_with(None, env(&[])).unwrap().tag(), "en");
     // A machine locale the tool does not speak falls through; the user's own choice does not.
     let odd = env(&[("LC_ALL", "tlh_XX"), ("LANG", "fr_FR.UTF-8")]);
     assert_eq!(select_with(None, &odd).unwrap().tag(), "fr");
-    assert!(select_with(Some("tlh"), &env(&[]))
+    assert!(select_with(Some("tlh"), env(&[]))
         .unwrap_err()
         .starts_with("--lang: "));
     let bad = env(&[("KSHANA_LANG", "tlh")]);
@@ -79,7 +79,7 @@ fn the_selection_order_is_flag_then_environment_then_english() {
         .starts_with("KSHANA_LANG: "));
     // An empty variable is not a choice.
     assert_eq!(
-        select_with(None, &env(&[("KSHANA_LANG", " "), ("LANG", "de")]))
+        select_with(None, env(&[("KSHANA_LANG", " "), ("LANG", "de")]))
             .unwrap()
             .tag(),
         "de"
@@ -207,7 +207,7 @@ fn numbers_take_the_languages_decimal_mark_and_english_is_rust_formatting() {
         0.0,
         1.0,
         -2.5,
-        3.14159,
+        7.77777,
         1234567.891,
         1.0e-12,
         f64::MAX / 1e300,
@@ -219,14 +219,14 @@ fn numbers_take_the_languages_decimal_mark_and_english_is_rust_formatting() {
         assert_eq!(num_plain(x), format!("{x}"));
     }
     with_lang(resolve("de").unwrap(), || {
-        assert_eq!(num(3.14159, 2), "3,14");
+        assert_eq!(num(7.77777, 2), "7,78");
         assert_eq!(num_e(1.5e-9, 2), "1,50e-9");
         assert_eq!(num_plain(0.25), "0,25");
         assert_eq!(num(7.0, 0), "7");
     });
     for tag in ["ja", "zh-Hans", "en-XA"] {
         with_lang(resolve(tag).unwrap(), || {
-            assert_eq!(num(3.14159, 2), "3.14", "{tag}")
+            assert_eq!(num(7.77777, 2), "7.78", "{tag}")
         });
     }
     for tag in LANGS {

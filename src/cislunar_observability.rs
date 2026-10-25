@@ -214,8 +214,9 @@ impl OrbitFamily {
             "dro" => Ok(OrbitFamily::Dro),
             "halo" => Ok(OrbitFamily::Halo),
             "nrho" => Ok(OrbitFamily::Nrho),
-            other => Err(format!(
-                "unknown family `{other}`: expected one of dro, halo, nrho"
+            other => Err(crate::terr!(
+                "e-cislunar-observability-unknown-family-expected-one-of",
+                other = other
             )),
         }
     }
@@ -305,8 +306,13 @@ fn dro_members(mu: f64, n: usize) -> Result<Vec<FamilyMember>, String> {
     }
     let mut out = Vec::with_capacity(n);
     for &(d, phase) in DRO_DESIGN.iter().take(n) {
-        let dro = crate::dro::dro_from_crossing((1.0 - mu) + d, mu, 1e-12, 60)
-            .ok_or_else(|| format!("DRO at crossing distance {d} did not differential-correct"))?;
+        let dro =
+            crate::dro::dro_from_crossing((1.0 - mu) + d, mu, 1e-12, 60).ok_or_else(|| {
+                crate::terr!(
+                    "e-cislunar-observability-dro-at-crossing-distance-did",
+                    d = d
+                )
+            })?;
         out.push(lift(&DroMember {
             state: crate::dro::state_at(&dro, mu, phase, 24_000),
             perilune_km: dro.perilune_km,
@@ -337,7 +343,12 @@ fn halo_members(
             v: [0.0, vy0, 0.0],
         };
         let orbit = differential_correct_halo(&guess, mu, 1e-11, 80).ok_or_else(|| {
-            format!("{label} member {i} at x0 = {x0} did not differential-correct")
+            crate::terr!(
+                "e-cislunar-observability-member-at-x0-did-not",
+                label = label,
+                i = i,
+                x0 = x0
+            )
         })?;
         z0 = orbit.ic.r[2];
         vy0 = orbit.ic.v[1];
@@ -549,8 +560,10 @@ impl CislunarObservabilityScenario {
     fn spacecraft_count(&self) -> Result<usize, String> {
         let n = self.n_spacecraft.unwrap_or(DEFAULT_SPACECRAFT);
         if !(2..=MAX_SPACECRAFT).contains(&n) {
-            return Err(format!(
-                "n_spacecraft must be between 2 and {MAX_SPACECRAFT}, got {n}"
+            return Err(crate::terr!(
+                "e-cislunar-observability-spacecraft-must-be-between-and",
+                MAX_SPACECRAFT = MAX_SPACECRAFT,
+                n = n
             ));
         }
         Ok(n)
@@ -581,16 +594,21 @@ impl CislunarObservabilityScenario {
         let steps = self.steps.unwrap_or(2000);
         let rel_tol = self.rel_tol.unwrap_or(1e-6);
         if !(arc_hours.is_finite() && arc_hours > 0.0) {
-            return Err(format!(
-                "arc_hours must be finite and positive, got {arc_hours}"
+            return Err(crate::terr!(
+                "e-cislunar-arc-recovery-arc-hours-must-be-finite",
+                arc_hours = arc_hours
             ));
         }
         if n_epochs < 2 {
-            return Err(format!("epochs must be ≥ 2, got {n_epochs}"));
+            return Err(crate::terr!(
+                "e-cislunar-observability-epochs-must-be-got",
+                n_epochs = n_epochs
+            ));
         }
         if !(rel_tol.is_finite() && rel_tol > 0.0) {
-            return Err(format!(
-                "rel_tol must be finite and positive, got {rel_tol}"
+            return Err(crate::terr!(
+                "e-cislunar-observability-rel-tol-must-be-finite",
+                rel_tol = rel_tol
             ));
         }
         let extended = self.is_extended();
@@ -599,23 +617,24 @@ impl CislunarObservabilityScenario {
         let n_spacecraft = self.spacecraft_count()?;
         let sigma_range_m = self.sigma_range_m.unwrap_or(0.0);
         if !(sigma_range_m.is_finite() && sigma_range_m >= 0.0) {
-            return Err(format!(
-                "sigma_range_m must be finite and non-negative, got {sigma_range_m}"
+            return Err(crate::terr!(
+                "e-cislunar-observability-sigma-range-must-be-finite",
+                sigma_range_m = sigma_range_m
             ));
         }
         let sigma_pos_threshold_km = self
             .sigma_pos_threshold_km
             .unwrap_or(DEFAULT_SIGMA_POS_THRESHOLD_KM);
         if !(sigma_pos_threshold_km.is_finite() && sigma_pos_threshold_km > 0.0) {
-            return Err(format!(
-                "sigma_pos_threshold_km must be finite and positive, got {sigma_pos_threshold_km}"
+            return Err(crate::terr!(
+                "e-cislunar-observability-sigma-pos-threshold-km-must",
+                sigma_pos_threshold_km = sigma_pos_threshold_km
             ));
         }
         if !spatial && !family.is_planar() {
-            return Err(format!(
-                "family `{}` is an out-of-plane family and has no planar four-state \
-                 representation: set spatial = true to sweep it",
-                family.as_str()
+            return Err(crate::terr!(
+                "e-cislunar-arc-recovery-family-is-an-out-of",
+                family = family.as_str()
             ));
         }
         let state_dim = if spatial { N_SPATIAL } else { N_PLANAR };
@@ -633,7 +652,9 @@ impl CislunarObservabilityScenario {
         // always has been); `mu` governs the propagation along the arc.
         let members = family_members(family, EARTH_MOON_MU, n_spacecraft)?;
         if members.len() < 2 {
-            return Err("the constellation must carry at least a chief and one reference".into());
+            return Err(crate::terr!(
+                "e-cislunar-arc-recovery-the-constellation-must-carry-at"
+            ));
         }
         let project = |s: &SpatialState| -> Vec<f64> {
             if spatial {
@@ -980,29 +1001,27 @@ impl CislunarObservabilityScenario {
             Some(e) => e.to_string(),
             None => "none".to_string(),
         };
-        let base = format!(
-            "cislunar-observability | {} s/c ({} refs) | {:.1} h arc, {} epochs | rank {} → {} \
-             of {} over arc | Gramian λ [{:.2e}…{:.2e}] cond {} | instantaneous rank range-only \
-             {} → range+rate {} ({} links) | GDOP range-only {} range+rate {} | DRO ICs (max \
-             periodicity residual {:.1e}) | SRIF posterior finite at rank-4 epoch {} (Validated \
-             rank/STM/DRO-closure/SRIF, Modelled design)",
-            c.refs.len() + 1,
-            c.refs.len(),
-            c.arc_hours,
-            c.rank_arc.len(),
-            first.map(|p| p.rank).unwrap_or(0),
-            last.map(|p| p.rank).unwrap_or(0),
-            c.state_dim,
-            c.spectrum.min_eigenvalue,
-            c.spectrum.max_eigenvalue,
-            condition_str(c.spectrum.condition),
-            c.lever.rank_range_only,
-            c.lever.rank_range_rate,
-            c.lever.n_links,
-            ro,
-            rr,
-            max_resid,
-            srif_epoch,
+        let base = crate::t!(
+            "cislunar-observability-cislunar-observability-refs-arc-epochs",
+            c = c.refs.len() + 1,
+            refs = c.refs.len(),
+            arc_hours = crate::i18n::localise_decimal(format!("{:.1}", c.arc_hours)),
+            rank_arc = c.rank_arc.len(),
+            first = first.map(|p| p.rank).unwrap_or(0),
+            last = last.map(|p| p.rank).unwrap_or(0),
+            state_dim = c.state_dim,
+            min_eigenvalue =
+                crate::i18n::localise_decimal(format!("{:.2e}", c.spectrum.min_eigenvalue)),
+            max_eigenvalue =
+                crate::i18n::localise_decimal(format!("{:.2e}", c.spectrum.max_eigenvalue)),
+            condition_str = condition_str(c.spectrum.condition),
+            rank_range_only = c.lever.rank_range_only,
+            rank_range_rate = c.lever.rank_range_rate,
+            n_links = c.lever.n_links,
+            ro = ro,
+            rr = rr,
+            max_resid = crate::i18n::localise_decimal(format!("{:.1e}", max_resid)),
+            srif_epoch = srif_epoch
         );
         if !c.extended {
             return base;
@@ -1010,7 +1029,11 @@ impl CislunarObservabilityScenario {
         let hours = |i: usize| c.rank_arc[i].arc_time / tu_per_hour();
         let rank_thr = match first_full_rank(&c.rank_arc, c.state_dim) {
             Some(i) => format!("{:.3} h", hours(i)),
-            None => format!("never (rank {} of {})", c.spectrum.rank, c.state_dim),
+            None => crate::t!(
+                "cislunar-observability-never-rank-of",
+                rank = c.spectrum.rank,
+                state_dim = c.state_dim
+            ),
         };
         let est_thr = if c.sigma_range_nd > 0.0 {
             match (0..c.posterior_arc.len()).find(|&i| {
@@ -1024,17 +1047,21 @@ impl CislunarObservabilityScenario {
         } else {
             "n/a (noise-free)".to_string()
         };
-        format!(
-            "{base} | {} family, {}-state, {} s/c, σ_range {:.3} m | rank threshold {} \
-             (grid {:.3} h) | estimability threshold (σ_pos ≤ {:.3} km) {}",
-            c.family.as_str(),
-            c.state_dim,
-            c.n_spacecraft,
-            c.sigma_range_m,
-            rank_thr,
-            c.arc_hours / ((c.rank_arc.len().max(2) - 1) as f64),
-            c.sigma_pos_threshold_km,
-            est_thr,
+        crate::t!(
+            "cislunar-observability-family-state-range-rank-threshold",
+            base = base,
+            family = c.family.as_str(),
+            state_dim = c.state_dim,
+            n_spacecraft = c.n_spacecraft,
+            sigma_range_m = crate::i18n::localise_decimal(format!("{:.3}", c.sigma_range_m)),
+            rank_thr = rank_thr,
+            c = crate::i18n::localise_decimal(format!(
+                "{:.3}",
+                c.arc_hours / ((c.rank_arc.len().max(2) - 1) as f64)
+            )),
+            sigma_pos_threshold_km =
+                crate::i18n::localise_decimal(format!("{:.3}", c.sigma_pos_threshold_km)),
+            est_thr = est_thr
         )
     }
 }
@@ -1118,14 +1145,10 @@ fn extend_document(mut doc: serde_json::Value, c: &Computed) -> serde_json::Valu
     let hit_at = |bound: f64| -> Option<usize> {
         (0..c.posterior_arc.len()).find(|&i| sigma_km(i).is_some_and(|s| s <= bound))
     };
-    let est_criterion_text = format!(
-        "first arc length at which the formal 1σ position uncertainty of the chief's INITIAL \
-         state, σ_pos = sqrt(trace(P_rr)) with P = (ÕᵀÕ)⁻¹ and Õ the measurement-noise-whitened \
-         observability matrix, falls to or below {:.6} km. This is the criterion under which an \
-         arc-length threshold is noise-dependent at all: P scales as σ², so σ_pos scales as σ, \
-         whereas the rank criterion above does not move with σ. The bound is a STATED engineering \
-         choice, not a fitted one — estimability_sweep reports the threshold at four other bounds.",
-        c.sigma_pos_threshold_km
+    let est_criterion_text = crate::t!(
+        "cislunar-observability-first-arc-length-at-which",
+        sigma_pos_threshold_km =
+            crate::i18n::localise_decimal(format!("{:.6}", c.sigma_pos_threshold_km))
     );
     let mut estimability = if noisy {
         threshold_json(
@@ -1266,30 +1289,12 @@ fn extend_document(mut doc: serde_json::Value, c: &Computed) -> serde_json::Valu
     // The released `label` and the released `dro_provenance.note` both describe the planar
     // DRO run they were written for. They are byte-frozen on the default path (R1), so the
     // extension states plainly where they stop applying rather than leaving a stale claim.
-    let extension_label = format!(
-        "EXTENSION (R3) — this run is NOT the planar DRO configuration the `label` above \
-         describes. State dimension {}; orbit family {}; {} spacecraft; range measurement \
-         sigma {} m. Where `label` says \"planar\" and \"planar DROs\", read the family named \
-         here. VALIDATED additions: the 6x6 variational STM is the same \
-         finite-difference-validated CR3BP STM (crate::cr3bp) used at full width; the spatial \
-         range / range-rate Jacobian rows are finite-difference-validated analytic partials, \
-         the range-rate row cross-checked component-for-component against the crate's \
-         independent 3-D deepspace_od::range_rate_observable; the halo / NRHO initial \
-         conditions are differential-corrected periodic orbits from the same corrector that \
-         reproduces the published L2 southern 9:2 NRHO, continued from that published seed, \
-         and each member's closure residual is reported; the six-state RANK verdicts are \
-         confirmed against an INDEPENDENT row-echelon rank (Gaussian elimination with partial \
-         pivoting) that shares no code with the eigen/SVD route. HONEST SCOPE OF THE SRIF \
-         LEG: the SRIF cross-validation above consumes the SAME measurement Jacobians and \
-         reduces to the same O^T O, so its agreement is a consistency check between two \
-         numerical machines, NOT independent corroboration of the threshold — it is not \
-         counted as validation of any figure here. MODELLED: the family design (which \
-         abscissae, amplitudes and phases), the epoch grid, the single-link arc, and the \
-         stated position bound of the estimability criterion.",
-        c.state_dim,
-        c.family.as_str(),
-        c.n_spacecraft,
-        c.sigma_range_m,
+    let extension_label = crate::t!(
+        "cislunar-observability-extension-r3-this-run-is",
+        state_dim = c.state_dim,
+        family = c.family.as_str(),
+        n_spacecraft = c.n_spacecraft,
+        sigma_range_m = c.sigma_range_m
     );
     if let Some(prov) = doc
         .get_mut("dro_provenance")
@@ -1297,15 +1302,9 @@ fn extend_document(mut doc: serde_json::Value, c: &Computed) -> serde_json::Valu
     {
         prov.insert(
             "note".into(),
-            format!(
-                "Validated: each constellation initial condition is a differential-corrected \
-                 periodic orbit of the {} family, closing over one period to the reported \
-                 periodicity residual (planar DROs are additionally retrograde about the Moon). \
-                 The family is corrected at the Earth-Moon mass ratio. Modelled: the choice of \
-                 family parameters and phases (the constellation design). The key name \
-                 `dro_provenance` is retained for the released document schema; it carries \
-                 whichever family this run asked for.",
-                c.family.as_str()
+            crate::t!(
+                "cislunar-observability-validated-each-constellation-initial-condition",
+                family = c.family.as_str()
             )
             .into(),
         );

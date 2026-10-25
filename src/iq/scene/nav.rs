@@ -56,14 +56,14 @@ impl NavData {
         match (self, m) {
             (NavData::None, _) => Ok(()),
             (_, DataModulation::Pilot) => {
-                Err("is a pilot (data-free) component and carries no navigation data".into())
+                Err(crate::terr!("e-iq-scene-nav-is-pilot-data-free-component"))
             }
             (_, DataModulation::NotModelled) => {
-                Err("carries data the scene does not model; generate it without data".into())
+                Err(crate::terr!("e-iq-scene-nav-carries-data-the-scene-does"))
             }
             (NavData::Lnav { .. }, DataModulation::Lnav) => Ok(()),
             (NavData::Lnav { .. }, _) => {
-                Err("does not carry GPS LNAV (only GPS L1 C/A does); use seeded data".into())
+                Err(crate::terr!("e-iq-scene-nav-does-not-carry-gps-lnav"))
             }
             (NavData::Seeded { .. }, _) => Ok(()),
         }
@@ -180,7 +180,7 @@ impl NavState {
             return Ok(&self.frames[pos].1);
         }
         let NavData::Lnav { eph, conv } = &self.data else {
-            return Err("not an LNAV source".into());
+            return Err(crate::terr!("e-iq-scene-nav-not-an-lnav-source"));
         };
         let bits = lnav_frame_bits(eph.as_ref(), conv, self.frame0_tow_s + 30.0 * f as f64)?;
         // Keep the two most recent frames: a chunk spans at most a bit or two.

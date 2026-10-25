@@ -78,15 +78,15 @@ pub fn plane_change_dv(v_orbit: f64, delta_i_rad: f64) -> f64 {
 pub fn launch_azimuth(lat_rad: f64, inclination_rad: f64) -> Result<(f64, f64), String> {
     let cl = lat_rad.pcos();
     if cl.abs() < 1e-12 {
-        return Err("launch site at the pole has no defined azimuth".to_string());
+        return Err(crate::terr!("e-launch-launch-site-at-the-pole"));
     }
     let s = inclination_rad.pcos() / cl;
     if !(-1.0..=1.0).contains(&s) {
-        return Err(format!(
-            "inclination {:.2}° unreachable from latitude {:.2}° without a dogleg \
-             (need |lat| ≤ i ≤ 180−|lat|)",
-            inclination_rad.to_degrees(),
-            lat_rad.to_degrees()
+        return Err(crate::terr!(
+            "e-launch-inclination-unreachable-from-latitude-without",
+            inclination_rad =
+                crate::i18n::localise_decimal(format!("{:.2}", inclination_rad.to_degrees())),
+            lat_rad = crate::i18n::localise_decimal(format!("{:.2}", lat_rad.to_degrees()))
         ));
     }
     let asc = s.pasin(); // in [-π/2, π/2]; for prograde i this is the NE/SE azimuth
@@ -244,26 +244,26 @@ impl LaunchWindowScenario {
         let (epoch, body) = match (&self.epoch, &self.eop_finals2000a) {
             (None, None) => return Ok(None),
             (Some(e), Some(b)) => (e, b),
-            _ => {
-                return Err("the true-pole site speed needs both `epoch` and \
-                            `eop_finals2000a` (a real IERS finals2000A body)"
-                    .to_string())
-            }
+            _ => return Err(crate::terr!("e-launch-the-true-pole-site-speed")),
         };
         if !(-180.0..=360.0).contains(&self.site_lon_deg) {
-            return Err("site_lon_deg must be in [-180, 360]".to_string());
+            return Err(crate::terr!("e-launch-site-lon-deg-must-be"));
         }
         let jd_utc = crate::leo_pass::parse_epoch_jd(epoch)?;
         let records = crate::eop::parse_all(body);
         let (Some(first), Some(last)) = (records.first(), records.last()) else {
-            return Err("eop_finals2000a contained no readable IERS finals2000A rows".to_string());
+            return Err(crate::terr!(
+                "e-launch-eop-finals2000a-contained-no-readable"
+            ));
         };
         let mjd_utc = jd_utc - crate::timescales::MJD_OFFSET;
         if mjd_utc < first.mjd || mjd_utc > last.mjd {
-            return Err(format!(
-                "epoch {epoch} (MJD {mjd_utc:.3}) is outside the EOP rows supplied \
-                 (MJD {} to {})",
-                first.mjd, last.mjd
+            return Err(crate::terr!(
+                "e-launch-epoch-mjd-is-outside-the",
+                epoch = epoch,
+                mjd_utc = crate::i18n::localise_decimal(format!("{:.3}", mjd_utc)),
+                mjd = first.mjd,
+                mjd2 = last.mjd
             ));
         }
         let eop = crate::eop::EopSeries::new(records);
@@ -281,13 +281,13 @@ impl LaunchWindowScenario {
     /// Run the scenario, returning `(json, summary)`.
     pub fn run_json(&self) -> Result<(String, String), String> {
         if !(-90.0..=90.0).contains(&self.site_lat_deg) {
-            return Err("site_lat_deg must be in [-90, 90]".to_string());
+            return Err(crate::terr!("e-launch-site-lat-deg-must-be"));
         }
         if !(0.0..=180.0).contains(&self.target_inclination_deg) {
-            return Err("target_inclination_deg must be in [0, 180]".to_string());
+            return Err(crate::terr!("e-launch-target-inclination-deg-must-be"));
         }
         if !self.altitude_km.is_finite() || self.altitude_km <= 0.0 {
-            return Err("altitude_km must be finite and positive".to_string());
+            return Err(crate::terr!("e-attitude-budget-altitude-km-must-be-finite"));
         }
         let lat = self.site_lat_deg.to_radians();
         let inc = self.target_inclination_deg.to_radians();
@@ -325,15 +325,16 @@ impl LaunchWindowScenario {
             "dogleg_plane_change_dv_m_s": dogleg_dv,
         });
         let summary = match azimuths {
-            Some((asc, _)) => format!(
-                "launch-window: lat {:.1}° -> i {:.1}°: Az {:.1}° asc, v_circ {:.0} m/s, \
-                 +{:.0} m/s Earth-rotation bonus, {} opportunities/day (MODELLED)",
-                self.site_lat_deg,
-                self.target_inclination_deg,
-                asc,
-                v_orbit,
-                site_rotation_speed(lat),
-                opportunities
+            Some((asc, _)) => crate::t!(
+                "launch-launch-window-lat-az-asc",
+                site_lat_deg = crate::i18n::localise_decimal(format!("{:.1}", self.site_lat_deg)),
+                target_inclination_deg =
+                    crate::i18n::localise_decimal(format!("{:.1}", self.target_inclination_deg)),
+                asc = crate::i18n::localise_decimal(format!("{:.1}", asc)),
+                v_orbit = crate::i18n::localise_decimal(format!("{:.0}", v_orbit)),
+                site_rotation_speed =
+                    crate::i18n::localise_decimal(format!("{:.0}", site_rotation_speed(lat))),
+                opportunities = opportunities
             ),
             None => format!(
                 "launch-window: i {:.1}° < lat {:.1}° -> direct launch impossible; \

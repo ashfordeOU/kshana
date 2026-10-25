@@ -119,9 +119,10 @@ code{{font:13px ui-monospace,monospace;word-break:break-all}}\n\
     row("Created (UTC)", i.created_utc.unwrap_or("not stated"));
     row(
         "Window",
-        &format!(
-            "{} s to {} s after the first epoch of the log",
-            i.window.from_s, i.window.to_s
+        &crate::t!(
+            "evidence-html-to-after-the-first-epoch",
+            from_s = i.window.from_s,
+            to_s = i.window.to_s
         ),
     );
     row(

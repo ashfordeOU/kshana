@@ -2043,7 +2043,11 @@ fn ephemeris_units_block(rows: &[(&str, &str)]) -> serde_json::Value {
     for (geometry, provenance) in rows {
         for (field, unit, note) in SIGMA_ROW_UNITS {
             put(
-                format!("ephemeris_comparison.{geometry}.{field}"),
+                crate::t!(
+                    "lunar-service-ephemeris-comparison",
+                    geometry = geometry,
+                    field = field
+                ),
                 unit,
                 provenance,
                 note,
@@ -2214,20 +2218,20 @@ impl LunarServiceScenario {
     /// report additionally carries the provenance block and the σ_URE-requirement
     /// comparison against the unchanged Keplerian and perturbed results.
     pub fn try_run(&self) -> Result<LunarServiceReport, String> {
-        let terrain = match &self.terrain {
-            Some(t) => {
-                let pts: Vec<(f64, f64)> = self
-                    .grid()
-                    .iter()
-                    .map(|g| (g.lat_rad.to_degrees(), g.lon_rad.to_degrees()))
-                    .collect();
-                Some(
-                    t.resolve_grid(&pts, self.elev_mask_deg)
-                        .map_err(|e| format!("moonlight-service-volume: {e}"))?,
-                )
-            }
-            None => None,
-        };
+        let terrain =
+            match &self.terrain {
+                Some(t) => {
+                    let pts: Vec<(f64, f64)> = self
+                        .grid()
+                        .iter()
+                        .map(|g| (g.lat_rad.to_degrees(), g.lon_rad.to_degrees()))
+                        .collect();
+                    Some(t.resolve_grid(&pts, self.elev_mask_deg).map_err(|e| {
+                        crate::terr!("e-lunar-service-moonlight-service-volume", e = e)
+                    })?)
+                }
+                None => None,
+            };
         let masks = terrain.as_ref().map(|t| t.masks.as_slice());
         // The export site gets its own mask, built as a grid point's is.
         let export_mask = match (
@@ -2235,10 +2239,14 @@ impl LunarServiceScenario {
             self.export_site_lat_deg,
             self.export_site_lon_deg,
         ) {
-            (Some(t), Some(lat), Some(lon)) => Some(
-                t.resolve_site(lat, lon, self.elev_mask_deg)
-                    .map_err(|e| format!("moonlight-service-volume: export site: {e}"))?,
-            ),
+            (Some(t), Some(lat), Some(lon)) => {
+                Some(t.resolve_site(lat, lon, self.elev_mask_deg).map_err(|e| {
+                    crate::terr!(
+                        "e-lunar-service-moonlight-service-volume-export-site",
+                        e = e
+                    )
+                })?)
+            }
             _ => None,
         };
         let mut report = self.try_run_masked(masks)?;
@@ -2277,10 +2285,11 @@ impl LunarServiceScenario {
         if let Some(until) = eph.covered_until_s() {
             let last = self.times().last().copied().unwrap_or(0.0);
             if last > until + 1e-6 {
-                return Err(format!(
-                    "lunar ephemeris {path} covers {until} s past its epoch but the scenario \
-                     horizon reaches {last} s; shorten horizon_hours or retrieve a longer arc \
-                     (extrapolating a tabulated ephemeris is refused)"
+                return Err(crate::terr!(
+                    "e-lunar-service-lunar-ephemeris-covers-past-its",
+                    path = path,
+                    until = until,
+                    last = last
                 ));
             }
         }
@@ -2460,7 +2469,7 @@ impl LunarServiceScenario {
         let epoch = self
             .epoch_utc
             .as_deref()
-            .ok_or("planetary_kernel_path needs epoch_utc (YYYY-MM-DDTHH:MM:SS UTC)")?;
+            .ok_or_else(|| crate::terr!("e-lunar-service-planetary-kernel-path-needs-epoch"))?;
         let jd = crate::leo_pass::parse_epoch_jd(epoch)?;
         let jd_day = (jd - 0.5).floor() + 0.5;
         let secs = ((jd - jd_day) * 86_400.0 * 1e3).round() / 1e3;
@@ -2496,11 +2505,10 @@ impl LunarServiceScenario {
         )?;
         Ok((
             tab,
-            format!(
-                "OP frame at {epoch} UTC (Earth's apparent orbit normal about the Moon, x along \
-                 its node on the IAU lunar equator); lunar GM, J2 and C22 in the IAU Moon-fixed \
-                 frame, Earth and Sun third bodies at DE440 positions from {spk_path}; \
-                 fourth-order Runge-Kutta, 10 s step"
+            crate::t!(
+                "lunar-service-op-frame-at-utc-earth",
+                epoch = epoch,
+                spk_path = spk_path
             ),
         ))
     }

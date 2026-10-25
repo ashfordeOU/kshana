@@ -56,15 +56,15 @@ impl LabAttestation {
     pub fn from_toml(text: &str) -> Result<Self, String> {
         let table: toml::Table = text
             .parse()
-            .map_err(|e| format!("invalid lab-attestation TOML: {e}"))?;
+            .map_err(|e| crate::terr!("e-evidence-lab-invalid-lab-attestation-toml", e = e))?;
         let body = match table.get("lab-attestation") {
             Some(toml::Value::Table(t)) => t.clone(),
-            Some(_) => return Err("`lab-attestation` must be a table".into()),
+            Some(_) => return Err(crate::terr!("e-evidence-lab-lab-attestation-must-be-table")),
             None => table,
         };
         let a: LabAttestation = toml::Value::Table(body)
             .try_into()
-            .map_err(|e| format!("invalid lab-attestation: {e}"))?;
+            .map_err(|e| crate::terr!("e-evidence-lab-invalid-lab-attestation", e = e))?;
         a.validate()?;
         Ok(a)
     }
@@ -78,7 +78,10 @@ impl LabAttestation {
             ("statement", &self.statement),
         ] {
             if v.trim().is_empty() {
-                return Err(format!("lab-attestation: {name} is required"));
+                return Err(crate::terr!(
+                    "e-evidence-lab-lab-attestation-is-required",
+                    name = name
+                ));
             }
         }
         for (name, v) in [
@@ -90,13 +93,17 @@ impl LabAttestation {
             ("signature", self.signature.as_ref()),
         ] {
             if v.is_some_and(|s| s.len() > MAX_FIELD) {
-                return Err(format!("lab-attestation: {name} is over {MAX_FIELD} bytes"));
+                return Err(crate::terr!(
+                    "e-evidence-lab-lab-attestation-is-over-bytes",
+                    name = name,
+                    MAX_FIELD = MAX_FIELD
+                ));
             }
         }
         if !day_ok(&self.date) {
-            return Err(format!(
-                "lab-attestation: date {:?} is not a day like 2026-11-02",
-                self.date
+            return Err(crate::terr!(
+                "e-evidence-lab-lab-attestation-date-is-not",
+                date = format!("{:?}", self.date)
             ));
         }
         match self.setup.as_str() {
@@ -111,17 +118,17 @@ impl LabAttestation {
             },
             "shielded" => {
                 if self.enclosure.as_deref().is_none_or(|e| e.trim().is_empty()) {
-                    return Err("lab-attestation: a shielded setup needs enclosure".into());
+                    return Err(crate::terr!("e-evidence-lab-lab-attestation-shielded-setup-needs"));
                 }
             }
             other => {
-                return Err(format!(
-                    "lab-attestation: setup must be \"conducted\" or \"shielded\" (got {other:?}); an over-the-air setup is not accepted as a lab run"
-                ))
+                return Err(crate::terr!("e-evidence-lab-lab-attestation-setup-must-be", other = format!("{:?}", other)))
             }
         }
         if self.attenuation_db.is_some_and(|a| !a.is_finite()) {
-            return Err("lab-attestation: attenuation_db must be finite".into());
+            return Err(crate::terr!(
+                "e-evidence-lab-lab-attestation-attenuation-db-must"
+            ));
         }
         Ok(())
     }

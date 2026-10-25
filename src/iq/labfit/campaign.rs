@@ -187,9 +187,9 @@ pub fn stated_q(ev: &crate::iq::campaign::conditions::Event) -> (f64, String) {
         Some((q, s)) => (q, s.to_string()),
         None => (
             Q_CW,
-            format!(
-                "most damaging stated Q (cw): no table value for type `{}`",
-                ev.event_type.name()
+            crate::t!(
+                "iq-labfit-campaign-most-damaging-stated-cw-no",
+                event_type = ev.event_type.name()
             ),
         ),
     }
@@ -235,14 +235,19 @@ pub fn load(out_dir: &Path) -> Result<CampaignData, String> {
         std::fs::read(&plan_path).map_err(|e| format!("{}: {e}", plan_path.display()))?;
     let plan: Plan =
         serde_json::from_slice(&plan_bytes).map_err(|e| format!("{}: {e}", plan_path.display()))?;
-    let digest = crate::iq::campaign::report::digest(out_dir)?
-        .ok_or_else(|| format!("{}: the campaign is not complete", out_dir.display()))?;
+    let digest = crate::iq::campaign::report::digest(out_dir)?.ok_or_else(|| {
+        crate::terr!(
+            "e-iq-labfit-campaign-the-campaign-is-not-complete",
+            out_dir = out_dir.display()
+        )
+    })?;
     if let Ok(on_disk) = std::fs::read_to_string(out_dir.join("DIGEST")) {
         if on_disk.trim() != digest {
-            return Err(format!(
-                "{}: DIGEST {} does not match the cells ({digest})",
-                out_dir.display(),
-                on_disk.trim()
+            return Err(crate::terr!(
+                "e-iq-labfit-campaign-digest-does-not-match-the",
+                out_dir = out_dir.display(),
+                on_disk = on_disk.trim(),
+                digest = digest
             ));
         }
     }
@@ -250,9 +255,11 @@ pub fn load(out_dir: &Path) -> Result<CampaignData, String> {
     for r in &plan.recordings {
         let h = r.conditions.hash().to_string();
         if h != r.conditions_hash {
-            return Err(format!(
-                "recording `{}`: test conditions hash {h} does not match the recorded {}",
-                r.id, r.conditions_hash
+            return Err(crate::terr!(
+                "e-iq-labfit-campaign-recording-test-conditions-hash-does",
+                id = r.id,
+                h = h,
+                conditions_hash = r.conditions_hash
             ));
         }
         tc_hashes.push((r.id.clone(), h));
@@ -297,7 +304,10 @@ pub fn load(out_dir: &Path) -> Result<CampaignData, String> {
                     .map(|m| m.chip_rate_hz)
                     .or_else(|| chip_rate(&s.signal, s.id))
                 else {
-                    return Err(format!("signal `{}`: unknown chip rate", s.signal));
+                    return Err(crate::terr!(
+                        "e-iq-labfit-campaign-signal-unknown-chip-rate",
+                        signal = s.signal
+                    ));
                 };
                 let locked_end = match (e.locked_at_onset, e.time_to_loss_s) {
                     (false, _) => e.onset_s,

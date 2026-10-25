@@ -162,14 +162,17 @@ pub fn budget(cfg: &NmaConfig) -> Result<NmaBudget, String> {
     ];
     for (name, v) in fields {
         if !v.is_finite() || v < 0.0 {
-            return Err(format!("{name} must be finite and non-negative"));
+            return Err(crate::terr!(
+                "e-nma-budget-must-be-finite-and-non",
+                name = name
+            ));
         }
     }
     if cfg.subframe_s <= 0.0 {
-        return Err("subframe_s must be positive".to_string());
+        return Err(crate::terr!("e-nma-budget-subframe-must-be-positive"));
     }
     if cfg.nav_data_rate_bps <= 0.0 {
-        return Err("nav_data_rate_bps must be positive".to_string());
+        return Err(crate::terr!("e-nma-budget-nav-data-rate-bps-must"));
     }
 
     let overhead_bps = (cfg.mack_bits_per_subframe + cfg.hkroot_bits_per_subframe) / cfg.subframe_s;

@@ -297,8 +297,9 @@ impl<'a> PassGeometry<'a> {
     ) -> Result<Self, String> {
         let h_km = station.alt_m / 1000.0;
         if opts.refraction && !(0.0..=3.0).contains(&h_km) {
-            return Err(format!(
-                "ITU-R P.834 refraction is defined for station heights 0 to 3 km; got {h_km} km"
+            return Err(crate::terr!(
+                "e-passes-itu-834-refraction-is-defined",
+                h_km = h_km
             ));
         }
         Ok(Self {
@@ -444,7 +445,7 @@ pub fn predict_passes_apparent(
     opts: ApparentOptions,
 ) -> Result<Vec<Pass>, String> {
     if !(step_s > 0.0 && duration_s > 0.0) {
-        return Err("duration_s and step_s must be positive".into());
+        return Err(crate::terr!("e-passes-duration-and-step-must-be"));
     }
     let geo = PassGeometry::new(sat, station, start, duration_s, opts)?;
     let n = (duration_s / step_s).ceil() as usize;
@@ -785,19 +786,19 @@ impl PassesScenario {
     /// Run the scenario, returning `(json, summary)`.
     pub fn run_json(&self) -> Result<(String, String), String> {
         if !self.altitude_km.is_finite() || self.altitude_km <= 0.0 {
-            return Err("altitude_km must be finite and positive".to_string());
+            return Err(crate::terr!("e-attitude-budget-altitude-km-must-be-finite"));
         }
         if !(-90.0..=90.0).contains(&self.station_lat_deg) {
-            return Err("station_lat_deg must be in [-90, 90]".to_string());
+            return Err(crate::terr!("e-passes-station-lat-deg-must-be"));
         }
         if !(0.0..90.0).contains(&self.mask_deg) {
-            return Err("mask_deg must be in [0, 90)".to_string());
+            return Err(crate::terr!("e-passes-mask-deg-must-be-in"));
         }
         if !self.duration_hours.is_finite() || self.duration_hours <= 0.0 {
-            return Err("duration_hours must be finite and positive".to_string());
+            return Err(crate::terr!("e-passes-duration-hours-must-be-finite"));
         }
         if !self.step_s.is_finite() || self.step_s <= 0.0 {
-            return Err("step_s must be finite and positive".to_string());
+            return Err(crate::terr!("e-passes-step-must-be-finite-and"));
         }
         let orbit = self.sgp4_orbit()?;
         let station = Geodetic {
@@ -877,17 +878,16 @@ impl PassesScenario {
             "best_max_elevation_deg": if passes.is_empty() { serde_json::Value::Null } else { serde_json::json!(best_el) },
             "passes": rows,
         });
-        let summary = format!(
-            "passes: {} pass(es) of a {:.0} km / {:.1}° orbit over ({:.1}°, {:.1}°) > {:.0}° \
-             in {:.0} h; {:.0} s total access (MODELLED)",
-            passes.len(),
-            self.altitude_km,
-            self.inclination_deg,
-            self.station_lat_deg,
-            self.station_lon_deg,
-            self.mask_deg,
-            self.duration_hours,
-            total_access_s,
+        let summary = crate::t!(
+            "passes-passes-pass-es-of-km",
+            passes = passes.len(),
+            altitude_km = crate::i18n::localise_decimal(format!("{:.0}", self.altitude_km)),
+            inclination_deg = crate::i18n::localise_decimal(format!("{:.1}", self.inclination_deg)),
+            station_lat_deg = crate::i18n::localise_decimal(format!("{:.1}", self.station_lat_deg)),
+            station_lon_deg = crate::i18n::localise_decimal(format!("{:.1}", self.station_lon_deg)),
+            mask_deg = crate::i18n::localise_decimal(format!("{:.0}", self.mask_deg)),
+            duration_hours = crate::i18n::localise_decimal(format!("{:.0}", self.duration_hours)),
+            total_access_s = crate::i18n::localise_decimal(format!("{:.0}", total_access_s))
         );
         let json = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
         Ok((json, summary))

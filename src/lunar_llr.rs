@@ -239,28 +239,38 @@ pub fn parse_reflector_catalogue(text: &str) -> Result<Vec<ReflectorSite>, Strin
         let Some(t) = data_line(line) else { continue };
         if !seen_header {
             if !t.starts_with("array,") {
-                return Err(format!("unexpected reflector-catalogue header {t:?}"));
+                return Err(crate::terr!(
+                    "e-lunar-llr-unexpected-reflector-catalogue-header",
+                    t = format!("{:?}", t)
+                ));
             }
             seen_header = true;
             continue;
         }
         let f: Vec<&str> = t.split(',').collect();
         if f.len() < 6 {
-            return Err(format!("short reflector-catalogue row {t:?}"));
+            return Err(crate::terr!(
+                "e-lunar-llr-short-reflector-catalogue-row",
+                t = format!("{:?}", t)
+            ));
         }
         let num = |i: usize| -> Result<f64, String> {
-            f[i].trim()
-                .parse::<f64>()
-                .map_err(|_| format!("unreadable reflector field {i} in {t:?}"))
+            f[i].trim().parse::<f64>().map_err(|_| {
+                crate::terr!(
+                    "e-lunar-llr-unreadable-reflector-field-in",
+                    i = i,
+                    t = format!("{:?}", t)
+                )
+            })
         };
         let mer = [num(2)?, num(3)?, num(4)?];
         let radius = num(5)?;
         if (norm3(mer) - radius).abs() > 0.05 {
-            return Err(format!(
-                "reflector {:?}: |(x,y,z)| = {:.3} m but the published radius column says \
-                 {radius:.3} m — the row has been edited",
-                f[0],
-                norm3(mer)
+            return Err(crate::terr!(
+                "e-lunar-llr-reflector-but-the-published-radius",
+                f = format!("{:?}", f[0]),
+                norm3 = crate::i18n::localise_decimal(format!("{:.3}", norm3(mer))),
+                radius = crate::i18n::localise_decimal(format!("{:.3}", radius))
             ));
         }
         out.push(ReflectorSite {
@@ -270,7 +280,7 @@ pub fn parse_reflector_catalogue(text: &str) -> Result<Vec<ReflectorSite>, Strin
         });
     }
     if out.is_empty() {
-        return Err("reflector catalogue has no rows".to_string());
+        return Err(crate::terr!("e-lunar-llr-reflector-catalogue-has-no-rows"));
     }
     Ok(out)
 }
@@ -285,15 +295,20 @@ pub fn parse_station_catalogue(text: &str) -> Result<Vec<LlrStation>, String> {
     for line in text.lines() {
         let Some(t) = data_line(line) else { continue };
         if let Some(rest) = t.strip_prefix("position_epoch_year,") {
-            epoch_year = rest
-                .trim()
-                .parse()
-                .map_err(|_| format!("unreadable position_epoch_year {rest:?}"))?;
+            epoch_year = rest.trim().parse().map_err(|_| {
+                crate::terr!(
+                    "e-lunar-llr-unreadable-position-epoch-year",
+                    rest = format!("{:?}", rest)
+                )
+            })?;
             continue;
         }
         if !seen_header {
             if !t.starts_with("crd_name,") {
-                return Err(format!("unexpected station-catalogue header {t:?}"));
+                return Err(crate::terr!(
+                    "e-lunar-llr-unexpected-station-catalogue-header",
+                    t = format!("{:?}", t)
+                ));
             }
             seen_header = true;
             continue;
@@ -307,19 +322,25 @@ pub fn parse_station_catalogue(text: &str) -> Result<Vec<LlrStation>, String> {
         }
         let f: Vec<&str> = t.split(',').collect();
         if f.len() < 13 {
-            return Err(format!("short station-catalogue row {t:?}"));
+            return Err(crate::terr!(
+                "e-lunar-llr-short-station-catalogue-row",
+                t = format!("{:?}", t)
+            ));
         }
         let num = |i: usize| -> Result<f64, String> {
-            f[i].trim()
-                .parse::<f64>()
-                .map_err(|_| format!("unreadable station field {i} in {t:?}"))
+            f[i].trim().parse::<f64>().map_err(|_| {
+                crate::terr!(
+                    "e-lunar-llr-unreadable-station-field-in",
+                    i = i,
+                    t = format!("{:?}", t)
+                )
+            })
         };
         out.push(LlrStation {
             crd_name: f[0].trim().to_string(),
-            ilrs_id: f[1]
-                .trim()
-                .parse()
-                .map_err(|_| format!("unreadable ILRS id in {t:?}"))?,
+            ilrs_id: f[1].trim().parse().map_err(|_| {
+                crate::terr!("e-lunar-llr-unreadable-ilrs-id-in", t = format!("{:?}", t))
+            })?,
             domes: f[2].trim().to_string(),
             site: f[3].trim().to_string(),
             itrf_m: [num(4)?, num(5)?, num(6)?],
@@ -328,7 +349,7 @@ pub fn parse_station_catalogue(text: &str) -> Result<Vec<LlrStation>, String> {
         });
     }
     if out.is_empty() {
-        return Err("station catalogue has no rows".to_string());
+        return Err(crate::terr!("e-lunar-llr-station-catalogue-has-no-rows"));
     }
     Ok(out)
 }
@@ -623,11 +644,11 @@ impl LunarLlrDatumScenario {
 
     fn read(path: &Path) -> Result<String, String> {
         std::fs::read_to_string(path).map_err(|e| {
-            format!(
-                "cannot read {} ({e}). This scenario runs on the committed real-data slice \
-                 under {DEFAULT_DATA_DIR}, which ships with the repository but not with the \
-                 published crate; point `data_dir` at a copy of it.",
-                path.display()
+            crate::terr!(
+                "e-lunar-llr-cannot-read-this-scenario-runs",
+                path = path.display(),
+                e = e,
+                DEFAULT_DATA_DIR = DEFAULT_DATA_DIR
             )
         })
     }
@@ -708,12 +729,11 @@ impl LunarLlrDatumScenario {
         }
 
         if used.len() < 3 * reflectors.len() {
-            return Err(format!(
-                "only {} usable normal points for {} reflectors — too few to bound {} \
-                 coordinates; widen the archive slice",
-                used.len(),
-                reflectors.len(),
-                3 * reflectors.len()
+            return Err(crate::terr!(
+                "e-lunar-llr-only-usable-normal-points-for",
+                used = used.len(),
+                reflectors = reflectors.len(),
+                v3 = 3 * reflectors.len()
             ));
         }
 
@@ -914,10 +934,11 @@ impl LunarLlrDatumScenario {
         let simulated = if compare {
             let sim = crate::lunar_frame_campaign::LunarFrameCampaignScenario::default();
             let (sj, _) = sim.run_json()?;
-            let v: serde_json::Value = serde_json::from_str(&sj)
-                .map_err(|e| format!("the simulated campaign's own report did not parse: {e}"))?;
+            let v: serde_json::Value = serde_json::from_str(&sj).map_err(|e| {
+                crate::terr!("e-lunar-llr-the-simulated-campaign-own-report", e = e)
+            })?;
             let get = |k: &str| -> f64 {
-                v.pointer(&format!("/datum_accuracy/{k}"))
+                v.pointer(&crate::t!("lunar-llr-datum-accuracy", k = k))
                     .and_then(|x| x.as_f64())
                     .unwrap_or(f64::NAN)
             };
@@ -1098,34 +1119,33 @@ impl LunarLlrDatumScenario {
             });
         }
 
-        let summary = format!(
-            "lunar-llr-datum: {} archived normal points ({} parsed) from {} station(s) to {} \
-             retroreflector arrays over {:.1} d; median measured normal-point precision {:.2} \
-             mm one-way; reflector information rank {}/{}; Helmert rank {}/{} cond {:.3e}; \
-             datum translation sigma {} m; observed-minus-computed one-way residual RMS {:.1} \
-             m ({})",
-            used.len(),
-            n_parsed,
-            station_counts.iter().filter(|&&n| n > 0).count(),
-            reflectors.len(),
-            jd_max - jd_min,
-            median(&sigma_two_way) * C / 2.0 * 1.0e3,
-            beacon.rank,
-            beacon.n,
-            datum.rank,
-            N_HELMERT,
-            datum.condition,
-            if datum.full_rank {
+        let summary = crate::t!(
+            "lunar-llr-lunar-llr-datum-archived-normal",
+            used = used.len(),
+            n_parsed = n_parsed,
+            station_counts = station_counts.iter().filter(|&&n| n > 0).count(),
+            reflectors = reflectors.len(),
+            v5 = crate::i18n::localise_decimal(format!("{:.1}", jd_max - jd_min)),
+            median = crate::i18n::localise_decimal(format!(
+                "{:.2}",
+                median(&sigma_two_way) * C / 2.0 * 1.0e3
+            )),
+            rank = beacon.rank,
+            n = beacon.n,
+            rank2 = datum.rank,
+            n_helmert = N_HELMERT,
+            condition = crate::i18n::localise_decimal(format!("{:.3e}", datum.condition)),
+            v12 = if datum.full_rank {
                 format!("{t_norm:.6e}")
             } else {
                 "null (rank-deficient)".to_string()
             },
-            residuals.rms_m,
-            if kernel.is_some() {
+            rms_m = crate::i18n::localise_decimal(format!("{:.1}", residuals.rms_m)),
+            v14 = if kernel.is_some() {
                 "the modelled links, with the Moon centre from the kernel"
             } else {
                 "the modelled links, chiefly the analytic lunar ephemeris"
-            },
+            }
         );
 
         Ok(Computed { json, summary })
@@ -1153,8 +1173,9 @@ impl LunarLlrDatumScenario {
     ) -> Result<serde_json::Value, String> {
         let mask = self.extra_earth_elevation_mask_deg.unwrap_or(0.0);
         if !mask.is_finite() || !(-90.0..90.0).contains(&mask) {
-            return Err(format!(
-                "extra_earth_elevation_mask_deg must be finite and in [-90, 90), got {mask}"
+            return Err(crate::terr!(
+                "e-lunar-llr-extra-earth-elevation-mask-deg",
+                mask = mask
             ));
         }
         let site =
@@ -1165,12 +1186,18 @@ impl LunarLlrDatumScenario {
                     .unwrap_or_else(|| format!("{kind}-{}", i + 1));
                 let alt = e.alt_m.unwrap_or(0.0);
                 if !e.lat_deg.is_finite() || !e.lon_deg.is_finite() || !alt.is_finite() {
-                    return Err(format!("{kind} {name:?} has a non-finite coordinate"));
+                    return Err(crate::terr!(
+                        "e-lunar-llr-has-non-finite-coordinate",
+                        kind = kind,
+                        name = format!("{:?}", name)
+                    ));
                 }
                 if !(-90.0..=90.0).contains(&e.lat_deg) {
-                    return Err(format!(
-                        "{kind} {name:?} latitude {} deg is outside [-90, 90]",
-                        e.lat_deg
+                    return Err(crate::terr!(
+                        "e-lunar-llr-latitude-deg-is-outside-90",
+                        kind = kind,
+                        name = format!("{:?}", name),
+                        lat_deg = e.lat_deg
                     ));
                 }
                 Ok((
@@ -1356,7 +1383,7 @@ impl LunarLlrDatumScenario {
     pub fn run_json(&self) -> Result<(String, String), String> {
         let c = self.compute()?;
         let json = serde_json::to_string_pretty(&c.json)
-            .map_err(|e| format!("serialising the lunar-llr-datum report failed: {e}"))?;
+            .map_err(|e| crate::terr!("e-lunar-llr-serialising-the-lunar-llr-datum", e = e))?;
         Ok((json, c.summary))
     }
 }

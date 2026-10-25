@@ -16,7 +16,7 @@ pub fn parse_pages(text: &str) -> Result<Vec<InavPage>, String> {
         match InavPage::parse_line(line) {
             Ok(Some(p)) => out.push(p),
             Ok(None) => {}
-            Err(e) => return Err(format!("line {}: {e}", n + 1)),
+            Err(e) => return Err(crate::terr!("e-lunar-afs-ldpc-line", v1 = n + 1, e = e)),
         }
     }
     Ok(out)
@@ -33,22 +33,31 @@ pub fn parse_vector_csv(text: &str, start_gst: u32) -> Result<Vec<InavPage>, Str
         }
         let f: Vec<&str> = line.split(',').collect();
         if f.len() != 3 {
-            return Err(format!("line {}: expected 3 fields", n + 1));
+            return Err(crate::terr!(
+                "e-osnma-input-line-expected-fields",
+                v1 = n + 1
+            ));
         }
         let svid: u8 = f[0]
             .trim()
             .parse()
-            .map_err(|_| format!("line {}: bad SVID", n + 1))?;
+            .map_err(|_| crate::terr!("e-osnma-input-line-bad-svid", v1 = n + 1))?;
         let nbits: usize = f[1]
             .trim()
             .parse()
-            .map_err(|_| format!("line {}: bad bit count", n + 1))?;
+            .map_err(|_| crate::terr!("e-osnma-input-line-bad-bit-count", v1 = n + 1))?;
         let hex = f[2].trim();
         if !hex.is_ascii() {
-            return Err(format!("line {}: data is not hex", n + 1));
+            return Err(crate::terr!(
+                "e-osnma-input-line-data-is-not-hex",
+                v1 = n + 1
+            ));
         }
         if hex.len() * 4 < nbits || nbits % PAGE_BITS != 0 {
-            return Err(format!("line {}: bit count does not match the data", n + 1));
+            return Err(crate::terr!(
+                "e-osnma-input-line-bit-count-does-not",
+                v1 = n + 1
+            ));
         }
         let per = PAGE_BITS / 4;
         rows.push((

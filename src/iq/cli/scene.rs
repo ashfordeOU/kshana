@@ -72,7 +72,10 @@ pub(crate) fn build_broadcast_scene(p: &BroadcastParams) -> Result<Scene, String
     } else {
         p.prns
             .iter()
-            .map(|&id| u8::try_from(id).map_err(|_| format!("PRN {id} is out of range for GPS")))
+            .map(|&id| {
+                u8::try_from(id)
+                    .map_err(|_| crate::terr!("e-iq-cli-scene-prn-is-out-of-range", id = id))
+            })
             .collect::<Result<Vec<_>, _>>()?
     };
     let mut chosen: Vec<&crate::rinex::RinexEphemeris> = Vec::new();
@@ -90,7 +93,9 @@ pub(crate) fn build_broadcast_scene(p: &BroadcastParams) -> Result<Scene, String
         }
     }
     if chosen.is_empty() {
-        return Err("no healthy GPS ephemeris found for the requested PRNs".to_string());
+        return Err(crate::terr!(
+            "e-iq-cli-scene-no-healthy-gps-ephemeris-found"
+        ));
     }
     let center = p.center_hz.unwrap_or(crate::gnss_sim::L1_HZ);
     let spec = SampleSpec {
@@ -132,7 +137,12 @@ fn parse_llh(v: &str) -> Result<(f64, f64, f64), Fail> {
         .split(',')
         .map(|s| s.trim().parse::<f64>())
         .collect::<Result<_, _>>()
-        .map_err(|_| Fail::Usage(format!("--rx-pos wants lat,lon,alt (got {v:?})")))?;
+        .map_err(|_| {
+            Fail::Usage(crate::t!(
+                "iq-cli-scene-rx-pos-wants-lat-lon",
+                v = format!("{:?}", v)
+            ))
+        })?;
     if parts.len() != 3 {
         return Err(Fail::Usage(
             "--rx-pos wants three values: lat,lon,alt (deg,deg,m)".into(),
@@ -251,9 +261,10 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     };
     match (&cn0_profile, inner) {
         (Some(prof), inner) => {
-            chan_desc = format!(
-                "{chan_desc}; C/N0 profile ({} segment(s))",
-                prof.segments.len()
+            chan_desc = crate::t!(
+                "iq-cli-scene-n0-profile-segment",
+                chan_desc = chan_desc,
+                segments = prof.segments.len()
             );
             scene.set_channel(Box::new(Cn0ProfileChannel::new(prof.clone(), inner)));
         }
@@ -328,8 +339,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         "csv" => Box::new(CsvTruthWriter::new(truth_file)),
         "jsonl" | "jsonlines" => Box::new(JsonLinesTruthWriter::new(truth_file)),
         other => {
-            return Err(Fail::Usage(format!(
-                "--truth-format must be csv or jsonl (got {other:?})"
+            return Err(Fail::Usage(crate::t!(
+                "iq-cli-scene-truth-format-must-be-csv",
+                other = format!("{:?}", other)
             )))
         }
     };
@@ -345,21 +357,29 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
 
     let clipped = iq.clipped();
     let scale_note = match scale {
-        Some(sc) => format!(
-            "; integer scale: 1 LSB = {sc:.6e} noise-normalised units (expected RMS {:.4} LSB per component), {clipped} element(s) clipped",
-            rms / sc
+        Some(sc) => crate::t!(
+            "iq-cli-scene-integer-scale-lsb-noise-normalised",
+            sc = crate::i18n::localise_decimal(format!("{:.6e}", sc)),
+            v1 = crate::i18n::localise_decimal(format!("{:.4}", rms / sc)),
+            clipped = clipped
         ),
         None => String::new(),
     };
 
     let meta_note = if want_sdrx {
-        let comment =
-            format!("written by kshana iq scene: a SIMULATED scene, not a recording{scale_note}");
+        let comment = crate::t!(
+            "iq-cli-scene-written-by-kshana-iq-scene",
+            scale_note = scale_note
+        );
         let path = write_sdrx_meta(&a.pos[0], &data_path, format, &spec, &comment)?;
-        format!("ION SDR metadata {path}")
+        crate::t!("iq-cli-scene-ion-sdr-metadata", path = path)
     } else if want_sigmf {
         let meta_path = write_sigmf_meta(&a.pos[0], &spec, &sat_meta, &chan_desc, summary.samples)?;
-        format!("SigMF data {data_path}, meta {meta_path}")
+        crate::t!(
+            "iq-cli-scene-sigmf-data-meta",
+            data_path = data_path,
+            meta_path = meta_path
+        )
     } else {
         let sidecar = RawSidecar {
             format: format.name(),
@@ -370,23 +390,26 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             channels: None,
             channel: None,
             datetime: None,
-            description: Some(format!("written by kshana iq scene{scale_note}")),
+            description: Some(crate::t!(
+                "iq-cli-scene-written-by-kshana-iq-scene-2",
+                scale_note = scale_note
+            )),
         };
         let sidecar_path = write_sidecar(out, &sidecar)?;
         format!("sidecar {}", sidecar_path.display())
     };
 
-    Ok(format!(
-        "wrote {} samples ({}, {} Hz) to {}; {} truth records to {}; {}; channel: {}{}",
-        summary.samples,
-        format.name(),
-        spec.fs_hz,
-        data_path,
-        summary.truth_records,
-        truth_path,
-        meta_note,
-        chan_desc,
-        scale_note,
+    Ok(crate::t!(
+        "iq-cli-scene-wrote-samples-hz-to-truth",
+        samples = summary.samples,
+        format = format.name(),
+        fs_hz = spec.fs_hz,
+        data_path = data_path,
+        truth_records = summary.truth_records,
+        truth_path = truth_path,
+        meta_note = meta_note,
+        chan_desc = chan_desc,
+        scale_note = scale_note
     ))
 }
 
@@ -565,7 +588,7 @@ fn write_sdrx_meta(
 
 /// The `.sigmf-data` path for `path`.
 fn sigmf_data_path(path: &str) -> String {
-    format!("{}.sigmf-data", sigmf_base(path))
+    crate::t!("iq-cli-scene-sigmf-data", sigmf_base = sigmf_base(path))
 }
 
 /// Write the `.sigmf-meta` document (one capture, one annotation per satellite plus one for
@@ -607,7 +630,7 @@ fn write_sigmf_meta(
         comment: Some(chan_desc.to_string()),
     });
     let json = meta_to_json(&meta).map_err(Fail::Run)?;
-    let meta_path = format!("{}.sigmf-meta", sigmf_base(path));
+    let meta_path = crate::t!("iq-cli-scene-sigmf-meta", sigmf_base = sigmf_base(path));
     std::fs::write(&meta_path, json).map_err(|e| Fail::Run(format!("{meta_path}: {e}")))?;
     Ok(meta_path)
 }

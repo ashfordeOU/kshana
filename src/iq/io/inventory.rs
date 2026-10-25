@@ -78,9 +78,9 @@ impl RawSidecar {
     pub fn resolve(&self) -> Result<(SampleFormat, SampleSpec), IqError> {
         let f = SampleFormat::parse(&self.format)?;
         if !(self.sample_rate_hz.is_finite() && self.sample_rate_hz > 0.0) {
-            return Err(IqError::Format(format!(
-                "sidecar sample_rate_hz {} is not positive",
-                self.sample_rate_hz
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-inventory-sidecar-sample-rate-hz-is",
+                sample_rate_hz = self.sample_rate_hz
             )));
         }
         Ok((
@@ -264,10 +264,10 @@ pub fn open_recording_with(
         }
         Some(RecordingKind::Sdrx) => {
             if channel.is_some_and(|c| c != 0) {
-                return Err(IqError::Format(format!(
-                    "{}: .sdrx recordings hold one stream; channel {} does not exist",
-                    path.display(),
-                    channel.unwrap_or(0)
+                return Err(IqError::Format(crate::terr!(
+                    "e-iq-io-inventory-sdrx-recordings-hold-one-stream",
+                    path = path.display(),
+                    channel = channel.unwrap_or(0)
                 )));
             }
             let (src, data, len) = open_sdrx(path)?;
@@ -307,10 +307,10 @@ pub fn open_recording_with(
             let sc = match raw {
                 Some(s) => s,
                 None => find_sidecar(path)?.map(|(_, s)| s).ok_or_else(|| {
-                    IqError::Format(format!(
-                        "{}: raw file with no sidecar; state its format, or write {}",
-                        path.display(),
-                        sidecar_candidates(path)[0].display()
+                    IqError::Format(crate::terr!(
+                        "e-iq-io-inventory-raw-file-with-no-sidecar",
+                        path = path.display(),
+                        sidecar_candidates = sidecar_candidates(path)[0].display()
                     ))
                 })?,
             };
