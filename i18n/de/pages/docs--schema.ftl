@@ -17,3 +17,9 @@ seg-9da5d92757bd = Objekt, optional
 
 # text
 seg-f63dd3d7aad4 = Quelle
+
+# text
+seg-c353e7bec219 = Schlüssel
+
+# text
+seg-a129b9e613d0 = Typ

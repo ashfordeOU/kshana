@@ -3880,3 +3880,9 @@ seg-32ad0b0da818 = receiver_trust::calibration::run_dataset: die vorab registrie
 
 # text
 seg-3ccd1b09ad09 = Die veröffentlichten Ereignisprotokolle des Datensatzes (attack_log-Fenster) als Ereigniswahrheit, unter der Vorregistrierung xval/jammertest-trust/PREREGISTRATION.md (allein eingecheckt, 0fa012b, bevor das Prüfgerüst lief). Erster und einziger Lauf (xval/jammertest-trust/RESULTS.md): { "14" } von { "24" } Ordnern auswertbar ({ "7" } mit Jamming), { "3,502" } ungestörte und { "9,560" } Jamming-Epochen. Fehlalarmwahrscheinlichkeit bei ungestörten Epochen mit zurückgehaltenem Ordner: cn0_drop_db { "0.0231" } (81/3502) gegen einen Zielwert von { "0.02" }, FAIL; agc_k_sigma { "0.0003" }, bestanden; jam_ind_threshold { "0.0094" }, bestanden; Vereinigung der drei: Fehlalarme { "0.0328" }, Erkennung { "0.807" } gegen { "0.05" } und { "0.50" }, bestanden. Nach der registrierten Regel ist die Zeile MODELLED (ein Zielwert verfehlt). Eng gefasst: ein Empfängertyp (u-blox ZED-F9P), ein Ereignis, planmäßige Ein-Minuten-Zeitfenster als Wahrheit (Erkennung ist eine untere Schranke; ungestört heißt außerhalb der protokollierten Fenster); kalibriert an den CSV-Protokollen, und der UBX-Leser liefert bei zwei Ordnern mehr Fehlalarme. Die Vertrauenswert-Bänder für die Seefahrt sind nicht kalibriert
+
+# text
+seg-4e31c8daf798 = Register
+
+# text
+seg-8980b5ae869b = Zahl

@@ -23,3 +23,9 @@ seg-f63dd3d7aad4 = Quelle
 
 # text
 seg-638b8d451550 = Sensor
+
+# text
+seg-60cd077d82a7 = Modell
+
+# text
+seg-2afa300864a9 = Parameter

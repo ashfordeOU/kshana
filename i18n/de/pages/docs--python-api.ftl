@@ -8,3 +8,6 @@ seg-2bd2101ce454 = Oberfläche
 
 # text
 seg-fffbeccd4266 = Symbol
+
+# text
+seg-a129b9e613d0 = Typ

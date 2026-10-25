@@ -115,3 +115,9 @@ seg-10e6cd8ce00c = <s1>Zurück</s1>reentry
 
 # text
 seg-b8ec9e10ee84 = <s1>Weiter</s1>solar-system
+
+# text
+seg-37d29d8303fe = km
+
+# text
+seg-cb91473bfdda = Themenseite: <a1>LEO-PNT.md</a1>

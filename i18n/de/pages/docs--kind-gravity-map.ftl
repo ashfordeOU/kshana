@@ -21,3 +21,57 @@ seg-d776abd5691c = Alternatives / ergänzendes PNT ist MODELLED, nicht validiert
 
 # text
 seg-98133e74f88a = Familienseite: <a1>GPS-gesperrtes alternatives PNT</a1>
+
+# text
+# c1: docs/kinds/by-kind/gravity-map.md
+seg-43227f4c8295 = Quelle: <c1/>
+
+# text
+# c1: gravity-map
+seg-2a4cb69bc920 = <c1/> (Szenario-Kind)
+
+# text
+seg-9a58a7b09423 = GPS-verweigerte Navigation mit Schwerefeld-Kartenabgleich: Ein Kaltatom-Gravimeter ermittelt aus der Folge von Schwereanomalien, die es durchfliegt, eine konstante INS-Drift.
+
+# text
+# c1: scenarios/gravity-map-nav.toml
+seg-c8caaff45826 = Ein Lauf von <c1/> fasst sich so zusammen: gravity-map | free-inertial drift { "78302" } m | gravity-matched { "1882" } m | matching sigma { "2.000e0" } mGal
+
+# text
+# c1: nmax
+# c2: start_lat_deg
+# c3: start_lon_deg
+# c4: step_lat_deg
+# c5: step_lon_deg
+# c6: waypoints
+# c7: drift_lat_deg
+# c8: drift_lon_deg
+# c9: gravimeter_asd
+# c10: averaging_time_s
+# c11: map_sigma_mgal
+# c12: search_half_deg
+# c13: search_step_deg
+seg-4d9bcce2dd39 = Pflichtfelder: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>
+
+# text
+# c1: coeffs
+# c2: mascons
+# c3: refine_stages
+# c4: refine_factor
+# c5: noise_seed
+# c6: reference
+# c7: map_error_mc
+seg-54272925e770 = Optionale Felder: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>
+
+# text
+# c1: scenarios/gravity-map-nav.toml
+seg-5dfee3a0cc22 = Das Beispiel <c1/> setzt unter anderem:
+
+# attr:alt
+seg-c42d90057e9f = Das Diagramm, das die Engine für scenarios/gravity-map-nav.toml schreibt, Kind gravity-map
+
+# text
+seg-fe3ba7e11502 = <s1>Zurück</s1>gnss-ssv
+
+# text
+seg-2b9bdd9def58 = <s1>Weiter</s1>holdover-test

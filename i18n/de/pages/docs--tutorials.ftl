@@ -32,3 +32,12 @@ seg-029de6b99be0 = Inertiale Koppelnavigation
 
 # text
 seg-9ef8f99ca6e4 = Zeitübertragung
+
+# text
+seg-ec26df467b88 = Gemeinsame Kalman-Sensorfusion für PNT über dieselben Hybrid-Eingaben.
+
+# text
+seg-4f19d4fb1341 = Generischer N-D-Sweep über ein beliebiges Paket über gepunktete TOML-Schlüssel / JSON-Metrikpfade.
+
+# text
+seg-e7ab7b55c969 = 1-D-Trade-Study-Sweep über einen Uhrenpaket-Parameter.

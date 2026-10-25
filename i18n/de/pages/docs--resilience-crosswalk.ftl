@@ -11,3 +11,6 @@ seg-ad856ad710eb = Status
 
 # text
 seg-b03d56f501c3 = Typ
+
+# text
+seg-4dbf41c0ec3b = Funktion
