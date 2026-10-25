@@ -181,6 +181,11 @@ export function signature(entry) {
   for (const a of entry.attributes || []) walk(a.value);
   return { vars: [...new Set(vars)].sort(), terms: [...new Set(terms)].sort(), lits: lits.sort(), selects };
 }
+/** String literals must match; a plural selector repeats a literal in every variant, so with a selector on either side compare the distinct literals. */
+export const litsEqual = (a, b) => {
+  const key = (x) => ((a.selects.length || b.selects.length) ? [...new Set(x.lits)] : x.lits).join('\0');
+  return key(a) === key(b);
+};
 const textOfPattern = (p) => (p ? p.elements.filter((e) => e instanceof TextElement).map((e) => e.value).join(' ') : '');
 const tagsOf = (str) => (str.match(/<\/?(?:a\d+|s\d+|b|em)>|<c\d+\/>|<br\/>/g) || []).sort().join(' ');
 const digits = (t) => (t.replace(/<[^>]*>/g, ' ').match(/\d+/g) || []).sort().join(' ');
@@ -224,7 +229,7 @@ export function checkLang(root, lang) {
       const a = signature(src), b = signature(e);
       const here = `${lang}/${f}: ${id}`;
       if (a.vars.join() !== b.vars.join()) errors.push(`${here}: variables differ (English: ${a.vars.join(', ') || 'none'}; here: ${b.vars.join(', ') || 'none'})`);
-      if (a.lits.join('\0') !== b.lits.join('\0')) errors.push(`${here}: string-literal placeables differ (numbers, versions and symbols must be kept)`);
+      if (!litsEqual(a, b)) errors.push(`${here}: string-literal placeables differ (numbers, versions and symbols must be kept)`);
       for (const t of a.terms) if (!b.terms.includes(t) && f !== 'glossary.ftl' && !/^-(tier|verdict|status)-/.test(id)) { /* a term may be replaced by its rendering; checked by token below */ }
       for (const sel of b.selects) {
         const keys = sel.variants.map((v) => (v.key.name ? v.key.name : null)).filter(Boolean);
@@ -383,7 +388,7 @@ export function mergeTranslations(root, lang, texts, { replace = false } = {}) {
       const a = signature(src), b = signature(e);
       let why = null;
       if (a.vars.join() !== b.vars.join()) why = 'variables differ';
-      else if (a.lits.join('\0') !== b.lits.join('\0')) why = 'string-literal placeables differ';
+      else if (!litsEqual(a, b)) why = 'string-literal placeables differ';
       else if (!a.selects.length && tagsOf(flat(src)) !== tagsOf(flat(e))) why = 'markup tags differ';
       else if (digits(strip(flat(src))) !== digits(strip(flat(e)))) why = 'digits differ';
       else if (!a.selects.length && capsDiff(capsCounts(flat(src)), capsCounts(flat(e), rend0))) why = `the tier, verdict and status words differ (${capsDiff(capsCounts(flat(src)), capsCounts(flat(e), rend0))}); a lowercase word stays a word`;
@@ -609,7 +614,7 @@ export function mergeFile(root, lang, file, texts) {
       const a = signature(src), b = signature(e);
       let why = null;
       if (a.vars.join() !== b.vars.join()) why = 'variables differ';
-      else if (a.lits.join('\0') !== b.lits.join('\0')) why = 'string-literal placeables differ';
+      else if (!litsEqual(a, b)) why = 'string-literal placeables differ';
       else if (file !== 'glossary.ftl' && !a.selects.length && tagsOf(flat(src)) !== tagsOf(flat(e))) why = 'markup tags differ';
       else if (file !== 'glossary.ftl' && !a.selects.length && digits(strip(flat(src))) !== digits(strip(flat(e)))) why = 'digits differ';
       else if (file !== 'glossary.ftl' && file !== 'engine.ftl' && !a.selects.length && capsDiff(capsCounts(flat(src)), capsCounts(flat(e), rendF))) why = `the tier, verdict and status words differ (${capsDiff(capsCounts(flat(src)), capsCounts(flat(e), rendF))}); a lowercase word stays a word`;
