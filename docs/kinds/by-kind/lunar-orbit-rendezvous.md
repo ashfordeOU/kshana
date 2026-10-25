@@ -8,7 +8,7 @@ Scenario kind of the engine v0.39.0, family [Lunar and cislunar](../lunar-and-ci
 
 MODELLED relative navigation for an Orion-lander style docking in a low lunar orbit or an elliptical polar orbit (Artemis-class). A chaser and a target fly the same orbit under the crate's lunar force model; a joint 12-state extended Kalman filter fuses an absolute position fix per vehicle from an ILLUSTRATIVE LCNS-class relay set (relays behind the Moon dropped, four needed, the common-mode signal-in-space error cancelling between the vehicles) and a crosslink range, with ranging precision from the code-tracking bound on the LunaNet AFS pilot. Reports the formal and Monte Carlo relative position and velocity error in the target LVLH axes, fix availability, the mean normalised estimation error squared against its expected value, the drift from ignoring the gravity harmonics, and the full 6x6 covariance handed on. A closed-form Hill/Clohessy-Wiltshire check applies to the circular case. MODELLED: illustrative relay set, error budget and priors; the extended filter is optimistic when a sub-metre range meets a prior of tens of metres, and the report says so through its NEES. Not agency-endorsed; advisory software, not certified navigation equipment.
 
-One run of `scenarios/lunar-orbit-rendezvous.toml` summarises as: lunar-orbit-rendezvous | llo 100x100 km | sep 2000 m | fixes 74% | rel pos 1-sigma R/A/C 0.03/0.06/0.04 m | mean NEES 1024047388.46 (6 expected) | converged at 2000 s (MODELLED)
+One run of `scenarios/lunar-orbit-rendezvous.toml` summarises as: lunar-orbit-rendezvous | llo 100x100 km | sep 2000 m | fixes 74% | rel pos 1-sigma R/A/C 0.03/0.06/0.04 m | mean NEES 6.51 (6 expected) | converged at 2000 s (MODELLED)
 
 ## Inputs
 

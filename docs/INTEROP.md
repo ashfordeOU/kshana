@@ -396,8 +396,11 @@ stale.
 | `leo-vertical-rail-maritime.toml` | `campaign` | yes | yes | yes | yes | no [7] |
 | `link-budget.toml` | `link-budget` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `lunanet-araim.toml` | `lunar-integrity` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-ascent.toml` | `lunar-ascent` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-attack-surface.toml` | `lunar-attack-surface` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-beacon.toml` | `lunar-beacon` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-descent-lola.toml` | `lunar-descent` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-descent.toml` | `lunar-descent` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-differential-pnt.toml` | `lunar-differential-pnt` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-frame-campaign.toml` | `lunar-frame-campaign` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-frame-realisation.toml` | `lunar-frame-realisation` | no [10] | no [10] | no [10] | no [10] | no [2] |
@@ -411,6 +414,8 @@ stale.
 | `lunar-jamming.toml` | `lunar-jamming` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-joint-od-clock.toml` | `lunar-joint-od-clock` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-llr-datum.toml` | `lunar-llr-datum` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-orbit-rendezvous-elfo.toml` | `lunar-orbit-rendezvous` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-orbit-rendezvous.toml` | `lunar-orbit-rendezvous` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-relay-constellation.toml` | `constellation-design` | no [11] | no [11] | no [11] | no [11] | no [2] |
 | `lunar-station-coverage-public-sources.toml` | `lunar-station-coverage` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-station-coverage-terrain.toml` | `lunar-station-coverage` | no [10] | no [10] | no [10] | no [10] | no [2] |
@@ -418,6 +423,8 @@ stale.
 | `lunar-station-geodesy-baseline.toml` | `lunar-llr-datum` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-station-geodesy-with-station.toml` | `lunar-llr-datum` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-station-time-lab.toml` | `lunar-time-budget` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-surface-terrain.toml` | `lunar-surface` | no [10] | no [10] | no [10] | no [10] | no [2] |
+| `lunar-surface.toml` | `lunar-surface` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-time-budget.toml` | `lunar-time-budget` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-time-offset.toml` | `lunar-time-offset` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `lunar-vlbi-fim.toml` | `lunar-vlbi-fim` | no [10] | no [10] | no [10] | no [10] | no [2] |
