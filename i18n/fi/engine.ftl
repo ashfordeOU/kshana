@@ -581,8 +581,6 @@ engine-e-araim-reference-satellite-names-an-undeclared-constellation = satelliit
 
 engine-e-araim-reference-every-prior-must-lie-in = jokaisen priorin on oltava välillä [0, 1)
 
-engine-e-araim-reference-the-priors-need-subsets-of = priorit vaativat osajoukkoja, joissa on samanaikaisia tapahtumia { $n_fault_max }; tämä polku luettelee enintään { $most }
-
 engine-e-araim-reference-the-all-in-view-solution = kaikki näkyvät satelliitit kattavaa ratkaisua ei valittu
 
 engine-e-araim-reference-an-add-v4-case-needs = ADD v4.2 -tapaus vaatii satelliitit ja satelliittitähdistöt
@@ -802,16 +800,6 @@ engine-e-body-pnt-no-earth-position-relative-to = ei Maan paikkaa kohteen { $nam
 engine-e-body-pnt-serialising-report = raportin sarjallistaminen: { $e }
 
 engine-e-body-pnt-the-report-must-serialise-to = raportin on sarjallistuttava JSON-objektiksi
-
-engine-body-pnt-positioning-around-user-relays-at =
-    { $n_relays ->
-        [one] Paikannus kohteen { $name } ympärillä — { $user_kind }-käyttäjä, { $n_relays } rele etäisyydellä { $r } km, { $n_epochs } epookkia
-       *[other] Paikannus kohteen { $name } ympärillä — { $user_kind }-käyttäjä, { $n_relays } relettä etäisyydellä { $r } km, { $n_epochs } epookkia
-    }
-    { "  " }Maan valon kulkuaika { $one_way_light_time_s } s yhteen suuntaan, { $two_way_light_time_s } s edestakaisin; Aurinko-Maa-taivaankappale-kulma { $sun_separation_deg } deg
-    { "  " }saatavuus: { $availability_relays } vain satelliittitähdistöllä, { $availability_with_earth } Maa-etäisyyden kanssa (Maa näkyvissä { $earth_visibility })
-    { "  " }PDOP mediaani { $opt }; RMS-virhe { $opt2 } vain satelliittitähdistöllä, { $opt3 } Maa-etäisyyden kanssa
-    { "  " }muodollisen sigman mediaani { $opt4 } vain satelliittitähdistöllä, { $opt5 } Maa-etäisyyden kanssa{ "\u000A" }
 
 engine-body-pnt-positioning-around = Paikannus kohteen { $name } ympärillä
 
@@ -1183,8 +1171,6 @@ engine-e-clock-integrity-integrity-systems-must-name-at = integrity: systems on 
 
 engine-e-clock-integrity-integrity-injected-bias-needs-finite = integrity: injected_bias vaatii äärelliset bias_m, t0_s ja t1_s
 
-engine-e-clock-integrity-integrity-epochs-exceed-the-epoch = integrity: { $n } epookkia ylittää { $MAX_EPOCHS } epookin rajan; nosta step_s
-
 ## src/clock_library/card.rs
 
 engine-e-clock-library-card-no-records = { $name }: ei tietueita
@@ -1521,8 +1507,6 @@ engine-e-ephemeris-step-must-be-positive = step_s on oltava positiivinen
 engine-e-ephemeris-duration-must-be-non-negative = duration_s on oltava ei-negatiivinen
 
 engine-e-ephemeris-carrier-hz-must-be-positive = carrier_hz on oltava positiivinen, äärellinen taajuus
-
-engine-ephemeris-ground-track-samples-alt-km = { $source } -maajälki · { $n_samples } näytettä · korkeus { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
 
 ## src/evidence/assemble.rs
 
@@ -6496,12 +6480,6 @@ engine-e-spk-writer-states-for-epochs =
        *[other] { $states } tilaa { $n } epookille
     }
 
-engine-e-spk-writer-states-degree-needs =
-    { $n ->
-        [one] { $n } tilaa; aste { $degree } tarvitsee { $value }
-       *[other] { $n } tilaa; aste { $degree } tarvitsee { $value }
-    }
-
 engine-e-spk-writer-descriptor-start-is-not-before = deskriptorin alku ei ole ennen sen loppua
 
 engine-e-spk-writer-epochs-are-not-strictly-increasing = epookit eivät kasva aidosti
@@ -7169,6 +7147,45 @@ engine-wasm-plans-json-is-not-json = plans_json ei ole merkkijonojen JSON-tauluk
 engine-wasm-options-json-is-not-json = options_json ei ole JSON-muotoa: { $e }
 
 engine-wasm-input-is-about-bytes-over = syöte on noin { $b64 } tavua, yli { $v2 } tavun rajan
+
+## plural forms
+
+engine-e-araim-reference-the-priors-need-subsets-of =
+    { $n_fault_max ->
+        [one] priorit vaativat osajoukkoja, joissa on { $n_fault_max } samanaikainen tapahtuma; tämä polku luettelee enintään { $most }
+       *[other] priorit vaativat osajoukkoja, joissa on { $n_fault_max } samanaikaista tapahtumaa; tämä polku luettelee enintään { $most }
+    }
+
+engine-body-pnt-positioning-around-user-relays-at =
+    Paikannus kohteen { $name } ympärillä — { $user_kind }-käyttäjä, { $n_relays ->
+        [one] { $n_relays } rele
+       *[other] { $n_relays } relettä
+    } etäisyydellä { $r } km, { $n_epochs ->
+        [one] { $n_epochs } epookki
+       *[other] { $n_epochs } epookkia
+    }
+    { "  " }Maan valon kulkuaika { $one_way_light_time_s } s yhteen suuntaan, { $two_way_light_time_s } s edestakaisin; Aurinko-Maa-taivaankappale-kulma { $sun_separation_deg } deg
+    { "  " }saatavuus: { $availability_relays } vain satelliittitähdistöllä, { $availability_with_earth } Maa-etäisyyden kanssa (Maa näkyvissä { $earth_visibility })
+    { "  " }PDOP mediaani { $opt }; RMS-virhe { $opt2 } vain satelliittitähdistöllä, { $opt3 } Maa-etäisyyden kanssa
+    { "  " }muodollisen sigman mediaani { $opt4 } vain satelliittitähdistöllä, { $opt5 } Maa-etäisyyden kanssa{ "\u000A" }
+
+engine-e-clock-integrity-integrity-epochs-exceed-the-epoch =
+    { $n ->
+        [one] integrity: { $n } epookki ylittää { $MAX_EPOCHS } epookin rajan; nosta step_s
+       *[other] integrity: { $n } epookkia ylittää { $MAX_EPOCHS } epookin rajan; nosta step_s
+    }
+
+engine-ephemeris-ground-track-samples-alt-km =
+    { $n_samples ->
+        [one] { $source } -maajälki · { $n_samples } näyte · korkeus { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
+       *[other] { $source } -maajälki · { $n_samples } näytettä · korkeus { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
+    }
+
+engine-e-spk-writer-states-degree-needs =
+    { $n ->
+        [one] { $n } tila; aste { $degree } tarvitsee { $value }
+       *[other] { $n } tilaa; aste { $degree } tarvitsee { $value }
+    }
 
 ## legal
 
