@@ -65,11 +65,14 @@ Result label (the engine's): MODELLED
 
 ## Evidence
 
-No matrix row names this kind by name; the label on its result is the engine's own, above.
+MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
+
+- **MODELLED** The `lunar-surface` kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the terrain skyline of `moonlight-service-volume`; a single-site run equals that kind's
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** The `lunar-surface` kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the ter. Oracle (ReferenceImpl): Exact equality with the existing kind for one site, and monotonicity checks, in the tests. The relay set is ILLUSTRATIVE and no surface measurement is compared
 
 ## Limitations
 
@@ -80,6 +83,7 @@ What the run's own report says is not modelled or not validated:
 - MODELLED: illustrative Keplerian relay set on a mean-rotation Moon; the relay figure does not change with season; the terrain is the 1200 m LOLA crop. (kind catalogue (`kshana kinds --json`))
 - HONESTY: MODELLED. The relay set is illustrative and Keplerian, with the Moon turning at the mean rate for the relays (no libration) as in moonlight-service-volume; the Earth and Sun use the analytic orientation, so the two frames differ by that omission. The relay positioning figure does not change with the season in this model; the Earth and Sun figures do. No agreement with any real service or site is claimed. Adv (scenario file comment, lines 11 to 15)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
+- Surface positioning and timing availability by site and season at the lunar poles (`lunar-surface`) is MODELLED, not validated: checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative. (verification matrix (docs/MODELLED-RATIONALE.md))
 
 ## See also
 

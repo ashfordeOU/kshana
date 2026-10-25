@@ -69,6 +69,7 @@ MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name
 - **MODELLED** The `gnss-ssv` kind's availability sweeps: per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and combined, the share of (user, epoch) pairs with at least one and at least four signals and the longest outage, for a user on a sphere
 - **MODELLED** The `gnss-ssv` kind's `[navigation]` mode: a nine-state extended Kalman filter (position, velocity, receiver clock bias and drift, a solar-radiation-pressure scale) on pseudoranges whose availability, noise and C/N0 come from the same link 
 - **MODELLED** The `gnss-ssv` kind's `[formation]` mode: a chief and deputies each run the absolute filter; the deputy's position relative to the chief is estimated by subtracting the absolute estimates and by a relative filter on single-differenced pseud
+- **MODELLED** The `tli-and-cruise` phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the thread's DE440 kernel where it covers the segment and the Sun from the analytic serie
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 

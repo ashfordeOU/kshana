@@ -60,11 +60,21 @@ Result label (the engine's): MODELLED
 
 ## Evidence
 
-No matrix row names this kind by name; the label on its result is the engine's own, above.
+MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
+
+- **MODELLED** The `mission-thread` kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on under a stated rule (`carry`; `inflate`, white acceleration noise over a stated gap Tests: [field_units_global.rs](../../../tests/field_units_global.rs).
+- **MODELLED** The `launch-ascent` phase: a constant-velocity position and velocity covariance with white acceleration noise (the dead-reckoning grade), a GNSS fix of stated accuracy applied after the acquisition time and outside stated fades, a bias-and-
+- **MODELLED** The `leo-rendezvous` phase: the relative state in the target's LVLH axes with the closed-form Clohessy-Wiltshire transition, a 6x6 Kalman covariance with white acceleration noise and position updates whose variance is the sensor's at the cu
+- **MODELLED** The `tli-and-cruise` phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the thread's DE440 kernel where it covers the segment and the Sun from the analytic serie
+- and 4 more in the matrix.
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** The `mission-thread` kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on und. Oracle (InternalConsistency): Hand calculations in the tests (the straight-line covariance growth, the mean sidereal rotation, the secular lunar clock rate) and, for the Moon's state only, the committed DE440 kernel cuts against pinned JPL Horizons values (worst 2.6 m and 7e-6 m/s). No mission data is compared with the chain; its phases are rows of their own. The document is a stated chain with ILLUSTRATIVE inputs, public sources only and no agen
+- **MODELLED** The `launch-ascent` phase: a constant-velocity position and velocity covariance with white acceleration noise (the dead-reckoning grade), a GNSS fix of stated a. Oracle (InternalConsistency): The Riccati steady state and the hand calculation of the prediction in the tests. Nothing here models a launch vehicle or a receiver; every number is a stated input
+- **MODELLED** The `leo-rendezvous` phase: the relative state in the target's LVLH axes with the closed-form Clohessy-Wiltshire transition, a 6x6 Kalman covariance with white . Oracle (InternalConsistency): A one-axis hand calculation of the predict and update in the test; the Clohessy-Wiltshire transition is the one cw_dynamics checks against an independent numerical integration. The sensors are ILLUSTRATIVE and no real rendezvous is compared
+- **MODELLED** The `tli-and-cruise` phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the threa. Oracle (InternalConsistency): Liouville's theorem (the determinant of the state-transition matrix of the conservative part is one) and a finer difference in the tests; the mean state is compared with a public trajectory in the row below, which it misses. The burn error, the updates and the covariance are not compared with anything
 
 ## Limitations
 
@@ -74,6 +84,10 @@ What the run's own report says is not modelled or not validated:
 - MODELLED: every number is a stated input; the chain follows one stack and no vehicle is modelled. (kind catalogue (`kshana kinds --json`))
 - HONESTY. Every number here is ILLUSTRATIVE: a round figure chosen to make the chain run, not the performance of any vehicle, sensor, station or network. The chain follows one stack as a stated simplification; vehicle changes, crew transfers and the lunar-orbit station are not modelled, the lunar orbits are the 100 km circular and polar ones the lunar kinds fly (not the near-rectilinear halo orbit), and the TLI burn i (scenario file comment, lines 11 to 17)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
+- Navigation and timing error budget of a chain of mission phases from launch to entry (`mission-thread`) is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
+- Launch and ascent to a parking orbit with GNSS acquisition and fade (`launch-ascent`) is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
+- Relative navigation to the docking envelope in low Earth orbit over sensor legs (`leo-rendezvous`) is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
+- Trans-lunar injection and cislunar cruise: propagated mean state and covariance with tracking updates (`tli-and-cruise`) is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
 
 ## See also
 

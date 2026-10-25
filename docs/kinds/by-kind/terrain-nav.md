@@ -54,7 +54,9 @@ The scalar results of that run, with the units the engine states:
 
 ## Evidence
 
-No matrix row names this kind by name; the label on its result is the engine's own, above.
+MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
+
+- **MODELLED** The `lunar-descent` kind and phase: a five-state per-axis inertial error model (position, velocity, accelerometer bias, tilt, gyro bias) over a powered descent, aided by AFS fixes (standalone or differential, with the clock-aided three-rela
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 

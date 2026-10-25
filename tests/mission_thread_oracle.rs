@@ -26,6 +26,8 @@ const KERNEL: &str = "tests/fixtures/mission_thread/de440s_moon_2022-11-16_2022-
 // The registered bars.
 const BAR_POSITION_M: f64 = 5_000.0;
 const BAR_VELOCITY_MPS: f64 = 0.05;
+// PIN-SCOPE:    the bytes of the fetched Horizons response for target -1023 over the registered 72 h span
+// PIN-EXCLUDES: the Moon kernel cut (hashed from the results file), the model, and every number computed from the response
 const HORIZONS_SHA256: &str = "9494dc81cc8599a6519bf92d4198f2ffe5d149acf496788713b863a0b34029f9";
 
 fn sha(path: &str) -> String {
