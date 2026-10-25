@@ -4878,6 +4878,10 @@ engine-live-io-write-failed = write failed: { $e }
 
 engine-live-io-kshana-live-dropped-udp-datagram = kshana live: dropped { $n } udp datagram(s) the engine could not take ({ $udp_dropped } in all)
 
+## src/lunar.rs
+
+engine-lunar-chart-title = Lunar south-pole HPL ({ $availability }% available, AL { $al } m, σ_URE { $sigma } m)
+
 ## src/lunar_afs/codes.rs
 
 engine-e-lunar-afs-codes-afs-prn-is-outside = AFS PRN { $prn } is outside 1..={ $MAX_PRN }
@@ -4972,6 +4976,38 @@ engine-lunar-beacon-beacons-improve-pdop-by = { "  " }beacons improve PDOP by { 
 
 engine-lunar-beacon-larger-constellation-instead = a larger constellation instead, { $f }x{ "\u000A" }
 
+engine-lunar-beacon-chart-title = Surface-beacon augmentation — PDOP by configuration
+
+engine-lunar-beacon-chart-pdop = PDOP { $pdop }
+
+engine-lunar-beacon-chart-no-solution = no solution
+
+engine-lunar-beacon-chart-footnote = lower is better; per-beacon sigma_URE { $sigma } m, mask { $mask } deg
+
+## src/lunar_combination.rs
+
+engine-lunar-combination-chart-title = Lunar joint OD + clock — station 3-D position error (VLBI restores observability)
+
+engine-lunar-combination-chart-subtitle = { $n_sat } sats, { $n_earth } Earth stations · improvement factor { $factor }×
+
+engine-lunar-combination-chart-with-vlbi = with VLBI: { $m } m
+
+engine-lunar-combination-chart-range-only = range-only: { $m } m
+
+engine-lunar-combination-chart-axis-note = log10 station error (m); converged with/without = { $with }/{ $without }
+
+## src/lunar_dpnt.rs
+
+engine-lunar-dpnt-chart-title = Lunar differential PNT — { $n_sats } sats: corrected error vs baseline (× { $factor } reduction at { $km } km)
+
+engine-lunar-dpnt-chart-subtitle = uncorrected { $uncorrected } m | corrected { $corrected } m | HPL { $hpl } m (σ_resid { $sigma } m) | { $label }
+
+engine-lunar-dpnt-chart-uncorrected-standalone = uncorrected (standalone)
+
+engine-lunar-dpnt-chart-baseline-km = baseline (km)
+
+engine-lunar-dpnt-chart-err-m = err (m)
+
 ## src/lunar_ephemeris.rs
 
 engine-e-lunar-ephemeris-cannot-read-lunar-ephemeris = cannot read lunar ephemeris { $path }: { $e }
@@ -5062,6 +5098,28 @@ engine-lunar-frame-campaign-lunar-frame-campaign-beacons-baselines = lunar-frame
 
 engine-lunar-frame-campaign-of-beacons-have-no-observation = { $names } of { $beacons } beacons have no observation in this schedule ({ $names2 }); they carry no information, their sigmas are null, and the datum is realised from the observed beacons only
 
+## src/lunar_frame_realise.rs
+
+engine-lunar-frame-realise-chart-title = Lunar reference-frame realisation — 7-parameter Helmert recovery
+
+engine-lunar-frame-realise-chart-subtitle = { $n_points } points · RMS residual { $rms } m · converged { $converged }
+
+engine-lunar-frame-realise-chart-tx = tx (m)
+
+engine-lunar-frame-realise-chart-ty = ty (m)
+
+engine-lunar-frame-realise-chart-tz = tz (m)
+
+engine-lunar-frame-realise-chart-theta-x = θx (µrad)
+
+engine-lunar-frame-realise-chart-theta-y = θy (µrad)
+
+engine-lunar-frame-realise-chart-theta-z = θz (µrad)
+
+engine-lunar-frame-realise-chart-scale = scale (ppb)
+
+engine-lunar-frame-realise-chart-row = { $label }: injected { $inj } { $unit } · recovered { $rec } { $unit } · err { $err }
+
 ## src/lunar_infra/geodesy.rs
 
 engine-e-lunar-infra-geodesy-all-sigmas-must-be-positive = all sigmas must be positive
@@ -5126,6 +5184,26 @@ engine-e-lunar-infra-tie-technique-sigmas-must-be-positive = technique sigmas mu
 
 engine-e-lunar-infra-tie-local-tie-sigmas-must-be = local-tie sigmas must be positive
 
+## src/lunar_interop.rs
+
+engine-lunar-interop-chart-title = Lunar interoperability export — CCSDS OEM + KIF (LunaNet/IOAG-aligned)
+
+engine-lunar-interop-chart-header = REF_FRAME = { $frame } | TIME_SYSTEM = { $time_system } | { $n_states } states | OEM { $oem_lines } lines
+
+engine-lunar-interop-chart-artifacts = artifacts: { $list }
+
+engine-lunar-interop-chart-pass = PASS
+
+engine-lunar-interop-chart-fail = FAIL
+
+engine-lunar-interop-chart-ok = OK
+
+engine-lunar-interop-chart-conformance = field conformance: { $verdict } ({ $present } present, { $missing } missing, { $data_lines } data lines)
+
+engine-lunar-interop-chart-roundtrip = OEM round-trip: { $oem } | time-metadata round-trip: { $time_metadata } | KIF { $kif_bytes } bytes
+
+engine-lunar-interop-chart-footnote = Round-trip / field conformance vs CCSDS OEM + published LunaNet/IOAG field semantics. { $label } — not a certified interoperability conformance test; no agency endorsement.
+
 ## src/lunar_jamming.rs
 
 engine-e-lunar-jamming-carrier-hz-must-be-finite = carrier_hz must be finite and positive
@@ -5143,6 +5221,20 @@ engine-e-lunar-jamming-jammer-power-dbw-must-be = jammer.power_dbw must be finit
 engine-lunar-jamming-lunar-jamming-sats-epochs-links = lunar-jamming | { $n_sats } sats, { $n_epochs } epochs, { $n_links } links from ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (mean { $mean_js_db }) | { $n_lost } LOST | availability { $availability_under_jamming } of { $availability_nominal } nominal
 
 engine-lunar-jamming-lunar-jamming-sats-epochs-links-2 = lunar-jamming | { $n_sats } sats, { $n_epochs } epochs, { $n_links } links from ({ $site_lat_deg }, { $site_lon_deg }) | no jammer (clean-sky lunar baseline) | { $n_lost } LOST | availability { $availability_nominal }
+
+engine-lunar-jamming-chart-title = Per-satellite J/S vs elevation, lunar surface user
+
+engine-lunar-jamming-chart-y-title = J/S (dB)
+
+engine-lunar-jamming-chart-x-title = satellite elevation (deg)
+
+engine-lunar-jamming-chart-locked = LOCKED
+
+engine-lunar-jamming-chart-degraded = DEGRADED
+
+engine-lunar-jamming-chart-lost = LOST
+
+engine-lunar-jamming-chart-n-links = { $n_links } links
 
 ## src/lunar_llr.rs
 

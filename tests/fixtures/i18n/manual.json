@@ -2495,5 +2495,458 @@
   "parts": [
    "code jitter (m, log scale) vs total C/N0 (dB-Hz)"
   ]
+ },
+ {
+  "id": "lunar-chart-title",
+  "error": false,
+  "parts": [
+   "Lunar south-pole HPL (",
+   {
+    "var": "availability"
+   },
+   "% available, AL ",
+   {
+    "var": "al"
+   },
+   " m, σ_URE ",
+   {
+    "var": "sigma"
+   },
+   " m)"
+  ]
+ },
+ {
+  "id": "lunar-beacon-chart-title",
+  "error": false,
+  "parts": [
+   "Surface-beacon augmentation — PDOP by configuration"
+  ]
+ },
+ {
+  "id": "lunar-beacon-chart-pdop",
+  "error": false,
+  "parts": [
+   "PDOP ",
+   {
+    "var": "pdop"
+   }
+  ]
+ },
+ {
+  "id": "lunar-beacon-chart-no-solution",
+  "error": false,
+  "parts": [
+   "no solution"
+  ]
+ },
+ {
+  "id": "lunar-beacon-chart-footnote",
+  "error": false,
+  "parts": [
+   "lower is better; per-beacon sigma_URE ",
+   {
+    "var": "sigma"
+   },
+   " m, mask ",
+   {
+    "var": "mask"
+   },
+   " deg"
+  ]
+ },
+ {
+  "id": "lunar-combination-chart-title",
+  "error": false,
+  "parts": [
+   "Lunar joint OD + clock — station 3-D position error (VLBI restores observability)"
+  ]
+ },
+ {
+  "id": "lunar-combination-chart-subtitle",
+  "error": false,
+  "parts": [
+   {
+    "var": "n_sat"
+   },
+   " sats, ",
+   {
+    "var": "n_earth"
+   },
+   " Earth stations · improvement factor ",
+   {
+    "var": "factor"
+   },
+   "×"
+  ]
+ },
+ {
+  "id": "lunar-combination-chart-with-vlbi",
+  "error": false,
+  "parts": [
+   "with VLBI: ",
+   {
+    "var": "m"
+   },
+   " m"
+  ]
+ },
+ {
+  "id": "lunar-combination-chart-range-only",
+  "error": false,
+  "parts": [
+   "range-only: ",
+   {
+    "var": "m"
+   },
+   " m"
+  ]
+ },
+ {
+  "id": "lunar-combination-chart-axis-note",
+  "error": false,
+  "parts": [
+   "log10 station error (m); converged with/without = ",
+   {
+    "var": "with"
+   },
+   "/",
+   {
+    "var": "without"
+   }
+  ]
+ },
+ {
+  "id": "lunar-dpnt-chart-title",
+  "error": false,
+  "parts": [
+   "Lunar differential PNT — ",
+   {
+    "var": "n_sats"
+   },
+   " sats: corrected error vs baseline (× ",
+   {
+    "var": "factor"
+   },
+   " reduction at ",
+   {
+    "var": "km"
+   },
+   " km)"
+  ]
+ },
+ {
+  "id": "lunar-dpnt-chart-subtitle",
+  "error": false,
+  "parts": [
+   "uncorrected ",
+   {
+    "var": "uncorrected"
+   },
+   " m | corrected ",
+   {
+    "var": "corrected"
+   },
+   " m | HPL ",
+   {
+    "var": "hpl"
+   },
+   " m (σ_resid ",
+   {
+    "var": "sigma"
+   },
+   " m) | ",
+   {
+    "var": "label"
+   }
+  ]
+ },
+ {
+  "id": "lunar-dpnt-chart-uncorrected-standalone",
+  "error": false,
+  "parts": [
+   "uncorrected (standalone)"
+  ]
+ },
+ {
+  "id": "lunar-dpnt-chart-baseline-km",
+  "error": false,
+  "parts": [
+   "baseline (km)"
+  ]
+ },
+ {
+  "id": "lunar-dpnt-chart-err-m",
+  "error": false,
+  "parts": [
+   "err (m)"
+  ]
+ },
+ {
+  "id": "lunar-frame-realise-chart-title",
+  "error": false,
+  "parts": [
+   "Lunar reference-frame realisation — 7-parameter Helmert recovery"
+  ]
+ },
+ {
+  "id": "lunar-frame-realise-chart-subtitle",
+  "error": false,
+  "parts": [
+   {
+    "var": "n_points"
+   },
+   " points · RMS residual ",
+   {
+    "var": "rms"
+   },
+   " m · converged ",
+   {
+    "var": "converged"
+   }
+  ]
+ },
+ {
+  "id": "lunar-frame-realise-chart-tx",
+  "error": false,
+  "parts": [
+   "tx (m)"
+  ]
+ },
+ {
+  "id": "lunar-frame-realise-chart-ty",
+  "error": false,
+  "parts": [
+   "ty (m)"
+  ]
+ },
+ {
+  "id": "lunar-frame-realise-chart-tz",
+  "error": false,
+  "parts": [
+   "tz (m)"
+  ]
+ },
+ {
+  "id": "lunar-frame-realise-chart-theta-x",
+  "error": false,
+  "parts": [
+   "θx (µrad)"
+  ]
+ },
+ {
+  "id": "lunar-frame-realise-chart-theta-y",
+  "error": false,
+  "parts": [
+   "θy (µrad)"
+  ]
+ },
+ {
+  "id": "lunar-frame-realise-chart-theta-z",
+  "error": false,
+  "parts": [
+   "θz (µrad)"
+  ]
+ },
+ {
+  "id": "lunar-frame-realise-chart-scale",
+  "error": false,
+  "parts": [
+   "scale (ppb)"
+  ]
+ },
+ {
+  "id": "lunar-frame-realise-chart-row",
+  "error": false,
+  "parts": [
+   {
+    "var": "label"
+   },
+   ": injected ",
+   {
+    "var": "inj"
+   },
+   " ",
+   {
+    "var": "unit"
+   },
+   " · recovered ",
+   {
+    "var": "rec"
+   },
+   " ",
+   {
+    "var": "unit"
+   },
+   " · err ",
+   {
+    "var": "err"
+   }
+  ]
+ },
+ {
+  "id": "lunar-interop-chart-title",
+  "error": false,
+  "parts": [
+   "Lunar interoperability export — CCSDS OEM + KIF (LunaNet/IOAG-aligned)"
+  ]
+ },
+ {
+  "id": "lunar-interop-chart-header",
+  "error": false,
+  "parts": [
+   "REF_FRAME = ",
+   {
+    "var": "frame"
+   },
+   " | TIME_SYSTEM = ",
+   {
+    "var": "time_system"
+   },
+   " | ",
+   {
+    "var": "n_states"
+   },
+   " states | OEM ",
+   {
+    "var": "oem_lines"
+   },
+   " lines"
+  ]
+ },
+ {
+  "id": "lunar-interop-chart-artifacts",
+  "error": false,
+  "parts": [
+   "artifacts: ",
+   {
+    "var": "list"
+   }
+  ]
+ },
+ {
+  "id": "lunar-interop-chart-pass",
+  "error": false,
+  "parts": [
+   "PASS"
+  ]
+ },
+ {
+  "id": "lunar-interop-chart-fail",
+  "error": false,
+  "parts": [
+   "FAIL"
+  ]
+ },
+ {
+  "id": "lunar-interop-chart-ok",
+  "error": false,
+  "parts": [
+   "OK"
+  ]
+ },
+ {
+  "id": "lunar-interop-chart-conformance",
+  "error": false,
+  "parts": [
+   "field conformance: ",
+   {
+    "var": "verdict"
+   },
+   " (",
+   {
+    "var": "present"
+   },
+   " present, ",
+   {
+    "var": "missing"
+   },
+   " missing, ",
+   {
+    "var": "data_lines"
+   },
+   " data lines)"
+  ]
+ },
+ {
+  "id": "lunar-interop-chart-roundtrip",
+  "error": false,
+  "parts": [
+   "OEM round-trip: ",
+   {
+    "var": "oem"
+   },
+   " | time-metadata round-trip: ",
+   {
+    "var": "time_metadata"
+   },
+   " | KIF ",
+   {
+    "var": "kif_bytes"
+   },
+   " bytes"
+  ]
+ },
+ {
+  "id": "lunar-interop-chart-footnote",
+  "error": false,
+  "parts": [
+   "Round-trip / field conformance vs CCSDS OEM + published LunaNet/IOAG field semantics. ",
+   {
+    "var": "label"
+   },
+   " — not a certified interoperability conformance test; no agency endorsement."
+  ]
+ },
+ {
+  "id": "lunar-jamming-chart-title",
+  "error": false,
+  "parts": [
+   "Per-satellite J/S vs elevation, lunar surface user"
+  ]
+ },
+ {
+  "id": "lunar-jamming-chart-y-title",
+  "error": false,
+  "parts": [
+   "J/S (dB)"
+  ]
+ },
+ {
+  "id": "lunar-jamming-chart-x-title",
+  "error": false,
+  "parts": [
+   "satellite elevation (deg)"
+  ]
+ },
+ {
+  "id": "lunar-jamming-chart-locked",
+  "error": false,
+  "parts": [
+   "LOCKED"
+  ]
+ },
+ {
+  "id": "lunar-jamming-chart-degraded",
+  "error": false,
+  "parts": [
+   "DEGRADED"
+  ]
+ },
+ {
+  "id": "lunar-jamming-chart-lost",
+  "error": false,
+  "parts": [
+   "LOST"
+  ]
+ },
+ {
+  "id": "lunar-jamming-chart-n-links",
+  "error": false,
+  "parts": [
+   {
+    "var": "n_links"
+   },
+   " links"
+  ]
  }
 ]
