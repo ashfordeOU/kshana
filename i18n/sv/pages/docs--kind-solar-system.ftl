@@ -19,3 +19,7 @@ seg-a4f1e7d2041e = Familjesida: <a1>Konstellationer, täckning och geometri</a1>
 seg-670191cf797f = Ämnessida: <a1>SOLAR-SYSTEM.md</a1>
 
 seg-cef32ee7d521 = Ämnessida: <a1>CONSTELLATION-DESIGN.md</a1>
+
+seg-4d208b6c0eb8 = dygn
+
+seg-3319b18ac61f = och { "1" } till i matrisen.

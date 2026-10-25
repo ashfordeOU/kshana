@@ -9,3 +9,5 @@ seg-ad856ad710eb = Status
 seg-b03d56f501c3 = Typ
 
 seg-4dbf41c0ec3b = Funktion
+
+seg-fa4468d4cb80 = Tillgänglighet

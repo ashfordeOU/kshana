@@ -7,3 +7,5 @@ seg-8f1e7d3f5a07 = Familjesida: <a1>Uppdragsanalys, länkar och rymdoperationer<
 seg-3068552e4ab4 = VALIDATED: raderna i <a1>verifieringsmatrisen</a1> som nämner den här typen.
 
 seg-98151954f217 = false
+
+seg-2ac27c1e55c0 = octet
