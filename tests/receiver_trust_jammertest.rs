@@ -200,6 +200,8 @@ fn receiver_trust_runs_end_to_end_from_the_command_line() {
     }
     assert_eq!(json["events"].as_array().map(|a| a.len()), Some(1));
     let csv = std::fs::read_to_string(dir.join("session.trust.csv")).expect("csv");
+    // The evidence label is `#` comment lines in front of the table.
+    let csv = kshana::evidence_label::strip_csv(&csv).expect("an evidence label");
     assert!(csv.starts_with("t_s,state,"));
     let svg = std::fs::read_to_string(dir.join("session.trust.svg")).expect("svg");
     assert!(svg.starts_with("<svg") && svg.ends_with("</svg>"));

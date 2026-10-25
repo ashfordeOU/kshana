@@ -59,6 +59,9 @@ fn the_block_is_additive() {
     // The long-form table and the default summary are untouched too.
     let a = run_toml("kind = \"lunar-time-budget\"\n").unwrap();
     let b = run_toml("kind = \"lunar-time-budget\"\n[time_lab]\n").unwrap();
+    // The two runs exercise different ledger rows (the block adds one), so their evidence labels differ; the table does not.
+    let a = kshana::api::without_evidence_labels(a);
+    let b = kshana::api::without_evidence_labels(b);
     assert_eq!(a.csv, b.csv);
     assert!(b.summary.starts_with(&a.summary));
 }

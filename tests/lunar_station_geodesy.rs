@@ -76,9 +76,10 @@ fn an_added_site_never_increases_any_variance() {
 
 #[test]
 fn the_rest_of_the_report_is_the_five_array_result() {
-    let base: Value =
-        serde_json::from_str(&run_toml("kind = \"lunar-llr-datum\"\n").unwrap().json).unwrap();
-    let mut with: Value = serde_json::from_str(&run_toml(&read(WITH)).unwrap().json).unwrap();
+    // The evidence label is additive and pinned on its own (tests/evidence_labels_doc_sync.rs).
+    let plain = |src: &str| kshana::api::without_evidence(&run_toml(src).unwrap().json);
+    let base: Value = serde_json::from_str(&plain("kind = \"lunar-llr-datum\"\n")).unwrap();
+    let mut with: Value = serde_json::from_str(&plain(&read(WITH))).unwrap();
     with.as_object_mut().unwrap().remove("station_geodesy");
     with["units"]
         .as_object_mut()

@@ -64,7 +64,7 @@ fn row_hashes(name: &str) -> Vec<String> {
         return vec![h(&g.nmea_text())];
     }
     let src = read(&format!("scenarios/{name}"));
-    match run_toml(&src) {
+    match run_toml(&src).map(kshana::api::without_evidence_labels) {
         Ok(o) => vec![h(&o.json), h(&o.svg), h(&o.summary)],
         Err(e) => vec!["ERR".to_string(), h(&e)],
     }

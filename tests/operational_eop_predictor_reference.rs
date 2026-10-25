@@ -233,7 +233,9 @@ fn the_persistence_reproducibility_table_is_byte_identical() {
     // byte-for-byte from here on. Release 0.30 (M035) moved the default again, onto the
     // flag-classified extract of the 2026-09-30 product; the golden was reissued with that
     // revision (docs/revisions/M035-default-eop-recut-cell-changes.md).
-    let out = run_toml("kind=\"realtime-frame-eop\"\n").unwrap();
+    // The evidence label is additive and pinned on its own (tests/evidence_labels_doc_sync.rs).
+    let out =
+        kshana::api::without_evidence_labels(run_toml("kind=\"realtime-frame-eop\"\n").unwrap());
     let csv = out.csv.as_ref().expect("a CSV artifact");
     assert_eq!(
         csv, GOLDEN_CSV,
