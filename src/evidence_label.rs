@@ -35,7 +35,7 @@ pub const SVG_METADATA_ID: &str = "kshana-evidence";
 pub const CSV_PREFIX: &str = "# evidence:";
 /// How a row id is made, as the label itself states it.
 pub const ID_RULE: &str =
-    "VM- and the first 8 hex digits of the SHA-256 of the row's requirement text";
+    "the stable id of the matrix row (the ID column): VM- and 8 hex digits, issued once and never reassigned";
 /// Height of the strip added under an SVG, px.
 const STRIP: f64 = 16.0;
 
