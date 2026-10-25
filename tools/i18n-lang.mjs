@@ -38,14 +38,14 @@ export function parseFtl(text) {
 }
 
 /** Catalogue of one language and one page: the glossary, ui and page resources, with number literals localised. */
-export function bundleFor(lang, files) {
+export function bundleFor(lang, files, { localise = true } = {}) {
   const b = new FluentBundle(BCP47[lang] || lang, {
     useIsolating: false,
     functions: { NUMLIT: ([s]) => localiseNumber(String(s), lang) },
   });
   for (const f of files) {
     if (!f || !existsSync(f)) continue;
-    const text = readText(f).replace(/\{ "([\d.,   ]+)" \}/g, (m, n) => (/^\d+(\.\d+){2,}$/.test(n) ? m : `{ NUMLIT("${n}") }`));
+    const text = localise ? readText(f).replace(/\{ "([\d.,   ]+)" \}/g, (m, n) => (/^\d+(\.\d+){2,}$/.test(n) ? m : `{ NUMLIT("${n}") }`)) : readText(f); // data keeps every number exactly as written
     b.addResource(new FluentResource(text), { allowOverrides: true });
   }
   return b;
