@@ -6936,3 +6936,56 @@ engine-wasm-plans-json-is-not-json = plans_json není pole JSON s řetězci: { $
 engine-wasm-options-json-is-not-json = options_json není JSON: { $e }
 
 engine-wasm-input-is-about-bytes-over = vstup má asi { $b64 } bajtů, přes limit { $v2 } bajtů
+
+## legal
+
+# legal: native review
+engine-legal-compliance-statement = Řádek označený jako „evidenced“ znamená, že běh z této sady podporuje důkazy pro schopnosti, které řádek uvádí. Neznamená to zjištění, že jsou požadavky rámce splněny, ani to, že by některý produkt byl kýmkoli ohodnocen či schválen. Sloupec mezer uvádí, co běhy neukazují.
+
+# legal: native review
+engine-legal-bench-surface-notice = Pouze pohyb vozidla a označené intervaly událostí. Nic, co se zde exportuje, není rádiovým signálem ani signálem v základním pásmu, takový signál nemodeluje ani jej neřídí, a událost je časový interval, nikoli návod na vytváření rušení. Signály dodávají laboratorní simulátor a jeho obsluha, která odpovídá za to, že je spouští jen tam, kde je to povoleno (vodivě nebo ve stíněném prostoru, podle bezpečnostních pokynů samotného simulátoru). Kshana nezveřejňuje žádné výsledky takových běhů.
+
+# legal: native review
+engine-legal-iq-campaign-roc-statement = MODELLED: ROC na úrovni oken pro každý monitor na daných záznamech. Každé uvedené okno události je pozitivní a každé okno roc_window_s mimo události negativní; okno se při prahu počítá, když testovací statistika monitoru v okně prahu dosáhne. P_fa je na negativní okno, nikoli na test.
+
+# legal: native review
+engine-legal-lunanet-afs-advisory = Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o typově schválené navigační zařízení ani o službu z oblasti bezpečnosti života. Kontroluje proud symbolů proti jednomu vydání zveřejněné specifikace a nic neříká o žádném uzlu ani službě LunaNet.
+
+# legal: native review
+engine-legal-iqfit-statement = MODELLED: každé nafitované číslo popisuje otevřený přijímač (uvedený návrh smyčky a vstupní řetězec) na záznamech, které dostal, nafitované na hodnocené výsledky kampaně. Není měřením žádného jiného přijímače. Předpovědi jsou označeny PREDICTION, s nejbližším testovaným záznamem a vzdáleností mimo testované podmínky.
+
+# legal: native review
+engine-legal-iqfit-advisory = Pouze poradní charakter: výstup analýzy, nejde o typově schválené navigační zařízení; předpovědi jsou výstupy modelu s uvedenou chybou, nikoli záruky.
+
+# legal: native review
+engine-legal-lunar-time-lab-source-statement = Prohlášení o zdroji, nikoli tvrzení: materiály ICG WG-B Lunar PNT z června 2024 (unoosa.org, LunarPNT_Jun24_01_04.pdf, zdroj S3 studie) popisují laboratoř lunárního časového etalonu u stanice s časovým cílem na úrovni nanosekund. Kshana tento cíl cituje jen pro kontext; nepřijímá jej a nic v tomto bloku neukazuje, že by jej splňovaly skutečné hodiny kterékoli stanice.
+
+# legal: native review
+engine-legal-standards-pack-notice = Balíček norem měří modelované scénáře proti prahům stanoveným před během. Podporuje důkazy pro řádky rámce, které uvádí; žádný produkt neohodnocuje ani neschvaluje a práh označený MET říká pouze to, že modelovaný výstup scénáře uvedený práh splnil.
+
+# legal: native review
+engine-legal-standards-pack-advisory = Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o typově schválené navigační zařízení ani o službu z oblasti bezpečnosti života; nesmí být jediným podkladem pro žádné rozhodnutí o navigaci ani bezpečnosti.
+
+# legal: native review
+engine-legal-geometry-statement = Geometrie při uvedeném modelu chyby (MODELLED): viditelnost v přímé linii proti uvedenému obzoru, faktor DOP a gaussovská elipsa chyby pro nezávislé, stejné, nulově střední gaussovské chyby vzdálenosti o uvedené ekvivalentní chybě vzdálenosti uživatele. Není předpovědí skutečné chyby přijímače, která má také systematické chyby, vícecestné šíření a chyby bez přímé viditelnosti, a není mezí integrity. Přednastavené konstelace jsou reprezentativní geometrií, nikoli oblohou daného data na daném místě.
+
+# legal: native review
+engine-legal-resilience-disclaimer = Sebehodnocení odvozené ze simulace, vztažené k DHS RPCF v2.0. Nejde o certifikaci ani akreditaci a nepředstavuje schválení žádným orgánem (DHS, IEEE ani jiným). Každé dílčí skóre je MODELLED, pokud není výslovně označeno VALIDATED, a skóre jsou ukazatele kvality v časové oblasti a v detekci, nikoli přesnost v oblasti polohy.
+
+# legal: native review
+engine-legal-observatory-notice = Buňka označená jako zhoršená znamená, že vysoký podíl letadel tam ten den hlásil nízkou přesnost navigace. Nepřisuzuje se žádná příčina. Buňka, která není pozorována nebo chybí, nebyla hodnocena, což není totéž jako bez problémů. Pouze poradní charakter: nejde o schválení, certifikaci ani prohlášení o shodě.
+
+# legal: native review
+engine-legal-receiver-trust-advisory = Software pouze poradního charakteru, nikoli typově schválené navigační zařízení (IEC 61108, IEC 61162): za navigaci plavidla zůstává odpovědný provozovatel.
+
+# legal: native review
+engine-legal-evidence-roundtrip-notice = Propojuje čtyři záznamy pomocí otisku (hash): scénář, uvedené zkušební podmínky laboratoře, záznam přijímače a skóre tohoto záznamu vůči uvedeným událostem. Není signálem, není návodem k přehrání a není certifikací. Za to, jak se pohyb ze scénáře dostal k přijímači (soubor přehraný laboratorním simulátorem, vodivě nebo ve stíněném prostoru), odpovídal provozovatel, a je zde zaznamenáno pouze tak, jak bylo uvedeno.
+
+# legal: native review
+engine-legal-evidence-bundle-disclaimer = Tento balíček je technický záznam toho, co engine Kshana vypočítal z uvedeného záznamu přijímače s uvedenou konfigurací. Není právním posudkem, není zjištěním skutečností o jakékoli události ani její příčině a není certifikací.
+
+# legal: native review
+engine-legal-bench-notice = Pouze poradní charakter: modelováno nebo měřeno vůči uvedeným referencím; nejde o schválení, certifikaci ani prohlášení o shodě. Skóre popisuje záznam nebo korpus, nikdy produkt.
+
+# legal: native review
+engine-legal-osnma-advisory = Pouze poradní charakter: jde o výstup analýzy a monitorování, nikoli o typově schválené navigační zařízení. Zde uvedený stav autentizace není službou integrity navigace a nesmí být jediným podkladem pro žádné rozhodnutí o navigaci ani bezpečnosti.

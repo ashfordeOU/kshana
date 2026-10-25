@@ -6694,3 +6694,56 @@ engine-wasm-plans-json-is-not-json = plans_json は文字列の JSON 配列で�
 engine-wasm-options-json-is-not-json = options_json は JSON ではありません：{ $e }
 
 engine-wasm-input-is-about-bytes-over = 入力は約 { $b64 } バイトで、{ $v2 } バイトの上限を超えています
+
+## legal
+
+# legal: native review
+engine-legal-compliance-statement = 「evidenced」と記された行は、この集合内の実行が、その行に挙げられた機能の証拠を裏付けることを意味します。これはフレームワークが満たされたという判定ではなく、いかなる製品も誰かによって評価または承認されたことを意味しません。ギャップ列は、実行が示していないことを述べています。
+
+# legal: native review
+engine-legal-bench-surface-notice = 車両の動きとラベル付けされたイベント区間のみです。ここでエクスポートされるものは、無線周波数またはベースバンドの信号ではなく、そのような信号をモデル化することも駆動することもなく、イベントは時間区間であって干渉を生成するための手順ではありません。信号は実験室のシミュレータとその運用者が供給し、運用者は、許可されている場所でのみ（シミュレータ自身の安全上の指示に従い、伝導接続またはシールド環境で）それらを実行する責任を負います。Kshanaは、そのような実行の結果を公表しません。
+
+# legal: native review
+engine-legal-iq-campaign-roc-statement = MODELLED：与えられた記録上の各モニタのウィンドウ単位ROCです。示された各イベントウィンドウは陽性、イベント外の各roc_window_sウィンドウは陰性とし、モニタの検定統計量がそのウィンドウ内でしきい値に達したとき、そのしきい値でウィンドウを数えます。P_faは検定ごとではなく、陰性ウィンドウごとです。
+
+# legal: native review
+engine-legal-lunanet-afs-advisory = 助言のみ：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、人命安全（safety-of-life）サービスでもありません。公開仕様の一つの版に対してシンボル列を検査するものであり、いかなるLunaNetのノードやサービスについても何も述べません。
+
+# legal: native review
+engine-legal-iqfit-statement = MODELLED：フィットされたすべての数値は、与えられた記録上のオープンな受信機（名前を挙げたループ設計とフロントエンド構成）を記述し、キャンペーンのスコア付き結果にフィットされています。他の受信機の測定ではありません。予測にはPREDICTIONと表示され、最も近い試験済み記録と、試験済み条件からの距離が付きます。
+
+# legal: native review
+engine-legal-iqfit-advisory = 助言のみ：解析出力であり、型式承認を受けた航法装置ではありません。予測は誤差を明示したモデル出力であり、保証ではありません。
+
+# legal: native review
+engine-legal-lunar-time-lab-source-statement = 出典の記述であり、主張ではありません：2024年6月のICG WG-B Lunar PNT資料（unoosa.org、LunarPNT_Jun24_01_04.pdf、本研究の出典S3）は、ナノ秒レベルの時刻目標を持つ、局における月の時刻基準ラボを記述しています。Kshanaはこの目標を文脈のためにのみ引用し、採用はしません。このブロックのどこにも、実在する局のクロックがそれを満たすことを示すものはありません。
+
+# legal: native review
+engine-legal-standards-pack-notice = 標準パックは、実行前に定められた基準に対してモデル化されたシナリオを測定します。名前を挙げたフレームワークの行について証拠を裏付けますが、いかなる製品も評価も承認もしません。METの基準は、シナリオのモデル化された出力が定められた基準を満たしたことのみを意味します。
+
+# legal: native review
+engine-legal-standards-pack-advisory = 助言のみ：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、人命安全（safety-of-life）サービスでもありません。航法または安全に関するいかなる判断の唯一の根拠としても使用してはなりません。
+
+# legal: native review
+engine-legal-geometry-statement = 示された誤差モデルの下での幾何：示されたスカイラインに対する見通し可視性、DOP、および、示されたユーザ等価距離誤差を持つ、独立・同一・平均ゼロのガウス距離誤差に対するガウス誤差楕円です。バイアス、マルチパス、非見通し線誤差も含む受信機の実際の誤差の予測ではなく、インテグリティの限界でもありません。プリセットのコンステレーションは代表的な幾何であり、その日付のその場所の空ではありません。
+
+# legal: native review
+engine-legal-resilience-disclaimer = シミュレーションに基づく自己評価で、DHS RPCF v2.0に対応づけられています。これは認証でも認定でもなく、いかなる機関（DHS、IEEEなど）の承認も表しません。すべてのサブスコアは、明示的にVALIDATEDと記されていない限りMODELLEDであり、スコアは時間領域と検出の性能指標であって、位置領域の精度ではありません。
+
+# legal: native review
+engine-legal-observatory-notice = 劣化セルとは、その日そこで航空機の高い割合が低い航法精度を報告したことを意味します。原因は特定しません。観測されていない、または存在しないセルは評価されていないのであり、問題なしと同じではありません。助言のみ：承認、認証、適合性の表明ではありません。
+
+# legal: native review
+engine-legal-receiver-trust-advisory = 助言用ソフトウェアであり、型式承認を受けた航法装置（IEC 61108、IEC 61162）ではありません。船舶の航行の責任は引き続き運用者にあります。
+
+# legal: native review
+engine-legal-evidence-roundtrip-notice = ハッシュで4つの記録を結び付けます：シナリオ、実験室が示した試験条件、受信機ログ、および示されたイベントに対するそのログのスコアです。これは信号でも、再生手順でも、認証でもありません。シナリオの動きがどのように受信機に届いたか（実験室のシミュレータで再生されたファイル、伝導接続またはシールド環境）は運用者の責任であり、ここには示されたとおりにのみ記録されています。
+
+# legal: native review
+engine-legal-evidence-bundle-disclaimer = このパックは、Kshanaエンジンが、示された受信機ログから、示された設定で計算した内容の技術記録です。法的見解でも、いかなる事象やその原因に関する事実認定でも、認証でもありません。
+
+# legal: native review
+engine-legal-bench-notice = 助言のみ：明示された参照に対してモデル化または測定したものであり、承認、認証、適合性の表明ではありません。スコアはログまたはコーパスを記述するものであり、製品を記述するものではありません。
+
+# legal: native review
+engine-legal-osnma-advisory = 助言のみ：これは解析・監視の出力であり、型式承認を受けた航法装置ではありません。ここに示す認証状態は航法のインテグリティサービスではなく、航法または安全に関するいかなる判断の唯一の根拠としても使用してはなりません。

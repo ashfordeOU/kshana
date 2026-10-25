@@ -6982,3 +6982,56 @@ engine-wasm-plans-json-is-not-json = plans_json nie jest tablicą JSON ciągów 
 engine-wasm-options-json-is-not-json = options_json nie jest JSON: { $e }
 
 engine-wasm-input-is-about-bytes-over = dane wejściowe mają około { $b64 } bajtów, powyżej limitu { $v2 } bajtów
+
+## legal
+
+# legal: native review
+engine-legal-compliance-statement = Wiersz oznaczony jako „evidenced” oznacza, że uruchomienie z tego zestawu dostarcza dowodów na możliwości wymienione w tym wierszu. Nie jest to stwierdzenie, że wymagania ram odniesienia są spełnione, i nie oznacza, że jakikolwiek produkt został przez kogokolwiek oceniony lub zatwierdzony. Kolumna luk wskazuje, czego uruchomienia nie pokazują.
+
+# legal: native review
+engine-legal-bench-surface-notice = Wyłącznie ruch pojazdu i oznaczone przedziały zdarzeń. Nic, co tu wyeksportowano, nie jest sygnałem radiowym ani sygnałem w paśmie podstawowym, nie modeluje takiego sygnału ani nie steruje nim, a zdarzenie jest przedziałem czasu, a nie przepisem na wytworzenie zakłóceń. Sygnały dostarczają symulator laboratoryjny i jego operator, którzy odpowiadają za uruchamianie ich wyłącznie tam, gdzie jest to dozwolone (w trybie przewodowym lub w ekranowaniu, zgodnie z instrukcjami bezpieczeństwa samego symulatora). Kshana nie publikuje żadnych wyników takich uruchomień.
+
+# legal: native review
+engine-legal-iq-campaign-roc-statement = MODELLED: krzywa ROC na poziomie okien dla każdego monitora na podanych nagraniach. Każde podane okno zdarzenia jest pozytywne, a każde okno roc_window_s poza zdarzeniami negatywne; okno liczy się przy progu, gdy statystyka testowa monitora osiąga go w tym oknie. P_fa jest na okno negatywne, nie na test.
+
+# legal: native review
+engine-legal-lunanet-afs-advisory = Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia. Sprawdza strumień symboli względem jednej edycji opublikowanej specyfikacji i nic nie mówi o żadnym węźle ani usłudze LunaNet.
+
+# legal: native review
+engine-legal-iqfit-statement = MODELLED: każda dopasowana liczba opisuje otwarty odbiornik (wskazany projekt pętli i tor wejściowy) na podanych mu nagraniach, dopasowana do ocenionych wyników kampanii. Nie jest pomiarem żadnego innego odbiornika. Prognozy są oznaczone PREDICTION, z najbliższym testowanym nagraniem i odległością poza testowanymi warunkami.
+
+# legal: native review
+engine-legal-iqfit-advisory = Wyłącznie doradczo: wynik analizy, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu; prognozy są wynikami modelu ze wskazanym błędem, a nie gwarancjami.
+
+# legal: native review
+engine-legal-lunar-time-lab-source-statement = Oświadczenie o źródle, nie twierdzenie: materiały ICG WG-B Lunar PNT z czerwca 2024 (unoosa.org, LunarPNT_Jun24_01_04.pdf, źródło S3 badania) opisują laboratorium księżycowego wzorca czasu przy stacji z celem czasowym na poziomie nanosekund. Kshana cytuje ten cel wyłącznie dla kontekstu; nie przyjmuje go, a nic w tym bloku nie wskazuje, że jakikolwiek rzeczywisty zegar stacji go spełnia.
+
+# legal: native review
+engine-legal-standards-pack-notice = Pakiet standardów mierzy modelowane scenariusze względem progów podanych przed uruchomieniem. Dostarcza dowodów na wiersze ram odniesienia, które wymienia; nie ocenia ani nie zatwierdza żadnego produktu, a próg oznaczony MET mówi jedynie, że modelowany wynik scenariusza spełnił podany próg.
+
+# legal: native review
+engine-legal-standards-pack-advisory = Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia; nie może być jedyną podstawą żadnej decyzji nawigacyjnej ani dotyczącej bezpieczeństwa.
+
+# legal: native review
+engine-legal-geometry-statement = Geometria przy podanym modelu błędu (MODELLED): widoczność w linii wzroku względem podanej linii horyzontu, rozmycie dokładności (DOP) i gaussowska elipsa błędu dla niezależnych, równych, zerowo-średnich gaussowskich błędów odległości o podanym równoważnym błędzie odległości użytkownika. Nie jest to prognoza rzeczywistego błędu odbiornika, który ma także błędy systematyczne, wielodrogowość i błędy bez linii widzenia, i nie jest to granica integralności. Konstelacje predefiniowane są geometrią reprezentatywną, a nie niebem z danej daty w danym miejscu.
+
+# legal: native review
+engine-legal-resilience-disclaimer = Samoocena oparta na symulacji, odniesiona do DHS RPCF v2.0. Nie jest to certyfikacja ani akredytacja i nie reprezentuje zatwierdzenia przez żaden organ (DHS, IEEE ani inny). Każdy podwynik jest MODELLED, chyba że wyraźnie oznaczono go jako VALIDATED, a wyniki są miarami jakości w dziedzinie czasu i detekcji, a nie dokładnością w dziedzinie pozycji.
+
+# legal: native review
+engine-legal-observatory-notice = Komórka oznaczona jako pogorszona oznacza, że duża część statków powietrznych zgłosiła tam danego dnia niską dokładność nawigacji. Nie przypisuje się żadnej przyczyny. Komórka nieobserwowana lub nieobecna nie była oceniana, co nie jest tym samym co komórka czysta. Wyłącznie doradczo: to nie jest zatwierdzenie, certyfikacja ani oświadczenie o zgodności.
+
+# legal: native review
+engine-legal-receiver-trust-advisory = Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu (IEC 61108, IEC 61162): za nawigację statku odpowiada nadal operator.
+
+# legal: native review
+engine-legal-evidence-roundtrip-notice = Łączy cztery rekordy przez skrót (hash): scenariusz, podane przez laboratorium warunki testu, log odbiornika oraz ocenę tego logu względem podanych zdarzeń. Nie jest sygnałem, nie jest przepisem na odtworzenie i nie jest certyfikacją. To, w jaki sposób ruch ze scenariusza dotarł do odbiornika (plik odtworzony przez symulator laboratoryjny, w trybie przewodowym lub w ekranowaniu), było odpowiedzialnością operatora i jest tu zapisane wyłącznie tak, jak zostało podane.
+
+# legal: native review
+engine-legal-evidence-bundle-disclaimer = Ten pakiet jest zapisem technicznym tego, co silnik Kshana obliczył na podstawie podanego logu odbiornika przy podanej konfiguracji. Nie jest opinią prawną, nie jest ustaleniem faktów dotyczących żadnego zdarzenia ani jego przyczyny i nie jest certyfikacją.
+
+# legal: native review
+engine-legal-bench-notice = Wyłącznie doradczo: modelowane lub mierzone względem podanych wzorców; nie jest to zatwierdzenie, certyfikacja ani oświadczenie o zgodności. Wynik opisuje log lub korpus, nigdy produkt.
+
+# legal: native review
+engine-legal-osnma-advisory = Wyłącznie doradczo: to wynik analizy i monitorowania, a nie sprzęt nawigacyjny z zatwierdzeniem typu. Podany tu stan uwierzytelniania nie jest usługą integralności nawigacji i nie może być jedyną podstawą żadnej decyzji nawigacyjnej ani dotyczącej bezpieczeństwa.
