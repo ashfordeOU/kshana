@@ -125,8 +125,10 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("leo-vertical-rail-maritime"),
     bundled!("link-budget"),
     bundled!("lunanet-araim"),
+    bundled!("lunar-ascent"),
     bundled!("lunar-attack-surface"),
     bundled!("lunar-beacon"),
+    bundled!("lunar-descent"),
     bundled!("lunar-differential-pnt"),
     bundled!("lunar-frame-campaign"),
     bundled!("lunar-frame-realisation"),
@@ -139,10 +141,13 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("lunar-interop-export"),
     bundled!("lunar-jamming"),
     bundled!("lunar-joint-od-clock"),
+    bundled!("lunar-orbit-rendezvous"),
+    bundled!("lunar-orbit-rendezvous-elfo"),
     bundled!("lunar-relay-constellation"),
     bundled!("lunar-station-coverage"),
     bundled!("lunar-station-coverage-public-sources"),
     bundled!("lunar-station-time-lab"),
+    bundled!("lunar-surface"),
     bundled!("lunar-time-budget"),
     bundled!("lunar-time-offset"),
     bundled!("lunar-vlbi"),
@@ -248,6 +253,20 @@ pub const REPO_ONLY: &[(&str, &str)] = &[
          which ships with the repository but not with the registry packages; clone \
          https://github.com/ashfordeOU/kshana and run `kshana scenarios/lunar-llr-datum.toml` \
          from the checkout, or set `data_dir` to a copy of that slice",
+    ),
+    (
+        "lunar-descent-lola",
+        "reads the LRO LOLA south-polar DEM crop under data/lunar-dem, which ships with the \
+         repository but not with the registry packages; clone \
+         https://github.com/ashfordeOU/kshana and run `kshana scenarios/lunar-descent-lola.toml` \
+         from the checkout, or set `dem_descriptor` to a copy of that descriptor and its image",
+    ),
+    (
+        "lunar-surface-terrain",
+        "reads the LRO LOLA south-polar DEM crop under data/lunar-dem, which ships with the \
+         repository but not with the registry packages; clone \
+         https://github.com/ashfordeOU/kshana and run `kshana scenarios/lunar-surface-terrain.toml` \
+         from the checkout, or set `dem_path` to a copy of that descriptor and its image",
     ),
     (
         "lunar-station-coverage-terrain",
