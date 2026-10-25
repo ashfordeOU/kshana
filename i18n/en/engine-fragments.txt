@@ -4,6 +4,7 @@
 
 advanced-report-bg-fg-muted-line-card: passed to another message
 advanced-report-rows-of-non-numeric-column: passed to another message
+advanced-report-th-used-by: starts or ends mid-sentence
 animation-bg-fill-fg-fill-mu: passed to another message
 antenna-altitude-beamwidth-deg-points: passed to another message
 aocs-kind-aocs-wheels-slew-from-deg: passed to another message
@@ -40,6 +41,8 @@ api-scenario-jamming-availability-under-jamming: passed to another message
 araim-reference-araim-reference-check-published-wg: passed to another message
 attitude-budget-attitude-budget-km-kg-gg: passed to another message
 bench-tasks-kshana-receiver-trust-35-default: passed to another message
+campaign-chart-not-available: starts or ends mid-sentence
+campaign-chart-sweep-percentile-band: starts or ends mid-sentence
 campaign-monte-carlo-metrics: passed to another message
 campaign-optimize-optimize-eval: passed to another message
 campaign-sweep-node: passed to another message
@@ -65,6 +68,7 @@ entry-eo-ascent-entry-heating-entry-heating-rel-peak-at: passed to another messa
 entry-eo-ascent-eo-radiometry-eo-radiometry-gsd-snr-well: passed to another message
 eo-payload-eo-coverage-km-fov-km: passed to another message
 ephemeris-ground-track-samples-alt-km: passed to another message
+holdover-test-not-recovered-within-record: starts or ends mid-sentence
 holdover-test-recovered-after-gnss-returned: starts or ends mid-sentence
 impairment-eval-impairment-eval-detector-auc-in: passed to another message
 interference-map-observatory-degraded-not-degraded-not-observed: passed to another message
@@ -80,6 +84,7 @@ iq-monitor-sqm-sqm-pair: passed to another message
 leo-fusion-ppp-ppp-convergence-to-horizontal-vertical: passed to another message
 leo-navmsg-fit-interval-trade-over-usage: passed to another message
 leo-navmsg-mid-pass-update-pass-max: passed to another message
+leo-pnt-chain-chart-not-available: starts or ends mid-sentence
 leo-pnt-chain-sisre-gnss-only-rms-3d: passed to another message
 leo-signal-scenario-leo-signal-signals-noise: passed to another message
 linkbudget-link-budget-band-km-bit: passed to another message
