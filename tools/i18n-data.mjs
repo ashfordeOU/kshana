@@ -9,6 +9,19 @@ export const dataId = (s) => 'dat-' + sha12(s);
 const PROSE = /[A-Za-z]{3,}\s+[A-Za-z]{2,}/;
 const NOT_PROSE = /^(https?:|[\w./-]+\.(json|svg|png|toml|md|rs|html|csv)$)/;
 
+/** Read a spec file: JSON, or (module) `export default <JSON>;` with its leading comment lines kept as a header. */
+export function readJsonFile(path, f) {
+  const text = readFileSync(path, 'utf8');
+  if (!f.module) return { json: JSON.parse(text), header: '' };
+  const header = text.split('\n').filter((l) => /^\s*\/\//.test(l)).join('\n');
+  const body = text.replace(/^\s*\/\/.*$/gm, '').trim().replace(/^export default /, '').replace(/;\s*$/, '');
+  return { json: JSON.parse(body), header };
+}
+export function writeJsonFile(path, f, json, header) {
+  mkdirSync(dirname(path), { recursive: true });
+  writeFileSync(path, f.module ? `${header ? header + '\n' : ''}export default ${JSON.stringify(json)};\n` : JSON.stringify(json));
+}
+
 export const loadSpec = (root = 'i18n') => JSON.parse(readFileSync(join(root, 'data-spec.json'), 'utf8'));
 
 /** Is this string a message? Prose of two words or more, on one line. */
@@ -34,7 +47,7 @@ export function collectData(src, spec) {
   for (const f of spec.files) {
     const p = join(src, f.file);
     if (!existsSync(p)) continue;
-    const j = JSON.parse(readFileSync(p, 'utf8'));
+    const { json: j } = readJsonFile(p, f);
     walkProse(j, skipSet(spec, f), (s) => { if (!out.has(s)) out.set(s, new Set()); out.get(s).add(f.file); });
   }
   return out;
@@ -59,11 +72,9 @@ export function applyData(src, out, spec, tr) {
   for (const f of spec.files) {
     const p = join(src, f.file);
     if (!existsSync(p)) continue;
-    const j = JSON.parse(readFileSync(p, 'utf8'));
+    const { json: j, header } = readJsonFile(p, f);
     walkProse(j, skipSet(spec, f), (s, set) => { total++; const t = tr(s); if (t !== null && t !== undefined) { set(t); replaced++; } });
-    const dst = join(out, f.file);
-    mkdirSync(dirname(dst), { recursive: true });
-    writeFileSync(dst, JSON.stringify(j));
+    writeJsonFile(join(out, f.file), f, j, header);
   }
   return { replaced, total };
 }

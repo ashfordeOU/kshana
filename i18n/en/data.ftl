@@ -19,6 +19,21 @@ dat-9657f74b138f = [optimize]: the best value of one metric
 # data/search.json
 dat-63973644475a = [sweep]: a parameter grid over any kind
 
+# js/developers-data.mjs
+dat-285d8f027519 = # Clock white-FM noise calibrated to published sigma_y({ "1" } s): q_wf = sigma_y(1s)^{ "2" }.
+
+# js/developers-data.mjs
+dat-ad23dc8fd9f2 = # Kshana reference scenario: { "2" } h run, { "10" } min GNSS sync then ~{ "1.8" } h denied.
+
+# js/developers-data.mjs
+dat-e225c1ec7486 = # Validated against simulated Allan deviation in tests/calibration.rs (~{ "2" }%).
+
+# js/evidence-data.mjs
+dat-4f20e5e52345 = + solar radiation pressure
+
+# js/evidence-data.mjs
+dat-629f33820447 = + Sun and Moon
+
 # data/search.json
 dat-dd30c5a497c2 = $PKSHT: the proprietary sentence
 
@@ -217,6 +232,9 @@ dat-8ad24fc070b6 = { "50" } m position budget
 # data/verification-matrix.json
 dat-038b22af5159 = 5G non-terrestrial-network positioning accuracy from signal bandwidth
 
+# js/missions-runs.mjs
+dat-c416b799f02f = 5G NTN positioning at { "2172.5" } MHz, C/N0 { "38" } to { "50" } dB-Hz, { "324" } satellites ({ "10.0" } in view)
+
 # data/search.json
 dat-9fd9336fb7d7 = { "6" } papers on arXiv built on the open engine
 
@@ -292,8 +310,14 @@ dat-f9c068a3faae = A chained mission across scenario kinds on one shared timelin
 # data/search.json
 dat-cdd80ebb9a83 = A chained mission driven by the L-band spectrum: a chirp jammer takes GPS L1 C/A and
 
+# js/missions-runs.mjs
+dat-635cb03aa05c = A chained mission driven by the L-band spectrum: a chirp jammer takes GPS L1 C/A and Galileo E1, the clock holds over, and a continuous-wave (CW) tone left on the L1 carrier keeps C/A down while E1 recovers, so the receiver falls back to Galileo and its integrity monitor runs on a Galileo-only sky.
+
 # data/search.json
 dat-4b8bf35eaf13 = A chained mission: nominal, jamming, spoofing, GNSS loss with clock holdover and
+
+# js/missions-runs.mjs
+dat-e56a65d5d98a = A chained mission: nominal, jamming, spoofing, GNSS loss with clock holdover and inertial coasting, an integrity alarm, and recovery, on one shared timeline.
 
 # data/verification-matrix.json
 dat-8ca8599327ef = A Chapman ionosphere, a Gallagher-type plasmasphere and a neutral atmosphere (refractivity bending, oxygen absorption, defocusing) integrated along the straight ray between transmitter and user: slant total electron content, its plasmaspheric part, excess delay, tangent altitude and the loss on grazing links; and a weak-signal receiver design (coherent and non-coherent integration, data-bit limit, aiding, Doppler search) that sets the C/N0 threshold from the acquisition and tracking-loop models
@@ -349,7 +373,7 @@ dat-84f14411f2d4 = A launcher: it downloads the release binary, verifies SHA256S
 # data/verification-matrix.json
 dat-3705df6ee188 = A least-squares bias-plus-rate fit over a trailing window plus the principal periodic terms — annual, semi-annual and the two principal zonal tides for UT1; Chandler, annual and semi-annual for the pole — extrapolated with the last in-window residual carried forward: the class IERS Bulletin A uses, in place of the persistence predictor the published horizon rested on. Scored the only honest way: a forecast for T+h built from rapid Bulletin A rows at or before T, measured against the LATER-PUBLISHED Bulletin B final at T+h, with persistence scored over the identical epoch set against the identical finals beside it. A target epoch with no published final is dropped rather than re-scored against the rapid column; a periodic term the window cannot constrain is reported as rejected with the cycles it actually spans; an incomplete window is refused rather than quietly shortened
 
-# data/search.json
+# data/search.json, js/missions-runs.mjs
 dat-0a0972b25982 = A LEO-PNT pass against the Galileo satellites in view: C/N0 over one pass.
 
 # data/verification-matrix.json, studio/data/areas.json
@@ -361,8 +385,14 @@ dat-5b8a315fad5f = A link-budget jamming model (J/S → effective C/N₀ → los
 # data/search.json
 dat-d6f5d677f263 = A low-Earth-orbit positioning, navigation and timing (PNT) mega-constellation: { "5 000" }
 
+# js/missions-runs.mjs
+dat-09757b0a8b63 = A low-Earth-orbit positioning, navigation and timing (PNT) mega-constellation: { "5 000" } satellites in four Walker shells, scored as a coverage and dilution-of-precision (DOP) map.
+
 # data/search.json
 dat-8e5e9f14c1c0 = A lunar relay and navigation constellation: satellites in elliptical lunar frozen orbits
+
+# js/missions-runs.mjs
+dat-498f1549caf3 = A lunar relay and navigation constellation: satellites in elliptical lunar frozen orbits (ELFO) plus a circular low-lunar-orbit shell, scored as a coverage and dilution-of-precision (DOP) map over the whole Moon for one day.
 
 # data/verification-matrix.json
 dat-1e2f6c5f0e89 = A machine-readable schema giving unit, provenance class and definition for every numeric field of every scenario report, plus a single global gate that runs every registered scenario kind and fails if an emitted numeric field lacks either. The provenance vocabulary is closed and each class carries an evidence tier, with two classes deliberately mapped to `inherits-scenario-label` and `depends-on-input` rather than being assigned a tier the class does not determine
@@ -381,6 +411,9 @@ dat-9e94119a3b77 = A pack is a technical record, not a legal opinion.
 
 # data/search.json
 dat-d49bffcdaa4a = A parameter sweep through a campaign: the jamming example's receiver ({ "52" } N, { "4" } E,
+
+# js/missions-runs.mjs
+dat-62f4cc723b24 = A parameter sweep through a campaign: the jamming example's receiver ({ "52" } N, { "4" } E, GPS-like 24-satellite Walker shell) under a broadband jammer { "1" } km away, with the jammer's transmit power swept from -50 dBW ({ "10" } nW) to +{ "10" } dBW ({ "10" } W) in { "5" } dB steps.
 
 # data/verification-matrix.json
 dat-8ddf5c79ed9f = A port of the NRLMSISE-00 empirical thermosphere (gtd7 and gtd7d: species densities, total mass density with anomalous oxygen, temperatures; the { "24" } switches; daily-Ap and 3-hourly ap-array modes) from the public-domain C version of the NRL Fortran
@@ -418,7 +451,7 @@ dat-6d864a01c477 = A run writes a result document, a chart and a report. --expor
 # data/search.json
 dat-9801c2af3f99 = A scope boundary, written down so that nobody discovers it as a commitment in a meeting.
 
-# data/search.json
+# data/search.json, js/missions-runs.mjs
 dat-22f4ef767e4e = A seeded Monte Carlo ensemble through a campaign, on a case with a closed form.
 
 # data/search.json
@@ -468,6 +501,9 @@ dat-ebda4408a75a = Accumulates the lunar VLBI delay partials into a Fisher infor
 
 # data/search.json
 dat-d00cc6e4476d = acm-link (scenario kind)
+
+# js/developers-data.mjs
+dat-f4f5f8cb9fcd = Acquire then track one or more PRNs over an IQ recording in the work directory (`kshana iq track`): acquisition initialises each channel, then the DLL/PLL (optionally FLL-assisted) loop bank replays the recording once.
 
 # data/verification-matrix.json
 dat-7151fa5ea3ca = Acquisition and C/N0 estimation on real lunar IQ
@@ -757,6 +793,9 @@ dat-81de805c52b2 = Apparent ground-station pass prediction with refraction and l
 # studio/channels.json
 dat-1ac2234b645c = Appears once Microsoft merges the submission.
 
+# js/developers-data.mjs
+dat-f004dab3d413 = Apply receiver front-end and interference-mitigation DSP to an IQ recording in the work directory and write the result as a new raw recording with a `<out>.json` sidecar (`kshana iq frontend`).
+
 # studio/data/capabilities.json
 dat-ee235d00ac73 = ARAIM against published reference vectors
 
@@ -798,6 +837,12 @@ dat-f4c6c42742c8 = Ashby & Patla { "2024" }, 'A Relativistic Framework to Estima
 
 # data/verification-matrix.json
 dat-1b475a0c1d67 = assemble_coupled_info builds the 9-parameter coupled Fisher over [t_x, t_y, t_z, s, theta_x, theta_y, theta_z, d_tau, d_alpha]; classify_null_space returns a basis-invariant decomposition of its null space into spatial-only, temporal-only and genuinely coupled dimensions plus the spatial-to-temporal projector coupling norm; coupled_marginal_eigs gives the { "{" }scale, offset{ "}" } Schur-complement marginal. On the committed networks the engine reports a full-rank datum (defect { "0" }) for the well-posed case and an exact single rate-direction defect for the single-epoch case (elapsed time zero, so the rate is unobservable by construction), and computes the { "{" }s, d_tau{ "}" } marginal in both.
+
+# js/developers-data.mjs
+dat-88628f117d66 = Assess a real GNSS receiver log for trust: read a u-blox UBX, RINEX { "3" } (optionally with broadcast navigation, which adds the engine's own fix, RAIM and a clock-aided monitor), Android GnssLogger or NMEA log, run the trust monitors (carrier-to-noise density drop, AGC, jamming indicator, loss of lock, position jump, RAIM, clock) against a calibration baseline, and return when and why the receiver stopped being trustworthy.
+
+# js/developers-data.mjs
+dat-93160f442fa0 = Assess a vessel's NMEA { "0183" } log as a batch run (`kshana receiver-trust` with `[platform] kind = "vessel"`): the score model, the monitors that ran and every epoch's 0-100 score with its deductions, its satellite geometry (good, degraded, unknown) with a `label` (good, fair, poor) on every epoch, geometry deducting only when poor, and a class on every deduction (geometry, environment, inconsistency), with `geometry_model` (thresholds, the cap and floor in force, and provenance) and `geometry_summary`.
 
 # data/verification-matrix.json
 dat-5243f5bcd02f = ATOMIC model facts from InsideGNSS (6th-order polynomial, about one minute validity, { "30" } s refresh, clock steered, { "24" } cm clock error). These are descriptive facts with no published numbers to compare against. The five-altitude table prints Liu et al. { "2025" } SISRE ({ "8.88" }, { "6.21" }, { "2.87" }, { "2.11" } and { "0.75" } cm at { "320" }, { "475" }, { "786" }, { "966" } and { "1336" } km over a 20-minute arc) beside Kshana fit on its own integrated orbit ({ "4.25" }, { "2.87" }, { "2.20" }, { "1.25" } and { "0.51" } cm; ratios { "0.46" } to { "0.77" }), not pinned, because the paper fitted real precise orbits and the truths differ. The 22-parameter model and fit themselves are validated against real orbits in the row Liu et al. { "2025" } 22-parameter LEO ephemeris model and its fit on real precise orbits. { "0.30" } revision: the table figures moved with the paper-convention fit (GRACE-A { "5.40" } -> { "4.25" } cm, GRACE-C { "4.12" } -> { "2.87" }, Sentinel-2A { "2.95" } -> { "2.20" }, HY-2A { "2.38" } -> { "1.25" }, Sentinel-6A { "0.70" } -> { "0.51" })
@@ -919,7 +964,7 @@ dat-d8f4e06fdc29 = BeiDou B1I primary ranging codes against an independent gener
 # data/verification-matrix.json
 dat-c58c97b005f7 = BeiDou GEO broadcast satellite position
 
-# assets/capabilities/capabilities.json
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-3eb518cc8715 = BeiDou MEO Walker 24/3/1 + { "3" } GEO + { "3" } IGSO, BDS-OS-PS-3.0 ({ "2021" }) section { "4.1" }; MEO phase and IGSO nodes modelled
 
 # data/search.json
@@ -945,6 +990,9 @@ dat-8586a1b74deb = Biancale and Bode, GFZ Scientific Technical Report STR06/01 (
 
 # data/search.json
 dat-4fd12ee9645c = Binary format
+
+# js/developers-data.mjs
+dat-6414a240b793 = Bind an RFC { "3161" } timestamp token to an evidence pack (`kshana evidence attach-timestamp`), in memory: `files` is a pack as `create_evidence_pack` returns it, `token_base64` the bytes of the `.tsr` file from a timestamp authority.
 
 # data/verification-matrix.json
 dat-b4508ee0db18 = BIPM Circular-T [UTC-UTC(USNO)] 5-day series MJD 56074-60429 ({ "872" } pts, webtai API); disjoint fit/test, multi-year zero-piercing coverage
@@ -1009,6 +1057,9 @@ dat-292fe630b5c3 = budget_tests (bias vs AccelModel integrator; VRW vs analytic 
 # data/search.json
 dat-45ca8004aed9 = Budgets (time to exceed)
 
+# js/developers-data.mjs
+dat-8d18b9143295 = Build a GNSS interference map from openly licensed aircraft (ADS-B NIC/NACp) or ship (AIS) position reports given as CSV text (`kshana interference-map adsb|ais`).
+
 # data/search.json
 dat-294d1ca6907a = Build and serve locally
 
@@ -1063,16 +1114,37 @@ dat-efdc1cc6e9e2 = Caltech/JPL/USGS, Voyager mosaic
 # data/search.json
 dat-ffe6900af061 = campaign (scenario kind)
 
-# assets/capabilities/capabilities.json
+# js/missions-runs.mjs
+dat-80ffb4d81d7b = campaign 1ce2687e8ded | L-band jamming from the spectrum, clock holdover and a Galileo-only fallback | chain: { "3" } phases over { "910" } s, { "0" } events, alarm raised on { "600" } s of the grid | { "8" } member runs (MODELLED)
+
+# js/missions-runs.mjs
+dat-b69fd4e5d1fa = campaign 248395b851cc | GNSS jammed, LEO-PNT carries the user, integrity maintained | chain: { "3" } phases over { "2100" } s, { "0" } events, alarm raised on { "60" } s of the grid | { "6" } member runs (MODELLED)
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-ef2c218aa0e0 = campaign 46aa07cb58fb | Jammer power sweep: availability and J/S against transmit power | sweep of `jamming`: { "13" } nodes over [jammer_power] | { "13" } member runs (MODELLED)
 
-# assets/capabilities/capabilities.json
+# js/missions-runs.mjs
+dat-a5da2062c236 = campaign 49575d27b696 | Railway and maritime with a LEO layer | chain: { "3" } phases over { "2520" } s, { "1" } events, alarm raised on { "1800" } s of the grid | { "4" } member runs (MODELLED)
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-e28c5500c49c = campaign 504dd3a57cbc | One jammer, a ship and a car | compose: { "2" } members | { "2" } member runs (MODELLED)
 
-# assets/capabilities/capabilities.json
+# js/missions-runs.mjs
+dat-30377fcc0cb9 = campaign b4e35bde2b13 | Critical infrastructure timing: holdover with LEO time | chain: { "2" } phases over { "87000" } s, { "0" } events, alarm raised on { "0" } s of the grid | { "4" } member runs (MODELLED)
+
+# js/missions-runs.mjs
+dat-d0d2c727c86a = campaign bfadd9e68eb7 | Spoofing monitors against four spoofers | compose: { "4" } members | { "4" } member runs (MODELLED)
+
+# js/missions-runs.mjs
+dat-4a8f0aafd0ae = campaign ca7926631f76 | 5G base-station timing: holdover and LEO time | chain: { "1" } phases over { "86400" } s, { "2" } events, alarm raised on { "0" } s of the grid | { "3" } member runs (MODELLED)
+
+# js/missions-runs.mjs
+dat-2d7957360d8e = campaign d416a2169656 | Autonomous vehicle in an urban canyon with a LEO layer | chain: { "2" } phases over { "1500" } s, { "0" } events, alarm raised on { "470" } s of the grid | { "4" } member runs (MODELLED)
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-000297ba019a = campaign e093a8c2f169 | Monte Carlo: free-running clock error against its closed form | monte carlo of `clock`: { "200" } seeds | { "200" } member runs (MODELLED)
 
-# assets/capabilities/capabilities.json
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-430aaa629886 = campaign f87a4a0e0bab | Jamming, spoofing, holdover and integrity: a chained mission | chain: { "6" } phases over { "4570" } s, { "2" } events, alarm raised on { "2770" } s of the grid | { "18" } member runs (MODELLED)
 
 # data/search.json
@@ -1174,11 +1246,20 @@ dat-459c7ebe6478 = Changelog maintenance (required)
 # data/search.json
 dat-7b075a8b60bf = Chart provenance footer
 
+# js/developers-data.mjs
+dat-fc6862562ae9 = Check the LunaNet Augmented Forward Signal (AFS) against the published specification, pinned to LNIS Version { "5" } Applicable Document { "1" } Volume A (LSIS-AFS V1.0, { "29" } January { "2025" }) (`kshana lunanet-afs-check`, docs/LUNANET-AFS.md).
+
 # studio/data/capabilities.json
 dat-56b0b15994f4 = checked vs closed-form (launch azimuth · Allen-Eggers · SMAD)
 
 # assets/capabilities/capabilities.json
 dat-11a07c3e1da8 = chirp privacy device
+
+# js/evidence-data.mjs
+dat-48ce4205cbf8 = CI fixture, dynamic (state only)
+
+# js/evidence-data.mjs
+dat-8e464297a6f9 = CI fixture, Tier { "2" } (+ empirical CPR)
 
 # studio/data/areas.json
 dat-e36146d35d6f = Circular velocity
@@ -1230,6 +1311,9 @@ dat-50344569da2b = clients that take a URL
 
 # data/search.json
 dat-91484de7112e = clock (scenario kind)
+
+# js/missions-runs.mjs
+dat-f9986ea170c0 = clock and signal-level cases
 
 # data/search.json
 dat-e3293c510be2 = Clock holdover vs spec; optional Monte-Carlo ensemble (runs > { "1" }).
@@ -1504,13 +1588,13 @@ dat-5b3321c7b826 = Constellation design at scale: Walker DELTA and Walker STAR p
 # data/search.json
 dat-4e0d052db891 = constellation-design (scenario kind)
 
-# assets/capabilities/capabilities.json
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-d5f972f5d84e = constellation-design: { "102" } satellites (GPS, Galileo, BeiDou, GLONASS) around the Earth; availability { "100.00" }% (PDOP <= { "6" } at { "10" } deg mask), worst site { "100.00" }%, median PDOP { "0.95" }, mean { "31.0" } in view; { "648" } grid points x { "95" } epochs (MODELLED)
 
-# assets/capabilities/capabilities.json
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-95a795370ac9 = constellation-design: { "14" } satellites (Lunar relay) around the Moon; availability { "21.33" }% (PDOP <= { "6" } at { "10" } deg mask), worst site { "0.00" }%, median PDOP { "5.22" }, mean { "3.2" } in view; { "648" } grid points x { "48" } epochs (MODELLED)
 
-# assets/capabilities/capabilities.json
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-5c95ff532f6f = constellation-design: { "5000" } satellites (LEO-PNT) around the Earth; availability { "99.22" }% (PDOP <= { "3" } at { "20" } deg mask), worst site { "0.00" }%, median PDOP { "1.11" }, mean { "39.4" } in view; { "648" } grid points x { "12" } epochs (MODELLED)
 
 # data/verification-matrix.json
@@ -1603,11 +1687,20 @@ dat-48f95ebd76e0 = Cramer-Rao precision of the inter-technique translation, scal
 # data/verification-matrix.json
 dat-50db12adc0bc = CRC-24Q frame check for the LEO navigation message
 
+# js/developers-data.mjs
+dat-2a39c39a1897 = Create a signed evidence pack for a window of a vessel's NMEA { "0183" } log (`kshana receiver-trust evidence`): the raw log bytes for the window, the configuration with every threshold, the per-epoch results and reasons, a self-contained summary page, and a manifest listing every file's SHA-256 with the full log's hash and a hash chain, signed with Ed25519.
+
+# js/developers-data.mjs
+dat-1a6cef8bdc82 = Create the signed laboratory round-trip pack (`kshana evidence round-trip`, docs/spec/TEST-CONDITIONS.md): links by hash the scenario that produced the motion, the laboratory's `kshana.test-conditions/1` document, the receiver log and its score against the stated events, in a signed evidence pack whose `config.json` carries a `round_trip` block.
+
 # studio/data/capabilities.json
 dat-fd560714d68a = Crew-training NMEA streams
 
 # data/search.json
 dat-a3f1d3d8d5de = Critical infrastructure and timing
+
+# js/missions-runs.mjs
+dat-69dbe8e90387 = Cross-domain composition: one jammer, two platforms.
 
 # data/search.json
 dat-4c37ab696335 = Cross-domain composition: one jammer, two platforms. A ship in the Gulf of Finland
@@ -1723,6 +1816,9 @@ dat-54e60db652e9 = Demonstration representativeness & gaps-to-flight
 # data/search.json
 dat-0ecfb61df39c = Demonstration representativeness & gaps-to-flight ledger (src/representativeness.rs)
 
+# js/developers-data.mjs
+dat-d8335b77c970 = Describe one IQ recording in the work directory without processing it: kind (raw with sidecar, SigMF, SigMF collection), sample format, sample rate, centre frequency, total samples, duration, data files and their size, capture boundaries and annotation count, as JSON (the same row `kshana iq info` prints).
+
 # data/search.json
 dat-1a3cd072df06 = Design note — why a separate crate
 
@@ -1800,6 +1896,9 @@ dat-2c20f8901723 = dop_error_mc::run_geometry and check: a seeded Monte Carlo (N
 
 # data/verification-matrix.json
 dat-398243381318 = Doppler a ground receiver must handle from a LEO navigation satellite
+
+# js/missions-runs.mjs
+dat-7125731eccef = Doppler measurements
 
 # data/search.json
 dat-61f246b26cd1 = Doppler-only positioning from a broadband constellation used as a signal of opportunity.
@@ -2077,6 +2176,21 @@ dat-7d66430cac56 = Example of what a day reads: on 2026-09-15 the archive held {
 # data/search.json
 dat-b2315ae1399b = Existing VALIDATED rows re-examined under the rule
 
+# js/developers-data.mjs
+dat-f1a39ad85134 = Export a Kshana scenario in one interoperability format: `czml` (Cesium Language, for CesiumJS), `kml` (Keyhole Markup Language, for Google Earth and geographic information system tools), `geojson` (RFC { "7946" }), `stk` (Systems Tool Kit ephemeris `.e`, one file per satellite) or `sigmf` (Signal Metadata Format recording of a `spectrum` scenario's synthesised samples).
+
+# js/developers-data.mjs
+dat-208fcbd85f84 = Export a scenario's vehicle motion and events for a laboratory GNSS simulator (`kshana bench-export`, docs/TEST-BENCH.md): a motion CSV and its JSON description (Earth-fixed and geodetic position, velocity, attitude, UTC), NMEA { "0183" } GGA/RMC sentences, a waypoint text when the sample grid is millisecond-regular, and the scenario's events as CSV and as `[[events]]` TOML for a `receiver-trust` scenario.
+
+# js/developers-data.mjs
+dat-a8d63bc86950 = Export an `orbit` scenario's mean elements as a CCSDS 502.0-B-2 OMM (Orbit Mean-Elements Message) catalogue — one OMM per satellite.
+
+# js/developers-data.mjs
+dat-36de1c0dc4eb = Export an `orbit` scenario's propagated constellation as CCSDS OEM { "2.0" } ephemeris text — the inertial (TEME) state time series carrying position AND velocity, which flight-dynamics tools (GMAT / Orekit / STK) read.
+
+# js/developers-data.mjs
+dat-7d5167ead5f7 = Export an `orbit` scenario's propagated constellation as SP3-c precise-ephemeris text (the standard GNSS post-processing format).
+
 # data/search.json
 dat-cc130a30c4bc = Export control
 
@@ -2107,8 +2221,17 @@ dat-67830b359edc = Fault/anomaly detection for quantum PNT systems
 # data/search.json
 dat-270cf09d3f50 = Fault/anomaly detection for quantum PNT systems — labelled fault catalog +
 
+# js/developers-data.mjs
+dat-c86cb649be68 = FFT acquisition of one or more PRNs over an IQ recording in the work directory (`kshana iq acquire`).
+
+# js/developers-data.mjs
+dat-c5dcfc24a46c = Fill the public-framework mapping from Kshana result documents (`kshana compliance-report`): which rows of six resilience frameworks and standards (the US DHS Resilient PNT framework v2.0, IMO guidance for ships, EASA guidance for aviation, NIS2 Article { "21" }, EN { "16803" }, NIST IR 8323r1) the runs given support evidence for, which they do not, and the gap each row keeps.
+
 # data/verification-matrix.json
 dat-2cc31a09464e = FINDING against the published ITRF2020 WTZR coordinate: the pre-registered bars (smoothed median and p95 at most { "0.6" } x raw; tests/fixtures/gnss_wettzell_2025055/PREREGISTRATION_HATCH.md) were missed, ratios { "0.718" } and { "0.923" }; the residual metre-level error is bias-like (C1C code bias, antenna, tide, long-period multipath), not the white noise smoothing removes. MODELLED: the filter's statistics are checked internally
+
+# js/missions-runs.mjs
+dat-bfb797420441 = finest code jitter at equal C/N0
 
 # data/verification-matrix.json
 dat-8fce41a44ee9 = First-order ionospheric delay per band, the ionosphere-free combination and free-space loss
@@ -2136,6 +2259,12 @@ dat-57f1e8fd30f8 = Fisher information of the seven-parameter lunar frame datum f
 
 # data/verification-matrix.json
 dat-d9c6cdc0d9c5 = Fisher-information observability of the joint lunar solve: without Earth baselines the absolute-frame datum lies in the null space of HᵀWH (station position unobservable); ≥{ "3" } baselines restore full rank and bound the station Cramér–Rao error, which the estimator attains
+
+# js/developers-data.mjs
+dat-f447d405ebe2 = Fit the sensor parameters of the `hybrid` and `fusion` scenarios from a stationary IMU log (`kshana imu-fit`, docs/MACHINE-INPUTS.md).
+
+# js/developers-data.mjs
+dat-42945e827ef2 = Fit the tracking-loop loss-of-lock model to lab runs (`kshana iq labfit`): an `iq-labfit` scenario TOML names one or more runs, each a receiver log plus its stated test conditions; the engine loads each log, fits the loop and empirical models, bootstraps the uncertainty and computes the hold-out error.
 
 # studio/data/capabilities.json
 dat-b8e5ec121c6e = fit to real ESA/ESOC precise orbits
@@ -2248,6 +2377,12 @@ dat-0f8189016ddc = Frugal cost-per-coverage / ROI framing
 # data/verification-matrix.json
 dat-64418b3e7e3c = frugal::tests (hand-derived cost-per-coverage 48/96={ "0.5" }, ROI ratio { "2.667" }, bracket-ordering + zero-coverage guards)
 
+# js/evidence-data.mjs
+dat-821431fc22ea = Full-arc dispatch, Tier { "1" } (pre-fix†)
+
+# js/missions-runs.mjs
+dat-6dd8e31b0dcd = fused fix, RMS error
+
 # studio/data/areas.json
 dat-85439cf1f56d = Fused median PDOP against LEO SISRE
 
@@ -2260,8 +2395,11 @@ dat-b798d233f73e = Fused MEO and LEO positioning for a vessel deep in a fjord, w
 # data/search.json
 dat-d3bf21538bac = Fused MEO and LEO positioning, navigation and timing
 
-# data/search.json
+# data/search.json, js/missions-runs.mjs
 dat-76d49a741f36 = Fused MEO and LEO pseudorange positioning: GPS and Galileo with a LEO navigation layer.
+
+# js/missions-runs.mjs
+dat-a672a7aa19d7 = fused with low orbit
 
 # data/search.json
 dat-3ada6ff9e069 = fusion (scenario kind)
@@ -2296,7 +2434,7 @@ dat-b674eba809eb = Galileo OSNMA verification
 # data/search.json
 dat-6e3ed81e2232 = Galileo OSNMA verifier
 
-# assets/capabilities/capabilities.json
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-8a9416290ca3 = Galileo Walker 24/3/1, Galileo OS SDD issue { "1.1" } Tables { "1" } and { "23" }
 
 # studio/channels.json
@@ -2313,6 +2451,12 @@ dat-e3b2d3da9750 = GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(H
 
 # data/search.json
 dat-731732835cd7 = Gemini CLI
+
+# js/developers-data.mjs
+dat-b3d237b0dc32 = Generate a multi-satellite GNSS IQ scene into a file in the work directory (`kshana iq scene`).
+
+# js/developers-data.mjs
+dat-8bf4ec225897 = Generate synthetic bridge NMEA { "0183" } for crew training from a `nmea-scenario` TOML (`kshana nmea-scenario`): a vessel track and a timeline of scripted events (jamming, position drag-off, time spoof, replay delay, with recovery).
 
 # data/verification-matrix.json
 dat-26c58834fe9d = Generated by `cargo run --bin gen_validation_artifacts` and pinned by tests/verification_artifacts_doc_sync.rs. Do not edit by hand.
@@ -2374,7 +2518,7 @@ dat-a33da228eb84 = Global dilution of precision of the GPS baseline constellatio
 # data/verification-matrix.json, studio/data/areas.json
 dat-0beb4fb3e33d = Global-average signal-in-space range error weights for any orbit altitude
 
-# assets/capabilities/capabilities.json
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-2015f8efbc2f = GLONASS 24/3/1, GLONASS ICD edition { "5.1" } ({ "2008" }) section { "5.2" }
 
 # data/verification-matrix.json
@@ -2394,6 +2538,9 @@ dat-900ba38459e6 = GMAT R2026a (Apache-2.0, run as a separate program) on { "192
 
 # studio/data/capabilities.json
 dat-aa6ddeb93b15 = GNSS / INS sensor fusion
+
+# js/missions-runs.mjs
+dat-58fdfb5544c3 = GNSS alone, RMS error
 
 # studio/data/capabilities.json
 dat-2cad73f47600 = GNSS authentication
@@ -2454,6 +2601,9 @@ dat-4e35d01aa3d8 = GNSS measurements, positioning and integrity
 
 # data/search.json
 dat-e32da0beede4 = GNSS measurements, positioning and integrity (scenario kind family)
+
+# js/missions-runs.mjs
+dat-3a4061afb712 = GNSS median C/N0
 
 # data/search.json
 dat-d5e0f4289cb5 = GNSS on a lunar transfer, with a weak-signal receiver that earns its sensitivity.
@@ -2533,7 +2683,7 @@ dat-a606add53511 = GNSS/INS trajectory library and CSV truth import
 # data/verification-matrix.json
 dat-c8272b47794a = GNSSTk { "15.3.1" } (ARL:UT, LGPL-3.0, commit 55ea3344, run as a separate program through a harness; no GNSSTk code is vendored): getIonoCorr of KlobucharIonoNavData at L1, L2 and L5, getEffIonoLevel of NeQuickIonoNavData for Az with the all-zero and [{ "0" }, { "400" }] sfu rules, and getOffset of GPSLNavTimeOffset for the UTC drift, within { "1e-3" } m, { "1e-6" } sfu and { "1e-9" } s; and ERFA via pyerfa { "2.0.1.5" } (BSD-3), which derives UTC from the IERS leap-second table, for the ICD three leap-second cases across the real 2015-06-30 and 2016-12-31 leap seconds including the { "23" }:{ "59" }:{ "60" } reading, within { "1e-9" } s (GNSSTk does not implement the ICD case (b) day-length rule, so it was not used there, as written in the pre-registration). Inputs are the real IGS BRDC header coefficients. Pre-registered (6a66994b; amendment 88807a7e committed a { "21" } 602-row subset of the leap-second grid before any Kshana value was compared). The NeQuick electron-density integration is not implemented, and no correction is made for a LEO satellite flying inside the ionosphere
 
-# assets/capabilities/capabilities.json
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-acf30276f7a0 = GPS baseline 24-slot constellation, GPS SPS Performance Standard 5th ed. ({ "2020" }) Tables 3.2-1 and 3.2-3
 
 # data/verification-matrix.json
@@ -2740,6 +2890,12 @@ dat-ec5ca67b1822 = Honesty contract
 # data/search.json
 dat-0391a2f2f55d = Honesty labels
 
+# js/missions-runs.mjs
+dat-26ee49586173 = horizontal criterion
+
+# js/missions-runs.mjs
+dat-4bab7ea5f074 = horizontal error
+
 # data/verification-matrix.json, data/card-matrix-map.json
 dat-ea2e883bd4e5 = Horizontal error ellipse and per-system cofactor from the geometry covariance
 
@@ -2907,6 +3063,9 @@ dat-e757b2baccd6 = IMU log ingest, gyro heading input and Allan fit of hybrid se
 
 # data/search.json
 dat-593077adf8f0 = In cislunar space dilution of precision does not apply: range-only links leave the velocity unobservable at any instant, so requirements belong in arc-length, conditioning and measurement-type budgets.
+
+# js/missions-runs.mjs
+dat-fd612e5a3b73 = in view on average
 
 # data/verification-matrix.json
 dat-ad6442b40262 = Independent closed-form weighted Umeyama (Horn) similarity-transform solver (numpy/scipy SVD-based; Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A) — a different algorithm from kshana's iterative Gauss–Newton fit, reaching the same uniquely-defined weighted-LS optimum on byte-identical point networks
@@ -3265,6 +3424,9 @@ dat-fe11c7ba2e68 = IS-GPS-200 Table 3-Ia 'Code Phase Assignments' — the author
 # data/verification-matrix.json
 dat-5e6cd6a5fd6c = IS-GPS-800J (01-AUG-2022, distribution statement A), the check columns it prints beside the generator parameters: Table 3.2-2 initial and final { "24" } chips of every L1CP and L1CD code, Table 3.2-3 initial and final { "11" } bits of every L1CO code, Table 6.2-1 the length-10223 Legendre sequence; transcribed by scripts/extract_is_gps_800_tables.py from the PDF (SHA-256 c4aad710...). Bars pre-registered at fe372e26 (docs/design/evidence/l1c-codes/): { "252" } of { "252" } columns, { "63" } of { "63" } overlays and { "10 223" } of { "10 223" } Legendre bits identical; the extraction --check passes; a negative control fails relabelled, inverted and shifted codes. WHAT IS NOT CHECKED: the generator parameters themselves (they come from the same tables), the chips between the printed columns, the TMBOC subcarrier pattern and the L1CO S2 codes.
 
+# js/missions-runs.mjs
+dat-d80cdd567de9 = its carrier
+
 # data/verification-matrix.json
 dat-93fc08e65d73 = ITU-R (International Telecommunication Union, Radiocommunication Sector) P.838-3 equations ({ "1" }) to ({ "5" }): k_H, alpha_H, k_V, alpha_V from the Tables { "1" } to { "4" } curve fits, the path- and polarisation-dependent (k, alpha) and the specific attenuation k R^alpha; used by the `leo-pass` kind's rain term
 
@@ -3529,6 +3691,9 @@ dat-ec2500acdc0f = L-band spectrum waterfall with per-band J/S and effective C/N
 # data/search.json
 dat-8d2986accfa9 = L-band waterfall under jamming: the whole Global Navigation Satellite System (GNSS)
 
+# js/missions-runs.mjs
+dat-d5c09b6aa0d1 = L-band waterfall under jamming: the whole Global Navigation Satellite System (GNSS) L band as one power spectral density (PSD), frequency across, time down, while a scripted sequence of jammers switches on.
+
 # data/search.json
 dat-e3ba8107d024 = L1/L5 dual-frequency ionosphere-free combination (IS-GPS-705)
 
@@ -3601,6 +3766,9 @@ dat-4c857aecc818 = LEO missions & studies
 # data/search.json
 dat-5e84e0ede1d9 = LEO navigation message
 
+# js/missions-runs.mjs
+dat-5e1d3c478d19 = LEO navigation message — { "550" } km, { "97.6" } deg, gravity degree { "20" }, model kepler-rac
+
 # data/search.json
 dat-6e7cec61f5b0 = LEO navigation message: a message update in the middle of a pass, and whether the user
 
@@ -3610,7 +3778,7 @@ dat-d9368c8759e0 = LEO navigation message: four ephemeris models on one orbit, a
 # data/search.json
 dat-0e5a7ce6ff86 = LEO navigation message: Kshana's binary encoding, its quantisation budget, and the
 
-# data/search.json
+# data/search.json, js/missions-runs.mjs
 dat-154ffd6aa935 = LEO navigation message: signal-in-space range error (SISRE) versus fit interval.
 
 # data/search.json
@@ -3621,6 +3789,18 @@ dat-79ef88803f0a = LEO pass and link budget (leo-pass)
 
 # data/search.json
 dat-d6717d382ee3 = LEO pass and link budget, band by band, for LEO-PNT (positioning, navigation and timing from low Earth…
+
+# js/missions-runs.mjs
+dat-e5f83d92ddc4 = LEO pass link budget, ground user at { "48.14" }, { "11.57" }; { "1" } LEO satellite(s), { "900" } s window
+
+# js/missions-runs.mjs
+dat-ca559e9d03e6 = LEO PVT (doppler) at { "48.14" }, { "11.58" } over { "600" } s
+
+# js/missions-runs.mjs
+dat-44a5313bed5f = LEO PVT (joint) at { "40.42" }, -3.70 over { "1800" } s
+
+# js/missions-runs.mjs
+dat-809fd3d3d69d = LEO PVT (timing) at { "39.99" }, -105.26 over { "21600" } s
 
 # data/verification-matrix.json
 dat-5110c76d9dec = leo_fusion::doppler::tests (range_acceleration_obeys_the_kinematic_identity_and_vanishes_doppler_at_closest_approach; noise_free_multi_satellite_doppler_recovers_the_user: to { "1" } mm and the drift to { "1e-6" } m/s; a_single_pass_has_a_mirror_solution_across_the_ground_track; the_cross_track_error_grows_as_the_pass_goes_overhead; velocity_states_are_recovered_for_a_moving_user); leo_fusion::pvt_kind::tests (doppler_positioning_improves_with_the_window_and_is_deterministic: the weighted residual RMS in [{ "0.8" }, { "1.2" }] and the error under four formal sigmas); tests/leo_fusion_scenarios.rs (leo_doppler_positioning_forms_a_fix_and_the_cross_track_error_explodes_overhead; starlink_doppler_only_mode_runs_without_ranging); tests/starlink_doppler_published_proxy.rs (a pre-registered proxy against the published data-set-3 percentiles of "Unveiling Starlink for PNT", doi:10.33012/navi.685: with { "3" } satellites ({ "47" } deg mask), no height aid and { "30" } Hz, the p90 3-D error is { "92.2" } m at { "20" } s and { "870" } m at { "8" } s against the published { "2" } m and { "10" } m, so both factor-of-two bars are NOT MET, on the high side, and asserted as missed; docs/design/evidence/cap11-starlink-doppler-proxy/)
@@ -3703,11 +3883,20 @@ dat-97537bd045c0 = leo-pass (scenario kind)
 # data/search.json
 dat-af1eb4f8b776 = LEO-PNT band trade, UHF to wide C band: what a low Earth orbit (LEO) positioning,
 
+# js/missions-runs.mjs
+dat-65a98dd91600 = LEO-PNT band trade, UHF to wide C band: what a low Earth orbit (LEO) positioning, navigation and timing (PNT) signal gains and loses in each band, independent of any particular system.
+
 # data/search.json
 dat-fac7345aa741 = LEO-PNT campaigns
 
 # data/search.json
 dat-bf7043f2e175 = LEO-PNT end to end on a generic constellation: signal design -> pass link budget ->
+
+# js/missions-runs.mjs
+dat-830d144a441c = LEO-PNT end to end on a generic constellation: signal design -> pass link budget -> navigation message -> fused MEO + LEO fix and precise point positioning convergence.
+
+# js/missions-runs.mjs
+dat-f77a6dd9a64d = LEO-PNT end to end, generic { "1080" } km constellation
 
 # data/search.json
 dat-65015a720e6f = LEO-PNT focus area: 5G/6G non-terrestrial network (NTN) compatibility.
@@ -3742,7 +3931,7 @@ dat-aa8e95efb332 = LEO-PNT is positioning, navigation and timing (PNT) from sate
 # data/search.json
 dat-f511574300f5 = LEO-PNT resilience against spoofing: Doppler and pass-geometry consistency.
 
-# data/search.json
+# data/search.json, js/missions-runs.mjs
 dat-40cd7d788f7b = LEO-PNT resilience against spoofing: which monitor sees which spoofer.
 
 # data/search.json
@@ -3751,7 +3940,7 @@ dat-b844d192ebc3 = LEO-PNT resilience by band diversity: one jammer, a four-band
 # data/search.json
 dat-87de513d418b = LEO-PNT resilience from received power: the jammer-to-signal (J/S) margin.
 
-# data/search.json
+# data/search.json, js/missions-runs.mjs
 dat-fef497edc3fe = LEO-PNT resilience mission: GNSS jammed, LEO-PNT carries the user, integrity maintained.
 
 # data/search.json
@@ -3766,22 +3955,22 @@ dat-d40e7ca25372 = LEO-PNT signal terms
 # data/search.json
 dat-fa330dfa3d6f = LEO-PNT vertical: asset tracking and the Internet of Things (IoT), energy per fix.
 
-# data/search.json
+# data/search.json, js/missions-runs.mjs
 dat-92cf8c9d4beb = LEO-PNT vertical: autonomous vehicles, an urban canyon with a LEO layer.
 
-# data/search.json
+# data/search.json, js/missions-runs.mjs
 dat-c6ecb593b85e = LEO-PNT vertical: critical infrastructure timing, holdover with LEO time.
 
 # data/search.json
 dat-8e9444205c16 = LEO-PNT vertical: polar and Arctic users.
 
-# data/search.json
+# data/search.json, js/missions-runs.mjs
 dat-8dea94ab1648 = LEO-PNT vertical: railway and maritime, the bundled maritime and rail scenarios plus LEO.
 
 # data/search.json
 dat-d9aa986c1126 = LEO-PNT vertical: the autonomous-vehicle urban canyon, as a flat cut-off and as a street.
 
-# data/search.json
+# data/search.json, js/missions-runs.mjs
 dat-7a12939929e6 = LEO-PNT vertical: wireless networks, 5G/6G base-station timing.
 
 # data/search.json
@@ -3856,6 +4045,15 @@ dat-30e0aeabc8e6 = linkbudget::tests (free-space-loss form, link-equation closur
 # data/search.json
 dat-ef7a7b9adcd5 = linuxptp and chrony logs
 
+# js/developers-data.mjs
+dat-4c745cc65a05 = List every built-in Kshana scenario kind with its description and required/optional TOML fields, as a JSON array.
+
+# js/developers-data.mjs
+dat-3d05346c4731 = List the bundled reference scenarios as JSON: `count`, and `scenarios`, an array of `name`, `kind` and `about` (the first sentence of the file's own header comment).
+
+# js/developers-data.mjs
+dat-c383ea75352f = List the standards packs (`kshana standards-pack list`): scored scenario sets for the DHS Resilient PNT framework test profiles, IMO MSC.1/Circ.1575 and ICAO Doc { "9849" } Appendix F, each with the bars it states before the run and the compliance rows it supports evidence for.
+
 # data/verification-matrix.json
 dat-357232ee1deb = Liu et al. { "2025" } 22-parameter LEO ephemeris model and its fit on real precise orbits
 
@@ -3909,6 +4107,9 @@ dat-7d76203aada8 = Low-energy LEO-PNT for an IoT (Internet of Things) tracker: e
 
 # data/verification-matrix.json
 dat-f20670ebd948 = Low-energy positioning: time to first fix and energy per fix against duty cycle
+
+# js/missions-runs.mjs
+dat-913ffc083579 = low-orbit peak C/N0
 
 # data/search.json
 dat-b06a1a10a8ff = LRO lunar — validated, above the { "5" } m bar (honest) (P4 W4b)
@@ -4123,7 +4324,7 @@ dat-bc66e5ef4847 = Lunar reference-station solution modes: height constraint, th
 # studio/data/capabilities.json
 dat-bc2068142d4f = Lunar reference-station study
 
-# assets/capabilities/capabilities.json
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-73b73600040b = Lunar relay
 
 # data/verification-matrix.json, data/card-matrix-map.json
@@ -4558,6 +4759,12 @@ dat-45fe39205b36 = MeasurementBlock holds one candidate measurement campaign as 
 # studio/data/capabilities.json
 dat-db4542b28f96 = Measures how far three independent authoritative lunar ephemerides actually disagree, and turns that into a design law: the frame-versus-ephemeris error budget a mixed-provider user inherits, and the consistency tolerance a provider has to hold to keep that budget inside a stated bound.
 
+# js/missions-runs.mjs
+dat-6bf9add7f9a1 = median measurement sigma
+
+# js/missions-runs.mjs
+dat-44a85c26ca72 = median PDOP, fused
+
 # data/search.json
 dat-95f2f56e01be = Memory safety
 
@@ -4740,6 +4947,9 @@ dat-42081bd2b622 = Multi-band spectrum waterfall (UHF, L, S, C) with designed si
 
 # data/search.json
 dat-92aa725751a3 = Multi-constellation coverage: the four global navigation satellite systems (GNSS) together,
+
+# js/missions-runs.mjs
+dat-f1f2ad95c511 = Multi-constellation coverage: the four global navigation satellite systems (GNSS) together, as a map of satellites in view, dilution of precision (DOP) and availability over the whole Earth for one day.
 
 # data/search.json
 dat-517674c0b261 = Multi-GNSS availability from orbital geometry: GPS + Galileo combined.
@@ -5083,7 +5293,7 @@ dat-b4e008a0ca79 = One Earth-orbit path: SGP4 element sets to the GCRS and ITRS 
 # data/search.json
 dat-7fcb4e9e2663 = One engine, the same results everywhere. docs/SURFACES.md lists, for every command and kind, which surface…
 
-# assets/capabilities/capabilities.json
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-dfb3fb2c5d28 = One jammer, a ship and a car
 
 # data/search.json
@@ -5380,6 +5590,9 @@ dat-5562892b1c98 = Part A — Security: catching a time spoof
 # data/search.json
 dat-60bbcf533161 = Part B — Hybrid PNT: the full fused suite
 
+# js/missions-runs.mjs
+dat-fc2948573beb = pass duration
+
 # data/search.json
 dat-4fc445e1ec8b = passes (scenario kind)
 
@@ -5391,6 +5604,9 @@ dat-d5db568045e3 = Passive RF geolocation
 
 # studio/data/capabilities.json
 dat-410e34d58ba5 = Passive RF geolocation (TDOA/FDOA)
+
+# js/missions-runs.mjs
+dat-5fb65441ef4a = peak C/N0 over the pass
 
 # data/verification-matrix.json
 dat-68b3ee7a4ba3 = Peak deceleration (ballistic-coefficient-independent), velocity + altitude at peak-g, and peak-heating velocity for an exponential-atmosphere ballistic entry. Runnable from the CLI/bindings as the `reentry` scenario kind (scenarios/reentry.toml)
@@ -5497,10 +5713,10 @@ dat-d44c8cf52f42 = Position uncertainty: relays alone, and with the Earth link
 # data/verification-matrix.json
 dat-806ff61e91b7 = Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random walk, scale factor cruising and under sustained specific force) propagated through a nine-state local-level INS error model with the Schuler feedback (inertial::coast::ErrorDynamics after Groves 2nd ed. ch. { "14" }: attitude, velocity and position errors, the vertical channel with its gravity gradient, WGS-84 radii and normal gravity, a level platform heading north at the configured speed, latitude_deg and height_m; systematic terms by an augmented matrix exponential, random walks by Van Loan), the flat-Earth monomials kept only as leading_order_m; contributions combined under a stated rule (rss / linear-sum / deterministic-sum-with-stochastic-rss); the coast durations reaching caller-supplied position thresholds ({ "10" } m and { "50" } m by default) located by a forward scan for the first crossing (first_crossing_s, since the Schuler-bounded curves are not monotone), with the dominant source at each crossing; and a TRN-bounded mode giving the largest terrain-fix interval that holds each threshold. Runnable as the `ins-trn-coast` scenario kind
 
-# data/search.json
+# data/search.json, js/missions-runs.mjs
 dat-809e44d92ec1 = Positioning a lander on Europa: the Jovian-moon case.
 
-# data/search.json
+# data/search.json, js/missions-runs.mjs
 dat-18bd7fc703ae = Positioning a low Mars orbiter with a Mars navigation constellation and a deep-space link.
 
 # data/verification-matrix.json
@@ -5509,19 +5725,19 @@ dat-136e83d4d611 = Positioning around any solar-system body with a local constel
 # data/search.json
 dat-1d5f3fdd80fd = Positioning around any solar-system body: an orbiter or a surface lander around a central body chosen by…
 
-# assets/capabilities/capabilities.json
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-ce1a22bf45c6 = Positioning around Europa — surface user, { "12" } relays at { "4500" } km, { "171" } epochs
 
-# assets/capabilities/capabilities.json
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-aa51756e00a3 = Positioning around Mars — orbiter user, { "12" } relays at { "10000" } km, { "296" } epochs
 
-# data/search.json
+# data/search.json, js/missions-runs.mjs
 dat-b8907f80ce6a = Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satellite S band.
 
 # data/search.json
 dat-59461767baa9 = Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satellite service (MSS) S band…
 
-# data/search.json
+# data/search.json, js/missions-runs.mjs
 dat-9e5d955af2da = Positioning from LEO Doppler alone, over a generic LEO navigation constellation.
 
 # data/verification-matrix.json
@@ -5551,11 +5767,17 @@ dat-d4168ce1d0ab = powerlaw::tests (each pure noise type shows its signature ADE
 # data/verification-matrix.json
 dat-88b5ed6693e7 = ppigrf { "2.1.0" } (K. M. Laundal, MIT) — the IAGA-VMOD pure-Python IGRF reference implementation shipping the official IGRF14.shc coefficients (IAGA 14th generation, Zenodo 10.5281/zenodo.14012302); an independent third-party codebase computing the uniquely-defined IGRF-14 field, matched over a global grid
 
+# js/missions-runs.mjs
+dat-be971626ac29 = PPP convergence to { "0.10" } m horizontal / { "0.10" } m vertical, { "12" } runs per case, { "96" } GNSS satellites
+
 # data/verification-matrix.json
 dat-2a1dcc58e0cd = PPP receiver-clock time solution against the IGS final station clock
 
 # data/verification-matrix.json
 dat-604f1e8f2ed9 = Pre-1972 UTC (drifting-rate era) on the two-part Julian-date time path
+
+# js/developers-data.mjs
+dat-a43fef67d285 = Pre-flight check of a Kshana scenario TOML: verify it parses as TOML and detect its scenario kind, without running it.
 
 # data/verification-matrix.json
 dat-345951b0c3a0 = Pre-registered (003ef3eb) before any comparison; four independent implementations, none GPL, nothing vendored: ccsdspy { "2.0.1" } (BSD-3-Clause) decodes { "34" } Kshana-written packets in { "5" } streams (primary header, P-field, coarse and fine time, CDS fields, ancillary data, user data, PEC) and both 1000-octet segmented units are rebuilt from its user data with { "0" } mismatches, and it flags the dropped and the swapped packet streams that Kshana rejects; the CRC of { "8" } messages and { "57" } PEC fields equals CPython binascii.crc_hqx and spacepackets-rs { "0.18.0" } (check value 0x29B1); { "66" } CUC and CDS time-code cases equal spacepackets-rs { "0.18.0" } write and read octet for octet ({ "3" } CDS cases also spacepackets-py { "0.32.0" }); { "4" } spacepackets-py { "0.32.0" } PusTm packets are byte-identical to Kshana's. Not covered: agency-epoch time codes ({ "7" } cases rest on unit tests), TC transfer frames and any link layer below the packet
@@ -5581,7 +5803,7 @@ dat-4722edd091e5 = Prebuilt binary
 # data/search.json
 dat-f2d7f7f04e60 = Precise point positioning (PPP) convergence with GNSS only and with LEO augmentation: a float extended…
 
-# data/search.json
+# data/search.json, js/missions-runs.mjs
 dat-5836fd12bf6a = Precise point positioning (PPP) convergence with LEO augmentation.
 
 # data/verification-matrix.json
@@ -5908,6 +6130,9 @@ dat-668995d3a5ce = Read PDS SHADR spherical-harmonic tables (from_shadr, on Sphe
 # data/search.json
 dat-9a85d832686c = Read the one-line summary
 
+# js/developers-data.mjs
+dat-0a42053d69e7 = Read the published Jammertest test catalogue and transmission plan (NPRA/jammertest-plan, MIT) as scheduled truth (`kshana jammertest import`): the slots of one test area become receiver-trust events with the catalogue id and year in each label.
+
 # data/search.json
 dat-1f7e166b5055 = Readers that bring other receivers, solvers and sensors into the receiver-trust kind.
 
@@ -6091,11 +6316,26 @@ dat-c5145fd2e03a = Remote (streamable HTTP), self-hosted
 # data/search.json
 dat-1074116f823e = Remote use
 
+# js/developers-data.mjs
+dat-2e84fa5b1f16 = Render a GNSS trust stream or a `receiver-trust` result as security telemetry text (`kshana trust-telemetry`, docs/TRUST-TELEMETRY.md), with the same encoders the command line uses: `prometheus` (the exposition of the final state), `cef` or `leef` (one RFC { "5424" } syslog line per band change, or per epoch with `syslog_all`; no timestamp, because no clock is read) or `otlp` (the OTLP/HTTP JSON metrics payload).
+
+# js/developers-data.mjs
+dat-97b6f8107d65 = Render kshana-bench result files (`kshana bench leaderboard`) as the static leaderboard page, HTML text in the reply: `results` is a list of `kshana-bench-result/1` JSON texts (at most { "256" }, { "4" } MiB each), each validated first; a file scored under another major spec version is refused because results of different major versions are never put in one table.
+
 # studio/data/capabilities.json
 dat-4da9624026cd = Replaces the simulated campaign with real data: { "337" } archived ILRS lunar laser-ranging normal points across five retroreflector arrays, each observation weighted by its own recorded precision out of the file. The reflector coordinates are a principal-axis DE440 catalogue kept under its own filename, separate from the mean-earth DE430 table — feeding one to the other's rotation moves a reflector by hundreds of metres and nothing objects, because both are well-formed coordinates.
 
+# js/developers-data.mjs
+dat-2b7006be75b0 = Replay one IQ recording in the work directory across several tracking-loop designs and report each design's steady-state result (`kshana iq sweep`): the designs are every design of a `kshana.loop-design/1` file (`design`), or the product of the `pll_bws_hz`, `dll_bws_hz`, `spacings_chips` and `coherents` lists on the built-in design.
+
+# js/developers-data.mjs
+dat-472a69341595 = Report a lab-replay campaign's progress from its output folder in the work directory, reading files only: cells done and pending, the recordings, front ends and designs in the plan, and the `digest` once every cell is done.
+
 # data/search.json
 dat-c73be453ef08 = Report shape
+
+# js/developers-data.mjs
+dat-28fdcaf2ae5e = Report which interoperability export formats apply to a Kshana scenario, without running it: a JSON array with one entry per format (`czml`, `kml`, `geojson`, `stk`, `sigmf`) giving `applies`, the `reason` when it does not, and `spec_url`, the published specification the writer follows.
 
 # data/search.json
 dat-ed717cc7aa57 = Repository layout
@@ -6160,6 +6400,9 @@ dat-5a32ba404d72 = Retarded (down-leg) one-way light-time solution τ = |r_rx �
 # data/search.json
 dat-ef1ab791b91c = RethinkPNT / Firesmith RDRR functions
 
+# js/developers-data.mjs
+dat-728a24371005 = Return the TOML text of one bundled reference scenario, byte for byte the file the repository ships under `scenarios/`.
+
 # data/verification-matrix.json
 dat-e81f7634cc1a = Reused clock/CAI coefficients (holdover/clock_state, published values) + closed-form shot-noise/loss identities for the entanglement link
 
@@ -6207,6 +6450,9 @@ dat-5031212252b0 = risk-management measures, mapped by clause number
 
 # data/verification-matrix.json
 dat-1137b13d04e3 = RMS aggregation of the Validated per-pair splits under each convention (closed form)
+
+# js/missions-runs.mjs
+dat-2b86f200ac85 = RMS time error across the cases
 
 # data/search.json
 dat-92b1e1930a31 = Road and automotive
@@ -6283,6 +6529,21 @@ dat-46d267fc9fd7 = RTKLIB v2.4.2-p13 lambda() (its lambda.c source file, T. Taka
 # data/series.json
 dat-ff7cf30748a2 = rubidium frequency standard
 
+# js/developers-data.mjs
+dat-9aa9a60d9ef1 = Run a Kshana PNT-resilience scenario from a TOML definition and return its figures of merit.
+
+# js/developers-data.mjs
+dat-1c7701c705d4 = Run a Kshana scenario and return its report: an executive summary, the inputs, every result figure with its unit and its VALIDATED or MODELLED label, the events, the capability rows the run exercised, and a reproducibility record (engine version, scenario and result SHA-256 digests, seed, the command that reproduces it).
+
+# js/developers-data.mjs
+dat-75e5319cbe9a = Run a Kshana scenario and return its reproducibility table as CSV text — the byte-stable table the CLI writes as `<scenario>.table.csv` and the papers cite.
+
+# js/developers-data.mjs
+dat-9ab5e05e51f5 = Run a Kshana scenario and return its time series as an animation.
+
+# js/developers-data.mjs
+dat-ec1aaa65133b = Run a lab-replay campaign held in the work directory (`kshana iq campaign`): recordings (each described by a `kshana.test-conditions/1` file stating the lab's known truth) x front-end chains x loop designs, each cell tracked and scored against the stated conditions (time to loss of lock, re-acquisition time, C/N0 degradation against the stated J/S beside an analytic reference labelled MODELLED, false-lock rate, PLL/DLL jitter, availability).
+
 # data/search.json
 dat-ceb9abb2ce79 = Run in a real Signal K server
 
@@ -6292,8 +6553,14 @@ dat-958ca26c6a61 = Run it
 # data/search.json
 dat-6dd15f4d068f = Run it live
 
+# js/developers-data.mjs
+dat-01aa04474471 = Run one standards pack (`kshana standards-pack run <id>`): every scenario in it, scored against bars stated before the run.
+
 # data/search.json
 dat-2ccc7674adad = Run reports
+
+# js/developers-data.mjs
+dat-cc236be12ad8 = Run the interference and spoofing detection monitors over an IQ recording in the work directory (`kshana iq monitor`): the wideband `power` and `spectral` monitors, and, given `signal` + `prns`, the per-satellite C/N0 and signal-quality monitors, each against a baseline learned from the first `baseline_s` seconds (or from a settings file).
 
 # data/search.json
 dat-cf84cc24dc6c = Running a receiver against an exported scenario
@@ -6373,7 +6640,7 @@ dat-82eb26bba4b8 = scenario 2b6bd22c3b80 | spoof LinearRamp { "{" } rate_ns_per_
 # assets/capabilities/capabilities.json
 dat-762b7e2f06dc = scenario 5aac34b045c7 | jamming ON | availability under jamming { "0.00" } (nominal { "1.00" }) | min tracking { "0" } | mean J/S { "72.2" } dB
 
-# assets/capabilities/capabilities.json
+# assets/capabilities/capabilities.json, js/developers-data.mjs
 dat-edf59f5d7522 = scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack)
 
 # data/search.json
@@ -6397,10 +6664,13 @@ dat-339a770d5cd6 = Scenario kinds
 # data/search.json
 dat-88c2271e1c70 = Scenario kinds, by family
 
+# js/missions-runs.mjs
+dat-58fbbaa1a234 = scenario leo-signal | { "5" } signals | noise floor -202.0 dBW/Hz | finest ranging generic-c-wide { "0.022" } m at { "45.0" } dB-Hz
+
 # data/search.json
 dat-a39b38024a6b = Scenario reference
 
-# assets/capabilities/capabilities.json
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-6f6e7eade044 = scenario spectrum | { "5" } bands | { "3" } jammers | noise floor -202.0 dBW/Hz | worst band gps-l1ca min C/N0 { "3.2" } dB-Hz (J/S { "60.2" } dB)
 
 # data/verification-matrix.json
@@ -6456,6 +6726,15 @@ dat-00b7ebc0a018 = SciPy/NumPy (BSD-3-Clause; scipy.linalg.null_space and numpy.
 
 # studio/channels.json
 dat-ecdfcb899baa = Scoop bucket
+
+# js/developers-data.mjs
+dat-a18e70a6324e = Score a bounded excerpt of a vessel's NMEA { "0183" } stream the way `kshana receiver-trust live` scores it, and return per-epoch trust state (calibrating, nominal, degraded, untrusted) and 0-100 score with the monitors that deducted (live JSON-lines schema { "1.3" }: each epoch carries `position`, an `advisory` statement that the output is advisory, and its satellite `geometry` (good, degraded with reasons such as few-satellites or high-pdop, or unknown when the excerpt has no GSV or GSA) with a `label` (good, fair, poor; geometry deducts only when poor); every deduction carries a `class`: geometry (the sky, not a finding that no attack occurred), environment or inconsistency (attack-like)), the summary (counts by state, geometry and class, lowest and final score, when the first untrusted epoch came) and the last `$PKSHT` sentence.
+
+# js/developers-data.mjs
+dat-b0851170eab0 = Score a kshana-bench submission (`kshana bench score`, bench/SPEC.md, docs/BENCH.md): a predictions file (`kshana-bench-predictions/1`) against a truth file (`kshana-bench-truth/1`), both JSON text, at most { "4" } MiB each, and return the result file (`kshana-bench-result/1`) with the spec version, task (a detection on receiver logs, b detection on IQ, c timing holdover prediction, d out-of-distribution optimism gap), split, the SHA-256 of both inputs and the task's metrics (AUC, detection probability at a false-alarm cap, RMSE per horizon, or the optimism gap).
+
+# js/developers-data.mjs
+dat-e4e75b47727c = Score a receiver log against the Jammertest schedule (`kshana jammertest score`): per scheduled test the detection latency (first alarm minus planned start), whether it was detected within the tolerance, late or missed, and the time to recover (an alarm-free stretch of `recover_hold_s`), plus the false alarms outside every slot and its guard.
 
 # data/verification-matrix.json
 dat-5b577627cdf9 = Score statistic ({ "1" }^T Omega^-1 r)^2/({ "1" }^T Omega^-1 { "1" }) ~ chi^2_1 for a common-mode shift that solution separation (contrasts orthogonal to { "1" }) cannot see; a common-mode shift inflates it while pairwise separations stay flat
@@ -6568,11 +6847,17 @@ dat-ca38e49660ad = sigmf::tests (cf32_round_trip_is_exact_to_single_precision; c
 # data/search.json
 dat-9cd9dd4c33e3 = Signal and system presets
 
+# js/missions-runs.mjs
+dat-b00bcd626c85 = signal designs
+
 # studio/channels.json
 dat-0345ce0c3308 = Signal K plugin guide
 
 # data/search.json
 dat-d59d6f542e93 = Signal-in-space range error
+
+# js/missions-runs.mjs
+dat-ec7503f282d5 = signal-in-space range error, RMS
 
 # studio/data/capabilities.json
 dat-9c6a9341490c = Signed evidence packs
@@ -6597,6 +6882,9 @@ dat-b668016e1890 = Sky geometry
 
 # data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
 dat-2d7d60357e41 = Sky geometry functions: visibility, DOP, covariance, error ellipse, Monte Carlo cloud
+
+# js/developers-data.mjs
+dat-12c10c0617b0 = Sky geometry under an azimuth-dependent skyline (a street canyon, a harbour, a fjord, a container terminal): from a site, a time and constellation presets, two-line element sets (`tle`, with a UTC `epoch`) or satellites given as azimuth/elevation or ECEF, which satellites are visible and which are hidden by the skyline, GDOP/PDOP/HDOP/VDOP/TDOP from the gnss_lib_py-checked DOP kernel, the east-north-up cofactor and covariance with one receiver clock per system (or one in common), and the horizontal error ellipse at one sigma and at a stated confidence for a stated UERE.
 
 # data/verification-matrix.json
 dat-39b1bcfec069 = Skyfield { "1.54" } (MIT), with its own leap-second table, its own TDB-TT and its own reader of the same NAIF de440s.bsp (jplephem), run as a separate program at UTC epochs. Pre-registered (0bfafe6d) before the fixture existed, the grid seeded from that commit's hash, with a bar of { "5e-5" } s times the relative speed (the engine's stated two-term TDB-TT accuracy) plus { "1e-13" } of the barycentric distance plus { "1e-5" } m, per component. Result: all { "600" } inside, worst { "0.66" } of the bar ({ "2.96" } m on a fast pair, the TDB-TT series' own error). Mutation: TT used as TDB fails at { "33" } times the bar. Both sides read DE440: this validates the provider and its time chain, not DE440. Outside the claim: the planets beyond Venus as bodies (de440s carries their barycentres only), the planetary moons, and precision below the two-term TDB-TT series (a few metres for the fastest pairs)
@@ -6661,7 +6949,7 @@ dat-4cae6d94c5e5 = Solar system
 # data/search.json
 dat-9b14e3a637d5 = Solar system and positioning around other bodies
 
-# assets/capabilities/capabilities.json
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-aeceaa175523 = Solar system at 2026-09-28T00:{ "00" }:{ "00" } (JD { "2461311.50080" } TDB), { "18" } bodies, observer Earth
 
 # assets/capabilities/capabilities.json
@@ -6939,6 +7227,9 @@ dat-5b385c8573f7 = Studio view specification
 
 # data/search.json
 dat-dc9b25bfd526 = Study suites
+
+# js/developers-data.mjs
+dat-550979cbd512 = Summarise how much of a route runs through degraded cells of one or more interference maps (`kshana route-exposure`): for each map (one per source per UTC day, the GeoJSON `build_interference_map` returns), the route length and the shares of its length in degraded cells, in cells that were not degraded, in cells with too little sample to assess, and in cells not observed.
 
 # data/verification-matrix.json
 dat-bd135aadc5cf = Sun, Moon, Mercury and Venus positions from the DE440 kernel at UTC epochs (KernelEphemeris)
@@ -7912,6 +8203,9 @@ dat-16352dec86ef = The geocentric Moon from the Montenbruck & Gill series (whose
 # data/verification-matrix.json
 dat-bf490e9fffe5 = The GLONASS broadcast satellite clock bias -tau_n + gamma_n (t - t_b) at a time read on the satellite clock (glonass::GlonassEphemeris::sv_clock_bias_s, the offset corrected for the clock bias by two fixed-point iterations), and the PZ-90 Earth-fixed position of the broadcast state vector propagated by RK4 through the GLONASS ICD equations of motion within +/-15 min of the reference epoch (GlonassEphemeris::position_ecef), from real RINEX { "3" } GLONASS navigation records. No PZ-90.11 to ITRF transformation is applied (they agree at the centimetre level since { "2014" }; RTKLIB applies none either). Not wired into a scenario output: library function
 
+# js/developers-data.mjs
+dat-b783d2d5c4a3 = The GNSS IQ layer's set-up, as JSON: `signals` (the signal names iq_scene, iq_acquire and iq_track accept), `enabled` (whether the IQ file tools are on), `work_dir` (the only folder they read and write; every path argument is relative to it), `max_samples` (the most complex samples one call may generate or process) and, when off, `reason`.
+
 # data/search.json
 dat-c2ec83f3f756 = The GNSS IQ tools: files in, compact JSON out
 
@@ -8197,6 +8491,9 @@ dat-84c3e7c0b54b = The spectrum scenario kind builds the Global Navigation Satel
 # data/verification-matrix.json
 dat-73a3d167d96e = The Stardust nominal of Desai, Mitcheltree and Cheatwood ({ "1999" }, NASA NTRS { "20050042027" }): maximum deceleration { "33.4" } g from { "12.6" } km/s planet-relative with the { "45.8" } kg launch mass, a 6-DoF POST trajectory with the full aerodynamic database; entry interface from Desai, Lyons, Tooley and Kangas (NTRS { "20090004445" }): radius { "6503.14" } km, inertial { "12.9" } km/s at -8.2 deg. Bars pre-registered in xval/entry-stardust/PREREGISTRATION.md before any run on these inputs; both held on the first run. WHAT IS NOT: one published case and one quantity (peak deceleration, which in the ballistic approximation does not depend on the ballistic coefficient); the entry latitude and heading are assumed; heating, heat load and the landing point are not checked against it; point mass with constant C_D, not 6-DoF.
 
+# js/developers-data.mjs
+dat-5bea30c2f8ec = The static public-framework mapping (`kshana compliance-report --mapping` / `--sources`) as Markdown: one table per framework with each row's paraphrased ask, the Kshana outputs that support evidence for it and the gap the outputs do not close; or, with `sources` true, the source documents the tables cite with versions and URLs.
+
 # data/search.json
 dat-0d3123f7d981 = The street canyon
 
@@ -8230,7 +8527,7 @@ dat-3f1d4e3f1ccb = The whole solar system at one epoch, for PNT (positioning, na
 # data/search.json
 dat-555eddd72c9c = The whole solar system at one epoch, for PNT (positioning, navigation and timing) around any body. For the…
 
-# data/search.json
+# data/search.json, js/missions-runs.mjs
 dat-669e6375dd79 = The whole solar system at one epoch.
 
 # data/search.json
@@ -8311,7 +8608,7 @@ dat-6cece0b05a6a = Time scales & Earth-orientation frames
 # studio/data/capabilities.json
 dat-46048a345e4c = Time systems
 
-# data/search.json
+# data/search.json, js/missions-runs.mjs
 dat-a4f81aad2d9a = Time transfer to UTC from LEO satellites, against C/N0 and the receiver oscillator.
 
 # data/verification-matrix.json
@@ -8373,6 +8670,9 @@ dat-cea9b5d71933 = Timing-integrity conformance benchmark — Stanford integrity
 
 # data/verification-matrix.json
 dat-06ca29579f23 = Timing-integrity conformance benchmark — undetectable-absorption verdict
+
+# js/missions-runs.mjs
+dat-d7ca79c5d894 = to converge, GNSS only
 
 # data/search.json
 dat-73bf610fd7de = Top level (clock and orbit packs)
@@ -8566,6 +8866,12 @@ dat-efc9b5010923 = UTC from 1960-01-01 to 1971-12-31, when UTC ran at an offset 
 # data/search.json
 dat-0bcbd6a488b7 = Utility functions
 
+# js/developers-data.mjs
+dat-04685dab3c55 = valid: detected scenario kind `clock`
+
+# js/developers-data.mjs
+dat-7ae5035a7d5a = Validate a lab test-condition file (`kshana iq conditions`): a `kshana.test-conditions/1` file, TOML or JSON text, stating the lab's known truth for a recording (the satellites expected, the settle time, the stated jamming or interference schedule).
+
 # data/search.json
 dat-9edfc7a39d2a = VALIDATED and MODELLED
 
@@ -8611,6 +8917,9 @@ dat-66f52522c4b3 = Verification matrix
 # data/search.json
 dat-aedfff7efc5d = Verification status
 
+# js/developers-data.mjs
+dat-0f25026f5234 = Verify a signed evidence pack (`kshana evidence verify`): every file's SHA-256 against the manifest, the hash chain, the Ed25519 signature, and with `public_key` (the signer's key, from the signer by another route) that the signer is the one expected, and with `full_log` that the log you hold is the one the pack records and that the slice came from it.
+
 # studio/data/capabilities.json
 dat-068809535e3c = versioned envelope · round-trip + forward-compatible read verified
 
@@ -8647,10 +8956,10 @@ dat-7a50fbacac97 = Wahba/TRIAD/QUEST attitude determination
 # data/verification-matrix.json, studio/data/areas.json
 dat-ead7033f0cfa = Walker constellation geometry and the published nominal slots of GPS, Galileo and GLONASS
 
-# assets/capabilities/capabilities.json
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-b262774f5883 = Walker delta 1600/32/1; Walker delta 1600/32/7; Walker delta 1000/20/3; Walker star 800/16/1
 
-# assets/capabilities/capabilities.json
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-a2c625238ffd = Walker delta 8/4/1; Walker delta 6/3/1
 
 # data/search.json
@@ -8920,6 +9229,9 @@ dat-1c9b4395c4e3 = Why the N/A cells are N/A
 # data/search.json
 dat-500a9d78ddb1 = Why this is the glue, not a competitor
 
+# js/missions-runs.mjs
+dat-97c24222dad6 = with { "288" } low-orbit satellites
+
 # data/verification-matrix.json
 dat-d1c342fccbf1 = with_gravity_field (on Body, in src/gravity_pds.rs): attach any loaded spherical-harmonic field (for example GMM-3 or GL0660B) to a Body so the propagator evaluates it body-fixed; opt-in, default bodies unchanged
 
@@ -8935,8 +9247,17 @@ dat-8960dcd3c54c = Workshop parameters
 # studio/data/capabilities.json
 dat-8b569b55f222 = Worst error { "0.044" } m against the sources' own { "0.05" } m tolerance
 
+# js/missions-runs.mjs
+dat-996b654e25b2 = worst range error, { "60" } s fit
+
+# js/missions-runs.mjs
+dat-900c4a41066b = worst range error, { "900" } s fit
+
 # data/verification-matrix.json
 dat-e4f36434be06 = Worst-case triangle bound on the Helmert point-Jacobian action (closed form)
+
+# js/developers-data.mjs
+dat-278a0de08553 = Write a GeoJSON route into a Kshana scenario that flies a waypoint track, and return the new scenario TOML (run it with run_scenario).
 
 # data/verification-matrix.json
 dat-c14c336c5c33 = Writer and reader of NAIF SPICE SPK kernels of types { "9" } (Lagrange, unequal time steps) and { "13" } (Hermite, unequal time steps), with the DAF layout, segment descriptors and epoch directories, and the export of a CCSDS OEM to an SPK kernel (UTC or TDB epochs to ephemeris time)
