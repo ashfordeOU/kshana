@@ -318,7 +318,7 @@ seg-a6c63abeb7e6 = Bundled scenarios
 
 # text
 # c1: kshana scenarios/<name>.toml
-seg-1392418711b4 = Each row is one run of <c1/> (engine { "0.39.0" }):
+seg-08debab7c94a = Each row is one run of <c1/> (engine { $version }):
 
 # text
 seg-cae10fb9bff8 = Scenario

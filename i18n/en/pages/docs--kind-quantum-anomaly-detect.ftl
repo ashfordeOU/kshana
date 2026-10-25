@@ -10,7 +10,7 @@ seg-836d5102f0d1 = Source: <c1/>
 seg-ad4ce0110e8d = <c1/> (scenario kind)
 
 # text
-seg-6de0af3b46fa = Scenario kind of the engine { "v0.39.0" }, family <a1>Inertial, fusion and quantum sensors</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-7b2721b7588d = Scenario kind of the engine v{ $version }, family <a1>Inertial, fusion and quantum sensors</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-04310cd6cbec = MODELLED fault/anomaly detection for quantum PNT systems: a labelled fault catalog (clock frequency-jump/drift/lock-loss; sensor bias-step/dropout), a detection-statistic ROC AUC (with a bootstrap CI from the externally-validated eval_stats) and a minimum-detectable-fault at a fixed false-alarm rate, with the quantum-clock-aided monitor (lower noise) detecting smaller faults — as honest TradeEvidence + representativeness. Gaussian detection-statistic model (AUC = Phi(mu/(sigma*sqrt2))); models the class, illustrative public-source params, no TRL/flight/certification.
@@ -32,6 +32,9 @@ seg-335b8d87e27d = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 # text
 # c1: scenarios/quantum-anomaly-detect.toml
 seg-c2b10c0bdaf8 = The example <c1/> sets, among others:
+
+# text
+seg-f44afe581836 = { $version }
 
 # text
 seg-25da07e56aa8 = quantum vs classical PNT anomaly detecti

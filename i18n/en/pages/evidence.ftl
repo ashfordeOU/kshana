@@ -8,7 +8,7 @@ seg-8f101c803442 = Every capability wears <s1>its evidence.</s1>
 seg-9ef28b622a43 = { "388" } capabilities, each graded. <b>{ "176" } validated</b> against independent external oracles. <b>{ "208" } honestly labelled Modelled.</b> { "4" } partner-owned. Nothing is rounded up.
 
 # text
-seg-bdd65d21f0f9 = Verification matrix <b>{ "v0.39.0" }</b>
+seg-4f6445e5dd61 = Verification matrix <b>v{ $version }</b>
 
 # attr:aria-label
 seg-d9f0aabb4262 = Pause the sweep
@@ -37,7 +37,7 @@ seg-8a1cef0b9561 = Validated: an independent external oracle agrees
 # text
 # c1: web/data/verification-matrix.json
 # c2: src/verification.rs
-seg-dc23c4664f8e = Engine { "v0.39.0" } · <c1/>, generated from <c2/> · { "388" } rows · no scenario or seed: the engine's own ledger
+seg-582c4a762fc5 = Engine v{ $version } · <c1/>, generated from <c2/> · { "388" } rows · no scenario or seed: the engine's own ledger
 
 # text
 seg-d5c32303297d = Read the ledger
@@ -115,7 +115,7 @@ seg-1d60624d525d = How it was checked
 # text
 # c1: fc21ac4
 # c2: tests/sgp4_verification.rs
-seg-a45126175a6d = Engine { "v0.39.0" }, build <c1/> · <c2/> · deterministic, no seed
+seg-6adbc42697f9 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: orbit-sgp4-gps.toml
@@ -153,7 +153,7 @@ seg-4957eddb39ed = oracle · SciPy
 # text
 # c1: fc21ac4
 # c2: tests/raim_reference.rs
-seg-8e19af0b8ede = Engine { "v0.39.0" }, build <c1/> · <c2/> · deterministic, no seed
+seg-c5d5cf50c8a9 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: integrity-raim.toml
@@ -182,7 +182,7 @@ seg-75344d6c427a = oracle · Orekit { "12.2" }
 # text
 # c1: fc21ac4
 # c2: tests/numerical_cowell_propagator_reference.rs
-seg-b43d8be97506 = Engine { "v0.39.0" }, build <c1/> · <c2/> · deterministic, no seed
+seg-2e80a89ee20a = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 seg-44988f3835ce = No Kshana Studio view: this comparison runs as an engine test.
@@ -211,7 +211,7 @@ seg-6670ead3fa91 = oracle · ESA precise ephemerides, the lunar orbiter's recons
 # text
 # c1: docs/AGENCY-ORBIT-VALIDATION.md
 # c2: fc21ac4
-seg-2f5ebf6cbb71 = Engine { "v0.39.0" } · <c1/> residual tables, with the two propagator checks recomputed at build <c2/> · deterministic, no seed
+seg-6ce9be05ab08 = Engine v{ $version } · <c1/> residual tables, with the two propagator checks recomputed at build <c2/> · deterministic, no seed
 
 # text
 seg-57c9f4e60efa = No Kshana Studio view: precise orbit determination runs as engine tests.
@@ -238,7 +238,7 @@ seg-9993e306ae64 = oracle · NIST SP { "1065" }
 # text
 # c1: fc21ac4
 # c2: tests/allan_nist_sp1065_1000point.rs
-seg-6f1bb3d2ee81 = Engine { "v0.39.0" }, build <c1/> · <c2/> · deterministic, no seed
+seg-2a2794bda50f = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: clock-holdover.toml
@@ -271,7 +271,7 @@ seg-449f52c56c67 = oracle · measured caesium record
 # text
 # c1: fc21ac4
 # c2: tests/slot_timing_cs5071a_holdout.rs
-seg-2af0c6404ee2 = Engine { "v0.39.0" }, build <c1/> · <c2/> · deterministic, no seed
+seg-275351654591 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: slot-timing-ocxo-leo.toml
@@ -5956,7 +5956,7 @@ seg-006d9a3357c7 = seed
 
 # text
 # c1: clock-holdover.toml
-seg-311895154f75 = Engine { "v0.39.0" } · <c1/> · seed { "42" }
+seg-678c8daa51e9 = Engine v{ $version } · <c1/> · seed { "42" }
 
 # text
 # c1: 
@@ -6292,7 +6292,7 @@ seg-f5cb4cb0ab34 = Spatial, noisy, multi-family cislunar arc-length observabilit
 
 # text
 # c1: cislunar-observability.toml
-seg-da35f434a5a1 = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-24861a829697 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-53ec3ceb08e3 = Key findings
@@ -6361,7 +6361,7 @@ seg-3534626980e2 = Lunar surface-beacon DOP augmentation: verification-matrix la
 
 # text
 # c1: lunar-beacon.toml
-seg-8e04cbbd9369 = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-1a81055d9da3 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-da361b259315 = In the bundled run, the one beacon that clears the horizon cuts the geometric dilution of precision from { "11.66" } to { "4.998" }; a 24-satellite constellation instead reaches { "2.893" }.
@@ -6418,7 +6418,7 @@ seg-1427dd0d24c1 = Lunar absolute-station observability (datum defect): verifica
 
 # text
 # c1: lunar-joint-od-clock.toml
-seg-4c3a1424ea0c = Engine { "v0.39.0" } · <c1/> · seed { "42" }
+seg-dd9cc689ae2b = Engine v{ $version } · <c1/> · seed { "42" }
 
 # text
 seg-473a7f364ad8 = Recorded on macOS as published. A fresh Linux x86-64 run gives { "2184" } m / { "3.537" } m (solver iterate host dependence, issue #36 row { "6" }).
@@ -6478,7 +6478,7 @@ seg-0cbe8e77cc1c = Timing Protection Level under spoofing: verification-matrix l
 
 # text
 # c1: examples/tpl_jammertest.rs
-seg-ad6c4db3765c = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-83a7b4fac0b6 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-77c4b79f3e91 = A public recorded spoof pulled the receiver's served time by about { "1.01" } ms while it reported at most { "51" } ns.
@@ -6528,7 +6528,7 @@ seg-4fcd1d447d03 = Resilience-score decision-instability study: verification-mat
 
 # text
 # c1: examples/resilience_report.rs
-seg-f503fe80b717 = Engine { "v0.39.0" } · <c1/> · seed { "12345" }
+seg-44773d6f6133 = Engine v{ $version } · <c1/> · seed { "12345" }
 
 # text
 seg-8b90bfea6f24 = Re-weighting alone changes the top-ranked architecture in { "22" }% of draws under nominal conditions, and in at most { "1.25" }% under each active threat.
@@ -6578,7 +6578,7 @@ seg-412b53a9eeb4 = AI/ML RF-impairment optimism-gap study & ID-only gap predicto
 
 # text
 # c1: examples/optimism_study.rs
-seg-ba4a77d9d2e7 = Engine { "v0.39.0" } · <c1/> · seed { "1" }, { "2" }, { "3" }, { "4" }, { "5" }
+seg-852f52ca41c7 = Engine v{ $version } · <c1/> · seed { "1" }, { "2" }, { "3" }, { "4" }, { "5" }
 
 # text
 seg-e316b9177880 = The gap between in-distribution and shifted area under the curve grows as the shift deepens, and depends on how many observables a detector uses rather than on whether it is learned.
@@ -6615,7 +6615,7 @@ seg-96fe472ae234 = Cite the engine
 seg-47c92ffeaa12 = Every release is archived on Zenodo with a citable DOI, and a CITATION.cff ships in the repository. Please cite the engine version, the scenario and the seed.
 
 # text
-seg-7e0f26f15fee = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simulator with quantum-sensor performance models</em> (Version { "0.39.0" }). Ashforde OÜ. https://doi.org/10.5281/zenodo.20528627
+seg-41d86044a528 = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simulator with quantum-sensor performance models</em> (Version { $version }). Ashforde OÜ. https://doi.org/10.5281/zenodo.20528627
 
 # text
 seg-c97e87cbcdd5 = BibTeX for the engine

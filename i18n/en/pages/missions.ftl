@@ -14,7 +14,7 @@ seg-821762272e2f = Sectors
 seg-94de9433d99f = Scenario files
 
 # text
-seg-b5c0b9b91ac4 = <s1>Engine { "v0.39.0" }</s1><s2>Real runs</s2>
+seg-eb79f28d48f5 = <s1>Engine v{ $version }</s1><s2>Real runs</s2>
 
 # text
 seg-ad1a081c8ffd = Your mission. Its failure. <em>A scenario that shows it.</em>
@@ -174,7 +174,7 @@ seg-aa8201fbbfb8 = Effective carrier-to-noise density by satellite and time
 
 # text
 # c1: jamming-demo.toml
-seg-7a7d4eb4dfc2 = Engine { "v0.39.0" } · <c1/> · seed { "1" }
+seg-36dece8c7ecc = Engine v{ $version } · <c1/> · seed { "1" }
 
 # text
 # c1: 
@@ -342,7 +342,7 @@ seg-05f260bae83e = Timing error over the run
 
 # text
 # c1: orbit-gnss-challenged.toml
-seg-1c6dfaa51517 = Engine { "v0.39.0" } · <c1/> · seed { "7" }
+seg-5e4996d54625 = Engine v{ $version } · <c1/> · seed { "7" }
 
 # text
 # c1: 
@@ -517,7 +517,7 @@ seg-16ae98bcbc09 = Protection levels against the alert limit
 
 # text
 # c1: lunanet-araim.toml
-seg-de2836592b59 = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-b3d3ed0ec310 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 # c1: 
@@ -644,7 +644,7 @@ seg-4ec86eeffec3 = Dual-constellation integrity, from a real run
 
 # text
 # c1: araim-gps-galileo.toml
-seg-914696343ec9 = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-b5a5d1167ff9 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 # c1: 
@@ -718,7 +718,7 @@ seg-fb8f8296c82a = Drawn from the recorded run of <c1/> when the page script loa
 
 # text
 # c1: maritime-port-approach-coast.toml
-seg-6e42670f8c25 = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-6817a97b0e32 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 # c1: 
@@ -794,7 +794,7 @@ seg-68c1750b05dc = Position error over the run
 
 # text
 # c1: automotive-urban-canyon.toml
-seg-9e12bb94b0e3 = Engine { "v0.39.0" } · <c1/> · seed { "7" }
+seg-ac863f2fe773 = Engine v{ $version } · <c1/> · seed { "7" }
 
 # text
 # c1: 
@@ -835,7 +835,7 @@ seg-5c5db4d36c8e = Drawn from the recorded run of <c1/> when the page script loa
 
 # text
 # c1: rail-tunnel-coast.toml
-seg-e55d1a7dbb9e = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-f8d2a38c8073 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 # c1: 
@@ -875,7 +875,7 @@ seg-b2019ec6d1c7 = Time-error band across { "200" } Monte Carlo runs
 
 # text
 # c1: clock-ensemble.toml
-seg-9f7918796f90 = Engine { "v0.39.0" } · <c1/> · seed { "42" }
+seg-ae208f50ab77 = Engine v{ $version } · <c1/> · seed { "42" }
 
 # text
 # c1: 
@@ -945,7 +945,7 @@ seg-a13eab564243 = MTIE
 
 # text
 # c1: telecom-prtc-holdover-24h.toml
-seg-dfa66ced8d75 = Engine { "v0.39.0" } · <c1/> · seed { "20260925" }
+seg-b93510b54de9 = Engine v{ $version } · <c1/> · seed { "20260925" }
 
 # text
 # c1: 
@@ -1000,7 +1000,7 @@ seg-836a325ef88c = Sweep of classical_q_wf: holdover_s
 
 # text
 # c1: sweep-clock-stability.toml
-seg-06aa243df73d = Engine { "v0.39.0" } · <c1/> · seed { "42" }
+seg-ebaa722c5ab6 = Engine v{ $version } · <c1/> · seed { "42" }
 
 # text
 # c1: 
@@ -1111,7 +1111,7 @@ seg-1e01910dc672 = Receiver response from the selected run
 seg-1e4de3629dbc = Orbit view
 
 # text
-seg-9a7ec27926ac = engine { "v0.39.0" }
+seg-4302115fc595 = engine v{ $version }
 
 # text
 seg-8cc7ceade324 = t = { "0" } s
@@ -1122,7 +1122,7 @@ seg-1bd3b0f6eb7e = Real engine run, replayed
 # text
 # c1: fc21ac4
 # c2: constellation-multi-gnss-coverage.toml
-seg-1abf111e949e = Engine { "v0.39.0" }, build <c1/> · <c2/> · deterministic, no seed
+seg-597a57467277 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # attr:title
 seg-f70fa3b93b11 = The engine's own report of this run
@@ -1195,7 +1195,7 @@ seg-1770a46a99f6 = Spoofed time offset against the detection bound
 
 # text
 # c1: spoof-meaconing.toml
-seg-44f71a4cceec = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-49d62cb20b56 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-8d39745bdd09 = Infrastructure and timing
@@ -1214,7 +1214,7 @@ seg-5f24f3dcf0f4 = GNSS goes away and each clock free-runs. A chip-scale atomic 
 
 # text
 # c1: clock-holdover.toml
-seg-311895154f75 = Engine { "v0.39.0" } · <c1/> · seed { "42" }
+seg-678c8daa51e9 = Engine v{ $version } · <c1/> · seed { "42" }
 
 # text
 seg-2556558df40d = Space
@@ -1236,7 +1236,7 @@ seg-caa811074b3a = Ground track
 
 # text
 # c1: ephemeris.toml
-seg-28a913c842dd = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-70e2bacd66aa = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-2d0ecb167337 = Science
@@ -1252,7 +1252,7 @@ seg-7c0e1041f513 = RAIM (receiver autonomous integrity monitoring) bounds the er
 
 # text
 # c1: integrity-raim.toml
-seg-7fbc5a63e41d = Engine { "v0.39.0" } · <c1/> · seed { "7" }
+seg-c6c1ee159f3e = Engine v{ $version } · <c1/> · seed { "7" }
 
 # text
 seg-6e39935c7bdd = Navigation <em>Free core</em>
@@ -1268,7 +1268,7 @@ seg-1f26707d3e84 = Position error since GNSS was lost
 
 # text
 # c1: small-uas-jammed-nav.toml
-seg-0006179c23c6 = Engine { "v0.39.0" } · <c1/> · seed { "7" }
+seg-5fe3425693c9 = Engine v{ $version } · <c1/> · seed { "7" }
 
 # text
 seg-ccea0bcd44e4 = What a run shows
@@ -1300,7 +1300,7 @@ seg-25016374b423 = Hover or tap a cell for its run.
 
 # text
 # c1: maritime-strait-jamming.toml
-seg-07e9981fa0d8 = Engine { "v0.39.0" } · <c1/> · seed { "1" } · receiver moved per cell
+seg-774ec89d13d7 = Engine v{ $version } · <c1/> · seed { "1" } · receiver moved per cell
 
 # attr:title
 seg-ec2e4c729a95 = Download every cell as comma-separated values
@@ -1328,7 +1328,7 @@ seg-998a2721cd7e = Drawn from the recorded run when the page script loads.
 
 # text
 # c1: spoof-attack.toml
-seg-27a190fb6db6 = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-a9829e27b53b = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-a1ca6679e006 = Clock holdover <em>Free core</em>
@@ -1344,7 +1344,7 @@ seg-eb00f1790644 = Time error after one day for each oscillator class, log scale
 
 # text
 # c1: lunar-time-budget.toml
-seg-0a2dd51cd77b = Engine { "v0.39.0" } · <c1/> · deterministic, no seed
+seg-af6a8370e012 = Engine v{ $version } · <c1/> · deterministic, no seed
 
 # text
 seg-7c8a57ca520c = Inertial coasting <em>Free core</em>

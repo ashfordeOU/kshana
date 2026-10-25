@@ -232,10 +232,19 @@ function lastIsElement(run) {
   return i >= 0 && (nodes[i].k === 'close' || nodes[i].k === 'code');
 }
 
+// The engine version in running text is the variable { $version }, so a segment keeps its id (and its translations) from one
+// release to the next. Set by the commands from --version or the root Cargo.toml.
+let VERSION = '';
+export function setVersion(v) { VERSION = v || ''; }
+function readVersion(opt) {
+  if (opt.version) return opt.version;
+  try { return /^version\s*=\s*"([^"]+)"/m.exec(readFileSync('Cargo.toml', 'utf8'))?.[1] || ''; } catch { return ''; }
+}
 function fmtText(text, keepEdges = false) {
   let t = text.replace(/\s+/g, ' ');
   if (!keepEdges) t = t.trim();
   t = t.replace(/[{}]/g, (c) => `{ "${c}" }`);
+  if (VERSION) t = t.replace(new RegExp(`(?<![\\p{L}\\p{N}_.\\-/#$])(v?)${VERSION.replace(/\./g, '\\.')}(?![\\p{L}\\p{N}_\\-/]|[.,]\\d)`, 'gu'), '$1{ $version }');
   t = t.replace(NUM, (n) => `{ "${esc(n)}" }`);
   return t;
 }
@@ -253,11 +262,13 @@ function walk(dir, skip, base = dir, acc = []) {
 }
 
 function extract(args) {
-  const opt = { src: 'web', out: 'i18n/en/pages', sharedMin: 25, skip: 'studio,playground,assets' };
+  const opt = { src: 'web', out: 'i18n/en/pages', sharedMin: 25, skip: 'studio,playground,assets', version: '' };
   for (let i = 0; i < args.length; i += 2) {
     const k = args[i].replace(/^--/, '').replace(/-([a-z])/g, (_, c) => c.toUpperCase());
     opt[k] = args[i + 1];
   }
+  setVersion(readVersion(opt));
+  console.log(`extract: engine version ${VERSION || '(none)'} is the variable { $version }`);
   opt.sharedMin = +opt.sharedMin;
   const skip = String(opt.skip).split(',').filter(Boolean);
   const pages = walk(opt.src, skip);
@@ -374,7 +385,8 @@ async function pseudo(args) {
 async function apply(args) {
   const L = await lang();
   const S = await site();
-  const { opt, pos } = args2opt(args, { src: 'web', root: 'i18n', out: 'dist', skip: 'studio,playground,assets', origin: 'https://kshana.dev', langs: null });
+  const { opt, pos } = args2opt(args, { src: 'web', root: 'i18n', out: 'dist', skip: 'studio,playground,assets', origin: 'https://kshana.dev', langs: null, version: '' });
+  setVersion(readVersion(opt));
   const skip = [...String(opt.skip).split(',').filter(Boolean), ...L.LANGS, 'en-XA'];
   const pages = walk(opt.src, skip);
   const langs = pos.length ? pos : L.LANGS;
@@ -387,7 +399,7 @@ async function apply(args) {
       const html = readFileSync(join(opt.src, rel), 'utf8');
       const segs = segments(html);
       const bundle = L.bundleFor(lang, L.catalogueFiles(opt.root, lang, rel));
-      const r = L.applyPage({ html, segs, bundle, lang });
+      const r = L.applyPage({ html, segs, bundle, lang, vars: { version: VERSION } });
       for (const e of r.errors.slice(0, 3)) console.error(`${lang}/${rel}: ${e}`);
       T += r.translated; M += r.missing;
       if (rel !== '404.html' && segs.length && r.translated / segs.length >= 0.8) listed.push(rel);

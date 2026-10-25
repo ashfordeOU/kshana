@@ -9,7 +9,7 @@ seg-058a61a80bb7 = Source: <c1/>
 seg-465589e89079 = Space-user navigation (scenario kind family)
 
 # text
-seg-bd347082bb78 = { "1" } scenario kind of the engine { "v0.39.0" }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-c8012ee549ea = { "1" } scenario kind of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 # c1: kshana scenarios/gnss-ssv-shell.toml

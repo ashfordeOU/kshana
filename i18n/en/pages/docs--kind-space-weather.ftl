@@ -10,7 +10,7 @@ seg-95f8bd8e0078 = Source: <c1/>
 seg-24c21b5b0cc3 = <c1/> (scenario kind)
 
 # text
-seg-77aa6de43477 = Scenario kind of the engine { "v0.39.0" }, family <a1>GNSS measurements, positioning and integrity</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-8e845ce908ee = Scenario kind of the engine v{ $version }, family <a1>GNSS measurements, positioning and integrity</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-5f25c5b71f0c = Space-weather environment model: solar (F10.7/F10.7a) and geomagnetic (Kp, with the definitional Kp↔ap table) activity indices, the Jacchia-1971 exospheric temperature they drive (validated vs published solar-min/mean/max), and the Jacchia-1971 thermospheric neutral density at the diurnal-mean exospheric temperature against the activity-free static profile at a set of altitudes — the solar-cycle density dependence the static atmosphere omits. MODELLED: the density agrees with accelerometer-derived densities (TOLEOS CHAMP and GRACE) within a factor { "2" } at solar maximum but is about 1.7x too dense in the { "2008" } solar minimum.

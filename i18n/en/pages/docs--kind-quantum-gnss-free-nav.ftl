@@ -10,7 +10,7 @@ seg-bfbcc7e8f620 = Source: <c1/>
 seg-cfa59601df4a = <c1/> (scenario kind)
 
 # text
-seg-6de0af3b46fa = Scenario kind of the engine { "v0.39.0" }, family <a1>Inertial, fusion and quantum sensors</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-7b2721b7588d = Scenario kind of the engine v{ $version }, family <a1>Inertial, fusion and quantum sensors</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-790fbfdd80f0 = MODELLED GNSS-free quantum navigation: during a GNSS outage, a quantum (cold-atom interferometer) inertial budget vs a classical navigation-grade INS — position-error growth over the coast, holdover to a position threshold, and the quantum-vs-classical trade as honest TradeEvidence with representativeness. Honest observability note: with no external fix the accelerometer bias is unobservable so the error grows; the quantum sensor slows but does not close that gap. Illustrative public-source device params; models the class, no TRL/flight/certification.
@@ -32,6 +32,9 @@ seg-88d9dfe0353a = The example <c1/> sets, among others:
 
 # text
 seg-195347c63a8a = m/s^{ "2" }
+
+# text
+seg-f44afe581836 = { $version }
 
 # attr:alt
 seg-1bdbf1a737b2 = The chart the engine writes for scenarios/quantum-gnss-free-nav.toml, kind quantum-gnss-free-nav

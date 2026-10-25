@@ -132,7 +132,7 @@ seg-d946dad08e23 = MODELLED: two-body orbits with an optional secular J2 drift; 
 seg-a6c63abeb7e6 = Bundled scenarios
 
 # text
-seg-cafc6db141f3 = Each line gives what the run prints with kshana { "0.39.0" }.
+seg-3e6a942c84d4 = Each line gives what the run prints with kshana { $version }.
 
 # text
 # c1: scenarios/constellation-multi-gnss-coverage.toml

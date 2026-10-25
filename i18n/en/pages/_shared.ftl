@@ -11,7 +11,7 @@ seg-724f533ab704 = Kshana home
 seg-3a9b1e33221b = Primary
 
 # text
-seg-1b4ffd61a44f = <s1>kshana</s1> <s2>{ "v0.39.0" }</s2>
+seg-27fce67df246 = <s1>kshana</s1> <s2>v{ $version }</s2>
 
 # attr:aria-label, text
 seg-90eeeb0abcbd = Missions
@@ -89,10 +89,10 @@ seg-37fd98ea8b9c = Kshana Pro
 seg-cf742dee26e9 = contact@ashforde.org
 
 # text
-seg-2f1b9c572927 = Kshana { "v0.39.0" } · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option
+seg-9ddc420c2f24 = Kshana v{ $version } · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option
 
 # text
-seg-f6f42cdb93a4 = Every chart is drawn from a recorded run of engine { "v0.39.0" } and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) { "4.0" }; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) { "3.0" }; coastlines: Natural Earth.
+seg-87c5d84f1f40 = Every chart is drawn from a recorded run of engine v{ $version } and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) { "4.0" }; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) { "3.0" }; coastlines: Natural Earth.
 
 # attr:aria-label
 seg-da4dafedebde = Search pages, sections, scenarios and docs

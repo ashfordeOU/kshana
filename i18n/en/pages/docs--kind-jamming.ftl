@@ -10,7 +10,7 @@ seg-53b1a341460a = Source: <c1/>
 seg-1c9fd1344128 = <c1/> (scenario kind)
 
 # text
-seg-129531390239 = Scenario kind of the engine { "v0.39.0" }, family <a1>Jamming, spoofing and the spectrum</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-304496607bd7 = Scenario kind of the engine v{ $version }, family <a1>Jamming, spoofing and the spectrum</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-60bf3f0ff000 = Link-budget jamming: J/S → effective C/N₀ → loss of lock.

@@ -10,7 +10,7 @@ seg-841259b04897 = Source: <c1/>
 seg-1b0ba13fcef1 = <c1/> (scenario kind)
 
 # text
-seg-9839f917de91 = Scenario kind of the engine { "v0.39.0" }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-99ef7c1d552c = Scenario kind of the engine v{ $version }, family <a1>Mission analysis, links and space operations</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-816bd5a5808a = Nadir imager radiometry and image quality: at-aperture radiance of a Lambertian scene, the camera equation, signal and shot/dark/read/quantisation noise and SNR; the system MTF at Nyquist (diffraction x detector x smear x jitter), the relative edge response from it, Q = lambda F/p and the GIQE version { "4" } NIIRS with no MTF compensation. MODELLED.
