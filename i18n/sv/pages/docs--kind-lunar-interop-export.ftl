@@ -10,6 +10,12 @@ seg-619127334cf3 = Ingen matrisrad nämner den här typen vid namn; etiketten p�
 
 seg-834408a40783 = min
 
+seg-d36e6d7d8a10 = Källa: <c1/>
+
+seg-fdf560e675f4 = <c1/> (scenariotyp)
+
+seg-5a4dcb93a643 = Modelled export för månens interoperabilitet: ger månens referenssystem, månens tidsskala och månens efemerid i LunaNet/IOAG-anpassade, CCSDS-baserade utbytesformer med rundtur- och fältkontroll. ÅTERANVÄNDER cratens CCSDS OEM { "2.0" }-emitter och -parser (crate::oem), omtaggade för månsammanhang — OEM REF_FRAME bär IAU { "2015" } WGCCRE:s månkroppssystem (MOON_ME / MOON_PA), TIME_SYSTEM månens tidsskala (LTC / TCL / UTC), CENTER_NAME = MOON — över en illustrativ exempelefemerid av LCNS-klass (positioner från crate::lunar_service, hastighet genom finit differens). Ger också en LunaNet/IOAG-anpassad deskriptor för månens tid (skal-id, sekulär takt i µs/dygn från crate::lunar_time, publicerat band, referensyta) som går att rundtura via serde_json, och packar artefakterna i det befintliga KIF-höljet (crate::interchange) med ärlighetsetiketten MODELLED. Redovisar emitterade artefakter, antal OEM-rader, fältkontroll (lyckad/misslyckad samt lista över närvarande och saknade fält), OEM-rundtur ok, rundtur för tidsmetadata ok och KIF-storlek i byte. MODELLED — deterministisk rundtur och kontroll av fältnamn mot publicerad CCSDS OEM samt LunaNet/IOAG:s fältsemantik är den oberoende referensen; INTE ett certifierat interoperabilitetstest; illustrativ efemerid från publika källor, inte knuten till ESA; inget TRL, inget arv och inget stöd från någon myndighet.
+
 seg-1726861e444f = En körning av <c1/> sammanfattas som: lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | { "9" } tillstånd, OEM { "23" } rader | formatkontroll PASS ({ "9" } närvarande / { "0" } saknade) | OEM tur-och-retur ok | tidsmetadata tur-och-retur ok | KIF { "1640" } bytes | MODELLED
 
 seg-f8353e15aabd = Valfria fält: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>

@@ -24,6 +24,8 @@ seg-edfcb546d9de = Budget för prediktion av lunart referenssystem / jordoriente
 
 seg-2721ed7727bb = Diagrammet som motorn skriver för scenarios/realtime-frame-eop.toml, typ realtime-frame-eop
 
+seg-5f25c5b71f0c = Modell av rymdvädermiljön: indexen för sol- (F10.7/F10.7a) och geomagnetisk (Kp, med den definitionsmässiga tabellen Kp↔ap) aktivitet, den exosfäriska temperatur enligt Jacchia-1971 som de driver (validerad mot publicerade värden för solminimum/medel/maximum), och den termosfäriska neutraldensiteten enligt Jacchia-1971 vid den dygnsmedelvärdade exosfäriska temperaturen mot den aktivitetsfria statiska profilen vid en uppsättning höjder — solcykelberoendet i densiteten som den statiska atmosfären utelämnar. MODELLED: densiteten stämmer med accelerometerhärledda densiteter (TOLEOS CHAMP och GRACE) inom en faktor { "2" } vid solmaximum men är omkring 1.7x för tät vid solminimum { "2008" }.
+
 seg-c1c6f2f73fb5 = Diagrammet som motorn skriver för scenarios/space-weather.toml, typ space-weather
 
 seg-4e31c8daf798 = Register

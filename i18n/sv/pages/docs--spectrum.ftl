@@ -39,3 +39,5 @@ seg-f8e6beeceedd = { "47.41" } dB-Hz
 seg-53a7343c076e = Påstående
 
 seg-430edd66bda0 = Inte modellerat
+
+seg-64509c048541 = Vad som modelleras

@@ -2497,3 +2497,7 @@ seg-c3c260b7063e = Tester
 seg-4e31c8daf798 = Register
 
 seg-8980b5ae869b = Siffra
+
+seg-f4d1ec6fc464 = Citera
+
+seg-d0566d4db829 = Återskapa det

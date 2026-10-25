@@ -12,6 +12,8 @@ seg-57cd9c415e31 = MODELLED { "3" } · VALIDATED { "2" }: raderna i <a1>verifier
 
 seg-3319b18ac61f = och { "1" } till i matrisen.
 
+seg-2595bd629ffb = <b>MODELLED</b> Helmert-datumet med sju parametrar propagerat från en SIMULERAD OBSERVATIONSKAMPANJ i stället för återvunnet från en injicerad transformation.
+
 seg-7ecec8d27f50 = Källa: <c1/>
 
 seg-d54e29b7bc80 = <c1/> (scenariotyp)

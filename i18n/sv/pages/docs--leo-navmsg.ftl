@@ -14,6 +14,8 @@ seg-e305279d5b11 = Innehåll
 
 seg-4d208b6c0eb8 = dygn
 
+seg-a7d59ba6e225 = rad
+
 seg-02dc0d42fb21 = sfu
 
 seg-0f2d3faa9934 = Källa: <c1/>

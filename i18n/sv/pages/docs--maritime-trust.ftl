@@ -12,6 +12,70 @@ seg-b993ef559bd0 = Från kod
 
 seg-c353e7bec219 = Nyckel
 
+seg-0da78c80fb76 = <c1/>, <c2/>, <c3/> eller <c4/>
+
+seg-2896f449bffb = Källa: <c1/>
+
+seg-342f34403ac5 = Maritimt förtroende: kan bryggan lita på den här positionsbestämningen?
+
+seg-49b609a9655c = <c1/> kan för ett <b>fartyg i rörelse</b> beräkna en löpande förtroendesiffra mellan 0 och 100 för varje positionsbestämning, utifrån det som varje mottagare redan lägger på bussen (NMEA { "0183" } först), och ange vilka kontroller som sänkte den. Det är ett programvarulager som sitter bredvid en mottagare. Det är inte en mottagare, det ersätter inte någon, och det gör inte en positionsbestämning mer exakt.
+
+seg-3c66739c9250 = <b>Rådgivande programvara.</b> Kshana är inte typgodkänd navigationsutrustning (IEC { "61108" }, IEC { "61162" }) och har inte bedömts mot någon prestandastandard. Dess poäng och dess gate är stöd för navigatörens omdöme. Operatören är fortsatt ansvarig för fartygets säkra navigering och för varje beslut att lita på, eller att sluta lita på, en positionsbestämning.
+
+seg-a9899ca66661 = Den här sidan beskriver vad kontrollerna tittar på, vad var och en kan och inte kan fånga, hur du kör det live och vad gaten gör. Poängmappningen och varje standardvärde finns i <a1><c1/></a1>.
+
+seg-05e79b6c5a58 = Vad den läser
+
+seg-e784fdbe26e6 = Ett fartyg deklareras i sessionsfilen, med sina gränser angivna före körningen:
+
+seg-e8e9ee2965cf = Mening
+
+seg-e127f2f26824 = Läses
+
+seg-5e17bb4156f1 = GGA
+
+seg-b38b8385ddcb = position, positionskvalitet ({ "0" } = ingen positionsbestämning), höjd över medelhavsytan, geoidseparation, HDOP
+
+seg-870056f55c30 = RMC
+
+seg-445c02505551 = status (<c1/> giltig, <c2/> inte), fart och kurs över grund, datum, läge
+
+seg-8a259fc7b06d = VTG
+
+seg-eb3e34f58751 = fart och kurs över grund, där RMC saknar dem
+
+seg-add66711c27b = HDT, THS
+
+seg-24e36e50b0ad = rättvisande kurs (THS endast när dess läge inte är <c1/>)
+
+seg-bcfb4cd59951 = VHW, VBW
+
+seg-fa0a0dae1510 = fart genom vattnet (VBW endast när dess status är <c1/>)
+
+seg-774d1991fb0b = ZDA
+
+seg-68d981999c72 = tid
+
+seg-a0cc45088f5f = GSV
+
+seg-0fad368a11cb = signalstyrka per satellit (dB-Hz), elevation och azimut (för geometrin)
+
+seg-032eafc03b42 = GSA
+
+seg-71334afb8a7d = geometrisk försämring av precisionen och använda satelliter (för geometrin, där GSV inte ger någon himmel; och det angivna HDOP som vakten jämför)
+
+seg-305f423d3ead = en OSNMA-status som en mottagare rapporterade, översatt till den här meningen av den adapter som läser mottagaren: <c1/> autentiserad, <c2/> misslyckad, <c3/> inget resultat
+
+seg-7ce1d69e710e = Epoker som mottagaren själv säger inte är en satellitbestämd position (GGA-kvalitet { "0" }, eller { "6" } till { "8" }: uppskattad, manuell, simulator; RMC-status <c1/>, eller läge <c2/>, <c3/>, <c4/>, <c5/>) används inte för positionskontrollerna och bär inget belägg åt något håll: mottagaren har redan sagt det.
+
+seg-a0ae80781c6e = De första <c1/> sekunderna utgör baslinjen och poängsätts aldrig. Varje övervakare tittar bara på den aktuella och tidigare epoker, så ett beslut vid en epok ändras inte när senare data anländer, och en löpande ström ger samma poäng som samma text läst som en fil.
+
+seg-068593ad0a52 = Vad varje kontroll fångar, och vad den inte kan fånga
+
+seg-094b90f0c701 = Riktningar mellan positionsbestämningar (kursen längs spåret som används av kontrollen av girhastighet, kursen som två positioner antyder) är riktningen för kordan mellan dem, vilket är geodetens <b>medelazimut</b> mellan positionsbestämningarna, inte framåtazimuten vid den första positionsbestämningen; de skiljer sig med ungefär halva meridiankonvergensen mellan positionsbestämningarna ({ "0.001" } grader för en baslinje på { "260" } m vid { "59.5" } graders latitud).
+
+seg-ed3cdfcfbff5 = En förfalskad position måste stämma med ett fartygs fysik och med fartygets andra sensorer. Varje kontroll jämför positionsbestämningen med en av dem. En kontroll är bara så oberoende som dess andra källa: en kurs från en GNSS-kompass, eller en "fart genom vattnet" härledd från GNSS, är inte oberoende av mottagaren under test och tillför ingenting.
+
 seg-9480aabf136e = Kontroll
 
 seg-20e4f746c7e1 = Fångar upp
