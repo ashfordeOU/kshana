@@ -1,0 +1,15 @@
+engine-legal-compliance-statement | "is met" rendered as "gehaald" to avoid forbidden "voldoet aan"; "rated or approved" -> "beoordeeld of goedgekeurd" (negated); "evidenced" left English as a row marker
+engine-legal-geometry-statement | long technical sentence; "dilution of precision" -> "precisieverdunning", "user-equivalent range error" -> "gebruikersequivalente afstandsfout"; "Voorinstelde" for preset constellations
+engine-legal-observatory-notice | "statement of conformance" -> "verklaring van conformiteit" (negated; forbidden word only in negation); "clear" -> "vrij"
+engine-legal-bench-notice | "statement of conformance" -> "verklaring van conformiteit" (negated)
+engine-legal-resilience-disclaimer | "accreditation" -> "accreditatie", "approval" -> "goedkeuring" (negated)
+engine-legal-lunar-time-lab-source-statement | "meets it" -> "haalt het"
+engine-legal-standards-pack-notice | "bars" -> "drempels"; "rate or approve" -> "beoordeelt of keurt goed"
+engine-legal-bench-surface-notice | "conducted or shielded" -> "geleid of afgeschermd"
+engine-legal-evidence-roundtrip-notice | "conducted" -> "geleid"
+engine-legal-iqfit-statement | PREDICTION kept English as a label
+engine-advanced-report-honesty-label | "Honesty label" -> "Eerlijkheidslabel"
+engine-advanced-report-th-oracle | "oracle" -> "onafhankelijke referentie"
+engine-advanced-report-tbl-mc-summary | "nearest-rank" left English
+engine-fusion-hybrid-ukf-chart-consistent | CONSISTENT/INCONSISTENT kept English (status labels)
+engine-fom-verdict-partial | PARTIAL kept English
