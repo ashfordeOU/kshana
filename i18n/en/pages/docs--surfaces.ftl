@@ -720,14 +720,13 @@ seg-79ec7e7307da = A running process.
 seg-17fcf959153f = <c1/> holds a stream open, can serve the gated stream to any number of TCP clients and runs until it is stopped. A Python call, a browser call, an MCP tool call and an IDE action each return when they finish and do not hold a socket open for others. Python, WASM and MCP carry the bounded form instead: an excerpt scored by the same engine, in the live schema (JSON lines { "1.3" }: <c2/>, an <c3/> statement and the satellite <c4/> on every epoch, a <c5/> on every deduction), with no socket and no gate (the gate marks a fix invalid on a live stream, which only a process in the data path can do). Two behaviours belong to the process and are not in the excerpt tools: a stream replayed faster than real time through <c6/> without <c7/> is scored untrusted (its time disagrees with the host clock; an excerpt is read without a host clock), and <c8/> and <c9/> bind the loopback address unless an address is given.
 
 # text
-# c1: trust_telemetry(input, format, host, input_kind, options_json)
+# c1: trust_telemetry
 # c2: trust_telemetry
-# c3: trust_telemetry
-# c4: /kshana-trust-telemetry
-# c5: trust-telemetry
-# c6: kshana trust-telemetry --result session.result.json --print-metrics
-# c7: TRUST-TELEMETRY.md
-seg-824d2bbbf280 = <b>Trust telemetry.</b> WASM carries <c1/>: the same encoders, returning Prometheus text, CEF or LEEF syslog lines, or the OTLP JSON payload for a stream or a batch result, with no clock (syslog lines carry the RFC { "5424" } nil timestamp) and nothing sent. Python (<c2/>) and MCP (<c3/>, with the plugin command <c4/>) carry it too. The rest of <c5/> serves Prometheus metrics, sends syslog and exports OpenTelemetry from a running stream, so it is a process by nature. How-to: pipe the live command into it, or replay a result file (<c6/>); see <a1><c7/></a1>. An agent or a notebook that wants the per-epoch scores calls the batch or excerpt functions instead.
+# c3: /kshana-trust-telemetry
+# c4: trust-telemetry
+# c5: kshana trust-telemetry --result session.result.json --print-metrics
+# c6: TRUST-TELEMETRY.md
+seg-e9fb3c9d87eb = <b>Trust telemetry.</b> WASM carries <s1>trust_telemetry(input, format, host, input_kind, options_json)</s1>: the same encoders, returning Prometheus text, CEF or LEEF syslog lines, or the OTLP JSON payload for a stream or a batch result, with no clock (syslog lines carry the RFC { "5424" } nil timestamp) and nothing sent. Python (<c1/>) and MCP (<c2/>, with the plugin command <c3/>) carry it too. The rest of <c4/> serves Prometheus metrics, sends syslog and exports OpenTelemetry from a running stream, so it is a process by nature. How-to: pipe the live command into it, or replay a result file (<c5/>); see <a1><c6/></a1>. An agent or a notebook that wants the per-epoch scores calls the batch or excerpt functions instead.
 
 # text
 # c1: evidence_verify

@@ -286,7 +286,13 @@ seg-a0b63210b807 = Read more
 seg-abd799395f27 = L-band spectrum and jamming waterfall
 
 # text
+seg-e130075daa2c = <s1>scenario spectrum | { "5" } bands | { "3" } jammers | noise floor -202.0 dBW/Hz | worst band gps-l1ca min C/N0 { "3.2" } dB-Hz (J/S { "60.2" } dB)</s1>
+
+# text
 seg-33453b2cfdf3 = The solar system at one epoch
+
+# text
+seg-fb1755e275ed = <s1>Solar system at 2026-09-28T00:{ "00" }:{ "00" } (JD { "2461311.50080" } TDB), { "18" } bodies, observer Earth</s1>
 
 # text
 seg-23bc4ff7f741 = Positioning around another body
@@ -295,7 +301,13 @@ seg-23bc4ff7f741 = Positioning around another body
 seg-c135b151e469 = Constellation design at scale
 
 # text
+seg-0ab6ef80f52b = <s1>constellation-design: { "102" } satellites (GPS, Galileo, BeiDou, GLONASS) around the Earth; availability { "100.00" }% (PDOP <= { "6" } at { "10" } deg mask), …</s1>
+
+# text
 seg-065995e9bd5e = Campaigns: kinds chained on one timeline
+
+# text
+seg-4c21675546ad = <s1>campaign f87a4a0e0bab | Jamming, spoofing, holdover and integrity: a chained mission | chain: { "6" } phases over { "4570" } s, …</s1>
 
 # text
 seg-dbae357e7e34 = One LEO-PNT system end to end
@@ -304,11 +316,13 @@ seg-dbae357e7e34 = One LEO-PNT system end to end
 seg-9d3d72ea03df = Fused MEO + LEO positioning
 
 # text
+seg-63bc561bb8b7 = <s1>LEO PVT (joint) at { "40.42" }, -3.70 over { "1800" } s</s1>
+
+# text
 seg-acc2793d1721 = LEO signals, passes and navigation messages
 
 # text
-# c1: LEO pass link budget, air user at 50.00, -30.00; 1 LEO satellite(s), 900 s window
-seg-db2626e54a24 = <c1/> (the pass)
+seg-474ffbc018c2 = <s1>LEO pass link budget, air user at { "50.00" }, -30.00; { "1" } LEO satellite(s), { "900" } s window</s1> (the pass)
 
 # text
 seg-319ddeeb8205 = <a1>LEO-SIGNAL.md</a1>, <a2>LEO-PASS.md</a2>, <a3>LEO-NAVMSG.md</a3>
@@ -320,6 +334,9 @@ seg-aa93235e8c6d = PPP convergence with a LEO layer; 5G positioning
 seg-01160980ce50 = Resilience: GNSS jammed, LEO carries the user
 
 # text
+seg-60cd40e82272 = <s1>campaign 248395b851cc | GNSS jammed, LEO-PNT carries the user, integrity maintained | chain: { "3" } phases over { "2100" } s, …</s1>
+
+# text
 seg-adf8453bc035 = Verticals: rail, maritime, telecom, vehicles, Arctic
 
 # text
@@ -328,7 +345,13 @@ seg-adf8453bc035 = Verticals: rail, maritime, telecom, vehicles, Arctic
 seg-15a5098b5045 = <c1/> (and the other <c2/> files)
 
 # text
+seg-a62e8572322d = <s1>campaign 49575d27b696 | Railway and maritime with a LEO layer | chain: { "3" } phases over { "2520" } s, …</s1>
+
+# text
 seg-e6494ed83ee3 = Telecom holdover against the ITU-T (International Telecommunication Union, Telecommunication Standardization Sector) G.8272 clock limits
+
+# text
+seg-736780097517 = <s1>telecom-timing: max|TE| { "603.2" } ns over { "90000" } s; eprtc-a-holdover FAIL, prtc-a FAIL; { "100" } ns budget exceeded after { "8206" } s (MODELLED)</s1>
 
 # text
 seg-dfc04f1abe82 = LEO is low Earth orbit and MEO medium Earth orbit; PVT is position, velocity and time; PPP is precise point positioning; 5G is the fifth-generation mobile standard; TDB is Barycentric Dynamical Time; JD is Julian Date; TE is time error.

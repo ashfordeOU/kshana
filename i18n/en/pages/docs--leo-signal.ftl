@@ -170,21 +170,17 @@ seg-24360342e8e6 = The ATOMIC "zero-clock" polynomial ephemeris is a navigation-
 seg-ebfc032d7898 = What is computed per signal
 
 # text
-# c1: η = (2/π)[Si(πBT_c) − sin²(πBT_c/2)/(πBT_c/2)]
-seg-211f655e00fa = <b>Band-limited power spectral density (PSD)</b> and, per component, the fraction of its power the transmit band passes. For a BPSK component at the centre the closed form <c1/> sits beside the numeric value ({ "90.3" } % for the main lobe).
+seg-944baf489ddf = <b>Band-limited power spectral density (PSD)</b> and, per component, the fraction of its power the transmit band passes. For a BPSK component at the centre the closed form <s1>η = (2/π)[Si(πBT_c) − sin²(πBT_c/2)/(πBT_c/2)]</s1> sits beside the numeric value ({ "90.3" } % for the main lobe).
 
 # text
-# c1: β² = [B/2 − sin(πBT_c)/(2πT_c)] / (π² T_c η)
-seg-05e2a7b8235a = <b>Root-mean-square (RMS, Gabor) bandwidth</b> of the tracked component inside the band, with the BPSK closed form <c1/>.
+seg-14495757f093 = <b>Root-mean-square (RMS, Gabor) bandwidth</b> of the tracked component inside the band, with the BPSK closed form <s1>β² = [B/2 − sin(πBT_c)/(2πT_c)] / (π² T_c η)</s1>.
 
 # text
-# c1: σ² = B_L(1 − ½B_L T) ∫ G sin²(πfΔ) df / [(2π)² (C/N₀) (∫ f G sin(πfΔ) df)²]
-seg-f878fd0359c9 = <b>Code-tracking thermal-noise jitter</b> of a delay lock loop (DLL) against C/N₀ and early-late correlator spacing, from the band-limited early-late formula of Betz and Kolodziejski ({ "2009" }): <c1/>, coherent by default, with the non-coherent squaring loss on request. The report adds the unlimited-band textbook form (Kaplan and Hegarty) and the vanishing-spacing bound set by the Gabor bandwidth. The <b>ranging accuracy</b> is that jitter in metres at the reference C/N₀ and spacing.
+seg-7ef01108eb96 = <b>Code-tracking thermal-noise jitter</b> of a delay lock loop (DLL) against C/N₀ and early-late correlator spacing, from the band-limited early-late formula of Betz and Kolodziejski ({ "2009" }): <s1>σ² = B_L({ "1" } − ½B_L T) ∫ G sin²(πfΔ) df / [(2π)² (C/N₀) (∫ f G sin(πfΔ) df)²]</s1>, coherent by default, with the non-coherent squaring loss on request. The report adds the unlimited-band textbook form (Kaplan and Hegarty) and the vanishing-spacing bound set by the Gabor bandwidth. The <b>ranging accuracy</b> is that jitter in metres at the reference C/N₀ and spacing.
 
 # text
-# c1: f v R_E cos(el) / ((R_E + h) c)
-# c2: 2/(3T)
-seg-089e4e98af82 = <b>Acquisition</b>: the largest satellite Doppler on an overhead pass at the elevation mask (<c1/>, circular orbit, no Earth rotation) plus the oscillator and user terms; Doppler bins of <c2/>; code bins over one period; the detection probability of a square-law detector (generalised Marcum Q) at a per-cell false-alarm probability, centred and at the worst-case straddle; and the mean acquisition time of a serial and a code-parallel single-dwell search (Holmes).
+# c1: 2/(3T)
+seg-4aab0b0c4514 = <b>Acquisition</b>: the largest satellite Doppler on an overhead pass at the elevation mask (<s1>f v R_E cos(el) / ((R_E + h) c)</s1>, circular orbit, no Earth rotation) plus the oscillator and user terms; Doppler bins of <c1/>; code bins over one period; the detection probability of a square-law detector (generalised Marcum Q) at a per-cell false-alarm probability, centred and at the worst-case straddle; and the mean acquisition time of a serial and a code-parallel single-dwell search (Holmes).
 
 # text
 seg-1e2029183bdc = <b>Compatibility</b>: the spectral separation coefficient (SSC) of the band-limited signal into GPS L1 coarse/acquisition (C/A), Galileo E1, GPS L5, Galileo E5a, E5b and the E5 alternative BOC (AltBOC) signal over each global navigation satellite system (GNSS) receiver band, the C/N₀ loss it causes at its received power, and the SSC and C/N₀ loss of each GNSS signal into the LEO tracked component.

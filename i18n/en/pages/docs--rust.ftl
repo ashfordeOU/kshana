@@ -74,6 +74,9 @@ seg-4dbf41c0ec3b = Function
 seg-8c83544270b5 = Signature
 
 # text
+seg-c9dc486738f5 = <s1>(json: &str) -> Option<String></s1>
+
+# text
 seg-9a8d288b2c57 = json with its trailing figure_tiers block removed, byte for byte as the document was before that block existed; None when the document has no such block, or has one that is not its last key (which this crate never emits, so a harness must treat it as a failure rather than strip something it cannot account for).
 
 # text
@@ -92,10 +95,19 @@ seg-6739ddf8bba8 = [HEADLINE_FIELDS] as JSON: { "{" }kind: { "{" }"headline": [p
 seg-f76170c699d9 = Render the built-in scenario-kind catalogue as a standalone Markdown reference (docs/SCENARIOS.md): every dispatchable kind with its one-line description and its required / optional TOML fields.
 
 # text
+seg-a3c743b6a2ac = <s1>(src: &str) -> Vec<String></s1>
+
+# text
 seg-295c8355634f = Lint a scenario TOML against the crate's own introspection and return a list of problems — so a caller can be told what is wrong BEFORE a (possibly long) run, instead of hitting a late runtime failure.
 
 # text
+seg-f2c61ff48b75 = <s1>(src: &str) -> Result<String, String></s1>
+
+# text
 seg-4aab02ecf399 = Export an orbit/constellation scenario's propagated constellation as SP3-c text.
+
+# text
+seg-6cefd5841c8a = <s1>(src: &str) -> Result<Option<String>, String></s1>
 
 # text
 seg-d577fc8351a2 = If src is an orbit scenario with export_sp3 = true, return its SP3-c text; otherwise None.
@@ -113,19 +125,34 @@ seg-3fe91ee29ac1 = Export an orbit scenario's propagated constellation as CCSDS 
 seg-f102088f3208 = If src is an orbit scenario with export_oem = true, return its OEM text; otherwise None.
 
 # text
+seg-2e928cbfc653 = <s1>(src: &str, finals2000a_body: &str) -> Result<String, String></s1>
+
+# text
 seg-5432a3921600 = Inline a real IERS finals2000A body into a scenario's eop_finals2000a field (the --eop <file> CLI path), returning the merged TOML.
+
+# text
+seg-1ebe152b77bd = <s1>(json: &str, meta: &crate::report::StudyMeta) -> String</s1>
 
 # text
 seg-dc707c3d1769 = Splice a study-metadata block into an already-rendered result JSON document, returning the document with a top-level "meta" key inserted right after the opening brace.
 
 # text
+seg-5796deb5d583 = <s1>(src: &str) -> Result<RunOutput, KshanaError></s1>
+
+# text
 seg-afa952d0c0f5 = Run a scenario and return a typed result with a structured error — the entry point binding callers should prefer over the string-error [run_toml].
+
+# text
+seg-f466b56920b7 = <s1>(src: &str) -> Result<RunOutput, String></s1>
 
 # text
 seg-d0a609bfd225 = Parse, dispatch, and run a scenario given as a TOML string.
 
 # text
 seg-c62cff9a8dba = [run_toml] without the per-kind figure_tiers block that [run_toml_inner] appends (RM-04): for a run whose document is embedded in another kind's result (a campaign member), so the outer document keeps its bytes.
+
+# text
+seg-38f3963db8f7 = <s1>(json: &str, block: &serde_json::Value) -> Result<String, String></s1>
 
 # text
 seg-5a316ab76a7d = json with block appended as its last key, figure_tiers, byte for byte as the Documented wrapper would have serialised it: two-space pretty printing, the block nested one level in.

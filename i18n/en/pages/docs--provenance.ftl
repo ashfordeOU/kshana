@@ -100,10 +100,9 @@ seg-1cddc44025d7 = ESA (European Space Agency) ACES/PHARAO, operational on ISS s
 seg-75b7bb5ca4c8 = <b>flight-qualified</b> (microwave/maser, not optical)
 
 # text
-# c1: q_wf = σ_y(1 s)²
-# c2: flicker_floor
-# c3: VALIDATION.md
-seg-aeb8f189db37 = The Allan white-frequency coefficient used by the holdover model is <c1/>; flicker frequency modulation (flicker FM) and aging are modelled only where a <c2/> is set explicitly (see <a1><c3/></a1>), otherwise they are not modelled.
+# c1: flicker_floor
+# c2: VALIDATION.md
+seg-c44ac5775271 = The Allan white-frequency coefficient used by the holdover model is <s1>q_wf = σ_y({ "1" } s)²</s1>; flicker frequency modulation (flicker FM) and aging are modelled only where a <c1/> is set explicitly (see <a1><c2/></a1>), otherwise they are not modelled.
 
 # text
 seg-bfe4524b6664 = { "2" }. Inertial sensor parameters
@@ -206,6 +205,9 @@ seg-0ea35809be61 = IERS (International Earth Rotation and Reference Systems Serv
 
 # text
 seg-d25f68665f8e = Earth Rotation Angle
+
+# text
+seg-5c26634b6c72 = <s1>θ(Tu) = 2π({ "0.7790572732640" } + { "1.00273781191135448" }·Tu)</s1>
 
 # text
 seg-a3a803bdc8a0 = IAU (International Astronomical Union) { "2000" } resolution B1.8

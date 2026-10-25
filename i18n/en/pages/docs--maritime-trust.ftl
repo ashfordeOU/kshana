@@ -315,18 +315,16 @@ seg-b993ef559bd0 = From code
 seg-079ce44fd53e = For callers that hold the session and the bytes in memory (no files, no clock, no sockets; safe for WebAssembly), <c1/> has:
 
 # text
-# c1: assess_vessel_log(session_toml, log_bytes) -> Result<ReceiverTrustResult, String>
-# c2: kshana receiver-trust <session.toml>
-# c3: score_model
-# c4: monitors_run
-# c5: epochs[]
-seg-e8c3172d72b8 = <c1/>: a whole log, scored as a batch run; the same result as <c2/>, which serialises to the result JSON (<c3/>, <c4/>, <c5/> with scores and deductions).
+# c1: kshana receiver-trust <session.toml>
+# c2: score_model
+# c3: monitors_run
+# c4: epochs[]
+seg-a3e03168d524 = <s1>assess_vessel_log(session_toml, log_bytes) -> Result<ReceiverTrustResult, String></s1>: a whole log, scored as a batch run; the same result as <c1/>, which serialises to the result JSON (<c2/>, <c3/>, <c4/> with scores and deductions).
 
 # text
-# c1: assess_stream_excerpt(session_toml, excerpt_bytes) -> Result<ExcerptAssessment, String>
-# c2: epochs[]
-# c3: $PKSHT
-seg-0302b7c35fd3 = <c1/>: a bounded piece of a stream (at most { "2" } MiB and { "20,000" } epochs, and long enough to hold the calibration window), scored as live mode scores it and returned in the live JSON-lines schema (<c2/>, the last <c3/>, a summary of band counts, lowest and final score, first untrusted time). The receiver's time is not compared with a host clock. The long-running live mode (sockets, a file being appended, the gate) is the binary's.
+# c1: epochs[]
+# c2: $PKSHT
+seg-509a46d43815 = <s1>assess_stream_excerpt(session_toml, excerpt_bytes) -> Result<ExcerptAssessment, String></s1>: a bounded piece of a stream (at most { "2" } MiB and { "20,000" } epochs, and long enough to hold the calibration window), scored as live mode scores it and returned in the live JSON-lines schema (<c1/>, the last <c2/>, a summary of band counts, lowest and final score, first untrusted time). The receiver's time is not compared with a host clock. The long-running live mode (sockets, a file being appended, the gate) is the binary's.
 
 # text
 # c1: [platform] kind = "vessel"
@@ -390,8 +388,7 @@ seg-95dde7698840 = seconds since the first epoch of the stream
 seg-abec93a4a488 = string or null
 
 # text
-# c1: hh:mm:ss.mmm UTC (date not in log)
-seg-dee4f7b91079 = the epoch's time as the stream states it (ISO-8601 UTC with a date once an RMC was seen, else <c1/>)
+seg-b415763a175c = the epoch's time as the stream states it (ISO-8601 UTC with a date once an RMC was seen, else <s1>hh:mm:ss.mmm UTC (date not in log)</s1>)
 
 # text
 seg-6940543aa3c0 = string
@@ -414,13 +411,12 @@ seg-c2418289d966 = { "0" } to { "100" }, one decimal; null while calibrating or 
 seg-00575e5df2e1 = array
 
 # text
-# c1: {"monitor": string, "ratio": number, "points": number, "class": string}
-# c2: ratio
-# c3: class
-# c4: geometry
-# c5: environment
-# c6: inconsistency
-seg-54c1f879643b = <c1/>, largest points first; <c2/> is statistic over threshold (alarm at { "1" } or more); only monitors that cost points are listed; <c3/> <em>(added in { "1.3" })</em> is <c4/>, <c5/> or <c6/>
+# c1: ratio
+# c2: class
+# c3: geometry
+# c4: environment
+# c5: inconsistency
+seg-aece9991ea46 = <s1>{ "{" }"monitor": string, "ratio": number, "points": number, "class": string{ "}" }</s1>, largest points first; <c1/> is statistic over threshold (alarm at { "1" } or more); only monitors that cost points are listed; <c2/> <em>(added in { "1.3" })</em> is <c3/>, <c4/> or <c5/>
 
 # text
 seg-24d178dfb34f = array of string

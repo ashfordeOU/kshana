@@ -34,8 +34,7 @@ seg-46fbaf0c6a12 = <b>Clear-air loss</b> at the wavelength and elevation: aeroso
 seg-929c80326b41 = <b>Turbulence.</b> A Hufnagel–Valley <c1/> profile (HV 5/7 by default) integrated along the slant path gives the plane- or spherical-wave Rytov variance, uplink or downlink. From it come the Andrews–Phillips scintillation index, the gamma-gamma parameters, the weak-turbulence aperture-averaging factor (Churnside) and the gamma-gamma fade probability and fade margin. Aperture averaging is applied by moment matching: the scintillation index is scaled by the averaging factor and both log variances are rescaled to give it exactly.
 
 # text
-# c1: τ = 3L/(2 ρ_w r_e)
-seg-3fb7be7ef95d = <b>Cloud.</b> A site's cloud climate is the ITU-R P.840 form: a probability of cloud and, given cloud, a log-normal liquid-water column. P.840 supplies the amount of cloud. The attenuation is the geometric-optics optical depth <c1/>, because P.840's own attenuation law is a microwave law and does not apply at { "0.85" } to { "1.55" } µm, where droplets are far larger than the wavelength.
+seg-66c120497106 = <b>Cloud.</b> A site's cloud climate is the ITU-R P.840 form: a probability of cloud and, given cloud, a log-normal liquid-water column. P.840 supplies the amount of cloud. The attenuation is the geometric-optics optical depth <s1>τ = 3L/({ "2" } ρ_w r_e)</s1>, because P.840's own attenuation law is a microwave law and does not apply at { "0.85" } to { "1.55" } µm, where droplets are far larger than the wavelength.
 
 # text
 # c1: null
@@ -57,9 +56,8 @@ seg-b85681b9fd93 = <b>Techniques.</b> Each <c1/> is a what-if: a new wavelength 
 
 # text
 # c1: [clock]
-# c2: A + U·E[min(D, T_h)]/E[D]
-# c3: holdover.rs
-seg-a59d07280524 = <b>Timing and ranging through an outage.</b> Each outage duration is mapped through the closed-form coast variance of the clock holdover model, for the clocks listed in <c1/>. The report gives the timing and ranging error at stated outage durations, the holdover to the timing threshold, the share of outages inside it, and the timing availability <c2/>. The class power-law floors are the holdover module's synthesised ones, so a tight threshold is governed by that assumed floor, as <c3/> states.
+# c2: holdover.rs
+seg-3e3eeeb02707 = <b>Timing and ranging through an outage.</b> Each outage duration is mapped through the closed-form coast variance of the clock holdover model, for the clocks listed in <c1/>. The report gives the timing and ranging error at stated outage durations, the holdover to the timing threshold, the share of outages inside it, and the timing availability <s1>A + U·E[min(D, T_h)]/E[D]</s1>. The class power-law floors are the holdover module's synthesised ones, so a tight threshold is governed by that assumed floor, as <c2/> states.
 
 # text
 seg-59774a9e8685 = Link margin against time ({ "0.38" })

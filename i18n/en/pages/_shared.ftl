@@ -113,54 +113,6 @@ seg-e2475745a7e2 = <c1/> <c2/> move
 seg-510f4297d825 = <c1/> open
 
 # text
-seg-c4f4b2ca0647 = Value
-
-# text
-seg-039b7c5fd78a = Unit
-
-# text
-seg-619be4963365 = text
-
-# text
-seg-37d29d8303fe = km
-
-# text
-seg-0df8f55cbe06 = deg
-
-# text
-seg-0484c5d57886 = not stated
-
-# text
-seg-9a63fde1d8b1 = jamming
-
-# text
-seg-c6ced184b8eb = campaign
-
-# text
-seg-dfd41abc16b5 = Result
-
-# text
-seg-37f058c4e1c3 = count
-
-# text
-seg-e88d3dbcfe0c = MODELLED
-
-# text
-seg-15636cc68f72 = flag
-
-# text
-seg-8af88a0e2a69 = integrity
-
-# text
-seg-8ea9f458185d = spoof
-
-# text
-seg-bcc7452b7e9c = clock
-
-# text
-seg-f79dad339a1e = spectrum
-
-# text
 seg-a57cca86b759 = Provenance
 
 # attr:aria-label, text
@@ -560,16 +512,34 @@ seg-ca4d42ca6ce0 = Field
 seg-cc45f7524d3a = What it does
 
 # text
+seg-039b7c5fd78a = Unit
+
+# text
+seg-37f058c4e1c3 = count
+
+# text
+seg-e88d3dbcfe0c = MODELLED
+
+# text
 seg-852814f107a7 = Scenario kind pages
 
 # text
 seg-1a26d420ba67 = See also
 
 # text
+seg-c4f4b2ca0647 = Value
+
+# text
 seg-e8968e86f31b = Limitations
 
 # text
 seg-7dc0fcd6ef77 = aocs
+
+# text
+seg-c6ced184b8eb = campaign
+
+# text
+seg-bcc7452b7e9c = clock
 
 # text
 seg-00593bd8a3ed = ephemeris
@@ -584,6 +554,12 @@ seg-dbe8c830ef6c = hybrid
 seg-eae62828dc7a = inertial
 
 # text
+seg-8af88a0e2a69 = integrity
+
+# text
+seg-9a63fde1d8b1 = jamming
+
+# text
 seg-f8450911ddd6 = orbit
 
 # text
@@ -594,6 +570,12 @@ seg-786068921d01 = pvt
 
 # text
 seg-63f112536118 = reentry
+
+# text
+seg-f79dad339a1e = spectrum
+
+# text
+seg-8ea9f458185d = spoof
 
 # text
 seg-460826ea7719 = sweep
@@ -612,6 +594,15 @@ seg-0ffd6d4b0d8c = From the schema (<c1/>):
 seg-7a473d2b9b37 = Required fields: none
 
 # text
+seg-0484c5d57886 = not stated
+
+# text
+seg-619be4963365 = text
+
+# text
+seg-15636cc68f72 = flag
+
+# text
 seg-473eb8189015 = Run it
 
 # text
@@ -619,6 +610,12 @@ seg-8b01aa51263e = What it gives
 
 # text
 seg-5aa75472f59d = The scalar results of that run, with the units the engine states:
+
+# text
+seg-dfd41abc16b5 = Result
+
+# text
+seg-0df8f55cbe06 = deg
 
 # text
 seg-4798bca2d7a7 = MODELLED: the <a1>verification matrix</a1> rows that name this kind.

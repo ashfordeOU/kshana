@@ -77,6 +77,8 @@ function* tokens(html) {
   if (last < html.length) yield { t: 'text', v: html.slice(last), s: last, e: html.length };
 }
 
+let CUR = '';
+const looksLikeProse = (v) => { const t = norm(v).trim(); return t.split(' ').length >= 4 && /[(]|; |: | the | and | of | for | with /.test(t); };
 const norm = (t) => t.replace(/\s+/g, ' ');
 const hasLetters = (t) => /\p{L}/u.test(t);
 
@@ -114,14 +116,26 @@ function segmentOf(nodes) {
   if (!kids.length) return null;
   const cnt = { a: 0, s: 0, c: 0 };
   const codes = [];
-  const rawCode = (txt) => { codes.push(norm(txt).trim()); return `<c${++cnt.c}/>`; };
+  const tags = {}; // tag name -> raw English html: {o, c} for a pair, {h} for a verbatim placeholder
+  const rawCode = (txt, n) => {
+    codes.push(norm(txt).trim());
+    const name = `c${++cnt.c}`;
+    tags[name] = { h: n.k === 'el' ? CUR.slice(n.s, n.ce ?? n.os) + (n.ce === undefined ? n.kids.map((x) => CUR.slice(x.s, x.e)).join('') : '') : CUR.slice(n.s, n.e) };
+    return `<${name}/>`;
+  };
   const render = (n, first, last) => {
     if (n.k === 'text') { let v = n.v; return fmtText(v, true); }
     if (n.k === 'br') return '<br/>';
-    if (n.k === 'code') return rawCode(n.v);
-    if (isDeco(n)) return rawCode(textOf(n));
+    if (n.k === 'code' && looksLikeProse(n.v)) { // prose inside a code element: translatable text, the element kept around it
+      const tag = `s${++cnt.s}`;
+      tags[tag] = { o: CUR.slice(n.s, n.os), c: `</${n.name}>` };
+      return `<${tag}>${fmtText(n.v, true)}</${tag}>`;
+    }
+    if (n.k === 'code') return rawCode(n.v, n);
+    if (isDeco(n)) return rawCode(textOf(n), n);
     let tag;
     if (n.name === 'a') tag = `a${++cnt.a}`; else if (n.name === 'strong' || n.name === 'b') tag = 'b'; else if (n.name === 'em' || n.name === 'i') tag = 'em'; else tag = `s${++cnt.s}`;
+    tags[tag] = { o: CUR.slice(n.s, n.os), c: n.cs !== undefined ? CUR.slice(n.cs, n.ce) : '' };
     return `<${tag}>${n.kids.map((k) => render(k)).join('')}</${tag}>`;
   };
   const skel = norm(kids.map((k) => render(k)).join('')).trim();
@@ -133,11 +147,12 @@ function segmentOf(nodes) {
   let start = startOf(f), end = endOf(l);
   if (f.k === 'text') start += f.v.length - f.v.trimStart().length;
   if (l.k === 'text') end -= l.v.length - l.v.trimEnd().length;
-  return { skel, codes, start, end };
+  return { skel, codes, tags, start, end };
 }
 
 /** Segments of one page: [{skel, codes, kind, start, end | at, attr}] in document order. */
 export function segments(html) {
+  CUR = html;
   const out = [];
   let run = null;
   const stack = [];
@@ -175,7 +190,7 @@ export function segments(html) {
       if (VOID.has(tk.name)) continue;
       // A new link or span right after a finished sibling element starts a new segment (nav items, breadcrumbs).
       if (!run.depth && run.nodes.length && lastIsElement(run)) { flush(); run = { nodes: [] }; }
-      if (CODE.has(tk.name)) { run.code = { s: tk.s, v: '' }; run.depth = (run.depth || 0) + 1; continue; }
+      if (CODE.has(tk.name)) { run.code = { s: tk.s, os: tk.e, name: tk.name, v: '' }; run.depth = (run.depth || 0) + 1; continue; }
       run.nodes.push({ k: 'open', name: tk.name, attrs: tk.attrs, s: tk.s, e: tk.e });
       run.depth = (run.depth || 0) + 1;
       stack.push({ name: tk.name, inline: true });
@@ -185,7 +200,7 @@ export function segments(html) {
       if (inHead) continue;
       if (BLOCK.has(tk.name)) { flush(); const i = stack.map((s) => s.name).lastIndexOf(tk.name); if (i >= 0) stack.length = i; continue; }
       if (VOID.has(tk.name)) continue;
-      if (CODE.has(tk.name) && run && run.code) { run.nodes.push({ k: 'code', v: run.code.v, s: run.code.s, e: tk.e }); run.code = null; run.depth--; continue; }
+      if (CODE.has(tk.name) && run && run.code) { run.nodes.push({ k: 'code', v: run.code.v, s: run.code.s, os: run.code.os, name: run.code.name, e: tk.e }); run.code = null; run.depth--; continue; }
       const i = stack.map((s) => s.name).lastIndexOf(tk.name);
       if (i >= 0) { const s = stack[i]; stack.length = i; if (s.skip || s.dummy) continue; }
       if (run) { run.nodes.push({ k: 'close', name: tk.name, s: tk.s, e: tk.e }); run.depth = Math.max(0, (run.depth || 1) - 1); }
@@ -235,7 +250,7 @@ function walk(dir, skip, base = dir, acc = []) {
 }
 
 function extract(args) {
-  const opt = { src: 'web', out: 'i18n/en/pages', sharedMin: 25, skip: 'studio,playground' };
+  const opt = { src: 'web', out: 'i18n/en/pages', sharedMin: 25, skip: 'studio,playground,assets' };
   for (let i = 0; i < args.length; i += 2) {
     const k = args[i].replace(/^--/, '').replace(/-([a-z])/g, (_, c) => c.toUpperCase());
     opt[k] = args[i + 1];
@@ -291,9 +306,130 @@ function extract(args) {
   console.log(`extract: ${pages.length} pages, ${msgs.size} distinct segments (${shared.size} shared), ${written.size - 1} files in ${opt.out}`);
 }
 
+
+// ---- apply, check, status, pseudo ----
+
+function args2opt(args, defaults) {
+  const opt = { ...defaults }, pos = [];
+  for (let i = 0; i < args.length; i++) {
+    if (args[i].startsWith('--')) { const k = args[i].slice(2).replace(/-([a-z])/g, (_, c) => c.toUpperCase()); opt[k] = typeof defaults[k] === 'boolean' ? true : args[++i]; }
+    else pos.push(args[i]);
+  }
+  return { opt, pos };
+}
+
+async function lang() { return import('./i18n-lang.mjs'); }
+
+const NAMES = { de: 'Deutsch', fr: 'Français', es: 'Español', 'pt-BR': 'Português (Brasil)', 'pt-PT': 'Português (Portugal)', nl: 'Nederlands', da: 'Dansk', sv: 'Svenska', nb: 'Norsk bokmål', pl: 'Polski', cs: 'Čeština', uk: 'Українська', ru: 'Русский', fi: 'Suomi', et: 'Eesti', ja: '日本語', 'zh-Hans': '简体中文' };
+
+async function status(args) {
+  const L = await lang();
+  const { opt, pos } = args2opt(args, { root: 'i18n', json: false });
+  const langs = pos.length ? pos : L.LANGS;
+  const res = langs.map((l) => L.statusLang(opt.root, l));
+  if (opt.json) { console.log(JSON.stringify(res, null, 1)); return; }
+  console.log('lang      translated   missing  total   pages not started  orphans');
+  for (const r of res) console.log(`${r.lang.padEnd(8)} ${String(r.translated).padStart(10)} ${String(r.missing).padStart(9)} ${String(r.total).padStart(6)} ${String(r.pagesNotStarted).padStart(18)} ${String(r.orphans.length).padStart(8)}`);
+}
+
+async function check(args) {
+  const L = await lang();
+  const { opt, pos } = args2opt(args, { root: 'i18n' });
+  const langs = pos.length ? pos : L.LANGS.filter((l) => existsSync(join(opt.root, l)));
+  let bad = 0;
+  for (const l of langs) {
+    const r = L.checkLang(opt.root, l);
+    for (const e of r.errors.slice(0, 200)) console.log('ERROR ' + e);
+    if (r.errors.length > 200) console.log(`... ${r.errors.length - 200} more errors`);
+    if (r.warnings.length) console.log(`${l}: ${r.warnings.length} warnings (orphans and the like)`);
+    console.log(`${l}: ${r.count} messages checked, ${r.errors.length} errors`);
+    bad += r.errors.length;
+  }
+  if (bad) process.exit(1);
+}
+
+async function pseudo(args) {
+  const L = await lang();
+  const { opt } = args2opt(args, { root: 'i18n', lang: 'en-XA' });
+  const out = join(opt.root, opt.lang);
+  let n = 0;
+  const go = (rel) => {
+    const src = join(opt.root, 'en', rel);
+    if (statSync(src).isDirectory()) { for (const f of readdirSync(src)) go(join(rel, f)); return; }
+    if (!src.endsWith('.ftl')) return;
+    const dst = join(out, rel);
+    mkdirSync(dirname(dst), { recursive: true });
+    writeFileSync(dst, rel === 'glossary.ftl' ? readFileSync(src, 'utf8') : L.pseudoFtl(readFileSync(src, 'utf8')));
+    n++;
+  };
+  for (const f of readdirSync(join(opt.root, 'en'))) go(f);
+  console.log(`pseudo: ${n} files in ${out}`);
+}
+
+/** apply: write the translated tree of one language next to the English tree. */
+async function apply(args) {
+  const L = await lang();
+  const { opt, pos } = args2opt(args, { src: 'web', root: 'i18n', out: 'dist', skip: 'studio,playground,assets', origin: 'https://kshana.dev' });
+  const skip = String(opt.skip).split(',').filter(Boolean);
+  const pages = walk(opt.src, skip);
+  const langs = pos.length ? pos : L.LANGS;
+  const report = [];
+  for (const lang of langs) {
+    let T = 0, M = 0;
+    for (const rel of pages) {
+      const html = readFileSync(join(opt.src, rel), 'utf8');
+      const segs = segments(html);
+      const bundle = L.bundleFor(lang, L.catalogueFiles(opt.root, lang, rel));
+      const r = L.applyPage({ html, segs, bundle, lang });
+      for (const e of r.errors.slice(0, 3)) console.error(`${lang}/${rel}: ${e}`);
+      T += r.translated; M += r.missing;
+      const dst = join(opt.out, lang, rel);
+      mkdirSync(dirname(dst), { recursive: true });
+      writeFileSync(dst, decorate(r.html, { lang, rel, bundle, missing: r.missing, translated: r.translated, pages, origin: opt.origin, langs: L.LANGS }));
+    }
+    report.push(`${lang}: ${T} segments translated, ${M} left in English, ${pages.length} pages`);
+  }
+  console.log(report.join('\n'));
+}
+
+const DIR = (lang) => (['ar', 'he', 'fa', 'ur'].includes(lang.split('-')[0]) ? 'rtl' : 'ltr');
+const pageUrl = (rel) => '/' + rel.replace(/(^|\/)index\.html$/, '$1').replace(/\.html$/, '');
+
+/** lang and dir, the notices, hreflang, a base for relative URLs, links to other pages kept inside the language. */
+function decorate(html, { lang, rel, bundle, missing, translated, pages, origin, langs }) {
+  const pageSet = new Set(pages.map(pageUrl));
+  const pre = '/' + lang;
+  const here = pageUrl(rel);
+  const dirOfPage = here.endsWith('/') ? here : here.slice(0, here.lastIndexOf('/') + 1);
+  let out = html.replace(/<html\b[^>]*>/i, `<html lang="${lang}" dir="${DIR(lang)}">`);
+  // links to other site pages and in-page fragments stay inside the language (a <base> would otherwise send them out)
+  out = out.replace(/(<a\b[^>]*?\shref=)("([^"]*)"|'([^']*)')/gi, (m, a, q, d, s2) => {
+    const href = d ?? s2;
+    if (href.startsWith('#')) return `${a}"${pre}${here}${href}"`;
+    if (/^[a-z][a-z0-9+.-]*:|^\/\//i.test(href)) return m;
+    const u = new URL(href, 'https://x' + (here.endsWith('/') ? here : here)); // resolve against the page's own URL
+    const p = u.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
+    if (pageSet.has(p) || pageSet.has(p + '/') || pageSet.has(p.replace(/\/$/, ''))) return `${a}"${pre}${p}${u.search}${u.hash}"`;
+    return m;
+  });
+  // the original directory stays the base for assets and scripts that use relative URLs
+  if (!/<base\b/i.test(out)) out = out.replace(/<head\b[^>]*>/i, (h) => `${h}<base href="${dirOfPage}">`);
+  const alt = ['en', ...langs].map((l) => `<link rel="alternate" hreflang="${l}" href="${origin}${l === 'en' ? '' : '/' + l}${here}">`).join('') + `<link rel="alternate" hreflang="x-default" href="${origin}${here}">`;
+  out = out.replace('</head>', `${alt}<link rel="canonical" href="${origin}${pre}${here}"></head>`);
+  const msg = (id, vars) => { const m = bundle.getMessage(id); return m && m.value ? bundle.formatPattern(m.value, vars || {}) : null; };
+  const mt = msg('notice-machine-translation');
+  const fb = missing ? msg('notice-fallback', { n: missing }) : null;
+  const adv = msg('-advisory') ;
+  const notice = `<div class="i18n-notice" role="note" lang="${lang}"><p>${esc2(mt || '')}</p>${fb ? `<p>${esc2(fb)}</p>` : ''}</div>`;
+  out = out.replace(/(<main\b[^>]*>)/i, `$1${notice}`);
+  return out;
+}
+const esc2 = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
 const [cmd, ...rest] = process.argv.slice(2);
 if (import.meta.url === `file://${process.argv[1]}`) {
-  if (cmd === 'extract') extract(rest);
+  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest) }[cmd];
+  if (run) await run();
   else if (!cmd) { console.error('usage: node tools/i18n.mjs extract|apply|check|status|pseudo|csslint'); process.exit(2); }
   else { console.error(`i18n: '${cmd}' is not built yet`); process.exit(2); }
 }

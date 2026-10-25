@@ -91,7 +91,7 @@ seg-64d1073dfadc = the run's animated drawing (the <c1/> output) embedded as an 
 # c4: --export
 seg-ad7792e04197 = the animation exporter (<c1/>), <c2/> and the files the command line wrote (<c3/>, <c4/>)
 
-# attr:aria-label, text
+# text
 seg-3d3781a3691b = Events timeline
 
 # text
