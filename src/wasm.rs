@@ -21,13 +21,20 @@ extern "C" {
     fn json_parse(text: &str) -> JsValue;
 }
 
+/// Run `toml` for a user in language `lang` (`None`/`"en"` is English). The result document and
+/// the CSV are always from the English run; the summary and the chart text are in `lang`.
+fn run_in(toml: &str, lang: &Option<String>) -> Result<crate::api::RunOutput, JsValue> {
+    crate::api::run_toml_lang(toml, lang.as_deref().unwrap_or("en"))
+        .map_err(|e| JsValue::from_str(&e))
+}
+
 /// Run a scenario once and return every output as one typed object (`RunOutput` in the
 /// declarations): `json`, `svg`, `summary`, `csv` (`null` for a kind that emits no
 /// table) and `data`, the result document already parsed. A plain object, not a class,
 /// so there is nothing to free. Throws a JS error if the scenario is invalid.
 #[wasm_bindgen(unchecked_return_type = "RunOutput")]
-pub fn run_typed(toml: &str) -> Result<JsValue, JsValue> {
-    let o = crate::api::run_toml(toml).map_err(|e| JsValue::from_str(&e))?;
+pub fn run_typed(toml: &str, lang: Option<String>) -> Result<JsValue, JsValue> {
+    let o = run_in(toml, &lang)?;
     let quoted = |s: &str| serde_json::Value::from(s).to_string();
     // `o.json` is already a JSON document, so it is spliced in as `data` rather than
     // parsed and re-serialised here.
@@ -51,26 +58,20 @@ pub fn scenario_kinds() -> JsValue {
 /// Run a scenario given as a TOML string; returns the result document as a JSON
 /// string. Throws a JS error if the scenario is invalid.
 #[wasm_bindgen]
-pub fn run(toml: &str) -> Result<String, JsValue> {
-    crate::api::run_toml(toml)
-        .map(|o| o.json)
-        .map_err(|e| JsValue::from_str(&e))
+pub fn run(toml: &str, lang: Option<String>) -> Result<String, JsValue> {
+    run_in(toml, &lang).map(|o| o.json)
 }
 
 /// Run a scenario and return its SVG chart.
 #[wasm_bindgen]
-pub fn chart_svg(toml: &str) -> Result<String, JsValue> {
-    crate::api::run_toml(toml)
-        .map(|o| o.svg)
-        .map_err(|e| JsValue::from_str(&e))
+pub fn chart_svg(toml: &str, lang: Option<String>) -> Result<String, JsValue> {
+    run_in(toml, &lang).map(|o| o.svg)
 }
 
 /// Run a scenario and return its one-line human-readable summary.
 #[wasm_bindgen]
-pub fn summary(toml: &str) -> Result<String, JsValue> {
-    crate::api::run_toml(toml)
-        .map(|o| o.summary)
-        .map_err(|e| JsValue::from_str(&e))
+pub fn summary(toml: &str, lang: Option<String>) -> Result<String, JsValue> {
+    run_in(toml, &lang).map(|o| o.summary)
 }
 
 /// Run a scenario and return its reproducibility table as CSV text — the same bytes the
@@ -79,10 +80,8 @@ pub fn summary(toml: &str) -> Result<String, JsValue> {
 /// `moonlight-service-volume` with an export site configured emit one). Throws a JS error
 /// if the scenario is invalid.
 #[wasm_bindgen]
-pub fn table_csv(toml: &str) -> Result<Option<String>, JsValue> {
-    crate::api::run_toml(toml)
-        .map(|o| o.csv)
-        .map_err(|e| JsValue::from_str(&e))
+pub fn table_csv(toml: &str, lang: Option<String>) -> Result<Option<String>, JsValue> {
+    run_in(toml, &lang).map(|o| o.csv)
 }
 
 /// Run a scenario ONCE and return every output of that run as a JSON object string:
@@ -93,8 +92,8 @@ pub fn table_csv(toml: &str) -> Result<Option<String>, JsValue> {
 /// runs — about 12 s instead of 3 s for the heaviest kind in a browser. Throws a JS
 /// error if the scenario is invalid.
 #[wasm_bindgen]
-pub fn run_all(toml: &str) -> Result<String, JsValue> {
-    let o = crate::api::run_toml(toml).map_err(|e| JsValue::from_str(&e))?;
+pub fn run_all(toml: &str, lang: Option<String>) -> Result<String, JsValue> {
+    let o = run_in(toml, &lang)?;
     Ok(serde_json::json!({
         "json": o.json,
         "svg": o.svg,
@@ -131,11 +130,18 @@ pub fn field_importance() -> String {
 /// (`invalid_input`, `unsupported`, …) so the caller can branch on the failure
 /// category rather than parse the message. Returns an empty string on success.
 #[wasm_bindgen(unchecked_return_type = "ErrorKind | \"\"")]
-pub fn error_kind(toml: &str) -> String {
-    crate::api::run_scenario(toml)
+pub fn error_kind(toml: &str, lang: Option<String>) -> String {
+    crate::api::run_scenario_lang(toml, lang.as_deref().unwrap_or("en"))
         .err()
         .map(|e| e.kind_tag().to_string())
         .unwrap_or_default()
+}
+
+/// Why a scenario fails, as a JSON object string `{"kind", "code", "message"}` (`message` in `lang`,
+/// `code` the same in every language, null when the message has none); empty when it runs.
+#[wasm_bindgen]
+pub fn error_info(toml: &str, lang: Option<String>) -> String {
+    crate::api::error_info_json(toml, lang.as_deref().unwrap_or("en"))
 }
 
 /// Engine version (the crate version).
