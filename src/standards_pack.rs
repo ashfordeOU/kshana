@@ -509,9 +509,9 @@ pub fn report_markdown(report: &Value) -> String {
     let mut s = format!(
         "# {}\n\n{}\n\n{}\n\n{}\n\n",
         report["title"].as_str().unwrap_or("Standards pack"),
-        NOTICE,
-        STATEMENT,
-        ADVISORY
+        crate::legal::text("legal-standards-pack-notice"),
+        crate::legal::text("legal-compliance-statement"),
+        crate::legal::text("legal-standards-pack-advisory")
     );
     s.push_str("| Test | Profile | Status | Bars | Supports rows |\n|---|---|---|---|---|\n");
     for t in report["tests"].as_array().into_iter().flatten() {
