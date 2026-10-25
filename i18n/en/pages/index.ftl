@@ -58,10 +58,7 @@ seg-ec3957c0f5f1 = Press <c1/> to search pages, scenarios and docs
 
 # text
 # c1: 
-seg-428e9d81bb4d = <a1><s1>Kshana Pro</s1><c1/></a1>
-
-# text
-seg-511c8bb00e62 = Same engine, amplified: { "608" } designs, one Pareto front
+seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Same engine, amplified: { "608" } designs, one Pareto front</s2>
 
 # attr:aria-label
 seg-b807a8887172 = Telemetry replayed from the chained campaign run
@@ -99,8 +96,7 @@ seg-5630c799cec1 = Where every trace comes from
 seg-46b6db21c09b = <b>Campaign:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
 # text
-# c1: 
-seg-0d9fca5fdcfe = <a1>Open in Kshana Studio<c1/></a1>
+seg-9a86ef058d27 = Open in Kshana Studio
 
 # attr:title
 seg-f70fa3b93b11 = The engine's own report of this run
@@ -402,8 +398,7 @@ seg-4fa6a9f6915d = Jamming footprint: mean jammer-to-signal ratio and tracking o
 seg-774ec89d13d7 = Engine v{ $version } · <c1/> · seed { "1" } · receiver moved per cell
 
 # text
-# c1: 
-seg-fba341c5e4fd = <a1>Every cell, on Missions<c1/></a1>
+seg-7292d543b1ac = Every cell, on Missions
 
 # text
 seg-08ba18ea712c = Deception
@@ -683,10 +678,6 @@ seg-1e466f300d6e = Pin v{ $version }
 
 # text
 seg-d8008680650d = For anyone, nothing to install.
-
-# text
-# c1: 
-seg-dca88d8e959c = <a1>Launch Kshana Studio <c1/></a1>
 
 # text
 seg-567be575c392 = The engine runs locally as WebAssembly; nothing is uploaded.
@@ -1085,8 +1076,7 @@ seg-665005551d84 = A one-command mission dossier with a verification matrix and 
 seg-455cb5040f80 = Audit-grade, reproducible evidence packs; clock digital twins calibrated to your device's published Allan budget; architecture trade studies ranked on a figure of merit; model-based systems-engineering (MBSE) and programme tooling.
 
 # text
-# c1: 
-seg-890b470ca9ea = <a1>Request a Pro evaluation <c1/></a1>
+seg-6d3d0f8c9b7c = Request a Pro evaluation
 
 # text
 seg-3e30593288a1 = What Pro includes
@@ -1110,8 +1100,7 @@ seg-57320238c0f4 = Export-controlled work under the appropriate clearance and ND
 seg-e36049d768ce = Integration, training and consulting.
 
 # text
-# c1: 
-seg-b6eb33e3149e = <a1>Request a study <c1/></a1>
+seg-b366150de755 = Request a study
 
 # text
 seg-6df96ca25c68 = Why and who it is for

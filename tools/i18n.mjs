@@ -100,7 +100,7 @@ function buildTree(nodes) {
   return root;
 }
 const textOf = (n) => (n.k === 'el' ? n.kids.map(textOf).join('') : n.k === 'code' || n.k === 'text' ? n.v : n.k === 'br' ? ' ' : '');
-const isDeco = (n) => (n.k === 'el' && !hasLetters(textOf(n))) || n.k === 'br' && false;
+const isDeco = (n) => (n.k === 'el' && !hasLetters(textOf(n))) || (n.k === 'code' && n.opaque);
 const isBlankText = (n) => n.k === 'text' && !/\S/.test(n.v);
 
 /** Reduce a run to its segment: strip edge decorations, unwrap a lone wrapper element, render the skeleton. Null if nothing translatable. */
@@ -185,6 +185,7 @@ export function segments(html) {
       if (!inHead) for (const a of ATTRS) if (tk.attrs[a]) attrSeg(tk, a, `attr:${a}`);
       if (tk.name === 'title' && inHead) { flush(); run = { nodes: [], title: true }; continue; }
       if (inHead) continue;
+      if ((tk.name === 'svg' || tk.name === 'math') && !tk.selfClose && !skipping()) { if (!run) run = { nodes: [] }; if (!run.depth && run.nodes.length && lastIsElement(run)) { flush(); run = { nodes: [] }; } run.svg = { s: tk.s, name: tk.name }; continue; }
       if (tk.attrs['data-no-i18n'] !== undefined || tk.attrs.translate === 'no') { stack.push({ name: tk.name, skip: true }); flush(); continue; }
       if (BLOCK.has(tk.name)) { flush(); if (!tk.selfClose) stack.push({ name: tk.name }); continue; }
       if (skipping()) { if (!VOID.has(tk.name)) stack.push({ name: tk.name, skip: false, dummy: true }); continue; }
@@ -201,6 +202,7 @@ export function segments(html) {
       if (tk.name === 'head') { flush(); inHead = false; continue; }
       if (tk.name === 'title' && inHead) { flush(); continue; }
       if (inHead) continue;
+      if ((tk.name === 'svg' || tk.name === 'math') && run && run.svg) { run.nodes.push({ k: 'code', v: '', s: run.svg.s, e: tk.e, name: tk.name, opaque: true }); run.svg = null; continue; }
       if (BLOCK.has(tk.name)) { flush(); const i = stack.map((s) => s.name).lastIndexOf(tk.name); if (i >= 0) stack.length = i; continue; }
       if (VOID.has(tk.name)) continue;
       if (CODE.has(tk.name) && run && run.code) { run.nodes.push({ k: 'code', v: run.code.v, s: run.code.s, os: run.code.os, name: run.code.name, e: tk.e }); run.code = null; run.depth--; continue; }
@@ -208,7 +210,7 @@ export function segments(html) {
       if (i >= 0) { const s = stack[i]; stack.length = i; if (s.skip || s.dummy) continue; }
       if (run) { run.nodes.push({ k: 'close', name: tk.name, s: tk.s, e: tk.e }); run.depth = Math.max(0, (run.depth || 1) - 1); }
     } else if (tk.t === 'raw') {
-      if (!inHead) flush();
+      if (!inHead && tk.name !== 'svg' && tk.name !== 'math') flush();
     } else if (tk.t === 'text') {
       if (inHead && !(run && run.title)) continue;
       if (skipping()) continue;
@@ -529,8 +531,9 @@ async function verify(args) {
   for (const lang of langs) {
     let n = 0;
     const rend = L.tokenRenderings(opt.root, lang);
-    const legal = L.legalSentences(opt.root, lang);
-    const taStem = L.termStem(opt.root, lang, '-term-type-approved');
+    // the pseudo-locale accents every word, so the glossary-worded advisory checks apply to the real languages only
+    const legal = lang === 'en-XA' ? [] : L.legalSentences(opt.root, lang);
+    const taStem = lang === 'en-XA' ? null : L.termStem(opt.root, lang, '-term-type-approved');
     const mt = (() => { try { const b = L.bundleFor(lang, [join(opt.root, lang, 'glossary.ftl'), join(opt.root, lang, 'ui.ftl')]); const m = b.getMessage('notice-machine-translation'); return m && m.value ? b.formatPattern(m.value, {}) : null; } catch { return null; } })();
     for (const rel of pages) {
       const p = join(opt.dist, lang, rel);
@@ -768,6 +771,26 @@ function jsx(args) {
 const VOID_TAGS = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
 const jsonAttr = (o) => JSON.stringify(o).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 
+/** The page as it was before any run of studio-pages: wrapper spans (data-l10n-rich on a span) unwrapped, the other rich attributes dropped.
+ *  Annotating this each time makes the command idempotent (a wrapper is never wrapped again). */
+export function stripRich(html) {
+  const cuts = []; // [start, end) ranges to remove
+  const stack = [];
+  for (const tk of tokens(html)) {
+    if (tk.t === 'open' && tk.name === 'span' && !tk.selfClose) {
+      const w = tk.attrs['data-l10n-rich'] !== undefined && Object.keys(tk.attrs).every((a) => /^data-l10n(-rich|-tags)?$/.test(a));
+      stack.push(w);
+      if (w) cuts.push([tk.s, tk.e]);
+    } else if (tk.t === 'close' && tk.name === 'span') {
+      if (stack.pop()) cuts.push([tk.s, tk.e]);
+    }
+  }
+  let out = '', last = 0;
+  for (const [a, b] of cuts.sort((x, y) => x[0] - y[0])) { out += html.slice(last, a); last = b; }
+  out += html.slice(last);
+  return out.replace(/ data-l10n-rich="seg-[0-9a-f]{12}"( data-l10n-tags="[^"]*")?/g, '');
+}
+
 /** Annotate the static text segments of one Studio page: the element that holds exactly the segment gets data-l10n-rich and
  *  data-l10n-tags; otherwise the segment's range is wrapped in a span that does. Returns {html, messages:[{id, skel, codes}]}. */
 export function studioRich(html) {
@@ -778,12 +801,14 @@ export function studioRich(html) {
     // an element that already carries a message (a previous run, or data-l10n) is left alone
     const open = /<([a-zA-Z][\w-]*)\b((?:"[^"]*"|'[^']*'|[^'">])*)>\s*$/.exec(before);
     const wholeEl = open && !VOID_TAGS.has(open[1].toLowerCase()) && new RegExp(`^\\s*</${open[1]}\\s*>`, 'i').test(after);
-    if (wholeEl && /\bdata-l10n(?:-rich)?=/.test(open[2])) continue;
+    if (wholeEl && /\bdata-l10n=/.test(open[2])) continue;
+    const annotated = wholeEl && /\bdata-l10n-rich=/.test(open[2]);
     // inside an element that is a message already (the wrapper of an earlier run)
     const id = 'seg-' + sha12(sg.skel + '\0' + sg.codes.join('\0'));
     const tags = {};
     for (const [k, v] of Object.entries(sg.tags)) tags[k] = v.h !== undefined ? { h: v.h } : { o: v.o, c: v.c };
-    for (const k of Object.keys(tags)) if (tags[k].o) tags[k].o = tags[k].o.replace(/ data-i18n-t/, '');
+    for (const k of Object.keys(tags)) { if (tags[k].o) tags[k].o = tags[k].o.replace(/ data-i18n-t/, ''); for (const f of ['o', 'h']) if (tags[k][f]) tags[k][f] = tags[k][f].replace(/ data-l10n(?:-rich|-tags|-attr)?=("[^"]*"|'[^']*')/g, ''); }
+    if (annotated) { messages.push({ id, skel: sg.skel, codes: sg.codes }); continue; }
     const attrs = ` data-l10n-rich="${id}"${Object.keys(tags).length ? ` data-l10n-tags="${jsonAttr(tags)}"` : ''}`;
     if (wholeEl) edits.push({ at: open.index + open[0].lastIndexOf('>'), text: attrs, kind: 'attr' });
     else edits.push({ start: sg.start, end: sg.end, text: `<span${attrs}>${html.slice(sg.start, sg.end)}</span>`, kind: 'wrap' });
@@ -807,7 +832,7 @@ function studioPages(args) {
   for (const rel of files) {
     const p = join(opt.src, rel);
     const html = readFileSync(p, 'utf8');
-    const r = studioRich(html);
+    const r = studioRich(stripRich(html));
     for (const m of r.messages) if (!all.has(m.id)) all.set(m.id, { ...m, page: rel });
     if (opt.write && r.html !== html) writeFileSync(p, r.html);
   }
@@ -816,14 +841,18 @@ function studioPages(args) {
     const html = readFileSync(join(opt.src, rel), 'utf8');
     for (const m of html.matchAll(/data-l10n-rich="(seg-[0-9a-f]{12})"/g)) if (!all.has(m[1])) all.set(m[1], { id: m[1], missing: true, page: rel });
   }
+  // an earlier run's messages for elements that are annotated already stay in the catalogue (blocks of the existing file, by id)
+  const old = new Map();
+  if (opt.out && existsSync(opt.out)) for (const b of readFileSync(opt.out, 'utf8').split(/\n\n+/)) { const m = /^(seg-[0-9a-f]{12}) =/m.exec(b); if (m) old.set(m[1], b.trim()); }
   const lines = ['# Static text of the Studio pages that carries inline markup (generated by tools/i18n.mjs studio-pages). Do not edit.', '# Translators: copy to i18n/<lang>/, translate the values, keep every id, { "literal" } and numbered tag (<a1>..</a1>, <b>, <em>, <s1>, <c1/>, <br/>).', ''];
   for (const m of [...all.values()].filter((x) => !x.missing).sort((a, b) => a.id.localeCompare(b.id))) {
     lines.push(`# ${m.page}`);
     m.codes.forEach((c, i) => lines.push(`# c${i + 1}: ${c.replace(/\n/g, ' ')}`));
     lines.push(`${m.id} = ${m.skel}`, '');
   }
+  for (const m of [...all.values()].filter((x) => x.missing)) if (old.has(m.id)) lines.push(old.get(m.id), '');
   if (opt.out) writeFileSync(opt.out, lines.join('\n'));
-  console.log(`studio-pages: ${[...all.values()].filter((x) => !x.missing).length} rich messages from ${files.length} pages${opt.out ? ' into ' + opt.out : ''}`);
+  console.log(`studio-pages: ${all.size} rich messages from ${files.length} pages${opt.out ? ' into ' + opt.out : ''}`);
 }
 
 const [cmd, ...rest] = process.argv.slice(2);
