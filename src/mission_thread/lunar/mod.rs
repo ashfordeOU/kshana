@@ -793,4 +793,34 @@ mod tests {
         e.frame = crate::lunar_phase::Frame::Itrf;
         assert!(go(DESCENT, "d", &e, &default_ctx()).is_err());
     }
+
+    /// With a Moon kernel that covers the epoch every phase's GCRF-to-MCI row states the kernel and its 5 m
+    /// stand-in; without one the row states the analytic series and its much larger error (position rows compared).
+    #[test]
+    fn the_gcrf_to_mci_row_names_the_moon_kernel_inside_its_window_and_the_series_outside() {
+        let kernel = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("tests/fixtures/mission_thread/de440s_moon_2028-01-01_2028-04-01.bsp");
+        let with_kernel = default_ctx().with_moon_kernel_file(&kernel).unwrap();
+        let mut e = default_entry();
+        e.frame = crate::lunar_phase::Frame::Gcrf;
+        let conversion = |ctx: &ThreadCtx, kind: &str| {
+            let out = go(kind, "k", &e, ctx).unwrap();
+            let rows: Vec<_> = out
+                .budget
+                .rows
+                .iter()
+                .filter(|r| r.source.contains("GCRF") && r.unit == "m")
+                .cloned()
+                .collect();
+            assert_eq!(rows.len(), 1, "{kind}: {:?}", out.budget.rows);
+            rows[0].clone()
+        };
+        for kind in [DESCENT, ASCENT, RENDEZVOUS] {
+            let k = conversion(&with_kernel, kind);
+            let a = conversion(&default_ctx(), kind);
+            assert!(k.source.contains("SPK kernel"), "{kind}: {}", k.source);
+            assert!(a.source.contains("analytic"), "{kind}: {}", a.source);
+            assert!(k.sigma < a.sigma, "{kind}: {} against {}", k.sigma, a.sigma);
+        }
+    }
 }
