@@ -2,3 +2,6 @@
 
 # text
 seg-f37311ad7ef0 = Ausgaben
+
+# text
+seg-f63dd3d7aad4 = Quelle

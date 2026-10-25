@@ -17,3 +17,9 @@ seg-2247a2344710 = Bedeutung
 
 # text
 seg-582fd72f1a1a = Bewertung
+
+# text
+seg-f63dd3d7aad4 = Quelle
+
+# text
+seg-1ff32b87e030 = Satelliten

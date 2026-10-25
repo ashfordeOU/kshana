@@ -47,3 +47,21 @@ seg-04f69a0edb2f = Typ
 
 # text
 seg-b03d56f501c3 = Typ
+
+# text
+seg-d12d4565b01d = Geodätische VLBI zum Mond, Kernelpfad
+
+# text
+seg-5ed34a5b402e = Gemeinsame Multitechnik-Bahnbestimmung + Uhr am Mond
+
+# text
+seg-75636f9419b2 = Bekannte Einschränkungen
+
+# text
+seg-9c0eb89a2fbe = Paket
+
+# text
+seg-f63dd3d7aad4 = Quelle
+
+# text
+seg-638b8d451550 = Sensor
