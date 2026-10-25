@@ -533,12 +533,6 @@ seg-33732550ba94 = der Typ <c1/>, der die Leistungsaufteilung und die Chiprate e
 seg-625f50ac3189 = Workshop-Parameter
 
 # text
-# c1: scenarios/celeste-iod-classical-pilot-signals.toml
-# c2: src/celeste_iod.rs
-# c3: scenarios/*celeste-iod*.toml
-seg-9d50778efa0a = <c1/> enthält die Frequenzbänder von Celeste IOD und die Signalkonfiguration „Classical Pilot“ #1, wie sie auf dem LEO-PNT-Workshop des ESA NAVISP, { "2026" }, vorgestellt wurden, mit einer Formprüfung eines Entwurfs gegen das dort gezeigte gemessene Spektrum. Sie ist eine der Dateien der Voreinstellung Celeste IOD (die anderen sind <c2/> und die übrigen <c3/>); keine Signalspezifikation von Celeste ist öffentlich. Ihre Komponenten tragen ihre Annahmen (Leistungsaufteilungen, Codelängen, FDMA-Versätze und eine repräsentative Modulation für die Bänder, deren Modulation nicht vorgestellt wurde). Die Formprüfung ist MODELLED-Konsistenz: Sie vergleicht Formen, nicht kalibrierte Pegel.
-
-# text
 # c1: src/celeste_iod.rs
 # c2: scenarios/*celeste-iod*.toml
 # c3: kshana example
@@ -657,3 +651,9 @@ seg-18b16c83dd7c = <s1>Zurück</s1>LEO-Positionierung, -Navigation und -Zeitgebu
 
 # text
 seg-50fe3f8ae7ec = <s1>Weiter</s1>LEO-Überflug und Streckenbilanz
+
+# text
+# c1: scenarios/celeste-iod-classical-pilot-signals.toml
+# c2: src/celeste_iod.rs
+# c3: scenarios/*celeste-iod*.toml
+seg-9d50778efa0a = <c1/> enthält die Frequenzbänder von Celeste IOD und die Signalkonfiguration „Classical Pilot“ #1, wie sie auf dem LEO-PNT-Workshop des ESA NAVISP, { "2026" }, vorgestellt wurden, mit einer Formprüfung eines Entwurfs gegen das dort gezeigte gemessene Spektrum. Sie ist eine der Dateien der Voreinstellung Celeste IOD (die anderen sind <c2/> und die übrigen <c3/>); keine Signalspezifikation von Celeste ist öffentlich. Ihre Komponenten tragen ihre Annahmen (Leistungsaufteilungen, Codelängen, FDMA-Versätze und eine repräsentative Modulation für die Bänder, deren Modulation nicht vorgestellt wurde). Die Formprüfung ist eine Konsistenzprüfung MODELLED: Sie vergleicht Formen, keine kalibrierten Pegel.

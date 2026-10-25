@@ -116,9 +116,6 @@ seg-b7619573e112 = Verifikationsstatus
 seg-6598ced4218b = Rytov-Varianz, Szintillationsindex, Gamma-Gamma-Schwundwahrscheinlichkeit, Aperturmittelungsfaktor, optische Tiefe von Wolken und klarer Luft werden so berechnet, wie die genannten Formeln es angeben
 
 # text
-seg-2442f7529fbb = MODELLED-Zeile; Numerik gegen ein unabhängiges mpmath-Programm geprüft
-
-# text
 # c1: xval/optical-atmosphere/RESULTS.md
 seg-19854ea8437a = Zielwerte A1 bis A3, alle erreicht (<c1/>)
 
@@ -173,3 +170,6 @@ seg-83b30e1ca261 = <s1>Zurück</s1>Nachweispakete
 
 # text
 seg-1474b58fb35a = <s1>Weiter</s1>Slot-Zeitgebung
+
+# text
+seg-2442f7529fbb = Zeile der Stufe MODELLED; Numerik gegen ein unabhängiges mpmath-Programm geprüft

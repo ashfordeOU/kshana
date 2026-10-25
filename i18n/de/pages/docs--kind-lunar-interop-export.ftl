@@ -24,9 +24,6 @@ seg-d36e6d7d8a10 = Quelle: <c1/>
 seg-fdf560e675f4 = <c1/> (Szenario-Kind)
 
 # text
-seg-5a4dcb93a643 = Modellierter lunarer Interoperabilitätsexport: gibt das lunare Bezugssystem, die lunare Zeitskala und die lunare Ephemeride in an LunaNet/IOAG angelehnten, auf CCSDS basierenden Austauschformen mit Rundlauf-/Feldkonformität aus. WIEDERVERWENDET den CCSDS-OEM-{ "2.0" }-Emitter und -Parser des Crates (crate::oem), für den lunaren Kontext neu etikettiert — REF_FRAME trägt das lunare Körperbezugssystem IAU { "2015" } WGCCRE (MOON_ME / MOON_PA), TIME_SYSTEM die lunare Zeitskala (LTC / TCL / UTC), CENTER_NAME = MOON — über eine beispielhafte illustrative Ephemeride der Klasse LCNS (Positionen aus crate::lunar_service, Geschwindigkeit durch finite Differenz). Gibt außerdem einen an LunaNet/IOAG angelehnten Deskriptor der Mondzeit aus (Skalen-ID, säkulare Rate µs/Tag aus crate::lunar_time, veröffentlichtes Band, Bezugsfläche), der über serde_json einen Rundlauf besteht, und verpackt die Artefakte in den bestehenden KIF-Umschlag (crate::interchange) mit der MODELLED-Ehrlichkeitsbezeichnung. Gibt ausgegebene Artefakte, die Zeilenzahl des OEM, den Bestanden-Wert der Feldkonformität + Liste vorhandener/fehlender Felder, den OEM-Rundlauf ok, den Rundlauf der Zeitmetadaten ok und die KIF-Bytegröße aus. MODELLED — deterministischer Rundlauf + Feldnamenkonformität gegen veröffentlichtes CCSDS OEM + LunaNet/IOAG-Feldsemantik ist die unabhängige Referenz; KEIN zertifizierter Interoperabilitäts-Konformitätstest; illustrative Ephemeride aus öffentlichen Quellen, nicht mit der ESA verbunden; kein TRL/Flugerbe/keine Billigung durch eine Agentur.
-
-# text
 # c1: scenarios/lunar-interop-export.toml
 seg-1726861e444f = Ein Lauf von <c1/> fasst sich so zusammen: lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | { "9" } states, OEM { "23" } lines | conformance PASS ({ "9" } present / { "0" } missing) | OEM round-trip ok | time-meta round-trip ok | KIF { "1640" } bytes | MODELLED
 
@@ -65,10 +62,6 @@ seg-c9a1d76625d6 = MODELLED (Ergebnis <c1/>)
 
 # text
 # c1: kshana kinds --json
-seg-633bcd62ce93 = Gibt außerdem einen an LunaNet/IOAG angelehnten Deskriptor der Mondzeit aus (Skalen-ID, säkulare Rate µs/Tag aus crate::lunar_time, veröffentlichtes Band, Bezugsfläche), der über serde_json einen Rundlauf besteht, und verpackt die Artefakte in den bestehenden KIF-Umschlag (crate::interchange) mit der MODELLED-Ehrlichkeitsbezeichnung. (Kind-Katalog (<c1/>))
-
-# text
-# c1: kshana kinds --json
 seg-0e91697e3036 = MODELLED — deterministischer Rundlauf + Feldnamenkonformität gegen veröffentlichtes CCSDS OEM + LunaNet/IOAG-Feldsemantik ist die unabhängige Referenz; KEIN zertifizierter Interoperabilitäts-Konformitätstest; illustrative Ephemeride aus öffentlichen Quellen, nicht mit der ESA verbunden; kein TRL/Flugerbe/keine Billigung durch eine Agentur. (Kind-Katalog (<c1/>))
 
 # text
@@ -85,3 +78,10 @@ seg-07d6cc44724f = <s1>Zurück</s1>lunar-integrity
 
 # text
 seg-9669cd9b1d04 = <s1>Weiter</s1>lunar-jamming
+
+# text
+seg-5a4dcb93a643 = Modellierter lunarer Interoperabilitätsexport: gibt das lunare Bezugssystem, die lunare Zeitskala und die lunare Ephemeride in an LunaNet/IOAG angelehnten, auf CCSDS basierenden Austauschformen mit Rundlauf-/Feldkonformität aus. WIEDERVERWENDET den CCSDS-OEM-{ "2.0" }-Emitter und -Parser des Crates (crate::oem), für den lunaren Kontext neu etikettiert — REF_FRAME trägt das lunare Körperbezugssystem IAU { "2015" } WGCCRE (MOON_ME / MOON_PA), TIME_SYSTEM die lunare Zeitskala (LTC / TCL / UTC), CENTER_NAME = MOON — über eine beispielhafte illustrative Ephemeride der Klasse LCNS (Positionen aus crate::lunar_service, Geschwindigkeit per finiter Differenz). Gibt außerdem einen an LunaNet/IOAG angelehnten Deskriptor der Mondzeit aus (Skalen-ID, säkulare Rate µs/Tag aus crate::lunar_time, veröffentlichtes Band, Bezugsfläche), der über serde_json einen Rundlauf besteht, und verpackt die Artefakte in den bestehenden KIF-Umschlag (crate::interchange) mit der Ehrlichkeitsbezeichnung MODELLED. Meldet ausgegebene Artefakte, OEM-Zeilenzahl, Feldkonformitätsprüfung (bestanden) samt Liste vorhandener/fehlender Felder, OEM-Rundlauf in Ordnung, Zeitmetadaten-Rundlauf in Ordnung und KIF-Bytegröße. MODELLED — deterministischer Rundlauf und Feldnamenkonformität gegenüber dem veröffentlichten CCSDS-OEM und der Feldsemantik von LunaNet/IOAG sind die unabhängige Referenz; KEIN zertifizierter Test der Interoperabilitätskonformität; illustrative Ephemeride aus öffentlichen Quellen, nicht mit der ESA verbunden; keine TRL-/Heritage-/Behördenbestätigung.
+
+# text
+# c1: kshana kinds --json
+seg-633bcd62ce93 = Gibt außerdem einen an LunaNet/IOAG angelehnten Deskriptor der Mondzeit aus (Skalen-ID, säkulare Rate µs/Tag aus crate::lunar_time, veröffentlichtes Band, Bezugsfläche), der über serde_json einen Rundlauf besteht, und verpackt die Artefakte in den bestehenden KIF-Umschlag (crate::interchange) mit der Ehrlichkeitsbezeichnung MODELLED. (Kind-Katalog (<c1/>))

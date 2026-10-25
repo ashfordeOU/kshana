@@ -256,16 +256,6 @@ seg-cdfb50bca79e = GNSS-/PNT-Verarbeitung
 seg-733cf51a8c5e = Eine <b>Pseudorange-Simulation im Messbereich</b> (Art <c1/>, <c2/>): Je sichtbarem Satelliten synthetisiert sie <c3/> und den L1-Doppler, mit der <b>Einfrequenz-Ionosphäre nach Klobuchar</b> (IS-GPS-200 (IS: Interface Specification; GPS: Global Positioning System) §{ "20.3.3.5.2.5" }) und der <b>Zenit-Troposphäre nach Saastamoinen</b> (Davis { "1985" }), projiziert durch die <b>Abbildungsfunktion von Niell ({ "1996" })</b>, jedes Modell per Einheitentest gegen Handrechnung geprüft, und führt dann die Residuen dem <b>Snapshot-RAIM</b> (Receiver Autonomous Integrity Monitoring) für HPL/VPL je Epoche zu (HPL: horizontales Schutzniveau; VPL: vertikales Schutzniveau) und gibt ein Array <c4/> aus (Pseudorange, Doppler, C/N₀, Iono-/Tropo-Korrekturen je SV (Space Vehicle, also Satellit)). Dazu DOP/Verfügbarkeit (DOP: Dilution of Precision) und Solution-Separation-RAIM aus Bahnen; <b>Einlesen von RINEX (Receiver Independent Exchange Format) { "3" } Multi-GNSS-NAV</b> (GPS/Galileo/QZSS/BeiDou (QZSS: japanisches Quasi-Zenith Satellite System) über IS-GPS-200, GLONASS (russisches Global Navigation Satellite System) Zustandsvektor) geparst → SV-ECEF-Position und Uhrenversatz, verwendbar als erstklassige Quelle <c5/> UND als eingebetteter Konstellationsblock <c6/> (<c7/>); <b>Einlesen von RINEX { "3" }-BEOBACHTUNGEN</b> (das Beobachtungslayout { "4.00" } soll sich parsen lassen, aber es wurde keine Datei { "4.00" } erprobt; RINEX-{ "4" }-NAVIGATIONSDATEIEN werden namentlich zurückgewiesen statt falsch dekodiert); ein <b>Einzelpunkt-Positionierungslöser</b> (Art <c8/>, <c9/>), der echte RINEX-Code-Pseudoranges + Broadcast-Ephemeriden durch iterierte gewichtete kleinste Quadrate in eine <b>Empfängerposition</b> verwandelt, mit Sagnac-/Erdrotationskorrektur, Broadcast-Satellitenuhr mit <c10/>, der <b>ionosphärenfreien Zweifrequenz-Kombination L1/L2</b> (oder Einfrequenz-Klobuchar), Troposphäre nach Saastamoinen/Niell, Elevationsgewichtung, DOP und Snapshot-RAIM, <b>an echten IGS-Daten validiert</b> (International GNSS Service) (Station ABMF, Guadeloupe, 2018-05-13) auf <b>{ "5.7" } m 3-D-RMS (Effektivwert) / { "1.1" } m horizontal</b> gegen die vermessene Koordinate der Station (<c11/>, <c12/>); und Lesen/Schreiben von SP3 (Standard Product { "3" }, das Format präziser Bahnen)
 
 # text
-# c1: pvt
-# c2: rtk_real::run_rtk
-# c3: src/lambda.rs
-# c4: tests/rtk_real_wettzell_oracle.rs
-# c5: tests/ppp_real_wettzell_oracle.rs
-# c6: leo-ppp
-# c7: gnss-sim
-seg-cc7dc902c8f5 = Eine <b>Code</b>-Positionierungs-Engine plus, ab { "0.36" }, Trägerphasenverarbeitung auf echten Beobachtungen: Der Löser <c1/> berechnet aus echten Codemessungen eine echte Position (Einzelpunktpositionierung, Meterniveau, mit der ionosphärenfreien Zweifrequenz-Kombination); <c2/> führt Kurzbasislinien-RTK auf echtem Zweifrequenz-GPS-Code und -Phase aus (doppelte Differenzen, ein Float-Kalman-Filter, ganzzahlige Mehrdeutigkeitsfixierung mit LAMBDA samt Ratio-Test, <c3/>), und ein statisches Float-PPP-Filter läuft auf echtem Code und echter Phase mit finalen IGS-Bahnen und -Uhren. Beide sind gegen veröffentlichte ITRF2020-Koordinaten von IGS-Stationen VALIDATED (WTZR/WTZZ, <c4/>, <c5/>, Zielwerte vorab festgelegt); es fehlen weiterhin die ganzzahlige Mehrdeutigkeitsauflösung bei PPP, kinematisches oder Netz-RTK und der Echtzeitbetrieb. Die Hatch-Trägerglättung ist ein festgehaltener MODELLED-Befund (ihre vorab festgelegten Zielwerte wurden verfehlt). Die Art <c6/> führt ein Float-PPP-Filter auf Messungen aus, die sie selbst simuliert, für Konvergenzstudien; das Vorwärtspaket <c7/> bleibt ein Simulator aus der Wahrheit; BeiDou-GEO (GEO: geostationärer Orbit) ausgeschlossen
-
-# text
 seg-61b43da61326 = Fixierung der PPP-Mehrdeutigkeiten, kinematisches oder Netz-RTK, Echtzeitbetrieb: RTKLIB/gLAB verwenden (RTKLIB: eine quelloffene Bibliothek für kinematische Echtzeitpositionierung)
 
 # text
@@ -977,3 +967,13 @@ seg-441b67566d5a = <s1>Zurück</s1>Reproduzierbarkeit
 
 # text
 seg-861984989d07 = <s1>Weiter</s1>Standards und Interoperabilität
+
+# text
+# c1: pvt
+# c2: rtk_real::run_rtk
+# c3: src/lambda.rs
+# c4: tests/rtk_real_wettzell_oracle.rs
+# c5: tests/ppp_real_wettzell_oracle.rs
+# c6: leo-ppp
+# c7: gnss-sim
+seg-cc7dc902c8f5 = Eine <b>Code</b>-Positionierungs-Engine plus, ab { "0.36" }, Trägerphasenverarbeitung auf echten Beobachtungen: Der Löser <c1/> berechnet aus echten Codemessungen eine echte Position (Einzelpunktpositionierung, Meterniveau, mit der ionosphärenfreien Zweifrequenz-Kombination); <c2/> führt Kurzbasislinien-RTK auf echtem Zweifrequenz-GPS-Code und -Phase aus (doppelte Differenzen, ein Float-Kalman-Filter, ganzzahlige Mehrdeutigkeitsfixierung mit LAMBDA samt Ratio-Test, <c3/>), und ein statisches Float-PPP-Filter läuft auf echtem Code und echter Phase mit finalen IGS-Bahnen und -Uhren. Beide sind VALIDATED gegen veröffentlichte ITRF2020-Koordinaten von IGS-Stationen (WTZR/WTZZ, <c4/>, <c5/>, Zielwerte vorab festgelegt); es fehlen weiterhin die ganzzahlige Mehrdeutigkeitsfixierung bei PPP, kinematisches oder Netzwerk-RTK und der Echtzeitbetrieb. Die Hatch-Trägerglättung ist ein festgeschriebener Befund, der MODELLED ist (ihre vorregistrierten Zielwerte wurden verfehlt). Die Art <c6/> führt ein Float-PPP-Filter auf selbst simulierten Messungen aus, für Konvergenzstudien; das Vorwärts-Paket <c7/> bleibt ein Simulator aus der Wahrheit; BeiDou-GEO (GEO: geostationäre Umlaufbahn) ausgeschlossen

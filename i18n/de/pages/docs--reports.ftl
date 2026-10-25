@@ -132,13 +132,6 @@ seg-c19ae28a2355 = Nicht modelliert, und Annahmen
 seg-aff7a016c7e2 = jede Einschränkung, zitiert
 
 # text
-# c1: not_modelled
-# c2: not_implemented
-# c3: honesty
-# c4: docs/MODELLED-RATIONALE.md
-seg-9be853632d3a = die Blöcke <c1/>, <c2/> und <c3/> des Ergebnisses; MODELLED-Klauseln des Artenkatalogs; Szenariokommentare und Eingabetexte, die „not modelled“ sagen; der Grund der Matrix, warum jede MODELLED-Zeile modelliert bleibt (<c4/>)
-
-# text
 seg-a3ee5ba71183 = Reproduzierbarkeitsnachweis
 
 # text
@@ -309,3 +302,10 @@ seg-1ccdffd389fb = <b>Bindungen.</b> Die Python- und WebAssembly-Bindungen behal
 
 # text
 seg-c8ab7b4605cf = <s1>Weiter</s1>Animationsexport
+
+# text
+# c1: not_modelled
+# c2: not_implemented
+# c3: honesty
+# c4: docs/MODELLED-RATIONALE.md
+seg-9be853632d3a = die Blöcke <c1/>, <c2/> und <c3/> des Ergebnisses; Klauseln MODELLED des Artenkatalogs; Szenariokommentare und Eingabetexte, die „not modelled“ sagen; der Grund der Matrix, warum jede Zeile MODELLED modelliert bleibt (<c4/>)
