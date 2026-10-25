@@ -427,7 +427,7 @@ async function apply(args) {
     try {
       const D = await import('./i18n-data.mjs');
       const spec = D.loadSpec(opt.root);
-      const dbundle = L.bundleFor(lang, [join(opt.root, lang, 'data.ftl')]);
+      const dbundle = L.bundleFor(lang, [join(opt.root, lang, 'data.ftl')], { localise: false });
       const tr = (str) => { const m = dbundle.getMessage(D.dataId(str)); if (!m || !m.value) return null; try { return dbundle.formatPattern(m.value, { version: VERSION }); } catch { return null; } };
       const r = D.applyData(opt.src, join(opt.out, lang), spec, tr);
       report.push(`${lang}: ${r.replaced} of ${r.total} data strings translated`);
