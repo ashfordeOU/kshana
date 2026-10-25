@@ -530,8 +530,9 @@ pub fn to_svg(result: &EnsembleResult) -> String {
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Clock holdover: timing-error confidence band ({} runs)</text>",
-        ml, result.runs
+        "<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+        ml,
+        crate::t!("ensemble-chart-title", n_runs = result.runs)
     ));
     svg.push_str(&crate::chart::y_axis(
         ml,
@@ -539,7 +540,7 @@ pub fn to_svg(result: &EnsembleResult) -> String {
         pw,
         ph,
         y_max,
-        "timing error (ns)",
+        &crate::t!("ensemble-chart-timing-error-ns"),
     ));
     // Shaded envelopes (classical first so the quantum band sits on top).
     svg.push_str(&format!(
@@ -564,10 +565,13 @@ pub fn to_svg(result: &EnsembleResult) -> String {
         ml + pw
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">spec {:.0} ns</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">{}</text>",
         ml + 4.0,
         thr_y - 4.0,
-        result.threshold_ns
+        crate::t!(
+            "ensemble-chart-spec-threshold",
+            threshold = crate::i18n::num(result.threshold_ns, 0)
+        )
     ));
     // Median lines.
     svg.push_str(&format!(
@@ -579,19 +583,26 @@ pub fn to_svg(result: &EnsembleResult) -> String {
         median_line(&result.quantum.band)
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">time (s)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">{}</text>",
         ml + pw / 2.0,
-        h - 12.0
+        h - 12.0,
+        crate::t!("ensemble-chart-time-s")
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"44\" fill=\"{AMBER}\">classical: {} (median, 5-95% band)</text>",
+        "<text x=\"{:.0}\" y=\"44\" fill=\"{AMBER}\">{}</text>",
         ml + 10.0,
-        crate::chart::esc(&result.classical.spec.id)
+        crate::t!(
+            "ensemble-chart-classical-median-band",
+            id = crate::chart::esc(&result.classical.spec.id)
+        )
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"60\" fill=\"{CYAN}\">quantum: {} (median, 5-95% band)</text>",
+        "<text x=\"{:.0}\" y=\"60\" fill=\"{CYAN}\">{}</text>",
         ml + 10.0,
-        crate::chart::esc(&result.quantum.spec.id)
+        crate::t!(
+            "ensemble-chart-quantum-median-band",
+            id = crate::chart::esc(&result.quantum.spec.id)
+        )
     ));
     svg.push_str("</svg>");
     svg

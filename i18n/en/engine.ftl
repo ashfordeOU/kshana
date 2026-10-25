@@ -13,6 +13,16 @@
 #     is never translated.
 #   * Machine-readable output (JSON keys, CSV headers, file names) never comes from this file.
 
+## src/altpnt/sequential.rs
+
+engine-altpnt-sequential-title = Sequential terrain-referenced navigation (recursive SITAN)
+
+engine-altpnt-sequential-free-inertial-drift-grows = free-inertial drift (grows)
+
+engine-altpnt-sequential-terrain-matched-bounded = terrain-matched (bounded)
+
+engine-altpnt-sequential-waypoint-full-scale = waypoint →    full scale { $maxv } m
+
 ## src/clock_log.rs
 
 engine-e-clock-log-unknown-clock-log-format-expected = unknown clock-log format { $other }; expected one of { $format_names }
@@ -543,6 +553,26 @@ engine-e-altpnt-terrain-combined-altpnt-unknown-magnetic-grid = combined-altpnt:
 
 engine-e-altpnt-terrain-combined-altpnt-cannot-read-magnetic = combined-altpnt: cannot read magnetic_grid csv_path { $csv_path }: { $e }
 
+engine-altpnt-terrain-title-terrain-referenced = Terrain-referenced navigation (TERCOM/SITAN)
+
+engine-altpnt-terrain-title-gravity-map = Gravity-map matched navigation
+
+engine-altpnt-terrain-title-combined = Combined gravity + magnetic + terrain alt-PNT
+
+engine-altpnt-terrain-free-inertial-drift = free-inertial drift
+
+engine-altpnt-terrain-terrain-matched = terrain-matched
+
+engine-altpnt-terrain-gravity-matched = gravity-matched
+
+engine-altpnt-terrain-gravity-only = gravity only
+
+engine-altpnt-terrain-magnetic-only = magnetic only
+
+engine-altpnt-terrain-terrain-only = terrain only
+
+engine-altpnt-terrain-combined-fused = combined (fused)
+
 ## src/animation.rs
 
 engine-e-animation-unknown-animation-format-expected-svg = unknown animation format '{ $other }'; expected svg, html, frames or all
@@ -692,6 +722,8 @@ engine-api-scenario-jamming-availability-under-jamming = scenario { $r } | jammi
 engine-e-api-the-result-document-already-carries = the result document already carries `{ $FIGURE_TIERS_KEY }`
 
 engine-e-api-failed-to-serialise-figure-tiers = failed to serialise figure_tiers: { $e }
+
+engine-api-chart-provenance-footer = Kshana v{ $version } · scenario { $hash } · kshana.dev
 
 ## src/api/builtins.rs
 
@@ -850,6 +882,8 @@ engine-attack-surface-mast-reach-km-osnma-bit = Mast reach: { $a } km | OSNMA { 
 engine-attack-surface-limb-captured-on-grid-crossing = Limb: captured on { $na }x{ $nb } grid, { $crossings } crossing(s)
 
 engine-attack-surface-limb-not-captured-on-grid = Limb: not captured on { $na }x{ $nb } grid; needs { $best_limb_capture_tx_power_dbw } dBW (flown { $p_tx_dbw })
+
+engine-attack-surface-chart-title = Lunar signal-security attack surface (P1)
 
 ## src/attitude_budget.rs
 
@@ -1043,6 +1077,14 @@ engine-body-pnt-positioning-around-user-relays-at =
 engine-body-pnt-positioning-around = Positioning around { $name }
 
 engine-body-pnt-user-relays-earth-light-time = { $user_kind } user · { $n_relays } relays · Earth light time { $one_way_light_time_s } s · MODELLED
+
+engine-body-pnt-chart-relays-in-view = relays in view
+
+engine-body-pnt-chart-count = count
+
+engine-body-pnt-chart-formal-one-sigma-position = formal one-sigma position (log10 m): blue constellation only, amber with the Earth range
+
+engine-body-pnt-chart-time-since-epoch = time since epoch, 0 to { $t_max } s
 
 ## src/calibration_ensembles.rs
 
@@ -1272,6 +1314,30 @@ engine-campaign-sweep-of-over-nodes-each = sweep of `{ $scenario_kind }` over { 
 
 engine-campaign-campaign-modelled-composition-every-value = campaign { $r } | MODELLED composition; every value read from a real run of the named kind
 
+engine-campaign-chart-clock-time-error-vs-guard = clock time error vs guard (ns)
+
+engine-campaign-chart-cn0-vs-tracking-floor = C/N0 vs tracking floor (dB-Hz)
+
+engine-campaign-chart-protection-level-vs-alert-limit = protection level vs alert limit (m)
+
+engine-campaign-chart-position-error-vs-threshold = position error vs threshold (m)
+
+engine-campaign-chart-satellites-tracking = satellites tracking
+
+engine-campaign-chart-alarm-flags-and-events = alarm flags and events
+
+engine-campaign-chart-mission-time = { $duration } s mission time
+
+engine-campaign-chart-sweep-percentile-band = , median with 5th-95th percentile band over { $n_runs } seeds
+
+engine-campaign-chart-sweep-line-at = { $name } ({ $unit }) at { $lead }
+
+engine-campaign-chart-monte-carlo-of = Monte Carlo of `{ $scenario_kind }`: { $n_runs } seeds from { $base_seed } (5th, 50th, 95th percentile; bar = bootstrap 95% confidence interval on the mean)
+
+engine-campaign-chart-composed-members = composed members under shared conditions: { $shared }
+
+engine-campaign-chart-not-available = n/a
+
 ## src/campaign/optimize.rs
 
 engine-e-campaign-optimize-an-optimisation-takes-one-to = an optimisation takes one to three params, got { $params }
@@ -1418,6 +1484,18 @@ engine-cislunar-arc-recovery-the-gramian-rank-criterion-is = the Gramian rank cr
 
 engine-cislunar-arc-recovery-cislunar-arc-recovery-family-state = cislunar-arc-recovery | { $family } family, { $state_dim }-state, { $n_spacecraft } s/c, { $observable } observable, { $coordinates } parameterisation | { $arc_hours } h arc, { $epochs } epochs (grid { $grid_hours } h), { $trials } trials, seed { $seed } | finite-difference partials, no analytic Jacobian / STM / SVD / SRIF | noise-free recovery from { $nf } (factor { $recovery_factor }) vs Gramian rank threshold { $gram } | Monte-Carlo estimability from { $est } (RMS pos ≤ { $error_bound_km } km, σ { $sigma_range_m } m) vs Gramian estimability { $gram_est } | end-of-arc RMS pos { $last } km
 
+engine-cislunar-arc-recovery-chart-title = Cislunar arc-length recovery — an estimator that does not share the Jacobians
+
+engine-cislunar-arc-recovery-chart-subtitle = finite-difference batch least squares · measured state recovery error · no analytic Jacobian, no variational STM, no SVD rank tolerance
+
+engine-cislunar-arc-recovery-chart-bound = bound { $bound }
+
+engine-cislunar-arc-recovery-chart-gramian-rank-threshold = Gramian rank threshold
+
+engine-cislunar-arc-recovery-chart-monte-carlo-rms = Monte-Carlo RMS position recovery error (km)
+
+engine-cislunar-arc-recovery-chart-noise-free-worst-ratio = noise-free worst recovery ratio (final error / displacement)
+
 ## src/cislunar_observability.rs
 
 engine-e-cislunar-observability-unknown-family-expected-one-of = unknown family `{ $other }`: expected one of dro, halo, nrho
@@ -1447,6 +1525,18 @@ engine-cislunar-observability-first-arc-length-at-which = first arc length at wh
 engine-cislunar-observability-extension-r3-this-run-is = EXTENSION (R3) — this run is NOT the planar DRO configuration the `label` above describes. State dimension { $state_dim }; orbit family { $family }; { $n_spacecraft } spacecraft; range measurement sigma { $sigma_range_m } m. Where `label` says "planar" and "planar DROs", read the family named here. VALIDATED additions: the 6x6 variational STM is the same finite-difference-validated CR3BP STM (crate::cr3bp) used at full width; the spatial range / range-rate Jacobian rows are finite-difference-validated analytic partials, the range-rate row cross-checked component-for-component against the crate's independent 3-D deepspace_od::range_rate_observable; the halo / NRHO initial conditions are differential-corrected periodic orbits from the same corrector that reproduces the published L2 southern 9:2 NRHO, continued from that published seed, and each member's closure residual is reported; the six-state RANK verdicts are confirmed against an INDEPENDENT row-echelon rank (Gaussian elimination with partial pivoting) that shares no code with the eigen/SVD route. HONEST SCOPE OF THE SRIF LEG: the SRIF cross-validation above consumes the SAME measurement Jacobians and reduces to the same O^T O, so its agreement is a consistency check between two numerical machines, NOT independent corroboration of the threshold — it is not counted as validation of any figure here. MODELLED: the family design (which abscissae, amplitudes and phases), the epoch grid, the single-link arc, and the stated position bound of the estimability criterion.
 
 engine-cislunar-observability-validated-each-constellation-initial-condition = Validated: each constellation initial condition is a differential-corrected periodic orbit of the { $family } family, closing over one period to the reported periodicity residual (planar DROs are additionally retrograde about the Moon). The family is corrected at the Earth-Moon mass ratio. Modelled: the choice of family parameters and phases (the constellation design). The key name `dro_provenance` is retained for the released document schema; it carries whichever family this run asked for.
+
+engine-cislunar-observability-chart-title = Cislunar observability over a tracking arc (P6)
+
+engine-cislunar-observability-chart-subtitle = rank-vs-arc (range-only single link) · Gramian eigen-spectrum · differential-corrected DRO ICs + SRIF cross-check · { $modelled } design, { $validated } rank/STM/closure
+
+engine-cislunar-observability-chart-observable-rank = observable rank vs arc length
+
+engine-cislunar-observability-chart-arc-length = arc length (rotating-frame time units, { $arc_hours } h total)
+
+engine-cislunar-observability-chart-gramian-eigenvalues = Gramian eigenvalues (log10)
+
+engine-cislunar-observability-chart-condition = condition κ = { $condition }
 
 ## src/clock_integrity.rs
 
@@ -1531,6 +1621,22 @@ engine-e-conflict-resilience-trials-must-be = trials must be >= 1
 
 engine-conflict-resilience-conflict-resilience-layers-baseline-reference = conflict-resilience | { $layers } layers ({ $primary } baseline) | reference intensity { $reference_intensity } | resilience ratio closed-form { $ratio_closed_form }x MC { $ratio_mc_independent }x (layered vs single-layer) | correlation defeats layering: ratio { $first }x @ rho { $first2 } -> { $last }x @ rho { $last2 } | prior CI [{ $ratio_lo }-{ $ratio_hi }]x | per-vector survival @ ref jam { $surv }% spoof { $surv2 }% kinetic { $surv3 }% cyber { $surv4 }% (sharpest { $sharpest }) | ~7x headline MODELLED, VALIDATED MC->closed-form / fuse-identity / copula-marginals / per-vector-survival
 
+engine-conflict-resilience-chart-title = Layered-PNT conflict resilience (P7)
+
+engine-conflict-resilience-chart-subtitle = total-loss vs threat intensity (MC vs closed form) · resilience ratio vs denial correlation · { $modelled } priors, { $validated } MC->closed-form / copula marginals
+
+engine-conflict-resilience-chart-total-loss-probability = total-loss probability vs intensity
+
+engine-conflict-resilience-chart-threat-intensity = threat intensity
+
+engine-conflict-resilience-chart-layered-mc = layered MC
+
+engine-conflict-resilience-chart-single-layer = single layer
+
+engine-conflict-resilience-chart-resilience-ratio = resilience ratio vs denial correlation
+
+engine-conflict-resilience-chart-denial-correlation = denial correlation ρ
+
 ## src/constellation.rs
 
 engine-e-constellation-unknown-central-body-expected-planet = unknown central body { $name }: expected a planet, Pluto, the Moon or a major moon (earth, moon, mars, europa, titan, ...; see crate::body::SOLAR_SYSTEM)
@@ -1596,6 +1702,10 @@ engine-e-constellation-satellites-exceeds-the-50-000 = { $total } satellites exc
 engine-constellation-constellation-design-satellites-around-the = constellation-design: { $total } satellites ({ $names }) around the { $name }; availability { $global_availability_pct }% (PDOP <= { $pdop_threshold } at { $mask_deg } deg mask), worst site { $worst_site_availability_pct }%, median PDOP { $cov }, mean { $global_mean_visible } in view; { $grid_points } grid points x { $epochs } epochs (MODELLED)
 
 engine-constellation-constellation-coverage-over-the = Constellation coverage over the { $name }
+
+engine-constellation-chart-availability-pct = availability (%)
+
+engine-constellation-chart-mean-pdop = mean PDOP
 
 ## src/contact_schedule.rs
 
@@ -1686,6 +1796,32 @@ engine-earth-gnss-lunar-gdop-pdop-hdop-vdop-tdop = { "  " }GDOP { $gdop }  PDOP 
 engine-earth-gnss-lunar-sweep-over-epochs-signal-availability = { "  " }SWEEP over { $epochs } epochs / { $span_s } s: signal availability { $signal_availability }, FIX availability { $fix_availability }{ "\u000A" }
 
 engine-earth-gnss-lunar-trackable-links-mean-max-best = { "    " }trackable links mean { $mean_trackable }, max { $max_trackable }; best C/N0 { $w }; best PDOP { $w2 }{ "\u000A" }
+
+engine-earth-gnss-lunar-chart-title = Earth-GNSS at lunar distance — C/N0 against off-boresight angle
+
+engine-earth-gnss-lunar-chart-track-threshold = track { $threshold } dB-Hz
+
+engine-earth-gnss-lunar-chart-earth-limb = Earth limb { $angle }°
+
+engine-earth-gnss-lunar-chart-off-boresight-angle = off-boresight angle (deg)
+
+engine-earth-gnss-lunar-chart-cn0 = C/N0 (dB-Hz)
+
+engine-earth-gnss-lunar-chart-legend = gold = trackable · red = too weak · grey = Earth-occulted · { $modelled } transmit pattern
+
+## src/ensemble.rs
+
+engine-ensemble-chart-title = Clock holdover: timing-error confidence band ({ $n_runs } runs)
+
+engine-ensemble-chart-timing-error-ns = timing error (ns)
+
+engine-ensemble-chart-spec-threshold = spec { $threshold } ns
+
+engine-ensemble-chart-time-s = time (s)
+
+engine-ensemble-chart-classical-median-band = classical: { $id } (median, 5-95% band)
+
+engine-ensemble-chart-quantum-median-band = quantum: { $id } (median, 5-95% band)
 
 ## src/entry_eo_ascent/ascent.rs
 
@@ -2178,6 +2314,24 @@ engine-fom-verdict-modelled = MODELLED
 
 engine-fom-verdict-partial = PARTIAL
 
+## src/frame_eop.rs
+
+engine-frame-eop-chart-title = Real-time frame / EOP prediction budget for lunar timing
+
+engine-frame-eop-chart-ut1-error-ms = UT1 error (ms)
+
+engine-frame-eop-chart-position-at-moon-m = position at Moon (m)
+
+engine-frame-eop-chart-equiv-timing-ns = equiv. timing (ns)
+
+engine-frame-eop-chart-prediction-horizon-days = prediction horizon (days)
+
+engine-frame-eop-chart-iers-final-floor = IERS final floor { $floor_ms } ms
+
+engine-frame-eop-chart-marker-at-moon = ~{ $ut1_ms } ms = ~{ $pos_m } m at Moon
+
+engine-frame-eop-chart-growth = ~{ $factor }x, 1 d→{ $far_days } d
+
 ## src/frugal.rs
 
 engine-e-frugal-cost-bracket-must-be-finite = cost bracket must be finite, non-negative, ordered low≤nominal≤high, and carry a source
@@ -2197,6 +2351,22 @@ engine-e-fusion-carrier-tc-constellation-has-no-satellites = constellation has n
 engine-e-fusion-carrier-tc-max-sats-must-be-when = max_sats must be >= 1 when set
 
 engine-e-fusion-carrier-tc-slip-satellite-out-of-range = slip satellite { $sat } out of range
+
+## src/fusion/hybrid_ukf.rs
+
+engine-fusion-hybrid-ukf-chart-title = 17-state hybrid UKF — filter self-consistency (modelled)
+
+engine-fusion-hybrid-ukf-chart-subtitle = NEES + innovation-whiteness vs 95% χ² bands; 1.0 = consistent. Self-consistency, not accuracy.
+
+engine-fusion-hybrid-ukf-chart-target = target 1.0
+
+engine-fusion-hybrid-ukf-chart-nis-whiteness = NIS (whiteness)
+
+engine-fusion-hybrid-ukf-chart-nees = NEES
+
+engine-fusion-hybrid-ukf-chart-consistent = CONSISTENT
+
+engine-fusion-hybrid-ukf-chart-inconsistent = INCONSISTENT
 
 ## src/fusion/kfgins.rs
 
@@ -2233,6 +2403,12 @@ engine-e-fusion-pack-filter-prior-must-be-finite = { $slot }.filter_prior.{ $nam
 engine-e-fusion-pack-tight-sigma-range-must-be = tight.sigma_range_m must be finite and > 0, got { $sigma_range_m }
 
 engine-e-fusion-pack-tight-mask-deg-must-be = tight.mask_deg must be in [-90, 90), got { $mask_deg }
+
+engine-fusion-pack-chart-title = Loosely-coupled GNSS/INS horizontal error
+
+engine-fusion-pack-chart-horizontal-error-m = horizontal error (m)
+
+engine-fusion-pack-chart-spec-threshold = spec { $threshold } m
 
 ## src/fusion/trajectory.rs
 
@@ -2322,6 +2498,32 @@ engine-e-geometry-invalid-skyline-json = invalid skyline (JSON): { $e }
 
 engine-e-geometry-invalid-skyline-toml = invalid skyline (TOML): { $e }
 
+engine-geometry-chart-title = Skyplot ({ $label })
+
+engine-geometry-chart-north = N
+
+engine-geometry-chart-east = E
+
+engine-geometry-chart-south = S
+
+engine-geometry-chart-west = W
+
+engine-geometry-chart-satellite-tooltip = { $system } { $id } az { $az } el { $el }
+
+engine-geometry-chart-satellite-tooltip-hidden = { $system } { $id } az { $az } el { $el } (hidden by the skyline)
+
+engine-geometry-chart-satellite-tooltip-below-mask = { $system } { $id } az { $az } el { $el } (below the mask)
+
+engine-geometry-chart-no-fix = no fix
+
+engine-geometry-chart-in-view-hidden = { $n_visible } in view, { $n_masked } hidden by the skyline · { $dop } · hollow: not in view
+
+engine-geometry-chart-satellites-as-given = satellites as given
+
+engine-geometry-chart-representative-sky = representative sky, not a dated one
+
+engine-geometry-chart-footer = Kshana v{ $version } · geometry under a stated error model · kshana.dev
+
 ## src/glonass.rs
 
 engine-e-glonass-bad-glonass-prn-in = bad GLONASS PRN in { $head }
@@ -2403,6 +2605,18 @@ engine-e-gnss-navmsg-at-lsb-does-not-fit = { $name }: { $value } at LSB { $value
 engine-e-gnss-navmsg-bits-layout-needs = { $bits } bits, layout needs { $need }
 
 engine-e-gnss-navmsg-no-field = no field { $name }
+
+## src/gnss_sim.rs
+
+engine-gnss-sim-chart-title = RAIM protection levels vs alert limits
+
+engine-gnss-sim-chart-protection-level-m = protection level (m)
+
+engine-gnss-sim-chart-val = VAL { $alert_v } m
+
+engine-gnss-sim-chart-hpl = HPL
+
+engine-gnss-sim-chart-vpl = VPL
 
 ## src/gps_lnav.rs
 
