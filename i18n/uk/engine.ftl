@@ -23,8 +23,6 @@ engine-e-clock-log-cannot-read-clock-log = не вдалося прочитат�
 
 engine-e-clock-log-clock-log-path-is-not = шлях до журналу годинника недоступний у збірці WebAssembly; передайте журнал як текст
 
-engine-e-clock-log-the-log-has-missing-epoch = журнал формату { $format }: пропущених епох — { $n_missing }, проміжків — { $n_gaps }, на сітці { $tau0 } s; задайте gaps = "longest", щоб зберегти найдовшу ділянку без пропусків, або gaps = "linear", щоб інтерполювати
-
 engine-e-clock-log-the-log-yields-usable-sample = журнал формату { $format }: придатних відліків — { $x }; потрібно щонайменше 3
 
 engine-e-clock-log-not-rinex-clock-file-no = це не файл годинників RINEX: немає запису END OF HEADER
@@ -193,8 +191,6 @@ engine-advanced-report-field-units-schema-units-entry = схема одиниц�
 
 engine-advanced-report-field-units-schema-input-entry = схема одиниць полів: запис input `{ $key }`, зіставлений за назвою поля
 
-engine-advanced-report-rows-of-non-numeric-column = рядків нечислового стовпця: { $n }
-
 engine-advanced-report-rows-from-to = рядків: { $nums }, від { $fmt_num } до { $fmt_num2 }
 
 engine-advanced-report-phase-ended-by = фаза { $name } (завершена: { $ended })
@@ -287,8 +283,6 @@ engine-e-animation-animation-duration-must-be-between = тривалість а�
 
 engine-e-animation-animation-width-must-be-between = ширина анімації має бути від 480 до 3840 пікселів, отримано { $width }
 
-engine-e-animation-duration-fps-gives-frames-the = тривалість x fps дає кадрів: { $n }; послідовність кадрів потребує від 2 до { $v1 }
-
 engine-e-animation-result-is-not-json = результат не є JSON: { $e }
 
 engine-animation-mission-time = час місії ({ $lay })
@@ -346,8 +340,6 @@ engine-e-aocs-kind-wheels-speed0-rpm-must-be = wheels[{ $i }].speed0_rpm має 
 engine-e-aocs-kind-estimator-gyro-bias0-rad-must = estimator.gyro_bias0_rad_s має бути скінченним
 
 engine-e-aocs-kind-estimator-star-tracker-every-must = estimator.star_tracker_every_s має бути не меншим за dt_s
-
-engine-aocs-kind-aocs-wheels-slew-from-deg = aocs: коліс — { $n_w }, розворот { $duration_s } s від { $series_err } deg -> { $settle } | остаточна { $final_err } deg | пікова швидкість колеса { $peak_speed } rpm | { $v7 }
 
 ## src/aperture_duty.rs
 
@@ -421,29 +413,17 @@ engine-api-builtins-scenario-quantum-holdover-p95-classical = сценарій {
 
 engine-api-builtins-scenario-spoof-vs-ns-spec = сценарій { $r } | спуфінг { $scn } проти специфікації { $threshold_ns } ns (P_fa { $target_pfa }) | квантова безпека { $security_fom } (P_md { $analytic_pmd }, MC { $mc_pmd }) { $det } | класична безпека { $security_fom2 } (P_md { $analytic_pmd2 }, MC { $mc_pmd2 }) { $det2 }
 
-engine-api-builtins-integrity-satellites-epochs-available-hal = цілісність | супутників: { $n_sats } | доступних епох: { $samples_available }/{ $samples_total } ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): подій цілісності — { $report2 }, HMI — { $report3 }
-
 engine-api-builtins-lunar-integrity-south-pole-epochs = lunar-integrity | південний полюс | доступних епох: { $samples_available }/{ $samples_total } ({ $report }%) | AL { $alert_limit_m } m | σ_URE { $sigma_ure_m } m | HPL { $min_hpl_m }–{ $max_hpl_m } m
 
 engine-api-builtins-lunar-time-offset-secular-ltc = lunar-time-offset | віковий темп LTC−TT { $secular_rate_us_per_day } µs/day (смуга { $band_low }–{ $band_high }) | власний потенціал { $self_potential_us_per_day } кінетичний { $kinetic_us_per_day } | зміщення @ { $horizon_days } d = { $offset_at_horizon_us } µs
 
 engine-api-builtins-lunar-vlbi-baseline-km-beacon = lunar-vlbi | база { $baseline_km } km | дальність маяка { $beacon_range_km } km | затримка { $report } µs (швидкість { $delay_rate_s_per_s } s/s) | поправка ближнього поля { $near_field_correction_us } µs | відліків: { $samples } за { $horizon_hours } h
 
-engine-api-builtins-lunar-joint-od-clock-sats = lunar-joint-od-clock | супутників: { $n_sat }, наземних станцій: { $n_earth } | 3-D похибка станції з VLBI { $station_pos_err_m } m проти лише дальності { $station_pos_err_m2 } m (різкість вища у { $station_observability_improvement_factor }×) | RMS положення супутника { $sat_pos_rms_m } m | похибка годинника станції { $station_clock_err_s } s | спостережень { $n_obs }/{ $n_params } параметрів
-
-engine-api-builtins-lunar-frame-realisation-points-translation = lunar-frame-realisation | точок: { $n_points } | похибка зсуву { $trans_err_norm_m } m, похибка повороту { $rot_err_norm_rad } rad, похибка масштабу { $scale_err_ppb } ppb | залишок rms { $rms_residual_m } m | збіжність { $converged }
-
-engine-api-builtins-moonlight-service-volume-sats-pts = moonlight-service-volume | супутників: { $n_sats } ({ $geometry_label }) | точок: { $n_grid_points } × епох: { $n_epochs } | покриття { $coverage_pct }% (PDOP<{ $pdop_threshold }) | супутників { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | доступність PL { $pl_availability_pct }% | MODELLED
-
 engine-api-builtins-ephemeris-ure-required-vs-keplerian = { " " }| ефемериди { $report } ({ $provenance }) потрібне σ_URE { $fmt } проти кеплерівського { $fmt2 } проти збуреного { $fmt3 } (Δ { $fmt4 })
-
-engine-api-builtins-lunar-differential-pnt-sats-illustrative = lunar-differential-pnt | супутників: { $n_sats } (ілюстративні класу LCNS, без афіліації) | база { $baseline_km } km | похибка користувача { $user_error_uncorrected_m } m → { $user_error_corrected_m } m (зменшення у { $reduction_factor }×) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
 
 engine-api-builtins-lunar-station-coverage-points-epochs = lunar-station-coverage | точок: { $n_grid_points } x епох: { $n_epochs } x спроб: { $n_trials } | доступність { $v4 } % | покриття { $v5 } % (p{ $percentile } <= { $accuracy_threshold_m } m) | скориговане p{ $percentile } 3-D { $f } (нескориговане { $f2 }) | HPL макс. { $f3 } | MODELLED; не є твердженням про жодну реальну систему
 
 engine-api-builtins-terrain-horizon-at-the-station = { " " }| горизонт місцевості ({ $sources }) на станції макс. { $horizon_max_deg } deg, користувацькі точки: середній макс. { $user_horizon_max_deg_mean } deg
-
-engine-api-builtins-lunar-interop-export-ref-frame = lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | станів: { $n_states }, рядків OEM: { $oem_line_count } | узгодженість { $v5 } (присутні поля: { $present_fields } / відсутні: { $missing_fields }) | круговий прохід OEM { $v8 } | круговий прохід time-meta { $v9 } | KIF { $kif_bytes } bytes | MODELLED
 
 ## src/api/builtins.rs
 
@@ -467,8 +447,6 @@ engine-api-builtins-scenario-gnss-ins-quantum-outage = сценарій { $r } |
 
 engine-api-builtins-scenario-gnss-sim-mean-iono = сценарій { $r } | gnss-sim | середня іоносфера { $mean_iono_m }m троп. { $mean_tropo_m }m | доступність RAIM { $raim_availability } середній HPL { $mean_hpl_m }m VPL { $mean_vpl_m }m частота несправностей { $fault_rate }
 
-engine-api-builtins-scenario-spoof-detect-svs-db = сценарій { $r } | spoof-detect | SV: { $n_sats }, +{ $power_advantage_db } dB{ $v4 } | push { $push } | зведена оцінка { $score } (поріг { $fusion_threshold }) | { $verdict }
-
 engine-api-builtins-sweep-over-pts-scale-quantum = розгортка { $metric } за { $parameter } ({ $first }..{ $last }, точок: { $points }, шкала { $scale }) | квантовий { $first2 }->{ $last2 } | класичний { $first3 }->{ $last3 }
 
 engine-api-builtins-scenario-samples-gnss-nominal-best = сценарій { $r } | відліків GNSS-nominal: { $nominal }/{ $series } | найкращий PDOP { $fnum } положення { $posm } | квантовий holdover { $holdover_s }s p95 { $ns1 }ns цілісність { $integ } безпека { $security_na } | класичний holdover { $holdover_s2 }s p95 { $ns12 }ns цілісність { $integ2 } безпека { $security_na }
@@ -476,8 +454,6 @@ engine-api-builtins-scenario-samples-gnss-nominal-best = сценарій { $r }
 engine-e-api-builtins-ephemeris = ефемериди: { $e }
 
 engine-api-builtins-max-el-peak-doppler-khz = { " " }| макс. висота { $el }° пік Доплера { $v1 } kHz
-
-engine-api-builtins-scenario-samples-alt-km-lat = сценарій { $r } | { $source } | відліків: { $n_samples } | висота { $alt_min_km }–{ $alt_max_km } km | |lat| ≤ { $r2 }° | швидкість { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
 
 engine-api-builtins-generic-sweep-of-over-nodes = узагальнена розгортка `{ $kind }` за [{ $keys }] | вузлів: { $points } (форма { $shape }) | метрики [{ $metrics }]
 
@@ -498,8 +474,6 @@ engine-e-api-builtins-clock-log-needs-runs-measured = { "[" }clock_log] потр
 engine-api-builtins-scenario-runs-quantum-holdover-p95 = сценарій { $r } | прогонів: { $runs } | квантовий holdover { $mean }s [{ $p05 }-{ $p95 }] p95 { $ns1 }ns безпека { $security_na } | класичний holdover { $mean2 }s [{ $p052 }-{ $p952 }] p95 { $ns12 }ns безпека { $security_na }
 
 engine-api-builtins-scenario-quantum-holdover-p95-ns = сценарій { $r } | квантовий holdover { $holdover_s }s p95 { $ns1 }ns цілісність { $integ } безпека { $security_na } | класичний holdover { $holdover_s2 }s p95 { $ns12 }ns цілісність { $integ2 } безпека { $security_na }
-
-engine-api-builtins-raim-available-of-epochs-denied = { " " }| RAIM доступний в епохах: { $n_available } з { $n_epochs } (відмов: { $n_denied }, тривог: { $n_alarm }; MODELLED)
 
 ## src/araim_reference.rs
 
@@ -528,8 +502,6 @@ engine-e-araim-reference-sat-needs-one-value-per = P_sat потребує одн
 engine-e-araim-reference-satellite-names-an-undeclared-constellation = супутник посилається на неоголошене орбітальне угруповання
 
 engine-e-araim-reference-every-prior-must-lie-in = кожна апріорна ймовірність має лежати в [0, 1)
-
-engine-e-araim-reference-the-priors-need-subsets-of = апріорні ймовірності потребують підмножин із { $n_fault_max } одночасних подій; цей шлях перелічує щонайбільше { $most }
 
 engine-e-araim-reference-the-all-in-view-solution = розв'язок за всіма видимими супутниками не було вибрано
 
@@ -691,8 +663,6 @@ engine-bench-tasks-predictions-cover-cases-the-truth = прогнози охоп
 
 engine-bench-tasks-case-has-no-number-array = випадок `{ $id }` не має масиву чисел
 
-engine-bench-tasks-case-needs-values-has = випадок `{ $id }` потребує значень: { $n }, наявно: { $a }
-
 engine-bench-tasks-case-has-non-finite-value = випадок `{ $id }` має нескінченне значення
 
 ## src/bin/crossover_study.rs
@@ -706,8 +676,6 @@ engine-bin-crossover-study-error-cannot-create = помилка: не вдало
 engine-bin-crossover-study-done-inertial-nodes-clock-curves = готово: інерціальних вузлів: { $nodes }, кривих годинника: { $curves } (зерно 42)
 
 ## src/bin/gen_araim_m3_study.rs
-
-engine-bin-gen-araim-m3-study-user-epochs-ura-values-in = користувацьких епох: { $n }, x 3 значення URA за { $dt } s = { $v1 } ms на користувацьку епоху (розв'язуваних: { $ok })
 
 ## src/bin/gen_validation_artifacts.rs
 
@@ -743,16 +711,7 @@ engine-e-body-pnt-serialising-report = серіалізація звіту: { $e
 
 engine-e-body-pnt-the-report-must-serialise-to = звіт має серіалізуватися в об'єкт JSON
 
-engine-body-pnt-positioning-around-user-relays-at =
-    Позиціонування навколо { $name } — користувач { $user_kind }, ретрансляторів: { $n_relays } на { $r } km, епох: { $n_epochs }
-    { "  " }Світловий час до Землі { $one_way_light_time_s } s в один бік, { $two_way_light_time_s } s туди й назад; кут Сонце–Земля–тіло { $sun_separation_deg } deg
-    { "  " }доступність: { $availability_relays } лише орбітальне угруповання, { $availability_with_earth } із дальністю до Землі (Земля у видимості { $earth_visibility })
-    { "  " }медіанний PDOP { $opt }; похибка RMS { $opt2 } лише орбітальне угруповання, { $opt3 } із дальністю до Землі
-    { "  " }медіанна формальна сигма { $opt4 } лише орбітальне угруповання, { $opt5 } із дальністю до Землі{ "\u000A" }
-
 engine-body-pnt-positioning-around = Позиціонування навколо { $name }
-
-engine-body-pnt-user-relays-earth-light-time = користувач { $user_kind } · ретрансляторів: { $n_relays } · світловий час до Землі { $one_way_light_time_s } s · MODELLED
 
 ## src/calibration_ensembles.rs
 
@@ -1076,8 +1035,6 @@ engine-cislunar-arc-recovery-not-corroborated-the-estimator-never = NOT CORROBOR
 
 engine-cislunar-arc-recovery-the-gramian-rank-criterion-is = критерій рангу грамієна ніколи не виконується на цій дузі (геометрія ніколи не досягає повного рангу), тоді як оцінювач відновлює з { $e } h — вони розходяться навіть щодо того, чи існує межа.
 
-engine-cislunar-arc-recovery-cislunar-arc-recovery-family-state = cislunar-arc-recovery | родина { $family }, вимірність стану { $state_dim }, апаратів: { $n_spacecraft }, спостережувана { $observable }, параметризація { $coordinates } | дуга { $arc_hours } h, епох: { $epochs } (сітка { $grid_hours } h), випробувань: { $trials }, зерно { $seed } | частинні похідні скінченними різницями, без аналітичного якобіана / STM / SVD / SRIF | безшумове відновлення з { $nf } (множник { $recovery_factor }) проти порога рангу грамієна { $gram } | оцінюваність за Монте-Карло з { $est } (RMS положення ≤ { $error_bound_km } km, σ { $sigma_range_m } m) проти оцінюваності за грамієном { $gram_est } | RMS положення наприкінці дуги { $last } km
-
 ## src/cislunar_observability.rs
 
 engine-e-cislunar-observability-unknown-family-expected-one-of = невідома родина `{ $other }`: очікується одна з dro, halo, nrho
@@ -1096,15 +1053,9 @@ engine-e-cislunar-observability-sigma-range-must-be-finite = sigma_range_m ма�
 
 engine-e-cislunar-observability-sigma-pos-threshold-km-must = sigma_pos_threshold_km має бути скінченним і додатним, отримано { $sigma_pos_threshold_km }
 
-engine-cislunar-observability-cislunar-observability-refs-arc-epochs = cislunar-observability | апаратів: { $c } (опорних: { $refs }) | дуга { $arc_hours } h, епох: { $rank_arc } | ранг { $first } → { $last } з { $state_dim } на дузі | λ грамієна [{ $min_eigenvalue }…{ $max_eigenvalue }] обумовленість { $condition_str } | миттєвий ранг лише за дальністю { $rank_range_only } → дальність+швидкість { $rank_range_rate } (ліній зв'язку: { $n_links }) | GDOP лише за дальністю { $ro } дальність+швидкість { $rr } | початкові умови DRO (макс. нев'язка періодичності { $max_resid }) | апостеріорна SRIF скінченна в епоху рангу 4 { $srif_epoch } (перевірено: ранг/STM/замкнення DRO/SRIF; змодельовано: проєкт)
-
 engine-cislunar-observability-never-rank-of = ніколи (ранг { $rank } з { $state_dim })
 
-engine-cislunar-observability-family-state-range-rank-threshold = { $base } | родина { $family }, вимірність стану { $state_dim }, апаратів: { $n_spacecraft }, σ_range { $sigma_range_m } m | поріг рангу { $rank_thr } (сітка { $c } h) | поріг оцінюваності (σ_pos ≤ { $sigma_pos_threshold_km } km) { $est_thr }
-
 engine-cislunar-observability-first-arc-length-at-which = перша довжина дуги, за якої формальна невизначеність положення 1σ ПОЧАТКОВОГО стану головного апарата, σ_pos = sqrt(trace(P_rr)) із P = (ÕᵀÕ)⁻¹ та Õ — матрицею спостережуваності, відбіленою від шуму вимірювань, спадає до { $sigma_pos_threshold_km } km або нижче. Це критерій, за якого поріг довжини дуги взагалі залежить від шуму: P масштабується як σ², тож σ_pos масштабується як σ, тоді як наведений вище критерій рангу з σ не змінюється. Межа є ЗАЯВЛЕНИМ інженерним вибором, а не підігнаним — estimability_sweep повідомляє поріг за чотирьох інших меж.
-
-engine-cislunar-observability-extension-r3-this-run-is = РОЗШИРЕННЯ (R3) — цей прогін НЕ є планарною конфігурацією DRO, яку описує `label` вище. Вимірність стану { $state_dim }; родина орбіт { $family }; апаратів: { $n_spacecraft }; сигма вимірювання дальності { $sigma_range_m } m. Де `label` каже «планарні» та «планарні DRO», читайте названу тут родину. VALIDATED доповнення: варіаційна STM 6x6 є тією самою перевіреною скінченними різницями STM CR3BP (crate::cr3bp), що застосовується в повній ширині; рядки якобіана просторових дальності / швидкості дальності є аналітичними частинними похідними, перевіреними скінченними різницями, а рядок швидкості дальності перехресно перевірено покомпонентно за незалежною 3-D deepspace_od::range_rate_observable цього крейта; початкові умови halo / NRHO є диференційно скоригованими періодичними орбітами від того самого коректора, що відтворює опубліковану південну NRHO L2 9:2, продовженими від цього опублікованого зерна, і нев'язку замкнення кожного члена наведено; вердикти РАНГУ для шести станів підтверджено НЕЗАЛЕЖНИМ рядково-східчастим рангом (метод Гаусса з частковим вибором головного елемента), що не має спільного коду зі шляхом власних значень/SVD. ЧЕСНА МЕЖА ГІЛКИ SRIF: наведена вище перехресна перевірка SRIF використовує ТІ САМІ якобіани вимірювань і зводиться до того самого O^T O, тож її збіг є перевіркою узгодженості двох числових механізмів, а НЕ незалежним підтвердженням порога — вона не зараховується як перевірка жодної величини тут. MODELLED: проєкт родини (які абсциси, амплітуди й фази), сітка епох, одноканальна дуга та заявлена межа положення критерію оцінюваності.
 
 engine-cislunar-observability-validated-each-constellation-initial-condition = Перевірено: кожна початкова умова орбітального угруповання є диференційно скоригованою періодичною орбітою родини { $family }, що замикається за один період із повідомленою нев'язкою періодичності (планарні DRO додатково ретроградні відносно Місяця). Родину скоректовано для відношення мас Земля–Місяць. Змодельовано: вибір параметрів і фаз родини (проєкт орбітального угруповання). Назву ключа `dro_provenance` збережено для випущеної схеми документа; вона несе ту родину, яку запитав цей прогін.
 
@@ -1119,8 +1070,6 @@ engine-e-clock-integrity-integrity-mask-deg-must-lie = цілісність: mas
 engine-e-clock-integrity-integrity-systems-must-name-at = цілісність: systems має називати щонайменше один пресет
 
 engine-e-clock-integrity-integrity-injected-bias-needs-finite = цілісність: injected_bias потребує скінченних bias_m, t0_s і t1_s
-
-engine-e-clock-integrity-integrity-epochs-exceed-the-epoch = цілісність: епох { $n } перевищує ліміт у { $MAX_EPOCHS } епох; збільште step_s
 
 ## src/clock_library/card.rs
 
@@ -1333,11 +1282,7 @@ engine-e-earth-gnss-lunar-back-lobe-suppression-db-must = back_lobe_suppression_
 
 engine-e-earth-gnss-lunar-receiver-range-must-be-outside = receiver_range_m має бути поза Землею; отримано { $range_m }
 
-engine-earth-gnss-lunar-earth-gnss-at-lunar-distance = GNSS Землі на місячній відстані — супутників: { $n_satellites }, приймач на { $r } km{ "\u000A" }
-
 engine-earth-gnss-lunar-earth-limb-from-the-constellation = { "  " }Лімб Землі з орбітального угруповання: { $earth_limb_half_angle_deg } deg від надира — будь-який промінь до Місяця має перевищувати це значення{ "\u000A" }
-
-engine-earth-gnss-lunar-of-not-occulted-clear-the = { "  " }не затулено: { $n_geometrically_visible } з { $n_satellites }; поріг супроводження { $tracking_threshold_dbhz } dB-Hz перевищують: { $n_trackable }{ "\u000A" }
 
 engine-earth-gnss-lunar-best-link-db-hz = { "  " }найкращий канал { $c } dB-Hz{ "\u000A" }
 
@@ -1448,8 +1393,6 @@ engine-e-ephemeris-step-must-be-positive = step_s має бути додатни
 engine-e-ephemeris-duration-must-be-non-negative = duration_s має бути невід'ємним
 
 engine-e-ephemeris-carrier-hz-must-be-positive = carrier_hz має бути додатною скінченною частотою
-
-engine-ephemeris-ground-track-samples-alt-km = наземна траса { $source } · відліків: { $n_samples } · висота { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
 
 ## src/evidence/assemble.rs
 
@@ -1917,15 +1860,9 @@ engine-e-geometry-sky-tle-is-bytes-the = sky: розмір tle (байтів): {
 
 engine-geometry-element-set-refused = набір елементів відхилено: { $e }
 
-engine-geometry-sky-tle-holds-no-complete = sky: tle не містить повного двохрядкового набору елементів; проігноровано рядків: { $n_ignored }, перший: { $first }
-
 engine-e-geometry-sky-epoch = sky: epoch: { $e }
 
 engine-geometry-and-more = { "." }.. і ще { $more }
-
-engine-geometry-element-sets-propagated-by-the = набори елементів (кількість: { $n }) пропаговано SGP4 рушія (WGS-72) на { $iso } і повернуто до земної системи координат з UT1, прийнятим за UTC, і без полярного руху: це небо, яке ці набори елементів дають на ту епоху, а не його вимірювання.
-
-engine-geometry-element-sets-propagated-by-the-2 = набори елементів (кількість: { $n }) пропаговано SGP4 рушія (WGS-72) на епоху найновішого набору елементів плюс time_s ({ $iso }). Епоху не задано, тож це репрезентативне небо, а не небо заявленої дати.
 
 engine-e-geometry-sky-give-systems-or-tle = sky: задайте `systems` або `tle` (із `site`), або `satellites`
 
@@ -2131,8 +2068,6 @@ engine-e-gse-sim-step-must-be-positive-got = step_s має бути додатн
 
 engine-e-gse-sim-duration-must-be-positive-got = duration_s має бути додатним, отримано { $duration_s }
 
-engine-e-gse-sim-scenario-produces-epochs-need-increase = сценарій дає епох: { $n } (потрібно ≥ 2); збільште duration_s або зменште step_s
-
 ## src/holdover_test.rs
 
 engine-e-holdover-test-the-record-holds-non-finite = запис містить нескінченну похибку часу
@@ -2177,15 +2112,11 @@ engine-e-hybrid-integrity-must-be-finite = { $name } має бути скінч�
 
 engine-e-hybrid-integrity-rf-other-losses-db-must = rf_other_losses_db має бути скінченним і >= 0
 
-engine-hybrid-integrity-hybrid-optical-rf-optical-footprint = hybrid-optical-rf | оптична пляма { $footprint_m } m, фотонів: { $detected_photons } -> σ далекометрії { $c } mm, σ часу { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | доступність { $c4 }% (пунктів: { $n_sites }) | передавання без стрибка { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | спільний FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | перевірено CRLB/χ²-PL/union/handoff, змодельовано σ/кліматологія
-
 ## src/impairment_eval.rs
 
 engine-e-impairment-eval-target-pfa-must-be-in = target_pfa має бути в [0, 1]
 
 engine-e-impairment-eval-per-class-must-be = n_per_class має бути >= 1
-
-engine-impairment-eval-impairment-eval-detector-auc-in = impairment-eval | детектор { $detector } | AUC { $auc_in } на вході / { $auc_out } на виході (розрив { $optimism_gap }{ $v5 }) | Pd { $report } Pfa { $report2 } @ ціль { $target_pfa } | випадків: { $n_cases } | MODELLED синтетичні дані
 
 engine-e-impairment-eval-unknown-detector-energy-agc-sqm = невідомий детектор '{ $other }' (energy|agc|sqm|parity|fused)
 
@@ -2398,8 +2329,6 @@ engine-interop-the-scenario-could-not-be = сценарій не вдалося 
 engine-e-interop-invalid-spectrum-scenario = некоректний сценарій спектра: { $e }
 
 ## src/interop/scene.rs
-
-engine-e-interop-scene-time-samples-is-more-than = часових відліків: { $n }, це більше, ніж записує експорт ({ $MAX_SAMPLES })
 
 engine-e-interop-scene-objects-samples-is-more-than = об'єктів: { $items } x відліків: { $times }, це більше, ніж записує експорт ({ $MAX_SAMPLES })
 
@@ -2617,8 +2546,6 @@ engine-e-iq-campaign-conditions-at-least-one-expected-group = потрібна �
 
 engine-e-iq-campaign-conditions-ids-must-not-be-empty = { $at }: ids не може бути порожнім
 
-engine-e-iq-campaign-conditions-lists-value-give-one-per = { $at }: { $key } містить значень: { $n }; задайте по одному на кожен id ({ $ids })
-
 engine-e-iq-campaign-conditions-duplicate-id = { $at }: повторюваний id
 
 engine-e-iq-campaign-conditions-offset-must-be-after-onset = { $at }: offset_s має бути після onset_s
@@ -2650,8 +2577,6 @@ engine-e-iq-campaign-detect-monitors-roc-window-must-be = monitors.roc_window_s 
 engine-e-iq-campaign-runner-recording-sha-256-does-not = запис '{ $id }': SHA-256 { $sha } не збігається із заявленим { $want }
 
 engine-e-iq-campaign-runner-runs-jsonl = runs.jsonl: { $e }
-
-engine-e-iq-campaign-runner-recording-holds-samples-needed-to = { $code }: запис містить відліків: { $buf }, для захоплення потрібно: { $n }
 
 ## src/iq/campaign/score.rs
 
@@ -2779,8 +2704,6 @@ engine-iq-cli-needs-value = { $s } потребує значення
 
 engine-e-iq-cli-cannot-parse = { $k }: не вдалося розібрати { $v }
 
-engine-iq-cli-iq-takes-positional-argument-got = iq { $cmd } приймає позиційних аргументів: { $n }, отримано: { $pos }
-
 engine-e-iq-cli-cannot-parse-2 = { $k }: не вдалося розібрати { $p }
 
 engine-iq-cli-unknown-iq-processing-command-expected = невідома команда обробки iq { $other }; очікується scene, acquire, track, sweep, labfit, frontend, monitor, campaign або conditions
@@ -2839,11 +2762,7 @@ engine-e-iq-io-cli-unknown-option = невідомий параметр { $s }
 
 engine-e-iq-io-cli-format-needs-rate = --format потребує --rate
 
-engine-iq-io-cli-iq-takes-path-argument-got = iq { $cmd } приймає аргументів-шляхів: { $n }, отримано: { $pos }
-
 engine-iq-io-cli-unknown-iq-command = невідома команда iq { $other }
-
-engine-iq-io-cli-wrote-samples-hz-to-saturated = записано відліків: { $n } ({ $to }, { $fs_hz } Hz) у { $files }; насичених елементів: { $w }{ $v4 }
 
 ## src/iq/io/follow.rs
 
@@ -2901,8 +2820,6 @@ engine-e-iq-io-sigmf-stream-core-sample-rate-is-not = { $name }: core:sample_rat
 
 engine-e-iq-io-sigmf-stream-at-hz-does-not-match = { $name }: { $f } за { $rate } Hz не збігається зі значенням { $f0 } за { $r0 } Hz першого запису
 
-engine-e-iq-io-sigmf-stream-capture-at-sample-is-out = { $name }: захоплення з відліку { $sample_start } порушує порядок або виходить за межі { $n_file } відліків у даних
-
 engine-e-iq-io-sigmf-stream-first-capture-does-not-start = { $name }: перше захоплення не починається на межі байта
 
 engine-e-iq-io-sigmf-stream-channel-requested-the-recording-has = запитано канал { $channel }; у записі каналів: { $channels } (канали рахуються з 0)
@@ -2943,8 +2860,6 @@ engine-iq-labfit-iqfit-uncensored-span-db-is-under = нецензуровани�
 
 engine-iq-labfit-iqfit-eff-and-delta-are-not = Q_eff і delta не ідентифікуються окремо (|corr| { $full } >= { $v2 }): модель залежить лише від delta - 10 log10 Q_eff
 
-engine-iq-labfit-iqfit-not-fitted-re-acquisitions-observed = не підігнано: спостережено повторних захоплень: { $n_reacq } (потрібно щонайменше 3)
-
 engine-e-iq-labfit-iqfit-unknown-mode-only-validation = невідомий режим `{ $m }` (лише `validation`)
 
 engine-e-iq-labfit-iqfit-validation-pi90-coverage-must-be = validation.pi90_coverage має бути [lower, upper] у межах [0, 1]
@@ -2977,11 +2892,7 @@ engine-iq-labfit-iqreport-n0-model-delta-eff-db = Модель C/N0 ({ $q_mode }
 
 engine-iq-labfit-iqreport-held-at-its-stated-value = Q зафіксовано на заданому значенні: { $why }.{ "\u000A\u000A" }
 
-engine-iq-labfit-iqreport-threshold-direct-median-db-over = Порогове J/S, пряме: медіана { $om } dB за втратами: { $n } (IQR { $t }).{ "\u000A\u000A" }
-
 engine-iq-labfit-iqreport-hold-out-leave-one-recording = Відкладена вибірка (з виключенням одного запису), інтерполяція: бінів: { $bins }, RMS C/N0 { $om } dB, покриття PI90 { $om2 }
-
-engine-iq-labfit-iqreport-events-loss-time-rms-pi90 = ; { $model }: подій: { $n }, RMS часу втрати { $om } s, покриття PI90 { $om2 }
 
 engine-iq-labfit-iqreport-validation-table-sha-256-registered =
     SHA-256 таблиці перевірки `{ $table_sha256 }` (зареєстровано { $registered }):
@@ -3016,18 +2927,10 @@ engine-iq-labfit-report-lab-fit-label-settings-sha =
 
     Мітка: **{ $label }**. SHA-256 налаштувань `{ $settings_sha256 }`.{ "\u000A\u000A" }
 
-engine-iq-labfit-report-n0-samples-residual-rms-db = { "\u000A" }Відліків C/N0: { $n_samples }, залишковий RMS { $om } dB.{ $r }{ "\u000A" }
-
 engine-iq-labfit-report-model-parameter-value-bounds-at =
     { "\u000A" }## Модель: { $model } ({ $label })
 
     | параметр | значення | межі | на межі | bootstrap sd (95 %) |
-    |---|---|---|---|---|{ "\u000A" }
-
-engine-iq-labfit-report-event-time-rms-over-events =
-    { "\u000A" }RMS часу події { $om } s за подіями: { $n_events }; втрат пропущено { $loss_missed } / зайвих { $loss_extra }, повторних захоплень пропущено { $reacq_missed } / зайвих { $reacq_extra }.
-
-    | прогін | спад dB-Hz | повторне захоплення dB-Hz | події | RMS s |
     |---|---|---|---|---|{ "\u000A" }
 
 engine-iq-labfit-report-hold-out-folds-all-interpolation =
@@ -3118,8 +3021,6 @@ engine-e-iq-short-ids-must-hold-to-satellites = ids має містити від
 
 engine-e-iq-short-dopplers-must-be-finite = dopplers мають бути скінченними
 
-engine-e-iq-short-samples-requested-short-run-holds = запитано відліків: { $n }; короткий прогін вміщує щонайбільше { $MAX_SAMPLES }
-
 ## src/iq/signals/by_name.rs
 
 engine-e-iq-signals-by-name-prn-is-out-of-range = { $signal }: PRN { $id } поза допустимим діапазоном
@@ -3135,8 +3036,6 @@ engine-e-iq-signals-galileo-line-no = рядок { $v1 }: немає ';'
 engine-e-iq-signals-galileo-line-no-code-number-in = рядок { $v1 }: немає номера коду в { $label }
 
 engine-e-iq-signals-galileo-code-appears-twice = код { $number } трапляється двічі
-
-engine-e-iq-signals-galileo-codes-the-icd-defines = { $path }: кодів: { $n }, ICD визначає { $CODES_PER_COMPONENT }
 
 ## src/iq/signals/lunanet.rs
 
@@ -3273,8 +3172,6 @@ engine-e-iq-track-dll-order-must-be-or = порядок DLL має бути 1 а
 engine-e-iq-track-chip-rate-and-carrier-frequency = чіпова частота і частота несівної мають бути додатними
 
 ## src/iq/track/sink.rs
-
-engine-e-iq-track-sink-an-epoch-carries-extra-taps = епоха несе додаткових відводів: { $extra }, але вивід налаштовано на { $n }: кожен канал прогону має використовувати однакові extra_taps_chips
 
 engine-e-iq-track-sink-record-is-bytes-expected = запис становить { $b } байтів; очікується { $want }
 
@@ -3472,8 +3369,6 @@ engine-launch-launch-window-lat-az-asc = вікно запуску: lat { $site_
 
 engine-e-leo-fusion-doppler-every-range-rate-needs-positive = кожна швидкість зміни дальності потребує додатної скінченної сигми
 
-engine-e-leo-fusion-doppler-measurements-cannot-resolve-doppler-unknowns = вимірювань: { $n_meas }, цього замало, щоб розв'язати невідомих Доплера: { $n }
-
 engine-e-leo-fusion-doppler-the-doppler-geometry-is-singular = геометрія Доплера вироджена
 
 engine-e-leo-fusion-doppler-no-covariance = немає коваріації
@@ -3481,8 +3376,6 @@ engine-e-leo-fusion-doppler-no-covariance = немає коваріації
 ## src/leo_fusion/joint_pvt.rs
 
 engine-e-leo-fusion-joint-pvt-every-pseudorange-needs-positive-finite = кожна псевдодальність потребує додатної скінченної сигми
-
-engine-e-leo-fusion-joint-pvt-pseudoranges-cannot-resolve-unknowns-position = псевдодальностей: { $obs }, цього замало, щоб розв'язати невідомих: { $n } (3 положення + годинників: { $n_clock })
 
 engine-e-leo-fusion-joint-pvt-satellite-coincides-with-the-position = супутник збігається з оцінкою положення
 
@@ -3502,11 +3395,7 @@ engine-e-leo-fusion-ntn-sync-error-must-be-non = sync_error_m має бути н
 
 engine-e-leo-fusion-ntn-every-signal-needs-positive-bandwidth = кожен сигнал потребує додатної смуги
 
-engine-leo-fusion-ntn-5g-ntn-positioning-at-mhz = позиціонування 5G NTN на { $r } MHz, C/N0 від { $r2 } до { $r3 } dB-Hz, супутників: { $n_satellites } (у зоні видимості: { $mean_in_view }){ "\u000A" }
-
 engine-leo-fusion-ntn-khz-crb-range-to-median = { "  " }{ $name }: { $s } kHz, діапазон CRB від { $range_sigma_zenith_m } до { $range_sigma_mask_m } m; медіана формальної 3D { $s2 } m, похибка RMS { $s3 } m{ "\u000A" }
-
-engine-leo-fusion-ntn-one-satellite-doppler-pass-samples = { "  " }прохід Доплера одним супутником: відліків: { $n_obs } за { $duration_s } s, горизонтальна похибка { $horizontal_error_m } m{ "\u000A" }
 
 engine-leo-fusion-ntn-mhz-n0-db-hz-modelled = { $r } MHz · C/N0 { $r2 }-{ $r3 } dB-Hz · MODELLED
 
@@ -3519,10 +3408,6 @@ engine-e-leo-fusion-ppp-duration-and-step-must-be = тривалість і кр
 engine-e-leo-fusion-ppp-runs-must-be-to-200 = кількість прогонів має бути від 1 до 200
 
 engine-e-leo-fusion-ppp-convergence-thresholds-must-be-positive = пороги збіжності мають бути додатними
-
-engine-leo-fusion-ppp-ppp-convergence-to-horizontal-vertical = збіжність PPP до { $criterion_horizontal_m } m горизонтально / { $criterion_vertical_m } m вертикально, прогонів на випадок: { $runs_per_case }, супутників GNSS: { $n_gnss }{ "\u000A" }
-
-engine-leo-fusion-ppp-leo-median-min-converged-nees = { "  " }{ $name } LEO: { $n_leo }  медіана { $c } хв  збіглося { $v4 }%  NEES середнє { $nees_mean }{ "\u000A" }
 
 engine-leo-fusion-ppp-median-horizontal-error-across-runs = медіанна горизонтальна похибка за прогонами: { $runs_per_case } · MODELLED
 
@@ -3549,12 +3434,6 @@ engine-e-leo-fusion-pvt-kind-timing-mode-needs-leo-system = режим timing п
 engine-e-leo-fusion-pvt-kind-unknown-clock-class = невідомий клас годинника { $c }
 
 engine-leo-fusion-pvt-kind-leo-pvt-at-over = LEO PVT ({ $mode }) у { $user_lat_deg }, { $user_lon_deg } за { $duration_s } s{ "\u000A" }
-
-engine-leo-fusion-pvt-kind-sats-at-km-mhz = { "  " }{ $name } { $role } супутників: { $n_satellites }, висота { $mean_altitude_km } km, { $sys } MHz{ $v6 }{ "\u000A" }
-
-engine-leo-fusion-pvt-kind-doppler-fix-measurements-from-satellites = { "  " }Визначення за Доплером: вимірювань: { $n_obs } від супутників: { $n_sats }, 3D похибка { $error_3d_m } m (горизонтальна { $horizontal_error_m } m){ "\u000A" }
-
-engine-leo-fusion-pvt-kind-window-sats-3d-error = { "    " }вікно { $window_s } s: супутників: { $n_sats }, 3D похибка { $f } m{ "\u000A" }
 
 engine-leo-fusion-pvt-kind-overhead-pass-max-doppler-hz = { "  " }{ $system } прохід над головою: макс. Доплер { $max_doppler_hz } Hz, швидкість { $max_doppler_rate_hz_s } Hz/s, ривок { $max_doppler_jerk_hz_s2 } Hz/s^2{ "\u000A" }
 
@@ -4075,8 +3954,6 @@ engine-live-io-kshana-live-vessel-platform-calibrating = kshana live: платф
 
 engine-live-io-write-failed = запис не вдався: { $e }
 
-engine-live-io-kshana-live-dropped-udp-datagram = kshana live: відкинуто датаграм udp, які рушій не зміг прийняти: { $n } (усього { $udp_dropped })
-
 ## src/lunar_afs/codes.rs
 
 engine-e-lunar-afs-codes-afs-prn-is-outside = AFS PRN { $prn } поза межами 1..={ $MAX_PRN }
@@ -4136,12 +4013,6 @@ engine-e-lunar-beacon-satellites-must-be-at-least = n_satellites має бути
 engine-e-lunar-beacon-comparison-satellites-must-be-at = comparison_n_satellites має бути не меншим за 1
 
 engine-e-lunar-beacon-elevation-mask-deg-must-be = elevation_mask_deg має бути в [0, 90); отримано { $mask_deg }
-
-engine-lunar-beacon-satellites-no-beacons = супутників: { $n_sats }, без маяків
-
-engine-lunar-beacon-satellites-visible-beacons = супутників: { $n_sats } + видимих маяків: { $n_vis_beacons }
-
-engine-lunar-beacon-satellites-no-beacons-2 = супутників: { $n_cmp }, без маяків
 
 engine-e-lunar-beacon-serialising-beacon-report = серіалізація звіту про маяки: { $e }
 
@@ -4243,8 +4114,6 @@ engine-lunar-frame-campaign-full-rank-all-similarity-parameters = повний �
 
 engine-lunar-frame-campaign-rank-deficient-of-similarity-directions = RANK-DEFICIENT: { $defect } із 7 напрямків подібності неспостережні за цією кампанією, тому сигма датуму НЕ публікується; неспостережні напрямки перелічено в семипараметровому базисі
 
-engine-lunar-frame-campaign-lunar-frame-campaign-beacons-baselines = lunar-frame-campaign | маяків: { $n_beacons } x баз: { $v1 } x епох: { $n_epochs } = спостережень: { $n_obs } (сигма затримки { $sigma_tau } s) | датум станцій { $station_datum } | ранг Гельмерта { $rank }/7 обумовленість { $condition } | сигма зсуву датуму { $v5 } проти похибки відновлення введеного перетворення { $trans_err_norm_m } m (відношення { $v7 })
-
 engine-lunar-frame-campaign-of-beacons-have-no-observation = маяки без спостережень у цьому розкладі: { $names } з { $beacons } ({ $names2 }); вони не несуть інформації, їхні сигми дорівнюють null, а датум реалізується лише зі спостережуваних маяків
 
 ## src/lunar_infra/geodesy.rs
@@ -4326,10 +4195,6 @@ engine-e-lunar-jamming-sma-km-must-be-finite = sma_km має бути скінч
 engine-e-lunar-jamming-eccentricity-must-be-in = eccentricity має бути в [0, 1)
 
 engine-e-lunar-jamming-jammer-power-dbw-must-be = jammer.power_dbw має бути скінченним
-
-engine-lunar-jamming-lunar-jamming-sats-epochs-links = lunar-jamming | супутники: { $n_sats }, епохи: { $n_epochs }, лінії зв'язку: { $n_links } з ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (середнє { $mean_js_db }) | LOST: { $n_lost } | доступність { $availability_under_jamming } з номінальних { $availability_nominal }
-
-engine-lunar-jamming-lunar-jamming-sats-epochs-links-2 = lunar-jamming | супутники: { $n_sats }, епохи: { $n_epochs }, лінії зв'язку: { $n_links } з ({ $site_lat_deg }, { $site_lon_deg }) | без глушника (чисте небо, місячна базова лінія) | LOST: { $n_lost } | доступність { $availability_nominal }
 
 ## src/lunar_llr.rs
 
@@ -4541,8 +4406,6 @@ engine-e-lunar-vlbi-fim-the-datum-leaves-no-parameter = датум не зали
 
 engine-lunar-vlbi-fim-rank-deficient-of-directions-are = RANK-DEFICIENT: неспостережуваних напрямків: { $defect } з { $dim }, тому сигма за координатою не повідомляється; наведене нижче значення спостережуваного підпростору є псевдооберненою, обмеженою спостережуваними напрямками (їх { $rank }), і НЕ є сигмою станції
 
-engine-lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines = lunar-vlbi-fim | станції: { $n_stations } / бази: { $v2 } x епохи: { $n_epochs } = спостережень: { $n_obs } (маска { $mask } deg) | датум { $datum } | ранг { $rank }/{ $dim }, обумовленість { $condition } | сигма станції { $v10 } проти equipartition g={ $g } { $eq_g } м (відношення { $v13 })
-
 ## src/main.rs
 
 engine-main-error-validate-needs-scenario-path = помилка: --validate потребує шляху до сценарію
@@ -4584,8 +4447,6 @@ engine-main-error-validate-lints-one-scenario = помилка: --validate пе�
 engine-main-error-cannot-read = помилка: не вдається прочитати { $validate_file }: { $e }
 
 engine-main-ok-kind-resolves-this-kind = ok: { $kind } — kind розпізнано; цей kind не вимагає жодного поля (порожнє тіло запускає його еталонну конфігурацію), тож перевіряти більше нічого
-
-engine-main-ok-kind-resolves-and-all = ok: { $kind } — kind розпізнано, і всі записи його опублікованих обов'язкових полів (кількість: { $n_required }) виконано; значення полів не перевіряються
 
 engine-main-error-study-runs-suite-do = помилка: --study запускає набір; не передавайте додатково окремий файл сценарію
 
@@ -4772,8 +4633,6 @@ engine-e-mars-od-parameter-has-no-partial-on = параметр не має ча
 
 ## src/mars_pnt.rs
 
-engine-mars-pnt-mars-pnt-user-clock-relays = mars-pnt { $r } | користувач { $user }, годинник { $clock_class } | ретрансляторів: { $n_relays } (у середньому { $mean_relays_in_view } у видимості) | зведена RMS положення { $converged_pos_rms_m } м, формальна 1σ { $converged_pos_sigma_m } м (3σ { $converged_pos_3sigma_m } м — коваріаційний показник якості, а не затверджений PL) | σ частоти годинника { $final_clock_freq_sigma } | cov-PD { $covariance_pd_throughout }
-
 engine-mars-pnt-mars-pnt-user-clock-position = Mars-PNT — користувач { $user }, годинник { $clock_class }: просторова 3-D похибка положення проти істини (зведена RMS { $converged_pos_rms_m } м)
 
 ## src/mcda/ahp.rs
@@ -4798,11 +4657,7 @@ engine-e-mcda-copras-copras-empty-decision-matrix = COPRAS: порожня ма�
 
 engine-e-mcda-copras-copras-no-criteria = COPRAS: немає критеріїв
 
-engine-e-mcda-copras-copras-weights-but-criterion-types = COPRAS: ваг: { $n }, а типів критеріїв: { $types }
-
 engine-e-mcda-copras-copras-requires-at-least-one = COPRAS: потребує щонайменше одного критерію витрат (Min)
-
-engine-e-mcda-copras-copras-alternative-has-values-but = COPRAS: альтернатива { $i } має значень: { $row }, а критеріїв: { $n }
 
 engine-e-mcda-copras-copras-alternative-criterion-value-must = COPRAS: значення { $x } альтернативи { $i } за критерієм { $j } має бути скінченним і > 0
 
@@ -4812,8 +4667,6 @@ engine-e-mcda-electre-electre-empty-dataset = ELECTRE I: порожній наб
 
 engine-e-mcda-electre-electre-no-criteria = ELECTRE I: немає критеріїв
 
-engine-e-mcda-electre-electre-alternative-has-values-but = ELECTRE I: альтернатива { $i } має значень: { $row }, а критеріїв: { $n }
-
 engine-e-mcda-electre-electre-alternative-has-non-finite = ELECTRE I: альтернатива { $i } має нескінченне значення
 
 ## src/mcda/moora.rs
@@ -4821,10 +4674,6 @@ engine-e-mcda-electre-electre-alternative-has-non-finite = ELECTRE I: альте
 engine-e-mcda-moora-moora-empty-decision-matrix = MOORA: порожня матриця рішень
 
 engine-e-mcda-moora-moora-no-criteria = MOORA: немає критеріїв
-
-engine-e-mcda-moora-moora-weights-but-criterion-types = MOORA: ваг: { $n }, а типів критеріїв: { $types }
-
-engine-e-mcda-moora-moora-alternative-has-values-but = MOORA: альтернатива { $i } має значень: { $row }, а критеріїв: { $n }
 
 engine-e-mcda-moora-moora-alternative-has-non-finite = MOORA: альтернатива { $i } має нескінченне значення
 
@@ -4836,10 +4685,6 @@ engine-e-mcda-promethee-promethee-ii-empty-decision-matrix = PROMETHEE II: по�
 
 engine-e-mcda-promethee-promethee-ii-no-criteria = PROMETHEE II: немає критеріїв
 
-engine-e-mcda-promethee-promethee-ii-weights-but-types = PROMETHEE II: ваг: { $n }, а типів: { $types } / функцій переваги: { $prefs }
-
-engine-e-mcda-promethee-promethee-ii-alternative-has-values = PROMETHEE II: альтернатива { $i } має значень: { $row }, а критеріїв: { $n }
-
 engine-e-mcda-promethee-promethee-ii-alternative-has-non = PROMETHEE II: альтернатива { $i } має нескінченне значення
 
 ## src/mcda/topsis.rs
@@ -4847,10 +4692,6 @@ engine-e-mcda-promethee-promethee-ii-alternative-has-non = PROMETHEE II: аль�
 engine-e-mcda-topsis-topsis-empty-decision-matrix = TOPSIS: порожня матриця рішень
 
 engine-e-mcda-topsis-topsis-no-criteria = TOPSIS: немає критеріїв
-
-engine-e-mcda-topsis-topsis-weights-but-criterion-types = TOPSIS: ваг: { $n }, а типів критеріїв: { $types }
-
-engine-e-mcda-topsis-topsis-alternative-has-values-but = TOPSIS: альтернатива { $i } має значень: { $row }, а критеріїв: { $n }
 
 engine-e-mcda-topsis-topsis-alternative-has-non-finite = TOPSIS: альтернатива { $i } має нескінченне значення
 
@@ -4872,10 +4713,6 @@ engine-e-mcda-vikor-vikor-empty-decision-matrix = VIKOR: порожня матр
 
 engine-e-mcda-vikor-vikor-no-criteria = VIKOR: немає критеріїв
 
-engine-e-mcda-vikor-vikor-weights-but-criterion-types = VIKOR: ваг: { $n }, а типів критеріїв: { $types }
-
-engine-e-mcda-vikor-vikor-alternative-has-values-but = VIKOR: альтернатива { $i } має значень: { $row }, а критеріїв: { $n }
-
 engine-e-mcda-vikor-vikor-alternative-has-non-finite = VIKOR: альтернатива { $i } має нескінченне значення
 
 ## src/mcda/waspas.rs
@@ -4884,11 +4721,7 @@ engine-e-mcda-waspas-waspas-empty-decision-matrix = WASPAS: порожня ма�
 
 engine-e-mcda-waspas-waspas-no-criteria = WASPAS: немає критеріїв
 
-engine-e-mcda-waspas-waspas-weights-but-criterion-types = WASPAS: ваг: { $n }, а типів критеріїв: { $types }
-
 engine-e-mcda-waspas-waspas-lambda-must-lie-in = WASPAS: lambda { $lambda } має лежати в [0, 1]
-
-engine-e-mcda-waspas-waspas-alternative-has-values-but = WASPAS: альтернатива { $i } має значень: { $row }, а критеріїв: { $n }
 
 engine-e-mcda-waspas-waspas-alternative-criterion-value-must = WASPAS: значення { $x } альтернативи { $i } за критерієм { $j } має бути скінченним і > 0
 
@@ -4897,10 +4730,6 @@ engine-e-mcda-waspas-waspas-alternative-criterion-value-must = WASPAS: знач�
 engine-e-mcda-wpm-wpm-empty-decision-matrix = WPM: порожня матриця рішень
 
 engine-e-mcda-wpm-wpm-no-criteria = WPM: немає критеріїв
-
-engine-e-mcda-wpm-wpm-weights-but-criterion-types = WPM: ваг: { $n }, а типів критеріїв: { $types }
-
-engine-e-mcda-wpm-wpm-alternative-has-values-but = WPM: альтернатива { $i } має значень: { $row }, а критеріїв: { $n }
 
 engine-e-mcda-wpm-wpm-alternative-criterion-value-must = WPM: значення { $x } альтернативи { $i } за критерієм { $j } має бути скінченним і > 0
 
@@ -4913,8 +4742,6 @@ engine-e-mcda-wsm-decision-matrix-has-no-alternatives = матриця ріше�
 engine-e-mcda-wsm-criterion-has-an-invalid-weight = критерій '{ $name }' має недійсну вагу { $weight }
 
 engine-e-mcda-wsm-criterion-weights-sum-to-zero = ваги критеріїв у сумі дають нуль
-
-engine-e-mcda-wsm-alternative-has-values-but-there = альтернатива '{ $name }' має значень: { $values }, а критеріїв: { $n }
 
 engine-e-mcda-wsm-alternative-has-non-finite-value = альтернатива '{ $name }' має нескінченне значення за критерієм '{ $value }'
 
@@ -4933,8 +4760,6 @@ engine-e-naif-kernel-daf-address-beyond-the-end = адреса DAF { $addr } з�
 engine-e-naif-kernel-bad-daf-address-range = хибний діапазон адрес DAF { $first }..={ $last }
 
 engine-e-naif-kernel-daf-summary-list-does-not = список зведень DAF не завершується
-
-engine-e-naif-kernel-daf-summary-record-claims-summaries = запис зведень DAF { $rec } заявляє зведень: { $count }
 
 engine-e-naif-kernel-malformed-type-segment-rsize-intlen = некоректний сегмент типу 2: RSIZE { $rsize }, INTLEN { $intlen }, N { $n }
 
@@ -5100,10 +4925,6 @@ engine-e-nmea-synth-config-the-skyline-describes-no-obstruction = лінія г�
 
 engine-nmea-synth-gen-has-ended = { $kind } завершено
 
-engine-nmea-synth-gen-the-receiver-reports-fix-again = приймач знову повідомляє про рішення (використано супутників: { $n_used })
-
-engine-nmea-synth-gen-the-receiver-has-no-fix = приймач не має рішення (придатних супутників: { $n_used }, потрібно чотири)
-
 ## src/nmea_synth/log.rs
 
 engine-nmea-synth-log-from-for-onset-ramp-recovery = від T+{ $start_s } с тривалістю { $duration_s } с (наростання на початку { $ramp_s } с, наростання відновлення { $recovery_s } с)
@@ -5141,8 +4962,6 @@ engine-e-nmea-synth-sky-receiver-systems-unknown-constellation-gps = receiver.sy
 engine-observability-gramian-the-tolerance-is-below-the = { " " }Допуск нижчий за поріг шуму читання рангу f64 { $RANK_TOLERANCE_NOISE_FLOOR } (= sqrt(f64::EPSILON)): його еквівалентний поріг власних значень rel_tol^2 = { $v1 } лежить під шумом округлення матриці Грама, тож додаткові напрямки є арифметичним залишком, а не спостережуваністю.
 
 engine-observability-gramian-rank-clamped-from-the-singular = ранг обмежено з кількості сингулярних значень { $counted } до min(rows, cols) = min({ $n_rows }, { $n_cols }) = { $shape_bound } за rel_tol { $rel_tol }: матриця { $n_rows }x{ $n_cols } не може мати ранг { $counted }.{ $floor_note }
-
-engine-observability-gramian-gdop-undefined-rank-deficient-singular = GDOP не визначено (геометрія з дефіцитом рангу / сингулярна): ранг { $rank } із { $n } станів, дефект датума { $v3 }, обумовленість { $v4 }
 
 ## src/odf.rs
 
@@ -5265,10 +5084,6 @@ engine-e-oem-oem-missing-creation-date-header = в OEM бракує заголо
 engine-e-oem-oem-missing-originator-header = в OEM бракує заголовка ORIGINATOR
 
 engine-e-oem-oem-carried-no-segments = OEM не містив сегментів
-
-engine-oem-oem-interop-round-tripped-segment = oem-interop: проведено круговий обмін сегментами: { $segments }, станів: { $n_states_total }; максимальна похибка кругового обміну { $p } km / { $v } km/s (MODELLED, інтероперабельність)
-
-engine-oem-oem-interop-ingested-segment-states = oem-interop: прийнято сегментів: { $segments }, станів: { $n_states_total } із зовнішнього OEM (укладач { $originator }) (MODELLED, інтероперабельність)
 
 engine-e-oem-no-covariance-start-block = немає блоку COVARIANCE_START
 
@@ -5434,8 +5249,6 @@ engine-e-propagator-the-ephemeris-provider-has-no = постачальник е�
 engine-pvt-3d-error-rms-max = { " " }| RMS 3D-похибки { $rms } м (макс. { $max } м)
 
 engine-pvt-post-fit-rms = { " " }| RMS після підгонки { $mean_postfit_rms_m } м
-
-engine-pvt-pvt-sat-nav-epochs-solved = pvt { $r } | навігаційних супутників: { $n_satellites_nav } | розв'язано епох: { $epochs_solved }/{ $epochs_total } | у середньому супутників: { $mean_n_used }, PDOP { $mean_pdop }{ $acc }
 
 engine-pvt-single-point-positioning-3d-error = Одноточкове позиціонування — 3D-похибка проти зйомочної координати (RMS { $rms_3d_m } м)
 
@@ -5675,8 +5488,6 @@ engine-e-receiver-trust-geometry-geometry-floor-must-be-in = geometry: floor м�
 
 engine-e-receiver-trust-geometry-geometry-floor-is-below-the = geometry: floor ({ $f }) нижчий за degraded_min оцінки ({ $degraded_min }): сама геометрія могла б досягти смуги недовіри
 
-engine-receiver-trust-geometry-geometry-hdop-pdop-vdop-satellites = геометрія { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, супутників: { $n_used }{ $v6 }
-
 ## src/receiver_trust/geometry.rs
 
 engine-receiver-trust-geometry-the-geometry-deduction-is-classed = { $why }: зниження за геометрією класифіковано як неузгодженість
@@ -5685,15 +5496,9 @@ engine-receiver-trust-geometry-reported-not-scored-the-geometry = { $why }: по
 
 engine-receiver-trust-geometry-not-scored-the-score-deducts = не оцінено (оцінка знижується лише за HDOP вище { $hdop_max }, PDOP вище { $pdop_max } або за кількості супутників нижче { $min_used })
 
-engine-receiver-trust-geometry-derived-from-logged-satellites = виведено із записаних супутників: { $n }
-
-engine-receiver-trust-geometry-as-the-receiver-reports-it = за повідомленням приймача, використано супутників: { $n }
-
 engine-receiver-trust-geometry-the-stated-hdop-disagrees-with = заявлений HDOP { $fmt_dop } розходиться з HDOP { $fmt_dop2 }, виведеним із заявленого неба, понад допуск
 
 engine-receiver-trust-geometry-satellites-in-view-but-not = супутники у видимості, але не відстежувані ({ $g } з { $in_view } на висоті { $low_elev_deg } deg або вище): середовище сигналу, а не геометрія
-
-engine-receiver-trust-geometry-satellites-fewer-than = супутників: { $n }, менше за { $min_used }
 
 engine-receiver-trust-geometry-pdop-above = PDOP { $fmt_dop } вище за { $pdop_max }
 
@@ -5745,11 +5550,7 @@ engine-e-receiver-trust-machines-imu-fit-axis-must-be-or = axis має бути 
 
 engine-e-receiver-trust-machines-imu-fit-expected-mean-must-be-finite = expected_mean має бути скінченним
 
-engine-e-receiver-trust-machines-imu-fit-the-log-has-samples-at = журнал має відліків: { $n }; для підгонки Аллана потрібно щонайменше { $MIN_SAMPLES }
-
 engine-e-receiver-trust-machines-imu-fit-the-log-time-does-not = час журналу не просувається
-
-engine-e-receiver-trust-machines-imu-fit-the-sample-interval-is-not = інтервал відліків не рівномірний (інтервалів, що різняться більш як на 25 %: { $uneven } з { $n }): спершу перевибіркуйте журнал
 
 engine-e-receiver-trust-machines-imu-fit-the-log-is-too-short = журнал закороткий для побудови кривої Аллана
 
@@ -5913,8 +5714,6 @@ engine-e-scenario-time-duration-must-be-finite = time.duration_s має бути
 
 engine-e-scenario-time-step-must-not-exceed = time.step_s ({ $step_s }) не має перевищувати time.duration_s ({ $duration_s })
 
-engine-e-scenario-time-grid-too-large-steps = сітка часу завелика: кроків { $n } перевищує MAX_TIME_STEPS ({ $MAX_TIME_STEPS }); використайте грубіший крок або коротшу тривалість
-
 ## src/sdr.rs
 
 engine-sdr-sampling-rate-is-commensurate-with = частота дискретизації сумірна зі швидкістю коду ({ $samples_per_chip } відліків/чип, { $offset_from_integer_samples } відліків від цілого числа): репліка коду з утриманням нульового порядку не може розрізнити зміну фази коду менше за { $dead_band_chips } чипів, тож дискримінатор Early/Late є сходинковим із мертвою зоною в один відлік замість трикутного, і DLL встановлюється з хибним відставанням. Зсуньте частоту дискретизації від цілого кратного (5 MHz дає 4.8876 відліків/чип; 25 MHz дає 24.4379) або збільште передискретизацію настільки, щоб мертва зона була нижчою за потрібну вам точність фази коду.
@@ -6021,8 +5820,6 @@ engine-slot-timing-class-default-sigma-from-red = типове значення 
 
 engine-slot-timing-fitted-to-the-allan-deviation = підігнано до максимумів девіації Аллана з { $document } і масштабовано так, щоб лежати на кожній точці або вище
 
-engine-slot-timing-fitted-to-the-overlapping-allan = підігнано до девіації Аллана з перекриттям запису з відліків: { $n_samples } за { $tau0_s } с, у базисі частотної модуляції IEEE Std 1139
-
 engine-slot-timing-slot-timing-source-guard-ns = slot-timing (джерело { $n }): захисний інтервал { $c } ns за k={ $k_sigma } порушується через { $fmt_s } після виправлення (залишилося { $fmt_s2 }); виправлення принаймні кожні { $fmt_s3 } (на добу: { $fixes_per_day }); домінантний доданок: { $b }{ $v9 }
 
 ## src/solar_system.rs
@@ -6058,10 +5855,6 @@ engine-e-solar-system-unknown-link-body = невідоме тіло лінії '
 engine-e-solar-system-unknown-link-body-2 = невідоме тіло лінії '{ $to }'
 
 engine-e-solar-system-link-needs-two-different-bodies = лінія потребує двох різних тіл; отримано { $name }
-
-engine-solar-system-solar-system-at-jd-tdb =
-    Сонячна система на { $input } (JD { $jd_tdb } TDB), тіл: { $n_bodies }, спостерігач { $observer }
-    { "  " }{ $standish_table }{ "\u000A" }
 
 engine-solar-system-light-time = світловий час { $one_way_light_time_s } с
 
@@ -6131,8 +5924,6 @@ engine-e-space-packet-cds-field-reserved-sub-ms = P-field CDS { $p }: зарез
 
 engine-e-space-packet-cuc-coarse-does-not-fit = грубе значення CUC { $coarse } не вміщується в { $c } октетів
 
-engine-e-space-packet-cuc-fine-does-not-fit = точне значення CUC { $fine } не вміщується в { $n } октетів
-
 engine-e-space-packet-cds-days-do-not-fit = доби CDS { $days } не вміщуються в { $f } октетів
 
 engine-e-space-packet-cds-ms-of-day-above = мілісекунди доби CDS { $ms_of_day } вищі за 86 400 999
@@ -6198,8 +5989,6 @@ engine-e-space-packet-packet-count-must-be = packet_count має бути >= 1
 engine-e-space-packet-data-len-must-be-in = data_len має бути в діапазоні 1..=65536
 
 engine-e-space-packet-internal-error-encode-decode-round = внутрішня помилка: розбіжність у циклі кодування й декодування
-
-engine-space-packet-space-packet-framed-ccsds-133 = space-packet: сформовано пакетів CCSDS-133.0 { $v2 }: { $packet_count }, APID { $apid }, усього октетів: { $total_bytes }, точний цикл туди й назад ({ $round_trip_ok })
 
 ## src/space_weather.rs
 
@@ -6293,10 +6082,6 @@ engine-e-spk-writer-degree-outside-27 = степінь { $degree } поза ді
 
 engine-e-spk-writer-type-13-degree-is-not = степінь { $degree } типу 13 не є непарним
 
-engine-e-spk-writer-states-for-epochs = станів: { $states }, епох: { $n }
-
-engine-e-spk-writer-states-degree-needs = станів: { $n }; для степеня { $degree } потрібно { $value }
-
 engine-e-spk-writer-descriptor-start-is-not-before = початок дескриптора не передує його кінцю
 
 engine-e-spk-writer-epochs-are-not-strictly-increasing = епохи не зростають строго
@@ -6326,8 +6111,6 @@ engine-e-spk-writer-type-21-segment-needs-at = сегмент типу 21 пот
 engine-e-spk-writer-difference-line-size-is-not = розмір рядка різниць { $dlsize } не дорівнює 4 MAXDIM + 11 при MAXDIM у 15..=25
 
 engine-e-spk-writer-difference-lines-of-different-sizes = рядки різниць різних розмірів
-
-engine-e-spk-writer-epochs-for-difference-lines = епох: { $epochs }, рядків різниць: { $n }
 
 engine-e-spk-writer-difference-line-epochs-are-not = епохи рядків різниць не зростають строго
 
@@ -6643,8 +6426,6 @@ engine-e-sweep-sweep-key-follows-an-array = ключ розгортки `{ $key 
 
 engine-e-sweep-unreachable = недосяжно
 
-engine-e-sweep-sweep-key-index-is-past = ключ розгортки `{ $key }`: індекс { $i } виходить за межі масиву з { $n } елементів
-
 engine-e-sweep-sweep-key-parent-is-not = ключ розгортки `{ $key }`: батько `{ $part }` не є таблицею
 
 engine-e-sweep-sweep-key-no-field = ключ розгортки `{ $key }`: немає поля `{ $part }`
@@ -6748,8 +6529,6 @@ engine-e-telemetry-cli-otlp-needs-build-with-features = --otlp потребує 
 engine-telemetry-cli-warning-input-line = попередження: вхідний рядок { $line_no }: { $e }
 
 engine-e-telemetry-cli-cannot-open = не вдалося відкрити { $p }: { $e }
-
-engine-telemetry-cli-warning-mqtt-messages-were-not = попередження: повідомлень MQTT не доставлено: { $n }
 
 ## src/telemetry/otlp.rs
 
@@ -6928,6 +6707,918 @@ engine-wasm-plans-json-is-not-json = plans_json не є JSON-масивом ря
 engine-wasm-options-json-is-not-json = options_json не є JSON: { $e }
 
 engine-wasm-input-is-about-bytes-over = вхідні дані займають близько { $b64 } байт, понад ліміт у { $v2 } байт
+
+## plural forms
+
+engine-e-clock-log-the-log-has-missing-epoch =
+    { $n_missing ->
+        [one] журнал формату { $format } має { $n_missing } пропущену епоху в
+        [few] журнал формату { $format } має { $n_missing } пропущені епохи в
+        [many] журнал формату { $format } має { $n_missing } пропущених епох в
+       *[other] журнал формату { $format } має { $n_missing } пропущеної епохи в
+    } { $n_gaps ->
+        [one] { $n_gaps } проміжку на сітці
+        [few] { $n_gaps } проміжках на сітці
+        [many] { $n_gaps } проміжках на сітці
+       *[other] { $n_gaps } проміжку на сітці
+    } { $tau0 } s; задайте gaps = "longest", щоб зберегти найдовшу ділянку без пропусків, або gaps = "linear", щоб інтерполювати
+
+engine-advanced-report-rows-of-non-numeric-column =
+    { $n ->
+        [one] { $n } рядок нечислового стовпця
+        [few] { $n } рядки нечислового стовпця
+        [many] { $n } рядків нечислового стовпця
+       *[other] { $n } рядка нечислового стовпця
+    }
+
+engine-e-animation-duration-fps-gives-frames-the =
+    { $n ->
+        [one] тривалість x fps дає { $n } кадр; послідовність кадрів потребує від 2 до { $v1 }
+        [few] тривалість x fps дає { $n } кадри; послідовність кадрів потребує від 2 до { $v1 }
+        [many] тривалість x fps дає { $n } кадрів; послідовність кадрів потребує від 2 до { $v1 }
+       *[other] тривалість x fps дає { $n } кадру; послідовність кадрів потребує від 2 до { $v1 }
+    }
+
+engine-aocs-kind-aocs-wheels-slew-from-deg =
+    { $n_w ->
+        [one] aocs: { $n_w } колесо, розворот { $duration_s } s від { $series_err } deg -> { $settle } | остаточна { $final_err } deg | пікова швидкість колеса { $peak_speed } rpm | { $v7 }
+        [few] aocs: { $n_w } колеса, розворот { $duration_s } s від { $series_err } deg -> { $settle } | остаточна { $final_err } deg | пікова швидкість колеса { $peak_speed } rpm | { $v7 }
+        [many] aocs: { $n_w } коліс, розворот { $duration_s } s від { $series_err } deg -> { $settle } | остаточна { $final_err } deg | пікова швидкість колеса { $peak_speed } rpm | { $v7 }
+       *[other] aocs: { $n_w } колеса, розворот { $duration_s } s від { $series_err } deg -> { $settle } | остаточна { $final_err } deg | пікова швидкість колеса { $peak_speed } rpm | { $v7 }
+    }
+
+engine-api-builtins-integrity-satellites-epochs-available-hal =
+    { $n_sats ->
+        [one] цілісність | { $n_sats } супутник | доступних епох: { $samples_available }/{ $samples_total } ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): подій цілісності — { $report2 }, HMI — { $report3 }
+        [few] цілісність | { $n_sats } супутники | доступних епох: { $samples_available }/{ $samples_total } ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): подій цілісності — { $report2 }, HMI — { $report3 }
+        [many] цілісність | { $n_sats } супутників | доступних епох: { $samples_available }/{ $samples_total } ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): подій цілісності — { $report2 }, HMI — { $report3 }
+       *[other] цілісність | { $n_sats } супутника | доступних епох: { $samples_available }/{ $samples_total } ({ $report }%) | HAL { $al_h_m } m VAL { $al_v_m } m | sigma { $sigma_uere_m } m | Stanford(V): подій цілісності — { $report2 }, HMI — { $report3 }
+    }
+
+engine-api-builtins-lunar-joint-od-clock-sats =
+    lunar-joint-od-clock | { $n_sat ->
+        [one] { $n_sat } супутник
+        [few] { $n_sat } супутники
+        [many] { $n_sat } супутників
+       *[other] { $n_sat } супутника
+    }, { $n_earth ->
+        [one] { $n_earth } наземна станція
+        [few] { $n_earth } наземні станції
+        [many] { $n_earth } наземних станцій
+       *[other] { $n_earth } наземної станції
+    } | 3-D похибка станції з VLBI { $station_pos_err_m } m проти лише дальності { $station_pos_err_m2 } m (різкість вища у { $station_observability_improvement_factor }×) | RMS положення супутника { $sat_pos_rms_m } m | похибка годинника станції { $station_clock_err_s } s | спостережень { $n_obs }/{ $n_params } параметрів
+
+engine-api-builtins-lunar-frame-realisation-points-translation =
+    { $n_points ->
+        [one] lunar-frame-realisation | { $n_points } точка | похибка зсуву { $trans_err_norm_m } m, похибка повороту { $rot_err_norm_rad } rad, похибка масштабу { $scale_err_ppb } ppb | залишок rms { $rms_residual_m } m | збіжність { $converged }
+        [few] lunar-frame-realisation | { $n_points } точки | похибка зсуву { $trans_err_norm_m } m, похибка повороту { $rot_err_norm_rad } rad, похибка масштабу { $scale_err_ppb } ppb | залишок rms { $rms_residual_m } m | збіжність { $converged }
+        [many] lunar-frame-realisation | { $n_points } точок | похибка зсуву { $trans_err_norm_m } m, похибка повороту { $rot_err_norm_rad } rad, похибка масштабу { $scale_err_ppb } ppb | залишок rms { $rms_residual_m } m | збіжність { $converged }
+       *[other] lunar-frame-realisation | { $n_points } точки | похибка зсуву { $trans_err_norm_m } m, похибка повороту { $rot_err_norm_rad } rad, похибка масштабу { $scale_err_ppb } ppb | залишок rms { $rms_residual_m } m | збіжність { $converged }
+    }
+
+engine-api-builtins-moonlight-service-volume-sats-pts =
+    { $n_sats ->
+        [one] moonlight-service-volume | { $n_sats } супутник ({ $geometry_label }) | точок: { $n_grid_points } × епох: { $n_epochs } | покриття { $coverage_pct }% (PDOP<{ $pdop_threshold }) | супутників { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | доступність PL { $pl_availability_pct }% | MODELLED
+        [few] moonlight-service-volume | { $n_sats } супутники ({ $geometry_label }) | точок: { $n_grid_points } × епох: { $n_epochs } | покриття { $coverage_pct }% (PDOP<{ $pdop_threshold }) | супутників { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | доступність PL { $pl_availability_pct }% | MODELLED
+        [many] moonlight-service-volume | { $n_sats } супутників ({ $geometry_label }) | точок: { $n_grid_points } × епох: { $n_epochs } | покриття { $coverage_pct }% (PDOP<{ $pdop_threshold }) | супутників { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | доступність PL { $pl_availability_pct }% | MODELLED
+       *[other] moonlight-service-volume | { $n_sats } супутника ({ $geometry_label }) | точок: { $n_grid_points } × епох: { $n_epochs } | покриття { $coverage_pct }% (PDOP<{ $pdop_threshold }) | супутників { $min_sats }–{ $max_sats } | PDOP { $pdop_min }/{ $pdop_mean }/{ $pdop_max } | HPL { $hpl_min_m }–{ $hpl_max_m } m | доступність PL { $pl_availability_pct }% | MODELLED
+    }
+
+engine-api-builtins-lunar-differential-pnt-sats-illustrative =
+    { $n_sats ->
+        [one] lunar-differential-pnt | { $n_sats } супутник (ілюстративний, класу LCNS, без афіліації) | база { $baseline_km } km | похибка користувача { $user_error_uncorrected_m } m → { $user_error_corrected_m } m (зменшення у { $reduction_factor }×) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
+        [few] lunar-differential-pnt | { $n_sats } супутники (ілюстративні, класу LCNS, без афіліації) | база { $baseline_km } km | похибка користувача { $user_error_uncorrected_m } m → { $user_error_corrected_m } m (зменшення у { $reduction_factor }×) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
+        [many] lunar-differential-pnt | { $n_sats } супутників (ілюстративні, класу LCNS, без афіліації) | база { $baseline_km } km | похибка користувача { $user_error_uncorrected_m } m → { $user_error_corrected_m } m (зменшення у { $reduction_factor }×) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
+       *[other] lunar-differential-pnt | { $n_sats } супутника (ілюстративні, класу LCNS, без афіліації) | база { $baseline_km } km | похибка користувача { $user_error_uncorrected_m } m → { $user_error_corrected_m } m (зменшення у { $reduction_factor }×) | HPL { $protection_level_m } m (σ_resid { $residual_sigma_m } m) | MODELLED
+    }
+
+engine-api-builtins-lunar-interop-export-ref-frame =
+    lunar-interop-export | REF_FRAME { $frame } / TIME_SYSTEM { $time_system } | { $n_states ->
+        [one] { $n_states } стан
+        [few] { $n_states } стани
+        [many] { $n_states } станів
+       *[other] { $n_states } стану
+    }, { $oem_line_count ->
+        [one] { $oem_line_count } рядок OEM
+        [few] { $oem_line_count } рядки OEM
+        [many] { $oem_line_count } рядків OEM
+       *[other] { $oem_line_count } рядка OEM
+    } | узгодженість { $v5 } (присутні поля: { $present_fields } / відсутні: { $missing_fields }) | круговий прохід OEM { $v8 } | круговий прохід time-meta { $v9 } | KIF { $kif_bytes } bytes | MODELLED
+
+engine-api-builtins-scenario-spoof-detect-svs-db =
+    { $n_sats ->
+        [one] сценарій { $r } | spoof-detect | { $n_sats } супутник, +{ $power_advantage_db } dB{ $v4 } | push { $push } | зведена оцінка { $score } (поріг { $fusion_threshold }) | { $verdict }
+        [few] сценарій { $r } | spoof-detect | { $n_sats } супутники, +{ $power_advantage_db } dB{ $v4 } | push { $push } | зведена оцінка { $score } (поріг { $fusion_threshold }) | { $verdict }
+        [many] сценарій { $r } | spoof-detect | { $n_sats } супутників, +{ $power_advantage_db } dB{ $v4 } | push { $push } | зведена оцінка { $score } (поріг { $fusion_threshold }) | { $verdict }
+       *[other] сценарій { $r } | spoof-detect | { $n_sats } супутника, +{ $power_advantage_db } dB{ $v4 } | push { $push } | зведена оцінка { $score } (поріг { $fusion_threshold }) | { $verdict }
+    }
+
+engine-api-builtins-scenario-samples-alt-km-lat =
+    { $n_samples ->
+        [one] сценарій { $r } | { $source } | { $n_samples } відлік | висота { $alt_min_km }–{ $alt_max_km } km | |lat| ≤ { $r2 }° | швидкість { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
+        [few] сценарій { $r } | { $source } | { $n_samples } відліки | висота { $alt_min_km }–{ $alt_max_km } km | |lat| ≤ { $r2 }° | швидкість { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
+        [many] сценарій { $r } | { $source } | { $n_samples } відліків | висота { $alt_min_km }–{ $alt_max_km } km | |lat| ≤ { $r2 }° | швидкість { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
+       *[other] сценарій { $r } | { $source } | { $n_samples } відліку | висота { $alt_min_km }–{ $alt_max_km } km | |lat| ≤ { $r2 }° | швидкість { $speed_min_m_s }–{ $speed_max_m_s } m/s{ $pass }
+    }
+
+engine-api-builtins-raim-available-of-epochs-denied =
+    { $n_epochs ->
+        [one] { " " }| RAIM доступний у { $n_available } з { $n_epochs } епохи (відмов: { $n_denied }, тривог: { $n_alarm }; MODELLED)
+        [few] { " " }| RAIM доступний у { $n_available } з { $n_epochs } епох (відмов: { $n_denied }, тривог: { $n_alarm }; MODELLED)
+        [many] { " " }| RAIM доступний у { $n_available } з { $n_epochs } епох (відмов: { $n_denied }, тривог: { $n_alarm }; MODELLED)
+       *[other] { " " }| RAIM доступний у { $n_available } з { $n_epochs } епохи (відмов: { $n_denied }, тривог: { $n_alarm }; MODELLED)
+    }
+
+engine-e-araim-reference-the-priors-need-subsets-of =
+    { $n_fault_max ->
+        [one] апріорні ймовірності потребують підмножин із { $n_fault_max } одночасної події; цей шлях перелічує щонайбільше { $most }
+        [few] апріорні ймовірності потребують підмножин із { $n_fault_max } одночасних подій; цей шлях перелічує щонайбільше { $most }
+        [many] апріорні ймовірності потребують підмножин із { $n_fault_max } одночасних подій; цей шлях перелічує щонайбільше { $most }
+       *[other] апріорні ймовірності потребують підмножин із { $n_fault_max } одночасної події; цей шлях перелічує щонайбільше { $most }
+    }
+
+engine-bench-tasks-case-needs-values-has =
+    { $n ->
+        [one] випадок `{ $id }` потребує { $n } значення, наявно: { $a }
+        [few] випадок `{ $id }` потребує { $n } значення, наявно: { $a }
+        [many] випадок `{ $id }` потребує { $n } значень, наявно: { $a }
+       *[other] випадок `{ $id }` потребує { $n } значення, наявно: { $a }
+    }
+
+engine-bin-gen-araim-m3-study-user-epochs-ura-values-in =
+    { $n ->
+        [one] { $n } користувацька епоха x 3 значення URA за { $dt } s = { $v1 } ms на користувацьку епоху (розв'язуваних: { $ok })
+        [few] { $n } користувацькі епохи x 3 значення URA за { $dt } s = { $v1 } ms на користувацьку епоху (розв'язуваних: { $ok })
+        [many] { $n } користувацьких епох x 3 значення URA за { $dt } s = { $v1 } ms на користувацьку епоху (розв'язуваних: { $ok })
+       *[other] { $n } користувацької епохи x 3 значення URA за { $dt } s = { $v1 } ms на користувацьку епоху (розв'язуваних: { $ok })
+    }
+
+engine-body-pnt-positioning-around-user-relays-at =
+    Позиціонування навколо { $name } — користувач { $user_kind }, { $n_relays ->
+        [one] { $n_relays } ретранслятор на
+        [few] { $n_relays } ретранслятори на
+        [many] { $n_relays } ретрансляторів на
+       *[other] { $n_relays } ретранслятора на
+    } { $r } km, { $n_epochs ->
+        [one] { $n_epochs } епоха
+        [few] { $n_epochs } епохи
+        [many] { $n_epochs } епох
+       *[other] { $n_epochs } епохи
+    }
+    { "  " }Світловий час до Землі { $one_way_light_time_s } s в один бік, { $two_way_light_time_s } s туди й назад; кут Сонце–Земля–тіло { $sun_separation_deg } deg
+    { "  " }доступність: { $availability_relays } лише орбітальне угруповання, { $availability_with_earth } із дальністю до Землі (Земля у видимості { $earth_visibility })
+    { "  " }медіанний PDOP { $opt }; похибка RMS { $opt2 } лише орбітальне угруповання, { $opt3 } із дальністю до Землі
+    { "  " }медіанна формальна сигма { $opt4 } лише орбітальне угруповання, { $opt5 } із дальністю до Землі{ "\u000A" }
+
+engine-body-pnt-user-relays-earth-light-time =
+    { $n_relays ->
+        [one] користувач { $user_kind } · { $n_relays } ретранслятор · світловий час до Землі { $one_way_light_time_s } s · MODELLED
+        [few] користувач { $user_kind } · { $n_relays } ретранслятори · світловий час до Землі { $one_way_light_time_s } s · MODELLED
+        [many] користувач { $user_kind } · { $n_relays } ретрансляторів · світловий час до Землі { $one_way_light_time_s } s · MODELLED
+       *[other] користувач { $user_kind } · { $n_relays } ретранслятора · світловий час до Землі { $one_way_light_time_s } s · MODELLED
+    }
+
+engine-cislunar-arc-recovery-cislunar-arc-recovery-family-state =
+    { $n_spacecraft ->
+        [one] cislunar-arc-recovery | родина { $family }, вимірність стану { $state_dim }, { $n_spacecraft } апарат, спостережувана { $observable }, параметризація { $coordinates } | дуга { $arc_hours } h, епох: { $epochs } (сітка { $grid_hours } h), випробувань: { $trials }, зерно { $seed } | частинні похідні скінченними різницями, без аналітичного якобіана / STM / SVD / SRIF | безшумове відновлення з { $nf } (множник { $recovery_factor }) проти порога рангу грамієна { $gram } | оцінюваність за Монте-Карло з { $est } (RMS положення ≤ { $error_bound_km } km, σ { $sigma_range_m } m) проти оцінюваності за грамієном { $gram_est } | RMS положення наприкінці дуги { $last } km
+        [few] cislunar-arc-recovery | родина { $family }, вимірність стану { $state_dim }, { $n_spacecraft } апарати, спостережувана { $observable }, параметризація { $coordinates } | дуга { $arc_hours } h, епох: { $epochs } (сітка { $grid_hours } h), випробувань: { $trials }, зерно { $seed } | частинні похідні скінченними різницями, без аналітичного якобіана / STM / SVD / SRIF | безшумове відновлення з { $nf } (множник { $recovery_factor }) проти порога рангу грамієна { $gram } | оцінюваність за Монте-Карло з { $est } (RMS положення ≤ { $error_bound_km } km, σ { $sigma_range_m } m) проти оцінюваності за грамієном { $gram_est } | RMS положення наприкінці дуги { $last } km
+        [many] cislunar-arc-recovery | родина { $family }, вимірність стану { $state_dim }, { $n_spacecraft } апаратів, спостережувана { $observable }, параметризація { $coordinates } | дуга { $arc_hours } h, епох: { $epochs } (сітка { $grid_hours } h), випробувань: { $trials }, зерно { $seed } | частинні похідні скінченними різницями, без аналітичного якобіана / STM / SVD / SRIF | безшумове відновлення з { $nf } (множник { $recovery_factor }) проти порога рангу грамієна { $gram } | оцінюваність за Монте-Карло з { $est } (RMS положення ≤ { $error_bound_km } km, σ { $sigma_range_m } m) проти оцінюваності за грамієном { $gram_est } | RMS положення наприкінці дуги { $last } km
+       *[other] cislunar-arc-recovery | родина { $family }, вимірність стану { $state_dim }, { $n_spacecraft } апарата, спостережувана { $observable }, параметризація { $coordinates } | дуга { $arc_hours } h, епох: { $epochs } (сітка { $grid_hours } h), випробувань: { $trials }, зерно { $seed } | частинні похідні скінченними різницями, без аналітичного якобіана / STM / SVD / SRIF | безшумове відновлення з { $nf } (множник { $recovery_factor }) проти порога рангу грамієна { $gram } | оцінюваність за Монте-Карло з { $est } (RMS положення ≤ { $error_bound_km } km, σ { $sigma_range_m } m) проти оцінюваності за грамієном { $gram_est } | RMS положення наприкінці дуги { $last } km
+    }
+
+engine-cislunar-observability-cislunar-observability-refs-arc-epochs =
+    { $n_links ->
+        [one] cislunar-observability | апаратів: { $c } (опорних: { $refs }) | дуга { $arc_hours } h, епох: { $rank_arc } | ранг { $first } → { $last } з { $state_dim } на дузі | λ грамієна [{ $min_eigenvalue }…{ $max_eigenvalue }] обумовленість { $condition_str } | миттєвий ранг лише за дальністю { $rank_range_only } → дальність+швидкість { $rank_range_rate } ({ $n_links } лінія зв'язку) | GDOP лише за дальністю { $ro } дальність+швидкість { $rr } | початкові умови DRO (макс. нев'язка періодичності { $max_resid }) | апостеріорна SRIF скінченна в епоху рангу 4 { $srif_epoch } (перевірено: ранг/STM/замкнення DRO/SRIF; змодельовано: проєкт)
+        [few] cislunar-observability | апаратів: { $c } (опорних: { $refs }) | дуга { $arc_hours } h, епох: { $rank_arc } | ранг { $first } → { $last } з { $state_dim } на дузі | λ грамієна [{ $min_eigenvalue }…{ $max_eigenvalue }] обумовленість { $condition_str } | миттєвий ранг лише за дальністю { $rank_range_only } → дальність+швидкість { $rank_range_rate } ({ $n_links } лінії зв'язку) | GDOP лише за дальністю { $ro } дальність+швидкість { $rr } | початкові умови DRO (макс. нев'язка періодичності { $max_resid }) | апостеріорна SRIF скінченна в епоху рангу 4 { $srif_epoch } (перевірено: ранг/STM/замкнення DRO/SRIF; змодельовано: проєкт)
+        [many] cislunar-observability | апаратів: { $c } (опорних: { $refs }) | дуга { $arc_hours } h, епох: { $rank_arc } | ранг { $first } → { $last } з { $state_dim } на дузі | λ грамієна [{ $min_eigenvalue }…{ $max_eigenvalue }] обумовленість { $condition_str } | миттєвий ранг лише за дальністю { $rank_range_only } → дальність+швидкість { $rank_range_rate } ({ $n_links } ліній зв'язку) | GDOP лише за дальністю { $ro } дальність+швидкість { $rr } | початкові умови DRO (макс. нев'язка періодичності { $max_resid }) | апостеріорна SRIF скінченна в епоху рангу 4 { $srif_epoch } (перевірено: ранг/STM/замкнення DRO/SRIF; змодельовано: проєкт)
+       *[other] cislunar-observability | апаратів: { $c } (опорних: { $refs }) | дуга { $arc_hours } h, епох: { $rank_arc } | ранг { $first } → { $last } з { $state_dim } на дузі | λ грамієна [{ $min_eigenvalue }…{ $max_eigenvalue }] обумовленість { $condition_str } | миттєвий ранг лише за дальністю { $rank_range_only } → дальність+швидкість { $rank_range_rate } ({ $n_links } лінії зв'язку) | GDOP лише за дальністю { $ro } дальність+швидкість { $rr } | початкові умови DRO (макс. нев'язка періодичності { $max_resid }) | апостеріорна SRIF скінченна в епоху рангу 4 { $srif_epoch } (перевірено: ранг/STM/замкнення DRO/SRIF; змодельовано: проєкт)
+    }
+
+engine-cislunar-observability-family-state-range-rank-threshold =
+    { $n_spacecraft ->
+        [one] { $base } | родина { $family }, вимірність стану { $state_dim }, { $n_spacecraft } апарат, σ_range { $sigma_range_m } m | поріг рангу { $rank_thr } (сітка { $c } h) | поріг оцінюваності (σ_pos ≤ { $sigma_pos_threshold_km } km) { $est_thr }
+        [few] { $base } | родина { $family }, вимірність стану { $state_dim }, { $n_spacecraft } апарати, σ_range { $sigma_range_m } m | поріг рангу { $rank_thr } (сітка { $c } h) | поріг оцінюваності (σ_pos ≤ { $sigma_pos_threshold_km } km) { $est_thr }
+        [many] { $base } | родина { $family }, вимірність стану { $state_dim }, { $n_spacecraft } апаратів, σ_range { $sigma_range_m } m | поріг рангу { $rank_thr } (сітка { $c } h) | поріг оцінюваності (σ_pos ≤ { $sigma_pos_threshold_km } km) { $est_thr }
+       *[other] { $base } | родина { $family }, вимірність стану { $state_dim }, { $n_spacecraft } апарата, σ_range { $sigma_range_m } m | поріг рангу { $rank_thr } (сітка { $c } h) | поріг оцінюваності (σ_pos ≤ { $sigma_pos_threshold_km } km) { $est_thr }
+    }
+
+engine-cislunar-observability-extension-r3-this-run-is =
+    { $n_spacecraft ->
+        [one] РОЗШИРЕННЯ (R3) — цей прогін НЕ є планарною конфігурацією DRO, яку описує `label` вище. Вимірність стану { $state_dim }; родина орбіт { $family }; { $n_spacecraft } апарат; сигма вимірювання дальності { $sigma_range_m } m. Де `label` каже «планарні» та «планарні DRO», читайте названу тут родину. VALIDATED доповнення: варіаційна STM 6x6 є тією самою перевіреною скінченними різницями STM CR3BP (crate::cr3bp), що застосовується в повній ширині; рядки якобіана просторових дальності / швидкості дальності є аналітичними частинними похідними, перевіреними скінченними різницями, а рядок швидкості дальності перехресно перевірено покомпонентно за незалежною 3-D deepspace_od::range_rate_observable цього крейта; початкові умови halo / NRHO є диференційно скоригованими періодичними орбітами від того самого коректора, що відтворює опубліковану південну NRHO L2 9:2, продовженими від цього опублікованого зерна, і нев'язку замкнення кожного члена наведено; вердикти РАНГУ для шести станів підтверджено НЕЗАЛЕЖНИМ рядково-східчастим рангом (метод Гаусса з частковим вибором головного елемента), що не має спільного коду зі шляхом власних значень/SVD. ЧЕСНА МЕЖА ГІЛКИ SRIF: наведена вище перехресна перевірка SRIF використовує ТІ САМІ якобіани вимірювань і зводиться до того самого O^T O, тож її збіг є перевіркою узгодженості двох числових механізмів, а НЕ незалежним підтвердженням порога — вона не зараховується як перевірка жодної величини тут. MODELLED: проєкт родини (які абсциси, амплітуди й фази), сітка епох, одноканальна дуга та заявлена межа положення критерію оцінюваності.
+        [few] РОЗШИРЕННЯ (R3) — цей прогін НЕ є планарною конфігурацією DRO, яку описує `label` вище. Вимірність стану { $state_dim }; родина орбіт { $family }; { $n_spacecraft } апарати; сигма вимірювання дальності { $sigma_range_m } m. Де `label` каже «планарні» та «планарні DRO», читайте названу тут родину. VALIDATED доповнення: варіаційна STM 6x6 є тією самою перевіреною скінченними різницями STM CR3BP (crate::cr3bp), що застосовується в повній ширині; рядки якобіана просторових дальності / швидкості дальності є аналітичними частинними похідними, перевіреними скінченними різницями, а рядок швидкості дальності перехресно перевірено покомпонентно за незалежною 3-D deepspace_od::range_rate_observable цього крейта; початкові умови halo / NRHO є диференційно скоригованими періодичними орбітами від того самого коректора, що відтворює опубліковану південну NRHO L2 9:2, продовженими від цього опублікованого зерна, і нев'язку замкнення кожного члена наведено; вердикти РАНГУ для шести станів підтверджено НЕЗАЛЕЖНИМ рядково-східчастим рангом (метод Гаусса з частковим вибором головного елемента), що не має спільного коду зі шляхом власних значень/SVD. ЧЕСНА МЕЖА ГІЛКИ SRIF: наведена вище перехресна перевірка SRIF використовує ТІ САМІ якобіани вимірювань і зводиться до того самого O^T O, тож її збіг є перевіркою узгодженості двох числових механізмів, а НЕ незалежним підтвердженням порога — вона не зараховується як перевірка жодної величини тут. MODELLED: проєкт родини (які абсциси, амплітуди й фази), сітка епох, одноканальна дуга та заявлена межа положення критерію оцінюваності.
+        [many] РОЗШИРЕННЯ (R3) — цей прогін НЕ є планарною конфігурацією DRO, яку описує `label` вище. Вимірність стану { $state_dim }; родина орбіт { $family }; { $n_spacecraft } апаратів; сигма вимірювання дальності { $sigma_range_m } m. Де `label` каже «планарні» та «планарні DRO», читайте названу тут родину. VALIDATED доповнення: варіаційна STM 6x6 є тією самою перевіреною скінченними різницями STM CR3BP (crate::cr3bp), що застосовується в повній ширині; рядки якобіана просторових дальності / швидкості дальності є аналітичними частинними похідними, перевіреними скінченними різницями, а рядок швидкості дальності перехресно перевірено покомпонентно за незалежною 3-D deepspace_od::range_rate_observable цього крейта; початкові умови halo / NRHO є диференційно скоригованими періодичними орбітами від того самого коректора, що відтворює опубліковану південну NRHO L2 9:2, продовженими від цього опублікованого зерна, і нев'язку замкнення кожного члена наведено; вердикти РАНГУ для шести станів підтверджено НЕЗАЛЕЖНИМ рядково-східчастим рангом (метод Гаусса з частковим вибором головного елемента), що не має спільного коду зі шляхом власних значень/SVD. ЧЕСНА МЕЖА ГІЛКИ SRIF: наведена вище перехресна перевірка SRIF використовує ТІ САМІ якобіани вимірювань і зводиться до того самого O^T O, тож її збіг є перевіркою узгодженості двох числових механізмів, а НЕ незалежним підтвердженням порога — вона не зараховується як перевірка жодної величини тут. MODELLED: проєкт родини (які абсциси, амплітуди й фази), сітка епох, одноканальна дуга та заявлена межа положення критерію оцінюваності.
+       *[other] РОЗШИРЕННЯ (R3) — цей прогін НЕ є планарною конфігурацією DRO, яку описує `label` вище. Вимірність стану { $state_dim }; родина орбіт { $family }; { $n_spacecraft } апарата; сигма вимірювання дальності { $sigma_range_m } m. Де `label` каже «планарні» та «планарні DRO», читайте названу тут родину. VALIDATED доповнення: варіаційна STM 6x6 є тією самою перевіреною скінченними різницями STM CR3BP (crate::cr3bp), що застосовується в повній ширині; рядки якобіана просторових дальності / швидкості дальності є аналітичними частинними похідними, перевіреними скінченними різницями, а рядок швидкості дальності перехресно перевірено покомпонентно за незалежною 3-D deepspace_od::range_rate_observable цього крейта; початкові умови halo / NRHO є диференційно скоригованими періодичними орбітами від того самого коректора, що відтворює опубліковану південну NRHO L2 9:2, продовженими від цього опублікованого зерна, і нев'язку замкнення кожного члена наведено; вердикти РАНГУ для шести станів підтверджено НЕЗАЛЕЖНИМ рядково-східчастим рангом (метод Гаусса з частковим вибором головного елемента), що не має спільного коду зі шляхом власних значень/SVD. ЧЕСНА МЕЖА ГІЛКИ SRIF: наведена вище перехресна перевірка SRIF використовує ТІ САМІ якобіани вимірювань і зводиться до того самого O^T O, тож її збіг є перевіркою узгодженості двох числових механізмів, а НЕ незалежним підтвердженням порога — вона не зараховується як перевірка жодної величини тут. MODELLED: проєкт родини (які абсциси, амплітуди й фази), сітка епох, одноканальна дуга та заявлена межа положення критерію оцінюваності.
+    }
+
+engine-e-clock-integrity-integrity-epochs-exceed-the-epoch =
+    { $n ->
+        [one] цілісність: { $n } епоха перевищує ліміт у { $MAX_EPOCHS } епох; збільште step_s
+        [few] цілісність: { $n } епохи перевищують ліміт у { $MAX_EPOCHS } епох; збільште step_s
+        [many] цілісність: { $n } епох перевищують ліміт у { $MAX_EPOCHS } епох; збільште step_s
+       *[other] цілісність: { $n } епохи перевищують ліміт у { $MAX_EPOCHS } епох; збільште step_s
+    }
+
+engine-earth-gnss-lunar-earth-gnss-at-lunar-distance =
+    { $n_satellites ->
+        [one] GNSS Землі на місячній відстані — { $n_satellites } супутник, приймач на { $r } km{ "\u000A" }
+        [few] GNSS Землі на місячній відстані — { $n_satellites } супутники, приймач на { $r } km{ "\u000A" }
+        [many] GNSS Землі на місячній відстані — { $n_satellites } супутників, приймач на { $r } km{ "\u000A" }
+       *[other] GNSS Землі на місячній відстані — { $n_satellites } супутника, приймач на { $r } km{ "\u000A" }
+    }
+
+engine-earth-gnss-lunar-of-not-occulted-clear-the =
+    { $n_satellites ->
+        [one] { "  " }не затулено: { $n_geometrically_visible } з { $n_satellites } супутника; поріг супроводження { $tracking_threshold_dbhz } dB-Hz перевищують: { $n_trackable }{ "\u000A" }
+        [few] { "  " }не затулено: { $n_geometrically_visible } з { $n_satellites } супутників; поріг супроводження { $tracking_threshold_dbhz } dB-Hz перевищують: { $n_trackable }{ "\u000A" }
+        [many] { "  " }не затулено: { $n_geometrically_visible } з { $n_satellites } супутників; поріг супроводження { $tracking_threshold_dbhz } dB-Hz перевищують: { $n_trackable }{ "\u000A" }
+       *[other] { "  " }не затулено: { $n_geometrically_visible } з { $n_satellites } супутника; поріг супроводження { $tracking_threshold_dbhz } dB-Hz перевищують: { $n_trackable }{ "\u000A" }
+    }
+
+engine-ephemeris-ground-track-samples-alt-km =
+    { $n_samples ->
+        [one] наземна траса { $source } · { $n_samples } відлік · висота { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
+        [few] наземна траса { $source } · { $n_samples } відліки · висота { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
+        [many] наземна траса { $source } · { $n_samples } відліків · висота { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
+       *[other] наземна траса { $source } · { $n_samples } відліку · висота { $alt_min_km }–{ $alt_max_km } km · |lat| ≤ { $r }°
+    }
+
+engine-geometry-sky-tle-holds-no-complete =
+    { $n_ignored ->
+        [one] sky: tle не містить повного двохрядкового набору елементів; проігноровано { $n_ignored } рядок, перший: { $first }
+        [few] sky: tle не містить повного двохрядкового набору елементів; проігноровано { $n_ignored } рядки, перший: { $first }
+        [many] sky: tle не містить повного двохрядкового набору елементів; проігноровано { $n_ignored } рядків, перший: { $first }
+       *[other] sky: tle не містить повного двохрядкового набору елементів; проігноровано { $n_ignored } рядка, перший: { $first }
+    }
+
+engine-geometry-element-sets-propagated-by-the =
+    { $n ->
+        [one] { $n } набір елементів пропаговано SGP4 рушія (WGS-72) на { $iso } і повернуто до земної системи координат з UT1, прийнятим за UTC, і без полярного руху: це небо, яке цей набір елементів дає на ту епоху, а не його вимірювання.
+        [few] { $n } набори елементів пропаговано SGP4 рушія (WGS-72) на { $iso } і повернуто до земної системи координат з UT1, прийнятим за UTC, і без полярного руху: це небо, яке ці набори елементів дають на ту епоху, а не його вимірювання.
+        [many] { $n } наборів елементів пропаговано SGP4 рушія (WGS-72) на { $iso } і повернуто до земної системи координат з UT1, прийнятим за UTC, і без полярного руху: це небо, яке ці набори елементів дають на ту епоху, а не його вимірювання.
+       *[other] { $n } набору елементів пропаговано SGP4 рушія (WGS-72) на { $iso } і повернуто до земної системи координат з UT1, прийнятим за UTC, і без полярного руху: це небо, яке ці набори елементів дають на ту епоху, а не його вимірювання.
+    }
+
+engine-geometry-element-sets-propagated-by-the-2 =
+    { $n ->
+        [one] { $n } набір елементів пропаговано SGP4 рушія (WGS-72) на епоху найновішого набору елементів плюс time_s ({ $iso }). Епоху не задано, тож це репрезентативне небо, а не небо заявленої дати.
+        [few] { $n } набори елементів пропаговано SGP4 рушія (WGS-72) на епоху найновішого набору елементів плюс time_s ({ $iso }). Епоху не задано, тож це репрезентативне небо, а не небо заявленої дати.
+        [many] { $n } наборів елементів пропаговано SGP4 рушія (WGS-72) на епоху найновішого набору елементів плюс time_s ({ $iso }). Епоху не задано, тож це репрезентативне небо, а не небо заявленої дати.
+       *[other] { $n } набору елементів пропаговано SGP4 рушія (WGS-72) на епоху найновішого набору елементів плюс time_s ({ $iso }). Епоху не задано, тож це репрезентативне небо, а не небо заявленої дати.
+    }
+
+engine-e-gse-sim-scenario-produces-epochs-need-increase =
+    { $n ->
+        [one] сценарій дає { $n } епоху (потрібно ≥ 2); збільште duration_s або зменште step_s
+        [few] сценарій дає { $n } епохи (потрібно ≥ 2); збільште duration_s або зменште step_s
+        [many] сценарій дає { $n } епох (потрібно ≥ 2); збільште duration_s або зменште step_s
+       *[other] сценарій дає { $n } епохи (потрібно ≥ 2); збільште duration_s або зменште step_s
+    }
+
+engine-hybrid-integrity-hybrid-optical-rf-optical-footprint =
+    { $n_sites ->
+        [one] hybrid-optical-rf | оптична пляма { $footprint_m } m, фотонів: { $detected_photons } -> σ далекометрії { $c } mm, σ часу { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | доступність { $c4 }% ({ $n_sites } пункт) | передавання без стрибка { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | спільний FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | перевірено CRLB/χ²-PL/union/handoff, змодельовано σ/кліматологія
+        [few] hybrid-optical-rf | оптична пляма { $footprint_m } m, фотонів: { $detected_photons } -> σ далекометрії { $c } mm, σ часу { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | доступність { $c4 }% ({ $n_sites } пункти) | передавання без стрибка { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | спільний FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | перевірено CRLB/χ²-PL/union/handoff, змодельовано σ/кліматологія
+        [many] hybrid-optical-rf | оптична пляма { $footprint_m } m, фотонів: { $detected_photons } -> σ далекометрії { $c } mm, σ часу { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | доступність { $c4 }% ({ $n_sites } пунктів) | передавання без стрибка { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | спільний FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | перевірено CRLB/χ²-PL/union/handoff, змодельовано σ/кліматологія
+       *[other] hybrid-optical-rf | оптична пляма { $footprint_m } m, фотонів: { $detected_photons } -> σ далекометрії { $c } mm, σ часу { $c2 } ps | cross-RAIM HPL { $hpl_m } m / VPL { $vpl_m } m / TPL { $c3 } ns ({ $v8 }) | доступність { $c4 }% ({ $n_sites } пункту) | передавання без стрибка { $v11 } NEES { $final_nees }∈[{ $c5 },{ $c6 }] { $v15 } | спільний FoM { $score } (A { $availability } · P { $precision_grade } · I { $integrity_assured }) | перевірено CRLB/χ²-PL/union/handoff, змодельовано σ/кліматологія
+    }
+
+engine-impairment-eval-impairment-eval-detector-auc-in =
+    { $n_cases ->
+        [one] impairment-eval | детектор { $detector } | AUC { $auc_in } на вході / { $auc_out } на виході (розрив { $optimism_gap }{ $v5 }) | Pd { $report } Pfa { $report2 } @ ціль { $target_pfa } | { $n_cases } випадок | MODELLED синтетичні дані
+        [few] impairment-eval | детектор { $detector } | AUC { $auc_in } на вході / { $auc_out } на виході (розрив { $optimism_gap }{ $v5 }) | Pd { $report } Pfa { $report2 } @ ціль { $target_pfa } | { $n_cases } випадки | MODELLED синтетичні дані
+        [many] impairment-eval | детектор { $detector } | AUC { $auc_in } на вході / { $auc_out } на виході (розрив { $optimism_gap }{ $v5 }) | Pd { $report } Pfa { $report2 } @ ціль { $target_pfa } | { $n_cases } випадків | MODELLED синтетичні дані
+       *[other] impairment-eval | детектор { $detector } | AUC { $auc_in } на вході / { $auc_out } на виході (розрив { $optimism_gap }{ $v5 }) | Pd { $report } Pfa { $report2 } @ ціль { $target_pfa } | { $n_cases } випадку | MODELLED синтетичні дані
+    }
+
+engine-e-interop-scene-time-samples-is-more-than =
+    { $n ->
+        [one] { $n } часовий відлік — це більше, ніж записує експорт ({ $MAX_SAMPLES })
+        [few] { $n } часові відліки — це більше, ніж записує експорт ({ $MAX_SAMPLES })
+        [many] { $n } часових відліків — це більше, ніж записує експорт ({ $MAX_SAMPLES })
+       *[other] { $n } часового відліку — це більше, ніж записує експорт ({ $MAX_SAMPLES })
+    }
+
+engine-e-iq-campaign-conditions-lists-value-give-one-per =
+    { $n ->
+        [one] { $at }: { $key } містить { $n } значення; задайте по одному на кожен id ({ $ids })
+        [few] { $at }: { $key } містить { $n } значення; задайте по одному на кожен id ({ $ids })
+        [many] { $at }: { $key } містить { $n } значень; задайте по одному на кожен id ({ $ids })
+       *[other] { $at }: { $key } містить { $n } значення; задайте по одному на кожен id ({ $ids })
+    }
+
+engine-e-iq-campaign-runner-recording-holds-samples-needed-to =
+    { $n ->
+        [one] { $code }: запис містить відліків: { $buf }, для захоплення потрібно { $n } відлік
+        [few] { $code }: запис містить відліків: { $buf }, для захоплення потрібно { $n } відліки
+        [many] { $code }: запис містить відліків: { $buf }, для захоплення потрібно { $n } відліків
+       *[other] { $code }: запис містить відліків: { $buf }, для захоплення потрібно { $n } відліку
+    }
+
+engine-iq-cli-iq-takes-positional-argument-got =
+    { $n ->
+        [one] iq { $cmd } приймає { $n } позиційний аргумент, отримано: { $pos }
+        [few] iq { $cmd } приймає { $n } позиційні аргументи, отримано: { $pos }
+        [many] iq { $cmd } приймає { $n } позиційних аргументів, отримано: { $pos }
+       *[other] iq { $cmd } приймає { $n } позиційного аргументу, отримано: { $pos }
+    }
+
+engine-iq-io-cli-iq-takes-path-argument-got =
+    { $n ->
+        [one] iq { $cmd } приймає { $n } аргумент-шлях, отримано: { $pos }
+        [few] iq { $cmd } приймає { $n } аргументи-шляхи, отримано: { $pos }
+        [many] iq { $cmd } приймає { $n } аргументів-шляхів, отримано: { $pos }
+       *[other] iq { $cmd } приймає { $n } аргументу-шляху, отримано: { $pos }
+    }
+
+engine-iq-io-cli-wrote-samples-hz-to-saturated =
+    { $n ->
+        [one] записано { $n } відлік ({ $to }, { $fs_hz } Hz) у { $files }; насичених елементів: { $w }{ $v4 }
+        [few] записано { $n } відліки ({ $to }, { $fs_hz } Hz) у { $files }; насичених елементів: { $w }{ $v4 }
+        [many] записано { $n } відліків ({ $to }, { $fs_hz } Hz) у { $files }; насичених елементів: { $w }{ $v4 }
+       *[other] записано { $n } відліку ({ $to }, { $fs_hz } Hz) у { $files }; насичених елементів: { $w }{ $v4 }
+    }
+
+engine-e-iq-io-sigmf-stream-capture-at-sample-is-out =
+    { $n_file ->
+        [one] { $name }: захоплення з відліку { $sample_start } порушує порядок або виходить за межі { $n_file } відліку у даних
+        [few] { $name }: захоплення з відліку { $sample_start } порушує порядок або виходить за межі { $n_file } відліків у даних
+        [many] { $name }: захоплення з відліку { $sample_start } порушує порядок або виходить за межі { $n_file } відліків у даних
+       *[other] { $name }: захоплення з відліку { $sample_start } порушує порядок або виходить за межі { $n_file } відліку у даних
+    }
+
+engine-iq-labfit-iqfit-not-fitted-re-acquisitions-observed =
+    { $n_reacq ->
+        [one] не підігнано: спостережено { $n_reacq } повторне захоплення (потрібно щонайменше 3)
+        [few] не підігнано: спостережено { $n_reacq } повторні захоплення (потрібно щонайменше 3)
+        [many] не підігнано: спостережено { $n_reacq } повторних захоплень (потрібно щонайменше 3)
+       *[other] не підігнано: спостережено { $n_reacq } повторного захоплення (потрібно щонайменше 3)
+    }
+
+engine-iq-labfit-iqreport-threshold-direct-median-db-over =
+    { $n ->
+        [one] Порогове J/S, пряме: медіана { $om } dB за { $n } втрату (IQR { $t }).{ "\u000A\u000A" }
+        [few] Порогове J/S, пряме: медіана { $om } dB за { $n } втрати (IQR { $t }).{ "\u000A\u000A" }
+        [many] Порогове J/S, пряме: медіана { $om } dB за { $n } втрат (IQR { $t }).{ "\u000A\u000A" }
+       *[other] Порогове J/S, пряме: медіана { $om } dB за { $n } втрати (IQR { $t }).{ "\u000A\u000A" }
+    }
+
+engine-iq-labfit-iqreport-events-loss-time-rms-pi90 =
+    { $n ->
+        [one] ; { $model }: { $n } подія, RMS часу втрати { $om } s, покриття PI90 { $om2 }
+        [few] ; { $model }: { $n } події, RMS часу втрати { $om } s, покриття PI90 { $om2 }
+        [many] ; { $model }: { $n } подій, RMS часу втрати { $om } s, покриття PI90 { $om2 }
+       *[other] ; { $model }: { $n } події, RMS часу втрати { $om } s, покриття PI90 { $om2 }
+    }
+
+engine-iq-labfit-report-n0-samples-residual-rms-db =
+    { $n_samples ->
+        [one] { "\u000A" }{ $n_samples } відлік C/N0, залишковий RMS { $om } dB.{ $r }{ "\u000A" }
+        [few] { "\u000A" }{ $n_samples } відліки C/N0, залишковий RMS { $om } dB.{ $r }{ "\u000A" }
+        [many] { "\u000A" }{ $n_samples } відліків C/N0, залишковий RMS { $om } dB.{ $r }{ "\u000A" }
+       *[other] { "\u000A" }{ $n_samples } відліку C/N0, залишковий RMS { $om } dB.{ $r }{ "\u000A" }
+    }
+
+engine-iq-labfit-report-event-time-rms-over-events =
+    { $n_events ->
+        [one] { "\u000A" }RMS часу події { $om } s за { $n_events } подію; втрат пропущено { $loss_missed } / зайвих { $loss_extra }, повторних захоплень пропущено { $reacq_missed } / зайвих { $reacq_extra }.
+
+        | прогін | спад dB-Hz | повторне захоплення dB-Hz | події | RMS s |
+        |---|---|---|---|---|{ "\u000A" }
+        [few] { "\u000A" }RMS часу події { $om } s за { $n_events } події; втрат пропущено { $loss_missed } / зайвих { $loss_extra }, повторних захоплень пропущено { $reacq_missed } / зайвих { $reacq_extra }.
+
+        | прогін | спад dB-Hz | повторне захоплення dB-Hz | події | RMS s |
+        |---|---|---|---|---|{ "\u000A" }
+        [many] { "\u000A" }RMS часу події { $om } s за { $n_events } подій; втрат пропущено { $loss_missed } / зайвих { $loss_extra }, повторних захоплень пропущено { $reacq_missed } / зайвих { $reacq_extra }.
+
+        | прогін | спад dB-Hz | повторне захоплення dB-Hz | події | RMS s |
+        |---|---|---|---|---|{ "\u000A" }
+       *[other] { "\u000A" }RMS часу події { $om } s за { $n_events } події; втрат пропущено { $loss_missed } / зайвих { $loss_extra }, повторних захоплень пропущено { $reacq_missed } / зайвих { $reacq_extra }.
+
+        | прогін | спад dB-Hz | повторне захоплення dB-Hz | події | RMS s |
+        |---|---|---|---|---|{ "\u000A" }
+    }
+
+engine-e-iq-short-samples-requested-short-run-holds =
+    { $n ->
+        [one] запитано { $n } відлік; короткий прогін вміщує щонайбільше { $MAX_SAMPLES }
+        [few] запитано { $n } відліки; короткий прогін вміщує щонайбільше { $MAX_SAMPLES }
+        [many] запитано { $n } відліків; короткий прогін вміщує щонайбільше { $MAX_SAMPLES }
+       *[other] запитано { $n } відліку; короткий прогін вміщує щонайбільше { $MAX_SAMPLES }
+    }
+
+engine-e-iq-signals-galileo-codes-the-icd-defines =
+    { $n ->
+        [one] { $path }: { $n } код, ICD визначає { $CODES_PER_COMPONENT }
+        [few] { $path }: { $n } коди, ICD визначає { $CODES_PER_COMPONENT }
+        [many] { $path }: { $n } кодів, ICD визначає { $CODES_PER_COMPONENT }
+       *[other] { $path }: { $n } коду, ICD визначає { $CODES_PER_COMPONENT }
+    }
+
+engine-e-iq-track-sink-an-epoch-carries-extra-taps =
+    { $n ->
+        [one] епоха несе додаткових відводів: { $extra }, але вивід налаштовано на { $n } відвід: кожен канал прогону має використовувати однакові extra_taps_chips
+        [few] епоха несе додаткових відводів: { $extra }, але вивід налаштовано на { $n } відводи: кожен канал прогону має використовувати однакові extra_taps_chips
+        [many] епоха несе додаткових відводів: { $extra }, але вивід налаштовано на { $n } відводів: кожен канал прогону має використовувати однакові extra_taps_chips
+       *[other] епоха несе додаткових відводів: { $extra }, але вивід налаштовано на { $n } відводу: кожен канал прогону має використовувати однакові extra_taps_chips
+    }
+
+engine-e-leo-fusion-doppler-measurements-cannot-resolve-doppler-unknowns =
+    { $n_meas ->
+        [one] { $n_meas } вимірювання не може розв'язати { $n } доплерівську невідому
+        [few] { $n_meas } вимірювання не можуть розв'язати { $n } доплерівські невідомі
+        [many] { $n_meas } вимірювань не можуть розв'язати { $n } доплерівських невідомих
+       *[other] { $n_meas } вимірювання не можуть розв'язати { $n } доплерівської невідомої
+    }
+
+engine-e-leo-fusion-joint-pvt-pseudoranges-cannot-resolve-unknowns-position =
+    псевдодальностей: { $obs }, цього замало, щоб розв'язати { $n ->
+        [one] { $n } невідому
+        [few] { $n } невідомі
+        [many] { $n } невідомих
+       *[other] { $n } невідомої
+    } (3 положення + { $n_clock ->
+        [one] { $n_clock } годинник
+        [few] { $n_clock } годинники
+        [many] { $n_clock } годинників
+       *[other] { $n_clock } годинника
+    })
+
+engine-leo-fusion-ntn-5g-ntn-positioning-at-mhz =
+    { $n_satellites ->
+        [one] позиціонування 5G NTN на { $r } MHz, C/N0 від { $r2 } до { $r3 } dB-Hz, { $n_satellites } супутник (у зоні видимості: { $mean_in_view }){ "\u000A" }
+        [few] позиціонування 5G NTN на { $r } MHz, C/N0 від { $r2 } до { $r3 } dB-Hz, { $n_satellites } супутники (у зоні видимості: { $mean_in_view }){ "\u000A" }
+        [many] позиціонування 5G NTN на { $r } MHz, C/N0 від { $r2 } до { $r3 } dB-Hz, { $n_satellites } супутників (у зоні видимості: { $mean_in_view }){ "\u000A" }
+       *[other] позиціонування 5G NTN на { $r } MHz, C/N0 від { $r2 } до { $r3 } dB-Hz, { $n_satellites } супутника (у зоні видимості: { $mean_in_view }){ "\u000A" }
+    }
+
+engine-leo-fusion-ntn-one-satellite-doppler-pass-samples =
+    { $n_obs ->
+        [one] { "  " }прохід Доплера одним супутником: { $n_obs } відлік за { $duration_s } s, горизонтальна похибка { $horizontal_error_m } m{ "\u000A" }
+        [few] { "  " }прохід Доплера одним супутником: { $n_obs } відліки за { $duration_s } s, горизонтальна похибка { $horizontal_error_m } m{ "\u000A" }
+        [many] { "  " }прохід Доплера одним супутником: { $n_obs } відліків за { $duration_s } s, горизонтальна похибка { $horizontal_error_m } m{ "\u000A" }
+       *[other] { "  " }прохід Доплера одним супутником: { $n_obs } відліку за { $duration_s } s, горизонтальна похибка { $horizontal_error_m } m{ "\u000A" }
+    }
+
+engine-leo-fusion-ppp-ppp-convergence-to-horizontal-vertical =
+    { $n_gnss ->
+        [one] збіжність PPP до { $criterion_horizontal_m } m горизонтально / { $criterion_vertical_m } m вертикально, прогонів на випадок: { $runs_per_case }, { $n_gnss } супутник GNSS{ "\u000A" }
+        [few] збіжність PPP до { $criterion_horizontal_m } m горизонтально / { $criterion_vertical_m } m вертикально, прогонів на випадок: { $runs_per_case }, { $n_gnss } супутники GNSS{ "\u000A" }
+        [many] збіжність PPP до { $criterion_horizontal_m } m горизонтально / { $criterion_vertical_m } m вертикально, прогонів на випадок: { $runs_per_case }, { $n_gnss } супутників GNSS{ "\u000A" }
+       *[other] збіжність PPP до { $criterion_horizontal_m } m горизонтально / { $criterion_vertical_m } m вертикально, прогонів на випадок: { $runs_per_case }, { $n_gnss } супутника GNSS{ "\u000A" }
+    }
+
+engine-leo-fusion-ppp-leo-median-min-converged-nees =
+    { $n_leo ->
+        [one] { "  " }{ $name } { $n_leo } супутник LEO  медіана { $c } хв  збіглося { $v4 }%  NEES середнє { $nees_mean }{ "\u000A" }
+        [few] { "  " }{ $name } { $n_leo } супутники LEO  медіана { $c } хв  збіглося { $v4 }%  NEES середнє { $nees_mean }{ "\u000A" }
+        [many] { "  " }{ $name } { $n_leo } супутників LEO  медіана { $c } хв  збіглося { $v4 }%  NEES середнє { $nees_mean }{ "\u000A" }
+       *[other] { "  " }{ $name } { $n_leo } супутника LEO  медіана { $c } хв  збіглося { $v4 }%  NEES середнє { $nees_mean }{ "\u000A" }
+    }
+
+engine-leo-fusion-pvt-kind-sats-at-km-mhz =
+    { $n_satellites ->
+        [one] { "  " }{ $name } { $role } { $n_satellites } супутник, висота { $mean_altitude_km } km, { $sys } MHz{ $v6 }{ "\u000A" }
+        [few] { "  " }{ $name } { $role } { $n_satellites } супутники, висота { $mean_altitude_km } km, { $sys } MHz{ $v6 }{ "\u000A" }
+        [many] { "  " }{ $name } { $role } { $n_satellites } супутників, висота { $mean_altitude_km } km, { $sys } MHz{ $v6 }{ "\u000A" }
+       *[other] { "  " }{ $name } { $role } { $n_satellites } супутника, висота { $mean_altitude_km } km, { $sys } MHz{ $v6 }{ "\u000A" }
+    }
+
+engine-leo-fusion-pvt-kind-doppler-fix-measurements-from-satellites =
+    { $n_obs ->
+        [one] { "  " }Визначення за Доплером: { $n_obs } вимірювання від { $n_sats } супутника, 3D похибка { $error_3d_m } m (горизонтальна { $horizontal_error_m } m){ "\u000A" }
+        [few] { "  " }Визначення за Доплером: { $n_obs } вимірювання від { $n_sats } супутників, 3D похибка { $error_3d_m } m (горизонтальна { $horizontal_error_m } m){ "\u000A" }
+        [many] { "  " }Визначення за Доплером: { $n_obs } вимірювань від { $n_sats } супутників, 3D похибка { $error_3d_m } m (горизонтальна { $horizontal_error_m } m){ "\u000A" }
+       *[other] { "  " }Визначення за Доплером: { $n_obs } вимірювання від { $n_sats } супутника, 3D похибка { $error_3d_m } m (горизонтальна { $horizontal_error_m } m){ "\u000A" }
+    }
+
+engine-leo-fusion-pvt-kind-window-sats-3d-error =
+    { $n_sats ->
+        [one] { "    " }вікно { $window_s } s: { $n_sats } супутник, 3D похибка { $f } m{ "\u000A" }
+        [few] { "    " }вікно { $window_s } s: { $n_sats } супутники, 3D похибка { $f } m{ "\u000A" }
+        [many] { "    " }вікно { $window_s } s: { $n_sats } супутників, 3D похибка { $f } m{ "\u000A" }
+       *[other] { "    " }вікно { $window_s } s: { $n_sats } супутника, 3D похибка { $f } m{ "\u000A" }
+    }
+
+engine-live-io-kshana-live-dropped-udp-datagram =
+    { $n ->
+        [one] kshana live: відкинуто { $n } датаграму udp, яку рушій не зміг прийняти (усього { $udp_dropped })
+        [few] kshana live: відкинуто { $n } датаграми udp, які рушій не зміг прийняти (усього { $udp_dropped })
+        [many] kshana live: відкинуто { $n } датаграм udp, які рушій не зміг прийняти (усього { $udp_dropped })
+       *[other] kshana live: відкинуто { $n } датаграми udp, які рушій не зміг прийняти (усього { $udp_dropped })
+    }
+
+engine-lunar-beacon-satellites-no-beacons =
+    { $n_sats ->
+        [one] { $n_sats } супутник, без маяків
+        [few] { $n_sats } супутники, без маяків
+        [many] { $n_sats } супутників, без маяків
+       *[other] { $n_sats } супутника, без маяків
+    }
+
+engine-lunar-beacon-satellites-visible-beacons =
+    { $n_sats ->
+        [one] { $n_sats } супутник + { $n_vis_beacons } видимий маяк
+        [few] { $n_sats } супутники + { $n_vis_beacons } видимих маяків
+        [many] { $n_sats } супутників + { $n_vis_beacons } видимих маяків
+       *[other] { $n_sats } супутника + { $n_vis_beacons } видимого маяка
+    }
+
+engine-lunar-beacon-satellites-no-beacons-2 =
+    { $n_cmp ->
+        [one] { $n_cmp } супутник, без маяків
+        [few] { $n_cmp } супутники, без маяків
+        [many] { $n_cmp } супутників, без маяків
+       *[other] { $n_cmp } супутника, без маяків
+    }
+
+engine-lunar-frame-campaign-lunar-frame-campaign-beacons-baselines =
+    { $n_obs ->
+        [one] lunar-frame-campaign | маяків: { $n_beacons } x баз: { $v1 } x епох: { $n_epochs } = { $n_obs } спостереження (сигма затримки { $sigma_tau } s) | датум станцій { $station_datum } | ранг Гельмерта { $rank }/7 обумовленість { $condition } | сигма зсуву датуму { $v5 } проти похибки відновлення введеного перетворення { $trans_err_norm_m } m (відношення { $v7 })
+        [few] lunar-frame-campaign | маяків: { $n_beacons } x баз: { $v1 } x епох: { $n_epochs } = { $n_obs } спостереження (сигма затримки { $sigma_tau } s) | датум станцій { $station_datum } | ранг Гельмерта { $rank }/7 обумовленість { $condition } | сигма зсуву датуму { $v5 } проти похибки відновлення введеного перетворення { $trans_err_norm_m } m (відношення { $v7 })
+        [many] lunar-frame-campaign | маяків: { $n_beacons } x баз: { $v1 } x епох: { $n_epochs } = { $n_obs } спостережень (сигма затримки { $sigma_tau } s) | датум станцій { $station_datum } | ранг Гельмерта { $rank }/7 обумовленість { $condition } | сигма зсуву датуму { $v5 } проти похибки відновлення введеного перетворення { $trans_err_norm_m } m (відношення { $v7 })
+       *[other] lunar-frame-campaign | маяків: { $n_beacons } x баз: { $v1 } x епох: { $n_epochs } = { $n_obs } спостереження (сигма затримки { $sigma_tau } s) | датум станцій { $station_datum } | ранг Гельмерта { $rank }/7 обумовленість { $condition } | сигма зсуву датуму { $v5 } проти похибки відновлення введеного перетворення { $trans_err_norm_m } m (відношення { $v7 })
+    }
+
+engine-lunar-jamming-lunar-jamming-sats-epochs-links =
+    lunar-jamming | { $n_sats ->
+        [one] { $n_sats } супутник
+        [few] { $n_sats } супутники
+        [many] { $n_sats } супутників
+       *[other] { $n_sats } супутника
+    }, { $n_epochs ->
+        [one] { $n_epochs } епоха
+        [few] { $n_epochs } епохи
+        [many] { $n_epochs } епох
+       *[other] { $n_epochs } епохи
+    }, { $n_links ->
+        [one] { $n_links } лінія зв'язку
+        [few] { $n_links } лінії зв'язку
+        [many] { $n_links } ліній зв'язку
+       *[other] { $n_links } лінії зв'язку
+    } з ({ $site_lat_deg }, { $site_lon_deg }) | J/S { $min_js_db }..{ $max_js_db } dB (середнє { $mean_js_db }) | LOST: { $n_lost } | доступність { $availability_under_jamming } з номінальних { $availability_nominal }
+
+engine-lunar-jamming-lunar-jamming-sats-epochs-links-2 =
+    lunar-jamming | { $n_sats ->
+        [one] { $n_sats } супутник
+        [few] { $n_sats } супутники
+        [many] { $n_sats } супутників
+       *[other] { $n_sats } супутника
+    }, { $n_epochs ->
+        [one] { $n_epochs } епоха
+        [few] { $n_epochs } епохи
+        [many] { $n_epochs } епох
+       *[other] { $n_epochs } епохи
+    }, { $n_links ->
+        [one] { $n_links } лінія зв'язку
+        [few] { $n_links } лінії зв'язку
+        [many] { $n_links } ліній зв'язку
+       *[other] { $n_links } лінії зв'язку
+    } з ({ $site_lat_deg }, { $site_lon_deg }) | без глушника (чисте небо, місячна базова лінія) | LOST: { $n_lost } | доступність { $availability_nominal }
+
+engine-lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines =
+    lunar-vlbi-fim | { $n_stations ->
+        [one] { $n_stations } станція
+        [few] { $n_stations } станції
+        [many] { $n_stations } станцій
+       *[other] { $n_stations } станції
+    } / бази: { $v2 } x епохи: { $n_epochs } = { $n_obs ->
+        [one] { $n_obs } спостереження
+        [few] { $n_obs } спостереження
+        [many] { $n_obs } спостережень
+       *[other] { $n_obs } спостереження
+    } (маска { $mask } deg) | датум { $datum } | ранг { $rank }/{ $dim }, обумовленість { $condition } | сигма станції { $v10 } проти equipartition g={ $g } { $eq_g } м (відношення { $v13 })
+
+engine-main-ok-kind-resolves-and-all =
+    { $n_required ->
+        [one] ok: { $kind } — kind розпізнано, і його єдиний опублікований запис обов'язкового поля ({ $n_required }) виконано; значення полів не перевіряються
+        [few] ok: { $kind } — kind розпізнано, і всі { $n_required } записи його опублікованих обов'язкових полів виконано; значення полів не перевіряються
+        [many] ok: { $kind } — kind розпізнано, і всі { $n_required } записів його опублікованих обов'язкових полів виконано; значення полів не перевіряються
+       *[other] ok: { $kind } — kind розпізнано, і всі { $n_required } запису його опублікованих обов'язкових полів виконано; значення полів не перевіряються
+    }
+
+engine-mars-pnt-mars-pnt-user-clock-relays =
+    { $n_relays ->
+        [one] mars-pnt { $r } | користувач { $user }, годинник { $clock_class } | { $n_relays } ретранслятор (у середньому { $mean_relays_in_view } у видимості) | зведена RMS положення { $converged_pos_rms_m } м, формальна 1σ { $converged_pos_sigma_m } м (3σ { $converged_pos_3sigma_m } м — коваріаційний показник якості, а не затверджений PL) | σ частоти годинника { $final_clock_freq_sigma } | cov-PD { $covariance_pd_throughout }
+        [few] mars-pnt { $r } | користувач { $user }, годинник { $clock_class } | { $n_relays } ретранслятори (у середньому { $mean_relays_in_view } у видимості) | зведена RMS положення { $converged_pos_rms_m } м, формальна 1σ { $converged_pos_sigma_m } м (3σ { $converged_pos_3sigma_m } м — коваріаційний показник якості, а не затверджений PL) | σ частоти годинника { $final_clock_freq_sigma } | cov-PD { $covariance_pd_throughout }
+        [many] mars-pnt { $r } | користувач { $user }, годинник { $clock_class } | { $n_relays } ретрансляторів (у середньому { $mean_relays_in_view } у видимості) | зведена RMS положення { $converged_pos_rms_m } м, формальна 1σ { $converged_pos_sigma_m } м (3σ { $converged_pos_3sigma_m } м — коваріаційний показник якості, а не затверджений PL) | σ частоти годинника { $final_clock_freq_sigma } | cov-PD { $covariance_pd_throughout }
+       *[other] mars-pnt { $r } | користувач { $user }, годинник { $clock_class } | { $n_relays } ретранслятора (у середньому { $mean_relays_in_view } у видимості) | зведена RMS положення { $converged_pos_rms_m } м, формальна 1σ { $converged_pos_sigma_m } м (3σ { $converged_pos_3sigma_m } м — коваріаційний показник якості, а не затверджений PL) | σ частоти годинника { $final_clock_freq_sigma } | cov-PD { $covariance_pd_throughout }
+    }
+
+engine-e-mcda-copras-copras-weights-but-criterion-types =
+    { $n ->
+        [one] COPRAS: { $n } вага, а типів критеріїв: { $types }
+        [few] COPRAS: { $n } ваги, а типів критеріїв: { $types }
+        [many] COPRAS: { $n } ваг, а типів критеріїв: { $types }
+       *[other] COPRAS: { $n } ваги, а типів критеріїв: { $types }
+    }
+
+engine-e-mcda-moora-moora-weights-but-criterion-types =
+    { $n ->
+        [one] MOORA: { $n } вага, а типів критеріїв: { $types }
+        [few] MOORA: { $n } ваги, а типів критеріїв: { $types }
+        [many] MOORA: { $n } ваг, а типів критеріїв: { $types }
+       *[other] MOORA: { $n } ваги, а типів критеріїв: { $types }
+    }
+
+engine-e-mcda-topsis-topsis-weights-but-criterion-types =
+    { $n ->
+        [one] TOPSIS: { $n } вага, а типів критеріїв: { $types }
+        [few] TOPSIS: { $n } ваги, а типів критеріїв: { $types }
+        [many] TOPSIS: { $n } ваг, а типів критеріїв: { $types }
+       *[other] TOPSIS: { $n } ваги, а типів критеріїв: { $types }
+    }
+
+engine-e-mcda-vikor-vikor-weights-but-criterion-types =
+    { $n ->
+        [one] VIKOR: { $n } вага, а типів критеріїв: { $types }
+        [few] VIKOR: { $n } ваги, а типів критеріїв: { $types }
+        [many] VIKOR: { $n } ваг, а типів критеріїв: { $types }
+       *[other] VIKOR: { $n } ваги, а типів критеріїв: { $types }
+    }
+
+engine-e-mcda-waspas-waspas-weights-but-criterion-types =
+    { $n ->
+        [one] WASPAS: { $n } вага, а типів критеріїв: { $types }
+        [few] WASPAS: { $n } ваги, а типів критеріїв: { $types }
+        [many] WASPAS: { $n } ваг, а типів критеріїв: { $types }
+       *[other] WASPAS: { $n } ваги, а типів критеріїв: { $types }
+    }
+
+engine-e-mcda-wpm-wpm-weights-but-criterion-types =
+    { $n ->
+        [one] WPM: { $n } вага, а типів критеріїв: { $types }
+        [few] WPM: { $n } ваги, а типів критеріїв: { $types }
+        [many] WPM: { $n } ваг, а типів критеріїв: { $types }
+       *[other] WPM: { $n } ваги, а типів критеріїв: { $types }
+    }
+
+engine-e-mcda-promethee-promethee-ii-weights-but-types =
+    { $n ->
+        [one] PROMETHEE II: { $n } вага, а типів: { $types } / функцій переваги: { $prefs }
+        [few] PROMETHEE II: { $n } ваги, а типів: { $types } / функцій переваги: { $prefs }
+        [many] PROMETHEE II: { $n } ваг, а типів: { $types } / функцій переваги: { $prefs }
+       *[other] PROMETHEE II: { $n } ваги, а типів: { $types } / функцій переваги: { $prefs }
+    }
+
+engine-e-mcda-copras-copras-alternative-has-values-but =
+    { $n ->
+        [one] COPRAS: альтернатива { $i } має значень: { $row }, а є { $n } критерій
+        [few] COPRAS: альтернатива { $i } має значень: { $row }, а є { $n } критерії
+        [many] COPRAS: альтернатива { $i } має значень: { $row }, а є { $n } критеріїв
+       *[other] COPRAS: альтернатива { $i } має значень: { $row }, а є { $n } критерію
+    }
+
+engine-e-mcda-electre-electre-alternative-has-values-but =
+    { $n ->
+        [one] ELECTRE I: альтернатива { $i } має значень: { $row }, а є { $n } критерій
+        [few] ELECTRE I: альтернатива { $i } має значень: { $row }, а є { $n } критерії
+        [many] ELECTRE I: альтернатива { $i } має значень: { $row }, а є { $n } критеріїв
+       *[other] ELECTRE I: альтернатива { $i } має значень: { $row }, а є { $n } критерію
+    }
+
+engine-e-mcda-moora-moora-alternative-has-values-but =
+    { $n ->
+        [one] MOORA: альтернатива { $i } має значень: { $row }, а є { $n } критерій
+        [few] MOORA: альтернатива { $i } має значень: { $row }, а є { $n } критерії
+        [many] MOORA: альтернатива { $i } має значень: { $row }, а є { $n } критеріїв
+       *[other] MOORA: альтернатива { $i } має значень: { $row }, а є { $n } критерію
+    }
+
+engine-e-mcda-promethee-promethee-ii-alternative-has-values =
+    { $n ->
+        [one] PROMETHEE II: альтернатива { $i } має значень: { $row }, а є { $n } критерій
+        [few] PROMETHEE II: альтернатива { $i } має значень: { $row }, а є { $n } критерії
+        [many] PROMETHEE II: альтернатива { $i } має значень: { $row }, а є { $n } критеріїв
+       *[other] PROMETHEE II: альтернатива { $i } має значень: { $row }, а є { $n } критерію
+    }
+
+engine-e-mcda-topsis-topsis-alternative-has-values-but =
+    { $n ->
+        [one] TOPSIS: альтернатива { $i } має значень: { $row }, а є { $n } критерій
+        [few] TOPSIS: альтернатива { $i } має значень: { $row }, а є { $n } критерії
+        [many] TOPSIS: альтернатива { $i } має значень: { $row }, а є { $n } критеріїв
+       *[other] TOPSIS: альтернатива { $i } має значень: { $row }, а є { $n } критерію
+    }
+
+engine-e-mcda-vikor-vikor-alternative-has-values-but =
+    { $n ->
+        [one] VIKOR: альтернатива { $i } має значень: { $row }, а є { $n } критерій
+        [few] VIKOR: альтернатива { $i } має значень: { $row }, а є { $n } критерії
+        [many] VIKOR: альтернатива { $i } має значень: { $row }, а є { $n } критеріїв
+       *[other] VIKOR: альтернатива { $i } має значень: { $row }, а є { $n } критерію
+    }
+
+engine-e-mcda-waspas-waspas-alternative-has-values-but =
+    { $n ->
+        [one] WASPAS: альтернатива { $i } має значень: { $row }, а є { $n } критерій
+        [few] WASPAS: альтернатива { $i } має значень: { $row }, а є { $n } критерії
+        [many] WASPAS: альтернатива { $i } має значень: { $row }, а є { $n } критеріїв
+       *[other] WASPAS: альтернатива { $i } має значень: { $row }, а є { $n } критерію
+    }
+
+engine-e-mcda-wpm-wpm-alternative-has-values-but =
+    { $n ->
+        [one] WPM: альтернатива { $i } має значень: { $row }, а є { $n } критерій
+        [few] WPM: альтернатива { $i } має значень: { $row }, а є { $n } критерії
+        [many] WPM: альтернатива { $i } має значень: { $row }, а є { $n } критеріїв
+       *[other] WPM: альтернатива { $i } має значень: { $row }, а є { $n } критерію
+    }
+
+engine-e-mcda-wsm-alternative-has-values-but-there =
+    { $n ->
+        [one] альтернатива '{ $name }' має значень: { $values }, а є { $n } критерій
+        [few] альтернатива '{ $name }' має значень: { $values }, а є { $n } критерії
+        [many] альтернатива '{ $name }' має значень: { $values }, а є { $n } критеріїв
+       *[other] альтернатива '{ $name }' має значень: { $values }, а є { $n } критерію
+    }
+
+engine-e-naif-kernel-daf-summary-record-claims-summaries =
+    { $count ->
+        [one] запис зведень DAF { $rec } заявляє { $count } зведення
+        [few] запис зведень DAF { $rec } заявляє { $count } зведення
+        [many] запис зведень DAF { $rec } заявляє { $count } зведень
+       *[other] запис зведень DAF { $rec } заявляє { $count } зведення
+    }
+
+engine-nmea-synth-gen-the-receiver-reports-fix-again =
+    { $n_used ->
+        [one] приймач знову повідомляє про рішення (використано { $n_used } супутник)
+        [few] приймач знову повідомляє про рішення (використано { $n_used } супутники)
+        [many] приймач знову повідомляє про рішення (використано { $n_used } супутників)
+       *[other] приймач знову повідомляє про рішення (використано { $n_used } супутника)
+    }
+
+engine-nmea-synth-gen-the-receiver-has-no-fix =
+    { $n_used ->
+        [one] приймач не має рішення ({ $n_used } придатний супутник, потрібно чотири)
+        [few] приймач не має рішення ({ $n_used } придатні супутники, потрібно чотири)
+        [many] приймач не має рішення ({ $n_used } придатних супутників, потрібно чотири)
+       *[other] приймач не має рішення ({ $n_used } придатного супутника, потрібно чотири)
+    }
+
+engine-observability-gramian-gdop-undefined-rank-deficient-singular =
+    { $n ->
+        [one] GDOP не визначено (геометрія з дефіцитом рангу / сингулярна): ранг { $rank } із { $n } стану, дефект датума { $v3 }, обумовленість { $v4 }
+        [few] GDOP не визначено (геометрія з дефіцитом рангу / сингулярна): ранг { $rank } із { $n } станів, дефект датума { $v3 }, обумовленість { $v4 }
+        [many] GDOP не визначено (геометрія з дефіцитом рангу / сингулярна): ранг { $rank } із { $n } станів, дефект датума { $v3 }, обумовленість { $v4 }
+       *[other] GDOP не визначено (геометрія з дефіцитом рангу / сингулярна): ранг { $rank } із { $n } стану, дефект датума { $v3 }, обумовленість { $v4 }
+    }
+
+engine-oem-oem-interop-round-tripped-segment =
+    { $n_states_total ->
+        [one] oem-interop: проведено круговий обмін сегментами: { $segments }, { $n_states_total } стан; максимальна похибка кругового обміну { $p } km / { $v } km/s (MODELLED, інтероперабельність)
+        [few] oem-interop: проведено круговий обмін сегментами: { $segments }, { $n_states_total } стани; максимальна похибка кругового обміну { $p } km / { $v } km/s (MODELLED, інтероперабельність)
+        [many] oem-interop: проведено круговий обмін сегментами: { $segments }, { $n_states_total } станів; максимальна похибка кругового обміну { $p } km / { $v } km/s (MODELLED, інтероперабельність)
+       *[other] oem-interop: проведено круговий обмін сегментами: { $segments }, { $n_states_total } стану; максимальна похибка кругового обміну { $p } km / { $v } km/s (MODELLED, інтероперабельність)
+    }
+
+engine-oem-oem-interop-ingested-segment-states =
+    { $n_states_total ->
+        [one] oem-interop: прийнято сегментів: { $segments }, { $n_states_total } стан із зовнішнього OEM (укладач { $originator }) (MODELLED, інтероперабельність)
+        [few] oem-interop: прийнято сегментів: { $segments }, { $n_states_total } стани із зовнішнього OEM (укладач { $originator }) (MODELLED, інтероперабельність)
+        [many] oem-interop: прийнято сегментів: { $segments }, { $n_states_total } станів із зовнішнього OEM (укладач { $originator }) (MODELLED, інтероперабельність)
+       *[other] oem-interop: прийнято сегментів: { $segments }, { $n_states_total } стану із зовнішнього OEM (укладач { $originator }) (MODELLED, інтероперабельність)
+    }
+
+engine-pvt-pvt-sat-nav-epochs-solved =
+    { $n_satellites_nav ->
+        [one] pvt { $r } | { $n_satellites_nav } навігаційний супутник | розв'язано епох: { $epochs_solved }/{ $epochs_total } | у середньому супутників: { $mean_n_used }, PDOP { $mean_pdop }{ $acc }
+        [few] pvt { $r } | { $n_satellites_nav } навігаційні супутники | розв'язано епох: { $epochs_solved }/{ $epochs_total } | у середньому супутників: { $mean_n_used }, PDOP { $mean_pdop }{ $acc }
+        [many] pvt { $r } | { $n_satellites_nav } навігаційних супутників | розв'язано епох: { $epochs_solved }/{ $epochs_total } | у середньому супутників: { $mean_n_used }, PDOP { $mean_pdop }{ $acc }
+       *[other] pvt { $r } | { $n_satellites_nav } навігаційного супутника | розв'язано епох: { $epochs_solved }/{ $epochs_total } | у середньому супутників: { $mean_n_used }, PDOP { $mean_pdop }{ $acc }
+    }
+
+engine-receiver-trust-geometry-geometry-hdop-pdop-vdop-satellites =
+    { $n_used ->
+        [one] геометрія { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used } супутник{ $v6 }
+        [few] геометрія { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used } супутники{ $v6 }
+        [many] геометрія { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used } супутників{ $v6 }
+       *[other] геометрія { $label }: HDOP { $fmt_dop }, PDOP { $fmt_dop2 }, VDOP { $fmt_dop3 }, { $n_used } супутника{ $v6 }
+    }
+
+engine-receiver-trust-geometry-derived-from-logged-satellites =
+    { $n ->
+        [one] виведено із { $n } записаного супутника
+        [few] виведено із { $n } записаних супутників
+        [many] виведено із { $n } записаних супутників
+       *[other] виведено із { $n } записаного супутника
+    }
+
+engine-receiver-trust-geometry-as-the-receiver-reports-it =
+    { $n ->
+        [one] за повідомленням приймача, використано { $n } супутник
+        [few] за повідомленням приймача, використано { $n } супутники
+        [many] за повідомленням приймача, використано { $n } супутників
+       *[other] за повідомленням приймача, використано { $n } супутника
+    }
+
+engine-receiver-trust-geometry-satellites-fewer-than =
+    { $n ->
+        [one] { $n } супутник, менше за { $min_used }
+        [few] { $n } супутники, менше за { $min_used }
+        [many] { $n } супутників, менше за { $min_used }
+       *[other] { $n } супутника, менше за { $min_used }
+    }
+
+engine-e-receiver-trust-machines-imu-fit-the-log-has-samples-at =
+    { $n ->
+        [one] журнал має { $n } відлік; для підгонки Аллана потрібно щонайменше { $MIN_SAMPLES }
+        [few] журнал має { $n } відліки; для підгонки Аллана потрібно щонайменше { $MIN_SAMPLES }
+        [many] журнал має { $n } відліків; для підгонки Аллана потрібно щонайменше { $MIN_SAMPLES }
+       *[other] журнал має { $n } відліку; для підгонки Аллана потрібно щонайменше { $MIN_SAMPLES }
+    }
+
+engine-e-receiver-trust-machines-imu-fit-the-sample-interval-is-not =
+    { $n ->
+        [one] інтервал відліків не рівномірний (інтервалів, що різняться більш як на 25 %: { $uneven } з { $n } інтервалу): спершу перевибіркуйте журнал
+        [few] інтервал відліків не рівномірний (інтервалів, що різняться більш як на 25 %: { $uneven } з { $n } інтервалів): спершу перевибіркуйте журнал
+        [many] інтервал відліків не рівномірний (інтервалів, що різняться більш як на 25 %: { $uneven } з { $n } інтервалів): спершу перевибіркуйте журнал
+       *[other] інтервал відліків не рівномірний (інтервалів, що різняться більш як на 25 %: { $uneven } з { $n } інтервалу): спершу перевибіркуйте журнал
+    }
+
+engine-e-scenario-time-grid-too-large-steps =
+    { $n ->
+        [one] сітка часу завелика: { $n } крок перевищує MAX_TIME_STEPS ({ $MAX_TIME_STEPS }); використайте грубіший крок або коротшу тривалість
+        [few] сітка часу завелика: { $n } кроки перевищують MAX_TIME_STEPS ({ $MAX_TIME_STEPS }); використайте грубіший крок або коротшу тривалість
+        [many] сітка часу завелика: { $n } кроків перевищують MAX_TIME_STEPS ({ $MAX_TIME_STEPS }); використайте грубіший крок або коротшу тривалість
+       *[other] сітка часу завелика: { $n } кроку перевищує MAX_TIME_STEPS ({ $MAX_TIME_STEPS }); використайте грубіший крок або коротшу тривалість
+    }
+
+engine-slot-timing-fitted-to-the-overlapping-allan =
+    { $n_samples ->
+        [one] підігнано до девіації Аллана з перекриттям запису з { $n_samples } відліку за { $tau0_s } с, у базисі частотної модуляції IEEE Std 1139
+        [few] підігнано до девіації Аллана з перекриттям запису з { $n_samples } відліків за { $tau0_s } с, у базисі частотної модуляції IEEE Std 1139
+        [many] підігнано до девіації Аллана з перекриттям запису з { $n_samples } відліків за { $tau0_s } с, у базисі частотної модуляції IEEE Std 1139
+       *[other] підігнано до девіації Аллана з перекриттям запису з { $n_samples } відліку за { $tau0_s } с, у базисі частотної модуляції IEEE Std 1139
+    }
+
+engine-solar-system-solar-system-at-jd-tdb =
+    { $n_bodies ->
+        [one] Сонячна система на { $input } (JD { $jd_tdb } TDB), { $n_bodies } тіло, спостерігач { $observer }
+        { "  " }{ $standish_table }{ "\u000A" }
+        [few] Сонячна система на { $input } (JD { $jd_tdb } TDB), { $n_bodies } тіла, спостерігач { $observer }
+        { "  " }{ $standish_table }{ "\u000A" }
+        [many] Сонячна система на { $input } (JD { $jd_tdb } TDB), { $n_bodies } тіл, спостерігач { $observer }
+        { "  " }{ $standish_table }{ "\u000A" }
+       *[other] Сонячна система на { $input } (JD { $jd_tdb } TDB), { $n_bodies } тіла, спостерігач { $observer }
+        { "  " }{ $standish_table }{ "\u000A" }
+    }
+
+engine-e-space-packet-cuc-fine-does-not-fit =
+    { $n ->
+        [one] точне значення CUC { $fine } не вміщується в { $n } октеті
+        [few] точне значення CUC { $fine } не вміщується в { $n } октетах
+        [many] точне значення CUC { $fine } не вміщується в { $n } октетах
+       *[other] точне значення CUC { $fine } не вміщується в { $n } октеті
+    }
+
+engine-space-packet-space-packet-framed-ccsds-133 =
+    { $packet_count ->
+        [one] space-packet: сформовано { $packet_count } пакет CCSDS-133.0 { $v2 }, APID { $apid }, усього октетів: { $total_bytes }, точний цикл туди й назад ({ $round_trip_ok })
+        [few] space-packet: сформовано { $packet_count } пакети CCSDS-133.0 { $v2 }, APID { $apid }, усього октетів: { $total_bytes }, точний цикл туди й назад ({ $round_trip_ok })
+        [many] space-packet: сформовано { $packet_count } пакетів CCSDS-133.0 { $v2 }, APID { $apid }, усього октетів: { $total_bytes }, точний цикл туди й назад ({ $round_trip_ok })
+       *[other] space-packet: сформовано { $packet_count } пакета CCSDS-133.0 { $v2 }, APID { $apid }, усього октетів: { $total_bytes }, точний цикл туди й назад ({ $round_trip_ok })
+    }
+
+engine-e-spk-writer-states-for-epochs =
+    { $n ->
+        [one] станів: { $states } на { $n } епоху
+        [few] станів: { $states } на { $n } епохи
+        [many] станів: { $states } на { $n } епох
+       *[other] станів: { $states } на { $n } епохи
+    }
+
+engine-e-spk-writer-states-degree-needs =
+    { $n ->
+        [one] { $n } стан; для степеня { $degree } потрібно { $value }
+        [few] { $n } стани; для степеня { $degree } потрібно { $value }
+        [many] { $n } станів; для степеня { $degree } потрібно { $value }
+       *[other] { $n } стану; для степеня { $degree } потрібно { $value }
+    }
+
+engine-e-spk-writer-epochs-for-difference-lines =
+    { $n ->
+        [one] епох: { $epochs } на { $n } рядок різниць
+        [few] епох: { $epochs } на { $n } рядки різниць
+        [many] епох: { $epochs } на { $n } рядків різниць
+       *[other] епох: { $epochs } на { $n } рядка різниць
+    }
+
+engine-e-sweep-sweep-key-index-is-past =
+    { $n ->
+        [one] ключ розгортки `{ $key }`: індекс { $i } виходить за межі масиву з { $n } елемента
+        [few] ключ розгортки `{ $key }`: індекс { $i } виходить за межі масиву з { $n } елементів
+        [many] ключ розгортки `{ $key }`: індекс { $i } виходить за межі масиву з { $n } елементів
+       *[other] ключ розгортки `{ $key }`: індекс { $i } виходить за межі масиву з { $n } елемента
+    }
+
+engine-telemetry-cli-warning-mqtt-messages-were-not =
+    { $n ->
+        [one] попередження: { $n } повідомлення MQTT не доставлено
+        [few] попередження: { $n } повідомлення MQTT не доставлено
+        [many] попередження: { $n } повідомлень MQTT не доставлено
+       *[other] попередження: { $n } повідомлення MQTT не доставлено
+    }
 
 ## legal
 
