@@ -95,3 +95,5 @@ seg-da3532b1444d = SBAS / DO-229E
 seg-a863d1da4182 = CCSDS { "401" } / DSN
 
 seg-fa37e351f6b4 = Копировать
+
+seg-94de9433d99f = Файлы сценариев

@@ -31,3 +31,13 @@ seg-2eb6d1b0483d = RAIM / ARAIM
 seg-da3532b1444d = SBAS / DO-229E
 
 seg-d3af26f389f5 = IONEX / Клобучар
+
+seg-75636f9419b2 = Известные ограничения
+
+seg-9c0eb89a2fbe = Пакет
+
+seg-f63dd3d7aad4 = Источник
+
+seg-638b8d451550 = Датчик
+
+seg-04f69a0edb2f = тип
