@@ -19,3 +19,5 @@ seg-f63dd3d7aad4 = Джерело
 seg-587beeccaa11 = Передналаштування
 
 seg-edb7b16b6c0e = Перевірка
+
+seg-3c513ef2fd3b = Величина
