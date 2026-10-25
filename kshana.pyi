@@ -159,6 +159,7 @@ __all__ = [
     "list_kinds",
     "error_kind",
     "error_info",
+    "run_human",
     "version",
     "receiver_trust",
     "receiver_trust_replay",
@@ -684,6 +685,10 @@ def error_kind(toml: str, lang: Optional[str] = None) -> Optional[ErrorKind]:
     """Run a scenario; on failure return the structured error *kind* tag
     (``invalid_input``/``non_convergence``/``unsupported``/``io_error``) instead of
     raising. Returns ``None`` on success."""
+
+def run_human(toml: str, lang: str) -> tuple[str, str]:
+    """Run a scenario once in ``lang`` and return ``(summary, svg)``, what a person reads. The result
+    document and CSV are the English run's (:func:`run_typed`), not this run's."""
 
 def error_info(toml: str, lang: Optional[str] = None) -> Optional[dict[str, Any]]:
     """Why a scenario fails: ``None`` when it runs, else ``{"kind", "code", "message"}``. The message
