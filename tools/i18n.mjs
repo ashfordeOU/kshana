@@ -375,7 +375,7 @@ async function apply(args) {
   const L = await lang();
   const S = await site();
   const { opt, pos } = args2opt(args, { src: 'web', root: 'i18n', out: 'dist', skip: 'studio,playground,assets', origin: 'https://kshana.dev', langs: null });
-  const skip = String(opt.skip).split(',').filter(Boolean);
+  const skip = [...String(opt.skip).split(',').filter(Boolean), ...L.LANGS, 'en-XA'];
   const pages = walk(opt.src, skip);
   const langs = pos.length ? pos : L.LANGS;
   const offered = opt.langs != null ? opt.langs.split(',').filter(Boolean) : [...new Set([...L.LANGS, ...langs])];
@@ -506,7 +506,7 @@ async function langsCmd(args) {
 async function verify(args) {
   const L = await lang();
   const { opt, pos } = args2opt(args, { src: 'web', dist: 'dist', skip: 'studio,playground,assets' });
-  const pages = walk(opt.src, String(opt.skip).split(',').filter(Boolean));
+  const pages = walk(opt.src, [...String(opt.skip).split(',').filter(Boolean), ...L.LANGS, 'en-XA']);
   const langs = pos.length ? pos : L.LANGS.filter((l) => existsSync(join(opt.dist, l)));
   const visible = (h) => h.replace(/<(script|style|svg|template|head)\b[\s\S]*?<\/\1>/gi, ' ').replace(/<[^>]*>/g, ' ');
   // digit runs: invariant under the locale's group and decimal separators, which is all a translation may change

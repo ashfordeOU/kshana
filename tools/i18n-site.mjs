@@ -65,7 +65,7 @@ export function decoratePage(html, ctx) {
   // a page with nothing translated is the English page with the notice: canonical to English, no hreflang for itself
   const untouched = lang !== 'en' && ctx.translated === 0;
   if (lang === 'en' && !langs.length) return out;
-  out = out.replace('</head>', `<link rel="stylesheet" href="/css/i18n.css">${untouched ? '' : alt}<link rel="canonical" href="${origin}${untouched || lang === 'en' ? '' : pre}${here}"></head>`);
+  out = out.replace('</head>', `<link rel="stylesheet" href="/css/i18n.css">${lang === 'ja' || lang === 'zh-Hans' ? '<link rel="stylesheet" href="/fonts/i18n-cjk.css">' : ''}${untouched ? '' : alt}<link rel="canonical" href="${origin}${untouched || lang === 'en' ? '' : pre}${here}"></head>`);
 
   const label = msg('site-lang-label') || 'Language';
   const sw = switcherHtml(lang, here, langs, label);
