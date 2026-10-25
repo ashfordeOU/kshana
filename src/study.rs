@@ -272,7 +272,7 @@ fn render_html(title: &str, description: Option<&str>, scenarios: &[Resolved]) -
         let mut row = format!(
             "<tr><td>{}</td><td><span class=\"tier\">{}</span></td>",
             html_escape(&metric),
-            tier.tag(),
+            tier.label(),
         );
         for r in scenarios {
             match fom_value(&r.foms, key) {

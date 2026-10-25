@@ -1187,11 +1187,7 @@ fn build_inputs(scn: &Value, units: Option<&Map<String, Value>>) -> Section<Inpu
             }
         })
         .collect();
-    Section::new(
-        rows,
-        MAX_INPUTS,
-        "The scenario sets no field beyond `kind`: the kind ran its reference configuration from its documented defaults.",
-    )
+    Section::new(rows, MAX_INPUTS, &crate::t!("advanced-report-empty-inputs"))
 }
 
 /// Root keys of a result document that are metadata, not results.
@@ -1319,12 +1315,12 @@ fn build_results(
         scalars: Section::new(
             scalars,
             MAX_SCALARS,
-            "The result document carries no scalar outside its arrays; its numbers are summarised by column below.",
+            &crate::t!("advanced-report-empty-scalars"),
         ),
         series: Section::new(
             series,
             MAX_SERIES,
-            "The result document carries no numeric array: every result is a scalar in the table above.",
+            &crate::t!("advanced-report-empty-series"),
         ),
         charts,
     }
@@ -1550,11 +1546,7 @@ fn build_events(kind: &str, scn: &Value, doc: &Value) -> Section<EventRow> {
             .then_with(|| a.label.cmp(&b.label))
             .then_with(|| a.source.cmp(&b.source))
     });
-    Section::new(
-        rows,
-        MAX_EVENTS,
-        "No timed event: the scenario scripts no window or onset time and the result reports no event. The kind evaluates its configuration as one case.",
-    )
+    Section::new(rows, MAX_EVENTS, &crate::t!("advanced-report-empty-events"))
 }
 
 /// Every built-in kind name found in `kind` / `scenario_kind` string fields of the
@@ -1703,7 +1695,7 @@ fn build_capabilities(
         })
         .unwrap_or_default();
     Capabilities {
-        statement: "Each row is a verification-matrix row this run's kinds exercise, with the label and the oracle the matrix gives it (src/verification.rs, docs/VERIFICATION-MATRIX.md). A label grades the capability as the matrix records it; it does not grade this scenario's configuration, and a VALIDATED row does not make the run's inputs measured. A PARTNER row is a discipline the run relies on that Kshana does not provide.".to_string(),
+        statement: crate::t!("advanced-report-capabilities-statement"),
         rows,
         figure_tiers,
     }
@@ -1928,7 +1920,7 @@ fn build_not_modelled(
     Section::new(
         rows,
         usize::MAX,
-        "Nothing in the result, the kind catalogue, the scenario or the matrix rows used states a modelling limitation for this run.",
+        &crate::t!("advanced-report-empty-not-modelled"),
     )
 }
 
@@ -2063,8 +2055,12 @@ fn build_aggregation(kind: &str, doc: &Value) -> Option<Aggregation> {
                         .collect()
                 })
                 .unwrap_or_default();
-            agg.tables
-                .push(table_from_rows("Sweep nodes", columns, units, rows));
+            agg.tables.push(table_from_rows(
+                &crate::t!("advanced-report-tbl-sweep-nodes"),
+                columns,
+                units,
+                rows,
+            ));
         } else if let Some(mc) = doc.get("monte_carlo") {
             agg.mode = "monte-carlo".to_string();
             agg.member_kind = Some(str_of(mc, "scenario_kind"));
@@ -2113,7 +2109,7 @@ fn build_aggregation(kind: &str, doc: &Value) -> Option<Aggregation> {
             columns.extend(cols.iter().map(|c| c.to_string()));
             let units = vec![String::new(); columns.len()];
             agg.tables.push(table_from_rows(
-                "Monte Carlo distribution summary (percentiles are nearest-rank; the 95% confidence interval on the mean is a fixed-seed percentile bootstrap)",
+                &crate::t!("advanced-report-tbl-mc-summary"),
                 columns,
                 units,
                 rows,
@@ -2157,14 +2153,14 @@ fn build_aggregation(kind: &str, doc: &Value) -> Option<Aggregation> {
                     Value::String(str_of(ph, "ended_by")),
                     Value::String(kinds.join(", ")),
                     Value::String(if carried.is_empty() {
-                        "nothing carried".to_string()
+                        crate::t!("advanced-report-nothing-carried")
                     } else {
                         carried.join("; ")
                     }),
                 ]);
             }
             agg.tables.push(table_from_rows(
-                "Chain phases",
+                &crate::t!("advanced-report-tbl-chain-phases"),
                 [
                     "phase",
                     "start",
@@ -2199,7 +2195,7 @@ fn build_aggregation(kind: &str, doc: &Value) -> Option<Aggregation> {
                 ]);
             }
             agg.tables.push(table_from_rows(
-                "Shared conditions",
+                &crate::t!("advanced-report-tbl-shared"),
                 vec!["condition".into(), "value".into(), "unit".into()],
                 vec![String::new(); 3],
                 shared_rows,
@@ -2258,8 +2254,12 @@ fn build_aggregation(kind: &str, doc: &Value) -> Option<Aggregation> {
                 columns.push(mk.clone());
                 units.push(u.clone());
             }
-            agg.tables
-                .push(table_from_rows("Members", columns, units, member_rows));
+            agg.tables.push(table_from_rows(
+                &crate::t!("advanced-report-tbl-members"),
+                columns,
+                units,
+                member_rows,
+            ));
             let mut comb_rows = Vec::new();
             for (k, c) in cp
                 .get("combined")
@@ -2279,7 +2279,7 @@ fn build_aggregation(kind: &str, doc: &Value) -> Option<Aggregation> {
                 ]);
             }
             agg.tables.push(table_from_rows(
-                "Combined across members",
+                &crate::t!("advanced-report-tbl-combined"),
                 [
                     "metric",
                     "unit",
@@ -2377,13 +2377,17 @@ fn build_aggregation(kind: &str, doc: &Value) -> Option<Aggregation> {
             best_cols.push(str_of(op, "objective_name"));
             best_units.push(metric_unit);
             agg.tables.push(table_from_rows(
-                "Optimiser best (a local optimum over the stated bounds)",
+                &crate::t!("advanced-report-tbl-optimiser-best"),
                 best_cols,
                 best_units,
                 vec![best],
             ));
-            agg.tables
-                .push(table_from_rows("Optimiser trace", columns, units, rows));
+            agg.tables.push(table_from_rows(
+                &crate::t!("advanced-report-tbl-optimiser-trace"),
+                columns,
+                units,
+                rows,
+            ));
         } else {
             return None;
         }
@@ -2474,8 +2478,12 @@ fn build_aggregation(kind: &str, doc: &Value) -> Option<Aggregation> {
             .collect();
         agg.mode = "sweep".to_string();
         agg.member_kind = doc.get("kind").and_then(Value::as_str).map(str::to_string);
-        agg.tables
-            .push(table_from_rows("Sweep grid", columns, units, rows));
+        agg.tables.push(table_from_rows(
+            &crate::t!("advanced-report-tbl-sweep-grid"),
+            columns,
+            units,
+            rows,
+        ));
         return Some(agg);
     }
     None
@@ -2536,14 +2544,14 @@ pub fn build(out: &crate::api::RunOutput, src: &str, inv: &Invocation) -> Result
     let (label, label_source) = match doc.get("label").and_then(Value::as_str) {
         Some(l) if !l.trim().is_empty() => (l.to_string(), "result `label`".to_string()),
         _ => (
-            "The result carries no run-level honesty label; the verification labels of the capabilities it used are listed in their own section, and the per-figure tiers where the result states them.".to_string(),
+            crate::t!("advanced-report-no-run-label"),
             "not stated by the result".to_string(),
         ),
     };
     let what_ran = split_sentences(description)
         .into_iter()
         .next()
-        .unwrap_or_else(|| format!("A `{kind}` scenario."));
+        .unwrap_or_else(|| crate::t!("advanced-report-what-ran-default", kind = kind));
 
     let members = member_kinds(&scn, &doc, &known);
     let caps = build_capabilities(&kind, &members, &scn, &doc, &matrix);
@@ -2602,7 +2610,7 @@ pub fn build(out: &crate::api::RunOutput, src: &str, inv: &Invocation) -> Result
                 display: if ft.applicable {
                     display_value(v)
                 } else {
-                    "not applicable (no attack configured)".to_string()
+                    crate::t!("advanced-report-not-applicable-no-attack")
                 },
                 unit,
                 tier: Some(ft.tier.clone()),
@@ -2708,11 +2716,11 @@ pub fn build(out: &crate::api::RunOutput, src: &str, inv: &Invocation) -> Result
     let (seed, seed_source) = match scn.get("seed").and_then(Value::as_u64) {
         Some(s) => (Some(s), "scenario `seed`".to_string()),
         None => match doc.get("seed").and_then(Value::as_u64) {
-            Some(s) => (Some(s), "result `seed` (the kind's default: the scenario sets none)".to_string()),
-            None => (
-                None,
-                "Neither the scenario nor the result carries a seed. The result is fixed by the scenario file and the engine build alone; the determinism test re-runs every bundled scenario and requires byte-identical output.".to_string(),
+            Some(s) => (
+                Some(s),
+                "result `seed` (the kind's default: the scenario sets none)".to_string(),
             ),
+            None => (None, crate::t!("advanced-report-no-seed")),
         },
     };
     let mut argv = vec!["kshana".to_string(), inv.scenario_arg.clone()];
@@ -2763,7 +2771,7 @@ pub fn build(out: &crate::api::RunOutput, src: &str, inv: &Invocation) -> Result
         },
         command,
         argv,
-        working_directory: "Run the command from the directory the original run was started in: the scenario path, and any relative data path inside the scenario, resolve against it. Check the scenario file against scenario_sha256 first.".to_string(),
+        working_directory: crate::t!("advanced-report-working-directory"),
         input_files: inv
             .input_files
             .iter()
@@ -2774,9 +2782,9 @@ pub fn build(out: &crate::api::RunOutput, src: &str, inv: &Invocation) -> Result
             .collect(),
         generated_utc: generated_utc.clone(),
         determinism: if generated_utc.is_some() {
-            "Same scenario bytes, seed and engine build give the same result document, except its meta.generated_utc stamp, which --study-name writes from the clock; run without --study-name for byte-identical output. Floating-point results are pinned per platform; another operating system or architecture may differ in the last digits.".to_string()
+            crate::t!("advanced-report-determinism-stamped")
         } else {
-            "Same scenario bytes, seed and engine build give a byte-identical result document and report; this report carries no timestamp. Floating-point results are pinned per platform; another operating system or architecture may differ in the last digits.".to_string()
+            crate::t!("advanced-report-determinism-plain")
         },
     };
 
@@ -2971,13 +2979,24 @@ fn cell(v: &Value) -> String {
     }
 }
 
-fn omitted_note(n: usize, what: &str) -> String {
+/// What a table leaves out, for [`omitted_note`].
+enum Omitted {
+    Inputs,
+    Scalars,
+    Columns,
+    Events,
+}
+
+fn omitted_note(n: usize, what: Omitted) -> String {
     if n == 0 {
         String::new()
     } else {
-        format!(
-            "<p class=\"note\">{n} further {what} are left out of this page; report.json lists the same rows, and the result document carries every value.</p>\n"
-        )
+        match what {
+            Omitted::Inputs => crate::t!("advanced-report-omitted-inputs", n = n),
+            Omitted::Scalars => crate::t!("advanced-report-omitted-scalars", n = n),
+            Omitted::Columns => crate::t!("advanced-report-omitted-columns", n = n),
+            Omitted::Events => crate::t!("advanced-report-omitted-events", n = n),
+        }
     }
 }
 
@@ -3009,7 +3028,8 @@ fn timeline_svg(events: &[EventRow]) -> String {
     let h = 30.0 + rows as f64 * 22.0 + 24.0;
     let x = |t: f64| left + (t - t_min) / span * pw;
     let mut s = format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 {w:.0} {h:.0}\" width=\"{w:.0}\" height=\"{h:.0}\" role=\"img\" aria-label=\"Events timeline\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 {w:.0} {h:.0}\" width=\"{w:.0}\" height=\"{h:.0}\" role=\"img\" aria-label=\"{}\">",
+        esc(&crate::t!("advanced-report-events-timeline"))
     );
     for (i, e) in spans.iter().enumerate() {
         let y = 20.0 + i as f64 * 22.0;
@@ -3028,10 +3048,10 @@ fn timeline_svg(events: &[EventRow]) -> String {
     if !points.is_empty() {
         let y = 20.0 + spans.len() as f64 * 22.0;
         s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\">point events ({})</text>",
+            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\">{}</text>",
             left - 8.0,
             y + 11.0,
-            points.len()
+            esc(&crate::t!("advanced-report-point-events", n = points.len()))
         ));
         for p in &points {
             s.push_str(&format!(
@@ -3071,8 +3091,8 @@ fn distribution_svg(d: &Distribution) -> String {
     let cmax = d.counts.iter().copied().max().unwrap_or(1).max(1) as f64;
     let x = |v: f64| l + (v - lo) / (hi - lo) * pw;
     let mut s = format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 {w:.0} {h:.0}\" width=\"{w:.0}\" height=\"{h:.0}\" role=\"img\" aria-label=\"Distribution of {}\">",
-        esc(&d.metric)
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 {w:.0} {h:.0}\" width=\"{w:.0}\" height=\"{h:.0}\" role=\"img\" aria-label=\"{}\">",
+        esc(&crate::t!("advanced-report-distribution-of", metric = d.metric))
     );
     for (i, &c) in d.counts.iter().enumerate() {
         let bh = c as f64 / cmax * ph;
@@ -3111,19 +3131,51 @@ fn distribution_svg(d: &Distribution) -> String {
         esc(&fmt_num(hi))
     ));
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\">max bin {}</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\">{}</text>",
         l - 4.0,
         t + 10.0,
-        cmax as usize
+        esc(&crate::t!("advanced-report-max-bin", n = cmax as usize))
     ));
     s.push_str("</svg>");
+    s
+}
+
+/// Text of a catalogue message for a text node: markup characters escaped, an apostrophe left as
+/// it is.
+fn esc_text(s: &str) -> String {
+    s.replace('&', "&amp;")
+        .replace('<', "&lt;")
+        .replace('>', "&gt;")
+}
+
+/// As [`esc_text`], for a double-quoted attribute value.
+fn esc_attr(s: &str) -> String {
+    esc_text(s).replace('"', "&quot;")
+}
+
+/// A catalogue message that is plain text, escaped for a text node.
+macro_rules! tx {
+    ($id:literal) => { esc_text(&crate::t!($id)) };
+    ($id:literal, $($k:ident = $v:expr),+ $(,)?) => { esc_text(&crate::t!($id, $($k = $v),+)) };
+}
+
+/// `<thead>` of one header row; each cell is already escaped text.
+fn thead(cells: &[String]) -> String {
+    let mut s = String::from("<thead><tr>");
+    for c in cells {
+        s.push_str(&format!("<th>{c}</th>"));
+    }
+    s.push_str("</tr></thead>");
     s
 }
 
 fn render_html(r: &Report, chart_svg: &str) -> String {
     let mut h = String::with_capacity(64 * 1024);
     let page_title = format!("{} \u{2014} Kshana", r.title);
-    h.push_str("<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\"/>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>\n");
+    h.push_str(&format!(
+        "<!doctype html>\n<html lang=\"{}\">\n<head>\n<meta charset=\"utf-8\"/>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>\n",
+        esc(crate::i18n::current().tag())
+    ));
     h.push_str(&format!("<title>{}</title>\n", esc(&page_title)));
     h.push_str("<style>");
     h.push_str(&style());
@@ -3131,27 +3183,51 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
 
     // Header.
     let rp = &r.reproducibility;
-    h.push_str("<header class=\"top\">\n<p class=\"eyebrow\">Kshana run report</p>\n");
+    h.push_str(&format!(
+        "<header class=\"top\">\n<p class=\"eyebrow\">{}</p>\n",
+        tx!("advanced-report-eyebrow")
+    ));
     h.push_str(&format!("<h1>{}</h1>\n", esc(&r.title)));
     h.push_str(&format!(
-        "<p class=\"meta\">Kind <code>{}</code> \u{00b7} engine {} \u{00b7} scenario <code>{}</code> (file digest {}\u{2026})</p>\n</header>\n",
-        esc(&r.kind),
-        esc(&rp.engine_version),
-        esc(&rp.scenario_file),
-        esc(&rp.scenario_sha256.chars().take(16).collect::<String>())
+        "<p class=\"meta\">{}</p>\n</header>\n",
+        crate::t!(
+            "advanced-report-meta",
+            kind = esc(&r.kind),
+            engine = esc(&rp.engine_version),
+            scenario = esc(&rp.scenario_file),
+            digest = esc(&rp.scenario_sha256.chars().take(16).collect::<String>())
+        )
     ));
-    h.push_str("<nav class=\"toc\"><a href=\"#summary\">1 Summary</a><a href=\"#inputs\">2 Inputs</a><a href=\"#results\">3 Results</a>");
+    h.push_str(&format!(
+        "<nav class=\"toc\"><a href=\"#summary\">{}</a><a href=\"#inputs\">{}</a><a href=\"#results\">{}</a>",
+        tx!("advanced-report-toc-summary"),
+        tx!("advanced-report-toc-inputs"),
+        tx!("advanced-report-toc-results")
+    ));
     if r.aggregation.is_some() {
-        h.push_str("<a href=\"#aggregation\">3a Aggregation</a>");
+        h.push_str(&format!(
+            "<a href=\"#aggregation\">{}</a>",
+            tx!("advanced-report-toc-aggregation")
+        ));
     }
-    {
-        h.push_str("<a href=\"#companions\">3b Animation and exports</a>");
-    }
-    h.push_str("<a href=\"#events\">4 Events</a><a href=\"#labels\">5 Verification labels</a><a href=\"#not-modelled\">6 Not modelled</a><a href=\"#reproducibility\">7 Reproducibility</a></nav>\n");
+    h.push_str(&format!(
+        "<a href=\"#companions\">{}</a>",
+        tx!("advanced-report-toc-companions")
+    ));
+    h.push_str(&format!(
+        "<a href=\"#events\">{}</a><a href=\"#labels\">{}</a><a href=\"#not-modelled\">{}</a><a href=\"#reproducibility\">{}</a></nav>\n",
+        tx!("advanced-report-toc-events"),
+        tx!("advanced-report-toc-labels"),
+        tx!("advanced-report-toc-not-modelled"),
+        tx!("advanced-report-toc-reproducibility")
+    ));
 
     // 1 Executive summary.
     let es = &r.executive_summary;
-    h.push_str("<section id=\"summary\">\n<h2>1. Executive summary</h2>\n");
+    h.push_str(&format!(
+        "<section id=\"summary\">\n<h2>{}</h2>\n",
+        tx!("advanced-report-h-summary")
+    ));
     h.push_str(&format!("<p>{}</p>\n", esc(&es.what_ran)));
     h.push_str(&format!("<p class=\"summary\">{}</p>\n", esc(&es.summary)));
     h.push_str("<div class=\"cards\">");
@@ -3180,26 +3256,47 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
     h.push_str("</div>\n");
     let c = &es.capability_labels;
     h.push_str(&format!(
-        "<p><strong>Honesty label</strong> ({}): {}</p>\n",
-        esc(&es.label_source),
-        esc(&es.label)
+        "<p>{}</p>\n",
+        crate::t!(
+            "advanced-report-honesty-label",
+            source = esc(&es.label_source),
+            label = esc(&es.label)
+        )
     ));
     h.push_str(&format!(
-        "<p><strong>Capabilities used:</strong> {} VALIDATED, {} MODELLED, {} PARTNER (relied on, not provided); see section 5.</p>\n",
-        c.validated, c.modelled, c.partner
+        "<p>{}</p>\n",
+        crate::t!(
+            "advanced-report-capabilities-used",
+            n_validated = c.validated,
+            n_modelled = c.modelled,
+            n_partner = c.partner
+        )
     ));
     if let Some(n) = es.member_runs {
         h.push_str(&format!(
-            "<p><strong>Member runs:</strong> {n}, aggregated in section 3a.</p>\n"
+            "<p>{}</p>\n",
+            crate::t!("advanced-report-member-runs", n = n)
         ));
     }
     h.push_str("</section>\n");
 
     // 2 Inputs.
-    h.push_str("<section id=\"inputs\" class=\"newpage\">\n<h2>2. Inputs</h2>\n<p class=\"note\">Every field the scenario file sets, flattened to its path. Units come from the result's <code>units</code> block (the field-units schema, docs/field-units-schema.json) where it describes the field, otherwise from the field-name suffix; a unit neither states is shown as not stated.</p>\n");
+    h.push_str(&format!(
+        "<section id=\"inputs\" class=\"newpage\">\n<h2>{}</h2>\n<p class=\"note\">{}</p>\n",
+        tx!("advanced-report-h-inputs"),
+        crate::t!("advanced-report-inputs-note")
+    ));
     h.push_str(&statement_p(&r.inputs.statement));
     if !r.inputs.items.is_empty() {
-        h.push_str("<div class=\"wrap\"><table class=\"fixed\"><colgroup><col style=\"width:30%\"/><col style=\"width:30%\"/><col style=\"width:10%\"/><col style=\"width:30%\"/></colgroup><thead><tr><th>Parameter</th><th>Value</th><th>Unit</th><th>Unit source</th></tr></thead><tbody>");
+        h.push_str(&format!(
+            "<div class=\"wrap\"><table class=\"fixed\"><colgroup><col style=\"width:30%\"/><col style=\"width:30%\"/><col style=\"width:10%\"/><col style=\"width:30%\"/></colgroup>{}<tbody>",
+            thead(&[
+                tx!("advanced-report-th-parameter"),
+                tx!("advanced-report-th-value"),
+                tx!("advanced-report-th-unit"),
+                tx!("advanced-report-th-unit-source"),
+            ])
+        ));
         for row in &r.inputs.items {
             let vcell = if row.value.is_number() {
                 format!("<td class=\"num\">{}</td>", esc(&row.display))
@@ -3216,28 +3313,39 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
         }
         h.push_str("</tbody></table></div>\n");
     }
-    h.push_str(&omitted_note(r.inputs.omitted, "inputs"));
+    h.push_str(&omitted_note(r.inputs.omitted, Omitted::Inputs));
     h.push_str("</section>\n");
 
     // 3 Results.
-    h.push_str("<section id=\"results\" class=\"newpage\">\n<h2>3. Results</h2>\n");
+    h.push_str(&format!(
+        "<section id=\"results\" class=\"newpage\">\n<h2>{}</h2>\n",
+        tx!("advanced-report-h-results")
+    ));
     for ch in &r.results.charts {
         if ch.id == "primary" {
             h.push_str(&format!(
-                "<figure><img alt=\"Result chart\" src=\"{}\"/><figcaption>{}{}</figcaption></figure>\n",
+                "<figure><img alt=\"{}\" src=\"{}\"/><figcaption>{}{}</figcaption></figure>\n",
+                esc_attr(&crate::t!("advanced-report-chart-alt")),
                 svg_data_uri(chart_svg),
                 esc(&ch.title),
                 ch.file
                     .as_ref()
-                    .map(|f| format!(" (also written to {})", esc(f)))
+                    .map(|f| crate::t!("advanced-report-also-written-to", file = esc(f)))
                     .unwrap_or_default()
             ));
         }
     }
-    h.push_str("<h3>Scalar results</h3>\n");
+    h.push_str(&format!("<h3>{}</h3>\n", tx!("advanced-report-h-scalars")));
     h.push_str(&statement_p(&r.results.scalars.statement));
     if !r.results.scalars.items.is_empty() {
-        h.push_str("<div class=\"wrap\"><table class=\"fixed\"><colgroup><col style=\"width:56%\"/><col style=\"width:30%\"/><col style=\"width:14%\"/></colgroup><thead><tr><th>Result</th><th>Value</th><th>Unit</th></tr></thead><tbody>");
+        h.push_str(&format!(
+            "<div class=\"wrap\"><table class=\"fixed\"><colgroup><col style=\"width:56%\"/><col style=\"width:30%\"/><col style=\"width:14%\"/></colgroup>{}<tbody>",
+            thead(&[
+                tx!("advanced-report-th-result"),
+                tx!("advanced-report-th-value"),
+                tx!("advanced-report-th-unit"),
+            ])
+        ));
         for row in &r.results.scalars.items {
             h.push_str(&format!(
                 "<tr><td><code>{}</code></td>{}<td>{}</td></tr>",
@@ -3248,11 +3356,22 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
         }
         h.push_str("</tbody></table></div>\n");
     }
-    h.push_str(&omitted_note(r.results.scalars.omitted, "scalar results"));
-    h.push_str("<h3>Numeric columns</h3>\n");
+    h.push_str(&omitted_note(r.results.scalars.omitted, Omitted::Scalars));
+    h.push_str(&format!("<h3>{}</h3>\n", tx!("advanced-report-h-columns")));
     h.push_str(&statement_p(&r.results.series.statement));
     if !r.results.series.items.is_empty() {
-        h.push_str("<div class=\"wrap\"><table class=\"fixed\"><colgroup><col style=\"width:34%\"/><col style=\"width:9%\"/><col style=\"width:12%\"/><col style=\"width:12%\"/><col style=\"width:12%\"/><col style=\"width:12%\"/><col style=\"width:9%\"/></colgroup><thead><tr><th>Column</th><th>Count</th><th>Min</th><th>Max</th><th>First</th><th>Last</th><th>Unit</th></tr></thead><tbody>");
+        h.push_str(&format!(
+            "<div class=\"wrap\"><table class=\"fixed\"><colgroup><col style=\"width:34%\"/><col style=\"width:9%\"/><col style=\"width:12%\"/><col style=\"width:12%\"/><col style=\"width:12%\"/><col style=\"width:12%\"/><col style=\"width:9%\"/></colgroup>{}<tbody>",
+            thead(&[
+                tx!("advanced-report-th-column"),
+                tx!("advanced-report-th-count"),
+                tx!("advanced-report-th-min"),
+                tx!("advanced-report-th-max"),
+                tx!("advanced-report-th-first"),
+                tx!("advanced-report-th-last"),
+                tx!("advanced-report-th-unit"),
+            ])
+        ));
         for s in &r.results.series.items {
             h.push_str(&format!(
                 "<tr><td><code>{}</code></td><td class=\"num\">{}</td><td class=\"num\">{}</td><td class=\"num\">{}</td><td class=\"num\">{}</td><td class=\"num\">{}</td><td>{}</td></tr>",
@@ -3267,36 +3386,48 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
         }
         h.push_str("</tbody></table></div>\n");
     }
-    h.push_str(&omitted_note(r.results.series.omitted, "numeric columns"));
+    h.push_str(&omitted_note(r.results.series.omitted, Omitted::Columns));
     h.push_str("</section>\n");
 
     // 3a Aggregation.
     if let Some(a) = &r.aggregation {
-        h.push_str("<section id=\"aggregation\">\n<h2>3a. Aggregation of member runs</h2>\n");
         h.push_str(&format!(
-            "<p>Mode <strong>{}</strong>{}{}.</p>\n",
-            esc(&a.mode),
-            a.member_kind
-                .as_ref()
-                .filter(|k| !k.is_empty())
-                .map(|k| format!(" over the <code>{}</code> kind", esc(k)))
-                .unwrap_or_default(),
-            a.runs_total
-                .map(|n| format!(", {n} member runs"))
-                .unwrap_or_default()
+            "<section id=\"aggregation\">\n<h2>{}</h2>\n",
+            tx!("advanced-report-h-aggregation")
         ));
+        let kind = a.member_kind.as_ref().filter(|k| !k.is_empty());
+        h.push_str(&match (kind, a.runs_total) {
+            (None, None) => crate::t!("advanced-report-mode", mode = esc(&a.mode)),
+            (Some(k), None) => {
+                crate::t!(
+                    "advanced-report-mode-kind",
+                    mode = esc(&a.mode),
+                    kind = esc(k)
+                )
+            }
+            (None, Some(n)) => {
+                crate::t!("advanced-report-mode-runs", mode = esc(&a.mode), n_runs = n)
+            }
+            (Some(k), Some(n)) => crate::t!(
+                "advanced-report-mode-kind-runs",
+                mode = esc(&a.mode),
+                kind = esc(k),
+                n_runs = n
+            ),
+        });
         if let Some(d) = &a.run_digest {
             h.push_str(&format!(
-                "<p class=\"note\">Run digest (SHA-256 over the member result digests, in dispatch order): <code>{}</code></p>\n",
-                esc(d)
+                "<p class=\"note\">{}</p>\n",
+                crate::t!("advanced-report-run-digest", digest = esc(d))
             ));
         }
         for t in &a.tables {
             h.push_str(&format!("<h3>{}</h3>\n", esc(&t.title)));
             if t.rows.is_empty() {
-                h.push_str(
-                    "<p class=\"note\">This table has no rows: the result lists none.</p>\n",
-                );
+                h.push_str(&format!(
+                    "<p class=\"note\">{}</p>\n",
+                    tx!("advanced-report-table-empty")
+                ));
                 continue;
             }
             h.push_str("<div class=\"wrap\"><table><thead><tr>");
@@ -3319,12 +3450,23 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
             h.push_str("</tbody></table></div>\n");
         }
         for d in &a.distributions {
+            let caption = if d.unit.is_empty() {
+                crate::t!(
+                    "advanced-report-distribution-caption",
+                    metric = esc(&d.metric),
+                    n = d.n
+                )
+            } else {
+                crate::t!(
+                    "advanced-report-distribution-caption-unit",
+                    metric = esc(&d.metric),
+                    n = d.n,
+                    unit = esc(&d.unit)
+                )
+            };
             h.push_str(&format!(
-                "<figure>{}<figcaption>Monte Carlo distribution of {} ({} samples{}), 20 equal-width bins; dashed lines mark the 5th, 50th and 95th percentiles.</figcaption></figure>\n",
-                distribution_svg(d),
-                esc(&d.metric),
-                d.n,
-                if d.unit.is_empty() { String::new() } else { format!(", {}", esc(&d.unit)) }
+                "<figure>{}<figcaption>{caption}</figcaption></figure>\n",
+                distribution_svg(d)
             ));
         }
         h.push_str("</section>\n");
@@ -3332,22 +3474,37 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
 
     // 3b Animation and exports.
     let c = &r.companions;
-    h.push_str("<section id=\"companions\">\n<h2>3b. Animation and exports</h2>\n");
+    h.push_str(&format!(
+        "<section id=\"companions\">\n<h2>{}</h2>\n",
+        tx!("advanced-report-h-companions")
+    ));
     match &r.animation_svg {
         Some(svg) => h.push_str(&format!(
-            "<figure><img src=\"{}\" alt=\"Animation of the run's time series\"/><figcaption>The run's own samples drawing in behind a moving time cursor (the animated drawing of <code>--animate svg</code>; it shows the finished picture under reduced motion and in print).</figcaption></figure>\n",
-            svg_data_uri(svg)
+            "<figure><img src=\"{}\" alt=\"{}\"/><figcaption>{}</figcaption></figure>\n",
+            svg_data_uri(svg),
+            esc_attr(&crate::t!("advanced-report-animation-alt")),
+            crate::t!("advanced-report-animation-caption")
         )),
         None => h.push_str(&format!(
-            "<p class=\"note\">No animation: {}</p>\n",
-            esc(c.animation.reason.as_deref().unwrap_or("the result carries no time series"))
+            "<p class=\"note\">{}</p>\n",
+            crate::t!(
+                "advanced-report-no-animation",
+                reason = esc(&c
+                    .animation
+                    .reason
+                    .clone()
+                    .unwrap_or_else(|| crate::t!("advanced-report-no-animation-default")))
+            )
         )),
     }
     if c.animation.available {
         if c.animation.files.is_empty() {
             h.push_str(&format!(
-                "<p>The interactive player is written by <code>{}</code>.</p>\n",
-                esc(&c.animation.command)
+                "<p>{}</p>\n",
+                crate::t!(
+                    "advanced-report-player-written-by",
+                    command = esc(&c.animation.command)
+                )
             ));
         } else {
             let links: Vec<String> = c
@@ -3357,12 +3514,19 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
                 .map(|n| format!("<a href=\"{0}\">{0}</a>", esc(n)))
                 .collect();
             h.push_str(&format!(
-                "<p>Written beside this report: {}.</p>\n",
-                links.join(", ")
+                "<p>{}</p>\n",
+                crate::t!("advanced-report-written-beside", links = links.join(", "))
             ));
         }
     }
-    h.push_str("<div class=\"wrap\"><table><thead><tr><th>Export</th><th>Applies</th><th>Files or reason</th></tr></thead><tbody>");
+    h.push_str(&format!(
+        "<div class=\"wrap\"><table>{}<tbody>",
+        thead(&[
+            tx!("advanced-report-th-export"),
+            tx!("advanced-report-th-applies"),
+            tx!("advanced-report-th-files-or-reason"),
+        ])
+    ));
     for e in &c.exports {
         let detail = if !e.files.is_empty() {
             e.files
@@ -3371,54 +3535,88 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
                 .collect::<Vec<_>>()
                 .join(", ")
         } else if e.applies {
-            format!("written by <code>{}</code>", esc(&c.export_command))
+            crate::t!(
+                "advanced-report-written-by",
+                command = esc(&c.export_command)
+            )
         } else {
-            esc(e.reason.as_deref().unwrap_or("does not apply"))
+            match e.reason.as_deref() {
+                Some(reason) => esc(reason),
+                None => tx!("advanced-report-does-not-apply"),
+            }
         };
         h.push_str(&format!(
             "<tr><td>{}<br/><span class=\"note\">{}</span></td><td>{}</td><td>{}</td></tr>",
             esc(&e.format),
             esc(&e.spec_url),
-            if e.applies { "yes" } else { "no" },
+            if e.applies {
+                tx!("advanced-report-yes")
+            } else {
+                tx!("advanced-report-no")
+            },
             detail
         ));
     }
     h.push_str("</tbody></table></div>\n</section>\n");
 
     // 4 Events.
-    h.push_str("<section id=\"events\">\n<h2>4. Events timeline</h2>\n");
+    h.push_str(&format!(
+        "<section id=\"events\">\n<h2>{}</h2>\n",
+        tx!("advanced-report-h-events")
+    ));
     h.push_str(&statement_p(&r.events.statement));
     if !r.events.items.is_empty() {
         let svg = timeline_svg(&r.events.items);
         if !svg.is_empty() {
             h.push_str(&format!(
-                "<figure>{svg}<figcaption>Windows as bars, point events as dots, on the run's own time axis.</figcaption></figure>\n"
+                "<figure>{svg}<figcaption>{}</figcaption></figure>\n",
+                tx!("advanced-report-events-caption")
             ));
         }
-        h.push_str("<div class=\"wrap\"><table class=\"fixed\"><colgroup><col style=\"width:11%\"/><col style=\"width:11%\"/><col style=\"width:44%\"/><col style=\"width:34%\"/></colgroup><thead><tr><th>Start (s)</th><th>End (s)</th><th>Event</th><th>Source</th></tr></thead><tbody>");
+        h.push_str(&format!(
+            "<div class=\"wrap\"><table class=\"fixed\"><colgroup><col style=\"width:11%\"/><col style=\"width:11%\"/><col style=\"width:44%\"/><col style=\"width:34%\"/></colgroup>{}<tbody>",
+            thead(&[
+                tx!("advanced-report-th-start"),
+                tx!("advanced-report-th-end"),
+                tx!("advanced-report-th-event"),
+                tx!("advanced-report-th-source"),
+            ])
+        ));
         for e in &r.events.items {
             h.push_str(&format!(
                 "<tr><td class=\"num\">{}</td><td class=\"num\">{}</td><td>{}</td><td class=\"note\">{}</td></tr>",
                 esc(&fmt_num(e.t_s)),
                 e.t_end_s
                     .map(|t| esc(&fmt_num(t)))
-                    .unwrap_or_else(|| "point event".to_string()),
+                    .unwrap_or_else(|| tx!("advanced-report-point-event")),
                 esc(&e.label),
                 esc(&e.source)
             ));
         }
         h.push_str("</tbody></table></div>\n");
     }
-    h.push_str(&omitted_note(r.events.omitted, "events"));
+    h.push_str(&omitted_note(r.events.omitted, Omitted::Events));
     h.push_str("</section>\n");
 
     // 5 Verification labels.
-    h.push_str("<section id=\"labels\" class=\"newpage\">\n<h2>5. Verification labels</h2>\n");
+    h.push_str(&format!(
+        "<section id=\"labels\" class=\"newpage\">\n<h2>{}</h2>\n",
+        tx!("advanced-report-h-labels")
+    ));
     h.push_str(&format!(
         "<p class=\"note\">{}</p>\n",
         esc(&r.capabilities.statement)
     ));
-    h.push_str("<div class=\"wrap\"><table class=\"fixed\"><colgroup><col style=\"width:25%\"/><col style=\"width:13%\"/><col style=\"width:10%\"/><col style=\"width:28%\"/><col style=\"width:24%\"/></colgroup><thead><tr><th>Capability (matrix requirement)</th><th>Label</th><th>Used by</th><th>Source: oracle</th><th>Test evidence</th></tr></thead><tbody>");
+    h.push_str(&format!(
+        "<div class=\"wrap\"><table class=\"fixed\"><colgroup><col style=\"width:25%\"/><col style=\"width:13%\"/><col style=\"width:10%\"/><col style=\"width:28%\"/><col style=\"width:24%\"/></colgroup>{}<tbody>",
+        thead(&[
+            tx!("advanced-report-th-capability"),
+            tx!("advanced-report-th-label"),
+            tx!("advanced-report-th-used-by"),
+            tx!("advanced-report-th-oracle"),
+            tx!("advanced-report-th-test-evidence"),
+        ])
+    ));
     for c in &r.capabilities.rows {
         h.push_str(&format!(
             "<tr><td><strong>{}</strong><br/><span class=\"note\">{}</span></td><td>{}<br/><span class=\"note\">{}</span></td><td>{}</td><td class=\"note\">{} <em>({})</em></td><td class=\"note\">{}</td></tr>",
@@ -3434,7 +3632,16 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
     }
     h.push_str("</tbody></table></div>\n");
     if !r.capabilities.figure_tiers.is_empty() {
-        h.push_str("<h3>Per-figure tiers stated by the result</h3>\n<div class=\"wrap\"><table class=\"fixed\"><colgroup><col style=\"width:42%\"/><col style=\"width:14%\"/><col style=\"width:30%\"/><col style=\"width:14%\"/></colgroup><thead><tr><th>Figure</th><th>Tier</th><th>Matrix requirement</th><th>Applicable</th></tr></thead><tbody>");
+        h.push_str(&format!(
+            "<h3>{}</h3>\n<div class=\"wrap\"><table class=\"fixed\"><colgroup><col style=\"width:42%\"/><col style=\"width:14%\"/><col style=\"width:30%\"/><col style=\"width:14%\"/></colgroup>{}<tbody>",
+            tx!("advanced-report-h-figure-tiers"),
+            thead(&[
+                tx!("advanced-report-th-figure"),
+                tx!("advanced-report-th-tier"),
+                tx!("advanced-report-th-matrix-requirement"),
+                tx!("advanced-report-th-applicable"),
+            ])
+        ));
         for f in &r.capabilities.figure_tiers {
             h.push_str(&format!(
                 "<tr><td><code>{}</code></td><td>{}</td><td>{}</td><td>{}</td></tr>",
@@ -3442,9 +3649,9 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
                 tag(&f.tier),
                 esc(&f.requirement),
                 if f.applicable {
-                    "yes"
+                    tx!("advanced-report-yes")
                 } else {
-                    "no (no attack configured)"
+                    tx!("advanced-report-no-attack")
                 }
             ));
         }
@@ -3453,10 +3660,20 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
     h.push_str("</section>\n");
 
     // 6 Not modelled.
-    h.push_str("<section id=\"not-modelled\">\n<h2>6. Not modelled, and assumptions</h2>\n<p class=\"note\">Each item is quoted from where it is stated: the result document, the kind catalogue, the scenario file, or the verification matrix's reason a MODELLED row stays modelled.</p>\n");
+    h.push_str(&format!(
+        "<section id=\"not-modelled\">\n<h2>{}</h2>\n<p class=\"note\">{}</p>\n",
+        tx!("advanced-report-h-not-modelled"),
+        tx!("advanced-report-not-modelled-note")
+    ));
     h.push_str(&statement_p(&r.not_modelled.statement));
     if !r.not_modelled.items.is_empty() {
-        h.push_str("<div class=\"wrap\"><table class=\"fixed\"><colgroup><col style=\"width:72%\"/><col style=\"width:28%\"/></colgroup><thead><tr><th>Statement</th><th>Source</th></tr></thead><tbody>");
+        h.push_str(&format!(
+            "<div class=\"wrap\"><table class=\"fixed\"><colgroup><col style=\"width:72%\"/><col style=\"width:28%\"/></colgroup>{}<tbody>",
+            thead(&[
+                tx!("advanced-report-th-statement"),
+                tx!("advanced-report-th-source"),
+            ])
+        ));
         for n in &r.not_modelled.items {
             h.push_str(&format!(
                 "<tr><td>{}</td><td class=\"note\">{}</td></tr>",
@@ -3469,43 +3686,62 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
     h.push_str("</section>\n");
 
     // 7 Reproducibility.
-    h.push_str("<section id=\"reproducibility\" class=\"newpage\">\n<h2>7. Reproducibility record</h2>\n<div class=\"wrap\"><table class=\"fixed\"><colgroup><col style=\"width:22%\"/><col style=\"width:78%\"/></colgroup><tbody>");
-    let mut kv = |k: &str, v: String| {
-        let prose = matches!(
-            k,
-            "Working directory" | "Determinism" | "Seed" | "Source commit"
-        );
+    h.push_str(&format!(
+        "<section id=\"reproducibility\" class=\"newpage\">\n<h2>{}</h2>\n<div class=\"wrap\"><table class=\"fixed\"><colgroup><col style=\"width:22%\"/><col style=\"width:78%\"/></colgroup><tbody>",
+        tx!("advanced-report-h-reproducibility")
+    ));
+    let mut kv = |k: String, prose: bool, v: String| {
         h.push_str(&format!(
             "<tr><th>{}</th><td{}>{}</td></tr>",
-            esc(k),
+            esc(&k),
             if prose { "" } else { " class=\"mono\"" },
             v
         ));
     };
-    kv("Command to reproduce", esc(&rp.command));
-    kv("Working directory", esc(&rp.working_directory));
-    kv("Engine version", esc(&rp.engine_version));
     kv(
-        "Source commit",
+        crate::t!("advanced-report-rk-command"),
+        false,
+        esc(&rp.command),
+    );
+    kv(
+        crate::t!("advanced-report-rk-working-directory"),
+        true,
+        esc(&rp.working_directory),
+    );
+    kv(
+        crate::t!("advanced-report-rk-engine-version"),
+        false,
+        esc(&rp.engine_version),
+    );
+    kv(
+        crate::t!("advanced-report-rk-source-commit"),
+        true,
         match &rp.git_commit {
             Some(c) => format!("{} ({})", esc(c), esc(&rp.git_commit_note)),
             None => esc(&rp.git_commit_note),
         },
     );
-    kv("Scenario file", esc(&rp.scenario_file));
     kv(
-        "Scenario file SHA-256 (Secure Hash Algorithm 256-bit)",
+        crate::t!("advanced-report-rk-scenario-file"),
+        false,
+        esc(&rp.scenario_file),
+    );
+    kv(
+        crate::t!("advanced-report-rk-scenario-sha"),
+        false,
         esc(&rp.scenario_sha256),
     );
     kv(
-        "Result scenario_hash",
+        crate::t!("advanced-report-rk-result-hash"),
+        false,
         rp.result_scenario_hash
             .as_ref()
             .map(|s| crate::t!("advanced-report-the-kind-own-fingerprint-of", esc = esc(s)))
-            .unwrap_or_else(|| "the result document states none".to_string()),
+            .unwrap_or_else(|| crate::t!("advanced-report-result-hash-none")),
     );
     kv(
-        "Result document SHA-256",
+        crate::t!("advanced-report-rk-result-sha"),
+        false,
         format!(
             "{}{}",
             esc(&rp.result_sha256),
@@ -3516,14 +3752,16 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
         ),
     );
     kv(
-        "Seed",
+        crate::t!("advanced-report-rk-seed"),
+        true,
         match rp.seed {
             Some(s) => format!("{s} ({})", esc(&rp.seed_source)),
             None => esc(&rp.seed_source),
         },
     );
     kv(
-        "Platform",
+        crate::t!("advanced-report-rk-platform"),
+        false,
         esc(&format!(
             "{} / {} ({})",
             rp.platform.os, rp.platform.arch, rp.platform.family
@@ -3531,16 +3769,24 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
     );
     for f in &rp.input_files {
         kv(
-            &crate::t!("advanced-report-input-file", path = f.path),
+            crate::t!("advanced-report-input-file", path = f.path),
+            false,
             format!("SHA-256 {}", esc(&f.sha256)),
         );
     }
     if let Some(g) = &rp.generated_utc {
-        kv("Study generated (UTC)", esc(g));
+        kv(crate::t!("advanced-report-rk-generated"), false, esc(g));
     }
-    kv("Determinism", esc(&rp.determinism));
+    kv(
+        crate::t!("advanced-report-rk-determinism"),
+        true,
+        esc(&rp.determinism),
+    );
     h.push_str("</tbody></table></div>\n");
-    h.push_str("<p class=\"note\">To print this page to a Portable Document Format (PDF) file, use the browser's print dialog and choose \u{201c}Save as PDF\u{201d}; the print stylesheet fits A4 and US Letter paper, repeats table headers across pages and starts the inputs, results, labels and reproducibility sections on a new page. The engine writes no PDF itself. report.json carries the same content as this page.</p>\n");
+    h.push_str(&format!(
+        "<p class=\"note\">{}</p>\n",
+        tx!("advanced-report-print-note")
+    ));
     h.push_str("</section>\n");
 
     let stamp = rp
@@ -3549,9 +3795,12 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
         .map(|g| crate::t!("advanced-report-study-generated", esc = esc(g)))
         .unwrap_or_default();
     h.push_str(&format!(
-        "<footer>Generated by Kshana {}.{} Reproducible from scenario + seed + engine version. Free and open source (GNU Affero General Public License, AGPL-3.0) \u{2014} <a href=\"https://github.com/AshfordeOU/kshana\">source &amp; docs</a>.</footer>\n</body>\n</html>\n",
-        esc(&rp.engine_version),
-        stamp
+        "<footer>{}</footer>\n</body>\n</html>\n",
+        crate::t!(
+            "advanced-report-footer",
+            engine = esc(&rp.engine_version),
+            stamp = stamp
+        )
     ));
     h
 }

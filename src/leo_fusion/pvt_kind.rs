@@ -1166,7 +1166,7 @@ fn svg(r: &LeoPvtReport) -> String {
         w,
         h,
         &crate::t!("leo-fusion-pvt-kind-leo-pvt-mode", mode = r.mode),
-        "MODELLED",
+        &crate::t!("fom-verdict-modelled"),
     );
     let (ml, top, pw, ph) = (80.0, 80.0, 780.0, 280.0);
     let mut series: Vec<(Vec<(f64, f64)>, &str)> = Vec::new();
@@ -1179,8 +1179,8 @@ fn svg(r: &LeoPvtReport) -> String {
             BLUE,
         ));
         (
-            "3D Doppler-fix error (log10 m) against window length",
-            "window (s)",
+            crate::t!("leo-fusion-pvt-kind-chart-doppler-caption"),
+            crate::t!("leo-fusion-pvt-kind-chart-doppler-x-label"),
         )
     } else if let Some(j) = &r.joint {
         series.push((
@@ -1198,8 +1198,8 @@ fn svg(r: &LeoPvtReport) -> String {
             CYAN,
         ));
         (
-            "median PDOP (blue) and VDOP (amber), log10, against LEO satellites added",
-            "LEO satellites added",
+            crate::t!("leo-fusion-pvt-kind-chart-joint-caption"),
+            crate::t!("leo-fusion-pvt-kind-chart-joint-x-label"),
         )
     } else if let Some(p) = &r.polar {
         series.push((
@@ -1224,8 +1224,8 @@ fn svg(r: &LeoPvtReport) -> String {
             CYAN,
         ));
         (
-            "median VDOP (log10): grey GNSS, blue LEO, amber fused",
-            "latitude (deg)",
+            crate::t!("leo-fusion-pvt-kind-chart-polar-caption"),
+            crate::t!("leo-fusion-pvt-kind-chart-polar-x-label"),
         )
     } else if let Some(t) = &r.timing {
         let mut clocks: Vec<&str> = t.rows.iter().map(|x| x.clock.as_str()).collect();
@@ -1242,13 +1242,13 @@ fn svg(r: &LeoPvtReport) -> String {
             ));
         }
         (
-            "RMS time error to UTC (log10 ns) against C/N0 offset, one line per oscillator",
-            "C/N0 offset (dB)",
+            crate::t!("leo-fusion-pvt-kind-chart-timing-caption"),
+            crate::t!("leo-fusion-pvt-kind-chart-timing-x-label"),
         )
     } else {
-        ("", "")
+        (String::new(), String::new())
     };
-    s.push_str(&crate::chart::panel_axes(ml, top, pw, top + ph, cap));
+    s.push_str(&crate::chart::panel_axes(ml, top, pw, top + ph, &cap));
     let pts: Vec<(f64, f64)> = series
         .iter()
         .flat_map(|x| x.0.iter().copied())
@@ -1288,11 +1288,19 @@ fn svg(r: &LeoPvtReport) -> String {
             ));
         }
         s.push_str(&format!(
-            "<text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{hi:.0}</text><text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{lo:.0}</text>\
-             <text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">{xlab}: {x0:.0} to {x1:.0}</text>",
+            "<text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{}</text><text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{}</text>\
+             <text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">{}</text>",
             top + 10.0,
+            crate::i18n::num(hi, 0),
             top + ph,
-            top + ph + 24.0
+            crate::i18n::num(lo, 0),
+            top + ph + 24.0,
+            crate::t!(
+                "leo-fusion-pvt-kind-chart-x-range",
+                label = xlab,
+                x0 = crate::i18n::num(x0, 0),
+                x1 = crate::i18n::num(x1, 0)
+            )
         ));
     }
     s.push_str("</svg>");

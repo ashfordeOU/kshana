@@ -2609,19 +2609,19 @@ fn fmt_num(v: f64) -> String {
     if a == 0.0 {
         "0".into()
     } else if !(1e-3..1e5).contains(&a) {
-        format!("{v:.2e}")
+        crate::i18n::num_e(v, 2)
     } else if a >= 100.0 {
-        format!("{v:.0}")
+        crate::i18n::num(v, 0)
     } else if a >= 1.0 {
-        format!("{v:.1}")
+        crate::i18n::num(v, 1)
     } else {
-        format!("{v:.3}")
+        crate::i18n::num(v, 3)
     }
 }
 
 /// A panel of the timeline chart: channels drawn solid, references dashed.
 struct Panel<'a> {
-    title: &'a str,
+    title: String,
     solid: Vec<&'a str>,
     dashed: Vec<&'a str>,
     symmetric: bool,
@@ -2676,31 +2676,31 @@ fn timeline_svg(t: &TimelineOut, top: f64, w: f64) -> (String, f64) {
     ];
     let mut panels: Vec<Panel> = vec![
         Panel {
-            title: "clock time error vs guard (ns)",
+            title: crate::t!("campaign-chart-clock-time-error-vs-guard"),
             solid: vec!["time_error_ns"],
             dashed: vec!["guard_ns"],
             symmetric: true,
         },
         Panel {
-            title: "C/N0 vs tracking floor (dB-Hz)",
+            title: crate::t!("campaign-chart-cn0-vs-tracking-floor"),
             solid: vec!["cn0_dbhz"],
             dashed: vec!["cn0_floor_dbhz"],
             symmetric: false,
         },
         Panel {
-            title: "protection level vs alert limit (m)",
+            title: crate::t!("campaign-chart-protection-level-vs-alert-limit"),
             solid: vec!["protection_level_m"],
             dashed: vec!["alert_limit_m"],
             symmetric: false,
         },
         Panel {
-            title: "position error vs threshold (m)",
+            title: crate::t!("campaign-chart-position-error-vs-threshold"),
             solid: vec!["position_error_m"],
             dashed: vec!["position_threshold_m"],
             symmetric: false,
         },
         Panel {
-            title: "satellites tracking",
+            title: crate::t!("campaign-chart-satellites-tracking"),
             solid: vec!["tracking"],
             dashed: vec![],
             symmetric: false,
@@ -2709,7 +2709,7 @@ fn timeline_svg(t: &TimelineOut, top: f64, w: f64) -> (String, f64) {
     for name in t.channels.keys() {
         if !known.contains(&name.as_str()) {
             panels.push(Panel {
-                title: name,
+                title: name.clone(),
                 solid: vec![name],
                 dashed: vec![],
                 symmetric: false,
@@ -2769,7 +2769,7 @@ fn timeline_svg(t: &TimelineOut, top: f64, w: f64) -> (String, f64) {
         let pad = 0.06 * (hi - lo);
         let (lo, hi) = (lo - pad, hi + pad);
         let y = |v: f64| bottom - (v - lo) / (hi - lo) * ph;
-        s.push_str(&crate::chart::panel_axes(ml, ptop, pw, bottom, p.title));
+        s.push_str(&crate::chart::panel_axes(ml, ptop, pw, bottom, &p.title));
         for k in 0..=2 {
             let v = lo + (hi - lo) * f64::from(k) / 2.0;
             s.push_str(&format!(
@@ -2808,8 +2808,9 @@ fn timeline_svg(t: &TimelineOut, top: f64, w: f64) -> (String, f64) {
     if let Some(al) = t.channels.get("alarm") {
         let h = 16.0;
         s.push_str(&format!(
-            "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"{MUTED}\">alarm flags and events</text>",
-            y0 - 8.0
+            "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"{MUTED}\">{}</text>",
+            y0 - 8.0,
+            crate::t!("campaign-chart-alarm-flags-and-events")
         ));
         for (i, v) in al.values.iter().enumerate() {
             let (xa, xb) = (
@@ -2853,11 +2854,14 @@ fn timeline_svg(t: &TimelineOut, top: f64, w: f64) -> (String, f64) {
         ));
     }
     s.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"11\">0 s</text><text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" font-size=\"11\">{} s mission time</text>",
+        "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"11\">0 s</text><text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" font-size=\"11\">{}</text>",
         y0 + 8.0,
         ml + pw,
         y0 + 8.0,
-        fmt_num(t.duration_s)
+        crate::t!(
+            "campaign-chart-mission-time",
+            duration = fmt_num(t.duration_s)
+        )
     ));
     (s, y0 + 24.0)
 }
@@ -2876,10 +2880,7 @@ fn sweep_svg(sw: &SweepOut, top: f64, w: f64) -> (String, f64) {
         axis_order = sw.axis_order.join(" x "),
         nodes = sw.nodes.len(),
         v4 = if sw.runs > 1 {
-            format!(
-                ", median with 5th-95th percentile band over {} seeds",
-                sw.runs
-            )
+            crate::t!("campaign-chart-sweep-percentile-band", n_runs = sw.runs)
         } else {
             String::new()
         }
@@ -2907,7 +2908,12 @@ fn sweep_svg(sw: &SweepOut, top: f64, w: f64) -> (String, f64) {
             let label = if lead.is_empty() {
                 format!("{name} ({})", info.unit)
             } else {
-                format!("{name} ({}) at {}", info.unit, lead.join(", "))
+                crate::t!(
+                    "campaign-chart-sweep-line-at",
+                    name = name,
+                    unit = info.unit,
+                    lead = lead.join(", ")
+                )
             };
             let (mut mid, mut lo, mut hi) = (Vec::new(), Vec::new(), Vec::new());
             for n in chunk {
@@ -2972,11 +2978,14 @@ fn mc_svg(mc: &MonteCarloOut, top: f64, w: f64) -> (String, f64) {
     let ml = 80.0_f64;
     let pw = w - ml - 24.0;
     let mut s = format!(
-        "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"{MUTED}\">Monte Carlo of `{}`: {} seeds from {} (5th, 50th, 95th percentile; bar = bootstrap 95% confidence interval on the mean)</text>",
+        "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"{MUTED}\">{}</text>",
         top + 14.0,
-        esc(&mc.scenario_kind),
-        mc.runs,
-        mc.base_seed
+        crate::t!(
+            "campaign-chart-monte-carlo-of",
+            scenario_kind = esc(&mc.scenario_kind),
+            n_runs = mc.runs,
+            base_seed = mc.base_seed
+        )
     );
     let mut y = top + 34.0;
     for (i, (name, m)) in mc.metrics.iter().enumerate() {
@@ -3016,14 +3025,17 @@ fn mc_svg(mc: &MonteCarloOut, top: f64, w: f64) -> (String, f64) {
 fn compose_svg(c: &ComposeOut, top: f64, w: f64) -> (String, f64) {
     let ml = 80.0_f64;
     let mut s = format!(
-        "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"{MUTED}\">composed members under shared conditions: {}</text>",
+        "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"{MUTED}\">{}</text>",
         top + 14.0,
-        esc(&c
-            .shared
-            .iter()
-            .map(|(k, v)| format!("{k} = {} {}", v.value, v.unit))
-            .collect::<Vec<_>>()
-            .join("; "))
+        crate::t!(
+            "campaign-chart-composed-members",
+            shared = esc(&c
+                .shared
+                .iter()
+                .map(|(k, v)| format!("{k} = {} {}", v.value, v.unit))
+                .collect::<Vec<_>>()
+                .join("; "))
+        )
     );
     let names: Vec<&String> = c.metric_units.keys().collect();
     let col = ((w - ml - 200.0) / names.len().max(1) as f64).max(90.0);
@@ -3048,7 +3060,7 @@ fn compose_svg(c: &ComposeOut, top: f64, w: f64) -> (String, f64) {
             s.push_str(&format!(
                 "<text x=\"{:.0}\" y=\"{y:.0}\" font-size=\"11\">{}</text>",
                 ml + 200.0 + col * i as f64,
-                v.map_or("n/a".to_string(), fmt_num)
+                v.map_or_else(|| crate::t!("campaign-chart-not-available"), fmt_num)
             ));
         }
     }

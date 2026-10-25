@@ -1405,8 +1405,12 @@ fn svg(c: &Computed) -> String {
     s.push_str(&crate::chart::frame_open(
         w,
         h,
-        "Cislunar observability over a tracking arc (P6)",
-        "rank-vs-arc (range-only single link) · Gramian eigen-spectrum · differential-corrected DRO ICs + SRIF cross-check · MODELLED design, VALIDATED rank/STM/closure",
+        &crate::t!("cislunar-observability-chart-title"),
+        &crate::t!(
+            "cislunar-observability-chart-subtitle",
+            modelled = crate::t!("fom-verdict-modelled"),
+            validated = crate::t!("fom-verdict-validated")
+        ),
     ));
 
     // ── Left panel: rank vs arc length ──
@@ -1417,7 +1421,7 @@ fn svg(c: &Computed) -> String {
         ly,
         lw,
         axis_y,
-        "observable rank vs arc length",
+        &crate::t!("cislunar-observability-chart-observable-rank"),
     ));
     let rmax = c.state_dim as f64;
     let yof = |r: f64| axis_y - (r / rmax) * lh;
@@ -1460,10 +1464,13 @@ fn svg(c: &Computed) -> String {
         ));
     }
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">arc length (rotating-frame time units, {:.1} h total)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">{}</text>",
         lx + lw / 2.0,
         axis_y + 26.0,
-        c.arc_hours
+        crate::t!(
+            "cislunar-observability-chart-arc-length",
+            arc_hours = crate::i18n::num(c.arc_hours, 1)
+        )
     ));
 
     // ── Right panel: Gramian eigenvalue bars (log10) ──
@@ -1474,7 +1481,7 @@ fn svg(c: &Computed) -> String {
         ryy,
         rw,
         raxis_y,
-        "Gramian eigenvalues (log10)",
+        &crate::t!("cislunar-observability-chart-gramian-eigenvalues"),
     ));
     let logs: Vec<f64> = c
         .spectrum
@@ -1498,10 +1505,10 @@ fn svg(c: &Computed) -> String {
             "<rect x=\"{bx:.1}\" y=\"{by:.1}\" width=\"{bw:.1}\" height=\"{bh:.1}\" fill=\"{BLUE}\"/>"
         ));
         s.push_str(&format!(
-            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\" fill=\"{TITLE}\">{:.1}</text>",
+            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\" fill=\"{TITLE}\">{}</text>",
             rx + slot * (i as f64 + 0.5),
             by - 4.0,
-            lg
+            crate::i18n::num(lg, 1)
         ));
         s.push_str(&format!(
             "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\">λ{}</text>",
@@ -1511,10 +1518,13 @@ fn svg(c: &Computed) -> String {
         ));
     }
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">condition κ = {}</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">{}</text>",
         rx + rw / 2.0,
         raxis_y + 34.0,
-        condition_str(c.spectrum.condition)
+        crate::t!(
+            "cislunar-observability-chart-condition",
+            condition = crate::i18n::localise_decimal(condition_str(c.spectrum.condition))
+        )
     ));
     s.push_str("</svg>");
     s
