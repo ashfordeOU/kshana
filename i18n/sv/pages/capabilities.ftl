@@ -1762,7 +1762,7 @@ seg-b3ba1e7b197d = Tjänstevolym för månnavigering & ARAIM
 
 seg-353878596468 = ANISE { "0.10.2" }-banor · RTKLIB 2.4.2-p13
 
-seg-70b9c02c1f6a = Sveper en illustrativ konstellation av klassen Moonlight/LCNS över ett selenografiskt rutnät: synlighet, dilution of precision, täckning och ARAIM-skyddsnivåer per epok mot en konfigurerbar larmgräns. Avståndsnoggrannheten för signal i rymden är en parameter, så svepet besvarar ett avståndskrav över hela volymen i stället för PASS/FAIL vid ett fast värde.
+seg-70b9c02c1f6a = Sveper en illustrativ konstellation av klassen Moonlight/LCNS över ett selenografiskt rutnät: synlighet, dilution of precision, täckning och ARAIM-skyddsnivåer per epok mot en konfigurerbar larmgräns. Avståndsnoggrannheten för signal i rymden är en parameter, så svepet besvarar ett avståndskrav över hela volymen i stället för godkänt/underkänt vid ett fast värde.
 
 seg-8304ca0e00e5 = <b>ARAIM</b> advanced receiver autonomous integrity monitoring · <b>RTKLIB</b> ett GNSS-positioneringsbibliotek med öppen källkod
 

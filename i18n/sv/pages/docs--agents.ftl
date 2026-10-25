@@ -136,7 +136,7 @@ seg-1098f908d9dc = <b>MODELLED</b>, rådgivande. Molnklimaten är angivna indata
 
 seg-3324b2e2021e = Holdover-test (<c1/>, { "0.38" })
 
-seg-9177789844f7 = <b>MODELLED</b>, rådgivande. Säg "mätt mot masken", aldrig att en klocka eller ett system klarar eller är godkänt mot en rekommendation. De två tidpunkterna (GNSS borttaget, GNSS återställt) är <b>operatörens uppgift</b>: Kshana tog inte bort eller återställde något och kan inte verifiera dem, så citera dem som angivna. En mask som registreringen är för kort för är <b>INCOMPLETE</b>, aldrig ett PASS. En servologg (linuxptp, chrony) är felet under servostyrning, inte en oberoende mätning mot UTC; säg vilken registrering talen kommer från. Se <c1/>.
+seg-9177789844f7 = <b>MODELLED</b>, rådgivande. Säg "mätt mot masken", aldrig att en klocka eller ett system klarar eller är godkänt mot en rekommendation. De två tidpunkterna (GNSS borttaget, GNSS återställt) är <b>operatörens uppgift</b>: Kshana tog inte bort eller återställde något och kan inte verifiera dem, så citera dem som angivna. En mask som registreringen är för kort för är <b>INCOMPLETE</b>, aldrig ett godkänt resultat. En servologg (linuxptp, chrony) är felet under servostyrning, inte en oberoende mätning mot UTC; säg vilken registrering talen kommer från. Se <c1/>.
 
 seg-18d3f2b50d0a = Vilket scenarioresultat som helst
 

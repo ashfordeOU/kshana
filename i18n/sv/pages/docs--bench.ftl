@@ -6,7 +6,7 @@ seg-5fcf52aba837 = Källa: <c1/>
 
 seg-d3c3517e3bb2 = En öppen uppsättning uppgifter, delningar och mått för detektering av GNSS-störningar och holdover för tidssynkronisering. Specifikationen finns i <a1><c1/></a1> (version { "2.0.0" }; licens för texten och manifesten: CC-BY-4.0 / CC0 föreslås, ägarens beslut väntar). Granskningen av datamängdens licenser finns i <a2><c2/></a2>. Baslinjernas trösklar fastställdes före den första poängsatta körningen i <a3><c3/></a3> och, för { "2.0.0" }, i <a4><c4/></a4>, och deras resultat finns i <a5><c5/></a5>.
 
-seg-6c455061baac = Utfall så som de registrerats där: poängsättarens trösklar, C1 till C3 och D2, är MET. <b>A2 är NOT MET</b> (<c1/> AUC { "0.766" } mot minst { "0.80" } på testdelningen), <b>D1 är NOT MET</b> (största glapp { "0.0301" }) och <b>uppgift (b) R1 är NOT MET</b> (överfört, inte körd på nytt). Ingen tröskel har sänkts.
+seg-6c455061baac = Utfall så som de registrerats där: poängsättarens trösklar, C1 till C3 och D2, är uppfyllda. <b>A2 är NOT MET</b> (<c1/> AUC { "0.766" } mot minst { "0.80" } på testdelningen), <b>D1 är NOT MET</b> (största glapp { "0.0301" }) och <b>uppgift (b) R1 är NOT MET</b> (överfört, inte körd på nytt). Ingen tröskel har sänkts.
 
 seg-ebe1c987bc7c = Vad det är: ett sätt att jämföra metoder på samma data med samma mätkod. Vad det inte är: en rangordning av produkter, ett godkännande eller belägg för att en metod fungerar i fält. Varje poäng är MODELLED, och en poäng beskriver en logg eller ett korpus, aldrig en produkt. Resultaten från { -brand } är rådgivande.
 
