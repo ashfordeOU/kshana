@@ -1204,8 +1204,6 @@ engine-cislunar-observability-family-state-range-rank-threshold = { $base } | pe
 
 engine-cislunar-observability-first-arc-length-at-which = esimene kaare pikkus, mille korral juhtsatelliidi (chief) ALGOLEKU formaalne 1σ asukoha määramatus, σ_pos = sqrt(trace(P_rr)) kus P = (ÕᵀÕ)⁻¹ ja Õ on mõõtemürast valgendatud jälgitavusmaatriks, langeb tasemele { $sigma_pos_threshold_km } km või allapoole. See on kriteerium, mille korral kaarepikkuse lävi on üldse mürast sõltuv: P skaleerub kui σ², seega σ_pos skaleerub kui σ, samas kui ülaltoodud astakukriteerium σ-ga ei liigu. Piir on ETTE ANTUD inseneeriline valik, mitte sobitatud — estimability_sweep annab läve nelja muu piiri jaoks.
 
-engine-cislunar-observability-extension-r3-this-run-is = LAIENDUS (R3) — see käivitus EI OLE tasapinnaline DRO konfiguratsioon, mida ülaltoodud `label` kirjeldab. Olekudimensioon { $state_dim }; orbiidiperekond { $family }; { $n_spacecraft } kosmoseaparaati; kaugusmõõtmise sigma { $sigma_range_m } m. Kus `label` ütleb "planar" ja "planar DROs", lugege siin nimetatud perekonda. VALIDATED täiendused: 6x6 variatsiooniline STM on sama lõplike vahedega kinnitatud CR3BP STM (crate::cr3bp), mida kasutatakse täislaiuses; ruumilised range / range-rate Jacobi maatriksi read on lõplike vahedega kinnitatud analüütilised osatuletised, range-rate rida on komponent-komponendi haaval kontrollitud crate'i sõltumatu 3D deepspace_od::range_rate_observable vastu; halo / NRHO algtingimused on diferentsiaalselt korrigeeritud perioodilised orbiidid sama korrektori abil, mis reprodutseerib avaldatud L2 lõunapoolset 9:2 NRHO-d, jätkatud sellest avaldatud algväärtusest (seed), ja iga liikme sulgumisjääk on esitatud; kuue oleku ASTAKU otsused on kinnitatud SÕLTUMATU rea-astmelise astaku vastu (Gaussi elimineerimine osalise pöördvalikuga), mis ei jaga koodi omaväärtuste/SVD teega. SRIF-HARU AUS PIIRANG: ülaltoodud SRIF-i ristvalideerimine kasutab SAMU mõõtmise Jacobi maatrikseid ja taandub samale O^T O-le, seega on selle kooskõla kahe numbrilise masina vaheline järjepidevuskontroll, MITTE sõltumatu kinnitus lävele — seda ei loeta ühegi siinse arvu kinnitusena. MODELLED: perekonna kavand (millised abstsissid, amplituudid ja faasid), epohhiruudustik, ühe lingi kaar ja hinnatavuse kriteeriumi ette antud asukohapiir.
-
 engine-cislunar-observability-validated-each-constellation-initial-condition = Kinnitatud: iga konstellatsiooni algtingimus on perekonna { $family } diferentsiaalselt korrigeeritud perioodiline orbiit, mis sulgub ühe perioodi jooksul teatatud perioodilisusjäägini (tasapinnalised DRO-d on lisaks Kuu suhtes retrograadsed). Perekond on korrigeeritud Maa–Kuu massisuhte juures. Modelleeritud: perekonna parameetrite ja faaside valik (konstellatsiooni kavand). Võtmenimi `dro_provenance` on säilitatud avaldatud dokumendiskeemi jaoks; see kannab seda perekonda, mida käivitus küsis.
 
 ## src/clock_integrity.rs
@@ -3744,12 +3742,6 @@ engine-launch-launch-window-lat-az-asc = launch-window: lat { $site_lat_deg }° 
 
 engine-e-leo-fusion-doppler-every-range-rate-needs-positive = iga kauguskiirus vajab positiivset lõplikku sigmat
 
-engine-e-leo-fusion-doppler-measurements-cannot-resolve-doppler-unknowns =
-    { $n_meas ->
-        [one] { $n_meas } mõõtmine ei saa lahendada { $n } Doppleri tundmatut
-       *[other] { $n_meas } mõõtmist ei saa lahendada { $n } Doppleri tundmatut
-    }
-
 engine-e-leo-fusion-doppler-the-doppler-geometry-is-singular = Doppleri geomeetria on singulaarne
 
 engine-e-leo-fusion-doppler-no-covariance = kovariatsiooni ei ole
@@ -3757,12 +3749,6 @@ engine-e-leo-fusion-doppler-no-covariance = kovariatsiooni ei ole
 ## src/leo_fusion/joint_pvt.rs
 
 engine-e-leo-fusion-joint-pvt-every-pseudorange-needs-positive-finite = iga pseudovahemaa vajab positiivset lõplikku sigmat
-
-engine-e-leo-fusion-joint-pvt-pseudoranges-cannot-resolve-unknowns-position =
-    { $n ->
-        [one] { $obs } pseudovahemaad ei saa lahendada { $n } tundmatut (3 asukohta + { $n_clock } kella)
-       *[other] { $obs } pseudovahemaad ei saa lahendada { $n } tundmatut (3 asukohta + { $n_clock } kella)
-    }
 
 engine-e-leo-fusion-joint-pvt-satellite-coincides-with-the-position = satelliit langeb kokku asukohahinnanguga
 
@@ -5025,8 +5011,6 @@ engine-main-error-validate-lints-one-scenario = viga: --validate kontrollib üht
 engine-main-error-cannot-read = viga: ei saa lugeda { $validate_file }: { $e }
 
 engine-main-ok-kind-resolves-this-kind = ok: { $kind } — kind lahendub; see kind ei nõua ühtegi välja (tühi keha käitab selle etalonseadistuse), seega polnud midagi rohkem kontrollida
-
-engine-main-ok-kind-resolves-and-all = ok: { $kind } — kind lahendub ja kõik { $n_required } selle avaldatud kohustusliku välja kirjet on täidetud; väljade väärtusi ei kontrollita
 
 engine-main-error-study-runs-suite-do = viga: --study käitab komplekti; ära anna lisaks üksikut stsenaariumi faili
 
@@ -7450,6 +7434,44 @@ engine-wasm-plans-json-is-not-json = plans_json ei ole stringide JSON-massiiv: {
 engine-wasm-options-json-is-not-json = options_json ei ole JSON: { $e }
 
 engine-wasm-input-is-about-bytes-over = sisend on umbes { $b64 } baiti, üle piiri { $v2 } baiti
+
+## plural forms
+
+engine-cislunar-observability-extension-r3-this-run-is =
+    { $n_spacecraft ->
+        [one] LAIENDUS (R3) — see käivitus EI OLE tasapinnaline DRO konfiguratsioon, mida ülaltoodud `label` kirjeldab. Olekudimensioon { $state_dim }; orbiidiperekond { $family }; { $n_spacecraft } kosmoseaparaat; kaugusmõõtmise sigma { $sigma_range_m } m. Kus `label` ütleb "planar" ja "planar DROs", lugege siin nimetatud perekonda. VALIDATED täiendused: 6x6 variatsiooniline STM on sama lõplike vahedega kinnitatud CR3BP STM (crate::cr3bp), mida kasutatakse täislaiuses; ruumilised range / range-rate Jacobi maatriksi read on lõplike vahedega kinnitatud analüütilised osatuletised, range-rate rida on komponent-komponendi haaval kontrollitud crate'i sõltumatu 3D deepspace_od::range_rate_observable vastu; halo / NRHO algtingimused on diferentsiaalselt korrigeeritud perioodilised orbiidid sama korrektori abil, mis reprodutseerib avaldatud L2 lõunapoolset 9:2 NRHO-d, jätkatud sellest avaldatud algväärtusest (seed), ja iga liikme sulgumisjääk on esitatud; kuue oleku ASTAKU otsused on kinnitatud SÕLTUMATU rea-astmelise astaku vastu (Gaussi elimineerimine osalise pöördvalikuga), mis ei jaga koodi omaväärtuste/SVD teega. SRIF-HARU AUS PIIRANG: ülaltoodud SRIF-i ristvalideerimine kasutab SAMU mõõtmise Jacobi maatrikseid ja taandub samale O^T O-le, seega on selle kooskõla kahe numbrilise masina vaheline järjepidevuskontroll, MITTE sõltumatu kinnitus lävele — seda ei loeta ühegi siinse arvu kinnitusena. MODELLED: perekonna kavand (millised abstsissid, amplituudid ja faasid), epohhiruudustik, ühe lingi kaar ja hinnatavuse kriteeriumi ette antud asukohapiir.
+       *[other] LAIENDUS (R3) — see käivitus EI OLE tasapinnaline DRO konfiguratsioon, mida ülaltoodud `label` kirjeldab. Olekudimensioon { $state_dim }; orbiidiperekond { $family }; { $n_spacecraft } kosmoseaparaati; kaugusmõõtmise sigma { $sigma_range_m } m. Kus `label` ütleb "planar" ja "planar DROs", lugege siin nimetatud perekonda. VALIDATED täiendused: 6x6 variatsiooniline STM on sama lõplike vahedega kinnitatud CR3BP STM (crate::cr3bp), mida kasutatakse täislaiuses; ruumilised range / range-rate Jacobi maatriksi read on lõplike vahedega kinnitatud analüütilised osatuletised, range-rate rida on komponent-komponendi haaval kontrollitud crate'i sõltumatu 3D deepspace_od::range_rate_observable vastu; halo / NRHO algtingimused on diferentsiaalselt korrigeeritud perioodilised orbiidid sama korrektori abil, mis reprodutseerib avaldatud L2 lõunapoolset 9:2 NRHO-d, jätkatud sellest avaldatud algväärtusest (seed), ja iga liikme sulgumisjääk on esitatud; kuue oleku ASTAKU otsused on kinnitatud SÕLTUMATU rea-astmelise astaku vastu (Gaussi elimineerimine osalise pöördvalikuga), mis ei jaga koodi omaväärtuste/SVD teega. SRIF-HARU AUS PIIRANG: ülaltoodud SRIF-i ristvalideerimine kasutab SAMU mõõtmise Jacobi maatrikseid ja taandub samale O^T O-le, seega on selle kooskõla kahe numbrilise masina vaheline järjepidevuskontroll, MITTE sõltumatu kinnitus lävele — seda ei loeta ühegi siinse arvu kinnitusena. MODELLED: perekonna kavand (millised abstsissid, amplituudid ja faasid), epohhiruudustik, ühe lingi kaar ja hinnatavuse kriteeriumi ette antud asukohapiir.
+    }
+
+engine-e-leo-fusion-doppler-measurements-cannot-resolve-doppler-unknowns =
+    { $n_meas ->
+        [one] { $n_meas } mõõtmine ei saa lahendada { $n ->
+            [one] { $n } Doppleri tundmatu
+           *[other] { $n } Doppleri tundmatut
+        }
+       *[other] { $n_meas } mõõtmist ei saa lahendada { $n ->
+            [one] { $n } Doppleri tundmatu
+           *[other] { $n } Doppleri tundmatut
+        }
+    }
+
+engine-e-leo-fusion-joint-pvt-pseudoranges-cannot-resolve-unknowns-position =
+    { $n ->
+        [one] { $obs } pseudovahemaad ei saa lahendada { $n } tundmatu (3 asukohta + { $n_clock ->
+            [one] { $n_clock } kell
+           *[other] { $n_clock } kella
+        })
+       *[other] { $obs } pseudovahemaad ei saa lahendada { $n } tundmatut (3 asukohta + { $n_clock ->
+            [one] { $n_clock } kell
+           *[other] { $n_clock } kella
+        })
+    }
+
+engine-main-ok-kind-resolves-and-all =
+    { $n_required ->
+        [one] ok: { $kind } — kind lahendub ja kõik { $n_required } selle avaldatud kohustusliku välja kirje on täidetud; väljade väärtusi ei kontrollita
+       *[other] ok: { $kind } — kind lahendub ja kõik { $n_required } selle avaldatud kohustusliku välja kirjet on täidetud; väljade väärtusi ei kontrollita
+    }
 
 ## legal
 
