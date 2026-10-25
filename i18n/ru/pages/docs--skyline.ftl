@@ -19,3 +19,11 @@ seg-379f49bff6fb = Python
 seg-cbf0f9bcd2d8 = Оракул
 
 seg-6e0cb6acc073 = VALIDATED
+
+seg-de6c33774c9c = CLI
+
+seg-d1e9715513b4 = Пример
+
+seg-98f4f946a7ac = WASM
+
+seg-4dbf41c0ec3b = Функция
