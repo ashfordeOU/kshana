@@ -45,3 +45,5 @@ seg-c68bc1df8975 = Просторова, шумна, багатородинна 
 seg-ba3c2a8f0e28 = <s1>Попередній</s1>cislunar-arc-recovery
 
 seg-3adfb78b1f34 = <s1>Наступний</s1>clock
+
+seg-f15bbf30b0dd = Діаграма, яку рушій записує для scenarios/cislunar-observability.toml, вид cislunar-observability
