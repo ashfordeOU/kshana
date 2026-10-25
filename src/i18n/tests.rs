@@ -89,10 +89,13 @@ fn the_selection_order_is_flag_then_environment_then_english() {
 #[test]
 fn english_is_the_source_and_the_default() {
     assert_eq!(current().tag(), "en");
-    let s = tr("e-clock-version", &[("version", "4.00".to_string())]);
+    let s = tr(
+        "e-clock-log-unknown-gap-policy-expected-refuse",
+        &[("other", "\"x\"".to_string())],
+    );
     assert_eq!(
         s,
-        "RINEX clock version 4.00 is not read: versions 2.00 and 3.00 to 3.04 are (IGS publishes the clock format up to 3.04; RINEX 4.00 to 4.02 define no clock file)"
+        "unknown gap policy \"x\"; expected refuse, longest or linear"
     );
 }
 
@@ -112,11 +115,15 @@ fn a_language_without_the_message_falls_back_to_english_and_an_unknown_id_shows_
     // No translation file has any message yet: every language shows the English text.
     let nl = resolve("nl").unwrap();
     assert_eq!(
-        tr_in(&nl, "e-clock-version", &[("version", "5.00".to_string())]),
+        tr_in(
+            &nl,
+            "e-clock-log-unknown-gap-policy-expected-refuse",
+            &[("other", "\"y\"".to_string())]
+        ),
         tr_in(
             &Lang::english(),
-            "e-clock-version",
-            &[("version", "5.00".to_string())]
+            "e-clock-log-unknown-gap-policy-expected-refuse",
+            &[("other", "\"y\"".to_string())]
         )
     );
     assert_eq!(tr("no-such-message", &[]), "no-such-message");
@@ -125,16 +132,23 @@ fn a_language_without_the_message_falls_back_to_english_and_an_unknown_id_shows_
 #[test]
 fn the_pseudo_locale_accents_brackets_pads_and_keeps_the_arguments() {
     let xa = resolve("en-XA").unwrap();
-    let s = tr_in(&xa, "e-clock-version", &[("version", "4.00".to_string())]);
+    let s = tr_in(
+        &xa,
+        "e-clock-log-unknown-gap-policy-expected-refuse",
+        &[("other", "\"x\"".to_string())],
+    );
     assert!(s.starts_with('['), "{s}");
     assert!(s.ends_with(']'), "{s}");
-    assert!(s.contains("4.00"), "the argument is not accented: {s}");
-    assert!(s.contains("RÍÑÉX") && s.contains("çlóçk"), "{s}");
+    assert!(s.contains("\"x\""), "the argument is not accented: {s}");
+    assert!(
+        s.contains("ñkñóñ") || s.contains("úñkñóñ") || s.contains("úñkñówñ") || s.contains("gáp"),
+        "{s}"
+    );
     assert!(s.contains('~'), "padded: {s}");
     let en = tr_in(
         &Lang::english(),
-        "e-clock-version",
-        &[("version", "4.00".to_string())],
+        "e-clock-log-unknown-gap-policy-expected-refuse",
+        &[("other", "\"x\"".to_string())],
     );
     assert!(
         s.chars().count() as f64 >= 1.3 * en.chars().count() as f64,
@@ -145,29 +159,44 @@ fn the_pseudo_locale_accents_brackets_pads_and_keeps_the_arguments() {
 
 #[test]
 fn an_error_code_is_the_id_in_capitals_and_is_found_in_a_wrapped_message() {
-    assert_eq!(code_of_id("e-clock-version"), "E-CLOCK-VERSION");
-    let msg = terr!("e-clock-version", version = "4.00");
-    assert_eq!(code_of(&msg).as_deref(), Some("E-CLOCK-VERSION"));
+    assert_eq!(
+        code_of_id("e-clock-log-unknown-gap-policy-expected-refuse"),
+        "E-CLOCK-LOG-UNKNOWN-GAP-POLICY-EXPECTED-REFUSE"
+    );
+    let msg = terr!(
+        "e-clock-log-unknown-gap-policy-expected-refuse",
+        other = "\"x\""
+    );
+    assert_eq!(
+        code_of(&msg).as_deref(),
+        Some("E-CLOCK-LOG-UNKNOWN-GAP-POLICY-EXPECTED-REFUSE")
+    );
     // The caller may have added a prefix on the way up.
     assert_eq!(
         code_of(&format!("clock_log: {msg}")).as_deref(),
-        Some("E-CLOCK-VERSION")
+        Some("E-CLOCK-LOG-UNKNOWN-GAP-POLICY-EXPECTED-REFUSE")
     );
     // Another version of the message is another text, with no code.
     assert_eq!(code_of("some other error that is long enough"), None);
     // Under another language the English text still finds the code.
     with_lang(resolve("en-XA").unwrap(), || {
-        let shown = terr!("e-clock-version", version = "4.01");
+        let shown = terr!(
+            "e-clock-log-unknown-gap-policy-expected-refuse",
+            other = "\"z\""
+        );
         assert!(shown.starts_with('['));
-        assert_eq!(code_of(&shown).as_deref(), Some("E-CLOCK-VERSION"));
+        assert_eq!(
+            code_of(&shown).as_deref(),
+            Some("E-CLOCK-LOG-UNKNOWN-GAP-POLICY-EXPECTED-REFUSE")
+        );
         assert_eq!(
             code_of(&tr_in(
                 &Lang::english(),
-                "e-clock-version",
-                &[("version", "4.01".to_string())]
+                "e-clock-log-unknown-gap-policy-expected-refuse",
+                &[("other", "\"z\"".to_string())]
             ))
             .as_deref(),
-            Some("E-CLOCK-VERSION")
+            Some("E-CLOCK-LOG-UNKNOWN-GAP-POLICY-EXPECTED-REFUSE")
         );
     });
 }

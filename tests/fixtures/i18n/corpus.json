@@ -1,0 +1,471 @@
+[
+ {
+  "id": "e-clock-log-unknown-clock-log-format-expected",
+  "error": true,
+  "parts": [
+   "unknown clock-log format ",
+   {
+    "var": "other"
+   },
+   "; expected one of ",
+   {
+    "var": "format_names"
+   }
+  ]
+ },
+ {
+  "id": "e-clock-log-unknown-gap-policy-expected-refuse",
+  "error": true,
+  "parts": [
+   "unknown gap policy ",
+   {
+    "var": "other"
+   },
+   "; expected refuse, longest or linear"
+  ]
+ },
+ {
+  "id": "e-clock-log-give-either-the-log-text",
+  "error": true,
+  "parts": [
+   "give either the log text or its path, not both"
+  ]
+ },
+ {
+  "id": "e-clock-log-clock-log-needs-its-text",
+  "error": true,
+  "parts": [
+   "a clock log needs its text or a path"
+  ]
+ },
+ {
+  "id": "e-clock-log-tau0-must-be-finite-and",
+  "error": true,
+  "parts": [
+   "tau0_s must be finite and > 0 (got ",
+   {
+    "var": "t"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-clock-log-units-and-data-apply-to",
+  "error": true,
+  "parts": [
+   "units and data apply to the timelab format only"
+  ]
+ },
+ {
+  "id": "e-clock-log-channel-applies-to-the-ticc",
+  "error": true,
+  "parts": [
+   "channel applies to the ticc format only"
+  ]
+ },
+ {
+  "id": "e-clock-log-cannot-read-clock-log",
+  "error": true,
+  "parts": [
+   "cannot read clock log ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-clock-log-clock-log-path-is-not",
+  "error": true,
+  "parts": [
+   "a clock-log path is not available in the WebAssembly build; give the log as text"
+  ]
+ },
+ {
+  "id": "e-clock-log-the-log-has-missing-epoch",
+  "error": true,
+  "parts": [
+   "the ",
+   {
+    "var": "format"
+   },
+   " log has ",
+   {
+    "var": "n_missing"
+   },
+   " missing epoch(s) in ",
+   {
+    "var": "n_gaps"
+   },
+   " gap(s) on a ",
+   {
+    "var": "tau0"
+   },
+   " s grid; set gaps = \"longest\" to keep the longest gap-free run or gaps = \"linear\" to interpolate"
+  ]
+ },
+ {
+  "id": "e-clock-log-the-log-yields-usable-sample",
+  "error": true,
+  "parts": [
+   "the ",
+   {
+    "var": "format"
+   },
+   " log yields ",
+   {
+    "var": "x"
+   },
+   " usable sample(s); at least 3 are needed"
+  ]
+ },
+ {
+  "id": "e-clock-log-not-rinex-clock-file-no",
+  "error": true,
+  "parts": [
+   "not a RINEX clock file: no END OF HEADER record"
+  ]
+ },
+ {
+  "id": "e-clock-log-the-rinex-clock-file-has",
+  "error": true,
+  "parts": [
+   "the RINEX clock file has no AS or AR records"
+  ]
+ },
+ {
+  "id": "e-clock-log-the-rinex-clock-file-holds",
+  "error": true,
+  "parts": [
+   "the RINEX clock file holds ",
+   {
+    "var": "many"
+   },
+   " clocks; name one with clock = \"...\" (",
+   {
+    "var": "many2"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-clock-log-no-as-or-ar-records",
+  "error": true,
+  "parts": [
+   "no AS or AR records for clock ",
+   {
+    "var": "id"
+   }
+  ]
+ },
+ {
+  "id": "e-clock-log-the-clock-has-single-epoch",
+  "error": true,
+  "parts": [
+   "the clock has a single epoch; tau0 cannot be found"
+  ]
+ },
+ {
+  "id": "e-clock-log-the-log-has-no-readings",
+  "error": true,
+  "parts": [
+   "the ",
+   {
+    "var": "format"
+   },
+   " log has no readings"
+  ]
+ },
+ {
+  "id": "e-clock-log-unknown-phase-unit-expected-ms",
+  "error": true,
+  "parts": [
+   "unknown phase unit ",
+   {
+    "var": "other"
+   },
+   "; expected s, ms, us, ns or ps"
+  ]
+ },
+ {
+  "id": "e-clock-log-timelab-line-has-column-the",
+  "error": true,
+  "parts": [
+   "TimeLab line ",
+   {
+    "var": "v1"
+   },
+   " has ",
+   {
+    "var": "v"
+   },
+   " column(s), the first data line has ",
+   {
+    "var": "first"
+   }
+  ]
+ },
+ {
+  "id": "e-clock-log-timelab-line-has-columns-one",
+  "error": true,
+  "parts": [
+   "TimeLab line ",
+   {
+    "var": "v1"
+   },
+   " has ",
+   {
+    "var": "v"
+   },
+   " columns; one (value) or two (time value) are read"
+  ]
+ },
+ {
+  "id": "e-clock-log-timelab-line-is-not-numeric",
+  "error": true,
+  "parts": [
+   "TimeLab line ",
+   {
+    "var": "v1"
+   },
+   " is not numeric: ",
+   {
+    "var": "l"
+   }
+  ]
+ },
+ {
+  "id": "e-clock-log-the-timelab-log-has-no",
+  "error": true,
+  "parts": [
+   "the timelab log has no readings"
+  ]
+ },
+ {
+  "id": "e-clock-log-unknown-data-expected-phase-or",
+  "error": true,
+  "parts": [
+   "unknown data ",
+   {
+    "var": "other"
+   },
+   "; expected phase or frequency"
+  ]
+ },
+ {
+  "id": "e-clock-log-tau0-header-is-not-positive",
+  "error": true,
+  "parts": [
+   "tau0 header ",
+   {
+    "var": "v"
+   },
+   " is not a positive number of seconds"
+  ]
+ },
+ {
+  "id": "e-clock-log-frequency-data-is-fractional-frequency",
+  "error": true,
+  "parts": [
+   "frequency data is fractional frequency; its units can only be 1"
+  ]
+ },
+ {
+  "id": "e-clock-log-two-column-frequency-logs-are",
+  "error": true,
+  "parts": [
+   "two-column frequency logs are not read; give frequency as a single column with tau0"
+  ]
+ },
+ {
+  "id": "e-clock-log-unknown-time-units-expected-or",
+  "error": true,
+  "parts": [
+   "unknown time_units ",
+   {
+    "var": "o"
+   },
+   "; expected s or mjd"
+  ]
+ },
+ {
+  "id": "e-clock-log-the-timelab-log-time-column",
+  "error": true,
+  "parts": [
+   "the timelab log's time column must increase"
+  ]
+ },
+ {
+  "id": "e-clock-log-single-reading-tau0-cannot-be",
+  "error": true,
+  "parts": [
+   "a single reading; tau0 cannot be found"
+  ]
+ },
+ {
+  "id": "e-clock-log-the-timelab-log-has-non",
+  "error": true,
+  "parts": [
+   "the timelab log has ",
+   {
+    "var": "non_finite"
+   },
+   " non-finite reading(s)"
+  ]
+ },
+ {
+  "id": "e-clock-log-the-ticc-log-holds-channels",
+  "error": true,
+  "parts": [
+   "the TICC log holds channels ",
+   {
+    "var": "many"
+   },
+   "; name one with channel = \"...\""
+  ]
+ },
+ {
+  "id": "e-clock-log-no-readings-on-channel-found",
+  "error": true,
+  "parts": [
+   "no readings on channel ",
+   {
+    "var": "channel"
+   },
+   " (found ",
+   {
+    "var": "labels"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-clock-log-ticc-interval-mode-lines-carry",
+  "error": true,
+  "parts": [
+   "TICC interval-mode lines carry no time; give tau0_s (the event period)"
+  ]
+ },
+ {
+  "id": "e-clock-log-the-readings-do-not-increase",
+  "error": true,
+  "parts": [
+   "the ",
+   {
+    "var": "channel"
+   },
+   " readings do not increase, so they are not time stamps (TICC Period mode output is not read; use Timestamp mode)"
+  ]
+ },
+ {
+  "id": "e-clock-log-single-time-stamp-tau0-cannot",
+  "error": true,
+  "parts": [
+   "a single time stamp; tau0 cannot be found"
+  ]
+ },
+ {
+  "id": "e-clock-log-two-time-stamps-apart-under",
+  "error": true,
+  "parts": [
+   "two ",
+   {
+    "var": "channel"
+   },
+   " time stamps ",
+   {
+    "var": "w"
+   },
+   " s apart, under half of tau0 = ",
+   {
+    "var": "tau0"
+   },
+   " s"
+  ]
+ },
+ {
+  "id": "e-clock-log-the-time-stamps-of-go",
+  "error": true,
+  "parts": [
+   "the ",
+   {
+    "var": "format"
+   },
+   " time stamps of ",
+   {
+    "var": "clock"
+   },
+   " go backwards (a restarted daemon or a clock step); split the log and read each part"
+  ]
+ },
+ {
+  "id": "e-clock-log-the-log-has-no-readings-2",
+  "error": true,
+  "parts": [
+   "the log has no ",
+   {
+    "var": "what"
+   },
+   " readings"
+  ]
+ },
+ {
+  "id": "e-clock-log-the-log-holds-sources-name",
+  "error": true,
+  "parts": [
+   "the log holds ",
+   {
+    "var": "many"
+   },
+   " sources; name one with ",
+   {
+    "var": "selector"
+   },
+   " = \"...\" (",
+   {
+    "var": "many2"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-clock-log-no-readings-for-found",
+  "error": true,
+  "parts": [
+   "no ",
+   {
+    "var": "what"
+   },
+   " readings for ",
+   {
+    "var": "id"
+   },
+   " (found ",
+   {
+    "var": "names"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-clock-log-the-servo-of-never-reached",
+  "error": true,
+  "parts": [
+   "the servo of ",
+   {
+    "var": "id"
+   },
+   " never reached the locked state s2"
+  ]
+ },
+ {
+  "id": "e-clock-log-the-log-has-no-chrony",
+  "error": true,
+  "parts": [
+   "the log has no chrony tracking readings"
+  ]
+ }
+]
