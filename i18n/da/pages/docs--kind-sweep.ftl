@@ -11,3 +11,27 @@ seg-cb91473bfdda = Emneside: <a1>LEO-PNT.md</a1>
 seg-0aae0574c5e6 = <b>MODELLED</b> Tilgængelighedssweepene i <c1/>-typen: pr. konstellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) og samlet andelen af (bruger, epoke)-par med mindst ét og mindst fire signaler og det længste udfald, for en bruger på en kugle
 
 seg-8b701f465117 = log
+
+seg-de72ae48731d = Kilde: <c1/>
+
+seg-81c2da4650c9 = <c1/> (scenarietype)
+
+seg-e7ab7b55c969 = 1-D-sweep til afvejningsstudie over en parameter for en urpakke.
+
+seg-0412c0dbfb75 = Én kørsel af <c1/> opsummeres som: sweep holdover_s over classical_q_wf ({ "1.00e-24" }..1.00e-18, { "25" } punkter, logaritmisk skala) | kvante 6600.000->{ "6600.000" } | klassisk 2610.000->{ "250.000" }
+
+seg-d2a441254bcd = Påkrævede felter: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
+
+seg-2b8d8159bdaf = Valgfrie felter: <c1/>
+
+seg-73c2e732b0c1 = Eksemplet <c1/> angiver blandt andet:
+
+seg-f8a627a78bdb = Microchip SA.45s CSAC-datablad sigma_y(1s)={ "3e-10" }; q_wf er s
+
+seg-c784b8f22f12 = Diagrammet, som motoren skriver for scenarios/sweep-clock-stability.toml, type sweep
+
+seg-cb00aca0268d = <b>MODELLED</b> Afsnittene sweep og monte_carlo i typen <c1/> (én til tre punkterede nøgler af en vilkårlig type, på det generiske sweeps akseværdier, eventuelt et ensemble i hver knude): realisering k kører ved base_seed + k; hver metrik rapporterer middelværdi, standard d Tests: <a1>campaign_composition_reference.rs</a1>.
+
+seg-1750fbfc4a99 = <s1>Forrige</s1>sweep-nd
+
+seg-de5468ac32fc = <s1>Næste</s1>telecom-timing

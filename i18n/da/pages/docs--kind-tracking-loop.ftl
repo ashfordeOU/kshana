@@ -14,4 +14,6 @@ seg-304496607bd7 = Scenarietype i motoren v{ $version }, familie <a1>Jamming, sp
 
 seg-5d23d7f8f872 = Familieside: <a1>Jamming, spoofing og spektret</a1>
 
+seg-edcd55ccc993 = <b>MODELLED</b> Rapporten <c1/> hviler ikke længere sin nægtelseskontur på ét enkelt skalartal.
+
 seg-05e8854de548 = chip

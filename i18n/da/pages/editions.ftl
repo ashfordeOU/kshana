@@ -77,3 +77,7 @@ seg-61a4eb09767f = Guide til MCP-serveren
 seg-8b49f6477e8f = Åben kerne
 
 seg-6555ff9a6d8e = Output
+
+seg-70a79ec95bf4 = ikke bestået
+
+seg-7a33a168b020 = bestået

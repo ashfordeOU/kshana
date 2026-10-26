@@ -10,6 +10,26 @@ seg-a4f1e7d2041e = Familieside: <a1>Konstellationer, dækning og geometri</a1>
 
 seg-670191cf797f = Emneside: <a1>SOLAR-SYSTEM.md</a1>
 
+seg-c68502b9d675 = Kilde: <c1/>
+
+seg-46072326d616 = <c1/> (scenarietype)
+
+seg-3f749aef8d89 = PNT til Mars i dybt rum: en simuleret MARCONI-relækonstellation (areostationære + skrå relæer, der udsender enkeltvejs + videresender tovejs til en station i dybt rum) navigerer en referencebruger (transfer | lmo | surface) gennem den fælles estimator med fusion af enkeltvejs/tovejs radiometri. Rapporterer geometri/synlighed pr. epoke, opnået RMS mod referencen og den formelle kovarians (1σ / 3σ position) — et ærligt simuleret kvalitetsmål, IKKE et certificeret beskyttelsesniveau.
+
+seg-0254f9bd0ee6 = Én kørsel af <c1/> opsummeres som: mars-pnt 5aad87fcc94a | lmo user, uso clock | { "5" } relays (mean { "3.1" } in view) | converged pos RMS { "0.25" } m, formal 1σ { "0.31" } m (3σ { "0.93" } m — covariance FoM, not a certified PL) | clock-freq σ { "3.71e-13" } | cov-PD true
+
+seg-8eb513e7aeea = Valgfrie felter: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>
+
+seg-5a9640a3f9b4 = Eksemplet <c1/> sætter blandt andet:
+
+seg-8e0fecea19fc = uso
+
+seg-a16f2332397c = lmo
+
+seg-c564dca90854 = Diagrammet, som motoren skriver for scenarios/mars-pnt-lmo.toml, type mars-pnt
+
+seg-83c3a84f6b98 = <b>VALIDATED</b> Gendan en epoketilstand [r,v] ud fra afstande fra jordstationer via en Gauss–Newton-batch-differentialkorrektor og et sekventielt filter over en tolegemsmodel + J2 som kraftmodel. Uafhængig reference (ExternalDataset): Orekit { "12.2" } (CS GROUP, Apache-2.0) BatchLSEstimator (Levenberg–Marquardt) + KalmanEstimator (EKF) — et uafhængigt tredjepartsbibliotek til estimering på en matchet kraftmodel; gendannet epoketilstand + RMS af resten efter tilpasning stemmer til <{ "1e-3" } m uden støj og <{ "3" } m ved et støjgulv på { "5" } m
+
 seg-4be479b81f39 = <s1>Forrige</s1>lunar-vlbi
 
 seg-2854e6a75833 = <s1>Næste</s1>moonlight-service-volume

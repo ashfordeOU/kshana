@@ -31,3 +31,7 @@ seg-98f4f946a7ac = WASM
 seg-b03d56f501c3 = Type
 
 seg-4dbf41c0ec3b = Funktion
+
+seg-2b0d77219437 = Forudindstillinger
+
+seg-7338b6210228 = Række

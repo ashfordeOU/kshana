@@ -11,3 +11,9 @@ seg-c3c260b7063e = Tests
 seg-06ff6eed7e99 = OpenCPN
 
 seg-ab1af8b3d968 = se ovenfor
+
+seg-c353e7bec219 = Nøgle
+
+seg-df52127d74b6 = Hvor
+
+seg-7670cf4ceda3 = Standard
