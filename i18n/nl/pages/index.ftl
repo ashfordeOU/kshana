@@ -273,3 +273,5 @@ seg-8e092e49bdeb = kshana-bench: de drempels die niet zijn gehaald, vermeld
 seg-f42465f7d066 = ns
 
 seg-ff90679d1de9 = Spoofingdetectie
+
+seg-257c477dc510 = WebAssembly
