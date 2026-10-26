@@ -108,7 +108,7 @@ seg-e9da73670beb = 室内 LEO-PNT：为什么 L、S 和 C 波段难以穿透时�
 
 seg-6dfada2dacb6 = 面向物联网（IoT）追踪器的低能耗 LEO-PNT：每次定位的能耗与占空比的关系。
 
-seg-1007e9b9abdc = ESA Celeste IOD，信号配置 #1，一次过境中的所有频段。研讨会预设。
+seg-1007e9b9abdc = ESA Celeste IOD，信号配置 #1，一次过境中的所有频段。WORKSHOP预设。
 
 seg-d3b4252da1ee = 从飞机上看到的 Iridium STL（卫星时间与位置）突发信号。
 
