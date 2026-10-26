@@ -5909,3 +5909,1467 @@ js-kind-note-the-largest-jammer-to-signal = 連続波（CW）、スペクトル�
 
 # 2026-10-01-studio-rebuild/lib/kinds.mjs:189
 js-kind-note-the-shapiro-delay-is-the = シャピロ遅延は、経路に沿った太陽の重力による追加の光行時間です。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:176
+js-kind-note-the-spectrum-kind-and-the = スペクトル種別とジャミング種別は、同じリンクを 2 通りの方法で計算します。最後の列は、その差です。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:495
+js-kind-note-time-of-arrival-toa-ranging = 非地上系ネットワーク（NTN）のダウンリンクにおける到達時刻（TOA）測距：信号の帯域が広いほど、測距は鋭くなります。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:421
+js-kind-note-what-half-a-least-significant = 各フィールドの最下位ビット（LSB）の半分が、位置とクロックにもたらす誤差を、距離に換算して示します。
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:420
+js-kind-rowhead-block = ブロック
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:275
+js-kind-rowhead-condition = 条件
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:215
+js-kind-rowhead-figure = 数値
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:270
+js-kind-rowhead-member = メンバー
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:262
+js-kind-rowhead-metric = 指標
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:367
+js-kind-rowhead-monitor = モニター
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:235
+js-kind-rowhead-phase = フェーズ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:350
+js-kind-rowhead-satellite = 衛星
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:302
+js-kind-rowhead-signal = 信号
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:442
+js-kind-rowhead-solution = 測位解
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:647
+js-kind-sub-clock-offset-db = { $clock }、{ $offset } dB
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:646
+js-kind-sub-doppler-only = ドップラーのみ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:633
+js-kind-sub-from-to = { $from } から { $to }
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:645
+js-kind-sub-fused = 融合
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:648
+js-kind-sub-gnss-and-leo-latitude = GNSS と LEO、緯度 { $lat }°
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:645
+js-kind-sub-gnss-only = GNSS のみ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:648
+js-kind-sub-gnss-only-latitude = GNSS のみ、緯度 { $lat }°
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:642
+js-kind-sub-model-fit-seconds = { $model }、{ $fit } s のフィット
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:201
+js-kind-threshold-4-needed-for-a-fix = 測位には 4 が必要
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:478
+js-kind-threshold-convergence-criterion = 収束基準
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:347
+js-kind-threshold-elevation-mask = 仰角マスク
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:344
+js-kind-threshold-gnss-median = GNSS の中央値
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:164
+js-kind-threshold-tracking-threshold = 追跡しきい値
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:305
+js-kind-title-acquisition = 捕捉
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:538
+js-kind-title-against-a-simulated-campaign = シミュレーションしたキャンペーンとの比較
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:361
+js-kind-title-assumptions = 前提
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:309
+js-kind-title-band-trade-at-equal-transmit = 送信電力を同一にした帯域トレード
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:166
+js-kind-title-bands = 帯域
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:400
+js-kind-title-beside-the-published-figures = 公表値との比較
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:485
+js-kind-title-beside-the-published-speed-up = 公表されている高速化との比較
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:186
+js-kind-title-bodies = 天体
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:203
+js-kind-title-body = 天体
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:465
+js-kind-title-by-latitude = 緯度別
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:163
+js-kind-title-c-n0-by-band-over = 実行中の帯域別 C/N0
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:344
+js-kind-title-c-n0-over-the-pass = パス中の C/N0
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:483
+js-kind-title-cases = ケース
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:220
+js-kind-title-central-body = 中心天体
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:372
+js-kind-title-closed-form-doppler-against-finite = 閉形式のドップラーと有限差分の比較
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:304
+js-kind-title-code-tracking-jitter = コード追跡ジッター
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:304
+js-kind-title-code-tracking-jitter-against-c = C/N0 に対するコード追跡ジッター
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:272
+js-kind-title-combined-over-the-members = メンバー全体の合算
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:311
+js-kind-title-compatibility-with-gnss-signals = GNSS 信号との互換性
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:218
+js-kind-title-constellations = 衛星コンステレーション
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:405
+js-kind-title-continuity-across-message-switches = メッセージ切り替え前後の連続性
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:175
+js-kind-title-cross-check-against-the-jamming = ジャミング種別とのクロスチェック
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:531
+js-kind-title-datum-accuracy = データの精度
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:215
+js-kind-title-dilution-of-precision-over-the = グリッド全体の DOP（精度低下率）
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:346
+js-kind-title-doppler = ドップラー
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:451
+js-kind-title-doppler-envelopes = ドップラーの包絡線
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:447
+js-kind-title-doppler-only-fix = ドップラーのみによる測位
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:346
+js-kind-title-doppler-over-the-pass = パス中のドップラー
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:496
+js-kind-title-doppler-positioning-from-one-pass = 1 回のパスからのドップラー測位
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:204
+js-kind-title-earth-link = 地球リンク
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:347
+js-kind-title-elevation = 仰角
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:415
+js-kind-title-encoded-frame = エンコード済みフレーム
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:191
+js-kind-title-epoch = エポック
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:190
+js-kind-title-epoch-and-frame = エポックと座標系
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:232
+js-kind-title-events = イベント
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:256
+js-kind-title-every-node-of-the-sweep = スイープのすべてのノード
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:420
+js-kind-title-field-table = フィールド表
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:202
+js-kind-title-figures-of-merit = 性能指標
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:487
+js-kind-title-filter-noise = フィルター雑音
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:394
+js-kind-title-fit-interval-trade = フィット区間のトレード
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:448
+js-kind-title-fix-quality-against-observation-window = 観測ウィンドウに対する測位品質
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:414
+js-kind-title-frame-checks = フレームのチェック
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:463
+js-kind-title-geometry-against-latitude = 緯度に対するジオメトリ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:443
+js-kind-title-geometry-as-leo-satellites-are = LEO 衛星を追加した場合のジオメトリ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:441
+js-kind-title-geometry-position-dilution-of-precision = ジオメトリ：位置の DOP（精度低下率）
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:217
+js-kind-title-global-coverage = グローバルカバレッジ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:442
+js-kind-title-gnss-leo-and-fused = GNSS、LEO、融合
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:354
+js-kind-title-gnss-reference = GNSS 基準
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:237
+js-kind-title-hand-offs-between-phases = フェーズ間の引き継ぎ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:534
+js-kind-title-helmert-fit = ヘルマート変換のフィット
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:533
+js-kind-title-helmert-transform-parameters = ヘルマート変換のパラメーター
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:219
+js-kind-title-inputs = 入力
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:355
+js-kind-title-ionosphere-free-band-pairs = 電離圏フリーの帯域ペア
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:307
+js-kind-title-jammer-tolerance = ジャマー耐性
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:168
+js-kind-title-jammers = ジャマー
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:444
+js-kind-title-joint-fix = 統合測位
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:353
+js-kind-title-leo-against-gnss = LEO と GNSS の比較
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:430
+js-kind-title-limitations = 制限事項
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:188
+js-kind-title-links = リンク
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:235
+js-kind-title-member-runs = メンバーの実行
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:270
+js-kind-title-members-under-the-shared-conditions = 共通条件下のメンバー
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:426
+js-kind-title-message = メッセージ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:399
+js-kind-title-message-models-compared = メッセージモデルの比較
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:408
+js-kind-title-message-switches = メッセージの切り替え
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:248
+js-kind-title-metric-against-axis = { $axis } に対する { $metric }
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:261
+js-kind-title-metric-distribution-over-runs = { $metric }：実行全体の分布
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:409
+js-kind-title-mid-pass-update = パス中の更新
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:429
+js-kind-title-modelled = モデル計算
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:265
+js-kind-title-monte-carlo = モンテカルロ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:516
+js-kind-title-navigation-message-stage = 航法メッセージの段階
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:177
+js-kind-title-not-modelled = モデル化していないもの
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:373
+js-kind-title-notes = 注記
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:369
+js-kind-title-notes-on-the-spoofing-model = スプーフィングモデルに関する注記
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:449
+js-kind-title-observation-windows = 観測ウィンドウ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:450
+js-kind-title-one-pass-alone = 1 回のパスのみ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:425
+js-kind-title-orbit = 軌道
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:423
+js-kind-title-over-the-message-sequence = メッセージ列全体
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:410
+js-kind-title-pass = パス
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:508
+js-kind-title-pass-c-n0-of-the = パス：信号全体と追跡成分の C/N0
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:509
+js-kind-title-pass-code-tracking-jitter = パス：コード追跡ジッター
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:510
+js-kind-title-pass-doppler = パス：ドップラー
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:515
+js-kind-title-pass-stage = パスの段階
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:351
+js-kind-title-passes = パス
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:231
+js-kind-title-phases = フェーズ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:440
+js-kind-title-position-error-gnss-leo-and = 位置誤差：GNSS、LEO、融合した測位
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:198
+js-kind-title-position-uncertainty-relays-alone-and = 位置の不確かさ：中継局のみの場合と、地球リンクを加えた場合
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:494
+js-kind-title-positioning-by-signal-bandwidth = 信号帯域幅別の測位
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:511
+js-kind-title-positioning-gnss-alone-against-the = 測位：GNSS のみと、融合した測位の比較
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:298
+js-kind-title-power-spectral-density = 電力スペクトル密度
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:298
+js-kind-title-power-spectral-density-of-each = 各信号の電力スペクトル密度
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:513
+js-kind-title-precise-point-positioning = 精密単独測位
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:401
+js-kind-title-published-comparison = 公表値との比較
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:421
+js-kind-title-quantisation-budget = 量子化の誤差配分
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:532
+js-kind-title-range-residuals = 距離の残差
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:536
+js-kind-title-ranging-stations = 測距局
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:396
+js-kind-title-reading-the-trade = トレードの読み方
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:200
+js-kind-title-realised-position-error = 実現した位置誤差
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:174
+js-kind-title-receiver = 受信機
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:360
+js-kind-title-receiver-power-budget = 受信機の電力収支
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:540
+js-kind-title-reflector-information = 反射器の情報
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:205
+js-kind-title-relay-constellation = 中継局のコンステレーション
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:201
+js-kind-title-relays-in-view = 可視の中継局
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:277
+js-kind-title-reproducibility = 再現性
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:535
+js-kind-title-retroreflectors = レトロリフレクター
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:422
+js-kind-title-rinex-style-record = RINEX 形式の記録
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:416
+js-kind-title-round-trips = 往復の確認
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:469
+js-kind-title-run = 実行
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:464
+js-kind-title-satellites-in-view-against-latitude = 緯度に対する可視衛星数
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:539
+js-kind-title-sensitivity-to-a-line-of = 視線方向の傾きに対する感度
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:275
+js-kind-title-shared-conditions = 共通条件
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:302
+js-kind-title-signal-components = 信号成分
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:514
+js-kind-title-signal-stage = 信号の段階
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:300
+js-kind-title-signals = 信号
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:391
+js-kind-title-sisre-against-fit-interval = フィット区間に対する SISRE
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:393
+js-kind-title-sisre-against-update-period = 更新周期に対する SISRE
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:427
+js-kind-title-sisre-weights = SISRE の重み
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:172
+js-kind-title-snapshot = スナップショット
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:173
+js-kind-title-snapshot-against-the-model = スナップショットとモデルの比較
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:169
+js-kind-title-snapshot-spectrum-welch-estimate-against = スナップショットのスペクトル：Welch 推定とモデルの比較
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:314
+js-kind-title-sources = ソース
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:368
+js-kind-title-spoofer-and-monitor-settings = スプーファーとモニターの設定
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:365
+js-kind-title-spoofing-monitor-probability-of-detection = スプーフィングモニター：検出確率
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:262
+js-kind-title-statistics-over-the-runs = 実行全体の統計
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:257
+js-kind-title-sweep = スイープ
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:467
+js-kind-title-systems = システム
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:517
+js-kind-title-systems-in-the-fix = 測位に用いたシステム
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:537
+js-kind-title-the-archived-campaign = アーカイブ済みのキャンペーン
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:457
+js-kind-title-time-error = 時刻誤差
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:457
+js-kind-title-time-error-by-receiver-clock = 受信機クロック別の時刻誤差
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:460
+js-kind-title-time-scale = 時系
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:459
+js-kind-title-time-transfer-by-clock-and = クロックと信号レベル別の時刻比較
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:310
+js-kind-title-trade-conditions = トレードの条件
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:395
+js-kind-title-update-period-trade = 更新周期のトレード
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:371
+js-kind-title-user = ユーザー
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:406
+js-kind-title-user-range-error-through-the = パス全体にわたるユーザー距離誤差
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:428
+js-kind-title-validated = 検証済み
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:506
+js-kind-title-what-each-stage-hands-to = 各段階が次の段階に渡すもの
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:152
+js-kind-title-what-this-run-is-and = この実行が何であり、何でないか
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:367
+js-kind-title-when-each-monitor-detects = 各モニターが検出する時点
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:221
+js-kind-title-work-done = 実行した作業量
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:75
+js-kind-yes = はい
+
+# 2026-10-01-studio-rebuild/lib/t.mjs:4
+js-ledger-rows =
+    { $n ->
+       *[other] { $n } 件の台帳行
+    }
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:58
+js-lib-abbr-apv = 垂直誘導付き進入
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:11
+js-lib-abbr-araim = 高度な受信機自律型インテグリティ監視
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:38
+js-lib-abbr-auc = 曲線下面積
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:49
+js-lib-abbr-c-n0 = 搬送波雑音密度
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:45
+js-lib-abbr-ccsds = 宇宙データシステム諮問委員会
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:47
+js-lib-abbr-cli = コマンドラインインターフェース
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:25
+js-lib-abbr-csac = チップスケール原子時計
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:56
+js-lib-abbr-cw = 連続波
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:48
+js-lib-abbr-doi = デジタルオブジェクト識別子
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:18
+js-lib-abbr-dop = 精度低下率
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:53
+js-lib-abbr-eo = 地球観測
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:8
+js-lib-abbr-gnss = 全球測位衛星システム
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:9
+js-lib-abbr-gps = 全地球測位システム
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:15
+js-lib-abbr-hal = 水平警報限界
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:13
+js-lib-abbr-hpl = 水平保護レベル
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:23
+js-lib-abbr-imu = 慣性計測装置
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:22
+js-lib-abbr-ins = 慣性航法システム
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:54
+js-lib-abbr-iot = モノのインターネット
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:51
+js-lib-abbr-itu-t = 国際電気通信連合 電気通信標準化部門
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:50
+js-lib-abbr-j-s = ジャマー対信号比
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:20
+js-lib-abbr-leo = 低軌道
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:42
+js-lib-abbr-llr = 月レーザー測距
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:21
+js-lib-abbr-meo = 中軌道
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:33
+js-lib-abbr-mtie = 最大時間間隔誤差
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:39
+js-lib-abbr-ntn = 非地上系ネットワーク
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:26
+js-lib-abbr-ocxo = 恒温槽付き水晶発振器
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:43
+js-lib-abbr-oem = 軌道エフェメリスメッセージ
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:44
+js-lib-abbr-omm = 軌道平均要素メッセージ
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:17
+js-lib-abbr-pdop = 位置の精度低下率
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:19
+js-lib-abbr-pnt = 測位・航法・時刻
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:31
+js-lib-abbr-ppp = 精密単独測位
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:10
+js-lib-abbr-raim = 受信機自律型インテグリティ監視
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:52
+js-lib-abbr-rf = 無線周波数
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:29
+js-lib-abbr-rinex = Receiver Independent Exchange Format（受信機非依存交換フォーマット）
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:37
+js-lib-abbr-roc = 受信者動作特性
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:12
+js-lib-abbr-sbas = 静止衛星型衛星航法補強システム
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:27
+js-lib-abbr-sgp4 = Simplified General Perturbations 4（軌道伝播モデル）
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:32
+js-lib-abbr-sisre = シグナルインスペース距離誤差
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:36
+js-lib-abbr-slam = 自己位置推定と地図作成の同時実行
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:30
+js-lib-abbr-spp = 単独測位
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:34
+js-lib-abbr-tdev = 時間偏差
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:28
+js-lib-abbr-tle = 2 行軌道要素
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:46
+js-lib-abbr-toml = シナリオのファイル形式
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:24
+js-lib-abbr-trn = 地形参照航法
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:40
+js-lib-abbr-uhf = 極超短波
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:35
+js-lib-abbr-ukf = 無香料カルマンフィルター
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:55
+js-lib-abbr-utc = 協定世界時
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:16
+js-lib-abbr-val = 垂直警報限界
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:41
+js-lib-abbr-vlbi = 超長基線電波干渉法
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:14
+js-lib-abbr-vpl = 垂直保護レベル
+
+# 2026-10-01-studio-rebuild/lib/abbr.mjs:57
+js-lib-abbr-wg = ワーキンググループ
+
+# 2026-10-01-studio-rebuild/lib/areas.mjs:107
+js-lib-areas-ground-track = 地上軌跡
+
+# 2026-10-01-studio-rebuild/lib/areas.mjs:93
+js-lib-areas-holdover = ホールドオーバー
+
+# 2026-10-01-studio-rebuild/lib/compare.mjs:15
+js-lib-compare-availability = 可用性
+
+# 2026-10-01-studio-rebuild/lib/compare.mjs:12
+js-lib-compare-holdover = ホールドオーバー
+
+# 2026-10-01-studio-rebuild/lib/compare.mjs:14
+js-lib-compare-timing-p95 = タイミング p95
+
+# 2026-10-01-studio-rebuild/lib/compare.mjs:13
+js-lib-compare-timing-rms = タイミング RMS
+
+# 2026-10-01-studio-rebuild/lib/counts.mjs:47
+js-lib-counts-explorer-tally = { $total } 件の機能のうち { $validated } 件が外部のオラクルと照合して検証済み · モデル計算 { $modelled } 件 · パートナー担当 { $partner } 件 — ここでは { $domains } の領域にわたる { $cards } 枚の機能カードと、{ $evidence } 件のエビデンスとして表示しています
+
+# 2026-10-01-studio-rebuild/lib/counts.mjs:52
+js-lib-counts-validated-tally = { $total } 件の機能のうち { $validated } 件が外部のオラクルと照合して検証済み — ここでは { $cards } 枚の機能カードと { $evidence } 件のエビデンスとして表示しています
+
+# 2026-10-01-studio-rebuild/lib/engine.mjs:136
+js-lib-engine-busy = { $verb }…
+
+# 2026-10-01-studio-rebuild/lib/engine.mjs:136
+js-lib-engine-busy-seconds = { $verb }… { $s } s
+
+# 2026-10-01-studio-rebuild/lib/engine-page.mjs:19
+js-lib-engine-page-http = エンジンファイルが HTTP { $status } を返しました
+
+# 2026-10-01-studio-rebuild/lib/engine-page.mjs:41
+js-lib-engine-page-not-running = ここではエンジンが動作していません
+
+# 2026-10-01-studio-rebuild/lib/engine.mjs:210
+js-lib-engine-worker-crashed = エンジンのワーカーがクラッシュしました
+
+# 2026-10-01-studio-rebuild/lib/evidence.mjs:65
+js-lib-evidence-aria = エビデンス：{ $tier }、{ $count }
+
+# 2026-10-01-studio-rebuild/lib/evidence.mjs:25
+js-lib-evidence-ledger-rows =
+    { $n ->
+       *[other] { $n } 件の台帳行
+    }
+
+# 2026-10-01-studio-rebuild/lib/evidence.mjs:69
+js-lib-evidence-rows-behind = この結果の根拠となる台帳行
+
+# 2026-10-01-studio-rebuild/lib/geometry-url.mjs:146
+js-lib-geometry-url-bad-mc = モンテカルロのサンプル数が { $choices } のいずれでもないため、{ $default } を使用します。
+
+# 2026-10-01-studio-rebuild/lib/geometry-url.mjs:150
+js-lib-geometry-url-bad-number = "{ $key }" は { $min } から { $max } までの数値ではないため、既定値を使用します。
+
+# 2026-10-01-studio-rebuild/lib/geometry-url.mjs:131
+js-lib-geometry-url-bad-site = 地点が、範囲内の「緯度,経度[,高さ]」の形式ではないため、既定の地点を使用します。
+
+# 2026-10-01-studio-rebuild/lib/geometry-url.mjs:142
+js-lib-geometry-url-bad-sky = スカイラインが、プリセット、360 ビンの表、範囲内のキャニオンのいずれでもないため、開けた地平線を使用します。
+
+# 2026-10-01-studio-rebuild/lib/geometry-url.mjs:135
+js-lib-geometry-url-bad-sys = コンステレーションの一覧が、G、E、C と、このビューが認識する L:<LEO preset> を多くても 1 つ、という形式ではないため、既定の組み合わせを使用します。
+
+# 2026-10-01-studio-rebuild/lib/geometry-url.mjs:138
+js-lib-geometry-url-own-tle = 送信者が独自の軌道要素（TLE）を使用していましたが、リンクには含まれないため、代わりにプリセットを表示しています。
+
+# 2026-10-01-studio-rebuild/lib/geometry-url.mjs:126
+js-lib-geometry-url-repeated = "{ $key }" が複数回出現しているため、最初の値を使用します。
+
+# 2026-10-01-studio-rebuild/lib/geometry-url.mjs:119
+js-lib-geometry-url-too-long = アドレスが { $max } 文字を超えているため、その設定はいずれも読み込まれませんでした。
+
+# 2026-10-01-studio-rebuild/lib/geometry-url.mjs:121
+js-lib-geometry-url-unreadable = アドレスを読み取れませんでした。
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:81
+js-lib-guided-duration-s-hint = 地上軌跡を伝播させる時間
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:81
+js-lib-guided-duration-s-label = 継続時間 (s)
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:84
+js-lib-guided-dut1-s-hint = 地球自転のオフセット。地上軌跡を東西にずらします
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:84
+js-lib-guided-dut1-s-label = UT1−UTC (s)
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:73
+js-lib-guided-mask-deg-hint = 衛星が可視とみなされるために必要な高さ
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:73
+js-lib-guided-mask-deg-label = 仰角マスク (°)
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:69
+js-lib-guided-seed-hint = 同じ物理の、別の雑音の引き方
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:69
+js-lib-guided-seed-label = 乱数シード
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:76
+js-lib-guided-sigma-uere-m-hint = 位置の要約に用いる、1-σ のユーザー等価距離誤差
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:76
+js-lib-guided-sigma-uere-m-label = 距離誤差 σ (m)
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:417
+js-kind-title-frame-hexadecimal = フレーム（十六進数）
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:358
+js-kind-title-time-to-first-fix-and = 初回測位までの時間と、測位ごとのエネルギー
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:82
+js-lib-guided-station-lat-deg-hint = 地上局の緯度（パスのジオメトリを決める）
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:82
+js-lib-guided-station-lat-deg-label = 局の緯度 (°)
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:83
+js-lib-guided-station-lon-deg-hint = 地上局の経度
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:83
+js-lib-guided-station-lon-deg-label = 局の経度 (°)
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:80
+js-lib-guided-step-s-hint = 地上軌跡のサンプリング間隔
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:80
+js-lib-guided-step-s-label = 時間ステップ (s)
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:70
+js-lib-guided-threshold-ns-hint = 仕様内に収める誤差配分。誤差がこれを下回る間は「利用可能」
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:70
+js-lib-guided-threshold-ns-label = 仕様のしきい値 (ns)
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:72
+js-lib-guided-time-duration-s-hint = 実行の全体の長さ
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:72
+js-lib-guided-time-duration-s-label = 継続時間 (s)
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:71
+js-lib-guided-time-step-s-hint = 積分・サンプリングの間隔
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:71
+js-lib-guided-time-step-s-label = 時間ステップ (s)
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:74
+js-lib-guided-user-altitude-km-hint = ユーザー宇宙機の軌道高度
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:74
+js-lib-guided-user-altitude-km-label = ユーザーの高度 (km)
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:75
+js-lib-guided-user-inclination-deg-hint = ユーザー軌道の軌道傾斜角
+
+# 2026-10-01-studio-rebuild/lib/guided.mjs:75
+js-lib-guided-user-inclination-deg-label = ユーザーの軌道傾斜角 (°)
+
+# 2026-10-01-studio-rebuild/lib/imufit-card.mjs:23
+js-lib-imufit-card-accel-slope = 加速度計のアラン偏差の傾き、初期（ホワイトノイズでは約 -0.5）
+
+# 2026-10-01-studio-rebuild/lib/imufit-card.mjs:9
+js-lib-imufit-card-bias = 加速度計バイアス、平均 (m/s²)
+
+# 2026-10-01-studio-rebuild/lib/imufit-card.mjs:10
+js-lib-imufit-card-bias-instability = 加速度計のバイアス不安定性 (m/s²)。曲線に下限がない場合は 0
+
+# 2026-10-01-studio-rebuild/lib/imufit-card.mjs:12
+js-lib-imufit-card-gyro-bias = ジャイロバイアス、平均 (rad/s)
+
+# 2026-10-01-studio-rebuild/lib/imufit-card.mjs:24
+js-lib-imufit-card-gyro-slope = ジャイロのアラン偏差の傾き、初期（ホワイトノイズでは約 -0.5）
+
+# 2026-10-01-studio-rebuild/lib/imufit-card.mjs:25
+js-lib-imufit-card-note-n = 注記 { $n }
+
+# 2026-10-01-studio-rebuild/lib/imufit-card.mjs:11
+js-lib-imufit-card-q-arw = ジャイロの角度ランダムウォーク、q_arw (rad²/s)
+
+# 2026-10-01-studio-rebuild/lib/imufit-card.mjs:8
+js-lib-imufit-card-q-va = 加速度計の速度ランダムウォーク、q_va (m²/s³)
+
+# 2026-10-01-studio-rebuild/lib/imufit-card.mjs:20
+js-lib-imufit-card-sample-rate = サンプルレート
+
+# 2026-10-01-studio-rebuild/lib/imufit-card.mjs:19
+js-lib-imufit-card-samples = サンプル数
+
+# 2026-10-01-studio-rebuild/lib/imufit-card.mjs:21
+js-lib-imufit-card-span = 期間
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:48
+js-lib-jammertest-card-clean-epochs = 正常なエポック
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:48
+js-lib-jammertest-card-clean-hours = 正常な時間
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:45
+js-lib-jammertest-card-detected = 許容範囲内で検出
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:46
+js-lib-jammertest-card-detection-rate = 検出率（いずれかのアラーム）
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:45
+js-lib-jammertest-card-evaluable = 評価可能
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:47
+js-lib-jammertest-card-fa-epochs = 誤警報のエポック
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:47
+js-lib-jammertest-card-fa-runs = 誤警報の連続
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:46
+js-lib-jammertest-card-in-tol-rate = 許容範囲内で検出、率
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:45
+js-lib-jammertest-card-late = 遅延
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:46
+js-lib-jammertest-card-median-latency = 検出遅延の中央値
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:47
+js-lib-jammertest-card-median-recover = 復旧までの時間の中央値
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:45
+js-lib-jammertest-card-missed = 見逃し
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:37
+js-lib-jammertest-card-na = n/a
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:55
+js-lib-jammertest-card-not-assessable = このログでは評価可能なテストがなかったため、検出率も遅延も示せません。これは結果であり、このページの不具合ではありません。ここに合格と言えるものは何もありません。
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:19
+js-lib-jammertest-card-not-json = { $name }：JSON ではありません（{ $reason }）。
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:20
+js-lib-jammertest-card-not-scorecard = { $name }：jammertest のスコアカードではありません（tests[] と summary が必要です）。
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:45
+js-lib-jammertest-card-tests = 計画の対象範囲に含まれるテスト
+
+# 2026-10-01-studio-rebuild/lib/jammertest-card.mjs:17
+js-lib-jammertest-card-too-large = { $name }：8 MiB を超えています。このページが読み込めるスコアカードは、そのサイズまでです。
+
+# 2026-10-01-studio-rebuild/lib/kpi.mjs:135
+js-lib-kpi-available-everywhere = すべての場所、すべてのエポックで利用可能
+
+# 2026-10-01-studio-rebuild/lib/kpi.mjs:135
+js-lib-kpi-available-everywhere-pdop = すべての場所、すべてのエポックで利用可能（PDOP、位置の DOP（精度低下率）が { $thr } 未満）
+
+# 2026-10-01-studio-rebuild/lib/kpi.mjs:140
+js-lib-kpi-drops-under = 追跡しきい値の { $thr } dB-Hz を下回り、ロックを喪失
+
+# 2026-10-01-studio-rebuild/lib/kpi.mjs:119
+js-lib-kpi-end-of-mission = ミッション終了時点
+
+# 2026-10-01-studio-rebuild/lib/kpi.mjs:24
+js-lib-kpi-figure-tiers = 数値のティア：{ $parts }。
+
+# 2026-10-01-studio-rebuild/lib/kpi.mjs:23
+js-lib-kpi-n-modelled = モデル計算 { $n } 件
+
+# 2026-10-01-studio-rebuild/lib/kpi.mjs:23
+js-lib-kpi-n-partner = パートナー担当 { $n } 件
+
+# 2026-10-01-studio-rebuild/lib/kpi.mjs:23
+js-lib-kpi-n-validated = 検証済み { $n } 件
+
+# 2026-10-01-studio-rebuild/lib/kpi.mjs:163
+js-lib-kpi-no-change = 変化なし
+
+# 2026-10-01-studio-rebuild/lib/kpi.mjs:135
+js-lib-kpi-no-fix = 時間または場所の { $pct } % で測位できない
+
+# 2026-10-01-studio-rebuild/lib/kpi.mjs:135
+js-lib-kpi-no-fix-pdop = PDOP が { $thr } 未満の条件で、時間または場所の { $pct } % で測位できない
+
+# 2026-10-01-studio-rebuild/lib/kpi.mjs:144
+js-lib-kpi-over-jump = ジャンプのしきい値 { $thr } m を超過
+
+# 2026-10-01-studio-rebuild/lib/kpi.mjs:136
+js-lib-kpi-over-pdop = PDOP のしきい値 { $thr } を超過
+
+# 2026-10-01-studio-rebuild/lib/kpi.mjs:140
+js-lib-kpi-stays-above = 追跡しきい値の { $thr } dB-Hz を上回り続ける
+
+# 2026-10-01-studio-rebuild/lib/kpi.mjs:144
+js-lib-kpi-under-jump = ジャンプのしきい値 { $thr } m 未満
+
+# 2026-10-01-studio-rebuild/lib/kpi.mjs:136
+js-lib-kpi-under-pdop = PDOP のしきい値 { $thr } 未満
+
+# 2026-10-01-studio-rebuild/lib/orbit3d.mjs:235
+js-lib-orbit3d-apogee = 遠地点
+
+# 2026-10-01-studio-rebuild/lib/orbit3d.mjs:234
+js-lib-orbit3d-perigee = 近地点
+
+# 2026-10-01-studio-rebuild/lib/orbit3d.mjs:247
+js-lib-orbit3d-prov-scenario = シナリオ { $hash }
+
+# 2026-10-01-studio-rebuild/lib/orbit3d.mjs:194
+js-lib-orbit3d-title = 軌道（ECI、正射影）
+
+# 2026-10-01-studio-rebuild/lib/orbit3d.mjs:195
+js-lib-orbit3d-view-angles = 方位角 { $az }° · 仰角 { $el }°
+
+# 2026-10-01-studio-rebuild/lib/overlay.mjs:58
+js-lib-overlay-meta-clock-bias-m = クロックバイアス
+
+# 2026-10-01-studio-rebuild/lib/overlay.mjs:54
+js-lib-overlay-meta-converged-pos-3sigma-m = 位置 3σ
+
+# 2026-10-01-studio-rebuild/lib/overlay.mjs:52
+js-lib-overlay-meta-converged-pos-rms-m = 位置 RMS
+
+# 2026-10-01-studio-rebuild/lib/overlay.mjs:53
+js-lib-overlay-meta-converged-pos-sigma-m = 位置 σ
+
+# 2026-10-01-studio-rebuild/lib/overlay.mjs:55
+js-lib-overlay-meta-final-clock-freq-sigma = クロック周波数 σ
+
+# 2026-10-01-studio-rebuild/lib/overlay.mjs:56
+js-lib-overlay-meta-mean-relays-in-view = 可視の中継局
+
+# 2026-10-01-studio-rebuild/lib/overlay.mjs:64
+js-lib-overlay-meta-pos-p95-m = 位置 p95
+
+# 2026-10-01-studio-rebuild/lib/overlay.mjs:63
+js-lib-overlay-meta-pos-rms-m = 位置 RMS
+
+# 2026-10-01-studio-rebuild/lib/overlay.mjs:57
+js-lib-overlay-meta-postfit-rms-m = フィット後 RMS
+
+# 2026-10-01-studio-rebuild/lib/overlay.mjs:175
+js-lib-overlay-prov-scenario = シナリオ { $hash }
+
+# 2026-10-01-studio-rebuild/lib/overlay.mjs:159
+js-lib-overlay-subtitle = |誤差| (ns) と時間の関係 — { $n } 回の実行
+
+# 2026-10-01-studio-rebuild/lib/overlay.mjs:163
+js-lib-overlay-time-s = 時間 (s)
+
+# 2026-10-01-studio-rebuild/lib/overlay.mjs:158
+js-lib-overlay-title = オーバーレイ：停止中のタイミング誤差
+
+# 2026-10-01-studio-rebuild/lib/packs.mjs:21
+js-lib-packs-cannot-unpack = このブラウザーでは、記録されたファイルを展開できません
+
+# 2026-10-01-studio-rebuild/lib/replay-demos.mjs:25
+js-lib-replay-demos-below-130 = 方位角 130° 未満のみを保持（明示）
+
+# 2026-10-01-studio-rebuild/lib/replay-demos.mjs:14
+js-lib-replay-demos-coastal-drag-off = 沿岸でのドラッグオフ
+
+# 2026-10-01-studio-rebuild/lib/replay-demos.mjs:16
+js-lib-replay-demos-combined-event = 複合イベント
+
+# 2026-10-01-studio-rebuild/lib/replay-demos.mjs:20
+js-lib-replay-demos-drag-off-stated = 位置のドラッグオフ（デモが明示）
+
+# 2026-10-01-studio-rebuild/lib/replay-demos.mjs:22
+js-lib-replay-demos-ferry-drag-off = フェリー航行、位置のドラッグオフ
+
+# 2026-10-01-studio-rebuild/lib/replay-demos.mjs:23
+js-lib-replay-demos-ferry-drag-off-description = タリンからヘルシンキまでの、架空のフェリーのログ（1 Hz）です。1500 s から、位置のドラッグオフによって報告位置が引き離されますが、受信機は有効な測位を報告し続けます。
+
+# 2026-10-01-studio-rebuild/lib/replay-demos.mjs:16
+js-lib-replay-demos-fjord = フィヨルドでの自然な劣化
+
+# 2026-10-01-studio-rebuild/lib/replay-demos.mjs:24
+js-lib-replay-demos-masked-sky = フェリー航行、空の半分をマスク
+
+# 2026-10-01-studio-rebuild/lib/replay-demos.mjs:26
+js-lib-replay-demos-masked-sky-description = 同じフェリーのログで、600 s から空の西半分を遮断し、900 s から 1200 s までは範囲をさらに狭め、1500 s からはドラッグオフを加えます。空、信号、位置が順に失われていく 1 回の実行です。
+
+# 2026-10-01-studio-rebuild/lib/replay-demos.mjs:14
+js-lib-replay-demos-open-sea-jamming = 外洋でのジャミング
+
+# 2026-10-01-studio-rebuild/lib/replay-demos.mjs:15
+js-lib-replay-demos-port-approach = 入港進路での時刻スプーフィング
+
+# 2026-10-01-studio-rebuild/lib/replay-demos.mjs:40
+js-lib-replay-demos-source-training = 合成シナリオ { $id }：エンジンの nmea_training ストリームと教官ログを、その receiver-trust で採点したものです。
+
+# 2026-10-01-studio-rebuild/lib/replay-demos.mjs:47
+js-lib-replay-demos-source-trust = 合成ログ { $id }：架空の NMEA を、エンジンの receiver-trust で採点したものです。
+
+# 2026-10-01-studio-rebuild/lib/replay-demos.mjs:25
+js-lib-replay-demos-west-masked = 空の西半分をマスク（明示）
+
+# 2026-10-01-studio-rebuild/lib/replay-demos.mjs:25
+js-lib-replay-demos-west-masked-again = 西半分を再びマスク（明示）
+
+# 2026-10-01-studio-rebuild/lib/report.mjs:114
+js-lib-report-charts = グラフ
+
+# 2026-10-01-studio-rebuild/lib/report.mjs:144
+js-lib-report-eyebrow = 正確な瞬間
+
+# 2026-10-01-studio-rebuild/lib/report.mjs:112
+js-lib-report-figures-of-merit = 性能指標
+
+# 2026-10-01-studio-rebuild/lib/report.mjs:151
+js-lib-report-footer = { -brand } { $version } · シナリオ { $hash } · { $iso } 生成。シナリオ + シード + エンジンバージョンから再現可能です。ローカルで実行され、何もアップロードされません。
+
+# 2026-10-01-studio-rebuild/lib/report.mjs:40
+js-lib-report-not-applicable = 該当なし（攻撃は設定されていません）
+
+# 2026-10-01-studio-rebuild/lib/report.mjs:149
+js-lib-report-scenario-definition = シナリオ定義 (TOML)
+
+# 2026-10-01-studio-rebuild/lib/report.mjs:112
+js-lib-report-th-clock = クロック
+
+# 2026-10-01-studio-rebuild/lib/report.mjs:112
+js-lib-report-th-metric = 指標
+
+# 2026-10-01-studio-rebuild/lib/report.mjs:112
+js-lib-report-th-validation = 検証
+
+# 2026-10-01-studio-rebuild/lib/report.mjs:112
+js-lib-report-th-value = 値
+
+# 2026-10-01-studio-rebuild/lib/report.mjs:109
+js-lib-report-tier-note = 各性能指標には、{ $validated }（外部のオラクルと照合して確認）または { $modelled }（第一原理に基づき、内部でテスト）のタグが付いています。検証マトリクスから導出しています。
+
+# 2026-10-01-studio-rebuild/lib/report.mjs:121
+js-lib-report-title = { -brand } — シナリオレポート
+
+# 2026-10-01-studio-rebuild/lib/skydraw.mjs:59
+js-lib-skydraw-azimuth-range = 方位角 { $from } 度から { $to } 度
+
+# 2026-10-01-studio-rebuild/lib/skydraw.mjs:58
+js-lib-skydraw-describe = 一覧に { $listed } 機の衛星、うち { $heard } 機が信号あり
+
+# 2026-10-01-studio-rebuild/lib/skydraw.mjs:58
+js-lib-skydraw-describe-mean = 一覧に { $listed } 機の衛星、うち { $heard } 機が信号あり、平均 { $snr } dB-Hz
+
+# 2026-10-01-studio-rebuild/lib/skydraw.mjs:50
+js-lib-skydraw-east = 東
+
+# 2026-10-01-studio-rebuild/lib/skydraw.mjs:59
+js-lib-skydraw-no-signal-from = { $sectors } からの信号なし
+
+# 2026-10-01-studio-rebuild/lib/skydraw.mjs:56
+js-lib-skydraw-none-listed = この時刻のログには、一覧に載っている衛星がありません。
+
+# 2026-10-01-studio-rebuild/lib/skydraw.mjs:50
+js-lib-skydraw-north = 北
+
+# 2026-10-01-studio-rebuild/lib/skydraw.mjs:47
+js-lib-skydraw-sat-heard = { $sys } { $prn }：仰角 { $el }、方位角 { $az }、信号 { $snr } dB-Hz
+
+# 2026-10-01-studio-rebuild/lib/skydraw.mjs:47
+js-lib-skydraw-sat-quiet = { $sys } { $prn }：仰角 { $el }、方位角 { $az }、一覧に掲載、信号なし
+
+# 2026-10-01-studio-rebuild/lib/skydraw.mjs:50
+js-lib-skydraw-south = 南
+
+# 2026-10-01-studio-rebuild/lib/skydraw.mjs:43
+js-lib-skydraw-unheard-sector = 方位角 { $from } 度から { $to } 度の間に衛星が一覧にあるが、信号のあるものはない
+
+# 2026-10-01-studio-rebuild/lib/skydraw.mjs:50
+js-lib-skydraw-west = 西
+
+# 2026-10-01-studio-rebuild/lib/skyline-edit.mjs:107
+js-lib-skyline-edit-describe = 方位角 360 度のうち { $blocked } 度にスカイラインがあり、最高は方位角 { $az }° の { $el }° です。
+
+# 2026-10-01-studio-rebuild/lib/skyline-edit.mjs:103
+js-lib-skyline-edit-open = 開けた地平線：スカイラインなし。
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:120
+js-lib-stages-all-planets = すべての惑星
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:191
+js-lib-stages-au-from-sun = 太陽から { $d } au
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:88
+js-lib-stages-band-carrier = { $name } 搬送波、{ $mhz } MHz
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:355
+js-lib-stages-bin-title = { $from } から { $to }{ $unit }：{ $count } 回の実行
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:122
+js-lib-stages-body-and-moons = { $name } とその衛星
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:236
+js-lib-stages-cell-title = 緯度 { $lat }°、経度 { $lon }° · { $field } { $value }
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:319
+js-lib-stages-chain-navmsg = 航法メッセージ
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:319
+js-lib-stages-chain-pass = パスとリンク
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:319
+js-lib-stages-chain-ppp = 精密単独測位
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:319
+js-lib-stages-chain-pvt = 融合した測位
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:319
+js-lib-stages-chain-signal = 信号設計
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:231
+js-lib-stages-coverage-aria = { $body }上の { $field }（緯度・経度別）
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:395
+js-lib-stages-feature-n = フィーチャー { $n }
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:299
+js-lib-stages-flag = フラグ
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:76
+js-lib-stages-frequency-mhz = 周波数 (MHz)
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:185
+js-lib-stages-from-to = { $from } から { $to }
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:378
+js-lib-stages-geojson-aria = 地図上に描画した GeoJSON エクスポート
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:353
+js-lib-stages-histogram = ヒストグラム
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:121
+js-lib-stages-inner-planets = 内惑星
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:191
+js-lib-stages-km-from-centre = { $centre }から { $d } km
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:141
+js-lib-stages-linear-scale = 線形スケール
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:184
+js-lib-stages-link-light-time = { $from } から { $to }：片道の光行時間 { $time } s
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:242
+js-lib-stages-longitude-axis = 経度 · 側面は緯度（上が北）
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:299
+js-lib-stages-mission-time = ミッション時間 (s)
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:103
+js-lib-stages-noise-floor = 雑音フロア
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:204
+js-lib-stages-orrery-note = { $scale } · 座標系の x-y 平面を、その北極から見たもの
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:41
+js-lib-stages-panel-n = パネル { $n }
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:152
+js-lib-stages-plan-view-aria = { $centre }とその周囲の天体の平面図、{ $scale }
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:100
+js-lib-stages-psd-at-t = t = { $t } s における電力スペクトル密度
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:102
+js-lib-stages-psd-axis = 電力スペクトル密度 (dBW/Hz)
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:364
+js-lib-stages-runs = 回の実行
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:258
+js-lib-stages-sat-title = { $constellation } { $id } · 緯度 { $lat }°、経度 { $lon }°
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:299
+js-lib-stages-satellites = 衛星
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:101
+js-lib-stages-spectrum-at-t = t = { $t } s におけるスペクトル
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:148
+js-lib-stages-sqrt-scale = 平方根の距離スケール
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:231
+js-lib-stages-the-body = 天体
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:83
+js-lib-stages-time-s = 時間 (s)
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:276
+js-lib-stages-unit-alarm = アラーム
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:276
+js-lib-stages-unit-cn0 = 搬送波雑音密度
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:276
+js-lib-stages-unit-position = 位置と保護
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:276
+js-lib-stages-unit-satellites = 衛星
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:276
+js-lib-stages-unit-time-error = 時刻誤差
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:56
+js-lib-stages-waterfall-aria = 電力スペクトル密度のウォーターフォール：横が周波数、縦が時間
+
+# 2026-10-01-studio-rebuild/lib/stages.mjs:40
+js-lib-stages-whole-band = 全帯域
+
+# 2026-10-01-studio-rebuild/lib/sweep.mjs:64
+js-lib-sweep-clock-availability = { $who } の可用性
+
+# 2026-10-01-studio-rebuild/lib/sweep.mjs:61
+js-lib-sweep-clock-holdover = { $who } のホールドオーバー (s)
+
+# 2026-10-01-studio-rebuild/lib/sweep.mjs:63
+js-lib-sweep-clock-timing-p95 = { $who } のタイミング p95 (ns)
+
+# 2026-10-01-studio-rebuild/lib/sweep.mjs:62
+js-lib-sweep-clock-timing-rms = { $who } のタイミング RMS (ns)
+
+# 2026-10-01-studio-rebuild/lib/sweep.mjs:72
+js-lib-sweep-max-altitude = 最大高度 (km)
+
+# 2026-10-01-studio-rebuild/lib/sweep.mjs:70
+js-lib-sweep-max-elevation = 最大仰角 (°)
+
+# 2026-10-01-studio-rebuild/lib/sweep.mjs:74
+js-lib-sweep-max-speed = 最大速度 (m/s)
+
+# 2026-10-01-studio-rebuild/lib/sweep.mjs:73
+js-lib-sweep-min-altitude = 最小高度 (km)
+
+# 2026-10-01-studio-rebuild/lib/sweep.mjs:71
+js-lib-sweep-peak-doppler = ドップラーのピーク (Hz)
+
+# 2026-10-01-studio-rebuild/lib/sweep.mjs:168
+js-lib-sweep-prov-scenario = シナリオ { $hash }
+
+# 2026-10-01-studio-rebuild/lib/sweep.mjs:138
+js-lib-sweep-y-vs-x = { $x } に対する { $y }
+
+# 2026-10-01-studio-rebuild/lib/tabs.mjs:30
+js-lib-tabs-3d-orbit = 3D 軌道
+
+# 2026-10-01-studio-rebuild/lib/tabs.mjs:23
+js-lib-tabs-figures-of-merit = 性能指標
+
+# 2026-10-01-studio-rebuild/lib/tabs.mjs:27
+js-lib-tabs-stability = 安定度
+
+# 2026-10-01-studio-rebuild/lib/tabs.mjs:33
+js-lib-tabs-sweep = スイープ
+
+# 2026-10-01-studio-rebuild/lib/tabs.mjs:25
+js-lib-tabs-time-series = 時系列
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:72
+js-lib-tour-ashforde-body = { -brand } をご覧いただき、ありがとうございます。私たちは、失敗の許されないミッションのために、オープンで再現可能な、エビデンスを第一にしたエンジニアリングを築いています。何が検証済みで、何がモデル計算なのかについて、正直であることを心がけています。ご質問、共同研究、調査のご相談は、contact@ashforde.org までご連絡ください。
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:71
+js-lib-tour-ashforde-title = Ashforde® OÜ より
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:18
+js-lib-tour-capabilities-body = 領域タブ（軌道、タイミング、慣性、GNSS、レジリエンス、月、AI/ML、相互運用）を選ぶと、その機能が表示されます。各機能には「検証済み」または「モデル計算」のラベルが付き、実例のシナリオには ▸ 実行ボタンがあります。どの領域でも「エビデンスと来歴」を開くと証拠をたどれます。「検証済みのみ」に切り替えると、外部のオラクルと照合して確認されたものだけを表示します。
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:17
+js-lib-tour-capabilities-title = エンジンを領域ごとに見ていく
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:66
+js-lib-tour-cite-body = { -brand } は、引用されることを前提に作られています。DOI 付きの引用可能なソフトウェアリリースに加え、RF 障害の楽観ギャップと、条件付きのタイミング保護レベルに関する、査読形式の論文があります。引用文は、ここからそのままコピーできます。
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:65
+js-lib-tour-cite-title = 出版物と引用方法
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:48
+js-lib-tour-download-report-body = スイープタブは、1 つのパラメーターを範囲にわたって変化させます。「比較用に固定」は、複数の実行を並べて重ね、その間の Δ を示します（クロック、Mars-PNT、測位など、シナリオの種類をまたいで使えます）。このボタンは、実行結果を、オフラインで開ける単体の HTML レポートとしてダウンロードします。
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:47
+js-lib-tour-download-report-title = スイープ、比較、エクスポート
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:36
+js-lib-tour-guided-body = ガイド付きのノブはシナリオに合わせて変わります（シード、仕様のしきい値、継続時間、仰角マスク、軌道高度）。変更するたびに、即座に再実行されます。
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:35
+js-lib-tour-guided-title = スライダーを調整する
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:60
+js-lib-tour-mcp-body = MCP サーバーを使うと、AI アシスタントが推測せずに、検証済みのエンジンを実行できます。JetBrains プラグインは、右クリックからシナリオを実行します。
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:59
+js-lib-tour-mcp-title = AI エージェントや IDE から使う
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:24
+js-lib-tour-playground-body = ドロップダウンからシナリオを選ぶか、上のいずれかの機能で ▸ 実行を押すと、お使いのマシン上で WebAssembly としてエンジンが動作します。何もアップロードされません。
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:23
+js-lib-tour-playground-title = ブラウザーで実行する
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:30
+js-lib-tour-run-body = 現在のシナリオを実行します。「詳細」を開くと TOML を編集して、何でも変更できます。「共有リンクをコピー」を使うと、この実行をそのまま他の人が再現できます。
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:29
+js-lib-tour-run-title = 実行する
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:42
+js-lib-tour-tabs-body = 性能指標、時系列グラフ、クロックの安定度（アラン偏差）を切り替えられます。軌道の実行では、インタラクティブな 3 次元の軌道ビューも使えます。
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:41
+js-lib-tour-tabs-title = 結果を読む
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:54
+js-lib-tour-validation-body = 同じエクスプローラーは、エビデンスの台帳でもあります。どの領域にも「エビデンスと来歴」ドロワーがあり、数値、それを照合する外部のオラクル、主張ごとの「検証済み」/「モデル計算」の率直なステータスを確認できます。「検証済みのみ」で、データセットと照合済みの行に絞り込みます。
+
+# 2026-10-01-studio-rebuild/lib/tour.mjs:53
+js-lib-tour-validation-title = 形容詞ではなく、エビデンス
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:189
+js-lib-views-3-sigma-bound = 3 シグマ境界
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:188
+js-lib-views-3d-position-error = 3 次元位置誤差
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:166
+js-lib-views-a-parameter = パラメーター
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:181
+js-lib-views-band-runs = { $runs } 回のモンテカルロ実行にわたる時刻誤差の帯
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:181
+js-lib-views-band-the-runs = モンテカルロ実行にわたる時刻誤差の帯
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:609
+js-lib-views-below-tracking = 追跡しきい値未満
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:466
+js-lib-views-chart = グラフ
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:78
+js-lib-views-classical = 古典的
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:197
+js-lib-views-epoch = エポック
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:123
+js-lib-views-four-needed = 測位には 4 が必要
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:199
+js-lib-views-free-inertial = 自由慣性
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:480
+js-lib-views-gnss-denied = GNSS 拒否
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:641
+js-lib-views-ground-track = 地上軌跡
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:597
+js-lib-views-heatmap-effective = 衛星・時間別の実効搬送波雑音密度
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:597
+js-lib-views-heatmap-nominal = 衛星・時間別の公称（ジャマーなし）搬送波雑音密度
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:147
+js-lib-views-horizontal-alert-limit = 水平警報限界
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:144
+js-lib-views-horizontal-hpl = 水平 (HPL)
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:159
+js-lib-views-id-bound = { $id } 境界
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:179
+js-lib-views-id-median = { $id } 中央値
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:158
+js-lib-views-id-offset = { $id } オフセット
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:178
+js-lib-views-id-p95 = { $id } p95
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:200
+js-lib-views-map-matched = マップマッチング済み
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:196
+js-lib-views-map-matched-title = マップマッチングと自由慣性の位置誤差の比較
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:166
+js-lib-views-metric = 指標
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:102
+js-lib-views-oscillator = 発振器
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:102
+js-lib-views-oscillator-source = 発振器（{ $source }）
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:56
+js-lib-views-position-error-axis = 位置誤差 ({ $unit })
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:197
+js-lib-views-position-error-m = 位置誤差 (m)
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:56
+js-lib-views-position-error-run = 実行中の位置誤差
