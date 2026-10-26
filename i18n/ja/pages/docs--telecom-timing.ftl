@@ -19,3 +19,5 @@ seg-f63dd3d7aad4 = 出典
 seg-587beeccaa11 = プリセット
 
 seg-edb7b16b6c0e = 検証
+
+seg-3c513ef2fd3b = 量

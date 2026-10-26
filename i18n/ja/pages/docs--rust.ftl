@@ -147,3 +147,5 @@ seg-68274ce67506 = <b>GNSS IQ ラボ</b>（<c1/>）：記録済みと合成の I
 seg-6dc7d52fef11 = <s1>前へ</s1>npm と WebAssembly
 
 seg-8ff56af64ec2 = <s1>次へ</s1>MCP サーバー
+
+seg-8c83544270b5 = シグネチャ
