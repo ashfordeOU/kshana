@@ -9182,3 +9182,576 @@ js-meankind-leopvt-polar-line =
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:306
 js-meankind-leopvt-timing-big = 低軌道による時刻比較は、最良のクロックを UTC から { $ns } ns 以内に保ちます（二乗平均平方根）。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:306
+js-meankind-leopvt-timing-line =
+    { $n ->
+       *[other] 時計と信号のケースを { $n } 件比較しました。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:290
+js-meankind-leosignal-big =
+    { $n ->
+       *[other] { $n } 種類の信号設計のうち、{ $best } がジャミングに最も強く、信号より { $db } dB 高い妨害まで耐えます。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:290
+js-meankind-leosignal-line-fail = スペクトル形状の検査は不合格です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:290
+js-meankind-leosignal-line-pass = スペクトル形状の検査は合格です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:378
+js-meankind-link-big-closes = リンクは { $margin } dB の余裕を残して成立します。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:378
+js-meankind-link-big-open = リンクは成立しません。マージンは { $margin } dB です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:377
+js-meankind-link-line = 距離 { $km } km。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:376
+js-meankind-link-line-band = { $band } バンド、距離 { $km } km。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:376
+js-meankind-link-line-band-rate = { $band } バンド、距離 { $km } km、{ $rate } bit/s。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:377
+js-meankind-link-line-rate = 距離 { $km } km、{ $rate } bit/s。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:21
+js-meankind-list-and = { $head }と{ $last }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:488
+js-meankind-llr-big = 実際のレーザー測距により、月の座標系は { $mm } mm に固定されます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:195
+js-meankind-mapmatch-altimeter = 高度計の測定精度は { $sigma } m です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:195
+js-meankind-mapmatch-big = マップマッチングにより位置は { $matched } m に保たれます。慣性のみでは { $free } m ドリフトします。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:195
+js-meankind-mapmatch-gravimeter = 重力計の測定精度は { $sigma } mGal です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:195
+js-meankind-mapmatch-sources = 重力のみでは { $gravity } m、磁気では { $magnetic } m、地形では { $terrain } m です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:429
+js-meankind-marspnt-big = { $user }ナビゲーターは { $m } m（二乗平均平方根）に収束します。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:429
+js-meankind-marspnt-line =
+    { $n ->
+       *[other] 平均 { $mean } 基の中継機が可視で、{ $n } エポックにわたります。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:433
+js-meankind-moonlight-big = このサービスは、確認した場所と時刻の { $share } % をカバーします。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:433
+js-meankind-moonlight-line =
+    { $n ->
+       *[other] 可視衛星は { $min } 基から { $n } 基で、ジオメトリの品質（PDOP）は { $pmin } から { $pmax } の範囲です。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:318
+js-meankind-navmsg-big =
+    { $n ->
+       *[other] 航法メッセージ 1 件は { $n } バイトに収まります。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:321
+js-meankind-navmsg-cases-big =
+    { $n ->
+       *[other] { $n } 件のケース全体で、放送軌道による距離誤差は { $min } から { $max } mm です。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:321
+js-meankind-navmsg-cases-line = 信号空間距離誤差（二乗平均平方根）。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:318
+js-meankind-navmsg-line = メッセージ形式への丸めにより、距離誤差が { $mm } mm 生じます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:322
+js-meankind-navmsg-midpass-big = パス途中でメッセージを更新すると、距離は最大 { $mm } mm 跳びます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:322
+js-meankind-navmsg-midpass-line = 上限は { $mm } mm です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:334
+js-meankind-ntn-big = 軌道上からの 5G 測位は、{ $signal }で { $m } m に達します。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:334
+js-meankind-ntn-line = 1 回のパスにわたるドップラーでは { $m } m になります。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:494
+js-meankind-obs-big-full = 軌道は、{ $dur }の追跡後に完全に可観測になります。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:494
+js-meankind-obs-big-partly = 軌道は、{ $h } 時間の弧の間、部分的にしか可観測になりません。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:494
+js-meankind-obs-line = 弧の終端でのランクは { $rank }（全 { $dim }）です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:405
+js-meankind-oem-big = エフェメリスファイルは、位置誤差が最大 { $mm } mm で往復変換できます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:405
+js-meankind-oem-line =
+    { $n ->
+       *[other] { $n } セグメントに { $states } 状態。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:552
+js-meankind-optical-big-alone = 最良の単一サイトでは、光リンクが稼働する時間は { $best } % です（雲のない場合の上限は { $ceiling } %）。雲のない場合のマージンを加えても { $ceiling } % を超えることはありません。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:552
+js-meankind-optical-big-team = 最良の単一サイトでは、光リンクが稼働する時間は { $best } % です（雲のない場合の上限は { $ceiling } %）。{ $n } サイトを合わせると、天候が互いに独立なら { $independent } %、記載した相関がある場合は { $correlated } % に達します。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:552
+js-meankind-optical-line-sites =
+    { $n ->
+       *[other] { $n } サイトをモデル化しています。雲の気候は例示です。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:552
+js-meankind-optical-line-tech = { $name }：{ $base } % が { $with } % になります。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:227
+js-meankind-opticalrf-big = 光と電波の測距を組み合わせると、保護レベルは水平 { $h } m、垂直 { $v } m になります。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:227
+js-meankind-opticalrf-line-fault = 整合性検定の値は { $stat }、しきい値は { $threshold } です。故障が検出されました。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:227
+js-meankind-opticalrf-line-ok = 整合性検定の値は { $stat }、しきい値は { $threshold } です。故障は検出されていません。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:401
+js-meankind-packet-big-no = いいえ：復号したストリームは、送信したものと異なります。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:401
+js-meankind-packet-big-yes = はい：パケットストリームはビット単位で元どおりに復号されます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:401
+js-meankind-packet-line =
+    { $n ->
+       *[other] パケット { $n } 個、合計 { $octets } オクテット。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:383
+js-meankind-passes-big-day =
+    { $n ->
+       *[other] 1 日に { $n } パス、接触時間は合計 { $dur } です。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:383
+js-meankind-passes-big-window =
+    { $n ->
+       *[other] { $hours } 時間の窓に { $n } パス、接触時間は合計 { $dur } です。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:383
+js-meankind-passes-line = 最良のパスの最大仰角は { $deg }° です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:451
+js-meankind-percentile-word = パーセンタイル
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:150
+js-meankind-pnt-big = 量子スイートは位置と時刻を { $q } 保持し、従来型スイートは { $c } 保持します。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:154
+js-meankind-pnt-classical-label = ホールドオーバー、従来型スイート
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:151
+js-meankind-pnt-line = ホールドオーバーとは、衛星航法を失ってから、各スイート（クロック { $q }、対するクロック { $c }）が { $spec } の範囲内にとどまる時間です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:153
+js-meankind-pnt-quantum-label = ホールドオーバー、量子スイート
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:156
+js-meankind-pnt-timing-classical-label = タイミング誤差、95 %、従来型
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:155
+js-meankind-pnt-timing-quantum-label = タイミング誤差、95 %、量子
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:265
+js-meankind-pvt-big =
+    { $n ->
+       *[other] { $n } エポック中 { $solved } エポックで位置を解き、精度は { $rms } m（3 次元の二乗平均平方根）です。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:265
+js-meankind-pvt-line = 平均 { $mean } 基の衛星から、実際の受信機の測定値を読み取っています。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:221
+js-meankind-qnav-big = 途絶後、冷却原子ナビゲーターは { $q } m ずれ、航法グレードのものは { $c } m ずれます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:221
+js-meankind-qnav-big-outage = 衛星なしで { $dur } が経過した後、冷却原子ナビゲーターは { $q } m ずれ、航法グレードのものは { $c } m ずれます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:221
+js-meankind-qnav-line = 予算内：{ $q } に対し { $c }。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:221
+js-meankind-qnav-line-threshold = { $threshold } m 以内：{ $q } に対し { $c }。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:188
+js-meankind-qtt-big = 量子時刻伝送は { $q } ps（1 シグマ）を保ちます。従来型の経路では { $c } ns です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:188
+js-meankind-qtt-line = セキュリティモニターは、攻撃の { $pd } % を検出します。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:188
+js-meankind-qtt-line-pfa = セキュリティモニターは、誤警報率 { $pfa } で攻撃の { $pd } % を検出します。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:163
+js-meankind-quantum-link = 量子リンク
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:537
+js-meankind-radiometry-big = カメラは、地上標本間隔 { $gsd } m、信号対雑音比 { $snr } で NIIRS { $niirs } に達します。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:537
+js-meankind-radiometry-line = ナイキスト周波数でのシステム MTF は { $mtf } です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:387
+js-meankind-reentry-big = 最大減速度は { $g } g で、高度 { $km } km で生じます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:387
+js-meankind-reentry-line = その時点での機体速度は { $speed } m/s です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:199
+js-meankind-slam-big = 地形マッチングの終了時点で { $matched } m ずれます。慣性のみでは { $free } m です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:199
+js-meankind-slam-line =
+    { $n ->
+       *[other] ウェイポイント { $n } 個にわたり、高度計ノイズ { $sigma } m で地形マップに照合しています。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:176
+js-meankind-slot-big = クロックは、最後の衛星フィックスから { $dur } 後にスロットガードから外れます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:411
+js-meankind-solar-big =
+    { $n ->
+       *[other] 天体 { $n } 個を 1 つのエポックに配置しました。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:411
+js-meankind-solar-big-link =
+    { $n ->
+       *[other] 天体 { $n } 個を 1 つのエポックに配置しました。{ $from } から { $to } まで光は { $dur } かかります。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:411
+js-meankind-solar-line = リンクは合計 { $n } 本のタイミングを計っています。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:135
+js-meankind-spoof-caught = スプーフィングは、タイミング仕様を破る前に検出されます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:135
+js-meankind-spoof-caught-both = スプーフィングは、タイミング仕様を破る前に、両方のクロックで検出されます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:140
+js-meankind-spoof-caught-label = 検出まで、{ $name }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:134
+js-meankind-spoof-caught-thr = スプーフィングは、{ $thr } ns のタイミング仕様を破る前に検出されます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:134
+js-meankind-spoof-caught-thr-both = スプーフィングは、{ $thr } ns のタイミング仕様を破る前に、両方のクロックで検出されます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:139
+js-meankind-spoof-detects = { $name }は、{ $dur }後にオフセット { $offset } ns で検出します。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:138
+js-meankind-spoof-missed =
+    { $n ->
+       *[other] { $names }が検出する前に、スプーフィングがタイミング仕様を破ります。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:140
+js-meankind-spoof-offset = オフセット { $offset } ns
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-big-by = はい：スプーフィングは { $by } によって検出されます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-big-no = いいえ：融合モニターはスプーフィングを検出しません。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-big-yes = はい：スプーフィングは検出されます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-line =
+    { $n ->
+       *[other] 検出層 { $n } 層のうち { $on } 層が警報を出します。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-line-score =
+    { $n ->
+       *[other] 検出層 { $n } 層のうち { $on } 層が警報を出し、融合スコアは { $score } です。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:587
+js-meankind-ssv-formation = { $km } km 離れた状態で、フィルターは相対位置を RMS { $filter } m で把握しています。二つの絶対フィックスの差分では { $absolute } m です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:582
+js-meankind-ssv-navigation = 搭載フィルターは、GNSS 軌道の内側では RMS { $inside } m、その上側では { $above } m で位置を保持します。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:572
+js-meankind-ssv-shell = シェル上では、すべてのコンステレーションを合わせると、{ $one } % の時間で信号が 1 つ以上、{ $four } % の時間で 4 つ以上得られます（L1）。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:568
+js-meankind-ssv-tail = MODELLED：幾何とリンクバジェットの掃引であり、宇宙空間のいかなる信号の測定でもありません。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:577
+js-meankind-ssv-trajectory = 高度 { $from } から { $to } km の間で、エポックの { $one } % で信号が 1 つ以上、{ $four } % で 4 つ以上見えています（L1、すべてのコンステレーション）。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:452
+js-meankind-station-big = 南極域では、月基準局の補正により、{ $percentile }誤差は { $from } m から { $to } m に下がります（モデル計算）。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:452
+js-meankind-station-line = エポックの { $share } % で精度のしきい値内に収まります。実在のいかなるシステムについても述べたものではありません。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:116
+js-meankind-sweep-big =
+    { $n ->
+       *[other] { $param } の { $n } 個の値にわたり、{ $parts }。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:116
+js-meankind-sweep-line = { $param } は { $from } から { $to } まで動きます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:116
+js-meankind-sweep-line-log = { $param } は { $from } から { $to } まで対数スケールで動きます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:114
+js-meankind-sweep-part-flat = { $key }の{ $metric }は { $value } のままです
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:114
+js-meankind-sweep-part-goes = { $key }の{ $metric }は { $first } から { $last } に変化します
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:113
+js-meankind-sweep-result-word = 結果
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:122
+js-meankind-sweepnd-big =
+    { $n ->
+       *[other] { $keys } の { $n } 通りの組み合わせにわたり、{ $metric }は { $min } から { $max } の範囲です。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:122
+js-meankind-sweepnd-line = { $shape } のエンジン実行のグリッドです。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:172
+js-meankind-telecom-fail =
+    { $n ->
+       *[other] クロックは、通信の時刻誤差検査 { $n } 件のうち { $fail } 件で不合格です。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:172
+js-meankind-telecom-line = MTIE（最大時間間隔誤差）、TDEV（時間偏差）、ホールドオーバーのエンベロープを、各行に示した ITU-T マスクと照らして検査します。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:172
+js-meankind-telecom-line-margin = MTIE（最大時間間隔誤差）、TDEV（時間偏差）、ホールドオーバーのエンベロープを、各行に示した ITU-T マスクと照らして検査します。ホールドオーバーのエンベロープに対する最小マージンは { $margin } ns です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:172
+js-meankind-telecom-pass =
+    { $n ->
+       *[other] クロックは、通信の時刻誤差検査 { $n } 件すべてに合格しています。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:289
+js-meankind-the-best = 最良の
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:422
+js-meankind-the-body = 天体
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:138
+js-meankind-the-name = { $name }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:334
+js-meankind-the-widest-signal = 最も広帯域の信号
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:180
+js-meankind-timebudget-big = { $clock }の誤差と座標系の誤差は、平均化時間 { $tau } で交差します。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:180
+js-meankind-timebudget-line = その交点での時刻誤差は { $x } s です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:184
+js-meankind-timeoffset-big = 月面のクロックは、地球上のクロックより 1 日あたり { $rate } µs 進みます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:165
+js-meankind-timetransfer-big = { $q }は 2 地点を { $qps } ps（二乗平均平方根）以内に保ち、{ $c }は { $cps } ps 以内に保ちます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:165
+js-meankind-timetransfer-line = 測距仕様の範囲内にある時間の割合は { $q } %、対する { $c } %。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:165
+js-meankind-timetransfer-line-mm = { $mm } mm の測距仕様の範囲内にある時間の割合は { $q } %、対する { $c } %。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:283
+js-meankind-tracking-big = スプーファーは、最大 { $km } km 離れた場所から受信機を捕捉できます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:283
+js-meankind-tracking-line = 受信機自身のループ特性のもとでは、ジャマーが信号より { $db } dB 高い時点でロックを失います。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:250
+js-meankind-trade-big = 量子センサーは、従来型のベースラインに比べ、タイミングで { $timing } 倍、慣性航法で { $inertial } 倍優れています。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:250
+js-meankind-trade-line = 衛星がなくても、量子スイートは { $dur } 持ちこたえます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:541
+js-meankind-ttbudget-big = 双方向オフセットは { $offset } ns で、合成不確かさは { $uncertainty } ns です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:541
+js-meankind-ttbudget-line = サニャック { $sagnac } ns、電離圏 { $iono } ns。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:215
+js-meankind-ukf-big-no = いいえ：フィルターは自己整合していません。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:215
+js-meankind-ukf-big-yes = はい：フィルターは自己整合しています。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:213
+js-meankind-ukf-line-in = 正規化イノベーション二乗の平均は { $mean } で、{ $low } から { $high } の 95 % 範囲内です。これは整合性の検査であり、精度の検査ではありません。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:213
+js-meankind-ukf-line-in-seeds =
+    { $n ->
+       *[other] 正規化イノベーション二乗の平均は { $mean } で、シード { $n } 個にわたり、{ $low } から { $high } の 95 % 範囲内です。これは整合性の検査であり、精度の検査ではありません。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:214
+js-meankind-ukf-line-out = 正規化イノベーション二乗の平均は { $mean } で、{ $low } から { $high } の 95 % 範囲外です。これは整合性の検査であり、精度の検査ではありません。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:214
+js-meankind-ukf-line-out-seeds =
+    { $n ->
+       *[other] 正規化イノベーション二乗の平均は { $mean } で、シード { $n } 個にわたり、{ $low } から { $high } の 95 % 範囲外です。これは整合性の検査であり、精度の検査ではありません。
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:429
+js-meankind-user-word = ユーザー
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:473
+js-meankind-vlbi-big = 基線長 { $km } km で、ビーコンの信号は 2 つの局に { $ms } ms の差で到達します。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:473
+js-meankind-vlbi-line = 近傍場補正は { $us } µs です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:478
+js-meankind-vlbifim-big = この観測スケジュールにより、各局の座標は { $m } m の精度で分かります。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:478
+js-meankind-vlbifim-line = 等分配の単純な推定では { $m } m とされます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:397
+js-meankind-weather-big = 超高層大気は { $k } K まで加熱されます。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:397
+js-meankind-weather-big-ref = 超高層大気は { $k } K まで加熱されます。基準では { $ref } K です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:397
+js-meankind-weather-line = 地磁気活動指数 ap は { $ap } です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:155
+js-meankind-whole-run = 実行全体にわたって
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:64
+js-mthread-bcol-label = ラベル
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:64
+js-mthread-bcol-share = 最大の位置項に対する大きさ
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+js-mthread-bcol-sigma = 1 シグマ
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+js-mthread-bcol-source = 寄与
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:65
+js-mthread-budget-caption = { $phase }：エントリー時の 1 シグマは { $entry }、ピーク時は { $peak }、終了時は { $exit }（位置）。以下は各寄与を大きい順に示します。
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:131
+js-mthread-chart-title = { $metric } とミッション経過時間の関係、フェーズごとに 1 つの帯
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-kind = 種類
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-label = ラベル
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-limit = 最大の寄与
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-margin = 上限との比較
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-peak-pos = ピーク位置
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-peak-time = ピーククロックバイアス
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-peak-vel = ピーク速度
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-phase = フェーズ
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-window = ミッション時間
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:81
+js-mthread-example-not-loaded = 記録済みの結果を読み込めませんでした
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:97
+js-mthread-file-failed = { $name } を読み取れませんでした：{ $reason }。
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:27
+js-mthread-kv-elapsed = ミッション経過時間
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:31
+js-mthread-kv-engine = エンジン
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:29
+js-mthread-kv-epoch = エポック（UTC）
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:28
+js-mthread-kv-limits = 上限を定めたフェーズ
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:28
+js-mthread-kv-limits-value = { $n }（達成 { $met }、未達成 { $missed }）
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:26
+js-mthread-kv-phases = フェーズ
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:30
+js-mthread-kv-seed = シード
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:25
+js-mthread-kv-title = スレッド
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:39
+js-mthread-layout-phases = フェーズごとに等幅
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:488
+js-meankind-llr-line = スケールは十億分の { $ppb } です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:176
+js-meankind-slot-line = そのため { $interval } ごとにフィックスが必要で、一日あたり約 { $perDay } 回です。
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:410
+js-meankind-the-first = 最初の
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:410
+js-meankind-the-second = 二番目の
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:184
+js-meankind-timeoffset-line = 公表されている範囲は一日あたり { $low } から { $high } µs です。
