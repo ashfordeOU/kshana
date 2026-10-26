@@ -8,6 +8,8 @@ seg-a20b4a6e8f53 = chipskala atomklokke
 
 seg-49a994d77d2f = temperaturkompensert krystalloscillator
 
+seg-2247a2344710 = Betydning
+
 seg-5770537524d3 = Område
 
 seg-40d4fc0d3922 = Kilde: <c1/>

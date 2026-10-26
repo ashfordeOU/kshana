@@ -1,5 +1,9 @@
 # docs--compliance-mapping: translations (nb)
 
+seg-6555ff9a6d8e = Utdata
+
+seg-2247a2344710 = Betydning
+
 seg-d6476863f862 = Funksjon
 
 seg-ad856ad710eb = Status

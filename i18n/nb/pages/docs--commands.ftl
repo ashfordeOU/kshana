@@ -1,5 +1,7 @@
 # docs--commands: translations (nb)
 
+seg-eaaed414a05a = Maskininndata
+
 seg-bf8cd5a45deb = OSNMA
 
 seg-80f3f0aae42c = Interferenskart

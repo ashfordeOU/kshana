@@ -1,5 +1,7 @@
 # docs--lunar-reference-station: translations (nb)
 
+seg-f37311ad7ef0 = Utdata
+
 seg-f63dd3d7aad4 = Kilde
 
 seg-9872e31ebd72 = Kilder

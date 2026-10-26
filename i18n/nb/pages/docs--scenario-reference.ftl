@@ -373,3 +373,365 @@ seg-6bdc150ab25b = GPS-fri sekvensiell (rekursiv) terrengreferert navigasjon: et
 seg-9a2bb9809aed = Toveis satellittbasert tid- og frekvensoverføring mellom to stasjoner via et geostasjonært relé: toveisligningen løst for T_A - T_B med hvert ikke-resiprokt ledd (stasjonsutstyrets forsinkelser, ionosfære i Ku-bånd, transponder, Sagnac), et usikkerhetsbudsjett i kvadratsum der type A-leddet er den simulerte lenkens TDEV ved midlingstiden, en simulert lenke med hvit og flicker-fasestøy og en døgnlig ikke-resiprositet, og stabiliteten (rate, residual-RMS, TDEV, ADEV) til enhver oppgitt serie fra BIPM Circular T, seksjon { "1" }, MJD,ns-CSV eller IGS RINEX-stasjonsklokkeposter. MODELLED.
 
 seg-ccb244e60d60 = Optisk mot RF toveis tids-/frekvensoverføring.
+
+seg-1e4d5b2f4810 = Hver medfølgende scenariofil ({ "182" }), gruppert etter type. Beskrivelsen er filens egen toppkommentar; nøkkelparameterne er innstillingene på toppnivå. Status leses fra verifikasjonsmatrisen for typens modul. <b>Åpne i Kshana Studio</b> åpner den registrerte kjøringen.
+
+seg-e701392324d0 = type acm-link
+
+seg-c4d65df7ab98 = ikke koblet til en registermodul etter navn
+
+seg-7b09a77bfada = Adaptiv koding og modulasjon (ACM) for DVB-S2 langs passeringene til én satellitt over én stasjon. Langs en passering endres skråavstanden og elevasjonen, så nedlinkens Es/N0 endres. Kjøringen velger i hvert steg den mest effektive MODCOD-en som terskelverdien i ETSI EN { "302" } 307-1 tabell { "13" } pluss en implementasjonsmargin lar linken klare. Den rapporterer hver passerings Es/N0-område og datavolumet ACM flytter, mot grunnlinjen med konstant koding som lukkes ved maskeelevasjonen og lengste avstand.
+
+seg-c36379e65043 = <a1>Åpne i Kshana Studio</a1> · <a2>Vis på GitHub</a2>
+
+seg-b6ddd25a35c3 = type aocs
+
+seg-944f5a95638f = type aperture-duty-cycle
+
+seg-2c27404856f6 = type araim-reference-check
+
+seg-6fc2c7863922 = type ascent-losses
+
+seg-6ad78e934bec = Oppstigningstap med gravitasjonssving for en ILLUSTRATIVE tostegs bærerakett med parafin og oksygen (intet virkelig kjøretøy): vertikal stigning til { "1" } km, et { "3" } deg stigningssparkt i { "10" } s, deretter skyvekraft langs hastigheten. Kjøringen integrerer tapene fra gravitasjon, luftmotstand, styring og mottrykk og kontrollerer at ideell dv minus tapene er lik utbrenningsfarten. MODELLED: plan, ikke-roterende jord, konstant C_D, ingen glidefase, ingen styring utover sparket.
+
+seg-602ac3a69ef9 = type attitude-budget
+
+seg-01ed69f79080 = typen har validerte registerrader · { "1" } av { "1" } rader validert
+
+seg-be0ff8b9fe3b = type body-pnt
+
+seg-eb1f3742071d = type campaign
+
+seg-a40718a9a53e = Et kjedet oppdrag: nominelt, jamming, spoofing, GNSS-tap med klokke-holdover og treghetsglidning, et integritetsalarm og gjenoppretting, på én felles tidslinje.
+
+seg-e745211204ab = En optimalisering gjennom en kampanje: X-bånd-linken i eksempelet link-budget ({ "55" } dBW EIRP, { "53" } dB/K G/T, { "3" } dB andre tap, { "4.5" } dB påkrevd Eb/N0), søkt over avstand og datarate etter driftspunktet som gir nøyaktig { "3" } dB margin. Hver evaluering er en vanlig <c1/>-kjøring. Nelder-Mead-simpleksen arbeider i log-normaliserte koordinater innenfor de oppgitte grensene, og hver evaluering er oppført i resultatets <c2/>.
+
+seg-decc6966e201 = Sammensetning på tvers av domener: én jammer, to plattformer. Et skip i Finskebukta ({ "59.80" } N, { "24.90" } E, mottakeren i eksempelet maritime-strait-jamming) og en bil på en kystvei i Helsinki ({ "60.17" } N, { "24.94" } E) ligger under den samme bredbåndsjammeren, plassert ved { "59.80" } N, { "25.44" } E, { "30" } m oppe (omtrent { "30" } km fra skipet og { "50" } km fra bilen).
+
+seg-f2588213d3d3 = Et kjedet oppdrag drevet av L-båndspekteret: en chirp-jammer tar GPS L1 C/A og Galileo E1, klokken holder over, og en kontinuerlig bølge-tone (CW) som står igjen på L1-bærebølgen holder C/A nede mens E1 kommer tilbake, så mottakeren faller tilbake på Galileo og integritetsmonitoren kjører på en himmel med bare Galileo.
+
+seg-031c509abbfa = Et parametersveip gjennom en kampanje: mottakeren i jamming-eksempelet ({ "52" } N, { "4" } E, GPS-lignende Walker-skall med 24 satellitter) under en bredbåndsjammer { "1" } km unna, med jammerens sendeeffekt sveipet fra -50 dBW ({ "10" } nW) til +{ "10" } dBW ({ "10" } W) i trinn på { "5" } dB. Hver node er en vanlig <c1/>-kjøring; kampanjen registrerer per node andelen epoker med minst fire satellitter som fortsatt spores, det gjennomsnittlige forholdet mellom jammer og signal (J/S), og det minste antallet satellitter som spores.
+
+seg-ef32cd18fab5 = type cislunar-arc-recovery
+
+seg-e9866967471c = type cislunar-observability
+
+seg-9c3bc8bbd361 = type clock
+
+seg-ddd9856d154a = Referansescenario for Kshana: { "2" } h kjøring, { "10" } min GNSS-synk og deretter ~{ "1.8" } h fratatt. Klokkens hvite FM-støy kalibrert til publisert sigma_y({ "1" } s): q_wf = sigma_y(1s)^{ "2" }. Validert mot simulert Allan-avvik i tests/calibration.rs (~{ "2" }%).
+
+seg-460f63835b3f = Variant: optisk strontiumklokke av laboratoriekvalitet mot CSAC. Laboratorieklokker med Sr når sigma_y({ "1" } s) = { "4.8e-17" } (Oelker et al. { "2019" }, Nature Photonics).
+
+seg-092f76e5d820 = type combined-altpnt
+
+seg-3455b653ea6f = type conflict-resilience
+
+seg-c6b21e897ce0 = Konstellasjonsdesign i stor skala: Walker DELTA- og Walker STAR-mønstre i konvensjonen i: T/P/F (noder spredt over { "360" } eller { "180" } deg, avstand i banen { "360" }*P/T, faseforskyvning mellom baner { "360" }*F/T), eksplisitte elementlister og design med flere skall, flere konstellasjoner i én kjøring, rundt jorden, månen, Mars eller en hvilken som helst annen planet, Pluto eller større måne med konstantene i body-modulen (de samme som typene solar-system og body-pnt bruker). FORHÅNDSINNSTILLINGER fra publiserte nominelle elementer: gps-baseline og gps-expandable (de { "24" } sporene og de seks utvidbare parene foran/bak i GPS Standard Positioning Service Performance Standard, 5. utgave { "2020" }, tabell 3.2-1 til 3.2-3), galileo (Walker 24/3/1 ved { "29 599.801" } km og { "56" } deg, Galileo Open Service Service Definition Document utgave { "1.1" } tabell { "1" } og { "23" }), beidou og beidou-meo (Walker 24/3/1 ved { "21 528" } km og { "55" } deg pluss tre geostasjonære satellitter ved { "80" }, { "110.5" } og { "140" } deg E og tre skråstilte geosynkrone satellitter ved { "55" } deg, BeiDou Open Service Performance Standard { "3.0" } avsnitt { "4.1" }; MEO-fasen og den skråstilte geosynkrone kryssingen ved { "118" } deg E er modellert fordi standarden ikke oppgir dem) og glonass (24/3/1 ved { "19 100" } km og { "64.8" } deg fra sporformelen i GLONASS Interface Control Document utgave { "5.1" } avsnitt { "5.2" }). DEKNING OG PRESISJONSFORTYNNING: over et bredde-/lengderutenett og et samplet vindu med en elevasjonsmaske, antall satellitter i sikte, GDOP, PDOP, HDOP og VDOP per celle, tilgjengeligheten (en posisjonsbestemmelse med PDOP på eller under en terskelverdi, { "6" } som standard) per celle, globalt (arealvektet) og på det verste stedet, med én mottakerklokke per konstellasjon med mindre clock = "common". Den skalerer til tusenvis av satellitter: synlighet er et prikkprodukt mot hver satellitts halve dekningsvinkel, og satellitter bandes etter subsatellittbredde hver epoke, så en nettrad bare tester de som kan være i sikte; rapporten teller parprøvene som er spart. JSON-en har rutenettkartene og nedsamplede bakkespor per satellitt. VALIDATED: Walker-generatoren mot Galileo OS SDD tabell { "23" } og sporformelen i GLONASS ICD, GPS-forhåndsinnstillingen mot den publiserte kolonnen for ekvatorkryssing i SPS PS tabell 3.2-1, og den globale HDOP-fordelingen for GPS-grunnlinjen mot SPS PS vedlegg B (median { "0.94" }, { "95" }% { "1.25" }, gjennomsnitt { "0.96" }, toleranse { "0.03" }). MODELLED: tolegemebaner med valgfri sekulær J2, et sfærisk legeme, bare geometrisk synlighet (ingen signaleffekt, helse eller terreng), og den relative fasen mellom ulike systemer, som ikke er et øyeblikksbilde av noen virkelig dato.
+
+seg-fa78684a644d = type constellation-design
+
+seg-22e4cbe23fb2 = Flerkonstellasjonsdekning: de fire globale satellittnavigasjonssystemene (GNSS) sammen, som et kart over satellitter i sikte, presisjonsfortynning (DOP) og tilgjengelighet over hele jorden for ett døgn.
+
+seg-cd74615ba3dd = En mega-konstellasjon for posisjonering, navigasjon og tidssynkronisering (PNT) i lav jordbane: { "5 000" } satellitter i fire Walker-skall, scoret som et dekningskart og kart over presisjonsfortynning (DOP).
+
+seg-59bb18c802a3 = En relé- og navigasjonskonstellasjon ved månen: satellitter i elliptiske frosne månebaner (ELFO) pluss et sirkulært skall i lav månebane, scoret som et dekningskart og kart over presisjonsfortynning (DOP) over hele månen for ett døgn.
+
+seg-64e634b04436 = type contact-schedule
+
+seg-b6736838f1d6 = Planlegging av bakkekontakt: tre illustrative satellitter over tre illustrative stasjoner i { "12" } timer. Kjøringen gir hver passering mellom satellitt og stasjon sitt tilgangsvindu og datavolumet adaptiv koding og modulasjon (ACM) for DVB-S2 kan flytte i det (terskelverdier i ETSI EN { "302" } 307-1 tabell { "13" } pluss en implementasjonsmargin). Deretter bygger den en konfliktfri kontaktplan der hver antenne betjener én satellitt om gangen, med en omstillingstid mellom kontakter, og hver satellitt nedlinker til én stasjon om gangen. Leveransen vektes etter prioritet og begrenses av hver satellitts etterslep. Tre planer rapporteres side om side: en grådig etter marginalverdi, en første-til-mølla-grunnlinje og, når kandidatsettet er lite, det eksakte optimum, med den grådiges optimalitetsgap.
+
+seg-12fb09af17f6 = type earth-gnss-lunar
+
+seg-0f550587e7e0 = typens registerrader er modellert · { "0" } av { "1" } rader validert
+
+seg-435e296b48ab = type entry-heating
+
+seg-d7ec70cdbcfc = Innføring av Stardust-kapselen for prøveretur: det publiserte tilfellet typen <c1/> kontrolleres mot (xval/entry-stardust/PREREGISTRATION.md; tests/entry_stardust_published.rs).
+
+seg-c2dc08297b0f = type eo-coverage
+
+seg-fbb405d27780 = type eo-radiometry
+
+seg-f178d4dbb034 = Radiometri og bildekvalitet for et nadirkamera i et ILLUSTRATIVE lite jordobservasjonskamera (ingen operatørs design): { "0.40" } m apertur, { "3.6" } m brennvidde (F/9), { "5.5" } um piksler, fra { "500" } km. Kjøringen gir signal-til-støy-budsjettet for en scene med { "15" } % reflektans, system-MTF ved Nyquist, relativ kantrespons og GIQE versjon { "4" } NIIRS. MODELLED: NIIRS er en empirisk regresjon evaluert på modellerte inndata, ikke et vurdert bilde.
+
+seg-2487ebfca518 = type ephemeris
+
+seg-2771a42a30a7 = type fusion
+
+seg-6452c9a86abf = Felles sensorfusjon for PNT: ett enkelt Kalman-filter er navigatoren, fusjonerer klokke- og treghetstilstandene og hjelpes av optisk ISL-tidsoverføring, i stedet for å sette sammen uavhengige prediktorer. GNSS fratatt { "1.8" } h.
+
+seg-9b62a8213db0 = Koblet felles sensorfusjon for PNT: de samme suitene og det samme GNSS-bortfallet som <c1/>, men navigatoren er ÉTT stablet Kalman-filter over posisjon, hastighet, klokkefase, klokkefrekvens og akselerometerbias (tabellen <c2/>). Mens GNSS er nominelt, tar det pseudoavstander, hver <c3/> langs en siktlinjefaktor g, så én enkelt måling begrenser posisjon og klokke sammen, og filteret bærer kryss-kovariansen deres; de optiske tidsoverføringene som synkroniserer på nytt under bortfallet, er pseudoavstander bare for klokken. Akselerometrene her har en konstant bias, som biastilstanden lærer før bortfallet (<c4/> nullstiller biasene fordi filtrene dets ikke har noen biastilstand). Leverandørnøytralt; klokke- og støyparametere som i <c5/>, biasene er illustrative. MODELLED.
+
+seg-8e5c015bcaf4 = type gnss-ins
+
+seg-8f43fc2f8b71 = Veikjøretøy gjennom en urban canyon: GNSS/INS-dødregning over en underføring og en jammer ved veien, mot et budsjett på filnivå.
+
+seg-8eefd1c4bea9 = Løst koblet GNSS/INS: den treakse strapdown-navigatoren disiplinert av en EKF med 15 feiltilstander, deretter glidning gjennom et GNSS-bortfall på { "60" } s. I motsetning til pakken <c1/> (en skalar dødregner med 1 DOF og tilbakestilling til referansen ved hver posisjonsbestemmelse) kjører denne det ekte lukkede filteret: det lærer av støyende posisjonsbestemmelser mens GNSS er oppe, og glir på den korrigerte tilstanden i gapet. Den rapporterte feilen er den virkelige horisontale restfeilen mot referansen; hver sensor har også sin åpne-sløyfe-RMS for fri INS, så filterets verdi er tydelig.
+
+seg-e0a3e777d810 = GNSS/INS for luftfart med tett kobling: et lett fly tar av, stiger med { "6" } deg, flater ut og flyr en koordinert sving med { "25" } deg krengning (banedefinisjon <c1/>); GNSS er fratatt i to minutter som dekker svingen, den vanskeligste delen av en glidning fordi kurs- og holdningsfeilene da projiseres inn i horisontalen. Tett koblet (<c2/>) på en GPS-lignende SGP4 Walker-konstellasjon.
+
+seg-736606e5f26d = Maritim GNSS/INS: et fartøy med { "8" } m/s (omtrent { "15.5" } knop) som slingrer gjennom hele sirkler med { "1" } deg/s, deretter et GNSS-bortfall på fem minutter, på det samme lukkede GNSS/INS-filteret med 15 tilstander som <c1/>. Bevegelsen kommer fra banebiblioteket (<c2/>, profil <c3/>): langsom, jevn svinging, regimet for et skip og ikke en bil.
+
+seg-d30ac9fd7056 = GNSS/INS på bane med tett kobling: et tog går mellom stoppesteder med { "30" } m/s og svake kurver på { "20" } grader (banens profil <c1/>), passerer et dypt skjæring der bare to satellitter forblir synlige, og deretter en tunnel på to minutter. Mottakeren er tett koblet (<c2/>): den fortsetter å fusjonere pseudoavstandene fra de to satellittene den fortsatt sporer i skjæringen, der en løst koblet mottaker ikke har noen posisjonsbestemmelse i det hele tatt. Satellittene kommer fra en GPS-lignende SGP4 Walker-konstellasjon.
+
+seg-ea32ce169216 = Lite ubemannet luftfartøy under GNSS-jamming: hvor langt en MEMS-treghetsenhet av flykontrollerklasse driver når mottakeren mister låsen, sammenlignet med en enhet av taktisk klasse, på samme lukkede GNSS/INS-filter som <c1/>.
+
+seg-f8ac956d2974 = kind gnss-sim
+
+seg-2bedb057a0e6 = Pseudoavstander og RAIM for en portalløfter på en containerkai, med skip-til-land-kraner mot sjøsiden og containerstabler mot landsiden: scenarioet <c1/> under forhåndsinnstillingen <c2/> for horisontlinjen.
+
+seg-769a624a8ba0 = GNSS-simulering i måledomenet: pseudoavstander med ionosfæriske og troposfæriske forsinkelser, matet inn i øyeblikksbilde-RAIM for beskyttelsesnivåer.
+
+seg-4f53c4dbffec = kind gnss-ssv
+
+seg-b05ef0179faf = kind gravity-map
+
+seg-10b07a5e6990 = kind holdover-test
+
+seg-e41c625df8c5 = Holdover-test, eksempel på innlesing: en tidsfeilregistrering vurdert av kind-en holdover-test («trekk ut antennen, vurder holdoveren»). Registreringen deles ved de to tidspunktene OPERATØREN oppgir, her GNSS fjernet ved { "600" } s og gjenopprettet ved { "2 400" } s, og hvert trinn måles mot ITU-T-maskene som er skrevet for det.
+
+seg-d2d4b620af4b = Holdover-test av en linuxptp-logg: de samme fire trinnene som i holdover-test-example.toml, med registreringen lest fra en ptp4l-servologg gjennom [series.clock_log] (format «ptp4l», avvik i ns, demonens egne tidsstempler, her { "5" } s mellomrom).
+
+seg-56269cd82ed4 = kind hybrid
+
+seg-098fb3a74071 = Hybrid PNT-hovedoppgave: helkvantesuite (optisk klokke + kaldatom-IMU + optisk ISL-tidsoverføring som støtte) mot helklassisk suite (CSAC + IMU i navigasjonsklassen + RF). GNSS nektet i { "1.8" } timer.
+
+seg-e1678a444911 = kind hybrid-optical-rf
+
+seg-703bf09ca356 = kind hybrid-ukf
+
+seg-a65d5e564286 = kind impairment-eval
+
+seg-39f1050e5129 = kind inertial
+
+seg-3b8cc1893361 = Dødregning under GNSS-bortfall: kaldatom-kvanteakselerometer mot akselerometer i navigasjonsklassen. Bias = restverdi etter GNSS-kalibrering = oppgitt biasstabilitet; q_va = (støyens rot-PSD)^{ "2" }.
+
+seg-9035c0bc73eb = Kvanteforhåndsinnstilling: et kaldatom-interferometer-akselerometer (CAI), bygget opp fra interferometerets fysikk, mot et kvartsakselerometer i navigasjonsklassen under et GNSS-bortfall. En endimensjonal dødregning: { "10" } minutter med GNSS, deretter { "110" } minutter uten.
+
+seg-7d03a68ac877 = kind ins-trn-coast
+
+seg-c6ab90fcbc23 = Feilmodell for INS/TRN-coasting: posisjonsfeil mot coastingvarighet, og coastingvarighetene der den krysser { "10" } m og { "50" } m.
+
+seg-542b2d91bff8 = Maritim havneinnseiling med GNSS jammet: hvor lenge et treghetsnavigasjonssystem (INS) holder et skip innenfor nøyaktighetsbudsjettet for havneinnseilingen etter at det globale satellittnavigasjonssystemet (GNSS) er tapt.
+
+seg-471f2e00f244 = Coasting i jernbanetunnel: hvor lenge et togs treghetsnavigasjonssystem (INS) holder det innenfor et budsjett for sporskille uten globalt satellittnavigasjonssystem (GNSS) i en tunnel.
+
+seg-35c6036b9099 = kind integrity
+
+seg-b874df525f79 = ARAIM-tilgjengelighet med to konstellasjoner: GPS + Galileo vurdert med den avanserte ARAIM-motoren, inkludert feilhypotesen for hele konstellasjonen (<c1/>).
+
+seg-af9e9ed1468c = ARAIM-tilgjengelighet for et fartøy som går inn i en havn: kind-en <c1/> med en bruker på et bakkested (<c2/>) under forhåndsinnstillingen <c3/> for horisontlinjen.
+
+seg-5387b81f072b = kind jamming
+
+seg-79c636fca6b1 = Et skip som går inn i en havn under en jammer på land, med kaibygninger foran som tar de lave satellittene i den retningen: scenarioet <c1/> under forhåndsinnstillingen <c2/> for horisontlinjen.
+
+seg-d7a49be6aa37 = Maritim GNSS-jamming: en bredbåndsjammer på land eller om bord på et fartøy som nekter et skip på åpent hav tilgang til det globale satellittnavigasjonssystemet (GNSS).
+
+seg-6c9aae72c01b = kind launch-window
+
+seg-784412eac737 = kind leo-navmsg
+
+seg-af46a64149f5 = Forhåndsinnstilling for ESAs Celeste-demonstrasjon i bane (IOD): det ene scenarioet som bruker materiale presentert på ESAs LEO-PNT-workshop under Navigation Innovation and Support Programme (NAVISP), { "2026" }. Hold det utenfor en utgivelse ved å slette denne filen og src/leo_navmsg/presets/celeste_iod.rs (se toppteksten i den filen).
+
+seg-c7deba26589d = LEO-navigasjonsmelding: Kshanas binære koding, kvantiseringsbudsjettet og eksportene i RINEX-stil og CSV.
+
+seg-ea14c04a5e2f = LEO-navigasjonsmelding: en meldingsoppdatering midt i en passering, og om brukeren ser et hopp.
+
+seg-92932c07a7cb = LEO-navigasjonsmelding: fire efemeridemodeller på én bane, og tabellen SISRE mot høyde fra Liu et al. { "2025" }.
+
+seg-28fc0b60d88c = kind leo-pass
+
+seg-cf353e8a27df = kind leo-pnt-chain
+
+seg-1465309100f6 = Celeste IOD fra ende til ende (valgfri forhåndsinnstilling): E5-konfigurasjon #1-signalet -> en Celeste IOD-passering -> navigasjonsmeldingen i Celeste-stil -> fusjonert posisjonsbestemmelse fra GPS + Galileo + Celeste IOD.
+
+seg-73db6e9fc765 = LEO-PNT fra ende til ende på en generisk konstellasjon: signalutforming -> linkbudsjett for passering -> navigasjonsmelding -> fusjonert MEO + LEO-posisjonsbestemmelse og konvergens for presis punktposisjonering.
+
+seg-ad6744824a5f = Xona Pulsar fra ende til ende: det offentlige X5-signalet -> en Pulsar-passering -> en LEO-navigasjonsmelding -> fusjonert posisjonsbestemmelse fra GPS + Galileo + Pulsar og konvergens for presis punktposisjonering.
+
+seg-b2c874e083a6 = kind leo-ppp
+
+seg-017f8db74a59 = kind leo-pvt
+
+seg-923f04fa9b36 = Fusjonert MEO- og LEO-posisjonering for et fartøy dypt inne i en fjord, der dalsidene skjuler alt lavt på tvers av sundet: fellesmodusen <c1/> under forhåndsinnstillingen <c2/> for horisontlinjen.
+
+seg-dde47f233669 = Satellitter i sikte og presisjonsfortynning fra ekvator til polen: bare MEO GNSS, bare en nesten polar LEO-konstellasjon, og begge.
+
+seg-ef202b7d50ed = kind leo-signal
+
+seg-22cd3a939c19 = Signalutforminger for Celeste IOD: frekvensbåndene og signalkonfigurasjon #1 «Classical Pilot» i ESAs Celeste-demonstrasjon i bane (IOD) for posisjonering, navigasjon og tidssynkronisering (PNT) i lav jordbane (LEO), som parametriserte signalutforminger.
+
+seg-f5caf70c73f0 = Avveining av LEO-PNT-bånd, fra UHF til bredt C-bånd: hva et signal for posisjonering, navigasjon og tidssynkronisering (PNT) i lav jordbane (LEO) vinner og taper i hvert bånd, uavhengig av et bestemt system.
+
+seg-90239179296f = Xona Pulsar-signaler: signalene X1 (L1-bånd) og X5 (L5-bånd) i en kommersiell konstellasjon for posisjonering, navigasjon og tidssynkronisering (PNT) i lav jordbane (LEO), fra den publiserte signaltabellen deres (Leclère, Marathe og Reid, ION GNSS+ { "2025" }, https://arxiv.org/abs/2509.19551), som den innebygde forhåndsinnstillingen <c1/>.
+
+seg-a440eecbe1c9 = kind link-budget
+
+seg-fb3f2dcccbf7 = kind lunar-attack-surface
+
+seg-4486fa88f989 = kind lunar-beacon
+
+seg-2707dd910b99 = kind lunar-differential-pnt
+
+seg-ff296a13dcc8 = kind lunar-frame-campaign
+
+seg-319137c1458e = kind lunar-frame-realisation
+
+seg-d4a6801f9670 = kind lunar-infrastructure
+
+seg-a3dc5227b366 = Kshana-scenario for månens infrastruktur: bærebølgefase, HURTIG-eksempelet (to korte buer, { "10" } trekninger, sekunder; den vurderte konfigurasjonen, tre buer og { "400" } trekninger, er xval/lunar-infra/scenarios/carrier-phase-scored.toml). MODELLED; utformingen, inndataene og tersklene er fastsatt i xval/lunar-infra/PREREGISTRATION.md (innsjekket før noen kjøring). ILLUSTRATIVE inndata er merket med sine offentlige kilder der.
+
+seg-1f55219aed27 = Kshana-scenario for månens infrastruktur: frame-coestimation. MODELLED; utformingen, inndataene og tersklene er fastsatt i xval/lunar-infra/PREREGISTRATION.md (innsjekket før noen kjøring). ILLUSTRATIVE inndata er merket med sine offentlige kilder der.
+
+seg-4e990ecb6404 = Kshana-scenario for månens infrastruktur: geodesy-sensitivity. MODELLED; utformingen, inndataene og tersklene er fastsatt i xval/lunar-infra/PREREGISTRATION.md (innsjekket før noen kjøring). ILLUSTRATIVE inndata er merket med sine offentlige kilder der.
+
+seg-e27e1de1a233 = Kshana-scenario for månens infrastruktur: od-consistency. MODELLED; utformingen, inndataene og tersklene er fastsatt i xval/lunar-infra/PREREGISTRATION.md (innsjekket før noen kjøring). ILLUSTRATIVE inndata er merket med sine offentlige kilder der.
+
+seg-30dc631d148f = Kshana-scenario for månens infrastruktur: od-consistency med en umodellert akselerasjon. MODELLED; utformingen, inndataene og tersklene er fastsatt i xval/lunar-infra/PREREGISTRATION.md (innsjekket før noen kjøring). ILLUSTRATIVE inndata er merket med sine offentlige kilder der.
+
+seg-68eaba3db338 = Kshana-scenario for månens infrastruktur: space-tie. MODELLED; utformingen, inndataene og tersklene er fastsatt i xval/lunar-infra/PREREGISTRATION.md (innsjekket før noen kjøring). ILLUSTRATIVE inndata er merket med sine offentlige kilder der.
+
+seg-01d06e830746 = kind lunar-integrity
+
+seg-afb7372a588a = Integritet ved månens sydpol: en landet mottaker i Artemis-regionen mot et representativt sett med LunaNet-reléer, ARAIM-beskyttelsesnivåer over en passering på { "24" } timer.
+
+seg-e0180b8a7560 = kind lunar-interop-export
+
+seg-8a38317ae6d1 = kind lunar-jamming
+
+seg-ea44c47623c9 = kind lunar-joint-od-clock
+
+seg-f796750036cc = kind lunar-llr-datum
+
+seg-fb08183a8243 = Geodesi for en månereferansestasjon, MED STASJON: de fem retroreflektormatrisene pluss én retroreflektor og ett VLBI-fyr på et sted for en månereferansestasjon ved sydpolen.
+
+seg-2255165dd833 = kind lunar-station-coverage
+
+seg-5c55b91fa564 = Dekning fra en månereferansestasjon: hvilken posisjonsnøyaktighet og hvilket beskyttelsesnivå en bruker får fra en differensiell månereferansestasjon på et kjent sted ved sydpolen, over sydpolområdet og et døgn.
+
+seg-e1a3830ad9ed = Dekning fra en månereferansestasjon under OFFENTLIG OPPGITTE forutsetninger: samme kind som lunar-station-coverage.toml, der hver inndata som en offentlig kilde oppgir er satt fra den og oppgitt med kilde-id; hver inndata ingen kilde oppgir beholdes fra standardverdien i kodetreet og merkes ILLUSTRATIVE. Kilder (hentet 2026-10-12; titler, identifikatorer og lisenser i docs/LUNAR-REFERENCE-STATION.md): S1 arXiv:2602.08432v3 S2 IOAG Cislunar PNT Workshop { "2025" }, «Lunar local Differential PNT and Selenodetic Reference Station» (lysbilder) S3 UNOOSA ICG WG-B, Lunar PNT, juni { "2024" } (LunarPNT_Jun24_01_04.pdf) S4 IOAG Cislunar { "2026" }, «Moonlight Programme Development Status»
+
+seg-d168096a3514 = Dekning fra en månereferansestasjon med terreng: det medfølgende scenarioet lunar-station-coverage med en horisont per sted, sporet med strålemarsj over en reell digital høydemodell av månen ved stasjonen og ved hvert brukerpunkt, i stedet for bare den flate elevasjonsmasken.
+
+seg-88a9a6405048 = kind lunar-time-budget
+
+seg-efaa5b60d16f = Tidslaboratorium ved en månereferansestasjon: en miniatyr-rubidiumklokke (miniRAFS) styrt mot koordinert måntid (LTC) og deretter latt gå fritt.
+
+seg-debab0063d91 = kind lunar-time-offset
+
+seg-79c5a9295ed5 = kind lunar-vlbi
+
+seg-8d967bfd5689 = Kovarians for stasjonskoordinater i måne-VLBI: forsinkelsespartialene til observabelen lunar-vlbi akkumulert over en eksplisitt PLAN (grunnlinjer x epoker) til en Fisher-informasjonsmatrise, invertert og rapportert som kovariansen til stasjonskoordinatene og sigma per koordinat for stasjonen. Det er et beregnet motorresultat, ikke en skalar forsinkelsespresisjon sendt gjennom en antatt isotrop ekvipartisjonsfaktor g = { "3" }. Tilstanden bærer jordfaste (ITRS) stasjonskoordinater, så Jacobi-matrisen er den inertielle partialen rotert med hver epokes GCRS->ITRS-matrise: jordrotasjonen er det som gjør disse koordinatene observerbare, og rapporten MÅLER den jordfaste sveipingen av siktelinjen og fyrets deklinasjon i stedet for å anta dem. Én observasjon er ett par (grunnlinje, epoke) med BEGGE stasjonene over elevasjonsmasken, vektet 1/delay_sigma_s^{ "2" }. Rapporterer rang, datumdefekt, kondisjonstall, hele informasjonsspekteret, kovariansmatrisen, sigma per stasjon per akse og i 3D, og nullrommet til det frie nettverket ved hver kjøring; ved rangmangel publiseres hovedsigmaen som NULL med en status, og leses aldri ut av en nesten singulær invers. Ekvipartisjonsverdien c*delay_sigma_s*sqrt(g/N) for SAMME plan gis ved siden av den beregnede verdien med forholdstallet, sammen med den isotrope sporgrensen sqrt(p/trace(M)) som AM-HM gjør til et hardt gulv, så forholdstallet er anisotropien som forutsetningen forkastet. Forsinkelsesslutningen tau_ik = tau_ij + tau_jk gjør at bare n-1 av n(n-1)/2 grunnlinjer er geometrisk uavhengige; rapporten oppgir begge antallene. MODELLED: månesentrets efemeride, stasjonsklokker, troposfære og jordorienteringsparametere holdes FASTE, og observasjonene behandles som uavhengige, så kovariansen er en Cramer-Rao-grense for et redusert parametersett, ikke et forutsagt sesjonsresultat; forsinkelsessigma, stasjonskoordinater og plan er inndata. Partialen som Jacobi-matrisen for geometrisk forsinkelse utelater (det differensierte Shapiro-leddet) måles ved finite differanser og gis ut. Ikke et geodetisk produkt.
+
+seg-a558fdefae3d = kind lunar-vlbi-fim
+
+seg-50eb943d4ef7 = kind mars-pnt
+
+seg-79aed7a6b416 = Mars PNT — en bruker i lav Mars-bane navigert mot den simulerte MARCONI-relékonstellasjonen (areostasjonære reléer som sender enveis og reléer tovei til en dypromsstasjon) gjennom den felles radiometriske fusjonsestimatoren for enveis/toveis.
+
+seg-852783147633 = Mars PNT — en fast overflatebruker (en lander / rover på den roterende Mars-overflaten) navigert mot den simulerte MARCONI-relékonstellasjonen gjennom den felles radiometriske fusjonsestimatoren for enveis/toveis.
+
+seg-1b2748b538ae = Mars PNT — en bruker på Mars-overgang / innfanging (en høy, eksentrisk areosentrisk bue — den lange buen et fartøy flyr ved innflyging / i en innfangingsbane) navigert mot den simulerte MARCONI-relékonstellasjonen gjennom den felles radiometriske fusjonsestimatoren for enveis/toveis.
+
+seg-28938416c04b = kind moonlight-service-volume
+
+seg-f0ccaa966a0d = kind ntn-positioning
+
+seg-95202f70f915 = kind oem-interop
+
+seg-64b58fe6b7e1 = kind optical-atmosphere
+
+seg-b8648cc3c266 = Optisk PNT gjennom atmosfæren: tre ILLUSTRATIVE bakkesteder (et skyere nordlig sted, et middels sentralt sted og et klarere sydlig sted) som ser en optisk LEO-terminal ved { "30" } graders elevasjon ved { "1550" } nm. Skyklimaene er oppgitte inndata, ikke målinger eller verdier fra noe datasett, så all tilgjengelighet nedenfor er MODELLED. Kjøringen rapporterer per sted tapet i klar luft, turbulenstilstanden etter Hufnagel-Valley, tilgjengeligheten mot linkmarginen, marginen som trengs for { "40" } / { "50" } / { "60" } / { "70" } prosent (en optisk link kommer ikke gjennom tykke skyer, så et sted har et tak for tilgjengelighet som ingen margin løfter, rapportert per sted), fordelingen av utfallsvarigheter og veksten i tidsfeil per utfall for tre klokkeklasser, og deretter tilgjengeligheten med stedsdiversitet for de beste { "1" }, { "2" } og { "3" } stedene med uavhengig og med avstandskorrelert vær ({ "500" } km dekorrelasjonslengde).
+
+seg-f85f23a4fa5c = Hva-hvis-scenarioer for forbedringsteknikker for ett ILLUSTRATIVE bakkested: en bølgelengdeendring, en større mottaksåpning, en reduksjon av scintillasjon med adaptiv optikk og ekstra margin, hver forutsagt som en tilgjengelighetsgevinst over samme steds grunnlinje. Gevinstene er oppgitte inndata (Kshana modellerer ikke en adaptiv optikkløkke), en ny bølgelengde eller åpning vurderer klarværsbudsjettet, tapet i klar luft og åpningsmiddelverdien på nytt, og alt er MODELLED. Terminalen er med vilje marginbegrenset (omtrent { "3" } dB før atmosfæren) slik at teknikkene betyr noe; kjøringen oppgir også skytaket som ingen teknikk løfter. Mål under { "100" } prosent av margintabellen rapporteres som den ekstra marginen som trengs (negativ betyr overskudd).
+
+seg-b226ac4eebdf = kind orbit
+
+seg-4fe91b7e2c29 = GNSS-tilgjengelighet og presisjonsfortynning nederst i en bygate: kind-en <c1/> med en bruker på et bakkested (<c2/>) under forhåndsinnstillingen <c3/> for horisontlinjen.
+
+seg-9f0a005cfe62 = kind passes
+
+seg-c2f9d49da519 = kind pvt
+
+seg-1e5828af879a = kind quantum-anomaly-detect
+
+seg-d3897f9ebb6c = Feil-/anomalideteksjon for kvante-PNT-systemer — merket feilkatalog + ROC AUC + minste påviselige feil, kvanteklokkestøttet mot klassisk monitor. MODELLED; illustrative parametere fra offentlige kilder; modellerer klassen, ingen påstand om TRL eller flyging.
+
+seg-95db949095b8 = kind quantum-gnss-free-nav
+
+seg-b5e010553b6a = GNSS-fri kvantenavigasjon — kvante (kaldatom-interferometer) mot klassisk dødregning med INS i navigasjonsklassen over et GNSS-bortfall. MODELLED; illustrative enhetsparametere fra offentlige kilder; modellerer klassen, ingen påstand om TRL eller flyging.
+
+seg-6d0a57c5b71d = kind quantum-time-transfer
+
+seg-6d837ea24f97 = Pålitelig kvantetidssynkronisering — tidsoverføringskjede fra ende til ende, sikker formidling, anomalideteksjon og en avveining mellom kvante og klassisk. MODELLED; illustrative parametere for enheter og linker fra offentlige kilder; modellerer klassen, ingen påstand om TRL eller flyging.
+
+seg-09ba30218f38 = kind quantum-trade
+
+seg-e39997960d5d = kind realtime-frame-eop
+
+seg-bb2002e9948d = kind reentry
+
+seg-b1c293c644d1 = kind slot-timing
+
+seg-65401b133472 = Slottidssynkronisering: hvor lenge en ovnsstyrt krystalloscillator (OCXO) på en liten satellitt i lav jordbane holder seg innenfor vernemarginen til en tidsindeksert rutingslot etter siste posisjonsbestemmelse fra det globale satellittnavigasjonssystemet (GNSS), og hvor ofte den trenger en posisjonsbestemmelse.
+
+seg-b1d59d7a3350 = kind solar-system
+
+seg-67928e2d349f = kind space-packet
+
+seg-ce6afe97c0a4 = kind space-weather
+
+seg-008e207782f6 = kind spectrum
+
+seg-ac1083b109f8 = L-bånd-foss under jamming: hele L-båndet til det globale satellittnavigasjonssystemet (GNSS) som én effekttetthetsspektrum (PSD), frekvens bortover og tid nedover, mens en manusstyrt sekvens av jammere slås på.
+
+seg-859958a06acc = Flerbånds jammingfoss: signaler for posisjonering, navigasjon og tidssynkronisering (PNT) i lav jordbane (LEO) i fire bånd (UHF, L, S og C) ved siden av GPS og Galileo, hvert bånd med sin egen jammer, tegnet som én foss per bånd på én tidslinje.
+
+seg-559fe9211290 = kind spoof
+
+seg-6e099f8a060a = Aktivt tidsspoofingangrep: kan hver klokkes integritetsmonitor fange spoofingen før den gjør skade?
+
+seg-43dad2e00cde = kind spoof-detect
+
+seg-0d6c2e664734 = kind sweep
+
+seg-5fb588430052 = kind sweep-nd
+
+seg-b22e7ba4a1a0 = Generelt N-D-parametersveip over ETHVERT scenario. I motsetning til kind-en <c1/> som bare gjelder klokker, varierer <c2/> punktnotasjonsnøkler i TOML i scenarioet <c3/> over det kartesiske produktet av aksene, kjører hver rutenettnode på nytt og leser de valgte målene ut av resultatet med JSON-sti i punktnotasjon. Det fungerer for hver pakke (inertial, gnss-ins, integrity, spoof, …) fordi det arbeider i grensesnittet mellom TOML og resultat, ikke på en Rust-type per pakke. Native kjøringer evaluerer rutenettet parallelt (ingen ekstra avhengighet); wasm faller tilbake til sekvensiell kjøring. Utdatarutenettet er deterministisk og radvis (den siste aksen varierer raskest).
+
+seg-5f1e87304f90 = kind telecom-timing
+
+seg-999121d87895 = Tidsreferanse for telekommunikasjon: en rubidiumklokke som mister referansen fra det globale satellittnavigasjonssystemet (GNSS) og holder over i { "24" } timer, kontrollert mot maskene fra International Telecommunication Union Telecommunication Standardization Sector (ITU-T).
+
+seg-3cfcd6f8717b = Tidssynkronisering for telekommunikasjon, frekvenssynkronisering: en frittgående ovnsstyrt krystalloscillator (OCXO) satt opp mot maskene for wander-generering for den synkrone Ethernet-utstyrsklokken (EEC) fra International Telecommunication Union Telecommunication Standardization Sector (ITU-T).
+
+seg-afd374569777 = Tidssynkronisering for telekommunikasjon, eksempel på innlesing: en serie med tidsintervallfeil (TIE) gitt direkte i filen og kontrollert mot maskene fra International Telecommunication Union Telecommunication Standardization Sector (ITU-T).
+
+seg-eb02c7911f72 = kind terrain-nav
+
+seg-b83a1fbd3435 = kind terrain-slam
+
+seg-c988dce87d81 = kind time-transfer-budget
+
+seg-a063a0ecc543 = Tovei tids- og frekvensoverføring via satellitt (TWSTFT) mellom to ILLUSTRATIVE stasjoner, én i Sentral-Europa og én i det østlige Nord-Amerika, gjennom et geostasjonært relé ved { "10" } grader vest. Kjøringen løser tovei-ligningen for T_A - T_B ut fra de oppgitte leddene for utstyr, transponder, ionosfære (Ku-bånd, 14/11 GHz) og Sagnac. Den danner et usikkerhetsbudsjett der det statistiske leddet er TDEV, ved én dag, for en simulert link med hvit og flicker-fasestøy og en døgnvariasjon i ikke-resiprositet. Forsinkelsene og usikkerhetene er illustrative, ikke noe laboratoriums kalibrering. MODELLED. En reell UTC-UTC(k)- eller stasjonsklokkeserie kan legges til under [[series]] (format circular-t, mjd-csv eller rinex-clock) for å rapportere stabiliteten.
+
+seg-69138a582b9a = kind timetransfer
+
+seg-a79dfece857e = Tap av lås i sporingsløkken: C/N0 -> lås/ulås MED HYSTERESE, tiden det tar å miste låsen, og spoofing-innfanging som funksjon av kode- og bærebølgeavvikets RATE. Motorens eksisterende kriterier for nektelse og innfanging er forholdstall på mottatt effekt (en jammer nekter ved J/S = { "30" } dB, en spoofer fanger inn ved { "3" } dB); reelt tap av lås er ikke et effektforhold, det er der en løkkes jitter pluss dynamisk belastning forlater terskelbudsjettet for sporing. Rapporterer ({ "1" }) 1-sigma termisk jitter for bærebølge (Costas) og kode (ikke-koherent tidlig/sen) mot C/N0, kvadreringstap inkludert, mot de oppgitte reglene { "3" }*sigma_PLL + theta_e <= { "45" } grader (15-gradersregelen i tresigmaform) og { "3" }*sigma_DLL + rampeforsinkelse <= d/2 chips; ({ "2" }) C/N0-terskelene for fall og ny lås med den bindende løkken navngitt, der terskelen for ny lås er AVLEDET av den bredere båndbredden en mottaker henter seg inn igjen med i stedet for å være påstått, slik at hysteresebredden må ligge mellom { "5" }*log10(forhold) og { "10" }*log10(forhold) dB; ({ "3" }) den deklarerte tiden til tap av lås fra en låsdetektor med to terskler og bekreftelsesopphold drevet over en C/N0-rampe, rapportert atskilt fra den fysiske tiden for fasesprang (Viterbis midlere tid mellom syklushopp, i log10 s fordi den spenner over hundrevis av dekader); ({ "4" }) grenser for spoofing-innfanging — den største kodehastigheten og bærebølge-Dopplerhastigheten en offers løkker kan følge, med et kart over begge akser, fordi en spoofer som glir raskere enn dette ikke fanger løkken, den løper fra den; og ({ "5" }) NEKTELSESRADIUSEN som løkkedynamikken tilsier, rapportert SAMMEN MED den eksisterende effektforholdsradiusen, aldri i stedet for den, med den fortegnsbærende differansen som eget navngitt felt (denial_radius_delta_km) og en definisjon ved siden av. Hvert utgitt numerisk felt har en enhet og en proveniensklasse. VALIDATED lukkede former: uttrykkene for jitter i bærebølge og kode, løkkefilterreduksjonen sqrt({ "2" }*B_n*T) og førsteordens rampeforsinkelse er krysskontrollert mot motorens egen sdr-korrelator stegvis kjørt på seedede syntetiske IF-data — en annen vei til de samme tallene — til henholdsvis { "0.6" } %, { "3.7" } % og { "0.17" } %, og den modifiserte Bessel-funksjonen I0 bak tiden for syklushopp mot standard tabellverdier til { "1e-7" }. Den nedre gyldighetsgrensen er påstått og kontrollert, ikke bare oppgitt: under ~{ "32" } dB-Hz ved { "1" } ms metter den reelle atan-diskriminatoren mot sitt område på +-pi/2 og måler mindre jitter enn noen lineær teori. MODELLED: løkkebåndbreddene, integrasjonstiden, korrelatoravstanden, båndbreddeforholdet for innfanging, bekreftelsesoppholdene, jammereffekten og antenneforsterkningene er representative bånddata, ikke et databladet. IKKE modellert: oscillatorjitter (Allan-avvik) og vibrasjonsjitter, begrensning av frontendens båndbredde, flerveisutbredelse, AGC-dynamikk, tap ved databitovergang, ekstern støtte og enhver halvsyklus-korreksjon i Costas-formelen for syklushopp. Under løkkedynamikk har spoofing-innfanging ingen radius i det hele tatt — den bindende begrensningen er avvikshastigheten, ikke effekten — så det feltet er null med en begrunnelse i stedet for et oppdiktet tall. Ikke et sertifisert produkt for mottakerytelse.
+
+seg-0b943d7e5f66 = kind tracking-loop
+
+seg-003cc12a2c96 = Tap av lås i sporingsløkken: C/N0 -> lås/ulås med hysterese, tiden det tar å miste låsen, og grensene for spoofing-innfanging satt av kode- og bærebølgeavvikets RATE.
+
+seg-9ce64f725193 = Studiesuiter
+
+seg-b871497364ff = En suite er en scenariofil som lister opp andre scenarioer; <c1/> kjører den til én stemplet <c2/> og <c3/>. Dette er den gratis suitekjøreren, ikke den betalte skreddersydde studien.
+
+seg-b0569509d058 = Quantum-Enabled PNT Demonstrator — de tre bruksområdene som én studie.
+
+seg-2f09b9930e10 = Se på GitHub
+
+seg-67f767701c6d = <s1>Forrige</s1>Funksjonsdomener
+
+seg-ea79a68b0587 = <s1>Neste</s1>Resultatskjema

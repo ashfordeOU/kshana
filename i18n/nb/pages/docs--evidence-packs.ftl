@@ -1,5 +1,7 @@
 # docs--evidence-packs: translations (nb)
 
+seg-2247a2344710 = Betydning
+
 seg-ade1d7072512 = se nedenfor
 
 seg-245fe1f87b08 = Fil
