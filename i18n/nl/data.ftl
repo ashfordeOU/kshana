@@ -1351,3 +1351,221 @@ dat-dc41809b57c7 = Handhavingsrichtlijnen
 dat-84df77a11730 = Handhavingsverantwoordelijkheden
 
 dat-3ce71fc10565 = Door de engine gereproduceerde geometrische structuur plus de Schur-identiteit 2x2 in gesloten vorm; consistent in STRUCTUUR met Sosnica et al. { "2025" } (arXiv:{ "2510.15484" }), waarvan de gerapporteerde groottes hier NIET worden gereproduceerd. De classificatie is structureel; de groottes van correlatie/CRLB onder echte geometrie zijn MODELLED (reflectorcoördinaten en -oriëntatie vast gehouden). Externe vergelijking { "0.30" }, een bevinding (blijft MODELLED): tegen Sosnica et al. { "2025" } ligt de range-Fisher-origin-scale-correlatie (-0.993 / -0.988) binnen { "0.05" } van de gepubliceerde -0.97, maar op de eigen geometrie met vijf reflectoren van het artikel is de Helmert-correlatie met 7 parameters en gelijke gewichten -0.78 (de gepubliceerde waarde berust op fouten per reflector die het artikel niet afdrukt), en de CRLB van de oorsprong ({ "0.6" } tot { "1.2" } mm bij { "3" } mm afstandsruis) ligt { "96" } tot { "98" } % onder de { "3.07" } cm van het artikel tegen een tolerantie van { "20" } %. Groottes niet gereproduceerd
+
+dat-71ce324b5c15 = engineers die het commando kshana willen
+
+dat-400bc19c3a9f = Wat-als-scenario's voor verbeteringstechnieken voor één ILLUSTRATIVE grondlocatie: een golflengteverandering, een grotere
+
+dat-9a47544497fb = Argument van vrije parameters voor ensemble-tijd (Percival { "1978" }; Lewandowski & Thomas { "1991" }) uitgewerkt op het representatieve echte-DE440-netwerk per knooppunt: een relatieve-residunultest van de analytische generator voor gemeenschappelijke snelheid tegen GᵀWG, waarbij het contrast met tiebreak de echte ijk onderscheidt van een artefact van het oscillatormodel. Representatieve gemodelleerde geometrie, geen gecertificeerd tijdbudget
+
+dat-c6e592f3097e = entry_eo_ascent::entry_heating::tests::heat_flux_relation_has_the_published_form_and_constants; entry_eo_ascent::entry_heating::tests::lift_lowers_peak_deceleration_and_heat_flux_of_a_shallow_entry; entry_eo_ascent::entry_heating::tests::mars_entry_runs_with_the_mars_constants; tests/entry_stardust_published.rs (legt { "746" } W/cm2 voor Stardust vast zonder drempel)
+
+dat-1c384f6889ae = entry-heating (scenariotype)
+
+dat-8f68cf228b03 = Voetafdruk en dekkingsgeometrie van een EO-lading
+
+dat-9c217e1fa930 = eo_payload::tests (hoekstraal { "64" }° op { "700" } km + krimpt met de hoogte, nadir→zenit/nulafstand, horizon→ε=0/maximale centrale hoek, fouten voorbij de horizon, zwad groeit met FOV / GSD met hoogte, ~{ "2750" } km knoopafstand, scenario reproduceerbaar/MODELLED + afwijzing van foute invoer); dominance_demonstrators (bereikbaar + reproduceerbaar + hoekstraal { "64" }° + MODELLED-niet-VALIDATED); tests/eo_payload_coverage_orekit_oracle.rs::eo_coverage_matches_orekit_and_geographiclib (hoogtes 400-1500 km, inclinaties 1-98 graad, halve FOV 7.5-50 graad, IFOV 10-50 microrad, slew { "30" } en { "89" } graad: elke grootheid binnen haar vooraf vastgelegde drempel, aaneengesloten vlag 168/168); tests/eo_payload_coverage_orekit_oracle.rs::exempt_flag_points_are_the_engines; regressie tests/eo_payload_coverage_reference.rs
+
+dat-aa34cd815b82 = eo-coverage (scenariotype)
+
+dat-832954e1ab06 = eo-radiometry (scenariotype)
+
+dat-43edc76409df = ephem::moon_position, de laagprecieze geocentrische maanreeks waarop de crate terugvalt wanneer er geen DE/SPK-kernel aanwezig is, gemeten tegen echte lunaire laserafstandsmeting en tegen een gepubliceerde planetaire efemeride over dezelfde periode. Deze rij valideert de grens die de module over zichzelf vermeldt, GEEN nauwkeurigheid: van de reeks is bevestigd dat zij niet slechter is dan zij zegt, niet dat zij goed is
+
+dat-56ac091b7946 = ephemeris (scenariotype)
+
+dat-dfdb8b1830d4 = Efemeride en grondspoor: "waar is de satelliet nu".
+
+dat-0a5f0ccea300 = Efemeride en grondspoor: één satelliet propageren (TLE→SGP4 of analytische baan) en zijn TEME/GCRS-toestand uitgeven…
+
+dat-7537824e5fa4 = Efemeridemodellen
+
+dat-467c38cefe09 = ePRTC standaard max|TE_HO|
+
+dat-93491417cbd1 = Foutstaat-EKF over { "15" } INS-toestanden, een ontvangerklok met twee toestanden en één float-draaggolfambiguïteit per getrackte satelliet; pseudorange, draaggolffase en optioneel afstandssnelheid uit een SGP4-Walker-constellatie (lichttijd en Sagnac), Klobuchar- en Saastamoinen/Niell-correcties in de lus toegepast op de eigen positie van het filter; detectie van slips in tijdsgedifferentieerde draaggolf met een drempel per satelliet die wordt verbreed door de snelheidsonzekerheid; herinitialisatie van ambiguïteit bij slips en heracquisitie
+
+dat-974cec6ca18d = Voorinstelling voor de ESA Celeste in-orbit demonstration (IOD): het ene scenario dat materiaal gebruikt
+
+dat-ba165ef085c4 = ESA Celeste IOD, signaalconfiguratie #1, alle banden over één pass. WORKSHOP-VOORINSTELLING.
+
+dat-ff5b73c0368c = EU NIS2-richtlijn, artikel { "21" }: waarvoor Kshana bewijs levert
+
+dat-0d03e418ffb7 = De rotatiebewegingsvergelijkingen van Euler (I ω̇ = τ − ω × Iω, hoofdas en algemene traagheidstensor) gekoppeld aan de kinematica van kwaternionhouding (q̇ = ½ q ⊗ ω) en gepropageerd met een RK4-integrator met vaste stap die de kwaternion bij elke stap hernormaliseert
+
+dat-5bbbf431e6ab = Elk meegeleverd scenariobestand ({ "182" }), gegroepeerd per type, met zijn belangrijkste instellingen.
+
+dat-aad102ace39c = Elke mogelijkheid is beschikbaar op de oppervlakken waar dat zinvol is; waar één oppervlak een mogelijkheid niet kan dragen, de…
+
+dat-41b0cdc1970e = Elke mogelijkheid van de publieke kaart, per domein, met haar registerlabel.
+
+dat-4047554f9246 = Elk kanaal
+
+dat-f207df64c582 = Elk commando
+
+dat-ef3d1e821ab5 = Elk subcommando van de opdrachtregel, en wie het dekt
+
+dat-307e233de9a9 = Elk type
+
+dat-ec6240868245 = Elk type is bereikbaar
+
+dat-3ed5e2e671f4 = Elk MCP-installatiefragment
+
+dat-73f2b3a67364 = Elk numeriek veld dat een scenario uitgeeft draagt een eenheid en een herkomstklasse uit een gesloten vocabulaire, met een definitie waar die bestaat, gepubliceerd als een machineleesbaar schema naast de engine. Een geratelde poort draait elk ingebouwd type en faalt op een veld dat er geen draagt; de typen die nog niet compleet zijn, worden een voor een genoemd met de reden waarom elk nog open is, en de lijst kan alleen kleiner worden. Rapporten die hun eigen constanten vermelden, zoals het linkbudget in één richting en het optische en RF-budget, laten een lezer de kerncijfers uit het rapport alleen herberekenen.
+
+dat-3758e7e92c29 = Alle andere afkortingen, van A tot Z
+
+dat-850eaeab84a6 = Elke run van de opdrachtregelinterface (CLI) schrijft naast zijn resultaat een rapport: een afdrukbare HyperText…
+
+dat-11ec1dec50d3 = Elke run schrijft naast het scenario een geversioneerd, zelfbeschrijvend JSON-artefact (JavaScript Object Notation).
+
+dat-77715c30e206 = Elk scenariobestand
+
+dat-616604728e4a = Elk scenariotype per familie
+
+dat-969cb32dcc07 = Elk scenariotype dat de engine v{ $version } afhandelt ({ "87" }), ingedeeld in { "12" } families.
+
+dat-7f43add9cf63 = Elke oplossing van het probleem van Lambert met maximaal drie volledige omlopen (maneuver::lambert_multirev: de oplossing met één omloop, daarna de linker- en rechtertak van elk aantal omlopen, Izzo { "2015" }), met de randsnelheden v1 en v2, voor prograde en retrograde overgangen, in canonieke en heliocentrische SI-eenheden, inclusief overgangen binnen { "1" } % van de minimale vliegtijd van een aantal omlopen en geometrieën bijna 180 graden. Alleen een tweelichamenoplosser (geen verstoringen)
+
+dat-eb7aa5b77168 = Elk oppervlak
+
+dat-a66b5cd13708 = Integriteit van bewijspakketten: handtekening, hashketen en verificatieprocedure
+
+dat-7ff30b2bd9df = Bewijspakketten: een ondertekend dossier van een GNSS-vertrouwensgebeurtenis
+
+dat-d05fbf248c20 = Bewijsniveaus en voorbehouden op elk oppervlak
+
+dat-90d604b9625f = Bewijsniveaus: VALIDATED, MODELLED, PARTNER
+
+dat-e072a69b96e7 = evidence::roundtrip (kshana evidence round-trip) en de ontvangerlogexport kshana.test-conditions/1 van kshana bench-export: een ondertekend pakket dat de scenariohash, de hash van de opgegeven omstandigheden, de loghash en de score tegen de opgegeven gebeurtenissen vastlegt, en omstandigheden weigert die niet overeenkomen met de scoringsgebeurtenissen of een log waarvan de hash niet de opgegeven is. Er wordt geen signaal geschreven, afgespeeld of ingepland.
+
+dat-8286d0105f8c = evidence::tsa::verify_token, en het optionele `kshana evidence verify --tsa-ca <anchors.pem>` voor de timestamp.tsr van een pakket: een RFC { "3161" }-TimeStampResp of kale TimeStampToken (CMS SignedData over een TSTInfo) offline gecontroleerd tegen vertrouwde ankers zoals `openssl ts -verify` het controleert: het inhoudstype van de ondertekende attributen en de berichtdigest over de TSTInfo; de handtekening over de ondertekende attributen (RSA PKCS#1 v1.5, RSASSA-PSS, ECDSA P-256 en P-384; openbare RSA-bewerkingen op crypto-bigint); de ESS-signing-certificate-v1 (SHA-1) of v2-hash die het ondertekenaarscertificaat noemt, gevonden onder de niet-vertrouwde certificaten van het token en van de aanroeper; het kritieke, enige extended key usage timeStamping van de ondertekenaar; de keten naar een vertrouwd zelfuitgegeven anker met de handtekening, CA-status en sleutelgebruik van elk certificaat, en elk certificaat geldig op de genTime van het token; en de message imprint tegen de data. Niet gecontroleerd: intrekking (CRL, OCSP), naam- en beleidsbeperkingen, de nonce
+
+dat-5fc6684d0d96 = Exacte identiteit voor gemeenschappelijke modus · gemodelleerde decorrelatie
+
+dat-4a07db4dbd5c = Exacte splitsing in pariteitsdeelruimte van een meetfout in het deel dat RAIM niet kan zien en het deel dat het wel kan zien. Voor het gelineariseerde snapshotmodel y = G·x + e ontbindt elke fout dy eenduidig in een BLINDE component in range(G), die wordt geabsorbeerd als toestandsfout S·dy en wordt vernietigd door de residuprojector Pperp = I − G·S, en dus onzichtbaar is voor ELKE residutoets, niet alleen voor een bepaalde drempel, en een DETECTEERBARE component in de pariteitsruimte. De module geeft de projector, de splitsing en de blinde fractie terug, zodat een aanroeper kan kwantificeren hoeveel van een specifieke fout een snapshotmonitor structureel niet kan melden. Toegepast op de echte inter-efemeridevloer: het meterniveau van het verschil tussen DE440 en INPOP21a en tussen DE440 en EPM2021 in de geocentrische maanpositie wordt vrijwel geheel geabsorbeerd als gebruikerspositiefout (mediane blinde fractie { "1.000000" }; mediane blinde positiefout { "2.3955" } m en { "2.0050" } m) tegen een pariteitsresidu op het niveau van { "1e-15" } m
+
+dat-f537bd68f028 = Exacte afstandssnelheid van een satelliet waarvan de aardvaste positie en snelheid uit een tweelichamenbaan komen met de seculiere J2-drift en de rotatie van de Aarde (leo_fusion::geom::EarthOrbit::state, snelheid de exacte tijdafgeleide van de positie), omgezet in Doppler op een draaggolf; de grootste absolute Doppler, Dopplersnelheid en jerk boven een elevatiemasker over een venster (leo_fusion::doppler::doppler_envelope), per LEO-systeem gerapporteerd door het type `leo-pvt` in dopplermodus
+
+dat-7d66430cac56 = Voorbeeld van wat een dag laat zien: op 2026-09-15 bevatte het archief { "110,619,797" } positierijen in { "79,826" } tracebestanden…
+
+dat-b2315ae1399b = Bestaande VALIDATED-rijen opnieuw bekeken onder de regel
+
+dat-f1a39ad85134 = Exporteer een Kshana-scenario in één interoperabiliteitsformaat: `czml` (Cesium Language, voor CesiumJS), `kml` (Keyhole Markup Language, voor Google Earth en geografische informatiesystemen), `geojson` (RFC { "7946" }), `stk` (Systems Tool Kit-efemeride `.e`, één bestand per satelliet) of `sigmf` (Signal Metadata Format-opname van de gesynthetiseerde samples van een scenario `spectrum`).
+
+dat-208fcbd85f84 = Exporteer de voertuigbeweging en gebeurtenissen van een scenario voor een GNSS-simulator in het laboratorium (`kshana bench-export`, docs/TEST-BENCH.md): een bewegings-CSV en zijn JSON-beschrijving (aardvaste en geodetische positie, snelheid, houding, UTC), NMEA-{ "0183" }-GGA/RMC-zinnen, een waypointtekst wanneer het samplegrid milliseconde-regelmatig is, en de gebeurtenissen van het scenario als CSV en als `[[events]]`-TOML voor een scenario `receiver-trust`.
+
+dat-a8d63bc86950 = Exporteer de gemiddelde elementen van een scenario `orbit` als catalogus van CCSDS 502.0-B-2 OMM (Orbit Mean-Elements Message), één OMM per satelliet.
+
+dat-36de1c0dc4eb = Exporteer de gepropageerde constellatie van een scenario `orbit` als CCSDS-OEM-{ "2.0" }-efemeridetekst: de inertiële (TEME) toestandstijdreeks die positie EN snelheid draagt en die flight-dynamics-tools (GMAT / Orekit / STK) lezen.
+
+dat-7d5167ead5f7 = Exporteer de gepropageerde constellatie van een scenario `orbit` als SP3-c-tekst met precieze efemeride (het standaard GNSS-nabewerkingsformaat).
+
+dat-cc130a30c4bc = Exportcontrole
+
+dat-3a4c43b5bf27 = Exportcontrole / opmerking over tweeërlei gebruik
+
+dat-2ca20377e3ba = Exporteert de vertrouwensstroom als Prometheus-metrieken, OpenTelemetry (OTLP/HTTP) en CEF- of LEEF-syslog-gebeurtenissen via stdout, HTTP, UDP of TCP, zodat een security operations centre een navigatiefout naast zijn andere alarmen ziet. Een dode collector legt de beoordeling niet stil en blijft niet onopgemerkt. Prometheus, OTLP en CEF worden door onafhankelijke parsers teruggelezen; LEEF wordt alleen tegen zijn eigen specificatie gecontroleerd.
+
+dat-5ced49135e1b = Frequentiestabiliteit met uitgebreid bereik (Theo1 / TOTDEV)
+
+dat-7417992b5612 = Kshana uitbreiden met een extern pakket
+
+dat-8adb938b0ec9 = Externe validatie
+
+dat-dbd8d18fa40a = Fout-/anomaliedetectie voor kwantum-PNT-systemen (src/quantum_faults.rs)
+
+dat-bacb005cc742 = Foutinjectie geeft de cross-modality-monitor een detectievermogen in plaats van een foutvrije doorgang: een minimaal detecteerbare bias per as bij een opgegeven budget voor valse alarmen en gemiste detecties. Na een overdracht wordt de hergroei van de covariantie tegen de alarmlimieten gepropageerd, zodat het rapport vermeldt hoe lang de oplossing met één modaliteit binnen die limieten blijft, en niet alleen dat de overdracht continu was. De optische en RF-afstandsmetingslegs worden alleen vergeleken bij gelijke accumulatietijd en gelijk pad, en het rapport weigert een verhouding te vormen tegen een waarde die is gekozen in plaats van gemeten.
+
+dat-67830b359edc = Fout-/anomaliedetectie voor kwantum-PNT-systemen
+
+dat-270cf09d3f50 = Fout-/anomaliedetectie voor kwantum-PNT-systemen: gelabelde foutencatalogus +
+
+dat-c86cb649be68 = FFT-acquisitie van één of meer PRN's over een IQ-opname in de werkmap (`kshana iq acquire`).
+
+dat-c5dcfc24a46c = Vul de afbeelding op publieke kaders in uit Kshana-resultaatdocumenten (`kshana compliance-report`): voor welke rijen van zes veerkrachtkaders en standaarden (het Amerikaanse DHS Resilient PNT framework v2.0, IMO-richtlijn voor schepen, EASA-richtlijn voor de luchtvaart, NIS2 artikel { "21" }, EN { "16803" }, NIST IR 8323r1) de gegeven runs bewijs leveren, voor welke niet, en het hiaat dat elke rij behoudt.
+
+dat-2cc31a09464e = BEVINDING tegen de gepubliceerde ITRF2020-coördinaat van WTZR: de vooraf vastgelegde drempels (gladgestreken mediaan en p95 hoogstens { "0.6" } x ruw; tests/fixtures/gnss_wettzell_2025055/PREREGISTRATION_HATCH.md) werden gemist, verhoudingen { "0.718" } en { "0.923" }; de resterende fout op meterniveau is biasachtig (C1C-codebias, antenne, getij, multipath met lange periode), niet de witte ruis die gladstrijken verwijdert. MODELLED: de statistieken van het filter worden intern gecontroleerd
+
+dat-bfb797420441 = fijnste codejitter bij gelijke C/N0
+
+dat-8fce41a44ee9 = Eerste-orde-ionosfeervertraging per band, de ionosfeervrije combinatie en vrije-ruimteverlies
+
+dat-1e096cfcd7a5 = Eerste-orde-missieontwerpbudgetten, elk een uitvoerbaar scenario: tweelichamengeometrie voor lancering en ascent (lanceerazimut, minimale inclinatie, bonus door aardrotatie, Δv voor vlakwijziging met dogleg, dagelijkse mogelijkheden), een ballistische terugkeercorridor volgens Allen–Eggers (piekvertraging, snelheden bij piek-g en piekverhitting), dekkingsgeometrie voor aardobservatie (zwad / nadir-GSD / toegang buiten nadir / revisit via de SMAD-ruimtedriehoek), een fout- en richtbudget voor houding met 3 vrijheidsgraden (zwaartekrachtgradiëntmoment + RSS-richtbudget), voorspelling van grondstationpasses (AOS/TCA/LOS, maximale elevatie, toegang) en een linkbudget in één richting over de linkvergelijking van CCSDS { "401" } / DSN 810-005 (FSPL, C/N₀, Eb/N₀, marge, sluiting). De analytische laag vóór hardware onder STK/GMAT/Basilisk: gemodelleerde eerste-orde-budgetten, geen vervanging voor 6-DoF of radiometrie.
+
+dat-704f88840a7b = CAI-versnellingsmeter vanuit eerste principes · afgeleide VRW kruiselings gecontroleerd tegen een onafhankelijke integrator
+
+dat-f0e89ca3d3a3 = Fisher-informatie en Cramér–Rao-waarneembaarheid
+
+dat-0327cec1f316 = Fisher-informatie en waarneembaarheid
+
+dat-dd058b375937 = Fisher-informatie M=HᵀWH, Cramér–Rao-ondergrens, waarneembaarheidsrang / nulruimte van het datumdefect (Moore–Penrose-pseudo-inverse), en D/A/E/T-optimale scalars voor experimentontwerp uit een symmetrische Jacobi-eigenwaardeoplosser
+
+dat-2af9930fb955 = Fisher-informatie van h2, k2, l2 en de fysieke libratie-amplituden uit laserafstandsmeting (radiale en horizontale getijverplaatsing, reflectorrotatie), orbitertracking (de graad-2-k2-versnelling geïntegreerd langs de zichtlijn, trend verwijderd), een oppervlaktegravimeter (gravimetrische factor { "1" } + h2 - { "1.5" } k2) en een oppervlakteklok (fractionele snelheid ({ "1" } + k2 - h2) W2/c2, gekoppeld aan de lunaire tijdconstanten). Nominale waarden van h2 en l2 zijn linearisatiepunten; de studie zegt wat gevoelig is voor wat, niet wat de getallen zijn.
+
+dat-57f1e8fd30f8 = Fisher-informatie van het lunaire framedatum met zeven parameters uit laserafstandsmeting van aardstations naar de vijf reflectoren alleen en met afstanden van orbiter naar oppervlaktestation toegevoegd: de informatiematrix, rang, Cramér-Rao-sigma's, de ontaardingsmetriek van de lunaire identificeerbaarheidsmodule en seed-gebaseerde willekeurige stationssets. De baan wordt bekend gehouden in de maanassen (de fout ervan wordt gedragen door de afstandssigma van de orbiter).
+
+dat-d9c6cdc0d9c5 = Fisher-informatie-waarneembaarheid van de gezamenlijke lunaire oplossing: zonder aardbasislijnen ligt het absolute-framedatum in de nulruimte van HᵀWH (stationspositie niet waarneembaar); ≥{ "3" } basislijnen herstellen de volledige rang en begrenzen de Cramér–Rao-fout van het station, die de schatter haalt
+
+dat-f447d405ebe2 = Fit de sensorparameters van de scenario's `hybrid` en `fusion` uit een stilstaand IMU-log (`kshana imu-fit`, docs/MACHINE-INPUTS.md).
+
+dat-42945e827ef2 = Fit het verliesmodel van de trackinglus voor lock aan labruns (`kshana iq labfit`): een `iq-labfit`-scenario-TOML noemt één of meer runs, elk een ontvangerlog plus zijn opgegeven testomstandigheden; de engine laadt elk log, fit de lus- en empirische modellen, bootstrapt de onzekerheid en berekent de fout op de achtergehouden set.
+
+dat-b8e5ec121c6e = gefit op echte precieze ESA/ESOC-banen
+
+dat-ebf65964bc6f = Afweging van het fitinterval
+
+dat-1f3a45325a7c = gefit op de maxima van de Allan-deviatie uit de datasheet van de Microchip (Vectron) OX-208 Oven Controlled Crystal Oscillator, Rev 12-1-2021, geschaald zodat zij op of boven elk punt ligt
+
+dat-501ee15a17bf = Vijf studies in een beperkt drielichamenmodel: een baanbepaling aan boord met Aarde-GNSS in een bijna-rechtlijnige halobaan tegen een onafhankelijke afstands- en afstandssnelheidsbepaling vanaf de grond; gezamenlijke vaststelling van gehele draaggolfambiguïteiten van oppervlaktestation en orbiter (LAMBDA); de Fisher-informatie van een lunair datum met zeven parameters met en zonder afstanden van orbiter naar oppervlak; GNSS-, VLBI- en laserafstandsverschuivingen tegen de lokale koppeling; en gevoeligheid voor de lunaire getij- en libratieparameters. MODELLED met illustratieve invoer: de numerieke uitkomsten worden gecontroleerd tegen onafhankelijke numpy- en scipy-programma's, niet de fysica. Onder de vooraf vastgelegde drempels zijn er drie NOT MET: een geïnjecteerde krachtfout wordt niet gedetecteerd met de opgegeven frequentie (C3), het bootstrapped slagingspercentage verschilt { "1.7e-6" } van het numpy-orakel bij een drempel van { "1e-9" } (Q3), en het toevoegen van een afstandsmetingsfamilie verlaagt het spoor van de pseudo-inverse niet altijd (G3, spoorhelft).
+
+dat-51fbca73345c = Fixtures voor Kshana geschreven uit de openbare regelindelingen van de daemons, met verzonnen waarden (NOTICE.md in de fixturemap); er is geen log van een echte installatie gelezen en geen referentie vergelijkt de ontleding met een andere lezer, dus een indeling die tussen daemonversies verschilt kan nog steeds worden geweigerd of verkeerd gelezen. De schatters die door de fasereeks worden gevoed zijn degene die in de rijen hierboven tegen allantools zijn gevalideerd
+
+dat-3cd10418c5a4 = Productzekerheid voor vluchthardware (straling/EEE/MAIT)
+
+dat-8381d0919ccf = Float precise point positioning op echte RINEX-waarnemingen
+
+dat-0637629a0c8f = Volgt de opgegeven fysica en doorstaat interne controles; nog niet vergeleken met een externe referentie.
+
+dat-ef9cc14902d4 = FoMScores (het fom-object)
+
+dat-c704e14dcf3c = Voor een ruimtevaartuig op een bol (de globale schil van het ICG Space Service Volume-boekje) of op een Kepler-traject van LEO tot maanovergang telt dit per constellatie (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) en voor alle samen de signalen boven een C/N0-drempel: beschikbaarheid van één en van vier signalen, langste uitval, ontvangen C/N0, dilution of precision, en hoofdlob- tegenover zijlobverbindingen. Zendpatronen zijn die van het boekje, een parametrisch surrogaat of een die u zelf levert; een limbstraal-ionosfeer-, plasmasfeer- en atmosfeermodel en een zwaksignaalontvangerontwerp zijn optioneel; een GNSS-filter aan boord voor hoge banen en maanovergangsbanen en relatieve navigatie voor formatievlucht zijn inbegrepen. MODELLED: vergeleken met de tabellen van het boekje onder een preregistratie die vóór de run is vastgelegd, komen de constanten voor minimaal uitgestraald vermogen en de lunaire drempel overeen, zijn de andere drempels NOT MET onder de vooraf vastgelegde lezing (bijna allemaal door de inconsistente GLONASS-bundelhoek van het boekje), en reproduceert het parametrische zijlobsurrogaat de gemeten GPS-paneelpatronen niet.
+
+dat-a1979d51f7e2 = Voor een vaartuig decodeert `receiver_trust` de NMEA-{ "0183" }-zinnen die een ontvanger en zijn instrumenten uitgeven (GGA, RMC, VTG, HDT, VHW, VBW, ZDA, GSV), vormt het de oost-noordverschuiving tussen positiebepalingen (`maritime::en_offset_m`), en daaruit de statistieken waarop zijn monitoren beslissen: de impliciete snelheid, het koppelnavigatieresidu (dead-reckoning), de impliciete versnelling en de impliciete draaisnelheid over vensters van { "30" } s, de residuen van koers versus baan, snelheidslog versus grondsnelheid en antennehoogte (mediaan over { "10" } s), en de spreiding en stijging van de signaal-ruisverhouding van de satellieten.
+
+dat-9814a5e133fb = Voor een agent (of de persoon die er een aanstuurt): welke tool u voor welke vraag aanroept, wat de tools wel en…
+
+dat-416c090dc463 = Voor elk bandpaar van een satelliet van `leo-pass` geeft het rapport de schuine totale elektronendichtheid die de geometrievrije codecombinatie bij de piek van de pass herstelt, (P2 - P1) f1^{ "2" } f2^{ "2" } / ({ "40.3" } (f1^{ "2" } - f2^{ "2" })), en haar 1-sigma uit de thermische coderuis van de twee banden, zodat elk LEO-PNT-ontwerp met meerdere banden als ionosfeersonde kan worden afgewogen
+
+dat-97d9d30e725b = Voor elke LEO-satelliet en elk paar afstandsmetingsbanden vormt de sectie `[spoofer]` de geometrievrije pseudorangecombinatie, verwijdert het ionosfeermodel van de ontvanger en toetst haar stap van epoch tot epoch tegen de coderuis van de twee banden en een opgegeven getolereerde ongemodelleerde ionosfeersnelheid (tweezijdig Gaussisch, exacte detectiekans); een spoofer die sommige banden namaakt en andere niet, of elke band zonder de ionosfeer, wordt bij zijn begin gezien; een spoofer die elke band namaakt en de ionosfeer simuleert niet, wat het resultaat vermeldt
+
+dat-0669507306b7 = Validatie van krachtmodellen door efemeridefitting: methodologie en gevalideerde residuen
+
+dat-8a504682bc0b = Validatie van krachtmodellen door efemeridefitting (src/precise_od.rs)
+
+dat-0629a6a5359f = forces::DensityModel (Exponential standaard, Nrlmsise00 { "{" } f107a, f107, ap { "}" }) en propagator::ForceModel::drag_density: kwadratische weerstand tegen de meeroterende atmosfeer met de NRLMSISE-00-dichtheid op het WGS-84-geodetische punt (aardrotatiehoek met UT1 = TT, lokale zonnetijd UT + lon/15), constant ruimteweer per model; standaard uit en bit-identiek
+
+dat-a20b66db9189 = Formaatcontrole op een echt gepubliceerd RINEX-{ "4.00" }-bestand (teruggelezen waarden zijn gelijk aan de afgedrukte literalen van het bestand) en een uit de specificatie afgeleide header; er is geen onafhankelijke lezer uitgevoerd, dus MODELLED
+
+dat-bd6169063ab6 = Formaatversie en velden
+
+dat-503ed22693cf = Formatiemodus: relatieve navigatie
+
+dat-8fac1150529a = Formaten die de engine spreekt
+
+dat-7eaefdd4a9c0 = Voorwaartse pseudorange-/Dopplersynthese met Klobuchar- (broadcast) en IONEX-/TEC-raster- (gemeten) ionosfeer, inclusief een IONEX-bestandsparser, tijdsinterpolatie en de afbeelding van de schuine obliquiteit in een dunne schil, Saastamoinen- + Niell-troposfeer en snapshot-RAIM.
+
+dat-72a0705bd82f = Vier voorinstellingen: OCXO (Microchip OX-208), rubidium (Microchip 8040C), cesium (Microchip 5071A hoogwaardige buis) en CSAC (Microchip SA.45s), elk met de maxima van de Allan-deviatie, veroudering en temperatuurgrens uit zijn datasheet; een niet-negatieve-kleinste-kwadratenfit van witte + flicker- + random-walk-frequentieruis, geschaald om elk datasheetpunt te omhullen, een flickervloer nooit onder het cijfer van de langste τ, lineaire veroudering en een sinusvormige temperatuurterm, gesynthetiseerd als holdover met seed na een GNSS-verlies
+
+dat-a676a683f30b = Framematrices tegen ERFA-vectoren: IAU-{ "2006" }-bias-precessie, TEME naar GCRS, en de CIO-keten met hemelpooloffsets
+
+dat-a10174fa0280 = Frames en conventies
+
+dat-d36daebd0efc = Frames en tijd
+
+dat-1be00e3f7219 = vrij inertiaal
+
+dat-e910c86d9cbe = Vrije-ruimtepadverlies, C/N₀, Eb/N₀, marge en sluiting over de linkvergelijking van CCSDS { "401" } / DSN 810-005 voor EIRP/G·T/afstand/snelheid/band tegen een vereiste Eb/N₀. Uitvoerbaar vanuit de CLI/bindings als scenariotype `link-budget` (scenarios/link-budget.toml)
+
+dat-27e53cda32db = Karakterisering van frequentiestabiliteit
+
+dat-f329e4558e9f = Frequentiestabiliteit op een echt gemeten klok
