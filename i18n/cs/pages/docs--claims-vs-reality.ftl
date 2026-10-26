@@ -7,3 +7,5 @@ seg-ee2e250497f9 = Export pro testovací bench
 seg-2bd2101ce454 = Povrch
 
 seg-ad856ad710eb = Stav
+
+seg-80f3f0aae42c = Mapa interference
