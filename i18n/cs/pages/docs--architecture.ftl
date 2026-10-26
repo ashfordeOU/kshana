@@ -151,3 +151,5 @@ seg-b48f69ea54b3 = Soukromý překryvný repozitář obsahuje hloubku odolnosti 
 seg-2f88ab8f67e8 = <s1>Předchozí</s1>Kde Kshana běží
 
 seg-02b0e0fdcdbe = <s1>Další</s1>Kde Kshana stojí
+
+seg-8c9d1d90dc8e = <b><c1/></b> — engine pro hodnocení odolnosti PNT v souladu s rámcem (kategorie RPCF (Resilient PNT Conformance Framework) amerického ministerstva vnitřní bezpečnosti DHS) plus studie nestability rozhodnutí: Dirichletův vážicí simplex, nestabilita pořadí podle Kendallova τ, četnost změny vítěze top-1 a <b>kolaps diverzity</b> společného režimu (Hill-N2), se zprávou o zajištění chráněnou integritním hashem a { "35" } ručně odvozenými testy orákula. Viz <a1>RESILIENCE-CROSSWALK</a1>. Syntetické architektury sladěné s RPCF v2.0 — vlastní posouzení, nikoli certifikace.
