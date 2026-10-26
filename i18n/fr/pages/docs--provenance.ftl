@@ -20,3 +20,15 @@ seg-f63dd3d7aad4 = Source
 
 # text
 seg-638b8d451550 = Capteur
+
+# text
+seg-d4a762001549 = Licence
+
+# text
+seg-60cd077d82a7 = Modèle
+
+# text
+seg-2afa300864a9 = Paramètres
+
+# text
+seg-32b620b3574e = Utilisation

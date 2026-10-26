@@ -471,3 +471,6 @@ seg-ff90679d1de9 = Détection de leurrage
 
 # text
 seg-257c477dc510 = WebAssembly
+
+# text
+seg-2192262e26c1 = atteint

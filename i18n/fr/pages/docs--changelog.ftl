@@ -8521,3 +8521,324 @@ seg-15f45d8ccb0f = <s1>Précédent</s1>Où se situe Kshana
 
 # text
 seg-cd8a14a9e8ec = <s1>Suivant</s1>Licences
+
+# text
+# c1: src/ionex.rs
+# c2: TecGrid
+# c3: vtec_at
+# c4: Δ = 40.3·TEC/f²
+# c5: vtec_to_delay_m
+# c6: delay_at
+# c7: 1 TECU ≈ 0.162 m
+# c8: 1/f²
+seg-564ad319685e = <b>Cartes d'ionosphère TEC de type IONEX.</b> Le nouveau <c1/> ajoute l'alternative d'ionosphère mesurée au modèle de Klobuchar diffusé : une <c2/> (une grille régulière lat/lon de TEC vertical, une carte mondiale d'ionosphère de l'IGS) avec interpolation bilinéaire en un point de perforation (<c3/>, bornée hors de la grille) et le retard du premier ordre <c4/> (<c5/>, <c6/>). Quatre tests l'ancrent : <c7/> en L1 avec la mise à l'échelle en <c8/>, l'interpolation exacte aux nœuds, des points milieux bilinéaires qui moyennent les coins, et des requêtes hors grille bornées au bord. Portée honnête : la grille et l'interpolation sont livrées ici ; l'analyse du format de fichier IONEX, l'interpolation temporelle entre cartes et la fonction de projection oblique restent à venir.
+
+# text
+# c1: src/timegeo.rs
+# c2: timetransfer
+# c3: sagnac_correction
+# c4: Δt = (ω_E/c²)·(x₁y₂ − x₂y₁)
+# c5: common_view_offset
+seg-26c7b53cbc8c = <b>Corrections géométriques du transfert de temps (Sagnac + vue commune GNSS).</b> Le nouveau <c1/> ajoute les deux effets déterministes dont une véritable comparaison d'horloges doit tenir compte, en complément du modèle stochastique bidirectionnel de <c2/> : <c3/> (<c4/>, le retard dû à la rotation de la Terre — des dizaines de ns pour des lignes de base continentales) et <c5/>, la différence simple en vue commune GNSS qui annule exactement l'erreur d'horloge du satellite et retrouve le décalage entre stations. Trois tests les ancrent sur des références exactes : le Sagnac d'environ { "33" } ns d'un quart de tour équatorial, l'antisymétrie et les cas radial/polaire nuls, et l'annulation exacte de l'horloge du satellite. Portée honnête : un budget complet de transpondeur/de retard matériel TWSTFT et une solution de transfert de temps PPP sans ionosphère restent à venir.
+
+# text
+# c1: src/forces.rs
+# c2: two_body_accel
+# c3: −μ·r/|r|³
+# c4: j2_accel
+# c5: gravity_accel
+# c6: src/integrator.rs
+# c7: f(t,[r;v]) = [v; a(r)]
+# c8: j2_secular_rates
+# c9: Ω̇
+# c10: ω̇
+# c11: Ṁ
+# c12: μ/r²
+# c13: ω̇ = 0
+# c14: Ω̇ ≈ −5°/day
+seg-098e7ea0ee13 = <b>Modèle de forces orbitales (deux corps + J2).</b> Le nouveau <c1/> ajoute le modèle d'accélération qu'intègre un propagateur numérique : <c2/> (<c3/>), la perturbation d'aplatissement <c4/> (la forme close en ECI) et <c5/> qui les additionne — à associer à <c6/> sous la forme <c7/>. Il expose aussi les <b>taux séculaires</b> analytiques de J2 (<c8/>) : la régression nodale <c9/>, la rotation des apsides <c10/> et la dérive d'anomalie moyenne <c11/>. Six tests ancrent la physique sur des références exactes : <c12/> pour le terme à deux corps, la forme close de J2 à l'équateur (~{ "10" }⁻³ de la magnitude à deux corps), l'<b>inclinaison critique</b> ({ "63.4349" }°) qui fige le périgée (<c13/>), la régression nodale de l'ISS (<c14/>) et la dérive vers l'est d'une orbite héliosynchrone rétrograde. Portée honnête : uniquement deux corps + J2 ; J3–J6, la traînée, la SRP et le troisième corps restent à venir.
+
+# text
+# c1: src/permalink.rs
+# c2: +/
+# c3: -_
+# c4: encode_scenario
+# c5: decode_scenario
+# c6: ?s=
+# c7: encode_permalink
+# c8: decode_permalink
+# c9: "foobar"
+# c10: "Zm9vYmFy"
+# c11: +
+# c12: /
+# c13: =
+seg-d5c03ebc5707 = <b>Liens permanents de scénarios partageables.</b> Le nouveau <c1/> ajoute un codec Base64 RFC { "4648" } sans dépendance (alphabet standard <c2/> avec remplissage, et alphabet <c3/> sûr pour les URL, sans remplissage) et des enveloppes <c4/> / <c5/>, de sorte qu'un TOML du bac à sable peut être encodé dans un paramètre de requête <c6/> et partagé sous forme d'URL. Exposé au navigateur sous la forme de liaisons wasm <c7/> / <c8/>. Quatre tests l'ancrent sur les vecteurs canoniques de la RFC { "4648" } (<c9/> → <c10/>, etc.), un aller-retour de scénario sûr pour les URL (aucun <c11/>/<c12/>/<c13/> à échapper), le rejet de symboles invalides et un aller-retour sur les 256 octets. Portée honnête : le codec et les liaisons sont livrés ici ; l'interface du bouton Partager du bac à sable, le graphique multi-séries Plotly/D3 et le mode de comparaison A/B restent à venir.
+
+# text
+# c1: src/batch_ls.rs
+# c2: gauss_newton
+# c3: h(x)
+# c4: (HᵀWH)·Δx = HᵀW·(z − h(x))
+# c5: a·exp(b·t)
+seg-b615fb16d547 = <b>Moindres carrés par lots de Gauss–Newton (le correcteur différentiel par lots).</b> Le nouveau <c1/> ajoute le noyau d'estimation sur lequel repose une <em>détermination d'orbite</em> par lots (ou tout ajustement de paramètres) : <c2/> linéarise un modèle <c3/> fourni par l'utilisateur avec une jacobienne par différences finies centrées, forme et résout les équations normales pondérées <c4/> (en réutilisant l'inverse de matrice testé) et itère jusqu'à la convergence avec des poids par mesure. Quatre tests l'ancrent : un ajustement de droite linéaire qui atteint la solution exacte des moindres carrés pondérés, un ajustement non linéaire <c5/> qui retrouve les vrais paramètres, une multilatération de distances en 3D qui retrouve une position connue à partir de distances sans bruit (la variante détermination d'orbite) et le rejet d'entrées sous-déterminées ou incohérentes. Portée honnête : c'est le moteur de correcteur générique ; le modèle de mesure de distance/vitesse radiale/azimut-élévation propre à l'orbite, la matrice de transition d'état analytique de J2 et la validation sur des cas publiés restent à venir.
+
+# text
+# c1: src/spoof_monitors.rs
+# c2: spoof
+# c3: combine_power_dbm
+# c4: AgcMonitor
+# c5: bpsk_autocorr
+# c6: SqmMonitor
+# c7: 10·log10(N)
+# c8: R(τ)=1−|τ|
+seg-0ada87934135 = <b>Moniteurs de leurrage de la couche RF (puissance AGC et SQM).</b> Le nouveau <c1/> ajoute deux détecteurs de leurrage indépendants en entrée de récepteur, qui complètent le moniteur de leurrage temporel assisté par l'horloge de <c2/> : un <b>moniteur de puissance AGC</b> (somme de puissances incohérente <c3/> + <c4/>) qui signale la puissance reçue en excès qu'ajoute un émetteur de leurrage au-delà d'une marge en dB configurable, et un <b>moniteur de qualité du signal</b> (autocorrélation triangulaire du code <c5/> + <c6/>) qui signale le déséquilibre de corrélateur Early moins Late qu'introduisent les trajets multiples, le meaconing et le rejeu. Quatre tests ancrent les formes closes exactes ({ "3.01" } dB pour un doublement de la puissance, l'agrégat <c7/>, le <c8/> triangulaire et le seuil d'alerte Early/Late de { "10" } %). Portée honnête : le détecteur de leurrage par parité de cohérence RAIM complet, la fusion multicouche des sorties des moniteurs et la validation par rapport aux vecteurs de leurrage publiés Spirent/ION GNSS+ restent à venir.
+
+# text
+# c1: src/integrator.rs
+# c2: rk4_step
+# c3: y' = f(t, y)
+# c4: integrate
+# c5: 0.9·(tol/err)^(1/5)
+# c6: y' = y → e
+# c7: < 1e-9
+# c8: NumericalPropagator
+seg-b1ff62d88cd2 = <b>Intégrateur adaptatif d'EDO numérique.</b> Le nouveau <c1/> ajoute la première pièce d'un propagateur <em>numérique</em> (la propagation d'orbite de Kshana étant par ailleurs du SGP4/SDP4 analytique) : un pas de Runge–Kutta générique d'ordre quatre (<c2/>) sur tout système du premier ordre <c3/>, et un pilote adaptatif (<c4/>) qui contrôle l'erreur locale par <b>doublement de pas</b> (extrapolation de Richardson) avec le contrôleur de pas standard <c5/> et la logique d'acceptation/rejet. Six tests l'ancrent sur des solutions exactes : l'exponentielle <c6/> à <c7/> près, la réduction d'erreur d'environ { "16" }× à chaque pas divisé par deux, qui prouve la convergence d'ordre quatre, la conservation de l'énergie et du retour de l'oscillateur harmonique sur une période complète, et le pilote adaptatif qui respecte une tolérance serrée avec des pas variables. Portée honnête : c'est le noyau de l'intégrateur et son contrôle d'erreur ; les tableaux emboîtés de Dormand–Prince RK5({ "4" })/RKF7({ "8" }) et le modèle de forces orbitales hiérarchique (deux corps + J2–J6 + traînée + SRP + troisième corps) qui en font un <c8/> restent à venir.
+
+# text
+# c1: src/fusion/ukf.rs
+# c2: n
+# c3: P⁺ = P⁻ − K S Kᵀ
+seg-ca53c62839d8 = <b>Filtre de Kalman non parfumé (à points sigma).</b> Le nouveau <c1/> ajoute le filtre de Kalman non parfumé à échelle (Julier et Uhlmann ; Wan et van der Merwe) comme estimateur général à <c2/> états sur des fonctions de processus et de mesure fournies par l'utilisateur — l'estimateur à points sigma qu'utilise un navigateur GNSS/INS à couplage serré lorsque le modèle de pseudodistance/Doppler est fortement non linéaire et que la jacobienne d'un EKF se dégrade. Il comprend l'algèbre linéaire dense de soutien (facteur de Cholesky pour l'étalement des points sigma, inverse de Gauss–Jordan pour la covariance d'innovation) et une mise à jour <c3/> sans forme de Joseph. Six tests le verrouillent, les principaux exploitant la propriété exacte selon laquelle, pour un modèle <em>linéaire</em>, la transformation non parfumée reproduit le filtre de Kalman à la précision numérique (prédiction, mise à jour et cycle complet prédiction+mise à jour tous comparés à un KF linéaire exécuté à la main, plus une vérification analytique bayésienne a posteriori en 1-D et les identités de Cholesky/de l'inverse). Portée honnête : c'est le moteur d'estimation ; le navigateur GNSS/INS à couplage serré à 17 états, le modèle de mesure de pseudodistance/Doppler et le scénario de validation de coupure restent à venir.
+
+# text
+# c1: araim_dual_raim
+# c2: araim_raim
+# c3: P_const
+# c4: DualFaultPriors { p_sat, p_const }
+# c5: P_HMI
+# c6: N + C
+# c7: P_const = 0
+# c8: araim_raim
+# c9: None
+seg-da92d32b5715 = <b>Niveaux de protection ARAIM bi-constellation.</b> Le nouveau <c1/> étend le RAIM avancé à panne unique (<c2/>) avec le <b>mode de panne à l'échelle de la constellation</b> de l'ARAIM de l'UE / DO-316 : à côté des hypothèses sans panne et par satellite, chaque constellation (étiquetée par satellite) apporte une hypothèse qui retire d'un coup tous ses satellites, avec l'a priori <c3/> (un nouveau <c4/>). Chaque hypothèse ajoute un terme à la même somme d'intégrité MHSS, de sorte que VPL/HPL sont les plus petites bornes dont le <c5/> total respecte le budget sur les pannes sans défaut + un seul SV + par constellation (la répartition de fausse alerte de Bonferroni porte sur les <c6/> hypothèses). Avec <c7/>, le résultat est identique bit pour bit à <c8/> ; un utilisateur mono-constellation obtient <c9/> face à la panne de sa propre constellation (elle ne peut pas être exclue) — c'est exactement pourquoi la couverture bi-constellation importe. Quatre tests couvrent l'équivalence, l'élargissement du niveau de protection, l'indisponibilité mono-constellation et la validation des entrées, en réutilisant le mécanisme existant de sous-solutions à séparation de solutions.
+
+# text
+# c1: src/precession.rs
+# c2: (γ̄, φ̄, ψ̄, ε̄_A)
+# c3: fw_angles
+# c4: iauFw2m
+# c5: precession_matrix
+# c6: gcrs_to_mod
+# c7: mod_to_gcrs
+# c8: frames
+# c9: ε̄ = 84381.406″ = 23.4392794°
+# c10: ψ̄ ≈ 5039.998″
+# c11: det = +1
+# c12: ≈ 1.40°
+# c13: ROADMAP.md
+seg-d06c5f88282b = <b>Précession IAU { "2006" } (angles de Fukushima–Williams et matrice de biais-précession).</b> Le nouveau <c1/> implémente la précession IAU { "2006" } (P03 ; Capitaine, Wallace et Chapront { "2003" }) : les quatre angles de Fukushima–Williams <c2/> sous forme de polynômes en siècles juliens TT (<c3/>), et la matrice de rotation de biais-précession GCRS→moyen à la date construite à partir d'eux par la construction <c4/> de SOFA (<c5/>, avec les assistants <c6/> / <c7/>). C'est la première pièce de référentiel inertiel au-dessus de la réduction <c8/> existante fondée sur GMST. Huit tests valident par rapport à des ancrages en forme close — l'obliquité moyenne J2000 <c9/>, les termes constants des angles publiés, l'accumulation de précession générale <c10/> sur un siècle, l'orthonormalité de la matrice et <c11/>, la valeur quasi identité (biais de référentiel seul) à J2000, et l'angle de rotation nette <c12/>/siècle. Portée honnête (<c13/>) : précession seulement — la nutation IAU 2000A à 678 termes, la chaîne complète TEME→GCRS et un recoupement numérique SOFA/ANISE à µas/<{ "10" } m restent à venir.
+
+# text
+seg-14c0a863eef1 = Physique de l'accéléromètre à interféromètre à atomes froids (CAI) issue des premiers principes.
+
+# text
+# c1: src/inertial/quantum_imu.rs
+# c2: k_eff = 4π/λ
+# c3: Φ = k_eff·a·T²
+# c4: σ_Φ = 1/(C·√N)
+# c5: C(t) = C₀·e^(−t/τ)
+# c6: CaiAccelerometer::q_va()
+# c7: AccelModel
+# c8: |H(ω)| = (4/ω²)sin²(ωT/2)
+# c9: accel_transfer_function
+# c10: σ_Φ² = k_eff²·S_a·T³/3
+# c11: vibration_phase_variance_white
+# c12: vibration_phase_variance_band
+# c13: beam_axis_projection
+# c14: CaiAccelerometer::vibration_phase_noise
+# c15: vibration_limited_accel
+# c16: k_eff
+# c17: √(S_a/(3T))
+# c18: k_eff ≈ 1.61×10⁷
+# c19: Φ(1 g) ≈ 1.58×10⁴ rad
+# c20: σ_a ≈ 0.13 µg
+# c21: 1/T²
+# c22: 1/√N
+# c23: T³
+# c24: docs/QUANTUM.md
+seg-408fc6feb284 = <c1/> modélise à partir des premiers principes un interféromètre atomique de Mach–Zehnder à trois impulsions plutôt qu'à partir d'une fiche technique : vecteur d'onde effectif <c2/>, phase de l'interféromètre <c3/>, bruit de projection quantique (de grenaille) <c4/>, sensibilité en accélération par tir, décroissance du contraste <c5/> et — c'est l'essentiel — <c6/>, qui <b>dérive</b> la DSP d'accélération blanche déjà consommée par le <c7/> classique à partir du nombre d'atomes, du temps d'interrogation et du contraste. Le modèle couvre désormais aussi le <b>couplage des vibrations</b> — le terme dominant des dispositifs réels : la fonction de transfert accélération→phase de l'interféromètre <c8/> (<c9/>), la variance de phase à DSP blanche <c10/> (<c11/>, avec un recoupement numérique par intégrale de bande <c12/>), la projection <c13/> de rang 1 le long du faisceau, et <c14/> / <c15/> (ce dernier se réduisant au plancher <c17/> indépendant de <c16/>). Onze tests vérifient la physique à la main (Rb-87 <c18/>, <c19/>, plancher de bruit de grenaille de <c20/>/tir contre un plancher de vibration d'environ { "5.9" } µg, les lois d'échelle en <c21/>, <c22/> et <c23/>). Portée honnête dans <c24/> : cela couvre le plancher de bruit de projection et le régime limité par les vibrations au-dessus ; le bruit de phase du laser, les systématiques de Coriolis et de déplacement lumineux, et les scénarios de validation PHARAO/CARIOQA restent à venir.
+
+# text
+# c1: ImuKind
+# c2: Classical
+# c3: QuantumCai
+# c4: [cai]
+# c5: CaiCfg
+# c6: vibration_psd
+# c7: quantum_cai
+# c8: q_va
+# c9: cai
+# c10: skip_serializing_if = "Option::is_none"
+# c11: Classical
+# c12: QuantumCai
+seg-ed668459d019 = <b>Accéléromètre à CAI quantique raccordé au scénario inertiel.</b> Un accéléromètre dans un scénario de navigation inertielle à l'estime se résout désormais en un nouveau <c1/> — <c2/> (le capteur existant à coefficients de fiche technique) ou <c3/> lorsqu'il porte un bloc <c4/> facultatif (<c5/> : longueur d'onde, séparation des impulsions, nombre d'atomes, contraste, temps de cycle et une <c6/> de plateforme facultative). La DSP de marche aléatoire de vitesse <c8/> d'un capteur <c7/> est <b>dérivée</b> de la physique de l'interféromètre — le plancher de bruit de grenaille plus, lorsqu'une DSP de vibration est fournie, la contribution limitée par les vibrations en quadrature — au lieu d'un coefficient fourni, et la provenance de l'exécution consigne que le bruit est issu de la physique. Le champ <c9/> est <c10/>, de sorte que les scénarios existants l'omettent et se sérialisent à l'identique octet pour octet (le hachage du scénario est inchangé). Cinq tests couvrent la dérivation, la somme quadratique des vibrations, la sélection <c11/>/<c12/>, la sérialisation stable du hachage et une exécution de bout en bout pilotée par le CAI.
+
+# text
+seg-c3978a122010 = Optimiseur de conception de constellation et géométrie en rues de couverture.
+
+# text
+# c1: src/walker.rs
+# c2: optimize_walker_design
+# c3: {planes × sats × inclination}
+# c4: DesignObjective
+# c5: MinSatellitesForCoverage
+# c6: MaxCoverage
+# c7: MinWorstPdop
+# c8: coverage_half_angle_rad
+# c9: λ = arccos(Re/r·cos ε) − ε
+# c10: street_half_width_rad
+# c11: cos c = cos λ / cos(π/s)
+seg-aae519e71c00 = <c1/> gagne <c2/>, un optimiseur par grille sans gradient qui explore l'espace de conception <c3/> et renvoie la meilleure conception de Walker selon un <c4/> choisi — <c5/>, <c6/> ou <c7/> — sur le balayage PDOP déjà validé (un test confirme qu'il renvoie le gagnant par force brute). Plus les formes closes analytiques <b>en rues de couverture</b> <c8/> (<c9/>) et <c10/> (<c11/>, Rider/Beste), vérifiées à la main par rapport à la géométrie des manuels et détectant l'écart de sous-peuplement. Le solveur complet de Rider du nombre minimal de satellites pour une couverture mondiale, un globe 3D dans le bac à sable et un recoupement du DOP avec un outil externe restent à venir.
+
+# text
+# c1: kshana <orbit.toml> --export-sp3 out.sp3
+# c2: export_sp3 = true
+# c3: <scenario>.sp3
+# c4: api::export_sp3
+# c5: auto_export_sp3
+# c6: OrbitClockScenario::to_sp3_string
+# c7: epoch
+# c8: tests/sp3_export_roundtrip.rs
+# c9: gps-ops
+seg-7b8468636dea = <b>Export d'éphéméride précise SP3 depuis la CLI.</b> Un scénario d'orbite/de constellation propagé peut désormais être écrit dans un fichier SP3-c : <c1/>, ou <c2/> dans le scénario écrit automatiquement <c3/> (<c4/> / <c5/>, <c6/>, <c7/> facultatif). Un test d'aller-retour (<c8/>) propage l'instantané Celestrak réel <c9/>, l'exporte, le réanalyse et confirme que les positions ECEF retrouvées concordent avec la vérité SGP4 sur { "24" } h à <b>< { "0.5" } m</b> (bien dans la tolérance de { "10" } m de qualité TLE). Le README documente le rôle d'interopérabilité (RINEX → RTKLIB/gLAB, SP3 → Ginan/produits d'orbite précise).
+
+# text
+seg-56c729ba110f = Filtre de Kalman couplé horloge+position (covariance inter-blocs).
+
+# text
+# c1: CoupledPntFilter
+# c2: [pos, vel, phase, freq]
+# c3: ρ = g·pos + c·phase + noise
+# c4: P[pos,phase]
+seg-0a424875131d = <c1/> est un unique filtre <c2/> empilé (mises à jour sous forme de Joseph) dont la mesure de <b>pseudodistance</b> <c3/> couple véritablement les blocs de position et d'horloge — contrairement aux deux filtres à deux états indépendants du paquet de fusion historique, qui maintiennent la covariance inter-blocs exactement nulle. Validé : une pseudodistance partagée rend <c4/> non nul ; deux géométries distinctes résolvent conjointement des décalages injectés de position+horloge qu'une seule distance ne peut pas séparer ; une <b>correction d'horloge seule affine la position</b> grâce à la covariance croisée (le gain que des filtres découplés ne peuvent pas procurer) ; et le NEES Monte-Carlo est <b>cohérent avec χ²({ "4" })</b>. C'est la réalisation à 1 degré de liberté (la dimensionnalité du paquet de fusion) ; l'extension à 8 états en 3D et le raccordement au paquet exécutable sont suivis comme travaux à venir.
+
+# text
+seg-3983794a9584 = <b>Surveillance de l'état de santé par cohérence du filtre de Kalman (NIS/NEES).</b> La mise à jour de covariance du filtre d'horloge à deux états est désormais sous <b>forme stabilisée de Joseph</b> `P⁺ = (I−KH)P(I−KH)ᵀ
+
+# text
+# c1: , which stays positive-semidefinite under extreme Q/R ratios (Cholesky-checked in CI at
+# c2: ). A new
+# c3: runs a Monte-Carlo consistency assessment (Bar-Shalom §5.4): pooled **NIS** (normalised innovation², target 1) and **NEES** (normalised estimation error², target 2) against 95% χ² bands, surfaced as a
+# c4: block in the clock result JSON and as a green/amber card in the playground. A Q/R-mismatch sweep test proves the monitor flips to inconsistent when the process noise is mistuned by ×0.1–×10. Adds a general χ² quantile (
+seg-a60a8c0fb6b0 = KRKᵀ<c1/>R={ "1e-26" } / Q≈{ "1e-30" }<c2/>src/filter_health.rs<c3/>filter_health { "{" } nis_mean, nis_chi2_lower_95, nis_chi2_upper_95, nees_mean, nees_chi2_lower_95, nees_chi2_upper_95, consistent { "}" }<c4/>detection::chi2_inv_cdf`, Wilson–Hilferty, vérifié par table).
+
+# text
+# c1: docs/PROVENANCE.md
+# c2: gps-ops
+# c3: provenance
+seg-f9689061a1d2 = <b><c1/> — un tableau de provenance citable unique.</b> Regroupe chaque paramètre de capteur (horloges, inertiel, transfert de temps), chaque modèle physique/algorithmique (orbite, systèmes de temps, référentiels, iono/tropo, intégrité, détection, brouillage, Allan) et chaque jeu de données de validation (AIAA 2006-6753, Celestrak <c2/>) avec sa source publiée — fiche technique, article, ICD ou norme — et une étiquette de maturité honnête (qualifié pour le vol / laboratoire au sol / objectif spatial sur matériel au sol). Lié depuis l'introduction du README et le tableau de documentation ; complète les chaînes <c3/> par exécution qui voyagent déjà dans le JSON du résultat.
+
+# text
+# c1: ScenarioKind
+# c2: kind
+# c3: ScenarioKind::classify
+# c4: run_toml
+# c5: run_scenario(src) -> Result<RunOutput, KshanaError>
+# c6: InvalidInput
+# c7: NonConvergence
+# c8: Unsupported
+# c9: IoError
+# c10: kind_tag()
+# c11: Scenario
+# c12: ExternalPack
+# c13: jamming
+# c14: list_scenario_kinds()
+# c15: list_kinds()
+# c16: error_kind()
+# c17: docs/ARCHITECTURE.md
+seg-55c7b52b5fdb = <b>API de scénarios typée.</b> La répartition se fait désormais sur une énumération typée <c1/> au lieu d'une comparaison de chaînes <c2/> brutes (<c3/> + répartition exhaustive), de sorte que l'ajout d'un paquet est vérifié à la compilation. De nouvelles surfaces typées s'ajoutent à <c4/>, inchangée et renvoyant une chaîne : <c5/> avec une taxonomie d'erreurs structurée (<c6/> / <c7/> / <c8/> / <c9/>, chacune avec un <c10/> stable) ; un trait <c11/> et un point d'extension <c12/> (le paquet <c13/> y est raccordé comme exemple concret) ; et l'introspection <c14/> (nom, description, champs obligatoires/facultatifs par type de scénario). Les liaisons Python et WebAssembly gagnent <c15/> et <c16/>. Documenté dans <c17/>.
+
+# text
+seg-2b86391b753e = Constellation GPS réelle + couverture de l'enveloppe de fonctionnement.
+
+# text
+# c1: scenarios/orbit-sgp4-gps.toml
+# c2: gps-ops
+# c3: strict_checksum = true
+# c4: scripts/fetch_tles.sh
+# c5: tests/scenario_coverage.rs
+# c6: docs/VALIDATION.md
+seg-288f2b1872c8 = <c1/> fournit désormais un <b>instantané Celestrak <c2/> réel</b> (2021-07-28, { "30" } satellites) au lieu de TLE Walker synthétiques, avec <c3/> de sorte qu'il ne se charge que si chaque somme de contrôle de TLE est valide ; <c4/> documente l'actualisation reproductible et le README cite la source de données ouvertes. Le nouveau <c5/> exerce chaque paquet sur ≥{ "5" } variantes d'enveloppe en vérifiant une sortie finie/bornée, confirme que le <b>plancher de bruit de fréquence de scintillation dégrade mesurablement la marche libre d'une horloge</b> lorsqu'il est activé (désormais défini dans trois scénarios livrés), et confirme que le <b>filtre de fusion converge avec un biais d'accéléromètre réaliste non nul</b> (à moins de { "3" }× le cas à biais nul), ce qui comble l'écart de réalisme « la fusion ne fonctionne qu'avec des biais nuls ». <c6/> gagne un tableau d'enveloppe de fonctionnement.
+
+# text
+# c1: gnss-sim
+# c2: ρ = geometric range + c·δt_rx − c·δt_sv + I + T + noise + multipath
+# c3: [iono]
+# c4: [tropo]
+# c5: gnss_measurements[]
+# c6: src/gnss_sim.rs
+# c7: scenarios/gnss-sim-raim.toml
+seg-f78d7dce7bfa = <b>Simulation GNSS dans le domaine des mesures (type de scénario <c1/>).</b> Un modèle direct au niveau de la pseudodistance : pour chaque satellite visible, il synthétise <c2/> et le Doppler L1, avec l'ionosphère monofréquence de <b>Klobuchar</b> (IS-GPS-200 §{ "20.3.3.5.2.5" }) et la troposphère zénithale de <b>Saastamoinen</b> projetée par la fonction de projection de <b>Niell ({ "1996" })</b> — exposées sous forme de blocs TOML <c3/> et <c4/>. Les résidus alimentent le RAIM instantané pour des HPL/VPL à chaque époque, et un tableau JSON <c5/> porte, pour chaque SV, la pseudodistance, le Doppler, le C/N₀ et les corrections iono/tropo. Une exécution sans bruit reproduit la géométrie + les corrections à un niveau sub-millimétrique (test de CI). Nouveaux <c6/> et <c7/>.
+
+# text
+# c1: spoof
+# c2: linear_ramp
+# c3: step_jump
+# c4: meaconing
+# c5: replay
+# c6: target_pfa
+# c7: P_md
+# c8: mc_runs
+# c9: 1 − P_md
+# c10: src/detection.rs
+# c11: scenarios/spoof-meaconing.toml
+# c12: [attack] rate_ns_per_s
+seg-833249802c56 = <b>Détecteur stochastique de leurrage temporel (type de scénario <c1/>).</b> Le paquet de leurrage exécute désormais un véritable détecteur au lieu d'une comparaison déterministe rampe contre borne : quatre formes d'injection (<c2/>, <c3/>, <c4/>, <c5/>), un test d'énergie / de Neyman–Pearson bilatéral en χ²₁ sur la statistique du moniteur assisté par l'horloge, avec le seuil fixé à partir d'un budget cible de fausses alarmes <c6/>, et la probabilité de non-détection <c7/> rapportée à la fois en forme close et par Monte-Carlo (<c8/> essais par hypothèse — les deux concordent à quelques ×1/√N près). La figure de mérite de sécurité est désormais <c9/> à la magnitude opérationnellement nuisible (spécification). Nouveau <c10/> (fonctions de queue gaussiennes, test NP/d'énergie, P_fa/P_md Monte-Carlo) et <c11/>. Rétrocompatible : un simple <c12/> reste accepté comme rampe linéaire.
+
+# text
+# c1: spoof
+# c2: 1 − min_detectable/threshold
+# c3: 1 − P_md
+# c4: security
+seg-b3f3d2ca8a3d = <b>Définition de la figure de mérite de sécurité (type de scénario <c1/>) :</b> de la borne analytique de détectabilité <c2/> au <c3/> du détecteur stochastique. Le champ <c4/> du paquet d'horloge reste le substitut analytique plus rapide.
+
+# text
+seg-ee1268975b2c = Ajouts (suite)
+
+# text
+# c1: jamming
+# c2: Q
+# c3: availability_under_jamming
+# c4: src/jamming.rs
+# c5: scenarios/jamming-demo.toml
+# c6: docs/CAPABILITY.md
+# c7: docs/VALIDATION.md
+seg-f71696b7fa20 = <b>Modèle de brouillage RF (type de scénario <c1/>).</b> Un modèle d'interférence par bilan de liaison qui transforme la puissance et la géométrie d'un brouilleur en perte d'accrochage par satellite : le rapport brouilleur/signal à partir de l'affaiblissement en espace libre et du gain d'antenne de réception par direction, le C/N₀ effectif par l'équation anti-brouillage standard (gain de traitement de désétalement × le facteur de séparation spectrale <c2/> ; Kaplan et Hegarty §{ "9.4" }), et un seuil de poursuite configurable, évalué sur une constellation de Walker comme figure de mérite <c3/>. Nouveaux <c4/> et <c5/>. La portée honnête (ni trajets multiples, ni masquage par le relief, ni AGC, ni annulation adaptative) est documentée dans <c6/> / <c7/>.
+
+# text
+# c1: sweep-nd
+# c2: sweep-nd
+# c3: [base]
+# c4: scenarios/sweep-nd-inertial.toml
+seg-d4dc36011ea1 = <b>Balayage de paramètres N-D générique sur n'importe quel type de scénario (<c1/>).</b> Le balayage N-D précédent ne concernait que le paquet d'horloge. <c2/> fait varier des clés TOML pointées d'un scénario <c3/> sur le produit cartésien de ses axes, relance chaque nœud de la grille par le chemin d'exécution normal et extrait une ou plusieurs métriques du résultat par chemin JSON pointé — il fonctionne donc pour tous les paquets (inertiel, gnss-ins, intégrité, leurrage, …) sans se coupler au type Rust de chaque paquet. Les nœuds de la grille sont évalués en parallèle sur des threads du système d'exploitation sur les cibles natives (sans dépendance ajoutée) ; wasm se rabat sur le séquentiel. Déterministe et en ordre ligne par ligne quel que soit le nombre de threads. Nouvel exemple <c4/>.
+
+# text
+# c1: gnss-ins
+# c2: [imu_*.error_model]
+# c3: gnss-ins
+seg-1c42e15d65a9 = <b>Modèle d'erreur d'IMU déterministe configurable en TOML dans le paquet <c1/>.</b> La chaîne d'erreur à trois axes en repère lié (facteur d'échelle, désalignement, sensibilité à g, quantification, rampe de vitesse ; IEEE Std 952-1997 §A.2, Groves { "2013" } §{ "4.3" }) est désormais accessible pour chaque capteur depuis un fichier de scénario par un bloc <c2/> facultatif, superposé aux biais constants de mise en marche. L'omission du bloc laisse chaque capteur à l'état de source de biais constant pure, de sorte que les exécutions <c3/> existantes sont inchangées. Cela raccorde le modèle d'erreur jusque-là réservé à la bibliothèque à un paquet exécutable et à une figure de mérite.
+
+# text
+# c1: tests/fixtures/igs/NOTICE
+seg-e035371fbe58 = <b>Validation sur données réelles.</b> L'analyseur de navigation RINEX multi-GNSS, le propagateur RK4 GLONASS et le lecteur SP3 sont désormais exercés sur de véritables fichiers IGS/DLR (un véritable fichier de navigation diffusé mixte RINEX { "3" } et un produit d'orbite IGS SP3-c), et pas seulement sur des échantillons rédigés en interne — en vérifiant des ensembles de satellites non vides et des positions ECEF finies et de taille physique. Les fixtures sont réservées aux tests (exclues de la crate publiée) ; voir <c1/>.
+
+# text
+# c1: P_HMI
+seg-2a807ae8e194 = <b>RAIM sur une géométrie d'orbite de référence réelle.</b> Les noyaux de RAIM instantané, de séparation de solutions (MHSS) et de niveau de protection ARAIM sont désormais validés par rapport à la géométrie d'orbite précise IGS (SP3) réelle, et non plus seulement à des constellations synthétiques : la géométrie de visée est construite à partir de la première époque SP3 à une véritable station au sol, et les tests vérifient des niveaux de protection métriques, disponibles pour l'APV-I, qu'un biais de pseudodistance de { "60" } m déclenche le moniteur du χ², que la séparation de solutions <b>identifie</b> le satellite en panne et que les niveaux de l'ARAIM respectent le <c1/> alloué. Comble l'écart « validé uniquement sur géométrie synthétique » (la parité avec gLAB dans le domaine du récepteur sur un arc RINEX complet reste un élément de la feuille de route — elle exige une solution de pseudodistance).
+
+# text
+# c1: sweep::nd_sweep_ensemble
+# c2: metric_stat
+# c3: runs = 1
+# c4: nd_sweep
+seg-651cc4af4872 = <b>Intervalles de confiance par nœud pour le balayage de paramètres N-D</b> (<c1/>). Chaque nœud de grille du balayage à produit cartésien N-dimensionnel peut désormais être évalué comme un ensemble Monte-Carlo de graines, en rapportant la moyenne de la métrique, ses percentiles et un IC bootstrap par percentiles à { "95" } % par nœud (pour les deux horloges) — un balayage statistiquement honnête plutôt qu'un seul tirage par nœud. Réutilise la mécanique d'ensemble/de bootstrap (<c2/>) ; déterministe ; <c3/> se réduit exactement au <c4/> à graine unique. (La généralisation du balayage à tous les paquets, liée à la refonte du Scénario typé, et l'exécution parallèle restent à faire.)

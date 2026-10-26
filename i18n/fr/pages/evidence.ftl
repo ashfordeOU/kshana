@@ -3884,3 +3884,318 @@ seg-c3c260b7063e = Tests
 
 # text
 seg-417a52c9c154 = PDF
+
+# text
+seg-4e31c8daf798 = Registre
+
+# text
+seg-8980b5ae869b = Chiffre
+
+# text
+seg-f4d1ec6fc464 = Citer
+
+# text
+seg-323c83de82d9 = <s1>tests/ppp_real_wettzell_oracle.rs (station IGS WTZR, 2025-02-24 00-06 h, { "30" } s, mise de côté lors du développement : dernière époque, horizontal { "1.5" } mm, haut −{ "2.9" } cm ; 04-06 h 240/240 époques à moins de { "0.10" } m en 3-D, p95 { "6.7" } cm ; code seul p95…</s1>
+
+# text
+seg-1f7a4468e913 = <s1>tests/rinex4_nav_brd400_oracle.rs (IGS BRD400DLR_S RINEX { "4.02" } contre BRDM00DLR_S RINEX { "3.04" } du 2026-07-19, tranche 00-02 h : G { "37" } / E { "478" } / C { "72" } enregistrements appariés dans les deux sens, chaque champ identique, position à Toe { "0" } m ; journée complète…</s1>
+
+# text
+seg-0c54a0c29630 = <s1>tests/rinex4_obs_mao0.rs (les { "4" } premières époques du fichier IGS MGEX RINEX { "4.00" } MAO000USA_R_20231980000_01D_30S_MO, { "58" } satellites, { "7" } systèmes : les enregistrements d'en-tête et les valeurs de la première époque sont égaux aux littéraux publiés)…</s1>
+
+# text
+seg-ebf5ac05182a = <s1>tests/bds_geo_broadcast_oracle.rs (vrais enregistrements C01-C04 : rayon géostationnaire, longitudes 140.02/80.04/110.55/159.99 deg aux positions publiées, |latitude| { "2.13" } deg avec l'inclinaison contre { "6.65" } sans ; le préenregistré…</s1>
+
+# text
+seg-00d9f55700d8 = <s1>tests/sp3_clock_igs_oracle.rs (SP3 final IGS à { "15" } min du 2025-02-24 contre les horloges finales IGS à { "30" } s, { "32" } satellites GPS : médiane de |Δ| aux nœuds { "2.6e-13" } s ; { "3038" } enregistrements de point médian RMS { "0.121" } ns, p95 { "0.265" } ns ; maintenir le nœud au lieu…</s1>
+
+# text
+seg-9e2c501c7027 = <s1>tests/gnss_ins_packs.rs (chaque paquet : fusionné en dessous de l'INS libre pendant l'interruption pour les deux capteurs ; rail : serré { "5.3" } m contre lâche { "12.9" } m en qualité navigation et { "15.6" } m contre { "18.8" } m en qualité tactique pendant l'interruption, disponibilité { "0.97" } contre { "0.95" }…</s1>
+
+# text
+seg-2d1083cc0d20 = <s1>tests/fusion_coupled_filters.rs (filtre 3-D sur { "60" } graines : NEES moyen de la seconde moitié { "8.12" } pour { "8" } états, somme du χ² de la dernière époque dans sa bande à { "95" } % ; une correction d'horloge de { "0.1" } ns réduit le sigma de position 3-D de { "5.58" } m à { "3.07" } m ; biais…</s1>
+
+# text
+seg-2de7638c3fc3 = <s1>tests/fusion_kfgins_dataset_oracle.rs (chargeurs synthétiques et tests de bras de levier sur plateforme tournante toujours exécutés ; conditionné par les données sur KSHANA_KFGINS_DIR, exécuté le 2026-10-13 sur le jeu de données de démonstration KF-GINS : RMS horizontal / vertical { "0.0109" } /…</s1>
+
+# text
+seg-7670442550b0 = <s1>fusion::trajectory::tests (le virage coordonné n'a pas de force latérale et le facteur de charge vaut 1/cos φ ; l'import CSV reproduit un profil volé à { "1e-3" } m/s et { "1" } m près) ; tests/gnss_ins_trajectory_library.rs (chaque profil s'exécute et la fusion…</s1>
+
+# text
+seg-43684d842873 = <s1>tests/classical_strapdown_ins_reference.rs (profils statique/virage/conique, { "30" } époques chacun, contre NaveGo : attitude identique au bit près { "0" } rad ; vitesse/position dans des bornes analytiques nommées)</s1>
+
+# text
+seg-9a888143b12b = <s1>tests/icgem_gravity_reference.rs (la synthèse GRS80 reproduit Somigliana à { "3.5e-12" } près ; la vraie carte de perturbation ICGEM EGM2008 est physique)</s1>
+
+# text
+seg-16180ad1a02e = <s1>tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry (CAPSTONE mars { "2023" }, { "4" } périlunes et { "5" } apolunes : période { "6.5004" } j contre { "6.5699" } j ({ "1.07" } %, seuil { "3" } %), apolune { "71 182" } contre { "71 215" } km ({ "0.05" } %, seuil { "5" } %)…</s1>
+
+# text
+seg-88442c3f67b7 = <s1>tests/cr3bp_to_mci_spice_oracle.rs::cr3bp_to_mci_matches_a_spice_two_vector_frame ({ "72" } cas : { "12" } époques en janvier { "2025" } x les points L1 et L2, deux orbites en halo L2 australes et un état initial DRO du JPL Three-Body…</s1>
+
+# text
+seg-ce1903930dae = <s1>tests/solar_system_kernel_oracle.rs::kernel_backed_solar_system_matches_spice (Mercure, Vénus, la Terre et la Lune aux dates 2026-01-01, 2030-06-15 et 2040-12-31 : pire écart { "3.3e-5" } m et { "1.0e-11" } m/s contre { "1" } mm et { "1e-6" } m/s…</s1>
+
+# text
+seg-5475e346272a = <s1>tests/porkchop_de440_oracle.rs::de440_porkchop_matches_spice_and_pykep (de la Terre au barycentre de Mars, { "16" } départs 2026-09-01..2027-01-29 x { "19" } arrivées 2027-06-01..2028-02-26 : { "304" } cellules finies des deux côtés, pire C3…</s1>
+
+# text
+seg-d85e4cdff95b = <s1>tests/transfer_optimiser_oracle.rs::transfer_optimiser_matches_spice_pykep_scipy (de la Terre au barycentre de Mars, départs 2026-09-15..2027-01-15 x arrivées 2027-05-01..2028-03-01, Type I/II x C3 min / V-infini min…</s1>
+
+# text
+seg-8a7000ddbb4e = <s1>tests/lambert_multirev_oracle.rs::multirev_lambert_matches_pykep_on_the_preregistered_cases ({ "382" } cas : { "300" } aléatoires en 3-D, { "18" } proches de { "180" } deg, { "24" } proches du temps minimal pour M = { "1" }..3, { "40" } héliocentriques ; { "1058" } solutions ; les comptes et…</s1>
+
+# text
+seg-d15a1c6e17c9 = <s1>tests/jd2_sofa_time_oracle.rs ({ "224" } instants UTC : six autour de chacune des { "27" } secondes intercalaires 1972-2016, deux fixes, { "60" } tirés avec graine sur 1972-2026 ; dtf2d, utctai et taiutc chacun à moins de { "1e-6" } s, pire écart { "1.9e-11" } s) ; jd2::tests…</s1>
+
+# text
+seg-7fd1d47c6025 = <s1>tests/jd2_earth_rotation_erfa_oracle.rs::two_part_earth_rotation_agrees_with_erfa ({ "40" } dates UT1/TT en deux parties 1980-2050 comprenant des sauts de +{ "1" }, +{ "10" }, +{ "50" } us à deux dates : gmst82 à moins de { "1e-12" } rad, pire écart { "0" } ; GCRS vers ITRS…</s1>
+
+# text
+seg-4450a3324ae4 = <s1>tests/frames_erfa_vector_oracle.rs::frame_matrices_agree_with_erfa_vectors ({ "40" } époques TT 1950-2100, dX et dY jusqu'à { "0.5" } mas : éléments de précession à moins de { "1e-13" }, pire écart { "0" } ; TEME vers GCRS à moins de { "5e-10" } rad, pire écart { "1.10e-10" } rad…</s1>
+
+# text
+seg-684ae107a510 = <s1>tests/jd2_pre1972_sofa_oracle.rs::pre_1972_utc_conversions_agree_with_erfa ({ "117" } instants UTC : quatre autour de chacun des { "15" } débuts d'une expression TAI-UTC 1960-1972 et { "60" } tirés avec graine sur 1960-1971 ; dtf2d, utctai et taiutc…</s1>
+
+# text
+seg-9447c09c6106 = <s1>tests/glonass_broadcast_rtklib_oracle.rs::glonass_broadcast_clock_and_orbit_match_rtklib ({ "292" } cas : les { "4" } enregistrements GLONASS du vrai fichier de diffusion IGS MGEX du 2013-01-01 x { "73" } décalages à +/-900 s près ; horloge à moins de { "1e-14" }…</s1>
+
+# text
+seg-540374d8dc58 = <s1>tests/earth_orbit_path_sgp4_erfa_oracle.rs (volet { "1" } : { "4432" } positions TEME des { "232" } jeux d'éléments versionnés contre python-sgp4 { "2.24" }, pire écart { "6.1e-8" } m, seuil { "1" } cm ; volet { "2" } : { "108" } instants, dont { "23" } avec orientation de la Terre…</s1>
+
+# text
+seg-e60137382d1e = <s1>tests/uere_dop_monte_carlo.rs (position_error_is_sigma_times_dop_on_the_gnss_lib_py_geometries : les { "104" } vérifications réussissent dès la première exécution après le préenregistrement e50c88d2, pire variance { "3.2" } %, RMS { "1.6" } %, corrélation { "0.012" }…</s1>
+
+# text
+seg-57f448ea3c8d = <s1>tests/natural_degradation_trust.rs (a_stated_skyline_reads_the_fjord_as_geometry : sur le passage synthétique du fjord de scenarios/training/fjord-natural-degradation.toml, les mêmes { "624" } époques sont déduites avec et sans…</s1>
+
+# text
+seg-b8d1d3c43935 = <s1>tests/opssat_ad_reference.rs (vrai ESA OPS-SAT, l'AUC reproduit scikit-learn à { "1e-9" } près) ; tests/ai_ml_rf_impairment_detection_evaluation_reference.rs ({ "122" } cas sur la vraie partition de test OPSSAT-AD : point de fonctionnement complet…</s1>
+
+# text
+seg-e7d3a0262133 = <s1>tests/resilience_score_decision_instability_reference.rs ({ "124" } cas contre scipy { "1.18" } / numpy { "2.4" } : { "61" } Kendall τ-b à { "2e-16" } près, classement exact, moyenne de Dirichlet + IC par percentiles à { "1e-12" } près)</s1>
+
+# text
+seg-1a7fab04a137 = <s1>tests/mcda_ahp_reference.rs (table d'indice aléatoire de Saaty { "1980" } n={ "1" }..10 EXACTE ; vecteur de priorité + λ_max + CR contre eig de SciPy/LAPACK sur une matrice cohérente { "3" }×{ "3" } et des matrices incohérentes { "3" }×{ "3" } / { "4" }×{ "4" }, concordance à <{ "1e-9" })</s1>
+
+# text
+seg-893579639f36 = <s1>tests/mcda_wsm_reference.rs (scores WSM + classement) et tests/mcda_wpm_reference.rs (scores WPM + classement), chacun contre pymcdm à <{ "1e-9" } sur une matrice de décision fixe { "4" }×{ "3" } avantage/coût</s1>
+
+# text
+seg-824021181461 = <s1>tests/mcda_topsis_reference.rs (coefficients de proximité + classement contre pymcdm à <{ "1e-9" } sur une matrice fixe { "4" }×{ "3" } avantage/coût)</s1>
+
+# text
+seg-bd60ed86fd18 = <s1>tests/mcda_vikor_reference.rs (indice Q + classement contre pymcdm à <{ "1e-9" } sur une matrice fixe { "4" }×{ "3" } avantage/coût)</s1>
+
+# text
+seg-8552a96ec65d = <s1>tests/mcda_promethee_reference.rs (flux de surclassement net + classement, critère usuel, contre pymcdm à <{ "1e-9" } sur une matrice fixe { "4" }×{ "3" } avantage/coût)</s1>
+
+# text
+seg-b8e7db47be3c = <s1>tests/mcda_electre_reference.rs (matrices de concordance, de discordance et de dominance élément par élément + noyau/ensemble dominé contre pyDecision à <{ "1e-9" } sur un jeu de données fixe { "4" }×{ "3" } tout en avantage)</s1>
+
+# text
+seg-4fb626bb143d = <s1>tests/mcda_waspas_reference.rs (préférences WASPAS + classement) et tests/mcda_moora_reference.rs (scores MOORA + classement), chacun contre pymcdm à <{ "1e-9" } sur une matrice de décision fixe { "4" }×{ "3" } avantage/coût</s1>
+
+# text
+seg-74495891f53d = <s1>tests/mcda_copras_reference.rs (degrés d'utilité + classement contre pyDecision à <{ "1e-9" } sur une matrice fixe { "4" }×{ "3" } avantage/coût)</s1>
+
+# text
+seg-e42773002f0d = <s1>tests/timing_protection_level_under_spoofing_reference.rs ({ "16" } cas de latence déterministe EXACTS contre une référence indépendante de premier passage ; { "8" } cas ARL₁, Monte-Carlo @60k essais contre l'approximation de Siegmund + Montgomery publié…</s1>
+
+# text
+seg-d963a63ff219 = <s1>tests/skyline_orekit_oracle.rs (skyline_masks_agree_with_orekit_and_gnss_lib_py_as_pre_registered : { "1173" } angles de visée sur six sites et quatre époques, six tables de masque, { "142" } ensembles visibles ; pire |d el| { "1.3e-13" } deg et |d az|…</s1>
+
+# text
+seg-f44b2e44dd69 = <s1>tests/ellipse_numpy_oracle.rs (ellipse_and_cofactor_agree_with_numpy_as_pre_registered : { "270" } cas, les { "142" } ensembles visibles versionnés de la comparaison d'horizon sous une horloge commune et sous une horloge par système ; pire…</s1>
+
+# text
+seg-857773027c1e = <s1>holdover::tests (contre la récurrence de covariance de Kalman à plusieurs pas ; bruit blanc de fréquence exact ; aller-retour) ; noyau de variance en roue libre validé de façon externe dans tests/gnss_denied_clock_holdover_reference.rs (contre scipy Van-Loan/brentq)</s1>
+
+# text
+seg-2642a03475ff = <s1>clock_state::tests (Q de van Loan analytique ; NEES ; positivité de la DSP) ; tests/clock_state_reference.rs (trajectoire complète prédiction+mise à jour — état x et covariance P { "3" }×{ "3" } sur { "1925" } pas / { "4" } jeux de paramètres contre filterpy { "1.4.5" } ; pire…</s1>
+
+# text
+seg-56b3dcc8f005 = <s1>timetransfer::tests (annulation réciproque ; identité de Sagnac à deux formes) ; tests/time_transfer_error_budgeting_reference.rs (Sagnac de circumnavigation équatoriale = { "207.386" } ns contre { "207.4" } ns publié par Ashby à <{ "0.05" } ns…</s1>
+
+# text
+seg-a7eec0b252c2 = <s1>quantum_imu::tests (k_eff ; T² de Mach-Zehnder ; encadrement du plancher de Freier-2016) ; tests/quantum_inertial_sensor_reference.rs (fonction de transfert |H(ω)|, k_eff·T² et DSA du bruit de grenaille contre Cheinet { "2008" } / Peters / Freier publiés…</s1>
+
+# text
+seg-8cf49f65ae5e = <s1>quantum_imu::tests (a_max se situe au bord de demi-frange ±π avec la mise à l'échelle en 1/T² de la plage ; la récupération de phase repliée est exacte à l'intérieur de [−a_max,a_max] et se replie de exactement { "2" }·a_max à l'extérieur ; la plage dynamique non ambiguë…</s1>
+
+# text
+seg-a4ab1740caf1 = <s1>budget_tests (biais contre l'intégrateur AccelModel ; VRW contre l'intégrale analytique) ; tests/quantum_inertial_dead_reckoning_reference.rs (VRW contre une double intégration Monte-Carlo numpy indépendante d'un bruit d'accélération blanc, pire…</s1>
+
+# text
+seg-b56e2e538e2b = <s1>fusion::tests (identité UKF==KF linéaire ; navigation à l'estime pendant l'interruption ; NEES) ; tests/gnss_ins_sensor_fusion_reference.rs ({ "50" } cas contre filterpy { "1.4.5" } : EKF linéaire lâche/serré + a posteriori PNT couplés à ≤{ "2.4e-12" } ; exécution UKF de 40 époques, pire…</s1>
+
+# text
+seg-97be148ec2ab = <s1>jamming::tests (broadband_q_equals_the_spectral_separation_closed_form et cw_q_equals_the_spectral_separation_closed_form : la table de Q, CW et bande étroite { "1" }, large bande et balayé { "2" }, figée sur les formes closes de navsignal…</s1>
+
+# text
+seg-67272ab552dd = <s1>cr3bp::tests (STM contre différences finies) ; tests/cislunar_mission_analysis_reference.rs ({ "5" } membres NRHO JPL L2-S : le { "9" }:{ "2" } + { "4" } voisins ; pire |ΔC| { "1.5e-5" }, |ΔT|/T { "9.6e-5" }, périlune { "0.7" } km en unités de longueur JPL)</s1>
+
+# text
+seg-4a73fb2c75bf = <s1>tests/icgem_gravity_anomaly_oracle.rs (egm2008_n70_matches_cited_icgem_values en CI sur dix nœuds ICGEM cités ; egm2008_n70_gravity_anomaly_sa_matches_icgem sur les grilles complètes de 0.25 deg récupérées du Tchad 9-15N 19-25E et…</s1>
+
+# text
+seg-0b579dcb5998 = <s1>tests/terrain_nav_validation.rs (real_srtm_committed_badwater_tile_reads_real_relief — la décimation versionnée à 6 secondes d'arc de la tuile SRTM v3 N36W117, du domaine public, place Badwater Basin, le point le plus bas d'Amérique du Nord…</s1>
+
+# text
+seg-21b8048577a6 = <s1>impairment_study::tests (AUC par classe de la référence indépendante ≈{ "1" }, écart d'optimisme appris >{ "0" }, forme de grille + l'IC bootstrap encadre la moyenne + tendance d'échelle positive, caractéristiques d'identification finies, le prédicteur d'écart bat la prédiction de la moyenne dans les DEUX…</s1>
+
+# text
+seg-bb1a73581a82 = <s1>space_weather::tests (Kp↔ap exact aux points de grille + aller-retour + monotone, moyenne de l'Ap quotidien, T exosphérique contre les ancres publiées minimum/moyenne/maximum solaire + incrément d'orage, densité unité à la référence, amplitude du cycle solaire dans le…</s1>
+
+# text
+seg-7c3b6a03e34f = <s1>tests/ccsds_oem_interop_reference.rs ({ "24" } états / { "2" } fichiers de test décodés à l'identique octet par octet par l'analyseur oem indépendant, Δ pos/vit = { "0" }) ; oem::tests (analyse d'un OEM d'outil externe avec mots-clés/commentaires/covariance supplémentaires…</s1>
+
+# text
+seg-01273c1047bc = <s1>reentry::tests (g maximal indépendant du coefficient balistique + plage de g physique, croît avec γ plus raide / une entrée plus rapide, vitesse au g maximal = V_e·e^(−1/2) et chauffage maximal = V_e·e^(−1/6) plus rapides, altitude du g maximal physique +…</s1>
+
+# text
+seg-670306801d75 = <s1>eo_payload::tests (rayon angulaire { "64" }° à { "700" } km + diminue avec l'altitude, nadir→zénith/portée nulle, horizon→ε=0/angle central maximal, erreurs au-delà de l'horizon, la fauchée croît avec le champ de vue / le GSD avec l'altitude, espacement des nœuds d'environ { "2750" } km…</s1>
+
+# text
+seg-5292634e1534 = <s1>space_packet::tests (les bits d'en-tête respectent la disposition CCSDS-133, l'encodage→décodage restitue tous les champs, hors plage/tronqué rejeté) ; tests/ccsds_space_packet_reference.rs ({ "33" } cas contre spacepackets { "0.32.0" }, dont { "12" }…</s1>
+
+# text
+seg-c64d7ee3b5d3 = <s1>tests/space_packet_ext_oracle.rs (cinq seuils préenregistrés : CRC, codes temporels, flux, lacune et ordre, PUS TM ; zéro divergence) ; space_packet::tests</s1>
+
+# text
+seg-68e5424ed6ae = <s1>tests/spk_writer_spice_oracle.rs (inventaire, évaluation, identité au bit et à l'octet, conversion d'époque OEM ; quatre contrôles de mutation prévus la font passer au rouge)</s1>
+
+# text
+seg-3ec80b15b047 = <s1>tests/odm_orekit_oracle.rs (L1 Orekit lit { "30" } fichiers Kshana, L2 Kshana lit { "25" } fichiers Orekit ; constats figés et vérifiés comme récurrents) ; odm::tests</s1>
+
+# text
+seg-08ddb272bbf1 = <s1>attitude_budget::tests (le couple de gradient de gravité s'annule pour un corps symétrique, croît plus bas, linéaire en ΔI, somme quadratique RSS, la somme des fractions de variance vaut 1) ; tests/attitude_gg_torque_reference.rs ({ "20" } cas contre une référence indépendante…</s1>
+
+# text
+seg-6f9fcbb8c941 = <s1>integrity_impact::tests (la même omission bascule de Available→MI→HMI à mesure que le contexte se resserre ; PL conservateur→Unavailable ; HMI par axe ; garde-fous d'entrée)</s1>
+
+# text
+seg-d1e5a6bf11d7 = <s1>src/benchmark/stanford.rs::tests (quatre régions + bornes inclusives + |erreur| + indisponibilité PL>AL) ; tests/tib_scorer_reference.rs (comptes de classification contre numpy indépendant sur un jeu synthétique fixe)</s1>
+
+# text
+seg-12f523034ea5 = <s1>src/benchmark/scorecard.rs::tests (le PL de référence absorbe ; PL défaillant non absorbé-jamais détecté ; verdict de couverture détectable ; la propriété d'honnêteté selon laquelle aucun verdict de couverture/détection n'est accessible pour un…</s1>
+
+# text
+seg-2de847f37e06 = Aucun : étiqueté comme relevant du partenaire
+
+# text
+seg-863d635911ac = <s1>hybrid_integrity::tests (la configuration résolue est restituée pour les valeurs par défaut et pour les surcharges, sans aller-retour de la longueur d'onde par les mètres ; chaque entrée d'unités porte à la fois une unité et une classe de provenance ; chaque…</s1>
+
+# text
+seg-ec8482ccf5c5 = <s1>hybrid_integrity::tests (la disponibilité égale le produit des deux indicateurs recalculés à partir des marges propres au rapport, et ces marges sont elles-mêmes reconstituées à partir de la PIRE, de la perte en espace libre propres au rapport…</s1>
+
+# text
+seg-1d720b86fed9 = <s1>hybrid_integrity::tests (le rapport égale les deux branches émises divisées, à { "1e-15" } relatif près, et son inverse et ses formes en décibels concordent ; la portée et le sigma temporel de chaque branche sont reliés exactement par c ; le commun émis…</s1>
+
+# text
+seg-a5e09c5baf6c = <s1>linkbudget::tests (sur trois bandes, quatre décades de portée et les deux verdicts de fermeture, la marge et la perte en espace libre qui la sous-tend sont recalculées à partir du seul rapport à mieux que { "1e-9" } dB ; le G/T requis…</s1>
+
+# text
+seg-b15cce3f2860 = <s1>lunar_time_budget::tests et lunar_time_budget_scenario::tests (les quatre classes sont toutes présentes dans une exécution et dans un ordre de sous-ensemble demandé ; chaque ligne concorde avec sa propre forme close à mieux que { "1e-12" } relatif ; la mise à l'échelle de…</s1>
+
+# text
+seg-5afae1521f9f = <s1>frame_eop::tests et realtime_frame_eop::tests (les trois composantes portent des ensembles d'époques égaux, identiques élément par élément et strictement croissants sur les deux vrais extraits de l'IERS ; l'ensemble conjoint se réduit à l'intersection lorsque le…</s1>
+
+# text
+seg-55130d929fc6 = <s1>tests/embedded_eop_vintage_astropy_preregistered.rs::vintage_of_every_row_matches_astropy_and_predictions_match_bulletin_a (six critères exacts : les octets de l'extrait ; { "174" } lignes ; comptes par millésime et listes MJD complètes…</s1>
+
+# text
+seg-4319252c1932 = <s1>antenna::tests et attack_surface::tests (la grille est complète et chaque fraction captée se situe dans [{ "0,1" }] ; la fraction captée est non décroissante avec la puissance d'émission à chaque nœud ; elle n'est PAS monotone en largeur de faisceau ou…</s1>
+
+# text
+seg-373635b17f69 = <s1>lunar_time_budget_scenario::tests (les { "57" } temps de moyennage x { "8" } termes sont tous présents, l'indice de grille va de { "0" } à { "56" } inclus et porte { "8" } lignes chacun ; la ligne du total égale la racine de la somme des carrés des sept termes voisins à chaque tau ; le…</s1>
+
+# text
+seg-273fc9f39f91 = <s1>lunar_time_lab::tests (free_run_clock_term_is_the_budget_clock_term : le pilotage étant désactivé, le terme d'horloge égale celui du budget au bit près pour les quatre classes ; bisection_matches_the_closed_form à moins de { "1e-9" }…</s1>
+
+# text
+seg-6d60a3c0bffa = <s1>tests/lunar_vlbi_spice_oracle.rs::kernel_delay_and_partials_match_spice_light_times_near_j2000 ({ "75" } retards à { "25" } époques près de J2000 sur DSS-14, DSS-43 et DSS-63 : retards à moins de { "1" } ps, pire écart { "0.06" } ps ; balise en repère corps…</s1>
+
+# text
+seg-f986e2e5c8f2 = <s1>tests/naif_reader_spice_oracle.rs::reader_matches_spice_and_anise_on_the_post_registration_grid ({ "600" } états de de440s.bsp et { "200" } rotations MOON_PA_DE440 à { "200" } époques 1849-2150 et paires de corps aléatoires tirées de la…</s1>
+
+# text
+seg-0280fb2b8502 = <s1>earth_gnss_lunar::tests ({ "11" } tests de bibliothèque : le demi-angle du limbe terrestre contre sa forme close asin(R/r) avec une assertion supplémentaire selon laquelle TOUTE liaison non occultée se trouve hors de ce cône, de sorte que le test d'occultation et l'angle du limbe…</s1>
+
+# text
+seg-bd5a02ba059e = <s1>tests/lunar_infra_od_consistency.rs (seuil O1 : la matrice de transition d'état chaînée sur trois jours et sur une période égale scipy DOP853 à un relatif de { "1e-6" } ; seuil C1 : q moyen et fraction dans les 95 % ; seuil C2 : échantillon sur…</s1>
+
+# text
+seg-a0bc9ccc18e0 = <s1>tests/lunar_infra_carrier_phase.rs (seuil Q1 : succès Monte Carlo au moins égal à la borne bootstrap moins trois erreurs standard ; Q2 : pas de baisse avec la longueur d'arc au-delà de trois erreurs standard ; Q4 : LAMBDA égale la force brute…</s1>
+
+# text
+seg-a351ba6299d6 = <s1>tests/lunar_infra_studies_3_5.rs (seuil F1 : la trace de la CRLB ne monte pas et la plus petite valeur propre ne baisse pas avec les liaisons d'orbiteur, dans l'exemple et dans { "20" } ensembles aléatoires à graine ; seuil F2 : les dérivées partielles de portée égalent une…</s1>
+
+# text
+seg-7c519c33e94d = <s1>tests/lunar_infra_studies_3_5.rs (seuil T1 : les sigmas de translation ne baissent pas quand le lien local se relâche ; T2 : avec les sigmas des techniques mis à l'échelle de { "1e-6" }, le sigma de translation de chaque paire est à { "1" } % près de sqrt({ "2" }) fois le lien local…</s1>
+
+# text
+seg-d45bfe637f5c = <s1>tests/lunar_infra_studies_3_5.rs (seuil G1 : les dérivées partielles analytiques égalent une différence finie centrale de chaque modèle direct à { "1e-8" } près ; G2 : l'information 5x5 égale un assemblage numpy indépendant à { "1e-6" } près ; G4 : la marée d'horloge…</s1>
+
+# text
+seg-548d662e2903 = <s1>lunar_beacon::tests (visibilité à l'horizon contre la forme close L01 ; le DOP augmenté de la balise contre le DOP nu ; la racine de la somme des carrés du budget d'erreur ; la relation DOP-mètres)…</s1>
+
+# text
+seg-16dacba36610 = <s1>lunar_common_mode::tests ({ "8" } tests de bibliothèque : la scission est additive et reconstruit dy ; une covariance de mode commun donne un niveau de protection de mode commun positif alors qu'une covariance de parité seule en donne un quasi nul ; le…</s1>
+
+# text
+seg-f7d33a13cf7b = <s1>lunar_combination::tests (retrouve la vérité simulée ; le VLBI rétablit l'observabilité 3-D de la station ; déterministe) ; tests/lunar_joint_multi_technique_od_reference.rs ({ "6" } géométries × { "16" } paramètres, { "31" } observations chacune, contre Orekit { "12.2" } /…</s1>
+
+# text
+seg-38aa194db570 = <s1>tests/fim_observability_reference.rs (valeurs propres contre numpy.linalg.eigh ; covariance CRLB contre σ²(XᵀX)⁻¹ via numpy.linalg.inv ; GDOP/PDOP/HDOP/VDOP/TDOP GNSS à partir de la matrice d'information contre numpy — tous concordants à { "1e-9" })…</s1>
+
+# text
+seg-b9ba2c91b976 = <s1>lunar_combination::tests (de rang déficient sans lignes de base terrestres ; trois lignes de base rétablissent le rang plein — le seuil de 3 stations tiré du rang de l'information, et non de l'erreur de résolution ; CRLB de station atteinte par l'estimateur à…</s1>
+
+# text
+seg-e66fab330a70 = <s1>lunar_frame_realise::tests (retrouve la transformation de Helmert injectée) ; tests/lunar_reference_frame_realisation_reference.rs ({ "14" } cas contre un solveur Umeyama-SVD indépendant en forme close ; pire |Δ| de translation { "2.0e-5" } m…</s1>
+
+# text
+seg-d64c7d12097d = <s1>lunar_service::tests (le DOP réutilise le noyau vérifié ; le PL se réduit au cas du pôle sud) ; tests/lunar_navigation_service_volume_reference.rs (position MCI par satellite à <{ "1e-3" } m + ensemble de satellites visibles EXACT sur…</s1>
+
+# text
+seg-2869e5710360 = <s1>lunar_afs::codes::tests (registres de longueur maximale, équilibre de Legendre, aller-retour du retard G2, composition des niveaux) ; tests/lunar_afs_codes_lsis_reference.rs::afs_codes_finding_one_misprinted_table_cell (sans le cache LSIS…</s1>
+
+# text
+seg-ae3ebfe11427 = <s1>tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_chips_match_lans_afs_sim (les { "210" } codes primaires AFS-Q toujours ; avec KSHANA_LANS_RUN et le cache LSIS, les { "630" } codes, zéro écart de chip)…</s1>
+
+# text
+seg-295278a84ccf = <s1>tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim (avec le cache LSIS : les { "3" } trames que LANS-AFS-SIM transmet, construites à partir des mêmes FID, TOI et bits de données : zéro sur { "18 000" } symboles…</s1>
+
+# text
+seg-f24c41c419fc = <s1>tests/gps_lnav_rtklib_integer_oracle.rs::kshana_lnav_integers_decode_in_rtklib_from_an_unseen_broadcast_file ({ "32" } satellites du fichier de diffusion IGS du { "2" } mars { "2025" } : { "960" } mots sur { "960" } passent la parité RTKLIB, { "96" } sur { "96" }…</s1>
+
+# text
+seg-15ee42ed7c97 = <s1>lunar_service::tests (topocentrique contre une géométrie calculée à la main : à la verticale, plein nord/est/ouest, antipodal, et la direction est polaire dégénérée ; l'indicateur de visibilité exporté concorde avec la visibilité indépendante…</s1>
+
+# text
+seg-77da0b3e0b1c = <s1>lunar_dpnt::tests (le mode commun d'horloge s'annule exactement ; le résidu croît avec la ligne de base ; réutilise le PL SBAS ; le nombre de satellites est respecté jusqu'à la limite de { "24" } du constructeur, de sorte qu'une constellation plus grande ne peut pas silencieusement renvoyer un…</s1>
+
+# text
+seg-5db769e82e5c = <s1>lunar_interop::tests (l'OEM porte les REF_FRAME/TIME_SYSTEM lunaires ; les métadonnées temporelles font l'aller-retour ; enveloppe KIF) ; tests/lunar_interoperability_export_reference.rs (l'OEM lunaire émis par kshana est ré-analysé par l'oem indépendant…</s1>
+
+# text
+seg-4f6e54e86d48 = <s1>qtrade::tests (polarité de bénéfice plus haut/plus bas est meilleur, enveloppe fidèlement un vrai TradeResult, preuve malhonnête rejetée, la FoM validée exige une ancre externe, JSON déterministe)</s1>
+
+# text
+seg-f5bacc1a6bd7 = <s1>timetransfer_chain::tests (la précision s'améliore avec l'intégration ; le quantique peut gagner ET perdre ; PL fini-positif ; FoM de sécurité dans [{ "0,1" }] et croissante avec le retard de l'attaque ; Pd d'anomalie monotone ; le compromis is_honest)</s1>
+
+# text
+seg-e31dc5eb9af0 = <s1>quantum_nav_od::tests (le quantique bat le classique sur une longue interruption ; l'avantage dépend de la durée de l'interruption ; le compromis is_honest) ; tests/gnss_free_quantum_navigation_reference.rs (croissance de la position à l'estime contre un indépendant…</s1>
+
+# text
+seg-a591da195f89 = <s1>quantum_faults::tests (valeurs connues de l'AUC analytique ; l'AUC bootstrap empirique encadre la forme close ; le quantique détecte des défauts plus petits / AUC plus élevée ; l'avantage disparaît pour des défauts énormes ; catalogue de 5 classes ; le compromis is_honest)</s1>
+
+# text
+seg-5f53e711c909 = <s1>cw_dynamics::tests (Φ({ "0" })=I, MHS transversal découplé) ; tests/cw_dynamics_reference.rs (Φ en forme close contre une intégration RK4 indépendante à pas fixe des mêmes EDO de Hill à <{ "1e-6" } sur le tiers d'une orbite ; Φ(t)Φ(−t)=I à…</s1>
+
+# text
+seg-62ce807669f8 = <s1>geolocation::tests (TDOA sans bruit direct→inverse à { "1e-6" } m près ; J·CRLB=I avec une covariance symétrique définie positive ; la trace de la variance de position de la CRLB est non croissante lorsqu'un récepteur est ajouté ; TDOA+FDOA conjoints retrouvent un mobile…</s1>
+
+# text
+seg-046805e51094 = <s1>tests/entry_stardust_published.rs (pic de { "35.44" } g contre { "33.4" } g publié, +{ "6.1" } %, seuil { "10" } %; vitesse d'entrée relative à la planète { "12.551" } km/s contre { "12.6" }, seuil { "0.1" } km/s) ; entry_eo_ascent::entry_heating::tests (repère tournant…</s1>
