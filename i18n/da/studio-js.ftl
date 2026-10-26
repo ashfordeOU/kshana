@@ -7755,7 +7755,7 @@ js-replay-band-nominal = nominel
 js-replay-band-run-ended = { $band } · kørslen sluttede
 
 # 2026-10-01-studio-rebuild/lib/replay.mjs:50
-js-replay-band-untrusted = ikke tiltroet
+js-replay-band-untrusted = upålidelig
 
 # 2026-10-01-studio-rebuild/replay/replay.js:101
 js-replay-clock = T+{ $t } af { $max }
@@ -7773,7 +7773,7 @@ js-replay-coast-note-hidden = { $reason }.
 js-replay-coast-window = Natural Earth 1:10 millioner, vindue { $window }
 
 # 2026-10-01-studio-rebuild/lib/replay.mjs:226
-js-replay-coast-world = Natural Earth 1:110 millioner (Studioets verdensomrids), grov
+js-replay-coast-world = Natural Earth 1:110 millioner (Studios verdensomrids), grov
 
 # 2026-10-01-studio-rebuild/replay/replay.js:63
 js-replay-demo-trust-log = { $title } (tillidslog)
@@ -7807,3 +7807,717 @@ js-replay-file-error = { $name }: { $error }
 
 # 2026-10-01-studio-rebuild/lib/kinds.mjs:481
 js-replay-kinds-convergence-horizontal = Konvergens: median af den horisontale fejl
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:482
+js-replay-kinds-convergence-vertical = Konvergens: median af den vertikale fejl
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-course = Rapporteret kurs
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-heading = Kursretning (gyro)
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-position-error = Positionsfejl
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-receiver = Modtager
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-run-time = Kørselstid
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-satellites = Satellitter brugt / i sigte
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-sky = Himmel
+
+# 2026-10-01-studio-rebuild/replay/replay.js:52
+js-replay-legend = Signaturforklaring
+
+# 2026-10-01-studio-rebuild/replay/replay.js:54
+js-replay-legend-no-fix = ingen positionsbestemmelse
+
+# 2026-10-01-studio-rebuild/replay/replay.js:54
+js-replay-legend-true-track = reelt spor
+
+# 2026-10-01-studio-rebuild/replay/replay.js:107
+js-replay-moment = Øjeblik ved T+{ $t }:
+
+# 2026-10-01-studio-rebuild/replay/replay.js:76
+js-replay-no-coast = Ingen kyst tegnes: der følger ingen med for dette vindue.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:92
+js-replay-no-gsv = ingen GSV i denne log
+
+# 2026-10-01-studio-rebuild/replay/replay.js:143
+js-replay-not-json = { $name }: ikke JSON.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:89
+js-replay-not-scored = ikke vurderet
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:27
+js-replay-obs-not-attributed = ikke tillagt
+
+# 2026-10-01-studio-rebuild/replay/replay.js:135
+js-replay-open-failed = { $id } kunne ikke åbnes: { $reason }.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:47
+js-replay-open-file = Åbn en fil…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:153
+js-replay-opened = Åbnede { $name } i panel { $n }. Læst her; intet blev uploadet.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:133
+js-replay-opening = Åbner { $id }…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:104
+js-replay-pause = Pause
+
+# 2026-10-01-studio-rebuild/replay/replay.js:104
+js-replay-play = Afspil
+
+# 2026-10-01-studio-rebuild/replay/replay.js:154
+js-replay-read-failed = { $name }: kunne ikke læses eller tegnes ({ $reason }).
+
+# 2026-10-01-studio-rebuild/replay/replay.js:139
+js-replay-reading = Læser { $name }…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:217
+js-replay-reduced-motion = Reduceret bevægelse foretrækkes, så afspilningen starter ved 1x og afspilles ikke af sig selv.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:46
+js-replay-run = Kørsel
+
+# 2026-10-01-studio-rebuild/replay/replay.js:46
+js-replay-run-shown = Kørsel vist i panel { $n }
+
+# 2026-10-01-studio-rebuild/replay/replay.js:172
+js-replay-saved-svg = Gemte { $name } ({ $size } kB): hvert billede i én fil, tegnet ud fra de samme rækker som denne side.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:181
+js-replay-saved-zip = Gemte { $name } ({ $size } MB): én SVG pr. billede, et manifest over rækkerne bag hver og en README.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:147
+js-replay-src-instructor = Din fil { $name }: ingen motorvurdering eller himmel følger med en instruktørlog alene.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:150
+js-replay-src-trust = Din fil { $name }: et tillidsresultat indeholder hverken himmel eller kursretning, så de tegnes ikke.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:254
+js-replay-status-ready = { $a } og { $b }: syntetiske kørsler, vurderet af motoren. Tryk på Afspil, eller flyt uret.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:134
+js-replay-status-synthetic = { $titles }: syntetiske kørsler, vurderet af motoren.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:134
+js-replay-status-synthetic-no-coast = { $titles }: syntetiske kørsler, vurderet af motoren. Kystlinjen er ikke tilgængelig.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:51
+js-replay-strip-label = Tillidsscore over kørslen
+
+# 2026-10-01-studio-rebuild/replay/replay.js:23
+js-replay-titles-and = { $a } og { $b }
+
+# 2026-10-01-studio-rebuild/replay/replay.js:141
+js-replay-too-large = { $name } er større, end denne side læser.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:75
+js-replay-track = Spor af { $n } logrækker, nord opad.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:75
+js-replay-track-widened = Spor af { $n } logrækker, nord opad, udvidet for at vise den nærmeste kyst.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict = Vurdering
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:198
+js-replay-verdict-degraded = { $dur } forringet, ingen upålidelig
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict-early = Vurdering (tidlig)
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict-fine = Kun ud fra loggen og motorens vurdering; syntetisk, vejledende, ikke et tal for detektionsevne.
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:196
+js-replay-verdict-first = første gang under nominel ved T+{ $t }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:195
+js-replay-verdict-first-after = første gang under nominel ved T+{ $t }, { $dur } efter, at den første hændelse begyndte (T+{ $onset })
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:196
+js-replay-verdict-first-before = første gang under nominel ved T+{ $t }, før den første hændelses begyndelse (T+{ $onset })
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:193
+js-replay-verdict-lowest = Laveste tillidsscore { $score } ({ $band }) ved T+{ $t }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:194
+js-replay-verdict-never-left = scoren forlod aldrig det nominelle bånd
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:201
+js-replay-verdict-no-fix = ingen positionsbestemmelse i { $dur }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:199
+js-replay-verdict-not-scored = Ikke vurderet: motorens tillidsscore vises for bibliotekskørslerne
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:200
+js-replay-verdict-peak-error = største loggede positionsfejl { $err } m ved T+{ $t }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:197
+js-replay-verdict-untrusted = { $dur } i det upålidelige bånd
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict-wait = Vises, når denne kørsel slutter, ved T+{ $t }.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:178
+js-ssv-altitude-label = Højde og brugte målinger
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:156
+js-ssv-at-least-1 = mindst 1 signal
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:156
+js-ssv-at-least-4 = mindst 4 signaler
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:156
+js-ssv-avail-label = Tilgængelighed, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:96
+js-ssv-bar-title = { $label }, { $name }: { $value }{ $unit }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:26
+js-ssv-blurb-formation-heo = En chief og en deputy med en kilometers afstand i en stærkt elliptisk bane: hvor godt filteret kender deres relative position, mod hvad de to absolutte positionsbestemmelser ville give.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:23
+js-ssv-blurb-heo = En stærkt elliptisk bane (apogæum nær 58 600 km) med en nadir-antenne med høj forstærkning og en zenit-patchantenne og en parametrisk sidelobemodel: signaler i sigte, bedste C/N0, hovedlobe mod sidelobe, præcisionsudvanding og de signaler, der strejfer atmosfæren.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:24
+js-ssv-blurb-lunar-weak = En månetransferbane med en modtager bygget til at fungere ved de svageste signaler: hvad den skal bruge for at opfange og spore, og hvor stor en del af banen den kan bruge.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:25
+js-ssv-blurb-nav-lunar = Et navigationsfilter om bord på en månetransfer: dets positionsfejl mod den grænse, det selv angiver, under og over GNSS-satellitternes egne baner.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:22
+js-ssv-blurb-shell = En kugleskal i geostationær højde, samplet på et gitter: hvor ofte hører et rumfartøj dér mindst ét og mindst fire signaler ved 20 dB-Hz, på L1 og L5, for hver konstellation og alle samlet?
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-cn0-altitude-label = Bedste C/N0 og højde mod tid, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:164
+js-ssv-cn0-label = Bedste C/N0, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:164
+js-ssv-cn0-note = Af de signaler, der er i sigte, det stærkeste ved hver epoke: mindste til største over epokerne, med middelværdien markeret.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:164
+js-ssv-cn0-title = Bedste bærebølge-til-støj-tæthed, { $band }
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:57
+js-ssv-comparison-failed = Sammenligningen kunne ikke vises ({ $reason }).
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:53
+js-ssv-comparison-not-loaded = sammenligningsfilen blev ikke indlæst
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:82
+js-ssv-default-bars = søjler
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:104
+js-ssv-default-chart = diagram
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:133
+js-ssv-default-ranges = intervaller
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:184
+js-ssv-deputies-note = Absolut RMS for chief { $rms } m over { $epochs } epoker.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:184
+js-ssv-deputies-title = Hver deputy
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:170
+js-ssv-dop-note = Median, 95. percentil og værste PDOP over de epoker, der har en positionsbestemmelse, og, hvor scenariet angiver en atmosfære, de signaler, der strejfer den.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:170
+js-ssv-dop-title = Præcisionsudvanding og atmosfæren, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:177
+js-ssv-err-label = Positionsfejl mod den angivne grænse
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:176
+js-ssv-err-note = Den stiplede linje er den ét-sigma-grænse, filteret angiver; den hele linje er dets fejl mod den reference, scenariet kender. Udtyndet af motoren.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:176
+js-ssv-err-title = Positionsfejl mod filterets egen grænse
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-antenna = Antenne
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:224
+js-ssv-fact-apogee = Apogæumshøjde
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:225
+js-ssv-fact-cn0-threshold = Tærskel for bærebølge-til-støj-tæthed
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-duration = Varighed
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:223
+js-ssv-fact-eccentricity = Excentricitet
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-grid-points = Gitterpunkter
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:223
+js-ssv-fact-inclination = Inklination
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:221
+js-ssv-fact-mode = Tilstand
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:224
+js-ssv-fact-perigee = Perigæumshøjde
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:224
+js-ssv-fact-period = Omløbstid
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-shell-altitude = Skalhøjde
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:223
+js-ssv-fact-sma = Store halvakse
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-step = Trin
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:183
+js-ssv-filter = filter
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:182
+js-ssv-formation-note = RMS af den relative positionsfejl, fra filteret og ved at tage differensen af de to absolutte positionsbestemmelser, over hele kørslen og over GNSS-banerne.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:182
+js-ssv-formation-title = Relativ position af deputies
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:183
+js-ssv-from-absolute = fra to absolutte positionsbestemmelser
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:78
+js-ssv-group-combined = alle samlet
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:56
+js-ssv-icg-note = { $label }; tærskelafgørelserne fra motorens committede resultatfiler (motorens commit { $commit }). Hæftets tabeller er offentlige; intet her er VALIDATED.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:208
+js-ssv-icg-wrong-file = ICG-sammenligningsfilen er ikke den, denne side læser
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:165
+js-ssv-lobe-note = Hvor mange af de brugbare forbindelser, der kom gennem hovedloben, og hvor mange gennem en sidelobe, talt af motoren.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:165
+js-ssv-lobe-title = Hovedlobe og sidelobe, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:17
+js-ssv-na = n/a
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:179
+js-ssv-nav-note = Brugte og udsorterede målinger, det længste hul med færre end fire signaler, den endelige fejl og estimatet af solstrålingstrykket mod den reference, scenariet kender.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:179
+js-ssv-nav-title = Kørslen i tal
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:190
+js-ssv-never = aldrig
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-never-had-four = havde aldrig fire
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-never-had-one = havde aldrig ét
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:135
+js-ssv-no-range = Intet interval i dette resultat.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:107
+js-ssv-no-series = Resultatet indeholder ingen serie til dette diagram.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:216
+js-ssv-not-in-variant = ikke en del af varianten
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:35
+js-ssv-not-result = dette er ikke et gnss-ssv-resultat
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:215
+js-ssv-of = { $n } af { $total }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-offset = { $deg }° forskydning
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:29
+js-ssv-open-failed = { $title } kunne ikke åbnes: { $reason }.
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:19
+js-ssv-opening = Åbner { $title }…
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:157
+js-ssv-outage-note = I minutter, over kørslen. "Aldrig" markerer en gruppe, der aldrig havde så mange signaler nogen steder på skallen.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:157
+js-ssv-outage-title = Længste udfald på skallen
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:175
+js-ssv-phases-note = En statistik for filteret over kørslen og over dens to dele. En gennemsnitlig positions-NEES nær 3 betyder, at filterets angivne grænse er konsistent med dets fejl.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:175
+js-ssv-phases-title = Positionsfejl pr. fase
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:122
+js-ssv-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:143
+js-ssv-range-title = { $label }: min. { $min }, middel { $mean }, maks. { $max } { $unit }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:145
+js-ssv-range-value = { $min } til { $max }
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:27
+js-ssv-recorded = { $title }: motorens optagede resultat (version { $version }).
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:183
+js-ssv-relative-label = Relativ positionsfejl
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:34
+js-ssv-result-not-json = resultatet er ikke JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:22
+js-ssv-result-not-loaded = det optagede resultat blev ikke indlæst
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-acquires = Opfanger ned til
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-carrier = Bærebølgesporing ned til
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-code = Kodesporing ned til
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-coherent = Kohærent integration
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:198
+js-ssv-row-delay-mean = Forsinkelse, middel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-detection = Detektionstærskel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-false-alarm = Sandsynlighed for falsk alarm pr. celle
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-final-error = Endelig positionsfejl
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-gap = Længste hul
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-gated = Udsorterede målinger
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-row-grazing = Strejfer under 100 km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-row-limb-links = Forbindelser gennem randen
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:198
+js-ssv-row-loss-mean = Tab, middel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-row-lost = Tabt til atmosfæren
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:196
+js-ssv-row-pdop-median = PDOP, median
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:196
+js-ssv-row-pdop-p95 = PDOP, 95. percentil
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:196
+js-ssv-row-pdop-worst = PDOP, værste
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:198
+js-ssv-row-plasma-mean = Plasmasfærisk TEC, middel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-search-cells = Søgeceller
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-search-time = Søgetid
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-srp-est = Solstrålingstryk, estimeret
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-srp-truth = Solstrålingstryk, reference
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:198
+js-ssv-row-stec-mean = Skrå TEC, middel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-row-tangent = Tangenthøjde, min. til maks.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-tracking = Anvendt sporingstærskel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-used = Brugte målinger
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-series-altitude = højde/1000
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:178
+js-ssv-series-altitude-name = højde
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-series-best-cn0 = bedste C/N0
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:177
+js-ssv-series-error = fejl
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:178
+js-ssv-series-measurements = målinger
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:167
+js-ssv-series-note = Én udtyndet serie af det samlede antal over alle konstellationer. Motoren skriver ingen serie pr. konstellation, så ingen tegnes.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-series-signals = signaler i sigte
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-series-signals-label = Signaler i sigte mod tid, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:177
+js-ssv-series-stated-bound = angivet grænse
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:167
+js-ssv-series-title = Signaler og bedste C/N0 langs banen, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:155
+js-ssv-shell-avail-note = Andel af gitterpunkter og tidspunkter med mindst ét og mindst fire signaler over { $cn0 } dB-Hz.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:155
+js-ssv-shell-avail-title = Tilgængelighed på skallen, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-tangent-value = { $min } til { $max } km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-above-absolute = Over GNSS: ud fra absolut, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-above-filter = Over GNSS: filter, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-th-band-group = Bånd og gruppe
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-bar = Tærskel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-baseline = Baseline, km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-common-4 = Epoker med 4 fælles signaler
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-common-mean = Gennemsnitlige fælles signaler
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-compares = Hvad den sammenligner
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-deputy = Deputy
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-epochs = Epoker
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:194
+js-ssv-th-group = Gruppe
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:194
+js-ssv-th-main-lobe = Hovedlobeforbindelser
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-nees = Gennemsnitlig positions-NEES
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-phase = Fase
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-pos-p95 = Position, 95. percentil, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-pos-rms = Position, RMS, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:199
+js-ssv-th-quantity = Størrelse
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-rel-absolute = Relativ RMS, ud fra absolut, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-rel-filter = Relativ RMS, filter, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-rel-vel = Relativ hastigheds-RMS, m/s
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-run1-cells = Kørsel 1: celler inden for tolerancen
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-run1-verdict = Afgørelse for kørsel 1
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:194
+js-ssv-th-sidelobe = Sidelobeforbindelser
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:194
+js-ssv-th-sidelobe-share = Sidelobeandel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:199
+js-ssv-th-value = Værdi
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-variant = Variant (diagnostisk, GLONASS-referencevinkler fra tabel 4.2)
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-vel-rms = Hastigheds-RMS, m/s
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-with-4 = Med 4 eller flere signaler
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-th-without-1 = Længste uden 1 signal
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-th-without-4 = Længste uden 4 signaler
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:26
+js-ssv-title-formation-heo = Formation, stærkt elliptisk bane
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:23
+js-ssv-title-heo = Stærkt elliptisk bane
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:24
+js-ssv-title-lunar-weak = Månetransfer, modtager for svage signaler
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:25
+js-ssv-title-nav-lunar = Filter om bord, månetransfer
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:22
+js-ssv-title-shell = Skal ved 36 000 km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:161
+js-ssv-traj-avail-note = Andel af epokerne med mindst ét og mindst fire signaler over { $cn0 } dB-Hz.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:161
+js-ssv-traj-avail-title = Tilgængelighed langs banen, { $band }
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:37
+js-ssv-transmit-pattern = Sendemønster: { $pattern }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:163
+js-ssv-unit-signals = signaler
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:36
+js-ssv-unknown-mode = dette gnss-ssv-resultat har tilstanden "{ $mode }", som denne side ikke læser
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:215
+js-ssv-variant-met = { $n } af { $total }, ville være nået
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:215
+js-ssv-variant-not-met = { $n } af { $total }, stadig ikke nået
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:163
+js-ssv-view-note = Mindste til største antal i sigte over epokerne, med middelværdien markeret.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:163
+js-ssv-view-title = Signaler i sigte, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:172
+js-ssv-weak-note = Hvad modtagerudformningen kræver, som motoren beregner det ud fra den angivne integration.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:172
+js-ssv-weak-title = Modtageren til svage signaler
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-x-minutes = minutter
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:178
+js-ssv-y-altitude-measurements = højde, tusind km; brugte målinger
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-y-cn0-altitude = dB-Hz; højde i tusind km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:177
+js-ssv-y-position-log = position, meter (log)
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-y-signals-all = signaler i sigte, alle konstellationer
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:127
+js-t35data-ai-q-bench-export = Eksportér et scenaries bevægelse og hændelser til en laboratoriesimulator
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:128
+js-t35data-ai-q-compliance-rows = Hvilke rækker i offentlige rammeværk leverer disse kørsler belæg for?
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:125
+js-t35data-ai-q-evidence-pack = Kontrollér eller opret en bevispakke for en tillidshændelse
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:124
+js-t35data-ai-q-interference-route = Hvor har GNSS set forringet ud, og hvor stor en del af denne rute ligger i det?
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:129
+js-t35data-ai-q-iq-recordings = GNSS IQ-optagelser (scene, opfangning, sporing, front end, kampagner)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:126
+js-t35data-ai-q-osnma-satellites = Hvilke Galileo-satellitters navigationsdata autentificerer denne modtagerstrøm (OSNMA)?
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:121
+js-t35data-ai-q-run-scenario = Kør eller forklar et PNT-scenarie (baner, GNSS, tidssynkronisering, fusion, måne)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:123
+js-t35data-ai-q-training-nmea = Jeg har brug for syntetisk NMEA med en jamming-, drag-off-, tidsspoofing- eller replay-hændelse til træning
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:122
+js-t35data-ai-q-trustworthy-log = Var denne modtagerlog eller dette fartøjs NMEA troværdig, og hvornår holdt den op med at være det?
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:126
+js-t35data-ai-tool-osnma-satellites = ingen på MCP: brug osnma_verify (OSNMA-kortet her, WebAssembly), kshana osnma verify (CLI) eller kshana.osnma_verify (Python)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:104
+js-t35data-card-evidence-create-title = Opret en bevispakke
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:105
+js-t35data-card-evidence-create-what = Signerer et vindue af en modtagerlog og det, motoren beregnede ud fra det, så alle kan kontrollere, at intet blev ændret bagefter. Studio verificerer pakker.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:106
+js-t35data-card-evidence-create-why = Signering kræver en privat nøgle, som ikke bør passere gennem en webside.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:89
+js-t35data-card-iq-title = GNSS IQ-overvågninger og -værktøjer
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:90
+js-t35data-card-iq-what = Byg en scene, opfang og spor signaler, gennemløb parametre, modellér en front end, kør IQ-overvågninger og kampagner, tilpas en laboratorielog. Også tilgængeligt fra Python og, inden for én arbejdsmappe, fra AI-assistentens værktøjer.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:91
+js-t35data-card-iq-why = En optagelse er gigabytes af samples. En side kan ikke rumme den, og kommandoerne, der konverterer, udtrækker og udtynder, omskriver optagelser på disken.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:109
+js-t35data-card-land-title = Download af landpolygoner til AIS-detektoren for position på land
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:110
+js-t35data-card-land-what = Henter én fastlåst landfil (Natural Earth, public domain) og kontrollerer dens SHA-256. Kortbyggeren tager landfilen som tekst i stedet.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:111
+js-t35data-card-land-why = Det er den eneste kommando, der åbner en netværksforbindelse, og den kræver systemets curl og et udtrykkeligt flag.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:94
+js-t35data-card-marine-title = Maritime integrationer
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:95
+js-t35data-card-marine-what = En Signal K-serverplugin og OpenCPN gennem gate-mode NMEA over TCP lægger tillidsscoren på software, som lystsejlere allerede bruger; en referencebygning lægger den på en lille computer ved siden af modtageren.
