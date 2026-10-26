@@ -43,3 +43,5 @@ seg-621a18c07044 = De grafiek die de engine schrijft voor scenarios/sweep-nd-ine
 seg-ce006a6715e9 = <s1>Vorige</s1>spoof
 
 seg-b9f8771ffd3d = <s1>Volgende</s1>sweep
+
+seg-8b701f465117 = log

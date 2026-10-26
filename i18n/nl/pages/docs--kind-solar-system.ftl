@@ -75,3 +75,5 @@ seg-ce15aaa5453c = Fysische constanten van elk hemellichaam in het zonnestelsel 
 seg-ceadf891b1e2 = <s1>Vorige</s1>slot-timing
 
 seg-0493962a6937 = <s1>Volgende</s1>space-packet
+
+seg-fbac1cbb2422 = MODELLED { "2" } · VALIDATED { "3" }: de rijen van de <a1>verificatiematrix</a1> die deze soort noemen.

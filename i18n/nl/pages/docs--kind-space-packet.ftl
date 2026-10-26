@@ -39,3 +39,5 @@ seg-94f3381476ee = <b>VALIDATED</b> Codering/decodering van de primaire header v
 seg-bca17769398b = <s1>Vorige</s1>solar-system
 
 seg-6ef772483f30 = <s1>Volgende</s1>space-weather
+
+seg-2ac27c1e55c0 = octet
