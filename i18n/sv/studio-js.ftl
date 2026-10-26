@@ -7812,3 +7812,1355 @@ js-replay-file-error = { $name }: { $error }
 
 # 2026-10-01-studio-rebuild/lib/kinds.mjs:481
 js-replay-kinds-convergence-horizontal = Konvergens: median av horisontellt fel
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:482
+js-replay-kinds-convergence-vertical = Konvergens: median av vertikalt fel
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-course = Rapporterad kurs
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-heading = Rättvisande kurs (gyro)
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-position-error = Positionsfel
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-receiver = Mottagare
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-run-time = Körtid
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-satellites = Satelliter som används / i sikte
+
+# 2026-10-01-studio-rebuild/replay/replay.js:91
+js-replay-kv-sky = Himmel
+
+# 2026-10-01-studio-rebuild/replay/replay.js:52
+js-replay-legend = Teckenförklaring
+
+# 2026-10-01-studio-rebuild/replay/replay.js:54
+js-replay-legend-no-fix = ingen positionsbestämning
+
+# 2026-10-01-studio-rebuild/replay/replay.js:54
+js-replay-legend-true-track = referensspår
+
+# 2026-10-01-studio-rebuild/replay/replay.js:107
+js-replay-moment = Ögonblick vid T+{ $t }:
+
+# 2026-10-01-studio-rebuild/replay/replay.js:76
+js-replay-no-coast = Ingen kustlinje ritas: ingen medföljer för det här fönstret.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:92
+js-replay-no-gsv = ingen GSV i den här loggen
+
+# 2026-10-01-studio-rebuild/replay/replay.js:143
+js-replay-not-json = { $name }: inte JSON.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:89
+js-replay-not-scored = inte poängsatt
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:27
+js-replay-obs-not-attributed = inte tillskriven
+
+# 2026-10-01-studio-rebuild/replay/replay.js:135
+js-replay-open-failed = { $id } kunde inte öppnas: { $reason }.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:47
+js-replay-open-file = Öppna en fil…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:153
+js-replay-opened = Öppnade { $name } i panel { $n }. Läst här; ingenting laddades upp.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:133
+js-replay-opening = Öppnar { $id }…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:104
+js-replay-pause = Pausa
+
+# 2026-10-01-studio-rebuild/replay/replay.js:104
+js-replay-play = Spela upp
+
+# 2026-10-01-studio-rebuild/replay/replay.js:154
+js-replay-read-failed = { $name }: kunde inte läsas eller ritas ({ $reason }).
+
+# 2026-10-01-studio-rebuild/replay/replay.js:139
+js-replay-reading = Läser { $name }…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:217
+js-replay-reduced-motion = Minskad rörelse föredras, så uppspelningen startar på 1x och spelas inte upp av sig själv.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:46
+js-replay-run = Kör
+
+# 2026-10-01-studio-rebuild/replay/replay.js:46
+js-replay-run-shown = Körning som visas i panel { $n }
+
+# 2026-10-01-studio-rebuild/replay/replay.js:172
+js-replay-saved-svg = Sparade { $name } ({ $size } kB): varje bildruta i en fil, ritad ur samma rader som den här sidan.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:181
+js-replay-saved-zip = Sparade { $name } ({ $size } MB): en SVG per bildruta, ett manifest över raderna bakom varje, och en README.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:147
+js-replay-src-instructor = Din fil { $name }: ingen poäng eller himmel från motorn följer med enbart en instruktörslogg.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:150
+js-replay-src-trust = Din fil { $name }: ett förtroenderesultat har varken himmel eller kurs, så de ritas inte.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:254
+js-replay-status-ready = { $a } och { $b }: syntetiska körningar, poängsatta av motorn. Tryck på Spela upp, eller flytta klockan.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:134
+js-replay-status-synthetic = { $titles }: syntetiska körningar, poängsatta av motorn.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:134
+js-replay-status-synthetic-no-coast = { $titles }: syntetiska körningar, poängsatta av motorn. Kustlinje saknas.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:51
+js-replay-strip-label = Förtroendepoäng under körningen
+
+# 2026-10-01-studio-rebuild/replay/replay.js:23
+js-replay-titles-and = { $a } och { $b }
+
+# 2026-10-01-studio-rebuild/replay/replay.js:141
+js-replay-too-large = { $name } är större än vad den här sidan läser.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:75
+js-replay-track = Spår av { $n } loggrader, norr uppåt.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:75
+js-replay-track-widened = Spår av { $n } loggrader, norr uppåt, vidgat för att visa närmaste kust.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict = Utlåtande
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:198
+js-replay-verdict-degraded = { $dur } försämrad, ingen ej betrodd
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict-early = Utlåtande (tidigt)
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict-fine = Endast utifrån loggen och motorns poäng; syntetisk, rådgivande, inte en siffra för detekteringsprestanda.
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:196
+js-replay-verdict-first = först under nominell nivå vid T+{ $t }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:195
+js-replay-verdict-first-after = först under nominell nivå vid T+{ $t }, { $dur } efter att den första händelsen började (T+{ $onset })
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:196
+js-replay-verdict-first-before = först under nominell nivå vid T+{ $t }, före den första händelsens början (T+{ $onset })
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:193
+js-replay-verdict-lowest = Lägsta förtroendepoäng { $score } ({ $band }) vid T+{ $t }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:194
+js-replay-verdict-never-left = poängen lämnade aldrig det nominella bandet
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:201
+js-replay-verdict-no-fix = ingen positionsbestämning på { $dur }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:199
+js-replay-verdict-not-scored = Inte poängsatt: motorns förtroendepoäng visas för körningarna i biblioteket
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:200
+js-replay-verdict-peak-error = största loggade positionsfel { $err } m vid T+{ $t }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:197
+js-replay-verdict-untrusted = { $dur } i det ej betrodda bandet
+
+# 2026-10-01-studio-rebuild/replay/replay.js:98
+js-replay-verdict-wait = Visas när den här körningen slutar, vid T+{ $t }.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:178
+js-ssv-altitude-label = Höjd och använda mätningar
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:156
+js-ssv-at-least-1 = minst 1 signal
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:156
+js-ssv-at-least-4 = minst 4 signaler
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:156
+js-ssv-avail-label = Tillgänglighet, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:96
+js-ssv-bar-title = { $label }, { $name }: { $value }{ $unit }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:26
+js-ssv-blurb-formation-heo = En chief och en deputy en kilometer från varandra i en starkt elliptisk bana: hur väl filtret känner deras relativa position, mot vad de två absoluta positionsbestämningarna skulle ge.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:23
+js-ssv-blurb-heo = En starkt elliptisk bana (apogeum nära 58 600 km) med en nadirantenn med hög förstärkning, en zenit-patchantenn och en parametrisk sidolobsmodell: signaler i sikte, bästa C/N0, huvudlob mot sidolob, precisionsförsämring och de signaler som tangerar atmosfären.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:24
+js-ssv-blurb-lunar-weak = En månöverföringsbana med en mottagare byggd för att fungera vid de svagaste signalerna: vad den behöver för att förvärva och följa, och hur stor del av banan den kan använda.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:25
+js-ssv-blurb-nav-lunar = Ett navigeringsfilter ombord på en månöverföring: dess positionsfel mot den gräns det anger, under och över GNSS-satelliternas egna banor.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:22
+js-ssv-blurb-shell = Ett sfäriskt skal på geostationär höjd, samplat på ett rutnät: hur ofta hör en rymdfarkost där minst en, och minst fyra, signaler på 20 dB-Hz, på L1 och L5, för varje konstellation och alla tillsammans?
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-cn0-altitude-label = Bästa C/N0 och höjd mot tid, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:164
+js-ssv-cn0-label = Bästa C/N0, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:164
+js-ssv-cn0-note = Av signalerna i sikte, den starkaste vid varje epok: minsta till största över epokerna, med medelvärdet markerat.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:164
+js-ssv-cn0-title = Bästa bärvåg-till-brus-täthet, { $band }
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:57
+js-ssv-comparison-failed = Jämförelsen kunde inte visas ({ $reason }).
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:53
+js-ssv-comparison-not-loaded = jämförelsefilen lästes inte in
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:82
+js-ssv-default-bars = staplar
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:104
+js-ssv-default-chart = diagram
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:133
+js-ssv-default-ranges = intervall
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:184
+js-ssv-deputies-note = Chiefens absoluta RMS { $rms } m över { $epochs } epoker.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:184
+js-ssv-deputies-title = Varje deputy
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:170
+js-ssv-dop-note = Median, 95:e percentil och sämsta PDOP över de epoker som har en positionsbestämning och, där scenariot anger en atmosfär, de signaler som tangerar den.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:170
+js-ssv-dop-title = Precisionsförsämring och atmosfären, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:177
+js-ssv-err-label = Positionsfel mot den angivna gränsen
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:176
+js-ssv-err-note = Den streckade linjen är den enkelsigmagräns som filtret anger; den heldragna linjen är dess fel mot den referens som scenariot känner till. Decimerad av motorn.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:176
+js-ssv-err-title = Positionsfel mot filtrets egen gräns
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-antenna = Antenn
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:224
+js-ssv-fact-apogee = Apogeumhöjd
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:225
+js-ssv-fact-cn0-threshold = Tröskel för bärvåg-till-brus-täthet
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-duration = Varaktighet
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:223
+js-ssv-fact-eccentricity = Excentricitet
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-grid-points = Rutnätspunkter
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:223
+js-ssv-fact-inclination = Inklination
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:221
+js-ssv-fact-mode = Läge
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:224
+js-ssv-fact-perigee = Perigeumhöjd
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:224
+js-ssv-fact-period = Omloppstid
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-shell-altitude = Skalets höjd
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:223
+js-ssv-fact-sma = Halva storaxeln
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:222
+js-ssv-fact-step = Steg
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:183
+js-ssv-filter = filter
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:182
+js-ssv-formation-note = RMS för relativt positionsfel, från filtret och från differentiering av de två absoluta positionsbestämningarna, över hela körningen och ovanför GNSS-banorna.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:182
+js-ssv-formation-title = Relativ position för deputy
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:183
+js-ssv-from-absolute = från två absoluta positionsbestämningar
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:78
+js-ssv-group-combined = alla tillsammans
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:56
+js-ssv-icg-note = { $label }; tröskelutlåtandena i motorns incheckade resultatfiler (motorincheckning { $commit }). Häftets tabeller är offentliga; ingenting här är VALIDATED.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:208
+js-ssv-icg-wrong-file = ICG-jämförelsefilen är inte den som den här sidan läser
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:165
+js-ssv-lobe-note = Hur många av de användbara länkarna som kom via huvudloben och hur många via en sidolob, så som motorn räknat dem.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:165
+js-ssv-lobe-title = Huvudlob och sidolob, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:17
+js-ssv-na = saknas
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:179
+js-ssv-nav-note = Använda och bortgallrade mätningar, det längsta gapet med färre än fyra signaler, slutfelet och skattningen av solstrålningstryck mot den referens som scenariot känner till.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:179
+js-ssv-nav-title = Körningen i siffror
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:190
+js-ssv-never = aldrig
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-never-had-four = hade aldrig fyra
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-never-had-one = hade aldrig en
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:135
+js-ssv-no-range = Inget intervall i det här resultatet.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:107
+js-ssv-no-series = Resultatet har ingen serie för det här diagrammet.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:216
+js-ssv-not-in-variant = ingår inte i varianten
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:35
+js-ssv-not-result = det här är inte ett gnss-ssv-resultat
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:215
+js-ssv-of = { $n } av { $total }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-offset = { $deg }° förskjutning
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:29
+js-ssv-open-failed = { $title } kunde inte öppnas: { $reason }.
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:19
+js-ssv-opening = Öppnar { $title }…
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:157
+js-ssv-outage-note = I minuter, över körningen. "Aldrig" markerar en grupp som aldrig hade så många signaler någonstans på skalet.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:157
+js-ssv-outage-title = Längsta avbrott på skalet
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:175
+js-ssv-phases-note = En statistik för filtret över körningen och över dess två delar. Ett genomsnittligt positions-NEES nära 3 betyder att filtrets angivna gräns stämmer med dess fel.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:175
+js-ssv-phases-title = Positionsfel per fas
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:122
+js-ssv-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:143
+js-ssv-range-title = { $label }: min { $min }, medel { $mean }, max { $max } { $unit }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:145
+js-ssv-range-value = { $min } till { $max }
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:27
+js-ssv-recorded = { $title }: motorns registrerade resultat (version { $version }).
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:183
+js-ssv-relative-label = Relativt positionsfel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:34
+js-ssv-result-not-json = resultatet är inte JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:22
+js-ssv-result-not-loaded = det registrerade resultatet lästes inte in
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-acquires = Förvärvar ned till
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-carrier = Bärvågsföljning ned till
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-code = Kodföljning ned till
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-coherent = Koherent integration
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:198
+js-ssv-row-delay-mean = Fördröjning, medel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-detection = Detekteringströskel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-false-alarm = Falsklarmssannolikhet per cell
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-final-error = Slutligt positionsfel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-gap = Längsta gap
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-gated = Bortgallrade mätningar
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-row-grazing = Tangerande under 100 km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-row-limb-links = Länkar genom limben
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:198
+js-ssv-row-loss-mean = Förlust, medel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-row-lost = Förlorat till atmosfären
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:196
+js-ssv-row-pdop-median = PDOP, median
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:196
+js-ssv-row-pdop-p95 = PDOP, 95:e percentil
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:196
+js-ssv-row-pdop-worst = PDOP, sämsta
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:198
+js-ssv-row-plasma-mean = Plasmasfärisk TEC, medel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-search-cells = Sökceller
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-search-time = Söktid
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-srp-est = Solstrålningstryck, skattat
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-srp-truth = Solstrålningstryck, referens
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:198
+js-ssv-row-stec-mean = Snedriktad TEC, medel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-row-tangent = Tangenthöjd, min till max
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:201
+js-ssv-row-tracking = Använd spårningströskel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:203
+js-ssv-row-used = Använda mätningar
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-series-altitude = höjd/1000
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:178
+js-ssv-series-altitude-name = höjd
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-series-best-cn0 = bästa C/N0
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:177
+js-ssv-series-error = fel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:178
+js-ssv-series-measurements = mätningar
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:167
+js-ssv-series-note = En decimerad serie av det sammanlagda antalet över alla konstellationer. Motorn skriver ingen serie per konstellation, så ingen ritas.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-series-signals = signaler i sikte
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-series-signals-label = Signaler i sikte mot tid, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:177
+js-ssv-series-stated-bound = angiven gräns
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:167
+js-ssv-series-title = Signaler och bästa C/N0 längs banan, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:155
+js-ssv-shell-avail-note = Andel av rutnätspunkter och tider med minst en och minst fyra signaler över { $cn0 } dB-Hz.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:155
+js-ssv-shell-avail-title = Tillgänglighet på skalet, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:197
+js-ssv-tangent-value = { $min } till { $max } km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-above-absolute = Över GNSS: från absoluta, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-above-filter = Över GNSS: filter, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-th-band-group = Band och grupp
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-bar = Tröskel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-baseline = Baslinje, km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-common-4 = Epoker med 4 gemensamma signaler
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-common-mean = Genomsnittligt antal gemensamma signaler
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-compares = Vad den jämför
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-deputy = Deputy
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-epochs = Epoker
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:194
+js-ssv-th-group = Grupp
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:194
+js-ssv-th-main-lobe = Länkar via huvudlob
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-nees = Genomsnittligt positions-NEES
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-phase = Fas
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-pos-p95 = Position, 95:e percentil, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-pos-rms = Position RMS, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:199
+js-ssv-th-quantity = Storhet
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-rel-absolute = Relativ RMS, från absoluta, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-rel-filter = Relativ RMS, filter, m
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:204
+js-ssv-th-rel-vel = Relativ hastighet RMS, m/s
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-run1-cells = Körning 1: celler inom tolerans
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-run1-verdict = Utlåtande för körning 1
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:194
+js-ssv-th-sidelobe = Länkar via sidolob
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:194
+js-ssv-th-sidelobe-share = Sidolobsandel
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:199
+js-ssv-th-value = Värde
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:217
+js-ssv-th-variant = Variant (diagnostisk, GLONASS-referensvinklar från tabell 4.2)
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-vel-rms = Hastighet RMS, m/s
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:202
+js-ssv-th-with-4 = Med 4 eller fler signaler
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-th-without-1 = Längsta utan 1 signal
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:192
+js-ssv-th-without-4 = Längsta utan 4 signaler
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:26
+js-ssv-title-formation-heo = Formation, starkt elliptisk bana
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:23
+js-ssv-title-heo = Starkt elliptisk bana
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:24
+js-ssv-title-lunar-weak = Månöverföring, mottagare för svaga signaler
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:25
+js-ssv-title-nav-lunar = Filter ombord, månöverföring
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:22
+js-ssv-title-shell = Skal på 36 000 km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:161
+js-ssv-traj-avail-note = Andel av epokerna med minst en och minst fyra signaler över { $cn0 } dB-Hz.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:161
+js-ssv-traj-avail-title = Tillgänglighet längs banan, { $band }
+
+# 2026-10-01-studio-rebuild/ssv/ssv.js:37
+js-ssv-transmit-pattern = Sändningsmönster: { $pattern }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:163
+js-ssv-unit-signals = signaler
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:36
+js-ssv-unknown-mode = det här gnss-ssv-resultatet har läget "{ $mode }", som den här sidan inte läser
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:215
+js-ssv-variant-met = { $n } av { $total }, skulle uppfyllas
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:215
+js-ssv-variant-not-met = { $n } av { $total }, uppfylls fortfarande inte
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:163
+js-ssv-view-note = Minsta till största antal i sikte över epokerna, med medelvärdet markerat.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:163
+js-ssv-view-title = Signaler i sikte, { $band }
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:172
+js-ssv-weak-note = Vad mottagarutformningen behöver, så som motorn beräknar det utifrån den angivna integrationen.
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:172
+js-ssv-weak-title = Mottagaren för svaga signaler
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-x-minutes = minuter
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:178
+js-ssv-y-altitude-measurements = höjd, tusen km; använda mätningar
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-y-cn0-altitude = dB-Hz; höjd i tusen km
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:177
+js-ssv-y-position-log = position, meter (log)
+
+# 2026-10-01-studio-rebuild/lib/ssv.mjs:168
+js-ssv-y-signals-all = signaler i sikte, alla konstellationer
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:127
+js-t35data-ai-q-bench-export = Exportera ett scenarios rörelse och händelser för en laboratoriesimulator
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:128
+js-t35data-ai-q-compliance-rows = Vilka rader i offentliga ramverk ger dessa körningar belägg för?
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:125
+js-t35data-ai-q-evidence-pack = Kontrollera eller skapa ett bevispaket för en förtroendehändelse
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:124
+js-t35data-ai-q-interference-route = Var har GNSS sett försämrat ut, och hur stor del av den här rutten ligger i det?
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:129
+js-t35data-ai-q-iq-recordings = GNSS IQ-inspelningar (scen, förvärv, följning, frontend, kampanjer)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:126
+js-t35data-ai-q-osnma-satellites = Vilka Galileo-satelliters navigeringsdata autentiserar den här mottagarströmmen (OSNMA)?
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:121
+js-t35data-ai-q-run-scenario = Kör eller förklara ett PNT-scenario (banor, GNSS, tidssynkronisering, fusion, måne)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:123
+js-t35data-ai-q-training-nmea = Jag behöver syntetisk NMEA med en jamming-, drag-off-, tidsspoofing- eller replay-händelse för träning
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:122
+js-t35data-ai-q-trustworthy-log = Var den här mottagarloggen, eller det här fartygets NMEA, tillförlitlig, och när slutade den vara det?
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:126
+js-t35data-ai-tool-osnma-satellites = ingen på MCP: använd osnma_verify (OSNMA-kortet här, WebAssembly), kshana osnma verify (CLI) eller kshana.osnma_verify (Python)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:104
+js-t35data-card-evidence-create-title = Skapa ett bevispaket
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:105
+js-t35data-card-evidence-create-what = Signerar ett fönster av en mottagarlogg och det motorn beräknade ur den, så att vem som helst kan kontrollera att inget ändrats efteråt. Studio verifierar paket.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:106
+js-t35data-card-evidence-create-why = Signering kräver en privat nyckel, som inte bör passera en webbsida.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:89
+js-t35data-card-iq-title = GNSS IQ-övervakare och verktyg
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:90
+js-t35data-card-iq-what = Bygg en scen, förvärva och följ signaler, svep parametrar, modellera en frontend, kör IQ-övervakare och kampanjer, anpassa en laboratorielogg. Finns också från Python och, inom en arbetsmapp, från AI-assistentens verktyg.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:91
+js-t35data-card-iq-why = En inspelning är gigabyte av samplingar. En sida kan inte rymma den, och kommandona som konverterar, extraherar och decimerar skriver om inspelningar på disk.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:109
+js-t35data-card-land-title = Nedladdning av landpolygoner för AIS-detektorn på land
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:110
+js-t35data-card-land-what = Hämtar en fastlåst landfil (Natural Earth, public domain) och kontrollerar dess SHA-256. Kartbyggaren tar landfilen som text i stället.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:111
+js-t35data-card-land-why = Det är det enda kommandot som öppnar en nätverksanslutning, och det kräver systemets curl och en uttrycklig flagga.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:94
+js-t35data-card-marine-title = Marina integrationer
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:95
+js-t35data-card-marine-what = Ett Signal K-serverplugin och OpenCPN via NMEA i gate-läge över TCP lägger förtroendepoängen på programvara som båtfolk redan kör; ett referensbygge lägger den på en liten dator bredvid mottagaren.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:96
+js-t35data-card-marine-why = De är konsumenter av den pågående live-processen och dess TCP-gate: driftsättningar på båtens dator.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:84
+js-t35data-card-telemetry-title = Förtroende som säkerhetstelemetri
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:85
+js-t35data-card-telemetry-what = Omvandlar förtroendeströmmen (poäng, band, skäl) till Prometheus-mätvärden, syslog-händelser i CEF eller LEEF för ett SIEM, och OpenTelemetry. Den läser strömmen och ändrar aldrig bedömningen.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:86
+js-t35data-card-telemetry-why = Det är en process som serverar mätvärden och skickar till dina övervakningssystem, så den körs bredvid mottagaren, inte på en sida.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:99
+js-t35data-card-training-stream-title = Träningsströmmar till en TCP- eller UDP-adress
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:100
+js-t35data-card-training-stream-what = Skickar en genererad träningsström till en bryggsimulator eller en kartplotter i realtid eller snabbare. Träningssidan i Studio genererar samma text och låter dig ladda ned den.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:101
+js-t35data-card-training-stream-why = Att skicka till en nätverksadress är något en webbläsarsida inte gör. Strömmen är enbart text och aldrig avsedd för ett fartygs levande navigationssystem.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:77
+js-t35data-feat-ai-ai = Installationsalternativ för MCP-servern, med de frågor varje verktyg svarar på
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:76
+js-t35data-feat-ai-name = Använd från en AI-assistent (MCP-server)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:56
+js-t35data-feat-bench-bench = Exportera rörelse, NMEA, färdpunkter och händelser för ett scenario, här
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:55
+js-t35data-feat-bench-name = Test-bench-export för en laboratoriesimulator
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:59
+js-t35data-feat-compliance-compliance = Se vilka rader i ramverken dina körningar ger belägg för, och mappningstabellerna, här
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:58
+js-t35data-feat-compliance-name = Compliance-mappning mot offentliga resiliensramverk
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:52
+js-t35data-feat-evidence-evidence = Verifiera ett paket och bifoga en tidsstämpeltoken, här
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:51
+js-t35data-feat-evidence-name = Signerade bevispaket
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:54
+js-t35data-feat-evidence-why = Att skapa ett paket kräver en privat signeringsnyckel, som inte bör passera en webbsida. Paket skapas med kommandoraden, Python eller AI-assistentens verktyg.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:46
+js-t35data-feat-interference-map-interference = Öppna kartfiler, eller bygg en karta från CSV här, och kontrollera en rutt mot den
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:45
+js-t35data-feat-interference-map-name = Störningskarta (ADS-B och AIS) och ruttexponering
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:61
+js-t35data-feat-iq-name = GNSS IQ-övervakare och verktyg (scen, förvärv, följning, svep, frontend, övervakare, kampanjer)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:63
+js-t35data-feat-iq-why = En inspelning är gigabyte av samplingar, som en sida inte kan rymma, och vissa kommandon skriver om inspelningar på disk. Webbläsarversionen har inga IQ-funktioner.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:71
+js-t35data-feat-jammertest-jammertest = Importera planen för en loggs tidsspann, eller poängsätt en mottagarlogg (UBX, RINEX, Android, NMEA eller Septentrio SBF) per test: detekteringslatens, missade, falsklarm, tid till återhämtning; MODELLED
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:70
+js-t35data-feat-jammertest-name = Jammertest som domare: den publicerade testplanen som schemalagd referens, en mottagarlogg poängsatt mot den (0.38)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:36
+js-t35data-feat-live-gate-name = Live-förtroendeström, gate och lyssnare (stdin, file, TCP, UDP, --gate, --listen)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:38
+js-t35data-feat-live-gate-why = Det är en pågående process i datavägen. En sida återvänder när den är klar och kan inte hålla en socket öppen för en kartplotter, och inte heller markera en positionsbestämning som ogiltig i en live-ström. Studio poängsätter i stället ett avgränsat utdrag, i samma live-format, utan gate.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:74
+js-t35data-feat-machines-imufit = Anpassa accelerometer- och gyroparametrarna för scenarierna hybrid och fusion utifrån en stillastående IMU-logg; MODELLED
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:73
+js-t35data-feat-machines-name = Mottagar- och sensorindata: RTKLIB .pos, NovAtel OEM7, RTCM 3 MSM, GNSS-SDR, en IMU för kursen och en IMU-anpassning för scenarierna hybrid och fusion (0.38)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:74
+js-t35data-feat-machines-trust = Öppna en logg i något av dessa format (och en valfri IMU-fil) i den generiska körningen receiver-trust; NovAtels egen störsändarflagga jämförs med larmen från Kshana
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:64
+js-t35data-feat-marine-name = Marina integrationer: Signal K-plugin och OpenCPN
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:66
+js-t35data-feat-marine-why = De använder den pågående live-processen och dess TCP-gate, så de är driftsättningar på en båtdator, inte något en sida kan köra.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:33
+js-t35data-feat-maritime-trust-name = Maritimt förtroendepoäng för ett fartyg i rörelse (0 till 100, med skäl)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:34
+js-t35data-feat-maritime-trust-trust = Öppna ett resultat eller en live JSON-lines-körning och se spåret, poängen, skälen och gaten; poängsätt en NMEA-logg här
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:39
+js-t35data-feat-nmea-training-name = NMEA-träningsströmmar med en instruktörslogg
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:40
+js-t35data-feat-nmea-training-training = Generera en ström och dess instruktörslogg här, ladda ned dem och kör instruktörens genomgång
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:67
+js-t35data-feat-osnma-name = Galileo OSNMA-verifiering (UBX SFRBX-indata)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:68
+js-t35data-feat-osnma-osnma = Läs in en registrerad fil och se autentiseringsstatus per satellit och per tagg
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:48
+js-t35data-feat-telemetry-name = Telemetriexport: Prometheus-mätvärden, syslog CEF och LEEF, OpenTelemetry
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:50
+js-t35data-feat-telemetry-why = Den serverar mätvärden, skickar syslog och exporterar OpenTelemetry från en pågående ström: en process som talar med dina övervakningssystem, vilket en sida inte kan vara.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:42
+js-t35data-feat-training-stream-name = Strömma en träningsström till en TCP- eller UDP-adress
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:44
+js-t35data-feat-training-stream-why = Den skickar till en nätverksadress, vilket en webbsida inte gör. Studio genererar texten och du laddar ned den.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:28
+js-t35data-page-ai = Använd från din AI-assistent
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:22
+js-t35data-page-bench = Test-bench-export
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:27
+js-t35data-page-cli = Funktioner för kommandoraden
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:23
+js-t35data-page-compliance = Compliance-mappning
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:21
+js-t35data-page-evidence = Bevispaket
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:17
+js-t35data-page-geometry = Geometri: skyplot, skyline och DOP
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:26
+js-t35data-page-imufit = IMU-anpassning
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:20
+js-t35data-page-interference = Störningskarta
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:25
+js-t35data-page-jammertest = Jammertest-poängsättning
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:24
+js-t35data-page-osnma = OSNMA-verifiering
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:19
+js-t35data-page-training = Utbildningsgenomgång
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:18
+js-t35data-page-trust = Maritimt förtroende
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:93
+js-t35data-sample-iq-help = IQ-kommandolistan
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:88
+js-t35data-sample-telemetry-cef = Syslog i CEF för demokörningen
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:88
+js-t35data-sample-telemetry-leef = Syslog i LEEF för demokörningen
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:88
+js-t35data-sample-telemetry-metrics = Prometheus-mätvärden för demokörningen
+
+# 2026-10-01-studio-rebuild/tools/tools.js:359
+js-tools-ai-group-engine = Installera motorn och dess bibliotek
+
+# 2026-10-01-studio-rebuild/tools/tools.js:359
+js-tools-ai-group-integrations = Marina integrationer samt integrationer med plugin och instrumentpaneler
+
+# 2026-10-01-studio-rebuild/tools/tools.js:359
+js-tools-ai-group-mcp = Installera MCP-servern för din assistent
+
+# 2026-10-01-studio-rebuild/tools/tools.js:354
+js-tools-ai-heading = Använd Kshana från din AI-assistent
+
+# 2026-10-01-studio-rebuild/tools/tools.js:362
+js-tools-ai-install-mcp = Installera MCP-servern
+
+# 2026-10-01-studio-rebuild/tools/tools.js:354
+js-tools-ai-intro = Kshana MCP-servern låter en AI-assistent köra motorn i stället för att gissa tal. Den körs på din dator; ingenting skickas till Kshana. Välj det sätt som passar ditt verktyg.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:392
+js-tools-ai-load-failed = Installationsalternativen lästes inte in ({ $reason }). Se dokumentationen för MCP-servern.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:397
+js-tools-ai-mcp-docs = Dokumentation för MCP-servern
+
+# 2026-10-01-studio-rebuild/tools/tools.js:361
+js-tools-ai-more-ways = Fler sätt att installera
+
+# 2026-10-01-studio-rebuild/tools/tools.js:391
+js-tools-ai-none-listed = Inga installationsalternativ finns listade i den här versionen.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:362
+js-tools-ai-other-ways = Andra sätt att installera Kshana
+
+# 2026-10-01-studio-rebuild/tools/tools.js:397
+js-tools-ai-read-agent-guide = Läs agentguiden
+
+# 2026-10-01-studio-rebuild/tools/tools.js:397
+js-tools-ai-rule = Regeln för varje svar: assistenten kör motorn och redovisar det ett verktyg returnerade med dess enhet och dess evidensnivå (kontrollerad mot en extern oberoende referens, eller modellerad), scenariot, fröet och motorversionen, så att körningen kan upprepas. Ett resultats egna förbehåll följer med det. MCP-servern läser och skriver inga filer utanför en enda frivillig mapp.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:393
+js-tools-ai-what-to-ask = Vad du kan fråga, och vilket verktyg som svarar
+
+# 2026-10-01-studio-rebuild/tools/tools.js:397
+js-tools-ai-where-reachable = Var varje förmåga är tillgänglig
+
+# 2026-10-01-studio-rebuild/tools/tools.js:216
+js-tools-bench-files-written =
+    { $n ->
+        [one] { $n } fil skriven till webbläsarens minne
+       *[other] { $n } filer skrivna till webbläsarens minne
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:216
+js-tools-bench-note = Endast rörelse och namngivna händelseintervall. Ladda ned dem för att läsa in dem i en laboratoriesimulator.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:233
+js-tools-bench-wrong-kind = { $name } är ett scenario av typen { $kind }. En fordonsbana finns för typerna { $kinds }; andra typer anger varför de saknar en.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:246
+js-tools-building-report = Bygger rapporten…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:440
+js-tools-choose-catalogue-first = Välj katalogens JSON först.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:319
+js-tools-choose-file-first = Välj en fil först.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:484
+js-tools-choose-imu-log = Välj en stillastående IMU-logg först.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:140
+js-tools-choose-pack-first = Välj paketets filer först.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:175
+js-tools-choose-pack-first-above = Välj paketets filer först (ovan).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:441
+js-tools-choose-plan-file = Välj minst en planfil.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:468
+js-tools-choose-receiver-log = Välj mottagarloggen först.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:243
+js-tools-choose-result-first = Välj minst en resultatfil (*.result.json) först.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:232
+js-tools-choose-scenario-first = Välj ett scenario först.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:177
+js-tools-choose-tsr-first = Välj tidsstämpelsvaret (.tsr) först.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:190
+js-tools-chosen = Vald
+
+# 2026-10-01-studio-rebuild/tools/tools.js:160
+js-tools-col-check = Kontroll
+
+# 2026-10-01-studio-rebuild/tools/tools.js:160
+js-tools-col-detail = Detalj
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-first-monitors = Första övervakare
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-gap-that-stays = Kvarstående gap
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-last-auth-tag = Senast autentiserade tagg (Galileo-systemtid)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-latency = Latens, s
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-name = Namn
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-outcome = Utfall
+
+# 2026-10-01-studio-rebuild/tools/tools.js:394
+js-tools-col-question = Fråga
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-recovered = Återhämtad
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-reference = Referens
+
+# 2026-10-01-studio-rebuild/tools/tools.js:160
+js-tools-col-result = Resultat
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-row = Rad
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-satellite = Satellit
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-slot = Tidslucka, s
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-status = Status
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-tags = Taggar
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-test = Test
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-these-runs = Dessa körningar
+
+# 2026-10-01-studio-rebuild/tools/tools.js:394
+js-tools-col-tool = Verktyg
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-what-is-missing = Vad som saknas
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-what-it-asks = Vad den frågar
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-why-not-auth = Varför inte autentiserad
+
+# 2026-10-01-studio-rebuild/tools/tools.js:103
+js-tools-copied = Kopierat
+
+# 2026-10-01-studio-rebuild/tools/tools.js:102
+js-tools-copy = Kopiera
+
+# 2026-10-01-studio-rebuild/tools/tools.js:102
+js-tools-copy-command-aria = Kopiera: { $cmd }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:366
+js-tools-copy-labelled-aria = Kopiera { $label }: { $text }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:49
+js-tools-did-not-work = Det fungerade inte
+
+# 2026-10-01-studio-rebuild/tools/tools.js:384
+js-tools-documentation = Dokumentation
+
+# 2026-10-01-studio-rebuild/tools/tools.js:220
+js-tools-download = Ladda ned
+
+# 2026-10-01-studio-rebuild/tools/tools.js:225
+js-tools-download-all-zip = Ladda ned alla (zip)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:460
+js-tools-download-events-toml = Ladda ned händelserna (TOML)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:277
+js-tools-download-md = Ladda ned (Markdown)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:267
+js-tools-download-report-json = Ladda ned rapporten (JSON)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:266
+js-tools-download-report-md = Ladda ned rapporten (Markdown)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:474
+js-tools-download-scorecard-json = Ladda ned resultattavlan (JSON)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:492
+js-tools-download-table-toml = Ladda ned tabellen (TOML)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:183
+js-tools-download-updated-pack = Ladda ned det uppdaterade paketet (zip)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:493
+js-tools-download-whole-report-json = Ladda ned hela rapporten (JSON)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:45
+js-tools-engine-lacks-error = Den här motorversionen (version { $version }) saknar { $need }, så den kan inte köra detta här än. De registrerade resultaten och kommandoraden fungerar fortfarande.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:43
+js-tools-engine-lacks-status = Den här motorversionen (version { $version }) saknar { $need }: den är äldre än den version som verktyget behöver. Motsvarigheten för kommandoraden finns på fliken Kommandorad.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:41
+js-tools-engine-running = Motorn (version { $version }) körs i den här webbläsaren. Ingenting laddas upp.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:39
+js-tools-engine-starting = Startar motorn i den här webbläsaren…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:40
+js-tools-engine-unavailable = Motorn kunde inte starta här ({ $reason }). Att öppna filer fungerar; att köra verktygen kräver WebAssembly.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:91
+js-tools-epoch-format = Använd YYYY-MM-DDTHH:MM:SS, med ett valfritt Z (UTC).
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:94
+js-tools-epoch-not-real = Det är inte ett verkligt UTC-ögonblick mellan åren 2000 och 2099.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:166
+js-tools-every-check = Varje kontroll
+
+# 2026-10-01-studio-rebuild/tools/tools.js:169
+js-tools-evidence-disclaimer = Ett bevispaket är en teknisk post över vad motorn beräknade utifrån en angiven logg under angivna inställningar. Det är inte ett juridiskt utlåtande, ett faktakonstaterande om någon händelse eller en certifiering. En kontroll som lyckas säger att posten är oförändrad.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:132
+js-tools-example-pack = Syntetiskt exempelpaket
+
+# 2026-10-01-studio-rebuild/tools/tools.js:134
+js-tools-example-pack-note = Ett syntetiskt paket som skapats av motorns kommandorad från demologgen för färjan med en demonstrationsnyckel. Nyckeln är ifylld nedan; en verklig undertecknares nyckel kommer från undertecknaren på annat sätt.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:132
+js-tools-example-pack-tampered = Exempelpaket där en byte i epochs.json har ändrats
+
+# 2026-10-01-studio-rebuild/tools/tools.js:284
+js-tools-example-runs = Syntetiska exempelkörningar
+
+# 2026-10-01-studio-rebuild/tools/tools.js:134
+js-tools-example-tampered-note = En byte i en fil i paketet har ändrats efter signeringen. Verifiera det: kontrollen anger filen.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:213
+js-tools-exporting = Exporterar…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:322
+js-tools-field-whole-number = { $field } måste vara ett heltal
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:63
+js-tools-file-not-chosen = { $file } finns inte bland de valda filerna
+
+# 2026-10-01-studio-rebuild/tools/tools.js:53
+js-tools-file-too-large = { $name } är större än 64 MiB
+
+# 2026-10-01-studio-rebuild/tools/tools.js:282
+js-tools-files-selected = { $label }: { $files }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:157
+js-tools-fingerprint-not-pinned = Signerarens fingeravtryck: { $fingerprint } (inte fastlåst: nyckeln som paketet själv anger)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:157
+js-tools-fingerprint-pinned = Signerarens fingeravtryck: { $fingerprint } (fastlåst)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:488
+js-tools-fitting = Anpassar…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:260
+js-tools-framework-summary = { $name }: { $evidenced } belagda, { $partly } delvis, { $notEvidenced } inte belagda, { $outOfScope } utanför omfattningen
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:131
+js-tools-fw-dhs-rpcf = US DHS Resilient PNT Conformance Framework, v2.0
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:133
+js-tools-fw-easa-aviation = EASA:s vägledning om GNSS-störningar för luftfart
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:135
+js-tools-fw-en-16803 = EN 16803 (endast efter del- och klausulnummer)
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:132
+js-tools-fw-imo-ships = IMO:s vägledning om GNSS-störningar för fartyg
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:134
+js-tools-fw-nis2-art21 = EU:s NIS2-direktiv, artikel 21
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:183
+js-tools-gst-none = ingen
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:183
+js-tools-gst-text = vecka { $week }, { $tow } s
+
+# 2026-10-01-studio-rebuild/tools/tools.js:90
+js-tools-how-to-run = Så kör du det
+
+# 2026-10-01-studio-rebuild/tools/tools.js:502
+js-tools-imu-file-too-large = { $name } är större än 32 MiB; öppna ett utdrag.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:486
+js-tools-imu-mean-not-number = Den specifika kraften i vila är inte ett tal (0 för en horisontell axel, cirka 9.80665 för den vertikala).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:494
+js-tools-imu-notice = { $evidence }: skattaren kontrolleras på syntetiska vitbrusloggar med kända koefficienter, inte mot en extern oberoende referens. Tabellen anger loggens SHA-256 ({ $sha }…).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:505
+js-tools-imu-selected = { $name } ({ $size }), läst här, aldrig uppladdad.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:461
+js-tools-jt-events-count = { $n } schemalagda händelse(r)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:461
+js-tools-jt-events-note = som schemalagd referens: planerade tidsluckor, inte registrerade sändningstider. Inte RF: { $nonRf }; utanför loggen: { $outside }; okända id: { $unknown }.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:449
+js-tools-jt-guard-hold = Skydd { $guard } s, återhämtningshållning { $hold } s.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:449
+js-tools-jt-guard-hold-overlap = Skydd { $guard } s, återhämtningshållning { $hold } s. Kalibreringsbaslinjen överlappade en schemalagd tidslucka.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:456
+js-tools-jt-import-needs-start = Importen behöver loggens första epok i UTC (ISO 8601), eftersom planen anges i lokal tid.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-catalogue = katalog { $name }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-log = logg { $name } ({ $size })
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-no-catalogue = ingen katalog
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-no-log = ingen logg
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-no-plan = ingen plan
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-plans = { $n } planfil(er)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-jt-slot-range = { $from } till { $to }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-area = Testområdet
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-guard = Skyddet
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-hold = Återhämtningshållningen
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-offset = Förskjutningen från UTC
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-year = Planåret
+
+# 2026-10-01-studio-rebuild/tools/tools.js:377
+js-tools-label-command = kommando
+
+# 2026-10-01-studio-rebuild/tools/tools.js:378
+js-tools-label-pinned-command = fastlåst kommando
+
+# 2026-10-01-studio-rebuild/tools/tools.js:380
+js-tools-label-settings-example = inställningsexempel { $n }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:108
+js-tools-loading = Läser in…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:244
+js-tools-max-runs = Högst { $max } körningar.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:324
+js-tools-merkle-root-format = Merkle-roten är 64 hexadecimala siffror.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:438
+js-tools-must-be-number = { $what } måste vara ett tal
+
+# 2026-10-01-studio-rebuild/tools/tools.js:439
+js-tools-must-be-whole-zero = { $what } måste vara ett heltal, 0 för "inte angivet"
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-na = saknas
+
+# 2026-10-01-studio-rebuild/tools/tools.js:376
+js-tools-needs = Kräver: { $requires }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-no = nej
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-none = ingen
+
+# 2026-10-01-studio-rebuild/tools/tools.js:338
+js-tools-none-in-build = ingen i den här versionen
+
+# 2026-10-01-studio-rebuild/tools/tools.js:90
+js-tools-not-in-browser = Inte i en webbläsare.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:294
+js-tools-not-osnma = Inte ett OSNMA-resultat
+
+# 2026-10-01-studio-rebuild/tools/tools.js:258
+js-tools-not-used = Används inte: { $item }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:168
+js-tools-notes = Anmärkningar
+
+# 2026-10-01-studio-rebuild/tools/tools.js:382
+js-tools-open = Öppna
+
+# 2026-10-01-studio-rebuild/tools/tools.js:299
+js-tools-osnma-advisory = Rådgivande: detta är analys- och övervakningsutdata och inte typgodkänd navigationsutrustning. Autentiseringsstatusen som rapporteras här är inte en tjänst för navigeringsintegritet och får inte vara den enda grunden för något navigerings- eller säkerhetsbeslut.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:176
+js-tools-osnma-authenticated = Autentiserad
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-osnma-caption = Autentiseringsstatus per satellit
+
+# 2026-10-01-studio-rebuild/tools/tools.js:340
+js-tools-osnma-demo-note = Den tillfälliga publika nyckeln är ifylld; tryck på Verifiera för att köra verifieraren här, eller visa det registrerade resultatet.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:180
+js-tools-osnma-discarded = Förkastad
+
+# 2026-10-01-studio-rebuild/tools/tools.js:310
+js-tools-osnma-events = Vad verifieraren såg
+
+# 2026-10-01-studio-rebuild/tools/tools.js:336
+js-tools-osnma-examples-missing = de syntetiska exemplen finns inte i den här versionen än
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:177
+js-tools-osnma-failed = Misslyckad
+
+# 2026-10-01-studio-rebuild/tools/tools.js:303
+js-tools-osnma-nma-alert = NMA-status { $status }; systemet utlöste ett larmmeddelande.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:303
+js-tools-osnma-nma-status = NMA-status { $status }.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:186
+js-tools-osnma-not-json = Detta är inte JSON från kshana osnma verify --json (den behöver overall och satellites).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:300
+js-tools-osnma-overall = Totalt: { $status }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:302
+js-tools-osnma-pages-read =
+    { $n ->
+        [one] { $n } sida läst.
+       *[other] { $n } sidor lästa.
+    }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:179
+js-tools-osnma-pending = Väntar
+
+# 2026-10-01-studio-rebuild/tools/tools.js:344
+js-tools-osnma-recorded-failed = det registrerade resultatet lästes inte in
+
+# 2026-10-01-studio-rebuild/tools/tools.js:344
+js-tools-osnma-recorded-result = Registrerat resultat av kshana osnma verify --json för { $file }.

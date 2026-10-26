@@ -3800,3 +3800,971 @@ js-kind-guided-first-jammer-power-dbw = Første jammers effekt (dBW)
 js-kind-guided-first-jammer-range-m = Første jammers avstand (m)
 
 js-kind-guided-first-jammer-received-power-dbw = Første jammers mottatte effekt (dBW)
+
+js-kind-guided-first-phase-length-s = Lengde på første fase (s)
+
+js-kind-guided-first-shell-altitude-km = Høyde på første skall (km)
+
+js-kind-guided-first-shell-inclination = Inklinasjon for første skall (°)
+
+js-kind-guided-first-signal-bandwidth-hz = Båndbredde for første signal (Hz)
+
+js-kind-guided-first-system-range-error-m = Avstandsfeil for første system (m)
+
+js-kind-guided-fit-interval-s = Tilpasningsintervall (s)
+
+js-kind-guided-gravity-field-degree = Grad på gravitasjonsfeltet
+
+js-kind-guided-grid-step = Rutenettsteg (°)
+
+js-kind-guided-integration-time-s = Integrasjonstid (s)
+
+js-kind-guided-leo-satellites-in-the-sweep = LEO-satellitter i sveipet
+
+js-kind-guided-loop-bandwidth-hz = Sløyfebåndbredde (Hz)
+
+js-kind-guided-monte-carlo-runs = Monte Carlo-kjøringer
+
+js-kind-guided-network-synchronisation-error-m = Nettverkssynkroniseringsfeil (m)
+
+js-kind-guided-orbit-altitude-km = Banehøyde (km)
+
+js-kind-guided-orbit-determination-error-m = Feil i banebestemmelse (m)
+
+js-kind-guided-orbit-inclination = Baneinklinasjon (°)
+
+js-kind-guided-pdop-threshold = PDOP-terskel
+
+js-kind-guided-peak-elevation-of-the-pass = Maksimal elevasjon for passeringen (°)
+
+js-kind-guided-points-per-orbit-track = Punkter per banespor
+
+js-kind-guided-receiver-noise-figure-db = Mottakerens støytall (dB)
+
+js-kind-guided-receiver-power-when-awake-mw = Mottakerens effekt når den er våken (mW)
+
+js-kind-guided-reference-c-n0-db-hz = Referanse-C/N0 (dB-Hz)
+
+js-kind-guided-relay-altitude-km = Reléhøyde (km)
+
+js-kind-guided-relay-inclination = Relé-inklinasjon (°)
+
+js-kind-guided-relay-planes = Relépland
+
+js-kind-guided-relay-range-error-m = Reléavstandsfeil (m)
+
+js-kind-guided-relays-per-plane = Relé per plan
+
+js-kind-guided-runs-per-case = Kjøringer per tilfelle
+
+js-kind-guided-satellite-altitude-km = Satellitthøyde (km)
+
+js-kind-guided-second-system-range-error-m = Avstandsfeil for andre system (m)
+
+js-kind-guided-shared-condition = Felles betingelse
+
+js-kind-guided-slant-electron-content-tecu = Skrått elektroninnhold (TECU)
+
+js-kind-guided-slant-range-km = Skrå avstand (km)
+
+js-kind-guided-spoofed-offset-m = Forfalsket forskyvning (m)
+
+js-kind-guided-spoofing-starts-s = Spoofing starter (s)
+
+js-kind-guided-sweep-from = Sveip fra
+
+js-kind-guided-sweep-steps = Sveipsteg
+
+js-kind-guided-sweep-to = Sveip til
+
+js-kind-guided-timeline-step-s = Tidslinjesteg (s)
+
+js-kind-guided-tracking-threshold-db-hz = Sporingsterskel (dB-Hz)
+
+js-kind-guided-transmit-power-dbw = Sendeeffekt (dBW)
+
+js-kind-guided-update-period-s = Oppdateringsperiode (s)
+
+js-kind-guided-user-latitude = Brukerens breddegrad (°)
+
+js-kind-hint-a-band-under-this-carrier = et bånd under denne bærebølge-til-støy-tettheten har mistet låsingen
+
+js-kind-hint-a-grid-point-is-available = et rutenettpunkt er tilgjengelig så lenge posisjonens presisjonsfortynning ligger under denne verdien
+
+js-kind-hint-a-satellite-must-be-this = en satellitt må stå så høyt for å regnes som i sikte
+
+js-kind-hint-a-satellite-must-be-this-2 = en satellitt må stå så høyt for å brukes
+
+js-kind-hint-a-satellite-of-the-first = en satellitt i det første systemet må stå så høyt
+
+js-kind-hint-arc-one-message-is-fitted = buen én melding tilpasses over
+
+js-kind-hint-code-tracking-loop-noise-bandwidth = støybåndbredde for kodesporingssløyfen
+
+js-kind-hint-detail-of-the-truth-orbit = detaljnivå i gravitasjonsmodellen for referansebanen
+
+js-kind-hint-distance-from-the-first-jammer = avstand fra den første jammeren til mottakeren
+
+js-kind-hint-distance-to-the-satellite-in = avstand til satellitten i båndavveiningen
+
+js-kind-hint-drawn-while-acquiring-and-tracking = tegnet under anskaffelse og sporing
+
+js-kind-hint-equivalent-isotropically-radiated-power-of = ekvivalent isotropisk utstrålt effekt for den første jammeren
+
+js-kind-hint-equivalent-isotropically-radiated-power-of-2 = ekvivalent isotropisk utstrålt effekt for båndet
+
+js-kind-hint-filter-runs-averaged-for-each = filterkjøringer midlet for hvert tilfelle (flere gir tregere kjøring)
+
+js-kind-hint-first-value-of-the-swept = første verdi av den sveipede parameteren
+
+js-kind-hint-height-of-the-chain-s = høyden til kjedens satellitt
+
+js-kind-hint-height-of-the-first-shell = høyden til banene i det første skallet
+
+js-kind-hint-height-of-the-relay-orbits = høyden til relébanene over kroppen
+
+js-kind-hint-height-of-the-satellite-whose = høyden til satellitten hvis melding tilpasses
+
+js-kind-hint-how-far-the-spoofer-moves = hvor langt spooferen flytter den beregnede posisjonen
+
+js-kind-hint-how-finely-each-orbit-is = hvor fint hver bane samples for tegningen
+
+js-kind-hint-how-high-the-satellite-climbs = hvor høyt satellitten stiger
+
+js-kind-hint-how-long-the-first-phase = hvor lenge den første fasen varer
+
+js-kind-hint-how-long-the-receiver-integrates = hvor lenge mottakeren integrerer for én avstand
+
+js-kind-hint-how-many-low-orbit-satellites = hvor mange satellitter i lav bane geometrisveipet legger til
+
+js-kind-hint-how-many-seeded-runs-make = hvor mange kjøringer med fast seed som utgjør ensemblet
+
+js-kind-hint-how-many-values-are-run = hvor mange verdier som kjøres
+
+js-kind-hint-how-often-a-new-message = hvor ofte en ny melding utstedes
+
+js-kind-hint-how-wide-the-first-jammer = hvor bredt den første jammeren sprer effekten sin
+
+js-kind-hint-ionosphere-along-the-path-in = ionosfæren langs banen, i enheter for totalt elektroninnhold
+
+js-kind-hint-last-value-of-the-swept = siste verdi av den sveipede parameteren
+
+js-kind-hint-length-of-each-filter-run = lengden på hver filterkjøring
+
+js-kind-hint-length-of-the-run = lengden på kjøringen
+
+js-kind-hint-length-of-the-timeline = lengden på tidslinjen
+
+js-kind-hint-occupied-bandwidth-of-the-first = okkupert båndbredde for det første referansesignalet
+
+js-kind-hint-one-sigma-doppler-measurement-error = Doppler-målefeil på én sigma
+
+js-kind-hint-one-sigma-error-of-a = feil på én sigma for en avstand til et relé
+
+js-kind-hint-one-sigma-error-of-the = feil på én sigma for tovegsavstanden fra jorden
+
+js-kind-hint-orbital-planes-of-the-navigation = banepland for navigasjonsrelé
+
+js-kind-hint-power-of-the-first-jammer = effekten til den første jammeren ved mottakeren
+
+js-kind-hint-raises-the-noise-floor-under = hever støygulvet under hvert bånd
+
+js-kind-hint-satellites-in-each-plane = satellitter i hvert plan
+
+js-kind-hint-sets-the-doppler-range-a = bestemmer Doppler-området et kaldt søk må dekke
+
+js-kind-hint-signal-in-space-range-error = avstandsfeil i signal i rommet for det første systemet
+
+js-kind-hint-signal-in-space-range-error-2 = avstandsfeil i signal i rommet for det andre systemet
+
+js-kind-hint-signal-level-the-tracking-figures = signalnivået sporingstallene oppgis ved
+
+js-kind-hint-spacing-of-the-latitude-and = avstand i breddegrads- og lengdegradsrutenettet
+
+js-kind-hint-spacing-of-the-shared-mission = avstand i det felles oppdragets tidsrutenett
+
+js-kind-hint-the-part-of-the-range = den delen av avstandsfeilen meldingen ikke kan fjerne
+
+js-kind-hint-the-value-every-member-runs = verdien alle medlemmer kjøres med
+
+js-kind-hint-tilt-of-that-orbit = helningen til den banen
+
+js-kind-hint-tilt-of-the-first-shell = helningen til planene i det første skallet
+
+js-kind-hint-tilt-of-the-relay-planes = helningen til reléplanene
+
+js-kind-hint-timing-error-between-satellites-as = tidsfeil mellom satellitter, som avstand
+
+js-kind-hint-when-the-spoofer-captures-the = når spooferen fanger mottakeren
+
+js-kind-hint-where-the-receiver-stands = hvor mottakeren befinner seg
+
+js-kind-hint-where-the-user-stands = hvor brukeren befinner seg
+
+js-kind-label-3-d-error = 3D-feil
+
+js-kind-label-3-d-error-time-of = 3D-feil, ankomsttid
+
+js-kind-label-a-corrupted-frame-is-rejected = en ødelagt ramme avvises
+
+js-kind-label-all-channels = alle kanaler
+
+js-kind-label-availability = Tilgjengelighet
+
+js-kind-label-band = Bånd
+
+js-kind-label-bodies = Legemer
+
+js-kind-label-body = Legeme
+
+js-kind-label-both = begge
+
+js-kind-label-case = Tilfelle
+
+js-kind-label-class = Klasse
+
+js-kind-label-code-jitter = kodejitter
+
+js-kind-label-constellation = Konstellasjon
+
+js-kind-label-doppler = Doppler
+
+js-kind-label-event = Hendelse
+
+js-kind-label-evidence = Evidens
+
+js-kind-label-fewest-in-view = Færrest i sikte
+
+js-kind-label-field = Felt
+
+js-kind-label-first-detection-after-onset = Første deteksjon etter start
+
+js-kind-label-frame-length = Rammelengde
+
+js-kind-label-fused = fusjonert
+
+js-kind-label-fused-cap = Fusjonert
+
+js-kind-label-gnss = GNSS
+
+js-kind-label-gnss-and-leo = GNSS og LEO
+
+js-kind-label-gnss-channels = GNSS-kanaler
+
+js-kind-label-gnss-highest-in-sky = GNSS { $id } (høyest på himmelen)
+
+js-kind-label-gnss-only = kun GNSS
+
+js-kind-label-gnss-only-cap = Kun GNSS
+
+js-kind-label-gnss-signal = GNSS-signal
+
+js-kind-label-hdop = HDOP
+
+js-kind-label-highest = Høyest
+
+js-kind-label-horizontal-error = horisontal feil
+
+js-kind-label-horizontal-error-2 = Horisontal feil
+
+js-kind-label-jammer = Jammer
+
+js-kind-label-jump-threshold = Hoppterskel
+
+js-kind-label-largest-range-jump = Største avstandshopp
+
+js-kind-label-largest-range-jump-against-the = største avstandshopp mot terskelen
+
+js-kind-label-leo = LEO
+
+js-kind-label-leo-channels = LEO-kanaler
+
+js-kind-label-leo-only = kun LEO
+
+js-kind-label-light-time-from-observer = Lystid fra { $observer }
+
+js-kind-label-light-time-from-the-observer = Lystid fra observatøren
+
+js-kind-label-light-time-one-way = Lystid, én vei
+
+js-kind-label-lowest = Lavest
+
+js-kind-label-lowest-c-n0 = Laveste C/N0
+
+js-kind-label-mean = Middel
+
+js-kind-label-mean-in-view = Middel i sikte
+
+js-kind-label-median-convergence = Median konvergens
+
+js-kind-label-median-pdop = Median PDOP
+
+js-kind-label-member-runs = Medlemskjøringer
+
+js-kind-label-message-switch-iod = meldingsbytte, datautgave { $old } til { $new }
+
+js-kind-label-mission-length = Oppdragslengde
+
+js-kind-label-model = modell
+
+js-kind-label-monte-carlo-runs = Monte Carlo-kjøringer
+
+js-kind-label-noise-floor = Støygulv
+
+js-kind-label-parameters = Parametere
+
+js-kind-label-payload = Nyttelast
+
+js-kind-label-pdop = PDOP
+
+js-kind-label-pdop-95th-percentile = PDOP, 95. persentil
+
+js-kind-label-peak-elevation = Maksimal elevasjon
+
+js-kind-label-peak-tracked-c-n0 = Maksimal sporet C/N0
+
+js-kind-label-phase = Fase
+
+js-kind-label-predicted-horizontal-sigma = predikert horisontal sigma
+
+js-kind-label-quantisation-position = Kvantisering, posisjon
+
+js-kind-label-range-error = avstandsfeil
+
+js-kind-label-relays-above-the-mask = relé over masken
+
+js-kind-label-relays-and-earth-link = relé og jordlenke
+
+js-kind-label-relays-only = kun relé
+
+js-kind-label-satellite = Satellitt
+
+js-kind-label-satellites = Satellitter
+
+js-kind-label-satellites-used = Brukte satellitter
+
+js-kind-label-signal = Signal
+
+js-kind-label-signal-chip-spacing = { $name } ({ $spacing } chip-avstand)
+
+js-kind-label-sisre-after-quantisation = SISRE etter kvantisering
+
+js-kind-label-sisre-root-mean-square = SISRE, kvadratisk middel
+
+js-kind-label-spoofing-starts = spoofing starter
+
+js-kind-label-standard-deviation = Standardavvik
+
+js-kind-label-sun-separation = Avstand til Solen
+
+js-kind-label-sweep-runs = Sveipkjøringer
+
+js-kind-label-system = System
+
+js-kind-label-time-above-the-mask = Tid over masken
+
+js-kind-label-time-error-root-mean-square = Tidsfeil, kvadratisk middel
+
+js-kind-label-tracked-component = sporet komponent
+
+js-kind-label-tracking-threshold = Sporingsterskel
+
+js-kind-label-transmit-bandwidth = Sendebåndbredde
+
+js-kind-label-vdop = VDOP
+
+js-kind-label-welch-estimate-of-the-synthesised = Welch-estimat av de syntetiserte samplene
+
+js-kind-label-whole-signal = hele signalet
+
+js-kind-label-wideband-j-s-tolerated = Tolerert J/S for bredbånd
+
+js-kind-label-with-unit = { $label } ({ $unit })
+
+js-kind-label-worst-site-availability = Tilgjengelighet på det dårligste stedet
+
+js-kind-no = nei
+
+js-kind-note-a-gap-is-an-epoch = Et gap er en epoke med for få relé i sikte for en posisjonsbestemmelse.
+
+js-kind-note-a-helmert-transform-is-the = En Helmert-transformasjon er skiftet, rotasjonen og skaleringen med syv parametere mellom to referansesystemer.
+
+js-kind-note-a-low-earth-orbit-leo = En satellitt i lav jordbane (LEO) krysser himmelen på minutter, så C/N0 (forholdet mellom bærebølge og støytetthet) stiger og synker i en klokkeform; en GNSS-satellitt beveger seg knapt i samme tid.
+
+js-kind-note-a-receiver-independent-exchange-format = En post i stil med Receiver Independent Exchange Format (RINEX) 4. LEO-posttypene er en Kshana-utvidelse, slik headeren sier.
+
+js-kind-note-a-single-pass-fixes-the = En enkelt passering bestemmer retningen langs banen langt bedre enn retningen på tvers av banen.
+
+js-kind-note-aos-is-acquisition-of-signal = AOS er signalanskaffelse, TCA tidspunktet for nærmeste passering og LOS signaltap.
+
+js-kind-note-c-n0-is-the-carrier = C/N0 er forholdet mellom bærebølge og støytetthet. Et bånd under mottakerens sporingsterskel har mistet låsingen.
+
+js-kind-note-cells-are-the-code-and = Cellene er kode- og Doppler-binsene et kaldt søk må teste.
+
+js-kind-note-cold-is-a-first-fix = Kald er en første posisjonsbestemmelse uten forhåndskunnskap; varm er en posisjonsbestemmelse kort tid etter den forrige.
+
+js-kind-note-dilution-of-precision-dop-scales = Presisjonsfortynning (DOP) skalerer en avstandsfeil til en posisjonsfeil: G er geometrisk, P posisjon, H horisontal, V vertikal. Persentilene gjelder alle rutenettpunkter og epoker.
+
+js-kind-note-drawn-at-the-strongest-signal = Tegnet ved det sterkeste signalnivået i kjøringen. Et gap er en strekning uten satellitt i sikte.
+
+js-kind-note-each-body-carries-its-own = Hvert legeme har sin egen evidensmerking. Lystid er én vei, fra observatøren som er oppgitt i scenarioet.
+
+js-kind-note-each-row-is-one-full = Hver rad er én full motorkjøring av det sveipede scenarioet.
+
+js-kind-note-each-rule-is-a-switch = Hver regel er et bytte til en nyere melding midt i passeringen.
+
+js-kind-note-each-signal-is-drawn-about = Hvert signal er tegnet rundt sin egen senterfrekvens. Et gap er et spektralt nullpunkt.
+
+js-kind-note-eirp-is-the-equivalent-isotropically = EIRP er ekvivalent isotropisk utstrålt effekt.
+
+js-kind-note-every-phase-is-an-ordinary = Hver fase er en vanlig scenariokjøring. Hashene identifiserer hvert medlems inndata og resultatdokument.
+
+js-kind-note-iod-is-the-issue-of = IOD er datautgaven: meldingens serienummer.
+
+js-kind-note-j-s-is-the-jammer = J/S er effektforholdet mellom jammer og signal. Sporingsandelen er den delen av kjøringen båndet holder seg over terskelen.
+
+js-kind-note-p05-p50-and-p95-are = p05, p50 og p95 er 5., 50. og 95. persentil. ci95 er 95 %-konfidensintervallet for middelverdien.
+
+js-kind-note-parameters-are-public-with-a = Parametere er PUBLIC (med kilde), REPRESENTATIVE eller WORKSHOP, slik hver forhåndsinnstilling oppgir.
+
+js-kind-note-precise-point-positioning-ppp-converges = Presis punktposisjonering (PPP) konvergerer når feilen holder seg under kriteriet. NEES er den normaliserte estimeringsfeilen i annen, en kontroll av filterets konsistens.
+
+js-kind-note-sisre-defined = SISRE er avstandsfeilen i signal i rommet: det den utsendte meldingen legger til en brukers avstand. Her er det meldingens representasjonsfeil mot motorens egen referansebane.
+
+js-kind-note-sisre-is-the-signal-in = SISRE er avstandsfeilen i signal i rommet som er antatt for hvert systems utsendte bane og klokke.
+
+js-kind-note-ssc-is-the-spectral-separation = SSC er den spektrale separasjonskoeffisienten: hvor mye av ett signals effekt som faller innenfor det andres mottaker. En tankestrek betyr at de to ikke overlapper.
+
+js-kind-note-the-chain-runs-the-signal = Kjeden kjører trinnene signal, passering, navigasjonsmelding, posisjonering og presis posisjonering i rekkefølge. Hver rad er et tall ett trinn beregnet og det neste brukte.
+
+js-kind-note-the-doppler-and-pass-geometry = Monitoren for Doppler og passeringsgeometri sammenligner målte avstandsrater med de som er predikert fra banene. Regelen markerer starten på spooferen.
+
+js-kind-note-the-engine-draws-its-spectrum = Motoren tegner spektrummodellen sin som IQ-sampler (in-fase og kvadratur) ved ett tidspunkt og estimerer spekteret tilbake fra dem. De samme samplene er SigMF-eksporten (Signal Metadata Format).
+
+js-kind-note-the-engine-s-own-documented = Motorens egen dokumenterte binære ramme, avsluttet med en 24-bits syklisk redundanssjekk (CRC-24Q).
+
+js-kind-note-the-gabor-root-mean-square = Gabor-båndbredden (kvadratisk middel) bestemmer hvor skarpt et signal kan brukes til avstandsmåling.
+
+js-kind-note-the-largest-jammer-to-signal = Det største forholdet mellom jammer og signal (J/S) hvert signal sporer gjennom, for en kontinuerlig bølge (CW), en jammer med tilpasset spektrum og en bredbåndsjammer.
+
+js-kind-note-the-shapiro-delay-is-the = Shapiro-forsinkelsen er den ekstra lystiden fra Solens gravitasjon langs banen.
+
+js-kind-note-the-spectrum-kind-and-the = Spektrum-kinden og jamming-kinden beregner den samme lenken på to måter; den siste kolonnen er differansen mellom dem.
+
+js-kind-note-time-of-arrival-toa-ranging = Avstandsmåling med ankomsttid (TOA) på en nedlenke i et ikke-terrestrisk nettverk (NTN): et bredere signal gir skarpere avstandsmåling.
+
+js-kind-note-what-half-a-least-significant = Hva en halv minst signifikant bit (LSB) i hvert felt koster i posisjon og i klokke, som avstand.
+
+js-kind-rowhead-block = Blokk
+
+js-kind-rowhead-condition = Betingelse
+
+js-kind-rowhead-figure = Tall
+
+js-kind-rowhead-member = Medlem
+
+js-kind-rowhead-metric = Mål
+
+js-kind-rowhead-monitor = Monitor
+
+js-kind-rowhead-phase = Fase
+
+js-kind-rowhead-satellite = Satellitt
+
+js-kind-rowhead-signal = Signal
+
+js-kind-rowhead-solution = Løsning
+
+js-kind-sub-clock-offset-db = { $clock }, { $offset } dB
+
+js-kind-sub-doppler-only = kun Doppler
+
+js-kind-sub-from-to = { $from } til { $to }
+
+js-kind-sub-fused = fusjonert
+
+js-kind-sub-gnss-and-leo-latitude = GNSS og LEO, breddegrad { $lat }°
+
+js-kind-sub-gnss-only = kun GNSS
+
+js-kind-sub-gnss-only-latitude = kun GNSS, breddegrad { $lat }°
+
+js-kind-sub-model-fit-seconds = { $model }, { $fit } s tilpasning
+
+js-kind-threshold-4-needed-for-a-fix = 4 trengs for en posisjonsbestemmelse
+
+js-kind-threshold-convergence-criterion = konvergenskriterium
+
+js-kind-threshold-elevation-mask = elevasjonsmaske
+
+js-kind-threshold-gnss-median = GNSS-median
+
+js-kind-threshold-tracking-threshold = sporingsterskel
+
+js-kind-title-acquisition = Anskaffelse
+
+js-kind-title-against-a-simulated-campaign = Mot en simulert kampanje
+
+js-kind-title-assumptions = Forutsetninger
+
+js-kind-title-band-trade-at-equal-transmit = Båndavveining ved lik sendeeffekt
+
+js-kind-title-bands = Bånd
+
+js-kind-title-beside-the-published-figures = Ved siden av de publiserte tallene
+
+js-kind-title-beside-the-published-speed-up = Ved siden av den publiserte hastighetsøkningen
+
+js-kind-title-bodies = Legemer
+
+js-kind-title-body = Legeme
+
+js-kind-title-by-latitude = Etter breddegrad
+
+js-kind-title-c-n0-by-band-over = C/N0 per bånd gjennom kjøringen
+
+js-kind-title-c-n0-over-the-pass = C/N0 gjennom passeringen
+
+js-kind-title-cases = Tilfeller
+
+js-kind-title-central-body = Sentrallegeme
+
+js-kind-title-closed-form-doppler-against-finite = Doppler på lukket form mot endelige differanser
+
+js-kind-title-code-tracking-jitter = Kodesporingsjitter
+
+js-kind-title-code-tracking-jitter-against-c = Kodesporingsjitter mot C/N0
+
+js-kind-title-combined-over-the-members = Samlet over medlemmene
+
+js-kind-title-compatibility-with-gnss-signals = Kompatibilitet med GNSS-signaler
+
+js-kind-title-constellations = Konstellasjoner
+
+js-kind-title-continuity-across-message-switches = Kontinuitet over meldingsbytter
+
+js-kind-title-cross-check-against-the-jamming = Krysskontroll mot jamming-kinden
+
+js-kind-title-datum-accuracy = Datumnøyaktighet
+
+js-kind-title-dilution-of-precision-over-the = Presisjonsfortynning over hele rutenettet
+
+js-kind-title-doppler = Doppler
+
+js-kind-title-doppler-envelopes = Doppler-omslag
+
+js-kind-title-doppler-only-fix = Posisjonsbestemmelse kun med Doppler
+
+js-kind-title-doppler-over-the-pass = Doppler gjennom passeringen
+
+js-kind-title-doppler-positioning-from-one-pass = Doppler-posisjonering fra én passering
+
+js-kind-title-earth-link = Jordlenke
+
+js-kind-title-elevation = Elevasjon
+
+js-kind-title-encoded-frame = Kodet ramme
+
+js-kind-title-epoch = Epoke
+
+js-kind-title-epoch-and-frame = Epoke og referansesystem
+
+js-kind-title-events = Hendelser
+
+js-kind-title-every-node-of-the-sweep = Hvert punkt i sveipet
+
+js-kind-title-field-table = Felttabell
+
+js-kind-title-figures-of-merit = Kvalitetsmål
+
+js-kind-title-filter-noise = Filterstøy
+
+js-kind-title-fit-interval-trade = Avveining av tilpasningsintervall
+
+js-kind-title-fix-quality-against-observation-window = Kvaliteten på posisjonsbestemmelsen mot observasjonsvindu
+
+js-kind-title-frame-checks = Rammekontroller
+
+js-kind-title-frame-hexadecimal = Ramme, heksadesimal
+
+js-kind-title-geometry-against-latitude = Geometri mot breddegrad
+
+js-kind-title-geometry-as-leo-satellites-are = Geometri når LEO-satellitter legges til
+
+js-kind-title-geometry-position-dilution-of-precision = Geometri: posisjonens presisjonsfortynning
+
+js-kind-title-global-coverage = Global dekning
+
+js-kind-title-gnss-leo-and-fused = GNSS, LEO og fusjonert
+
+js-kind-title-gnss-reference = GNSS-referanse
+
+js-kind-title-hand-offs-between-phases = Overleveringer mellom faser
+
+js-kind-title-helmert-fit = Helmert-tilpasning
+
+js-kind-title-helmert-transform-parameters = Parametere for Helmert-transformasjonen
+
+js-kind-title-inputs = Inndata
+
+js-kind-title-ionosphere-free-band-pairs = Ionosfærefrie båndpar
+
+js-kind-title-jammer-tolerance = Jammertoleranse
+
+js-kind-title-jammers = Jammere
+
+js-kind-title-joint-fix = Felles posisjonsbestemmelse
+
+js-kind-title-leo-against-gnss = LEO mot GNSS
+
+js-kind-title-limitations = Begrensninger
+
+js-kind-title-links = Lenker
+
+js-kind-title-member-runs = Medlemskjøringer
+
+js-kind-title-members-under-the-shared-conditions = Medlemmer under de felles betingelsene
+
+js-kind-title-message = Melding
+
+js-kind-title-message-models-compared = Sammenligning av meldingsmodeller
+
+js-kind-title-message-switches = Meldingsbytter
+
+js-kind-title-metric-against-axis = { $metric } mot { $axis }
+
+js-kind-title-metric-distribution-over-runs = { $metric }: fordeling over kjøringene
+
+js-kind-title-mid-pass-update = Oppdatering midt i passeringen
+
+js-kind-title-modelled = Modellert
+
+js-kind-title-monte-carlo = Monte Carlo
+
+js-kind-title-navigation-message-stage = Trinnet navigasjonsmelding
+
+js-kind-title-not-modelled = Ikke modellert
+
+js-kind-title-notes = Merknader
+
+js-kind-title-notes-on-the-spoofing-model = Merknader om spoofing-modellen
+
+js-kind-title-observation-windows = Observasjonsvinduer
+
+js-kind-title-one-pass-alone = Én passering alene
+
+js-kind-title-orbit = Bane
+
+js-kind-title-over-the-message-sequence = Over meldingssekvensen
+
+js-kind-title-pass = Passering
+
+js-kind-title-pass-c-n0-of-the = Passering: C/N0 for hele signalet og for den sporede komponenten
+
+js-kind-title-pass-code-tracking-jitter = Passering: kodesporingsjitter
+
+js-kind-title-pass-doppler = Passering: Doppler
+
+js-kind-title-pass-stage = Trinnet passering
+
+js-kind-title-passes = Passeringer
+
+js-kind-title-phases = Faser
+
+js-kind-title-position-error-gnss-leo-and = Posisjonsfeil: GNSS, LEO og den fusjonerte posisjonsbestemmelsen
+
+js-kind-title-position-uncertainty-relays-alone-and = Posisjonsusikkerhet: relé alene og sammen med jordlenken
+
+js-kind-title-positioning-by-signal-bandwidth = Posisjonering etter signalbåndbredde
+
+js-kind-title-positioning-gnss-alone-against-the = Posisjonering: GNSS alene mot den fusjonerte posisjonsbestemmelsen
+
+js-kind-title-power-spectral-density = Effektspektraltetthet
+
+js-kind-title-power-spectral-density-of-each = Effektspektraltetthet for hvert signal
+
+js-kind-title-precise-point-positioning = Presis punktposisjonering
+
+js-kind-title-published-comparison = Publisert sammenligning
+
+js-kind-title-quantisation-budget = Kvantiseringsbudsjett
+
+js-kind-title-range-residuals = Avstandsresidualer
+
+js-kind-title-ranging-stations = Avstandsmålingsstasjoner
+
+js-kind-title-reading-the-trade = Slik leser du avveiningen
+
+js-kind-title-realised-position-error = Realisert posisjonsfeil
+
+js-kind-title-receiver = Mottaker
+
+js-kind-title-receiver-power-budget = Effektbudsjett for mottakeren
+
+js-kind-title-reflector-information = Informasjon om reflektoren
+
+js-kind-title-relay-constellation = Relékonstellasjon
+
+js-kind-title-relays-in-view = Relé i sikte
+
+js-kind-title-reproducibility = Reproduserbarhet
+
+js-kind-title-retroreflectors = Retroreflektorer
+
+js-kind-title-rinex-style-record = Post i RINEX-stil
+
+js-kind-title-round-trips = Rundturer
+
+js-kind-title-run = Kjøring
+
+js-kind-title-satellites-in-view-against-latitude = Satellitter i sikte mot breddegrad
+
+js-kind-title-sensitivity-to-a-line-of = Følsomhet for en helning i siktelinjen
+
+js-kind-title-shared-conditions = Felles betingelser
+
+js-kind-title-signal-components = Signalkomponenter
+
+js-kind-title-signal-stage = Trinnet signal
+
+js-kind-title-signals = Signaler
+
+js-kind-title-sisre-against-fit-interval = SISRE mot tilpasningsintervall
+
+js-kind-title-sisre-against-update-period = SISRE mot oppdateringsperiode
+
+js-kind-title-sisre-weights = SISRE-vekter
+
+js-kind-title-snapshot = Øyeblikksbilde
+
+js-kind-title-snapshot-against-the-model = Øyeblikksbilde mot modellen
+
+js-kind-title-snapshot-spectrum-welch-estimate-against = Øyeblikksspekter: Welch-estimat mot modellen
+
+js-kind-title-sources = Kilder
+
+js-kind-title-spoofer-and-monitor-settings = Innstillinger for spoofer og monitor
+
+js-kind-title-spoofing-monitor-probability-of-detection = Spoofing-monitor: deteksjonssannsynlighet
+
+js-kind-title-statistics-over-the-runs = Statistikk over kjøringene
+
+js-kind-title-sweep = Sveip
+
+js-kind-title-systems = Systemer
+
+js-kind-title-systems-in-the-fix = Systemer i posisjonsbestemmelsen
+
+js-kind-title-the-archived-campaign = Den arkiverte kampanjen
+
+js-kind-title-time-error = Tidsfeil
+
+js-kind-title-time-error-by-receiver-clock = Tidsfeil etter mottakerklokke
+
+js-kind-title-time-scale = Tidsskala
+
+js-kind-title-time-to-first-fix-and = Tid til første posisjonsbestemmelse og energi per posisjonsbestemmelse
+
+js-kind-title-time-transfer-by-clock-and = Tidsoverføring etter klokke og signalnivå
+
+js-kind-title-trade-conditions = Betingelser for avveiningen
+
+js-kind-title-update-period-trade = Avveining av oppdateringsperiode
+
+js-kind-title-user = Bruker
+
+js-kind-title-user-range-error-through-the = Brukerens avstandsfeil gjennom passeringen
+
+js-kind-title-validated = Validert
+
+js-kind-title-what-each-stage-hands-to = Hva hvert trinn gir videre til neste
+
+js-kind-title-what-this-run-is-and = Hva denne kjøringen er, og hva den ikke er
+
+js-kind-title-when-each-monitor-detects = Når hver monitor oppdager
+
+js-kind-title-work-done = Utført arbeid
+
+js-kind-yes = ja
+
+js-ledger-rows =
+    { $n ->
+        [one] { $n } registerrad
+       *[other] { $n } registerrader
+    }
+
+js-lib-abbr-apv = innflyging med vertikal veiledning
+
+js-lib-abbr-araim = avansert autonom integritetsovervåking i mottakeren
+
+js-lib-abbr-auc = areal under kurven
+
+js-lib-abbr-c-n0 = forholdet mellom bærebølge og støytetthet
+
+js-lib-abbr-ccsds = Consultative Committee for Space Data Systems
+
+js-lib-abbr-cli = kommandolinjegrensesnitt
+
+js-lib-abbr-csac = atomklokke i brikkestørrelse
+
+js-lib-abbr-cw = kontinuerlig bølge
+
+js-lib-abbr-doi = digital objektidentifikator
+
+js-lib-abbr-dop = presisjonsfortynning
+
+js-lib-abbr-eo = jordobservasjon
+
+js-lib-abbr-gnss = globalt satellittnavigasjonssystem
+
+js-lib-abbr-gps = Global Positioning System
+
+js-lib-abbr-hal = horisontal varslingsgrense
+
+js-lib-abbr-hpl = horisontalt beskyttelsesnivå
+
+js-lib-abbr-imu = treghetsmåleenhet
+
+js-lib-abbr-ins = treghetsnavigasjonssystem
+
+js-lib-abbr-iot = tingenes internett
+
+js-lib-abbr-itu-t = International Telecommunication Union, Telecommunication Standardization Sector
+
+js-lib-abbr-j-s = effektforholdet mellom jammer og signal
+
+js-lib-abbr-leo = lav jordbane
+
+js-lib-abbr-llr = månelaseravstandsmåling
+
+js-lib-abbr-meo = middels høy jordbane
+
+js-lib-abbr-mtie = største tidsintervallfeil
+
+js-lib-abbr-ntn = ikke-terrestrisk nettverk
+
+js-lib-abbr-ocxo = ovnsstyrt krystalloscillator
+
+js-lib-abbr-oem = Orbit Ephemeris Message
+
+js-lib-abbr-omm = Orbit Mean-elements Message
+
+js-lib-abbr-pdop = posisjonens presisjonsfortynning
+
+js-lib-abbr-pnt = posisjonering, navigasjon og tidssynkronisering
+
+js-lib-abbr-ppp = presis punktposisjonering
+
+js-lib-abbr-raim = autonom integritetsovervåking i mottakeren
+
+js-lib-abbr-rf = radiofrekvens
+
+js-lib-abbr-rinex = Receiver Independent Exchange Format
+
+js-lib-abbr-roc = mottakerens operasjonskarakteristikk
+
+js-lib-abbr-sbas = satellittbasert supplementssystem
+
+js-lib-abbr-sgp4 = Simplified General Perturbations 4, en banepropagator
+
+js-lib-abbr-sisre = avstandsfeil i signal i rommet
+
+js-lib-abbr-slam = samtidig lokalisering og kartlegging
+
+js-lib-abbr-spp = enkeltpunktsposisjonering
+
+js-lib-abbr-tdev = tidsavvik
+
+js-lib-abbr-tle = to-linjers elementsett
+
+js-lib-abbr-toml = scenariofilformatet
+
+js-lib-abbr-trn = terrengreferert navigasjon
+
+js-lib-abbr-uhf = ultrahøy frekvens
+
+js-lib-abbr-ukf = unscented Kalman-filter
+
+js-lib-abbr-utc = koordinert universaltid
+
+js-lib-abbr-val = vertikal varslingsgrense
+
+js-lib-abbr-vlbi = interferometri med meget lang grunnlinje
+
+js-lib-abbr-vpl = vertikalt beskyttelsesnivå
+
+js-lib-abbr-wg = arbeidsgruppe
+
+js-lib-areas-ground-track = Spor på jorden
+
+js-lib-areas-holdover = Holdover
+
+js-lib-compare-availability = Tilgjengelighet
+
+js-lib-compare-holdover = Holdover
+
+js-lib-compare-timing-p95 = Tidssynkronisering p95
+
+js-lib-compare-timing-rms = Tidssynkronisering RMS
+
+js-lib-counts-explorer-tally = { $validated } av { $total } funksjoner validert mot en uavhengig referanse · { $modelled } modellert · { $partner } eid av partner — vist her som { $cards } funksjonskort i { $domains } områder, { $evidence } evidenspåstander
+
+js-lib-counts-validated-tally = { $validated } av { $total } funksjoner validert mot en uavhengig referanse — vist her som { $cards } funksjonskort og { $evidence } evidenspåstander
+
+js-lib-engine-busy = { $verb }…
+
+js-lib-engine-busy-seconds = { $verb }… { $s } s
+
+js-lib-engine-page-http = motorfilen ga HTTP { $status }
+
+js-lib-engine-page-not-running = motoren kjører ikke her
+
+js-lib-engine-worker-crashed = motorarbeideren krasjet
+
+js-lib-evidence-aria = Evidens: { $tier }, { $count }
+
+js-lib-evidence-ledger-rows =
+    { $n ->
+        [one] { $n } registerrad
+       *[other] { $n } registerrader
+    }
+
+js-lib-evidence-rows-behind = Registerrader bak dette resultatet
+
+js-lib-geometry-url-bad-mc = Antallet Monte Carlo-utvalg er ikke ett av { $choices }; { $default } brukes.
+
+js-lib-geometry-url-bad-number = "{ $key }" er ikke et tall fra { $min } til { $max }; standardverdien brukes.
+
+js-lib-geometry-url-bad-site = Stedet er ikke breddegrad,lengdegrad[,høyde] innenfor gyldig område; standardstedet brukes.
+
+js-lib-geometry-url-bad-sky = Horisontprofilen er ikke en forhåndsinnstilling, en tabell med 360 binner eller en kløft innenfor gyldig område; en åpen horisont brukes.
+
+js-lib-geometry-url-bad-sys = Konstellasjonslisten er ikke G, E, C og høyst én L:<LEO-forhåndsinnstilling> som denne visningen kjenner; standardblandingen brukes.
+
+js-lib-geometry-url-own-tle = Avsenderen brukte egne baneelementer (TLE), som en lenke ikke bærer med seg; forhåndsinnstillingene vises i stedet.
+
+js-lib-geometry-url-repeated = "{ $key }" forekommer mer enn én gang; den første verdien brukes.
+
+js-lib-geometry-url-too-long = Adressen er lengre enn { $max } tegn, så ingen av innstillingene i den ble lest.
+
+js-lib-geometry-url-unreadable = Adressen kunne ikke leses.
+
+js-lib-guided-duration-s-hint = hvor lenge sporet på jorden skal propageres
+
+js-lib-guided-duration-s-label = Varighet (s)
+
+js-lib-guided-dut1-s-hint = forskyvning i jordrotasjonen; flytter sporet på jorden mot øst eller vest
+
+js-lib-guided-dut1-s-label = UT1−UTC (s)
+
+js-lib-guided-mask-deg-hint = en satellitt må stå så høyt for å regnes som synlig
+
+js-lib-guided-mask-deg-label = Elevasjonsmaske (°)
+
+js-lib-guided-seed-hint = et annet støyutfall av den samme fysikken
+
+js-lib-guided-seed-label = Tilfeldig seed
+
+js-lib-guided-sigma-uere-m-hint = brukerekvivalent avstandsfeil på 1 σ for posisjonsoppsummeringen
+
+js-lib-guided-sigma-uere-m-label = Avstandsfeil σ (m)
