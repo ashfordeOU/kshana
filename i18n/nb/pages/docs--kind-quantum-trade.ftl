@@ -54,7 +54,7 @@ seg-20ba66ae9518 = Avveining mellom kvante og klassisk PNT ({ "13503" }): fordel
 
 seg-45a1d84eef18 = MODELLED; kvantifiserer (validerer aldri) en partnerenhet. (typekatalog (<c1/>))
 
-seg-15275d27252a = Beregner fordelen for holdover i tid og holdover i inertial av en KANDIDATklokke over en KLASSISK grunnlinje, pluss en omhylling av robusthet mot tid uten GNSS. Kandidatens gulv styres av en partnerklokkes MÅLTE overlappende ADEV-kurve (det avgjørende punktet for forsvarbarhet) tilpasset med ikke-negative minste kvadrater, så holdover-budsjettet hviler på virkelige data, ikke på et antatt langtidsgulv (long-tau). (kommentar i scenariofilen, linje { "3" } til { "7" })
+seg-15275d27252a = Beregner fordelen for holdover i tid og holdover i inertial av en KANDIDATklokke over en KLASSISK grunnlinje, pluss en omhylling av robusthet mot tid uten GNSS. Kandidatens gulv styres av en partnerklokkes MEASURED overlappende ADEV-kurve (det avgjørende punktet for forsvarbarhet) tilpasset med ikke-negative minste kvadrater, så holdover-budsjettet hviler på virkelige data, ikke på et antatt langtidsgulv (long-tau). (kommentar i scenariofilen, linje { "3" } til { "7" })
 
 seg-ecbdbc9b163e = ÆRLIG AVGRENSNING: MODELLED — den KVANTIFISERER fordelen av en partners kvanteklokke; den validerer IKKE enheten, og låner aldri valideringsøyene for SGP4/Allan/IGS. Når gulvet i en rad er en antatt klassestandard, vises et forbehold om gulvet på artefakten. Kjør: kshana scenarios/quantum-trade.toml (kommentar i scenariofilen, linje { "9" } til { "12" })
 

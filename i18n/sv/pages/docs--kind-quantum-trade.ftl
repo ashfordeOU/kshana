@@ -54,7 +54,7 @@ seg-20ba66ae9518 = Avvägning kvant mot klassisk för PNT ({ "13503" }): fördel
 
 seg-45a1d84eef18 = MODELLED; kvantifierar (validerar aldrig) en partnerenhet. (typkatalog (<c1/>))
 
-seg-15275d27252a = Beräknar fördelen i holdover för tidssynkronisering och inertiell holdover hos en KANDIDATklocka jämfört med en KLASSISK baslinje, plus ett envelopp för GNSS-nekad resiliens mot tid. Kandidatens golv drivs av en partnerklockas UPPMÄTTA överlappande ADEV-kurva (den avgörande punkten för försvarbarhet) anpassad med icke-negativ minsta kvadrat-metod — så holdover-budgeten vilar på verkliga data, inte på ett antaget golv för lång tau. (kommentar i scenariofilen, rad { "3" } till { "7" })
+seg-15275d27252a = Beräknar fördelen i holdover för tidssynkronisering och inertiell holdover hos en KANDIDATklocka jämfört med en KLASSISK baslinje, plus ett envelopp för GNSS-nekad resiliens mot tid. Kandidatens golv drivs av en partnerklockas MEASURED överlappande ADEV-kurva (den avgörande punkten för försvarbarhet) anpassad med icke-negativ minsta kvadrat-metod — så holdover-budgeten vilar på verkliga data, inte på ett antaget golv för lång tau. (kommentar i scenariofilen, rad { "3" } till { "7" })
 
 seg-ecbdbc9b163e = ÄRLIG AVGRÄNSNING: MODELLED — den KVANTIFIERAR en partners fördel med kvantklocka; den validerar INTE enheten och lånar aldrig valideringsöarna för SGP4/Allan/IGS. När golvet på någon rad är ett antaget standardvärde för klassen visas ett förbehåll om golvet på artefakten. Kör: kshana scenarios/quantum-trade.toml (kommentar i scenariofilen, rad { "9" } till { "12" })
 
