@@ -3208,3 +3208,2319 @@ js-interf-cell-size-rule = Размер ячейки должен быть чи�
 js-interf-check-failed = { $name }: не удалось проверить ({ $reason }).
 
 js-interf-click-cell = Щёлкните ячейку или переведите фокус на карту и используйте клавиши со стрелками, чтобы увидеть её показатели.
+
+js-interf-close = Закрыть
+
+js-interf-close-file = Закрыть { $name }
+
+js-interf-col-affected = Затронуто
+
+js-interf-col-cell-area = Площадь ячейки
+
+js-interf-col-detectors = Детекторы
+
+js-interf-col-observed = Наблюдалось
+
+js-interf-col-sampled = В выборке
+
+js-interf-col-share = Доля
+
+js-interf-col-status = Статус
+
+js-interf-coverage-limits = Ограничения охвата этого источника
+
+js-interf-csv-too-big = { $name }: больше 24 MiB; постройте карту по фрагменту (инструмент командной строки принимает файл целиком).
+
+js-interf-csv-too-big-short = { $name }: больше 24 MiB; постройте карту по фрагменту.
+
+js-interf-custom-needs-licence = Для собственного набора данных нужны лицензия, её URL и текст указания авторства: они записываются в файл карты.
+
+js-interf-dataset = Набор данных
+
+js-interf-dates-rule = Даты в формате YYYY-MM-DD; пустое поле означает отсутствие ограничения.
+
+js-interf-day = День
+
+js-interf-day-aria = День ({ $kind })
+
+js-interf-day-confounded-note = Этот день искажён сопутствующими факторами: ни одна ячейка не названа ухудшенной из-за фона этого дня. Ячейки, которые иначе выделялись бы, показаны как неоценённые.
+
+js-interf-day-figures-aria = Показатели за день
+
+js-interf-demo-csv-name = { $file } (синтетический образец)
+
+js-interf-demo-failed = Не удалось открыть демонстрацию: { $reason }.
+
+js-interf-demo-opened = Синтетическая демонстрация: три вымышленных файла по вымышленному району открытого океана (два дня ADS-B, один из них искажённый, и один день AIS). За ними не стоят ни реальные воздушные суда, ни суда, ни реальные дни. Используйте выбор дня на слое ADS-B.
+
+js-interf-demo-route-name = route.csv (синтетический)
+
+js-interf-describe-map = Карта { $kind } за { $date }: нарисовано ячеек: { $cells }, { $parts }. Ненарисованные ячейки не наблюдались.
+
+js-interf-did-not-load = Не удалось загрузить { $url }
+
+js-interf-engine-no-fn = В этой сборке движка (версия { $version }) нет { $fn }: она старше этой страницы. Эквивалент для командной строки есть на странице «Инструменты».
+
+js-interf-engine-start-failed = Движок не удалось запустить здесь ({ $reason }). Открытие файлов карт выше по-прежнему работает.
+
+js-interf-err-format-version = { $name }: это не поддерживаемая карта помех Kshana (format_version { $version }; эта страница поддерживает { $supported }).
+
+js-interf-err-no-rows = { $name }: в этом отчёте нет rows[].
+
+js-interf-err-not-json = { $name }: это не JSON ({ $reason }).
+
+js-interf-err-not-map = { $name }: это GeoJSON, но не карта помех Kshana (нет члена kshana_interference_map).
+
+js-interf-err-not-route = { $name }: это не отчёт Kshana об экспозиции маршрута (нет члена kshana_route_exposure).
+
+js-interf-err-route-schema = { $name }: схема { $schema } не является { $expected }, которую читает эта страница.
+
+js-interf-err-source-kind = { $name }: source_kind { $kind } не является ни adsb, ни ais.
+
+js-interf-err-unknown-schema = { $name }: неизвестная схема { $schema }; эта страница читает { $supported }.
+
+js-interf-foot-attribution = Указание авторства: { $text }
+
+js-interf-foot-coverage = Охват: { $notes }
+
+js-interf-foot-layer = Слой { $kind }, { $date }. Ненарисованные ячейки не наблюдались.
+
+js-interf-foot-licence = Лицензия: { $licence }
+
+js-interf-foot-licence-url = Лицензия: { $licence } ({ $url })
+
+js-interf-grid = Сетка: квадратные ячейки { $size }° по широте и долготе ({ $type }). Ширина с востока на запад уменьшается с ростом широты.
+
+js-interf-guards = Защита от других причин
+
+js-interf-input = Вход
+
+js-interf-land-set = Полигоны суши: { $name }.
+
+js-interf-land-too-big = Этот файл суши больше 24 MiB.
+
+js-interf-larger-than = { $name }: больше { $limit }; эта страница читает файлы карт не больше этого размера.
+
+js-interf-layer-adsb-sub = ячейки, где воздушные суда сообщали о низкой точности навигации
+
+js-interf-layer-ais-sub = ячейки, где суда сообщали о недостоверных позициях или движении
+
+js-interf-layer-heading = Слой { $kind }
+
+js-interf-layer-hidden = Слой { $kind } скрыт.
+
+js-interf-layers-separate = ADS-B и AIS — отдельные слои со своими переключателями, легендами и строками лицензии. Они никогда не объединяются в одно цветовое поле или один подсчёт.
+
+js-interf-legend-aria = Что означает каждое состояние ячейки; снимите отметку, чтобы приглушить такие ячейки
+
+js-interf-licence = Лицензия
+
+js-interf-licence-aria = Лицензия на данные { $name }
+
+js-interf-licence-heading = Лицензия на данные и указание авторства
+
+js-interf-map-aria = { $summary } Клавиши со стрелками перемещают между нарисованными ячейками.
+
+js-interf-maps-open =
+    { $n ->
+        [one] Открыта { $n } карта.
+        [few] Открыто { $n } карты.
+        [many] Открыто { $n } карт.
+       *[other] Открыто { $n } карты.
+    }
+
+js-interf-method-summary = Метод и оговорки
+
+js-interf-no-cell-at = Нет ячейки в точке { $lat }, { $lon }: не наблюдалась. Это не свидетельствует о том, что район был свободен от помех.
+
+js-interf-no-cell-drawn = ячейка не нарисована
+
+js-interf-no-cells-draw = В этом файле нет ячеек для отрисовки.
+
+js-interf-no-day-figures = В этом файле нет показателей на уровне дня.
+
+js-interf-no-file-opened = Не удалось открыть ни одного файла.
+
+js-interf-no-file-text = У открытых карт нет текста файла для проверки (они не были открыты как файлы).
+
+js-interf-none = нет
+
+js-interf-none-stated = (не указано)
+
+js-interf-none-stated-file = (не указано в этом файле)
+
+js-interf-north-abbr = N
+
+js-interf-not-evaluated = не оценивалось
+
+js-interf-not-opened-full = { $name }: не открыт, уже открыто карт: { $max }. Сначала закройте некоторые.
+
+js-interf-nothing-open = Пока ничего не открыто.
+
+js-interf-nothing-opened = Ничего не открыто.
+
+js-interf-one-day = по одному дню
+
+js-interf-opened-file-map = Открыто файлов: { $files }; открыто карт: { $maps }.
+
+js-interf-opened-file-maps = Открыто файлов: { $files }; открыто карт: { $maps }.
+
+js-interf-opened-files-map = Открыто файлов: { $files }; открыто карт: { $maps }.
+
+js-interf-opened-files-maps = Открыто файлов: { $files }; открыто карт: { $maps }.
+
+js-interf-opening-demo = Открывается синтетическая демонстрация…
+
+js-interf-parameters = Параметры, зафиксированные до чтения каких-либо данных
+
+js-interf-read-draw-failed = { $name }: не удалось прочитать или нарисовать ({ $reason }).
+
+js-interf-read-failed = { $name }: не удалось прочитать ({ $reason }).
+
+js-interf-read-with-map = Читайте вместе с картой
+
+js-interf-reading = Чтение…
+
+js-interf-route-aria = Экспозиция маршрута { $name }
+
+js-interf-route-chip = Маршрут
+
+js-interf-route-done =
+    { $n ->
+        [one] Экспозиция маршрута рассчитана на основе { $n } карты движком { $version }; отчёт показан ниже.
+        [few] Экспозиция маршрута рассчитана на основе { $n } карт движком { $version }; отчёт показан ниже.
+        [many] Экспозиция маршрута рассчитана на основе { $n } карт движком { $version }; отчёт показан ниже.
+       *[other] Экспозиция маршрута рассчитана на основе { $n } карты движком { $version }; отчёт показан ниже.
+    }
+
+js-interf-route-explain = Доля длины маршрута в каждом состоянии, по дням и источникам. Четыре доли в сумме дают 1 и читаются вместе: низкая доля ухудшенных при высокой доле ненаблюдавшихся не показывает, что маршрут свободен. Строки ADS-B и AIS никогда не объединяются.
+
+js-interf-route-exposure = Экспозиция маршрута
+
+js-interf-route-needs-map = Сначала откройте или постройте хотя бы одну карту: маршрут проверяется по картам на этой странице.
+
+js-interf-route-open-failed = Не удалось открыть маршрут: { $reason }.
+
+js-interf-route-range = с { $from } по { $to }
+
+js-interf-route-too-big = { $name }: больше 24 MiB.
+
+js-interf-row-affected-share = Доля затронутых
+
+js-interf-row-aircraft-affected = Затронуто воздушных судов
+
+js-interf-row-aircraft-observed = Наблюдалось воздушных судов
+
+js-interf-row-aircraft-sampled = Воздушных судов в выборке
+
+js-interf-row-area = Площадь
+
+js-interf-row-cell = Ячейка
+
+js-interf-row-detectors = Сработавшие детекторы
+
+js-interf-row-flagged = Отмечено: { $detector }
+
+js-interf-row-status = Статус
+
+js-interf-row-vessels-observed = Наблюдалось судов
+
+js-interf-rows-skipped = Пропущено недопустимых строк: { $count }.
+
+js-interf-rt-day = День
+
+js-interf-rt-km = Км маршрута
+
+js-interf-rt-licence = Лицензия и указание авторства карты
+
+js-interf-rt-shares = Доли маршрута
+
+js-interf-rt-source = Источник
+
+js-interf-sample-failed = Не удалось открыть образец: { $reason }.
+
+js-interf-save = Сохранить:
+
+js-interf-save-report = Сохранить отчёт (JSON)
+
+js-interf-show-layer = Показать этот слой
+
+js-interf-st-anomalous-label = Аномально
+
+js-interf-st-anomalous-text = По крайней мере один детектор в этот день отметил здесь достаточно различных судов (не менее 3 судов и 20 % от наблюдавшихся). Возможные причины включают помехи, но также и множество обычных.
+
+js-interf-st-confounded-label = День искажён
+
+js-interf-st-confounded-text = Медианная доля ячеек за весь день была высокой, что указывает на причину широкого масштаба. В такой день ни одна ячейка не объявляется ухудшенной; эта ячейка иначе выделялась бы.
+
+js-interf-st-degraded-label = Ухудшено
+
+js-interf-st-degraded-text = Высокая доля воздушных судов в выборке в этот день сообщила здесь о низкой точности навигации, значительно выше медианной ячейки дня. Причина не указывается.
+
+js-interf-st-no-background-label = Нет оценки фона
+
+js-interf-st-no-background-text = Фон дня (типичная доля воздушных судов, сообщающих о низкой точности) не удалось оценить по достаточному числу ячеек, поэтому ни одна ячейка с ним не сравнивается и никаких заключений не делается.
+
+js-interf-st-not-anomalous-label = Не аномально
+
+js-interf-st-not-anomalous-text = Наблюдалось, и ни один детектор не сработал. Это не доказательство того, что ничего не происходило.
+
+js-interf-st-not-degraded-label = Не ухудшено
+
+js-interf-st-not-degraded-text = Попало в выборку, и доля воздушных судов, сообщающих о низкой точности, ничем не выделялась. Это не доказательство того, что ничего не происходило.
+
+js-interf-st-too-few-label = Слишком мало воздушных судов
+
+js-interf-st-too-few-text = Опубликовано (наблюдалось не менее 5 различных воздушных судов), но в выборку попало менее 10 воздушных судов, поэтому заключение не делается.
+
+js-interf-starting-build = Запуск движка и построение…
+
+js-interf-starting-route = Запуск движка и проверка маршрута…
+
+js-interf-state-clear-adsb = Чисто
+
+js-interf-state-clear-adsb-text = Наблюдалось при достаточном числе воздушных судов и не отмечено. Это не доказательство того, что ничего не происходило.
+
+js-interf-state-clear-ais = Чисто
+
+js-interf-state-clear-ais-text = Наблюдалось при достаточном числе судов и не отмечено. Это не доказательство того, что ничего не происходило.
+
+js-interf-state-degraded-adsb = Ухудшено
+
+js-interf-state-degraded-adsb-text = Высокая доля воздушных судов в выборке в этот день сообщила здесь о низкой точности навигации, значительно выше медианной ячейки дня.
+
+js-interf-state-degraded-ais = Аномально
+
+js-interf-state-degraded-ais-text = По крайней мере один детектор в этот день отметил здесь достаточно различных судов (не менее 3 судов и 20 % от наблюдавшихся).
+
+js-interf-state-notobs-adsb = Не наблюдалось
+
+js-interf-state-notobs-adsb-text = Ячейка не нарисована: наблюдалось слишком мало воздушных судов, чтобы её опубликовать. Это не свидетельствует о том, что район был свободен от помех.
+
+js-interf-state-notobs-ais = Не наблюдалось
+
+js-interf-state-notobs-ais-text = Ячейка не нарисована: наблюдалось слишком мало судов, чтобы её опубликовать. Это не свидетельствует о том, что район был свободен от помех.
+
+js-interf-state-unassessed-adsb = Не оценено
+
+js-interf-state-unassessed-adsb-text = Наблюдалось, но в выборку попало слишком мало воздушных судов, день был искажён или фон дня не удалось оценить, поэтому заключение не делается.
+
+js-interf-state-unassessed-ais = Не оценено
+
+js-interf-state-unassessed-ais-text = Наблюдалось, но заключение не делается.
+
+js-interf-status-unknown = Статус, который эта страница не описывает.
+
+js-interf-table-first = Показаны первые { $shown } из { $total } ячеек, сначала значимые заключения.
+
+js-interf-table-summary = Все нарисованные ячейки в виде таблицы ({ $n })
+
+js-interf-the-day = День
+
+js-interf-unknown-date = неизвестная дата
+
+js-interf-warn-cell-size = Этот файл использует размер ячейки { $size }°, не совпадающий с предварительно зарегистрированным: это не предварительно зарегистрированный метод, поэтому его заключения несопоставимы с файлами, которые его используют.
+
+js-interf-warn-cell-size-known = Этот файл использует размер ячейки { $size }°, не совпадающий с предварительно зарегистрированным ({ $registered }°): это не предварительно зарегистрированный метод, поэтому его заключения несопоставимы с файлами, которые его используют.
+
+js-interf-warn-day-confounded = Этот день искажён сопутствующими факторами: ни одна ячейка не названа ухудшенной из-за фона этого дня (сама медианная доля ячеек была высокой).
+
+js-interf-warn-flag-disagrees = Ячеек, у которых флаг «degraded» расходится со статусом: { $count }. Рисуется статус.
+
+js-interf-warn-no-licence = В этом файле нет текста { $fields }. Он показан, но карту без лицензии и указания авторства не следует публиковать повторно.
+
+js-interf-warn-on-land-off = Детектор «на суше» был отключён для этого файла (полигоны суши не заданы).
+
+js-interf-warn-skipped = Пропущено недопустимых объектов GeoJSON: { $count }.
+
+js-interf-warn-unknown-status = Значения статуса, которых эта страница не знает: { $values }. Они рисуются как «нет заключения».
+
+js-interf-withheld = скрыто (менее 5)
+
+js-interf-written-by = записано Kshana { $version }
+
+js-kind-axis-3-d-position-error-m = ошибка 3-D положения (m)
+
+js-kind-axis-c-n0-db-hz = C/N0 (dB-Hz)
+
+js-kind-axis-code-jitter-m = дрожание кода (m)
+
+js-kind-axis-code-tracking-jitter-m = дрожание слежения за кодом (m)
+
+js-kind-axis-doppler-shift-hz = доплеровский сдвиг (Hz)
+
+js-kind-axis-effective-c-n0-db-hz = эффективное C/N0 (dB-Hz)
+
+js-kind-axis-elevation = угол места (°)
+
+js-kind-axis-fit-interval-s = интервал аппроксимации (s)
+
+js-kind-axis-formal-position-sigma-m = формальная sigma положения (m)
+
+js-kind-axis-latitude = широта (°)
+
+js-kind-axis-leo-satellites-added-to-the = спутники LEO, добавленные к решению
+
+js-kind-axis-mean-satellites-in-view = среднее число спутников в зоне видимости
+
+js-kind-axis-median-dilution-of-precision = медианный геометрический фактор DOP
+
+js-kind-axis-median-error-m = медианная ошибка (m)
+
+js-kind-axis-median-pdop = медианный PDOP
+
+js-kind-axis-metres = метры
+
+js-kind-axis-observation-window-s = окно наблюдения (s)
+
+js-kind-axis-offset-from-the-signal-s = смещение от центра сигнала (MHz)
+
+js-kind-axis-offset-from-the-snapshot-centre = смещение от центра снимка (MHz)
+
+js-kind-axis-pdop = PDOP
+
+js-kind-axis-position-error-m = ошибка положения (m)
+
+js-kind-axis-power-spectral-density-db-hz = спектральная плотность мощности (dB/Hz, единичная мощность)
+
+js-kind-axis-power-spectral-density-dbw-hz = спектральная плотность мощности (dBW/Hz)
+
+js-kind-axis-probability-of-detection = вероятность обнаружения
+
+js-kind-axis-range-error-m = ошибка дальности (m)
+
+js-kind-axis-relays = ретрансляторы
+
+js-kind-axis-sisre-root-mean-square-m = SISRE, среднеквадратичное значение (m)
+
+js-kind-axis-time-error-ns = ошибка времени (ns)
+
+js-kind-axis-time-s = время (s)
+
+js-kind-axis-time-since-the-start-min = время с начала (min)
+
+js-kind-axis-update-period-s = период обновления (s)
+
+js-kind-cap-body-pnt-label = Позиционирование по ретрансляторам
+
+js-kind-cap-campaign-label = Кампания
+
+js-kind-cap-constellation-design-label = Покрытие
+
+js-kind-cap-leo-navmsg-label = Навигационное сообщение
+
+js-kind-cap-leo-pass-label = Пролёт и линия связи
+
+js-kind-cap-leo-pnt-chain-label = Сквозная цепочка
+
+js-kind-cap-leo-ppp-label = Позиционирование
+
+js-kind-cap-leo-pvt-label = Позиционирование
+
+js-kind-cap-leo-signal-label = Проект сигнала
+
+js-kind-cap-lunar-llr-datum-label = Реперная точка лазерной локации
+
+js-kind-cap-ntn-positioning-label = Позиционирование
+
+js-kind-cap-solar-system-label = Солнечная система
+
+js-kind-cap-spectrum-label = Спектр
+
+js-kind-guided-doppler-error-hz = Ошибка Доплера (Hz)
+
+js-kind-guided-duration-s = Длительность (s)
+
+js-kind-guided-earth-range-error-m = Ошибка дальности до Земли (m)
+
+js-kind-guided-elevation-mask = Маска угла места (°)
+
+js-kind-guided-first-jammer-bandwidth-mhz = Полоса первого источника подавления (MHz)
+
+js-kind-guided-first-jammer-power-dbw = Мощность первого источника подавления (dBW)
+
+js-kind-guided-first-jammer-range-m = Дальность до первого источника подавления (m)
+
+js-kind-guided-first-jammer-received-power-dbw = Принимаемая мощность первого источника подавления (dBW)
+
+js-kind-guided-first-phase-length-s = Длительность первой фазы (s)
+
+js-kind-guided-first-shell-altitude-km = Высота первой оболочки (km)
+
+js-kind-guided-first-shell-inclination = Наклонение первой оболочки (°)
+
+js-kind-guided-first-signal-bandwidth-hz = Полоса первого сигнала (Hz)
+
+js-kind-guided-first-system-range-error-m = Ошибка дальности первой системы (m)
+
+js-kind-guided-fit-interval-s = Интервал аппроксимации (s)
+
+js-kind-guided-gravity-field-degree = Степень гравитационного поля
+
+js-kind-guided-grid-step = Шаг сетки (°)
+
+js-kind-guided-integration-time-s = Время интегрирования (s)
+
+js-kind-guided-leo-satellites-in-the-sweep = Спутники LEO в серии
+
+js-kind-guided-loop-bandwidth-hz = Полоса контура (Hz)
+
+js-kind-guided-monte-carlo-runs = Прогоны Монте-Карло
+
+js-kind-guided-network-synchronisation-error-m = Ошибка синхронизации сети (m)
+
+js-kind-guided-orbit-altitude-km = Высота орбиты (km)
+
+js-kind-guided-orbit-determination-error-m = Ошибка определения орбиты (m)
+
+js-kind-guided-orbit-inclination = Наклонение орбиты (°)
+
+js-kind-guided-pdop-threshold = Порог PDOP
+
+js-kind-guided-peak-elevation-of-the-pass = Максимальный угол места пролёта (°)
+
+js-kind-guided-points-per-orbit-track = Точек на трассу орбиты
+
+js-kind-guided-receiver-noise-figure-db = Коэффициент шума приёмника (dB)
+
+js-kind-guided-receiver-power-when-awake-mw = Мощность приёмника в активном режиме (mW)
+
+js-kind-guided-reference-c-n0-db-hz = Опорное C/N0 (dB-Hz)
+
+js-kind-guided-relay-altitude-km = Высота ретрансляторов (km)
+
+js-kind-guided-relay-inclination = Наклонение ретрансляторов (°)
+
+js-kind-guided-relay-planes = Плоскости ретрансляторов
+
+js-kind-guided-relay-range-error-m = Ошибка дальности до ретранслятора (m)
+
+js-kind-guided-relays-per-plane = Ретрансляторов в плоскости
+
+js-kind-guided-runs-per-case = Прогонов на случай
+
+js-kind-guided-satellite-altitude-km = Высота спутника (km)
+
+js-kind-guided-second-system-range-error-m = Ошибка дальности второй системы (m)
+
+js-kind-guided-shared-condition = Общее условие
+
+js-kind-guided-slant-electron-content-tecu = Наклонное электронное содержание (TECU)
+
+js-kind-guided-slant-range-km = Наклонная дальность (km)
+
+js-kind-guided-spoofed-offset-m = Смещение при спуфинге (m)
+
+js-kind-guided-spoofing-starts-s = Начало спуфинга (s)
+
+js-kind-guided-sweep-from = Серия от
+
+js-kind-guided-sweep-steps = Шагов серии
+
+js-kind-guided-sweep-to = Серия до
+
+js-kind-guided-timeline-step-s = Шаг временной шкалы (s)
+
+js-kind-guided-tracking-threshold-db-hz = Порог слежения (dB-Hz)
+
+js-kind-guided-transmit-power-dbw = Мощность передачи (dBW)
+
+js-kind-guided-update-period-s = Период обновления (s)
+
+js-kind-guided-user-latitude = Широта пользователя (°)
+
+js-kind-hint-a-band-under-this-carrier = диапазон с отношением несущей к шумовой плотности ниже этого значения потерял захват
+
+js-kind-hint-a-grid-point-is-available = точка сетки доступна, пока её геометрический фактор по положению ниже этого значения
+
+js-kind-hint-a-satellite-must-be-this = чтобы считаться в зоне видимости, спутник должен быть не ниже этой высоты над горизонтом
+
+js-kind-hint-a-satellite-must-be-this-2 = чтобы использоваться, спутник должен быть не ниже этой высоты над горизонтом
+
+js-kind-hint-a-satellite-of-the-first = спутник первой системы должен быть не ниже этой высоты над горизонтом
+
+js-kind-hint-arc-one-message-is-fitted = дуга, на которой аппроксимируется одно сообщение
+
+js-kind-hint-code-tracking-loop-noise-bandwidth = шумовая полоса контура слежения за кодом
+
+js-kind-hint-detail-of-the-truth-orbit = детализация гравитационной модели эталонной орбиты
+
+js-kind-hint-distance-from-the-first-jammer = расстояние от первого источника подавления до приёмника
+
+js-kind-hint-distance-to-the-satellite-in = расстояние до спутника в сравнении диапазонов
+
+js-kind-hint-drawn-while-acquiring-and-tracking = отрисовывается при захвате и слежении
+
+js-kind-hint-equivalent-isotropically-radiated-power-of = эквивалентная изотропно излучаемая мощность первого источника подавления
+
+js-kind-hint-equivalent-isotropically-radiated-power-of-2 = эквивалентная изотропно излучаемая мощность диапазона
+
+js-kind-hint-filter-runs-averaged-for-each = прогонов фильтра, усредняемых для каждого случая (чем больше, тем медленнее)
+
+js-kind-hint-first-value-of-the-swept = первое значение изменяемого параметра
+
+js-kind-hint-height-of-the-chain-s = высота спутника цепочки
+
+js-kind-hint-height-of-the-first-shell = высота орбит первой оболочки
+
+js-kind-hint-height-of-the-relay-orbits = высота орбит ретрансляторов над телом
+
+js-kind-hint-height-of-the-satellite-whose = высота спутника, сообщение которого аппроксимируется
+
+js-kind-hint-how-far-the-spoofer-moves = насколько спуфер смещает вычисленное положение
+
+js-kind-hint-how-finely-each-orbit-is = насколько часто каждая орбита дискретизируется для рисунка
+
+js-kind-hint-how-high-the-satellite-climbs = на какую высоту поднимается спутник
+
+js-kind-hint-how-long-the-first-phase = как долго длится первая фаза
+
+js-kind-hint-how-long-the-receiver-integrates = как долго приёмник интегрирует для одной дальности
+
+js-kind-hint-how-many-low-orbit-satellites = сколько низкоорбитальных спутников добавляет серия по геометрии
+
+js-kind-hint-how-many-seeded-runs-make = сколько прогонов с начальным значением (seed) образуют ансамбль
+
+js-kind-hint-how-many-values-are-run = сколько значений прогоняется
+
+js-kind-hint-how-often-a-new-message = как часто выдаётся новое сообщение
+
+js-kind-hint-how-wide-the-first-jammer = как широко первый источник подавления распределяет свою мощность
+
+js-kind-hint-ionosphere-along-the-path-in = ионосфера вдоль трассы, в единицах полного электронного содержания
+
+js-kind-hint-last-value-of-the-swept = последнее значение изменяемого параметра
+
+js-kind-hint-length-of-each-filter-run = длительность каждого прогона фильтра
+
+js-kind-hint-length-of-the-run = длительность прогона
+
+js-kind-hint-length-of-the-timeline = длина временной шкалы
+
+js-kind-hint-occupied-bandwidth-of-the-first = занимаемая полоса первого опорного сигнала
+
+js-kind-hint-one-sigma-doppler-measurement-error = ошибка измерения Доплера (одна сигма)
+
+js-kind-hint-one-sigma-error-of-a = ошибка дальности до ретранслятора (одна сигма)
+
+js-kind-hint-one-sigma-error-of-the = ошибка двусторонней дальности от Земли (одна сигма)
+
+js-kind-hint-orbital-planes-of-the-navigation = орбитальные плоскости навигационных ретрансляторов
+
+js-kind-hint-power-of-the-first-jammer = мощность первого источника подавления на входе приёмника
+
+js-kind-hint-raises-the-noise-floor-under = повышает уровень шума под каждым диапазоном
+
+js-kind-hint-satellites-in-each-plane = спутников в каждой плоскости
+
+js-kind-hint-sets-the-doppler-range-a = задаёт диапазон Доплера, который должен охватить холодный поиск
+
+js-kind-hint-signal-in-space-range-error = ошибка дальности в пространстве сигнала первой системы
+
+js-kind-hint-signal-in-space-range-error-2 = ошибка дальности в пространстве сигнала второй системы
+
+js-kind-hint-signal-level-the-tracking-figures = уровень сигнала, для которого приводятся показатели слежения
+
+js-kind-hint-spacing-of-the-latitude-and = шаг сетки по широте и долготе
+
+js-kind-hint-spacing-of-the-shared-mission = шаг общей временной сетки миссии
+
+js-kind-hint-the-part-of-the-range = часть ошибки дальности, которую сообщение не может устранить
+
+js-kind-hint-the-value-every-member-runs = значение, при котором работает каждый член
+
+js-kind-hint-tilt-of-that-orbit = наклон этой орбиты
+
+js-kind-hint-tilt-of-the-first-shell = наклон плоскостей первой оболочки
+
+js-kind-hint-tilt-of-the-relay-planes = наклон плоскостей ретрансляторов
+
+js-kind-hint-timing-error-between-satellites-as = ошибка синхронизации между спутниками, выраженная как дальность
+
+js-kind-hint-when-the-spoofer-captures-the = когда спуфер захватывает приёмник
+
+js-kind-hint-where-the-receiver-stands = где находится приёмник
+
+js-kind-hint-where-the-user-stands = где находится пользователь
+
+js-kind-label-3-d-error = ошибка 3-D
+
+js-kind-label-3-d-error-time-of = ошибка 3-D, время прихода
+
+js-kind-label-a-corrupted-frame-is-rejected = повреждённый кадр отклоняется
+
+js-kind-label-all-channels = все каналы
+
+js-kind-label-availability = Доступность
+
+js-kind-label-band = Диапазон
+
+js-kind-label-bodies = Тела
+
+js-kind-label-body = Тело
+
+js-kind-label-both = оба
+
+js-kind-label-case = Случай
+
+js-kind-label-class = Класс
+
+js-kind-label-code-jitter = дрожание кода
+
+js-kind-label-constellation = Орбитальная группировка
+
+js-kind-label-doppler = Доплер
+
+js-kind-label-event = Событие
+
+js-kind-label-evidence = Доказательства
+
+js-kind-label-fewest-in-view = Наименьшее в зоне видимости
+
+js-kind-label-field = Поле
+
+js-kind-label-first-detection-after-onset = Первое обнаружение после начала
+
+js-kind-label-frame-length = Длина кадра
+
+js-kind-label-fused = объединённое
+
+js-kind-label-fused-cap = Объединённое
+
+js-kind-label-gnss = GNSS
+
+js-kind-label-gnss-and-leo = GNSS и LEO
+
+js-kind-label-gnss-channels = Каналы GNSS
+
+js-kind-label-gnss-highest-in-sky = GNSS { $id } (выше всех над горизонтом)
+
+js-kind-label-gnss-only = только GNSS
+
+js-kind-label-gnss-only-cap = Только GNSS
+
+js-kind-label-gnss-signal = Сигнал GNSS
+
+js-kind-label-hdop = HDOP
+
+js-kind-label-highest = Наибольшее
+
+js-kind-label-horizontal-error = горизонтальная ошибка
+
+js-kind-label-horizontal-error-2 = Горизонтальная ошибка
+
+js-kind-label-jammer = Источник подавления
+
+js-kind-label-jump-threshold = Порог скачка
+
+js-kind-label-largest-range-jump = Наибольший скачок дальности
+
+js-kind-label-largest-range-jump-against-the = наибольший скачок дальности относительно порога
+
+js-kind-label-leo = LEO
+
+js-kind-label-leo-channels = Каналы LEO
+
+js-kind-label-leo-only = только LEO
+
+js-kind-label-light-time-from-observer = Время распространения света от { $observer }
+
+js-kind-label-light-time-from-the-observer = Время распространения света от наблюдателя
+
+js-kind-label-light-time-one-way = Время распространения света, в одну сторону
+
+js-kind-label-lowest = Наименьшее
+
+js-kind-label-lowest-c-n0 = Наименьшее C/N0
+
+js-kind-label-mean = Среднее
+
+js-kind-label-mean-in-view = Среднее в зоне видимости
+
+js-kind-label-median-convergence = Медианная сходимость
+
+js-kind-label-median-pdop = Медианный PDOP
+
+js-kind-label-member-runs = Прогоны членов
+
+js-kind-label-message-switch-iod = смена сообщения, выпуск данных с { $old } на { $new }
+
+js-kind-label-mission-length = Длительность миссии
+
+js-kind-label-model = модель
+
+js-kind-label-monte-carlo-runs = Прогоны Монте-Карло
+
+js-kind-label-noise-floor = Уровень шума
+
+js-kind-label-parameters = Параметры
+
+js-kind-label-payload = Полезная нагрузка
+
+js-kind-label-pdop = PDOP
+
+js-kind-label-pdop-95th-percentile = PDOP, 95-й процентиль
+
+js-kind-label-peak-elevation = Максимальный угол места
+
+js-kind-label-peak-tracked-c-n0 = Пиковое отслеживаемое C/N0
+
+js-kind-label-phase = Фаза
+
+js-kind-label-predicted-horizontal-sigma = прогнозируемая горизонтальная sigma
+
+js-kind-label-quantisation-position = Квантование, положение
+
+js-kind-label-range-error = ошибка дальности
+
+js-kind-label-relays-above-the-mask = ретрансляторы над маской
+
+js-kind-label-relays-and-earth-link = ретрансляторы и линия связи с Землёй
+
+js-kind-label-relays-only = только ретрансляторы
+
+js-kind-label-satellite = Спутник
+
+js-kind-label-satellites = Спутники
+
+js-kind-label-satellites-used = Использовано спутников
+
+js-kind-label-signal = Сигнал
+
+js-kind-label-signal-chip-spacing = { $name } (разнос чипов { $spacing })
+
+js-kind-label-sisre-after-quantisation = SISRE после квантования
+
+js-kind-label-sisre-root-mean-square = SISRE, среднеквадратичное значение
+
+js-kind-label-spoofing-starts = начало спуфинга
+
+js-kind-label-standard-deviation = Стандартное отклонение
+
+js-kind-label-sun-separation = Угловое расстояние до Солнца
+
+js-kind-label-sweep-runs = Прогоны серии
+
+js-kind-label-system = Система
+
+js-kind-label-time-above-the-mask = Время над маской
+
+js-kind-label-time-error-root-mean-square = Ошибка времени, среднеквадратичное значение
+
+js-kind-label-tracked-component = отслеживаемый компонент
+
+js-kind-label-tracking-threshold = Порог слежения
+
+js-kind-label-transmit-bandwidth = Полоса передачи
+
+js-kind-label-vdop = VDOP
+
+js-kind-label-welch-estimate-of-the-synthesised = Оценка Уэлча по синтезированным отсчётам
+
+js-kind-label-whole-signal = весь сигнал
+
+js-kind-label-wideband-j-s-tolerated = Допустимое широкополосное J/S
+
+js-kind-label-with-unit = { $label } ({ $unit })
+
+js-kind-label-worst-site-availability = Доступность в наихудшем пункте
+
+js-kind-no = нет
+
+js-kind-note-a-gap-is-an-epoch = Разрыв — это эпоха, в которой в зоне видимости слишком мало ретрансляторов для определения положения.
+
+js-kind-note-a-helmert-transform-is-the = Преобразование Гельмерта — это семипараметрический сдвиг, поворот и масштаб между двумя системами отсчёта.
+
+js-kind-note-a-low-earth-orbit-leo = Спутник на низкой околоземной орбите (LEO) пересекает небо за минуты, поэтому его C/N0 (отношение несущей к шумовой плотности) растёт и падает колоколом; спутник GNSS за то же время почти не смещается.
+
+js-kind-note-a-receiver-independent-exchange-format = Запись в стиле RINEX 4 (Receiver Independent Exchange Format). Типы записей LEO — расширение Kshana, как сказано в заголовке.
+
+js-kind-note-a-single-pass-fixes-the = Один пролёт определяет направление вдоль трассы гораздо точнее, чем поперёк неё.
+
+js-kind-note-aos-is-acquisition-of-signal = AOS — это захват сигнала, TCA — время наибольшего сближения, LOS — потеря сигнала.
+
+js-kind-note-c-n0-is-the-carrier = C/N0 — это отношение несущей к шумовой плотности. Диапазон ниже порога слежения приёмника потерял захват.
+
+js-kind-note-cells-are-the-code-and = Ячейки — это кодовые и доплеровские элементы, которые должен проверить холодный поиск.
+
+js-kind-note-cold-is-a-first-fix = Холодный — это первое определение положения без предварительных сведений; горячий — определение вскоре после предыдущего.
+
+js-kind-note-dilution-of-precision-dop-scales = Геометрический фактор DOP (ухудшение точности) пересчитывает ошибку дальности в ошибку положения: G — геометрический, P — по положению, H — горизонтальный, V — вертикальный. Процентили берутся по всем точкам сетки и эпохам.
+
+js-kind-note-drawn-at-the-strongest-signal = Отрисовано при самом сильном сигнале за прогон. Разрыв — это участок, где в зоне видимости нет ни одного спутника.
+
+js-kind-note-each-body-carries-its-own = Каждое тело несёт собственную метку уровня доказательств. Время распространения света дано в одну сторону, от наблюдателя, названного в сценарии.
+
+js-kind-note-each-row-is-one-full = Каждая строка — это один полный прогон движка для изменяемого сценария.
+
+js-kind-note-each-rule-is-a-switch = Каждое правило — это переключение на более новое сообщение в середине пролёта.
+
+js-kind-note-each-signal-is-drawn-about = Каждый сигнал отрисован вокруг своей центральной частоты. Разрыв — это спектральный нуль.
+
+js-kind-note-eirp-is-the-equivalent-isotropically = EIRP — это эквивалентная изотропно излучаемая мощность.
+
+js-kind-note-every-phase-is-an-ordinary = Каждая фаза — это обычный прогон сценария. Хеши идентифицируют входные данные каждого члена и его документ результата.
+
+js-kind-note-iod-is-the-issue-of = IOD — это выпуск данных: порядковый номер сообщения.
+
+js-kind-note-j-s-is-the-jammer = J/S — это отношение мощности источника подавления к мощности сигнала. Доля слежения — это часть прогона, в течение которой диапазон остаётся выше порога.
+
+js-kind-note-p05-p50-and-p95-are = p05, p50 и p95 — это 5-й, 50-й и 95-й процентили. ci95 — 95-процентный доверительный интервал для среднего.
+
+js-kind-note-parameters-are-public-with-a = Параметры относятся к уровню PUBLIC (с источником), REPRESENTATIVE или WORKSHOP, как указано в каждой предустановке.
+
+js-kind-note-precise-point-positioning-ppp-converges = Прецизионное абсолютное позиционирование (PPP) сходится, когда ошибка остаётся ниже критерия. NEES — нормированный квадрат ошибки оценивания, проверка согласованности фильтра.
+
+js-kind-note-sisre-defined = SISRE — это ошибка дальности в пространстве сигнала: то, что передаваемое сообщение добавляет к дальности пользователя. Здесь это ошибка представления сообщения относительно собственной эталонной орбиты движка.
+
+js-kind-note-sisre-is-the-signal-in = SISRE — это ошибка дальности в пространстве сигнала, принятая для передаваемой орбиты и часов каждой системы.
+
+js-kind-note-ssc-is-the-spectral-separation = SSC — это коэффициент спектрального разделения: какая часть мощности одного сигнала попадает в приёмник другого. Прочерк означает, что два сигнала не перекрываются.
+
+js-kind-note-the-chain-runs-the-signal = Цепочка выполняет по порядку этапы сигнала, пролёта, навигационного сообщения, позиционирования и прецизионного позиционирования. Каждая строка — это число, которое вычислил один этап и использовал следующий.
+
+js-kind-note-the-doppler-and-pass-geometry = Монитор Доплера и геометрии пролёта сравнивает измеренные скорости изменения дальности с предсказанными по орбитам. Правило отмечает начало работы спуфера.
+
+js-kind-note-the-engine-draws-its-spectrum = Движок отрисовывает модель спектра как синфазные и квадратурные (IQ) отсчёты в один момент времени и по ним заново оценивает спектр. Те же отсчёты составляют экспорт SigMF (Signal Metadata Format).
+
+js-kind-note-the-engine-s-own-documented = Собственный документированный двоичный кадр движка, замкнутый 24-разрядной циклической проверкой избыточности (CRC-24Q).
+
+js-kind-note-the-gabor-root-mean-square = Среднеквадратичная полоса Габора определяет, насколько точно по сигналу можно измерять дальность.
+
+js-kind-note-the-largest-jammer-to-signal = Наибольшее отношение мощности источника подавления к мощности сигнала (J/S), при котором каждый сигнал ещё отслеживается, для источника с непрерывной несущей (CW), с согласованным спектром и широкополосного.
+
+js-kind-note-the-shapiro-delay-is-the = Задержка Шапиро — это дополнительное время распространения света из-за гравитации Солнца вдоль трассы.
+
+js-kind-note-the-spectrum-kind-and-the = Вид spectrum и вид jamming вычисляют одну и ту же линию связи двумя способами; последний столбец — их разность.
+
+js-kind-note-time-of-arrival-toa-ranging = Дальнометрия по времени прихода (TOA) в нисходящей линии нетеррестриальной сети (NTN): чем шире сигнал, тем точнее дальность.
+
+js-kind-note-what-half-a-least-significant = Во что обходится половина младшего значащего бита (LSB) каждого поля для положения и для часов, в пересчёте на дальность.
+
+js-kind-rowhead-block = Блок
+
+js-kind-rowhead-condition = Условие
+
+js-kind-rowhead-figure = Показатель
+
+js-kind-rowhead-member = Член
+
+js-kind-rowhead-metric = Метрика
+
+js-kind-rowhead-monitor = Монитор
+
+js-kind-rowhead-phase = Фаза
+
+js-kind-rowhead-satellite = Спутник
+
+js-kind-rowhead-signal = Сигнал
+
+js-kind-rowhead-solution = Решение
+
+js-kind-sub-clock-offset-db = { $clock }, { $offset } dB
+
+js-kind-sub-doppler-only = только Доплер
+
+js-kind-sub-from-to = от { $from } до { $to }
+
+js-kind-sub-fused = объединённое
+
+js-kind-sub-gnss-and-leo-latitude = GNSS и LEO, широта { $lat }°
+
+js-kind-sub-gnss-only = только GNSS
+
+js-kind-sub-gnss-only-latitude = только GNSS, широта { $lat }°
+
+js-kind-sub-model-fit-seconds = { $model }, аппроксимация { $fit } s
+
+js-kind-threshold-4-needed-for-a-fix = для определения положения нужно 4
+
+js-kind-threshold-convergence-criterion = критерий сходимости
+
+js-kind-threshold-elevation-mask = маска угла места
+
+js-kind-threshold-gnss-median = медиана GNSS
+
+js-kind-threshold-tracking-threshold = порог слежения
+
+js-kind-title-acquisition = Захват
+
+js-kind-title-against-a-simulated-campaign = В сравнении с имитированной кампанией
+
+js-kind-title-assumptions = Допущения
+
+js-kind-title-band-trade-at-equal-transmit = Сравнение диапазонов при равной мощности передачи
+
+js-kind-title-bands = Диапазоны
+
+js-kind-title-beside-the-published-figures = Рядом с опубликованными значениями
+
+js-kind-title-beside-the-published-speed-up = Рядом с опубликованным ускорением
+
+js-kind-title-bodies = Тела
+
+js-kind-title-body = Тело
+
+js-kind-title-by-latitude = По широте
+
+js-kind-title-c-n0-by-band-over = C/N0 по диапазонам за прогон
+
+js-kind-title-c-n0-over-the-pass = C/N0 за пролёт
+
+js-kind-title-cases = Случаи
+
+js-kind-title-central-body = Центральное тело
+
+js-kind-title-closed-form-doppler-against-finite = Доплер в замкнутой форме и конечные разности
+
+js-kind-title-code-tracking-jitter = Дрожание слежения за кодом
+
+js-kind-title-code-tracking-jitter-against-c = Дрожание слежения за кодом в зависимости от C/N0
+
+js-kind-title-combined-over-the-members = Сводно по членам
+
+js-kind-title-compatibility-with-gnss-signals = Совместимость с сигналами GNSS
+
+js-kind-title-constellations = Орбитальные группировки
+
+js-kind-title-continuity-across-message-switches = Непрерывность при смене сообщений
+
+js-kind-title-cross-check-against-the-jamming = Перекрёстная проверка с видом jamming
+
+js-kind-title-datum-accuracy = Точность реперной точки
+
+js-kind-title-dilution-of-precision-over-the = Геометрический фактор DOP по всей сетке
+
+js-kind-title-doppler = Доплер
+
+js-kind-title-doppler-envelopes = Огибающие Доплера
+
+js-kind-title-doppler-only-fix = Определение положения только по Доплеру
+
+js-kind-title-doppler-over-the-pass = Доплер за пролёт
+
+js-kind-title-doppler-positioning-from-one-pass = Доплеровское позиционирование по одному пролёту
+
+js-kind-title-earth-link = Линия связи с Землёй
+
+js-kind-title-elevation = Угол места
+
+js-kind-title-encoded-frame = Закодированный кадр
+
+js-kind-title-epoch = Эпоха
+
+js-kind-title-epoch-and-frame = Эпоха и система координат
+
+js-kind-title-events = События
+
+js-kind-title-every-node-of-the-sweep = Каждый узел серии
+
+js-kind-title-field-table = Таблица полей
+
+js-kind-title-figures-of-merit = Показатели качества
+
+js-kind-title-filter-noise = Шум фильтра
+
+js-kind-title-fit-interval-trade = Компромисс по интервалу аппроксимации
+
+js-kind-title-fix-quality-against-observation-window = Качество определения положения в зависимости от окна наблюдения
+
+js-kind-title-frame-checks = Проверки кадра
+
+js-kind-title-frame-hexadecimal = Кадр, шестнадцатеричный
+
+js-kind-title-geometry-against-latitude = Геометрия в зависимости от широты
+
+js-kind-title-geometry-as-leo-satellites-are = Геометрия по мере добавления спутников LEO
+
+js-kind-title-geometry-position-dilution-of-precision = Геометрия: геометрический фактор DOP по положению
+
+js-kind-title-global-coverage = Глобальное покрытие
+
+js-kind-title-gnss-leo-and-fused = GNSS, LEO и объединённое
+
+js-kind-title-gnss-reference = Эталон GNSS
+
+js-kind-title-hand-offs-between-phases = Передача данных между фазами
+
+js-kind-title-helmert-fit = Аппроксимация Гельмерта
+
+js-kind-title-helmert-transform-parameters = Параметры преобразования Гельмерта
+
+js-kind-title-inputs = Входные данные
+
+js-kind-title-ionosphere-free-band-pairs = Пары диапазонов, свободные от ионосферы
+
+js-kind-title-jammer-tolerance = Устойчивость к источнику подавления
+
+js-kind-title-jammers = Источники подавления
+
+js-kind-title-joint-fix = Совместное определение положения
+
+js-kind-title-leo-against-gnss = LEO в сравнении с GNSS
+
+js-kind-title-limitations = Ограничения
+
+js-kind-title-links = Ссылки
+
+js-kind-title-member-runs = Прогоны членов
+
+js-kind-title-members-under-the-shared-conditions = Члены при общих условиях
+
+js-kind-title-message = Сообщение
+
+js-kind-title-message-models-compared = Сравнение моделей сообщения
+
+js-kind-title-message-switches = Смены сообщения
+
+js-kind-title-metric-against-axis = { $metric } в зависимости от { $axis }
+
+js-kind-title-metric-distribution-over-runs = { $metric }: распределение по прогонам
+
+js-kind-title-mid-pass-update = Обновление в середине пролёта
+
+js-kind-title-modelled = Смоделировано
+
+js-kind-title-monte-carlo = Монте-Карло
+
+js-kind-title-navigation-message-stage = Этап навигационного сообщения
+
+js-kind-title-not-modelled = Не смоделировано
+
+js-kind-title-notes = Примечания
+
+js-kind-title-notes-on-the-spoofing-model = Примечания к модели спуфинга
+
+js-kind-title-observation-windows = Окна наблюдения
+
+js-kind-title-one-pass-alone = Один пролёт
+
+js-kind-title-orbit = Орбита
+
+js-kind-title-over-the-message-sequence = По последовательности сообщений
+
+js-kind-title-pass = Пролёт
+
+js-kind-title-pass-c-n0-of-the = Пролёт: C/N0 всего сигнала и отслеживаемого компонента
+
+js-kind-title-pass-code-tracking-jitter = Пролёт: дрожание слежения за кодом
+
+js-kind-title-pass-doppler = Пролёт: Доплер
+
+js-kind-title-pass-stage = Этап пролёта
+
+js-kind-title-passes = Пролёты
+
+js-kind-title-phases = Фазы
+
+js-kind-title-position-error-gnss-leo-and = Ошибка положения: GNSS, LEO и объединённое решение
+
+js-kind-title-position-uncertainty-relays-alone-and = Неопределённость положения: только ретрансляторы и с линией связи с Землёй
+
+js-kind-title-positioning-by-signal-bandwidth = Позиционирование по полосе сигнала
+
+js-kind-title-positioning-gnss-alone-against-the = Позиционирование: только GNSS в сравнении с объединённым решением
+
+js-kind-title-power-spectral-density = Спектральная плотность мощности
+
+js-kind-title-power-spectral-density-of-each = Спектральная плотность мощности каждого сигнала
+
+js-kind-title-precise-point-positioning = Прецизионное абсолютное позиционирование
+
+js-kind-title-published-comparison = Опубликованное сравнение
+
+js-kind-title-quantisation-budget = Бюджет квантования
+
+js-kind-title-range-residuals = Невязки дальности
+
+js-kind-title-ranging-stations = Станции дальнометрии
+
+js-kind-title-reading-the-trade = Как читать компромисс
+
+js-kind-title-realised-position-error = Реализованная ошибка положения
+
+js-kind-title-receiver = Приёмник
+
+js-kind-title-receiver-power-budget = Энергетический бюджет приёмника
+
+js-kind-title-reflector-information = Сведения об отражателях
+
+js-kind-title-relay-constellation = Группировка ретрансляторов
+
+js-kind-title-relays-in-view = Ретрансляторы в зоне видимости
+
+js-kind-title-reproducibility = Воспроизводимость
+
+js-kind-title-retroreflectors = Ретрорефлекторы
+
+js-kind-title-rinex-style-record = Запись в стиле RINEX
+
+js-kind-title-round-trips = Проверка туда и обратно
+
+js-kind-title-run = Прогон
+
+js-kind-title-satellites-in-view-against-latitude = Спутники в зоне видимости в зависимости от широты
+
+js-kind-title-sensitivity-to-a-line-of = Чувствительность к наклону линии визирования
+
+js-kind-title-shared-conditions = Общие условия
+
+js-kind-title-signal-components = Компоненты сигнала
+
+js-kind-title-signal-stage = Этап сигнала
+
+js-kind-title-signals = Сигналы
+
+js-kind-title-sisre-against-fit-interval = SISRE в зависимости от интервала аппроксимации
+
+js-kind-title-sisre-against-update-period = SISRE в зависимости от периода обновления
+
+js-kind-title-sisre-weights = Веса SISRE
+
+js-kind-title-snapshot = Снимок
+
+js-kind-title-snapshot-against-the-model = Снимок в сравнении с моделью
+
+js-kind-title-snapshot-spectrum-welch-estimate-against = Спектр снимка: оценка Уэлча в сравнении с моделью
+
+js-kind-title-sources = Источники
+
+js-kind-title-spoofer-and-monitor-settings = Параметры спуфера и монитора
+
+js-kind-title-spoofing-monitor-probability-of-detection = Монитор спуфинга: вероятность обнаружения
+
+js-kind-title-statistics-over-the-runs = Статистика по прогонам
+
+js-kind-title-sweep = Серия
+
+js-kind-title-systems = Системы
+
+js-kind-title-systems-in-the-fix = Системы в решении
+
+js-kind-title-the-archived-campaign = Архивная кампания
+
+js-kind-title-time-error = Ошибка времени
+
+js-kind-title-time-error-by-receiver-clock = Ошибка времени по часам приёмника
+
+js-kind-title-time-scale = Шкала времени
+
+js-kind-title-time-to-first-fix-and = Время до первого определения положения и энергия на одно определение
+
+js-kind-title-time-transfer-by-clock-and = Передача времени по часам и уровню сигнала
+
+js-kind-title-trade-conditions = Условия сравнения
+
+js-kind-title-update-period-trade = Компромисс по периоду обновления
+
+js-kind-title-user = Пользователь
+
+js-kind-title-user-range-error-through-the = Ошибка дальности пользователя за пролёт
+
+js-kind-title-validated = Проверено
+
+js-kind-title-what-each-stage-hands-to = Что каждый этап передаёт следующему
+
+js-kind-title-what-this-run-is-and = Что представляет собой этот прогон и чем он не является
+
+js-kind-title-when-each-monitor-detects = Когда каждый монитор обнаруживает
+
+js-kind-title-work-done = Выполненная работа
+
+js-kind-yes = да
+
+js-ledger-rows =
+    { $n ->
+        [one] { $n } строка реестра
+        [few] { $n } строки реестра
+        [many] { $n } строк реестра
+       *[other] { $n } строки реестра
+    }
+
+js-lib-abbr-apv = заход на посадку с вертикальным наведением
+
+js-lib-abbr-araim = усовершенствованный автономный контроль целостности приёмника
+
+js-lib-abbr-auc = площадь под кривой
+
+js-lib-abbr-c-n0 = отношение несущей к шумовой плотности
+
+js-lib-abbr-ccsds = Консультативный комитет по космическим системам передачи данных
+
+js-lib-abbr-cli = интерфейс командной строки
+
+js-lib-abbr-csac = атомные часы микроразмерного исполнения
+
+js-lib-abbr-cw = непрерывная несущая
+
+js-lib-abbr-doi = цифровой идентификатор объекта
+
+js-lib-abbr-dop = геометрический фактор DOP (ухудшение точности)
+
+js-lib-abbr-eo = наблюдение Земли
+
+js-lib-abbr-gnss = глобальная навигационная спутниковая система
+
+js-lib-abbr-gps = Глобальная система позиционирования
+
+js-lib-abbr-hal = горизонтальный предел тревоги
+
+js-lib-abbr-hpl = горизонтальный уровень защиты
+
+js-lib-abbr-imu = инерциальный измерительный блок
+
+js-lib-abbr-ins = инерциальная навигационная система
+
+js-lib-abbr-iot = интернет вещей
+
+js-lib-abbr-itu-t = Международный союз электросвязи, сектор стандартизации электросвязи
+
+js-lib-abbr-j-s = отношение мощности источника подавления к мощности сигнала
+
+js-lib-abbr-leo = низкая околоземная орбита
+
+js-lib-abbr-llr = лазерная локация Луны
+
+js-lib-abbr-meo = средняя околоземная орбита
+
+js-lib-abbr-mtie = максимальная ошибка временного интервала
+
+js-lib-abbr-ntn = нетеррестриальная сеть
+
+js-lib-abbr-ocxo = кварцевый генератор с термостатированием
+
+js-lib-abbr-oem = сообщение об эфемеридах орбиты
+
+js-lib-abbr-omm = сообщение о средних элементах орбиты
+
+js-lib-abbr-pdop = геометрический фактор DOP по положению
+
+js-lib-abbr-pnt = позиционирование, навигация и время
+
+js-lib-abbr-ppp = прецизионное абсолютное позиционирование
+
+js-lib-abbr-raim = автономный контроль целостности приёмника
+
+js-lib-abbr-rf = радиочастота
+
+js-lib-abbr-rinex = Независимый от приёмника формат обмена
+
+js-lib-abbr-roc = рабочая характеристика приёмника
+
+js-lib-abbr-sbas = спутниковая система функционального дополнения
+
+js-lib-abbr-sgp4 = Simplified General Perturbations 4, распространитель орбит
+
+js-lib-abbr-sisre = ошибка дальности в пространстве сигнала
+
+js-lib-abbr-slam = одновременная локализация и построение карты
+
+js-lib-abbr-spp = одноточечное позиционирование
+
+js-lib-abbr-tdev = девиация времени
+
+js-lib-abbr-tle = двухстрочный набор элементов орбиты
+
+js-lib-abbr-toml = формат файла сценария
+
+js-lib-abbr-trn = навигация по рельефу местности
+
+js-lib-abbr-uhf = ультравысокая частота
+
+js-lib-abbr-ukf = ункентированный фильтр Калмана
+
+js-lib-abbr-utc = Всемирное координированное время
+
+js-lib-abbr-val = вертикальный предел тревоги
+
+js-lib-abbr-vlbi = радиоинтерферометрия со сверхдлинной базой
+
+js-lib-abbr-vpl = вертикальный уровень защиты
+
+js-lib-abbr-wg = Рабочая группа
+
+js-lib-areas-ground-track = Подспутниковая трасса
+
+js-lib-areas-holdover = Holdover
+
+js-lib-compare-availability = Доступность
+
+js-lib-compare-holdover = Holdover
+
+js-lib-compare-timing-p95 = Время, p95
+
+js-lib-compare-timing-rms = Время, RMS
+
+js-lib-counts-explorer-tally = Проверено по внешнему оракулу возможностей: { $validated } из { $total } · смоделировано: { $modelled } · принадлежит партнёру: { $partner } — показано здесь как карточек возможностей: { $cards } в областях: { $domains }, заявлений о доказательствах: { $evidence }
+
+js-lib-counts-validated-tally = Проверено по внешнему оракулу возможностей: { $validated } из { $total } — показано здесь как карточек возможностей: { $cards } и заявлений о доказательствах: { $evidence }
+
+js-lib-engine-busy = { $verb }…
+
+js-lib-engine-busy-seconds = { $verb }… { $s } s
+
+js-lib-engine-page-http = файл движка вернул HTTP { $status }
+
+js-lib-engine-page-not-running = движок здесь не запущен
+
+js-lib-engine-worker-crashed = рабочий процесс движка аварийно завершился
+
+js-lib-evidence-aria = Доказательства: { $tier }, { $count }
+
+js-lib-evidence-ledger-rows =
+    { $n ->
+        [one] { $n } строка реестра
+        [few] { $n } строки реестра
+        [many] { $n } строк реестра
+       *[other] { $n } строки реестра
+    }
+
+js-lib-evidence-rows-behind = Строки реестра, стоящие за этим результатом
+
+js-lib-geometry-url-bad-mc = Число выборок Монте-Карло не входит в { $choices }; используется { $default }.
+
+js-lib-geometry-url-bad-number = «{ $key }» — не число от { $min } до { $max }; используется значение по умолчанию.
+
+js-lib-geometry-url-bad-site = Пункт задан не в виде «широта,долгота[,высота]» в допустимых пределах; используется пункт по умолчанию.
+
+js-lib-geometry-url-bad-sky = Линия горизонта не является ни предустановкой, ни таблицей из 360 секторов, ни каньоном в допустимых пределах; используется открытый горизонт.
+
+js-lib-geometry-url-bad-sys = Список орбитальных группировок — это не G, E, C и не более одной L:<предустановка LEO>, известной этому представлению; используется набор по умолчанию.
+
+js-lib-geometry-url-own-tle = Отправитель использовал собственные элементы орбиты (TLE), которые ссылка не передаёт; вместо них показаны предустановки.
+
+js-lib-geometry-url-repeated = «{ $key }» встречается более одного раза; используется первое значение.
+
+js-lib-geometry-url-too-long = Адрес длиннее { $max } символов, поэтому ни один из его параметров не был прочитан.
+
+js-lib-geometry-url-unreadable = Не удалось прочитать адрес.
+
+js-lib-guided-duration-s-hint = как долго распространять подспутниковую трассу
+
+js-lib-guided-duration-s-label = Длительность (s)
+
+js-lib-guided-dut1-s-hint = смещение вращения Земли; сдвигает подспутниковую трассу на восток или запад
+
+js-lib-guided-dut1-s-label = UT1−UTC (s)
+
+js-lib-guided-mask-deg-hint = чтобы считаться видимым, спутник должен быть не ниже этой высоты над горизонтом
+
+js-lib-guided-mask-deg-label = Маска угла места (°)
+
+js-lib-guided-seed-hint = другая реализация шума при той же физике
+
+js-lib-guided-seed-label = Начальное значение (seed)
+
+js-lib-guided-sigma-uere-m-hint = эквивалентная ошибка дальности пользователя (1-σ) для сводки по положению
+
+js-lib-guided-sigma-uere-m-label = Ошибка дальности σ (m)
+
+js-lib-guided-station-lat-deg-hint = широта наземной станции — определяет геометрию пролёта
+
+js-lib-guided-station-lat-deg-label = Широта станции (°)
+
+js-lib-guided-station-lon-deg-hint = долгота наземной станции
+
+js-lib-guided-station-lon-deg-label = Долгота станции (°)
+
+js-lib-guided-step-s-hint = частота дискретизации подспутниковой трассы
+
+js-lib-guided-step-s-label = Шаг времени (s)
+
+js-lib-guided-threshold-ns-hint = допустимый по спецификации бюджет; «доступно», пока ошибка остаётся ниже него
+
+js-lib-guided-threshold-ns-label = Порог по спецификации (ns)
+
+js-lib-guided-time-duration-s-hint = общая длительность прогона
+
+js-lib-guided-time-duration-s-label = Длительность (s)
+
+js-lib-guided-time-step-s-hint = частота интегрирования и дискретизации
+
+js-lib-guided-time-step-s-label = Шаг времени (s)
+
+js-lib-guided-user-altitude-km-hint = орбитальная высота пользовательского космического аппарата
+
+js-lib-guided-user-altitude-km-label = Высота пользователя (km)
+
+js-lib-guided-user-inclination-deg-hint = наклонение орбиты пользователя
+
+js-lib-guided-user-inclination-deg-label = Наклонение пользователя (°)
+
+js-lib-imufit-card-accel-slope = Наклон девиации Аллана акселерометра, начальный (около -0,5 для белого шума)
+
+js-lib-imufit-card-bias = Смещение акселерометра, среднее (m/s²)
+
+js-lib-imufit-card-bias-instability = Нестабильность смещения акселерометра (m/s²), 0, если у кривой нет нижней границы
+
+js-lib-imufit-card-gyro-bias = Смещение гироскопа, среднее (rad/s)
+
+js-lib-imufit-card-gyro-slope = Наклон девиации Аллана гироскопа, начальный (около -0,5 для белого шума)
+
+js-lib-imufit-card-note-n = Примечание { $n }
+
+js-lib-imufit-card-q-arw = Случайное блуждание угла гироскопа, q_arw (rad²/s)
+
+js-lib-imufit-card-q-va = Случайное блуждание скорости акселерометра, q_va (m²/s³)
+
+js-lib-imufit-card-sample-rate = Частота дискретизации
+
+js-lib-imufit-card-samples = Отсчёты
+
+js-lib-imufit-card-span = Охват
+
+js-lib-jammertest-card-clean-epochs = Чистые эпохи
+
+js-lib-jammertest-card-clean-hours = Чистые часы
+
+js-lib-jammertest-card-detected = Обнаружено в допуске
+
+js-lib-jammertest-card-detection-rate = Доля обнаружений (любая тревога)
+
+js-lib-jammertest-card-evaluable = Поддаются оценке
+
+js-lib-jammertest-card-fa-epochs = Эпохи ложной тревоги
+
+js-lib-jammertest-card-fa-per-hour = Серий ложных тревог в час
+
+js-lib-jammertest-card-fa-runs = Серии ложных тревог
+
+js-lib-jammertest-card-in-tol-rate = Обнаружено в допуске, доля
+
+js-lib-jammertest-card-late = С опозданием
+
+js-lib-jammertest-card-median-latency = Медианная задержка обнаружения
+
+js-lib-jammertest-card-median-recover = Медианное время восстановления
+
+js-lib-jammertest-card-missed = Пропущено
+
+js-lib-jammertest-card-na = н/д
+
+js-lib-jammertest-card-not-assessable = В этом журнале не нашлось ни одного поддающегося оценке испытания, поэтому доля обнаружений и задержка не могут быть указаны. Это результат, а не сбой страницы: ничего из этого не является успешным прохождением.
+
+js-lib-jammertest-card-not-json = { $name }: это не JSON ({ $reason }).
+
+js-lib-jammertest-card-not-scorecard = { $name }: это не карта оценок jammertest (нужны tests[] и summary).
+
+js-lib-jammertest-card-tests = Испытания в срезе плана
+
+js-lib-jammertest-card-too-large = { $name }: больше 8 MiB; эта страница читает карту оценок не больше этого размера.
+
+js-lib-kpi-available-everywhere = доступно везде, в каждую эпоху
+
+js-lib-kpi-available-everywhere-pdop = доступно везде, в каждую эпоху (PDOP, геометрический фактор по положению, ниже { $thr })
+
+js-lib-kpi-drops-under = опускается ниже порога слежения { $thr } dB-Hz: захват потерян
+
+js-lib-kpi-end-of-mission = в конце миссии
+
+js-lib-kpi-figure-tiers = Уровни показателей: { $parts }.
+
+js-lib-kpi-n-modelled = смоделировано: { $n }
+
+js-lib-kpi-n-partner = принадлежит партнёру: { $n }
+
+js-lib-kpi-n-validated = проверено: { $n }
+
+js-lib-kpi-no-change = без изменений
+
+js-lib-kpi-no-fix = { $pct } % времени или мест без определения положения
+
+js-lib-kpi-no-fix-pdop = { $pct } % времени или мест без определения положения при PDOP ниже { $thr }
+
+js-lib-kpi-over-jump = выше порога скачка { $thr } m
+
+js-lib-kpi-over-pdop = выше порога PDOP { $thr }
+
+js-lib-kpi-stays-above = остаётся выше порога слежения { $thr } dB-Hz
+
+js-lib-kpi-under-jump = ниже порога скачка { $thr } m
+
+js-lib-kpi-under-pdop = ниже порога PDOP { $thr }
+
+js-lib-orbit3d-apogee = апогей
+
+js-lib-orbit3d-perigee = перигей
+
+js-lib-orbit3d-prov-scenario = сценарий { $hash }
+
+js-lib-orbit3d-title = Орбита (ECI, ортографическая проекция)
+
+js-lib-orbit3d-view-angles = az { $az }° · el { $el }°
+
+js-lib-overlay-meta-clock-bias-m = Смещение часов
+
+js-lib-overlay-meta-converged-pos-3sigma-m = Положение 3σ
+
+js-lib-overlay-meta-converged-pos-rms-m = Положение RMS
+
+js-lib-overlay-meta-converged-pos-sigma-m = Положение σ
+
+js-lib-overlay-meta-final-clock-freq-sigma = Частота часов σ
+
+js-lib-overlay-meta-mean-relays-in-view = Ретрансляторы в зоне видимости
+
+js-lib-overlay-meta-pos-p95-m = Положение p95
+
+js-lib-overlay-meta-pos-rms-m = Положение RMS
+
+js-lib-overlay-meta-postfit-rms-m = RMS после аппроксимации
+
+js-lib-overlay-prov-scenario = сценарий { $hash }
+
+js-lib-overlay-subtitle = |ошибка| (ns) от времени — прогонов: { $n }
+
+js-lib-overlay-time-s = время (s)
+
+js-lib-overlay-title = Наложение: ошибка времени во время перерыва
+
+js-lib-packs-cannot-unpack = этот браузер не может распаковать записанный файл
+
+js-lib-replay-demos-below-130 = Оставлены только азимуты ниже 130° (указано)
+
+js-lib-replay-demos-coastal-drag-off = Прибрежный увод позиции
+
+js-lib-replay-demos-combined-event = Комбинированное событие
+
+js-lib-replay-demos-drag-off-stated = Увод позиции (указан демонстрацией)
+
+js-lib-replay-demos-ferry-drag-off = Рейс парома, увод позиции
+
+js-lib-replay-demos-ferry-drag-off-description = Вымышленный журнал парома, Таллин — Хельсинки, 1 Hz. С 1500 s увод позиции смещает сообщаемую позицию, пока приёмник продолжает сообщать о действительном определении положения.
+
+js-lib-replay-demos-fjord = Естественная деградация в фьорде
+
+js-lib-replay-demos-masked-sky = Рейс парома, закрыта половина неба
+
+js-lib-replay-demos-masked-sky-description = Тот же журнал парома: западная половина неба заглушена с 600 s, более узкий сектор неба — с 900 s по 1200 s, а увод позиции — с 1500 s: один прогон, в котором по очереди отказывают небо, сигнал и позиция.
+
+js-lib-replay-demos-open-sea-jamming = Подавление в открытом море
+
+js-lib-replay-demos-port-approach = Спуфинг времени при заходе в порт
+
+js-lib-replay-demos-source-training = Синтетический сценарий { $id }: поток nmea_training и журнал инструктора движка, оценённые его receiver-trust.
+
+js-lib-replay-demos-source-trust = Синтетический журнал { $id }: вымышленные данные NMEA, оценённые receiver-trust движка.
+
+js-lib-replay-demos-west-masked = Закрыта западная половина неба (указано)
+
+js-lib-replay-demos-west-masked-again = Западная половина снова закрыта (указано)
+
+js-lib-report-charts = Графики
+
+js-lib-report-eyebrow = точный момент
+
+js-lib-report-figures-of-merit = Показатели качества
+
+js-lib-report-footer = Kshana { $version } · сценарий { $hash } · создано { $iso }. Воспроизводимо по сценарию, начальному значению (seed) и версии движка. Работает локально; ничего не загружается.
+
+js-lib-report-not-applicable = неприменимо (атака не настроена)
+
+js-lib-report-scenario-definition = Определение сценария (TOML)
+
+js-lib-report-th-clock = Часы
+
+js-lib-report-th-metric = Метрика
+
+js-lib-report-th-validation = Проверка
+
+js-lib-report-th-value = Значение
+
+js-lib-report-tier-note = Каждый показатель качества помечен как { $validated } (проверено по внешнему оракулу) или { $modelled } (из первых принципов, проверено внутренними тестами) — на основе матрицы верификации.
+
+js-lib-report-title = Kshana — отчёт по сценарию
+
+js-lib-skydraw-azimuth-range = азимут от { $from } до { $to } градусов
+
+js-lib-skydraw-describe = Перечислено спутников: { $listed }, с сигналом: { $heard }
+
+js-lib-skydraw-describe-mean = Перечислено спутников: { $listed }, с сигналом: { $heard }, среднее { $snr } dB-Hz
+
+js-lib-skydraw-east = В
+
+js-lib-skydraw-no-signal-from = нет сигнала со стороны: { $sectors }
+
+js-lib-skydraw-none-listed = В журнале на это время нет ни одного перечисленного спутника.
+
+js-lib-skydraw-north = С
+
+js-lib-skydraw-sat-heard = { $sys } { $prn }: угол места { $el }, азимут { $az }, сигнал { $snr } dB-Hz
+
+js-lib-skydraw-sat-quiet = { $sys } { $prn }: угол места { $el }, азимут { $az }, перечислен, сигнала нет
+
+js-lib-skydraw-south = Ю
+
+js-lib-skydraw-unheard-sector = Спутники перечислены между азимутами { $from } и { $to } градусов, ни один не с сигналом
+
+js-lib-skydraw-west = З
+
+js-lib-skyline-edit-describe = Линия горизонта закрывает { $blocked } из 360 градусов азимута; наибольший угол { $el }° при азимуте { $az }°.
+
+js-lib-skyline-edit-open = Открытый горизонт: линии горизонта нет.
+
+js-lib-stages-all-planets = Все планеты
+
+js-lib-stages-au-from-sun = { $d } au от Солнца
+
+js-lib-stages-band-carrier = Несущая { $name }, { $mhz } MHz
+
+js-lib-stages-bin-title = от { $from } до { $to }{ $unit }: прогонов: { $count }
+
+js-lib-stages-body-and-moons = { $name } и её спутники
+
+js-lib-stages-cell-title = широта { $lat }°, долгота { $lon }° · { $field } { $value }
+
+js-lib-stages-chain-navmsg = Навигационное сообщение
+
+js-lib-stages-chain-pass = Пролёт и линия связи
+
+js-lib-stages-chain-ppp = Прецизионное абсолютное позиционирование
+
+js-lib-stages-chain-pvt = Объединённое позиционирование
+
+js-lib-stages-chain-signal = Проект сигнала
+
+js-lib-stages-coverage-aria = { $field } над телом { $body }, по широте и долготе
+
+js-lib-stages-feature-n = объект { $n }
+
+js-lib-stages-flag = флаг
+
+js-lib-stages-frequency-mhz = частота (MHz)
+
+js-lib-stages-from-to = от { $from } до { $to }
+
+js-lib-stages-geojson-aria = Экспорт GeoJSON, нарисованный на карте
+
+js-lib-stages-histogram = Гистограмма
+
+js-lib-stages-inner-planets = Внутренние планеты
+
+js-lib-stages-km-from-centre = { $d } km от { $centre }
+
+js-lib-stages-linear-scale = линейный масштаб
+
+js-lib-stages-link-light-time = { $from } — { $to }: время распространения света в одну сторону { $time } s
+
+js-lib-stages-longitude-axis = долгота · широта вдоль стороны
+
+js-lib-stages-mission-time = время миссии (s)
+
+js-lib-stages-noise-floor = уровень шума
+
+js-lib-stages-orrery-note = { $scale } · плоскость x-y системы координат, вид с северного полюса
+
+js-lib-stages-panel-n = Панель { $n }
+
+js-lib-stages-plan-view-aria = Вид сверху на { $centre } и окружающие тела, { $scale }
+
+js-lib-stages-psd-at-t = Спектральная плотность мощности при t = { $t } s
+
+js-lib-stages-psd-axis = спектральная плотность мощности (dBW/Hz)
+
+js-lib-stages-runs = прогоны
+
+js-lib-stages-sat-title = { $constellation } { $id } · широта { $lat }°, долгота { $lon }°
+
+js-lib-stages-satellites = спутники
+
+js-lib-stages-spectrum-at-t = спектр при t = { $t } s
+
+js-lib-stages-sqrt-scale = масштаб расстояний по квадратному корню
+
+js-lib-stages-the-body = тело
+
+js-lib-stages-time-s = время (s)
+
+js-lib-stages-unit-alarm = Тревога
+
+js-lib-stages-unit-cn0 = Отношение несущей к шумовой плотности
+
+js-lib-stages-unit-position = Положение и защита
+
+js-lib-stages-unit-satellites = Спутники
+
+js-lib-stages-unit-time-error = Ошибка времени
+
+js-lib-stages-waterfall-aria = Водопад спектральной плотности мощности: частота по горизонтали, время вниз
+
+js-lib-stages-whole-band = Весь диапазон
+
+js-lib-sweep-clock-availability = { $who }: доступность
+
+js-lib-sweep-clock-holdover = { $who }: holdover (s)
+
+js-lib-sweep-clock-timing-p95 = { $who }: время p95 (ns)
+
+js-lib-sweep-clock-timing-rms = { $who }: время RMS (ns)
+
+js-lib-sweep-max-altitude = макс. высота (km)
+
+js-lib-sweep-max-elevation = макс. угол места (°)
+
+js-lib-sweep-max-speed = макс. скорость (m/s)
+
+js-lib-sweep-min-altitude = мин. высота (km)
+
+js-lib-sweep-peak-doppler = пиковый Доплер (Hz)
+
+js-lib-sweep-prov-scenario = сценарий { $hash }
+
+js-lib-sweep-y-vs-x = { $y } от { $x }
+
+js-lib-tabs-3d-orbit = Орбита 3D
+
+js-lib-tabs-figures-of-merit = Показатели качества
+
+js-lib-tabs-stability = Стабильность
+
+js-lib-tabs-sweep = Серия
+
+js-lib-tabs-time-series = Временной ряд
+
+js-lib-tour-ashforde-body = Спасибо, что изучаете Kshana. Мы создаём открытую, воспроизводимую инженерию с приоритетом доказательств для миссий, которые не могут потерпеть неудачу, — честно говоря о том, что проверено, а что смоделировано. Вопросы, сотрудничество или исследование? Пишите нам: contact@ashforde.org.
+
+js-lib-tour-ashforde-title = От Ashforde® OÜ
+
+js-lib-tour-capabilities-body = Выберите вкладку области — Орбиты, Время, Инерциальная, GNSS, Устойчивость, Луна, ИИ/МО, Совместимость, — чтобы увидеть её возможности, каждая из которых помечена как «Проверено» или «Смоделировано», с кнопкой ▸ запуска для проработанных сценариев. Откройте «Доказательства и происхождение» в любой области, чтобы проследить доказательство, или включите «Только проверенные», чтобы показать лишь то, что сверено с внешним оракулом.
+
+js-lib-tour-capabilities-title = Изучайте движок, область за областью
+
+js-lib-tour-cite-body = Kshana создана для того, чтобы на неё ссылались: выпуск программного обеспечения, пригодный для цитирования, с DOI, а также статьи в духе рецензируемых о разрыве оптимизма RF-помех и условном уровне защиты времени. Скопируйте ссылку на цитирование прямо отсюда.
+
+js-lib-tour-cite-title = Публикации и как цитировать
+
+js-lib-tour-download-report-body = Вкладка «Серия» изменяет один параметр в диапазоне; «Закрепить для сравнения» накладывает два или более прогонов рядом с Δ между ними (работает для разных типов сценариев — часы, Mars-PNT, позиционирование…); а эта кнопка скачивает прогон в виде автономного отчёта HTML, работающего без сети.
+
+js-lib-tour-download-report-title = Серия, сравнение и экспорт
+
+js-lib-tour-guided-body = Управляющие параметры подстраиваются под сценарий — начальное значение (seed), порог по спецификации, длительность, маска угла места, высота орбиты — и каждое изменение мгновенно запускает прогон заново.
+
+js-lib-tour-guided-title = Настройте ползунки
+
+js-lib-tour-mcp-body = Сервер MCP позволяет ИИ-ассистентам запускать проверенный движок, а не гадать; плагин для JetBrains запускает сценарии из контекстного меню.
+
+js-lib-tour-mcp-title = Используйте из ИИ-агента или IDE
+
+js-lib-tour-playground-body = Выберите сценарий в списке — или нажмите ▸ запуск у любой возможности выше — и движок заработает как WebAssembly на вашем компьютере. Ничего не загружается.
+
+js-lib-tour-playground-title = Запустите в браузере
+
+js-lib-tour-run-body = Запустите текущий сценарий. Откройте «Расширенное», чтобы править TOML и менять что угодно; «Скопировать ссылку для общего доступа» воспроизводит именно этот прогон у другого человека.
+
+js-lib-tour-run-title = Запустите
+
+js-lib-tour-tabs-body = Переключайтесь между показателями качества, графиком временного ряда, стабильностью часов (девиация Аллана) и — для прогонов по орбите — интерактивным 3D-видом орбиты.
+
+js-lib-tour-tabs-title = Читайте результаты
+
+js-lib-tour-validation-body = Тот же обозреватель одновременно служит реестром доказательств: у каждой области есть панель «Доказательства и происхождение» — показатель, внешний оракул, по которому он проверен, и честный статус «Проверено» или «Смоделировано» для каждого утверждения. «Только проверенные» оставляет строки, проверенные по набору данных.
+
+js-lib-tour-validation-title = Доказательства, а не эпитеты
+
+js-lib-views-3-sigma-bound = граница 3 сигма
+
+js-lib-views-3d-position-error = ошибка 3-D положения
+
+js-lib-views-a-parameter = параметр
+
+js-lib-views-band-runs = Полоса ошибки времени по { $runs } прогонам Монте-Карло
+
+js-lib-views-band-the-runs = Полоса ошибки времени по прогонам Монте-Карло
+
+js-lib-views-below-tracking = ниже порога слежения
+
+js-lib-views-chart = график
+
+js-lib-views-classical = классический
+
+js-lib-views-epoch = эпоха
+
+js-lib-views-four-needed = для определения положения нужно 4
+
+js-lib-views-free-inertial = свободная инерциальная
+
+js-lib-views-gnss-denied = GNSS недоступен
+
+js-lib-views-ground-track = Подспутниковая трасса
+
+js-lib-views-heatmap-effective = Эффективное отношение несущей к шумовой плотности по спутникам и времени
+
+js-lib-views-heatmap-nominal = Номинальное (без источника подавления) отношение несущей к шумовой плотности по спутникам и времени
+
+js-lib-views-horizontal-alert-limit = горизонтальный предел тревоги
+
+js-lib-views-horizontal-hpl = горизонтальный (HPL)
+
+js-lib-views-id-bound = граница { $id }
+
+js-lib-views-id-median = медиана { $id }
+
+js-lib-views-id-offset = смещение { $id }
+
+js-lib-views-id-p95 = { $id } p95
+
+js-lib-views-map-matched = привязка к карте
+
+js-lib-views-map-matched-title = Привязка к карте в сравнении с ошибкой положения свободной инерциальной системы
+
+js-lib-views-metric = метрика
+
+js-lib-views-oscillator = генератор
+
+js-lib-views-oscillator-source = генератор ({ $source })
+
+js-lib-views-position-error-axis = ошибка положения ({ $unit })
+
+js-lib-views-position-error-m = ошибка положения (m)
+
+js-lib-views-position-error-run = Ошибка положения за прогон
+
+js-lib-views-position-m = положение (m)
+
+js-lib-views-predicted-time-error = Прогнозируемая ошибка времени с момента последнего определения положения
+
+js-lib-views-protection-level-m = уровень защиты (m)
+
+js-lib-views-protection-levels = Уровни защиты в сравнении с пределом тревоги
+
+js-lib-views-quantum = квант
+
+js-lib-views-relay-error-bound = Ошибка положения при навигации по ретрансляторам и её граница 3 сигма
+
+js-lib-views-satellites = спутники
+
+js-lib-views-satellites-tracking = Спутники в зоне видимости и всё ещё отслеживаемые
+
+js-lib-views-shaded-gnss-denied = затенено: GNSS недоступен
+
+js-lib-views-slot-guard = защита слота
+
+js-lib-views-spoofed-offset = Смещение времени при спуфинге в сравнении с границей обнаружения
+
+js-lib-views-sweep-of = Серия по параметру { $parameter }: { $metric }
+
+js-lib-views-sync-error-axis = ошибка синхронизации ({ $unit })
+
+js-lib-views-sync-error-run = Ошибка синхронизации за прогон
+
+js-lib-views-threshold = порог
+
+js-lib-views-time-error-ns = ошибка времени (ns)
+
+js-lib-views-time-ns = время (ns)
+
+js-lib-views-time-s = время (s)
+
+js-lib-views-time-since-fix = время с последнего определения положения (s)
+
+js-lib-views-timing-error-axis = ошибка синхронизации времени ({ $unit })
+
+js-lib-views-timing-error-run = Ошибка синхронизации времени за прогон
+
+js-lib-views-tracking = слежение
+
+js-lib-views-value = значение
+
+js-lib-views-vertical-vpl = вертикальный (VPL)
+
+js-lib-views-visible = виден
+
+js-lib-views-word-enbw = эквивалентная шумовая полоса
+
+js-lib-views-word-nfft = длина FFT
+
+js-lib-views-word-stec = наклонное TEC
+
+js-lib-views-word-toa = время прихода
+
+js-lib-views-word-ttff = время до первого определения положения
+
+js-lib-views-word-tx = передача
+
+js-lib-views-word-zwd = зенитная влажная задержка
+
+js-lunar-address-outside-range = { $label }: «{ $raw }» вне диапазона от { $min } до { $max }; используется значение из файла.
+
+js-lunar-address-too-long = Адрес был слишком длинным; показаны значения по умолчанию.
+
+js-lunar-address-unknown-source = В адресе указан неизвестный источник; показана запись.
+
+js-lunar-alert-limit = предел тревоги { $value } (иллюстративный)
+
+js-lunar-alert-not-stated = предел тревоги не указан
+
+js-lunar-bearing-east = 90° В
+
+js-lunar-bearing-west = 90° З
+
+js-lunar-cell-title = { $lat }°, { $lon }°: скорректированная ошибка { $corrected }, доступность { $availability }, покрытие { $coverage }
+
+js-lunar-copy-address = Скопируйте адрес из адресной строки.
+
+js-lunar-counts = Спутников: { $sats }, точек сетки: { $points }, эпох: { $epochs }, испытаний Монте-Карло на эпоху: { $trials }. Метка: { $label }.
+
+js-lunar-engine-no-start = Движок не удалось запустить в этом браузере ({ $reason }). Откройте вместо этого файл результата.
+
+js-lunar-engine-unknown-kind = Этот движок ({ $version }) не знает вида { $kind }; нужен движок 0.36.
+
+js-lunar-fig-availability-region = Доступность по району
+
+js-lunar-fig-corrected-3d = Скорректированная ошибка, { $n } %, 3‑D
+
+js-lunar-fig-coverage = Покрытие
+
+js-lunar-fig-epochs-within = эпох в пределах { $value }
+
+js-lunar-fig-horizontal-vertical = горизонтальная { $h }, вертикальная { $v }
+
+js-lunar-fig-hpl-below-alert = HPL ниже предела тревоги
+
+js-lunar-fig-hpl-vpl = HPL, VPL не более
+
+js-lunar-fig-improvement = Коэффициент улучшения
+
+js-lunar-fig-lowest-point = Наименьшее в точке
+
+js-lunar-fig-points-always-available = Точки, доступные в каждую эпоху
+
+js-lunar-fig-uncorrected-3d = Нескорректированная ошибка, { $n } %, 3‑D
+
+js-lunar-fig-worst-point = Наихудшая точка
+
+js-lunar-file-not-json = Этот файл не является JSON.
+
+js-lunar-file-not-object = Этот файл не является объектом JSON.
+
+js-lunar-file-too-large = { $name }: больше 32 MiB; эта страница читает файлы результатов не больше этого размера.
+
+js-lunar-file-value = файл: { $value }
+
+js-lunar-full-of-total = { $full } из { $total }
+
+js-lunar-give-value = { $label }: укажите значение от { $min } до { $max }.
+
+js-lunar-give-whole-value = { $label }: укажите значение от { $min } до { $max } (целое число).
+
+js-lunar-honesty-affiliation = Не связано ни с каким ведомством и не одобрено им.
+
+js-lunar-honesty-assumptions = При указанных общедоступных допущениях; это не утверждение о характеристиках какой-либо реальной системы.
+
+js-lunar-in-grid-spacing = Шаг колец сетки, градусы
+
+js-lunar-in-latency = Задержка поправки, секунды
+
+js-lunar-in-seed = Начальное значение (seed)
+
+js-lunar-in-station-lat = Широта станции, градусы
+
+js-lunar-in-station-lon = Долгота станции, градусы
+
+js-lunar-in-survey-error = Ошибка привязки станции (1-sigma), метры
+
+js-lunar-in-threshold = Порог точности, метры
+
+js-lunar-in-time-step = Шаг времени, секунды
+
+js-lunar-in-trials = Испытаний Монте-Карло на эпоху
+
+js-lunar-input-out-of-range = { $label }: значение вне допустимого диапазона.
+
+js-lunar-json-field-not-json = Поле json в файле не является JSON.
+
+js-lunar-key-50-or-more = 50 % и более
+
+js-lunar-key-90-or-more = 90 % и более
+
+js-lunar-key-95-or-more = 95 % и более
+
+js-lunar-key-99-or-more = 99 % и более
+
+js-lunar-key-above = выше { $value }
+
+js-lunar-key-above-threshold = выше { $value } × порог
+
+js-lunar-key-below-50 = ниже 50 %
+
+js-lunar-key-between = от { $from } до { $to }
+
+js-lunar-key-between-threshold = от { $from } до { $to } × порог
+
+js-lunar-key-up-to = до { $value }
+
+js-lunar-key-up-to-threshold = до { $value } × порог
+
+js-lunar-layer-availability = доступность
+
+js-lunar-layer-coverage = покрытие
+
+js-lunar-layer-error = скорректированная ошибка
+
+js-lunar-layer-range = скорректированная ошибка в её собственном диапазоне
+
+js-lunar-legend-no-figure = нет значения (недоступно на всём протяжении)
+
+js-lunar-legend-radius = радиус покрытия
+
+js-lunar-legend-threshold = порог, { $value }
+
+js-lunar-legend-worst = наихудшая точка
+
+js-lunar-link-copied = Ссылка скопирована.
+
+js-lunar-map-desc = Точек сетки от полюса до широты { $rim }°: { $points }. У { $meet } из них скорректированная ошибка на уровне процентиля { $percentile } укладывается в порог { $threshold }. Цвет задан показателем: { $layer }. Станция находится в точке { $lat }°, { $lon }°.
+
+js-lunar-map-note-one-band = { $share } % точек попадают в одну полосу шкалы порога, поэтому карта почти не показывает различий: раскрасьте «по собственному диапазону», чтобы увидеть, как ошибка меняется по району.
+
+js-lunar-needs-newer-engine = Для этого исследования нужен движок { $need } или новее; здесь работает движок v{ $version }. Запись или файл результата по-прежнему можно показать.
+
+js-lunar-no = нет
+
+js-lunar-no-recording = Записи этого исследования пока нет в поставке: она создаётся при выпуске с движком 0.36. Запустите его здесь с движком, у которого есть этот вид, или откройте файл результата.
+
+js-lunar-no-scenario = На этом сайте пока нет { $file }: он появится вместе с движком 0.36. Откройте вместо этого файл результата.
+
+js-lunar-no-scenario-note = На этом сайте пока нет { $file } (он появится вместе с движком 0.36), поэтому запуск здесь невозможен; откройте вместо этого файл результата.
+
+js-lunar-not-report = Это не отчёт вида { $kind }.
+
+js-lunar-not-stated = не указано
+
+js-lunar-note-none = В файле нет примечания.
+
+js-lunar-note-withheld = В собственном заявлении файла названа программа или ведомство, поэтому эта страница его не показывает; действует заявление в верхней части страницы.
+
+js-lunar-point-epochs-reason = эпохи в точке: { $reason }
+
+js-lunar-radius-desc =
+    Радиус покрытия по { $count } { $count ->
+        [one] азимуту
+        [few] азимутам
+        [many] азимутам
+       *[other] азимутам
+    }: наименьший { $lo } km при { $loAz }°, наибольший { $hi } km при { $hiAz }°.
+
+js-lunar-radius-desc-limited = Азимутов, достигающих края сетки: { $count }, поэтому там покрытие простирается как минимум настолько далеко.
+
+js-lunar-radius-hollow = Пустые точки достигают края сетки: покрытие сохраняется как минимум настолько далеко по этому направлению.
+
+js-lunar-radius-none = В отчёте не указан радиус покрытия.
+
+js-lunar-radius-per-azimuth = радиус покрытия по азимутам
+
+js-lunar-radius-point = { $az }°: { $km } km
+
+js-lunar-radius-point-limited = { $az }°: { $km } km (достигает края сетки: не менее этого)
+
+js-lunar-radius-zero = По каждому направлению покрытие уже на станции ниже 95 %, поэтому радиус равен 0 km: скорректированная ошибка там превышает порог { $value }.
+
+js-lunar-reason-station-missing = станция видит не каждый спутник, который использует пользователь
+
+js-lunar-reason-user-lt4 = в зоне видимости пользователя менее четырёх спутников
+
+js-lunar-run-stopped = Прогон остановлен: { $message }
+
+js-lunar-running = Исследование выполняется в этом браузере…
+
+js-lunar-running-elapsed = Исследование выполняется в этом браузере… { $seconds } s
+
+js-lunar-scenario-missing-keys = В файле сценария нет { $keys }; здесь его изменить нельзя.
+
+js-lunar-set-inputs = Задайте входные данные и нажмите «Запустить здесь».
+
+js-lunar-showing = Показано: { $what }.
+
+js-lunar-showing-engine = Показано: { $what } (движок { $version }).
+
+js-lunar-source-error = { $what }: { $error }
+
+js-lunar-station = станция
+
+js-lunar-station-title = станция { $lat }°, { $lon }°
+
+js-lunar-table-count = Точек: { $n }, сначала ближайшие к станции.
+
+js-lunar-th-corrected = Скорректированная ошибка, { $n } %
+
+js-lunar-threshold-title = скорректированная ошибка { $value } (порог)
+
+js-lunar-what-file = файл { $name }
+
+js-lunar-what-recording = запись, входящая в поставку Studio
+
+js-lunar-what-run = прогон в этом браузере (движок { $version })
+
+js-lunar-worst-at = в точке { $lat }°, { $lon }°
+
+js-lunar-worst-title = наихудшая точка { $lat }°, { $lon }°: { $value }
+
+js-lunar-yes-at-least = да: не менее этого расстояния
+
+js-lunarinfra-above-95-point = выше точки 95 %
+
+js-lunarinfra-advisory = Программное обеспечение консультативного характера, не оборудование с утверждённым типом; никакого тракта передачи ни в каком виде.
+
+js-lunarinfra-arc-note = Длина волны несущей { $value } m.
+
+js-lunarinfra-arc-title = Каждая дуга
+
+js-lunarinfra-bars-not-loaded = файл порогов не загрузился
+
+js-lunarinfra-bars-not-shown = Предварительно зарегистрированные пороги не удалось показать ({ $reason }).
+
+js-lunarinfra-bars-note = Зафиксированы до оценки какого-либо исследования, с вердиктами по протоколу (коммит движка { $commit }). Ничто не является VALIDATED; порог с отметкой NOT MET закреплён тестом, который утверждает промах, и ни один порог не ослаблялся.
+
+js-lunarinfra-bars-title = По предварительно зарегистрированным порогам
+
+js-lunarinfra-bars-wrong-file = файл порогов — не тот, который читает эта страница
+
+js-lunarinfra-blurb-carrier-phase = Наземная станция и орбитальный аппарат, использующие фазу несущей сигналов Earth-GNSS с двойными разностями: можно ли зафиксировать целочисленные неоднозначности и как это влияет на границу положения? Быстрый пример прогона.
+
+js-lunarinfra-blurb-frame-coestimation = Семь параметров лунной системы отсчёта по лазерной локации с земных станций, с дальностями от орбитального аппарата до станции на поверхности и без них: насколько улучшается информация?
+
+js-lunarinfra-blurb-geodesy-sensitivity = Насколько чувствительны лазерная локация, слежение за орбитальным аппаратом, гравиметр и часы на поверхности к приливным числам Лява Луны h2, k2 и l2 и её физической либрации?
+
+js-lunarinfra-blurb-od-consistency = Бортовое определение орбиты по Earth-GNSS на околопрямолинейной гало-орбите в сравнении с независимым наземным радиометрическим решением для той же дуги: согласуются ли они в пределах заявленных неопределённостей и замечает ли проверка согласованности ошибку моделирования, когда её вносят? Показано рядом.
+
+js-lunarinfra-blurb-space-tie = GNSS, VLBI и лазерная локация на одном космическом аппарате: насколько точно можно связать смещения между тремя методами при заданной ошибке локальной привязки на космическом аппарате?
+
+js-lunarinfra-bound-label = Неопределённость положения, плавающее и фиксированное решение, логарифмическая шкала
+
+js-lunarinfra-bound-note = Неопределённость положения станции и орбитального аппарата (одна сигма) при неразрешённых (плавающих) неоднозначностях и при зафиксированных (что дала бы фиксация, если бы она достигалась).
+
+js-lunarinfra-bound-title = Граница положения, плавающее и фиксированное решение
+
+js-lunarinfra-chip-na = н/д
+
+js-lunarinfra-comp-normal = нормаль
+
+js-lunarinfra-comp-position = положение (3-D)
+
+js-lunarinfra-comp-radial = радиальная
+
+js-lunarinfra-comp-transverse = трансверсальная
+
+js-lunarinfra-compare-note = Из { $sets } случайных наборов станций наименьшее собственное значение с каналами орбитального аппарата не уменьшилось в { $lambda } наборах, а след не увеличился в { $trace }; медианный рост наименьшего собственного значения: ×{ $median }.
+
+js-lunarinfra-compare-title = Сравнение в числах
+
+js-lunarinfra-crsigma-label = Сигма Крамера — Рао, логарифмическая шкала
+
+js-lunarinfra-crsigma-note = В метрах на поверхности.
+
+js-lunarinfra-crsigma-title = Сигма Крамера — Рао по каждому параметру
+
+js-lunarinfra-days =
+    { $n ->
+        [one] { $n } день
+        [few] { $n } дня
+        [many] { $n } дней
+       *[other] { $n } дня
+    }
+
+js-lunarinfra-direction = направление { $n }
+
+js-lunarinfra-disclosures = Раскрытие сведений
+
+js-lunarinfra-eig-label = Собственные значения информации, логарифмическая шкала
+
+js-lunarinfra-eig-note = Семь собственных значений информационной матрицы, сначала наименьшее, без связей орбитальный аппарат — станция и с ними. Наименьшее растёт (×{ $times }), а след Крамера — Рао падает до { $share } от своего значения. Предполагается, что орбита известна в лунных осях (её ошибка учтена в сигме дальности до орбитального аппарата).
+
+js-lunarinfra-eig-title = Информация по каждому направлению лунной системы отсчёта
+
+js-lunarinfra-fact-arc = Дуга
+
+js-lunarinfra-fact-hash = Хеш сценария
+
+js-lunarinfra-fact-llr-rows = Строки лазерной локации
+
+js-lunarinfra-fact-orbit-family = Семейство орбит
+
+js-lunarinfra-fact-orbiter-arc = Дуга орбитального аппарата
+
+js-lunarinfra-fact-orbiter-rows = Строки орбитального аппарата
+
+js-lunarinfra-fact-study = Исследование
+
+js-lunarinfra-fact-wavelength = Длина волны несущей
+
+js-lunarinfra-families-note = RMS частной производной каждого параметра по строкам семейства и число строк. Ноль означает параметр, к которому это семейство слепо. Чувствительность семейства орбитального аппарата к k2 — оценка верхней границы.
+
+js-lunarinfra-families-title = Что видит каждое семейство
+
+js-lunarinfra-findings = Выводы
+
+js-lunarinfra-fix-note-a = Доля испытаний Монте-Карло, в которых каждая целочисленная неоднозначность зафиксирована верно (со стандартной ошибкой), и доля, которую предсказывает оценка бутстрепом.
+
+js-lunarinfra-fix-note-b = Фиксация целых чисел при этих входных данных НЕ достигается: лучшая дуга фиксирует { $share } испытаний.
+
+js-lunarinfra-fix-note-c = Показывать время до фиксации нечего, потому что фиксация не достигается.
+
+js-lunarinfra-fix-rate-label = Доля фиксаций целых чисел в зависимости от длины дуги
+
+js-lunarinfra-fix-title = Доля фиксаций в зависимости от длины дуги
+
+js-lunarinfra-fixed = фиксированное
+
+js-lunarinfra-float = плавающее
+
+js-lunarinfra-fraction-above-95 = Доля испытаний выше точки 95 %
+
+js-lunarinfra-ground-radiometric = независимое наземное радиометрическое
+
+js-lunarinfra-injected-error = внесённая ошибка { $value } m/s²
+
+js-lunarinfra-mean-consistency = Среднее значение статистики согласованности
+
+js-lunarinfra-mean-q = среднее q
+
+js-lunarinfra-miss-line = { $id } — { $status }: { $value }
+
+js-lunarinfra-miss-no-fix = Фиксация целочисленных неоднозначностей при этих входных данных НЕ достигается: лучшая дуга фиксирует { $share } испытаний Монте-Карло.
+
+js-lunarinfra-na = н/д
+
+js-lunarinfra-nominal = номинал
+
+js-lunarinfra-not-result = это не результат по лунной инфраструктуре
+
+js-lunarinfra-not-verified = Не проверено
+
+js-lunarinfra-offset-precision-label = Точность смещений в зависимости от локальной привязки, двойная логарифмическая шкала
+
+js-lunarinfra-offsets-note = Сигма сдвига по каждой оси, сигма масштаба и поворота на поверхности, в метрах.
+
+js-lunarinfra-offsets-title = Смещения при каждой ошибке привязки (дуга { $days } сут, эпох: { $epochs })
+
+js-lunarinfra-onboard-gnss = бортовое Earth-GNSS
+
+js-lunarinfra-open-failed = { $title }: не удалось открыть ({ $reason }).
+
+js-lunarinfra-opening = Открывается { $title }…
+
+js-lunarinfra-orbit-uncertainty-log = Неопределённость орбиты по составляющим, логарифмическая шкала
+
+js-lunarinfra-orbiter-days = орбитальный аппарат, { $days } сут
+
+js-lunarinfra-q-note = Среднее статистики согласованности q по { $trials } испытаниям; { $expected } — значение, которое даёт согласованная пара решений. Доля испытаний выше точки 95 % — это доля обнаружений проверки.
+
+js-lunarinfra-q-title = Проверка согласованности: номинал в сравнении с внесённой ошибкой
+
+js-lunarinfra-recorded =
+    { $n ->
+        [one] { $title }: записанный результат движка (версия { $version }).
+        [few] { $title }: записанные результаты движка (версия { $version }).
+        [many] { $title }: записанные результаты движка (версия { $version }).
+       *[other] { $title }: записанные результаты движка (версия { $version }).
+    }
+
+js-lunarinfra-rel-label = Сигма относительно номинала, логарифмическая шкала
+
+js-lunarinfra-rel-note = Сигма Крамера — Рао в процентах от номинального значения, при совместном использовании всех четырёх семейств. h2 и l2 — точки линеаризации, а не проверенные значения; k2 взято из опубликованной аппроксимации.
+
+js-lunarinfra-rel-title = Насколько хорошо можно зафиксировать каждый параметр относительно его номинала
+
+js-lunarinfra-result-not-json = результат не является JSON ({ $reason })
+
+js-lunarinfra-result-not-loaded = записанный результат { $file } не загрузился

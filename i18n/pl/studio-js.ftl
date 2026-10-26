@@ -10381,3 +10381,1416 @@ js-t35data-card-marine-title = Integracje morskie
 
 # 2026-10-01-studio-rebuild/lib/tools35-data.mjs:95
 js-t35data-card-marine-what = Wtyczka serwera Signal K i OpenCPN przez NMEA w trybie bramki po TCP wprowadzają wskaźnik zaufania do oprogramowania, które żeglarze już uruchamiają; wersja referencyjna umieszcza go na małym komputerze obok odbiornika.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:96
+js-t35data-card-marine-why = Korzystają z działającego procesu na żywo i jego bramki TCP: to wdrożenia na komputerze łodzi.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:84
+js-t35data-card-telemetry-title = Zaufanie jako telemetria bezpieczeństwa
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:85
+js-t35data-card-telemetry-what = Zamienia strumień zaufania (wskaźnik, pasmo, przyczyny) na metryki Prometheus, zdarzenia syslog w CEF lub LEEF dla SIEM oraz OpenTelemetry. Czyta strumień i nigdy nie zmienia oceny.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:86
+js-t35data-card-telemetry-why = To proces, który udostępnia metryki i wysyła do Twoich systemów monitorowania, więc działa obok odbiornika, a nie na stronie.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:99
+js-t35data-card-training-stream-title = Strumienie szkoleniowe na adres TCP lub UDP
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:100
+js-t35data-card-training-stream-what = Wysyła wygenerowany strumień szkoleniowy do symulatora mostka lub plotera map w czasie rzeczywistym lub szybciej. Strona szkoleniowa Studio generuje ten sam tekst i pozwala go pobrać.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:101
+js-t35data-card-training-stream-why = Wysyłanie na adres sieciowy nie jest czymś, co robi strona w przeglądarce. Strumień jest wyłącznie tekstem i nigdy nie jest przeznaczony dla działających systemów nawigacyjnych statku.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:77
+js-t35data-feat-ai-ai = Opcje instalacji serwera MCP wraz z pytaniami, na które odpowiada każde narzędzie
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:76
+js-t35data-feat-ai-name = Użycie z asystenta AI (serwer MCP)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:56
+js-t35data-feat-bench-bench = Eksportuj tutaj ruch, NMEA, punkty trasy i zdarzenia scenariusza
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:55
+js-t35data-feat-bench-name = Eksport test-bench dla symulatora laboratoryjnego
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:59
+js-t35data-feat-compliance-compliance = Zobacz tutaj, dla których wierszy ram Twoje przebiegi dostarczają dowodów na (supports evidence for), oraz tabele odwzorowań
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:58
+js-t35data-feat-compliance-name = Odwzorowanie compliance na publiczne ramy odporności
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:52
+js-t35data-feat-evidence-evidence = Zweryfikuj tutaj pakiet i dołącz token znacznika czasu
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:51
+js-t35data-feat-evidence-name = Podpisane pakiety dowodowe
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:54
+js-t35data-feat-evidence-why = Utworzenie pakietu wymaga prywatnego klucza podpisu, który nie powinien przechodzić przez stronę internetową. Pakiety tworzy się z wiersza poleceń, z Pythona lub narzędziami asystenta AI.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:46
+js-t35data-feat-interference-map-interference = Otwórz pliki map lub zbuduj tutaj mapę z CSV i sprawdź względem niej trasę
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:45
+js-t35data-feat-interference-map-name = Mapa zakłóceń (ADS-B i AIS) i narażenie trasy
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:61
+js-t35data-feat-iq-name = Monitory i narzędzia IQ GNSS (scena, pozyskiwanie, śledzenie, przegląd parametrów, tor odbiorczy, monitor, kampanie)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:63
+js-t35data-feat-iq-why = Nagranie to gigabajty próbek, których strona nie pomieści, a niektóre polecenia przepisują nagrania na dysku. Wersja przeglądarkowa nie ma funkcji IQ.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:71
+js-t35data-feat-jammertest-jammertest = Zaimportuj plan dla przedziału czasu dziennika lub oceń dziennik odbiornika (UBX, RINEX, Android, NMEA lub Septentrio SBF) dla każdego testu: opóźnienie detekcji, niewykryte, fałszywe alarmy, czas odzyskania; MODELLED
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:70
+js-t35data-feat-jammertest-name = Jammertest jako sędzia: opublikowany plan testów jako zaplanowana prawda, oceniany względem niego dziennik odbiornika (0.38)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:36
+js-t35data-feat-live-gate-name = Strumień zaufania na żywo, bramka i nasłuch (stdin, plik, TCP, UDP, --gate, --listen)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:38
+js-t35data-feat-live-gate-why = To działający proces na ścieżce danych. Strona zwraca wynik po zakończeniu i nie może trzymać otwartego gniazda dla plotera map ani oznaczyć pozycji jako nieprawidłowej w strumieniu na żywo. Studio zamiast tego ocenia ograniczony fragment, w tym samym formacie na żywo, bez bramki.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:74
+js-t35data-feat-machines-imufit = Dopasuj parametry akcelerometru i żyroskopu scenariuszy hybrydowych i fuzji z dziennika nieruchomego IMU; MODELLED
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:73
+js-t35data-feat-machines-name = Wejścia odbiornika i czujników: RTKLIB .pos, NovAtel OEM7, RTCM 3 MSM, GNSS-SDR, IMU dla kursu oraz dopasowanie IMU dla scenariuszy hybrydowych i fuzji (0.38)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:74
+js-t35data-feat-machines-trust = Otwórz dziennik w dowolnym z tych formatów (i opcjonalny plik IMU) w ogólnym przebiegu zaufania do odbiornika; własna flaga zagłuszacza NovAtel jest porównywana z alarmami Kshana
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:64
+js-t35data-feat-marine-name = Integracje morskie: wtyczka Signal K i OpenCPN
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:66
+js-t35data-feat-marine-why = Korzystają z działającego procesu na żywo i jego bramki TCP, więc są wdrożeniami na komputerze łodzi, a nie czymś, co może uruchomić strona.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:33
+js-t35data-feat-maritime-trust-name = Wskaźnik zaufania morskiego dla poruszającego się statku (od 0 do 100, z przyczynami)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:34
+js-t35data-feat-maritime-trust-trust = Otwórz wynik lub przebieg JSON-lines na żywo i zobacz tor, wskaźnik, przyczyny i bramkę; oceń tutaj dziennik NMEA
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:39
+js-t35data-feat-nmea-training-name = Strumienie szkoleniowe NMEA z dziennikiem instruktora
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:40
+js-t35data-feat-nmea-training-training = Wygeneruj tutaj strumień i jego dziennik instruktora, pobierz je i przeprowadź omówienie szkolenia
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:67
+js-t35data-feat-osnma-name = Weryfikacja Galileo OSNMA (wejście UBX SFRBX)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:68
+js-t35data-feat-osnma-osnma = Wczytaj zapisany plik i zobacz stan uwierzytelnienia dla każdego satelity i każdego znacznika
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:48
+js-t35data-feat-telemetry-name = Eksport telemetrii: metryki Prometheus, syslog CEF i LEEF, OpenTelemetry
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:50
+js-t35data-feat-telemetry-why = Udostępnia metryki, wysyła syslog i eksportuje OpenTelemetry z działającego strumienia: to proces rozmawiający z Twoimi systemami monitorowania, którym strona być nie może.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:42
+js-t35data-feat-training-stream-name = Przesyłanie strumienia szkoleniowego na adres TCP lub UDP
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:44
+js-t35data-feat-training-stream-why = Wysyła na adres sieciowy, czego strona internetowa nie robi. Studio generuje tekst, a Ty go pobierasz.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:28
+js-t35data-page-ai = Użycie z Twojego asystenta AI
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:22
+js-t35data-page-bench = Eksport test-bench
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:27
+js-t35data-page-cli = Funkcje wiersza poleceń
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:23
+js-t35data-page-compliance = Odwzorowanie compliance
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:21
+js-t35data-page-evidence = Pakiety dowodowe
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:17
+js-t35data-page-geometry = Geometria: skyplot, linia horyzontu i DOP
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:26
+js-t35data-page-imufit = Dopasowanie IMU
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:20
+js-t35data-page-interference = Mapa zakłóceń
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:25
+js-t35data-page-jammertest = Ocena Jammertest
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:24
+js-t35data-page-osnma = Weryfikacja OSNMA
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:19
+js-t35data-page-training = Omówienie szkolenia
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:18
+js-t35data-page-trust = Zaufanie morskie
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:93
+js-t35data-sample-iq-help = Lista poleceń IQ
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:88
+js-t35data-sample-telemetry-cef = Syslog w CEF dla przebiegu demonstracyjnego
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:88
+js-t35data-sample-telemetry-leef = Syslog w LEEF dla przebiegu demonstracyjnego
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:88
+js-t35data-sample-telemetry-metrics = Metryki Prometheus dla przebiegu demonstracyjnego
+
+# 2026-10-01-studio-rebuild/tools/tools.js:359
+js-tools-ai-group-engine = Zainstaluj silnik i jego biblioteki
+
+# 2026-10-01-studio-rebuild/tools/tools.js:359
+js-tools-ai-group-integrations = Integracje morskie, wtyczek i pulpitów
+
+# 2026-10-01-studio-rebuild/tools/tools.js:359
+js-tools-ai-group-mcp = Zainstaluj serwer MCP dla swojego asystenta
+
+# 2026-10-01-studio-rebuild/tools/tools.js:354
+js-tools-ai-heading = Używaj Kshana z asystenta AI
+
+# 2026-10-01-studio-rebuild/tools/tools.js:362
+js-tools-ai-install-mcp = Zainstaluj serwer MCP
+
+# 2026-10-01-studio-rebuild/tools/tools.js:354
+js-tools-ai-intro = Serwer MCP Kshana pozwala asystentowi AI uruchamiać silnik zamiast zgadywać liczby. Działa na Twoim komputerze; nic nie jest wysyłane do Kshana. Wybierz sposób, który pasuje do Twojego narzędzia.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:392
+js-tools-ai-load-failed = Nie udało się wczytać opcji instalacji ({ $reason }). Zobacz dokumentację serwera MCP.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:397
+js-tools-ai-mcp-docs = Dokumentacja serwera MCP
+
+# 2026-10-01-studio-rebuild/tools/tools.js:361
+js-tools-ai-more-ways = Więcej sposobów instalacji
+
+# 2026-10-01-studio-rebuild/tools/tools.js:391
+js-tools-ai-none-listed = W tej kompilacji nie ma wymienionych opcji instalacji.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:362
+js-tools-ai-other-ways = Inne sposoby instalacji Kshana
+
+# 2026-10-01-studio-rebuild/tools/tools.js:397
+js-tools-ai-read-agent-guide = Przeczytaj przewodnik dla agenta
+
+# 2026-10-01-studio-rebuild/tools/tools.js:397
+js-tools-ai-rule = Zasada dla każdej odpowiedzi: asystent uruchamia silnik i zgłasza to, co zwróciło narzędzie, wraz z jednostką i poziomem dowodowym (zwalidowane względem zewnętrznej wyroczni lub modelowane), scenariuszem, ziarnem i wersją silnika, aby przebieg można było powtórzyć. Zastrzeżenia danego wyniku pozostają przy nim. Serwer MCP nie czyta ani nie zapisuje plików poza jednym folderem włączonym świadomie.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:393
+js-tools-ai-what-to-ask = O co pytać i które narzędzie odpowiada
+
+# 2026-10-01-studio-rebuild/tools/tools.js:397
+js-tools-ai-where-reachable = Gdzie jest dostępna każda funkcja
+
+# 2026-10-01-studio-rebuild/tools/tools.js:216
+js-tools-bench-files-written =
+    { $n ->
+        [one] { $n } plik zapisany w pamięci przeglądarki
+        [few] { $n } pliki zapisane w pamięci przeglądarki
+        [many] { $n } plików zapisanych w pamięci przeglądarki
+       *[other] { $n } pliku zapisanego w pamięci przeglądarki
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:216
+js-tools-bench-note = Tylko ruch i oznaczone przedziały zdarzeń. Pobierz je, aby wczytać do symulatora laboratoryjnego.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:233
+js-tools-bench-wrong-kind = { $name } to scenariusz rodzaju { $kind }. Trajektoria pojazdu istnieje dla rodzajów { $kinds }; inne rodzaje podają, dlaczego jej nie mają.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:246
+js-tools-building-report = Budowanie raportu…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:440
+js-tools-choose-catalogue-first = Najpierw wybierz plik JSON katalogu.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:319
+js-tools-choose-file-first = Najpierw wybierz plik.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:484
+js-tools-choose-imu-log = Najpierw wybierz dziennik nieruchomego IMU.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:140
+js-tools-choose-pack-first = Najpierw wybierz pliki pakietu.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:175
+js-tools-choose-pack-first-above = Najpierw wybierz pliki pakietu (powyżej).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:441
+js-tools-choose-plan-file = Wybierz co najmniej jeden plik planu.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:468
+js-tools-choose-receiver-log = Najpierw wybierz dziennik odbiornika.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:243
+js-tools-choose-result-first = Najpierw wybierz co najmniej jeden plik wyniku (*.result.json).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:232
+js-tools-choose-scenario-first = Najpierw wybierz scenariusz.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:177
+js-tools-choose-tsr-first = Najpierw wybierz odpowiedź znacznika czasu (.tsr).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:190
+js-tools-chosen = Wybrano
+
+# 2026-10-01-studio-rebuild/tools/tools.js:160
+js-tools-col-check = Sprawdzenie
+
+# 2026-10-01-studio-rebuild/tools/tools.js:160
+js-tools-col-detail = Szczegóły
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-first-monitors = Pierwsze monitory
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-gap-that-stays = Luka, która pozostaje
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-last-auth-tag = Ostatni uwierzytelniony znacznik (czas systemu Galileo)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-latency = Opóźnienie, s
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-name = Nazwa
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-outcome = Rezultat
+
+# 2026-10-01-studio-rebuild/tools/tools.js:394
+js-tools-col-question = Pytanie
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-recovered = Odzyskano
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-reference = Odniesienie
+
+# 2026-10-01-studio-rebuild/tools/tools.js:160
+js-tools-col-result = Wynik
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-row = Wiersz
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-satellite = Satelita
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-slot = Szczelina, s
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-status = Stan
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-tags = Znaczniki
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-test = Test
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-these-runs = Te przebiegi
+
+# 2026-10-01-studio-rebuild/tools/tools.js:394
+js-tools-col-tool = Narzędzie
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-what-is-missing = Czego brakuje
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-what-it-asks = O co pyta
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-why-not-auth = Dlaczego nieuwierzytelnione
+
+# 2026-10-01-studio-rebuild/tools/tools.js:103
+js-tools-copied = Skopiowano
+
+# 2026-10-01-studio-rebuild/tools/tools.js:102
+js-tools-copy = Kopiuj
+
+# 2026-10-01-studio-rebuild/tools/tools.js:102
+js-tools-copy-command-aria = Kopiuj: { $cmd }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:366
+js-tools-copy-labelled-aria = Kopiuj { $label }: { $text }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:49
+js-tools-did-not-work = To się nie udało
+
+# 2026-10-01-studio-rebuild/tools/tools.js:384
+js-tools-documentation = Dokumentacja
+
+# 2026-10-01-studio-rebuild/tools/tools.js:220
+js-tools-download = Pobierz
+
+# 2026-10-01-studio-rebuild/tools/tools.js:225
+js-tools-download-all-zip = Pobierz wszystko (zip)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:460
+js-tools-download-events-toml = Pobierz zdarzenia (TOML)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:277
+js-tools-download-md = Pobierz (Markdown)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:267
+js-tools-download-report-json = Pobierz raport (JSON)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:266
+js-tools-download-report-md = Pobierz raport (Markdown)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:474
+js-tools-download-scorecard-json = Pobierz kartę wyników (JSON)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:492
+js-tools-download-table-toml = Pobierz tabelę (TOML)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:183
+js-tools-download-updated-pack = Pobierz zaktualizowany pakiet (zip)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:493
+js-tools-download-whole-report-json = Pobierz cały raport (JSON)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:45
+js-tools-engine-lacks-error = Ta kompilacja silnika (wersja { $version }) nie ma { $need }, więc nie może tego tutaj jeszcze uruchomić. Zapisane wyniki i wiersz poleceń nadal działają.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:43
+js-tools-engine-lacks-status = Ta kompilacja silnika (wersja { $version }) nie ma { $need }: jest starsza niż wersja, której to narzędzie potrzebuje. Odpowiednik w wierszu poleceń jest na karcie Wiersz poleceń.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:41
+js-tools-engine-running = Silnik (wersja { $version }) działa w tej przeglądarce. Nic nie jest wysyłane.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:39
+js-tools-engine-starting = Uruchamianie silnika w tej przeglądarce…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:40
+js-tools-engine-unavailable = Silnik nie mógł się tutaj uruchomić ({ $reason }). Otwieranie plików działa; uruchamianie narzędzi wymaga WebAssembly.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:91
+js-tools-epoch-format = Użyj formatu YYYY-MM-DDTHH:MM:SS, z opcjonalnym Z (UTC).
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:94
+js-tools-epoch-not-real = To nie jest rzeczywista chwila UTC między rokiem 2000 a 2099.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:166
+js-tools-every-check = Każde sprawdzenie
+
+# 2026-10-01-studio-rebuild/tools/tools.js:169
+js-tools-evidence-disclaimer = Pakiet dowodowy to techniczny zapis tego, co silnik obliczył z podanego dziennika przy podanych ustawieniach. Nie jest opinią prawną, ustaleniem faktów dotyczących jakiegokolwiek zdarzenia ani certyfikacją. Zaliczenie oznacza, że zapis jest niezmieniony.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:132
+js-tools-example-pack = Syntetyczny pakiet przykładowy
+
+# 2026-10-01-studio-rebuild/tools/tools.js:134
+js-tools-example-pack-note = Syntetyczny pakiet wykonany wierszem poleceń silnika z demonstracyjnego dziennika promu z kluczem demonstracyjnym. Klucz jest wpisany poniżej; klucz prawdziwego podpisującego pochodzi od podpisującego inną drogą.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:132
+js-tools-example-pack-tampered = Pakiet przykładowy z jednym bajtem epochs.json zmienionym
+
+# 2026-10-01-studio-rebuild/tools/tools.js:284
+js-tools-example-runs = Syntetyczne przebiegi przykładowe
+
+# 2026-10-01-studio-rebuild/tools/tools.js:134
+js-tools-example-tampered-note = Jeden bajt pliku w pakiecie został zmieniony po podpisaniu. Zweryfikuj go: sprawdzenie wskaże plik.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:213
+js-tools-exporting = Eksportowanie…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:322
+js-tools-field-whole-number = { $field } musi być liczbą całkowitą
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:63
+js-tools-file-not-chosen = { $file } nie znajduje się wśród wybranych plików
+
+# 2026-10-01-studio-rebuild/tools/tools.js:53
+js-tools-file-too-large = { $name } jest większy niż 64 MiB
+
+# 2026-10-01-studio-rebuild/tools/tools.js:282
+js-tools-files-selected = { $label }: { $files }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:157
+js-tools-fingerprint-not-pinned = Odcisk podpisującego: { $fingerprint } (nieprzypięty: klucz, który pakiet sam wskazuje)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:157
+js-tools-fingerprint-pinned = Odcisk podpisującego: { $fingerprint } (przypięty)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:488
+js-tools-fitting = Dopasowywanie…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:260
+js-tools-framework-summary = { $name }: udokumentowane: { $evidenced }, częściowo: { $partly }, nieudokumentowane: { $notEvidenced }, poza zakresem: { $outOfScope }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:131
+js-tools-fw-dhs-rpcf = US DHS Resilient PNT Conformance Framework, v2.0
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:133
+js-tools-fw-easa-aviation = Wytyczne EASA dotyczące zakłóceń GNSS w lotnictwie
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:135
+js-tools-fw-en-16803 = EN 16803 (tylko według numeru części i punktu)
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:132
+js-tools-fw-imo-ships = Wytyczne IMO dotyczące zakłóceń GNSS dla statków
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:134
+js-tools-fw-nis2-art21 = Dyrektywa UE NIS2, art. 21
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:183
+js-tools-gst-none = brak
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:183
+js-tools-gst-text = tydzień { $week }, { $tow } s
+
+# 2026-10-01-studio-rebuild/tools/tools.js:90
+js-tools-how-to-run = Jak to uruchomić
+
+# 2026-10-01-studio-rebuild/tools/tools.js:502
+js-tools-imu-file-too-large = { $name } jest większy niż 32 MiB; otwórz fragment.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:486
+js-tools-imu-mean-not-number = Siła właściwa w spoczynku nie jest liczbą (0 dla osi poziomej, około 9.80665 dla pionowej).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:494
+js-tools-imu-notice = { $evidence }: estymator jest sprawdzany na syntetycznych dziennikach szumu białego ze znanymi współczynnikami, a nie względem zewnętrznej wyroczni. Tabela podaje SHA-256 dziennika ({ $sha }…).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:505
+js-tools-imu-selected = { $name } ({ $size }), odczytany tutaj, nigdy nie wysyłany.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:461
+js-tools-jt-events-count =
+    { $n ->
+        [one] { $n } zaplanowane zdarzenie
+        [few] { $n } zaplanowane zdarzenia
+        [many] { $n } zaplanowanych zdarzeń
+       *[other] { $n } zaplanowanego zdarzenia
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:461
+js-tools-jt-events-note = jako zaplanowana prawda: planowane szczeliny, a nie zarejestrowane czasy emisji. Nie RF: { $nonRf }; poza dziennikiem: { $outside }; nieznane identyfikatory: { $unknown }.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:449
+js-tools-jt-guard-hold = Odstęp ochronny { $guard } s, przytrzymanie odzyskiwania { $hold } s.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:449
+js-tools-jt-guard-hold-overlap = Odstęp ochronny { $guard } s, przytrzymanie odzyskiwania { $hold } s. Bazowy poziom kalibracji nakładał się na zaplanowaną szczelinę.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:456
+js-tools-jt-import-needs-start = Import wymaga pierwszej epoki dziennika w UTC (ISO 8601), ponieważ plan jest w czasie lokalnym.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-catalogue = katalog { $name }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-log = dziennik { $name } ({ $size })
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-no-catalogue = brak katalogu
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-no-log = brak dziennika
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-no-plan = brak planu
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-plans =
+    { $n ->
+        [one] { $n } plik planu
+        [few] { $n } pliki planu
+        [many] { $n } plików planu
+       *[other] { $n } pliku planu
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-jt-slot-range = od { $from } do { $to }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-area = Obszar testu
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-guard = Odstęp ochronny
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-hold = Przytrzymanie odzyskiwania
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-offset = Przesunięcie względem UTC
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-year = Rok planu
+
+# 2026-10-01-studio-rebuild/tools/tools.js:377
+js-tools-label-command = polecenie
+
+# 2026-10-01-studio-rebuild/tools/tools.js:378
+js-tools-label-pinned-command = przypięte polecenie
+
+# 2026-10-01-studio-rebuild/tools/tools.js:380
+js-tools-label-settings-example = przykład ustawień { $n }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:108
+js-tools-loading = Wczytywanie…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:244
+js-tools-max-runs =
+    { $max ->
+        [one] Najwyżej { $max } przebieg.
+        [few] Najwyżej { $max } przebiegi.
+        [many] Najwyżej { $max } przebiegów.
+       *[other] Najwyżej { $max } przebiegu.
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:324
+js-tools-merkle-root-format = Korzeń Merkle'a ma 64 cyfry szesnastkowe.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:438
+js-tools-must-be-number = { $what } musi być liczbą
+
+# 2026-10-01-studio-rebuild/tools/tools.js:439
+js-tools-must-be-whole-zero = { $what } musi być liczbą całkowitą, 0 oznacza „nie podano”
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-na = n/d
+
+# 2026-10-01-studio-rebuild/tools/tools.js:376
+js-tools-needs = Wymaga: { $requires }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-no = nie
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-none = brak
+
+# 2026-10-01-studio-rebuild/tools/tools.js:338
+js-tools-none-in-build = brak w tej kompilacji
+
+# 2026-10-01-studio-rebuild/tools/tools.js:90
+js-tools-not-in-browser = Nie w przeglądarce.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:294
+js-tools-not-osnma = To nie jest wynik OSNMA
+
+# 2026-10-01-studio-rebuild/tools/tools.js:258
+js-tools-not-used = Nieużywane: { $item }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:168
+js-tools-notes = Uwagi
+
+# 2026-10-01-studio-rebuild/tools/tools.js:382
+js-tools-open = Otwórz
+
+# 2026-10-01-studio-rebuild/tools/tools.js:299
+js-tools-osnma-advisory = Wyłącznie doradczo: to wynik analizy i monitorowania, a nie sprzęt nawigacyjny z zatwierdzeniem typu. Raportowany tutaj stan uwierzytelnienia nie jest usługą integralności nawigacji i nie może być jedyną podstawą żadnej decyzji nawigacyjnej ani dotyczącej bezpieczeństwa.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:176
+js-tools-osnma-authenticated = Uwierzytelnione
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-osnma-caption = Stan uwierzytelnienia dla każdego satelity
+
+# 2026-10-01-studio-rebuild/tools/tools.js:340
+js-tools-osnma-demo-note = Jednorazowy klucz publiczny jest wpisany; naciśnij Weryfikuj, aby uruchomić weryfikator tutaj, lub pokaż zapisany wynik.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:180
+js-tools-osnma-discarded = Odrzucone
+
+# 2026-10-01-studio-rebuild/tools/tools.js:310
+js-tools-osnma-events = Co zobaczył weryfikator
+
+# 2026-10-01-studio-rebuild/tools/tools.js:336
+js-tools-osnma-examples-missing = syntetyczne przykłady nie są jeszcze w tej kompilacji
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:177
+js-tools-osnma-failed = Niepowodzenie
+
+# 2026-10-01-studio-rebuild/tools/tools.js:303
+js-tools-osnma-nma-alert = Stan NMA { $status }; system zgłosił komunikat alarmowy.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:303
+js-tools-osnma-nma-status = Stan NMA { $status }.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:186
+js-tools-osnma-not-json = To nie jest JSON z kshana osnma verify --json (wymaga pól overall i satellites).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:300
+js-tools-osnma-overall = Ogółem: { $status }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:302
+js-tools-osnma-pages-read =
+    { $n ->
+        [one] Odczytano { $n } stronę.
+        [few] Odczytano { $n } strony.
+        [many] Odczytano { $n } stron.
+       *[other] Odczytano { $n } strony.
+    }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:179
+js-tools-osnma-pending = Oczekujące
+
+# 2026-10-01-studio-rebuild/tools/tools.js:344
+js-tools-osnma-recorded-failed = nie udało się wczytać zapisanego wyniku
+
+# 2026-10-01-studio-rebuild/tools/tools.js:344
+js-tools-osnma-recorded-result = Zapisany wynik kshana osnma verify --json dla { $file }.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:308
+js-tools-osnma-tag-counts = uwierzytelnione: { $authenticated }, nieudane: { $failed }, oczekujące: { $pending }, odrzucone: { $discarded }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:304
+js-tools-osnma-tag-totals =
+    { $n ->
+        [one] { $n } znacznik: uwierzytelnione { $authenticated }, nieudane { $failed }, oczekujące { $pending }, odrzucone { $discarded }.
+        [few] { $n } znaczniki: uwierzytelnione { $authenticated }, nieudane { $failed }, oczekujące { $pending }, odrzucone { $discarded }.
+        [many] { $n } znaczników: uwierzytelnione { $authenticated }, nieudane { $failed }, oczekujące { $pending }, odrzucone { $discarded }.
+       *[other] { $n } znacznika: uwierzytelnione { $authenticated }, nieudane { $failed }, oczekujące { $pending }, odrzucone { $discarded }.
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:313
+js-tools-osnma-time-caveat = Czas: każde sprawdzenie odnosi się do znaczników czasu stron podanych weryfikatorowi, które tutaj pochodzą z samych danych i nie chronią przed odtworzonymi starymi danymi. Uwierzytelnienie mówi, że dane pochodzą z systemu; nie mówi nic o sygnale, którym dotarły, ani o jakości pozycji.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:178
+js-tools-osnma-unavailable = Niedostępne
+
+# 2026-10-01-studio-rebuild/tools/tools.js:296
+js-tools-osnma-word-authenticated = Co najmniej jeden satelita jest uwierzytelniony i żaden nie zakończył się niepowodzeniem
+
+# 2026-10-01-studio-rebuild/tools/tools.js:296
+js-tools-osnma-word-failed = Sprawdzenie danych któregoś satelity zakończyło się niepowodzeniem
+
+# 2026-10-01-studio-rebuild/tools/tools.js:296
+js-tools-osnma-word-unavailable = Żaden satelita nie jest uwierzytelniony
+
+# 2026-10-01-studio-rebuild/tools/tools.js:122
+js-tools-pack-selected = { $label }: { $files } ({ $size })
+
+# 2026-10-01-studio-rebuild/tools/tools.js:378
+js-tools-pinned-to-release = Przypięte do tego wydania:
+
+# 2026-10-01-studio-rebuild/tools/tools.js:221
+js-tools-preview = Podgląd
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:72
+js-tools-public-key-format = Klucz publiczny to 64 cyfry szesnastkowe (32 bajty). Nic innego nie jest akceptowane.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:113
+js-tools-read-documentation = Przeczytaj dokumentację
+
+# 2026-10-01-studio-rebuild/tools/tools.js:458
+js-tools-reading-plan = Odczytywanie planu…
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:42
+js-tools-refused-file-name = odrzucona nazwa pliku: { $name }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:410
+js-tools-run = Uruchom
+
+# 2026-10-01-studio-rebuild/tools/tools.js:255
+js-tools-runs-read =
+    { $n ->
+        [one] Odczytano { $n } przebieg: { $runs }
+        [few] Odczytano { $n } przebiegi: { $runs }
+        [many] Odczytano { $n } przebiegów: { $runs }
+       *[other] Odczytano { $n } przebiegu: { $runs }
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:254
+js-tools-runs-read-engine =
+    { $n ->
+        [one] Odczytano { $n } przebieg przez silnik { $engine }: { $runs }
+        [few] Odczytano { $n } przebiegi przez silnik { $engine }: { $runs }
+        [many] Odczytano { $n } przebiegów przez silnik { $engine }: { $runs }
+       *[other] Odczytano { $n } przebiegu przez silnik { $engine }: { $runs }
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:110
+js-tools-sample-load-failed = Nie udało się wczytać próbki ({ $reason }).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:109
+js-tools-sample-note = Prawdziwe wyjście polecenia, zapisane z silnika na syntetycznym przebiegu demonstracyjnym. Nie jest to pomiar niczego.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:107
+js-tools-sample-output = Przykładowe wyjście: { $label }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:206
+js-tools-scenario-list-failed = Nie udało się wczytać listy scenariuszy
+
+# 2026-10-01-studio-rebuild/tools/tools.js:470
+js-tools-scoring = Ocenianie…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:103
+js-tools-select-and-copy = Zaznacz i skopiuj
+
+# 2026-10-01-studio-rebuild/tools/tools.js:380
+js-tools-settings-example = Przykład ustawień { $n }:
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:139
+js-tools-status-evidenced-label = Przebiegi dostarczają dowodów na (supports evidence for) ten wiersz
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:139
+js-tools-status-evidenced-short = Udokumentowane
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:141
+js-tools-status-not-evidenced-label = Te przebiegi niczego nie pokazują dla tego wiersza
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:141
+js-tools-status-not-evidenced-short = Nieudokumentowane
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:142
+js-tools-status-out-of-scope-label = Poza tym, co może pokazać Kshana
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:142
+js-tools-status-out-of-scope-short = Poza zakresem
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:140
+js-tools-status-partly-label = Przebiegi dostarczają dowodów na (supports evidence for) część tego wiersza
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:140
+js-tools-status-partly-short = Częściowo
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-ai = Asystent AI
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-bench = Test-bench
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-cli = Wiersz poleceń
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-compliance = Compliance
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-evidence = Pakiety dowodowe
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-imufit = Dopasowanie IMU
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-jammertest = Jammertest
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-osnma = OSNMA
+
+# 2026-10-01-studio-rebuild/tools/tools.js:425
+js-tools-tele-all-events = Jedno zdarzenie syslog na epokę (domyślnie: jedno na zmianę pasma)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:406
+js-tools-tele-file-aria = Plik wyniku lub JSON-lines
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-cef = Syslog, CEF
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-leef = Syslog, LEEF
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-mqtt = MQTT, wykrywanie Home Assistant (temat, tabulator, ładunek)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-otlp = OpenTelemetry (OTLP JSON)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-prometheus = Metryki Prometheus
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-format-aria = Format
+
+# 2026-10-01-studio-rebuild/tools/tools.js:424
+js-tools-tele-host = Host
+
+# 2026-10-01-studio-rebuild/tools/tools.js:408
+js-tools-tele-host-aria = Nazwa hosta zapisywana w zdarzeniach syslog
+
+# 2026-10-01-studio-rebuild/tools/tools.js:425
+js-tools-tele-include-position = Dołącz zgłoszoną pozycję (domyślnie wyłączone)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:405
+js-tools-tele-intro = Zamień plik wyniku (session.result.json) lub strumień JSON lines na żywo na jeden z formatów, w tej przeglądarce. Wymaga kompilacji silnika z eksportem telemetrii (0.35 i nowsze z eksportem); polecenia powyżej działają wszędzie.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:426
+js-tools-tele-note = Wiersze syslog nie mają tutaj znacznika czasu (strona nie czyta zegara); narzędzie wiersza poleceń je znakuje. Prometheus podaje stan końcowy. MQTT podaje jeden wiersz na komunikat: temat, potem tabulator, potem ładunek; nic stąd nie jest publikowane. Tekst jest taki sam, jaki drukuje polecenie.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:404
+js-tools-tele-run-here = Uruchom tutaj
+
+# 2026-10-01-studio-rebuild/tools/tools.js:334
+js-tools-that-file-too-large = Ten plik jest większy niż 64 MiB.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:182
+js-tools-token-attached = Token dołączony
+
+# 2026-10-01-studio-rebuild/tools/tools.js:182
+js-tools-token-attached-note = Zaktualizowany pakiet jest poniżej. Podpis urzędu znacznika czasu NIE został tutaj sprawdzony: uruchom openssl ts -verify.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:312
+js-tools-trust-monitor-sentence = Zdanie monitora zaufania: { $sentence }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:48
+js-tools-two-files-same-name = dwa pliki mają nazwę { $name }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:214
+js-tools-ubx-bad-crc =
+    { $n ->
+        [one] { $n } strona nie przeszła kontroli CRC.
+        [few] { $n } strony nie przeszły kontroli CRC.
+        [many] { $n } stron nie przeszło kontroli CRC.
+       *[other] { $n } strony nie przeszło kontroli CRC.
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:311
+js-tools-ubx-file = Plik UBX
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:212
+js-tools-ubx-frames-pages = Ramki UBX: { $frames }; zdekodowane strony I/NAV: { $pages }.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:218
+js-tools-ubx-skipped-bytes =
+    { $n ->
+        [one] Między ramkami pominięto { $n } bajt.
+        [few] Między ramkami pominięto { $n } bajty.
+        [many] Między ramkami pominięto { $n } bajtów.
+       *[other] Między ramkami pominięto { $n } bajta.
+    }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:216
+js-tools-ubx-time-conflicts =
+    { $n ->
+        [one] { $n } strona miała czas sprzeczny z sąsiednimi.
+        [few] { $n } strony miały czas sprzeczny z sąsiednimi.
+        [many] { $n } stron miało czas sprzeczny z sąsiednimi.
+       *[other] { $n } strony miało czas sprzeczny z sąsiednimi.
+    }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:215
+js-tools-ubx-unstamped =
+    { $n ->
+        [one] Nie dało się umieścić w czasie { $n } strony.
+        [few] Nie dało się umieścić w czasie { $n } stron.
+        [many] Nie dało się umieścić w czasie { $n } stron.
+       *[other] Nie dało się umieścić w czasie { $n } strony.
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:233
+js-tools-unknown = nieznane
+
+# 2026-10-01-studio-rebuild/tools/tools.js:257
+js-tools-unused-scenarios = Pliki scenariuszy bez pasującego wyniku nie zostały użyte: { $files }.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:81
+js-tools-verdict-failed-text = Weryfikacja nie powiodła się.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:81
+js-tools-verdict-failed-title = Niepowodzenie
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:80
+js-tools-verdict-intact-text = Pakiet jest nienaruszony względem klucza, który sam wskazuje, a który każdy może wygenerować. Zdobądź klucz publiczny podpisującego od niego inną drogą i go przypnij.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:80
+js-tools-verdict-intact-title = Nienaruszony, ale podpisujący nie jest przypięty
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:79
+js-tools-verdict-verified-text = Pakiet jest niezmieniony i podpisany kluczem, który przypięto.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:79
+js-tools-verdict-verified-title = Zweryfikowany
+
+# 2026-10-01-studio-rebuild/tools/tools.js:149
+js-tools-verifying = Weryfikowanie…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:158
+js-tools-what-failed = Co się nie powiodło
+
+# 2026-10-01-studio-rebuild/tools/tools.js:99
+js-tools-why-not-browser = Dlaczego nie w przeglądarce:
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-yes = tak
+
+# 2026-10-01-studio-rebuild/training/training.js:355
+js-training-active-events = Aktywne zdarzenia
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:50
+js-training-band-large = ponad 100 m
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:49
+js-training-band-medium = od 25 do 100 m
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:48
+js-training-band-small = poniżej 25 m
+
+# 2026-10-01-studio-rebuild/training/training.js:213
+js-training-chart-max = maks. { $v }
+
+# 2026-10-01-studio-rebuild/training/training.js:225
+js-training-chart-mean-cn0 = średnie C/N0
+
+# 2026-10-01-studio-rebuild/training/training.js:224
+js-training-chart-position-error = błąd położenia
+
+# 2026-10-01-studio-rebuild/training/training.js:227
+js-training-chart-s-reported-minus-true = s, zgłoszony minus rzeczywisty
+
+# 2026-10-01-studio-rebuild/training/training.js:226
+js-training-chart-satellites = satelity
+
+# 2026-10-01-studio-rebuild/training/training.js:227
+js-training-chart-time-offset = przesunięcie czasu
+
+# 2026-10-01-studio-rebuild/training/training.js:226
+js-training-chart-used-tracked = użyte / śledzone
+
+# 2026-10-01-studio-rebuild/training/training.js:340
+js-training-col-reported = Zgłoszone przez odbiornik
+
+# 2026-10-01-studio-rebuild/training/training.js:340
+js-training-col-true = Rzeczywiste
+
+# 2026-10-01-studio-rebuild/training/training.js:352
+js-training-cue-course = Kurs żyroskopowy i prędkość z logu nie są dotknięte żadnym zdarzeniem. Tutaj zgłoszony kurs nad dnem różni się od kursu żyroskopowego o { $course }. Prąd również rozdziela kurs żyroskopowy od kursu nad dnem, więc porównaj z początkiem przebiegu.
+
+# 2026-10-01-studio-rebuild/training/training.js:353
+js-training-cue-course-speed = Kurs żyroskopowy i prędkość z logu nie są dotknięte żadnym zdarzeniem. Tutaj zgłoszony kurs nad dnem różni się od kursu żyroskopowego o { $course }, a zgłoszona prędkość od prędkości rzeczywistej o { $speed } kn. Prąd również rozdziela kurs żyroskopowy od kursu nad dnem, więc porównaj z początkiem przebiegu.
+
+# 2026-10-01-studio-rebuild/training/training.js:351
+js-training-cue-title = Wskazówka do omówienia.
+
+# 2026-10-01-studio-rebuild/training/training.js:350
+js-training-cue-unknown-amount = nieznaną wartość
+
+# 2026-10-01-studio-rebuild/training/training.js:415
+js-training-debrief-now = Omów teraz
+
+# 2026-10-01-studio-rebuild/training/training.js:89
+js-training-default-warning = Syntetyczne dane szkoleniowe. Wyłącznie do szkolenia i testów: nigdy nie należy podawać tego strumienia do działających systemów nawigacyjnych statku.
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-coastal-drag-off = Przybrzeżny drag-off
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-combined-event = Zdarzenie złożone
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-fjord-degradation = Naturalne pogorszenie we fiordzie
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-open-sea-jamming = Zagłuszanie na otwartym morzu
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-port-time-spoof = Spoofing czasu przy podejściu do portu
+
+# 2026-10-01-studio-rebuild/training/training.js:413
+js-training-dl-log-json = Pobierz dziennik instruktora (JSON)
+
+# 2026-10-01-studio-rebuild/training/training.js:414
+js-training-dl-log-text = Pobierz dziennik instruktora (tekst)
+
+# 2026-10-01-studio-rebuild/training/training.js:412
+js-training-dl-nmea = Pobierz strumień NMEA
+
+# 2026-10-01-studio-rebuild/training/training.js:74
+js-training-err-demo-open = Nie udało się otworzyć { $title }: { $reason }.
+
+# 2026-10-01-studio-rebuild/training/training.js:405
+js-training-err-engine-old = Ta kompilacja silnika (wersja { $version }) nie ma generatora szkoleniowego NMEA; jest starsza niż ta strona. Polecenie to { $command }.
+
+# 2026-10-01-studio-rebuild/training/training.js:404
+js-training-err-engine-start = Silnik nie mógł się tutaj uruchomić ({ $reason }). Scenariusze z biblioteki powyżej nadal otwierają się bez niego.
+
+# 2026-10-01-studio-rebuild/training/training.js:70
+js-training-err-file-not-loaded = plik nie został wczytany
+
+# 2026-10-01-studio-rebuild/training/training.js:417
+js-training-err-generate = Nie udało się wygenerować: { $reason }.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:60
+js-training-err-newer-schema = { $name }: schemat { $schema } jest nowszy lub inny niż { $supported }, który czyta ta strona. Zaktualizuj Studio zamiast zgadywać jego pola.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:58
+js-training-err-no-schema = { $name }: to nie jest dziennik instruktora szkolenia Kshana (brak znacznika schematu).
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:61
+js-training-err-no-track = { $name }: dziennik nie ma wierszy toru do narysowania.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:78
+js-training-err-no-usable-rows = { $name }: brak użytecznych wierszy toru.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:57
+js-training-err-not-json = { $name }: to nie JSON ({ $reason }).
+
+# 2026-10-01-studio-rebuild/training/training.js:64
+js-training-err-read = { $name }: nie udało się odczytać ({ $reason }).
+
+# 2026-10-01-studio-rebuild/training/training.js:55
+js-training-err-read-or-draw = { $name }: nie udało się odczytać ani narysować ({ $reason }).
+
+# 2026-10-01-studio-rebuild/training/training.js:407
+js-training-err-scenario-not-loaded = plik scenariusza nie został wczytany
+
+# 2026-10-01-studio-rebuild/training/training.js:400
+js-training-err-seed = Ziarno musi być liczbą całkowitą lub puste, aby użyć własnego ziarna scenariusza.
+
+# 2026-10-01-studio-rebuild/training/training.js:48
+js-training-err-too-large = { $name }: większy niż { $max }. Ta strona czyta dzienniki do tego rozmiaru.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:62
+js-training-err-too-many-rows =
+    { $count ->
+        [one] { $name }: dziennik ma { $count } wiersz toru; ta strona rysuje najwyżej { $max }. Loguj rzadziej (log_interval_s) lub otwórz fragment.
+        [few] { $name }: dziennik ma { $count } wiersze toru; ta strona rysuje najwyżej { $max }. Loguj rzadziej (log_interval_s) lub otwórz fragment.
+        [many] { $name }: dziennik ma { $count } wierszy toru; ta strona rysuje najwyżej { $max }. Loguj rzadziej (log_interval_s) lub otwórz fragment.
+       *[other] { $name }: dziennik ma { $count } wiersza toru; ta strona rysuje najwyżej { $max }. Loguj rzadziej (log_interval_s) lub otwórz fragment.
+    }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:59
+js-training-err-unknown-schema = { $name }: nieznany schemat { $schema }; ta strona czyta { $supported }.
+
+# 2026-10-01-studio-rebuild/training/training.js:357
+js-training-event-n = Zdarzenie { $id }
+
+# 2026-10-01-studio-rebuild/training/training.js:266
+js-training-event-onset = Początek { $utc }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:220
+js-training-extra-bearing = Namiar zastosowany, stopnie względem północy rzeczywistej
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:222
+js-training-extra-peak-accel = Szczytowe przyspieszenie, które dodaje dryf, m/s²
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:221
+js-training-extra-peak-speed = Szczytowa prędkość, którą dodaje dryf, m/s
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-duration = Czas trwania
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-events = Wstrzyknięte zdarzenia
+
+# 2026-10-01-studio-rebuild/training/training.js:95
+js-training-fact-max-error = Największy błąd położenia
+
+# 2026-10-01-studio-rebuild/training/training.js:96
+js-training-fact-max-time-offset = Największe przesunięcie czasu
+
+# 2026-10-01-studio-rebuild/training/training.js:98
+js-training-fact-no-fix = Czas bez pozycji
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:230
+js-training-fact-peak-accel = Szczytowe przyspieszenie, rzeczywiste / zgłoszone
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:230
+js-training-fact-peak-speed = Szczytowa prędkość, rzeczywista / zgłoszona
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-seed = Ziarno
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-start = Początek (UTC)
+
+# 2026-10-01-studio-rebuild/training/training.js:196
+js-training-fix-reported-span = pozycja zgłaszana, od { $from } do { $to }
+
+# 2026-10-01-studio-rebuild/training/training.js:410
+js-training-generated = Wygenerowano „{ $title }” silnikiem { $version }: zdań NMEA: { $lines }. Syntetyczne: wyłącznie do szkolenia i testów; nigdy nie należy podawać go do działających systemów nawigacyjnych statku.
+
+# 2026-10-01-studio-rebuild/training/training.js:415
+js-training-generated-here = Wygenerowano tutaj przez silnik („{ $title }”). Syntetyczne: wymyślone pozycje i daty.
+
+# 2026-10-01-studio-rebuild/training/training.js:401
+js-training-generating = Uruchamianie silnika i generowanie…
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:32
+js-training-kind-drag-off = Przeciągnięcie pozycji (drag-off)
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:31
+js-training-kind-jamming = Zagłuszanie
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:35
+js-training-kind-natural-degradation = Naturalne pogorszenie (zasłonięte niebo)
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:34
+js-training-kind-replay-delay = Opóźnienie powtórzenia
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:33
+js-training-kind-time-spoof = Spoofing czasu
+
+# 2026-10-01-studio-rebuild/training/training.js:158
+js-training-legend-no-fix = Brak pozycji: odbiornik nic nie zgłosił
+
+# 2026-10-01-studio-rebuild/training/training.js:157
+js-training-legend-reported = Zgłoszone, { $band } od rzeczywistego
+
+# 2026-10-01-studio-rebuild/training/training.js:158
+js-training-legend-true = Tor rzeczywisty
+
+# 2026-10-01-studio-rebuild/training/training.js:73
+js-training-library-label = Syntetyczny scenariusz z biblioteki „{ $title }”, zapisany przez { $command }. Wymyślone pozycje i daty; żaden prawdziwy statek ani nagranie.
+
+# 2026-10-01-studio-rebuild/training/training.js:338
+js-training-log-row = Wiersz dziennika { $row } z { $total }, { $utc }
+
+# 2026-10-01-studio-rebuild/training/training.js:95
+js-training-max-error-at = { $m } m przy T+{ $s } s
+
+# 2026-10-01-studio-rebuild/training/training.js:277
+js-training-moment-event = (zdarzenie { $id })
+
+# 2026-10-01-studio-rebuild/training/training.js:184
+js-training-moment-title = T+{ $s } s { $what }: { $text }
+
+# 2026-10-01-studio-rebuild/training/training.js:275
+js-training-moments-shown = Pokazane chwile (pierwsze): { $shown } z { $total }.
+
+# 2026-10-01-studio-rebuild/training/training.js:263
+js-training-no-events = Brak: to jest czysty przebieg.
+
+# 2026-10-01-studio-rebuild/training/training.js:341
+js-training-no-fix-nothing = brak pozycji: nic nie zgłoszono
+
+# 2026-10-01-studio-rebuild/training/training.js:196
+js-training-no-fix-span = brak pozycji, od { $from } do { $to }
+
+# 2026-10-01-studio-rebuild/training/training.js:273
+js-training-no-moments = Nie zapisano żadnych chwil.
+
+# 2026-10-01-studio-rebuild/training/training.js:35
+js-training-none = brak
+
+# 2026-10-01-studio-rebuild/training/training.js:356
+js-training-none-now = Brak w tej chwili.
+
+# 2026-10-01-studio-rebuild/training/training.js:95
+js-training-none-reported = nic nie zgłoszono
+
+# 2026-10-01-studio-rebuild/training/training.js:135
+js-training-north = N
+
+# 2026-10-01-studio-rebuild/training/training.js:343
+js-training-not-touched = nietknięte przez żadne zdarzenie
+
+# 2026-10-01-studio-rebuild/training/training.js:53
+js-training-opened =
+    { $rows ->
+        [one] Otwarto { $name }: { $rows } wiersz dziennika w ciągu { $secs } s.
+        [few] Otwarto { $name }: { $rows } wiersze dziennika w ciągu { $secs } s.
+        [many] Otwarto { $name }: { $rows } wierszy dziennika w ciągu { $secs } s.
+       *[other] Otwarto { $name }: { $rows } wiersza dziennika w ciągu { $secs } s.
+    }
+
+# 2026-10-01-studio-rebuild/training/training.js:67
+js-training-opening = Otwieranie { $title }…
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:209
+js-training-param-affect-time = Wpływa na czas
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:205
+js-training-param-bearing-deg = Namiar, stopnie względem północy rzeczywistej
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:202
+js-training-param-cn0-drop-db = Spadek C/N0, dB
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:210
+js-training-param-counterfeit-cn0-dbhz = Podrobione C/N0, dB-Hz
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:208
+js-training-param-delay-s = Opóźnienie, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:199
+js-training-param-duration-s = Czas trwania, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:204
+js-training-param-final-offset-m = Przesunięcie końcowe, m
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:196
+js-training-param-kind = Rodzaj
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:197
+js-training-param-label = Etykieta
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:207
+js-training-param-offset-s = Przesunięcie czasu, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:200
+js-training-param-ramp-s = Narastanie początkowe, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:201
+js-training-param-recovery-s = Narastanie powrotu, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:206
+js-training-param-relative-bearing-deg = Namiar względem kursu, stopnie
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:211
+js-training-param-skyline = Linia horyzontu
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:203
+js-training-param-spread-db = Rozrzut dla poszczególnych satelitów, dB
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:198
+js-training-param-start-s = Początek, s
+
+# 2026-10-01-studio-rebuild/training/training.js:380
+js-training-pause = Wstrzymaj
+
+# 2026-10-01-studio-rebuild/training/training.js:385
+js-training-play = Odtwarzaj
+
+# 2026-10-01-studio-rebuild/training/training.js:60
+js-training-reading = Odczytywanie…
+
+# 2026-10-01-studio-rebuild/training/training.js:294
+js-training-readout-fix = pozycja
+
+# 2026-10-01-studio-rebuild/training/training.js:294
+js-training-readout-no-fix = brak pozycji
+
+# 2026-10-01-studio-rebuild/training/training.js:430
+js-training-reduced-motion = Preferowane jest ograniczenie ruchu, więc odtwarzanie zaczyna się od 1x. Użyj suwaka lub klawiszy strzałek, aby poruszać się bez animacji.
+
+# 2026-10-01-studio-rebuild/training/training.js:346
+js-training-row-cn0 = Średnie C/N0, dB-Hz
+
+# 2026-10-01-studio-rebuild/training/training.js:342
+js-training-row-cog = Kurs nad dnem, stopnie
+
+# 2026-10-01-studio-rebuild/training/training.js:344
+js-training-row-error = Błąd położenia, m
+
+# 2026-10-01-studio-rebuild/training/training.js:189
+js-training-row-fix = pozycja
+
+# 2026-10-01-studio-rebuild/training/training.js:343
+js-training-row-heading = Kurs (żyroskop), stopnie
+
+# 2026-10-01-studio-rebuild/training/training.js:180
+js-training-row-moments = chwile
+
+# 2026-10-01-studio-rebuild/training/training.js:341
+js-training-row-position = Położenie
+
+# 2026-10-01-studio-rebuild/training/training.js:346
+js-training-row-sats = Satelity użyte / śledzone
+
+# 2026-10-01-studio-rebuild/training/training.js:342
+js-training-row-sog = Prędkość nad dnem, kn
+
+# 2026-10-01-studio-rebuild/training/training.js:345
+js-training-row-time-offset = Przesunięcie czasu, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:186
+js-training-say-active = aktywne: { $list }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:186
+js-training-say-event-id = zdarzenie { $id }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:181
+js-training-say-fix = odbiornik zgłasza pozycję
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:185
+js-training-say-mean-cn0 = średnie C/N0 { $cn0 } dB-Hz
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:181
+js-training-say-no-fix = brak pozycji
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:182
+js-training-say-position-from-true = zgłoszone położenie { $m } m od rzeczywistego
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:184
+js-training-say-sats-used =
+    użyto { $used } z { $tracked ->
+        [one] { $tracked } satelity
+        [few] { $tracked } satelitów
+        [many] { $tracked } satelitów
+       *[other] { $tracked } satelity
+    }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:183
+js-training-say-time-ahead = zgłoszony czas wyprzedza rzeczywisty o { $s } s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:183
+js-training-say-time-behind = zgłoszony czas opóźnia się względem rzeczywistego o { $s } s
+
+# 2026-10-01-studio-rebuild/training/training.js:330
+js-training-sky-no-gsv = brak GSV
+
+# 2026-10-01-studio-rebuild/training/training.js:330
+js-training-sky-none = Brak nieba dla tego dziennika: sam dziennik instruktora nie ma satelitów. Otwórz scenariusz z biblioteki lub wygeneruj tutaj strumień i go omów, aby zobaczyć satelity wymienione w jego GSV.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:192
+js-training-skyline-preset = predefiniowany { $name }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:192
+js-training-skyline-stated = podany profil
+
+# 2026-10-01-studio-rebuild/training/training.js:98
+js-training-span-no-fix = od T+{ $from } do { $to } s
+
+# 2026-10-01-studio-rebuild/training/training.js:144
+js-training-track-desc = Tor rzeczywisty i zgłoszony, północ u góry. Największy błąd położenia { $error }. Okresy bez pozycji: { $periods }.
+
+# 2026-10-01-studio-rebuild/training/training.js:132
+js-training-track-end = koniec
+
+# 2026-10-01-studio-rebuild/training/training.js:132
+js-training-track-start = początek
+
+# 2026-10-01-studio-rebuild/training/training.js:93
+js-training-trainer-note = Uwaga dla prowadzącego
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:89
+js-training-warn-no-warning-text = Ten plik nie zawiera tekstu ostrzeżenia. To dziennik szkoleniowy: nie należy podawać jego strumienia do nawigacji na żywo.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:79
+js-training-warn-rows-skipped =
+    { $count ->
+        [one] { $count } wiersz toru był nieprawidłowy i został pominięty.
+        [few] { $count } wiersze toru były nieprawidłowe i zostały pominięte.
+        [many] { $count } wierszy toru było nieprawidłowych i zostało pominiętych.
+       *[other] { $count } wiersza toru było nieprawidłowych i zostało pominiętych.
+    }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:42
+js-training-what-fix-lost = Utrata pozycji
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:43
+js-training-what-fix-regained = Odzyskanie pozycji
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:39
+js-training-what-full-effect = Pełny efekt
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:38
+js-training-what-onset = Początek
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:41
+js-training-what-recovered = Odzyskano
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:40
+js-training-what-recovery-begins = Początek odzyskiwania
+
+# 2026-10-01-studio-rebuild/trust/trust.js:544
+js-trust-adv-carried = Oświadczenie doradcze zawarte w tym pliku:
+
+# 2026-10-01-studio-rebuild/trust/trust.js:545
+js-trust-adv-none = Ten plik nie zawiera oświadczenia doradczego
+
+# 2026-10-01-studio-rebuild/trust/trust.js:545
+js-trust-adv-none-rest = (starsze wyniki go nie zawierają). Oświadczenie doradcze na górze tej strony obowiązuje go mimo to.
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:15
+js-trust-agree-both = oba zgłaszają: własna flaga odbiornika i monitor Kshana
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:19
+js-trust-agree-calibrating = w oknie kalibracji: nie porównywano
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:17
+js-trust-agree-kshana-only = alarm zgłasza tylko Kshana: odbiornik nie flaguje
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:217
+js-tools-ubx-ignored-sfrbx = Pominięte komunikaty SFRBX: { $n } (inne systemy, E5b, alarmy, błędne sumy kontrolne).
