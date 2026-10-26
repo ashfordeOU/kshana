@@ -10181,3 +10181,675 @@ js-trust-agree-calibrating = kalibreerimisaknas: ei võrrelda
 js-trust-agree-kshana-only = ainult Kshana annab alarmi: vastuvõtja ei märgi
 
 js-tools-ubx-ignored-sfrbx = Tähelepanuta jäeti SFRBX-sõnumeid: { $n } (muud süsteemid, E5b, häired, vigased kontrollsummad).
+
+js-trust-agree-neither = kumbki ei märgi
+
+js-trust-agree-receiver-only = märgib ainult vastuvõtja: ükski Kshana monitor ei anna alarmi
+
+js-trust-assessed = { $name } hinnati mootoriga { $version } selles brauseris.
+
+js-trust-assessed-as = { $name } hinnati kui { $format } mootoriga selles brauseris. Midagi ei laaditud üles.
+
+js-trust-assessing = Mootori käivitamine ja hindamine…
+
+js-trust-class-also-costing = { $class } (võtab ka punkte maha)
+
+js-trust-class-environment = keskkond: signaal (võimsus, segamine, avatud taeva korral kaotatud satelliidid)
+
+js-trust-class-geometry = geomeetria: taevas, mitte signaal
+
+js-trust-class-inconsistency = vastuolu: rünnakutaoline, mida taevas ega signaal ei seleta
+
+js-trust-dl-result-json = Laadi tulemus alla (JSON)
+
+js-trust-dl-table-csv = Laadi epohhide tabel alla (CSV)
+
+js-trust-edge-degraded = { $v } halvenenud
+
+js-trust-edge-nominal = { $v } nominaalne
+
+js-trust-err-assess = { $name }: hindamine ei õnnestunud ({ $reason }).
+
+js-trust-err-demo-files = demofaile ei õnnestunud laadida
+
+js-trust-err-demo-log-open = Demologi avamine ei õnnestunud: { $reason }.
+
+js-trust-err-demo-open = Demo avamine ei õnnestunud: { $reason }.
+
+js-trust-err-engine-no-receiver-trust = Sellel mootoriversioonil ({ $version }) pole receiver_trust.
+
+js-trust-err-engine-no-scorer = Sellel mootoriversioonil ({ $version }) pole logi hindajat; see on vanem kui see leht. Käsk on { $command }.
+
+js-trust-err-engine-start = Mootor ei saanud siin käivituda ({ $reason }).
+
+js-trust-err-engine-start-open = Mootor ei saanud siin käivituda ({ $reason }). Ülal tulemusfailide avamine töötab endiselt.
+
+js-trust-err-example-files = näitefaile ei õnnestunud laadida
+
+js-trust-err-example-open = Näite avamine ei õnnestunud: { $reason }.
+
+js-trust-err-file-2mib = { $name }: suurem kui 2 MiB. Ava väljavõte.
+
+js-trust-err-file-too-large = { $name }: suurem kui { $max }. See leht loeb faile kuni selle suuruseni; ava väljavõte.
+
+js-trust-err-gen-too-large = { $name }: suurem kui 2 MiB. Ava väljavõte (käsurea tööriist võtab terve logi).
+
+js-trust-err-imu-format = „{ $format }“ ei ole IMU vorming, mida see leht loeb (csv või euroc)
+
+js-trust-err-imu-heading = IMU suund esimesel näidisel ei ole arv
+
+js-trust-err-log-format = „{ $format }“ ei ole logivorming, mida see leht saaks mootorile saata
+
+js-trust-err-no-epochs = Failis pole epohhe.
+
+js-trust-err-no-epochs-result = Selles tulemusfailis pole epochs[]. See peab tulema käsust `{ $command }` laevaseansi jaoks.
+
+js-trust-err-no-epochs-returned = { $name }: mootor ei tagastanud ühtegi epohhi.
+
+js-trust-err-no-score-model = Sellel tulemusel pole score_model, seega on see statsionaarse platvormi käik ilma usaldusskoorita. Vaade joonistab laeva (liikuva platvormi) käike.
+
+js-trust-err-not-readable = { $name }: see ei ole fail, mida see vaade loeb (tulemuse JSON, JSON-read, trust.csv, NMEA logi või tõetaustafail).
+
+js-trust-err-nothing-to-draw = Pole midagi joonistada: vali tulemuse JSON, JSON-read või trust.csv.
+
+js-trust-err-read = { $name }: lugemine ei õnnestunud ({ $reason }).
+
+js-trust-err-read-or-draw = { $name }: lugemine või joonistamine ei õnnestunud ({ $reason }).
+
+js-trust-err-score = { $name }: skoorimine ei õnnestunud ({ $reason }).
+
+js-trust-err-score-file-too-large = { $name }: suurem kui 2 MiB. Brauseris töötav skoorija võtab väljavõtte, mis sisaldab viieminutilist kalibreerimisakent.
+
+js-trust-err-score-too-large = { $name }: suurem kui 2 MiB. Brauseris töötav skoorija võtab väljavõtte (käsk { $command } võtab terve logi); ava väljavõte, mis sisaldab viieminutilist kalibreerimisakent.
+
+js-trust-err-scorecard-too-large = { $name }: suurem kui 8 MiB; see leht loeb tulemuskaarti kuni selle suuruseni.
+
+js-trust-err-session-empty = Seansi seaded on tühjad. Need kirjeldavad laeva ({ $setting }).
+
+js-trust-err-too-many-epochs =
+    { $count ->
+        [one] Failis on { $count } epohh; see leht joonistab neid kõige rohkem { $max }. Ava väljavõte.
+       *[other] Failis on { $count } epohhi; see leht joonistab neid kõige rohkem { $max }. Ava väljavõte.
+    }
+
+js-trust-err-triple-quote = { $what } sisaldab kolme ülakoma järjest, mida ei saa seadetesse põimida
+
+js-trust-err-what-file = fail
+
+js-trust-err-what-imu = IMU fail
+
+js-trust-event-label = sündmus: { $label }
+
+js-trust-event-onset = algus
+
+js-trust-evt-col-first-alarm = Esimene alarm, s
+
+js-trust-evt-col-latency = Latentsus, s
+
+js-trust-evt-col-onset = Algus, s
+
+js-trust-evt-col-outcome = Tulemus
+
+js-trust-evt-col-stated = Väidetud sündmus
+
+js-trust-fmt-android = Android GNSS Logger (tekst)
+
+js-trust-fmt-gnss-sdr = GNSS-SDR edastatud JSON-read (tekst)
+
+js-trust-fmt-nmea = NMEA 0183 (tekst)
+
+js-trust-fmt-novatel = NovAtel OEM7 (ASCII või binaar)
+
+js-trust-fmt-rinex = RINEX vaatlused (tekst)
+
+js-trust-fmt-rtcm3 = RTCM 3 MSM4 / MSM7 (binaar)
+
+js-trust-fmt-rtklib-pos = RTKLIB .pos lahend (tekst)
+
+js-trust-fmt-sbf = Septentrio SBF (binaar)
+
+js-trust-fmt-ubx = u-blox UBX (binaar)
+
+js-trust-gate-note-derived = Sellel käigul pole värava kirjet. Riba näitab, kus värav oleks asukohamääranguid kinni hoidnud: mitteusaldatava vööndi epohhid, mida hoitakse kuni 30 s pärast sealt lahkumist. Siin tuletatud, mitte väravast loetud. Värav on valikuline ja lisab latentsust.
+
+js-trust-gate-note-read = Iga epohhi värav, nagu reaalajas voog selle teatas: väljas, läbi lastud või kinni hoitud (asukohamäärang märgiti edastatud tsüklis kehtetuks).
+
+js-trust-gate-now-derived = { $gate } · tuletatud
+
+js-trust-gate-off = Väljas
+
+js-trust-gate-off-cal = Väljas (kalibreerimine)
+
+js-trust-gate-passed = Läbi lastud: asukohamäärang edastatakse muutmata
+
+js-trust-gate-span = värav { $gate }, { $from } kuni { $to }
+
+js-trust-gate-span-derived = värav { $gate } (tuletatud), { $from } kuni { $to }
+
+js-trust-gate-withheld = Kinni hoitud: asukohamäärang märgitaks allavoolu kehtetuks
+
+js-trust-gen-chart-label = Mootori diagramm käigust: kandja ja müra tihedus, olek ja alarmid ajas
+
+js-trust-gen-epochs = Epohhid pärast { $window }-epohhilist kalibreerimisakent: nominaalne { $nominal }, halvenenud { $degraded }, mitteusaldatav { $untrusted }.
+
+js-trust-gen-self-heading = Vastuvõtja enda lipud Kshana alarmide kõrval
+
+js-trust-gen-self-note = Võrdlus, mitte kummagi kontroll: vastuvõtja lipp on tema enda aruanne.
+
+js-trust-geo-deduction-class =
+    { $points ->
+        [one] { $points } punkt ({ $class })
+       *[other] { $points } punkti ({ $class })
+    }
+
+js-trust-geo-deduction-points =
+    { $points ->
+        [one] { $points } punkt
+       *[other] { $points } punkti
+    }
+
+js-trust-geo-flag-mismatch = Vastuvõtja teatatud HDOP ei ühti sellega, mis on tuletatud tema teatatud taevast: geomeetria mahaarvamine loetakse vastuolu alla.
+
+js-trust-geo-flag-signal-loss = Signaali kadu: nähtavaid satelliite ei jälgita, kuigi nende geomeetria on hea, seega loetakse geomeetria mahaarvamine keskkonna alla.
+
+js-trust-geo-heading-label = geomeetria { $label }
+
+js-trust-geo-label-fair = { $label } (ei skooritud)
+
+js-trust-geo-label-poor = { $label } (ainus silt, mille eest skoorist maha arvatakse)
+
+js-trust-geo-none-in-run = Sellel käigul pole geomeetriat (enne 0.36 mootor seda ei kirjuta).
+
+js-trust-geo-reason-few-satellites = satelliite vähem kui miinimum
+
+js-trust-geo-reason-high-hdop = HDOP üle läve
+
+js-trust-geo-reason-high-pdop = PDOP üle läve
+
+js-trust-geo-reason-sky-blocked = jälgitavate satelliitide vahele jääb asimuudis lai vahe (üks taeva külg on varjatud)
+
+js-trust-geo-row-deduction = Geomeetria mahaarvamine
+
+js-trust-geo-row-from = Alates
+
+js-trust-geo-row-gap = Suurim asimuudivahe
+
+js-trust-geo-row-label = Silt
+
+js-trust-geo-row-open-sky = Avatud taevas
+
+js-trust-geo-row-reported-hdop = Vastuvõtja teatatud HDOP
+
+js-trust-geo-row-sats-used = Kasutatud satelliidid
+
+js-trust-geo-row-sky-age = Taeva vanus
+
+js-trust-geo-row-status = Olek
+
+js-trust-geo-say-deduction =
+    { $points ->
+        [one] geomeetria mahaarvamine { $points } punkt
+       *[other] geomeetria mahaarvamine { $points } punkti
+    }
+
+js-trust-geo-say-label-hdop = geomeetria { $label } (HDOP { $hdop })
+
+js-trust-geo-say-mismatch = teatatud HDOP ei ühti
+
+js-trust-geo-source-derived = tuletatud logis teatatud satelliitidest (GSV)
+
+js-trust-geo-source-none = puudub
+
+js-trust-geo-source-reported = vastuvõtja teatatud DOP (GSA)
+
+js-trust-geo-status-reasons = { $status }: { $reasons }
+
+js-trust-geo-status-title = geomeetria { $status }
+
+js-trust-geo-unknown-no-gsv = geomeetria teadmata: logis pole GSV-d ega GSA-d
+
+js-trust-geo-unknown-no-gsv-sentence = Geomeetria teadmata: logis pole GSV-d ega GSA-d.
+
+js-trust-geo-unknown-odd = Geomeetria teadmata (fail ütleb „{ $odd }“, mida see leht ei tunne).
+
+js-trust-geo-used-of-view = { $used } nähtavast { $inView }-st
+
+js-trust-got-file-kind = { $name }: { $kind }
+
+js-trust-got-lines-skipped =
+    { $count ->
+        [one] { $count } rida failist { $name } ei olnud epohh ja jäeti vahele
+       *[other] { $count } rida failist { $name } ei olnud epohhid ja jäeti vahele
+    }
+
+js-trust-imu-csv = CSV päiserealiga
+
+js-trust-imu-euroc = EuRoC MAV imu0 data.csv
+
+js-trust-imu-file = IMU fail: { $name } ({ $chars } märki). Kasutatakse järgmisel hindamisel.
+
+js-trust-imu-file-press = IMU fail: { $name } ({ $chars } märki). Kasutatakse järgmisel hindamisel; vajuta „Hinda valitud faili“.
+
+js-trust-imu-none = IMU faili pole.
+
+js-trust-jt-col-latency = Latentsus, s
+
+js-trust-jt-col-monitors = Esimesed monitorid
+
+js-trust-jt-col-name = Nimi
+
+js-trust-jt-col-outcome = Tulemus
+
+js-trust-jt-col-recovered = Taastus
+
+js-trust-jt-col-slot = Pesa, s
+
+js-trust-jt-col-test = Test
+
+js-trust-jt-label = { $label } Kaitseaeg { $guard } s, taastumishoid { $hold } s.
+
+js-trust-jt-label-contaminated = { $label } Kaitseaeg { $guard } s, taastumishoid { $hold } s. Kalibreerimise lähtetase kattus planeeritud pesaga.
+
+js-trust-jt-opened =
+    { $count ->
+        [one] Avati { $name }: { $count } test. Loetud siin; midagi ei laaditud üles.
+       *[other] Avati { $name }: { $count } testi. Loetud siin; midagi ei laaditud üles.
+    }
+
+js-trust-kind-batch-result = pakettulemus
+
+js-trust-kind-json-lines = JSON-read
+
+js-trust-kind-nmea-log = NMEA logi
+
+js-trust-kind-truth-file = tõetaustafail
+
+js-trust-label-demo = Sünteetiline demo: väljamõeldud parvlaeva logi väljamõeldud asukoha eemaletõmbamisega, Kshana skooritud. Salvestatud mootorist; logi on tekst, mitte mõõtmine.
+
+js-trust-label-example = Illustratiivne näide: väljamõeldud NMEA logi väljamõeldud segajaga vahemikus 120 s kuni 240 s, mida mootor siin hindab. Tekst, mitte mõõtmine.
+
+js-trust-label-geo-demo = Sünteetiline varjatud taeva demo: parvlaeva logi, kus taeva lääneosa on 600 s-st alates tühjaks tehtud (loomulik halvenemine, omistatud geomeetriale) ja sama väljamõeldud eemaletõmbamine 1500 s-st alates (rünnakutaoline). Salvestatud mootorist, millel on 0.36 geomeetria; tekst, mitte mõõtmine.
+
+js-trust-label-score-demo = Sünteetiline demologi, mille mootor siin skooris. Väljamõeldud parvlaeva logi ja eemaletõmbamine; tekst, mitte mõõtmine.
+
+js-trust-legend-calibrating = Kalibreerimine (ei skooritud kunagi)
+
+js-trust-legend-class = Mahaarvamise klass:
+
+js-trust-legend-class-environment = keskkond: signaal
+
+js-trust-legend-class-geometry = geomeetria: taevas, mitte signaal
+
+js-trust-legend-class-inconsistency = vastuolu (rünnakutaoline)
+
+js-trust-legend-degraded = Halvenenud
+
+js-trust-legend-demo = Selles demos teatab vastuvõtja kogu aeg kehtivast asukohamäärangust (GGA kvaliteet 1, RMC olek A). Langeb skoor.
+
+js-trust-legend-geo-degraded = geomeetria halvenenud
+
+js-trust-legend-geo-good = geomeetria hea
+
+js-trust-legend-geo-unknown = geomeetria teadmata (pole GSV-d ega GSA-d; mitte hea)
+
+js-trust-legend-nominal = Nominaalne
+
+js-trust-legend-self = Vastuvõtja enda lipp Kshana alarmide vastu:
+
+js-trust-legend-self-both = mõlemad märgivad
+
+js-trust-legend-self-kshana = ainult Kshana
+
+js-trust-legend-self-neither = kumbki
+
+js-trust-legend-self-receiver = ainult vastuvõtja
+
+js-trust-legend-sky = Taevas:
+
+js-trust-legend-true-track = Tegelik rada (ainult sünteetilised andmed)
+
+js-trust-legend-underline = allakriipsutus: geomeetria võtab samuti punkte maha
+
+js-trust-legend-untrusted = Mitteusaldatav
+
+js-trust-marks-cleared = Märgid eemaldatud.
+
+js-trust-marks-set =
+    { $count ->
+        [one] { $name } oli { $count } epohhil üle oma algustaseme; need on ajateljel ja rajal märgitud.
+       *[other] { $name } oli { $count } epohhil üle oma algustaseme; need on ajateljel ja rajal märgitud.
+    }
+
+js-trust-mon-agc = Automaatne võimenduse juhtimine nihkus oma lähtetasemest.
+
+js-trust-mon-clock = Kellapõhine monitor: vastuvõtja kell oma ennustatud joone vastu.
+
+js-trust-mon-cn0-drop = Võimsuse keelamine: signaali tugevus on kalibreerimise lähtetasemega võrreldes langenud.
+
+js-trust-mon-cn0-rise = Otsib ühe saatja signatuuri: signaali tugevus kõigil satelliitidel tõuseb lähtetasemega võrreldes üheskoos.
+
+js-trust-mon-cn0-spread = Otsib ühe saatja signatuuri: signaali tugevus kõigil satelliitidel langeb kalibreerimise lähtetasemega võrreldes üheskoos kokku.
+
+js-trust-mon-geometry = Satelliitide geomeetria (0.36): võtab punkte maha ainult siis, kui geomeetria on halb (HDOP, PDOP või kasutatud satelliidid väljaspool oma lävesid), piiratud ega lange kunagi halvenenud vööndist allapoole.
+
+js-trust-mon-heading-course = Võrdleb raja suunda sellega, kuhu laev osutab, teatatud triivinurga piires.
+
+js-trust-mon-jam-ind = Vastuvõtja enda segamisnäidik.
+
+js-trust-mon-kinematic = Võrdleb iga asukohasammu teatatud kiiruse ja kursiga ning laeva teatatud kiiruse, kiirenduse ja pöördekiiruse piiridega.
+
+js-trust-mon-loss-of-lock = Jälgitavate satelliitide kadu.
+
+js-trust-mon-osnma = Loeb teatatud OSNMA autentimisviga. Olek on loetud, mitte kontrollitud.
+
+js-trust-mon-position-jump = Teatatud asukoha samm, mis on suurem, kui lähtetase lubab.
+
+js-trust-mon-raim = Vastuvõtja autonoomse terviklikkuse monitooringu testistatistik oma läve vastu.
+
+js-trust-mon-receiver-self-report = Vastuvõtja enda spuufimise või segamise lipp (näiteks u-blox UBX-SEC-SIG või NAV-STATUS spoofDetState), näidatud Kshana monitoride kõrval. Loetud logist, mitte kontrollitud; pesa on valmis 0.38 mootori monitori jaoks ja joonistub ribana, kui tulemus seda kannab.
+
+js-trust-mon-sea-level = Kontrollib, et kõrgus on seal, kuhu merepind ja teatatud antenni kõrgus selle asetavad.
+
+js-trust-mon-solve-failure = Asukohalahendit ei õnnestunud arvutada.
+
+js-trust-mon-speed-log = Võrdleb kiirust maapinna suhtes kiirusega vee suhtes, teatatud hoovuse lubatud piires.
+
+js-trust-mon-time-consistency = Kontrollib vastuvõtja aja ebaregulaarseid samme või tagurpidi jooksmist ning reaalajavoogude puhul selle arvuti kella vastu.
+
+js-trust-mon-unknown = Monitor, mille kirjeldust sellel vaatel pole (uuem kui leht). Käsitle seda monitorina.
+
+js-trust-na = n/a
+
+js-trust-name-colon-text = { $name }: { $text }
+
+js-trust-never = mitte kunagi
+
+js-trust-no = ei
+
+js-trust-no-deduction = mahaarvamist pole
+
+js-trust-none = puudub
+
+js-trust-north = N
+
+js-trust-not-stated = pole teatatud
+
+js-trust-note-advisories =
+    { $count ->
+        [one] Ridadel on { $count } erinev nõuandev avaldus; näidatud on esimene.
+       *[other] Ridadel on { $count } erinevat nõuandvat avaldust; näidatud on esimene.
+    }
+
+js-trust-note-csv-limits = trust.csv sisaldab skoore ja põhjusi, kuid mitte suhteid ega asukohti.
+
+js-trust-note-live-no-model = Reaalajavoog ei ütle, millised monitorid töötasid ega mis on skoorimudel; allpool olevad vööndite piirid on dokumenteeritud vaikeväärtused ja monitoriribad näitavad ainult neid monitore, mis võtavad punkte maha.
+
+js-trust-note-nmea-no-match = Ühtegi NMEA asukohamäärangut ei õnnestunud ajaliselt epohhiga siduda.
+
+js-trust-note-nmea-skipped =
+    { $count ->
+        [one] { $count } vigase kontrollsumma või väljadega NMEA lause jäeti vahele.
+       *[other] { $count } vigase kontrollsumma või väljadega NMEA lauset jäeti vahele.
+    }
+
+js-trust-note-skipped-epochs =
+    { $count ->
+        [one] { $count } epohh ilma arvulise t_s-ita jäeti vahele.
+       *[other] { $count } epohhi ilma arvulise t_s-ita jäeti vahele.
+    }
+
+js-trust-note-truth-no-match = Tõetaustafaili ajad ei ühti ühegi epohhiga.
+
+js-trust-note-unknown-state =
+    { $count ->
+        [one] { $count } epohhil on olek, mida see leht ei tunne ({ $states }); see joonistatakse kalibreeritavana, mida ei skooritud kunagi.
+       *[other] { $count } epohhil on olek, mida see leht ei tunne ({ $states }); need joonistatakse kalibreeritavana, mida ei skooritud kunagi.
+    }
+
+js-trust-offset-at = Ajal { $time } on vastuvõtja teatatud asukoht { $m } m kaugusel sellest, kus laev tegelikult oli (sünteetiline tõetaust).
+
+js-trust-offset-no-truth = Sellel ajal pole tegelikku asukohta.
+
+js-trust-opened =
+    { $count ->
+        [one] Avati { $count } epohh ({ $source }).
+       *[other] Avati { $count } epohhi ({ $source }).
+    }
+
+js-trust-opening-demo = Sünteetilise demo avamine…
+
+js-trust-opening-demo-log = Sünteetilise demologi avamine…
+
+js-trust-opening-example = Illustratiivse näite avamine…
+
+js-trust-opening-geo-demo = Varjatud taeva demo avamine…
+
+js-trust-pause = Paus
+
+js-trust-play = Esita
+
+js-trust-reading = Lugemine…
+
+js-trust-reasons-calibrating = Kalibreerimine: esimesed sekundid moodustavad lähtetaseme ja neid ei skooritud kunagi.
+
+js-trust-reasons-class-note = Iga mahaarvamine kannab mootori klassi: geomeetria (taevas), keskkond (signaal) või vastuolu (rünnakutaoline)
+
+js-trust-reasons-live-unknown = Reaalajavoos pole öeldud, millised monitorid töötasid; siin puuduv kontroll ei pruugi olla töötanud.
+
+js-trust-reasons-marked-none = märgitud; mahaarvamist siin pole
+
+js-trust-reasons-no-score = Sellel epohhil pole skoori.
+
+js-trust-reasons-no-score-note = Sellel epohhil pole skoori: { $note }.
+
+js-trust-reasons-not-run = Ei töötanud (ei ole läbimine)
+
+js-trust-reasons-nothing = Sellel epohhil ei arvatud midagi maha. See ei ole tõend, et asukohamäärang on hea: vaata allpool, mida kontrollid ei näe.
+
+js-trust-reasons-pts =
+    { $points ->
+        [one] { $points } p
+       *[other] { $points } p
+    }
+
+js-trust-reasons-ran-free = Töötas, ei maksnud midagi
+
+js-trust-reasons-ratio = suhe { $ratio }
+
+js-trust-reasons-row-title = { $name }: { $text } Klõpsa, et märkida, kus see ületas oma algustaseme.
+
+js-trust-reasons-weight = kaal { $weight }
+
+js-trust-reduced-motion = Eelistatud on vähendatud liikumine, seega algab kordus kiirusega 1x. Liigu ilma animatsioonita liuguri või nooleklahvidega.
+
+js-trust-say-gate = värav { $gate }
+
+js-trust-say-gate-derived = värav { $gate } (tuletatud)
+
+js-trust-say-monitor-points =
+    { $points ->
+        [one] { $monitor } { $points } punkt
+       *[other] { $monitor } { $points } punkti
+    }
+
+js-trust-say-position-from-true = teatatud asukoht { $m } m tegelikust
+
+js-trust-say-reasons = põhjused: { $list }
+
+js-trust-say-score = skoor { $score }
+
+js-trust-scored-label =
+    { $count ->
+        [one] Skooriti { $count } epohh failist { $name } mootoriga { $version } selles brauseris.
+       *[other] Skooriti { $count } epohhi failist { $name } mootoriga { $version } selles brauseris.
+    }
+
+js-trust-scored-summary =
+    { $count ->
+        [one] Skooriti { $count } epohh mootoriga { $version }: { $summary }. Ainult nõuandev.
+       *[other] Skooriti { $count } epohhi mootoriga { $version }: { $summary }. Ainult nõuandev.
+    }
+
+js-trust-scoring = Mootori käivitamine ja skoorimine…
+
+js-trust-self-code-meaning = { $code }: { $meaning }
+
+js-trust-self-none-at-time = Logis pole sellel ajal vastuvõtja lippu.
+
+js-trust-self-not-in-log = pole logis
+
+js-trust-self-row-flags = Vastuvõtja lipud
+
+js-trust-self-row-jamming = Vastuvõtja segamisolek
+
+js-trust-self-row-kshana-alarms = Kshana monitor annab alarmi
+
+js-trust-self-row-spoofing = Vastuvõtja spuufimisolek
+
+js-trust-self-unknown-agreement = kokkulangevus, mida see leht ei tunne ({ $odd })
+
+js-trust-self-yes-state-2 = jah (olek 2 või rohkem)
+
+js-trust-set-degraded-edge = halvenenud vööndi piir
+
+js-trust-set-degraded-min = halvenenud alates
+
+js-trust-set-epochs = Epohhid
+
+js-trust-set-epochs-counts = Kokku { $total }: kalibreerimisel { $calibrating }, nominaalne { $nominal }, halvenenud { $degraded }, mitteusaldatav { $untrusted }.
+
+js-trust-set-epochs-counts-class = Kokku { $total }: kalibreerimisel { $calibrating }, nominaalne { $nominal }, halvenenud { $degraded }, mitteusaldatav { $untrusted }. Mahaarvamise klassi järgi: geomeetria { $geometry }, keskkond { $environment }, vastuolu { $inconsistency }.
+
+js-trust-set-evidence-hold = tõendi hoidmine, s
+
+js-trust-set-full-ratio = täiskaal suhtel
+
+js-trust-set-geo-counts = Taevas: hea { $good }, halvenenud { $degraded }, teadmata { $unknown }. Silt: hea { $lgood }, rahuldav { $fair }, halb { $poor } (punkte võtab maha ainult halb). Epohhid, millel on mahaarvamine klassist: geomeetria { $geometry }, keskkond { $environment }, vastuolu { $inconsistency }.
+
+js-trust-set-geo-counts-odd = Taevas: hea { $good }, halvenenud { $degraded }, teadmata { $unknown } (neist { $odd } väärtusega, mida see leht ei tunne, loetud teadmatuks). Silt: hea { $lgood }, rahuldav { $fair }, halb { $poor } (punkte võtab maha ainult halb). Epohhid, millel on mahaarvamine klassist: geomeetria { $geometry }, keskkond { $environment }, vastuolu { $inconsistency }.
+
+js-trust-set-geometry = Geomeetria ([geometry] seaded)
+
+js-trust-set-gloss = Mida iga kontroll vaatab
+
+js-trust-set-live-geometry = Reaalajavoog ei ütle geomeetria lävesid; kehtivad dokumenteeritud vaikeväärtused (halb, kui HDOP üle 4 või PDOP üle 6 või alla 5 satelliidi; kuni 15 punkti, ei lange kunagi halvenenud vööndist allapoole).
+
+js-trust-set-no-geometry = Sellel käigul pole geomeetriat: see pärineb enne 0.36 mootorist või failist trust.csv. Taeva kohta ei näidata midagi ja midagi ei näidata heana.
+
+js-trust-set-nominal-min = nominaalne alates
+
+js-trust-set-onset-ratio = võtab punkte maha suhtest
+
+js-trust-set-provenance = Kust läved pärinevad ja kuidas mahaarvamisi klassifitseeritakse
+
+js-trust-set-ran = Töötanud kontrollid
+
+js-trust-set-weights = Iga kontrolli kaal, punktid
+
+js-trust-settings-assumed = See voog ei ütle oma skoorimudelit. Näidatud vööndite piirid on dokumenteeritud vaikeväärtused, eeldatud.
+
+js-trust-show-in-replay = Näita seda käiku allolevas kordusesituses (rada, skoor, vastuvõtja enda lipp)
+
+js-trust-sky-no-gsv = GSV puudub
+
+js-trust-sky-none = Taevast pole: ava käiguga kaasas olev NMEA logi (või demo), et näha selles loetletud satelliite.
+
+js-trust-span-title = { $what }, { $from } kuni { $to }
+
+js-trust-state-0 = teadmata või pole lubatud
+
+js-trust-state-1 = märget pole
+
+js-trust-state-2 = märgitud
+
+js-trust-state-3 = mitu märget või kinnitatud
+
+js-trust-strip-band = vöönd
+
+js-trust-strip-class = klass
+
+js-trust-strip-gate = värav
+
+js-trust-strip-marked = märgitud
+
+js-trust-strip-receiver = vastuvõtja
+
+js-trust-strip-sky = taevas
+
+js-trust-strips-none = Selles failis pole monitori suhteid.
+
+js-trust-strips-note-ran = statistiku ja läve suhe; katkendjoon on alarm kohal 1
+
+js-trust-strips-note-seen = ainult monitorid, mille puhul on nähtud punktide mahaarvamist; suhe läve suhtes
+
+js-trust-sum-both-flag = Mõlemad märgivad
+
+js-trust-sum-epochs-compared = Võrreldud epohhid (pärast kalibreerimist)
+
+js-trust-sum-first-kshana = Esimene Kshana alarm nende epohhide seas
+
+js-trust-sum-first-receiver = Esimene vastuvõtja lipp
+
+js-trust-sum-jamming-flag = Vastuvõtja segamislipp (olek 2+)
+
+js-trust-sum-neither = Kumbki
+
+js-trust-sum-only-kshana = Alarmi annab ainult Kshana
+
+js-trust-sum-only-receiver = Märgib ainult vastuvõtja
+
+js-trust-sum-spoofing-flag = Vastuvõtja spuufimislipp (olek 2+)
+
+js-trust-thr-azimuth-gap = asimuudivahe kraadides, millest alates taevas on osaliselt varjatud
+
+js-trust-thr-cap-in-force = suurim punktide arv, mille geomeetria mahaarvamine sellel käigul võtab
+
+js-trust-thr-cap-points = suurim punktide arv, mille geomeetria mahaarvamine võib võtta
+
+js-trust-thr-floor = madalaim skoor, mille geomeetria üksi võib jätta (tühi: halvenenud vööndi piir)
+
+js-trust-thr-floor-in-force = madalaim skoor, mille geomeetria üksi saab sellel käigul jätta
+
+js-trust-thr-full-ratio = suhe, mille juures geomeetria mahaarvamine jõuab oma ülempiirini
+
+js-trust-thr-hdop-good = HDOP, mille või millest madalama korral on geomeetria hea
+
+js-trust-thr-hdop-max = HDOP, millest kõrgema korral on geomeetria halb
+
+js-trust-thr-hold = kui kaua taevapositsioonid ja GSA pärast saabumist loevad, s
+
+js-trust-thr-low-elev = kõrgus kraadides, millest madalamal kaotatud satelliiti omistatakse taevale
+
+js-trust-thr-min-used = vähim kasutatud satelliitide arv, enne kui geomeetria on halb
+
+js-trust-thr-pdop-good = PDOP, mille või millest madalama korral on geomeetria hea
+
+js-trust-thr-pdop-max = PDOP, millest kõrgema korral on geomeetria halb
+
+js-trust-thr-reported-rel = sama, tuletatud HDOP osana
+
+js-trust-thr-reported-tol = teatatud ja tuletatud HDOP erinevus, enne kui need ei ühti
+
+js-trust-thr-sigma-uere = kasutajaekvivalentne vahemaavea väärtus, mida läved eeldavad, meetrites
+
+js-trust-thr-used-good = kasutatud satelliitide arv, mille või millest suurema korral on geomeetria hea
+
+js-trust-track-desc = Rada { $positions } teatatud asukohast, põhi üleval. Mitteusaldatavaid epohhe: { $untrusted }.
+
+js-trust-track-desc-none = Rada pole: failid ei sisalda asukohti.
+
+js-trust-track-desc-truth = Rada { $positions } teatatud asukohast, põhi üleval. Mitteusaldatavaid epohhe: { $untrusted }. Õhuke hall joon näitab tegelikku rada.
+
+js-trust-track-end = lõpp
+
+js-trust-track-no-positions = Avatud failides pole asukohti
+
+js-trust-track-note = Põhi üleval, üks mõõtkava mõlemal teljel. Joon on see, kus vastuvõtja ütles laeva olevat, värvitud iga epohhi usaldusvööndi järgi.
+
+js-trust-track-note-none = See fail ei sisalda asukohti. Raja joonistamiseks lisa NMEA logi, millest käik pärineb (või v1.1 voog asukohaga).
+
+js-trust-track-start = algus
+
+js-trust-unknown-agreement = kokkulangevus, mida see leht ei tunne
+
+js-trust-yes = jah

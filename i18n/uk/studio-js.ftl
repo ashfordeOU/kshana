@@ -3261,3 +3261,885 @@ js-interf-cell-size-rule = Розмір комірки має бути числ�
 js-interf-check-failed = { $name }: не вдалося перевірити ({ $reason }).
 
 js-interf-click-cell = Клацніть комірку або сфокусуйте карту й скористайтеся стрілками, щоб побачити її показники.
+
+js-interf-close = Закрити
+
+js-interf-close-file = Закрити { $name }
+
+js-interf-col-affected = Зачеплено
+
+js-interf-col-cell-area = Площа комірки
+
+js-interf-col-detectors = Детектори
+
+js-interf-col-observed = Спостережено
+
+js-interf-col-sampled = Опитано
+
+js-interf-col-share = Частка
+
+js-interf-col-status = Стан
+
+js-interf-coverage-limits = Межі покриття цього джерела
+
+js-interf-csv-too-big = { $name }: більший за 24 MiB; побудуйте з уривка (інструмент командного рядка приймає файл повністю).
+
+js-interf-csv-too-big-short = { $name }: більший за 24 MiB; побудуйте з уривка.
+
+js-interf-custom-needs-licence = Власний набір даних потребує ліцензії, її URL і тексту атрибуції: їх записують у файл карти.
+
+js-interf-dataset = Набір даних
+
+js-interf-dates-rule = Дати мають формат YYYY-MM-DD; порожнє поле означає відсутність обмеження.
+
+js-interf-day = Доба
+
+js-interf-day-aria = Доба { $kind }
+
+js-interf-day-confounded-note = Ця доба зі спотворювальним фоном: жодну комірку не визнано погіршеною через фон доби. Комірки, які за інших умов виділялися б, показано як неоцінені.
+
+js-interf-day-figures-aria = Показники за добу
+
+js-interf-demo-csv-name = { $file } (синтетичний зразок)
+
+js-interf-demo-failed = Не вдалося відкрити демонстрацію: { $reason }.
+
+js-interf-demo-opened = Синтетична демонстрація: три вигадані файли для вигаданого району відкритого океану (дві доби ADS-B, одна з них зі спотворювальним фоном, і одна доба AIS). За ними немає жодного реального повітряного судна, судна чи доби. Скористайтеся вибором доби на шарі ADS-B.
+
+js-interf-demo-route-name = route.csv (синтетичний)
+
+js-interf-describe-map = Карта { $kind } за { $date }: намальовано комірок — { $cells }, { $parts }. Комірки, які не намальовано, не спостерігалися.
+
+js-interf-did-not-load = { $url } не завантажився
+
+js-interf-engine-no-fn = У цій збірці рушія (версія { $version }) немає { $fn }; вона старша за цю сторінку. Еквівалент для командного рядка наведено на сторінці «Інструменти».
+
+js-interf-engine-start-failed = Тут не вдалося запустити рушій ({ $reason }). Відкриття файлів карт вище все одно працює.
+
+js-interf-err-format-version = { $name }: це непідтримувана карта завад Kshana (format_version { $version }; ця сторінка підтримує { $supported }).
+
+js-interf-err-no-rows = { $name }: у цьому звіті немає rows[].
+
+js-interf-err-not-json = { $name }: це не JSON ({ $reason }).
+
+js-interf-err-not-map = { $name }: це GeoJSON, але не карта завад Kshana (немає елемента kshana_interference_map).
+
+js-interf-err-not-route = { $name }: це не звіт Kshana про вплив на маршрут (немає елемента kshana_route_exposure).
+
+js-interf-err-route-schema = { $name }: схема { $schema } не є { $expected }, яку читає ця сторінка.
+
+js-interf-err-source-kind = { $name }: source_kind { $kind } не є ні adsb, ні ais.
+
+js-interf-err-unknown-schema = { $name }: невідома схема { $schema }; ця сторінка читає { $supported }.
+
+js-interf-foot-attribution = Атрибуція: { $text }
+
+js-interf-foot-coverage = Покриття: { $notes }
+
+js-interf-foot-layer = Шар { $kind }, { $date }. Комірки, які не намальовано, не спостерігалися.
+
+js-interf-foot-licence = Ліцензія: { $licence }
+
+js-interf-foot-licence-url = Ліцензія: { $licence } ({ $url })
+
+js-interf-grid = Сітка: квадратні комірки розміром { $size }° за широтою й довготою ({ $type }). Ширина зі сходу на захід зменшується з широтою.
+
+js-interf-guards = Захист від інших причин
+
+js-interf-input = Вхідні дані
+
+js-interf-land-set = Полігони суходолу: { $name }.
+
+js-interf-land-too-big = Цей файл суходолу більший за 24 MiB.
+
+js-interf-larger-than = { $name }: більший за { $limit }; ця сторінка читає файли карт не більших за цей розмір.
+
+js-interf-layer-adsb-sub = комірки, де повітряні судна повідомляли про низьку навігаційну точність
+
+js-interf-layer-ais-sub = комірки, де судна повідомляли про неправдоподібні положення чи рух
+
+js-interf-layer-heading = Шар { $kind }
+
+js-interf-layer-hidden = Шар { $kind } приховано.
+
+js-interf-layers-separate = ADS-B і AIS — окремі шари з власними перемикачами, легендами та рядками ліцензії. Їх ніколи не зводять в одне кольорове поле чи один підрахунок.
+
+js-interf-legend-aria = Що означає кожен стан комірки; зніміть позначку, щоб приглушити такі комірки
+
+js-interf-licence = Ліцензія
+
+js-interf-licence-aria = Ліцензія на дані { $name }
+
+js-interf-licence-heading = Ліцензія на дані та атрибуція
+
+js-interf-map-aria = { $summary } Клавіші зі стрілками переміщують між намальованими комірками.
+
+js-interf-maps-open =
+    { $n ->
+        [one] Відкрито { $n } карту.
+        [few] Відкрито { $n } карти.
+        [many] Відкрито { $n } карт.
+       *[other] Відкрито { $n } карти.
+    }
+
+js-interf-method-summary = Метод і застереження
+
+js-interf-no-cell-at = Немає комірки в { $lat }, { $lon }: не спостерігалася. Це не доказ того, що в районі було чисто.
+
+js-interf-no-cell-drawn = комірку не намальовано
+
+js-interf-no-cells-draw = У цьому файлі немає комірок для малювання.
+
+js-interf-no-day-figures = Цей файл не містить показників за добу.
+
+js-interf-no-file-opened = Жодного файлу не вдалося відкрити.
+
+js-interf-no-file-text = Відкриті карти не містять тексту файлу для перевірки (їх не відкривали як файли).
+
+js-interf-none = немає
+
+js-interf-none-stated = (не вказано)
+
+js-interf-none-stated-file = (у цьому файлі не вказано)
+
+js-interf-north-abbr = Пн
+
+js-interf-not-evaluated = не оцінювалося
+
+js-interf-not-opened-full = { $name }: не відкрито, уже відкрито максимальну кількість карт ({ $max }). Спершу закрийте кілька.
+
+js-interf-nothing-open = Поки що нічого не відкрито.
+
+js-interf-nothing-opened = Нічого не відкрито.
+
+js-interf-one-day = по одній добі
+
+js-interf-opened-file-map = Відкрито файлів: { $files }; відкритих карт: { $maps }.
+
+js-interf-opened-file-maps = Відкрито файлів: { $files }; відкритих карт: { $maps }.
+
+js-interf-opened-files-map = Відкрито файлів: { $files }; відкритих карт: { $maps }.
+
+js-interf-opened-files-maps = Відкрито файлів: { $files }; відкритих карт: { $maps }.
+
+js-interf-opening-demo = Відкриття синтетичної демонстрації…
+
+js-interf-parameters = Параметри, зафіксовані до читання будь-яких даних
+
+js-interf-read-draw-failed = { $name }: не вдалося прочитати чи намалювати ({ $reason }).
+
+js-interf-read-failed = { $name }: не вдалося прочитати ({ $reason }).
+
+js-interf-read-with-map = Читайте це разом із картою
+
+js-interf-reading = Читання…
+
+js-interf-route-aria = Вплив на маршрут { $name }
+
+js-interf-route-chip = Маршрут
+
+js-interf-route-done =
+    { $n ->
+        [one] Вплив на маршрут обчислено за { $n } картою рушієм { $version }; звіт показано нижче.
+        [few] Вплив на маршрут обчислено за { $n } картами рушієм { $version }; звіт показано нижче.
+        [many] Вплив на маршрут обчислено за { $n } картами рушієм { $version }; звіт показано нижче.
+       *[other] Вплив на маршрут обчислено за { $n } картами рушієм { $version }; звіт показано нижче.
+    }
+
+js-interf-route-explain = Частка довжини маршруту в кожному стані за добами та джерелами. Чотири частки в сумі дають 1 і читаються разом: низька частка погіршеного за високої частки неспостереженого не означає, що там показано чисто. Рядки ADS-B і AIS ніколи не поєднують.
+
+js-interf-route-exposure = Вплив на маршрут
+
+js-interf-route-needs-map = Спершу відкрийте або побудуйте принаймні одну карту: маршрут перевіряється за картами на цій сторінці.
+
+js-interf-route-open-failed = Не вдалося відкрити маршрут: { $reason }.
+
+js-interf-route-range = від { $from } до { $to }
+
+js-interf-route-too-big = { $name }: більший за 24 MiB.
+
+js-interf-row-affected-share = Частка зачеплених
+
+js-interf-row-aircraft-affected = Зачеплені повітряні судна
+
+js-interf-row-aircraft-observed = Спостережені повітряні судна
+
+js-interf-row-aircraft-sampled = Опитані повітряні судна
+
+js-interf-row-area = Площа
+
+js-interf-row-cell = Комірка
+
+js-interf-row-detectors = Детектори, що спрацювали
+
+js-interf-row-flagged = Позначено: { $detector }
+
+js-interf-row-status = Стан
+
+js-interf-row-vessels-observed = Спостережені судна
+
+js-interf-rows-skipped = Пропущено рядків, що були недійсними: { $count }.
+
+js-interf-rt-day = Доба
+
+js-interf-rt-km = Маршрут, km
+
+js-interf-rt-licence = Ліцензія та атрибуція карти
+
+js-interf-rt-shares = Частки маршруту
+
+js-interf-rt-source = Джерело
+
+js-interf-sample-failed = Не вдалося відкрити зразок: { $reason }.
+
+js-interf-save = Зберегти:
+
+js-interf-save-report = Зберегти звіт (JSON)
+
+js-interf-show-layer = Показати цей шар
+
+js-interf-st-anomalous-label = Аномальна
+
+js-interf-st-anomalous-text = Принаймні один детектор позначив тут того дня достатньо різних суден (щонайменше 3 судна й 20% спостережених). Можливі причини включають завади, але також багато звичайних.
+
+js-interf-st-confounded-label = Доба зі спотворювальним фоном
+
+js-interf-st-confounded-text = Медіанна частка комірок за весь день була високою, що вказує на причину широкої дії. У такий день жодну комірку не визнають погіршеною; ця комірка за інших умов виділялася б.
+
+js-interf-st-degraded-label = Погіршена
+
+js-interf-st-degraded-text = Висока частка опитаних тут того дня повітряних суден повідомила про низьку навігаційну точність, значно вищу за медіанну комірку доби. Причину це не пояснює.
+
+js-interf-st-no-background-label = Немає оцінки фону
+
+js-interf-st-no-background-text = Фон доби (типова частка повітряних суден, що повідомляють про низьку точність) не вдалося оцінити за достатньою кількістю комірок, тому жодну комірку з ним не порівнюють і жодну не визначають.
+
+js-interf-st-not-anomalous-label = Не аномальна
+
+js-interf-st-not-anomalous-text = Спостерігалася, і жоден детектор не спрацював. Це не доказ того, що нічого не сталося.
+
+js-interf-st-not-degraded-label = Не погіршена
+
+js-interf-st-not-degraded-text = Опитана, і частка повітряних суден, що повідомляють про низьку точність, не виділялася. Це не доказ того, що нічого не сталося.
+
+js-interf-st-too-few-label = Замало повітряних суден
+
+js-interf-st-too-few-text = Опубліковано (спостережено щонайменше 5 різних повітряних суден), але опитати вдалося менше ніж 10 повітряних суден, тому висновок не робиться.
+
+js-interf-starting-build = Запуск рушія та побудова…
+
+js-interf-starting-route = Запуск рушія та перевірка маршруту…
+
+js-interf-state-clear-adsb = Чисто
+
+js-interf-state-clear-adsb-text = Спостерігалася за достатньої кількості повітряних суден і не була позначена. Це не доказ того, що нічого не сталося.
+
+js-interf-state-clear-ais = Чисто
+
+js-interf-state-clear-ais-text = Спостерігалася за достатньої кількості суден і не була позначена. Це не доказ того, що нічого не сталося.
+
+js-interf-state-degraded-adsb = Погіршена
+
+js-interf-state-degraded-adsb-text = Висока частка опитаних тут того дня повітряних суден повідомила про низьку навігаційну точність, значно вищу за медіанну комірку доби.
+
+js-interf-state-degraded-ais = Аномальна
+
+js-interf-state-degraded-ais-text = Принаймні один детектор позначив тут того дня достатньо різних суден (щонайменше 3 судна й 20% спостережених).
+
+js-interf-state-notobs-adsb = Не спостерігалася
+
+js-interf-state-notobs-adsb-text = Комірку не намальовано: спостережено замало повітряних суден, щоб її опублікувати. Це не доказ того, що в районі було чисто.
+
+js-interf-state-notobs-ais = Не спостерігалася
+
+js-interf-state-notobs-ais-text = Комірку не намальовано: спостережено замало суден, щоб її опублікувати. Це не доказ того, що в районі було чисто.
+
+js-interf-state-unassessed-adsb = Не оцінена
+
+js-interf-state-unassessed-adsb-text = Спостерігалася, але опитати вдалося замало повітряних суден, доба була зі спотворювальним фоном або фон доби не вдалося оцінити, тому висновок не робиться.
+
+js-interf-state-unassessed-ais = Не оцінена
+
+js-interf-state-unassessed-ais-text = Спостерігалася, але висновок не робиться.
+
+js-interf-status-unknown = Стан, який ця сторінка не описує.
+
+js-interf-table-first = Показано перші { $shown } із { $total } комірок, спершу ті, що мають значення.
+
+js-interf-table-summary = Кожна намальована комірка у вигляді таблиці ({ $n })
+
+js-interf-the-day = Доба
+
+js-interf-unknown-date = невідома дата
+
+js-interf-warn-cell-size = Цей файл використовує розмір комірки { $size }°, який не є попередньо зареєстрованим: це не попередньо зареєстрований метод, тому його висновки не можна порівнювати з файлами, що його використовують.
+
+js-interf-warn-cell-size-known = Цей файл використовує розмір комірки { $size }°, який не є попередньо зареєстрованим ({ $registered }°): це не попередньо зареєстрований метод, тому його висновки не можна порівнювати з файлами, що його використовують.
+
+js-interf-warn-day-confounded = Ця доба зі спотворювальним фоном: жодну комірку не визнано погіршеною через фон доби (медіанна частка комірок сама була високою).
+
+js-interf-warn-flag-disagrees = Комірок, прапорець «degraded» яких не збігається з їхнім станом: { $count }. Малюється стан.
+
+js-interf-warn-no-licence = Цей файл не містить тексту { $fields }. Його показано, але карту без ліцензії та атрибуції не слід повторно публікувати.
+
+js-interf-warn-on-land-off = Детектор «на суходолі» для цього файлу було вимкнено (полігони суходолу не надано).
+
+js-interf-warn-skipped = Пропущено об'єктів, що не були дійсним GeoJSON: { $count }.
+
+js-interf-warn-unknown-status = Значення стану, яких ця сторінка не знає: { $values }. Їх малюють як «без висновку».
+
+js-interf-withheld = приховано (менше ніж 5)
+
+js-interf-written-by = записано Kshana { $version }
+
+js-kind-axis-3-d-position-error-m = 3D-похибка положення (m)
+
+js-kind-axis-c-n0-db-hz = C/N0 (dB-Hz)
+
+js-kind-axis-code-jitter-m = тремтіння коду (m)
+
+js-kind-axis-code-tracking-jitter-m = тремтіння супроводження коду (m)
+
+js-kind-axis-doppler-shift-hz = доплерівський зсув (Hz)
+
+js-kind-axis-effective-c-n0-db-hz = ефективне C/N0 (dB-Hz)
+
+js-kind-axis-elevation = висота (°)
+
+js-kind-axis-fit-interval-s = інтервал підгонки (s)
+
+js-kind-axis-formal-position-sigma-m = формальна сигма положення (m)
+
+js-kind-axis-latitude = широта (°)
+
+js-kind-axis-leo-satellites-added-to-the = супутники LEO, додані до розв'язку
+
+js-kind-axis-mean-satellites-in-view = середня кількість супутників у полі зору
+
+js-kind-axis-median-dilution-of-precision = медіанне погіршення точності
+
+js-kind-axis-median-error-m = медіанна похибка (m)
+
+js-kind-axis-median-pdop = медіанний PDOP
+
+js-kind-axis-metres = метри
+
+js-kind-axis-observation-window-s = вікно спостереження (s)
+
+js-kind-axis-offset-from-the-signal-s = зсув від центру сигналу (MHz)
+
+js-kind-axis-offset-from-the-snapshot-centre = зсув від центру знімка (MHz)
+
+js-kind-axis-pdop = PDOP
+
+js-kind-axis-position-error-m = похибка положення (m)
+
+js-kind-axis-power-spectral-density-db-hz = спектральна щільність потужності (dB/Hz, одинична потужність)
+
+js-kind-axis-power-spectral-density-dbw-hz = спектральна щільність потужності (dBW/Hz)
+
+js-kind-axis-probability-of-detection = імовірність виявлення
+
+js-kind-axis-range-error-m = похибка дальності (m)
+
+js-kind-axis-relays = ретранслятори
+
+js-kind-axis-sisre-root-mean-square-m = SISRE, середньоквадратичне значення (m)
+
+js-kind-axis-time-error-ns = похибка часу (ns)
+
+js-kind-axis-time-s = час (s)
+
+js-kind-axis-time-since-the-start-min = час від початку (min)
+
+js-kind-axis-update-period-s = період оновлення (s)
+
+js-kind-cap-body-pnt-label = Позиціонування за ретрансляторами
+
+js-kind-cap-campaign-label = Кампанія
+
+js-kind-cap-constellation-design-label = Покриття
+
+js-kind-cap-leo-navmsg-label = Навігаційне повідомлення
+
+js-kind-cap-leo-pass-label = Прохід і лінія зв'язку
+
+js-kind-cap-leo-pnt-chain-label = Наскрізний ланцюг
+
+js-kind-cap-leo-ppp-label = Позиціонування
+
+js-kind-cap-leo-pvt-label = Позиціонування
+
+js-kind-cap-leo-signal-label = Проєктування сигналу
+
+js-kind-cap-lunar-llr-datum-label = Опорна величина лазерної локації
+
+js-kind-cap-ntn-positioning-label = Позиціонування
+
+js-kind-cap-solar-system-label = Сонячна система
+
+js-kind-cap-spectrum-label = Спектр
+
+js-kind-guided-doppler-error-hz = Похибка Доплера (Hz)
+
+js-kind-guided-duration-s = Тривалість (s)
+
+js-kind-guided-earth-range-error-m = Похибка дальності до Землі (m)
+
+js-kind-guided-elevation-mask = Маска висоти (°)
+
+js-kind-guided-first-jammer-bandwidth-mhz = Смуга першого глушника (MHz)
+
+js-kind-guided-first-jammer-power-dbw = Потужність першого глушника (dBW)
+
+js-kind-guided-first-jammer-range-m = Дальність до першого глушника (m)
+
+js-kind-guided-first-jammer-received-power-dbw = Прийнята потужність першого глушника (dBW)
+
+js-kind-guided-first-phase-length-s = Тривалість першої фази (s)
+
+js-kind-guided-first-shell-altitude-km = Висота першої оболонки (km)
+
+js-kind-guided-first-shell-inclination = Нахил першої оболонки (°)
+
+js-kind-guided-first-signal-bandwidth-hz = Смуга першого сигналу (Hz)
+
+js-kind-guided-first-system-range-error-m = Похибка дальності першої системи (m)
+
+js-kind-guided-fit-interval-s = Інтервал підгонки (s)
+
+js-kind-guided-gravity-field-degree = Степінь гравітаційного поля
+
+js-kind-guided-grid-step = Крок сітки (°)
+
+js-kind-guided-integration-time-s = Час інтегрування (s)
+
+js-kind-guided-leo-satellites-in-the-sweep = Супутники LEO в переборі
+
+js-kind-guided-loop-bandwidth-hz = Смуга контуру (Hz)
+
+js-kind-guided-monte-carlo-runs = Прогони Монте-Карло
+
+js-kind-guided-network-synchronisation-error-m = Похибка синхронізації мережі (m)
+
+js-kind-guided-orbit-altitude-km = Висота орбіти (km)
+
+js-kind-guided-orbit-determination-error-m = Похибка визначення орбіти (m)
+
+js-kind-guided-orbit-inclination = Нахил орбіти (°)
+
+js-kind-guided-pdop-threshold = Поріг PDOP
+
+js-kind-guided-peak-elevation-of-the-pass = Максимальна висота проходу (°)
+
+js-kind-guided-points-per-orbit-track = Точок на трасі орбіти
+
+js-kind-guided-receiver-noise-figure-db = Коефіцієнт шуму приймача (dB)
+
+js-kind-guided-receiver-power-when-awake-mw = Потужність приймача в активному режимі (mW)
+
+js-kind-guided-reference-c-n0-db-hz = Опорне C/N0 (dB-Hz)
+
+js-kind-guided-relay-altitude-km = Висота ретрансляторів (km)
+
+js-kind-guided-relay-inclination = Нахил ретрансляторів (°)
+
+js-kind-guided-relay-planes = Площини ретрансляторів
+
+js-kind-guided-relay-range-error-m = Похибка дальності до ретранслятора (m)
+
+js-kind-guided-relays-per-plane = Ретрансляторів на площину
+
+js-kind-guided-runs-per-case = Прогонів на випадок
+
+js-kind-guided-satellite-altitude-km = Висота супутника (km)
+
+js-kind-guided-second-system-range-error-m = Похибка дальності другої системи (m)
+
+js-kind-guided-shared-condition = Спільна умова
+
+js-kind-guided-slant-electron-content-tecu = Похилий електронний вміст (TECU)
+
+js-kind-guided-slant-range-km = Похила дальність (km)
+
+js-kind-guided-spoofed-offset-m = Зсув від спуфінгу (m)
+
+js-kind-guided-spoofing-starts-s = Початок спуфінгу (s)
+
+js-kind-guided-sweep-from = Перебір від
+
+js-kind-guided-sweep-steps = Кроки перебору
+
+js-kind-guided-sweep-to = Перебір до
+
+js-kind-guided-timeline-step-s = Крок часової шкали (s)
+
+js-kind-guided-tracking-threshold-db-hz = Поріг супроводження (dB-Hz)
+
+js-kind-guided-transmit-power-dbw = Потужність передавача (dBW)
+
+js-kind-guided-update-period-s = Період оновлення (s)
+
+js-kind-guided-user-latitude = Широта користувача (°)
+
+js-kind-hint-a-band-under-this-carrier = смуга з відношенням несівної до шуму нижче цього значення втратила захоплення
+
+js-kind-hint-a-grid-point-is-available = точка сітки доступна, поки її геометричний чинник DOP для положення нижчий за це значення
+
+js-kind-hint-a-satellite-must-be-this = супутник має бути не нижче цієї висоти, щоб вважатися видимим
+
+js-kind-hint-a-satellite-must-be-this-2 = супутник має бути не нижче цієї висоти, щоб його використовували
+
+js-kind-hint-a-satellite-of-the-first = супутник першої системи має бути не нижче цієї висоти
+
+js-kind-hint-arc-one-message-is-fitted = дуга, на якій підганяється одне повідомлення
+
+js-kind-hint-code-tracking-loop-noise-bandwidth = шумова смуга контуру супроводження коду
+
+js-kind-hint-detail-of-the-truth-orbit = деталізація гравітаційної моделі еталонної орбіти
+
+js-kind-hint-distance-from-the-first-jammer = відстань від першого глушника до приймача
+
+js-kind-hint-distance-to-the-satellite-in = відстань до супутника в компромісі за смугою
+
+js-kind-hint-drawn-while-acquiring-and-tracking = споживана під час захоплення та супроводження
+
+js-kind-hint-equivalent-isotropically-radiated-power-of = еквівалентна ізотропно випромінювана потужність першого глушника
+
+js-kind-hint-equivalent-isotropically-radiated-power-of-2 = еквівалентна ізотропно випромінювана потужність смуги
+
+js-kind-hint-filter-runs-averaged-for-each = прогони фільтра, усереднені для кожного випадку (більше означає повільніше)
+
+js-kind-hint-first-value-of-the-swept = перше значення параметра, що перебирається
+
+js-kind-hint-height-of-the-chain-s = висота супутника ланцюга
+
+js-kind-hint-height-of-the-first-shell = висота орбіт першої оболонки
+
+js-kind-hint-height-of-the-relay-orbits = висота орбіт ретрансляторів над тілом
+
+js-kind-hint-height-of-the-satellite-whose = висота супутника, повідомлення якого підганяється
+
+js-kind-hint-how-far-the-spoofer-moves = наскільки спуфер зміщує обчислене положення
+
+js-kind-hint-how-finely-each-orbit-is = наскільки густо кожну орбіту дискретизують для малюнка
+
+js-kind-hint-how-high-the-satellite-climbs = на яку висоту піднімається супутник
+
+js-kind-hint-how-long-the-first-phase = скільки триває перша фаза
+
+js-kind-hint-how-long-the-receiver-integrates = скільки приймач інтегрує для однієї дальності
+
+js-kind-hint-how-many-low-orbit-satellites = скільки низькоорбітальних супутників додає перебір геометрії
+
+js-kind-hint-how-many-seeded-runs-make = із скількох прогонів із зерном складається ансамбль
+
+js-kind-hint-how-many-values-are-run = скільки значень запускається
+
+js-kind-hint-how-often-a-new-message = як часто випускається нове повідомлення
+
+js-kind-hint-how-wide-the-first-jammer = наскільки широко перший глушник розподіляє свою потужність
+
+js-kind-hint-ionosphere-along-the-path-in = іоносфера вздовж траєкторії, в одиницях повного електронного вмісту
+
+js-kind-hint-last-value-of-the-swept = останнє значення параметра, що перебирається
+
+js-kind-hint-length-of-each-filter-run = тривалість кожного прогону фільтра
+
+js-kind-hint-length-of-the-run = тривалість прогону
+
+js-kind-hint-length-of-the-timeline = тривалість часової шкали
+
+js-kind-hint-occupied-bandwidth-of-the-first = зайнята смуга першого опорного сигналу
+
+js-kind-hint-one-sigma-doppler-measurement-error = односигмова похибка вимірювання Доплера
+
+js-kind-hint-one-sigma-error-of-a = односигмова похибка дальності до ретранслятора
+
+js-kind-hint-one-sigma-error-of-the = односигмова похибка двосторонньої дальності від Землі
+
+js-kind-hint-orbital-planes-of-the-navigation = орбітальні площини навігаційних ретрансляторів
+
+js-kind-hint-power-of-the-first-jammer = потужність першого глушника на приймачі
+
+js-kind-hint-raises-the-noise-floor-under = піднімає рівень шуму під кожною смугою
+
+js-kind-hint-satellites-in-each-plane = супутники в кожній площині
+
+js-kind-hint-sets-the-doppler-range-a = задає діапазон Доплера, який має охопити холодний пошук
+
+js-kind-hint-signal-in-space-range-error = похибка дальності сигналу в космосі першої системи
+
+js-kind-hint-signal-in-space-range-error-2 = похибка дальності сигналу в космосі другої системи
+
+js-kind-hint-signal-level-the-tracking-figures = рівень сигналу, для якого наведено показники супроводження
+
+js-kind-hint-spacing-of-the-latitude-and = крок сітки за широтою та довготою
+
+js-kind-hint-spacing-of-the-shared-mission = крок спільної часової сітки місії
+
+js-kind-hint-the-part-of-the-range = частина похибки дальності, яку повідомлення не може усунути
+
+js-kind-hint-the-value-every-member-runs = значення, за якого запускається кожен учасник
+
+js-kind-hint-tilt-of-that-orbit = нахил цієї орбіти
+
+js-kind-hint-tilt-of-the-first-shell = нахил площин першої оболонки
+
+js-kind-hint-tilt-of-the-relay-planes = нахил площин ретрансляторів
+
+js-kind-hint-timing-error-between-satellites-as = похибка часу між супутниками, виражена як дальність
+
+js-kind-hint-when-the-spoofer-captures-the = коли спуфер захоплює приймач
+
+js-kind-hint-where-the-receiver-stands = де розташований приймач
+
+js-kind-hint-where-the-user-stands = де розташований користувач
+
+js-kind-label-3-d-error = 3D-похибка
+
+js-kind-label-3-d-error-time-of = 3D-похибка, час прибуття
+
+js-kind-label-a-corrupted-frame-is-rejected = пошкоджений кадр відхиляється
+
+js-kind-label-all-channels = усі канали
+
+js-kind-label-availability = Доступність
+
+js-kind-label-band = Смуга
+
+js-kind-label-bodies = Тіла
+
+js-kind-label-body = Тіло
+
+js-kind-label-both = обидва
+
+js-kind-label-case = Випадок
+
+js-kind-label-class = Клас
+
+js-kind-label-code-jitter = тремтіння коду
+
+js-kind-label-constellation = Орбітальне угруповання
+
+js-kind-label-doppler = Доплер
+
+js-kind-label-event = Подія
+
+js-kind-label-evidence = Докази
+
+js-kind-label-fewest-in-view = Найменше у полі зору
+
+js-kind-label-field = Поле
+
+js-kind-label-first-detection-after-onset = Перше виявлення після початку
+
+js-kind-label-frame-length = Довжина кадру
+
+js-kind-label-fused = злито
+
+js-kind-label-fused-cap = Злито
+
+js-kind-label-gnss = GNSS
+
+js-kind-label-gnss-and-leo = GNSS і LEO
+
+js-kind-label-gnss-channels = Канали GNSS
+
+js-kind-label-gnss-highest-in-sky = GNSS { $id } (найвище на небі)
+
+js-kind-label-gnss-only = лише GNSS
+
+js-kind-label-gnss-only-cap = Лише GNSS
+
+js-kind-label-gnss-signal = Сигнал GNSS
+
+js-kind-label-hdop = HDOP
+
+js-kind-label-highest = Найвище
+
+js-kind-label-horizontal-error = горизонтальна похибка
+
+js-kind-label-horizontal-error-2 = Горизонтальна похибка
+
+js-kind-label-jammer = Глушник
+
+js-kind-label-jump-threshold = Поріг стрибка
+
+js-kind-label-largest-range-jump = Найбільший стрибок дальності
+
+js-kind-label-largest-range-jump-against-the = найбільший стрибок дальності відносно порога
+
+js-kind-label-leo = LEO
+
+js-kind-label-leo-channels = Канали LEO
+
+js-kind-label-leo-only = лише LEO
+
+js-kind-label-light-time-from-observer = Світловий час від { $observer }
+
+js-kind-label-light-time-from-the-observer = Світловий час від спостерігача
+
+js-kind-label-light-time-one-way = Світловий час в один бік
+
+js-kind-label-lowest = Найнижче
+
+js-kind-label-lowest-c-n0 = Найнижче C/N0
+
+js-kind-label-mean = Середнє
+
+js-kind-label-mean-in-view = Середнє у полі зору
+
+js-kind-label-median-convergence = Медіанна збіжність
+
+js-kind-label-median-pdop = Медіанний PDOP
+
+js-kind-label-member-runs = Прогони учасників
+
+js-kind-label-message-switch-iod = перемикання повідомлення, випуск даних { $old } на { $new }
+
+js-kind-label-mission-length = Тривалість місії
+
+js-kind-label-model = модель
+
+js-kind-label-monte-carlo-runs = Прогони Монте-Карло
+
+js-kind-label-noise-floor = Рівень шуму
+
+js-kind-label-parameters = Параметри
+
+js-kind-label-payload = Корисне навантаження
+
+js-kind-label-pdop = PDOP
+
+js-kind-label-pdop-95th-percentile = PDOP, 95-й процентиль
+
+js-kind-label-peak-elevation = Максимальна висота
+
+js-kind-label-peak-tracked-c-n0 = Максимальне супроводжуване C/N0
+
+js-kind-label-phase = Фаза
+
+js-kind-label-predicted-horizontal-sigma = прогнозована горизонтальна сигма
+
+js-kind-label-quantisation-position = Квантування, положення
+
+js-kind-label-range-error = похибка дальності
+
+js-kind-label-relays-above-the-mask = ретранслятори над маскою
+
+js-kind-label-relays-and-earth-link = ретранслятори та лінія зв'язку із Землею
+
+js-kind-label-relays-only = лише ретранслятори
+
+js-kind-label-satellite = Супутник
+
+js-kind-label-satellites = Супутники
+
+js-kind-label-satellites-used = Використані супутники
+
+js-kind-label-signal = Сигнал
+
+js-kind-label-signal-chip-spacing = { $name } (крок чипа { $spacing })
+
+js-kind-label-sisre-after-quantisation = SISRE після квантування
+
+js-kind-label-sisre-root-mean-square = SISRE, середньоквадратичне значення
+
+js-kind-label-spoofing-starts = початок спуфінгу
+
+js-kind-label-standard-deviation = Стандартне відхилення
+
+js-kind-label-sun-separation = Кутова відстань до Сонця
+
+js-kind-label-sweep-runs = Прогони перебору
+
+js-kind-label-system = Система
+
+js-kind-label-time-above-the-mask = Час над маскою
+
+js-kind-label-time-error-root-mean-square = Похибка часу, середньоквадратичне значення
+
+js-kind-label-tracked-component = супроводжувана складова
+
+js-kind-label-tracking-threshold = Поріг супроводження
+
+js-kind-label-transmit-bandwidth = Смуга передавання
+
+js-kind-label-vdop = VDOP
+
+js-kind-label-welch-estimate-of-the-synthesised = Оцінка Велча синтезованих відліків
+
+js-kind-label-whole-signal = увесь сигнал
+
+js-kind-label-wideband-j-s-tolerated = Допустиме широкосмугове J/S
+
+js-kind-label-with-unit = { $label } ({ $unit })
+
+js-kind-label-worst-site-availability = Доступність у найгіршому місці
+
+js-kind-no = ні
+
+js-kind-note-a-gap-is-an-epoch = Прогалина — це епоха, коли у полі зору замало ретрансляторів для розв'язку.
+
+js-kind-note-a-helmert-transform-is-the = Перетворення Гельмерта — це семипараметричні зсув, поворот і масштаб між двома системами відліку.
+
+js-kind-note-a-low-earth-orbit-leo = Супутник на низькій навколоземній орбіті (LEO) перетинає небо за хвилини, тому його C/N0 (відношення несівної до густини шуму) зростає й спадає дзвоном; супутник GNSS за цей час майже не рухається.
+
+js-kind-note-a-receiver-independent-exchange-format = Запис у стилі Receiver Independent Exchange Format (RINEX) 4. Типи записів LEO — розширення Kshana, як сказано в заголовку.
+
+js-kind-note-a-single-pass-fixes-the = Один прохід визначає напрям уздовж траєкторії набагато краще, ніж поперек.
+
+js-kind-note-aos-is-acquisition-of-signal = AOS — це захоплення сигналу, TCA — час найближчого зближення, а LOS — втрата сигналу.
+
+js-kind-note-c-n0-is-the-carrier = C/N0 — це відношення несівної до густини шуму. Смуга, що нижча за поріг супроводження приймача, втратила захоплення.
+
+js-kind-note-cells-are-the-code-and = Комірки — це біни коду та Доплера, які має перевірити холодний пошук.
+
+js-kind-note-cold-is-a-first-fix = Холодний — це перший розв'язок без жодних попередніх відомостей; гарячий — розв'язок невдовзі після попереднього.
+
+js-kind-note-dilution-of-precision-dop-scales = Геометричний чинник DOP (погіршення точності) перетворює похибку дальності на похибку положення: G — геометричний, P — положення, H — горизонтальний, V — вертикальний. Процентилі обчислено за всіма точками сітки та епохами.
+
+js-kind-note-drawn-at-the-strongest-signal = Побудовано за найсильнішого рівня сигналу в прогоні. Прогалина — це відрізок без жодного супутника у полі зору.
+
+js-kind-note-each-body-carries-its-own = Кожне тіло має власну позначку рівня доказів. Світловий час — в один бік, від спостерігача, названого в сценарії.
+
+js-kind-note-each-row-is-one-full = Кожен рядок — це один повний прогін рушія для сценарію, що перебирається.
+
+js-kind-note-each-rule-is-a-switch = Кожне правило — це перемикання на новіше повідомлення посеред проходу.
+
+js-kind-note-each-signal-is-drawn-about = Кожен сигнал побудовано навколо власної центральної частоти. Прогалина — це спектральний нуль.
+
+js-kind-note-eirp-is-the-equivalent-isotropically = EIRP — це еквівалентна ізотропно випромінювана потужність.
+
+js-kind-note-every-phase-is-an-ordinary = Кожна фаза — це звичайний прогін сценарію. Хеші ідентифікують вхідні дані кожного учасника та його документ результату.
+
+js-kind-note-iod-is-the-issue-of = IOD — це випуск даних: серійний номер повідомлення.
+
+js-kind-note-j-s-is-the-jammer = J/S — це відношення потужностей глушника та сигналу. Частка супроводження — це частка прогону, протягом якої смуга лишається вище порога.
+
+js-kind-note-p05-p50-and-p95-are = p05, p50 і p95 — це 5-й, 50-й і 95-й процентилі. ci95 — це 95-відсотковий довірчий інтервал середнього.
+
+js-kind-note-parameters-are-public-with-a = Параметри мають позначку PUBLIC (з джерелом), REPRESENTATIVE або WORKSHOP, як зазначає кожен набір.
+
+js-kind-note-precise-point-positioning-ppp-converges = Прецизійне точкове позиціонування (PPP) збігається, коли похибка лишається нижче критерію. NEES — це нормована квадратична похибка оцінювання, перевірка узгодженості фільтра.
+
+js-kind-note-sisre-defined = SISRE — це похибка дальності сигналу в космосі: те, що транслюване повідомлення додає до дальності користувача. Тут це похибка подання повідомлення відносно власної еталонної орбіти рушія.
+
+js-kind-note-sisre-is-the-signal-in = SISRE — це похибка дальності сигналу в космосі, прийнята для транслюваних орбіти та годинника кожної системи.
+
+js-kind-note-ssc-is-the-spectral-separation = SSC — це коефіцієнт спектрального розділення: яка частина потужності одного сигналу потрапляє в приймач іншого. Риска означає, що ці два сигнали не перекриваються.
+
+js-kind-note-the-chain-runs-the-signal = Ланцюг виконує етапи сигналу, проходу, навігаційного повідомлення, позиціонування та прецизійного позиціонування по черзі. Кожен рядок — це число, яке обчислив один етап і використав наступний.
+
+js-kind-note-the-doppler-and-pass-geometry = Монітор Доплера та геометрії проходу порівнює виміряні швидкості зміни дальності з передбаченими за орбітами. Правило позначає початок спуфінгу.
+
+js-kind-note-the-engine-draws-its-spectrum = Рушій будує свою модель спектра як синфазні та квадратурні (IQ) відліки в один момент і оцінює з них спектр назад. Ті самі відліки є експортом SigMF (Signal Metadata Format).
+
+js-kind-note-the-engine-s-own-documented = Власний задокументований двійковий кадр рушія, закритий 24-бітною циклічною перевіркою надмірності (CRC-24Q).
+
+js-kind-note-the-gabor-root-mean-square = Середньоквадратична смуга Габора задає, наскільки точно за сигналом можна вимірювати дальність.
+
+js-kind-note-the-largest-jammer-to-signal = Найбільше відношення глушника до сигналу (J/S), крізь яке супроводжує кожен сигнал, для глушників із неперервною хвилею (CW), узгодженого спектра та широкосмугового.
+
+js-kind-note-the-shapiro-delay-is-the = Затримка Шапіро — це додатковий світловий час через гравітацію Сонця вздовж траєкторії.
