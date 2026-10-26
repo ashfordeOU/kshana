@@ -2933,3 +2933,1062 @@ js-cat-domain-constellations-label = Konstellatsiooni kavandamine
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:48
 js-cat-domain-constellations-line = Kavanda satelliidikonstellatsioon ning kaardista selle kate ja PDOP (positsiooni täpsuse halvenemise tegur).
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:33
+js-cat-domain-deepspace-label = Kuu, tsislunaarne ruum ja Marss
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:53
+js-cat-domain-deepspace-line = Navigatsioon ja aeg Kuul, tsislunaarses ruumis ja Marsil.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:26
+js-cat-domain-integrity-label = Terviklikkus ja positsioneerimine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:46
+js-cat-domain-integrity-line = Asukohafiksid ja see, kas neid saab usaldada: RAIM (vastuvõtja autonoomne terviklikkuse seire) ja selle täiustatud vorm ARAIM.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:21
+js-cat-domain-interference-label = Segamine ja häired
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:41
+js-cat-domain-interference-line = Segajad satelliitnavigatsiooni vastuvõtjate vastu: mis läheb kaotsi ja millal.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:29
+js-cat-domain-leo-label = Madala Maa orbiidi (LEO) navigatsioon
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:49
+js-cat-domain-leo-line = Madala Maa orbiidi navigatsioonisignaalid, ülelennud, sõnumid ja fiksid.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:30
+js-cat-domain-leo-missions-label = LEO missioonid ja uuringud
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:50
+js-cat-domain-leo-missions-line = Madala Maa orbiidi kihile rajatud uuringud ja teenused.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:25
+js-cat-domain-navigation-label = Inertsiaal- ja alternatiivne navigatsioon
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:45
+js-cat-domain-navigation-line = Inertsiaal-, maastiku-, gravitatsiooni- ja muu navigatsioon ilma satelliitideta.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:27
+js-cat-domain-orbits-label = Orbiidid ja GNSS-geomeetria
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:47
+js-cat-domain-orbits-line = Orbiidi propageerimine, efemeriidid ja navigatsioonisatelliitide geomeetria.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:34
+js-cat-domain-solar-label = Päikesesüsteem
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:54
+js-cat-domain-solar-line = Kõik planeedid ja kuud ühel epohhil, koos valgusaegadega.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:32
+js-cat-domain-spaceops-label = Missioonianalüüs ja kosmoseoperatsioonid
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:52
+js-cat-domain-spaceops-line = Ülelennud, stardiaknad, atmosfääri sisenemine, lingi- ja asendibilansid.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:22
+js-cat-domain-spectrum-label = Spekter
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:42
+js-cat-domain-spectrum-line = Raadiosagedusala juga-diagrammid: segajad, signaalid ja see, mida vastuvõtja jälgib.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:23
+js-cat-domain-spoofing-label = Spuufimine ja signaaliturve
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:43
+js-cat-domain-spoofing-line = Võltssignaalid ja meaconing ning seirevahendid, mis neid tabavad.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:35
+js-cat-domain-studies-label = Kvant, kompromissuuringud ja koostalitlus
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:55
+js-cat-domain-studies-line = Kvantandurid, kompromissuuringud ja koostalitlusvormingud.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:24
+js-cat-domain-timing-label = Kellad ja ajastus
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:44
+js-cat-domain-timing-line = Kellad ilma satelliitideta: holdover, stabiilsus, telekommaskid, aja edastamine.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:153
+js-cat-earth-gnss-lunar-question = Kas Kuu lähedal olev vastuvõtja kuuleb Maa GNSS-i ja kas sellest on kunagi fiksi jaoks piisavalt? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:153
+js-cat-earth-gnss-lunar-title = Maa GNSS Kuul
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:144
+js-cat-entry-heating-stardust-question = Kas sisenemismudel taastoodab Stardust proovitoojakapsli avaldatud tippaeglustuse?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:144
+js-cat-entry-heating-stardust-title = Stardusti kapsli sisenemine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:134
+js-cat-eo-coverage-question = Millise haarde, maapinna diskreetimissammu ja korduskülastuse annab EO orbiit?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:134
+js-cat-eo-coverage-title = EO kate
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:145
+js-cat-eo-radiometry-question = Millise signaali-müra suhte, MTF-i Nyquisti sagedusel ja NIIRS-i annab väikese Maa-vaatluskaamera jaoks 15 % peegeldusteguriga stseen? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:145
+js-cat-eo-radiometry-title = Kujutaja radiomeetria ja pildikvaliteet
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:129
+js-cat-ephemeris-question = Kus satelliit asub ja millal see üle pea läheb?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:129
+js-cat-ephemeris-title = Maapealne jälg
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:245
+js-cat-europa-surface-pnt-question = Kas Jupiteri kuul Europal asuvat maandurit saab positsioneerida väikese releekonstellatsiooni ja Maalt mõõdetud kauguse abil? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:245
+js-cat-europa-surface-pnt-title = Maandur Europal
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:101
+js-cat-fusion-pnt-coupled-question = Kui asukoha, kella ja kiirendusmõõturi nihke peal on üks virnastatud Kalmani filter, kuidas navigaator GNSS-i katkestusest üle elab? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:101
+js-cat-fusion-pnt-coupled-title = Seotud andurliitmisega navigaator
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:90
+js-cat-fusion-pnt-question = Mida annab üks ühine hindaja kella + asukoha üle?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:90
+js-cat-fusion-pnt-title = Andurliitmine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:102
+js-cat-gnss-ins-aviation-question = Kui kahe minuti pikkune GNSS-i keeld hõlmab kaldega pööret, kui kaugele triivib tihedalt seotud navigatsiooniklassi või taktikalise klassi INS? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:102
+js-cat-gnss-ins-aviation-title = Lennuki pööre läbi GNSS-i augu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:103
+js-cat-gnss-ins-maritime-question = Pärast viieminutilist GNSS-i katkestust siksakitaval laeval, kui kaugele triivib navigatsiooniklassi või taktikalise klassi INS? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:103
+js-cat-gnss-ins-maritime-title = Siksakitav laev läbi GNSS-i katkestuse
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:89
+js-cat-gnss-ins-question = Kui hästi läbib toetatud inertsiaalnavigaator GNSS-i katkestuse?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:104
+js-cat-gnss-ins-rail-question = Läbi sügava raiesenise kahe satelliidiga ja seejärel tunneli, kui kaugele triivib tihedalt seotud INS? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:104
+js-cat-gnss-ins-rail-title = Rong läbi raiesenise ja tunneli
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:89
+js-cat-gnss-ins-title = GNSS/INS-liitmine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:113
+js-cat-gnss-sim-container-terminal-skyline-question = Kui mere pool on kraanad ja maa pool virnad, mitu satelliiti jääb alles ja mis juhtub RAIM-i kaitsega? (modelleeritud; representatiivne silmapiirijoon)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:113
+js-cat-gnss-sim-container-terminal-skyline-title = Konteinerilaadur konteineri kaldal
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:112
+js-cat-gnss-sim-raim-question = Kuidas ionosfäär ja troposfäär kujundavad toorpseudovahemaid ja kas RAIM kaitseb endiselt?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:112
+js-cat-gnss-sim-raim-title = GNSS-mõõtmised
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:171
+js-cat-gnss-ssv-formation-heo-question = Kui hästi teab filter kahe kilomeetri kaugusel asuva kosmoseaparaadi suhtelist asukohta, võrreldes nende absoluutsete fiksside lahutamisega? (modelleeritud; natiivse mootoriga salvestatud käik)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:171
+js-cat-gnss-ssv-formation-heo-title = Formatsiooni suhteline navigatsioon, väga elliptiline orbiit
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:168
+js-cat-gnss-ssv-heo-question = Mida väga elliptiline orbiit oma teel kuuleb: nähtavaid signaale, parimat C/N0, peaskiirt külgskiire vastu, DOP-i ja puutuvaid signaale? (modelleeritud; natiivse mootoriga salvestatud käik)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:168
+js-cat-gnss-ssv-heo-title = GNSS-signaalid väga elliptilisel orbiidil
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:169
+js-cat-gnss-ssv-lunar-weak-question = Mida saab kõige nõrgemate signaalide jaoks loodud vastuvõtja Kuule sõidul kasutada? (modelleeritud; natiivse mootoriga salvestatud käik)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:169
+js-cat-gnss-ssv-lunar-weak-title = GNSS-signaalid Kuu üleminekutrajektooril, nõrga signaali vastuvõtja
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:170
+js-cat-gnss-ssv-nav-lunar-question = Kui hästi hoiab pardafilter Kuu üleminekutrajektoori võrreldes piiriga, mille see ise esitab? (modelleeritud; natiivse mootoriga salvestatud käik)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:170
+js-cat-gnss-ssv-nav-lunar-title = Pardal olev GNSS-filter Kuu üleminekutrajektooril
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:167
+js-cat-gnss-ssv-shell-question = Kui sageli kuuleb geostatsionaarsel kõrgusel olev kosmoseaparaat vähemalt ühte ja vähemalt nelja navigatsioonisignaali, konstellatsiooni ja riba kaupa? (modelleeritud; natiivse mootoriga salvestatud käik)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:167
+js-cat-gnss-ssv-shell-title = GNSS-signaalid satelliitide kohal: 36 000 km kõrgune kest
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:106
+js-cat-gps-denied-gravity-nav-egm2008-question = Kas kaardiga sobitamine suudab päris EGM2008 gravitatsiooniväljal kuni astmeni 70 hoida GPS-ita liikumisrada? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:106
+js-cat-gps-denied-gravity-nav-egm2008-title = Gravitatsiooninavigatsioon päris väljal
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:96
+js-cat-gps-denied-gravity-nav-question = Kui kaugele asukoht kogu tunni jooksul ilma GNSS-ita triivib, ja kas gravitatsioonikaart suudab selle ohjata?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:96
+js-cat-gps-denied-gravity-nav-title = GNSS-ita navigatsioon
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:105
+js-cat-gravity-map-error-mc-question = Kui salvestatud gravitatsioonikaart muutub müratumaks, kui sageli hoiab kaardiga sobitamine GPS-ita fiksi ikkagi oma sihtmärgi sees? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:105
+js-cat-gravity-map-error-mc-title = Gravitatsioonikaardi vea Monte Carlo
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:95
+js-cat-gravity-map-nav-question = Kas külmaatomgravimeeter suudab ilma GNSS-ita asukohta hoida, sobitades gravitatsioonivälja, mida läbi lendab?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:95
+js-cat-gravity-map-nav-title = Gravitatsioonikaardi navigatsioon
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:118
+js-cat-holdover-test-example-question = Tõmba antenn välja, hinda holdoverit: salvestis, mis on jaotatud kahe operaatori nimetatud ajahetkega, iga samm mõõdetud selleks kirjutatud ITU-T maskide vastu. (modelleeritud; salvestis on näite jaoks välja mõeldud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:118
+js-cat-holdover-test-example-title = Holdoveri test: ajavea salvestis maskide vastu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:119
+js-cat-holdover-test-ptp4l-question = Samad neli sammu loetuna ptp4l servo logist: kui kaugel maskidest püsib deemoni enda nihe, kui GNSS puudub? (modelleeritud; logi on näite jaoks välja mõeldud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:119
+js-cat-holdover-test-ptp4l-title = Holdoveri test: linuxptp logi
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:100
+js-cat-hybrid-optical-rf-question = Millist pidevust ja terviklikkust annab optilise ja RF PNT-i ühendamine? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:100
+js-cat-hybrid-optical-rf-title = Optiline/RF hübriid
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:91
+js-cat-hybrid-pnt-question = Mida annab kombineeritud kella + inertsiaalkomplekt?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:91
+js-cat-hybrid-pnt-title = Hübriid-PNT
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:92
+js-cat-hybrid-ukf-question = Kas 17-olekuline tihedalt seotud UKF on iseenesega kooskõlas (NEES + innovatsiooni valgus)? See on enesekooskõla kontroll, mitte täpsusväide.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:92
+js-cat-hybrid-ukf-title = Hübriid 17-olekuline UKF
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:70
+js-cat-impairment-eval-question = Kui hästi eraldab detektor segamist / spuufimist / mitmeteelevi nominaalsest? (modelleeritud ROC/AUC)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:70
+js-cat-impairment-eval-title = RF-häirete hindamine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:87
+js-cat-imu-deadreckoning-question = Kui kaugele asukoht triivib, kui libiseda ainult IMU-ga?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:87
+js-cat-imu-deadreckoning-title = Inertsiaalne arvestuslik navigatsioon
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:88
+js-cat-ins-trn-coast-question = Kui kaugele asukoht navigatsioonikatkestuse ajal triivib ja millal see ületab 10 m ja 50 m? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:88
+js-cat-ins-trn-coast-title = INS/TRN iseseisev töö
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:109
+js-cat-integrity-harbour-approach-question = Kui kai hooned ja lainemurdja varjavad madalaid satelliite, kas GPS ja Galileo hoiavad ARAIM-i kaitse häiretõrke piirides? (modelleeritud; representatiivne silmapiirijoon)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:109
+js-cat-integrity-harbour-approach-title = ARAIM sadamasse sisenemisel
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:108
+js-cat-integrity-raim-question = Kas geomeetria vastab häirepiiridele (HPL / VPL)?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:108
+js-cat-integrity-raim-title = RAIM-i terviklikkus
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:61
+js-cat-jamming-demo-question = Millise segaja-signaali suhte juures kaotab vastuvõtja lukustuse?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:61
+js-cat-jamming-demo-title = Segamine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:63
+js-cat-jamming-harbour-approach-skyline-question = 2 W kaldasegaja all: mitu satelliiti laev säilitab ja mitu kai ise varjab? (modelleeritud; representatiivne silmapiirijoon)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:63
+js-cat-jamming-harbour-approach-skyline-title = Segatud laev sadamasse sisenemisel
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:187
+js-cat-l-band-waterfall-jamming-question = Milline näeb välja kogu GNSS-i L-riba, kui lülituvad sisse kirp-, toon- ja mürasegaja, ning milliseid signaale võtab iga neist ära? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:187
+js-cat-l-band-waterfall-jamming-title = L-riba juga-diagramm segamise all
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:132
+js-cat-launch-window-question = Milline stardiazimuut ja dogleg Δv jõuavad stardikohast sihtkaldeni?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:132
+js-cat-launch-window-title = Stardiaken
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:195
+js-cat-leo-band-trade-question = Mida madala orbiidi navigatsioonisignaal igas ribas võidab ja kaotab, ülikõrgsagedusest (UHF) kuni C-ribani? (representatiivsed lahendused)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:195
+js-cat-leo-band-trade-title = Ribade kompromiss, UHF kuni C-riba
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:210
+js-cat-leo-doppler-positioning-question = Kui hea on fiks kümnest minutist Doppleri andmetest madala orbiidi navigatsioonikonstellatsioonil? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:210
+js-cat-leo-doppler-positioning-title = Positsioneerimine ainult Doppleri andmetest
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:219
+js-cat-leo-focus-data-services-question = Mis maksab iga lisaandmeteenus navigatsioonisõnumi bittides? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:219
+js-cat-leo-focus-data-services-title = Teenuseandmed raami pikkuse suhtes
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:220
+js-cat-leo-focus-fused-pnt-sisre-question = Kui hea peab olema madala orbiidi signaali kosmoses vahemaa viga, enne kui madala orbiidi kiht ühendatud fiksile abiks on? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:220
+js-cat-leo-focus-fused-pnt-sisre-title = Ühendatud fiks orbiidi- ja kellavea suhtes
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:221
+js-cat-leo-focus-indoor-uhf-question = Milline riba jõuab endiselt kasutajani traditsioonilise ja soojusefektiivse hoone sees? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:221
+js-cat-leo-focus-indoor-uhf-title = Vastuvõtt siseruumides riba ja hoone kaupa
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:222
+js-cat-leo-focus-iot-eirp-question = Kui palju satelliidi saatevõimsust vajab akutoitel silt, et vastu pidada? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:222
+js-cat-leo-focus-iot-eirp-title = Jälgija energia saatevõimsuse suhtes
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:223
+js-cat-leo-focus-ntn-bandwidth-question = Kuidas positsioneerimisviga väheneb, kui etalonsignaal laieneb 180 kHz-lt 20 MHz-ni? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:223
+js-cat-leo-focus-ntn-bandwidth-title = 5G allalingi positsioneerimine ribalaiuse suhtes
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:224
+js-cat-leo-focus-ppp-altitude-question = Kas madalam või kõrgem madala orbiidi kiht lühendab koondumist rohkem? (modelleeritud; aeglane, umbes minut brauseris)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:224
+js-cat-leo-focus-ppp-altitude-title = Täppispositsioneerimine kihi kõrguse suhtes
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:202
+js-cat-leo-focus-science-iono-sounding-question = Kui hästi mõõdab kahe riba viiteerinevus madala orbiidi satelliidi all olevat elektronsisaldust? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:202
+js-cat-leo-focus-science-iono-sounding-title = Ionosfääri sondeerimine kahe ribaga
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:200
+js-cat-leo-indoor-uhf-question = Miks UHF-kandesagedus jõuab hoone sisse, kui L-, S- ja C-riba hätta jäävad? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:200
+js-cat-leo-indoor-uhf-title = Siseruumides UHF-il
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:201
+js-cat-leo-iot-energy-question = Kui palju energiat kulutab akutoitel silt iga madala orbiidi signaalist saadud asukohafiksi peale? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:201
+js-cat-leo-iot-energy-title = Energia fiksi kohta jälgija jaoks
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:207
+js-cat-leo-navmsg-encode-decode-question = Mis maksab iga välja kvantimine ja kas raam elab üle kodeerimise, dekodeerimise ja rikutud biti? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:207
+js-cat-leo-navmsg-encode-decode-title = Navigatsioonisõnum: kahendraam
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:204
+js-cat-leo-navmsg-fit-interval-trade-question = Kui kaua saab üks levisõnum katta, enne kui selle orbiidiviga sihtmärgist välja kasvab? (modelleeritud; aeglane, umbes 30 s brauseris)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:204
+js-cat-leo-navmsg-fit-interval-trade-title = Navigatsioonisõnum: sobitusintervall
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:206
+js-cat-leo-navmsg-midpass-update-question = Kui satelliit lülitub ülelennu keskel uuele sõnumile, kas kasutaja näeb hüpet? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:206
+js-cat-leo-navmsg-midpass-update-title = Navigatsioonisõnum: uuendus ülelennu keskel
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:205
+js-cat-leo-navmsg-model-comparison-question = Milline efemeriidimudel esindab madalat orbiiti kõige paremini ja kuidas see avaldatud tabeliga kõrvuti seisab? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:205
+js-cat-leo-navmsg-model-comparison-title = Navigatsioonisõnum: neli mudelit
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:199
+js-cat-leo-pass-iridium-question = Millist signaali tugevust ja Doppleri nihet näeb reisilennuk ühe Iridiumi ülelennu jooksul? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:199
+js-cat-leo-pass-iridium-title = Iridiumi sähvatused lennukilt
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:197
+js-cat-leo-pass-vs-gnss-cn0-question = Kuidas ühe madala orbiidi ülelennu signaali tugevus võrdub nähtavate Galileo satelliitidega? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:197
+js-cat-leo-pass-vs-gnss-cn0-title = Üks ülelend GNSS-i suhtes
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:198
+js-cat-leo-pass-xona-pulsar-question = Milline näeb välja X1 ja X5 signaal ühe ülelennu jooksul Biskaia lahes asuva laeva jaoks? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:198
+js-cat-leo-pass-xona-pulsar-title = Xona Pulsari ülelend
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:216
+js-cat-leo-pnt-end-to-end-question = Signaali kavandamisest lõppfiksini: mida iga etapp järgmisele edasi annab? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:216
+js-cat-leo-pnt-end-to-end-title = Algusest lõpuni, üldine konstellatsioon
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:214
+js-cat-leo-ppp-convergence-question = Kui palju kiiremini koondub täppispunktpositsioneerimine (PPP), kui lisada madala orbiidi kiht? (modelleeritud; aeglane, umbes 30 s brauseris)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:214
+js-cat-leo-ppp-convergence-title = Täppispositsioneerimise koondumine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:209
+js-cat-leo-pvt-fjord-skyline-question = Kui fjordi seinad jätavad mööda kanalit taevariba, kui palju lisab madala orbiidi kiht GPS-ile ja Galileole? (modelleeritud; representatiivne silmapiirijoon)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:209
+js-cat-leo-pvt-fjord-skyline-title = Praam fjordi sügavuses
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:225
+js-cat-leo-resilience-gnss-jammed-leo-carries-question = Kui GNSS on segatud, kas teistes ribades madala orbiidi kiht suudab fiksi ja selle terviklikkuse säilitada? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:225
+js-cat-leo-resilience-gnss-jammed-leo-carries-title = GNSS segatud, madal orbiit kannab edasi
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:189
+js-cat-leo-resilience-js-margin-question = Kui palju rohkem segamist talub tugevam madala orbiidi signaal kui keskmiselt orbiidilt pärit GNSS-signaal? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:189
+js-cat-leo-resilience-js-margin-title = Segajavaru vastuvõetud võimsusest
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:226
+js-cat-leo-resilience-multiband-diversity-question = Kui ühe L-riba segaja võimsust kasvatada, millised neljast ribast jätkavad jälgimist? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:226
+js-cat-leo-resilience-multiband-diversity-title = Ribade mitmekesisus laiaribalise segaja all
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:203
+js-cat-leo-resilience-spoof-doppler-question = Kui spuufer nihutab arvutatud asukohta 30 m, kui kiiresti tabab seda Doppleri ja ülelennugeomeetria kontroll? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:203
+js-cat-leo-resilience-spoof-doppler-title = Spuufimine tabatud Doppleri abil
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:227
+js-cat-leo-resilience-spoof-monitors-question = Milline seire näeb millist liiki spuuferit? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:227
+js-cat-leo-resilience-spoof-monitors-title = Spuufimise seired nelja spuuferi vastu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:212
+js-cat-leo-timing-utc-question = Kui täpselt saab vastuvõtja madala orbiidi satelliitidelt taastada koordineeritud maailmaaja (UTC), ostsillaatori ja signaalitaseme kaupa? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:212
+js-cat-leo-timing-utc-title = Aja edastamine UTC-sse
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:228
+js-cat-leo-vertical-5g-network-timing-question = Kui GNSS on päevaks kadunud, kas madala orbiidi aeg hoiab tugijaama oma ajastuspiirides? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:228
+js-cat-leo-vertical-5g-network-timing-title = 5G tugijaama ajastus
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:229
+js-cat-leo-vertical-asset-tracking-iot-question = Mida maksab iga asukohafiks akutoitel sildile konteineri teekonnal? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:229
+js-cat-leo-vertical-asset-tracking-iot-title = Konteineri jälgimine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:230
+js-cat-leo-vertical-autonomous-vehicle-question = Kui hooned varjavad madalaid satelliite, kas madala orbiidi kiht hoiab auto sõidurea tasemel vea piires? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:231
+js-cat-leo-vertical-autonomous-vehicle-skyline-question = Kui modelleerida päris tänavana tasase 35° lõikenurga asemel, kas madala orbiidi kiht hoiab auto ikkagi sõidurea tasemel vea piires? (modelleeritud; representatiivne silmapiirijoon)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:231
+js-cat-leo-vertical-autonomous-vehicle-skyline-title = Sõiduk tänavas, mitte tasase lõikenurgaga
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:230
+js-cat-leo-vertical-autonomous-vehicle-title = Sõiduk linnakanjonis
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:232
+js-cat-leo-vertical-critical-infrastructure-timing-question = Kui GNSS kaob, kas madala orbiidi aeg hoiab alajaama sünkroonsust? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:232
+js-cat-leo-vertical-critical-infrastructure-timing-title = Alajaama ajastus
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:233
+js-cat-leo-vertical-polar-arctic-question = Tromsøst Põhjapoolusele: mida lisab polaarne madala orbiidi kiht GNSS-ile? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:233
+js-cat-leo-vertical-polar-arctic-title = Arktika teekond
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:234
+js-cat-leo-vertical-rail-maritime-question = Kui kaasasolevad laeva- ja rongistsenaariumid kaotavad GNSS-i, kas madala orbiidi ülelend neid ikkagi kätte saab? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:234
+js-cat-leo-vertical-rail-maritime-title = Raudtee ja merendus madala orbiidi kihiga
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:135
+js-cat-link-budget-question = Kas ühesuunaline link sulgub antud kauguse ja andmekiiruse juures varuga?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:135
+js-cat-link-budget-title = Lingibilanss
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:148
+js-cat-lunanet-araim-question = Kas hõre Kuu releekomplekt vastab Artemise piirkonna vastuvõtja terviklikkuspiiridele?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:148
+js-cat-lunanet-araim-title = Kuu terviklikkus
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:150
+js-cat-lunar-attack-surface-question = Mida on vaja Kuu pinnal oleva vastuvõtja spuufimiseks või keelamiseks ja milline autentimiseelarve sellele vastab? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:150
+js-cat-lunar-attack-surface-title = Kuu ründepind
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:192
+js-cat-leo-pnt-mega-shell-question = Millise katte ja geomeetria annab 5,000 satelliidiga navigatsioonikonstellatsioon madalal Maa orbiidil? (modelleeritud; näidislahendus)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:192
+js-cat-leo-pnt-mega-shell-title = 5,000 satelliidiga madala orbiidi lahendus
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:154
+js-cat-lunar-beacon-question = Kui palju vähendab käputäis mõõdistatud pinnamajakaid lõunapooluse DOP-i? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:154
+js-cat-lunar-beacon-title = Kuu pinnamajakad
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:155
+js-cat-lunar-differential-pnt-question = Kui palju kaotab diferentsiaalparandus ühisrežiimi vea baasjoone suhtes Kuul? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:155
+js-cat-lunar-differential-pnt-title = Kuu diferentsiaal-PNT
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:163
+js-cat-lunar-frame-campaign-question = Milline datumi täpsus tuleb vaatluskampaaniast, mitte süstitud teisendusest? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:163
+js-cat-lunar-frame-campaign-title = Kuu tugiraami kampaania
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:162
+js-cat-lunar-frame-realisation-question = Kas Helmerti datumisobitus suudab taastada Kuu tugiraami teisenduse? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:162
+js-cat-lunar-frame-realisation-title = Kuu tugiraam
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:174
+js-cat-lunar-infrastructure-carrier-phase-question = Kas pinnajaam ja orbiiter suudavad koos lahendada Maa GNSS-signaalide kandelaine faasi täisarvulised mitmetähenduslikkused? Kiire näitekäik. (modelleeritud; natiivse mootoriga salvestatud käik)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:174
+js-cat-lunar-infrastructure-carrier-phase-title = Kuu kandelaine faas: pinnajaam ja orbiiter
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:175
+js-cat-lunar-infrastructure-frame-coestimation-question = Kui palju rohkem teavet lisavad orbiiteri ja pinnajaama vahelised kaugused Kuu datumi seitsmele parameetrile? (modelleeritud; natiivse mootoriga salvestatud käik)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:175
+js-cat-lunar-infrastructure-frame-coestimation-title = Kuu tugiraami kaashindamine orbiiteri linkidega
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:177
+js-cat-lunar-infrastructure-geodesy-sensitivity-question = Kui tundlikud on laserkaugusmõõtmine, orbiiteri jälgimine, gravimeeter ja pinnakell h2, k2, l2 ning libratsiooni suhtes? (modelleeritud; natiivse mootoriga salvestatud käik)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:177
+js-cat-lunar-infrastructure-geodesy-sensitivity-title = Kuu Love'i arvud ja libratsiooni tundlikkus
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:173
+js-cat-lunar-infrastructure-od-consistency-model-error-question = Sama võrdlus väikese modelleerimata kiirenduse süstimisega: kas kooskõlakontroll märkab seda? (modelleeritud; natiivse mootoriga salvestatud käik)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:173
+js-cat-lunar-infrastructure-od-consistency-model-error-title = Kuu orbiidi määramine süstitud modelleerimisveaga
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:172
+js-cat-lunar-infrastructure-od-consistency-question = Kas Kuu halo-orbiidil pardal tehtav Maa GNSS-i orbiidi määramine ja sõltumatu maapealne radiomeetriline orbiidi määramine nõustuvad oma deklareeritud määramatuste piires? (modelleeritud; natiivse mootoriga salvestatud käik)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:172
+js-cat-lunar-infrastructure-od-consistency-title = Kuu orbiidi määramine: pardal olev GNSS maapealse jälgimise vastu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:176
+js-cat-lunar-infrastructure-space-tie-question = Kui täpselt saab kolme tehnika vahelisi nihkeid siduda, võrreldes kohaliku sidumise veaga? (modelleeritud; natiivse mootoriga salvestatud käik)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:176
+js-cat-lunar-infrastructure-space-tie-title = Kosmosesidumine: GNSS, VLBI ja laserkaugusmõõtmine ühel kosmoseaparaadil
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:178
+js-cat-lunar-interop-export-question = Kas Kuu tugiraam / aeg / efemeriid läbib edasi-tagasi teisenduse CCSDS OEM + KIF-ümbrise kaudu?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:178
+js-cat-lunar-interop-export-title = Kuu koostalitluseksport
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:149
+js-cat-lunar-jamming-question = Kui kaugel võib segaja asuda ja ikkagi Kuu pinnal oleva vastuvõtja välja lülitada? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:149
+js-cat-lunar-jamming-title = Kuu segamine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:161
+js-cat-lunar-joint-od-clock-question = Kas Maa baasjoone VLBI-sidumine muudab Kuu jaama absoluutse asukoha jälgitavaks? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:161
+js-cat-lunar-joint-od-clock-title = Kuu ühine OD + kell
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:164
+js-cat-lunar-llr-datum-question = Milline näeb Kuu datum välja, kui kampaania on päris arhiveeritud Kuu laserkaugusmõõtmine (LLR)? (modelleeritud; natiivse mootoriga salvestatud käik)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:164
+js-cat-lunar-llr-datum-title = Kuu laserkaugusmõõtmise datum
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:193
+js-cat-lunar-relay-constellation-question = Millise katte annab külmunud ja madalatel Kuu orbiitidel asuv relee- ja navigatsioonikonstellatsioon kogu Kuu kohal? (modelleeritud; näidislahendus)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:193
+js-cat-lunar-relay-constellation-title = Kuu releekonstellatsioon
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:157
+js-cat-lunar-station-coverage-public-sources-title = Kuu etaloonjaam, avalikud eeldused
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:156
+js-cat-lunar-station-coverage-question = Lõunapolaarpiirkonna ja ühe päeva kohta: millise parandatud vea annab Kuu etaloonjaam ja kui kaugele sellest kate püsib? (modelleeritud; ei ole väide ühegi tegeliku süsteemi kohta)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:185
+js-cat-lunar-station-coverage-terrain-question = Kui iga asukoha silmapiir on päris Kuu kõrgusmudelil kiirtega läbi käidud, kui suure osa katest jaam maastiku tõttu kaotab? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:185
+js-cat-lunar-station-coverage-terrain-title = Kuu jaam päris maastikuga
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:156
+js-cat-lunar-station-coverage-title = Kuu etaloonjaama kate
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:165
+js-cat-lunar-station-geodesy-baseline-question = Kui hästi fikseerivad tänapäeva viis retroreflektorplokki Kuu datumi päris ajakava alusel, enne kui ühtegi jaama lisatakse? Paari baastase. (modelleeritud; natiivse mootoriga salvestatud käik)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:165
+js-cat-lunar-station-geodesy-baseline-title = Kuu jaama geodeesia: ainult viis plokki
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:166
+js-cat-lunar-station-geodesy-with-station-question = Sama arhiveeritud ajakava ühe lisatud lõunapolaarse reflektori ja VLBI-majakaga: kui palju datumi piir kitseneb? (modelleeritud, illustratiivne asukoht; natiivse mootoriga salvestatud käik)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:166
+js-cat-lunar-station-geodesy-with-station-title = Kuu jaama geodeesia: lõunapolaarse jaamaga
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:158
+js-cat-lunar-station-time-lab-question = Pärast seda, kui jaama miniatuurne rubiidiumkell on viimati Kuu ajaga sünkroonitud, kui kaua püsib see 1, 10 ja 100 ns piires ja milline veaterm domineerib? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:158
+js-cat-lunar-station-time-lab-title = Kuu jaama ajalabor
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:152
+js-cat-lunar-time-budget-question = Kui suur on Maa–Kuu koordinaataja nihe ja selle veaeelarve? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:152
+js-cat-lunar-time-budget-title = Kuu ajaeelarve
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:151
+js-cat-lunar-time-offset-question = Kui kiiresti Kuu kell Maa ajast lahkneb (~56–59 µs/päevas)?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:151
+js-cat-lunar-time-offset-title = Kuu ajanihe
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:160
+js-cat-lunar-vlbi-fim-question = Millise jaamakoordinaatide täpsuse annab antud VLBI jälgimisajakava tegelikult? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:160
+js-cat-lunar-vlbi-fim-title = Kuu VLBI teave
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:159
+js-cat-lunar-vlbi-question = Millist viivet näeb Maa baasjoone VLBI-paar Kuu pinnamajaka puhul? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:159
+js-cat-lunar-vlbi-title = Kuu VLBI
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:65
+js-cat-maritime-port-approach-coast-question = Sadamasse sisenedes ilma GNSS-ita: millal lahkub navigatsiooniklassi INS sadama- ja ookeanieelarvest? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:65
+js-cat-maritime-port-approach-coast-title = Sadamasse lähenemine inertsiaalsüsteemil
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:64
+js-cat-maritime-spoof-position-push-question = Kui spuufer lohistab laeva fiksi 500 m, millised tuvastuskihid selle tabavad? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:64
+js-cat-maritime-spoof-position-push-title = Laeva asukoht spuufitud
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:62
+js-cat-maritime-strait-jamming-question = Kas 50 W segaja võtab 30 km avaveele laeva GNSS-i ära? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:62
+js-cat-maritime-strait-jamming-title = Laev segatud väinas
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:244
+js-cat-mars-orbit-pnt-question = Kui hästi on madal Marsi orbiiter positsioneeritud kaheteistkümnest navigatsioonireleest ja mida lisab Maalt mõõdetud kaugus? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:244
+js-cat-mars-orbit-pnt-title = Marsi orbiiter releede ja Maa lingiga
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:182
+js-cat-mars-pnt-lmo-question = Kas MARCONI releekonstellatsioon suudab Marsil kasutajat navigeerida? (kovariatsiooni kvaliteedinäitaja, mitte sertifitseeritud PL)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:182
+js-cat-mars-pnt-lmo-title = Marsi PNT, madal orbiit
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:183
+js-cat-mars-pnt-surface-question = Kui hästi saab pöörleval Marsi pinnal olevat maandurit või kulgurit relee-konstellatsiooni suhtes navigeerida?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:183
+js-cat-mars-pnt-surface-title = Marsi PNT, pind
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:184
+js-cat-mars-pnt-transfer-question = Kui hästi navigeeritakse sõidukit kõrgel ekstsentrilisel lähenemis- või püüdmiskaarel Marsil?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:184
+js-cat-mars-pnt-transfer-title = Marsi PNT, üleminek
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:208
+js-cat-meo-leo-fused-pvt-question = Mida teeb madala orbiidi kihi lisamine GPS-ile ja Galileole asukohaveale ja geomeetriale? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:208
+js-cat-meo-leo-fused-pvt-title = Ühendatud GNSS-i ja madala orbiidi fiks
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:147
+js-cat-moonlight-service-volume-question = Millise DOP-i, katte ja terviklikkuse annab Moonlight/LCNS-klassi konstellatsioon lõunapoolusele? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:147
+js-cat-moonlight-service-volume-title = Kuu teenindusruum
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:188
+js-cat-multi-band-jamming-waterfall-question = Kui navigatsioonisignaalid on jaotatud nelja riba peale, mida jätab ühele ribale loodud segaja püsima? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:188
+js-cat-multi-band-jamming-waterfall-title = Mitmeribaline segamise juga-diagramm
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:260
+js-cat-notinbrowser-elevation-model = Vajab Kuu kõrgusmudeli väljalõiget ({ $path }), mis tuleb koos hoidlaga, mitte brauseriversiooniga.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:257
+js-cat-notinbrowser-laser-ranging-data = Vajab arhiveeritud laserkaugusmõõtmise andmelõiku, mis tuleb koos hoidlaga, mitte brauseriversiooniga.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:261
+js-cat-notinbrowser-study-suite = Uuringukomplekt, mitte üksik stsenaarium. Käivita see käsurea tööriistaga: { $command }.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:215
+js-cat-ntn-5g-positioning-question = Kui täpselt saab käeseade end positsioneerida 5G mittemaapealse võrgu allalingist, signaali ribalaiuse kaupa? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:215
+js-cat-ntn-5g-positioning-title = 5G satelliidi allalingi positsioneerimine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:250
+js-cat-oem-interop-question = Kas GMAT-ist / Orekitist / STK-st pärit OEM-efemeriidi saab importida ja edasi-tagasi teisendada?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:250
+js-cat-oem-interop-title = CCSDS OEM sild
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:116
+js-cat-optical-atmosphere-network-question = Kui sageli on optiline ajastuslink pilvede ja turbulentsi kaudu üleval ja mida lisajaamad annavad? (modelleeritud; illustratiivsed pilveklimaatid)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:116
+js-cat-optical-atmosphere-network-title = Optiline link läbi atmosfääri, kolm jaama
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:117
+js-cat-optical-atmosphere-techniques-question = Mida annavad suurem apertuur, teine lainepikkus või adaptiivoptika ühele optilisele ülallingile pilves ja turbulentsis? (modelleeritud; illustratiivne pilveklimaat)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:117
+js-cat-optical-atmosphere-techniques-title = Optilise lingi tehnikad
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:122
+js-cat-orbit-gnss-challenged-question = Millal on satelliidigeomeetria põhjal fiks üldse võimalik?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:122
+js-cat-orbit-gnss-challenged-title = GNSS-i kättesaadavus
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:126
+js-cat-orbit-molniya-question = Kas väga ekstsentrilisel Molnija orbiidil olev kasutaja näeb apogee lähedal ikka piisavalt GNSS-satelliite?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:126
+js-cat-orbit-molniya-title = Molnija kasutaja
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:124
+js-cat-orbit-multignss-question = Kui palju tõstavad GPS + Galileo koos kättesaadavust ja vähendavad täpsuse halvenemise tegurit?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:124
+js-cat-orbit-multignss-title = Multi-GNSS kättesaadavus
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:127
+js-cat-orbit-real-tle-question = Millise katte annab tegelik konstellatsioon, mis on antud kahe rea elementidega?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:127
+js-cat-orbit-real-tle-title = Päris kahe rea elemendid
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:128
+js-cat-orbit-rinex-question = Millise kättesaadavuse annab päris RINEX 3 levi-efemeriid?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:128
+js-cat-orbit-rinex-title = Levi-efemeriid
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:123
+js-cat-orbit-sgp4-gps-question = Kuidas päris GPS-i-sarnane konstellatsioon ühe päeva jooksul propageerub?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:123
+js-cat-orbit-sgp4-gps-title = SGP4 orbiidid
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:125
+js-cat-orbit-urban-canyon-skyline-question = Linnatänava põhjas: kui suure osa päevast annavad GPS ja Galileo neli satelliiti ja mida teeb taevariba PDOP-ile? (modelleeritud; representatiivne silmapiirijoon)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:125
+js-cat-orbit-urban-canyon-skyline-title = Linnatänava kättesaadavus
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:130
+js-cat-passes-question = Millal satelliit jaama kohal tõuseb ja loojub ning kui kauaks?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:130
+js-cat-passes-title = Maapealsed ülelennud
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:213
+js-cat-polar-arctic-leo-coverage-question = Ekvaatorist poolusteni: kuidas muutuvad nähtavad satelliidid ja geomeetria ainult GNSS-iga, ainult polaarse madala orbiidi kihiga ja mõlemaga? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:213
+js-cat-polar-arctic-leo-coverage-title = Ekvaatorist poolusele
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:114
+js-cat-pvt-abmf-question = Kas päris vastuvõtja asukoha saab lahendada toorest RINEX-mõõtmistest?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:114
+js-cat-pvt-abmf-title = Positsioneerimine (SPP)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:248
+js-cat-quantum-anomaly-detect-question = Kui hästi tuvastatakse kvantsüsteemi rikkeid fikseeritud valehäire sageduse juures? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:248
+js-cat-quantum-anomaly-detect-title = Kvantanomaalia tuvastus
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:99
+js-cat-quantum-cai-coast-question = Kui kaua hoiab oma füüsikaga määratletud külmaatom-interferomeeter pärast GNSS-i kadu arvestuslikku navigatsiooni 100 m piires, võrreldes navigatsiooniklassi kvartskiirendusmõõturiga? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:99
+js-cat-quantum-cai-coast-title = Kvantkiirendusmõõturi iseseisev töö
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:98
+js-cat-quantum-gnss-free-nav-question = Kui kaugele libiseb külmaatomnavigaator võrreldes navigatsiooniklassi INS-iga ilma GNSS-ita? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:98
+js-cat-quantum-gnss-free-nav-title = Kvant-GNSS-ita navigatsioon
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:252
+js-cat-quantum-pnt-demonstrator-suite-question = Kolm kvantrakendusvaldkonda ühe uuringuna (käsurea uuringukomplekt: kshana --study).
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:252
+js-cat-quantum-pnt-demonstrator-suite-title = Kvant-PNT demonstraatoruuring
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:84
+js-cat-quantum-time-transfer-question = Mida annab usaldatav kvantajastus klassikalise CSAC + RF ahela ees? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:84
+js-cat-quantum-time-transfer-title = Kvantaja edastamine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:247
+js-cat-quantum-trade-question = Millise ajastus- / inertsiaalse holdoveri annab kandidaatkell klassikalise baasjoone ees? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:247
+js-cat-quantum-trade-title = Kvant-PNT kompromiss
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:67
+js-cat-rail-tunnel-coast-question = Kui kiiresti lahkub taktikalise klassi INS 160 km/h kiirusel tunnelis oma eelarvest? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:67
+js-cat-rail-tunnel-coast-title = Rong läbi tunneli
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:179
+js-cat-realtime-frame-eop-question = Kui suure tugiraami vea toob kaasa reaalajas (ennustatud) Maa orientatsioon? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:179
+js-cat-realtime-frame-eop-title = Reaalaja tugiraam/EOP
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:133
+js-cat-reentry-question = Millise tippülekoormuse ja tippkuumenemise kiiruse näeb ballistiline atmosfääri sisenemine?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:133
+js-cat-reentry-title = Atmosfääri sisenemise koridor
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:80
+js-cat-slot-timing-ocxo-leo-question = Kui kaua püsib madala orbiidi väikesatelliidil ahjustatud kristallostsillaator pärast viimast GNSS-fiksi oma ajaluku kaitseintervalli sees? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:80
+js-cat-slot-timing-ocxo-leo-title = Ajaluku ajastus
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:68
+js-cat-small-uas-jammed-nav-question = Pärast seda, kui segaja GNSS-i ära võtab, kui kaugele triivib lennukontrolleri klassi inertsiaalseade, võrreldes taktikalise klassi omaga?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:68
+js-cat-small-uas-jammed-nav-title = Väike droon segamise all
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:243
+js-cat-solar-system-tour-question = Kus asub iga keha, mida mootor tunneb, Päikesest Pluutoni ja suurte kuudeni, ning kui kaua valgus nende vahel kulgeb?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:243
+js-cat-solar-system-tour-title = Päikesesüsteem ühel epohhil
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:251
+js-cat-space-packet-question = Kas CCSDS 133.0 pakettide voog kodeeritakse ja dekodeeritakse bitttäpselt?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:251
+js-cat-space-packet-title = Kosmosepakett
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:137
+js-cat-space-weather-question = Kuidas päikese- / geomagnetiline aktiivsus termosfääri tihedust muudab? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:137
+js-cat-space-weather-title = Kosmoseilm
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:73
+js-cat-spoof-attack-question = Kas kasvav ajaspuufimine tabatakse enne, kui see jõuab spetsifikatsioonini?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:73
+js-cat-spoof-attack-title = Spuufimise tuvastamine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:74
+js-cat-spoof-detect-question = Kas ühendatud RF- ja mõõtmisseire suudab tabada koordineeritud spuufimist?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:74
+js-cat-spoof-detect-title = Mitmekihiline spuufimise tuvastus
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:75
+js-cat-spoof-meaconing-question = Selgesõnalise ründekujuga: kui sageli tabab kellaga toetatud energiadetektor spuufimist fikseeritud valehäire sageduse juures?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:75
+js-cat-spoof-meaconing-title = Spuufimisdetektori statistika
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:211
+js-cat-starlink-sop-doppler-positioning-question = Kui hästi saab vastuvõtja end positsioneerida lairibakonstellatsiooni Doppleri nihkest, mis navigatsioonisõnumit ei saada? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:211
+js-cat-starlink-sop-doppler-positioning-title = Lairibasignaalid võimalusena
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:85
+js-cat-sweep-clock-stability-question = Kuidas holdover muutub, kui ühte kellaparameetrit pühitakse?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:85
+js-cat-sweep-clock-stability-title = Parameetri pühkimine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:249
+js-cat-sweep-nd-inertial-question = Kuidas kvaliteedinäitaja mitmeparameetrilisel ruudustikul varieerub?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:249
+js-cat-sweep-nd-inertial-title = N-mõõtmeline pühkimine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:81
+js-cat-telecom-prtc-holdover-24h-question = Kas rubiidiumetalon, mis kaotab GNSS-i 24 tunniks, püsib ITU-T ajavea maskide sees? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:81
+js-cat-telecom-prtc-holdover-24h-title = Telekomi holdover, 24 h
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:120
+js-cat-telecom-synce-eec-question = Kas vabalt käiv ahjustatud ostsillaator püsib sünkroonse Etherneti seadmekella hälbemaskide sees? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:120
+js-cat-telecom-synce-eec-title = Sageduse sünkroonimine SyncE maskide vastu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:82
+js-cat-telecom-tie-ingest-question = Kas ajaintervalli vea salvestis läbib ITU-T MTIE ja TDEV maskid?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:82
+js-cat-telecom-tie-ingest-title = Telekomi maskikontroll, sinu andmed
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:93
+js-cat-terrain-nav-question = Kas kõrgusmõõtur suudab INS-i triivi parandada, sobitades maastiku kõrgusprofiili?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:93
+js-cat-terrain-nav-title = Maastikunavigatsioon
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:94
+js-cat-terrain-slam-question = Kas osakestefilter suudab maastikukaardi alusel jälgida ajas muutuvat INS-i triivi?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:94
+js-cat-terrain-slam-title = Maastiku SLAM
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:115
+js-cat-time-transfer-budget-question = Mida teevad jaama-, transponderi-, ionosfääri- ja Sagnaci liikmed kahesuunalise ajanihkega ja milline on selle määramatuse eelarve? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:115
+js-cat-time-transfer-budget-title = Kahesuunaline satelliitaja edastamine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:83
+js-cat-timetransfer-question = Kui tihedalt saavad kaks jaama lingi kaudu sünkroonis püsida?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:83
+js-cat-timetransfer-title = Aja edastamine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:69
+js-cat-tracking-loop-question = Millise C/N0 juures vastuvõtja tegelikult lukustuse kaotab ja kas spuufer suudab silmused üle tõmmata? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:69
+js-cat-tracking-loop-title = Jälgimissilmus
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:217
+js-cat-xona-pulsar-end-to-end-question = Sama ahel avalikel Xona Pulsari numbritel: signaal, ülelend, sõnum, ühendatud fiks ja täppispositsioneerimine. (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:217
+js-cat-xona-pulsar-end-to-end-title = Algusest lõpuni, Xona Pulsar
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:196
+js-cat-xona-pulsar-signals-question = Kui täpselt saab vastuvõtja avaldatud X1 ja X5 signaalidel kaugust mõõta ja kui suur on omandamisotsing? (avalik signaalitabel)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:196
+js-cat-xona-pulsar-signals-title = Xona Pulsari signaalid
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:71
+js-geo-a-place = Koht…
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:392
+js-geo-axis-east = E +{ $ext } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:392
+js-geo-axis-north = N +{ $ext } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:110
+js-geo-canyon-needs = Tänavakanjoni vorm vajab mootorit 0.36.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:142
+js-geo-canyon-out-of-range = Tänavakanjoni väärtused on vahemikust väljas (asimuut 0 kuni 359.9°, laius 1 kuni 200 m, kõrgused 0 kuni 500 m, antenn 0 kuni 50 m); kasutatakse avatud silmapiiri.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:159
+js-geo-canyon-reduced = Mootori redutseerimine kanjonist 360-ribaliseks tabeliks.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:451
+js-geo-compute-failed = Mootor ei suutnud seda taevast arvutada: { $reason }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:428
+js-geo-computing = Arvutamine…
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:200
+js-geo-copy-link = Kopeeri see link: { $url }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:340
+js-geo-count-below = Silmapiiri all
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:338
+js-geo-count-hidden = Silmapiirijoone poolt varjatud
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:337
+js-geo-count-in-view = Nähtaval
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:341
+js-geo-count-open-sky = Avatud taevas
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:339
+js-geo-count-used = Lahenduses
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:302
+js-geo-cursor-live = Asimuut { $az }°, silmapiirijoon { $el }°.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:186
+js-geo-dated-sky = Dateeritud taevas on vaid nii hea kui elemendid ja nende vanus; eelseadistused jäetakse välja.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:157
+js-cat-lunar-station-coverage-public-sources-question = Ainult avalikult deklareeritud eelduste korral: millise parandatud vea annab jaam lõunapooluse kohal? Tulemuses domineerivad orbiidi elemendid, mis ei ole avalikud ja on seatud kui ILLUSTRATIVE; see on külmutatud ennustuse sisend. (modelleeritud; ei ole väide ühegi tegeliku süsteemi kohta)
