@@ -45,3 +45,21 @@ seg-e2dbcb4bc5f5 = Satellite Time and Location
 seg-71aee5eb55c5 = UHF
 
 seg-65e797f8bb42 = 極超短波
+
+seg-5907283b71da = 略語
+
+seg-900c7c7e99cd = GMAT
+
+seg-c730f9c69d6e = ISB
+
+seg-ef9ba270513c = システム間バイアス
+
+seg-7dabf60fd17e = QPN
+
+seg-dae80c23262e = 量子射影雑音
+
+seg-430b3c681347 = RTKLIB
+
+seg-051a168f774c = TCXO
+
+seg-ba5d469b1c66 = VLBI
