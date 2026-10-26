@@ -343,3 +343,77 @@ seg-039b7c5fd78a = Jednotka
 seg-37f058c4e1c3 = počet
 
 seg-e88d3dbcfe0c = MODELLED
+
+seg-1a26d420ba67 = Viz také
+
+seg-c4f4b2ca0647 = Hodnota
+
+seg-e8968e86f31b = Omezení
+
+seg-7dc0fcd6ef77 = aocs
+
+seg-c6ced184b8eb = campaign
+
+seg-bcc7452b7e9c = clock
+
+seg-00593bd8a3ed = ephemeris
+
+seg-0cb65c6c4f53 = fusion
+
+seg-dbe8c830ef6c = hybrid
+
+seg-eae62828dc7a = inertial
+
+seg-8af88a0e2a69 = integrity
+
+seg-9a63fde1d8b1 = jamming
+
+seg-f8450911ddd6 = orbit
+
+seg-6dd5a0d55f18 = passes
+
+seg-786068921d01 = pvt
+
+seg-63f112536118 = reentry
+
+seg-f79dad339a1e = spectrum
+
+seg-8ea9f458185d = spoof
+
+seg-460826ea7719 = sweep
+
+seg-55f3ac33d883 = timetransfer
+
+seg-a37260157d35 = Vstupy
+
+seg-0ffd6d4b0d8c = Ze schématu (<c1/>):
+
+seg-7a473d2b9b37 = Povinná pole: žádná
+
+seg-0484c5d57886 = neuvedeno
+
+seg-619be4963365 = text
+
+seg-15636cc68f72 = příznak
+
+seg-473eb8189015 = Spusťte jej
+
+seg-8b01aa51263e = Co poskytuje
+
+seg-5aa75472f59d = Skalární výsledky tohoto běhu s jednotkami, které engine uvádí:
+
+seg-dfd41abc16b5 = Výsledek
+
+seg-0df8f55cbe06 = deg
+
+seg-4798bca2d7a7 = MODELLED: řádky <a1>verifikační matice</a1>, které tento druh jmenují.
+
+seg-6338a873ee85 = Řádky, které běh sám procvičil, s orákulem, které matice každému dává (veřejné zdroje jsou tam uvedeny):
+
+seg-fe24dcc6971f = <b>MODELLED</b> Deterministické, hashované po scénářích, brány SBOM a zlatých výsledků mezi platformami. Orákulum (ExternalDataset): shoda SBOM s oficiálním schématem JSON CycloneDX { "1.5" } (+ platné identifikátory SPDX) — externí publikovaný standard, nula chyb validace přes celý graf závislostí; část o determinismu FoM / bajtové reprodukovatelnosti zůstává zafixovanou kontrolou vlastní konzistence, takže řádek zůstává MODELLED
+
+seg-1fc08d2f0209 = Co zpráva samotného běhu uvádí jako nemodelované nebo neověřené:
+
+seg-58c4d7218e70 = Reprodukovatelnost a zajištění softwaru je MODELLED, nikoli ověřeno nezávislou referencí: dílčí tvrzení je externě zkontrolováno, ale celá schopnost skládá modelované části, takže schopnost zůstává vypočtená z modelu. (verifikační matice (docs/MODELLED-RATIONALE.md))
+
+seg-1bf3d5817274 = Všechny druhy: <a1>KINDS.md</a1>

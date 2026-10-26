@@ -9,3 +9,5 @@ seg-1759a8cce7d6 = Druhy
 seg-71aee5eb55c5 = UHF
 
 seg-f1f903f1b9ff = Odolnost
+
+seg-b03d56f501c3 = Druh

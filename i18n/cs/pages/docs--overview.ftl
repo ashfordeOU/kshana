@@ -173,3 +173,9 @@ seg-ca67c864635c = Určování oběžné dráhy
 seg-4e28248ef77b = Pozorovatelnost a teorie odhadu
 
 seg-e386dced1d16 = Lunární a cislunární
+
+seg-d4a762001549 = Licence
+
+seg-e251b385ff46 = Dva syntetické dny mapy interference nakreslené z přiložených ukázek v examples/interference-map/output, každý s vlastní syntetickou trasou a podíly expozice trasy, které engine hlásí. Vlevo den ADS-B: { "1" } zhoršená buňka, { "6" } nezhoršených, { "4" } nevyhodnocených (šrafovaně) a buňky bez záznamu, nakreslené prázdné, které nebyly pozorovány. Trasa měří { "525" } km: { "11.5" } % její délky v zhoršených buňkách, { "38.3" } % nezhoršených, { "9.1" } % nevyhodnocených a { "41.1" } % nepozorovaných. Vpravo den AIS: buňky označené detektory kruhu a souše, neanomální buňky a prázdné buňky; trasa měří { "454" } km, z toho { "10.5" } % v anomálních buňkách, { "21.2" } % neanomálních, { "0.0" } % nevyhodnocených a { "68.3" } % nepozorovaných. ADS-B a AIS jsou oddělené vrstvy, nikdy se nekombinují. Označená buňka není zjištěním interference a buňka bez barvy nebyla pozorována, což není totéž jako čistá. Všechna data jsou vymyšlená, v otevřeném středním Atlantiku, a nejde o měření.
+
+seg-af0edceb1503 = Hodnocení jednoho syntetického záznamu přijímače proti plánu o třech testech, ze skutečného běhu enginu v{ $version } (`kshana jammertest score`). Záznam je vymyšlený: { "1800" } s NMEA s poklesem C/N0 o { "20" } dB ve dvou intervalech. Plán uvádí tři sloty; ve středním slotu není v záznamu žádná rušička. Hodnocení označuje { "2" } ze { "3" } testů za detekované (medián latence { "0" } s) a { "1" } za nezachycený, s { "0" } běhy falešného poplachu za { "0.25" } h čistého času. Nic z toho neříká nic o skutečném přijímači. Software pouze poradního charakteru, nikoli typově schválené navigační zařízení (IEC { "61108" }, IEC { "61162" }): za navigaci plavidla zůstává odpovědný provozovatel.

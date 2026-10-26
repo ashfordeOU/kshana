@@ -9,3 +9,5 @@ seg-3a0e724a8a2b = Úroveň
 seg-fffbeccd4266 = Symbol
 
 seg-2247a2344710 = Význam
+
+seg-582fd72f1a1a = Verdikt

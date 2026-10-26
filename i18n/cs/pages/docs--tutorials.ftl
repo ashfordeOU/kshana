@@ -15,3 +15,5 @@ seg-28e87f407a10 = Oblast
 seg-d6476863f862 = Schopnost
 
 seg-a7cfe6f135f1 = Oběžná dráha a geometrie
+
+seg-b03d56f501c3 = Druh
