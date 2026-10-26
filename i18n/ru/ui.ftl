@@ -600,3 +600,367 @@ studio-trust-run-the-illustrative-jamming-example = Запустить иллю�
 studio-trust-assess-the-chosen-file = Оценить выбранный файл
 
 studio-trust-the-format-is-guessed-from = Формат определяется по имени файла; если он неверен, измените его здесь и повторите оценку. NovAtel OEM7, RTCM 3 и Septentrio SBF — двоичные форматы; они передаются движку как есть, в этом браузере.
+
+studio-trust-imu-file-optional-a-second = Файл IMU (необязательно): второй датчик курса
+
+studio-trust-an-imu-log-on-the = Журнал IMU по часам журнала приёмника восполняет курс, который считывает монитор «курс и путевой угол», везде, где журнал приёмника его не содержит. Его использует только сеанс судна.
+
+studio-trust-remove-the-imu-file = Удалить файл IMU
+
+studio-trust-no-imu-file = Файла IMU нет.
+
+studio-trust-session-settings-toml-the-log = Параметры сеанса (TOML, журнал передан встроенным)
+
+studio-trust-first-deduction = Первое снижение
+
+studio-trust-first-untrusted = Первое недоверие
+
+studio-trust-receiver-reported-track = Трек, сообщённый приёмником
+
+studio-trust-the-satellites-the-log-s = Спутники, которые перечисляет собственное сообщение GSV журнала. Заполненная метка имеет уровень сигнала; пустая перечислена без него; затенённый сектор — где журнал перечисляет спутники и не слышит ни одного (закрытое небо и подавленный сигнал выглядят здесь одинаково). Номинальная группировка, а не эфемериды на дату журнала.
+
+studio-trust-score-over-time = Оценка во времени
+
+studio-trust-score-0-to-100-dashed = Оценка от 0 до 100. Штриховые линии — границы диапазонов; полосы под графиком — диапазон и шлюз. Перетащите или щёлкните, чтобы переместить курсор времени; клавиши со стрелками перемещают его по шагам.
+
+studio-trust-reasons-at-the-cursor = Причины на курсоре
+
+studio-trust-points-each-check-took-off = Баллы, снятые каждой проверкой в этой эпохе, от наибольших. Щёлкните проверку, чтобы отметить, где она превышала свой порог срабатывания.
+
+studio-trust-geometry-at-the-cursor = Геометрия на курсоре
+
+studio-trust-the-satellite-geometry-always-shown = Геометрия спутников, показывается всегда: её метка (хорошая, удовлетворительная или плохая) и DOP. Замаскированное небо (корпус, причал, стена фьорда) — естественное ухудшение, отличаемое от несогласованности, похожей на атаку. Оценка снимает баллы за геометрию только тогда, когда она плохая, не более 15, и никогда не ниже диапазона ухудшения.
+
+studio-trust-the-receiver-s-own-flag = Собственный флаг приёмника
+
+studio-trust-what-the-receiver-itself-says = Что сам приёмник сообщает о спуфинге и подавлении (u-blox UBX-NAV-STATUS и UBX-SEC-SIG), рядом с мониторами Kshana. Коды принадлежат приёмнику; ни один из детекторов не является эталоном истины, а согласие не является валидацией. Флаг не меняет ни одной оценки.
+
+studio-trust-over-the-run = За время прогона
+
+studio-trust-what-the-score-used = Что использовала оценка
+
+studio-trust-read-from-the-run-read = Считано из прогона, только для чтения.
+
+studio-trust-what-this-view-does-and = Что это представление показывает и чего не показывает
+
+studio-trust-nmea-only-checks-cannot-see = Проверки только по NMEA не способны обнаружить спуфер, воспроизводящий всю группировку с самосогласованными положением, скоростью, курсом, мощностью и часами, а также воспроизведение записанных реальных сигналов. Решение без тревоги не становится от этого хорошим решением.
+
+studio-trust-nothing-on-this-page-is = Ничто на этой странице не является мерой того, как проверки работают при реальных помехах. Отображение оценки и каждый вес фиксируются до оценки журнала, без обучения и без подгонки под события.
+
+studio-main-which-satellites-can-you-see = Какие спутники видны из места и насколько хороша их геометрия? Скайплот, линия горизонта и DOP от движка в вашем браузере
+
+studio-main-trainer-debrief-for-kshana-nmea = Разбор для тренера по журналам инструктора kshana nmea-scenario (только для тренировки; файлы остаются в вашем браузере)
+
+studio-main-where-did-aircraft-and-ships = Где воздушные и морские суда сообщали ухудшенные навигационные данные в прошедший день? Откройте файлы карт по дням (они остаются в вашем браузере)
+
+studio-main-can-the-bridge-trust-this = Может ли мостик доверять этому решению? Откройте прогон доверия к приёмнику судна (файлы остаются в вашем браузере)
+
+studio-main-evidence-packs-test-bench-export = Пакеты доказательств, экспорт для испытательного стенда, сопоставление compliance, OSNMA, инструменты командной строки и ИИ-ассистент (файлы остаются в вашем браузере)
+
+studio-main-map-of-satellites-in-view = Карта спутников в зоне видимости над Землёй по записанному прогону
+
+studio-main-interactive-3-d-view-of = Интерактивное 3D-представление рассчитанного трека
+
+studio-main-close-history = Закрыть историю
+
+studio-main-skip-to-the-content = Перейти к содержимому
+
+studio-main-receiver-trust = Доверие к приёмнику
+
+studio-main-advanced-view = Расширенное представление
+
+studio-main-what-would-you-like-to = Что вы хотели бы узнать?
+
+studio-main-pick-a-question-or-start = Выберите вопрос или начните с результата ниже.
+
+studio-main-showing-below = Показано ниже
+
+studio-main-integrity-over-12-hours = Целостность за 12 часов
+
+studio-main-a-radio-waterfall = Радиоводопад
+
+studio-main-recorded-result = Записанный результат
+
+studio-main-how-many-navigation-satellites-can = Сколько навигационных спутников видно из любой точки Земли?
+
+studio-main-loading-the-recorded-result = Загрузка записанного результата…
+
+studio-main-everything-kshana-can-do = Всё, что умеет Kshana
+
+studio-main-each-area-shows-a-real = Каждая область показывает реальный записанный результат и сочетание доказательств за ним.
+
+studio-main-open-your-own-files = Откройте собственные файлы
+
+studio-main-pages-that-run-the-engine = Страницы, запускающие движок с вашими параметрами и файлами. Каждая работает в этом браузере; ничего не загружается.
+
+studio-main-which-satellites-can-you-see-2 = Какие спутники видны из места и насколько хороша их геометрия? Нарисуйте линию горизонта.
+
+studio-main-what-accuracy-could-a-reference = Какую точность могла бы дать опорная станция вблизи южного полюса Луны и где? MODELLED.
+
+studio-main-can-the-bridge-trust-this-2 = Может ли мостик доверять этому решению? Оцените журнал NMEA судна.
+
+studio-main-where-aircraft-and-ships-reported = Где воздушные и морские суда сообщали ухудшенные навигационные данные, и воздействие помех на маршруте.
+
+studio-main-generate-a-drift-or-jamming = Сгенерируйте поток для учения по дрейфу или подавлению и проведите разбор журнала инструктора.
+
+studio-main-two-synthetic-runs-on-one = Два синтетических прогона по одним часам: трек, оценка доверия, скайплот в реальном времени и вердикт.
+
+studio-main-the-two-optical-atmosphere-scenarios = Два сценария оптической атмосферы: доступность в зависимости от высоты облачности, перерывы и разнесение площадок.
+
+studio-main-which-navigation-signals-a-spacecraft = Какие навигационные сигналы всё ещё может использовать космический аппарат, находящийся значительно выше спутников, и насколько хорошо с ними работают бортовой фильтр и формация.
+
+studio-main-what-lunar-orbiters-and-a = Что могут лунные орбитальные аппараты и станция на поверхности как навигационная и геодезическая инфраструктура, с указанием недостижений.
+
+studio-main-open-a-day-s-observatory = Откройте файлы обсерватории за день и прочитайте их: три состояния, без причины, ничего не загружается.
+
+studio-main-pull-the-antenna-score-the = Отключите антенну, оцените holdover: запись ошибки времени, измеренная по маскам ITU-T.
+
+studio-main-check-a-signed-pack-or = Проверьте подписанный пакет или прикрепите метку времени.
+
+studio-main-motion-and-event-files-for = Файлы движения и событий для лабораторного симулятора.
+
+studio-main-what-your-runs-evidence-against = Что ваши прогоны подкрепляют доказательствами в опубликованных рамочных документах.
+
+studio-main-whether-recorded-galileo-data-is = Аутентифицированы ли записанные данные Galileo, тег за тегом.
+
+studio-main-use-kshana-from-your-assistant = Используйте Kshana из вашего ассистента через сервер MCP.
+
+studio-main-all-scenarios = Все сценарии
+
+studio-main-pick-one-it-opens-on = Выберите один: он сразу откроется на своём результате.
+
+studio-main-all-questions = Все вопросы
+
+studio-main-every-published-figure = Каждое опубликованное значение
+
+studio-main-read-from-the-result-document = Считано из документа результата с единицей, примечанием и происхождением, которые движок записывает для каждого значения.
+
+studio-main-kalman-self-consistency = Самосогласованность фильтра Калмана
+
+studio-main-a-consistent-filter-s-reported = Заявленная неопределённость согласованного фильтра соответствует его фактическим ошибкам. NIS (нормированный квадрат инновации) должен быть около 1, а NEES (нормированный квадрат ошибки оценивания) — около 2, каждый в пределах своего 95%-го интервала χ².
+
+studio-main-engine-chart = График движка
+
+studio-main-each-series-this-run-publishes = Каждый ряд, публикуемый этим прогоном, по времени. Наведите курсор или проведите по графику, чтобы прочитать значения.
+
+studio-main-carrier-to-noise-density-db = отношение несущей к спектральной плотности шума, дБ·Гц
+
+studio-main-with-the-jammer = С помехой
+
+studio-main-without-it = Без неё
+
+studio-main-each-cell-is-one-satellite = Каждая ячейка — один спутник в одной эпохе этого прогона. Заштрихованные ячейки ниже порога слежения приёмника: этот спутник потерян.
+
+studio-main-interference-outcome = Результат помех
+
+studio-main-error-since-gnss-was-lost = ошибка с момента потери GNSS
+
+studio-main-scenario-budget = Бюджет сценария
+
+studio-main-move-the-budget-and-the = Сдвиньте бюджет, и время до нарушения считывается по записи ошибки этого же прогона. Значение holdover от движка, вычисленное при бюджете сценария, показано рядом и является авторитетным числом. Измените часы или перерыв в параметрах, чтобы заново выполнить расчёт физики.
+
+studio-main-maximum-time-interval-error = максимальная ошибка временного интервала
+
+studio-main-time-deviation = девиация времени
+
+studio-main-mask-checks-and-holdover-budgets = Проверки масок и бюджеты holdover
+
+studio-main-each-check-s-limit-is = Предел каждой проверки отмечен кольцом на времени усреднения, где запас был наихудшим. Маски перенесены из Рекомендаций ITU-T (Сектор стандартизации электросвязи Международного союза электросвязи), названных в каждой строке.
+
+studio-main-lower-is-better-fractional-frequency = Чем меньше, тем лучше. Относительная стабильность частоты в зависимости от времени усреднения τ, в логарифмических осях.
+
+studio-main-earth-centred-inertial-frame = Геоцентрическая инерциальная система координат
+
+studio-main-drag-to-rotate-scroll-to = Перетащите, чтобы повернуть; прокрутите, чтобы изменить масштаб.
+
+studio-main-run-the-engine-once-per = Запустите движок один раз для каждого значения и постройте один показатель качества. Добавьте второй параметр для тепловой карты. Каждая точка — реальный прогон движка, не более 60.
+
+studio-main-pinned-runs-side-by-side = закреплённые прогоны рядом
+
+studio-main-clear-pins = Снять закрепление
+
+studio-main-key-figures-run-against-run = Ключевые показатели: прогон против прогона
+
+studio-main-the-headline-readouts-of-each = Главные показания каждого закреплённого прогона; изменение дано относительно прогона A.
+
+studio-main-the-engine-s-own-export = собственный экспорт движка
+
+studio-main-written-by-the-engine = записано движком
+
+studio-main-czml-kml-geojson-stk-ephemeris = CZML, KML, GeoJSON, эфемериды STK, SigMF
+
+studio-main-try-other-settings = Попробуйте другие параметры
+
+studio-main-change-a-value-then-run = Измените значение и запустите снова. Ответ и график обновятся на месте.
+
+studio-main-run-again = Запустить снова
+
+studio-main-cancel-the-run = Отменить прогон
+
+studio-main-runs-in-your-browser-nothing = Работает в вашем браузере. Ничего не загружается.
+
+studio-main-advanced-settings = Расширенные параметры
+
+studio-main-every-setting-comes-from-the = Каждый параметр берётся из файла сценария. Отредактируйте весь файл в разделе «Для исследователей».
+
+studio-main-how-this-is-computed = Как это вычисляется
+
+studio-main-level-of-evidence = Уровень доказательств
+
+studio-main-the-engine-s-own-one = Собственная краткая сводка движка в одну строку
+
+studio-main-every-figure-is-labelled-with = Каждое значение помечено своим уровнем доказательств. «Проверено» означает сверку с независимым внешним оракулом; «смоделировано» означает физику из первых принципов с тестами, ещё не сверенную с оракулом.
+
+studio-main-for-researchers = Для исследователей
+
+studio-main-code-data-citation = код, данные, цитирование
+
+studio-main-run-it-on-your-computer = Запустить на вашем компьютере
+
+studio-main-run-it-from-python = Запустить из Python
+
+studio-main-exported-figures-carry-this-doi = Экспортируемые графики несут этот DOI (цифровой идентификатор объекта) в подписи. Один и тот же сценарий, начальное значение (seed) и версия движка дают одни и те же числа.
+
+studio-main-toml-tom-s-obvious-minimal = TOML (Tom's Obvious, Minimal Language — «очевидный минимальный язык Тома»)
+
+studio-main-in-the-editor-tab-indents = В редакторе Tab добавляет отступ в два пробела. Нажмите Escape, затем Tab, чтобы перейти дальше. Запустите снова, чтобы применить ваши правки.
+
+studio-main-every-panel-and-field = Каждая панель и поле
+
+studio-main-the-advanced-view-is-the = Расширенное представление — это полная панель: все панели этого прогона рядом, все поля сценария, переборы, сравнения и собственный отчёт движка. Оно открывается на этом сценарии с вашими параметрами.
+
+studio-main-kshana-pro = Kshana Pro
+
+studio-main-kshana-studio = Kshana Studio
+
+studio-main-request-an-evaluation = Запросить оценку
+
+studio-main-talk-to-us-about-a = Обсудите с нами коммерческую лицензию
+
+studio-main-request-a-study = Заказать исследование
+
+studio-main-imagery-nasa-visible-earth-blue = Изображения: NASA Visible Earth (Blue Marble). Береговые линии: Natural Earth. Каждый график здесь построен по прогону движка; прогон, отчёт, анимация или экспорт, сделанные нативным движком командной строки, помечены как записанные.
+
+studio-main-this-session = этот сеанс
+
+studio-main-runs-you-make-appear-here = Выполненные вами прогоны появляются здесь. Выберите один, чтобы вернуть его сценарий и результат, или закрепите его для сравнения.
+
+studio-advanced-find-a-scenario-a-domain = Найти сценарий, область, поле или команду
+
+studio-advanced-the-runs-you-made-in = Прогоны, выполненные вами в этом сеансе
+
+studio-advanced-a-short-tour-of-the = Краткий обзор Studio
+
+studio-advanced-toggle-colour-theme = Переключить цветовую тему
+
+studio-advanced-switch-to-the-simple-view = Переключить на простое представление
+
+studio-advanced-the-simple-view-the-answer = Простое представление: сначала ответ, пять параметров, подробности по запросу
+
+studio-advanced-scenario-library = Библиотека сценариев
+
+studio-advanced-close-the-library = Закрыть библиотеку
+
+studio-advanced-find-a-scenario-a-domain-2 = Найти сценарий, область или поле
+
+studio-advanced-scenario-domain-or-field = Сценарий, область или поле
+
+studio-advanced-filter-by-domain = Фильтр по области
+
+studio-advanced-scenarios-by-mission-domain = Сценарии по областям миссий
+
+studio-advanced-how-the-studio-works = Как работает Studio
+
+studio-advanced-search-scenarios-domains-or-fields = Поиск сценариев, областей или полей
+
+studio-advanced-search-scenarios-domains-or-fields-2 = Ищите сценарии, области или поля, например маска возвышения
+
+studio-advanced-the-engine-kind-this-scenario = Вид движка, который запускает этот сценарий
+
+studio-advanced-open-the-scenario-library = Открыть библиотеку сценариев
+
+studio-advanced-show-the-parameters-and-the = Показать параметры и источник сценария
+
+studio-advanced-keep-this-run-to-compare = Сохранить этот прогон для сравнения с другим (до 4)
+
+studio-advanced-compare-the-pinned-runs = Сравнить закреплённые прогоны
+
+studio-advanced-share-this-run-or-download = Поделиться этим прогоном или скачать его
+
+studio-advanced-result-panels = Панели результата
+
+studio-advanced-run-summary = Сводка прогона
+
+studio-advanced-parameters-and-scenario-source = Параметры и источник сценария
+
+studio-advanced-close-the-parameters-and-show = Закрыть параметры и показать результаты
+
+studio-advanced-find-a-field-of-this = Найти поле этого сценария
+
+studio-advanced-find-a-field-for-example = Найти поле, например маска
+
+studio-advanced-parameter-view = Представление параметров
+
+studio-advanced-find-a-scenario-domain-field = Найти сценарий, область, поле, панель или команду
+
+studio-advanced-skip-to-results = Перейти к результатам
+
+studio-advanced-find-anything = Найти что угодно
+
+studio-advanced-lunar-station-coverage-of-a = Лунная станция: покрытие опорной станции (MODELLED)
+
+studio-advanced-simple-view = Простое представление
+
+studio-advanced-choose-a-scenario = Выберите сценарий
+
+studio-advanced-what-do-you-want-to = Что вы хотите сделать?
+
+studio-advanced-pick-a-domain-and-a = Выберите область и сценарий, настройте его, запустите движок в браузере, затем прочитайте, сравните и экспортируйте результаты. Ничего не загружается.
+
+studio-advanced-share-or-export = Поделиться или экспортировать
+
+studio-advanced-good-first-runs = Хорошие первые прогоны
+
+studio-advanced-pin-run = Закрепить прогон
+
+studio-advanced-report-json-scenario-tables-and = отчёт, JSON, сценарий, таблицы и экспорт
+
+studio-advanced-the-exact-scenario-in-the = точный сценарий, в ссылке
+
+studio-advanced-an-iframe-for-a-course = iframe для страницы курса или вики
+
+studio-advanced-opens-in-a-new-tab = открывается в новой вкладке
+
+studio-advanced-loading-the-engine-the-recorded = Загрузка движка. Сначала показывается записанный результат этого сценария.
+
+studio-advanced-got-it = Понятно
+
+studio-advanced-headline-numbers-from-the-engine = Главные числа из результата движка, с изменением по сравнению с вашим предыдущим прогоном этого сценария и с пометкой «пройдено» или «не пройдено», где прогон указывает порог.
+
+studio-advanced-set-parameters = Задать параметры
+
+studio-advanced-every-change-re-runs-the = Каждое изменение заново запускает движок и обновляет ключевые показатели и панели.
+
+studio-advanced-drag-a-slider-and-the = Перетащите ползунок, и сценарий запустится заново. Каждый элемент управления записывает значение прямо в текст сценария ниже.
+
+studio-advanced-in-the-editor-tab-indents = В редакторе Tab добавляет отступ в два пробела. Нажмите Escape, затем Tab, чтобы перейти дальше.
+
+studio-mission-thread-time-axis = Ось времени
+
+studio-mission-thread-mission-thread = Нить миссии
+
+studio-mission-thread-where-does-a-mission-s = Где исчерпывается бюджет ошибок навигации и времени миссии?
+
+studio-mission-thread-a-mission-is-a-chain = Миссия — это цепочка фаз: запуск, сближение, перелёт к Луне, посадка, возвращение. У каждой фазы свои датчики и свой бюджет ошибок, и каждая передаёт свою неопределённость следующей. Эта страница показывает бюджет всей цепочки по фазам и называет самое слабое звено.
+
+studio-mission-thread-open-the-artemis-class-example = Открыть пример класса Artemis
+
+studio-mission-thread-open-a-result-file = Открыть файл результата…
+
+studio-mission-thread-the-thread = Нить
+
+studio-mission-thread-error-against-mission-elapsed-time = Ошибка в зависимости от времени миссии
+
+studio-mission-thread-the-phases = Фазы
+
+studio-mission-thread-the-budget-of-one-phase = Бюджет одной фазы

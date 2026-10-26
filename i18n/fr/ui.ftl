@@ -116,7 +116,7 @@ studio-ledger-rows =
 studio-recorded-in-english = Consigné en anglais
 studio-lang-engine-fallback = Le texte du moteur pour cette langue n'a pas pu être chargé ; l'anglais s'affiche.
 
-studio-geometry-kshana-home = Accueil { -brand }
+studio-geometry-kshana-home = Accueil Kshana
 
 studio-geometry-back-to-the-studio = Retour au Studio
 

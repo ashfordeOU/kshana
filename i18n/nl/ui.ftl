@@ -114,7 +114,7 @@ studio-recorded-in-english = In het Engels vastgelegd
 studio-lang-engine-fallback = De enginetekst voor deze taal kon niet worden geladen; Engels wordt getoond.
 
 # geometry
-studio-geometry-kshana-home = { -brand } startpagina
+studio-geometry-kshana-home = Kshana startpagina
 
 # geometry
 studio-geometry-back-to-the-studio = Terug naar Studio
