@@ -9,3 +9,9 @@ seg-8784979d6569 = dBW
 seg-37d16b499bc5 = dB
 
 seg-37d29d8303fe = km
+
+seg-8f1e7d3f5a07 = Familiepagina: <a1>Missieanalyse, verbindingen en ruimteoperaties</a1>
+
+seg-67fb8ac75f36 = MODELLED { "1" } · VALIDATED { "1" }: de rijen van de <a1>verificatiematrix</a1> die dit kind noemen.
+
+seg-a3697ad561db = Hz
