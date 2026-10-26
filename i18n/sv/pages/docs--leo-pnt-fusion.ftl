@@ -36,7 +36,7 @@ seg-57b56c874c9b = PUBLIC: <a1>arXiv:{ "2509.19551" }</a1>. Representativt: för
 
 seg-b0c5e502c21b = Iridium Satellite Time and Location (STL): { "66" } satelliter, sex nästan polära plan på { "780" } km och { "86.4" } grader; skurar vid { "1616" } till { "1626" } MHz, kvadraturfasskiftsmodulation (QPSK) vid { "25 000" } symboler/s; mottagen effekt { "300" } till { "2400" } gånger GPS-minimum
 
-seg-d65ae64607c1 = PUBLIC: <a1>Resilient Navigation and Timing Foundation (RNTF)</a1>, <a2>National Institute of Standards and Technology (NIST)</a2>, <a3>konstellation</a3>. DERIVED: effekten i dBW. Representativt: bärvåg vid bandets mitt, avståndsfel
+seg-d65ae64607c1 = PUBLIC: <a1>Resilient Navigation and Timing Foundation (RNTF)</a1>, <a2>National Institute of Standards and Technology (NIST)</a2>, <a3>konstellation</a3>. HÄRLEDD: effekten i dBW. Representativt: bärvåg vid bandets mitt, avståndsfel
 
 seg-36771f73c21f = Endast Doppler: { "11.325" } GHz, { "240" } MHz fyr med ortogonal frekvensmultiplex (OFDM), C/N0 upp till { "57.07" } dB-Hz, Doppler-fel { "30" } Hz; första skalet med { "1584" } satelliter på { "550" } km och { "53" } grader
 
