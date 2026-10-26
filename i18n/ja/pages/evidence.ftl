@@ -2987,3 +2987,9 @@ seg-41d86044a528 = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simu
 seg-c97e87cbcdd5 = エンジンの BibTeX
 
 seg-24ff0a7466d6 = BibTeX
+
+seg-1d45f4717196 = リポジトリから
+
+seg-b366150de755 = 調査を依頼する
+
+seg-ac7e1a5e344a = Pro
