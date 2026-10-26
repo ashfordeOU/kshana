@@ -4745,3 +4745,163 @@ dat-28b8bfe4b0ae = Interchange d'orbite, d'attitude et de noyau (bibliothèque, 
 dat-ba2aa4c455c5 = orbital_timing::orbital_timing, accessible comme section de leurrage du type `slot-timing` : vitesse et période d'orbite circulaire, la plus longue durée pendant laquelle un leurreur au sol peut atteindre le satellite par passage, le plancher du moniteur assisté par horloge et le délai de détection CUSUM, le niveau de protection conditionnel (plancher plus roue libre sur le délai), l'entraînement qu'un leurreur à une vitesse de rampe maximale indiquée accumule avant que le satellite ne quitte son empreinte ou qu'un contrôle indépendant ne s'exécute, et si chaque contrôle de contact sol ou de liaison croisée est indépendant d'un leurreur au sol unique
 
 dat-2500c9547de2 = orbital_timing::tests (reduces_to_the_terrestrial_tpl — exactement tpl::timing_protection_level_ns quand l'horloge n'a ni terme de scintillation, ni de bruit blanc de phase, ni de marche aléatoire ; leo_geometry_matches_its_closed_forms ; crosslink_independence_follows_the_footprint ; an_independent_check_caps_the_ramp_before_the_pass_ends ; a_crosslink_inside_the_footprint_does_not_count ; a_ramp_below_the_reference_is_never_detected)
+
+dat-f8d230acbfde = Orbites et géométrie GNSS
+
+dat-ad6c5b7630f1 = Orekit { "12.2" } (Apache-2.0) et GeographicLib { "2.1" } (MIT), tous deux exécutés comme programmes séparés, préenregistrés (766823f3) avant la modification du moteur et toute exécution de référence : grandeurs sur la sphère à { "1e-9" } en relatif (pire : rayon angulaire { "5.4e-16" }, fauchée { "7.0e-13" }, accès { "1.9e-14" }), période { "1e-12" } ({ "1.6e-16" }), GSD au nadir { "1e-7" } ({ "2.9e-10" }), la période nodale J2 et l'espacement des nœuds à { "0.1" } % d'une propagation J2 numérique d'Orekit avec détecteur de nœud ({ "1.2e-5" } et { "6.7e-5" }), l'indicateur de contiguïté exact (168/168), et, par rapport à l'ellipsoïde WGS-84, le limbe à { "0.3" } deg ({ "0.186" } deg) et la portée maximale au sol à { "0.5" } % ({ "3.2e-3" }). Retirer le terme de régression nodale fait échouer { "35" } des { "42" } points nodaux. Périmètre MODELLED : empreinte sur Terre sphérique ; ni radiométrie, ni FTM, ni atmosphère, ni gigue, ni reflet spéculaire ; l'inclinaison par défaut héliosynchrone n'est pas comparée. Le recoupement antérieur Skyfield/SGP4 est conservé comme régression. Révision { "0.30" } : l'espacement porte désormais la régression nodale J2 (scénario par défaut { "2756.37" } -> { "2752.17" } km)
+
+dat-b27700e618bb = Orekit { "12.2" } (Apache-2.0) BatchLSEstimator avec des mesures géométriques instantanées personnalisées RangeRate et AzEl (recoupées avec le TopocentricFrame d'Orekit), exécuté comme programme séparé sur des observations masquées et à graine fixée identiques. Seuils préenregistrés dans xval/od-measurements-orekit/PREREGISTRATION.md (0cf9076). Tous les seuils atteints sauf B4, la concordance d'état sans bruit de { "1" } cm, manquée sur { "2" } des { "4" } scénarios ({ "1.46" }, { "1.74" } cm) : l'estimation sans bruit d'Orekit lui-même se situe à cette distance de sa vérité terrain simulée (cause côté Orekit non isolée). Consigné et épinglé, si bien que la ligne reste MODELLED. Non modélisés : temps de lumière, aberration, réfraction, rotation de la Terre, filtre séquentiel pour ces types de mesures
+
+dat-bfa418341bba = Orekit { "12.2" } (Apache-2.0) BoxAndSolarArraySpacecraft avec FixedPanel et PointingPanel, SolarRadiationPressure(dRef = { "1" } ua, pRef = 1361/c), lacet nominal GenericGNSS et ECOM2(nD = { "2" }, nB = { "1" }), exécuté comme programme séparé avec le Soleil à des positions inertielles fixes ; la dérivée du facteur de rayonnement par Hipparchus Gradient, les dérivées par panneau en différences centrées d'Orekit (Orekit n'en a pas). Seuils préenregistrés dans xval/srp-boxwing-orekit/PREREGISTRATION.md (e59df6bf), avant toute sortie d'Orekit : { "1e-12" } en relatif ({ "1e-11" } de bout en bout, { "1e-9" } pour les différences) ; tous atteints (RESULTS.md). VALIDATED ne couvre que l'évaluation du modèle : les tableaux GSC sont des entrées transcrites, et l'adéquation d'un modèle boîte et ailes aux vraies orbites Galileo, la réémission thermique, la loi de lacet modifiée à faible bêta et les virages d'éclipse ne sont pas couverts ; la prédiction PRS de Galileo reste MODELLED
+
+dat-00b30dc2adb7 = Orekit { "12.2" } (Apache-2.0) HolmesFeatherstoneAttractionModel et pyshtools { "4.14.1" } (BSD-3-Clause) MakeGravGridPoint, exécutés comme programmes séparés ; seuils préenregistrés dans xval/high-degree-gravity/PREREGISTRATION.md (276c869f) et xval/cowell-tesseral-200-orekit/PREREGISTRATION.md (0aa312a6). Orekit concorde partout où il est défini, mais pyshtools manque son seuil préenregistré aux deux points proches du pôle (jusqu'à { "7.3e-10" } m/s^{ "2" } ; un contrôle mpmath à 50 chiffres situe l'erreur dans pyshtools), il n'existe aucune valeur de référence exactement sur l'axe polaire, et le contrôle de sensibilité préenregistré au degré 70 de l'orbite de { "24" } h a été manqué ({ "0.726" } m contre > { "1" } m). Chaque écart est consigné, pas ajusté pour disparaître, si bien que la ligne reste MODELLED
+
+dat-aefa467ef112 = Orekit { "12.2" } (Apache-2.0) NumericalPropagator, deux corps, LOFType.QSW, exécuté comme programme séparé (fixture inchangée depuis la ronde { "1" }). Seuil préenregistré { "1e-3" } m sur chaque échantillon de chaque cas ; la correction du moteur au second ordre a été réexécutée par rapport à lui sans changement (avenant 8c8e768d, écrit avant l'existence du propagateur, divulguant que les écarts du premier ordre étaient connus). propagate_second_order concorde à { "1.15e-7" } m (C1), { "9.8e-8" }, { "5.4e-8" } et { "2.2e-8" } m ; diviser par deux le terme du second ordre échoue de { "1.85e-3" } à { "3.14e-3" } m. Le Φ linéaire seul s'écarte de la vérité non linéaire de { "1.2" } à { "6.3" } mm à { "100" } m sur un tiers d'orbite (le terme du second ordre omis ; son test strict est conservé ignoré), si bien qu'il est caractérisé, pas validé. Contrôles internes conservés : Φ par rapport à une intégration RK4 des équations de Hill, Φ(t)Φ(−t)=I, les identités d'orbite bornée et de dérive −12π·x₀, et la mise à l'échelle du résidu du troisième ordre du terme du second ordre. Périmètre : chef circulaire, séparations voisines de { "100" } m, jusqu'à un tiers d'orbite ; pas d'excentricité (Tschauner–Hempel), de J2 ni de termes de traînée différentielle ; hypothèse de petite séparation
+
+dat-e44fb3412fe5 = Orekit { "12.2" } (Apache-2.0) NumericalPropagator/DormandPrince853 avec DragForce sur l'implémentation NRLMSISE00 propre à Orekit, exécuté comme programme séparé avec le même référentiel à angle de rotation de la Terre, la même forme WGS-84, la même convention d'heure solaire locale (un Soleil moyen) et TT pris pour UT ; la mise en place des conventions a été vérifiée référence contre référence (Orekit contre pymsis, { "5.2e-5" } en densité). Seuils préenregistrés dans xval/drag-tier-orekit/PREREGISTRATION.md ({ "21647478" }) : { "0.5" } m + { "1e-3" } du déplacement dû à la traînée, et deux contrôles de sensibilité > { "100" } m ; tous atteints. Non couverts : la précision du modèle par rapport à la densité mesurée, la météorologie spatiale variable dans le temps, une branche GMAT
+
+dat-2054cdce1a07 = Orekit { "12.2" } (Apache-2.0) NumericalPropagator/DormandPrince853 avec ThirdBodyAttraction et SolarRadiationPressure sur le lecteur DE440 propre à Orekit (orekit-data lnxp1990.440), exécuté comme programme séparé ; kshana lit une coupe de NAIF de440s.bsp identique bit à bit et vérifiée par SPICE. Seuils préenregistrés dans xval/propagator-de440-orekit/PREREGISTRATION.md (22a5a01d). Le seuil d'orbite ({ "0.5" } m) et le contrôle de sensibilité sont atteints, mais le seuil de position du Soleil/de la Lune ({ "3" } m / { "0.2" } m) a été manqué à { "6.39" } m / { "0.244" } m. SPICE lisant le même noyau à son TDB exact manque Orekit du même montant ({ "6.25" } m / { "0.240" } m), si bien que l'écart se situe entre le chemin de440s de NAIF et le lecteur DE440 ou l'échelle de temps d'Orekit ; cause non isolée. Consigné et épinglé, si bien que la ligne reste MODELLED
+
+dat-3757f9510eb5 = Orekit { "12.2" } (Apache-2.0) SolarRadiationPressure.getLightingRatio avec un corps occultant OneAxisEllipsoid WGS-84 et un sphérique, exécuté comme programme séparé avec le Soleil fixé à la même position inertielle. Seuils préenregistrés dans xval/srp-oblate-shadow-orekit/PREREGISTRATION.md (6d6d269c) : { "1e-6" } sur les deux, et un écart aplati-contre-sphère > { "1e-2" } ; tous atteints. L'axe de l'ellipsoïde est l'axe z inertiel des deux côtés (pas de précession-nutation)
+
+dat-1ba7c0e700d9 = Orekit { "12.2" } (CS GROUP, Apache-2.0) + Hipparchus { "3.1" } — une bibliothèque de dynamique du vol indépendante : ElevationDetector (chercheur de racine de Brent) + EventsLogger sur une éphéméride ITRF, station comme TopocentricFrame WGS-84. AOS/LOS/élévation maximale/nombre de passages/accès total concordent sur orbite+station+masque+fenêtre identiques (fixture versée ; pilote xval/orekit-passes)
+
+dat-1f32c32fcbb2 = Orekit { "12.2" } (CS GROUP, Apache-2.0) BatchLSEstimator (Levenberg–Marquardt) + KalmanEstimator (EKF) — une bibliothèque d'estimation tierce indépendante sur un modèle de forces apparié ; l'état à l'époque retrouvé et le RMS des résidus après ajustement concordent à <{ "1e-3" } m sans bruit et <{ "3" } m à un plancher de bruit de { "5" } m
+
+dat-5578740c6e47 = Orekit { "12.2" } (CS GROUP, Apache-2.0) NumericalPropagator/DormandPrince853 — une bibliothèque indépendante, un intégrateur différent et une récursion d'harmoniques sphériques différente. Les niveaux conservatifs (deux corps → zonaux J2–J6 → troisième corps Soleil/Lune → PRS boulet de canon) concordent à moins d'un mètre sur un arc de { "24" } h, validant l'intégrateur + l'algèbre des forces ; le niveau de traînée et la fidélité absolue des entrées d'éphéméride Soleil/Lune et de densité restent MODELLED (caractérisation seulement)
+
+dat-0035d8d68d50 = Orekit { "12.2" } (CS GROUP, Apache-2.0) NumericalPropagator/DormandPrince853 avec HolmesFeatherstoneAttractionModel sur les mêmes coefficients (tools/egm2008_to70.gfc) dans un référentiel de corps tourné par la même formule d'angle de rotation de la Terre, exécuté comme programme séparé. Seuils préenregistrés (f0e0e65, amendés avant toute comparaison en 2da899a) : |dr| <= { "0.5" } m et |dv| <= { "5e-4" } m/s, et les deux contrôles négatifs manquant de > { "100" } m ; tous atteints, seuils ensuite resserrés à { "0.1" } m et { "1e-4" } m/s. Non validés : la fidélité de l'orientation de la Terre (les deux côtés utilisent UT1 = TT sans précession-nutation dans le référentiel Era), l'option de référentiel Cio (contrôle interne seulement), les degrés au-delà de { "70" }
+
+dat-ebefda196784 = Orekit { "13.1.8" } (Apache-2.0) analyseurs et écrivains OPM, OMM et OCM, exécutés comme programme séparé (xval/odm-orekit), préenregistrés (cc6841da) avant toute comparaison : { "27" } des { "30" } messages écrits par Kshana ({ "6" } cas OPM, { "5" } OMM et { "5" } OCM en KVN, et XML pour la version { "3.0" }) sont analysés par Orekit avec chaque valeur à { "1e-14" } en relatif et chaque époque à { "1e-9" } s ({ "904" } valeurs, pire { "0.021" } d'un seuil), et Kshana lit les { "25" } messages qu'Orekit réécrit dans les mêmes seuils ({ "858" } valeurs, pire { "0.020" }) ; les { "14" } messages XML de Kshana sont tous validés par rapport au schéma NDM/XML { "4.0.0" } (dépend de données). Constats, épinglés, restreignant l'affirmation : Orekit exige ELEMENT_SET_NO (facultatif dans 502.0-B-3), refuse COMMENT dans les paramètres XML définis par l'utilisateur (le schéma l'autorise), n'écrit pas BTERM sans BSTAR (si bien que BTERM et AGOM ne sont couverts que dans le sens où Kshana écrit), et ajoute les époques relatives OCM en secondes SI, de sorte que sous TDB elles diffèrent de la lecture calendaire TDB d'environ { "1.9e-10" } s/s (UTC, TAI et TT concordent). La sortie historique OmmFile::to_omm_kvn, qui enveloppe les métadonnées OMM dans META_START/META_STOP, est refusée par Orekit (consigné). Hors périmètre : blocs OCM PERT et OD, jeux d'éléments non cartésiens, autres ordonnancements de covariance
+
+dat-efcf2278b913 = Orekit { "13.1.8" } (Apache-2.0) analyseurs et écrivains, exécutés comme programme séparé (xval/adm-orekit), préenregistrés (7a6a05fe) avant toute comparaison : Orekit analyse chaque message écrit par Kshana ({ "14" } AEM KVN, { "11" } AEM XML, { "4" } APM KVN, { "4" } APM XML) et chaque valeur est dans son seuil (quaternions { "1e-14" }, angles { "1e-9" } deg ; pire { "0.054" } d'un seuil) ; Kshana analyse les { "31" } messages qu'Orekit écrit à partir des mêmes entrées dans chaque seuil ; la rotation de chacun des { "135" } enregistrements de quaternion, d'Euler et de spin est égale à AemSegment.getAngularCoordinates à { "1e-12" } près (pire { "0.0071" } du seuil). Les { "15" } messages XML de Kshana sont tous validés par rapport au schéma NDM/XML { "4.0.0" } (dépend de données, récupéré avec un SHA-256 épinglé). Constat : l'écrivain APM d'Orekit refuse une manœuvre sans MAN_DELTA_MASS (facultatif dans la norme), si bien que les manœuvres APM ne sont couvertes que dans le sens où Kshana écrit. En dehors du jeu de cas : types AEM { "1.0" } */RATE et XML, blocs APM répétés
+
+dat-68b172af49b6 = Orekit { "13.1.8" } (Apache-2.0) avec Hipparchus { "4.0.3" } : les états GCRS du moteur tournés vers l'ITRF par Orekit (IERS { "2010" }), visibilité TopocentricFrame WGS-84 par rapport au masque de chaque système, org.orekit.gnss.DOPComputer pour une inconnue d'horloge et NumPy { "2.4.6" } numpy.linalg.inv (P2) pour plusieurs ; avec le chemin vérifié par rapport à python-sgp4 et ERFA (ligne « Un chemin d'orbite terrestre »). Seuils fixés avant l'exécution (préenregistrés 72ea9eb0 ; T2 et T3 sont les seuils de ronde 2 de { "0.30" }). L'étape TEME -> GCRS figée à J2000 fait passer le test au rouge ({ "4739" } échecs). Géométrie seulement ; ni scintillation, ni relief, ni puissance de signal. Le VDOP GNSS augmente vers le pôle ({ "1.20" } à l'équateur à { "1.51" } à { "89.9" } deg pour GPS et Galileo dans le scénario fourni) tandis qu'une couche LEO quasi polaire y converge. Historique : la ronde { "2" } (3254d456) concordait sur des états à deux corps tabulés ; la ronde 1 D8 de l'affirmation complète par rapport à la propagation TLE propre à Orekit (e947e69d) a été un constat, le SDP4 d'Orekit à e = { "0" } et son TEME IERS { "1996" }, épinglé
+
+dat-e398454a0812 = Orekit { "13.1.8" } (CS GROUP, Apache-2.0) avec Hipparchus { "4.0.3" } : TLEPropagator sur les mêmes jeux d'éléments dans un TEME qu'Orekit construit selon la définition indiquée (son TOD IERS { "2010" } tourné par GAST - GMST), ElevationDetector et ElevationExtremumDetector avec et sans ITURP834AtmosphericRefraction, et AngularAzEl avec AngularRadioRefractionModifier pour le cas du temps de lumière, franchissements et maximum résolus par Hipparchus ; { "60" } cas (quatre orbites, cinq stations au niveau de la mer, masques de { "0" }, { "5" } et { "10" } deg, { "24" } heures). Seuils fixés avant l'exécution (préenregistrés e947e69d, branche { "3" } de 72ea9eb0). Ignorer le temps de lumière ({ "9777" } échecs) ou changer la constante P.834 { "1.728" } en { "1.828" } ({ "7883" } échecs) fait passer le test au rouge. Périmètre : stations au niveau de la mer ; le coefficient h*theta0^{ "2" } de la P.834 d'Orekit vaut { "0.011380" } alors que la Recommandation imprime { "0.01380" } (épinglé), si bien que les hauteurs au-dessus du niveau de la mer ne sont pas comparées. La ronde { "1" }, par rapport au TEME IERS { "1996" } par défaut d'Orekit, a tenu tous les seuils de passage mais a manqué le seuil de direction à cause de l'écart de convention TEME de { "72" } mas (épinglé)
+
+dat-b819a47a0e05 = origine du référentiel héliocentrique
+
+dat-23a15a45b25a = Préréglages de holdover d'oscillateur à partir de fiches techniques publiques
+
+dat-ea3a0d9fadee = Préréglages d'oscillateur (MODELLED)
+
+dat-0947f97bce29 = osnma + `kshana osnma verify` : un vérificateur ouvert, en Rust pur, côté récepteur pour Galileo OSNMA (SIS ICD édition { "1.1" }, Receiver Guidelines édition { "1.3" }) à partir de pages I/NAV ou d'un flux u-blox UBX-RXM-SFRBX : clés publiques d'arbre de Merkle (DSM-PKR), signature ECDSA P-256/P-521 du DSM-KROOT, vérification de la chaîne de clés TESLA (SHA-256 ou SHA3-256), vérification de MACSEQ et des étiquettes (HMAC-SHA-256 ou CMAC-AES) pour ADKD { "0" }, { "4" } et { "12" } avec authentification croisée, fin/révocation/renouvellement de chaîne, renouvellement et révocation de clé publique, et message d'alerte ; état par satellite Authenticated/Failed/Unavailable avec une raison pour chaque échec ou retard. À titre consultatif : pas un équipement de navigation homologué et pas un service d'intégrité de navigation ; aucune performance anti-leurrage n'est revendiquée
+
+dat-677e59f31fce = Autres fichiers qu'une exécution écrit
+
+dat-d26f07202fd2 = Autres types de scénario
+
+dat-4cd9657f4679 = Notre engagement
+
+dat-7aa0e0b8610e = Nos normes
+
+dat-16c0ddfc0bad = Correspondance champ de sortie → norme (CCSDS { "502.0" })
+
+dat-4268394f7c22 = Sorties et exports
+
+dat-ff70ecd26cf8 = Les sorties de Kshana ne contiennent jamais d'identifiants par aéronef ou par navire (hex ICAO, MMSI, indicatif, nom).
+
+dat-048ffbebd050 = Allan à recouvrement + Allan modifié + écart de temps sur toute l'échelle des AF
+
+dat-8b59e90d4c53 = Allan à recouvrement + écart de Hadamard à recouvrement sur un vrai étalon au césium
+
+dat-c23ce7520abd = P2 : numpy { "2.3.5" } linalg.cholesky (LAPACK potrf), solve (gesv) et inv sur { "201" } entrées SPD versées (tests/fixtures/gls_whitening_numpy_oracle) vérifient le facteur écrit à la main, le résidu blanchi et l'opérateur de blanchiment ; le carré de Mahalanobis est vérifié par rapport à solve(Omega, r), qui n'utilise aucun Cholesky, si bien que l'identité z^T z = r^T Omega^-1 r est confirmée par une voie distincte. Tout à { "1e-12" } en relatif (pire { "7.9e-16" }), tolérance fixée avant la comparaison. Le plus grand nombre de conditionnement est { "19.3" }, si bien que les matrices mal conditionnées ne sont pas couvertes. Le blanchiment GLS/Aitken { "1935" } est cité.
+
+dat-46b9271a7eca = P2 : numpy { "2.3.5" } linalg.lstsq et scipy { "1.18.1" } (norm.isf, norm.sf, brentq) recalculent, par leurs propres algorithmes, les estimateurs des moindres carrés pondérés par sous-ensemble, la covariance de séparation générale sqrt(Δ Σ Δᵀ), les biais et le niveau de protection qui en découle sur { "300" } entrées versées (tests/fixtures/tpl_scalar_numpy_oracle) ; le PL concorde à { "1e-9" } en relatif (pire { "1.2e-10" }) et le sous-ensemble d'exclusion déterminant est identique, tolérance fixée avant la comparaison. Les multiplicateurs, a priori et surbornes de biais sont des entrées, et la structure de l'équation du PL (liste de modes, partage ir/2, projection du biais) est une entrée indiquée, comme pour la ligne du noyau de niveau de protection ARAIM lunaire ; l'affirmation validée porte sur l'algèbre linéaire et le PL sur ces entrées, pas sur les grandeurs physiques d'un scénario de synchronisation. Filiation ARAIM Blanch { "2015" } / Joerger { "2014" }
+
+dat-d990aeee2c36 = P2 : numpy { "2.3.5" } linalg.solve (LAPACK gesv, LU sans Cholesky) recalcule alpha_ss (le seuil sur la norme de contraste blanchie de d après retrait de son coefficient de mode commun GLS), alpha_cm et leur minimum sur { "256" } entrées (Omega, d, T_ss, T_cm) versées (tests/fixtures/gls_outside_omega_bound_numpy_oracle), y compris des directions de mode commun pures, des directions en dehors de l'axe commun modélisé, et les cas de direction nulle et de non-définie-positivité qui doivent donner +inf ; préenregistré (d070699a ; avenant 8a44267b, avant toute comparaison, reformulant la forme matricielle) ; tolérances fixées avant la comparaison. Le texte de la capacité a été corrigé par décision du propriétaire (2026-10-02) : il disait que la borne est infinie pour une direction en dehors de l'axe commun, ce qui contredisait le code et cette comparaison. Que le détecteur à contraste unique idéalisé borne par le bas la grandeur indétectable d'un vrai détecteur par sous-ensemble reste modélisé
+
+dat-a89edb3cb66d = Paquet { "2" } — navigation à l'estime inertielle (centrale inertielle quantique)
+
+dat-a43ba4edc2dc = Paquet { "3" } — transfert de temps (optique contre radiofréquence (RF), liaison optique intersatellite)
+
+dat-449d988454a1 = Paquet { "4" } — fusion hybride (couronnement)
+
+dat-a25533db53f3 = Format du paquet et procédure de vérification (normatif)
+
+dat-1e177dcd7edc = Recherche parallèle de phase de code (acquisition::pcps_acquire : FFT portable, repliement cohérent, accumulation non cohérente, seuil du khi-deux pour une probabilité de fausse alarme sur toute la recherche), affinement, corrélation prompte en boucle ouverte avec Doppler de code et estimateur de C/N0 M2M4, exécutés sur les lots IQ L1 4 bits de LuGRE lus via realdata::ion_sdr
+
+dat-badb561fe2a7 = Balayages de paramètres et ensembles Monte-Carlo à graine fixée sur tout type de scénario
+
+dat-2fcc8affa2c2 = analyse l'exemple OEM du Livre bleu CCSDS 502.0-B-3
+
+dat-0729edd93f3f = analyse l'exemple TDM du Livre bleu CCSDS 503.0-B-2
+
+dat-5562892b1c98 = Partie A — Sécurité : détecter un leurre temporel
+
+dat-60bbcf533161 = Partie B — PNT hybride : la suite fusionnée complète
+
+dat-fc2948573beb = durée du passage
+
+dat-4fc445e1ec8b = passes (type de scénario)
+
+dat-a6496af07c71 = passes::tests (interpolation de franchissement linéaire + sûre en cas de dégénérescence, passages polaire→latitude moyenne, masque plus élevé ⇒ moins ou autant de passages) ; tests/ground_station_pass_prediction_reference.rs ({ "22" } scénarios / { "129" } passages par rapport à l'ElevationDetector d'Orekit { "12.2" } ; pire |Δ| AOS/LOS { "0.0000" } s, élévation maximale { "0.0014" }°, accès total { "0.0001" } s, nombre de passages identique)
+
+dat-d5db568045e3 = Géolocalisation RF passive
+
+dat-410e34d58ba5 = Géolocalisation RF passive (TDOA/FDOA)
+
+dat-5fb65441ef4a = C/N0 maximal sur le passage
+
+dat-68b3ee7a4ba3 = Décélération maximale (indépendante du coefficient balistique), vitesse + altitude à la g maximale, et vitesse de chauffage maximal pour une rentrée balistique en atmosphère exponentielle. Exécutable depuis la CLI/les liaisons comme le type de scénario `reentry` (scenarios/reentry.toml)
+
+dat-619a91908684 = Table de croisement par classe d'horloge
+
+dat-964c439e2628 = Temps de croisement par classe d'horloge pour une échelle de temps lunaire — le moment où chaque classe d'oscillateur cesse de respecter une borne indiquée sans mise à jour — ainsi qu'une observable VLBI géodésique lunaire et l'information de Fisher qu'elle apporte au datum.
+
+dat-70c4fb1ae196 = Table de croisement du temps lunaire par classe d'horloge
+
+dat-8fa2b9366fa6 = Sous-scores par dimension sur les sept catégories de résilience propres à Kshana (pas les termes du DHS), les fonctions RDRR de RethinkPNT et les critères de Yang, chacun étiqueté modélisé avec son déterminant ; niveau RPCF provisoire avec une porte de dégradation bornée. Auto-évaluation issue de simulation, jamais une certification.
+
+dat-f3ca65467ef0 = Registre d'honnêteté par résultat qualifiant une sortie de démonstration : ses ancres externes, ses hypothèses modélisées, ses écarts jusqu'au vol et sa plage de TRL représentative, avec invariants imposés (validé exige une ancre externe ; modélisé exige un écart et ne peut pas revendiquer au-delà du TRL { "4" }).
+
+dat-7196cff49f43 = Rapport brouilleur-signal par satellite sur de vraies distances obliques lunaires, avec le côté du signal utile conservé comme distribution plutôt que réduit à une médiane, de sorte que le contour de déni porte la bande d'incertitude que la géométrie du relais produit réellement. Deux critères sont rapportés côte à côte : le seuil de rapport de puissances, et la perte de verrouillage calculée à partir de la dynamique des boucles de poursuite. L'empreinte de capture orbitale est balayée selon l'altitude de l'émetteur et la largeur de faisceau, et là où la grille n'atteint jamais la capture au limbe, le rapport le dit et imprime le déficit.
+
+dat-554bd9c7fa14 = Angles de visée topocentriques par satellite (azimut dans le sens horaire depuis le nord, élévation) et distance oblique en un site sélénographique nommé, étant donné le satellite dans le référentiel solidaire de la Lune du site (l'affirmation validée). La précision de télémétrie du signal dans l'espace est exposée comme paramètre de scénario afin que le balayage du volume de service produise une EXIGENCE de télémétrie plutôt qu'un verdict réussite/échec à un sigma fixe ; ce paramètre est une entrée de conception en dehors de l'affirmation validée
+
+dat-ab6635f1e6f3 = Indisponibilité et contention par session, pas un seul chiffre de rapport cyclique
+
+dat-4c4eacbf31eb = Surborne de biais par source b = (U/k_cov)·Phi^-1(1-tail/2) + vieillissement, gonflant une incertitude élargie de Type B publiée en une queue d'intégrité allouée ; relie à tpl_scalar comme bias_s
+
+dat-136e5aece125 = Constantes physiques de chaque corps du système solaire et rapport du système entier
+
+dat-a91332290bb9 = Choisir une façon de démarrer le serveur
+
+dat-b0564ecd4b59 = Pièges et unités
+
+dat-b7fcee4c50d3 = PL(τ)=max(TPL_handover,HPL(τ)) ; semi-continu inférieurement PL({ "0" }+)≥PL({ "0" }−) ; maximum courant K(IR/2) ; exposants de phase τ/τ³/τ⁵
+
+dat-141b3489ec8b = Définitions en langage courant des termes utilisés dans Kshana.
+
+dat-36b2068eab79 = Observabilité d'une constellation cislunaire plane sur un arc de poursuite (P6).
+
+dat-4a999fdde125 = Ascension plane en virage gravitationnel d'un véhicule à plusieurs étages au-dessus d'une Terre sphérique non tournante à travers l'atmosphère standard américaine { "1976" } (densité et pression), avec un coup de tangage, une poussée réduite par la contre-pression de la tuyère, des extinctions d'étages aux limites exactes de pas, et les pertes de gravité, de traînée, de pilotage et de contre-pression intégrées à côté de l'état. Exécutable comme type de scénario `ascent-losses`.
+
+dat-068109f5b1b0 = Ascension plane en virage gravitationnel d'un véhicule à plusieurs étages au-dessus d'une Terre sphérique non tournante à travers l'atmosphère standard…
+
+dat-d8a6a99892ff = delta_dor à onde plane (même base de code) dans la limite de champ lointain ; dérivées partielles par différences finies. Comparaison externe { "0.30" }, un constat (reste MODELLED) : par rapport aux temps de lumière convergés d'ANISE { "0.10" } via DE440 ({ "75" } retards au 2024-01-01 sur trois lignes de base DSN, générés par xval/anise-lunar-od sans code Kshana), aucun retard n'est dans la tolérance de { "1" } ps. Le plus grand écart est de { "24" } µs, provenant du centre de la Lune analytique (à environ { "200" } km de DE440), de l'unique géométrie instantanée sans itération de temps de lumière ({ "3.6" } µs) et du mouvement polaire abandonné ; les dérivées partielles de balise diffèrent jusqu'à { "2.9e-3" } en relatif contre { "1e-6" }. L'affirmation de la documentation du module selon laquelle les approximations de référentiel sont inférieures à la fidélité du modèle ne tient pas à ce niveau. Ronde { "2" } de { "0.30" } : le chemin du noyau (lunar_vlbi::KernelGeometry) est validé par rapport aux temps de lumière NAIF SPICE dans sa propre ligne, VLBI géodésique lunaire, chemin du noyau ; la comparaison ANISE de ce chemin (75/75 à { "1" } ps, pire { "0.12" } ps, tests/lunar_vlbi_anise_oracle.rs::kernel_delay_matches_the_anise_light_time_difference) n'est qu'un recoupement d'évaluation du noyau, parce que la résolution du temps de lumière dans ce banc est propre à ce projet. Cette ligne (le chemin analytique par défaut) reste MODELLED avec le constat ci-dessus
+
+dat-5d9fc243788e = Positions des planètes dans le système solaire à partir des éléments képlériens de Standish du JPL
+
+dat-70e79085ed3d = Champs de gravité planétaires à partir des tables SHADR du PDS
+
+dat-7661265f75db = Les orbites prévues se regroupent au-dessus d'un utilisateur du pôle sud lunaire ; quelques balises de télémétrie sur des hauteurs proches fixent la géométrie à moindre coût que davantage de satellites.
+
+dat-e87cc4ad1c2e = Indépendance vis-à-vis de la plateforme
+
+dat-d2419583fdce = Plateforme : statique ou navire
+
+dat-9a64944d4290 = Veuillez ne pas ouvrir de ticket public pour des signalements sensibles du point de vue de la sécurité.
+
+dat-80bac9d3e563 = Guide du module d'extension
+
+dat-d10797d9b779 = Correspondance avec les cadres de résilience PNT
+
+dat-ce44f2a86538 = Évaluation alignée sur les cadres de résilience PNT
+
+dat-8475c6bc6be8 = Évaluation de la résilience PNT et instabilité de décision
+
+dat-c8b4f7775e29 = Porkchop sur l'éphéméride DE440
+
+dat-bf639db12a78 = Erreur de position en fonction de la durée de roue libre à partir d'un bilan d'erreur d'IMU — biais, marche aléatoire et facteur d'échelle, chacun avec sa propre loi de croissance et sa propre part du franchissement — de sorte que le coût d'une interruption de navigation est une courbe calculée plutôt qu'un taux de dérive balayé. Les franchissements de seuil sont une sortie du moteur avec la contribution dominante nommée à chacun, sur quatre classes d'IMU, et un intervalle de recalage sur le terrain est évalué dans son propre bloc afin que les franchissements principaux restent sans aide.
