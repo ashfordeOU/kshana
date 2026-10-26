@@ -191,3 +191,7 @@ seg-e98e25897176 = エンジン v{ $version } の実際の実行による、採�
 seg-f891ee876b96 = 答える問い
 
 seg-7cf2608b2b2f = エビデンスパックの構造。受信機ログ（NMEA、u-blox UBX、RINEX { "3" }、または Android のログ）と時間窓が kshana receiver-trust evidence に入力され、七つのファイルが書き出されます。log-slice.bin、config.json、epochs.json、summary.html、manifest.json、manifest.sig、およびオプションの timestamp.tsr です。マニフェストには、ログ全体と各ファイルの SHA-256、およびファイル群にわたるハッシュチェーンが記録され、署名はマニフェストを対象とします。kshana evidence verify は、署名、各ファイルのハッシュ、チェーン、リストにないファイルがないことを検査し、検証できたときは { "0" }、何かが失敗したときは { "1" }、署名者が固定されていなかったときは { "3" } で終了します。パックは技術的な記録であり、法的な意見ではありません。
+
+seg-b2689beaba9e = Galileo OSNMA 検証器
+
+seg-80f3f0aae42c = 干渉マップ
