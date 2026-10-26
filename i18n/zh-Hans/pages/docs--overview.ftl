@@ -247,3 +247,65 @@ seg-367ac9b4a8a6 = `kshana imu-fit` 从静止 IMU 日志中读出的内容，取
 seg-e127f2f26824 = 读取的内容
 
 seg-26ab8544afba = 一次合成航程中的信任度分数，取自引擎 v{ $version } 在 examples/maritime-trust 上的一次真实运行（一份虚构的塔林至赫尔辛基航线渡轮 NMEA 日志，{ "3001" } 个历元，{ "1" } Hz）。三个分栏共用一个时间轴。上：接收机报告的位置与船舶真实位置之间的距离，在约 { "1576" } s 之前保持在几米以内，此时日志中编排的位置拖引将其拉开，而接收机仍持续报告有效定位解。中：信任度分数，范围 { "0" } 至 { "100" }，在最初 { "300" } s 的校准期间不计算，在拖引之前处于标称频段（至少 { "90" }），随后下降，穿过降级频段（至少 { "55" }）进入不可信频段。下：每个历元的频段，以带名称的彩色条带表示。该分数仅供参考。仅供参考的软件，不是经型式认可的导航设备（IEC { "61108" }、IEC { "61162" }）：船舶航行的责任仍由操作人员承担。该日志是为展示格式和监测器而虚构的；它不是测量，对任何接收机的表现不作任何说明。
+
+seg-a683980168f7 = Docker
+
+seg-f3a2279d6df7 = 命令或按钮
+
+seg-20c5ae650eb7 = 需要
+
+seg-af4d3ce85e11 = 固定版本形式
+
+seg-0fdd85a80584 = <a1>npx（Node）</a1> · <a2>Docker</a2>
+
+seg-b02bdf7c7661 = Node 或 Docker
+
+seg-de23dcdd2647 = <a1>npx（Node）</a1> · <a2>Docker</a2> · <a3>Insiders（npx）</a3>
+
+seg-abf8b5fe685a = Node { "18" }+
+
+seg-06299cefbf9e = Python { "3.9" }+，配合 uv 或 pipx
+
+seg-26795c302f8a = brew
+
+seg-ded975fa67fa = v{ $version } 的 formula
+
+seg-667d6dde705b = <c1/>，然后 <c2/>
+
+seg-f6e9fc5f46fe = Scoop（Windows）
+
+seg-bc4762d20004 = v{ $version } 的清单
+
+seg-f7c0a2fbb0b5 = winget
+
+seg-9e599ab3c0a3 = winget（Windows）
+
+seg-091d1404bb8a = cargo
+
+seg-145ddf98e77f = Rust { "1.88" }+
+
+seg-b308519d4c8d = <a1>发布页面</a1>：<c1/>（Linux x86-64）、<c2/>，由 <c3/> 和 <c4/> 校验
+
+seg-c39cac69f700 = v{ $version }
+
+seg-e8f5e2b6580b = <c1/>（可被支持注册表的客户端发现）
+
+seg-b1a6e807f06f = 支持注册表的客户端
+
+seg-d5a3818ac3b6 = 远程（streamable HTTP）
+
+seg-5f1397b1ea30 = 你自己的主机
+
+seg-81a87d14efda = Kshana：标志，一个标示精确时刻的罗盘准星，位于字标 kshana 旁
+
+seg-27698c80b7f1 = 将已发布的 Jammertest 测试目录和发射计划（NPRA/jammertest-plan，MIT）作为计划真值读入（<c1/>）：一个测试区域的各时段成为接收机信任度事件，每个标签中带有目录编号和年份。这些是计划的时段，不是记录下来的实际发射时间；不读取计划中的任何联系人字段。MODELLED。见 <a1><c2/></a1>。
+
+seg-23daf6121ca0 = 依据该计划对接收机日志打分（<c1/>）：每项测试的检测延迟、漏报和恢复时间，以及所有时段之外的虚警。文本日志以 <c2/> 给出，二进制日志（<c3/>、<c4/>）以 <c5/> 给出。签名包需要密钥：仅限命令行。仅供参考；MODELLED。
+
+seg-2b82a8a22298 = 依据静止 IMU 日志（CSV 或 EuRoC），通过阿伦偏差拟合 <c1/> 和 <c2/> 场景的加速度计和陀螺仪参数，附可直接粘贴的 <c3/> 表和日志的 SHA-256（<c4/>）。输入为文本，输出为 JSON；MODELLED。
+
+seg-b6abad1f2c9d = 对照真值文件为 kshana-bench 提交的结果打分，两者均为 JSON 文本（<c1/>、<c2/>）：结果文件含规范版本、划分、输入哈希和该任务的指标。MODELLED；描述的是一份日志或语料，绝不描述某个产品。
+
+seg-c7a0d7981bfd = 将 kshana-bench 结果文件渲染为静态排行榜页面（HTML 文本），每个文件都先经过验证。
+
+seg-57f592bb676b = 安装 MCP 服务器

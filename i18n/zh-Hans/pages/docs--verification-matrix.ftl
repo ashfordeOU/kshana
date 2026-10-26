@@ -2325,3 +2325,121 @@ seg-e7d7d99fe538 = 一个不依赖 ROS 的桥接，将定位和卫星消息写�
 seg-05ded40b17d2 = 无外部参考基准：ROS 节点未在实时 ROS { "2" } 图上运行，ublox_ubx_msgs 的字段名也未对照正在运行的驱动程序检查。桥接测试运行了 gnss_lib_py（MIT）
 
 seg-c3c260b7063e = 测试
+
+seg-33d506570c1b = srp_shadow::tests（环形闭式解、复现锥形阴影的均匀定律、全日照与本影极限）
+
+seg-13f8f557c721 = propagator (ForceModel::with_ephemeris, ForceEphemeris), ephem_provider
+
+seg-20f163c0cb8f = tests/propagator_de440_orekit_oracle.rs（{ "5" } 个用例 × { "24" } h 内每小时 { "25" } 个状态，LEO、GEO 和 HEO，三体以及三体 + SRP：最差 |dr| { "0.0170" } m，|dv| { "1.84e-5" } m/s；解析级数对照的偏差为 { "9.96" } m；相对 Orekit 的 DE440 位置，太阳 { "6.39" } m、月球 { "0.244" } m，为已记录的未达到）；propagator 单元测试（提供方拒绝、跨克隆共享的回退计数）
+
+seg-448f4acf5c7b = tides, propagator, precise_od
+
+seg-4014447d4bcc = tides::tests（S1 项为周日项，四分之一天转过 { "90" } 度，且具有各行的负荷因子振幅；LEO 处的物理量级）；propagator::tests::the_s1_air_tide_flag_adds_exactly_the_s1_acceleration
+
+seg-8fda2ee90583 = gravity_sh, propagator (FieldEvaluator)
+
+seg-3f7d3003656e = tests/gravity_sh_high_degree.rs（Orekit 在 { "8" } 个离轴点：N = { "70" } 时最大 |da| 为 { "2.2e-17" } m/s^{ "2" }，始终运行；N = { "200" }、{ "360" }、{ "2190" } 时分别为 { "3.5e-17" }、{ "3.9e-17" } 和 { "7.3e-17" } m/s^{ "2" }，受 KSHANA_EGM2008_GFC 数据控制）；tests/cowell_tesseral_200_orekit_oracle.rs（{ "24" } h 的 200x200 轨道，受数据控制：最差 |dr| { "0.1317" } m，|dv| { "1.45e-4" } m/s；70 阶对照 { "0.726" } m）；gravity_sh 单元测试（{ "70" } 阶时与经典求值器一致到 { "1e-13" }，2190 阶场上的有限差分和极点连续性，一个下溢的 2190 阶项对照扩展指数计算）
+
+seg-296a6fe8585b = orbit_determination (determine_orbit_batch_tracking, propagate_with_stm, is_visible), batch_ls (gauss_newton_analytic)
+
+seg-9493e02e3cd1 = tests/od_tracking_measurements_reference.rs（{ "8" } 个场景：测距率、方位/仰角和混合，LEO 和 MEO，无噪声以及带随机种子的 sigma { "5" } m / { "5" } mm/s / { "1e-4" } rad，{ "5" } 度和 { "10" } 度掩模，对照 Orekit { "12.2" }：可见集合一致；测量值在 { "5.84e-8" } m、{ "6.30e-10" } m/s、{ "1.44e-13" } rad 之内；STM 相对误差在 { "1.2e-14" } 之内；含噪状态在 { "1.74" } cm 和 { "1.14e-5" } m/s 之内；各类型拟合后 RMS 的相对误差在 { "2.7e-4" } 之内；无噪声 kshana 对照真值 { "1.06e-8" } m；无噪声 kshana 对照 Orekit 在两个场景上为 { "1.464" } 和 { "1.740" } cm，是对 { "1" } cm 判据的已记录未达到）；orbit_determination 和 batch_ls 单元测试
+
+seg-f5a76ae1fcaa = sp3, precise_od
+
+seg-39a552abfcab = src/sp3.rs 单元测试；tests/agency_galileo.rs::galileo_e11_sp3_accuracy_weighted_fit（已提交的 { "8" } h ESOC 测试夹具，由头部指数 { "5" } 得 sigma { "0.032" } m：Tier-1 3D RMS { "0.132" } m 不变，Tier-2 为 { "0.035" } m，对照 sigma { "1" } m 时的 { "0.070" } m，变化来自重新平衡的经验先验约束）；tests/agency_swarm.rs（Swarm 产品不带精度代码并回退，已固定）
+
+seg-409f709cceb3 = gravity_pds, body, propagator, mars_frame
+
+seg-0fe6532ca74d = tests/planetary_gravity_pds.rs::a_shadr_field_attached_to_a_body_drives_the_propagator；gravity_pds::tests::with_gravity_field_is_opt_in
+
+seg-e3d75762b979 = gnss_navmsg (gps_cnav, gal_inav, gal_fnav, fec)
+
+seg-dbe0dd5dcf47 = gnss_navmsg::tests（CRC-24Q 校验值 0xCDE703；卷积码冲激响应；Viterbi 纠正注入的错误；布局宽度）；tests/gnss_navmsg_roundtrip.rs（字段起始比特等于 ICD 的比特编号；编码 -> FEC -> 交织 -> Viterbi -> 解码往返误差在半个 LSB 之内）；tests/gnss_navmsg_galileo_brdc_grid.rs（IGS BRDC 2018-133 的 Galileo 记录落在 LSB 网格上，最差 { "3.6e-3" } LSB；预先登记的卫星数判据未达到，{ "20" } 颗中有 { "15" } 颗，发现）
+
+seg-b81cd9204f64 = hatch (HatchFilter), pvt (assemble_epoch_precise_smoothed, CarrierSmoother)
+
+seg-e892fffaaf07 = hatch::tests（无噪声直通；白噪声方差 1/(2N-1)；重启）；tests/hatch_wettzell_oracle.rs::hatch_finding_is_pinned（WTZR 2025-02-24 01-06 h，{ "600" } 个历元，N = { "100" }：3-D 误差中位数 { "1.553" } -> { "1.116" } m，p95 { "3.473" } -> { "3.207" } m）
+
+seg-bdda05057c91 = rinex_obs (parse_obs)
+
+seg-44b76c5cb13e = tests/rinex4_obs_mao0.rs（IGS MGEX RINEX { "4.00" } 文件 MAO000USA_R_20231980000_01D_30S_MO 的前 { "4" } 个历元，{ "58" } 颗卫星，{ "7" } 个系统：头部记录和首历元的值等于已发布的字面值）；rinex_obs::tests::parses_a_rinex_4_header_with_its_new_records（由规范得到的合成 { "4.02" } 头部）
+
+seg-439e23a5567e = rinex (RinexEphemeris::sv_position_ecef_bds_geo, NavParseOptions)
+
+seg-8c86b4b3a731 = tests/bds_geo_broadcast_oracle.rs（真实的 C01-C04 记录：地球静止轨道半径，经度在已发布轨位处为 140.02/80.04/110.55/159.99 度，带倾角时 |纬度| 为 { "2.13" } 度，不带时为 { "6.65" } 度；预先登记的广播星历对精密 SP3 的比较受 KSHANA_BDS_GEO_SP3 数据控制，尚未运行）；rinex::tests
+
+seg-75c2ea59f607 = fusion::carrier_tc (run_carrier_tc, CarrierTcCfg), fusion::trajectory (truth_epochs)
+
+seg-e27a18b3aae9 = tests/fusion_carrier_tc.rs（8 字形行驶：在相同测量上，稳态 3-D RMS 载波为 { "0.025" } m，对比码为 { "0.470" } m；{ "12" } 个随机种子的平均 NIS/自由度 { "1.00" }，稳态 NEES/自由度 { "0.92" }；一次 1 周的周跳在其历元被检出，没有虚警，解保持完好；关闭广播修正会使码误差从 { "0.51" } m 升至 { "19.6" } m（电离层）和 { "8.0" } m（对流层）；无噪声运行收敛到 { "0.3" } mm）
+
+seg-2811d9348db2 = fusion::pack (TightCfg, [tight]), scenarios gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation
+
+seg-3f9bc3b0027f = tests/gnss_ins_packs.rs（每个包：两种传感器在中断期间融合结果都优于自由 INS；铁路：中断期间导航级紧耦合 { "5.3" } m 对松耦合 { "12.9" } m，战术级 { "15.6" } m 对 { "18.8" } m，可用性 { "0.97" } 对 { "0.95" }；紧耦合表经独立核对）；tests/gnss_ins_legacy_trajectory_pin.rs（松耦合默认值逐位一致）
+
+seg-726b35d3e247 = fusion::coupled (CoupledPntFilter, CoupledPntBiasFilter, CoupledPnt3d), fusion (run_coupled_suite), hybrid (CoupledCfg)
+
+seg-260ef8ae3823 = tests/fusion_coupled_filters.rs（{ "60" } 个随机种子的3-D 滤波器：对 { "8" } 个状态，后半段平均 NEES 为 { "8.12" }，最后历元的 χ² 之和位于其 { "95" } % 区间内；一次 { "0.1" } ns 的钟差固定使3-D 位置 sigma 从 { "5.58" } m 降到 { "3.07" } m；{ "60" } 个随机种子的偏差滤波器：χ²({ "5" }) 之和在区间内，{ "60" } 次中有 { "59" } 次偏差在 { "3" } 个 sigma 之内；带有偏置加速度计的 fusion-pnt-coupled：耦合时位置 p95 为 { "18.7" } m / { "90.0" } m，完好性为 { "1.00" } / { "0.97" }，解耦时则为 { "430" } m / { "4060" } m 和 { "0.006" } / { "0.000" }）；fusion::coupled::tests；tests/fusion_coupled_pack.rs（不带 [coupled] 的 fusion 和 hybrid 逐位一致）
+
+seg-10d9b01f3ab2 = fusion::trajectory (TrajectoryCfg, Trajectory, kinematic_imu, parse_truth_csv), fusion::pack ([trajectory])
+
+seg-5a6b5289a473 = fusion::trajectory::tests（协调转弯没有侧向力，载荷系数为 1/cos φ；CSV 导入以 { "1e-3" } m/s 和 { "1" } m 复现一条飞行剖面）；tests/gnss_ins_trajectory_library.rs（每个剖面都能运行，且在中断期间融合结果优于自由 INS；每个都飞出其所命名的运动；航向可观测性：{ "240" } s 之后的偏航 sigma，直线巡航为 { "1.27" } 度，8 字形为 { "0.039" } 度，走走停停为 { "0.062" } 度）；tests/gnss_ins_legacy_trajectory_pin.rs（旧结果和真值哈希逐位一致）
+
+seg-5807e4274501 = cr3bp (differential_correct_halo, PeriodicOrbit)
+
+seg-adec908f7883 = tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry（CAPSTONE { "2023" } 年 3 月，{ "4" } 次近月点和 { "5" } 次远月点：周期 { "6.5004" } d 对 { "6.5699" } d（{ "1.07" } %，判据 { "3" } %），远月点 { "71 182" } 对 { "71 215" } km（{ "0.05" } %，判据 { "5" } %），近月点 { "3 385" } 对 { "3 245" } km（{ "4.1" } %，判据 { "20" } %））；cr3bp::tests::reproduces_l2_southern_nrho_92_regime
+
+seg-d38407c0a9ab = dop_error_mc (run_geometry, check, TOLERANCES); dop_error_ci (run, GEOMETRIES); pvt (solve_spp); orbit (dop, dop_cofactor)
+
+seg-01d0a7046f8e = tests/uere_dop_monte_carlo.rs（position_error_is_sigma_times_dop_on_the_gnss_lib_py_geometries：预先登记 e50c88d2 之后首次运行，全部 { "104" } 项检查通过，最差方差 { "3.2" } %，RMS { "1.6" } %，相关系数 { "0.012" }，均值 { "2.2" } 个标准误，椭圆比例 { "0.0039" }；negative_control_a_doubled_pdop_fails_every_geometry；negative_control_elevation_dependent_errors_fail_the_low_elevation_geometries：两项对照均按要求失败；position_error_is_sigma_times_dop_on_masked_skies：设计说明中的两个带遮挡天际线的几何，即 10sat-mixed 天空在城市街道（{ "4" } 颗卫星，PDOP { "16.6" }）和集装箱码头（{ "9" } 颗卫星，PDOP { "2.5" }）预设下，预先登记 03999c11 之后首次运行，全部 { "26" } 项检查通过，tests/fixtures/dop/PREREGISTRATION-MASKED.md）；tests/position_error_dop_ci.rs（先做的一项单独检查，针对四种手工选定的天空（开阔、聚集、峡谷、半天空；sigma { "1" } m，随机种子 0x0D0B5EED），以卡方置信区间在 { "20" } 项检查上总计 { "1e-6" }：比值 { "0.987" } 至 { "1.009" }，求解器自身的 PDOP/GDOP 与核算结果在 { "2.5e-12" } 之内相等，并对 { "10" } % 的 DOP 误差和 1/sin(仰角) 误差设有负对照；运行在预先登记之前，因此只作报告，不属于预先登记）；dop_error_mc::tests；dop_error_ci::tests
+
+seg-557c0aa72056 = receiver_trust (geometry: GeometryTracker, geometry_ratio, sky_ratio, geometry_points, GeometryLabel; score: DeductionClass, score_with; monitors; live); telemetry (sample, prometheus, syslog, otlp)
+
+seg-fd57dab04d68 = tests/natural_degradation_trust.rs（a_stated_skyline_reads_the_fjord_as_geometry：在 scenarios/training/fjord-natural-degradation.toml 的合成峡湾航段上，无论有无所述的 [skyline]，被扣分的都是同样的 { "624" } 个历元；有它时，sky-blocked 在 { "680" } 个历元上被报告（无它时为 { "0" }：方位角空隙回退在两侧都有岸壁的峡湾中什么也看不到），open_fraction 为 { "0.758" }，环境类历元从 { "78" } 降到 { "33" }，其余是所述天际线让其处于开阔处的卫星的丢失；事件之外，天际线不改变任何得分）；receiver_trust::geometry::tests（阈值处手工推导的比值、阈值边缘、斜坡和上限、下限、标签边缘、[geometry] 覆盖、经独立核对的核算上的 DOP、保持和过期的天空、未知而不猜测、信号丢失、较差几何的容差、无定位解的哨兵值）；tests/geometry_trust.rs（一个一般的带遮挡天空被标注而不计分、一个较差的带遮挡天空、一次低仰角丢失、一次功率下降、一个伪造的 HDOP、完全的信号丢失、较差几何期间的拖拽偏离、未知几何、会话覆盖、实时模式）；tests/geometry_trust_no_change.rs（两个示例会话在去掉追加的键之后与 { "0.35.0" } 逐字节一致）；tests/geometry_corpus_identity.rs（每个已提交的船舶 NMEA 语料，也包括作为仅 GPS 开阔天空的情形，以及船员训练场景：与 { "0.35.0" } 逐字节一致，只有 poor 历元例外，它们仅因几何扣分而不同）
+
+seg-911ccf2cb486 = skyline (Canyon::cut_deg, Sector::contains, TerrainPoint::elevation_deg, reduce_terrain, SkylineCfg::build)
+
+seg-849ae7d82147 = skyline::tests (canyon_matches_hand_computed_wall_elevations; terrain_takes_the_curvature_drop; sectors_have_sharp_edges_and_wrap; a_preset_is_overridden_or_added_to_field_by_field; malformed_sections_are_refused)
+
+seg-d5ba7b502aec = skyline (PRESETS, preset, preset_list)
+
+seg-ef3717bfca79 = skyline::tests (presets_carry_the_note_dimensions_and_provenance)
+
+seg-4e6101547ab1 = geometry; orbit (cofactor_from_los, dop_cov, dop); surface (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg)
+
+seg-8ee1ff6b9975 = geometry::tests (ellipse_of_an_analytic_two_by_two_case; sky_geometry_equals_orbit_dop_on_the_same_visible_set; ecef_input_matches_azimuth_elevation_input; one_clock_per_system_adds_a_state_and_costs_geometry; monte_carlo_is_seeded_and_agrees_with_the_geometry; presets_propagate_and_are_seen_from_a_site)；tests/dop_reference.rs（单时钟核算对照 gnss_lib_py）
+
+seg-085cbc64bab2 = holdover
+
+seg-b31ed8fc6801 = holdover::tests (vs multi-step Kalman covariance recursion; white-FM exact; round-trip)；滑行方差核算在 tests/gnss_denied_clock_holdover_reference.rs 中经外部核对（对照 scipy Van-Loan/brentq）
+
+seg-2a3a7ee9e8f3 = clock_library (card, condition, series), realdata::clk, allan (lag1_noise_id)
+
+seg-578497ef82a5 = tests/clock_library_device_cards_oracle.rs (gps_iif_cards_reproduce_the_recorded_finding; receiver_training_is_blocked_by_the_epoch_minimum; non_blind_cards_are_reported; 预先登记 2ec76864); clock_library::card::tests; clock_library::condition::tests; clock_library::series::tests; realdata::clk::tests; tests/clock_library_f9p_cards_oracle.rs (f9p_first_pipeline_reproduces_the_recorded_finding; f9p_corrected_pipeline_reproduces_the_recorded_finding; 受数据控制)
+
+seg-d302e2ef46ad = clock_library (card)
+
+seg-00637c1e69f0 = tests/clock_library_periodic_cards_oracle.rs (periodic_cards_reproduce_the_recorded_finding; 预先登记 fb475550); clock_library::card::tests (a_periodic_card_carries_the_sinusoid_a_power_law_card_cannot)
+
+seg-3016100a7015 = clock_state::tests (analytic van-Loan Q; NEES; PSD positivity); tests/clock_state_reference.rs（完整的预测加更新轨迹：状态 x 和 { "3" }×{ "3" } 协方差 P，在 { "1925" } 步 / { "4" } 组参数上对照 filterpy { "1.4.5" }；最差 |relΔ| { "2.8e-14" }）；tests/clock_state_igs_holdout_oracle.rs::three_state_filter_on_held_out_igs_clocks_finding（固定该发现）；tests/clock_state_ext_igs_fresh_oracle.rs::extended_filter_on_fresh_igs_clocks_finding；tests/clock_state_ext_igs_conditioned_oracle.rs::conditioned_extended_filter_finding（D9 第 { "3" } 轮）
+
+seg-509026100595 = timetransfer, timetransfer_adv
+
+seg-a1ad8fb8537d = timetransfer::tests (reciprocal cancellation; two-form Sagnac identity); tests/time_transfer_error_budgeting_reference.rs（赤道绕行一周的 Sagnac = { "207.386" } ns，对照已发表的 Ashby { "207.4" } ns，相差小于 { "0.05" } ns；另有 Sagnac/geodist 几何与由 C 源码编译的 RTKLIB { "2.4.3" } geodist() 交叉核对）
+
+seg-10e0cb39ac3b = navsignal
+
+seg-1035f877de94 = navsignal::tests (BPSK self-SSC = 2/3R_c; unit-area PSD; DLL); tests/nav_signal_modulation_code_tracking_reference.rs（GPS C/A Gold 码互相关/自相关与独立的 IS-GPS-200 码生成整数完全匹配；BPSK-R({ "1" })/sine-BOC({ "1,1" }) 的 PSD 对照独立的 scipy 周期图）；tests/nav_signal_betz_hein_published_oracle.rs (betz_text_correlation_values_over_1_ghz; hein_mboc_interference_improvements; finding_betz_side_lobes_and_multipath，已固定)
+
+seg-4e1ac3f1b4a1 = quantum_imu::tests (k_eff; Mach-Zehnder T²; Freier-2016 floor bracket); tests/quantum_inertial_sensor_reference.rs（传递函数 |H(ω)|、k_eff·T² 和散粒噪声 ASD 对照已发表的 Cheinet { "2008" } / Peters / Freier 数值向量）；tests/quantum_inertial_measured_qpn.rs (gauguet_finding_qpn_floor_sits_below_the_measured_noise，已固定；gradiometer_qpn_line_matches_janvier_model)
+
+seg-81802510f112 = quantum_imu::tests（a_max 位于 ±π 半条纹边缘，量程按 1/T² 缩放；在 [−a_max,a_max] 之内，折叠相位的恢复是精确的，在其之外则恰好混叠 { "2" }·a_max；无模糊动态范围 a_max/σ_a=π/σ_Φ 在两个差异很大的波长/T 比例因子下完全相同；CaiAccelerometer 的方法与自由函数一致）
+
+seg-ccc56dac1725 = inertial::quantum_imu (QuantumNavBudget)
+
+seg-60fb2adb58ce = budget_tests (bias vs AccelModel integrator; VRW vs analytic integral)；tests/quantum_inertial_dead_reckoning_reference.rs（VRW 对照独立的 numpy 蒙特卡罗对白加速度噪声的双重积分，在 { "6" } 个滑行时间上最差偏差 { "0.42" }%，在 ±{ "3" }% 之内；偏置/比例因子对照 Groves { "2013" } 的闭式值；守时往返）
+
+seg-8f6825f614c7 = jamming::tests (broadband_q_equals_the_spectral_separation_closed_form and cw_q_equals_the_spectral_separation_closed_form: the Q table, CW and narrowband { "1" }, broadband and swept { "2" }, pinned to the navsignal closed forms; a_cw_jammer_is_more_damaging_than_broadband_noise_at_equal_js)；tests/gnss_denied_jamming_resilience_reference.rs（FSPL/J-S/有效 C-N₀ 对照对 Kaplan & Hegarty §{ "9.4" } 链路预算的独立 numpy 重新推导；真实 JammerTest 的 C/N₀ 单调下降，穿过 { "25" } dB-Hz 阈值）；tests/jamming_jammertest_cn0_oracle.rs（已预先登记，被阻塞，未运行）
+
+seg-e3ed02029c26 = spoof, spoof_detect, spoof_monitors
+
+seg-d6db95d3aa40 = tests/spoof_texbat_validation.rs（TEXBAT 参数表征）；tests/spoof_detection_jammertest_oracle.rs::monitors_against_the_published_onsets_reproduce_the_recorded_disagreement（固定该发现）；tests/spoof_detection_jammertest_log_oracle.rs::engine_monitors_against_the_logged_onsets_reproduce_the_recorded_disagreement；tests/clock_library_tcxo_card_jammertest_oracle.rs (round_3_is_blocked_by_the_training_minimum; round_4_reproduces_the_recorded_finding; round_4b_reproduces_the_recorded_finding; D9)
