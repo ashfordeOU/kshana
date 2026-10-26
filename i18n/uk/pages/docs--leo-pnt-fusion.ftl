@@ -160,30 +160,16 @@ seg-f9f335d67ff8 = <s1>Назад</s1>Навігаційне повідомле�
 
 seg-062138bbb73c = <s1>Далі</s1>Проєктування орбітального угруповання
 
-# words to translate: PUBLIC
-# EN: PUBLIC: <a1>arXiv:{ "2509.19551" }</a1>. Representative: the split between the two inclinations, the phasing, the range error
 seg-57b56c874c9b = ПУБЛІЧНИЙ: <a1>arXiv:{ "2509.19551" }</a1>. Репрезентативно: розподіл між двома нахилами, фазування, похибка дальності
 
-# words to translate: PUBLIC
-# EN: PUBLIC: <a1>Kozhaya, Saroufim and Kassas { "2025" }</a1>, <a2>Federal Communications Commission (FCC) 21-48</a2>. Representative: phasing, horizon C/N0
 seg-44d4dd41848a = ПУБЛІЧНИЙ: <a1>Kozhaya, Saroufim і Kassas { "2025" }</a1>, <a2>Federal Communications Commission (FCC) 21-48</a2>. Репрезентативно: фазування, C/N0 на горизонті
 
-# words to translate: PUBLIC
-# EN: PUBLIC: <a1>initial assessment</a1>, <a2>GPS Solutions</a2>. Representative: carriers, power, the whole operational constellation
 seg-dd94a3839cb3 = ПУБЛІЧНИЙ: <a1>початкова оцінка</a1>, <a2>GPS Solutions</a2>. Репрезентативно: несівні, потужність, усе експлуатаційне орбітальне угруповання
 
-# words to translate: PUBLIC, DERIVED
-# EN: PUBLIC: <a1>InsideGNSS</a1>. DERIVED: the SISRE. Combine with any constellation through <c1/>
 seg-ddbefb8a6723 = ПУБЛІЧНИЙ: <a1>InsideGNSS</a1>. ВИВЕДЕНИЙ: SISRE. Поєднується з будь-яким орбітальним угрупованням через <c1/>
 
-# words to translate: PUBLIC, DERIVED
-# EN: PUBLIC: <a1>Resilient Navigation and Timing Foundation (RNTF)</a1>, <a2>National Institute of Standards and Technology (NIST)</a2>, <a3>constellation</a3>. DERIVED: the power in dBW. Representative: carrier at the band centre, range error
 seg-d65ae64607c1 = ПУБЛІЧНИЙ: <a1>Resilient Navigation and Timing Foundation (RNTF)</a1>, <a2>National Institute of Standards and Technology (NIST)</a2>, <a3>угруповання</a3>. ВИВЕДЕНИЙ: потужність у дБВт. Репрезентативно: несівна в центрі діапазону, похибка дальності
 
-# words to translate: PUBLIC
-# EN: PUBLIC: the <a1>International Telecommunication Union (ITU) Radio Regulations</a1> allocation. Everything else <b>representative</b>
 seg-7712896ff69a = ПУБЛІЧНИЙ: виділення за <a1>Регламентом радіозв'язку Міжнародного союзу електрозв'язку (ITU)</a1>. Усе інше <b>репрезентативно</b>
 
-# words to translate: WORKSHOP, PUBLIC
-# EN: PUBLIC orbit (<a1>ESA</a1>, <a2>Institute of Navigation (ION) abstract { "16907" }</a2>); WORKSHOP signal parameters, presented at the ESA Navigation Innovation and Support Programme (NAVISP) LEO-PNT workshop, { "2026" }
 seg-b8bd6e76aeb2 = ПУБЛІЧНА орбіта (<a1>ESA</a1>, <a2>реферат Institute of Navigation (ION) { "16907" }</a2>); СЕМІНАРСЬКІ параметри сигналу, представлені на семінарі LEO-PNT програми Navigation Innovation and Support Programme (NAVISP) ESA у { "2026" } році

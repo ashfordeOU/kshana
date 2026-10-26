@@ -50,6 +50,4 @@ seg-72fd0321e4af = Тематическая страница: <a1>CONTACT-SCHEDU
 
 seg-1f67ae89028b = <s1>Далее</s1>aocs
 
-# words to translate: ILLUSTRATIVE
-# EN: Every number below is ILLUSTRATIVE: no operator's orbit, station or link budget. MODELLED. (scenario file comment, line { "8" })
-seg-a2cdc7dff1e3 = Каждое число ниже ИЛЛЮСТРАТИВНОЕ: это не орбита, не станция и не бюджет линии какого-либо оператора. MODELLED. (комментарий в файле сценария, строка { "8" })
+seg-a2cdc7dff1e3 = Каждое число ниже ILLUSTRATIVE: это не орбита, не станция и не бюджет линии какого-либо оператора. MODELLED. (комментарий в файле сценария, строка { "8" })

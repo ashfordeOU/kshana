@@ -236,6 +236,4 @@ seg-ecdf748cb63d = <s1>Далее</s1>Карта помех и подверже�
 
 seg-24ad8471ff2a = поля JSON (схема kshana-nmea-training/1)
 
-# words to translate: REPRESENTATIVE
-# EN: a blocked sky, not interference: the walls of a fjord (the REPRESENTATIVE <c1/> skyline preset) hide the satellites to the east and west, then the channel opens again (event <c2/>, with a <c3/> table)
-seg-3fbcfd1dd26a = закрытое небо, а не помехи: стены фьорда (РЕПРЕЗЕНТАТИВНЫЙ пресет контура горизонта <c1/>) скрывают спутники на востоке и западе, затем канал снова открывается (событие <c2/> с таблицей <c3/>)
+seg-3fbcfd1dd26a = закрытое небо, а не помехи: стены фьорда (REPRESENTATIVE пресет контура горизонта <c1/>) скрывают спутники на востоке и западе, затем канал снова открывается (событие <c2/> с таблицей <c3/>)

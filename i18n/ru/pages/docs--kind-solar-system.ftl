@@ -74,10 +74,6 @@ seg-ce15aaa5453c = Физические константы каждого тел
 
 seg-c19e6d035b7e = Положения Луны и семи крупных спутников (Фобос, Деймос, галилеевы спутники, Титан) относятся к уровню MODELLED и не проверены независимо: одно из частных утверждений проверено извне, но возможность в целом составлена из смоделированных частей, поэтому она остаётся смоделированной. (матрица верификации (docs/MODELLED-RATIONALE.md))
 
-# words to translate: MIXED
-# EN: Result label (the engine's): MIXED: each body carries its own label. Planet positions are VALIDATED against JPL Horizons within twice the Standish nominal error (Mercury to Saturn and the Earth from Table { "1" }; all eight planets from Tables 2a/2b); Uranus and Neptune from Table { "1" }, Pluto, the Moon and the seven moons are MODELLED.
 seg-5c9a8d4716f5 = Метка результата (от движка): СМЕШАННЫЙ: каждое тело несёт собственную метку. Положения планет VALIDATED по JPL Horizons в пределах удвоенной номинальной ошибки Standish (от Меркурия до Сатурна и Земля по таблице { "1" }; все восемь планет по таблицам 2a/2b); Уран и Нептун по таблице { "1" }, Плутон, Луна и семь спутников относятся к MODELLED.
 
-# words to translate: MIXED
-# EN: MIXED: each body carries its own label. Planet positions are VALIDATED against JPL Horizons within twice the Standish nominal error (Mercury to Saturn and the Earth from Table { "1" }; all eight planets from Tables 2a/2b); Uranus and Neptune from Table { "1" }, Pluto, the Moon and the seven moons are MODELLED. Light times are Newtonian, from the same positions. (result <c1/>)
 seg-0131b082906b = СМЕШАННЫЙ: каждое тело несёт собственную метку. Положения планет VALIDATED по JPL Horizons в пределах удвоенной номинальной ошибки Standish (от Меркурия до Сатурна и Земля по таблице { "1" }; все восемь планет по таблицам 2a/2b); Уран и Нептун по таблице { "1" }, Плутон, Луна и семь спутников относятся к MODELLED. Времена распространения света ньютоновские, по тем же положениям. (результат <c1/>)

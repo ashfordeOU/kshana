@@ -366,42 +366,22 @@ seg-18b16c83dd7c = <s1>Назад</s1>Позиціонування, навіга
 
 seg-50fe3f8ae7ec = <s1>Далі</s1>Прохід LEO і бюджет лінії
 
-# words to translate: PUBLIC
-# EN: PUBLIC, <a1>arXiv { "2509.19551" }</a1>
 seg-125aac68d94f = ПУБЛІЧНИЙ, <a1>arXiv { "2509.19551" }</a1>
 
-# words to translate: REPRESENTATIVE
-# EN: flat spectrum; channel centre and shell altitude REPRESENTATIVE; the published carrier-to-noise-density ratio (C/N₀) of about { "57" } dB-Hz is set through the receiver
 seg-fee9a553c9ae = плоский спектр; центр каналу та висота оболонки РЕПРЕЗЕНТАТИВНІ; опубліковане відношення несівної до спектральної щільності шуму (C/N₀) близько { "57" } дБ-Гц задається через приймач
 
-# words to translate: REPRESENTATIVE
-# EN: REPRESENTATIVE, for C-band systems whose parameters are not public (such as TrustPoint)
 seg-895f6039fce2 = РЕПРЕЗЕНТАТИВНИЙ, для систем C-діапазону, параметри яких не є публічними (наприклад, TrustPoint)
 
-# words to translate: ATOMIC
-# EN: The ATOMIC "zero-clock" polynomial ephemeris is a navigation-message model, not a signal design, and lives with the navigation-message work, not here.
 seg-24360342e8e6 = Поліноміальні ефемериди ATOMIC із «нульовим годинником» є моделлю навігаційного повідомлення, а не конструкцією сигналу, і належать до роботи над навігаційним повідомленням, а не сюди.
 
-# words to translate: REPRESENTATIVE
-# EN: One file each under <c1/>, compiled in, each citing its source URL. A value the source does not publish is labelled REPRESENTATIVE in the file and in the report.
 seg-a917a5ccfb79 = По одному файлу в <c1/>, скомпільованих, кожен із посиланням на URL свого джерела. Значення, яке джерело не публікує, позначено як РЕПРЕЗЕНТАТИВНЕ у файлі та у звіті.
 
-# words to translate: PUBLIC
-# EN: PUBLIC, <a1>Resilient Navigation and Timing Foundation (RNTF) report</a1>
 seg-a765878134e2 = ПУБЛІЧНИЙ, <a1>звіт Resilient Navigation and Timing Foundation (RNTF)</a1>
 
-# words to translate: PUBLIC
-# EN: PUBLIC, <a1>NAVIGATION { "72" }({ "1" })</a1>
 seg-ff9e0075e868 = ПУБЛІЧНИЙ, <a1>NAVIGATION { "72" }({ "1" })</a1>
 
-# words to translate: PUBLIC
-# EN: PUBLIC, <a1>PubMed Central PMC10301026</a1>
 seg-2e6475b25d55 = ПУБЛІЧНИЙ, <a1>PubMed Central PMC10301026</a1>
 
-# words to translate: REPRESENTATIVE
-# EN: carriers placed at the GPS L1 and L5 carriers ("near" in the source); code length REPRESENTATIVE
 seg-ac53cebe5303 = несівні розміщено на несівних GPS L1 і L5 («поблизу» у джерелі); довжина коду РЕПРЕЗЕНТАТИВНА
 
-# words to translate: REPRESENTATIVE
-# EN: REPRESENTATIVE, allocations from the <a1>ITU Radio Regulations</a1>; the { "465" } MHz UHF carrier from the public <s1>openRECEIVER survey of LEO-PNT signals</s1>
 seg-2f679a429dae = РЕПРЕЗЕНТАТИВНИЙ, виділення з <a1>Регламенту радіозв'язку ITU</a1>; несівна UHF { "465" } МГц з публічного <s1>огляду сигналів LEO-PNT openRECEIVER</s1>

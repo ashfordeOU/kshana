@@ -50,10 +50,6 @@ seg-59afd80736c5 = <b>PARTNER</b> Не обеспечивается — Kshana �
 
 seg-3a677e343081 = Срыв слежения в петле слежения и втягивание спуфера при помехах относятся к уровню MODELLED, и не проверены по внешнему эталону: они проверены по отдельной реализации в этой же кодовой базе — независимой от проверяемого модуля, но не имеющей внешнего авторитета. (матрица верификации (docs/MODELLED-RATIONALE.md))
 
-# words to translate: MIXED
-# EN: Result label (the engine's): MIXED — VALIDATED loop closed forms, MODELLED loop configuration. The carrier and code thermal-jitter expressions, the loop-filter reduction sqrt({ "2" }<em>B_n</em>T) and the first-order ramp lag are cross-checked against the engine's own sdr correlator stepped forward on seeded synthetic IF (a different route
 seg-23f3aa5c2064 = Метка результата (от движка): СМЕШАННЫЙ — VALIDATED замкнутые формы петли, MODELLED конфигурация петли. Выражения теплового джиттера несущей и кода, редукция фильтра петли sqrt({ "2" }<em>B_n</em>T) и запаздывание по скорости изменения первого порядка перекрёстно проверены по собственному коррелятору sdr движка, пошагово запущенному на засеянной синтетической ПЧ (другой путь
 
-# words to translate: MIXED
-# EN: MIXED — VALIDATED loop closed forms, MODELLED loop configuration. The carrier and code thermal-jitter expressions, the loop-filter reduction sqrt({ "2" }<em>B_n</em>T) and the first-order ramp lag are cross-checked against the engine's own sdr correlator stepped forward on seeded synthetic IF (a different route to the same numbers), and the modified Bessel I0 against standard tabulated values. MODELLED: the loop bandwidths, integ (result <c1/>)
 seg-de048f9cf1f6 = СМЕШАННЫЙ — VALIDATED замкнутые формы петли, MODELLED конфигурация петли. Выражения теплового джиттера несущей и кода, редукция фильтра петли sqrt({ "2" }<em>B_n</em>T) и запаздывание по скорости изменения первого порядка перекрёстно проверены по собственному коррелятору sdr движка, пошагово запущенному на засеянной синтетической ПЧ (другой путь к тем же числам), а модифицированная функция Бесселя I0 — по стандартным табличным значениям. MODELLED: полосы петель, integ (результат <c1/>)

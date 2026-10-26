@@ -236,6 +236,4 @@ seg-ecdf748cb63d = <s1>Далі</s1>Карта завад і вразливіс�
 
 seg-24ad8471ff2a = поля JSON (схема kshana-nmea-training/1)
 
-# words to translate: REPRESENTATIVE
-# EN: a blocked sky, not interference: the walls of a fjord (the REPRESENTATIVE <c1/> skyline preset) hide the satellites to the east and west, then the channel opens again (event <c2/>, with a <c3/> table)
 seg-3fbcfd1dd26a = заблоковане небо, а не завади: стіни фіорду (РЕПРЕЗЕНТАТИВНИЙ шаблон обрію <c1/>) ховають супутники на сході та заході, потім канал знову відкривається (подія <c2/> з таблицею <c3/>)

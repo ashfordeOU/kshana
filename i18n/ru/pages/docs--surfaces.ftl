@@ -560,14 +560,8 @@ seg-4e3bbacda9ac = <s1>Назад</s1>Использование Kshana из а�
 
 seg-c5fbfab85e01 = <s1>Далее</s1>Плагин JetBrains
 
-# words to translate: ILLUSTRATIVE
-# EN: Optical timing link through the atmosphere: per-site availability, site diversity, enhancement techniques, outage-to-holdover coupling (scenario kind <c1/>; <c2/>; MODELLED, ILLUSTRATIVE sites, advisory)
-seg-f71e5e2eb4f3 = Оптическая линия передачи времени через атмосферу: доступность по площадкам, разнесение площадок, методы улучшения, связь между перерывом и holdover (вид сценария <c1/>; <c2/>; MODELLED, ИЛЛЮСТРАТИВНЫЕ площадки, консультативный характер)
+seg-f71e5e2eb4f3 = Оптическая линия передачи времени через атмосферу: доступность по площадкам, разнесение площадок, методы улучшения, связь между перерывом и holdover (вид сценария <c1/>; <c2/>; MODELLED, ILLUSTRATIVE площадки, консультативный характер)
 
-# words to translate: ILLUSTRATIVE
-# EN: Lunar orbit and surface as navigation and geodetic infrastructure: orbit-determination consistency, carrier-phase ambiguity resolution, frame co-estimation, space-tie and Love-number sensitivity (scenario kind <c1/>, <c2/>; <c3/>; MODELLED, ILLUSTRATIVE inputs, advisory)
-seg-593b7761803d = Орбита и поверхность Луны как навигационная и геодезическая инфраструктура: согласованность определения орбиты, разрешение неоднозначностей фазы несущей, совместное оценивание системы отсчёта, чувствительность к привязке к космосу и к числам Лява (вид сценария <c1/>, <c2/>; <c3/>; MODELLED, ИЛЛЮСТРАТИВНЫЕ входные данные, консультативный характер)
+seg-593b7761803d = Орбита и поверхность Луны как навигационная и геодезическая инфраструктура: согласованность определения орбиты, разрешение неоднозначностей фазы несущей, совместное оценивание системы отсчёта, чувствительность к привязке к космосу и к числам Лява (вид сценария <c1/>, <c2/>; <c3/>; MODELLED, ILLUSTRATIVE входные данные, консультативный характер)
 
-# words to translate: REPRESENTATIVE
-# EN: REPRESENTATIVE presets with provenance
-seg-c853beadb55e = РЕПРЕЗЕНТАТИВНЫЕ пресеты с указанием происхождения
+seg-c853beadb55e = REPRESENTATIVE пресеты с указанием происхождения

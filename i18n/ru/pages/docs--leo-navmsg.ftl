@@ -578,50 +578,26 @@ seg-4abe216f987a = <s1>Предыдущая</s1>Пролёт LEO и бюджет
 
 seg-59d9bf4735d8 = <s1>Следующая</s1>Комплексное позиционирование по MEO и LEO
 
-# words to translate: PUBLIC
-# EN: PUBLIC, <a1>arXiv { "2509.19551" }</a1>
-seg-125aac68d94f = ПУБЛИЧНЫЙ, <a1>arXiv { "2509.19551" }</a1>
+seg-125aac68d94f = PUBLIC, <a1>arXiv { "2509.19551" }</a1>
 
-# words to translate: PUBLIC
-# EN: PUBLIC, arXiv { "2509.19551" }
-seg-77af616c1f6e = ПУБЛИЧНЫЙ, arXiv { "2509.19551" }
+seg-77af616c1f6e = PUBLIC, arXiv { "2509.19551" }
 
-# words to translate: PUBLIC
-# EN: PUBLIC, <a1>RNTF report</a1>, constellation description
-seg-780e931bf88d = ПУБЛИЧНЫЙ, <a1>отчёт RNTF</a1>, описание орбитальной группировки
+seg-780e931bf88d = PUBLIC, <a1>отчёт RNTF</a1>, описание орбитальной группировки
 
-# words to translate: PUBLIC
-# EN: PUBLIC, <a1>Sensors { "2023" }</a1>, <a2>Satellite Navigation { "2026" }</a2>
-seg-a76527ba66b6 = ПУБЛИЧНЫЙ, <a1>Sensors { "2023" }</a1>, <a2>Satellite Navigation { "2026" }</a2>
+seg-a76527ba66b6 = PUBLIC, <a1>Sensors { "2023" }</a1>, <a2>Satellite Navigation { "2026" }</a2>
 
-# words to translate: WORKSHOP, PUBLIC
-# EN: WORKSHOP and PUBLIC
-seg-5619bc61b958 = СЕМИНАРСКИЙ и ПУБЛИЧНЫЙ
+seg-5619bc61b958 = WORKSHOP и PUBLIC
 
-# words to translate: ATOMIC
-# EN: ATOMIC facts from InsideGNSS; the published Liu table printed beside Kshana's integrated-orbit fit, not pinned
 seg-205cdc6a3696 = факты ATOMIC из InsideGNSS; опубликованная таблица Liu приведена рядом с подгонкой Kshana по интегрированной орбите, без закрепления проверкой
 
-# words to translate: ATOMIC
-# EN: the ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations) "zero-clock" model: an Earth-centred Earth-fixed (ECEF) polynomial per axis in <c1/> (default degree { "6" }), no clock terms because the satellite clock is steered to system time (<a1>InsideGNSS</a1>)
 seg-a6042071a03f = модель «нулевых часов» ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations): полином в земной системе координат ECEF по каждой оси от <c1/> (степень по умолчанию { "6" }), без членов часов, так как часы спутника привязаны к системному времени (<a1>InsideGNSS</a1>)
 
-# words to translate: ATOMIC
-# EN: The zero-clock row is scored against a clock steered with a { "0.24" } m residual (the ATOMIC figure), the others against the free-running clock they fit.
 seg-82d3fa2e27ef = Строка с нулевыми часами оценивается относительно часов, привязанных с остатком { "0.24" } m (величина ATOMIC), остальные — относительно свободных часов, которые они подгоняют.
 
-# words to translate: PUBLIC
-# EN: PUBLIC, <a1>NAVIGATION { "72" }({ "1" })</a1>, constellation description
-seg-4944294c230f = ПУБЛИЧНЫЙ, <a1>NAVIGATION { "72" }({ "1" })</a1>, описание орбитальной группировки
+seg-4944294c230f = PUBLIC, <a1>NAVIGATION { "72" }({ "1" })</a1>, описание орбитальной группировки
 
-# words to translate: REPRESENTATIVE
-# EN: REPRESENTATIVE
-seg-5ebbf0042d7c = РЕПРЕЗЕНТАТИВНЫЙ
+seg-5ebbf0042d7c = REPRESENTATIVE
 
-# words to translate: PUBLIC
-# EN: PUBLIC, <a1>InsideGNSS</a1>
-seg-884c81e55e79 = ПУБЛИЧНЫЙ, <a1>InsideGNSS</a1>
+seg-884c81e55e79 = PUBLIC, <a1>InsideGNSS</a1>
 
-# words to translate: ATOMIC
-# EN: ATOMIC zero-clock polynomial and the five-altitude table
 seg-94066142a642 = полином нулевых часов ATOMIC и таблица для пяти высот
