@@ -21,3 +21,5 @@ seg-d107bc8e1950 = MCP-register
 seg-842b77a21c5f = Kanaal
 
 seg-d6476863f862 = Mogelijkheid
+
+seg-fdbb9db68f1d = geen

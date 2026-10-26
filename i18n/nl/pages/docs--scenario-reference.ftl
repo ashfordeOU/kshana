@@ -203,3 +203,5 @@ seg-c5cbb50f640e = Vertical LEO-PNT: tijdsynchronisatie van kritieke infrastruct
 seg-abf58b089d72 = Vertical LEO-PNT: gebruikers op de polen en in het noordpoolgebied.
 
 seg-a7de37959bb9 = Vertical LEO-PNT: spoor en zee, de meegeleverde scenario's voor zee en spoor plus LEO.
+
+seg-6962adaa6a1f = Bij het bouwen gegenereerd uit de scenariobestanden en de verificatiematrix van de repository.

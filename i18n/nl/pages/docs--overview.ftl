@@ -149,3 +149,7 @@ seg-d6476863f862 = Mogelijkheid
 seg-ad856ad710eb = Status
 
 seg-331d2821d43f = Roadmap
+
+seg-fdbb9db68f1d = geen
+
+seg-6e0cb6acc073 = VALIDATED
