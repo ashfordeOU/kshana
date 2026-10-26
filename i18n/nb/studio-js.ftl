@@ -2599,7 +2599,7 @@ js-cat-lunar-relay-constellation-question = Hvilken dekning gir en relé- og nav
 
 js-cat-lunar-relay-constellation-title = Relékonstellasjon for Månen
 
-js-cat-lunar-station-coverage-public-sources-question = Under bare de offentlig oppgitte forutsetningene, hvilken korrigert feil gir stasjonen over sørpolen? Resultatet domineres av baneelementene, som ikke er offentlige og er satt ILLUSTRATIVT; dette er inndataene til den frosne prediksjonen. (modellert; ikke en uttalelse om noe virkelig system)
+js-cat-lunar-station-coverage-public-sources-question = Under bare de offentlig oppgitte forutsetningene, hvilken korrigert feil gir stasjonen over sørpolen? Resultatet domineres av baneelementene, som ikke er offentlige og er satt ILLUSTRATIVE; dette er inndataene til den frosne prediksjonen. (modellert; ikke en uttalelse om noe virkelig system)
 
 js-cat-lunar-station-coverage-public-sources-title = Referansestasjon på Månen, offentlige forutsetninger
 
@@ -7458,3 +7458,479 @@ js-replay-every-direction = alle retninger
 js-replay-file-error = { $name }: { $error }
 
 js-replay-kinds-convergence-horizontal = Konvergens: median horisontal feil
+
+js-replay-kinds-convergence-vertical = Konvergens: median vertikal feil
+
+js-replay-kv-course = Rapportert kurs
+
+js-replay-kv-heading = Retning (gyro)
+
+js-replay-kv-position-error = Posisjonsfeil
+
+js-replay-kv-receiver = Mottaker
+
+js-replay-kv-run-time = Kjøretid
+
+js-replay-kv-satellites = Satellitter brukt / i sikte
+
+js-replay-kv-sky = Himmel
+
+js-replay-legend = Tegnforklaring
+
+js-replay-legend-no-fix = ingen posisjonsbestemmelse
+
+js-replay-legend-true-track = faktisk spor
+
+js-replay-moment = Øyeblikket ved T+{ $t }:
+
+js-replay-no-coast = Ingen kyst tegnes: ingen er medfølgende for dette vinduet.
+
+js-replay-no-gsv = ingen GSV i denne loggen
+
+js-replay-not-json = { $name }: ikke JSON.
+
+js-replay-not-scored = ikke skåret
+
+js-replay-obs-not-attributed = ikke tilskrevet
+
+js-replay-open-failed = { $id } kunne ikke åpnes: { $reason }.
+
+js-replay-open-file = Åpne en fil…
+
+js-replay-opened = Åpnet { $name } i panel { $n }. Lest her; ingenting ble lastet opp.
+
+js-replay-opening = Åpner { $id }…
+
+js-replay-pause = Pause
+
+js-replay-play = Spill av
+
+js-replay-read-failed = { $name }: kunne ikke leses eller tegnes ({ $reason }).
+
+js-replay-reading = Leser { $name }…
+
+js-replay-reduced-motion = Redusert bevegelse er foretrukket, så avspillingen starter på 1x og spiller ikke av seg selv.
+
+js-replay-run = Kjøring
+
+js-replay-run-shown = Kjøring vist i panel { $n }
+
+js-replay-saved-svg = Lagret { $name } ({ $size } kB): alle bilder i én fil, tegnet fra de samme radene som denne siden.
+
+js-replay-saved-zip = Lagret { $name } ({ $size } MB): én SVG per bilde, et manifest over radene bak hver, og en README.
+
+js-replay-src-instructor = Filen din { $name }: ingen motorskåring eller himmel følger med en instruktørlogg alene.
+
+js-replay-src-trust = Filen din { $name }: et tillitsresultat har verken himmel eller retning, så de tegnes ikke.
+
+js-replay-status-ready = { $a } og { $b }: syntetiske kjøringer, skåret av motoren. Trykk på Spill av, eller flytt klokken.
+
+js-replay-status-synthetic = { $titles }: syntetiske kjøringer, skåret av motoren.
+
+js-replay-status-synthetic-no-coast = { $titles }: syntetiske kjøringer, skåret av motoren. Kystlinje utilgjengelig.
+
+js-replay-strip-label = Tillitsscore gjennom kjøringen
+
+js-replay-titles-and = { $a } og { $b }
+
+js-replay-too-large = { $name } er større enn denne siden leser.
+
+js-replay-track = Spor av { $n } loggrader, nord opp.
+
+js-replay-track-widened = Spor av { $n } loggrader, nord opp, utvidet for å vise nærmeste kyst.
+
+js-replay-verdict = Vurdering
+
+js-replay-verdict-degraded = { $dur } degradert, ingen ikke til å stole på
+
+js-replay-verdict-early = Vurdering (tidlig)
+
+js-replay-verdict-fine = Kun fra loggen og motorens skåring; syntetisk, veiledende, ikke et tall for deteksjonsytelse.
+
+js-replay-verdict-first = først under nominelt ved T+{ $t }
+
+js-replay-verdict-first-after = først under nominelt ved T+{ $t }, { $dur } etter at den første hendelsen begynte (T+{ $onset })
+
+js-replay-verdict-first-before = først under nominelt ved T+{ $t }, før den første hendelsen begynte (T+{ $onset })
+
+js-replay-verdict-lowest = Laveste tillitsscore { $score } ({ $band }) ved T+{ $t }
+
+js-replay-verdict-never-left = scoren forlot aldri det nominelle båndet
+
+js-replay-verdict-no-fix = ingen posisjonsbestemmelse i { $dur }
+
+js-replay-verdict-not-scored = Ikke skåret: motorens tillitsscore vises for bibliotekkjøringene
+
+js-replay-verdict-peak-error = største loggførte posisjonsfeil { $err } m ved T+{ $t }
+
+js-replay-verdict-untrusted = { $dur } i båndet «ikke til å stole på»
+
+js-replay-verdict-wait = Vises når denne kjøringen er slutt, ved T+{ $t }.
+
+js-ssv-altitude-label = Høyde og brukte målinger
+
+js-ssv-at-least-1 = minst 1 signal
+
+js-ssv-at-least-4 = minst 4 signaler
+
+js-ssv-avail-label = Tilgjengelighet, { $band }
+
+js-ssv-bar-title = { $label }, { $name }: { $value }{ $unit }
+
+js-ssv-blurb-formation-heo = En leder og en stedfortreder én kilometer fra hverandre i en sterkt elliptisk bane: hvor godt filteret kjenner deres relative posisjon, sammenlignet med hva de to absolutte posisjonsbestemmelsene ville gitt.
+
+js-ssv-blurb-heo = En sterkt elliptisk bane (apogeum nær 58 600 km) med en nadir- og en zenit-patchantenne med høy forsterkning og en parametrisk sidelobemodell: signaler i sikte, beste C/N0, hovedlobe mot sidelobe, presisjonsfortynning og signalene som tangerer atmosfæren.
+
+js-ssv-blurb-lunar-weak = En månetransferbane med en mottaker bygget for å virke ved de svakeste signalene: hva den trenger for å fange og følge dem, og hvor mye av banen den kan bruke.
+
+js-ssv-blurb-nav-lunar = Et navigasjonsfilter om bord på en månetransfer: posisjonsfeilen mot grensen det oppgir, under og over GNSS-satellittenes egne baner.
+
+js-ssv-blurb-shell = Et kuleskall i geostasjonær høyde, samplet på et rutenett: hvor ofte hører et romfartøy der minst ett, og minst fire, signaler ved 20 dB-Hz, på L1 og L5, for hver konstellasjon og alle samlet?
+
+js-ssv-cn0-altitude-label = Beste C/N0 og høyde mot tid, { $band }
+
+js-ssv-cn0-label = Beste C/N0, { $band }
+
+js-ssv-cn0-note = Av signalene i sikte, det sterkeste ved hver epoke: minste til største over epokene, med gjennomsnittet markert.
+
+js-ssv-cn0-title = Beste bærebølge-til-støy-tetthet, { $band }
+
+js-ssv-comparison-failed = Sammenligningen kunne ikke vises ({ $reason }).
+
+js-ssv-comparison-not-loaded = sammenligningsfilen ble ikke lastet
+
+js-ssv-default-bars = søyler
+
+js-ssv-default-chart = diagram
+
+js-ssv-default-ranges = områder
+
+js-ssv-deputies-note = Lederens absolutte RMS { $rms } m over { $epochs } epoker.
+
+js-ssv-deputies-title = Hver stedfortreder
+
+js-ssv-dop-note = Median, 95-persentil og verste PDOP over epokene som har en posisjonsbestemmelse, og, der scenarioet setter en atmosfære, signalene som tangerer den.
+
+js-ssv-dop-title = Presisjonsfortynning og atmosfæren, { $band }
+
+js-ssv-err-label = Posisjonsfeil mot den oppgitte grensen
+
+js-ssv-err-note = Den stiplede linjen er ettsigma-grensen filteret oppgir; den hele linjen er feilen mot referansen scenarioet kjenner. Desimert av motoren.
+
+js-ssv-err-title = Posisjonsfeil mot filterets egen grense
+
+js-ssv-fact-antenna = Antenne
+
+js-ssv-fact-apogee = Apogeumshøyde
+
+js-ssv-fact-cn0-threshold = Terskel for bærebølge-til-støy-tetthet
+
+js-ssv-fact-duration = Varighet
+
+js-ssv-fact-eccentricity = Eksentrisitet
+
+js-ssv-fact-grid-points = Rutenettpunkter
+
+js-ssv-fact-inclination = Inklinasjon
+
+js-ssv-fact-mode = Modus
+
+js-ssv-fact-perigee = Perigeumshøyde
+
+js-ssv-fact-period = Periode
+
+js-ssv-fact-shell-altitude = Skallhøyde
+
+js-ssv-fact-sma = Store halvakse
+
+js-ssv-fact-step = Steg
+
+js-ssv-filter = filter
+
+js-ssv-formation-note = Relativ posisjonsfeil som RMS, fra filteret og fra differansen mellom de to absolutte posisjonsbestemmelsene, over hele kjøringen og over GNSS-banene.
+
+js-ssv-formation-title = Stedfortrederens relative posisjon
+
+js-ssv-from-absolute = fra to absolutte posisjonsbestemmelser
+
+js-ssv-group-combined = alle samlet
+
+js-ssv-icg-note = { $label }; terskelvurderingene fra motorens innsjekkede resultatfiler (motorcommit { $commit }). Hefteets tabeller er offentlige; ingenting her er VALIDATED.
+
+js-ssv-icg-wrong-file = ICG-sammenligningsfilen er ikke den denne siden leser
+
+js-ssv-lobe-note = Hvor mange av de brukbare lenkene som kom gjennom hovedloben og hvor mange gjennom en sidelobe, slik motoren telte dem.
+
+js-ssv-lobe-title = Hovedlobe og sidelobe, { $band }
+
+js-ssv-na = ikke aktuelt
+
+js-ssv-nav-note = Målinger brukt og avvist, det lengste gapet med færre enn fire signaler, sluttfeilen og estimatet av solstrålingstrykk mot referansen scenarioet kjenner.
+
+js-ssv-nav-title = Kjøringen i tall
+
+js-ssv-never = aldri
+
+js-ssv-never-had-four = hadde aldri fire
+
+js-ssv-never-had-one = hadde aldri ett
+
+js-ssv-no-range = Ingen område i dette resultatet.
+
+js-ssv-no-series = Resultatet har ingen serie for dette diagrammet.
+
+js-ssv-not-in-variant = ikke del av varianten
+
+js-ssv-not-result = dette er ikke et gnss-ssv-resultat
+
+js-ssv-of = { $n } av { $total }
+
+js-ssv-offset = { $deg }° avvik
+
+js-ssv-open-failed = { $title } kunne ikke åpnes: { $reason }.
+
+js-ssv-opening = Åpner { $title }…
+
+js-ssv-outage-note = I minutter, over kjøringen. «Aldri» markerer en gruppe som aldri hadde så mange signaler noe sted på skallet.
+
+js-ssv-outage-title = Lengste avbrudd på skallet
+
+js-ssv-phases-note = En statistikk for filteret over kjøringen og over to deler av den. En gjennomsnittlig posisjons-NEES nær 3 betyr at filterets oppgitte grense stemmer overens med feilen.
+
+js-ssv-phases-title = Posisjonsfeil per fase
+
+js-ssv-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+js-ssv-range-title = { $label }: min { $min }, gjennomsnitt { $mean }, maks { $max } { $unit }
+
+js-ssv-range-value = { $min } til { $max }
+
+js-ssv-recorded = { $title }: motorens registrerte resultat (versjon { $version }).
+
+js-ssv-relative-label = Relativ posisjonsfeil
+
+js-ssv-result-not-json = resultatet er ikke JSON ({ $reason })
+
+js-ssv-result-not-loaded = det registrerte resultatet ble ikke lastet
+
+js-ssv-row-acquires = Fanger ned til
+
+js-ssv-row-carrier = Bærebølgesporing ned til
+
+js-ssv-row-code = Kodesporing ned til
+
+js-ssv-row-coherent = Koherent integrasjon
+
+js-ssv-row-delay-mean = Forsinkelse, gjennomsnitt
+
+js-ssv-row-detection = Deteksjonsterskel
+
+js-ssv-row-false-alarm = Sannsynlighet for falsk alarm per celle
+
+js-ssv-row-final-error = Endelig posisjonsfeil
+
+js-ssv-row-gap = Lengste gap
+
+js-ssv-row-gated = Målinger avvist
+
+js-ssv-row-grazing = Tangerende under 100 km
+
+js-ssv-row-limb-links = Lenker gjennom randen
+
+js-ssv-row-loss-mean = Tap, gjennomsnitt
+
+js-ssv-row-lost = Tapt til atmosfæren
+
+js-ssv-row-pdop-median = PDOP, median
+
+js-ssv-row-pdop-p95 = PDOP, 95-persentil
+
+js-ssv-row-pdop-worst = PDOP, verste
+
+js-ssv-row-plasma-mean = Plasmasfærisk TEC, gjennomsnitt
+
+js-ssv-row-search-cells = Søkeceller
+
+js-ssv-row-search-time = Søketid
+
+js-ssv-row-srp-est = Solstrålingstrykk, estimert
+
+js-ssv-row-srp-truth = Solstrålingstrykk, referanse
+
+js-ssv-row-stec-mean = Skrå TEC, gjennomsnitt
+
+js-ssv-row-tangent = Tangenthøyde, min til maks
+
+js-ssv-row-tracking = Brukt sporingsterskel
+
+js-ssv-row-used = Målinger brukt
+
+js-ssv-series-altitude = høyde/1000
+
+js-ssv-series-altitude-name = høyde
+
+js-ssv-series-best-cn0 = beste C/N0
+
+js-ssv-series-error = feil
+
+js-ssv-series-measurements = målinger
+
+js-ssv-series-note = Én desimert serie av det samlede antallet over alle konstellasjoner. Motoren skriver ingen serie per konstellasjon, så ingen tegnes.
+
+js-ssv-series-signals = signaler i sikte
+
+js-ssv-series-signals-label = Signaler i sikte mot tid, { $band }
+
+js-ssv-series-stated-bound = oppgitt grense
+
+js-ssv-series-title = Signaler og beste C/N0 langs banen, { $band }
+
+js-ssv-shell-avail-note = Andel av rutenettpunkter og tidspunkter med minst ett og minst fire signaler over { $cn0 } dB-Hz.
+
+js-ssv-shell-avail-title = Tilgjengelighet på skallet, { $band }
+
+js-ssv-tangent-value = { $min } til { $max } km
+
+js-ssv-th-above-absolute = Over GNSS: fra absolutt, m
+
+js-ssv-th-above-filter = Over GNSS: filter, m
+
+js-ssv-th-band-group = Bånd og gruppe
+
+js-ssv-th-bar = Terskel
+
+js-ssv-th-baseline = Grunnlinje, km
+
+js-ssv-th-common-4 = Epoker med 4 felles signaler
+
+js-ssv-th-common-mean = Gjennomsnittlig antall felles signaler
+
+js-ssv-th-compares = Hva den sammenligner
+
+js-ssv-th-deputy = Stedfortreder
+
+js-ssv-th-epochs = Epoker
+
+js-ssv-th-group = Gruppe
+
+js-ssv-th-main-lobe = Hovedlobelenker
+
+js-ssv-th-nees = Gjennomsnittlig posisjons-NEES
+
+js-ssv-th-phase = Fase
+
+js-ssv-th-pos-p95 = Posisjon 95-persentil, m
+
+js-ssv-th-pos-rms = Posisjon RMS, m
+
+js-ssv-th-quantity = Størrelse
+
+js-ssv-th-rel-absolute = Relativ RMS, fra absolutt, m
+
+js-ssv-th-rel-filter = Relativ RMS, filter, m
+
+js-ssv-th-rel-vel = Relativ hastighets-RMS, m/s
+
+js-ssv-th-run1-cells = Kjøring 1: celler innenfor toleranse
+
+js-ssv-th-run1-verdict = Vurdering av kjøring 1
+
+js-ssv-th-sidelobe = Sidelobelenker
+
+js-ssv-th-sidelobe-share = Sidelobeandel
+
+js-ssv-th-value = Verdi
+
+js-ssv-th-variant = Variant (diagnostisk, GLONASS-referansevinkler fra tabell 4.2)
+
+js-ssv-th-vel-rms = Hastighets-RMS, m/s
+
+js-ssv-th-with-4 = Med 4 eller flere signaler
+
+js-ssv-th-without-1 = Lengste uten 1 signal
+
+js-ssv-th-without-4 = Lengste uten 4 signaler
+
+js-ssv-title-formation-heo = Formasjon, sterkt elliptisk bane
+
+js-ssv-title-heo = Sterkt elliptisk bane
+
+js-ssv-title-lunar-weak = Månetransfer, mottaker for svake signaler
+
+js-ssv-title-nav-lunar = Filter om bord, månetransfer
+
+js-ssv-title-shell = Skall ved 36 000 km
+
+js-ssv-traj-avail-note = Andel av epokene med minst ett og minst fire signaler over { $cn0 } dB-Hz.
+
+js-ssv-traj-avail-title = Tilgjengelighet langs banen, { $band }
+
+js-ssv-transmit-pattern = Sendemønster: { $pattern }
+
+js-ssv-unit-signals = signaler
+
+js-ssv-unknown-mode = dette gnss-ssv-resultatet har modusen «{ $mode }», som denne siden ikke leser
+
+js-ssv-variant-met = { $n } av { $total }, ville blitt oppfylt
+
+js-ssv-variant-not-met = { $n } av { $total }, fortsatt ikke oppfylt
+
+js-ssv-view-note = Minste til største antall i sikte over epokene, med gjennomsnittet markert.
+
+js-ssv-view-title = Signaler i sikte, { $band }
+
+js-ssv-weak-note = Hva mottakerutformingen trenger, slik motoren beregner det ut fra den oppgitte integrasjonen.
+
+js-ssv-weak-title = Mottakeren for svake signaler
+
+js-ssv-x-minutes = minutter
+
+js-ssv-y-altitude-measurements = høyde, tusen km; målinger brukt
+
+js-ssv-y-cn0-altitude = dB-Hz; høyde i tusen km
+
+js-ssv-y-position-log = posisjon, meter (log)
+
+js-ssv-y-signals-all = signaler i sikte, alle konstellasjoner
+
+js-t35data-ai-q-bench-export = Eksporter et scenarios bevegelse og hendelser for en laboratoriesimulator
+
+js-t35data-ai-q-compliance-rows = Hvilke rader i offentlige rammeverk gir disse kjøringene belegg for?
+
+js-t35data-ai-q-evidence-pack = Kontroller eller lag en bevispakke for en tillitshendelse
+
+js-t35data-ai-q-interference-route = Hvor har GNSS sett degradert ut, og hvor mye av denne ruten ligger i det?
+
+js-t35data-ai-q-iq-recordings = GNSS IQ-opptak (scene, fange, følge, frontend, kampanjer)
+
+js-t35data-ai-q-osnma-satellites = Hvilke Galileo-satellitters navigasjonsdata autentiserer denne mottakerstrømmen (OSNMA)?
+
+js-t35data-ai-q-run-scenario = Kjør eller forklar et PNT-scenario (baner, GNSS, tidssynkronisering, fusjon, måne)
+
+js-t35data-ai-q-training-nmea = Jeg trenger syntetisk NMEA med en jamming-, drag-off-, tidsspoofing- eller replay-hendelse til trening
+
+js-t35data-ai-q-trustworthy-log = Var denne mottakerloggen, eller dette fartøyets NMEA, til å stole på, og når sluttet den å være det?
+
+js-t35data-ai-tool-osnma-satellites = ingen på MCP: bruk osnma_verify (OSNMA-kortet her, WebAssembly), kshana osnma verify (CLI) eller kshana.osnma_verify (Python)
+
+js-t35data-card-evidence-create-title = Lag en bevispakke
+
+js-t35data-card-evidence-create-what = Signerer et vindu av en mottakerlogg og det motoren beregnet ut fra det, slik at hvem som helst kan kontrollere at ingenting ble endret etterpå. Studio verifiserer pakker.
+
+js-t35data-card-evidence-create-why = Signering trenger en privat nøkkel, som ikke bør gå gjennom en nettside.
+
+js-t35data-card-iq-title = GNSS IQ-monitorer og verktøy
+
+js-t35data-card-iq-what = Bygg en scene, fang og følg signaler, sveip parametere, modeller en frontend, kjør IQ-monitorer og kampanjer, tilpass en laboratorielogg. Også tilgjengelig fra Python og, innenfor én arbeidsmappe, fra verktøyene til AI-assistenten.
+
+js-t35data-card-iq-why = Et opptak er gigabyte med sampler. En side kan ikke romme det, og kommandoene som konverterer, trekker ut og desimerer, skriver om opptak på disk.
+
+js-t35data-card-land-title = Nedlasting av landpolygoner til AIS-detektoren for land
+
+js-t35data-card-land-what = Henter én festet landfil (Natural Earth, offentlig eiendom) og kontrollerer SHA-256. Kartbyggeren tar landfilen som tekst i stedet.
+
+js-t35data-card-land-why = Det er den eneste kommandoen som åpner en nettverksforbindelse, og den trenger systemets curl og et eksplisitt flagg.
+
+js-t35data-card-marine-title = Maritime integrasjoner
+
+js-t35data-card-marine-what = Et Signal K-serverprogramtillegg og OpenCPN gjennom NMEA i gate-modus over TCP legger tillitsscoren inn i programvare båtfolk allerede bruker; et referanseoppsett legger den på en liten datamaskin ved siden av mottakeren.

@@ -2422,7 +2422,7 @@ js-cat-lunar-relay-constellation-question = Que cobertura dá sobre toda a Lua u
 
 js-cat-lunar-relay-constellation-title = Constelação de retransmissão lunar
 
-js-cat-lunar-station-coverage-public-sources-question = Apenas com os pressupostos declarados publicamente, que erro corrigido dá a estação sobre o polo sul? O resultado é dominado pelos elementos orbitais, que não são públicos e estão definidos como ILUSTRATIVOS; esta é a entrada da previsão congelada. (modelado; não é uma afirmação sobre nenhum sistema real)
+js-cat-lunar-station-coverage-public-sources-question = Apenas com os pressupostos declarados publicamente, que erro corrigido dá a estação sobre o polo sul? O resultado é dominado pelos elementos orbitais, que não são públicos e estão definidos como ILLUSTRATIVE; esta é a entrada da previsão congelada. (modelado; não é uma afirmação sobre nenhum sistema real)
 
 js-cat-lunar-station-coverage-public-sources-title = Estação de referência lunar, pressupostos públicos
 

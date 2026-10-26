@@ -2387,7 +2387,7 @@ js-cat-lunar-relay-constellation-question = Welke dekking geeft een relay- en na
 
 js-cat-lunar-relay-constellation-title = Relayconstellatie bij de Maan
 
-js-cat-lunar-station-coverage-public-sources-question = Welke gecorrigeerde fout geeft het station boven de zuidpool onder alleen de openbaar vermelde aannames? Het resultaat wordt bepaald door de baanelementen, die niet openbaar zijn en ILLUSTRATIEF zijn gesteld; dit is de invoer van de bevroren voorspelling. (gemodelleerd; geen uitspraak over enig echt systeem)
+js-cat-lunar-station-coverage-public-sources-question = Welke gecorrigeerde fout geeft het station boven de zuidpool onder alleen de openbaar vermelde aannames? Het resultaat wordt bepaald door de baanelementen, die niet openbaar zijn en ILLUSTRATIVE zijn gesteld; dit is de invoer van de bevroren voorspelling. (gemodelleerd; geen uitspraak over enig echt systeem)
 
 js-cat-lunar-station-coverage-public-sources-title = Maanreferentiestation, openbare aannames
 
@@ -4033,7 +4033,7 @@ js-kind-note-j-s-is-the-jammer = J/S is de vermogensverhouding tussen jammer en 
 
 js-kind-note-p05-p50-and-p95-are = p05, p50 en p95 zijn het 5e, 50e en 95e percentiel. ci95 is het betrouwbaarheidsinterval van 95% voor het gemiddelde.
 
-js-kind-note-parameters-are-public-with-a = Parameters zijn OPENBAAR (met een bron), REPRESENTATIEF of WORKSHOP, zoals elke voorinstelling aangeeft.
+js-kind-note-parameters-are-public-with-a = Parameters zijn PUBLIC (met een bron), REPRESENTATIVE of WORKSHOP, zoals elke voorinstelling aangeeft.
 
 js-kind-note-precise-point-positioning-ppp-converges = Precise point positioning (PPP) convergeert wanneer de fout onder het criterium blijft. NEES is de genormaliseerde gekwadrateerde schattingsfout, een controle op de consistentie van het filter.
 

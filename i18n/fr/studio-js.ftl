@@ -2367,7 +2367,7 @@ js-cat-lunar-relay-constellation-question = Quelle couverture une constellation 
 
 js-cat-lunar-relay-constellation-title = Constellation de relais lunaires
 
-js-cat-lunar-station-coverage-public-sources-question = Avec les seules hypothèses publiquement annoncées, quelle erreur corrigée la station donne-t-elle au-dessus du pôle sud ? Le résultat est dominé par les éléments orbitaux, qui ne sont pas publics et sont fixés à titre ILLUSTRATIF ; c'est l'entrée de la prédiction figée. (modélisé ; pas une déclaration sur un système réel)
+js-cat-lunar-station-coverage-public-sources-question = Avec les seules hypothèses publiquement annoncées, quelle erreur corrigée la station donne-t-elle au-dessus du pôle sud ? Le résultat est dominé par les éléments orbitaux, qui ne sont pas publics et sont fixés à titre ILLUSTRATIVE ; c'est l'entrée de la prédiction figée. (modélisé ; pas une déclaration sur un système réel)
 
 js-cat-lunar-station-coverage-public-sources-title = Station de référence lunaire, hypothèses publiques
 
@@ -4000,7 +4000,7 @@ js-kind-note-j-s-is-the-jammer = J/S est le rapport de puissance brouilleur sur 
 
 js-kind-note-p05-p50-and-p95-are = p05, p50 et p95 sont les 5e, 50e et 95e centiles. ci95 est l'intervalle de confiance à 95 % sur la moyenne.
 
-js-kind-note-parameters-are-public-with-a = Les paramètres sont PUBLICS (avec une source), REPRÉSENTATIFS ou D'ATELIER, comme chaque préréglage l'indique.
+js-kind-note-parameters-are-public-with-a = Les paramètres sont PUBLIC (avec une source), REPRESENTATIVE ou WORKSHOP, comme chaque préréglage l'indique.
 
 js-kind-note-precise-point-positioning-ppp-converges = Le positionnement ponctuel précis (PPP) converge quand l'erreur reste sous le critère. NEES est l'erreur d'estimation normalisée au carré, un contrôle de cohérence du filtre.
 
