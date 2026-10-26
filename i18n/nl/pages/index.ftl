@@ -277,3 +277,5 @@ seg-ff90679d1de9 = Spoofingdetectie
 seg-257c477dc510 = WebAssembly
 
 seg-2192262e26c1 = gehaald
+
+seg-785218a0ea66 = Wat Kshana niet is

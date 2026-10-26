@@ -13,3 +13,5 @@ seg-bf09433a7342 = GeoJSON
 seg-906440b861cd = Frame
 
 seg-32b620b3574e = Gebruik
+
+seg-8ba331635865 = Standaarden en interoperabiliteit
