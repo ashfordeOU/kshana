@@ -29,3 +29,17 @@ seg-be4e928a5865 = 多颗卫星对多个地面站的地面接触规划：视在�
 seg-e26b549579e2 = 引擎为 scenarios/contact-schedule.toml（类型 contact-schedule）生成的图表
 
 seg-b843e2e0a4ee = 在自转的球形地球或火星上的 3-DoF 质点大气再入（弹道式或恒定倾侧的升力式），RK4，穿过 US76、指数大气或火星大气，采用 Sutton-Graves 驻点对流加热（NASA TR R-376）：峰值减速度、热流和动压，热载荷，下程，自转坐标系能量检查，以及并列给出的 Allen-Eggers 闭式。峰值减速度对照已发布的 Stardust 标称值进行检查；加热为 MODELLED。
+
+seg-dbb618cd6357 = 引擎为 scenarios/entry-heating-stardust.toml（类型 entry-heating）生成的图表
+
+seg-47b4aea6ed01 = 对地观测载荷的足迹与覆盖几何（SMAD 空间三角形）：针对给定的轨道高度、倾角（默认为太阳同步）和传感器 FOV/IFOV，给出地球角半径、幅宽、星下点地面采样距离、最大离天底接入角、圆轨道周期、J2 交点周期和赤道星下点轨迹间距，并附连续覆盖标志。MODELLED 球形地球几何（无辐射度/MTF/大气/抖动/耀光）；节点间距 R_e·(ω − Ω̇)·T_nodal，采用一阶 J2 长期项速率。
+
+seg-c2a8332f2ee2 = 引擎为 scenarios/eo-coverage.toml（类型 eo-coverage）生成的图表
+
+seg-816bd5a5808a = 天底成像仪辐射度与图像质量：朗伯场景的入瞳辐亮度、相机方程、信号与散粒/暗/读出/量化噪声及 SNR；奈奎斯特频率处的系统 MTF（衍射 x 探测器 x 拖尾 x 抖动）、由其得出的相对边缘响应、Q = lambda F/p，以及未做 MTF 补偿的 GIQE { "4" } 版 NIIRS。MODELLED。
+
+seg-bf7b52f7a01e = 引擎为 scenarios/eo-radiometry.toml（类型 eo-radiometry）生成的图表
+
+seg-7a4e6215a488 = 二体发射与上升几何：发射方位角（sin Az = cos i / cos lat）、最小可达倾角、圆轨道速度、地球自转的向东增益、目标倾角低于发射场纬度时的折线（dogleg）平面变轨 Δv，以及每日发射机会次数。MODELLED 球形地球几何（无自转地球速度三角形修正，无上升/阻力损失模型）。
+
+seg-9696283a95ae = 引擎为 scenarios/launch-window.toml（类型 launch-window）生成的图表

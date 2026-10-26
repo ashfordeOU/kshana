@@ -11,3 +11,11 @@ seg-1c1eeb2dcaa0 = 类别页面：<a1>月球与地月空间</a1>
 seg-a3697ad561db = Hz
 
 seg-9521a296d617 = dBi
+
+seg-f85a85f0c7e4 = MHz
+
+seg-7154243aabbe = broadband
+
+seg-cec5c06d38af = <b>MODELLED</b> 月面原生的干扰信号比、有效 C/N₀ 与失锁，针对月面（或抬高）干扰源下的月面用户，基于示意性的、取自公开来源的 Moonlight/LCNS 类星座。
+
+seg-edcd55ccc993 = <b>MODELLED</b> <c1/> 报告不再把其拒止等值线建立在单一标量之上。
