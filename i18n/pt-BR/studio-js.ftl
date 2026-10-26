@@ -5057,3 +5057,663 @@ js-lib-views-position-error-axis = erro de posição ({ $unit })
 js-lib-views-position-error-m = erro de posição (m)
 
 js-lib-views-position-error-run = Erro de posição ao longo da execução
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:186
+js-lib-views-position-m = posição (m)
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:98
+js-lib-views-predicted-time-error = Erro de tempo previsto desde a última solução de posição
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:142
+js-lib-views-protection-level-m = nível de proteção (m)
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:141
+js-lib-views-protection-levels = Níveis de proteção em relação ao limite de alerta
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:78
+js-lib-views-quantum = quântico
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:185
+js-lib-views-relay-error-bound = Erro de posição da navegação por retransmissão e seu limite de 3 sigma
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:116
+js-lib-views-satellites = satélites
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:114
+js-lib-views-satellites-tracking = Satélites visíveis e ainda rastreados
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:482
+js-lib-views-shaded-gnss-denied = sombreado: GNSS negado
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:105
+js-lib-views-slot-guard = guarda do intervalo de tempo
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:161
+js-lib-views-spoofed-offset = Deslocamento de tempo falsificado em relação ao limite de detecção
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:166
+js-lib-views-sweep-of = Varredura de { $parameter }: { $metric }
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:57
+js-lib-views-sync-error-axis = erro de sincronização ({ $unit })
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:57
+js-lib-views-sync-error-run = Erro de sincronização ao longo da execução
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:531
+js-lib-views-threshold = limiar
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:100
+js-lib-views-time-error-ns = erro de tempo (ns)
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:161
+js-lib-views-time-ns = tempo (ns)
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:87
+js-lib-views-time-s = tempo (s)
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:99
+js-lib-views-time-since-fix = tempo desde a última solução de posição (s)
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:58
+js-lib-views-timing-error-axis = erro de temporização ({ $unit })
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:58
+js-lib-views-timing-error-run = Erro de temporização ao longo da execução
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:120
+js-lib-views-tracking = rastreados
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:167
+js-lib-views-value = valor
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:145
+js-lib-views-vertical-vpl = vertical (VPL)
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:119
+js-lib-views-visible = visíveis
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:390
+js-lib-views-word-enbw = largura de banda equivalente de ruído
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:391
+js-lib-views-word-nfft = comprimento da FFT
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:388
+js-lib-views-word-stec = TEC oblíquo
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:393
+js-lib-views-word-toa = tempo de chegada
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:392
+js-lib-views-word-ttff = tempo até a primeira solução de posição
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:389
+js-lib-views-word-tx = transmitir
+
+# 2026-10-01-studio-rebuild/lib/views.mjs:394
+js-lib-views-word-zwd = atraso zenital úmido
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:146
+js-lunar-address-outside-range = { $label }: "{ $raw }" está fora do intervalo de { $min } a { $max }; o valor do arquivo é usado.
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:139
+js-lunar-address-too-long = O endereço era longo demais; os valores padrão são exibidos.
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:142
+js-lunar-address-unknown-source = Fonte desconhecida no endereço; a gravação é exibida.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:181
+js-lunar-alert-limit = limite de alerta { $value } (ilustrativo)
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:181
+js-lunar-alert-not-stated = limite de alerta não informado
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:146
+js-lunar-bearing-east = 90° E
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:146
+js-lunar-bearing-west = 90° W
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:141
+js-lunar-cell-title = { $lat }°, { $lon }°: corrigido { $corrected }, disponibilidade { $availability }, cobertura { $coverage }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:245
+js-lunar-copy-address = Copie o endereço da barra de endereços.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:183
+js-lunar-counts = { $sats } satélites, { $points } pontos de grade, { $epochs } épocas, { $trials } ensaios Monte Carlo por época. Rótulo: { $label }.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:76
+js-lunar-engine-no-start = O motor não pôde ser iniciado neste navegador ({ $reason }). Abra um arquivo de resultado.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:90
+js-lunar-engine-unknown-kind = Este motor ({ $version }) não conhece o tipo { $kind }; é necessário o motor 0.36.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:210
+js-lunar-fig-availability-region = Disponibilidade na região
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:176
+js-lunar-fig-corrected-3d = Erro corrigido, { $n } %, 3‑D
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:179
+js-lunar-fig-coverage = Cobertura
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:179
+js-lunar-fig-epochs-within = épocas dentro de { $value }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:176
+js-lunar-fig-horizontal-vertical = horizontal { $h }, vertical { $v }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:181
+js-lunar-fig-hpl-below-alert = HPL abaixo do limite de alerta
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:180
+js-lunar-fig-hpl-vpl = HPL, VPL no máximo
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:178
+js-lunar-fig-improvement = Fator de melhoria
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:212
+js-lunar-fig-lowest-point = Menor valor em um ponto
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:211
+js-lunar-fig-points-always-available = Pontos disponíveis em todas as épocas
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:177
+js-lunar-fig-uncorrected-3d = Erro não corrigido, { $n } %, 3‑D
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:182
+js-lunar-fig-worst-point = Pior ponto
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:54
+js-lunar-file-not-json = Este arquivo não é JSON.
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:55
+js-lunar-file-not-object = Este arquivo não é um objeto JSON.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:97
+js-lunar-file-too-large = { $name }: maior que 32 MiB; esta página lê arquivos de resultado de até esse tamanho.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:47
+js-lunar-file-value = arquivo: { $value }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:211
+js-lunar-full-of-total = { $full } de { $total }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:56
+js-lunar-give-value = { $label }: informe um valor de { $min } a { $max }.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:56
+js-lunar-give-whole-value = { $label }: informe um valor de { $min } a { $max } (um número inteiro).
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:19
+js-lunar-honesty-affiliation = Sem afiliação nem aval de qualquer agência.
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:18
+js-lunar-honesty-assumptions = Sob as premissas públicas declaradas; não é uma afirmação sobre o desempenho de nenhum sistema real.
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:130
+js-lunar-in-grid-spacing = Espaçamento dos anéis da grade, graus
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:127
+js-lunar-in-latency = Latência da correção, segundos
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:131
+js-lunar-in-seed = Semente
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:123
+js-lunar-in-station-lat = Latitude da estação, graus
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:124
+js-lunar-in-station-lon = Longitude da estação, graus
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:126
+js-lunar-in-survey-error = Erro de levantamento da estação (1 sigma), metros
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:125
+js-lunar-in-threshold = Limiar de exatidão, metros
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:129
+js-lunar-in-time-step = Passo de tempo, segundos
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:128
+js-lunar-in-trials = Ensaios Monte Carlo por época
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:172
+js-lunar-input-out-of-range = { $label } está fora do intervalo.
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:58
+js-lunar-json-field-not-json = O campo json do arquivo não é JSON.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:113
+js-lunar-key-50-or-more = 50 % ou mais
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:113
+js-lunar-key-90-or-more = 90 % ou mais
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:113
+js-lunar-key-95-or-more = 95 % ou mais
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:113
+js-lunar-key-99-or-more = 99 % ou mais
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:115
+js-lunar-key-above = acima de { $value }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:116
+js-lunar-key-above-threshold = acima de { $value } × limiar
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:113
+js-lunar-key-below-50 = abaixo de 50 %
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:115
+js-lunar-key-between = de { $from } a { $to }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:116
+js-lunar-key-between-threshold = de { $from } a { $to } × limiar
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:115
+js-lunar-key-up-to = até { $value }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:116
+js-lunar-key-up-to-threshold = até { $value } × limiar
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:117
+js-lunar-layer-availability = disponibilidade
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:118
+js-lunar-layer-coverage = cobertura
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:116
+js-lunar-layer-error = erro corrigido
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:115
+js-lunar-layer-range = erro corrigido na sua própria faixa
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:165
+js-lunar-legend-no-figure = sem valor (indisponível durante todo o período)
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:167
+js-lunar-legend-radius = raio de cobertura
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:166
+js-lunar-legend-threshold = limiar, { $value }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:169
+js-lunar-legend-worst = pior ponto
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:245
+js-lunar-link-copied = Link copiado.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:161
+js-lunar-map-desc = { $points } pontos de grade do polo até { $rim }° de latitude. { $meet } deles têm um erro corrigido do percentil { $percentile } dentro do limiar de { $threshold }. Colorido por { $layer }. A estação está em { $lat }°, { $lon }°.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:137
+js-lunar-map-note-one-band = { $share } % dos pontos caem em uma única faixa da escala de limiar, portanto o mapa mostra pouca variação: colora por "sua própria faixa" para ver como o erro varia pela região.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:80
+js-lunar-needs-newer-engine = Este estudo requer o motor { $need } ou posterior; o motor em execução aqui é o v{ $version }. A gravação ou um arquivo de resultado ainda pode ser exibido.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:203
+js-lunar-no = não
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:67
+js-lunar-no-recording = Ainda não há gravação deste estudo: ela é feita na versão com o motor 0.36. Execute-o aqui com um motor que tenha esse tipo ou abra um arquivo de resultado.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:72
+js-lunar-no-scenario = Este site ainda não tem { $file }: ele chega com o motor 0.36. Abra um arquivo de resultado.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:262
+js-lunar-no-scenario-note = Este site ainda não tem { $file } (ele chega com o motor 0.36), portanto não é possível executar aqui; abra um arquivo de resultado.
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:61
+js-lunar-not-report = Este não é um relatório { $kind }.
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:284
+js-lunar-not-stated = não informado
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:237
+js-lunar-note-none = O arquivo não informa nenhuma nota.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:237
+js-lunar-note-withheld = A declaração do próprio arquivo cita um programa ou uma agência, por isso esta página não a exibe; vale a declaração no topo da página.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:215
+js-lunar-point-epochs-reason = pontos-época: { $reason }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:200
+js-lunar-radius-desc = Raio de cobertura em { $count } azimutes: o menor { $lo } km a { $loAz }°, o maior { $hi } km a { $hiAz }°.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:200
+js-lunar-radius-desc-limited =
+    { $count ->
+        [one] { $count } alcança a borda da grade, portanto a cobertura chega pelo menos até essa distância ali.
+        [many] { $count } alcançam a borda da grade, portanto a cobertura chega pelo menos até essa distância ali.
+       *[other] { $count } alcançam a borda da grade, portanto a cobertura chega pelo menos até essa distância ali.
+    }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:202
+js-lunar-radius-hollow = Pontos vazados alcançam a borda da grade: a cobertura se mantém pelo menos até essa distância ao longo dessa direção.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:200
+js-lunar-radius-none = O relatório não informa nenhum raio de cobertura.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:151
+js-lunar-radius-per-azimuth = raio de cobertura por azimute
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:196
+js-lunar-radius-point = { $az }°: { $km } km
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:196
+js-lunar-radius-point-limited = { $az }°: { $km } km (alcança a borda da grade: pelo menos essa distância)
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:202
+js-lunar-radius-zero = Em toda direção a cobertura já está abaixo de 95 % na própria estação, portanto o raio é de 0 km: ali o erro corrigido excede o limiar de { $value }.
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:39
+js-lunar-reason-station-missing = a estação não vê todos os satélites que o usuário utiliza
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:38
+js-lunar-reason-user-lt4 = menos de quatro satélites à vista do usuário
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:90
+js-lunar-run-stopped = A execução foi interrompida: { $message }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:84
+js-lunar-running = Executando o estudo neste navegador…
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:83
+js-lunar-running-elapsed = Executando o estudo neste navegador… { $seconds } s
+
+# 2026-10-01-studio-rebuild/lib/lunar-station.mjs:177
+js-lunar-scenario-missing-keys = O arquivo de cenário não tem { $keys }; ele não pode ser alterado aqui.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:108
+js-lunar-set-inputs = Defina as entradas e pressione Run it here.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:104
+js-lunar-showing = Exibindo { $what }.
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:104
+js-lunar-showing-engine = Exibindo { $what } (motor { $version }).
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:102
+js-lunar-source-error = { $what }: { $error }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:157
+js-lunar-station = estação
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:156
+js-lunar-station-title = estação { $lat }°, { $lon }°
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:222
+js-lunar-table-count =
+    { $n ->
+        [one] { $n } ponto, o mais próximo da estação primeiro.
+        [many] { $n } de pontos, os mais próximos da estação primeiro.
+       *[other] { $n } pontos, os mais próximos da estação primeiro.
+    }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:219
+js-lunar-th-corrected = Erro corrigido, { $n } %
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:147
+js-lunar-threshold-title = erro corrigido { $value } (o limiar)
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:98
+js-lunar-what-file = o arquivo { $name }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:68
+js-lunar-what-recording = a gravação que acompanha o Studio
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:87
+js-lunar-what-run = uma execução neste navegador (motor { $version })
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:182
+js-lunar-worst-at = em { $lat }°, { $lon }°
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:153
+js-lunar-worst-title = pior ponto { $lat }°, { $lon }°: { $value }
+
+# 2026-10-01-studio-rebuild/lunar/lunar.js:203
+js-lunar-yes-at-least = sim: pelo menos essa distância
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:92
+js-lunarinfra-above-95-point = acima do ponto de 95 %
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:57
+js-lunarinfra-advisory = Software de caráter consultivo, não um equipamento homologado; nenhum caminho de transmissão de qualquer tipo.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:106
+js-lunarinfra-arc-note = Comprimento de onda da portadora { $value } m.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:106
+js-lunarinfra-arc-title = Cada arco
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:16
+js-lunarinfra-bars-not-loaded = o arquivo de limiares não foi carregado
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:19
+js-lunarinfra-bars-not-shown = Os limiares fixados antecipadamente não puderam ser exibidos ({ $reason }).
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:136
+js-lunarinfra-bars-note = Fixados antes de qualquer estudo ser avaliado, com os veredictos registrados (commit do motor { $commit }). Nada é VALIDATED; um limiar marcado como NOT MET é fixado por um teste que afirma a falha, e nenhum foi afrouxado.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:136
+js-lunarinfra-bars-title = Em relação aos limiares fixados antecipadamente
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:63
+js-lunarinfra-bars-wrong-file = o arquivo de limiares não é o que esta página lê
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:20
+js-lunarinfra-blurb-carrier-phase = Uma estação de superfície e um orbitador usando fase da portadora de dupla diferença dos sinais GNSS terrestres: é possível fixar as ambiguidades inteiras e o que isso faz com o limite de posição? O exemplo de execução rápida.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:21
+js-lunarinfra-blurb-frame-coestimation = Os sete parâmetros do datum lunar a partir de medições a laser de estações na Terra, com e sem distâncias entre o orbitador e a estação de superfície: quanto a informação melhora?
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:23
+js-lunarinfra-blurb-geodesy-sensitivity = Qual é a sensibilidade da medição a laser, do rastreamento de orbitador, de um gravímetro e de um relógio de superfície aos números de Love de maré da Lua h2, k2 e l2 e à sua libração física?
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:19
+js-lunarinfra-blurb-od-consistency = Determinação de órbita a bordo com GNSS terrestre em uma órbita de halo quase retilínea, comparada a uma solução radiométrica independente em solo do mesmo arco: as duas concordam dentro de suas incertezas declaradas, e a verificação de consistência percebe um erro de modelagem quando um é injetado? Exibidas lado a lado.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:22
+js-lunarinfra-blurb-space-tie = GNSS, VLBI e medição a laser em uma única espaçonave: com que precisão é possível amarrar os deslocamentos entre as três técnicas, em comparação com o erro da amarração local na espaçonave?
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:105
+js-lunarinfra-bound-label = Incerteza de posição, float e fixa, escala logarítmica
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:104
+js-lunarinfra-bound-note = Incerteza de posição de um sigma da estação e do orbitador com as ambiguidades deixadas float e com elas fixadas (o que a fixação daria se fosse alcançada).
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:104
+js-lunarinfra-bound-title = Limite de posição, float e fixo
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:69
+js-lunarinfra-chip-na = n/d
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:94
+js-lunarinfra-comp-normal = normal
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:94
+js-lunarinfra-comp-position = posição (3-D)
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:94
+js-lunarinfra-comp-radial = radial
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:94
+js-lunarinfra-comp-transverse = transversal
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:115
+js-lunarinfra-compare-note = Em { $sets } conjuntos aleatórios de estações, o menor autovalor não foi menor com os enlaces do orbitador em { $lambda } e o traço não foi maior em { $trace }; o aumento mediano do menor autovalor foi de { $median } vezes.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:115
+js-lunarinfra-compare-title = A comparação em números
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:114
+js-lunarinfra-crsigma-label = Sigma de Cramér-Rao, escala logarítmica
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:113
+js-lunarinfra-crsigma-note = Em metros na superfície.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:113
+js-lunarinfra-crsigma-title = Sigma de Cramér-Rao por parâmetro
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:143
+js-lunarinfra-days = { $n } dias
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:112
+js-lunarinfra-direction = direção { $n }
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:54
+js-lunarinfra-disclosures = Divulgações
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:112
+js-lunarinfra-eig-label = Autovalores de informação, escala logarítmica
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:111
+js-lunarinfra-eig-note = Os sete autovalores da matriz de informação, do menor ao maior, sem e com os enlaces entre o orbitador e a estação. O menor aumenta { $times } vezes, e o traço de Cramér-Rao cai para { $share } do seu valor. Isso pressupõe que a órbita é conhecida nos eixos lunares (seu erro é carregado pelo sigma de distância do orbitador).
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:111
+js-lunarinfra-eig-title = Informação em cada direção do datum
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:143
+js-lunarinfra-fact-arc = Arco
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:142
+js-lunarinfra-fact-hash = Hash do cenário
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:145
+js-lunarinfra-fact-llr-rows = Linhas de medição a laser
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:143
+js-lunarinfra-fact-orbit-family = Família de órbita
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:145
+js-lunarinfra-fact-orbiter-arc = Arco do orbitador
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:145
+js-lunarinfra-fact-orbiter-rows = Linhas do orbitador
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:141
+js-lunarinfra-fact-study = Estudo
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:144
+js-lunarinfra-fact-wavelength = Comprimento de onda da portadora
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:131
+js-lunarinfra-families-note = O RMS da derivada parcial de cada parâmetro sobre as linhas da família e o número de linhas. Um zero é um parâmetro para o qual essa família é cega. A sensibilidade a k2 da família do orbitador é um valor de limite superior.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:131
+js-lunarinfra-families-title = O que cada família enxerga
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:54
+js-lunarinfra-findings = Constatações
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:102
+js-lunarinfra-fix-note-a = A parcela dos ensaios Monte Carlo que fixou corretamente todas as ambiguidades inteiras (com seu erro-padrão) e a taxa que a estimativa por bootstrap prevê.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:102
+js-lunarinfra-fix-note-b = A fixação de inteiros NÃO é alcançada nesta entrada: o melhor arco fixa { $share } dos ensaios.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:102
+js-lunarinfra-fix-note-c = Não há tempo de fixação a mostrar, porque a fixação não é alcançada.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:103
+js-lunarinfra-fix-rate-label = Taxa de fixação de inteiros em função do comprimento do arco
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:102
+js-lunarinfra-fix-title = Taxa de fixação em função do comprimento do arco
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:105
+js-lunarinfra-fixed = fixa
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:105
+js-lunarinfra-float = float
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:92
+js-lunarinfra-fraction-above-95 = Fração dos ensaios acima do ponto de 95 %
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:94
+js-lunarinfra-ground-radiometric = radiométrica independente em solo
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:89
+js-lunarinfra-injected-error = erro injetado { $value } m/s²
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:92
+js-lunarinfra-mean-consistency = Estatística de consistência média
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:92
+js-lunarinfra-mean-q = q médio
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:79
+js-lunarinfra-miss-line = { $id } está { $status }: { $value }
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:81
+js-lunarinfra-miss-no-fix = A fixação de ambiguidades inteiras NÃO é alcançada nesta entrada: o melhor arco fixa { $share } dos ensaios Monte Carlo.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:72
+js-lunarinfra-na = n/d
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:89
+js-lunarinfra-nominal = nominal
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:30
+js-lunarinfra-not-result = este não é um resultado de infraestrutura lunar
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:54
+js-lunarinfra-not-verified = Não verificado
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:122
+js-lunarinfra-offset-precision-label = Precisão do deslocamento em relação à amarração local, log-log
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:123
+js-lunarinfra-offsets-note = Sigma de translação por eixo, sigma de escala e de rotação na superfície, em metros.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:123
+js-lunarinfra-offsets-title = Os deslocamentos em cada erro de amarração (arco de { $days } dias, { $epochs } épocas)
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:94
+js-lunarinfra-onboard-gnss = GNSS terrestre a bordo
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:39
+js-lunarinfra-open-failed = Não foi possível abrir { $title }: { $reason }.
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:27
+js-lunarinfra-opening = Abrindo { $title }…
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:94
+js-lunarinfra-orbit-uncertainty-log = Incerteza da órbita por componente, escala logarítmica
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:105
+js-lunarinfra-orbiter-days = orbitador, { $days } d
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:91
+js-lunarinfra-q-note = Média da estatística de consistência q em { $trials } ensaios; { $expected } é o que um par consistente de soluções fornece. A fração de ensaios acima do ponto de 95 % é a taxa de detecção da verificação.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:91
+js-lunarinfra-q-title = A verificação de consistência, nominal em relação ao erro injetado
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:37
+js-lunarinfra-recorded =
+    { $n ->
+        [one] { $title }: o resultado registrado do motor (versão { $version }).
+        [many] { $title }: os resultados registrados do motor (versão { $version }).
+       *[other] { $title }: os resultados registrados do motor (versão { $version }).
+    }
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:130
+js-lunarinfra-rel-label = Sigma sobre o nominal, escala logarítmica
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:129
+js-lunarinfra-rel-note = Sigma de Cramér-Rao como porcentagem do valor nominal, com as quatro famílias em conjunto. h2 e l2 são pontos de linearização, não valores verificados; k2 vem de um ajuste publicado.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:129
+js-lunarinfra-rel-title = Com que precisão cada parâmetro pode ser determinado, em relação ao seu valor nominal
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:29
+js-lunarinfra-result-not-json = o resultado não é JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:31
+js-lunarinfra-result-not-loaded = o resultado registrado { $file } não foi carregado
