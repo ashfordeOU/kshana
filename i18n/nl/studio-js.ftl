@@ -6382,3 +6382,2869 @@ js-meankind-leopvt-polar-line =
     }
 
 js-meankind-leopvt-timing-big = Tijdoverdracht via een lage baan houdt de beste klok binnen { $ns } ns van UTC (kwadratisch gemiddelde).
+
+js-meankind-leopvt-timing-line =
+    { $n ->
+        [one] { $n } geval van klok en signaal vergeleken.
+       *[other] { $n } gevallen van klok en signaal vergeleken.
+    }
+
+js-meankind-leosignal-big =
+    { $n ->
+        [one] Van { $n } signaalontwerp verdraagt { $best } de meeste jamming: { $db } dB boven het signaal.
+       *[other] Van { $n } signaalontwerpen verdraagt { $best } de meeste jamming: { $db } dB boven het signaal.
+    }
+
+js-meankind-leosignal-line-fail = De controles van de spectrumvorm mislukken.
+
+js-meankind-leosignal-line-pass = De controles van de spectrumvorm slagen.
+
+js-meankind-link-big-closes = De verbinding sluit met { $margin } dB marge.
+
+js-meankind-link-big-open = De verbinding sluit niet: { $margin } dB marge.
+
+js-meankind-link-line = Over { $km } km.
+
+js-meankind-link-line-band = { $band }-band over { $km } km.
+
+js-meankind-link-line-band-rate = { $band }-band over { $km } km met { $rate } bit/s.
+
+js-meankind-link-line-rate = Over { $km } km met { $rate } bit/s.
+
+js-meankind-list-and = { $head } en { $last }
+
+js-meankind-llr-big = Echte laserafstandsmeting legt het maanreferentiestelsel vast op { $mm } mm.
+
+js-meankind-llr-line = Schaal tot op { $ppb } deeltjes per miljard.
+
+js-meankind-mapmatch-altimeter = De hoogtemeter meet tot op { $sigma } m.
+
+js-meankind-mapmatch-big = Kaartvergelijking houdt de positie op { $matched } m, tegenover { $free } m drift met alleen traagheidsnavigatie.
+
+js-meankind-mapmatch-gravimeter = De gravimeter meet tot op { $sigma } mGal.
+
+js-meankind-mapmatch-sources = Zwaartekracht alleen geeft { $gravity } m, magnetisch { $magnetic } m, terrein { $terrain } m.
+
+js-meankind-marspnt-big = De navigator van { $user } komt tot rust op { $m } m (kwadratisch gemiddelde).
+
+js-meankind-marspnt-line =
+    { $n ->
+        [one] Gemiddeld { $mean } relais in zicht, over { $n } epoche.
+       *[other] Gemiddeld { $mean } relais in zicht, over { $n } epochen.
+    }
+
+js-meankind-moonlight-big = De dienst dekt { $share } % van de gecontroleerde plaatsen en tijden.
+
+js-meankind-moonlight-line =
+    { $n ->
+        [one] Tussen { $min } en { $n } satelliet zijn in zicht; de geometriekwaliteit (PDOP) loopt van { $pmin } tot { $pmax }.
+       *[other] Tussen { $min } en { $n } satellieten zijn in zicht; de geometriekwaliteit (PDOP) loopt van { $pmin } tot { $pmax }.
+    }
+
+js-meankind-navmsg-big =
+    { $n ->
+        [one] Eén navigatiebericht past in { $n } byte.
+       *[other] Eén navigatiebericht past in { $n } bytes.
+    }
+
+js-meankind-navmsg-cases-big =
+    { $n ->
+        [one] Over { $n } geval is de afstandsfout van de uitgezonden baan { $min } tot { $max } mm.
+       *[other] Over { $n } gevallen is de afstandsfout van de uitgezonden baan { $min } tot { $max } mm.
+    }
+
+js-meankind-navmsg-cases-line = Afstandsfout van het signaal in de ruimte, kwadratisch gemiddelde.
+
+js-meankind-navmsg-line = Afronden naar het berichtformaat kost { $mm } mm afstandsfout.
+
+js-meankind-navmsg-midpass-big = Het bijwerken van het bericht midden in een overpassage laat de afstand met hooguit { $mm } mm springen.
+
+js-meankind-navmsg-midpass-line = De grens is { $mm } mm.
+
+js-meankind-ntn-big = 5G-positiebepaling vanuit een baan bereikt { $m } m met { $signal }.
+
+js-meankind-ntn-line = Doppler over één overpassage geeft { $m } m.
+
+js-meankind-obs-big-full = De baan wordt volledig waarneembaar na { $dur } volgen.
+
+js-meankind-obs-big-partly = De baan blijft gedeeltelijk waarneembaar over de boog van { $h } h.
+
+js-meankind-obs-line = Rang { $rank } van { $dim } aan het einde van de boog.
+
+js-meankind-oem-big = Het efemeridebestand komt na een heen-en-terugomzetting terug met hooguit { $mm } mm positiefout.
+
+js-meankind-oem-line =
+    { $n ->
+        [one] { $states } toestanden in { $n } segment.
+       *[other] { $states } toestanden in { $n } segmenten.
+    }
+
+js-meankind-optical-big-alone = De beste afzonderlijke locatie houdt de optische verbinding { $best } % van de tijd in stand (plafond bij wolkenvrij { $ceiling } %); geen enkele wolkenvrije marge tilt dit boven { $ceiling } %.
+
+js-meankind-optical-big-team = De beste afzonderlijke locatie houdt de optische verbinding { $best } % van de tijd in stand (plafond bij wolkenvrij { $ceiling } %); { $n } locaties samen halen { $independent } % als hun weer onafhankelijk is, { $correlated } % met de opgegeven correlatie.
+
+js-meankind-optical-line-sites =
+    { $n ->
+        [one] { $n } locatie gemodelleerd; de wolkenklimaten zijn illustratief.
+       *[other] { $n } locaties gemodelleerd; de wolkenklimaten zijn illustratief.
+    }
+
+js-meankind-optical-line-tech = { $name }: { $base } % wordt { $with } %.
+
+js-meankind-opticalrf-big = Het combineren van optische en radioafstandsmeting geeft beschermingsniveaus van { $h } m horizontaal en { $v } m verticaal.
+
+js-meankind-opticalrf-line-fault = De consistentietest geeft { $stat } tegenover een drempel van { $threshold }: een fout wordt gemeld.
+
+js-meankind-opticalrf-line-ok = De consistentietest geeft { $stat } tegenover een drempel van { $threshold }: er wordt geen fout gemeld.
+
+js-meankind-packet-big-no = Nee: de gedecodeerde stroom wijkt af van wat is verzonden.
+
+js-meankind-packet-big-yes = Ja: de pakketstroom decodeert bit voor bit terug.
+
+js-meankind-packet-line =
+    { $n ->
+        [one] { $n } pakket, in totaal { $octets } octetten.
+       *[other] { $n } pakketten, in totaal { $octets } octetten.
+    }
+
+js-meankind-passes-big-day =
+    { $n ->
+        [one] { $n } overpassage per dag, in totaal { $dur } contact.
+       *[other] { $n } overpassages per dag, in totaal { $dur } contact.
+    }
+
+js-meankind-passes-big-window =
+    { $n ->
+        [one] { $n } overpassage in een venster van { $hours } uur, in totaal { $dur } contact.
+       *[other] { $n } overpassages in een venster van { $hours } uur, in totaal { $dur } contact.
+    }
+
+js-meankind-passes-line = De beste overpassage stijgt tot { $deg }°.
+
+js-meankind-percentile-word = percentiel
+
+js-meankind-pnt-big = De kwantumsuite houdt positie en tijd vast gedurende { $q }; de klassieke suite gedurende { $c }.
+
+js-meankind-pnt-classical-label = Holdover, klassieke suite
+
+js-meankind-pnt-line = Holdover is hoe lang elke suite (klok { $q }, tegenover klok { $c }) binnen { $spec } blijft nadat de satellietnavigatie is verloren.
+
+js-meankind-pnt-quantum-label = Holdover, kwantumsuite
+
+js-meankind-pnt-timing-classical-label = Tijdfout, 95 %, klassiek
+
+js-meankind-pnt-timing-quantum-label = Tijdfout, 95 %, kwantum
+
+js-meankind-pvt-big =
+    { $n ->
+        [one] Een positie wordt opgelost bij { $solved } van { $n } epoche, tot op { $rms } m (3D-kwadratisch gemiddelde).
+       *[other] Een positie wordt opgelost bij { $solved } van { $n } epochen, tot op { $rms } m (3D-kwadratisch gemiddelde).
+    }
+
+js-meankind-pvt-line = Uit gemiddeld { $mean } satellieten, afgelezen uit echte ontvangermetingen.
+
+js-meankind-qnav-big = Na de uitval wijkt de koudeatoomnavigator { $q } m af; die van navigatiekwaliteit { $c } m.
+
+js-meankind-qnav-big-outage = Na { $dur } zonder satellieten wijkt de koudeatoomnavigator { $q } m af; die van navigatiekwaliteit { $c } m.
+
+js-meankind-qnav-line = Binnen het budget: { $q } tegenover { $c }.
+
+js-meankind-qnav-line-threshold = Binnen { $threshold } m: { $q } tegenover { $c }.
+
+js-meankind-qtt-big = Kwantumtijdoverdracht houdt { $q } ps (1 sigma) vast, tegenover { $c } ns voor de klassieke keten.
+
+js-meankind-qtt-line = De beveiligingsmonitor detecteert { $pd } % van de aanvallen.
+
+js-meankind-qtt-line-pfa = De beveiligingsmonitor detecteert { $pd } % van de aanvallen bij een valsealarmpercentage van { $pfa }.
+
+js-meankind-quantum-link = kwantumverbinding
+
+js-meankind-radiometry-big = De camera bereikt NIIRS { $niirs } bij { $gsd } m grondmonsterafstand, met een signaal-ruisverhouding van { $snr }.
+
+js-meankind-radiometry-line = Systeem-MTF bij Nyquist { $mtf }.
+
+js-meankind-reentry-big = De piekvertraging is { $g } g, op { $km } km.
+
+js-meankind-reentry-line = Het voertuig bevindt zich dan op { $speed } m/s.
+
+js-meankind-slam-big = Terreinvergelijking eindigt { $matched } m ernaast, tegenover { $free } m met alleen traagheidsnavigatie.
+
+js-meankind-slam-line =
+    { $n ->
+        [one] Over { $n } waypoint, vergeleken met een terreinkaart met { $sigma } m hoogtemeterruis.
+       *[other] Over { $n } waypoints, vergeleken met een terreinkaart met { $sigma } m hoogtemeterruis.
+    }
+
+js-meankind-slot-big = De klok verlaat zijn slotbewaking { $dur } na de laatste satellietpositiebepaling.
+
+js-meankind-slot-line = Er is dus elke { $interval } een positiebepaling nodig, ongeveer { $perDay } per dag.
+
+js-meankind-solar-big =
+    { $n ->
+        [one] { $n } hemellichaam geplaatst op één epoche.
+       *[other] { $n } hemellichamen geplaatst op één epoche.
+    }
+
+js-meankind-solar-big-link =
+    { $n ->
+        [one] { $n } hemellichaam geplaatst op één epoche; licht doet er { $dur } over van { $from } naar { $to }.
+       *[other] { $n } hemellichamen geplaatst op één epoche; licht doet er { $dur } over van { $from } naar { $to }.
+    }
+
+js-meankind-solar-line = In totaal worden { $n } verbindingen getimed.
+
+js-meankind-spoof-caught = De spoofing wordt gevangen voordat de tijdsynchronisatiespecificatie wordt overschreden.
+
+js-meankind-spoof-caught-both = De spoofing wordt door beide klokken gevangen voordat de tijdsynchronisatiespecificatie wordt overschreden.
+
+js-meankind-spoof-caught-label = Gevangen na, { $name }
+
+js-meankind-spoof-caught-thr = De spoofing wordt gevangen voordat de tijdsynchronisatiespecificatie van { $thr } ns wordt overschreden.
+
+js-meankind-spoof-caught-thr-both = De spoofing wordt door beide klokken gevangen voordat de tijdsynchronisatiespecificatie van { $thr } ns wordt overschreden.
+
+js-meankind-spoof-detects = { $name } detecteert dit na { $dur }, bij een offset van { $offset } ns.
+
+js-meankind-spoof-missed =
+    { $n ->
+        [one] De spoofing overschrijdt de tijdsynchronisatiespecificatie voordat { $names } hem vangt.
+       *[other] De spoofing overschrijdt de tijdsynchronisatiespecificatie voordat { $names } hem vangen.
+    }
+
+js-meankind-spoof-offset = offset { $offset } ns
+
+js-meankind-spoofdetect-big-by = Ja: de spoofing wordt gevangen, door { $by }.
+
+js-meankind-spoofdetect-big-no = Nee: de gefuseerde monitor vangt de spoofing niet.
+
+js-meankind-spoofdetect-big-yes = Ja: de spoofing wordt gevangen.
+
+js-meankind-spoofdetect-line =
+    { $n ->
+        [one] { $on } van { $n } detectielaag slaat alarm.
+       *[other] { $on } van { $n } detectielagen slaan alarm.
+    }
+
+js-meankind-spoofdetect-line-score =
+    { $n ->
+        [one] { $on } van { $n } detectielaag slaat alarm; de gefuseerde score is { $score }.
+       *[other] { $on } van { $n } detectielagen slaan alarm; de gefuseerde score is { $score }.
+    }
+
+js-meankind-ssv-formation = Op { $km } km van elkaar kent het filter de relatieve positie tot op { $filter } m RMS, tegenover { $absolute } m door de twee absolute positiebepalingen van elkaar af te trekken.
+
+js-meankind-ssv-navigation = Het filter aan boord houdt de positie op { $inside } m RMS binnen de GNSS-banen en { $above } m erboven.
+
+js-meankind-ssv-shell = Op de schil geven alle constellaties samen minstens één signaal gedurende { $one } % van de tijd en minstens vier gedurende { $four } % (L1).
+
+js-meankind-ssv-tail = MODELLED: een geometrische doorrekening en doorrekening van het linkbudget, geen meting van enig signaal in de ruimte.
+
+js-meankind-ssv-trajectory = Van { $from } tot { $to } km hoogte is minstens één signaal in zicht gedurende { $one } % van de epochen en minstens vier gedurende { $four } % (L1, alle constellaties).
+
+js-meankind-station-big = Boven het zuidpoolgebied brengen de correcties van een maanreferentiestation de { $percentile }fout van { $from } m naar { $to } m (gemodelleerd).
+
+js-meankind-station-line = Binnen de nauwkeurigheidsdrempel gedurende { $share } % van de epochen; geen uitspraak over enig echt systeem.
+
+js-meankind-sweep-big =
+    { $n ->
+        [one] Over { $n } waarde van { $param }: { $parts }.
+       *[other] Over { $n } waarden van { $param }: { $parts }.
+    }
+
+js-meankind-sweep-line = De { $param } loopt van { $from } tot { $to }.
+
+js-meankind-sweep-line-log = De { $param } loopt van { $from } tot { $to } op een logaritmische schaal.
+
+js-meankind-sweep-part-flat = de { $metric } van { $key } blijft op { $value }
+
+js-meankind-sweep-part-goes = de { $metric } van { $key } gaat van { $first } naar { $last }
+
+js-meankind-sweep-result-word = resultaat
+
+js-meankind-sweepnd-big =
+    { $n ->
+        [one] Over { $n } combinatie van { $keys } loopt de { $metric } van { $min } tot { $max }.
+       *[other] Over { $n } combinaties van { $keys } loopt de { $metric } van { $min } tot { $max }.
+    }
+
+js-meankind-sweepnd-line = Een raster van { $shape } engine-runs.
+
+js-meankind-telecom-fail =
+    { $n ->
+        [one] De klok faalt bij { $fail } van { $n } telecomtijdfoutcontrole.
+       *[other] De klok faalt bij { $fail } van { $n } telecomtijdfoutcontroles.
+    }
+
+js-meankind-telecom-line = Controles van MTIE (maximale tijdintervalfout), TDEV (tijdafwijking) en de holdover-envelop tegen de ITU-T-maskers die in elke rij zijn genoemd.
+
+js-meankind-telecom-line-margin = Controles van MTIE (maximale tijdintervalfout), TDEV (tijdafwijking) en de holdover-envelop tegen de ITU-T-maskers die in elke rij zijn genoemd. De kleinste marge tot de holdover-envelop is { $margin } ns.
+
+js-meankind-telecom-pass =
+    { $n ->
+        [one] De klok slaagt voor alle { $n } telecomtijdfoutcontrole.
+       *[other] De klok slaagt voor alle { $n } telecomtijdfoutcontroles.
+    }
+
+js-meankind-the-best = de beste
+
+js-meankind-the-body = het hemellichaam
+
+js-meankind-the-first = de eerste
+
+js-meankind-the-name = de { $name }
+
+js-meankind-the-second = de tweede
+
+js-meankind-the-widest-signal = het breedste signaal
+
+js-meankind-timebudget-big = De fout van { $clock } en de fout van het referentiestelsel kruisen elkaar bij een middelingstijd van { $tau }.
+
+js-meankind-timebudget-line = Bij die kruising is de tijdfout { $x } s.
+
+js-meankind-timeoffset-big = Een klok op de Maan loopt { $rate } µs per dag voor op een klok op de Aarde.
+
+js-meankind-timeoffset-line = De gepubliceerde band is { $low } tot { $high } µs per dag.
+
+js-meankind-timetransfer-big = { $q } houdt de twee locaties binnen { $qps } ps (kwadratisch gemiddelde); { $c } binnen { $cps } ps.
+
+js-meankind-timetransfer-line = Binnen de afstandsspecificatie gedurende { $q } % van de tijd, tegenover { $c } %.
+
+js-meankind-timetransfer-line-mm = Binnen de afstandsspecificatie van { $mm } mm gedurende { $q } % van de tijd, tegenover { $c } %.
+
+js-meankind-tracking-big = Een spoofer kan de ontvanger overnemen vanaf maximaal { $km } km afstand.
+
+js-meankind-tracking-line = Onder de eigen lusdynamica van de ontvanger gaat de lock verloren bij { $db } dB aan stoorzender boven het signaal.
+
+js-meankind-trade-big = De kwantumsensoren zijn { $timing } keer beter in tijdsynchronisatie en { $inertial } keer beter in traagheidsnavigatie dan de klassieke basislijn.
+
+js-meankind-trade-line = Zonder satellieten kan de kwantumsuite { $dur } doorvaren.
+
+js-meankind-ttbudget-big = De tweewegoffset is { $offset } ns, met een gecombineerde onzekerheid van { $uncertainty } ns.
+
+js-meankind-ttbudget-line = Sagnac { $sagnac } ns; ionosfeer { $iono } ns.
+
+js-meankind-ukf-big-no = Nee: het filter is niet zelfconsistent.
+
+js-meankind-ukf-big-yes = Ja: het filter is zelfconsistent.
+
+js-meankind-ukf-line-in = De genormaliseerde innovatie in het kwadraat middelt { $mean }, binnen de 95 %-band van { $low } tot { $high }. Dit controleert consistentie, geen nauwkeurigheid.
+
+js-meankind-ukf-line-in-seeds =
+    { $n ->
+        [one] De genormaliseerde innovatie in het kwadraat middelt { $mean }, binnen de 95 %-band van { $low } tot { $high }, over { $n } seed. Dit controleert consistentie, geen nauwkeurigheid.
+       *[other] De genormaliseerde innovatie in het kwadraat middelt { $mean }, binnen de 95 %-band van { $low } tot { $high }, over { $n } seeds. Dit controleert consistentie, geen nauwkeurigheid.
+    }
+
+js-meankind-ukf-line-out = De genormaliseerde innovatie in het kwadraat middelt { $mean }, buiten de 95 %-band van { $low } tot { $high }. Dit controleert consistentie, geen nauwkeurigheid.
+
+js-meankind-ukf-line-out-seeds =
+    { $n ->
+        [one] De genormaliseerde innovatie in het kwadraat middelt { $mean }, buiten de 95 %-band van { $low } tot { $high }, over { $n } seed. Dit controleert consistentie, geen nauwkeurigheid.
+       *[other] De genormaliseerde innovatie in het kwadraat middelt { $mean }, buiten de 95 %-band van { $low } tot { $high }, over { $n } seeds. Dit controleert consistentie, geen nauwkeurigheid.
+    }
+
+js-meankind-user-word = gebruiker
+
+js-meankind-vlbi-big = Over een basislijn van { $km } km komt het signaal van het baken { $ms } ms uiteen aan bij de twee stations.
+
+js-meankind-vlbi-line = De nabijveldcorrectie is { $us } µs.
+
+js-meankind-vlbifim-big = Elke stationscoördinaat is met dit waarneemschema bekend tot op { $m } m.
+
+js-meankind-vlbifim-line = De eenvoudige schatting met gelijke aandelen zou { $m } m claimen.
+
+js-meankind-weather-big = De hoge atmosfeer warmt op tot { $k } K.
+
+js-meankind-weather-big-ref = De hoge atmosfeer warmt op tot { $k } K, tegenover { $ref } K voor de referentie.
+
+js-meankind-weather-line = De geomagnetische activiteitsindex ap is { $ap }.
+
+js-meankind-whole-run = over de hele run
+
+js-mthread-bcol-label = Label
+
+js-mthread-bcol-share = Grootte ten opzichte van de grootste positieterm
+
+js-mthread-bcol-sigma = 1 sigma
+
+js-mthread-bcol-source = Bijdrage
+
+js-mthread-budget-caption = { $phase }: 1 sigma bij binnenkomst { $entry }, op het hoogtepunt { $peak }, bij vertrek { $exit } (positie); hieronder elke bijdrage, de grootste eerst.
+
+js-mthread-chart-title = { $metric } tegen verstreken missietijd, één band per fase
+
+js-mthread-col-kind = Soort
+
+js-mthread-col-label = Label
+
+js-mthread-col-limit = Grootste bijdrage
+
+js-mthread-col-margin = Tegenover de limiet
+
+js-mthread-col-peak-pos = Piekpositie
+
+js-mthread-col-peak-time = Piek in klokbias
+
+js-mthread-col-peak-vel = Pieksnelheid
+
+js-mthread-col-phase = Fase
+
+js-mthread-col-window = Missietijd
+
+js-mthread-example-not-loaded = het vastgelegde resultaat is niet geladen
+
+js-mthread-file-failed = { $name } kon niet worden gelezen: { $reason }.
+
+js-mthread-kv-elapsed = Verstreken missietijd
+
+js-mthread-kv-engine = Engine
+
+js-mthread-kv-epoch = Epoche (UTC)
+
+js-mthread-kv-limits = Fasen met een opgegeven limiet
+
+js-mthread-kv-limits-value = { $n } ({ $met } gehaald, { $missed } niet gehaald)
+
+js-mthread-kv-phases = Fasen
+
+js-mthread-kv-seed = Seed
+
+js-mthread-kv-title = Thread
+
+js-mthread-layout-phases = Gelijke breedte per fase
+
+js-mthread-layout-time = Ware missietijd
+
+js-mthread-limit-title = { $phase }: de opgegeven limiet, { $limit }
+
+js-mthread-log-scale = logaritmische schaal
+
+js-mthread-margin-met = { $m }× de limiet, gehaald
+
+js-mthread-margin-missed = { $m }× de limiet, niet gehaald
+
+js-mthread-metric-pos = Positie, 1 sigma
+
+js-mthread-metric-time = Klokbias, 1 sigma
+
+js-mthread-metric-vel = Snelheid, 1 sigma
+
+js-mthread-na = n.v.t.
+
+js-mthread-no-events = Deze fase legt geen gebeurtenissen vast.
+
+js-mthread-no-phases = het resultaat bevat geen fasen
+
+js-mthread-no-requirement = geen limiet opgegeven
+
+js-mthread-no-series = Het resultaat bevat geen samples van deze grootheid.
+
+js-mthread-no-weak = Het resultaat noemt geen zwakste schakel.
+
+js-mthread-not-json = het resultaat is geen JSON ({ $reason })
+
+js-mthread-not-thread = dit is geen missiethreadresultaat (schema { $schema } verwacht)
+
+js-mthread-note-phases = Elke fase wordt met dezelfde breedte getekend, zodat een korte fase even goed zichtbaar is als een lange; het tijdstip waarop elke fase begint staat onder de band. Schakel over naar ware missietijd om de werkelijke verhoudingen te zien. Onderbroken lijnen zijn de limieten die het document opgeeft; een onderbreking in de lijn is een overdracht.
+
+js-mthread-note-time = Ware missietijd: een fase van enkele minuten kan te smal zijn om te zien. Schakel over naar gelijke breedtes om haar te lezen. Onderbroken lijnen zijn de limieten die het document opgeeft; een onderbreking in de lijn is een overdracht.
+
+js-mthread-open-failed = Het voorbeeld kon niet worden geopend: { $reason }.
+
+js-mthread-opened = { $name } is in deze pagina gelezen; er is niets naar buiten verzonden.
+
+js-mthread-opening = Het voorbeeld van het Artemis-type wordt geopend…
+
+js-mthread-prov = Elk label op deze pagina is van de engine zelf; de pagina neemt elk getal over uit het resultaat en schaalt het alleen.
+
+js-mthread-recorded = Het vastgelegde resultaat van de engine (versie { $version }): een illustratieve keten, opgebouwd uit openbare missiebeschrijvingen; de getallen zijn gemodelleerd en staan voor niets echts.
+
+js-mthread-sets-peak = bepaalt de piek
+
+js-mthread-too-large = Dat bestand is groter dan { $mb } MB; het wordt niet gelezen.
+
+js-mthread-weak-line = De zwakste schakel is de fase <b>{ $phase }</b>: { $margin }× de opgegeven limiet, bepaald door { $source }. De marge is de kleinste verhouding van een opgegeven limiet tot de piek van de fase; boven 1 is de eis gehaald.
+
+js-mthread-weakest-flag = zwakste schakel
+
+js-mthread-weakest-mark = zwakste schakel
+
+js-obs-cell-extent = { $south }° tot { $north }° N, { $west }° tot { $east }° O
+
+js-obs-cell-read = { $state }: { $cell }. Bemonsterd { $sampled }, getroffen { $affected }.
+
+js-obs-cell-title = { $state }; bemonsterd { $sampled }, getroffen { $affected }
+
+js-obs-cell-title-reason = { $state } ({ $reason }); bemonsterd { $sampled }, getroffen { $affected }
+
+js-obs-clear-note = { $notClear } Een cel zonder vermelding is door minder dan 5 verschillende vliegtuigen gezien en wordt achtergehouden; ze wordt niet getekend. Kleur is nooit het enige signaal: niet waargenomen is gearceerd, en de tabel schrijft elke toestand uit.
+
+js-obs-col-affected = Getroffen vliegtuigen
+
+js-obs-col-bbox = Omsluitend vak (Z, W, N, O)
+
+js-obs-col-bytes = Bytes
+
+js-obs-col-cause = Oorzaak
+
+js-obs-col-cell = Cel (breedtegraad, lengtegraad)
+
+js-obs-col-cells = Cellen
+
+js-obs-col-check = Controle
+
+js-obs-col-file = Bestand
+
+js-obs-col-incident = Incident
+
+js-obs-col-sampled = Bemonsterde vliegtuigen
+
+js-obs-col-sha = SHA-256 (manifest)
+
+js-obs-col-share = Getroffen aandeel
+
+js-obs-col-state = Toestand
+
+js-obs-col-why = Waarom niet waargenomen
+
+js-obs-day-alt = { $degraded } cellen verslechterd, { $notDegraded } niet verslechterd, { $notObserved } niet waargenomen, op { $date }.
+
+js-obs-day-heading = Dag { $date } (UTC)
+
+js-obs-ds-attribution = Naamsvermelding
+
+js-obs-ds-coverage = Dekking
+
+js-obs-ds-dataset = Dataset
+
+js-obs-ds-licence = Licentie
+
+js-obs-ds-licence-address = Licentieadres
+
+js-obs-ds-product = Product
+
+js-obs-ds-written-by = Geschreven door Kshana
+
+js-obs-err-cause = { $name } vermeldt een andere oorzaak dan "niet toegeschreven"; deze pagina toont er geen
+
+js-obs-err-feature-polygon = { $name }: kenmerk { $n } is geen celpolygoon
+
+js-obs-err-feature-state = { $name }: kenmerk { $n } heeft de toestand "{ $state }", die niet een van { $states } is
+
+js-obs-err-incident-object = { $name }: incident { $n } is geen object
+
+js-obs-err-no-date = { $name } vermeldt geen datum
+
+js-obs-err-no-features = { $name } heeft geen kenmerken
+
+js-obs-err-no-incidents = { $name } heeft geen incidentenlijst
+
+js-obs-err-not-day = { $name } is geen { $schema }-bestand
+
+js-obs-err-not-incident = { $name } is geen { $schema }-bestand
+
+js-obs-err-not-json = { $what } is geen JSON ({ $reason })
+
+js-obs-err-not-manifest = { $name } is geen { $schema }-bestand
+
+js-obs-err-not-object = { $what } is geen JSON-object
+
+js-obs-err-not-text = { $what } is geen tekst of is groter dan { $mib } MiB
+
+js-obs-err-states = { $name } noemt andere toestanden dan de drie die deze pagina toont
+
+js-obs-file-matches = komt overeen
+
+js-obs-file-mismatch = komt niet overeen
+
+js-obs-file-no-hash = geen hash opgegeven
+
+js-obs-file-not-opened = niet geopend
+
+js-obs-files-note = Methode { $method }. De SHA-256 van elk bestand wordt hier berekend uit het bestand dat u hebt geopend en vergeleken met het manifest; een bestand dat u niet hebt geopend wordt niet gecontroleerd.
+
+js-obs-incident = incident
+
+js-obs-incident-note = Aangrenzende verslechterde cellen (diagonalen inbegrepen) vormen één incident. De oorzaak van elk incident is: niet toegeschreven. Dit is geen bevestiging en geen NOTAM.
+
+js-obs-kv-cells = Gepubliceerde cellen
+
+js-obs-kv-day-wide = Effect over de hele dag
+
+js-obs-kv-degraded = Verslechterd
+
+js-obs-kv-not-degraded = Niet verslechterd
+
+js-obs-kv-not-observed = Niet waargenomen (gepubliceerd)
+
+js-obs-kv-scope = Reikwijdte
+
+js-obs-map-aria = { $summary } De tabel hieronder somt elke cel op.
+
+js-obs-means-degraded = Een groot aandeel van de in de cel bemonsterde vliegtuigen meldde die dag een lage navigatienauwkeurigheid, duidelijk boven de achtergrond van die dag.
+
+js-obs-means-not-degraded = Er zijn genoeg vliegtuigen bemonsterd en het aandeel haalde de regel niet.
+
+js-obs-means-not-observed = De gegevens lieten geen oordeel toe. Dit is niet "vrij".
+
+js-obs-na = n.v.t.
+
+js-obs-no = nee
+
+js-obs-no-cells = Geen cellen in dit bestand
+
+js-obs-no-day-file = De bestanden voor { $date } hebben geen dagbestand (.geojson), dus er is niets om voor die dag te tonen.
+
+js-obs-no-degraded = Geen verslechterde cellen op deze dag.
+
+js-obs-no-file-read = Er kon geen bestand worden gelezen.
+
+js-obs-no-incident-file = Voor deze dag is geen incidentenbestand geopend.
+
+js-obs-no-manifest = Voor deze dag is geen manifest geopend, dus de bestanden kunnen niet aan hun hashes worden getoetst.
+
+js-obs-no-notice = Dit bestand bevat geen mededeling. De adviserende verklaring bovenaan deze pagina geldt toch.
+
+js-obs-no-reason = geen reden opgegeven
+
+js-obs-not-clear = Niet waargenomen is niet vrij.
+
+js-obs-not-readable = { $name }: geen bestand dat deze pagina leest (.geojson, .incidents.json, .manifest.json of .png).
+
+js-obs-not-stated = niet opgegeven
+
+js-obs-note-day-wide = Dit was een dag met een effect over de hele dag: de achtergrond van de dag was zelf hoog, dus geen enkele cel kon die dag worden beoordeeld. Dat is geen uitspraak dat de lucht schoon was.
+
+js-obs-note-summary-mismatch = De samenvatting die het bestand opgeeft komt niet overeen met de cellen die het vermeldt; de getallen worden getoond zoals ze zijn geschreven.
+
+js-obs-nothing-yet = Nog niets te tonen: open ook het .geojson-bestand van de dag.
+
+js-obs-notice = Mededeling in het bestand: { $notice }
+
+js-obs-opened-day-file = { $days } dag geopend uit { $files } bestand. Hier gelezen; er is niets geüpload.
+
+js-obs-opened-day-files = { $days } dag geopend uit { $files } bestanden. Hier gelezen; er is niets geüpload.
+
+js-obs-opened-days-file = { $days } dagen geopend uit { $files } bestand. Hier gelezen; er is niets geüpload.
+
+js-obs-opened-days-files = { $days } dagen geopend uit { $files } bestanden. Hier gelezen; er is niets geüpload.
+
+js-obs-read-failed = { $name }: kon niet worden gelezen ({ $reason }).
+
+js-obs-reason-day-wide = de achtergrond van de dag was zelf hoog, dus geen enkele cel kon die dag worden beoordeeld
+
+js-obs-reason-insufficient = er zijn te weinig vliegtuigen bemonsterd om een oordeel te vellen
+
+js-obs-reason-no-background = er was voor de dag geen achtergrond om de cel mee te vergelijken
+
+js-obs-release = Vrijgegeven niet eerder dan { $when }: producten worden minstens { $hours } uur nadat de dag eindigt gepubliceerd, op cellen van { $deg } graden. Dit is geen live weergave.
+
+js-obs-release-default = het einde van de dag plus de vertraging
+
+js-obs-show-all = Alle { $n } cellen tonen
+
+js-obs-state-degraded = Verslechterd
+
+js-obs-state-not-degraded = Niet verslechterd
+
+js-obs-state-not-observed = Niet waargenomen
+
+js-obs-the-day-file = het dagbestand
+
+js-obs-the-incident-file = het incidentenbestand
+
+js-obs-the-manifest = het manifest
+
+js-obs-too-large = { $name }: groter dan { $mib } MiB; open een kleiner bestand.
+
+js-obs-unstated-number = een niet opgegeven aantal
+
+js-obs-withheld = achtergehouden
+
+js-obs-yes-no-call = ja: geen enkele cel kon worden beoordeeld
+
+js-opt-avail-label = Beschikbaarheid, plafond en beschikbaarheid bij heldere hemel per locatie
+
+js-opt-avail-note = Per locatie: de beschikbaarheid van de verbinding tegen wolken- en turbulentiefading, het plafond dat geen extra marge kan verhogen (wolken en richting), en de beschikbaarheid zonder enige wolk.
+
+js-opt-avail-title = Beschikbaarheid tegenover het plafond
+
+js-opt-bar-available = { $name }: beschikbaar
+
+js-opt-bar-ceiling = { $name }: plafond
+
+js-opt-bar-clear-sky = { $name }: heldere hemel
+
+js-opt-blurb-network = Een bewolktere noordelijke, een gemiddelde centrale en een helderdere zuidelijke locatie kijken naar een optische LEO-terminal onder 30 graden: hoe vaak is de verbinding in de lucht, en wat leveren extra locaties op?
+
+js-opt-blurb-techniques = Eén uplink onder 25 graden in wolken en turbulentie: wat leveren een andere golflengte, een grotere apertuur, adaptieve optica of meer marge op?
+
+js-opt-cloud-episode = wolkenepisode
+
+js-opt-correlated = gecorreleerd
+
+js-opt-default-bars = balken
+
+js-opt-default-chart = grafiek
+
+js-opt-direction-wave = { $direction }, golf { $wave }
+
+js-opt-diversity-label = Netwerkbeschikbaarheid tegenover het aantal locaties
+
+js-opt-diversity-note = Beschikbaarheid van de beste 1, 2 en 3 locaties, met onafhankelijk weer en met weer dat over { $km } km gecorreleerd is.
+
+js-opt-diversity-title = Locatiediversiteit
+
+js-opt-fact-capture-loss = Geometrisch invangverlies
+
+js-opt-fact-direction = Richting
+
+js-opt-fact-elevation = Elevatie
+
+js-opt-fact-footprint = Bundelvoetafdruk
+
+js-opt-fact-margin = Marge zonder atmosfeer
+
+js-opt-fact-received = Ontvangen vermogen, zonder atmosfeer
+
+js-opt-fact-sensitivity = Gevoeligheid van de ontvanger
+
+js-opt-fact-wavelength = Golflengte
+
+js-opt-gain-points = +{ $n } punten
+
+js-opt-hours = uur
+
+js-opt-independent = onafhankelijk
+
+js-opt-link-down = verbinding uit
+
+js-opt-margin-label = Extra marge nodig voor elk beschikbaarheidsdoel
+
+js-opt-margin-line-title = { $name }: linkmarge, dB
+
+js-opt-margin-note = Extra linkmarge, in dB bovenop de huidige verbinding, voor elk beschikbaarheidsdoel; negatief betekent dat de verbinding al meer heeft dan nodig is. Voor een doel boven het plafond van een locatie bestaat geen marge die het bereikt (de engine laat het weg).
+
+js-opt-margin-title = Marge die elk beschikbaarheidsdoel nodig heeft
+
+js-opt-model-output = Modeluitvoer
+
+js-opt-na = n.v.t.
+
+js-opt-no-data = Geen gegevens in dit resultaat.
+
+js-opt-no-series = Geen tijdreeks in dit resultaat.
+
+js-opt-no-source = geen bron opgegeven
+
+js-opt-not-result = dit is geen resultaat van optische atmosfeer met locaties
+
+js-opt-open-failed = { $title } kon niet worden geopend: { $reason }.
+
+js-opt-opening = { $title } wordt geopend…
+
+js-opt-outage-label = Kans dat een uitval langer duurt dan een bepaalde duur
+
+js-opt-outage-note = Kans dat een uitval langer duurt dan een bepaalde duur, per locatie (logaritmische tijdas).
+
+js-opt-outage-title = Hoe lang uitvallen duren
+
+js-opt-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+js-opt-prov = { $label } Locaties: { $sites }.
+
+js-opt-realised-up = { $value } in de lucht
+
+js-opt-recorded = { $title }: het vastgelegde resultaat van de engine (versie { $version }). Modeluitvoer, geen meting.
+
+js-opt-result-not-json = het resultaat is geen JSON ({ $reason })
+
+js-opt-result-not-loaded = het vastgelegde resultaat is niet geladen
+
+js-opt-series-label = Linkmarge tegenover tijd
+
+js-opt-series-note = Eén seeded realisatie van het opgegeven locatiemodel (seed { $seed }, { $hours } h in stappen van { $step } s): wolkenepisodes, voor elk een vloeibarewaterkolom, per stap één scintillatiesample. De marge is het fadingbudget min de wolken- en scintillatiefading; de verbinding is uit onder 0 dB. Het is één trekking, niet het klimaat: de beschikbaarheid ervan wijkt af van de opgegeven beschikbaarheid met de steekproeffout van de trekking. De marge wordt voor het tekenen bij −40 dB afgekapt.
+
+js-opt-series-title = Linkmarge tegenover tijd
+
+js-opt-stated = opgegeven { $value }
+
+js-opt-stripe-cloud = wolk
+
+js-opt-stripe-down = uit
+
+js-opt-stripe-title = { $what }, uur { $from } tot { $to }
+
+js-opt-techniques-label = Beschikbaarheidswinst per techniek
+
+js-opt-techniques-note = Beschikbaarheidswinst in procentpunten ten opzichte van de basislijn, voor één locatie.
+
+js-opt-techniques-title = Wat elke techniek oplevert
+
+js-opt-th-availability = Beschikbaarheid
+
+js-opt-th-ceiling = Plafond
+
+js-opt-th-clear-air = Verlies bij heldere lucht
+
+js-opt-th-cloud-prob = Wolkenkans (invoer)
+
+js-opt-th-fade-budget = Fadingbudget
+
+js-opt-th-latlon = Breedtegraad, lengtegraad
+
+js-opt-th-mean-outage = Gemiddelde uitval
+
+js-opt-th-outages-year = Uitvallen per jaar
+
+js-opt-th-scint = Scintillatie-index
+
+js-opt-th-site = Locatie
+
+js-opt-timing-label = Beschikbaarheid van tijdsynchronisatie per locatie en klok
+
+js-opt-timing-note = Deel van alle tijd dat de tijdfout binnen de drempel blijft, per locatie en klokklasse: de holdover van de klok tegenover de uitvalduren.
+
+js-opt-timing-title = Tijdsynchronisatie behouden tijdens de uitvallen
+
+js-opt-title-network = Drie grondlocaties, locatiediversiteit
+
+js-opt-title-techniques = Eén uplink, verbeteringstechnieken
+
+js-opt-x-best-n = beste n locaties
+
+js-opt-x-outage-duration = uitvalduur, h (log)
+
+js-opt-x-target = beschikbaarheidsdoel, %
+
+js-opt-y-availability = beschikbaarheid, %
+
+js-opt-y-extra-margin = extra marge, dB
+
+js-opt-y-p-longer = P(langer)
+
+js-replay-band-calibrating = kalibreren
+
+js-replay-band-degraded = verslechterd
+
+js-replay-band-nominal = nominaal
+
+js-replay-band-run-ended = { $band } · run beëindigd
+
+js-replay-band-untrusted = niet vertrouwd
+
+js-replay-clock = T+{ $t } van { $max }
+
+js-replay-coast-hidden = kust verborgen: de verzonnen posities van dit log vallen op land
+
+js-replay-coast-note = Kust: { $source }, alleen ter illustratie.
+
+js-replay-coast-note-hidden = { $reason }.
+
+js-replay-coast-window = Natural Earth 1:10 miljoen, venster { $window }
+
+js-replay-coast-world = Natural Earth 1:110 miljoen (de wereldomtrek van de Studio), grof
+
+js-replay-demo-trust-log = { $title } (vertrouwenslog)
+
+js-replay-dir-east = oost
+
+js-replay-dir-north = noord
+
+js-replay-dir-south = zuid
+
+js-replay-dir-west = west
+
+js-replay-dirs-and = { $list } en { $last }
+
+js-replay-drawing-animation = De animatie wordt getekend…
+
+js-replay-drawing-frames = De frames worden getekend…
+
+js-replay-every-direction = elke richting
+
+js-replay-file-error = { $name }: { $error }
+
+js-replay-kinds-convergence-horizontal = Convergentie: mediane horizontale fout
+
+js-replay-kinds-convergence-vertical = Convergentie: mediane verticale fout
+
+js-replay-kv-course = Gemelde koers
+
+js-replay-kv-heading = Heading (gyro)
+
+js-replay-kv-position-error = Positiefout
+
+js-replay-kv-receiver = Ontvanger
+
+js-replay-kv-run-time = Runtijd
+
+js-replay-kv-satellites = Gebruikte satellieten / in zicht
+
+js-replay-kv-sky = Hemel
+
+js-replay-legend = Legenda
+
+js-replay-legend-no-fix = geen positiebepaling
+
+js-replay-legend-true-track = ware track
+
+js-replay-moment = Moment op T+{ $t }:
+
+js-replay-no-coast = Er wordt geen kust getekend: voor dit venster is er geen meegeleverd.
+
+js-replay-no-gsv = geen GSV in dit log
+
+js-replay-not-json = { $name }: geen JSON.
+
+js-replay-not-scored = niet gescoord
+
+js-replay-obs-not-attributed = niet toegeschreven
+
+js-replay-open-failed = { $id } kon niet worden geopend: { $reason }.
+
+js-replay-open-file = Een bestand openen…
+
+js-replay-opened = { $name } geopend in paneel { $n }. Hier gelezen; er is niets geüpload.
+
+js-replay-opening = { $id } wordt geopend…
+
+js-replay-pause = Pauzeren
+
+js-replay-play = Afspelen
+
+js-replay-read-failed = { $name }: kon niet worden gelezen of getekend ({ $reason }).
+
+js-replay-reading = { $name } wordt gelezen…
+
+js-replay-reduced-motion = Verminderde beweging heeft de voorkeur, dus de replay start op 1x en speelt niet vanzelf af.
+
+js-replay-run = Run
+
+js-replay-run-shown = Run getoond in paneel { $n }
+
+js-replay-saved-svg = { $name } opgeslagen ({ $size } kB): elk frame in één bestand, getekend uit dezelfde rijen als deze pagina.
+
+js-replay-saved-zip = { $name } opgeslagen ({ $size } MB): één SVG per frame, een manifest van de rijen erachter en een README.
+
+js-replay-src-instructor = Uw bestand { $name }: bij een instructeurslog alleen komt geen enginescore of hemel mee.
+
+js-replay-src-trust = Uw bestand { $name }: een vertrouwensresultaat bevat geen hemel of heading, dus die worden niet getekend.
+
+js-replay-status-ready = { $a } en { $b }: synthetische runs, gescoord door de engine. Druk op Afspelen of verschuif de klok.
+
+js-replay-status-synthetic = { $titles }: synthetische runs, gescoord door de engine.
+
+js-replay-status-synthetic-no-coast = { $titles }: synthetische runs, gescoord door de engine. Kustlijn niet beschikbaar.
+
+js-replay-strip-label = Vertrouwensscore over de run
+
+js-replay-titles-and = { $a } en { $b }
+
+js-replay-too-large = { $name } is groter dan deze pagina leest.
+
+js-replay-track = Track van { $n } logrijen, noord boven.
+
+js-replay-track-widened = Track van { $n } logrijen, noord boven, verbreed om de dichtstbijzijnde kust te tonen.
+
+js-replay-verdict = Oordeel
+
+js-replay-verdict-degraded = { $dur } verslechterd, niets in de niet-vertrouwde band
+
+js-replay-verdict-early = Oordeel (vroeg)
+
+js-replay-verdict-fine = Alleen uit het log en de score van de engine; synthetisch, adviserend, geen cijfer voor detectieprestaties.
+
+js-replay-verdict-first = eerst onder nominaal op T+{ $t }
+
+js-replay-verdict-first-after = eerst onder nominaal op T+{ $t }, { $dur } nadat de eerste gebeurtenis begon (T+{ $onset })
+
+js-replay-verdict-first-before = eerst onder nominaal op T+{ $t }, vóór het begin van de eerste gebeurtenis (T+{ $onset })
+
+js-replay-verdict-lowest = Laagste vertrouwensscore { $score } ({ $band }) op T+{ $t }
+
+js-replay-verdict-never-left = de score verliet de nominale band nooit
+
+js-replay-verdict-no-fix = geen positiebepaling gedurende { $dur }
+
+js-replay-verdict-not-scored = Niet gescoord: de vertrouwensscore van de engine wordt getoond voor de bibliotheekruns
+
+js-replay-verdict-peak-error = grootste gelogde positiefout { $err } m op T+{ $t }
+
+js-replay-verdict-untrusted = { $dur } in de niet-vertrouwde band
+
+js-replay-verdict-wait = Getoond wanneer deze run eindigt, op T+{ $t }.
+
+js-ssv-altitude-label = Hoogte en gebruikte metingen
+
+js-ssv-at-least-1 = minstens 1 signaal
+
+js-ssv-at-least-4 = minstens 4 signalen
+
+js-ssv-avail-label = Beschikbaarheid, { $band }
+
+js-ssv-bar-title = { $label }, { $name }: { $value }{ $unit }
+
+js-ssv-blurb-formation-heo = Een chief en een deputy op een kilometer van elkaar in een sterk elliptische baan: hoe goed kent het filter hun relatieve positie, tegenover wat de twee absolute positiebepalingen zouden geven.
+
+js-ssv-blurb-heo = Een sterk elliptische baan (apogeum bij 58 600 km) met een nadir-antenne met hoge winst, een zenit-patchantenne en een parametrisch zijlobmodel: signalen in zicht, beste C/N0, hoofdlob tegenover zijlob, precisieverdunning en de signalen die de atmosfeer schampen.
+
+js-ssv-blurb-lunar-weak = Een maanoverdrachtstraject met een ontvanger gebouwd om bij de zwakste signalen te werken: wat hij nodig heeft om te acquireren en te volgen, en hoeveel van het traject hij kan gebruiken.
+
+js-ssv-blurb-nav-lunar = Een navigatiefilter aan boord op een maanoverdracht: zijn positiefout tegenover de grens die het opgeeft, onder en boven de eigen banen van de GNSS-satellieten.
+
+js-ssv-blurb-shell = Een bolvormige schil op geostationaire hoogte, bemonsterd op een raster: hoe vaak hoort een ruimtevaartuig daar minstens één en minstens vier signalen van 20 dB-Hz, op L1 en L5, voor elke constellatie en voor alle samen?
+
+js-ssv-cn0-altitude-label = Beste C/N0 en hoogte tegenover tijd, { $band }
+
+js-ssv-cn0-label = Beste C/N0, { $band }
+
+js-ssv-cn0-note = Van de signalen in zicht het sterkste op elke epoche: van klein naar groot over de epochen, met het gemiddelde gemarkeerd.
+
+js-ssv-cn0-title = Beste draaggolf-ruisdichtheid, { $band }
+
+js-ssv-comparison-failed = De vergelijking kon niet worden getoond ({ $reason }).
+
+js-ssv-comparison-not-loaded = het vergelijkingsbestand is niet geladen
+
+js-ssv-default-bars = balken
+
+js-ssv-default-chart = grafiek
+
+js-ssv-default-ranges = bereiken
+
+js-ssv-deputies-note = Absolute RMS van de chief { $rms } m over { $epochs } epochen.
+
+js-ssv-deputies-title = Elke deputy
+
+js-ssv-dop-note = Mediaan, 95e percentiel en slechtste PDOP over de epochen met een positiebepaling en, waar het scenario een atmosfeer instelt, de signalen die haar schampen.
+
+js-ssv-dop-title = Precisieverdunning en de atmosfeer, { $band }
+
+js-ssv-err-label = Positiefout tegenover de opgegeven grens
+
+js-ssv-err-note = De onderbroken lijn is de één-sigmagrens die het filter opgeeft; de ononderbroken lijn is zijn fout tegenover de referentie die het scenario kent. Gedecimeerd door de engine.
+
+js-ssv-err-title = Positiefout tegenover de eigen grens van het filter
+
+js-ssv-fact-antenna = Antenne
+
+js-ssv-fact-apogee = Apogeumhoogte
+
+js-ssv-fact-cn0-threshold = Drempel voor draaggolf-ruisdichtheid
+
+js-ssv-fact-duration = Duur
+
+js-ssv-fact-eccentricity = Excentriciteit
+
+js-ssv-fact-grid-points = Rasterpunten
+
+js-ssv-fact-inclination = Inclinatie
+
+js-ssv-fact-mode = Modus
+
+js-ssv-fact-perigee = Perigeumhoogte
+
+js-ssv-fact-period = Periode
+
+js-ssv-fact-shell-altitude = Schilhoogte
+
+js-ssv-fact-sma = Halve lange as
+
+js-ssv-fact-step = Stap
+
+js-ssv-filter = filter
+
+js-ssv-formation-note = RMS van de relatieve positiefout, van het filter en van het aftrekken van de twee absolute positiebepalingen, over de hele run en boven de GNSS-banen.
+
+js-ssv-formation-title = Relatieve positie van de deputy's
+
+js-ssv-from-absolute = uit twee absolute positiebepalingen
+
+js-ssv-group-combined = alle samen
+
+js-ssv-icg-note = { $label }; de oordelen per drempel van de vastgelegde resultaatbestanden van de engine (engine-commit { $commit }). De tabellen van het boekje zijn openbaar; niets hier is VALIDATED.
+
+js-ssv-icg-wrong-file = het ICG-vergelijkingsbestand is niet het bestand dat deze pagina leest
+
+js-ssv-lobe-note = Hoeveel van de bruikbare verbindingen via de hoofdlob kwamen en hoeveel via een zijlob, zoals geteld door de engine.
+
+js-ssv-lobe-title = Hoofdlob en zijlob, { $band }
+
+js-ssv-na = n.v.t.
+
+js-ssv-nav-note = Gebruikte en afgewezen metingen, de langste onderbreking met minder dan vier signalen, de eindfout en de schatting van de zonnestralingsdruk tegenover de referentie die het scenario kent.
+
+js-ssv-nav-title = De run in getallen
+
+js-ssv-never = nooit
+
+js-ssv-never-had-four = had er nooit vier
+
+js-ssv-never-had-one = had er nooit één
+
+js-ssv-no-range = Geen bereik in dit resultaat.
+
+js-ssv-no-series = Het resultaat bevat geen reeks voor deze grafiek.
+
+js-ssv-not-in-variant = geen onderdeel van de variant
+
+js-ssv-not-result = dit is geen gnss-ssv-resultaat
+
+js-ssv-of = { $n } van { $total }
+
+js-ssv-offset = { $deg }° offset
+
+js-ssv-open-failed = { $title } kon niet worden geopend: { $reason }.
+
+js-ssv-opening = { $title } wordt geopend…
+
+js-ssv-outage-note = In minuten, over de run. "Nooit" markeert een groep die nergens op de schil ooit zoveel signalen had.
+
+js-ssv-outage-title = Langste uitvallen op de schil
+
+js-ssv-phases-note = Een statistiek van het filter over de run en over de twee delen ervan. Een gemiddelde positie-NEES dicht bij 3 betekent dat de opgegeven grens van het filter consistent is met zijn fout.
+
+js-ssv-phases-title = Positiefout per fase
+
+js-ssv-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+js-ssv-range-title = { $label }: min { $min }, gemiddeld { $mean }, max { $max } { $unit }
+
+js-ssv-range-value = { $min } tot { $max }
+
+js-ssv-recorded = { $title }: het vastgelegde resultaat van de engine (versie { $version }).
+
+js-ssv-relative-label = Relatieve positiefout
+
+js-ssv-result-not-json = het resultaat is geen JSON ({ $reason })
+
+js-ssv-result-not-loaded = het vastgelegde resultaat is niet geladen
+
+js-ssv-row-acquires = Acquireert tot
+
+js-ssv-row-carrier = Draaggolfvolging tot
+
+js-ssv-row-code = Codevolging tot
+
+js-ssv-row-coherent = Coherente integratie
+
+js-ssv-row-delay-mean = Vertraging, gemiddeld
+
+js-ssv-row-detection = Detectiedrempel
+
+js-ssv-row-false-alarm = Kans op vals alarm per cel
+
+js-ssv-row-final-error = Uiteindelijke positiefout
+
+js-ssv-row-gap = Langste onderbreking
+
+js-ssv-row-gated = Afgewezen metingen
+
+js-ssv-row-grazing = Schampend onder 100 km
+
+js-ssv-row-limb-links = Verbindingen door de rand
+
+js-ssv-row-loss-mean = Verlies, gemiddeld
+
+js-ssv-row-lost = Verloren aan de atmosfeer
+
+js-ssv-row-pdop-median = PDOP, mediaan
+
+js-ssv-row-pdop-p95 = PDOP, 95e percentiel
+
+js-ssv-row-pdop-worst = PDOP, slechtste
+
+js-ssv-row-plasma-mean = Plasmasferische TEC, gemiddeld
+
+js-ssv-row-search-cells = Zoekcellen
+
+js-ssv-row-search-time = Zoektijd
+
+js-ssv-row-srp-est = Zonnestralingsdruk, geschat
+
+js-ssv-row-srp-truth = Zonnestralingsdruk, referentie
+
+js-ssv-row-stec-mean = Slant-TEC, gemiddeld
+
+js-ssv-row-tangent = Raakpunthoogte, min tot max
+
+js-ssv-row-tracking = Gebruikte volgdrempel
+
+js-ssv-row-used = Gebruikte metingen
+
+js-ssv-series-altitude = hoogte/1000
+
+js-ssv-series-altitude-name = hoogte
+
+js-ssv-series-best-cn0 = beste C/N0
+
+js-ssv-series-error = fout
+
+js-ssv-series-measurements = metingen
+
+js-ssv-series-note = Eén gedecimeerde reeks van het gecombineerde aantal over alle constellaties. De engine schrijft geen reeks per constellatie, dus er wordt er geen getekend.
+
+js-ssv-series-signals = signalen in zicht
+
+js-ssv-series-signals-label = Signalen in zicht tegenover tijd, { $band }
+
+js-ssv-series-stated-bound = opgegeven grens
+
+js-ssv-series-title = Signalen en beste C/N0 langs de baan, { $band }
+
+js-ssv-shell-avail-note = Aandeel van rasterpunten en tijden met minstens één en minstens vier signalen boven { $cn0 } dB-Hz.
+
+js-ssv-shell-avail-title = Beschikbaarheid op de schil, { $band }
+
+js-ssv-tangent-value = { $min } tot { $max } km
+
+js-ssv-th-above-absolute = Boven GNSS: uit absoluut, m
+
+js-ssv-th-above-filter = Boven GNSS: filter, m
+
+js-ssv-th-band-group = Band en groep
+
+js-ssv-th-bar = Drempel
+
+js-ssv-th-baseline = Basislijn, km
+
+js-ssv-th-common-4 = Epochen met 4 gemeenschappelijke signalen
+
+js-ssv-th-common-mean = Gemiddeld aantal gemeenschappelijke signalen
+
+js-ssv-th-compares = Wat het vergelijkt
+
+js-ssv-th-deputy = Deputy
+
+js-ssv-th-epochs = Epochen
+
+js-ssv-th-group = Groep
+
+js-ssv-th-main-lobe = Hoofdlobverbindingen
+
+js-ssv-th-nees = Gemiddelde positie-NEES
+
+js-ssv-th-phase = Fase
+
+js-ssv-th-pos-p95 = Positie 95e percentiel, m
+
+js-ssv-th-pos-rms = Positie-RMS, m
+
+js-ssv-th-quantity = Grootheid
+
+js-ssv-th-rel-absolute = Relatieve RMS, uit absoluut, m
+
+js-ssv-th-rel-filter = Relatieve RMS, filter, m
+
+js-ssv-th-rel-vel = Relatieve snelheids-RMS, m/s
+
+js-ssv-th-run1-cells = Run 1: cellen binnen tolerantie
+
+js-ssv-th-run1-verdict = Oordeel van run 1
+
+js-ssv-th-sidelobe = Zijlobverbindingen
+
+js-ssv-th-sidelobe-share = Zijlobaandeel
+
+js-ssv-th-value = Waarde
+
+js-ssv-th-variant = Variant (diagnostisch, GLONASS-referentiehoeken uit tabel 4.2)
+
+js-ssv-th-vel-rms = Snelheids-RMS, m/s
+
+js-ssv-th-with-4 = Met 4 of meer signalen
+
+js-ssv-th-without-1 = Langste zonder 1 signaal
+
+js-ssv-th-without-4 = Langste zonder 4 signalen
+
+js-ssv-title-formation-heo = Formatie, sterk elliptische baan
+
+js-ssv-title-heo = Sterk elliptische baan
+
+js-ssv-title-lunar-weak = Maanoverdracht, ontvanger voor zwakke signalen
+
+js-ssv-title-nav-lunar = Filter aan boord, maanoverdracht
+
+js-ssv-title-shell = Schil op 36 000 km
+
+js-ssv-traj-avail-note = Aandeel van de epochen met minstens één en minstens vier signalen boven { $cn0 } dB-Hz.
+
+js-ssv-traj-avail-title = Beschikbaarheid langs het traject, { $band }
+
+js-ssv-transmit-pattern = Zendpatroon: { $pattern }
+
+js-ssv-unit-signals = signalen
+
+js-ssv-unknown-mode = dit gnss-ssv-resultaat heeft de modus "{ $mode }", die deze pagina niet leest
+
+js-ssv-variant-met = { $n } van { $total }, zou gehaald zijn
+
+js-ssv-variant-not-met = { $n } van { $total }, nog steeds niet gehaald
+
+js-ssv-view-note = Kleinste tot grootste aantal in zicht over de epochen, met het gemiddelde gemarkeerd.
+
+js-ssv-view-title = Signalen in zicht, { $band }
+
+js-ssv-weak-note = Wat het ontvangerontwerp nodig heeft, zoals de engine het berekent uit de opgegeven integratie.
+
+js-ssv-weak-title = De ontvanger voor zwakke signalen
+
+js-ssv-x-minutes = minuten
+
+js-ssv-y-altitude-measurements = hoogte, duizend km; gebruikte metingen
+
+js-ssv-y-cn0-altitude = dB-Hz; hoogte in duizend km
+
+js-ssv-y-position-log = positie, meter (log)
+
+js-ssv-y-signals-all = signalen in zicht, alle constellaties
+
+js-t35data-ai-q-bench-export = De beweging en gebeurtenissen van een scenario exporteren voor een laboratoriumsimulator
+
+js-t35data-ai-q-compliance-rows = Voor welke rijen van openbare kaders leveren deze runs bewijs?
+
+js-t35data-ai-q-evidence-pack = Een bewijspakket van een vertrouwensgebeurtenis controleren of maken
+
+js-t35data-ai-q-interference-route = Waar zag GNSS er verslechterd uit, en hoeveel van deze route valt daarin?
+
+js-t35data-ai-q-iq-recordings = GNSS-IQ-opnamen (scène, acquisitie, volging, front-end, campagnes)
+
+js-t35data-ai-q-osnma-satellites = De navigatiegegevens van welke Galileo-satellieten authenticeert deze ontvangerstroom (OSNMA)?
+
+js-t35data-ai-q-run-scenario = Een PNT-scenario uitvoeren of uitleggen (banen, GNSS, tijdsynchronisatie, fusie, maan)
+
+js-t35data-ai-q-training-nmea = Ik heb synthetische NMEA nodig met een jamming-, drag-off-, tijdspoof- of replay-gebeurtenis voor training
+
+js-t35data-ai-q-trustworthy-log = Was dit ontvangerlog, of de NMEA van dit vaartuig, betrouwbaar, en wanneer hield het op dat te zijn?
+
+js-t35data-ai-tool-osnma-satellites = geen via MCP: gebruik osnma_verify (de OSNMA-kaart hier, WebAssembly), kshana osnma verify (CLI) of kshana.osnma_verify (Python)
+
+js-t35data-card-evidence-create-title = Een bewijspakket maken
+
+js-t35data-card-evidence-create-what = Ondertekent een venster van een ontvangerlog en wat de engine daaruit berekende, zodat iedereen kan controleren dat er achteraf niets is gewijzigd. De Studio verifieert pakketten.
+
+js-t35data-card-evidence-create-why = Ondertekenen vereist een privésleutel, die niet via een webpagina hoort te lopen.
+
+js-t35data-card-iq-title = GNSS-IQ-monitors en -hulpmiddelen
+
+js-t35data-card-iq-what = Bouw een scène, acquireer en volg signalen, doorloop parameters, modelleer een front-end, voer IQ-monitors en campagnes uit, fit een laboratoriumlog. Ook beschikbaar vanuit Python en, binnen één werkmap, vanuit de hulpmiddelen van de AI-assistent.
+
+js-t35data-card-iq-why = Een opname bestaat uit gigabytes aan samples. Een pagina kan die niet bevatten, en de opdrachten die converteren, extraheren en decimeren herschrijven opnamen op schijf.
+
+js-t35data-card-land-title = Download van landpolygonen voor de AIS-detector voor op land
+
+js-t35data-card-land-what = Haalt één vastgepind landbestand op (Natural Earth, publiek domein) en controleert de SHA-256 ervan. De kaartbouwer neemt het landbestand in plaats daarvan als tekst.
+
+js-t35data-card-land-why = Het is de enige opdracht die een netwerkverbinding opent, en ze heeft de curl van het systeem en een expliciete vlag nodig.
+
+js-t35data-card-marine-title = Maritieme integraties
+
+js-t35data-card-marine-what = Een Signal K-serverplugin en OpenCPN via NMEA in gate-modus over TCP brengen de vertrouwensscore naar software die schippers al gebruiken; een referentiebuild brengt hem naar een kleine computer naast de ontvanger.
+
+js-t35data-card-marine-why = Ze zijn afnemers van het draaiende live proces en van de TCP-gate ervan: installaties op de computer van de boot.
+
+js-t35data-card-telemetry-title = Vertrouwen als beveiligingstelemetrie
+
+js-t35data-card-telemetry-what = Zet de vertrouwensstroom (score, band, redenen) om in Prometheus-metrics, syslog-gebeurtenissen in CEF of LEEF voor een SIEM, en OpenTelemetry. Het leest de stroom en wijzigt de beoordeling nooit.
+
+js-t35data-card-telemetry-why = Het is een proces dat metrics aanbiedt en naar uw monitoringsystemen verzendt, dus het draait naast de ontvanger, niet in een pagina.
+
+js-t35data-card-training-stream-title = Trainingsstromen naar een TCP- of UDP-adres
+
+js-t35data-card-training-stream-what = Verzendt een gegenereerde trainingsstroom in realtime of sneller naar een brugsimulator of een kaartplotter. De trainingspagina van de Studio genereert dezelfde tekst en laat u die downloaden.
+
+js-t35data-card-training-stream-why = Verzenden naar een netwerkadres doet een browserpagina niet. De stroom is alleen tekst en nooit bedoeld voor de live navigatiesystemen van een vaartuig.
+
+js-t35data-feat-ai-ai = Installatieopties voor de MCP-server, met de vragen die elk hulpmiddel beantwoordt
+
+js-t35data-feat-ai-name = Gebruiken vanuit een AI-assistent (MCP-server)
+
+js-t35data-feat-bench-bench = Exporteer hier de beweging, NMEA, waypoints en gebeurtenissen van een scenario
+
+js-t35data-feat-bench-name = Testbankexport voor een laboratoriumsimulator
+
+js-t35data-feat-compliance-compliance = Zie hier voor welke rijen van een kader uw runs bewijs leveren, en de mappingtabellen
+
+js-t35data-feat-compliance-name = Compliance-mapping naar openbare veerkrachtkaders
+
+js-t35data-feat-evidence-evidence = Verifieer hier een pakket en voeg een tijdstempeltoken toe
+
+js-t35data-feat-evidence-name = Ondertekende bewijspakketten
+
+js-t35data-feat-evidence-why = Het maken van een pakket vereist een privé-ondertekeningssleutel, die niet via een webpagina hoort te lopen. Pakketten worden gemaakt met de opdrachtregel, Python of de hulpmiddelen van de AI-assistent.
+
+js-t35data-feat-interference-map-interference = Open kaartbestanden, of bouw hier een kaart uit CSV, en controleer er een route tegen
+
+js-t35data-feat-interference-map-name = Interferentiekaart (ADS-B en AIS) en blootstelling van een route
+
+js-t35data-feat-iq-name = GNSS-IQ-monitors en -hulpmiddelen (scène, acquisitie, volging, doorloop, front-end, monitor, campagnes)
+
+js-t35data-feat-iq-why = Een opname bestaat uit gigabytes aan samples, die een pagina niet kan bevatten, en sommige opdrachten herschrijven opnamen op schijf. De browserbuild heeft geen IQ-functies.
+
+js-t35data-feat-jammertest-jammertest = Importeer het plan voor het tijdsbestek van een log, of score een ontvangerlog (UBX, RINEX, Android, NMEA of Septentrio SBF) per test: detectielatentie, gemist, valse alarmen, hersteltijd; MODELLED
+
+js-t35data-feat-jammertest-name = Jammertest als scheidsrechter: het gepubliceerde testplan als geplande referentie, een ontvangerlog daartegen gescoord (0.38)
+
+js-t35data-feat-live-gate-name = Live vertrouwensstroom, gate en listener (stdin, bestand, TCP, UDP, --gate, --listen)
+
+js-t35data-feat-live-gate-why = Het is een draaiend proces in het datapad. Een pagina keert terug wanneer ze klaar is en kan geen socket open houden voor een kaartplotter, noch een positiebepaling ongeldig markeren in een live stroom. De Studio scoort in plaats daarvan een begrensd fragment, in hetzelfde liveformaat, zonder gate.
+
+js-t35data-feat-machines-imufit = Fit de accelerometer- en gyroparameters van de hybride en fusiescenario's uit een stilstaand IMU-log; MODELLED
+
+js-t35data-feat-machines-name = Ontvanger- en sensoringangen: RTKLIB .pos, NovAtel OEM7, RTCM 3 MSM, GNSS-SDR, een IMU voor de heading, en een IMU-fit voor de hybride en fusiescenario's (0.38)
+
+js-t35data-feat-machines-trust = Open een log in een van deze formaten (en een optioneel IMU-bestand) in de generieke receiver-trust-run; de eigen jammervlag van NovAtel wordt vergeleken met de alarmen van Kshana
+
+js-t35data-feat-marine-name = Maritieme integraties: Signal K-plugin en OpenCPN
+
+js-t35data-feat-marine-why = Ze gebruiken het draaiende live proces en de TCP-gate ervan, dus het zijn installaties op een bootcomputer, niet iets wat een pagina kan uitvoeren.
+
+js-t35data-feat-maritime-trust-name = Maritieme vertrouwensscore voor een varend vaartuig (0 tot 100, met redenen)
+
+js-t35data-feat-maritime-trust-trust = Open een resultaat of een live JSON-lines-run en bekijk de track, score, redenen en gate; score hier een NMEA-log
+
+js-t35data-feat-nmea-training-name = NMEA-trainingsstromen met een instructeurslog
+
+js-t35data-feat-nmea-training-training = Genereer hier een stroom en het bijbehorende instructeurslog, download ze en voer de trainersdebriefing uit
+
+js-t35data-feat-osnma-name = Galileo-OSNMA-verificatie (UBX SFRBX-invoer)
+
+js-t35data-feat-osnma-osnma = Laad een opgenomen bestand en bekijk de authenticatiestatus per satelliet en per tag
+
+js-t35data-feat-telemetry-name = Telemetrie-export: Prometheus-metrics, syslog CEF en LEEF, OpenTelemetry
+
+js-t35data-feat-telemetry-why = Het biedt metrics aan, verzendt syslog en exporteert OpenTelemetry vanuit een draaiende stroom: een proces dat met uw monitoringsystemen praat, wat een pagina niet kan zijn.
+
+js-t35data-feat-training-stream-name = Een trainingsstroom streamen naar een TCP- of UDP-adres
+
+js-t35data-feat-training-stream-why = Het verzendt naar een netwerkadres, wat een webpagina niet doet. De Studio genereert de tekst en u downloadt die.
+
+js-t35data-page-ai = Gebruiken vanuit uw AI-assistent
+
+js-t35data-page-bench = Testbankexport
+
+js-t35data-page-cli = Opdrachtregelfuncties
+
+js-t35data-page-compliance = Compliance-mapping
+
+js-t35data-page-evidence = Bewijspakketten
+
+js-t35data-page-geometry = Geometrie: skyplot, skyline en DOP
+
+js-t35data-page-imufit = IMU-fit
+
+js-t35data-page-interference = Interferentiekaart
+
+js-t35data-page-jammertest = Jammertest-scoring
+
+js-t35data-page-osnma = OSNMA-verificatie
+
+js-t35data-page-training = Trainingsdebriefing
+
+js-t35data-page-trust = Maritiem vertrouwen
+
+js-t35data-sample-iq-help = De lijst met IQ-opdrachten
+
+js-t35data-sample-telemetry-cef = Syslog in CEF voor de demorun
+
+js-t35data-sample-telemetry-leef = Syslog in LEEF voor de demorun
+
+js-t35data-sample-telemetry-metrics = Prometheus-metrics voor de demorun
+
+js-tools-ai-group-engine = De engine en zijn bibliotheken installeren
+
+js-tools-ai-group-integrations = Maritieme, plugin- en dashboardintegraties
+
+js-tools-ai-group-mcp = De MCP-server voor uw assistent installeren
+
+js-tools-ai-heading = Kshana gebruiken vanuit uw AI-assistent
+
+js-tools-ai-install-mcp = De MCP-server installeren
+
+js-tools-ai-intro = Met de Kshana MCP-server laat een AI-assistent de engine draaien in plaats van getallen te raden. Hij draait op uw computer; er wordt niets naar Kshana verzonden. Kies de manier die bij uw hulpmiddel past.
+
+js-tools-ai-load-failed = De installatieopties zijn niet geladen ({ $reason }). Zie de documentatie van de MCP-server.
+
+js-tools-ai-mcp-docs = Documentatie van de MCP-server
+
+js-tools-ai-more-ways = Meer manieren om te installeren
+
+js-tools-ai-none-listed = In deze build zijn geen installatieopties vermeld.
+
+js-tools-ai-other-ways = Andere manieren om Kshana te installeren
+
+js-tools-ai-read-agent-guide = De agentgids lezen
+
+js-tools-ai-rule = De regel voor elk antwoord: de assistent draait de engine en meldt wat een hulpmiddel teruggaf, met eenheid en bewijsniveau (gevalideerd tegen een onafhankelijke externe referentie, of gemodelleerd), het scenario, de seed en de engineversie, zodat de run kan worden herhaald. De eigen kanttekeningen van een resultaat blijven erbij. De MCP-server leest en schrijft geen bestanden buiten één opt-in-map.
+
+js-tools-ai-what-to-ask = Wat te vragen, en welk hulpmiddel antwoordt
+
+js-tools-ai-where-reachable = Waar elke mogelijkheid bereikbaar is
+
+js-tools-bench-files-written =
+    { $n ->
+        [one] { $n } bestand naar het geheugen van uw browser geschreven
+       *[other] { $n } bestanden naar het geheugen van uw browser geschreven
+    }
+
+js-tools-bench-note = Alleen beweging en gelabelde gebeurtenisintervallen. Download ze om ze in een laboratoriumsimulator te laden.
+
+js-tools-bench-wrong-kind = { $name } is een { $kind }-scenario. Een voertuigtraject bestaat voor de soorten { $kinds }; andere soorten geven aan waarom ze er geen hebben.
+
+js-tools-building-report = Het rapport wordt opgebouwd…
+
+js-tools-choose-catalogue-first = Kies eerst de catalogus-JSON.
+
+js-tools-choose-file-first = Kies eerst een bestand.
+
+js-tools-choose-imu-log = Kies eerst een stilstaand IMU-log.
+
+js-tools-choose-pack-first = Kies eerst de bestanden van het pakket.
+
+js-tools-choose-pack-first-above = Kies eerst de bestanden van het pakket (hierboven).
+
+js-tools-choose-plan-file = Kies minstens één planbestand.
+
+js-tools-choose-receiver-log = Kies eerst het ontvangerlog.
+
+js-tools-choose-result-first = Kies eerst minstens één resultaatbestand (*.result.json).
+
+js-tools-choose-scenario-first = Kies eerst een scenario.
+
+js-tools-choose-tsr-first = Kies eerst het tijdstempelantwoord (.tsr).
+
+js-tools-chosen = Gekozen
+
+js-tools-col-check = Controle
+
+js-tools-col-detail = Detail
+
+js-tools-col-first-monitors = Eerste monitors
+
+js-tools-col-gap-that-stays = Resterende kloof
+
+js-tools-col-last-auth-tag = Laatste geauthenticeerde tag (Galileo System Time)
+
+js-tools-col-latency = Latentie, s
+
+js-tools-col-name = Naam
+
+js-tools-col-outcome = Uitkomst
+
+js-tools-col-question = Vraag
+
+js-tools-col-recovered = Hersteld
+
+js-tools-col-reference = Referentie
+
+js-tools-col-result = Resultaat
+
+js-tools-col-row = Rij
+
+js-tools-col-satellite = Satelliet
+
+js-tools-col-slot = Slot, s
+
+js-tools-col-status = Status
+
+js-tools-col-tags = Tags
+
+js-tools-col-test = Test
+
+js-tools-col-these-runs = Deze runs
+
+js-tools-col-tool = Hulpmiddel
+
+js-tools-col-what-is-missing = Wat ontbreekt
+
+js-tools-col-what-it-asks = Wat het vraagt
+
+js-tools-col-why-not-auth = Waarom niet geauthenticeerd
+
+js-tools-copied = Gekopieerd
+
+js-tools-copy = Kopiëren
+
+js-tools-copy-command-aria = Kopiëren: { $cmd }
+
+js-tools-copy-labelled-aria = { $label } kopiëren: { $text }
+
+js-tools-did-not-work = Dat is niet gelukt
+
+js-tools-documentation = Documentatie
+
+js-tools-download = Downloaden
+
+js-tools-download-all-zip = Alles downloaden (zip)
+
+js-tools-download-events-toml = De gebeurtenissen downloaden (TOML)
+
+js-tools-download-md = Downloaden (Markdown)
+
+js-tools-download-report-json = Het rapport downloaden (JSON)
+
+js-tools-download-report-md = Het rapport downloaden (Markdown)
+
+js-tools-download-scorecard-json = De scorekaart downloaden (JSON)
+
+js-tools-download-table-toml = De tabel downloaden (TOML)
+
+js-tools-download-updated-pack = Het bijgewerkte pakket downloaden (zip)
+
+js-tools-download-whole-report-json = Het hele rapport downloaden (JSON)
+
+js-tools-engine-lacks-error = Deze enginebuild (versie { $version }) heeft geen { $need }, dus hij kan dit hier nog niet uitvoeren. De vastgelegde resultaten en de opdrachtregel werken nog.
+
+js-tools-engine-lacks-status = Deze enginebuild (versie { $version }) heeft geen { $need }: hij is ouder dan de versie die dit hulpmiddel nodig heeft. Het equivalent op de opdrachtregel staat op het tabblad Opdrachtregel.
+
+js-tools-engine-running = De engine (versie { $version }) draait in deze browser. Er wordt niets geüpload.
+
+js-tools-engine-starting = De engine wordt in deze browser gestart…
+
+js-tools-engine-unavailable = De engine kon hier niet starten ({ $reason }). Bestanden openen werkt; voor het uitvoeren van de hulpmiddelen is WebAssembly nodig.
+
+js-tools-epoch-format = Gebruik JJJJ-MM-DDTUU:MM:SS, met een optionele Z (UTC).
+
+js-tools-epoch-not-real = Dat is geen echt UTC-tijdstip tussen de jaren 2000 en 2099.
+
+js-tools-every-check = Elke controle
+
+js-tools-evidence-disclaimer = Een bewijspakket is een technisch record van wat de engine uit een opgegeven log onder opgegeven instellingen berekende. Het is geen juridisch oordeel, geen vaststelling van feiten over enige gebeurtenis en geen certificering. Een geslaagde controle zegt dat het record ongewijzigd is.
+
+js-tools-example-pack = Synthetisch voorbeeldpakket
+
+js-tools-example-pack-note = Een synthetisch pakket, gemaakt met de opdrachtregel van de engine uit het demo-veerbootlog met een demonstratiesleutel. De sleutel is hieronder ingevuld; de sleutel van een echte ondertekenaar komt via een andere weg van de ondertekenaar.
+
+js-tools-example-pack-tampered = Voorbeeldpakket waarin één byte van epochs.json is gewijzigd
+
+js-tools-example-runs = Synthetische voorbeeldruns
+
+js-tools-example-tampered-note = Eén byte van een bestand in het pakket is na het ondertekenen gewijzigd. Verifieer het: de controle noemt het bestand.
+
+js-tools-exporting = Exporteren…
+
+js-tools-field-whole-number = { $field } moet een geheel getal zijn
+
+js-tools-file-not-chosen = { $file } is niet een van de gekozen bestanden
+
+js-tools-file-too-large = { $name } is groter dan 64 MiB
+
+js-tools-files-selected = { $label }: { $files }
+
+js-tools-fingerprint-not-pinned = Vingerafdruk van de ondertekenaar: { $fingerprint } (niet vastgepind: de sleutel die het pakket zelf noemt)
+
+js-tools-fingerprint-pinned = Vingerafdruk van de ondertekenaar: { $fingerprint } (vastgepind)
+
+js-tools-fitting = Fitten…
+
+js-tools-framework-summary = { $name }: { $evidenced } onderbouwd, { $partly } gedeeltelijk, { $notEvidenced } niet onderbouwd, { $outOfScope } buiten de reikwijdte
+
+js-tools-fw-dhs-rpcf = US DHS Resilient PNT Conformance Framework, v2.0
+
+js-tools-fw-easa-aviation = EASA-richtsnoeren voor GNSS-interferentie in de luchtvaart
+
+js-tools-fw-en-16803 = EN 16803 (alleen per deel en clausulenummer)
+
+js-tools-fw-imo-ships = IMO-richtsnoeren voor GNSS-interferentie voor schepen
+
+js-tools-fw-nis2-art21 = NIS2-richtlijn van de EU, artikel 21
+
+js-tools-gst-none = geen
+
+js-tools-gst-text = week { $week }, { $tow } s
+
+js-tools-how-to-run = Hoe het uit te voeren
+
+js-tools-imu-file-too-large = { $name } is groter dan 32 MiB; open een fragment.
+
+js-tools-imu-mean-not-number = De specifieke kracht in rust is geen getal (0 voor een horizontale as, ongeveer 9.80665 voor de verticale).
+
+js-tools-imu-notice = { $evidence }: de schatter is gecontroleerd op synthetische witteruislogs met bekende coëfficiënten, niet tegen een externe onafhankelijke referentie. De tabel noemt de SHA-256 van het log ({ $sha }…).
+
+js-tools-imu-selected = { $name } ({ $size }), hier gelezen, nooit geüpload.
+
+js-tools-jt-events-count = { $n } geplande gebeurtenis(sen)
+
+js-tools-jt-events-note = als geplande referentie: geplande slots, geen opgenomen uitzendtijden. Niet-RF: { $nonRf }; buiten het log: { $outside }; onbekende id's: { $unknown }.
+
+js-tools-jt-guard-hold = Bewaking { $guard } s, herstelhouding { $hold } s.
+
+js-tools-jt-guard-hold-overlap = Bewaking { $guard } s, herstelhouding { $hold } s. De kalibratiebasislijn overlapte een gepland slot.
+
+js-tools-jt-import-needs-start = Importeren heeft de eerste epoche van het log in UTC nodig (ISO 8601), omdat het plan in lokale tijd staat.
+
+js-tools-jt-sel-catalogue = catalogus { $name }
+
+js-tools-jt-sel-log = log { $name } ({ $size })
+
+js-tools-jt-sel-no-catalogue = geen catalogus
+
+js-tools-jt-sel-no-log = geen log
+
+js-tools-jt-sel-no-plan = geen plan
+
+js-tools-jt-sel-plans = { $n } planbestand(en)
+
+js-tools-jt-slot-range = { $from } tot { $to }
+
+js-tools-jt-what-area = Het testgebied
+
+js-tools-jt-what-guard = De bewaking
+
+js-tools-jt-what-hold = De herstelhouding
+
+js-tools-jt-what-offset = De afwijking ten opzichte van UTC
+
+js-tools-jt-what-year = Het planjaar
+
+js-tools-label-command = opdracht
+
+js-tools-label-pinned-command = vastgepinde opdracht
+
+js-tools-label-settings-example = instellingenvoorbeeld { $n }
+
+js-tools-loading = Laden…
+
+js-tools-max-runs = Hooguit { $max } runs.
+
+js-tools-merkle-root-format = De Merkle-wortel bestaat uit 64 hexadecimale cijfers.
+
+js-tools-must-be-number = { $what } moet een getal zijn
+
+js-tools-must-be-whole-zero = { $what } moet een geheel getal zijn, 0 voor "niet opgegeven"
+
+js-tools-na = n.v.t.
+
+js-tools-needs = Vereist: { $requires }
+
+js-tools-no = nee
+
+js-tools-none = geen
+
+js-tools-none-in-build = geen in deze build
+
+js-tools-not-in-browser = Niet in een browser.
+
+js-tools-not-osnma = Geen OSNMA-resultaat
+
+js-tools-not-used = Niet gebruikt: { $item }
+
+js-tools-notes = Notities
+
+js-tools-open = Openen
+
+js-tools-osnma-advisory = Adviserend: dit is analyse- en monitoringuitvoer en geen typegoedgekeurde navigatieapparatuur. De hier gemelde authenticatiestatus is geen navigatie-integriteitsdienst en mag niet de enige basis zijn voor enige navigatie- of veiligheidsbeslissing.
+
+js-tools-osnma-authenticated = Geauthenticeerd
+
+js-tools-osnma-caption = Authenticatiestatus per satelliet
+
+js-tools-osnma-demo-note = De publieke wegwerpsleutel is ingevuld; druk op Verifiëren om de verifier hier uit te voeren, of toon het vastgelegde resultaat.
+
+js-tools-osnma-discarded = Verworpen
+
+js-tools-osnma-events = Wat de verifier zag
+
+js-tools-osnma-examples-missing = de synthetische voorbeelden zitten nog niet in deze build
+
+js-tools-osnma-failed = Mislukt
+
+js-tools-osnma-nma-alert = NMA-status { $status }; het systeem gaf een alarmbericht af.
+
+js-tools-osnma-nma-status = NMA-status { $status }.
+
+js-tools-osnma-not-json = Dit is niet de JSON van kshana osnma verify --json (die heeft overall en satellites nodig).
+
+js-tools-osnma-overall = Totaal: { $status }
+
+js-tools-osnma-pages-read =
+    { $n ->
+        [one] { $n } pagina gelezen.
+       *[other] { $n } pagina's gelezen.
+    }
+
+js-tools-osnma-pending = In afwachting
+
+js-tools-osnma-recorded-failed = het vastgelegde resultaat is niet geladen
+
+js-tools-osnma-recorded-result = Vastgelegd resultaat van kshana osnma verify --json voor { $file }.
+
+js-tools-osnma-tag-counts = { $authenticated } geauthenticeerd, { $failed } mislukt, { $pending } in afwachting, { $discarded } verworpen
+
+js-tools-osnma-tag-totals =
+    { $n ->
+        [one] { $n } tag: { $authenticated } geauthenticeerd, { $failed } mislukt, { $pending } in afwachting, { $discarded } verworpen.
+       *[other] { $n } tags: { $authenticated } geauthenticeerd, { $failed } mislukt, { $pending } in afwachting, { $discarded } verworpen.
+    }
+
+js-tools-osnma-time-caveat = Tijd: elke controle is relatief ten opzichte van de tijdstempels van de pagina's die aan de verifier zijn gegeven, die hier uit de gegevens zelf komen en geen bescherming bieden tegen herhaalde oude gegevens. Authenticatie zegt dat de gegevens van het systeem kwamen; ze zegt niets over het signaal waarop ze aankwamen of over de kwaliteit van de positiebepaling.
+
+js-tools-osnma-unavailable = Niet beschikbaar
+
+js-tools-osnma-word-authenticated = Minstens één satelliet is geauthenticeerd en geen enkele is mislukt
+
+js-tools-osnma-word-failed = Een controle op de gegevens van een satelliet is mislukt
+
+js-tools-osnma-word-unavailable = Geen enkele satelliet is geauthenticeerd
+
+js-tools-pack-selected = { $label }: { $files } ({ $size })
+
+js-tools-pinned-to-release = Vastgepind op deze release:
+
+js-tools-preview = Voorbeeld
+
+js-tools-public-key-format = Een publieke sleutel bestaat uit 64 hexadecimale cijfers (32 bytes). Niets anders wordt geaccepteerd.
+
+js-tools-read-documentation = De documentatie lezen
+
+js-tools-reading-plan = Het plan wordt gelezen…
+
+js-tools-refused-file-name = geweigerde bestandsnaam: { $name }
+
+js-tools-run = Uitvoeren
+
+js-tools-runs-read =
+    { $n ->
+        [one] { $n } run gelezen: { $runs }
+       *[other] { $n } runs gelezen: { $runs }
+    }
+
+js-tools-runs-read-engine =
+    { $n ->
+        [one] { $n } run gelezen, door engine { $engine }: { $runs }
+       *[other] { $n } runs gelezen, door engine { $engine }: { $runs }
+    }
+
+js-tools-sample-load-failed = Het voorbeeld is niet geladen ({ $reason }).
+
+js-tools-sample-note = Een echte uitvoer van de opdracht, vastgelegd uit de engine op de synthetische demorun. Geen meting van wat dan ook.
+
+js-tools-sample-output = Voorbeelduitvoer: { $label }
+
+js-tools-scenario-list-failed = De scenariolijst is niet geladen
+
+js-tools-scoring = Scoren…
+
+js-tools-select-and-copy = Selecteren en kopiëren
+
+js-tools-settings-example = Instellingenvoorbeeld { $n }:
+
+js-tools-status-evidenced-label = Runs leveren bewijs voor deze rij
+
+js-tools-status-evidenced-short = Onderbouwd
+
+js-tools-status-not-evidenced-label = Deze runs tonen niets voor deze rij
+
+js-tools-status-not-evidenced-short = Niet onderbouwd
+
+js-tools-status-out-of-scope-label = Buiten wat Kshana kan tonen
+
+js-tools-status-out-of-scope-short = Buiten de reikwijdte
+
+js-tools-status-partly-label = Runs leveren bewijs voor een deel van deze rij
+
+js-tools-status-partly-short = Gedeeltelijk
+
+js-tools-tab-ai = AI-assistent
+
+js-tools-tab-bench = Testbank
+
+js-tools-tab-cli = Opdrachtregel
+
+js-tools-tab-compliance = Compliance
+
+js-tools-tab-evidence = Bewijspakketten
+
+js-tools-tab-imufit = IMU-fit
+
+js-tools-tab-jammertest = Jammertest
+
+js-tools-tab-osnma = OSNMA
+
+js-tools-tele-all-events = Eén syslog-gebeurtenis per epoche (standaard: één per bandwisseling)
+
+js-tools-tele-file-aria = Resultaat- of JSON-lines-bestand
+
+js-tools-tele-fmt-cef = Syslog, CEF
+
+js-tools-tele-fmt-leef = Syslog, LEEF
+
+js-tools-tele-fmt-mqtt = MQTT, Home Assistant-discovery (topic, tab, payload)
+
+js-tools-tele-fmt-otlp = OpenTelemetry (OTLP JSON)
+
+js-tools-tele-fmt-prometheus = Prometheus-metrics
+
+js-tools-tele-format-aria = Formaat
+
+js-tools-tele-host = Host
+
+js-tools-tele-host-aria = Hostnaam die in syslog-gebeurtenissen wordt geschreven
+
+js-tools-tele-include-position = De gemelde positie opnemen (standaard uit)
+
+js-tools-tele-intro = Zet in deze browser een resultaatbestand (session.result.json) of de live JSON-lines om in een van de formaten. Vereist een enginebuild met de telemetrie-export (0.35 en later met de export); de opdrachten hierboven werken overal.
+
+js-tools-tele-note = Syslog-regels dragen hier geen tijdstempel (de pagina leest geen klok); het opdrachtregelprogramma stempelt ze. Prometheus geeft de eindtoestand. MQTT geeft één regel per bericht, het topic, dan een tab, dan de payload; vanaf hier wordt niets gepubliceerd. De tekst is dezelfde die de opdracht afdrukt.
+
+js-tools-tele-run-here = Hier uitvoeren
+
+js-tools-that-file-too-large = Dat bestand is groter dan 64 MiB.
+
+js-tools-token-attached = Token toegevoegd
+
+js-tools-token-attached-note = Het bijgewerkte pakket staat hieronder. De handtekening van de tijdstempelautoriteit is hier NIET gecontroleerd: voer openssl ts -verify uit.
+
+js-tools-trust-monitor-sentence = Zin van de vertrouwensmonitor: { $sentence }
+
+js-tools-two-files-same-name = twee bestanden heten { $name }
+
+js-tools-ubx-bad-crc = { $n } pagina's faalden hun CRC.
+
+js-tools-ubx-file = Het UBX-bestand
+
+js-tools-ubx-frames-pages = { $frames } UBX-frames; { $pages } I/NAV-pagina's gedecodeerd.
+
+js-tools-ubx-ignored-sfrbx = { $n } SFRBX-berichten zijn genegeerd (andere systemen, E5b, alarmen, foute controlesommen).
+
+js-tools-ubx-skipped-bytes = { $n } bytes zijn tussen frames overgeslagen.
+
+js-tools-ubx-time-conflicts = { $n } pagina's hadden een tijd die botste met die van hun buren.
+
+js-tools-ubx-unstamped = { $n } pagina's konden niet in de tijd worden geplaatst.
+
+js-tools-unknown = onbekend
+
+js-tools-unused-scenarios = Scenariobestanden zonder bijbehorend resultaat zijn niet gebruikt: { $files }.
+
+js-tools-verdict-failed-text = Verificatie mislukt.
+
+js-tools-verdict-failed-title = Mislukt
+
+js-tools-verdict-intact-text = Het pakket is intact ten opzichte van de sleutel die het zelf noemt, en die kan iedereen genereren. Haal de publieke sleutel van de ondertekenaar langs een andere weg bij de ondertekenaar op en pin hem vast.
+
+js-tools-verdict-intact-title = Intact, maar de ondertekenaar is niet vastgepind
+
+js-tools-verdict-verified-text = Het pakket is ongewijzigd en ondertekend met de sleutel die u hebt vastgepind.
+
+js-tools-verdict-verified-title = Geverifieerd
+
+js-tools-verifying = Verifiëren…
+
+js-tools-what-failed = Wat is mislukt
+
+js-tools-why-not-browser = Waarom niet in een browser:
+
+js-tools-yes = ja
+
+js-training-active-events = Actieve gebeurtenissen
+
+js-training-band-large = boven 100 m
+
+js-training-band-medium = 25 tot 100 m
+
+js-training-band-small = onder 25 m
+
+js-training-chart-max = max { $v }
+
+js-training-chart-mean-cn0 = gemiddelde C/N0
+
+js-training-chart-position-error = positiefout
+
+js-training-chart-s-reported-minus-true = s, gemeld min werkelijk
+
+js-training-chart-satellites = satellieten
+
+js-training-chart-time-offset = tijdoffset
+
+js-training-chart-used-tracked = gebruikt / gevolgd
+
+js-training-col-reported = Gemeld door de ontvanger
+
+js-training-col-true = Werkelijk
+
+js-training-cue-course = De gyro-heading en de logsnelheid worden door geen enkele gebeurtenis aangetast. Hier verschilt de gemelde koers { $course } van de gyro-heading. Een stroming scheidt ook heading van koers, dus vergelijk met het begin van de run.
+
+js-training-cue-course-speed = De gyro-heading en de logsnelheid worden door geen enkele gebeurtenis aangetast. Hier verschilt de gemelde koers { $course } van de gyro-heading en de gemelde snelheid { $speed } kn van de werkelijke snelheid. Een stroming scheidt ook heading van koers, dus vergelijk met het begin van de run.
+
+js-training-cue-title = Debriefaanwijzing.
+
+js-training-cue-unknown-amount = een onbekende hoeveelheid
+
+js-training-debrief-now = Nu debriefen
+
+js-training-default-warning = Synthetische trainingsgegevens. Alleen voor training en testen: voer deze stroom nooit aan de live navigatiesystemen van een vaartuig.
+
+js-training-demo-coastal-drag-off = Drag-off bij de kust
+
+js-training-demo-combined-event = Gecombineerde gebeurtenis
+
+js-training-demo-fjord-degradation = Natuurlijke verslechtering in een fjord
+
+js-training-demo-open-sea-jamming = Jamming op open zee
+
+js-training-demo-port-time-spoof = Tijdspoofing bij havenanadering
+
+js-training-dl-log-json = Het instructeurslog downloaden (JSON)
+
+js-training-dl-log-text = Het instructeurslog downloaden (tekst)
+
+js-training-dl-nmea = De NMEA-stroom downloaden
+
+js-training-err-demo-open = { $title } kon niet worden geopend: { $reason }.
+
+js-training-err-engine-old = Deze enginebuild (versie { $version }) heeft geen NMEA-traininggenerator; hij is ouder dan deze pagina. De opdracht is { $command }.
+
+js-training-err-engine-start = De engine kon hier niet starten ({ $reason }). De bibliotheekscenario's hierboven openen nog steeds zonder.
+
+js-training-err-file-not-loaded = het bestand is niet geladen
+
+js-training-err-generate = Kon niet genereren: { $reason }.
+
+js-training-err-newer-schema = { $name }: schema { $schema } is nieuwer dan of anders dan { $supported }, dat deze pagina leest. Werk de Studio bij in plaats van de velden ervan te raden.
+
+js-training-err-no-schema = { $name }: geen Kshana-trainingsinstructeurslog (geen schematag).
+
+js-training-err-no-track = { $name }: het log heeft geen trackrijen om te tekenen.
+
+js-training-err-no-usable-rows = { $name }: geen bruikbare trackrijen.
+
+js-training-err-not-json = { $name }: geen JSON ({ $reason }).
+
+js-training-err-read = { $name }: kon niet worden gelezen ({ $reason }).
+
+js-training-err-read-or-draw = { $name }: kon niet worden gelezen of getekend ({ $reason }).
+
+js-training-err-scenario-not-loaded = het scenariobestand is niet geladen
+
+js-training-err-seed = De seed moet een geheel getal zijn, of leeg om die van het scenario zelf te gebruiken.
+
+js-training-err-too-large = { $name }: groter dan { $max }. Deze pagina leest logs tot die grootte.
+
+js-training-err-too-many-rows = { $name }: het log heeft { $count } trackrijen; deze pagina tekent er hooguit { $max }. Log minder vaak (log_interval_s) of open een fragment.
+
+js-training-err-unknown-schema = { $name }: onbekend schema { $schema }; deze pagina leest { $supported }.
+
+js-training-event-n = Gebeurtenis { $id }
+
+js-training-event-onset = Begin { $utc }
+
+js-training-extra-bearing = Peiling zoals toegepast, graden t.o.v. ware noorden
+
+js-training-extra-peak-accel = Piekversnelling die de drag toevoegt, m/s²
+
+js-training-extra-peak-speed = Pieksnelheid die de drag toevoegt, m/s
+
+js-training-fact-duration = Duur
+
+js-training-fact-events = Geïnjecteerde gebeurtenissen
+
+js-training-fact-max-error = Grootste positiefout
+
+js-training-fact-max-time-offset = Grootste tijdoffset
+
+js-training-fact-no-fix = Tijd zonder positiebepaling
+
+js-training-fact-peak-accel = Piekversnelling, werkelijk / gemeld
+
+js-training-fact-peak-speed = Pieksnelheid, werkelijk / gemeld
+
+js-training-fact-seed = Seed
+
+js-training-fact-start = Start (UTC)
+
+js-training-fix-reported-span = positie gemeld, { $from } tot { $to }
+
+js-training-generated = "{ $title }" gegenereerd met engine { $version }: { $lines } NMEA-zinnen. Synthetisch: alleen voor training en testen; voer het nooit aan de live navigatiesystemen van een vaartuig.
+
+js-training-generated-here = Hier gegenereerd door de engine ("{ $title }"). Synthetisch: verzonnen posities en datums.
+
+js-training-generating = De engine wordt gestart en er wordt gegenereerd…
+
+js-training-kind-drag-off = Positie-drag-off
+
+js-training-kind-jamming = Jamming
+
+js-training-kind-natural-degradation = Natuurlijke verslechtering (afgeschermde hemel)
+
+js-training-kind-replay-delay = Replayvertraging
+
+js-training-kind-time-spoof = Tijdspoofing
+
+js-training-legend-no-fix = Geen positiebepaling: de ontvanger meldde niets
+
+js-training-legend-reported = Gemeld, { $band } van de werkelijke positie
+
+js-training-legend-true = Ware track
+
+js-training-library-label = Synthetisch bibliotheekscenario "{ $title }", geschreven door { $command }. Verzonnen posities en datums; geen echt vaartuig of echte opname.
+
+js-training-log-row = Logrij { $row } van { $total }, { $utc }
+
+js-training-max-error-at = { $m } m op T+{ $s } s
+
+js-training-moment-event = (gebeurtenis { $id })
+
+js-training-moment-title = T+{ $s } s { $what }: { $text }
+
+js-training-moments-shown = Eerste { $shown } van { $total } momenten getoond.
+
+js-training-no-events = Geen: dit is een schone run.
+
+js-training-no-fix-nothing = geen positiebepaling: niets gemeld
+
+js-training-no-fix-span = geen positiebepaling, { $from } tot { $to }
+
+js-training-no-moments = Geen momenten vastgelegd.
+
+js-training-none = geen
+
+js-training-none-now = Geen op dit moment.
+
+js-training-none-reported = geen gemeld
+
+js-training-north = N
+
+js-training-not-touched = door geen enkele gebeurtenis aangetast
+
+js-training-opened = { $name } geopend: { $rows } logrijen over { $secs } s.
+
+js-training-opening = { $title } wordt geopend…
+
+js-training-param-affect-time = Beïnvloedt de tijd
+
+js-training-param-bearing-deg = Peiling, graden t.o.v. ware noorden
+
+js-training-param-cn0-drop-db = C/N0-daling, dB
+
+js-training-param-counterfeit-cn0-dbhz = Nagemaakte C/N0, dB-Hz
+
+js-training-param-delay-s = Vertraging, s
+
+js-training-param-duration-s = Duur, s
+
+js-training-param-final-offset-m = Eindoffset, m
+
+js-training-param-kind = Soort
+
+js-training-param-label = Label
+
+js-training-param-offset-s = Tijdoffset, s
+
+js-training-param-ramp-s = Opbouwhelling bij begin, s
+
+js-training-param-recovery-s = Herstelhelling, s
+
+js-training-param-relative-bearing-deg = Peiling ten opzichte van de koers, graden
+
+js-training-param-skyline = Skyline
+
+js-training-param-spread-db = Spreiding per satelliet, dB
+
+js-training-param-start-s = Begin, s
+
+js-training-pause = Pauzeren
+
+js-training-play = Afspelen
+
+js-training-reading = Lezen…
+
+js-training-readout-fix = positiebepaling
+
+js-training-readout-no-fix = geen positiebepaling
+
+js-training-reduced-motion = Verminderde beweging heeft de voorkeur, dus de replay start op 1x. Gebruik de schuifregelaar of de pijltoetsen om zonder animatie te bewegen.
+
+js-training-row-cn0 = Gemiddelde C/N0, dB-Hz
+
+js-training-row-cog = Koers over de grond, graden
+
+js-training-row-error = Positiefout, m
+
+js-training-row-fix = positiebepaling
+
+js-training-row-heading = Heading (gyro), graden
+
+js-training-row-moments = momenten
+
+js-training-row-position = Positie
+
+js-training-row-sats = Gebruikte / gevolgde satellieten
+
+js-training-row-sog = Snelheid over de grond, kn
+
+js-training-row-time-offset = Tijdoffset, s
+
+js-training-say-active = actief: { $list }
+
+js-training-say-event-id = gebeurtenis { $id }
+
+js-training-say-fix = ontvanger meldt een positiebepaling
+
+js-training-say-mean-cn0 = gemiddelde C/N0 { $cn0 } dB-Hz
+
+js-training-say-no-fix = geen positiebepaling
+
+js-training-say-position-from-true = gemelde positie { $m } m van de werkelijke
+
+js-training-say-sats-used = { $used } van { $tracked } satellieten gebruikt
+
+js-training-say-time-ahead = gemelde tijd { $s } s voor op de werkelijke
+
+js-training-say-time-behind = gemelde tijd { $s } s achter op de werkelijke
+
+js-training-sky-no-gsv = geen GSV
+
+js-training-sky-none = Geen hemel voor dit log: een instructeurslog alleen heeft geen satellieten. Open een bibliotheekscenario, of genereer hier een stroom en debrief die, om de satellieten uit de GSV ervan te zien.
+
+js-training-skyline-preset = voorinstelling { $name }
+
+js-training-skyline-stated = opgegeven profiel
+
+js-training-span-no-fix = T+{ $from } tot { $to } s
+
+js-training-track-desc = Ware track en gemelde track, noord boven. Grootste positiefout { $error }. { $periods } periode(n) zonder positiebepaling.
+
+js-training-track-end = einde
+
+js-training-track-start = start
+
+js-training-trainer-note = Notitie van de trainer
+
+js-training-warn-no-warning-text = Dit bestand bevat geen waarschuwingstekst. Het is een traininglog: voer de stroom ervan niet aan live navigatie.
+
+js-training-warn-rows-skipped = { $count } trackrij(en) waren niet geldig en zijn overgeslagen.
+
+js-training-what-fix-lost = Positiebepaling verloren
+
+js-training-what-fix-regained = Positiebepaling hersteld
+
+js-training-what-full-effect = Volledig effect
+
+js-training-what-onset = Begin
+
+js-training-what-recovered = Hersteld
+
+js-training-what-recovery-begins = Herstel begint
+
+js-trust-adv-carried = Adviserende verklaring in dit bestand:
+
+js-trust-adv-none = Dit bestand bevat geen adviserende verklaring
+
+js-trust-adv-none-rest = (oudere uitvoer doet dat niet). De adviserende verklaring bovenaan deze pagina geldt toch voor alles.
+
+js-trust-agree-both = beide melden: de eigen vlag van de ontvanger en een Kshana-monitor
+
+js-trust-agree-calibrating = binnen het kalibratievenster: niet vergeleken
+
+js-trust-agree-kshana-only = alleen Kshana slaat alarm: de ontvanger meldt niets
+
+js-trust-agree-neither = geen van beide meldt
+
+js-trust-agree-receiver-only = alleen de ontvanger meldt: geen enkele Kshana-monitor slaat alarm
+
+js-trust-assessed = { $name } beoordeeld met engine { $version }, in deze browser.
+
+js-trust-assessed-as = { $name } beoordeeld als { $format }, met de engine, in deze browser. Er is niets geüpload.
+
+js-trust-assessing = De engine wordt gestart en er wordt beoordeeld…
+
+js-trust-class-also-costing = { $class } (kost ook punten)
+
+js-trust-class-environment = omgeving: het signaal (vermogen, jamming, satellieten verloren terwijl de hemel open is)
+
+js-trust-class-geometry = geometrie: de hemel, niet het signaal
+
+js-trust-class-inconsistency = inconsistentie: aanvalsachtig, niet verklaard door de hemel of het signaal
+
+js-trust-dl-result-json = Het resultaat downloaden (JSON)
+
+js-trust-dl-table-csv = De tabel per epoche downloaden (CSV)
+
+js-trust-edge-degraded = { $v } verslechterd
+
+js-trust-edge-nominal = { $v } nominaal
+
+js-trust-err-assess = { $name }: kon niet worden beoordeeld ({ $reason }).
+
+js-trust-err-demo-files = de demobestanden zijn niet geladen
+
+js-trust-err-demo-log-open = Het demolog kon niet worden geopend: { $reason }.
+
+js-trust-err-demo-open = De demo kon niet worden geopend: { $reason }.
+
+js-trust-err-engine-no-receiver-trust = Deze enginebuild (versie { $version }) heeft geen receiver_trust.
+
+js-trust-err-engine-no-scorer = Deze enginebuild (versie { $version }) heeft geen logscorer; hij is ouder dan deze pagina. De opdracht is { $command }.
+
+js-trust-err-engine-start = De engine kon hier niet starten ({ $reason }).
+
+js-trust-err-engine-start-open = De engine kon hier niet starten ({ $reason }). Resultaatbestanden hierboven openen werkt nog.
+
+js-trust-err-example-files = de voorbeeldbestanden zijn niet geladen
+
+js-trust-err-example-open = Het voorbeeld kon niet worden geopend: { $reason }.
+
+js-trust-err-file-2mib = { $name }: groter dan 2 MiB. Open een fragment.
+
+js-trust-err-file-too-large = { $name }: groter dan { $max }. Deze pagina leest bestanden tot die grootte; open een fragment.
+
+js-trust-err-gen-too-large = { $name }: groter dan 2 MiB. Open een fragment (het opdrachtregelprogramma neemt een heel log).
+
+js-trust-err-imu-format = "{ $format }" is geen IMU-formaat dat deze pagina leest (csv of euroc)
+
+js-trust-err-imu-heading = de heading van de IMU bij zijn eerste sample is geen getal
+
+js-trust-err-log-format = "{ $format }" is geen logformaat dat deze pagina naar de engine kan sturen
+
+js-trust-err-no-epochs = Het bestand heeft geen epochen.
+
+js-trust-err-no-epochs-result = Dit resultaatbestand heeft geen epochs[]. Het moet afkomstig zijn van `{ $command }` voor een vaartuigsessie.
+
+js-trust-err-no-epochs-returned = { $name }: de engine gaf geen epochen terug.
+
+js-trust-err-no-score-model = Dit resultaat heeft geen score_model, dus het is een run met een stilstaand platform zonder vertrouwensscore. De weergave tekent runs van vaartuigen (bewegend platform).
+
+js-trust-err-not-readable = { $name }: geen bestand dat deze weergave leest (een resultaat-JSON, JSON lines, trust.csv, een NMEA-log of een referentiebestand).
+
+js-trust-err-nothing-to-draw = Niets om te tekenen: kies een resultaat-JSON, JSON lines of trust.csv.
+
+js-trust-err-read = { $name }: kon niet worden gelezen ({ $reason }).
+
+js-trust-err-read-or-draw = { $name }: kon niet worden gelezen of getekend ({ $reason }).
+
+js-trust-err-score = { $name }: kon niet worden gescoord ({ $reason }).
+
+js-trust-err-score-file-too-large = { $name }: groter dan 2 MiB. De scorer in de browser neemt een fragment dat het kalibratievenster van vijf minuten bevat.
+
+js-trust-err-score-too-large = { $name }: groter dan 2 MiB. De scorer in de browser neemt een fragment (de opdracht { $command } neemt een heel log); open een fragment dat het kalibratievenster van vijf minuten bevat.
+
+js-trust-err-scorecard-too-large = { $name }: groter dan 8 MiB; deze pagina leest een scorekaart tot die grootte.
+
+js-trust-err-session-empty = De sessie-instellingen zijn leeg. Ze geven het vaartuig op ({ $setting }).
+
+js-trust-err-too-many-epochs = Het bestand heeft { $count } epochen; deze pagina tekent er hooguit { $max }. Open een fragment.
+
+js-trust-err-triple-quote = { $what } bevat drie enkele aanhalingstekens achter elkaar, wat niet in de instellingen kan worden ingebed
+
+js-trust-err-what-file = het bestand
+
+js-trust-err-what-imu = het IMU-bestand
+
+js-trust-event-label = gebeurtenis: { $label }
+
+js-trust-event-onset = begin
+
+js-trust-evt-col-first-alarm = Eerste alarm, s
+
+js-trust-evt-col-latency = Latentie, s
+
+js-trust-evt-col-onset = Begin, s
+
+js-trust-evt-col-outcome = Uitkomst
+
+js-trust-evt-col-stated = Opgegeven gebeurtenis
+
+js-trust-fmt-android = Android GNSS Logger (tekst)
+
+js-trust-fmt-gnss-sdr = Doorgegeven JSON-lines van GNSS-SDR (tekst)
+
+js-trust-fmt-nmea = NMEA 0183 (tekst)
+
+js-trust-fmt-novatel = NovAtel OEM7 (ASCII of binair)
+
+js-trust-fmt-rinex = RINEX-waarnemingen (tekst)
+
+js-trust-fmt-rtcm3 = RTCM 3 MSM4 / MSM7 (binair)
+
+js-trust-fmt-rtklib-pos = RTKLIB .pos-oplossing (tekst)
+
+js-trust-fmt-sbf = Septentrio SBF (binair)
+
+js-trust-fmt-ubx = u-blox UBX (binair)
+
+js-trust-gate-note-derived = Deze run heeft geen gate-record. De strook toont waar een gate de positiebepaling zou hebben tegengehouden: epochen in de niet-vertrouwde band, vastgehouden tot 30 s nadat ze die verlaten. Hier afgeleid, niet uit een gate gelezen. Een gate is opt-in en voegt latentie toe.
+
+js-trust-gate-note-read = De gate van elke epoche zoals de livestroom die meldde: uit, doorgelaten of tegengehouden (de positiebepaling is in de doorgestuurde cyclus als ongeldig gemarkeerd).
+
+js-trust-gate-now-derived = { $gate } · afgeleid
+
+js-trust-gate-off = Uit
+
+js-trust-gate-off-cal = Uit (kalibreren)
+
+js-trust-gate-passed = Doorgelaten: de positiebepaling wordt ongewijzigd doorgestuurd
+
+js-trust-gate-span = gate { $gate }, { $from } tot { $to }
+
+js-trust-gate-span-derived = gate { $gate } (afgeleid), { $from } tot { $to }
+
+js-trust-gate-withheld = Tegengehouden: de positiebepaling zou verderop als ongeldig worden gemarkeerd
+
+js-trust-gen-chart-label = De grafiek van de engine van de run: draaggolf-ruisdichtheid, toestand en alarmen in de tijd
+
+js-trust-gen-epochs = Epochen: { $nominal } nominaal, { $degraded } verslechterd, { $untrusted } niet vertrouwd na het kalibratievenster van { $window } epochen.
+
+js-trust-gen-self-heading = De eigen vlaggen van de ontvanger, tegenover de alarmen van Kshana
+
+js-trust-gen-self-note = Een vergelijking, geen controle van een van beide: de vlag van de ontvanger is zijn eigen melding.
+
+js-trust-geo-deduction-class = { $points } punten ({ $class })
+
+js-trust-geo-deduction-points = { $points } punten
+
+js-trust-geo-flag-mismatch = De HDOP die de ontvanger opgeeft wijkt af van de HDOP die is afgeleid uit de hemel die hij meldt: een geometrie-aftrek telt als inconsistentie.
+
+js-trust-geo-flag-signal-loss = Signaalverlies: satellieten in zicht worden niet gevolgd hoewel hun geometrie goed is, dus een geometrie-aftrek telt als omgeving.
+
+js-trust-geo-heading-label = geometrie { $label }
+
+js-trust-geo-label-fair = { $label } (niet gescoord)
+
+js-trust-geo-label-poor = { $label } (het enige label waarvoor de score aftrekt)
+
+js-trust-geo-none-in-run = Geen geometrie in deze run (een engine van vóór 0.36 schrijft er geen).
+
+js-trust-geo-reason-few-satellites = minder satellieten dan het minimum
+
+js-trust-geo-reason-high-hdop = HDOP boven zijn drempel
+
+js-trust-geo-reason-high-pdop = PDOP boven zijn drempel
+
+js-trust-geo-reason-sky-blocked = de gevolgde satellieten laten een grote leemte in azimut (één kant van de hemel is geblokkeerd)
+
+js-trust-geo-row-deduction = Geometrie-aftrek
+
+js-trust-geo-row-from = Van
+
+js-trust-geo-row-gap = Grootste azimutleemte
+
+js-trust-geo-row-label = Label
+
+js-trust-geo-row-open-sky = Open hemel
+
+js-trust-geo-row-reported-hdop = HDOP die de ontvanger opgeeft
+
+js-trust-geo-row-sats-used = Gebruikte satellieten
+
+js-trust-geo-row-sky-age = Leeftijd van de hemel
+
+js-trust-geo-row-status = Status
+
+js-trust-geo-say-deduction = geometrie-aftrek { $points } punten
+
+js-trust-geo-say-label-hdop = geometrie { $label } (HDOP { $hdop })
+
+js-trust-geo-say-mismatch = opgegeven HDOP wijkt af
+
+js-trust-geo-source-derived = afgeleid uit de satellieten die het log meldt (GSV)
+
+js-trust-geo-source-none = niets
+
+js-trust-geo-source-reported = de door de ontvanger opgegeven DOP (GSA)
+
+js-trust-geo-status-reasons = { $status }: { $reasons }
+
+js-trust-geo-status-title = geometrie { $status }
+
+js-trust-geo-unknown-no-gsv = geometrie onbekend: geen GSV of GSA in het log
+
+js-trust-geo-unknown-no-gsv-sentence = Geometrie onbekend: geen GSV of GSA in het log.
+
+js-trust-geo-unknown-odd = Geometrie onbekend (het bestand zegt "{ $odd }", wat deze pagina niet kent).
+
+js-trust-geo-used-of-view = { $used } van { $inView } in zicht
+
+js-trust-got-file-kind = { $name }: { $kind }
+
+js-trust-got-lines-skipped = { $count } regel(s) van { $name } waren geen epochen en zijn overgeslagen
+
+js-trust-imu-csv = CSV met een koprij
+
+js-trust-imu-euroc = EuRoC MAV imu0 data.csv
+
+js-trust-imu-file = IMU-bestand: { $name } ({ $chars } tekens). Gebruikt bij de volgende beoordeling.
+
+js-trust-imu-file-press = IMU-bestand: { $name } ({ $chars } tekens). Gebruikt bij de volgende beoordeling; druk op Het gekozen bestand beoordelen.
+
+js-trust-imu-none = Geen IMU-bestand.
+
+js-trust-jt-col-latency = Latentie, s
+
+js-trust-jt-col-monitors = Eerste monitors
+
+js-trust-jt-col-name = Naam
+
+js-trust-jt-col-outcome = Uitkomst
+
+js-trust-jt-col-recovered = Hersteld
+
+js-trust-jt-col-slot = Slot, s
+
+js-trust-jt-col-test = Test
+
+js-trust-jt-label = { $label } Bewaking { $guard } s, herstelhouding { $hold } s.
+
+js-trust-jt-label-contaminated = { $label } Bewaking { $guard } s, herstelhouding { $hold } s. De kalibratiebasislijn overlapte een gepland slot.
+
+js-trust-jt-opened = { $name } geopend: { $count } test(s). Hier gelezen; er is niets geüpload.
+
+js-trust-kind-batch-result = batchresultaat
+
+js-trust-kind-json-lines = JSON lines
+
+js-trust-kind-nmea-log = NMEA-log
+
+js-trust-kind-truth-file = referentiebestand
+
+js-trust-label-demo = Synthetische demo: een verzonnen veerbootlog met een verzonnen positie-drag-off, gescoord door Kshana. Vastgelegd uit de engine; het log is tekst, geen meting.
+
+js-trust-label-example = Illustratief voorbeeld: een verzonnen NMEA-log met een verzonnen stoorzender van 120 s tot 240 s, hier door de engine beoordeeld. Tekst, geen meting.
+
+js-trust-label-geo-demo = Synthetische demo met afgeschermde hemel: het veerbootlog met de westelijke helft van de hemel leeggemaakt vanaf 600 s (natuurlijke verslechtering, toegeschreven aan geometrie) en dezelfde verzonnen drag-off vanaf 1500 s (aanvalsachtig). Vastgelegd uit een engine met de 0.36-geometrie; tekst, geen meting.
+
+js-trust-label-score-demo = Synthetisch demolog, hier door de engine gescoord. Verzonnen veerbootlog en drag-off; tekst, geen meting.
+
+js-trust-legend-calibrating = Kalibreren (nooit gescoord)
+
+js-trust-legend-class = Aftrekklasse:
+
+js-trust-legend-class-environment = omgeving: het signaal
+
+js-trust-legend-class-geometry = geometrie: de hemel, niet het signaal
+
+js-trust-legend-class-inconsistency = inconsistentie (aanvalsachtig)
+
+js-trust-legend-degraded = Verslechterd
+
+js-trust-legend-demo = In deze demo meldt de ontvanger de hele tijd een geldige positiebepaling (GGA-kwaliteit 1, RMC-status A). De score is wat daalt.
+
+js-trust-legend-geo-degraded = geometrie verslechterd
+
+js-trust-legend-geo-good = geometrie goed
+
+js-trust-legend-geo-unknown = geometrie onbekend (geen GSV of GSA; niet goed)
+
+js-trust-legend-nominal = Nominaal
+
+js-trust-legend-self = Eigen vlag van de ontvanger tegenover de alarmen van Kshana:
+
+js-trust-legend-self-both = beide melden
+
+js-trust-legend-self-kshana = alleen Kshana
+
+js-trust-legend-self-neither = geen van beide
+
+js-trust-legend-self-receiver = alleen de ontvanger
+
+js-trust-legend-sky = Hemel:
+
+js-trust-legend-true-track = Ware track (alleen synthetische gegevens)
+
+js-trust-legend-underline = onderstreept: geometrie kost ook punten
+
+js-trust-legend-untrusted = Niet vertrouwd
+
+js-trust-marks-cleared = Markeringen gewist.
+
+js-trust-marks-set = { $name } lag in { $count } epochen boven zijn begin; ze zijn gemarkeerd op de tijdlijn en de track.
+
+js-trust-mon-agc = De automatische versterkingsregeling is verschoven ten opzichte van haar basislijn.
+
+js-trust-mon-clock = De klokondersteunde monitor: de klok van de ontvanger tegenover zijn voorspelde lijn.
+
+js-trust-mon-cn0-drop = Vermogensontzegging: signaalsterkte gedaald ten opzichte van de kalibratiebasislijn.
+
+js-trust-mon-cn0-rise = Zoekt naar de signatuur van één zender: signaalsterkte over de satellieten die samen stijgt ten opzichte van de basislijn.
+
+js-trust-mon-cn0-spread = Zoekt naar de signatuur van één zender: signaalsterkte over de satellieten die samen instort ten opzichte van de kalibratiebasislijn.
+
+js-trust-mon-geometry = De satellietgeometrie (0.36): kost alleen punten wanneer de geometrie slecht is (HDOP, PDOP of de gebruikte satellieten voorbij hun drempels), begrensd en nooit onder de verslechterde band.
+
+js-trust-mon-heading-course = Vergelijkt de richting van de track met waar het schip heen wijst, binnen de opgegeven afdrijfhoek.
+
+js-trust-mon-jam-ind = De eigen jamming-indicator van de ontvanger.
+
+js-trust-mon-kinematic = Vergelijkt elke positiestap met de gemelde snelheid en koers, en met de opgegeven limieten van het vaartuig voor snelheid, versnelling en draaisnelheid.
+
+js-trust-mon-loss-of-lock = Verlies van gevolgde satellieten.
+
+js-trust-mon-osnma = Leest een gemelde OSNMA-authenticatiefout. De status wordt gelezen, niet geverifieerd.
+
+js-trust-mon-position-jump = Een stap in de gemelde positie groter dan de basislijn toestaat.
+
+js-trust-mon-raim = De teststatistiek van de autonome integriteitsmonitoring van de ontvanger tegenover haar drempel.
+
+js-trust-mon-receiver-self-report = De eigen spoofing- of jammingvlag van de ontvanger (bijvoorbeeld u-blox UBX-SEC-SIG of NAV-STATUS spoofDetState), getoond naast de monitors van Kshana. Uit het log gelezen, niet geverifieerd; de plek is klaar voor de monitor van de 0.38-engine en wordt als strook getekend zodra een resultaat die bevat.
+
+js-trust-mon-sea-level = Controleert of de hoogte is waar het zeeoppervlak en de opgegeven antennehoogte haar zouden plaatsen.
+
+js-trust-mon-solve-failure = De positie-oplossing kon niet worden berekend.
+
+js-trust-mon-speed-log = Vergelijkt snelheid over de grond met vaart door het water, binnen de opgegeven stroomtolerantie.
+
+js-trust-mon-time-consistency = Controleert de tijd van de ontvanger op onregelmatige stappen of achteruit lopen, en bij realtimestromen tegen de klok van deze computer.
+
+js-trust-mon-unknown = Een monitor waarvoor deze weergave geen beschrijving heeft (nieuwer dan de pagina). Behandel hem als een monitor.
+
+js-trust-na = n.v.t.
+
+js-trust-name-colon-text = { $name }: { $text }
+
+js-trust-never = nooit
+
+js-trust-no = nee
+
+js-trust-no-deduction = geen aftrek
+
+js-trust-none = geen
+
+js-trust-north = N
+
+js-trust-not-stated = niet opgegeven
+
+js-trust-note-advisories = De regels bevatten { $count } verschillende adviserende verklaringen; de eerste wordt getoond.
+
+js-trust-note-csv-limits = trust.csv bevat scores en redenen maar geen verhoudingen of posities.
+
+js-trust-note-live-no-model = Een livestroom geeft niet op welke monitors liepen of welk scoremodel gold; de bandgrenzen hieronder zijn de gedocumenteerde standaardwaarden en de monitorstroken tonen alleen monitors die punten kosten.
+
+js-trust-note-nmea-no-match = Geen enkele NMEA-positiebepaling kon op tijd aan een epoche worden gekoppeld.
+
+js-trust-note-nmea-skipped = { $count } NMEA-zin(nen) met een foute controlesom of foute velden zijn overgeslagen.
+
+js-trust-note-skipped-epochs = { $count } epoche(n) zonder numerieke t_s zijn overgeslagen.
+
+js-trust-note-truth-no-match = De tijden van het referentiebestand komen met geen enkele epoche overeen.
+
+js-trust-note-unknown-state = { $count } epoche(n) dragen een toestand die deze pagina niet kent ({ $states }); ze worden getekend als kalibrerend, nooit gescoord.
+
+js-trust-offset-at = Op { $time } ligt de door de ontvanger gemelde positie { $m } m van waar het vaartuig werkelijk was (synthetische referentie).
+
+js-trust-offset-no-truth = Geen werkelijke positie op dit tijdstip.
+
+js-trust-opened = { $count } epochen geopend ({ $source }).
+
+js-trust-opening-demo = De synthetische demo wordt geopend…
+
+js-trust-opening-demo-log = Het synthetische demolog wordt geopend…
+
+js-trust-opening-example = Het illustratieve voorbeeld wordt geopend…
+
+js-trust-opening-geo-demo = De demo met afgeschermde hemel wordt geopend…
+
+js-trust-pause = Pauzeren
+
+js-trust-play = Afspelen
+
+js-trust-reading = Lezen…
+
+js-trust-reasons-calibrating = Kalibreren: de eerste seconden vormen de basislijn en worden nooit gescoord.
+
+js-trust-reasons-class-note = Elke aftrek draagt de klasse van de engine: geometrie (de hemel), omgeving (het signaal) of inconsistentie (aanvalsachtig)
+
+js-trust-reasons-live-unknown = Welke monitors liepen wordt in een livestroom niet opgegeven; een controle die hier ontbreekt is mogelijk niet uitgevoerd.
+
+js-trust-reasons-marked-none = gemarkeerd; hier geen aftrek
+
+js-trust-reasons-no-score = Geen score bij deze epoche.
+
+js-trust-reasons-no-score-note = Geen score bij deze epoche: { $note }.
+
+js-trust-reasons-not-run = Niet uitgevoerd (geen geslaagde controle)
+
+js-trust-reasons-nothing = Bij deze epoche is niets afgetrokken. Dat is geen bewijs dat de positiebepaling goed is: zie hieronder wat de controles niet kunnen zien.
+
+js-trust-reasons-pts = { $points } pnt
+
+js-trust-reasons-ran-free = Uitgevoerd, kostte niets
+
+js-trust-reasons-ratio = verhouding { $ratio }
+
+js-trust-reasons-row-title = { $name }: { $text } Klik om te markeren waar hij boven zijn begin lag.
+
+js-trust-reasons-weight = gewicht { $weight }
+
+js-trust-reduced-motion = Verminderde beweging heeft de voorkeur, dus de replay start op 1x. Gebruik de schuifregelaar of de pijltoetsen om zonder animatie te bewegen.
+
+js-trust-say-gate = gate { $gate }
+
+js-trust-say-gate-derived = gate { $gate } (afgeleid)
+
+js-trust-say-monitor-points = { $monitor } { $points } punten
+
+js-trust-say-position-from-true = gemelde positie { $m } m van de werkelijke
+
+js-trust-say-reasons = redenen: { $list }
+
+js-trust-say-score = score { $score }
+
+js-trust-scored-label = { $count } epochen van { $name } gescoord met engine { $version }, in deze browser.
+
+js-trust-scored-summary = { $count } epochen gescoord met engine { $version }: { $summary }. Alleen adviserend.
+
+js-trust-scoring = De engine wordt gestart en er wordt gescoord…
+
+js-trust-self-code-meaning = { $code }: { $meaning }
+
+js-trust-self-none-at-time = Het log bevat op dit tijdstip geen ontvangervlag.
+
+js-trust-self-not-in-log = niet in het log
+
+js-trust-self-row-flags = Vlaggen van de ontvanger
+
+js-trust-self-row-jamming = Jammingtoestand van de ontvanger
+
+js-trust-self-row-kshana-alarms = Een Kshana-monitor slaat alarm
+
+js-trust-self-row-spoofing = Spoofingtoestand van de ontvanger
+
+js-trust-self-unknown-agreement = een overeenstemming die deze pagina niet kent ({ $odd })
+
+js-trust-self-yes-state-2 = ja (toestand 2 of hoger)
+
+js-trust-set-degraded-edge = de verslechterde grens
+
+js-trust-set-degraded-min = verslechterd bij of boven
+
+js-trust-set-epochs = Epochen
+
+js-trust-set-epochs-counts = { $total } in totaal: { $calibrating } kalibrerend, { $nominal } nominaal, { $degraded } verslechterd, { $untrusted } niet vertrouwd.
+
+js-trust-set-epochs-counts-class = { $total } in totaal: { $calibrating } kalibrerend, { $nominal } nominaal, { $degraded } verslechterd, { $untrusted } niet vertrouwd. Per aftrekklasse: geometrie { $geometry }, omgeving { $environment }, inconsistentie { $inconsistency }.
+
+js-trust-set-evidence-hold = bewijshouding, s
+
+js-trust-set-full-ratio = vol gewicht bij verhouding
+
+js-trust-set-geo-counts = Hemel: { $good } goed, { $degraded } verslechterd, { $unknown } onbekend. Label: { $lgood } goed, { $fair } redelijk, { $poor } slecht (alleen slecht kost punten). Epochen met een aftrek van klasse geometrie { $geometry }, omgeving { $environment }, inconsistentie { $inconsistency }.
+
+js-trust-set-geo-counts-odd = Hemel: { $good } goed, { $degraded } verslechterd, { $unknown } onbekend ({ $odd } met een waarde die deze pagina niet kent, gelezen als onbekend). Label: { $lgood } goed, { $fair } redelijk, { $poor } slecht (alleen slecht kost punten). Epochen met een aftrek van klasse geometrie { $geometry }, omgeving { $environment }, inconsistentie { $inconsistency }.
+
+js-trust-set-geometry = Geometrie (instellingen van [geometry])
+
+js-trust-set-gloss = Waar elke controle naar kijkt
+
+js-trust-set-live-geometry = Een livestroom geeft de geometriedrempels niet op; de gedocumenteerde standaardwaarden gelden (slecht boven HDOP 4 of PDOP 6, of onder 5 satellieten; hooguit 15 punten, nooit onder de verslechterde band).
+
+js-trust-set-no-geometry = Deze run bevat geen geometrie: ze komt van een engine van vóór 0.36, of van trust.csv. Er wordt niets over de hemel getoond, en niets wordt als goed getoond.
+
+js-trust-set-nominal-min = nominaal bij of boven
+
+js-trust-set-onset-ratio = kost punten vanaf verhouding
+
+js-trust-set-provenance = Waar de drempels vandaan komen, en hoe aftrekken worden ingedeeld
+
+js-trust-set-ran = Controles die liepen
+
+js-trust-set-weights = Gewicht van elke controle, punten
+
+js-trust-settings-assumed = Deze stroom geeft zijn scoremodel niet op. De getoonde bandgrenzen zijn de gedocumenteerde standaardwaarden, aangenomen.
+
+js-trust-show-in-replay = Deze run tonen in de replay hieronder (track, score, de eigen vlag van de ontvanger)
+
+js-trust-sky-no-gsv = geen GSV
+
+js-trust-sky-none = Geen hemel: open het NMEA-log bij de run (of een demo) om de satellieten te zien die het vermeldt.
+
+js-trust-span-title = { $what }, { $from } tot { $to }
+
+js-trust-state-0 = onbekend of niet ingeschakeld
+
+js-trust-state-1 = geen aanwijzing
+
+js-trust-state-2 = aangegeven
+
+js-trust-state-3 = meerdere aanwijzingen of bevestigd
+
+js-trust-strip-band = band
+
+js-trust-strip-class = klasse
+
+js-trust-strip-gate = gate
+
+js-trust-strip-marked = gemarkeerd
+
+js-trust-strip-receiver = ontvanger
+
+js-trust-strip-sky = hemel
+
+js-trust-strips-none = Geen monitorverhoudingen in dit bestand.
+
+js-trust-strips-note-ran = verhouding van statistiek tot drempel; onderbroken lijn is het alarm bij 1
+
+js-trust-strips-note-seen = alleen monitors die punten bleken te kosten; verhouding ten opzichte van drempel
+
+js-trust-sum-both-flag = Beide melden
+
+js-trust-sum-epochs-compared = Vergeleken epochen (na kalibratie)
+
+js-trust-sum-first-kshana = Eerste Kshana-alarm onder die epochen
+
+js-trust-sum-first-receiver = Eerste ontvangervlag
+
+js-trust-sum-jamming-flag = Jammingvlag van de ontvanger (toestand 2+)
+
+js-trust-sum-neither = Geen van beide
+
+js-trust-sum-only-kshana = Alleen Kshana slaat alarm
+
+js-trust-sum-only-receiver = Alleen de ontvanger meldt
+
+js-trust-sum-spoofing-flag = Spoofingvlag van de ontvanger (toestand 2+)
+
+js-trust-thr-azimuth-gap = azimutleemte, graden, vanaf welke de hemel gedeeltelijk geblokkeerd is
+
+js-trust-thr-cap-in-force = hoogste aantal punten dat de geometrie-aftrek in deze run neemt
+
+js-trust-thr-cap-points = hoogste aantal punten dat de geometrie-aftrek mag nemen
+
+js-trust-thr-floor = laagste score die de geometrie alleen mag overlaten (leeg: de grens van de verslechterde band)
+
+js-trust-thr-floor-in-force = laagste score die de geometrie alleen in deze run kan overlaten
+
+js-trust-thr-full-ratio = verhouding waarbij de geometrie-aftrek zijn maximum bereikt
+
+js-trust-thr-hdop-good = HDOP bij of onder welke de geometrie goed is
+
+js-trust-thr-hdop-max = HDOP boven welke de geometrie slecht is
+
+js-trust-thr-hold = hoe lang hemelposities en GSA tellen nadat ze zijn aangekomen, s
+
+js-trust-thr-low-elev = elevatie, graden, waaronder een verloren satelliet aan de hemel wordt toegeschreven
+
+js-trust-thr-min-used = minste aantal gebruikte satellieten voordat de geometrie slecht is
+
+js-trust-thr-pdop-good = PDOP bij of onder welke de geometrie goed is
+
+js-trust-thr-pdop-max = PDOP boven welke de geometrie slecht is
+
+js-trust-thr-reported-rel = hetzelfde, als aandeel van de afgeleide HDOP
+
+js-trust-thr-reported-tol = verschil tussen opgegeven en afgeleide HDOP voordat de twee het oneens zijn
+
+js-trust-thr-sigma-uere = door de drempels aangenomen gebruikersequivalente afstandsfout, meter
+
+js-trust-thr-used-good = aantal gebruikte satellieten bij of boven welk de geometrie goed is
+
+js-trust-track-desc = Track van { $positions } gemelde posities, noord boven. { $untrusted } epochen zijn niet vertrouwd.
+
+js-trust-track-desc-none = Geen track: de bestanden bevatten geen posities.
+
+js-trust-track-desc-truth = Track van { $positions } gemelde posities, noord boven. { $untrusted } epochen zijn niet vertrouwd. Een dunne grijze lijn toont de ware track.
+
+js-trust-track-end = einde
+
+js-trust-track-no-positions = Geen posities in de geopende bestanden
+
+js-trust-track-note = Noord boven, één schaal op beide assen. De lijn is waar de ontvanger zei dat het vaartuig was, gekleurd naar de vertrouwensband van elke epoche.
+
+js-trust-track-note-none = Dit bestand bevat geen posities. Voeg het NMEA-log toe waaruit de run kwam (of een v1.1-stroom met een positie) om de track te tekenen.
+
+js-trust-track-start = start
+
+js-trust-unknown-agreement = een overeenstemming die deze pagina niet kent
+
+js-trust-yes = ja
