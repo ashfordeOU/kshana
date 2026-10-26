@@ -9755,3 +9755,2250 @@ js-meankind-the-second = 二番目の
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:184
 js-meankind-timeoffset-line = 公表されている範囲は一日あたり { $low } から { $high } µs です。
+
+js-mthread-layout-time = 実際のミッション時間
+
+js-mthread-limit-title = { $phase }：定められた上限、{ $limit }
+
+js-mthread-log-scale = 対数スケール
+
+js-mthread-margin-met = 上限の { $m }×、達成
+
+js-mthread-margin-missed = 上限の { $m }×、未達成
+
+js-mthread-metric-pos = 位置、1 シグマ
+
+js-mthread-metric-time = クロックバイアス、1 シグマ
+
+js-mthread-metric-vel = 速度、1 シグマ
+
+js-mthread-na = n/a
+
+js-mthread-no-events = このフェーズには記録されたイベントがありません。
+
+js-mthread-no-phases = 結果にフェーズが含まれていません
+
+js-mthread-no-requirement = 上限の記載なし
+
+js-mthread-no-series = 結果に、この量のサンプルが含まれていません。
+
+js-mthread-no-weak = 結果に最弱リンクが示されていません。
+
+js-mthread-not-json = 結果は JSON ではありません（{ $reason }）
+
+js-mthread-not-thread = これはミッションスレッドの結果ではありません（スキーマ { $schema } が必要です）
+
+js-mthread-note-phases = 各フェーズは同じ幅で描かれるため、短いフェーズも長いフェーズと同じように見えます。各フェーズの開始時刻は帯の下に示します。実際の比率を見るには、実際のミッション時間に切り替えてください。破線はドキュメントに記載された上限で、線の途切れは引き継ぎです。
+
+js-mthread-note-time = 実際のミッション時間：数分のフェーズは、幅が狭すぎて見えないことがあります。読み取るには等幅に切り替えてください。破線はドキュメントに記載された上限で、線の途切れは引き継ぎです。
+
+js-mthread-open-failed = 例を開けませんでした：{ $reason }。
+
+js-mthread-opened = { $name } をこのページ内で読み込みました。どこにも送信していません。
+
+js-mthread-opening = Artemis クラスの例を開いています…
+
+js-mthread-prov = このページのラベルはすべてエンジン自身のものです。ページは各数値を結果からコピーし、スケールを変えるだけです。
+
+js-mthread-recorded = エンジンの記録済みの結果（バージョン { $version }）：公開されているミッションの説明から組み立てた例示用のチェーンです。数値はモデル計算によるもので、実在のものを表してはいません。
+
+js-mthread-sets-peak = ピークを決めている
+
+js-mthread-too-large = そのファイルは { $mb } MB より大きいため、読み込みません。
+
+js-mthread-weak-line = 最弱リンクはフェーズ <b>{ $phase }</b> で、定められた上限の { $margin }× であり、{ $source } によって決まります。マージンとは、定められた上限とフェーズのピークとの最小の比で、1 を超えれば要件を満たします。
+
+js-mthread-weakest-flag = 最弱リンク
+
+js-mthread-weakest-mark = 最弱リンク
+
+js-obs-cell-extent = 北緯 { $south }° から { $north }°、東経 { $west }° から { $east }°
+
+js-obs-cell-read = { $state }：{ $cell }。サンプル { $sampled }、影響 { $affected }。
+
+js-obs-cell-title = { $state }、サンプル { $sampled }、影響 { $affected }
+
+js-obs-cell-title-reason = { $state }（{ $reason }）、サンプル { $sampled }、影響 { $affected }
+
+js-obs-clear-note = { $notClear } エントリーのないセルは、5 機未満の異なる航空機でしか観測されなかったため非公開とし、描画しません。色だけを手がかりにすることはありません。未観測はハッチングで示し、表にはすべての状態を文字で記します。
+
+js-obs-col-affected = 影響を受けた航空機
+
+js-obs-col-bbox = バウンディングボックス（S、W、N、E）
+
+js-obs-col-bytes = バイト数
+
+js-obs-col-cause = 原因
+
+js-obs-col-cell = セル（緯度、経度）
+
+js-obs-col-cells = セル
+
+js-obs-col-check = 検査
+
+js-obs-col-file = ファイル
+
+js-obs-col-incident = インシデント
+
+js-obs-col-sampled = サンプルした航空機
+
+js-obs-col-sha = SHA-256（マニフェスト）
+
+js-obs-col-share = 影響を受けた割合
+
+js-obs-col-state = 状態
+
+js-obs-col-why = 未観測の理由
+
+js-obs-day-alt = { $date } に、劣化 { $degraded } セル、劣化なし { $notDegraded } セル、未観測 { $notObserved } セル。
+
+js-obs-day-heading = 日付 { $date }（UTC）
+
+js-obs-ds-attribution = 帰属表示
+
+js-obs-ds-coverage = 対象範囲
+
+js-obs-ds-dataset = データセット
+
+js-obs-ds-licence = ライセンス
+
+js-obs-ds-licence-address = ライセンスのアドレス
+
+js-obs-ds-product = プロダクト
+
+js-obs-ds-written-by = Kshana が書き出し
+
+js-obs-err-cause = { $name } は「not attributed」以外の原因を記載しています。このページでは表示しません
+
+js-obs-err-feature-polygon = { $name }：フィーチャー { $n } はセルのポリゴンではありません
+
+js-obs-err-feature-state = { $name }：フィーチャー { $n } の状態は「{ $state }」で、{ $states } のいずれでもありません
+
+js-obs-err-incident-object = { $name }：インシデント { $n } はオブジェクトではありません
+
+js-obs-err-no-date = { $name } に日付の記載がありません
+
+js-obs-err-no-features = { $name } にフィーチャーがありません
+
+js-obs-err-no-incidents = { $name } にインシデント一覧がありません
+
+js-obs-err-not-day = { $name } は { $schema } ファイルではありません
+
+js-obs-err-not-incident = { $name } は { $schema } ファイルではありません
+
+js-obs-err-not-json = { $what } は JSON ではありません（{ $reason }）
+
+js-obs-err-not-manifest = { $name } は { $schema } ファイルではありません
+
+js-obs-err-not-object = { $what } は JSON オブジェクトではありません
+
+js-obs-err-not-text = { $what } はテキストでないか、{ $mib } MiB を超えています
+
+js-obs-err-states = { $name } に、このページが表示する 3 つ以外の状態が記載されています
+
+js-obs-file-matches = 一致
+
+js-obs-file-mismatch = 不一致
+
+js-obs-file-no-hash = ハッシュの記載なし
+
+js-obs-file-not-opened = 未オープン
+
+js-obs-files-note = 手法 { $method }。各ファイルの SHA-256 は、開いたファイルからここで計算し、マニフェストと照合します。開いていないファイルは検査されません。
+
+js-obs-incident = インシデント
+
+js-obs-incident-note = 劣化したセルが（斜めも含めて）接していれば、1 つのインシデントとします。すべてのインシデントの原因は「原因の特定なし」です。これは確認ではなく、NOTAM でもありません。
+
+js-obs-kv-cells = 公開したセル
+
+js-obs-kv-day-wide = 日全体の影響
+
+js-obs-kv-degraded = 劣化
+
+js-obs-kv-not-degraded = 劣化なし
+
+js-obs-kv-not-observed = 未観測（公開）
+
+js-obs-kv-scope = 範囲
+
+js-obs-map-aria = { $summary } 下の表に、すべてのセルを一覧にしています。
+
+js-obs-means-degraded = そのセルでサンプルした航空機のうち、その日、低い航法精度を報告した割合が高く、その日のバックグラウンドを明らかに上回っています。
+
+js-obs-means-not-degraded = 十分な数の航空機をサンプルしましたが、その割合は規則に該当しませんでした。
+
+js-obs-means-not-observed = データからは判定できませんでした。「問題なし」という意味ではありません。
+
+js-obs-na = n/a
+
+js-obs-no = いいえ
+
+js-obs-no-cells = このファイルにセルはありません
+
+js-obs-no-day-file = { $date } のファイルに日ファイル（.geojson）がないため、表示するものがありません。
+
+js-obs-no-degraded = この日、劣化したセルはありません。
+
+js-obs-no-file-read = 読み込めたファイルはありません。
+
+js-obs-no-incident-file = この日のインシデントファイルは開かれていません。
+
+js-obs-no-manifest = この日のマニフェストは開かれていないため、ファイルをハッシュと照合できません。
+
+js-obs-no-notice = このファイルには注意書きがありません。このページ上部の助言の文言は、それでも同じように当てはまります。
+
+js-obs-no-reason = 理由の記載なし
+
+js-obs-not-clear = 未観測は、問題なしを意味しません。
+
+js-obs-not-readable = { $name }：このページが読み込めるファイルではありません（.geojson、.incidents.json、.manifest.json、.png）。
+
+js-obs-not-stated = 記載なし
+
+js-obs-note-day-wide = この日は日全体の影響がある日でした。その日のバックグラウンド自体が高く、どのセルも判定できませんでした。これは空がきれいだったという意味ではありません。
+
+js-obs-note-summary-mismatch = ファイルに記載された要約が、一覧にあるセルと一致しません。数値は記載どおりに表示しています。
+
+js-obs-nothing-yet = まだ表示するものがありません。その日の .geojson ファイルも開いてください。
+
+js-obs-notice = ファイルに付された注意書き：{ $notice }
+
+js-obs-opened-day-file = { $files } 個のファイルから { $days } 日分を開きました。読み込みはここで行い、何もアップロードしていません。
+
+js-obs-opened-day-files = { $files } 個のファイルから { $days } 日分を開きました。読み込みはここで行い、何もアップロードしていません。
+
+js-obs-opened-days-file = { $files } 個のファイルから { $days } 日分を開きました。読み込みはここで行い、何もアップロードしていません。
+
+js-obs-opened-days-files = { $files } 個のファイルから { $days } 日分を開きました。読み込みはここで行い、何もアップロードしていません。
+
+js-obs-read-failed = { $name }：読み込めませんでした（{ $reason }）。
+
+js-obs-reason-day-wide = その日のバックグラウンド自体が高く、どのセルも判定できませんでした
+
+js-obs-reason-insufficient = サンプルした航空機が少なすぎて、判定できませんでした
+
+js-obs-reason-no-background = セルと比較するための、その日のバックグラウンドがありませんでした
+
+js-obs-release = { $when } より前には公開しません。プロダクトは、日が終わってから少なくとも { $hours } 時間後に、{ $deg } 度のセルで公開されます。ライブビューではありません。
+
+js-obs-release-default = 日の終わりに遅延を加えた時刻
+
+js-obs-show-all = { $n } 個のセルをすべて表示
+
+js-obs-state-degraded = 劣化
+
+js-obs-state-not-degraded = 劣化なし
+
+js-obs-state-not-observed = 未観測
+
+js-obs-the-day-file = 日ファイル
+
+js-obs-the-incident-file = インシデントファイル
+
+js-obs-the-manifest = マニフェスト
+
+js-obs-too-large = { $name }：{ $mib } MiB を超えています。より小さいファイルを開いてください。
+
+js-obs-unstated-number = 数の記載のない
+
+js-obs-withheld = 非公開
+
+js-obs-yes-no-call = はい：判定できたセルはありません
+
+js-opt-avail-label = サイトごとの可用性、上限、晴天時の可用性
+
+js-opt-avail-note = サイトごとに、雲と乱流によるフェージングに対するリンクの可用性、追加のマージンでは引き上げられない上限（雲とポインティング）、雲がまったくない場合の可用性を示します。
+
+js-opt-avail-title = 上限に対する可用性
+
+js-opt-bar-available = { $name }：可用
+
+js-opt-bar-ceiling = { $name }：上限
+
+js-opt-bar-clear-sky = { $name }：晴天
+
+js-opt-blurb-network = 雲の多い北部、中間の中部、晴れの多い南部の各サイトが、仰角 30 度の LEO 光端末を見ます。リンクはどのくらいの頻度で成立し、サイトを増やすと何が得られるでしょうか。
+
+js-opt-blurb-techniques = 雲と乱流の中の仰角 25 度の 1 本のアップリンクで、別の波長、大きな開口、補償光学、またはマージンの追加によって、何が得られるでしょうか。
+
+js-opt-cloud-episode = 雲のエピソード
+
+js-opt-correlated = 相関あり
+
+js-opt-default-bars = 棒
+
+js-opt-default-chart = グラフ
+
+js-opt-direction-wave = { $direction }、{ $wave } 波
+
+js-opt-diversity-label = サイト数に対するネットワークの可用性
+
+js-opt-diversity-note = 最良の 1、2、3 サイトの可用性。天候が独立の場合と、{ $km } km にわたって天候が相関する場合を示します。
+
+js-opt-diversity-title = サイトダイバーシティ
+
+js-opt-fact-capture-loss = 幾何学的な捕捉損失
+
+js-opt-fact-direction = 方向
+
+js-opt-fact-elevation = 仰角
+
+js-opt-fact-footprint = ビームのフットプリント
+
+js-opt-fact-margin = 大気なしのマージン
+
+js-opt-fact-received = 受信電力（大気なし）
+
+js-opt-fact-sensitivity = 受信機の感度
+
+js-opt-fact-wavelength = 波長
+
+js-opt-gain-points = +{ $n } ポイント
+
+js-opt-hours = 時間
+
+js-opt-independent = 独立
+
+js-opt-link-down = リンク断
+
+js-opt-margin-label = 各可用性目標に必要な追加マージン
+
+js-opt-margin-line-title = { $name }：リンクマージン、dB
+
+js-opt-margin-note = 現在のリンクに上乗せする追加のリンクマージンを dB で、可用性目標ごとに示します。負の値は、リンクが必要以上の余裕をすでに持っていることを意味します。サイトの上限を超える目標には、それに達するマージンがありません（エンジンは省いています）。
+
+js-opt-margin-title = 各可用性目標に必要なマージン
+
+js-opt-model-output = モデル出力
+
+js-opt-na = n/a
+
+js-opt-no-data = この結果にデータがありません。
+
+js-opt-no-series = この結果に時系列がありません。
+
+js-opt-no-source = 出典の記載なし
+
+js-opt-not-result = これはサイトを含む光大気の結果ではありません
+
+js-opt-open-failed = { $title } を開けませんでした：{ $reason }。
+
+js-opt-opening = { $title } を開いています…
+
+js-opt-outage-label = 途絶が一定の長さより長く続く確率
+
+js-opt-outage-note = 途絶が一定の長さより長く続く確率を、サイトごとに示します（時間軸は対数）。
+
+js-opt-outage-title = 途絶の継続時間
+
+js-opt-point-title = { $name }：{ $xLabel } { $x }、{ $yLabel } { $y }
+
+js-opt-prov = { $label } サイト：{ $sites }。
+
+js-opt-realised-up = { $value } 稼働
+
+js-opt-recorded = { $title }：エンジンの記録済みの結果（バージョン { $version }）。モデル出力であり、測定値ではありません。
+
+js-opt-result-not-json = 結果は JSON ではありません（{ $reason }）
+
+js-opt-result-not-loaded = 記録済みの結果を読み込めませんでした
+
+js-opt-series-label = 時間に対するリンクマージン
+
+js-opt-series-note = 定められたサイトモデルの、シード固定による 1 回の実現（シード { $seed }、{ $hours } h、{ $step } s 刻み）です。雲のエピソード、それぞれに対する液水カラム、ステップごとに 1 つのシンチレーションサンプルを含みます。マージンはフェードバジェットから雲とシンチレーションのフェードを引いたもので、0 dB を下回るとリンクは断となります。これは 1 回の試行であり、気候そのものではありません。その可用性は、定められた値と、試行の標本誤差の分だけ異なります。マージンは描画のため −40 dB で切り詰めています。
+
+js-opt-series-title = 時間に対するリンクマージン
+
+js-opt-stated = 定められた値 { $value }
+
+js-opt-stripe-cloud = 雲
+
+js-opt-stripe-down = 断
+
+js-opt-stripe-title = { $what }、{ $from } 時間から { $to } 時間
+
+js-opt-techniques-label = 手法ごとの可用性の向上
+
+js-opt-techniques-note = 1 サイトについて、ベースラインに対する可用性の向上をパーセントポイントで示します。
+
+js-opt-techniques-title = 各手法で得られるもの
+
+js-opt-th-availability = 可用性
+
+js-opt-th-ceiling = 上限
+
+js-opt-th-clear-air = 晴天時の損失
+
+js-opt-th-cloud-prob = 雲の確率（入力）
+
+js-opt-th-fade-budget = フェードバジェット
+
+js-opt-th-latlon = 緯度、経度
+
+js-opt-th-mean-outage = 平均途絶時間
+
+js-opt-th-outages-year = 年間の途絶回数
+
+js-opt-th-scint = シンチレーション指数
+
+js-opt-th-site = サイト
+
+js-opt-timing-label = サイトとクロックごとのタイミングの可用性
+
+js-opt-timing-note = タイミング誤差がしきい値内にとどまる時間の全体に対する割合を、サイトとクロッククラスごとに示します。途絶の継続時間に対するクロックのホールドオーバーです。
+
+js-opt-timing-title = 途絶の間も保たれるタイミング
+
+js-opt-title-network = 3 か所の地上サイト、サイトダイバーシティ
+
+js-opt-title-techniques = 1 本のアップリンク、改善手法
+
+js-opt-x-best-n = 最良の n サイト
+
+js-opt-x-outage-duration = 途絶の継続時間、h（対数）
+
+js-opt-x-target = 可用性目標、%
+
+js-opt-y-availability = 可用性、%
+
+js-opt-y-extra-margin = 追加マージン、dB
+
+js-opt-y-p-longer = P(より長い)
+
+js-replay-band-calibrating = キャリブレーション中
+
+js-replay-band-degraded = 劣化
+
+js-replay-band-nominal = 正常
+
+js-replay-band-run-ended = { $band } · 実行終了
+
+js-replay-band-untrusted = 信頼できない
+
+js-replay-clock = T+{ $t } / { $max }
+
+js-replay-coast-hidden = 海岸線を非表示：このログの架空の位置が陸上に落ちるため
+
+js-replay-coast-note = 海岸線：{ $source }、例示のみ。
+
+js-replay-coast-note-hidden = { $reason }。
+
+js-replay-coast-window = Natural Earth 1:10M、{ $window } ウィンドウ
+
+js-replay-coast-world = Natural Earth 1:110M（Studio の世界地図の輪郭）、粗い
+
+js-replay-demo-trust-log = { $title }（信頼ログ）
+
+js-replay-dir-east = 東
+
+js-replay-dir-north = 北
+
+js-replay-dir-south = 南
+
+js-replay-dir-west = 西
+
+js-replay-dirs-and = { $list }と{ $last }
+
+js-replay-drawing-animation = アニメーションを描画しています…
+
+js-replay-drawing-frames = フレームを描画しています…
+
+js-replay-every-direction = あらゆる方向
+
+js-replay-file-error = { $name }：{ $error }
+
+js-replay-kinds-convergence-horizontal = 収束：水平誤差の中央値
+
+js-replay-kinds-convergence-vertical = 収束：垂直誤差の中央値
+
+js-replay-kv-course = 報告された針路
+
+js-replay-kv-heading = 船首方位（ジャイロ）
+
+js-replay-kv-position-error = 位置誤差
+
+js-replay-kv-receiver = 受信機
+
+js-replay-kv-run-time = 実行時間
+
+js-replay-kv-satellites = 使用衛星 / 可視衛星
+
+js-replay-kv-sky = 空
+
+js-replay-legend = 凡例
+
+js-replay-legend-no-fix = 測位不能
+
+js-replay-legend-true-track = 真の航跡
+
+js-replay-moment = T+{ $t } の時点：
+
+js-replay-no-coast = 海岸線は描画していません。この範囲に同梱されたものがありません。
+
+js-replay-no-gsv = このログに GSV はありません
+
+js-replay-not-json = { $name }：JSON ではありません。
+
+js-replay-not-scored = 採点なし
+
+js-replay-obs-not-attributed = 原因の特定なし
+
+js-replay-open-failed = { $id } を開けませんでした：{ $reason }。
+
+js-replay-open-file = ファイルを開く…
+
+js-replay-opened = { $name } をパネル { $n } で開きました。読み込みはここで行い、何もアップロードしていません。
+
+js-replay-opening = { $id } を開いています…
+
+js-replay-pause = 一時停止
+
+js-replay-play = 再生
+
+js-replay-read-failed = { $name }：読み込みまたは描画ができませんでした（{ $reason }）。
+
+js-replay-reading = { $name } を読み込んでいます…
+
+js-replay-reduced-motion = 動きの軽減が設定されているため、リプレイは 1x で始まり、自動では再生されません。
+
+js-replay-run = 実行
+
+js-replay-run-shown = パネル { $n } に表示している実行
+
+js-replay-saved-svg = { $name }（{ $size } kB）を保存しました。すべてのフレームを 1 つのファイルにまとめ、このページと同じ行から描画しています。
+
+js-replay-saved-zip = { $name }（{ $size } MB）を保存しました。フレームごとに 1 つの SVG、各フレームの元になった行のマニフェスト、README を含みます。
+
+js-replay-src-instructor = お使いのファイル { $name }：教官ログだけでは、エンジンのスコアも空も得られません。
+
+js-replay-src-trust = お使いのファイル { $name }：信頼性の結果には空も船首方位も含まれないため、描画しません。
+
+js-replay-status-ready = { $a }と{ $b }：合成データの実行で、エンジンが採点しています。再生を押すか、クロックを動かしてください。
+
+js-replay-status-synthetic = { $titles }：合成データの実行で、エンジンが採点しています。
+
+js-replay-status-synthetic-no-coast = { $titles }：合成データの実行で、エンジンが採点しています。海岸線は利用できません。
+
+js-replay-strip-label = 実行中の信頼スコア
+
+js-replay-titles-and = { $a }と{ $b }
+
+js-replay-too-large = { $name } は、このページが読み込める大きさを超えています。
+
+js-replay-track = ログ { $n } 行の航跡、上が北。
+
+js-replay-track-widened = ログ { $n } 行の航跡、上が北。最も近い海岸線が入るよう範囲を広げています。
+
+js-replay-verdict = 判定
+
+js-replay-verdict-degraded = { $dur } が劣化、信頼できない帯はなし
+
+js-replay-verdict-early = 判定（途中）
+
+js-replay-verdict-fine = ログとエンジンのスコアのみに基づきます。合成データ、助言であり、検出性能の数値ではありません。
+
+js-replay-verdict-first = T+{ $t } で初めて正常を下回る
+
+js-replay-verdict-first-after = T+{ $t } で初めて正常を下回る。最初のイベントの開始（T+{ $onset }）から { $dur } 後
+
+js-replay-verdict-first-before = T+{ $t } で初めて正常を下回る。最初のイベントの開始（T+{ $onset }）より前
+
+js-replay-verdict-lowest = 最低の信頼スコア { $score }（{ $band }）、T+{ $t }
+
+js-replay-verdict-never-left = スコアは正常帯から一度も外れませんでした
+
+js-replay-verdict-no-fix = { $dur } の間、測位不能
+
+js-replay-verdict-not-scored = 採点なし：エンジンの信頼スコアは、ライブラリの実行に対して表示します
+
+js-replay-verdict-peak-error = 記録された最大の位置誤差 { $err } m、T+{ $t }
+
+js-replay-verdict-untrusted = 信頼できない帯に { $dur }
+
+js-replay-verdict-wait = この実行が終わる T+{ $t } に表示します。
+
+js-ssv-altitude-label = 高度と使用した測定値
+
+js-ssv-at-least-1 = 信号 1 つ以上
+
+js-ssv-at-least-4 = 信号 4 つ以上
+
+js-ssv-avail-label = 可用性、{ $band }
+
+js-ssv-bar-title = { $label }、{ $name }：{ $value }{ $unit }
+
+js-ssv-blurb-heo = 遠地点が 58 600 km 付近の高度に楕円な軌道で、高利得の天底アンテナと天頂パッチアンテナ、パラメトリックなサイドローブモデルを用います。可視信号、最良の C/N0、メインローブ対サイドローブ、DOP（精度低下率）、大気をかすめる信号を扱います。
+
+js-ssv-blurb-lunar-weak = 最も弱い信号でも動作するよう作られた受信機を載せた、月遷移軌道。捕捉と追尾に何が必要か、軌道のどれだけを利用できるかを見ます。
+
+js-ssv-blurb-nav-lunar = 月遷移軌道上の搭載航法フィルター：その位置誤差を、フィルターが示す境界に対して、GNSS 衛星自身の軌道の内側と外側で見ます。
+
+js-ssv-blurb-shell = 静止高度の球殻をグリッドでサンプルします。そこにいる宇宙機は、L1 と L5 で、20 dB-Hz の信号を、コンステレーションごと、およびすべて合わせて、1 つ以上、4 つ以上聞くことがどれくらいの頻度であるでしょうか。
+
+js-ssv-cn0-altitude-label = 時間に対する最良の C/N0 と高度、{ $band }
+
+js-ssv-cn0-label = 最良の C/N0、{ $band }
+
+js-ssv-cn0-note = 可視信号のうち、各エポックで最も強いもの。エポック全体の最小から最大までを示し、平均に印を付けています。
+
+js-ssv-cn0-title = 最良の搬送波対雑音密度、{ $band }
+
+js-ssv-comparison-failed = 比較を表示できませんでした（{ $reason }）。
+
+js-ssv-comparison-not-loaded = 比較ファイルを読み込めませんでした
+
+js-ssv-default-bars = 棒
+
+js-ssv-default-chart = グラフ
+
+js-ssv-default-ranges = 範囲
+
+js-ssv-deputies-note = チーフの絶対 RMS { $rms } m、{ $epochs } エポックにわたります。
+
+js-ssv-deputies-title = 各デピュティ
+
+js-ssv-dop-note = 測位できたエポックにおける PDOP の中央値、95 パーセンタイル、最悪値。シナリオで大気を設定している場合は、大気をかすめる信号も示します。
+
+js-ssv-dop-title = DOP（精度低下率）と大気、{ $band }
+
+js-ssv-err-label = 定められた境界に対する位置誤差
+
+js-ssv-err-note = 破線はフィルターが示す 1 シグマの境界で、実線はシナリオが知っている真値に対するその誤差です。エンジンが間引いています。
+
+js-ssv-err-title = フィルター自身の境界に対する位置誤差
+
+js-ssv-fact-antenna = アンテナ
+
+js-ssv-fact-apogee = 遠地点高度
+
+js-ssv-fact-cn0-threshold = 搬送波対雑音密度のしきい値
+
+js-ssv-fact-duration = 継続時間
+
+js-ssv-fact-eccentricity = 離心率
+
+js-ssv-fact-grid-points = グリッド点
+
+js-ssv-fact-inclination = 軌道傾斜角
+
+js-ssv-fact-mode = モード
+
+js-ssv-fact-perigee = 近地点高度
+
+js-ssv-fact-period = 周期
+
+js-ssv-fact-shell-altitude = 球殻の高度
+
+js-ssv-fact-sma = 軌道長半径
+
+js-ssv-fact-step = ステップ
+
+js-ssv-filter = フィルター
+
+js-ssv-formation-note = フィルターによる相対位置誤差と、二つの絶対フィックスの差分による相対位置誤差の RMS を、実行全体と GNSS 軌道より上側について示します。
+
+js-ssv-formation-title = デピュティの相対位置
+
+js-ssv-from-absolute = 二つの絶対フィックスから
+
+js-ssv-group-combined = すべて合わせて
+
+js-ssv-icg-note = { $label }。エンジンのコミット済みの結果ファイル（エンジンのコミット { $commit }）の、合格基準ごとの判定です。冊子の表は公開されています。ここにある VALIDATED のものはありません。
+
+js-ssv-icg-wrong-file = ICG の比較ファイルは、このページが読むものではありません
+
+js-ssv-lobe-note = 利用可能なリンクのうち、メインローブを通ったものとサイドローブを通ったものの数を、エンジンが数えたとおりに示します。
+
+js-ssv-lobe-title = メインローブとサイドローブ、{ $band }
+
+js-ssv-na = n/a
+
+js-ssv-nav-note = 使用した測定値とゲートで除外した測定値、信号が 4 つ未満の最長の空白期間、最終誤差、シナリオが知っている真値に対する太陽放射圧の推定値。
+
+js-ssv-nav-title = 数値で見る実行
+
+js-ssv-never = 一度もない
+
+js-ssv-never-had-four = 4 つに一度も達しない
+
+js-ssv-never-had-one = 1 つも得られない
+
+js-ssv-no-range = この結果に範囲がありません。
+
+js-ssv-no-series = 結果に、このグラフ用の系列が含まれていません。
+
+js-ssv-not-in-variant = バリアントの対象外
+
+js-ssv-not-result = これは gnss-ssv の結果ではありません
+
+js-ssv-of = { $total } 件中 { $n } 件
+
+js-ssv-offset = オフセット { $deg }°
+
+js-ssv-open-failed = { $title } を開けませんでした：{ $reason }。
+
+js-ssv-opening = { $title } を開いています…
+
+js-ssv-outage-note = 単位は分、実行全体にわたります。「一度もない」は、球殻上のどこでも、その数の信号が一度も得られなかったグループを示します。
+
+js-ssv-outage-title = 球殻上の最長の途絶
+
+js-ssv-phases-note = 実行全体と、その二つの部分にわたる、フィルターの統計量です。位置 NEES の平均が 3 に近ければ、フィルターが示す境界はその誤差と整合しています。
+
+js-ssv-phases-title = フェーズごとの位置誤差
+
+js-ssv-point-title = { $name }：{ $xLabel } { $x }、{ $yLabel } { $y }
+
+js-ssv-range-title = { $label }：最小 { $min }、平均 { $mean }、最大 { $max } { $unit }
+
+js-ssv-range-value = { $min } から { $max }
+
+js-ssv-recorded = { $title }：エンジンの記録済みの結果（バージョン { $version }）。
+
+js-ssv-relative-label = 相対位置誤差
+
+js-ssv-result-not-json = 結果は JSON ではありません（{ $reason }）
+
+js-ssv-result-not-loaded = 記録済みの結果を読み込めませんでした
+
+js-ssv-row-acquires = 捕捉できる下限
+
+js-ssv-row-carrier = 搬送波追尾の下限
+
+js-ssv-row-code = コード追尾の下限
+
+js-ssv-row-coherent = コヒーレント積分
+
+js-ssv-row-delay-mean = 遅延、平均
+
+js-ssv-row-detection = 検出しきい値
+
+js-ssv-row-false-alarm = セルあたりの誤警報確率
+
+js-ssv-row-final-error = 最終位置誤差
+
+js-ssv-row-gap = 最長の空白期間
+
+js-ssv-row-gated = ゲートで除外した測定値
+
+js-ssv-row-grazing = 100 km 未満をかすめるもの
+
+js-ssv-row-limb-links = リム越しのリンク
+
+js-ssv-row-loss-mean = 損失、平均
+
+js-ssv-row-lost = 大気で失われたもの
+
+js-ssv-row-pdop-median = PDOP、中央値
+
+js-ssv-row-pdop-p95 = PDOP、95 パーセンタイル
+
+js-ssv-row-pdop-worst = PDOP、最悪値
+
+js-ssv-row-plasma-mean = プラズマ圏 TEC、平均
+
+js-ssv-row-search-cells = 探索セル
+
+js-ssv-row-search-time = 探索時間
+
+js-ssv-row-srp-est = 太陽放射圧、推定値
+
+js-ssv-row-srp-truth = 太陽放射圧、真値
+
+js-ssv-row-stec-mean = 斜め方向 TEC、平均
+
+js-ssv-row-tangent = 接線高度、最小から最大
+
+js-ssv-row-tracking = 使用した追尾しきい値
+
+js-ssv-row-used = 使用した測定値
+
+js-ssv-series-altitude = 高度/1000
+
+js-ssv-series-altitude-name = 高度
+
+js-ssv-series-best-cn0 = 最良の C/N0
+
+js-ssv-series-error = 誤差
+
+js-ssv-series-measurements = 測定値
+
+js-ssv-series-note = 全コンステレーションを合わせた数の、間引いた系列を 1 本示します。エンジンはコンステレーションごとの系列を書き出さないため、描画しません。
+
+js-ssv-series-signals = 可視信号
+
+js-ssv-series-signals-label = 時間に対する可視信号、{ $band }
+
+js-ssv-series-stated-bound = 示された境界
+
+js-ssv-series-title = 軌道に沿った信号と最良の C/N0、{ $band }
+
+js-ssv-shell-avail-note = グリッド点と時刻のうち、{ $cn0 } dB-Hz を超える信号が 1 つ以上、および 4 つ以上ある割合です。
+
+js-ssv-shell-avail-title = 球殻上の可用性、{ $band }
+
+js-ssv-tangent-value = { $min } から { $max } km
+
+js-ssv-th-above-absolute = GNSS より上側：絶対フィックスから、m
+
+js-ssv-th-above-filter = GNSS より上側：フィルター、m
+
+js-ssv-th-band-group = バンドとグループ
+
+js-ssv-th-bar = 合格基準
+
+js-ssv-th-baseline = 基線長、km
+
+js-ssv-th-common-4 = 共通信号が 4 つあるエポック
+
+js-ssv-th-common-mean = 共通信号の平均数
+
+js-ssv-th-compares = 比較の対象
+
+js-ssv-th-deputy = デピュティ
+
+js-ssv-th-epochs = エポック
+
+js-ssv-th-group = グループ
+
+js-ssv-th-main-lobe = メインローブのリンク
+
+js-ssv-th-nees = 位置 NEES の平均
+
+js-ssv-th-phase = フェーズ
+
+js-ssv-th-pos-p95 = 位置の 95 パーセンタイル、m
+
+js-ssv-th-pos-rms = 位置 RMS、m
+
+js-ssv-th-quantity = 量
+
+js-ssv-th-rel-absolute = 相対 RMS、絶対フィックスから、m
+
+js-ssv-th-rel-filter = 相対 RMS、フィルター、m
+
+js-ssv-th-rel-vel = 相対速度 RMS、m/s
+
+js-ssv-th-run1-cells = 実行 1：許容差内のセル
+
+js-ssv-th-run1-verdict = 実行 1 の判定
+
+js-ssv-th-sidelobe = サイドローブのリンク
+
+js-ssv-th-sidelobe-share = サイドローブの割合
+
+js-ssv-th-value = 値
+
+js-ssv-th-variant = バリアント（診断用、表 4.2 の GLONASS 基準角）
+
+js-ssv-th-vel-rms = 速度 RMS、m/s
+
+js-ssv-th-with-4 = 信号が 4 つ以上ある場合
+
+js-ssv-th-without-1 = 信号が 1 つもない最長期間
+
+js-ssv-th-without-4 = 信号が 4 つに満たない最長期間
+
+js-ssv-title-formation-heo = フォーメーション、高度に楕円な軌道
+
+js-ssv-title-heo = 高度に楕円な軌道
+
+js-ssv-title-lunar-weak = 月遷移軌道、微弱信号受信機
+
+js-ssv-title-nav-lunar = 搭載フィルター、月遷移軌道
+
+js-ssv-title-shell = 36 000 km の球殻
+
+js-ssv-traj-avail-note = エポックのうち、{ $cn0 } dB-Hz を超える信号が 1 つ以上、および 4 つ以上ある割合です。
+
+js-ssv-traj-avail-title = 軌道に沿った可用性、{ $band }
+
+js-ssv-transmit-pattern = 送信パターン：{ $pattern }
+
+js-ssv-unit-signals = 信号
+
+js-ssv-unknown-mode = この gnss-ssv の結果のモードは「{ $mode }」で、このページは読み取れません
+
+js-ssv-variant-met = { $total } 件中 { $n } 件、達成となります
+
+js-ssv-variant-not-met = { $total } 件中 { $n } 件、未達成のままです
+
+js-ssv-view-note = エポック全体にわたる可視数の最小から最大までを示し、平均に印を付けています。
+
+js-ssv-view-title = 可視信号、{ $band }
+
+js-ssv-weak-note = 受信機設計に必要なもの。エンジンが、定められた積分から計算したものです。
+
+js-ssv-weak-title = 微弱信号受信機
+
+js-ssv-x-minutes = 分
+
+js-ssv-y-altitude-measurements = 高度（千 km）、使用した測定値
+
+js-ssv-y-cn0-altitude = dB-Hz、高度（千 km）
+
+js-ssv-y-position-log = 位置、メートル（対数）
+
+js-ssv-y-signals-all = 可視信号、全コンステレーション
+
+js-t35data-ai-q-bench-export = 実験室用シミュレーターのために、シナリオの動きとイベントをエクスポートする
+
+js-t35data-ai-q-compliance-rows = これらの実行が証拠を裏付ける（supports evidence for）公開フレームワークの行はどれですか。
+
+js-t35data-ai-q-evidence-pack = 信頼イベントのエビデンスパックを検証または作成する
+
+js-t35data-ai-q-interference-route = GNSS が劣化して見えたのはどこで、このルートのどれだけがその中にありますか。
+
+js-t35data-ai-q-iq-recordings = GNSS IQ 録音（シーン、捕捉、追尾、フロントエンド、キャンペーン）
+
+js-t35data-ai-q-osnma-satellites = この受信機のストリームは、どの Galileo 衛星の航法データを認証しますか（OSNMA）。
+
+js-t35data-ai-q-run-scenario = PNT シナリオ（軌道、GNSS、タイミング、融合、月）を実行または説明する
+
+js-t35data-ai-q-training-nmea = 訓練用に、ジャミング、ドラッグオフ、時刻スプーフィング、リプレイのイベントを含む合成 NMEA が必要です
+
+js-t35data-ai-q-trustworthy-log = この受信機ログ、またはこの船舶の NMEA は信頼できましたか。また、いつ信頼できなくなりましたか。
+
+js-t35data-ai-tool-osnma-satellites = MCP にはありません。osnma_verify（ここの OSNMA カード、WebAssembly）、kshana osnma verify（CLI）、または kshana.osnma_verify（Python）を使ってください
+
+js-t35data-card-evidence-create-title = エビデンスパックを作成する
+
+js-t35data-card-evidence-create-what = 受信機ログの一区間と、エンジンがそこから計算したものに署名し、その後に何も変更されていないことを誰でも確認できるようにします。Studio はパックを検証します。
+
+js-t35data-card-evidence-create-why = 署名には秘密鍵が必要であり、秘密鍵はウェブページを通すべきではありません。
+
+js-t35data-card-iq-title = GNSS IQ モニターとツール
+
+js-t35data-card-iq-what = シーンの構築、信号の捕捉と追尾、パラメーターの掃引、フロントエンドのモデル化、IQ モニターとキャンペーンの実行、実験室ログのフィットを行います。Python からも、1 つの作業フォルダー内なら AI アシスタントのツールからも利用できます。
+
+js-t35data-card-iq-why = 録音はギガバイト単位のサンプルです。ページには収まらず、変換、抽出、間引きを行うコマンドは、ディスク上の録音を書き換えます。
+
+js-t35data-card-land-title = 陸上 AIS 検出器のための陸地ポリゴンのダウンロード
+
+js-t35data-card-land-what = 固定された陸地ファイルを 1 つ（Natural Earth、パブリックドメイン）取得し、その SHA-256 を検査します。マップビルダーは、陸地ファイルをテキストとして受け取ります。
+
+js-t35data-card-land-why = ネットワーク接続を開く唯一のコマンドであり、システムの curl と明示的なフラグが必要です。
+
+js-t35data-card-marine-title = 海事向けの連携
+
+js-t35data-card-marine-what = Signal K サーバープラグインと、TCP 上のゲートモード NMEA を介した OpenCPN により、船舶利用者がすでに使っているソフトウェアに信頼スコアを載せます。リファレンスビルドでは、受信機の隣の小型コンピューターに載せます。
+
+js-ssv-blurb-formation-heo = 高度に楕円な軌道で一キロメートル離れたチーフとデピュティ：フィルターは相対位置をどれだけ正確に把握できるか。二つの絶対フィックスから得られるものと比べます。
+
+js-t35data-card-marine-why = これらは、稼働中のライブプロセスとその TCP ゲートを利用するもので、船のコンピューター上への展開です。
+
+js-t35data-card-telemetry-title = セキュリティテレメトリとしての信頼性
+
+js-t35data-card-telemetry-what = 信頼ストリーム（スコア、バンド、理由）を、Prometheus メトリクス、SIEM 向けの CEF または LEEF 形式の syslog イベント、OpenTelemetry に変換します。ストリームを読むだけで、評価を変更することはありません。
+
+js-t35data-card-telemetry-why = メトリクスを提供し、お使いの監視システムに送信するプロセスであるため、ページ内ではなく、受信機の隣で動かします。
+
+js-t35data-card-training-stream-title = TCP または UDP アドレスへの訓練ストリーム
+
+js-t35data-card-training-stream-what = 生成した訓練ストリームを、ブリッジシミュレーターやチャートプロッターへ、リアルタイムまたはそれより速く送信します。Studio の訓練ページは同じテキストを生成し、ダウンロードもできます。
+
+js-t35data-card-training-stream-why = ネットワークアドレスへの送信は、ブラウザーのページにはできません。ストリームはテキストのみで、船舶のライブ航法システム向けのものでは決してありません。
+
+js-t35data-feat-ai-ai = MCP サーバーのインストール方法と、各ツールが答える質問
+
+js-t35data-feat-ai-name = AI アシスタントから使う（MCP サーバー）
+
+js-t35data-feat-bench-bench = シナリオの動き、NMEA、ウェイポイント、イベントをここでエクスポートする
+
+js-t35data-feat-bench-name = 実験室用シミュレーターのための test-bench エクスポート
+
+js-t35data-feat-compliance-compliance = 実行結果が証拠を裏付ける（supports evidence for）フレームワークの行と、マッピング表をここで確認する
+
+js-t35data-feat-compliance-name = 公開されたレジリエンスフレームワークへの compliance マッピング
+
+js-t35data-feat-evidence-evidence = パックを検証し、タイムスタンプトークンを付与する（ここで）
+
+js-t35data-feat-evidence-name = 署名付きエビデンスパック
+
+js-t35data-feat-evidence-why = パックの作成には秘密の署名鍵が必要で、鍵はウェブページを通すべきではありません。パックは、コマンドライン、Python、または AI アシスタントのツールで作成します。
+
+js-t35data-feat-interference-map-interference = マップファイルを開くか、CSV からここでマップを作成し、それに対してルートを検査する
+
+js-t35data-feat-interference-map-name = 干渉マップ（ADS-B と AIS）とルートの曝露
+
+js-t35data-feat-iq-name = GNSS IQ モニターとツール（シーン、捕捉、追尾、掃引、フロントエンド、モニター、キャンペーン）
+
+js-t35data-feat-iq-why = 録音はギガバイト単位のサンプルでページには収まらず、ディスク上の録音を書き換えるコマンドもあります。ブラウザー版には IQ 機能がありません。
+
+js-t35data-feat-jammertest-jammertest = ログの時間範囲に合わせて計画をインポートするか、受信機ログ（UBX、RINEX、Android、NMEA、Septentrio SBF）をテストごとに採点する：検出遅延、見逃し、誤警報、回復までの時間。MODELLED
+
+js-t35data-feat-jammertest-name = 審判としての Jammertest：公表されたテスト計画をスケジュール上の真値とし、それに対して受信機ログを採点する（0.38）
+
+js-t35data-feat-live-gate-name = ライブ信頼ストリーム、ゲート、リスナー（stdin、ファイル、TCP、UDP、--gate、--listen）
+
+js-t35data-feat-live-gate-why = データ経路の中で動くプロセスです。ページは処理が終われば戻るため、チャートプロッターのためにソケットを開いたままにすることも、ライブストリーム内の測位を無効と印付けすることもできません。Studio は代わりに、同じライブ形式で限られた抜粋を、ゲートなしで採点します。
+
+js-t35data-feat-machines-imufit = 静止した IMU ログから、ハイブリッドおよび融合シナリオの加速度計とジャイロのパラメーターをフィットする。MODELLED
+
+js-t35data-feat-machines-name = 受信機とセンサーの入力：RTKLIB .pos、NovAtel OEM7、RTCM 3 MSM、GNSS-SDR、船首方位のための IMU、ハイブリッドおよび融合シナリオのための IMU フィット（0.38）
+
+js-t35data-feat-machines-trust = これらのいずれかの形式のログ（と任意の IMU ファイル）を、汎用の receiver-trust 実行で開く。NovAtel 自身のジャマーフラグを、Kshana のアラームと比較する
+
+js-t35data-feat-marine-name = 海事向けの連携：Signal K プラグインと OpenCPN
+
+js-t35data-feat-marine-why = 稼働中のライブプロセスとその TCP ゲートを利用するため、船のコンピューター上への展開であり、ページが実行できるものではありません。
+
+js-t35data-feat-maritime-trust-name = 航行中の船舶の海事信頼スコア（0 から 100、理由付き）
+
+js-t35data-feat-maritime-trust-trust = 結果またはライブの JSON-lines 実行を開き、航跡、スコア、理由、ゲートを確認する。NMEA ログをここで採点する
+
+js-t35data-feat-nmea-training-name = 教官ログ付きの NMEA 訓練ストリーム
+
+js-t35data-feat-nmea-training-training = ストリームとその教官ログをここで生成し、ダウンロードして、トレーナーのデブリーフを実行する
+
+js-t35data-feat-osnma-name = Galileo OSNMA の検証（UBX SFRBX 入力）
+
+js-t35data-feat-osnma-osnma = 記録済みのファイルを読み込み、衛星ごと、タグごとの認証ステータスを確認する
+
+js-t35data-feat-telemetry-name = テレメトリのエクスポート：Prometheus メトリクス、syslog の CEF と LEEF、OpenTelemetry
+
+js-t35data-feat-telemetry-why = 稼働中のストリームから、メトリクスを提供し、syslog を送信し、OpenTelemetry をエクスポートします。監視システムと通信するプロセスであり、ページにはできません。
+
+js-t35data-feat-training-stream-name = TCP または UDP アドレスへの訓練ストリームの送信
+
+js-t35data-feat-training-stream-why = ネットワークアドレスへ送信しますが、ウェブページにはできません。Studio がテキストを生成し、ダウンロードできます。
+
+js-t35data-page-ai = AI アシスタントから使う
+
+js-t35data-page-bench = test-bench エクスポート
+
+js-t35data-page-cli = コマンドラインの機能
+
+js-t35data-page-compliance = compliance マッピング
+
+js-t35data-page-evidence = エビデンスパック
+
+js-t35data-page-geometry = ジオメトリ：スカイプロット、スカイライン、DOP
+
+js-t35data-page-imufit = IMU フィット
+
+js-t35data-page-interference = 干渉マップ
+
+js-t35data-page-jammertest = Jammertest の採点
+
+js-t35data-page-osnma = OSNMA の検証
+
+js-t35data-page-training = 訓練デブリーフ
+
+js-t35data-page-trust = 海事信頼性
+
+js-t35data-sample-iq-help = IQ コマンド一覧
+
+js-t35data-sample-telemetry-cef = デモ実行の CEF 形式 syslog
+
+js-t35data-sample-telemetry-leef = デモ実行の LEEF 形式 syslog
+
+js-t35data-sample-telemetry-metrics = デモ実行の Prometheus メトリクス
+
+js-tools-ai-group-engine = エンジンとそのライブラリをインストールする
+
+js-tools-ai-group-integrations = 海事、プラグイン、ダッシュボードの連携
+
+js-tools-ai-group-mcp = お使いのアシスタント向けに MCP サーバーをインストールする
+
+js-tools-ai-heading = AI アシスタントから Kshana を使う
+
+js-tools-ai-install-mcp = MCP サーバーをインストール
+
+js-tools-ai-intro = Kshana MCP サーバーを使うと、AI アシスタントは数値を推測する代わりにエンジンを実行します。サーバーはお使いのコンピューターで動作し、Kshana には何も送信されません。お使いのツールに合う方法を選んでください。
+
+js-tools-ai-load-failed = インストール方法を読み込めませんでした（{ $reason }）。MCP サーバーのドキュメントを参照してください。
+
+js-tools-ai-mcp-docs = MCP サーバーのドキュメント
+
+js-tools-ai-more-ways = その他のインストール方法
+
+js-tools-ai-none-listed = このビルドには、インストール方法が掲載されていません。
+
+js-tools-ai-other-ways = Kshana のその他のインストール方法
+
+js-tools-ai-read-agent-guide = エージェントガイドを読む
+
+js-tools-ai-rule = すべての回答に共通のルール：アシスタントはエンジンを実行し、ツールが返した内容を、その単位とエビデンスのティア（外部のオラクルと照合して確認済み、またはモデル計算）、シナリオ、シード、エンジンのバージョンとともに報告します。これにより、実行を繰り返せます。結果自身の注意事項は、その結果に付いたままにします。MCP サーバーは、オプトインした 1 つのフォルダーの外では、ファイルを読み書きしません。
+
+js-tools-ai-what-to-ask = 何を尋ねるか、どのツールが答えるか
+
+js-tools-ai-where-reachable = 各機能をどこから利用できるか
+
+js-tools-bench-files-written =
+    { $n ->
+       *[other] ブラウザーのメモリに { $n } 個のファイルを書き込みました
+    }
+
+js-tools-bench-note = 動きと、ラベル付きのイベント区間のみです。ダウンロードして、実験室用シミュレーターに読み込んでください。
+
+js-tools-bench-wrong-kind = { $name } は { $kind } シナリオです。車両の軌道があるのは { $kinds } の種類です。それ以外の種類には、ない理由が示されます。
+
+js-tools-building-report = レポートを作成しています…
+
+js-tools-choose-catalogue-first = 先にカタログの JSON を選んでください。
+
+js-tools-choose-file-first = 先にファイルを選んでください。
+
+js-tools-choose-imu-log = 先に静止した IMU ログを選んでください。
+
+js-tools-choose-pack-first = 先にパックのファイルを選んでください。
+
+js-tools-choose-pack-first-above = 先にパックのファイルを選んでください（上）。
+
+js-tools-choose-plan-file = 計画ファイルを 1 つ以上選んでください。
+
+js-tools-choose-receiver-log = 先に受信機ログを選んでください。
+
+js-tools-choose-result-first = 先に結果ファイル（*.result.json）を 1 つ以上選んでください。
+
+js-tools-choose-scenario-first = 先にシナリオを選んでください。
+
+js-tools-choose-tsr-first = 先にタイムスタンプ応答（.tsr）を選んでください。
+
+js-tools-chosen = 選択済み
+
+js-tools-col-check = 検査
+
+js-tools-col-detail = 詳細
+
+js-tools-col-first-monitors = 最初のモニター
+
+js-tools-col-gap-that-stays = 残る差
+
+js-tools-col-last-auth-tag = 最後に認証されたタグ（Galileo システム時刻）
+
+js-tools-col-latency = 遅延、s
+
+js-tools-col-name = 名前
+
+js-tools-col-outcome = 結果
+
+js-tools-col-question = 質問
+
+js-tools-col-recovered = 回復
+
+js-tools-col-reference = 参照
+
+js-tools-col-result = 結果
+
+js-tools-col-row = 行
+
+js-tools-col-satellite = 衛星
+
+js-tools-col-slot = スロット、s
+
+js-tools-col-status = ステータス
+
+js-tools-col-tags = タグ
+
+js-tools-col-test = テスト
+
+js-tools-col-these-runs = これらの実行
+
+js-tools-col-tool = ツール
+
+js-tools-col-what-is-missing = 不足しているもの
+
+js-tools-col-what-it-asks = 要求している内容
+
+js-tools-col-why-not-auth = 認証されない理由
+
+js-tools-copied = コピーしました
+
+js-tools-copy = コピー
+
+js-tools-copy-command-aria = コピー：{ $cmd }
+
+js-tools-copy-labelled-aria = { $label } をコピー：{ $text }
+
+js-tools-did-not-work = うまくいきませんでした
+
+js-tools-documentation = ドキュメント
+
+js-tools-download = ダウンロード
+
+js-tools-download-all-zip = すべてダウンロード（zip）
+
+js-tools-download-events-toml = イベントをダウンロード（TOML）
+
+js-tools-download-md = ダウンロード（Markdown）
+
+js-tools-download-report-json = レポートをダウンロード（JSON）
+
+js-tools-download-report-md = レポートをダウンロード（Markdown）
+
+js-tools-download-scorecard-json = スコアカードをダウンロード（JSON）
+
+js-tools-download-table-toml = 表をダウンロード（TOML）
+
+js-tools-download-updated-pack = 更新したパックをダウンロード（zip）
+
+js-tools-download-whole-report-json = レポート全体をダウンロード（JSON）
+
+js-tools-engine-lacks-error = このエンジンビルド（バージョン { $version }）には { $need } がないため、ここではまだ実行できません。記録済みの結果とコマンドラインは引き続き使えます。
+
+js-tools-engine-lacks-status = このエンジンビルド（バージョン { $version }）には { $need } がありません。このツールが必要とするバージョンより古いためです。コマンドラインでの同等の操作は、コマンドラインのタブにあります。
+
+js-tools-engine-running = エンジン（バージョン { $version }）をこのブラウザー内で実行しています。何もアップロードされません。
+
+js-tools-engine-starting = このブラウザー内でエンジンを起動しています…
+
+js-tools-engine-unavailable = ここではエンジンを起動できませんでした（{ $reason }）。ファイルを開くことはできますが、ツールの実行には WebAssembly が必要です。
+
+js-tools-epoch-format = YYYY-MM-DDTHH:MM:SS の形式で入力してください。末尾の Z（UTC）は省略できます。
+
+js-tools-epoch-not-real = 2000 年から 2099 年の間の、実在する UTC の時刻ではありません。
+
+js-tools-every-check = すべての検査
+
+js-tools-evidence-disclaimer = エビデンスパックは、定められたログから、定められた設定のもとでエンジンが計算した内容の技術的な記録です。法的な意見でも、いかなる出来事についての事実認定でも、認証でもありません。合格は、記録が変更されていないことを示すだけです。
+
+js-tools-example-pack = 合成データのサンプルパック
+
+js-tools-example-pack-note = デモ用のフェリーのログから、デモ用の鍵を使って、エンジンのコマンドラインで作成した合成データのパックです。鍵は下に入力済みです。実際の署名者の鍵は、署名者から別の経路で入手します。
+
+js-tools-example-pack-tampered = epochs.json の 1 バイトを変更したサンプルパック
+
+js-tools-example-runs = 合成データのサンプル実行
+
+js-tools-example-tampered-note = パック内のファイルの 1 バイトが、署名後に変更されています。検証してください。検査では、そのファイルが名指しされます。
+
+js-tools-exporting = エクスポートしています…
+
+js-tools-field-whole-number = { $field } は整数でなければなりません
+
+js-tools-file-not-chosen = { $file } は、選択されたファイルに含まれていません
+
+js-tools-file-too-large = { $name } は 64 MiB を超えています
+
+js-tools-files-selected = { $label }：{ $files }
+
+js-tools-fingerprint-not-pinned = 署名者のフィンガープリント：{ $fingerprint }（未固定：パック自身が名指ししている鍵）
+
+js-tools-fingerprint-pinned = 署名者のフィンガープリント：{ $fingerprint }（固定済み）
+
+js-tools-fitting = フィットしています…
+
+js-tools-framework-summary = { $name }：証拠あり { $evidenced }、一部 { $partly }、証拠なし { $notEvidenced }、対象外 { $outOfScope }
+
+js-tools-fw-dhs-rpcf = US DHS Resilient PNT Conformance Framework, v2.0
+
+js-tools-fw-easa-aviation = 航空向け GNSS 干渉に関する EASA ガイダンス
+
+js-tools-fw-en-16803 = EN 16803（パート番号と箇条番号のみ）
+
+js-tools-fw-imo-ships = 船舶向け GNSS 干渉に関する IMO ガイダンス
+
+js-tools-fw-nis2-art21 = EU NIS2 指令 第 21 条
+
+js-tools-gst-none = なし
+
+js-tools-gst-text = { $week } 週、{ $tow } s
+
+js-tools-how-to-run = 実行方法
+
+js-tools-imu-file-too-large = { $name } は 32 MiB を超えています。抜粋を開いてください。
+
+js-tools-imu-mean-not-number = 静止時の比力が数値ではありません（水平軸は 0、鉛直軸は約 9.80665）。
+
+js-tools-imu-notice = { $evidence }：推定器は、係数が既知の合成ホワイトノイズログで検査したものであり、外部のオラクルに照らしたものではありません。表には、ログの SHA-256（{ $sha }…）を記載しています。
+
+js-tools-imu-selected = { $name }（{ $size }）。ここで読み込み、アップロードはしません。
+
+js-tools-jt-events-count = スケジュール済みイベント { $n } 件
+
+js-tools-jt-events-note = スケジュール上の真値として：計画上のスロットであり、記録された放送時刻ではありません。RF ではないもの：{ $nonRf }、ログの範囲外：{ $outside }、不明な ID：{ $unknown }。
+
+js-tools-jt-guard-hold = ガード { $guard } s、回復ホールド { $hold } s。
+
+js-tools-jt-guard-hold-overlap = ガード { $guard } s、回復ホールド { $hold } s。キャリブレーションのベースラインが、スケジュールされたスロットと重なっていました。
+
+js-tools-jt-import-needs-start = 計画は現地時刻で書かれているため、インポートにはログの最初のエポックが UTC（ISO 8601）で必要です。
+
+js-tools-jt-sel-catalogue = カタログ { $name }
+
+js-tools-jt-sel-log = ログ { $name }（{ $size }）
+
+js-tools-jt-sel-no-catalogue = カタログなし
+
+js-tools-jt-sel-no-log = ログなし
+
+js-tools-jt-sel-no-plan = 計画なし
+
+js-tools-jt-sel-plans = 計画ファイル { $n } 個
+
+js-tools-jt-slot-range = { $from } から { $to }
+
+js-tools-jt-what-area = テスト区域
+
+js-tools-jt-what-guard = ガード
+
+js-tools-jt-what-hold = 回復ホールド
+
+js-tools-jt-what-offset = UTC からのオフセット
+
+js-tools-jt-what-year = 計画の年
+
+js-tools-label-command = コマンド
+
+js-tools-label-pinned-command = 固定したコマンド
+
+js-tools-label-settings-example = 設定例 { $n }
+
+js-tools-loading = 読み込み中…
+
+js-tools-max-runs = 実行は最大 { $max } 件です。
+
+js-tools-must-be-number = { $what } は数値でなければなりません
+
+js-tools-must-be-whole-zero = { $what } は整数でなければなりません。0 は「未指定」を表します
+
+js-tools-na = n/a
+
+js-tools-needs = 必要なもの：{ $requires }
+
+js-tools-no = いいえ
+
+js-tools-none = なし
+
+js-tools-none-in-build = このビルドにはありません
+
+js-tools-not-in-browser = ブラウザーでは利用できません。
+
+js-tools-not-osnma = OSNMA の結果ではありません
+
+js-tools-not-used = 使用していません：{ $item }
+
+js-tools-notes = 注記
+
+js-tools-open = 開く
+
+js-tools-osnma-advisory = 助言のみ：これは解析と監視の出力であり、型式承認を受けた航法装置ではありません。ここで報告される認証ステータスは航法のインテグリティサービスではなく、航法または安全に関するいかなる判断の唯一の根拠としても使用してはなりません。
+
+js-tools-osnma-authenticated = 認証済み
+
+js-tools-osnma-caption = 衛星ごとの認証ステータス
+
+js-tools-osnma-demo-note = 使い捨ての公開鍵が入力済みです。「検証」を押すとここで検証器を実行します。または、記録済みの結果を表示してください。
+
+js-tools-osnma-discarded = 破棄
+
+js-tools-osnma-events = 検証器が見たもの
+
+js-tools-osnma-examples-missing = 合成データの例は、このビルドにはまだありません
+
+js-tools-osnma-failed = 失敗
+
+js-tools-osnma-nma-alert = NMA ステータス { $status }。システムがアラートメッセージを出しました。
+
+js-tools-osnma-nma-status = NMA ステータス { $status }。
+
+js-tools-osnma-not-json = これは kshana osnma verify --json の JSON ではありません（overall と satellites が必要です）。
+
+js-tools-osnma-overall = 全体：{ $status }
+
+js-tools-osnma-pages-read =
+    { $n ->
+       *[other] { $n } ページを読み取りました。
+    }
+
+js-tools-osnma-pending = 保留中
+
+js-tools-osnma-recorded-failed = 記録済みの結果を読み込めませんでした
+
+js-tools-osnma-recorded-result = { $file } に対する kshana osnma verify --json の記録済みの結果。
+
+js-tools-merkle-root-format = Merkle ルートは十六進数 64 桁です。
+
+js-tools-osnma-tag-counts = 認証済み { $authenticated }、失敗 { $failed }、保留中 { $pending }、破棄 { $discarded }
+
+js-tools-osnma-tag-totals =
+    { $n ->
+       *[other] タグ { $n } 個：認証済み { $authenticated }、失敗 { $failed }、保留中 { $pending }、破棄 { $discarded }。
+    }
+
+js-tools-osnma-time-caveat = 時刻：すべての検査は、検証器に与えられたページのタイムスタンプを基準にしています。ここではそれがデータ自体に由来するため、古いデータの再生に対する保護は得られません。認証が示すのは、データがシステムから来たことだけです。データが届いた信号や、測位の品質については何も示しません。
+
+js-tools-osnma-unavailable = 利用不可
+
+js-tools-osnma-word-authenticated = 少なくとも 1 機の衛星が認証済みで、失敗したものはありません
+
+js-tools-osnma-word-failed = ある衛星のデータの検査に失敗しました
+
+js-tools-osnma-word-unavailable = 認証済みの衛星はありません
+
+js-tools-pack-selected = { $label }：{ $files }（{ $size }）
+
+js-tools-pinned-to-release = このリリースに固定：
+
+js-tools-preview = プレビュー
+
+js-tools-public-key-format = 公開鍵は十六進数 64 桁（32 バイト）です。それ以外は受け付けません。
+
+js-tools-read-documentation = ドキュメントを読む
+
+js-tools-reading-plan = 計画を読み込んでいます…
+
+js-tools-refused-file-name = 拒否したファイル名：{ $name }
+
+js-tools-run = 実行
+
+js-tools-runs-read =
+    { $n ->
+       *[other] 実行 { $n } 件を読み込みました：{ $runs }
+    }
+
+js-tools-runs-read-engine =
+    { $n ->
+       *[other] 実行 { $n } 件を、エンジン { $engine } で読み込みました：{ $runs }
+    }
+
+js-tools-sample-load-failed = サンプルを読み込めませんでした（{ $reason }）。
+
+js-tools-sample-note = このコマンドの実際の出力を、合成データのデモ実行でエンジンから記録したものです。何かの測定値ではありません。
+
+js-tools-sample-output = 出力例：{ $label }
+
+js-tools-scenario-list-failed = シナリオ一覧を読み込めませんでした
+
+js-tools-scoring = 採点しています…
+
+js-tools-select-and-copy = 選択してコピー
+
+js-tools-settings-example = 設定例 { $n }：
+
+js-tools-status-evidenced-label = 実行がこの行の証拠を裏付ける（supports evidence for）
+
+js-tools-status-evidenced-short = 証拠あり
+
+js-tools-status-not-evidenced-label = これらの実行は、この行について何も示していません
+
+js-tools-status-not-evidenced-short = 証拠なし
+
+js-tools-status-out-of-scope-label = Kshana が示せる範囲の外
+
+js-tools-status-out-of-scope-short = 対象外
+
+js-tools-status-partly-label = 実行がこの行の一部の証拠を裏付ける（supports evidence for）
+
+js-tools-status-partly-short = 一部
+
+js-tools-tab-ai = AI アシスタント
+
+js-tools-tab-bench = test-bench
+
+js-tools-tab-cli = コマンドライン
+
+js-tools-tab-compliance = compliance
+
+js-tools-tab-evidence = エビデンスパック
+
+js-tools-tab-imufit = IMU フィット
+
+js-tools-tab-jammertest = Jammertest
+
+js-tools-tab-osnma = OSNMA
+
+js-tools-tele-all-events = エポックごとに syslog イベントを 1 件（既定：バンドの変化ごとに 1 件）
+
+js-tools-tele-file-aria = 結果ファイルまたは JSON-lines ファイル
+
+js-tools-tele-fmt-cef = Syslog、CEF
+
+js-tools-tele-fmt-leef = Syslog、LEEF
+
+js-tools-tele-fmt-mqtt = MQTT、Home Assistant ディスカバリー（トピック、タブ、ペイロード）
+
+js-tools-tele-fmt-otlp = OpenTelemetry（OTLP JSON）
+
+js-tools-tele-fmt-prometheus = Prometheus メトリクス
+
+js-tools-tele-format-aria = 形式
+
+js-tools-tele-host = ホスト
+
+js-tools-tele-host-aria = syslog イベントに書き込むホスト名
+
+js-tools-tele-include-position = 報告された位置を含める（既定ではオフ）
+
+js-tools-tele-intro = 結果ファイル（session.result.json）またはライブの JSON lines を、このブラウザー内でいずれかの形式に変換します。テレメトリのエクスポートを備えたエンジンビルドが必要です（0.35 以降でエクスポートあり）。上のコマンドはどこでも使えます。
+
+js-tools-tele-note = ここでは syslog の行にタイムスタンプが付きません（ページは時計を読みません）。コマンドラインツールが付与します。Prometheus は最終状態を示します。MQTT はメッセージごとに 1 行で、トピック、タブ、ペイロードの順です。ここからは何も公開されません。テキストは、コマンドが出力するものと同じです。
+
+js-tools-tele-run-here = ここで実行
+
+js-tools-that-file-too-large = そのファイルは 64 MiB を超えています。
+
+js-tools-token-attached = トークンを付与しました
+
+js-tools-token-attached-note = 更新したパックは下にあります。タイムスタンプ局の署名は、ここでは検証していません。openssl ts -verify を実行してください。
+
+js-tools-trust-monitor-sentence = 信頼モニターの文：{ $sentence }
+
+js-tools-two-files-same-name = { $name } という名前のファイルが 2 つあります
+
+js-tools-ubx-bad-crc = { $n } ページが CRC の検査に失敗しました。
+
+js-tools-ubx-file = UBX ファイル
+
+js-tools-ubx-frames-pages = UBX フレーム { $frames } 個、I/NAV ページ { $pages } 個をデコードしました。
+
+js-tools-ubx-ignored-sfrbx = SFRBX メッセージ { $n } 件を無視しました（他のシステム、E5b、アラート、チェックサム不正）。
+
+js-tools-ubx-skipped-bytes = フレーム間で { $n } バイトを読み飛ばしました。
+
+js-tools-ubx-time-conflicts = { $n } ページの時刻が、隣接するページと矛盾していました。
+
+js-tools-ubx-unstamped = { $n } ページを時間軸上に配置できませんでした。
+
+js-tools-unknown = 不明
+
+js-tools-unused-scenarios = 対応する結果のないシナリオファイルは使用しませんでした：{ $files }。
+
+js-tools-verdict-failed-text = 検証に失敗しました。
+
+js-tools-verdict-failed-title = 失敗
+
+js-tools-verdict-intact-text = パックは、パック自身が名指しする鍵に対しては改ざんされていませんが、その鍵は誰でも生成できます。署名者の公開鍵を、署名者から別の経路で入手し、固定してください。
+
+js-tools-verdict-intact-title = 改ざんなし、ただし署名者は固定されていません
+
+js-tools-verdict-verified-text = パックは変更されておらず、固定した鍵で署名されています。
+
+js-tools-verdict-verified-title = 検証済み
+
+js-tools-verifying = 検証しています…
+
+js-tools-what-failed = 失敗した内容
+
+js-tools-why-not-browser = ブラウザーでは使えない理由：
+
+js-tools-yes = はい
+
+js-training-active-events = 有効なイベント
+
+js-training-band-large = 100 m 超
+
+js-training-band-medium = 25 から 100 m
+
+js-training-band-small = 25 m 未満
+
+js-training-chart-max = 最大 { $v }
+
+js-training-chart-mean-cn0 = 平均 C/N0
+
+js-training-chart-position-error = 位置誤差
+
+js-training-chart-s-reported-minus-true = s、報告値 − 真値
+
+js-training-chart-satellites = 衛星
+
+js-training-chart-time-offset = 時刻オフセット
+
+js-training-chart-used-tracked = 使用 / 追尾
+
+js-training-col-reported = 受信機の報告値
+
+js-training-col-true = 真値
+
+js-training-cue-course = ジャイロの船首方位とログ速力は、どのイベントの影響も受けません。ここでは、報告された針路がジャイロの船首方位と { $course } 異なります。海流も船首方位と針路の差を生むため、実行の開始時点と比べてください。
+
+js-training-cue-course-speed = ジャイロの船首方位とログ速力は、どのイベントの影響も受けません。ここでは、報告された針路がジャイロの船首方位と { $course } 異なり、報告された速力が真の速力と { $speed } kn 異なります。海流も船首方位と針路の差を生むため、実行の開始時点と比べてください。
+
+js-training-cue-title = デブリーフの手がかり。
+
+js-training-cue-unknown-amount = 不明な量
+
+js-training-debrief-now = 今すぐデブリーフする
+
+js-training-default-warning = 合成データの訓練用データです。訓練と試験のみを目的とします。このストリームを、船舶のライブ航法システムに絶対に入力しないでください。
+
+js-training-demo-coastal-drag-off = 沿岸のドラッグオフ
+
+js-training-demo-combined-event = 複合イベント
+
+js-training-demo-fjord-degradation = フィヨルドの自然劣化
+
+js-training-demo-open-sea-jamming = 外洋でのジャミング
+
+js-training-demo-port-time-spoof = 入港時の時刻スプーフィング
+
+js-training-dl-log-json = 教官ログをダウンロード（JSON）
+
+js-training-dl-log-text = 教官ログをダウンロード（テキスト）
+
+js-training-dl-nmea = NMEA ストリームをダウンロード
+
+js-training-err-demo-open = { $title } を開けませんでした：{ $reason }。
+
+js-training-err-engine-old = このエンジンビルド（バージョン { $version }）には NMEA 訓練ジェネレーターがありません。このページより古いためです。コマンドは { $command } です。
+
+js-training-err-engine-start = ここではエンジンを起動できませんでした（{ $reason }）。上のライブラリシナリオは、エンジンなしでも開けます。
+
+js-training-err-file-not-loaded = ファイルを読み込めませんでした
+
+js-training-err-generate = 生成できませんでした：{ $reason }。
+
+js-training-err-newer-schema = { $name }：スキーマ { $schema } は、このページが読み取る { $supported } より新しいか、異なります。フィールドを推測せず、Studio を更新してください。
+
+js-training-err-no-schema = { $name }：Kshana の訓練用教官ログではありません（スキーマタグなし）。
+
+js-training-err-no-track = { $name }：ログに描画できる航跡の行がありません。
+
+js-training-err-no-usable-rows = { $name }：使える航跡の行がありません。
+
+js-training-err-not-json = { $name }：JSON ではありません（{ $reason }）。
+
+js-training-err-read = { $name }：読み込めませんでした（{ $reason }）。
+
+js-training-err-read-or-draw = { $name }：読み込みまたは描画ができませんでした（{ $reason }）。
+
+js-training-err-scenario-not-loaded = シナリオファイルを読み込めませんでした
+
+js-training-err-seed = シードは整数でなければなりません。空にすると、シナリオ自身のシードを使います。
+
+js-training-err-too-large = { $name }：{ $max } を超えています。このページは、そのサイズまでのログを読み込みます。
+
+js-training-err-too-many-rows = { $name }：ログの航跡の行が { $count } 行あり、このページが描画できるのは最大 { $max } 行です。ログの間隔を長くする（log_interval_s）か、抜粋を開いてください。
+
+js-training-err-unknown-schema = { $name }：不明なスキーマ { $schema }。このページが読み取るのは { $supported } です。
+
+js-training-event-n = イベント { $id }
+
+js-training-event-onset = 開始 { $utc }
+
+js-training-extra-bearing = 適用された方位、度（真方位）
+
+js-training-extra-peak-accel = ドラッグが加えるピーク加速度、m/s²
+
+js-training-extra-peak-speed = ドラッグが加えるピーク速度、m/s
+
+js-training-fact-duration = 継続時間
+
+js-training-fact-events = 注入したイベント
+
+js-training-fact-max-error = 最大の位置誤差
+
+js-training-fact-max-time-offset = 最大の時刻オフセット
+
+js-training-fact-no-fix = 測位不能の時間
+
+js-training-fact-peak-accel = ピーク加速度、真値 / 報告値
+
+js-training-fact-peak-speed = ピーク速度、真値 / 報告値
+
+js-training-fact-seed = シード
+
+js-training-fact-start = 開始（UTC）
+
+js-training-fix-reported-span = 測位を報告、{ $from } から { $to }
+
+js-training-generated = 「{ $title }」をエンジン { $version } で生成しました：NMEA センテンス { $lines } 個。合成データです。訓練と試験のみを目的とし、船舶のライブ航法システムには絶対に入力しないでください。
+
+js-training-generated-here = ここでエンジンが生成しました（「{ $title }」）。合成データです：位置も日付も架空のものです。
+
+js-training-generating = エンジンを起動して生成しています…
+
+js-training-kind-drag-off = 位置のドラッグオフ
+
+js-training-kind-jamming = ジャミング
+
+js-training-kind-natural-degradation = 自然劣化（空の遮蔽）
+
+js-training-kind-replay-delay = リプレイ遅延
+
+js-training-kind-time-spoof = 時刻スプーフィング
+
+js-training-legend-no-fix = 測位不能：受信機は何も報告していません
+
+js-training-legend-reported = 報告値、真値から { $band }
+
+js-training-legend-true = 真の航跡
+
+js-training-library-label = 合成データのライブラリシナリオ「{ $title }」、{ $command } が書き出したものです。位置も日付も架空のもので、実在の船舶や記録ではありません。
+
+js-training-log-row = ログ行 { $row }（全 { $total } 行）、{ $utc }
+
+js-training-max-error-at = { $m } m、T+{ $s } s
+
+js-training-moment-event = （イベント { $id }）
+
+js-training-moment-title = T+{ $s } s { $what }：{ $text }
+
+js-training-moments-shown = { $total } 件の瞬間のうち、最初の { $shown } 件を表示しています。
+
+js-training-no-events = なし：これは問題のない実行です。
+
+js-training-no-fix-nothing = 測位不能：何も報告されていません
+
+js-training-no-fix-span = 測位不能、{ $from } から { $to }
+
+js-training-no-moments = 記録された瞬間はありません。
+
+js-training-none = なし
+
+js-training-none-now = この瞬間にはありません。
+
+js-training-none-reported = 報告なし
+
+js-training-north = 北
+
+js-training-not-touched = どのイベントの影響も受けていません
+
+js-training-opened = { $name } を開きました：ログ { $rows } 行、{ $secs } s にわたります。
+
+js-training-opening = { $title } を開いています…
+
+js-training-param-affect-time = 時刻に影響する
+
+js-training-param-bearing-deg = 方位、度（真方位）
+
+js-training-param-cn0-drop-db = C/N0 の低下、dB
+
+js-training-param-counterfeit-cn0-dbhz = 偽の C/N0、dB-Hz
+
+js-training-param-delay-s = 遅延、s
+
+js-training-param-duration-s = 継続時間、s
+
+js-training-param-final-offset-m = 最終オフセット、m
+
+js-training-param-kind = 種類
+
+js-training-param-label = ラベル
+
+js-training-param-offset-s = 時刻オフセット、s
+
+js-training-param-ramp-s = 開始ランプ、s
+
+js-training-param-recovery-s = 回復ランプ、s
+
+js-training-param-relative-bearing-deg = 針路に対する方位、度
+
+js-training-param-skyline = スカイライン
+
+js-training-param-spread-db = 衛星ごとのばらつき、dB
+
+js-training-param-start-s = 開始、s
+
+js-training-pause = 一時停止
+
+js-training-play = 再生
+
+js-training-reading = 読み込み中…
+
+js-training-readout-fix = 測位あり
+
+js-training-readout-no-fix = 測位不能
+
+js-training-reduced-motion = 動きの軽減が設定されているため、リプレイは 1x で始まります。アニメーションなしで移動するには、スライダーまたは矢印キーを使ってください。
+
+js-training-row-cn0 = 平均 C/N0、dB-Hz
+
+js-training-row-cog = 対地針路、度
+
+js-training-row-error = 位置誤差、m
+
+js-training-row-fix = 測位
+
+js-training-row-heading = 船首方位（ジャイロ）、度
+
+js-training-row-moments = 瞬間
+
+js-training-row-position = 位置
+
+js-training-row-sats = 使用衛星 / 追尾衛星
+
+js-training-row-sog = 対地速力、kn
+
+js-training-row-time-offset = 時刻オフセット、s
+
+js-training-say-active = 有効：{ $list }
+
+js-training-say-event-id = イベント { $id }
+
+js-training-say-fix = 受信機が測位を報告
+
+js-training-say-mean-cn0 = 平均 C/N0 { $cn0 } dB-Hz
+
+js-training-say-no-fix = 測位不能
+
+js-training-say-position-from-true = 報告された位置は真値から { $m } m
+
+js-training-say-sats-used = 衛星 { $tracked } 機のうち { $used } 機を使用
+
+js-training-say-time-ahead = 報告された時刻は真値より { $s } s 進んでいる
+
+js-training-say-time-behind = 報告された時刻は真値より { $s } s 遅れている
+
+js-training-sky-no-gsv = GSV なし
+
+js-training-sky-none = このログには空がありません。教官ログだけでは、衛星の情報がありません。ライブラリシナリオを開くか、ここでストリームを生成してデブリーフすると、その GSV に載っている衛星を見られます。
+
+js-training-skyline-preset = プリセット { $name }
+
+js-training-skyline-stated = 示されたプロファイル
+
+js-training-span-no-fix = T+{ $from } から { $to } s
+
+js-training-track-desc = 真の航跡と報告された航跡、上が北。最大の位置誤差 { $error }。測位不能の期間は { $periods } 件。
+
+js-training-track-end = 終了
+
+js-training-track-start = 開始
+
+js-training-trainer-note = トレーナーのメモ
+
+js-training-warn-no-warning-text = このファイルには警告文がありません。これは訓練用ログです。そのストリームをライブ航法に入力しないでください。
+
+js-training-warn-rows-skipped = 航跡の行 { $count } 件が無効だったため、読み飛ばしました。
+
+js-training-what-fix-lost = 測位喪失
+
+js-training-what-fix-regained = 測位回復
+
+js-training-what-full-effect = 完全な影響
+
+js-training-what-onset = 開始
+
+js-training-what-recovered = 回復
+
+js-training-what-recovery-begins = 回復開始
+
+js-trust-adv-carried = このファイルに付されている助言の文言：
+
+js-trust-adv-none = このファイルには助言の文言が付いていません
+
+js-trust-adv-none-rest = （古い出力には付いていません）。このページ上部の助言は、それでもすべてに当てはまります。
+
+js-trust-agree-both = 両方が警告：受信機自身のフラグと、Kshana のモニター
+
+js-trust-agree-calibrating = キャリブレーション期間内：比較していません
+
+js-trust-agree-kshana-only = Kshana のみがアラーム：受信機は警告していません
+
+js-trust-agree-neither = どちらも警告しない
+
+js-trust-agree-receiver-only = 受信機のみが警告：Kshana のモニターはアラームを出していない
+
+js-trust-assessed = { $name } を、エンジン { $version } で、このブラウザー内で評価しました。
+
+js-trust-assessed-as = { $name } を { $format } として、エンジンで、このブラウザー内で評価しました。何もアップロードされていません。
+
+js-trust-assessing = エンジンを起動して評価しています…
+
+js-trust-class-also-costing = { $class }（減点にも寄与）
+
+js-trust-class-environment = 環境：信号（電力、ジャミング、空が開けているのに失われた衛星）
+
+js-trust-class-geometry = ジオメトリ：信号ではなく空
+
+js-trust-class-inconsistency = 不整合：攻撃のようで、空や信号では説明できない
+
+js-trust-dl-result-json = 結果をダウンロード（JSON）
+
+js-trust-dl-table-csv = エポックごとの表をダウンロード（CSV）
+
+js-trust-edge-degraded = { $v } 劣化
+
+js-trust-edge-nominal = { $v } 正常
+
+js-trust-err-assess = { $name }：評価できませんでした（{ $reason }）。
+
+js-trust-err-demo-files = デモのファイルを読み込めませんでした
+
+js-trust-err-demo-log-open = デモのログを開けませんでした：{ $reason }。
+
+js-trust-err-demo-open = デモを開けませんでした：{ $reason }。
+
+js-trust-err-engine-no-receiver-trust = このエンジンビルド（バージョン { $version }）には receiver_trust がありません。
+
+js-trust-err-engine-no-scorer = このエンジンビルド（バージョン { $version }）にはログの採点器がありません。このページより古いためです。コマンドは { $command } です。
+
+js-trust-err-engine-start = ここではエンジンを起動できませんでした（{ $reason }）。
+
+js-trust-err-engine-start-open = ここではエンジンを起動できませんでした（{ $reason }）。上の結果ファイルを開くことは引き続きできます。
+
+js-trust-err-example-files = サンプルのファイルを読み込めませんでした
+
+js-trust-err-example-open = サンプルを開けませんでした：{ $reason }。
+
+js-trust-err-file-2mib = { $name }：2 MiB を超えています。抜粋を開いてください。
+
+js-trust-err-file-too-large = { $name }：{ $max } を超えています。このページは、そのサイズまでのファイルを読み込みます。抜粋を開いてください。
+
+js-trust-err-gen-too-large = { $name }：2 MiB を超えています。抜粋を開いてください（コマンドラインツールはログ全体を扱えます）。
+
+js-trust-err-imu-format = 「{ $format }」は、このページが読み込める IMU の形式ではありません（csv または euroc）
+
+js-trust-err-imu-heading = IMU の最初のサンプルの船首方位が数値ではありません
+
+js-trust-err-log-format = 「{ $format }」は、このページがエンジンに送れるログ形式ではありません
+
+js-trust-err-no-epochs = ファイルにエポックがありません。
+
+js-trust-err-no-epochs-result = この結果ファイルには epochs[] がありません。船舶のセッションに対する `{ $command }` から得たものが必要です。
+
+js-trust-err-no-epochs-returned = { $name }：エンジンがエポックを返しませんでした。
+
+js-trust-err-no-score-model = この結果には score_model がないため、信頼スコアのない静止プラットフォームの実行です。このビューが描画するのは、船舶（移動プラットフォーム）の実行です。
+
+js-trust-err-not-readable = { $name }：このビューが読み込めるファイルではありません（結果 JSON、JSON lines、trust.csv、NMEA ログ、または真値ファイル）。
+
+js-trust-err-nothing-to-draw = 描画するものがありません。結果 JSON、JSON lines、または trust.csv を選んでください。
+
+js-trust-err-read = { $name }：読み込めませんでした（{ $reason }）。
+
+js-trust-err-read-or-draw = { $name }：読み込みまたは描画ができませんでした（{ $reason }）。
+
+js-trust-err-score = { $name }：採点できませんでした（{ $reason }）。
+
+js-trust-err-score-file-too-large = { $name }：2 MiB を超えています。ブラウザー内の採点器は、五分間のキャリブレーション期間を含む抜粋を受け付けます。
+
+js-trust-err-score-too-large = { $name }：2 MiB を超えています。ブラウザー内の採点器は抜粋を受け付けます（{ $command } コマンドはログ全体を扱えます）。五分間のキャリブレーション期間を含む抜粋を開いてください。
+
+js-trust-err-scorecard-too-large = { $name }：8 MiB を超えています。このページは、そのサイズまでのスコアカードを読み込みます。
+
+js-trust-err-session-empty = セッション設定が空です。設定では船舶（{ $setting }）を宣言します。
+
+js-trust-err-too-many-epochs = ファイルにエポックが { $count } 個あり、このページが描画できるのは最大 { $max } 個です。抜粋を開いてください。
+
+js-trust-err-triple-quote = { $what } に、一重引用符が 3 つ連続して含まれており、設定に埋め込めません
+
+js-trust-err-what-file = ファイル
+
+js-trust-err-what-imu = IMU ファイル
+
+js-trust-event-label = イベント：{ $label }
+
+js-trust-event-onset = 開始
+
+js-trust-evt-col-first-alarm = 最初のアラーム、s
+
+js-trust-evt-col-latency = 遅延、s
+
+js-trust-evt-col-onset = 開始、s
+
+js-trust-evt-col-outcome = 結果
+
+js-trust-evt-col-stated = 記載されたイベント
+
+js-trust-fmt-android = Android GNSS Logger（テキスト）
+
+js-trust-fmt-gnss-sdr = GNSS-SDR が中継した JSON lines（テキスト）
+
+js-trust-fmt-nmea = NMEA 0183（テキスト）
+
+js-trust-fmt-novatel = NovAtel OEM7（ASCII またはバイナリ）
+
+js-trust-fmt-rinex = RINEX 観測（テキスト）
+
+js-trust-fmt-rtcm3 = RTCM 3 MSM4 / MSM7（バイナリ）
+
+js-trust-fmt-rtklib-pos = RTKLIB .pos 解（テキスト）
+
+js-trust-fmt-sbf = Septentrio SBF（バイナリ）
+
+js-trust-fmt-ubx = u-blox UBX（バイナリ）
+
+js-trust-gate-note-derived = この実行にはゲートの記録がありません。帯は、ゲートが測位を保留したであろう場所を示します。信頼できない帯のエポックで、そこを出てから 30 s たつまで保留されます。ここで導出したもので、ゲートから読み取ったものではありません。ゲートはオプトインで、遅延が増えます。
+
+js-trust-gate-note-read = ライブストリームが報告した、各エポックのゲート：オフ、通過、または保留（転送されるサイクルで測位が無効と印付けされました）。
+
+js-trust-gate-now-derived = { $gate } · 導出
+
+js-trust-gate-off = オフ
+
+js-trust-gate-off-cal = オフ（キャリブレーション中）
+
+js-trust-gate-passed = 通過：測位はそのまま転送されます
+
+js-trust-gate-span = ゲート { $gate }、{ $from } から { $to }
+
+js-trust-gate-span-derived = ゲート { $gate }（導出）、{ $from } から { $to }
+
+js-trust-gate-withheld = 保留：測位は下流で無効と印付けされます
+
+js-trust-gen-chart-label = 実行のエンジンによるグラフ：搬送波対雑音密度、状態、アラームの時間変化
+
+js-trust-gen-epochs = エポック：{ $window } エポックのキャリブレーション期間の後で、正常 { $nominal }、劣化 { $degraded }、信頼できない { $untrusted }。
+
+js-trust-gen-self-heading = 受信機自身のフラグと、Kshana のアラーム
+
+js-trust-gen-self-note = 比較であり、どちらかの検査ではありません。受信機のフラグは、受信機自身の報告です。
+
+js-trust-geo-deduction-class = { $points } 点（{ $class }）
+
+js-trust-geo-deduction-points = { $points } 点
+
+js-trust-geo-flag-mismatch = 受信機が示す HDOP が、受信機が報告する空から導出した HDOP と一致しません。ジオメトリの減点は不整合として数えます。
+
+js-trust-geo-flag-signal-loss = 信号喪失：可視の衛星が、ジオメトリが良好なのに追尾されていません。そのため、ジオメトリの減点は環境として数えます。
+
+js-trust-geo-heading-label = ジオメトリ { $label }
+
+js-trust-geo-label-fair = { $label }（採点なし）
+
+js-trust-geo-label-poor = { $label }（スコアが減点する唯一のラベル）
+
+js-trust-geo-none-in-run = この実行にジオメトリはありません（0.36 より前のエンジンは書き出しません）。
+
+js-trust-geo-reason-few-satellites = 最小数より衛星が少ない
+
+js-trust-geo-reason-high-hdop = HDOP がしきい値を超えている
+
+js-trust-geo-reason-high-pdop = PDOP がしきい値を超えている
+
+js-trust-geo-reason-sky-blocked = 追尾中の衛星が方位角に大きな隙間を残している（空の片側が遮られている）
+
+js-trust-geo-row-deduction = ジオメトリの減点
+
+js-trust-geo-row-from = 開始
+
+js-trust-geo-row-gap = 最大の方位角の隙間
+
+js-trust-geo-row-label = ラベル
+
+js-trust-geo-row-open-sky = 開けた空
+
+js-trust-geo-row-reported-hdop = 受信機が示す HDOP
+
+js-trust-geo-row-sats-used = 使用衛星
+
+js-trust-geo-row-sky-age = 空の経過時間
+
+js-trust-geo-row-status = ステータス
+
+js-trust-geo-say-deduction = ジオメトリの減点 { $points } 点
+
+js-trust-geo-say-label-hdop = ジオメトリ { $label }（HDOP { $hdop }）
+
+js-trust-geo-say-mismatch = 示された HDOP が一致しない
+
+js-trust-geo-source-derived = ログが報告する衛星（GSV）から導出
+
+js-trust-geo-source-none = なし
+
+js-trust-geo-source-reported = 受信機が示す DOP（GSA）
+
+js-trust-geo-status-reasons = { $status }：{ $reasons }
+
+js-trust-geo-status-title = ジオメトリ { $status }
+
+js-trust-geo-unknown-no-gsv = ジオメトリ不明：ログに GSV も GSA もありません
+
+js-trust-geo-unknown-no-gsv-sentence = ジオメトリ不明：ログに GSV も GSA もありません。
+
+js-trust-geo-unknown-odd = ジオメトリ不明（ファイルは「{ $odd }」としていますが、このページは把握していません）。
+
+js-trust-geo-used-of-view = 可視 { $inView } のうち { $used }
+
+js-trust-got-file-kind = { $name }：{ $kind }
+
+js-trust-got-lines-skipped = { $name } の { $count } 行はエポックではなかったため、読み飛ばしました
+
+js-trust-imu-csv = ヘッダー行付きの CSV
+
+js-trust-imu-euroc = EuRoC MAV imu0 data.csv
+
+js-trust-imu-file = IMU ファイル：{ $name }（{ $chars } 文字）。次の評価で使用します。
+
+js-trust-imu-file-press = IMU ファイル：{ $name }（{ $chars } 文字）。次の評価で使用します。「選択したファイルを評価」を押してください。
+
+js-trust-imu-none = IMU ファイルなし。
+
+js-trust-jt-col-latency = 遅延、s
+
+js-trust-jt-col-monitors = 最初のモニター
+
+js-trust-jt-col-name = 名前
+
+js-trust-jt-col-outcome = 結果
+
+js-trust-jt-col-recovered = 回復
+
+js-trust-jt-col-slot = スロット、s
+
+js-trust-jt-col-test = テスト
+
+js-trust-jt-label = { $label } ガード { $guard } s、回復ホールド { $hold } s。
+
+js-trust-jt-label-contaminated = { $label } ガード { $guard } s、回復ホールド { $hold } s。キャリブレーションのベースラインが、スケジュールされたスロットと重なっていました。
+
+js-trust-jt-opened = { $name } を開きました：テスト { $count } 件。読み込みはここで行い、何もアップロードしていません。
+
+js-trust-kind-batch-result = バッチ結果
+
+js-trust-kind-json-lines = JSON lines
+
+js-trust-kind-nmea-log = NMEA ログ
+
+js-trust-kind-truth-file = 真値ファイル
+
+js-trust-label-demo = 合成データのデモ：架空のフェリーのログに架空の位置ドラッグオフを加え、Kshana が採点したものです。エンジンから記録しました。ログはテキストであり、測定値ではありません。
+
+js-trust-label-example = 例示用のサンプル：架空の NMEA ログに、120 s から 240 s まで架空のジャマーを加え、ここでエンジンが評価したものです。テキストであり、測定値ではありません。
+
+js-trust-label-geo-demo = 合成データの遮蔽空デモ：フェリーのログで、600 s から空の西半分を空白にし（自然劣化、ジオメトリによるもの）、1500 s から同じ架空のドラッグオフを加えています（攻撃のようなもの）。0.36 のジオメトリを備えたエンジンから記録しました。テキストであり、測定値ではありません。
+
+js-trust-label-score-demo = 合成データのデモログを、ここでエンジンが採点したものです。架空のフェリーのログとドラッグオフです。テキストであり、測定値ではありません。
+
+js-trust-legend-calibrating = キャリブレーション中（採点なし）
+
+js-trust-legend-class = 減点の区分：
+
+js-trust-legend-class-environment = 環境：信号
+
+js-trust-legend-class-geometry = ジオメトリ：信号ではなく空
+
+js-trust-legend-class-inconsistency = 不整合（攻撃のよう）
+
+js-trust-legend-degraded = 劣化
+
+js-trust-legend-demo = このデモでは、受信機は終始、有効な測位を報告しています（GGA 品質 1、RMC ステータス A）。下がるのはスコアです。
+
+js-trust-legend-geo-degraded = ジオメトリ劣化
+
+js-trust-legend-geo-good = ジオメトリ良好
+
+js-trust-legend-geo-unknown = ジオメトリ不明（GSV も GSA もなし。良好ではない）
+
+js-trust-legend-nominal = 正常
+
+js-trust-legend-self = 受信機自身のフラグと、Kshana のアラーム：
+
+js-trust-legend-self-both = 両方が警告
+
+js-trust-legend-self-kshana = Kshana のみ
+
+js-trust-legend-self-neither = どちらもなし
+
+js-trust-legend-self-receiver = 受信機のみ
+
+js-trust-legend-sky = 空：
+
+js-trust-legend-true-track = 真の航跡（合成データのみ）
+
+js-trust-legend-underline = 下線：ジオメトリも減点
+
+js-trust-legend-untrusted = 信頼できない
+
+js-trust-marks-cleared = 印を消去しました。
+
+js-trust-marks-set = { $name } は、{ $count } 個のエポックで開始しきい値を超えていました。タイムラインと航跡に印を付けています。
+
+js-trust-mon-agc = 自動利得制御が、そのベースラインから外れて動きました。
+
+js-trust-mon-clock = クロック支援モニター：受信機のクロックを、その予測線と比べます。
+
+js-trust-mon-cn0-drop = 電力の妨害：信号強度が、キャリブレーションのベースラインより低下しました。
+
+js-trust-mon-cn0-rise = 1 台の送信機の特徴を探します：衛星全体で信号強度が、ベースラインに対してそろって上昇します。
+
+js-trust-mon-cn0-spread = 1 台の送信機の特徴を探します：衛星全体で信号強度が、キャリブレーションのベースラインに対してそろって落ち込みます。
+
+js-trust-mon-geometry = 衛星のジオメトリ（0.36）：ジオメトリが悪い（HDOP、PDOP、または使用衛星数がしきい値を超えている）場合にのみ減点し、上限があり、劣化の帯より下には決して下がりません。
+
+js-trust-mon-heading-course = 航跡の方向を、船が向いている方向と、記載された偏流角の範囲内で比べます。
+
+js-trust-mon-jam-ind = 受信機自身のジャミング指標。
+
+js-trust-mon-kinematic = 各位置の変化を、報告された速力と針路、および船舶に記載された速力、加速度、旋回率の上限と比べます。
+
+js-trust-mon-loss-of-lock = 追尾していた衛星の喪失。
+
+js-trust-mon-osnma = 報告された OSNMA 認証の失敗を読み取ります。ステータスは読み取るだけで、検証はしません。
+
+js-trust-mon-position-jump = 報告された位置の変化が、ベースラインの許す範囲より大きい。
+
+js-trust-mon-raim = 受信機自律的インテグリティ監視の検定統計量を、そのしきい値と比べます。
+
+js-trust-mon-receiver-self-report = 受信機自身のスプーフィングまたはジャミングのフラグ（例：u-blox UBX-SEC-SIG や NAV-STATUS の spoofDetState）を、Kshana のモニターの隣に示します。ログから読み取るだけで、検証はしません。このスロットは 0.38 エンジンのモニター用に用意されており、結果にそれが含まれると帯として描画されます。
+
+js-trust-mon-sea-level = 高度が、海面と記載されたアンテナ高から決まる位置にあるかを検査します。
+
+js-trust-mon-solve-failure = 位置解を計算できませんでした。
+
+js-trust-mon-speed-log = 対地速力を対水速力と、記載された海流の許容範囲内で比べます。
+
+js-trust-mon-time-consistency = 受信機の時刻に、不規則な変化や逆行がないかを検査し、リアルタイムのストリームでは、このコンピューターの時計とも照合します。
+
+js-trust-mon-unknown = このビューに説明のないモニター（ページより新しいもの）。モニターとして扱ってください。
+
+js-trust-na = n/a
+
+js-trust-name-colon-text = { $name }：{ $text }
+
+js-trust-never = 一度もない
+
+js-trust-no = いいえ
+
+js-trust-no-deduction = 減点なし
+
+js-trust-none = なし
+
+js-trust-north = 北
+
+js-trust-not-stated = 記載なし
+
+js-trust-note-advisories = 行に { $count } 種類の異なる助言の文言が含まれています。最初のものを表示しています。
+
+js-trust-note-csv-limits = trust.csv にはスコアと理由が含まれますが、比率や位置は含まれません。
+
+js-trust-note-live-no-model = ライブストリームは、どのモニターが動いたかも、スコアモデルも示しません。下のバンドの境界は文書化された既定値で、モニターの帯には、減点したモニターだけを表示します。
+
+js-trust-note-nmea-no-match = 時刻でエポックに対応付けられる NMEA の測位がありませんでした。
+
+js-trust-note-nmea-skipped = チェックサムまたはフィールドが不正な NMEA センテンス { $count } 件を読み飛ばしました。
+
+js-trust-note-skipped-epochs = 数値の t_s がないエポック { $count } 件を読み飛ばしました。
+
+js-trust-note-truth-no-match = 真値ファイルの時刻に一致するエポックがありません。
+
+js-trust-note-unknown-state = このページが把握していない状態（{ $states }）を持つエポックが { $count } 件あります。キャリブレーション中として描画し、採点はしません。
+
+js-trust-offset-at = { $time } では、受信機が報告した位置は、船が実際にいた場所から { $m } m 離れています（合成データの真値）。
+
+js-trust-offset-no-truth = この時刻の真の位置はありません。
+
+js-trust-opened = エポック { $count } 個を開きました（{ $source }）。
+
+js-trust-opening-demo = 合成データのデモを開いています…
+
+js-trust-opening-demo-log = 合成データのデモログを開いています…
+
+js-trust-opening-example = 例示用のサンプルを開いています…
+
+js-trust-opening-geo-demo = 遮蔽空デモを開いています…
+
+js-trust-pause = 一時停止
+
+js-trust-play = 再生
+
+js-trust-reading = 読み込み中…
+
+js-trust-reasons-calibrating = キャリブレーション中：最初の数秒がベースラインとなり、採点されません。
+
+js-trust-reasons-class-note = 各減点には、エンジンの区分が付きます：ジオメトリ（空）、環境（信号）、不整合（攻撃のよう）
+
+js-trust-reasons-live-unknown = ライブストリームでは、どのモニターが動いたかが示されません。ここにない検査は、動いていない可能性があります。
+
+js-trust-reasons-marked-none = 印あり、ここでの減点なし
+
+js-trust-reasons-no-score = このエポックにスコアはありません。
+
+js-trust-reasons-no-score-note = このエポックにスコアはありません：{ $note }。
+
+js-trust-reasons-not-run = 未実行（合格ではありません）
+
+js-trust-reasons-nothing = このエポックでは何も減点されませんでした。これは測位が良好であることの証拠ではありません。下の、検査では見えないものを参照してください。
+
+js-trust-reasons-pts = { $points } 点
+
+js-trust-reasons-ran-free = 実行済み、減点なし
+
+js-trust-reasons-ratio = 比率 { $ratio }
+
+js-trust-reasons-row-title = { $name }：{ $text } クリックすると、開始しきい値を超えていた箇所に印を付けます。
