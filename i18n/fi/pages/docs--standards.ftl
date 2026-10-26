@@ -7,3 +7,5 @@ seg-9120d3e96e5e = luku
 seg-5ad814c7ef9e = Huomautukset
 
 seg-aab745a65e76 = Moduuli
+
+seg-bf09433a7342 = GeoJSON

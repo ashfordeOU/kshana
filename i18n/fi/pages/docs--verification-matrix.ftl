@@ -2323,3 +2323,5 @@ seg-68caf86157c2 = ROS { "2" } receiver-trust -paketti ja gnss_lib_py-silta
 seg-e7d7d99fe538 = ROS-vapaa silta, joka kirjoittaa paikannus- ja satelliittiviestit NMEA:ksi ja pisteyttää ne Python-sidoksen kautta (integrations/ros2/kshana_trust), sekä gnss_lib_py NavData–receiver-trust-silta rtklib-pos-formaatin kautta (integrations/gnss_lib_py).
 
 seg-05ded40b17d2 = Ei mitään ulkoista: ROS-solmua ei ajettu elävällä ROS { "2" } -graafilla, eikä ublox_ubx_msgs-kenttien nimiä tarkistettu käynnissä olevaa ajuria vasten. gnss_lib_py (MIT) ajettiin siltatestiä varten
+
+seg-c3c260b7063e = Testit

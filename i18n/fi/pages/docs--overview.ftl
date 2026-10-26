@@ -173,3 +173,31 @@ seg-c611ee59301a = Animaatio
 seg-c01b78b64065 = Raportit
 
 seg-c60dc5b92a60 = Yhteentoimivuusviennit
+
+seg-3d770dd786e4 = Käyttö
+
+seg-fe1abd564200 = Jammertest
+
+seg-6fcb41643035 = Luottamustelemetria
+
+seg-82155b5d0408 = Test bench
+
+seg-e35fff011b24 = Compliance
+
+seg-a50180a66dba = LunaNet AFS
+
+seg-028684a0cf3d = Standardipaketit
+
+seg-9c0eb89a2fbe = Paketti
+
+seg-e98e25897176 = Kolmen pisteytetyn standardipaketin jokainen testi, moottorin v{ $version } oikeista ajoista (`kshana standards-pack run`): dhs-rpcf: { "6" } täyttyi, { "1" } ei täyttynyt, { "2" } tarvitsee syötteen; imo-circ-1575: { "1" } täyttyi, { "4" } ei täyttynyt, { "2" } tarvitsee syötteen; icao-doc9849-appf: { "6" } täyttyi, { "0" } ei täyttynyt, { "2" } tarvitsee syötteen. Yhteensä { "13" } täyttyi, { "5" } ei täyttynyt ja { "6" } tarvitsee syötteen, jota moottorilla ei ole (vastaanottimen loki tai laitteiston dokumentaatio). Jokainen kynnys asetettiin ennen ajoa; täyttämättä jäänyt kynnys kirjataan täyttämättä jääneeksi. Täyttynyt kynnys kertoo, että mallinnettu skenaario täytti ilmoitetun kynnyksen, ei mitään tuotteesta. Paketit tukevat todisteita riveille, joihin ne viittaavat; ne eivät ole arviointi. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei tyyppihyväksytty navigointilaite eikä ihmishengen turvaamiseen tarkoitettu palvelu; sitä ei saa käyttää ainoana perusteena navigointia tai turvallisuutta koskevalle päätökselle.
+
+seg-f891ee876b96 = Mihin se vastaa
+
+seg-7cf2608b2b2f = Todistepaketin rakenne. Vastaanotinloki (NMEA, u-blox UBX, RINEX { "3" } tai Android-loki) ja aikaikkuna menevät komennolle kshana receiver-trust evidence, joka kirjoittaa seitsemän tiedostoa: log-slice.bin, config.json, epochs.json, summary.html, manifest.json, manifest.sig ja valinnaisen timestamp.tsr. Manifesti tallentaa koko lokin ja jokaisen tiedoston SHA-256-tiivisteen sekä tiedostojen yli lasketun tiivisteketjun; allekirjoitus kattaa manifestin. kshana evidence verify tarkistaa allekirjoituksen, jokaisen tiedoston tiivisteen, ketjun ja sen, ettei mukana ole luettelemattomia tiedostoja, ja päättyy koodilla { "0" }, kun varmennus onnistuu, { "1" }, kun jokin epäonnistui, ja { "3" }, kun allekirjoittajaa ei ollut kiinnitetty. Paketti on tekninen tietue, ei oikeudellinen lausunto.
+
+seg-13fc009b947c = FAQ
+
+seg-d4a762001549 = Lisenssi
+
+seg-af0edceb1503 = Yhden synteettisen vastaanottimen lokin pisteytys kolmen testin aikataulua vastaan, moottorin v{ $version } todellisesta ajosta (`kshana jammertest score`). Loki on keksitty: { "1800" } s NMEA:a, jossa on { "20" } dB:n C/N0-lasku kahden jakson ajan. Aikataulussa on kolme aikaväliä; keskimmäisellä aikavälillä lokissa ei ole häirintälähetintä. Pisteytys merkitsee havaituiksi { "2" } testiä kaikkiaan { "3" } testistä (mediaaniviive { "0" } s) ja { "1" } jäi havaitsematta, ja väärän hälytyksen ajoja on { "0" } { "0.25" } h:n puhtaan ajan aikana. Mikään tässä ei kerro mitään todellisesta vastaanottimesta. Ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite (IEC { "61108" }, IEC { "61162" }): käyttäjä vastaa edelleen aluksen navigoinnista.
