@@ -103,3 +103,45 @@ seg-6bebda4a3c6c = <c1/> of <c2/>
 seg-9a443cc0c444 = paren <c1/>, uniform bemonsterd
 
 seg-b8d1d45df70b = <b>Wat het record meet, doet ertoe.</b> Een servolog (linuxptp, chrony) legt de offset vast die de daemon mat en corrigeert: het is de tijdfout die onder servoregeling overblijft, geen onafhankelijke meting van de klok tegen UTC. Tijdens de holdoverstap van een test die de referentie echt verwijdert, toont een servolog nog steeds wat de daemon geloofde, wat kan verschillen van de ware fout. Een TICC of een andere teller tegen een onafhankelijke referentie is het sterkere record; vermeld welke u hebt gebruikt wanneer u het resultaat rapporteert.
+
+seg-6d4e25914d1c = Het scenario
+
+seg-ca1244db2387 = Optionele sleutels: <c1/> (naam, <c2/>, bron; de standaardwaarden voor telecom-tijdsynchronisatie als ze ontbreken) en <c3/> binnen <c4/> om één bron te kiezen uit een log met meerdere bronnen.
+
+seg-38eb634b7f8f = Wat het rapport bevat
+
+seg-6a64755e11d6 = <b><c1/></b>: voor de basislijn, de holdover en het herstel: het begin en het einde, het aantal samples en de gemiddelde, rms-, grootste en eindwaarde van de tijdfout.
+
+seg-cd11d0838c44 = <b><c1/></b>: elk masker dat u hebt genoemd, gemeten op de stap die in de voorwaarde van het masker wordt genoemd. Een masker dat is geschreven voor een vergrendelde klok wordt gemeten op de basislijn; een masker voor holdover of een autonome klok op de holdover. Elke controle heeft haar limiet, de gemeten waarde, de marge en de tabel waaruit ze is overgenomen. Een masker dat een langere meetreeks nodig heeft dan de stap opleverde, is <b>INCOMPLETE</b> en wordt nooit geëxtrapoleerd; een masker dat de engine niet kan evalueren voor het sampleinterval van de meetreeks is <b>NOT-EVALUATED</b>, met de reden.
+
+seg-cb54e67ca4eb = <b><c1/></b>: de fractionele frequentieafwijking die het systeem aanhield (de helling van een kleinstekwadratenlijn door de tijdfout tijdens de holdover, in ns/s, oftewel parts per billion), de restwaarde rond die lijn, de grootste absolute tijdfout en wanneer die optrad, en de stap op het moment van verwijdering.
+
+seg-daa40ac07396 = <b><c1/></b>: de ePRTC-A-holdoverenvelop van ITU-T G.8272.1 Table { "3" }, uit <c2/>, met het moment waarop die voor het eerst wordt overschreden.
+
+seg-cd480a1bf901 = <b><c1/></b>: de tijd na verwijdering waarop elk tijdfoutbudget voor het eerst wordt overschreden.
+
+seg-007a0393cb39 = <b><c1/></b>: of <c2/> binnen de band kwam en daar de verblijftijd lang bleef, hoelang nadat GNSS terugkeerde dat begon, de piek na herstel en de grootste stap tussen opeenvolgende samples tijdens het herstel.
+
+seg-199497dfcc09 = <b><c1/></b>: MTIE en TDEV van de stappen basislijn en holdover.
+
+seg-ce00a41a322f = <b><c1/></b>: een samenvatting van één woord per stap.
+
+seg-c09fc305ead1 = Elk getal heeft zijn eenheid en vermeldt waar het vandaan komt, in het blok <c1/> van het rapport.
+
+seg-5d87a772c132 = De woorden en de grenzen
+
+seg-0810b24c6f3e = Het resultaat is <b>gemeten tegen het masker</b>. De maskers zijn overgenomen uit vrij downloadbare ITU-T-aanbevelingen (dezelfde tabellen als van het soort <c1/>, vermeld in <a1><c2/></a1>), en elke waarde die de aanbevelingen "voor nader onderzoek" laten, ontbreekt en is niet ingevuld. { -brand } stelt niet dat een klok of een systeem voldoet aan een aanbeveling of daartegen is goedgekeurd, en het rapport doet dat evenmin.
+
+seg-527189cf37c6 = <b>MODELLED.</b> De stappenlogica, de lijnfit en de herstelregel zijn gecontroleerd op meetreeksen die zijn opgebouwd uit formules waarvan de uitkomsten vóór de run bekend zijn; er is geen laboratorium-holdover gescoord tegen een externe onafhankelijke referentie, en geen partner of laboratorium is met iets akkoord gegaan. Er zou een tijdsynchronisatielaboratorium nodig zijn voordat een cijfer per klokklasse kan worden bevorderd.
+
+seg-ad8160fbed46 = <b>Wat niet wordt gedekt</b>, vermeld in elk rapport: of GNSS echt op de opgegeven tijdstippen is verwijderd en hersteld; elke stap die de operator niet heeft vastgelegd; maskers die zijn gedefinieerd via een { "0.1" } Hz-filter voor een meetreeks die langzamer is bemonsterd dan eenmaal per seconde; de eigen meetonzekerheid van het instrument; en elke procedure uit een aanbeveling die verder gaat dan een tijdfoutmeetreeks (temperatuurprofielen, belasting van het pakketnetwerk).
+
+seg-cf681db42f05 = <b>De herstelband is de eigen keuze van de test.</b> De standaardwaarde van { "100" } ns is de maximale absolute tijdfout van een PRTC-A (ITU-T G.8272); het is een handige lijn, geen eis van enige aanbeveling voor herstel.
+
+seg-4ce2f2052df4 = <b>Geen zendpad.</b> { -brand } leest bestanden. Het genereert geen signaal, en het verwijderen van GNSS in een laboratorium gebeurt met de eigen apparatuur van het laboratorium en onder zijn eigen autorisatie.
+
+seg-0cff831a8444 = <c1/> is een scenariosoort en draait dus overal waar soorten draaien: <c2/>, de Rust-API (<c3/>), de Python-binding (<c4/>), de WebAssembly- en npm-build (inline <c5/> of <c6/>; de bestandssleutels zijn daar niet beschikbaar), de MCP-server (<c7/>, alleen inline inhoud) en de scenariouitvoerder van { -brand } Studio. De twee scenariobestanden worden meegeleverd (<c8/>).
+
+seg-432c07a8e6f5 = <s1>Vorige</s1>Misleide tijd
+
+seg-8499ae539222 = <s1>Volgende</s1>Klok-logformaten
