@@ -3655,3 +3655,6 @@ seg-e51289a1e835 = Orientações da EASA sobre interferência em GNSS (aviação
 
 # text
 seg-4fa26d67951e = Orientações da EASA para aviação, mapeadas por número de cláusula
+
+# attr:title, text
+seg-1007e9b9abdc = ESA Celeste IOD, configuração de sinal nº 1, todas as bandas em uma passagem. predefinição WORKSHOP.

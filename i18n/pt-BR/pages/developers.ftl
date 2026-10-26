@@ -1688,3 +1688,15 @@ seg-193ee1ab991e = <c1/> transforma um arquivo de submissão e a verdade de uma 
 
 # text
 seg-0c50b3629e39 = Abrir o benchmark
+
+# text
+# c1: tle
+# c2: epoch
+# c3: request
+# c4: skyline_preset
+# c5: user_site
+# c6: [skyline]
+# c7: tle
+# c8: epoch
+# c9: sky_source
+seg-7937ed00cbc0 = Geometria do céu sob um horizonte dependente do azimute (um cânion urbano, um porto, um fiorde, um terminal de contêineres): a partir de um local, de um instante e de predefinições de constelação, de conjuntos de elementos de duas linhas (<c1/>, com um <c2/> em UTC) ou de satélites dados em azimute/elevação ou em ECEF, quais satélites estão visíveis e quais ficam ocultos pelo horizonte, GDOP/PDOP/HDOP/VDOP/TDOP a partir do núcleo de DOP verificado com o gnss_lib_py, o cofator e a covariância leste-norte-cima com um relógio de receptor por sistema (ou um em comum) e a elipse de erro horizontal a um sigma e a uma confiança declarada para um UERE declarado. Sem <c3/>, descreve uma predefinição de horizonte REPRESENTATIVE com sua proveniência e seu corte a cada grau (um <c4/> vazio as lista). Cenários dos tipos orbit e integrity (com <c5/>), gnss-sim, jamming, leo-pvt e leo-pass recebem a mesma seção <c6/> por meio de run_scenario. Nível de evidência MODELLED: geometria sob um modelo de erro declarado, apenas linha de visada; não é uma previsão do erro real de um receptor nem um limite de integridade; as constelações predefinidas são um céu representativo, não o céu de uma data; o texto <c7/> com um <c8/> (UTC) fornece o céu que esses conjuntos de elementos dão naquela época (SGP4), não uma medição, e <c9/> diz qual dos dois. Traz o aviso consultivo: não é um equipamento de navegação homologado. Sem Monte Carlo por MCP (amostras em volume; use a CLI, Python ou WASM). Somente em linha, no máximo { "4" } MiB.

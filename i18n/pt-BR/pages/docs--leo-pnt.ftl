@@ -689,3 +689,39 @@ seg-b4b3dff58f3b = a frequência da portadora e a taxa de chips rastreada
 # c4: leo-pass
 # c5: leo-signal
 seg-4def115dba1b = Um valor é transferido somente onde a tabela a jusante o deixa sem definição, e toda transferência é listada na matriz <c1/> do resultado com seu valor, unidade e destino. Uma banda de <c2/> deve nomear o projeto (<c3/>); é assim que uma banda de <c4/> também carrega por conta própria qualquer projeto <c5/>: ela assume a frequência central, a largura de banda de transmissão e a taxa de chips rastreada do projeto, divide seu EIRP entre os componentes e informa, em cada época, o C/N0 do componente rastreado e o jitter de rastreamento de código early-late coerente limitado em banda (Betz e Kolodziejski { "2009" }; espaçamento de meio chip, laço de { "1" } Hz, { "20" } ms).
+
+# text
+# c1: generic-l
+seg-2a2b15256cf4 = generic: o projeto <c1/> representativo, uma passagem de { "1080" } km, { "53" }° sobre Madri, uma camada Walker de 240 satélites
+
+# text
+seg-bb05e8e505e3 = pico de C/N0 rastreado { "58.2" } dB-Hz, jitter de código mediano { "0.050" } m; SISRE { "0.250" } m repassado; erro 3D em raiz do valor quadrático médio (RMS) somente com GNSS { "1.60" } m, GNSS + LEO { "0.43" } m; convergência do posicionamento preciso por ponto (PPP) { "11.5" } min somente com GNSS, { "7.5" } min com a camada LEO
+
+# text
+seg-4d1299ee4725 = Xona Pulsar X5 (arXiv { "2509.19551" }), a camada inclinada para posicionamento e ambas as camadas para PPP
+
+# text
+seg-a8fe501bf419 = pico de C/N0 rastreado { "66.3" } dB-Hz, jitter de código mediano { "0.018" } m; erro 3D RMS somente com GNSS { "1.49" } m, GNSS + LEO { "0.68" } m; convergência do PPP { "20.6" } min somente com GNSS, { "5.9" } min com o Pulsar
+
+# text
+# c1: celeste-iod-end-to-end
+seg-002e4c918dda = <c1/> (opcional)
+
+# text
+seg-a608af78a360 = Configuração nº 1 da banda E5 do Celeste IOD com a predefinição de mensagem Celeste (retida junto com a predefinição)
+
+# text
+seg-be428c21bd27 = a passagem reproduz o pico de C/N0 total para o qual a predefinição é calibrada (o valor está no arquivo da predefinição); dois satélites mal alteram uma solução fundida de 95 minutos ({ "1.50" } m para { "1.48" } m RMS 3D)
+
+# text
+seg-bf44ba47e48b = grava o resultado, o gráfico, o relatório avançado (que incorpora a passagem animada e vincula as exportações), o reprodutor interativo e arquivos de efemérides CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON e STK (Systems Tool Kit) da geometria da passagem.
+
+# text
+# c1: od_sisre_m
+seg-a08e67a32d60 = A cadeia é MODELLED: não acrescenta física alguma, e cada etapa mantém seus próprios rótulos. O modelo de C/N0 da etapa de posicionamento é uma reta em sen(elevação), de modo que uma forma específica da passagem se reduz a dois números; a etapa de mensagem não modela determinação de órbita, e por isso <c1/> é uma entrada declarada ({ "0.25" } m nos cenários incluídos, representativo da determinação de órbita a bordo em nível decimétrico e do relógio em escala de chip direcionado que a carga útil ATOMIC relata: <a1>https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/</a1>).
+
+# text
+seg-ee3c5b58e6fa = <s1>Anterior</s1>Órbita e superfície lunares como infraestrutura
+
+# text
+seg-6b951d6413c8 = <s1>Próxima</s1>Projetos de sinal LEO
