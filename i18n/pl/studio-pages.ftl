@@ -226,7 +226,7 @@ seg-5d30c2bb376f = <b>Wyniki Kshana dostarczają dowodów na (supports evidence 
 
 seg-5d4e98c5f740 = Domeny
 
-seg-5dceab2b33fd = <b>Wynik modelu.</b> Wszystko tutaj jest <b>MODELLED</b>: klimaty chmur, klasy zegarów i techniki to podane założenia (stacje są ILLUSTRATIVE, nie są żadnym zbiorem danych ani zmierzoną pogodą jakiegokolwiek miejsca), a obliczenia sprawdzono względem niezależnego programu implementującego te same wzory, a nie względem atmosfery. Szereg czasowy to jedno losowanie z ziarnem z podanego modelu stacji, a nie klimat. <b>Oprogramowanie wyłącznie doradcze.</b> Kshana nie jest sprzętem nawigacyjnym z zatwierdzeniem typu, a to nie jest certyfikowana dostępność.
+seg-5dceab2b33fd = <b>Wynik modelu.</b> Wszystko tutaj jest <b>MODELLED</b>: klimaty chmur, klasy zegarów i techniki to podane założenia (stacje są ILUSTRACYJNE, nie są żadnym zbiorem danych ani zmierzoną pogodą jakiegokolwiek miejsca), a obliczenia sprawdzono względem niezależnego programu implementującego te same wzory, a nie względem atmosfery. Szereg czasowy to jedno losowanie z ziarnem z podanego modelu stacji, a nie klimat. <b>Oprogramowanie wyłącznie doradcze.</b> Kshana nie jest sprzętem nawigacyjnym z zatwierdzeniem typu, a to nie jest certyfikowana dostępność.
 
 seg-5ddc79f228f8 = Księżycowa stacja referencyjna
 

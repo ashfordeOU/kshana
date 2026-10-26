@@ -251,7 +251,7 @@ seg-5d30c2bb376f = <b>Kshanas utdata ger belägg för ett krav. De certifierar i
 
 seg-5d4e98c5f740 = Områden
 
-seg-5dceab2b33fd = <b>Modellutdata.</b> Allt här är <b>MODELLED</b>: molnklimaten, klockklasserna och teknikerna är angivna antaganden (platserna är ILLUSTRATIVE, inte någon datamängd eller någon plats uppmätta väder), och numeriken kontrolleras mot ett oberoende program som implementerar samma formler, inte mot atmosfären. Tidsserien är ett seedat utfall från den angivna platsmodellen, inte klimatet. <b>Rådgivande programvara.</b> Kshana är inte typgodkänd navigationsutrustning och detta är inte en certifierad tillgänglighet.
+seg-5dceab2b33fd = <b>Modellutdata.</b> Allt här är <b>MODELLED</b>: molnklimaten, klockklasserna och teknikerna är angivna antaganden (platserna är ILLUSTRATIVA, inte någon datamängd eller någon plats uppmätta väder), och numeriken kontrolleras mot ett oberoende program som implementerar samma formler, inte mot atmosfären. Tidsserien är ett seedat utfall från den angivna platsmodellen, inte klimatet. <b>Rådgivande programvara.</b> Kshana är inte typgodkänd navigationsutrustning och detta är inte en certifierad tillgänglighet.
 
 seg-5ddc79f228f8 = Månreferensstation
 

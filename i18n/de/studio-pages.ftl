@@ -365,7 +365,7 @@ seg-5d30c2bb376f = <b>Eine Kshana-Ausgabe liefert Belege für eine Anforderung. 
 seg-5d4e98c5f740 = Bereiche
 
 # optical/index.html
-seg-5dceab2b33fd = <b>Modellausgabe.</b> Alles hier ist <b>MODELLED</b>: Die Wolkenklimate, die Uhrenklassen und die Verfahren sind angegebene Annahmen (die Standorte sind ILLUSTRATIVE, weder ein Datensatz noch das gemessene Wetter eines Ortes), und die Numerik wird an einem unabhängigen Programm geprüft, das dieselben Formeln umsetzt, nicht an der Atmosphäre. Die Zeitreihe ist eine gesetzte Ziehung aus dem angegebenen Standortmodell, nicht das Klima. <b>Beratende Software.</b> Kshana ist keine typzugelassene Navigationsausrüstung, und dies ist keine zertifizierte Verfügbarkeit.
+seg-5dceab2b33fd = <b>Modellausgabe.</b> Alles hier ist <b>MODELLED</b>: Die Wolkenklimate, die Uhrenklassen und die Verfahren sind angegebene Annahmen (die Standorte sind ILLUSTRATIV, weder ein Datensatz noch das gemessene Wetter eines Ortes), und die Numerik wird an einem unabhängigen Programm geprüft, das dieselben Formeln umsetzt, nicht an der Atmosphäre. Die Zeitreihe ist eine gesetzte Ziehung aus dem angegebenen Standortmodell, nicht das Klima. <b>Beratende Software.</b> Kshana ist keine typzugelassene Navigationsausrüstung, und dies ist keine zertifizierte Verfügbarkeit.
 
 # lunar/index.html
 seg-5ddc79f228f8 = Lunare Referenzstation
