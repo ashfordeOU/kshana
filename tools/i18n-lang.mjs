@@ -185,6 +185,31 @@ const textOfPattern = (p) => (p ? p.elements.filter((e) => e instanceof TextElem
 const tagsOf = (str) => (str.match(/<\/?(?:a\d+|s\d+|b|em)>|<c\d+\/>|<br\/>/g) || []).sort().join(' ');
 const digits = (t) => (t.replace(/<[^>]*>/g, ' ').match(/\d+/g) || []).sort().join(' ');
 
+const NUMBER_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty', 'hundred', 'thousand'];
+const NUMBER_WORD_VALUE = { hundred: '100', thousand: '1000' };
+const MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+/** Digit runs a translation may add: the value of an English number word (zero to twenty, hundred, thousand) or the month
+ *  number of an English month name, both in the same message ("January 29" -> "1月29日"). Everything else is rejected. */
+const allowedExtraDigits = (en) => {
+  const out = [];
+  for (const w of en.replace(/<[^>]*>/g, ' ').toLowerCase().match(/[a-z]+/g) || []) {
+    const n = NUMBER_WORDS.indexOf(w);
+    if (n >= 0) out.push(NUMBER_WORD_VALUE[w] || String(n));
+    const m = MONTHS.indexOf(w);
+    if (m >= 0) out.push(String(m + 1));
+  }
+  return out;
+};
+/** True when the translation's digit runs are the English ones, plus only runs allowed by allowedExtraDigits (each used once). */
+export const digitsOk = (en, tr) => {
+  const have = (tr.replace(/<[^>]*>/g, ' ').match(/\d+/g) || []);
+  const want = (en.replace(/<[^>]*>/g, ' ').match(/\d+/g) || []);
+  const extra = allowedExtraDigits(en);
+  for (const d of want) { const i = have.indexOf(d); if (i < 0) return false; have.splice(i, 1); }
+  for (const d of have) { const i = extra.indexOf(d); if (i < 0) return false; extra.splice(i, 1); }
+  return true;
+};
+
 function entriesOf(file) {
   if (!existsSync(file)) return null;
   const { ast, junk } = parseFtl(readText(file));
@@ -235,7 +260,7 @@ export function checkLang(root, lang) {
       if (f.startsWith('pages/') || (f !== 'glossary.ftl' && f !== 'engine.ftl')) {
         const enText = flat(src), trText = flat(e);
         if (tagsOf(enText) !== tagsOf(trText) && !a.selects.length) errors.push(`${here}: markup tags differ (English: ${tagsOf(enText) || 'none'}; here: ${tagsOf(trText) || 'none'})`);
-        if (f.startsWith('pages/') && digits(strip(enText)) !== digits(strip(trText))) errors.push(`${here}: digits in the text differ from the English (numbers must stay in their placeables)`);
+        if (f.startsWith('pages/') && !digitsOk(strip(enText), strip(trText))) errors.push(`${here}: digits in the text differ from the English (numbers must stay in their placeables)`);
         if (!a.selects.length) { const cd = capsDiff(capsCounts(enText), capsCounts(trText, rendMap)); if (cd) errors.push(`${here}: the tier, verdict and status words differ from the English (${cd}); a lowercase word stays a word`); }
         if (f.startsWith('pages/')) for (const t of TOKENS) {
           const re = new RegExp(`(?<![A-Z])${t}(?![A-Z])`);
@@ -385,7 +410,7 @@ export function mergeTranslations(root, lang, texts, { replace = false } = {}) {
       if (a.vars.join() !== b.vars.join()) why = 'variables differ';
       else if (a.lits.join('\0') !== b.lits.join('\0')) why = 'string-literal placeables differ';
       else if (!a.selects.length && tagsOf(flat(src)) !== tagsOf(flat(e))) why = 'markup tags differ';
-      else if (digits(strip(flat(src))) !== digits(strip(flat(e)))) why = 'digits differ';
+      else if (!digitsOk(strip(flat(src)), strip(flat(e)))) why = 'digits differ';
       else if (!a.selects.length && capsDiff(capsCounts(flat(src)), capsCounts(flat(e), rend0))) why = `the tier, verdict and status words differ (${capsDiff(capsCounts(flat(src)), capsCounts(flat(e), rend0))}); a lowercase word stays a word`;
       else {
         const t = flat(e);
@@ -611,7 +636,7 @@ export function mergeFile(root, lang, file, texts) {
       if (a.vars.join() !== b.vars.join()) why = 'variables differ';
       else if (a.lits.join('\0') !== b.lits.join('\0')) why = 'string-literal placeables differ';
       else if (file !== 'glossary.ftl' && !a.selects.length && tagsOf(flat(src)) !== tagsOf(flat(e))) why = 'markup tags differ';
-      else if (file !== 'glossary.ftl' && !a.selects.length && digits(strip(flat(src))) !== digits(strip(flat(e)))) why = 'digits differ';
+      else if (file !== 'glossary.ftl' && !a.selects.length && !digitsOk(strip(flat(src)), strip(flat(e)))) why = 'digits differ';
       else if (file !== 'glossary.ftl' && file !== 'engine.ftl' && !a.selects.length && capsDiff(capsCounts(flat(src)), capsCounts(flat(e), rendF))) why = `the tier, verdict and status words differ (${capsDiff(capsCounts(flat(src)), capsCounts(flat(e), rendF))}); a lowercase word stays a word`;
       if (why) { rejected.push({ id, why }); continue; }
       add += text.slice(e.span.start, e.span.end).trim() + '\n\n'; have.add(id); n++;
