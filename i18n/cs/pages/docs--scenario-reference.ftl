@@ -205,3 +205,7 @@ seg-c5cbb50f640e = Vertikála LEO-PNT: časování kritické infrastruktury, hol
 seg-abf58b089d72 = Vertikála LEO-PNT: polární a arktičtí uživatelé.
 
 seg-a7de37959bb9 = Vertikála LEO-PNT: železnice a námořní doprava, přibalené námořní a železniční scénáře plus LEO.
+
+seg-cb9447893c7f = Jedna družice nad jednou stanicí: šikmá vzdálenost, elevace a Es/N0 každého přeletu podél přeletu, MODCOD DVB-S2 zvolený v každém kroku (prahy ETSI EN { "302" } 307-1 tabulka { "13" } plus implementační rezerva) a objem dat, který ACM přenese oproti základu s konstantním kódováním, jenž se uzavře na masce. MODELLED.
+
+seg-7eff466eb018 = Řízení orientace kosmické lodi: inerciální zaměřovací otočení tuhého tělesa se třemi či více vyváženými reakčními koly při zpětné vazbě MRP (L = -K sigma - P omega), minimálně normové momenty kol omezené limitem každého motoru, RK4 s držením nultého řádu; volitelně uzavřené na multiplikativní EKF ze simulovaného gyroskopu (náhodná procházka úhlu a rychlosti) a hvězdného sledovače. Hlásí dobu ustálení, konečnou a špičkovou chybu zaměření, špičkovou rychlost a moment kol, nasycený podíl, drift momentu hybnosti a s estimátorem jeho chybu orientace a NEES. Smyčka skutečného stavu je VALIDATED proti Basilisk { "2.9.1" }; estimátor je MODELLED.

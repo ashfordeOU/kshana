@@ -9,3 +9,5 @@ seg-28e87f407a10 = Oblast
 seg-ad856ad710eb = Stav
 
 seg-6e0cb6acc073 = VALIDATED
+
+seg-d4a762001549 = Licence
