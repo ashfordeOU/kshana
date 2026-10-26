@@ -77,3 +77,7 @@ seg-61a4eb09767f = Průvodce serverem MCP
 seg-8b49f6477e8f = Otevřené jádro
 
 seg-6555ff9a6d8e = Výstup
+
+seg-70a79ec95bf4 = nesplněno
+
+seg-7a33a168b020 = splněno

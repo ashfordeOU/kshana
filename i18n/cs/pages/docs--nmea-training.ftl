@@ -11,3 +11,5 @@ seg-45425f378b61 = význam
 seg-6940543aa3c0 = řetězec
 
 seg-f5e7215e6835 = objekt
+
+seg-bbcdd898d24d = celé číslo

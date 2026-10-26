@@ -471,3 +471,133 @@ seg-0d3973f04ee5 = <b>NeQuick-G</b>: koeficienty putují ve zprávě a <c1/> vra
 seg-66dbd447dfeb = Družice ve výšce několika set kilometrů létá uvnitř ionosféry. Žádný z vysílaných modelů nezohledňuje elektronový obsah nad družicí a žádná korekce na něj se neuplatňuje.
 
 seg-02dc0d42fb21 = sfu
+
+seg-7befd59b2ac6 = <b>UTC</b>: <c1/> uplatňuje tři případy z Galileo ICD §{ "5.1.7" } (před přestupnou sekundou, do šesti hodin od ní a po ní); vložená sekunda se čte jako { "86400" }.
+
+seg-2b0d77219437 = Předvolby
+
+seg-d2908020db08 = Předvolby jsou data, každá v jednom souboru v <c1/>, i s uvedením zdrojů. Engine a každý přibalený scénář kromě scénáře Celeste běží i bez nich.
+
+seg-c353e7bec219 = Klíč
+
+seg-5566e1d71a4f = Oběžná dráha
+
+seg-33f4c7af9c53 = Nosná
+
+seg-f4510e898031 = Model zprávy
+
+seg-125aac68d94f = VEŘEJNÉ, <a1>arXiv { "2509.19551" }</a1>
+
+seg-890aa92157e4 = { "1080" } km, { "53" }°
+
+seg-1eca13ba2309 = X1 { "1593.3225" } MHz
+
+seg-ee9947222a30 = nezveřejněno
+
+seg-77af616c1f6e = VEŘEJNÉ, arXiv { "2509.19551" }
+
+seg-f016786d7755 = { "520" } km, { "97" }°
+
+seg-780e931bf88d = VEŘEJNÉ, <a1>zpráva RNTF</a1>, popis konstelace
+
+seg-d5df094a5f89 = { "781" } km, { "86.4" }°
+
+seg-94bc78cee128 = { "1621" } MHz (pásmo { "1616" }–{ "1626" } MHz)
+
+seg-3f5de7f74502 = nic se nevysílá
+
+seg-4944294c230f = VEŘEJNÉ, <a1>NAVIGATION { "72" }({ "1" })</a1>, popis konstelace
+
+seg-c2a2761f73b1 = { "550" } km, { "53" }°
+
+seg-2ef501f97eff = pásmo Ku, hodnota ze středu pásma (reprezentativní)
+
+seg-567fab40bd24 = žádná (signály příležitosti)
+
+seg-a76527ba66b6 = VEŘEJNÉ, <a1>Sensors { "2023" }</a1>, <a2>Satellite Navigation { "2026" }</a2>
+
+seg-f5dd5086eedd = { "700" } km, { "55" }°
+
+seg-5fa6b60f66b4 = blízko B1 (ve zdroji zakryto; náhradou L1)
+
+seg-5ebbf0042d7c = REPREZENTATIVNÍ
+
+seg-4f3e5a683682 = { "600" } km, { "97.8" }°
+
+seg-c06f62ca5173 = { "5020" } MHz (střed pásma C pro RNSS)
+
+seg-884c81e55e79 = VEŘEJNÉ, <a1>InsideGNSS</a1>
+
+seg-3b1fd041f9ba = { "500" } km (reprezentativní)
+
+seg-522c85402d84 = L1 (reprezentativní)
+
+seg-064b03765e4d = <c1/>, stupeň { "6" }, { "60" } s, obnovováno každých { "30" } s, nulové hodiny, zbytek řízení { "0.24" } m
+
+seg-5619bc61b958 = WORKSHOPOVÉ a VEŘEJNÉ
+
+seg-20572d7e348d = { "510" } km, { "97.4" }°
+
+seg-a17f4b4f7fb5 = { "1191.795" } MHz
+
+seg-fad0950a2d67 = <c1/>, stupně a rozestup záznamů jsou v souboru předvolby
+
+seg-e881ffc4e14b = RNSS je družicová služba radionavigace; RNTF je Resilient Navigation and Timing Foundation.
+
+seg-e9524c71636d = <b>Celeste IOD.</b> Předvolba demonstrace na oběžné dráze (IOD) Celeste Evropské kosmické agentury (ESA) je jediná, která využívá materiál prezentovaný na workshopu LEO-PNT programu ESA Navigation Innovation and Support Programme (NAVISP) v roce { "2026" }: strukturu zprávy (galileovský keplerovský soubor prvků plus korekční polynomy podél, napříč a radiálně, polynom hodin, SVID, stav zdraví, IOD, ionosférické parametry a parametry UTC), rozestup záznamů a názvy sloupců CSV. Oběžná dráha ({ "510" } km, téměř polární heliosynchronní) a nosná pocházejí z veřejných zdrojů uvedených v souboru. Bitové rozvržení Celeste není veřejné a není reprodukováno; pozdější fáze Celeste a systém LEO-PNT Evropské unie (EU) se mohou lišit. Každá hodnota odvozená z workshopu je v modulu <c1/> v <c2/>, používaném souborem <c3/>. Jak se předvolba zadržuje: každé číslo enginu odvozené z workshopu je v jediném souboru <c4/>, který <c5/> zkompiluje, jen pokud existuje, a ve scénářích dostupných pouze v repozitáři <c6/>. Smazáním tohoto souboru a těchto scénářů se předvolba zadrží bez jakékoli úpravy zdrojového kódu; každý další test, orákulum i scénář běží i bez ní a počet souborů scénářů v README zadržené soubory stále započítává.
+
+seg-906da2752f76 = Verifikace
+
+seg-7338b6210228 = Řádek
+
+seg-c5ce76c91ff7 = Popisek
+
+seg-cfe0d596296e = Váhy SISRE
+
+seg-3e0059048a0d = tabulka Montenbruck et al. { "2018" } (GPS, GLONASS, Galileo, BeiDou, geostacionární)
+
+seg-0f5e73171fe0 = uživatelský algoritmus z Galileo ICD
+
+seg-29ad977ef423 = RTKLIB <c1/> na čtyřech skutečných vysílaných efemeridách Galileo, { "1" } mm na osu (<c2/>)
+
+seg-ecec254e8219 = katalogová kontrolní hodnota <c1/>; příkladový rámec RTCM { "10403" } { "1005" }
+
+seg-388633e4e785 = Fitter a kompromis SISRE
+
+seg-8b85c3277e66 = dvoutělesová pravda zpětně získána na { "1" } mm; opravený fit J2–J6 na { "1" } mm; monotónní růst s intervalem
+
+seg-4de7f2b173c5 = Kontinuita uprostřed přeletu
+
+seg-bdbd2771c7f5 = identita skoku; kužel v uzavřeném tvaru jako mez proti vzorkování
+
+seg-468a92a2caf7 = Binární formát a rozpočet
+
+seg-ba26f5f63172 = zpětné převody beze ztráty; poloviční krok každého pole pod { "1" } mm
+
+seg-9be43cbef131 = ve stylu RINEX a CSV
+
+seg-a7748156fd6e = zpětné převody beze ztráty
+
+seg-88b5cda10923 = 22parametrový model a fit podle Liu et al. { "2025" }
+
+seg-7272ebdc1fec = přesné dráhy TU Graz ITSG čtyř družic proti tabulkám { "4" }, { "5" }, { "6" } a { "8" } z článku: poměry podél, napříč, radiálně a SISRE { "0.755" } až { "1.138" } ve dnech z článku a { "0.683" } až { "1.186" } v osmi zadržených dnech, uvnitř 1,5× (<c1/>)
+
+seg-94066142a642 = polynom ATOMIC s nulovými hodinami a tabulka pěti výšek
+
+seg-205cdc6a3696 = fakta o ATOMIC z InsideGNSS; zveřejněná tabulka Liu vytištěná vedle fitu integrované dráhy v Kshana, bez připnutí
+
+seg-8c00ed11609c = uzavřené tvary z ICD; model Klobuchar zkontrolovaný proti RTKLIB
+
+seg-d5653e0958b5 = SISRE je pouze chyba reprezentace: nezahrnuje chybu určování ani předpovědi oběžné dráhy.
+
+seg-4968d9fcbc19 = Pravda je integrace v Kshana (bez třetího tělesa, tlaku slunečního záření a slapů), nikoli přesná dráha skutečné družice.
+
+seg-6a4a1bf21b50 = Binární formát a blok ve stylu RINEX jsou vlastní formáty Kshana.
+
+seg-26c0a2693081 = NeQuick-G se přenáší, ale neintegruje se do zpoždění; žádná korekce pro družici uvnitř ionosféry.
+
+seg-2a0c8190c38e = Srovnání s Liu et al. se liší dráhami, výkladem parametrů a vahami.
+
+seg-4abe216f987a = <s1>Předchozí</s1>Přelet LEO a rozpočet spoje
+
+seg-59d9bf4735d8 = <s1>Další</s1>Fúzované určování polohy MEO a LEO

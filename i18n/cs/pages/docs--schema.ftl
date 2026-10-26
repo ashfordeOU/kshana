@@ -11,3 +11,7 @@ seg-6940543aa3c0 = řetězec
 seg-f5e7215e6835 = objekt
 
 seg-9da5d92757bd = objekt, volitelný
+
+seg-c353e7bec219 = Klíč
+
+seg-a129b9e613d0 = Typ
