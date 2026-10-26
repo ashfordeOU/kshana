@@ -45,3 +45,5 @@ seg-cb00aca0268d = <b>MODELLED</b> De sweep van de soort <c1/> (één tot drie s
 seg-1750fbfc4a99 = <s1>Vorige</s1>sweep-nd
 
 seg-de5468ac32fc = <s1>Volgende</s1>telecom-timing
+
+seg-8b701f465117 = log

@@ -41,3 +41,7 @@ seg-eb79c117f1df = MODELLED — tijddomeinvoorspelling van grondstationpassages;
 seg-a7ddc8eeaf1e = <s1>Vorige</s1>orbit
 
 seg-3079cfb8decc = <s1>Volgende</s1>pvt
+
+seg-58413589a025 = MODELLED { "2" } · VALIDATED { "2" }: de rijen van de <a1>verificatiematrix</a1> die deze soort noemen.
+
+seg-df90e5910fb4 = uur

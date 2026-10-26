@@ -53,3 +53,7 @@ seg-b0109481e8ff = De grafiek die de engine schrijft voor scenarios/reentry.toml
 seg-de2448d74c2b = CCSDS 133.0-B Space Packet Protocol-framing: codeer een synthetische TM/TC-pakketstroom (primaire header van 6 octetten + gegevensveld) en rapporteer per pakket de decodering van de header, het totaal aantal octetten en een exacte rondreis van codering↔decodering. Deterministische framing met exacte bitindeling — de interoperabiliteitslaag voor pakketformaten van ruimtevaartorganisaties; GEEN certificering van conformiteit (geen logica voor secundaire header/CRC/segmentatie buiten de vlaggen).
 
 seg-af1cf9aa9938 = De grafiek die de engine schrijft voor scenarios/space-packet.toml, soort space-packet
+
+seg-953188c11165 = Eenrichtings-linkbudget volgens de linkvergelijking van CCSDS { "401" } / DSN 810-005: vrije-ruimtepadverlies, C/N₀, Eb/N₀, marge en sluiting voor een zend-EIRP, ontvangst-G/T, afstand, datasnelheid en band (s|x|ka) ten opzichte van een vereiste Eb/N₀. Een deterministische technische berekening op basis van de aangeleverde invoer (geen gekalibreerd terminaldatablad).
+
+seg-bd375631bc7e = De grafiek die de engine schrijft voor scenarios/link-budget.toml, soort link-budget

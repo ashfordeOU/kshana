@@ -9,3 +9,5 @@ seg-5a70fcb097dc = Optionele velden: geen
 seg-a1810bbca337 = <b>MODELLED</b> Tweerichtings-/TWSTFT (Sagnac), GNSS-common-view, PPP; linkjitter→afstand. Onafhankelijke referentie (ExternalDataset): Sagnac-grootte gecontroleerd tegen een gezaghebbende GEPUBLICEERDE WAARDE — N. Ashby, 'Relativity in the GPS', Living Reviews in Relativity { "6" }:{ "1" } ({ "2003" }), Vgl. { "1.29" }: een oostwaartse omloop langs de evenaar levert { "207.4" } ns op (2ωA_E/c²); kshana reproduceert { "207.386" } ns. Onafhankelijk bevestigd door RTKLIB { "2.4.3" } geodist() (Takasu, BSD-2-Clause), dat dezelfde 2Aω/c²-geometrie hanteert. De samengestelde BIPM-TWSTFT-transponder/common-view/
 
 seg-a8beb8dfc757 = Foutbudgettering van tijdoverdracht is MODELLED, niet getoetst aan een onafhankelijke externe referentie: een deelclaim is extern gecontroleerd, maar de hele mogelijkheid is samengesteld uit gemodelleerde onderdelen, dus de mogelijkheid blijft gemodelleerd. (verificatiematrix (docs/MODELLED-RATIONALE.md))
+
+seg-37a77f49f048 = ps

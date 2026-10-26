@@ -15,3 +15,5 @@ seg-304496607bd7 = Scenariosoort van de engine v{ $version }, familie <a1>Jammin
 seg-5d23d7f8f872 = Familiepagina: <a1>Jamming, spoofing en het spectrum</a1>
 
 seg-edcd55ccc993 = <b>MODELLED</b> Het rapport <c1/> steunt zijn ontkenningscontour niet langer op één scalair.
+
+seg-05e8854de548 = chip
