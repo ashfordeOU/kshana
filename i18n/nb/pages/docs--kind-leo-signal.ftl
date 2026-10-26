@@ -10,6 +10,18 @@ seg-3bc1761c76ab = { "3" } medfølgende scenarioer bruker denne typen; de andre 
 
 seg-a3697ad561db = Hz
 
+seg-1918189ac2bf = ppm
+
+seg-49964654d5f4 = Scenariotype i motoren v{ $version }, familie <a1>Navigasjon i lav jordbane</a1>. Veiledende: analyseresultat fra et forsknings- og ingeniørverktøy, ikke typegodkjent navigasjonsutstyr og ikke en safety-of-life-tjeneste. Hver etikett her kommer fra motoren eller verifikasjonsmatrisen; en type er MODELLED med mindre matrisen sier noe annet (hvordan en etikett oppnås: avsnittet Evidence i README).
+
+seg-c5478f572d21 = Familieside: <a1>Navigasjon i lav jordbane</a1>
+
+seg-ae15d15bf151 = Temaside: <a1>LEO-PASS.md</a1>
+
+seg-59b976838ef1 = <b>VALIDATED</b> navsignal: sinusintegralet (sine_integral), BPSK-R-andelen av effekten innenfor et dobbeltsidig bånd i lukket form (bpsk_power_in_band_closed_form), det bånd. Uavhengig referanse (ExternalDataset): Eksternt festet: { "90.3" } prosent hovedlobeeffekt, den koherente early-late-jitteren ved det oppgitte driftspunktet, tabellverdiene for sinusintegralet, og BPSK-koeffisienten for spektral selvseparasjon 2/({ "3" } R_c) ved null forskyvning. Kun interne krysskontroller, ikke ekstern validering: den lukkede formen for Gabor-båndbredden til båndbegrenset BPSK og dens asymptote, og koeffisienten for spektral separasjon for forskjøvet BPSK ved forskyvninger ulik null, begge
+
+seg-faf2775f3003 = <b>MODELLED</b> Typen <c1/>: parametriserte signalutforminger (bånd, sendebåndbredde, ITU-tildeling; innhentings-, data- og pilotkomponenter med BPSK(n), BOC(m,n), MB. Uavhengig referanse (InternalConsistency): De validerte lukkede formene i de to radene ovenfor, kvadratlov-identiteten for falsk alarm P_d(snr = { "0" }) = P_fa og Holmes' gjennomsnittlige innhentingstid, og reduksjon til spektrumtypens egen SSC-kjede (den samme koden Jammer::ssc). Utformingene selv er inndata: forhåndsinnstillinger merket REPRESENTATIVE eller WORKSHOP er ikke publiserte spesifikasjoner, forbedrede Feher QPSK-, kodeskifte- og OFDM-spektre er tilnærmet, og formen
+
 seg-051999733048 = Kilde: <c1/>
 
 seg-16ae2a08d3c8 = <c1/> (scenariotype)

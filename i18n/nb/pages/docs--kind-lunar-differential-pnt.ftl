@@ -12,6 +12,8 @@ seg-1c1eeb2dcaa0 = Familieside: <a1>Måne og cislunart rom</a1>
 
 seg-619127334cf3 = Ingen matriserad nevner denne typen ved navn; etiketten på resultatet er motorens egen, ovenfor.
 
+seg-549a6103e711 = bit
+
 seg-d0c9bec248b4 = Kilde: <c1/>
 
 seg-d226df2bb634 = <c1/> (scenariotype)

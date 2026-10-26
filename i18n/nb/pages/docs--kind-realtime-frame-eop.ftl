@@ -6,6 +6,8 @@ seg-f6b7ca020692 = Familieside: <a1>GNSS-målinger, posisjonsbestemmelse og inte
 
 seg-7400f24ec992 = MODELLED { "1" } · VALIDATED { "2" }: radene i <a1>verifikasjonsmatrisen</a1> som nevner denne typen.
 
+seg-a2889fb2b42a = Temaside: <a1>integrations.md</a1>
+
 seg-1ad013ffb9d1 = Kilde: <c1/>
 
 seg-54620502f0dd = <c1/> (scenariotype)
@@ -39,3 +41,11 @@ seg-530c87bbff78 = <b>MODELLED</b> En tilpasning med minste kvadrater av skjevhe
 seg-a233df86be95 = Budsjett for sanntidsprediksjon av månens referansesystem og jordorientering. VALIDATED lukket form: L19-vektarmen ({ "1" } ms ↔ { "28.03" } m ↔ { "93.5" } ns), ω⊕ kontrollert mot CIO-rotasjonsvinkelen for jorden. VALIDATED virkelige data: L18-kurvene for UT1- og polbevegelsesprediksjonsfeil lest rett av den virkelige IERS finals2000A-serien (Bulletin A raske mot Bulletin B endelige, og persistens over flere dager på de virkelige daglige radene). AVLEDET: rammen (resultat <c1/>)
 
 seg-60e7ee7e6e3e = VALIDATED lukket form (L19-vektarmen, ω⊕ kontrollert mot CIO-rotasjonsvinkelen for jorden) og VALIDATED virkelige data (L18-kurven rett av de virkelige radene i finals2000A); MODELLED er størrelsene på OD-kovariansen for månereléet og gulvet for realisering av rammen (representative tildelinger) og persistensprediktoren (ikke IERS' operative Bulletin A-algoritme). (typekatalog (<c1/>))
+
+seg-ddf4702f78e5 = Ærlighet: VALIDATED lukket form (L19-vektarmen, omega_earth kontrollert mot CIO-rotasjonsvinkelen for jorden) og VALIDATED virkelige data (L18-kurvene for UT1 og polbevegelse rett av de virkelige radene i finals2000A). AVLEDET gulv for realisering av rammen (Helmert-restene etter tilpasning). MODELLED er størrelsene på OD-kovariansen for månereléet ({ "0.27" } m etterbehandlet, ~{ "14.4" } m i sanntid ved én times latens, et rundt tall, ikke tilbakeløst, alle (kommentar i scenariofilen, linje { "27" } til { "32" })
+
+seg-bc51b666d070 = Prediksjonsfeil for jordorientering i operativ stil, målt som predikert mot endelig, er MODELLED, ikke validert: kontrollert mot en separat implementasjon i den samme kodebasen, uavhengig av enheten som testes, men ikke ekstern autoritet. (verifikasjonsmatrise (docs/MODELLED-RATIONALE.md))
+
+seg-653fad5e0afe = <s1>Forrige</s1>quantum-trade
+
+seg-5abe534d4ef1 = <s1>Neste</s1>reentry

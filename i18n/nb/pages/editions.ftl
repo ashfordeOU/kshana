@@ -75,3 +75,7 @@ seg-34908f7d11bb = crates.io: kshana-mcp
 seg-61a4eb09767f = Guide til MCP-serveren
 
 seg-8b49f6477e8f = Åpen kjerne
+
+seg-70a79ec95bf4 = feiler
+
+seg-7a33a168b020 = består
