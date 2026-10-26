@@ -26,9 +26,6 @@ seg-47118f54f060 = Der Szenariotyp <c1/> beantwortet, wie oft eine optische Verb
 # text
 seg-06db0ea8f428 = Kshana ist nur die Analyseseite. Es führt kein Experiment mit einer optischen Bodenstation durch und nennt keinen Messpartner. Der Typ ist <b>MODELLED</b>: Seine Numerik wird gegen ein unabhängiges Programm geprüft, aber es wurde keine gemessene Verfügbarkeitsaufzeichnung verglichen, und jede Wetter-, Techniken- und Uhreneingabe ist eine Annahme. Es ist eine beratende Analyse, kein zertifiziertes Verfügbarkeits-, Integritäts- oder Navigationsprodukt.
 
-# text
-seg-83c16fd89005 = Beide mitgelieferten Szenarien tragen ILLUSTRATIVE Wolkenklimata. Sie sind Eingaben, keine Messungen und nicht die Werte irgendeines Datensatzes.
-
 # attr:alt
 seg-e9dbbd9cfa32 = Eine mit Seed erzeugte Realisierung der Verbindungsmarge des Standorts „northern“ über { "336" } h, aus einem echten Lauf der Engine v{ $version } auf scenarios/optical-atmosphere-network.toml (Seed { "37" }, Schritt von { "600" } s). Die Marge fällt während Wolkenepisoden unter null; in dieser Ziehung ist die Verbindung { "40.5" } % der Zeit aktiv, mit { "27" } Ausfällen und einem längsten Ausfall von { "30.7" } h. Die Eingaben sind illustrativ, die Reihe ist eine Ziehung aus dem Modell und nicht das Klima, und sie weicht von der statistischen Verfügbarkeit ({ "37.8" } %) um den Stichprobenfehler der Ziehung ab. Nur beratende Analyse: kein zertifiziertes Verfügbarkeits-, Integritäts- oder Navigationsprodukt und keine Vorhersage für einen realen Standort, sofern seine Klimaeingaben nicht aus einem genannten Datensatz stammen.
 
@@ -173,3 +170,6 @@ seg-1474b58fb35a = <s1>Weiter</s1>Slot-Zeitgebung
 
 # text
 seg-2442f7529fbb = Zeile der Stufe MODELLED; Numerik gegen ein unabhängiges mpmath-Programm geprüft
+
+# text
+seg-83c16fd89005 = Beide mitgelieferten Szenarien tragen ILLUSTRATIVE Wolkenklimata. Sie sind Eingaben, keine Messungen und nicht die Werte irgendeines Datensatzes.
