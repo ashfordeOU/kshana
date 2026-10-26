@@ -927,7 +927,7 @@ seg-158717c78c80 = <b>Lecture de navigation RINEX { "4" }</b> ({ "0.36" }, WP-07
 seg-57aa5c6ef4f8 = <b>Positions diffusées BeiDou GEO</b> (optionnel) : <c1/> et <c2/> (ICD BDS, inclinaison de −{ "5" } deg). <c3/> ignore toujours les GEO. MODELLED : la comparaison préenregistrée avec une orbite précise est conditionnée par les données et pas encore exécutée.
 
 # text
-seg-416f58111d1f = <b>Fichiers d'observation RINEX { "4" }</b> : un vrai fichier d'observation MGEX RINEX { "4.00" } est lu dans les tests (MODELLED, conformité de format).
+seg-416f58111d1f = <b>Fichiers d'observation RINEX { "4" }</b> : un vrai fichier d'observation MGEX RINEX { "4.00" } est lu dans les tests (MODELLED, respect du format).
 
 # text
 # c1: rtk_real::run_rtk

@@ -1754,7 +1754,7 @@ seg-b31d1ffa99b1 = Détermination d'orbite par lot à partir de distances
 seg-0b37139dffa9 = <c1/> retrouve <c2/> à partir d'un suivi de distance par station au sol (propagé sur le modèle de forces à deux corps + J2) à <b>sub-métrique / mm·s⁻¹ à partir de distances sans bruit</b>, et à <b>~{ "2" } m avec un résidu après ajustement au plancher de bruit de { "5" } m</b> — la signature d'un ajustement par moindres carrés cohérent.
 
 # text
-seg-fb29199bf8bd = OD séquentielle (filtre sans parfum)
+seg-fb29199bf8bd = OD séquentielle (filtre de Kalman sans parfum)
 
 # text
 # c1: determine_orbit_sequential

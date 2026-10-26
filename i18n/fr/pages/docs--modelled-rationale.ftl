@@ -297,25 +297,25 @@ seg-37d43b5b918a = Fiche de paramètres de modèle d'erreur citée du CAI ({ "13
 seg-0b6a901f5ad2 = Performance d'interféromètre à atomes froids encadrée (meilleure/nominale/prudente) — instabilité de biais, marche aléatoire de vitesse/angle, stabilité du facteur d'échelle, cadence d'échantillonnage limitée par l'interrogation, plage dynamique d'ambiguïté de frange — chacune traçable par citation ; alimente QuantumNavBudget sans modéliser le matériel
 
 # text
-seg-c93f2d3a3167 = Banc d'essai de conformité d'intégrité de synchronisation — classifieur d'époques du diagramme d'intégrité de Stanford
+seg-c93f2d3a3167 = Banc d'essai de respect de la norme d'intégrité de synchronisation — classifieur d'époques du diagramme d'intégrité de Stanford
 
 # text
 seg-712d5c35a6a6 = Classification d'époques du diagramme d'intégrité de Stanford TIB (nominal / indisponible / MI / HMI)
 
 # text
-seg-573aa0193cb3 = Banc d'essai de conformité d'intégrité de synchronisation — évaluateur de couverture d'intégrité
+seg-573aa0193cb3 = Banc d'essai de respect de la norme d'intégrité de synchronisation — évaluateur de couverture d'intégrité
 
 # text
 seg-4d86f3c2d8f5 = Évaluation de couverture d'intégrité TIB (taux HMI/MI/disponibilité + verdict de couverture de surbornage)
 
 # text
-seg-372dd0fdb025 = Banc d'essai de conformité d'intégrité de synchronisation — catalogue de défauts (générateurs paramétriques)
+seg-372dd0fdb025 = Banc d'essai de respect de la norme d'intégrité de synchronisation — catalogue de défauts (générateurs paramétriques)
 
 # text
 seg-2604e7cf27d2 = Menu de défauts TIB (divergence de domaine, claquage d'horloge, marche en holdover, retard statique/incrémental/symétrique/asymétrique, rejeu dans la fraîcheur, sélectif par chemin, quorum k parmi N)
 
 # text
-seg-90c0eb1e7c14 = Banc d'essai de conformité d'intégrité de synchronisation — verdict d'absorption de l'indétectable
+seg-90c0eb1e7c14 = Banc d'essai de respect de la norme d'intégrité de synchronisation — verdict d'absorption de l'indétectable
 
 # text
 seg-f713acf042ff = Verdict d'absorption de l'indétectable TIB (symétrique/rejeu doivent être absorbés par le PL, jamais rapportés comme détectés)
@@ -2526,7 +2526,7 @@ seg-1b1f761bd9a9 = vérifié par rapport à sa propre identité analytique en fo
 seg-11fe79ac46b3 = lunar_faultobs::tests — provider_mismatch_split_common_undetectable_differential_detectable (biais commun indétectable, différentiel détectable), slope_infinity_in_range_finite_detectable (g7 : pente ∞ pour b ∈ range(G), finie pour b ∉ range(G)), pernode_rank_is_state_dim_minus_eight (§{ "0" } : rang(GᵀWG) = state_dim − { "8" }, la jauge de dimension 8 constitue tout l'espace nul, avec un écart spectral >{ "1e6" })
 
 # text
-seg-1ac1dc1c053d = vérifié par rapport à sa propre identité analytique en forme close — détecte les erreurs de transcription et de coefficients, mais n'est pas une référence indépendante — Transcription des Recommandations citées (téléchargeables librement sur itu.int), chaque limite portant son tableau ou son article, listée avec chaque élément non confirmé ou non implémenté dans docs/TELECOM-TIMING.md ; les identités de continuité aux points de rupture que les tableaux impliquent sont vérifiées dans les tests. Une transcription de normes avec des vérifications de cohérence interne, et non un test de conformité ni une validation externe. { "0.30" } tour { "2" } (préenregistré 970003ee), bloqué (reste MODELLED) : les dix valeurs de masque et les treize valeurs de holdover ePRTC-A que les Recommandations impriment comme exemples chiffrés (G.8272 fig. 1-2, G.8272.1 Amd.1 art. { "8.2.1" } et fig. V.1-V.3, G.8271.1 Amd.3 fig. 7-2 à 7-4) sont reproduites à moins d'une demi-unité imprimée près, la plupart étant des constantes de tableau ou des points de rupture ; la fig. 7-2 de G.8271.1 indique { "200" } ns à { "1.3" } s, contre son propre tableau 7-1 ({ "197.5" } ns). Les limites de classe A-D de G.8273.2 n'ont aucune valeur chiffrée imprimée, et les étiquettes de points de rupture ePRTC verrouillé de G.8272.1 (sur des lignes de construction pleines) ont été exclues par la règle de sélection préenregistrée ; elles restent donc des transcriptions
+seg-1ac1dc1c053d = vérifié par rapport à sa propre identité analytique en forme close — détecte les erreurs de transcription et de coefficients, mais n'est pas une référence indépendante — Transcription des Recommandations citées (téléchargeables librement sur itu.int), chaque limite portant son tableau ou son article, listée avec chaque élément non confirmé ou non implémenté dans docs/TELECOM-TIMING.md ; les identités de continuité aux points de rupture que les tableaux impliquent sont vérifiées dans les tests. Une transcription de normes avec des vérifications de cohérence interne, et non un test de respect de la norme ni une validation externe. { "0.30" } tour { "2" } (préenregistré 970003ee), bloqué (reste MODELLED) : les dix valeurs de masque et les treize valeurs de holdover ePRTC-A que les Recommandations impriment comme exemples chiffrés (G.8272 fig. 1-2, G.8272.1 Amd.1 art. { "8.2.1" } et fig. V.1-V.3, G.8271.1 Amd.3 fig. 7-2 à 7-4) sont reproduites à moins d'une demi-unité imprimée près, la plupart étant des constantes de tableau ou des points de rupture ; la fig. 7-2 de G.8271.1 indique { "200" } ns à { "1.3" } s, contre son propre tableau 7-1 ({ "197.5" } ns). Les limites de classe A-D de G.8273.2 n'ont aucune valeur chiffrée imprimée, et les étiquettes de points de rupture ePRTC verrouillé de G.8272.1 (sur des lignes de construction pleines) ont été exclues par la règle de sélection préenregistrée ; elles restent donc des transcriptions
 
 # text
 seg-95c049581604 = telecom_timing (MASKS, eprtc_a_holdover_limit_ns, check_curve, check_mask)
@@ -2535,7 +2535,7 @@ seg-95c049581604 = telecom_timing (MASKS, eprtc_a_holdover_limit_ns, check_curve
 seg-35e253f27caa = telecom_timing::tests (mask_boundaries_follow_the_tables_exactly — extrémités ouvertes et fermées, l'intervalle τ = { "400" } s du tableau 7-3 de G.8271.1, continuité à chaque point de rupture que les tableaux impliquent ; a_curve_exactly_on_the_limit_passes_and_just_above_fails ; eprtc_a_holdover_envelope_follows_table_3 ; a_coarse_record_is_not_evaluated_against_a_filtered_mask) ; tests/telecom_timing_reference.rs (telecom_timing_kind_round_trips_through_the_dispatch) ; tests/telecom_masks_itu_printed_values.rs (mask_values_match_the_numbers_the_recommendations_print ; figure_7_2_label_at_1_3_s_is_not_its_own_table_value)
 
 # text
-seg-7af5107287ea = vérifié par rapport à sa propre identité analytique en forme close — détecte les erreurs de transcription et de coefficients, mais n'est pas une référence indépendante — Transcription des Recommandations citées (téléchargées sur itu.int le 2026-10-13), chaque ligne relue par rapport au texte, la continuité aux points de rupture qu'impliquent les coefficients imprimés étant bornée dans les tests (par exemple { "40" } · { "10" }^{ "0.4" } = { "100.48" } ns contre le plateau de { "100" } ns du tableau { "4" } de G.812). Une transcription de normes avec des vérifications de cohérence interne, et non un test de conformité ni une validation externe. G.812 (06/2004) est indiquée comme remplacée par une édition pré-publiée 08/2026 et G.811 a un Amd. { "1" } (04/2016) ; aucune des deux n'a pu être lue, donc aucune n'est vérifiée. Le scénario d'OCXO en marche libre surestime la contribution de l'oscillateur aux intervalles d'observation longs par rapport à la constante de temps d'une boucle ; il ne dit rien d'une horloge d'équipement quelconque
+seg-7af5107287ea = vérifié par rapport à sa propre identité analytique en forme close — détecte les erreurs de transcription et de coefficients, mais n'est pas une référence indépendante — Transcription des Recommandations citées (téléchargées sur itu.int le 2026-10-13), chaque ligne relue par rapport au texte, la continuité aux points de rupture qu'impliquent les coefficients imprimés étant bornée dans les tests (par exemple { "40" } · { "10" }^{ "0.4" } = { "100.48" } ns contre le plateau de { "100" } ns du tableau { "4" } de G.812). Une transcription de normes avec des vérifications de cohérence interne, et non un test de respect de la norme ni une validation externe. G.812 (06/2004) est indiquée comme remplacée par une édition pré-publiée 08/2026 et G.811 a un Amd. { "1" } (04/2016) ; aucune des deux n'a pu être lue, donc aucune n'est vérifiée. Le scénario d'OCXO en marche libre surestime la contribution de l'oscillateur aux intervalles d'observation longs par rapport à la constante de temps d'une boucle ; il ne dit rien d'une horloge d'équipement quelconque
 
 # text
 seg-f8b7bc046be6 = telecom_timing (MASKS, Segment::tau_exponent, MeasurementFilter::LowPass10HzAtSource, MaskCondition::Autonomous)
