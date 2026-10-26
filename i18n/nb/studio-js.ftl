@@ -4768,3 +4768,1809 @@ js-lib-guided-seed-label = Tilfeldig seed
 js-lib-guided-sigma-uere-m-hint = brukerekvivalent avstandsfeil på 1 σ for posisjonsoppsummeringen
 
 js-lib-guided-sigma-uere-m-label = Avstandsfeil σ (m)
+
+js-lib-guided-station-lat-deg-hint = breddegraden til bakkestasjonen — styrer passeringsgeometrien
+
+js-lib-guided-station-lat-deg-label = Stasjonens breddegrad (°)
+
+js-lib-guided-station-lon-deg-hint = lengdegraden til bakkestasjonen
+
+js-lib-guided-station-lon-deg-label = Stasjonens lengdegrad (°)
+
+js-lib-guided-step-s-hint = samplingstakt for sporet på jorden
+
+js-lib-guided-step-s-label = Tidssteg (s)
+
+js-lib-guided-threshold-ns-hint = budsjett innenfor spesifikasjonen; «tilgjengelig» så lenge feilen holder seg under det
+
+js-lib-guided-threshold-ns-label = Spesifikasjonsterskel (ns)
+
+js-lib-guided-time-duration-s-hint = total kjørelengde
+
+js-lib-guided-time-duration-s-label = Varighet (s)
+
+js-lib-guided-time-step-s-hint = integrasjons- og samplingstakt
+
+js-lib-guided-time-step-s-label = Tidssteg (s)
+
+js-lib-guided-user-altitude-km-hint = banehøyden til brukerens romfartøy
+
+js-lib-guided-user-altitude-km-label = Brukerens høyde (km)
+
+js-lib-guided-user-inclination-deg-hint = inklinasjonen til brukerens bane
+
+js-lib-guided-user-inclination-deg-label = Brukerens inklinasjon (°)
+
+js-lib-imufit-card-accel-slope = Allan-stigning for akselerometer, tidlig (omtrent -0.5 for hvit støy)
+
+js-lib-imufit-card-bias = Akselerometerbias, middel (m/s²)
+
+js-lib-imufit-card-bias-instability = Akselerometerets biasustabilitet (m/s²), 0 når kurven ikke har noe gulv
+
+js-lib-imufit-card-gyro-bias = Gyrobias, middel (rad/s)
+
+js-lib-imufit-card-gyro-slope = Allan-stigning for gyro, tidlig (omtrent -0.5 for hvit støy)
+
+js-lib-imufit-card-note-n = Merknad { $n }
+
+js-lib-imufit-card-q-arw = Gyroens tilfeldige vinkelvandring, q_arw (rad²/s)
+
+js-lib-imufit-card-q-va = Akselerometerets tilfeldige hastighetsvandring, q_va (m²/s³)
+
+js-lib-imufit-card-sample-rate = Samplingsrate
+
+js-lib-imufit-card-samples = Sampler
+
+js-lib-imufit-card-span = Spenn
+
+js-lib-jammertest-card-clean-epochs = Rene epoker
+
+js-lib-jammertest-card-clean-hours = Rene timer
+
+js-lib-jammertest-card-detected = Oppdaget innenfor toleransen
+
+js-lib-jammertest-card-detection-rate = Deteksjonsrate (enhver alarm)
+
+js-lib-jammertest-card-evaluable = Kan evalueres
+
+js-lib-jammertest-card-fa-epochs = Epoker med falsk alarm
+
+js-lib-jammertest-card-fa-per-hour = Kjøringer med falsk alarm per time
+
+js-lib-jammertest-card-fa-runs = Kjøringer med falsk alarm
+
+js-lib-jammertest-card-in-tol-rate = Oppdaget innenfor toleransen, rate
+
+js-lib-jammertest-card-late = Sen
+
+js-lib-jammertest-card-median-latency = Median deteksjonsforsinkelse
+
+js-lib-jammertest-card-median-recover = Median tid til gjenoppretting
+
+js-lib-jammertest-card-missed = Oversett
+
+js-lib-jammertest-card-na = i/a
+
+js-lib-jammertest-card-not-assessable = Ingen test kunne evalueres i denne loggen, så ingen deteksjonsrate eller forsinkelse kan oppgis. Det er et resultat, ikke en feil ved siden: ingenting her er bestått.
+
+js-lib-jammertest-card-not-json = { $name }: ikke JSON ({ $reason }).
+
+js-lib-jammertest-card-not-scorecard = { $name }: ikke et jammertest-resultatkort (det trenger tests[] og summary).
+
+js-lib-jammertest-card-tests = Tester i planutsnittet
+
+js-lib-jammertest-card-too-large = { $name }: større enn 8 MiB; denne siden leser et resultatkort opp til den størrelsen.
+
+js-lib-kpi-available-everywhere = tilgjengelig overalt, i hver epoke
+
+js-lib-kpi-available-everywhere-pdop = tilgjengelig overalt, i hver epoke (PDOP, posisjonens presisjonsfortynning, under { $thr })
+
+js-lib-kpi-drops-under = faller under sporingsterskelen på { $thr } dB-Hz: låsingen er tapt
+
+js-lib-kpi-end-of-mission = ved slutten av oppdraget
+
+js-lib-kpi-figure-tiers = Evidensnivåer for tallene: { $parts }.
+
+js-lib-kpi-n-modelled = { $n } modellert
+
+js-lib-kpi-n-partner = { $n } eid av partner
+
+js-lib-kpi-n-validated = { $n } validert
+
+js-lib-kpi-no-change = ingen endring
+
+js-lib-kpi-no-fix = { $pct } % av tiden eller stedene uten posisjonsbestemmelse
+
+js-lib-kpi-no-fix-pdop = { $pct } % av tiden eller stedene uten posisjonsbestemmelse ved PDOP under { $thr }
+
+js-lib-kpi-over-jump = over hoppterskelen på { $thr } m
+
+js-lib-kpi-over-pdop = over PDOP-terskelen { $thr }
+
+js-lib-kpi-stays-above = holder seg over sporingsterskelen på { $thr } dB-Hz
+
+js-lib-kpi-under-jump = under hoppterskelen på { $thr } m
+
+js-lib-kpi-under-pdop = under PDOP-terskelen { $thr }
+
+js-lib-orbit3d-apogee = apogeum
+
+js-lib-orbit3d-perigee = perigeum
+
+js-lib-orbit3d-prov-scenario = scenario { $hash }
+
+js-lib-orbit3d-title = Bane (ECI, ortografisk)
+
+js-lib-orbit3d-view-angles = az { $az }° · el { $el }°
+
+js-lib-overlay-meta-clock-bias-m = Klokkebias
+
+js-lib-overlay-meta-converged-pos-3sigma-m = Posisjon 3σ
+
+js-lib-overlay-meta-converged-pos-rms-m = Posisjon RMS
+
+js-lib-overlay-meta-converged-pos-sigma-m = Posisjon σ
+
+js-lib-overlay-meta-final-clock-freq-sigma = Klokkefrekvens σ
+
+js-lib-overlay-meta-mean-relays-in-view = Relé i sikte
+
+js-lib-overlay-meta-pos-p95-m = Posisjon p95
+
+js-lib-overlay-meta-pos-rms-m = Posisjon RMS
+
+js-lib-overlay-meta-postfit-rms-m = RMS etter tilpasning
+
+js-lib-overlay-prov-scenario = scenario { $hash }
+
+js-lib-overlay-subtitle = |feil| (ns) mot tid — { $n } kjøringer
+
+js-lib-overlay-time-s = tid (s)
+
+js-lib-overlay-title = Overlegg: tidsfeil under bortfall
+
+js-lib-packs-cannot-unpack = denne nettleseren kan ikke pakke ut den registrerte filen
+
+js-lib-replay-demos-below-130 = Bare azimut under 130° beholdt (oppgitt)
+
+js-lib-replay-demos-coastal-drag-off = Kystnær drag-off
+
+js-lib-replay-demos-combined-event = Kombinert hendelse
+
+js-lib-replay-demos-drag-off-stated = Posisjons-drag-off (oppgitt av demoen)
+
+js-lib-replay-demos-ferry-drag-off = Ferjepassasje, posisjons-drag-off
+
+js-lib-replay-demos-ferry-drag-off-description = En påhittet ferjelogg, Tallinn til Helsinki, 1 Hz. Fra 1500 s trekker en posisjons-drag-off den rapporterte posisjonen bort mens mottakeren fortsetter å rapportere en gyldig posisjonsbestemmelse.
+
+js-lib-replay-demos-fjord = Naturlig forringelse i fjord
+
+js-lib-replay-demos-masked-sky = Ferjepassasje, halve himmelen maskert
+
+js-lib-replay-demos-masked-sky-description = Den samme ferjeloggen med den vestlige halvdelen av himmelen stilnet fra 600 s, en smalere himmel fra 900 s til 1200 s, og drag-off fra 1500 s: én kjøring der himmelen, signalet og posisjonen svikter etter tur.
+
+js-lib-replay-demos-open-sea-jamming = Jamming på åpent hav
+
+js-lib-replay-demos-port-approach = Tids-spoofing ved havneinnseiling
+
+js-lib-replay-demos-source-training = Syntetisk scenario { $id }: motorens nmea_training-strøm og instruktørlogg, vurdert av dens receiver-trust.
+
+js-lib-replay-demos-source-trust = Syntetisk logg { $id }: påhittet NMEA, vurdert av motorens receiver-trust.
+
+js-lib-replay-demos-west-masked = Vestlig halvdel av himmelen maskert (oppgitt)
+
+js-lib-replay-demos-west-masked-again = Vestlig halvdel maskert igjen (oppgitt)
+
+js-lib-report-charts = Diagrammer
+
+js-lib-report-eyebrow = det presise øyeblikket
+
+js-lib-report-figures-of-merit = Kvalitetsmål
+
+js-lib-report-footer = Kshana { $version } · scenario { $hash } · generert { $iso }. Kan gjengis fra scenario + seed + motorversjon. Kjører lokalt; ingenting lastes opp.
+
+js-lib-report-not-applicable = ikke aktuelt (ingen angrep konfigurert)
+
+js-lib-report-scenario-definition = Scenariodefinisjon (TOML)
+
+js-lib-report-th-clock = Klokke
+
+js-lib-report-th-metric = Mål
+
+js-lib-report-th-validation = Validering
+
+js-lib-report-th-value = Verdi
+
+js-lib-report-tier-note = Hvert kvalitetsmål er merket { $validated } (kontrollert mot en uavhengig referanse) eller { $modelled } (fra grunnprinsipper, internt testet) — utledet fra verifikasjonsmatrisen.
+
+js-lib-report-title = Kshana — scenariorapport
+
+js-lib-skydraw-azimuth-range = azimut { $from } til { $to } grader
+
+js-lib-skydraw-describe = { $listed } satellitter oppført, { $heard } med signal
+
+js-lib-skydraw-describe-mean = { $listed } satellitter oppført, { $heard } med signal, middel { $snr } dB-Hz
+
+js-lib-skydraw-east = Ø
+
+js-lib-skydraw-no-signal-from = ikke noe signal fra { $sectors }
+
+js-lib-skydraw-none-listed = Ingen satellitter oppført i loggen på dette tidspunktet.
+
+js-lib-skydraw-north = N
+
+js-lib-skydraw-sat-heard = { $sys } { $prn }: elevasjon { $el }, azimut { $az }, signal { $snr } dB-Hz
+
+js-lib-skydraw-sat-quiet = { $sys } { $prn }: elevasjon { $el }, azimut { $az }, oppført, ikke noe signal
+
+js-lib-skydraw-south = S
+
+js-lib-skydraw-unheard-sector = Satellitter oppført mellom azimut { $from } og { $to } grader, ingen med signal
+
+js-lib-skydraw-west = V
+
+js-lib-skyline-edit-describe = Horisontprofil over { $blocked } av 360 grader azimut; høyest { $el }° ved azimut { $az }°.
+
+js-lib-skyline-edit-open = Åpen horisont: ingen horisontprofil.
+
+js-lib-stages-all-planets = Alle planeter
+
+js-lib-stages-au-from-sun = { $d } au fra Solen
+
+js-lib-stages-band-carrier = { $name } bærebølge, { $mhz } MHz
+
+js-lib-stages-bin-title = { $from } til { $to }{ $unit }: { $count } kjøringer
+
+js-lib-stages-body-and-moons = { $name } og dens måner
+
+js-lib-stages-cell-title = bredde { $lat }°, lengde { $lon }° · { $field } { $value }
+
+js-lib-stages-chain-navmsg = Navigasjonsmelding
+
+js-lib-stages-chain-pass = Passering og lenke
+
+js-lib-stages-chain-ppp = Presis punktposisjonering
+
+js-lib-stages-chain-pvt = Fusjonert posisjonering
+
+js-lib-stages-chain-signal = Signalutforming
+
+js-lib-stages-coverage-aria = { $field } over { $body }, etter breddegrad og lengdegrad
+
+js-lib-stages-feature-n = trekk { $n }
+
+js-lib-stages-flag = flagg
+
+js-lib-stages-frequency-mhz = frekvens (MHz)
+
+js-lib-stages-from-to = { $from } til { $to }
+
+js-lib-stages-geojson-aria = GeoJSON-eksporten tegnet på et kart
+
+js-lib-stages-histogram = Histogram
+
+js-lib-stages-inner-planets = Indre planeter
+
+js-lib-stages-km-from-centre = { $d } km fra { $centre }
+
+js-lib-stages-linear-scale = lineær skala
+
+js-lib-stages-link-light-time = { $from } til { $to }: enveis lystid { $time } s
+
+js-lib-stages-longitude-axis = lengdegrad · breddegrad oppover langs siden
+
+js-lib-stages-mission-time = oppdragstid (s)
+
+js-lib-stages-noise-floor = støygulv
+
+js-lib-stages-orrery-note = { $scale } · x-y-planet i referansesystemet, sett fra nordpolen
+
+js-lib-stages-panel-n = Panel { $n }
+
+js-lib-stages-plan-view-aria = Planvisning av { $centre } og legemene rundt, { $scale }
+
+js-lib-stages-psd-at-t = Effektspektraltetthet ved t = { $t } s
+
+js-lib-stages-psd-axis = effektspektraltetthet (dBW/Hz)
+
+js-lib-stages-runs = kjøringer
+
+js-lib-stages-sat-title = { $constellation } { $id } · bredde { $lat }°, lengde { $lon }°
+
+js-lib-stages-satellites = satellitter
+
+js-lib-stages-spectrum-at-t = spekter ved t = { $t } s
+
+js-lib-stages-sqrt-scale = kvadratrotskala for avstand
+
+js-lib-stages-the-body = legemet
+
+js-lib-stages-time-s = tid (s)
+
+js-lib-stages-unit-alarm = Alarm
+
+js-lib-stages-unit-cn0 = Forholdet mellom bærebølge og støytetthet
+
+js-lib-stages-unit-position = Posisjon og beskyttelse
+
+js-lib-stages-unit-satellites = Satellitter
+
+js-lib-stages-unit-time-error = Tidsfeil
+
+js-lib-stages-waterfall-aria = Fossefall av effektspektraltetthet: frekvens bortover, tid nedover
+
+js-lib-stages-whole-band = Hele båndet
+
+js-lib-sweep-clock-availability = Tilgjengelighet for { $who }
+
+js-lib-sweep-clock-holdover = Holdover for { $who } (s)
+
+js-lib-sweep-clock-timing-p95 = Tidssynkronisering p95 for { $who } (ns)
+
+js-lib-sweep-clock-timing-rms = Tidssynkronisering RMS for { $who } (ns)
+
+js-lib-sweep-max-altitude = maks høyde (km)
+
+js-lib-sweep-max-elevation = maks elevasjon (°)
+
+js-lib-sweep-max-speed = maks hastighet (m/s)
+
+js-lib-sweep-min-altitude = min høyde (km)
+
+js-lib-sweep-peak-doppler = maks Doppler (Hz)
+
+js-lib-sweep-prov-scenario = scenario { $hash }
+
+js-lib-sweep-y-vs-x = { $y } mot { $x }
+
+js-lib-tabs-3d-orbit = 3D-bane
+
+js-lib-tabs-figures-of-merit = Kvalitetsmål
+
+js-lib-tabs-stability = Stabilitet
+
+js-lib-tabs-sweep = Sveip
+
+js-lib-tabs-time-series = Tidsserie
+
+js-lib-tour-ashforde-body = Takk for at du utforsker Kshana. Vi bygger åpen, reproduserbar og evidensbasert ingeniørkunst for oppdrag som ikke kan svikte — ærlige om hva som er validert og hva som er modellert. Spørsmål, et samarbeid eller en studie? Kontakt oss på contact@ashforde.org.
+
+js-lib-tour-ashforde-title = Fra Ashforde® OÜ
+
+js-lib-tour-capabilities-body = Velg en områdefane — Orbits, Timing, Inertial, GNSS, Resilience, Lunar, AI/ML, Interop — for å se funksjonene, hver merket Validert eller Modellert, med en ▸ kjør-knapp for de utarbeidede scenarioene. Åpne «Evidence & provenance» i et hvilket som helst område for å spore beviset, eller slå på «Kun validert» for å vise bare det som er kontrollert mot en uavhengig referanse.
+
+js-lib-tour-capabilities-title = Utforsk motoren, ett område om gangen
+
+js-lib-tour-cite-body = Kshana er bygget for å bli referert til — en siterbar programvareutgivelse med en DOI, pluss artikler i fagfellestil om optimismegapet ved RF-forstyrrelser og et betinget beskyttelsesnivå for tidssynkronisering. Kopier siteringen rett herfra.
+
+js-lib-tour-cite-title = Publikasjoner og hvordan du siterer
+
+js-lib-tour-download-report-body = Fanen Sveip varierer én parameter over et område; «Fest for sammenligning» legger to eller flere kjøringer over hverandre side om side med Δ mellom dem (fungerer på tvers av scenariotyper — klokke, Mars-PNT, posisjonering …); og denne knappen laster ned kjøringen som en selvstendig HTML-rapport som fungerer uten nett.
+
+js-lib-tour-download-report-title = Sveip, sammenlign og eksporter
+
+js-lib-tour-guided-body = Veiledede innstillinger tilpasser seg scenarioet — seed, spesifikasjonsterskel, varighet, elevasjonsmaske, banehøyde — og hver endring kjører på nytt umiddelbart.
+
+js-lib-tour-guided-title = Juster glidebryterne
+
+js-lib-tour-mcp-body = En MCP-server lar AI-assistenter kjøre den validerte motoren i stedet for å gjette; en JetBrains-plugin kjører scenarioer fra et høyreklikk.
+
+js-lib-tour-mcp-title = Bruk den fra en AI-agent eller IDE-en din
+
+js-lib-tour-playground-body = Velg et scenario fra nedtrekkslisten — eller trykk ▸ kjør på en hvilken som helst funksjon ovenfor — så kjører motoren som WebAssembly på din maskin. Ingenting lastes opp.
+
+js-lib-tour-playground-title = Kjør den i nettleseren
+
+js-lib-tour-run-body = Kjør det gjeldende scenarioet. Åpne «Avansert» for å redigere TOML og endre hva som helst; «Kopier delingslenke» gjengir akkurat denne kjøringen for noen andre.
+
+js-lib-tour-run-title = Kjør den
+
+js-lib-tour-tabs-body = Bytt mellom kvalitetsmålene, tidsseriediagrammet, klokkestabilitet (Allan-avvik) og — for banekjøringer — en interaktiv 3D-banevisning.
+
+js-lib-tour-tabs-title = Les resultatene
+
+js-lib-tour-validation-body = Den samme utforskeren er også evidensregisteret: hvert område har en skuff «Evidence & provenance» — tallet, den uavhengige referansen det er kontrollert mot, og en ærlig status Validert / Modellert per påstand. «Kun validert» filtrerer til radene som er kontrollert mot datasett.
+
+js-lib-tour-validation-title = Evidens, ikke adjektiver
+
+js-lib-views-3-sigma-bound = 3-sigma-grense
+
+js-lib-views-3d-position-error = 3D-posisjonsfeil
+
+js-lib-views-a-parameter = en parameter
+
+js-lib-views-band-runs = Tidsfeilbånd over { $runs } Monte Carlo-kjøringer
+
+js-lib-views-band-the-runs = Tidsfeilbånd over Monte Carlo-kjøringene
+
+js-lib-views-below-tracking = under sporingsterskelen
+
+js-lib-views-chart = diagram
+
+js-lib-views-classical = klassisk
+
+js-lib-views-epoch = epoke
+
+js-lib-views-four-needed = 4 trengs for en posisjonsbestemmelse
+
+js-lib-views-free-inertial = fri treghetsnavigasjon
+
+js-lib-views-gnss-denied = GNSS utilgjengelig
+
+js-lib-views-ground-track = Spor på jorden
+
+js-lib-views-heatmap-effective = Effektivt forhold mellom bærebølge og støytetthet etter satellitt og tid
+
+js-lib-views-heatmap-nominal = Nominelt (uten jammer) forhold mellom bærebølge og støytetthet etter satellitt og tid
+
+js-lib-views-horizontal-alert-limit = horisontal varslingsgrense
+
+js-lib-views-horizontal-hpl = horisontal (HPL)
+
+js-lib-views-id-bound = grense for { $id }
+
+js-lib-views-id-median = median for { $id }
+
+js-lib-views-id-offset = forskyvning for { $id }
+
+js-lib-views-id-p95 = p95 for { $id }
+
+js-lib-views-map-matched = kartsamsvar
+
+js-lib-views-map-matched-title = Kartsamsvar mot posisjonsfeil ved fri treghetsnavigasjon
+
+js-lib-views-metric = mål
+
+js-lib-views-oscillator = oscillator
+
+js-lib-views-oscillator-source = oscillator ({ $source })
+
+js-lib-views-position-error-axis = posisjonsfeil ({ $unit })
+
+js-lib-views-position-error-m = posisjonsfeil (m)
+
+js-lib-views-position-error-run = Posisjonsfeil gjennom kjøringen
+
+js-lib-views-position-m = posisjon (m)
+
+js-lib-views-predicted-time-error = Predikert tidsfeil siden siste posisjonsbestemmelse
+
+js-lib-views-protection-level-m = beskyttelsesnivå (m)
+
+js-lib-views-protection-levels = Beskyttelsesnivåer mot varslingsgrensen
+
+js-lib-views-quantum = kvante
+
+js-lib-views-relay-error-bound = Posisjonsfeil ved relénavigasjon og dens 3-sigma-grense
+
+js-lib-views-satellites = satellitter
+
+js-lib-views-satellites-tracking = Satellitter som er synlige og fortsatt spores
+
+js-lib-views-shaded-gnss-denied = skravert: GNSS utilgjengelig
+
+js-lib-views-slot-guard = sporvakt
+
+js-lib-views-spoofed-offset = Forfalsket tidsforskyvning mot deteksjonsgrensen
+
+js-lib-views-sweep-of = Sveip av { $parameter }: { $metric }
+
+js-lib-views-sync-error-axis = synkroniseringsfeil ({ $unit })
+
+js-lib-views-sync-error-run = Synkroniseringsfeil gjennom kjøringen
+
+js-lib-views-threshold = terskel
+
+js-lib-views-time-error-ns = tidsfeil (ns)
+
+js-lib-views-time-ns = tid (ns)
+
+js-lib-views-time-s = tid (s)
+
+js-lib-views-time-since-fix = tid siden siste posisjonsbestemmelse (s)
+
+js-lib-views-timing-error-axis = tidssynkroniseringsfeil ({ $unit })
+
+js-lib-views-timing-error-run = Tidssynkroniseringsfeil gjennom kjøringen
+
+js-lib-views-tracking = sporer
+
+js-lib-views-value = verdi
+
+js-lib-views-vertical-vpl = vertikal (VPL)
+
+js-lib-views-visible = synlig
+
+js-lib-views-word-enbw = ekvivalent støybåndbredde
+
+js-lib-views-word-nfft = FFT-lengde
+
+js-lib-views-word-stec = skrå TEC
+
+js-lib-views-word-toa = ankomsttid
+
+js-lib-views-word-ttff = tid til første posisjonsbestemmelse
+
+js-lib-views-word-tx = sending
+
+js-lib-views-word-zwd = fuktig zenitforsinkelse
+
+js-lunar-address-outside-range = { $label }: "{ $raw }" ligger utenfor { $min } til { $max }; filens verdi brukes.
+
+js-lunar-address-too-long = Adressen var for lang; standardverdiene vises.
+
+js-lunar-address-unknown-source = Ukjent kilde i adressen; opptaket vises.
+
+js-lunar-alert-limit = varslingsgrense { $value } (illustrativ)
+
+js-lunar-alert-not-stated = varslingsgrense ikke oppgitt
+
+js-lunar-bearing-east = 90° Ø
+
+js-lunar-bearing-west = 90° V
+
+js-lunar-cell-title = { $lat }°, { $lon }°: korrigert { $corrected }, tilgjengelighet { $availability }, dekning { $coverage }
+
+js-lunar-copy-address = Kopier adressen fra adressefeltet.
+
+js-lunar-counts = { $sats } satellitter, { $points } rutenettpunkter, { $epochs } epoker, { $trials } Monte Carlo-forsøk per epoke. Merking: { $label }.
+
+js-lunar-engine-no-start = Motoren kunne ikke starte i denne nettleseren ({ $reason }). Åpne en resultatfil i stedet.
+
+js-lunar-engine-unknown-kind = Denne motoren ({ $version }) kjenner ikke kinden { $kind }; den trenger motor 0.36.
+
+js-lunar-fig-availability-region = Tilgjengelighet over regionen
+
+js-lunar-fig-corrected-3d = Korrigert feil, { $n } %, 3‑D
+
+js-lunar-fig-coverage = Dekning
+
+js-lunar-fig-epochs-within = epoker innenfor { $value }
+
+js-lunar-fig-horizontal-vertical = horisontal { $h }, vertikal { $v }
+
+js-lunar-fig-hpl-below-alert = HPL under varslingsgrensen
+
+js-lunar-fig-hpl-vpl = HPL, VPL høyst
+
+js-lunar-fig-improvement = Forbedringsfaktor
+
+js-lunar-fig-lowest-point = Lavest i et punkt
+
+js-lunar-fig-points-always-available = Punkter tilgjengelige i hver epoke
+
+js-lunar-fig-uncorrected-3d = Ukorrigert feil, { $n } %, 3‑D
+
+js-lunar-fig-worst-point = Dårligste punkt
+
+js-lunar-file-not-json = Denne filen er ikke JSON.
+
+js-lunar-file-not-object = Denne filen er ikke et JSON-objekt.
+
+js-lunar-file-too-large = { $name }: større enn 32 MiB; denne siden leser resultatfiler opp til den størrelsen.
+
+js-lunar-file-value = fil: { $value }
+
+js-lunar-full-of-total = { $full } av { $total }
+
+js-lunar-give-value = { $label }: oppgi en verdi fra { $min } til { $max }.
+
+js-lunar-give-whole-value = { $label }: oppgi en verdi fra { $min } til { $max } (et heltall).
+
+js-lunar-honesty-affiliation = Ikke tilknyttet eller støttet av noe byrå.
+
+js-lunar-honesty-assumptions = Under de oppgitte offentlige forutsetningene, ikke en uttalelse om ytelsen til noe virkelig system.
+
+js-lunar-in-grid-spacing = Avstand mellom rutenettringer, grader
+
+js-lunar-in-latency = Korreksjonsforsinkelse, sekunder
+
+js-lunar-in-seed = Seed
+
+js-lunar-in-station-lat = Stasjonens breddegrad, grader
+
+js-lunar-in-station-lon = Stasjonens lengdegrad, grader
+
+js-lunar-in-survey-error = Stasjonens oppmålingsfeil (1 sigma), meter
+
+js-lunar-in-threshold = Nøyaktighetsterskel, meter
+
+js-lunar-in-time-step = Tidssteg, sekunder
+
+js-lunar-in-trials = Monte Carlo-forsøk per epoke
+
+js-lunar-input-out-of-range = { $label } er utenfor gyldig område.
+
+js-lunar-json-field-not-json = Filens json-felt er ikke JSON.
+
+js-lunar-key-50-or-more = 50 % eller mer
+
+js-lunar-key-90-or-more = 90 % eller mer
+
+js-lunar-key-95-or-more = 95 % eller mer
+
+js-lunar-key-99-or-more = 99 % eller mer
+
+js-lunar-key-above = over { $value }
+
+js-lunar-key-above-threshold = over { $value } × terskelen
+
+js-lunar-key-below-50 = under 50 %
+
+js-lunar-key-between = { $from } til { $to }
+
+js-lunar-key-between-threshold = { $from } til { $to } × terskelen
+
+js-lunar-key-up-to = opp til { $value }
+
+js-lunar-key-up-to-threshold = opp til { $value } × terskelen
+
+js-lunar-layer-availability = tilgjengelighet
+
+js-lunar-layer-coverage = dekning
+
+js-lunar-layer-error = korrigert feil
+
+js-lunar-layer-range = korrigert feil over sitt eget område
+
+js-lunar-legend-no-figure = intet tall (utilgjengelig hele tiden)
+
+js-lunar-legend-radius = dekningsradius
+
+js-lunar-legend-threshold = terskel, { $value }
+
+js-lunar-legend-worst = dårligste punkt
+
+js-lunar-link-copied = Lenken er kopiert.
+
+js-lunar-map-desc = { $points } rutenettpunkter fra polen til { $rim }° breddegrad. { $meet } av dem har en korrigert { $percentile }-persentilfeil innenfor terskelen på { $threshold }. Farget etter { $layer }. Stasjonen ligger ved { $lat }°, { $lon }°.
+
+js-lunar-map-note-one-band = { $share } % av punktene faller i ett bånd av terskelskalaen, så kartet viser liten variasjon: farg etter «sitt eget område» for å se hvordan feilen varierer over regionen.
+
+js-lunar-needs-newer-engine = Denne studien trenger motor { $need } eller nyere; motoren som kjører her, er v{ $version }. Opptaket, eller en resultatfil, kan fortsatt vises.
+
+js-lunar-no = nei
+
+js-lunar-no-recording = Det følger ennå ikke med noe opptak av denne studien: det lages ved utgivelsen med motor 0.36. Kjør den her med en motor som har denne kinden, eller åpne en resultatfil.
+
+js-lunar-no-scenario = Dette nettstedet har ingen { $file } ennå: den kommer med motor 0.36. Åpne en resultatfil i stedet.
+
+js-lunar-no-scenario-note = Dette nettstedet har ingen { $file } ennå (den kommer med motor 0.36), så en kjøring her er ikke mulig; åpne en resultatfil i stedet.
+
+js-lunar-not-report = Dette er ikke en { $kind }-rapport.
+
+js-lunar-not-stated = ikke oppgitt
+
+js-lunar-note-none = Filen oppgir ingen merknad.
+
+js-lunar-note-withheld = Filens egen uttalelse nevner et program eller et byrå, så denne siden viser den ikke; uttalelsen øverst på siden gjelder.
+
+js-lunar-point-epochs-reason = punktepoker: { $reason }
+
+js-lunar-radius-desc =
+    Dekningsradius over { $count ->
+        [one] ett azimut
+       *[other] { $count } azimuter
+    }: korteste { $lo } km ved { $loAz }°, lengste { $hi } km ved { $hiAz }°.
+
+js-lunar-radius-desc-limited = { $count } når kanten av rutenettet, så dekningen strekker seg minst så langt der.
+
+js-lunar-radius-hollow = Hule punkter når kanten av rutenettet: dekningen holder minst så langt langs den retningen.
+
+js-lunar-radius-none = Rapporten oppgir ingen dekningsradius.
+
+js-lunar-radius-per-azimuth = dekningsradius per azimut
+
+js-lunar-radius-point = { $az }°: { $km } km
+
+js-lunar-radius-point-limited = { $az }°: { $km } km (når kanten av rutenettet: minst så langt)
+
+js-lunar-radius-zero = I alle retninger er dekningen allerede under 95 % ved stasjonen, så radien er 0 km: den korrigerte feilen overstiger terskelen på { $value } der.
+
+js-lunar-reason-station-missing = stasjonen ser ikke alle satellittene brukeren bruker
+
+js-lunar-reason-user-lt4 = færre enn fire satellitter i sikte for brukeren
+
+js-lunar-run-stopped = Kjøringen stoppet: { $message }
+
+js-lunar-running = Kjører studien i denne nettleseren…
+
+js-lunar-running-elapsed = Kjører studien i denne nettleseren… { $seconds } s
+
+js-lunar-scenario-missing-keys = Scenariofilen har ingen { $keys }; den kan ikke endres her.
+
+js-lunar-set-inputs = Sett inndataene og trykk Kjør her.
+
+js-lunar-showing = Viser { $what }.
+
+js-lunar-showing-engine = Viser { $what } (motor { $version }).
+
+js-lunar-source-error = { $what }: { $error }
+
+js-lunar-station = stasjon
+
+js-lunar-station-title = stasjon { $lat }°, { $lon }°
+
+js-lunar-table-count =
+    { $n ->
+        [one] { $n } punkt, nærmest stasjonen først.
+       *[other] { $n } punkter, nærmest stasjonen først.
+    }
+
+js-lunar-th-corrected = Korrigert feil, { $n } %
+
+js-lunar-threshold-title = korrigert feil { $value } (terskelen)
+
+js-lunar-what-file = filen { $name }
+
+js-lunar-what-recording = opptaket som følger med Studio
+
+js-lunar-what-run = en kjøring i denne nettleseren (motor { $version })
+
+js-lunar-worst-at = ved { $lat }°, { $lon }°
+
+js-lunar-worst-title = dårligste punkt { $lat }°, { $lon }°: { $value }
+
+js-lunar-yes-at-least = ja: minst så langt
+
+js-lunarinfra-above-95-point = over 95 %-punktet
+
+js-lunarinfra-advisory = Veiledende programvare, ikke typegodkjent utstyr; ingen sendevei av noe slag.
+
+js-lunarinfra-arc-note = Bærebølgens bølgelengde { $value } m.
+
+js-lunarinfra-arc-title = Hver bue
+
+js-lunarinfra-bars-not-loaded = terskelfilen ble ikke lastet
+
+js-lunarinfra-bars-not-shown = Tersklene som ble fastsatt på forhånd, kunne ikke vises ({ $reason }).
+
+js-lunarinfra-bars-note = Fastsatt før noen studie ble vurdert, med de gjeldende dommene (motorens commit { $commit }). Ingenting er VALIDATED; en terskel merket NOT MET er festet av en test som slår fast bommen, og ingen ble gjort løsere.
+
+js-lunarinfra-bars-title = Mot tersklene fastsatt på forhånd
+
+js-lunarinfra-bars-wrong-file = terskelfilen er ikke den denne siden leser
+
+js-lunarinfra-blurb-carrier-phase = En overflatestasjon og en orbiter som bruker dobbeltdifferensiert bærebølgefase fra GNSS-signaler fra jorden: kan heltallsflertydighetene fikseres, og hva gjør det med posisjonsgrensen? Det raske eksempelet.
+
+js-lunarinfra-blurb-frame-coestimation = De sju parametrene i månens datum fra laseravstandsmåling fra jordstasjoner, med og uten avstander mellom orbiter og overflatestasjon: hvor mye forbedres informasjonen?
+
+js-lunarinfra-blurb-geodesy-sensitivity = Hvor følsomme er laseravstandsmåling, orbitersporing, et gravimeter og en klokke på overflaten for månens tidevanns-Love-tall h2, k2 og l2 og dens fysiske librasjon?
+
+js-lunarinfra-blurb-od-consistency = Banebestemmelse om bord med GNSS fra jorden i en nær-rettlinjet halobane, mot en uavhengig radiometrisk løsning fra bakken for den samme buen: stemmer de to overens innenfor sine oppgitte usikkerheter, og merker konsistenskontrollen en modellfeil når en legges inn? Vist side om side.
+
+js-lunarinfra-blurb-space-tie = GNSS, VLBI og laseravstandsmåling på ett romfartøy: hvor presist kan forskyvningene mellom de tre teknikkene knyttes sammen, mot feilen i den lokale koblingen på romfartøyet?
+
+js-lunarinfra-bound-label = Posisjonsusikkerhet, flytende og fiksert, logaritmisk skala
+
+js-lunarinfra-bound-note = Posisjonsusikkerhet på én sigma for stasjonen og orbiteren med flertydighetene flytende og med dem fiksert (hva fiksering ville gitt hvis den ble oppnådd).
+
+js-lunarinfra-bound-title = Posisjonsgrense, flytende og fiksert
+
+js-lunarinfra-chip-na = i/a
+
+js-lunarinfra-comp-normal = normal
+
+js-lunarinfra-comp-position = posisjon (3D)
+
+js-lunarinfra-comp-radial = radial
+
+js-lunarinfra-comp-transverse = transversal
+
+js-lunarinfra-compare-note = Over { $sets } tilfeldige stasjonssett var den minste egenverdien ikke mindre med orbiterlenkene i { $lambda } og sporet ikke større i { $trace }; den mediane økningen i den minste egenverdien var { $median } ganger.
+
+js-lunarinfra-compare-title = Sammenligningen i tall
+
+js-lunarinfra-crsigma-label = Cramér-Rao-sigma, logaritmisk skala
+
+js-lunarinfra-crsigma-note = I meter på overflaten.
+
+js-lunarinfra-crsigma-title = Cramér-Rao-sigma per parameter
+
+js-lunarinfra-days =
+    { $n ->
+        [one] { $n } dag
+       *[other] { $n } dager
+    }
+
+js-lunarinfra-direction = retning { $n }
+
+js-lunarinfra-disclosures = Opplysninger
+
+js-lunarinfra-eig-label = Informasjonsegenverdier, logaritmisk skala
+
+js-lunarinfra-eig-note = De sju egenverdiene til informasjonsmatrisen, minste først, uten og med lenkene mellom orbiter og stasjon. Den minste stiger { $times } ganger, og Cramér-Rao-sporet faller til { $share } av verdien sin. Dette forutsetter at banen er kjent i månens akser (feilen i den bæres av orbiterens avstandssigma).
+
+js-lunarinfra-eig-title = Informasjon i hver retning av datumet
+
+js-lunarinfra-fact-arc = Bue
+
+js-lunarinfra-fact-hash = Scenariohash
+
+js-lunarinfra-fact-llr-rows = Rader med laseravstandsmåling
+
+js-lunarinfra-fact-orbit-family = Banefamilie
+
+js-lunarinfra-fact-orbiter-arc = Orbiterbue
+
+js-lunarinfra-fact-orbiter-rows = Orbiterrader
+
+js-lunarinfra-fact-study = Studie
+
+js-lunarinfra-fact-wavelength = Bærebølgens bølgelengde
+
+js-lunarinfra-families-note = RMS av hver parameters partielle derivert over familiens rader, og antall rader. Null betyr en parameter den familien er blind for. Orbiterfamiliens k2-følsomhet er et tall i øvre ende.
+
+js-lunarinfra-families-title = Hva hver familie ser
+
+js-lunarinfra-findings = Funn
+
+js-lunarinfra-fix-note-a = Andelen Monte Carlo-forsøk som fikserte alle heltallsflertydigheter riktig (med standardfeil), og raten det bootstrappede estimatet predikerer.
+
+js-lunarinfra-fix-note-b = Heltallsfiksering er IKKE oppnådd ved denne inndataen: den beste buen fikserer { $share } av forsøkene.
+
+js-lunarinfra-fix-note-c = Det finnes ingen tid til fiksering å vise, fordi fiksering ikke nås.
+
+js-lunarinfra-fix-rate-label = Rate for heltallsfiksering mot buelengde
+
+js-lunarinfra-fix-title = Fikseringsrate mot buelengde
+
+js-lunarinfra-fixed = fiksert
+
+js-lunarinfra-float = flytende
+
+js-lunarinfra-fraction-above-95 = Andel forsøk over 95 %-punktet
+
+js-lunarinfra-ground-radiometric = uavhengig radiometrisk fra bakken
+
+js-lunarinfra-injected-error = lagt inn feil { $value } m/s²
+
+js-lunarinfra-mean-consistency = Gjennomsnittlig konsistensstatistikk
+
+js-lunarinfra-mean-q = middel q
+
+js-lunarinfra-miss-line = { $id } er { $status }: { $value }
+
+js-lunarinfra-miss-no-fix = Fiksering av heltallsflertydighet er IKKE oppnådd ved denne inndataen: den beste buen fikserer { $share } av Monte Carlo-forsøkene.
+
+js-lunarinfra-na = i/a
+
+js-lunarinfra-nominal = nominell
+
+js-lunarinfra-not-result = dette er ikke et resultat for månens infrastruktur
+
+js-lunarinfra-not-verified = Ikke verifisert
+
+js-lunarinfra-offset-precision-label = Forskyvningspresisjon mot lokal kobling, logaritmisk i begge akser
+
+js-lunarinfra-offsets-note = Translasjonssigma per akse, skalerings- og rotasjonssigma på overflaten, i meter.
+
+js-lunarinfra-offsets-title = Forskyvningene ved hver koblingsfeil ({ $days }-dagers bue, { $epochs } epoker)
+
+js-lunarinfra-onboard-gnss = GNSS fra jorden om bord
+
+js-lunarinfra-open-failed = { $title } kunne ikke åpnes: { $reason }.
+
+js-lunarinfra-opening = Åpner { $title }…
+
+js-lunarinfra-orbit-uncertainty-log = Banens usikkerhet per komponent, logaritmisk skala
+
+js-lunarinfra-orbiter-days = orbiter, { $days } d
+
+js-lunarinfra-q-note = Middel av konsistensstatistikken q over { $trials } forsøk; { $expected } er det et konsistent par av løsninger gir. Andelen forsøk over 95 %-punktet er kontrollens deteksjonsrate.
+
+js-lunarinfra-q-title = Konsistenskontrollen, nominell mot lagt inn feil
+
+js-lunarinfra-recorded =
+    { $n ->
+        [one] { $title }: motorens registrerte resultat (versjon { $version }).
+       *[other] { $title }: motorens registrerte resultater (versjon { $version }).
+    }
+
+js-lunarinfra-rel-label = Sigma over nominell, logaritmisk skala
+
+js-lunarinfra-rel-note = Cramér-Rao-sigma som prosent av nominell verdi, med alle fire familiene sammen. h2 og l2 er linearisasjonspunkter, ikke verifiserte verdier; k2 er fra en publisert tilpasning.
+
+js-lunarinfra-rel-title = Hvor godt hver parameter kan bestemmes, mot nominell verdi
+
+js-lunarinfra-result-not-json = resultatet er ikke JSON ({ $reason })
+
+js-lunarinfra-result-not-loaded = det registrerte resultatet { $file } ble ikke lastet
+
+js-lunarinfra-row-above-95 = Forsøk over 95 %-punktet (kjikvadrat 95 % = { $chi })
+
+js-lunarinfra-row-crtrace = Cramér-Rao-spor
+
+js-lunarinfra-row-degeneracy = Degenerasjonsmål
+
+js-lunarinfra-row-formal-diff = Formell sigma for denne differansen
+
+js-lunarinfra-row-ground-meas = Bakke: målinger, epoker med en stasjon
+
+js-lunarinfra-row-mean-diff = Middeldifferanse mellom de to banene
+
+js-lunarinfra-row-mean-q = Middel q (6 forventet)
+
+js-lunarinfra-row-observations = Observasjoner
+
+js-lunarinfra-row-onboard-epochs = Om bord: epoker med én eller flere / fire eller flere satellitter
+
+js-lunarinfra-row-onboard-meas = Om bord: målinger, gjennomsnittlig antall satellitter som spores
+
+js-lunarinfra-row-origin-scale = Korrelasjon mellom origo og skala
+
+js-lunarinfra-row-origin-sigma = Origosigma, m
+
+js-lunarinfra-row-rank-defect = Rang (defekt)
+
+js-lunarinfra-row-smallest-eig = Minste egenverdi
+
+js-lunarinfra-row-trace-ground = Utvalg over formelt spor, bakke
+
+js-lunarinfra-row-trace-onboard = Utvalg over formelt spor, om bord
+
+js-lunarinfra-row-within-95 = Forsøk innenfor 95 %-punktet
+
+js-lunarinfra-series-bootstrapped = bootstrappet
+
+js-lunarinfra-series-floor = gulv
+
+js-lunarinfra-series-monte-carlo = Monte Carlo
+
+js-lunarinfra-side-note = Banen: { $family }, en bue på { $arc } dager av en bane på { $period } dager, samplet hvert { $sample } s.
+
+js-lunarinfra-side-title = Side om side
+
+js-lunarinfra-sigma-note = Posisjonsusikkerhet på én sigma per komponent, i meter, fra de to estimatene av den samme buen.
+
+js-lunarinfra-sigma-over-nominal = sigma / nominell
+
+js-lunarinfra-sigma-title = Hvor godt hver side kjenner banen
+
+js-lunarinfra-station-days = stasjon, { $days } d
+
+js-lunarinfra-status-verdict = { $status }: { $verdict }
+
+js-lunarinfra-subsets-note = Å legge til en familie senket aldri den minste egenverdien ({ $lambda } av { $pairs } tillegg), men sporet til pseudoinversen var ikke større i bare { $trace } av { $pairs }, fordi en tillagt familie kan øke rangen.
+
+js-lunarinfra-subsets-title = Alle kombinasjoner av familier
+
+js-lunarinfra-sweep-note = Den verste translasjonskomponenten for hver forskyvning, i meter, mens feilen i koblingen mellom de tre teknikkene på romfartøyet sveipes. Med de registrerte teknikksigmaene (GNSS { $gnss } m, VLBI { $vlbi } m, laser { $slr } m) er forskyvningene begrenset av målestøy, ikke av koblingen; koblingen setter bare gulvet for nesten perfekte teknikker.
+
+js-lunarinfra-sweep-title = Presisjon i teknikkforskyvningene mot den lokale koblingen ({ $days }-dagers bue)
+
+js-lunarinfra-th-arc-days = Bue, dager
+
+js-lunarinfra-th-bar = Terskel
+
+js-lunarinfra-th-bootstrapped = Bootstrappet rate
+
+js-lunarinfra-th-budget-exhausted = Søkebudsjett brukt opp (forsøk)
+
+js-lunarinfra-th-common-sats = Epoker med 2 eller flere felles satellitter
+
+js-lunarinfra-th-crtrace = Cramér-Rao-spor
+
+js-lunarinfra-th-dd-ambiguities = Dobbeltdifferensierte flertydigheter
+
+js-lunarinfra-th-epochs = Epoker
+
+js-lunarinfra-th-families = Familier
+
+js-lunarinfra-th-family = Familie
+
+js-lunarinfra-th-local-tie = Sigma for lokal kobling, m
+
+js-lunarinfra-th-mc-fix-rate = Monte Carlo-fikseringsrate
+
+js-lunarinfra-th-median-ambiguity = Median flertydighetssigma, sykluser
+
+js-lunarinfra-th-offset = Forskyvning
+
+js-lunarinfra-th-quantity = Størrelse
+
+js-lunarinfra-th-rank = Rang
+
+js-lunarinfra-th-rotation = Rotasjon på overflaten, m
+
+js-lunarinfra-th-rows = Rader
+
+js-lunarinfra-th-scale = Skala på overflaten, m
+
+js-lunarinfra-th-smallest-eig = Minste egenverdi
+
+js-lunarinfra-th-translation = Translasjon x, y, z, m
+
+js-lunarinfra-th-value = Verdi
+
+js-lunarinfra-th-verdict = Dom
+
+js-lunarinfra-th-with-links = Med orbiterlenker
+
+js-lunarinfra-th-without-links = Uten orbiterlenker
+
+js-lunarinfra-title-carrier-phase = Bærebølgefase, overflate og orbiter
+
+js-lunarinfra-title-frame-coestimation = Samestimering av referansesystem
+
+js-lunarinfra-title-geodesy-sensitivity = Love-tall og librasjon
+
+js-lunarinfra-title-od-consistency = Konsistens i banebestemmelse
+
+js-lunarinfra-title-space-tie = Kobling i rommet
+
+js-lunarinfra-unknown-study = dette resultatet for månens infrastruktur er studien "{ $study }", som denne siden ikke leser
+
+js-lunarinfra-where-missed = Der denne studien bommet.
+
+js-lunarinfra-with-links = med orbiterlenker
+
+js-lunarinfra-without-links = uten orbiterlenker
+
+js-lunarinfra-x-arc-length = buelengde, dager
+
+js-lunarinfra-x-local-tie = sigma for lokal kobling, m (log)
+
+js-lunarinfra-y-fixed-correctly = riktig fiksert, %
+
+js-lunarinfra-y-offset-sigma = forskyvningssigma, m (log); det stiplede gulvet er koblingen alene, sqrt(2) × koblingsfeilen
+
+js-meaning-body-generic = legemet
+
+js-meaning-body-the = { $name }
+
+js-meaning-card-label-sub = { $k }, { $sub }
+
+js-meaning-checks-of =
+    { $n ->
+        [one] { $av } av { $n } kontroll
+       *[other] { $av } av { $n } kontroller
+    }
+
+js-meaning-coverage-average-label = Gjennomsnitt i sikte
+
+js-meaning-coverage-big-min =
+    { $n ->
+        [one] Minst { $n } satellitt i sikte på hvert sted, { $mean } i gjennomsnitt.
+       *[other] Minst { $n } satellitter i sikte på hvert sted, { $mean } i gjennomsnitt.
+    }
+
+js-meaning-coverage-big-none = Noen steder ser til tider ingen satellitt; { $mean } er i sikte i gjennomsnitt.
+
+js-meaning-coverage-fewest-label = Færrest i sikte, hvor som helst
+
+js-meaning-coverage-line-many = Med { $names } sammen er posisjonsbestemmelse mulig på { $share } % av stedene og tidspunktene rundt { $body }.
+
+js-meaning-coverage-line-many-pdop = Med { $names } sammen er posisjonsbestemmelse mulig på { $share } % av stedene og tidspunktene rundt { $body } (geometrikvalitet, PDOP, under { $thr }).
+
+js-meaning-coverage-line-none = Posisjonsbestemmelse er mulig på { $share } % av stedene og tidspunktene rundt { $body }.
+
+js-meaning-coverage-line-none-pdop = Posisjonsbestemmelse er mulig på { $share } % av stedene og tidspunktene rundt { $body } (geometrikvalitet, PDOP, under { $thr }).
+
+js-meaning-coverage-line-one = Med { $names } er posisjonsbestemmelse mulig på { $share } % av stedene og tidspunktene rundt { $body }.
+
+js-meaning-coverage-line-one-pdop = Med { $names } er posisjonsbestemmelse mulig på { $share } % av stedene og tidspunktene rundt { $body } (geometrikvalitet, PDOP, under { $thr }).
+
+js-meaning-coverage-places-label = Steder som får en posisjonsbestemmelse
+
+js-meaning-duration-days =
+    { $n ->
+        [one] { $days } dag
+       *[other] { $days } dager
+    }
+
+js-meaning-ensemble-big-many = Over mange støytrekninger holder { $q } { $thr } ns i { $qd } i gjennomsnitt; { $c } i { $cd }.
+
+js-meaning-ensemble-big-runs =
+    { $n ->
+        [one] Over { $n } støytrekning holder { $q } { $thr } ns i { $qd } i gjennomsnitt; { $c } i { $cd }.
+       *[other] Over { $n } støytrekninger holder { $q } { $thr } ns i { $qd } i gjennomsnitt; { $c } i { $cd }.
+    }
+
+js-meaning-ensemble-line = I ni av ti trekninger holder { $name } fra { $band }.
+
+js-meaning-ensemble-mean = middel
+
+js-meaning-ensemble-mean-band = middel; 90 %-bånd { $band }
+
+js-meaning-error-p95-label = Feil, 95 % av tiden, { $name }
+
+js-meaning-generic-big = { $label }: { $value }.
+
+js-meaning-generic-line-one = Også fra denne kjøringen: { $a }.
+
+js-meaning-generic-line-two = Også fra denne kjøringen: { $a } og { $b }.
+
+js-meaning-generic-none = Denne kjøringen har ikke noe enkelt hovedtall; diagrammet nedenfor viser resultatet.
+
+js-meaning-holdover-label = Holdover, { $name }
+
+js-meaning-hpl-sub = horisontalt beskyttelsesnivå
+
+js-meaning-inside-budget = innenfor { $budget }
+
+js-meaning-integrity-big-checks-mostly = Ja, for det meste: ved { $share } % av kontrollene.
+
+js-meaning-integrity-big-checks-no = Nei: ved { $share } % av kontrollene.
+
+js-meaning-integrity-big-checks-partly = Bare delvis: ved { $share } % av kontrollene.
+
+js-meaning-integrity-big-checks-yes = Ja: ved { $share } % av kontrollene.
+
+js-meaning-integrity-big-span-mostly = Ja, for det meste: i { $share } % av { $span }.
+
+js-meaning-integrity-big-span-no = Nei: i { $share } % av { $span }.
+
+js-meaning-integrity-big-span-partly = Bare delvis: i { $share } % av { $span }.
+
+js-meaning-integrity-big-span-yes = Ja: i { $share } % av { $span }.
+
+js-meaning-integrity-bound-label = Typisk feilgrense
+
+js-meaning-integrity-bound-sub = horisontal / vertikal, median
+
+js-meaning-integrity-gap-all-passed = hver kontroll bestått
+
+js-meaning-integrity-gap-label = Lengste gap
+
+js-meaning-integrity-gap-none = ingen
+
+js-meaning-integrity-gap-sub =
+    { $n ->
+        [one] { $n } kontroll på rad, fra { $from }
+       *[other] { $n } kontroller på rad, fra { $from }
+    }
+
+js-meaning-integrity-line-h =
+    { $n ->
+        [one] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensene ({ $h } m horisontalt) ved { $av } av { $tot } kontroll.
+       *[other] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensene ({ $h } m horisontalt) ved { $av } av { $tot } kontroller.
+    }
+
+js-meaning-integrity-line-h-clean =
+    { $n ->
+        [one] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensene ({ $h } m horisontalt) ved { $av } av { $tot } kontroll, og ingen posisjonsbestemmelse var villedende.
+       *[other] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensene ({ $h } m horisontalt) ved { $av } av { $tot } kontroller, og ingen posisjonsbestemmelse var villedende.
+    }
+
+js-meaning-integrity-line-h-some =
+    { $n ->
+        [one] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensene ({ $h } m horisontalt) ved { $av } av { $tot } kontroller; { $n } posisjonsbestemmelse var villedende.
+       *[other] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensene ({ $h } m horisontalt) ved { $av } av { $tot } kontroller; { $n } posisjonsbestemmelser var villedende.
+    }
+
+js-meaning-integrity-line-hv =
+    { $n ->
+        [one] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensene ({ $h } m horisontalt og { $v } m vertikalt) ved { $av } av { $tot } kontroll.
+       *[other] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensene ({ $h } m horisontalt og { $v } m vertikalt) ved { $av } av { $tot } kontroller.
+    }
+
+js-meaning-integrity-line-hv-clean =
+    { $n ->
+        [one] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensene ({ $h } m horisontalt og { $v } m vertikalt) ved { $av } av { $tot } kontroll, og ingen posisjonsbestemmelse var villedende.
+       *[other] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensene ({ $h } m horisontalt og { $v } m vertikalt) ved { $av } av { $tot } kontroller, og ingen posisjonsbestemmelse var villedende.
+    }
+
+js-meaning-integrity-line-hv-some =
+    { $n ->
+        [one] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensene ({ $h } m horisontalt og { $v } m vertikalt) ved { $av } av { $tot } kontroller; { $n } posisjonsbestemmelse var villedende.
+       *[other] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensene ({ $h } m horisontalt og { $v } m vertikalt) ved { $av } av { $tot } kontroller; { $n } posisjonsbestemmelser var villedende.
+    }
+
+js-meaning-integrity-line-none =
+    { $n ->
+        [one] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensen ved { $av } av { $tot } kontroll.
+       *[other] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensen ved { $av } av { $tot } kontroller.
+    }
+
+js-meaning-integrity-line-none-clean =
+    { $n ->
+        [one] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensen ved { $av } av { $tot } kontroll, og ingen posisjonsbestemmelse var villedende.
+       *[other] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensen ved { $av } av { $tot } kontroller, og ingen posisjonsbestemmelse var villedende.
+    }
+
+js-meaning-integrity-line-none-some =
+    { $n ->
+        [one] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensen ved { $av } av { $tot } kontroller; { $n } posisjonsbestemmelse var villedende.
+       *[other] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensen ved { $av } av { $tot } kontroller; { $n } posisjonsbestemmelser var villedende.
+    }
+
+js-meaning-integrity-line-v =
+    { $n ->
+        [one] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensene ({ $v } m vertikalt) ved { $av } av { $tot } kontroll.
+       *[other] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensene ({ $v } m vertikalt) ved { $av } av { $tot } kontroller.
+    }
+
+js-meaning-integrity-line-v-clean =
+    { $n ->
+        [one] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensene ({ $v } m vertikalt) ved { $av } av { $tot } kontroll, og ingen posisjonsbestemmelse var villedende.
+       *[other] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensene ({ $v } m vertikalt) ved { $av } av { $tot } kontroller, og ingen posisjonsbestemmelse var villedende.
+    }
+
+js-meaning-integrity-line-v-some =
+    { $n ->
+        [one] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensene ({ $v } m vertikalt) ved { $av } av { $tot } kontroller; { $n } posisjonsbestemmelse var villedende.
+       *[other] Mottakerens feilgrense (beskyttelsesnivået) holdt seg under varslingsgrensene ({ $v } m vertikalt) ved { $av } av { $tot } kontroller; { $n } posisjonsbestemmelser var villedende.
+    }
+
+js-meaning-integrity-misleading-label = Villedende posisjonsbestemmelser
+
+js-meaning-integrity-misleading-sub = reell feil over grensen
+
+js-meaning-integrity-trusted-label = Tid posisjonsbestemmelsen kan stoles på
+
+js-meaning-jamming-above-label = Jammer over signalet
+
+js-meaning-jamming-above-sub = gjennomsnittlig forhold mellom jammer og signal
+
+js-meaning-jamming-big-gone = Jammeren tar posisjonsbestemmelsen helt bort.
+
+js-meaning-jamming-big-share = Med jammeren er posisjonsbestemmelse tilgjengelig { $share } % av tiden.
+
+js-meaning-jamming-clear-label = Posisjonsbestemmelse tilgjengelig, uten jammer
+
+js-meaning-jamming-fewest-label = Færrest satellitter som spores
+
+js-meaning-jamming-fewest-sub = i det verste øyeblikket
+
+js-meaning-jamming-jammed-label = Posisjonsbestemmelse tilgjengelig, med jamming
+
+js-meaning-jamming-line = Uten jammeren er posisjonsbestemmelse tilgjengelig { $share } % av tiden.
+
+js-meaning-jamming-line-js = Uten jammeren er posisjonsbestemmelse tilgjengelig { $share } % av tiden; jammeren ligger i gjennomsnitt { $db } dB over signalet.
+
+js-meaning-kicker = { $domain } · { $title }
+
+js-meaning-lunar-big-all =
+    { $n ->
+        [one] Ja: ved hver eneste av { $n } kontroll.
+       *[other] Ja: ved hver eneste av { $n } kontroller.
+    }
+
+js-meaning-lunar-big-none =
+    { $n ->
+        [one] Nei: ved ingen av { $n } kontroll.
+       *[other] Nei: ved ingen av { $n } kontroller.
+    }
+
+js-meaning-lunar-big-some =
+    { $n ->
+        [one] Ved { $av } av { $n } kontroll ({ $share } %).
+       *[other] Ved { $av } av { $n } kontroller ({ $share } %).
+    }
+
+js-meaning-lunar-largest-label = Største feilgrense
+
+js-meaning-lunar-line = Beskyttelsesnivået varierte fra { $min } til { $max } m mot en varslingsgrense på { $limit } m.
+
+js-meaning-lunar-meet-label = Kontroller som overholder grensen
+
+js-meaning-lunar-meet-value = { $av } av { $tot }
+
+js-meaning-lunar-smallest-label = Minste feilgrense
+
+js-meaning-median-lower-better = median, lavere er bedre
+
+js-meaning-of-the-time = av tiden
+
+js-meaning-orbit-best-label = Beste geometri (PDOP)
+
+js-meaning-orbit-best-sub = lavest gjennom kjøringen
+
+js-meaning-orbit-big-always = Posisjonsbestemmelse er mulig hele tiden.
+
+js-meaning-orbit-big-share = Posisjonsbestemmelse er mulig { $share } % av tiden.
+
+js-meaning-orbit-error-label = Typisk posisjonsfeil
+
+js-meaning-orbit-error-sub = 1 sigma, median
+
+js-meaning-orbit-line =
+    { $n ->
+        [one] Det var nok satellitter i sikte ved { $fix } av { $n } tidspunkt.
+       *[other] Det var nok satellitter i sikte ved { $fix } av { $n } tidspunkter.
+    }
+
+js-meaning-orbit-line-pdop =
+    { $n ->
+        [one] Det var nok satellitter i sikte ved { $fix } av { $n } tidspunkt; den typiske geometrikvaliteten (PDOP, posisjonens presisjonsfortynning) er { $pdop }, lavere er bedre.
+       *[other] Det var nok satellitter i sikte ved { $fix } av { $n } tidspunkter; den typiske geometrikvaliteten (PDOP, posisjonens presisjonsfortynning) er { $pdop }, lavere er bedre.
+    }
+
+js-meaning-orbit-moments =
+    { $n ->
+        [one] { $fix } av { $n } tidspunkt
+       *[other] { $fix } av { $n } tidspunkter
+    }
+
+js-meaning-orbit-time-label = Tid posisjonsbestemmelse er mulig
+
+js-meaning-pair-big-diff-pos = { $best } holder seg innenfor { $budget } i { $bestDur }; { $other } i { $otherDur }.
+
+js-meaning-pair-big-diff-time = { $best } holder tiden innenfor { $budget } i { $bestDur }; { $other } i { $otherDur }.
+
+js-meaning-pair-big-same-pos = Både { $q } og { $c } holder seg innenfor { $budget } i { $dur }.
+
+js-meaning-pair-big-same-time = Både { $q } og { $c } holder tiden innenfor { $budget } i { $dur }.
+
+js-meaning-pair-line-clock = Holdover er hvor lenge hver klokke holder seg innenfor budsjettet på { $budget } etter at satellittnavigasjonen er tapt.
+
+js-meaning-pair-line-navigator = Holdover er hvor lenge hver navigator holder seg innenfor budsjettet på { $budget } etter at satellittnavigasjonen er tapt.
+
+js-meaning-pdop-label = Geometrikvalitet (PDOP)
+
+js-meaning-places-times = av steder og tidspunkter
+
+js-meaning-range-to = { $from } til { $to }
+
+js-meaning-satellites =
+    { $n ->
+        [one] satellitt
+       *[other] satellitter
+    }
+
+js-meaning-spectrum-above = over terskelen
+
+js-meaning-spectrum-below = under terskelen: tapt
+
+js-meaning-spectrum-big-kept =
+    { $n ->
+        [one] Hvert eneste av { $n } signal fortsetter å spores.
+       *[other] Hvert eneste av { $n } signaler fortsetter å spores.
+    }
+
+js-meaning-spectrum-big-lost =
+    { $n ->
+        [one] Jammerne tar bort { $lost } av { $n } signal: { $names }.
+       *[other] Jammerne tar bort { $lost } av { $n } signaler: { $names }.
+    }
+
+js-meaning-spectrum-line-kept =
+    { $n ->
+        [one] { $names } holder seg over mottakerens sporingsterskel gjennom hele kjøringen.
+       *[other] { $names } holder seg over mottakerens sporingsterskel gjennom hele kjøringen.
+    }
+
+js-meaning-spectrum-line-kept-thr =
+    { $n ->
+        [one] { $names } holder seg over mottakerens sporingsterskel på { $thr } dB-Hz gjennom hele kjøringen.
+       *[other] { $names } holder seg over mottakerens sporingsterskel på { $thr } dB-Hz gjennom hele kjøringen.
+    }
+
+js-meaning-spectrum-line-none = Ikke noe signal holder seg over mottakerens sporingsterskel gjennom hele kjøringen.
+
+js-meaning-spectrum-line-none-thr = Ikke noe signal holder seg over mottakerens sporingsterskel på { $thr } dB-Hz gjennom hele kjøringen.
+
+js-meaning-spectrum-weakest-label = Svakeste signal, { $name }
+
+js-meaning-whole-run = gjennom hele kjøringen
+
+js-meaning-your-setting = din innstilling
+
+js-meankind-acm-big =
+    { $n ->
+        [one] Adaptiv koding flytter { $gain } ganger så mye data som den beste faste modusen: { $acm } Gbit mot { $ccm } Gbit over { $n } passering.
+       *[other] Adaptiv koding flytter { $gain } ganger så mye data som den beste faste modusen: { $acm } Gbit mot { $ccm } Gbit over { $n } passeringer.
+    }
+
+js-meankind-acm-line = Fast modus { $mode }; { $dur } bortfall.
+
+js-meankind-anomaly-big = Kvantemonitoren for feil oppnår { $q } mot { $c } for den klassiske (areal under kurven, 1 er perfekt).
+
+js-meankind-anomaly-line = Den minste feilen som kan oppdages, er { $q } mot { $c }.
+
+js-meankind-aocs-big-open = Dreiingen på { $slew } grader roer seg ikke under { $threshold } grader.
+
+js-meankind-aocs-big-settles = Dreiingen på { $slew } grader roer seg under { $threshold } grader etter { $dur }.
+
+js-meankind-aocs-line = Endelig pekefeil { $final } grader.
+
+js-meankind-aocs-line-filter = Endelig pekefeil { $final } grader. Et holdningsfilter i sløyfen er av med { $arcsec } buesekunder RMS.
+
+js-meankind-aocs-line-wheel = Endelig pekefeil { $final } grader. Maksimalt hjulmoment { $torque } N m.
+
+js-meankind-aocs-line-wheel-filter = Endelig pekefeil { $final } grader. Maksimalt hjulmoment { $torque } N m. Et holdningsfilter i sløyfen er av med { $arcsec } buesekunder RMS.
+
+js-meankind-aperture-big = Navigasjon bruker { $nav } % av antennetiden og kommunikasjon { $comms } %.
+
+js-meankind-aperture-big-idle = Navigasjon bruker { $nav } % av antennetiden og kommunikasjon { $comms } %; { $idle } % er ledig.
+
+js-meankind-aperture-line-all =
+    { $n ->
+        [one] { $n } apertur under regelen { $policy }, med { $dur } konkurranse om aperturen.
+       *[other] { $n } aperturer under regelen { $policy }, med { $dur } konkurranse om aperturene.
+    }
+
+js-meankind-aperture-line-contention =
+    { $n ->
+        [one] { $n } apertur, med { $dur } konkurranse om aperturen.
+       *[other] { $n } aperturer, med { $dur } konkurranse om aperturene.
+    }
+
+js-meankind-aperture-line-count =
+    { $n ->
+        [one] { $n } apertur.
+       *[other] { $n } aperturer.
+    }
+
+js-meankind-aperture-line-nocount = Aperturene.
+
+js-meankind-aperture-line-nocount-all = Aperturene under regelen { $policy }, med { $dur } konkurranse om aperturene.
+
+js-meankind-aperture-line-nocount-contention = Aperturene, med { $dur } konkurranse om aperturene.
+
+js-meankind-aperture-line-nocount-policy = Aperturene under regelen { $policy }.
+
+js-meankind-aperture-line-policy =
+    { $n ->
+        [one] { $n } apertur under regelen { $policy }.
+       *[other] { $n } aperturer under regelen { $policy }.
+    }
+
+js-meankind-araim-big-no = Nei: motorens beskyttelsesnivåer bommer på den publiserte referansen.
+
+js-meankind-araim-big-yes = Ja: motorens beskyttelsesnivåer stemmer med den publiserte referansen.
+
+js-meankind-araim-line = Den verste differansen er { $worst } m mot referansens egen toleranse på { $tol } m.
+
+js-meankind-araim-line-vectors =
+    { $n ->
+        [one] Den verste differansen er { $worst } m mot referansens egen toleranse på { $tol } m, over { $n } referansevektor.
+       *[other] Den verste differansen er { $worst } m mot referansens egen toleranse på { $tol } m, over { $n } referansevektorer.
+    }
+
+js-meankind-arc-big = Estimatoren gjenoppretter banen når den har { $dur } av buen på { $h } t.
+
+js-meankind-arc-line = { $n } romfartøy, { $observable }-målinger.
+
+js-meankind-ascent-big = Tyngdekraft, luftmotstand, styring og mottrykk tar { $loss } m/s av den ideelle hastighetsøkningen på { $ideal } m/s.
+
+js-meankind-ascent-line = Brennslutt ved { $km } km og { $speed } m/s; maksimalt dynamisk trykk { $kpa } kPa.
+
+js-meankind-attack-big-no = En spoofer på overflaten kan ikke fange en mottaker på månen.
+
+js-meankind-attack-big-yes = En spoofer på overflaten kan fange en mottaker på månen.
+
+js-meankind-attack-line = En sender på overflaten når { $km } km før horisonten blokkerer den.
+
+js-meankind-attitude-big = Pekefeilen er til sammen { $total } buesekunder.
+
+js-meankind-attitude-big-from = Pekefeilen er til sammen { $total } buesekunder, for det meste fra { $from }.
+
+js-meankind-attitude-line = Det største gravitasjonsgradientmomentet er { $torque } N·m.
+
+js-meankind-beacon-big = Fyr på overflaten forbedrer geometrikvaliteten (PDOP) { $x } ganger.
+
+js-meankind-beacon-line = Å legge til satellitter i stedet forbedrer den { $x } ganger.
+
+js-meankind-bodypnt-big = Relé alene gir en posisjonsbestemmelse { $share } % av tiden rundt { $body }.
+
+js-meankind-bodypnt-big-earth = Relé alene gir en posisjonsbestemmelse { $share } % av tiden rundt { $body }; { $earth } % med lenker til jorden.
+
+js-meankind-bodypnt-line = { $mean } relé er i sikte i gjennomsnitt.
+
+js-meankind-by = { $a } etter { $b }
+
+js-meankind-campaign-compose-line = Hvert medlem er en vanlig motorkjøring; kampanjen leser resultatene deres side om side.
+
+js-meankind-campaign-compose-range =
+    { $n ->
+        [one] Over { $n } scenario under de samme betingelsene varierer { $what } fra { $low } til { $high }.
+       *[other] Over { $n } scenarioer under de samme betingelsene varierer { $what } fra { $low } til { $high }.
+    }
+
+js-meankind-campaign-compose-same =
+    { $n ->
+        [one] Over { $n } scenario under de samme betingelsene er { $what } { $value } i hvert eneste.
+       *[other] Over { $n } scenarioer under de samme betingelsene er { $what } { $value } i hvert eneste.
+    }
+
+js-meankind-campaign-line =
+    { $n ->
+        [one] { $n } fase.
+       *[other] { $n } faser.
+    }
+
+js-meankind-campaign-line-all =
+    { $n ->
+        [one] { $n } fase og { $events }, fra { $runs }; på slutten er { $label } { $value }.
+       *[other] { $n } faser og { $events }, fra { $runs }; på slutten er { $label } { $value }.
+    }
+
+js-meankind-campaign-line-end =
+    { $n ->
+        [one] { $n } fase; på slutten er { $label } { $value }.
+       *[other] { $n } faser; på slutten er { $label } { $value }.
+    }
+
+js-meankind-campaign-line-events =
+    { $n ->
+        [one] { $n } fase og { $events }.
+       *[other] { $n } faser og { $events }.
+    }
+
+js-meankind-campaign-line-events-end =
+    { $n ->
+        [one] { $n } fase og { $events }; på slutten er { $label } { $value }.
+       *[other] { $n } faser og { $events }; på slutten er { $label } { $value }.
+    }
+
+js-meankind-campaign-line-events-runs =
+    { $n ->
+        [one] { $n } fase og { $events }, fra { $runs }.
+       *[other] { $n } faser og { $events }, fra { $runs }.
+    }
+
+js-meankind-campaign-line-runs =
+    { $n ->
+        [one] { $n } fase, fra { $runs }.
+       *[other] { $n } faser, fra { $runs }.
+    }
+
+js-meankind-campaign-line-runs-end =
+    { $n ->
+        [one] { $n } fase, fra { $runs }; på slutten er { $label } { $value }.
+       *[other] { $n } faser, fra { $runs }; på slutten er { $label } { $value }.
+    }
+
+js-meankind-campaign-mission-alarm = Alarmen utløses i { $alarm } av oppdraget på { $dur }.
+
+js-meankind-campaign-mission-phases = Et oppdrag med { $phases } faser over { $dur }, lenket sammen på én klokke.
+
+js-meankind-campaign-mission-quiet = Ingen alarm i hele oppdraget på { $dur }.
+
+js-meankind-campaign-montecarlo =
+    { $n ->
+        [one] Over { $n } kjøring med fast seed er { $name } i gjennomsnitt { $mean }, med en spredning på { $std }.
+       *[other] Over { $n } kjøringer med fast seed er { $name } i gjennomsnitt { $mean }, med en spredning på { $std }.
+    }
+
+js-meankind-campaign-montecarlo-line = Spredningen er ett standardavvik over kjøringene.
+
+js-meankind-campaign-optimize =
+    { $n ->
+        [one] Søket lander på { $name } på { $value } etter { $n } kjøring.
+       *[other] Søket lander på { $name } på { $value } etter { $n } kjøringer.
+    }
+
+js-meankind-campaign-optimize-at = Ved { $at }.
+
+js-meankind-campaign-optimize-kind =
+    { $n ->
+        [one] Søket lander på { $name } på { $value } etter { $n } kjøring av { $kind }.
+       *[other] Søket lander på { $name } på { $value } etter { $n } kjøringer av { $kind }.
+    }
+
+js-meankind-campaign-sweep-flat =
+    { $n ->
+        [one] Over { $n } kjøring av { $axis } fra { $from } til { $to } holder { $metric } seg på { $value }.
+       *[other] Over { $n } kjøringer av { $axis } fra { $from } til { $to } holder { $metric } seg på { $value }.
+    }
+
+js-meankind-campaign-sweep-flat-line = Diagrammet viser hver kjøring.
+
+js-meankind-campaign-sweep-goes =
+    { $n ->
+        [one] Over { $n } kjøring av { $axis } fra { $from } til { $to } går { $metric } fra { $first } til { $last }.
+       *[other] Over { $n } kjøringer av { $axis } fra { $from } til { $to } går { $metric } fra { $first } til { $last }.
+    }
+
+js-meankind-campaign-sweep-goes-line = Diagrammet viser hver kjøring; det går fra { $min } til { $max }.
+
+js-meankind-classical-link = klassisk lenke
+
+js-meankind-clock-word = klokke
+
+js-meankind-conflict-big = Den lagdelte arkitekturen overlever { $ratio } ganger bedre enn ett enkelt lag.
+
+js-meankind-conflict-line-threats = En Monte Carlo av truslene gir { $ratio } ganger.
+
+js-meankind-conflict-line-threats-corr = En Monte Carlo av truslene gir { $ratio } ganger; med korrelerte trusler kan det falle til { $low } ganger.
+
+js-meankind-conflict-line-trials =
+    { $n ->
+        [one] En Monte Carlo med { $n } forsøk gir { $ratio } ganger.
+       *[other] En Monte Carlo med { $n } forsøk gir { $ratio } ganger.
+    }
+
+js-meankind-conflict-line-trials-corr =
+    { $n ->
+        [one] En Monte Carlo med { $n } forsøk gir { $ratio } ganger; med korrelerte trusler kan det falle til { $low } ganger.
+       *[other] En Monte Carlo med { $n } forsøk gir { $ratio } ganger; med korrelerte trusler kan det falle til { $low } ganger.
+    }
+
+js-meankind-contacts-big =
+    { $n ->
+        [one] Planen beholder { $kept } av { $n } kandidatkontakt og leverer { $gbit } Gbit.
+       *[other] Planen beholder { $kept } av { $n } kandidatkontakter og leverer { $gbit } Gbit.
+    }
+
+js-meankind-contacts-big-waiting =
+    { $n ->
+        [one] Planen beholder { $kept } av { $n } kandidatkontakt og leverer { $gbit } Gbit av de { $waiting } Gbit som venter.
+       *[other] Planen beholder { $kept } av { $n } kandidatkontakter og leverer { $gbit } Gbit av de { $waiting } Gbit som venter.
+    }
+
+js-meankind-contacts-line = { $sats } satellitter og { $stations } stasjoner over { $hours } t.
+
+js-meankind-dpnt-big = Differensialkorreksjoner bringer feilen fra { $from } m til { $to } m.
+
+js-meankind-dpnt-line = Med en referansestasjon { $km } km unna.
+
+js-meankind-duration-days =
+    { $n ->
+        [one] { $days } dag
+       *[other] { $days } dager
+    }
+
+js-meankind-earthgnss-big =
+    { $n ->
+        [one] På månens avstand er { $visible } av { $n } satellitt i sikte, men { $trackable } kan spores.
+       *[other] På månens avstand er { $visible } av { $n } satellitter i sikte, men { $trackable } kan spores.
+    }
+
+js-meankind-earthgnss-line = Det beste signalet er { $best } dB-Hz mot en sporingsterskel på { $threshold } dB-Hz.
+
+js-meankind-engine-run-count =
+    { $n ->
+        [one] { $n } motorkjøring
+       *[other] { $n } motorkjøringer
+    }
+
+js-meankind-entry-big = Maksimal retardasjon er { $g } g ved { $km } km, med en maksimal varmefluks på { $flux } W/cm².
+
+js-meankind-entry-line = Inntrenging ved { $speed } m/s, { $angle } grader under horisonten.
+
+js-meankind-eo-big = Kameraet ser en sporbredde på { $swath } km med oppløsning på { $gsd } m.
+
+js-meankind-eo-line-contiguous = Sporene på bakken ligger { $km } km fra hverandre ved ekvator, så dekningen er sammenhengende.
+
+js-meankind-eo-line-gapped = Sporene på bakken ligger { $km } km fra hverandre ved ekvator, så dekningen har hull.
+
+js-meankind-eop-big = På månens avstand feier jordrotasjonen { $m } m hvert sekund, så alderen på jordorienteringsdata ({ $dur } her) har betydning.
+
+js-meankind-eop-line = Inndata: { $source }.
+
+js-meankind-ephemeris-big = Satellitten flyr mellom { $min } og { $max } km, opp til { $lat }° breddegrad.
+
+js-meankind-ephemeris-line = Sett fra stasjonen stiger den til { $deg }°.
+
+js-meankind-ephemeris-line-doppler = Sett fra stasjonen stiger den til { $deg }°, med opptil { $khz } kHz Doppler.
+
+js-meankind-event-count =
+    { $n ->
+        [one] { $n } hendelse
+       *[other] { $n } hendelser
+    }
+
+js-meankind-framecampaign-big-open =
+    { $n ->
+        [one] Kampanjen lar { $n } datumretning stå ubestemt.
+       *[other] Kampanjen lar { $n } datumretninger stå ubestemt.
+    }
+
+js-meankind-framecampaign-big-yes = Ja: kampanjen fastlegger månens referansesystemdatum fullt ut.
+
+js-meankind-framecampaign-line = Kondisjonstall { $n }.
+
+js-meankind-framereal-big = Månens referansesystem realiseres med { $m } m restfeil.
+
+js-meankind-framereal-big-open = Månens referansesystem realiseres med { $m } m restfeil, selv om tilpasningen ikke konvergerte.
+
+js-meankind-framereal-line = Translasjonsfeil { $trans } m, skaleringsfeil { $scale } milliarddeler.
+
+js-meankind-gnsssim-big = Integritetsovervåking beskytter posisjonsbestemmelsen { $share } % av tiden.
+
+js-meankind-gnsssim-line = Ionosfæren legger i gjennomsnitt til { $iono } m og troposfæren { $tropo } m til hver avstand.
+
+js-meankind-headline-figure = hovedtall
+
+js-meankind-holdovertest-big = Målt mot maskene når registerets holdover på { $dur } s en tidsfeil på { $te } ns.
+
+js-meankind-holdovertest-big-open = Målt mot maskene når registerets holdover på { $dur } s en tidsfeil på { $te } ns, og kom seg ikke tilbake innenfor båndet.
+
+js-meankind-holdovertest-big-recovered = Målt mot maskene når registerets holdover på { $dur } s en tidsfeil på { $te } ns, og kom seg tilbake { $recover } s etter at GNSS vendte tilbake.
+
+js-meankind-holdovertest-line = Målt mot masken, aldri en påstand om at et system er i samsvar; de to tidene er operatørens egen oppgave.
+
+js-meankind-holdovertest-line-masks = { $masks }. Målt mot masken, aldri en påstand om at et system er i samsvar; de to tidene er operatørens egen oppgave.
+
+js-meankind-impairment-big = Detektoren skiller svekkede signaler fra rene med et areal under kurven på { $auc } (1 er perfekt).
+
+js-meankind-impairment-line = På tilfeller som ikke ligner treningssettet oppnår den { $auc }.
+
+js-meankind-infra-carrier = Heltallsfiksering av bærebølgefase mellom en overflatestasjon og en orbiter fikserte { $share } % av forsøkene på den lengste buen ({ $days } dager).
+
+js-meankind-infra-frame = Lenker mellom orbiter og stasjon øker den minste informasjonsegenverdien i månens datum { $x } ganger og skjærer Cramér-Rao-sporet ned til { $share } %, hvis banen er kjent i månens akser.
+
+js-meankind-infra-geodesy = Med alle fire familiene sammen bestemmes h2, k2 og l2 til { $h2 } %, { $k2 } % og { $l2 } % av sine nominelle verdier.
+
+js-meankind-infra-od = Banebestemmelse om bord med GNSS fra jorden i månebane er god til { $gnss } m, uavhengig sporing fra bakken til { $ground } m; konsistensstatistikken har middel { $mean } ({ $expected } forventet).
+
+js-meankind-infra-tail = MODELLED: en begrenset modell med illustrative inndata, ikke en uttalelse om noe oppdrag.
+
+js-meankind-infra-tie =
+    { $n ->
+        [one] En lokal kobling på { $mm } mm på ett romfartøy knytter sammen GNSS-, VLBI- og laseravstandsreferansesystemene over { $n } sveipet koblingsfeil.
+       *[other] En lokal kobling på { $mm } mm på ett romfartøy knytter sammen GNSS-, VLBI- og laseravstandsreferansesystemene over { $n } sveipede koblingsfeil.
+    }
+
+js-meankind-inside-spec = innenfor { $spec }
+
+js-meankind-instrn-big = Ved kun treghetsnavigasjon passerer posisjonsfeilen { $threshold } m etter { $dur }.
+
+js-meankind-instrn-dom = { $dominant } dominerer.
+
+js-meankind-instrn-line = Den passerer { $passes }.
+
+js-meankind-instrn-line-dom = Den passerer { $passes }; { $dominant } dominerer.
+
+js-meankind-instrn-pass = { $threshold } m etter { $dur }
+
+js-meankind-interop-big-no = Nei: efemeridefilen for månen gir ikke samme innhold tilbake etter en rundtur.
+
+js-meankind-interop-big-yes = Ja: efemeridefilen for månen gir uendret innhold tilbake etter en rundtur.
+
+js-meankind-interop-line = { $n } tilstander i referansesystemet { $frame }, tid { $time }.
+
+js-meankind-its-spec = sin spesifikasjon
+
+js-meankind-jointod-big = Å legge til en jordbasert interferometriforsinkelse gjør stasjonens posisjon { $x } ganger skarpere.
+
+js-meankind-jointod-line = Stasjonen er da kjent til { $m } m.
+
+js-meankind-launch-big =
+    { $n ->
+        [one] { $n } oppskytingsvindu per døgn når en bane på { $incl }° fra breddegrad { $lat }°.
+       *[other] { $n } oppskytingsvinduer per døgn når en bane på { $incl }° fra breddegrad { $lat }°.
+    }
+
+js-meankind-launch-line = Jordrotasjonen gir { $speed } m/s gratis.
+
+js-meankind-layer-agc = AGC (automatisk forsterkningsregulering)
+
+js-meankind-layer-raim = RAIM (autonom integritetsovervåking i mottakeren)
+
+js-meankind-layer-sqm = SQM (signalkvalitetsovervåking)
+
+js-meankind-leochain-big = Fra ende til ende bringer systemet i lav bane posisjonsfeilen fra { $from } m til { $to } m.
+
+js-meankind-leochain-line = Signalet spores ved opptil { $cn0 } dB-Hz.
+
+js-meankind-leopass-big-many = Satellittene passerer { $elev }° høyt og holder seg over masken i { $dur } (den første av { $n }).
+
+js-meankind-leopass-big-one = Satellitten passerer { $elev }° høyt og holder seg over masken i { $dur }.
+
+js-meankind-leopass-line = På sitt høyeste ankommer signalet fra lav bane { $db } dB sterkere enn et typisk satellittnavigasjonssignal.
+
+js-meankind-leoppp-big = Presis posisjonering konvergerer på { $best } min med det største laget i lav bane, mot { $base } min med kun satellittnavigasjon.
+
+js-meankind-leoppp-line = Median av kjøringene per tilfelle, til { $m } m.
+
+js-meankind-leoppp-line-runs =
+    { $n ->
+        [one] Median av { $n } kjøring per tilfelle, til { $m } m.
+       *[other] Median av { $n } kjøringer per tilfelle, til { $m } m.
+    }
+
+js-meankind-leopvt-doppler-big = Doppler-posisjonering fra satellitter i lav bane lander { $m } m fra referansen (horisontalt).
+
+js-meankind-leopvt-doppler-line =
+    { $n ->
+        [one] { $n } satellitt brukt.
+       *[other] { $n } satellitter brukt.
+    }
+
+js-meankind-leopvt-joint-big = Å legge til laget i lav bane bringer feilen fra { $from } m til { $to } m (3D kvadratisk middel).
+
+js-meankind-leopvt-joint-line = Geometrikvaliteten (PDOP) går fra { $from } til { $to }.
+
+js-meankind-leopvt-polar-big = Nær polen forbedrer laget i lav bane geometrikvaliteten (PDOP) fra { $from } til { $to }.
+
+js-meankind-leopvt-polar-line =
+    { $n ->
+        [one] Over { $n } breddegrad.
+       *[other] Over { $n } breddegrader.
+    }
+
+js-meankind-leopvt-timing-big = Tidsoverføring fra lav bane holder den beste klokken innenfor { $ns } ns av UTC (kvadratisk middel).
