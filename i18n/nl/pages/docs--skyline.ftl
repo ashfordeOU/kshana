@@ -19,3 +19,5 @@ seg-c14b8fe46517 = Azimutafhankelijk skylinemasker: zichtbare verzameling, azimu
 seg-bbb1828b3db1 = Reducties van straatcanyon, sector en terrein tot een tabel
 
 seg-2c53381d48ae = Horizontale foutellips en cofactor per systeem uit de geometriecovariantie
+
+seg-de6c33774c9c = CLI

@@ -23,3 +23,7 @@ seg-842b77a21c5f = Kanaal
 seg-d6476863f862 = Mogelijkheid
 
 seg-fdbb9db68f1d = geen
+
+seg-1759a8cce7d6 = Soorten
+
+seg-564133d6a0c4 = Constellaties rond elk lichaam
