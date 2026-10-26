@@ -97,3 +97,15 @@ seg-6cb57dc94549 = <b>Registr:</b> MODELLED { "1" } · VALIDATED { "2" }. Celá 
 seg-b6c31bdda166 = <s1>Předchozí</s1>Alternativní PNT při nedostupnosti GPS
 
 seg-0585e4ae329e = <s1>Další</s1>Rušení, spoofing a spektrum
+
+seg-04310cd6cbec = Detekce poruch/anomálií MODELLED pro kvantové systémy PNT: označený katalog poruch (skok frekvence hodin/drift/ztráta zámku; skok zkreslení čidla/výpadek), ROC AUC detekční statistiky (s bootstrapovým intervalem spolehlivosti z externě ověřeného eval_stats) a minimální detekovatelná porucha při pevné míře falešných poplachů, přičemž monitor podporovaný kvantovými hodinami (nižší šum) detekuje menší poruchy — jako otevřené TradeEvidence + reprezentativnost. Model gaussovské detekční statistiky (AUC = Phi(mu/(sigma*sqrt2))); modeluje třídu, ilustrativní parametry z veřejných zdrojů, žádná TRL/let/certifikace.
+
+seg-2f1d14239d1a = Graf, který engine zapisuje pro scenarios/quantum-anomaly-detect.toml, druh quantum-anomaly-detect
+
+seg-790fbfdd80f0 = Kvantová navigace bez GNSS, stav MODELLED: během výpadku GNSS rozpočet kvantové (studený atomový interferometr) inerciální navigace oproti klasickému INS navigační třídy — růst chyby polohy při dobíhání, holdover k prahu polohy a obchodní srovnání kvantového a klasického přístupu jako otevřené TradeEvidence s reprezentativností. Otevřená poznámka k pozorovatelnosti: bez vnější opravy je zkreslení akcelerometru nepozorovatelné, takže chyba roste; kvantové čidlo tuto mezeru zpomaluje, ale neuzavírá. Ilustrativní parametry zařízení z veřejných zdrojů; modeluje třídu, žádné TRL/let/certifikace.
+
+seg-1bdbf1a737b2 = Graf, který engine zapisuje pro scenarios/quantum-gnss-free-nav.toml, druh quantum-gnss-free-nav
+
+seg-eb55d253dd11 = Obchodní srovnání kvantového a klasického PNT ({ "13503" }): přínos kandidátských hodin v holdoveru času a inerciálním holdoveru (křivka naměřené ADEV — opěrný bod obhajitelnosti — nebo třída kvantových hodin) oproti třídě klasického základu, s výhradou o předpokladu dlouhé podlahy tau uvedenou na výstupu, plus obálka odolnosti vůči času při odepření GNSS. MODELLED; kvantifikuje (nikdy neověřuje) zařízení partnera. Kandidátské hodiny jsou naměřená křivka (<c1/> + <c2/>, stejné délky, alespoň { "2" } body; vítězí, jsou-li zadány obě formy) nebo <c3/>.
+
+seg-c74c63ffd859 = Graf, který engine zapisuje pro scenarios/quantum-trade.toml, druh quantum-trade

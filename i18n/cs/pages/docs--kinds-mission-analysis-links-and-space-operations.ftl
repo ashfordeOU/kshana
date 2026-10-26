@@ -149,3 +149,15 @@ seg-568c484ce9a0 = <b>Registr:</b> VALIDATED. Celá stránka se vstupy, výsledk
 seg-41996765fcf1 = <s1>Předchozí</s1>Lunární a cislunární
 
 seg-1951c46fe429 = <s1>Další</s1>Optické PNT
+
+seg-dbffff25b57f = Most pro interoperabilitu CCSDS OEM: import zprávy Orbit Ephemeris Message vytvořené externím nástrojem letové dynamiky (GMAT/Orekit/STK všechny OEM vydávají) a výpis jejích segmentů/objektů/soustav/časového rozpětí epoch spolu s kontrolou konzistence rychlosti; bez vstupu provede round-trip vygenerované referenční oběžné dráhy a vypíše věrnost importu↔exportu. Strukturní/fyzikální kontrola importu stavu MODELLED, NENÍ ověřením přesnosti oběžné dráhy zdroje.
+
+seg-5db5a7c812ca = Graf, který engine zapisuje pro scenarios/oem-interop.toml, druh oem-interop
+
+seg-039f77066d97 = Balistický koridor návratu do atmosféry podle Allena–Eggerse: špičkové zpomalení (nezávislé na balistickém součiniteli, V_e^{ "2" } sin|γ|/(2eH)), rychlost a výška při špičkovém g a rychlost špičkového ohřevu pro vstupní rychlost/úhel dráhy letu/balistický součinitel exponenciální atmosférou, plus rovinná integrace hmotného bodu téhož balistického vstupu s gravitací, zakřivením Země a americkou standardní atmosférou { "1976" } (špičkové zpomalení, rychlost, výška a čas ve špičce). Balistický (bez vztlaku) vstup MODELLED; výstup ohřevu je RYCHLOST špičkového ohřevu, nikoli tepelný tok (bez aerotermálního modelu/modelu TPS).
+
+seg-b0109481e8ff = Graf, který engine zapisuje pro scenarios/reentry.toml, druh reentry
+
+seg-de2448d74c2b = Rámcování podle CCSDS 133.0-B Space Packet Protocol: kódování syntetického proudu paketů TM/TC (6oktetová primární hlavička + datové pole) a výpis dekódování hlavičky každého paketu, celkového počtu oktetů a přesného round-tripu kódování↔dekódování. Deterministické přesné rámcování podle bitového uspořádání — vrstva interoperability formátu paketů agentur; NENÍ to certifikace shody (bez logiky sekundární hlavičky/CRC/segmentace nad rámec příznaků).
+
+seg-af1cf9aa9938 = Graf, který engine zapisuje pro scenarios/space-packet.toml, druh space-packet

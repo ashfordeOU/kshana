@@ -469,3 +469,5 @@ seg-c4d4dd2bac45 = <b>Klobuchar</b>: model L1 enginu (<c1/>, ověřený proti RT
 seg-0d3973f04ee5 = <b>NeQuick-G</b>: koeficienty putují ve zprávě a <c1/> vrací <c2/> pro upravenou magnetickou šířku <c3/> podle pravidel algoritmu (nulové koeficienty dávají { "63.7" } jednotek slunečního toku, sfu; výsledek je omezen na [{ "0" }, { "400" }] sfu). Model elektronové hustoty NeQuick a jeho integrace po šikmé dráze, které z <c4/> dělají zpoždění, <b>nejsou</b> implementovány.
 
 seg-66dbd447dfeb = Družice ve výšce několika set kilometrů létá uvnitř ionosféry. Žádný z vysílaných modelů nezohledňuje elektronový obsah nad družicí a žádná korekce na něj se neuplatňuje.
+
+seg-02dc0d42fb21 = sfu

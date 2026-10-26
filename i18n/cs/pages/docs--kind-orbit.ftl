@@ -35,3 +35,33 @@ seg-53a78e98af12 = Tematická stránka: <a1>SKYLINE.md</a1>
 seg-ae15d15bf151 = Tematická stránka: <a1>LEO-PASS.md</a1>
 
 seg-99a3c57c7926 = { "7" } přibalených scénářů používá tento druh; ostatní jsou v <a1><c1/></a1>.
+
+seg-0e3518dc3ddb = Zdroj: <c1/>
+
+seg-1428025a91e1 = <c1/> (druh scénáře)
+
+seg-cb4262b66b8f = Dostupnost GNSS + DOP z orbitální konstelace (Walker / TLE / RINEX).
+
+seg-97680b4587c8 = Jeden běh <c1/> se shrnuje takto: scénář bffc887db977 | 77/361 vzorků nominální GNSS | nejlepší PDOP { "2.53" } pol. 2.53m | kvantový holdover 0s p95 6.49e-5ns integrita { "1.000" } zabezpečení n/a (bez útoku) | klasický holdover 0s p95 25.0ns integrita { "1.000" } zabezpečení n/a (bez útoku)
+
+seg-b3a080b98bd9 = Povinná pole: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>
+
+seg-c818cc4f87da = Volitelná pole: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>
+
+seg-364139ff447d = Příklad <c1/> mimo jiné nastavuje:
+
+seg-d5063dda3971 = Atomové hodiny v měřítku čipu Microchip SA.45s / SA65, sigma_y(1s)
+
+seg-799fe1216562 = { "3.04" } N: GNSS NAV DATA G: GPS
+
+seg-3b652c0da6de = Graf, který engine zapisuje pro scenarios/orbit-rinex.toml, druh orbit
+
+seg-a150aaacf072 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP z geometrie přímé viditelnosti přes Q=(HᵀH)⁻¹ s rozkladem v místní soustavě ENU Testy: <a1>dop_reference.rs</a1>.
+
+seg-af0bb84bda32 = <b>MODELLED</b> dop_error_mc::run_geometry a check: Monte Carlo se seedem (N = { "20,000" } epoch na geometrii, sigma = { "1.5" } m, seed ChaCha8 { "36" } + i) vlastního iterovaného řešení polohy enginu metodou nejmenších čtverců (pvt::solve_spp, jednotkové váhy, řešeno ze skutečné polohy) na Testy: <a1>uere_dop_monte_carlo.rs</a1>.
+
+seg-a3d71dd306b3 = <b>VALIDATED</b> skyline + frames::look_angles + geometry::sky_geometry: geodetický (WGS-84) azimut a elevace družice z pozemního stanoviště, tabulka masky azimut/elevace lineárně interpolovaná v azimutu se zalomením na { "360" } deg, viditelná množina el Testy: <a1>skyline_orekit_oracle.rs</a1>.
+
+seg-d86884be3f98 = <s1>Předchozí</s1>optical-atmosphere
+
+seg-da202333ae8d = <s1>Další</s1>passes
