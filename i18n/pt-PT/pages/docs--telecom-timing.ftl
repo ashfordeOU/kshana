@@ -20,3 +20,9 @@ seg-50fffd444946 = { "100" } ns
 
 # text
 seg-79e6a31245f2 = { "400" } ns
+
+# text
+seg-f63dd3d7aad4 = Fonte
+
+# text
+seg-587beeccaa11 = Predefinição

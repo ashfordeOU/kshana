@@ -50,3 +50,18 @@ seg-eaf341ff4522 = Navegação quântica sem GNSS
 
 # text
 seg-75636f9419b2 = Limitações conhecidas
+
+# text
+seg-9c0eb89a2fbe = Pacote
+
+# text
+seg-f63dd3d7aad4 = Fonte
+
+# text
+seg-638b8d451550 = Sensor
+
+# text
+seg-04f69a0edb2f = tipo
+
+# text
+seg-b03d56f501c3 = Tipo

@@ -14,3 +14,15 @@ seg-1759a8cce7d6 = Tipos de cenário
 
 # text
 seg-71aee5eb55c5 = UHF
+
+# text
+seg-f63dd3d7aad4 = Fonte
+
+# text
+seg-587beeccaa11 = Predefinição
+
+# text
+seg-e305279d5b11 = Conteúdo
+
+# text
+seg-b03d56f501c3 = Tipo
