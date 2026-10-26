@@ -47,3 +47,7 @@ seg-04f69a0edb2f = typ
 seg-35bf9a48e566 = Veličina
 
 seg-f3526b0d95f8 = Změřeno
+
+seg-7634c6f4b32c = Spoj
+
+seg-b966dd26caa6 = Datová sada

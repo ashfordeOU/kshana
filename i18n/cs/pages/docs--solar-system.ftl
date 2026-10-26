@@ -15,3 +15,5 @@ seg-c5ce76c91ff7 = Popisek
 seg-430edd66bda0 = Nemodelováno
 
 seg-7670cf4ceda3 = Výchozí hodnota
+
+seg-e0eb14018b2c = jako výše
