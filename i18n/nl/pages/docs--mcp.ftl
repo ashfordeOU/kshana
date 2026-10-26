@@ -27,3 +27,5 @@ seg-fdbb9db68f1d = geen
 seg-1759a8cce7d6 = Soorten
 
 seg-564133d6a0c4 = Constellaties rond elk lichaam
+
+seg-b88a2a9497c2 = Hulpmiddel
