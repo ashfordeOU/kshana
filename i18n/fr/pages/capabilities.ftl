@@ -1881,6 +1881,9 @@ seg-d58a6084c08d = Synchronisation temporelle de télécoms, exemple d'ingestion
 # c1: telecom-timing
 seg-a7737b295231 = <c1/><a1>telecom-prtc-holdover-24h</a1><a2>telecom-synce-eec</a2><a3>telecom-tie-ingest</a3>
 
+# attr:title
+seg-a9d9e45f2147 = Transfert bidirectionnel de temps et de fréquence par satellite (TWSTFT) entre deux stations ILLUSTRATIVES, l'une
+
 # text
 # c1: time-transfer-budget
 seg-0ea13860c00c = <c1/><a1>time-transfer-budget</a1>
@@ -1966,6 +1969,9 @@ seg-a38ba5ac0cda = Démonstrateur d'empreinte et de couverture de charge utile d
 # text
 # c1: eo-coverage
 seg-acccb75c3c8b = <c1/><a1>eo-coverage</a1>
+
+# attr:title
+seg-966c1090da5a = Radiométrie d'un imageur au nadir et qualité d'image pour une petite caméra d'observation de la Terre ILLUSTRATIVE
 
 # text
 # c1: eo-radiometry
@@ -3652,9 +3658,3 @@ seg-e51289a1e835 = Orientations de l'AESA sur les interférences GNSS (aviation)
 
 # text
 seg-4fa26d67951e = Orientations de l'AESA pour l'aviation, mises en correspondance par numéro de clause
-
-# attr:title
-seg-966c1090da5a = Radiométrie d'un imageur au nadir et qualité d'image pour une petite caméra d'observation de la Terre ILLUSTRATIVE
-
-# attr:title
-seg-a9d9e45f2147 = Transfert bidirectionnel de temps et de fréquence par satellite (TWSTFT) entre deux stations ILLUSTRATIVES, l'une

@@ -66,6 +66,9 @@ seg-cac91718c4e1 = <b>MODELLED</b> Ebener Gravity-Turn-Aufstieg eines mehrstufig
 seg-906f001cd9ea = MODELLED — ebener Gravity-Turn-Aufstieg eines mehrstufigen Fahrzeugs über einer nicht rotierenden kugelförmigen Erde durch US76, mit integrierten Gravitations-, Luftwiderstands-, Lenk- und Gegendruckverlusten und geprüfter Identität „ideales dv minus Verluste“; konstanter C_D, keine Rotation, kein Gleitflug, keine Lenkung über den Nickimpuls hinaus (Ergebnis <c1/>)
 
 # text
+seg-f916c5a08595 = Gravity-Turn-Aufstiegsverluste eines ILLUSTRATIVE zweistufigen Kerosin/Sauerstoff-Trägers (kein reales Fahrzeug): senkrechter Anstieg bis { "1" } km, ein Nickimpuls von { "3" } deg für { "10" } s, dann Schub entlang der Geschwindigkeit. Der Lauf integriert die Gravitations-, Luftwiderstands-, Lenk- und Gegendruckverluste und prüft, dass das ideale dv minus die Verluste der Brennschlussgeschwindigkeit entspricht. MODELLED: ebene, nicht rotierende Erde, konstanter C_D, kein Gleitflug, keine Lenkung über den Impuls hinaus. (Kommentar der Szenariodatei, Zeilen { "1" } bis { "5" })
+
+# text
 seg-4c237f051651 = Gravitations-, Luftwiderstands-, Lenk- und Gegendruckverluste beim Raketenaufstieg sind MODELLED, nicht validiert: gegen die eigene geschlossene bzw. analytische Identität geprüft — fängt Transkriptions- und Koeffizientenfehler ab, ist aber keine unabhängige Referenz. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
 
 # text
@@ -76,6 +79,3 @@ seg-73148557c9a6 = <s1>Zurück</s1>araim-reference-check
 
 # text
 seg-3af9699f27a7 = <s1>Weiter</s1>attitude-budget
-
-# text
-seg-f916c5a08595 = Gravity-Turn-Aufstiegsverluste eines ILLUSTRATIVEN zweistufigen Kerosin/Sauerstoff-Trägers (kein reales Fahrzeug): senkrechter Anstieg bis { "1" } km, ein Nickimpuls von { "3" } deg für { "10" } s, dann Schub entlang der Geschwindigkeit. Der Lauf integriert die Gravitations-, Luftwiderstands-, Lenk- und Gegendruckverluste und prüft, dass das ideale dv minus die Verluste der Brennschlussgeschwindigkeit entspricht. MODELLED: ebene, nicht rotierende Erde, konstanter C_D, kein Gleitflug, keine Lenkung über den Impuls hinaus. (Kommentar der Szenariodatei, Zeilen { "1" } bis { "5" })

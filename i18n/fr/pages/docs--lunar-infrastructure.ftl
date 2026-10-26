@@ -14,6 +14,11 @@ seg-9872e31ebd72 = Sources
 seg-922905241a6b = Source : <c1/>
 
 # text
+# c1: lunar-infrastructure
+# c2: study
+seg-bfb9c5efbe57 = Type de scénario <c1/>, cinq études choisies par <c2/>. <b>MODELLED</b> : un modèle restreint à trois corps avec des simplifications indiquées et des entrées ILLUSTRATIVE. Les calculs numériques sont vérifiés par rapport à des programmes numpy/scipy indépendants ; rien n'est comparé à une mesure d'une grandeur lunaire et rien ici n'est une affirmation sur une mission ou un système quelconque. Sans affiliation à aucune agence ni soutien de la part d'aucune. Logiciel à titre consultatif, et non un équipement homologué. Kshana ne transmet rien et ne pilote aucun matériel.
+
+# text
 # c1: xval/lunar-infra/PREREGISTRATION.md
 # c2: PREREGISTRATION-amendment-1.md
 # c3: xval/lunar-infra/RESULTS.md
@@ -98,8 +103,3 @@ seg-1d3bffc2fd02 = <s1>Précédent</s1>Navigation des utilisateurs de l'espace (
 
 # text
 seg-90932eed0074 = <s1>Suivant</s1>Positionnement, navigation et synchronisation temporelle LEO
-
-# text
-# c1: lunar-infrastructure
-# c2: study
-seg-bfb9c5efbe57 = Type de scénario <c1/>, cinq études choisies par <c2/>. <b>MODELLED</b> : un modèle restreint à trois corps avec des simplifications indiquées et des entrées ILLUSTRATIVES. Les calculs numériques sont vérifiés par rapport à des programmes numpy/scipy indépendants ; rien n'est comparé à une mesure d'une grandeur lunaire et rien ici n'est une affirmation sur une mission ou un système quelconque. Sans affiliation à aucune agence ni soutien de la part d'aucune. Logiciel à titre consultatif, et non un équipement homologué. Kshana ne transmet rien et ne pilote aucun matériel.

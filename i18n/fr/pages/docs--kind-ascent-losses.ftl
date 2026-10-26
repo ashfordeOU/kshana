@@ -66,6 +66,9 @@ seg-cac91718c4e1 = <b>MODELLED</b> Ascension plane en virage gravitationnel d'un
 seg-906f001cd9ea = MODELLED — ascension plane en virage gravitationnel d'un véhicule à plusieurs étages au-dessus d'une Terre sphérique sans rotation à travers l'US76, avec les pertes de gravité, de traînée, de pilotage et de contre-pression intégrées et l'identité dv idéal moins pertes vérifiée ; C_D constant, pas de rotation, pas de phase balistique, pas de guidage au-delà du coup de tangage (résultat <c1/>)
 
 # text
+seg-f916c5a08595 = Pertes d'ascension en virage gravitationnel d'un lanceur bi-étage kérosène/oxygène ILLUSTRATIVE (pas un véhicule réel) : montée verticale jusqu'à { "1" } km, un coup de tangage de { "3" } deg pendant { "10" } s, puis une poussée selon la vitesse. L'exécution intègre les pertes de gravité, de traînée, de pilotage et de contre-pression et vérifie que le dv idéal moins les pertes est égal à la vitesse de fin de combustion. MODELLED : plan, Terre sans rotation, C_D constant, pas de phase balistique, pas de guidage au-delà du coup de tangage. (commentaire du fichier de scénario, lignes { "1" } à { "5" })
+
+# text
 seg-4c237f051651 = Les pertes de gravité, de traînée, de pilotage et de contre-pression de l'ascension d'un lancement sont MODELLED, et non validées : vérifiées par rapport à leur propre identité analytique en forme fermée — détecte les erreurs de transcription et de coefficients, mais n'est pas une référence indépendante externe. (matrice de vérification (docs/MODELLED-RATIONALE.md))
 
 # text
@@ -76,6 +79,3 @@ seg-73148557c9a6 = <s1>Précédent</s1>araim-reference-check
 
 # text
 seg-3af9699f27a7 = <s1>Suivant</s1>attitude-budget
-
-# text
-seg-f916c5a08595 = Pertes d'ascension en virage gravitationnel d'un lanceur bi-étage kérosène/oxygène ILLUSTRATIF (pas un véhicule réel) : montée verticale jusqu'à { "1" } km, un coup de tangage de { "3" } deg pendant { "10" } s, puis une poussée selon la vitesse. L'exécution intègre les pertes de gravité, de traînée, de pilotage et de contre-pression et vérifie que le dv idéal moins les pertes est égal à la vitesse de fin de combustion. MODELLED : plan, Terre sans rotation, C_D constant, pas de phase balistique, pas de guidage au-delà du coup de tangage. (commentaire du fichier de scénario, lignes { "1" } à { "5" })
