@@ -19,3 +19,5 @@ seg-a4f1e7d2041e = 类别页面：<a1>星座、覆盖与几何</a1>
 seg-670191cf797f = 主题页面：<a1>SOLAR-SYSTEM.md</a1>
 
 seg-cef32ee7d521 = 主题页面：<a1>CONSTELLATION-DESIGN.md</a1>
+
+seg-4d208b6c0eb8 = 天

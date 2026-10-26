@@ -13,3 +13,23 @@ seg-0df60ac6343f = <b>MODELLED</b> 重力地图匹配、地形参考（TERCOM/SI
 seg-d776abd5691c = 替代/互补 PNT 为 MODELLED，而不是经独立验证：它对照自身的闭式或解析恒等式进行检查，能发现转录错误和系数错误，但不是外部参考基准（oracle）。（验证矩阵（docs/MODELLED-RATIONALE.md））
 
 seg-98133e74f88a = 类别页面：<a1>GPS 拒止下的替代 PNT</a1>
+
+seg-43227f4c8295 = 来源：<c1/>
+
+seg-2a4cb69bc920 = <c1/>（场景类型）
+
+seg-9a58a7b09423 = GPS 拒止环境下的重力图匹配导航：冷原子重力仪从所飞越的重力异常序列中恢复出恒定的 INS 漂移。
+
+seg-c8caaff45826 = <c1/> 的一次运行汇总为：gravity-map | free-inertial drift { "78302" } m | gravity-matched { "1882" } m | matching sigma { "2.000e0" } mGal
+
+seg-4d9bcce2dd39 = 必填字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>、<c8/>、<c9/>、<c10/>、<c11/>、<c12/>、<c13/>
+
+seg-54272925e770 = 可选字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>
+
+seg-5dfee3a0cc22 = 示例 <c1/> 设置了以下内容等：
+
+seg-c42d90057e9f = 引擎为 scenarios/gravity-map-nav.toml（类型 gravity-map）生成的图表
+
+seg-fe3ba7e11502 = <s1>上一页</s1>gnss-ssv
+
+seg-2b9bdd9def58 = <s1>下一页</s1>holdover-test
