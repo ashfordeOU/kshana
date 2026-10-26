@@ -535,3 +535,839 @@ js-site-evidence-allan-tip-table = SP 1065, tabulka 31: «{ $want }»
 js-site-evidence-cell-tip = Schopnost { $i } z { $n } · «{ $label }»
 
 js-site-evidence-cowell-aria = Rozdíl polohy proti Orekitu za 24 hodin: úrovně sil 1 až 5 zůstávají pod { $worst }; úroveň odporu dosahuje { $drag }, charakterizační pásmo
+
+js-site-evidence-cowell-gto = geostacionární transferová dráha
+
+js-site-evidence-cowell-leo = nízká oběžná dráha Země
+
+js-site-evidence-cowell-lg-con = úrovně 1 až 5, problém dvou těles až po tlak slunečního záření, dvě dráhy každá
+
+js-site-evidence-cowell-lg-drag = úroveň 6, odpor: jen charakterizace (různé modely hustoty)
+
+js-site-evidence-cowell-read = { $h } h · úrovně 1 až 5 nejhorší { $con } · odpor { $drag }
+
+js-site-evidence-cowell-st-drag = úroveň odporu, nejhorší
+
+js-site-evidence-cowell-st-epochs = epochy v úrovních 1 až 5
+
+js-site-evidence-cowell-tip-tier = «Úroveň { $tier }: { $label }» · { $regime }
+
+js-site-evidence-cowell-tip-worst = nejhorší rozdíl «{ $err }» v { $h } h
+
+js-site-evidence-hero-live = { $label }. { $cap }. { $oracle }
+
+js-site-evidence-hero-no-oracle = Není uvedeno žádné vnější orákulum.
+
+js-site-evidence-hero-oracle = Orákulum
+
+js-site-evidence-hero-oracle-is = Orákulum: { $o }
+
+js-site-evidence-hero-owner = Vlastník
+
+js-site-evidence-hero-partner = Vlastní to partner; engine si z toho nenárokuje nic.
+
+js-site-evidence-hero-pause = Pozastavit průchod
+
+js-site-evidence-hero-play = Přehrát průchod
+
+js-site-evidence-hero-row = Řádek { $i } z { $n }
+
+js-site-evidence-hold-accepted = přijato: v rámci faktoru { $bar }
+
+js-site-evidence-hold-aria = Naměřená střední kvadratická časová chyba cesiových hodin v závislosti na době setrvačného chodu spolu s predikcí enginu; poměr předpovězeného a naměřeného překročení od { $lo } do { $hi }
+
+js-site-evidence-hold-control = «Kontrola:» naivní predikce (jednosekundová stabilita čtená jako bílý frekvenční šum) dává poměr { $ratio }, mine se zhruba o faktor { $factor } a nesplní stejný práh. Práh má zuby.
+
+js-site-evidence-hold-lg-meas = naměřeno na zadrženém záznamu (tečka: překročení)
+
+js-site-evidence-hold-lg-pred = předpovězeno z první třetiny (kroužek: překročení)
+
+js-site-evidence-hold-nodata = Naměřený záznam nebyl při generování této stránky k dispozici.
+
+js-site-evidence-hold-perfect = 1 = dokonalé
+
+js-site-evidence-hold-ratio-aria = Poměr předpovězeného a naměřeného pro mezní hodnoty (počet: { $n }), všechny uvnitř přijatého faktoru { $bar }
+
+js-site-evidence-hold-read = setrvačný chod { $h } h · naměřeno { $m } ns · předpovězeno { $p } ns
+
+js-site-evidence-hold-st-fit = použito pro proložení
+
+js-site-evidence-hold-st-samples = jednosekundové vzorky
+
+js-site-evidence-hold-st-syncs = zadržené synchronizační body
+
+js-site-evidence-hold-tip-breach = předpovězené překročení { $p } s · naměřené { $m } s
+
+js-site-evidence-hold-tip-error = «Časová chyba { $thr } ns»
+
+js-site-evidence-hold-tip-ratio = poměr předpovězeného a naměřeného «{ $ratio }»
+
+js-site-evidence-hold-tip-row = «{ $thr } ns» · poměr předpovězeného a naměřeného «{ $ratio }»
+
+js-site-evidence-kernel-chi2-cdf = rozdělení chí-kvadrát
+
+js-site-evidence-kernel-chi2-quantile = kvantil chí-kvadrát
+
+js-site-evidence-kernel-noncentral = necentrální chí-kvadrát
+
+js-site-evidence-kernel-normal-cdf = normální rozdělení
+
+js-site-evidence-kernel-normal-quantile = normální kvantil
+
+js-site-evidence-kernel-pbias = detekční bias
+
+js-site-evidence-ladder-aria = Reziduály dráhy od { $lo } do { $hi } m na jedné logaritmické škále, s prahem agentury { $bar } m
+
+js-site-evidence-ladder-bar = práh agentury { $bar } m
+
+js-site-evidence-ladder-cowell = Cowell proti Orekit 12.2, nejhorší
+
+js-site-evidence-ladder-g24 = Galileo E11, 24hodinové proložení
+
+js-site-evidence-ladder-g8 = Galileo E11, 8hodinové proložení
+
+js-site-evidence-ladder-lg-headline = hlavní reziduál
+
+js-site-evidence-ladder-lg-over = nad prahem agentury { $bar } m
+
+js-site-evidence-ladder-lg-ring = samotný silový model, před empirickými zrychleními
+
+js-site-evidence-ladder-lro = Lunar Reconnaissance Orbiter, 4hodinové proložení
+
+js-site-evidence-ladder-read = průchod na { $v } · { $n } z { $total } hlavních reziduálů na této hodnotě nebo pod ní
+
+js-site-evidence-ladder-rt-arc = oblouk { $arc } · stupeň a řád { $do } · pozorování: { $n }
+
+js-site-evidence-ladder-rt-rtn = radiálně { $r } m · po dráze { $a } m · napříč dráhou { $c } m
+
+js-site-evidence-ladder-sgp4 = SGP4 proti vektorům AIAA, nejhorší
+
+js-site-evidence-ladder-swarm = Swarm-A, 3hodinové proložení
+
+js-site-evidence-ladder-tip-cowell = «Cowell · nejhorší z epoch ({ $n })» · { $worst }
+
+js-site-evidence-ladder-tip-g24 = «Galileo E11 · celý den» · { $rms } m
+
+js-site-evidence-ladder-tip-g8a = «Galileo E11 · jen silový model» · { $rms } m
+
+js-site-evidence-ladder-tip-g8b = «Galileo E11 · s empirickými zrychleními» · { $rms } m
+
+js-site-evidence-ladder-tip-lrd = «Lunární orbiter · dynamický» · { $rms } m
+
+js-site-evidence-ladder-tip-lrr = «Lunární orbiter · redukovaně dynamický» · { $rms } m, nad prahem { $bar } m a uvedeno tak, jak je
+
+js-site-evidence-ladder-tip-sgp4 = «SGP4 · nejhorší z vektorů ({ $n })» · { $worst }
+
+js-site-evidence-ladder-tip-swd = «Swarm-A · dynamický» · { $rms } m, téměř vše po dráze (odpor)
+
+js-site-evidence-ladder-tip-swr = «Swarm-A · redukovaně dynamický» · { $rms } m
+
+js-site-evidence-raim-aria = případů SciPy uvnitř tolerančního pásma: { $pass } z { $n }, přes jádra (počet: { $kernels })
+
+js-site-evidence-raim-lane = { $kernel } · { $n }
+
+js-site-evidence-raim-lg-most = nejvíce z pásma, jaké kterýkoli případ využívá
+
+js-site-evidence-raim-read = případ { $q } z { $n } · { $kernel } · { $what }
+
+js-site-evidence-raim-read-band = { $pct } % pásma
+
+js-site-evidence-raim-scale-aria = Barevná škála: využitý podíl tolerančního pásma, logaritmická od 10 na mínus 11 po okraj pásma
+
+js-site-evidence-raim-st-inside = uvnitř pásma
+
+js-site-evidence-raim-st-most = většina pásma využita
+
+js-site-evidence-raim-tick-edge = okraj pásma
+
+js-site-evidence-raim-tick-exact = přesně
+
+js-site-evidence-raim-tip-case = «{ $kernel }» · případ { $j } z { $n }
+
+js-site-evidence-raim-tip-exact = «přesná shoda» se SciPy
+
+js-site-evidence-raim-tip-uses = využívá «{ $pct } %» svého tolerančního pásma
+
+js-site-evidence-sgp4-aria = vektorů AIAA reprodukováno: { $n } z { $n }; nejhorší { $worst }, medián { $median }, všechny uvnitř tolerance { $tol }
+
+js-site-evidence-sgp4-deep = hluboký vesmír (SDP4)
+
+js-site-evidence-sgp4-lg-deep = vektor v hlubokém vesmíru (SDP4)
+
+js-site-evidence-sgp4-lg-median = medián a nejhorší na škále
+
+js-site-evidence-sgp4-lg-near = vektor blízko Země (SGP4)
+
+js-site-evidence-sgp4-near = blízko Země (SGP4)
+
+js-site-evidence-sgp4-read = vektor { $i } z { $n } · satelit { $sat } · chyba { $err }
+
+js-site-evidence-sgp4-read-deep = vektor { $i } z { $n } · satelit { $sat }, hluboký vesmír · chyba { $err }
+
+js-site-evidence-sgp4-scale-aria = Barevná škála od 0.1 mikrometru po toleranci, logaritmická
+
+js-site-evidence-sgp4-st-deep = vektory v hlubokém vesmíru
+
+js-site-evidence-sgp4-st-sats = testovací satelity
+
+js-site-evidence-sgp4-tip-sat = «Satelit { $sat }» · { $kind }
+
+js-site-evidence-sgp4-tip-vector = vektor { $j } z { $n } · chyba polohy «{ $err }»
+
+js-site-evidence-st-median = medián
+
+js-site-evidence-st-worst = nejhorší
+
+js-site-evidence-tolerance = tolerance { $v }
+
+js-site-filter-in-all = celkem { $total }
+
+js-site-filter-matches =
+    { $n ->
+        [one] { $n } shoda
+        [few] { $n } shody
+        [many] { $n } shody
+       *[other] { $n } shod
+    }
+
+js-site-filter-n-of-m = { $n } z { $total }
+
+js-site-filter-n-of-m-rows = { $n } z { $total } řádků
+
+js-site-filter-rows = řádků: { $total }
+
+js-site-home-banner-gnss-lost = GNSS ztraceno · holdover
+
+js-site-home-banner-holdover-out = Holdover · hodiny mimo ochrannou mez
+
+js-site-home-banner-integrity-holdover = Poplach integrity · holdover pokračuje
+
+js-site-home-banner-integrity-none = Poplach integrity · žádná ochranná úroveň
+
+js-site-home-banner-integrity-pl = Poplach integrity · PL > AL
+
+js-site-home-banner-jamming = Rušení · C/N0 blízko meze sledování
+
+js-site-home-banner-spoofing = Poplach spoofingu · detektor RF
+
+js-site-home-cap-holdover = Rušička jde na { $dbw } dBW: sledovaných satelitů: { $trk }. Hodiny běží volně od { $carry } ns, které po sobě nechal spoofer, a překročí svou ochrannou mez { $guard } ns v čase { $at }; INS se pohybuje setrvačně.
+
+js-site-home-cap-integrity = Satelity se vracejí, ale jen nad maskou { $mask }°: sledovaných { $trk }. Ochranná úroveň překračuje mez poplachu { $al } m nebo ji nelze vytvořit, takže monitor vyhlásí poplach a hodiny zůstávají v režimu holdover.
+
+js-site-home-cap-jamming = Širokopásmová rušička { $km } km daleko při { $dbw } dBW. C/N0 klesá na { $cn } dB-Hz, tedy { $above } dB nad mezí sledování { $floor } dB-Hz; všech { $trk } satelitů se stále sleduje.
+
+js-site-home-cap-nominal = Sledovaných satelitů: { $trk } při středním C/N0 { $cn } dB-Hz. Hodiny jsou disciplinovány na čas GNSS a ochranná úroveň ({ $pl } m) leží pod mezí poplachu { $al } m.
+
+js-site-home-cap-recovery = GNSS znovu synchronizováno: sledovaných satelitů { $trk }, časová chyba zpět na { $te } ns, ochranná úroveň { $pl } m.
+
+js-site-home-cap-spoofing = Spoofer posouvá hodiny přijímače rychlostí { $rate } ns/s. Detektor RF (rádiové frekvence) vyhlásí poplach okamžitě; monitor podpořený hodinami zareaguje po { $det } s a fáze končí se { $off } ns stáhnutými zpět.
+
+js-site-home-cn-no-lock = 0 z { $max } sledováno · žádný zámek
+
+js-site-home-cn-tracking = { $n } z { $max } sledováno
+
+js-site-home-no-pl = žádná PL
+
+js-site-home-pause = Pozastavit misi
+
+js-site-home-pl-alarm = poplach · PL nad AL
+
+js-site-home-pl-no-sats = žádné satelity, žádná PL
+
+js-site-home-pl-not-computed = v této fázi nepočítáno
+
+js-site-home-pl-too-few = příliš málo satelitů
+
+js-site-home-pl-under-al = pod AL { $thr } m
+
+js-site-home-play = Přehrát misi
+
+js-site-home-receiver-tracking = Přijímač · sledováno: { $n }
+
+js-site-home-replay-restarted = Přehrávání restartováno · { $file }
+
+js-site-home-te-disciplined = disciplinováno na GNSS
+
+js-site-home-te-free-running = holdover · volný běh
+
+js-site-home-te-outside-guard = holdover · mimo ochrannou mez
+
+js-site-home-te-spoofer = spoofer táhne hodiny
+
+js-site-home-thr-floor = mez sledování
+
+js-site-home-thr-guard = ochranná mez
+
+js-site-kind-action = Akce
+
+js-site-mcp-arguments-excerpt = argumenty (výňatek)
+
+js-site-mcp-axis-mission-time = čas mise
+
+js-site-mcp-clock-holdover = holdover: { $clock }
+
+js-site-mcp-dir-reply = kshana-mcp → asistent
+
+js-site-mcp-dir-request = asistent → kshana-mcp
+
+js-site-mcp-figcaption = Vykresleno z vrácené řady: časová chyba každých hodin vůči mezní hodnotě
+
+js-site-mcp-fom-availability = dostupnost
+
+js-site-mcp-fom-caption = Ukazatele kvality vrácené run_scenario, po hodinách
+
+js-site-mcp-fom-header = Ukazatel kvality
+
+js-site-mcp-fom-holdover = holdover (s)
+
+js-site-mcp-fom-p95 = časová chyba, 95. percentil (ns)
+
+js-site-mcp-fom-rms = časová chyba, střední kvadratická (ns)
+
+js-site-mcp-lede = Zaznamenáno { $recorded } · v{ $version } · standardní vstup a výstup · protokol { $protocol } · pouze přesné zprávy
+
+js-site-mcp-legend-gnss-lost = GNSS ztraceno v { $s } s
+
+js-site-mcp-legend-threshold = mezní hodnota { $v } ns
+
+js-site-mcp-pause = Pozastavit
+
+js-site-mcp-play = Přehrát
+
+js-site-mcp-plot-aria = Časová chyba: { $quantum } a { $classical }, vrácená run_scenario, vůči mezní hodnotě { $threshold } ns; GNSS (globální družicový navigační systém) ztraceno v { $lost } s
+
+js-site-mcp-recorded-json = Zaznamenaný JSON: { $label }
+
+js-site-mcp-scenario-hash = hash scénáře
+
+js-site-mcp-server-identity = identita serveru
+
+js-site-mcp-show-json = Zobrazit JSON
+
+js-site-mcp-step-aria = Krok { $n } z { $total }: { $name }
+
+js-site-mcp-step-result = výsledek: ukazatele kvality
+
+js-site-mcp-step-status = Krok { $n } z { $total } · { $name }
+
+js-site-mcp-summary-excerpt = souhrnný řádek a výsledek (výňatek)
+
+js-site-mcp-tab-result = výsledek
+
+js-site-mcp-threshold = mezní hodnota
+
+js-site-mcp-toml-lines =
+    { $n ->
+        [one] { $n } řádek
+        [few] { $n } řádky
+        [many] { $n } řádku
+       *[other] { $n } řádků
+    }
+
+js-site-mcp-toml-more = … (dalších řádků souboru { $file }: { $n })
+
+js-site-mcp-tool-count =
+    { $n ->
+        [one] { $n } nástroj
+        [few] { $n } nástroje
+        [many] { $n } nástroje
+       *[other] { $n } nástrojů
+    }
+
+js-site-mcp-tools-with-descriptions =
+    { $n ->
+        [one] { $n } nástroj s popisy
+        [few] { $n } nástroje s popisy
+        [many] { $n } nástroje s popisy
+       *[other] { $n } nástrojů s popisy
+    }
+
+js-site-menu-close = Zavřít nabídku
+
+js-site-menu-open = Otevřít nabídku
+
+js-site-missions-avail-title = Dostupnost: podíl běhu s PDOP ≤ { $limit }
+
+js-site-missions-avail-uniform = { $v } % v každé buňce
+
+js-site-missions-chart-error-title = chyba polohy (m, log)
+
+js-site-missions-chart-four = k určení polohy jsou potřeba čtyři
+
+js-site-missions-chart-four-short = čtyři pro určení polohy
+
+js-site-missions-chart-lg-earth = Země viditelná
+
+js-site-missions-chart-lg-error-earth = chyba, relé a vzdálenost od Země
+
+js-site-missions-chart-lg-error-relays = chyba, jen relé
+
+js-site-missions-chart-lg-relays = relé v dohledu
+
+js-site-missions-chart-relays-title = relé v dohledu · stínováno: Země nad obzorem
+
+js-site-missions-chip-at-pdop = při PDOP ≤ { $limit }
+
+js-site-missions-chip-engine = Engine:
+
+js-site-missions-chip-fix-earth = určení polohy, se Zemí
+
+js-site-missions-chip-median-pdop = medián PDOP
+
+js-site-missions-chip-relays = relé
+
+js-site-missions-chip-rms = chyba RMS
+
+js-site-missions-chip-satellites = satelity
+
+js-site-missions-chip-tracking-held = { $label } sledování udrženo
+
+js-site-missions-clocks-aria = Časová chyba po jednom dni holdoveru podle třídy hodin, logaritmická škála
+
+js-site-missions-clocks-frame = spodní mez soustavy { $ns } ns
+
+js-site-missions-clocks-note = časová chyba po jednom dni, sekundy (log)
+
+js-site-missions-clocks-sigma = σy(1 s) { $sigma }
+
+js-site-missions-clocks-title = { $clock }: { $ns } ns po jednom dni, σy(1 s) { $sigma }
+
+js-site-missions-cone-aria = Kužel chyby polohy od ztráty GNSS
+
+js-site-missions-cone-axis-x = čas od ztráty GNSS (s)
+
+js-site-missions-cone-axis-y = chyba polohy (m)
+
+js-site-missions-cone-budget = rozpočet ±{ $m } m
+
+js-site-missions-cone-clipped = oříznuto na ±{ $m } m
+
+js-site-missions-cone-leaves = opouští v { $s } s
+
+js-site-missions-cone-readout = t { $t } s · { $errors }
+
+js-site-missions-copy-command = Kopírovat příkaz
+
+js-site-missions-copy-title = Zkopírovat příkaz, který to reprodukuje
+
+js-site-missions-deterministic = deterministický
+
+js-site-missions-engine-build = Engine v{ $version }, sestavení
+
+js-site-missions-engine-build-commit = Engine v{ $version }, sestavení { $commit }
+
+js-site-missions-fp-aria = Mapa stopy rušení. Šipky přecházejí mezi buňkami, Enter otevře příslušný běh.
+
+js-site-missions-fp-aria-svg = Stopa rušení kolem rušičky
+
+js-site-missions-fp-darker = tmavší = vyšší střední J/S · buňky { $step } km · běhů enginu: { $n }
+
+js-site-missions-fp-jammer = rušička
+
+js-site-missions-fp-lg-held = sledování udrženo
+
+js-site-missions-fp-lg-lost = každý satelit ztracen
+
+js-site-missions-fp-lg-some = některé epochy ztraceny
+
+js-site-missions-fp-open = Otevřít tento běh v aplikaci { $studio }
+
+js-site-missions-fp-read = asi { $km } km od rušičky · střední J/S { $js } dB · dostupnost sledování { $av }
+
+js-site-missions-fp-ship = loď ze scénáře
+
+js-site-missions-grades-aria = Volný setrvačný chod před { $a } m a { $b } m podle třídy IMU
+
+js-site-missions-grades-axis = sekundy setrvačného chodu po ztrátě GNSS (log)
+
+js-site-missions-grades-point = { $grade }: { $s } s do { $m } m ({ $why })
+
+js-site-missions-grades-reaches = chyba dosáhne { $m } m
+
+js-site-missions-grades-speed = při { $v } m/s
+
+js-site-missions-grades-this = tento scénář
+
+js-site-missions-hud-earth-link = Spojení se Zemí
+
+js-site-missions-hud-link-above = Spojení se Zemí · nad obzorem
+
+js-site-missions-hud-link-occulted = Spojení se Zemí · zakryto
+
+js-site-missions-hud-orbiter = Orbiter
+
+js-site-missions-hud-receiver = Přijímač
+
+js-site-missions-hud-relays = Relé
+
+js-site-missions-hud-selected-lat = vybraná šířka
+
+js-site-missions-info-in-view = V dohledu
+
+js-site-missions-info-in-view-value = { $mean } průměr · { $fewest } nejméně
+
+js-site-missions-info-pdop-above = { $pdop }, nad { $limit }
+
+js-site-missions-json-title = Výsledek enginu, beze změny
+
+js-site-missions-json-unavailable = JSON není k dispozici
+
+js-site-missions-key-avail = Dostupnost
+
+js-site-missions-key-pdop-title = Střední PDOP (zhoršení přesnosti polohy)
+
+js-site-missions-key-vis = Satelity v dohledu
+
+js-site-missions-key-vis-short = V dohledu
+
+js-site-missions-leo-grid = mřížky při PDOP ≤ { $limit }
+
+js-site-missions-leo-in-view = v dohledu v průměru
+
+js-site-missions-leo-shells = satelitů ve čtyřech slupkách
+
+js-site-missions-map-aria = { $title } nad { $body }, po buňkách 10 stupňů. Šipky posouvají přijímač; jeho buňka je vypsána níže.
+
+js-site-missions-map-colour-by = Obarvit mapu podle
+
+js-site-missions-map-fewest-in-view = nejméně v dohledu
+
+js-site-missions-map-grey = šedá: bez určení polohy
+
+js-site-missions-map-hatched = šrafováno: nad limitem PDOP { $limit }
+
+js-site-missions-map-in-view = v dohledu
+
+js-site-missions-map-live = { $cell }: { $rows }
+
+js-site-missions-map-mean-in-view = průměr v dohledu
+
+js-site-missions-map-mean-pdop = střední PDOP
+
+js-site-missions-map-pdop-limit = limit PDOP { $limit }
+
+js-site-missions-matrix-caption = Soubory scénářů podle sektoru (řádky) a způsobu selhání (sloupce). Výběrem počtu otevřete daný sektor.
+
+js-site-missions-matrix-cell =
+    { $n ->
+        [one] { $sector }, { $mode }: { $n } soubor scénáře
+        [few] { $sector }, { $mode }: { $n } soubory scénářů
+        [many] { $sector }, { $mode }: { $n } souboru scénářů
+       *[other] { $sector }, { $mode }: { $n } souborů scénářů
+    }
+
+js-site-missions-matrix-files =
+    { $n ->
+        [one] { $n } soubor:
+        [few] { $n } soubory:
+        [many] { $n } souboru:
+       *[other] { $n } souborů:
+    }
+
+js-site-missions-matrix-sector = Sektor
+
+js-site-missions-mode-int = Interference
+
+js-site-missions-mode-itg = Integrita
+
+js-site-missions-mode-nav = Setrvačný chod
+
+js-site-missions-mode-orb = Geometrie
+
+js-site-missions-mode-spf = Spoofing
+
+js-site-missions-mode-tim = Časování
+
+js-site-missions-n-of-total = { $n } z { $total }
+
+js-site-missions-no-fix = bez určení polohy
+
+js-site-missions-no-seed = deterministický, bez seedu
+
+js-site-missions-open-in-studio = Otevřít v aplikaci { $studio }
+
+js-site-missions-open-report = Otevřít zprávu enginu
+
+js-site-missions-ow-chart-aria = Odezva přijímače během běhu pro { $name }: relé v dohledu a chyba polohy jen s relé a se vzdáleností od Země
+
+js-site-missions-ow-chip-epochs = epochy
+
+js-site-missions-ow-chip-mask = maska
+
+js-site-missions-ow-chip-orbiter = orbiter
+
+js-site-missions-ow-chip-range = vzdálenost σ
+
+js-site-missions-ow-chip-relays = relé
+
+js-site-missions-ow-chip-relays-value = { $planes } × { $per } ve výšce { $alt } km, { $inc }°
+
+js-site-missions-ow-chip-span = rozsah
+
+js-site-missions-ow-count-relays = relé: { $n } a orbiter · { $body }
+
+js-site-missions-ow-count-sats = satelitů: { $n } · { $body }
+
+js-site-missions-ow-engine = engine v{ $version } · sestavení { $commit }
+
+js-site-missions-ow-lat-label = Zeměpisná šířka přijímače
+
+js-site-missions-ow-map-aria = Odezva přijímače pro { $name }: mapa tělesa { $body } po buňkách 10 stupňů, vedle ní střední a nejnižší počet satelitů v dohledu a střední PDOP podle zeměpisné šířky
+
+js-site-missions-ow-note-imagery = Snímky tělesa { $body }: NASA.
+
+js-site-missions-ow-note-rebuilt = Dráhy: relé a orbiter znovu sestavené ze scénáře přesně tak, jak je staví engine; počet satelitů v dohledu, který z nich vychází, se rovná počtu enginu ve všech { $n } epochách.
+
+js-site-missions-ow-note-sats = Dráhy: satelity běhu zde znovu propagované a ověřené proti všem { $n } vzorkům pozemní stopy, které engine zapsal (nejhorší { $deg }°).
+
+js-site-missions-ow-note-scaled = Poloměry drah jsou pro zobrazení přeškálovány; roviny, fázování a oběžné doby jsou ty z běhu.
+
+js-site-missions-ow-note-tracks = Engine zapsal pozemní stopy pro { $shown } z { $total } satelitů; všech { $total } je vykresleno z jeho slupek.
+
+js-site-missions-ow-note-walker = Dráhy: Walkerovy slupky běhu zde znovu propagované a ověřené proti všem { $n } vzorkům pozemní stopy, které engine zapsal (nejhorší { $deg }°).
+
+js-site-missions-ow-off = vypnuto
+
+js-site-missions-ow-on = zapnuto
+
+js-site-missions-ow-pause = Pozastavit dráhy
+
+js-site-missions-ow-play = Přehrát dráhy
+
+js-site-missions-ow-time = t = { $time }
+
+js-site-missions-ow-time-label = Čas mise
+
+js-site-missions-ow-valuetext = { $time }, relé v dohledu: { $n }
+
+js-site-missions-pdop-title = Střední PDOP (zhoršení přesnosti polohy), logaritmická škála, nižší je lepší
+
+js-site-missions-report = Zpráva
+
+js-site-missions-report-title = Vlastní zpráva enginu o tomto běhu
+
+js-site-missions-ro-above-horizon = nad obzorem
+
+js-site-missions-ro-availability = Dostupnost, PDOP ≤ { $limit }
+
+js-site-missions-ro-earth-light = Země · světelná doba { $s } s
+
+js-site-missions-ro-error-relays = Chyba polohy, jen relé
+
+js-site-missions-ro-occulted = zakryto
+
+js-site-missions-ro-place-availability = Na místě { $place }: dostupnost
+
+js-site-missions-ro-place-in-view = Na místě { $place }: v dohledu, průměr · nejméně
+
+js-site-missions-ro-relays = Relé v dohledu
+
+js-site-missions-ro-satellites = Satelity
+
+js-site-missions-ro-with-earth = Se vzdáleností od Země
+
+js-site-missions-run-failed = Zaznamenaný běh se zde nepodařilo načíst; otevřete jej v aplikaci { $studio } přes odkaz níže.
+
+js-site-missions-seed = seed { $seed }
+
+js-site-missions-spoof-aria = Posun spoofingu v čase, s detekční mezí a časem detekce každého monitoru
+
+js-site-missions-spoof-axis-x = čas od začátku spoofingu (s)
+
+js-site-missions-spoof-axis-y = časový posun (ns)
+
+js-site-missions-spoof-detects = { $id } detekuje v { $s } s
+
+js-site-missions-spoof-lg-bound = mez { $id }
+
+js-site-missions-spoof-lg-offset = posun spoofingu
+
+js-site-missions-spoof-readout = t { $t } s · posun { $offset } ns
+
+js-site-missions-spoof-spec = specifikace { $v } ns
+
+js-site-missions-sr-aria = { $members }; sdílená rušička { $power } dBW
+
+js-site-missions-sr-aria-member = { $label }: sledování udrženo { $held } %, střední poměr rušení k signálu { $js } dB, nejméně sledovaných satelitů { $min }
+
+js-site-missions-sr-car = Auto
+
+js-site-missions-sr-fewest = nejméně sledovaných
+
+js-site-missions-sr-held = sledování udrženo
+
+js-site-missions-sr-mean-js = střední J/S
+
+js-site-missions-sr-ship = Loď
+
+js-site-missions-swipe =
+    { $n ->
+        [one] Přejetím zobrazíte všechny: { $n } soubor scénáře
+        [few] Přejetím zobrazíte všechny: { $n } soubory scénářů
+        [many] Přejetím zobrazíte všechny: { $n } souboru scénářů
+       *[other] Přejetím zobrazíte všechny: { $n } souborů scénářů
+    }
+
+js-site-missions-toml-download-title = Stáhnout soubor scénáře, který běžel
+
+js-site-missions-toml-title = Soubor scénáře, který běžel
+
+js-site-missions-vis-title = Satelity v dohledu, průměr za běh
+
+js-site-missions-vis-uniform = { $v } v každé buňce
+
+js-site-palette-none = Žádné výsledky
+
+js-site-palette-results = výsledků: { $count }
+
+js-site-pro-band-at = Po { $minutes } minutách: 5. až 95. percentil
+
+js-site-pro-band-range = { $lo } až { $hi } { $unit }
+
+js-site-pro-band-runs-within = z běhů ({ $n }) v rozmezí ±{ $limit } { $unit }
+
+js-site-pro-design-readout = satelitů: { $sat }, dostupnost { $av } % · roviny: { $planes } ve výšce { $alt } km, { $incl }°
+
+js-site-pro-front-design = Návrh na frontě { $id }
+
+js-site-pro-front-design-knee = Návrh na frontě { $id } · koleno
+
+js-site-pro-more-designs =
+    { $n ->
+        [one] (+{ $n } další návrh na frontě v tomto bodě)
+        [few] (+{ $n } další návrhy na frontě v tomto bodě)
+        [many] (+{ $n } dalšího návrhu na frontě v tomto bodě)
+       *[other] (+{ $n } dalších návrhů na frontě v tomto bodě)
+    }
+
+js-site-pro-not-rerun = znovu nespuštěno
+
+js-site-pro-rerun-free = znovu spuštěno ve volném enginu:
+
+js-site-pro-same-sha = stejné SHA-256 { $sha }…
+
+js-site-pro-same-sha-index = stejné SHA-256 výsledku jako v indexu
+
+js-site-toast-copied = Zkopírováno: { $text }
+
+js-site-toast-data-failed = Datový soubor se nepodařilo načíst
+
+js-site-toast-data-saved = Data uložena jako CSV
+
+js-site-toast-no-data = Pro tento graf nejsou data
+
+js-site-toast-svg-saved = Graf uložen jako SVG
+
+js-site-toast-table-saved = Tabulka uložena jako CSV
+
+js-site-waterfall-axis-now = nyní
+
+js-site-waterfall-bar-title = { $band }: { $cn0 } dB-Hz, { $state }
+
+js-site-waterfall-bar-title-js = { $band }: { $cn0 } dB-Hz, { $state }, J/S { $js } dB
+
+js-site-waterfall-below-floor = signály leží pod úrovní šumu
+
+js-site-waterfall-campaign-drives = Kampaň, kterou řídí:
+
+js-site-waterfall-campaign-seed = seed { $seed } · fází: { $phases } během { $duration } s
+
+js-site-waterfall-chip-aria = { $band }, { $fc } megahertzů: zobrazit toto pásmo
+
+js-site-waterfall-chip-title = { $band } · { $fc } MHz · šířka pásma přijímače { $bw } MHz
+
+js-site-waterfall-engine-build = Engine v{ $version } · sestavení
+
+js-site-waterfall-fallback-head = Záložní Galileo · { $s } s, jen tón CW
+
+js-site-waterfall-fallback-text = { $band } zpět na { $v } dB-Hz. Monitorování integrity jen na Galileo: ochranná úroveň { $min }–{ $max } m, pod mezí poplachu { $limit } m.
+
+js-site-waterfall-floor = mez sledování { $thr } dB-Hz
+
+js-site-waterfall-holdover-head = Holdover · { $s } s, chirp zapnut
+
+js-site-waterfall-holdover-text = { $band0 } { $v0 }, { $band1 } { $v1 } dB-Hz, pod mezí. Hodiny běží volně: nejhorší { $worst } ns proti ochranné mezi { $guard } ns.
+
+js-site-waterfall-jammer-off = { $what } vypnuto
+
+js-site-waterfall-jammer-on = { $what } zapnuto
+
+js-site-waterfall-live = { $freq } megahertzů, { $time }: { $detail }
+
+js-site-waterfall-live-band = { $band } { $cn0 } dB-Hz, { $state }
+
+js-site-waterfall-live-none = žádné modelované pásmo
+
+js-site-waterfall-load-failed = Zaznamenaný běh se nepodařilo načíst. Zpráva enginu níže ukazuje tentýž běh.
+
+js-site-waterfall-no-jammer-band = V tomto pásmu žádná rušička
+
+js-site-waterfall-no-jammer-in-band = v pásmu žádná rušička
+
+js-site-waterfall-no-seed = deterministický, bez seedu
+
+js-site-waterfall-onset-head = Nástup · { $t0 }–{ $t1 } s
+
+js-site-waterfall-onset-text = Všech { $n } pásem se sleduje, dokud běh spektra poprvé neztratí { $band } v { $s } s.
+
+js-site-waterfall-pause = Pozastavit waterfall
+
+js-site-waterfall-play = Přehrát waterfall
+
+js-site-waterfall-quiet-band = { $band } { $cn0 } dB-Hz · { $state }
+
+js-site-waterfall-run-time = běh T+{ $s } s
+
+js-site-waterfall-scale-caption = PSD nad úrovní šumu { $floor } dBW/Hz · buňky { $bin } MHz × { $step } s
+
+js-site-waterfall-seed = seed { $seed }
+
+js-site-waterfall-short-lost = ztraceno
+
+js-site-waterfall-short-ok = sleduje
+
+js-site-waterfall-short-rec = obnov.
+
+js-site-waterfall-state-lost = Ztracený zámek
+
+js-site-waterfall-state-lost-low = ztracený zámek
+
+js-site-waterfall-state-ok = Sledování
+
+js-site-waterfall-state-ok-low = sledování
+
+js-site-waterfall-state-rec = Obnoveno
+
+js-site-waterfall-state-rec-low = obnoveno
+
+js-site-waterfall-summary-recovers = { $band } ztrácí zámek v { $lost } s a obnovuje se v { $rec } s, nejnižší { $min } dB-Hz.
+
+js-site-waterfall-summary-rows = řádků po { $step } s: { $n }.
+
+js-site-waterfall-summary-stays-lost = { $band } ztrácí zámek v { $lost } s a zůstává ztraceno, nejnižší { $min } dB-Hz.
+
+js-site-waterfall-summary-tracks = { $band } se sleduje po celou dobu, nejnižší { $min } dB-Hz.
+
+js-site-waterfall-tip-above-floor = nad úrovní šumu
+
+js-site-waterfall-tip-at-floor = Na úrovni tepelného šumu
+
+js-site-waterfall-tip-band = { $cn0 } dB-Hz · { $state }
+
+js-site-waterfall-tip-head = { $lo }–{ $hi } MHz · { $time }
+
+js-site-waterfall-tip-js = J/S { $js } dB
+
+js-site-waterfall-tip-no-band = Šířka pásma přijímače žádného modelovaného pásma tento sloupec nepokrývá
+
+js-site-waterfall-wave-chirp = chirp
+
+js-site-waterfall-wave-cw = tón CW
+
+js-site-waterfall-wave-noise = šum
+
+js-site-waterfall-who-cursor = Pásmo pod kurzorem
+
+js-site-waterfall-who-selected = Vybrané pásmo
+
+js-site-waterfall-who-worst = Nejhorší pásmo
