@@ -11794,3 +11794,705 @@ js-trust-agree-kshana-only = alarm zgłasza tylko Kshana: odbiornik nie flaguje
 
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:217
 js-tools-ubx-ignored-sfrbx = Pominięte komunikaty SFRBX: { $n } (inne systemy, E5b, alarmy, błędne sumy kontrolne).
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:18
+js-trust-agree-neither = żadne nie zgłasza
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:16
+js-trust-agree-receiver-only = zgłasza tylko odbiornik: żaden monitor Kshana nie alarmuje
+
+# 2026-10-01-studio-rebuild/trust/trust.js:151
+js-trust-assessed = Oceniono { $name } silnikiem { $version }, w tej przeglądarce.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:205
+js-trust-assessed-as = Oceniono { $name } jako { $format }, silnikiem, w tej przeglądarce. Nic nie zostało wysłane.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:145
+js-trust-assessing = Uruchamianie silnika i ocenianie…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:442
+js-trust-class-also-costing = { $class } (także odejmuje punkty)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:32
+js-trust-class-environment = środowisko: sygnał (moc, zagłuszanie, utrata satelitów przy otwartym niebie)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:31
+js-trust-class-geometry = geometria: niebo, a nie sygnał
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:33
+js-trust-class-inconsistency = niespójność: podobna do ataku, niewyjaśniona niebem ani sygnałem
+
+# 2026-10-01-studio-rebuild/trust/trust.js:169
+js-trust-dl-result-json = Pobierz wynik (JSON)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:170
+js-trust-dl-table-csv = Pobierz tabelę dla poszczególnych epok (CSV)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:393
+js-trust-edge-degraded = { $v } pogorszone
+
+# 2026-10-01-studio-rebuild/trust/trust.js:393
+js-trust-edge-nominal = { $v } nominalne
+
+# 2026-10-01-studio-rebuild/trust/trust.js:177
+js-trust-err-assess = { $name }: nie udało się ocenić ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:124
+js-trust-err-demo-files = pliki demonstracyjne nie zostały wczytane
+
+# 2026-10-01-studio-rebuild/trust/trust.js:127
+js-trust-err-demo-log-open = Nie udało się otworzyć dziennika demonstracyjnego: { $reason }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:240
+js-trust-err-demo-open = Nie udało się otworzyć wersji demonstracyjnej: { $reason }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:148
+js-trust-err-engine-no-receiver-trust = Ta kompilacja silnika (wersja { $version }) nie ma receiver_trust.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:111
+js-trust-err-engine-no-scorer = Ta kompilacja silnika (wersja { $version }) nie ma narzędzia oceniającego dzienniki; jest starsza niż ta strona. Polecenie to { $command }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:147
+js-trust-err-engine-start = Silnik nie mógł się tutaj uruchomić ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:110
+js-trust-err-engine-start-open = Silnik nie mógł się tutaj uruchomić ({ $reason }). Otwieranie plików wyników powyżej nadal działa.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:183
+js-trust-err-example-files = pliki przykładowe nie zostały wczytane
+
+# 2026-10-01-studio-rebuild/trust/trust.js:187
+js-trust-err-example-open = Nie udało się otworzyć przykładu: { $reason }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:193
+js-trust-err-file-2mib = { $name }: większy niż 2 MiB. Otwórz fragment.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:67
+js-trust-err-file-too-large = { $name }: większy niż { $max }. Ta strona czyta pliki do tego rozmiaru; otwórz fragment.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:144
+js-trust-err-gen-too-large = { $name }: większy niż 2 MiB. Otwórz fragment (narzędzie wiersza poleceń przyjmuje cały dziennik).
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:81
+js-trust-err-imu-format = „{ $format }” nie jest formatem IMU, który czyta ta strona (csv lub euroc)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:82
+js-trust-err-imu-heading = kurs IMU w pierwszej próbce nie jest liczbą
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:62
+js-trust-err-log-format = „{ $format }” nie jest formatem dziennika, który ta strona może wysłać do silnika
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:385
+js-trust-err-no-epochs = Plik nie zawiera epok.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:356
+js-trust-err-no-epochs-result = Ten plik wyniku nie ma epochs[]. Musi pochodzić z `{ $command }` dla sesji statku.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:113
+js-trust-err-no-epochs-returned = { $name }: silnik nie zwrócił żadnych epok.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:357
+js-trust-err-no-score-model = Ten wynik nie ma score_model, więc jest to przebieg platformy nieruchomej bez wskaźnika zaufania. Widok rysuje przebiegi statku (platforma ruchoma).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:74
+js-trust-err-not-readable = { $name }: to nie jest plik odczytywany przez ten widok (wynik JSON, JSON lines, trust.csv, dziennik NMEA lub plik prawdy).
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:384
+js-trust-err-nothing-to-draw = Nie ma czego rysować: wybierz wynik JSON, JSON lines lub trust.csv.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:98
+js-trust-err-read = { $name }: nie udało się odczytać ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:84
+js-trust-err-read-or-draw = { $name }: nie udało się odczytać ani narysować ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:118
+js-trust-err-score = { $name }: nie udało się ocenić ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:131
+js-trust-err-score-file-too-large = { $name }: większy niż 2 MiB. Ocena w przeglądarce przyjmuje fragment zawierający pięciominutowe okno kalibracji.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:107
+js-trust-err-score-too-large = { $name }: większy niż 2 MiB. Ocena w przeglądarce przyjmuje fragment (polecenie { $command } przyjmuje cały dziennik); otwórz fragment zawierający pięciominutowe okno kalibracji.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:795
+js-trust-err-scorecard-too-large = { $name }: większy niż 8 MiB; ta strona czyta kartę wyników do tego rozmiaru.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:106
+js-trust-err-session-empty = Ustawienia sesji są puste. Deklarują statek ({ $setting }).
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:386
+js-trust-err-too-many-epochs =
+    { $count ->
+        [one] Plik ma { $count } epokę; ta strona rysuje najwyżej { $max }. Otwórz fragment.
+        [few] Plik ma { $count } epoki; ta strona rysuje najwyżej { $max }. Otwórz fragment.
+        [many] Plik ma { $count } epok; ta strona rysuje najwyżej { $max }. Otwórz fragment.
+       *[other] Plik ma { $count } epoki; ta strona rysuje najwyżej { $max }. Otwórz fragment.
+    }
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:50
+js-trust-err-triple-quote = { $what } zawiera trzy apostrofy pod rząd, których nie da się osadzić w ustawieniach
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:53
+js-trust-err-what-file = plik
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:84
+js-trust-err-what-imu = plik IMU
+
+# 2026-10-01-studio-rebuild/trust/trust.js:399
+js-trust-event-label = zdarzenie: { $label }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:399
+js-trust-event-onset = początek
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-first-alarm = Pierwszy alarm, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-latency = Opóźnienie, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-onset = Początek, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-outcome = Rezultat
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-stated = Podane zdarzenie
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:17
+js-trust-fmt-android = Android GNSS Logger (tekst)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:13
+js-trust-fmt-gnss-sdr = Linie JSON GNSS-SDR przekazywane dalej (tekst)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:9
+js-trust-fmt-nmea = NMEA 0183 (tekst)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:11
+js-trust-fmt-novatel = NovAtel OEM7 (ASCII lub binarny)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:16
+js-trust-fmt-rinex = Obserwacje RINEX (tekst)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:12
+js-trust-fmt-rtcm3 = RTCM 3 MSM4 / MSM7 (binarny)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:10
+js-trust-fmt-rtklib-pos = Rozwiązanie RTKLIB .pos (tekst)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:14
+js-trust-fmt-sbf = Septentrio SBF (binarny)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:15
+js-trust-fmt-ubx = u-blox UBX (binarny)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:267
+js-trust-gate-note-derived = Ten przebieg nie ma zapisu bramki. Pasek pokazuje, gdzie bramka wstrzymałaby pozycję: epoki w paśmie niezaufanym, wstrzymywane do 30 s po jego opuszczeniu. Wyprowadzone tutaj, a nie odczytane z bramki. Bramka jest opcjonalna i dodaje opóźnienie.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:268
+js-trust-gate-note-read = Bramka każdej epoki tak, jak zgłosił ją strumień na żywo: wyłączona, przepuściła lub wstrzymała (pozycja została oznaczona jako nieważna w przekazanym cyklu).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:703
+js-trust-gate-now-derived = { $gate } · wyprowadzone
+
+# 2026-10-01-studio-rebuild/trust/trust.js:702
+js-trust-gate-off = Wyłączona
+
+# 2026-10-01-studio-rebuild/trust/trust.js:702
+js-trust-gate-off-cal = Wyłączona (kalibracja)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:702
+js-trust-gate-passed = Przepuszczono: pozycja jest przekazywana bez zmian
+
+# 2026-10-01-studio-rebuild/trust/trust.js:420
+js-trust-gate-span = bramka { $gate }, od { $from } do { $to }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:420
+js-trust-gate-span-derived = bramka { $gate } (wyprowadzona), od { $from } do { $to }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:702
+js-trust-gate-withheld = Wstrzymano: pozycja zostałaby oznaczona jako nieważna dalej w torze
+
+# 2026-10-01-studio-rebuild/trust/trust.js:167
+js-trust-gen-chart-label = Wykres silnika dla przebiegu: gęstość mocy nośnej do szumu, stan i alarmy w czasie
+
+# 2026-10-01-studio-rebuild/trust/trust.js:154
+js-trust-gen-epochs = Epoki: nominalne { $nominal }, pogorszone { $degraded }, niezaufane { $untrusted } po { $window }-epokowym oknie kalibracji.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:157
+js-trust-gen-self-heading = Własne flagi odbiornika wobec alarmów Kshana
+
+# 2026-10-01-studio-rebuild/trust/trust.js:157
+js-trust-gen-self-note = Porównanie, a nie sprawdzenie żadnego z nich: flaga odbiornika jest jego własnym raportem.
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:180
+js-trust-geo-deduction-class = { $points } pkt ({ $class })
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:180
+js-trust-geo-deduction-points = { $points } pkt
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:177
+js-trust-geo-flag-mismatch = HDOP podawany przez odbiornik nie zgadza się z HDOP wyprowadzonym z zgłaszanego nieba: odjęcie za geometrię liczy się jako niespójność.
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:178
+js-trust-geo-flag-signal-loss = Utrata sygnału: satelity w zasięgu widoczności nie są śledzone, choć ich geometria jest dobra, więc odjęcie za geometrię liczy się jako środowisko.
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:161
+js-trust-geo-heading-label = geometria { $label }
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:162
+js-trust-geo-label-fair = { $label } (nie oceniana)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:163
+js-trust-geo-label-poor = { $label } (jedyna etykieta, za którą wskaźnik odejmuje punkty)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:157
+js-trust-geo-none-in-run = Brak geometrii w tym przebiegu (silnik sprzed 0.36 jej nie zapisuje).
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:22
+js-trust-geo-reason-few-satellites = mniej satelitów niż minimum
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:24
+js-trust-geo-reason-high-hdop = HDOP powyżej progu
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:23
+js-trust-geo-reason-high-pdop = PDOP powyżej progu
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:25
+js-trust-geo-reason-sky-blocked = śledzone satelity zostawiają szeroką lukę w azymucie (jedna strona nieba zasłonięta)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:180
+js-trust-geo-row-deduction = Odjęcie za geometrię
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:173
+js-trust-geo-row-from = Od
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:170
+js-trust-geo-row-gap = Największa luka w azymucie
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:166
+js-trust-geo-row-label = Etykieta
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:171
+js-trust-geo-row-open-sky = Otwarte niebo
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:175
+js-trust-geo-row-reported-hdop = HDOP podawany przez odbiornik
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:168
+js-trust-geo-row-sats-used = Satelity użyte
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:172
+js-trust-geo-row-sky-age = Wiek nieba
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:167
+js-trust-geo-row-status = Stan
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:193
+js-trust-geo-say-deduction = odjęcie za geometrię { $points } pkt
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:191
+js-trust-geo-say-label-hdop = geometria { $label } (HDOP { $hdop })
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:192
+js-trust-geo-say-mismatch = podany HDOP się nie zgadza
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:36
+js-trust-geo-source-derived = wyprowadzone z satelitów zgłaszanych w dzienniku (GSV)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:38
+js-trust-geo-source-none = nic
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:37
+js-trust-geo-source-reported = DOP podany przez odbiornik (GSA)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:167
+js-trust-geo-status-reasons = { $status }: { $reasons }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:428
+js-trust-geo-status-title = geometria { $status }
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:28
+js-trust-geo-unknown-no-gsv = geometria nieznana: brak GSV i GSA w dzienniku
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:160
+js-trust-geo-unknown-no-gsv-sentence = Geometria nieznana: brak GSV i GSA w dzienniku.
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:160
+js-trust-geo-unknown-odd = Geometria nieznana (plik podaje „{ $odd }”, czego ta strona nie zna).
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:168
+js-trust-geo-used-of-view = { $used } z { $inView } w zasięgu widoczności
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-got-file-kind = { $name }: { $kind }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:70
+js-trust-got-lines-skipped =
+    { $count ->
+        [one] { $count } wiersz pliku { $name } nie był epoką i został pominięty
+        [few] { $count } wiersze pliku { $name } nie były epokami i zostały pominięte
+        [many] { $count } wierszy pliku { $name } nie było epokami i zostało pominiętych
+       *[other] { $count } wiersza pliku { $name } nie było epokami i zostało pominiętych
+    }
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:20
+js-trust-imu-csv = CSV z wierszem nagłówka
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:21
+js-trust-imu-euroc = EuRoC MAV imu0 data.csv
+
+# 2026-10-01-studio-rebuild/trust/trust.js:219
+js-trust-imu-file =
+    { $chars ->
+        [one] Plik IMU: { $name } ({ $chars } znak). Użyty przy następnej ocenie.
+        [few] Plik IMU: { $name } ({ $chars } znaki). Użyty przy następnej ocenie.
+        [many] Plik IMU: { $name } ({ $chars } znaków). Użyty przy następnej ocenie.
+       *[other] Plik IMU: { $name } ({ $chars } znaku). Użyty przy następnej ocenie.
+    }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:218
+js-trust-imu-file-press =
+    { $chars ->
+        [one] Plik IMU: { $name } ({ $chars } znak). Użyty przy następnej ocenie; naciśnij Oceń wybrany plik.
+        [few] Plik IMU: { $name } ({ $chars } znaki). Użyty przy następnej ocenie; naciśnij Oceń wybrany plik.
+        [many] Plik IMU: { $name } ({ $chars } znaków). Użyty przy następnej ocenie; naciśnij Oceń wybrany plik.
+       *[other] Plik IMU: { $name } ({ $chars } znaku). Użyty przy następnej ocenie; naciśnij Oceń wybrany plik.
+    }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:226
+js-trust-imu-none = Brak pliku IMU.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-latency = Opóźnienie, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-monitors = Pierwsze monitory
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-name = Nazwa
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-outcome = Rezultat
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-recovered = Odzyskano
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-slot = Szczelina, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-test = Test
+
+# 2026-10-01-studio-rebuild/trust/trust.js:803
+js-trust-jt-label = { $label } Odstęp ochronny { $guard } s, przytrzymanie odzyskiwania { $hold } s.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:802
+js-trust-jt-label-contaminated = { $label } Odstęp ochronny { $guard } s, przytrzymanie odzyskiwania { $hold } s. Bazowy poziom kalibracji nakładał się na zaplanowaną szczelinę.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:809
+js-trust-jt-opened =
+    { $count ->
+        [one] Otwarto { $name }: { $count } test. Odczytano tutaj; nic nie zostało wysłane.
+        [few] Otwarto { $name }: { $count } testy. Odczytano tutaj; nic nie zostało wysłane.
+        [many] Otwarto { $name }: { $count } testów. Odczytano tutaj; nic nie zostało wysłane.
+       *[other] Otwarto { $name }: { $count } testu. Odczytano tutaj; nic nie zostało wysłane.
+    }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-kind-batch-result = wynik zbiorczy
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-kind-json-lines = JSON lines
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-kind-nmea-log = dziennik NMEA
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-kind-truth-file = plik prawdy
+
+# 2026-10-01-studio-rebuild/trust/trust.js:239
+js-trust-label-demo = Demonstracja syntetyczna: zmyślony dziennik promu ze zmyślonym przeciągnięciem pozycji (drag-off), oceniony przez Kshana. Zapisany z silnika; dziennik to tekst, a nie pomiar.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:186
+js-trust-label-example = Przykład ilustracyjny: zmyślony dziennik NMEA ze zmyślonym zagłuszaczem od 120 s do 240 s, oceniony tutaj przez silnik. Tekst, a nie pomiar.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:249
+js-trust-label-geo-demo = Demonstracja syntetyczna zasłoniętego nieba: dziennik promu z zasłoniętą zachodnią połową nieba od 600 s (naturalne pogorszenie, przypisane geometrii) i tym samym zmyślonym drag-off od 1500 s (podobnym do ataku). Zapisana z silnika z geometrią 0.36; tekst, a nie pomiar.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:126
+js-trust-label-score-demo = Syntetyczny dziennik demonstracyjny, oceniony tutaj przez silnik. Zmyślony dziennik promu i drag-off; tekst, a nie pomiar.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:549
+js-trust-legend-calibrating = Kalibracja (nigdy nie oceniana)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-class = Klasa odjęcia:
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-class-environment = środowisko: sygnał
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-class-geometry = geometria: niebo, a nie sygnał
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-class-inconsistency = niespójność (podobna do ataku)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:549
+js-trust-legend-degraded = Pogorszone
+
+# 2026-10-01-studio-rebuild/trust/trust.js:557
+js-trust-legend-demo = W tej demonstracji odbiornik zgłasza ważną pozycję przez cały czas (GGA quality 1, RMC status A). To wskaźnik spada.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:553
+js-trust-legend-geo-degraded = geometria pogorszona
+
+# 2026-10-01-studio-rebuild/trust/trust.js:553
+js-trust-legend-geo-good = geometria dobra
+
+# 2026-10-01-studio-rebuild/trust/trust.js:553
+js-trust-legend-geo-unknown = geometria nieznana (brak GSV i GSA; niedobra)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:549
+js-trust-legend-nominal = Nominalne
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self = Własna flaga odbiornika wobec alarmów Kshana:
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self-both = oba zgłaszają
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self-kshana = tylko Kshana
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self-neither = żaden
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self-receiver = tylko odbiornik
+
+# 2026-10-01-studio-rebuild/trust/trust.js:553
+js-trust-legend-sky = Niebo:
+
+# 2026-10-01-studio-rebuild/trust/trust.js:551
+js-trust-legend-true-track = Tor rzeczywisty (tylko dane syntetyczne)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-underline = podkreślenie: geometria również odejmuje punkty
+
+# 2026-10-01-studio-rebuild/trust/trust.js:549
+js-trust-legend-untrusted = Niezaufane
+
+# 2026-10-01-studio-rebuild/trust/trust.js:753
+js-trust-marks-cleared = Znaczniki wyczyszczone.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:753
+js-trust-marks-set =
+    { $count ->
+        [one] { $name } przekraczało swój próg początku w { $count } epoce; zaznaczono je na osi czasu i na torze.
+        [few] { $name } przekraczało swój próg początku w { $count } epokach; zaznaczono je na osi czasu i na torze.
+        [many] { $name } przekraczało swój próg początku w { $count } epokach; zaznaczono je na osi czasu i na torze.
+       *[other] { $name } przekraczało swój próg początku w { $count } epoki; zaznaczono je na osi czasu i na torze.
+    }
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:34
+js-trust-mon-agc = Automatyczna regulacja wzmocnienia przesunęła się względem swojego poziomu bazowego.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:38
+js-trust-mon-clock = Monitor wspomagany zegarem: zegar odbiornika względem przewidywanej linii.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:32
+js-trust-mon-cn0-drop = Odmowa mocy: siła sygnału spadła względem poziomu bazowego kalibracji.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:29
+js-trust-mon-cn0-rise = Szuka sygnatury jednego nadajnika: siła sygnału na satelitach rośnie razem względem poziomu bazowego.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:28
+js-trust-mon-cn0-spread = Szuka sygnatury jednego nadajnika: siła sygnału na satelitach załamuje się razem względem poziomu bazowego kalibracji.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:41
+js-trust-mon-geometry = Geometria satelitów (0.36): odejmuje punkty tylko wtedy, gdy geometria jest słaba (HDOP, PDOP lub liczba użytych satelitów poza progami), z ograniczeniem i nigdy poniżej pasma pogorszonego.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:25
+js-trust-mon-heading-course = Porównuje kierunek toru z kierunkiem, w którym wskazuje statek, w granicach podanego kąta znoszenia.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:35
+js-trust-mon-jam-ind = Własny wskaźnik zagłuszania odbiornika.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:24
+js-trust-mon-kinematic = Porównuje każdy krok położenia ze zgłoszoną prędkością i kursem oraz z podanymi limitami prędkości, przyspieszenia i prędkości zwrotu statku.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:33
+js-trust-mon-loss-of-lock = Utrata śledzonych satelitów.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:31
+js-trust-mon-osnma = Odczytuje zgłoszoną porażkę uwierzytelnienia OSNMA. Stan jest odczytywany, a nie weryfikowany.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:36
+js-trust-mon-position-jump = Skok zgłaszanego położenia większy, niż pozwala poziom bazowy.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:37
+js-trust-mon-raim = Statystyka testu autonomicznego monitorowania integralności w odbiorniku (RAIM) względem jej progu.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:40
+js-trust-mon-receiver-self-report = Własna flaga spoofingu lub zagłuszania odbiornika (na przykład u-blox UBX-SEC-SIG lub NAV-STATUS spoofDetState), pokazana obok monitorów Kshana. Odczytana z dziennika, niezweryfikowana; miejsce jest gotowe na monitor silnika 0.38 i rysuje się jako pasek, gdy wynik go zawiera.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:27
+js-trust-mon-sea-level = Sprawdza, czy wysokość jest tam, gdzie umieszczają ją powierzchnia morza i podana wysokość anteny.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:39
+js-trust-mon-solve-failure = Nie udało się obliczyć rozwiązania położenia.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:26
+js-trust-mon-speed-log = Porównuje prędkość nad dnem z prędkością po wodzie, w granicach podanej tolerancji prądu.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:30
+js-trust-mon-time-consistency = Sprawdza czas odbiornika pod kątem nieregularnych kroków lub biegu wstecz oraz, dla strumieni czasu rzeczywistego, względem zegara tego komputera.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:46
+js-trust-mon-unknown = Monitor, dla którego ten widok nie ma opisu (nowszy niż strona). Traktuj go jako monitor.
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:71
+js-trust-na = n/d
+
+# 2026-10-01-studio-rebuild/trust/trust.js:517
+js-trust-name-colon-text = { $name }: { $text }
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:71
+js-trust-never = nigdy
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:56
+js-trust-no = nie
+
+# 2026-10-01-studio-rebuild/trust/trust.js:435
+js-trust-no-deduction = brak odjęcia
+
+# 2026-10-01-studio-rebuild/trust/trust.js:162
+js-trust-none = brak
+
+# 2026-10-01-studio-rebuild/trust/trust.js:308
+js-trust-north = N
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:40
+js-trust-not-stated = nie podano
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:376
+js-trust-note-advisories =
+    { $count ->
+        [one] Wiersze zawierają { $count } oświadczenie doradcze; pokazano pierwsze.
+        [few] Wiersze zawierają { $count } różne oświadczenia doradcze; pokazano pierwsze.
+        [many] Wiersze zawierają { $count } różnych oświadczeń doradczych; pokazano pierwsze.
+       *[other] Wiersze zawierają { $count } różnego oświadczenia doradczego; pokazano pierwsze.
+    }
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:383
+js-trust-note-csv-limits = trust.csv zawiera wskaźniki i przyczyny, ale nie współczynniki ani położenia.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:378
+js-trust-note-live-no-model = Strumień na żywo nie podaje, które monitory działały, ani modelu wskaźnika; poniższe krawędzie pasm to udokumentowane wartości domyślne, a paski monitorów pokazują tylko monitory, które odjęły punkty.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:397
+js-trust-note-nmea-no-match = Żadnej pozycji NMEA nie dało się dopasować do epoki według czasu.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:396
+js-trust-note-nmea-skipped =
+    { $count ->
+        [one] Pominięto { $count } zdanie NMEA ze złą sumą kontrolną lub polami.
+        [few] Pominięto { $count } zdania NMEA ze złą sumą kontrolną lub polami.
+        [many] Pominięto { $count } zdań NMEA ze złą sumą kontrolną lub polami.
+       *[other] Pominięto { $count } zdania NMEA ze złą sumą kontrolną lub polami.
+    }
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:359
+js-trust-note-skipped-epochs =
+    { $count ->
+        [one] Pominięto { $count } epokę bez liczbowego t_s.
+        [few] Pominięto { $count } epoki bez liczbowego t_s.
+        [many] Pominięto { $count } epok bez liczbowego t_s.
+       *[other] Pominięto { $count } epoki bez liczbowego t_s.
+    }
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:402
+js-trust-note-truth-no-match = Czasy pliku prawdy nie pasują do żadnej epoki.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:388
+js-trust-note-unknown-state =
+    { $count ->
+        [one] { $count } epoka ma stan, którego ta strona nie zna ({ $states }); jest rysowana jako kalibracja, nigdy nie oceniana.
+        [few] { $count } epoki mają stan, którego ta strona nie zna ({ $states }); są rysowane jako kalibracja, nigdy nie oceniane.
+        [many] { $count } epok ma stan, którego ta strona nie zna ({ $states }); są rysowane jako kalibracja, nigdy nie oceniane.
+       *[other] { $count } epoki ma stan, którego ta strona nie zna ({ $states }); są rysowane jako kalibracja, nigdy nie oceniane.
+    }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:697
+js-trust-offset-at = O { $time } położenie zgłoszone przez odbiornik jest { $m } m od miejsca, w którym statek naprawdę był (prawda syntetyczna).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:698
+js-trust-offset-no-truth = Brak położenia rzeczywistego w tym czasie.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:81
+js-trust-opened =
+    { $count ->
+        [one] Otwarto { $count } epokę ({ $source }).
+        [few] Otwarto { $count } epoki ({ $source }).
+        [many] Otwarto { $count } epok ({ $source }).
+       *[other] Otwarto { $count } epoki ({ $source }).
+    }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:233
+js-trust-opening-demo = Otwieranie syntetycznej wersji demonstracyjnej…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:121
+js-trust-opening-demo-log = Otwieranie syntetycznego dziennika demonstracyjnego…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:180
+js-trust-opening-example = Otwieranie przykładu ilustracyjnego…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:244
+js-trust-opening-geo-demo = Otwieranie demonstracji zasłoniętego nieba…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:781
+js-trust-pause = Wstrzymaj
+
+# 2026-10-01-studio-rebuild/trust/trust.js:786
+js-trust-play = Odtwarzaj
+
+# 2026-10-01-studio-rebuild/trust/trust.js:90
+js-trust-reading = Odczytywanie…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:710
+js-trust-reasons-calibrating = Kalibracja: pierwsze sekundy tworzą poziom bazowy i nigdy nie są oceniane.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:724
+js-trust-reasons-class-note = Każde odjęcie ma klasę silnika: geometria (niebo), środowisko (sygnał) lub niespójność (podobna do ataku)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:731
+js-trust-reasons-live-unknown = W strumieniu na żywo nie podano, które monitory działały; kontrola nieobecna tutaj mogła nie zostać uruchomiona.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:726
+js-trust-reasons-marked-none = zaznaczone; brak odjęcia
+
+# 2026-10-01-studio-rebuild/trust/trust.js:711
+js-trust-reasons-no-score = Brak wskaźnika w tej epoce.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:711
+js-trust-reasons-no-score-note = Brak wskaźnika w tej epoce: { $note }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:730
+js-trust-reasons-not-run = Nie uruchomiono (to nie jest zaliczenie)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:712
+js-trust-reasons-nothing = W tej epoce nic nie odjęto. To nie jest dowód, że pozycja jest dobra: zobacz poniżej, czego kontrole nie widzą.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:720
+js-trust-reasons-pts = { $points } pkt
+
+# 2026-10-01-studio-rebuild/trust/trust.js:729
+js-trust-reasons-ran-free = Uruchomiono, bez kosztu
+
+# 2026-10-01-studio-rebuild/trust/trust.js:720
+js-trust-reasons-ratio = współczynnik { $ratio }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:717
+js-trust-reasons-row-title = { $name }: { $text } Kliknij, aby zaznaczyć, gdzie przekraczał swój próg początku.
