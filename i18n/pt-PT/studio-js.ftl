@@ -6528,3 +6528,916 @@ js-meankind-leopvt-polar-line =
         [many] Em { $n } de latitudes.
        *[other] Em { $n } latitudes.
     }
+
+js-meankind-leopvt-timing-line =
+    { $n ->
+        [one] { $n } caso de relógio e sinal comparado.
+        [many] { $n } de casos de relógio e sinal comparados.
+       *[other] { $n } casos de relógio e sinal comparados.
+    }
+
+js-meankind-leosignal-big =
+    { $n ->
+        [one] Com { $n } projeto de sinal, { $best } é o que tolera mais jamming: { $db } dB acima do sinal.
+        [many] De { $n } de projetos de sinal, { $best } é o que tolera mais jamming: { $db } dB acima do sinal.
+       *[other] De { $n } projetos de sinal, { $best } é o que tolera mais jamming: { $db } dB acima do sinal.
+    }
+
+js-meankind-leosignal-line-fail = As verificações da forma do espetro falham.
+
+js-meankind-leosignal-line-pass = As verificações da forma do espetro passam.
+
+js-meankind-link-big-closes = A ligação fecha com { $margin } dB de folga.
+
+js-meankind-link-big-open = A ligação não fecha: { $margin } dB de margem.
+
+js-meankind-link-line = Ao longo de { $km } km.
+
+js-meankind-link-line-band = Banda { $band } ao longo de { $km } km.
+
+js-meankind-link-line-band-rate = Banda { $band } ao longo de { $km } km a { $rate } bit/s.
+
+js-meankind-link-line-rate = Ao longo de { $km } km a { $rate } bit/s.
+
+js-meankind-list-and = { $head } e { $last }
+
+js-meankind-llr-big = A telemetria laser lunar real fixa o referencial lunar a { $mm } mm.
+
+js-meankind-llr-line = Escala com { $ppb } partes por mil milhões.
+
+js-meankind-mapmatch-altimeter = O altímetro mede com { $sigma } m.
+
+js-meankind-mapmatch-big = A correspondência com o mapa mantém a posição a { $matched } m, contra { $free } m de deriva só com navegação inercial.
+
+js-meankind-mapmatch-gravimeter = O gravímetro mede com { $sigma } mGal.
+
+js-meankind-mapmatch-sources = Só a gravidade dá { $gravity } m, a magnética { $magnetic } m, o terreno { $terrain } m.
+
+js-meankind-marspnt-big = O navegador do { $user } estabiliza em { $m } m (raiz do valor quadrático médio).
+
+js-meankind-marspnt-line =
+    { $n ->
+        [one] { $mean } retransmissores à vista em média, ao longo de { $n } época.
+        [many] { $mean } retransmissores à vista em média, ao longo de { $n } de épocas.
+       *[other] { $mean } retransmissores à vista em média, ao longo de { $n } épocas.
+    }
+
+js-meankind-moonlight-big = O serviço cobre { $share } % dos locais e instantes verificados.
+
+js-meankind-moonlight-line =
+    { $n ->
+        [one] Entre { $min } e { $n } satélite estão à vista; a qualidade da geometria (PDOP) varia de { $pmin } a { $pmax }.
+        [many] Entre { $min } e { $n } de satélites estão à vista; a qualidade da geometria (PDOP) varia de { $pmin } a { $pmax }.
+       *[other] Entre { $min } e { $n } satélites estão à vista; a qualidade da geometria (PDOP) varia de { $pmin } a { $pmax }.
+    }
+
+js-meankind-navmsg-big =
+    { $n ->
+        [one] Uma mensagem de navegação cabe em { $n } byte.
+        [many] Uma mensagem de navegação cabe em { $n } de bytes.
+       *[other] Uma mensagem de navegação cabe em { $n } bytes.
+    }
+
+js-meankind-navmsg-cases-big =
+    { $n ->
+        [one] Em { $n } caso, o erro de distância da órbita difundida é de { $min } a { $max } mm.
+        [many] Em { $n } de casos, o erro de distância da órbita difundida é de { $min } a { $max } mm.
+       *[other] Em { $n } casos, o erro de distância da órbita difundida é de { $min } a { $max } mm.
+    }
+
+js-meankind-navmsg-cases-line = Erro de distância do sinal no espaço, raiz do valor quadrático médio.
+
+js-meankind-navmsg-line = O arredondamento ao formato da mensagem custa { $mm } mm de erro de distância.
+
+js-meankind-navmsg-midpass-big = Atualizar a mensagem a meio da passagem faz a distância saltar, no máximo, { $mm } mm.
+
+js-meankind-navmsg-midpass-line = O limite é de { $mm } mm.
+
+js-meankind-ntn-big = O posicionamento 5G a partir da órbita atinge { $m } m com { $signal }.
+
+js-meankind-ntn-line = O Doppler numa passagem dá { $m } m.
+
+js-meankind-obs-big-full = A órbita passa a ser totalmente observável após { $dur } de seguimento.
+
+js-meankind-obs-big-partly = A órbita continua parcialmente observável ao longo do arco de { $h } h.
+
+js-meankind-obs-line = Característica { $rank } de { $dim } no fim do arco.
+
+js-meankind-oem-big = O ficheiro de efemérides faz o percurso de ida e volta com, no máximo, { $mm } mm de erro de posição.
+
+js-meankind-oem-line =
+    { $n ->
+        [one] { $states } estados em { $n } segmento.
+        [many] { $states } estados em { $n } de segmentos.
+       *[other] { $states } estados em { $n } segmentos.
+    }
+
+js-meankind-optical-big-alone = O melhor local isolado mantém a ligação ótica ativa em { $best } % do tempo (limite sem nuvens de { $ceiling } %); nenhuma margem sem nuvens a eleva acima de { $ceiling } %.
+
+js-meankind-optical-big-team = O melhor local isolado mantém a ligação ótica ativa em { $best } % do tempo (limite sem nuvens de { $ceiling } %); { $n } locais em conjunto atingem { $independent } % se o seu estado do tempo for independente, { $correlated } % com a correlação indicada.
+
+js-meankind-optical-line-sites =
+    { $n ->
+        [one] { $n } local modelado; os climas de nebulosidade são ilustrativos.
+        [many] { $n } de locais modelados; os climas de nebulosidade são ilustrativos.
+       *[other] { $n } locais modelados; os climas de nebulosidade são ilustrativos.
+    }
+
+js-meankind-optical-line-tech = { $name }: { $base } % passa a { $with } %.
+
+js-meankind-opticalrf-big = Combinar a medição de distância ótica e por rádio dá níveis de proteção de { $h } m na horizontal e { $v } m na vertical.
+
+js-meankind-opticalrf-line-fault = O teste de consistência indica { $stat } face a um limiar de { $threshold }: é assinalada uma falha.
+
+js-meankind-opticalrf-line-ok = O teste de consistência indica { $stat } face a um limiar de { $threshold }: não é assinalada nenhuma falha.
+
+js-meankind-packet-big-no = Não: o fluxo descodificado difere do que foi enviado.
+
+js-meankind-packet-big-yes = Sim: o fluxo de pacotes é descodificado de volta, bit a bit.
+
+js-meankind-packet-line =
+    { $n ->
+        [one] { $n } pacote, { $octets } octetos no total.
+        [many] { $n } de pacotes, { $octets } octetos no total.
+       *[other] { $n } pacotes, { $octets } octetos no total.
+    }
+
+js-meankind-passes-big-day =
+    { $n ->
+        [one] { $n } passagem por dia, { $dur } de contacto no total.
+        [many] { $n } de passagens por dia, { $dur } de contacto no total.
+       *[other] { $n } passagens por dia, { $dur } de contacto no total.
+    }
+
+js-meankind-passes-big-window =
+    { $n ->
+        [one] { $n } passagem numa janela de { $hours } h, { $dur } de contacto no total.
+        [many] { $n } de passagens numa janela de { $hours } h, { $dur } de contacto no total.
+       *[other] { $n } passagens numa janela de { $hours } h, { $dur } de contacto no total.
+    }
+
+js-meankind-passes-line = A melhor passagem sobe até { $deg }°.
+
+js-meankind-percentile-word = percentil
+
+js-meankind-pnt-big = O conjunto quântico mantém a posição e o tempo durante { $q }; o conjunto clássico durante { $c }.
+
+js-meankind-pnt-classical-label = Holdover, conjunto clássico
+
+js-meankind-pnt-line = O holdover é o tempo que cada conjunto (relógio { $q }, face ao relógio { $c }) se mantém dentro de { $spec } depois de a navegação por satélite se perder.
+
+js-meankind-pnt-quantum-label = Holdover, conjunto quântico
+
+js-meankind-pnt-timing-classical-label = Erro de temporização, 95 %, clássico
+
+js-meankind-pnt-timing-quantum-label = Erro de temporização, 95 %, quântico
+
+js-meankind-pvt-big =
+    { $n ->
+        [one] É resolvida uma posição em { $solved } de { $n } época, com { $rms } m (raiz do valor quadrático médio 3D).
+        [many] É resolvida uma posição em { $solved } de { $n } de épocas, com { $rms } m (raiz do valor quadrático médio 3D).
+       *[other] É resolvida uma posição em { $solved } de { $n } épocas, com { $rms } m (raiz do valor quadrático médio 3D).
+    }
+
+js-meankind-pvt-line = A partir de { $mean } satélites em média, lido de medições reais de recetor.
+
+js-meankind-qnav-big = Após a interrupção, o navegador de átomos frios está desviado { $q } m; o de qualidade de navegação, { $c } m.
+
+js-meankind-qnav-big-outage = Após { $dur } sem satélites, o navegador de átomos frios está desviado { $q } m; o de qualidade de navegação, { $c } m.
+
+js-meankind-qnav-line = Dentro do orçamento: { $q } contra { $c }.
+
+js-meankind-qnav-line-threshold = Dentro de { $threshold } m: { $q } contra { $c }.
+
+js-meankind-qtt-big = A transferência de tempo quântica mantém { $q } ps (1 sigma) contra { $c } ns da cadeia clássica.
+
+js-meankind-qtt-line = O monitor de segurança deteta { $pd } % dos ataques.
+
+js-meankind-qtt-line-pfa = O monitor de segurança deteta { $pd } % dos ataques com uma taxa de falsos alarmes de { $pfa }.
+
+js-meankind-quantum-link = ligação quântica
+
+js-meankind-radiometry-big = A câmara atinge NIIRS { $niirs } com { $gsd } m de distância de amostragem no solo, com uma relação sinal-ruído de { $snr }.
+
+js-meankind-radiometry-line = MTF do sistema à frequência de Nyquist: { $mtf }.
+
+js-meankind-reentry-big = A desaceleração máxima é de { $g } g, a { $km } km.
+
+js-meankind-reentry-line = O veículo está então a { $speed } m/s.
+
+js-meankind-slam-big = A correspondência com o terreno termina a { $matched } m, contra { $free } m só com navegação inercial.
+
+js-meankind-slam-line =
+    { $n ->
+        [one] Ao longo de { $n } ponto de passagem, correspondido a um mapa de terreno com { $sigma } m de ruído do altímetro.
+        [many] Ao longo de { $n } de pontos de passagem, correspondidos a um mapa de terreno com { $sigma } m de ruído do altímetro.
+       *[other] Ao longo de { $n } pontos de passagem, correspondidos a um mapa de terreno com { $sigma } m de ruído do altímetro.
+    }
+
+js-meankind-slot-big = O relógio sai do seu intervalo de guarda do slot { $dur } após a última posição por satélite.
+
+js-meankind-slot-line = Por isso precisa de uma posição a cada { $interval }, cerca de { $perDay } por dia.
+
+js-meankind-solar-big =
+    { $n ->
+        [one] { $n } corpo posicionado numa época.
+        [many] { $n } de corpos posicionados numa época.
+       *[other] { $n } corpos posicionados numa época.
+    }
+
+js-meankind-solar-big-link =
+    { $n ->
+        [one] { $n } corpo posicionado numa época; a luz demora { $dur } de { $from } até { $to }.
+        [many] { $n } de corpos posicionados numa época; a luz demora { $dur } de { $from } até { $to }.
+       *[other] { $n } corpos posicionados numa época; a luz demora { $dur } de { $from } até { $to }.
+    }
+
+js-meankind-solar-line = No total, são cronometradas { $n } ligações.
+
+js-meankind-spoof-caught = O spoofing é detetado antes de quebrar a especificação de temporização.
+
+js-meankind-spoof-caught-both = O spoofing é detetado por ambos os relógios antes de quebrar a especificação de temporização.
+
+js-meankind-spoof-caught-label = Detetado após, { $name }
+
+js-meankind-spoof-caught-thr = O spoofing é detetado antes de quebrar a especificação de temporização de { $thr } ns.
+
+js-meankind-spoof-caught-thr-both = O spoofing é detetado por ambos os relógios antes de quebrar a especificação de temporização de { $thr } ns.
+
+js-meankind-spoof-detects = { $name } deteta-o após { $dur }, com um desvio de { $offset } ns.
+
+js-meankind-spoof-missed =
+    { $n ->
+        [one] O spoofing quebra a especificação de temporização antes de { $names } o detetar.
+        [many] O spoofing quebra a especificação de temporização antes de { $names } o detetar.
+       *[other] O spoofing quebra a especificação de temporização antes de { $names } o detetar.
+    }
+
+js-meankind-spoof-offset = desvio { $offset } ns
+
+js-meankind-spoofdetect-big-by = Sim: o spoofing é detetado, por { $by }.
+
+js-meankind-spoofdetect-big-no = Não: o monitor fundido não deteta o spoofing.
+
+js-meankind-spoofdetect-big-yes = Sim: o spoofing é detetado.
+
+js-meankind-spoofdetect-line =
+    { $n ->
+        [one] { $on } de { $n } camada de deteção dá alarme.
+        [many] { $on } de { $n } de camadas de deteção dão alarme.
+       *[other] { $on } de { $n } camadas de deteção dão alarme.
+    }
+
+js-meankind-spoofdetect-line-score =
+    { $n ->
+        [one] { $on } de { $n } camada de deteção dá alarme; a pontuação fundida é { $score }.
+        [many] { $on } de { $n } de camadas de deteção dão alarme; a pontuação fundida é { $score }.
+       *[other] { $on } de { $n } camadas de deteção dão alarme; a pontuação fundida é { $score }.
+    }
+
+js-meankind-ssv-formation = Com { $km } km de separação, o filtro conhece a posição relativa com { $filter } m RMS, contra { $absolute } m obtidos pela diferença das duas posições absolutas.
+
+js-meankind-ssv-navigation = O filtro de bordo mantém a posição com { $inside } m RMS dentro das órbitas GNSS e { $above } m acima delas.
+
+js-meankind-ssv-shell = Na camada esférica, todas as constelações em conjunto dão pelo menos um sinal em { $one } % do tempo e pelo menos quatro em { $four } % (L1).
+
+js-meankind-ssv-tail = MODELLED: um varrimento geométrico e de orçamento de ligação, não uma medição de qualquer sinal no espaço.
+
+js-meankind-ssv-trajectory = De { $from } a { $to } km de altitude, há pelo menos um sinal à vista em { $one } % das épocas e pelo menos quatro em { $four } % (L1, todas as constelações).
+
+js-meankind-station-big = Sobre a região polar sul, as correções de uma estação de referência lunar reduzem o erro de { $percentile } de { $from } m para { $to } m (modelado).
+
+js-meankind-station-line = Dentro do limiar de exatidão em { $share } % das épocas; não é uma afirmação sobre nenhum sistema real.
+
+js-meankind-sweep-big =
+    { $n ->
+        [one] Ao longo de { $n } valor de { $param }, { $parts }.
+        [many] Ao longo de { $n } de valores de { $param }, { $parts }.
+       *[other] Ao longo de { $n } valores de { $param }, { $parts }.
+    }
+
+js-meankind-sweep-line = { $param } varia de { $from } a { $to }.
+
+js-meankind-sweep-line-log = { $param } varia de { $from } a { $to } numa escala logarítmica.
+
+js-meankind-sweep-part-flat = { $metric } de { $key } mantém-se em { $value }
+
+js-meankind-sweep-part-goes = { $metric } de { $key } passa de { $first } para { $last }
+
+js-meankind-sweep-result-word = resultado
+
+js-meankind-sweepnd-big =
+    { $n ->
+        [one] Ao longo de { $n } combinação de { $keys }, { $metric } varia entre { $min } e { $max }.
+        [many] Ao longo de { $n } de combinações de { $keys }, { $metric } varia entre { $min } e { $max }.
+       *[other] Ao longo de { $n } combinações de { $keys }, { $metric } varia entre { $min } e { $max }.
+    }
+
+js-meankind-sweepnd-line = Uma grelha de { $shape } execuções do motor.
+
+js-meankind-telecom-fail =
+    { $n ->
+        [one] O relógio falha { $fail } de { $n } verificação do erro de tempo de telecomunicações.
+        [many] O relógio falha { $fail } de { $n } de verificações do erro de tempo de telecomunicações.
+       *[other] O relógio falha { $fail } de { $n } verificações do erro de tempo de telecomunicações.
+    }
+
+js-meankind-telecom-line = Verificações de MTIE (erro máximo de intervalo de tempo), TDEV (desvio de tempo) e do envelope de holdover face às máscaras da ITU-T indicadas em cada linha.
+
+js-meankind-telecom-line-margin = Verificações de MTIE (erro máximo de intervalo de tempo), TDEV (desvio de tempo) e do envelope de holdover face às máscaras da ITU-T indicadas em cada linha. A menor margem face ao envelope de holdover é de { $margin } ns.
+
+js-meankind-telecom-pass =
+    { $n ->
+        [one] O relógio passa todas as { $n } verificação do erro de tempo de telecomunicações.
+        [many] O relógio passa todas as { $n } de verificações do erro de tempo de telecomunicações.
+       *[other] O relógio passa todas as { $n } verificações do erro de tempo de telecomunicações.
+    }
+
+js-meankind-the-best = o melhor
+
+js-meankind-the-body = o corpo
+
+js-meankind-the-first = o primeiro
+
+js-meankind-the-name = o { $name }
+
+js-meankind-the-second = o segundo
+
+js-meankind-the-widest-signal = o sinal mais largo
+
+js-meankind-timebudget-big = O erro do { $clock } e o erro do referencial cruzam-se a um tempo de média de { $tau }.
+
+js-meankind-timebudget-line = Neste cruzamento, o erro de tempo é de { $x } s.
+
+js-meankind-timeoffset-big = Um relógio na Lua adianta-se { $rate } µs por dia em relação a um na Terra.
+
+js-meankind-timeoffset-line = A banda publicada vai de { $low } a { $high } µs por dia.
+
+js-meankind-timetransfer-big = Com { $q }, os dois locais ficam a menos de { $qps } ps (raiz do valor quadrático médio); com { $c }, a menos de { $cps } ps.
+
+js-meankind-timetransfer-line = Dentro da especificação de medição de distância em { $q } % do tempo, contra { $c } %.
+
+js-meankind-timetransfer-line-mm = Dentro da especificação de medição de distância de { $mm } mm em { $q } % do tempo, contra { $c } %.
+
+js-meankind-tracking-big = Um spoofer pode capturar o recetor a até { $km } km de distância.
+
+js-meankind-tracking-line = Sob a dinâmica de malha do próprio recetor, o bloqueio perde-se com { $db } dB de interferente acima do sinal.
+
+js-meankind-trade-big = Os sensores quânticos são { $timing } vezes melhores na temporização e { $inertial } vezes melhores na navegação inercial do que a linha de base clássica.
+
+js-meankind-trade-line = Sem satélites, o conjunto quântico aguenta-se durante { $dur }.
+
+js-meankind-ttbudget-big = O desvio bidirecional é de { $offset } ns, com uma incerteza combinada de { $uncertainty } ns.
+
+js-meankind-ttbudget-line = Sagnac { $sagnac } ns; ionosfera { $iono } ns.
+
+js-meankind-ukf-big-no = Não: o filtro não é autoconsistente.
+
+js-meankind-ukf-big-yes = Sim: o filtro é autoconsistente.
+
+js-meankind-ukf-line-in = A sua inovação normalizada ao quadrado tem média { $mean }, dentro da banda de 95 % de { $low } a { $high }. Isto verifica a consistência, não a exatidão.
+
+js-meankind-ukf-line-in-seeds =
+    { $n ->
+        [one] A sua inovação normalizada ao quadrado tem média { $mean }, dentro da banda de 95 % de { $low } a { $high }, ao longo de { $n } semente. Isto verifica a consistência, não a exatidão.
+        [many] A sua inovação normalizada ao quadrado tem média { $mean }, dentro da banda de 95 % de { $low } a { $high }, ao longo de { $n } de sementes. Isto verifica a consistência, não a exatidão.
+       *[other] A sua inovação normalizada ao quadrado tem média { $mean }, dentro da banda de 95 % de { $low } a { $high }, ao longo de { $n } sementes. Isto verifica a consistência, não a exatidão.
+    }
+
+js-meankind-ukf-line-out = A sua inovação normalizada ao quadrado tem média { $mean }, fora da banda de 95 % de { $low } a { $high }. Isto verifica a consistência, não a exatidão.
+
+js-meankind-ukf-line-out-seeds =
+    { $n ->
+        [one] A sua inovação normalizada ao quadrado tem média { $mean }, fora da banda de 95 % de { $low } a { $high }, ao longo de { $n } semente. Isto verifica a consistência, não a exatidão.
+        [many] A sua inovação normalizada ao quadrado tem média { $mean }, fora da banda de 95 % de { $low } a { $high }, ao longo de { $n } de sementes. Isto verifica a consistência, não a exatidão.
+       *[other] A sua inovação normalizada ao quadrado tem média { $mean }, fora da banda de 95 % de { $low } a { $high }, ao longo de { $n } sementes. Isto verifica a consistência, não a exatidão.
+    }
+
+js-meankind-user-word = utilizador
+
+js-meankind-vlbi-big = Numa linha de base de { $km } km, o sinal da baliza chega com { $ms } ms de diferença às duas estações.
+
+js-meankind-vlbi-line = A correção de campo próximo é de { $us } µs.
+
+js-meankind-vlbifim-big = Cada coordenada de estação é conhecida com { $m } m a partir deste calendário de observação.
+
+js-meankind-vlbifim-line = A estimativa simples de partes iguais indicaria { $m } m.
+
+js-meankind-weather-big = A atmosfera superior aquece até { $k } K.
+
+js-meankind-weather-big-ref = A atmosfera superior aquece até { $k } K, contra { $ref } K da referência.
+
+js-meankind-weather-line = O índice de atividade geomagnética ap é { $ap }.
+
+js-meankind-whole-run = ao longo de toda a execução
+
+js-mthread-bcol-label = Rótulo
+
+js-mthread-bcol-share = Tamanho face ao maior termo de posição
+
+js-mthread-bcol-sigma = 1 sigma
+
+js-mthread-bcol-source = Contribuição
+
+js-mthread-budget-caption = { $phase }: 1 sigma à entrada { $entry }, no pico { $peak }, à saída { $exit } (posição); cada contribuição abaixo, da maior para a menor.
+
+js-mthread-chart-title = { $metric } em função do tempo decorrido da missão, uma banda por fase
+
+js-mthread-col-kind = Tipo
+
+js-mthread-col-label = Rótulo
+
+js-mthread-col-limit = Maior contribuição
+
+js-mthread-col-margin = Face ao limite
+
+js-mthread-col-peak-pos = Posição máxima
+
+js-mthread-col-peak-time = Desvio máximo do relógio
+
+js-mthread-col-peak-vel = Velocidade máxima
+
+js-mthread-col-phase = Fase
+
+js-mthread-col-window = Tempo de missão
+
+js-mthread-example-not-loaded = o resultado registado não foi carregado
+
+js-mthread-file-failed = Não foi possível ler { $name }: { $reason }.
+
+js-mthread-kv-elapsed = Tempo decorrido da missão
+
+js-mthread-kv-engine = Motor
+
+js-mthread-kv-epoch = Época (UTC)
+
+js-mthread-kv-limits = Fases com um limite indicado
+
+js-mthread-kv-limits-value = { $n } ({ $met } atingidos, { $missed } não atingidos)
+
+js-mthread-kv-phases = Fases
+
+js-mthread-kv-seed = Semente
+
+js-mthread-kv-title = Fio
+
+js-mthread-layout-phases = Largura igual por fase
+
+js-mthread-layout-time = Tempo real da missão
+
+js-mthread-limit-title = { $phase }: o limite indicado, { $limit }
+
+js-mthread-log-scale = escala logarítmica
+
+js-mthread-margin-met = { $m }× o limite, atingido
+
+js-mthread-margin-missed = { $m }× o limite, não atingido
+
+js-mthread-metric-pos = Posição, 1 sigma
+
+js-mthread-metric-time = Desvio do relógio, 1 sigma
+
+js-mthread-metric-vel = Velocidade, 1 sigma
+
+js-mthread-na = n/d
+
+js-mthread-no-events = Esta fase não regista eventos.
+
+js-mthread-no-phases = o resultado não contém fases
+
+js-mthread-no-requirement = nenhum limite indicado
+
+js-mthread-no-series = O resultado não contém amostras desta grandeza.
+
+js-mthread-no-weak = O resultado não indica nenhum elo mais fraco.
+
+js-mthread-not-json = o resultado não é JSON ({ $reason })
+
+js-mthread-not-thread = isto não é um resultado de fio de missão (esquema { $schema } esperado)
+
+js-mthread-note-phases = Cada fase é desenhada com a mesma largura, para que uma fase curta seja tão visível como uma longa; o instante em que cada uma começa está por baixo da banda. Mude para o tempo real da missão para ver as proporções reais. As linhas tracejadas são os limites indicados no documento; uma quebra na linha é uma transferência.
+
+js-mthread-note-time = Tempo real da missão: uma fase de poucos minutos pode ser demasiado estreita para se ver. Mude para larguras iguais para a ler. As linhas tracejadas são os limites indicados no documento; uma quebra na linha é uma transferência.
+
+js-mthread-open-failed = Não foi possível abrir o exemplo: { $reason }.
+
+js-mthread-opened = { $name } lido nesta página; nada foi enviado para parte alguma.
+
+js-mthread-opening = A abrir o exemplo da classe Artemis…
+
+js-mthread-prov = Todos os rótulos desta página são do próprio motor; a página copia cada número do resultado e apenas o dimensiona.
+
+js-mthread-recorded = O resultado registado do motor (versão { $version }): uma cadeia ilustrativa construída a partir de descrições públicas de missões; os números são modelados e não representam nada de real.
+
+js-mthread-sets-peak = define o pico
+
+js-mthread-too-large = Esse ficheiro é maior do que { $mb } MB; não é lido.
+
+js-mthread-weak-line = O elo mais fraco é a fase <b>{ $phase }</b>: { $margin }× o seu limite indicado, definido por { $source }. A margem é o menor quociente entre um limite indicado e o pico da fase; acima de 1 satisfaz o requisito.
+
+js-mthread-weakest-flag = elo mais fraco
+
+js-mthread-weakest-mark = elo mais fraco
+
+js-obs-cell-extent = { $south }° a { $north }° N, { $west }° a { $east }° E
+
+js-obs-cell-read = { $state }: { $cell }. Amostradas { $sampled }, afetadas { $affected }.
+
+js-obs-cell-title = { $state }; amostradas { $sampled }, afetadas { $affected }
+
+js-obs-cell-title-reason = { $state } ({ $reason }); amostradas { $sampled }, afetadas { $affected }
+
+js-obs-clear-note = { $notClear } Uma célula sem entrada foi vista por menos de 5 aeronaves distintas e é retida; não é desenhada. A cor nunca é a única pista: «não observada» tem tracejado e a tabela descreve todos os estados.
+
+js-obs-col-affected = Aeronaves afetadas
+
+js-obs-col-bbox = Caixa delimitadora (S, O, N, E)
+
+js-obs-col-bytes = Bytes
+
+js-obs-col-cause = Causa
+
+js-obs-col-cell = Célula (latitude, longitude)
+
+js-obs-col-cells = Células
+
+js-obs-col-check = Verificação
+
+js-obs-col-file = Ficheiro
+
+js-obs-col-incident = Incidente
+
+js-obs-col-sampled = Aeronaves amostradas
+
+js-obs-col-sha = SHA-256 (manifesto)
+
+js-obs-col-share = Proporção afetada
+
+js-obs-col-state = Estado
+
+js-obs-col-why = Porquê não observada
+
+js-obs-day-alt = { $degraded } células degradadas, { $notDegraded } não degradadas, { $notObserved } não observadas, em { $date }.
+
+js-obs-day-heading = Dia { $date } (UTC)
+
+js-obs-ds-attribution = Atribuição
+
+js-obs-ds-coverage = Cobertura
+
+js-obs-ds-dataset = Conjunto de dados
+
+js-obs-ds-licence = Licença
+
+js-obs-ds-licence-address = Endereço da licença
+
+js-obs-ds-product = Produto
+
+js-obs-ds-written-by = Escrito pelo Kshana
+
+js-obs-err-cause = { $name } indica uma causa diferente de "não atribuída"; esta página não mostra nenhuma
+
+js-obs-err-feature-polygon = { $name }: o elemento { $n } não é um polígono de célula
+
+js-obs-err-feature-state = { $name }: o elemento { $n } tem o estado "{ $state }", que não é um de { $states }
+
+js-obs-err-incident-object = { $name }: o incidente { $n } não é um objeto
+
+js-obs-err-no-date = { $name } não indica nenhuma data
+
+js-obs-err-no-features = { $name } não tem elementos
+
+js-obs-err-no-incidents = { $name } não tem lista de incidentes
+
+js-obs-err-not-day = { $name } não é um ficheiro { $schema }
+
+js-obs-err-not-incident = { $name } não é um ficheiro { $schema }
+
+js-obs-err-not-json = { $what } não é JSON ({ $reason })
+
+js-obs-err-not-manifest = { $name } não é um ficheiro { $schema }
+
+js-obs-err-not-object = { $what } não é um objeto JSON
+
+js-obs-err-not-text = { $what } não é texto ou é maior do que { $mib } MiB
+
+js-obs-err-states = { $name } indica estados diferentes dos três que esta página mostra
+
+js-obs-file-matches = coincide
+
+js-obs-file-mismatch = não coincide
+
+js-obs-file-no-hash = nenhum hash indicado
+
+js-obs-file-not-opened = não aberto
+
+js-obs-files-note = Método { $method }. O SHA-256 de cada ficheiro é calculado aqui a partir do ficheiro que abriu e comparado com o manifesto; um ficheiro que não abriu não é verificado.
+
+js-obs-incident = incidente
+
+js-obs-incident-note = As células degradadas contíguas (diagonais incluídas) formam um incidente. A causa de cada incidente é: não atribuída. Isto não é uma confirmação nem um NOTAM.
+
+js-obs-kv-cells = Células publicadas
+
+js-obs-kv-day-wide = Efeito a todo o dia
+
+js-obs-kv-degraded = Degradadas
+
+js-obs-kv-not-degraded = Não degradadas
+
+js-obs-kv-not-observed = Não observadas (publicadas)
+
+js-obs-kv-scope = Âmbito
+
+js-obs-map-aria = { $summary } A tabela abaixo lista todas as células.
+
+js-obs-means-degraded = Uma proporção elevada das aeronaves amostradas na célula comunicou baixa exatidão de navegação nesse dia, claramente acima do fundo desse dia.
+
+js-obs-means-not-degraded = Foram amostradas aeronaves suficientes e a proporção não atingiu a regra.
+
+js-obs-means-not-observed = Os dados não permitiram uma classificação. Isto não significa "livre".
+
+js-obs-na = n/d
+
+js-obs-no = não
+
+js-obs-no-cells = Nenhuma célula neste ficheiro
+
+js-obs-no-day-file = Os ficheiros de { $date } não têm ficheiro do dia (.geojson), pelo que não há nada para mostrar.
+
+js-obs-no-degraded = Nenhuma célula degradada neste dia.
+
+js-obs-no-file-read = Não foi possível ler nenhum ficheiro.
+
+js-obs-no-incident-file = Não foi aberto nenhum ficheiro de incidentes para este dia.
+
+js-obs-no-manifest = Não foi aberto nenhum manifesto para este dia, pelo que os ficheiros não podem ser verificados face aos seus hashes.
+
+js-obs-no-notice = Este ficheiro não traz aviso. A declaração consultiva no topo desta página aplica-se, ainda assim.
+
+js-obs-no-reason = nenhum motivo indicado
+
+js-obs-not-clear = Não observada não significa livre.
+
+js-obs-not-readable = { $name }: não é um ficheiro que esta página leia (.geojson, .incidents.json, .manifest.json ou .png).
+
+js-obs-not-stated = não indicado
+
+js-obs-note-day-wide = Este foi um dia de efeito a todo o dia: o fundo do dia era, ele próprio, elevado, pelo que nenhuma célula pôde ser classificada nesse dia. Isto não é uma afirmação de que o céu estivesse limpo.
+
+js-obs-note-summary-mismatch = O resumo indicado no ficheiro não coincide com as células que lista; os números são mostrados tal como estão escritos.
+
+js-obs-nothing-yet = Ainda nada para mostrar: abra também o ficheiro .geojson do dia.
+
+js-obs-notice = Aviso incluído no ficheiro: { $notice }
+
+js-obs-opened-day-file = Aberto { $days } dia a partir de { $files } ficheiro. Lido aqui; nada foi carregado.
+
+js-obs-opened-day-files = Aberto { $days } dia a partir de { $files } ficheiros. Lido aqui; nada foi carregado.
+
+js-obs-opened-days-file = Abertos { $days } dias a partir de { $files } ficheiro. Lido aqui; nada foi carregado.
+
+js-obs-opened-days-files = Abertos { $days } dias a partir de { $files } ficheiros. Lido aqui; nada foi carregado.
+
+js-obs-read-failed = { $name }: não foi possível ler ({ $reason }).
+
+js-obs-reason-day-wide = o fundo do dia era, ele próprio, elevado, pelo que nenhuma célula pôde ser classificada nesse dia
+
+js-obs-reason-insufficient = foram amostradas aeronaves a menos para fazer uma classificação
+
+js-obs-reason-no-background = não havia fundo do dia com que comparar a célula
+
+js-obs-release = Publicado não antes de { $when }: os produtos são publicados pelo menos { $hours } h após o fim do dia, em células de { $deg } graus. Isto não é uma vista em direto.
+
+js-obs-release-default = o fim do dia mais o atraso
+
+js-obs-show-all = Mostrar todas as { $n } células
+
+js-obs-state-degraded = Degradada
+
+js-obs-state-not-degraded = Não degradada
+
+js-obs-state-not-observed = Não observada
+
+js-obs-the-day-file = o ficheiro do dia
+
+js-obs-the-incident-file = o ficheiro de incidentes
+
+js-obs-the-manifest = o manifesto
+
+js-obs-too-large = { $name }: maior do que { $mib } MiB; abra um ficheiro mais pequeno.
+
+js-obs-unstated-number = um número não indicado de
+
+js-obs-withheld = retida
+
+js-obs-yes-no-call = sim: nenhuma célula pôde ser classificada
+
+js-opt-avail-label = Disponibilidade, limite máximo e disponibilidade em céu limpo por local
+
+js-opt-avail-note = Por local: a disponibilidade da ligação face aos desvanecimentos por nuvens e turbulência, o limite máximo que nenhuma margem adicional consegue elevar (nuvens e apontamento) e a disponibilidade sem quaisquer nuvens.
+
+js-opt-avail-title = Disponibilidade face ao limite máximo
+
+js-opt-bar-available = { $name }: disponível
+
+js-opt-bar-ceiling = { $name }: limite máximo
+
+js-opt-bar-clear-sky = { $name }: céu limpo
+
+js-opt-blurb-network = Um local do norte mais nublado, um central intermédio e um do sul mais limpo observam um terminal ótico LEO a 30 graus: com que frequência a ligação está ativa e o que acrescentam locais adicionais?
+
+js-opt-blurb-techniques = Uma ligação ascendente a 25 graus com nuvens e turbulência: o que acrescentam outro comprimento de onda, uma abertura maior, ótica adaptativa ou mais margem?
+
+js-opt-cloud-episode = episódio de nuvens
+
+js-opt-correlated = correlacionado
+
+js-opt-default-bars = barras
+
+js-opt-default-chart = gráfico
+
+js-opt-direction-wave = { $direction }, comprimento de onda { $wave }
+
+js-opt-diversity-label = Disponibilidade da rede face ao número de locais
+
+js-opt-diversity-note = Disponibilidade dos melhores 1, 2 e 3 locais, com condições meteorológicas independentes e com condições meteorológicas correlacionadas ao longo de { $km } km.
+
+js-opt-diversity-title = Diversidade de locais
+
+js-opt-fact-capture-loss = Perda de captura geométrica
+
+js-opt-fact-direction = Direção
+
+js-opt-fact-elevation = Elevação
+
+js-opt-fact-footprint = Pegada do feixe
+
+js-opt-fact-margin = Margem sem atmosfera
+
+js-opt-fact-received = Potência recebida, sem atmosfera
+
+js-opt-fact-sensitivity = Sensibilidade do recetor
+
+js-opt-fact-wavelength = Comprimento de onda
+
+js-opt-gain-points =
+    { $n ->
+        [one] +{ $n } ponto
+        [many] +{ $n } de pontos
+       *[other] +{ $n } pontos
+    }
+
+js-opt-hours = horas
+
+js-opt-independent = independente
+
+js-opt-link-down = ligação inativa
+
+js-opt-margin-label = Margem adicional necessária para cada objetivo de disponibilidade
+
+js-opt-margin-line-title = { $name }: margem da ligação, dB
+
+js-opt-margin-note = Margem de ligação adicional, em dB, por cima da ligação atual, para cada objetivo de disponibilidade; negativa significa que a ligação já tem mais do que precisa. Um objetivo acima do limite máximo de um local não tem margem que o alcance (o motor omite-o).
+
+js-opt-margin-title = Margem de que cada objetivo de disponibilidade precisa
+
+js-opt-model-output = Saída do modelo
+
+js-opt-na = n/d
+
+js-opt-no-data = Sem dados neste resultado.
+
+js-opt-no-series = Sem série temporal neste resultado.
+
+js-opt-no-source = nenhuma origem indicada
+
+js-opt-not-result = isto não é um resultado de atmosfera ótica com locais
+
+js-opt-open-failed = Não foi possível abrir { $title }: { $reason }.
+
+js-opt-opening = A abrir { $title }…
+
+js-opt-outage-label = Probabilidade de uma interrupção durar mais do que uma dada duração
+
+js-opt-outage-note = Probabilidade de uma interrupção durar mais do que uma dada duração, por local (eixo de tempo logarítmico).
+
+js-opt-outage-title = Quanto duram as interrupções
+
+js-opt-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+js-opt-prov = { $label } Locais: { $sites }.
+
+js-opt-realised-up = { $value } ativa
+
+js-opt-recorded = { $title }: o resultado registado do motor (versão { $version }). Saída do modelo, não uma medição.
+
+js-opt-result-not-json = o resultado não é JSON ({ $reason })
+
+js-opt-result-not-loaded = o resultado registado não foi carregado
+
+js-opt-series-label = Margem da ligação ao longo do tempo
+
+js-opt-series-note = Uma realização com semente do modelo de local indicado (semente { $seed }, { $hours } h com passos de { $step } s): episódios de nuvens, uma coluna de água líquida para cada um, uma amostra de cintilação por passo. A margem é o orçamento de desvanecimento menos os desvanecimentos por nuvens e por cintilação; a ligação está inativa abaixo de 0 dB. É uma única extração, não o clima: a sua disponibilidade difere da indicada pelo erro de amostragem da extração. A margem é limitada a −40 dB para o desenho.
+
+js-opt-series-title = Margem da ligação ao longo do tempo
+
+js-opt-stated = indicada { $value }
+
+js-opt-stripe-cloud = nuvens
+
+js-opt-stripe-down = inativa
+
+js-opt-stripe-title = { $what }, hora { $from } a { $to }
+
+js-opt-techniques-label = Ganho de disponibilidade por técnica
+
+js-opt-techniques-note = Ganho de disponibilidade em pontos percentuais sobre a linha de base, para um local.
+
+js-opt-techniques-title = O que cada técnica acrescenta
+
+js-opt-th-availability = Disponibilidade
+
+js-opt-th-ceiling = Limite máximo
+
+js-opt-th-clear-air = Perda em ar limpo
+
+js-opt-th-cloud-prob = Probabilidade de nuvens (entrada)
+
+js-opt-th-fade-budget = Orçamento de desvanecimento
+
+js-opt-th-latlon = Latitude, longitude
+
+js-opt-th-mean-outage = Interrupção média
+
+js-opt-th-outages-year = Interrupções por ano
+
+js-opt-th-scint = Índice de cintilação
+
+js-opt-th-site = Local
+
+js-opt-timing-label = Disponibilidade de temporização por local e relógio
+
+js-opt-timing-note = Fração de todo o tempo em que o erro de temporização se mantém dentro do limiar, por local e classe de relógio: o holdover do relógio face às durações das interrupções.
+
+js-opt-timing-title = Temporização mantida durante as interrupções
+
+js-opt-title-network = Três locais em terra, diversidade de locais
+
+js-opt-title-techniques = Uma ligação ascendente, técnicas de melhoria
+
+js-opt-x-best-n = melhores n locais
+
+js-opt-x-outage-duration = duração da interrupção, h (log)
+
+js-opt-x-target = objetivo de disponibilidade, %
+
+js-opt-y-availability = disponibilidade, %
+
+js-opt-y-extra-margin = margem adicional, dB
+
+js-opt-y-p-longer = P(mais longa)
+
+js-replay-band-calibrating = a calibrar
+
+js-replay-band-degraded = degradado
+
+js-replay-band-nominal = nominal
+
+js-replay-band-run-ended = { $band } · execução terminada
+
+js-replay-band-untrusted = não fiável
+
+js-replay-clock = T+{ $t } de { $max }
+
+js-replay-coast-hidden = costa oculta: as posições inventadas deste registo caem em terra
+
+js-replay-coast-note = Costa: { $source }, apenas ilustração.
+
+js-replay-coast-note-hidden = { $reason }.
+
+js-replay-coast-window = Natural Earth 1:10 milhões, janela { $window }
+
+js-replay-coast-world = Natural Earth 1:110 milhões (o contorno do mundo do Studio), grosseiro
+
+js-replay-demo-trust-log = { $title } (registo de confiança)
+
+js-replay-dir-east = este
+
+js-replay-dir-north = norte
+
+js-replay-dir-south = sul
+
+js-replay-dir-west = oeste
+
+js-replay-dirs-and = { $list } e { $last }
+
+js-replay-drawing-animation = A desenhar a animação…
+
+js-replay-drawing-frames = A desenhar os fotogramas…
+
+js-replay-every-direction = todas as direções
+
+js-replay-file-error = { $name }: { $error }
+
+js-replay-kinds-convergence-horizontal = Convergência: erro horizontal mediano
