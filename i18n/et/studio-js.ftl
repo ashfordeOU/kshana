@@ -3992,3 +3992,722 @@ js-geo-dated-sky = Dateeritud taevas on vaid nii hea kui elemendid ja nende vanu
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:157
 js-cat-lunar-station-coverage-public-sources-question = Ainult avalikult deklareeritud eelduste korral: millise parandatud vea annab jaam lõunapooluse kohal? Tulemuses domineerivad orbiidi elemendid, mis ei ole avalikud ja on seatud kui ILLUSTRATIVE; see on külmutatud ennustuse sisend. (modelleeritud; ei ole väide ühegi tegeliku süsteemi kohta)
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:322
+js-geo-dop-geometric = geomeetriline
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:322
+js-geo-dop-geometric-title = geomeetriline täpsuse halvenemise tegur
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:324
+js-geo-dop-horizontal = horisontaalne
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:324
+js-geo-dop-horizontal-title = horisontaalne täpsuse halvenemise tegur
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:323
+js-geo-dop-position = asukoht, 3D
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:323
+js-geo-dop-position-title = asukoha 3D täpsuse halvenemise tegur
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:326
+js-geo-dop-time = aeg
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:326
+js-geo-dop-time-title = aja täpsuse halvenemise tegur
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:325
+js-geo-dop-vertical = vertikaalne
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:325
+js-geo-dop-vertical-title = vertikaalne täpsuse halvenemise tegur
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:244
+js-geo-east = E
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:463
+js-geo-engine-not-running = Mootor ei tööta selles brauseris ({ $reason }).
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:243
+js-geo-err-geometry-object = mootori geomeetriavastus ei ole objekt
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:279
+js-geo-err-mc-object = mootori Monte Carlo vastus ei ole objekt
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:172
+js-geo-err-no-sentences = mootori vastuses pole lauseid
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:317
+js-geo-err-reply-kind-not-json = mootori { $what } vastus ei olnud JSON
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:171
+js-geo-err-reply-not-json = mootori vastus ei olnud JSON
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:358
+js-geo-error-line = Kui σ_UERE = { $uere } m, esitatud veamudeli korral (mootori näitajad): { $bits }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:353
+js-geo-error-line-needs = Asukohaviga ≈ σ_UERE × HDOP horisontaalselt ja σ_UERE × VDOP vertikaalselt; see näitaja vajab mootorit 0.36.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:357
+js-geo-error-rms-3d = 3D RMS σ_UERE × PDOP = { $m } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:356
+js-geo-error-rms-h = horisontaalne RMS σ_UERE × HDOP = { $m } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:355
+js-geo-error-sigma = 1-sigma viga ida { $east } m, põhi { $north } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:401
+js-geo-fact-ellipse-1s = Ellips, 1-sigma
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:401
+js-geo-fact-ellipse-1s-value = { $major } m × { $minor } m, pikk telg { $deg }° põhjast
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:402
+js-geo-fact-ellipse-pct = Ellips, { $pct } %
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:402
+js-geo-fact-ellipse-pct-scaled = { $major } m × { $minor } m (1-sigma × { $k })
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:402
+js-geo-fact-ellipse-pct-value = { $major } m × { $minor } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:408
+js-geo-fact-inside = 95 % ellipsi sees
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:408
+js-geo-fact-inside-value = { $pct } % punktidest
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:411
+js-geo-fact-line = { $key }: { $value }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:405
+js-geo-fact-mc = Monte Carlo
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:405
+js-geo-fact-mc-value =
+    { $n ->
+        [one] { $n } vähimruutude lahend, algväärtus { $seed }
+       *[other] { $n } vähimruutude lahendit, algväärtus { $seed }
+    }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:407
+js-geo-fact-rms-3d = Pilve RMS, 3D
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:407
+js-geo-fact-rms-3d-beside = { $rms } m, võrdluseks σ_UERE × PDOP = { $predicted } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:406
+js-geo-fact-rms-h = Pilve RMS, horisontaalne
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:406
+js-geo-fact-rms-h-beside = { $rms } m, võrdluseks σ_UERE × HDOP = { $predicted } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:406
+js-geo-fact-rms-value = { $rms } m
+
+# 2026-10-01-studio-rebuild/lib/geojson-layer.mjs:29
+js-geo-gj-not-geojson = { $name }: ei ole GeoJSON (oodati FeatureCollection'it, Feature'it või geomeetriat).
+
+# 2026-10-01-studio-rebuild/lib/geojson-layer.mjs:23
+js-geo-gj-not-json = { $name }: ei ole JSON ({ $reason }).
+
+# 2026-10-01-studio-rebuild/lib/geojson-layer.mjs:24
+js-geo-gj-not-object = { $name }: ei ole GeoJSON-objekt.
+
+# 2026-10-01-studio-rebuild/lib/geojson-layer.mjs:32
+js-geo-gj-too-many =
+    { $count ->
+        [one] { $name }: { $count } objekt; see leht joonistab kuni { $max }.
+       *[other] { $name }: { $count } objekti; see leht joonistab kuni { $max }.
+    }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:314
+js-geo-legend-item = { $label }: { $used } lahenduses { $total }-st
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:199
+js-geo-link-copied = Link kopeeritud.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:199
+js-geo-link-copied-no-tle = Link kopeeritud (ilma sinu kleebitud elementideta: link avab eelseadistused).
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:74
+js-geo-mc-off = Väljas
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-ellipse = veaellips
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-gdop = GDOP
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-leo = LEO
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-monte-carlo = Monte Carlo pilv
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-open-sky = avatud taeva osakaal
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-skyline = silmapiirijoon
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-tdop = TDOP
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:328
+js-geo-needs = vajab mootorit 0.36
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:377
+js-geo-needs-cap = Vajab mootorit 0.36
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:415
+js-geo-no = Ei
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:377
+js-geo-no-ellipse = Ellipsi pole
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:417
+js-geo-no-sats = Näidata pole ühtegi satelliiti.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:244
+js-geo-north = N
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:328
+js-geo-not-given = pole antud
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:263
+js-geo-note-elements-skipped =
+    { $count ->
+        [one] { $count } elemendikomplekt jäeti vahele: { $list }.
+       *[other] { $count } elemendikomplekti jäeti vahele: { $list }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:164
+js-geo-note-latitude-limited = See mootoriversioon modelleerib kohti kuni 89° kaugusel ekvaatorist; laiuskraad piirati selle väärtusega.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:162
+js-geo-note-leo-left-out = LEO: vajab mootorit 0.36; jäetud välja.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:346
+js-geo-note-no-engine = Mootor ei tööta selles brauseris, seega pole midagi näidata. See töötab WebAssembly'na; brauser või host, mis WebAssembly blokeerib, ei saa seda vaadet käivitada.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:168
+js-geo-note-pick-one = Vali vähemalt üks: GPS, Galileo ja BeiDou.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:163
+js-geo-note-skyline-not-applied = Silmapiirijoon on joonistatud, kuid mitte rakendatud: selle rakendamine vajab mootorit 0.36. Selle taha jäävad satelliidid loetakse siin ikkagi.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:261
+js-geo-note-skyline-source = Silmapiirijoon: { $source }.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:165
+js-geo-note-training-model = Mootori { $version } treeningtaeva mudel (nmea_training) ajahetkel { $instant }: nurgad täisastmetes ja DOP-id ühe kümnendkohaga, nagu vastuvõtja laused neid kannavad; fiks kasutab kuni 12 satelliiti, valituna signaali tugevuse järgi.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:259
+js-geo-note-unknown-systems =
+    { $count ->
+        [one] { $count } süsteemi satelliidikirje, mida see vaade ei joonista, jäeti välja.
+       *[other] { $count } süsteemi satelliidikirjet, mida see vaade ei joonista, jäeti välja.
+    }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:107
+js-geo-off-leo = LEO: vajab mootorit 0.36.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:112
+js-geo-off-monte-carlo = Monte Carlo pilv vajab mootorit 0.36.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:108
+js-geo-off-skyline = Silmapiirijoone rakendamine vajab mootorit 0.36: siin see ainult joonistatakse.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:88
+js-geo-offset-own = Nihe sinu elementide epohhist ({ $epoch })
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:88
+js-geo-offset-ref = Nihe konstellatsioonide etalonepohhist
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:341
+js-geo-open-sky-share = { $pct } % ülemisest poolkerast
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:141
+js-geo-out-of-range = Vahemikust väljas, seega jäetud viimasele heale väärtusele: { $names }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:186
+js-geo-own-elements-at = Sinu enda elemendid epohhil { $epoch }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:138
+js-geo-pick-constellation = Vali vähemalt üks konstellatsioon.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:22
+js-geo-place-geiranger = Geirangerfjord, Norra
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:22
+js-geo-place-manhattan = Midtown Manhattan, Ameerika Ühendriigid
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:21
+js-geo-place-oslo = Oslo sadam, Norra
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:21
+js-geo-place-rotterdam = Rotterdami sadam, Holland
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:22
+js-geo-place-singapore = Singapuri väin
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:21
+js-geo-place-tallinn = Tallinna sadam, Eesti
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:22
+js-geo-place-tromso = Tromsø, Norra
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:262
+js-geo-plot-desc =
+    { $total ->
+        [one] Graafikul { $total } satelliit, lahenduses { $used }.
+       *[other] Graafikul { $total } satelliiti, lahenduses { $used }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:336
+js-geo-preset-illustrative = Illustratiivne kontuur, mille see leht joonistas; silmapiirijoone rakendamine vajab mootorit 0.36.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:436
+js-geo-ready = Valmis.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:436
+js-geo-ready-needs = Valmis. Vajab mootorit 0.36: { $list }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:252
+js-geo-sat-masked = { $label } { $id }: asimuut { $az }°, kõrgus { $el }°, silmapiirijoone poolt varjatud
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:252
+js-geo-sat-unused = { $label } { $id }: asimuut { $az }°, kõrgus { $el }°, ei kasutata
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:252
+js-geo-sat-used = { $label } { $id }: asimuut { $az }°, kõrgus { $el }°, lahenduses
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:66
+js-geo-scenarios-under = Mootori stsenaariumid selle silmapiirijoone all:
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:73
+js-geo-sky-canyon = Tänavakanjon
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:73
+js-geo-sky-drawn = Joonistatud skyplotile
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:73
+js-geo-sky-open = Avatud silmapiir
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:73
+js-geo-sky-preset = Eelseadistus: { $name }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:434
+js-geo-sky-source = Taevas: { $source }.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:58
+js-geo-skyline-city-street = Linnatänav
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:61
+js-geo-skyline-container = Konteinerterminal
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:60
+js-geo-skyline-fjord = Fjord
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:59
+js-geo-skyline-harbour = Sadamasse lähenemine
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:160
+js-geo-skyline-load-failed = Silmapiirijoont ei õnnestunud laadida ({ $reason }).
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:213
+js-geo-skyplot-downloaded = Skyplot allalaaditud.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:214
+js-geo-skyplot-export-failed = Skyplotti ei õnnestunud eksportida ({ $reason }).
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:267
+js-geo-source-geometry = Kshana mootor { $version }, sky_geometry
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:434
+js-geo-source-line = { $source }.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:174
+js-geo-source-training = Kshana mootor { $version }, treeningtaeva mudel
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:244
+js-geo-south = S
+
+# 2026-10-01-studio-rebuild/lib/skyplot.mjs:17
+js-geo-style-own-elements = Sinu elemendid
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:207
+js-geo-svg-refused = mootori SVG lükati tagasi
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:416
+js-geo-table-count =
+    { $n ->
+        [one] { $n } satelliit, sama mis skyplotil.
+       *[other] { $n } satelliiti, sama mis skyplotil.
+    }
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:48
+js-geo-tle-epoch = Anna UTC epohh vahemikus 2000 kuni 2099.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:44
+js-geo-tle-paste-first = Kleebi kõigepealt üks või mitu kahe rea elementide komplekti.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:45
+js-geo-tle-too-large = Kleebitud elemendid on suuremad kui 4 MiB, mootori sisendipiir.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:415
+js-geo-used-masked = Ei: silmapiirijoone poolt varjatud
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:192
+js-geo-using-own = Kasutatakse sinu enda elemente. Link kannab ainult seda, et neid kasutati, mitte elemente endid.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:463
+js-geo-wasm-blocked = WebAssembly on blokeeritud
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:244
+js-geo-west = L
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:379
+js-geo-why = Miks
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:376
+js-geo-why-interim = Veaellips ja Monte Carlo pilv vajavad mootorit 0.36 (selle funktsioone sky_geometry ja sky_monte_carlo); selles lehes olev mootor on vanem.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:376
+js-geo-why-no-ellipse = Mootor ei andnud selle geomeetria jaoks ellipsit (fiksiks liiga vähe satelliite või singulaarne geomeetria).
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:376
+js-geo-why-no-ellipse-reason = Mootor ei andnud selle geomeetria jaoks ellipsit (fiksiks liiga vähe satelliite või singulaarne geomeetria): { $reason }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:376
+js-geo-why-waiting = Mootorit oodatakse.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:415
+js-geo-yes = Jah
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:105
+js-hold-axis-seconds = sekundit esimesest näidisest
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:129
+js-hold-axis-tau = vaatlusaeg τ, s (log)
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:103
+js-hold-axis-te = ajaviga, ns
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:89
+js-hold-band-title = Taastumisriba ±{ $band } ns
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:21
+js-hold-blurb-example = Näidised iga 5 s tagant: 600 s lukustatud, GNSS eemaldatud 600 s juures, holdover, GNSS taastatud 2400 s juures. Salvestis on näite jaoks loodud; see ei ole mõõtmine.
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:22
+js-hold-blurb-ptp4l = Samad neli sammu loetuna ptp4l servo logist (deemoni enda nihe, ns). Logi on näite jaoks kirjutatud; ühtegi deemonit ei käitatud.
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:95
+js-hold-budget-exceeded = { $name } ületati esmakordselt { $s } s pärast eemaldamist
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+js-hold-chip-baseline = Baastase maskide vastu
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+js-hold-chip-envelope = ePRTC-A holdoveri ümbrikkõver
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+js-hold-chip-holdover = Holdover maskide vastu
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:55
+js-hold-chip-measured = maski vastu mõõdetud
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+js-hold-chip-recovery = Taastumine
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:55
+js-hold-chip-words = Sõnades
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:124
+js-hold-curve-title = { $step }: { $which }, ns
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:119
+js-hold-curves-aria = { $which } vaatlusaja suhtes, koos maski piiridega
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:94
+js-hold-envelope-exceeded = ePRTC-A holdoveri ümbrikkõver ületati esmakordselt { $s } s pärast eemaldamist
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:141
+js-hold-envelope-exceeded-short = { $verdict }, ületati esmakordselt { $s } s pärast eemaldamist (salvestis on ümbrikkõvera perioodist lühem)
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:142
+js-hold-envelope-exceeded-value = { $verdict }, ületati esmakordselt { $s } s pärast eemaldamist
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:143
+js-hold-envelope-short = { $verdict } (salvestis on ümbrikkõvera perioodist lühem)
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:43
+js-hold-file-error = { $name }: { $error }.
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:40
+js-hold-file-not-json = { $name }: ei ole JSON.
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:46
+js-hold-file-read-here = { $name }, loetud siin; midagi ei laaditud üles.
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:38
+js-hold-file-too-large = { $name } on suurem, kui see leht loeb.
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:67
+js-hold-from-record = tulemuse salvestis
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:67
+js-hold-from-record-decimated = tulemuse salvestis, hõrendatud { $have } näidiseni { $total }-st
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-gnss-removed = GNSS eemaldatud
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-gnss-removed-stated = GNSS eemaldatud (operaatori märgitud)
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-gnss-restored = GNSS taastatud
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-gnss-restored-stated = GNSS taastatud (operaatori märgitud)
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-largest-at = { $value } hetkel T+{ $time } s
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:91
+js-hold-limit-label = ±{ $ns } ns { $step } mask
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:91
+js-hold-limit-title = { $id }: ±{ $ns } ns, maksimaalne absoluutne ajaviga sammul { $step }
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:128
+js-hold-mark-title = { $id } piir { $limit } ns kohal τ { $tau } s ({ $verdict }; { $source })
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-marker-time = { $name }, T+{ $time } s
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:15
+js-hold-na = n/a
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:102
+js-hold-no-curve = Ajavea kõverat pole: salvestist ei õnnestunud joonistamiseks reprodutseerida.
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:115
+js-hold-no-which-curve = Selles tulemuses pole kõverat { $which }.
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+js-hold-not-exceeded = ei ületatud
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-not-recovered = ei püsinud ribas
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:29
+js-hold-not-result = see ei ole holdoveri testi tulemus
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:32
+js-hold-open-failed = { $title } avamine ebaõnnestus: { $reason }.
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:23
+js-hold-opening = Avatakse { $title }…
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:72
+js-hold-phase-baseline = Baastase: lukustatud
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:72
+js-hold-phase-holdover = Holdover: GNSS eemaldatud
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:72
+js-hold-phase-recovery = Taastumine: GNSS taastatud
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:87
+js-hold-phase-title = { $phase }, T+{ $from } s kuni { $to } s
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:47
+js-hold-read-failed = Lugemine või joonistamine ebaõnnestus ({ $reason }).
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:30
+js-hold-recorded = { $title }: mootori salvestatud tulemus (versioon { $version }).
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-recovered = ribas ±{ $band } ns { $dwell } s, { $after } s pärast GNSS-i naasmist
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:28
+js-hold-result-not-json = tulemus ei ole JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:26
+js-hold-result-not-loaded = salvestatud tulemust ei laaditud
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:150
+js-hold-row-envelope = ePRTC-A holdoveri ümbrikkõver
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-frequency = Hoitud sageduse nihe (sobitatud tõus)
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-largest = Suurim absoluutne ajaviga
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-length = Holdoveri kestus
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:150
+js-hold-row-margin = Väikseim varu ümbrikkõvera sees
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-row-peak = Tipp pärast taastamist
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-row-recovery = Taastumine
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-row-recovery-step = Suurim samm taastumise ajal
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-residual = Jääk selle sirge ümber (rms)
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-step = Samm eemaldamise hetkel
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:68
+js-hold-status-final = { $status } { $label }; maski vastu mõõdetud.
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:136
+js-hold-step-span = T+{ $from } kuni { $to } s
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:86
+js-hold-te-aria = Ajaviga üle salvestise, koos faaside ja maski piiridega
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:101
+js-hold-te-line-title = Ajaviga, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:58
+js-hold-te-note = Ajaviga alates { $from }. Need kaks ajahetke märkis { $by }.
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+js-hold-th-budget = Eelarve
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+js-hold-th-budget-limit = Piir |TE|, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+js-hold-th-first-exceeded = Esmakordselt ületatud pärast eemaldamist, s
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-largest = Suurim |TE|, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-limit = Piir, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-margin = Varu, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-mask = Mask
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-mean = Keskmine, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-measured-on = Mõõdetud
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-metric = Mõõdik
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-rms = RMS, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-samples = Näidised
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-source = Allikas
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-span = Ulatus
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-step = Samm
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-value = Väärtus, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-verdict = Otsus
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-worst-at = Halvim kohal τ või T+, s
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:21
+js-hold-title-example = Ajavea salvestis
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:22
+js-hold-title-ptp4l = linuxptp logi
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:64
+js-hold-why-no-samples = tulemus ei sisalda ajavea näidiseid (record.series), seega kõverat ei joonistata
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:65
+js-hold-why-not-series = tulemuses olev jada ei ole aegrida (vähem kui kaks näidist või aeg ei kasva), seega kõverat ei joonistata
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:58
+js-hold-why-sentence = { $why }.
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:66
+js-hold-why-too-many = tulemuses olevas jadas on { $have } näidist, kus mootor hindas { $scored }, seega kõverat ei joonistata
+
+# 2026-10-01-studio-rebuild/interference/interference.js:178
+js-interf-attribution = Omistamine
+
+# 2026-10-01-studio-rebuild/interference/interference.js:413
+js-interf-build-failed = { $name }: koostamine ebaõnnestus ({ $reason }).
+
+# 2026-10-01-studio-rebuild/interference/interference.js:409
+js-interf-built-day-maps =
+    { $n ->
+        [one] Koostati { $n } päevakaart ({ $name }, mootor { $version }), selles brauseris.
+       *[other] Koostati { $n } päevakaarti ({ $name }, mootor { $version }), selles brauseris.
+    }
+
+# 2026-10-01-studio-rebuild/interference/interference.js:411
+js-interf-built-detail = { $date }: { $published } lahtrit avaldatud, { $flagged } märgitud
+
+# 2026-10-01-studio-rebuild/interference/interference.js:446
+js-interf-built-from-sample = Koostatud sünteetilisest { $kind } näidisest mootoriga, selles brauseris. Väljamõeldud aruanded; ühtegi päris lennukit, laeva ega päeva pole.
+
+# 2026-10-01-studio-rebuild/interference/interference.js:411
+js-interf-built-maps =
+    { $n ->
+        [one] Koostati { $n } kaart ({ $detail }). Ainult koond: märgitud lahter ei nimeta põhjuseks häiret.
+       *[other] Koostati { $n } kaarti ({ $detail }). Ainult koond: märgitud lahter ei nimeta põhjuseks häiret.
+    }
+
+# 2026-10-01-studio-rebuild/interference/interference.js:407
+js-interf-built-none = { $name }: mootor ei koostanud ühtegi kaarti.
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:73
+js-interf-caveat-coverage = Kate järgib andmeallikat; loe katte märkusi.
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:71
+js-interf-caveat-no-colour = Värvita lahtrit ei vaadeldud. See ei ole tõend, et ala oli puhas.
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:70
+js-interf-caveat-not-finding = Halvenenud või anomaalne lahter ei ole häire tuvastus. On ka muid põhjuseid.
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:72
+js-interf-caveat-past-reports = See on varasemate asukohaaruannete kirjeldus, mitte prognoos ega ühegi vastuvõtja mõõtmine.
+
+# 2026-10-01-studio-rebuild/interference/interference.js:216
+js-interf-caveats = Piirangud
+
+# 2026-10-01-studio-rebuild/interference/interference.js:400
+js-interf-cell-size-rule = Lahtri suurus peab olema kraadide arv üle 0 ja kuni 10 või tühi vaikeväärtuse 0.5 jaoks.
+
+# 2026-10-01-studio-rebuild/interference/interference.js:431
+js-interf-check-failed = { $name }: kontrollimine ebaõnnestus ({ $reason }).
+
+# 2026-10-01-studio-rebuild/interference/interference.js:152
+js-interf-click-cell = Näitajate nägemiseks klõpsa lahtril või fokusseeri kaart ja kasuta nooleklahve.
