@@ -47,3 +47,7 @@ seg-b03d56f501c3 = 種類
 seg-35bf9a48e566 = 項目
 
 seg-f3526b0d95f8 = 測定値
+
+seg-7634c6f4b32c = リンク
+
+seg-b966dd26caa6 = データセット
