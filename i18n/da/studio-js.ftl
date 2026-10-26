@@ -7126,3 +7126,684 @@ js-mthread-kv-title = Forløb
 
 # 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:39
 js-mthread-layout-phases = Lige bredde pr. fase
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:39
+js-mthread-layout-time = Sand missionstid
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:148
+js-mthread-limit-title = { $phase }: den angivne grænse, { $limit }
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:163
+js-mthread-log-scale = logaritmisk skala
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:84
+js-mthread-margin-met = { $m }× grænsen, nået
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:84
+js-mthread-margin-missed = { $m }× grænsen, ikke nået
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:107
+js-mthread-metric-pos = Position, 1 sigma
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:107
+js-mthread-metric-time = Urbias, 1 sigma
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:107
+js-mthread-metric-vel = Hastighed, 1 sigma
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:21
+js-mthread-na = n/a
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:67
+js-mthread-no-events = Denne fase registrerer ingen hændelser.
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:67
+js-mthread-no-phases = resultatet indeholder ingen faser
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:84
+js-mthread-no-requirement = ingen grænse angivet
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:127
+js-mthread-no-series = Resultatet indeholder ingen sampler af denne størrelse.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:23
+js-mthread-no-weak = Resultatet angiver intet svageste led.
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:46
+js-mthread-not-json = resultatet er ikke JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:47
+js-mthread-not-thread = dette er ikke et missionsforløbsresultat (skema { $schema } forventet)
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:46
+js-mthread-note-phases = Hver fase tegnes med samme bredde, så en kort fase er lige så synlig som en lang; tidspunktet, hvor hver begynder, står under båndet. Skift til sand missionstid for at se de virkelige proportioner. Stiplede linjer er de grænser, dokumentet angiver; et brud i linjen er en overdragelse.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:47
+js-mthread-note-time = Sand missionstid: en fase på få minutter kan være for smal til at kunne ses. Skift til lige brede faser for at læse den. Stiplede linjer er de grænser, dokumentet angiver; et brud i linjen er en overdragelse.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:86
+js-mthread-open-failed = Eksemplet kunne ikke åbnes: { $reason }.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:96
+js-mthread-opened = { $name } læst på denne side; intet blev sendt nogen steder hen.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:78
+js-mthread-opening = Åbner Artemis-klasse-eksemplet…
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:74
+js-mthread-prov = Hver etiket på denne side er motorens egen; siden kopierer hvert tal fra resultatet og skalerer det kun.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:85
+js-mthread-recorded = Motorens optagede resultat (version { $version }): en illustrativ kæde bygget ud fra offentlige missionsbeskrivelser; tallene er modellerede og står ikke for noget virkeligt.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:66
+js-mthread-sets-peak = fastsætter toppen
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:91
+js-mthread-too-large = Den fil er større end { $mb } MB; den læses ikke.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:22
+js-mthread-weak-line = Det svageste led er fasen <b>{ $phase }</b>: { $margin }× dens angivne grænse, fastsat af { $source }. Marginen er det mindste forhold mellem en angivet grænse og fasens top; over 1 ligger inden for kravet.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:53
+js-mthread-weakest-flag = svageste led
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:158
+js-mthread-weakest-mark = svageste led
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:147
+js-obs-cell-extent = { $south }° til { $north }° N, { $west }° til { $east }° Ø
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:89
+js-obs-cell-read = { $state }: { $cell }. Samplet { $sampled }, berørt { $affected }.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:175
+js-obs-cell-title = { $state }; samplet { $sampled }, berørt { $affected }
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:174
+js-obs-cell-title-reason = { $state } ({ $reason }); samplet { $sampled }, berørt { $affected }
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:71
+js-obs-clear-note = { $notClear } En celle uden en post blev set af færre end 5 forskellige fly og er tilbageholdt; den tegnes ikke. Farve er aldrig det eneste signal: ikke observeret er skraveret, og tabellen angiver hver tilstand i ord.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-affected = Berørte fly
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:99
+js-obs-col-bbox = Afgrænsningsramme (S, V, N, Ø)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-col-bytes = Bytes
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:99
+js-obs-col-cause = Årsag
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-cell = Celle (breddegrad, længdegrad)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:99
+js-obs-col-cells = Celler
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-col-check = Kontrol
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-col-file = Fil
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:99
+js-obs-col-incident = Hændelse
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-sampled = Fly samplet
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-col-sha = SHA-256 (manifest)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-share = Berørt andel
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-state = Tilstand
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-why = Hvorfor ikke observeret
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:132
+js-obs-day-alt = { $degraded } celler forringet, { $notDegraded } ikke forringet, { $notObserved } ikke observeret, den { $date }.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:63
+js-obs-day-heading = Dag { $date } (UTC)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-attribution = Kildeangivelse
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-coverage = Dækning
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-dataset = Datasæt
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-licence = Licens
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-licence-address = Licensadresse
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-product = Produkt
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-written-by = Skrevet af Kshana
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:96
+js-obs-err-cause = { $name } angiver en anden årsag end "ikke tillagt"; denne side viser ingen
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:70
+js-obs-err-feature-polygon = { $name }: objekt { $n } er ikke et cellepolygon
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:68
+js-obs-err-feature-state = { $name }: objekt { $n } har tilstanden "{ $state }", som ikke er en af { $states }
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:100
+js-obs-err-incident-object = { $name }: hændelse { $n } er ikke et objekt
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:62
+js-obs-err-no-date = { $name } angiver ingen dato
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:63
+js-obs-err-no-features = { $name } har ingen objekter
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:97
+js-obs-err-no-incidents = { $name } har ingen hændelsesliste
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:61
+js-obs-err-not-day = { $name } er ikke en { $schema }-fil
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:95
+js-obs-err-not-incident = { $name } er ikke en { $schema }-fil
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:46
+js-obs-err-not-json = { $what } er ikke JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:110
+js-obs-err-not-manifest = { $name } er ikke en { $schema }-fil
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:46
+js-obs-err-not-object = { $what } er ikke et JSON-objekt
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:45
+js-obs-err-not-text = { $what } er ikke tekst eller er større end { $mib } MiB
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:64
+js-obs-err-states = { $name } nævner andre tilstande end de tre, denne side viser
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:124
+js-obs-file-matches = stemmer
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:124
+js-obs-file-mismatch = stemmer ikke
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:124
+js-obs-file-no-hash = ingen hashværdi angivet
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:122
+js-obs-file-not-opened = ikke åbnet
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:119
+js-obs-files-note = Metode { $method }. Hver fils SHA-256 beregnes her ud fra den fil, du åbnede, og sammenlignes med manifestet; en fil, du ikke åbnede, kontrolleres ikke.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:102
+js-obs-incident = hændelse
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:97
+js-obs-incident-note = Tilstødende forringede celler (diagonaler medregnet) udgør én hændelse. Årsagen til hver hændelse er: ikke tillagt. Dette er ikke en bekræftelse og ikke en NOTAM.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-cells = Offentliggjorte celler
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-day-wide = Effekt for hele dagen
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-degraded = Forringet
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-not-degraded = Ikke forringet
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-not-observed = Ikke observeret (offentliggjort)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-scope = Omfang
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:178
+js-obs-map-aria = { $summary } Tabellen nedenfor viser hver celle.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:20
+js-obs-means-degraded = En høj andel af de fly, der blev samplet i cellen, rapporterede lav navigationsnøjagtighed den dag, tydeligt over dagens baggrund.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:21
+js-obs-means-not-degraded = Der blev samplet nok fly, og andelen opfyldte ikke reglen.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:22
+js-obs-means-not-observed = Data gav ikke grundlag for en vurdering. Det er ikke "klart".
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-na = n/a
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-no = nej
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:161
+js-obs-no-cells = Ingen celler i denne fil
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:45
+js-obs-no-day-file = Filerne for { $date } har ingen dagsfil (.geojson), så der er intet at vise for den.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:139
+js-obs-no-degraded = Ingen forringede celler denne dag.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:47
+js-obs-no-file-read = Ingen fil kunne læses.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:96
+js-obs-no-incident-file = Der blev ikke åbnet nogen hændelsesfil for denne dag.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:118
+js-obs-no-manifest = Der blev ikke åbnet noget manifest for denne dag, så filerne kan ikke kontrolleres mod deres hashværdier.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:129
+js-obs-no-notice = Denne fil bærer ingen meddelelse. Den vejledende erklæring øverst på siden gælder alligevel.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:148
+js-obs-no-reason = ingen årsag angivet
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:28
+js-obs-not-clear = Ikke observeret er ikke klart.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:41
+js-obs-not-readable = { $name }: ikke en fil, som denne side læser (.geojson, .incidents.json, .manifest.json eller .png).
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:68
+js-obs-not-stated = ikke angivet
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:138
+js-obs-note-day-wide = Dette var en dag med effekt for hele dagen: dagens baggrund var i sig selv høj, så ingen celle kunne vurderes den dag. Det er ikke en udtalelse om, at himlen var ren.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:141
+js-obs-note-summary-mismatch = Det sammendrag, filen angiver, stemmer ikke med de celler, den opregner; tallene vises, som de står.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:47
+js-obs-nothing-yet = Intet at vise endnu: åbn også dagens .geojson-fil.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:129
+js-obs-notice = Meddelelse i filen: { $notice }
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:24
+js-obs-opened-day-file = Åbnede { $days } dag fra { $files } fil. Læst her; intet blev uploadet.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:23
+js-obs-opened-day-files = Åbnede { $days } dag fra { $files } filer. Læst her; intet blev uploadet.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:22
+js-obs-opened-days-file = Åbnede { $days } dage fra { $files } fil. Læst her; intet blev uploadet.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:21
+js-obs-opened-days-files = Åbnede { $days } dage fra { $files } filer. Læst her; intet blev uploadet.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:43
+js-obs-read-failed = { $name }: kunne ikke læses ({ $reason }).
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:32
+js-obs-reason-day-wide = dagens baggrund var i sig selv høj, så ingen celle kunne vurderes den dag
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:30
+js-obs-reason-insufficient = der blev samplet for få fly til at foretage en vurdering
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:31
+js-obs-reason-no-background = der var ingen baggrund for dagen at sammenligne cellen med
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:66
+js-obs-release = Frigivet tidligst { $when }: produkter offentliggøres mindst { $hours } timer efter dagens afslutning, på celler på { $deg } grader. Dette er ikke en levende visning.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:66
+js-obs-release-default = dagens afslutning plus forsinkelsen
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:113
+js-obs-show-all = Vis alle { $n } celler
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:15
+js-obs-state-degraded = Forringet
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:16
+js-obs-state-not-degraded = Ikke forringet
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:17
+js-obs-state-not-observed = Ikke observeret
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:57
+js-obs-the-day-file = dagsfilen
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:92
+js-obs-the-incident-file = hændelsesfilen
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:107
+js-obs-the-manifest = manifestet
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:32
+js-obs-too-large = { $name }: større end { $mib } MiB; åbn en mindre fil.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:131
+js-obs-unstated-number = et uangivet antal
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:40
+js-obs-withheld = tilbageholdt
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-yes-no-call = ja: ingen celle kunne vurderes
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:146
+js-opt-avail-label = Tilgængelighed, loft og tilgængelighed ved klar himmel pr. sted
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:145
+js-opt-avail-note = Pr. sted: forbindelsens tilgængelighed mod fading fra skyer og turbulens, det loft, ingen ekstra margin kan løfte (skyer og pejling), og tilgængeligheden helt uden skyer.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:145
+js-opt-avail-title = Tilgængelighed mod loftet
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:146
+js-opt-bar-available = { $name }: tilgængelig
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:146
+js-opt-bar-ceiling = { $name }: loft
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:146
+js-opt-bar-clear-sky = { $name }: klar himmel
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:19
+js-opt-blurb-network = Et skyet nordligt, et middelskyet centralt og et klarere sydligt sted ser en optisk terminal i lav jordbane ved 30 grader: hvor ofte er forbindelsen oppe, og hvad giver ekstra steder?
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:20
+js-opt-blurb-techniques = Én uplink ved 25 grader i skyer og turbulens: hvad giver en anden bølgelængde, en større apertur, adaptiv optik eller mere margin?
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:128
+js-opt-cloud-episode = skyepisode
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-correlated = korrelerede
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:69
+js-opt-default-bars = søjler
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:80
+js-opt-default-chart = diagram
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:173
+js-opt-direction-wave = { $direction }, { $wave } bølge
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-diversity-label = Netværkets tilgængelighed mod antallet af steder
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:153
+js-opt-diversity-note = Tilgængelighed for de bedste 1, 2 og 3 steder, med uafhængigt vejr og med vejr korreleret over { $km } km.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:153
+js-opt-diversity-title = Stedsdiversitet
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:174
+js-opt-fact-capture-loss = Geometrisk opsamlingstab
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:173
+js-opt-fact-direction = Retning
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:173
+js-opt-fact-elevation = Elevation
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:175
+js-opt-fact-footprint = Strålens fodaftryk
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:174
+js-opt-fact-margin = Margin uden atmosfære
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:174
+js-opt-fact-received = Modtaget effekt, uden atmosfære
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:175
+js-opt-fact-sensitivity = Modtagerens følsomhed
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:173
+js-opt-fact-wavelength = Bølgelængde
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:155
+js-opt-gain-points = +{ $n } point
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:133
+js-opt-hours = timer
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-independent = uafhængige
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:127
+js-opt-link-down = forbindelsen nede
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:148
+js-opt-margin-label = Ekstra margin, der er brug for til hvert tilgængelighedsmål
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:125
+js-opt-margin-line-title = { $name }: forbindelsesmargin, dB
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:147
+js-opt-margin-note = Ekstra forbindelsesmargin, i dB oven på den nuværende forbindelse, for hvert tilgængelighedsmål; negativ betyder, at forbindelsen allerede har mere, end den behøver. Et mål over et steds loft har ingen margin, der når det (motoren udelader det).
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:147
+js-opt-margin-title = Den margin, hvert tilgængelighedsmål har brug for
+
+# 2026-10-01-studio-rebuild/optical/optical.js:39
+js-opt-model-output = Modeloutput
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:167
+js-opt-na = n/a
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:83
+js-opt-no-data = Ingen data i dette resultat.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:112
+js-opt-no-series = Ingen tidsserie i dette resultat.
+
+# 2026-10-01-studio-rebuild/optical/optical.js:42
+js-opt-no-source = ingen kilde angivet
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:37
+js-opt-not-result = dette er ikke et resultat for optisk atmosfære med steder
+
+# 2026-10-01-studio-rebuild/optical/optical.js:30
+js-opt-open-failed = { $title } kunne ikke åbnes: { $reason }.
+
+# 2026-10-01-studio-rebuild/optical/optical.js:20
+js-opt-opening = Åbner { $title }…
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:150
+js-opt-outage-label = Sandsynlighed for, at et udfald varer længere end en given varighed
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:149
+js-opt-outage-note = Sandsynlighed for, at et udfald varer længere end en given varighed, pr. sted (logaritmisk tidsakse).
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:149
+js-opt-outage-title = Hvor længe udfald varer
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:96
+js-opt-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+# 2026-10-01-studio-rebuild/optical/optical.js:42
+js-opt-prov = { $label } Steder: { $sites }.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:119
+js-opt-realised-up = { $value } oppe
+
+# 2026-10-01-studio-rebuild/optical/optical.js:28
+js-opt-recorded = { $title }: motorens optagede resultat (version { $version }). Modeloutput, ikke en måling.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:36
+js-opt-result-not-json = resultatet er ikke JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/optical/optical.js:23
+js-opt-result-not-loaded = det optagede resultat blev ikke indlæst
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:110
+js-opt-series-label = Forbindelsesmargin mod tid
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:143
+js-opt-series-note = Én seedet realisering af den angivne stedsmodel (seed { $seed }, { $hours } h med trin på { $step } s): skyepisoder, en væskevandssøjle for hver, ét scintillationssample pr. trin. Marginen er fadingbudgettet minus fadingen fra skyer og scintillation; forbindelsen er nede under 0 dB. Det er ét udtræk, ikke klimaet: dens tilgængelighed afviger fra den angivne med udtrækkets stikprøvefejl. Marginen er beskåret ved −40 dB af hensyn til tegningen.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:143
+js-opt-series-title = Forbindelsesmargin mod tid
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:119
+js-opt-stated = angivet { $value }
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:129
+js-opt-stripe-cloud = sky
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:129
+js-opt-stripe-down = nede
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:126
+js-opt-stripe-title = { $what }, time { $from } til { $to }
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:156
+js-opt-techniques-label = Tilgængelighedsgevinst pr. teknik
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:156
+js-opt-techniques-note = Tilgængelighedsgevinst i procentpoint over baseline, for ét sted.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:156
+js-opt-techniques-title = Hvad hver teknik giver
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-availability = Tilgængelighed
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-ceiling = Loft
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-clear-air = Tab i klar luft
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-cloud-prob = Skysandsynlighed (input)
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-fade-budget = Fadingbudget
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-latlon = Breddegrad, længdegrad
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-mean-outage = Gennemsnitligt udfald
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-outages-year = Udfald pr. år
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-scint = Scintillationsindeks
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-site = Sted
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:152
+js-opt-timing-label = Tilgængelighed af tidssynkronisering pr. sted og ur
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:152
+js-opt-timing-note = Andel af hele tiden, hvor tidsfejlen holder sig inden for tærsklen, pr. sted og urklasse: urets holdover mod udfaldenes varighed.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:152
+js-opt-timing-title = Tidssynkronisering holdt gennem udfaldene
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:19
+js-opt-title-network = Tre jordstationer, stedsdiversitet
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:20
+js-opt-title-techniques = Én uplink, forbedringsteknikker
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-x-best-n = de bedste n steder
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:150
+js-opt-x-outage-duration = udfaldets varighed, h (log)
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:148
+js-opt-x-target = tilgængelighedsmål, %
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-y-availability = tilgængelighed, %
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:148
+js-opt-y-extra-margin = ekstra margin, dB
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:150
+js-opt-y-p-longer = P(længere)
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:47
+js-replay-band-calibrating = kalibrerer
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:49
+js-replay-band-degraded = forringet
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:48
+js-replay-band-nominal = nominel
+
+# 2026-10-01-studio-rebuild/replay/replay.js:89
+js-replay-band-run-ended = { $band } · kørslen sluttede
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:50
+js-replay-band-untrusted = ikke tiltroet
+
+# 2026-10-01-studio-rebuild/replay/replay.js:101
+js-replay-clock = T+{ $t } af { $max }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:235
+js-replay-coast-hidden = kyst skjult: denne logs opdigtede positioner ligger på land
+
+# 2026-10-01-studio-rebuild/replay/replay.js:76
+js-replay-coast-note = Kyst: { $source }, kun til illustration.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:76
+js-replay-coast-note-hidden = { $reason }.
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:217
+js-replay-coast-window = Natural Earth 1:10 millioner, vindue { $window }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:226
+js-replay-coast-world = Natural Earth 1:110 millioner (Studioets verdensomrids), grov
+
+# 2026-10-01-studio-rebuild/replay/replay.js:63
+js-replay-demo-trust-log = { $title } (tillidslog)
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-east = øst
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-north = nord
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-south = syd
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-west = vest
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:141
+js-replay-dirs-and = { $list } og { $last }
+
+# 2026-10-01-studio-rebuild/replay/replay.js:168
+js-replay-drawing-animation = Tegner animationen…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:177
+js-replay-drawing-frames = Tegner billedene…
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:140
+js-replay-every-direction = alle retninger
+
+# 2026-10-01-studio-rebuild/replay/replay.js:149
+js-replay-file-error = { $name }: { $error }
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:481
+js-replay-kinds-convergence-horizontal = Konvergens: median af den horisontale fejl
