@@ -7,3 +7,5 @@ seg-9120d3e96e5e = lezen
 seg-5ad814c7ef9e = Notities
 
 seg-aab745a65e76 = Module
+
+seg-bf09433a7342 = GeoJSON
