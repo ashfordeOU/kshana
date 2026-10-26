@@ -5,3 +5,7 @@ seg-1f17ef6a853e = 引擎 v{ $version } 的场景类型，所属类别为<a1>月
 seg-1c1eeb2dcaa0 = 类别页面：<a1>月球与地月空间</a1>
 
 seg-619127334cf3 = 验证矩阵中没有任何一行按名称列出此类型；其结果上的标签是引擎自己的，见上文。
+
+seg-8f8871ac8a0f = 专题页面：<a1>LUNAR-REFERENCE-STATION.md</a1>
+
+seg-a2889fb2b42a = 专题页面：<a1>integrations.md</a1>
