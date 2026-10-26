@@ -113,7 +113,7 @@ studio-ledger-rows =
 studio-recorded-in-english = Optaget på engelsk
 studio-lang-engine-fallback = Motorens tekst for dette sprog kunne ikke indlæses; engelsk vises.
 
-studio-geometry-kshana-home = { -brand } forside
+studio-geometry-kshana-home = Kshana forside
 
 studio-geometry-back-to-the-studio = Tilbage til Studio
 
