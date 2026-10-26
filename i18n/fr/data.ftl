@@ -3074,3 +3074,246 @@ dat-a3c0d41e4b56 = Intégration indépendante par EDS Monte-Carlo numpy du bruit
 
 # data/verification-matrix.json
 dat-76097bbb6a19 = hybrid_integrity::tests (le rapport égale les deux branches émises divisées, à { "1e-15" } près en relatif, et son inverse et ses formes en décibels concordent ; la portée et le sigma de temps de chaque branche sont reliés exactement par c ; la configuration commune émise est vérifiée égale à la portée et au temps d'intégration propres du scénario et la portée de la branche RF est vérifiée égale à celle de la branche optique ; le C/N0 de la branche RF est identique bit à bit à celui du bloc de disponibilité, issu d'un seul bilan de liaison, et non d'une redérivation ; la propriété À ARMES ÉGALES est MEASURED plutôt qu'affirmée -- quadrupler le temps d'accumulation commun divise par deux la branche optique à { "1e-12" } et la branche RF à { "1e-7" } près et laisse le rapport inchangé à { "3.19e-9" } près en relatif, ce qu'une branche moyennant secrètement sur autre chose ne pourrait pas faire ; un remplacement rf_dll_bandwidth_hz qui rompt le temps de moyennage commun rend le rapport null avec une raison nommant les deux temps, alors que les deux branches sont toujours émises ; une exécution aller simple rend la branche de comparaison identique bit à bit au chiffre principal publié avec un facteur de pénalité d'exactement { "1" }, et une exécution aller-retour reproduit la pénalité 0.5/sqrt(perte géométrique du trajet retour) recalculée à partir du propre geometric_loss_db du rapport à { "1e-12" } près)
+
+# data/verification-matrix.json
+dat-43824928dcfa = Réimplémentation numpy indépendante de la règle à quatre régions (scripts/gen_tib_scorer_reference.py) sur le même jeu d'échantillons ; méthode citée d'après le diagramme d'intégrité Stanford–ESA (Tossaint et al., ION GNSS { "2007" }) et le MOPS WAAS RTCA DO-229. PAS un oracle de précision ExternalDataset — le banc d'essai est à l'abri de l'honnêteté.
+
+# data/verification-matrix.json
+dat-ad2f021526e3 = Recomptage indépendant des régions par numpy dans tests/fixtures/tib/reference.json ; simple recoupement de la mécanique du noteur, aucune affirmation de précision.
+
+# data/verification-matrix.json
+dat-074151140053 = Reproduction numpy indépendante de la covariance croisée et de l'inégalité de biais fusionné corrélé contre indépendant (InternalConsistency). Ensemble de sources représentatif ; scénario modélisé.
+
+# data/verification-matrix.json
+dat-329d1a3f6406 = Reproduction numpy indépendante de la statistique + test de propriété selon lequel une injection de mode commun la gonfle (InternalConsistency). Scénario modélisé. { "0.30" } tour { "2" } (préenregistré f9aa360d), bloqué (reste MODELLED) : le gesv LAPACK de numpy { "2.3.5" } reproduit la valeur de la statistique sur { "261" } cas versés (à { "3.5e-15" } près pour les bien conditionnés, { "1.2e-9" } pour un conditionnement allant jusqu'à { "6.1e7" }) ; la loi nulle du chi-deux({ "1" }) est un théorème cité et les séparations deux à deux plates une identité sans sortie du moteur à comparer, de sorte que la délimitation attend une décision du responsable
+
+# data/verification-matrix.json
+dat-c445be3a080f = Reproduction d'algèbre linéaire numpy/scipy indépendante sur de vraies lignes de visée DE440 dans le repère PA de la Lune (P⊥ à partir de la SVD du plan d'expérience blanchi W^{ "{" }1/2{ "}" }G ; la non-centralité du MDB à partir de la norme au carré du sous-espace de parité de Baarda classique ({ "1968" }) ; le rang du bloc à partir d'un décompte des valeurs singulières par la SVD de numpy) — une voie numérique réellement différente de la décomposition en valeurs propres de Jacobi cyclique de GᵀWG de la crate. Périmètre (selon tests/fixtures/faultobs/NOTICE.md) : cela valide la CHAÎNE D'ALGÈBRE LINÉAIRE sur ces lignes seulement. La géométrie des nœuds est modélisée. Ce n'est PAS une garantie d'intégrité opérationnelle, une certification de niveau de protection, ni une affirmation de disponibilité RAIM/ARAIM, et PAS une garantie de mission de tolérance aux fautes byzantines — le NOMBRE de fautes tolérées pour ce réseau est modélisé, tandis que la BORNE de spark par blocs detect>f / identify>2f est citée (Fawzi–Tabuada–Diggavi { "2014" } ; Shoukry–Tabuada { "2016" } ; spark par blocs de Donoho–Elad { "2003" }) et démontrée dans l'instanciation en code
+
+# data/verification-matrix.json
+dat-3ed8c34dff65 = Référence SciPy/NumPy indépendante (scripts/gen_datum_identifiability_ref.py -> tests/fixtures/datum_identifiability/scipy_ref.csv) : le complément de Schur, ses valeurs propres et l'inverse 2x2 calculés par une bibliothèque indépendante. Limitée à l'ALGÈBRE LINÉAIRE de la décomposition ; les AMPLITUDES de corrélation/CRLB lunaires issues de la géométrie réelle restent MODELLED.
+
+# data/verification-matrix.json
+dat-bf70dda05c83 = Autorité tierce indépendante : propagateur képlérien ANISE { "0.10.2" } astro::Orbit (Nyx Space, MPL-2.0) — un chemin de code à deux corps équinoxial distinct du Kepler par Newton-Raphson de kshana ; la position MCI par satellite concorde à <{ "1e-3" } m près et le nombre/l'ensemble de satellites visibles dérivé concorde exactement en chaque point de la grille. Le noyau DOP est validé par gnss_lib_py ; l'intégrité utilise des paramètres LunaNet/LCNS publiés
+
+# data/verification-matrix.json
+dat-706d8ac94114 = Analyseur CCSDS-502 tiers indépendant `oem` { "0.4.5" } (MIT, https://pypi.org/project/oem/) — une base de code séparée qui décode l'OEM EME2000/UTC émis par kshana à l'octet près ({ "24" } états sur { "2" } fixtures, Δ pos/vit = { "0" }) et dont le lecteur strict confirme les jetons de métadonnées ; l'analyseur de kshana concorde de même avec lui sur un OEM externe intégré. Deux constats d'interopérabilité honnêtes (la bibliothèque oem rejette la convention multisegment par satellite de kshana et ses lignes de covariance à entrées multiples) sont documentés dans le test — il valide donc l'échange conforme d'un objet unique, et non la conformité complète à CCSDS-502 de chaque variante de kshana
+
+# data/verification-matrix.json
+dat-ca139c503573 = Corroboration par estimateur indépendant du seuil de longueur d'arc cislunaire
+
+# data/search.json
+dat-7ca7bc5655ea = Test par estimateur indépendant du seuil d'observabilité de la longueur d'arc cislunaire (R6, article B).
+
+# data/search.json
+dat-83303f0fc1bf = PNT LEO en intérieur : pourquoi une porteuse UHF pénètre dans un bâtiment quand les bandes L, S et C peinent.
+
+# data/search.json
+dat-03c73c444454 = inertial (type de scénario)
+
+# studio/data/areas.json
+dat-d3955f70a9bb = Navigation inertielle et alternative
+
+# studio/data/capabilities.json
+dat-8787bea4d490 = Navigation à l'estime inertielle et par rapport au terrain pendant une coupure
+
+# data/verification-matrix.json
+dat-2894be3c02c4 = Contrôle d'attitude à pointage inertiel d'un moyeu rigide avec trois roues de réaction équilibrées ou plus : la loi de rétroaction MRP L_r = -K sigma_BR - P omega_BR (Schaub et Junkins), couples de moteur de roue de norme minimale G_s u = -L_r écrêtés à la limite de chaque roue, la dynamique couplée du moyeu et des roues avec l'inertie du moyeu portant l'inertie de rotation des roues, la cinématique des quaternions, RK4 avec maintien d'ordre zéro. Exécutable comme le type de scénario `aocs` (boucle d'état vrai).
+
+# data/search.json
+dat-b7887b8f1d7f = Capteurs inertiels, de fusion et quantiques
+
+# data/search.json
+dat-ec0ad7fe6b01 = Capteurs inertiels, de fusion et quantiques (famille de types de scénario)
+
+# data/verification-matrix.json
+dat-1452f6145884 = inertial::cai_error_terms (fonctions de bibliothèque, pas encore accessibles depuis un type de scénario) : la fonction de pondération de phase Raman d'un interféromètre à trois impulsions carrées (Cheinet et al. { "2008" }, éq. { "8" }) avec la forme fermée de phase blanche (pi/2)^{ "2" } S_phi0/tau_R et une voie numérique pour tout spectre ; le bruit de fréquence laser que le retard de rétroréflexion n'annule pas (Le Gouët et al. { "2007" }, éq. { "9" } à { "11" }) ; le biais de front d'onde de pure défocalisation sigma_v^2/R d'un nuage thermique et sa réduction par un rayon de détection ; la probabilité de mauvais indice de frange erfc(pi/(sqrt({ "2" }) s)) pour une aide par accéléromètre classique et pour deux temps d'interrogation, et son inverse
+
+# data/verification-matrix.json
+dat-ead1f2200ecb = inertial::cai_params (sur inertial::quantum_imu)
+
+# data/verification-matrix.json
+dat-af4b2f25c3ce = inertial::cai_params::tests (le VRW physique tombe dans l'encadrement VRW cité aux { "3" } niveaux ; plage d'ambiguïté de frange brute calculée à partir de k_eff·T² ; le budget prudent dérive plus que le meilleur ; chaque encadrement sourcé + signalé à confirmer ; gardes d'ordre des encadrements)
+
+# data/verification-matrix.json
+dat-673e1254c2ad = inertial::coast (ErrorDynamics, ErrorSource, source_error_m, CoastModel, Contribution, Combination, TrnFixMode, first_crossing_s, InsTrnCoastScenario) ; type de scénario `ins-trn-coast`
+
+# data/search.json
+dat-a6a78dab5cde = Formats d'entrée
+
+# data/search.json
+dat-333776404b68 = Modèle d'erreur INS / IMU — validation référencée aux fiches techniques (src/inertial/)
+
+# data/search.json
+dat-822d746ee607 = ins-trn-coast (type de scénario)
+
+# assets/capabilities/capabilities.json
+dat-fc4e1821dbe2 = ins-trn-coast | IMU de navigation, { "250" } m/s, combinaison rss | { "10" } m à { "251.0" } s (accel_bias) | { "50" } m à { "608.8" } s (accel_bias) | pic de position seule TRN { "44.7" } m sur { "1200" } s
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-2c655ce6782d = Croissance de l'erreur de navigation à l'estime INS/TRN et franchissements de seuil
+
+# data/search.json
+dat-7a2fe446d5ad = Modèle d'erreur de navigation à l'estime INS/TRN — erreur de position en fonction de la durée de navigation à l'estime, et la durée
+
+# data/search.json
+dat-69702698b049 = Modèle d'erreur de navigation à l'estime INS/TRN : erreur de position en fonction de la durée de navigation à l'estime, construite à partir de coefficients d'IMU plutôt que…
+
+# studio/channels.json
+dat-c2f78c59827d = Installer dans VS Code (Docker)
+
+# studio/channels.json
+dat-6a1ec92e0f29 = Installer dans VS Code (npx)
+
+# studio/channels.json
+dat-c90e197be374 = Installer dans VS Code Insiders (npx)
+
+# data/search.json
+dat-7863d678c01a = Installer le serveur MCP de Kshana (v{ $version })
+
+# data/search.json
+dat-e51de9c804bb = Installer le serveur MCP
+
+# data/verification-matrix.json
+dat-26a9ba641009 = Fixation d'ambiguïtés par moindres carrés entiers à la manière de LAMBDA : une transformation entière (Z) de décorrélation à volume conservé (réduction de taille entière de Gauss du facteur L D Lᵀ) + une recherche exacte par séparation et évaluation en profondeur de Schnorr–Euchner des moindres carrés entiers, avec le test de rapport sur les deux meilleurs candidats (l'affirmation validée) ; plus le taux de succès bootstrap en forme fermée P_s=∏(2Φ(1/(2σ_{ "{" }i|I{ "}" }))−{ "1" }), vérifié seulement en interne et hors de l'affirmation validée
+
+# data/search.json
+dat-6ce706901c78 = integrity (type de scénario)
+
+# assets/capabilities/capabilities.json
+dat-50ed1429c00d = intégrité | { "24" } satellites | 344/361 époques disponibles ({ "95.3" } %) | HAL { "40" } m VAL { "50" } m | sigma { "1.0" } m | Stanford(V) : { "0" } événements d'intégrité, { "0" } HMI
+
+# data/search.json
+dat-b2d1da3f9b5d = Intégrité et interférences
+
+# data/search.json
+dat-40295695fd8f = Intégrité et sécurité : ce que Kshana modélise, et ce qu'il ne modélise pas
+
+# data/search.json
+dat-22adaac4cae5 = FoM d'intégrité — autocohérence du filtre
+
+# studio/data/capabilities.json
+dat-7d09993d482a = Impact sur l'intégrité
+
+# data/verification-matrix.json
+dat-9f121a93c2f1 = integrity_impact (sur raim)
+
+# data/verification-matrix.json
+dat-a85d215fe8dd = integrity_impact::tests (la même omission fait passer de Available à MI puis à HMI quand le contexte se resserre ; PL prudent→Unavailable ; HMI par axe ; gardes d'entrée)
+
+# data/verification-matrix.json
+dat-6bf0e08e0072 = integrity::gls_commonmode::tests (separation_alone_is_blind_to_common_mode, degenerate_direction_or_non_pd_gives_no_finite_ceiling, every_nonzero_direction_under_pd_omega_has_a_finite_ceiling) ; tests/gls_outside_omega_bound_numpy_oracle.rs::undetectable_common_mode_ceiling_matches_numpy_lapack ({ "256" } cas versés : alpha_ss, alpha_cm et le minimum à { "1e-12" } près en relatif sur { "210" } cas bien conditionnés et limites, pire { "3.3e-15" } ; { "40" } mal conditionnés jusqu'à un conditionnement { "1.3e8" } dans une borne énoncée proportionnelle au conditionnement, pire { "1.1e-9" } ; six infinis exacts)
+
+# data/verification-matrix.json
+dat-4f6cc44e6aa0 = integrity::gls_commonmode::tests + tests/gls_reference.rs + tests/gls_whitening_numpy_oracle.rs::whitening_and_mahalanobis_match_numpy_lapack ({ "201" } cas SPD versés : facteur, résidu blanchi, opérateur de blanchiment et carré de Mahalanobis contre numpy LAPACK à { "1e-12" } près en relatif, pire { "7.9e-16" })
+
+# data/verification-matrix.json
+dat-e8f307bea5aa = integrity::hetero_budget::tests + tests/hetero_budget_reference.rs ; tests/hetero_budget_utc_k_oracle.rs::overbound_exceedance_on_real_utc_k_finding (conditionné aux données : saute avec un message quand la série BIPM est absente) ; tests/hetero_budget_utc_k_realised_overbound_oracle.rs::realised_offset_overbound_finding ; tests/utck_bound_prospective_oracle.rs (D9 tour { "3" }, prospectif, pas encore exécuté : la Circular T { "465" } est parue le 2026-10-12, et la règle préenregistrée de 1000 valeurs demande des numéros allant jusqu'à environ { "468" })
+
+# data/verification-matrix.json
+dat-a821706da637 = integrity::lil_envelope::tests (divergence, seuil, dominance du resserrement IR)
+
+# data/verification-matrix.json
+dat-83de804247c2 = integrity::tpl_scalar::tests (rang 1, fusion/exclusion, dominance du biais, recoupement IR) ; tests/tpl_scalar_numpy_oracle.rs::scalar_mhss_pl_matches_numpy ({ "300" } cas versés : estimateurs de sous-ensemble lstsq de numpy, covariance de séparation générale, PL brentq de scipy ; PL à { "1e-9" } près en relatif, pire { "1.2e-10" } ; sous-ensemble moteur exact)
+
+# studio/channels.json
+dat-11a8b72872b7 = Utilisateurs d'IntelliJ, PyCharm et CLion
+
+# data/search.json
+dat-9eb185e5cb6c = Enveloppe d'échange (KIF, le Kshana Interchange Format) — reconnaître un artefact et en vérifier la version
+
+# data/search.json
+dat-7904abaf02c5 = Carte des interférences
+
+# data/search.json, studio/data/capabilities.json
+dat-151056634773 = Carte des interférences et exposition d'un itinéraire
+
+# data/search.json
+dat-efa77bd2f599 = Validation de la carte des interférences
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-c7e45641ff55 = Carte des interférences : sens des codes de précision, valeurs AIS non disponibles, affectation des cellules de grille, longueur d'itinéraire par état de cellule et masquage des terres
+
+# data/search.json
+dat-5ce9214818d0 = Carte des interférences : examen des licences des sources de données
+
+# data/search.json
+dat-b76c44dec57e = Observatoire des interférences
+
+# data/search.json
+dat-eeea3f30179b = Observatoire des interférences : note de méthode
+
+# data/verification-matrix.json
+dat-3ea7167853e6 = Cohérence interne (InternalConsistency) : la réduction d'ordre 2 vers le chemin ADD v4.2 vérifié par MAAST, la redérivation indépendante des a priori et une panne construite à deux satellites. Aucune exécution de MAAST ou de RTKLIB au-delà des paires n'a été faite, de sorte que les jeux d'hypothèses plus profonds et les niveaux de protection du RAIM par sous-ensembles ne sont pas vérifiés en externe. araim_subset_raim partage les simplifications d'araim_dual_raim (un seul sigma pour l'intégrité et la précision, une seule horloge, la queue normale simple) : il n'est pas conforme à l'ADD
+
+# data/verification-matrix.json
+dat-f04a17478c6f = Cohérence interne (InternalConsistency) : les niveaux de protection sont ceux de snapshot_raim, qui est validé contre RTKLIB dans sa propre ligne, recalculés sur la même géométrie ; comportement sans faute et avec faute injectée. Le ciel est une géométrie préréglée représentative (et non un almanach daté), les résidus sont synthétiques et le sigma, les limites d'alerte et les probabilités sont des entrées énoncées ; rien ici n'est une affirmation sur la disponibilité d'un vrai récepteur
+
+# data/verification-matrix.json
+dat-a1c78ee97d2d = Cohérence interne (l'identité du saut et la borne du cône contre un échantillonnage exhaustif). Le seuil est une entrée ; aucune exigence de continuité LEO publiée n'est épinglée
+
+# data/verification-matrix.json
+dat-6bed622b120d = Cohérence interne contre une vérité injectée et des formes fermées, sous des seuils préenregistrés à 6b68f6cc (docs/design/evidence/boc-bump-jump/). Un signal de données BeiDou B1C (PRN { "19" }, { "5" } MS/s) généré par iq::scene : avec l'option désactivée, un départ sur un pic latéral reste faussement accroché à ±({ "0.5" } + d/4) chip prévu (mesuré ±{ "0.549" }) ; avec elle activée, un saut vers le pic principal à { "0.08" } s et un RMS de fenêtre tardive de { "0.0008" } chip à { "45" } dB-Hz et { "0.0048" } chip à { "35" } dB-Hz ; aucun saut depuis le pic principal à { "35" }, { "40" } et { "45" } dB-Hz sur { "4" } s ; la pente EMLP mise à l'échelle de { "0.94" } à { "0.99" } sur le signal échantillonné (non mise à l'échelle de { "3.6" } à { "3.8" }). Le détecteur de saut de bosse seul, sur des triplets de corrélateur avec la covariance de bruit exacte de BOC({ "1,1" }), n'a produit aucun faux saut en { "100 000" } mises à jour de { "25" } à { "45" } dB-Hz et a détecté { "1000" } départs sur pic latéral sur { "1000" } à { "35" } dB-Hz. NOT MET (constat F1) : la grille de tests unitaires préenregistrée pour la mise à l'échelle comprend des décalages hors de la plage linéaire des discriminateurs, où les lectures mises à l'échelle manquent le décalage jusqu'à { "48" } %. CE QUI N'EST PAS VÉRIFIÉ : l'IQ de terrain, les frontaux à bande limitée, les répliques MBOC/QMBOC composites et tout récepteur externe.
+
+# data/verification-matrix.json
+dat-01f9118b836e = Cohérence interne contre une vérité injectée : une source GPS L1 C/A synthétique sans données (PRN { "13" }, { "1500" } Hz, { "4.1" } MHz, { "8" } s, dix graines de bruit) dont la phase de la porteuse est connue, sous des seuils préenregistrés à 58789af0 (docs/design/evidence/fll-handover-floor/). MET : le témoin (le défaut sans plafond ne passe jamais la main dans { "9" } graines sur { "10" } à { "33" } dB-Hz) ; l'additivité (empreinte par défaut et tests de poursuite existants inchangés) ; l'accrochage d'un transfert décalé de { "100" } Hz à { "45" } dB-Hz. NOT MET : avec un plafond de { "1.0" } s, transfert et maintien dans chaque exécution ({ "16" } sur { "20" } à { "33" } dB-Hz, { "8" } sur { "20" } à { "31" } dB-Hz ; les autres alternent entre transferts forcés et retour de la FLL) et une gigue de phase à { "25" } % de la PLL seule ({ "10.8" } contre { "6.1" } degrés à { "33" } dB-Hz). CE QUI N'EST PAS VÉRIFIÉ : les bits de données, les autres signaux et fréquences d'échantillonnage, les enregistrements de terrain. Le défaut est inchangé ; la ligne reste MODELLED.
+
+# data/verification-matrix.json
+dat-a9e65b1c6f91 = Cohérence interne d'un modèle de conception énoncé : chaque puissance, seuil et choix de recherche est une entrée, et le modèle ignore l'ambiguïté de front de bit, la détection manquée et la réacquisition. Non comparé à un récepteur mesuré
+
+# data/verification-matrix.json
+dat-97c728c1d687 = Cohérence interne seulement ; AUCUN oracle externe n'est revendiqué et il n'en existe aucun pour une réalisation météorologique. Les vérifications comparent un tirage à la sortie statistique du même modèle, de sorte qu'un succès dit que le générateur échantillonne les distributions énoncées (la disponibilité du tirage et la part nuageuse se trouvent dans des tolérances préenregistrées des chiffres énoncés), et non qu'un vrai site se comporte ainsi. La série est une réalisation, non le climat : sa disponibilité diffère de celle énoncée de l'erreur d'échantillonnage du tirage, et la scintillation échantillonnée à des pas différents est indépendante, une simplification énoncée d'un processus qui se décorrèle en quelques millisecondes. Les entrées météorologiques restent les hypothèses du scénario.
+
+# data/verification-matrix.json
+dat-bdfafbf7deee = Cohérence interne seulement : chaque site ajouté est un point distinct et une télémétrie laser ou un retard VLBI de station fixe touche un point, de sorte que son information A_p^T M_p A_p est semi-définie positive et s'ajoute ; le test vérifie la différence de Fisher et chaque variance contre cela. Le résultat à cinq réseaux est la ligne de données réelles existante et est inchangé. Le réflecteur ajouté réutilise des époques programmées pour les cinq réseaux existants, un calendrier ILLUSTRATIVE, et le réseau, le calendrier et le sigma de retard de la balise ajoutée sont les entrées ILLUSTRATIVE de la campagne de repère lunaire ; le site est une position polaire sud ILLUSTRATIVE. Un site polaire sud voit la Terre bas sur son horizon ou pas du tout, ce qu'expriment les tests d'angle de visée existants ; aucun des deux sites n'est télémétré en continu. Les chiffres sont des bornes de Cramer-Rao pour un jeu de paramètres réduit, non un datum résolu et non une affirmation sur une vraie station
+
+# data/verification-matrix.json
+dat-244c19d279a3 = Cohérence interne seulement : le temps de franchissement du seuil obtenu par bissection est vérifié contre l'inverse en forme fermée du type de bruit dominant de l'horloge, et le terme d'horloge libre contre le propre terme d'horloge du budget. Les classes d'horloge reposent sur des spécifications publiées à un jour (leurs propres lignes) ; le taux LTC n'est pas redérivé ici et garde sa propre ligne VALIDATED (Temps-coordonnée lunaire) ; le résidu de pilotage est ILLUSTRATIVE, le résidu de réalisation est une allocation de budget et aucun modèle thermique n'est inclus. L'objectif de niveau nanoseconde décrit dans le matériel Lunar PNT du GT-B de l'ICG de juin { "2024" } est cité comme déclaration de source, non adopté comme affirmation ; rien ici n'est une affirmation sur une vraie horloge de station
+
+# data/verification-matrix.json
+dat-687e3bd46ba8 = Cohérence interne seulement. Chaque champ publié est défini dans le repère solidaire du corps de son producteur (GMM-3 dans le repère de Mars de Konopliv et al. { "2006" }, GL0660B dans le repère des axes principaux lunaires DE421), alors que le champ est évalué dans le repère de l'IAU ; le décalage n'est pas modélisé
+
+# data/verification-matrix.json
+dat-c3a2c7e69283 = Cohérence interne avec le module de holdover, bit à bit ; AUCUN oracle externe n'est revendiqué. Les DSP de classe sont les planchers de long tau synthétisés que porte déjà le module de holdover, de sorte que les chiffres héritent de sa réserve énoncée selon laquelle le holdover jusqu'à un seuil serré est gouverné par le plancher de bruit rouge supposé et non par l'écart d'Allan cité. Les durées d'interruption sont un modèle log-normal à paramètres énoncés, non un enregistrement mesuré de durées de présence de nuages
+
+# data/verification-matrix.json
+dat-81c69cadba70 = Cohérence interne : limites en forme fermée et monotonie du modèle de diversité, forme fermée du plafond nuageux et identités d'interruption log-normales. AUCUN oracle externe n'est revendiqué et aucun n'a été comparé : aucun enregistrement mesuré de disponibilité de station sol optique ou de ligne de visée sans nuage n'est utilisé. POURQUOI MODELLED : le climat nuageux (probabilité de nuage, médiane et dispersion de la colonne d'eau liquide, durées d'interruption), l'indépendance du nuage et de la turbulence, la forme de copule gaussienne, la longueur de décorrélation et chaque gain de technique sont des hypothèses ; les scénarios fournis énoncent des climats ILLUSTRATIVE, non un jeu de données. Promouvoir cette ligne demande un enregistrement de disponibilité mesuré cité et un seuil enregistré avant la comparaison
+
+# data/verification-matrix.json
+dat-b7287210bebc = Cohérence interne : récupération sans bruit, l'identité cinématique rho_ddot = (|v|^{ "2" } - rho_dot^{ "2" } + d.a)/rho différentiée numériquement, Doppler nul au plus proche passage, la solution miroir d'un passage unique, et des erreurs à graine fixée contre la covariance formelle. Le chiffre Starlink de Kozhaya, Saroufim et Kassas (NAVIGATION { "72" }({ "1" }), { "2025" } : environ { "2" } m en { "20" } s avec trois satellites) n'est qu'une comparaison : le récepteur modélisé, avec une éphéméride parfaite et toute l'erreur dans un sigma Doppler de { "30" } Hz, est plusieurs fois moins précis sur la même fenêtre, et le récepteur et le débit de mesure de l'article ne sont pas reproduits
+
+# data/verification-matrix.json
+dat-90e7c3f0b089 = Cohérence interne : l'encadrement VRW cité recoupé avec la physique de CaiAccelerometer::accel_asd + la plage dynamique brute calculée à partir de la limite d'ambiguïté de frange ; les nombres sont des encadrements MODELLED d'un état de la littérature (needs_source_confirmation), aucun appareil validé, aucun halo de validation
+
+# data/verification-matrix.json
+dat-f95438b160b3 = Cohérence interne : la classification est vérifiée contre les règles qu'elle énonce et contre des rapports dérivés à la main sur des modifications synthétiques du journal de démonstration versé, et les épingles sans changement tiennent les sorties de { "0.35.0" } : aucun score ne change sauf si la géométrie est mauvaise ; l'étiquette est toujours rapportée. POURQUOI MODELLED : les seuils sont choisis, non ajustés (provenance dans le geometry_model de chaque exécution ; les chiffres de l'IEC 61108-1 et du GPS SPS tels que cités, à vérifier contre le texte des normes), et il n'existe aucun jeu de données étiqueté externe de dégradation naturelle de la géométrie contre des attaques pour valider la classification. Le DOP dérivé réutilise le noyau orbit::dop, VALIDATED contre gnss_lib_py, dont cette ligne n'emprunte pas le statut. Une classe de géométrie est une affirmation sur le ciel, non un constat qu'aucune attaque n'a eu lieu
+
+# data/verification-matrix.json
+dat-e0a40eb480ea = Cohérence interne : la séparation et évaluation exacte concorde avec l'énumération exhaustive sur de petits ensembles aléatoires, chaque plan est vérifié réalisable contre les règles de conflit, et le glouton ne bat jamais l'optimum exact. CE QUI NE L'EST PAS : aucun ordonnanceur externe ni plan opérationnel n'a été comparé ; les contacts sont pris entiers (sans fractionnement), l'arriéré est fixé au début de la fenêtre, le temps de manœuvre au-delà du retournement fixe et le stockage embarqué ne sont pas modélisés.
+
+# data/verification-matrix.json
+dat-de38b3520ddd = Cohérence interne : l'identité exacte vitesse de fin de combustion = somme Isp g0 ln(m0/mf) moins les quatre pertes intégrées (résidu inférieur à { "1e-6" } m/s), l'équation de Tsiolkovski sur une combustion verticale dans le vide où la gravité est la seule perte, et les pressions US76 au niveau de la mer et à la tropopause. CE QUI NE L'EST PAS : les pertes d'aucun véhicule publié n'ont été comparées ; ni rotation terrestre, ni phase balistique, ni modulation de poussée, ni guidage au-delà du kick ; C_D constant ; pas un optimiseur de trajectoire.
+
+# data/verification-matrix.json
+dat-56c420c02926 = Cohérence interne : l'erreur d'estimation normalisée au carré du filtre contre une vérité simulée à partir des mêmes modèles de capteurs sur des graines Monte Carlo, et la convergence des estimations d'attitude et de biais. CE QUI NE L'EST PAS : aucun estimateur externe ni donnée de vol n'a été comparé (Basilisk { "2.9.1" } n'a pas de module MEKF) ; les modèles de capteurs sont ceux des manuels, sans désalignement, facteur d'échelle ni effets de champ de vue de suiveur d'étoiles.
+
+# data/verification-matrix.json
+dat-f698f5ba7ab8 = Cohérence interne : le modèle direct et l'équation résolue concordent à { "1e-15" } s près, le terme de Sagnac égale la forme en boucle BIPM 2A omega/c^{ "2" } indépendante du module, le terme ionosphérique est { "40.3" } TEC (1/f_up^{ "2" } - 1/f_down^{ "2" })/c, et les processus de bruit montrent les formes de TDEV attendues. CE QUI NE L'EST PAS : aucune vraie mesure TWSTFT ni aucun rapport d'étalonnage n'a été comparé ; les retards et incertitudes énoncés sont des entrées, non mesurés ; les stabilités des séries fournies sont rapportées, non validées.
+
+# data/verification-matrix.json
+dat-52ecbc039055 = Cohérence interne : les mesures sont synthétisées à partir des modèles que le filtre utilise (χ² NEES/NIS sur des graines, une convergence sans bruit, injection de glissements). MODELLED ; aucune donnée de vrai récepteur ni filtre tiers n'est comparé
+
+# data/verification-matrix.json
+dat-a64be9ada5d8 = Cohérence interne : l'expression de décalage publiée évaluée à la main, l'erreur normalisée sur { "40" } graines, et le plancher fixé par l'incertitude du décalage. Le chiffre du NIST pour les récepteurs de synchronisation Iridium à horloge atomique miniature (moins de { "40" } ns par rapport à UTC(NIST) sur { "40" } jours) n'est qu'une comparaison ; le scénario Iridium fourni donne { "10" } à { "11" } ns RMS à puissance nominale avec son erreur de distance représentative de { "5" } m. Le bruit de fréquence de scintillation et le retard ionosphérique ne sont pas simulés
+
+# data/verification-matrix.json
+dat-c0b1c86ee380 = Cohérence interne : la relation et les constantes telles qu'imprimées dans NASA TR R-376, une vérification de convergence à demi-pas, et l'ordre attendu des pics d'échauffement et de décélération. CE QUI NE L'EST PAS : aucune valeur d'échauffement publiée n'a été comparée (les articles Stardust donnent une limite de conception et une estimation convective-plus-radiative d'environ { "1200" } W/cm2, qu'une relation purement convective ne peut égaler) ; ni échauffement radiatif, ni correction de température de paroi ou de catalycité, ni réponse de protection thermique.
+
+# data/verification-matrix.json
+dat-d473850d6518 = Cohérence interne : l'efficacité spectrale calculée en forme fermée à partir de K_bch du tableau 5a et des longueurs de trame concorde avec les efficacités qu'imprime le tableau { "13" } (une vérification de transcription du tableau des seuils) ; les éléments du bilan de liaison concordent avec leurs formes fermées ; la sélection est monotone en Es/N0 et respecte la marge ; l'ACM déplace au moins le volume du codage constant. La géométrie de passage provient du prédicteur de passage apparent, VALIDATED séparément. CE QUI NE L'EST PAS : aucun outil externe ni liaison mesurée n'a été comparé ; les seuils sont les valeurs AWGN idéales de la norme, non celles d'un modem ; l'évanouissement dû à la pluie, la perte de pointage le long du passage et les pilotes ne sont pas modélisés.
+
+# data/verification-matrix.json
+dat-2d9d8880f4f0 = Cohérence interne : vérité simulée à partir des propres modèles des filtres (χ² NEES sur des graines Monte Carlo, le paquet découplé sur des capteurs identiques). MODELLED
+
+# data/verification-matrix.json
+dat-daeea93cf98c = Interne seulement : la forme fermée exacte -20 log10(distance) de l'équation de liaison, une grille exhaustive indépendante sur le même type, et la fonction de Rosenbrock. Le seuil 1-D du tour { "1" } est NOT MET (la boîte préenregistrée excluait la solution à { "3" } dB ; l'optimiseur s'est arrêté à la borne), consigné dans docs/design/evidence/cap32-optimize/RESULTS.md et non renoté. L'optimum est local à la boîte et au départ ; aucune affirmation d'optimum global
