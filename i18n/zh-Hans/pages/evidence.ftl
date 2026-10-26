@@ -2305,3 +2305,183 @@ seg-b037c999443b = 信任遥测的 SIEM 事件：基于 syslog 的通用事件�
 seg-ffd8d7062055 = 档位变化（或逐历元）事件，作为通用事件格式载荷，装在经 UDP 或 TCP 的 RFC { "5424" } 信封中，带有文档化的字段映射和 CEF 转义。
 
 seg-59fd23d6607e = 外部核对的范围，狭义表述：对照两个独立的开源解析器（参考基准：pycef { "1.11" }（PyPI，MIT）；Logstash CEF 编解码器（Logstash { "8.15.3" } 中的 logstash-codec-cef { "6.2.7" }）），在本 crate 写出的一组 CEF 行上（下面的修订 { "4" } 之前为 { "157" } 行，之后为 { "170" } 行，修订 { "5" } 之后为 { "176" } 行）：一条已提交的 84 行合成信任数据流中的每一次档位变化和每一个历元，加上主机、原因、时间标签和门控名称中的对抗性文本，其中含等号、反斜杠、反斜杠加等号、竖线、换行符、回车符、制表符、连续空格、多字节和星面字符以及形似键的文本，极端分数和偏移，以及有和没有前一档位的每个档位。pycef 解析其头部无需转义的行（修订 { "4" } 之前为 { "153" }，之后为 { "166" }，修订 { "5" } 之后为 { "172" }），并按 CEF 规范的反转义规则（pycef 不应用，由 scripts/gen_cef_ref.py 应用）精确恢复头部字段、严重度、精确的扩展键集和每一个值（数值按 f64 相等）。Logstash 编解码器自己做反转义，解析每一行（{ "157" }，然后 { "170" }，然后 { "176" }），达到同样的判据，并且还恢复出四个需要转义的头部字段（版本字符串中的竖线、反斜杠和等号），而 pycef 的头部模式读不出这些，因此头部转义仅依靠 Logstash 编解码器。比较判据在任一解析器运行之前登记于提交 { "5172e579" }（pycef）和 0a7598aa（Logstash），两者在首次比较时都达到了该判据。披露五项修订。修订 ({ "1" }) 至 ({ "3" }) 没有触及任何比较规则和任何预期值：({ "1" }) 语料库大小断言由 { "5" } 更正为 { "4" } 次档位变化，这是数错了，因为数据流中有 { "4" } 次；({ "2" }) 在首次尝试没有产生事件之后，修复了 Logstash 运行器的管道分隔符接线；({ "3" }) 信任度分数和历元偏移从 CEF 整数字段 cn1 和 cn2 移到浮点字段 cfp1 和 cfp2，这是本次发布中作出的线路格式改动，此后重新生成语料库，并在判据不变的情况下重新运行两个参考基准，它们再次达到判据。修订 ({ "4" })，{ "0.36" }，扩展了语料库和预期键集，在任一解析器在新行上运行之前登记于 d6331429：模式 { "1.3" } 的输入在自定义字段 cs6（标签 geometry：状态，然后是“;”和扣分类别）、cfp3（geometryHdop）和 cfp4（geometryPdop）中加入卫星几何；{ "13" } 个几何用例（语料库增至 { "170" } 行）和三个新键；两者在首次比较时都达到判据，其余不变（pycef 解析了 { "170" } 行中的 { "166" } 行，{ "4" } 个 tier { "2" } 头部用例同前；Logstash 为 { "170" } 行中的 { "170" } 行）。修订 ({ "5" })，{ "0.36" }，追加了 { "6" } 个几何标签用例（语料库增至 { "176" } 行），在任一解析器在这些行上运行之前登记于 9a8e4fa9：对带有几何标签的输入，cs6 增加第三个字段（“;”和标签），cn1（geometryUsedSatellites）给出所用卫星数；先读取了 Logstash 编解码器的映射表（没有 flexString 字段，因此用 cs6 而不是 flexString1）；两者在首次比较时都达到判据（pycef 为 { "176" } 行中的 { "172" } 行，Logstash 为 { "176" } 行中的 { "176" } 行），而此前的每个参考条目都原样复现。不在核对范围之内：两种解析器都不对 cfp 值做类型检查（两者都按文本保留），因此浮点字段的使用依据的是 CEF 数据字典，而不是参考基准；没有运行任何厂商的 SIEM；扩展键名及其映射是本 crate 的选择，解析器只表明它们按所写读回；RFC { "5424" } 信封、投递、超时和重连不在覆盖范围之内；pycef 是一个最后发布于 { "2020" } 年的小型解析器，Logstash 编解码器是更有分量的参考基准。
+
+seg-51640405c9b7 = 信任遥测 SIEM 事件：基于 syslog 的 Log Event Extended Format（LEEF）
+
+seg-1b3245506847 = 频段变化（或逐历元）事件，以 Log Event Extended Format { "2.0" } 载荷的形式封装在 RFC { "5424" } 信封中，经 UDP 或 TCP 发送，并附有文档化的字段映射。
+
+seg-563ccb0adbe5 = 检查范围：本 crate 自身对文档化 LEEF 字段映射和 RFC { "5424" } 信封字段所做的精确字符串测试；目前没有维护中的开源 LEEF 解析器（在 Python 包索引中检索未发现），因此该格式只是对照其自身规范、由同一作者读取后进行检查，而不是对照外部参考基准（oracle）。不在检查范围：任何厂商的解析器或 SIEM 是否接受这些 LEEF 载荷；文档化规则之外的转义规则；真实 syslog 收集器的行为。
+
+seg-96a95b89faa5 = 证据包完好性：签名、哈希链与验证流程
+
+seg-943a853d8a4a = GNSS 信任事件的签名哈希链证据包：对每个文件计算 SHA-256，并在清单上建立哈希链；对清单的精确字节做 Ed25519 签名；验证器会逐一指明每种失败（文件被更改、删除、重命名、调换或新增，清单被重排或编辑，清单在无密钥的情况下被重新哈希，证据包被重新签名，所固定的密钥有误，以及时间戳令牌被剥离、被替换、为无效内容或对应另一份文档）。
+
+seg-0699ef2074fd = 外部核对的内容（范围从窄表述）：（{ "1" }）证据包用于签名和严格验证的 Ed25519 函数（evidence::bundle::sign_detached、evidence::verify::verify_detached）能逐字节复现 RFC { "8032" } 第 { "7.1" } 节测试向量 { "1" }、{ "2" }、{ "3" } 和 { "1024" } 的公钥与签名，接受这些向量，并拒绝向量 { "1" } 的每一个翻转比特、其余向量中每隔七位的翻转比特以及非规范的 S+L 签名；这些向量取自 RFC 文本，并由 scripts/gen_ed25519_rfc8032_ref.py 中的两个独立实现（cryptography/OpenSSL 和 PyNaCl/libsodium）复现。（{ "2" }）evidence::bundle::sha256_hex，即所有证据包哈希及哈希链背后的哈希函数，能精确复现 FIPS 180-4 的 SHA-256 示例（abc；448 比特消息；一百万个 a）、空消息，以及跨越填充边界的 { "0" } 至 { "130" } 字节阶梯的 hashlib 摘要。（{ "3" }）仅依据 docs/EVIDENCE-PACKS.md 用 Python 编写的验证器（scripts/evidence_verify_cleanroom.py：使用 hashlib 和 cryptography；其作者未读过任何 Rust 代码）在 { "71" } 个合成的完好与被篡改证据包上与 Rust 验证器完全一致，包括裁决、带文件名的失败集合、签名裁决，以及由文件重新计算出的哈希链头与清单所记录的哈希链头。首次运行 { "71" } 个中有 { "64" } 个一致；不一致之处为一处规范歧义（对照一份不可读的清单检查所固定的密钥）、一处参考基准接口偏差和一个构建不完整的用例；随后澄清了规范语句，依据文本重新实现了参考基准并补全了该用例，未更改任何容差或预期（记录于提交 d54e14c6）。不在检查范围：该洁净室验证器是由另一位作者完成的独立实现，而不是第三方权威，且与规范共享相同的取舍，因此它印证的是对规则的这一实现，而不是规则本身；这些向量验证的是密码原语，而不是证据包格式的设计。在本行中，RFC { "3161" } 令牌仅读取其消息摘要印记，测试令牌为合成且未签名；时间戳机构的签名与证书链由另一行“RFC { "3161" } 时间戳令牌签名与证书链验证”以可选方式（<c1/>）验证。篡改用例为合成。此处没有任何内容构成对任何证据包的法律意见或证明。
+
+seg-c15736afcbc9 = RFC { "3161" } 时间戳令牌签名与证书链验证
+
+seg-cd64bbf39459 = evidence::tsa::verify_token，以及针对证据包 timestamp.tsr 的可选命令 <c1/>：对 RFC { "3161" } TimeStampResp 或裸 TimeStampToken（基于 TSTInfo 的 CMS SignedData），依据受信任的锚点离线检查，方式与 <c2/> 的检查方式相同：已签名属性的内容类型以及对 TSTInfo 的消息摘要；对已签名属性的签名（RSA PKCS#1 v1.5、RSASSA-PSS、ECDSA P-256 和 P-384；RSA 公钥运算基于 crypto-bigint）；指明签名者证书的 ESS signing-certificate v1（SHA-1）或 v2 哈希，该证书在令牌自带证书与调用方提供的不受信任证书中查找；签名者证书的关键性、唯一的 timeStamping 扩展密钥用途；到受信任的自签发锚点的证书链，包括每份证书的签名、CA 状态和密钥用途，以及每份证书在令牌 genTime 时均有效；还有消息摘要印记与数据的比对。未检查：吊销（CRL、OCSP）、名称与策略约束、随机数
+
+seg-d305c442506d = OpenSSL { "3.0.13" }（<c1/>，对 RSA-PSS 令牌则为 <c2/> 加上 TSTInfo 印记），由 tests/fixtures/evidence_tsa/run_openssl.sh 在 cases.tsv 的 { "27" } 个用例上运行：使用 SHA-256 和 SHA-512 以及 ESS v1 和 v2 的 RSA PKCS#1 v1.5，P-256 中间证书之上的 ECDSA P-384 根证书以及 P-256 和 P-384 TSA，RSA-PSS，缺少签名者证书的令牌（分别在提供与不提供该证书时），CAdES 签名的令牌，被翻转一个字节的签名（三种算法），被更改的 TSTInfo（两个），被翻转的中间证书签名，ESS 孪生证书，错误的锚点（四个），已过期的 TSA 证书，非关键的和错误的扩展密钥用途，以及错误的数据（三个）。预先登记于 tests/fixtures/evidence_tsa/PREREGISTRATION.md（单独提交，30ad70b2，早于验证器存在之时；OpenSSL 裁决随后重新运行，逐字节一致）。首次运行：全部 { "27" } 个裁决一致（B1），且每个 genTime 精确到秒一致（B2）。范围，从窄表述：自行生成的测试证书和令牌，由作出裁决的同一个 OpenSSL 制作；OpenSSL 是独立实现，而不是时间戳机构；未收录任何公共机构的令牌（freetsa.org 未声明许可）。此处不证明任何真实的时间戳
+
+seg-c04042b0270a = 在 JammerTest { "2024" } 数据集上标定的接收机信任干扰阈值
+
+seg-32ad0b0da818 = receiver_trust::calibration::run_dataset：在公开的 JammerTest { "2024" } 数据集（Zenodo { "15911589" }，GPL-3.0-or-later，运行时获取，从不内置）上，对 C/N0 下降、AGC 和压制干扰指示器三类监测器进行的预先登记标定：对每个文件夹，依据 mon_rf.csv 和 rinex.csv 生成 { "1" } s 时间线，监测器运行一次，标定之后的每个历元依据该文件夹的 attack_log（由 CEST 换算为 UTC，{ "60" } s 保护间隔）标记为干净或存在压制干扰，每个阈值在固定网格上扫描，选取使汇总的干净虚警概率不超过 { "0.01" } 的最小阈值，并给出留一文件夹的保留集计数；另有 UBX 读取器交叉核对。所选结果仅作为可选配置发布：[monitors] profile = "jammertest-2024-calibrated"（cn0_drop_db { "1.5" }，agc_k_sigma { "3.5" }，jam_ind_threshold { "29" }）；默认规则以及未使用该配置的所有输出均不变
+
+seg-3ccd1b09ad09 = 以该数据集已发布的事件日志（attack_log 时间窗）作为事件真值，依据预先登记 xval/jammertest-trust/PREREGISTRATION.md（单独提交，0fa012b，早于测试框架运行）。首次也是唯一一次运行（xval/jammertest-trust/RESULTS.md）：{ "24" } 个文件夹中有 { "14" } 个可评估（其中 { "7" } 个含压制干扰），干净历元 { "3,502" } 个，压制干扰历元 { "9,560" } 个。保留集干净虚警概率：cn0_drop_db 为 { "0.0231" }（81/3502），判据为 { "0.02" }，FAIL；agc_k_sigma 为 { "0.0003" }，通过；jam_ind_threshold 为 { "0.0094" }，通过；三者的并集：虚警 { "0.0328" }，检测 { "0.807" }，判据分别为 { "0.05" } 和 { "0.50" }，通过。依据登记的规则，该行为 MODELLED（有一项判据未通过）。范围有限：仅一种接收机类型（u-blox ZED-F9P）、一次事件，以预定的一分钟时隙作为真值（检测率为下界；干净指处于记录的时间窗之外）；标定基于 CSV 日志，而 UBX 读取器在两个文件夹上给出更多虚警。船舶信任度分级未经标定
+
+seg-65a8361b4a22 = Jammertest 评分：依据已发布的测试计划，对接收机日志按每次预定测试评分（检测延迟、漏报警、虚警、恢复时间）
+
+seg-98d8c39f47ae = jammertest::{ "{" }plan, score, dataset{ "}" }（kshana jammertest import|score）：将 NPRA 测试目录与发射计划（MIT，以固定的 SHA-256 获取，从不内置）读作预定真值，并保留目录标识；对接收机信任度运行按每次测试评分（首次报警减去计划开始时间，对照容差判定为 detected/late/missed，到首个无报警时段的时间，位于所有时隙及其保护间隔之外的报警），并附带携带评分卡的已签名证据包。该时间表是计划时隙，而不是实际播发时间的记录
+
+seg-49b912adb7a9 = 计划中每个测试区域的时隙数（{ "76" }、{ "77" } 和 { "45" } 个时隙，其中 { "61" }、{ "63" } 和 { "32" } 个发射）由脚本对同一份 JSON 独立计数；以 { "2024" } 数据集的 attack_log 时间窗作为事件真值，依据预先登记 xval/jammertest-score/PREREGISTRATION.md（单独提交，c2e6d3b，早于评分器运行）。首次也是唯一一次运行（xval/jammertest-score/RESULTS.md）：登记的最小数据量规则未通过（{ "12" } 个 UBX 文件夹中有 { "4" } 个共 { "4" } 个可评分的压制干扰时间窗，而最低要求为来自 { "2" } 个文件夹的 { "10" } 个时间窗：{ "5" } 个文件夹被基线规则剔除，{ "3" } 个 UBX 日志仅含 GPS 周内时），因此判据 B1 至 B4 无法评估；未放宽任何条件，也未重新运行。v2（xval/jammertest-score/PREREGISTRATION-v2.md，单独提交，仅涉及数据处理：仅含 GPS 时间的日志按日期定位，{ "12" } 个仅有 CSV 的文件夹，针对移动流动站的移动平台会话；判据和最小数据量规则不变）：{ "24" } 个文件夹中保留 { "14" } 个，但可评分的压制干扰时间窗仅 { "7" } 个，最小数据量规则再次未通过，没有任何判据可评估（RESULTS-v2.md）。预定真值：计划时隙不是实际播发记录，漏检可能是该测试根本没有运行，延迟自计划开始时间算起，干净指处于计划时隙之外。测量域监测器的检测结果并不能说明低功率欺骗源的情况。仅一种接收机类型（u-blox ZED-F9P）。{ "2025" } SimulaMet NMEA 数据集未被使用（未声明许可，需订阅访问）
+
+seg-0d227bbcb5f1 = Test-bench 导出（kshana bench-export）：地固系、大地坐标和局部速度各列、姿态各列以及 NMEA { "0183" } 输出
+
+seg-c6a6e08afadd = 运动 CSV 的地固系位置、大地位置、地固系速度、航向/俯仰/横滚和 UTC 各列，以及 NMEA GGA/RMC 语句，由合成场景生成（gnss-ins，含 automotive-urban-canyon、jamming、gnss-sim）。仅含运动与事件；不写入任何信号，也不声称任何模拟器或接收机的性能。
+
+seg-f953ad11fe08 = 外部核对的内容（范围从窄表述）：对照 pyproj { "3.8.0" }（PROJ { "9.8.1" }）、geographiclib { "2.1" }、pynmea2 { "1.19.0" } 和 scipy { "1.18.1" }，由 scripts/gen_testbench_ref.py 在 { "4" } 个合成场景上运行，容差在首次比较之前固定（均取写出程序舍入的最坏情形）：每一行的地固系各列等于大地坐标各列的 WGS { "84" } 换算结果（最差 { "1.3e-4" } m，判据 { "3e-4" }），反向换算亦然（{ "1.3e-9" } deg，判据 { "2e-9" }；高度 { "1.3e-4" } m，判据 { "3e-4" }）；经 PROJ 的站心运算旋转到北东地的地固系速度等于引擎的真实 NED 速度（{ "7.5e-5" } m/s，判据 { "2e-4" }）；航向、俯仰和横滚等于 scipy 对引擎真实四元数求得的偏航-俯仰-横滚（{ "5.0e-7" } deg，判据 { "1e-6" }）；每条 NMEA 语句都能在 pynmea2 中解析且校验和有效，其解码得到的位置（{ "1.2e-3" } m，判据 { "5e-3" }）、高度、速度、航迹向（{ "5.0e-4" } deg，判据 { "1e-3" }）和时间均等于运动数值；UTC 列等于独立的日期时间运算。所检查的 CSV 和 NMEA 精确字节的 SHA-256 已固定。不在检查范围：场景的真值轨迹本身（行驶剖面及其积分）；各项约定（航向是机体偏航角，而不是航迹向，在 automotive-urban-canyon 上与航迹向最多相差约 { "77" } 度；GGA 质量指示、卫星数和 HDOP 为占位值）；任何实验室模拟器是否按预期读取这些文件；任何模拟器或接收机的性能。这些参考基准检查的是换算和编码，而不是场景的物理。局部坐标系的处理仅通过速度旋转以及 NMEA 速度和航迹向来检查（CSV 没有局部位置列）。
+
+seg-ee99388f7b15 = compliance（kshana compliance-report）：仅按编号，将 Kshana 的输出映射到公共框架的条款，依据所给的运行填写；一项结果只有在携带该映射所指明的证据时才计为对某项能力的支持，空集不证明任何事情，措辞为“supports evidence for”；该报告不是任何框架已被满足的结论，也不是任何人作出的评级或批准。
+
+seg-8659260fd38e = 参考文献依据对所引公共文档于 2026-10-10 读取并由脚本提取的标题索引进行核对（tests/compliance_references.rs）。检查范围：{ "49" } 处所引条款、章节、段落或标题的引用存在于所引文档中，{ "7" } 个所引 URL 在记录的日期可解析（其中 { "2" } 个通过第二条途径）；负面对照均失败。不在检查范围：任何转述、映射或缺口是否正确；EN { "16803" } 的条款（付费，仅有目录文本）；后续修订版；该索引不是独立实现。
+
+seg-98c360d82d56 = 船舶集成：Signal K 插件、OpenCPN 门控数据流与评分面板、参考构建
+
+seg-7af9ce566646 = 在 Signal K 服务器中发布于 navigation.gnss.kshana 之下的信任度、分级、原因、门控状态和接收机上报位置，并带有 warn、alarm 和 normal 通知（integrations/signalk）；经门控的 NMEA 数据流，在信任度崩溃时将定位标记为无效，并每个周期输出一条 PKSHT 语句，由门控自身或一个小型中继经 TCP 提供给 OpenCPN，以及读取 PKSHT 语句的原生 OpenCPN 评分面板（integrations/opencpn）；还有运行该门控的 systemd 单元和容器（deploy/reference-build）。这些组件显示输出之处均带有咨询性声明：仅供参考的软件，不是经型式认可的导航设备（IEC { "61108" }、IEC { "61162" }）：船舶航行的责任仍由操作人员承担。
+
+seg-00a0f52f7458 = 检查范围，从窄表述：这些集成能够与其所针对的真实软件协同工作。证据已提交于 integrations/signalk/evidence/README.md（含其 JSON 文件）和 integrations/opencpn/evidence/README.md（含其截图和日志），并各附复现它的脚本。（{ "1" }）Signal K：插件加载到固定版本的 signalk-server { "2.33.0" } npm 包中，运行在仅限环回的私有网络命名空间内，输入合成数据。服务器自身的 REST 和 WebSocket 接口显示了所发布的路径、评分元数据，以及一条通知；当数据停止时，该通知依次经历缺失、warn、alarm、normal（保持时间之后）、再次 warn。在由插件运行真实 kshana、处理服务器自己收到的 NMEA 的情况下，通知先为 warn 后为 alarm，并发布了上报的位置；服务器自身的 navigation.position 由其 NMEA 提供方写入，从不由插件写入。已对照实时 JSON schema { "1.2" } 重新运行。（{ "2" }）OpenCPN：插件依据 OpenCPN 插件 API 头文件和 wxWidgets { "3.2.4" } 构建，加载到虚拟显示下 OpenCPN { "5.8.4" } 的 Ubuntu { "24.04" } 软件包中；OpenCPN 加载了它，运行了其初始化，并将经门控数据流的 PKSHT 语句交给它，面板在不受信任的分级上变为红色。在一次干净的运行中，当门控将定位标记为无效时，OpenCPN 自身的本船位置停止更新，其定位指示灯也熄灭。第二次运行由门控的 TCP 监听器直接馈送，显示了向插件的传递，但没有得到干净的前后对比。（{ "3" }）中继测试通过真实的 TCP 套接字重放一段已记录的门控数据流摘录，并检查消费方收到的内容（字节不变，每条语句（包括被改写的语句）校验和有效，GGA 与 RMC 一致，每个周期一条 PKSHT，且在定位无效处带有门控字段），端到端脚本则检查门控监听器的消费方收到的字节，与同一门控写入标准输出的字节完全相同。（{ "4" }）PKSHT 解析器（JavaScript 和 C++）在由 kshana 输出记录的语句上运行，并拒绝错误的校验和、版本或位于 { "0" } 至 { "100" } 之外的评分。（{ "5" }）systemd 单元以 systemd-analyze verify（systemd { "255" }，二进制文件为桩）检查，并带有针对 ExecStart 中的 shell、重启策略和沙箱键的防护检查；容器入口点的参数处理以桩二进制文件检查。不在检查范围：这些集成所显示的任何数值都没有外部参考基准（oracle）。信任度数值本身即上面各行，而集成运行只表明这套管线能够传递它们；因此该行为 MODELLED，而不是 VALIDATED（docs/VALIDATION.md）。未使用真实船舶、接收机、长时间运行、任一宿主软件的其他版本、其他操作系统或桌面环境；所有数据均为合成文本，这里没有任何内容是测量结果。真实 Signal K 客户端对通知的声音和视觉处理、OpenCPN 的工具栏按钮、首选项和陈旧状态，以及 OpenCPN 插件管理器的打包，均未试验。systemd 沙箱键仅检查了语法，未在实际运行的 systemd 下运行，且容器镜像构建及其健康检查在此没有已提交的证据。不声称任何检测或虚警数据。仅供参考的软件，不是经型式认可的导航设备（IEC { "61108" }、IEC { "61162" }）：船舶航行的责任仍由操作人员承担。
+
+seg-475397d05dd0 = <s1>receiver_trust（实时：门控、其 TCP 监听器、PKSHT）；crate 之外：integrations/signalk（JavaScript）、integrations/opencpn（JavaScript 中继、C++ 原生插件）、deploy/reference-build（systemd 单元、容器）</s1>
+
+seg-89ab9ef155eb = BOC({ "1,1" }) 跟踪：DLL 缩放与 bump-jump 模糊度解算（可选）
+
+seg-ef24be9b5917 = iq::track::LoopConfig 的 boc 字段（可选，默认为 None）：将三种 DLL 鉴别器重新缩放，使其以码片为单位读出码误差，并在正弦 BOC({ "1,1" }) 主峰上具有单位斜率；以及一个位于极早和极晚相关器上、间隔为一个副载波半周期（{ "0.5" } 码片）的 bump-jump 监测器，当增减计数器达到 N（默认 { "8" }）时，将码 NCO 向主峰跳变。不启用该选项时，所有输出均不变。
+
+seg-416ce4dfc6f5 = 针对注入的真值和闭式解的内部自洽性，判据于 6b68f6cc 预先登记（docs/design/evidence/boc-bump-jump/）。由 iq::scene 生成的北斗 B1C 数据信号（PRN { "19" }，{ "5" } MS/s）：关闭该选项时，从旁瓣起步的跟踪仍错锁在预测的 ±({ "0.5" } + d/4) 码片处（实测 ±{ "0.549" }）；开启时，在 { "0.08" } s 处向主峰跳变一次，后段窗口 RMS 在 { "45" } dB-Hz 时为 { "0.0008" } 码片，在 { "35" } dB-Hz 时为 { "0.0048" } 码片；在 { "35" }、{ "40" } 和 { "45" } dB-Hz 下，{ "4" } s 内从主峰处无跳变；缩放后的 EMLP 斜率在采样信号上为 { "0.94" } 至 { "0.99" }（未缩放为 { "3.6" } 至 { "3.8" }）。仅 bump-jump 检测器，在具有精确 BOC({ "1,1" }) 噪声协方差的相关器三元组上，在 { "25" } 至 { "45" } dB-Hz 的 { "100 000" } 次更新中没有出现虚假跳变，并在 { "35" } dB-Hz 下检测出 { "1000" } 次旁瓣起步中的 { "1000" } 次。NOT MET（发现 F1）：缩放的预先登记单元测试网格包含超出鉴别器线性范围的偏移，其中缩放后的读数与偏移相差最多 { "48" } %。不在检查范围：现场 IQ、带限前端、复合 MBOC/QMBOC 副本以及任何外部接收机。
+
+seg-2c32955cbfb3 = 对照实测 { "50" } Hz GPS L1 闪烁的 IQ 电离层闪烁信道（Cornell 模型）
+
+seg-2fdcb373ab25 = iq::channel::scint，即 Cornell 闪烁模型（Rice 强度、二阶 Butterworth 谱、相位 arg z），以实测窗口的 S4 和强度去相关时间驱动，并就其在这两个输入之外所生成的内容进行比较；realdata::scint50 读取实测日志，去除趋势并运行该比较。
+
+seg-bdc9fe963c5c = 实测数据，判据于 b6ccb499 预先登记（xval/scint-malindi/）：Zenodo 记录 { "16941224" }（INGV，Malindi，{ "2023" }年3月{ "18" }日，GPS PRN { "26" }，{ "50" } Hz 强度和载波相位，CC BY { "4.0" }，已核对 SHA-256）。{ "22" } 个合格的 { "60" } s 窗口（N1 达到）。MET：强度分布（Kolmogorov-Smirnov D 为 { "0.0415" }，判据 { "0.05" }）以及与 S4 相关联的相位闪烁（实测/模型 sigma-phi 的中位数 { "0.779" }，判据 2/3 至 3/2）。NOT MET（发现 F1）：模型的深衰落占比为实测的 { "2.38" } 倍（判据 { "0.5" } 至 { "2" }），其平均衰落时长为实测的 { "3.51" } 倍（判据 2/3 至 3/2）。发现 F2：登记的处理读取的是模型的缠绕相位，这一点由一次自检暴露；事后在相位解缠的情况下重复 B3，得到 { "0.804" }。不在检查范围：其他夜晚、台站、纬度或信号；模型中的接收机噪声。该行仍为 MODELLED。
+
+seg-160507ac3702 = IQ 捕获中的单元平均 CFAR 选项
+
+seg-7c0a1adc9ae6 = iq::acq::ca_cfar 和 ca_cfar_cells（可选）：将捕获网格的一个单元与其多普勒行的参考单元均值（保护延迟和步进延迟，绕周期回卷）比较，所用因子 alpha 由 M 个非相干块的闭式 CA-CFAR 虚警概率（ca_cfar_pfa、ca_cfar_alpha）设定。采样功率检测器仍为默认，所有现有输出均不变。
+
+seg-ba35daac2aed = 闭式解，判据于 3724aefa 预先登记（docs/design/evidence/acq-cfar/）。Gamma(M) 单元的 CA-CFAR 虚警概率，对照精确模型的蒙特卡罗：{ "18" } 个用例中有 { "18" } 个落在 { "3" } 个二项 sigma 之内。在 iq::acq 搜索的每个单元上（GPS L1 C/A，{ "2.5" } MS/s，每次 { "210 000" } 个单元），设计值为 { "1" } %：高斯噪声下为 { "0.977" } % 和 { "0.969" } %，2 比特量化噪声下为 { "1.006" } % 和 { "0.999" } %（M = { "1" } 和 { "4" }；判据为正负 { "20" } %）；输入被缩放时，判决不变。NOT MET（发现 F1）：在无噪声的 2 比特信号上，检测及其单元均正确，但峰值所在行的非峰值单元中有 { "1.28" } %（判据 { "1" } %）超过门限，位于该码的确定性相关旁瓣处。不在检查范围：其他 CFAR 变体、二维窗口、带限前端、现场数据。
+
+seg-5bd3bf0c22a7 = 频谱模型：GLONASS、北斗和 Galileo E6 频段（可选）
+
+seg-9c16189c63ac = spectrum::default_band 仅按名称（MORE_BAND_NAMES）解析：每个 FDMA 频道 K = -7 至 { "6" } 上的 GLONASS L1OF 和 L2OF（BPSK，{ "0.511" } Mchip/s），北斗 B1I（BPSK({ "2" }))、B1C（MBOC(6,1,1/11)）、B2a 和 B3I（BPSK({ "10" }))，以及 Galileo E6（BPSK({ "5" }))，其载波和最小接收功率取自各自的接口控制文件；默认频段集和所有现有输出均不变。
+
+seg-6d674bc4b40a = 已发布的接口控制文件和闭式解，判据于 5806f28b 预先登记（docs/design/evidence/spectrum-bands/）：GLONASS ICD Edition { "5.1" }、BDS-SIS-ICD B1I { "3.0" }、B1C { "1.0" }、B2a { "1.0" } 和 B3I { "1.0" }、Galileo OS SIS ICD Issue { "2.1" }。MET：每个载波、码速率和接收功率均与转录值一致（{ "28" } 个 GLONASS 频道），BPSK 的第一零点位于码速率处，B1C 复合信号等于其 ICD 功率表给出的 MBOC(6,1,1/11)，C/N0 路径恒等式成立，以及频谱场景逐字节一致。NOT MET：单位面积判据，按原文写法无法达到（发现 F1；这些面积等于闭式的带内占比），以及 IQ 层的 B1I 和 B1C 波形与模型包络的逐频点一致性（{ "1.26" } 和 { "1.56" } dB，判据为 { "0.5" } dB，发现 F2；GLONASS 为 { "0.07" } dB），原因是 Gold 码和 Weil 码的线谱不均匀；按频带平均，主瓣在 { "0.25" } dB 之内一致。不在检查范围：记录的 IQ、其他信号、系统内干扰。
+
+seg-63b7da996265 = 对照独立生成器检验北斗 B1I 主测距码
+
+seg-64bb9bbe6629 = iq::signals::beidou::b1i_bits 和 b1i：截断为 { "2046" } 个码片的 BDS-SIS-ICD-B1I-3.0 Gold 码，PRN { "1" } 至 { "63" }，即 IQ 层生成、捕获和跟踪的码。
+
+seg-690d6ea43d80 = GNSS-SDR { "v0.0.19" }（标签 { "v0.0.19" }，提交 1ddd4562），同一 ICD 的一个独立开源实现：其 beidou_b1i_code_gen_int 经单独编译后生成了全部 { "63" } 个码。仅提交其程序输出：tests/fixtures/iq_signals/beidou_b1i_gnss_sdr.txt，即 64 个码片的前缀以及每个 2046 码片码的 SHA-256。该输出就是公开的 BDS-SIS-ICD-B1I-3.0 所定义的北斗 B1I PRN 码；仓库中不含 GNSS-SDR 的源代码或二进制文件。判据于 911106d1 预先登记（xval/beidou-b1i-gnss-sdr/）：全部 { "63" } 个 PRN 的全部 { "2046" } 个码片完全一致，无反相、移位或重新标号。结果：{ "63" } 个中有 { "63" } 个一致；该固定数据由全新的 { "v0.0.19" } 检出重新生成（源文件 SHA-256 按所记录），并逐字节一致。不在检查范围：NH20 二次码、GEO PRN 列表、载波和码速率。
+
+seg-b4787b04338e = 对照 IS-GPS-800J 印刷校验列检验 GPS L1C 测距码和叠加码
+
+seg-708967246fd8 = iq::signals::gps::l1c_p_bits、l1c_d_bits 和 l1c_o_bits：L1CP 和 L1CD 的 Weil 测距码（计算得到的 Legendre 序列、Weil 索引、插在码片 p 之前的扩展序列）以及 L1CO 的 S1 叠加码，PRN { "1" } 至 { "63" }。
+
+seg-3f4bbdd3666b = IS-GPS-800J（01-AUG-2022，分发声明 A），即其在生成器参数旁印出的校验列：表 3.2-2 中每个 L1CP 和 L1CD 码的起始和末尾 { "24" } 个码片，表 3.2-3 中每个 L1CO 码的起始和末尾 { "11" } 比特，表 6.2-1 中长度为 10223 的 Legendre 序列；由 scripts/extract_is_gps_800_tables.py 自 PDF 转录（SHA-256 c4aad710...）。判据于 fe372e26 预先登记（docs/design/evidence/l1c-codes/）：{ "252" } 列中有 { "252" } 列、{ "63" } 个叠加码中有 { "63" } 个、{ "10 223" } 个 Legendre 比特中有 { "10 223" } 个完全一致；提取的 --check 通过；负面对照使重新标号、反相和移位的码均失败。不在检查范围：生成器参数本身（它们来自同样的表格）、印刷列之间的码片、TMBOC 副载波图样以及 L1CO 的 S2 码。
+
+seg-5cba09089e09 = 对照 LSIS-AFS V1.0 印刷校验列检验 LunaNet AFS-I 和 AFS-Q 主码
+
+seg-c8ad32b783bd = iq::signals::lunanet::afs_i_bits 和 afs_q_primary_bits（kshana iq 中的信号名为 lunanet-afs-i 和 lunanet-afs-q）：AFS-I Gold 码（{ "2047" } 经短周期截断为 { "2046" }，G2 按 PRN 延迟）和 AFS-Q Weil 主码（计算得到的 Legendre 序列、Weil 索引、插在码片 p 之前的扩展序列），PRN { "1" } 至 { "210" }。
+
+seg-330ed84e8e78 = 对照 LSIS-AFS V1.0 印刷表格（规范中标注为 TBC）：LunaNet Interoperability Specification V5，适用文件 { "1" } 卷 A：LunaNet Signal-In-Space Recommended Standard, Augmented Forward Signal (LSIS-AFS) V1.0，{ "2025" }年1月{ "29" }日（NASA；PDF SHA-256 { "986e0795" }...），即其在生成器参数旁印出的校验列：表 C-1 至 C-5 和 D-2 至 D-6 中每个 AFS-I 和 AFS-Q 码的起始和末尾 { "24" } 个码片，表 D-1 中长度为 10223 的 Legendre 序列；由 scripts/extract_lunanet_afs_tables.py 提取（xval/lunanet-afs/oracle/）。判据于生成器存在之前在 b3ba5d5 预先登记（xval/lunanet-afs/PREREGISTRATION.md）：B1 { "420" } 个中有 { "420" } 个，B2 一致，B3 { "420" } 个中有 { "420" } 个。该文件将其码表标注为 { "{" }LSIS-TBC{ "}" }，并说明这些码表仅用于测试和集成，因此这里验证的是该版本表格所对应的构造，而不是后续版本的。一项关于印刷的 G2 初始状态的预先登记声明（B1b）当初方向表述有误，为 NOT MET（{ "210" } 个中有 { "0" } 个），已固定；更正后的关系（{ "2047" } 减去延迟）在 { "210" } 个中有 { "210" } 个成立，并记录为事后结果。不在检查范围：生成器参数本身（同样来自这些表格）、印刷列之间的码片、三次码、电文层和 LDPC 编码。
+
+seg-7b1ae0c7ca28 = 对照 LSIS-AFS V1.0 检验 LunaNet AFS 三次码与电文层（SB1 BCH、CRC-24Q、交织器）
+
+seg-45215637ad2d = iq::signals::lunanet::afs_q_tertiary_bits、afs_q_tiered；iq::lunanet_afs：同步图样、SB1 BCH({ "51,8" }) 编码器与 256 假设解码器、CRC-24Q、{ "60" } x { "98" } 分组交织器、符号流检查器（kshana lunanet-afs-check），以及带占位子帧的测试流生成器。子帧 { "2" } 至 { "4" } 的码率 1/2 LDPC 编码尚未实现（其矩阵位于另一附件中）。
+
+seg-b6f39f180fdd = LSIS-AFS V1.0（同上）：长度为 1499 的 Legendre 序列（表 E-1，一致），以及三次码的起始和末尾 { "24" } 个码片（表 E-2 至 E-6：{ "420" } 列中有 { "419" } 列一致；该文件为 PRN { "147" } 和 PRN { "151" } 印出了相同的末尾 { "24" } 个码片 A14850，而生成器复现的是 PRN { "151" } 的，因此 PRN { "147" } 条目很可能是印刷错误；{ "420" } 个中有 { "420" } 个的判据为 NOT MET，该未达标已固定）；SB1 码的图 { "8" } 算例（一个算例：0x045 编码为 0x229F61DBB84A0）；对照目录校验值 0xCDE703 检验 ASCII { "123456789" } 的 CRC-24Q；该文件自身的帧算术。判据于 b3ba5d5 预先登记。记录在案的有一处未达标，电文层只有一个算例，因此该行保持 MODELLED。不在检查范围：LDPC 及子帧 { "2" } 至 { "4" } 内的 CRC 字、电文内容以及任何已记录的数据流
+
+seg-0d7b17524c04 = 标准包：对照运行前已声明的判据进行评分的场景
+
+seg-6e5c04fd4531 = standards_pack（kshana standards-pack）：DHS Resilient PNT 框架针对 { "1" } 至 { "4" } 级的测试配置、IMO MSC.1/Circ.1575 精度等级与完好性评估，以及 ICAO Doc { "9849" } 附录 F 的监测、评估与缓解包：每项测试运行一种内置场景类型，并将结果字段与包中声明的判据比较，需要接收机日志的测试列为 NEEDS INPUT，不予评分。
+
+seg-d9ea966abdd6 = 场景结果没有外部参考基准：每项包内测试运行的都是 MODELLED 场景类型。判据是包作者声明的配置（DHS 框架未给出数值；IMO 精度限值为 MSC.1/Circ.1575 的表 C-1，已通读；ICAO 包依据 ICAO 自己的 RFI Mitigation Plan 演示文稿，因为 Doc { "9849" } 为付费出版物，未读），在任何评分运行之前，提交于 standards/ 下 xval 风格的 PREREGISTRATION.md 文件中。MET 的判据说明的是某个模型化场景达到了所声明的判据，与任何产品无关
+
+seg-8a8f2c85e0c3 = 实验室往返证据包（场景、测试条件、接收机日志、评分）
+
+seg-a090b06a920d = evidence::roundtrip（kshana evidence round-trip）以及 kshana bench-export 的 kshana.test-conditions/1 接收机日志导出：一个已签名的证据包，记录场景哈希、所声明条件的哈希、日志哈希以及对照所声明事件的评分，并拒绝与评分事件不一致的条件，或哈希不是所声明哈希的日志。不写入、重放或调度任何信号。
+
+seg-76da58fe670a = 无外部参考基准：该证据包关联各哈希以及一项 MODELLED 的接收机日志评分，在合成数据上检查（将内置场景导出的 NMEA 视作接收机日志）。不声称进行过任何实验室运行
+
+seg-a9189e4fe413 = 在独立录制数据上对照 GNSS-SDR { "0.0.19" } 检验 IQ 跟踪引擎
+
+seg-364de05e5b1b = 完整的 IQ 层跟踪引擎（经 kshana iq track 使用 iq::track：捕获交接、相关器、NCO、二阶 { "15" } Hz Costas PLL、一阶 { "2" } Hz 载波辅助 EML 包络 DLL、锁定指示器和 C/N0 估计器），用于 { "30" } 至 { "45" } dB-Hz 的 GPS L1 C/A。
+
+seg-c2a8434c32a8 = GNSS-SDR { "0.0.19" }（GPL-3.0-or-later，Ubuntu { "24.04" } 软件包，作为单独的程序运行；仅提交推导出的数值）跟踪相同的 numpy 录制数据（独立于引擎），两者均对照解析真值衡量。判据于 48edd4a5 预先登记，并在任何测试录制之前于 1e4288c4 修订（仅在牵引阶段，两台接收机均使用 { "10" } Hz FLL，原因是登记的标定因 GNSS-SDR 的交接有误而失败，发现 F3）。在 { "30" }、{ "35" }、{ "40" } 和 { "45" } dB-Hz 下均为 MET：载波抖动在 GNSS-SDR 的 { "4.3" } % 之内，码抖动在 { "4.6" } % 之内，多普勒的均值与离散度在 GNSS-SDR 的范围之内。NOT MET：引擎的 NWPR C/N0 比 GNSS-SDR 的 SNV 低 { "2.3" } 至 { "7.1" } dB（发现 F4，即已知的 NWPR 局限；其 M2M4 与真值相差在 { "0.06" } dB 之内）；相位锁定指示器因定义不同而不同（F5）；在 { "30" } dB-Hz 下 GNSS-SDR 发生了两次周跳而引擎没有（F6）。GNSS-SDR 自身的交接在 { "30" } 次标定运行中有 { "3" } 次锁定到错误的频率。不在检查范围：其他信号、数据比特剥离、重新捕获、现场录制数据。该行仍为 MODELLED。
+
+seg-259d201c2ff8 = 对照独立 numpy 重新计算检验压制干扰类型中的 CRPA 天线增益
+
+seg-192144c57783 = 压制干扰类型的可选 [crpa] 段：对每颗卫星的逐通道波束（以干扰源为零陷的零陷转向，或基于 sigma^{ "2" } I + P_j a_j a_j^H 的 MVDR），在现有的抗干扰 C/N0 公式之前，以 ||w||^{ "2" } 缩放每条链路的噪声，并以 |w^H a_j|^{ "2" } 缩放干扰。
+
+seg-232d040b575d = 对压制干扰演示几何的每条链路，在 4 单元方阵、两种加权下，做独立的 numpy 重新计算（xval/crpa-jamming/oracle.py，不共享代码：numpy 导向矢量、numpy.linalg.solve 和 inv）。判据于 08d83b4d 预先登记。MET：A1（不含该段时，全部 { "150" } 个场景结果逐字节一致，经一次修复后：首个构建曾在每次压制干扰运行的单位表中加入了 crpa 单位），A2（单个阵元与无阵列相等，精确到 { "1e-12" } dB），A3 的阵列噪声增益和有效 C/N0（{ "912" } 个链路加权在 { "1e-9" } dB 之内，最差 { "2.1e-14" } dB）以及零陷转向的干扰零陷（两侧均低于 -200 dB），A4（在 JNR 为 { "80" } dB 时，MVDR 与零陷转向相差在 { "0.1" } dB 之内）。NOT MET：A3 的 MVDR 干扰增益，在 { "0.36" } 可移植数学库下，{ "456" } 条链路中有 { "194" } 条超过 { "1e-9" } dB（在宿主数学库下为 { "202" } 条；docs/revisions/STUDIO15-batch4-rebaseline.md）（最差 { "1.7e-6" } dB），残差为 -100 至 -188 dB，此处 float64 的相消限制了两种实现（numpy 的 inv 和 solve 在 { "169" } 条链路上彼此不一致，最差 { "7.9e-7" } dB）；由此产生的有效 C/N0 不受影响。不在检查范围：互耦、阵元失配、宽带处理、多个干扰源、任何天线硬件。这是对同一组公式的重新计算，不是外部参考基准；该行保持 MODELLED。
+
+seg-a2f34cff9338 = 在真实 SRTM 图幅上，对照独立 numpy 重新计算检验压制干扰类型中干扰源的地形遮蔽
+
+seg-334c569d9cae = 压制干扰类型的可选 [terrain] 段：在 SRTM .hgt 图幅上取干扰源与接收机之间的大圆地形剖面，含 k 因子地球隆起，取主导刃形边缘（最大的 Fresnel-Kirchhoff nu）以及 ITU-R P.526-15 第 { "4.1" } 节的单刃损耗，并从干扰源的接收功率中扣除。
+
+seg-615ea67dd756 = 针对位于 Badwater Basin 的一台接收机周围十个干扰源布置，在已提交的真实 SRTM 图幅 tests/fixtures/terrain/N36W117_sub6.hgt 上做独立的 numpy 重新计算（xval/jamming-terrain/oracle.py，不共享代码：自有的 .hgt 读取、双线性插值、WGS { "84" } 往返、剖面、隆起、nu 和 J(nu)）。判据与布置于 92cd2bfd 预先登记。全部 MET：可加性（不含该段时，全部 { "150" } 个场景结果逐字节一致）；每个布置的剖面点和障碍物相等，nu 与损耗在 { "1.6e-10" } 之内（判据 { "1e-9" }）；干扰源高度从 { "2" } 升到 { "4902" } m 时，损耗从不上升；该损耗使每个 J/S 恰好降低其自身大小，不影响其他量；J(nu) 与参考基准相差在 { "1e-12" } dB 之内。发现：跨越 Black 和 Funeral 山脉的布置损耗 { "44" } 至 { "48" } dB；两个谷底布置在 { "2" } m 天线高度下，仅地球隆起就分别损耗 { "8" } 和 { "15" } dB，这是单刃模型的掠射情形。不在检查范围：任何实测传播、多刃衍射、地面反射、杂波、DEM 自身的误差。这是对同一模型的重新计算，不是外部参考基准；该行保持 MODELLED。
+
+seg-825c121c7512 = 对照独立重新计算检验压制干扰类型中的捕获迟滞与前端量化器
+
+seg-f7207263d881 = 压制干扰类型的可选 [acquisition] 段（卫星在重新捕获延迟之后，于不低于捕获门限时被捕获，并在不低于跟踪门限时保持）与 [front_end] 段（AGC 读数 { "10" } log10({ "1" } + J/N)，以及 ADC 的高斯输入量化损耗，两者从每条链路中扣除，并标注对非高斯干扰源无效）。
+
+seg-6abc60ee9ec4 = 依据引擎逐历元的有效 C/N0，对每个捕获标志做独立的 Python 重新计算（xval/jamming-acq-agc/hysteresis.py）；对量化损耗做独立的 numpy 蒙特卡罗（xval/jamming-acq-agc/quantiser_mc.py，自有的最优步长搜索，{ "2" }^{ "22" } 个样本）；以及 IQ 层的 AGC 环路。判据于 70c72fcc 预先登记，另有一组补充运行，种子为 { "37793290" }。MET：可加性（不含这些段时，全部 { "150" } 个场景结果逐字节一致）；补充运行中每个标志均相等（{ "1824" } 条链路，其中 { "732" } 条表现出迟滞）；对门限单调；量化损耗在 { "1" } 至 { "4" } 比特下与蒙特卡罗相差在 { "0.0007" } dB 之内（判据 { "0.02" } dB）；AGC 读数与 AGC 环路相差在 { "0.012" } dB 之内（判据 { "0.05" } dB）。NOT MET：登记的迟滞运行（{ "10" } 至 { "30" } dBW 下的 jamming-demo）没有信息量，所有链路均已丢失，其 H2 和 H4 仅是平凡地达到。发现：对于 CW 干扰源，1 比特 ADC 比引擎所用的高斯数值多损耗约 { "5" } dB，并被标注为无效。不在检查范围：捕获搜索本身、AGC 的时间动态、任何接收机硬件。这是对同一模型的重新计算，不是外部参考基准；该行保持 MODELLED。
+
+seg-9c46f1c76486 = 低于默认设计 FLL 到 PLL 交接下限的封顶 FLL 牵引（可选）
+
+seg-efa1d1a9e904 = iq::track 的可选 carrier.fll_pull_in_max_s（iq::track::LoopConfig 的 fll_pull_in_max_s 字段）：在 fll_assist = pull-in 下，无论 PLI 如何，FLL 都在固定的牵引时间之后交接给 PLL，并带有一段对应的返回驻留，直到 PLI 首次达到 fll_off_pli。
+
+seg-76cce58eaddd = 针对注入真值的内部自洽性：一个无数据的合成 GPS L1 C/A 信号源（PRN { "13" }，{ "1500" } Hz，{ "4.1" } MHz，{ "8" } s，十个噪声种子），其载波相位已知，判据于 58789af0 预先登记（docs/design/evidence/fll-handover-floor/）。MET：对照（不封顶的默认设置在 { "33" } dB-Hz 下，{ "10" } 个种子中有 { "9" } 个从不交接）；可加性（默认哈希及现有跟踪测试不变）；在 { "45" } dB-Hz 下对偏差 { "100" } Hz 的交接的牵引。NOT MET：在 { "1.0" } s 封顶下，每次运行都实现交接并保持（{ "33" } dB-Hz 下 { "20" } 次中有 { "16" } 次，{ "31" } dB-Hz 下 { "20" } 次中有 { "8" } 次；其余在强制交接与 FLL 返回之间循环），且相位抖动在单独 PLL 的 { "25" } % 之内（{ "33" } dB-Hz 下为 { "10.8" } 度对 { "6.1" } 度）。不在检查范围：数据比特、其他信号和采样率、现场录制数据。默认设置不变；该行保持 MODELLED。
+
+seg-ac0f97e945a7 = 用于 receiver-trust 的 RTKLIB .pos 解文件读取器
+
+seg-0b8bc2c89de4 = 将 RTKLIB 解文件（日历或 GPS 周/TOW 时间、纬度/经度或 ECEF 位置、所用卫星数）读入 receiver-trust 时间线（receiver_trust::machines::rtklib）。
+
+seg-3de364392f92 = 无外部参考基准：未读取任何 RTKLIB 生成的文件，列布局来自 RTKLIB 手册。仅在自行编写的文件上检查；ECEF 转换复用 frames::ecef_to_geodetic，后者有自己的行
+
+seg-849393517c04 = 用于 receiver-trust 的 NovAtel OEM7 ASCII 与二进制日志（BESTPOS、RANGE、RXSTATUS）
+
+seg-7e0021922025 = 从 ASCII 和二进制 OEM7 日志中读取 BESTPOS（位置）、RANGE（每个信号的 C/No）和 RXSTATUS（接收机的干扰标志，作为该历元的自报告），带 CRC 检查，只读（receiver_trust::machines::novatel）。
+
+seg-1f7c6d1009a8 = 作为通过判据，没有外部参考基准。字段布局和 CRC 遵循公开的 OEM7 文档（docs.novatel.com）；CRC 例程曾对照文档为其 BESTPOSA 示例所给出的 CRC 检查过一次（仅引用，未摘录）。测试数据为自行编写；未读取任何真实接收机的日志
+
+seg-a45c53a9deb3 = 用于 receiver-trust 的 RTCM { "3" } MSM4 和 MSM7 载噪比读取器
+
+seg-0a0c9976236f = 从帧流中读取 RTCM { "3" } MSM4 和 MSM7 消息（GPS、GLONASS、Galileo、SBAS、QZSS、北斗、NavIC）每个信号单元的 C/N0，带 CRC-24Q 检查（receiver_trust::machines::rtcm3）。布局来自 BSD 许可的 pyrtcm 表格，而不是 RTCM 标准文本。
+
+seg-2af6fc1abe98 = 一次性检查中的 ReferenceImpl，而不是套件中的测试：pyrtcm { "1.2.0" } 的解码器读取同样自行编写的帧，得到相同的 C/N0 和历元时间。它与本读取器共享表格来源，因此检查的是比特处理，而不是布局。未读取任何来自真实接收机或基站的采集数据
+
+seg-cd554a7c1649 = 用于 receiver-trust 的 GNSS-SDR 监测适配器
+
+seg-22b587ac642d = 读取 GNSS-SDR Monitor（Gnss_Synchro）和 PVT 监测消息（以 proto 字段名转发为 JSON 行），得到逐通道的 C/N0、定位、所用卫星数、HDOP 和天空图（receiver_trust::machines::gnss_sdr；integrations/gnss-sdr/relay.py）。
+
+seg-d22aed9d9a16 = 无外部参考基准：字段名来自 GNSS-SDR 文档；读取器和 relay.py 均未对照实时 GNSS-SDR 或真实采集数据运行过
+
+seg-217e5953c128 = IMU 日志导入、陀螺航向输入，以及混合传感器参数的 Allan 拟合
+
+seg-9dadc819daef = 读取 IMU CSV（文档化的列，或 EuRoC 布局）；将偏航角速率积分为航向-航迹监测器所读取的航向（[log.imu]）；并通过重叠阿伦偏差，由静止日志拟合混合与融合场景的加速度计和陀螺噪声参数（imu-fit）。
+
+seg-9099f3467e9e = 无外部参考基准：拟合在系数已知的合成白噪声日志上检查，航向在恒定偏航角速率日志上检查。未拟合任何真实 IMU 日志，且 q_aa 未被拟合
+
+seg-15a852a2dcb0 = 用于信任遥测的 Home Assistant MQTT 发现与状态导出器
+
+seg-6d6b07b26966 = 一份 JSON 状态文档和 Home Assistant MQTT 发现消息，用于信任数据流；在所有界面上以文本打印，并由命令行通过 MQTT { "3.1.1" } QoS { "0" } 发布（telemetry::mqtt；trust-telemetry --mqtt-tcp、--print-mqtt、format mqtt）。
+
+seg-79a8f3864af3 = 无外部参考基准：数据包由为该测试编写的环回监听器读取，而不是由真实代理读取，也未运行 Home Assistant
+
+seg-68caf86157c2 = ROS { "2" } receiver-trust 包与 gnss_lib_py 桥接
+
+seg-e7d7d99fe538 = 一个不依赖 ROS 的桥接，将定位和卫星消息写成 NMEA，并通过 Python 绑定评分（integrations/ros2/kshana_trust），以及一个经由 rtklib-pos 格式将 gnss_lib_py NavData 接入 receiver-trust 的桥接（integrations/gnss_lib_py）。
+
+seg-05ded40b17d2 = 无外部参考基准：ROS 节点未在实时 ROS { "2" } 图上运行，ublox_ubx_msgs 的字段名也未对照正在运行的驱动程序检查。桥接测试运行了 gnss_lib_py（MIT）
