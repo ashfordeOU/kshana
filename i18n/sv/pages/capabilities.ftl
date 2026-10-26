@@ -1126,9 +1126,9 @@ seg-979fb46a1ac8 = Tåg i tunnel utan GNSS: hur länge ett tågs tröghetsnavige
 
 seg-6d592347a45a = <c1/><a1>ins-trn-coast</a1><a2>maritime-port-approach-coast</a2><a3>rail-tunnel-coast</a3>
 
-seg-588092c0b828 = Optisk PNT genom atmosfären: tre ILLUSTRATIVA markplatser (en molnigare nordlig plats, en
+seg-588092c0b828 = Optisk PNT genom atmosfären: tre ILLUSTRATIVE markplatser (en molnigare nordlig plats, en
 
-seg-d9110ecdc1a0 = Vad-händer-om för förbättringstekniker vid en ILLUSTRATIV markplats: ett våglängdsbyte, en större
+seg-d9110ecdc1a0 = Vad-händer-om för förbättringstekniker vid en ILLUSTRATIVE markplats: ett våglängdsbyte, en större
 
 seg-67d9aed36283 = <c1/><a1>optical-atmosphere-network</a1><a2>optical-atmosphere-techniques</a2>
 
@@ -1170,7 +1170,7 @@ seg-d58a6084c08d = Telekomtidssynkronisering, exempel på inläsning: en serie m
 
 seg-a7737b295231 = <c1/><a1>telecom-prtc-holdover-24h</a1><a2>telecom-synce-eec</a2><a3>telecom-tie-ingest</a3>
 
-seg-a9d9e45f2147 = Tvåvägs satellittids- och frekvensöverföring (TWSTFT) mellan två ILLUSTRATIVA stationer, en
+seg-a9d9e45f2147 = Tvåvägs satellittids- och frekvensöverföring (TWSTFT) mellan två ILLUSTRATIVE stationer, en
 
 seg-0ea13860c00c = <c1/><a1>time-transfer-budget</a1>
 
@@ -1194,7 +1194,7 @@ seg-b9192c83fdf7 = Demonstrator för aperturens arbetscykel (markssegment & oper
 
 seg-e40da530a08a = <c1/><a1>aperture-duty-cycle</a1>
 
-seg-e671128cedbc = Uppstigningsförluster med gravitationssväng för en ILLUSTRATIV tvåstegs bärraket med fotogen/syre (inga verkliga
+seg-e671128cedbc = Uppstigningsförluster med gravitationssväng för en ILLUSTRATIVE tvåstegs bärraket med fotogen/syre (inga verkliga
 
 seg-17e5ec4d18bc = <c1/><a1>ascent-losses</a1>
 
@@ -1222,7 +1222,7 @@ seg-a38ba5ac0cda = Demonstrator för jordobservationsnyttolastens fotavtryck & t
 
 seg-acccb75c3c8b = <c1/><a1>eo-coverage</a1>
 
-seg-966c1090da5a = Radiometri och bildkvalitet för en nadirbildtagare i en ILLUSTRATIV liten jordobservationskamera
+seg-966c1090da5a = Radiometri och bildkvalitet för en nadirbildtagare i en ILLUSTRATIVE liten jordobservationskamera
 
 seg-53d1e190c57d = <c1/><a1>eo-radiometry</a1>
 
