@@ -192,7 +192,7 @@ seg-df12c861db1e = "Lunar local Differential PNT and Selenodetic Reference Stati
 
 seg-03f689a0ba49 = ioag.org/meetings/cislunar、セクション { "6" }、項目 { "07" }
 
-seg-406990fe43a8 = ICG-IOAG Workshop on Cislunar PNT、{ "2025" } 年二月。欧州宇宙機関のスライド
+seg-406990fe43a8 = ICG-IOAG Workshop on Cislunar PNT、{ "2025" } 年2月。欧州宇宙機関のスライド
 
 seg-58579c3faf2f = 記載なし。スライド { "3" } から一般公開可と表示
 
@@ -200,17 +200,17 @@ seg-57df0ef791e6 = "Moonlight: LCNS, and Lunar Pathfinder"（{ "28" } スライ�
 
 seg-7e18a15e0d16 = unoosa.org、<c1/>
 
-seg-23aee49b1347 = UNOOSA、ICG Joint Working Group Session on Lunar PNT、{ "2024" } 年六月。欧州宇宙機関のスライド
+seg-23aee49b1347 = UNOOSA、ICG Joint Working Group Session on Lunar PNT、{ "2024" } 年6月。欧州宇宙機関のスライド
 
 seg-f4e53e44f0b5 = 記載なし。一般公開可と表示
 
 seg-b22a694c481d = "Moonlight Programme Development Status"（{ "16" } スライド）
 
-seg-3fd0ab93507d = 2nd ICG-IOAG Cislunar PNT Workshop、{ "2026" } 年二月。欧州宇宙機関と Telespazio のスライド
+seg-3fd0ab93507d = 2nd ICG-IOAG Cislunar PNT Workshop、{ "2026" } 年2月。欧州宇宙機関と Telespazio のスライド
 
 seg-472771298df7 = "Lunar Reference Time: ESA's Views"（{ "9" } スライド）
 
-seg-6229db9cb23d = Workshop on Cislunar PNT、{ "2026" } 年二月。欧州宇宙機関のスライド
+seg-6229db9cb23d = Workshop on Cislunar PNT、{ "2026" } 年2月。欧州宇宙機関のスライド
 
 seg-6b626a2abd0f = LunaNet Signal-In-Space Recommended Standard, Augmented Forward Signal（LSIS）V1.0 と、ツリー内の <c1/>
 

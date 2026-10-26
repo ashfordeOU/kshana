@@ -24,11 +24,11 @@ seg-7d2165f7b65c = 船舶向け GNSS 干渉に関する IMO ガイダンス：Ks
 
 seg-37fe70c1c7cc = 船舶向けの IMO の GNSS 干渉に関する文書は手薄です。MSC.1/Circ.1644 は主に加盟国に宛てたものであり、船側への期待は、無線航行システム決議と、複数システム受信機の性能標準に書かれています。このファイルはこの三つの文書を対応付けています。MSC.1/Circ.1644 より後の GNSS 干渉に関する IMO 回章は見つかりませんでした。新しいものがないか、IMO の文書ライブラリで確認してください。
 
-seg-0387d075e642 = <b>Deliberate interference with the United States Global Positioning System and other global navigation satellite systems</b>：IMO MSC.1/Circ.1644、{ "2021" }年十月{ "18" }日。<a1>https://rntfnd.org/wp-content/uploads/IMO-Circular-MSC.1-Circ.1644-Deliberate-Interference-With-The-United-States-Global-Positioning-System-Gps-And-Other...-Secretariat.pdf_safe.pdf</a1>。閲覧日 2026-10-09：IMO のサイトではなく、この回章のサードパーティ製ミラーから全文を読みました。正式な写しは IMO の文書ライブラリで確認してください。
+seg-0387d075e642 = <b>Deliberate interference with the United States Global Positioning System and other global navigation satellite systems</b>：IMO MSC.1/Circ.1644、{ "2021" }年10月{ "18" }日。<a1>https://rntfnd.org/wp-content/uploads/IMO-Circular-MSC.1-Circ.1644-Deliberate-Interference-With-The-United-States-Global-Positioning-System-Gps-And-Other...-Secretariat.pdf_safe.pdf</a1>。閲覧日 2026-10-09：IMO のサイトではなく、この回章のサードパーティ製ミラーから全文を読みました。正式な写しは IMO の文書ライブラリで確認してください。
 
-seg-7ba6a6044211 = <b>Worldwide Radionavigation System</b>：IMO 総会決議 A.1046({ "27" })、{ "2011" }年十一月{ "30" }日採択。<a1>https://wwwcdn.imo.org/localresources/en/KnowledgeCentre/IndexofIMOResolutions/AssemblyDocuments/A.1046({ "27" }).pdf</a1>。閲覧日 2026-10-09：文書は全文を読みました。
+seg-7ba6a6044211 = <b>Worldwide Radionavigation System</b>：IMO 総会決議 A.1046({ "27" })、{ "2011" }年11月{ "30" }日採択。<a1>https://wwwcdn.imo.org/localresources/en/KnowledgeCentre/IndexofIMOResolutions/AssemblyDocuments/A.1046({ "27" }).pdf</a1>。閲覧日 2026-10-09：文書は全文を読みました。
 
-seg-6058b50bd6e0 = <b>Performance standards for multi-system shipborne radionavigation receivers</b>：IMO MSC.401({ "95" })、{ "2015" }年六月{ "8" }日採択（MSC.432({ "98" })、{ "2017" }年で改正）。<a1>https://wwwcdn.imo.org/localresources/en/KnowledgeCentre/IndexofIMOResolutions/MSCResolutions/MSC.401({ "95" }).pdf</a1>。閲覧日 2026-10-09：原文の決議を全文読みました。{ "2017" }年の改正文は読んでいません。MSC.1/Circ.1644 より後の GNSS 干渉に関する IMO 回章は見つかりませんでした。新しいものがないか、IMO の文書ライブラリで確認してください。
+seg-6058b50bd6e0 = <b>Performance standards for multi-system shipborne radionavigation receivers</b>：IMO MSC.401({ "95" })、{ "2015" }年6月{ "8" }日採択（MSC.432({ "98" })、{ "2017" }年で改正）。<a1>https://wwwcdn.imo.org/localresources/en/KnowledgeCentre/IndexofIMOResolutions/MSCResolutions/MSC.401({ "95" }).pdf</a1>。閲覧日 2026-10-09：原文の決議を全文読みました。{ "2017" }年の改正文は読んでいません。MSC.1/Circ.1644 より後の GNSS 干渉に関する IMO 回章は見つかりませんでした。新しいものがないか、IMO の文書ライブラリで確認してください。
 
 seg-1faf6c9b7d40 = MSC.1/Circ.1644、パラグラフ { "3" }
 

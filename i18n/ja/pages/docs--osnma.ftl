@@ -32,13 +32,13 @@ seg-54d15cb428d3 = Galileo OSNMA Signal-in-Space ICD（「SIS ICD」）
 
 seg-f63fbc1175cf = Issue { "1.1" }
 
-seg-fa85e4db2c93 = { "2023" } 年十月
+seg-fa85e4db2c93 = { "2023" } 年10月
 
 seg-b89aa2b88558 = Galileo OSNMA Receiver Guidelines
 
 seg-907e4e46056c = Issue { "1.3" }
 
-seg-a9b75bc7f063 = { "2024" } 年一月
+seg-a9b75bc7f063 = { "2024" } 年1月
 
 seg-530ae6421157 = コード内およびここで引用している節番号と表番号は、これらの版を指します。
 

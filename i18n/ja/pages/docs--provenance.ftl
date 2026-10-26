@@ -66,7 +66,7 @@ seg-a36f415cccab = ACES/PHARAO（Atomic Clock Ensemble in Space / Projet d'Horlo
 
 seg-9d6acc3191a5 = 数日間の積分後で { "1" }×{ "10" }⁻¹⁶ 程度
 
-seg-1cddc44025d7 = ESA（欧州宇宙機関）の ACES/PHARAO。{ "2025" } 年四月から ISS で運用中（ESA が公表した結果を引用すること）
+seg-1cddc44025d7 = ESA（欧州宇宙機関）の ACES/PHARAO。{ "2025" } 年4月から ISS で運用中（ESA が公表した結果を引用すること）
 
 seg-75b7bb5ca4c8 = <b>飛行適格</b>（マイクロ波/メーザーであり、光ではありません）
 

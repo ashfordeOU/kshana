@@ -10,11 +10,11 @@ seg-4013a17a3517 = LunaNet Augmented Forward Signal：符号、メッセージ�
 
 seg-c1a27b995345 = Kshana は、LunaNet の <b>Augmented Forward Signal（AFS）</b>の拡散符号とメッセージ層を、仕様の一つの版が定めるとおりに実装し、その版に印刷された表と照合して自己検査を行います。
 
-seg-e9bd99bbddb5 = <b>固定。</b>LunaNet Interoperability Specification（LNIS）<b>Version { "5" }</b>、Applicable Document { "1" } Volume A：<em>LunaNet Signal-In-Space Recommended Standard, Augmented Forward Signal</em>（LSIS-AFS）<b>Version { "1.0" }、{ "2025" } 年一月{ "29" } 日</b>（NASA）。2026-10-18 に取得。PDF の SHA-256 は <c1/>（<a1>出典情報</a1>）。後の版は別の固定であり、符号が変わる可能性があります。この文書は符号表に { "{" }LSIS-TBC{ "}" } と記し、「試験および統合作業を容易にするためにのみ含まれる」と述べています。すべてのレポートにこの版の名前が記載されます。
+seg-e9bd99bbddb5 = <b>固定。</b>LunaNet Interoperability Specification（LNIS）<b>Version { "5" }</b>、Applicable Document { "1" } Volume A：<em>LunaNet Signal-In-Space Recommended Standard, Augmented Forward Signal</em>（LSIS-AFS）<b>Version { "1.0" }、{ "2025" } 年1月{ "29" } 日</b>（NASA）。2026-10-18 に取得。PDF の SHA-256 は <c1/>（<a1>出典情報</a1>）。後の版は別の固定であり、符号が変わる可能性があります。この文書は符号表に { "{" }LSIS-TBC{ "}" } と記し、「試験および統合作業を容易にするためにのみ含まれる」と述べています。すべてのレポートにこの版の名前が記載されます。
 
 seg-6845e671bf24 = 助言のみ：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、人命安全（safety-of-life）サービスでもありません。
 
-seg-69a98d01f489 = 仕様書に印刷された列と照合した LunaNet AFS 符号ジェネレーター。エンジン v{ $version } の実際の実行によるもの（`kshana lunanet-afs-check spec`、LNIS V5、AD1 Volume A（LSIS-AFS）V1.0、{ "2025" } 年一月{ "29" } 日に固定。文書は符号表に { "{" }LSIS-TBC{ "}" } と記しています）。{ "10" } 件の検査のうち { "9" } 件は基準を満たし、B4 は NOT MET です（{ "421" } 件中 { "420" } 件が一致）。これは、公開された仕様の一つの版に対してシンボル列を検査するものであり、LunaNet のいかなるノードやサービスについても何も述べません。助言のみ：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、人命安全（safety-of-life）サービスでもありません。これは、公開された仕様の一つの版に対してシンボル列を検査するものであり、LunaNet のいかなるノードやサービスについても何も述べません。
+seg-69a98d01f489 = 仕様書に印刷された列と照合した LunaNet AFS 符号ジェネレーター。エンジン v{ $version } の実際の実行によるもの（`kshana lunanet-afs-check spec`、LNIS V5、AD1 Volume A（LSIS-AFS）V1.0、{ "2025" } 年1月{ "29" } 日に固定。文書は符号表に { "{" }LSIS-TBC{ "}" } と記しています）。{ "10" } 件の検査のうち { "9" } 件は基準を満たし、B4 は NOT MET です（{ "421" } 件中 { "420" } 件が一致）。これは、公開された仕様の一つの版に対してシンボル列を検査するものであり、LunaNet のいかなるノードやサービスについても何も述べません。助言のみ：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、人命安全（safety-of-life）サービスでもありません。これは、公開された仕様の一つの版に対してシンボル列を検査するものであり、LunaNet のいかなるノードやサービスについても何も述べません。
 
 seg-4c3f77d97294 = 実装している内容
 
