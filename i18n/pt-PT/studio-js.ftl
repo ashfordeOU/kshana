@@ -3632,7 +3632,7 @@ js-kind-cap-leo-pvt-label = Posicionamento
 
 js-kind-cap-leo-signal-label = Projeto do sinal
 
-js-kind-cap-lunar-llr-datum-label = Referência da telemetria laser
+js-kind-cap-lunar-llr-datum-label = Datum da telemetria laser
 
 js-kind-cap-ntn-positioning-label = Posicionamento
 
@@ -4200,7 +4200,7 @@ js-kind-title-continuity-across-message-switches = Continuidade entre mudanças 
 
 js-kind-title-cross-check-against-the-jamming = Verificação cruzada com o tipo jamming
 
-js-kind-title-datum-accuracy = Exatidão da referência
+js-kind-title-datum-accuracy = Exatidão do datum
 
 js-kind-title-dilution-of-precision-over-the = Diluição de precisão em toda a grelha
 
@@ -5102,3 +5102,943 @@ js-lib-views-position-error-axis = erro de posição ({ $unit })
 js-lib-views-position-error-m = erro de posição (m)
 
 js-lib-views-position-error-run = Erro de posição ao longo da execução
+
+js-lib-views-position-m = posição (m)
+
+js-lib-views-predicted-time-error = Erro de tempo previsto desde a última solução de posição
+
+js-lib-views-protection-level-m = nível de proteção (m)
+
+js-lib-views-protection-levels = Níveis de proteção face ao limite de alerta
+
+js-lib-views-quantum = quantum
+
+js-lib-views-relay-error-bound = Erro de posição da navegação por retransmissão e o seu limite de 3 sigma
+
+js-lib-views-satellites = satélites
+
+js-lib-views-satellites-tracking = Satélites visíveis e ainda em seguimento
+
+js-lib-views-shaded-gnss-denied = sombreado: GNSS negado
+
+js-lib-views-slot-guard = guarda do intervalo
+
+js-lib-views-spoofed-offset = Desvio de tempo com spoofing face ao limite de deteção
+
+js-lib-views-sweep-of = Varrimento de { $parameter }: { $metric }
+
+js-lib-views-sync-error-axis = erro de sincronização ({ $unit })
+
+js-lib-views-sync-error-run = Erro de sincronização ao longo da execução
+
+js-lib-views-threshold = limiar
+
+js-lib-views-time-error-ns = erro de tempo (ns)
+
+js-lib-views-time-ns = tempo (ns)
+
+js-lib-views-time-s = tempo (s)
+
+js-lib-views-time-since-fix = tempo desde a última solução de posição (s)
+
+js-lib-views-timing-error-axis = erro de temporização ({ $unit })
+
+js-lib-views-timing-error-run = Erro de temporização ao longo da execução
+
+js-lib-views-tracking = em seguimento
+
+js-lib-views-value = valor
+
+js-lib-views-vertical-vpl = vertical (VPL)
+
+js-lib-views-visible = visíveis
+
+js-lib-views-word-enbw = largura de banda de ruído equivalente
+
+js-lib-views-word-nfft = comprimento da FFT
+
+js-lib-views-word-stec = TEC oblíquo
+
+js-lib-views-word-toa = tempo de chegada
+
+js-lib-views-word-ttff = tempo até à primeira solução de posição
+
+js-lib-views-word-tx = transmissão
+
+js-lib-views-word-zwd = atraso húmido zenital
+
+js-lunar-address-outside-range = { $label }: "{ $raw }" está fora de { $min } a { $max }; é usado o valor do ficheiro.
+
+js-lunar-address-too-long = O endereço era demasiado longo; são mostradas as predefinições.
+
+js-lunar-address-unknown-source = Fonte desconhecida no endereço; é mostrada a gravação.
+
+js-lunar-alert-limit = limite de alerta { $value } (ilustrativo)
+
+js-lunar-alert-not-stated = limite de alerta não indicado
+
+js-lunar-bearing-east = 90° E
+
+js-lunar-bearing-west = 90° O
+
+js-lunar-cell-title = { $lat }°, { $lon }°: corrigido { $corrected }, disponibilidade { $availability }, cobertura { $coverage }
+
+js-lunar-copy-address = Copie o endereço da barra de endereços.
+
+js-lunar-counts = { $sats } satélites, { $points } pontos da grelha, { $epochs } épocas, { $trials } ensaios de Monte Carlo por época. Etiqueta: { $label }.
+
+js-lunar-engine-no-start = O motor não conseguiu arrancar neste navegador ({ $reason }). Abra antes um ficheiro de resultados.
+
+js-lunar-engine-unknown-kind = Este motor ({ $version }) não conhece o tipo { $kind }; precisa do motor 0.36.
+
+js-lunar-fig-availability-region = Disponibilidade na região
+
+js-lunar-fig-corrected-3d = Erro corrigido, { $n } %, 3D
+
+js-lunar-fig-coverage = Cobertura
+
+js-lunar-fig-epochs-within = épocas dentro de { $value }
+
+js-lunar-fig-horizontal-vertical = horizontal { $h }, vertical { $v }
+
+js-lunar-fig-hpl-below-alert = HPL abaixo do limite de alerta
+
+js-lunar-fig-hpl-vpl = HPL, VPL no máximo
+
+js-lunar-fig-improvement = Fator de melhoria
+
+js-lunar-fig-lowest-point = Mínimo num ponto
+
+js-lunar-fig-points-always-available = Pontos disponíveis em todas as épocas
+
+js-lunar-fig-uncorrected-3d = Erro não corrigido, { $n } %, 3D
+
+js-lunar-fig-worst-point = Pior ponto
+
+js-lunar-file-not-json = Este ficheiro não é JSON.
+
+js-lunar-file-not-object = Este ficheiro não é um objeto JSON.
+
+js-lunar-file-too-large = { $name }: maior do que 32 MiB; esta página lê ficheiros de resultados até esse tamanho.
+
+js-lunar-file-value = ficheiro: { $value }
+
+js-lunar-full-of-total = { $full } de { $total }
+
+js-lunar-give-value = { $label }: indique um valor de { $min } a { $max }.
+
+js-lunar-give-whole-value = { $label }: indique um valor de { $min } a { $max } (um número inteiro).
+
+js-lunar-honesty-affiliation = Sem afiliação nem aval de qualquer agência.
+
+js-lunar-honesty-assumptions = Sob os pressupostos públicos indicados, não é uma afirmação sobre o desempenho de nenhum sistema real.
+
+js-lunar-in-grid-spacing = Espaçamento dos anéis da grelha, graus
+
+js-lunar-in-latency = Latência da correção, segundos
+
+js-lunar-in-seed = Semente
+
+js-lunar-in-station-lat = Latitude da estação, graus
+
+js-lunar-in-station-lon = Longitude da estação, graus
+
+js-lunar-in-survey-error = Erro de levantamento da estação (1 sigma), metros
+
+js-lunar-in-threshold = Limiar de exatidão, metros
+
+js-lunar-in-time-step = Passo de tempo, segundos
+
+js-lunar-in-trials = Ensaios de Monte Carlo por época
+
+js-lunar-input-out-of-range = { $label } está fora do intervalo.
+
+js-lunar-json-field-not-json = O campo json do ficheiro não é JSON.
+
+js-lunar-key-50-or-more = 50 % ou mais
+
+js-lunar-key-90-or-more = 90 % ou mais
+
+js-lunar-key-95-or-more = 95 % ou mais
+
+js-lunar-key-99-or-more = 99 % ou mais
+
+js-lunar-key-above = acima de { $value }
+
+js-lunar-key-above-threshold = acima de { $value } × limiar
+
+js-lunar-key-below-50 = abaixo de 50 %
+
+js-lunar-key-between = { $from } a { $to }
+
+js-lunar-key-between-threshold = { $from } a { $to } × limiar
+
+js-lunar-key-up-to = até { $value }
+
+js-lunar-key-up-to-threshold = até { $value } × limiar
+
+js-lunar-layer-availability = disponibilidade
+
+js-lunar-layer-coverage = cobertura
+
+js-lunar-layer-error = erro corrigido
+
+js-lunar-layer-range = erro corrigido no seu próprio intervalo
+
+js-lunar-legend-no-figure = sem valor (indisponível em todo o período)
+
+js-lunar-legend-radius = raio de cobertura
+
+js-lunar-legend-threshold = limiar, { $value }
+
+js-lunar-legend-worst = pior ponto
+
+js-lunar-link-copied = Ligação copiada.
+
+js-lunar-map-desc = { $points } pontos da grelha desde o polo até à latitude { $rim }°. { $meet } deles têm um erro corrigido de percentil { $percentile } dentro do limiar de { $threshold }. Colorido por { $layer }. A estação está em { $lat }°, { $lon }°.
+
+js-lunar-map-note-one-band = { $share } % dos pontos caem numa só banda da escala do limiar, pelo que o mapa mostra pouca variação: colora por "o seu próprio intervalo" para ver como o erro varia ao longo da região.
+
+js-lunar-needs-newer-engine = Este estudo precisa do motor { $need } ou posterior; o motor em execução aqui é a v{ $version }. A gravação, ou um ficheiro de resultados, ainda pode ser mostrada.
+
+js-lunar-no = não
+
+js-lunar-no-recording = Ainda não é distribuída nenhuma gravação deste estudo: é feita na versão com o motor 0.36. Execute-o aqui com um motor que tenha o tipo, ou abra um ficheiro de resultados.
+
+js-lunar-no-scenario = Este sítio ainda não tem { $file }: chega com o motor 0.36. Abra antes um ficheiro de resultados.
+
+js-lunar-no-scenario-note = Este sítio ainda não tem { $file } (chega com o motor 0.36), pelo que não é possível uma execução aqui; abra antes um ficheiro de resultados.
+
+js-lunar-not-report = Isto não é um relatório { $kind }.
+
+js-lunar-not-stated = não indicado
+
+js-lunar-note-none = O ficheiro não indica nenhuma nota.
+
+js-lunar-note-withheld = A própria declaração do ficheiro nomeia um programa ou uma agência, pelo que esta página não a mostra; aplica-se a declaração no topo da página.
+
+js-lunar-point-epochs-reason = point-epochs: { $reason }
+
+js-lunar-radius-desc = Raio de cobertura em { $count } azimutes: o mais curto { $lo } km a { $loAz }°, o mais longo { $hi } km a { $hiAz }°.
+
+js-lunar-radius-desc-limited =
+    { $count ->
+        [one] { $count } alcança o limite da grelha, pelo que a cobertura se estende pelo menos até aí.
+        [many] { $count } de azimutes alcançam o limite da grelha, pelo que a cobertura se estende pelo menos até aí.
+       *[other] { $count } alcançam o limite da grelha, pelo que a cobertura se estende pelo menos até aí.
+    }
+
+js-lunar-radius-hollow = Os pontos ocos alcançam o limite da grelha: a cobertura mantém-se pelo menos até aí ao longo dessa direção.
+
+js-lunar-radius-none = O relatório não indica nenhum raio de cobertura.
+
+js-lunar-radius-per-azimuth = raio de cobertura por azimute
+
+js-lunar-radius-point = { $az }°: { $km } km
+
+js-lunar-radius-point-limited = { $az }°: { $km } km (alcança o limite da grelha: pelo menos até aí)
+
+js-lunar-radius-zero = Em todas as direções a cobertura já está abaixo de 95 % na própria estação, pelo que o raio é 0 km: o erro corrigido excede aí o limiar de { $value }.
+
+js-lunar-reason-station-missing = a estação não vê todos os satélites que o utilizador usa
+
+js-lunar-reason-user-lt4 = menos de quatro satélites à vista do utilizador
+
+js-lunar-run-stopped = A execução parou: { $message }
+
+js-lunar-running = A executar o estudo neste navegador…
+
+js-lunar-running-elapsed = A executar o estudo neste navegador… { $seconds } s
+
+js-lunar-scenario-missing-keys = O ficheiro do cenário não tem { $keys }; não pode ser alterado aqui.
+
+js-lunar-set-inputs = Defina as entradas e prima Executar aqui.
+
+js-lunar-showing = A mostrar { $what }.
+
+js-lunar-showing-engine = A mostrar { $what } (motor { $version }).
+
+js-lunar-source-error = { $what }: { $error }
+
+js-lunar-station = estação
+
+js-lunar-station-title = estação { $lat }°, { $lon }°
+
+js-lunar-table-count =
+    { $n ->
+        [one] { $n } ponto, o mais próximo da estação primeiro.
+        [many] { $n } de pontos, os mais próximos da estação primeiro.
+       *[other] { $n } pontos, os mais próximos da estação primeiro.
+    }
+
+js-lunar-th-corrected = Erro corrigido, { $n } %
+
+js-lunar-threshold-title = erro corrigido { $value } (o limiar)
+
+js-lunar-what-file = o ficheiro { $name }
+
+js-lunar-what-recording = a gravação distribuída com o Studio
+
+js-lunar-what-run = uma execução neste navegador (motor { $version })
+
+js-lunar-worst-at = em { $lat }°, { $lon }°
+
+js-lunar-worst-title = pior ponto { $lat }°, { $lon }°: { $value }
+
+js-lunar-yes-at-least = sim: pelo menos até aí
+
+js-lunarinfra-above-95-point = acima do ponto de 95 %
+
+js-lunarinfra-advisory = Software de caráter consultivo, não um equipamento homologado; sem nenhum percurso de transmissão de qualquer tipo.
+
+js-lunarinfra-arc-note = Comprimento de onda da portadora { $value } m.
+
+js-lunarinfra-arc-title = Cada arco
+
+js-lunarinfra-bars-not-loaded = o ficheiro dos limiares não foi carregado
+
+js-lunarinfra-bars-not-shown = Não foi possível mostrar os limiares pré-registados ({ $reason }).
+
+js-lunarinfra-bars-note = Fixados antes de qualquer estudo ser pontuado, com os veredictos de registo (commit do motor { $commit }). Nada é VALIDATED; um limiar marcado NOT MET é fixado por um teste que afirma a falha, e nenhum foi afrouxado.
+
+js-lunarinfra-bars-title = Face aos limiares pré-registados
+
+js-lunarinfra-bars-wrong-file = o ficheiro dos limiares não é o que esta página lê
+
+js-lunarinfra-blurb-carrier-phase = Uma estação à superfície e um orbitador que usam fase da portadora de sinais GNSS terrestres com dupla diferença: é possível fixar as ambiguidades inteiras e que efeito tem isso no limite de posição? A execução de exemplo rápida.
+
+js-lunarinfra-blurb-frame-coestimation = Os sete parâmetros do datum lunar a partir da telemetria laser de estações terrestres, com e sem distâncias do orbitador a estações à superfície: quanto melhora a informação?
+
+js-lunarinfra-blurb-geodesy-sensitivity = Que sensibilidade têm a telemetria laser, o seguimento de orbitadores, um gravímetro e um relógio à superfície aos números de Love de maré da Lua h2, k2 e l2 e à sua libração física?
+
+js-lunarinfra-blurb-od-consistency = Determinação de órbita a bordo com GNSS terrestre numa órbita de halo quase retilínea, face a uma solução radiométrica terrestre independente do mesmo arco: concordam as duas dentro das suas incertezas indicadas, e a verificação de consistência deteta um erro de modelação quando é injetado um? Mostrado lado a lado.
+
+js-lunarinfra-blurb-space-tie = GNSS, VLBI e telemetria laser numa só nave espacial: com que precisão se podem ligar os desvios entre as três técnicas, face ao erro da ligação local na nave espacial?
+
+js-lunarinfra-bound-label = Incerteza de posição, flutuante e fixa, escala logarítmica
+
+js-lunarinfra-bound-note = Incerteza de posição a um sigma da estação e do orbitador com as ambiguidades deixadas flutuantes e com elas fixadas (o que a fixação daria se fosse alcançada).
+
+js-lunarinfra-bound-title = Limite de posição, flutuante e fixo
+
+js-lunarinfra-chip-na = n/d
+
+js-lunarinfra-comp-normal = normal
+
+js-lunarinfra-comp-position = posição (3D)
+
+js-lunarinfra-comp-radial = radial
+
+js-lunarinfra-comp-transverse = transversal
+
+js-lunarinfra-compare-note = Em { $sets } conjuntos aleatórios de estações, o menor valor próprio não foi menor com as ligações do orbitador em { $lambda } e o traço não foi maior em { $trace }; a subida mediana do menor valor próprio foi de { $median } vezes.
+
+js-lunarinfra-compare-title = A comparação em números
+
+js-lunarinfra-crsigma-label = Sigma de Cramér-Rao, escala logarítmica
+
+js-lunarinfra-crsigma-note = Em metros à superfície.
+
+js-lunarinfra-crsigma-title = Sigma de Cramér-Rao por parâmetro
+
+js-lunarinfra-days =
+    { $n ->
+        [one] { $n } dia
+        [many] { $n } de dias
+       *[other] { $n } dias
+    }
+
+js-lunarinfra-direction = direção { $n }
+
+js-lunarinfra-disclosures = Divulgações
+
+js-lunarinfra-eig-label = Valores próprios da informação, escala logarítmica
+
+js-lunarinfra-eig-note = Os sete valores próprios da matriz de informação, o menor primeiro, sem e com as ligações orbitador-estação. O menor sobe { $times } vezes, e o traço de Cramér-Rao desce para { $share } do seu valor. Isto pressupõe que a órbita é conhecida nos eixos lunares (o seu erro é transportado pelo sigma da distância do orbitador).
+
+js-lunarinfra-eig-title = Informação em cada direção do datum
+
+js-lunarinfra-fact-arc = Arco
+
+js-lunarinfra-fact-hash = Hash do cenário
+
+js-lunarinfra-fact-llr-rows = Linhas de telemetria laser
+
+js-lunarinfra-fact-orbit-family = Família de órbitas
+
+js-lunarinfra-fact-orbiter-arc = Arco do orbitador
+
+js-lunarinfra-fact-orbiter-rows = Linhas do orbitador
+
+js-lunarinfra-fact-study = Estudo
+
+js-lunarinfra-fact-wavelength = Comprimento de onda da portadora
+
+js-lunarinfra-families-note = O RMS da derivada parcial de cada parâmetro sobre as linhas da família, e o número de linhas. Um zero é um parâmetro a que essa família é cega. A sensibilidade a k2 da família do orbitador é um valor do limite superior.
+
+js-lunarinfra-families-title = O que cada família vê
+
+js-lunarinfra-findings = Constatações
+
+js-lunarinfra-fix-note-a = A proporção de ensaios de Monte Carlo que fixaram corretamente todas as ambiguidades inteiras (com o seu erro-padrão), e a taxa que a estimativa por bootstrap prevê.
+
+js-lunarinfra-fix-note-b = A fixação de inteiros NÃO é alcançada nesta entrada: o melhor arco fixa { $share } dos ensaios.
+
+js-lunarinfra-fix-note-c = Não há tempo de fixação para mostrar, porque a fixação não é alcançada.
+
+js-lunarinfra-fix-rate-label = Taxa de fixação de inteiros face ao comprimento do arco
+
+js-lunarinfra-fix-title = Taxa de fixação face ao comprimento do arco
+
+js-lunarinfra-fixed = fixa
+
+js-lunarinfra-float = flutuante
+
+js-lunarinfra-fraction-above-95 = Fração de ensaios acima do ponto de 95 %
+
+js-lunarinfra-ground-radiometric = radiométrica terrestre independente
+
+js-lunarinfra-injected-error = erro injetado { $value } m/s²
+
+js-lunarinfra-mean-consistency = Estatística de consistência média
+
+js-lunarinfra-mean-q = q médio
+
+js-lunarinfra-miss-line = { $id } é { $status }: { $value }
+
+js-lunarinfra-miss-no-fix = A fixação de ambiguidades inteiras NÃO é alcançada nesta entrada: o melhor arco fixa { $share } dos ensaios de Monte Carlo.
+
+js-lunarinfra-na = n/d
+
+js-lunarinfra-nominal = nominal
+
+js-lunarinfra-not-result = este não é um resultado de infraestrutura lunar
+
+js-lunarinfra-not-verified = Não verificado
+
+js-lunarinfra-offset-precision-label = Precisão do desvio face à ligação local, escala log-log
+
+js-lunarinfra-offsets-note = Sigma de translação por eixo, sigma de escala e de rotação à superfície, em metros.
+
+js-lunarinfra-offsets-title = Os desvios para cada erro de ligação (arco de { $days } dias, { $epochs } épocas)
+
+js-lunarinfra-onboard-gnss = a bordo com GNSS terrestre
+
+js-lunarinfra-open-failed = Não foi possível abrir { $title }: { $reason }.
+
+js-lunarinfra-opening = A abrir { $title }…
+
+js-lunarinfra-orbit-uncertainty-log = Incerteza da órbita por componente, escala logarítmica
+
+js-lunarinfra-orbiter-days = orbitador, { $days } d
+
+js-lunarinfra-q-note = Média da estatística de consistência q em { $trials } ensaios; { $expected } é o que um par consistente de soluções dá. A fração de ensaios acima do ponto de 95 % é a taxa de deteção da verificação.
+
+js-lunarinfra-q-title = A verificação de consistência, nominal face ao erro injetado
+
+js-lunarinfra-recorded =
+    { $n ->
+        [one] { $title }: o resultado registado do motor (versão { $version }).
+        [many] { $title }: os resultados registados do motor (versão { $version }).
+       *[other] { $title }: os resultados registados do motor (versão { $version }).
+    }
+
+js-lunarinfra-rel-label = Sigma sobre o nominal, escala logarítmica
+
+js-lunarinfra-rel-note = Sigma de Cramér-Rao como percentagem do valor nominal, com as quatro famílias em conjunto. h2 e l2 são pontos de linearização, não valores verificados; k2 provém de um ajuste publicado.
+
+js-lunarinfra-rel-title = Com que rigor cada parâmetro pode ser fixado, face ao seu valor nominal
+
+js-lunarinfra-result-not-json = o resultado não é JSON ({ $reason })
+
+js-lunarinfra-result-not-loaded = o resultado registado { $file } não foi carregado
+
+js-lunarinfra-row-above-95 = Ensaios acima do ponto de 95 % (qui-quadrado de 95 % = { $chi })
+
+js-lunarinfra-row-crtrace = Traço de Cramér-Rao
+
+js-lunarinfra-row-degeneracy = Métrica de degenerescência
+
+js-lunarinfra-row-formal-diff = Sigma formal dessa diferença
+
+js-lunarinfra-row-ground-meas = Terra: medições, épocas com uma estação
+
+js-lunarinfra-row-mean-diff = Diferença média das duas órbitas
+
+js-lunarinfra-row-mean-q = q médio (6 esperado)
+
+js-lunarinfra-row-observations = Observações
+
+js-lunarinfra-row-onboard-epochs = A bordo: épocas com um ou mais / quatro ou mais satélites
+
+js-lunarinfra-row-onboard-meas = A bordo: medições, média de satélites seguidos
+
+js-lunarinfra-row-origin-scale = Correlação origem-escala
+
+js-lunarinfra-row-origin-sigma = Sigma da origem, m
+
+js-lunarinfra-row-rank-defect = Característica (defeito)
+
+js-lunarinfra-row-smallest-eig = Menor valor próprio
+
+js-lunarinfra-row-trace-ground = Amostra sobre o traço formal, Terra
+
+js-lunarinfra-row-trace-onboard = Amostra sobre o traço formal, a bordo
+
+js-lunarinfra-row-within-95 = Ensaios dentro do ponto de 95 %
+
+js-lunarinfra-series-bootstrapped = por bootstrap
+
+js-lunarinfra-series-floor = patamar
+
+js-lunarinfra-series-monte-carlo = Monte Carlo
+
+js-lunarinfra-side-note = A órbita: { $family }, um arco de { $arc } dias de uma órbita de { $period } dias, amostrado a cada { $sample } s.
+
+js-lunarinfra-side-title = Lado a lado
+
+js-lunarinfra-sigma-note = Incerteza de posição a um sigma por componente, em metros, a partir das duas estimativas do mesmo arco.
+
+js-lunarinfra-sigma-over-nominal = sigma / nominal
+
+js-lunarinfra-sigma-title = Com que rigor cada lado conhece a órbita
+
+js-lunarinfra-station-days = estação, { $days } d
+
+js-lunarinfra-status-verdict = { $status }: { $verdict }
+
+js-lunarinfra-subsets-note = Acrescentar uma família nunca baixou o menor valor próprio ({ $lambda } de { $pairs } acréscimos), mas o traço da pseudoinversa não foi maior em apenas { $trace } de { $pairs }, porque uma família acrescentada pode aumentar a característica.
+
+js-lunarinfra-subsets-title = Todas as combinações de famílias
+
+js-lunarinfra-sweep-note = A pior componente de translação de cada desvio, em metros, à medida que o erro da ligação entre as três técnicas na nave espacial é varrido. Com os sigmas de técnica registados (GNSS { $gnss } m, VLBI { $vlbi } m, laser { $slr } m), os desvios são limitados pelo ruído de medição, não pela ligação; a ligação só define o patamar para técnicas quase perfeitas.
+
+js-lunarinfra-sweep-title = Precisão dos desvios entre técnicas face à ligação local (arco de { $days } dias)
+
+js-lunarinfra-th-arc-days = Arco, dias
+
+js-lunarinfra-th-bar = Limiar
+
+js-lunarinfra-th-bootstrapped = Taxa por bootstrap
+
+js-lunarinfra-th-budget-exhausted = Orçamento de pesquisa esgotado (ensaios)
+
+js-lunarinfra-th-common-sats = Épocas com 2 ou mais satélites comuns
+
+js-lunarinfra-th-crtrace = Traço de Cramér-Rao
+
+js-lunarinfra-th-dd-ambiguities = Ambiguidades de dupla diferença
+
+js-lunarinfra-th-epochs = Épocas
+
+js-lunarinfra-th-families = Famílias
+
+js-lunarinfra-th-family = Família
+
+js-lunarinfra-th-local-tie = Sigma da ligação local, m
+
+js-lunarinfra-th-mc-fix-rate = Taxa de fixação de Monte Carlo
+
+js-lunarinfra-th-median-ambiguity = Sigma mediano da ambiguidade, ciclos
+
+js-lunarinfra-th-offset = Desvio
+
+js-lunarinfra-th-quantity = Grandeza
+
+js-lunarinfra-th-rank = Característica
+
+js-lunarinfra-th-rotation = Rotação à superfície, m
+
+js-lunarinfra-th-rows = Linhas
+
+js-lunarinfra-th-scale = Escala à superfície, m
+
+js-lunarinfra-th-smallest-eig = Menor valor próprio
+
+js-lunarinfra-th-translation = Translação x, y, z, m
+
+js-lunarinfra-th-value = Valor
+
+js-lunarinfra-th-verdict = Veredicto
+
+js-lunarinfra-th-with-links = Com ligações do orbitador
+
+js-lunarinfra-th-without-links = Sem ligações do orbitador
+
+js-lunarinfra-title-carrier-phase = Fase da portadora, superfície e orbitador
+
+js-lunarinfra-title-frame-coestimation = Coestimação do referencial
+
+js-lunarinfra-title-geodesy-sensitivity = Números de Love e libração
+
+js-lunarinfra-title-od-consistency = Consistência da determinação de órbita
+
+js-lunarinfra-title-space-tie = Ligação espacial
+
+js-lunarinfra-unknown-study = este resultado de infraestrutura lunar é o estudo "{ $study }", que esta página não lê
+
+js-lunarinfra-where-missed = Onde este estudo falhou.
+
+js-lunarinfra-with-links = com ligações do orbitador
+
+js-lunarinfra-without-links = sem ligações do orbitador
+
+js-lunarinfra-x-arc-length = comprimento do arco, dias
+
+js-lunarinfra-x-local-tie = sigma da ligação local, m (log)
+
+js-lunarinfra-y-fixed-correctly = fixados corretamente, %
+
+js-lunarinfra-y-offset-sigma = sigma do desvio, m (log); o patamar tracejado é só a ligação, sqrt(2) × o erro da ligação
+
+js-meaning-body-generic = um corpo
+
+js-meaning-body-the = { $name }
+
+js-meaning-card-label-sub = { $k }, { $sub }
+
+js-meaning-checks-of =
+    { $n ->
+        [one] { $av } de { $n } verificação
+        [many] { $av } de { $n } de verificações
+       *[other] { $av } de { $n } verificações
+    }
+
+js-meaning-coverage-average-label = Média à vista
+
+js-meaning-coverage-big-min =
+    { $n ->
+        [one] Pelo menos { $n } satélite à vista em todos os locais, { $mean } em média.
+        [many] Pelo menos { $n } de satélites à vista em todos os locais, { $mean } em média.
+       *[other] Pelo menos { $n } satélites à vista em todos os locais, { $mean } em média.
+    }
+
+js-meaning-coverage-big-none = Alguns locais não veem nenhum satélite por vezes; { $mean } estão à vista em média.
+
+js-meaning-coverage-fewest-label = Mínimo à vista, em qualquer lugar
+
+js-meaning-coverage-line-many = Com { $names } em conjunto, é possível uma solução de posição em { $share } % dos locais e instantes em torno de { $body }.
+
+js-meaning-coverage-line-many-pdop = Com { $names } em conjunto, é possível uma solução de posição em { $share } % dos locais e instantes em torno de { $body } (qualidade da geometria, PDOP, abaixo de { $thr }).
+
+js-meaning-coverage-line-none = É possível uma solução de posição em { $share } % dos locais e instantes em torno de { $body }.
+
+js-meaning-coverage-line-none-pdop = É possível uma solução de posição em { $share } % dos locais e instantes em torno de { $body } (qualidade da geometria, PDOP, abaixo de { $thr }).
+
+js-meaning-coverage-line-one = Com { $names }, é possível uma solução de posição em { $share } % dos locais e instantes em torno de { $body }.
+
+js-meaning-coverage-line-one-pdop = Com { $names }, é possível uma solução de posição em { $share } % dos locais e instantes em torno de { $body } (qualidade da geometria, PDOP, abaixo de { $thr }).
+
+js-meaning-coverage-places-label = Locais que obtêm uma solução de posição
+
+js-meaning-duration-days =
+    { $n ->
+        [one] { $days } dia
+        [many] { $days } de dias
+       *[other] { $days } dias
+    }
+
+js-meaning-ensemble-big-many = Em muitas extrações de ruído, o { $q } mantém { $thr } ns durante { $qd } em média; o { $c } durante { $cd }.
+
+js-meaning-ensemble-big-runs =
+    { $n ->
+        [one] Em { $n } extração de ruído, o { $q } mantém { $thr } ns durante { $qd } em média; o { $c } durante { $cd }.
+        [many] Em { $n } de extrações de ruído, o { $q } mantém { $thr } ns durante { $qd } em média; o { $c } durante { $cd }.
+       *[other] Em { $n } extrações de ruído, o { $q } mantém { $thr } ns durante { $qd } em média; o { $c } durante { $cd }.
+    }
+
+js-meaning-ensemble-line = Nove extrações em dez de { $name } mantêm-se de { $band }.
+
+js-meaning-ensemble-mean = média
+
+js-meaning-ensemble-mean-band = média; banda de 90 % { $band }
+
+js-meaning-error-p95-label = Erro, 95 % do tempo, { $name }
+
+js-meaning-generic-big = { $label }: { $value }.
+
+js-meaning-generic-line-one = Também desta execução: { $a }.
+
+js-meaning-generic-line-two = Também desta execução: { $a } e { $b }.
+
+js-meaning-generic-none = Esta execução não tem um único valor principal; o gráfico abaixo mostra o seu resultado.
+
+js-meaning-holdover-label = Holdover, { $name }
+
+js-meaning-hpl-sub = nível de proteção horizontal
+
+js-meaning-inside-budget = dentro de { $budget }
+
+js-meaning-integrity-big-checks-mostly = Sim, na maior parte: em { $share } % das verificações.
+
+js-meaning-integrity-big-checks-no = Não: em { $share } % das verificações.
+
+js-meaning-integrity-big-checks-partly = Só em parte: em { $share } % das verificações.
+
+js-meaning-integrity-big-checks-yes = Sim: em { $share } % das verificações.
+
+js-meaning-integrity-big-span-mostly = Sim, na maior parte: durante { $share } % de { $span }.
+
+js-meaning-integrity-big-span-no = Não: durante { $share } % de { $span }.
+
+js-meaning-integrity-big-span-partly = Só em parte: durante { $share } % de { $span }.
+
+js-meaning-integrity-big-span-yes = Sim: durante { $share } % de { $span }.
+
+js-meaning-integrity-bound-label = Limite de erro típico
+
+js-meaning-integrity-bound-sub = horizontal / vertical, mediana
+
+js-meaning-integrity-gap-all-passed = todas as verificações passaram
+
+js-meaning-integrity-gap-label = Lacuna mais longa
+
+js-meaning-integrity-gap-none = nenhuma
+
+js-meaning-integrity-gap-sub =
+    { $n ->
+        [one] { $n } verificação seguida, a partir de { $from }
+        [many] { $n } de verificações seguidas, a partir de { $from }
+       *[other] { $n } verificações seguidas, a partir de { $from }
+    }
+
+js-meaning-integrity-misleading-label = Soluções de posição enganosas
+
+js-meaning-integrity-misleading-sub = erro real acima do limite
+
+js-meaning-integrity-trusted-label = Tempo em que se pode confiar na solução de posição
+
+js-meaning-jamming-above-label = Jammer acima do sinal
+
+js-meaning-jamming-above-sub = razão jammer-sinal média
+
+js-meaning-jamming-big-gone = O jammer retira por completo a solução de posição.
+
+js-meaning-jamming-big-share = Com o jammer, há solução de posição disponível em { $share } % do tempo.
+
+js-meaning-jamming-clear-label = Solução de posição disponível, sem jammer
+
+js-meaning-jamming-fewest-label = Mínimo de satélites seguidos
+
+js-meaning-jamming-fewest-sub = no pior momento
+
+js-meaning-jamming-jammed-label = Solução de posição disponível, com jammer
+
+js-meaning-jamming-line = Sem o jammer, há solução de posição disponível em { $share } % do tempo.
+
+js-meaning-jamming-line-js = Sem o jammer, há solução de posição disponível em { $share } % do tempo; o jammer chega, em média, { $db } dB acima do sinal.
+
+js-meaning-kicker = { $domain } · { $title }
+
+js-meaning-lunar-big-all =
+    { $n ->
+        [one] Sim: em todas as verificações ({ $n }).
+        [many] Sim: em todas as verificações ({ $n }).
+       *[other] Sim: em todas as verificações ({ $n }).
+    }
+
+js-meaning-lunar-big-none =
+    { $n ->
+        [one] Não: em nenhuma das verificações ({ $n }).
+        [many] Não: em nenhuma das verificações ({ $n }).
+       *[other] Não: em nenhuma das verificações ({ $n }).
+    }
+
+js-meaning-lunar-big-some =
+    { $n ->
+        [one] Em { $av } de { $n } verificação ({ $share } %).
+        [many] Em { $av } de { $n } de verificações ({ $share } %).
+       *[other] Em { $av } de { $n } verificações ({ $share } %).
+    }
+
+js-meaning-lunar-largest-label = Maior limite de erro
+
+js-meaning-lunar-line = O nível de proteção variou de { $min } a { $max } m face a um limite de alerta de { $limit } m.
+
+js-meaning-lunar-meet-label = Verificações que cumprem o limite
+
+js-meaning-lunar-meet-value = { $av } de { $tot }
+
+js-meaning-lunar-smallest-label = Menor limite de erro
+
+js-meaning-median-lower-better = mediana, quanto menor melhor
+
+js-meaning-of-the-time = do tempo
+
+js-meaning-orbit-best-label = Melhor geometria (PDOP)
+
+js-meaning-orbit-best-sub = mínimo ao longo da execução
+
+js-meaning-orbit-big-always = É possível uma solução de posição durante todo o tempo.
+
+js-meaning-orbit-big-share = É possível uma solução de posição em { $share } % do tempo.
+
+js-meaning-orbit-error-label = Erro de posição típico
+
+js-meaning-orbit-error-sub = 1 sigma, mediana
+
+js-meaning-orbit-line =
+    { $n ->
+        [one] Havia satélites suficientes à vista em { $fix } de { $n } momento.
+        [many] Havia satélites suficientes à vista em { $fix } de { $n } de momentos.
+       *[other] Havia satélites suficientes à vista em { $fix } de { $n } momentos.
+    }
+
+js-meaning-orbit-line-pdop =
+    { $n ->
+        [one] Havia satélites suficientes à vista em { $fix } de { $n } momento; a qualidade típica da geometria (PDOP, diluição de precisão de posição) é { $pdop }, quanto menor melhor.
+        [many] Havia satélites suficientes à vista em { $fix } de { $n } de momentos; a qualidade típica da geometria (PDOP, diluição de precisão de posição) é { $pdop }, quanto menor melhor.
+       *[other] Havia satélites suficientes à vista em { $fix } de { $n } momentos; a qualidade típica da geometria (PDOP, diluição de precisão de posição) é { $pdop }, quanto menor melhor.
+    }
+
+js-meaning-orbit-moments =
+    { $n ->
+        [one] { $fix } de { $n } momento
+        [many] { $fix } de { $n } de momentos
+       *[other] { $fix } de { $n } momentos
+    }
+
+js-meaning-orbit-time-label = Tempo em que é possível uma solução de posição
+
+js-meaning-pair-big-diff-pos = O { $best } mantém-se dentro de { $budget } durante { $bestDur }; o { $other } durante { $otherDur }.
+
+js-meaning-pair-big-diff-time = O { $best } mantém o tempo dentro de { $budget } durante { $bestDur }; o { $other } durante { $otherDur }.
+
+js-meaning-pair-big-same-pos = Tanto o { $q } como o { $c } mantêm-se dentro de { $budget } durante { $dur }.
+
+js-meaning-pair-big-same-time = Tanto o { $q } como o { $c } mantêm o tempo dentro de { $budget } durante { $dur }.
+
+js-meaning-pair-line-clock = O holdover é quanto tempo cada relógio se mantém dentro do orçamento de { $budget } depois de perdida a navegação por satélite.
+
+js-meaning-pair-line-navigator = O holdover é quanto tempo cada navegador se mantém dentro do orçamento de { $budget } depois de perdida a navegação por satélite.
+
+js-meaning-pdop-label = Qualidade da geometria (PDOP)
+
+js-meaning-places-times = dos locais e instantes
+
+js-meaning-range-to = { $from } a { $to }
+
+js-meaning-satellites =
+    { $n ->
+        [one] satélite
+        [many] de satélites
+       *[other] satélites
+    }
+
+js-meaning-spectrum-above = acima do limiar
+
+js-meaning-spectrum-below = abaixo do limiar: perdido
+
+js-meaning-spectrum-big-kept =
+    { $n ->
+        [one] O único sinal ({ $n }) continua em seguimento.
+        [many] Todos os { $n } de sinais continuam em seguimento.
+       *[other] Todos os { $n } sinais continuam em seguimento.
+    }
+
+js-meaning-spectrum-big-lost =
+    { $n ->
+        [one] Os jammers retiram { $lost } de { $n } sinal: { $names }.
+        [many] Os jammers retiram { $lost } de { $n } de sinais: { $names }.
+       *[other] Os jammers retiram { $lost } de { $n } sinais: { $names }.
+    }
+
+js-meaning-spectrum-line-kept =
+    { $n ->
+        [one] { $names } mantém-se acima do limiar de seguimento do recetor durante toda a execução.
+        [many] { $names } mantêm-se acima do limiar de seguimento do recetor durante toda a execução.
+       *[other] { $names } mantêm-se acima do limiar de seguimento do recetor durante toda a execução.
+    }
+
+js-meaning-spectrum-line-kept-thr =
+    { $n ->
+        [one] { $names } mantém-se acima do limiar de seguimento de { $thr } dB-Hz do recetor durante toda a execução.
+        [many] { $names } mantêm-se acima do limiar de seguimento de { $thr } dB-Hz do recetor durante toda a execução.
+       *[other] { $names } mantêm-se acima do limiar de seguimento de { $thr } dB-Hz do recetor durante toda a execução.
+    }
+
+js-meaning-spectrum-line-none = Nenhum sinal se mantém acima do limiar de seguimento do recetor durante toda a execução.
+
+js-meaning-integrity-line-none =
+    { $n ->
+        [one] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo do limite de alerta em { $av } de { $tot } verificação.
+        [many] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo do limite de alerta em { $av } de { $tot } de verificações.
+       *[other] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo do limite de alerta em { $av } de { $tot } verificações.
+    }
+
+js-meaning-integrity-line-none-clean =
+    { $n ->
+        [one] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo do limite de alerta em { $av } de { $tot } verificação, e nenhuma solução de posição foi enganosa.
+        [many] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo do limite de alerta em { $av } de { $tot } de verificações, e nenhuma solução de posição foi enganosa.
+       *[other] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo do limite de alerta em { $av } de { $tot } verificações, e nenhuma solução de posição foi enganosa.
+    }
+
+js-meaning-integrity-line-none-some =
+    { $n ->
+        [one] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo do limite de alerta em { $av } de { $tot } verificações; { $n } solução de posição foi enganosa.
+        [many] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo do limite de alerta em { $av } de { $tot } verificações; { $n } de soluções de posição foram enganosas.
+       *[other] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo do limite de alerta em { $av } de { $tot } verificações; { $n } soluções de posição foram enganosas.
+    }
+
+js-meaning-integrity-line-h =
+    { $n ->
+        [one] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal) em { $av } de { $tot } verificação.
+        [many] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal) em { $av } de { $tot } de verificações.
+       *[other] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal) em { $av } de { $tot } verificações.
+    }
+
+js-meaning-integrity-line-h-clean =
+    { $n ->
+        [one] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal) em { $av } de { $tot } verificação, e nenhuma solução de posição foi enganosa.
+        [many] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal) em { $av } de { $tot } de verificações, e nenhuma solução de posição foi enganosa.
+       *[other] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal) em { $av } de { $tot } verificações, e nenhuma solução de posição foi enganosa.
+    }
+
+js-meaning-integrity-line-h-some =
+    { $n ->
+        [one] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal) em { $av } de { $tot } verificações; { $n } solução de posição foi enganosa.
+        [many] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal) em { $av } de { $tot } verificações; { $n } de soluções de posição foram enganosas.
+       *[other] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal) em { $av } de { $tot } verificações; { $n } soluções de posição foram enganosas.
+    }
+
+js-meaning-integrity-line-v =
+    { $n ->
+        [one] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $v } m na vertical) em { $av } de { $tot } verificação.
+        [many] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $v } m na vertical) em { $av } de { $tot } de verificações.
+       *[other] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $v } m na vertical) em { $av } de { $tot } verificações.
+    }
+
+js-meaning-integrity-line-v-clean =
+    { $n ->
+        [one] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $v } m na vertical) em { $av } de { $tot } verificação, e nenhuma solução de posição foi enganosa.
+        [many] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $v } m na vertical) em { $av } de { $tot } de verificações, e nenhuma solução de posição foi enganosa.
+       *[other] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $v } m na vertical) em { $av } de { $tot } verificações, e nenhuma solução de posição foi enganosa.
+    }
+
+js-meaning-integrity-line-v-some =
+    { $n ->
+        [one] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $v } m na vertical) em { $av } de { $tot } verificações; { $n } solução de posição foi enganosa.
+        [many] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $v } m na vertical) em { $av } de { $tot } verificações; { $n } de soluções de posição foram enganosas.
+       *[other] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $v } m na vertical) em { $av } de { $tot } verificações; { $n } soluções de posição foram enganosas.
+    }
+
+js-meaning-integrity-line-hv =
+    { $n ->
+        [one] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } verificação.
+        [many] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } de verificações.
+       *[other] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } verificações.
+    }
+
+js-meaning-integrity-line-hv-clean =
+    { $n ->
+        [one] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } verificação, e nenhuma solução de posição foi enganosa.
+        [many] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } de verificações, e nenhuma solução de posição foi enganosa.
+       *[other] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } verificações, e nenhuma solução de posição foi enganosa.
+    }
+
+js-meaning-integrity-line-hv-some =
+    { $n ->
+        [one] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } verificações; { $n } solução de posição foi enganosa.
+        [many] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } verificações; { $n } de soluções de posição foram enganosas.
+       *[other] O limite de erro do recetor (o seu nível de proteção) manteve-se abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } verificações; { $n } soluções de posição foram enganosas.
+    }
