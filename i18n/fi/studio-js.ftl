@@ -3622,3 +3622,1449 @@ js-kind-guided-first-jammer-power-dbw = Ensimmäisen häirintälähteen teho (dB
 js-kind-guided-first-jammer-range-m = Ensimmäisen häirintälähteen etäisyys (m)
 
 js-kind-guided-first-jammer-received-power-dbw = Ensimmäisen häirintälähteen vastaanotettu teho (dBW)
+
+js-kind-guided-first-phase-length-s = Ensimmäisen vaiheen kesto (s)
+
+js-kind-guided-first-shell-altitude-km = Ensimmäisen kuoren korkeus (km)
+
+js-kind-guided-first-shell-inclination = Ensimmäisen kuoren inklinaatio (°)
+
+js-kind-guided-first-signal-bandwidth-hz = Ensimmäisen signaalin kaistanleveys (Hz)
+
+js-kind-guided-first-system-range-error-m = Ensimmäisen järjestelmän etäisyysvirhe (m)
+
+js-kind-guided-fit-interval-s = Sovitusväli (s)
+
+js-kind-guided-gravity-field-degree = Painovoimakentän aste
+
+js-kind-guided-grid-step = Ruudukon askel (°)
+
+js-kind-guided-integration-time-s = Integrointiaika (s)
+
+js-kind-guided-leo-satellites-in-the-sweep = LEO-satelliitit pyyhkäisyssä
+
+js-kind-guided-loop-bandwidth-hz = Silmukan kaistanleveys (Hz)
+
+js-kind-guided-monte-carlo-runs = Monte Carlo -ajot
+
+js-kind-guided-network-synchronisation-error-m = Verkon synkronointivirhe (m)
+
+js-kind-guided-orbit-altitude-km = Radan korkeus (km)
+
+js-kind-guided-orbit-determination-error-m = Radanmäärityksen virhe (m)
+
+js-kind-guided-orbit-inclination = Radan inklinaatio (°)
+
+js-kind-guided-pdop-threshold = PDOP-kynnys
+
+js-kind-guided-peak-elevation-of-the-pass = Ohituksen huippukorkeuskulma (°)
+
+js-kind-guided-points-per-orbit-track = Pisteitä per ratajälki
+
+js-kind-guided-receiver-noise-figure-db = Vastaanottimen kohinaluku (dB)
+
+js-kind-guided-receiver-power-when-awake-mw = Vastaanottimen teho hereillä ollessa (mW)
+
+js-kind-guided-reference-c-n0-db-hz = Vertailu-C/N0 (dB-Hz)
+
+js-kind-guided-relay-altitude-km = Releen korkeus (km)
+
+js-kind-guided-relay-inclination = Releen inklinaatio (°)
+
+js-kind-guided-relay-planes = Releiden ratatasot
+
+js-kind-guided-relay-range-error-m = Releen etäisyysvirhe (m)
+
+js-kind-guided-relays-per-plane = Releitä per ratataso
+
+js-kind-guided-runs-per-case = Ajoja per tapaus
+
+js-kind-guided-satellite-altitude-km = Satelliitin korkeus (km)
+
+js-kind-guided-second-system-range-error-m = Toisen järjestelmän etäisyysvirhe (m)
+
+js-kind-guided-shared-condition = Yhteinen ehto
+
+js-kind-guided-slant-electron-content-tecu = Vinon suunnan elektronipitoisuus (TECU)
+
+js-kind-guided-slant-range-km = Vino etäisyys (km)
+
+js-kind-guided-spoofed-offset-m = Harhautuksen poikkeama (m)
+
+js-kind-guided-spoofing-starts-s = Harhautus alkaa (s)
+
+js-kind-guided-sweep-from = Pyyhkäisy alkaen
+
+js-kind-guided-sweep-steps = Pyyhkäisyn askeleet
+
+js-kind-guided-sweep-to = Pyyhkäisy asti
+
+js-kind-guided-timeline-step-s = Aikajanan askel (s)
+
+js-kind-guided-tracking-threshold-db-hz = Seurantakynnys (dB-Hz)
+
+js-kind-guided-transmit-power-dbw = Lähetysteho (dBW)
+
+js-kind-guided-update-period-s = Päivitysjakso (s)
+
+js-kind-guided-user-latitude = Käyttäjän leveysaste (°)
+
+js-kind-hint-a-band-under-this-carrier = kaista, jonka kantoaalto–kohinatiheys on tämän alapuolella, on menettänyt lukituksen
+
+js-kind-hint-a-grid-point-is-available = ruudukon piste on saatavilla, kun sen paikan tarkkuuden heikkenemiskerroin on tämän alapuolella
+
+js-kind-hint-a-satellite-must-be-this = satelliitin on oltava näin korkealla, jotta se lasketaan näkyväksi
+
+js-kind-hint-a-satellite-must-be-this-2 = satelliitin on oltava näin korkealla, jotta sitä käytetään
+
+js-kind-hint-a-satellite-of-the-first = ensimmäisen järjestelmän satelliitin on oltava näin korkealla
+
+js-kind-hint-arc-one-message-is-fitted = kaari, jolle yksi viesti sovitetaan
+
+js-kind-hint-code-tracking-loop-noise-bandwidth = koodinseurantasilmukan kohinakaistanleveys
+
+js-kind-hint-detail-of-the-truth-orbit = totuusradan painovoimamallin tarkkuus
+
+js-kind-hint-distance-from-the-first-jammer = ensimmäisen häirintälähteen etäisyys vastaanottimeen
+
+js-kind-hint-distance-to-the-satellite-in = etäisyys satelliittiin kaistavertailussa
+
+js-kind-hint-drawn-while-acquiring-and-tracking = piirretty hankinnan ja seurannan aikana
+
+js-kind-hint-equivalent-isotropically-radiated-power-of = ensimmäisen häirintälähteen ekvivalentti isotrooppisesti säteilevä teho
+
+js-kind-hint-equivalent-isotropically-radiated-power-of-2 = kaistan ekvivalentti isotrooppisesti säteilevä teho
+
+js-kind-hint-filter-runs-averaged-for-each = kustakin tapauksesta keskiarvoistettavat suodinajot (useampi on hitaampi)
+
+js-kind-hint-first-value-of-the-swept = pyyhkäistävän parametrin ensimmäinen arvo
+
+js-kind-hint-height-of-the-chain-s = ketjun satelliitin korkeus
+
+js-kind-hint-height-of-the-first-shell = ensimmäisen kuoren ratojen korkeus
+
+js-kind-hint-height-of-the-relay-orbits = releratojen korkeus kappaleen yläpuolella
+
+js-kind-hint-height-of-the-satellite-whose = sen satelliitin korkeus, jonka viesti sovitetaan
+
+js-kind-hint-how-far-the-spoofer-moves = kuinka paljon harhauttaja siirtää laskettua paikkaa
+
+js-kind-hint-how-finely-each-orbit-is = kuinka tiheästi kukin rata otetaan näytteeksi piirrosta varten
+
+js-kind-hint-how-high-the-satellite-climbs = kuinka korkealle satelliitti nousee
+
+js-kind-hint-how-long-the-first-phase = kuinka kauan ensimmäinen vaihe kestää
+
+js-kind-hint-how-long-the-receiver-integrates = kuinka kauan vastaanotin integroi yhtä etäisyyttä varten
+
+js-kind-hint-how-many-low-orbit-satellites = kuinka monta matalan radan satelliittia geometriapyyhkäisy lisää
+
+js-kind-hint-how-many-seeded-runs-make = kuinka monta siemenluvulla ajettua ajoa muodostaa ensemblen
+
+js-kind-hint-how-many-values-are-run = kuinka monta arvoa ajetaan
+
+js-kind-hint-how-often-a-new-message = kuinka usein uusi viesti annetaan
+
+js-kind-hint-how-wide-the-first-jammer = kuinka laajalle ensimmäinen häirintälähde levittää tehonsa
+
+js-kind-hint-ionosphere-along-the-path-in = ionosfääri reitin varrella, kokonaiselektronipitoisuuden yksiköissä
+
+js-kind-hint-last-value-of-the-swept = pyyhkäistävän parametrin viimeinen arvo
+
+js-kind-hint-length-of-each-filter-run = kunkin suodinajon kesto
+
+js-kind-hint-length-of-the-run = ajon kesto
+
+js-kind-hint-length-of-the-timeline = aikajanan pituus
+
+js-kind-hint-occupied-bandwidth-of-the-first = ensimmäisen vertailusignaalin käyttämä kaistanleveys
+
+js-kind-hint-one-sigma-doppler-measurement-error = Doppler-mittauksen yhden sigman virhe
+
+js-kind-hint-one-sigma-error-of-a = releelle mitatun etäisyyden yhden sigman virhe
+
+js-kind-hint-one-sigma-error-of-the = Maasta mitatun kaksisuuntaisen etäisyyden yhden sigman virhe
+
+js-kind-hint-orbital-planes-of-the-navigation = navigointireleiden ratatasot
+
+js-kind-hint-power-of-the-first-jammer = ensimmäisen häirintälähteen teho vastaanottimessa
+
+js-kind-hint-raises-the-noise-floor-under = nostaa kohinatasoa jokaisen kaistan alla
+
+js-kind-hint-satellites-in-each-plane = satelliitit kussakin ratatasossa
+
+js-kind-hint-sets-the-doppler-range-a = määrää Doppler-alueen, jonka kylmähaun on katettava
+
+js-kind-hint-signal-in-space-range-error = ensimmäisen järjestelmän avaruussignaalin etäisyysvirhe
+
+js-kind-hint-signal-in-space-range-error-2 = toisen järjestelmän avaruussignaalin etäisyysvirhe
+
+js-kind-hint-signal-level-the-tracking-figures = signaalitaso, jolla seurantaluvut ilmoitetaan
+
+js-kind-hint-spacing-of-the-latitude-and = leveys- ja pituusasteruudukon väli
+
+js-kind-hint-spacing-of-the-shared-mission = yhteisen tehtäväaikaruudukon väli
+
+js-kind-hint-the-part-of-the-range = se osa etäisyysvirheestä, jota viesti ei voi poistaa
+
+js-kind-hint-the-value-every-member-runs = arvo, jolla jokainen jäsen ajetaan
+
+js-kind-hint-tilt-of-that-orbit = tuon radan kallistus
+
+js-kind-hint-tilt-of-the-first-shell = ensimmäisen kuoren ratatasojen kallistus
+
+js-kind-hint-tilt-of-the-relay-planes = releiden ratatasojen kallistus
+
+js-kind-hint-timing-error-between-satellites-as = satelliittien välinen ajoitusvirhe etäisyytenä
+
+js-kind-hint-when-the-spoofer-captures-the = milloin harhauttaja vangitsee vastaanottimen
+
+js-kind-hint-where-the-receiver-stands = missä vastaanotin sijaitsee
+
+js-kind-hint-where-the-user-stands = missä käyttäjä sijaitsee
+
+js-kind-label-3-d-error = 3D-virhe
+
+js-kind-label-3-d-error-time-of = 3D-virhe, saapumisaika
+
+js-kind-label-a-corrupted-frame-is-rejected = vioittunut kehys hylätään
+
+js-kind-label-all-channels = kaikki kanavat
+
+js-kind-label-availability = Saatavuus
+
+js-kind-label-band = Kaista
+
+js-kind-label-bodies = Kappaleet
+
+js-kind-label-body = Kappale
+
+js-kind-label-both = molemmat
+
+js-kind-label-case = Tapaus
+
+js-kind-label-class = Luokka
+
+js-kind-label-code-jitter = koodin värinä
+
+js-kind-label-constellation = Satelliittitähdistö
+
+js-kind-label-doppler = Doppler
+
+js-kind-label-event = Tapahtuma
+
+js-kind-label-evidence = Todiste
+
+js-kind-label-fewest-in-view = Vähiten näkyvissä
+
+js-kind-label-field = Kenttä
+
+js-kind-label-first-detection-after-onset = Ensimmäinen havainto alun jälkeen
+
+js-kind-label-frame-length = Kehyksen pituus
+
+js-kind-label-fused = yhdistetty
+
+js-kind-label-fused-cap = Yhdistetty
+
+js-kind-label-gnss = GNSS
+
+js-kind-label-gnss-and-leo = GNSS ja LEO
+
+js-kind-label-gnss-channels = GNSS-kanavat
+
+js-kind-label-gnss-highest-in-sky = GNSS { $id } (korkeimmalla taivaalla)
+
+js-kind-label-gnss-only = vain GNSS
+
+js-kind-label-gnss-only-cap = Vain GNSS
+
+js-kind-label-gnss-signal = GNSS-signaali
+
+js-kind-label-hdop = HDOP
+
+js-kind-label-highest = Suurin
+
+js-kind-label-horizontal-error = vaakavirhe
+
+js-kind-label-horizontal-error-2 = Vaakavirhe
+
+js-kind-label-jammer = Häirintälähde
+
+js-kind-label-jump-threshold = Hyppykynnys
+
+js-kind-label-largest-range-jump = Suurin etäisyyshyppy
+
+js-kind-label-largest-range-jump-against-the = suurin etäisyyshyppy kynnystä vasten
+
+js-kind-label-leo = LEO
+
+js-kind-label-leo-channels = LEO-kanavat
+
+js-kind-label-leo-only = vain LEO
+
+js-kind-label-light-time-from-observer = Valoaika havaitsijasta { $observer }
+
+js-kind-label-light-time-from-the-observer = Valoaika havaitsijasta
+
+js-kind-label-light-time-one-way = Valoaika, yhteen suuntaan
+
+js-kind-label-lowest = Pienin
+
+js-kind-label-lowest-c-n0 = Pienin C/N0
+
+js-kind-label-mean = Keskiarvo
+
+js-kind-label-mean-in-view = Keskiarvo näkyvissä
+
+js-kind-label-median-convergence = Mediaanikonvergenssi
+
+js-kind-label-median-pdop = PDOP:n mediaani
+
+js-kind-label-member-runs = Jäsenajot
+
+js-kind-label-message-switch-iod = viestinvaihto, datan julkaisutunnus { $old } → { $new }
+
+js-kind-label-mission-length = Tehtävän kesto
+
+js-kind-label-model = malli
+
+js-kind-label-monte-carlo-runs = Monte Carlo -ajot
+
+js-kind-label-noise-floor = Kohinataso
+
+js-kind-label-parameters = Parametrit
+
+js-kind-label-payload = Hyötykuorma
+
+js-kind-label-pdop = PDOP
+
+js-kind-label-pdop-95th-percentile = PDOP, 95. persentiili
+
+js-kind-label-peak-elevation = Huippukorkeuskulma
+
+js-kind-label-peak-tracked-c-n0 = Seurattu huippu-C/N0
+
+js-kind-label-phase = Vaihe
+
+js-kind-label-predicted-horizontal-sigma = ennustettu vaakasigma
+
+js-kind-label-quantisation-position = Kvantisointi, paikka
+
+js-kind-label-range-error = etäisyysvirhe
+
+js-kind-label-relays-above-the-mask = releet maskin yläpuolella
+
+js-kind-label-relays-and-earth-link = releet ja Maa-yhteys
+
+js-kind-label-relays-only = vain releet
+
+js-kind-label-satellite = Satelliitti
+
+js-kind-label-satellites = Satelliitit
+
+js-kind-label-satellites-used = Käytetyt satelliitit
+
+js-kind-label-signal = Signaali
+
+js-kind-label-signal-chip-spacing = { $name } ({ $spacing } chip-väli)
+
+js-kind-label-sisre-after-quantisation = SISRE kvantisoinnin jälkeen
+
+js-kind-label-sisre-root-mean-square = SISRE, neliökeskiarvo
+
+js-kind-label-spoofing-starts = harhautus alkaa
+
+js-kind-label-standard-deviation = Keskihajonta
+
+js-kind-label-sun-separation = Etäisyys Auringosta
+
+js-kind-label-sweep-runs = Pyyhkäisyajot
+
+js-kind-label-system = Järjestelmä
+
+js-kind-label-time-above-the-mask = Aika maskin yläpuolella
+
+js-kind-label-time-error-root-mean-square = Aikavirhe, neliökeskiarvo
+
+js-kind-label-tracked-component = seurattu komponentti
+
+js-kind-label-tracking-threshold = Seurantakynnys
+
+js-kind-label-transmit-bandwidth = Lähetyskaistanleveys
+
+js-kind-label-vdop = VDOP
+
+js-kind-label-welch-estimate-of-the-synthesised = Welch-estimaatti synteettisistä näytteistä
+
+js-kind-label-whole-signal = koko signaali
+
+js-kind-label-wideband-j-s-tolerated = Siedetty laajakaistainen J/S
+
+js-kind-label-with-unit = { $label } ({ $unit })
+
+js-kind-label-worst-site-availability = Huonoin paikkakohtainen saatavuus
+
+js-kind-no = ei
+
+js-kind-note-a-gap-is-an-epoch = Aukko on ajanhetki, jolloin näkyvissä on liian vähän releitä paikan määritykseen.
+
+js-kind-note-a-helmert-transform-is-the = Helmert-muunnos on seitsenparametrinen siirto, kierto ja mittakaava kahden koordinaatiston välillä.
+
+js-kind-note-a-low-earth-orbit-leo = Matalan Maan radan (LEO) satelliitti ylittää taivaan minuuteissa, joten sen C/N0 (kantoaalto–kohinatiheyssuhde) nousee ja laskee kellokäyrän muotoisesti; GNSS-satelliitti liikkuu samassa ajassa tuskin lainkaan.
+
+js-kind-note-a-receiver-independent-exchange-format = RINEX 4 -tyylinen tietue (Receiver Independent Exchange Format). LEO-tietuetyypit ovat Kshana-laajennus, kuten otsake kertoo.
+
+js-kind-note-a-single-pass-fixes-the = Yksittäinen ohitus määrittää kulkusuuntaisen suunnan paljon paremmin kuin poikittaisen.
+
+js-kind-note-aos-is-acquisition-of-signal = AOS on signaalin hankinta, TCA lähimmän ohituksen aika ja LOS signaalin menetys.
+
+js-kind-note-c-n0-is-the-carrier = C/N0 on kantoaalto–kohinatiheyssuhde. Kaista, joka on vastaanottimen seurantakynnyksen alapuolella, on menettänyt lukituksen.
+
+js-kind-note-cells-are-the-code-and = Solut ovat koodi- ja Doppler-lokeroita, jotka kylmähaun on testattava.
+
+js-kind-note-cold-is-a-first-fix = Kylmä on ensimmäinen paikanmääritys ilman ennakkotietoa; kuuma on paikanmääritys pian edellisen jälkeen.
+
+js-kind-note-dilution-of-precision-dop-scales = Tarkkuuden heikkenemiskerroin (DOP) skaalaa etäisyysvirheen paikkavirheeksi: G on geometrinen, P paikka, H vaaka ja V pysty. Persentiilit lasketaan kaikista ruudukon pisteistä ja ajanhetkistä.
+
+js-kind-note-drawn-at-the-strongest-signal = Piirretty ajon voimakkaimmalla signaalitasolla. Aukko on jakso, jolloin yhtään satelliittia ei ole näkyvissä.
+
+js-kind-note-each-body-carries-its-own = Jokaisella kappaleella on oma todistemerkintänsä. Valoaika on yhteen suuntaan, skenaariossa nimetystä havaitsijasta.
+
+js-kind-note-each-row-is-one-full = Jokainen rivi on yksi täysi moottoriajo pyyhkäistystä skenaariosta.
+
+js-kind-note-each-rule-is-a-switch = Jokainen sääntö on vaihto uudempaan viestiin ohituksen aikana.
+
+js-kind-note-each-signal-is-drawn-about = Jokainen signaali piirretään oman keskitaajuutensa ympärille. Aukko on spektrin nollakohta.
+
+js-kind-note-eirp-is-the-equivalent-isotropically = EIRP on ekvivalentti isotrooppisesti säteilevä teho.
+
+js-kind-note-every-phase-is-an-ordinary = Jokainen vaihe on tavallinen skenaarioajo. Tiivisteet tunnistavat kunkin jäsenen syötteen ja tulosasiakirjan.
+
+js-kind-note-iod-is-the-issue-of = IOD on datan julkaisutunnus: viestin järjestysnumero.
+
+js-kind-note-j-s-is-the-jammer = J/S on häirintälähteen ja signaalin tehosuhde. Seurantaosuus on se osa ajosta, jolloin kaista pysyy kynnyksen yläpuolella.
+
+js-kind-note-p05-p50-and-p95-are = p05, p50 ja p95 ovat 5., 50. ja 95. persentiili. ci95 on keskiarvon 95 %:n luottamusväli.
+
+js-kind-note-parameters-are-public-with-a = Parametrit ovat PUBLIC (lähteellä), REPRESENTATIVE tai WORKSHOP, kuten kukin esiasetus ilmoittaa.
+
+js-kind-note-precise-point-positioning-ppp-converges = Tarkka pistepaikannus (PPP) konvergoituu, kun virhe pysyy kriteerin alapuolella. NEES on normalisoitu estimointivirheen neliö, suotimen johdonmukaisuustarkistus.
+
+js-kind-note-sisre-defined = SISRE on avaruussignaalin etäisyysvirhe: se, mitä lähetetty viesti lisää käyttäjän etäisyyteen. Tässä se on viestin esitysvirhe moottorin oman totuusradan suhteen.
+
+js-kind-note-sisre-is-the-signal-in = SISRE on avaruussignaalin etäisyysvirhe, jonka oletetaan koskevan kunkin järjestelmän lähetettyä rataa ja kelloa.
+
+js-kind-note-ssc-is-the-spectral-separation = SSC on spektrierotuskerroin: kuinka suuri osa yhden signaalin tehosta osuu toisen vastaanottimen sisään. Viiva tarkoittaa, että signaalit eivät limity.
+
+js-kind-note-the-chain-runs-the-signal = Ketju ajaa signaali-, ohitus-, navigointiviesti-, paikannus- ja tarkan paikannuksen vaiheet järjestyksessä. Jokainen rivi on luku, jonka yksi vaihe laski ja seuraava käytti.
+
+js-kind-note-the-doppler-and-pass-geometry = Doppler- ja ohitusgeometriamonitori vertaa mitattuja etäisyysmuutosnopeuksia radoista ennustettuihin. Sääntö merkitsee harhauttajan aloitushetken.
+
+js-kind-note-the-engine-draws-its-spectrum = Moottori piirtää spektrimallinsa vaihe- ja kvadratuurinäytteinä (IQ) yhdellä hetkellä ja estimoi spektrin takaisin niistä. Samat näytteet ovat SigMF-vienti (Signal Metadata Format).
+
+js-kind-note-the-engine-s-own-documented = Moottorin oma dokumentoitu binäärikehys, jonka päättää 24-bittinen syklinen redundanssitarkistus (CRC-24Q).
+
+js-kind-note-the-gabor-root-mean-square = Gaborin (neliökeskiarvo) kaistanleveys määrää, kuinka tarkasti signaalilla voidaan mitata etäisyyttä.
+
+js-kind-note-the-largest-jammer-to-signal = Suurin häirintälähteen ja signaalin suhde (J/S), jonka läpi kukin signaali seuraa, jatkuva-aaltoiselle (CW), spektriltään sovitetulle ja laajakaistaiselle häirintälähteelle.
+
+js-kind-note-the-shapiro-delay-is-the = Shapiro-viive on Auringon painovoiman reitin varrella aiheuttama lisävaloaika.
+
+js-kind-note-the-spectrum-kind-and-the = Spektrilaji ja häirintälaji laskevat saman linkin kahdella tavalla; viimeinen sarake on niiden erotus.
+
+js-kind-note-time-of-arrival-toa-ranging = Saapumisaikaan (TOA) perustuva etäisyysmittaus ei-maanpäällisen verkon (NTN) alalinkillä: leveämmällä signaalilla etäisyys mitataan tarkemmin.
+
+js-kind-note-what-half-a-least-significant = Mitä puolikas vähiten merkitsevä bitti (LSB) kustakin kentästä maksaa paikassa ja kellossa, etäisyytenä.
+
+js-kind-rowhead-block = Lohko
+
+js-kind-rowhead-condition = Ehto
+
+js-kind-rowhead-figure = Luku
+
+js-kind-rowhead-member = Jäsen
+
+js-kind-rowhead-metric = Mittari
+
+js-kind-rowhead-monitor = Monitori
+
+js-kind-rowhead-phase = Vaihe
+
+js-kind-rowhead-satellite = Satelliitti
+
+js-kind-rowhead-signal = Signaali
+
+js-kind-rowhead-solution = Ratkaisu
+
+js-kind-sub-clock-offset-db = { $clock }, { $offset } dB
+
+js-kind-sub-doppler-only = vain Doppler
+
+js-kind-sub-from-to = { $from } – { $to }
+
+js-kind-sub-fused = yhdistetty
+
+js-kind-sub-gnss-and-leo-latitude = GNSS ja LEO, leveysaste { $lat }°
+
+js-kind-sub-gnss-only = vain GNSS
+
+js-kind-sub-gnss-only-latitude = vain GNSS, leveysaste { $lat }°
+
+js-kind-sub-model-fit-seconds = { $model }, { $fit } s sovitus
+
+js-kind-threshold-4-needed-for-a-fix = 4 tarvitaan paikanmääritykseen
+
+js-kind-threshold-convergence-criterion = konvergenssikriteeri
+
+js-kind-threshold-elevation-mask = korkeuskulmamaski
+
+js-kind-threshold-gnss-median = GNSS:n mediaani
+
+js-kind-threshold-tracking-threshold = seurantakynnys
+
+js-kind-title-acquisition = Hankinta
+
+js-kind-title-against-a-simulated-campaign = Simuloitua kampanjaa vasten
+
+js-kind-title-assumptions = Oletukset
+
+js-kind-title-band-trade-at-equal-transmit = Kaistavertailu samalla lähetysteholla
+
+js-kind-title-bands = Kaistat
+
+js-kind-title-beside-the-published-figures = Julkaistujen lukujen rinnalla
+
+js-kind-title-beside-the-published-speed-up = Julkaistun nopeutuksen rinnalla
+
+js-kind-title-bodies = Kappaleet
+
+js-kind-title-body = Kappale
+
+js-kind-title-by-latitude = Leveysasteen mukaan
+
+js-kind-title-c-n0-by-band-over = C/N0 kaistoittain ajon aikana
+
+js-kind-title-c-n0-over-the-pass = C/N0 ohituksen aikana
+
+js-kind-title-cases = Tapaukset
+
+js-kind-title-central-body = Keskuskappale
+
+js-kind-title-closed-form-doppler-against-finite = Suljetun muodon Doppler äärellisiä differenssejä vasten
+
+js-kind-title-code-tracking-jitter = Koodinseurannan värinä
+
+js-kind-title-code-tracking-jitter-against-c = Koodinseurannan värinä C/N0:aan nähden
+
+js-kind-title-combined-over-the-members = Yhdistetty jäsenten yli
+
+js-kind-title-compatibility-with-gnss-signals = Yhteensopivuus GNSS-signaalien kanssa
+
+js-kind-title-constellations = Satelliittitähdistöt
+
+js-kind-title-continuity-across-message-switches = Jatkuvuus viestinvaihtojen yli
+
+js-kind-title-cross-check-against-the-jamming = Ristiintarkistus häirintälajia vasten
+
+js-kind-title-datum-accuracy = Vertailupisteen tarkkuus
+
+js-kind-title-dilution-of-precision-over-the = Tarkkuuden heikkenemiskerroin koko ruudukossa
+
+js-kind-title-doppler = Doppler
+
+js-kind-title-doppler-envelopes = Doppler-vaippakäyrät
+
+js-kind-title-doppler-only-fix = Pelkkään Doppleriin perustuva paikanmääritys
+
+js-kind-title-doppler-over-the-pass = Doppler ohituksen aikana
+
+js-kind-title-doppler-positioning-from-one-pass = Doppler-paikannus yhdestä ohituksesta
+
+js-kind-title-earth-link = Maa-yhteys
+
+js-kind-title-elevation = Korkeuskulma
+
+js-kind-title-encoded-frame = Koodattu kehys
+
+js-kind-title-epoch = Epookki
+
+js-kind-title-epoch-and-frame = Epookki ja koordinaatisto
+
+js-kind-title-events = Tapahtumat
+
+js-kind-title-every-node-of-the-sweep = Pyyhkäisyn jokainen solmu
+
+js-kind-title-field-table = Kenttätaulukko
+
+js-kind-title-figures-of-merit = Laatumittarit
+
+js-kind-title-filter-noise = Suotimen kohina
+
+js-kind-title-fit-interval-trade = Sovitusvälin vaihtokauppa
+
+js-kind-title-fix-quality-against-observation-window = Paikanmäärityksen laatu havaintoikkunaan nähden
+
+js-kind-title-frame-checks = Kehystarkistukset
+
+js-kind-title-frame-hexadecimal = Kehys, heksadesimaalina
+
+js-kind-title-geometry-against-latitude = Geometria leveysasteeseen nähden
+
+js-kind-title-geometry-as-leo-satellites-are = Geometria, kun LEO-satelliitteja lisätään
+
+js-kind-title-geometry-position-dilution-of-precision = Geometria: paikan tarkkuuden heikkenemiskerroin
+
+js-kind-title-global-coverage = Maailmanlaajuinen kattavuus
+
+js-kind-title-gnss-leo-and-fused = GNSS, LEO ja yhdistetty
+
+js-kind-title-gnss-reference = GNSS-vertailu
+
+js-kind-title-hand-offs-between-phases = Vaiheiden väliset luovutukset
+
+js-kind-title-helmert-fit = Helmert-sovitus
+
+js-kind-title-helmert-transform-parameters = Helmert-muunnoksen parametrit
+
+js-kind-title-inputs = Syötteet
+
+js-kind-title-ionosphere-free-band-pairs = Ionosfäärivapaat kaistaparit
+
+js-kind-title-jammer-tolerance = Häirintälähteen sieto
+
+js-kind-title-jammers = Häirintälähteet
+
+js-kind-title-joint-fix = Yhteinen paikanmääritys
+
+js-kind-title-leo-against-gnss = LEO GNSS:ään verrattuna
+
+js-kind-title-limitations = Rajoitukset
+
+js-kind-title-links = Linkit
+
+js-kind-title-member-runs = Jäsenajot
+
+js-kind-title-members-under-the-shared-conditions = Jäsenet yhteisissä ehdoissa
+
+js-kind-title-message = Viesti
+
+js-kind-title-message-models-compared = Viestimallien vertailu
+
+js-kind-title-message-switches = Viestinvaihdot
+
+js-kind-title-metric-against-axis = { $metric } suhteessa akseliin { $axis }
+
+js-kind-title-metric-distribution-over-runs = { $metric }: jakauma ajojen yli
+
+js-kind-title-mid-pass-update = Päivitys ohituksen aikana
+
+js-kind-title-modelled = Mallinnettu
+
+js-kind-title-monte-carlo = Monte Carlo
+
+js-kind-title-navigation-message-stage = Navigointiviestivaihe
+
+js-kind-title-not-modelled = Ei mallinnettu
+
+js-kind-title-notes = Huomautukset
+
+js-kind-title-notes-on-the-spoofing-model = Huomautuksia harhautusmallista
+
+js-kind-title-observation-windows = Havaintoikkunat
+
+js-kind-title-one-pass-alone = Yksi ohitus yksin
+
+js-kind-title-orbit = Rata
+
+js-kind-title-over-the-message-sequence = Viestisarjan yli
+
+js-kind-title-pass = Ohitus
+
+js-kind-title-pass-c-n0-of-the = Ohitus: koko signaalin ja seuratun komponentin C/N0
+
+js-kind-title-pass-code-tracking-jitter = Ohitus: koodinseurannan värinä
+
+js-kind-title-pass-doppler = Ohitus: Doppler
+
+js-kind-title-pass-stage = Ohitusvaihe
+
+js-kind-title-passes = Ohitukset
+
+js-kind-title-phases = Vaiheet
+
+js-kind-title-position-error-gnss-leo-and = Paikkavirhe: GNSS, LEO ja yhdistetty paikanmääritys
+
+js-kind-title-position-uncertainty-relays-alone-and = Paikan epävarmuus: pelkät releet ja Maa-yhteyden kanssa
+
+js-kind-title-positioning-by-signal-bandwidth = Paikannus signaalin kaistanleveyden mukaan
+
+js-kind-title-positioning-gnss-alone-against-the = Paikannus: pelkkä GNSS yhdistettyyn paikanmääritykseen verrattuna
+
+js-kind-title-power-spectral-density = Tehospektritiheys
+
+js-kind-title-power-spectral-density-of-each = Kunkin signaalin tehospektritiheys
+
+js-kind-title-precise-point-positioning = Tarkka pistepaikannus
+
+js-kind-title-published-comparison = Julkaistu vertailu
+
+js-kind-title-quantisation-budget = Kvantisointibudjetti
+
+js-kind-title-range-residuals = Etäisyysjäännökset
+
+js-kind-title-ranging-stations = Etäisyydenmittausasemat
+
+js-kind-title-reading-the-trade = Vaihtokaupan lukeminen
+
+js-kind-title-realised-position-error = Toteutunut paikkavirhe
+
+js-kind-title-receiver = Vastaanotin
+
+js-kind-title-receiver-power-budget = Vastaanottimen tehobudjetti
+
+js-kind-title-reflector-information = Heijastimen tiedot
+
+js-kind-title-relay-constellation = Releiden tähdistö
+
+js-kind-title-relays-in-view = Näkyvissä olevat releet
+
+js-kind-title-reproducibility = Toistettavuus
+
+js-kind-title-retroreflectors = Retroreflektorit
+
+js-kind-title-rinex-style-record = RINEX-tyylinen tietue
+
+js-kind-title-round-trips = Edestakaiset kierrokset
+
+js-kind-title-run = Ajo
+
+js-kind-title-satellites-in-view-against-latitude = Näkyvät satelliitit leveysasteeseen nähden
+
+js-kind-title-sensitivity-to-a-line-of = Herkkyys näköyhteyden kallistukselle
+
+js-kind-title-shared-conditions = Yhteiset ehdot
+
+js-kind-title-signal-components = Signaalin komponentit
+
+js-kind-title-signal-stage = Signaalivaihe
+
+js-kind-title-signals = Signaalit
+
+js-kind-title-sisre-against-fit-interval = SISRE sovitusvälin funktiona
+
+js-kind-title-sisre-against-update-period = SISRE päivitysjakson funktiona
+
+js-kind-title-sisre-weights = SISRE-painot
+
+js-kind-title-snapshot = Otos
+
+js-kind-title-snapshot-against-the-model = Otos mallia vasten
+
+js-kind-title-snapshot-spectrum-welch-estimate-against = Otosspektri: Welch-estimaatti mallia vasten
+
+js-kind-title-sources = Lähteet
+
+js-kind-title-spoofer-and-monitor-settings = Harhauttajan ja monitorin asetukset
+
+js-kind-title-spoofing-monitor-probability-of-detection = Harhautusmonitori: havaitsemistodennäköisyys
+
+js-kind-title-statistics-over-the-runs = Tilastot ajojen yli
+
+js-kind-title-sweep = Pyyhkäisy
+
+js-kind-title-systems = Järjestelmät
+
+js-kind-title-systems-in-the-fix = Paikanmäärityksen järjestelmät
+
+js-kind-title-the-archived-campaign = Arkistoitu kampanja
+
+js-kind-title-time-error = Aikavirhe
+
+js-kind-title-time-error-by-receiver-clock = Aikavirhe vastaanottimen kellon mukaan
+
+js-kind-title-time-scale = Aika-asteikko
+
+js-kind-title-time-to-first-fix-and = Aika ensimmäiseen paikanmääritykseen ja energia paikanmääritystä kohti
+
+js-kind-title-time-transfer-by-clock-and = Ajansiirto kellon ja signaalitason mukaan
+
+js-kind-title-trade-conditions = Vaihtokaupan ehdot
+
+js-kind-title-update-period-trade = Päivitysjakson vaihtokauppa
+
+js-kind-title-user = Käyttäjä
+
+js-kind-title-user-range-error-through-the = Käyttäjän etäisyysvirhe ohituksen aikana
+
+js-kind-title-validated = Validoitu
+
+js-kind-title-what-each-stage-hands-to = Mitä kukin vaihe välittää seuraavalle
+
+js-kind-title-what-this-run-is-and = Mitä tämä ajo on ja mitä se ei ole
+
+js-kind-title-when-each-monitor-detects = Milloin kukin monitori havaitsee
+
+js-kind-title-work-done = Tehty työ
+
+js-kind-yes = kyllä
+
+js-ledger-rows =
+    { $n ->
+        [one] { $n } kirjanpitorivi
+       *[other] { $n } kirjanpitoriviä
+    }
+
+js-lib-abbr-apv = lähestyminen pystyohjauksella
+
+js-lib-abbr-araim = edistynyt vastaanottimen autonominen eheyden valvonta
+
+js-lib-abbr-auc = käyrän alle jäävä pinta-ala
+
+js-lib-abbr-c-n0 = kantoaalto–kohinatiheys
+
+js-lib-abbr-ccsds = Avaruusdatajärjestelmien neuvoa-antava komitea
+
+js-lib-abbr-cli = komentorivikäyttöliittymä
+
+js-lib-abbr-csac = sirumittakaavainen atomikello
+
+js-lib-abbr-cw = jatkuva aalto
+
+js-lib-abbr-doi = digitaalinen objektitunniste
+
+js-lib-abbr-dop = tarkkuuden heikkenemiskerroin
+
+js-lib-abbr-eo = Maan havainnointi
+
+js-lib-abbr-gnss = maailmanlaajuinen satelliittinavigointijärjestelmä
+
+js-lib-abbr-gps = Global Positioning System (yhdysvaltalainen satelliittipaikannusjärjestelmä)
+
+js-lib-abbr-hal = vaakasuuntainen hälytysraja
+
+js-lib-abbr-hpl = vaakasuuntainen suojaustaso
+
+js-lib-abbr-imu = inertiamittausyksikkö
+
+js-lib-abbr-ins = inertianavigointijärjestelmä
+
+js-lib-abbr-iot = esineiden internet
+
+js-lib-abbr-itu-t = Kansainvälinen televiestintäliitto, televiestinnän standardointisektori
+
+js-lib-abbr-j-s = häirintälähteen ja signaalin suhde
+
+js-lib-abbr-leo = matala Maan rata
+
+js-lib-abbr-llr = kuun laseretäisyysmittaus
+
+js-lib-abbr-meo = keskikorkea Maan rata
+
+js-lib-abbr-mtie = suurin aikavälivirhe
+
+js-lib-abbr-ntn = ei-maanpäällinen verkko
+
+js-lib-abbr-ocxo = uunistabiloitu kideoskillaattori
+
+js-lib-abbr-oem = Orbit Ephemeris Message (ratatietoviesti)
+
+js-lib-abbr-omm = Orbit Mean-elements Message (radan keskiarvoelementtiviesti)
+
+js-lib-abbr-pdop = paikan tarkkuuden heikkenemiskerroin
+
+js-lib-abbr-pnt = paikannus, navigointi ja ajanmääritys
+
+js-lib-abbr-ppp = tarkka pistepaikannus
+
+js-lib-abbr-raim = vastaanottimen autonominen eheyden valvonta
+
+js-lib-abbr-rf = radiotaajuus
+
+js-lib-abbr-rinex = Receiver Independent Exchange Format (vastaanotinriippumaton vaihtoformaatti)
+
+js-lib-abbr-roc = vastaanottimen toimintaominaiskäyrä
+
+js-lib-abbr-sbas = satelliittipohjainen täydennysjärjestelmä
+
+js-lib-abbr-sgp4 = Simplified General Perturbations 4, ratapropagaattori
+
+js-lib-abbr-sisre = avaruussignaalin etäisyysvirhe
+
+js-lib-abbr-slam = samanaikainen paikannus ja kartoitus
+
+js-lib-abbr-spp = yhden pisteen paikannus
+
+js-lib-abbr-tdev = aikapoikkeama
+
+js-lib-abbr-tle = kaksirivinen elementtijoukko
+
+js-lib-abbr-toml = skenaariotiedostomuoto
+
+js-lib-abbr-trn = maastoviitteinen navigointi
+
+js-lib-abbr-uhf = ultrakorkea taajuus
+
+js-lib-abbr-ukf = unscented-Kalman-suodin
+
+js-lib-abbr-utc = maailmanaika (UTC)
+
+js-lib-abbr-val = pystysuuntainen hälytysraja
+
+js-lib-abbr-vlbi = pitkäkantainen interferometria
+
+js-lib-abbr-vpl = pystysuuntainen suojaustaso
+
+js-lib-abbr-wg = Työryhmä
+
+js-lib-areas-ground-track = Maanpintajälki
+
+js-lib-areas-holdover = Holdover
+
+js-lib-compare-availability = Saatavuus
+
+js-lib-compare-holdover = Holdover
+
+js-lib-compare-timing-p95 = Ajoituksen p95
+
+js-lib-compare-timing-rms = Ajoituksen RMS
+
+js-lib-counts-explorer-tally = Validoituja ulkoista oraakkelia vastaan: { $validated } / { $total } ominaisuudesta · mallinnettuja: { $modelled } · kumppanin omistamia: { $partner } — tässä näytetään ominaisuuskortteja { $cards }, alueita { $domains } ja todistevaitteita { $evidence }
+
+js-lib-counts-validated-tally = Validoituja ulkoista oraakkelia vastaan: { $validated } / { $total } ominaisuudesta — tässä näytetään ominaisuuskortteja { $cards } ja todistevaitteita { $evidence }
+
+js-lib-engine-busy = { $verb }…
+
+js-lib-engine-busy-seconds = { $verb }… { $s } s
+
+js-lib-engine-page-http = moottoritiedosto palautti HTTP { $status }
+
+js-lib-engine-page-not-running = moottori ei ole käynnissä tässä
+
+js-lib-engine-worker-crashed = moottorin työsäie kaatui
+
+js-lib-evidence-aria = Todiste: { $tier }, { $count }
+
+js-lib-evidence-ledger-rows =
+    { $n ->
+        [one] { $n } kirjanpitorivi
+       *[other] { $n } kirjanpitoriviä
+    }
+
+js-lib-evidence-rows-behind = Tämän tuloksen taustalla olevat kirjanpitorivit
+
+js-lib-geometry-url-bad-mc = Monte Carlo -näytteiden määrä ei ole mikään arvoista { $choices }; käytetään arvoa { $default }.
+
+js-lib-geometry-url-bad-number = ”{ $key }” ei ole luku väliltä { $min }–{ $max }; käytetään oletusta.
+
+js-lib-geometry-url-bad-site = Paikka ei ole leveysaste,pituusaste[,korkeus] sallitulla alueella; käytetään oletuspaikkaa.
+
+js-lib-geometry-url-bad-sky = Horisonttiviiva ei ole esiasetus, 360 lokeron taulukko eikä sallitulla alueella oleva kanjoni; käytetään avointa horisonttia.
+
+js-lib-geometry-url-bad-sys = Tähdistöluettelo ei ole G, E, C ja enintään yksi L:<LEO preset>, jonka tämä näkymä tuntee; käytetään oletusyhdistelmää.
+
+js-lib-geometry-url-own-tle = Lähettäjä käytti omia rataelementtejään (TLE), joita linkki ei kuljeta mukana; esiasetukset näytetään sen sijaan.
+
+js-lib-geometry-url-repeated = ”{ $key }” esiintyy useammin kuin kerran; käytetään ensimmäistä arvoa.
+
+js-lib-geometry-url-too-long = Osoite on pidempi kuin { $max } merkkiä, joten mitään sen asetuksista ei luettu.
+
+js-lib-geometry-url-unreadable = Osoitetta ei voitu lukea.
+
+js-lib-guided-duration-s-hint = kuinka pitkään maanpintajälkeä propagoidaan
+
+js-lib-guided-duration-s-label = Kesto (s)
+
+js-lib-guided-dut1-s-hint = Maan pyörimispoikkeama; siirtää maanpintajälkeä itään tai länteen
+
+js-lib-guided-dut1-s-label = UT1−UTC (s)
+
+js-lib-guided-mask-deg-hint = satelliitin on oltava näin korkealla, jotta se lasketaan näkyväksi
+
+js-lib-guided-mask-deg-label = Korkeuskulmamaski (°)
+
+js-lib-guided-seed-hint = eri kohinaotos samasta fysiikasta
+
+js-lib-guided-seed-label = Satunnainen siemenluku
+
+js-lib-guided-sigma-uere-m-hint = 1-σ:n käyttäjäekvivalentti etäisyysvirhe paikkayhteenvetoa varten
+
+js-lib-guided-sigma-uere-m-label = Etäisyysvirhe σ (m)
+
+js-lib-guided-station-lat-deg-hint = maa-aseman leveysaste — määrää ohituksen geometrian
+
+js-lib-guided-station-lat-deg-label = Aseman leveysaste (°)
+
+js-lib-guided-station-lon-deg-hint = maa-aseman pituusaste
+
+js-lib-guided-station-lon-deg-label = Aseman pituusaste (°)
+
+js-lib-guided-step-s-hint = maanpintajäljen näytteenottotahti
+
+js-lib-guided-step-s-label = Aika-askel (s)
+
+js-lib-guided-threshold-ns-hint = määrityksen mukainen budjetti; ”saatavilla”, kun virhe pysyy sen alapuolella
+
+js-lib-guided-threshold-ns-label = Määrityskynnys (ns)
+
+js-lib-guided-time-duration-s-hint = ajon kokonaiskesto
+
+js-lib-guided-time-duration-s-label = Kesto (s)
+
+js-lib-guided-time-step-s-hint = integrointi- ja näytteenottotahti
+
+js-lib-guided-time-step-s-label = Aika-askel (s)
+
+js-lib-guided-user-altitude-km-hint = käyttäjäavaruusaluksen ratakorkeus
+
+js-lib-guided-user-altitude-km-label = Käyttäjän korkeus (km)
+
+js-lib-guided-user-inclination-deg-hint = käyttäjän radan inklinaatio
+
+js-lib-guided-user-inclination-deg-label = Käyttäjän inklinaatio (°)
+
+js-lib-imufit-card-accel-slope = Kiihtyvyysmittarin Allan-kulmakerroin, alku (noin -0,5 valkoiselle kohinalle)
+
+js-lib-imufit-card-bias = Kiihtyvyysmittarin harha, keskiarvo (m/s²)
+
+js-lib-imufit-card-bias-instability = Kiihtyvyysmittarin harhan epästabiilius (m/s²), 0 kun käyrällä ei ole pohjaa
+
+js-lib-imufit-card-gyro-bias = Gyron harha, keskiarvo (rad/s)
+
+js-lib-imufit-card-gyro-slope = Gyron Allan-kulmakerroin, alku (noin -0,5 valkoiselle kohinalle)
+
+js-lib-imufit-card-note-n = Huomautus { $n }
+
+js-lib-imufit-card-q-arw = Gyron kulman satunnaiskävely, q_arw (rad²/s)
+
+js-lib-imufit-card-q-va = Kiihtyvyysmittarin nopeuden satunnaiskävely, q_va (m²/s³)
+
+js-lib-imufit-card-sample-rate = Näytteenottotaajuus
+
+js-lib-imufit-card-samples = Näytteet
+
+js-lib-imufit-card-span = Kesto
+
+js-lib-jammertest-card-clean-epochs = Puhtaat ajanhetket
+
+js-lib-jammertest-card-clean-hours = Puhtaat tunnit
+
+js-lib-jammertest-card-detected = Havaittu toleranssin sisällä
+
+js-lib-jammertest-card-detection-rate = Havaitsemisosuus (mikä tahansa hälytys)
+
+js-lib-jammertest-card-evaluable = Arvioitavissa
+
+js-lib-jammertest-card-fa-epochs = Väärän hälytyksen ajanhetket
+
+js-lib-jammertest-card-fa-per-hour = Väärän hälytyksen jaksoja tunnissa
+
+js-lib-jammertest-card-fa-runs = Väärän hälytyksen jaksot
+
+js-lib-jammertest-card-in-tol-rate = Havaittu toleranssin sisällä, osuus
+
+js-lib-jammertest-card-late = Myöhässä
+
+js-lib-jammertest-card-median-latency = Havaitsemisviiveen mediaani
+
+js-lib-jammertest-card-median-recover = Palautumisajan mediaani
+
+js-lib-jammertest-card-missed = Havaitsematta
+
+js-lib-jammertest-card-na = n/a
+
+js-lib-jammertest-card-not-assessable = Tässä lokissa yhtään testiä ei voitu arvioida, joten havaitsemisosuutta tai viivettä ei voida ilmoittaa. Se on tulos, ei sivun vika: mikään tässä ei ole läpäisty.
+
+js-lib-jammertest-card-not-json = { $name }: ei JSON-tiedosto ({ $reason }).
+
+js-lib-jammertest-card-not-scorecard = { $name }: ei jammertest-tuloskortti (siinä on oltava tests[] ja summary).
+
+js-lib-jammertest-card-tests = Testit suunnitelman osassa
+
+js-lib-jammertest-card-too-large = { $name }: suurempi kuin 8 MiB; tämä sivu lukee tuloskortin enintään tuon kokoon asti.
+
+js-lib-kpi-available-everywhere = saatavilla kaikkialla, joka ajanhetkellä
+
+js-lib-kpi-available-everywhere-pdop = saatavilla kaikkialla, joka ajanhetkellä (PDOP, paikan tarkkuuden heikkenemiskerroin, alle { $thr })
+
+js-lib-kpi-drops-under = putoaa alle { $thr } dB-Hz:n seurantakynnyksen: lukitus menetetty
+
+js-lib-kpi-end-of-mission = tehtävän lopussa
+
+js-lib-kpi-figure-tiers = Lukujen tasot: { $parts }.
+
+js-lib-kpi-n-modelled =
+    { $n ->
+        [one] { $n } mallinnettu
+       *[other] { $n } mallinnettua
+    }
+
+js-lib-kpi-n-partner =
+    { $n ->
+        [one] { $n } kumppanin omistama
+       *[other] { $n } kumppanin omistamaa
+    }
+
+js-lib-kpi-n-validated =
+    { $n ->
+        [one] { $n } validoitu
+       *[other] { $n } validoitua
+    }
+
+js-lib-kpi-no-change = ei muutosta
+
+js-lib-kpi-no-fix = { $pct } % ajasta tai paikoista ilman paikanmääritystä
+
+js-lib-kpi-no-fix-pdop = { $pct } % ajasta tai paikoista ilman paikanmääritystä PDOP-arvolla alle { $thr }
+
+js-lib-kpi-over-jump = yli { $thr } m:n hyppykynnyksen
+
+js-lib-kpi-over-pdop = yli PDOP-kynnyksen { $thr }
+
+js-lib-kpi-stays-above = pysyy yli { $thr } dB-Hz:n seurantakynnyksen
+
+js-lib-kpi-under-jump = alle { $thr } m:n hyppykynnyksen
+
+js-lib-kpi-under-pdop = alle PDOP-kynnyksen { $thr }
+
+js-lib-orbit3d-apogee = apogeum
+
+js-lib-orbit3d-perigee = perigeum
+
+js-lib-orbit3d-prov-scenario = skenaario { $hash }
+
+js-lib-orbit3d-title = Rata (ECI, ortografinen)
+
+js-lib-orbit3d-view-angles = az { $az }° · el { $el }°
+
+js-lib-overlay-meta-clock-bias-m = Kellon harha
+
+js-lib-overlay-meta-converged-pos-3sigma-m = Paikka 3σ
+
+js-lib-overlay-meta-converged-pos-rms-m = Paikan RMS
+
+js-lib-overlay-meta-converged-pos-sigma-m = Paikka σ
+
+js-lib-overlay-meta-final-clock-freq-sigma = Kellotaajuus σ
+
+js-lib-overlay-meta-mean-relays-in-view = Näkyvät releet
+
+js-lib-overlay-meta-pos-p95-m = Paikan p95
+
+js-lib-overlay-meta-pos-rms-m = Paikan RMS
+
+js-lib-overlay-meta-postfit-rms-m = Sovituksen jälkeinen RMS
+
+js-lib-overlay-prov-scenario = skenaario { $hash }
+
+js-lib-overlay-subtitle = |virhe| (ns) ajan funktiona — { $n } ajoa
+
+js-lib-overlay-time-s = aika (s)
+
+js-lib-overlay-title = Päällekkäisnäkymä: ajoitusvirhe katkon aikana
+
+js-lib-packs-cannot-unpack = tämä selain ei voi purkaa tallennettua tiedostoa
+
+js-lib-replay-demos-below-130 = Vain alle 130°:n atsimuutit säilytetty (ilmoitettu)
+
+js-lib-replay-demos-coastal-drag-off = Rannikon poisveto
+
+js-lib-replay-demos-combined-event = Yhdistetty tapahtuma
+
+js-lib-replay-demos-drag-off-stated = Paikan poisveto (esittelyn ilmoittama)
+
+js-lib-replay-demos-ferry-drag-off = Lauttamatka, paikan poisveto
+
+js-lib-replay-demos-ferry-drag-off-description = Keksitty lauttaloki, Tallinna–Helsinki, 1 Hz. Ajanhetkestä 1500 s alkaen paikan poisveto vetää ilmoitetun paikan pois, vaikka vastaanotin ilmoittaa edelleen kelvollisen paikanmäärityksen.
+
+js-lib-replay-demos-fjord = Vuonon luonnollinen heikkeneminen
+
+js-lib-replay-demos-masked-sky = Lauttamatka, puolet taivaasta peitetty
+
+js-lib-replay-demos-masked-sky-description = Sama lauttaloki, jossa taivaan läntinen puolisko vaiennetaan hetkestä 600 s, kapeampi taivas välillä 900–1200 s ja poisveto hetkestä 1500 s alkaen: yksi ajo, jossa taivas, signaali ja paikka pettävät vuorollaan.
+
+js-lib-replay-demos-open-sea-jamming = Häirintä avomerellä
+
+js-lib-replay-demos-port-approach = Aikaharhautus satamaan lähestyttäessä
+
+js-lib-replay-demos-source-training = Synteettinen skenaario { $id }: moottorin nmea_training-virta ja ohjaajan loki, pisteytettynä sen receiver-trust-toiminnolla.
+
+js-lib-replay-demos-source-trust = Synteettinen loki { $id }: keksittyä NMEA-dataa, pisteytettynä moottorin receiver-trust-toiminnolla.
+
+js-lib-replay-demos-west-masked = Taivaan läntinen puolisko peitetty (ilmoitettu)
+
+js-lib-replay-demos-west-masked-again = Läntinen puolisko peitetty uudelleen (ilmoitettu)
+
+js-lib-report-charts = Kaaviot
+
+js-lib-report-eyebrow = tarkka hetki
+
+js-lib-report-figures-of-merit = Laatumittarit
+
+js-lib-report-footer = Kshana { $version } · skenaario { $hash } · luotu { $iso }. Toistettavissa skenaariosta, siemenluvusta ja moottoriversiosta. Ajetaan paikallisesti; mitään ei lähetetä.
+
+js-lib-report-not-applicable = ei sovellettavissa (hyökkäystä ei ole määritetty)
+
+js-lib-report-scenario-definition = Skenaarion määritys (TOML)
+
+js-lib-report-th-clock = Kello
+
+js-lib-report-th-metric = Mittari
+
+js-lib-report-th-validation = Validointi
+
+js-lib-report-th-value = Arvo
+
+js-lib-report-tier-note = Jokainen laatumittari on merkitty { $validated } (tarkistettu ulkoista oraakkelia vasten) tai { $modelled } (ensiperiaatteista johdettu, sisäisesti testattu) — johdettu varmennusmatriisista.
+
+js-lib-report-title = Kshana — skenaarioraportti
+
+js-lib-skydraw-azimuth-range = atsimuutti { $from }–{ $to } astetta
+
+js-lib-skydraw-describe = Satelliitteja luettelossa { $listed }, signaalilla { $heard }
+
+js-lib-skydraw-describe-mean = Satelliitteja luettelossa { $listed }, signaalilla { $heard }, keskiarvo { $snr } dB-Hz
+
+js-lib-skydraw-east = E
+
+js-lib-skydraw-no-signal-from = ei signaalia suunnasta { $sectors }
+
+js-lib-skydraw-none-listed = Lokissa ei ole tänä hetkenä yhtään satelliittia.
+
+js-lib-skydraw-north = N
+
+js-lib-skydraw-sat-heard = { $sys } { $prn }: korkeuskulma { $el }, atsimuutti { $az }, signaali { $snr } dB-Hz
+
+js-lib-skydraw-sat-quiet = { $sys } { $prn }: korkeuskulma { $el }, atsimuutti { $az }, luettelossa, ei signaalia
+
+js-lib-skydraw-south = S
+
+js-lib-skydraw-unheard-sector = Satelliitteja luettelossa atsimuuttien { $from } ja { $to } asteen välillä, yhdelläkään ei signaalia
+
+js-lib-skydraw-west = W
+
+js-lib-skyline-edit-describe = Horisonttiviiva peittää { $blocked } / 360 atsimuuttiastetta; korkein { $el }° atsimuutissa { $az }°.
+
+js-lib-skyline-edit-open = Avoin horisontti: ei horisonttiviivaa.
+
+js-lib-stages-all-planets = Kaikki planeetat
+
+js-lib-stages-au-from-sun = { $d } au Auringosta
+
+js-lib-stages-band-carrier = { $name }-kantoaalto, { $mhz } MHz
+
+js-lib-stages-bin-title =
+    { $count ->
+        [one] { $from }–{ $to }{ $unit }: { $count } ajo
+       *[other] { $from }–{ $to }{ $unit }: { $count } ajoa
+    }
+
+js-lib-stages-body-and-moons = { $name } ja sen kuut
+
+js-lib-stages-cell-title = lat { $lat }°, lon { $lon }° · { $field } { $value }
+
+js-lib-stages-chain-navmsg = Navigointiviesti
+
+js-lib-stages-chain-pass = Ohitus ja yhteys
+
+js-lib-stages-chain-ppp = Tarkka pistepaikannus
+
+js-lib-stages-chain-pvt = Yhdistetty paikannus
+
+js-lib-stages-chain-signal = Signaalisuunnittelu
+
+js-lib-stages-coverage-aria = { $field } kappaleella { $body }, leveys- ja pituusasteen mukaan
+
+js-lib-stages-feature-n = kohde { $n }
+
+js-lib-stages-flag = lippu
+
+js-lib-stages-frequency-mhz = taajuus (MHz)
+
+js-lib-stages-from-to = { $from } – { $to }
+
+js-lib-stages-geojson-aria = Kartalle piirretty GeoJSON-vienti
+
+js-lib-stages-histogram = Histogrammi
+
+js-lib-stages-inner-planets = Sisäplaneetat
+
+js-lib-stages-km-from-centre = { $d } km (keskus: { $centre })
+
+js-lib-stages-linear-scale = lineaarinen asteikko
+
+js-lib-stages-link-light-time = { $from } – { $to }: yhteen suuntaan kulkeva valoaika { $time } s
+
+js-lib-stages-longitude-axis = pituusaste · leveysaste sivulla ylöspäin
+
+js-lib-stages-mission-time = tehtäväaika (s)
+
+js-lib-stages-noise-floor = kohinataso
+
+js-lib-stages-orrery-note = { $scale } · koordinaatiston x–y-taso, katsottuna sen pohjoisnavalta
+
+js-lib-stages-panel-n = Paneeli { $n }
+
+js-lib-stages-plan-view-aria = Kappaleen { $centre } ja sen ympärillä olevien kappaleiden ylänäkymä, { $scale }
+
+js-lib-stages-psd-at-t = Tehospektritiheys hetkellä t = { $t } s
+
+js-lib-stages-psd-axis = tehospektritiheys (dBW/Hz)
+
+js-lib-stages-runs = ajoa
+
+js-lib-stages-sat-title = { $constellation } { $id } · lat { $lat }°, lon { $lon }°
+
+js-lib-stages-satellites = satelliittia
+
+js-lib-stages-spectrum-at-t = spektri hetkellä t = { $t } s
+
+js-lib-stages-sqrt-scale = etäisyyden neliöjuuriasteikko
+
+js-lib-stages-the-body = kappale
+
+js-lib-stages-time-s = aika (s)
+
+js-lib-stages-unit-alarm = Hälytys
+
+js-lib-stages-unit-cn0 = Kantoaalto–kohinatiheys
+
+js-lib-stages-unit-position = Paikka ja suojaus
+
+js-lib-stages-unit-satellites = Satelliitit
+
+js-lib-stages-unit-time-error = Aikavirhe
+
+js-lib-stages-waterfall-aria = Tehospektritiheyden vesiputous: taajuus vaakasuunnassa, aika alaspäin
+
+js-lib-stages-whole-band = Koko kaista
+
+js-lib-sweep-clock-availability = { $who }: saatavuus
+
+js-lib-sweep-clock-holdover = { $who }: holdover (s)
+
+js-lib-sweep-clock-timing-p95 = { $who }: ajoituksen p95 (ns)
+
+js-lib-sweep-clock-timing-rms = { $who }: ajoituksen RMS (ns)
+
+js-lib-sweep-max-altitude = suurin korkeus (km)
+
+js-lib-sweep-max-elevation = suurin korkeuskulma (°)
+
+js-lib-sweep-max-speed = suurin nopeus (m/s)
+
+js-lib-sweep-min-altitude = pienin korkeus (km)
+
+js-lib-sweep-peak-doppler = huippu-Doppler (Hz)
+
+js-lib-sweep-prov-scenario = skenaario { $hash }
+
+js-lib-sweep-y-vs-x = { $y } suhteessa { $x }
+
+js-lib-tabs-3d-orbit = 3D-rata
+
+js-lib-tabs-figures-of-merit = Laatumittarit
+
+js-lib-tabs-stability = Vakaus
+
+js-lib-tabs-sweep = Pyyhkäisy
+
+js-lib-tabs-time-series = Aikasarja
+
+js-lib-tour-ashforde-body = Kiitos, kun tutustuit Kshanaan. Rakennamme avointa, toistettavaa ja todisteisiin perustuvaa suunnittelua tehtäville, jotka eivät saa epäonnistua — rehellisesti siitä, mikä on validoitua ja mikä mallinnettua. Kysyttävää, yhteistyötä tai tutkimus? Ota yhteyttä: contact@ashforde.org.
+
+js-lib-tour-ashforde-title = Ashforde® OÜ:ltä
+
+js-lib-tour-capabilities-body = Valitse aluevälilehti — Radat, Ajoitus, Inertia, GNSS, Kestävyys, Kuu, Tekoäly/koneoppiminen, Yhteentoimivuus — nähdäksesi sen ominaisuudet, jotka on kukin merkitty Validoitu tai Mallinnettu, sekä ▸ ajo-painike esimerkkiskenaarioille. Avaa mistä tahansa alueesta ”Todisteet ja alkuperä” jäljittääksesi todisteet tai kytke ”Vain validoidut” näyttämään vain ulkoista oraakkelia vasten tarkistetut.
+
+js-lib-tour-capabilities-title = Tutustu moottoriin yksi alue kerrallaan
+
+js-lib-tour-cite-body = Kshana on tehty viitattavaksi — viitattava ohjelmistojulkaisu DOI-tunnuksella sekä vertaisarvioitua tyyliä olevat artikkelit RF-häiriöiden optimismikuilusta ja ehdollisesta ajoituksen suojaustasosta. Kopioi viite suoraan täältä.
+
+js-lib-tour-cite-title = Julkaisut ja viittaaminen
+
+js-lib-tour-download-report-body = Pyyhkäisy-välilehti vaihtelee yhtä parametria alueella; ”Kiinnitä vertailuun” asettaa kaksi tai useampia ajoja päällekkäin vierekkäin niiden välisen Δ:n kanssa (toimii skenaariotyyppien yli — kello, Mars-PNT, paikannus…); ja tämä painike lataa ajon itsenäisenä, offline-käyttöön sopivana HTML-raporttina.
+
+js-lib-tour-download-report-title = Pyyhkäise, vertaa ja vie
+
+js-lib-tour-guided-body = Ohjatut säätimet mukautuvat skenaarioon — siemenluku, määrityskynnys, kesto, korkeuskulmamaski, ratakorkeus — ja jokainen muutos ajaa uudelleen heti.
+
+js-lib-tour-guided-title = Säädä liukusäätimiä
+
+js-lib-tour-mcp-body = MCP-palvelin antaa tekoälyavustajien ajaa validoitua moottoria arvaamisen sijaan; JetBrains-liitännäinen ajaa skenaarioita hiiren oikealla painikkeella.
+
+js-lib-tour-mcp-title = Käytä sitä tekoälyagentista tai IDE:stä
+
+js-lib-tour-playground-body = Valitse skenaario avattavasta luettelosta — tai paina ▸ ajo mistä tahansa yllä olevasta ominaisuudesta — ja moottori ajetaan WebAssemblynä sinun koneellasi. Mitään ei lähetetä.
+
+js-lib-tour-playground-title = Aja se selaimessasi
+
+js-lib-tour-run-body = Aja nykyinen skenaario. Avaa ”Lisäasetukset” muokataksesi TOML-tiedostoa ja muuttaaksesi mitä tahansa; ”Kopioi jakolinkki” toistaa täsmälleen tämän ajon jollekulle toiselle.
+
+js-lib-tour-run-title = Aja se
+
+js-lib-tour-tabs-body = Vaihda laatumittareiden, aikasarjakaavion, kellon vakauden (Allanin poikkeama) ja — ratajaksoille — interaktiivisen 3D-ratanäkymän välillä.
+
+js-lib-tour-tabs-title = Lue tulokset
+
+js-lib-tour-validation-body = Sama selain on myös todistekirjanpito: jokaisella alueella on ”Todisteet ja alkuperä” -laatikko — luku, ulkoinen oraakkeli, jota vasten se on tarkistettu, ja rehellinen Validoitu / Mallinnettu -tila väitettä kohti. ”Vain validoidut” rajaa aineistotarkistettuihin riveihin.
+
+js-lib-tour-validation-title = Todisteita, ei adjektiiveja
+
+js-lib-views-3-sigma-bound = 3-sigman raja
+
+js-lib-views-3d-position-error = 3D-paikkavirhe
+
+js-lib-views-a-parameter = parametri
+
+js-lib-views-band-runs = Aikavirhekaista { $runs } Monte Carlo -ajon yli
+
+js-lib-views-band-the-runs = Aikavirhekaista Monte Carlo -ajojen yli
+
+js-lib-views-below-tracking = seurantakynnyksen alapuolella
+
+js-lib-views-chart = kaavio
+
+js-lib-views-classical = klassinen
+
+js-lib-views-epoch = ajanhetki
+
+js-lib-views-four-needed = 4 tarvitaan paikanmääritykseen
+
+js-lib-views-free-inertial = vapaa inertia
+
+js-lib-views-gnss-denied = GNSS estetty
+
+js-lib-views-ground-track = Maanpintajälki
+
+js-lib-views-heatmap-effective = Efektiivinen kantoaalto–kohinatiheys satelliitin ja ajan mukaan
+
+js-lib-views-heatmap-nominal = Nimellinen (ei häirintälähdettä) kantoaalto–kohinatiheys satelliitin ja ajan mukaan
+
+js-lib-views-horizontal-alert-limit = vaakasuuntainen hälytysraja
+
+js-lib-views-horizontal-hpl = vaaka (HPL)
+
+js-lib-views-id-bound = { $id }: raja
+
+js-lib-views-id-median = { $id }: mediaani
+
+js-lib-views-id-offset = { $id }: poikkeama
+
+js-lib-views-id-p95 = { $id }: p95
+
+js-lib-views-map-matched = karttaan sovitettu
+
+js-lib-views-map-matched-title = Karttaan sovitettu vapaan inertian paikkavirheeseen verrattuna
+
+js-lib-views-metric = mittari
+
+js-lib-views-oscillator = oskillaattori
+
+js-lib-views-oscillator-source = oskillaattori ({ $source })
+
+js-lib-views-position-error-axis = paikkavirhe ({ $unit })
+
+js-lib-views-position-error-m = paikkavirhe (m)
+
+js-lib-views-position-error-run = Paikkavirhe ajon aikana
