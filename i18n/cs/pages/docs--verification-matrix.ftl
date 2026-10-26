@@ -2578,3 +2578,527 @@ seg-c3a151ee3d10 = tests/lunar_station_ext.rs (growth_absent_or_zero_is_the_froz
 seg-a866350f7eb2 = lunar_solution; lunar_station (solution_figures)
 
 seg-41f22cf8dd08 = lunar_solution::tests (one_epoch_without_height_is_the_snapshot_solve: rovná se lunar_dpnt::position_error_vector_from_range_errors s přesností { "1e-8" } m, volný řádek výšky nic nemění, těsný zafixuje chybu výšky; three_satellites_need_the_height_row; a_window_shares_the_position; bad_sections_are_refused); tests/lunar_station_ext.rs (the_default_solution_mode_is_the_snapshot_solve: každý údaj s relativní přesností { "1e-6" }; height_aiding_and_a_window_do_what_they_say); tests/lunar_station_published_oracle.rs::solution_style_addendum_run (ignorován, zaznamenaný dodatek)
+
+seg-33d506570c1b = srp_shadow::tests (prstencový uzavřený tvar, rovnoměrný zákon reprodukující kuželový stín, meze plného Slunce a umbry)
+
+seg-13f8f557c721 = propagator (ForceModel::with_ephemeris, ForceEphemeris), ephem_provider
+
+seg-20f163c0cb8f = tests/propagator_de440_orekit_oracle.rs ({ "5" } případů × { "25" } hodinových stavů za { "24" } h, LEO, GEO a HEO, třetí těleso a třetí těleso + SRP: nejhorší |dr| { "0.0170" } m, |dv| { "1.84e-5" } m/s; analytická kontrola řady se míjí o { "9.96" } m; Slunce { "6.39" } m a Měsíc { "0.244" } m od poloh DE440 v Orekitu, zaznamenaný nezdar); jednotkové testy propagátoru (odmítnutí poskytovatele, počítání záloh sdílené napříč klony)
+
+seg-448f4acf5c7b = tides, propagator, precise_od
+
+seg-4014447d4bcc = tides::tests (člen S1 je denní, za čtvrt dne se otočí o { "90" } stupňů a má amplitudu zatěžovacího faktoru každého řádku; fyzikální velikost na LEO); propagator::tests::the_s1_air_tide_flag_adds_exactly_the_s1_acceleration
+
+seg-8fda2ee90583 = gravity_sh, propagator (FieldEvaluator)
+
+seg-3f7d3003656e = tests/gravity_sh_high_degree.rs (Orekit v { "8" } bodech mimo osu: max |da| { "2.2e-17" } m/s^{ "2" } při N = { "70" }, běží vždy; { "3.5e-17" }, { "3.9e-17" } a { "7.3e-17" } m/s^{ "2" } při N = { "200" }, { "360" }, { "2190" }, podmíněno daty v KSHANA_EGM2008_GFC); tests/cowell_tesseral_200_orekit_oracle.rs ({ "24" }h dráha 200x200, podmíněno daty: nejhorší |dr| { "0.1317" } m, |dv| { "1.45e-4" } m/s; kontrola stupně 70 { "0.726" } m); jednotkové testy gravity_sh (shoda s klasickým vyhodnocovačem na { "1e-13" } při stupni { "70" }, konečná diference a spojitost na pólu u pole stupně 2190, podtékající člen stupně 2190 proti výpočtu s rozšířeným exponentem)
+
+seg-296a6fe8585b = orbit_determination (determine_orbit_batch_tracking, propagate_with_stm, is_visible), batch_ls (gauss_newton_analytic)
+
+seg-9493e02e3cd1 = tests/od_tracking_measurements_reference.rs ({ "8" } scénářů: rychlost změny vzdálenosti, az/el a smíšené, LEO a MEO, bez šumu i s šumem sigma { "5" } m / { "5" } mm/s / { "1e-4" } rad, masky { "5" } a { "10" } stupňů, proti Orekitu { "12.2" }: množiny viditelných družic shodné; hodnoty měření do { "5.84e-8" } m, { "6.30e-10" } m/s, { "1.44e-13" } rad; STM do { "1.2e-14" } relativně; zašuměné stavy do { "1.74" } cm a { "1.14e-5" } m/s; RMS po proložení pro jednotlivé typy do { "2.7e-4" } relativně; kshana bez šumu proti pravdě { "1.06e-8" } m; kshana bez šumu proti Orekitu { "1.464" } a { "1.740" } cm u dvou scénářů, zaznamenané nesplnění prahu { "1" } cm); jednotkové testy orbit_determination a batch_ls
+
+seg-f5a76ae1fcaa = sp3, precise_od
+
+seg-39a552abfcab = src/sp3.rs unit tests; tests/agency_galileo.rs::galileo_e11_sp3_accuracy_weighted_fit (zapsaný { "8" }h fixture ESOC, sigma { "0.032" } m z exponentu v hlavičce { "5" }: Tier-1 3D RMS { "0.132" } m beze změny, Tier-2 { "0.035" } m proti { "0.070" } m při sigma { "1" } m, změna pochází z přebalancovaného empirického apriorního omezení); tests/agency_swarm.rs (produkt Swarm nenese kódy přesnosti a přejde na náhradní postup, zafixováno)
+
+seg-409f709cceb3 = gravity_pds, body, propagator, mars_frame
+
+seg-0fe6532ca74d = tests/planetary_gravity_pds.rs::a_shadr_field_attached_to_a_body_drives_the_propagator; gravity_pds::tests::with_gravity_field_is_opt_in
+
+seg-e3d75762b979 = gnss_navmsg (gps_cnav, gal_inav, gal_fnav, fec)
+
+seg-dbe0dd5dcf47 = gnss_navmsg::tests (kontrolní hodnota CRC-24Q 0xCDE703; impulzní odezva konvolučního kódu; Viterbi opravuje vložené chyby; šířky rozvržení); tests/gnss_navmsg_roundtrip.rs (počáteční bity polí se rovnají číslům bitů v ICD; kódování -> FEC -> prokládání -> Viterbi -> dekódování se vrací v rozmezí půl LSB); tests/gnss_navmsg_galileo_brdc_grid.rs (záznamy IGS BRDC 2018-133 Galileo na mřížce LSB, nejhorší { "3.6e-3" } LSB; předregistrovaný práh počtu družic nebyl dosažen, { "15" } z { "20" }, NÁLEZ)
+
+seg-b81cd9204f64 = hatch (HatchFilter), pvt (assemble_epoch_precise_smoothed, CarrierSmoother)
+
+seg-e892fffaaf07 = hatch::tests (průchod bez šumu; rozptyl bílého šumu 1/(2N-1); restarty); tests/hatch_wettzell_oracle.rs::hatch_finding_is_pinned (WTZR 2025-02-24 01-06 h, { "600" } epoch, N = { "100" }: medián 3D chyby { "1.553" } -> { "1.116" } m, p95 { "3.473" } -> { "3.207" } m)
+
+seg-bdda05057c91 = rinex_obs (parse_obs)
+
+seg-44b76c5cb13e = tests/rinex4_obs_mao0.rs (první { "4" } epochy souboru IGS MGEX RINEX { "4.00" } MAO000USA_R_20231980000_01D_30S_MO, { "58" } družic, { "7" } systémů: záznamy hlavičky a hodnoty první epochy se rovnají publikovaným literálům); rinex_obs::tests::parses_a_rinex_4_header_with_its_new_records (syntetická hlavička { "4.02" } ze specifikace)
+
+seg-439e23a5567e = rinex (RinexEphemeris::sv_position_ecef_bds_geo, NavParseOptions)
+
+seg-8c86b4b3a731 = tests/bds_geo_broadcast_oracle.rs (skutečné záznamy C01-C04: geostacionární poloměr, délky 140.02/80.04/110.55/159.99 stupňů v publikovaných slotech, |šířka| { "2.13" } stupně se sklonem oproti { "6.65" } bez něj; předregistrované porovnání vysílané dráhy s přesným SP3 je podmíněno daty v KSHANA_BDS_GEO_SP3 a nebylo spuštěno); rinex::tests
+
+seg-75c2ea59f607 = fusion::carrier_tc (run_carrier_tc, CarrierTcCfg), fusion::trajectory (truth_epochs)
+
+seg-e27a18b3aae9 = tests/fusion_carrier_tc.rs (jízda po trase ve tvaru 8: ustálené 3D RMS { "0.025" } m s nosnou oproti { "0.470" } m s kódem na shodných měřeních; { "12" } seedů střední NIS/dof { "1.00" } a ustálené NEES/dof { "0.92" }; skok o 1 cyklus zjištěn ve své epoše bez falešných poplachů a s neporušeným řešením; vypnutí vysílaných korekcí zvýší chybu kódu z { "0.51" } m na { "19.6" } m (iono) a { "8.0" } m (tropo); běh bez šumu konverguje na { "0.3" } mm)
+
+seg-2811d9348db2 = fusion::pack (TightCfg, [tight]), scenarios gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation
+
+seg-3f9bc3b0027f = tests/gnss_ins_packs.rs (každý balíček: fúze pod volnou INS po dobu výpadku pro oba senzory; železnice: těsná { "5.3" } m oproti volné { "12.9" } m u navigační třídy a { "15.6" } m oproti { "18.8" } m u taktické třídy po dobu výpadku, dostupnost { "0.97" } oproti { "0.95" }; těsná tabulka ověřena); tests/gnss_ins_legacy_trajectory_pin.rs (volně vázaná výchozí varianta bit po bitu shodná)
+
+seg-726b35d3e247 = fusion::coupled (CoupledPntFilter, CoupledPntBiasFilter, CoupledPnt3d), fusion (run_coupled_suite), hybrid (CoupledCfg)
+
+seg-260ef8ae3823 = tests/fusion_coupled_filters.rs (3D filtr přes { "60" } seedů: střední NEES druhé poloviny { "8.12" } pro { "8" } stavů, součet χ² v poslední epoše uvnitř pásma { "95" } %; oprava hodin o { "0.1" } ns sníží 3D sigmu polohy z { "5.58" } m na { "3.07" } m; filtr zkreslení přes { "60" } seedů: součet χ²({ "5" }) v pásmu, zkreslení do { "3" } sigma v { "59" } z { "60" }; fusion-pnt-coupled se zkreslenými akcelerometry: p95 polohy { "18.7" } m / { "90.0" } m a integrita { "1.00" } / { "0.97" } u vázané varianty oproti { "430" } m / { "4060" } m a { "0.006" } / { "0.000" } u oddělené); fusion::coupled::tests; tests/fusion_coupled_pack.rs (fusion a hybrid bez [coupled] bit po bitu shodné)
+
+seg-10d9b01f3ab2 = fusion::trajectory (TrajectoryCfg, Trajectory, kinematic_imu, parse_truth_csv), fusion::pack ([trajectory])
+
+seg-5a6b5289a473 = fusion::trajectory::tests (koordinovaná zatáčka nemá boční sílu a má zatěžovací faktor 1/cos φ; import CSV reprodukuje letěný profil na { "1e-3" } m/s a { "1" } m); tests/gnss_ins_trajectory_library.rs (každý profil běží a fúze překonává volnou INS po dobu výpadku; každý letí svůj pojmenovaný pohyb; pozorovatelnost kurzu: sigma vybočení po { "240" } s { "1.27" } stupně při přímém letu oproti { "0.039" } stupně při trase ve tvaru 8 a { "0.062" } stupně při stop-and-go); tests/gnss_ins_legacy_trajectory_pin.rs (zděděný výsledek a hashe pravdy bit po bitu shodné)
+
+seg-5807e4274501 = cr3bp (differential_correct_halo, PeriodicOrbit)
+
+seg-adec908f7883 = tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry (CAPSTONE březen { "2023" }, { "4" } periluny a { "5" } apolun: perioda { "6.5004" } d oproti { "6.5699" } d ({ "1.07" } %, práh { "3" } %), apoluna { "71 182" } oproti { "71 215" } km ({ "0.05" } %, práh { "5" } %), periluna { "3 385" } oproti { "3 245" } km ({ "4.1" } %, práh { "20" } %)); cr3bp::tests::reproduces_l2_southern_nrho_92_regime
+
+seg-d38407c0a9ab = dop_error_mc (run_geometry, check, TOLERANCES); dop_error_ci (run, GEOMETRIES); pvt (solve_spp); orbit (dop, dop_cofactor)
+
+seg-01d0a7046f8e = tests/uere_dop_monte_carlo.rs (position_error_is_sigma_times_dop_on_the_gnss_lib_py_geometries: všech { "104" } kontrol projde při prvním běhu po předregistraci e50c88d2, nejhorší rozptyl { "3.2" } %, RMS { "1.6" } %, korelace { "0.012" }, průměr { "2.2" } standardní chyby, podíl elipsy { "0.0039" }; negative_control_a_doubled_pdop_fails_every_geometry; negative_control_elevation_dependent_errors_fail_the_low_elevation_geometries: obě kontroly selžou, jak je požadováno; position_error_is_sigma_times_dop_on_masked_skies: dvě geometrie s maskovaným horizontem z poznámky k návrhu, obloha 10sat-mixed pod předvolbou městské ulice ({ "4" } družice, PDOP { "16.6" }) a kontejnerového terminálu ({ "9" } družic, PDOP { "2.5" }), všech { "26" } kontrol projde při prvním běhu po předregistraci 03999c11, tests/fixtures/dop/PREREGISTRATION-MASKED.md); tests/position_error_dop_ci.rs (první, samostatná kontrola na čtyřech ručně zvolených oblohách (otevřená, shluková, kaňon, poloviční obloha; sigma { "1" } m, seed 0x0D0B5EED) s intervaly spolehlivosti chí-kvadrát na { "1e-6" } celkem přes { "20" } kontrol: poměry { "0.987" } až { "1.009" }, vlastní PDOP/GDOP řešiče se rovnají hodnotám jádra na { "2.5e-12" } a negativní kontroly pro chybu DOP { "10" } % a chyby 1/sin(elevace); spuštěno před předregistrací, takže je uvedeno, nikoli předregistrováno); dop_error_mc::tests; dop_error_ci::tests
+
+seg-557c0aa72056 = receiver_trust (geometry: GeometryTracker, geometry_ratio, sky_ratio, geometry_points, GeometryLabel; score: DeductionClass, score_with; monitors; live); telemetry (sample, prometheus, syslog, otlp)
+
+seg-fd57dab04d68 = tests/natural_degradation_trust.rs (a_stated_skyline_reads_the_fjord_as_geometry: na syntetickém průjezdu fjordem ze scenarios/training/fjord-natural-degradation.toml se stejných { "624" } epoch srazí se zadaným [skyline] i bez něj; s ním se sky-blocked hlásí na { "680" } epochách ({ "0" } bez něj: náhradní postup mezery v azimutu nevidí nic v oboustranném fjordu), open_fraction je { "0.758" } a epochy třídy prostředí klesnou z { "78" } na { "33" }, přičemž zbytek jsou ztráty družic, které zadaný horizont ponechává na volném prostranství; mimo událost horizont žádné skóre nemění); receiver_trust::geometry::tests (ručně odvozené poměry na prazích, hrany prahů, rampa a strop, spodní mez, hrany označení, přepsání [geometry], DOP na ověřeném jádru, držené a vypršelé oblohy, neznámé nehádané, ztráta signálu, tolerance špatné geometrie, sentinely bez řešení); tests/geometry_trust.rs (spravedlivě maskovaná obloha označená a nehodnocená, špatně maskovaná obloha, ztráta nízké elevace, pokles výkonu, padělaný HDOP, úplná ztráta signálu, odtažení při špatné geometrii, neznámá geometrie, přepsání relace, živé schéma); tests/geometry_trust_no_change.rs (obě ukázkové relace bajtově shodné s { "0.35.0" } po odstranění přidaných klíčů); tests/geometry_corpus_identity.rs (každý zapsaný korpus NMEA plavidla, také jako otevřená obloha pouze GPS, a výcvikové scénáře posádek: bajtově shodné s { "0.35.0" } kromě špatných epoch, které se liší pouze srážkou za geometrii)
+
+seg-911ccf2cb486 = skyline (Canyon::cut_deg, Sector::contains, TerrainPoint::elevation_deg, reduce_terrain, SkylineCfg::build)
+
+seg-849ae7d82147 = skyline::tests (canyon_matches_hand_computed_wall_elevations; terrain_takes_the_curvature_drop; sectors_have_sharp_edges_and_wrap; a_preset_is_overridden_or_added_to_field_by_field; malformed_sections_are_refused)
+
+seg-d5ba7b502aec = skyline (PRESETS, preset, preset_list)
+
+seg-ef3717bfca79 = skyline::tests (presets_carry_the_note_dimensions_and_provenance)
+
+seg-4e6101547ab1 = geometry; orbit (cofactor_from_los, dop_cov, dop); surface (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg)
+
+seg-8ee1ff6b9975 = geometry::tests (ellipse_of_an_analytic_two_by_two_case; sky_geometry_equals_orbit_dop_on_the_same_visible_set; ecef_input_matches_azimuth_elevation_input; one_clock_per_system_adds_a_state_and_costs_geometry; monte_carlo_is_seeded_and_agrees_with_the_geometry; presets_propagate_and_are_seen_from_a_site); tests/dop_reference.rs (jádro s jedněmi hodinami proti gnss_lib_py)
+
+seg-085cbc64bab2 = holdover
+
+seg-b31ed8fc6801 = holdover::tests (proti vícekrokové rekurzi kovariance Kalmanova filtru; přesné white-FM; zpáteční průchod); jádro rozptylu při doběhu externě ověřeno v tests/gnss_denied_clock_holdover_reference.rs (proti scipy Van-Loan/brentq)
+
+seg-2a3a7ee9e8f3 = clock_library (card, condition, series), realdata::clk, allan (lag1_noise_id)
+
+seg-578497ef82a5 = tests/clock_library_device_cards_oracle.rs (gps_iif_cards_reproduce_the_recorded_finding; receiver_training_is_blocked_by_the_epoch_minimum; non_blind_cards_are_reported; předregistrováno 2ec76864); clock_library::card::tests; clock_library::condition::tests; clock_library::series::tests; realdata::clk::tests; tests/clock_library_f9p_cards_oracle.rs (f9p_first_pipeline_reproduces_the_recorded_finding; f9p_corrected_pipeline_reproduces_the_recorded_finding; podmíněno daty)
+
+seg-d302e2ef46ad = clock_library (card)
+
+seg-00637c1e69f0 = tests/clock_library_periodic_cards_oracle.rs (periodic_cards_reproduce_the_recorded_finding; předregistrováno fb475550); clock_library::card::tests (a_periodic_card_carries_the_sinusoid_a_power_law_card_cannot)
+
+seg-3016100a7015 = clock_state::tests (analytické Van-Loanovo Q; NEES; kladnost PSD); tests/clock_state_reference.rs (celá trajektorie predikce a aktualizace — stav x a kovariance P { "3" }×{ "3" } přes { "1925" } kroků / { "4" } sady parametrů proti filterpy { "1.4.5" }; nejhorší |relΔ| { "2.8e-14" }); tests/clock_state_igs_holdout_oracle.rs::three_state_filter_on_held_out_igs_clocks_finding (zafixuje nález); tests/clock_state_ext_igs_fresh_oracle.rs::extended_filter_on_fresh_igs_clocks_finding; tests/clock_state_ext_igs_conditioned_oracle.rs::conditioned_extended_filter_finding (D9 kolo { "3" })
+
+seg-509026100595 = timetransfer, timetransfer_adv
+
+seg-a1ad8fb8537d = timetransfer::tests (vzájemné zrušení; identita Sagnacova jevu ve dvou tvarech); tests/time_transfer_error_budgeting_reference.rs (Sagnac při obeplutí rovníku = { "207.386" } ns oproti publikovanému Ashbyho { "207.4" } ns na <{ "0.05" } ns; a geometrie Sagnac/geodist křížově ověřená proti RTKLIB { "2.4.3" } geodist() přeloženému ze zdrojového kódu v C)
+
+seg-10e0cb39ac3b = navsignal
+
+seg-1035f877de94 = navsignal::tests (BPSK vlastní SSC = 2/3R_c; PSD s jednotkovou plochou; DLL); tests/nav_signal_modulation_code_tracking_reference.rs (křížová / autokorelace Goldových kódů GPS C/A přesná shoda celých čísel proti nezávislému generování kódu podle IS-GPS-200; PSD BPSK-R({ "1" })/sine-BOC({ "1,1" }) proti nezávislému periodogramu ve scipy); tests/nav_signal_betz_hein_published_oracle.rs (betz_text_correlation_values_over_1_ghz; hein_mboc_interference_improvements; finding_betz_side_lobes_and_multipath, zafixováno)
+
+seg-4e1ac3f1b4a1 = quantum_imu::tests (k_eff; Mach-Zehnder T²; rozmezí dna Freier-2016); tests/quantum_inertial_sensor_reference.rs (přenosová funkce |H(ω)|, k_eff·T² a ASD výstřelového šumu proti publikovaným číselným vektorům Cheinet { "2008" } / Peters / Freier); tests/quantum_inertial_measured_qpn.rs (gauguet_finding_qpn_floor_sits_below_the_measured_noise, zafixováno; gradiometer_qpn_line_matches_janvier_model)
+
+seg-81802510f112 = quantum_imu::tests (a_max leží na hraně půlproužku ±π s měřítkem rozsahu 1/T²; obnova zabalené fáze je přesná uvnitř [−a_max,a_max] a mimo něj se aliasuje přesně o { "2" }·a_max; jednoznačný dynamický rozsah a_max/σ_a=π/σ_Φ je shodný pro dva velmi odlišné škálové faktory vlnová délka/T; metody CaiAccelerometer se shodují s volnými funkcemi)
+
+seg-ccc56dac1725 = inertial::quantum_imu (QuantumNavBudget)
+
+seg-60fb2adb58ce = budget_tests (zkreslení proti integrátoru AccelModel; VRW proti analytickému integrálu); tests/quantum_inertial_dead_reckoning_reference.rs (VRW proti nezávislé dvojité integraci šumu bílého zrychlení v numpy metodou Monte Carlo, nejhorší odchylka { "0.42" }% do ±{ "3" }% přes { "6" } dob doběhu; zkreslení/škálový faktor proti uzavřené hodnotě Groves { "2013" }; zpáteční průchod holdoveru)
+
+seg-8f6825f614c7 = jamming::tests (broadband_q_equals_the_spectral_separation_closed_form a cw_q_equals_the_spectral_separation_closed_form: tabulka Q, CW a úzkopásmové { "1" }, širokopásmové a rozmítané { "2" }, zafixované na uzavřené tvary navsignal; a_cw_jammer_is_more_damaging_than_broadband_noise_at_equal_js); tests/gnss_denied_jamming_resilience_reference.rs (FSPL/J-S/efektivní C-N₀ proti nezávislému odvození v numpy bilance spoje Kaplan & Hegarty §{ "9.4" }; skutečné C/N₀ z JammerTest monotónně klesá přes práh { "25" } dB-Hz); tests/jamming_jammertest_cn0_oracle.rs (předregistrováno, zablokováno, nespuštěno)
+
+seg-e3ed02029c26 = spoof, spoof_detect, spoof_monitors
+
+seg-d6db95d3aa40 = tests/spoof_texbat_validation.rs (charakterizace parametrů TEXBAT); tests/spoof_detection_jammertest_oracle.rs::monitors_against_the_published_onsets_reproduce_the_recorded_disagreement (zafixuje nález); tests/spoof_detection_jammertest_log_oracle.rs::engine_monitors_against_the_logged_onsets_reproduce_the_recorded_disagreement; tests/clock_library_tcxo_card_jammertest_oracle.rs (round_3_is_blocked_by_the_training_minimum; round_4_reproduces_the_recorded_finding; round_4b_reproduces_the_recorded_finding; D9)
+
+seg-9cb72e60e080 = tpl
+
+seg-b96e16aba41a = tpl::tests (orákula v uzavřeném tvaru + CUSUM); examples/tpl_jammertest.rs (kalibrace na skutečném spoofingu z JammerTest { "2024" }); tests/tpl_jammertest_coverage_oracle.rs::tpl_against_measured_time_error_reproduces_the_recorded_disagreement (zafixuje nález); tests/tpl_jammertest_log_oracle.rs::drift_state_tpl_against_the_logged_onsets_reproduces_the_recorded_disagreement
+
+seg-6094ed4985fc = altpnt, mapmatch, gravimeter, igrf
+
+seg-f841812dc204 = tests/alternative_complementary_pnt_reference.rs (CRLB přiřazení k mapě; pole IGRF-14); mapmatch::tests; gravimeter::tests; igrf::tests; tests/gravity_map_real_field.rs (60minutový benchmark bez GPS na skutečném poli EGM2008 stupně 70, předregistrovaný v xval/icgem-egm2008/: přiřazeno { "3106" } m, takže práh < { "500" } m je NOT MET a je tvrzen jako nesplněný, zatímco desetinásobné snížení driftu { "70.6" } km je MET; plus Monte Carlo chyby mapy se seedem); altpnt::terrain::tests::emag2_format_grid_reproduces_the_synthetic_magnetic_channel a tests/emag2_real_grid.rs (čtečka EMAG2v3 podmíněná daty na skutečném výřezu; nad ní není tvrzen žádný navigační výsledek); tests/terrain_slam_rbpf.rs (společný odhad mapy, RBPF ve stylu FastSLAM, proti SITAN se známou mapou při { "15" } m korelované chybě mapy přes { "20" } seedů, předregistrováno v xval/terrain-slam-rbpf/: průměrný zisk { "1.5" }% a lepší v { "10" } z { "20" }, takže prahy { "10" }% a 12 z 20 jsou NOT MET a jsou tvrzeny jako nesplněné; žádná újma na dokonalé mapě, MET)
+
+seg-4bcb7eeb020a = report, scenario; CI (golden/determinism/SBOM)
+
+seg-3667ebf0582a = tests/golden.rs, tests/determinism.rs, tests/cross_platform_golden.rs; tests/reproducibility_software_assurance_reference.rs (vygenerovaný SBOM projde ověřením s nulou chyb proti oficiálnímu schématu CycloneDX { "1.5" } JSON přes celý dodávaný graf o 66 komponentách: výchozí + python + wasm features, vývojové závislosti vyloučeny)
+
+seg-e4edd8fd654c = impairment_eval::tests (AUC dokonalé=1/shodné=0.5/shoda hodnot={ "0.125" }, ROC monotónní, fúzované>{ "0.8" }, oddělení vrstev po třídách, ochrana proti úniku, reprodukovatelný korpus, posun rozdělení dat signalizuje optimismus); dominance_demonstrators (dosažitelné + reprodukovatelné + MODELLED, nikoli VALIDATED + mezera optimismu vnitřně konzistentní)
+
+seg-28583cba1c55 = impairment_study, impairment_ml, eval_stats
+
+seg-b30ce36e7afb = impairment_study::tests (AUC orákula po třídách≈{ "1" }, naučená mezera optimismu>{ "0" }, tvar mřížky + bootstrapové CI obklopuje průměr + kladný trend škálování, rysy ID konečné, prediktor mezery překoná predikci průměru v OBOU křížových validacích leave-one-detector-out i leave-one-class-out + deterministický); impairment_ml::tests (logreg odděluje + deterministický + ztráta↓, MLP řeší XOR, které lineární model nezvládne + se seedem); eval_stats::tests (bootstrap/DeLong/Spearman/ridge proti uzavřeným tvarům)
+
+seg-e0f68f57399d = quantum_trade::tests (obnova zpětným průchodem ADEV, nezápornost NNLS, upozornění na dno přítomné/nepřítomné, přínos>{ "1" }, monotónní obálka + mez alt-PNT); dominance_demonstrators (změřená ADEV je řízena daty, nikoli předpokládaným dnem, předpokládaná třída označí dno + upozornění, chybně utvořená křivka odmítnuta, MODELLED, nikoli VALIDATED)
+
+seg-550bd3cee63e = space_weather::tests (Kp↔ap přesně v bodech mřížky + zpáteční průchod + monotónní, průměr denního Ap, exosférická T proti publikovaným kotvám slunečního minima / průměru / maxima + přírůstku při bouři, hustota jednotková v referenci, kolísání v slunečním cyklu v pozorovaném pásmu { "5" }–{ "10" }×, reprodukovatelný scénář + MODELLED, nikoli VALIDATED + odmítnutí mimo rozsah); dominance_demonstrators (dosažitelné + reprodukovatelné + fyzikální T + MODELLED, nikoli VALIDATED); tests/space_weather_density_accelerometer_oracle.rs::jacchia71_finding_is_pinned
+
+seg-80847ffc93bf = launch
+
+seg-2095b880eb39 = launch::tests (start přímo na východ dosáhne i=šířka, KSC→ISS = učebnicových { "45" }°, polární = S/J, i<šířka nedosažitelné, rovníkový bonus { "465" } m/s, změna roviny { "10" }° ≈ { "1.34" } km/s + { "180" }° = 2v, počty denních příležitostí, reprodukovatelný scénář/MODELLED + cesta dogleg); dominance_demonstrators (dosažitelné + reprodukovatelné + KSC→ISS { "45" }° + MODELLED, nikoli VALIDATED); tests/launch_geometry_orekit_oracle.rs::burnout_azimuth_reproduces_the_target_inclination_in_orekit; tests/launch_geometry_orekit_oracle.rs::earth_rotation_speed_gap_is_recorded_as_a_finding; tests/launch_geometry_orekit_oracle.rs::true_pole_site_speed_matches_orekit_at_a_fresh_epoch_and_longitudes
+
+seg-c763ac7e3cda = reentry::tests (špičkové g nezávislé na balistickém koeficientu + fyzikální pásmo g, roste se strmějším γ / rychlejším vstupem, rychlost při špičkovém g = V_e·e^(−1/2) a špičkový ohřev = V_e·e^(−1/6) rychleji, výška při špičkovém g fyzikální + hlubší pro vyšší B, reprodukovatelný scénář/MODELLED + zamítnutá degenerovaná geometrie); dominance_demonstrators (dosažitelné + reprodukovatelné + zlomek V_e·e^(−1/2) + MODELLED, nikoli VALIDATED); tests/reentry_reconstruction_oracle.rs::reentry_overprediction_is_recorded_as_a_finding; tests/reentry_point_mass_reconstruction_oracle.rs::point_mass_peak_deceleration_matches_reconstructed_entries (pouze křížová kontrola); tests/reentry_point_mass_accelerometer_oracle.rs (zablokováno, nespuštěno)
+
+seg-885946a29a26 = contact_schedule (es_n0_db, select_modcod, fspl_db, atmospheric_loss_db, ccm_modcod, pass_capacity, AcmLinkScenario); passes::predict_passes_apparent
+
+seg-00889ed96256 = contact_schedule::tests::modcod_efficiency_closed_form_matches_the_printed_table; contact_schedule::tests::modcod_selection_is_monotone_and_honours_the_margin; contact_schedule::tests::link_budget_pieces_have_closed_forms; contact_schedule::tests::acm_link_defaults_run_and_acm_beats_ccm
+
+seg-dece72e58683 = contact_schedule (conflicts, objective, delivered, schedule_chronological, schedule_greedy, schedule_optimal, ContactScheduleScenario)
+
+seg-d21204ff6b58 = contact_schedule::tests::conflicts_cover_turnaround_and_one_station_per_satellite; contact_schedule::tests::greedy_is_feasible_and_the_exact_solver_beats_or_ties_it; contact_schedule::tests::exact_solver_matches_brute_force_and_plans_are_feasible; contact_schedule::tests::exact_solver_declines_above_the_limit; contact_schedule::tests::contact_schedule_defaults_run_reproducibly; contact_schedule::tests::scenarios_reject_bad_inputs
+
+seg-c6fab6332435 = frugal (over walker)
+
+seg-257dfa053c24 = frugal::tests (ručně odvozená cena za pokrytí 48/96={ "0.5" }, poměr ROI { "2.667" }, řazení rozmezí + ochrany proti nulovému pokrytí)
+
+seg-412105b0f541 = integrity_impact (over raim)
+
+seg-35bc1db56d2a = integrity_impact::tests (stejná nezachycená událost převrátí Available→MI→HMI, jak se zpřísňuje kontext; konzervativní PL→Unavailable; HMI po osách; ochrany vstupů)
+
+seg-fd95a229bdb3 = inertial::cai_params (over inertial::quantum_imu)
+
+seg-061a65493a4a = inertial::cai_params::tests (fyzikální VRW padá do citovaného rozmezí VRW na všech { "3" } úrovních; surový rozsah nejednoznačnosti proužků vypočtený z k_eff·T²; konzervativní rozpočet driftuje více než nejlepší; každé rozmezí má zdroj + příznak potvrzení; ochrany řazení rozmezí)
+
+seg-07ef7fe3d770 = src/benchmark/stanford.rs::tests (čtyři oblasti + zahrnující hranice + |chyba| + nedostupnost při PL>AL); tests/tib_scorer_reference.rs (počty klasifikace proti nezávislému numpy na pevné syntetické množině)
+
+seg-60f627e001ad = src/benchmark/coverage.rs::tests (čistý/podhraničený/zcela nedostupný/prázdný); tests/tib_scorer_reference.rs (počty + míry + coverage_ok proti numpy na { "1e-12" })
+
+seg-6b48be996d76 = src/benchmark/faults.rs::tests (profily posunu, monotónní doběh, označení nezjistitelné množiny, konzistence max_offset, přesně dvě nezjistitelné třídy)
+
+seg-b19cbd364dea = src/benchmark/scorecard.rs::tests (referenční PL pohlcuje; porušené PL nepohlcené a nikdy nezjištěné; verdikt pokrytí zjistitelných; vlastnost poctivosti, že pro nezjistitelný scénář není dosažitelný žádný verdikt pokrytí / detekce)
+
+seg-6d963d838eed = hybrid_integrity::tests (vyřešená konfigurace se vrací pro výchozí hodnoty i přepsání, aniž by se vlnová délka převáděla přes metry tam a zpět; každý záznam jednotek nese jednotku i třídu původu; každé pole, které blok jednotek jmenuje, se skutečně vydává, takže nemůže dokumentovat neexistující pole)
+
+seg-55f2385bbe8a = hybrid_integrity, linkbudget, jamming
+
+seg-188ab5b1b2e9 = hybrid_integrity::tests (dostupnost se rovná součinu dvou indikátorů přepočtených z vlastních rezerv zprávy a tyto rezervy jsou samy znovu složeny z vlastního EIRP zprávy, ztráty volným prostorem, souhrnné ztráty, ukazatele kvality, Boltzmannova členu, datové rychlosti a požadavku na { "1e-9" } dB; hodnota je naměřeně { "0" } nebo { "1" }, zatímco optická dostupnost při témže běhu je naměřeně přísně mezi nimi; každý řádek faktoru nese třídu původu z uzavřené slovní zásoby field_schema; hlášený dosah uzavření spoje znovu spuštěný přes bilanci spoje vrací rezervu { "0" } na { "1e-9" } dB a je naměřeně nezávislý na dosahu, při kterém běh probíhal, napříč čtyřmi dekádami, zatímco využití dosahu se mění přesně poměrem dosahů; spoj -40 dBW hlásí dostupnost { "0" }, LOST a využití nad { "1" } místo zlomku; překonaná poznámka „tento engine nepočítá žádný protějšek dostupnosti RF“ je ověřeně pryč a náhrada ověřeně jmenuje nové pole; chybně utvořený vstup RF je odmítnut, nikoli ořezán)
+
+seg-616d297a3190 = hybrid_integrity, optical_linkbudget, linkbudget, navsignal
+
+seg-d3a72a60b237 = hybrid_integrity::tests (poměr se rovná dvěma vydaným větvím vydělen, na { "1e-15" } relativně, a jeho převrácená hodnota a decibelový tvar se shodují; dosah a časová sigma každé větve souvisejí přesně přes c; vydaná společná konfigurace je ověřeně rovna vlastnímu dosahu a době integrace scénáře a dosah větve RF je ověřeně roven dosahu optické větve; C/N0 větve RF je bit po bitu shodné s blokem dostupnosti, z jedné bilance spoje, nikoli z odvození znovu; vlastnost SROVNÁNÍ STEJNÉHO SE STEJNÝM je ZMĚŘENA, nikoli tvrzena -- čtyřnásobná společná doba akumulace sníží optickou větev na polovinu na { "1e-12" } a větev RF na { "1e-7" } a poměr se nepohne na { "3.19e-9" } relativně, což by větev, která tajně průměruje přes něco jiného, nedokázala; přepsání rf_dll_bandwidth_hz, které naruší společnou dobu průměrování, učiní poměr null s důvodem jmenujícím obě doby, zatímco obě větve se stále vydávají; jednosměrný běh učiní srovnávací větev bit po bitu shodnou s vydaným hlavním údajem s faktorem penalizace přesně { "1" } a dvousměrný běh reprodukuje penalizaci 0.5/sqrt(geometrická ztráta zpětné cesty) přepočtenou z vlastního geometric_loss_db zprávy na { "1e-12" })
+
+seg-7f3efc1e9fa0 = linkbudget
+
+seg-da19fa334661 = linkbudget::tests (napříč třemi pásmy, čtyřmi dekádami dosahu a oběma verdikty uzavření spoje se rezerva a ztráta volným prostorem pod ní přepočtou ze samotné zprávy lépe než na { "1e-9" } dB; požadované G/T složené z členů rovnice se shoduje se stejnou veličinou získanou jako G/T minus rezerva a opětovné spuštění při něm vynuluje rezervu; tři bilance s velmi odlišným EIRP, ztrátou a prahem, ale shodnou konstantou spoje dávají shodný požadavek, zatímco { "1" } dB na konstantě jej posune přesně o { "1" } dB; rozdělení zisku chybí, pokud není uvedena šumová teplota, a nekladná je odmítnuta; každé pole, které blok jednotek jmenuje, se skutečně vydává)
+
+seg-7217c3bf841e = tests/lunar_station_published_oracle.rs::recorded_finding_one_of_six_bars_passes (zaznamenané hodnoty proti registrovaným prahům); tests/lunar_station_published_oracle.rs::published_claims_comparison_run (ignorován, asi { "7" } s v režimu release: znovu spustí šest registrovaných případů a ověří zaznamenané hodnoty)
+
+seg-9b655d02dc39 = araim_reference (add_v42_subset_plan, add_v42_protection_levels_to_order); raim (araim_subset_raim, SubsetRule)
+
+seg-feaea6cb2b12 = tests/raim_multi_sv_subsets.rs (deeper_orders_change_nothing_when_pairs_suffice; triples_are_refused_at_order_two_and_planned_deeper: N_fault,max >= { "3" }, nemonitorované riziko v rámci P_THRES, monitorovaná podmnožina vyřazující tři či více družic a více než deset monitorovaných apriorních pravděpodobností nezávisle odvozených jako P_no fault q^k až do { "1e-12" }; a_two_satellite_fault_is_found_as_a_pair: žádný poplach bez poruchy a vychýlení { "30" } m na dvou družicích detekováno, přičemž podmnožinou s největší normalizovanou separací je dvojice); tests/araim_reference_vectors.rs a tests/integrity_araim_stanford_oracle.rs beze změny (cesta řádu 2 je ta, která byla ověřena nástrojem MAAST)
+
+seg-7fa54ce845e3 = clock_integrity (run, sky_at, IntegrityCfg); scenario (Scenario::integrity); report (RunResult::integrity_fom); api (clock dispatch)
+
+seg-b9a184f14d5a = tests/clock_integrity.rs (the_block_is_separate_and_absent_by_default: hodnoty holdoveru beze změny, { "111" } odepřených epoch nedostupných bez ochranné úrovně, odmítnuto pro runs > { "1" }; protection_levels_are_the_snapshot_raims_on_the_same_sky: HPL a VPL každé vzorkované epochy se přesně rovnají snapshot_raim s nulovým rezidiem na téže přednastavené obloze a běh bez poruchy nevyvolá žádný poplach; a_stated_bias_is_detected_while_it_lasts: vychýlení { "60" } m spustí poplach přesně v těch { "10" } epochách, které pokrývá; every_integrity_field_has_a_unit); clock_integrity::tests; referenční hodnoty hodin (goldens) beze změny
+
+seg-3ba62864dd31 = cislunar_observability, observability_gramian, intersat_range, cislunar_srif
+
+seg-02de44e48cf6 = cislunar_observability::tests a observability_gramian::tests (výchozí dokument zafixovaný bit po bitu pomocí FNV-1a jeho JSON, shrnutí a SVG, přičemž se ověřuje, že explicitní výchozí hodnoty nemají žádný účinek, a osm klíčů rozšíření se ověřuje jako NEPŘÍTOMNÝCH, aby nebylo možné záznam přegenerovat na srovnání sama se sebou; aditivní blok <c1/> vyloučený ze zmrazení tím, že je odstraněn a znovu zahashován proti konstantě zafixované před jeho vznikem, což dokazuje, nikoli předpokládá, že se nic z vydaného nezměnilo; invariance hodnosti vůči homoskedastickému sigma ověřena při σ = { "0" }, { "0.1" }, { "1" }, { "10" }, { "100" } m; σ_pos ověřeno, že se škáluje přesně lineárně se σ s relativní přesností { "1e-6" }; nulový prostor DRO ověřen jako přesně souřadnicové osy z a ż se dvěma oddělenými příčinami — řádek vzdálenosti mezi koplanárními kosmickými loděmi má û_z = { "0" } a mimorovinný blok CR3BP se přesně odpojuje při z = { "0" }; prostorové jakobiány proti centrálním konečným diferencím a proti nezávislé 3D observabli rychlosti změny vzdálenosti v tomto crate; mimorovinné rodiny odmítnuty v rovinném režimu)
+
+seg-455bea44de27 = frame_eop, realtime_frame_eop
+
+seg-faacca83ed58 = frame_eop::tests, realtime_frame_eop::tests a tests/operational_eop_predictor_reference.rs (obnovení koeficientů analytického signálu s přesností { "1e-9" } při 365denním okně; fit vychýlení plus rychlost rovný směrnici a úseku obyčejných nejmenších čtverců v uzavřeném tvaru s přesností { "1e-12" } na skutečných řádcích; DVA detektory pohledu do budoucnosti, které zničí rychlé sloupce UT1 a pólu každého řádku po epoše vydání — přičemž finální hodnoty Bulletinu B nechají nedotčené — a vyžadují bitově shodný výstup, ověřeno mutací tak, že { "10" } testů zčervená, když se bariéra fitu povolí přesně o jeden den; nezávisle znovu sestavený seznam epoch; blok Bulletinu B cíle vymazaný a epocha vyřazená z tabulky; přijetí členů ověřeno při oknech { "6" }, { "15" }, { "150" } a 365 dní; monotónní počty řádků; a zmrazený záznam výchozí zprávy z doby před změnou ověřený pole po poli bez tolerance, který navíc ověřuje, že záznam neobsahuje nové klíče, takže jej nelze potichu přegenerovat na srovnání sama se sebou); tests/operational_eop_predictor_bulletin_a_oracle.rs::predictor_mae_against_bulletin_a_and_the_pcc_range_finding; tests/operational_eop_ls_ar_bulletin_a_oracle.rs::ls_ar_predictor_against_bulletin_a_finding; tests/eop_prediction_beyond_table.rs (volitelné rozšíření EopSeries::with_ls_ar_prediction za poslední řádek: odpovědi uvnitř tabulky bitově shodné, předpovězené řádky rovné ls_ar_predict, argumenty soustavy za tabulkou sledují předpověď místo ořezání; vnitřní konzistence)
+
+seg-c77bd56a0619 = lunar_frame_campaign (skládá lunar_vlbi, lunar_vlbi_fim, fim, lunar, lunar_frame_realise, frames, cio, lunar_frame)
+
+seg-98fa9786f0c9 = lunar_frame_campaign::tests ({ "21" } testů knihovny: Helmertův návrh proti centrální konečné diferenci lunar_frame_realise::apply_helmert — modulu, PRO který je datum určen, který neprovádí žádnou derivaci, a proto fixuje konvenci znaménka [p]ₓ — všech { "84" } položek návrhu se shoduje na < { "1e-6" }; čistá translace sítě přečtená zpět jako čistá translace s únikem < { "1e-6" } do ostatních šesti parametrů; sigma datumu přesně lineární ve sigma zpoždění až do { "1e-8" } při { "3" }násobné změně u všech sedmi parametrů; { "16" } h oblouk naměřen horší a { "48" } h oblouk naměřen lepší než { "24" } h, přičemž emitované vyšetření librací je řazeno stejným směrem; nejhorší osa translace ověřena jako SKUTEČNĚ dominantní osa samostatně změřeného směru k Zemi v soustavě pevné vůči tělesu a horší než ostatní o > { "5" }×, fyzikální orákulum, o kterém se řešiči nic neřeklo; tři kolineární majáky vytvářející defekt, u něhož je každé sigma datumu NULL a nulové směry jsou emitovány v sedmiparametrové bázi; offblock_fraction a korelace mezi majáky přesně { "0.0" } při pevných stanicích a obě > { "0" } při odhadovaných; údaje o vložené transformaci v srovnávacím bloku ukázány jako rovné nezávislému běhu onoho scénáře do { "1e-14" } relativně, nikoli přepsané; pojistka, že se nikde v dokumentu neobjevuje vložený/obnovený datum; emise realizace lunární soustavy zafixovaná bajt po bajtu pomocí FNV-1a-64 nad json‖summary‖svg pro tři tvary vstupu, s otiskem pořízeným před zahájením práce); tests/lunar_vlbi_campaign_spice_oracle.rs::lunar_frame_campaign_finding_stations_estimated_p2_precision (podmíněně spouštěn; přísný lunar_frame_campaign_matches_spice_geometry_and_numpy zůstává ignorován); tests/lunar_frame_campaign_mpmath_oracle.rs::lunar_frame_campaign_datum_matches_mpmath_extended_precision (zjištění; rozhodnutí zakladatele 2026-10-02, varianta A: tento řádek zůstává MODELLED a nepůjčuje si status samostatného řádku; proti 50místnému orákulu mpmath, předregistrováno 804662d5, jsou sigma datumu enginu s odhadovanými stanicemi v rámci své apriorní meze zpětné chyby, { "9.7e-6" } vedle na 2024-01-01, a práh { "1e-9" } byl pod hodnotou, kterou dosáhne jakákoli cesta s dvojitou přesností, přičemž nejlepší, projekce NumPy QR, je { "5.5e-9" } vedle; důkaz podporuje samostatný řádek 'Lunar frame datum covariance with the stations estimated, against 50-digit extended precision'); tests/lunar_frame_campaign_pinv_fallback.rs::finding_step0_fresh_beacon_information_falls_back (zafixováno); tests/lunar_frame_campaign_cond_bar_oracle.rs::finding_p2_condition_scaled_bar_not_met_on_the_estimated_scenarios (zafixováno)
+
+seg-f3fcc6b9e10a = cislunar_arc_recovery, batch_ls
+
+seg-457a19842691 = cislunar_arc_recovery::tests a tests/cislunar_arc_recovery_reference.rs (obě hranice a jejich poměry zafixované na publikované mřížce; naměřená křivka chyby porovnaná s formální kovariancí řádek po řádku s mezí faktoru dvě pro každý řádek a mezí geometrického průměru; NEGATIVNÍ KONTROLA — rovinný šestistavový DRO — ověřuje, že kritérium MŮŽE selhat a že neregularizovaný estimátor diverguje za { "1e6" } km, místo aby vracel věrohodnou malou chybu; invariance vůči parametrizaci ověřena na každé předponě s relativní přesností { "1e-3" }; pojistka nad zdrojovým textem, která odstraní komentáře, řetězcové literály a testovací modul a poté selže při jakékoli zmínce o jakobiánu, STM, hodnosti SVD či aparátu SRIF, ověřeno mutací vložením zakázaného volání; kontrola jen pro testy, že konečné diference se rovnají analytickým řádkům, takže linearizace je známá jako správná, zatímco analytická cesta v estimátoru zůstává nepřítomná; determinismus ověřen bajt po bajtu; vydaný dokument cislunar-observability zafixovaný množinou klíčů, kanonickým otiskem a řádkem shrnutí)
+
+seg-b6b73589032f = lunar_ephemeris, lunar_service
+
+seg-4cab37e82f00 = lunar_ephemeris::tests (parsování formátu a soustavy; Lagrangeova interpolace přesná v uzlech a na lineární dráze mimo uzel; prvky ICRF procházejí redukcí IAU { "2015" } a jsou bajtově shodné s explicitním použitím icrf_to_iau_moon; převody pravá↔střední anomálie sedí při průchodu tam a zpět proti přímému řešení Keplera; poškozené soubory odmítnuty s uvedením důvodu). lunar_service::tests (s nenastaveným <c1/> jsou množina klíčů zprávy a její SHA-256 zafixovány; řádek Keplerovských prvků se rovná samostatnému Keplerovskému běhu pole po poli; identita σ_required · HPL_max / σ_URE = AL, poté KOMPLETNÍ opětovný běh při vypočteném požadavku dosahující { "100" } % dostupnosti ochranné úrovně a opětovný běh o { "1" } % nad ním, který jí nedosáhne; každé emitované číselné pole obou nových bloků procházeno z vyprodukovaného JSON kvůli jednotce a třídě původu; uložené fixtury shodné se zdrojovými tabulkami družici po družici; horizont za koncem tabulky odmítnut); tests/lunar_service_requirement_orekit_oracle.rs::lncss_b_dense_finding_is_unchanged; tests/lunar_service_volume_orekit_oracle.rs::service_volume_matches_orekit_on_identical_ephemeris_and_grid
+
+seg-34bff3218a01 = tests/field_units_global.rs (spuštěno všech { "61" } registrovaných druhů, vždy jeden tvar dokumentu: každý číselný list musí odpovídat položce ve vlastním bloku jednotek tohoto dokumentu; poškozená položka se počítá jako chybějící pro KAŽDÝ druh, vyňatý či nikoli, takže zástupný text nekoupí žádné pokrytí; seznam výjimek nesmí překročit svůj zafixovaný strop, uvedený druh, který se ukáže jako plně pokrytý, brány SELŽE, takže seznam nelze nafukovat, a registrovaný druh chybějící v tabulce běhu selže, takže se nový balíček nemůže proklouznout nezkoumaný — což se stalo a zachytilo oba druhy přidané po zahájení této práce; jednosměrná západka na nedodělky popsané, ale nedefinované; a kontrola zastarání uloženého dokumentu schématu); field_schema::tests
+
+seg-926c069f8a2e = lunar_llr (nad lunar_frame_campaign::beacon_information, schedule_for a solve_datum_information, lunar_vlbi_fim)
+
+seg-9c29f0e9a061 = tests/lunar_station_geodesy.rs (empty_or_absent_extra_lists_are_bit_identical: prázdné seznamy a základní příklad dávají výchozí zprávu i shrnutí bajt po bajtu; an_added_site_never_increases_any_variance: nejmenší vlastní číslo H_after - H_before je nezáporné s přesností { "1e-9" } největšího, každý poměr sigma po/před je nejvýše jedna a obě přidaná místa jsou pozorována; the_rest_of_the_report_is_the_five_array_result; every_station_geodesy_field_has_a_unit; a_beacon_list_inside_the_campaign_block_is_refused); scenarios/lunar-station-geodesy-baseline.toml a scenarios/lunar-station-geodesy-with-station.toml (stejný archivovaný rozvrh a stejný blok kampaně VLBI)
+
+seg-c56512172ce5 = scripts/gate.sh, scripts/check-gate-receipt.sh, scripts/check-repeatability.sh, scripts/install-gate-hook.sh
+
+seg-94641c011229 = tests/source_guards.rs ({ "9" } testů: obě pojistky nad celým zdrojovým stromem a mutační fixtury, které hodnotí každou pojistku v obou směrech — vzor F22 nahlášen na obou kolidujících cestách, dodaná oprava s atomickou posloupností přijata, poloviční oprava nahlášena přesně na cestě, která ztratila svou jedinečnou složku, přijat popisovač dočasného souboru a zděděný jedinečný adresář, odmítnut nástěnný čas; nedeklarovaná zafixovaná hodnota nahlášena, deklarovaná přijata, rozsah bez výjimky odmítnut, deklarace v dokumentačním komentáři nadřazeného testu přijata a ukázáno, že nepřeteče do dalšího testu; a každý zápis zafixované hodnoty — hex, desítkový, řetězec digestu, délka v bajtech, pojmenovaný počet bajtů, golden soubor — je zaznamenán, zatímco konstanty algoritmů, seedy generátoru náhodných čísel a drobné kontroly mohutnosti nikoli)
+
+seg-416def055790 = integrity::composed_pl::tests (monotónnost, podlaha P0, K(IR/2), exponenty, dolní polospojitost)
+
+seg-3d4a4ed81148 = integrity::lil_envelope::tests (divergence, práh, dominance zpřísnění IR)
+
+seg-0a2804cefee1 = integrity::hetero_budget::tests + tests/hetero_budget_reference.rs; tests/hetero_budget_utc_k_oracle.rs::overbound_exceedance_on_real_utc_k_finding (podmíněno daty: s hlášením se přeskočí, pokud řada BIPM chybí); tests/hetero_budget_utc_k_realised_overbound_oracle.rs::realised_offset_overbound_finding; tests/utck_bound_prospective_oracle.rs (D9 kolo { "3" }, prospektivní, dosud nespuštěno: Circular T { "465" } vyšel 2026-10-12 a předregistrované pravidlo 1000 hodnot vyžaduje vydání zhruba do { "468" })
+
+seg-477c4bbb36ab = integrity::hetero_budget::tests (correlated_fused_bias_dominates_independent_when_correlated, rho_one_single_realizer_recovers_linear_sum) + tests/hetero_budget_reference.rs
+
+seg-75e4936b4c2d = integrity::gls_commonmode::tests (common_mode_shift_inflates_statistic_but_not_contrasts, post_fit_common_mode_statistic_is_zero) + tests/gls_reference.rs; tests/gls_common_mode_statistic_numpy_oracle.rs::common_mode_statistic_matches_numpy_lapack
+
+seg-7bbbfeb6e7b9 = lunar_identifiability, lunar_datum
+
+seg-6ac21ece8e3d = tests/lunar_datum_identifiability_reference.rs (single_internal_range_row_has_six_dim_datum_null_space; extending_the_librating_arc_lifts_the_origin_scale_degeneracy); tests/lunar_datum_sosnica_oracle.rs::origin_scale_correlation_and_crlb_disagree_with_the_published_geometry
+
+seg-36da2dd8d3db = lunar_datum, lunar_identifiability
+
+seg-12c2f3ad1982 = lunar_datum::tests (analytické parciální derivace LLR/VLBI/orbiteru proti konečným diferencím); lunar_identifiability::tests (adding_an_offradial_technique_collapses_the_origin_scale_degeneracy; transverse-vs-radial via crlb_diag)
+
+seg-13c488ae75a6 = lunar_llr_geometry::tests (reflector_and_station_catalogs_are_well_formed, analytic_partials_match_finite_difference, llr_one_way_range_is_earth_moon_scale, zero_datum_reproduces_nominal_range, llr_only_fisher_shows_strong_com_x_scale_degeneracy); tests/lunar_pa_frame_realisation_guard.rs; tests/llr_datum_degeneracy_reference.rs; tests/lunar_llr_geometry_range_oracle.rs::reflector_ranges_against_ilrs_normal_points
+
+seg-f741d9570b10 = lunar_gauge::tests (coupled_marginal_well_posed_network_is_psd, coupled_marginal_twoway_equals_more_oneway_in_diverse_network, coupled_marginal_twoway_lift_three_orders, oneway_range_row_has_correct_temporal_entries, twoway_range_row_has_zero_at_offset_and_rate, time_tie_row_equals_pure_offset_vector, rate_tie_row_has_correct_structure)
+
+seg-c4c5426a700b = lunar_techniques::tests (combine_is_additive_order_independent_and_empty_is_zero - prázdný výběr dává nulovou matici, jediný výběr je identita, dvojice se rovná nezávisle napsanému součtu po prvcích a výsledek je invariantní vůči pořadí výběru; adding_a_block_never_reduces_the_degeneracy_metric - monotonie při přidané informaci; radial_diversity_beats_transverse_for_breaking_the_degeneracy - blok orbiteru na odvrácené straně zvyšuje metriku degenerace více než příčný blok VLBI)
+
+seg-c5ebc071ce3e = lunar_interop_budget::tests (monotonie v rozpočtu; redukce rozpočtu RSS při CRLB na poskytovatele; vypracovaná tolerance rotace při lunárním rameni páky; určující člen = rotace)
+
+seg-f4fbaefa3a11 = lunar_interop_budget::tests (CommonEphemeris vynuluje rozpočet; CommonFrameTie < PerProvider; irreducible_fraction > { "0.5" } na skutečných rozděleních; pořadí konvencí)
+
+seg-0b39643e9152 = lunar_faultobs::tests — byzantine_c3_rank_deficient_but_nonzero_is_undetectable (nenulový, ale hodnostně deficitní blok ⇒ block_spark { "1" }, f_detect { "0" }; nezávislé sloupce ⇒ block_spark { "2" }, f_detect { "1" }), byzantine_real_network_uniform_bias_is_clock_offset (partner vlastnící všechna měření uzlu = chyba offsetu hodin ∈ range(G), nedetekovatelná, s jasnou spektrální mezerou Gramovy matice), byzantine_redundant_net_identifies_at_least_one (šest nezávislých partnerů s jediným měřením ⇒ block_spark { "7" }, f_identify { "3" }), byzantine_analytic_spark_identity_projector + byzantine_detect_identify_relations (ruční případy P⊥ = I zafixují f_detect = block_spark − { "1" }, f_identify = ⌊(block_spark − { "1" })/2⌋)
+
+seg-70a340255eb6 = lunar_faultobs::tests — holdover_floor_self_ref_and_anchored (samoreferenční síť: společná rychlost leží v N(GᵀWG), temporal_gauge_dim { "2" }; po jednom externím řádku vazby rychlosti: rychlost vypuzena z gauge, temporal_gauge_dim { "1" } se zachovaným společným offsetem)
+
+seg-11fe79ac46b3 = lunar_faultobs::tests — provider_mismatch_split_common_undetectable_differential_detectable (společné vychýlení nedetekovatelné, diferenciální detekovatelné), slope_infinity_in_range_finite_detectable (g7: sklon ∞ pro b ∈ range(G), konečný pro b ∉ range(G)), pernode_rank_is_state_dim_minus_eight (§{ "0" }: rank(GᵀWG) = state_dim − { "8" }, 8rozměrný gauge je celý nulový prostor se spektrální mezerou >{ "1e6" })
+
+seg-95c049581604 = telecom_timing (MASKS, eprtc_a_holdover_limit_ns, check_curve, check_mask)
+
+seg-35e253f27caa = telecom_timing::tests (mask_boundaries_follow_the_tables_exactly — otevřené i uzavřené konce, mezera τ = { "400" } s v G.8271.1 tabulce 7-3, spojitost v každém bodě zlomu, který tabulky implikují; a_curve_exactly_on_the_limit_passes_and_just_above_fails; eprtc_a_holdover_envelope_follows_table_3; a_coarse_record_is_not_evaluated_against_a_filtered_mask); tests/telecom_timing_reference.rs (telecom_timing_kind_round_trips_through_the_dispatch); tests/telecom_masks_itu_printed_values.rs (mask_values_match_the_numbers_the_recommendations_print; figure_7_2_label_at_1_3_s_is_not_its_own_table_value)
+
+seg-f8b7bc046be6 = telecom_timing (MASKS, Segment::tau_exponent, MeasurementFilter::LowPass10HzAtSource, MaskCondition::Autonomous)
+
+seg-3ae5550f6aaa = telecom_timing::tests (g811_prc_masks_follow_clause_6_1; g812_masks_follow_tables_3_4_6_and_7; g8262_masks_follow_tables_1_3_4_and_5; g8262_1_eeec_masks_follow_tables_1_and_3; a_linear_piece_is_evaluated_without_powf; wander_masks_pass_a_quiet_white_fm_flicker_series; wander_masks_fail_the_same_series_scaled_up)
+
+seg-82af02048968 = clock_log (read_input, MeasuredPhaseReport, MEASURED_UNITS, TELECOM_LOG_UNITS); telecom_timing (SeriesInput::clock_log); api (druh clock [clock_log])
+
+seg-df411365b9ab = clock_log::tests (ručně psané logy pro každý formát: záhlaví, oddělovače, jednotky, integrace frekvence, kanály a režimy TICC, mezery a politiky, odmítnutí); tests/clock_log_allantools.rs (předregistrované srovnání: b1_each_log_reads_to_the_reference_phase; b2_adev_tdev_and_mtie_agree_with_allantools; b3_a_telecom_series_read_from_a_log_equals_the_same_samples; b3_the_clock_kind_measured_block_is_opt_in)
+
+seg-0a789b9f3db1 = clock_log (parse_linuxptp, parse_chrony, grid_timed_offsets)
+
+seg-b1a8738d620b = clock_log::tests (ptp4l_reads_the_locked_offsets_in_ns; linuxptp_reads_only_the_named_program; ts2phc_gap_is_refused_or_filled; linuxptp_reads_syslog_prefixed_lines_and_picks_an_interface; linuxptp_refuses_a_servo_that_never_locks_and_backwards_stamps; chrony_tracking_reads_the_local_offset_in_seconds; chrony_statistics_needs_a_source_when_there_are_two; chrony_columns_of_the_other_log_are_not_read; clock_selector_is_refused_for_timelab_and_ticc_only) na fixturách v tests/fixtures/clock_log/linuxptp_chrony/
+
+seg-5fb2f4812479 = holdover_test (HoldoverTestScenario, recovery, linear_fit); telecom_timing (check_mask, check_envelope, budget_results)
+
+seg-d028f2b41fe8 = holdover_test::tests (the_record_is_split_at_the_stated_times; holdover_figures_match_a_hand_computation; recovery_is_timed_from_the_restoration; masks_are_measured_on_the_step_their_condition_names; a_record_with_no_baseline_says_so; bad_inputs_are_refused_with_the_reason; the_report_carries_the_label_the_units_and_no_conformance_word; a_ptp4l_log_is_scored_end_to_end)
+
+seg-ea770cfea799 = ssv (constellations, geom, sweep, pattern, check)
+
+seg-9a49009f27cd = ssv::geom::tests (the_grid_has_the_booklets_2562_points_on_the_unit_sphere; the_interval_form_equals_the_general_predicate; a_user_behind_the_earth_is_blocked_and_one_beside_the_limb_is_not); ssv::sweep::tests (a_small_shell_run_is_internally_consistent; pdop_of_a_regular_tetrahedron_like_set_is_finite_and_a_flat_set_is_not); ssv::pattern::tests (table_b10_antenna_reads_as_gain_against_angle_from_the_boresight)
+
+seg-05a12f571867 = ssv (limb, weak)
+
+seg-4b5cbdee9714 = ssv::limb::tests (the_chapman_layer_peaks_at_its_height_with_its_density; the_surface_limb_bends_about_one_and_a_third_degrees; plasmaspheric_tec_is_a_few_tecu_for_an_equatorial_gps_to_geo_ray); ssv::weak::tests (longer_integration_lowers_the_acquisition_threshold; aiding_narrows_the_search_and_the_loop; a_conventional_receiver_is_far_above_the_ssv_signal_levels); ssv::scenario::tests (the_limb_medium_adds_statistics_and_can_cost_signals; a_weak_signal_receiver_replaces_the_fixed_threshold)
+
+seg-89cac0893981 = ssv::nav (run_nav, Ekf)
+
+seg-18bbbb4578fc = ssv::nav::tests (the_filter_converges_where_signals_are_plentiful_and_is_deterministic; the_covariance_is_consistent_with_the_error; without_signals_the_filter_coasts_and_the_gap_is_reported); ssv::scenario::tests (navigation_and_formation_run_and_report)
+
+seg-59bd0b502622 = ssv::formation (run_formation, RelEkf)
+
+seg-70f8b2a10f03 = ssv::formation::tests (differencing_beats_subtracting_absolute_estimates_and_is_deterministic); ssv::scenario::tests (navigation_and_formation_run_and_report; formation_needs_navigation_and_one_mode_only)
+
+seg-9f89545da2ca = inertial::cai_error_terms::tests (raman_transfer_short_pulse_limit_matches_the_acceleration_transfer_function; white_raman_phase_closed_form_matches_quadrature; short_pulse_band_limited_closed_form_matches_quadrature; cheinet_2008_white_phase_noise_requirement_is_reproduced; delay_term_closed_form_matches_exact_filter_quadrature; defocus_phase_is_position_independent_and_tilt_cancels; curvature_bias_monte_carlo_matches_closed_form; curvature_bias_limiting_cases; classical_aided_resolution_monte_carlo_matches_closed_form; multi_t_resolution_monte_carlo_matches_closed_form; ambiguity_limits_and_inverse)
+
+seg-869454221ef4 = telecom_timing (PRESETS, fit_noise, with_flicker_floor, synthesize_holdover); models (ClockModel)
+
+seg-2fb7b4c2396c = telecom_timing::tests (every_preset_carries_a_named_datasheet_and_figures; the_noise_fit_envelopes_every_datasheet_point; pure_aging_matches_its_closed_form — diskrétní rampa stárnutí v rámci { "0.1" } % z (1/2)·D·t² za den; same_seed_same_series_and_hash_different_seed_different_series); tests/oscillator_presets_measured.rs (caesium_finding_pinned; rubidium_finding_pinned; csac_finding_pinned; ocxo_preset_has_no_measured_record)
+
+seg-d31b872adcb6 = slot_timing (predicted_error_s, breach_after_sync_s, terms_at, slot_budget, ClockNoise::from_datasheet, SlotTimingScenario); clock_state (ClockClass::Tcxo, Ocxo, Rafs, source)
+
+seg-8eba4f60f78e = tests/slot_timing_igs_holdout.rs ({ "10" } hodin družic GPS Block IIF, { "14" } dní konečných hodin IGS: { "8" } v rámci prahu { "1.5" }, G25 a G30 optimistické až asi o 2x, zafixováno); tests/slot_timing_ocxo_holdout.rs (měřený OCXO: predikce na utajených datech nikdy není optimistická, { "0.59" } až { "0.70" } naměřeného překročení; na vzorku v rámci { "0.98" } až { "1.17" }; bez členu frekvence určení polohy je predikce na vzorku optimistická při každém prahu); slot_timing::tests (fix_frequency_uncertainty_alone_is_linear_in_time; reduces_to_the_holdover_inversion — každá třída proti holdover::holdover_seconds s přesností { "1e-9" }; white_fm_with_fix_error_has_its_closed_form; flicker_floor_alone_is_linear_in_time; ageing_alone_is_quadratic_in_time; frequency_offsets_add_in_magnitude; the_error_at_the_breach_is_the_guard; datasheet_fit_envelopes_every_point; datasheet_classes_match_their_presets_at_one_second; a_breach_beyond_the_datasheet_is_flagged_as_extrapolated; the_report_carries_the_result_and_a_unit_for_each_field)
+
+seg-a1318b5603cd = orbital_timing (orbital_timing, visibility_half_angle_rad, max_pass_s, crosslink_neighbour_is_outside_footprint)
+
+seg-4c4e4d92c416 = orbital_timing::tests (reduces_to_the_terrestrial_tpl — přesně tpl::timing_protection_level_ns, když hodiny nemají flicker, bílou fázi ani člen náhodné procházky; leo_geometry_matches_its_closed_forms; crosslink_independence_follows_the_footprint; an_independent_check_caps_the_ramp_before_the_pass_ends; a_crosslink_inside_the_footprint_does_not_count; a_ramp_below_the_reference_is_never_detected)
+
+seg-06c475d7eb73 = spectrum (SpectrumScenario, SpectrumModel::bin_psd_w_per_hz, SpectrumModel::band_state, effective_cn0_multi_dbhz, system_temp_k, Jammer::power_fraction_in, Jammer::duty)
+
+seg-266d9c05d9be = spectrum::tests (agrees_with_the_jamming_kind_chain — J/S rovné jamming::j_over_s_db a efektivní C/N0 rovné jamming::effective_cn0_dbhz s Q = 1/(R_c kappa) na { "1e-9" } dB a kotva { "32.105" } dB z vlastního testu druhu jamming; noise_floor_is_kt0f; chirp_window_splits_whole_and_partial_sweeps; duty_weights_partial_rows; demo_scenario_runs_and_denies_l1_while_l5_survives; defaults_run_with_no_jammer; bad_inputs_are_refused)
+
+seg-1d43f89b7a30 = ephem (standish_state, StandishElements::state_at_mean_anomaly, Planet::Pluto); solar_system (position_label)
+
+seg-1af48aec2408 = tests/solar_system_horizons_reference.rs (standish_table1_uranus_and_neptune_exceed_the_nominal_error: zafixováno na { "2.04" } a { "5.16" } násobku nominální chyby délky, pod šestinásobkem; pluto_from_the_1992_row_is_measured_not_validated: v rámci { "39" } úhlových vteřin a { "1.14e9" } m; standish_velocities_track_horizons_to_one_percent: nejhůře { "3.7e-3" } rychlosti); ephem::tests (standish_velocity_is_the_derivative_of_the_position; pluto_has_no_table2_row_and_no_stated_error)
+
+seg-de8a26ea4d61 = ephem (satellite_state, Satellite, SatelliteMethod, moon_icrf, moon_icrf_velocity); ephem_provider (AnalyticSolarSystem)
+
+seg-06601f6fb837 = tests/solar_system_horizons_reference.rs (moons_track_horizons_to_the_measured_angles: nejhorší úhlová chyba viděná z planety v letech { "2000" } až { "2040" }, Phobos { "5.65" } deg, Deimos { "0.38" }, Io { "0.40" }, Europa { "1.63" }, Ganymede { "0.22" }, Callisto { "0.27" }, Titan { "3.31" }; geocentric_moon_tracks_horizons: { "0.046" } deg); ephem::tests (moons_sit_at_their_mean_distance_and_move_at_their_mean_speed); ephem_provider::tests (earth_and_moon_balance_about_their_barycentre)
+
+seg-24749f350eb2 = body (Body::by_name, Body::facts, Body::prime_meridian, SOLAR_SYSTEM, BodyFacts); solar_system (SolarSystemScenario, position_label)
+
+seg-a2ffe20b07aa = body::tests (every_catalogue_body_resolves_by_name_and_carries_its_record; a_zonal_field_is_referenced_to_its_sources_radius; retrograde_rotators_have_negative_rates_and_periods_match_the_iau_rate); solar_system::tests (defaults_report_all_eighteen_bodies_with_tracks; earth_heliocentric_distance_is_one_au_and_period_one_year; a_planet_track_closes_on_its_orbit_and_starts_at_the_epoch_position; moons_orbit_their_planets_at_their_mean_distance; pluto_outside_its_table_is_an_error_not_a_guess; every_emitted_number_has_a_unit); tests/body_constants_naif_oracle.rs::only_the_conventional_constants_of_other_rows_differ
+
+seg-0de56af96b3e = body_pnt (BodyPntScenario, formal_sigma, fix_error); orbit (dop); batch_ls (gauss_newton); mars_pnt (chord_clears_sphere); mars_frame (bodyfixed_to_inertial)
+
+seg-92943f4850b5 = body_pnt::tests (relay_period_is_keplers_third_law_for_the_body; an_orbiter_keeps_its_radius_and_a_lander_sits_on_the_surface; the_earth_range_never_worsens_the_formal_uncertainty; seeded_fix_errors_are_consistent_with_the_formal_sigma: odmocnina ze středního kvadrátu každé chyby určení polohy dělená jejím vlastním formálním sigma v [{ "0.6" }, { "1.5" }]; earth_light_time_is_minutes_at_mars_and_the_run_is_deterministic; defaults_run_around_mars_and_every_number_has_a_unit)
+
+seg-17bf1df86b49 = constellation (coverage, ConstellationDesignScenario, beidou_slots, body_by_name)
+
+seg-4d15849bdf7c = constellation::tests (prefilter_matches_brute_force_exactly — každá mapa a čítač se rovná skenu s přímým testem elevace; five_thousand_satellites_on_a_coarse_grid — { "5 000" } družic, vypíše dobu běhu a ponechané párové testy; a_clock_per_constellation_needs_one_more_satellite; beidou_geo_and_igso_geometry; lunar_shell_runs_around_the_moon; presets_are_earth_only_and_errors_are_clear; preset_counts); tests/constellation_availability_published_spec_oracle.rs::presets_meet_the_published_dop_availability (pouze kontrola regrese); tests/coverage_dop_full_oracle.rs::finding_is_pinned; tests/coverage_dop_gnss_lib_py_oracle.rs (regrese)
+
+seg-fde8247097c3 = campaign (run_campaign_detailed, run_chain, presets, extract, to_svg)
+
+seg-d8d3a3893423 = tests/campaign_composition_reference.rs (a_one_phase_clock_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_integrity_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_jamming_campaign_reproduces_the_standalone_run_bit_for_bit — výsledek členu bajtově shodný se samostatným během a každá zarovnaná hodnota rovná samostatné řadě; the_chained_mission_hands_state_on_and_ends_the_spoofing_phase_on_detection; a_handoff_writes_the_previous_phase_number_into_the_next_scenario; malformed_campaigns_fail_loudly)
+
+seg-59eda109a298 = campaign (run_sweep, run_monte_carlo, ensemble); sweep (GenericAxis, coords_of, set_dotted_value); inertial (metric_stat)
+
+seg-3b9aa486bb66 = tests/campaign_composition_reference.rs (a_fixed_seed_ensemble_is_byte_stable_and_each_realisation_is_the_standalone_run; the_ensemble_mean_and_spread_match_the_white_fm_closed_form — { "200" } seedů hodin s bílým frekvenčním šumem při doběhu tau = { "3010" } s: skutečná střední hodnota { "0" } uvnitř uvedeného intervalu, poloviční šířka intervalu v rámci { "25" } % z { "1.96" } sigma/sqrt(n) a výběrový rozptyl uvnitř oboustranného { "99" }% intervalu chí-kvadrát pro sigma = sqrt(q_wf tau) = { "16.459" } ns; kalibrační soubor (CAP-10, předregistrováno ea451cb5, docs/CALIBRATION-ENSEMBLES.md, tests/calibration_ensembles.rs): přes { "200" } nezávislých souborů interval pokrývá skutečnou střední hodnotu v { "192" } případech (uvnitř { "99" }% oblasti [{ "181" }, { "197" }] rozdělení Binomial({ "200" }, { "0.95" })) a kontrola chí-kvadrát projde v { "196" }, zatímco tolerance percentilů z jednoho seedu (p05 a p95 v rámci { "0.3" } sigma) projde jen v { "183" } z { "200" }, NOT MET proti předregistrovaným { "190" }, kontrola citlivá na seed, zaznamenaná místo uvolnění; a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number)
+
+seg-c0c2439ee1f6 = campaign (run_compose)
+
+seg-b238a6b2bbdd = tests/campaign_composition_reference.rs (a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number — jednočlenné složení čte samostatné číslo a digest výsledku)
+
+seg-a032de3144fe = campaign::optimize (run_optimize, nelder_mead)
+
+seg-94a984382eee = tests/campaign_optimize_reference.rs (předregistrováno fbe6c8b3 a po nesplnění protokolu v kole 1 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1-D řešení cíle v rámci { "6.1e-15" } od r* = r0 { "10" }^((m(r0) - { "3" })/20) v { "96" } vyhodnoceních; p3_prime_contour_target_grid_and_nelder_mead a p3_grid_matches_brute_force_and_nelder_mead_does_at_least_as_well — nejlepší bod mřížkové metody bitově shodný s nezávislou smyčkou hrubou silou { "41" } x { "41" } nad run_toml, Nelder-Mead alespoň tak dobrý v { "177" } a { "161" } vyhodnoceních; p4_nelder_mead_reaches_the_corner_maximum; p5_the_document_is_byte_stable_and_counts_agree; p2_round1_not_met_the_box_excludes_the_closed_form, který zafixuje zaznamenaný nezdar kola 1); campaign::optimize::tests (nelder_mead_meets_the_preregistered_rosenbrock_bar: f* = { "1.7e-20" } v { "234" } vyhodnoceních; a_non_finite_score_is_never_the_best; the_grid_mapping_is_the_sweeps)
+
+seg-a0c6fa7dbb46 = leo_signal (LeoSignalScenario, SignalDesign, Component, Shape, code_jitter_m, gabor_bandwidth_hz, detection_probability, threshold_for_pfa, mean_acquisition_time_s, ssc_leo_into_gnss, ssc_gnss_into_leo, jammer_tolerance, gnss_victim, preset, public_signal)
+
+seg-6d9eb1dc2a11 = leo_signal::tests (every_public_preset_parses_and_cites_a_url; detector_reduces_to_pfa_and_grows_with_snr; detection_probability_with_several_looks_matches_the_noncentral_chi_square; mean_time_of_a_perfect_detector_is_half_the_cells; compatibility_ssc_magnitudes_match_independent_quadrature; to_spectrum_band_is_consistent_with_the_design; jammer_tolerance_orders_cw_matched_wideband; e5_centred_signal_hits_e5a_and_e5b_equally; defaults_run_on_the_generic_band_preset; inline_signal_and_bad_inputs); tests/leo_signal_reference.rs (každý přibalený scénář nezávislý na systému běží bez dat workshopu, ionosférické poměry pásmové výměny se rovnají (f_ref/f)^{ "2" } a její rozdíly ve volném prostoru { "20" } log10(f/f_ref), jitter při referenčním C/N0 leží mezi svou Gaborovou mezí a tvarem pro neomezené pásmo, kontroly tvaru E5 ve scénáři s parametry workshopu jsou konzistentní, když je ten soubor přítomen, a žádný zdrojový soubor tento soubor nekompiluje)
+
+seg-e31094573516 = spectrum (Band::unit_psd, Band::tracked_power_dbw, BandDesign, BandCfg, PanelCfg, SpectrumScenario, Waveform, multi_band_svg); leo_signal (SignalDesign::to_spectrum_band)
+
+seg-17f462b8768d = tests/leo_signal_reference.rs (vícepásmový vodopád běží se čtyřmi panely, rušičky UHF, L5, S a C vždy odepřou jen své vlastní pásmo a běh s prostým pásmem se rozšířením nemění); leo_signal::tests::to_spectrum_band_is_consistent_with_the_design; spectrum::tests (agrees_with_the_jamming_kind_chain)
+
+seg-8749534ecbbb = leo_pass (LeoPassScenario); leo_link::geometry (design_pass, link_geometry, numerical_check, SatMotion, UserMotion); leo_link::antenna; leo_link::itu (p676_gaseous_attenuation_db); leo_link (system_noise_temperature_k, cn0_dbhz)
+
+seg-eec596b8749d = leo_pass::tests (the_leo_pass_is_a_bell_above_flat_gnss; closed_form_doppler_agrees_with_the_numerical_derivative: pod { "0.01" } Hz a { "0.01" } Hz/s; indoor_uhf_suffers_less_building_loss_than_c_band; rain_attenuates_c_band_more_than_s_band; iono_delay_scales_as_one_over_f_squared_across_bands; a_fully_custom_band_needs_no_preset; a_walker_constellation_and_a_tle_satellite_both_run; defaults_run_with_no_preset_named_and_every_number_has_a_unit); leo_link::geometry::tests (kepler_velocity_is_the_derivative_of_the_position; a_designed_pass_reaches_the_requested_elevation; closed_form_range_rate_and_accel_match_central_differences_for_two_body_motion); leo_link::antenna::tests
+
+seg-a6cfe1d09891 = leo_link::presets (SystemPreset, BandPreset, all, by_id, gnss_meo); leo_pass (resolve_bands)
+
+seg-09ebe92cc5c1 = leo_link::presets::tests (every_preset_is_sourced_and_self_consistent; only_the_celeste_preset_is_sourced_from_the_workshop); leo_link::presets::xona_pulsar::tests (the_eirps_reproduce_the_published_minimum_power_at_ten_degrees; a_flat_pattern_lands_the_zenith_power_near_the_published_maximum: v rámci { "0.5" } dB od -139.1 a -136.2 dBW); leo_link::presets::iridium::tests; leo_pass::tests (a_fully_custom_band_needs_no_preset)
+
+seg-8c33a02f0aa9 = leo_link::energy (fix_budget, duty_curve, IotReceiver, IotSignal); leo_pass (iot_section)
+
+seg-981819c1af62 = leo_link::energy::tests (stronger_signals_and_smaller_doppler_windows_fix_faster; the_doppler_rate_caps_the_coherent_time; battery_life_grows_with_the_fix_interval_toward_the_sleep_floor); leo_pass::tests (the_run_is_deterministic_and_bad_inputs_are_rejected)
+
+seg-a8d152bb385d = leo_navmsg (LeoNavmsgScenario::midpass, worst_case_jump, elevation, geodetic_to_ecef)
+
+seg-af0e339c4fae = leo_navmsg::tests::a_mid_pass_update_is_continuous (skok vzdálenosti při každém přepnutí se rovná změně chyby vzdálenosti a opravený { "300" } s fit aktualizovaný každých { "150" } s projde prahem { "5" } cm); leo_navmsg::tests::a_keplerian_only_update_over_a_long_interval_is_flagged; leo_navmsg::tests::worst_case_jump_bounds_every_line_of_sight (uzavřený tvar ohraničuje hustý vzorek kuželu)
+
+seg-d8d04f2ffd50 = leo_navmsg::codec (encode, decode, write_payload, read_payload, field_table, quantisation_budget)
+
+seg-4040a549f1c1 = leo_navmsg::codec::tests (signed_fields_round_trip_through_the_bit_packer; week8_resolves_near_the_reference); leo_navmsg::tests::every_model_round_trips_through_the_binary_frame (každý model v rámci { "2" } mm od přesné zprávy po dekódování, opětovné kódování bitově shodné, překlopený bit odmítnut kontrolou CRC); leo_navmsg::tests::every_field_of_the_budget_stays_under_a_millimetre
+
+seg-a6f36f62a02d = leo_navmsg::text (rinex_export, rinex_import, csv_export, csv_import, calendar, from_calendar)
+
+seg-14ee5fa96ce7 = leo_navmsg::text::tests (calendar_round_trips_and_knows_the_gps_origin; d19_is_rinex_shaped); leo_navmsg::tests::rinex_and_csv_round_trips (každý model v rámci { "0.1" } mm po textovém bloku, CSV přesně)
+
+seg-3f5b07cc8c81 = leo_navmsg::elements (EcefPoly, ephemeris_at); leo_navmsg (liu_comparison, LIU2025_TABLE)
+
+seg-1ffa5a792c36 = leo_navmsg::tests::liu22_beats_the_16_parameter_set_over_a_20_minute_arc; leo_navmsg::tests::the_ecef_polynomial_fits_a_minute_to_millimetres; leo_navmsg::tests::every_preset_resolves_and_the_atomic_preset_selects_the_zero_clock_polynomial
+
+seg-fc9c5d5b1511 = leo_fusion::doppler (solve, formal_covariance, single_pass_geometry, offset_site, closest_approach); leo_fusion::pvt_kind (run_doppler)
+
+seg-6cb8d56c57d6 = leo_fusion::doppler::tests (range_acceleration_obeys_the_kinematic_identity_and_vanishes_doppler_at_closest_approach; noise_free_multi_satellite_doppler_recovers_the_user: na { "1" } mm a drift na { "1e-6" } m/s; a_single_pass_has_a_mirror_solution_across_the_ground_track; the_cross_track_error_grows_as_the_pass_goes_overhead; velocity_states_are_recovered_for_a_moving_user); leo_fusion::pvt_kind::tests (doppler_positioning_improves_with_the_window_and_is_deterministic: vážené RMS rezidua v [{ "0.8" }, { "1.2" }] a chyba pod čtyřmi formálními sigma); tests/leo_fusion_scenarios.rs (leo_doppler_positioning_forms_a_fix_and_the_cross_track_error_explodes_overhead; starlink_doppler_only_mode_runs_without_ranging); tests/starlink_doppler_published_proxy.rs (předregistrovaná náhrada proti publikovaným percentilům datové sady 3 z „Unveiling Starlink for PNT“, doi:10.33012/navi.685: se { "3" } družicemi (maska { "47" } deg), bez podpory výšky a při { "30" } Hz je 3D chyba p90 { "92.2" } m při { "20" } s a { "870" } m při { "8" } s oproti publikovaným { "2" } m a { "10" } m, takže oba prahy dvojnásobku jsou NOT MET, na vysoké straně, a jsou ověřeny jako nesplněné; docs/design/evidence/cap11-starlink-doppler-proxy/)
+
+seg-95f8dcd6247e = leo_fusion::joint_pvt (solve, dop, code_sigma_dll_m, SystemClock); leo_fusion::system (SystemCfg, System); leo_fusion::pvt_kind (run_joint)
+
+seg-7a8b0b7b8a37 = leo_fusion::joint_pvt::tests (dop_matches_the_hand_derived_zenith_plus_three_horizon_case: HDOP = VDOP = sqrt(4/3), TDOP = sqrt(1/3), PDOP = sqrt(8/3), GDOP = sqrt({ "3" }) na { "1e-9" }; a_lone_satellite_with_its_own_clock_adds_nothing_and_a_known_offset_does; a_noise_free_fix_recovers_position_clock_and_inter_system_bias; seeded_fixes_agree_with_their_formal_covariance; dll_noise_is_the_textbook_figure_for_gps_l1_ca); leo_fusion::pvt_kind::tests (fusing_leo_never_worsens_the_median_pdop_and_the_isb_is_recovered); tests/leo_fusion_scenarios.rs (meo_leo_fusion_beats_gnss_alone_and_recovers_the_leo_bias); tests/joint_pvt_dual_freq_itrf_rtklib_oracle.rs::dual_frequency_finding_is_pinned; tests/joint_pvt_precise_itrf_rtklib_oracle.rs::precise_product_finding_is_pinned
+
+seg-d98c7b399230 = leo_fusion::ppp (run, PppScenario, LI_2019)
+
+seg-51a43af7f6b5 = leo_fusion::ppp::tests (the_filter_is_consistent_over_monte_carlo_seeds: { "24" } seedů, průměr NEES zprůměrovaný přes běh v [{ "2.4" }, { "3.6" }] a alespoň { "75" } % epoch uvnitř oboustranného { "95" }% pásma chí-kvadrát; měřeno se { "150" } seedy, průměr { "2.84" } jen GNSS a { "2.87" } s LEO; leo_augmentation_shortens_convergence; same_seed_same_answer_and_every_number_has_a_unit); tests/leo_fusion_scenarios.rs (ppp_convergence_of_the_bundled_scenario_shortens_monotonically)
+
+seg-c42e3bd4a4c1 = leo_fusion::timing (simulate, utc_offset_s, system_to_utc_s); leo_fusion::pvt_kind (run_timing)
+
+seg-061a0510c35c = leo_fusion::timing::tests (the_utc_offset_follows_the_is_gps_200_expression; continuous_tracking_approaches_the_measurement_floor_and_gaps_cost_time; the_filter_is_consistent_over_seeds; the_utc_offset_uncertainty_sets_a_floor); tests/leo_fusion_scenarios.rs (leo_timing_error_grows_as_the_c_n0_falls)
+
+seg-16fa5fabfb50 = leo_fusion::presets (all, by_id, cn0_range_dbhz, noise_density_dbw_hz); leo_fusion::system (SystemCfg::build)
+
+seg-df22b3cb00fa = leo_fusion::presets::tests (every_preset_has_a_source_and_every_public_source_a_url; only_one_preset_uses_workshop_material; noise_density_at_290_k_is_minus_204_dbw_per_hz); tests/workshop_preset_isolation.rs (only_the_listed_files_name_the_workshop_preset; workshop_numbers_live_only_in_the_preset_file_and_its_scenarios: skeny zdrojového textu v src, scenarios a tests); leo_fusion::system::tests (a_preset_fills_what_the_scenario_leaves_out; a_system_needs_no_preset; pseudorange_sigma_falls_with_elevation_and_never_below_the_sisre)
+
+seg-6478ad7d09eb = leo_pnt_chain (LeoPntChainScenario); leo_pass (BandCfg::signal, design_tracking); leo_navmsg (LeoNavmsgScenario::broadcast_sisre); leo_fusion::pvt_kind; leo_fusion::ppp
+
+seg-02ef52ba69f0 = leo_pnt_chain::tests (a_sine_line_fit_recovers_its_line); tests/leo_pnt_chain.rs (every_upstream_change_moves_the_downstream_figures: silnější EIRP, delší interval fitu a větší člen určování oběžné dráhy každý pohne předanou hodnotou i fúzovaným určením polohy; the_handed_on_values_are_the_stage_outputs; a_band_design_splits_the_eirp_and_reports_the_design_jitter; the_pass_export_reproduces_the_engine_range)
+
+seg-4070df5af5e4 = leo_link::spoof (range_rate_position_gradient, line_of_sight, fll_frequency_jitter_hz, doppler_consistency_window, doppler_consistency); leo_pass (SpooferCfg, spoof_section)
+
+seg-0a123a80693f = leo_link::spoof::tests (the_gradient_is_the_derivative_of_the_range_rate; fll_jitter_matches_the_formula_by_hand; a_common_mode_residual_is_a_clock_drift_and_is_not_detected; with_no_prior_and_equal_noise_the_statistic_is_the_scatter_about_the_mean; a_push_the_prior_explains_is_not_detected; a_velocity_push_is_hidden_by_a_loose_velocity_prior_only; the_information_form_equals_the_covariance_form); tests/leo_resilience_verticals.rs (the_monitors_are_silent_before_the_onset; the_doppler_statistic_is_quadratic_in_the_jump; leo_range_rates_see_a_jump_that_gnss_range_rates_do_not)
+
+seg-8fbcf1ccbe16 = leo_link::spoof (cross_band_step); leo_pass (spoof_section: pairs, cross_band)
+
+seg-aa91bdc483b1 = leo_link::spoof::tests (the_cross_band_threshold_and_power); tests/leo_resilience_verticals.rs (a_ground_spoofer_leaves_the_ionospheric_step_and_an_ionosphere_aware_one_does_not; a_one_band_spoofer_is_seen_by_the_cross_band_monitor_at_the_onset; the_monitors_are_silent_before_the_onset)
+
+seg-b91ca5a2bd9c = leo_pass (IonoFreePair::geometry_free_stec_tecu, geometry_free_stec_sigma_tecu); leo_link::iono::geometry_free_stec_tecu
+
+seg-5d00a19cfac2 = tests/leo_resilience_verticals.rs (the_geometry_free_tec_is_the_pass_slant_tec: rovná se šikmému TEC přeletu ve vrcholu s přesností { "1e-9" } a jeho sigma se rovná RSS šumu kódu přes { "40.3" } (1/f1^{ "2" } - 1/f2^{ "2" })); tests/geometry_free_tec_gim_oracle.rs::geometry_free_finding_is_pinned
+
+seg-aa2667aa0296 = receiver_trust (score, monitors, live)
+
+seg-58fcb2ec63c5 = tests/maritime_trust_reference.rs::t5_score_matches_the_clean_room_reading_of_the_documented_rule; receiver_trust::score::tests (monotónní v každé statistice, přidání monitoru nikdy nezvýší skóre, zdravé statistiky zůstávají na { "100" })
+
+seg-7adaa23ce920 = telemetry (syslog: leef, rfc5424, SyslogSink; time)
+
+seg-fe08580cd8d3 = telemetry::syslog::tests (přesné řetězce LEEF, escapování, závažnost, obálka RFC { "5424" }, časové limity doručení a opětovné připojení); tests/telemetry_cli.rs
+
+seg-3b0543727850 = receiver_trust::calibration (run_dataset); receiver_trust::monitors (MonitorConfig::profile, JAMMERTEST_2024_CALIBRATED); realdata::jammertest; examples/jammertest_trust_calibration.rs
+
+seg-1a452a47b9d0 = tests/receiver_trust_jammertest_calibration.rs::the_recorded_calibration_reproduces (ignorováno, podmíněno daty přes KSHANA_JAMMERTEST_DIR: zaznamenaný výběr, počty na odložených datech, výsledky prahů a verdikt); receiver_trust::calibration::tests (časová razítka, párování oken a posun časového pásma, štítky, ochranná pásma, vyloučení, výběr); receiver_trust::monitors::tests::threshold_profile_is_opt_in
+
+seg-bf0fa5e2343c = jammertest::plan (parse_catalog, parse_plan, import, import_attack_log, events_toml); jammertest::score (score_run); jammertest::dataset (run_dataset); jammertest (score_log, score_pack); examples/jammertest_score_2024.rs
+
+seg-cf2f1a572c34 = tests/jammertest_plan_roundtrip.rs (podmíněno daty přes KSHANA_JAMMERTEST_PLAN_DIR: počty slotů podle zkušební oblasti plánu z roku { "2025" }, identifikátory katalogu, obousměrný převod TOML); tests/jammertest_score.rs (syntetický záznam se známým poklesem: detekováno, nezachyceno, nevyhodnotitelné, běh s falešným poplachem, podepsaný balíček nesoucí výsledkovou kartu); jammertest::plan::tests; tests/jammertest_score_2024.rs (podmíněno daty přes KSHANA_JAMMERTEST_DIR: zaznamenaný běh)
+
+seg-bf1156de0226 = compliance
+
+seg-af47f52e5c9e = tests/compliance_report.rs::mapping_is_well_formed; tests/compliance_report.rs::wording_rule_holds_in_mapping_report_and_docs; tests/compliance_report.rs::empty_set_evidences_nothing; tests/compliance_report.rs::statuses_follow_the_runs_present; tests/compliance_references.rs
+
+seg-5614947f4e8e = receiver_trust (live: the gate, its TCP listener, PKSHT); mimo crate: integrations/signalk (JavaScript), integrations/opencpn (relay v JavaScriptu, nativní zásuvný modul v C++), deploy/reference-build (jednotky systemd, kontejner)
+
+seg-e917651d5c45 = tests/receiver_trust_live_cli.rs (hradlo a jeho naslouchač TCP, strana Rustu); integrations/signalk/test/adapter.test.js, integrations/signalk/test/model.test.js a integrations/signalk/test/plugin.test.js ({ "24" } testů Node na zaznamenaném syntetickém výstupu); integrations/opencpn/test/relay.test.mjs ({ "5" } testů Node); integrations/opencpn/test/e2e-live.mjs (skutečný binární soubor ke spotřebiteli TCP, spouštěno ručně a v CI); integrations/opencpn/plugin/test/pksht_test.cpp a integrations/opencpn/plugin/test/trust_state_test.cpp (kontroly v C++ pro parser PKSHT a stav panelu); deploy/reference-build/check-units.sh a deploy/reference-build/test-entrypoint.sh
+
+seg-729d14cb230a = iq::track::boc (BocKind, BocTracking, BumpJump, boc11_dll_scale); iq::track::channel (the bump-jump taps and Channel::bump_jumps)
+
+seg-ac14fcbe3119 = tests/iq_boc_bump_jump.rs (b1_b2_b3_side_peak_and_false_jumps_on_the_iq_chain, b4_scaling_on_the_sampled_signal, b5_false_jump_rate_and_detection_at_correlator_level); jednotkové testy iq::track::boc (b4_unit_grid_misses_are_the_recorded_ones: předregistrovaný práh jednotkového testu B4 ponechán tak, jak je napsán, jeho zaznamenané nezdary uplatněny jako zjištění F1)
+
+seg-371e708b8b8f = iq::channel::scint (Scintillation, ScintParams); realdata::scint50 (parse_log, segments, measured_windows, model_windows, compare)
+
+seg-0e1032d7c879 = tests/iq_scint_malindi_measured.rs (cornell_model_verdict_is_the_recorded_one, registrovaný verdikt uplatněn tak, jak je zaznamenán, zjištění F1; finding_model_fades_are_deeper_and_longer_than_measured; posthoc_b3_with_the_model_phase_unwrapped, pouze hlášeno; podmíněno daty, stahováno pomocí scripts/fetch_scint_malindi.sh); jednotkové testy realdata::scint50 (model_data_through_the_harness_shows_the_wrapped_phase_finding, zjištění F2)
+
+seg-98c86c10352b = iq::acq (CfarConfig, ca_cfar, ca_cfar_cells, ca_cfar_pfa, ca_cfar_alpha)
+
+seg-7b8247a4ca76 = tests/iq_acq_cfar.rs (c1_closed_form_matches_monte_carlo_of_the_exact_model, c2_false_alarm_rate_on_gaussian_noise, c3_false_alarm_rate_on_two_bit_noise, c5_decisions_do_not_depend_on_the_input_scale; c4_noise_free_two_bit_signal_verdict_is_the_recorded_one, registrovaný verdikt uplatněn tak, jak je zaznamenán, zjištění F1, zafixováno testem finding_noise_free_sidelobes_exceed_the_cfar_rate); jednotkový test iq::acq ca_cfar_closed_form_reduces_to_the_textbook_case_and_inverts
+
+seg-3e8c364433b7 = spectrum (default_band, MORE_BAND_NAMES, GLONASS_CHANNELS)
+
+seg-e24276b8b422 = tests/spectrum_more_bands.rs (s1_new_bands_carry_their_icd_values, s2_nulls_and_b1c_parts, s4_cn0_paths_agree_on_the_new_bands; s2_closed_form_densities_verdict_is_the_recorded_one, zjištění F1, zafixováno testem finding_s2_areas_are_the_closed_form_in_band_fraction; s3_iq_layer_verdict_is_the_recorded_one, zjištění F2, zafixováno testem finding_s3_per_bin_errors_follow_the_code_line_spectrum; posthoc_s3_band_averaged_shape, pouze hlášeno)
+
+seg-010ad441a092 = iq::lunanet_afs; iq::signals::lunanet (afs_q_tertiary_bits, afs_q_overlay_bits, afs_q_tiered); surface (lunanet_afs_check_spec, lunanet_afs_check_symbols, lunanet_afs_generate)
+
+seg-2d72ec7c3695 = tests/lunanet_afs_codes.rs (b4_legendre_1499_matches_and_tertiary_codes_match_except_one_printed_column, the_spec_check_reports_every_bar_and_pins_the_b4_miss); iq::lunanet_afs::tests (sb1_round_trips_every_field_and_corrects_flipped_symbols, generated_streams_pass_and_damage_is_found); tests/lunanet_afs_cli.rs
+
+seg-662887e17adb = standards_pack; compliance (standards-pack facts in compliance-report)
+
+seg-e2d8a0f6daa5 = tests/standards_packs.rs (pinned_outcomes: stav každého testu, včetně nezdarů L4-T1 a čtyř testů přesnosti IMO); standards_pack::tests
+
+seg-012acc12567b = evidence::roundtrip, evidence::assemble, interop::testbench (write_conditions_json), iq::campaign::conditions
+
+seg-b92c6dde9c2b = tests/round_trip_pack.rs (pack_links_scenario_conditions_log_and_score_and_verifies, conditions_that_disagree_with_the_scoring_events_are_refused, a_stated_log_hash_that_does_not_match_is_refused, published_schema_names_every_field_the_engine_writes)
+
+seg-d9eab5e90d10 = iq::track (Channel, LoopCore, design); iq::cli::track
+
+seg-a99bb0c28b00 = tests/iq_track_gnss_sdr_oracle.rs (calibration_passes_for_both_receivers, registered_bars_give_the_recorded_verdict, recorded_numbers_are_pinned), na číslech odvozených skriptem tests/fixtures/iq_track_gnss_sdr_oracle/make_fixture.py
+
+seg-6c01cedc4ca7 = jamming (CrpaCfg, crpa_weights, run_jamming); crpa (null_steering_weights, mvdr_weights, covariance)
+
+seg-efdc3da9e0ad = tests/jamming_crpa.rs (a1_crpa_units_only_with_the_section, a2_one_element_is_no_array, a3_verdict_is_the_recorded_one, a4_mvdr_tends_to_the_null_at_high_jnr), proti xval/crpa-jamming/expected.json ze xval/crpa-jamming/oracle.py
+
+seg-05b174fab8a1 = jamming_terrain (TerrainCfg, jammer_terrain, knife_edge_loss_db); jamming (run_jamming_sky)
+
+seg-5adec86a588b = tests/jamming_terrain.rs (b1_terrain_units_only_with_the_section, b2_every_placement_matches_the_independent_numpy_recomputation, b3_the_loss_never_rises_as_the_jammer_rises, b4_the_loss_reaches_every_js_and_nothing_else, b5_the_knife_edge_function_matches_the_reference_expression), proti xval/jamming-terrain/expected.json ze xval/jamming-terrain/oracle.py
+
+seg-0417fac0e7e2 = jamming_rx (AcquisitionCfg, AcqState, FrontEndCfg, front_end); jamming (run_jamming_sky); iq::frontend::quant (optimum_step_sigma)
+
+seg-ca7aa6592c0d = tests/jamming_acq_agc.rs (h1_g1_units_only_with_their_section, h2_no_hysteresis_is_no_hysteresis, h2s_no_hysteresis_is_no_hysteresis_on_the_supplementary_runs, h3_flags_match_the_independent_recomputation, h3s_flags_match_the_independent_recomputation_on_the_supplementary_runs, h4_monotone_in_the_acquisition_threshold, h4s_monotone_in_the_acquisition_threshold_on_the_supplementary_runs, g2_quantiser_loss_matches_the_independent_monte_carlo, g3_agc_reading_matches_the_iq_layer_agc_loop), proti xval/jamming-acq-agc/expected_hysteresis.json, expected_hysteresis_s1.json a expected_quantiser.json
+
+seg-80753cdc89bc = iq::track (LoopConfig, FllGate, design); iq::track::channel (the FLL gate)
+
+seg-96b2276484ed = tests/iq_fll_handover_floor.rs (registered_bars_give_the_recorded_verdict, d1_the_key_is_part_of_the_hash_only_when_set, d4_the_capped_design_pulls_in_a_100_hz_handoff_error), na tests/fixtures/fll_handover_floor/results.csv
+
+seg-e322b10ec19c = receiver_trust::machines::rtklib (read_rtklib_pos); receiver_trust::LogFormat::RtklibPos
+
+seg-b5f5f47b5608 = receiver_trust::machines::rtklib::tests (epochy lat/lon, týden/TOW a ECEF, dms odmítnuto, nepřátelský vstup); tests/receiver_trust_machines.rs::rtklib_pos_runs_as_a_receiver_log; integrations/gnss_lib_py/test_bridge.py
+
+seg-97eac8ec4604 = receiver_trust::machines::novatel (read_novatel, novatel_crc32); receiver_trust::LogFormat::Novatel
+
+seg-d935af6c8c6a = receiver_trust::machines::novatel::tests (zafixované CRC, záznamy ASCII a binární, chybné CRC přeskočeno, nepřátelský vstup); tests/receiver_trust_machines.rs::novatel_jammer_flag_reaches_the_receiver_self_report
+
+seg-d151880c7268 = receiver_trust::machines::rtcm3 (read_rtcm3, crc24q); receiver_trust::LogFormat::Rtcm3
+
+seg-68a47a4f7e3f = receiver_trust::machines::rtcm3::tests (katalogová kontrolní hodnota CRC-24Q, C/N0 z MSM4/MSM7 a slučování epoch, čas GLONASS a mapování identifikátorů SBAS, chybné CRC a jiné zprávy)
+
+seg-a2c51966ce9e = receiver_trust::machines::gnss_sdr (read_gnss_sdr_monitor); receiver_trust::LogFormat::GnssSdr
+
+seg-696b76cdaf9a = receiver_trust::machines::gnss_sdr::tests; integrations/gnss-sdr/example.jsonl
+
+seg-2977aaca1688 = receiver_trust::machines::imu, imu_fit; surface::imu_fit; scenario [log.imu]
+
+seg-10715c98eaae = receiver_trust::machines::imu::tests; receiver_trust::machines::imu_fit::tests (známé koeficienty bílého šumu obnoveny do { "10" } %, odmítnutí, TOML se zpracuje jako AccelCfg); tests/receiver_trust_machines.rs (shoda a neshoda směru, vložená nosná, imu_fit)
+
+seg-6ad9867cec5c = telemetry::mqtt (discovery, state_json, connect_packet, publish_packet, MqttSink); surface::TelemetryFormat::Mqtt
+
+seg-21059291ea8b = telemetry::mqtt::tests (bajty paketů, broker na loopbacku, nedostupný broker započten); tests/receiver_trust_machines.rs::trust_telemetry_mqtt_text_has_discovery_then_state
+
+seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); integrations/gnss_lib_py/kshana_gnss_lib_py.py
+
+seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: formát, který zapisuje most gnss_lib_py, vedený přes receiver-trust); testy mostů v Pythonu jsou integrations/ros2/kshana_trust/test/test_bridge.py (most s atrapou enginu), integrations/ros2/kshana_trust/test/test_engine_integration.py (skutečné kolo (wheel) ohodnotí stálé zaměření jako nominální a skok o { "1.1" } km jako nedůvěryhodný) a integrations/gnss_lib_py/test_bridge.py (skutečný gnss_lib_py { "1.1.0" } a kolo (wheel)), spouštěné pomocí pytest, nikoli pomocí cargo

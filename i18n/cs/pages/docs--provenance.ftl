@@ -19,3 +19,5 @@ seg-638b8d451550 = Senzor
 seg-60cd077d82a7 = Model
 
 seg-2afa300864a9 = Parametry
+
+seg-32b620b3574e = Použití
