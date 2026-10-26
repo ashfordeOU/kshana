@@ -577,7 +577,7 @@ async function verify(args) {
       // tier, verdict and status tokens: the count of each on the page equals the English count (as the language renders it)
       const vt = (h) => visible(h).replace(/&nbsp;/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ').replace(/\s+/g, ' ');
       const ve = vt(en), vtr = vt(t);
-      const count = (txt, w) => { if (!w) return 0; let c = 0, i = 0; for (;;) { i = txt.indexOf(w, i); if (i < 0) break; const pre = txt[i - 1] || ' ', post = txt[i + w.length] || ' '; if (!/[A-Za-z]/.test(pre) && !/[A-Za-z]/.test(post)) c++; i += w.length; } return c; };
+      const count = (txt, w) => { if (!w) return 0; let c = 0, i = 0; for (;;) { i = txt.indexOf(w, i); if (i < 0) break; const pre = txt[i - 1] || ' ', post = txt[i + w.length] || ' '; if (!/[A-Za-z_]/.test(pre) && !/[A-Za-z_]/.test(post)) c++; i += w.length; } return c; };
       for (const tk of L.TIER_TOKENS) {
         let ce = count(ve, tk); if (tk === 'MET') ce -= count(ve, 'NOT MET');
         const r = rend[tk];
