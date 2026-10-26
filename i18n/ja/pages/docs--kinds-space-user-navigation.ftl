@@ -19,3 +19,5 @@ seg-67dedb3beedd = 必須フィールド：<c1/>。任意：<c2/>、<c3/>、<c4/
 seg-099d82cb0689 = <b>台帳：</b>MODELLED。入力、結果、エビデンス、制限事項を含む全ページ：<a1>gnss-ssv</a1>。
 
 seg-7ca028bf6bb4 = <s1>前へ</s1>光学 PNT
+
+seg-b03d56f501c3 = 種類

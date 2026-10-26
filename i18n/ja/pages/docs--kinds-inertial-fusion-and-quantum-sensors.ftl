@@ -71,3 +71,5 @@ seg-6cb57dc94549 = <b>台帳：</b>MODELLED { "1" } · VALIDATED { "2" }。入�
 seg-b6c31bdda166 = <s1>前へ</s1>GPS が使えない環境の代替 PNT
 
 seg-0585e4ae329e = <s1>次へ</s1>ジャミング、スプーフィング、スペクトル
+
+seg-b03d56f501c3 = 種類

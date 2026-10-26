@@ -343,3 +343,11 @@ seg-039b7c5fd78a = 単位
 seg-37f058c4e1c3 = 個数
 
 seg-e88d3dbcfe0c = MODELLED
+
+seg-852814f107a7 = シナリオ種別のページ
+
+seg-1a26d420ba67 = 関連項目
+
+seg-c4f4b2ca0647 = 値
+
+seg-e8968e86f31b = 制限事項
