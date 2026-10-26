@@ -8,7 +8,7 @@ seg-1b5caa50249a = Kilde: <c1/>
 
 seg-26767db43a37 = Interferenskort: gennemgang af datakilders licenser
 
-seg-b8bed6fd232d = Status: <b>GODKENDT af koordinatoren den 2026-10-09 med de beslutninger, der er nedfældet til sidst.</b> Gennemgået 2026-10-09 ud fra udgivernes egne sider, hvor de kunne nås. Dette er en teknisk gennemgang, ikke juridisk rådgivning; punkter markeret <em>ikke verificeret</em> skal bekræftes mod den aktuelle licenstekst, før der skrives nogen indlæsningshjælper.
+seg-b8bed6fd232d = Status: <b>APPROVED af koordinatoren den 2026-10-09 med de beslutninger, der er nedfældet til sidst.</b> Gennemgået 2026-10-09 ud fra udgivernes egne sider, hvor de kunne nås. Dette er en teknisk gennemgang, ikke juridisk rådgivning; punkter markeret <em>ikke verificeret</em> skal bekræftes mod den aktuelle licenstekst, før der skrives nogen indlæsningshjælper.
 
 seg-b9a33b7662e9 = Anvendt test
 
