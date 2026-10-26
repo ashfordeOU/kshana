@@ -2348,7 +2348,7 @@ js-cat-lunar-relay-constellation-question = Welche Abdeckung liefert eine Relais
 
 js-cat-lunar-relay-constellation-title = Mond-Relaiskonstellation
 
-js-cat-lunar-station-coverage-public-sources-question = Welchen korrigierten Fehler liefert die Station über dem Südpol allein unter den öffentlich genannten Annahmen? Das Ergebnis wird von den Bahnelementen dominiert, die nicht öffentlich sind und auf ILLUSTRATIV gesetzt wurden; dies ist die Eingabe der eingefrorenen Vorhersage. (modelliert; keine Aussage über ein reales System)
+js-cat-lunar-station-coverage-public-sources-question = Welchen korrigierten Fehler liefert die Station über dem Südpol allein unter den öffentlich genannten Annahmen? Das Ergebnis wird von den Bahnelementen dominiert, die nicht öffentlich sind und auf ILLUSTRATIVE gesetzt wurden; dies ist die Eingabe der eingefrorenen Vorhersage. (modelliert; keine Aussage über ein reales System)
 
 js-cat-lunar-station-coverage-public-sources-title = Mond-Referenzstation, öffentliche Annahmen
 
@@ -3992,7 +3992,7 @@ js-kind-note-j-s-is-the-jammer = J/S ist das Leistungsverhältnis von Störsende
 
 js-kind-note-p05-p50-and-p95-are = p05, p50 und p95 sind das 5., 50. und 95. Perzentil. ci95 ist das 95-%-Konfidenzintervall des Mittelwerts.
 
-js-kind-note-parameters-are-public-with-a = Parameter sind ÖFFENTLICH (mit Quelle), REPRÄSENTATIV oder WORKSHOP, wie jede Voreinstellung angibt.
+js-kind-note-parameters-are-public-with-a = Parameter sind PUBLIC (mit Quelle), REPRESENTATIVE oder WORKSHOP, wie jede Voreinstellung angibt.
 
 js-kind-note-precise-point-positioning-ppp-converges = Die präzise Punktpositionierung (PPP) konvergiert, wenn der Fehler unter dem Kriterium bleibt. NEES ist der normierte quadrierte Schätzfehler, eine Konsistenzprüfung des Filters.
 

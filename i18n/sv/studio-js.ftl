@@ -2411,7 +2411,7 @@ js-cat-lunar-relay-constellation-question = Vilken täckning ger en konstellatio
 
 js-cat-lunar-relay-constellation-title = Reläkonstellation för månen
 
-js-cat-lunar-station-coverage-public-sources-question = Med enbart de offentligt angivna antagandena, vilket korrigerat fel ger stationen över sydpolen? Resultatet domineras av banelementen, som inte är offentliga och är satta som ILLUSTRATIVA; det här är indata till den frusna prediktionen. (modellerad; inget påstående om något verkligt system)
+js-cat-lunar-station-coverage-public-sources-question = Med enbart de offentligt angivna antagandena, vilket korrigerat fel ger stationen över sydpolen? Resultatet domineras av banelementen, som inte är offentliga och är satta som ILLUSTRATIVE; det här är indata till den frusna prediktionen. (modellerad; inget påstående om något verkligt system)
 
 js-cat-lunar-station-coverage-public-sources-title = Referensstation på månen, offentliga antaganden
 
@@ -4045,7 +4045,7 @@ js-kind-note-j-s-is-the-jammer = J/S är förhållandet mellan störsändarens e
 
 js-kind-note-p05-p50-and-p95-are = p05, p50 och p95 är 5:e, 50:e och 95:e percentilen. ci95 är 95-procentigt konfidensintervall för medelvärdet.
 
-js-kind-note-parameters-are-public-with-a = Parametrarna är OFFENTLIGA (med källa), REPRESENTATIVA eller WORKSHOP, som varje förinställning anger.
+js-kind-note-parameters-are-public-with-a = Parametrarna är PUBLIC (med källa), REPRESENTATIVE eller WORKSHOP, som varje förinställning anger.
 
 js-kind-note-precise-point-positioning-ppp-converges = Precis punktpositionering (PPP) konvergerar när felet håller sig under kriteriet. NEES är det normaliserade kvadrerade skattningsfelet, en kontroll av filtrets konsistens.
 

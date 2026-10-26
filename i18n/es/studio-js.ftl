@@ -2831,7 +2831,7 @@ js-cat-lunar-relay-constellation-question = ¿Qué cobertura da sobre toda la Lu
 
 js-cat-lunar-relay-constellation-title = Constelación de retransmisión lunar
 
-js-cat-lunar-station-coverage-public-sources-question = Bajo solo los supuestos declarados públicamente, ¿qué error corregido da la estación sobre el polo sur? El resultado está dominado por los elementos orbitales, que no son públicos y se fijan como ILUSTRATIVOS; esta es la entrada de la predicción congelada. (modelado; no es una afirmación sobre ningún sistema real)
+js-cat-lunar-station-coverage-public-sources-question = Bajo solo los supuestos declarados públicamente, ¿qué error corregido da la estación sobre el polo sur? El resultado está dominado por los elementos orbitales, que no son públicos y se fijan como ILLUSTRATIVE; esta es la entrada de la predicción congelada. (modelado; no es una afirmación sobre ningún sistema real)
 
 js-cat-lunar-station-coverage-public-sources-title = Estación de referencia lunar, supuestos públicos
 
@@ -4479,7 +4479,7 @@ js-kind-note-j-s-is-the-jammer = J/S es la relación de potencia entre el jammer
 
 js-kind-note-p05-p50-and-p95-are = p05, p50 y p95 son los percentiles 5, 50 y 95. ci95 es el intervalo de confianza del 95 % de la media.
 
-js-kind-note-parameters-are-public-with-a = Los parámetros son PÚBLICOS (con una fuente), REPRESENTATIVOS o DE TALLER, según indica cada preajuste.
+js-kind-note-parameters-are-public-with-a = Los parámetros son PUBLIC (con una fuente), REPRESENTATIVE o WORKSHOP, según indica cada preajuste.
 
 js-kind-note-precise-point-positioning-ppp-converges = El posicionamiento puntual preciso (PPP) converge cuando el error se mantiene por debajo del criterio. NEES es el error de estimación normalizado al cuadrado, una comprobación de la consistencia del filtro.
 
