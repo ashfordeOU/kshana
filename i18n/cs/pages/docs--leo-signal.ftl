@@ -16,7 +16,7 @@ seg-6752521002b2 = Část
 
 seg-2b0d77219437 = Předvolby
 
-seg-125aac68d94f = VEŘEJNÉ, <a1>arXiv { "2509.19551" }</a1>
+seg-125aac68d94f = PUBLIC, <a1>arXiv { "2509.19551" }</a1>
 
 seg-c5ce76c91ff7 = Popisek
 
@@ -60,7 +60,7 @@ seg-4c22d21ea8f0 = referenční a maximální přijímaný výkon, výška obě�
 
 seg-c6b46532af9a = Scénář bere signály z <c1/> a z vložených tabulek <c2/>. Bez nich analyzuje předvolbu <c3/>.
 
-seg-a917a5ccfb79 = Jeden soubor na každou v <c1/>, zkompilovaný, každý uvádí adresu URL svého zdroje. Hodnota, kterou zdroj nezveřejňuje, je v souboru i ve zprávě označena REPREZENTATIVNÍ.
+seg-a917a5ccfb79 = Jeden soubor na každou v <c1/>, zkompilovaný, každý uvádí adresu URL svého zdroje. Hodnota, kterou zdroj nezveřejňuje, je v souboru i ve zprávě označena REPRESENTATIVE.
 
 seg-7159574bf255 = Signály
 
@@ -72,29 +72,29 @@ seg-332a08bef0de = vylepšené Feherovo kvadraturní fázové klíčování (EFQ
 
 seg-d37420c5c9f5 = shluky <c1/> Satellite Time and Location (STL), kvadraturní fázové klíčování (QPSK) při { "25" } ksymbol/s, { "780" } km, pouze Doppler a časování
 
-seg-a765878134e2 = VEŘEJNÉ, <a1>zpráva Resilient Navigation and Timing Foundation (RNTF)</a1>
+seg-a765878134e2 = PUBLIC, <a1>zpráva Resilient Navigation and Timing Foundation (RNTF)</a1>
 
 seg-5ca54b21f017 = nosná uprostřed { "1616" } až { "1626" } MHz; přijímaný výkon odvozený ze zveřejněného { "300" } až { "2400" }násobku Global Positioning System (GPS)
 
 seg-e43d1db73131 = <c1/>, maják OFDM { "240" } MHz, pouze Doppler
 
-seg-ff9e0075e868 = VEŘEJNÉ, <a1>NAVIGATION { "72" }({ "1" })</a1>
+seg-ff9e0075e868 = PUBLIC, <a1>NAVIGATION { "72" }({ "1" })</a1>
 
-seg-fee9a553c9ae = ploché spektrum; střed kanálu a výška shellu REPREZENTATIVNÍ; zveřejněný poměr nosné k hustotě šumu (C/N₀) asi { "57" } dB-Hz je nastaven přes přijímač
+seg-fee9a553c9ae = ploché spektrum; střed kanálu a výška shellu REPRESENTATIVE; zveřejněný poměr nosné k hustotě šumu (C/N₀) asi { "57" } dB-Hz je nastaven přes přijímač
 
 seg-f89372b5231e = <c1/>, <c2/>, BPSK při { "2.046" } Mchip/s
 
-seg-2e6475b25d55 = VEŘEJNÉ, <a1>PubMed Central PMC10301026</a1>
+seg-2e6475b25d55 = PUBLIC, <a1>PubMed Central PMC10301026</a1>
 
-seg-ac53cebe5303 = nosné umístěné na nosných GPS L1 a L5 („poblíž“ ve zdroji); délka kódu REPREZENTATIVNÍ
+seg-ac53cebe5303 = nosné umístěné na nosných GPS L1 a L5 („poblíž“ ve zdroji); délka kódu REPRESENTATIVE
 
 seg-cb1420efc108 = <c1/>, { "5020" } MHz, BPSK({ "10" }) v { "20" } MHz
 
-seg-895f6039fce2 = REPREZENTATIVNÍ, pro systémy v pásmu C, jejichž parametry nejsou veřejné (například TrustPoint)
+seg-895f6039fce2 = REPRESENTATIVE, pro systémy v pásmu C, jejichž parametry nejsou veřejné (například TrustPoint)
 
 seg-a407aaab864c = celý návrh
 
-seg-2f679a429dae = REPREZENTATIVNÍ, alokace z <a1>Radiokomunikačního řádu ITU</a1>; nosná UHF { "465" } MHz z veřejného <s1>průzkumu signálů LEO-PNT openRECEIVER</s1>
+seg-2f679a429dae = REPRESENTATIVE, alokace z <a1>Radiokomunikačního řádu ITU</a1>; nosná UHF { "465" } MHz z veřejného <s1>průzkumu signálů LEO-PNT openRECEIVER</s1>
 
 seg-2054d9ce8a0d = celý návrh (i šířka pásma a modulace UHF)
 

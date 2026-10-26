@@ -189,7 +189,7 @@ seg-51ac7cd68154 = <c1/> ({ "1" } až { "5000" }) chyb metodou nejmenších čtv
 # c2: harbour-approach
 # c3: fjord
 # c4: container-terminal
-seg-8bba3099379a = předvolby obzoru (<c1/>, <c2/>, <c3/>, <c4/>) s označením REPREZENTATIVNÍ, původem a řezem pro každý stupeň azimutu; reprezentativní geometrie, nikoli zaměření
+seg-8bba3099379a = předvolby obzoru (<c1/>, <c2/>, <c3/>, <c4/>) s označením REPRESENTATIVE, původem a řezem pro každý stupeň azimutu; reprezentativní geometrie, nikoli zaměření
 
 seg-f900de61f6e9 = část obzoru (tabulka, městský kaňon, sektory, terén) převedená na normalizovanou tabulku o 360 položkách, kterou engine používá
 

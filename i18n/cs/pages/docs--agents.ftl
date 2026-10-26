@@ -128,7 +128,7 @@ seg-7135c6f44d49 = Způsob čtení kódů přesnosti a geometrie mřížky a tra
 
 seg-e47db9be47ea = Geometrie oblohy, skyline
 
-seg-839eb485b1d2 = <b>MODELLED</b> geometrie při uvedeném modelu chyb, pouze přímá viditelnost: žádný ohyb, vícecestné šíření ani příjem bez přímé viditelnosti. Předvolby jsou <b>REPREZENTATIVNÍ</b>, nikoli zaměření; ponechte původ předvolby. Předvolené konstelace jsou reprezentativní obloha, nikoli obloha daného data. Elipsa škáluje uvedenou UERE: není to naměřená přesnost ani mez integrity. Ponechte <c1/>.
+seg-839eb485b1d2 = <b>MODELLED</b> geometrie při uvedeném modelu chyb, pouze přímá viditelnost: žádný ohyb, vícecestné šíření ani příjem bez přímé viditelnosti. Předvolby jsou <b>REPRESENTATIVE</b>, nikoli zaměření; ponechte původ předvolby. Předvolené konstelace jsou reprezentativní obloha, nikoli obloha daného data. Elipsa škáluje uvedenou UERE: není to naměřená přesnost ani mez integrity. Ponechte <c1/>.
 
 seg-0002a3dc682e = Dostupnost optického spoje (<c1/>, { "0.37" })
 

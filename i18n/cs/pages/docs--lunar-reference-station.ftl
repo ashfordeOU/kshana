@@ -8,7 +8,7 @@ seg-9872e31ebd72 = Zdroje
 
 seg-38afa54b0306 = Zdroj: <c1/>
 
-seg-e8ee3794bac6 = <b>MODELLED.</b> Při uvedených předpokladech (konstelace, chyba jejího signálu v prostoru, přesnost zaměření stanice, latence korekcí a kvantizace spoje, každý je vstup označený veřejným zdrojem nebo jako ILUSTRATIVNÍ) model dává níže uvedené hodnoty. <b>Nejsou</b> tvrzením o výkonu žádného skutečného systému. { -brand } <b>nemá</b> vazbu na žádnou agenturu ani její schválení a netvrdí nic o TRL ani o letové historii. Pouze poradní charakter.
+seg-e8ee3794bac6 = <b>MODELLED.</b> Při uvedených předpokladech (konstelace, chyba jejího signálu v prostoru, přesnost zaměření stanice, latence korekcí a kvantizace spoje, každý je vstup označený veřejným zdrojem nebo jako ILLUSTRATIVE) model dává níže uvedené hodnoty. <b>Nejsou</b> tvrzením o výkonu žádného skutečného systému. { -brand } <b>nemá</b> vazbu na žádnou agenturu ani její schválení a netvrdí nic o TRL ani o letové historii. Pouze poradní charakter.
 
 seg-22eb5bd00092 = Účel
 
@@ -28,9 +28,9 @@ seg-98b42925ad5c = Konstelace (<c1/>, <c2/>, <c3/>, <c4/>, <c5/>) nebo <c6/>
 
 seg-bfdd053b2611 = vestavěná sada třídy LCNS
 
-seg-389db26524b4 = ILUSTRATIVNÍ ve přibaleném výchozím nastavení; příklad z veřejných zdrojů nastavuje čtyři družice a periodu { "24" } h z S2 a S4, přičemž sada elementů zůstává ILUSTRATIVNÍ (žádný zdroj ji neuvádí)
+seg-389db26524b4 = ILLUSTRATIVE ve přibaleném výchozím nastavení; příklad z veřejných zdrojů nastavuje čtyři družice a periodu { "24" } h z S2 a S4, přičemž sada elementů zůstává ILLUSTRATIVE (žádný zdroj ji neuvádí)
 
-seg-91231bdcc599 = ILUSTRATIVNÍ
+seg-91231bdcc599 = ILLUSTRATIVE
 
 seg-6b9d48431e4b = Stanice (<c1/>, <c2/>, <c3/>)
 
@@ -38,13 +38,13 @@ seg-fcdb2f3ac330 = { "89" }° j. š., { "0" }°, { "0" } m
 
 seg-f32dcb376b51 = { "0.30" } m
 
-seg-93d78578585f = ILUSTRATIVNÍ (vestavěné přidělení realizace referenční soustavy, samo MODELLED)
+seg-93d78578585f = ILLUSTRATIVE (vestavěné přidělení realizace referenční soustavy, samo MODELLED)
 
 seg-59286c0377ce = <c1/>, <c2/> nebo <c3/> s <c4/>
 
 seg-fe90a6f490f9 = { "100" } m, { "30" } m (SISE na přímce pohledu { "65" } m)
 
-seg-9a432ef35cac = ILUSTRATIVNÍ ve přibaleném výchozím nastavení; příklad z veřejných zdrojů nastavuje <c1/> = { "10" } / { "1.96" } m ze S4 s. 8
+seg-9a432ef35cac = ILLUSTRATIVE ve přibaleném výchozím nastavení; příklad z veřejných zdrojů nastavuje <c1/> = { "10" } / { "1.96" } m ze S4 s. 8
 
 seg-970357ba3630 = { "0" } m, { "10" } s, { "8" } bitů
 
@@ -60,11 +60,11 @@ seg-0fec404c8c7c = { "0" } s, jeden den, { "600" } s, { "200" }
 
 seg-d35d88b0753b = { "20" } m u p95 ve přibaleném výchozím nastavení ({ "1" } m v příkladu z veřejných zdrojů)
 
-seg-fa7858b14f89 = stanoveno před během; { "20" } m je ILUSTRATIVNÍ, dimenzováno podle ilustrativních chyb výchozího nastavení
+seg-fa7858b14f89 = stanoveno před během; { "20" } m je ILLUSTRATIVE, dimenzováno podle ilustrativních chyb výchozího nastavení
 
 seg-a6ee5e2a8b61 = { "10" } m
 
-seg-329ad585cd9b = ILUSTRATIVNÍ: žádná veřejná hodnota neexistuje
+seg-329ad585cd9b = ILLUSTRATIVE: žádná veřejná hodnota neexistuje
 
 seg-422a316b806b = { "5" } m, { "1e-4" }, { "42" }
 
@@ -76,7 +76,7 @@ seg-112cb6bffc03 = <c1/>: redukce na <c2/>, nulová základna a meze zaměření
 
 seg-695ed4f23f3c = <c1/>: nezávislý přepočet aritmetiky v numpy na exportovaných případech, předregistrovaný před spuštěním. Polohy a percentily splnily své prahy; korekce stanice své prahy nesplnila kvůli zaokrouhlení v dvojité přesnosti (zaznamenáno s čísly v <c2/>).
 
-seg-be6ecf79d22c = Ani jedno z toho model nekontroluje. Model chyb, dekorelace prvního řádu, modely zaměření, stárnutí a kvantizace i každý práh jsou vlastní tohoto projektu nebo ILUSTRATIVNÍ.
+seg-be6ecf79d22c = Ani jedno z toho model nekontroluje. Model chyb, dekorelace prvního řádu, modely zaměření, stárnutí a kvantizace i každý práh jsou vlastní tohoto projektu nebo ILLUSTRATIVE.
 
 seg-d6f194e28401 = Terénní masky horizontu
 
@@ -96,13 +96,13 @@ seg-10a1d62ab5cc = <c1/> spouští přibalené vstupy na mřížce { "2" }° se 
 
 seg-6d18d8a8dc78 = <b>Terén a maskování horizontu: řešeno ve verzi { "0.36" }, s omezeními.</b> Masky horizontu pro jednotlivá místa z uvedeného profilu nebo z přiloženého výřezu LOLA DEM jsou modelovány (výše). Zbývá toto: přiložený výřez má { "1200" } m na pixel, takže reliéf pod asi jeden kilometr je vyhlazen a blokové průměry snižují ostré vrcholy; paprsek, který výřez opustí (asi { "420" } km od pólu), tam končí; není zahrnuta difrakce, vícecestné šíření od terénu ani částečné zakrytí; polohy míst pro měření vzdálenosti zůstávají na střední kouli v uvedených výškách (DEM určuje pouze horizont); horizont není ověřen proti vnější hodnotě. Export míst pro jednotlivé družice v <c1/> je maskován jako bod mřížky: se sekcí <c2/> nese každý exportovaný řádek <c3/> a zpráva horizont místa (<c4/>); součty antény v paprsku stále počítají každý spoj, který překoná plochou masku.
 
-seg-b58b3ff1ef20 = <b>Vícecestné šíření a hardware přijímače: řešeno ve verzi { "0.36" } jako volitelná funkce, s omezeními.</b> Sekce <c1/> (<c2/>) přidává vícecestné šíření <c3/> závislé na elevaci u uživatele i na stanici (funkční tvar z DO-229; na Měsíci je každá hodnota ILUSTRATIVNÍ), vícecestné šíření stanice volitelně jako Gaussův–Markovův proces prvního řádu přes epochy, šum kódu DLL typu early-minus-late z C/N0 a zkreslení mezi kanály pro každý kanál. Zbývá toto: variace fázového středu a skupinového zpoždění antény nejsou modelovány; žádné lunární měření hodnoty vícecestného šíření neupřesňuje; blok rozpočtu korekčního spoje nezahrnuje složky přijímače.
+seg-b58b3ff1ef20 = <b>Vícecestné šíření a hardware přijímače: řešeno ve verzi { "0.36" } jako volitelná funkce, s omezeními.</b> Sekce <c1/> (<c2/>) přidává vícecestné šíření <c3/> závislé na elevaci u uživatele i na stanici (funkční tvar z DO-229; na Měsíci je každá hodnota ILLUSTRATIVE), vícecestné šíření stanice volitelně jako Gaussův–Markovův proces prvního řádu přes epochy, šum kódu DLL typu early-minus-late z C/N0 a zkreslení mezi kanály pro každý kanál. Zbývá toto: variace fázového středu a skupinového zpoždění antény nejsou modelovány; žádné lunární měření hodnoty vícecestného šíření neupřesňuje; blok rozpočtu korekčního spoje nezahrnuje složky přijímače.
 
 seg-677252c2d3e5 = Růst chyby efemerid během latence: řešeno ve verzi { "0.36" } jako volitelná funkce, s omezeními.
 
-seg-3af08edab1cc = <c1/> přidává lineární růst chyby vysílané oběžné dráhy se stářím (rozsah 1-sigma <c2/>), nad rámec reprojekce zmrazené chyby; lineární růst je člen prvního řádu šířené chyby stavu (ověřeno na { "1" } % při { "600" } s proti vestavěnému šíření dvou těles). Zbývá toto: žádný veřejný zdroj neuvádí lunární míru růstu (ILUSTRATIVNÍ); žádná struktura ve směru dráhy a radiální; blok rozpočtu korekčního spoje používá zmrazený model. Dodatek K5 (<c3/>, předregistrovaný samostatně) spouští K5 při { "0.001" }, { "0.01" } a { "0.1" } m/s: ve všech případech selhává ({ "369.8" } m, { "2315" } m, { "22797" } m proti prahu { "1.5" } m), jak bylo uvedeno před během.
+seg-3af08edab1cc = <c1/> přidává lineární růst chyby vysílané oběžné dráhy se stářím (rozsah 1-sigma <c2/>), nad rámec reprojekce zmrazené chyby; lineární růst je člen prvního řádu šířené chyby stavu (ověřeno na { "1" } % při { "600" } s proti vestavěnému šíření dvou těles). Zbývá toto: žádný veřejný zdroj neuvádí lunární míru růstu (ILLUSTRATIVE); žádná struktura ve směru dráhy a radiální; blok rozpočtu korekčního spoje používá zmrazený model. Dodatek K5 (<c3/>, předregistrovaný samostatně) spouští K5 při { "0.001" }, { "0.01" } a { "0.1" } m/s: ve všech případech selhává ({ "369.8" } m, { "2315" } m, { "22797" } m proti prahu { "1.5" } m), jak bylo uvedeno před během.
 
-seg-5bba9be34cad = <b>Styl řešení (filtr, výšková vazba, tři družice): volitelná funkce ve verzi { "0.36" }, s omezeními.</b> Sekce <c1/> (<c2/>) přidává výškové pseudoměření, s ním minimum tří družic a okno vážených nejmenších čtverců pro statického uživatele přes epochy (sdílená poloha, hodiny pro každou epochu), které zastupuje filtr. Zbývá toto: chyby epoch považuje za nezávislé, takže se průměruje rychleji než chyby korelované v čase; je pouze pro statického uživatele; není zde dynamický filtr, fáze nosné ani řešení nejednoznačností; stopa případu (<c3/>) ukazuje aritmetiku jednoho snímku. Dodatek se zveřejněnými tvrzeními pro tento režim je <c4/> (předregistrovaný samostatně). S výškovou vazbou { "1" } m, třemi družicemi a oknem o 6 epochách (ILUSTRATIVNÍ nastavení) klesá opravená chyba 3D na p95 u R300 z { "280.6" } m na { "2.11" } m (horizontální { "0.90" } m, nehodnoceno); K1 až K5 stále selhávají a K6 uspěje, { "1" } z { "6" } jako v zaznamenaném běhu. Předpoklad nezávislosti v okně mu nahrává.
+seg-5bba9be34cad = <b>Styl řešení (filtr, výšková vazba, tři družice): volitelná funkce ve verzi { "0.36" }, s omezeními.</b> Sekce <c1/> (<c2/>) přidává výškové pseudoměření, s ním minimum tří družic a okno vážených nejmenších čtverců pro statického uživatele přes epochy (sdílená poloha, hodiny pro každou epochu), které zastupuje filtr. Zbývá toto: chyby epoch považuje za nezávislé, takže se průměruje rychleji než chyby korelované v čase; je pouze pro statického uživatele; není zde dynamický filtr, fáze nosné ani řešení nejednoznačností; stopa případu (<c3/>) ukazuje aritmetiku jednoho snímku. Dodatek se zveřejněnými tvrzeními pro tento režim je <c4/> (předregistrovaný samostatně). S výškovou vazbou { "1" } m, třemi družicemi a oknem o 6 epochách (ILLUSTRATIVE nastavení) klesá opravená chyba 3D na p95 u R300 z { "280.6" } m na { "2.11" } m (horizontální { "0.90" } m, nehodnoceno); K1 až K5 stále selhávají a K6 uspěje, { "1" } z { "6" } jako v zaznamenaném běhu. Předpoklad nezávislosti v okně mu nahrává.
 
 seg-4f8274f839a7 = Srovnání se zveřejněnými tvrzeními
 
@@ -154,11 +154,11 @@ seg-62190343777c = poměr { "1.39" }
 
 seg-7a33a168b020 = splněno
 
-seg-e666f1eb7a59 = Splněn je { "1" } z { "6" } prahů. Příčinou je geometrie. Žádný zdroj nezveřejňuje orbitální elementy konstelace. Na ILUSTRATIVNÍCH vestavěných elementech sdílejí uživatel a stanice čtyři družice nad { "5" } stupni jen v { "8" } % ({ "300" } km) a { "6" } % ({ "600" } km) epoch, při téměř singulární geometrii: neopravené p95 je { "3.8" } km, kde zdroje uvádějí < { "10" } m. Vlastní simulace zdrojů používaly filtr, výškovou vazbu a tři družice v částečném společném výhledu, což tento model snímku nemá. Běh proto tvrzení na těchto elementech nereprodukuje a není důkazem, že tvrzení jsou chybná. Splnění K6 je poměr dvou hodnot ovládaných geometrií a o dekorelaci nic nevypovídá. Zveřejněná sada elementů konstelace by byla hodnocena podle týchž prahů jako druhý, datovaný běh.
+seg-e666f1eb7a59 = Splněn je { "1" } z { "6" } prahů. Příčinou je geometrie. Žádný zdroj nezveřejňuje orbitální elementy konstelace. Na ILLUSTRATIVE vestavěných elementech sdílejí uživatel a stanice čtyři družice nad { "5" } stupni jen v { "8" } % ({ "300" } km) a { "6" } % ({ "600" } km) epoch, při téměř singulární geometrii: neopravené p95 je { "3.8" } km, kde zdroje uvádějí < { "10" } m. Vlastní simulace zdrojů používaly filtr, výškovou vazbu a tři družice v částečném společném výhledu, což tento model snímku nemá. Běh proto tvrzení na těchto elementech nereprodukuje a není důkazem, že tvrzení jsou chybná. Splnění K6 je poměr dvou hodnot ovládaných geometrií a o dekorelaci nic nevypovídá. Zveřejněná sada elementů konstelace by byla hodnocena podle týchž prahů jako druhý, datovaný běh.
 
 seg-1da5fcf7bbf5 = Předregistrovaná předpověď
 
-seg-4ea806a57380 = Předregistrovaná předpověď, zmrazená u commitu <c1/> na vstupech z veřejných zdrojů, s protokolem hodnocení: <a1><c2/></a1>. Je to předpověď, nikoli validace, a každá hodnota v ní je ovládána nezveřejněnou sadou elementů čtyřdružicové konstelace (použité elementy jsou ILUSTRATIVNÍ): v oblasti od { "80" } stupňů j. š. dostupnost { "8.2" } %, opravená 3D na p95 { "280" } m, neopravená { "3.8" } km. MODELLED; <c3/> selže, pokud se pohne kterýkoli zmrazený bajt.
+seg-4ea806a57380 = Předregistrovaná předpověď, zmrazená u commitu <c1/> na vstupech z veřejných zdrojů, s protokolem hodnocení: <a1><c2/></a1>. Je to předpověď, nikoli validace, a každá hodnota v ní je ovládána nezveřejněnou sadou elementů čtyřdružicové konstelace (použité elementy jsou ILLUSTRATIVE): v oblasti od { "80" } stupňů j. š. dostupnost { "8.2" } %, opravená 3D na p95 { "280" } m, neopravená { "3.8" } km. MODELLED; <c3/> selže, pokud se pohne kterýkoli zmrazený bajt.
 
 seg-e6aef34d5023 = Časová laboratoř stanice
 
@@ -166,7 +166,7 @@ seg-4ef12bffa7c4 = Zda miniRAFS stanice, řízené k LTC a poté volně běžíc
 
 seg-69ddf7ea8fcb = Geodézie stanice
 
-seg-717a5c91387b = O kolik jeden retroreflektor a jeden maják VLBI na místě stanice zpřesní lunární referenční datum nad rámec pěti archivovaných polí retroreflektorů: volitelné vstupy <c1/> a <c2/> z <c3/> (<c4/> a <c5/>). Cramér–Raovy meze pro zmenšenou sadu parametrů na ILUSTRATIVNÍM harmonogramu a místě: 1-sigma normy posunu klesá z { "0.0185" } m na { "0.0102" } m (poměr { "0.551" }), měřítko z { "0.00178" } na { "0.00063" } ppm. MODELLED. Metoda, výhrady (jihopolární místo vidí Zemi nízko nebo vůbec) a úplná Helmertova tabulka: <a1><c6/></a1>.
+seg-717a5c91387b = O kolik jeden retroreflektor a jeden maják VLBI na místě stanice zpřesní lunární referenční datum nad rámec pěti archivovaných polí retroreflektorů: volitelné vstupy <c1/> a <c2/> z <c3/> (<c4/> a <c5/>). Cramér–Raovy meze pro zmenšenou sadu parametrů na ILLUSTRATIVE harmonogramu a místě: 1-sigma normy posunu klesá z { "0.0185" } m na { "0.0102" } m (poměr { "0.551" }), měřítko z { "0.00178" } na { "0.00063" } ppm. MODELLED. Metoda, výhrady (jihopolární místo vidí Zemi nízko nebo vůbec) a úplná Helmertova tabulka: <a1><c6/></a1>.
 
 seg-8a873848459b = Každý zdroj s názvem, identifikátorem a vydavatelem, s datem stažení a licencí. URL, hashe SHA-256 a poznámky o tom, kde se zdroje rozcházejí, jsou v rejstříku <a1><c1/></a1>. Žádný zdrojový soubor se nešíří dál. Osobní jména jsou záměrně vynechána.
 

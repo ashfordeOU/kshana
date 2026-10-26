@@ -36,7 +36,7 @@ seg-c1020ac47091 = Co jeden běh vypočítá
 
 seg-f708914fed48 = Pásma
 
-seg-486f17197d4d = REPREZENTATIVNÍ, pro systémy v pásmu C, jejichž parametry nejsou veřejné (například TrustPoint)
+seg-486f17197d4d = REPRESENTATIVE, pro systémy v pásmu C, jejichž parametry nejsou veřejné (například TrustPoint)
 
 seg-03d5ae448705 = <c1/> (volitelné)
 
@@ -104,7 +104,7 @@ seg-d28e18170f82 = libovolný z výše uvedených zřetězený na jedné časov�
 
 seg-5479654fabfd = Řetězec předává hodnoty v kódu (viz <a1>Řetězec LEO-PNT od začátku do konce</a1> níže): návrh signálu určuje rozdělení EIRP (ekvivalentní izotropicky vyzářený výkon) pásma přeletu a sledovanou čipovou rychlost; přelet dává sledované C/N0 a rozptyl kódu; SISRE navigační zprávy a C/N0 přeletu váží měření LEO ve fúzovaném určení polohy.
 
-seg-a0331a21413c = Obecné návrhy používají veřejné středy pásem; každý je REPREZENTATIVNÍ, nikoli signálem některého systému (<c1/>, <c2/>).
+seg-a0331a21413c = Obecné návrhy používají veřejné středy pásem; každý je REPRESENTATIVE, nikoli signálem některého systému (<c1/>, <c2/>).
 
 seg-a86ce24d81de = Pásmo
 
@@ -174,41 +174,41 @@ seg-e75e48eeeca1 = BPSK(n) je binární fázové klíčování při n × { "1.02
 
 seg-02f71b44edf5 = Předvolby signálů a systémů
 
-seg-c60ce9c32b57 = REPREZENTATIVNÍ, středy pásem z Radiokomunikačního řádu ITU
+seg-c60ce9c32b57 = REPRESENTATIVE, středy pásem z Radiokomunikačního řádu ITU
 
 seg-58fae66f7c12 = <c1/> (návrhy signálů): tabulka pásem výše; <c2/> (výchozí v <c3/>): UHF na { "450" } MHz, L, S a C na výše uvedených středech, EIRP { "0" } dBW na pásmo, heliosynchronní vrstva Walker 240/12/1 ve výšce { "550" } km
 
 seg-5d918965c00c = BPSK({ "10" }) na { "5020" } MHz, izoflux svazek
 
-seg-dddb031a7e2e = VEŘEJNÉ: Leclère, Marathe a Reid, Institute of Navigation (ION) GNSS+ { "2025" }, <a1>arXiv { "2509.19551" }</a1>
+seg-dddb031a7e2e = PUBLIC: Leclère, Marathe a Reid, Institute of Navigation (ION) GNSS+ { "2025" }, <a1>arXiv { "2509.19551" }</a1>
 
 seg-67fc4039084d = X1 na { "1593.3225" } MHz ({ "1.023" } Mchip/s) a X5 na { "1190.51625" } MHz ({ "10.23" } Mchip/s), zveřejněné minimální a maximální přijímané výkony, { "258" } družic ve výšce asi { "1080" } km (shelly { "53" } a { "97" } stupňů)
 
-seg-f17f98d1ae0b = VEŘEJNÉ: <a1>briefing Resilient Navigation and Timing Foundation (RNTF)</a1>
+seg-f17f98d1ae0b = PUBLIC: <a1>briefing Resilient Navigation and Timing Foundation (RNTF)</a1>
 
 seg-c6694cdbb02b = shluky na { "1616" }–{ "1626" } MHz, Doppler až ±{ "36" } kHz, { "66" } družic ve výšce { "780" } km ({ "781" } km v předvolbě <c1/>), přijímaný výkon „{ "300" } až { "2400" }násobek GPS“
 
 seg-704ec002a889 = <c1/> / <c2/> / <c3/> (druhy signálu, přeletu a určování polohy)
 
-seg-a4a3a7c7bc22 = VEŘEJNÉ údaje o signálu: Kozhaya, Saroufim a Kassas, <a1>NAVIGATION { "72" }({ "1" })</a1>; REPREZENTATIVNÍ dráha
+seg-a4a3a7c7bc22 = PUBLIC údaje o signálu: Kozhaya, Saroufim a Kassas, <a1>NAVIGATION { "72" }({ "1" })</a1>; REPRESENTATIVE dráha
 
 seg-49985bf11216 = maják v pásmu Ku { "240" } MHz používaný pouze pro Doppler, C/N0 asi { "57" } dB-Hz
 
-seg-84cb50b019e0 = VEŘEJNÁ struktura signálu: <a1>PMC10301026</a1>; REPREZENTATIVNÍ dráha a výkon
+seg-84cb50b019e0 = PUBLIC struktura signálu: <a1>PMC10301026</a1>; REPRESENTATIVE dráha a výkon
 
 seg-1c50faed9f1e = BPSK při { "2.046" } Mchip/s poblíž L1 a L5
 
 seg-c72e9b87f116 = <c1/> (<c2/> v druhu zpráva)
 
-seg-3dd4136094c0 = VEŘEJNÉ: <a1>InsideGNSS, užitečné zatížení ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations)</a1>
+seg-3dd4136094c0 = PUBLIC: <a1>InsideGNSS, užitečné zatížení ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations)</a1>
 
 seg-4f0cff24b4fd = polynomiální efemeridy 6. řádu bez členů hodin (hodiny jsou řízeny k času GNSS)
 
-seg-9d1e7aebcd84 = SEMINÁRNÍ: prezentováno na workshopu LEO-PNT programu ESA NAVISP v roce { "2026" }
+seg-9d1e7aebcd84 = WORKSHOP: prezentováno na workshopu LEO-PNT programu ESA NAVISP v roce { "2026" }
 
 seg-28c2e7ae6065 = konfigurace signálu č. 1 a rozvržení zprávy demonstrace na oběžné dráze, v jediném zadržitelném souboru
 
-seg-9f0d16f43993 = Každá předvolba označuje svá čísla jako VEŘEJNÁ (s adresou URL), REPREZENTATIVNÍ (zdokumentovaná návrhová volba, nikdy tvrzení o skutečném systému) nebo SEMINÁRNÍ a výsledek každého běhu, který některou používá, uvádí, která to je.
+seg-9f0d16f43993 = Každá předvolba označuje svá čísla jako PUBLIC (s adresou URL), REPRESENTATIVE (zdokumentovaná návrhová volba, nikdy tvrzení o skutečném systému) nebo WORKSHOP a výsledek každého běhu, který některou používá, uvádí, která to je.
 
 seg-556fe9c6c3b1 = Navigační zpráva
 

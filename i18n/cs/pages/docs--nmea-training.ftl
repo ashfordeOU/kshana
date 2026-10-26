@@ -314,7 +314,7 @@ seg-ce06a5ebdd42 = rušení, poté převzetí padělaným signálem s odtažení
 # c1: fjord
 # c2: natural-degradation
 # c3: skyline
-seg-3fbcfd1dd26a = zablokovaná obloha, nikoli interference: stěny fjordu (REPREZENTATIVNÍ přednastavení obzoru <c1/>) skrývají družice na východě a západě, poté se kanál znovu otevře (událost <c2/> s tabulkou <c3/>)
+seg-3fbcfd1dd26a = zablokovaná obloha, nikoli interference: stěny fjordu (REPRESENTATIVE přednastavení obzoru <c1/>) skrývají družice na východě a západě, poté se kanál znovu otevře (událost <c2/> s tabulkou <c3/>)
 
 seg-5462f6b21fae = Polohy, data a trasy jsou smyšlené; knihovna neobsahuje žádné skutečné plavidlo, provozovatele ani záznam. Neříká nic o tom, jak by se jakýkoli přijímač nebo systém choval při interferenci.
 

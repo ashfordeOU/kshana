@@ -60,7 +60,7 @@ seg-32c6524b0baf = Stav MODELLED pro optické PNT atmosférou: pro optickou link
 
 seg-2c7493ee5042 = MODELLED: každý vstup týkající se počasí, techniky a hodin a předpoklady nezávislosti a kopule; nebyl porovnán žádný změřený záznam dostupnosti. (katalog druhů (<c1/>))
 
-seg-b4402211e3fe = Optické PNT atmosférou: tři ILUSTRATIVNÍ pozemní stanoviště (oblačnější severní, střední a jasnější jižní) sledující optický terminál na LEO při elevaci { "30" } stupňů na { "1550" } nm. Klimata oblačnosti jsou uvedené vstupy, nikoli měření ani hodnoty jakékoli datové sady, takže každá dostupnost níže je MODELLED. Běh uvádí pro každé stanoviště ztrátu v čistém vzduchu, stav turbulence podle Hufnagela–Valleyho, (komentář v souboru scénáře, řádky { "1" } až { "8" })
+seg-b4402211e3fe = Optické PNT atmosférou: tři ILLUSTRATIVE pozemní stanoviště (oblačnější severní, střední a jasnější jižní) sledující optický terminál na LEO při elevaci { "30" } stupňů na { "1550" } nm. Klimata oblačnosti jsou uvedené vstupy, nikoli měření ani hodnoty jakékoli datové sady, takže každá dostupnost níže je MODELLED. Běh uvádí pro každé stanoviště ztrátu v čistém vzduchu, stav turbulence podle Hufnagela–Valleyho, (komentář v souboru scénáře, řádky { "1" } až { "8" })
 
 seg-384f5c73cdf9 = Jedna realizace spoje každého stanoviště v čase se seedem (MODELLED; tah z výše uvedeného modelu, nikoli z klimatu). Pokud chybí, žádná řada se nezapíše a výsledkem je dokument { "0.37" }. (komentář v souboru scénáře, řádky { "78" } až { "79" })
 

@@ -486,7 +486,7 @@ seg-33f4c7af9c53 = Nosná
 
 seg-f4510e898031 = Model zprávy
 
-seg-125aac68d94f = VEŘEJNÉ, <a1>arXiv { "2509.19551" }</a1>
+seg-125aac68d94f = PUBLIC, <a1>arXiv { "2509.19551" }</a1>
 
 seg-890aa92157e4 = { "1080" } km, { "53" }°
 
@@ -494,11 +494,11 @@ seg-1eca13ba2309 = X1 { "1593.3225" } MHz
 
 seg-ee9947222a30 = nezveřejněno
 
-seg-77af616c1f6e = VEŘEJNÉ, arXiv { "2509.19551" }
+seg-77af616c1f6e = PUBLIC, arXiv { "2509.19551" }
 
 seg-f016786d7755 = { "520" } km, { "97" }°
 
-seg-780e931bf88d = VEŘEJNÉ, <a1>zpráva RNTF</a1>, popis konstelace
+seg-780e931bf88d = PUBLIC, <a1>zpráva RNTF</a1>, popis konstelace
 
 seg-d5df094a5f89 = { "781" } km, { "86.4" }°
 
@@ -506,7 +506,7 @@ seg-94bc78cee128 = { "1621" } MHz (pásmo { "1616" }–{ "1626" } MHz)
 
 seg-3f5de7f74502 = nic se nevysílá
 
-seg-4944294c230f = VEŘEJNÉ, <a1>NAVIGATION { "72" }({ "1" })</a1>, popis konstelace
+seg-4944294c230f = PUBLIC, <a1>NAVIGATION { "72" }({ "1" })</a1>, popis konstelace
 
 seg-c2a2761f73b1 = { "550" } km, { "53" }°
 
@@ -514,19 +514,19 @@ seg-2ef501f97eff = pásmo Ku, hodnota ze středu pásma (reprezentativní)
 
 seg-567fab40bd24 = žádná (signály příležitosti)
 
-seg-a76527ba66b6 = VEŘEJNÉ, <a1>Sensors { "2023" }</a1>, <a2>Satellite Navigation { "2026" }</a2>
+seg-a76527ba66b6 = PUBLIC, <a1>Sensors { "2023" }</a1>, <a2>Satellite Navigation { "2026" }</a2>
 
 seg-f5dd5086eedd = { "700" } km, { "55" }°
 
 seg-5fa6b60f66b4 = blízko B1 (ve zdroji zakryto; náhradou L1)
 
-seg-5ebbf0042d7c = REPREZENTATIVNÍ
+seg-5ebbf0042d7c = REPRESENTATIVE
 
 seg-4f3e5a683682 = { "600" } km, { "97.8" }°
 
 seg-c06f62ca5173 = { "5020" } MHz (střed pásma C pro RNSS)
 
-seg-884c81e55e79 = VEŘEJNÉ, <a1>InsideGNSS</a1>
+seg-884c81e55e79 = PUBLIC, <a1>InsideGNSS</a1>
 
 seg-3b1fd041f9ba = { "500" } km (reprezentativní)
 
@@ -534,7 +534,7 @@ seg-522c85402d84 = L1 (reprezentativní)
 
 seg-064b03765e4d = <c1/>, stupeň { "6" }, { "60" } s, obnovováno každých { "30" } s, nulové hodiny, zbytek řízení { "0.24" } m
 
-seg-5619bc61b958 = SEMINÁRNÍ a VEŘEJNÉ
+seg-5619bc61b958 = WORKSHOP a PUBLIC
 
 seg-20572d7e348d = { "510" } km, { "97.4" }°
 
