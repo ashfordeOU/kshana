@@ -25,3 +25,5 @@ seg-3c9d28692f9f = <b>MODELLED</b> 双方向/TWSTFT（Sagnac）、GNSS コモン
 seg-84fcf20588fb = <s1>前へ</s1>time-transfer-budget
 
 seg-149ad280a1f9 = <s1>次へ</s1>tracking-loop
+
+seg-37a77f49f048 = ps
