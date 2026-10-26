@@ -9,3 +9,5 @@ seg-2247a2344710 = 意味
 seg-06ff6eed7e99 = OpenCPN
 
 seg-c3c260b7063e = テスト
+
+seg-ab1af8b3d968 = 上記を参照
