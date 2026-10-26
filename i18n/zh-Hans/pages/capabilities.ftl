@@ -1642,9 +1642,9 @@ seg-979fb46a1ac8 = 铁路隧道滑行：列车的惯性导航系统（INS）能�
 
 seg-6d592347a45a = <c1/><a1>ins-trn-coast</a1><a2>maritime-port-approach-coast</a2><a3>rail-tunnel-coast</a3>
 
-seg-588092c0b828 = 穿过大气层的光学 PNT：三个示意性地面站点（一个云量较多的北方站点，一个
+seg-588092c0b828 = 穿过大气层的光学 PNT：三个ILLUSTRATIVE地面站点（一个云量较多的北方站点，一个
 
-seg-d9110ecdc1a0 = 针对一个示意性地面站点的增强技术假设分析：波长变更，更大的
+seg-d9110ecdc1a0 = 针对一个ILLUSTRATIVE地面站点的增强技术假设分析：波长变更，更大的
 
 seg-67d9aed36283 = <c1/><a1>optical-atmosphere-network</a1><a2>optical-atmosphere-techniques</a2>
 
@@ -1686,7 +1686,7 @@ seg-d58a6084c08d = 电信授时，导入示例：内联给出的时间间隔误�
 
 seg-a7737b295231 = <c1/><a1>telecom-prtc-holdover-24h</a1><a2>telecom-synce-eec</a2><a3>telecom-tie-ingest</a3>
 
-seg-a9d9e45f2147 = 两个示意性站点之间的卫星双向时间频率传递（TWSTFT），其中一个
+seg-a9d9e45f2147 = 两个ILLUSTRATIVE站点之间的卫星双向时间频率传递（TWSTFT），其中一个
 
 seg-0ea13860c00c = <c1/><a1>time-transfer-budget</a1>
 
@@ -1710,7 +1710,7 @@ seg-b9192c83fdf7 = 孔径占空比演示器（地面段与运行）。
 
 seg-e40da530a08a = <c1/><a1>aperture-duty-cycle</a1>
 
-seg-e671128cedbc = 示意性两级煤油/液氧运载火箭的重力转弯上升损失（无真实
+seg-e671128cedbc = ILLUSTRATIVE两级煤油/液氧运载火箭的重力转弯上升损失（无真实
 
 seg-17e5ec4d18bc = <c1/><a1>ascent-losses</a1>
 
@@ -1738,7 +1738,7 @@ seg-a38ba5ac0cda = 对地观测载荷足迹与覆盖演示器（SMAD 空间三�
 
 seg-acccb75c3c8b = <c1/><a1>eo-coverage</a1>
 
-seg-966c1090da5a = 示意性小型对地观测相机的星下点成像器辐射测量与图像质量
+seg-966c1090da5a = ILLUSTRATIVE小型对地观测相机的星下点成像器辐射测量与图像质量
 
 seg-53d1e190c57d = <c1/><a1>eo-radiometry</a1>
 
@@ -1842,7 +1842,7 @@ seg-e9da73670beb = 室内 LEO-PNT：为什么 L、S 和 C 波段难以穿透时�
 
 seg-6dfada2dacb6 = 面向物联网（IoT）追踪器的低能耗 LEO-PNT：每次定位的能耗与占空比的关系。
 
-seg-1007e9b9abdc = ESA Celeste IOD，信号配置 #1，一次过境中的所有频段。研讨会预设。
+seg-1007e9b9abdc = ESA Celeste IOD，信号配置 #1，一次过境中的所有频段。WORKSHOP预设。
 
 seg-d3b4252da1ee = 从飞机上看到的 Iridium STL（卫星时间与位置）突发信号。
 
