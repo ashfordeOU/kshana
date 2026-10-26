@@ -5143,3 +5143,451 @@ js-kind-guided-first-jammer-power-dbw = Výkon prvního rušiče (dBW)
 js-kind-guided-first-jammer-range-m = Vzdálenost prvního rušiče (m)
 
 js-kind-guided-first-jammer-received-power-dbw = Přijatý výkon prvního rušiče (dBW)
+
+js-kind-guided-first-phase-length-s = Délka první fáze (s)
+
+js-kind-guided-first-shell-altitude-km = Výška první vrstvy (km)
+
+js-kind-guided-first-shell-inclination = Sklon první vrstvy (°)
+
+js-kind-guided-first-signal-bandwidth-hz = Šířka pásma prvního signálu (Hz)
+
+js-kind-guided-first-system-range-error-m = Chyba vzdálenosti prvního systému (m)
+
+js-kind-guided-fit-interval-s = Interval proložení (s)
+
+js-kind-guided-gravity-field-degree = Stupeň gravitačního pole
+
+js-kind-guided-grid-step = Krok mřížky (°)
+
+js-kind-guided-integration-time-s = Doba integrace (s)
+
+js-kind-guided-leo-satellites-in-the-sweep = Družice LEO v průchodu
+
+js-kind-guided-loop-bandwidth-hz = Šířka pásma smyčky (Hz)
+
+js-kind-guided-monte-carlo-runs = Běhy Monte Carlo
+
+js-kind-guided-network-synchronisation-error-m = Chyba synchronizace sítě (m)
+
+js-kind-guided-orbit-altitude-km = Výška oběžné dráhy (km)
+
+js-kind-guided-orbit-determination-error-m = Chyba určení oběžné dráhy (m)
+
+js-kind-guided-orbit-inclination = Sklon oběžné dráhy (°)
+
+js-kind-guided-pdop-threshold = Práh PDOP
+
+js-kind-guided-peak-elevation-of-the-pass = Maximální elevace přeletu (°)
+
+js-kind-guided-points-per-orbit-track = Body na dráhu oběžné trajektorie
+
+js-kind-guided-receiver-noise-figure-db = Šumové číslo přijímače (dB)
+
+js-kind-guided-receiver-power-when-awake-mw = Příkon přijímače v aktivním stavu (mW)
+
+js-kind-guided-reference-c-n0-db-hz = Referenční C/N0 (dB-Hz)
+
+js-kind-guided-relay-altitude-km = Výška relé (km)
+
+js-kind-guided-relay-inclination = Sklon relé (°)
+
+js-kind-guided-relay-planes = Roviny relé
+
+js-kind-guided-relay-range-error-m = Chyba vzdálenosti k relé (m)
+
+js-kind-guided-relays-per-plane = Relé na rovinu
+
+js-kind-guided-runs-per-case = Běhy na případ
+
+js-kind-guided-satellite-altitude-km = Výška družice (km)
+
+js-kind-guided-second-system-range-error-m = Chyba vzdálenosti druhého systému (m)
+
+js-kind-guided-shared-condition = Společná podmínka
+
+js-kind-guided-slant-electron-content-tecu = Šikmý elektronový obsah (TECU)
+
+js-kind-guided-slant-range-km = Šikmá vzdálenost (km)
+
+js-kind-guided-spoofed-offset-m = Posun způsobený spoofingem (m)
+
+js-kind-guided-spoofing-starts-s = Spoofing začíná (s)
+
+js-kind-guided-sweep-from = Průchod od
+
+js-kind-guided-sweep-steps = Kroky průchodu
+
+js-kind-guided-sweep-to = Průchod do
+
+js-kind-guided-timeline-step-s = Krok časové osy (s)
+
+js-kind-guided-tracking-threshold-db-hz = Práh sledování (dB-Hz)
+
+js-kind-guided-transmit-power-dbw = Vysílací výkon (dBW)
+
+js-kind-guided-update-period-s = Perioda aktualizace (s)
+
+js-kind-guided-user-latitude = Zeměpisná šířka uživatele (°)
+
+js-kind-hint-a-band-under-this-carrier = pásmo pod touto hustotou poměru nosné k šumu ztratilo synchronizaci
+
+js-kind-hint-a-grid-point-is-available = bod mřížky je dostupný, dokud je jeho faktor zhoršení přesnosti polohy pod touto hodnotou
+
+js-kind-hint-a-satellite-must-be-this = družice musí být alespoň takto vysoko, aby se počítala jako viditelná
+
+js-kind-hint-a-satellite-must-be-this-2 = družice musí být alespoň takto vysoko, aby se použila
+
+js-kind-hint-a-satellite-of-the-first = družice prvního systému musí být alespoň takto vysoko
+
+js-kind-hint-arc-one-message-is-fitted = oblouk, přes který se proloží jedna zpráva
+
+js-kind-hint-code-tracking-loop-noise-bandwidth = šumová šířka pásma smyčky sledování kódu
+
+js-kind-hint-detail-of-the-truth-orbit = podrobnost gravitačního modelu referenční oběžné dráhy
+
+js-kind-hint-distance-from-the-first-jammer = vzdálenost prvního rušiče od přijímače
+
+js-kind-hint-distance-to-the-satellite-in = vzdálenost k družici v porovnání pásem
+
+js-kind-hint-drawn-while-acquiring-and-tracking = vykresleno při vyhledávání a sledování
+
+js-kind-hint-equivalent-isotropically-radiated-power-of = ekvivalentní izotropně vyzářený výkon prvního rušiče
+
+js-kind-hint-equivalent-isotropically-radiated-power-of-2 = ekvivalentní izotropně vyzářený výkon pásma
+
+js-kind-hint-filter-runs-averaged-for-each = běhy filtru zprůměrované pro každý případ (více znamená pomaleji)
+
+js-kind-hint-first-value-of-the-swept = první hodnota procházeného parametru
+
+js-kind-hint-height-of-the-chain-s = výška družice řetězce
+
+js-kind-hint-height-of-the-first-shell = výška drah první vrstvy
+
+js-kind-hint-height-of-the-relay-orbits = výška drah relé nad tělesem
+
+js-kind-hint-height-of-the-satellite-whose = výška družice, jejíž zpráva se prokládá
+
+js-kind-hint-how-far-the-spoofer-moves = o kolik spoofer posune vypočtenou polohu
+
+js-kind-hint-how-finely-each-orbit-is = jak jemně se každá dráha vzorkuje pro vykreslení
+
+js-kind-hint-how-high-the-satellite-climbs = jak vysoko družice vystoupá
+
+js-kind-hint-how-long-the-first-phase = jak dlouho první fáze trvá
+
+js-kind-hint-how-long-the-receiver-integrates = jak dlouho přijímač integruje pro jednu vzdálenost
+
+js-kind-hint-how-many-low-orbit-satellites = kolik družic na nízké oběžné dráze přidá průchod geometrií
+
+js-kind-hint-how-many-seeded-runs-make = kolik běhů se seedem tvoří soubor
+
+js-kind-hint-how-many-values-are-run = kolik hodnot se provede
+
+js-kind-hint-how-often-a-new-message = jak často se vydává nová zpráva
+
+js-kind-hint-how-wide-the-first-jammer = jak široce první rušič rozprostírá svůj výkon
+
+js-kind-hint-ionosphere-along-the-path-in = ionosféra podél dráhy signálu v jednotkách celkového elektronového obsahu
+
+js-kind-hint-last-value-of-the-swept = poslední hodnota procházeného parametru
+
+js-kind-hint-length-of-each-filter-run = délka každého běhu filtru
+
+js-kind-hint-length-of-the-run = délka běhu
+
+js-kind-hint-length-of-the-timeline = délka časové osy
+
+js-kind-hint-occupied-bandwidth-of-the-first = obsazená šířka pásma prvního referenčního signálu
+
+js-kind-hint-one-sigma-doppler-measurement-error = chyba měření Dopplerova posunu (jedna sigma)
+
+js-kind-hint-one-sigma-error-of-a = chyba vzdálenosti k relé (jedna sigma)
+
+js-kind-hint-one-sigma-error-of-the = chyba obousměrné vzdálenosti od Země (jedna sigma)
+
+js-kind-hint-orbital-planes-of-the-navigation = oběžné roviny navigačních relé
+
+js-kind-hint-power-of-the-first-jammer = výkon prvního rušiče na přijímači
+
+js-kind-hint-raises-the-noise-floor-under = zvyšuje úroveň šumu pod každým pásmem
+
+js-kind-hint-satellites-in-each-plane = družice v každé rovině
+
+js-kind-hint-sets-the-doppler-range-a = určuje rozsah Dopplerova posunu, který musí studený start pokrýt
+
+js-kind-hint-signal-in-space-range-error-2 = chyba vzdálenosti signálu v prostoru druhého systému
+
+js-kind-hint-signal-in-space-range-error = chyba vzdálenosti signálu v prostoru prvního systému
+
+js-kind-hint-signal-level-the-tracking-figures = úroveň signálu, pro kterou jsou uvedeny hodnoty sledování
+
+js-kind-hint-spacing-of-the-latitude-and = rozestup mřížky zeměpisné šířky a délky
+
+js-kind-hint-spacing-of-the-shared-mission = rozestup společné časové mřížky mise
+
+js-kind-hint-the-part-of-the-range = ta část chyby vzdálenosti, kterou zpráva nemůže odstranit
+
+js-kind-hint-the-value-every-member-runs = hodnota, se kterou běží každý člen
+
+js-kind-hint-tilt-of-that-orbit = sklon této oběžné dráhy
+
+js-kind-hint-tilt-of-the-first-shell = sklon rovin první vrstvy
+
+js-kind-hint-tilt-of-the-relay-planes = sklon rovin relé
+
+js-kind-hint-timing-error-between-satellites-as = časová chyba mezi družicemi vyjádřená jako vzdálenost
+
+js-kind-hint-when-the-spoofer-captures-the = kdy spoofer převezme přijímač
+
+js-kind-hint-where-the-receiver-stands = kde přijímač stojí
+
+js-kind-hint-where-the-user-stands = kde uživatel stojí
+
+js-kind-label-3-d-error = 3D chyba
+
+js-kind-label-3-d-error-time-of = 3D chyba, čas příchodu
+
+js-kind-label-a-corrupted-frame-is-rejected = poškozený rámec je odmítnut
+
+js-kind-label-all-channels = všechny kanály
+
+js-kind-label-availability = Dostupnost
+
+js-kind-label-band = Pásmo
+
+js-kind-label-bodies = Tělesa
+
+js-kind-label-body = Těleso
+
+js-kind-label-both = obojí
+
+js-kind-label-case = Případ
+
+js-kind-label-class = Třída
+
+js-kind-label-code-jitter = chvění kódu
+
+js-kind-label-constellation = Konstelace
+
+js-kind-label-doppler = Doppler
+
+js-kind-label-event = Událost
+
+js-kind-label-evidence = Důkazy
+
+js-kind-label-fewest-in-view = Nejméně viditelných
+
+js-kind-label-field = Pole
+
+js-kind-label-first-detection-after-onset = První detekce po začátku
+
+js-kind-label-frame-length = Délka rámce
+
+js-kind-label-fused = sloučeno
+
+js-kind-label-fused-cap = Sloučeno
+
+js-kind-label-gnss = GNSS
+
+js-kind-label-gnss-and-leo = GNSS a LEO
+
+js-kind-label-gnss-channels = Kanály GNSS
+
+js-kind-label-gnss-highest-in-sky = GNSS { $id } (nejvýše na obloze)
+
+js-kind-label-gnss-only = pouze GNSS
+
+js-kind-label-gnss-only-cap = Pouze GNSS
+
+js-kind-label-gnss-signal = Signál GNSS
+
+js-kind-label-hdop = HDOP
+
+js-kind-label-highest = Nejvyšší
+
+js-kind-label-horizontal-error = horizontální chyba
+
+js-kind-label-horizontal-error-2 = Horizontální chyba
+
+js-kind-label-jammer = Rušič
+
+js-kind-label-jump-threshold = Práh skoku
+
+js-kind-label-largest-range-jump = Největší skok vzdálenosti
+
+js-kind-label-largest-range-jump-against-the = největší skok vzdálenosti oproti prahu
+
+js-kind-label-leo = LEO
+
+js-kind-label-leo-channels = Kanály LEO
+
+js-kind-label-leo-only = pouze LEO
+
+js-kind-label-light-time-from-observer = Světelný čas od pozorovatele { $observer }
+
+js-kind-label-light-time-from-the-observer = Světelný čas od pozorovatele
+
+js-kind-label-light-time-one-way = Světelný čas, jedním směrem
+
+js-kind-label-lowest = Nejnižší
+
+js-kind-label-lowest-c-n0 = Nejnižší C/N0
+
+js-kind-label-mean = Průměr
+
+js-kind-label-mean-in-view = Průměr viditelných
+
+js-kind-label-median-convergence = Medián konvergence
+
+js-kind-label-median-pdop = Medián PDOP
+
+js-kind-label-member-runs = Běhy členů
+
+js-kind-label-message-switch-iod = přepnutí zprávy, vydání dat { $old } na { $new }
+
+js-kind-label-mission-length = Délka mise
+
+js-kind-label-model = model
+
+js-kind-label-monte-carlo-runs = Běhy Monte Carlo
+
+js-kind-label-noise-floor = Úroveň šumu
+
+js-kind-label-parameters = Parametry
+
+js-kind-label-payload = Užitečné zatížení
+
+js-kind-label-pdop = PDOP
+
+js-kind-label-pdop-95th-percentile = PDOP, 95. percentil
+
+js-kind-label-peak-elevation = Maximální elevace
+
+js-kind-label-peak-tracked-c-n0 = Maximální sledované C/N0
+
+js-kind-label-phase = Fáze
+
+js-kind-label-predicted-horizontal-sigma = předpovězená horizontální sigma
+
+js-kind-label-quantisation-position = Kvantování, poloha
+
+js-kind-label-range-error = chyba vzdálenosti
+
+js-kind-label-relays-above-the-mask = relé nad maskou
+
+js-kind-label-relays-and-earth-link = relé a spoj se Zemí
+
+js-kind-label-relays-only = pouze relé
+
+js-kind-label-satellite = Družice
+
+js-kind-label-satellites = Družice
+
+js-kind-label-satellites-used = Použité družice
+
+js-kind-label-signal = Signál
+
+js-kind-label-signal-chip-spacing = { $name } (rozestup čipů { $spacing })
+
+js-kind-label-sisre-after-quantisation = SISRE po kvantování
+
+js-kind-label-sisre-root-mean-square = SISRE, střední kvadratická hodnota
+
+js-kind-label-spoofing-starts = spoofing začíná
+
+js-kind-label-standard-deviation = Směrodatná odchylka
+
+js-kind-label-sun-separation = Úhlová vzdálenost od Slunce
+
+js-kind-label-sweep-runs = Běhy průchodu
+
+js-kind-label-system = Systém
+
+js-kind-label-time-above-the-mask = Čas nad maskou
+
+js-kind-label-time-error-root-mean-square = Časová chyba, střední kvadratická hodnota
+
+js-kind-label-tracked-component = sledovaná složka
+
+js-kind-label-tracking-threshold = Práh sledování
+
+js-kind-label-transmit-bandwidth = Vysílací šířka pásma
+
+js-kind-label-vdop = VDOP
+
+js-kind-label-welch-estimate-of-the-synthesised = Welchův odhad syntetizovaných vzorků
+
+js-kind-label-whole-signal = celý signál
+
+js-kind-label-wideband-j-s-tolerated = Tolerované širokopásmové J/S
+
+js-kind-label-with-unit = { $label } ({ $unit })
+
+js-kind-label-worst-site-availability = Dostupnost na nejhorším místě
+
+js-kind-no = ne
+
+js-kind-note-a-gap-is-an-epoch = Mezera je epocha s příliš málo relé ve výhledu pro určení polohy.
+
+js-kind-note-a-helmert-transform-is-the = Helmertova transformace je sedmiparametrový posun, rotace a změna měřítka mezi dvěma referenčními soustavami.
+
+js-kind-note-a-low-earth-orbit-leo = Družice na nízké oběžné dráze Země (LEO) přeletí oblohu za několik minut, takže její C/N0 (poměr nosné k hustotě šumu) stoupá a klesá do tvaru zvonu; družice GNSS se za stejnou dobu téměř nepohne.
+
+js-kind-note-a-receiver-independent-exchange-format = Záznam ve stylu Receiver Independent Exchange Format (RINEX) 4. Typy záznamů LEO jsou rozšířením Kshana, jak uvádí hlavička.
+
+js-kind-note-a-single-pass-fixes-the = Jeden přelet určí směr podél dráhy mnohem lépe než směr napříč dráhou.
+
+js-kind-note-aos-is-acquisition-of-signal = AOS je zachycení signálu, TCA čas nejmenšího přiblížení a LOS ztráta signálu.
+
+js-kind-note-c-n0-is-the-carrier = C/N0 je poměr nosné k hustotě šumu. Pásmo pod prahem sledování přijímače ztratilo synchronizaci.
+
+js-kind-note-cells-are-the-code-and = Buňky jsou kódové a dopplerovské přihrádky, které musí studený start otestovat.
+
+js-kind-note-cold-is-a-first-fix = Studený je první určení polohy bez předchozí znalosti; teplý je určení polohy brzy po předchozím.
+
+js-kind-note-dilution-of-precision-dop-scales = Faktor zhoršení přesnosti (DOP) převádí chybu vzdálenosti na chybu polohy: G je geometrický, P polohový, H horizontální, V vertikální. Percentily se počítají přes všechny body mřížky a epochy.
+
+js-kind-note-drawn-at-the-strongest-signal = Vykresleno při nejsilnější úrovni signálu v běhu. Mezera je úsek bez družice ve výhledu.
+
+js-kind-note-each-body-carries-its-own = Každé těleso nese svůj vlastní štítek důkazů. Světelný čas je jednosměrný, od pozorovatele uvedeného ve scénáři.
+
+js-kind-note-each-row-is-one-full = Každý řádek je jeden úplný běh enginu procházeného scénáře.
+
+js-kind-note-each-rule-is-a-switch = Každé pravidlo je přepnutí na novější zprávu uprostřed přeletu.
+
+js-kind-note-each-signal-is-drawn-about = Každý signál je vykreslen kolem své vlastní středové frekvence. Mezera je spektrální nula.
+
+js-kind-note-eirp-is-the-equivalent-isotropically = EIRP je ekvivalentní izotropně vyzářený výkon.
+
+js-kind-note-every-phase-is-an-ordinary = Každá fáze je běžný běh scénáře. Hashe identifikují vstup každého člena a jeho dokument s výsledkem.
+
+js-kind-note-iod-is-the-issue-of = IOD je vydání dat: pořadové číslo zprávy.
+
+js-kind-note-j-s-is-the-jammer = J/S je poměr výkonu rušiče k signálu. Podíl sledování je část běhu, po kterou pásmo zůstává nad prahem.
+
+js-kind-note-p05-p50-and-p95-are = p05, p50 a p95 jsou 5., 50. a 95. percentil. ci95 je 95% interval spolehlivosti pro průměr.
+
+js-kind-note-parameters-are-public-with-a = Parametry jsou PUBLIC (se zdrojem), REPRESENTATIVE nebo WORKSHOP, jak uvádí každá předvolba.
+
+js-kind-note-precise-point-positioning-ppp-converges = Přesné určování polohy bodu (PPP) konverguje, když chyba zůstane pod kritériem. NEES je normalizovaná odhadová chyba na druhou, kontrola konzistence filtru.
+
+js-kind-note-sisre-defined = SISRE je chyba vzdálenosti signálu v prostoru: to, co vysílaná zpráva přidává ke vzdálenosti uživatele. Zde jde o chybu reprezentace zprávy vůči vlastní referenční oběžné dráze enginu.
+
+js-kind-note-sisre-is-the-signal-in = SISRE je chyba vzdálenosti signálu v prostoru, předpokládaná pro vysílanou dráhu a hodiny každého systému.
+
+js-kind-note-ssc-is-the-spectral-separation = SSC je koeficient spektrální separace: kolik výkonu jednoho signálu spadá do přijímače druhého. Pomlčka znamená, že se oba nepřekrývají.
+
+js-kind-note-the-chain-runs-the-signal = Řetězec provádí fáze signál, přelet, navigační zpráva, určování polohy a přesné určování polohy v tomto pořadí. Každý řádek je číslo, které jedna fáze vypočetla a další použila.
+
+js-kind-note-the-doppler-and-pass-geometry = Monitor Dopplerova posunu a geometrie přeletu porovnává naměřené rychlosti změny vzdálenosti s předpovězenými z oběžných drah. Pravidlo označí začátek spoofingu.
+
+js-kind-note-the-engine-draws-its-spectrum = Engine vykresluje svůj spektrální model jako vzorky v fázi a v kvadratuře (IQ) v jednom okamžiku a zpětně z nich odhaduje spektrum. Tytéž vzorky tvoří export SigMF (Signal Metadata Format).
+
+js-kind-note-the-engine-s-own-documented = Vlastní zdokumentovaný binární rámec enginu, zakončený 24bitovou cyklickou redundantní kontrolou (CRC-24Q).
+
+js-kind-note-the-gabor-root-mean-square = Gaborova šířka pásma (střední kvadratická) určuje, jak ostře lze na signálu měřit vzdálenost.
+
+js-kind-note-the-largest-jammer-to-signal = Největší poměr rušiče k signálu (J/S), přes který každý signál ještě sleduje, pro rušič s nepřetržitou vlnou (CW), rušič s odpovídajícím spektrem a širokopásmový rušič.
+
+js-kind-note-the-shapiro-delay-is-the = Shapirovo zpoždění je dodatečný světelný čas způsobený gravitací Slunce podél dráhy.

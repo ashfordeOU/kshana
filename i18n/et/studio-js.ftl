@@ -7471,3 +7471,439 @@ js-meaning-spectrum-line-kept-thr =
     }
 
 js-meaning-spectrum-line-none = Ükski signaal ei püsi kogu käigu vältel vastuvõtja jälgimisläve kohal.
+
+js-meaning-spectrum-line-none-thr = Ükski signaal ei püsi kogu käigu vältel vastuvõtja jälgimisläve { $thr } dB-Hz kohal.
+
+js-meaning-spectrum-weakest-label = Nõrgim signaal, { $name }
+
+js-meaning-whole-run = kogu käigu jooksul
+
+js-meaning-your-setting = sinu seadistus
+
+js-meankind-acm-big =
+    { $n ->
+        [one] Adaptiivne kodeerimine liigutab { $gain } korda rohkem andmeid kui parim fikseeritud režiim: { $acm } Gbit vastu { $ccm } Gbit { $n } ülelennu jooksul.
+       *[other] Adaptiivne kodeerimine liigutab { $gain } korda rohkem andmeid kui parim fikseeritud režiim: { $acm } Gbit vastu { $ccm } Gbit { $n } ülelennu jooksul.
+    }
+
+js-meankind-acm-line = Fikseeritud režiim { $mode }; { $dur } katkestust.
+
+js-meankind-anomaly-big = Kvantvigade monitor saab tulemuse { $q } klassikalise monitori { $c } vastu (kõvera alune pindala, 1 on täiuslik).
+
+js-meankind-anomaly-line = Väikseim tuvastatav viga on { $q } vastu { $c }.
+
+js-meankind-aocs-big-open = { $slew } kraadine pööre ei rahune alla { $threshold } kraadi.
+
+js-meankind-aocs-big-settles = { $slew } kraadine pööre rahuneb alla { $threshold } kraadi pärast { $dur }.
+
+js-meankind-aocs-line = Lõplik sihtimisviga { $final } kraadi.
+
+js-meankind-aocs-line-filter = Lõplik sihtimisviga { $final } kraadi. Silmuses olev asendifilter eksib { $arcsec } kaaresekundi RMS võrra.
+
+js-meankind-aocs-line-wheel = Lõplik sihtimisviga { $final } kraadi. Hooratta tippmoment { $torque } N m.
+
+js-meankind-aocs-line-wheel-filter = Lõplik sihtimisviga { $final } kraadi. Hooratta tippmoment { $torque } N m. Silmuses olev asendifilter eksib { $arcsec } kaaresekundi RMS võrra.
+
+js-meankind-aperture-big = Navigatsioon kasutab { $nav } % antenniajast ja side { $comms } %.
+
+js-meankind-aperture-big-idle = Navigatsioon kasutab { $nav } % antenniajast ja side { $comms } %; { $idle } % on jõude.
+
+js-meankind-aperture-line-all =
+    { $n ->
+        [one] { $n } apertuur reegli { $policy } all, { $dur } vaidlusega.
+       *[other] { $n } apertuuri reegli { $policy } all, { $dur } vaidlusega.
+    }
+
+js-meankind-aperture-line-contention =
+    { $n ->
+        [one] { $n } apertuur, { $dur } vaidlusega.
+       *[other] { $n } apertuuri, { $dur } vaidlusega.
+    }
+
+js-meankind-aperture-line-count =
+    { $n ->
+        [one] { $n } apertuur.
+       *[other] { $n } apertuuri.
+    }
+
+js-meankind-aperture-line-nocount = Apertuurid.
+
+js-meankind-aperture-line-nocount-all = Apertuurid reegli { $policy } all, { $dur } vaidlusega.
+
+js-meankind-aperture-line-nocount-contention = Apertuurid, { $dur } vaidlusega.
+
+js-meankind-aperture-line-nocount-policy = Apertuurid reegli { $policy } all.
+
+js-meankind-aperture-line-policy =
+    { $n ->
+        [one] { $n } apertuur reegli { $policy } all.
+       *[other] { $n } apertuuri reegli { $policy } all.
+    }
+
+js-meankind-araim-big-no = Ei: mootori kaitsetasemed lähevad avaldatud etalonist mööda.
+
+js-meankind-araim-big-yes = Jah: mootori kaitsetasemed ühtivad avaldatud etaloniga.
+
+js-meankind-araim-line = Halvim vahe on { $worst } m etaloni enda tolerantsi { $tol } m vastu.
+
+js-meankind-araim-line-vectors =
+    { $n ->
+        [one] Halvim vahe on { $worst } m etaloni enda tolerantsi { $tol } m vastu, { $n } etalonvektori peale.
+       *[other] Halvim vahe on { $worst } m etaloni enda tolerantsi { $tol } m vastu, { $n } etalonvektori peale.
+    }
+
+js-meankind-arc-big = Hindaja taastab orbiidi, kui sellel on { $dur } { $h } h kaarest.
+
+js-meankind-arc-line = { $n } kosmoseaparaati, { $observable } mõõtmised.
+
+js-meankind-ascent-big = Gravitatsioon, takistus, juhtimine ja vasturõhk võtavad { $loss } m/s ideaalsest { $ideal } m/s kiirusekasvust.
+
+js-meankind-ascent-line = Põlemise lõpp kõrgusel { $km } km ja kiirusel { $speed } m/s; tipp-dünaamiline rõhk { $kpa } kPa.
+
+js-meankind-attack-big-no = Pinnal olev spuufija ei saa Kuu vastuvõtjat haarata.
+
+js-meankind-attack-big-yes = Pinnal olev spuufija saab Kuu vastuvõtjat haarata.
+
+js-meankind-attack-line = Pinnasaatja ulatub { $km } km, enne kui silmapiir selle blokeerib.
+
+js-meankind-attitude-big = Sihtimisviga kokku { $total } kaaresekundit.
+
+js-meankind-attitude-big-from = Sihtimisviga kokku { $total } kaaresekundit, enamasti allikast { $from }.
+
+js-meankind-attitude-line = Suurim gravitatsioonigradiendi moment on { $torque } N·m.
+
+js-meankind-beacon-big = Pinnamajakad parandavad geomeetria kvaliteeti (PDOP) { $x } korda.
+
+js-meankind-beacon-line = Selle asemel satelliitide lisamine parandab seda { $x } korda.
+
+js-meankind-bodypnt-big = Ainult releed annavad fikseeringu { $share } % ajast keha { $body } ümber.
+
+js-meankind-bodypnt-big-earth = Ainult releed annavad fikseeringu { $share } % ajast keha { $body } ümber; { $earth } % koos linkidega Maale.
+
+js-meankind-bodypnt-line = Keskmiselt on nähtaval { $mean } releed.
+
+js-meankind-by = { $a } kaupa { $b }
+
+js-meankind-campaign-compose-line = Iga liige on tavaline mootori käik; kampaania loeb nende tulemusi kõrvuti.
+
+js-meankind-campaign-compose-range =
+    { $n ->
+        [one] { $n } stsenaariumi peale samades tingimustes jääb { $what } vahemikku { $low } kuni { $high }.
+       *[other] { $n } stsenaariumi peale samades tingimustes jääb { $what } vahemikku { $low } kuni { $high }.
+    }
+
+js-meankind-campaign-compose-same =
+    { $n ->
+        [one] { $n } stsenaariumi peale samades tingimustes on { $what } igaühes { $value }.
+       *[other] { $n } stsenaariumi peale samades tingimustes on { $what } igaühes { $value }.
+    }
+
+js-meankind-campaign-line =
+    { $n ->
+        [one] { $n } faas.
+       *[other] { $n } faasi.
+    }
+
+js-meankind-campaign-line-all =
+    { $n ->
+        [one] { $n } faas ja { $events }, allikast { $runs }; lõpus on { $label } { $value }.
+       *[other] { $n } faasi ja { $events }, allikast { $runs }; lõpus on { $label } { $value }.
+    }
+
+js-meankind-campaign-line-end =
+    { $n ->
+        [one] { $n } faas; lõpus on { $label } { $value }.
+       *[other] { $n } faasi; lõpus on { $label } { $value }.
+    }
+
+js-meankind-campaign-line-events =
+    { $n ->
+        [one] { $n } faas ja { $events }.
+       *[other] { $n } faasi ja { $events }.
+    }
+
+js-meankind-campaign-line-events-end =
+    { $n ->
+        [one] { $n } faas ja { $events }; lõpus on { $label } { $value }.
+       *[other] { $n } faasi ja { $events }; lõpus on { $label } { $value }.
+    }
+
+js-meankind-campaign-line-events-runs =
+    { $n ->
+        [one] { $n } faas ja { $events }, allikast { $runs }.
+       *[other] { $n } faasi ja { $events }, allikast { $runs }.
+    }
+
+js-meankind-campaign-line-runs =
+    { $n ->
+        [one] { $n } faas, allikast { $runs }.
+       *[other] { $n } faasi, allikast { $runs }.
+    }
+
+js-meankind-campaign-line-runs-end =
+    { $n ->
+        [one] { $n } faas, allikast { $runs }; lõpus on { $label } { $value }.
+       *[other] { $n } faasi, allikast { $runs }; lõpus on { $label } { $value }.
+    }
+
+js-meankind-campaign-mission-alarm = Alarm antakse { $dur } missiooni { $alarm } jooksul.
+
+js-meankind-campaign-mission-phases = { $phases }-faasiline missioon { $dur } jooksul, aheldatud ühele kellale.
+
+js-meankind-campaign-mission-quiet = Kogu { $dur } missiooni jooksul alarmi pole.
+
+js-meankind-campaign-montecarlo =
+    { $n ->
+        [one] { $n } algväärtustatud käigu peale on { $name } keskmiselt { $mean }, hajuvusega { $std }.
+       *[other] { $n } algväärtustatud käigu peale on { $name } keskmiselt { $mean }, hajuvusega { $std }.
+    }
+
+js-meankind-campaign-montecarlo-line = Hajuvus on üks standardhälve käikude peale.
+
+js-meankind-campaign-optimize =
+    { $n ->
+        [one] Otsing rahuneb väärtusele { $name } { $value } pärast { $n } käiku.
+       *[other] Otsing rahuneb väärtusele { $name } { $value } pärast { $n } käiku.
+    }
+
+js-meankind-campaign-optimize-at = Kohas { $at }.
+
+js-meankind-campaign-optimize-kind =
+    { $n ->
+        [one] Otsing rahuneb väärtusele { $name } { $value } pärast { $n } käiku liigist { $kind }.
+       *[other] Otsing rahuneb väärtusele { $name } { $value } pärast { $n } käiku liigist { $kind }.
+    }
+
+js-meankind-campaign-sweep-flat =
+    { $n ->
+        [one] { $n } käigu peale ({ $axis } vahemikus { $from } kuni { $to }) püsib { $metric } väärtusel { $value }.
+       *[other] { $n } käigu peale ({ $axis } vahemikus { $from } kuni { $to }) püsib { $metric } väärtusel { $value }.
+    }
+
+js-meankind-campaign-sweep-flat-line = Diagramm näitab iga käiku.
+
+js-meankind-campaign-sweep-goes =
+    { $n ->
+        [one] { $n } käigu peale ({ $axis } vahemikus { $from } kuni { $to }) liigub { $metric } väärtuselt { $first } väärtusele { $last }.
+       *[other] { $n } käigu peale ({ $axis } vahemikus { $from } kuni { $to }) liigub { $metric } väärtuselt { $first } väärtusele { $last }.
+    }
+
+js-meankind-campaign-sweep-goes-line = Diagramm näitab iga käiku; see ulatub väärtusest { $min } väärtuseni { $max }.
+
+js-meankind-classical-link = klassikaline link
+
+js-meankind-clock-word = kell
+
+js-meankind-conflict-big = Kihiline arhitektuur peab vastu { $ratio } korda paremini kui üksik kiht.
+
+js-meankind-conflict-line-threats = Ohtude Monte Carlo annab { $ratio } korda.
+
+js-meankind-conflict-line-threats-corr = Ohtude Monte Carlo annab { $ratio } korda; korreleeritud ohtude korral võib see langeda { $low } korrani.
+
+js-meankind-conflict-line-trials =
+    { $n ->
+        [one] { $n } katse Monte Carlo annab { $ratio } korda.
+       *[other] { $n } katse Monte Carlo annab { $ratio } korda.
+    }
+
+js-meankind-conflict-line-trials-corr =
+    { $n ->
+        [one] { $n } katse Monte Carlo annab { $ratio } korda; korreleeritud ohtude korral võib see langeda { $low } korrani.
+       *[other] { $n } katse Monte Carlo annab { $ratio } korda; korreleeritud ohtude korral võib see langeda { $low } korrani.
+    }
+
+js-meankind-contacts-big =
+    { $n ->
+        [one] Plaan säilitab { $kept } { $n } kandidaatkontaktist ja kohale toimetab { $gbit } Gbit.
+       *[other] Plaan säilitab { $kept } { $n } kandidaatkontaktist ja kohale toimetab { $gbit } Gbit.
+    }
+
+js-meankind-contacts-big-waiting =
+    { $n ->
+        [one] Plaan säilitab { $kept } { $n } kandidaatkontaktist ja kohale toimetab { $gbit } Gbit ootavast { $waiting } Gbit-ist.
+       *[other] Plaan säilitab { $kept } { $n } kandidaatkontaktist ja kohale toimetab { $gbit } Gbit ootavast { $waiting } Gbit-ist.
+    }
+
+js-meankind-contacts-line = { $sats } satelliiti ja { $stations } jaama { $hours } h jooksul.
+
+js-meankind-dpnt-big = Diferentsiaalkorrektsioonid viivad vea väärtuselt { $from } m väärtusele { $to } m.
+
+js-meankind-dpnt-line = Etalonjaamaga { $km } km kaugusel.
+
+js-meankind-duration-days =
+    { $n ->
+        [one] { $days } päev
+       *[other] { $days } päeva
+    }
+
+js-meankind-earthgnss-big =
+    { $n ->
+        [one] Kuu kaugusel on { $n } satelliidist nähtaval { $visible }, kuid jälgida saab { $trackable }.
+       *[other] Kuu kaugusel on { $n } satelliidist nähtaval { $visible }, kuid jälgida saab { $trackable }.
+    }
+
+js-meankind-earthgnss-line = Parim signaal on { $best } dB-Hz jälgimisläve { $threshold } dB-Hz vastu.
+
+js-meankind-engine-run-count =
+    { $n ->
+        [one] { $n } mootori käik
+       *[other] { $n } mootori käiku
+    }
+
+js-meankind-entry-big = Tippaeglustus on { $g } g kõrgusel { $km } km, tippsoojusvooga { $flux } W/cm².
+
+js-meankind-entry-line = Sisenemine kiirusega { $speed } m/s, { $angle } kraadi horisondi all.
+
+js-meankind-eo-big = Kaamera näeb { $swath } km laiust riba eraldusvõimega { $gsd } m.
+
+js-meankind-eo-line-contiguous = Maapealsed jäljed on ekvaatoril { $km } km kaugusel, seega kate on pidev.
+
+js-meankind-eo-line-gapped = Maapealsed jäljed on ekvaatoril { $km } km kaugusel, seega kattes on tühimikke.
+
+js-meankind-eop-big = Kuu kaugusel pühib Maa pöörlemine iga sekund { $m } m, seega Maa orientatsiooniandmete vanus ({ $dur } siin) loeb.
+
+js-meankind-eop-line = Sisend: { $source }.
+
+js-meankind-ephemeris-big = Satelliit lendab vahemikus { $min } kuni { $max } km, kuni laiuskraadini { $lat }°.
+
+js-meankind-ephemeris-line = Jaamast vaadatuna tõuseb see kõrgusele { $deg }°.
+
+js-meankind-ephemeris-line-doppler = Jaamast vaadatuna tõuseb see kõrgusele { $deg }°, kuni { $khz } kHz Doppleriga.
+
+js-meankind-event-count =
+    { $n ->
+        [one] { $n } sündmus
+       *[other] { $n } sündmust
+    }
+
+js-meankind-framecampaign-big-open =
+    { $n ->
+        [one] Kampaania jätab { $n } etalonpunkti suuna määramata.
+       *[other] Kampaania jätab { $n } etalonpunkti suunda määramata.
+    }
+
+js-meankind-framecampaign-big-yes = Jah: kampaania fikseerib Kuu tugisüsteemi etalonpunkti täielikult.
+
+js-meankind-framecampaign-line = Tingimusarv { $n }.
+
+js-meankind-framereal-big = Kuu tugisüsteem on realiseeritud { $m } m jääkveaga.
+
+js-meankind-framereal-big-open = Kuu tugisüsteem on realiseeritud { $m } m jääkveaga, kuigi sobitus ei koondunud.
+
+js-meankind-framereal-line = Translatsiooniviga { $trans } m, skaalaviga { $scale } miljardikosa.
+
+js-meankind-gnsssim-big = Terviklikkuse seire kaitseb fikseeringut { $share } % ajast.
+
+js-meankind-gnsssim-line = Ionosfäär lisab igale kaugusele keskmiselt { $iono } m ja troposfäär { $tropo } m.
+
+js-meankind-headline-figure = peamine näitaja
+
+js-meankind-holdovertest-big = Maskide vastu mõõdetuna jõuab salvestise holdover { $dur } s ajaveani { $te } ns.
+
+js-meankind-holdovertest-big-open = Maskide vastu mõõdetuna jõuab salvestise holdover { $dur } s ajaveani { $te } ns ega taastunud riba sees.
+
+js-meankind-holdovertest-big-recovered = Maskide vastu mõõdetuna jõuab salvestise holdover { $dur } s ajaveani { $te } ns ja taastus { $recover } s pärast GNSS-i naasmist.
+
+js-meankind-holdovertest-line = Mõõdetud maski vastu, mitte kunagi väide, et süsteem vastab nõuetele; kaks aega on operaatori väide.
+
+js-meankind-holdovertest-line-masks = { $masks }. Mõõdetud maski vastu, mitte kunagi väide, et süsteem vastab nõuetele; kaks aega on operaatori väide.
+
+js-meankind-impairment-big = Detektor eraldab häiritud signaalid puhastest kõvera aluse pindalaga { $auc } (1 on täiuslik).
+
+js-meankind-impairment-line = Oma treeningkomplektist erinevatel juhtudel saab see tulemuse { $auc }.
+
+js-meankind-infra-carrier = Täisarvuline kandelaine faasi fikseerimine pinnajaama ja orbiiteri vahel fikseeris { $share } % katsetest pikimal kaarel ({ $days } päeva).
+
+js-meankind-infra-frame = Orbiiteri-jaama lingid tõstavad Kuu etalonpunkti vähimat informatsiooni omaväärtust { $x } korda ja langetavad Cramér-Rao jälje { $share } %-ni, kui orbiit on Kuu telgedes teada.
+
+js-meankind-infra-geodesy = Kõigi nelja perekonna koos on h2, k2 ja l2 kinnitatud { $h2 } %, { $k2 } % ja { $l2 } %-ni nende nominaalväärtustest.
+
+js-meankind-infra-od = Pardal tehtav Maa GNSS-i orbiidi määramine Kuu orbiidil on täpne { $gnss } m, sõltumatu maapealne jälgimine { $ground } m; kooskõlastatistik on keskmiselt { $mean } (oodatud { $expected }).
+
+js-meankind-infra-tail = MODELLED: piiratud mudel illustratiivsete sisenditega, mitte väide ühegi missiooni kohta.
+
+js-meankind-infra-tie =
+    { $n ->
+        [one] { $mm } mm kohalik side ühel kosmoseaparaadil seob GNSS-i, VLBI ja laserkaugusmõõtmise tugisüsteemid { $n } pühitud sideme vea peale.
+       *[other] { $mm } mm kohalik side ühel kosmoseaparaadil seob GNSS-i, VLBI ja laserkaugusmõõtmise tugisüsteemid { $n } pühitud sideme vea peale.
+    }
+
+js-meankind-inside-spec = { $spec } piires
+
+js-meankind-instrn-big = Ainult inertsiaalil libisedes ületab asukohaviga { $threshold } m pärast { $dur }.
+
+js-meankind-instrn-dom = { $dominant } domineerib.
+
+js-meankind-instrn-line = See ületab: { $passes }.
+
+js-meankind-instrn-line-dom = See ületab: { $passes }; { $dominant } domineerib.
+
+js-meankind-instrn-pass = { $threshold } m pärast { $dur }
+
+js-meankind-interop-big-no = Ei: Kuu efemeriidifail ei käi edasi-tagasi teisenduses terviklikuna.
+
+js-meankind-interop-big-yes = Jah: Kuu efemeriidifail käib edasi-tagasi teisenduses terviklikuna.
+
+js-meankind-interop-line = { $n } olekut tugisüsteemis { $frame }, aeg { $time }.
+
+js-meankind-its-spec = selle spetsifikatsioon
+
+js-meankind-jointod-big = Maapealse interferomeetriaviivituse lisamine teravdab jaama asukohta { $x } korda.
+
+js-meankind-jointod-line = Siis on jaam teada täpsusega { $m } m.
+
+js-meankind-launch-big =
+    { $n ->
+        [one] { $n } stardivõimalus päevas jõuab { $incl }° orbiidile laiuskraadilt { $lat }°.
+       *[other] { $n } stardivõimalust päevas jõuavad { $incl }° orbiidile laiuskraadilt { $lat }°.
+    }
+
+js-meankind-launch-line = Maa pöörlemine annab { $speed } m/s tasuta.
+
+js-meankind-layer-agc = AGC (automaatne võimenduse juhtimine)
+
+js-meankind-layer-raim = RAIM (vastuvõtja autonoomne terviklikkuse seire)
+
+js-meankind-layer-sqm = SQM (signaalikvaliteedi seire)
+
+js-meankind-leochain-big = Otsast lõpuni viib madalorbiidi süsteem asukohavea väärtuselt { $from } m väärtusele { $to } m.
+
+js-meankind-leochain-line = Selle signaali jälgitakse kuni { $cn0 } dB-Hz.
+
+js-meankind-leopass-big-many = Satelliidid läbivad { $elev }° kõrguselt ja püsivad maski kohal { $dur } (esimene { $n }-st).
+
+js-meankind-leopass-big-one = Satelliit läbib { $elev }° kõrguselt ja püsib maski kohal { $dur }.
+
+js-meankind-leopass-line = Tipus saabub madalorbiidi signaal { $db } dB tugevamana kui tüüpiline satelliitnavigatsiooni signaal.
+
+js-meankind-leoppp-big = Täppispositsioneerimine koondub { $best } min jooksul suurima madalorbiidi kihiga, võrreldes { $base } min-ga ainult satelliitnavigatsiooniga.
+
+js-meankind-leoppp-line = Käikude mediaan juhtumi kohta, täpsusega { $m } m.
+
+js-meankind-leoppp-line-runs =
+    { $n ->
+        [one] { $n } käigu mediaan juhtumi kohta, täpsusega { $m } m.
+       *[other] { $n } käigu mediaan juhtumi kohta, täpsusega { $m } m.
+    }
+
+js-meankind-leopvt-doppler-big = Doppleri positsioneerimine madalorbiidi satelliitidelt maandub tõest { $m } m kaugusel (horisontaalselt).
+
+js-meankind-leopvt-doppler-line =
+    { $n ->
+        [one] { $n } satelliit kasutatud.
+       *[other] { $n } satelliiti kasutatud.
+    }
+
+js-meankind-leopvt-joint-big = Madalorbiidi kihi lisamine viib vea väärtuselt { $from } m väärtusele { $to } m (3D ruutkeskmine).
+
+js-meankind-leopvt-joint-line = Geomeetria kvaliteet (PDOP) liigub väärtuselt { $from } väärtusele { $to }.
+
+js-meankind-leopvt-polar-big = Poolusele lähedal parandab madalorbiidi kiht geomeetria kvaliteeti (PDOP) väärtuselt { $from } väärtusele { $to }.
+
+js-meankind-leopvt-polar-line =
+    { $n ->
+        [one] { $n } laiuskraadi peale.
+       *[other] { $n } laiuskraadi peale.
+    }
+
+js-meankind-leopvt-timing-big = Madalorbiidi aja edastamine hoiab parima kella UTC-st { $ns } ns piires (ruutkeskmine).
