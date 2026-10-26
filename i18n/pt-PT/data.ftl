@@ -2354,3 +2354,378 @@ dat-27e53cda32db = Caracterização da estabilidade de frequência
 
 # data/verification-matrix.json, data/card-matrix-map.json
 dat-f329e4558e9f = Estabilidade de frequência num relógio real medido
+
+# data/search.json
+dat-6d224d115687 = Sincronização de frequência: geração de wander segundo G.811, G.812, G.8262 e G.8262.1 ({ "0.36" })
+
+# data/search.json
+dat-e2a2e2c97af5 = A partir de código
+
+# data/search.json
+dat-eb9476cc9794 = A partir de Python e WebAssembly
+
+# data/search.json
+dat-d90fd2aeef6a = A partir de Python, WebAssembly e MCP
+
+# data/verification-matrix.json
+dat-c32cf6bb95d1 = frugal (sobre walker)
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-0f8189016ddc = Enquadramento frugal de custo por cobertura / ROI
+
+# data/verification-matrix.json
+dat-64418b3e7e3c = frugal::tests (custo por cobertura derivado à mão 48/96={ "0.5" }, rácio de ROI { "2.667" }, ordenação dos intervalos + guardas de cobertura nula)
+
+# js/evidence-data.mjs
+dat-821431fc22ea = Envio de arco completo, Nível { "1" } (antes da correção†)
+
+# js/missions-runs.mjs
+dat-6dd8e31b0dcd = solução de posição fundida, erro RMS
+
+# studio/data/areas.json
+dat-85439cf1f56d = PDOP mediano fundido face ao SISRE de LEO
+
+# data/search.json
+dat-e4d34ebcb276 = Posicionamento, navegação e temporização (PNT) fundidos em órbita terrestre média (MEO) e em órbita terrestre baixa (LEO) sobre QUALQUER…
+
+# data/search.json
+dat-b798d233f73e = Posicionamento fundido MEO e LEO para uma embarcação no fundo de um fiorde, onde as paredes do vale ocultam
+
+# data/search.json
+dat-d3bf21538bac = Posicionamento, navegação e temporização fundidos MEO e LEO
+
+# data/search.json, js/missions-runs.mjs
+dat-76d49a741f36 = Posicionamento por pseudodistâncias fundido MEO e LEO: GPS e Galileo com uma camada de navegação LEO.
+
+# js/missions-runs.mjs
+dat-a672a7aa19d7 = fundido com órbita baixa
+
+# data/search.json
+dat-3ada6ff9e069 = fusão (tipo de cenário)
+
+# data/verification-matrix.json
+dat-ec5d8ca74e7d = fusion::pack (TightCfg, [tight]), cenários gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation
+
+# data/verification-matrix.json
+dat-95e88ecc34df = fusion::tests (identidade UKF==KF linear; navegação inercial durante a interrupção; NEES); tests/gnss_ins_sensor_fusion_reference.rs ({ "50" } casos face a filterpy { "1.4.5" }: EKF linear solto/apertado + posteriores PNT acoplados até ≤{ "2.4e-12" }; execução UKF de 40 épocas, pior |Δx| { "1.9e-7" } / |ΔP| { "9.5e-6" }); tests/gnss_ins_navego_dataset_oracle.rs::loosely_coupled_rms_within_1p2x_of_navego (solução fracamente acoplada do NaveGo v1.4 sobre o percurso real de IMU/GNSS Ekinox do NaveGo: RMS horizontal 0.912x, vertical 0.940x, RMS da inovação de posição 0.861x do do NaveGo, inovação normalizada média { "0.395" }; limiares 1.2x, 1.2x, 1.2x e { "1.5" } fixados antes da execução)
+
+# data/verification-matrix.json
+dat-fa85ed0fb966 = Gerador LFSR G1/G2 do código C/A que reproduz os vetores de verificação octais publicados no IS-GPS-200 para os primeiros 10 chips dos PRN { "1" }–{ "9" } (mais o comprimento de 1023 chips, o equilíbrio de 512 uns e a autocorrelação periódica de três valores)
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-71b6ea3dc71a = Algoritmo de utilizador das efemérides de difusão do ICD do Galileo como base de uma mensagem de navegação LEO
+
+# data/search.json
+dat-c5e5f5f38caf = Galileo em órbita terrestre média — GREEN (limiar < { "5" } m)
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-455af4b55c5e = Autenticação dos dados de navegação Galileo OSNMA no lado do recetor
+
+# data/search.json
+dat-9025636fcc85 = Verificador Galileo OSNMA no lado do recetor
+
+# studio/data/capabilities.json
+dat-b674eba809eb = Verificação Galileo OSNMA
+
+# data/search.json
+dat-6e3ed81e2232 = Verificador Galileo OSNMA
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-8a9416290ca3 = Galileo Walker 24/3/1, Galileo OS SDD edição { "1.1" } Quadros { "1" } e { "23" }
+
+# studio/channels.json
+dat-4a49a3de27d2 = implementações de gate e bench
+
+# data/verification-matrix.json
+dat-f553cc1c927b = Integridade do gate — um verde que significa o que diz
+
+# data/search.json
+dat-6a610bcc14b9 = Modo gate
+
+# data/verification-matrix.json
+dat-e3b2d3da9750 = GDOP/PDOP/HDOP/VDOP/TDOP a partir da geometria de linha de vista através de Q=(HᵀH)⁻¹ com divisão ENU local
+
+# data/search.json
+dat-731732835cd7 = Gemini CLI
+
+# js/developers-data.mjs
+dat-b3d237b0dc32 = Gera uma cena IQ GNSS multissatélite num ficheiro no diretório de trabalho (`kshana iq scene`).
+
+# js/developers-data.mjs
+dat-8bf4ec225897 = Gera NMEA { "0183" } sintético de ponte para formação da tripulação a partir de um TOML `nmea-scenario` (`kshana nmea-scenario`): uma trajetória de embarcação e uma cronologia de eventos programados (jamming, arrastamento da posição, spoofing de tempo, atraso de repetição, com recuperação).
+
+# data/verification-matrix.json
+dat-26c58834fe9d = Gerado por `cargo run --bin gen_validation_artifacts` e fixado por tests/verification_artifacts_doc_sync.rs. Não editar à mão.
+
+# data/search.json
+dat-4837fbbcb35b = Varrimento genérico de parâmetros N-D sobre QUALQUER tipo de cenário. Ao contrário do varrimento só de relógio
+
+# data/search.json
+dat-3df08ace2207 = Varrimento N-D genérico sobre qualquer pacote através de chaves TOML com pontos / caminhos de métricas JSON.
+
+# data/verification-matrix.json
+dat-74ed4850ce5d = geolocation::tests (TDOA sem ruído, direto→inverso até { "1e-6" } m; J·CRLB=I com uma covariância PD simétrica; o traço da variância de posição do CRLB não aumenta quando se acrescenta um recetor; TDOA+FDOA conjunto recupera a posição+velocidade de um emissor em movimento; <{ "4" } recetores rejeitados); tests/geolocation_reference.rs (viagens de ida e volta sobre quatro geometrias com uma rede 3-D diversa; o estimador de Gauss–Newton atinge o seu limite de Cramér–Rao — a covariância empírica do erro acompanha o limite analítico em { "4000" } ensaios de Monte Carlo); tests/geolocation_crlb_published_oracle.rs (ho_chan_1993_maximum_tdoa; ho_xu_2004_fig7_with_the_authors_corrected_source; ho_xu_2004_bound_matches_the_authors_code; finding_ho_chan_ottawa_printed_values_are_not_the_bound e finding_ho_xu_fig7_printed_source_is_not_the_plotted_one, fixados)
+
+# data/verification-matrix.json, data/card-matrix-map.json, data/standards-matrix-map.json
+dat-611e316455d9 = Campo geomagnético de referência (síntese IGRF-14)
+
+# data/verification-matrix.json
+dat-b4ef2c21bc63 = Instanciação geométrica do limite de spark por blocos / estimação segura do estado (Fawzi–Tabuada–Diggavi { "2014" }; Shoukry–Tabuada { "2016" }; spark por blocos de Donoho–Elad { "2003" }; Candès–Tao { "2005" }) — NÃO o limiar de consenso 3f+{ "1" } de Lamport–Shostak–Pease ('Byzantine' designa apenas o MODELO de falha arbitrária/em conluio). O número específico de falhas toleradas é uma propriedade Modelled da geometria representativa da rede, verificada quanto à autoconsistência por casos analíticos construídos à mão e pelas fórmulas de contagem
+
+# data/verification-matrix.json
+dat-2b09848842ee = Posições geométricas do Sol, de Mercúrio, de Vénus, da Terra e da Lua relativamente umas às outras (eixos J2000/ICRF, metros) a partir de um kernel JPL DE440 através de ephem_provider::KernelEphemeris em épocas UTC: nomes de corpos mapeados para códigos NAIF, UTC levado pela tabela de segundos intercalares e TT até TDB com a série TDB-TT de dois termos, o kernel lido pelo leitor do próprio motor. Um corpo que o kernel só contém como baricentro de sistema (de Marte a Neptuno, Plutão em de440s) é recusado, nunca substituído. A linha Standish sem kernel continua a ser o caminho do navegador e de recurso
+
+# data/search.json
+dat-39e185a7bce6 = Geometria — disponibilidade GNSS a partir de órbitas
+
+# data/verification-matrix.json
+dat-5b62a8ae98f6 = geometry (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg; CLI `kshana sky` e `kshana skyline`, funções Python e WASM com os mesmos nomes, MCP `sky_geometry`): a partir de um local, de uma hora e de predefinições de constelação (ou de satélites como azimute/elevação ou ECEF), os satélites visíveis e mascarados por um perfil do horizonte, GDOP/PDOP/HDOP/VDOP/TDOP, o cofator de variância unitária (H^T H)^-1 e a covariância em este-norte-cima com um relógio de recetor por sistema ou um em comum, a elipse de erro horizontal (semieixos k sigma sqrt(lambda), k = sqrt(-2 ln({ "1" } - p)), orientação { "0.5" } atan2({ "2" } Q_EN, Q_NN - Q_EE) a partir do norte), e n erros de mínimos quadrados com semente sob erros de distância gaussianos independentes, com a sua covariância empírica, RMS e contenção de { "95" } %. O cofator é orbit::cofactor_from_los, o único kernel por detrás de orbit::dop e orbit::dop_cov (dop é a redução de dop_cov): nenhuma segunda implementação de DOP
+
+# data/verification-matrix.json
+dat-9d3c13673a52 = Orçamento de ligação J/S da geometria, C/N₀ anti-jamming, perda de bloqueio por satélite
+
+# studio/data/capabilities.json
+dat-564d4b9fd1ed = Classificação de confiança sensível à geometria
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-f7f6e62db727 = Classificação de confiança sensível à geometria: a geometria dos satélites ao lado da pontuação de confiança do recetor e uma classe em cada dedução
+
+# data/search.json
+dat-e10a325ec82d = Geometria: degradação natural distinta da inconsistência de tipo ataque
+
+# data/verification-matrix.json
+dat-1ce585aa8de3 = geometry::sky_geometry: o cofator ENU-e-relógio (H^T H)^-1 com um relógio de recetor em comum ou um por sistema (o kernel orbit::cofactor_from_los), e a elipse de erro horizontal a partir do seu bloco este-norte (semieixos k sigma sqrt(lambda), k = sqrt(-2 ln({ "1" } - p)), o azimute do eixo maior a partir do norte)
+
+# data/verification-matrix.json
+dat-b643c15103c2 = geometry::tests (ellipse_of_an_analytic_two_by_two_case; sky_geometry_equals_orbit_dop_on_the_same_visible_set; ecef_input_matches_azimuth_elevation_input; one_clock_per_system_adds_a_state_and_costs_geometry; monte_carlo_is_seeded_and_agrees_with_the_geometry; presets_propagate_and_are_seen_from_a_site); tests/dop_reference.rs (o kernel de relógio único face a gnss_lib_py)
+
+# data/search.json
+dat-61e8d44ad423 = Primeiros passos
+
+# studio/channels.json
+dat-3023f7e52c16 = Registo de contentores do GitHub
+
+# studio/channels.json
+dat-f7ecb6756caa = Edição do GitHub
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-a33da228eb84 = Diluição de precisão global da constelação de linha de base do GPS
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-0beb4fb3e33d = Pesos globais médios do erro de distância do sinal no espaço para qualquer altitude orbital
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-2015f8efbc2f = GLONASS 24/3/1, GLONASS ICD edição { "5.1" } ({ "2008" }) secção { "5.2" }
+
+# data/verification-matrix.json
+dat-3123f2d9a593 = Relógio de satélite de difusão do GLONASS e propagação da órbita de difusão
+
+# assets/capabilities/capabilities.json
+dat-49146c124e2d = GLONASS G1/G2, BeiDou B1/B2 e Galileo E6
+
+# data/verification-matrix.json
+dat-56cdbf2137c2 = Branqueamento de modo comum GLS (Aitken) + identidade de Mahalanobis
+
+# data/verification-matrix.json
+dat-b9b08309b102 = GMAT R2022a (NASA GSFC, Apache-2.0) GmatConsole com a atmosfera Exponential (a mesma tabela de 28 bandas), Terra de massa pontual e PrinceDormand78, executado, nunca incorporado. Limiares pré-registados em xval/drag-exponential-gmat/PREREGISTRATION.md (640c85c1) sobre o deslocamento por arrasto de cada lado (execução com arrasto menos execução sem arrasto), que cancela os dois valores de mu da Terra e os integradores; todos atingidos (RESULTS.md). O GMAT usa altura geodésica e o kshana altitude esférica: só coincidem no equador, pelo que VALIDATED abrange órbitas equatoriais; fora do equador os modelos diferem por construção ({ "10.4" } % de um deslocamento de { "24" } h a { "51.6" } graus, { "400" } km). A compilação pública do GMAT não tem NRLMSISE-00 (plugin ausente), pelo que o nível NRLMSISE-00 só tem o oráculo Orekit. A exatidão da tabela face à densidade medida não é abrangida
+
+# data/verification-matrix.json
+dat-900ba38459e6 = GMAT R2026a (Apache-2.0, executado como programa separado) em { "192" } estados hiperbólicos da Terra: B.T, B.R e |B| até { "1e-6" } km (pior { "1.35e-8" } km), o ângulo de desvio e ambas as assíntotas até { "1e-9" } rad (pior { "9.3e-15" } rad); a variação de velocidade da assistência a partir do C3 do GMAT e das assíntotas até { "1e-9" } v_inf (pior { "5.6e-14" }); SMA, ECC e INC heliocêntricos em { "350" } estados centrados no Sol antes e depois da assistência até { "1e-9" } relativo e { "1e-12" } rad (pior { "2.2e-14" } e { "4.1e-14" } rad); o parâmetro de Tisserand face ao sbpy { "0.6.0" } (BSD-3) sobre elementos do GMAT até { "1e-9" } (pior { "1.3e-15" }) e face a { "3" } - C3/v_c^{ "2" } ({ "8.9e-16" }); e a forma fechada de Tisserand face a Kasuga e Jewitt ({ "2019" }) Quadro { "8.1" } para { "12" } objetos dentro do limite de arredondamento impresso (pior { "0.39" } do mesmo; um valor trabalhado publicado P1). Pré-registado (436293bf; reparação heliocêntrica 6fd9f5e6); a emenda 374c806b, escrita depois de os ficheiros do oráculo terem sido gerados e antes de qualquer valor do Kshana, alargou o filtro de entrada da inclinação de { "1e-2" } para { "1e-3" } rad, mantendo mais estados e de pior condicionamento. Âmbito MODELLED: sobrevoo de dois corpos em cónicas ajustadas sobre uma órbita planetária circular, sem transição de esfera de influência, perturbações do encontro nem efemérides
+
+# studio/data/capabilities.json
+dat-aa6ddeb93b15 = Fusão de sensores GNSS / INS
+
+# js/missions-runs.mjs
+dat-58fdfb5544c3 = só GNSS, erro RMS
+
+# studio/data/capabilities.json
+dat-2cad73f47600 = Autenticação GNSS
+
+# data/search.json
+dat-ebddc70e47f7 = Disponibilidade GNSS + DOP a partir de uma constelação orbital (Walker / TLE / RINEX).
+
+# data/search.json
+dat-f045dfa9ea84 = Disponibilidade GNSS e diluição de precisão no fundo de uma rua da cidade: o `orbit`
+
+# data/search.json
+dat-ab69eba7be35 = Disponibilidade GNSS derivada da geometria orbital (não de janelas escritas à mão).
+
+# data/search.json
+dat-17bb8b5c7578 = Disponibilidade GNSS para um utilizador de órbita muito excêntrica (Molniya), a partir da geometria orbital.
+
+# data/search.json
+dat-55e2648633a9 = Disponibilidade GNSS a partir de efemérides de difusão RINEX { "3" } reais.
+
+# data/search.json
+dat-eeb36e87af2a = Disponibilidade GNSS a partir da geometria REAL dos satélites, através de conjuntos de elementos de duas linhas.
+
+# data/search.json
+dat-b3d70ccc7bd2 = Disponibilidade GNSS a partir da constelação GPS REAL propagada com SGP4/SDP4.
+
+# data/search.json
+dat-a44b2b91bca4 = GNSS para além da constelação: o tipo gnss-ssv
+
+# studio/data/capabilities.json
+dat-840f672ac80e = GNSS para além da constelação: o Volume de Serviço Espacial e para lá dele
+
+# data/verification-matrix.json
+dat-83b3514917c4 = Resolução da ambiguidade inteira da fase da portadora GNSS (LAMBDA)
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-bb79da35fc9c = Geometria GNSS / diluição de precisão (DOP)
+
+# data/search.json
+dat-e273c919d879 = Disponibilidade de integridade GNSS (RAIM) sobre uma constelação do tipo GPS.
+
+# data/verification-matrix.json
+dat-3ed8a076bc17 = Aquisição GNSS IQ sobre amostras I/Q geradas de forma independente
+
+# data/search.json
+dat-f09cd8d61760 = Assinaturas GNSS IQ e de confiança do recetor
+
+# data/verification-matrix.json
+dat-a0dce0aacba8 = Geometria do sinal da cena GNSS IQ face a um gerador de banda de base independente
+
+# data/search.json
+dat-793ccdd5cb86 = Pegada de jamming GNSS
+
+# studio/data/capabilities.json
+dat-f04784542a0c = Domínio de medição GNSS
+
+# data/search.json
+dat-4e35d01aa3d8 = Medições, posicionamento e integridade GNSS
+
+# data/search.json
+dat-e32da0beede4 = Medições, posicionamento e integridade GNSS (família de tipos de cenário)
+
+# js/missions-runs.mjs
+dat-3a4061afb712 = C/N0 mediano GNSS
+
+# data/search.json
+dat-d5e0f4289cb5 = GNSS numa transferência lunar, com um recetor de sinal fraco que merece a sua sensibilidade.
+
+# studio/data/capabilities.json
+dat-7d5e1c1fc67e = Posicionamento GNSS
+
+# data/search.json
+dat-f71f41147efa = Posicionamento GNSS acrescido dos dois satélites de demonstração em órbita Celeste da ESA.
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-fb12222228a2 = Disponibilidade do sinal GNSS no Volume de Serviço Espacial e para lá dele, comparada com o livrete SSV do ICG
+
+# data/search.json
+dat-eb68247b6d8c = Disponibilidade do sinal GNSS na camada superior do SSV: a métrica global do livrete, com uma dimensão que corre num segundo.
+
+# data/verification-matrix.json
+dat-0430afb51651 = Estatísticas de deteção de aquisição GNSS por lei quadrática
+
+# data/verification-matrix.json
+dat-ab0faa9843fa = Confiança GNSS (pontuação, banda, motivos, gate e, a pedido, posição) como exposição de texto Prometheus servida em /metrics e como métricas JSON OTLP/HTTP, com um limite à cardinalidade das etiquetas de motivo.
+
+# data/search.json
+dat-4a56bffdc113 = Confiança GNSS como telemetria de segurança
+
+# data/verification-matrix.json
+dat-babe120b27d3 = DOP do gnss_lib_py { "1.0.4" } (Stanford NAV Lab) — biblioteca independente, coincidente até { "1e-6" } relativo
+
+# data/verification-matrix.json
+dat-6d8275b71221 = gnss_navmsg::tests (valor de verificação CRC-24Q 0xCDE703; resposta ao impulso convolucional; o Viterbi corrige erros injetados; larguras de disposição); tests/gnss_navmsg_roundtrip.rs (os bits iniciais dos campos coincidem com os números de bit do ICD; codificar -> FEC -> entrelaçar -> Viterbi -> descodificar fecha o ciclo dentro de meio LSB); tests/gnss_navmsg_galileo_brdc_grid.rs (registos Galileo IGS BRDC 2018-133 na grelha de LSB, pior { "3.6e-3" } LSB; limiar pré-registado de contagem de satélites falhado, { "15" } de { "20" }, CONSTATAÇÃO)
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-7a590be82e74 = Holdover do relógio sem GNSS
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-4c656dcbfb0b = Resiliência ao jamming sem GNSS
+
+# data/verification-matrix.json
+dat-ad83abe1a009 = Navegação quântica sem GNSS
+
+# data/search.json
+dat-17b5e6774026 = Navegação quântica sem GNSS — quântica (interferómetro de átomos frios) vs clássica
+
+# data/search.json
+dat-c0d5518e2983 = Navegação quântica sem GNSS (src/quantum_nav_od.rs)
+
+# data/search.json
+dat-9d4a626d6fc3 = gnss-ins (tipo de cenário)
+
+# data/verification-matrix.json
+dat-7d66f55cfbd0 = GNSS-SDR { "0.0.19" } (GPL-3.0-or-later, o pacote Ubuntu { "24.04" }, executado como programa separado; apenas os números derivados são registados) a seguir as mesmas gravações numpy (independentes do motor), ambos medidos face à referência analítica. Limiares pré-registados em 48edd4a5, emendados antes de qualquer gravação de teste em 1e4288c4 (um FLL de { "10" } Hz apenas durante a captura em ambos os recetores, depois de a calibração registada ter falhado numa transferência errada do GNSS-SDR, constatação F3). MET a { "30" }, { "35" }, { "40" } e { "45" } dB-Hz: jitter de portadora até { "4.3" } %, jitter de código até { "4.6" } % e média e dispersão do Doppler dentro dos do GNSS-SDR. NOT MET: o C/N0 NWPR do motor lê de { "2.3" } a { "7.1" } dB abaixo do SNV do GNSS-SDR (constatação F4, o limite NWPR conhecido; o seu M2M4 está a { "0.06" } dB da referência); os indicadores de bloqueio de fase diferem por definição (F5); a { "30" } dB-Hz o GNSS-SDR deslizou duas vezes e o motor não (F6). A própria transferência do GNSS-SDR fixou-se numa frequência errada em { "3" } de { "30" } execuções de calibração. O QUE NÃO É VERIFICADO: outros sinais, remoção de bits de dados, reaquisição, gravações de campo. A linha continua MODELLED.
+
+# data/verification-matrix.json
+dat-88626853d609 = GNSS-SDR { "0.0.19" } (GPL-3.0, programa separado, configuração fixada) nos nove lotes L1 sem superfície e no C/N0 BRUTO do recetor de voo (LuGRE Mission Data, Zenodo { "16411687" }, CC BY { "4.0" }), pré-registado 768cb62b. CONSTATAÇÃO: o leitor do Kshana descodifica todos os { "288" } intervalos comparados de forma idêntica a um conversor independente; o GNSS-SDR declara { "266" } de { "288" } pesquisas positivas e o Kshana concorda em todas as { "266" } decisões, mas só { "250" } estão localizadas na célula do GNSS-SDR (A2 falha); a parte do C/N0 é vácua, pois nenhuma época BRUTA de voo se situa a menos de { "30" } s de qualquer lote (a mais próxima a { "141" } s). A maioria dos positivos são artefactos: os níveis em complemento para dois sem tratamento têm uma média de -0.5 em I e Q, uma linha de frequência zero { "32" } dB acima do ruído num compartimento de { "1" } kHz, que ambos os recetores adquirem. Dois lotes (OP5, OP12) foram excluídos por engano: uma leitura dos seus metadados sem dígitos foi tomada por uma contradição com os seus cabeçalhos; a causa real era que o leitor não conseguia ler uma amostra mais larga do que uma palavra (entretanto corrigido). Continua MODELLED
+
+# data/verification-matrix.json
+dat-f1f9f73e43f8 = Adaptador de monitor GNSS-SDR para a confiança do recetor
+
+# data/verification-matrix.json
+dat-ce3f6373b5d3 = GNSS-SDR { "v0.0.19" } (etiqueta { "v0.0.19" }, commit 1ddd4562), uma implementação de código aberto independente do mesmo ICD: o seu beidou_b1i_code_gen_int, compilado em separado, gerou todos os { "63" } códigos. Apenas a sua saída do programa é registada: tests/fixtures/iq_signals/beidou_b1i_gnss_sdr.txt, um prefixo de 64 chips e o SHA-256 de cada código de 2046 chips. Essa saída são os códigos PRN BeiDou B1I que o BDS-SIS-ICD-B1I-3.0 público define; nenhum código-fonte nem binário do GNSS-SDR está no repositório. Limiar pré-registado em 911106d1 (xval/beidou-b1i-gnss-sdr/): todos os { "2046" } chips de todos os { "63" } PRN idênticos, sem inversão, deslocamento nem reetiquetagem. Resultado: { "63" } de { "63" } idênticos; o fixture foi regenerado a partir de um checkout novo da { "v0.0.19" } (SHA-256 do ficheiro de origem conforme registado) e é idêntico byte a byte. O QUE NÃO É VERIFICADO: o código secundário NH20, a lista de PRN GEO, a portadora e a taxa de chips.
+
+# data/search.json
+dat-abeeb9e52652 = gnss-sim (tipo de cenário)
+
+# data/search.json
+dat-ab23598ddddf = gnss-ssv (tipo de cenário)
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-f381b2207626 = Pacotes GNSS/INS marítimo, ferroviário e de aviação com opção de acoplamento apertado
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-1e713796059f = Fusão de sensores GNSS/INS
+
+# data/verification-matrix.json
+dat-a606add53511 = Biblioteca de trajetórias GNSS/INS e importação de referência em CSV
+
+# data/verification-matrix.json
+dat-c8272b47794a = GNSSTk { "15.3.1" } (ARL:UT, LGPL-3.0, commit 55ea3344, executado como programa separado através de um harness; nenhum código GNSSTk é incorporado): getIonoCorr de KlobucharIonoNavData em L1, L2 e L5, getEffIonoLevel de NeQuickIonoNavData para Az com as regras de sfu todo-zero e [{ "0" }, { "400" }], e getOffset de GPSLNavTimeOffset para a deriva UTC, até { "1e-3" } m, { "1e-6" } sfu e { "1e-9" } s; e ERFA através de pyerfa { "2.0.1.5" } (BSD-3), que deriva o UTC da tabela de segundos intercalares do IERS, para os três casos de segundos intercalares do ICD sobre os segundos intercalares reais de 2015-06-30 e 2016-12-31, incluindo a leitura { "23" }:{ "59" }:{ "60" }, até { "1e-9" } s (o GNSSTk não implementa a regra de duração do dia do caso (b) do ICD, pelo que não foi usado aí, conforme escrito no pré-registo). As entradas são os coeficientes reais do cabeçalho IGS BRDC. Pré-registado (6a66994b; a emenda 88807a7e registou um subconjunto de { "21" } 602 linhas da grelha de segundos intercalares antes de qualquer valor do Kshana ser comparado). A integração da densidade eletrónica NeQuick não está implementada, e não é feita nenhuma correção para um satélite LEO que voa dentro da ionosfera
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-acf30276f7a0 = Constelação de linha de base GPS de 24 posições, GPS SPS Performance Standard 5.ª ed. ({ "2020" }) Quadros 3.2-1 e 3.2-3
+
+# data/verification-matrix.json
+dat-8c382c68132d = Correlação cruzada/autocorrelação de Gold do GPS C/A coincidente EXATAMENTE (inteiros ±65/−1/63) com a geração independente de códigos do IS-GPS-200; forma da PSD BPSK-R({ "1" })/BOC({ "1,1" }) face a um periodograma scipy independente. As formas fechadas de modulação/SSC/DLL (Betz { "2001" } / Kaplan & Hegarty) continuam analíticas, pelo que a linha continua MODELLED — mas a sub-afirmação de correlação de código é externamente coincidente. { "0.30" } arredondado { "2" }, face aos valores impressos de Betz { "2001" } e Hein et al. { "2006" } (pré-registado 9f4f2ce8, meia unidade impressa), uma constatação (continua MODELLED): todas as { "45" } células espectrais do Quadro { "1" }, os valores de correlação a { "1" } GHz, os valores de interferência MBOC e { "2" } de { "3" } desvios da Fig. { "17" } coincidem; os primeiros lóbulos laterais a { "24" } MHz, o desvio da Fig. { "17" } do BOC({ "8,4" }) e todos os enviesamentos de multipercurso no pior caso das Figs. 18-21 ({ "11" } a { "15" } % abaixo) não coincidem. O Kshana e uma avaliação NumPy independente da leitura pré-registada concordam, pelo que a diferença está nessa leitura ou num pormenor não declarado do artigo; causa por esclarecer
+
+# data/verification-matrix.json
+dat-71345b993a9b = Mensagens GPS CNAV dos tipos 10/11/30, palavras I/NAV do Galileo dos tipos 1-5 em páginas pares/ímpares nominais e páginas F/NAV do Galileo dos tipos 1-4: empacotamento e quantização dos campos do ICD, CRC-24Q, codificação convolucional de taxa 1/2 K={ "7" } (G2 invertido para o Galileo), entrelaçamento de blocos e padrões de sincronização, com descodificadores de teste correspondentes
+
+# data/verification-matrix.json
+dat-2d449120b935 = Concordância entre geradores GPS L1 C/A
+
+# data/verification-matrix.json
+dat-ed4980281dd2 = Códigos de espalhamento GPS L1 C/A (sdr::CaCode) e subtramas LNAV 1-3 (gps_lnav: quantização dos campos do IS-GPS-200 com o pi da especificação, empacotamento em complemento para dois, palavras TLM e HOW, paridade da Tabela 20-XIV com inversão D29*/D30*, os bits de resolução de paridade das palavras { "2" } e { "10" }) comparados bit a bit com o gps-sdr-sim no seu brdc0010.22n incluído ({ "32" } satélites)
+
+# data/verification-matrix.json
+dat-1a97a57b83e7 = Geração dos códigos de espalhamento GPS L1 C/A
+
+# data/verification-matrix.json
+dat-fa382f0c49f6 = Códigos de alcance e de sobreposição GPS L1C face às colunas de verificação impressas do IS-GPS-800J
+
+# data/verification-matrix.json
+dat-b6918acff4da = Codificação GPS LNAV descodificada por uma biblioteca de recetor independente
+
+# data/verification-matrix.json
+dat-6649987ce0e6 = Codificação da mensagem de navegação GPS LNAV
+
+# data/verification-matrix.json
+dat-661bb3c8a237 = GPS SPS PS 5.ª edição (abril de { "2020" }) Apêndice B secções B.3.2.2 e B.3.2.3, a distribuição global média publicada do HDOP da constelação de linha de base de 24 posições totalmente ocupada (mediana { "0.94" }, { "90" } % { "1.16" }, { "95" } % { "1.25" }, { "98" } % { "1.37" }, média { "0.96" }), Quadro 3.8-1 (disponibilidade de PDOP) e Quadro B.3-1 (PDOP de conjunto de uma constelação degradada, usado apenas como limite superior), mais uma forma fechada derivada à mão para uma época. As distribuições de VDOP e PDOP da constelação completa só são publicadas como figura, pelo que o PDOP é fixado só num sentido; o pior ponto espaço-tempo (HDOP { "2.40" } e VDOP { "5.22" } aqui, { "2.49" } e { "5.43" } publicados) depende da grelha e é comunicado, não fixado
+
+# data/search.json
+dat-c8e4f15b7206 = PNT alternativo sem GPS
+
+# data/search.json
+dat-bc954d668981 = PNT alternativo sem GPS (família de tipos de cenário)
+
+# data/search.json
+dat-60b1448d2ac3 = Navegador combinado sem GPS de gravidade + magnetismo + terreno: três canais de campo escalar fundidos por ponto de passagem…
+
+# data/search.json
+dat-db37b7cd3c4f = Navegação sem GPS por correspondência com o mapa de gravidade: um gravímetro de átomos frios recupera uma deriva constante da INS a partir do…
+
+# data/search.json
+dat-c79931a093e0 = Navegação sem GPS por referência sequencial (recursiva) ao terreno: um filtro de partículas executa a correspondência de terreno…
+
+# data/search.json
+dat-fd36d4cd58c4 = Navegação sem GPS por referência ao terreno (TERCOM/SITAN): um altímetro radar/barométrico faz corresponder a elevação do solo…
+
+# data/verification-matrix.json
+dat-3a18e1b86eec = fusion::trajectory::tests (a curva coordenada não tem força lateral e o fator de carga é 1/cos φ; a importação de CSV reproduz um perfil voado até { "1e-3" } m/s e { "1" } m); tests/gnss_ins_trajectory_library.rs (todos os perfis executam e a fusão vence a INS livre durante a interrupção; cada um voa o movimento que o nome indica; observabilidade do rumo: sigma da guinada após { "240" } s { "1.27" } graus em cruzeiro em linha reta contra { "0.039" } graus em figura de 8 e { "0.062" } graus em arranca-e-pára); tests/gnss_ins_legacy_trajectory_pin.rs (resultado legado e hashes de referência idênticos bit a bit)

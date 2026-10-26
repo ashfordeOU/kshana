@@ -1331,3 +1331,333 @@ dat-66a184b85e5f = clock_library: ett enhetskort (vit fas, vit, flicker- och slu
 
 # data/verification-matrix.json
 dat-9f1a554ee785 = clock_library::card::DeviceCard::fit_phase_periodic: ett enhetskort som bär faskomponenterna en till fyra per varv (period T/k, T = { "43 082.05" } s), anpassade gemensamt med den kvadratiska termen med minsta kvadrat på en tredjedel av en uppmätt satellitklockregistrering, där varje terms slutna Allan-bidrag { "4" } A^{ "2" } sin^{ "4" }(pi tau / P) / tau^{ "2" } ingår i den predikterade Allan-deviationen
+
+# data/verification-matrix.json
+dat-623e4e7ce85b = clock_log (read_input, MeasuredPhaseReport, MEASURED_UNITS, TELECOM_LOG_UNITS); telecom_timing (SeriesInput::clock_log); api (clock kind [clock_log])
+
+# data/verification-matrix.json
+dat-6fa006048914 = clock_log::read_input med formaten ptp4l, phc2sys, ts2phc, chrony-tracking och chrony-statistics: den loggade offseten för en linuxptp-servorad (ns, radens egen hakparentesmärkta tidsstämpel, avläsningar innan servot först rapporterar s2 utelämnade och räknade) eller för en chrony-tracking- eller statistikslogg (s, efter kolumnposition, UTC-datum och -tid) blir ett enhetligt fasrutnät genom samma luckpolicyer som de andra formaten; en källväljare (`clock`) namnger ett av flera gränssnitt, klockor eller adresser; loggarna matar telecom-timing-serien, typen clock och typen holdover-test
+
+# data/verification-matrix.json
+dat-0f6b3b79a755 = clock_log::read_input: ett parserlager som gör en RINEX-klockfil (AS/AR-poster för en namngiven klocka, versionerna { "2" } och { "3.00" } till { "3.04" }), en ASCII-fas- eller frekvenslogg i TimeLab-stil, eller en TAPR TICC-tidsstämpel- eller intervalllogg till ett enhetligt fasrutnät, med tau0 angivet, från ett huvud eller som medianavståndet, varje lucka, avläsning utanför rutnätet och dubblett räknade, och en luckpolicy med vägra, längsta följd eller linjär; kopplad frivilligt till telecom-timing-serien (`[series.clock_log]`, som lägger till ett `clock_log`-block) och typen clock (`[clock_log]`, som lägger till ett `measured`-block med ADEV, TDEV och MTIE, tabellens SHA-256 och fasens SHA-256; runs = { "1" }). Utan tabellen är båda typerna byteidentiska
+
+# data/verification-matrix.json
+dat-f7db9ff7d7fc = clock_log::tests (handskrivna loggar per format: huvuden, avgränsare, enheter, frekvensintegrering, TICC-kanaler och lägen, luckor och policyer, vägranden); tests/clock_log_allantools.rs (den förhandsregistrerade jämförelsen: b1_each_log_reads_to_the_reference_phase; b2_adev_tdev_and_mtie_agree_with_allantools; b3_a_telecom_series_read_from_a_log_equals_the_same_samples; b3_the_clock_kind_measured_block_is_opt_in)
+
+# data/verification-matrix.json
+dat-1fba7f3991f5 = clock_log::tests (ptp4l_reads_the_locked_offsets_in_ns; linuxptp_reads_only_the_named_program; ts2phc_gap_is_refused_or_filled; linuxptp_reads_syslog_prefixed_lines_and_picks_an_interface; linuxptp_refuses_a_servo_that_never_locks_and_backwards_stamps; chrony_tracking_reads_the_local_offset_in_seconds; chrony_statistics_needs_a_source_when_there_are_two; chrony_columns_of_the_other_log_are_not_read; clock_selector_is_refused_for_timelab_and_ticc_only) på fixturerna i tests/fixtures/clock_log/linuxptp_chrony/
+
+# data/verification-matrix.json
+dat-fc313594a0c6 = clock_state::tests (analytisk van-Loan-Q; NEES; positivitet hos PSD); tests/clock_state_reference.rs (full bana för predict+update — tillstånd x och { "3" }×{ "3" }-kovariansen P över { "1925" } steg / { "4" } parametermängder mot filterpy { "1.4.5" }; sämsta |relΔ| { "2.8e-14" }); tests/clock_state_igs_holdout_oracle.rs::three_state_filter_on_held_out_igs_clocks_finding (fastlåser fyndet); tests/clock_state_ext_igs_fresh_oracle.rs::extended_filter_on_fresh_igs_clocks_finding; tests/clock_state_ext_igs_conditioned_oracle.rs::conditioned_extended_filter_finding (D9 omgång { "3" })
+
+# assets/capabilities/capabilities.json
+dat-52c9d05eb240 = larm från klockstödd spoofingövervakare
+
+# data/verification-matrix.json
+dat-826d9d7c9156 = Klockstödd χ², RAIM, AGC, SQM fuserade till en säkerhets-FoM per epok
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-3376197e1020 = Glidvarians för klock-holdover och tröskelinversion
+
+# data/search.json
+dat-9acf02358082 = Klockloggformat
+
+# data/verification-matrix.json
+dat-002dc3ac9c72 = Klockloggformat (RINEX-klocka, TimeLab ASCII, TAPR TICC) inlästa till en normaliserad fasserie
+
+# data/verification-matrix.json
+dat-800c73e1ec8f = Klockloggformaten linuxptp (ptp4l, phc2sys, ts2phc) och chrony (tracking, statistics) inlästa till en normaliserad fasserie
+
+# data/search.json
+dat-4132e3c46386 = ClockRun (var och en av kvant / klassisk)
+
+# data/search.json
+dat-5a4a07f8ebe7 = Klockor, tidssynkronisering och holdover
+
+# data/search.json
+dat-aab476a60a3e = Klockor, tidssynkronisering och holdover (familj av scenariotyper)
+
+# data/verification-matrix.json
+dat-c17238067f8c = Relativrörelsedynamik enligt Clohessy–Wiltshire / Hill
+
+# data/verification-matrix.json
+dat-b8d69f59e32d = Sluten form, under trösklar förhandsregistrerade vid 3724aefa (docs/design/evidence/acq-cfar/). Falsklarmssannolikheten för CA-CFAR för Gamma(M)-celler, mot Monte Carlo av den exakta modellen: { "18" } av { "18" } fall inom { "3" } binomialsigma. På varje cell i iq::acq-sökningar (GPS L1 C/A, { "2.5" } MS/s, { "210 000" } celler vardera) vid en design på { "1" } %: { "0.977" } % och { "0.969" } % på gaussiskt brus och { "1.006" } % och { "0.999" } % på 2-bitarskvantiserat brus (M = { "1" } och { "4" }; tröskel plus eller minus { "20" } %); beslut oförändrade när indata skalas. NOT MET (fynd F1): på en brusfri 2-bitarssignal är detekteringen och dess cell rätt, men { "1.28" } % av cellerna utanför toppen i toppens rad (tröskel { "1" } %) överskrider tröskeln, vid kodens deterministiska korrelationssidolober. VAD SOM INTE KONTROLLERAS: andra CFAR-varianter, tvådimensionella fönster, bandbegränsade frontändar, fältdata.
+
+# data/verification-matrix.json
+dat-6ad78310a079 = Slutna former och identiteter, inte en extern mätning: avståndshastighetens gradient mot en central differens, informationsformens statistik mot den täta kovariansformen, en ren klockdrift som ger noll, en knuff som förklaras av a priori som ger högst |dx|^2/sigma_p^{ "2" }, statistiken kvadratisk i ett hopp. Ingen detekteringssiffra jämförs med en uppmätt attack; spoofaren är idealiserad (ingen effekt-, ankomstvinkel- eller korrelationstoppssignatur)
+
+# data/verification-matrix.json
+dat-9d404e034daa = Slutna former och publicerade storleksordningar i testerna (en Chapman-skikts topp och krökningen av ytlimben, några TECU plasmasfär på en GPS-till-GEO-stråle); mottagarutformningen återanvänder modellerna för inhämtning och spårningsslinga och deras tester. Ingen uppmätt limbsondering eller mottagning av svaga signaler jämförs med den
+
+# data/verification-matrix.json
+dat-6a934fd72da8 = Slutna former och självkonsistens: Keplers tredje lag för relä-perioden, banradien och ytradien som hålls över körningen, att en tillagd mätning aldrig ökar den formella osäkerheten, och att de fröstyrda felen stämmer med kovariansen. Relä-banorna bortser från tredje kroppar (Jupiters drag på reläer kring Europa modelleras inte), bruset är gaussiskt på angivna nivåer och mätmodellen är ögonblicklig, så detta är inte validerat mot något uppdrags navigeringsdata
+
+# data/verification-matrix.json
+dat-8f685df542d5 = Slutna former och självkonsistens: identiteterna för avståndshastighet och avståndsacceleration mot numeriska derivator, isoflux-förstärkningen som tar ut avståndets tillväxt, lärobokens gränser för polarisationsförlust, den kvalitativa observationen LEO mot GNSS (en klockformad passage på minuter som toppar flera dB över platta GNSS-bärvågor på 44–51 dB-Hz). EIRP:erna och mönstren är publicerade mottagna effekter omvandlade till en EIRP eller representativa val, gastermen är den föråldrade förenklade metoden i P.676-10, och ingenting jämförs med en uppmätt LEO-C/N0
+
+# data/verification-matrix.json
+dat-77eb411d1b3f = Slutna former och statistik av modellens egna dragningar (InternalConsistency): DLL-formeln mot en handräkning, DO-229-formen, nollbaslinjedifferensen mellan två mottagare, Gauss–Markov-korrelationen vid lag 1. Ingen mätning av månens flervägsutbredning eller mottagare finns att jämföra med; värdena är ILLUSTRATIVE och inget här är ett påstående om någon verklig mottagare
+
+# data/verification-matrix.json
+dat-b5ab6f82bdc9 = Slutna former för varje term för sig och den oberoende rotsökningen holdover::holdover_seconds; databladssiffrorna är de namngivna dokumenten (docs/SLOT-TIMING.md). En klassstandard vilar på ett antaget rödbrusgolv och en databladskälla är ett hölje av maxvärden, så ingen av dem är en mätning av någon enhet
+
+# data/verification-matrix.json
+dat-a232956140e6 = Slutna former: diffraktions-MTF vid halv gränsfrekvens, den enpixliga rampkanten för en ren detektorapertur (RER { "1" }), den normalfördelade kantkurvan för en gaussisk oskärpa (RER = erf(0.5/(sigma sqrt { "2" }))), skalning av skottbrus och koefficienterna i GIQE { "4" } som publicerade (Leachtenauer m.fl., Applied Optics { "36" }({ "32" }), { "1997" }). VAD SOM INTE: ingen extern bildsensor, uppmätt MTF eller betygsatt bild har jämförts; GIQE är en empirisk regression med eget fel; inget spritt ljus, atmosfärisk MTF, MTF-kompensation eller aliasing.
+
+# data/verification-matrix.json
+dat-c08d3917e939 = Identitet för sluten form för det nästan säkra höljet √(2Dt·lnln t) + kontroll av HPL-dominans; omöjlighetsskarv hos Baweja arXiv:{ "2606.24210" }
+
+# data/verification-matrix.json
+dat-17a6decd93ab = AUC-gränser i sluten form (Mann–Whitney) + en detektor med perfekt orakel; korpuset är SYNTETISKT (parameterförankrat, inte fält-/IQ-data)
+
+# data/verification-matrix.json
+dat-07bfaa30c36e = Identiteter i sluten form för nytta/vinnare + en trogen omslagning av det befintliga quantum_trade::TradeResult; ärligheten knuten till representativitetsregistret och verifieringsetiketterna
+
+# data/verification-matrix.json
+dat-97702583c11f = Gräns i sluten form för det värsta oupptäckta tidsfelet = övervakningsgolv + oscillatorns glid-σ över CUSUM-detekteringslatensen, redovisad som ett band för rödbrusgolvet
+
+# data/verification-matrix.json
+dat-80e60b9af9dd = Tillväxt av glidfel i sluten form + holdover till tröskel; kvantklockklasser
+
+# data/verification-matrix.json
+dat-ec6de666f7f9 = Kostnadsaritmetik i sluten form mot handhärledda värden; en ekonomisk RAMNING av en modellerad täckningssiffra, inte en offert eller en validerad kostnadsmodell
+
+# data/verification-matrix.json
+dat-214aa978c61e = Gaussisk AUC i sluten form = Phi(mu/(sigma*sqrt2)) korskontrollerad mot det externt validerade eval_stats::bootstrap_auc_ci (mot scikit-learn) + analytiska detekteringströsklar
+
+# data/verification-matrix.json
+dat-c4297c428653 = Invarianter i sluten form som avbildas på compliance-disciplinen "representativitet motiverad + luckor till flygning identifierade"; knuten till gränsen mellan verifieringsstatus och orakeltyp
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-e1de9d238c40 = Spektrala effekttätheter och spektrala separationskoefficienter för L-bandssignaler i sluten form
+
+# data/verification-matrix.json
+dat-402ef679b336 = Paritetsprojektor-/pseudoinversalgebra i sluten form på det representativa verkliga DE440-nätverket per nod: uppdelningen i gemensam/differentiell, enandet N(G) ⊕ range(G) och Brown-lutningen ({ "1992" }) för skyddsgapet följer alla av avståndsutplåningen P⊥·G = { "0" }. Representativ modellerad geometri, inte en certifierad skyddsnivå
+
+# data/verification-matrix.json
+dat-b2220d080d26 = Kvadratsummabudget i sluten form över återanvända validerade kärnor (ADEV mot Stable32/NIST; TPL-gräns; detekteringens analytic_pd/pmd); ärligheten knuten till representativitetsregistret
+
+# data/verification-matrix.json
+dat-573cdb6e4255 = Rangstatistikidentiteter i sluten form (tau i [-1,{ "1" }] med handräknade värden; deterministisk fröstyrd Dirichlet) och konstruerade stabila/instabila vittnen
+
+# data/verification-matrix.json
+dat-102853a41e96 = Ytor i sluten form (InternalConsistency): den nakna sfärens sänkning, en krater i en platå på sfären med en observatör på och utanför dess centrum, och en analytisk kon mot sin egen rastrering. På den verkliga utsnittet stämmer en oberoende strålföljning i numpy (scripts/gen_lunar_terrain_ref.py, numpy { "2.5.3" }; förhandsregistrerad i tests/fixtures/lunar_terrain/PREREGISTRATION.md, incheckad ensam i edbb9b02 innan skriptet fanns) på fem platser: platshöjder till { "1.0e-11" } m och alla { "1800" } horisontelevationer till { "5.5e-10" } grader mot trösklar på { "1e-6" }, antalet trunkerade strålar exakt; detta kontrollerar aritmetiken, inte terrängen. Ingen publicerad siffra för polarhorisont eller belysning har återskapats: det medföljande utsnittet på { "1200" } m jämnar ut det relief under en kilometer som publicerade belysningsstudier upplöser, så DEM-horisonterna är en MODELLED siktlinje över en omsamplad verklig DEM, inte en validerad horisont. Stationsplatsen och konstellationen förblir ILLUSTRATIVE; inget här är ett påstående om något verkligt system
+
+# data/verification-matrix.json
+dat-b858d65a543d = Sluten form: varje vakt körs över ett fast känt felaktigt kodstycke som måste utlösa och ett fast känt korrekt kodstycke som måste förbli tyst, båda bokstavliga konstanter som detektorn inte kan påverka. De två kända felaktiga kodstyckena är defekterna F22 och F25 i sin ursprungliga form. Detta är ett INTERNT orakel och raden är MODELLED i enlighet med det: det bevisar att vakterna skiljer defekten från dess rättelse, inte att de klasser de beskriver är uttömmande. Deras angivna blinda fläckar — delat tillstånd som inte är en sökväg, en fastlåsning som hålls i en kort namngiven konstant, en sällsynt kapplöpning som tre körningar inte samplar, och ett kvitto som vem som helst som kan skriva filen kan förfalska — är utskrivna i modulens dokumentation i tests/source_guards.rs och i varje skripts huvud i stället för att lämnas att upptäckas.
+
+# data/verification-matrix.json
+dat-7aee30d831c3 = Sluten slinga för MRP-återkopplad attitydreglering med reaktionshjul
+
+# data/verification-matrix.json
+dat-30b220c08f80 = cmpl_horizontal begränsar det horisontella positionsfelet på k sigma som bidras av den blinda klassen med gemensam mod, genom att bilda blind_position_covariance = S*Cov*S^T och projicera den till ENU; integrity_envelope redovisar hpl_total = hpl_araim + cmpl. Skillnaden som paret finns för att göra: RAIM/ARAIM-RESIDUALTESTET är bevisligen blint för fel i range(G), men ARAIM-SKYDDSNIVÅN är det inte - dess felfria term begränsar dem redan upp till en leverantörs URA plus nominell bias. CMPL är därför bara det UTÖKADE belopp över leverantörerna som en enskild leverantörs URA/ISM per leverantör inte överbegränsar, och summan är en konservativ gräns enligt triangelolikheten snarare än en RSS, giltig bara där detta överskott inte redan ryms i URA.
+
+# data/verification-matrix.json
+dat-db8578327fd5 = Tillväxt av glidfasfelsvarians q_wf·t + q_rw·t³/3 + q_drift·t⁵/20 och dess monotona inversion till en holdover-tröskel för tidsfel
+
+# studio/data/areas.json
+dat-cde5e2891cad = Glidtid
+
+# data/search.json
+dat-910c188e7b5d = Kustlinje för detektorn på land
+
+# studio/data/capabilities.json
+dat-d0d1b066faae = kodbetydelser och geometri kontrollerade mot pyModeS, pyais, shapely och GeographicLib
+
+# data/search.json
+dat-849ab862da48 = Uppförandekod och säkerhet
+
+# data/search.json
+dat-ddbfd197b92c = Codex CLI
+
+# data/verification-matrix.json
+dat-b36419569763 = Kallatomsinterferometerns accelerometer från första principer (k_eff·T², QPN)
+
+# data/verification-matrix.json
+dat-8112313dd224 = Felkällor hos kallatomsinterferometrar: Raman-laserfasbrus, bias från vågfrontens krökning och upplösning av fransambiguitet
+
+# data/search.json
+dat-2505a9064f25 = Kombinerad navigator utan GPS med gravitation + magnetfält + terräng — fuserad alt-PNT.
+
+# data/search.json
+dat-94ec511aa705 = Kombinerad RF-/mätningsbaserad spoofdetektor (multi-SV RAIM-konsistens + AGC + SQM, fuserade) mot en parametriserad…
+
+# data/search.json
+dat-6fb45ee1de97 = Kombinerad RF-/mätningsbaserad spoofdetektor: multi-SV RAIM-konsistens + AGC + SQM, fuserade.
+
+# data/search.json
+dat-8c36fa3f8e7c = combined-altpnt (scenariotyp)
+
+# data/search.json
+dat-c925a11891b8 = Kommandorad
+
+# studio/channels.json
+dat-38bcd6af4a9d = Kommandorad (Rust)
+
+# studio/channels.json
+dat-c3b75ca5e4d8 = Användning på kommandoraden
+
+# data/search.json
+dat-7936b85475d1 = Incheckningar och versionshantering
+
+# data/verification-matrix.json
+dat-caf931b453c0 = Konsistensstatistik för gemensam mod (separationsblint fel i delad referens)
+
+# data/verification-matrix.json
+dat-d5118eb1dcf4 = Integritetsblindhet för gemensam mod
+
+# data/verification-matrix.json
+dat-2e12093e002d = Skyddsnivå för gemensam mod och total integritetshölje
+
+# data/search.json
+dat-853b6f129dff = Jämförelse mot publicerade påståenden
+
+# data/search.json
+dat-3416e6688388 = Kompletterande, inte konkurrerande — RTKLIB och gLAB
+
+# data/verification-matrix.json
+dat-3e979a155df9 = COmplex PRoportional ASsessment — kolumnsummenormaliserad nyttosignifikans S⁺ plus termen för inverterad kostnadssignifikans, den relativa signifikansen Q och nyttograden U = Q/max Q (bästa alternativ = { "1" })
+
+# data/verification-matrix.json
+dat-d42a6e229abe = compliance (kshana compliance-report): en mappning från Kshanas utdata till klausuler i offentliga ramverk enbart med nummer, ifylld från de körningar som ges; ett resultat räknas för en förmåga bara när det bär det belägg som mappningen namnger, en tom mängd ger inget belägg, och formuleringen är "ger belägg för"; rapporten är inget konstaterande att något ramverk är uppfyllt och inget betyg och inget godkännande från någon.
+
+# data/search.json
+dat-ca20459694bd = Compliance och testbänk
+
+# data/search.json
+dat-61f05bd912b5 = Compliance-mappning
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/capabilities.json
+dat-25755faa2a9a = Compliance-mappning till offentliga ramverk
+
+# data/verification-matrix.json
+dat-0c5d7cd77ebe = Sammansatt positionsbudget för bias + skalfaktor + VRW + stabilitetsavtagande över holdover
+
+# data/verification-matrix.json
+dat-ff51b519d03b = Sammansatt tids-PL — täckning av holdover-höljet, flerårigt regim (tau>=90d)
+
+# data/verification-matrix.json
+dat-47843371ad79 = Sammansatt tids-PL — LIL nästan säkert hölje (omöjlighet + konsistens)
+
+# data/verification-matrix.json
+dat-802ee366f296 = Sammansatt tids-PL — P0-sådd holdover-genomfart
+
+# data/verification-matrix.json
+dat-22bf3eed8ac1 = Sammansatt tids-PL — skalär MHSS-specialisering (H=1_N)
+
+# studio/data/capabilities.json
+dat-ab21d137708d = sätter samman testade funktioner för månens differentiella läge, klocka och referenssystem; kontrollerade mot sig själva och en numpy-referens, inga externa flygdata
+
+# data/verification-matrix.json
+dat-cc226bed3ad9 = Bygger på den externt validerade RAIM-Stanford-klassificeringen (raim::classify_stanford); själva avbildningen från missad detektering till AL är modellerad, inte en certifierad integritetsallokering
+
+# studio/data/capabilities.json
+dat-1cc2ae59be94 = sammansättningen korskontrollerad mot flerstegsrekursionen för clock_state-kovariansen; kalibrerad på JammerTest { "2024" } (Zenodo { "15911589" })
+
+# data/verification-matrix.json
+dat-0dabae1ba4e2 = Sammansättningsidentiteter mot fristående körningar av samma typer: en enfaskampanj återger den fristående utdatan bit för bit, den medförda offseten är lika med föregående körnings egen sista sampel, och fasen som avslutas av end_at har exakt körningens detekteringstid som längd. Den additiva medföljningen över en fasgräns och nollte ordningens hållning är modelleringsval, och varje fas är lika god som typen som körde den; inget sammanlänkat uppdrag har kontrollerats mot ett uppmätt
+
+# data/verification-matrix.json
+dat-676edb5b54e5 = Sammansättningsidentitet mot den fristående körningen. Aritmetiken för delade villkor är bokföring; fysiken är medlemstypernas, var och en med sin egen rad
+
+# data/search.json
+dat-f897afc6b9fa = Begrepp — en lättläst introduktion
+
+# studio/data/capabilities.json
+dat-6fe4d949b8ec = Villkorad tidsskyddsnivå
+
+# data/search.json
+dat-6c14a645e6c1 = Konfiguration (varje tröskel)
+
+# data/search.json
+dat-bc75865bddda = conflict-resilience (scenariotyp)
+
+# studio/data/capabilities.json
+dat-e7362ae75937 = konservativa nivåer < { "0.08" } m / { "24" } h mot Orekit { "12.2" }
+
+# data/verification-matrix.json
+dat-807a6947caf1 = consistency_tolerance: inverterar en användarpositionsbudget till ett krav på Helmert-överensstämmelse mellan leverantörer per parameter (origo/skala/rotation) vid en referenshävarm, frivilligt uppblåst av CRLB för realisering hos en enskild leverantör (P1)
+
+# data/search.json, studio/data/areas.json
+dat-eff3da08db43 = Konstellationsutformning
+
+# data/search.json
+dat-5b3321c7b826 = Konstellationsutformning i stor skala: Walker DELTA- och Walker STAR-mönster i konventionen i: T/P/F (noder…
+
+# data/search.json
+dat-4e0d052db891 = constellation-design (scenariotyp)
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-d5f972f5d84e = constellation-design: { "102" } satelliter (GPS, Galileo, BeiDou, GLONASS) runt jorden; tillgänglighet { "100.00" } % (PDOP <= { "6" } vid { "10" } graders mask), sämsta plats { "100.00" } %, median-PDOP { "0.95" }, i medel { "31.0" } i sikte; { "648" } rutnätspunkter x { "95" } epoker (MODELLED)
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-95a795370ac9 = constellation-design: { "14" } satelliter (månrelä) runt månen; tillgänglighet { "21.33" } % (PDOP <= { "6" } vid { "10" } graders mask), sämsta plats { "0.00" } %, median-PDOP { "5.22" }, i medel { "3.2" } i sikte; { "648" } rutnätspunkter x { "48" } epoker (MODELLED)
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-5c95ff532f6f = constellation-design: { "5000" } satelliter (LEO-PNT) runt jorden; tillgänglighet { "99.22" } % (PDOP <= { "3" } vid { "20" } graders mask), sämsta plats { "0.00" } %, median-PDOP { "1.11" }, i medel { "39.4" } i sikte; { "648" } rutnätspunkter x { "12" } epoker (MODELLED)
+
+# data/verification-matrix.json
+dat-5b6a0c322513 = constellation::tests (prefilter_matches_brute_force_exactly — varje karta och räknare är lika med en genomsökning med det direkta elevationstestet; five_thousand_satellites_on_a_coarse_grid — { "5 000" } satelliter, skriver ut körtiden och de bevarade paren; a_clock_per_constellation_needs_one_more_satellite; beidou_geo_and_igso_geometry; lunar_shell_runs_around_the_moon; presets_are_earth_only_and_errors_are_clear; preset_counts); tests/constellation_availability_published_spec_oracle.rs::presets_meet_the_published_dop_availability (endast regressionskontroll); tests/coverage_dop_full_oracle.rs::finding_is_pinned; tests/coverage_dop_gnss_lib_py_oracle.rs (regression)
+
+# data/verification-matrix.json
+dat-b34171a17a40 = constellation::tests::gps_baseline_global_dop_matches_the_sps_performance_standard (HDOP-median { "0.940" }, { "90" } % { "1.165" }, { "95" } % { "1.255" }, { "98" } % { "1.370" }, medelvärde { "0.965" } mot { "0.94" }, { "1.16" }, { "1.25" }, { "1.37" } och { "0.96" }, tröskel { "0.03" } på var och en fastställd före första körningen; PDOP-median { "1.795" } vid eller under { "1.815" } i tabell B.3-1 för en försämrad blandning av 20–24 satelliter; tillgänglighet { "100" } % globalt och på den sämsta platsen mot { "98" } % och { "88" } % i tabell 3.8-1); constellation::tests::single_epoch_dop_matches_the_hand_computation (zenit plus tre satelliter vid { "30" } graders elevation: HDOP 4/3, VDOP { "2.3094" }, PDOP 8/3, TDOP { "1.5275" }, GDOP { "3.0732" } till { "1e-9" }, och lika med orbit::dop med en gemensam klocka)
+
+# data/verification-matrix.json
+dat-f259032e6bfd = constellation::tests::walker_24_3_1_reproduces_galileo_os_sdd_table_23 (alla { "24" } rader för RAAN och medelanomali till { "1e-9" } grader); constellation::tests::glonass_icd_slot_formula_is_a_walker_24_3_1 (ICD:ns platsformel och en Walker 24/3/1 är samma { "24" } par av nod och latitudargument); constellation::tests::gps_presets_reproduce_the_published_equatorial_crossings (markspårets ekvatorskorsning för alla { "36" } GPS-platser utifrån RAAN, latitudargument och timvinkeln { "100.765" } grader: { "35" } inom { "0.0108" } grader mot en avrundningströskel på { "0.015" } grader, och E3F inom { "0.06" } grader eftersom tabellens egen E3F-rad är inkonsekvent med sin RAAN och sitt latitudargument med omkring { "0.06" } grader; den sekulära nodregressionen inom { "5" } % av tabellens -0.0402 grader/dygn); constellation::tests::walker_geometry_identities_are_exact (de tre avståndsidentiteterna för delta- och starmönster upp till { "1 584" } satelliter, till { "1e-9" } grader)
+
+# data/search.json
+dat-7f3705f713a9 = Konstellationer, täckning och geometri
+
+# data/search.json
+dat-a96a06050caf = Konstellationer, täckning och geometri (familj av scenariotyper)
+
+# data/search.json
+dat-04b433f80d98 = contact-schedule (scenariotyp)
+
+# data/search.json
+dat-51b6a362bf94 = Bidra till Kshana
+
+# data/search.json
+dat-9346b613cea7 = Contributor Covenant, uppförandekod
+
+# data/verification-matrix.json
+dat-19762b00e304 = Kontrollerad syntetisk studie av AUC-optimismgapet från inom till utanför fördelningen över detektorer med publicerade metoder och inlärda (logistisk regression / MLP med ett dolt lager): trender i skalningslagar per klass (Spearman ρ + lutning på { "1" }−allvarlighet) och en ridge-prediktor enbart för inom fördelningen som skattar gapet utifrån diagnostik inom fördelningen ensam, poängsatt med leave-one-detector-out och leave-one-class-out. Reproducerbar via `cargo run --release --example optimism_study`
+
+# data/verification-matrix.json
+dat-251fdc7ed93e = Antennnollning med kontrollerat mottagningsmönster: komplexa gruppstyrvektorer a(û)=exp(j·k·pₙ·û), deterministisk nollstyrning (enhetsförstärkning mot SV, exakta nollställen mot upp till N−{ "1" } störsändare via minimumnormen w=Aᴴ(AAᴴ)⁻¹b), och adaptiva MVDR-vikter w=R⁻¹a_sv/(a_svᴴR⁻¹a_sv) som självstyr djupa nollställen mot starka störkällor (med en komplex linjäralgebrakärna skriven från grunden)
+
+# studio/data/capabilities.json
+dat-dcd6f148c23a = omvandlingar och kodningar kontrollerade mot PROJ, GeographicLib, pynmea2 och SciPy
+
+# data/search.json
+dat-28e567e96f0d = Felbudget för koordinerad måntid (LTC) från ände till ände över ett tau-rutnät.
+
+# data/search.json
+dat-91645962d797 = Kärn-PNT (där Kshana faktiskt spelar roll)
+
+# data/verification-matrix.json
+dat-15e056924dbd = Korskovarians för korrelerad spårbarhetsbias (allokering som är osäker vid gemensam mod)
+
+# studio/data/capabilities.json
+dat-bd5650297096 = ROI för kostnad per täckning
+
+# data/verification-matrix.json
+dat-bc95defd03b1 = ROI för kostnad per procent täckning + täckning per euro över konstellationsdimensioneringsmotorn; kostnad per satellit är ett av anroparen hämtat intervall låg/nominell/hög (inga påhittade priser)
+
+# data/search.json
+dat-954a74d5a586 = Kopplad PNT med gemensam sensorfusion: samma sviter och GNSS-avbrott som `fusion-pnt.toml`, men
+
+# data/verification-matrix.json
+dat-105d48cb18a0 = Kopplad gauge för månens referenssystem och tidsskala: det gemensamma nollrummet för rumsligt datum, klockoffset och klockhastighet
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-583fb6a6dbbd = Kopplat PNT-filter för pseudoavstånd med biastillstånd och 3-D-utvidgning i fusionspaketet
+
+# data/search.json
+dat-f3894df897f5 = Täcknings- och noggrannhetskarta (lunar-station-coverage)
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-79dd3ee7c74e = Täcknings- och DOP-kartor (dilution of precision) för godtyckliga konstellationsutformningar med flera konstellationer i stor skala, kring vilken central kropp som helst
+
+# data/verification-matrix.json
+dat-5d4f6a2f8f49 = Numerisk Cowell-propagator med en hierarkisk kraftmodell (tvåkropps-, zonal J2–J6, tredjekroppen sol/måne, kanonkule-SRP, exponentiellt luftmotstånd); RK4 med stegdubbling / DP5({ "4" }) / DOP853

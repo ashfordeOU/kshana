@@ -2532,3 +2532,372 @@ dat-2d9d8880f4f0 = Interne consistentie: waarheid gesimuleerd uit de eigen model
 
 # data/verification-matrix.json
 dat-daeea93cf98c = Alleen intern: de exacte gesloten vorm -20 log10(afstand) van de linkvergelijking, een onafhankelijk brute-force-raster over hetzelfde type en de Rosenbrock-functie. De 1D-drempel van ronde { "1" } is NOT MET (de vooraf vastgelegde box sloot de oplossing van { "3" } dB uit; de optimalisator stopte op de grens), vastgelegd in docs/design/evidence/cap32-optimize/RESULTS.md en niet opnieuw gescoord. Het optimum is lokaal voor de box en de start; geen bewering over een globaal optimum
+
+# data/verification-matrix.json
+dat-a29f8eefacae = Interne round trip en ICD-bekende antwoorden; er is geen decoder van derden uitgevoerd (de RTKLIB/GNSS-SDR-harness die KSHANA_NAVMSG_ORACLE_JSON leest is gegevensafhankelijk). MODELLED
+
+# data/verification-matrix.json
+dat-aaf97798d80e = Intern: de kwaliteitsmaten van elk pakket tegen zijn eigen waarheid en een vergelijking los/strak gekoppeld op identieke invoer. MODELLED; de NaveGo-vergelijking van de audit is niet uitgevoerd
+
+# data/verification-matrix.json
+dat-202435a7c894 = Intern: identiteiten van de kinematica van een star lichaam, de CSV-round-trip en de eigen covariantie van het filter. MODELLED (er is geen echt ritlog vergeleken)
+
+# data/verification-matrix.json
+dat-7a31016388bf = Intern: de gesloten vormen worden gecontroleerd tegen met de hand berekende waarden (elevaties van muurtoppen van een vermelde straat, de open-eindvoorwaarde, de kromtedaling van een vermeld punt). Geen externe onafhankelijke referentie: de ontwerpnotitie omschrijft deze reducties als MODELLED, en de ElevationMask van Orekit neemt een tabel, dus de vergelijking van rij 'Azimutafhankelijk skylinemasker: zichtbare set, azimut en elevatie, en DOP onder het masker' leest hun tabellen met 360 punten als invoer en controleert ze niet
+
+# data/verification-matrix.json
+dat-d89068397b90 = interop_budget: reduceerbare (gemeenschappelijke frametie) tegenover onreduceerbare (dynamica) splitsing onder de conventies PerProvider / CommonFrameTie / CommonEphemeris, met de ontwerpwetmetriek van het onreduceerbare aandeel (~{ "0.69" } op echte DE440/INPOP/EPM: een gemeenschappelijk frametag alleen laat de dominante ondergrens staan)
+
+# data/search.json
+dat-135f9f077d50 = Interoperabiliteitsexports en -imports
+
+# assets/capabilities/capabilities.json
+dat-8b90f6e29b1d = interferentie door meervoudige toegang binnen een stelsel tussen satellieten van één band
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-ea398366399a = Inverse-Simpson-diversiteitskernel
+
+# data/verification-matrix.json
+dat-facb1472c0a6 = IONEX-{ "1.0" }-lezer (header, I5-waarden met vaste kolommen, TEC- en RMS-kaarten, absolute epochs, ontbrekende waarden) met bilineaire ruimtelijke interpolatie, de tijdsinterpolatie van het formaat met dichtstbijzijnde / opeenvolgende / geroteerde kaart (verg. 1-3) en slant-TEC met dunne schil
+
+# data/verification-matrix.json
+dat-fd4e4555a123 = IONEX-lezer en -interpolatie van een wereldwijde ionosfeerkaart op een echte CODE GIM
+
+# data/search.json
+dat-090bdd3a20d7 = Ionosfeer en UTC
+
+# data/search.json
+dat-e84294bda6aa = Ionosfeerpeiling
+
+# data/verification-matrix.json
+dat-cf7623f8cc77 = Ionosfeerpeiling: slant-TEC uit de tweebandsvertraging van een LEO-passage
+
+# data/verification-matrix.json
+dat-56e6f4f45539 = IQ-ionosfeerscintillatiekanaal (Cornell-model) tegen gemeten GPS L1-scintillatie van { "50" } Hz
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-59bb00916102 = IQ-monitoren beoordeeld in labreplaycampagnes: detectie, missers, valse alarmen en gesloten-vormcijfers voor valse alarmen
+
+# data/verification-matrix.json
+dat-77d4bf93fd63 = IQ-trackingengine tegen GNSS-SDR { "0.0.19" } op onafhankelijke opnamen
+
+# data/search.json
+dat-9f6c2ea4b900 = IQ, SigMF en Welch
+
+# data/verification-matrix.json
+dat-82972761ec44 = iq::acq::acquire (parallelle FFT-zoekactie naar codefase met de kwadratische-wet-Marcum-Q-drempel) met de GpsL1Ca-replica, op { "20" } ms van de eigen 8-bit I/Q-uitvoer van gps-sdr-sim, gedecodeerd door de sampledecoder iq::io (ci8, { "2.6" } MHz, { "11" } satellieten, geen ruis): elke PRN { "1" } tot { "32" } doorzocht in twee vensters van { "10" } ms, het resultaat vergeleken met de codefase en Doppler die gps-sdr-sim moduleerde
+
+# data/verification-matrix.json
+dat-11650ae9d344 = iq::acq::ca_cfar en ca_cfar_cells (opt-in): een cel van een acquisitieraster wordt vergeleken met het gemiddelde van referentiecellen van zijn Dopplerrij (guard- en stridelags, om de periode heen lopend), bij een factor alpha die is vastgesteld uit de gesloten-vorm-CA-CFAR-kans op vals alarm voor M niet-coherente blokken (ca_cfar_pfa, ca_cfar_alpha). De samplevermogendetector blijft de standaard en elke bestaande uitvoer is ongewijzigd.
+
+# data/verification-matrix.json
+dat-0199997adc84 = iq::campaign::detect (windows, roc) en iq::campaign::report::rocs: elke cel van een campagne met monitoren houdt, per alarmsoort en kanaal, het maximum bij van de eigen teststatistiek van de monitor over elk vermeld gebeurtenisvenster (positief) en over betegelde roc_window_s-vensters buiten de gebeurtenissen (negatief). De statistieken zijn de afwijking van het blokvermogen, het PSD-overschot, de kurtosis z, de SQM |z| van de gemiddelde metriek en de C/N0-CUSUM. Het rapport voegt ze per soort samen tot een empirische ROC op vensterniveau met haar AUC en het werkpunt bij de ingestelde drempel, geschreven als roc.json (kshana.campaign-roc/1) en een sectie Detection ROC van report.html. Een campagne zonder monitoren schrijft geen van beide
+
+# data/verification-matrix.json
+dat-d1b249ae6ffb = iq::campaign::detect en de campagnerunner: een optionele [monitors]-tabel draait de IQ-monitoren op elke cel in de enkele pass van de runner. De vermogens- en spectrale monitoren zien de samples na elke front-endketen; de C/N0-, SQM- en lockmonitoren zien de lusupdates van elk gevolgd kanaal. Elk alarm wordt beoordeeld tegen de vermelde gebeurtenissen: gedetecteerd of gemist per (gebeurtenis, alarmsoort, kanaal), tijd tot detectie en valse alarmen buiten de gebeurtenissen over hun blootstelling. Het gesloten-vormcijfer voor valse alarmen van elke test wordt vermeld: vermogen per blok (exacte Gamma-staart), spectraal overschot per blok (benadering), kurtosis (eenzijdig Gaussisch), pulsen (binomiaal plafond), SQM per gemiddelde update (2Q(k) = Q(1/2, k^2/2), nieuw) en de ARL0 van de C/N0-CUSUM (Siegmund). Zonder de tabel zijn cellen, sleutels en digests ongewijzigd. Er wordt geen interferentiegolfvorm gesynthetiseerd
+
+# data/verification-matrix.json
+dat-6c1b33814763 = iq::channel::scint, het scintillatiemodel van Cornell (Rice-intensiteit, Butterworth-spectrum van de tweede orde, fase arg z) aangestuurd met de S4 en de intensiteitsdecorrelatietijd van een gemeten venster, vergeleken op wat het buiten die twee invoeren genereert; realdata::scint50 leest het gemeten log, haalt de trend eruit en voert de vergelijking uit.
+
+# data/verification-matrix.json
+dat-afcaffa37013 = iq::signals::beidou::b1i_bits en b1i: de Gold-codes van BDS-SIS-ICD-B1I-3.0 afgekapt tot { "2046" } chips, PRN { "1" } tot { "63" }, zoals de IQ-laag ze genereert, acquireert en volgt.
+
+# data/verification-matrix.json
+dat-3200312cc2f5 = iq::signals::gps::l1c_p_bits, l1c_d_bits en l1c_o_bits: de Weil-rangingcodes L1CP en L1CD (berekende Legendre-reeks, Weil-index, expansiereeks ingevoegd vóór chip p) en de L1CO S1-overlaycodes, PRN { "1" } tot { "63" }.
+
+# data/verification-matrix.json
+dat-a24e4b9ee5c8 = iq::signals::lunanet::afs_i_bits en afs_q_primary_bits (signaalnamen lunanet-afs-i en lunanet-afs-q in kshana iq): de AFS-I-Gold-code ({ "2047" } kortgecycled tot { "2046" }, G2 per PRN vertraagd) en de primaire AFS-Q-Weil-code (berekende Legendre-reeks, Weil-index, expansiereeks ingevoegd vóór chip p), PRN { "1" } tot { "210" }.
+
+# data/verification-matrix.json
+dat-55fd4b161c14 = iq::signals::lunanet::afs_q_tertiary_bits, afs_q_tiered; iq::lunanet_afs: synchronisatiepatroon, SB1 BCH({ "51,8" })-encoder en decoder met 256 hypothesen, CRC-24Q, de blokinterleaver van { "60" } x { "98" }, een symboolstroomcontrole (kshana lunanet-afs-check) en een teststroomgenerator met plaatshoudersubframes. De LDPC-codering met rate 1/2 van subframes { "2" } tot { "4" } is niet geïmplementeerd (haar matrices staan in een afzonderlijke bijlage).
+
+# data/verification-matrix.json
+dat-e365c476045e = iq::track (LoopConfig, FllGate, design); iq::track::channel (de FLL-gate)
+
+# data/verification-matrix.json
+dat-4b34cc7a4d00 = iq::track::boc (BocKind, BocTracking, BumpJump, boc11_dll_scale); iq::track::channel (de bump-jump-taps en Channel::bump_jumps)
+
+# data/verification-matrix.json
+dat-b8db16d3eb7d = de opt-in carrier.fll_pull_in_max_s van iq::track (het veld fll_pull_in_max_s van iq::track::LoopConfig): onder fll_assist = pull-in draagt de FLL na een vaste inlooptijd over aan de PLL, wat de PLI ook is, met een bijbehorende terugkeerverblijftijd totdat de PLI voor het eerst fll_off_pli bereikt.
+
+# data/search.json
+dat-f6eb7f5b0879 = Iridium STL-bursts (satellite time and location) gezien vanuit een vliegtuig.
+
+# data/verification-matrix.json
+dat-84fa351fb984 = Keplersatellietpositie in ECEF uit de broadcastefemeride van IS-GPS-200 / Galileo-OS / BeiDou-OS, uit een geparseerd RINEX-3-navigatierecord
+
+# data/verification-matrix.json
+dat-2bbce8b617b0 = IS-GPS-200 LNAV-subframes 1-3 (gps_lnav::encode_subframes: kwantisatie met afronding naar het dichtstbijzijnde van elke klok- en baanparameter met de schaalfactoren en de waarde van pi uit de specificatie, two's-complement-pakking, TLM- en HOW-woorden, pariteit volgens tabel 20-XIV met D29*/D30*-inversie, de pariteitoplossende bits van woorden { "2" } en { "10" }), het bericht dat een GPS L1 C/A-signaalgenerator uitzendt
+
+# data/verification-matrix.json
+dat-817d2e90e97c = IS-GPS-200 sectie { "20.3.3.3.3.2" }, die de groepsvertragingsverhouding gamma = (77/60)^{ "2" } tussen L1 en L2 vermeldt die volgt uit schaling van de eerste orde met 1/f^{ "2" }, en de zendformule van Friis (Proc. IRE, { "1946" }). Valideert de schalingswetten, geen slant-TEC
+
+# data/verification-matrix.json
+dat-fe11c7ba2e68 = IS-GPS-200 tabel 3-Ia 'Code Phase Assignments' — de gezaghebbende, in het publiek domein van de Amerikaanse overheid gepubliceerde OCTALE verificatievectoren van de eerste 10 chips (GPS Directorate, navcen.uscg.gov); de eigen G1/G2-LFSR van kshana regenereert elke vector voor PRN { "1" }–{ "9" } exact. De stroomafwaartse gesloten vormen voor modulatie/SSC/DLL blijven Modelled (afzonderlijke rij)
+
+# data/verification-matrix.json
+dat-5e6cd6a5fd6c = IS-GPS-800J (01-AUG-2022, distribution statement A), de controlekolommen die het naast de generatorparameters afdrukt: tabel 3.2-2 de eerste en laatste { "24" } chips van elke L1CP- en L1CD-code, tabel 3.2-3 de eerste en laatste { "11" } bits van elke L1CO-code, tabel 6.2-1 de Legendre-reeks met lengte 10223; overgenomen door scripts/extract_is_gps_800_tables.py uit de PDF (SHA-256 c4aad710...). Drempels vooraf vastgelegd op fe372e26 (docs/design/evidence/l1c-codes/): { "252" } van { "252" } kolommen, { "63" } van { "63" } overlays en { "10 223" } van { "10 223" } Legendre-bits identiek; de extractie --check slaagt; een negatieve controle laat hernoemde, geïnverteerde en verschoven codes falen. WAT NIET WORDT GECONTROLEERD: de generatorparameters zelf (ze komen uit dezelfde tabellen), de chips tussen de afgedrukte kolommen, het TMBOC-subdraaggolfpatroon en de L1CO S2-codes.
+
+# js/missions-runs.mjs
+dat-d80cdd567de9 = zijn draaggolf
+
+# data/verification-matrix.json
+dat-93fc08e65d73 = ITU-R (International Telecommunication Union, Radiocommunication Sector) P.838-3 vergelijkingen ({ "1" }) tot ({ "5" }): k_H, alpha_H, k_V, alpha_V uit de curvefits van tabellen { "1" } tot { "4" }, de pad- en polarisatieafhankelijke (k, alpha) en de specifieke demping k R^alpha; gebruikt door de regenterm van het type `leo-pass`
+
+# data/verification-matrix.json
+dat-9ef4b4d3d9e0 = ITU-R P.2109-2 bijlage { "1" } vergelijkingen ({ "1" }) tot ({ "10" }) met tabel { "1" }: het verlies dat met kans P niet wordt overschreden voor traditionele en thermisch efficiënte gebouwen bij de elevatie van het pad aan de gevel, { "80" } MHz tot { "100" } GHz; per band en epoch toegepast op een gebruiker binnenshuis door het type `leo-pass` (het UHF-geval binnenshuis)
+
+# data/verification-matrix.json
+dat-afe2285e9326 = ITU-R P.618-14 sectie { "2.2.1.1" } stappen { "2" } tot { "10" } (schuin en horizontaal pad onder de regenhoogte, horizontale reductie en verticale aanpassingsfactoren, A0.01 en zijn schaling naar { "0.001" } % tot { "5" } % van een gemiddeld jaar), met de regenhoogte (P.839) en R0.01 (P.837) als invoer omdat de engine geen van beide digitale kaarten bevat; per band en epoch toegepast door het type `leo-pass`
+
+# data/verification-matrix.json
+dat-7ef27622d182 = ITU-R P.618-14 sectie { "2.4.1" } stappen { "3" } tot { "9" } (referentiesigma uit N_wet, effectieve padlengte, antennemiddelingsfactor, fadediepte voor { "0.01" } % tot { "50" } % van de tijd), met N_wet als invoer of berekend uit temperatuur, vochtigheid en druk met de uitdrukkingen van ITU-R P.453-14; onder { "4" } GHz markeert het type `leo-pass` de waarde als een extrapolatie
+
+# data/verification-matrix.json
+dat-6ecd38f18c23 = ITU-R P.838-3 (03/2005) tabel { "5" }, de eigen getabelleerde k_H, alpha_H, k_V, alpha_V van de Aanbeveling, vastgelegd in tests/fixtures/leo_link/p838_3_table5.csv met de PDF-URL en de ophaaldatum. De tabel is afgerond op haar gedrukte cijfers, dus de drempel is die afronding
+
+# data/verification-matrix.json
+dat-2a28f86695ef = Validatievoorbeelden van ITU-R Study Group { "3" } (CG-3M3J-13-ValEx-Rev8.3.0) voor P.618-14-scintillatie, met de P.453-14 N_wet van elke locatie uit dezelfde voorbeelden; vastgelegd in tests/fixtures/leo_link/p618_14_scintillation.csv met de URL's en de ophaaldatum. De uitdrukking voor natte refractiviteit uit temperatuur en vochtigheid wordt door deze rij niet gedekt
+
+# data/verification-matrix.json
+dat-a886222f05f9 = Het bestand met validatievoorbeelden van ITU-R Study Group { "3" } CG-3M3J-13-ValEx-Rev8.3.0 voor P.618-14, zoals getabelleerd door de validatiepagina's van ITU-Rpy, met de P.839-4-regenhoogte van elke locatie uit dezelfde voorbeelden; vastgelegd in tests/fixtures/leo_link/p618_14_rain_attenuation.csv met de URL's en de ophaaldatum. Valideert de procedure bij gegeven h_R en R0.01, niet de kaarten
+
+# data/verification-matrix.json
+dat-df4578d82419 = Maskers van ITU-T voor wandergeneratie bij frequentiesynchronisatie (G.811, G.812, G.8262, G.8262.1)
+
+# data/series.json
+dat-cff162d9187f = ITU-T G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) clausule { "7.3.1" } (max|TE_L|, ongefilterd vergeleken)
+
+# data/series.json
+dat-77c2200d4d5d = ITU-T G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) tabel V.1, faalscenario (b) (een voorbeeldtoewijzing)
+
+# data/search.json
+dat-6e29e623b912 = ITU-T G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025): netwerklimieten bij referentiepunt C
+
+# data/search.json
+dat-bcbed1d0d924 = ITU-T G.8272 (07/2025): PRTC-A en PRTC-B, vergrendelde modus
+
+# data/verification-matrix.json
+dat-b5a1c2e5c1f7 = Maskers van ITU-T voor telecomsynchronisatie met PASS/FAIL en marge
+
+# data/verification-matrix.json
+dat-d90380668de8 = Lambert-oplosser met één omloop volgens Izzo-2015 (r1, r2, vliegtijd → randsnelheden) over overdrachten van LEO→GEO→heliocentrisch, prograde en retrograde
+
+# studio/data/capabilities.json
+dat-8fbc07c76b3d = Jacchia-71 gevalideerd tegen gepubliceerde zonneminimum-, gemiddelde en zonnemaximumwaarden
+
+# assets/capabilities/capabilities.json
+dat-c217fb165af1 = Jammervermogensweep: beschikbaarheid en J/S tegen zendvermogen
+
+# data/search.json
+dat-8c1089d909db = Jammertest-scoring
+
+# data/verification-matrix.json
+dat-47968885d24d = Jammertest-scoring: een ontvangerlog beoordeeld per geplande test (detectielatentie, gemiste alarmen, valse alarmen, hersteltijd) tegen het gepubliceerde testplan
+
+# data/search.json
+dat-89081dfce977 = Jammertest-scoring: het gepubliceerde plan als geplande waarheid
+
+# data/verification-matrix.json
+dat-344bf5abab35 = jammertest::{ "{" }plan, score, dataset{ "}" } (kshana jammertest import|score): de testcatalogus en het zendplan van NPRA (MIT, opgehaald met een vastgezette SHA-256, nooit gevendord) gelezen als geplande waarheid met behoud van de catalogus-id's; een receiver-trust-run beoordeeld per test (eerste alarm min geplande start, gedetecteerd/te laat/gemist tegen een tolerantie, tijd tot het eerste alarmvrije stuk, alarmen buiten elk slot en zijn guard), met een ondertekend bewijspakket dat de scorekaart draagt. Het schema bestaat uit geplande slots, niet uit vastgelegde uitzendtijden
+
+# data/search.json
+dat-ec34bb92d750 = jamming (scenariotype)
+
+# studio/data/capabilities.json
+dat-9cb9f9eb4c7a = Jamming en spoofdetectie in meerdere lagen
+
+# data/search.json
+dat-e93b98801604 = Jamming, spoofing en het spectrum
+
+# data/search.json
+dat-213d714a2567 = Jamming, spoofing en het spectrum (familie van scenariotypen)
+
+# assets/capabilities/capabilities.json
+dat-80368debe8fa = Jamming, spoofing, holdover en integriteit: een geketende missie
+
+# data/verification-matrix.json
+dat-a510ab4b17fb = jamming::tests (broadband_q_equals_the_spectral_separation_closed_form en cw_q_equals_the_spectral_separation_closed_form: de Q-tabel, CW en smalband { "1" }, breedband en gesweept { "2" }, vastgezet op de gesloten vormen van navsignal; a_cw_jammer_is_more_damaging_than_broadband_noise_at_equal_js); tests/gnss_denied_jamming_resilience_reference.rs (FSPL/J-S/effectieve C-N₀ tegen een onafhankelijke numpy-herafleiding van het linkbudget van Kaplan & Hegarty §{ "9.4" }; echte JammerTest-C/N₀ daalt monotoon door de drempel van { "25" } dB-Hz); tests/jamming_jammertest_cn0_oracle.rs (vooraf vastgelegd, geblokkeerd, niet uitgevoerd)
+
+# studio/channels.json
+dat-484eb9503fdb = JavaScript en WebAssembly
+
+# studio/channels.json
+dat-8291eea5a66e = JetBrains IDE-plug-in
+
+# studio/channels.json
+dat-bd7fb71b8ded = JetBrains Marketplace
+
+# data/search.json
+dat-3620b9b6002e = JetBrains-plug-in
+
+# data/verification-matrix.json
+dat-06d2559e26c3 = Gezamenlijke pseudorangepositiebepaling met GNSS en LEO, met biases tussen stelsels en foutmodellen per signaal
+
+# data/search.json
+dat-7d1a4f4e5a0a = Gezamenlijke Kalman-sensorfusie-PNT over dezelfde hybride invoer.
+
+# data/search.json
+dat-bbc595a0c9e4 = Gezamenlijke sensorfusie-PNT: één Kalman-filter is de navigator en fuseert de
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-2ed75c9110e0 = Gezamenlijke UT1- en poolbewegingsfout over een gemeenschappelijke rijenset
+
+# data/verification-matrix.json
+dat-1c4f5655c567 = Geometrische heliocentrische vectoren van JPL Horizons DE441 (ecliptica en ICRF), opgehaald na de preregistratiecommits { "80451866" }, 8d38a28b en 558cc807. Drempel: per planeet en component RMS hoogstens 1.0x de benaderde fouten van tabel { "8.10.1" } van de Explanatory Supplement 3e uitg. (de EMB-rij voor de Aarde); de splitsing Aarde-EMB wordt direct gecontroleerd tegen DE441 { "399" } min { "3" }, hoogstens { "0.3" } deg en { "8.1" } km op elke epoch 1950-2050 (de lengtedrempel van { "8.1" } km komt uit de nauwkeurigheid van de lunaire reeks die in de eigen efemeridedocumentatie van Kshana wordt vermeld, met verwijzing naar Montenbruck en Gill, en is niet aan het boek getoetst; de gemeten { "6.09" } km ligt er dicht bij). De RMS-statistiek is gekozen in de wetenschap dat een eerdere vergelijking met 27 epochs op haar maximum 1.87x nominaal bereikte; fouten op één epoch bereiken 3.83x (3.87x in het ICRF-geval). De Supplement definieert haar cijfers niet als RMS. Geval B roteert beide kanten met de IAU-scheefstand van { "1976" } die in de test is getypt, zodat de rotatie niet tegen zichzelf wordt gecontroleerd. De standaardtabelkeuze van AnalyticSolarSystem wordt niet beproefd (de tests forceren tabel { "1" }). Uranus en Neptunus uit tabel { "1" } vormen een afzonderlijke MODELLED-rij
+
+# data/verification-matrix.json
+dat-2708eb1195c9 = JPL Horizons DE441 Newtoniaanse lichttijd LT van één enkele neerwaartse leg (VEC_CORR=LT, waarnemer het centrum van de Aarde), vooraf vastgelegd (480037d3, amendement 54d5c86f dat alleen de knoopafstand van de interpolatie wijzigde nadat de eerste ophaalactie zijn interpolatievoorwaarde van { "10" } m niet haalde, vóór enige lichttijd werd vergeleken) met een drempel van { "1e-6" } s per lichttijd, waarbij de oplosser barycentrische DE441-posities kreeg zodat de iteratie van de vertraagde zender zichtbaar is (een oplosser met alleen de eerste iteratie mist tot { "0.1" } s). Op de analytische posities van Standish is de lichttijd slechts zo goed als die posities (zie de rij voor planeetposities); de meegeleverde link behandelt de Zon als een inertieel centrum, wat binnen die positiefout blijft maar niet afzonderlijk is gevalideerd. two_way_range en shapiro_delay worden niet extern vergeleken
+
+# assets/capabilities/capabilities.json
+dat-06c0e0912c84 = gemiddelde elementen van JPL in het Laplace-vlak, gemiddelde-lengtegang uit de IAU-gang bij synchrone rotatie, toegevoegd aan zijn planeet uit Standish-tabel { "1" } ({ "1800" } AD tot { "2050" } AD)
+
+# data/search.json
+dat-308200212f26 = JSON-velden (schema kshana-nmea-training/1)
+
+# data/search.json
+dat-fbd2f7c7c5df = JSON-lines-schema (versie { "1.1" })
+
+# data/search.json
+dat-0edf2112b963 = Belangrijkste referenties
+
+# studio/data/capabilities.json
+dat-a839e105d911 = Klobuchar L1-vertraging tegen RTKLIB ionmodel · IONEX TEC-kaartlezer soepel, nog geen externe onafhankelijke referentie
+
+# data/verification-matrix.json
+dat-bc161bde4fd2 = Klobuchar-enkelfrequentie-L1-slant-ionosferische groepsvertraging uit de acht broadcastcoëfficiënten α/β
+
+# data/search.json
+dat-a3c71b90162b = Bekende beperkingen
+
+# data/search.json
+dat-6634dc6d0f3e = kshana <scenario.toml> draait een scenario; elke andere opdracht is een subopdracht. kshana --help toont het gebruik…
+
+# data/search.json
+dat-24cf378f970d = Kshana-documentatie
+
+# data/search.json
+dat-1d9bf86b5165 = Kshana host geen endpoint. Er is geen gedeelde kshana-server waarnaar een client kan wijzen.
+
+# data/search.json
+dat-7aa638d6f7f5 = Kshana voor JetBrains-IDE's
+
+# data/search.json
+dat-952551ceada8 = Kshana-bestuur
+
+# data/search.json
+dat-5173065af4e3 = Kshana implementeert de spreidingscodes en de berichtlaag van het LunaNet Augmented Forward Signal (AFS) als…
+
+# studio/data/capabilities.json
+dat-49082d942568 = Kshana Interchange Format (KIF)
+
+# data/search.json
+dat-35e47d84ddbb = kshana interference-map bouwt een beeld per dag van waar vliegtuigen en schepen verslechterde navigatie meldden…
+
+# data/search.json
+dat-c87066c769f2 = Kshana is een bewijsengine voor de prestaties en veerkracht van PNT (positiebepaling, navigatie en tijdsynchronisatie), geen volledige…
+
+# data/search.json
+dat-3ba3df57e8ff = Kshana is een simulator voor PNT-veerkracht (PNT: positiebepaling, navigatie en tijdsynchronisatie) met kwantumsensor…
+
+# data/search.json
+dat-8987b327f921 = Kshana is adviserende software voor onderzoek, simulatie en test.
+
+# data/search.json
+dat-101c892cc9ee = Kshana is een open, reproduceerbare bewijsengine voor de veerkracht van PNT (positiebepaling, navigatie en tijdsynchronisatie).
+
+# data/search.json
+dat-9d579b82c0da = Kshana is gebouwd om reproduceerbaar te zijn: dezelfde invoer levert dezelfde resultaten, en de buildartefacten kunnen worden…
+
+# data/search.json
+dat-41e9ab084c3f = Kshana heeft een dubbele licentie. U mag de open engine gebruiken onder de open licentie (AGPL-3.0) of een…
+
+# data/search.json
+dat-f7d7345b9571 = Kshana is één engine die in lagen is georganiseerd rond een gedeelde kern: de sensorpakketten (klok, inertiaal…
+
+# data/search.json
+dat-c458ec382804 = kshana jammertest import leest de testcatalogus en het zendplan van Jammertest en zet het gebied van één test om in…
+
+# data/search.json
+dat-56cb5c1f531b = kshana lunanet-afs-check
+
+# data/search.json
+dat-65e9f25fb026 = Kshana-scenario voor lunaire infrastructuur: draaggolffase, het QUICK-voorbeeld (twee korte bogen, { "10" } trekkingen, seconden;
+
+# data/search.json
+dat-80999e400f4f = Kshana-scenario voor lunaire infrastructuur: frame-coschatting. MODELLED; het ontwerp, de invoer en de drempels zijn
+
+# data/search.json
+dat-4d06c8c660d7 = Kshana-scenario voor lunaire infrastructuur: geodesiegevoeligheid. MODELLED; het ontwerp, de invoer en de drempels zijn
+
+# data/search.json
+dat-f72ee9ad542b = Kshana-scenario voor lunaire infrastructuur: od-consistentie met een ongemodelleerde versnelling. MODELLED; het ontwerp, de invoer en de drempels zijn
+
+# data/search.json
+dat-94631dd6553d = Kshana-scenario voor lunaire infrastructuur: od-consistentie. MODELLED; het ontwerp, de invoer en de drempels zijn
+
+# data/search.json
+dat-d81c2d0b95b9 = Kshana-scenario voor lunaire infrastructuur: ruimtekoppeling. MODELLED; het ontwerp, de invoer en de drempels zijn
+
+# data/search.json
+dat-b8fc6290e9b9 = Kshana Pro
+
+# data/search.json
+dat-c3cf36041fa0 = kshana receiver-trust kan voor een varend vaartuig een live vertrouwenscijfer van 0-100 scoren voor elke positiebepaling, uit…
+
+# data/search.json
+dat-355baa93b96b = kshana receiver-trust leest een log van een echte ontvanger voor een globaal navigatiesatellietsysteem (GNSS), voert vertrouwens…
+
+# data/search.json
+dat-69924ca5c4b3 = Kshana-referentiescenario: run van { "2" } uur, { "10" } min GNSS-synchronisatie en daarna ~{ "1.8" } uur geweigerd.
+
+# data/search.json
+dat-733d86587cfa = Kshana speelt jamming, spoofing en klok-holdover opnieuw af wanneer GNSS-signalen (Global Navigation Satellite System)…
+
+# data/search.json
+dat-241d1d4d3d04 = Kshana rapporteert twee kwaliteitsmaten (FoM's) — Integriteit en Beveiliging — die gemakkelijk worden aangezien voor de…
+
+# data/search.json
+dat-28bded6f1c5f = Kshana levert een eersteklas Python-applicatieprogrammeerinterface (API), gebouwd met PyO3 en maturin.
+
+# data/search.json
+dat-11b55b025a73 = Kshana spreekt de standaard uitwisselingsformaten van het GNSS (globaal navigatiesatellietsysteem)…
+
+# data/search.json, studio/channels.json
+dat-2b2d76637268 = Kshana Studio
+
+# data/search.json
+dat-64058caf6bf1 = Kshana Studio: draai de engine in uw browser, zonder installatie.
+
+# data/search.json
+dat-a4f1502412f6 = kshana trust-telemetry zet de GNSS-vertrouwensstroom per epoch (score 0-100, band, redenen) om in signalen die een…
+
+# data/search.json
+dat-b009ca1db730 = kshana-mcp is een Model Context Protocol-server (MCP) voor Kshana, de opensource-simulator voor PNT…
+
+# data/search.json
+dat-2560462eb5c9 = kshana-mcp: vraag het aan uw AI-assistent, en de engine antwoordt
+
+# data/search.json
+dat-88477cc0d773 = De centrale eerlijkheidsdiscipline van Kshana is dat elke sensorparameter, elk fysisch model en elke validatiedataset…
+
+# data/search.json
+dat-d0f998c80b79 = De volledige engine van Kshana (src/precise_od.rs) gefit op echte precieze-baanproducten van agentschappen, met eerlijke…
+
+# data/verification-matrix.json
+dat-620214b6e277 = De LNAV-subframes 1-3 van Kshana (gps_lnav::encode_subframes) voor de { "32" } efemeriden van brdc0010.22n, gevoed aan decode_word en decode_frame van RTKLIB: pariteit van elk woord, subframedecodering met consistente issue of data, en elke gedecodeerde parameter tegen het gehele getal van Kshana en tegen de invoerwaarde
+
+# data/verification-matrix.json
+dat-6e7521634ff6 = de lunaire OEM-export van kshana, opnieuw geparseerd door de onafhankelijke bibliotheek `oem` van derden (R. J. Anderson): frame-/tijdtokens en toestand per epoch komen overeen tot schrijfprecisie ({ "1" } mm / { "1e-9" } km/s) en een export zonder TIME_SYSTEM wordt geweigerd — een structurele round trip voor uitwisseling; de fysische semantiek van lunair frame en tijd wordt door hun eigen rijen gevalideerd, dus dit blijft MODELLED. { "0.30" } externe vergelijking, een bevinding (blijft MODELLED): een tweede onafhankelijke lezer, de CCSDS-OEM-parser van Orekit { "12.2" } (Apache-2.0, strikte standaardwaarden), weigert beide lunaire bestanden omdat hij de tijdsystemen LTC en TCL niet implementeert (hij decodeert de EME2000/UTC-OEM van de crate, en decodeert de lunaire bestanden zodra TIME_SYSTEM door TDB is vervangen); oem { "0.4.5" } decodeert ze alleen binnen de geschreven precisie door terug te vallen van het niet-ondersteunde tijdsysteem. Uitwisseling van deze lunaire bestanden met gangbare CCSDS-lezers is niet vastgesteld
+
+# data/search.json
+dat-af85235a485a = Het maritieme vertrouwenscijfer van Kshana (MARITIME-TRUST.md) is bereikbaar vanuit software die watersporters al draaien: een Signal K…
+
+# data/search.json
+dat-b3b0b32a29d2 = De baanpropagator van Kshana is gevalideerd tegen de canonieke referentie van de gemeenschap voor SGP4/SDP4 (SGP4…
+
+# data/search.json
+dat-11bb1751b520 = L-bandspectrummodel en waterval: de hele GNSS-L-band als één vermogensspectrale dichtheid (PSD), frequentie…
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-ec2500acdc0f = L-bandspectrumwaterval met J/S en effectieve C/N0 per band onder een gescripte jammertijdlijn
