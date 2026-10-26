@@ -831,3 +831,5 @@ seg-6d6b07b26966 = 一份 JSON 状态文档和 Home Assistant MQTT 发现消息�
 seg-68caf86157c2 = ROS { "2" } receiver-trust 包与 gnss_lib_py 桥接
 
 seg-e7d7d99fe538 = 一个不依赖 ROS 的桥接，将定位和卫星消息写成 NMEA，并通过 Python 绑定评分（integrations/ros2/kshana_trust），以及一个经由 rtklib-pos 格式将 gnss_lib_py NavData 接入 receiver-trust 的桥接（integrations/gnss_lib_py）。
+
+seg-c3c260b7063e = 测试
