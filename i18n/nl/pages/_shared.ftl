@@ -413,3 +413,9 @@ seg-4798bca2d7a7 = MODELLED: de rijen van de <a1>verificatiematrix</a1> die dit 
 seg-6338a873ee85 = De rijen die de run zelf heeft beproefd, met de onafhankelijke referentie die de matrix aan elk geeft (de openbare bronnen worden daar genoemd):
 
 seg-fe24dcc6971f = <b>MODELLED</b> Deterministisch, scenario-gehasht, SBOM + gouden poorten voor meerdere platforms. Onafhankelijke referentie (ExternalDataset): formaatcontrole van de SBOM tegen het officiële CycloneDX { "1.5" } JSON Schema (+ geldige SPDX-identificatoren) — een externe gepubliceerde standaard, nul validatiefouten over de volledige afhankelijkheidsgraaf; het onderdeel determinisme van de FoM en byte-reproduceerbaarheid blijft een vastgepinde zelfconsistentiecontrole, dus de rij blijft MODELLED
+
+seg-1fc08d2f0209 = Wat het eigen rapport van de run zegt dat niet is gemodelleerd of niet extern getoetst is:
+
+seg-58c4d7218e70 = Reproduceerbaarheid en softwarewaarborging is MODELLED, niet extern getoetst: een deelclaim wordt extern gecontroleerd, maar de hele mogelijkheid is samengesteld uit gemodelleerde onderdelen, dus de mogelijkheid blijft gemodelleerd. (verificatiematrix (docs/MODELLED-RATIONALE.md))
+
+seg-1bf3d5817274 = Alle kinds: <a1>KINDS.md</a1>
