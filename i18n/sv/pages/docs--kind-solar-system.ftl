@@ -44,7 +44,7 @@ seg-c4b64eb26210 = ICRF (equatorial J2000), heliocentric; m
 
 seg-6096a0ab243b = Standish Table { "1" } ({ "1800" } AD to { "2050" } AD)
 
-seg-5c9a8d4716f5 = Resultatetikett (motorns egen): BLANDAD: varje kropp bär sin egen etikett. Planeternas positioner är VALIDATED mot JPL Horizons inom två gånger Standishs nominella fel (Merkurius till Saturnus och jorden från tabell { "1" }; alla åtta planeterna från tabellerna 2a/2b); Uranus och Neptunus från tabell { "1" }, Pluto, månen och de sju månarna är MODELLED.
+seg-5c9a8d4716f5 = Resultatetikett (motorns egen): MIXED: varje kropp bär sin egen etikett. Planeternas positioner är VALIDATED mot JPL Horizons inom två gånger Standishs nominella fel (Merkurius till Saturnus och jorden från tabell { "1" }; alla åtta planeterna från tabellerna 2a/2b); Uranus och Neptunus från tabell { "1" }, Pluto, månen och de sju månarna är MODELLED.
 
 seg-537aa8010e50 = Diagrammet som motorn skriver för scenarios/solar-system-tour.toml, typ solar-system
 
@@ -62,7 +62,7 @@ seg-ab1192de28f5 = <b>VALIDATED</b> Den newtonska enkelriktade ljustiden från v
 
 seg-5a2e745828ea = <b>MODELLED</b> Positioner för Uranus och Neptunus från Standish tabell { "1" } (standard inom { "1800" } e.Kr. till { "2050" } e.Kr.), Pluto från raden i tabell { "1" } från { "1992" } som den nuvarande JPL-sidan inte längre li. Oberoende referens (ExternalDataset): Uppmätt mot JPL Horizons DE441 (samma incheckade fixturer), men inte validerad: tabell { "1" }:s angivna värden för Uranus och Neptunus överskrids med upp till { "2.0" } och { "5.2" } gånger mot heliocentriska positioner i DE441 (Neptunus når dem mot barycentriska positioner, vilket tyder på att anpassningen inte var heliocentrisk), sidan anger inget fel för Pluto, och ingen publicerad gräns finns för hastigheterna. Tabellerna 2a/2b når sina egna
 
-seg-0131b082906b = BLANDAD: varje kropp bär sin egen etikett. Planeternas positioner är VALIDATED mot JPL Horizons inom två gånger Standishs nominella fel (Merkurius till Saturnus och jorden från tabell { "1" }; alla åtta planeterna från tabellerna 2a/2b); Uranus och Neptunus från tabell { "1" }, Pluto, månen och de sju månarna är MODELLED. Ljustiderna är newtonska, från samma positioner. (resultat <c1/>)
+seg-0131b082906b = MIXED: varje kropp bär sin egen etikett. Planeternas positioner är VALIDATED mot JPL Horizons inom två gånger Standishs nominella fel (Merkurius till Saturnus och jorden från tabell { "1" }; alla åtta planeterna från tabellerna 2a/2b); Uranus och Neptunus från tabell { "1" }, Pluto, månen och de sju månarna är MODELLED. Ljustiderna är newtonska, från samma positioner. (resultat <c1/>)
 
 seg-3e24f0bf9ccd = MODELLED, varje rad märkt: Uranus och Neptunus från tabell { "1" } ({ "2.0" } och { "5.2" } gånger det nominella felet mot DE441), Pluto (raden från { "1992" }; inget angivet fel), månen och de sju månarna (uppmätta mot Horizons, ingen publicerad gräns). (typkatalog (<c1/>))
 
