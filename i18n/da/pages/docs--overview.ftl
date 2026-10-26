@@ -153,3 +153,51 @@ seg-331d2821d43f = Køreplan
 seg-6e0cb6acc073 = VALIDATED
 
 seg-a349aa76b0ed = PARTNER
+
+seg-b2689beaba9e = Verifikator for Galileo OSNMA
+
+seg-80f3f0aae42c = Interferenskort
+
+seg-1759a8cce7d6 = Typer
+
+seg-fdd674722717 = Spektrum
+
+seg-68ff97cfdc03 = DOI
+
+seg-564133d6a0c4 = Konstellationer omkring ethvert legeme
+
+seg-c611ee59301a = Animation
+
+seg-c01b78b64065 = Rapporter
+
+seg-c60dc5b92a60 = Interoperabilitetseksporter
+
+seg-3d770dd786e4 = Brug
+
+seg-fe1abd564200 = Jammertest
+
+seg-6fcb41643035 = Tillidstelemetri
+
+seg-82155b5d0408 = Test bench
+
+seg-e35fff011b24 = Compliance
+
+seg-a50180a66dba = LunaNet AFS
+
+seg-028684a0cf3d = Standardpakker
+
+seg-9c0eb89a2fbe = Pakke
+
+seg-e98e25897176 = Hver test i de tre scorede standardpakker, fra rigtige kørsler af motoren v{ $version } (`kshana standards-pack run`): dhs-rpcf: { "6" } nået, { "1" } ikke nået, { "2" } mangler et input; imo-circ-1575: { "1" } nået, { "4" } ikke nået, { "2" } mangler et input; icao-doc9849-appf: { "6" } nået, { "0" } ikke nået, { "2" } mangler et input. I alt { "13" } nået, { "5" } ikke nået og { "6" } mangler et input, som motoren ikke har (en modtagerlog eller udstyrsdokumentation). Hver tærskel blev fastsat før kørslen; en miss forbliver en miss. En nået tærskel siger, at et modelleret scenarie nåede en angivet tærskel, intet om et produkt. Pakkerne leverer belæg for de rækker, de henviser til; de er ikke en vurdering. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life); det må ikke være det eneste grundlag for nogen navigations- eller sikkerhedsbeslutning.
+
+seg-f891ee876b96 = Hvad den besvarer
+
+seg-7cf2608b2b2f = Strukturen i en bevispakke. En modtagerlog (NMEA, u-blox UBX, RINEX { "3" } eller en Android-log) og et tidsvindue går ind i kshana receiver-trust evidence, som skriver syv filer: log-slice.bin, config.json, epochs.json, summary.html, manifest.json, manifest.sig og en valgfri timestamp.tsr. Manifestet registrerer SHA-256 af hele loggen og af hver fil samt en hashkæde over filerne; signaturen dækker manifestet. kshana evidence verify kontrollerer signaturen, hver fils hash, kæden og at ingen fil uden for listen findes, og afslutter med { "0" }, når det er verificeret, { "1" }, når noget fejlede, og { "3" }, når underskriveren ikke var fastlåst. En pakke er en teknisk registrering, ikke en juridisk udtalelse.
+
+seg-13fc009b947c = FAQ
+
+seg-d4a762001549 = Licens
+
+seg-e251b385ff46 = To syntetiske dage med interferenskort, tegnet ud fra de indcheckede eksempler i examples/interference-map/output, hver med sin egen syntetiske rute og de andele af ruteeksponering, som motoren rapporterer. Til venstre en ADS-B-dag: { "1" } forringet celle, { "6" } ikke forringede, { "4" } uvurderede (skraverede) og celler uden post, tegnet tomme, som ikke blev observeret. Ruten er { "525" } km: { "11.5" }% af dens længde i forringede celler, { "38.3" }% ikke forringet, { "9.1" }% uvurderet og { "41.1" }% ikke observeret. Til højre en AIS-dag: celler markeret af cirkel- og landdetektorerne, ikke-afvigende celler og tomme celler; ruten er { "454" } km med { "10.5" }% i afvigende celler, { "21.2" }% ikke afvigende, { "0.0" }% uvurderet og { "68.3" }% ikke observeret. ADS-B og AIS er separate lag, aldrig kombineret. En markeret celle er ikke et fund af interferens, og en celle uden farve blev ikke observeret, hvilket ikke er det samme som fri. Alle data er opdigtede, i det åbne Atlanterhav, og ikke en måling.
+
+seg-af0edceb1503 = Scoring af én syntetisk modtagerlog mod en plan med tre tests, fra en rigtig kørsel af motoren v{ $version } (`kshana jammertest score`). Loggen er opdigtet: { "1800" } s NMEA med et fald på { "20" } dB i C/N0 over to intervaller. Planen opregner tre tidsvinduer; i det midterste er der ingen jammer i loggen. Scoren markerer { "2" } af { "3" } tests som opdaget (median for latenstid { "0" } s) og { "1" } som misset, med { "0" } kørsler med falsk alarm over { "0.25" } t ren tid. Intet her siger noget om en rigtig modtager. Vejledende software, ikke typegodkendt navigationsudstyr (IEC { "61108" }, IEC { "61162" }): operatøren er fortsat ansvarlig for fartøjets navigation.
