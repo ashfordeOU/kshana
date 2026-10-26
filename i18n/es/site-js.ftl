@@ -846,10 +846,10 @@ js-site-evidence-hero-row = Fila { $i } de { $n }
 js-site-evidence-hold-accepted = aceptado: dentro de un factor de { $bar }
 
 # src/js/evidence.mjs:359
-js-site-evidence-hold-aria = Error de tiempo cuadrático medio medido del reloj de cesio frente al tiempo de holdover, con la predicción del motor; el cociente entre lo predicho y lo medido supera el umbral de { $lo } a { $hi }
+js-site-evidence-hold-aria = Error de tiempo cuadrático medio medido del reloj de cesio frente al tiempo de holdover, con la predicción del motor; la superación predicha frente a la medida va de { $lo } a { $hi }
 
 # src/js/evidence.mjs:387
-js-site-evidence-hold-control = «Control:» la predicción ingenua (la estabilidad de un segundo leída como ruido blanco de frecuencia) da un cociente de { $ratio }, errado por un factor de aproximadamente { $factor }, y no cumple el mismo umbral. El umbral es exigente.
+js-site-evidence-hold-control = «Control:» la predicción ingenua (la estabilidad de un segundo leída como ruido blanco de frecuencia) da un cociente de { $ratio }, errado por un factor de aproximadamente { $factor }, y no supera el mismo umbral. El umbral es exigente.
 
 # src/js/evidence.mjs:375
 js-site-evidence-hold-lg-meas = medido en el registro reservado (punto: superación)
@@ -1660,3 +1660,352 @@ js-site-missions-ow-pause = Pausar las órbitas
 
 # src/js/missions.mjs:1025
 js-site-missions-ow-play = Reproducir las órbitas
+
+# src/js/missions.mjs:1012
+js-site-missions-ow-time = t = { $time }
+
+# src/js/missions.mjs:997
+js-site-missions-ow-time-label = Tiempo de misión
+
+# src/js/missions.mjs:978
+js-site-missions-ow-valuetext = { $time }, { $n } relés a la vista
+
+# src/js/missions.mjs:667
+js-site-missions-pdop-title = PDOP medio (dilución de la precisión de posición), escala logarítmica, menor es mejor
+
+# src/js/missions.mjs:474
+js-site-missions-report = Informe
+
+# src/js/missions.mjs:474
+js-site-missions-report-title = El informe del propio motor sobre esta ejecución
+
+# src/js/missions.mjs:928
+js-site-missions-ro-above-horizon = sobre el horizonte
+
+# src/js/missions.mjs:919
+js-site-missions-ro-availability = Disponibilidad, PDOP ≤ { $limit }
+
+# src/js/missions.mjs:928
+js-site-missions-ro-earth-light = Tierra · tiempo de luz { $s } s
+
+# src/js/missions.mjs:926
+js-site-missions-ro-error-relays = Error de posición, solo relés
+
+# src/js/missions.mjs:928
+js-site-missions-ro-occulted = ocultada
+
+# src/js/missions.mjs:922
+js-site-missions-ro-place-availability = En { $place }: disponibilidad
+
+# src/js/missions.mjs:921
+js-site-missions-ro-place-in-view = En { $place }: a la vista, media · mínimo
+
+# src/js/missions.mjs:925
+js-site-missions-ro-relays = Relés a la vista
+
+# src/js/missions.mjs:918
+js-site-missions-ro-satellites = Satélites
+
+# src/js/missions.mjs:927
+js-site-missions-ro-with-earth = Con la distancia a la Tierra
+
+# src/js/missions.mjs:1295
+js-site-missions-run-failed = No se pudo cargar aquí la ejecución registrada; ábrala en { $studio } desde el enlace de abajo.
+
+# src/js/missions.mjs:487
+js-site-missions-seed = semilla { $seed }
+
+# src/js/missions.mjs:241
+js-site-missions-spoof-aria = Desplazamiento de spoofing frente al tiempo, con la cota de detección y el tiempo de detección de cada monitor
+
+# src/js/missions.mjs:244
+js-site-missions-spoof-axis-x = tiempo desde que empezó el spoofing (s)
+
+# src/js/missions.mjs:245
+js-site-missions-spoof-axis-y = desfase de tiempo (ns)
+
+# src/js/missions.mjs:255
+js-site-missions-spoof-detects = { $id } detecta a los { $s } s
+
+# src/js/missions.mjs:257
+js-site-missions-spoof-lg-bound = cota de { $id }
+
+# src/js/missions.mjs:257
+js-site-missions-spoof-lg-offset = desplazamiento de spoofing
+
+# src/js/missions.mjs:270
+js-site-missions-spoof-readout = t { $t } s · desplazamiento { $offset } ns
+
+# src/js/missions.mjs:246
+js-site-missions-spoof-spec = especificación { $v } ns
+
+# src/js/missions.mjs:615
+js-site-missions-sr-aria = { $members }; jammer compartido { $power } dBW
+
+# src/js/missions.mjs:615
+js-site-missions-sr-aria-member = { $label }: seguimiento mantenido { $held } %, relación jammer-señal media { $js } dB, mínimo de satélites seguidos { $min }
+
+# src/js/missions.mjs:607
+js-site-missions-sr-car = Coche
+
+# src/js/missions.mjs:612
+js-site-missions-sr-fewest = mínimo seguido
+
+# src/js/missions.mjs:610
+js-site-missions-sr-held = seguimiento mantenido
+
+# src/js/missions.mjs:611
+js-site-missions-sr-mean-js = J/S medio
+
+# src/js/missions.mjs:607
+js-site-missions-sr-ship = Barco
+
+# src/js/missions.mjs:1302
+js-site-missions-swipe =
+    { $n ->
+        [one] Deslice para ver el { $n } archivo de escenario
+        [many] Deslice para ver los { $n } de archivos de escenario
+       *[other] Deslice para ver los { $n } archivos de escenario
+    }
+
+# src/js/missions.mjs:478
+js-site-missions-toml-download-title = Descargar el archivo de escenario que se ejecutó
+
+# src/js/missions.mjs:477
+js-site-missions-toml-title = El archivo de escenario que se ejecutó
+
+# src/js/missions.mjs:663
+js-site-missions-vis-title = Satélites a la vista, media durante la ejecución
+
+# src/js/missions.mjs:662
+js-site-missions-vis-uniform = { $v } en cada celda
+
+# src/site.js:417
+js-site-palette-none = Sin resultados
+
+# src/site.js:417
+js-site-palette-results = { $count } resultados
+
+# src/js/pro-power.mjs:147
+js-site-pro-band-at = A los { $minutes } minutos: percentil 5 a 95
+
+# src/js/pro-power.mjs:147
+js-site-pro-band-range = { $lo } a { $hi } { $unit }
+
+# src/js/pro-power.mjs:148
+js-site-pro-band-runs-within = de { $n } ejecuciones dentro de ±{ $limit } { $unit }
+
+# src/js/pro-power.mjs:92
+js-site-pro-design-readout = { $sat } satélites, { $av } % de disponibilidad · { $planes } planos a { $alt } km, { $incl }°
+
+# src/js/pro-power.mjs:91
+js-site-pro-front-design = Diseño del frente { $id }
+
+# src/js/pro-power.mjs:91
+js-site-pro-front-design-knee = Diseño del frente { $id } · codo
+
+# src/js/pro-power.mjs:90
+js-site-pro-more-designs =
+    { $n ->
+        [one] (+{ $n } diseño más del frente en este punto)
+        [many] (+{ $n } de diseños más del frente en este punto)
+       *[other] (+{ $n } diseños más del frente en este punto)
+    }
+
+# src/js/pro-power.mjs:94
+js-site-pro-not-rerun = no se volvió a ejecutar
+
+# src/js/pro-power.mjs:93
+js-site-pro-rerun-free = volver a ejecutar en el motor gratuito:
+
+# src/js/pro-power.mjs:94
+js-site-pro-same-sha = mismo SHA-256 { $sha }…
+
+# src/js/pro-power.mjs:94
+js-site-pro-same-sha-index = mismo SHA-256 del resultado que el índice
+
+# src/site.js:41
+js-site-toast-copied = Copiado: { $text }
+
+# src/site.js:351
+js-site-toast-data-failed = No se pudo cargar el archivo de datos
+
+# src/site.js:350
+js-site-toast-data-saved = Datos guardados como CSV
+
+# src/site.js:348
+js-site-toast-no-data = No hay datos para este gráfico
+
+# src/site.js:340
+js-site-toast-svg-saved = Gráfico guardado como SVG
+
+# src/site.js:346
+js-site-toast-table-saved = Tabla guardada como CSV
+
+# src/js/home-waterfall.mjs:248
+js-site-waterfall-axis-now = ahora
+
+# src/js/home-waterfall.mjs:353
+js-site-waterfall-bar-title = { $band }: { $cn0 } dB-Hz, { $state }
+
+# src/js/home-waterfall.mjs:353
+js-site-waterfall-bar-title-js = { $band }: { $cn0 } dB-Hz, { $state }, J/S { $js } dB
+
+# src/js/home-waterfall.mjs:303
+js-site-waterfall-below-floor = las señales quedan por debajo del umbral de ruido
+
+# src/js/home-waterfall.mjs:79
+js-site-waterfall-campaign-drives = Campaña que gobierna:
+
+# src/js/home-waterfall.mjs:79
+js-site-waterfall-campaign-seed = semilla { $seed } · { $phases } fases durante { $duration } s
+
+# src/js/home-waterfall.mjs:119
+js-site-waterfall-chip-aria = { $band }, { $fc } megahercios: mostrar esta banda
+
+# src/js/home-waterfall.mjs:120
+js-site-waterfall-chip-title = { $band } · { $fc } MHz · ancho de banda del receptor { $bw } MHz
+
+# src/js/home-waterfall.mjs:78
+js-site-waterfall-engine-build = Motor v{ $version } · compilación
+
+# src/js/home-waterfall.mjs:86
+js-site-waterfall-fallback-head = Respaldo con Galileo · { $s } s, solo tono CW
+
+# src/js/home-waterfall.mjs:86
+js-site-waterfall-fallback-text = { $band } de nuevo a { $v } dB-Hz. Monitorización de integridad solo con Galileo: nivel de protección { $min }–{ $max } m, por debajo del límite de alerta de { $limit } m.
+
+# src/js/home-waterfall.mjs:107
+js-site-waterfall-floor = umbral de seguimiento de { $thr } dB-Hz
+
+# src/js/home-waterfall.mjs:85
+js-site-waterfall-holdover-head = Holdover · { $s } s, chirp activado
+
+# src/js/home-waterfall.mjs:85
+js-site-waterfall-holdover-text = { $band0 } { $v0 }, { $band1 } { $v1 } dB-Hz, por debajo del umbral. El reloj funciona en marcha libre: peor caso { $worst } ns frente a un margen de guarda de { $guard } ns.
+
+# src/js/home-waterfall.mjs:73
+js-site-waterfall-jammer-off = { $what } apagado
+
+# src/js/home-waterfall.mjs:72
+js-site-waterfall-jammer-on = { $what } encendido
+
+# src/js/home-waterfall.mjs:400
+js-site-waterfall-live = { $freq } megahercios, { $time }: { $detail }
+
+# src/js/home-waterfall.mjs:400
+js-site-waterfall-live-band = { $band } { $cn0 } dB-Hz, { $state }
+
+# src/js/home-waterfall.mjs:400
+js-site-waterfall-live-none = ninguna banda modelada
+
+# src/js/home-waterfall.mjs:12
+js-site-waterfall-load-failed = No se pudo cargar la ejecución registrada. El informe del motor de abajo muestra la misma ejecución.
+
+# src/js/home-waterfall.mjs:298
+js-site-waterfall-no-jammer-band = Ningún jammer en esta banda
+
+# src/js/home-waterfall.mjs:346
+js-site-waterfall-no-jammer-in-band = ningún jammer en la banda
+
+# src/js/home-waterfall.mjs:78
+js-site-waterfall-no-seed = determinista, sin semilla
+
+# src/js/home-waterfall.mjs:84
+js-site-waterfall-onset-head = Inicio · { $t0 }–{ $t1 } s
+
+# src/js/home-waterfall.mjs:84
+js-site-waterfall-onset-text = Las { $n } bandas en seguimiento, hasta que la ejecución del espectro pierde por primera vez { $band } a los { $s } s.
+
+# src/js/home-waterfall.mjs:447
+js-site-waterfall-pause = Pausar la cascada
+
+# src/js/home-waterfall.mjs:447
+js-site-waterfall-play = Reproducir la cascada
+
+# src/js/home-waterfall.mjs:305
+js-site-waterfall-quiet-band = { $band } { $cn0 } dB-Hz · { $state }
+
+# src/js/home-waterfall.mjs:48
+js-site-waterfall-run-time = ejecución T+{ $s } s
+
+# src/js/home-waterfall.mjs:109
+js-site-waterfall-scale-caption = PSD sobre el umbral de { $floor } dBW/Hz · celdas de { $bin } MHz × { $step } s
+
+# src/js/home-waterfall.mjs:78
+js-site-waterfall-seed = semilla { $seed }
+
+# src/js/home-waterfall.mjs:61
+js-site-waterfall-short-lost = perdida
+
+# src/js/home-waterfall.mjs:61
+js-site-waterfall-short-ok = seguim.
+
+# src/js/home-waterfall.mjs:61
+js-site-waterfall-short-rec = recup.
+
+# src/js/home-waterfall.mjs:59
+js-site-waterfall-state-lost = Enganche perdido
+
+# src/js/home-waterfall.mjs:60
+js-site-waterfall-state-lost-low = enganche perdido
+
+# src/js/home-waterfall.mjs:59
+js-site-waterfall-state-ok = Seguimiento
+
+# src/js/home-waterfall.mjs:60
+js-site-waterfall-state-ok-low = seguimiento
+
+# src/js/home-waterfall.mjs:59
+js-site-waterfall-state-rec = Recuperado
+
+# src/js/home-waterfall.mjs:60
+js-site-waterfall-state-rec-low = recuperado
+
+# src/js/home-waterfall.mjs:94
+js-site-waterfall-summary-recovers = { $band } pierde el enganche a los { $lost } s y se recupera a los { $rec } s, mínimo { $min } dB-Hz.
+
+# src/js/home-waterfall.mjs:91
+js-site-waterfall-summary-rows = { $n } filas de { $step } s.
+
+# src/js/home-waterfall.mjs:95
+js-site-waterfall-summary-stays-lost = { $band } pierde el enganche a los { $lost } s y sigue perdida, mínimo { $min } dB-Hz.
+
+# src/js/home-waterfall.mjs:92
+js-site-waterfall-summary-tracks = { $band } se mantiene en seguimiento todo el tiempo, mínimo { $min } dB-Hz.
+
+# src/js/home-waterfall.mjs:381
+js-site-waterfall-tip-above-floor = por encima del umbral de ruido
+
+# src/js/home-waterfall.mjs:381
+js-site-waterfall-tip-at-floor = En el umbral de ruido térmico
+
+# src/js/home-waterfall.mjs:382
+js-site-waterfall-tip-band = { $cn0 } dB-Hz · { $state }
+
+# src/js/home-waterfall.mjs:380
+js-site-waterfall-tip-head = { $lo }–{ $hi } MHz · { $time }
+
+# src/js/home-waterfall.mjs:382
+js-site-waterfall-tip-js = J/S { $js } dB
+
+# src/js/home-waterfall.mjs:383
+js-site-waterfall-tip-no-band = El ancho de banda del receptor de ninguna banda modelada cubre esta columna
+
+# src/js/home-waterfall.mjs:65
+js-site-waterfall-wave-chirp = chirp
+
+# src/js/home-waterfall.mjs:65
+js-site-waterfall-wave-cw = tono CW
+
+# src/js/home-waterfall.mjs:65
+js-site-waterfall-wave-noise = ruido
+
+# src/js/home-waterfall.mjs:341
+js-site-waterfall-who-cursor = Banda bajo el cursor
+
+# src/js/home-waterfall.mjs:341
+js-site-waterfall-who-selected = Banda seleccionada
+
+# src/js/home-waterfall.mjs:341
+js-site-waterfall-who-worst = Peor banda
