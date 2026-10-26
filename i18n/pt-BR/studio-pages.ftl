@@ -365,7 +365,7 @@ seg-5d30c2bb376f = <b>As saídas do Kshana fornecem evidências em apoio de um r
 seg-5d4e98c5f740 = Domínios
 
 # optical/index.html
-seg-5dceab2b33fd = <b>Saída de um modelo.</b> Tudo aqui é <b>MODELLED</b>: os climas de nuvens, as classes de relógio e as técnicas são premissas declaradas (as estações são ILUSTRATIVAS, não são nenhum conjunto de dados nem o tempo medido de nenhum lugar), e a numérica é verificada por um programa independente que implementa as mesmas fórmulas, não pela atmosfera. A série temporal é um único sorteio com semente do modelo de estação declarado, não o clima. <b>Software de caráter consultivo.</b> O Kshana não é um equipamento de navegação homologado e isto não é uma disponibilidade certificada.
+seg-5dceab2b33fd = <b>Saída de um modelo.</b> Tudo aqui é <b>MODELLED</b>: os climas de nuvens, as classes de relógio e as técnicas são premissas declaradas (as estações são ILLUSTRATIVE, não são nenhum conjunto de dados nem o tempo medido de nenhum lugar), e a numérica é verificada por um programa independente que implementa as mesmas fórmulas, não pela atmosfera. A série temporal é um único sorteio com semente do modelo de estação declarado, não o clima. <b>Software de caráter consultivo.</b> O Kshana não é um equipamento de navegação homologado e isto não é uma disponibilidade certificada.
 
 # lunar/index.html
 seg-5ddc79f228f8 = Estação de referência lunar

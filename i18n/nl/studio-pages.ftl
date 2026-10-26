@@ -365,7 +365,7 @@ seg-5d30c2bb376f = <b>De uitvoer van Kshana levert bewijs voor een eis. Hij cert
 seg-5d4e98c5f740 = Domeinen
 
 # optical/index.html
-seg-5dceab2b33fd = <b>Modeluitvoer.</b> Alles hier is <b>MODELLED</b>: de wolkenklimaten, de klokklassen en de technieken zijn vastgelegde aannames (de locaties zijn ILLUSTRATIEF, geen dataset en niet het gemeten weer van een plaats), en de numerieke resultaten worden gecontroleerd aan een onafhankelijk programma dat dezelfde formules implementeert, niet aan de atmosfeer. De tijdreeks is één trekking met seed uit het vastgelegde locatiemodel, niet het klimaat. <b>Adviserende software.</b> Kshana is geen typegoedgekeurde navigatieapparatuur en dit is geen gecertificeerde beschikbaarheid.
+seg-5dceab2b33fd = <b>Modeluitvoer.</b> Alles hier is <b>MODELLED</b>: de wolkenklimaten, de klokklassen en de technieken zijn vastgelegde aannames (de locaties zijn ILLUSTRATIVE, geen dataset en niet het gemeten weer van een plaats), en de numerieke resultaten worden gecontroleerd aan een onafhankelijk programma dat dezelfde formules implementeert, niet aan de atmosfeer. De tijdreeks is één trekking met seed uit het vastgelegde locatiemodel, niet het klimaat. <b>Adviserende software.</b> Kshana is geen typegoedgekeurde navigatieapparatuur en dit is geen gecertificeerde beschikbaarheid.
 
 # lunar/index.html
 seg-5ddc79f228f8 = Maanreferentiestation
