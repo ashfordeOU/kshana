@@ -7434,7 +7434,7 @@ js-replay-kinds-convergence-horizontal = Збіжність: медіанна г
 
 js-replay-kinds-convergence-vertical = Збіжність: медіанна вертикальна похибка
 
-js-replay-kv-course = Зазначений курс
+js-replay-kv-course = Повідомлений шляховий кут
 
 js-replay-kv-heading = Курс (гіроскоп)
 
@@ -7892,7 +7892,7 @@ js-t35data-ai-q-osnma-satellites = Дані навігації яких супу
 
 js-t35data-ai-q-run-scenario = Запустити або пояснити сценарій PNT (орбіти, GNSS, синхронізація часу, об'єднання, Місяць)
 
-js-t35data-ai-q-training-nmea = Мені потрібен синтетичний NMEA з подією глушіння, зведення з траси, спуфінгу часу чи відтворення для навчання
+js-t35data-ai-q-training-nmea = Мені потрібен синтетичний NMEA з подією глушіння, відтягування положення, спуфінгу часу чи відтворення для навчання
 
 js-t35data-ai-q-trustworthy-log = Чи був цей журнал приймача або NMEA цього судна надійним і коли він перестав бути таким?
 
@@ -8363,3 +8363,521 @@ js-tools-osnma-pending = Очікує
 js-tools-osnma-recorded-failed = записаний результат не завантажився
 
 js-tools-osnma-recorded-result = Записаний результат kshana osnma verify --json для { $file }.
+
+js-tools-osnma-tag-counts = автент.: { $authenticated }, збоїв: { $failed }, очікує: { $pending }, відкинуто: { $discarded }
+
+js-tools-osnma-tag-totals =
+    { $n ->
+        [one] { $n } тег: автентифіковано — { $authenticated }, збій — { $failed }, очікує — { $pending }, відкинуто — { $discarded }.
+        [few] { $n } теги: автентифіковано — { $authenticated }, збій — { $failed }, очікує — { $pending }, відкинуто — { $discarded }.
+        [many] { $n } тегів: автентифіковано — { $authenticated }, збій — { $failed }, очікує — { $pending }, відкинуто — { $discarded }.
+       *[other] { $n } тега: автентифіковано — { $authenticated }, збій — { $failed }, очікує — { $pending }, відкинуто — { $discarded }.
+    }
+
+js-tools-osnma-time-caveat = Час: кожна перевірка відраховується від міток часу сторінок, поданих верифікаторові, які тут беруться із самих даних і не захищають від повторного відтворення старих даних. Автентифікація каже, що дані надійшли від системи; вона нічого не каже про сигнал, яким вони прийшли, чи про якість визначення.
+
+js-tools-osnma-unavailable = Недоступно
+
+js-tools-osnma-word-authenticated = Автентифіковано щонайменше один супутник, і жоден не дав збою
+
+js-tools-osnma-word-failed = Перевірка даних якогось супутника дала збій
+
+js-tools-osnma-word-unavailable = Жодного супутника не автентифіковано
+
+js-tools-pack-selected = { $label }: { $files } ({ $size })
+
+js-tools-pinned-to-release = Закріплено за цим випуском:
+
+js-tools-preview = Попередній перегляд
+
+js-tools-public-key-format = Публічний ключ — це 64 шістнадцяткові цифри (32 байти). Нічого іншого не приймається.
+
+js-tools-read-documentation = Прочитати документацію
+
+js-tools-reading-plan = Читається план…
+
+js-tools-refused-file-name = відхилено назву файлу: { $name }
+
+js-tools-run = Запустити
+
+js-tools-runs-read =
+    { $n ->
+        [one] Прочитано { $n } прогін: { $runs }
+        [few] Прочитано { $n } прогони: { $runs }
+        [many] Прочитано { $n } прогонів: { $runs }
+       *[other] Прочитано { $n } прогону: { $runs }
+    }
+
+js-tools-runs-read-engine =
+    { $n ->
+        [one] Прочитано { $n } прогін рушієм { $engine }: { $runs }
+        [few] Прочитано { $n } прогони рушієм { $engine }: { $runs }
+        [many] Прочитано { $n } прогонів рушієм { $engine }: { $runs }
+       *[other] Прочитано { $n } прогону рушієм { $engine }: { $runs }
+    }
+
+js-tools-sample-load-failed = Зразок не завантажився ({ $reason }).
+
+js-tools-sample-note = Справжній вивід команди, записаний із рушія на синтетичному демонстраційному прогоні. Не вимірювання чогось.
+
+js-tools-sample-output = Зразок виводу: { $label }
+
+js-tools-scenario-list-failed = Список сценаріїв не завантажився
+
+js-tools-scoring = Оцінювання…
+
+js-tools-select-and-copy = Виділити й скопіювати
+
+js-tools-settings-example = Приклад налаштувань { $n }:
+
+js-tools-status-evidenced-label = Прогони підтримують докази для (supports evidence for) цього рядка
+
+js-tools-status-evidenced-short = Підкріплено доказами
+
+js-tools-status-not-evidenced-label = Ці прогони нічого не показують для цього рядка
+
+js-tools-status-not-evidenced-short = Без доказів
+
+js-tools-status-out-of-scope-label = Поза тим, що може показати Kshana
+
+js-tools-status-out-of-scope-short = Поза обсягом
+
+js-tools-status-partly-label = Прогони підтримують докази для (supports evidence for) частини цього рядка
+
+js-tools-status-partly-short = Частково
+
+js-tools-tab-ai = ШІ-асистент
+
+js-tools-tab-bench = Test-bench
+
+js-tools-tab-cli = Командний рядок
+
+js-tools-tab-compliance = Compliance
+
+js-tools-tab-evidence = Пакети доказів
+
+js-tools-tab-imufit = Підгонка IMU
+
+js-tools-tab-jammertest = Jammertest
+
+js-tools-tab-osnma = OSNMA
+
+js-tools-tele-all-events = Одна подія syslog на епоху (типово: одна на кожну зміну смуги)
+
+js-tools-tele-file-aria = Файл результату або JSON-lines
+
+js-tools-tele-fmt-cef = Syslog, CEF
+
+js-tools-tele-fmt-leef = Syslog, LEEF
+
+js-tools-tele-fmt-mqtt = MQTT, виявлення Home Assistant (тема, табуляція, корисне навантаження)
+
+js-tools-tele-fmt-otlp = OpenTelemetry (OTLP JSON)
+
+js-tools-tele-fmt-prometheus = Метрики Prometheus
+
+js-tools-tele-format-aria = Формат
+
+js-tools-tele-host = Хост
+
+js-tools-tele-host-aria = Ім'я хоста, що записується в події syslog
+
+js-tools-tele-include-position = Додати повідомлене положення (типово вимкнено)
+
+js-tools-tele-intro = Перетворіть файл результату (session.result.json) або живі рядки JSON на один із форматів, у цьому браузері. Потрібна збірка рушія з експортом телеметрії (0.35 і новіші з експортом); команди вище працюють усюди.
+
+js-tools-tele-note = Рядки syslog тут не мають позначки часу (сторінка не читає годинника); її ставить інструмент командного рядка. Prometheus дає кінцевий стан. MQTT дає один рядок на повідомлення: тема, потім табуляція, потім корисне навантаження; звідси нічого не публікується. Текст той самий, що його друкує команда.
+
+js-tools-tele-run-here = Запустити тут
+
+js-tools-that-file-too-large = Цей файл більший за 64 MiB.
+
+js-tools-token-attached = Токен долучено
+
+js-tools-token-attached-note = Оновлений пакет нижче. Підпис органу позначок часу тут НЕ перевірено: виконайте openssl ts -verify.
+
+js-tools-trust-monitor-sentence = Речення монітора довіри: { $sentence }
+
+js-tools-two-files-same-name = два файли мають назву { $name }
+
+js-tools-ubx-bad-crc =
+    { $n ->
+        [one] { $n } сторінка не пройшла перевірку CRC.
+        [few] { $n } сторінки не пройшли перевірку CRC.
+        [many] { $n } сторінок не пройшли перевірку CRC.
+       *[other] { $n } сторінки не пройшли перевірку CRC.
+    }
+
+js-tools-ubx-file = Файл UBX
+
+js-tools-ubx-frames-pages = Кадрів UBX: { $frames }; декодовано сторінок I/NAV: { $pages }.
+
+js-tools-ubx-skipped-bytes =
+    { $n ->
+        [one] Між кадрами пропущено { $n } байт.
+        [few] Між кадрами пропущено { $n } байти.
+        [many] Між кадрами пропущено { $n } байтів.
+       *[other] Між кадрами пропущено { $n } байта.
+    }
+
+js-tools-ubx-time-conflicts =
+    { $n ->
+        [one] { $n } сторінка мала час, що суперечив сусіднім.
+        [few] { $n } сторінки мали час, що суперечив сусіднім.
+        [many] { $n } сторінок мали час, що суперечив сусіднім.
+       *[other] { $n } сторінки мали час, що суперечив сусіднім.
+    }
+
+js-tools-ubx-unstamped =
+    { $n ->
+        [one] { $n } сторінку не вдалося розмістити в часі.
+        [few] { $n } сторінки не вдалося розмістити в часі.
+        [many] { $n } сторінок не вдалося розмістити в часі.
+       *[other] { $n } сторінки не вдалося розмістити в часі.
+    }
+
+js-tools-unknown = невідомо
+
+js-tools-unused-scenarios = Файли сценаріїв без відповідного результату не використано: { $files }.
+
+js-tools-verdict-failed-text = Перевірка не пройшла.
+
+js-tools-verdict-failed-title = Збій
+
+js-tools-verdict-intact-text = Пакет цілий щодо ключа, який він називає сам і який може згенерувати будь-хто. Отримайте публічний ключ підписувача від підписувача іншим шляхом і закріпіть його.
+
+js-tools-verdict-intact-title = Цілий, але підписувача не закріплено
+
+js-tools-verdict-verified-text = Пакет не змінено, і його підписано закріпленим вами ключем.
+
+js-tools-verdict-verified-title = Перевірено
+
+js-tools-verifying = Перевіряється…
+
+js-tools-what-failed = Що дало збій
+
+js-tools-why-not-browser = Чому не в браузері:
+
+js-tools-yes = так
+
+js-training-active-events = Активні події
+
+js-training-band-large = понад 100 m
+
+js-training-band-medium = від 25 до 100 m
+
+js-training-band-small = менш ніж 25 m
+
+js-training-chart-max = макс. { $v }
+
+js-training-chart-mean-cn0 = середнє C/N0
+
+js-training-chart-position-error = похибка положення
+
+js-training-chart-s-reported-minus-true = s, повідомлений мінус істинний
+
+js-training-chart-satellites = супутники
+
+js-training-chart-time-offset = зсув часу
+
+js-training-chart-used-tracked = використано / відстежується
+
+js-training-col-reported = Повідомлено приймачем
+
+js-training-col-true = Істинне
+
+js-training-cue-course = Курс гіроскопа та швидкість за лагом жодна подія не змінює. Тут повідомлений шляховий кут відрізняється від курсу гіроскопа на { $course }. Течія також розводить курс і шляховий кут, тож порівняйте з початком прогону.
+
+js-training-cue-course-speed = Курс гіроскопа та швидкість за лагом жодна подія не змінює. Тут повідомлений шляховий кут відрізняється від курсу гіроскопа на { $course }, а повідомлена швидкість від істинної — на { $speed } kn. Течія також розводить курс і шляховий кут, тож порівняйте з початком прогону.
+
+js-training-cue-title = Підказка для розбору.
+
+js-training-cue-unknown-amount = невідому величину
+
+js-training-debrief-now = Розібрати зараз
+
+js-training-default-warning = Синтетичні навчальні дані. Лише для навчання й тестування: ніколи не подавайте цей потік у живі навігаційні системи судна.
+
+js-training-demo-coastal-drag-off = Берегове відтягування положення
+
+js-training-demo-combined-event = Комбінована подія
+
+js-training-demo-fjord-degradation = Природне погіршення у фіорді
+
+js-training-demo-open-sea-jamming = Глушіння у відкритому морі
+
+js-training-demo-port-time-spoof = Спуфінг часу під час заходу в порт
+
+js-training-dl-log-json = Завантажити журнал інструктора (JSON)
+
+js-training-dl-log-text = Завантажити журнал інструктора (текст)
+
+js-training-dl-nmea = Завантажити потік NMEA
+
+js-training-err-demo-open = Не вдалося відкрити { $title }: { $reason }.
+
+js-training-err-engine-old = Ця збірка рушія (версія { $version }) не має генератора навчального NMEA; вона старша за цю сторінку. Команда: { $command }.
+
+js-training-err-engine-start = Рушій не вдалося запустити тут ({ $reason }). Сценарії бібліотеки вище, як і раніше, відкриваються без нього.
+
+js-training-err-file-not-loaded = файл не завантажився
+
+js-training-err-generate = Не вдалося згенерувати: { $reason }.
+
+js-training-err-newer-schema = { $name }: схема { $schema } новіша або відмінна від { $supported }, яку читає ця сторінка. Оновіть Studio, а не вгадуйте її поля.
+
+js-training-err-no-schema = { $name }: це не журнал інструктора навчання Kshana (немає тега схеми).
+
+js-training-err-no-track = { $name }: у журналі немає рядків траси для малювання.
+
+js-training-err-no-usable-rows = { $name }: немає придатних рядків траси.
+
+js-training-err-not-json = { $name }: не JSON ({ $reason }).
+
+js-training-err-read = { $name }: не вдалося прочитати ({ $reason }).
+
+js-training-err-read-or-draw = { $name }: не вдалося прочитати або намалювати ({ $reason }).
+
+js-training-err-scenario-not-loaded = файл сценарію не завантажився
+
+js-training-err-seed = Зерно (seed) має бути цілим числом або порожнім, щоб використати власне зерно сценарію.
+
+js-training-err-too-large = { $name }: більший за { $max }. Ця сторінка читає журнали до цього розміру.
+
+js-training-err-too-many-rows = { $name }: у журналі рядків траси — { $count }; ця сторінка малює щонайбільше { $max }. Записуйте рідше (log_interval_s) або відкрийте уривок.
+
+js-training-err-unknown-schema = { $name }: невідома схема { $schema }; ця сторінка читає { $supported }.
+
+js-training-event-n = Подія { $id }
+
+js-training-event-onset = Початок { $utc }
+
+js-training-extra-bearing = Пеленг, як застосовано, град. істинних
+
+js-training-extra-peak-accel = Пікове прискорення, яке додає відтягування, m/s²
+
+js-training-extra-peak-speed = Пікова швидкість, яку додає відтягування, m/s
+
+js-training-fact-duration = Тривалість
+
+js-training-fact-events = Введено подій
+
+js-training-fact-max-error = Найбільша похибка положення
+
+js-training-fact-max-time-offset = Найбільший зсув часу
+
+js-training-fact-no-fix = Час без визначення
+
+js-training-fact-peak-accel = Пікове прискорення, істинне / повідомлене
+
+js-training-fact-peak-speed = Пікова швидкість, істинна / повідомлена
+
+js-training-fact-seed = Зерно (seed)
+
+js-training-fact-start = Початок (UTC)
+
+js-training-fix-reported-span = визначення подано, від { $from } до { $to }
+
+js-training-generated = Згенеровано «{ $title }» рушієм { $version }: речень NMEA — { $lines }. Синтетично: лише для навчання й тестування; ніколи не подавайте його в живі навігаційні системи судна.
+
+js-training-generated-here = Згенеровано тут рушієм («{ $title }»). Синтетично: вигадані положення й дати.
+
+js-training-generating = Рушій запускається й генерує…
+
+js-training-kind-drag-off = Відтягування положення
+
+js-training-kind-jamming = Глушіння
+
+js-training-kind-natural-degradation = Природне погіршення (закрите небо)
+
+js-training-kind-replay-delay = Затримка відтворення
+
+js-training-kind-time-spoof = Спуфінг часу
+
+js-training-legend-no-fix = Немає визначення: приймач нічого не повідомив
+
+js-training-legend-reported = Повідомлено, { $band } від істинної
+
+js-training-legend-true = Справжня траса
+
+js-training-library-label = Синтетичний сценарій бібліотеки «{ $title }», записаний командою { $command }. Вигадані положення й дати; жодного реального судна чи запису.
+
+js-training-log-row = Рядок журналу { $row } з { $total }, { $utc }
+
+js-training-max-error-at = { $m } m на T+{ $s } s
+
+js-training-moment-event = (подія { $id })
+
+js-training-moment-title = T+{ $s } s { $what }: { $text }
+
+js-training-moments-shown =
+    { $total ->
+        [one] Показано перші { $shown } з { $total } моменту.
+        [few] Показано перші { $shown } з { $total } моментів.
+        [many] Показано перші { $shown } з { $total } моментів.
+       *[other] Показано перші { $shown } з { $total } моменту.
+    }
+
+js-training-no-events = Немає: це чистий прогін.
+
+js-training-no-fix-nothing = немає визначення: нічого не повідомлено
+
+js-training-no-fix-span = немає визначення, від { $from } до { $to }
+
+js-training-no-moments = Моментів не записано.
+
+js-training-none = немає
+
+js-training-none-now = У цей момент немає.
+
+js-training-none-reported = нічого не повідомлено
+
+js-training-north = Пн
+
+js-training-not-touched = не зачеплено жодною подією
+
+js-training-opened = Відкрито { $name }: рядків журналу — { $rows } за { $secs } s.
+
+js-training-opening = Відкривається { $title }…
+
+js-training-param-affect-time = Впливає на час
+
+js-training-param-bearing-deg = Пеленг, град. істинних
+
+js-training-param-cn0-drop-db = Падіння C/N0, dB
+
+js-training-param-counterfeit-cn0-dbhz = Підроблене C/N0, dB-Hz
+
+js-training-param-delay-s = Затримка, s
+
+js-training-param-duration-s = Тривалість, s
+
+js-training-param-final-offset-m = Кінцевий зсув, m
+
+js-training-param-kind = Вид
+
+js-training-param-label = Позначка
+
+js-training-param-offset-s = Зсув часу, s
+
+js-training-param-ramp-s = Наростання на початку, s
+
+js-training-param-recovery-s = Спад під час відновлення, s
+
+js-training-param-relative-bearing-deg = Пеленг відносно шляхового кута, град.
+
+js-training-param-skyline = Скайлайн
+
+js-training-param-spread-db = Розкид за супутниками, dB
+
+js-training-param-start-s = Початок, s
+
+js-training-pause = Пауза
+
+js-training-play = Відтворити
+
+js-training-reading = Читається…
+
+js-training-readout-fix = визначення
+
+js-training-readout-no-fix = немає визначення
+
+js-training-reduced-motion = Надано перевагу зменшеному рухові, тож відтворення починається з 1x. Користуйтеся повзунком або стрілками, щоб переходити без анімації.
+
+js-training-row-cn0 = Середнє C/N0, dB-Hz
+
+js-training-row-cog = Шляховий кут, град.
+
+js-training-row-error = Похибка положення, m
+
+js-training-row-fix = визначення
+
+js-training-row-heading = Курс (гіроскоп), град.
+
+js-training-row-moments = моменти
+
+js-training-row-position = Положення
+
+js-training-row-sats = Супутників використано / відстежується
+
+js-training-row-sog = Шляхова швидкість, kn
+
+js-training-row-time-offset = Зсув часу, s
+
+js-training-say-active = активні: { $list }
+
+js-training-say-event-id = подія { $id }
+
+js-training-say-fix = приймач повідомляє про визначення
+
+js-training-say-mean-cn0 = середнє C/N0 { $cn0 } dB-Hz
+
+js-training-say-no-fix = немає визначення
+
+js-training-say-position-from-true = повідомлене положення на { $m } m від істинного
+
+js-training-say-sats-used = використано супутників: { $used } із { $tracked }
+
+js-training-say-time-ahead = повідомлений час випереджає істинний на { $s } s
+
+js-training-say-time-behind = повідомлений час відстає від істинного на { $s } s
+
+js-training-sky-no-gsv = немає GSV
+
+js-training-sky-none = Для цього журналу немає неба: сам лише журнал інструктора не має супутників. Відкрийте сценарій бібліотеки або згенеруйте тут потік і розберіть його, щоб побачити супутники з його GSV.
+
+js-training-skyline-preset = пресет { $name }
+
+js-training-skyline-stated = заявлений профіль
+
+js-training-span-no-fix = від T+{ $from } до { $to } s
+
+js-training-track-desc = Справжня траса та повідомлена траса, північ угорі. Найбільша похибка положення { $error }. Періодів без визначення: { $periods }.
+
+js-training-track-end = кінець
+
+js-training-track-start = початок
+
+js-training-trainer-note = Примітка тренера
+
+js-training-warn-no-warning-text = Цей файл не містить тексту застереження. Це навчальний журнал: не подавайте його потік у живу навігацію.
+
+js-training-warn-rows-skipped =
+    { $count ->
+        [one] { $count } рядок траси був недійсним і його пропущено.
+        [few] { $count } рядки траси були недійсними і їх пропущено.
+        [many] { $count } рядків траси були недійсними і їх пропущено.
+       *[other] { $count } рядка траси були недійсними і їх пропущено.
+    }
+
+js-training-what-fix-lost = Визначення втрачено
+
+js-training-what-fix-regained = Визначення відновлено
+
+js-training-what-full-effect = Повний ефект
+
+js-training-what-onset = Початок
+
+js-training-what-recovered = Відновлено
+
+js-training-what-recovery-begins = Початок відновлення
+
+js-trust-adv-carried = Консультативне застереження, яке містить цей файл:
+
+js-trust-adv-none = Цей файл не містить консультативного застереження
+
+js-trust-adv-none-rest = (старіші вихідні файли його не містять). Консультативне застереження вгорі цієї сторінки однаково стосується й цього файлу.
+
+js-trust-agree-both = обидва позначають: власний прапорець приймача та монітор Kshana
+
+js-trust-agree-calibrating = у вікні калібрування: не порівнюється
+
+js-trust-agree-kshana-only = тривога лише від Kshana: приймач не позначає
+
+js-tools-ubx-ignored-sfrbx =
+    { $n ->
+        [one] { $n } повідомлення SFRBX проігноровано
+        [few] { $n } повідомлення SFRBX проігноровано
+        [many] { $n } повідомлень SFRBX проігноровано
+       *[other] { $n } повідомлення SFRBX проігноровано
+    } (інші системи, E5b, тривоги, хибні контрольні суми).
