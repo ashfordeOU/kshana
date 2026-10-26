@@ -24,11 +24,11 @@ seg-7b33bdb70a30 = Exemplet <c1/> anger bland annat:
 
 seg-5fad84cbb2be = nrho
 
-seg-def582a1f2ca = Resultatetikett (motorns egen): MODELLED — en begränsad trekroppsmodell (jorden och månen som punktmassor, ingen sol, inga lunara gravitationsharmoniker) med angivna förenklingar och ILLUSTRATIVA indata märkta med sina offentliga källor. Numeriken kontrolleras mot oberoende program; ingenting jämförs med en mätning av en luna
+seg-def582a1f2ca = Resultatetikett (motorns egen): MODELLED — en begränsad trekroppsmodell (jorden och månen som punktmassor, ingen sol, inga lunara gravitationsharmoniker) med angivna förenklingar och ILLUSTRATIVE indata märkta med sina offentliga källor. Numeriken kontrolleras mot oberoende program; ingenting jämförs med en mätning av en luna
 
 seg-f3b4a80a739b = inget diagram: exemplet skriver inget diagram
 
-seg-35a4a7a25561 = <b>MODELLED</b> Banbestämning i en nästan rätlinjig halobana (eller en elliptisk fryst bana) utifrån två oberoende datatyper: pseudoavstånd från jordens GNSS mottagna ombord. Oberoende referens (ReferenceImpl): Ett oberoende scipy/numpy-program integrerar samma variationsekvationer (tröskel O1). Ingenting jämförs med en mätning av en lunar bana. Den oberoende referensen kontrollerar numeriken i angivna formler, inte fysiken, så raden förblir MODELLED. Begränsad trekroppsmodell: ingen sol, inga lunara harmoniker, jordens rotationsaxel längs banans normal, ILLUSTRATIVA indata för mottagare och station.
+seg-35a4a7a25561 = <b>MODELLED</b> Banbestämning i en nästan rätlinjig halobana (eller en elliptisk fryst bana) utifrån två oberoende datatyper: pseudoavstånd från jordens GNSS mottagna ombord. Oberoende referens (ReferenceImpl): Ett oberoende scipy/numpy-program integrerar samma variationsekvationer (tröskel O1). Ingenting jämförs med en mätning av en lunar bana. Den oberoende referensen kontrollerar numeriken i angivna formler, inte fysiken, så raden förblir MODELLED. Begränsad trekroppsmodell: ingen sol, inga lunara harmoniker, jordens rotationsaxel längs banans normal, ILLUSTRATIVE indata för mottagare och station.
 
 seg-32455bf5f804 = <b>MODELLED</b> Enkeldifferentierad bärvågsfas och kod från jordens GNSS mellan mottagare vid en lunar markstation och en omloppsfarkost, där klockdifferensen per epok profileras bort. Oberoende referens (ReferenceImpl): En oberoende numpy-lösning av samma normalekvationer utifrån de exporterade raderna (Q3) och en uttömmande uppräkning av heltal (Q4). Ingen GNSS- eller lunar bärvågsfasmätning jämförs med. MODELLED.
 
@@ -36,11 +36,11 @@ seg-b20c412516b6 = <b>MODELLED</b> Fisher-information för det lunara referenssy
 
 seg-151c96b1f882 = <b>MODELLED</b> Cramer-Rao-precision för translations-, skal- och rotationsförskjutningarna mellan teknikerna i referenssystemen för GNSS, VLBI och laseravståndsmätning när en farkost bär alla. Oberoende referens (ReferenceImpl): Ett oberoende staplat numpy-system där positionsobekanta eliminerats med explicita Schur-komplement (T3). Inga data från GRASP, Genesis eller andra uppdrag jämförs med. MODELLED.
 
-seg-743d78806f6a = MODELLED — en begränsad trekroppsmodell (jorden och månen som punktmassor, ingen sol, inga lunara gravitationsharmoniker) med angivna förenklingar och ILLUSTRATIVA indata märkta med sina offentliga källor. Numeriken kontrolleras mot oberoende program; ingenting jämförs med en mätning av en lunar storhet, och ingenting här är ett påstående om något uppdrag eller system. Inte knutet till eller stött av någon myndighet. Råd (resultat <c1/>)
+seg-743d78806f6a = MODELLED — en begränsad trekroppsmodell (jorden och månen som punktmassor, ingen sol, inga lunara gravitationsharmoniker) med angivna förenklingar och ILLUSTRATIVE indata märkta med sina offentliga källor. Numeriken kontrolleras mot oberoende program; ingenting jämförs med en mätning av en lunar storhet, och ingenting här är ett påstående om något uppdrag eller system. Inte knutet till eller stött av någon myndighet. Råd (resultat <c1/>)
 
 seg-da35c5298311 = MODELLED studier av månens bana och yta som infrastruktur för navigering och geodesi, fem studier bakom en enda typ som väljs av <c1/>: od-consistency (banbestämning ombord med jordens GNSS i en NRHO eller ELFO mot oberoende radiometrisk banbestämning från marken, bedömd utifrån deras egna kovarianser över en Monte Carlo-körning med frö), carrier-phase (gemensam dubbeldifferentierad bärvågsfas mellan yta och omloppsfarkost och heltalsosäkerhet (typkatalog (<c2/>))
 
-seg-4658f67623b5 = Kshana-scenario för lunar infrastruktur: space-tie. MODELLED; utformningen, indata och trösklarna är fastställda i xval/lunar-infra/PREREGISTRATION.md (incheckad före någon körning). ILLUSTRATIVA indata är märkta med sina offentliga källor där. (kommentar i scenariofilen, rad { "1" } till { "3" })
+seg-4658f67623b5 = Kshana-scenario för lunar infrastruktur: space-tie. MODELLED; utformningen, indata och trösklarna är fastställda i xval/lunar-infra/PREREGISTRATION.md (incheckad före någon körning). ILLUSTRATIVE indata är märkta med sina offentliga källor där. (kommentar i scenariofilen, rad { "1" } till { "3" })
 
 seg-f7257c25f137 = Lunar banbestämning: jordens GNSS mot radiometri från marken är MODELLED, inte validerad: kontrollerad mot en separat implementation i samma kodbas — oberoende av enheten som testas, men inte externt auktoritativ. (verifieringsmatris (docs/MODELLED-RATIONALE.md))
 

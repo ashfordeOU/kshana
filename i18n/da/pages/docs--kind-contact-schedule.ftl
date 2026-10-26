@@ -46,7 +46,7 @@ seg-60431931082a = <b>MODELLED</b> Kandidatkontakter fra hver overflyvning melle
 
 seg-9941b9f6d4a8 = MODELLED — kontaktplan for flere satellitter og flere stationer: tilsyneladende adgangsvinduer (SGP4, IAU 2006/2000A, ITU-R P.834-refraktion, lystid), DVB-S2-ACM-datavolumen pr. overflyvning ud fra et linkbudget ved klar himmel (tærskler i ETSI EN { "302" } 307-1 Table { "13" }) og konfliktløsning (én satellit pr. antenne med omstillingstid, én station pr. satellit) ved en grådig metode med marginalværdi kontrolleret mod en eksakt branch and bound; intet regnfald, (resultat <c1/>)
 
-seg-f8ef88bc82b5 = Hvert tal nedenfor er ILLUSTRATIVT: ingen operatørs baner, stationer eller linkbudget. MODELLED: planlæggeren kontrolleres mod sin egen eksakte løser, ikke et eksternt værktøj. (kommentar i scenariefilen, linje { "11" } til { "12" })
+seg-f8ef88bc82b5 = Hvert tal nedenfor er ILLUSTRATIVE: ingen operatørs baner, stationer eller linkbudget. MODELLED: planlæggeren kontrolleres mod sin egen eksakte løser, ikke et eksternt værktøj. (kommentar i scenariefilen, linje { "11" } til { "12" })
 
 seg-fe2b4799b397 = Planlægning af jordkontakter for flere satellitter og flere stationer med konfliktløsning er MODELLED, ikke valideret: kontrolleret mod sin egen lukkede/analytiske identitet — fanger transskriptions- og koefficientfejl, men er ikke en ekstern uafhængig reference. (verifikationsmatrix (docs/MODELLED-RATIONALE.md))
 

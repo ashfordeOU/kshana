@@ -42,7 +42,7 @@ seg-02e9f2e87410 = MODELLED — DVB-S2 adaptiv kodning og modulation over én sa
 
 seg-cd04f5662884 = MODELLED. (typekatalog (<c1/>))
 
-seg-a2cdc7dff1e3 = Hvert tal nedenfor er ILLUSTRATIVT: ingen operatørs bane, station eller linkbudget. MODELLED. (kommentar i scenariefilen, linje { "8" })
+seg-a2cdc7dff1e3 = Hvert tal nedenfor er ILLUSTRATIVE: ingen operatørs bane, station eller linkbudget. MODELLED. (kommentar i scenariefilen, linje { "8" })
 
 seg-7f8667e8d8fe = DVB-S2 adaptiv kodning og modulation langs en LEO-downlink-overflyvning er MODELLED, ikke valideret: kontrolleret mod sin egen lukkede/analytiske identitet — fanger transskriptions- og koefficientfejl, men er ikke en ekstern uafhængig reference. (verifikationsmatrix (docs/MODELLED-RATIONALE.md))
 

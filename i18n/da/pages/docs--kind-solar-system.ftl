@@ -44,7 +44,7 @@ seg-c4b64eb26210 = ICRF (ækvatorial J2000), heliocentrisk; m
 
 seg-6096a0ab243b = Standish Table { "1" } ({ "1800" } AD til { "2050" } AD)
 
-seg-5c9a8d4716f5 = Resultatetiket (motorens egen): BLANDET: hvert legeme bærer sin egen mærkat. Planeternes positioner er VALIDATED mod JPL Horizons inden for det dobbelte af Standishs nominelle fejl (Merkur til Saturn og Jorden fra Table { "1" }; alle otte planeter fra Tables 2a/2b); Uranus og Neptun fra Table { "1" }, Pluto, Månen og de syv måner er MODELLED.
+seg-5c9a8d4716f5 = Resultatetiket (motorens egen): MIXED: hvert legeme bærer sin egen mærkat. Planeternes positioner er VALIDATED mod JPL Horizons inden for det dobbelte af Standishs nominelle fejl (Merkur til Saturn og Jorden fra Table { "1" }; alle otte planeter fra Tables 2a/2b); Uranus og Neptun fra Table { "1" }, Pluto, Månen og de syv måner er MODELLED.
 
 seg-537aa8010e50 = Diagrammet, som motoren skriver for scenarios/solar-system-tour.toml, type solar-system
 
@@ -62,7 +62,7 @@ seg-ab1192de28f5 = <b>VALIDATED</b> Den newtonske envejs lystid fra et vilkårli
 
 seg-5a2e745828ea = <b>MODELLED</b> Positioner for Uranus og Neptun fra Standish Table { "1" } (standarden inden for { "1800" } AD til { "2050" } AD), Pluto fra rækken Table { "1" } fra { "1992" }, som JPL's nuværende side ikke længere an. Uafhængig reference (ExternalDataset): målt mod JPL Horizons DE441 (de samme indsendte fixtures), men ikke valideret: Table { "1" }s angivne tal for Uranus og Neptun overskrides med op til { "2.0" } og { "5.2" } gange mod heliocentriske positioner fra DE441 (Neptun ligger inden for dem mod barycentriske positioner, hvilket tyder på, at tilpasningen ikke var heliocentrisk), siden angiver ingen fejl for Pluto, og ingen offentliggjort grænse findes for hastighederne. Tables 2a/2b ligger inden for deres egne
 
-seg-0131b082906b = BLANDET: hvert legeme bærer sin egen mærkat. Planeternes positioner er VALIDATED mod JPL Horizons inden for det dobbelte af Standishs nominelle fejl (Merkur til Saturn og Jorden fra Table { "1" }; alle otte planeter fra Tables 2a/2b); Uranus og Neptun fra Table { "1" }, Pluto, Månen og de syv måner er MODELLED. Lystiderne er newtonske, ud fra de samme positioner. (resultat <c1/>)
+seg-0131b082906b = MIXED: hvert legeme bærer sin egen mærkat. Planeternes positioner er VALIDATED mod JPL Horizons inden for det dobbelte af Standishs nominelle fejl (Merkur til Saturn og Jorden fra Table { "1" }; alle otte planeter fra Tables 2a/2b); Uranus og Neptun fra Table { "1" }, Pluto, Månen og de syv måner er MODELLED. Lystiderne er newtonske, ud fra de samme positioner. (resultat <c1/>)
 
 seg-3e24f0bf9ccd = MODELLED, hver række mærket: Uranus og Neptun fra Table { "1" } ({ "2.0" } og { "5.2" } gange den nominelle fejl mod DE441), Pluto (rækken fra { "1992" }; ingen angiven fejl), Månen og de syv måner (målt mod Horizons, ingen offentliggjort grænse). (typekatalog (<c1/>))
 

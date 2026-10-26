@@ -60,7 +60,7 @@ seg-32c6524b0baf = MODELLED optisk PNT genom atmosfären: för en optisk länk o
 
 seg-2c7493ee5042 = MODELLED: varje väder-, teknik- och klockindata samt antagandena om oberoende och copula; ingen uppmätt tillgänglighetsregistrering har jämförts. (typkatalog (<c1/>))
 
-seg-b4402211e3fe = Optisk PNT genom atmosfären: tre ILLUSTRATIVA markplatser (en molnigare nordlig plats, en mellanplats i mitten och en klarare sydlig plats) som betraktar en optisk LEO-terminal vid { "30" } graders elevation vid { "1550" } nm. Molnklimaten är angivna indata, inte mätningar eller något dataset med värden, så varje tillgänglighet nedan är MODELLED. Körningen redovisar per plats förlusten i klar luft, turbulenstillståndet enligt Hufnagel-Valley, (kommentar i scenariofilen, rad { "1" } till { "8" })
+seg-b4402211e3fe = Optisk PNT genom atmosfären: tre ILLUSTRATIVE markplatser (en molnigare nordlig plats, en mellanplats i mitten och en klarare sydlig plats) som betraktar en optisk LEO-terminal vid { "30" } graders elevation vid { "1550" } nm. Molnklimaten är angivna indata, inte mätningar eller något dataset med värden, så varje tillgänglighet nedan är MODELLED. Körningen redovisar per plats förlusten i klar luft, turbulenstillståndet enligt Hufnagel-Valley, (kommentar i scenariofilen, rad { "1" } till { "8" })
 
 seg-384f5c73cdf9 = En realisering med slumpfrö av varje platss länk genom tiden (MODELLED; ett utfall från modellen ovan, inte klimatet). Saknas den skrivs ingen serie och resultatet är dokumentet { "0.37" }. (kommentar i scenariofilen, rad { "78" } till { "79" })
 
