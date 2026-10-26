@@ -14,3 +14,12 @@ seg-ad856ad710eb = Estado
 
 # text
 seg-6e0cb6acc073 = VALIDATED
+
+# text
+seg-f63dd3d7aad4 = Fonte
+
+# text
+seg-638b8d451550 = Sensor
+
+# text
+seg-d4a762001549 = Licença

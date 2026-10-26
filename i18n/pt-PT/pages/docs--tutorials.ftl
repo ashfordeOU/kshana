@@ -23,3 +23,15 @@ seg-28e87f407a10 = Domínio
 
 # text
 seg-d6476863f862 = Capacidade
+
+# text
+seg-029de6b99be0 = Navegação estimada inercial
+
+# text
+seg-9ef8f99ca6e4 = Transferência de tempo
+
+# text
+seg-b03d56f501c3 = Tipo
+
+# text
+seg-ec26df467b88 = PNT por fusão de sensores com filtro de Kalman conjunto sobre as mesmas entradas híbridas.
