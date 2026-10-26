@@ -1569,3 +1569,723 @@ dat-e910c86d9cbe = Vrije-ruimtepadverlies, C/N₀, Eb/N₀, marge en sluiting ov
 dat-27e53cda32db = Karakterisering van frequentiestabiliteit
 
 dat-f329e4558e9f = Frequentiestabiliteit op een echt gemeten klok
+
+# data/search.json
+dat-6d224d115687 = Frequentiesynchronisatie: wandergeneratie volgens G.811, G.812, G.8262 en G.8262.1 ({ "0.36" })
+
+# data/search.json
+dat-e2a2e2c97af5 = Vanuit code
+
+# data/search.json
+dat-eb9476cc9794 = Vanuit Python en WebAssembly
+
+# data/search.json
+dat-d90fd2aeef6a = Vanuit Python, WebAssembly en MCP
+
+# data/verification-matrix.json
+dat-c32cf6bb95d1 = frugal (over walker)
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-0f8189016ddc = Frugale kosten-per-dekking en ROI-benadering
+
+# data/verification-matrix.json
+dat-64418b3e7e3c = frugal::tests (met de hand afgeleide kosten-per-dekking 48/96={ "0.5" }, ROI-verhouding { "2.667" }, bewaking van de volgorde van de intervallen en van nuldekking)
+
+# js/evidence-data.mjs
+dat-821431fc22ea = Volledige boogdispatch, niveau { "1" } (vóór de fix†)
+
+# js/missions-runs.mjs
+dat-6dd8e31b0dcd = gefuseerde positiebepaling, RMS-fout
+
+# studio/data/areas.json
+dat-85439cf1f56d = Gefuseerde mediane PDOP tegenover LEO-SISRE
+
+# data/search.json
+dat-e4d34ebcb276 = Gefuseerde positiebepaling, navigatie en tijdsynchronisatie (PNT) met medium-Earth-orbit (MEO) en low-Earth-orbit (LEO) over ELK…
+
+# data/search.json
+dat-b798d233f73e = Gefuseerde MEO- en LEO-positiebepaling voor een vaartuig diep in een fjord, waar de dalwanden verbergen
+
+# data/search.json
+dat-d3bf21538bac = Gefuseerde MEO- en LEO-positiebepaling, navigatie en tijdsynchronisatie
+
+# data/search.json, js/missions-runs.mjs
+dat-76d49a741f36 = Gefuseerde MEO- en LEO-pseudorangepositiebepaling: GPS en Galileo met een LEO-navigatielaag.
+
+# js/missions-runs.mjs
+dat-a672a7aa19d7 = gefuseerd met lage baan
+
+# data/search.json
+dat-3ada6ff9e069 = fusie (scenariotype)
+
+# data/verification-matrix.json
+dat-ec5d8ca74e7d = fusion::pack (TightCfg, [tight]), scenario's gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation
+
+# data/verification-matrix.json
+dat-95e88ecc34df = fusion::tests (UKF==lineair-KF-identiteit; uitvalkustvlucht; NEES); tests/gnss_ins_sensor_fusion_reference.rs ({ "50" } gevallen tegen filterpy { "1.4.5" }: lineaire EKF los/strak gekoppeld + gekoppelde PNT-posterioren tot ≤{ "2.4e-12" }; UKF-run van 40 epochs, slechtste |Δx| { "1.9e-7" } / |ΔP| { "9.5e-6" }); tests/gnss_ins_navego_dataset_oracle.rs::loosely_coupled_rms_within_1p2x_of_navego (los gekoppelde NaveGo v1.4-oplossing op de echte Ekinox IMU/GNSS-rit van NaveGo: horizontale RMS 0.912x, verticale 0.940x, RMS van de positie-innovatie 0.861x van die van NaveGo, gemiddelde genormaliseerde innovatie { "0.395" }; drempels 1.2x, 1.2x, 1.2x en { "1.5" } vastgelegd vóór de run)
+
+# data/verification-matrix.json
+dat-fa85ed0fb966 = G1/G2-LFSR-generator voor C/A-codes die de gepubliceerde octale verificatievectoren van de eerste 10 chips uit IS-GPS-200 reproduceert voor PRN { "1" }–{ "9" } (plus lengte van 1023 chips, balans van 512 enen, driewaardige periodieke autocorrelatie)
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-71b6ea3dc71a = Gebruikersalgoritme voor de Galileo-ICD-broadcastefemeride als basis van een LEO-navigatiebericht
+
+# data/search.json
+dat-c5e5f5f38caf = Galileo medium Earth orbit — GREEN (< { "5" } m drempel)
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-455af4b55c5e = Galileo OSNMA-authenticatie van navigatiedata aan ontvangerzijde
+
+# data/search.json
+dat-9025636fcc85 = Galileo OSNMA-verifier aan ontvangerzijde
+
+# studio/data/capabilities.json
+dat-b674eba809eb = Galileo OSNMA-verificatie
+
+# data/search.json
+dat-6e3ed81e2232 = Galileo OSNMA-verifier
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-8a9416290ca3 = Galileo Walker 24/3/1, Galileo OS SDD uitgave { "1.1" } tabellen { "1" } en { "23" }
+
+# studio/channels.json
+dat-4a49a3de27d2 = gate- en bench-implementaties
+
+# data/verification-matrix.json
+dat-f553cc1c927b = Gate-integriteit — een groen dat betekent wat het zegt
+
+# data/search.json
+dat-6a610bcc14b9 = Gate-modus
+
+# data/verification-matrix.json
+dat-e3b2d3da9750 = GDOP/PDOP/HDOP/VDOP/TDOP uit zichtlijngeometrie via Q=(HᵀH)⁻¹ met een lokale ENU-splitsing
+
+# data/search.json
+dat-731732835cd7 = Gemini CLI
+
+# js/developers-data.mjs
+dat-b3d237b0dc32 = Genereer een GNSS-IQ-scène met meerdere satellieten in een bestand in de werkmap (`kshana iq scene`).
+
+# js/developers-data.mjs
+dat-8bf4ec225897 = Genereer synthetische brug-NMEA { "0183" } voor bemanningstraining uit een `nmea-scenario`-TOML (`kshana nmea-scenario`): een vaartuigspoor en een tijdlijn van gescripte gebeurtenissen (jamming, positie-afdrijving, tijdspoofing, vertraagde herhaling, met herstel).
+
+# data/verification-matrix.json
+dat-26c58834fe9d = Gegenereerd door `cargo run --bin gen_validation_artifacts` en vastgezet door tests/verification_artifacts_doc_sync.rs. Niet met de hand bewerken.
+
+# data/search.json
+dat-4837fbbcb35b = Generieke N-D-parametersweep over ELK scenariotype. In tegenstelling tot de alleen-klok
+
+# data/search.json
+dat-3df08ace2207 = Generieke N-D-sweep over elk pakket via TOML-sleutels met punten / JSON-metriekpaden.
+
+# data/verification-matrix.json
+dat-74ed4850ce5d = geolocation::tests (ruisvrije TDOA voorwaarts→invers tot { "1e-6" } m; J·CRLB=I met een symmetrische PD-covariantie; de spoor van de positievariantie van de CRLB neemt niet toe als een ontvanger wordt toegevoegd; gezamenlijke TDOA+FDOA reproduceert positie+snelheid van een bewegende zender; <{ "4" } ontvangers geweigerd); tests/geolocation_reference.rs (heen-en-terugrondes over vier geometrieën met een in 3D gevarieerd netwerk; de Gauss–Newton-schatter haalt zijn Cramér–Rao-grens — de empirische foutcovariantie volgt de analytische grens over { "4000" } Monte-Carlo-trials); tests/geolocation_crlb_published_oracle.rs (ho_chan_1993_maximum_tdoa; ho_xu_2004_fig7_with_the_authors_corrected_source; ho_xu_2004_bound_matches_the_authors_code; finding_ho_chan_ottawa_printed_values_are_not_the_bound en finding_ho_xu_fig7_printed_source_is_not_the_plotted_one, vastgezet)
+
+# data/verification-matrix.json, data/card-matrix-map.json, data/standards-matrix-map.json
+dat-611e316455d9 = Geomagnetisch referentieveld (IGRF-14-synthese)
+
+# data/verification-matrix.json
+dat-b4ef2c21bc63 = Geometrische instantiëring van de blokgewijze spark-grens / grens voor veilige toestandsschatting (Fawzi–Tabuada–Diggavi { "2014" }; Shoukry–Tabuada { "2016" }; blokgewijze spark van Donoho–Elad { "2003" }; Candès–Tao { "2005" }) — NIET de consensusdrempel 3f+{ "1" } van Lamport–Shostak–Pease ('Byzantine' benoemt alleen het MODEL van willekeurige/samenspannende fouten). Het specifieke aantal te verdragen fouten is een Modelled-eigenschap van de representatieve netwerkgeometrie, op zelfconsistentie gecontroleerd met met de hand opgestelde analytische gevallen en de telformules
+
+# data/verification-matrix.json
+dat-2b09848842ee = Geometrische posities van Zon, Mercurius, Venus, de Aarde en de Maan ten opzichte van elkaar (assen J2000/ICRF, meter) uit een JPL DE440-kernel via ephem_provider::KernelEphemeris op UTC-epochs: lichaamsnamen toegewezen aan NAIF-codes, UTC via de schrikkelsecondentabel en TT naar TDB met de TDB-TT-reeks van twee termen, de kernel gelezen door de eigen lezer van de engine. Een lichaam dat de kernel alleen als stelselbarycentrum bevat (Mars tot Neptunus, Pluto in de440s) wordt geweigerd, nooit vervangen. De kernelvrije Standish-rij blijft het browser- en terugvalpad
+
+# data/search.json
+dat-39e185a7bce6 = Geometrie — GNSS-beschikbaarheid uit banen
+
+# data/verification-matrix.json
+dat-5b62a8ae98f6 = geometry (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg; CLI `kshana sky` en `kshana skyline`, Python- en WASM-functies met dezelfde namen, MCP `sky_geometry`): vanuit een plaats, een tijdstip en constellatievoorinstellingen (of satellieten als azimut/elevatie of ECEF) de satellieten die zichtbaar zijn en die onder een skyline gemaskeerd zijn, GDOP/PDOP/HDOP/VDOP/TDOP, de cofactor met eenheidsvariantie (H^T H)^-1 en de covariantie in oost-noord-omhoog met één ontvangerklok per stelsel of één gemeenschappelijke, de horizontale foutellips (halve assen k sigma sqrt(lambda), k = sqrt(-2 ln({ "1" } - p)), oriëntatie { "0.5" } atan2({ "2" } Q_EN, Q_NN - Q_EE) vanaf noord), en n geseede kleinste-kwadratenfouten onder onafhankelijke Gaussische afstandsfouten met hun empirische covariantie, RMS en insluiting van { "95" } %. De cofactor is orbit::cofactor_from_los, de ene kernel achter orbit::dop en orbit::dop_cov (dop is de reductie van dop_cov): geen tweede DOP-implementatie
+
+# data/verification-matrix.json
+dat-9d3c13673a52 = Geometrie, J/S-linkbudget, anti-jam-C/N₀, verlies van lock per satelliet
+
+# studio/data/capabilities.json
+dat-564d4b9fd1ed = Geometriebewuste vertrouwensclassificatie
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-f7f6e62db727 = Geometriebewuste vertrouwensclassificatie: satellietgeometrie naast de vertrouwensscore van de ontvanger en een klasse bij elke aftrek
+
+# data/search.json
+dat-e10a325ec82d = Geometrie: natuurlijke degradatie los van aanvalsachtige inconsistentie
+
+# data/verification-matrix.json
+dat-1ce585aa8de3 = geometry::sky_geometry: de ENU-en-klok-cofactor (H^T H)^-1 met één gemeenschappelijke ontvangerklok of één per stelsel (de kernel orbit::cofactor_from_los), en de horizontale foutellips uit zijn oost-noordblok (halve assen k sigma sqrt(lambda), k = sqrt(-2 ln({ "1" } - p)), het azimut van de hoofdas vanaf noord)
+
+# data/verification-matrix.json
+dat-b643c15103c2 = geometry::tests (ellipse_of_an_analytic_two_by_two_case; sky_geometry_equals_orbit_dop_on_the_same_visible_set; ecef_input_matches_azimuth_elevation_input; one_clock_per_system_adds_a_state_and_costs_geometry; monte_carlo_is_seeded_and_agrees_with_the_geometry; presets_propagate_and_are_seen_from_a_site); tests/dop_reference.rs (de kernel met één klok tegen gnss_lib_py)
+
+# data/search.json
+dat-61e8d44ad423 = Aan de slag
+
+# studio/channels.json
+dat-3023f7e52c16 = GitHub-containerregister
+
+# studio/channels.json
+dat-f7ecb6756caa = GitHub-release
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-a33da228eb84 = Globale dilution of precision van de GPS-basisconstellatie
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-0beb4fb3e33d = Wereldgemiddelde gewichten van de signal-in-space-afstandsfout voor elke baanhoogte
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-2015f8efbc2f = GLONASS 24/3/1, GLONASS ICD-uitgave { "5.1" } ({ "2008" }) sectie { "5.2" }
+
+# data/verification-matrix.json
+dat-3123f2d9a593 = GLONASS-broadcastsatellietklok en propagatie van de broadcastbaan
+
+# assets/capabilities/capabilities.json
+dat-49146c124e2d = GLONASS G1/G2, BeiDou B1/B2 en Galileo E6
+
+# data/verification-matrix.json
+dat-56cdbf2137c2 = GLS-common-mode-whitening (Aitken) + Mahalanobis-identiteit
+
+# data/verification-matrix.json
+dat-b9b08309b102 = GMAT R2022a (NASA GSFC, Apache-2.0) GmatConsole met de Exponential-atmosfeer (dezelfde tabel met 28 banden), puntmassa-Aarde en PrinceDormand78, uitgevoerd, nooit gevendord. Drempels vooraf vastgelegd in xval/drag-exponential-gmat/PREREGISTRATION.md (640c85c1) op de weerstandsverplaatsing van elke kant (run met weerstand min run zonder weerstand), waarbij de twee mu-waarden van de Aarde en de integratoren wegvallen; allemaal gehaald (RESULTS.md). GMAT neemt geodetische hoogte en kshana sferische hoogte: die vallen alleen samen op de evenaar, dus VALIDATED dekt equatoriale banen; buiten de evenaar verschillen de modellen door ontwerp ({ "10.4" } % van { "24" } uur verplaatsing bij { "51.6" } deg, { "400" } km). De publieke build van GMAT heeft geen NRLMSISE-00 (plug-in ontbreekt), dus het NRLMSISE-00-niveau heeft alleen de Orekit-referentie. De nauwkeurigheid van de tabel tegenover gemeten dichtheid wordt niet gedekt
+
+# data/verification-matrix.json
+dat-900ba38459e6 = GMAT R2026a (Apache-2.0, als afzonderlijk programma uitgevoerd) op { "192" } hyperbolische aardtoestanden: B.T, B.R en |B| binnen { "1e-6" } km (slechtste { "1.35e-8" } km), de draaihoek en beide asymptoten binnen { "1e-9" } rad (slechtste { "9.3e-15" } rad); de snelheidsverandering van de assist uit GMAT-C3 en asymptoten binnen { "1e-9" } v_inf (slechtste { "5.6e-14" }); heliocentrische SMA, ECC en INC op { "350" } zon-gecentreerde toestanden vóór en na de assist binnen { "1e-9" } relatief en { "1e-12" } rad (slechtste { "2.2e-14" } en { "4.1e-14" } rad); de Tisserand-parameter tegen sbpy { "0.6.0" } (BSD-3) op GMAT-elementen binnen { "1e-9" } (slechtste { "1.3e-15" }) en tegen { "3" } - C3/v_c^{ "2" } ({ "8.9e-16" }); en de gesloten vorm van Tisserand tegen Kasuga en Jewitt ({ "2019" }) tabel { "8.1" } voor { "12" } objecten binnen de gedrukte afrondingsgrens (slechtste { "0.39" } daarvan; een gepubliceerde uitgewerkte waarde van P1). Vooraf vastgelegd (436293bf; heliocentrisch herstel 6fd9f5e6); amendement 374c806b, geschreven nadat de referentiebestanden waren gegenereerd en vóór enige Kshana-waarde, verruimde het invoerfilter voor de inclinatie van { "1e-2" } naar { "1e-3" } rad, waardoor meer en slechter geconditioneerde toestanden behouden bleven. MODELLED bereik: gepatcht-conisch tweelichamenflyby op een cirkelvormige planeetbaan, geen overgang naar de invloedssfeer, geen verstoringen tijdens de ontmoeting en geen efemeride
+
+# studio/data/capabilities.json
+dat-aa6ddeb93b15 = GNSS/INS-sensorfusie
+
+# js/missions-runs.mjs
+dat-58fdfb5544c3 = alleen GNSS, RMS-fout
+
+# studio/data/capabilities.json
+dat-2cad73f47600 = GNSS-authenticatie
+
+# data/search.json
+dat-ebddc70e47f7 = GNSS-beschikbaarheid + DOP uit een orbitale constellatie (Walker / TLE / RINEX).
+
+# data/search.json
+dat-f045dfa9ea84 = GNSS-beschikbaarheid en dilution of precision onderaan een stadsstraat: de `orbit`
+
+# data/search.json
+dat-ab69eba7be35 = GNSS-beschikbaarheid afgeleid uit baangeometrie (geen met de hand opgestelde vensters).
+
+# data/search.json
+dat-17bb8b5c7578 = GNSS-beschikbaarheid voor een zeer excentrische (Molniya) gebruiker, uit baangeometrie.
+
+# data/search.json
+dat-55e2648633a9 = GNSS-beschikbaarheid uit een echte RINEX-{ "3" }-broadcastefemeride.
+
+# data/search.json
+dat-eeb36e87af2a = GNSS-beschikbaarheid uit ECHTE satellietgeometrie, via two-line-elementsets.
+
+# data/search.json
+dat-b3d70ccc7bd2 = GNSS-beschikbaarheid uit de ECHTE GPS-constellatie, gepropageerd met SGP4/SDP4.
+
+# data/search.json
+dat-a44b2b91bca4 = GNSS voorbij de constellatie: het type gnss-ssv
+
+# studio/data/capabilities.json
+dat-840f672ac80e = GNSS voorbij de constellatie: het Space Service Volume en daarbuiten
+
+# data/verification-matrix.json
+dat-83b3514917c4 = GNSS-draaggolffase: oplossen van de geheeltallige ambiguïteit (LAMBDA)
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-bb79da35fc9c = GNSS-geometrie / dilution of precision (DOP)
+
+# data/search.json
+dat-e273c919d879 = GNSS-integriteit (RAIM) beschikbaarheid over een GPS-achtige constellatie.
+
+# data/verification-matrix.json
+dat-3ed8a076bc17 = GNSS-IQ-acquisitie op onafhankelijk gegenereerde I/Q-samples
+
+# data/search.json
+dat-f09cd8d61760 = GNSS-IQ en handtekeningen van ontvangervertrouwen
+
+# data/verification-matrix.json
+dat-a0dce0aacba8 = Signaalgeometrie van een GNSS-IQ-scène tegen een onafhankelijke basisbandgenerator
+
+# data/search.json
+dat-793ccdd5cb86 = GNSS-jammingvoetafdruk
+
+# studio/data/capabilities.json
+dat-f04784542a0c = GNSS-meetdomein
+
+# data/search.json
+dat-4e35d01aa3d8 = GNSS-metingen, positiebepaling en integriteit
+
+# data/search.json
+dat-e32da0beede4 = GNSS-metingen, positiebepaling en integriteit (familie van scenariotypen)
+
+# js/missions-runs.mjs
+dat-3a4061afb712 = Mediane GNSS-C/N0
+
+# data/search.json
+dat-d5e0f4289cb5 = GNSS op een maanovergang, met een zwaksignaalontvanger die zijn gevoeligheid verdient.
+
+# studio/data/capabilities.json
+dat-7d5e1c1fc67e = GNSS-positiebepaling
+
+# data/search.json
+dat-f71f41147efa = GNSS-positiebepaling, aangevuld met de twee Celeste-demonstratiesatellieten van ESA in een baan.
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-fb12222228a2 = Beschikbaarheid van GNSS-signalen in het Space Service Volume en daarbuiten, vergeleken met het ICG SSV-boekje
+
+# data/search.json
+dat-eb68247b6d8c = Beschikbaarheid van GNSS-signalen op de bovenste SSV-schil: de globale maat van het boekje, op een schaal die in een seconde draait.
+
+# data/verification-matrix.json
+dat-0430afb51651 = Detectiestatistieken voor GNSS-acquisitie met kwadratische wet
+
+# data/verification-matrix.json
+dat-ab0faa9843fa = GNSS-vertrouwen (score, band, redenen, gate en, op verzoek, positie) als Prometheus-tekstexpositie aangeboden op /metrics en als OTLP/HTTP-JSON-metrieken, met een begrenzing van de kardinaliteit van redenlabels.
+
+# data/search.json
+dat-4a56bffdc113 = GNSS-vertrouwen als beveiligingstelemetrie
+
+# data/verification-matrix.json
+dat-babe120b27d3 = gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — onafhankelijke bibliotheek, overeenkomend tot { "1e-6" } relatief
+
+# data/verification-matrix.json
+dat-6d8275b71221 = gnss_navmsg::tests (CRC-24Q-controlewaarde 0xCDE703; convolutionele impulsrespons; Viterbi corrigeert ingebrachte fouten; veldbreedten); tests/gnss_navmsg_roundtrip.rs (startbits van velden gelijk aan de bitnummers van de ICD; encode -> FEC -> interleave -> Viterbi -> decode round trips binnen een halve LSB); tests/gnss_navmsg_galileo_brdc_grid.rs (IGS BRDC 2018-133 Galileo-records op het LSB-raster, slechtste { "3.6e-3" } LSB; vooraf vastgelegde drempel voor het aantal satellieten gemist, { "15" } van { "20" }, BEVINDING)
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-7a590be82e74 = Klok-holdover zonder GNSS
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-4c656dcbfb0b = Jamming-veerkracht zonder GNSS
+
+# data/verification-matrix.json
+dat-ad83abe1a009 = Kwantumnavigatie zonder GNSS
+
+# data/search.json
+dat-17b5e6774026 = Kwantumnavigatie zonder GNSS — kwantum (koude-atoominterferometer) tegenover klassiek
+
+# data/search.json
+dat-c0d5518e2983 = Kwantumnavigatie zonder GNSS (src/quantum_nav_od.rs)
+
+# data/search.json
+dat-9d4a626d6fc3 = gnss-ins (scenariotype)
+
+# data/verification-matrix.json
+dat-7d66f55cfbd0 = GNSS-SDR { "0.0.19" } (GPL-3.0-or-later, het Ubuntu-{ "24.04" }-pakket, als afzonderlijk programma uitgevoerd; alleen afgeleide getallen vastgelegd) dat dezelfde numpy-opnamen volgt (onafhankelijk van de engine), beide gemeten tegen de analytische waarheid. Drempels vooraf vastgelegd op 48edd4a5, gewijzigd vóór enige testopname op 1e4288c4 (een FLL van { "10" } Hz alleen tijdens het inlopen in beide ontvangers, nadat de vastgelegde kalibratie mislukte door een foute GNSS-SDR-overdracht, bevinding F3). MET bij { "30" }, { "35" }, { "40" } en { "45" } dB-Hz: draaggolfjitter binnen { "4.3" } %, codejitter binnen { "4.6" } % en gemiddelde en spreiding van de Doppler binnen die van GNSS-SDR. NOT MET: de NWPR-C/N0 van de engine ligt { "2.3" } tot { "7.1" } dB onder de SNV van GNSS-SDR (bevinding F4, de bekende NWPR-limiet; zijn M2M4 ligt binnen { "0.06" } dB van de waarheid); de fasevergrendelingsindicatoren verschillen per definitie (F5); bij { "30" } dB-Hz maakte GNSS-SDR twee slips en de engine geen (F6). De eigen overdracht van GNSS-SDR vergrendelde in { "3" } van { "30" } kalibratieruns op een verkeerde frequentie. WAT NIET WORDT GECONTROLEERD: andere signalen, wegnemen van databits, heracquisitie, veldopnamen. De rij blijft MODELLED.
+
+# data/verification-matrix.json
+dat-88626853d609 = GNSS-SDR { "0.0.19" } (GPL-3.0, afzonderlijk programma, vastgezette configuratie) op de negen L1-batches zonder oppervlak en de RAW-C/N0 van de vluchtontvanger (LuGRE Mission Data, Zenodo { "16411687" }, CC BY { "4.0" }), vooraf vastgelegd 768cb62b. BEVINDING: de lezer van Kshana decodeert alle { "288" } vergeleken spans identiek aan een onafhankelijke converter; GNSS-SDR verklaart { "266" } van de { "288" } zoekacties positief en Kshana stemt overeen op alle { "266" } beslissingen, maar slechts { "250" } liggen op de cel van GNSS-SDR (A2 faalt); het C/N0-deel is leeg, want geen enkele RAW-epoch van de vlucht ligt binnen { "30" } s van een batch (dichtstbijzijnde { "141" } s). De meeste positieven zijn artefacten: de kale two's-complement-niveaus hebben een gemiddelde van -0.5 op I en Q, een nulfrequentielijn { "32" } dB boven de ruis in een bin van { "1" } kHz, die beide ontvangers acquireren. Twee batches (OP5, OP12) zijn ten onrechte uitgesloten: een lezing van hun metadata zonder cijfers werd aangezien voor een tegenspraak met hun headers; de echte oorzaak was dat de lezer geen sample breder dan een woord kon lezen (sindsdien verholpen). Blijft MODELLED
+
+# data/verification-matrix.json
+dat-f1f9f73e43f8 = GNSS-SDR-monitoradapter voor ontvangervertrouwen
+
+# data/verification-matrix.json
+dat-ce3f6373b5d3 = GNSS-SDR { "v0.0.19" } (tag { "v0.0.19" }, commit 1ddd4562), een onafhankelijke opensource-implementatie van dezelfde ICD: zijn beidou_b1i_code_gen_int, afzonderlijk gecompileerd, genereerde alle { "63" } codes. Alleen zijn programma-uitvoer is vastgelegd: tests/fixtures/iq_signals/beidou_b1i_gnss_sdr.txt, een prefix van 64 chips en de SHA-256 van elke code van 2046 chips. Die uitvoer zijn de BeiDou B1I-PRN-codes die de openbare BDS-SIS-ICD-B1I-3.0 definieert; er staat geen GNSS-SDR-bron of -binary in de repository. Drempel vooraf vastgelegd op 911106d1 (xval/beidou-b1i-gnss-sdr/): alle { "2046" } chips van alle { "63" } PRN's identiek, geen inversie, verschuiving of hernoeming. Resultaat: { "63" } van { "63" } identiek; het fixture is opnieuw gegenereerd uit een verse checkout van { "v0.0.19" } (SHA-256 van het bronbestand zoals vastgelegd) en is byte-identiek. WAT NIET WORDT GECONTROLEERD: de secundaire code NH20, de lijst met GEO-PRN's, de draaggolf en de chipsnelheid.
+
+# data/search.json
+dat-abeeb9e52652 = gnss-sim (scenariotype)
+
+# data/search.json
+dat-ab23598ddddf = gnss-ssv (scenariotype)
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-f381b2207626 = GNSS/INS-pakketten voor maritiem, spoor en luchtvaart met een optie voor strakke koppeling
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-1e713796059f = GNSS/INS-sensorfusie
+
+# data/verification-matrix.json
+dat-a606add53511 = GNSS/INS-trajectbibliotheek en CSV-import van referentietrajecten
+
+# data/verification-matrix.json
+dat-c8272b47794a = GNSSTk { "15.3.1" } (ARL:UT, LGPL-3.0, commit 55ea3344, als afzonderlijk programma uitgevoerd via een harness; er is geen GNSSTk-code gevendord): getIonoCorr van KlobucharIonoNavData op L1, L2 en L5, getEffIonoLevel van NeQuickIonoNavData voor Az met de nulregel en de regels [{ "0" }, { "400" }] sfu, en getOffset van GPSLNavTimeOffset voor de UTC-drift, binnen { "1e-3" } m, { "1e-6" } sfu en { "1e-9" } s; en ERFA via pyerfa { "2.0.1.5" } (BSD-3), dat UTC afleidt uit de IERS-schrikkelsecondentabel, voor de drie schrikkelsecondegevallen van de ICD over de echte schrikkelseconden van 2015-06-30 en 2016-12-31, inclusief de aflezing { "23" }:{ "59" }:{ "60" }, binnen { "1e-9" } s (GNSSTk implementeert de daglengteregel van ICD-geval (b) niet en is daarom daar niet gebruikt, zoals in de preregistratie beschreven). Invoer zijn de echte IGS BRDC-headercoëfficiënten. Vooraf vastgelegd (6a66994b; amendement 88807a7e legde een deelverzameling van { "21" } 602 rijen van het schrikkelsecondenraster vast vóór enige Kshana-waarde werd vergeleken). De elektronendichtheidsintegratie van NeQuick is niet geïmplementeerd, en er is geen correctie voor een LEO-satelliet die binnen de ionosfeer vliegt
+
+# assets/capabilities/capabilities.json, js/missions-runs.mjs
+dat-acf30276f7a0 = GPS-basisconstellatie met 24 slots, GPS SPS Performance Standard 5e uitg. ({ "2020" }) tabellen 3.2-1 en 3.2-3
+
+# data/verification-matrix.json
+dat-8c382c68132d = GPS C/A Gold-kruis-/autocorrelatie komt EXACT overeen (geheel ±65/−1/63) met onafhankelijke IS-GPS-200-codegeneratie; PSD-vorm van BPSK-R({ "1" })/BOC({ "1,1" }) tegen een onafhankelijk scipy-periodogram. De gesloten vormen voor modulatie/SSC/DLL (Betz { "2001" } / Kaplan & Hegarty) blijven analytisch, dus de rij blijft MODELLED — maar de deelbewering over codecorrelatie is extern bevestigd. { "0.30" } ronde { "2" }, tegen de gedrukte waarden van Betz { "2001" } en Hein et al. { "2006" } (vooraf vastgelegd 9f4f2ce8, een halve gedrukte eenheid), een bevinding (blijft MODELLED): alle { "45" } spectrale cellen van tabel { "1" }, de correlatiewaarden bij { "1" } GHz, de MBOC-interferentiecijfers en { "2" } van de { "3" } verschuivingen van fig. { "17" } komen overeen; de eerste zijlobben bij { "24" } MHz, de verschuiving van BOC({ "8,4" }) in fig. { "17" } en elke multipath-bias in het slechtste geval in fig. 18-21 ({ "11" } tot { "15" } % te laag) niet. Kshana en een onafhankelijke NumPy-evaluatie van de vooraf vastgelegde lezing komen overeen, dus het verschil zit in die lezing of in een niet vermeld detail van het artikel; oorzaak onopgelost
+
+# data/verification-matrix.json
+dat-71345b993a9b = GPS CNAV-berichttypen 10/11/30, Galileo I/NAV-woordtypen 1-5 in nominale even/oneven pagina's en Galileo F/NAV-paginatypen 1-4: ICD-veldpakking en kwantisatie, CRC-24Q, convolutiecodering met rate 1/2 K={ "7" } (G2 geïnverteerd voor Galileo), blokinterleaving en syncpatronen, met bijpassende testdecoders
+
+# data/verification-matrix.json
+dat-2d449120b935 = Kruisgeneratorformaatcontrole van GPS L1 C/A
+
+# data/verification-matrix.json
+dat-ed4980281dd2 = GPS L1 C/A-spreidingscodes (sdr::CaCode) en LNAV-subframes 1-3 (gps_lnav: IS-GPS-200-veldkwantisatie met de pi van de specificatie, two's-complement-pakking, TLM- en HOW-woorden, pariteit volgens tabel 20-XIV met D29*/D30*-inversie, de pariteitoplossende bits van woorden { "2" } en { "10" }) bit voor bit vergeleken met gps-sdr-sim op zijn meegeleverde brdc0010.22n ({ "32" } satellieten)
+
+# data/verification-matrix.json
+dat-1a97a57b83e7 = Generatie van GPS L1 C/A-spreidingscodes
+
+# data/verification-matrix.json
+dat-fa382f0c49f6 = GPS L1C-ranging- en overlaycodes tegen de gedrukte controlekolommen van IS-GPS-800J
+
+# data/verification-matrix.json
+dat-b6918acff4da = GPS LNAV-codering gedecodeerd door een onafhankelijke ontvangerbibliotheek
+
+# data/verification-matrix.json
+dat-6649987ce0e6 = Codering van het GPS LNAV-navigatiebericht
+
+# data/verification-matrix.json
+dat-661bb3c8a237 = GPS SPS PS 5e editie (april { "2020" }) bijlage B secties B.3.2.2 en B.3.2.3, de gepubliceerde wereldgemiddelde HDOP-verdeling van de volledig bezette basisconstellatie met 24 slots (mediaan { "0.94" }, { "90" } % { "1.16" }, { "95" } % { "1.25" }, { "98" } % { "1.37" }, gemiddelde { "0.96" }), tabel 3.8-1 (PDOP-beschikbaarheid) en tabel B.3-1 (ensemble-PDOP van een gedegradeerde constellatie, alleen als bovengrens gebruikt), plus een met de hand afgeleide gesloten vorm voor één epoch. De VDOP- en PDOP-verdelingen van de volledige constellatie zijn alleen als figuur gepubliceerd, dus PDOP wordt eenzijdig vastgezet; het slechtste tijd-ruimtepunt (hier HDOP { "2.40" } en VDOP { "5.22" }, gepubliceerd { "2.49" } en { "5.43" }) hangt af van het raster en wordt gerapporteerd, niet vastgezet
+
+# data/search.json
+dat-c8e4f15b7206 = Alternatieve PNT zonder GPS
+
+# data/search.json
+dat-bc954d668981 = Alternatieve PNT zonder GPS (familie van scenariotypen)
+
+# data/search.json
+dat-60b1448d2ac3 = Gecombineerde zwaartekracht-, magnetische en terreinnavigator zonder GPS: drie scalaire veldkanalen gefuseerd per waypoint…
+
+# data/search.json
+dat-db37b7cd3c4f = Navigatie zonder GPS met zwaartekrachtkaartmatching: een koude-atoomgravimeter herstelt een constante INS-drift uit de…
+
+# data/search.json
+dat-c79931a093e0 = Sequentiële (recursieve) terreingerefereerde navigatie zonder GPS: een deeltjesfilter voert de terreinmatch uit…
+
+# data/search.json
+dat-fd36d4cd58c4 = Terreingerefereerde navigatie zonder GPS (TERCOM/SITAN): een radar-/baro-hoogtemeter matcht de grondhoogte…
+
+# data/verification-matrix.json
+dat-3a18e1b86eec = fusion::trajectory::tests (een gecoördineerde bocht heeft geen zijwaartse kracht en belastingsfactor 1/cos φ; CSV-import reproduceert een gevlogen profiel tot { "1e-3" } m/s en { "1" } m); tests/gnss_ins_trajectory_library.rs (elk profiel draait en fusie verslaat vrije INS tijdens de uitval; elk vliegt zijn genoemde beweging; waarneembaarheid van de koers: yaw-sigma na { "240" } s { "1.27" } deg bij rechtdoor varen tegenover { "0.039" } deg bij een figuur-8 en { "0.062" } deg bij stop-en-go); tests/gnss_ins_legacy_trajectory_pin.rs (oud resultaat en referentiehashes bit-identiek)
+
+# data/verification-matrix.json
+dat-3af71f34aee3 = gps-sdr-sim (MIT, commit 28ca29a6, als afzonderlijk programma uitgevoerd via een vastgelegde harness), vooraf vastgelegd f88f2969 met een bitexacte drempel op (A) C/A-chips, (B) elk berekend LNAV-veld, (C) elke pariteitsbit. BEVINDING: (A) { "0" } van { "32 736" } chips verschillen, (C) de pariteit van { "0" } van { "1 920" } woorden verschilt, (B) { "230" } van { "1 152" } berekende velden verschillen één eenheid: de eph2sbf van gps-sdr-sim kapt af naar nul met C-casts waar het broadcast-geheel afronding vereist (elke afwijkende waarde ligt binnen { "0.01" } van een eenheid van het afgeronde geheel van Kshana). Blijft MODELLED: de vastgelegde drempel was de conjunctie
+
+# data/verification-matrix.json
+dat-cca90e8b2987 = gps-sdr-sim (MIT, commit 28ca29a6) I/Q-samples en zijn eigen kanaaltoestand, vooraf vastgelegd 7777da53: (B1) elke gesimuleerde PRN geacquireerd, (B2) geen andere PRN geacquireerd, (B3) codefase binnen { "0.5" } chip, (B4) Doppler binnen { "125" } Hz. BEVINDING: B1, B3 en B4 gelden in beide vensters (slechtste { "0.195" } chip, { "72" } Hz), maar B2 faalt: alle { "21" } PRN's die gps-sdr-sim niet simuleerde overschrijden ook de drempel (statistiek { "151" } tot { "206" } tegen { "79.5" }; gesimuleerde PRN's { "1 300" } en hoger). De drempel is ingesteld voor Gaussische ruis van het gemeten samplevermogen; gps-sdr-sim voegt geen ruis toe, dus de cellen van een afwezige PRN bevatten de kruiscorrelatie van de andere satellieten. Blijft MODELLED: de vastgelegde drempel was de conjunctie
+
+# data/verification-matrix.json
+dat-52d3c8bd9d2c = gps-sdr-sim (T. Ebinuma, MIT, commit 28ca29a6), een onafhankelijke GPS L1 C/A-basisbandgenerator, gebouwd met zijn eigen Makefile en als afzonderlijk programma uitgevoerd op zijn meegeleverde brdc0010.22n op de voorbeeldlocatie uit zijn gebruikstekst (scripts/gen_iq_gpssdrsim_ref.sh); een vastgelegde harness, gelinkt tegen dezelfde build, drukt de kanaaltoestand (computeRange, computeCodePhase) achter het eerste blok van het programma af. Drempels vastgesteld voordat de generator werd uitgevoerd (vooraf vastgelegd 7777da53). Bereik: GPS L1 C/A-geometrie voor een stilstaande ontvanger zonder ionosfeer, troposfeer of ontvangerklok; de kanaalmodellen, de ruis en de inhoud van de navigatiedata van de scène maken geen deel uit van deze rij
+
+# data/search.json
+dat-be8f88b2f462 = Beoordeelde oefeningen
+
+# studio/channels.json
+dat-0a9eb1c3aa34 = Grafana-dashboard
+
+# data/verification-matrix.json
+dat-9d8f413a2486 = Zwaartekrachtanomalie in sferische benadering (Barthelmes STR09/02 verg. { "126" }, ICGEM gravity_anomaly_sa) uit volledig genormaliseerde coëfficiënten tegen een gesloten-vorm-niveau-ellipsoïde (WGS84/GRS80), met de term van graad nul, op een raster gezet voor de zwaartekrachtkaartmatcher
+
+# data/verification-matrix.json
+dat-93082325851e = Synthese van zwaartekrachtanomalieën uit een sferisch-harmonisch model
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-52d2b4907601 = Synthese van zwaartekrachtveldfunctionalen (kaart voor navigatie met zwaartekracht / zonder GNSS)
+
+# data/verification-matrix.json
+dat-9c57c1677418 = Het slechtste-geval-verstoringsmoment van de zwaartekrachtgradiënt ((3/2)(μ/R³)ΔI) als piek over de houding (de gevalideerde bewering), plus een RSS-richtfoutbudget over genoemde 1σ-bijdragen met de dominante term (een kwadratische som van door de aanroeper geleverde getallen, buiten de gevalideerde bewering). Uitvoerbaar vanuit de CLI/bindings als het scenariotype `attitude-budget` (scenarios/attitude-budget.toml)
+
+# data/search.json
+dat-b54b88ffb24b = gravity-map (scenariotype)
+
+# data/search.json
+dat-56286e67cf33 = Navigatie met zwaartekrachtkaart / alt-PNT (src/gravimeter.rs, src/mapmatch.rs, src/particle_filter.rs, src/altpnt/terrain.rs)
+
+# data/verification-matrix.json
+dat-a4942a2ee924 = Zwaartekrachtkaartmatching, terreingerefereerd (TERCOM/SITAN), magnetische anomalie
+
+# data/search.json
+dat-51f9b6ca7476 = Verliezen bij de gravity-turn-klim van een ILLUSTRATIVE tweetraps kerosine/zuurstof-lanceervoertuig (geen echt
+
+# studio/data/capabilities.json
+dat-179f6f50879d = Kaartmatching met zwaartekracht, terrein en magnetisme
+
+# data/verification-matrix.json
+dat-a9a886b55894 = Exacte equivalente vrijheidsgraden volgens Greenhall en Riley van de Allan-, gemodificeerde Allan- en Hadamard-varianties
+
+# data/search.json
+dat-35263996f593 = Planning van grondcontact voor meerdere satellieten boven meerdere stations: schijnbare toegangsvensters (SGP4, IAU…
+
+# data/search.json
+dat-d880e28889ce = Planning van grondcontact: drie illustratieve satellieten boven drie illustratieve stations voor
+
+# data/search.json
+dat-359b73a38bd7 = Cijfers uit het grondlab tegenover cijfers van vluchtgekwalificeerde hardware
+
+# data/verification-matrix.json
+dat-a9b472c1bb4e = Voorspelling van grondstationpassages (grondsegment)
+
+# data/search.json
+dat-0c1f2799015f = Demonstrator voor de voorspelling van grondstationpassages (grondsegment en operaties).
+
+# data/search.json
+dat-9fd044c96d13 = Voorspelling van grondstationpassages: de zichtbaarheidspassages in het tijdsdomein (AOS/TCA/LOS, maximale schijnbare elevatie…
+
+# data/verification-matrix.json
+dat-0e1c7cbf518f = Groepsvertraging { "40.3" } STEC/f^{ "2" } per band; de ionosfeervrije coëfficiënten f1^2/(f1^{ "2" } - f2^{ "2" }) en -f2^2/(f1^{ "2" } - f2^{ "2" }) en de ruisversterking sqrt(a1^{ "2" } s1^{ "2" } + a2^{ "2" } s2^{ "2" }) voor elk bandenpaar; het vrije-ruimteverlies { "20" } log10({ "4" } pi R f/c) van linkbudget::free_space_loss_db in zijn kilometer-megahertzvorm
+
+# data/verification-matrix.json
+dat-872abf4f27e1 = GRS80 (Moritz { "1980" }, IAG) normale zwaartekracht van Somigliana + gepubliceerde γ_e/γ_p; echt ICGEM EGM2008-veld
+
+# data/verification-matrix.json
+dat-398ee3faaf1b = Expliciete Runge-Kutta DOP853 van Hairer, { "8" }({ "5,3" }), met de gecombineerde foutschatter van 5e/3e orde, de SciPy/Hairer-stapregeling, automatische beginstap, een fail-closed stapbewaking en dichte uitvoer van 7e orde; te kiezen als de propagatorvariant Integrator Dop853 / propagator::propagate_dop853
+
+# data/verification-matrix.json
+dat-13ba5b5dba8c = Handberekening op records die zijn opgebouwd uit formules waarvan helling, stap, extremum en hersteltijd vóór de run bekend zijn (de tests vermelden ze), en de maskers, omhullende en budgetten van de telecom-tijdsynchronisatierijen hierboven. Er is geen laboratoriummeting van een echte holdover beoordeeld en er is geen externe onafhankelijke referentie vergeleken, dus het type doet geen enkele bewering over een klok of een systeem; een partner met een tijdlab is nodig voordat een cijfer per klokklasse zou kunnen worden gepromoveerd
+
+# studio/data/capabilities.json
+dat-9b8e133e0848 = met de hand berekende waarden en de geometrie die de wolk bemonstert; geen externe onafhankelijke referentie
+
+# data/verification-matrix.json
+dat-cf38c7df09e5 = Met de hand afgeleide formules per metriek: inverse-Simpson-diversiteit, gewogen-gemiddelde samenstelling, begrensde/onbegrensde tijdlijnduren, niveauladder met de zwakste schakel
+
+# data/verification-matrix.json
+dat-7fa3bc8204f6 = Met de hand afgeleide statistieken tegenover gesloten vormen (binormale AUC Φ(d'/√{ "2" }), DeLong-variantie, Spearman met gedeelde rangen, exact OLS-herstel) + leave-one-out-CV tegen de basislijn van voorspel-het-gemiddelde. Het corpus is SYNTHETISCH (op parameters gegrond, nooit veld/IQ) en de optimismekloof is een verschuiving van synthetisch naar synthetisch in ernst, GEEN sim-naar-veldresultaat
+
+# data/verification-matrix.json
+dat-686f5ce810aa = Zelfgeschreven Cholesky Omega=LL^T en whitening door voorwaartse substitutie z=L^-1 r (Cov(z)=I als Cov(r)=Omega); Mahalanobis-kwadraat z^T z = r^T Omega^-1 r
+
+# data/verification-matrix.json
+dat-9fba5b35e3f7 = Zelfgeschreven SRTM-.hgt-parser (16 bit big-endian, noordrij eerst, bewust van lege waarden) + bilineaire sampler die een echte DEM-tegel in het publiek domein leest en een gedocumenteerd landmeetkundig referentiepunt oplost
+
+# data/search.json
+dat-d558a721805a = Praktische, uitgewerkte voorbeelden die u van “een meegeleverd scenario draaien” naar “een resultaat kwantificeren en verdedigen” brengen.…
+
+# data/search.json
+dat-7e24fec1e03d = Hardwareveiligheid: wat Kshana met hardware doet, en wat het nooit doet
+
+# data/verification-matrix.json
+dat-f40289c2bc44 = Hatch-draaggolfafvlakking van code op echte RINEX-waarnemingen
+
+# data/verification-matrix.json
+dat-6af8f8015b04 = hatch::tests (ruisvrije doorgave; witte-ruisvariantie 1/(2N-1); herstarts); tests/hatch_wettzell_oracle.rs::hatch_finding_is_pinned (WTZR 2025-02-24 01-06 h, { "600" } epochs, N = { "100" }: mediane 3D-fout { "1.553" } -> { "1.116" } m, p95 { "3.473" } -> { "3.207" } m)
+
+# data/verification-matrix.json
+dat-5b10e4dfa6be = Heliocentrische posities van Mercurius, Venus, het zwaartepunt van Aarde en Maan, de Aarde, Mars, Jupiter en Saturnus uit Standish-tabel { "1" } ({ "1800" } AD tot { "2050" } AD), en van alle acht planeten uit tabellen 2a/2b ({ "3000" } BC tot { "3000" } AD, met de b-, c-, s- en f-termen van de gemiddelde anomalie), volgens het algoritme van de JPL-pagina stap voor stap en geroteerd naar de ICRF (International Celestial Reference Frame) met de scheefstand van de ecliptica van de pagina; de Aarde wordt van het barycentrum gescheiden door de lunaire reeks van Montenbruck & Gill en de massaverhouding. Samengesteld als ephem_provider::AnalyticSolarSystem zodat elk lichaam beschikbaar is ten opzichte van elk ander, en uitvoerbaar als het type `solar-system`
+
+# data/search.json
+dat-931dbfaa77ef = Heterogene gezamenlijke beschikbaarheid / precisie / integriteit van optische + RF-PNT (P5).
+
+# data/verification-matrix.json
+dat-cce187eb5278 = Overgrens voor de integriteit van de herleidbaarheidsbias van heterogene UTC(k)
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-011311b1bdbb = Sferisch-harmonische zwaartekracht van hoge graad (EGM2008 tot { "2190" })
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-562004710f16 = Holdover-voorspelling uit een gemeten klokrecord, gecontroleerd op achtergehouden data
+
+# data/search.json
+dat-3a1c4a617632 = Holdovertest van een linuxptp-log: dezelfde vier stappen als holdover-test-example.toml, met het record
+
+# data/verification-matrix.json
+dat-3c0cedf176f1 = Holdovertest beoordeeld op een door de operator geleverd tijdfoutrecord
+
+# data/search.json
+dat-df8a87246d35 = Holdovertest, inleesvoorbeeld: een tijdfoutrecord beoordeeld door het type holdover-test
+
+# data/verification-matrix.json
+dat-4e1af12fdb95 = holdover_floor stelt vast dat in een ensemble van autonome knopen die alleen door metingen tussen knopen zijn verbonden de gemeenschappelijke klokgang (δα_j += { "1" } ∀j) een vrije parameter van de ensembletijd is die in N(GᵀWG) ligt: geen enkele extra afstandsmeting tussen knopen kan hem waarnemen (rate_in_gauge = true, temporal_gauge_dim = { "2" } met de gemeenschappelijke offset). Dit is de echte holdover-ondergrens — het temporele analogon van de ijk van de starre positie in het frame. Eén externe absolute gangkoppeling toevoegen (een directe verbinding met een referentie buiten het netwerk) verdrijft de gemeenschappelijke gang uit de nulruimte (rate_in_gauge = false, temporal_gauge_dim = { "1" }), wat bewijst dat de ondergrens een echte ijk is en geen artefact van het oscillatormodel
+
+# data/search.json
+dat-df12bdd03b04 = holdover-test (scenariotype)
+
+# studio/data/capabilities.json
+dat-866e2b2acaad = Holdover, stabiliteit en overdracht van tijd en frequentie
+
+# data/verification-matrix.json
+dat-25cc7eb2491b = holdover::tests (tegen een meerstaps-Kalman-covariantierecursie; white-FM exact; heen-en-terug); de coast-variantiekernel is extern gevalideerd in tests/gnss_denied_clock_holdover_reference.rs (tegen scipy Van-Loan/brentq)
+
+# data/search.json
+dat-b11a218aa23c = Home Assistant- en NTP-appliances (MQTT)
+
+# data/verification-matrix.json
+dat-64d822df0f16 = Home Assistant MQTT-discovery en statusexporter voor vertrouwenstelemetrie
+
+# studio/channels.json
+dat-ba11a646e67a = Homebrew-tap
+
+# data/search.json
+dat-41c193393b62 = Eerlijke grenzen
+
+# data/search.json
+dat-8ffd3c3b4c0a = Eerlijk bereik
+
+# data/search.json
+dat-ec5ca67b1822 = Eerlijkheidscontract
+
+# data/search.json
+dat-0391a2f2f55d = Eerlijkheidslabels
+
+# js/missions-runs.mjs
+dat-26ee49586173 = horizontaal criterium
+
+# js/missions-runs.mjs
+dat-4bab7ea5f074 = horizontale fout
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-ea2e883bd4e5 = Horizontale foutellips en cofactor per stelsel uit de geometriecovariantie
+
+# data/search.json
+dat-ef7245602f73 = Hoe een rij GREEN blijft
+
+# data/search.json
+dat-baad56eb3581 = Hoe een run werkt
+
+# data/search.json
+dat-8ce529e13ddf = Hoe beslissingen worden genomen
+
+# data/search.json
+dat-e7acb3670542 = Hoe fouten worden gemodelleerd (kloknoise)
+
+# data/search.json
+dat-893da1c76fb5 = Hoe het schaalt
+
+# data/search.json
+dat-cc213ff67576 = Hoeveel een interferentiedetector verliest onder verschoven omstandigheden is te voorspellen uit zijn eigen scores binnen de verdeling; synthetische resultaten, gecontroleerd op open veldopnamen.
+
+# studio/data/capabilities.json
+dat-39700e54758f = Hoe vaak een optische tijdoverdrachtsverbinding beschikbaar is als de atmosfeer in het pad zit. Voor elke grondlocatie geeft de engine het verlies bij heldere lucht, de turbulentietoestand van Hufnagel-Valley met gamma-gamma-scintillatiefades en aperture averaging, de beschikbaarheid tegen de linkmarge uit een vermeld wolkenklimaat, het plafond dat geen marge kan optillen, de verdeling van de uitvalduur en de tijdfout die een uitval een holdoverklok kost. Daarna toont hij wat extra locaties, een grotere apertuur, een andere golflengte of adaptieve optica opleveren. De meegeleverde wolkenklimaten zijn illustratief, niet gemeten; de uitvoer is adviserend.
+
+# data/search.json
+dat-958f5e83ef0a = Hoe stabiliteit wordt gemeten
+
+# data/search.json
+dat-b1e4554edba5 = Hoe stabiel is een PNT-veerkrachtscore? Beslissingsinstabiliteit van resilience-ratings met één getal onder weging volgens een raamwerk
+
+# data/search.json
+dat-7b1cd59f3ddf = Hoe de exports worden gecontroleerd
+
+# data/search.json
+dat-32dd3fc5fe68 = Hoe de regel wordt afgedwongen
+
+# data/search.json
+dat-efaa5003d60d = Hoe te citeren en te reproduceren
+
+# data/search.json
+dat-578287a3e1ac = Hoe de drie cijfers samen te lezen
+
+# data/search.json
+dat-6c70a5a10273 = Hoe een tutorial te draaien
+
+# data/search.json
+dat-6a398070976f = HTTP-modus (zelf gehost)
+
+# data/verification-matrix.json
+dat-f7185ed2e5f0 = Hufnagel-Valley-Cn2 geïntegreerd langs een schuin pad voor de Rytov-variantie van vlakke en sferische golven (uplink en downlink), de scintillatie-index van Andrews-Phillips en gamma-gammaparameters, de gamma-gamma-fadekans en fademarge, de aperture-averaging-factor bij zwakke turbulentie, de optische wolkendiepte van een vloeibare-waterkolom en de optische diepte bij heldere lucht volgens Kim-zicht plus Rayleigh, ter vervanging van het samengevoegde atmosferische verlies van het optische linkbudget als een atmosfeer wordt opgegeven. Uitvoerbaar binnen het scenariotype `optical-atmosphere`.
+
+# data/search.json
+dat-ab23183506b5 = hybrid (scenariotype)
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-7a7934499b49 = Beschikbaarheid van hybride optische/RF-verbindingen aan de RF-kant
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-77f54b2dc326 = Zelfbeschrijving van het hybride optische/RF-rapport
+
+# data/search.json
+dat-78671230a9be = Hybride PNT-slotstuk: volledig kwantumpakket (optische klok + koude-atoom-IMU + optische ISL
+
+# data/search.json
+dat-fcc929094892 = Hybride PNT-slotstuk: ondersteuning met klok + IMU + tijdoverdracht.
+
+# data/verification-matrix.json
+dat-f4fd30b7e91b = hybrid_integrity::tests (de beschikbaarheid is gelijk aan het product van de twee indicatoren die opnieuw zijn berekend uit de eigen marges van het rapport, en die marges zijn zelf weer opgebouwd uit de eigen EIRP, het vrije-ruimteverlies, het samengevoegde verlies, de kwaliteitsfactor, de Boltzmann-term, de datasnelheid en de eis van het rapport tot { "1e-9" } dB; de waarde blijkt { "0" } of { "1" } te zijn terwijl de optische beschikbaarheid in dezelfde run strikt daartussen blijkt te liggen; elke factorrij draagt een herkomstklasse uit de gesloten woordenschat van field_schema; het gerapporteerde sluitingsbereik dat opnieuw door het linkbudget wordt gehaald geeft een marge van { "0" } tot { "1e-9" } dB en blijkt onafhankelijk van het bereik waarop de run zat over vier decaden, terwijl de bereikbenutting precies met de bereikverhouding verandert; een link van -40 dBW rapporteert beschikbaarheid { "0" }, LOST, en een benutting boven { "1" } in plaats van een fractie; de vervangen opmerking 'geen RF-beschikbaarheidstegenhanger wordt door deze engine berekend' is aantoonbaar verdwenen en de vervanging noemt aantoonbaar het nieuwe veld; een misvormde RF-invoer wordt geweigerd in plaats van begrensd)
+
+# data/verification-matrix.json
+dat-c683ad6a43e0 = hybrid_integrity::tests (de coast begint bij precies het covariantiespoor dat het overdrachtsblok rapporteert, in beide richtingen, zodat de herhaalde diagonaal niet kan afwijken van de gerapporteerde overdracht; de gerapporteerde kruistijd wordt opnieuw berekend uit de eigen overdrachtssigma, procesruis-PSD en dekkingsfactor van het rapport, en de grens ligt vlak ervoor binnen de alarmlimiet en vlak erna erbuiten; de coasttijd schaalt precies omgekeerd met de procesruis-PSD en wordt korter als de alarmlimiet strakker wordt; een coast met PSD nul rapporteert null in plaats van een tijd van nul, omdat nooit niet onmiddellijk is; het uitgezonden profiel kruist precies één keer en omsluit de gerapporteerde kruising; de verdubbelingstijd van de variantie en de kruistijd van de alarmlimiet worden uit elkaar gehouden, met acht ordes van grootte verschil na de strakke optische trap en binnen één orde van grootte na de losse RF-trap; het verlaten van de optische modaliteit levert meer coasttijd op dan het verlaten van RF, precies het covariantieverschil gedeeld door de horizontale groeisnelheid; en random_walk_time_to_limit onderscheidt reeds-buiten, kruist-op-t en kruist-nooit)
+
+# data/verification-matrix.json
+dat-4a6077a9c2c3 = hybrid_integrity::tests (de opgeloste configuratie wordt teruggegeven voor standaardwaarden en voor overrides, zonder de golflengte via meters heen en terug te rekenen; elke units-invoer draagt zowel een eenheid als een herkomstklasse; elk veld dat het units-blok noemt wordt daadwerkelijk uitgezonden, zodat het geen spookveld kan documenteren)
+
+# data/search.json
+dat-4925e948ec7d = hybrid-optical-rf (scenariotype)
+
+# data/search.json
+dat-1d3f2d8fe71f = hybrid-ukf (scenariotype)
+
+# data/verification-matrix.json
+dat-85dd3280dd3e = Geometrie van een hyperbolische flyby (a=−μ/v∞², e={ "1" }+r_p·v∞²/μ, draaihoek δ={ "2" }·asin(1/e), botsingsparameter |B|=|a|·√(e²−{ "1" })), het B-vlak-richtpuntframe Ŝ/T̂/R̂ en de ontbinding B·T̂/B·R̂, en een gepatcht-conische zwaartekrachtassist (v∞-grootte behouden, richting afgebogen over δ, heliocentrische Δv={ "2" }·v∞·sin(δ/2) zonder drijfgasverbruik) met de Tisserand-parameter T_P=a_P/a+{ "2" }√((a/a_P)({ "1" }−e²))cos i
+
+# data/verification-matrix.json
+dat-1fe5cc9bfe4f = IAU 2006/2000A-precessie-nutatie, CIO GCRS↔ITRS, tijdschalen met schrikkelseconden
+
+# data/verification-matrix.json
+dat-ee5cc5e3262d = IAU-lichaamsoriëntatie en gravitatieparameter van de veertien toegevoegde lichamen van het zonnestelsel
+
+# data/verification-matrix.json
+dat-cdb9c1e8cbe2 = IAU SOFA / ERFA-referentievectoren; Vallado AIAA 2006-6753 ({ "0.1" }–{ "4" } mm)
+
+# assets/capabilities/capabilities.json
+dat-cb5220c1ec12 = IAU-richting bij synchrone rotatie op de gemiddelde JPL-afstand, toegevoegd aan Saturnus uit Standish-tabel { "1" } ({ "1800" } AD tot { "2050" } AD)
+
+# studio/data/capabilities.json
+dat-1200f27eb7e0 = Tabellen uit het ICG SSV-boekje, vooraf vastgelegd; de meeste drempels NOT MET (xval/gnss-ssv/RESULTS.md)
+
+# data/verification-matrix.json
+dat-b963797d4ff9 = ICGEM Calculation Service (GFZ Potsdam), een onafhankelijke implementatie: EGM2008 afgekapt op graad { "70" }, gravity_anomaly_sa, WGS84, tide-free, term van graad nul, h = { "0" }. De uitvoer van de dienst draagt geen expliciete licentie, dus de rasters worden tijdens de test opgehaald met een vastgezette SHA-256 (tools/fetch_icgem_grid.sh) en slechts tien waarden worden met bronvermelding aangehaald
+
+# assets/capabilities/capabilities.json
+dat-477edaf1dd1f = ICRF (equatoriaal J2000), heliocentrisch; meter, meter per seconde
+
+# data/verification-matrix.json
+dat-c81ac54a597c = Identiteiten: de begintrap van een ionosfeervrije spoofer is gelijk aan het gemodelleerde ionosferische vertragingsverschil van het paar, de drempel is het tweezijdige normale kwantiel maal de standaardafwijking van de trap plus de gangbegrenzing. Het ionosfeermodel van de ontvanger is dat van de engine, dus het authentieke residu is per constructie gemiddeld nul; geen externe onafhankelijke referentie
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-9715be87b6c1 = IEEE-1139-machtswetklokruis + flicker-FM-ondergrens
+
+# studio/data/capabilities.json
+dat-57c8c05cdd7d = UTC / TAI / TT / UT1-schalen met IERS-schrikkelseconden, een Juliaanse-datum-API, de IAU-2000 Earth Rotation Angle, op GMST gebaseerde TEME ↔ ECEF- en WGS-84-geodetische frames, volledige IAU 2000A/2000B-nutatie en IAU { "2006" }-precessie, en de equinoxvrije, op CIO gebaseerde IAU 2006/2000A GCRS↔ITRS-reductie met IERS-poolbeweging — bit voor bit gevalideerd tegen de SOFA/ERFA-vectoren en onafhankelijk gecontroleerd tegen ANISE (puur-Rust-SPICE): GCRS→ITRS tegen ANISE ITRF93, dezelfde IERS-EOP, komt overeen tot ≤ { "0.86" } m op de grond / ≤ { "3.6" } m op GNSS-baan.
+
+# data/verification-matrix.json
+dat-610c770c6114 = IGRF-14-coëfficiënten; matched-filter-CRLB uit eerste principes. Het veld van de zwaartekrachtbenchmark met echt veld wordt extern gecontroleerd (rij 'Synthese van zwaartekrachtanomalieën uit een sferisch-harmonisch model'), maar het navigatieresultaat ervan heeft geen externe onafhankelijke referentie
+
+# data/verification-matrix.json
+dat-8f73e1bb24ce = Definitieve IGS-satellietklokcombinatie van { "30" } s (IGS0OPSFIN 30S CLK, 2025-02-24): gepubliceerde klokschattingen op de opvraagmomenten, niet geïnterpoleerd uit de SP3; drempels vooraf vastgelegd in tests/fixtures/sp3_clock_igs_oracle/PREREGISTRATION.md vóór de eerste run (RMS { "0.15" } ns, p95 { "0.30" } ns, mediaan per knoop { "1e-12" } s, discriminatie 2x)
+
+# data/verification-matrix.json
+dat-2d8fff0e9c24 = Lagrange-interpolatie volgens IGS-standaard van SP3-satellietposities uit precieze efemeriden met de aardrotatiecorrectie per knoop (elke knoop roteren met ω⊕·(t_knoop−t) naar het aardvaste frame van het opvraagmoment vóór de polynoomfit)
+
+# studio/data/capabilities.json
+dat-db2732a90c3d = IMO-richtlijn voor GNSS-interferentie (schepen)
+
+# studio/data/capabilities.json
+dat-a325f121413c = IMO-richtlijn voor schepen, gekoppeld per clausulenummer
+
+# data/search.json
+dat-2d9493affef6 = IMO-richtlijn over GNSS-interferentie voor schepen: waarvoor Kshana levert bewijs voor
+
+# data/search.json
+dat-b6b9647750e6 = De tekst van de IMO over GNSS-interferentie voor schepen is mager: MSC.1/Circ.1644 is vooral gericht aan lidstaten, en…
+
+# data/verification-matrix.json
+dat-fee1e90fb1da = impairment_eval::tests (AUC perfect=1/identiek=0.5/gelijkspel={ "0.125" }, ROC monotoon, fused>{ "0.8" }, laagscheiding per klasse, lekbewaking, reproduceerbaar corpus, distributieverschuiving markeert optimisme); dominance_demonstrators (bereikbaar + reproduceerbaar + MODELLED-not-VALIDATED + optimismekloof zelfconsistent)
+
+# data/verification-matrix.json
+dat-825a8d353671 = impairment_study::tests (orakel-AUC per klasse≈{ "1" }, geleerde optimismekloof>{ "0" }, rastervorm + bootstrap-BI omsluit het gemiddelde + positieve schalingstrend, ID-kenmerken eindig, kloofvoorspeller verslaat voorspel-het-gemiddelde onder ZOWEL leave-one-detector-out- als leave-one-class-out-CV + deterministisch); impairment_ml::tests (logreg scheidt + deterministisch + verlies↓, MLP lost XOR op die een lineair model niet kan + geseed); eval_stats::tests (bootstrap/DeLong/Spearman/ridge tegenover gesloten vormen)
+
+# data/search.json
+dat-f70d14110dad = impairment-eval (scenariotype)
+
+# data/verification-matrix.json
+dat-c28838cded13 = Implementatie tegen specificatie, GEEN externe onafhankelijke referentie: een clean-room-herimplementatie in Python (scripts/maritime_score_cleanroom.py), geschreven door een lezer die alleen docs/RECEIVER-TRUST.md en docs/MARITIME-TRUST.md kreeg en niet de Rust-bron, komt overeen met score_from_ratios op { "600" } verhoudingsvectoren (score, band, punten en de volgorde van de aftrekken, verschil { "0" }), nadat de documentatie was aangevuld waar de eerste lezer haar stil of inconsistent vond (volgorde bij gelijkspel, afronding, de verhouding van een monitor die slaagt of faalt, twee voorbeelden waarvan de getallen niet met de formule overeenkwamen). Dat toont aan dat de documentatie volstaat en dat de code doet wat ze zegt. WAT NIET WORDT GECONTROLEERD, en waarom de rij MODELLED blijft: de regel zelf (de gewichten, de helling, de bandgrenzen, de bewijsvasthouding) is van dit project zelf, vooraf vastgelegd maar zonder externe bron, en niets hier toont aan dat een score van { "80" } of { "40" } betekent wat een navigator zou willen dat die bij echte interferentie betekent; een cijfer van dat soort wordt niet gegeven. De drempels van de monitoren zijn evenzo van dit project zelf (rij A controleert alleen hun rekenkunde).
+
+# studio/channels.json
+dat-108c4798153a = Importeer kshana-grafana-*.json uit de release.
+
+# data/verification-matrix.json
+dat-c80a768c4432 = Optimalisator voor impulsieve overdracht op de DE440-efemeride
+
+# studio/data/capabilities.json
+dat-c81cb948fbeb = Impulsieve ΔV-knopen met covariantiepropagatie van { "6" }×{ "6" }, integratie van eindige burns gecontroleerd tegen de raketvergelijking van Tsiolkovsky tot onder { "0.01" } %, een Lambert-oplosser met één omloop volgens Izzo-2015 en een exacte Kepler-propagator met universele variabelen, en een porkchop-sweep (lancering × aankomst) van C3 / aankomst-V∞ als JSON-contourraster — de prestatiesimulatielaag boven GMAT/Orekit.
+
+# data/search.json
+dat-ce3c739652af = IMU in de hybride en fusiescenario's (kshana imu-fit)
+
+# data/verification-matrix.json
+dat-e757b2baccd6 = Inlezen van IMU-logs, gyrokoersinvoer en Allan-fit van hybride sensorparameters
+
+# data/search.json
+dat-593077adf8f0 = In de cislunaire ruimte is dilution of precision niet van toepassing: verbindingen met alleen afstand laten de snelheid op elk moment onwaarneembaar, dus eisen horen thuis in budgetten voor booglengte, conditionering en meettype.
+
+# js/missions-runs.mjs
+dat-fd612e5a3b73 = gemiddeld in zicht
+
+# data/verification-matrix.json
+dat-ad6442b40262 = Onafhankelijke gesloten-vorm-oplosser voor gewogen Umeyama-(Horn-)gelijkvormigheidstransformatie (numpy/scipy op SVD-basis; Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A) — een ander algoritme dan de iteratieve Gauss–Newton-fit van kshana, dat hetzelfde eenduidig gedefinieerde gewogen-LS-optimum bereikt op byte-identieke puntennetwerken
+
+# data/search.json
+dat-7a8163ea53f2 = Onafhankelijke kruiscontrole tegen de sgp4-crate
+
+# data/verification-matrix.json
+dat-a3c0d41e4b56 = Onafhankelijke numpy-Monte-Carlo-SDE-integratie van dubbelgeïntegreerde witte-versnellingsruis (valideert de analytische VRW-variantie met een werkelijk onafhankelijk algoritme) + een verankering in de gepubliceerde waarde van Groves { "2013" } voor de bias- en schaalfactortermen; de CAI-apparaatcijfers kwantificeren partnerhardware en blijven MODELLED
+
+# data/verification-matrix.json
+dat-76097bbb6a19 = hybrid_integrity::tests (de verhouding is gelijk aan de twee uitgezonden takken gedeeld, tot { "1e-15" } relatief, en haar omgekeerde en decibelvormen komen overeen; bereik en tijdsigma van elke tak hangen precies met c samen; de uitgezonden gemeenschappelijke configuratie is aantoonbaar gelijk aan het eigen bereik en de integratietijd van het scenario en het bereik van de RF-tak is aantoonbaar gelijk aan dat van de optische tak; de C/N0 van de RF-tak is bit voor bit die van het beschikbaarheidsblok, uit één linkbudget, geen herafleiding; de eigenschap LIKE-FOR-LIKE wordt MEASURED in plaats van beweerd -- het viervoudigen van de gemeenschappelijke accumulatietijd halveert de optische tak tot { "1e-12" } en de RF-tak tot { "1e-7" } en laat de verhouding ongewijzigd tot { "3.19e-9" } relatief, wat een tak die heimelijk over iets anders middelt niet zou kunnen; een override van rf_dll_bandwidth_hz die de gemeenschappelijke middelingstijd verbreekt maakt de verhouding null met een reden die beide tijden noemt, terwijl beide takken nog steeds worden uitgezonden; een run in één richting maakt van de vergelijkingstak bit voor bit de vrijgegeven hoofdwaarde met een penaltyfactor van precies { "1" }, en een run in twee richtingen reproduceert de penalty 0.5/sqrt(geometrisch verlies op het retourpad) opnieuw berekend uit het eigen geometric_loss_db van het rapport tot { "1e-12" })
