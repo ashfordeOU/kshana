@@ -384,3 +384,9 @@ seg-8eba9835d7df = <s1>Próximo</s1>Geometria do céu e linhas do horizonte
 
 # text
 seg-2093a1d8a24e = De onde vêm as épocas (fonte)
+
+# text
+seg-df52127d74b6 = Onde
+
+# text
+seg-7670cf4ceda3 = Padrão
