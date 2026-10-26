@@ -8,3 +8,6 @@ seg-d4e48c972084 = Etiquetas
 
 # text
 seg-ca448daf5ec7 = nominal
+
+# text
+seg-a129b9e613d0 = Tipo

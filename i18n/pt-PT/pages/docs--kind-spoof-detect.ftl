@@ -33,3 +33,49 @@ seg-304496607bd7 = Tipo de cenário do motor v{ $version }, família <a1>Jamming
 
 # text
 seg-5d23d7f8f872 = Página da família: <a1>Jamming, spoofing e o espectro</a1>
+
+# text
+seg-7707c45d1d30 = dBm
+
+# text
+# c1: docs/kinds/by-kind/spoof-detect.md
+seg-f92f902bd8f4 = Fonte: <c1/>
+
+# text
+# c1: spoof-detect
+seg-1fd6a1cc7ca0 = <c1/> (tipo de cenário)
+
+# text
+seg-f43fe94d84e0 = Detetor combinado de spoofing por RF/medições (consistência RAIM multi-SV + AGC + SQM, fundidos) vs um ataque parametrizado (vantagem de potência, alinhamento de fase da portadora, empurrão de tempo/posição; ao estilo TEXBAT).
+
+# text
+# c1: scenarios/spoof-detect.toml
+seg-9a8e92a0d5ba = Uma execução de <c1/> resume-se assim: cenário e046ee4ca90a | spoof-detect | { "8" } SVs, +{ "1.5" } dB | Empurrão de posição | pontuação fundida { "0.70" } (lim. { "0.50" }) | SPOOF DETECTED (fundido) — camadas: RAIM+SQM
+
+# text
+# c1: attack
+seg-9e54f6406cef = Campos obrigatórios: <c1/>
+
+# text
+# c1: satellites
+# c2: detector
+seg-cd7217fd359f = Campos opcionais: <c1/>, <c2/>
+
+# text
+# c1: scenarios/spoof-detect.toml
+seg-6776ea465261 = O exemplo <c1/> define, entre outros:
+
+# text
+seg-0e3bc92db34e = posição
+
+# attr:alt
+seg-268ebf4cba99 = O gráfico que o motor escreve para scenarios/spoof-detect.toml, tipo spoof-detect
+
+# text
+seg-03d8dc3de7ca = <b>MODELLED</b> χ² assistido por relógio, RAIM, AGC, SQM: FoM de segurança fundida por época Ensaios: <a1>spoof_texbat_validation.rs</a1>.
+
+# text
+seg-24e4aebb09eb = <s1>Anterior</s1>spectrum
+
+# text
+seg-40e934a7d78f = <s1>Seguinte</s1>spoof

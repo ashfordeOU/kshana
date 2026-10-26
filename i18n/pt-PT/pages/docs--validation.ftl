@@ -65,3 +65,9 @@ seg-04f69a0edb2f = tipo
 
 # text
 seg-b03d56f501c3 = Tipo
+
+# text
+seg-35bf9a48e566 = Termo
+
+# text
+seg-f3526b0d95f8 = Medido
