@@ -628,3 +628,428 @@ seg-99e01fb5fac5 = 关闭
 
 # index.html
 seg-9a71c933f4ad = <b>月球台站</b><s1>月球南极附近的参考站能提供怎样的精度，在哪里？MODELLED。</s1>
+
+# ssv/index.html
+seg-8edfb2d56071 = 本实现与<em>The Interoperable GNSS Space Service Volume</em>（联合国外空事务厅，{ "2018" }）中各表的预先登记比较，第 { "1" } 次运行；该文本身是仿真，而非测量。大多数判据<b>未达到</b>，未达到的情况均有记录。该变体是诊断，不是新的结论。
+
+# index.html
+seg-9c1fc0ddcc14 = 引擎加载中。您已可浏览此结果。
+
+# advanced/index.html
+# c1: ↓
+# c2: ↵
+# c3: ⌘↵
+seg-9c28d67257b7 = <c1/> 移动<c2/> 打开<c3/> 运行
+
+# tools/index.html
+seg-9c7eb1d43601 = 日志格式
+
+# advanced/index.html
+seg-9cebd87d7cb3 = 守时（holdover）<s1>GNSS 丢失后的误差</s1>
+
+# advanced/index.html
+seg-9d3f3d06a1e9 = 全部字段
+
+# tools/index.html
+seg-9d56e41f9b35 = 受信任的公钥，每行一个，格式为 ID:TYPE:HEX
+
+# holdover/index.html
+seg-9e02f1f28e0d = 打开结果…
+
+# tools/index.html
+seg-9e98e0ba70a3 = 恢复保持时间，秒
+
+# lunar/index.html
+seg-9ea513d25c6c = 在此运行的输入
+
+# geometry/index.html
+seg-a11e88108e1c = <b>误差椭圆</b>是由几何协方差得出的水平误差，即 σ<s1>UERE</s1>² 乘以 DOP 矩阵的东-北分块：沿卫星约束最弱的方向更长。它按 1-sigma 和 { "95" } %（大 { "2.448" } 倍）绘制。<b>蒙特卡罗点云</b>是在同一几何下带种子的随机测距误差所得的大量最小二乘解；其 RMS 显示在 σ<s2>UERE</s2> × HDOP 旁边，并给出落在 { "95" } % 椭圆内的点所占比例。相同的随机种子总是给出相同的点云。
+
+# tools/index.html
+seg-a12c3181b54f = 普通页面
+
+# holdover/index.html
+seg-a13eab564243 = MTIE
+
+# optical/index.html
+# c1: kshana scenarios/optical-atmosphere-network.toml
+seg-a27cd1efd1e0 = 您可以在 Studio 中自行运行这些场景（高级视图，“穿过大气的光链路”），或使用 <c1/>。
+
+# index.html
+seg-a39633d5b858 = <b>我能信任自己的定位结果吗？</b><s1>{ "12" } 小时内的完好性</s1>
+
+# lunar-infra/index.html
+seg-a3e4a0eed763 = <b>仅供参考的软件。</b>Kshana 不是经型式认可的导航设备（IEC { "61108" }、IEC { "61162" }），也未依据任何性能标准评估。每个数字都带有台账为其记录的标签（<b>MODELLED</b>，除非使用了外部参考基准（oracle））；它是辅助判断的工具，不是关于任何地点、任务或事件的结论。
+
+# index.html
+seg-a763be7ea9dc = <b>在地球上任何地方，我能看到多少颗卫星？</b><s1>下方显示</s1>
+
+# advanced/index.html
+seg-a86ce24d81de = 频段
+
+# trust/index.html
+# c1: kshana receiver-trust
+seg-a96454c73df8 = 打开一艘船舶的 <c1/> 运行。Kshana 依据接收机已放到总线上的信息，为每次定位打 { "0" } 到 { "100" } 分，并说明哪些检查拉低了分数。在此打开的文件仅在本页面中读取，绝不上传。
+
+# geometry/index.html
+seg-a9ef52ece457 = 天际线
+
+# advanced/index.html
+seg-aae75f3d3aa5 = 选择
+
+# tools/index.html
+seg-ab7707938042 = 签名者的公钥（{ "64" } 位十六进制数字，经由另一途径从签名者处获得）
+
+# advanced/index.html
+seg-ac17942f6859 = Kshana <s1>Studio</s1>
+
+# interference/index.html
+seg-ad64a2924107 = 陆地多边形（AIS，可选）…
+
+# tools/index.html
+seg-ae381f746364 = EuRoC MAV imu0 data.csv
+
+# observatory/index.html
+seg-aeb5496025cc = 全部状态
+
+# observatory/index.html
+seg-aed6b80b551b = 事件
+
+# advanced/index.html
+seg-af4ccbe11812 = 主题
+
+# tools/index.html
+seg-aff1d135221c = RINEX 观测文件
+
+# interference/index.html
+seg-b022a11dd8f7 = 单元大小，度
+
+# tools/index.html
+seg-b15b4194ca66 = 功能
+
+# tools/index.html
+seg-b1659454ecd9 = 接收机日志…
+
+# interference/index.html
+seg-b19953c7935c = ADS-B（飞机）
+
+# geometry/index.html
+seg-b1a61b70c1f4 = 右侧建筑高度，米
+
+# trust/index.html
+seg-b1cde8d570b5 = 按船舶评分（移动平台，{ "0" } 到 { "100" }）
+
+# tools/index.html
+seg-b21dccf8bbaa = 替换现有令牌
+
+# index.html
+seg-b2f5c73a80ac = 空间用户 GNSS
+
+# trust/index.html
+seg-b4bf08d8b815 = 仅显示退化和不受信任的
+
+# replay/index.html
+seg-b54ecd186a7f = 时刻
+
+# training/index.html
+seg-b5765678da41 = 库中的场景是<b>合成文本</b>，其位置、日期和航迹均为虚构。其背后没有任何真实船舶、运营方或记录。
+
+# training/index.html
+# c1: *.instructor.json
+# c2: kshana nmea-scenario
+seg-b63ff9605b69 = 打开 <c2/> 在训练数据流旁写出的教员日志（<c1/>）。它显示真实航迹与接收机所报航迹的对比、注入了哪些事件及其时间，以及接收机对其定位、信号、卫星和时间的说法。在此打开的文件仅在本页面中读取，绝不上传。
+
+# geometry/index.html
+seg-b6af4a84da50 = 针对所选 σ<s1>UERE</s1>，由几何协方差得出的误差椭圆，按 1-sigma 和 { "95" } % 绘制（均来自引擎），叠加在带种子的最小二乘解蒙特卡罗点云之上。东向在右，北向在上，单位为米。
+
+# index.html
+seg-b728f4816263 = <b>空间用户 GNSS</b><s1>远高于卫星的航天器仍能使用哪些导航信号，以及星载滤波器和编队利用这些信号能做到什么程度。</s1>
+
+# tools/index.html
+seg-b7b26b97afbd = <b>仅供参考的软件。</b>Kshana 不是经型式认可的导航设备（IEC { "61108" }、IEC { "61162" }），也未依据任何性能标准评估。其评分、认证状态和导出文件是辅助判断的工具，也是引擎所算结果的记录。它们不是认证，不是法律意见，也不是关于任何事件的事实认定。
+
+# tools/index.html
+seg-b7db2572d40b = u-blox UBX (SFRBX)
+
+# interference/index.html
+seg-b966dd26caa6 = 数据集
+
+# interference/index.html
+seg-ba963d8caa19 = 许可网址
+
+# tools/index.html
+seg-baacf578ad9c = 日志的首个历元，UTC（ISO { "8601" }；日志已说明时留空）
+
+# mission-thread/index.html
+seg-baea4e05ad26 = 阶段
+
+# tools/index.html
+seg-bb02baa8656c = 运动时间零点的 UTC 时刻
+
+# interference/index.html
+seg-bbdd5511b2d4 = 选择航线…
+
+# tools/index.html
+seg-bd17501804af = 合成示例
+
+# advanced/index.html
+seg-bdb4733dec65 = 版本
+
+# advanced/index.html
+seg-bdf48a0aa8ee = 滤波器健康度 <s1>卡尔曼自洽性</s1>
+
+# training/index.html
+seg-bfb10aedf165 = 生成
+
+# advanced/index.html
+seg-bfd7751a9990 = MTIE <s1>最大时间间隔误差</s1>
+
+# advanced/index.html
+seg-c3bab83395bf = <b>分享或导出</b>运行结果
+
+# lunar/index.html
+seg-c4f955d5f506 = 可用性
+
+# advanced/index.html
+seg-c6251ca94299 = 互操作导出 <s1>CZML、KML、GeoJSON、STK 星历、SigMF</s1>
+
+# observatory/index.html
+# c1: kshana interference-map daily <input> --dataset adsb-lol --day 2026-09-15 --out products/
+seg-c7c10225eaf2 = 尚未打开任何文件。生成文件的方法：<c1/>。
+
+# observatory/index.html
+seg-c7d4820fefdf = 未观测
+
+# trust/index.html
+seg-c822f981cfcf = 门限
+
+# index.html
+seg-ca95c1e1237a = 需要按您自己设备校准的数字孪生、审计级证据包或闭源集成？这属于 <a1>Kshana Pro</a1>，按合同提供。
+
+# training/index.html
+seg-cae10fb9bff8 = 场景
+
+# tools/index.html
+seg-cc3ced384846 = 表格编号
+
+# geometry/index.html
+seg-cd545b3588cf = <b>精度因子（DOP）</b>表示卫星几何关系把每个测距误差放大了多少倍。卫星分布在整个天空时 DOP 低；卫星扎堆，或都在头顶很高处时 DOP 高。GDOP 是几何 DOP（位置和时间），PDOP 是三维位置 DOP，HDOP 是水平 DOP，VDOP 是垂直 DOP，TDOP 是接收机时钟（时间）DOP。
+
+# lunar/index.html
+# c1: lunar-station-coverage
+seg-ce9444c95be8 = 位于已测绘站点的差分参考站为其所见的月球导航卫星计算改正数；附近的用户应用这些改正数，二者共有的误差相互抵消。该视图在南极网格和一天的历元上绘出剩余的误差：每个点修正后的百分位误差、在距台站多远处仍处于阈值之内、可用性和保护级。每个数字都来自 Kshana 引擎的 <c1/> 报告。<a1>这说明了什么</a1>。
+
+# geometry/index.html
+seg-cf1312ed607a = <b>位置误差 ≈ σ<s1>UERE</s1> × DOP。</b>用户等效测距误差（σ<s2>UERE</s2>）是每个测距的一倍标准差误差，由卫星钟和轨道、大气、多路径和接收机噪声共同构成。乘以 HDOP 得到一倍标准差的水平误差，乘以 VDOP 得到垂直误差。
+
+# interference/index.html
+seg-cf349420d4e6 = 选择 CSV…
+
+# replay/index.html
+seg-cf759a67ddfd = <b>仅限训练和测试。</b>这些运行是合成的，位置和日期均为虚构；其下方的海岸是真实陆地，仅为辅助定向而绘，不是海图。回放显示注入了什么及其时间，因此应在复盘时使用，而不是在演练期间使用。<b>仅供参考的软件。</b>Kshana 不是经型式认可的导航设备（IEC { "61108" }、IEC { "61162" }），也不说明任何接收机或系统面对真实干扰时的表现。船舶航行的责任仍由操作人员承担。
+
+# trust/index.html
+seg-d090e9a62367 = <b>仅供参考的软件。</b>不是经型式认可的导航设备。告警是对日志的观察，不是对成因的结论；没有告警也不保证定位良好。
+
+# observatory/index.html
+seg-d1d22e6868f6 = <b>仅供参考的软件。</b>Kshana 不是经型式认可的导航设备（IEC { "61108" }、IEC { "61162" }），也未依据任何性能标准评估。<b>退化</b>单元表示当天在该处采样的飞机中，有较高比例报告了较低的导航精度。<b>不归因于任何成因</b>：低精度有多种成因，本页面不指出任何成因，也不指认任何行为方。<b>未观测不等于畅通。</b>它不是实时视图，不是警告，也不是对任何事情的确认，更不是批准、认证或符合性声明。
+
+# tools/index.html
+seg-d255f50a38fd = 选择结果文件…
+
+# advanced/index.html
+seg-d26c2ce37261 = 视图
+
+# tools/index.html
+# c1: .tsr
+seg-d286e0e72e96 = 时间戳响应（<c1/>）
+
+# tools/index.html
+seg-d2bed15bbabe = 参考时间，GST 秒，来自独立来源
+
+# geometry/index.html
+seg-d392016fb917 = 高度，米
+
+# replay/index.html
+seg-d39a69ad0054 = 海岸
+
+# geometry/index.html
+seg-d3b7d1622ea6 = −{ "1" } h
+
+# interference/index.html
+seg-d4a762001549 = 许可
+
+# tools/index.html
+seg-d507260dfc9f = 另见
+
+# advanced/index.html
+seg-d69e23e80f28 = 开发者
+
+# index.html
+seg-d79f4c62922d = <b>没有卫星时，时钟能守时多久？</b><s1>时钟守时（holdover）</s1>
+
+# tools/index.html
+# c1: manifest.json
+# c2: openssl ts -query
+# c3: openssl ts -verify
+seg-d88c12129d44 = RFC { "3161" } 令牌把一个时间与 <c1/> 绑定。用 <c2/> 请求该令牌，发送给您的时间戳机构，然后在此附加回复。<b>此处不会检查该机构的签名或证书链</b>：请为此运行 <c3/>。
+
+# advanced/index.html
+seg-da60d773bcf2 = 设置
+
+# replay/index.html
+seg-db596651e6fd = 放宽到海岸
+
+# geometry/index.html
+seg-dbada4043846 = 历元，协调世界时（UTC），{ "2000" } 至 { "2099" }（按 UTC 输入；不做时区转换）
+
+# lunar/index.html
+seg-dbef3d1356c6 = 随 Studio 一同提供的记录
+
+# advanced/index.html
+seg-dcb3ee3095ea = Kshana 以 AGPL-3.0（GNU Affero 通用公共许可证）开源，并提供商业许可。由 Ashforde® 出品。每个数字都标有其证据等级；除非标注为已验证，否则 <s1>Kshana Studio</s1> 的授时、完好性和安全数字均为已建模。
+
+# tools/index.html
+seg-dcc9b1568c20 = 从文件中检测
+
+# tools/index.html
+seg-dcf80b355d1d = 测试区域（{ "0" }：未给出）
+
+# geometry/index.html
+seg-dd54031b481a = 星座
+
+# advanced/index.html
+seg-e02635128fa4 = 预览嵌入模式 <s1>在新标签页中打开</s1>
+
+# advanced/index.html
+seg-e02d92584d5a = 在 <s1>Kshana Studio</s1> 中打开
+
+# tools/index.html
+# c1: hybrid
+# c2: fusion
+# c3: [accel_classical]
+seg-e0d931fb9fa8 = <c1/> 和 <c2/> 场景是接收传感器噪声参数的仿真，而不是实测序列。这里从<b>静止</b>的 IMU 日志（积分信号的重叠阿伦偏差）中读出这些参数，并写出可直接粘贴的 <c3/> 表，其中注明该日志的 SHA-256。文件在此浏览器中读取，绝不上传。
+
+# advanced/index.html
+seg-e0fca417482a = 正在打开场景…
+
+# index.html
+seg-e11b46863c7c = 分享
+
+# index.html
+seg-e29d48cfd73a = <b>守时（holdover）测试</b><s1>拔掉天线，为守时评分：对照 ITU-T 模板度量的钟差记录。</s1>
+
+# index.html
+seg-e2ec2acef569 = <b>月球基础设施</b><s1>月球轨道器和地面站作为导航与大地测量基础设施能做什么，并说明其未达之处。</s1>
+
+# advanced/index.html
+seg-e73ea9921fcf = 参数
+
+# lunar/index.html
+seg-e7572abf9b3c = 修正后的百分位误差，按其自身范围
+
+# tools/index.html
+seg-e8e68a8be0a6 = 该轴静止时读到的比力，m/s²（水平为 { "0" }，垂直约为 { "9.80665" }）
+
+# index.html
+seg-eb9ebcd5e957 = <b>干扰地图</b><s1>飞机和船舶在何处报告了退化的导航数据，以及某条航线的暴露情况。</s1>
+
+# geometry/index.html
+seg-ebad96f6f920 = +{ "1" } h
+
+# geometry/index.html
+seg-ebc83a18d97c = 左侧建筑高度，米
+
+# index.html
+seg-ec3cd95a740d = <b>几何</b><s1>在某地能看到哪些卫星，它们的几何关系有多好？绘出天际线。</s1>
+
+# index.html
+seg-ed7befb0e9f6 = 打开此结果
+
+# advanced/index.html
+seg-ee0ffb5be403 = 在本地<b>运行</b>引擎
+
+# index.html
+seg-ee19f3717280 = 月球台站
+
+# trust/index.html
+# c1: kshana receiver-trust
+seg-ee9aad877fd8 = 对于固定或未指明的接收机，<c1/> 依据 GNSS 日志自身的校准窗口进行检查，并说明它何时不再像它自己。它给出状态和告警，而不是 { "0" } 到 { "100" } 的船舶评分。请在相同设置下运行示意性示例（一份虚构的日志，其中干扰机从 { "120" } s 工作到 { "240" } s）或您自己的 NMEA 日志。日志仅在此读取，绝不上传。
+
+# tools/index.html
+seg-efb4dc713dd2 = Studio 中另有：<a1>几何</a1>，某地某时的天空图、天际线和精度因子（DOP）；<a2>月球台站</a2>，月球参考站的建模覆盖率；<a3>海事信任度</a3>；<a4>干扰地图</a4>；<a5>训练复盘</a5>。
+
+# holdover/index.html
+seg-f155b7ceef1f = TDEV
+
+# mission-thread/index.html
+seg-f2be7442bdf2 = 事件
+
+# tools/index.html
+seg-f2ce7fc60cdf = 格式
+
+# advanced/index.html
+seg-f4b7cada2310 = 扫描
+
+# interference/index.html
+seg-f4c16e6a9663 = 选择文件…
+
+# index.html
+seg-f4d1ec6fc464 = 引用
+
+# index.html
+seg-f5d247d49432 = 驾驶台回放
+
+# interference/index.html
+seg-f63dd3d7aad4 = 来源
+
+# interference/index.html
+seg-f6c5554e22a0 = 演示文件是<b>合成的</b>：每个计数都是虚构的，针对虚构的区域，背后没有任何跟踪来源、合作方数据或真实日期。其数据块中已有说明。
+
+# lunar/index.html
+seg-fa063693b336 = 基于给定的公开假设，不是对任何真实系统性能的说明。
+
+# tools/index.html
+seg-fa06706aec55 = Septentrio SBF
+
+# training/index.html
+seg-fa131441c483 = 航向和计程仪速度（HDT 和 VBW）代替陀螺罗经和多普勒计程仪。<b>没有任何事件作用于它们</b>，因此 GNSS 所报告的与它们所示之间的差距是复盘的线索。
+
+# advanced/index.html
+seg-fa37e351f6b4 = 复制
+
+# lunar/index.html
+seg-fa4468d4cb80 = 可用性
+
+# tools/index.html
+seg-fb07400cdee2 = 要求时间戳令牌
+
+# index.html
+seg-fc310f9d867c = 浏览
+
+# advanced/index.html
+seg-fc996ea3d2ce = 结果
+
+# advanced/index.html
+seg-fd4276fe5f5e = 比较
+
+# interference/index.html
+# c1: adsb-<dataset>-YYYY-MM-DD.geojson
+# c2: ais-<dataset>-YYYY-MM-DD.geojson
+seg-fd4e582c272e = 请选择一个或多个 <c1/> 或 <c2/> 文件。ADS-B 和 AIS 文件始终显示为各自独立的地图，绝不合并：二者的许可不同（ADS-B 文件带有其来源的许可，内置来源为 ODbL { "1.0" }；AIS 文件属公有领域或 NLOD { "2.0" }），单元的含义也不同。
+
+# geometry/index.html
+seg-fd600e95e731 = <b>天空图</b>是从该地看到的天空：每个标记是一颗卫星，位于其方位角（罗盘方位）和高度角（地平线以上的角度）处。颜色和形状都表明它属于哪个星座。
+
+# index.html
+seg-fda27ae5d5f2 = <a1>Kshana Pro</a1>：按您的设备校准的时钟数字孪生、附带审计级证据包的权衡研究，或闭源集成，按合同提供。<a2>申请评估</a2> · <a3>洽谈商业许可</a3> · <a4>申请研究</a4>
+
+# advanced/index.html
+seg-fdb067cc01c0 = 打开验证台账
+
+# observatory/index.html
+# c1: docs/observatory/METHOD.md
+seg-ff19c890942d = 每个数字都是 MODELLED：没有地面真值，也没有外部参考基准（oracle）。方法说明在仓库中的 <c1/>。
+
+# advanced/index.html
+seg-e00dede0cbb9 = 全部领域，以磁贴显示
