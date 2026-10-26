@@ -1353,3 +1353,111 @@ seg-b7af31427618 = El cono dentro del que vuela un sistema inercial
 
 # text
 seg-209e7405d7af = Desde el momento en que se pierde el GNSS, el error de posición abre un cono alrededor de la trayectoria real. La IMU del controlador de vuelo sale del presupuesto de posición tras { "28.1" } s; la IMU de grado táctico se mantiene dentro durante toda la interrupción.
+
+# attr:aria-label
+seg-77bece17ec06 = Cono de error de posición alrededor de la trayectoria real desde que se perdió el GNSS, dos IMU
+
+# text
+seg-c4924df82c01 = Una vía de entrada para cada perfil.
+
+# text
+seg-6212fdefc777 = Ocho tipos de usuario, cada uno con su punto de entrada, el comando al que recurriría primero y lo que Pro o el trabajo a medida añaden para él.
+
+# text
+seg-2e9267aca751 = Ingeniero de misión y de sistemas
+
+# text
+seg-d2c741b188de = Dimensione una arquitectura PNT y vea dónde se rompe.
+
+# text
+seg-87adf34e62f8 = Empiece por <a1>Atlas de capacidades</a1>
+
+# text
+seg-9601ecea0610 = <b>Gratis hoy:</b> todo el motor abierto. Pro: estudios de compromiso de arquitectura ordenados según una figura de mérito.
+
+# text
+seg-5ad7df11c031 = Especialista en PNT o GNSS
+
+# text
+seg-8f2ceeab7a06 = Abra el TOML, cambie la física y compruébelo con el registro.
+
+# text
+seg-13fee7a0cfb5 = Empiece por <a1>Registro de validación</a1>
+
+# text
+seg-f407f4270be7 = <b>Gratis hoy:</b> todo el motor abierto. A medida: modelos de sensores y de resiliencia calibrados con su hardware.
+
+# text
+seg-c0cabe8a1c21 = Responsable de pruebas y evaluación
+
+# text
+seg-a5345bf50e9a = Fije escenarios como pruebas de regresión y ejecute toda una batería en un único estudio sellado.
+
+# text
+seg-57027baf4d52 = Empiece por <a1>Formas de usarlo</a1>
+
+# text
+seg-081d06995ef0 = <b>Gratis hoy:</b> todo el motor abierto. Pro: paquetes de evidencia reproducibles y aptos para auditoría, para una revisión.
+
+# text
+seg-e453a0b9a72e = Revisor de adquisiciones o de programa
+
+# text
+seg-5928b8638dbe = Use el registro de validación como evidencia de diligencia debida: cada capacidad nombra su referencia independiente y su prueba.
+
+# text
+seg-d1bda56ab091 = Empiece por <a1>Matriz de verificación</a1>
+
+# text
+seg-6aaf90a9274c = Abrir
+
+# text
+seg-c18c8dedbeca = Investigador o estudiante
+
+# text
+seg-89701b62b338 = Reproduzca un resultado hasta la semilla, amplíelo y cite la versión exacta del motor.
+
+# text
+seg-066c38473c6c = Empiece por <a1>Investigación y citas</a1>
+
+# text
+seg-f654e1a6cced = <b>Gratis hoy:</b> todo el motor abierto. Gratis: el motor completo, citable por DOI.
+
+# text
+seg-63e9569d9723 = Ingeniero de temporización y de redes
+
+# text
+seg-4f23a0580efe = Compruebe el holdover con las máscaras de la UIT-T antes de que falle la antena GNSS.
+
+# text
+seg-7bc4df13f4cb = Empiece por <a1>Muro de temporización</a1>
+
+# text
+seg-2abf4f5bd06e = <b>Gratis hoy:</b> todo el motor abierto. Pro: gemelos digitales de relojes calibrados con el presupuesto de Allan publicado de su dispositivo.
+
+# text
+seg-907754b26f64 = Usuario de asistentes de IA
+
+# text
+seg-3cde4f0b352a = Deje que su asistente ejecute el motor validado en lugar de adivinar las matemáticas.
+
+# text
+seg-0487ea97b0d8 = Empiece por <a1>Servidor MCP</a1>
+
+# text
+seg-562785c48737 = <b>Gratis hoy:</b> todo el motor abierto. Gratis: { "49" } herramientas MCP, desde run_scenario hasta export_oem.
+
+# text
+seg-af65a3c927cf = Desarrollador de sistemas embebidos o de producto
+
+# text
+seg-16324be13740 = Llame al motor desde Rust, Python o JavaScript dentro de su propio producto.
+
+# text
+seg-d10b07c40c97 = Empiece por <a1>Instalación</a1>
+
+# text
+seg-0e6be0d623f6 = <b>Gratis hoy:</b> todo el motor abierto. Licencia comercial del núcleo abierto: integración cerrada o propietaria sin las obligaciones de la AGPL.
+
+# text
+seg-9b505908a6e2 = Kshana <b>no controla ningún hardware de radio y no transmite nada</b>. Incluye un receptor GNSS por software para IQ grabado y generado, y puede escribir archivos IQ sintéticos en banda base, pero <b>no es hardware generador de señales de RF</b> y <b>no es un receptor GNSS de hardware ni certificado</b>. Es un instrumento de estudio y de compromiso entre alternativas: simula lo que hacen la interferencia, la suplantación y la pérdida de señal sobre una solución de navegación y de temporización, y le indica cuáles de sus respuestas están validadas. <b>No es un producto de vuelo.</b>
