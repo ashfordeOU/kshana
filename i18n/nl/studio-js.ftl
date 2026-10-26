@@ -7763,7 +7763,7 @@ js-t35data-feat-ai-name = Gebruiken vanuit een AI-assistent (MCP-server)
 
 js-t35data-feat-bench-bench = Exporteer hier de beweging, NMEA, waypoints en gebeurtenissen van een scenario
 
-js-t35data-feat-bench-name = Testbankexport voor een laboratoriumsimulator
+js-t35data-feat-bench-name = Test-bench-export voor een laboratoriumsimulator
 
 js-t35data-feat-compliance-compliance = Zie hier voor welke rijen van een kader uw runs bewijs leveren, en de mappingtabellen
 
@@ -7823,7 +7823,7 @@ js-t35data-feat-training-stream-why = Het verzendt naar een netwerkadres, wat ee
 
 js-t35data-page-ai = Gebruiken vanuit uw AI-assistent
 
-js-t35data-page-bench = Testbankexport
+js-t35data-page-bench = Test-bench-export
 
 js-t35data-page-cli = Opdrachtregelfuncties
 
@@ -8249,7 +8249,7 @@ js-tools-status-partly-short = Gedeeltelijk
 
 js-tools-tab-ai = AI-assistent
 
-js-tools-tab-bench = Testbank
+js-tools-tab-bench = Test bench
 
 js-tools-tab-cli = Opdrachtregel
 

@@ -7955,7 +7955,7 @@ js-t35data-feat-ai-name = Bruk fra en AI-assistent (MCP-server)
 
 js-t35data-feat-bench-bench = Eksporter bevegelsen, NMEA, veipunktene og hendelsene i et scenario, her
 
-js-t35data-feat-bench-name = Testbenk-eksport for en laboratoriesimulator
+js-t35data-feat-bench-name = Test-bench-eksport for en laboratoriesimulator
 
 js-t35data-feat-compliance-compliance = Se hvilke rammeverksrader kjøringene dine gir belegg for, og avbildningstabellene, her
 
@@ -8015,7 +8015,7 @@ js-t35data-feat-training-stream-why = Den sender til en nettverksadresse, noe en
 
 js-t35data-page-ai = Bruk fra AI-assistenten din
 
-js-t35data-page-bench = Testbenk-eksport
+js-t35data-page-bench = Test-bench-eksport
 
 js-t35data-page-cli = Kommandolinjefunksjoner
 
@@ -8441,7 +8441,7 @@ js-tools-status-partly-short = Delvis
 
 js-tools-tab-ai = AI-assistent
 
-js-tools-tab-bench = Testbenk
+js-tools-tab-bench = Test bench
 
 js-tools-tab-cli = Kommandolinje
 
