@@ -146,7 +146,7 @@ export function applyPage({ html, segs, bundle, lang, vars = {} }) {
 /** ---- check ---- */
 
 const PLURAL_NEEDS = (lang) => new Intl.PluralRules(BCP47[lang] || lang).resolvedOptions().pluralCategories;
-const TOKENS = ['NOT CORROBORATED', 'NOT MET', 'VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY', 'MET', 'PREDICTION', 'CORROBORATED', 'REFUSED', 'DEGRADED', 'DEFICIENT', 'OBSERVED', 'LOST', 'MISMATCH', 'VERIFIED', 'CONSISTENT', 'INCONSISTENT'];
+const TOKENS = ['NOT CORROBORATED', 'NOT MET', 'VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY', 'MET', 'PREDICTION', 'CORROBORATED', 'REFUSED', 'DEGRADED', 'DEFICIENT', 'OBSERVED', 'LOST', 'MISMATCH', 'VERIFIED', 'CONSISTENT', 'INCONSISTENT', 'ILLUSTRATIVE', 'PUBLIC', 'REPRESENTATIVE', 'WORKSHOP', 'MIXED'];
 
 /** How many times each all-caps tier, verdict and status token stands in a message text (a { -tier-modelled } term counts as its token; NOT MET is not MET).
  *  A translation must have exactly the English counts: a lowercase "validated" or "modelled" is a word and stays a word, never the label. */
