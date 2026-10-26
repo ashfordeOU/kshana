@@ -1,0 +1,5 @@
+# docs--receiver-trust: translations (zh-Hans)
+
+seg-adc34608c46b = 类别
+
+seg-fdbb9db68f1d = 无
