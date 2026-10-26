@@ -83,3 +83,147 @@ seg-19c383444296 = De grafiek die de engine schrijft voor scenarios/lunar-vlbi-f
 seg-e01f77d493a0 = Gemodelleerde geodetische VLBI-vertraging op de maan als waarneembare grootheid: een aardbasislijn (twee grondstations, GCRS) observeert een eenrichtingssignaal van een baken van het type NovaMoon op het maanoppervlak. Geeft de nabijeveld-vertraging als verschil van twee afstanden uit, haar snelheid en de nabijeveldcorrectie voor golffrontkromming over een passage — gecontroleerd aan de vlakke-golf-Δ-DOR-waarneembare uit dezelfde codebase in de verre-veldlimiet, met partiëlen die via eindige verschillen zijn geverifieerd. Het standaard analytische pad is MODELLED en draagt de kanttekeningen over stelselconsistentie, poolbeweging xp=yp={ "0" } en vlakke golf tegenover nabij veld. Door planetary_kernel_path, earth_orientation_kernel_path en moon_orientation_kernel_path in te stellen, loopt in plaats daarvan het kernelpad (DE440, MOON_PA_DE440, ITRF93; geconvergeerde barycentrische looptijden van het licht; voegt de partiëlen van baken en station van de epoch toe), waarvan de newtoniaanse vertraging en partiëlen overeenkomen met de geconvergeerde looptijden van het licht van NAIF SPICE tot { "0.06" } ps en { "7.4e-9" }. Niet getoetst aan echte VLBI-gegevens.
 
 seg-07d97fc1abac = De grafiek die de engine schrijft voor scenarios/lunar-vlbi.toml, soort lunar-vlbi
+
+seg-4e31c8daf798 = Register
+
+seg-efd15cff3d32 = MODELLED (resultaatlabel)
+
+seg-06f082922143 = MODELLED { "2" } · VALIDATED { "3" }
+
+seg-02706b96f8fa = MODELLED { "3" } · VALIDATED { "2" }
+
+seg-a240ef37dc6d = Bron: <c1/>
+
+seg-befef5f2f8dd = Maan en cislunair (familie van scenariosoorten)
+
+seg-f964724ea446 = { "20" } scenariosoorten van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen typegoedgekeurde navigatieapparatuur en geen veiligheidsdienst voor mensenlevens. Elk label hier is dat van de engine of van de verificatiematrix; een soort is MODELLED tenzij de matrix anders aangeeft (hoe een label wordt verdiend: het onderdeel Bewijs van de README).
+
+seg-369e7cfcc1d3 = Themapagina's: <a1>LUNAR-REFERENCE-STATION</a1>, <a2>LUNAR-INFRASTRUCTURE</a2>, <a3>LUNANET-AFS</a3>. Voer er een uit: <c1/>. Alle families: <a4>KINDS.md</a4>.
+
+seg-15b8e26dc24b = Contactblad met de grafieken die de engine schrijft voor de soorten van de familie Maan en cislunair
+
+seg-fd2a12be04c2 = ARAIM-beschermingsniveaupassage aan de zuidpool van de Maan tegenover een representatieve LunaNet-relaisverzameling.
+
+seg-240eb5858113 = Gemodelleerde relativistische klokgang Aarde–Maan (Lunar Coordinate Time, LTC/TCL): de seculiere LTC−TT-gang uit het verschil in zelfpotentiaal en de kinetische term van de Maan, gerapporteerd met de gepubliceerde { "56" }–{ "59" }
+
+seg-177bff8d753e = MODELLED end-to-end tijdfoutbudget van Coordinated Lunar Time (LTC): de zeven LTC-foutentermen samengesteld als tijdfoutcurven x_i(τ) over een volledig raster van middelingstijden, kwadratisch opgeteld tot x_Σ(τ), en de c
+
+seg-df0437ef8324 = Gemodelleerde lunaire geodetische VLBI-vertragingsobservabele: een aardse basislijn (twee grondstations, GCRS) observeert een eenwegsignaal van een bakenzender van het type NovaMoon op het maanoppervlak.
+
+seg-528223b4d676 = MODELLED { "3" } · VALIDATED { "3" }
+
+seg-38254487fb7f = Covariantie van stationscoördinaten voor lunaire VLBI: de vertragingspartiëlen van de lunar-vlbi-observabele, opgeteld over een expliciet SCHEMA (basislijnen x epochs) tot een Fisher-informatiematrix, geïnverteerd, en gerapp
+
+seg-23706714da99 = Gemodelleerde gezamenlijke multitechniek-batchschatter voor lunaire baanbepaling en klok op een GESIMULEERD netwerk: een Gauss-Newton-momentopname-fit die geodetische VLBI-vertragingen op de aardse basislijn, lokale lunaire afstanden station↔satelliet fuseert
+
+seg-2359450b3967 = Gemodelleerde realisatie van het lunaire referentiestelsel: een datumfit met een Helmert-transformatie (gelijkvormigheid) met 7 parameters — { "3" } translatie, { "3" } rotatie met kleine hoek, { "1" } schaal — die een geschatte verzameling van uit selenografie afgeleide MCMF-punt c
+
+seg-2a5af9961e99 = Helmert-datum (gelijkvormigheid) met zeven parameters voor een referentiestelsel, aangestuurd door een GESIMULEERDE WAARNEEMCAMPAGNE in plaats van door een geïnjecteerde transformatie.
+
+seg-3615bea1ea75 = Helmert-datum met zeven parameters voor het lunaire referentiestelsel, aangestuurd door een ECHTE, GEARCHIVEERDE waarneemcampagne in plaats van een gesimuleerde.
+
+seg-5413116b8b42 = Gemodelleerde analyse van het lunaire navigatieservicevolume uit een ILLUSTRATIVE constellatie in een maanbaan van het type Moonlight/LCNS op basis van openbare bronnen (niet gelieerd aan ESA): doorloopt een selenografisch lat/lon-raster over
+
+seg-a0e202b3566c = Gemodelleerde lunaire DIFFERENTIËLE PNT (een lunair analogon van DGNSS/SBAS): een referentiestation van het type NovaMoon op een BEKENDE selenografische locatie berekent differentiële correcties per satelliet uit een ILLUSTRATIVE
+
+seg-ed4ec8b6378c = Gemodelleerde dekking van een lunair referentiestation: een Monte Carlo-sweep van het lunaire differentiële PNT-model over een gebruikersraster rond de zuidpool en een dag aan epochs.
+
+seg-aeec32be6092 = Aanvulling van een lunaire orbitale navigatiedienst met oppervlaktebakens, als uitvoerbare voor/na-tabel.
+
+seg-b28693368acd = Gemodelleerde lunaire interoperabiliteitsexport: geeft het lunaire referentiestelsel, de lunaire tijdschaal en de lunaire efemeride uit in op LunaNet/IOAG afgestemde, op CCSDS gebaseerde uitwisselingsvormen met heen-en-terug-/veldformaatcontrole
+
+seg-d88605893c05 = MODELLED waarneembaarheid van een vlakke cislunaire constellatie (P6): volgt een differentieel gecorrigeerde vlakke DRO-constellatie van vier ruimtevaartuigen met inter-satellietafstandsmeting en rapporteert hoeveel van de
+
+seg-8eaec90d1df5 = MODELLED test met onafhankelijke schatter van de drempel voor waarneembaarheid bij de booglengte in het cislunaire domein.
+
+seg-9619b3d699c6 = Aanvalsoppervlak voor signaalbeveiliging van lunaire oppervlaktenavigatie (P1): voegt de open analyses van signaalbeveiliging samen tot één door de binary bereikbare run.
+
+seg-64c78e211181 = Lunair-eigen RF-jamming: jammer-tot-signaalverhouding per satelliet, effectieve C/N₀ en verlies van vergrendeling voor een selenografische oppervlaktegebruiker onder een jammer op het maanoppervlak (of verhoogd), over de illustratieve open-bron-
+
+seg-df68720ee7a5 = Ontvangst van aardse GNSS op maanafstand, de zwaksignaallaag die het conflict-resilience-artikel noemt en waarvoor de engine geen model had.
+
+seg-e6475fe9f443 = MODELLED studies van de baan en het oppervlak van de Maan als navigatie- en geodetische infrastructuur, vijf studies achter één soort gekozen via <c1/>: od-consistency (onboard baanbepaling met aardse GNSS in
+
+seg-ca4fac406beb = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>.
+
+seg-da20b48985b9 = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>lunar-integrity</a1>.
+
+seg-564b491c4bb8 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>.
+
+seg-0f0b2d0ca0b4 = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>lunar-time-offset</a1>.
+
+seg-128bf57a76d1 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+seg-d6aa5d645fb7 = <b>Register:</b> MODELLED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>lunar-time-budget</a1>.
+
+seg-79140f2544ea = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>.
+
+seg-de468e4d4b46 = <b>Register:</b> MODELLED { "3" } · VALIDATED { "3" }. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>lunar-vlbi</a1>.
+
+seg-7da3c3ff2386 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
+
+seg-3119d4005897 = <b>Register:</b> MODELLED { "3" } · VALIDATED { "2" }. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>lunar-vlbi-fim</a1>.
+
+seg-6f59a33a35b3 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
+
+seg-142f2253e4d6 = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>lunar-joint-od-clock</a1>.
+
+seg-32c31af24e1b = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>.
+
+seg-73c0415efd2f = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>lunar-frame-realisation</a1>.
+
+seg-96efcb8d55d1 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>.
+
+seg-ce2f0f85dda4 = <b>Register:</b> MODELLED { "2" } · VALIDATED { "3" }. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>lunar-frame-campaign</a1>.
+
+seg-d9e24a9a8c0c = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>.
+
+seg-4f05fad4b146 = <b>Register:</b> VALIDATED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>lunar-llr-datum</a1>.
+
+seg-8d9e0277303e = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>.
+
+seg-204901ae3684 = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>moonlight-service-volume</a1>.
+
+seg-6fe67fa619d0 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
+
+seg-c83350735643 = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>lunar-differential-pnt</a1>.
+
+seg-facc442295f1 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>.
+
+seg-8a2f6f535c4a = <b>Register:</b> MODELLED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>lunar-station-coverage</a1>.
+
+seg-a790c54ac1aa = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>.
+
+seg-4efffcd615df = <b>Register:</b> MODELLED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>lunar-beacon</a1>.
+
+seg-720d0bbeaf6e = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+seg-019ca0f1051e = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>lunar-interop-export</a1>.
+
+seg-28695dd2ecc3 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.
+
+seg-af5d871bc69e = <b>Register:</b> MODELLED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>cislunar-observability</a1>.
+
+seg-f646e9fd7553 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
+
+seg-5e7bd8bb1adf = <b>Register:</b> MODELLED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>cislunar-arc-recovery</a1>.
+
+seg-3c514f3acc78 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>, <c27/>, <c28/>.
+
+seg-00b06a4fc0e0 = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>lunar-attack-surface</a1>.
+
+seg-079d2bb805f1 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>.
+
+seg-63d4157e2294 = <b>Register:</b> MODELLED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>lunar-jamming</a1>.
+
+seg-7bb977529f30 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>.
+
+seg-287f89e6bf6b = <b>Register:</b> MODELLED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>earth-gnss-lunar</a1>.
+
+seg-f7ed8b60e7d1 = Verplichte velden: <c1/>. Optioneel: <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>.
+
+seg-41e50e49da99 = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>lunar-infrastructure</a1>.
+
+seg-09f7f99d04a6 = <s1>Vorige</s1>Navigatie met lage aardbaan
+
+seg-74c6bf83988e = <s1>Volgende</s1>Missieanalyse, verbindingen en ruimteoperaties

@@ -21,3 +21,11 @@ seg-1e4350c2c5f0 = Eén run van <c1/> vat samen als: terrain-slam | { "60" } way
 seg-939d877137f6 = Verplichte velden: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>
 
 seg-5ceb5b8597ac = Optionele velden: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
+
+seg-48e022b0945e = Het voorbeeld <c1/> stelt onder meer in:
+
+seg-4aca87f022dc = De grafiek die de engine schrijft voor scenarios/terrain-slam.toml, soort terrain-slam
+
+seg-832919783819 = <s1>Vorige</s1>terrain-nav
+
+seg-1693abd546fe = <s1>Volgende</s1>time-transfer-budget
