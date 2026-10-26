@@ -4711,3 +4711,2301 @@ js-interf-check-failed = { $name }: kontrollimine ebaõnnestus ({ $reason }).
 
 # 2026-10-01-studio-rebuild/interference/interference.js:152
 js-interf-click-cell = Näitajate nägemiseks klõpsa lahtril või fokusseeri kaart ja kasuta nooleklahve.
+
+js-interf-close = Sulge
+
+js-interf-close-file = Sulge { $name }
+
+js-interf-col-affected = Mõjutatud
+
+js-interf-col-cell-area = Ruudu pindala
+
+js-interf-col-detectors = Detektorid
+
+js-interf-col-observed = Vaadeldud
+
+js-interf-col-sampled = Valimis
+
+js-interf-col-share = Osakaal
+
+js-interf-col-status = Olek
+
+js-interf-coverage-limits = Selle allika kattuvuse piirid
+
+js-interf-csv-too-big = { $name }: suurem kui 24 MiB; koosta väljavõttest (käsurea tööriist võtab terve faili).
+
+js-interf-csv-too-big-short = { $name }: suurem kui 24 MiB; koosta väljavõttest.
+
+js-interf-custom-needs-licence = Oma andmekogum vajab litsentsi, selle URL-i ja viitamistekst: need kirjutatakse kaardifaili.
+
+js-interf-dataset = Andmekogum
+
+js-interf-dates-rule = Kuupäevad on kujul AAAA-KK-PP või tühjad, kui piirangut pole.
+
+js-interf-day = Päev
+
+js-interf-day-aria = { $kind } päev
+
+js-interf-day-confounded-note = See päev on segatud: ühtegi ruutu ei loetud halvenenuks päeva taustataseme tõttu. Ruudud, mis muidu oleksid silma torganud, on näidatud hindamata.
+
+js-interf-day-figures-aria = Päeva näitajad
+
+js-interf-demo-csv-name = { $file } (sünteetiline näidis)
+
+js-interf-demo-failed = Demot ei õnnestunud avada: { $reason }.
+
+js-interf-demo-opened = Sünteetiline demo: kolm väljamõeldud faili väljamõeldud avaookeani piirkonnas (kaks ADS-B päeva, millest üks on segatud, ja üks AIS-i päev). Nende taga pole ühtegi päris õhusõidukit, laeva ega päeva. Kasuta ADS-B kihil päevavalijat.
+
+js-interf-demo-route-name = route.csv (sünteetiline)
+
+js-interf-describe-map = { $kind } kaart kuupäevaks { $date }: { $cells } ruutu joonistatud, { $parts }. Joonistamata ruute ei vaadeldud.
+
+js-interf-did-not-load = { $url } ei laadinud
+
+js-interf-engine-no-fn = See mootori järk (versioon { $version }) ei sisalda funktsiooni { $fn }; see on vanem kui see leht. Käsurea vaste on lehel Tööriistad.
+
+js-interf-engine-start-failed = Mootorit ei õnnestunud siin käivitada ({ $reason }). Kaardifailide avamine ülal töötab endiselt.
+
+js-interf-err-format-version = { $name }: ei ole toetatud Kshana häirekaart (format_version { $version }; see leht toetab: { $supported }).
+
+js-interf-err-no-rows = { $name }: selles aruandes puudub rows[].
+
+js-interf-err-not-json = { $name }: ei ole JSON ({ $reason }).
+
+js-interf-err-not-map = { $name }: see on GeoJSON, kuid mitte Kshana häirekaart (kshana_interference_map liige puudub).
+
+js-interf-err-not-route = { $name }: ei ole Kshana marsruudi kokkupuute aruanne (kshana_route_exposure liige puudub).
+
+js-interf-err-route-schema = { $name }: skeem { $schema } ei ole { $expected }, mida see leht loeb.
+
+js-interf-err-source-kind = { $name }: source_kind { $kind } ei ole ei adsb ega ais.
+
+js-interf-err-unknown-schema = { $name }: tundmatu skeem { $schema }; see leht loeb: { $supported }.
+
+js-interf-foot-attribution = Viitamine: { $text }
+
+js-interf-foot-coverage = Kattuvus: { $notes }
+
+js-interf-foot-layer = { $kind } kiht, { $date }. Joonistamata ruute ei vaadeldud.
+
+js-interf-foot-licence = Litsents: { $licence }
+
+js-interf-foot-licence-url = Litsents: { $licence } ({ $url })
+
+js-interf-grid = Võrk: ruudukujulised ruudud küljega { $size }° laius- ja pikkuskraadis ({ $type }). Ida–lääne suunaline laius väheneb laiuskraadiga.
+
+js-interf-guards = Kaitsemeetmed muude põhjuste vastu
+
+js-interf-input = Sisend
+
+js-interf-land-set = Maismaapolügoonid: { $name }.
+
+js-interf-land-too-big = See maismaafail on suurem kui 24 MiB.
+
+js-interf-larger-than = { $name }: suurem kui { $limit }; see leht loeb kaardifaile kuni selle suuruseni.
+
+js-interf-layer-adsb-sub = ruudud, kus õhusõidukid teatasid madalast navigatsioonitäpsusest
+
+js-interf-layer-ais-sub = ruudud, kus laevad teatasid ebausutavatest asukohtadest või liikumisest
+
+js-interf-layer-heading = { $kind } kiht
+
+js-interf-layer-hidden = { $kind } kiht on peidetud.
+
+js-interf-layers-separate = ADS-B ja AIS on eraldi kihid oma lülitite, legendide ja litsentsiridadega. Neid ei ühendata kunagi üheks värvivälja ega üheks arvuks.
+
+js-interf-legend-aria = Mida iga ruudu olek tähendab; eemalda märge, et need ruudud tuhmistada
+
+js-interf-licence = Litsents
+
+js-interf-licence-aria = Andmete litsents: { $name }
+
+js-interf-licence-heading = Andmete litsents ja viitamine
+
+js-interf-map-aria = { $summary } Nooleklahvidega liigud joonistatud ruutude vahel.
+
+js-interf-maps-open =
+    { $n ->
+        [one] { $n } kaart avatud.
+       *[other] { $n } kaarti avatud.
+    }
+
+js-interf-method-summary = Meetod ja piirangud
+
+js-interf-no-cell-at = Kohas { $lat }, { $lon } pole ruutu: ei vaadeldud. See ei tõenda, et ala oli häireteta.
+
+js-interf-no-cell-drawn = ruutu pole joonistatud
+
+js-interf-no-cells-draw = Selles failis pole joonistatavaid ruute.
+
+js-interf-no-day-figures = See fail ei esita päevatasandi näitajaid.
+
+js-interf-no-file-opened = Ühtegi faili ei õnnestunud avada.
+
+js-interf-no-file-text = Avatud kaartidel pole kontrollitavat failiteksti (neid ei avatud failidena).
+
+js-interf-none = puudub
+
+js-interf-none-stated = (ei ole öeldud)
+
+js-interf-none-stated-file = (selles failis ei ole öeldud)
+
+js-interf-north-abbr = N
+
+js-interf-not-evaluated = hindamata
+
+js-interf-not-opened-full = { $name }: ei avatud, { $max } kaarti on juba avatud. Sulge esmalt mõned.
+
+js-interf-nothing-open = Midagi pole veel avatud.
+
+js-interf-nothing-opened = Midagi ei avatud.
+
+js-interf-one-day = üks päev korraga
+
+js-interf-opened-file-map = Avati { $files } fail; { $maps } kaart avatud.
+
+js-interf-opened-file-maps = Avati { $files } fail; { $maps } kaarti avatud.
+
+js-interf-opened-files-map = Avati { $files } faili; { $maps } kaart avatud.
+
+js-interf-opened-files-maps = Avati { $files } faili; { $maps } kaarti avatud.
+
+js-interf-opening-demo = Sünteetilise demo avamine…
+
+js-interf-parameters = Parameetrid, fikseeritud enne andmete lugemist
+
+js-interf-read-draw-failed = { $name }: ei õnnestunud lugeda ega joonistada ({ $reason }).
+
+js-interf-read-failed = { $name }: ei õnnestunud lugeda ({ $reason }).
+
+js-interf-read-with-map = Loe seda koos kaardiga
+
+js-interf-reading = Lugemine…
+
+js-interf-route-aria = Marsruudi kokkupuude { $name }
+
+js-interf-route-chip = Marsruut
+
+js-interf-route-done =
+    { $n ->
+        [one] Marsruudi kokkupuude arvutati { $n } kaardist mootoriga { $version }; aruanne on allpool.
+       *[other] Marsruudi kokkupuude arvutati { $n } kaardist mootoriga { $version }; aruanne on allpool.
+    }
+
+js-interf-route-explain = Marsruudi pikkuse osakaal igas olekus, päeva ja allika kaupa. Neli osakaalu annavad kokku 1 ja neid loetakse koos: madal halvenenud osakaal koos kõrge vaatlemata osakaaluga ei ole näidanud, et ala on häireteta. ADS-B ja AIS-i ridu ei ühendata kunagi.
+
+js-interf-route-exposure = Marsruudi kokkupuude
+
+js-interf-route-needs-map = Ava või koosta esmalt vähemalt üks kaart: marsruuti kontrollitakse selle lehe kaartide vastu.
+
+js-interf-route-open-failed = Marsruuti ei õnnestunud avada: { $reason }.
+
+js-interf-route-range = { $from } kuni { $to }
+
+js-interf-route-too-big = { $name }: suurem kui 24 MiB.
+
+js-interf-row-affected-share = Mõjutatud osakaal
+
+js-interf-row-aircraft-affected = Mõjutatud õhusõidukid
+
+js-interf-row-aircraft-observed = Vaadeldud õhusõidukid
+
+js-interf-row-aircraft-sampled = Valimisse võetud õhusõidukid
+
+js-interf-row-area = Pindala
+
+js-interf-row-cell = Ruut
+
+js-interf-row-detectors = Kvalifitseerunud detektorid
+
+js-interf-row-flagged = Märgitud: { $detector }
+
+js-interf-row-status = Olek
+
+js-interf-row-vessels-observed = Vaadeldud laevad
+
+js-interf-rows-skipped = { $count } rida ei olnud kehtiv ja jäeti vahele.
+
+js-interf-rt-day = Päev
+
+js-interf-rt-km = Marsruudi km
+
+js-interf-rt-licence = Kaardi litsents ja viitamine
+
+js-interf-rt-shares = Marsruudi osakaalud
+
+js-interf-rt-source = Allikas
+
+js-interf-sample-failed = Näidist ei õnnestunud avada: { $reason }.
+
+js-interf-save = Salvesta:
+
+js-interf-save-report = Salvesta aruanne (JSON)
+
+js-interf-show-layer = Näita seda kihti
+
+js-interf-st-anomalous-label = Anomaalne
+
+js-interf-st-anomalous-text = Vähemalt üks detektor märkis siin sel päeval piisavalt palju eri laevu (vähemalt 3 laeva ja 20% vaadeldutest). Võimalike põhjuste hulgas on häired, kuid ka paljud tavalised põhjused.
+
+js-interf-st-confounded-label = Päev segatud
+
+js-interf-st-confounded-text = Terve päeva ruutude mediaanosakaal oli kõrge, mis viitab laiaulatuslikule põhjusele. Sellisel päeval ei kuulutata ühtegi ruutu halvenenuks; see ruut oleks muidu silma torganud.
+
+js-interf-st-degraded-label = Halvenenud
+
+js-interf-st-degraded-text = Suur osa valimisse võetud õhusõidukitest teatas siin sel päeval madalast navigatsioonitäpsusest, selgelt üle päeva mediaanruudu. See ei ütle, miks.
+
+js-interf-st-no-background-label = Taustahinnang puudub
+
+js-interf-st-no-background-text = Päeva tausta (madalast täpsusest teatavate õhusõidukite tüüpiline osakaal) ei õnnestunud piisavast arvust ruutudest hinnata, seega ühtegi ruutu sellega ei võrrelda ega kuulutata.
+
+js-interf-st-not-anomalous-label = Mitte anomaalne
+
+js-interf-st-not-anomalous-text = Vaadeldud ja ükski detektor ei kvalifitseerunud. Ei ole tõend, et midagi ei juhtunud.
+
+js-interf-st-not-degraded-label = Mitte halvenenud
+
+js-interf-st-not-degraded-text = Valimis ja madalast täpsusest teatavate õhusõidukite osakaal ei torganud silma. Ei ole tõend, et midagi ei juhtunud.
+
+js-interf-st-too-few-label = Liiga vähe õhusõidukeid
+
+js-interf-st-too-few-text = Avaldatud (vähemalt 5 eri õhusõidukit vaadeldud), kuid valimisse sai võtta alla 10 õhusõiduki, seega otsust ei tehta.
+
+js-interf-starting-build = Mootori käivitamine ja koostamine…
+
+js-interf-starting-route = Mootori käivitamine ja marsruudi kontrollimine…
+
+js-interf-state-clear-adsb = Häireteta
+
+js-interf-state-clear-adsb-text = Vaadeldud piisava arvu õhusõidukitega ja märkimata. Ei ole tõend, et midagi ei juhtunud.
+
+js-interf-state-clear-ais = Häireteta
+
+js-interf-state-clear-ais-text = Vaadeldud piisava arvu laevadega ja märkimata. Ei ole tõend, et midagi ei juhtunud.
+
+js-interf-state-degraded-adsb = Halvenenud
+
+js-interf-state-degraded-adsb-text = Suur osa valimisse võetud õhusõidukitest teatas siin sel päeval madalast navigatsioonitäpsusest, selgelt üle päeva mediaanruudu.
+
+js-interf-state-degraded-ais = Anomaalne
+
+js-interf-state-degraded-ais-text = Vähemalt üks detektor märkis siin sel päeval piisavalt palju eri laevu (vähemalt 3 laeva ja 20% vaadeldutest).
+
+js-interf-state-notobs-adsb = Vaatlemata
+
+js-interf-state-notobs-adsb-text = Ruutu pole joonistatud: avaldamiseks vaadeldi liiga vähe õhusõidukeid. See ei tõenda, et ala oli häireteta.
+
+js-interf-state-notobs-ais = Vaatlemata
+
+js-interf-state-notobs-ais-text = Ruutu pole joonistatud: avaldamiseks vaadeldi liiga vähe laevu. See ei tõenda, et ala oli häireteta.
+
+js-interf-state-unassessed-adsb = Hindamata
+
+js-interf-state-unassessed-adsb-text = Vaadeldud, kuid valimisse sai võtta liiga vähe õhusõidukeid, päev oli segatud või päeva tausta ei õnnestunud hinnata, seega otsust ei tehta.
+
+js-interf-state-unassessed-ais = Hindamata
+
+js-interf-state-unassessed-ais-text = Vaadeldud, kuid otsust ei tehta.
+
+js-interf-status-unknown = Olek, mida see leht ei kirjelda.
+
+js-interf-table-first = Näidatud on esimesed { $shown } ruutu { $total }-st, olulised otsused esimesena.
+
+js-interf-table-summary = Iga joonistatud ruut tabelina ({ $n })
+
+js-interf-the-day = Päev
+
+js-interf-unknown-date = tundmatu kuupäev
+
+js-interf-warn-cell-size = See fail kasutab ruudu suurust { $size }°, mis ei ole eelregistreeritud suurus: see ei ole eelregistreeritud meetod, seega selle otsused ei ole võrreldavad failidega, mis seda kasutavad.
+
+js-interf-warn-cell-size-known = See fail kasutab ruudu suurust { $size }°, mis ei ole eelregistreeritud suurus ({ $registered }°): see ei ole eelregistreeritud meetod, seega selle otsused ei ole võrreldavad failidega, mis seda kasutavad.
+
+js-interf-warn-day-confounded = See päev on segatud: ühtegi ruutu ei loetud halvenenuks päeva taustataseme tõttu (ruutude mediaanosakaal oli ise kõrge).
+
+js-interf-warn-flag-disagrees = { $count } ruudul on „halvenenud“ lipp, mis ei ühti nende olekuga. Joonistatakse olek.
+
+js-interf-warn-no-licence = Sellel failil puudub { $fields } tekst. See näidatakse, kuid kaarti ilma litsentsi ja viitamiseta ei tohiks uuesti avaldada.
+
+js-interf-warn-on-land-off = Maismaadetektor oli selle faili jaoks välja lülitatud (maismaapolügoone ei antud).
+
+js-interf-warn-skipped = { $count } objekti ei olnud kehtiv GeoJSON ja jäeti vahele.
+
+js-interf-warn-unknown-status = Olekuväärtused, mida see leht ei tunne: { $values }. Need joonistatakse kui „otsuseta“.
+
+js-interf-withheld = tagasi hoitud (vähem kui 5)
+
+js-interf-written-by = kirjutanud Kshana { $version }
+
+js-kind-axis-3-d-position-error-m = 3D asukohaviga (m)
+
+js-kind-axis-c-n0-db-hz = C/N0 (dB-Hz)
+
+js-kind-axis-code-jitter-m = koodi värin (m)
+
+js-kind-axis-code-tracking-jitter-m = koodijälgimise värin (m)
+
+js-kind-axis-doppler-shift-hz = Doppleri nihe (Hz)
+
+js-kind-axis-effective-c-n0-db-hz = efektiivne C/N0 (dB-Hz)
+
+js-kind-axis-elevation = kõrgus (°)
+
+js-kind-axis-fit-interval-s = sobitusvahemik (s)
+
+js-kind-axis-formal-position-sigma-m = formaalne asukoha sigma (m)
+
+js-kind-axis-latitude = laiuskraad (°)
+
+js-kind-axis-leo-satellites-added-to-the = fikseeringule lisatud LEO satelliidid
+
+js-kind-axis-mean-satellites-in-view = nähtavate satelliitide keskmine arv
+
+js-kind-axis-median-dilution-of-precision = täpsuse halvenemise teguri mediaan
+
+js-kind-axis-median-error-m = mediaanviga (m)
+
+js-kind-axis-median-pdop = PDOP-i mediaan
+
+js-kind-axis-metres = meetrit
+
+js-kind-axis-observation-window-s = vaatlusaken (s)
+
+js-kind-axis-offset-from-the-signal-s = nihe signaali keskmest (MHz)
+
+js-kind-axis-offset-from-the-snapshot-centre = nihe hetktõmmise keskmest (MHz)
+
+js-kind-axis-pdop = PDOP
+
+js-kind-axis-position-error-m = asukohaviga (m)
+
+js-kind-axis-power-spectral-density-db-hz = võimsusspektri tihedus (dB/Hz, ühikvõimsus)
+
+js-kind-axis-power-spectral-density-dbw-hz = võimsusspektri tihedus (dBW/Hz)
+
+js-kind-axis-probability-of-detection = tuvastamise tõenäosus
+
+js-kind-axis-range-error-m = kaugusviga (m)
+
+js-kind-axis-relays = releed
+
+js-kind-axis-sisre-root-mean-square-m = SISRE, ruutkeskmine (m)
+
+js-kind-axis-time-error-ns = ajaviga (ns)
+
+js-kind-axis-time-s = aeg (s)
+
+js-kind-axis-time-since-the-start-min = aeg algusest (min)
+
+js-kind-axis-update-period-s = uuendusperiood (s)
+
+js-kind-cap-body-pnt-label = Releepositsioneerimine
+
+js-kind-cap-campaign-label = Kampaania
+
+js-kind-cap-constellation-design-label = Kate
+
+js-kind-cap-leo-navmsg-label = Navigatsioonisõnum
+
+js-kind-cap-leo-pass-label = Ülelend ja link
+
+js-kind-cap-leo-pnt-chain-label = Otsast lõpuni ahel
+
+js-kind-cap-leo-ppp-label = Positsioneerimine
+
+js-kind-cap-leo-pvt-label = Positsioneerimine
+
+js-kind-cap-leo-signal-label = Signaali kavandamine
+
+js-kind-cap-lunar-llr-datum-label = Laserkaugusmõõtmise etalonpunkt
+
+js-kind-cap-ntn-positioning-label = Positsioneerimine
+
+js-kind-cap-solar-system-label = Päikesesüsteem
+
+js-kind-cap-spectrum-label = Spekter
+
+js-kind-guided-doppler-error-hz = Doppleri viga (Hz)
+
+js-kind-guided-duration-s = Kestus (s)
+
+js-kind-guided-earth-range-error-m = Maa kaugusviga (m)
+
+js-kind-guided-elevation-mask = Kõrgusmask (°)
+
+js-kind-guided-first-jammer-bandwidth-mhz = Esimese segaja ribalaius (MHz)
+
+js-kind-guided-first-jammer-power-dbw = Esimese segaja võimsus (dBW)
+
+js-kind-guided-first-jammer-range-m = Esimese segaja kaugus (m)
+
+js-kind-guided-first-jammer-received-power-dbw = Esimese segaja vastuvõetud võimsus (dBW)
+
+js-kind-guided-first-phase-length-s = Esimese faasi pikkus (s)
+
+js-kind-guided-first-shell-altitude-km = Esimese kihi kõrgus (km)
+
+js-kind-guided-first-shell-inclination = Esimese kihi kaldenurk (°)
+
+js-kind-guided-first-signal-bandwidth-hz = Esimese signaali ribalaius (Hz)
+
+js-kind-guided-first-system-range-error-m = Esimese süsteemi kaugusviga (m)
+
+js-kind-guided-fit-interval-s = Sobitusvahemik (s)
+
+js-kind-guided-gravity-field-degree = Gravitatsioonivälja aste
+
+js-kind-guided-grid-step = Võrgusamm (°)
+
+js-kind-guided-integration-time-s = Integreerimisaeg (s)
+
+js-kind-guided-leo-satellites-in-the-sweep = LEO satelliidid pühkimises
+
+js-kind-guided-loop-bandwidth-hz = Silmuse ribalaius (Hz)
+
+js-kind-guided-monte-carlo-runs = Monte Carlo käigud
+
+js-kind-guided-network-synchronisation-error-m = Võrgu sünkroonimisviga (m)
+
+js-kind-guided-orbit-altitude-km = Orbiidi kõrgus (km)
+
+js-kind-guided-orbit-determination-error-m = Orbiidi määramise viga (m)
+
+js-kind-guided-orbit-inclination = Orbiidi kaldenurk (°)
+
+js-kind-guided-pdop-threshold = PDOP-i lävi
+
+js-kind-guided-peak-elevation-of-the-pass = Ülelennu maksimaalne kõrgus (°)
+
+js-kind-guided-points-per-orbit-track = Punkte orbiidijälje kohta
+
+js-kind-guided-receiver-noise-figure-db = Vastuvõtja müranäitaja (dB)
+
+js-kind-guided-receiver-power-when-awake-mw = Vastuvõtja võimsus ärkvel olekus (mW)
+
+js-kind-guided-reference-c-n0-db-hz = Etalon-C/N0 (dB-Hz)
+
+js-kind-guided-relay-altitude-km = Releede kõrgus (km)
+
+js-kind-guided-relay-inclination = Releede kaldenurk (°)
+
+js-kind-guided-relay-planes = Releede tasandid
+
+js-kind-guided-relay-range-error-m = Releekaugusviga (m)
+
+js-kind-guided-relays-per-plane = Releesid tasandi kohta
+
+js-kind-guided-runs-per-case = Käike juhtumi kohta
+
+js-kind-guided-satellite-altitude-km = Satelliidi kõrgus (km)
+
+js-kind-guided-second-system-range-error-m = Teise süsteemi kaugusviga (m)
+
+js-kind-guided-shared-condition = Ühine tingimus
+
+js-kind-guided-slant-electron-content-tecu = Kaldelektronsisaldus (TECU)
+
+js-kind-guided-slant-range-km = Kaldkaugus (km)
+
+js-kind-guided-spoofed-offset-m = Spuufitud nihe (m)
+
+js-kind-guided-spoofing-starts-s = Spuufimine algab (s)
+
+js-kind-guided-sweep-from = Pühkimine alates
+
+js-kind-guided-sweep-steps = Pühkimise sammud
+
+js-kind-guided-sweep-to = Pühkimine kuni
+
+js-kind-guided-timeline-step-s = Ajatelje samm (s)
+
+js-kind-guided-tracking-threshold-db-hz = Jälgimislävi (dB-Hz)
+
+js-kind-guided-transmit-power-dbw = Saatevõimsus (dBW)
+
+js-kind-guided-update-period-s = Uuendusperiood (s)
+
+js-kind-guided-user-latitude = Kasutaja laiuskraad (°)
+
+js-kind-hint-a-band-under-this-carrier = sagedusriba, mille kandja ja müratiheduse suhe on sellest madalam, on sünkroonsuse kaotanud
+
+js-kind-hint-a-grid-point-is-available = võrgupunkt on kättesaadav, kui selle asukoha täpsuse halvenemise tegur on sellest väiksem
+
+js-kind-hint-a-satellite-must-be-this = satelliit peab olema nii kõrgel, et lugeda nähtavaks
+
+js-kind-hint-a-satellite-must-be-this-2 = satelliit peab olema nii kõrgel, et seda kasutada
+
+js-kind-hint-a-satellite-of-the-first = esimese süsteemi satelliit peab olema nii kõrgel
+
+js-kind-hint-arc-one-message-is-fitted = kaar, mille ulatuses ühte sõnumit sobitatakse
+
+js-kind-hint-code-tracking-loop-noise-bandwidth = koodijälgimissilmuse müraribalaius
+
+js-kind-hint-detail-of-the-truth-orbit = tõelise orbiidi gravitatsioonimudeli detailsus
+
+js-kind-hint-distance-from-the-first-jammer = kaugus esimesest segajast vastuvõtjani
+
+js-kind-hint-distance-to-the-satellite-in = kaugus satelliidini sagedusribade kompromissis
+
+js-kind-hint-drawn-while-acquiring-and-tracking = joonistatakse haaramise ja jälgimise ajal
+
+js-kind-hint-equivalent-isotropically-radiated-power-of = esimese segaja ekvivalentne isotroopselt kiiratud võimsus
+
+js-kind-hint-equivalent-isotropically-radiated-power-of-2 = sagedusriba ekvivalentne isotroopselt kiiratud võimsus
+
+js-kind-hint-filter-runs-averaged-for-each = iga juhtumi kohta keskmistatud filtri käigud (rohkem on aeglasem)
+
+js-kind-hint-first-value-of-the-swept = pühitava parameetri esimene väärtus
+
+js-kind-hint-height-of-the-chain-s = ahela satelliidi kõrgus
+
+js-kind-hint-height-of-the-first-shell = esimese kihi orbiitide kõrgus
+
+js-kind-hint-height-of-the-relay-orbits = releeorbiitide kõrgus keha kohal
+
+js-kind-hint-height-of-the-satellite-whose = selle satelliidi kõrgus, mille sõnumit sobitatakse
+
+js-kind-hint-how-far-the-spoofer-moves = kui kaugele spuufija arvutatud asukoha nihutab
+
+js-kind-hint-how-finely-each-orbit-is = kui tihedalt iga orbiiti joonise jaoks diskreetitakse
+
+js-kind-hint-how-high-the-satellite-climbs = kui kõrgele satelliit tõuseb
+
+js-kind-hint-how-long-the-first-phase = kui kaua esimene faas kestab
+
+js-kind-hint-how-long-the-receiver-integrates = kui kaua vastuvõtja ühe kauguse jaoks integreerib
+
+js-kind-hint-how-many-low-orbit-satellites = mitu madalorbiidi satelliiti geomeetria pühkimine lisab
+
+js-kind-hint-how-many-seeded-runs-make = mitu algväärtustatud käiku ansambli moodustavad
+
+js-kind-hint-how-many-values-are-run = mitu väärtust käivitatakse
+
+js-kind-hint-how-often-a-new-message = kui sageli uus sõnum antakse välja
+
+js-kind-hint-how-wide-the-first-jammer = kui laiale esimene segaja oma võimsuse laotab
+
+js-kind-hint-ionosphere-along-the-path-in = ionosfäär mööda teed, kogu elektronsisalduse ühikutes
+
+js-kind-hint-last-value-of-the-swept = pühitava parameetri viimane väärtus
+
+js-kind-hint-length-of-each-filter-run = iga filtri käigu pikkus
+
+js-kind-hint-length-of-the-run = käigu pikkus
+
+js-kind-hint-length-of-the-timeline = ajatelje pikkus
+
+js-kind-hint-occupied-bandwidth-of-the-first = esimese etalonsignaali hõivatud ribalaius
+
+js-kind-hint-one-sigma-doppler-measurement-error = ühe sigma Doppleri mõõteviga
+
+js-kind-hint-one-sigma-error-of-a = ühe sigma viga kauguses releeni
+
+js-kind-hint-one-sigma-error-of-the = ühe sigma viga kahesuunalises kauguses Maalt
+
+js-kind-hint-orbital-planes-of-the-navigation = navigatsioonireleede orbiiditasandid
+
+js-kind-hint-power-of-the-first-jammer = esimese segaja võimsus vastuvõtjas
+
+js-kind-hint-raises-the-noise-floor-under = tõstab müra põhitaset iga sagedusriba all
+
+js-kind-hint-satellites-in-each-plane = satelliite igas tasandis
+
+js-kind-hint-sets-the-doppler-range-a = määrab Doppleri vahemiku, mille külmotsing peab katma
+
+js-kind-hint-signal-in-space-range-error = esimese süsteemi signaaliruumi kaugusviga
+
+js-kind-hint-signal-in-space-range-error-2 = teise süsteemi signaaliruumi kaugusviga
+
+js-kind-hint-signal-level-the-tracking-figures = signaalitase, mille juures jälgimisnäitajad on esitatud
+
+js-kind-hint-spacing-of-the-latitude-and = laius- ja pikkuskraadivõrgu samm
+
+js-kind-hint-spacing-of-the-shared-mission = ühise missiooniajavõrgu samm
+
+js-kind-hint-the-part-of-the-range = see osa kaugusveast, mida sõnum ei saa kõrvaldada
+
+js-kind-hint-the-value-every-member-runs = väärtus, mille juures iga liige käib
+
+js-kind-hint-tilt-of-that-orbit = selle orbiidi kalle
+
+js-kind-hint-tilt-of-the-first-shell = esimese kihi tasandite kalle
+
+js-kind-hint-tilt-of-the-relay-planes = releetasandite kalle
+
+js-kind-hint-timing-error-between-satellites-as = satelliitidevaheline ajastusviga kaugusena
+
+js-kind-hint-when-the-spoofer-captures-the = millal spuufija vastuvõtja haarab
+
+js-kind-hint-where-the-receiver-stands = kus vastuvõtja asub
+
+js-kind-hint-where-the-user-stands = kus kasutaja asub
+
+js-kind-label-3-d-error = 3D viga
+
+js-kind-label-3-d-error-time-of = 3D viga, saabumisaeg
+
+js-kind-label-a-corrupted-frame-is-rejected = rikutud kaader lükatakse tagasi
+
+js-kind-label-all-channels = kõik kanalid
+
+js-kind-label-availability = Kättesaadavus
+
+js-kind-label-band = Sagedusriba
+
+js-kind-label-bodies = Kehad
+
+js-kind-label-body = Keha
+
+js-kind-label-both = mõlemad
+
+js-kind-label-case = Juhtum
+
+js-kind-label-class = Klass
+
+js-kind-label-code-jitter = koodi värin
+
+js-kind-label-constellation = Konstellatsioon
+
+js-kind-label-doppler = Doppler
+
+js-kind-label-event = Sündmus
+
+js-kind-label-evidence = Tõendid
+
+js-kind-label-fewest-in-view = Vähim nähtavaid
+
+js-kind-label-field = Väli
+
+js-kind-label-first-detection-after-onset = Esimene tuvastamine pärast algust
+
+js-kind-label-frame-length = Kaadri pikkus
+
+js-kind-label-fused = liidetud
+
+js-kind-label-fused-cap = Liidetud
+
+js-kind-label-gnss = GNSS
+
+js-kind-label-gnss-and-leo = GNSS ja LEO
+
+js-kind-label-gnss-channels = GNSS-i kanalid
+
+js-kind-label-gnss-highest-in-sky = GNSS { $id } (taevas kõrgeim)
+
+js-kind-label-gnss-only = ainult GNSS
+
+js-kind-label-gnss-only-cap = Ainult GNSS
+
+js-kind-label-gnss-signal = GNSS-i signaal
+
+js-kind-label-hdop = HDOP
+
+js-kind-label-highest = Kõrgeim
+
+js-kind-label-horizontal-error = horisontaalviga
+
+js-kind-label-horizontal-error-2 = Horisontaalviga
+
+js-kind-label-jammer = Segaja
+
+js-kind-label-jump-threshold = Hüppelävi
+
+js-kind-label-largest-range-jump = Suurim kaugushüpe
+
+js-kind-label-largest-range-jump-against-the = suurim kaugushüpe läve suhtes
+
+js-kind-label-leo = LEO
+
+js-kind-label-leo-channels = LEO kanalid
+
+js-kind-label-leo-only = ainult LEO
+
+js-kind-label-light-time-from-observer = Valguse levimisaeg: { $observer }
+
+js-kind-label-light-time-from-the-observer = Valguse levimisaeg vaatlejast
+
+js-kind-label-light-time-one-way = Valguse levimisaeg, ühesuunaline
+
+js-kind-label-lowest = Madalaim
+
+js-kind-label-lowest-c-n0 = Madalaim C/N0
+
+js-kind-label-mean = Keskmine
+
+js-kind-label-mean-in-view = Keskmiselt nähtav
+
+js-kind-label-median-convergence = Mediaankonvergents
+
+js-kind-label-median-pdop = PDOP-i mediaan
+
+js-kind-label-member-runs = Liikmete käigud
+
+js-kind-label-message-switch-iod = sõnumi vahetus, andmeversioon { $old } kuni { $new }
+
+js-kind-label-mission-length = Missiooni pikkus
+
+js-kind-label-model = mudel
+
+js-kind-label-monte-carlo-runs = Monte Carlo käigud
+
+js-kind-label-noise-floor = Müra põhitase
+
+js-kind-label-parameters = Parameetrid
+
+js-kind-label-payload = Andmeväli
+
+js-kind-label-pdop = PDOP
+
+js-kind-label-pdop-95th-percentile = PDOP, 95. protsentiil
+
+js-kind-label-peak-elevation = Maksimaalne kõrgus
+
+js-kind-label-peak-tracked-c-n0 = Jälgitud C/N0 tipp
+
+js-kind-label-phase = Faas
+
+js-kind-label-predicted-horizontal-sigma = ennustatud horisontaalne sigma
+
+js-kind-label-quantisation-position = Kvantimine, asukoht
+
+js-kind-label-range-error = kaugusviga
+
+js-kind-label-relays-above-the-mask = releed maski kohal
+
+js-kind-label-relays-and-earth-link = releed ja Maa link
+
+js-kind-label-relays-only = ainult releed
+
+js-kind-label-satellite = Satelliit
+
+js-kind-label-satellites = Satelliidid
+
+js-kind-label-satellites-used = Kasutatud satelliidid
+
+js-kind-label-signal = Signaal
+
+js-kind-label-signal-chip-spacing = { $name } ({ $spacing } kiibivahe)
+
+js-kind-label-sisre-after-quantisation = SISRE pärast kvantimist
+
+js-kind-label-sisre-root-mean-square = SISRE, ruutkeskmine
+
+js-kind-label-spoofing-starts = spuufimine algab
+
+js-kind-label-standard-deviation = Standardhälve
+
+js-kind-label-sun-separation = Kaugus Päikesest
+
+js-kind-label-sweep-runs = Pühkimise käigud
+
+js-kind-label-system = Süsteem
+
+js-kind-label-time-above-the-mask = Aeg maski kohal
+
+js-kind-label-time-error-root-mean-square = Ajaviga, ruutkeskmine
+
+js-kind-label-tracked-component = jälgitud komponent
+
+js-kind-label-tracking-threshold = Jälgimislävi
+
+js-kind-label-transmit-bandwidth = Saatmise ribalaius
+
+js-kind-label-vdop = VDOP
+
+js-kind-label-welch-estimate-of-the-synthesised = Welchi hinnang sünteesitud valimitele
+
+js-kind-label-whole-signal = kogu signaal
+
+js-kind-label-wideband-j-s-tolerated = Talutav lairiba J/S
+
+js-kind-label-with-unit = { $label } ({ $unit })
+
+js-kind-label-worst-site-availability = Halvima asukoha kättesaadavus
+
+js-kind-no = ei
+
+js-kind-note-a-gap-is-an-epoch = Tühimik on epohh, millel on fikseeringuks liiga vähe nähtavaid releesid.
+
+js-kind-note-a-helmert-transform-is-the = Helmerti teisendus on seitsmeparameetriline nihe, pööre ja skaala kahe tugisüsteemi vahel.
+
+js-kind-note-a-low-earth-orbit-leo = Madal Maa orbiit (LEO) satelliit ületab taeva minutitega, nii et selle C/N0 (kandja ja müratiheduse suhe) tõuseb ja langeb kellukujuliselt; GNSS-satelliit liigub samas ajas vaevu.
+
+js-kind-note-a-receiver-independent-exchange-format = Receiver Independent Exchange Format (RINEX) 4 stiilis kirje. LEO kirjetüübid on Kshana laiendus, nagu päis ütleb.
+
+js-kind-note-a-single-pass-fixes-the = Üks ülelend fikseerib orbiidisuunalise suuna palju paremini kui orbiidiristuva.
+
+js-kind-note-aos-is-acquisition-of-signal = AOS on signaali haaramine, TCA lähima möödumise aeg ja LOS signaali kadumine.
+
+js-kind-note-c-n0-is-the-carrier = C/N0 on kandja ja müratiheduse suhe. Sagedusriba vastuvõtja jälgimisläve all on sünkroonsuse kaotanud.
+
+js-kind-note-cells-are-the-code-and = Lahtrid on koodi- ja Doppleri-korvid, mida külmotsing peab testima.
+
+js-kind-note-cold-is-a-first-fix = Külm on esimene fikseering ilma eelteadmiseta; kuum on fikseering varsti pärast eelmist.
+
+js-kind-note-dilution-of-precision-dop-scales = Täpsuse halvenemise tegur (DOP) skaleerib kaugusvea asukohaveaks: G on geomeetriline, P asukoha-, H horisontaal- ja V vertikaalne. Protsentiilid on üle kõigi võrgupunktide ja epohhide.
+
+js-kind-note-drawn-at-the-strongest-signal = Joonistatud käigu tugevaimal signaalitasemel. Tühimik on lõik, kus ühtegi satelliiti pole nähtaval.
+
+js-kind-note-each-body-carries-its-own = Iga keha kannab oma tõendusmärgist. Valguse levimisaeg on ühesuunaline, stsenaariumis nimetatud vaatlejast.
+
+js-kind-note-each-row-is-one-full = Iga rida on üks täielik mootori käik pühitud stsenaariumiga.
+
+js-kind-note-each-rule-is-a-switch = Iga reegel on üleminek uuemale sõnumile ülelennu keskel.
+
+js-kind-note-each-signal-is-drawn-about = Iga signaal on joonistatud ümber oma keskpagedus. Tühimik on spektraalnull.
+
+js-kind-note-eirp-is-the-equivalent-isotropically = EIRP on ekvivalentne isotroopselt kiiratud võimsus.
+
+js-kind-note-every-phase-is-an-ordinary = Iga faas on tavaline stsenaariumi käik. Räsid identifitseerivad iga liikme sisendi ja selle tulemusdokumendi.
+
+js-kind-note-iod-is-the-issue-of = IOD on andmeversioon: sõnumi järjenumber.
+
+js-kind-note-j-s-is-the-jammer = J/S on segaja ja signaali võimsuse suhe. Jälgimisosa on käigu osakaal, mille jooksul sagedusriba püsib läve kohal.
+
+js-kind-note-p05-p50-and-p95-are = p05, p50 ja p95 on 5., 50. ja 95. protsentiil. ci95 on keskmise 95% usaldusvahemik.
+
+js-kind-note-parameters-are-public-with-a = Parameetrid on PUBLIC (koos allikaga), REPRESENTATIVE või WORKSHOP, nagu iga eelseadistus ütleb.
+
+js-kind-note-precise-point-positioning-ppp-converges = Täppispunktpositsioneerimine (PPP) koondub, kui viga püsib kriteeriumi all. NEES on normeeritud hinnangu vea ruut, filtri kooskõlalisuse kontroll.
+
+js-kind-note-sisre-defined = SISRE on signaaliruumi kaugusviga: see, mida edastatud sõnum kasutaja kaugusele lisab. Siin on see sõnumi esitusviga mootori enda tõelise orbiidi suhtes.
+
+js-kind-note-sisre-is-the-signal-in = SISRE on signaaliruumi kaugusviga, mida eeldatakse iga süsteemi edastatud orbiidi ja kella jaoks.
+
+js-kind-note-ssc-is-the-spectral-separation = SSC on spektraaleraldustegur: kui suur osa ühe signaali võimsusest langeb teise vastuvõtja sisse. Kriips tähendab, et need kaks ei kattu.
+
+js-kind-note-the-chain-runs-the-signal = Ahel käivitab signaali, ülelennu, navigatsioonisõnumi, positsioneerimise ja täppispositsioneerimise etapid järjekorras. Iga rida on arv, mille üks etapp arvutas ja järgmine kasutas.
+
+js-kind-note-the-doppler-and-pass-geometry = Doppleri ja ülelennugeomeetria monitor võrdleb mõõdetud kaugusmuutumiskiirusi orbiitidelt ennustatutega. Reegel märgib spuufija algust.
+
+js-kind-note-the-engine-draws-its-spectrum = Mootor joonistab oma spektrimudeli faasi- ja kvadratuurvalimitena (IQ) ühel hetkel ning hindab neist spektri tagasi. Samad valimid on SigMF (Signal Metadata Format) eksport.
+
+js-kind-note-the-engine-s-own-documented = Mootori enda dokumenteeritud binaarkaader, suletud 24-bitise tsükkelkontrolliga (CRC-24Q).
+
+js-kind-note-the-gabor-root-mean-square = Gabori (ruutkeskmine) ribalaius määrab, kui teravalt saab signaali järgi kaugust mõõta.
+
+js-kind-note-the-largest-jammer-to-signal = Suurim segaja ja signaali suhe (J/S), mille kaudu iga signaal jälgib, pideva laine (CW), sobitatud spektriga ja lairibasegaja korral.
+
+js-kind-note-the-shapiro-delay-is-the = Shapiro viivitus on lisaline valguse levimisaeg Päikese gravitatsiooni tõttu mööda teed.
+
+js-kind-note-the-spectrum-kind-and-the = Spektri- ja segamisliik arvutavad sama lingi kahel viisil; viimane veerg on nende vahe.
+
+js-kind-note-time-of-arrival-toa-ranging = Saabumisaja (TOA) kaugusmõõtmine mittemaapealse võrgu (NTN) allalingil: laiem signaal mõõdab kaugust teravamalt.
+
+js-kind-note-what-half-a-least-significant = Mida maksab iga välja poole vähimtähtsa biti (LSB) suurune viga asukohas ja kellas, kaugusena.
+
+js-kind-rowhead-block = Plokk
+
+js-kind-rowhead-condition = Tingimus
+
+js-kind-rowhead-figure = Näitaja
+
+js-kind-rowhead-member = Liige
+
+js-kind-rowhead-metric = Mõõdik
+
+js-kind-rowhead-monitor = Monitor
+
+js-kind-rowhead-phase = Faas
+
+js-kind-rowhead-satellite = Satelliit
+
+js-kind-rowhead-signal = Signaal
+
+js-kind-rowhead-solution = Lahend
+
+js-kind-sub-clock-offset-db = { $clock }, { $offset } dB
+
+js-kind-sub-doppler-only = ainult Doppler
+
+js-kind-sub-from-to = { $from } kuni { $to }
+
+js-kind-sub-fused = liidetud
+
+js-kind-sub-gnss-and-leo-latitude = GNSS ja LEO, laiuskraad { $lat }°
+
+js-kind-sub-gnss-only = ainult GNSS
+
+js-kind-sub-gnss-only-latitude = ainult GNSS, laiuskraad { $lat }°
+
+js-kind-sub-model-fit-seconds = { $model }, { $fit } s sobitus
+
+js-kind-threshold-4-needed-for-a-fix = fikseeringuks on vaja 4
+
+js-kind-threshold-convergence-criterion = koondumiskriteerium
+
+js-kind-threshold-elevation-mask = kõrgusmask
+
+js-kind-threshold-gnss-median = GNSS-i mediaan
+
+js-kind-threshold-tracking-threshold = jälgimislävi
+
+js-kind-title-acquisition = Haaramine
+
+js-kind-title-against-a-simulated-campaign = Simuleeritud kampaania vastu
+
+js-kind-title-assumptions = Eeldused
+
+js-kind-title-band-trade-at-equal-transmit = Sagedusribade kompromiss võrdse saatevõimsuse juures
+
+js-kind-title-bands = Sagedusribad
+
+js-kind-title-beside-the-published-figures = Avaldatud näitajate kõrval
+
+js-kind-title-beside-the-published-speed-up = Avaldatud kiirenduse kõrval
+
+js-kind-title-bodies = Kehad
+
+js-kind-title-body = Keha
+
+js-kind-title-by-latitude = Laiuskraadi järgi
+
+js-kind-title-c-n0-by-band-over = C/N0 sagedusribade kaupa käigu jooksul
+
+js-kind-title-c-n0-over-the-pass = C/N0 ülelennu jooksul
+
+js-kind-title-cases = Juhtumid
+
+js-kind-title-central-body = Keskkeha
+
+js-kind-title-closed-form-doppler-against-finite = Kinnisvormiline Doppler lõplike vahede vastu
+
+js-kind-title-code-tracking-jitter = Koodijälgimise värin
+
+js-kind-title-code-tracking-jitter-against-c = Koodijälgimise värin C/N0 suhtes
+
+js-kind-title-combined-over-the-members = Liikmete peale kombineeritud
+
+js-kind-title-compatibility-with-gnss-signals = Ühilduvus GNSS-i signaalidega
+
+js-kind-title-constellations = Konstellatsioonid
+
+js-kind-title-continuity-across-message-switches = Pidevus sõnumivahetuste vältel
+
+js-kind-title-cross-check-against-the-jamming = Ristkontroll segamisliigi vastu
+
+js-kind-title-datum-accuracy = Etalonpunkti täpsus
+
+js-kind-title-dilution-of-precision-over-the = Täpsuse halvenemise tegur üle kogu võrgu
+
+js-kind-title-doppler = Doppler
+
+js-kind-title-doppler-envelopes = Doppleri mähised
+
+js-kind-title-doppler-only-fix = Ainult Doppleril põhinev fikseering
+
+js-kind-title-doppler-over-the-pass = Doppler ülelennu jooksul
+
+js-kind-title-doppler-positioning-from-one-pass = Doppleri positsioneerimine ühest ülelennust
+
+js-kind-title-earth-link = Maa link
+
+js-kind-title-elevation = Kõrgus
+
+js-kind-title-encoded-frame = Kodeeritud kaader
+
+js-kind-title-epoch = Epohh
+
+js-kind-title-epoch-and-frame = Epohh ja tugisüsteem
+
+js-kind-title-events = Sündmused
+
+js-kind-title-every-node-of-the-sweep = Pühkimise iga sõlm
+
+js-kind-title-field-table = Väljade tabel
+
+js-kind-title-figures-of-merit = Headuse näitajad
+
+js-kind-title-filter-noise = Filtri müra
+
+js-kind-title-fit-interval-trade = Sobitusvahemiku kompromiss
+
+js-kind-title-fix-quality-against-observation-window = Fikseeringu kvaliteet vaatlusakna suhtes
+
+js-kind-title-frame-checks = Kaadri kontrollid
+
+js-kind-title-frame-hexadecimal = Kaader, kuueteistkümnendsüsteemis
+
+js-kind-title-geometry-against-latitude = Geomeetria laiuskraadi suhtes
+
+js-kind-title-geometry-as-leo-satellites-are = Geomeetria LEO satelliitide lisamisel
+
+js-kind-title-geometry-position-dilution-of-precision = Geomeetria: asukoha täpsuse halvenemise tegur
+
+js-kind-title-global-coverage = Ülemaailmne kate
+
+js-kind-title-gnss-leo-and-fused = GNSS, LEO ja liidetud
+
+js-kind-title-gnss-reference = GNSS-i etalon
+
+js-kind-title-hand-offs-between-phases = Faaside vahelised üleandmised
+
+js-kind-title-helmert-fit = Helmerti sobitus
+
+js-kind-title-helmert-transform-parameters = Helmerti teisenduse parameetrid
+
+js-kind-title-inputs = Sisendid
+
+js-kind-title-ionosphere-free-band-pairs = Ionosfäärivabad sagedusribade paarid
+
+js-kind-title-jammer-tolerance = Segaja taluvus
+
+js-kind-title-jammers = Segajad
+
+js-kind-title-joint-fix = Ühisfikseering
+
+js-kind-title-leo-against-gnss = LEO GNSS-i vastu
+
+js-kind-title-limitations = Piirangud
+
+js-kind-title-links = Lingid
+
+js-kind-title-member-runs = Liikmete käigud
+
+js-kind-title-members-under-the-shared-conditions = Liikmed ühistes tingimustes
+
+js-kind-title-message = Sõnum
+
+js-kind-title-message-models-compared = Võrreldud sõnumimudelid
+
+js-kind-title-message-switches = Sõnumivahetused
+
+js-kind-title-metric-against-axis = { $metric } suhtes { $axis }
+
+js-kind-title-metric-distribution-over-runs = { $metric }: jaotus käikude peale
+
+js-kind-title-mid-pass-update = Uuendus ülelennu keskel
+
+js-kind-title-modelled = Modelleeritud
+
+js-kind-title-monte-carlo = Monte Carlo
+
+js-kind-title-navigation-message-stage = Navigatsioonisõnumi etapp
+
+js-kind-title-not-modelled = Modelleerimata
+
+js-kind-title-notes = Märkused
+
+js-kind-title-notes-on-the-spoofing-model = Märkused spuufimismudeli kohta
+
+js-kind-title-observation-windows = Vaatlusaknad
+
+js-kind-title-one-pass-alone = Ainult üks ülelend
+
+js-kind-title-orbit = Orbiit
+
+js-kind-title-over-the-message-sequence = Sõnumijada vältel
+
+js-kind-title-pass = Ülelend
+
+js-kind-title-pass-c-n0-of-the = Ülelend: kogu signaali ja jälgitud komponendi C/N0
+
+js-kind-title-pass-code-tracking-jitter = Ülelend: koodijälgimise värin
+
+js-kind-title-pass-doppler = Ülelend: Doppler
+
+js-kind-title-pass-stage = Ülelennu etapp
+
+js-kind-title-passes = Ülelennud
+
+js-kind-title-phases = Faasid
+
+js-kind-title-position-error-gnss-leo-and = Asukohaviga: GNSS, LEO ja liidetud fikseering
+
+js-kind-title-position-uncertainty-relays-alone-and = Asukoha määramatus: ainult releed ja koos Maa lingiga
+
+js-kind-title-positioning-by-signal-bandwidth = Positsioneerimine signaali ribalaiuse järgi
+
+js-kind-title-positioning-gnss-alone-against-the = Positsioneerimine: ainult GNSS liidetud fikseeringu vastu
+
+js-kind-title-power-spectral-density = Võimsusspektri tihedus
+
+js-kind-title-power-spectral-density-of-each = Iga signaali võimsusspektri tihedus
+
+js-kind-title-precise-point-positioning = Täppispunktpositsioneerimine
+
+js-kind-title-published-comparison = Avaldatud võrdlus
+
+js-kind-title-quantisation-budget = Kvantimisbilanss
+
+js-kind-title-range-residuals = Kaugusjäägid
+
+js-kind-title-ranging-stations = Kaugusmõõtmisjaamad
+
+js-kind-title-reading-the-trade = Kompromissi lugemine
+
+js-kind-title-realised-position-error = Realiseerunud asukohaviga
+
+js-kind-title-receiver = Vastuvõtja
+
+js-kind-title-receiver-power-budget = Vastuvõtja võimsusbilanss
+
+js-kind-title-reflector-information = Peegeldi teave
+
+js-kind-title-relay-constellation = Releekonstellatsioon
+
+js-kind-title-relays-in-view = Nähtavad releed
+
+js-kind-title-reproducibility = Reprodutseeritavus
+
+js-kind-title-retroreflectors = Retroreflektorid
+
+js-kind-title-rinex-style-record = RINEX-stiilis kirje
+
+js-kind-title-round-trips = Edasi-tagasi teisendused
+
+js-kind-title-run = Käik
+
+js-kind-title-satellites-in-view-against-latitude = Nähtavad satelliidid laiuskraadi suhtes
+
+js-kind-title-sensitivity-to-a-line-of = Tundlikkus nägemisjoone kaldele
+
+js-kind-title-shared-conditions = Ühised tingimused
+
+js-kind-title-signal-components = Signaali komponendid
+
+js-kind-title-signal-stage = Signaali etapp
+
+js-kind-title-signals = Signaalid
+
+js-kind-title-sisre-against-fit-interval = SISRE sobitusvahemiku suhtes
+
+js-kind-title-sisre-against-update-period = SISRE uuendusperioodi suhtes
+
+js-kind-title-sisre-weights = SISRE kaalud
+
+js-kind-title-snapshot = Hetktõmmis
+
+js-kind-title-snapshot-against-the-model = Hetktõmmis mudeli vastu
+
+js-kind-title-snapshot-spectrum-welch-estimate-against = Hetktõmmise spekter: Welchi hinnang mudeli vastu
+
+js-kind-title-sources = Allikad
+
+js-kind-title-spoofer-and-monitor-settings = Spuufija ja monitori seaded
+
+js-kind-title-spoofing-monitor-probability-of-detection = Spuufimismonitor: tuvastamise tõenäosus
+
+js-kind-title-statistics-over-the-runs = Statistika käikude peale
+
+js-kind-title-sweep = Pühkimine
+
+js-kind-title-systems = Süsteemid
+
+js-kind-title-systems-in-the-fix = Fikseeringu süsteemid
+
+js-kind-title-the-archived-campaign = Arhiveeritud kampaania
+
+js-kind-title-time-error = Ajaviga
+
+js-kind-title-time-error-by-receiver-clock = Ajaviga vastuvõtja kella järgi
+
+js-kind-title-time-scale = Ajaskaala
+
+js-kind-title-time-to-first-fix-and = Aeg esimese fikseeringuni ja energia fikseeringu kohta
+
+js-kind-title-time-transfer-by-clock-and = Aja edastamine kella ja signaalitaseme järgi
+
+js-kind-title-trade-conditions = Kompromissi tingimused
+
+js-kind-title-update-period-trade = Uuendusperioodi kompromiss
+
+js-kind-title-user = Kasutaja
+
+js-kind-title-user-range-error-through-the = Kasutaja kaugusviga ülelennu jooksul
+
+js-kind-title-validated = Valideeritud
+
+js-kind-title-what-each-stage-hands-to = Mida iga etapp järgmisele annab
+
+js-kind-title-what-this-run-is-and = Mis see käik on ja mis ei ole
+
+js-kind-title-when-each-monitor-detects = Millal iga monitor tuvastab
+
+js-kind-title-work-done = Tehtud töö
+
+js-kind-yes = jah
+
+js-ledger-rows =
+    { $n ->
+        [one] { $n } registririda
+       *[other] { $n } registririda
+    }
+
+js-lib-abbr-apv = lähenemine vertikaalse juhtimisega
+
+js-lib-abbr-araim = täiustatud vastuvõtja autonoomne terviklikkuse seire
+
+js-lib-abbr-auc = kõvera alune pindala
+
+js-lib-abbr-c-n0 = kandja ja müratiheduse suhe
+
+js-lib-abbr-ccsds = kosmoseandmesüsteemide konsultatiivkomitee
+
+js-lib-abbr-cli = käsurealiides
+
+js-lib-abbr-csac = kiibimõõtmetes aatomkell
+
+js-lib-abbr-cw = pidev laine
+
+js-lib-abbr-doi = digitaalse objekti identifikaator
+
+js-lib-abbr-dop = täpsuse halvenemise tegur
+
+js-lib-abbr-eo = Maa vaatlus
+
+js-lib-abbr-gnss = ülemaailmne satelliitnavigatsioonisüsteem
+
+js-lib-abbr-gps = globaalne positsioneerimissüsteem
+
+js-lib-abbr-hal = horisontaalne häiretase
+
+js-lib-abbr-hpl = horisontaalne kaitsetase
+
+js-lib-abbr-imu = inertsiaalmõõteseade
+
+js-lib-abbr-ins = inertsiaalnavigatsioonisüsteem
+
+js-lib-abbr-iot = asjade internet
+
+js-lib-abbr-itu-t = Rahvusvaheline Telekommunikatsiooni Liit, telekommunikatsiooni standardimise sektor
+
+js-lib-abbr-j-s = segaja ja signaali võimsuse suhe
+
+js-lib-abbr-leo = madal Maa orbiit
+
+js-lib-abbr-llr = Kuu laserkaugusmõõtmine
+
+js-lib-abbr-meo = keskmine Maa orbiit
+
+js-lib-abbr-mtie = maksimaalne ajavahemiku viga
+
+js-lib-abbr-ntn = mittemaapealne võrk
+
+js-lib-abbr-ocxo = termostaatkvartsostsillaator
+
+js-lib-abbr-oem = orbiidi efemeriidisõnum
+
+js-lib-abbr-omm = orbiidi keskmiste elementide sõnum
+
+js-lib-abbr-pdop = asukoha täpsuse halvenemise tegur
+
+js-lib-abbr-pnt = positsioneerimine, navigatsioon ja aeg
+
+js-lib-abbr-ppp = täppispunktpositsioneerimine
+
+js-lib-abbr-raim = vastuvõtja autonoomne terviklikkuse seire
+
+js-lib-abbr-rf = raadiosagedus
+
+js-lib-abbr-rinex = vastuvõtjast sõltumatu vahetusformaat
+
+js-lib-abbr-roc = vastuvõtja töökarakteristik
+
+js-lib-abbr-sbas = satelliidipõhine täiendussüsteem
+
+js-lib-abbr-sgp4 = Simplified General Perturbations 4, orbiidi propageerija
+
+js-lib-abbr-sisre = signaaliruumi kaugusviga
+
+js-lib-abbr-slam = üheaegne lokaliseerimine ja kaardistamine
+
+js-lib-abbr-spp = ühepunktipositsioneerimine
+
+js-lib-abbr-tdev = ajahälve
+
+js-lib-abbr-tle = kaherealine elemendikomplekt
+
+js-lib-abbr-toml = stsenaariumifaili formaat
+
+js-lib-abbr-trn = reljeefipõhine navigatsioon
+
+js-lib-abbr-uhf = ülikõrgsagedus
+
+js-lib-abbr-ukf = lõhnatu Kalmani filter
+
+js-lib-abbr-utc = koordineeritud maailmaaeg
+
+js-lib-abbr-val = vertikaalne häiretase
+
+js-lib-abbr-vlbi = väga pika baasjoonega interferomeetria
+
+js-lib-abbr-vpl = vertikaalne kaitsetase
+
+js-lib-abbr-wg = töörühm
+
+js-lib-areas-ground-track = Maapealne jälg
+
+js-lib-areas-holdover = Holdover
+
+js-lib-compare-availability = Kättesaadavus
+
+js-lib-compare-holdover = Holdover
+
+js-lib-compare-timing-p95 = Ajastus p95
+
+js-lib-compare-timing-rms = Ajastus RMS
+
+js-lib-counts-explorer-tally = { $validated } võimekust { $total }-st valideeritud välise oraakli vastu · { $modelled } modelleeritud · { $partner } partneri omanduses — siin näidatud { $cards } võimekuskaardina { $domains } valdkonnas, { $evidence } tõendiväidet
+
+js-lib-counts-validated-tally = { $validated } võimekust { $total }-st valideeritud välise oraakli vastu — siin näidatud { $cards } võimekuskaardina ja { $evidence } tõendiväitena
+
+js-lib-engine-busy = { $verb }…
+
+js-lib-engine-busy-seconds = { $verb }… { $s } s
+
+js-lib-engine-page-http = mootorifail tagastas HTTP { $status }
+
+js-lib-engine-page-not-running = mootor ei tööta siin
+
+js-lib-engine-worker-crashed = mootori töötaja jooksis kokku
+
+js-lib-evidence-aria = Tõendid: { $tier }, { $count }
+
+js-lib-evidence-ledger-rows =
+    { $n ->
+        [one] { $n } registririda
+       *[other] { $n } registririda
+    }
+
+js-lib-evidence-rows-behind = Selle tulemuse taga olevad registririda
+
+js-lib-geometry-url-bad-mc = Monte Carlo valimite arv ei ole ükski väärtustest { $choices }; kasutatakse väärtust { $default }.
+
+js-lib-geometry-url-bad-number = "{ $key }" ei ole arv vahemikus { $min } kuni { $max }; kasutatakse vaikeväärtust.
+
+js-lib-geometry-url-bad-site = Asukoht ei ole vahemikus olev laiuskraad,pikkuskraad[,kõrgus]; kasutatakse vaikeasukohta.
+
+js-lib-geometry-url-bad-sky = Silmapiir ei ole eelseadistus, 360-korviline tabel ega vahemikus olev kanjon; kasutatakse avatud silmapiiri.
+
+js-lib-geometry-url-bad-sys = Konstellatsioonide loend ei ole G, E, C ja kõige rohkem üks L:<LEO eelseadistus>, mida see vaade tunneb; kasutatakse vaikesegu.
+
+js-lib-geometry-url-own-tle = Saatja kasutas oma orbiidielemente (TLE), mida link ei kanna; näidatakse hoopis eelseadistusi.
+
+js-lib-geometry-url-repeated = "{ $key }" esineb rohkem kui üks kord; kasutatakse esimest väärtust.
+
+js-lib-geometry-url-too-long = Aadress on pikem kui { $max } märki, seega ei loetud ühtegi selle seadet.
+
+js-lib-geometry-url-unreadable = Aadressi ei õnnestunud lugeda.
+
+js-lib-guided-duration-s-hint = kui kaua maapealset jälge propageerida
+
+js-lib-guided-duration-s-label = Kestus (s)
+
+js-lib-guided-dut1-s-hint = Maa pöörlemise nihe; nihutab maapealset jälge ida/lääne suunas
+
+js-lib-guided-dut1-s-label = UT1−UTC (s)
+
+js-lib-guided-mask-deg-hint = satelliit peab olema nii kõrgel, et lugeda nähtavaks
+
+js-lib-guided-mask-deg-label = Kõrgusmask (°)
+
+js-lib-guided-seed-hint = sama füüsika erinev müravalim
+
+js-lib-guided-seed-label = Juhuslik algväärtus
+
+js-lib-guided-sigma-uere-m-hint = 1-σ kasutajaekvivalentne kaugusviga asukohakokkuvõtte jaoks
+
+js-lib-guided-sigma-uere-m-label = Kaugusviga σ (m)
+
+js-lib-guided-station-lat-deg-hint = maajaama laiuskraad — määrab ülelennu geomeetria
+
+js-lib-guided-station-lat-deg-label = Jaama laiuskraad (°)
+
+js-lib-guided-station-lon-deg-hint = maajaama pikkuskraad
+
+js-lib-guided-station-lon-deg-label = Jaama pikkuskraad (°)
+
+js-lib-guided-step-s-hint = maapealse jälje valimisintervall
+
+js-lib-guided-step-s-label = Ajasamm (s)
+
+js-lib-guided-threshold-ns-hint = spetsifikatsioonipiires olev bilanss; „kättesaadav“, kuni viga püsib sellest allpool
+
+js-lib-guided-threshold-ns-label = Spetsifikatsiooni lävi (ns)
+
+js-lib-guided-time-duration-s-hint = käigu kogupikkus
+
+js-lib-guided-time-duration-s-label = Kestus (s)
+
+js-lib-guided-time-step-s-hint = integreerimis- ja valimisintervall
+
+js-lib-guided-time-step-s-label = Ajasamm (s)
+
+js-lib-guided-user-altitude-km-hint = kasutaja kosmoseaparaadi orbiidikõrgus
+
+js-lib-guided-user-altitude-km-label = Kasutaja kõrgus (km)
+
+js-lib-guided-user-inclination-deg-hint = kasutaja orbiidi kaldenurk
+
+js-lib-guided-user-inclination-deg-label = Kasutaja kaldenurk (°)
+
+js-lib-imufit-card-accel-slope = Kiirendusmõõtja Alani tõus, alguses (umbes -0,5 valge müra korral)
+
+js-lib-imufit-card-bias = Kiirendusmõõtja nihe, keskmine (m/s²)
+
+js-lib-imufit-card-bias-instability = Kiirendusmõõtja nihke ebastabiilsus (m/s²), 0 kui kõveral puudub põhi
+
+js-lib-imufit-card-gyro-bias = Güroskoobi nihe, keskmine (rad/s)
+
+js-lib-imufit-card-gyro-slope = Güroskoobi Alani tõus, alguses (umbes -0,5 valge müra korral)
+
+js-lib-imufit-card-note-n = Märkus { $n }
+
+js-lib-imufit-card-q-arw = Güroskoobi nurga juhuslik kõndimine, q_arw (rad²/s)
+
+js-lib-imufit-card-q-va = Kiirendusmõõtja kiiruse juhuslik kõndimine, q_va (m²/s³)
+
+js-lib-imufit-card-sample-rate = Valimisagedus
+
+js-lib-imufit-card-samples = Valimid
+
+js-lib-imufit-card-span = Ulatus
+
+js-lib-jammertest-card-clean-epochs = Puhtad epohhid
+
+js-lib-jammertest-card-clean-hours = Puhtad tunnid
+
+js-lib-jammertest-card-detected = Tuvastatud tolerantsi piires
+
+js-lib-jammertest-card-detection-rate = Tuvastamise määr (mis tahes alarm)
+
+js-lib-jammertest-card-evaluable = Hinnatav
+
+js-lib-jammertest-card-fa-epochs = Valehäire epohhid
+
+js-lib-jammertest-card-fa-per-hour = Valehäire käike tunnis
+
+js-lib-jammertest-card-fa-runs = Valehäire käigud
+
+js-lib-jammertest-card-in-tol-rate = Tuvastatud tolerantsi piires, määr
+
+js-lib-jammertest-card-late = Hiline
+
+js-lib-jammertest-card-median-latency = Tuvastamise mediaanviivitus
+
+js-lib-jammertest-card-median-recover = Taastumise mediaanaeg
+
+js-lib-jammertest-card-missed = Märkamata
+
+js-lib-jammertest-card-na = puudub
+
+js-lib-jammertest-card-not-assessable = Selles logis ei olnud ühtegi testi hinnatav, seega ei saa tuvastamise määra ega viivitust esitada. See on tulemus, mitte lehe viga: siin ei ole miski läbitud.
+
+js-lib-jammertest-card-not-json = { $name }: ei ole JSON ({ $reason }).
+
+js-lib-jammertest-card-not-scorecard = { $name }: ei ole jammertesti tulemuskaart (vajab tests[] ja summary).
+
+js-lib-jammertest-card-tests = Testid plaaniosas
+
+js-lib-jammertest-card-too-large = { $name }: suurem kui 8 MiB; see leht loeb tulemuskaarti kuni selle suuruseni.
+
+js-lib-kpi-available-everywhere = kättesaadav kõikjal, igal epohhil
+
+js-lib-kpi-available-everywhere-pdop = kättesaadav kõikjal, igal epohhil (PDOP, asukoha täpsuse halvenemise tegur, alla { $thr })
+
+js-lib-kpi-drops-under = langeb alla jälgimisläve { $thr } dB-Hz: sünkroonsus kadunud
+
+js-lib-kpi-end-of-mission = missiooni lõpus
+
+js-lib-kpi-figure-tiers = Näitajate tasemed: { $parts }.
+
+js-lib-kpi-n-modelled = { $n } modelleeritud
+
+js-lib-kpi-n-partner = { $n } partneri omanduses
+
+js-lib-kpi-n-validated = { $n } valideeritud
+
+js-lib-kpi-no-change = muutus puudub
+
+js-lib-kpi-no-fix = { $pct } % ajast või kohtadest ilma fikseeringuta
+
+js-lib-kpi-no-fix-pdop = { $pct } % ajast või kohtadest ilma fikseeringuta PDOP-i korral alla { $thr }
+
+js-lib-kpi-over-jump = üle hüppeläve { $thr } m
+
+js-lib-kpi-over-pdop = üle PDOP-i läve { $thr }
+
+js-lib-kpi-stays-above = püsib jälgimisläve { $thr } dB-Hz kohal
+
+js-lib-kpi-under-jump = alla hüppeläve { $thr } m
+
+js-lib-kpi-under-pdop = alla PDOP-i läve { $thr }
+
+js-lib-orbit3d-apogee = apogee
+
+js-lib-orbit3d-perigee = perigee
+
+js-lib-orbit3d-prov-scenario = stsenaarium { $hash }
+
+js-lib-orbit3d-title = Orbiit (ECI, ortograafiline)
+
+js-lib-orbit3d-view-angles = az { $az }° · el { $el }°
+
+js-lib-overlay-meta-clock-bias-m = Kella nihe
+
+js-lib-overlay-meta-converged-pos-3sigma-m = Asukoht 3σ
+
+js-lib-overlay-meta-converged-pos-rms-m = Asukoht RMS
+
+js-lib-overlay-meta-converged-pos-sigma-m = Asukoht σ
+
+js-lib-overlay-meta-final-clock-freq-sigma = Kella sageduse σ
+
+js-lib-overlay-meta-mean-relays-in-view = Nähtavad releed
+
+js-lib-overlay-meta-pos-p95-m = Asukoht p95
+
+js-lib-overlay-meta-pos-rms-m = Asukoht RMS
+
+js-lib-overlay-meta-postfit-rms-m = Sobituse järgne RMS
+
+js-lib-overlay-prov-scenario = stsenaarium { $hash }
+
+js-lib-overlay-subtitle = |viga| (ns) ajas — { $n } käiku
+
+js-lib-overlay-time-s = aeg (s)
+
+js-lib-overlay-title = Ülekate: ajaviga katkestuse ajal
+
+js-lib-packs-cannot-unpack = see brauser ei saa salvestatud faili lahti pakkida
+
+js-lib-replay-demos-below-130 = Alles jäetud ainult asimuudid alla 130° (öeldud)
+
+js-lib-replay-demos-coastal-drag-off = Rannikul nihutamine
+
+js-lib-replay-demos-combined-event = Kombineeritud sündmus
+
+js-lib-replay-demos-drag-off-stated = Asukoha nihutamine (demo poolt öeldud)
+
+js-lib-replay-demos-ferry-drag-off = Parvlaevareis, asukoha nihutamine
+
+js-lib-replay-demos-ferry-drag-off-description = Väljamõeldud parvlaeva logi, Tallinn–Helsingi, 1 Hz. Alates 1500 s nihutab asukoha nihutamine teatatud asukohta eemale, samal ajal kui vastuvõtja teatab jätkuvalt kehtivast fikseeringust.
+
+js-lib-replay-demos-fjord = Fjordi loomulik halvenemine
+
+js-lib-replay-demos-masked-sky = Parvlaevareis, pool taevast maskeeritud
+
+js-lib-replay-demos-masked-sky-description = Sama parvlaeva logi, kus taeva lääneosa vaigistatakse alates 600 s, kitsam taevas 900 s kuni 1200 s ja asukoha nihutamine alates 1500 s: üks käik, kus taevas, signaal ja asukoht ebaõnnestuvad kordamööda.
+
+js-lib-replay-demos-open-sea-jamming = Avamere segamine
+
+js-lib-replay-demos-port-approach = Sadamasse lähenemise aja spuufimine
+
+js-lib-replay-demos-source-training = Sünteetiline stsenaarium { $id }: mootori nmea_training voog ja instruktori logi, hinnatud selle receiver-trust'iga.
+
+js-lib-replay-demos-source-trust = Sünteetiline logi { $id }: väljamõeldud NMEA, hinnatud mootori receiver-trust'iga.
+
+js-lib-replay-demos-west-masked = Taeva lääneosa maskeeritud (öeldud)
+
+js-lib-replay-demos-west-masked-again = Lääneosa maskeeritud uuesti (öeldud)
+
+js-lib-report-charts = Diagrammid
+
+js-lib-report-eyebrow = täpne hetk
+
+js-lib-report-figures-of-merit = Headuse näitajad
+
+js-lib-report-footer = Kshana { $version } · stsenaarium { $hash } · loodud { $iso }. Reprodutseeritav stsenaariumist + algväärtusest + mootori versioonist. Töötab kohapeal; midagi ei laadita üles.
+
+js-lib-report-not-applicable = ei kohaldu (rünnakut pole seadistatud)
+
+js-lib-report-scenario-definition = Stsenaariumi definitsioon (TOML)
+
+js-lib-report-th-clock = Kell
+
+js-lib-report-th-metric = Mõõdik
+
+js-lib-report-th-validation = Valideerimine
+
+js-lib-report-th-value = Väärtus
+
+js-lib-report-tier-note = Iga headuse näitaja on märgitud kui { $validated } (kontrollitud välise oraakli vastu) või { $modelled } (esimestest printsiipidest, sisemiselt testitud) — tuletatud kontrollimaatriksist.
+
+js-lib-report-title = Kshana — stsenaariumi aruanne
+
+js-lib-skydraw-azimuth-range = asimuut { $from } kuni { $to } kraadi
+
+js-lib-skydraw-describe = { $listed } satelliiti loetletud, { $heard } signaaliga
+
+js-lib-skydraw-describe-mean = { $listed } satelliiti loetletud, { $heard } signaaliga, keskmine { $snr } dB-Hz
+
+js-lib-skydraw-east = E
+
+js-lib-skydraw-no-signal-from = signaali pole suunalt { $sectors }
+
+js-lib-skydraw-none-listed = Sel ajal ei ole logis ühtegi satelliiti loetletud.
+
+js-lib-skydraw-north = N
+
+js-lib-skydraw-sat-heard = { $sys } { $prn }: kõrgus { $el }, asimuut { $az }, signaal { $snr } dB-Hz
+
+js-lib-skydraw-sat-quiet = { $sys } { $prn }: kõrgus { $el }, asimuut { $az }, loetletud, signaali pole
+
+js-lib-skydraw-south = S
+
+js-lib-skydraw-unheard-sector = Satelliidid loetletud asimuudi { $from } ja { $to } kraadi vahel, ühelgi pole signaali
+
+js-lib-skydraw-west = W
+
+js-lib-skyline-edit-describe = Silmapiir katab { $blocked } asimuudi 360 kraadist; kõrgeim { $el }° asimuudil { $az }°.
+
+js-lib-skyline-edit-open = Avatud silmapiir: siluetti pole.
+
+js-lib-stages-all-planets = Kõik planeedid
+
+js-lib-stages-au-from-sun = { $d } au Päikesest
+
+js-lib-stages-band-carrier = { $name } kandja, { $mhz } MHz
+
+js-lib-stages-bin-title = { $from } kuni { $to }{ $unit }: { $count } käiku
+
+js-lib-stages-body-and-moons = { $name } ja selle kuud
+
+js-lib-stages-cell-title = laius { $lat }°, pikkus { $lon }° · { $field } { $value }
+
+js-lib-stages-chain-navmsg = Navigatsioonisõnum
+
+js-lib-stages-chain-pass = Ülelend ja link
+
+js-lib-stages-chain-ppp = Täppispunktpositsioneerimine
+
+js-lib-stages-chain-pvt = Liidetud positsioneerimine
+
+js-lib-stages-chain-signal = Signaali kavandamine
+
+js-lib-stages-coverage-aria = { $field } keha { $body } kohal, laius- ja pikkuskraadi järgi
+
+js-lib-stages-feature-n = objekt { $n }
+
+js-lib-stages-flag = lipp
+
+js-lib-stages-frequency-mhz = sagedus (MHz)
+
+js-lib-stages-from-to = { $from } kuni { $to }
+
+js-lib-stages-geojson-aria = Kaardile joonistatud GeoJSON-eksport
+
+js-lib-stages-histogram = Histogramm
+
+js-lib-stages-inner-planets = Sisemised planeedid
+
+js-lib-stages-km-from-centre = { $d } km keskmest { $centre }
+
+js-lib-stages-linear-scale = lineaarne skaala
+
+js-lib-stages-link-light-time = { $from } kuni { $to }: ühesuunaline valguse levimisaeg { $time } s
+
+js-lib-stages-longitude-axis = pikkuskraad · laiuskraad küljel üles
+
+js-lib-stages-mission-time = missiooniaeg (s)
+
+js-lib-stages-noise-floor = müra põhitase
+
+js-lib-stages-orrery-note = { $scale } · tugisüsteemi x-y tasand, vaadatuna selle põhjapoolusest
+
+js-lib-stages-panel-n = Paneel { $n }
+
+js-lib-stages-plan-view-aria = Keha { $centre } ja selle ümber olevate kehade plaanivaade, { $scale }
+
+js-lib-stages-psd-at-t = Võimsusspektri tihedus hetkel t = { $t } s
+
+js-lib-stages-psd-axis = võimsusspektri tihedus (dBW/Hz)
+
+js-lib-stages-runs = käiku
+
+js-lib-stages-sat-title = { $constellation } { $id } · laius { $lat }°, pikkus { $lon }°
+
+js-lib-stages-satellites = satelliiti
+
+js-lib-stages-spectrum-at-t = spekter hetkel t = { $t } s
+
+js-lib-stages-sqrt-scale = ruutjuurkaugusskaala
+
+js-lib-stages-the-body = keha
+
+js-lib-stages-time-s = aeg (s)
+
+js-lib-stages-unit-alarm = Alarm
+
+js-lib-stages-unit-cn0 = Kandja ja müratiheduse suhe
+
+js-lib-stages-unit-position = Asukoht ja kaitse
+
+js-lib-stages-unit-satellites = Satelliidid
+
+js-lib-stages-unit-time-error = Ajaviga
+
+js-lib-stages-waterfall-aria = Võimsusspektri tiheduse juga: sagedus risti, aeg alla
+
+js-lib-stages-whole-band = Kogu sagedusriba
+
+js-lib-sweep-clock-availability = { $who } kättesaadavus
+
+js-lib-sweep-clock-holdover = { $who } holdover (s)
+
+js-lib-sweep-clock-timing-p95 = { $who } ajastus p95 (ns)
+
+js-lib-sweep-clock-timing-rms = { $who } ajastus RMS (ns)
+
+js-lib-sweep-max-altitude = maksimaalne kõrgus (km)
+
+js-lib-sweep-max-elevation = maksimaalne kõrgus horisondist (°)
+
+js-lib-sweep-max-speed = maksimaalne kiirus (m/s)
+
+js-lib-sweep-min-altitude = minimaalne kõrgus (km)
+
+js-lib-sweep-peak-doppler = Doppleri tipp (Hz)
+
+js-lib-sweep-prov-scenario = stsenaarium { $hash }
+
+js-lib-sweep-y-vs-x = { $y } vs { $x }
+
+js-lib-tabs-3d-orbit = 3D orbiit
+
+js-lib-tabs-figures-of-merit = Headuse näitajad
+
+js-lib-tabs-stability = Stabiilsus
+
+js-lib-tabs-sweep = Pühkimine
+
+js-lib-tabs-time-series = Ajarida
+
+js-lib-tour-ashforde-body = Täname, et uurisid Kshanat. Ehitame avatud, reprodutseeritavat ja tõendeid esikohale seadvat inseneeriat missioonidele, mis ei tohi ebaõnnestuda — ausalt selles, mis on valideeritud ja mis modelleeritud. Küsimused, koostöö või uuring? Kirjuta meile aadressil contact@ashforde.org.
+
+js-lib-tour-ashforde-title = Ashforde® OÜ-lt
+
+js-lib-tour-capabilities-body = Vali valdkonna vaheleht — Orbiidid, Ajastus, Inertsiaal, GNSS, Vastupidavus, Kuu, AI/ML, Koostalitlus — et näha selle võimekusi, igaüks märgitud kui Valideeritud või Modelleeritud, koos ▸ käivitusnupuga töönäidete jaoks. Ava mis tahes valdkonnas „Tõendid ja päritolu“, et tõendit jälgida, või lülita sisse „Ainult valideeritud“, et näha ainult seda, mis on välise oraakli vastu kontrollitud.
+
+js-lib-tour-capabilities-title = Uuri mootorit valdkond korraga
+
+js-lib-tour-cite-body = Kshana on loodud viitamiseks — viidatav tarkvaraväljaanne DOI-ga ning eelretsenseeritud stiilis artiklid RF-häirete optimismilõhe ja tingimusliku ajakaitsetaseme kohta. Kopeeri viide otse siit.
+
+js-lib-tour-cite-title = Väljaanded ja kuidas viidata
+
+js-lib-tour-download-report-body = Vahekaart Pühkimine varieerib ühte parameetrit vahemikus; „Kinnita võrdlemiseks“ katab kaks või enam käiku kõrvuti nendevahelise Δ-ga (töötab erinevat tüüpi stsenaariumidel — kell, Marsi PNT, positsioneerimine…); ja see nupp laadib käigu alla iseseisva võrguühenduseta HTML-aruandena.
+
+js-lib-tour-download-report-title = Pühi, võrdle ja ekspordi
+
+js-lib-tour-guided-body = Juhitud regulaatorid kohanduvad stsenaariumiga — algväärtus, spetsifikatsiooni lävi, kestus, kõrgusmask, orbiidi kõrgus — ja iga muudatus käivitab käigu kohe uuesti.
+
+js-lib-tour-guided-title = Seadista liugurid
+
+js-lib-tour-mcp-body = MCP-server laseb tehisintellekti assistentidel käivitada valideeritud mootorit, selle asemel et oletada; JetBrainsi pistikprogramm käivitab stsenaariume hiire parema nupu menüüst.
+
+js-lib-tour-mcp-title = Kasuta seda tehisintellekti agendist või IDE-st
+
+js-lib-tour-playground-body = Vali stsenaarium rippmenüüst — või vajuta ▸ käivita mis tahes ülaltoodud võimekusel — ja mootor käib WebAssemblyna sinu masinas. Midagi ei laadita üles.
+
+js-lib-tour-playground-title = Käivita see oma brauseris
+
+js-lib-tour-run-body = Käivita praegune stsenaarium. Ava „Täpsemalt“, et TOML-i muuta ja kõike muuta; „Kopeeri jagamislink“ reprodutseerib täpselt selle käigu kellegi teise jaoks.
+
+js-lib-tour-run-title = Käivita
+
+js-lib-tour-tabs-body = Vaheta headuse näitajate, ajarea diagrammi, kella stabiilsuse (Alani hälve) ning — orbiidikäikude puhul — interaktiivse 3D orbiidivaate vahel.
+
+js-lib-tour-tabs-title = Loe tulemusi
+
+js-lib-tour-validation-body = Sama uurija on ka tõendite register: iga valdkond kannab sahtlit „Tõendid ja päritolu“ — näitaja, väline oraakel, mille vastu seda kontrollitakse, ja aus staatus Valideeritud / Modelleeritud iga väite kohta. „Ainult valideeritud“ filtreerib andmestikuga kontrollitud ridadeni.
+
+js-lib-tour-validation-title = Tõendid, mitte omadussõnad
+
+js-lib-views-3-sigma-bound = 3-sigma piir
+
+js-lib-views-3d-position-error = 3D asukohaviga
+
+js-lib-views-a-parameter = parameeter
+
+js-lib-views-band-runs = Ajavea riba { $runs } Monte Carlo käigu peale
+
+js-lib-views-band-the-runs = Ajavea riba Monte Carlo käikude peale
+
+js-lib-views-below-tracking = jälgimisläve all
+
+js-lib-views-chart = diagramm
+
+js-lib-views-classical = klassikaline
+
+js-lib-views-epoch = epohh
+
+js-lib-views-four-needed = fikseeringuks on vaja 4
+
+js-lib-views-free-inertial = vaba inertsiaal
+
+js-lib-views-gnss-denied = GNSS keelatud
+
+js-lib-views-ground-track = Maapealne jälg
+
+js-lib-views-heatmap-effective = Efektiivne kandja ja müratiheduse suhe satelliidi ja aja järgi
+
+js-lib-views-heatmap-nominal = Nominaalne (segajata) kandja ja müratiheduse suhe satelliidi ja aja järgi
+
+js-lib-views-horizontal-alert-limit = horisontaalne häiretase
+
+js-lib-views-horizontal-hpl = horisontaalne (HPL)
+
+js-lib-views-id-bound = { $id } piir
+
+js-lib-views-id-median = { $id } mediaan
+
+js-lib-views-id-offset = { $id } nihe
+
+js-lib-views-id-p95 = { $id } p95
+
+js-lib-views-map-matched = kaardiga sobitatud
+
+js-lib-views-map-matched-title = Kaardiga sobitatud vaba inertsiaalse asukohavea vastu
+
+js-lib-views-metric = mõõdik
+
+js-lib-views-oscillator = ostsillaator
+
+js-lib-views-oscillator-source = ostsillaator ({ $source })
+
+js-lib-views-position-error-axis = asukohaviga ({ $unit })
+
+js-lib-views-position-error-m = asukohaviga (m)
+
+js-lib-views-position-error-run = Asukohaviga käigu jooksul
+
+js-lib-views-position-m = asukoht (m)
+
+js-lib-views-predicted-time-error = Ennustatud ajaviga alates viimasest fikseeringust
+
+js-lib-views-protection-level-m = kaitsetase (m)
+
+js-lib-views-protection-levels = Kaitsetasemed häiretaseme suhtes
+
+js-lib-views-quantum = kvant
+
+js-lib-views-relay-error-bound = Releenavigatsiooni asukohaviga ja selle 3-sigma piir
+
+js-lib-views-satellites = satelliiti
+
+js-lib-views-satellites-tracking = Nähtavad ja endiselt jälgitavad satelliidid
+
+js-lib-views-shaded-gnss-denied = varjutatud: GNSS keelatud
+
+js-lib-views-slot-guard = pesakaitse
+
+js-lib-views-spoofed-offset = Spuufitud ajanihe tuvastuspiiri suhtes
+
+js-lib-views-sweep-of = Parameetri { $parameter } pühkimine: { $metric }
+
+js-lib-views-sync-error-axis = sünkroonimisviga ({ $unit })
+
+js-lib-views-sync-error-run = Sünkroonimisviga käigu jooksul
+
+js-lib-views-threshold = lävi
+
+js-lib-views-time-error-ns = ajaviga (ns)
+
+js-lib-views-time-ns = aeg (ns)
+
+js-lib-views-time-s = aeg (s)
+
+js-lib-views-time-since-fix = aeg viimasest fikseeringust (s)
+
+js-lib-views-timing-error-axis = ajastusviga ({ $unit })
+
+js-lib-views-timing-error-run = Ajastusviga käigu jooksul
+
+js-lib-views-tracking = jälgimine
+
+js-lib-views-value = väärtus
+
+js-lib-views-vertical-vpl = vertikaalne (VPL)
+
+js-lib-views-visible = nähtav
+
+js-lib-views-word-enbw = ekvivalentne müraribalaius
+
+js-lib-views-word-nfft = FFT pikkus
+
+js-lib-views-word-stec = kalde-TEC
+
+js-lib-views-word-toa = saabumisaeg
+
+js-lib-views-word-ttff = aeg esimese fikseeringuni
+
+js-lib-views-word-tx = saatmine
+
+js-lib-views-word-zwd = tsenitniiske viivitus
+
+js-lunar-address-outside-range = { $label }: "{ $raw }" on väljaspool vahemikku { $min } kuni { $max }; kasutatakse faili väärtust.
+
+js-lunar-address-too-long = Aadress oli liiga pikk; näidatakse vaikeväärtusi.
+
+js-lunar-address-unknown-source = Aadressis on tundmatu allikas; näidatakse salvestust.
+
+js-lunar-alert-limit = häiretase { $value } (illustratiivne)
+
+js-lunar-alert-not-stated = häiretase ei ole öeldud
+
+js-lunar-bearing-east = 90° E
+
+js-lunar-bearing-west = 90° W
+
+js-lunar-cell-title = { $lat }°, { $lon }°: korrigeeritud { $corrected }, kättesaadavus { $availability }, kate { $coverage }
+
+js-lunar-copy-address = Kopeeri aadress aadressiribalt.
+
+js-lunar-counts = { $sats } satelliiti, { $points } võrgupunkti, { $epochs } epohhi, { $trials } Monte Carlo katset epohhi kohta. Märgis: { $label }.
+
+js-lunar-engine-no-start = Mootorit ei õnnestunud selles brauseris käivitada ({ $reason }). Ava selle asemel tulemusfail.
+
+js-lunar-engine-unknown-kind = See mootor ({ $version }) ei tunne liiki { $kind }; see vajab mootorit 0.36.
+
+js-lunar-fig-availability-region = Kättesaadavus piirkonnas
+
+js-lunar-fig-corrected-3d = Korrigeeritud viga, { $n } %, 3‑D
+
+js-lunar-fig-coverage = Kate
+
+js-lunar-fig-epochs-within = epohhi piires { $value }
+
+js-lunar-fig-horizontal-vertical = horisontaalne { $h }, vertikaalne { $v }
+
+js-lunar-fig-hpl-below-alert = HPL häiretasemest madalam
+
+js-lunar-fig-hpl-vpl = HPL, VPL kõige rohkem
+
+js-lunar-fig-improvement = Paranemistegur
+
+js-lunar-fig-lowest-point = Madalaim punktis
+
+js-lunar-fig-points-always-available = Punktid, mis on kättesaadavad igal epohhil
+
+js-lunar-fig-uncorrected-3d = Korrigeerimata viga, { $n } %, 3‑D
+
+js-lunar-fig-worst-point = Halvim punkt
+
+js-lunar-file-not-json = See fail ei ole JSON.
+
+js-lunar-file-not-object = See fail ei ole JSON-objekt.
+
+js-lunar-file-too-large = { $name }: suurem kui 32 MiB; see leht loeb tulemusfaile kuni selle suuruseni.
+
+js-lunar-file-value = fail: { $value }
+
+js-lunar-full-of-total = { $full } { $total }-st
+
+js-lunar-give-value = { $label }: anna väärtus vahemikus { $min } kuni { $max }.
+
+js-lunar-give-whole-value = { $label }: anna väärtus vahemikus { $min } kuni { $max } (täisarv).
+
+js-lunar-honesty-affiliation = Ei ole seotud ühegi ametiasutusega ega selle poolt heaks kiidetud.
+
+js-lunar-honesty-assumptions = Öeldud avalike eelduste korral, mitte väide ühegi päris süsteemi toimivuse kohta.
+
+js-lunar-in-grid-spacing = Võrguringide samm, kraadi
+
+js-lunar-in-latency = Korrektsiooni viivitus, sekundit
+
+js-lunar-in-seed = Algväärtus
+
+js-lunar-in-station-lat = Jaama laiuskraad, kraadi
+
+js-lunar-in-station-lon = Jaama pikkuskraad, kraadi
+
+js-lunar-in-survey-error = Jaama mõõtmisviga (1-sigma), meetrit
+
+js-lunar-in-threshold = Täpsuslävi, meetrit
+
+js-lunar-in-time-step = Ajasamm, sekundit
+
+js-lunar-in-trials = Monte Carlo katseid epohhi kohta
+
+js-lunar-input-out-of-range = { $label } on väljaspool vahemikku.
+
+js-lunar-json-field-not-json = Faili json-väli ei ole JSON.
+
+js-lunar-key-50-or-more = 50 % või rohkem
+
+js-lunar-key-90-or-more = 90 % või rohkem
+
+js-lunar-key-95-or-more = 95 % või rohkem
+
+js-lunar-key-99-or-more = 99 % või rohkem
+
+js-lunar-key-above = üle { $value }
+
+js-lunar-key-above-threshold = üle { $value } × lävi
+
+js-lunar-key-below-50 = alla 50 %
+
+js-lunar-key-between = { $from } kuni { $to }
+
+js-lunar-key-between-threshold = { $from } kuni { $to } × lävi
+
+js-lunar-key-up-to = kuni { $value }
+
+js-lunar-key-up-to-threshold = kuni { $value } × lävi
+
+js-lunar-layer-availability = kättesaadavus
+
+js-lunar-layer-coverage = kate
+
+js-lunar-layer-error = korrigeeritud viga
+
+js-lunar-layer-range = korrigeeritud viga oma vahemikus
+
+js-lunar-legend-no-figure = näitaja puudub (kogu aeg kättesaamatu)
+
+js-lunar-legend-radius = katteraadius
+
+js-lunar-legend-threshold = lävi, { $value }
+
+js-lunar-legend-worst = halvim punkt
+
+js-lunar-link-copied = Link kopeeritud.
+
+js-lunar-map-desc = { $points } võrgupunkti poolusest kuni laiuskraadini { $rim }°. Neist { $meet } korral jääb korrigeeritud { $percentile } protsentiili viga läve { $threshold } piiresse. Värvitud näitaja järgi: { $layer }. Jaam asub punktis { $lat }°, { $lon }°.
+
+js-lunar-map-note-one-band = { $share } % punktidest jääb läveskaala ühte vahemikku, seega kaart näitab vähe varieeruvust: värvi „oma vahemiku“ järgi, et näha, kuidas viga piirkonnas varieerub.
+
+js-lunar-needs-newer-engine = See uuring vajab mootorit { $need } või uuemat; siin töötav mootor on v{ $version }. Salvestust või tulemusfaili saab siiski näidata.
+
+js-lunar-no = ei
+
+js-lunar-no-recording = Selle uuringu salvestust ei tarnita veel: see tehakse väljalaskega mootoriga 0.36. Käivita see siin mootoriga, millel on see liik, või ava tulemusfail.
+
+js-lunar-no-scenario = Sellel saidil pole veel faili { $file }: see saabub mootoriga 0.36. Ava selle asemel tulemusfail.
+
+js-lunar-no-scenario-note = Sellel saidil pole veel faili { $file } (see saabub mootoriga 0.36), seega siin käivitamine ei ole võimalik; ava selle asemel tulemusfail.
+
+js-lunar-not-report = See ei ole { $kind } aruanne.
+
+js-lunar-not-stated = ei ole öeldud
+
+js-lunar-note-none = Fail ei esita märkust.
+
+js-lunar-note-withheld = Faili enda väide nimetab programmi või ametiasutust, seega seda leht ei näita; kehtib lehe ülaosas olev väide.
+
+js-lunar-point-epochs-reason = punkti-epohhid: { $reason }
+
+js-lunar-radius-desc = Katteraadius { $count } asimuudil: lühim { $lo } km asimuudil { $loAz }°, pikim { $hi } km asimuudil { $hiAz }°.
+
+js-lunar-radius-desc-limited = { $count } jõuab võrgu servani, seega ulatub kate seal vähemalt nii kaugele.
+
+js-lunar-radius-hollow = Õõnsad punktid jõuavad võrgu servani: kate püsib sellel suunal vähemalt nii kaugele.
+
+js-lunar-radius-none = Aruanne ei esita katteraadiust.
+
+js-lunar-radius-per-azimuth = katteraadius asimuudi kohta
+
+js-lunar-radius-point = { $az }°: { $km } km
+
+js-lunar-radius-point-limited = { $az }°: { $km } km (jõuab võrgu servani: vähemalt nii kaugele)
+
+js-lunar-radius-zero = Igal suunal on kate juba jaamas alla 95 %, seega on raadius 0 km: korrigeeritud viga ületab seal läve { $value }.
+
+js-lunar-reason-station-missing = jaam ei näe kõiki satelliite, mida kasutaja kasutab
+
+js-lunar-reason-user-lt4 = kasutaja nähtavuses on vähem kui neli satelliiti
+
+js-lunar-run-stopped = Käik peatus: { $message }
+
+js-lunar-running = Uuringu käivitamine selles brauseris…
+
+js-lunar-running-elapsed = Uuringu käivitamine selles brauseris… { $seconds } s
+
+js-lunar-scenario-missing-keys = Stsenaariumifailis puudub { $keys }; seda ei saa siin muuta.
+
+js-lunar-set-inputs = Sea sisendid ja vajuta Käivita siin.
+
+js-lunar-showing = Näidatakse: { $what }.
+
+js-lunar-showing-engine = Näidatakse: { $what } (mootor { $version }).
+
+js-lunar-source-error = { $what }: { $error }
+
+js-lunar-station = jaam
+
+js-lunar-station-title = jaam { $lat }°, { $lon }°
+
+js-lunar-table-count = { $n } punkti, jaamale lähimad esimesena.
+
+js-lunar-th-corrected = Korrigeeritud viga, { $n } %
+
+js-lunar-threshold-title = korrigeeritud viga { $value } (lävi)
+
+js-lunar-what-file = fail { $name }
+
+js-lunar-what-recording = Studioga kaasas olev salvestus
+
+js-lunar-what-run = käik selles brauseris (mootor { $version })
+
+js-lunar-worst-at = kohas { $lat }°, { $lon }°
+
+js-lunar-worst-title = halvim punkt { $lat }°, { $lon }°: { $value }
+
+js-lunar-yes-at-least = jah: vähemalt nii kaugele
+
+js-lunarinfra-above-95-point = üle 95 % punkti
+
+js-lunarinfra-advisory = Nõuandev tarkvara, mitte tüübikinnitust omav seade; mingit saateteed pole.
+
+js-lunarinfra-arc-note = Kandja lainepikkus { $value } m.
+
+js-lunarinfra-arc-title = Iga kaar
+
+js-lunarinfra-bars-not-loaded = lävede fail ei laadinud
+
+js-lunarinfra-bars-not-shown = Eelregistreeritud lävesid ei õnnestunud näidata ({ $reason }).
+
+js-lunarinfra-bars-note = Fikseeritud enne ühegi uuringu hindamist, koos kehtivate otsustega (mootori commit { $commit }). Miski ei ole VALIDATED; lävi, mis on märgitud NOT MET, on kinnitatud testiga, mis väidab möödalaskmist, ja ühtegi ei lõdvendatud.
+
+js-lunarinfra-bars-title = Eelregistreeritud lävede vastu
+
+js-lunarinfra-bars-wrong-file = lävede fail ei ole see, mida see leht loeb
+
+js-lunarinfra-blurb-carrier-phase = Pinnajaam ja orbiiter, mis kasutavad Maa GNSS-signaalide topeltdiferentseeritud kandelaine faasi: kas täisarvulisi mitmetähenduslikkusi saab fikseerida ja mida see teeb asukohapiiriga? Kiire näidiskäik.
+
+js-lunarinfra-blurb-frame-coestimation = Kuu etalonpunkti seitse parameetrit Maa-jaama laserkaugusmõõtmisest, orbiiteri ja pinnajaama vaheliste kaugustega ja ilma: kui palju teave paraneb?
+
+js-lunarinfra-blurb-geodesy-sensitivity = Kui tundlikud on laserkaugusmõõtmine, orbiiteri jälgimine, gravimeeter ja pinnakell Kuu loodete Love'i arvude h2, k2 ja l2 ning selle füüsilise libratsiooni suhtes?
+
+js-lunarinfra-blurb-od-consistency = Pardal tehtav Maa GNSS-i orbiidi määramine peaaegu sirgjoonelisel halo-orbiidil, sama kaare sõltumatu maapealse radiomeetrilise lahendi vastu: kas need kaks nõustuvad oma öeldud määramatuste piires ja kas kooskõlakontroll märkab modelleerimisviga, kui see sisse viiakse? Näidatud kõrvuti.
+
+js-lunarinfra-blurb-space-tie = GNSS, VLBI ja laserkaugusmõõtmine ühel kosmoseaparaadil: kui täpselt saab kolme tehnika vahelisi nihkeid siduda, võrreldes kosmoseaparaadi kohaliku sideme veaga?
+
+js-lunarinfra-bound-label = Asukoha määramatus, ujuv ja fikseeritud, logaritmskaala
+
+js-lunarinfra-bound-note = Jaama ja orbiiteri ühe sigma asukoha määramatus, kui mitmetähenduslikkused on jäetud ujuvaks ja kui need on fikseeritud (mida fikseerimine annaks, kui see saavutataks).
+
+js-lunarinfra-bound-title = Asukohapiir, ujuv ja fikseeritud
+
+js-lunarinfra-chip-na = puudub
+
+js-lunarinfra-comp-normal = normaal
+
+js-lunarinfra-comp-position = asukoht (3D)
+
+js-lunarinfra-comp-radial = radiaalne
+
+js-lunarinfra-comp-transverse = ristsuunaline
+
+js-lunarinfra-compare-note = { $sets } juhusliku jaamakomplekti peale ei olnud vähim omaväärtus väiksem orbiiterilinkidega juhul { $lambda } ja jälg ei olnud suurem juhul { $trace }; vähima omaväärtuse mediaantõus oli { $median } korda.
+
+js-lunarinfra-compare-title = Võrdlus arvudes
+
+js-lunarinfra-crsigma-label = Cramér-Rao sigma, logaritmskaala
+
+js-lunarinfra-crsigma-note = Meetrites pinnal.
+
+js-lunarinfra-crsigma-title = Cramér-Rao sigma parameetri kohta
+
+js-lunarinfra-days =
+    { $n ->
+        [one] { $n } päev
+       *[other] { $n } päeva
+    }
+
+js-lunarinfra-direction = suund { $n }
+
+js-lunarinfra-disclosures = Avalikustamised
+
+js-lunarinfra-eig-label = Informatsiooni omaväärtused, logaritmskaala
+
+js-lunarinfra-eig-note = Informatsioonimaatriksi seitse omaväärtust, vähim esimesena, ilma orbiiteri-jaama linkideta ja nendega. Vähim tõuseb { $times } korda ja Cramér-Rao jälg langeb { $share }-ni oma väärtusest. See eeldab, et orbiit on Kuu telgedes teada (selle viga kantakse orbiiteri kaugussigmas).
+
+js-lunarinfra-eig-title = Informatsioon etalonpunkti igas suunas
+
+js-lunarinfra-fact-arc = Kaar
+
+js-lunarinfra-fact-hash = Stsenaariumi räsi
+
+js-lunarinfra-fact-llr-rows = Laserkaugusmõõtmise read
+
+js-lunarinfra-fact-orbit-family = Orbiidiperekond
+
+js-lunarinfra-fact-orbiter-arc = Orbiiteri kaar
+
+js-lunarinfra-fact-orbiter-rows = Orbiiteri read
+
+js-lunarinfra-fact-study = Uuring
+
+js-lunarinfra-fact-wavelength = Kandja lainepikkus
+
+js-lunarinfra-families-note = Iga parameetri osatuletise RMS perekonna ridade peale ja ridade arv. Null on parameeter, mille suhtes see perekond on pime. Orbiiteriperekonna k2 tundlikkus on ülempiiri näitaja.
+
+js-lunarinfra-families-title = Mida iga perekond näeb
+
+js-lunarinfra-findings = Tulemused
+
+js-lunarinfra-fix-note-a = Nende Monte Carlo katsete osakaal, mis fikseerisid iga täisarvulise mitmetähenduslikkuse õigesti (koos standardveaga), ja määr, mida alglaadimisega hinnang ennustab.
+
+js-lunarinfra-fix-note-b = Täisarvuline fikseerimine EI õnnestu sellel sisendil: parim kaar fikseerib { $share } katsetest.
+
+js-lunarinfra-fix-note-c = Näidata pole fikseerimisaega, sest fikseerimist ei saavutata.
+
+js-lunarinfra-fix-rate-label = Täisarvulise fikseerimise määr kaare pikkuse suhtes
+
+js-lunarinfra-fix-title = Fikseerimise määr kaare pikkuse suhtes
+
+js-lunarinfra-fixed = fikseeritud
+
+js-lunarinfra-float = ujuv
+
+js-lunarinfra-fraction-above-95 = Katsete osakaal üle 95 % punkti
+
+js-lunarinfra-ground-radiometric = sõltumatu maapealne radiomeetriline
+
+js-lunarinfra-injected-error = sisseviidud viga { $value } m/s²
+
+js-lunarinfra-mean-consistency = Keskmine kooskõlastatistik
+
+js-lunarinfra-mean-q = keskmine q
+
+js-lunarinfra-miss-line = { $id } on { $status }: { $value }
+
+js-lunarinfra-miss-no-fix = Täisarvulise mitmetähenduslikkuse fikseerimine EI õnnestu sellel sisendil: parim kaar fikseerib { $share } Monte Carlo katsetest.
+
+js-lunarinfra-na = puudub
+
+js-lunarinfra-nominal = nominaalne
+
+js-lunarinfra-not-result = see ei ole Kuu infrastruktuuri tulemus
+
+js-lunarinfra-not-verified = Kontrollimata
+
+js-lunarinfra-offset-precision-label = Nihke täpsus kohaliku sideme suhtes, log-log
+
+js-lunarinfra-offsets-note = Nihke sigma telje kohta, skaala ja pöörde sigma pinnal, meetrites.
+
+js-lunarinfra-offsets-title = Nihked iga sideme vea korral ({ $days }-päevane kaar, { $epochs } epohhi)
+
+js-lunarinfra-onboard-gnss = pardal tehtav Maa GNSS
+
+js-lunarinfra-open-failed = { $title } ei õnnestunud avada: { $reason }.
+
+js-lunarinfra-opening = { $title } avamine…
+
+js-lunarinfra-orbit-uncertainty-log = Orbiidi määramatus komponentide kaupa, logaritmskaala
+
+js-lunarinfra-orbiter-days = orbiiter, { $days } p
+
+js-lunarinfra-q-note = Kooskõlastatistiku q keskmine { $trials } katse peale; { $expected } on see, mida annab kooskõlaline lahenditepaar. Katsete osakaal üle 95 % punkti on kontrolli tuvastamise määr.
+
+js-lunarinfra-q-title = Kooskõlakontroll, nominaalne sisseviidud vea vastu
+
+js-lunarinfra-recorded =
+    { $n ->
+        [one] { $title }: mootori salvestatud tulemus (versioon { $version }).
+       *[other] { $title }: mootori salvestatud tulemused (versioon { $version }).
+    }
+
+js-lunarinfra-rel-label = Sigma nominaalväärtuse suhtes, logaritmskaala
+
+js-lunarinfra-rel-note = Cramér-Rao sigma protsendina nominaalväärtusest, kõik neli perekonda koos. h2 ja l2 on lineariseerimispunktid, mitte kontrollitud väärtused; k2 pärineb avaldatud sobitusest.
+
+js-lunarinfra-rel-title = Kui hästi saab iga parameetri nominaalväärtuse vastu kinnitada
+
+js-lunarinfra-result-not-json = tulemus ei ole JSON ({ $reason })
+
+js-lunarinfra-result-not-loaded = salvestatud tulemus { $file } ei laadinud

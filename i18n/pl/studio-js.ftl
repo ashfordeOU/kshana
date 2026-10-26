@@ -1459,3 +1459,2046 @@ js-app-btn-all-exports-title = Każdy eksport tego przebiegu, w tym własne form
 
 # 2026-10-01-studio-rebuild/app.js:2081
 js-app-btn-compare-pinned = Porównaj przypięte przebiegi
+
+# 2026-10-01-studio-rebuild/app.js:2079
+js-app-btn-copy-embed = Skopiuj kod osadzenia
+
+# 2026-10-01-studio-rebuild/app.js:2078
+js-app-btn-copy-link = Skopiuj link do dokładnie tego scenariusza
+
+# 2026-10-01-studio-rebuild/app.js:2073
+js-app-btn-figure-png = Rysunek (PNG)
+
+# 2026-10-01-studio-rebuild/app.js:2073
+js-app-btn-figure-png-title = Wykres z ekranu jako bitmapa w wysokiej rozdzielczości
+
+# 2026-10-01-studio-rebuild/app.js:2072
+js-app-btn-figure-svg = Rysunek (SVG)
+
+# 2026-10-01-studio-rebuild/app.js:2072
+js-app-btn-figure-svg-title = Wykres z ekranu, z tytułem, wersją silnika i DOI
+
+# 2026-10-01-studio-rebuild/app.js:2080
+js-app-btn-pin-compare = Przypnij ten przebieg do porównania
+
+# 2026-10-01-studio-rebuild/app.js:2080
+js-app-btn-pin-count = Przypnij ten przebieg (przypięte: { $n })
+
+# 2026-10-01-studio-rebuild/app.js:2074
+js-app-btn-report-html = Odtwarzalny raport (HTML)
+
+# 2026-10-01-studio-rebuild/app.js:2074
+js-app-btn-report-html-title = Jeden plik offline: podsumowanie, wartości z poziomami dowodowymi, wykresy i dokładny scenariusz
+
+# 2026-10-01-studio-rebuild/app.js:2069
+js-app-btn-result-json = Dane wyniku (JSON)
+
+# 2026-10-01-studio-rebuild/app.js:2069
+js-app-btn-result-json-title = Kompletny wynik silnika dla tego przebiegu
+
+# 2026-10-01-studio-rebuild/app.js:2082
+js-app-btn-run-history = Historia przebiegów
+
+# 2026-10-01-studio-rebuild/app.js:2071
+js-app-btn-scenario-toml = Plik scenariusza (TOML)
+
+# 2026-10-01-studio-rebuild/app.js:2071
+js-app-btn-scenario-toml-title = Dokładne dane wejściowe tego przebiegu
+
+# 2026-10-01-studio-rebuild/app.js:2070
+js-app-btn-table-csv = Tabela (CSV)
+
+# 2026-10-01-studio-rebuild/app.js:2070
+js-app-btn-table-csv-title = Te same bajty, które narzędzie wiersza poleceń zapisuje jako { $file }
+
+# 2026-10-01-studio-rebuild/app.js:1669
+js-app-bytes =
+    { $n ->
+        [one] { $n } bajt
+        [few] { $n } bajty
+        [many] { $n } bajtów
+       *[other] { $n } bajta
+    }
+
+# 2026-10-01-studio-rebuild/app.js:2442
+js-app-cap-sub = Obszary: { $areas }, gotowe do uruchomienia scenariusze: { $total }. Każdy obszar pokazuje rzeczywisty zapisany wynik i mieszankę dowodów, które za nim stoją: udział jego metod silnika sprawdzonych względem zewnętrznego wzorca.
+
+# 2026-10-01-studio-rebuild/app.js:1623
+js-app-chain-hint = wynik każdego etapu zasila następny
+
+# 2026-10-01-studio-rebuild/app.js:1623
+js-app-chain-note = Jeden układ prześledzony przez każdy etap silnika. Tabela poniżej wylicza każdą liczbę, którą etap obliczył, a następny etap wykorzystał.
+
+# 2026-10-01-studio-rebuild/app.js:1620
+js-app-chain-stage = Etap { $n }
+
+# 2026-10-01-studio-rebuild/app.js:1621
+js-app-chain-values-handed =
+    { $n ->
+        [one] { $n } wartość przekazana dalej
+        [few] { $n } wartości przekazane dalej
+        [many] { $n } wartości przekazanych dalej
+       *[other] { $n } wartości przekazanej dalej
+    }
+
+# 2026-10-01-studio-rebuild/app.js:885
+js-app-chart-allan-deviation = Odchylenie Allana
+
+# 2026-10-01-studio-rebuild/app.js:765
+js-app-chart-cn0-by-satellite = Efektywne C/N0 według satelity
+
+# 2026-10-01-studio-rebuild/app.js:681
+js-app-chart-default-title = Wykres Kshana
+
+# 2026-10-01-studio-rebuild/app.js:895
+js-app-chart-ground-track = Ślad na powierzchni
+
+# 2026-10-01-studio-rebuild/app.js:853
+js-app-chart-holdover-title = Holdover względem budżetu synchronizacji czasu
+
+# 2026-10-01-studio-rebuild/app.js:865
+js-app-chart-mtie-title = MTIE (maksymalny błąd przedziału czasu)
+
+# 2026-10-01-studio-rebuild/app.js:71
+js-app-chart-not-drawn = Nie udało się narysować tego wykresu.
+
+# 2026-10-01-studio-rebuild/app.js:679
+js-app-chart-scenario-hash = scenariusz { $hash }
+
+# 2026-10-01-studio-rebuild/app.js:886
+js-app-chart-stability-title = Stabilność zegara (nakładające się odchylenie Allana)
+
+# 2026-10-01-studio-rebuild/app.js:868
+js-app-chart-tdev-title = TDEV (odchylenie czasu)
+
+# 2026-10-01-studio-rebuild/app.js:2308
+js-app-chip-failed-title = WebAssembly nie mogło się tutaj uruchomić. Wyświetlane są rzeczywiste zapisane przebiegi dołączonych scenariuszy.
+
+# 2026-10-01-studio-rebuild/app.js:2308
+js-app-chip-failed-title-reason = WebAssembly nie mogło się tutaj uruchomić ({ $reason }). Wyświetlane są rzeczywiste zapisane przebiegi dołączonych scenariuszy.
+
+# 2026-10-01-studio-rebuild/app.js:2307
+js-app-chip-live = Silnik na żywo · v{ $version }
+
+# 2026-10-01-studio-rebuild/app.js:2308
+js-app-chip-live-title = Silnik Kshana działa w tej przeglądarce jako WebAssembly
+
+# 2026-10-01-studio-rebuild/app.js:2307
+js-app-chip-loading = Wczytywanie silnika
+
+# 2026-10-01-studio-rebuild/app.js:2308
+js-app-chip-loading-title = Silnik jest pobierany. W międzyczasie wyświetlane są zapisane wyniki.
+
+# 2026-10-01-studio-rebuild/app.js:2307
+js-app-chip-recorded = Zapisane przebiegi · v{ $version }
+
+# 2026-10-01-studio-rebuild/app.js:2307
+js-app-chip-unavailable = Silnik niedostępny
+
+# 2026-10-01-studio-rebuild/app.js:2060
+js-app-cli-note = Zainstaluj poleceniem { $command }. Przebieg zapisuje { $file }, wykres i raport.
+
+# 2026-10-01-studio-rebuild/app.js:2717
+js-app-cli-only-title = Ten działa w wierszu poleceń, a nie w przeglądarce.
+
+# 2026-10-01-studio-rebuild/app.js:2059
+js-app-cli-save-comment = # zapisz plik scenariusza poniżej jako { $file }, a następnie
+
+# 2026-10-01-studio-rebuild/app.js:2159
+js-app-cmd-advanced = Pokaż każde ustawienie (ustawienia zaawansowane)
+
+# 2026-10-01-studio-rebuild/app.js:2164
+js-app-cmd-browse = Przeglądaj wszystkie scenariusze
+
+# 2026-10-01-studio-rebuild/app.js:2163
+js-app-cmd-compare = Porównaj przypięte przebiegi
+
+# 2026-10-01-studio-rebuild/app.js:2153
+js-app-cmd-embed = Skopiuj kod osadzenia
+
+# 2026-10-01-studio-rebuild/app.js:2162
+js-app-cmd-exports = Pobierz wyniki (eksporty)
+
+# 2026-10-01-studio-rebuild/app.js:2155
+js-app-cmd-history = Otwórz historię przebiegów
+
+# 2026-10-01-studio-rebuild/app.js:2165
+js-app-cmd-home = Przejdź do ekranu początkowego
+
+# 2026-10-01-studio-rebuild/app.js:2160
+js-app-cmd-how = Jak to jest obliczane
+
+# 2026-10-01-studio-rebuild/app.js:2151
+js-app-cmd-pin = Przypnij ten przebieg do porównania
+
+# 2026-10-01-studio-rebuild/app.js:2154
+js-app-cmd-report = Pobierz raport
+
+# 2026-10-01-studio-rebuild/app.js:2161
+js-app-cmd-research = Kod, dane i cytowanie (dla badaczy)
+
+# 2026-10-01-studio-rebuild/app.js:2158
+js-app-cmd-reset = Zresetuj tekst scenariusza
+
+# 2026-10-01-studio-rebuild/app.js:2150
+js-app-cmd-run = Uruchom scenariusz
+
+# 2026-10-01-studio-rebuild/app.js:2152
+js-app-cmd-share = Skopiuj link do udostępnienia
+
+# 2026-10-01-studio-rebuild/app.js:2157
+js-app-cmd-theme = Przełącz jasny lub ciemny motyw
+
+# 2026-10-01-studio-rebuild/app.js:2156
+js-app-cmd-tour = Rozpocznij przewodnik
+
+# 2026-10-01-studio-rebuild/app.js:1162
+js-app-compare-deltas = Różnice są liczone względem przebiegu A. Kolor zielony oznacza lepszą wartość dla każdego wskaźnika.
+
+# 2026-10-01-studio-rebuild/app.js:1161
+js-app-compare-none = Te przebiegi nie mają wspólnych porównywalnych wskaźników jakości. Przypnij przebiegi tej samej rodziny scenariuszy, aby zobaczyć liczby i różnice.
+
+# 2026-10-01-studio-rebuild/app.js:1158
+js-app-compare-pin-two = Przypnij co najmniej dwa przebiegi, aby porównać je obok siebie. Przypnij przebieg, zmień parametr lub wybierz inny scenariusz tej samej rodziny, uruchom go i przypnij ponownie.
+
+# 2026-10-01-studio-rebuild/app.js:2604
+js-app-compare-run-head = { $letter } · przebieg { $id }
+
+# 2026-10-01-studio-rebuild/app.js:1556
+js-app-coverage-cell-note = Każda komórka to jeden punkt siatki na ciele { $body }, oceniony w każdej epoce przebiegu.
+
+# 2026-10-01-studio-rebuild/app.js:1556
+js-app-coverage-dots-of = z
+
+# 2026-10-01-studio-rebuild/app.js:1556
+js-app-coverage-dots-post = satelitów, przeprowadzonych wzdłuż ich śladów na powierzchni; uruchom odtwarzanie, aby je przesunąć.
+
+# 2026-10-01-studio-rebuild/app.js:1556
+js-app-coverage-dots-pre = Kropki to
+
+# 2026-10-01-studio-rebuild/app.js:1546
+js-app-coverage-field-label = Pole do zmapowania
+
+# 2026-10-01-studio-rebuild/app.js:1553
+js-app-coverage-map = Mapa pokrycia
+
+# 2026-10-01-studio-rebuild/app.js:1553
+js-app-coverage-map-select = Mapa
+
+# 2026-10-01-studio-rebuild/app.js:1553
+js-app-coverage-over = nad
+
+# 2026-10-01-studio-rebuild/app.js:1565
+js-app-coverage-title = { $field } nad { $body }
+
+# 2026-10-01-studio-rebuild/app.js:2358
+js-app-crumb-all-scenarios = Wszystkie scenariusze
+
+# 2026-10-01-studio-rebuild/app.js:2357
+js-app-crumb-area = Obszar
+
+# 2026-10-01-studio-rebuild/app.js:2358
+js-app-crumb-search = Wyszukiwanie: { $query }
+
+# 2026-10-01-studio-rebuild/app.js:2355
+js-app-crumb-studio = Studio
+
+# 2026-10-01-studio-rebuild/app.js:688
+js-app-download-label = Pobierz
+
+# 2026-10-01-studio-rebuild/app.js:322
+js-app-edited-cli-only = Zmieniono: ten scenariusz działa tylko w silniku wiersza poleceń.
+
+# 2026-10-01-studio-rebuild/app.js:294
+js-app-edited-needs-engine = Zmieniono: wymaga silnika { $need }.
+
+# 2026-10-01-studio-rebuild/app.js:252
+js-app-edited-needs-live = Zmienione scenariusze wymagają silnika na żywo.
+
+# 2026-10-01-studio-rebuild/app.js:2145
+js-app-embed-copied = Skopiowano kod osadzenia.
+
+# 2026-10-01-studio-rebuild/app.js:707
+js-app-engine-chart = Wykres silnika
+
+# 2026-10-01-studio-rebuild/app.js:716
+js-app-engine-chart-alt = Wykres silnika dla tego przebiegu
+
+# 2026-10-01-studio-rebuild/app.js:2918
+js-app-engine-could-not-start = Silnik nie mógł się uruchomić: { $reason }. Udostępnij ten folder przez HTTP (na przykład { $command }) zamiast otwierać plik bezpośrednio.
+
+# 2026-10-01-studio-rebuild/lib/t.mjs:3
+js-app-engine-failed = Nie udało się wczytać silnika ({ $reason }).
+
+# 2026-10-01-studio-rebuild/app.js:134
+js-app-engine-file-http = Plik silnika zwrócił HTTP { $status }.
+
+# 2026-10-01-studio-rebuild/app.js:124
+js-app-engine-no-recordings = Nie udało się wczytać silnika ({ $reason }) i nie znaleziono zapisanych przebiegów.
+
+# 2026-10-01-studio-rebuild/app.js:479
+js-app-entries-count =
+    { $n ->
+        [one] { $n } wpis
+        [few] { $n } wpisy
+        [many] { $n } wpisów
+       *[other] { $n } wpisu
+    }
+
+# 2026-10-01-studio-rebuild/app.js:2426
+js-app-ev-aria = Wiersze macierzy weryfikacji: sprawdzone { $validated }, modelowane { $modelled }
+
+# 2026-10-01-studio-rebuild/app.js:2426
+js-app-ev-title = Wiersze w macierzy weryfikacji: sprawdzone { $validated } · modelowane { $modelled }
+
+# 2026-10-01-studio-rebuild/app.js:2428
+js-app-ev-validated = sprawdzone
+
+# 2026-10-01-studio-rebuild/app.js:1233
+js-app-export-card-title = Eksport { $format }
+
+# 2026-10-01-studio-rebuild/app.js:1222
+js-app-export-checking = Sprawdzanie, jakie formaty efemeryd ten przebieg może wyeksportować…
+
+# 2026-10-01-studio-rebuild/app.js:1214
+js-app-export-csv-desc = Te same bajty, które narzędzie wiersza poleceń zapisuje jako { $file }.
+
+# 2026-10-01-studio-rebuild/app.js:1214
+js-app-export-csv-title = Tabela odtwarzalności
+
+# 2026-10-01-studio-rebuild/app.js:1219
+js-app-export-engine-loading = Eksporty efemeryd pojawią się tutaj po wczytaniu silnika.
+
+# 2026-10-01-studio-rebuild/app.js:1211
+js-app-export-json-desc = Kompletny wynik silnika dla tego przebiegu, wraz z jednostkami i pochodzeniem.
+
+# 2026-10-01-studio-rebuild/app.js:1211
+js-app-export-json-title = Pełny dokument wyniku
+
+# 2026-10-01-studio-rebuild/app.js:177
+js-app-export-not-recorded = Ten eksport jest duży, więc nie został zapisany. Wymaga silnika na żywo.
+
+# 2026-10-01-studio-rebuild/app.js:1202
+js-app-export-oem-desc = CCSDS OEM 2.0 (Orbit Ephemeris Message) dla GMAT, Orekit lub STK
+
+# 2026-10-01-studio-rebuild/app.js:1201
+js-app-export-omm-desc = Katalog CCSDS OMM (Orbit Mean-elements Message)
+
+# 2026-10-01-studio-rebuild/app.js:1210
+js-app-export-report-desc = Jeden plik offline: podsumowanie, wartości z ich poziomami dowodowymi, każdy wykres i dokładny tekst scenariusza, opatrzone wersją silnika i skrótem scenariusza.
+
+# 2026-10-01-studio-rebuild/app.js:1210
+js-app-export-report-title = Odtwarzalny raport
+
+# 2026-10-01-studio-rebuild/app.js:1200
+js-app-export-sp3-desc = Precyzyjne efemerydy SP3-c tej konstelacji
+
+# 2026-10-01-studio-rebuild/app.js:1212
+js-app-export-toml-desc = Dokładne dane wejściowe tego przebiegu. Uruchom go ponownie gdziekolwiek za pomocą narzędzia wiersza poleceń albo pakietów Python i npm.
+
+# 2026-10-01-studio-rebuild/app.js:1212
+js-app-export-toml-title = Plik scenariusza
+
+# 2026-10-01-studio-rebuild/app.js:1227
+js-app-export-too-large = { $desc }. Zbyt duży, by go zapisać: wymaga silnika na żywo.
+
+# 2026-10-01-studio-rebuild/app.js:1906
+js-app-fields-more = jeszcze { $n }
+
+# 2026-10-01-studio-rebuild/app.js:1906
+js-app-fields-none = brak
+
+# 2026-10-01-studio-rebuild/app.js:1919
+js-app-fields-none-hint = Brak innych pojedynczych liczb do zmiany. Edytuj plik w sekcji „Dla badaczy”.
+
+# 2026-10-01-studio-rebuild/app.js:1916
+js-app-fields-top-of-file = początek pliku
+
+# 2026-10-01-studio-rebuild/app.js:2578
+js-app-find-matches =
+    { $n ->
+        [one] Do „{ $query }” pasuje { $n } kontrolka prowadzona oraz { $m } z { $total } pól.
+        [few] Do „{ $query }” pasują { $n } kontrolki prowadzone oraz { $m } z { $total } pól.
+        [many] Do „{ $query }” pasuje { $n } kontrolek prowadzonych oraz { $m } z { $total } pól.
+       *[other] Do „{ $query }” pasuje { $n } kontrolki prowadzonej oraz { $m } z { $total } pól.
+    }
+
+# 2026-10-01-studio-rebuild/app.js:2578
+js-app-find-none = Żadne pole tego scenariusza nie pasuje do „{ $query }”. Przeszukaj wszystkie scenariusze wyszukiwarką biblioteki.
+
+# 2026-10-01-studio-rebuild/app.js:1751
+js-app-geo-sub = { $name } · narysowano { $features } z { $total } obiektów · zapisano natywnym silnikiem
+
+# 2026-10-01-studio-rebuild/app.js:1753
+js-app-geojson-title = Eksport GeoJSON: { $name }
+
+# 2026-10-01-studio-rebuild/app.js:894
+js-app-gt-highlighted = Wyróżniono: satelita widoczny ze stacji.
+
+# 2026-10-01-studio-rebuild/app.js:894
+js-app-gt-peak-doppler = Maksymalny Doppler { $value } Hz.
+
+# 2026-10-01-studio-rebuild/app.js:894
+js-app-gt-peak-elevation = Maksymalna elewacja { $value }°.
+
+# 2026-10-01-studio-rebuild/app.js:509
+js-app-health-check-tuning = sprawdź strojenie
+
+# 2026-10-01-studio-rebuild/app.js:509
+js-app-health-consistent = spójne
+
+# 2026-10-01-studio-rebuild/app.js:511
+js-app-health-nees-band = NEES { $mean } (pasmo 95% { $lo }–{ $hi }, cel 2.0)
+
+# 2026-10-01-studio-rebuild/app.js:510
+js-app-health-nis-band = NIS { $mean } (pasmo 95% { $lo }–{ $hi }, cel 1.0)
+
+# 2026-10-01-studio-rebuild/app.js:1123
+js-app-heat-map-label = Mapa cieplna: { $metric }
+
+# 2026-10-01-studio-rebuild/app.js:2480
+js-app-hero-clock = { $elapsed } z { $total }
+
+# 2026-10-01-studio-rebuild/app.js:2469
+js-app-hero-mask = maska elewacji { $deg }°
+
+# 2026-10-01-studio-rebuild/app.js:2469
+js-app-hero-places =
+    { $n ->
+        [one] { $n } miejsce
+        [few] { $n } miejsca
+        [many] { $n } miejsc
+       *[other] { $n } miejsca
+    }
+
+# 2026-10-01-studio-rebuild/app.js:2469
+js-app-hero-positions-only = Tylko położenia satelitów: bez mocy sygnału, stanu satelitów i terenu.
+
+# 2026-10-01-studio-rebuild/app.js:2483
+js-app-hero-ramp = { $field }: od { $lo } do { $hi }
+
+# 2026-10-01-studio-rebuild/app.js:2483
+js-app-hero-ramp-over = { $field }: od { $lo } do { $hi }, w czasie { $duration }
+
+# 2026-10-01-studio-rebuild/app.js:2463
+js-app-hero-recorded-bare = Zapisany wynik
+
+# 2026-10-01-studio-rebuild/app.js:2469
+js-app-hero-satellites =
+    { $n ->
+        [one] { $n } satelita
+        [few] { $n } satelity
+        [many] { $n } satelitów
+       *[other] { $n } satelity
+    }
+
+# 2026-10-01-studio-rebuild/app.js:2469
+js-app-hero-steps =
+    { $n ->
+        [one] { $n } krok czasu
+        [few] { $n } kroki czasu
+        [many] { $n } kroków czasu
+       *[other] { $n } kroku czasu
+    }
+
+# 2026-10-01-studio-rebuild/app.js:1340
+js-app-hist-runs =
+    { $n ->
+        [one] { $n } przebieg.
+        [few] { $n } przebiegi.
+        [many] { $n } przebiegów.
+       *[other] { $n } przebiegu.
+    }
+
+# 2026-10-01-studio-rebuild/app.js:2105
+js-app-history-pin = Przypnij
+
+# 2026-10-01-studio-rebuild/app.js:2104
+js-app-history-restore = Przywróć
+
+# 2026-10-01-studio-rebuild/app.js:2126
+js-app-history-restored = Przywrócono przebieg { $id }.
+
+# 2026-10-01-studio-rebuild/app.js:2101
+js-app-history-run = przebieg { $id } · { $time }
+
+# 2026-10-01-studio-rebuild/app.js:2547
+js-app-hit-in-scenario = w: { $title }
+
+# 2026-10-01-studio-rebuild/app.js:2494
+js-app-hit-native-note = zapisany przebieg, silnik natywny
+
+# 2026-10-01-studio-rebuild/app.js:2547
+js-app-hit-setting-meta = { $area } · ustawienie { $name }
+
+# 2026-10-01-studio-rebuild/app.js:852
+js-app-ho-budget = budżet
+
+# 2026-10-01-studio-rebuild/app.js:850
+js-app-ho-engine-budget = Holdover silnika przy budżecie scenariusza ({ $budget } { $unit }): { $duration }
+
+# 2026-10-01-studio-rebuild/app.js:850
+js-app-ho-engine-budget-bare = Holdover silnika przy budżecie scenariusza: { $duration }
+
+# 2026-10-01-studio-rebuild/app.js:825
+js-app-ho-error-after-loss = błąd po utracie GNSS w chwili t = { $t } s
+
+# 2026-10-01-studio-rebuild/app.js:825
+js-app-ho-error-since-fix = błąd od ostatniego wyznaczenia pozycji
+
+# 2026-10-01-studio-rebuild/app.js:849
+js-app-ho-stays-inside = mieści się w tym budżecie przez cały zapis
+
+# 2026-10-01-studio-rebuild/app.js:849
+js-app-ho-until-breached = do przekroczenia budżetu
+
+# 2026-10-01-studio-rebuild/app.js:750
+js-app-hover-classical = klasyczny
+
+# 2026-10-01-studio-rebuild/app.js:750
+js-app-hover-quantum = kwantowy
+
+# 2026-10-01-studio-rebuild/app.js:2042
+js-app-how-checks = (sprawdza: { $requirement })
+
+# 2026-10-01-studio-rebuild/app.js:2038
+js-app-how-matrix = Metody silnika, które uruchamia ten scenariusz, mają wiersze w macierzy weryfikacji (sprawdzone { $validated }, modelowane { $modelled }):
+
+# 2026-10-01-studio-rebuild/app.js:2038
+js-app-how-matrix-partner = Metody silnika, które uruchamia ten scenariusz, mają wiersze w macierzy weryfikacji (sprawdzone { $validated }, modelowane { $modelled }, należące do partnerów { $partner }):
+
+# 2026-10-01-studio-rebuild/app.js:2041
+js-app-how-mix-chip = sprawdzone { $validated } · modelowane { $modelled }
+
+# 2026-10-01-studio-rebuild/app.js:2019
+js-app-how-more-notes =
+    { $n ->
+        [one] Jeszcze { $n } uwaga z pliku scenariusza
+        [few] Jeszcze { $n } uwagi z pliku scenariusza
+        [many] Jeszcze { $n } uwag z pliku scenariusza
+       *[other] Jeszcze { $n } uwagi z pliku scenariusza
+    }
+
+# 2026-10-01-studio-rebuild/app.js:2040
+js-app-how-more-rows =
+    { $n ->
+        [one] Jeszcze { $n } wiersz w macierzy weryfikacji (strona Dowody witryny).
+        [few] Jeszcze { $n } wiersze w macierzy weryfikacji (strona Dowody witryny).
+        [many] Jeszcze { $n } wierszy w macierzy weryfikacji (strona Dowody witryny).
+       *[other] Jeszcze { $n } wiersza w macierzy weryfikacji (strona Dowody witryny).
+    }
+
+# 2026-10-01-studio-rebuild/app.js:2018
+js-app-how-no-header = Ten plik scenariusza nie ma notatki nagłówkowej. Poniższe podsumowanie silnika mówi, co uruchomiono.
+
+# 2026-10-01-studio-rebuild/app.js:2043
+js-app-how-no-matrix-row = Żaden wiersz macierzy weryfikacji nie wymienia jeszcze rodzaju silnika tego scenariusza.
+
+# 2026-10-01-studio-rebuild/app.js:2044
+js-app-how-no-sources = Plik scenariusza nie przywołuje żadnego źródła, a żaden sprawdzony wiersz macierzy nie obejmuje jego rodzaju.
+
+# 2026-10-01-studio-rebuild/app.js:2024
+js-app-how-own-label = Własna etykieta tego przebiegu: { $label }
+
+# 2026-10-01-studio-rebuild/app.js:2026
+js-app-how-per-figure = Dla każdej wartości, z bloku figure_tiers silnika: sprawdzone { $validated }, modelowane { $modelled }. Poziom dowodowy każdej wartości jest w widoku Podsumowanie.
+
+# 2026-10-01-studio-rebuild/app.js:2590
+js-app-install-copy = Skopiuj: { $command }
+
+# 2026-10-01-studio-rebuild/app.js:2590
+js-app-install-label = Zainstaluj v{ $version }
+
+# 2026-10-01-studio-rebuild/app.js:1738
+js-app-interop-no-file = Silnik nie zapisał dla tego przebiegu pliku w tym formacie.
+
+# 2026-10-01-studio-rebuild/app.js:1738
+js-app-interop-not-apply = Nie dotyczy tego scenariusza: { $reason }.
+
+# 2026-10-01-studio-rebuild/app.js:1743
+js-app-interop-not-bundled = Nie dołączono tutaj (rozmiar): zapisuje go powyższe polecenie.
+
+# 2026-10-01-studio-rebuild/app.js:1731
+js-app-interop-note = Silnik zapisuje geometrię i próbki sygnału przebiegu w formatach, które otwierają inne narzędzia: CZML dla Cesium, KML (Keyhole Markup Language) dla Google Earth, GeoJSON dla map, pliki efemeryd STK (.e) oraz nagrania SigMF (Signal Metadata Format). Wersja przeglądarkowa nie zawiera tych modułów zapisu, więc poniższe pliki to te, które natywny silnik wiersza poleceń zapisał dla dołączonego scenariusza.
+
+# 2026-10-01-studio-rebuild/app.js:239
+js-app-job-running = Uruchamianie
+
+# 2026-10-01-studio-rebuild/app.js:1074
+js-app-job-sweeping = Przegląd
+
+# 2026-10-01-studio-rebuild/app.js:791
+js-app-js-range-label = Zakres J/S
+
+# 2026-10-01-studio-rebuild/app.js:791
+js-app-js-range-value = od { $lo } do { $hi } dB
+
+# 2026-10-01-studio-rebuild/app.js:1604
+js-app-latest-event-at = Ostatnie zdarzenie, o
+
+# 2026-10-01-studio-rebuild/app.js:2440
+js-app-legend-all = możliwości silnika jest sprawdzonych względem wzorca w całej macierzy weryfikacji; modelowanych jest { $modelled }, a po stronie partnerów { $partner }.
+
+# 2026-10-01-studio-rebuild/app.js:2440
+js-app-legend-count = { $validated } z { $total }
+
+# 2026-10-01-studio-rebuild/app.js:1949
+js-app-load-failed = Nie udało się wczytać pliku { $file }.
+
+# 2026-10-01-studio-rebuild/app.js:862
+js-app-mask-envelope = Obwiednia błędu czasu w holdover ({ $source })
+
+# 2026-10-01-studio-rebuild/app.js:877
+js-app-mask-exceeded-after = przekroczona po { $duration }
+
+# 2026-10-01-studio-rebuild/app.js:863
+js-app-mask-limit = granica { $value } ns
+
+# 2026-10-01-studio-rebuild/app.js:877
+js-app-mask-not-exceeded = nieprzekroczona
+
+# 2026-10-01-studio-rebuild/app.js:384
+js-app-meta-engine = silnik
+
+# 2026-10-01-studio-rebuild/app.js:387
+js-app-meta-file = plik
+
+# 2026-10-01-studio-rebuild/app.js:385
+js-app-meta-scenario = scenariusz
+
+# 2026-10-01-studio-rebuild/app.js:386
+js-app-meta-seed = ziarno (seed)
+
+# 2026-10-01-studio-rebuild/app.js:387
+js-app-meta-shared-link = udostępniony link
+
+# 2026-10-01-studio-rebuild/app.js:388
+js-app-meta-time = czas
+
+# 2026-10-01-studio-rebuild/app.js:1590
+js-app-mission-timeline = Oś czasu misji
+
+# 2026-10-01-studio-rebuild/app.js:321
+js-app-native-edited-notice = Zapisany przebieg dotyczy dołączonego pliku, więc zmienionej kopii nie można tutaj pokazać: uruchom ją narzędziem wiersza poleceń albo użyj opcji Zresetuj, aby zobaczyć zapis.
+
+# 2026-10-01-studio-rebuild/app.js:344
+js-app-native-recorded = To, co widać, to przebieg zapisany natywnym silnikiem wiersza poleceń v{ $version }, pokazany bez zmian. Nie uruchamia się ponownie po edycji.
+
+# 2026-10-01-studio-rebuild/app.js:343
+js-app-native-recorded-c = To, co widać, to przebieg zapisany natywnym silnikiem wiersza poleceń v{ $version } przez uruchomienie { $command }, pokazany bez zmian. Nie uruchamia się ponownie po edycji.
+
+# 2026-10-01-studio-rebuild/app.js:342
+js-app-native-recorded-p = To, co widać, to przebieg zapisany natywnym silnikiem wiersza poleceń v{ $version } ({ $platform }), pokazany bez zmian. Nie uruchamia się ponownie po edycji.
+
+# 2026-10-01-studio-rebuild/app.js:341
+js-app-native-recorded-pc = To, co widać, to przebieg zapisany natywnym silnikiem wiersza poleceń v{ $version } ({ $platform }) przez uruchomienie { $command }, pokazany bez zmian. Nie uruchamia się ponownie po edycji.
+
+# 2026-10-01-studio-rebuild/app.js:181
+js-app-needs-live-engine = To wymaga silnika na żywo.
+
+# 2026-10-01-studio-rebuild/app.js:293
+js-app-needs-newer-engine = Wymaga nowszego silnika.
+
+# 2026-10-01-studio-rebuild/app.js:292
+js-app-needs-newer-why = Ten scenariusz wymaga silnika { $need } lub nowszego; działający tutaj silnik to v{ $version }.
+
+# 2026-10-01-studio-rebuild/app.js:2072
+js-app-no-chart-export = Ten widok nie ma wykresu do wyeksportowania.
+
+# 2026-10-01-studio-rebuild/app.js:1604
+js-app-no-event-yet = Do tej chwili nie było jeszcze zdarzenia.
+
+# 2026-10-01-studio-rebuild/app.js:170
+js-app-no-recorded-run = Dla tego scenariusza nie ma zapisanego przebiegu. Wymaga silnika na żywo.
+
+# 2026-10-01-studio-rebuild/app.js:293
+js-app-no-recording-here = Nie ma tutaj jego zapisu.
+
+# 2026-10-01-studio-rebuild/app.js:373
+js-app-no-summary = (ten scenariusz nie podaje jednowierszowego podsumowania)
+
+# 2026-10-01-studio-rebuild/app.js:1490
+js-app-noise-floor = poziom szumów { $value }
+
+# 2026-10-01-studio-rebuild/app.js:317
+js-app-not-in-browser = Ten scenariusz nie działa w przeglądarce.
+
+# 2026-10-01-studio-rebuild/app.js:2932
+js-app-notice-shared-needs-live = Ten link zawiera własny scenariusz, który wymaga silnika na żywo. Otwórz go na kshana.dev.
+
+# 2026-10-01-studio-rebuild/app.js:1590
+js-app-on-one-clock = na jednym zegarze
+
+# 2026-10-01-studio-rebuild/app.js:294
+js-app-only-bundled-recording = Można pokazać tylko zapis dołączonego pliku: użyj opcji Zresetuj, aby go zobaczyć, albo uruchom zmienioną kopię silnikiem { $need }.
+
+# 2026-10-01-studio-rebuild/app.js:2710
+js-app-opening-result = Otwieranie wyniku…
+
+# 2026-10-01-studio-rebuild/app.js:932
+js-app-orbit-canvas-label = Interaktywny widok 3D propagowanego śladu
+
+# 2026-10-01-studio-rebuild/app.js:921
+js-app-orbit-epoch-set = Obrócona do epoki przebiegu.
+
+# 2026-10-01-studio-rebuild/app.js:921
+js-app-orbit-epoch-unset = Ten przebieg nie podaje epoki, więc kąt obrotu Ziemi nie ma tutaj znaczenia.
+
+# 2026-10-01-studio-rebuild/app.js:924
+js-app-orbit-img-alt = Widok ortograficzny propagowanego śladu
+
+# 2026-10-01-studio-rebuild/app.js:921
+js-app-orbit-note = Przeciągnij, aby obrócić; przewiń lub rozszerz palcami, aby powiększyć. Ziemia w skali, zobrazowania NASA Blue Marble.
+
+# 2026-10-01-studio-rebuild/app.js:925
+js-app-orbit-static = Widok statyczny (biblioteka 3D nie mogła się tutaj wczytać).
+
+# 2026-10-01-studio-rebuild/app.js:2634
+js-app-overlay-note = Linie ciągłe to przebieg A, linie przerywane to przebieg B, na tych samych osiach.
+
+# 2026-10-01-studio-rebuild/app.js:1191
+js-app-overlay-pinned = Nałożenie przypiętych przebiegów
+
+# 2026-10-01-studio-rebuild/app.js:2629
+js-app-overlay-title = { $title }: przebieg { $a } (A) wobec przebiegu { $b } (B)
+
+# 2026-10-01-studio-rebuild/app.js:1191
+js-app-overlay-with-diff = Nałożenie z różnicą B − A
+
+# 2026-10-01-studio-rebuild/app.js:2201
+js-app-pal-area = Obszar: { $label }
+
+# 2026-10-01-studio-rebuild/app.js:2210
+js-app-pal-nothing = Nic nie pasuje
+
+# 2026-10-01-studio-rebuild/app.js:2201
+js-app-pal-scenario-count =
+    { $n ->
+        [one] { $n } scenariusz
+        [few] { $n } scenariusze
+        [many] { $n } scenariuszy
+       *[other] { $n } scenariusza
+    }
+
+# 2026-10-01-studio-rebuild/app.js:2206
+js-app-pal-sec-areas = Obszary
+
+# 2026-10-01-studio-rebuild/app.js:2209
+js-app-pal-sec-commands = Polecenia
+
+# 2026-10-01-studio-rebuild/app.js:2205
+js-app-pal-sec-scenarios = Scenariusze
+
+# 2026-10-01-studio-rebuild/app.js:2207
+js-app-pal-sec-settings = Ustawienia
+
+# 2026-10-01-studio-rebuild/app.js:2208
+js-app-pal-sec-views = Widoki
+
+# 2026-10-01-studio-rebuild/app.js:2202
+js-app-pal-setting = Ustawienie: { $label }
+
+# 2026-10-01-studio-rebuild/app.js:2203
+js-app-pal-view = Widok: { $label }
+
+# 2026-10-01-studio-rebuild/app.js:2645
+js-app-panel-close = Zamknij
+
+# 2026-10-01-studio-rebuild/app.js:2645
+js-app-panel-close-full = Zamknij pełny ekran
+
+# 2026-10-01-studio-rebuild/app.js:2645
+js-app-panel-expand = Rozwiń
+
+# 2026-10-01-studio-rebuild/app.js:2645
+js-app-panel-expand-full = Rozwiń ten panel na pełny ekran
+
+# 2026-10-01-studio-rebuild/app.js:2654
+js-app-panel-expand-title = Pokaż ten panel na pełnym ekranie (Escape go zamyka)
+
+# 2026-10-01-studio-rebuild/app.js:1907
+js-app-params-hint = Zmień wartość, a potem uruchom ponownie. Odpowiedź i wykres zaktualizują się w miejscu.
+
+# 2026-10-01-studio-rebuild/app.js:1590
+js-app-phase = Faza:
+
+# 2026-10-01-studio-rebuild/app.js:1141
+js-app-pin-already = Ten przebieg jest już przypięty.
+
+# 2026-10-01-studio-rebuild/app.js:1144
+js-app-pin-compare =
+    { $n ->
+        [one] Przypięto { $n } przebieg. Otwieranie porównania.
+        [few] Przypięto { $n } przebiegi. Otwieranie porównania.
+        [many] Przypięto { $n } przebiegów. Otwieranie porównania.
+       *[other] Przypięto { $n } przebiegu. Otwieranie porównania.
+    }
+
+# 2026-10-01-studio-rebuild/app.js:1144
+js-app-pin-first = Przebieg { $id } przypięty. Zmień parametr, uruchom ponownie, a potem przypnij także ten przebieg.
+
+# 2026-10-01-studio-rebuild/app.js:1152
+js-app-pin-label = { $letter } · { $title } · przebieg { $id }
+
+# 2026-10-01-studio-rebuild/app.js:1523
+js-app-plan-view = Widok z góry
+
+# 2026-10-01-studio-rebuild/app.js:1523
+js-app-plan-view-at = w epoce
+
+# 2026-10-01-studio-rebuild/app.js:1279
+js-app-player-pause = Wstrzymaj powtórkę
+
+# 2026-10-01-studio-rebuild/app.js:1278
+js-app-player-pause-mission = Wstrzymaj powtórkę misji
+
+# 2026-10-01-studio-rebuild/app.js:1277
+js-app-player-pause-orbit = Wstrzymaj powtórkę orbity
+
+# 2026-10-01-studio-rebuild/app.js:1276
+js-app-player-pause-waterfall = Wstrzymaj powtórkę wodospadu
+
+# 2026-10-01-studio-rebuild/app.js:1279
+js-app-player-play = Odtwórz powtórkę
+
+# 2026-10-01-studio-rebuild/app.js:1278
+js-app-player-play-mission = Odtwórz powtórkę misji
+
+# 2026-10-01-studio-rebuild/app.js:1277
+js-app-player-play-orbit = Odtwórz powtórkę orbity
+
+# 2026-10-01-studio-rebuild/app.js:1276
+js-app-player-play-waterfall = Odtwórz powtórkę wodospadu
+
+# 2026-10-01-studio-rebuild/app.js:1279
+js-app-player-position = Położenie w powtórce
+
+# 2026-10-01-studio-rebuild/app.js:1278
+js-app-player-position-mission = Położenie w powtórce misji
+
+# 2026-10-01-studio-rebuild/app.js:1277
+js-app-player-position-orbit = Położenie w powtórce orbity
+
+# 2026-10-01-studio-rebuild/app.js:1276
+js-app-player-position-waterfall = Położenie w powtórce wodospadu
+
+# 2026-10-01-studio-rebuild/app.js:691
+js-app-png-button-title = Bitmapa w wysokiej rozdzielczości do slajdów i dokumentów
+
+# 2026-10-01-studio-rebuild/app.js:695
+js-app-png-export-failed = Eksport PNG nie powiódł się: { $reason }
+
+# 2026-10-01-studio-rebuild/app.js:2064
+js-app-py-note = Zainstaluj poleceniem { $command }.
+
+# 2026-10-01-studio-rebuild/app.js:279
+js-app-ran-locally = Uruchomiono lokalnie o { $time }, przebieg { $n }.
+
+# 2026-10-01-studio-rebuild/app.js:279
+js-app-ran-locally-took = Uruchomiono lokalnie o { $time }, przebieg { $n }, { $took } s.
+
+# 2026-10-01-studio-rebuild/app.js:1461
+js-app-receiver-at = Odbiornik w chwili t =
+
+# 2026-10-01-studio-rebuild/app.js:356
+js-app-recorded-edit-notice = WebAssembly jest zablokowane na tej stronie, więc strona pokazuje rzeczywiste przebiegi dołączonych scenariuszy, zapisane silnikiem v{ $version }. Zmienione scenariusze, przeglądy parametrów i nowe eksporty wymagają silnika na żywo: otwórz kshana.dev albo udostępnij ten folder lokalnie. Zresetuj przywraca zapisany scenariusz.
+
+# 2026-10-01-studio-rebuild/app.js:359
+js-app-recorded-intro = WebAssembly jest zablokowane na tej stronie, więc strona pokazuje rzeczywiste przebiegi dołączonych scenariuszy, zapisane silnikiem v{ $version }. Edycja, przeglądy parametrów i nowe eksporty wymagają silnika na żywo na kshana.dev.
+
+# 2026-10-01-studio-rebuild/app.js:335
+js-app-recorded-shown-native = Zapisany przebieg pokazany o { $time } (silnik natywny).
+
+# 2026-10-01-studio-rebuild/app.js:307
+js-app-recorded-shown-needs = Zapisany przebieg pokazany o { $time } (wymaga silnika { $need }).
+
+# 2026-10-01-studio-rebuild/app.js:280
+js-app-recorded-shown-run = Zapisany przebieg pokazany o { $time }, przebieg { $n }.
+
+# 2026-10-01-studio-rebuild/app.js:280
+js-app-recorded-shown-took = Zapisany przebieg pokazany o { $time }, przebieg { $n }, { $took } s.
+
+# 2026-10-01-studio-rebuild/app.js:303
+js-app-recorded-with-commit = To, co widać, to przebieg zapisany kompilacją silnika z commitu { $commit }, pokazany bez zmian; nie uruchamia się tutaj ponownie.
+
+# 2026-10-01-studio-rebuild/app.js:303
+js-app-recorded-with-engine = To, co widać, to przebieg zapisany silnikiem v{ $version }, pokazany bez zmian; nie uruchamia się tutaj ponownie.
+
+# 2026-10-01-studio-rebuild/app.js:1666
+js-app-recording-edited-warning = Scenariusz został zmieniony: ten zapis dotyczy dołączonego pliku, a nie Twojej zmiany. Uruchom polecenie na własnym pliku, aby otrzymać swój wynik.
+
+# 2026-10-01-studio-rebuild/app.js:1409
+js-app-replay = Powtórka
+
+# 2026-10-01-studio-rebuild/app.js:1263
+js-app-report-downloaded = Raport pobrany.
+
+# 2026-10-01-studio-rebuild/app.js:1706
+js-app-report-frame-title = Raport z przebiegu, zapisany przez silnik
+
+# 2026-10-01-studio-rebuild/app.js:1708
+js-app-report-html = Raport (HTML)
+
+# 2026-10-01-studio-rebuild/app.js:1708
+js-app-report-html-title = Plik raportu, taki, jaki zapisał silnik
+
+# 2026-10-01-studio-rebuild/app.js:1703
+js-app-report-load-failed = Nie udało się wczytać zapisanego raportu ({ $reason }).
+
+# 2026-10-01-studio-rebuild/app.js:1698
+js-app-report-loading = Wczytywanie zapisanego raportu…
+
+# 2026-10-01-studio-rebuild/app.js:1703
+js-app-report-none = Dla tego scenariusza nie ma zapisanego raportu.
+
+# 2026-10-01-studio-rebuild/app.js:1695
+js-app-report-note = Każdy przebieg z wiersza poleceń zapisuje raport: podsumowanie, dane wejściowe, wyniki, wykres, co jest sprawdzone względem wzorca, a co modelowane, oraz zapis odtwarzalności. Wersja przeglądarkowa nie zawiera tego modułu zapisu, więc to jest raport, który natywny silnik wiersza poleceń zapisał dla dołączonego scenariusza. Własny raport Studio z przebiegu widocznego na ekranie jest w sekcji Eksporty.
+
+# 2026-10-01-studio-rebuild/app.js:1709
+js-app-report-open-tab = Otwórz w nowej karcie
+
+# 2026-10-01-studio-rebuild/app.js:1709
+js-app-report-open-tab-title = Otwórz sam raport
+
+# 2026-10-01-studio-rebuild/app.js:1248
+js-app-report-orbit-title = Orbita (inercyjna układu geocentrycznego, ortograficzna)
+
+# 2026-10-01-studio-rebuild/app.js:1244
+js-app-report-stability-short = Stabilność zegara
+
+# 2026-10-01-studio-rebuild/app.js:1244
+js-app-report-stability-title = Stabilność zegara (odchylenie Allana)
+
+# 2026-10-01-studio-rebuild/app.js:2329
+js-app-run-again = Uruchom ponownie
+
+# 2026-10-01-studio-rebuild/app.js:250
+js-app-run-cancelled = Przebieg anulowany.
+
+# 2026-10-01-studio-rebuild/app.js:250
+js-app-run-cancelled-previous = Przebieg anulowany. Nadal wyświetlany jest poprzedni wynik.
+
+# 2026-10-01-studio-rebuild/app.js:254
+js-app-run-failed = Przebieg nie powiódł się. Zobacz komunikat w wynikach.
+
+# 2026-10-01-studio-rebuild/app.js:2325
+js-app-run-when-ready = Uruchom, gdy silnik będzie gotowy
+
+# 2026-10-01-studio-rebuild/app.js:2325
+js-app-run-will-run = Uruchomi się, gdy silnik będzie gotowy
+
+# 2026-10-01-studio-rebuild/app.js:2331
+js-app-run-with-settings = Uruchom z tymi ustawieniami
+
+# 2026-10-01-studio-rebuild/app.js:2548
+js-app-search-more-matches =
+    { $n ->
+        [one] Kolejne dopasowania: { $n }. Dodaj słowo, aby je zawęzić.
+        [few] Kolejne dopasowania: { $n }. Dodaj słowo, aby je zawęzić.
+        [many] Kolejne dopasowania: { $n }. Dodaj słowo, aby je zawęzić.
+       *[other] Kolejne dopasowania: { $n }. Dodaj słowo, aby je zawęzić.
+    }
+
+# 2026-10-01-studio-rebuild/app.js:2550
+js-app-search-nothing = Nic nie pasuje do „{ $query }”. Spróbuj słowa takiego jak zagłuszanie, zegar, księżycowy, orbita, maska lub PDOP.
+
+# 2026-10-01-studio-rebuild/app.js:2544
+js-app-search-scenarios = Scenariusze ({ $n })
+
+# 2026-10-01-studio-rebuild/app.js:2546
+js-app-search-settings =
+    { $n ->
+        [one] Ustawienia o nazwie podobnej do „{ $query }”: w { $n } scenariuszu
+        [few] Ustawienia o nazwie podobnej do „{ $query }”: w { $n } scenariuszach
+        [many] Ustawienia o nazwie podobnej do „{ $query }”: w { $n } scenariuszach
+       *[other] Ustawienia o nazwie podobnej do „{ $query }”: w { $n } scenariuszach
+    }
+
+# 2026-10-01-studio-rebuild/app.js:2546
+js-app-search-settings-hint = Każde otwiera scenariusz z podświetlonym tym ustawieniem, gotowym do zmiany.
+
+# 2026-10-01-studio-rebuild/app.js:2133
+js-app-share-copied = Skopiowano link do udostępnienia. Zawiera dokładny scenariusz.
+
+# 2026-10-01-studio-rebuild/app.js:2134
+js-app-share-in-address-bar = Link umieszczono w pasku adresu.
+
+# 2026-10-01-studio-rebuild/app.js:1971
+js-app-share-link-sub = Działa dokładnie tak, jak został udostępniony.
+
+# 2026-10-01-studio-rebuild/app.js:1970
+js-app-share-link-title = Scenariusz otwarty z linku do udostępnienia
+
+# 2026-10-01-studio-rebuild/app.js:269
+js-app-shared-scenario = Udostępniony scenariusz
+
+# 2026-10-01-studio-rebuild/app.js:1665
+js-app-shown-unchanged = Pokazano bez zmian.
+
+# 2026-10-01-studio-rebuild/app.js:1525
+js-app-solar-note = Każda kropka to ciało w epoce przebiegu, a każda krzywa to ślad orbity, który silnik dla niego obliczył. Linia przerywana to łącze, o które prosi scenariusz. Wybierz planetę, aby zobaczyć jej księżyce wokół niej.
+
+# 2026-10-01-studio-rebuild/app.js:1521
+js-app-solar-which-bodies = Które ciała narysować
+
+# 2026-10-01-studio-rebuild/app.js:402
+js-app-source-live = Wynik na żywo · silnik v{ $version }
+
+# 2026-10-01-studio-rebuild/app.js:403
+js-app-source-native = Zapisany wynik, silnik natywny · v{ $version }
+
+# 2026-10-01-studio-rebuild/app.js:404
+js-app-source-recorded = Zapisany wynik · v{ $version }
+
+# 2026-10-01-studio-rebuild/app.js:404
+js-app-source-recorded-loading = Zapisany wynik · v{ $version } · wczytywanie silnika
+
+# 2026-10-01-studio-rebuild/app.js:1445
+js-app-spectrum-row-note = Widmo wzdłuż wiersza wodospadu, na którym jest powtórka.
+
+# 2026-10-01-studio-rebuild/app.js:1437
+js-app-spectrum-row-title = Widmo wzdłuż wyświetlanego wiersza
+
+# 2026-10-01-studio-rebuild/app.js:1436
+js-app-spectrum-which-part = Która część widma
+
+# 2026-10-01-studio-rebuild/app.js:2335
+js-app-status-last-run-took = Ostatni przebieg trwał { $ms } ms w Twojej przeglądarce. Nic nie jest wysyłane.
+
+# 2026-10-01-studio-rebuild/app.js:2327
+js-app-status-loading-kept = Silnik jeszcze się wczytuje. Twoje zmiany zostają zachowane i zostaną uruchomione, gdy tylko będzie gotowy.
+
+# 2026-10-01-studio-rebuild/app.js:2327
+js-app-status-loading-recorded = Silnik jeszcze się wczytuje. Wynik powyżej to zapisany przebieg.
+
+# 2026-10-01-studio-rebuild/app.js:2334
+js-app-status-not-run-yet = Twoje zmiany nie zostały jeszcze uruchomione.
+
+# 2026-10-01-studio-rebuild/app.js:2337
+js-app-status-runs-in-browser = Działa w Twojej przeglądarce. Nic nie jest wysyłane.
+
+# 2026-10-01-studio-rebuild/app.js:2336
+js-app-status-wasm-blocked = WebAssembly jest tutaj zablokowane, więc wyświetlane są zapisane przebiegi dołączonych scenariuszy.
+
+# 2026-10-01-studio-rebuild/app.js:1890
+js-app-stepper-decrease = Zmniejsz: { $key }
+
+# 2026-10-01-studio-rebuild/app.js:1892
+js-app-stepper-increase = Zwiększ: { $key }
+
+# 2026-10-01-studio-rebuild/app.js:1420
+js-app-subtabs-label = Kafelki tego widoku (telefon)
+
+# 2026-10-01-studio-rebuild/app.js:690
+js-app-svg-button-title = Wykres wektorowy z tytułem i pochodzeniem
+
+# 2026-10-01-studio-rebuild/app.js:1093
+js-app-sweep-cancelled = Przegląd anulowany.
+
+# 2026-10-01-studio-rebuild/app.js:1107
+js-app-sweep-done-1d = Lokalnie w { $duration } przejrzano { $done } z { $total } przebiegów.
+
+# 2026-10-01-studio-rebuild/app.js:1112
+js-app-sweep-done-2d =
+    { $total ->
+        [one] Lokalnie w { $duration } przejrzano { $total } przebieg ({ $a } × { $b }).
+        [few] Lokalnie w { $duration } przejrzano { $total } przebiegi ({ $a } × { $b }).
+        [many] Lokalnie w { $duration } przejrzano { $total } przebiegów ({ $a } × { $b }).
+       *[other] Lokalnie w { $duration } przejrzano { $total } przebiegu ({ $a } × { $b }).
+    }
+
+# 2026-10-01-studio-rebuild/app.js:1063
+js-app-sweep-enter-range = Wpisz zakres liczbowy.
+
+# 2026-10-01-studio-rebuild/app.js:1067
+js-app-sweep-enter-range-2 = Wpisz zakres liczbowy dla drugiego parametru.
+
+# 2026-10-01-studio-rebuild/app.js:1093
+js-app-sweep-failed = Przegląd nie powiódł się: { $reason }
+
+# 2026-10-01-studio-rebuild/app.js:1091
+js-app-sweep-interrupted = Przegląd przerwany przez nowy przebieg.
+
+# 2026-10-01-studio-rebuild/app.js:1020
+js-app-sweep-needs-live = Przegląd uruchamia silnik wiele razy, więc wymaga silnika na żywo.
+
+# 2026-10-01-studio-rebuild/app.js:1016
+js-app-sweep-none-line = Brak (wykres liniowy)
+
+# 2026-10-01-studio-rebuild/app.js:1060
+js-app-sweep-nothing = Nie ma nic do przeglądu dla tego scenariusza.
+
+# 2026-10-01-studio-rebuild/app.js:1082
+js-app-sweep-progress = Przegląd: przebieg { $n } z { $total }…
+
+# 2026-10-01-studio-rebuild/app.js:1116
+js-app-sweep-status-done =
+    { $total ->
+        [one] O { $time } przejrzano { $total } przebieg.
+        [few] O { $time } przejrzano { $total } przebiegi.
+        [many] O { $time } przejrzano { $total } przebiegów.
+       *[other] O { $time } przejrzano { $total } przebiegu.
+    }
+
+# 2026-10-01-studio-rebuild/app.js:1103
+js-app-sweep-title-1d = { $metric } względem { $knob }
+
+# 2026-10-01-studio-rebuild/app.js:1109
+js-app-sweep-title-2d = { $metric } względem { $knob1 } i { $knob2 }
+
+# 2026-10-01-studio-rebuild/app.js:1055
+js-app-sweep-wait = Poczekaj na zakończenie bieżącego przebiegu, a potem uruchom przegląd.
+
+# 2026-10-01-studio-rebuild/app.js:534
+js-app-tab-animation = Animacja
+
+# 2026-10-01-studio-rebuild/app.js:533
+js-app-tab-compare = Porównaj
+
+# 2026-10-01-studio-rebuild/app.js:536
+js-app-tab-exports = Eksporty i raport
+
+# 2026-10-01-studio-rebuild/app.js:531
+js-app-tab-ground = Ślad na powierzchni
+
+# 2026-10-01-studio-rebuild/app.js:527
+js-app-tab-holdover = Holdover
+
+# 2026-10-01-studio-rebuild/app.js:537
+js-app-tab-json = JSON
+
+# 2026-10-01-studio-rebuild/app.js:528
+js-app-tab-masks = Maski synchronizacji
+
+# 2026-10-01-studio-rebuild/app.js:530
+js-app-tab-orbit = Orbita 3D
+
+# 2026-10-01-studio-rebuild/app.js:522
+js-app-tab-overview = Podsumowanie
+
+# 2026-10-01-studio-rebuild/app.js:535
+js-app-tab-report = Raport silnika
+
+# 2026-10-01-studio-rebuild/app.js:526
+js-app-tab-signal = Sygnał i pasmo
+
+# 2026-10-01-studio-rebuild/app.js:529
+js-app-tab-stability = Stabilność
+
+# 2026-10-01-studio-rebuild/app.js:532
+js-app-tab-sweep = Przegląd parametru
+
+# 2026-10-01-studio-rebuild/app.js:525
+js-app-tab-timeseries = Szereg czasowy
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-at-tau = Przy τ lub czasie
+
+# 2026-10-01-studio-rebuild/app.js:1534
+js-app-th-body = Ciało
+
+# 2026-10-01-studio-rebuild/app.js:461
+js-app-th-clock = Zegar
+
+# 2026-10-01-studio-rebuild/app.js:484
+js-app-th-figure = Wartość
+
+# 2026-10-01-studio-rebuild/app.js:1733
+js-app-th-file = Plik
+
+# 2026-10-01-studio-rebuild/app.js:1733
+js-app-th-format = Format
+
+# 2026-10-01-studio-rebuild/app.js:2604
+js-app-th-key-figure = Kluczowa wartość
+
+# 2026-10-01-studio-rebuild/app.js:1534
+js-app-th-light-time = Jednokierunkowy czas światła od: { $observer }
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-limit = Granica
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-margin = Margines
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-mask-or-budget = Maska lub budżet
+
+# 2026-10-01-studio-rebuild/app.js:461
+js-app-th-metric = Miara
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-metric-2 = Miara
+
+# 2026-10-01-studio-rebuild/app.js:1534
+js-app-th-orbital-period = Okres orbitalny
+
+# 2026-10-01-studio-rebuild/app.js:484
+js-app-th-provenance = Pochodzenie
+
+# 2026-10-01-studio-rebuild/app.js:1733
+js-app-th-size = Rozmiar
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-source = Źródło
+
+# 2026-10-01-studio-rebuild/app.js:1534
+js-app-th-sun-distance = Odległość od Słońca
+
+# 2026-10-01-studio-rebuild/app.js:461
+js-app-th-tier = Poziom dowodowy
+
+# 2026-10-01-studio-rebuild/app.js:484
+js-app-th-unit = Jednostka
+
+# 2026-10-01-studio-rebuild/app.js:461
+js-app-th-value = Wartość
+
+# 2026-10-01-studio-rebuild/app.js:484
+js-app-th-value-2 = Wartość
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-value-3 = Wartość
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-verdict = Werdykt
+
+# 2026-10-01-studio-rebuild/app.js:484
+js-app-th-what-it-is = Co to jest
+
+# 2026-10-01-studio-rebuild/app.js:1548
+js-app-the-body = ciało
+
+# 2026-10-01-studio-rebuild/app.js:1623
+js-app-the-chain = Łańcuch
+
+# 2026-10-01-studio-rebuild/app.js:1534
+js-app-the-observer = obserwator
+
+# 2026-10-01-studio-rebuild/app.js:2452
+js-app-tile-browse-all = Przeglądaj wszystkie scenariusze ({ $n })
+
+# 2026-10-01-studio-rebuild/app.js:2452
+js-app-tile-browse-sub = Szukaj według nazwy, pytania lub ustawienia
+
+# 2026-10-01-studio-rebuild/app.js:2450
+js-app-tile-preview-label = Zapisany podgląd z { $source }: { $title }
+
+# 2026-10-01-studio-rebuild/app.js:2451
+js-app-tile-scenario-count =
+    { $n ->
+        [one] { $n } scenariusz
+        [few] { $n } scenariusze
+        [many] { $n } scenariuszy
+       *[other] { $n } scenariusza
+    }
+
+# 2026-10-01-studio-rebuild/app.js:1633
+js-app-timeline-chart-title = Oś czasu misji: { $title }
+
+# 2026-10-01-studio-rebuild/app.js:1592
+js-app-timeline-note = Jeden suwak steruje każdym wykresem poniżej. Każda faza uruchamia zwykłe scenariusze; kampania odczytuje ich wyniki na jednej siatce czasu. Zacieniowane pasma to fazy, pionowe linie to zdarzenia. Wartości powyżej to kanały kampanii w czasie powtórki.
+
+# 2026-10-01-studio-rebuild/app.js:2780
+js-app-toast-copied = Skopiowano.
+
+# 2026-10-01-studio-rebuild/app.js:2770
+js-app-toast-copy-blocked = Kopiowanie jest tutaj zablokowane.
+
+# 2026-10-01-studio-rebuild/app.js:2780
+js-app-toast-copy-blocked-select = Kopiowanie jest tutaj zablokowane: zaznacz zamiast tego tekst.
+
+# 2026-10-01-studio-rebuild/app.js:2778
+js-app-toast-json-copied = Skopiowano JSON.
+
+# 2026-10-01-studio-rebuild/app.js:2343
+js-app-toast-loading-run = Silnik jeszcze się wczytuje. Przebieg zacznie się, gdy tylko będzie gotowy.
+
+# 2026-10-01-studio-rebuild/app.js:2905
+js-app-toast-no-scenario = Nie ma tutaj scenariusza o nazwie { $name }. Oto najbliższe dopasowania.
+
+# 2026-10-01-studio-rebuild/app.js:2383
+js-app-toast-not-single-number = To ustawienie nie jest w tym scenariuszu pojedynczą liczbą: edytuj je w pliku scenariusza.
+
+# 2026-10-01-studio-rebuild/app.js:2560
+js-app-toast-one-pinned = Przypięty jest jeden przebieg. Zmień ustawienie, uruchom ponownie i przypnij ten przebieg, aby porównać oba.
+
+# 2026-10-01-studio-rebuild/app.js:2892
+js-app-toast-opened-advanced = Otwarto z ustawieniami zmienionymi w widoku zaawansowanym.
+
+# 2026-10-01-studio-rebuild/app.js:2388
+js-app-toast-opened-at = Otwarto przy: { $label }. Zmień je, a potem uruchom ponownie.
+
+# 2026-10-01-studio-rebuild/app.js:2770
+js-app-toast-scenario-copied = Skopiowano scenariusz.
+
+# 2026-10-01-studio-rebuild/app.js:2277
+js-app-tour-answer-body = Zwykłe zdanie odczytane z wyniku oraz informacja, skąd wynik pochodzi: z przebiegu na żywo w Twojej przeglądarce albo z przebiegu zapisanego tym samym silnikiem.
+
+# 2026-10-01-studio-rebuild/app.js:2277
+js-app-tour-answer-title = Najpierw odpowiedź
+
+# 2026-10-01-studio-rebuild/app.js:2230
+js-app-tour-back = Wstecz
+
+# 2026-10-01-studio-rebuild/app.js:2262
+js-app-tour-done = Gotowe
+
+# 2026-10-01-studio-rebuild/app.js:2233
+js-app-tour-eyebrow = Przewodnik
+
+# 2026-10-01-studio-rebuild/app.js:2278
+js-app-tour-figures-body = Każda karta jest odczytana z dokumentu wyniku silnika.
+
+# 2026-10-01-studio-rebuild/app.js:2278
+js-app-tour-figures-title = Wartości, które na nią odpowiadają
+
+# 2026-10-01-studio-rebuild/app.js:2281
+js-app-tour-how-body = Metoda, poziom dowodowy i odniesienia.
+
+# 2026-10-01-studio-rebuild/app.js:2281
+js-app-tour-how-title = Jak to jest obliczane
+
+# 2026-10-01-studio-rebuild/app.js:2231
+js-app-tour-next = Dalej
+
+# 2026-10-01-studio-rebuild/app.js:2282
+js-app-tour-research-body = Wiersz poleceń i Python, aby uruchomić to samodzielnie, dane i wykresy oraz sposób cytowania.
+
+# 2026-10-01-studio-rebuild/app.js:2282
+js-app-tour-research-title = Dla badaczy
+
+# 2026-10-01-studio-rebuild/app.js:2283
+js-app-tour-search-body = ⌘K znajduje każdy scenariusz, obszar, ustawienie, widok lub polecenie.
+
+# 2026-10-01-studio-rebuild/app.js:2283
+js-app-tour-search-title = Szukaj
+
+# 2026-10-01-studio-rebuild/app.js:2280
+js-app-tour-settings-body = Pięć ustawień, które najbardziej wpływają na to pytanie. Zmień jedno, a potem uruchom ponownie. Silnik działa w Twojej przeglądarce; nic nie jest wysyłane.
+
+# 2026-10-01-studio-rebuild/app.js:2280
+js-app-tour-settings-title = Wypróbuj inne ustawienia
+
+# 2026-10-01-studio-rebuild/app.js:2232
+js-app-tour-skip = Pomiń
+
+# 2026-10-01-studio-rebuild/app.js:2279
+js-app-tour-views-body = Wykresy, mapy, powtórki, własny raport silnika i eksporty. [ i ] przełączają między widokami.
+
+# 2026-10-01-studio-rebuild/app.js:2279
+js-app-tour-views-title = Każdy widok przebiegu
+
+# 2026-10-01-studio-rebuild/app.js:1472
+js-app-tracking-threshold = Próg śledzenia
+
+# 2026-10-01-studio-rebuild/app.js:1409
+js-app-transport-hint = jeden suwak steruje każdym panelem tego przebiegu
+
+# 2026-10-01-studio-rebuild/app.js:1408
+js-app-transport-label = Powtórka: jeden suwak steruje każdym panelem tego przebiegu
+
+# 2026-10-01-studio-rebuild/app.js:1153
+js-app-unpin-run = Odepnij przebieg { $id }
+
+# 2026-10-01-studio-rebuild/app.js:1441
+js-app-waterfall = Wodospad
+
+# 2026-10-01-studio-rebuild/app.js:1441
+js-app-waterfall-hint = widmowa gęstość mocy: częstotliwość w poprzek, czas w dół
+
+# 2026-10-01-studio-rebuild/app.js:1443
+js-app-waterfall-note = Kolor to moc powyżej poziomu szumów odbiornika. Sygnały nawigacyjne leżą poniżej tego poziomu, więc świecą zagłuszarki. Odtwórz powtórkę lub przeciągnij ją, a pasma po prawej pokażą, co odbiornik nadal śledzi w tej chwili.
+
+# 2026-10-01-studio-rebuild/app.js:1491
+js-app-waterfall-title = Wodospad, { $name }
+
+# 2026-10-01-studio-rebuild/app.js:124
+js-app-webassembly-unavailable = WebAssembly niedostępne
+
+# 2026-10-01-studio-rebuild/app.js:1665
+js-app-written-by-native = Zapisano natywnym silnikiem wiersza poleceń v{ $version } ({ $platform }) poleceniem
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:139
+js-cat-acm-link-question = Który tryb DVB-S2 utrzymuje łącze na każdym przelocie i ile danych przenosi przelot? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:139
+js-cat-acm-link-title = Łącze w dół z satelity z adaptacyjnym kodowaniem
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:141
+js-cat-aocs-slew-mekf-question = Gdy regulator jest zasilany przez filtr orientacji i obciążony dryftem żyroskopu, jak obrót wypada na tle przypadku ze stanem rzeczywistym? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:141
+js-cat-aocs-slew-mekf-title = Obrót na podstawie oszacowania orientacji
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:140
+js-cat-aocs-slew-question = Czy prawo sprzężenia zwrotnego uspokaja obrót o duży kąt na czterech kołach reakcyjnych i jak mocno pracują koła? (pętla sterowania jest sprawdzona względem wzorca; statek kosmiczny jest ilustracyjny)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:140
+js-cat-aocs-slew-title = Obrót na kołach reakcyjnych
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:138
+js-cat-aperture-duty-cycle-question = Gdy jedna apertura obsługuje zarówno nawigację, jak i łączność, jaką przerwę to kosztuje? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:138
+js-cat-aperture-duty-cycle-title = Współczynnik wypełnienia apertury
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:110
+js-cat-araim-gps-galileo-question = Przy GPS + Galileo i hipotezie uszkodzenia całej konstelacji, jak dostępny jest zaawansowany RAIM?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:110
+js-cat-araim-gps-galileo-title = ARAIM dla dwóch konstelacji
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:111
+js-cat-araim-reference-check-question = Czy poziomy ochrony silnika zgadzają się z opublikowanymi przykładami obliczeniowymi Working Group C?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:111
+js-cat-araim-reference-check-title = Sprawdzenie wzorcowe ARAIM
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:142
+js-cat-ascent-losses-question = Jaką część idealnego przyrostu prędkości dwustopniowej rakiety zabierają grawitacja, opór, sterowanie i przeciwciśnienie? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:142
+js-cat-ascent-losses-title = Straty podczas wznoszenia rakiety
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:136
+js-cat-attitude-budget-question = Jaki jest budżet momentu zakłócającego i błędu celowania w najgorszym przypadku?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:136
+js-cat-attitude-budget-title = Budżet celowania
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:66
+js-cat-automotive-urban-canyon-question = Czy samochód przejeżdżający pod wiaduktem i obok przydrożnej zagłuszarki mieści się w budżecie pół pasa ruchu? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:66
+js-cat-automotive-urban-canyon-title = Samochód w kanionie miejskim
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:236
+js-cat-campaign-jam-spoof-holdover-integrity-question = Co dzieje się z jednym odbiornikiem podczas zagłuszania, spoofingu, utraty GNSS, alarmu integralności i odzyskania, na jednej osi czasu? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:236
+js-cat-campaign-jam-spoof-holdover-integrity-title = Połączona misja: zagłuszanie, spoofing, holdover, alarm
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:239
+js-cat-campaign-monte-carlo-clock-holdover-question = Czy w wielu przebiegach z ziarnem błąd czasu swobodnie chodzącego zegara odpowiada jego rozrzutowi w postaci zamkniętej?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:239
+js-cat-campaign-monte-carlo-clock-holdover-title = Holdover zegara metodą Monte Carlo
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:241
+js-cat-campaign-optimize-link-budget-question = Dla zakresu odległości i szybkości transmisji, gdzie łącze w paśmie X zostawia dokładnie 3 dB zapasu?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:241
+js-cat-campaign-optimize-link-budget-title = Optymalizacja bilansu łącza
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:240
+js-cat-campaign-shared-jammer-sea-road-question = Przy jednej zagłuszarce, która platforma traci wyznaczenie pozycji: statek oddalony o 30 km czy samochód oddalony o 50 km? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:240
+js-cat-campaign-shared-jammer-sea-road-title = Jedna zagłuszarka, statek i samochód
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:237
+js-cat-campaign-spectrum-holdover-integrity-question = Zagłuszarka zabiera dwa sygnały pasma L, zegar przechodzi w holdover, a odbiornik przełącza się wyłącznie na Galileo: czy monitorowanie integralności nadal działa? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:237
+js-cat-campaign-spectrum-holdover-integrity-title = Misja sterowana widmem
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:238
+js-cat-campaign-sweep-jammer-power-question = Gdy zagłuszarka oddalona o 1 km jest zwiększana od 10 nW do 10 W, kiedy odbiornik traci wyznaczenie pozycji? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:238
+js-cat-campaign-sweep-jammer-power-title = Przegląd mocy zagłuszarki
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:181
+js-cat-cislunar-arc-recovery-question = Czy niezależny estymator najmniejszych kwadratów rzeczywiście odtwarza stan z długości łuku, którą przewiduje test rzędu? (modelowane; wolne: około 15 s w przeglądarce)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:181
+js-cat-cislunar-arc-recovery-title = Odtworzenie łuku cislunarnego
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:180
+js-cat-cislunar-observability-question = Jaką część stanu statku cislunarnego czyni obserwowalną łuk międzysatelitarny?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:180
+js-cat-cislunar-observability-title = Obserwowalność cislunarna
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:79
+js-cat-clock-ensemble-question = W wielu losowaniach szumu, w jakim paśmie ufności mieści się holdover?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:79
+js-cat-clock-ensemble-title = Zespół holdover zegarów
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:78
+js-cat-clock-holdover-labsr-question = Jak laboratoryjny optyczny zegar strontowy wypada w holdover na tle atomowego zegara w skali chipa?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:78
+js-cat-clock-holdover-labsr-title = Holdover zegara, laboratoryjny zegar optyczny
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:77
+js-cat-clock-holdover-question = Jak długo zegar może utrzymywać czas po zaniku GNSS?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:77
+js-cat-clock-holdover-title = Holdover zegara
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:97
+js-cat-combined-altpnt-question = Co daje połączenie trzech skalarnych kanałów map w porównaniu z każdym z nich osobno?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:97
+js-cat-combined-altpnt-title = Połączony alt-PNT
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:71
+js-cat-conflict-resilience-question = Jak warstwowa architektura PNT ulega pogorszeniu pod wpływem zagłuszania, spoofingu, zagrożeń kinetycznych i cybernetycznych? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:71
+js-cat-conflict-resilience-title = Odporność w konflikcie
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:191
+js-cat-constellation-multi-gnss-coverage-question = Przy czterech systemach globalnych razem, ile satelitów jest widocznych i jak dobra jest geometria, w każdym miejscu na Ziemi? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:191
+js-cat-constellation-multi-gnss-coverage-title = Cztery konstelacje GNSS, jedna mapa
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:143
+js-cat-contact-schedule-question = Dla trzech satelitów i trzech stacji w ciągu 12 godzin, które przeloty zachowuje plan bez konfliktów i ile danych przenosi? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:143
+js-cat-contact-schedule-title = Plan łączności z ziemią
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:31
+js-cat-domain-campaigns-label = Kampanie
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:51
+js-cat-domain-campaigns-line = Połączone misje, przeglądy parametrów i przebiegi Monte Carlo na jednym zegarze.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:28
+js-cat-domain-constellations-label = Projektowanie konstelacji
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:48
+js-cat-domain-constellations-line = Zaprojektuj konstelację i zmapuj jej pokrycie oraz PDOP (współczynnik rozmycia dokładności położenia).
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:33
+js-cat-domain-deepspace-label = Księżyc, cislunar i Mars
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:53
+js-cat-domain-deepspace-line = Nawigacja i czas na Księżycu, w przestrzeni cislunarnej i na Marsie.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:26
+js-cat-domain-integrity-label = Integralność i wyznaczanie pozycji
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:46
+js-cat-domain-integrity-line = Wyznaczenia pozycji i to, czy można im ufać: RAIM (autonomiczne monitorowanie integralności przez odbiornik) oraz jego zaawansowana postać, ARAIM.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:21
+js-cat-domain-interference-label = Zagłuszanie i zakłócenia
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:41
+js-cat-domain-interference-line = Zagłuszarki a odbiorniki nawigacji satelitarnej: co zostaje utracone i kiedy.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:29
+js-cat-domain-leo-label = Nawigacja z niskiej orbity okołoziemskiej (LEO)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:49
+js-cat-domain-leo-line = Sygnały nawigacyjne z niskiej orbity okołoziemskiej, przeloty, komunikaty i wyznaczenia pozycji.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:30
+js-cat-domain-leo-missions-label = Misje i badania LEO
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:50
+js-cat-domain-leo-missions-line = Badania i usługi zbudowane na warstwie niskiej orbity okołoziemskiej.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:25
+js-cat-domain-navigation-label = Nawigacja inercyjna i alternatywna
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:45
+js-cat-domain-navigation-line = Nawigacja inercyjna, terenowa, grawitacyjna i inna bez satelitów.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:27
+js-cat-domain-orbits-label = Orbity i geometria GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:47
+js-cat-domain-orbits-line = Propagacja orbity, efemerydy i geometria satelitów nawigacyjnych.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:34
+js-cat-domain-solar-label = Układ Słoneczny
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:54
+js-cat-domain-solar-line = Każda planeta i księżyc w jednej epoce, z czasami światła.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:32
+js-cat-domain-spaceops-label = Analiza misji i operacje kosmiczne
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:52
+js-cat-domain-spaceops-line = Przeloty, okna startowe, wejście w atmosferę, bilanse łącza i orientacji.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:22
+js-cat-domain-spectrum-label = Widmo
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:42
+js-cat-domain-spectrum-line = Wodospady widma pasma radiowego: zagłuszarki, sygnały i to, co śledzi odbiornik.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:23
+js-cat-domain-spoofing-label = Spoofing i bezpieczeństwo sygnału
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:43
+js-cat-domain-spoofing-line = Fałszywe sygnały i meaconing oraz monitory, które je wykrywają.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:35
+js-cat-domain-studies-label = Technologie kwantowe, studia kompromisów i interoperacyjność
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:55
+js-cat-domain-studies-line = Czujniki kwantowe, studia kompromisów i formaty interoperacyjności.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:24
+js-cat-domain-timing-label = Zegary i synchronizacja czasu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:44
+js-cat-domain-timing-line = Zegary bez satelitów: holdover, stabilność, maski telekomunikacyjne, transfer czasu.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:153
+js-cat-earth-gnss-lunar-question = Czy odbiornik w pobliżu Księżyca może odbierać ziemskie GNSS i czy kiedykolwiek wystarcza to do wyznaczenia pozycji? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:153
+js-cat-earth-gnss-lunar-title = Ziemskie GNSS na Księżycu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:144
+js-cat-entry-heating-stardust-question = Czy model wejścia w atmosferę odtwarza opublikowane maksymalne opóźnienie kapsuły Stardust z próbkami?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:144
+js-cat-entry-heating-stardust-title = Wejście kapsuły Stardust w atmosferę
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:134
+js-cat-eo-coverage-question = Jaki pas obserwacji, rozdzielczość naziemna i częstość powrotów daje orbita obserwacji Ziemi (EO)?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:134
+js-cat-eo-coverage-title = Pokrycie EO
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:145
+js-cat-eo-radiometry-question = Jaki stosunek sygnału do szumu, MTF przy Nyquiście i NIIRS daje scena o odbiciu 15 % dla małej kamery obserwacji Ziemi? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:145
+js-cat-eo-radiometry-title = Radiometria i jakość obrazu kamery
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:129
+js-cat-ephemeris-question = Gdzie jest satelita i kiedy przelatuje nad głową?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:129
+js-cat-ephemeris-title = Ślad na powierzchni
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:245
+js-cat-europa-surface-pnt-question = Czy lądownik na księżycu Jowisza, Europie, można wyznaczyć z małej konstelacji przekaźników i pomiaru odległości z Ziemi? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:245
+js-cat-europa-surface-pnt-title = Lądownik na Europie
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:101
+js-cat-fusion-pnt-coupled-question = Jak nawigator z jednym zbiorczym filtrem Kalmana dla położenia, zegara i dryftu akcelerometru przetrwa przerwę w GNSS? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:101
+js-cat-fusion-pnt-coupled-title = Sprzężony nawigator z fuzją czujników
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:90
+js-cat-fusion-pnt-question = Co daje pojedynczy wspólny estymator dla zegara i położenia?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:90
+js-cat-fusion-pnt-title = Fuzja czujników
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:102
+js-cat-gnss-ins-aviation-question = Jak daleko dryfuje ściśle sprzężony INS klasy nawigacyjnej lub taktycznej podczas dwuminutowego odmówienia GNSS obejmującego zakręt z przechyłem? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:102
+js-cat-gnss-ins-aviation-title = Zakręt samolotu w przerwie GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:103
+js-cat-gnss-ins-maritime-question = Jak daleko dryfuje INS klasy nawigacyjnej lub taktycznej po pięciominutowej przerwie GNSS na statku wykonującym zygzaki? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:103
+js-cat-gnss-ins-maritime-title = Statek zygzakujący podczas przerwy GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:89
+js-cat-gnss-ins-question = Jak dobrze wspomagany nawigator inercyjny radzi sobie podczas przerwy w GNSS?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:104
+js-cat-gnss-ins-rail-question = Jak daleko dryfuje ściśle sprzężony INS w głębokim wykopie z dwoma satelitami, a potem w tunelu? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:104
+js-cat-gnss-ins-rail-title = Pociąg w wykopie i tunelu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:89
+js-cat-gnss-ins-title = Fuzja GNSS/INS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:113
+js-cat-gnss-sim-container-terminal-skyline-question = Przy dźwigach od strony morza i stosach od strony lądu, ile satelitów zostaje i co dzieje się z ochroną RAIM? (modelowane; reprezentatywny skyline)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:113
+js-cat-gnss-sim-container-terminal-skyline-title = Wózek portalowy na nabrzeżu kontenerowym
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:112
+js-cat-gnss-sim-raim-question = Jak jonosfera i troposfera kształtują surowe pseudoodległości i czy RAIM nadal chroni?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:112
+js-cat-gnss-sim-raim-title = Pomiary GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:171
+js-cat-gnss-ssv-formation-heo-question = Jak dobrze filtr zna względne położenie dwóch statków kosmicznych oddalonych o kilometr, w porównaniu z różnicowaniem ich bezwzględnych wyznaczeń? (modelowane; przebieg zapisany natywnym silnikiem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:171
+js-cat-gnss-ssv-formation-heo-title = Nawigacja względna w formacji, orbita silnie eliptyczna
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:168
+js-cat-gnss-ssv-heo-question = Co słyszy orbita silnie eliptyczna na swojej trasie: sygnały w zasięgu, najlepsze C/N0, listek główny kontra boczny, DOP i sygnały przy krawędzi? (modelowane; przebieg zapisany natywnym silnikiem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:168
+js-cat-gnss-ssv-heo-title = Sygnały GNSS na orbicie silnie eliptycznej
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:169
+js-cat-gnss-ssv-lunar-weak-question = Z czego może korzystać odbiornik zaprojektowany na najsłabsze sygnały w drodze na Księżyc? (modelowane; przebieg zapisany natywnym silnikiem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:169
+js-cat-gnss-ssv-lunar-weak-title = Sygnały GNSS na transferze księżycowym, odbiornik słabych sygnałów
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:170
+js-cat-gnss-ssv-nav-lunar-question = Jak dobrze pokładowy filtr utrzymuje transfer księżycowy, w stosunku do granicy, którą podaje? (modelowane; przebieg zapisany natywnym silnikiem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:170
+js-cat-gnss-ssv-nav-lunar-title = Pokładowy filtr GNSS na transferze księżycowym
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:167
+js-cat-gnss-ssv-shell-question = Jak często statek kosmiczny na wysokości geostacjonarnej słyszy co najmniej jeden i co najmniej cztery sygnały nawigacyjne, według konstelacji i pasma? (modelowane; przebieg zapisany natywnym silnikiem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:167
+js-cat-gnss-ssv-shell-title = Sygnały GNSS ponad satelitami: powłoka na 36 000 km
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:106
+js-cat-gps-denied-gravity-nav-egm2008-question = Czy na rzeczywistym polu grawitacyjnym EGM2008 do stopnia 70 dopasowanie do mapy może utrzymać trasę bez GPS? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:106
+js-cat-gps-denied-gravity-nav-egm2008-title = Nawigacja grawitacyjna na rzeczywistym polu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:96
+js-cat-gps-denied-gravity-nav-question = Jak daleko dryfuje pozycja w ciągu pełnej godziny bez GNSS i czy mapa grawitacyjna może ją utrzymać w ryzach?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:96
+js-cat-gps-denied-gravity-nav-title = Nawigacja bez GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:105
+js-cat-gravity-map-error-mc-question = Gdy zapisana mapa grawitacyjna staje się coraz bardziej zaszumiona, jak często dopasowanie do mapy nadal utrzymuje wyznaczenie pozycji bez GPS w granicach celu? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:105
+js-cat-gravity-map-error-mc-title = Monte Carlo błędu mapy grawitacyjnej
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:95
+js-cat-gravity-map-nav-question = Czy grawimetr na zimnych atomach może utrzymać pozycję bez GNSS, dopasowując pole grawitacyjne, przez które leci?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:95
+js-cat-gravity-map-nav-title = Nawigacja po mapie grawitacyjnej
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:118
+js-cat-holdover-test-example-question = Odłącz antenę, oceń holdover: zapis podzielony w dwóch chwilach podanych przez operatora, każdy krok mierzony względem masek ITU-T napisanych dla niego. (modelowane; zapis jest wymyślony na potrzeby przykładu)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:118
+js-cat-holdover-test-example-title = Test holdover: zapis błędu czasu względem masek
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:119
+js-cat-holdover-test-ptp4l-question = Te same cztery kroki odczytane z logu serwa ptp4l: jak daleko własne przesunięcie demona pozostaje od masek, gdy GNSS jest niedostępne? (modelowane; log jest wymyślony na potrzeby przykładu)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:119
+js-cat-holdover-test-ptp4l-title = Test holdover: log linuxptp
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:100
+js-cat-hybrid-optical-rf-question = Jaką ciągłość i integralność daje połączenie optycznego i radiowego PNT? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:100
+js-cat-hybrid-optical-rf-title = Hybryda optyczno-radiowa
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:91
+js-cat-hybrid-pnt-question = Co daje połączony zestaw zegara i układu inercyjnego?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:91
+js-cat-hybrid-pnt-title = Hybrydowe PNT
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:92
+js-cat-hybrid-ukf-question = Czy 17-stanowy, ściśle sprzężony UKF jest samospójny (NEES + białość innowacji)? To sprawdzenie samospójności, a nie twierdzenie o dokładności.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:92
+js-cat-hybrid-ukf-title = Hybrydowy 17-stanowy UKF
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:70
+js-cat-impairment-eval-question = Jak dobrze detektor odróżnia zagłuszanie, spoofing i wielodrogowość od stanu nominalnego? (modelowane ROC/AUC)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:70
+js-cat-impairment-eval-title = Ocena zakłóceń RF
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:87
+js-cat-imu-deadreckoning-question = Jak daleko dryfuje pozycja, gdy opiera się wyłącznie na IMU?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:87
+js-cat-imu-deadreckoning-title = Nawigacja zliczeniowa inercyjna
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:88
+js-cat-ins-trn-coast-question = Jak daleko dryfuje pozycja podczas przerwy w nawigacji i kiedy przekracza 10 m i 50 m? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:88
+js-cat-ins-trn-coast-title = INS/TRN w przerwie
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:109
+js-cat-integrity-harbour-approach-question = Gdy budynki na nabrzeżu i falochron zasłaniają niskie satelity, czy GPS i Galileo utrzymują ochronę ARAIM w granicach limitów alarmowych? (modelowane; reprezentatywny skyline)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:109
+js-cat-integrity-harbour-approach-title = ARAIM przy wejściu do portu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:108
+js-cat-integrity-raim-question = Czy geometria spełnia limity alarmowe (HPL / VPL)?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:108
+js-cat-integrity-raim-title = Integralność RAIM
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:61
+js-cat-jamming-demo-question = Przy jakim stosunku zagłuszarki do sygnału odbiornik traci uchwycenie sygnału?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:61
+js-cat-jamming-demo-title = Zagłuszanie
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:63
+js-cat-jamming-harbour-approach-skyline-question = Przy 2-watowej zagłuszarce na brzegu, ile satelitów zachowuje statek i ile samo nabrzeże zasłania? (modelowane; reprezentatywny skyline)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:63
+js-cat-jamming-harbour-approach-skyline-title = Statek zagłuszany przy wejściu do portu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:187
+js-cat-l-band-waterfall-jamming-question = Jak wygląda całe pasmo L GNSS, gdy włączają się zagłuszarka typu chirp, tonowa i szumowa, i które sygnały zabiera każda z nich? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:187
+js-cat-l-band-waterfall-jamming-title = Wodospad pasma L przy zagłuszaniu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:132
+js-cat-launch-window-question = Jaki azymut startu i Δv dogleg pozwalają osiągnąć docelową inklinację z danego miejsca?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:132
+js-cat-launch-window-title = Okno startowe
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:195
+js-cat-leo-band-trade-question = Co sygnał nawigacyjny z niskiej orbity zyskuje, a co traci w każdym paśmie, od ultrawysokich częstotliwości (UHF) do pasma C? (reprezentatywne projekty)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:195
+js-cat-leo-band-trade-title = Kompromis pasm, od UHF do pasma C
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:210
+js-cat-leo-doppler-positioning-question = Jak dobre jest wyznaczenie pozycji z dziesięciu minut Dopplera w konstelacji nawigacyjnej niskiej orbity? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:210
+js-cat-leo-doppler-positioning-title = Wyznaczanie pozycji tylko z Dopplera
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:219
+js-cat-leo-focus-data-services-question = Ile bitów komunikatu nawigacyjnego kosztuje każda dodatkowa usługa danych? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:219
+js-cat-leo-focus-data-services-title = Dane usług a długość ramki
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:220
+js-cat-leo-focus-fused-pnt-sisre-question = Jak dobry musi być błąd odległości sygnału w przestrzeni z niskiej orbity, aby warstwa niskiej orbity pomagała w połączonym wyznaczeniu pozycji? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:220
+js-cat-leo-focus-fused-pnt-sisre-title = Połączone wyznaczenie pozycji a błąd orbity i zegara
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:221
+js-cat-leo-focus-indoor-uhf-question = Które pasmo nadal dociera do użytkownika wewnątrz budynku tradycyjnego i energooszczędnego cieplnie? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:221
+js-cat-leo-focus-indoor-uhf-title = Odbiór w budynkach według pasma i budynku
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:222
+js-cat-leo-focus-iot-eirp-question = Ile mocy nadawania satelity potrzebuje znacznik bateryjny, aby wytrzymać odpowiednio długo? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:222
+js-cat-leo-focus-iot-eirp-title = Energia lokalizatora a moc nadawania
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:223
+js-cat-leo-focus-ntn-bandwidth-question = Jak maleje błąd wyznaczania pozycji, gdy sygnał odniesienia poszerza się od 180 kHz do 20 MHz? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:223
+js-cat-leo-focus-ntn-bandwidth-title = Wyznaczanie pozycji łączem w dół 5G a pasmo
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:224
+js-cat-leo-focus-ppp-altitude-question = Czy niższa, czy wyższa warstwa niskiej orbity bardziej skraca zbieżność? (modelowane; wolne, około minuty w przeglądarce)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:224
+js-cat-leo-focus-ppp-altitude-title = Precyzyjne wyznaczanie pozycji a wysokość warstwy
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:202
+js-cat-leo-focus-science-iono-sounding-question = Jak dobrze różnica opóźnień między dwoma pasmami mierzy zawartość elektronów poniżej satelity niskiej orbity? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:202
+js-cat-leo-focus-science-iono-sounding-title = Sondowanie jonosfery z dwóch pasm
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:200
+js-cat-leo-indoor-uhf-question = Dlaczego nośna UHF dociera do wnętrza budynku, gdy pasma L, S i C sobie nie radzą? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:200
+js-cat-leo-indoor-uhf-title = Wewnątrz budynków na UHF
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:201
+js-cat-leo-iot-energy-question = Ile energii znacznik bateryjny zużywa na każde wyznaczenie pozycji z sygnału niskiej orbity? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:201
+js-cat-leo-iot-energy-title = Energia na wyznaczenie pozycji dla lokalizatora
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:207
+js-cat-leo-navmsg-encode-decode-question = Ile kosztuje kwantyzacja każdego pola i czy ramka przetrwa kodowanie, dekodowanie i uszkodzony bit? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:207
+js-cat-leo-navmsg-encode-decode-title = Komunikat nawigacyjny: ramka binarna
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:204
+js-cat-leo-navmsg-fit-interval-trade-question = Jak długo jeden nadawany komunikat może obejmować, zanim błąd orbity przekroczy cel? (modelowane; wolne, około 30 s w przeglądarce)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:204
+js-cat-leo-navmsg-fit-interval-trade-title = Komunikat nawigacyjny: przedział dopasowania
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:206
+js-cat-leo-navmsg-midpass-update-question = Gdy satelita w połowie przelotu przełącza się na nowy komunikat, czy użytkownik widzi skok? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:206
+js-cat-leo-navmsg-midpass-update-title = Komunikat nawigacyjny: aktualizacja w trakcie przelotu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:205
+js-cat-leo-navmsg-model-comparison-question = Który model efemeryd najlepiej odwzorowuje niską orbitę i jak wypada obok opublikowanej tabeli? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:205
+js-cat-leo-navmsg-model-comparison-title = Komunikat nawigacyjny: cztery modele
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:199
+js-cat-leo-pass-iridium-question = Jaką siłę sygnału i jaki Doppler widzi samolot pasażerski podczas jednego przelotu Iridium? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:199
+js-cat-leo-pass-iridium-title = Impulsy Iridium z samolotu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:197
+js-cat-leo-pass-vs-gnss-cn0-question = Jak siła sygnału jednego przelotu z niskiej orbity wypada na tle satelitów Galileo w zasięgu? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:197
+js-cat-leo-pass-vs-gnss-cn0-title = Jeden przelot a GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:198
+js-cat-leo-pass-xona-pulsar-question = Jak wyglądają sygnały X1 i X5 podczas jednego przelotu, dla statku w Zatoce Biskajskiej? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:198
+js-cat-leo-pass-xona-pulsar-title = Przelot Xona Pulsar
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:216
+js-cat-leo-pnt-end-to-end-question = Od projektu sygnału do końcowego wyznaczenia pozycji, co każdy etap przekazuje następnemu? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:216
+js-cat-leo-pnt-end-to-end-title = Od końca do końca, konstelacja generyczna
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:214
+js-cat-leo-ppp-convergence-question = O ile szybciej zbiega precyzyjne wyznaczanie pozycji punktowej (PPP), gdy dodać warstwę niskiej orbity? (modelowane; wolne, około 30 s w przeglądarce)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:214
+js-cat-leo-ppp-convergence-title = Zbieżność precyzyjnego wyznaczania pozycji
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:209
+js-cat-leo-pvt-fjord-skyline-question = Tam, gdzie ściany fiordu zostawiają pas nieba wzdłuż kanału, ile warstwa niskiej orbity dodaje do GPS i Galileo? (modelowane; reprezentatywny skyline)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:209
+js-cat-leo-pvt-fjord-skyline-title = Prom w głębi fiordu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:225
+js-cat-leo-resilience-gnss-jammed-leo-carries-question = Gdy GNSS jest zagłuszany, czy warstwa niskiej orbity w innych pasmach może utrzymać wyznaczenie pozycji i jego integralność? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:225
+js-cat-leo-resilience-gnss-jammed-leo-carries-title = GNSS zagłuszany, niska orbita działa dalej
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:189
+js-cat-leo-resilience-js-margin-question = O ile więcej zagłuszania wytrzymuje silniejszy sygnał z niskiej orbity niż sygnał GNSS ze średniej orbity? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:189
+js-cat-leo-resilience-js-margin-title = Margines zagłuszania z mocy odbieranej
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:226
+js-cat-leo-resilience-multiband-diversity-question = Gdy jedna zagłuszarka pasma L jest zwiększana, które z czterech pasm nadal są śledzone? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:226
+js-cat-leo-resilience-multiband-diversity-title = Różnorodność pasm przy zagłuszarce zaporowej
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:203
+js-cat-leo-resilience-spoof-doppler-question = Gdy spoofer przesuwa obliczoną pozycję o 30 m, jak szybko wykrywa to kontrola Dopplera i geometrii przelotu? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:203
+js-cat-leo-resilience-spoof-doppler-title = Spoofing wykryty przez Dopplera
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:227
+js-cat-leo-resilience-spoof-monitors-question = Który monitor widzi który rodzaj spoofera? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:227
+js-cat-leo-resilience-spoof-monitors-title = Monitory spoofingu wobec czterech spooferów
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:212
+js-cat-leo-timing-utc-question = Jak dokładnie odbiornik może odtworzyć czas UTC (Coordinated Universal Time) z satelitów niskiej orbity, według oscylatora i poziomu sygnału? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:212
+js-cat-leo-timing-utc-title = Transfer czasu do UTC
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:228
+js-cat-leo-vertical-5g-network-timing-question = Gdy GNSS jest utracony na dobę, czy czas z niskiej orbity utrzymuje stację bazową w granicach jej limitu synchronizacji? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:228
+js-cat-leo-vertical-5g-network-timing-title = Synchronizacja stacji bazowej 5G
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:229
+js-cat-leo-vertical-asset-tracking-iot-question = Ile kosztuje znacznik bateryjny każde wyznaczenie pozycji w trakcie podróży kontenera? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:229
+js-cat-leo-vertical-asset-tracking-iot-title = Śledzenie kontenerów
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:230
+js-cat-leo-vertical-autonomous-vehicle-question = Gdy budynki zasłaniają niskie satelity, czy warstwa niskiej orbity utrzymuje samochód w granicach błędu na poziomie pasa ruchu? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:231
+js-cat-leo-vertical-autonomous-vehicle-skyline-question = Zamodelowane jako rzeczywista ulica zamiast płaskiego odcięcia 35°, czy warstwa niskiej orbity nadal utrzymuje samochód w granicach błędu na poziomie pasa ruchu? (modelowane; reprezentatywny skyline)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:231
+js-cat-leo-vertical-autonomous-vehicle-skyline-title = Pojazd na ulicy, a nie na płaskim odcięciu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:230
+js-cat-leo-vertical-autonomous-vehicle-title = Pojazd w kanionie miejskim
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:232
+js-cat-leo-vertical-critical-infrastructure-timing-question = Gdy GNSS jest utracony, czy czas z niskiej orbity utrzymuje synchronizację podstacji? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:232
+js-cat-leo-vertical-critical-infrastructure-timing-title = Synchronizacja podstacji
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:233
+js-cat-leo-vertical-polar-arctic-question = Od Tromsø do Bieguna Północnego, co polarna warstwa niskiej orbity dodaje do GNSS? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:233
+js-cat-leo-vertical-polar-arctic-title = Podróż arktyczna
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:234
+js-cat-leo-vertical-rail-maritime-question = Gdy dołączone scenariusze statku i pociągu tracą GNSS, czy przelot z niskiej orbity nadal do nich dociera? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:234
+js-cat-leo-vertical-rail-maritime-title = Kolej i żegluga z warstwą niskiej orbity
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:135
+js-cat-link-budget-question = Czy łącze jednokierunkowe zamyka się z zapasem przy podanej odległości i szybkości transmisji?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:135
+js-cat-link-budget-title = Bilans łącza
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:148
+js-cat-lunanet-araim-question = Czy rzadki zestaw księżycowych przekaźników spełnia limity integralności dla odbiornika w rejonie Artemis?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:148
+js-cat-lunanet-araim-title = Integralność księżycowa
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:150
+js-cat-lunar-attack-surface-question = Czego trzeba, aby przeprowadzić spoofing lub zagłuszanie odbiornika na powierzchni Księżyca i jaki budżet uwierzytelniania na to odpowiada? (modelowane)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:150
+js-cat-lunar-attack-surface-title = Powierzchnia ataku na Księżycu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:192
+js-cat-leo-pnt-mega-shell-question = Jakie pokrycie i geometrię daje 5,000-satelitarna konstelacja nawigacyjna na niskiej orbicie okołoziemskiej? (modelowane; przykładowy projekt)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:192
+js-cat-leo-pnt-mega-shell-title = Projekt niskiej orbity z 5,000 satelitów
