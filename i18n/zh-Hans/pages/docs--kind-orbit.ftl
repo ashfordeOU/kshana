@@ -23,3 +23,13 @@ seg-e12f672ae71d = GNSS 拒止下的时钟守时为 MODELLED，而不是经独�
 seg-8de95b3a9229 = 星载时钟状态估计为 MODELLED，而不是经独立验证：它对照同一代码库中另一个独立实现进行检查，独立于被测单元，但不具外部权威性。（验证矩阵（docs/MODELLED-RATIONALE.md））
 
 seg-e4b64d7277da = 欺骗干扰检测为 MODELLED，而不是经独立验证：其中一项子声明经过外部核对，但整项能力由模型计算的部分组合而成，因此该能力仍属于由模型计算得出一级。（验证矩阵（docs/MODELLED-RATIONALE.md））
+
+seg-d291f20074f0 = <b>VALIDATED</b> 轨道路径上由两部分 UT1 儒略日得到的地球自转，使地固位置保留单个 f64 日期所丢失的微秒量级精度（{ "2020" } 年前后约 { "3e-9" } rad）：jd2::gmst82（IAU { "1982" } GMST，即 TEME 约定，作用于两部分），cio:
+
+seg-5c031aaa3a33 = MODELLED { "4" } · VALIDATED { "4" }：点名该类型的<a1>验证矩阵</a1>行。
+
+seg-277205e56d73 = <b>VALIDATED</b> 由视线几何经 Q=(HᵀH)⁻¹ 并按局部 ENU 分解得到 GDOP/PDOP/HDOP/VDOP/TDOP。参考基准（oracle，ExternalDataset）：gnss_lib_py { "1.0.4" }（Stanford NAV Lab）DOP——独立的库，吻合到相对 { "1e-6" }
+
+seg-53a78e98af12 = 主题页面：<a1>SKYLINE.md</a1>
+
+seg-ae15d15bf151 = 主题页面：<a1>LEO-PASS.md</a1>

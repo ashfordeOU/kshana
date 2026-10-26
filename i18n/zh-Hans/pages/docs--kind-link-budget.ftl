@@ -15,3 +15,5 @@ seg-8f1e7d3f5a07 = 类别页面：<a1>任务分析、链路与空间运行</a1>
 seg-67fb8ac75f36 = MODELLED { "1" } · VALIDATED { "1" }：列出此类型的<a1>验证矩阵</a1>各行。
 
 seg-a3697ad561db = Hz
+
+seg-cec5c06d38af = <b>MODELLED</b> 月面原生的干扰信号比、有效 C/N₀ 与失锁，针对月面（或抬高）干扰源下的月面用户，基于示意性的、取自公开来源的 Moonlight/LCNS 类星座。

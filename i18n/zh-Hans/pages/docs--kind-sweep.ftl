@@ -19,3 +19,5 @@ seg-e12f672ae71d = GNSS 拒止下的时钟守时为 MODELLED，而不是经独�
 seg-849c08d3ce70 = 类别页面：<a1>时钟、授时与守时</a1>
 
 seg-ee7dd15019d0 = 主题页面：<a1>CAMPAIGNS.md</a1>
+
+seg-0aae0574c5e6 = <b>MODELLED</b> <c1/> 类型的可用性扫描：按星座（GPS、GLONASS、Galileo、BDS、QZSS、NavIC）及合计，统计（用户，历元）对中至少有一个信号和至少有四个信号的占比及最长中断时间，针对位于球面上的用户
