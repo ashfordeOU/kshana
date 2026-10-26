@@ -204,11 +204,11 @@ seg-3dd4136094c0 = VEŘEJNÉ: <a1>InsideGNSS, užitečné zatížení ATOMIC (Au
 
 seg-4f0cff24b4fd = polynomiální efemeridy 6. řádu bez členů hodin (hodiny jsou řízeny k času GNSS)
 
-seg-9d1e7aebcd84 = WORKSHOPOVÉ: prezentováno na workshopu LEO-PNT programu ESA NAVISP v roce { "2026" }
+seg-9d1e7aebcd84 = SEMINÁRNÍ: prezentováno na workshopu LEO-PNT programu ESA NAVISP v roce { "2026" }
 
 seg-28c2e7ae6065 = konfigurace signálu č. 1 a rozvržení zprávy demonstrace na oběžné dráze, v jediném zadržitelném souboru
 
-seg-9f0d16f43993 = Každá předvolba označuje svá čísla jako VEŘEJNÁ (s adresou URL), REPREZENTATIVNÍ (zdokumentovaná návrhová volba, nikdy tvrzení o skutečném systému) nebo WORKSHOPOVÁ a výsledek každého běhu, který některou používá, uvádí, která to je.
+seg-9f0d16f43993 = Každá předvolba označuje svá čísla jako VEŘEJNÁ (s adresou URL), REPREZENTATIVNÍ (zdokumentovaná návrhová volba, nikdy tvrzení o skutečném systému) nebo SEMINÁRNÍ a výsledek každého běhu, který některou používá, uvádí, která to je.
 
 seg-556fe9c6c3b1 = Navigační zpráva
 

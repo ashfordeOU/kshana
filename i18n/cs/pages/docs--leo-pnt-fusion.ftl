@@ -56,7 +56,7 @@ seg-ddbefb8a6723 = VEŘEJNÉ: <a1>InsideGNSS</a1>. ODVOZENO: SISRE. Kombinujte s
 
 seg-6389c92e07d4 = Demonstrace na oběžné dráze (IOD) Celeste Evropské kosmické agentury (ESA), jedna konfigurace parametrizovaného návrhu signálu
 
-seg-b8bd6e76aeb2 = VEŘEJNÁ dráha (<a1>ESA</a1>, <a2>abstrakt { "16907" } Institute of Navigation (ION)</a2>); WORKSHOPOVÉ parametry signálu, prezentované na workshopu LEO-PNT programu ESA Navigation Innovation and Support Programme (NAVISP) v roce { "2026" }
+seg-b8bd6e76aeb2 = VEŘEJNÁ dráha (<a1>ESA</a1>, <a2>abstrakt { "16907" } Institute of Navigation (ION)</a2>); SEMINÁRNÍ parametry signálu, prezentované na workshopu LEO-PNT programu ESA Navigation Innovation and Support Programme (NAVISP) v roce { "2026" }
 
 seg-bd7fb6eb444a = Každé číslo odvozené z workshopu je v modulu <c1/> v <c2/>, používaném souborem <c3/> (<c4/> vynucuje, kde se smějí objevit). Jak se předvolba zadržuje: každé číslo enginu odvozené z workshopu je v jediném souboru <c5/>, který <c6/> zkompiluje, jen pokud existuje, a ve scénářích dostupných pouze v repozitáři <c7/>. Smazáním tohoto souboru a těchto scénářů se předvolba zadrží bez jakékoli úpravy zdrojového kódu; každý další test, orákulum i scénář běží i bez ní a počet souborů scénářů v README zadržené soubory stále započítává.
 

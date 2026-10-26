@@ -122,7 +122,7 @@ seg-4d49743b3544 = Pásma: <c1/> s volitelnou podmnožinou <c2/> a položky <c3/
 
 seg-bd1e114aaea6 = Pásmo může také pojmenovat návrh <c1/> (<c2/>, libovolný návrh v <c3/> nebo návrh, který předá druh <c4/>; viz <a1>LEO-SIGNAL.md</a1>). Pásmo pak převezme střední kmitočet návrhu (pokud není zadáno <c5/>), vysílací šířku pásma a čipovou rychlost sledované složky, rozdělí své EIRP mezi složky návrhu podle jejich podílů výkonu a v každé epoše hlásí C/N0 sledované složky a její pásmově omezený rozptyl kódového sledování early-late (Betz a Kolodziejski { "2009" }, vzorec druhu <c6/>) jako chybu měření vzdálenosti.
 
-seg-1d96501bb12d = Každá předvolba označuje svá čísla jako VEŘEJNÁ (s adresou URL), REPREZENTATIVNÍ (zdokumentovaná návrhová volba, nikdy tvrzení o skutečném systému) nebo WORKSHOPOVÁ.
+seg-1d96501bb12d = Každá předvolba označuje svá čísla jako VEŘEJNÁ (s adresou URL), REPREZENTATIVNÍ (zdokumentovaná návrhová volba, nikdy tvrzení o skutečném systému) nebo SEMINÁRNÍ.
 
 seg-f708914fed48 = Pásma
 
@@ -162,7 +162,7 @@ seg-fe3cdce92b31 = { "1000" } km, { "55" }°
 
 seg-03d5ae448705 = <c1/> (volitelné)
 
-seg-800f173f2b20 = WORKSHOPOVÉ parametry signálu, VEŘEJNÁ dráha
+seg-800f173f2b20 = SEMINÁRNÍ parametry signálu, VEŘEJNÁ dráha
 
 seg-e8626249e708 = sedm pásem konfigurace č. 1
 

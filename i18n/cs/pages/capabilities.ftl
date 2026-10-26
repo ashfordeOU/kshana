@@ -1326,7 +1326,7 @@ seg-e9da73670beb = LEO-PNT uvnitř budov: proč nosná UHF proniká do budovy, k
 
 seg-6dfada2dacb6 = Nízkoenergetické LEO-PNT pro lokalizátor IoT (Internet věcí): energie na jedno řešení proti pracovnímu cyklu.
 
-seg-1007e9b9abdc = ESA Celeste IOD, konfigurace signálu č. 1, všechna pásma během jednoho přeletu. PŘEDVOLBA PRO WORKSHOP.
+seg-1007e9b9abdc = ESA Celeste IOD, konfigurace signálu č. 1, všechna pásma během jednoho přeletu. PŘEDVOLBA PRO SEMINÁRNÍ.
 
 seg-d3b4252da1ee = Dávky Iridium STL (satelitní čas a poloha) viděné z letadla.
 
