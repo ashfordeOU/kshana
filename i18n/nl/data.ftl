@@ -2289,3 +2289,246 @@ dat-a3c0d41e4b56 = Onafhankelijke numpy-Monte-Carlo-SDE-integratie van dubbelge�
 
 # data/verification-matrix.json
 dat-76097bbb6a19 = hybrid_integrity::tests (de verhouding is gelijk aan de twee uitgezonden takken gedeeld, tot { "1e-15" } relatief, en haar omgekeerde en decibelvormen komen overeen; bereik en tijdsigma van elke tak hangen precies met c samen; de uitgezonden gemeenschappelijke configuratie is aantoonbaar gelijk aan het eigen bereik en de integratietijd van het scenario en het bereik van de RF-tak is aantoonbaar gelijk aan dat van de optische tak; de C/N0 van de RF-tak is bit voor bit die van het beschikbaarheidsblok, uit één linkbudget, geen herafleiding; de eigenschap LIKE-FOR-LIKE wordt MEASURED in plaats van beweerd -- het viervoudigen van de gemeenschappelijke accumulatietijd halveert de optische tak tot { "1e-12" } en de RF-tak tot { "1e-7" } en laat de verhouding ongewijzigd tot { "3.19e-9" } relatief, wat een tak die heimelijk over iets anders middelt niet zou kunnen; een override van rf_dll_bandwidth_hz die de gemeenschappelijke middelingstijd verbreekt maakt de verhouding null met een reden die beide tijden noemt, terwijl beide takken nog steeds worden uitgezonden; een run in één richting maakt van de vergelijkingstak bit voor bit de vrijgegeven hoofdwaarde met een penaltyfactor van precies { "1" }, en een run in twee richtingen reproduceert de penalty 0.5/sqrt(geometrisch verlies op het retourpad) opnieuw berekend uit het eigen geometric_loss_db van het rapport tot { "1e-12" })
+
+# data/verification-matrix.json
+dat-43824928dcfa = Onafhankelijke numpy-herimplementatie van de regel met vier gebieden (scripts/gen_tib_scorer_reference.py) op dezelfde samplereeks; methode aangehaald uit het Stanford–ESA-integriteitsdiagram (Tossaint et al., ION GNSS { "2007" }) en RTCA DO-229 WAAS MOPS. GEEN nauwkeurigheidsreferentie van het type ExternalDataset — de benchmark is ongevoelig voor eerlijkheid.
+
+# data/verification-matrix.json
+dat-ad2f021526e3 = Onafhankelijke numpy-hertelling van de gebieden in tests/fixtures/tib/reference.json; alleen een kruiscontrole van de scorermachinerie, geen nauwkeurigheidsbewering.
+
+# data/verification-matrix.json
+dat-074151140053 = Onafhankelijke numpy-reproductie van de kruiscovariantie en van de ongelijkheid voor de gefuseerde bias bij gecorreleerd tegenover onafhankelijk (InternalConsistency). Representatieve bronnenset; Modelled-scenario.
+
+# data/verification-matrix.json
+dat-329d1a3f6406 = Onafhankelijke numpy-reproductie van de statistiek + een eigenschapstest dat een common-mode-injectie haar opblaast (InternalConsistency). Modelled-scenario. { "0.30" } ronde { "2" } (vooraf vastgelegd f9aa360d), geblokkeerd (blijft MODELLED): numpy { "2.3.5" } LAPACK gesv reproduceert de statistiekwaarde op { "261" } vastgelegde gevallen (binnen { "3.5e-15" } bij goede conditionering, { "1.2e-9" } bij conditie tot { "6.1e7" }); de chikwadraat({ "1" })-nulwet is een aangehaalde stelling en de vlakke paarsgewijze scheidingen een identiteit zonder engine-uitvoer om mee te vergelijken, dus de afbakening wacht op een besluit van de eigenaar
+
+# data/verification-matrix.json
+dat-c445be3a080f = Onafhankelijke numpy/scipy-reproductie met lineaire algebra op echte zichtlijnrijen in het DE440 Moon PA-frame (P⊥ uit de SVD van het gewhitende ontwerp W^{ "{" }1/2{ "}" }G; de niet-centraliteit van de MDB uit de klassieke kwadratische norm van de pariteitsdeelruimte volgens Baarda ({ "1968" }); de blokrang uit een telling van singuliere waarden met numpy-SVD) — een werkelijk andere numerieke route dan de cyclische Jacobi-eigenontbinding van GᵀWG in de crate. Bereik (volgens tests/fixtures/faultobs/NOTICE.md): dit valideert alleen de LINEAIRE-ALGEBRA-PIJPLIJN op deze rijen. De knoopgeometrie is Modelled. Het is GEEN operationele integriteitsgarantie, geen certificering van beschermingsniveaus en geen enkele bewering over RAIM/ARAIM-beschikbaarheid, en GEEN missiegarantie voor Byzantijnse fouttolerantie — het AANTAL te verdragen fouten voor dit netwerk is Modelled, terwijl de GRENS van de blokgewijze spark voor detect>f / identify>2f Cited is (Fawzi–Tabuada–Diggavi { "2014" }; Shoukry–Tabuada { "2016" }; blokgewijze spark van Donoho–Elad { "2003" }) en als bewezen instantiatie in code zit
+
+# data/verification-matrix.json
+dat-3ed8c34dff65 = Onafhankelijke SciPy/NumPy-referentie (scripts/gen_datum_identifiability_ref.py -> tests/fixtures/datum_identifiability/scipy_ref.csv): het Schur-complement, zijn eigenwaarden en de 2x2-inverse berekend door een onafhankelijke bibliotheek. Beperkt tot de ontbinding in LINEAIRE ALGEBRA; de GROOTTEN van de lunaire correlatie/CRLB uit echte geometrie blijven MODELLED.
+
+# data/verification-matrix.json
+dat-bf70dda05c83 = Onafhankelijke autoriteit van derden: de Keplerpropagator astro::Orbit van ANISE { "0.10.2" } (Nyx Space, MPL-2.0) — een equinoctiaal tweelichamenpad dat verschilt van de Newton-Raphson-Kepler van kshana; de MCI-positie per satelliet komt overeen tot <{ "1e-3" } m en het afgeleide aantal/de afgeleide set zichtbare satellieten komt in elk rasterpunt exact overeen. De DOP-kernel is gevalideerd tegen gnss_lib_py; de integriteit gebruikt gepubliceerde LunaNet/LCNS-parameters
+
+# data/verification-matrix.json
+dat-706d8ac94114 = Onafhankelijke CCSDS-502-parser `oem` { "0.4.5" } van derden (MIT, https://pypi.org/project/oem/) — een afzonderlijke codebase die de door kshana uitgezonden EME2000/UTC-OEM byte-identiek decodeert ({ "24" } toestanden over { "2" } fixtures, pos/vel Δ = { "0" }) en waarvan de strikte lezer de metadatatokens bevestigt; de parser van kshana komt er evenzo mee overeen op een gevendorde externe OEM. Twee eerlijke interoperabiliteitsbevindingen (de bibliotheek oem weigert de multisegmentconventie per satelliet van kshana en zijn covariantieregels met meerdere invoeren) zijn in de test gedocumenteerd — dus dit valideert de uitwisseling van één object volgens de norm, niet de volledige CCSDS-502-conformiteit van elke kshana-variant
+
+# data/verification-matrix.json
+dat-ca139c503573 = Bevestiging door onafhankelijke schatters van de drempel voor de booglengte in de cislunaire ruimte
+
+# data/search.json
+dat-7ca7bc5655ea = Test met onafhankelijke schatters van de waarneembaarheidsdrempel voor de booglengte in de cislunaire ruimte (R6, artikel B).
+
+# data/search.json
+dat-83303f0fc1bf = LEO-PNT binnenshuis: waarom een UHF-draaggolf een gebouw binnendringt terwijl L-, S- en C-banden moeite hebben.
+
+# data/search.json
+dat-03c73c444454 = inertial (scenariotype)
+
+# studio/data/areas.json
+dat-d3955f70a9bb = Inertiale en alternatieve navigatie
+
+# studio/data/capabilities.json
+dat-8787bea4d490 = Inertiale en terreingerelateerde kustvlucht door een uitval
+
+# data/verification-matrix.json
+dat-2894be3c02c4 = Houdingsregeling met inertiale richting van een starre hub met drie of meer gebalanceerde reactiewielen: de MRP-terugkoppelwet L_r = -K sigma_BR - P omega_BR (Schaub en Junkins), motormomenten van de wielen met minimale norm G_s u = -L_r begrensd op de limiet van elk wiel, de gekoppelde dynamica van hub en wielen waarbij de hubtraagheid de spintraagheid van de wielen draagt, kwaternionkinematica, RK4 met een zero-order hold. Uitvoerbaar als het scenariotype `aocs` (lus met ware toestand).
+
+# data/search.json
+dat-b7887b8f1d7f = Inertiale, fusie- en kwantumsensoren
+
+# data/search.json
+dat-ec0ad7fe6b01 = Inertiale, fusie- en kwantumsensoren (familie van scenariotypen)
+
+# data/verification-matrix.json
+dat-1452f6145884 = inertial::cai_error_terms (bibliotheekfuncties, nog niet bereikbaar vanuit een scenariotype): de Raman-fasewegingsfunctie van een interferometer met drie blokpulsen (Cheinet et al. { "2008" }, verg. { "8" }) met de gesloten vorm voor witte fase (pi/2)^{ "2" } S_phi0/tau_R en een numerieke route voor elk spectrum; de laserfrequentieruis die de vertraging van de retroreflectie niet opheft (Le Gouet et al. { "2007" }, verg. { "9" } tot { "11" }); de zuivere defocus-golffrontbias sigma_v^2/R van een thermische wolk en de vermindering ervan door een detectiestraal; de kans op een verkeerde franjeindex erfc(pi/(sqrt({ "2" }) s)) voor een klassieke versnellingsmeter als hulp en voor twee ondervraagtijden, en zijn inverse
+
+# data/verification-matrix.json
+dat-ead1f2200ecb = inertial::cai_params (over inertial::quantum_imu)
+
+# data/verification-matrix.json
+dat-af4b2f25c3ce = inertial::cai_params::tests (fysische VRW valt binnen het aangehaalde VRW-interval op alle { "3" } niveaus; ruw bereik van franjeambiguïteit berekend uit k_eff·T²; conservatief budget drift meer dan best; elk interval met bron en bevestigingsvlag; bewaking van de volgorde van de intervallen)
+
+# data/verification-matrix.json
+dat-673e1254c2ad = inertial::coast (ErrorDynamics, ErrorSource, source_error_m, CoastModel, Contribution, Combination, TrnFixMode, first_crossing_s, InsTrnCoastScenario); scenariotype `ins-trn-coast`
+
+# data/search.json
+dat-a6a78dab5cde = Invoerformaten
+
+# data/search.json
+dat-333776404b68 = Foutmodel van INS / IMU — validatie met referentie naar datasheets (src/inertial/)
+
+# data/search.json
+dat-822d746ee607 = ins-trn-coast (scenariotype)
+
+# assets/capabilities/capabilities.json
+dat-fc4e1821dbe2 = ins-trn-coast | navigatie-IMU, { "250" } m/s, combinatie rss | { "10" } m bij { "251.0" } s (accel_bias) | { "50" } m bij { "608.8" } s (accel_bias) | TRN alleen-positiepiek { "44.7" } m over { "1200" } s
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-2c655ce6782d = Foutgroei bij INS/TRN-kustvlucht en drempeloverschrijdingen
+
+# data/search.json
+dat-7a2fe446d5ad = Foutmodel voor INS/TRN-kustvlucht — positiefout tegen de duur van de kustvlucht, en de kust
+
+# data/search.json
+dat-69702698b049 = Foutmodel voor INS/TRN-kustvlucht: positiefout tegen de duur van de kustvlucht, opgebouwd uit IMU-coëfficiënten in plaats van…
+
+# studio/channels.json
+dat-c2f78c59827d = Installeren in VS Code (Docker)
+
+# studio/channels.json
+dat-6a1ec92e0f29 = Installeren in VS Code (npx)
+
+# studio/channels.json
+dat-c90e197be374 = Installeren in VS Code Insiders (npx)
+
+# data/search.json
+dat-7863d678c01a = De Kshana MCP-server installeren (v{ $version })
+
+# data/search.json
+dat-e51de9c804bb = De MCP-server installeren
+
+# data/verification-matrix.json
+dat-26a9ba641009 = Geheeltallige kleinste-kwadraten-ambiguïteitsfixing op de LAMBDA-manier: een volumebehoudende geheeltallige (Z) decorrelatietransformatie (geheeltallige Gauss-groottereductie van de L D Lᵀ-factor) + een exacte depth-first branch-and-bound-zoekactie van Schnorr–Euchner voor de geheeltallige kleinste kwadraten, met de ratiotest op de twee beste kandidaten (de gevalideerde bewering); plus het gesloten-vorm-bootstrapped slagingspercentage P_s=∏(2Φ(1/(2σ_{ "{" }i|I{ "}" }))−{ "1" }), alleen intern gecontroleerd en buiten de gevalideerde bewering
+
+# data/search.json
+dat-6ce706901c78 = integrity (scenariotype)
+
+# assets/capabilities/capabilities.json
+dat-50ed1429c00d = integrity | { "24" } satellieten | 344/361 epochs beschikbaar ({ "95.3" }%) | HAL { "40" } m VAL { "50" } m | sigma { "1.0" } m | Stanford(V): { "0" } integriteitsgebeurtenissen, { "0" } HMI
+
+# data/search.json
+dat-b2d1da3f9b5d = Integriteit en interferentie
+
+# data/search.json
+dat-40295695fd8f = Integriteit en beveiliging: wat Kshana modelleert, en wat niet
+
+# data/search.json
+dat-22adaac4cae5 = Integriteit-FoM — zelfconsistentie van het filter
+
+# studio/data/capabilities.json
+dat-7d09993d482a = Integriteitsimpact
+
+# data/verification-matrix.json
+dat-9f121a93c2f1 = integrity_impact (over raim)
+
+# data/verification-matrix.json
+dat-a85d215fe8dd = integrity_impact::tests (dezelfde misser verspringt van Available→MI→HMI naarmate de context strakker wordt; conservatief-PL→Unavailable; HMI per as; invoerbewakingen)
+
+# data/verification-matrix.json
+dat-6bf0e08e0072 = integrity::gls_commonmode::tests (separation_alone_is_blind_to_common_mode, degenerate_direction_or_non_pd_gives_no_finite_ceiling, every_nonzero_direction_under_pd_omega_has_a_finite_ceiling); tests/gls_outside_omega_bound_numpy_oracle.rs::undetectable_common_mode_ceiling_matches_numpy_lapack ({ "256" } vastgelegde gevallen: alpha_ss, alpha_cm en het minimum binnen { "1e-12" } relatief op { "210" } goed geconditioneerde gevallen en randgevallen, slechtste { "3.3e-15" }; { "40" } slecht geconditioneerd tot conditie { "1.3e8" } binnen een vermelde, met de conditie geschaalde grens, slechtste { "1.1e-9" }; zes exacte oneindigheden)
+
+# data/verification-matrix.json
+dat-4f6cc44e6aa0 = integrity::gls_commonmode::tests + tests/gls_reference.rs + tests/gls_whitening_numpy_oracle.rs::whitening_and_mahalanobis_match_numpy_lapack ({ "201" } vastgelegde SPD-gevallen: factor, gewhitend residu, whiteningoperator en Mahalanobis-kwadraat tegen numpy LAPACK binnen { "1e-12" } relatief, slechtste { "7.9e-16" })
+
+# data/verification-matrix.json
+dat-e8f307bea5aa = integrity::hetero_budget::tests + tests/hetero_budget_reference.rs; tests/hetero_budget_utc_k_oracle.rs::overbound_exceedance_on_real_utc_k_finding (gegevensafhankelijk: slaat over met een melding als de BIPM-reeks ontbreekt); tests/hetero_budget_utc_k_realised_overbound_oracle.rs::realised_offset_overbound_finding; tests/utck_bound_prospective_oracle.rs (D9 ronde { "3" }, prospectief, nog niet uitgevoerd: Circular T { "465" } verscheen op 2026-10-12 en de vooraf vastgelegde regel van 1000 waarden vraagt uitgaven tot ongeveer { "468" })
+
+# data/verification-matrix.json
+dat-a821706da637 = integrity::lil_envelope::tests (divergentie, drempel, dominantie van IR-aanscherping)
+
+# data/verification-matrix.json
+dat-83de804247c2 = integrity::tpl_scalar::tests (rang 1, fuseren/uitsluiten, biasdominantie, IR-kruiscontrole); tests/tpl_scalar_numpy_oracle.rs::scalar_mhss_pl_matches_numpy ({ "300" } vastgelegde gevallen: numpy-lstsq-deelverzamelingsschatters, algemene scheidingscovariantie, scipy-brentq-PL; PL binnen { "1e-9" } relatief, slechtste { "1.2e-10" }; aansturende deelverzameling exact)
+
+# studio/channels.json
+dat-11a8b72872b7 = Gebruikers van IntelliJ, PyCharm en CLion
+
+# data/search.json
+dat-9eb185e5cb6c = Uitwisselingsomhulsel (KIF, het Kshana Interchange Format) — een artefact herkennen en de versie controleren
+
+# data/search.json
+dat-7904abaf02c5 = Interferentiekaart
+
+# data/search.json, studio/data/capabilities.json
+dat-151056634773 = Interferentiekaart en routeblootstelling
+
+# data/search.json
+dat-efa77bd2f599 = Validatie van de interferentiekaart
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-c7e45641ff55 = Interferentiekaart: betekenissen van nauwkeurigheidscodes, AIS-waarden voor niet beschikbaar, toewijzing aan rastercellen, routelengte per celstatus en maskering van het binnenland
+
+# data/search.json
+dat-5ce9214818d0 = Interferentiekaart: beoordeling van de licenties van gegevensbronnen
+
+# data/search.json
+dat-b76c44dec57e = Interferentieobservatorium
+
+# data/search.json
+dat-eeea3f30179b = Interferentieobservatorium: methodenotitie
+
+# data/verification-matrix.json
+dat-3ea7167853e6 = Interne consistentie (InternalConsistency): de reductie van orde 2 naar het door MAAST gecontroleerde ADD v4.2-pad, onafhankelijke herafleiding van de priors en een geconstrueerde fout met twee satellieten. Er is geen MAAST- of RTKLIB-run buiten paren gedaan, dus de diepere hypothesesets en de beschermingsniveaus van de subset-RAIM zijn niet extern gecontroleerd. araim_subset_raim deelt de vereenvoudigingen van araim_dual_raim (één sigma voor integriteit en nauwkeurigheid, één klok, de gewone normale staart): het is niet ADD-conform
+
+# data/verification-matrix.json
+dat-f04a17478c6f = Interne consistentie (InternalConsistency): de beschermingsniveaus zijn die van snapshot_raim, dat in zijn eigen rij tegen RTKLIB is gevalideerd, opnieuw berekend op dezelfde geometrie; gedrag zonder fouten en met ingebrachte fouten. De hemel is een representatieve voorinstellingsgeometrie (geen almanak met datum), de residuen zijn synthetisch en sigma, de alarmlimieten en de kansen zijn vermelde invoer; niets hier is een uitspraak over de beschikbaarheid van een echte ontvanger
+
+# data/verification-matrix.json
+dat-a1c78ee97d2d = Interne consistentie (de sprongidentiteit en de kegelgrens tegen brute-force-bemonstering). De drempel is een invoer; er is geen gepubliceerde LEO-continuïteitseis vastgezet
+
+# data/verification-matrix.json
+dat-6bed622b120d = Interne consistentie tegen ingebrachte waarheid en gesloten vormen, onder drempels vooraf vastgelegd op 6b68f6cc (docs/design/evidence/boc-bump-jump/). Een BeiDou B1C-datasignaal (PRN { "19" }, { "5" } MS/s) gegenereerd door iq::scene: met de optie uit blijft een start op een zijpiek vals vergrendeld op de voorspelde ±({ "0.5" } + d/4) chip (gemeten ±{ "0.549" }); met de optie aan één sprong naar de hoofdpiek op { "0.08" } s en een RMS in het late venster van { "0.0008" } chip bij { "45" } dB-Hz en { "0.0048" } chip bij { "35" } dB-Hz; geen sprong vanaf de hoofdpiek bij { "35" }, { "40" } en { "45" } dB-Hz over { "4" } s; de geschaalde EMLP-helling { "0.94" } tot { "0.99" } op het bemonsterde signaal (ongeschaald { "3.6" } tot { "3.8" }). De bump-jump-detector alleen, op correlatortripletten met de exacte BOC({ "1,1" })-ruiscovariantie, maakte geen valse sprong in { "100 000" } updates bij { "25" } tot { "45" } dB-Hz en detecteerde { "1000" } van { "1000" } starts op een zijpiek bij { "35" } dB-Hz. NOT MET (bevinding F1): het vooraf vastgelegde testraster voor de schaling bevat offsets buiten het lineaire bereik van de discriminatoren, waar de geschaalde aflezingen de offset tot { "48" } % missen. WAT NIET WORDT GECONTROLEERD: veld-IQ, bandbeperkte front-ends, samengestelde MBOC/QMBOC-replica's en elke externe ontvanger.
+
+# data/verification-matrix.json
+dat-01f9118b836e = Interne consistentie tegen ingebrachte waarheid: een synthetische gegevensvrije GPS L1 C/A-bron (PRN { "13" }, { "1500" } Hz, { "4.1" } MHz, { "8" } s, tien ruisseeds) waarvan de draaggolffase bekend is, onder drempels vooraf vastgelegd op 58789af0 (docs/design/evidence/fll-handover-floor/). MET: de controle (de onbegrensde standaard draagt in { "9" } van { "10" } seeds bij { "33" } dB-Hz nooit over); additiviteit (standaardhash en de bestaande trackingtests ongewijzigd); inlopen van een overdracht met { "100" } Hz afwijking bij { "45" } dB-Hz. NOT MET: met een limiet van { "1.0" } s overdracht en vasthouden in elke run ({ "16" } van { "20" } bij { "33" } dB-Hz, { "8" } van { "20" } bij { "31" } dB-Hz; de rest wisselt tussen geforceerde overdrachten en de terugkeer van de FLL) en fasejitter binnen { "25" } % van de PLL alleen ({ "10.8" } tegen { "6.1" } graden bij { "33" } dB-Hz). WAT NIET WORDT GECONTROLEERD: databits, andere signalen en samplesnelheden, veldopnamen. De standaard is ongewijzigd; de rij blijft MODELLED.
+
+# data/verification-matrix.json
+dat-a9e65b1c6f91 = Interne consistentie van een vermeld ontwerpmodel: elk vermogen, elke drempel en elke zoekkeuze is een invoer, en het model negeert bitrandambiguïteit, gemiste detectie en heracquisitie. Niet vergeleken met een gemeten ontvanger
+
+# data/verification-matrix.json
+dat-97c728c1d687 = Alleen interne consistentie; er wordt GEEN externe onafhankelijke referentie beweerd en er bestaat er geen voor een weerrealisatie. De controles vergelijken één trekking met de statistische uitvoer van hetzelfde model, dus een geslaagde controle zegt dat de generator de vermelde verdelingen bemonstert (de beschikbaarheid en het wolkenaandeel van de trekking vallen binnen vooraf vastgelegde toleranties van de vermelde cijfers), niet dat een echte locatie zich zo gedraagt. De reeks is één realisatie, niet het klimaat: haar beschikbaarheid verschilt van de vermelde met de bemonsteringsfout van de trekking, en scintillatie op verschillende stappen is onafhankelijk, een vermelde vereenvoudiging van een proces dat in milliseconden decorreleert. De weersinvoer blijft de aanname van het scenario.
+
+# data/verification-matrix.json
+dat-bdfafbf7deee = Alleen interne consistentie: elke toegevoegde locatie is een afzonderlijk punt en een laserafstand of een VLBI-vertraging van een vast station raakt één punt, dus zijn informatie A_p^T M_p A_p is positief semidefiniet en telt op; de test controleert het Fisher-verschil en elke variantie daartegen. Het resultaat met vijf arrays is de bestaande rij met echte data en is ongewijzigd. De toegevoegde reflector hergebruikt epochs die voor de vijf bestaande arrays zijn gepland, een ILLUSTRATIVE schema, en het netwerk, het schema en de vertragingssigma van de toegevoegde baken zijn de ILLUSTRATIVE invoer van de lunaire-framecampagne; de locatie is een ILLUSTRATIVE zuidpoolpositie. Een zuidpoollocatie ziet de Aarde laag aan haar horizon of helemaal niet, wat de bestaande kijkhoektests uitdrukken; geen van beide locaties wordt continu bemeten. De cijfers zijn Cramér-Rao-grenzen voor een gereduceerde parameterset, geen opgelost datum en geen uitspraak over een echt station
+
+# data/verification-matrix.json
+dat-244c19d279a3 = Alleen interne consistentie: de door bisectie gevonden tijd tot de drempel wordt gecontroleerd tegen de gesloten-vorm-inverse van het dominante ruistype van de klok, en de vrijlopende klokterm tegen de eigen klokterm van het budget. De klokklassen berusten op gepubliceerde specificaties voor één dag (hun eigen rijen); de LTC-gang wordt hier niet opnieuw afgeleid en houdt zijn eigen VALIDATED-rij (Lunaire coördinatentijd); het stuurresidu is ILLUSTRATIVE, het realisatieresidu is een budgettoewijzing en er is geen thermisch model opgenomen. Het doel op nanosecondeniveau uit het ICG WG-B Lunar PNT-materiaal van juni { "2024" } wordt geciteerd als bronuitspraak, niet overgenomen als bewering; niets hier is een uitspraak over een echte stationsklok
+
+# data/verification-matrix.json
+dat-687e3bd46ba8 = Alleen interne consistentie. Elk gepubliceerd veld is gedefinieerd in het lichaamsvaste frame van zijn producent (GMM-3 in het Mars-frame van Konopliv et al. { "2006" }, GL0660B in het lunaire hoofdasframe DE421), terwijl het veld in het IAU-frame wordt geëvalueerd; de offset wordt niet gemodelleerd
+
+# data/verification-matrix.json
+dat-c3a2c7e69283 = Interne consistentie met de holdovermodule, bit voor bit; er wordt GEEN externe onafhankelijke referentie beweerd. De klasse-PSD's zijn de gesynthetiseerde lange-tau-ondergrenzen die de holdovermodule al bevat, dus de cijfers erven haar vermelde voorbehoud dat holdover naar een strakke drempel wordt bepaald door de aangenomen rode-ruisondergrens en niet door de aangehaalde Allan-deviatie. De uitvalduren zijn een lognormaal model met vermelde parameters, geen gemeten record van wolkenverblijf
+
+# data/verification-matrix.json
+dat-81c69cadba70 = Interne consistentie: gesloten-vorm-limieten en monotonie van het diversiteitsmodel, de gesloten vorm van het wolkenplafond en de lognormale uitvalidentiteiten. Er wordt GEEN externe onafhankelijke referentie beweerd en er is er geen vergeleken: er wordt geen gemeten beschikbaarheid van een optisch grondstation of record van wolkenvrije zichtlijnen gebruikt. WAAROM MODELLED: het wolkenklimaat (kans op wolk, mediaan en spreiding van de vloeibare-waterkolom, uitvalduren), de onafhankelijkheid van wolk en turbulentie, de Gaussische-copulavorm, de decorrelatielengte en elke techniekwinst zijn aannames; de meegeleverde scenario's vermelden ILLUSTRATIVE klimaten, geen dataset. Om deze rij te verhogen is een aangehaald gemeten beschikbaarheidsrecord nodig en een drempel die vóór de vergelijking is vastgelegd
+
+# data/verification-matrix.json
+dat-b7287210bebc = Interne consistentie: herstel zonder ruis, de kinematische identiteit rho_ddot = (|v|^{ "2" } - rho_dot^{ "2" } + d.a)/rho numeriek gedifferentieerd, nul Doppler bij de dichtste nadering, de spiegeloplossing van één passage en geseede fouten tegen de formele covariantie. Het Starlink-cijfer van Kozhaya, Saroufim en Kassas (NAVIGATION { "72" }({ "1" }), { "2025" }: ongeveer { "2" } m in { "20" } s met drie satellieten) is alleen een vergelijking: de gemodelleerde ontvanger, met een perfecte efemeride en elke fout in een Doppler-sigma van { "30" } Hz, is over hetzelfde venster enkele malen minder nauwkeurig, en de ontvanger en meetsnelheid van het artikel worden niet gereproduceerd
+
+# data/verification-matrix.json
+dat-90e7c3f0b089 = Interne consistentie: het aangehaalde VRW-interval kruiscontroleerd met de fysica van CaiAccelerometer::accel_asd + ruw dynamisch bereik berekend uit de limiet van de franjeambiguïteit; getallen zijn MODELLED intervallen uit een literatuuroverzicht (needs_source_confirmation), geen apparaat gevalideerd, geen validatiehalo
+
+# data/verification-matrix.json
+dat-f95438b160b3 = Interne consistentie: de classificatie wordt gecontroleerd tegen de regels die ze vermeldt en tegen met de hand afgeleide verhoudingen op synthetische bewerkingen van het vastgelegde demolog, en de no-change-pins houden de uitvoer van { "0.35.0" } vast: er verandert geen score tenzij de geometrie slecht is; het label wordt altijd gerapporteerd. WAAROM MODELLED: de drempels zijn gekozen, niet gefit (herkomst in het geometry_model van elke run; de cijfers van IEC 61108-1 en GPS SPS zoals aangehaald, nog te controleren tegen de tekst van de normen), en er is geen externe gelabelde dataset van natuurlijke geometriedegradatie tegenover aanvallen om de classificatie tegen te valideren. De afgeleide DOP hergebruikt de kernel orbit::dop, VALIDATED tegen gnss_lib_py, wiens status deze rij niet leent. Een geometrieklasse is een uitspraak over de hemel, geen bevinding dat er geen aanval is geweest
+
+# data/verification-matrix.json
+dat-e0a40eb480ea = Interne consistentie: de exacte branch-and-bound komt overeen met brute-force-opsomming op kleine willekeurige verzamelingen, elk plan wordt haalbaar bevonden tegen de conflictregels en de greedy-methode verslaat het exacte optimum nooit. WAT NIET: er is geen externe planner of operationeel plan vergeleken; contacten worden als geheel genomen (geen splitsing), de achterstand ligt vast op het begin van het venster, draaitijd boven de vaste omlooptijd en opslag aan boord worden niet gemodelleerd.
+
+# data/verification-matrix.json
+dat-de38b3520ddd = Interne consistentie: de exacte identiteit eindsnelheid = som Isp g0 ln(m0/mf) min de vier geïntegreerde verliezen (residu onder { "1e-6" } m/s), de vergelijking van Tsiolkovsky op een verticale vacuümburn met zwaartekracht als enig verlies, en de US76-drukken op zeeniveau en tropopauze. WAT NIET: de verliezen van geen enkel gepubliceerd voertuig zijn vergeleken; geen aardrotatie, kustvlucht, smoren of geleiding buiten de kick; constante C_D; geen trajectoptimalisator.
+
+# data/verification-matrix.json
+dat-56c420c02926 = Interne consistentie: de genormaliseerde geschatte fout in het kwadraat van het filter tegen waarheid die met dezelfde sensormodellen is gesimuleerd over Monte-Carlo-seeds, en convergentie van de schattingen van houding en bias. WAT NIET: er is geen externe schatter of vluchtdata vergeleken (Basilisk { "2.9.1" } heeft geen MEKF-module); de sensormodellen zijn die uit het leerboek, zonder misalignment, schaalfactor of effecten van het gezichtsveld van de startracker.
+
+# data/verification-matrix.json
+dat-f698f5ba7ab8 = Interne consistentie: het voorwaartse model en de opgeloste vergelijking komen overeen tot { "1e-15" } s, de Sagnac-term is gelijk aan de onafhankelijke lusvorm BIPM 2A omega/c^{ "2" } van de module, de ionosferische term is { "40.3" } TEC (1/f_up^{ "2" } - 1/f_down^{ "2" })/c, en de ruisprocessen tonen hun verwachte TDEV-vormen. WAT NIET: er is geen echte TWSTFT-meting of kalibratierapport vergeleken; de vermelde vertragingen en onzekerheden zijn invoer, niet gemeten; de stabiliteiten van aangeleverde reeksen worden gerapporteerd, niet gevalideerd.
+
+# data/verification-matrix.json
+dat-52ecbc039055 = Interne consistentie: de metingen worden gesynthetiseerd uit de modellen die het filter gebruikt (χ² NEES/NIS over seeds, een ruisvrije convergentie, slipinjectie). MODELLED; er worden geen echte ontvangerdata of filter van derden vergeleken
+
+# data/verification-matrix.json
+dat-a64be9ada5d8 = Interne consistentie: de gepubliceerde offsetuitdrukking met de hand geëvalueerd, de genormaliseerde fout over { "40" } seeds en de ondergrens die door de offsetonzekerheid wordt bepaald. Het cijfer van NIST voor Iridium-tijdontvangers met een miniatuuratoomklok (onder { "40" } ns vanaf UTC(NIST) over { "40" } dagen) is alleen een vergelijking; het meegeleverde Iridium-scenario geeft { "10" } tot { "11" } ns RMS bij nominaal vermogen met zijn representatieve afstandsfout van { "5" } m. Flicker-frequentieruis en ionosferische vertraging worden niet gesimuleerd
+
+# data/verification-matrix.json
+dat-c0b1c86ee380 = Interne consistentie: de relatie en constanten zoals gedrukt in NASA TR R-376, een convergentiecontrole met halve stap en de verwachte volgorde van de pieken in verhitting en vertraging. WAT NIET: er is geen gepubliceerde verhittingswaarde vergeleken (de Stardust-artikelen geven een ontwerplimiet en een schatting voor convectief plus stralend van ongeveer { "1200" } W/cm2, die een alleen-convectieve relatie niet kan evenaren); geen correctie voor stralingsverhitting, wandtemperatuur of katalyse, en geen respons van het thermische beschermingssysteem.
+
+# data/verification-matrix.json
+dat-d473850d6518 = Interne consistentie: de spectrale efficiëntie in gesloten vorm berekend uit K_bch van tabel 5a en de framelengten komt overeen met de efficiënties die tabel { "13" } afdrukt (een transcriptiecontrole van de drempeltabel); de linkbudgetonderdelen komen overeen met hun gesloten vormen; de keuze is monotoon in Es/N0 en respecteert de marge; ACM verplaatst minstens het volume van constante codering. De passagegeometrie komt van de afzonderlijk VALIDATED schijnbare-passagevoorspeller. WAT NIET: er is geen extern hulpmiddel of gemeten link vergeleken; de drempels zijn de ideale AWGN-waarden van de norm, niet die van een modem; regenfading, richtverlies langs de passage en pilots worden niet gemodelleerd.
+
+# data/verification-matrix.json
+dat-2d9d8880f4f0 = Interne consistentie: waarheid gesimuleerd uit de eigen modellen van de filters (χ² NEES over Monte-Carlo-seeds, het ontkoppelde pakket op identieke sensoren). MODELLED
+
+# data/verification-matrix.json
+dat-daeea93cf98c = Alleen intern: de exacte gesloten vorm -20 log10(afstand) van de linkvergelijking, een onafhankelijk brute-force-raster over hetzelfde type en de Rosenbrock-functie. De 1D-drempel van ronde { "1" } is NOT MET (de vooraf vastgelegde box sloot de oplossing van { "3" } dB uit; de optimalisator stopte op de grens), vastgelegd in docs/design/evidence/cap32-optimize/RESULTS.md en niet opnieuw gescoord. Het optimum is lokaal voor de box en de start; geen bewering over een globaal optimum
