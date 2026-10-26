@@ -6476,3 +6476,958 @@ js-meankind-leopvt-polar-big = Поблизу полюса низькоорбі�
 js-meankind-leopvt-polar-line = Широт: { $n }.
 
 js-meankind-leopvt-timing-big = Низькоорбітальне передавання часу тримає найкращий годинник у межах { $ns } ns від UTC (середньоквадратично).
+
+js-meankind-leopvt-timing-line =
+    { $n ->
+        [one] Порівняно { $n } випадок для годинника й сигналу.
+        [few] Порівняно { $n } випадки для годинника й сигналу.
+        [many] Порівняно { $n } випадків для годинника й сигналу.
+       *[other] Порівняно { $n } випадку для годинника й сигналу.
+    }
+
+js-meankind-leosignal-big =
+    { $n ->
+        [one] З { $n } конструкції сигналу { $best } витримує найбільше глушіння: { $db } dB понад сигнал.
+        [few] З { $n } конструкцій сигналу { $best } витримує найбільше глушіння: { $db } dB понад сигнал.
+        [many] З { $n } конструкцій сигналу { $best } витримує найбільше глушіння: { $db } dB понад сигнал.
+       *[other] З { $n } конструкції сигналу { $best } витримує найбільше глушіння: { $db } dB понад сигнал.
+    }
+
+js-meankind-leosignal-line-fail = Перевірки форми спектра не пройдено.
+
+js-meankind-leosignal-line-pass = Перевірки форми спектра пройдено.
+
+js-meankind-link-big-closes = Лінія зв'язку замикається із запасом { $margin } dB.
+
+js-meankind-link-big-open = Лінія зв'язку не замикається: запас { $margin } dB.
+
+js-meankind-link-line = На відстані { $km } km.
+
+js-meankind-link-line-band = Діапазон { $band } на відстані { $km } km.
+
+js-meankind-link-line-band-rate = Діапазон { $band } на відстані { $km } km зі швидкістю { $rate } bit/s.
+
+js-meankind-link-line-rate = На відстані { $km } km зі швидкістю { $rate } bit/s.
+
+js-meankind-list-and = { $head } та { $last }
+
+js-meankind-llr-big = Реальна лазерна локація фіксує місячну систему відліку з точністю { $mm } mm.
+
+js-meankind-llr-line = Масштаб з точністю { $ppb } частин на мільярд.
+
+js-meankind-mapmatch-altimeter = Висотомір вимірює з точністю { $sigma } m.
+
+js-meankind-mapmatch-big = Зіставлення з картою утримує положення в межах { $matched } m проти { $free } m дрейфу лише за інерціальним рішенням.
+
+js-meankind-mapmatch-gravimeter = Гравіметр вимірює з точністю { $sigma } mGal.
+
+js-meankind-mapmatch-sources = Лише гравітація дає { $gravity } m, магнітне поле — { $magnetic } m, рельєф — { $terrain } m.
+
+js-meankind-marspnt-big = Навігатор користувача «{ $user }» встановлюється в межах { $m } m (середньоквадратичне значення).
+
+js-meankind-marspnt-line =
+    { $n ->
+        [one] У середньому в зоні видимості { $mean } ретрансляторів за { $n } епоху.
+        [few] У середньому в зоні видимості { $mean } ретрансляторів за { $n } епохи.
+        [many] У середньому в зоні видимості { $mean } ретрансляторів за { $n } епох.
+       *[other] У середньому в зоні видимості { $mean } ретрансляторів за { $n } епохи.
+    }
+
+js-meankind-moonlight-big = Послуга охоплює { $share } % перевірених місць і моментів часу.
+
+js-meankind-moonlight-line =
+    { $n ->
+        [one] У зоні видимості від { $min } до { $n } супутника; якість геометрії (PDOP) — від { $pmin } до { $pmax }.
+        [few] У зоні видимості від { $min } до { $n } супутників; якість геометрії (PDOP) — від { $pmin } до { $pmax }.
+        [many] У зоні видимості від { $min } до { $n } супутників; якість геометрії (PDOP) — від { $pmin } до { $pmax }.
+       *[other] У зоні видимості від { $min } до { $n } супутника; якість геометрії (PDOP) — від { $pmin } до { $pmax }.
+    }
+
+js-meankind-navmsg-big =
+    { $n ->
+        [one] Одне навігаційне повідомлення вміщується в { $n } байт.
+        [few] Одне навігаційне повідомлення вміщується в { $n } байти.
+        [many] Одне навігаційне повідомлення вміщується в { $n } байтів.
+       *[other] Одне навігаційне повідомлення вміщується в { $n } байта.
+    }
+
+js-meankind-navmsg-cases-big =
+    { $n ->
+        [one] У { $n } випадку похибка дальності за транслюваною орбітою становить від { $min } до { $max } mm.
+        [few] У { $n } випадках похибка дальності за транслюваною орбітою становить від { $min } до { $max } mm.
+        [many] У { $n } випадках похибка дальності за транслюваною орбітою становить від { $min } до { $max } mm.
+       *[other] У { $n } випадку похибка дальності за транслюваною орбітою становить від { $min } до { $max } mm.
+    }
+
+js-meankind-navmsg-cases-line = Похибка дальності сигналу в космосі, середньоквадратична.
+
+js-meankind-navmsg-line = Округлення до формату повідомлення дає { $mm } mm похибки дальності.
+
+js-meankind-navmsg-midpass-big = Оновлення повідомлення посеред проходу змінює дальність стрибком щонайбільше на { $mm } mm.
+
+js-meankind-navmsg-midpass-line = Межа — { $mm } mm.
+
+js-meankind-ntn-big = Позиціонування 5G з орбіти досягає { $m } m із сигналом { $signal }.
+
+js-meankind-ntn-line = Доплер за один прохід дає { $m } m.
+
+js-meankind-obs-big-full = Орбіта стає повністю спостережуваною після { $dur } супроводження.
+
+js-meankind-obs-big-partly = Орбіта лишається частково спостережуваною на дузі { $h } h.
+
+js-meankind-obs-line = Ранг { $rank } з { $dim } наприкінці дуги.
+
+js-meankind-oem-big = Файл ефемерид відтворюється туди й назад із похибкою положення щонайбільше { $mm } mm.
+
+js-meankind-oem-line =
+    { $n ->
+        [one] Станів: { $states } у { $n } сегменті.
+        [few] Станів: { $states } у { $n } сегментах.
+        [many] Станів: { $states } у { $n } сегментах.
+       *[other] Станів: { $states } у { $n } сегменті.
+    }
+
+js-meankind-optical-big-alone = Найкраща окрема станція підтримує оптичну лінію { $best } % часу (стеля за відсутності хмар { $ceiling } %); жоден запас за відсутності хмар не піднімає її вище { $ceiling } %.
+
+js-meankind-optical-big-team =
+    { $n ->
+        [one] Найкраща окрема станція підтримує оптичну лінію { $best } % часу (стеля за відсутності хмар { $ceiling } %); { $n } станція разом досягають { $independent } %, якщо їхня погода незалежна, і { $correlated } % із заявленою кореляцією.
+        [few] Найкраща окрема станція підтримує оптичну лінію { $best } % часу (стеля за відсутності хмар { $ceiling } %); { $n } станції разом досягають { $independent } %, якщо їхня погода незалежна, і { $correlated } % із заявленою кореляцією.
+        [many] Найкраща окрема станція підтримує оптичну лінію { $best } % часу (стеля за відсутності хмар { $ceiling } %); { $n } станцій разом досягають { $independent } %, якщо їхня погода незалежна, і { $correlated } % із заявленою кореляцією.
+       *[other] Найкраща окрема станція підтримує оптичну лінію { $best } % часу (стеля за відсутності хмар { $ceiling } %); { $n } станції разом досягають { $independent } %, якщо їхня погода незалежна, і { $correlated } % із заявленою кореляцією.
+    }
+
+js-meankind-optical-line-sites =
+    { $n ->
+        [one] Змодельовано { $n } станцію; хмарні клімати ілюстративні.
+        [few] Змодельовано { $n } станції; хмарні клімати ілюстративні.
+        [many] Змодельовано { $n } станцій; хмарні клімати ілюстративні.
+       *[other] Змодельовано { $n } станції; хмарні клімати ілюстративні.
+    }
+
+js-meankind-optical-line-tech = { $name }: { $base } % стає { $with } %.
+
+js-meankind-opticalrf-big = Поєднання оптичних і радіовимірювань дальності дає рівні захисту { $h } m по горизонталі та { $v } m по вертикалі.
+
+js-meankind-opticalrf-line-fault = Перевірка узгодженості показує { $stat } за порога { $threshold }: несправність позначено.
+
+js-meankind-opticalrf-line-ok = Перевірка узгодженості показує { $stat } за порога { $threshold }: несправність не позначено.
+
+js-meankind-packet-big-no = Ні: декодований потік відрізняється від надісланого.
+
+js-meankind-packet-big-yes = Так: потік пакетів декодується назад біт у біт.
+
+js-meankind-packet-line =
+    { $n ->
+        [one] { $n } пакет, усього { $octets } октетів.
+        [few] { $n } пакети, усього { $octets } октетів.
+        [many] { $n } пакетів, усього { $octets } октетів.
+       *[other] { $n } пакета, усього { $octets } октетів.
+    }
+
+js-meankind-passes-big-day =
+    { $n ->
+        [one] { $n } прохід на добу, усього { $dur } контакту.
+        [few] { $n } проходи на добу, усього { $dur } контакту.
+        [many] { $n } проходів на добу, усього { $dur } контакту.
+       *[other] { $n } проходу на добу, усього { $dur } контакту.
+    }
+
+js-meankind-passes-big-window =
+    { $n ->
+        [one] { $n } прохід за вікно { $hours } h, усього { $dur } контакту.
+        [few] { $n } проходи за вікно { $hours } h, усього { $dur } контакту.
+        [many] { $n } проходів за вікно { $hours } h, усього { $dur } контакту.
+       *[other] { $n } проходу за вікно { $hours } h, усього { $dur } контакту.
+    }
+
+js-meankind-passes-line = Найкращий прохід піднімається до { $deg }°.
+
+js-meankind-percentile-word = перцентиль
+
+js-meankind-pnt-big = Квантовий комплект утримує положення та час протягом { $q }; класичний — протягом { $c }.
+
+js-meankind-pnt-classical-label = Holdover, класичний комплект
+
+js-meankind-pnt-line = Holdover — це тривалість, протягом якої кожен комплект (годинник { $q } проти годинника { $c }) лишається в межах { $spec } після втрати супутникової навігації.
+
+js-meankind-pnt-quantum-label = Holdover, квантовий комплект
+
+js-meankind-pnt-timing-classical-label = Похибка часу, 95 %, класичний
+
+js-meankind-pnt-timing-quantum-label = Похибка часу, 95 %, квантовий
+
+js-meankind-pvt-big =
+    { $n ->
+        [one] Положення розв'язано на { $solved } з { $n } епохи, з похибкою { $rms } m (тривимірна середньоквадратична).
+        [few] Положення розв'язано на { $solved } з { $n } епох, з похибкою { $rms } m (тривимірна середньоквадратична).
+        [many] Положення розв'язано на { $solved } з { $n } епох, з похибкою { $rms } m (тривимірна середньоквадратична).
+       *[other] Положення розв'язано на { $solved } з { $n } епохи, з похибкою { $rms } m (тривимірна середньоквадратична).
+    }
+
+js-meankind-pvt-line = У середньому за { $mean } супутниками, за реальними вимірюваннями приймача.
+
+js-meankind-qnav-big = Після перерви холодноатомний навігатор відхиляється на { $q } m; навігаційного класу — на { $c } m.
+
+js-meankind-qnav-big-outage = Через { $dur } без супутників холодноатомний навігатор відхиляється на { $q } m; навігаційного класу — на { $c } m.
+
+js-meankind-qnav-line = У межах бюджету: { $q } проти { $c }.
+
+js-meankind-qnav-line-threshold = У межах { $threshold } m: { $q } проти { $c }.
+
+js-meankind-qtt-big = Квантове передавання часу тримає { $q } ps (1-sigma) проти { $c } ns для класичного ланцюга.
+
+js-meankind-qtt-line = Монітор безпеки виявляє { $pd } % атак.
+
+js-meankind-qtt-line-pfa = Монітор безпеки виявляє { $pd } % атак за частоти хибних тривог { $pfa }.
+
+js-meankind-quantum-link = квантова лінія
+
+js-meankind-radiometry-big = Камера досягає NIIRS { $niirs } за просторового розрізнення на місцевості { $gsd } m та відношення сигнал/шум { $snr }.
+
+js-meankind-radiometry-line = MTF системи на частоті Найквіста: { $mtf }.
+
+js-meankind-reentry-big = Пікове гальмування — { $g } g на висоті { $km } km.
+
+js-meankind-reentry-line = Тоді апарат має швидкість { $speed } m/s.
+
+js-meankind-slam-big = Зіставлення з рельєфом завершується з відхиленням { $matched } m проти { $free } m лише за інерціальним рішенням.
+
+js-meankind-slam-line =
+    { $n ->
+        [one] На { $n } шляховій точці зіставлено з картою рельєфу за шуму висотоміра { $sigma } m.
+        [few] На { $n } шляхових точках зіставлено з картою рельєфу за шуму висотоміра { $sigma } m.
+        [many] На { $n } шляхових точках зіставлено з картою рельєфу за шуму висотоміра { $sigma } m.
+       *[other] На { $n } шляховій точці зіставлено з картою рельєфу за шуму висотоміра { $sigma } m.
+    }
+
+js-meankind-slot-big = Годинник залишає свій слотовий допуск через { $dur } після останнього супутникового визначення.
+
+js-meankind-slot-line = Тож визначення потрібне кожні { $interval }, приблизно { $perDay } на добу.
+
+js-meankind-solar-big =
+    { $n ->
+        [one] { $n } тіло розміщено на одну епоху.
+        [few] { $n } тіла розміщено на одну епоху.
+        [many] { $n } тіл розміщено на одну епоху.
+       *[other] { $n } тіла розміщено на одну епоху.
+    }
+
+js-meankind-solar-big-link =
+    { $n ->
+        [one] { $n } тіло розміщено на одну епоху; світло йде { $dur } від { $from } до { $to }.
+        [few] { $n } тіла розміщено на одну епоху; світло йде { $dur } від { $from } до { $to }.
+        [many] { $n } тіл розміщено на одну епоху; світло йде { $dur } від { $from } до { $to }.
+       *[other] { $n } тіла розміщено на одну епоху; світло йде { $dur } від { $from } до { $to }.
+    }
+
+js-meankind-solar-line = Усього виміряно час { $n ->
+        [one] { $n } лінії зв'язку.
+        [few] { $n } ліній зв'язку.
+        [many] { $n } ліній зв'язку.
+       *[other] { $n } лінії зв'язку.
+    }
+
+js-meankind-spoof-caught = Спуфінг виявляється до того, як порушує специфікацію синхронізації.
+
+js-meankind-spoof-caught-both = Спуфінг виявляється обома годинниками до того, як порушує специфікацію синхронізації.
+
+js-meankind-spoof-caught-label = Виявлено через, { $name }
+
+js-meankind-spoof-caught-thr = Спуфінг виявляється до того, як порушує специфікацію синхронізації { $thr } ns.
+
+js-meankind-spoof-caught-thr-both = Спуфінг виявляється обома годинниками до того, як порушує специфікацію синхронізації { $thr } ns.
+
+js-meankind-spoof-detects = { $name } виявляє його через { $dur } зі зміщенням { $offset } ns.
+
+js-meankind-spoof-missed =
+    { $n ->
+        [one] Спуфінг порушує специфікацію синхронізації до того, як його виявляє { $names }.
+        [few] Спуфінг порушує специфікацію синхронізації до того, як його виявляє { $names }.
+        [many] Спуфінг порушує специфікацію синхронізації до того, як його виявляє { $names }.
+       *[other] Спуфінг порушує специфікацію синхронізації до того, як його виявляє { $names }.
+    }
+
+js-meankind-spoof-offset = зміщення { $offset } ns
+
+js-meankind-spoofdetect-big-by = Так: спуфінг виявлено, засобом { $by }.
+
+js-meankind-spoofdetect-big-no = Ні: об'єднаний монітор не виявляє спуфінгу.
+
+js-meankind-spoofdetect-big-yes = Так: спуфінг виявлено.
+
+js-meankind-spoofdetect-line =
+    { $n ->
+        [one] Тривогу подає { $on } з { $n } шару виявлення.
+        [few] Тривогу подає { $on } з { $n } шарів виявлення.
+        [many] Тривогу подає { $on } з { $n } шарів виявлення.
+       *[other] Тривогу подає { $on } з { $n } шару виявлення.
+    }
+
+js-meankind-spoofdetect-line-score =
+    { $n ->
+        [one] Тривогу подає { $on } з { $n } шару виявлення; об'єднана оцінка — { $score }.
+        [few] Тривогу подає { $on } з { $n } шарів виявлення; об'єднана оцінка — { $score }.
+        [many] Тривогу подає { $on } з { $n } шарів виявлення; об'єднана оцінка — { $score }.
+       *[other] Тривогу подає { $on } з { $n } шару виявлення; об'єднана оцінка — { $score }.
+    }
+
+js-meankind-ssv-formation = На відстані { $km } km фільтр знає відносне положення з точністю { $filter } m RMS проти { $absolute } m від різниці двох абсолютних визначень.
+
+js-meankind-ssv-navigation = Бортовий фільтр утримує положення з точністю { $inside } m RMS всередині орбіт GNSS і { $above } m над ними.
+
+js-meankind-ssv-shell = На оболонці всі сузір'я разом дають щонайменше один сигнал { $one } % часу і щонайменше чотири — { $four } % (L1).
+
+js-meankind-ssv-tail = MODELLED: геометричний розрахунок і розрахунок бюджету лінії, а не вимірювання будь-якого сигналу в космосі.
+
+js-meankind-ssv-trajectory = На висотах від { $from } до { $to } km щонайменше один сигнал у зоні видимості { $one } % епох і щонайменше чотири — { $four } % (L1, усі сузір'я).
+
+js-meankind-station-big = Над південною полярною областю поправки місячної опорної станції зменшують похибку { $percentile } з { $from } m до { $to } m (змодельовано).
+
+js-meankind-station-line = У межах порога точності протягом { $share } % епох; це не твердження про жодну реальну систему.
+
+js-meankind-sweep-big =
+    { $n ->
+        [one] За { $n } значенням параметра { $param }: { $parts }.
+        [few] За { $n } значеннями параметра { $param }: { $parts }.
+        [many] За { $n } значеннями параметра { $param }: { $parts }.
+       *[other] За { $n } значення параметра { $param }: { $parts }.
+    }
+
+js-meankind-sweep-line = Параметр { $param } пробігає від { $from } до { $to }.
+
+js-meankind-sweep-line-log = Параметр { $param } пробігає від { $from } до { $to } за логарифмічною шкалою.
+
+js-meankind-sweep-part-flat = { $key }: { $metric } лишається на рівні { $value }
+
+js-meankind-sweep-part-goes = { $key }: { $metric } змінюється від { $first } до { $last }
+
+js-meankind-sweep-result-word = результат
+
+js-meankind-sweepnd-big =
+    { $n ->
+        [one] За { $n } комбінацією { $keys }: { $metric } — від { $min } до { $max }.
+        [few] За { $n } комбінаціями { $keys }: { $metric } — від { $min } до { $max }.
+        [many] За { $n } комбінаціями { $keys }: { $metric } — від { $min } до { $max }.
+       *[other] За { $n } комбінації { $keys }: { $metric } — від { $min } до { $max }.
+    }
+
+js-meankind-sweepnd-line = Сітка прогонів рушія: { $shape }.
+
+js-meankind-telecom-fail =
+    { $n ->
+        [one] Годинник не проходить { $fail } з { $n } телекомунікаційної перевірки похибки часу.
+        [few] Годинник не проходить { $fail } з { $n } телекомунікаційних перевірок похибки часу.
+        [many] Годинник не проходить { $fail } з { $n } телекомунікаційних перевірок похибки часу.
+       *[other] Годинник не проходить { $fail } з { $n } телекомунікаційної перевірки похибки часу.
+    }
+
+js-meankind-telecom-line = Перевірки MTIE (максимальної похибки часового інтервалу), TDEV (девіації часу) та огинаючої holdover за масками ITU-T, названими в кожному рядку.
+
+js-meankind-telecom-line-margin = Перевірки MTIE (максимальної похибки часового інтервалу), TDEV (девіації часу) та огинаючої holdover за масками ITU-T, названими в кожному рядку. Найменший запас до огинаючої holdover — { $margin } ns.
+
+js-meankind-telecom-pass =
+    { $n ->
+        [one] Годинник проходить усі { $n } телекомунікаційну перевірку похибки часу.
+        [few] Годинник проходить усі { $n } телекомунікаційні перевірки похибки часу.
+        [many] Годинник проходить усі { $n } телекомунікаційних перевірок похибки часу.
+       *[other] Годинник проходить усі { $n } телекомунікаційної перевірки похибки часу.
+    }
+
+js-meankind-the-best = найкращий
+
+js-meankind-the-body = тіло
+
+js-meankind-the-first = перший
+
+js-meankind-the-name = { $name }
+
+js-meankind-the-second = другий
+
+js-meankind-the-widest-signal = найширший сигнал
+
+js-meankind-timebudget-big = Похибка годинника { $clock } і похибка системи відліку перетинаються за часу усереднення { $tau }.
+
+js-meankind-timebudget-line = У цій точці перетину похибка часу становить { $x } s.
+
+js-meankind-timeoffset-big = Годинник на Місяці випереджає земний на { $rate } µs на добу.
+
+js-meankind-timeoffset-line = Опублікований діапазон — від { $low } до { $high } µs на добу.
+
+js-meankind-timetransfer-big = { $q } тримає дві станції в межах { $qps } ps (середньоквадратично); { $c } — у межах { $cps } ps.
+
+js-meankind-timetransfer-line = У межах специфікації дальності { $q } % часу проти { $c } %.
+
+js-meankind-timetransfer-line-mm = У межах специфікації дальності { $mm } mm { $q } % часу проти { $c } %.
+
+js-meankind-tracking-big = Спуфер може захопити приймач з відстані до { $km } km.
+
+js-meankind-tracking-line = За власної динаміки контурів приймача захоплення втрачається за { $db } dB глушника над сигналом.
+
+js-meankind-trade-big = Квантові датчики кращі за класичний базовий рівень у { $timing } раза за синхронізацією часу та у { $inertial } раза за інерціальною навігацією.
+
+js-meankind-trade-line = Без супутників квантовий комплект рухається за інерцією { $dur }.
+
+js-meankind-ttbudget-big = Двобічне зміщення становить { $offset } ns із сукупною невизначеністю { $uncertainty } ns.
+
+js-meankind-ttbudget-line = Саньяк { $sagnac } ns; іоносфера { $iono } ns.
+
+js-meankind-ukf-big-no = Ні: фільтр не є самоузгодженим.
+
+js-meankind-ukf-big-yes = Так: фільтр є самоузгодженим.
+
+js-meankind-ukf-line-in = Його нормований квадрат інновації в середньому становить { $mean }, у межах 95-відсоткової смуги від { $low } до { $high }. Це перевіряє узгодженість, а не точність.
+
+js-meankind-ukf-line-in-seeds =
+    { $n ->
+        [one] Його нормований квадрат інновації в середньому становить { $mean }, у межах 95-відсоткової смуги від { $low } до { $high }, за { $n } зерном (seed). Це перевіряє узгодженість, а не точність.
+        [few] Його нормований квадрат інновації в середньому становить { $mean }, у межах 95-відсоткової смуги від { $low } до { $high }, за { $n } зернами (seed). Це перевіряє узгодженість, а не точність.
+        [many] Його нормований квадрат інновації в середньому становить { $mean }, у межах 95-відсоткової смуги від { $low } до { $high }, за { $n } зернами (seed). Це перевіряє узгодженість, а не точність.
+       *[other] Його нормований квадрат інновації в середньому становить { $mean }, у межах 95-відсоткової смуги від { $low } до { $high }, за { $n } зерна (seed). Це перевіряє узгодженість, а не точність.
+    }
+
+js-meankind-ukf-line-out = Його нормований квадрат інновації в середньому становить { $mean }, поза 95-відсотковою смугою від { $low } до { $high }. Це перевіряє узгодженість, а не точність.
+
+js-meankind-ukf-line-out-seeds =
+    { $n ->
+        [one] Його нормований квадрат інновації в середньому становить { $mean }, поза 95-відсотковою смугою від { $low } до { $high }, за { $n } зерном (seed). Це перевіряє узгодженість, а не точність.
+        [few] Його нормований квадрат інновації в середньому становить { $mean }, поза 95-відсотковою смугою від { $low } до { $high }, за { $n } зернами (seed). Це перевіряє узгодженість, а не точність.
+        [many] Його нормований квадрат інновації в середньому становить { $mean }, поза 95-відсотковою смугою від { $low } до { $high }, за { $n } зернами (seed). Це перевіряє узгодженість, а не точність.
+       *[other] Його нормований квадрат інновації в середньому становить { $mean }, поза 95-відсотковою смугою від { $low } до { $high }, за { $n } зерна (seed). Це перевіряє узгодженість, а не точність.
+    }
+
+js-meankind-user-word = користувача
+
+js-meankind-vlbi-big = На базовій лінії { $km } km сигнал маяка надходить на дві станції з різницею { $ms } ms.
+
+js-meankind-vlbi-line = Поправка ближнього поля — { $us } µs.
+
+js-meankind-vlbifim-big = Кожна координата станції відома з точністю { $m } m за цим графіком спостережень.
+
+js-meankind-vlbifim-line = Проста оцінка з рівним розподілом заявляла б { $m } m.
+
+js-meankind-weather-big = Верхня атмосфера нагрівається до { $k } K.
+
+js-meankind-weather-big-ref = Верхня атмосфера нагрівається до { $k } K проти { $ref } K для еталона.
+
+js-meankind-weather-line = Індекс геомагнітної активності ap — { $ap }.
+
+js-meankind-whole-run = за весь прогін
+
+js-mthread-bcol-label = Позначка
+
+js-mthread-bcol-share = Розмір відносно найбільшого складника положення
+
+js-mthread-bcol-sigma = 1-sigma
+
+js-mthread-bcol-source = Внесок
+
+js-mthread-budget-caption = { $phase }: 1-sigma на вході { $entry }, на піку { $peak }, на виході { $exit } (положення); нижче — кожен внесок, від найбільшого.
+
+js-mthread-chart-title = { $metric } залежно від часу місії, одна смуга на фазу
+
+js-mthread-col-kind = Вид
+
+js-mthread-col-label = Позначка
+
+js-mthread-col-limit = Найбільший внесок
+
+js-mthread-col-margin = Відносно межі
+
+js-mthread-col-peak-pos = Пікове положення
+
+js-mthread-col-peak-time = Пікове зміщення годинника
+
+js-mthread-col-peak-vel = Пікова швидкість
+
+js-mthread-col-phase = Фаза
+
+js-mthread-col-window = Час місії
+
+js-mthread-example-not-loaded = записаний результат не завантажився
+
+js-mthread-file-failed = Не вдалося прочитати { $name }: { $reason }.
+
+js-mthread-kv-elapsed = Час місії від старту
+
+js-mthread-kv-engine = Рушій
+
+js-mthread-kv-epoch = Епоха (UTC)
+
+js-mthread-kv-limits = Фази із заявленою межею
+
+js-mthread-kv-limits-value = { $n } ({ $met } виконано, { $missed } не виконано)
+
+js-mthread-kv-phases = Фази
+
+js-mthread-kv-seed = Зерно (seed)
+
+js-mthread-kv-title = Ланцюжок
+
+js-mthread-layout-phases = Однакова ширина на фазу
+
+js-mthread-layout-time = Справжній час місії
+
+js-mthread-limit-title = { $phase }: заявлена межа, { $limit }
+
+js-mthread-log-scale = логарифмічна шкала
+
+js-mthread-margin-met = { $m }× межі, виконано
+
+js-mthread-margin-missed = { $m }× межі, не виконано
+
+js-mthread-metric-pos = Положення, 1-sigma
+
+js-mthread-metric-time = Зміщення годинника, 1-sigma
+
+js-mthread-metric-vel = Швидкість, 1-sigma
+
+js-mthread-na = н/д
+
+js-mthread-no-events = Ця фаза не фіксує жодних подій.
+
+js-mthread-no-phases = результат не містить фаз
+
+js-mthread-no-requirement = межу не вказано
+
+js-mthread-no-series = Результат не містить відліків цієї величини.
+
+js-mthread-no-weak = Результат не називає найслабшої ланки.
+
+js-mthread-not-json = результат не є JSON ({ $reason })
+
+js-mthread-not-thread = це не результат ланцюжка місії (очікується схема { $schema })
+
+js-mthread-note-phases = Кожну фазу накреслено однакової ширини, щоб коротка фаза була так само помітна, як довга; час початку кожної вказано під смугою. Перемкніться на справжній час місії, щоб побачити реальні пропорції. Штрихові лінії — межі, які вказує документ; розрив лінії — це передача.
+
+js-mthread-note-time = Справжній час місії: фаза завдовжки кілька хвилин може бути надто вузькою, щоб її побачити. Перемкніться на однакову ширину, щоб її прочитати. Штрихові лінії — межі, які вказує документ; розрив лінії — це передача.
+
+js-mthread-open-failed = Не вдалося відкрити приклад: { $reason }.
+
+js-mthread-opened = { $name } прочитано на цій сторінці; нічого нікуди не надсилалося.
+
+js-mthread-opening = Відкривається приклад класу Artemis…
+
+js-mthread-prov = Кожна позначка на цій сторінці належить самому рушію; сторінка копіює кожне число з результату й лише масштабує його.
+
+js-mthread-recorded = Записаний результат рушія (версія { $version }): ілюстративний ланцюжок, побудований за публічними описами місій; числа змодельовані й не відповідають нічому реальному.
+
+js-mthread-sets-peak = задає пік
+
+js-mthread-too-large = Цей файл більший за { $mb } MB; його не прочитано.
+
+js-mthread-weak-line = Найслабша ланка — фаза <b>{ $phase }</b>: { $margin }× її заявленої межі, яку задає { $source }. Запас — це найменше відношення заявленої межі до піку фази; значення понад 1 відповідає вимозі.
+
+js-mthread-weakest-flag = найслабша ланка
+
+js-mthread-weakest-mark = найслабша ланка
+
+js-obs-cell-extent = від { $south }° до { $north }° пн. ш., від { $west }° до { $east }° сх. д.
+
+js-obs-cell-read = { $state }: { $cell }. У вибірці { $sampled }, уражено { $affected }.
+
+js-obs-cell-title = { $state }; у вибірці { $sampled }, уражено { $affected }
+
+js-obs-cell-title-reason = { $state } ({ $reason }); у вибірці { $sampled }, уражено { $affected }
+
+js-obs-clear-note = { $notClear } Комірку без запису бачили менш ніж 5 різних повітряних суден, тому її приховано й не намальовано. Колір ніколи не є єдиною підказкою: «не спостерігалося» заштриховано, а таблиця прописує кожен стан.
+
+js-obs-col-affected = Уражені повітряні судна
+
+js-obs-col-bbox = Охоплювальна рамка (Пд, Зх, Пн, Сх)
+
+js-obs-col-bytes = Байти
+
+js-obs-col-cause = Причина
+
+js-obs-col-cell = Комірка (широта, довгота)
+
+js-obs-col-cells = Комірки
+
+js-obs-col-check = Перевірка
+
+js-obs-col-file = Файл
+
+js-obs-col-incident = Інцидент
+
+js-obs-col-sampled = Повітряні судна у вибірці
+
+js-obs-col-sha = SHA-256 (маніфест)
+
+js-obs-col-share = Частка уражених
+
+js-obs-col-state = Стан
+
+js-obs-col-why = Чому не спостерігалося
+
+js-obs-day-alt = На { $date }: комірок із погіршенням — { $degraded }, без погіршення — { $notDegraded }, не спостерігалося — { $notObserved }.
+
+js-obs-day-heading = День { $date } (UTC)
+
+js-obs-ds-attribution = Атрибуція
+
+js-obs-ds-coverage = Охоплення
+
+js-obs-ds-dataset = Набір даних
+
+js-obs-ds-licence = Ліцензія
+
+js-obs-ds-licence-address = Адреса ліцензії
+
+js-obs-ds-product = Продукт
+
+js-obs-ds-written-by = Записано Kshana
+
+js-obs-err-cause = { $name } указує причину, відмінну від «не приписано»; ця сторінка жодної не показує
+
+js-obs-err-feature-polygon = { $name }: об'єкт { $n } не є полігоном комірки
+
+js-obs-err-feature-state = { $name }: об'єкт { $n } має стан «{ $state }», якого немає серед { $states }
+
+js-obs-err-incident-object = { $name }: інцидент { $n } не є об'єктом
+
+js-obs-err-no-date = { $name } не вказує дати
+
+js-obs-err-no-features = { $name } не містить об'єктів
+
+js-obs-err-no-incidents = { $name } не містить списку інцидентів
+
+js-obs-err-not-day = { $name } не є файлом { $schema }
+
+js-obs-err-not-incident = { $name } не є файлом { $schema }
+
+js-obs-err-not-json = { $what } не є JSON ({ $reason })
+
+js-obs-err-not-manifest = { $name } не є файлом { $schema }
+
+js-obs-err-not-object = { $what } не є об'єктом JSON
+
+js-obs-err-not-text = { $what } не є текстом або більший за { $mib } MiB
+
+js-obs-err-states = { $name } називає стани, відмінні від трьох, які показує ця сторінка
+
+js-obs-file-matches = збігається
+
+js-obs-file-mismatch = не збігається
+
+js-obs-file-no-hash = хеш не вказано
+
+js-obs-file-not-opened = не відкрито
+
+js-obs-files-note = Метод { $method }. SHA-256 кожного файлу обчислюється тут із файлу, який ви відкрили, і порівнюється з маніфестом; файл, якого ви не відкрили, не перевіряється.
+
+js-obs-incident = інцидент
+
+js-obs-incident-note = Суміжні комірки з погіршенням (разом із діагональними) утворюють один інцидент. Причина кожного інциденту: не приписано. Це не підтвердження і не NOTAM.
+
+js-obs-kv-cells = Опубліковано комірок
+
+js-obs-kv-day-wide = Вплив на весь день
+
+js-obs-kv-degraded = Погіршено
+
+js-obs-kv-not-degraded = Не погіршено
+
+js-obs-kv-not-observed = Не спостерігалося (опубліковано)
+
+js-obs-kv-scope = Обсяг
+
+js-obs-map-aria = { $summary } Таблиця нижче перелічує кожну комірку.
+
+js-obs-means-degraded = Висока частка повітряних суден у вибірці комірки повідомила того дня про низьку точність навігації, явно вищу за фон цього дня.
+
+js-obs-means-not-degraded = Повітряних суден у вибірці було достатньо, а частка не відповідала правилу.
+
+js-obs-means-not-observed = Дані не дозволили винести судження. Це не «чисто».
+
+js-obs-na = н/д
+
+js-obs-no = ні
+
+js-obs-no-cells = У цьому файлі немає комірок
+
+js-obs-no-day-file = Для { $date } немає файлу дня (.geojson), тому показувати нічого.
+
+js-obs-no-degraded = Цього дня немає комірок із погіршенням.
+
+js-obs-no-file-read = Жодного файлу не вдалося прочитати.
+
+js-obs-no-incident-file = Для цього дня не відкрито файлу інцидентів.
+
+js-obs-no-manifest = Для цього дня не відкрито маніфесту, тож файли не можна перевірити за хешами.
+
+js-obs-no-notice = Цей файл не містить застереження. Консультативне застереження вгорі цієї сторінки однаково чинне.
+
+js-obs-no-reason = причину не вказано
+
+js-obs-not-clear = «Не спостерігалося» не означає «чисто».
+
+js-obs-not-readable = { $name }: не файл, який читає ця сторінка (.geojson, .incidents.json, .manifest.json або .png).
+
+js-obs-not-stated = не вказано
+
+js-obs-note-day-wide = Це був день із впливом на весь день: фон цього дня сам був високим, тож жодної комірки не можна було оцінити. Це не твердження, що небо було чистим.
+
+js-obs-note-summary-mismatch = Зведення, яке вказує файл, не збігається з комірками, які він перелічує; числа показано так, як записано.
+
+js-obs-nothing-yet = Поки що нічого показувати: відкрийте також файл .geojson цього дня.
+
+js-obs-notice = Застереження, яке містить файл: { $notice }
+
+js-obs-opened-day-file = Відкрито днів: { $days }, з файлів: { $files }. Прочитано тут; нічого не завантажено.
+
+js-obs-opened-day-files = Відкрито днів: { $days }, з файлів: { $files }. Прочитано тут; нічого не завантажено.
+
+js-obs-opened-days-file = Відкрито днів: { $days }, з файлів: { $files }. Прочитано тут; нічого не завантажено.
+
+js-obs-opened-days-files = Відкрито днів: { $days }, з файлів: { $files }. Прочитано тут; нічого не завантажено.
+
+js-obs-read-failed = { $name }: не вдалося прочитати ({ $reason }).
+
+js-obs-reason-day-wide = фон цього дня сам був високим, тож жодної комірки не можна було оцінити
+
+js-obs-reason-insufficient = у вибірці було надто мало повітряних суден, щоб винести судження
+
+js-obs-reason-no-background = для цього дня не було фону, з яким можна порівняти комірку
+
+js-obs-release = Випущено не раніше { $when }: продукти публікуються щонайменше через { $hours } h після завершення дня, на { $deg }-градусних комірках. Це не живе подання.
+
+js-obs-release-default = кінець дня плюс затримка
+
+js-obs-show-all =
+    { $n ->
+        [one] Показати { $n } комірку
+        [few] Показати всі { $n } комірки
+        [many] Показати всі { $n } комірок
+       *[other] Показати всі { $n } комірки
+    }
+
+js-obs-state-degraded = Погіршено
+
+js-obs-state-not-degraded = Не погіршено
+
+js-obs-state-not-observed = Не спостерігалося
+
+js-obs-the-day-file = файл дня
+
+js-obs-the-incident-file = файл інцидентів
+
+js-obs-the-manifest = маніфест
+
+js-obs-too-large = { $name }: більший за { $mib } MiB; відкрийте менший файл.
+
+js-obs-unstated-number = невказана кількість
+
+js-obs-withheld = приховано
+
+js-obs-yes-no-call = так: жодної комірки не можна було оцінити
+
+js-opt-avail-label = Доступність, стеля та доступність за ясного неба для кожної станції
+
+js-opt-avail-note = Для кожної станції: доступність лінії за завмирань через хмари й турбулентність, стеля, яку не підніме жоден додатковий запас (хмари та наведення), і доступність за повної відсутності хмар.
+
+js-opt-avail-title = Доступність проти стелі
+
+js-opt-bar-available = { $name }: доступно
+
+js-opt-bar-ceiling = { $name }: стеля
+
+js-opt-bar-clear-sky = { $name }: ясне небо
+
+js-opt-blurb-network = Хмарніша північна, помірна центральна та ясніша південна станції бачать низькоорбітальний оптичний термінал під кутом 30 градусів: як часто лінія працює і що дають додаткові станції?
+
+js-opt-blurb-techniques = Одна висхідна лінія під кутом 25 градусів у хмарах і турбулентності: що дають інша довжина хвилі, більша апертура, адаптивна оптика чи більший запас?
+
+js-opt-cloud-episode = хмарний епізод
+
+js-opt-correlated = корельовані
+
+js-opt-default-bars = стовпці
+
+js-opt-default-chart = діаграма
+
+js-opt-direction-wave = { $direction }, хвиля { $wave }
+
+js-opt-diversity-label = Доступність мережі залежно від кількості станцій
+
+js-opt-diversity-note = Доступність найкращих 1, 2 і 3 станцій за незалежної погоди та за погоди, корельованої на відстані { $km } km.
+
+js-opt-diversity-title = Рознесення станцій
+
+js-opt-fact-capture-loss = Геометричні втрати захоплення
+
+js-opt-fact-direction = Напрям
+
+js-opt-fact-elevation = Кут місця
+
+js-opt-fact-footprint = Пляма променя
+
+js-opt-fact-margin = Запас без атмосфери
+
+js-opt-fact-received = Прийнята потужність, без атмосфери
+
+js-opt-fact-sensitivity = Чутливість приймача
+
+js-opt-fact-wavelength = Довжина хвилі
+
+js-opt-gain-points =
+    { $n ->
+        [one] +{ $n } відсотковий пункт
+        [few] +{ $n } відсоткові пункти
+        [many] +{ $n } відсоткових пунктів
+       *[other] +{ $n } відсоткового пункту
+    }
+
+js-opt-hours = годин
+
+js-opt-independent = незалежні
+
+js-opt-link-down = лінія не працює
+
+js-opt-margin-label = Додатковий запас, потрібний для кожної цілі доступності
+
+js-opt-margin-line-title = { $name }: запас лінії, dB
+
+js-opt-margin-note = Додатковий запас лінії в dB понад нинішній — для кожної цілі доступності; від'ємне значення означає, що лінія вже має більше, ніж потрібно. Для цілі вище за стелю станції немає запасу, який її досягає (рушій її пропускає).
+
+js-opt-margin-title = Запас, потрібний кожній цілі доступності
+
+js-opt-model-output = Результат моделі
+
+js-opt-na = н/д
+
+js-opt-no-data = У цьому результаті немає даних.
+
+js-opt-no-series = У цьому результаті немає часового ряду.
+
+js-opt-no-source = джерело не вказано
+
+js-opt-not-result = це не результат оптичної атмосфери зі станціями
+
+js-opt-open-failed = Не вдалося відкрити { $title }: { $reason }.
+
+js-opt-opening = Відкривається { $title }…
+
+js-opt-outage-label = Імовірність того, що перерва триває довше за певну тривалість
+
+js-opt-outage-note = Імовірність того, що перерва триває довше за певну тривалість, для кожної станції (логарифмічна вісь часу).
+
+js-opt-outage-title = Скільки тривають перерви
+
+js-opt-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+js-opt-prov = { $label } Станції: { $sites }.
+
+js-opt-realised-up = { $value } працює
+
+js-opt-recorded = { $title }: записаний результат рушія (версія { $version }). Результат моделі, а не вимірювання.
+
+js-opt-result-not-json = результат не є JSON ({ $reason })
+
+js-opt-result-not-loaded = записаний результат не завантажився
+
+js-opt-series-label = Запас лінії залежно від часу
+
+js-opt-series-note = Одна реалізація заявленої моделі станції із зерном (seed { $seed }, { $hours } h із кроком { $step } s): хмарні епізоди, стовп рідкої води для кожного, один відлік сцинтиляції на крок. Запас — це бюджет завмирань мінус завмирання через хмари та сцинтиляцію; лінія не працює нижче 0 dB. Це одна вибірка, а не клімат: її доступність відрізняється від заявленої на вибіркову похибку цієї вибірки. Для малювання запас обрізується на −40 dB.
+
+js-opt-series-title = Запас лінії залежно від часу
+
+js-opt-stated = заявлено { $value }
+
+js-opt-stripe-cloud = хмари
+
+js-opt-stripe-down = не працює
+
+js-opt-stripe-title = { $what }, година від { $from } до { $to }
+
+js-opt-techniques-label = Приріст доступності для кожного методу
+
+js-opt-techniques-note = Приріст доступності у відсоткових пунктах відносно базового рівня для однієї станції.
+
+js-opt-techniques-title = Що дає кожен метод
+
+js-opt-th-availability = Доступність
+
+js-opt-th-ceiling = Стеля
+
+js-opt-th-clear-air = Втрати в чистому повітрі
+
+js-opt-th-cloud-prob = Імовірність хмар (вхід)
+
+js-opt-th-fade-budget = Бюджет завмирань
+
+js-opt-th-latlon = Широта, довгота
+
+js-opt-th-mean-outage = Середня перерва
+
+js-opt-th-outages-year = Перерв на рік
+
+js-opt-th-scint = Індекс сцинтиляції
+
+js-opt-th-site = Станція
+
+js-opt-timing-label = Доступність синхронізації для кожної станції та годинника
+
+js-opt-timing-note = Частка всього часу, протягом якої похибка часу лишається в межах порога, для кожної станції та класу годинника: holdover годинника проти тривалості перерв.
+
+js-opt-timing-title = Синхронізація, збережена крізь перерви
+
+js-opt-title-network = Три наземні станції, рознесення станцій
+
+js-opt-title-techniques = Одна висхідна лінія, методи покращення
+
+js-opt-x-best-n = найкращі n станцій
+
+js-opt-x-outage-duration = тривалість перерви, h (log)
+
+js-opt-x-target = ціль доступності, %
+
+js-opt-y-availability = доступність, %
+
+js-opt-y-extra-margin = додатковий запас, dB
+
+js-opt-y-p-longer = P(довше)
+
+js-replay-band-calibrating = калібрування
+
+js-replay-band-degraded = погіршено
+
+js-replay-band-nominal = номінально
+
+js-replay-band-run-ended = { $band } · прогін завершено
+
+js-replay-band-untrusted = недовірений
+
+js-replay-clock = T+{ $t } з { $max }
+
+js-replay-coast-hidden = берег приховано: вигадані положення цього журналу потрапляють на суходіл
+
+js-replay-coast-note = Берег: { $source }, лише для ілюстрації.
+
+js-replay-coast-note-hidden = { $reason }.
+
+js-replay-coast-window = Natural Earth 1:10 мільйонів, вікно { $window }
+
+js-replay-coast-world = Natural Earth 1:110 мільйонів (контур світу в Studio), грубий
+
+js-replay-demo-trust-log = { $title } (журнал довіри)
+
+js-replay-dir-east = сходу
+
+js-replay-dir-north = півночі
+
+js-replay-dir-south = півдня
+
+js-replay-dir-west = заходу
+
+js-replay-dirs-and = { $list } та { $last }
+
+js-replay-drawing-animation = Малюється анімація…
+
+js-replay-drawing-frames = Малюються кадри…
+
+js-replay-every-direction = усіх напрямів
+
+js-replay-file-error = { $name }: { $error }
+
+js-replay-kinds-convergence-horizontal = Збіжність: медіанна горизонтальна похибка
