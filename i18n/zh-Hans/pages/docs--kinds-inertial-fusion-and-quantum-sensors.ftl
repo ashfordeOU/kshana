@@ -28,6 +28,18 @@ seg-5b9a6efe6337 = INS/TRN 惰行误差模型：位置误差随惰行时长变�
 
 seg-134a4c91da3a = 引擎为 scenarios/ins-trn-coast.toml（类型 ins-trn-coast）生成的图表
 
+seg-04310cd6cbec = MODELLED的量子PNT系统故障/异常检测：带标签的故障目录（时钟频率跳变/漂移/失锁；传感器偏置阶跃/掉线）、检测统计量的ROC AUC（附取自经外部核对验证的eval_stats的自助法置信区间），以及固定虚警率下的最小可检测故障，量子时钟辅助的监测器（噪声更低）能检测到更小的故障，作为如实的TradeEvidence加代表性说明。高斯检测统计量模型（AUC = Phi(mu/(sigma*sqrt2))）；对该类别建模，参数为示意性的公开来源数据，无TRL/飞行/认证。
+
+seg-2f1d14239d1a = 引擎为scenarios/quantum-anomaly-detect.toml（类型quantum-anomaly-detect）绘制的图表
+
+seg-790fbfdd80f0 = MODELLED的无GNSS量子导航：在GNSS中断期间，对比量子（冷原子干涉仪）惯性预算与经典导航级INS：滑行期间的位置误差增长、到达位置阈值的守时（holdover）时间，以及作为如实TradeEvidence并附代表性说明的量子对经典权衡。如实的可观测性说明：没有外部定位时，加速度计偏置不可观测，因此误差会增长；量子传感器只是减缓而不会弥合这一差距。示意性的公开来源器件参数；对该类别建模，无TRL/飞行/认证。
+
+seg-1bdbf1a737b2 = 引擎为scenarios/quantum-gnss-free-nav.toml（类型quantum-gnss-free-nav）绘制的图表
+
+seg-eb55d253dd11 = 量子对经典PNT权衡（{ "13503" }）：候选时钟（实测ADEV曲线，即可辩护性的关键，或量子时钟类别）相对经典基线类别的授时守时（holdover）与惯性守时收益，附带随制品携带的长tau底限假设局限，外加GNSS拒止下的韧性随时间包络。MODELLED；对合作方器件只作量化（绝不验证）。候选时钟是一条实测曲线（<c1/> + <c2/>，长度相等，至少{ "2" }个点；两种形式都给出时以它为准）或一个<c3/>。
+
+seg-c74c63ffd859 = 引擎为scenarios/quantum-trade.toml（类型quantum-trade）绘制的图表
+
 seg-4e31c8daf798 = 台账
 
 seg-9095869ec445 = { "9" } 个场景类型，来自引擎 v{ $version }。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。此处的每个标签都来自引擎或验证矩阵；除非矩阵另有说明，否则某个类型为 MODELLED（标签如何获得，见 README 的“证据”一节）。
@@ -97,15 +109,3 @@ seg-6cb57dc94549 = <b>台账：</b>MODELLED { "1" } · VALIDATED { "2" }。完�
 seg-b6c31bdda166 = <s1>上一页</s1>GPS 拒止环境下的替代 PNT
 
 seg-0585e4ae329e = <s1>下一页</s1>压制干扰、欺骗干扰与频谱
-
-seg-04310cd6cbec = MODELLED的量子PNT系统故障/异常检测：带标签的故障目录（时钟频率跳变/漂移/失锁；传感器偏置阶跃/掉线）、检测统计量的ROC AUC（附取自经外部核对验证的eval_stats的自助法置信区间），以及固定虚警率下的最小可检测故障，量子时钟辅助的监测器（噪声更低）能检测到更小的故障，作为如实的TradeEvidence加代表性说明。高斯检测统计量模型（AUC = Phi(mu/(sigma*sqrt2))）；对该类别建模，参数为示意性的公开来源数据，无TRL/飞行/认证。
-
-seg-2f1d14239d1a = 引擎为scenarios/quantum-anomaly-detect.toml（类型quantum-anomaly-detect）绘制的图表
-
-seg-790fbfdd80f0 = MODELLED的无GNSS量子导航：在GNSS中断期间，对比量子（冷原子干涉仪）惯性预算与经典导航级INS：滑行期间的位置误差增长、到达位置阈值的守时（holdover）时间，以及作为如实TradeEvidence并附代表性说明的量子对经典权衡。如实的可观测性说明：没有外部定位时，加速度计偏置不可观测，因此误差会增长；量子传感器只是减缓而不会弥合这一差距。示意性的公开来源器件参数；对该类别建模，无TRL/飞行/认证。
-
-seg-1bdbf1a737b2 = 引擎为scenarios/quantum-gnss-free-nav.toml（类型quantum-gnss-free-nav）绘制的图表
-
-seg-eb55d253dd11 = 量子对经典PNT权衡（{ "13503" }）：候选时钟（实测ADEV曲线，即可辩护性的关键，或量子时钟类别）相对经典基线类别的授时守时（holdover）与惯性守时收益，附带随制品携带的长tau底限假设局限，外加GNSS拒止下的韧性随时间包络。MODELLED；对合作方器件只作量化（绝不验证）。候选时钟是一条实测曲线（<c1/> + <c2/>，长度相等，至少{ "2" }个点；两种形式都给出时以它为准）或一个<c3/>。
-
-seg-c74c63ffd859 = 引擎为scenarios/quantum-trade.toml（类型quantum-trade）绘制的图表

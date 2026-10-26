@@ -800,7 +800,23 @@ seg-0359a9194c60 = GLS 共模白化（Aitken）加 Mahalanobis 恒等式
 
 seg-67b11ff6d055 = 手写 Cholesky Omega=LL^T 与前代白化 z=L^-1 r（当 Cov(r)=Omega 时 Cov(z)=I）；Mahalanobis 平方 z^T z = r^T Omega^-1 r
 
+seg-7dfedc40da6a = lunar-time-budget 场景的可选 [time_lab] 块对月球参考站时钟建模（默认为 miniRAFS 等级，或任一具名等级，或按所述稳定度点拟合的器件卡），该时钟被牵引到协调月球时，随后自由运行或每 N 秒重新牵引一次：时间误差曲线 x(t) 为时钟幂律项、常值牵引残差（ILLUSTRATIVE）、常值 LTC 实现残差以及可选启用的测站高度速率项的方和根；牵引后到达 { "1" }、{ "10" } 和 { "100" } ns（或所述阈值）的时间，由二分法给出，并附主导噪声类型的闭式反解，以及每个所述时效上的主导项，全部带单位
+
+seg-3801e9b32309 = 仅为内部一致性：二分得到的到达阈值时间对照时钟主导噪声类型的闭式反解检查，自由运行的时钟项对照预算自身的时钟项检查。各时钟等级依据已发布的一日规格（有各自的行）；LTC 速率未在此重新推导，保有自己的 VALIDATED 行（月球坐标时）；牵引残差为ILLUSTRATIVE，实现残差是预算分配，且不包含热模型。ICG WG-B 月球 PNT 资料（{ "2024" } 年六月）所述的纳秒级目标仅作为来源陈述引用，未被采纳为声明；此处没有任何内容是关于真实测站时钟的陈述
+
+seg-226dedaba243 = 一个独立的 scipy/numpy 程序积分同样的变分方程（判据 O1）。没有任何内容与月球轨道的测量值比较。该参考基准核对的是所述公式的数值，而不是物理，因此该行仍为 MODELLED。受限三体模型：没有太阳，没有月球谐项，地球自转轴沿轨道法向，接收机和测站输入为ILLUSTRATIVE。
+
+seg-c0ba5c7e708e = <c1/>类型：参数化的信号设计（频段、发射带宽、ITU 划分；含 BPSK(n)、BOC(m,n)、MBOC 或平坦谱的捕获、数据和导频分量，功率份额，FDMA 子载波，码长和数据速率），来自编译进来的公开预设文件（Xona Pulsar、Iridium STL、Starlink 机会信号、CentiSpace、一个通用 C 波段设计以及通用 UHF/L/S/C/宽 C 设计，每个都带有其来源网址，未公开的数值标注为REPRESENTATIVE）或内联编写；每个信号给出带限功率谱密度、带内功率占比、Gabor 带宽、码抖动对 C/N0 和间距的关系以及测距精度、捕获搜索空间、平方律检测概率以及平均串行和码并行捕获时间、进出 GPS L1 C/A、Galileo E1、GPS L5、Galileo E5a、E5b 和 AltBOC 的谱分离系数及 C/N0 劣化，以及取自频谱类型 SSC 链的 CW、宽带和匹配 J/S 容限；电离层延迟、自由空间损耗、等 C/N0 和等 EIRP 下的测距精度以及干扰容限的频段权衡；以及设计对照所描述测量的定性形状检查
+
+seg-040b3f5cc70e = 上面两行已独立核对的闭式解，平方律虚警恒等式 P_d(snr = { "0" }) = P_fa 和 Holmes 的平均捕获时间，以及归约到频谱类型自己的 SSC 链（同一份 Jammer::ssc 代码）。设计本身是输入：标注为REPRESENTATIVE或WORKSHOP的预设不是已发表的规范，增强型 Feher QPSK、码移键控和 OFDM 谱是近似的，形状检查比较的是形状，而不是校准过的电平。
+
+seg-4b47033cda24 = leo_link::presets：通用多频段（UHF、L、S、C）、通用 C 波段、Xona Pulsar X1/X5、Iridium STL、作为仅多普勒机会信号的 Starlink、CentiSpace，以及一个可选的 Celeste IOD 预设，每个都把来源标注为PUBLIC（附网址）、REPRESENTATIVE或WORKSHOP，工作坊的那一个在可选的 Celeste IOD 预设文件中，仅当该文件存在时才编译进来；每个频段和轨道在场景中都可覆盖，场景也可以完全不指名任何预设
+
+seg-5130bfe2410c = 与系统无关的输入：每个系统都是沃克壳层、显式根数或 GNSS 预设，一个信号（载波、码速率、带宽、接收功率或 C/N0 范围），一个 SISRE，一个多普勒 sigma 和一个钟模型；预设只填补场景遗漏的部分，每个一个文件，来源标注为PUBLIC（附网址）、WORKSHOP或派生，未公开的数值列为具代表性：Xona Pulsar X1/X5、Iridium STL、Starlink 机会信号、CentiSpace、一个具代表性的 C 波段系统、ATOMIC 零钟差星历模型，以及可选的 Celeste IOD 预设文件中一个源自工作坊的预设，删除该文件及其场景即可将其撤出
+
 seg-619f89bf160c = 月球参考坐标系实现
+
+seg-aab745a65e76 = 模块
 
 seg-d4ad9cfa4f9b = 依据 ARAIM 机载设计文档（ADD）v4.2 的 ARAIM 多假设解分离（araim_reference::add_v42_protection_levels 和 add_v42_protection_levels_ecef：按 P_THRES 与 FC_THRES 规则确定子集、VPL、HPL、有效监测阈值 EMT 以及 sigma_acc）；带单星排除的卡方快照 RAIM 故障检测（raim::snapshot_raim、raim::snapshot_raim_fde），以及在大地测量当地水平面上基于斜率的 HPL/VPL；以及 L1 服务上的 SBAS DO-229E 保护级组合（sbas::sbas_protection_level）。明确说明，未涵盖：均匀 sigma 便捷函数 raim::araim_raim 和 raim::araim_dual_raim 不满足 ADD 要求（在匹配的输入上，它们相对 Stanford MAAST 的偏差分别为 VPL { "0.75" } m / HPL { "4.04" } m 和 VPL { "0.39" } m / HPL { "1.93" } m，这是一项发现）；双频多星座（DFMC）L5 SBAS 比较是一项发现（{ "308" } 个视野内无 GEO 的用户历元对由 Kshana 给出保护而 MAAST 未给出，Kshana 未对 MAAST 的 GEO 接收门限建模）；raim::solution_separation_raim 没有外部比较
 
@@ -1322,10 +1338,6 @@ seg-62df6258bc62 = 仅为自洽：已发布的总量对照同一文件中各项�
 
 seg-675887733454 = 月球测站时间实验室：miniRAFS 守时对 LTC
 
-seg-7dfedc40da6a = lunar-time-budget 场景的可选 [time_lab] 块对月球参考站时钟建模（默认为 miniRAFS 等级，或任一具名等级，或按所述稳定度点拟合的器件卡），该时钟被牵引到协调月球时，随后自由运行或每 N 秒重新牵引一次：时间误差曲线 x(t) 为时钟幂律项、常值牵引残差（ILLUSTRATIVE）、常值 LTC 实现残差以及可选启用的测站高度速率项的方和根；牵引后到达 { "1" }、{ "10" } 和 { "100" } ns（或所述阈值）的时间，由二分法给出，并附主导噪声类型的闭式反解，以及每个所述时效上的主导项，全部带单位
-
-seg-3801e9b32309 = 仅为内部一致性：二分得到的到达阈值时间对照时钟主导噪声类型的闭式反解检查，自由运行的时钟项对照预算自身的时钟项检查。各时钟等级依据已发布的一日规格（有各自的行）；LTC 速率未在此重新推导，保有自己的 VALIDATED 行（月球坐标时）；牵引残差为ILLUSTRATIVE，实现残差是预算分配，且不包含热模型。ICG WG-B 月球 PNT 资料（{ "2024" } 年六月）所述的纳秒级目标仅作为来源陈述引用，未被采纳为声明；此处没有任何内容是关于真实测站时钟的陈述
-
 seg-af3ff120b707 = 月球测地 VLBI
 
 seg-cfd7d0126028 = 地球基线观测月球信标的近场 VLBI 时延 + 偏导数
@@ -1353,8 +1365,6 @@ seg-bed2679f88e5 = 闭式恒等式与内部一致性；不声称有外部参考�
 seg-29df5b40a3f9 = 月球轨道确定：Earth-GNSS 对地面射电测量
 
 seg-647902ebcee3 = 在近直线晕轨道（或椭圆冻结轨道）中，用两种独立数据类型做定轨：星上接收的 Earth-GNSS 伪距（采用月球距离处 Earth-GNSS 一行的链路规则，加月球遮挡），以及来自三个深空网测站的地面双程测距和测距速率。每种都是围绕参考轨道的一步批处理最小二乘，带其形式协方差；对两个估计之差做带随机种子的蒙特卡罗，检验两个协方差能否解释该差（q = d' (P_G + P_R)^-1 d，模型吻合时为六自由度的卡方），以及未建模加速度对该统计量有何影响。
-
-seg-226dedaba243 = 一个独立的 scipy/numpy 程序积分同样的变分方程（判据 O1）。没有任何内容与月球轨道的测量值比较。该参考基准核对的是所述公式的数值，而不是物理，因此该行仍为 MODELLED。受限三体模型：没有太阳，没有月球谐项，地球自转轴沿轨道法向，接收机和测站输入为ILLUSTRATIVE。
 
 seg-652bdc29deea = 月球载波相位整周模糊度解算：月面与轨道器
 
@@ -1730,8 +1740,6 @@ seg-d2f04991c8a4 = <c1/> 类型中，掠射 GNSS 信号的临边射线电离层�
 
 seg-1a1786ba90b6 = 沿发射机与用户之间的直线射线积分的 Chapman 电离层、Gallagher 型等离子体层和中性大气（折射率弯曲、氧吸收、散焦）：斜向总电子含量、其等离子体层部分、附加时延、切点高度以及掠射链路上的损耗；以及一个弱信号接收机设计（相干与非相干积分、数据比特限制、辅助、多普勒搜索），它根据捕获和跟踪环路模型确定 C/N0 阈值
 
-seg-aab745a65e76 = 模块
-
 seg-4ca1217472ab = 测试中的闭式解与已发表的量级（查普曼层的峰值和地表临边的弯曲，GPS 至 GEO 射线上几 TECU 的等离子体层）；接收机设计复用捕获和跟踪环路模型及其测试。没有拿实测的临边探测数据或弱信号接收数据与之比较
 
 seg-6b8f9f3ca2a3 = 面向高轨和月球转移轨道航天器的星载 GNSS 导航滤波器
@@ -1902,10 +1910,6 @@ seg-2ff7cc7a8846 = leo_signal::max_doppler_hz：圆轨道在截止仰角处过�
 
 seg-652e28dfa10f = 低地球轨道定位、导航与授时信号设计：码跟踪、捕获、GNSS 兼容性，以及适用于任何系统的频段权衡
 
-seg-c0ba5c7e708e = <c1/>类型：参数化的信号设计（频段、发射带宽、ITU 划分；含 BPSK(n)、BOC(m,n)、MBOC 或平坦谱的捕获、数据和导频分量，功率份额，FDMA 子载波，码长和数据速率），来自编译进来的公开预设文件（Xona Pulsar、Iridium STL、Starlink 机会信号、CentiSpace、一个通用 C 波段设计以及通用 UHF/L/S/C/宽 C 设计，每个都带有其来源网址，未公开的数值标注为REPRESENTATIVE）或内联编写；每个信号给出带限功率谱密度、带内功率占比、Gabor 带宽、码抖动对 C/N0 和间距的关系以及测距精度、捕获搜索空间、平方律检测概率以及平均串行和码并行捕获时间、进出 GPS L1 C/A、Galileo E1、GPS L5、Galileo E5a、E5b 和 AltBOC 的谱分离系数及 C/N0 劣化，以及取自频谱类型 SSC 链的 CW、宽带和匹配 J/S 容限；电离层延迟、自由空间损耗、等 C/N0 和等 EIRP 下的测距精度以及干扰容限的频段权衡；以及设计对照所描述测量的定性形状检查
-
-seg-040b3f5cc70e = 上面两行已独立核对的闭式解，平方律虚警恒等式 P_d(snr = { "0" }) = P_fa 和 Holmes 的平均捕获时间，以及归约到频谱类型自己的 SSC 链（同一份 Jammer::ssc 代码）。设计本身是输入：标注为REPRESENTATIVE或WORKSHOP的预设不是已发表的规范，增强型 Feher QPSK、码移键控和 OFDM 谱是近似的，形状检查比较的是形状，而不是校准过的电平。
-
 seg-c2b9c8e4a364 = 带有设计信号和各频段干扰源的多频段频谱瀑布图（UHF、L、S、C）
 
 seg-609df4e0a085 = <c1/>类型扩展到 L 波段之外：频段由预设信号设计给出（绘出每个分量，带限于发射带宽，C/N0 和 J/S 以被跟踪分量为参照），或由自定义载波和调制给出；在同一时间线和色标上、针对任意频率范围的额外瀑布图面板；除 CW、窄带、线性调频和匹配噪声外，还有宽带（阻塞式）干扰源；由未改动的谱分离系数链给出各频段 J/S 和有效 C/N0
@@ -1955,8 +1959,6 @@ seg-d986e44443dd = <c1/>类型：卫星来自设计的过境、根数、经 SGP4
 seg-c558a6519038 = 闭式解与自洽性：距离变化率和距离加速度恒等式对照数值导数，等通量增益抵消距离增长，教科书的极化损耗极限，以及定性的 LEO 对 GNSS 观测（持续数分钟的钟形过境，峰值比平坦的 44-51 dB-Hz GNSS 载波高几 dB）。EIRP 和方向图是由已发表的接收功率换算成的 EIRP 或具代表性的选择，气体项是已被取代的 P.676-10 简化方法，也没有任何东西与实测的 LEO C/N0 比较
 
 seg-95a077a980b6 = 带有所述来源的具名 LEO-PNT 系统预设，以及一个与系统无关的引擎
-
-seg-4b47033cda24 = leo_link::presets：通用多频段（UHF、L、S、C）、通用 C 波段、Xona Pulsar X1/X5、Iridium STL、作为仅多普勒机会信号的 Starlink、CentiSpace，以及一个可选的 Celeste IOD 预设，每个都把来源标注为PUBLIC（附网址）、REPRESENTATIVE或WORKSHOP，工作坊的那一个在可选的 Celeste IOD 预设文件中，仅当该文件存在时才编译进来；每个频段和轨道在场景中都可覆盖，场景也可以完全不指名任何预设
 
 seg-399dc53ceafb = 抄录所引用的公开数值并做一致性检查：由已发表的最小接收功率设定的 EIRP，在平坦方向图下预测已发表的最大值，误差在 { "0.5" } dB 以内。这是对距离跨度的检查，不是对任何卫星天线的独立核对；具代表性的预设不对真实系统作任何声明
 
@@ -2069,8 +2071,6 @@ seg-462a5e95d480 = 视野内卫星数，以及 PDOP、HDOP 和 VDOP 的中位数
 seg-a16896913438 = Orekit { "13.1.8" }（Apache-2.0）配合 Hipparchus { "4.0.3" }：引擎的 GCRS 状态由 Orekit 旋转到 ITRF（IERS { "2010" }），WGS-84 TopocentricFrame 的可见性对照各系统的截止角，一个钟未知量用 org.orekit.gnss.DOPComputer，多个用 NumPy { "2.4.6" } numpy.linalg.inv（P2）；路径对照 python-sgp4 和 ERFA 检查（“One Earth-orbit path”一行）。判据在运行之前固定（预先登记 72ea9eb0；T2 和 T3 是 { "0.30" } 第 2 轮的判据）。把 TEME -> GCRS 步骤冻结在 J2000，测试即变红（{ "4739" } 次失败）。仅几何；没有闪烁、地形或信号功率。GNSS 的 VDOP 向极区上升（在随附场景中，GPS 和 Galileo 从赤道的 { "1.20" } 升到 { "89.9" } 度处的 { "1.51" }），而近极轨 LEO 壳层则在那里收敛。历史：第 { "2" } 轮（3254d456）与列表化的二体状态一致；D8 第 1 轮对照 Orekit 自己的 TLE 外推的完整声明（e947e69d）是一项发现，即 Orekit 在 e = { "0" } 时的 SDP4 及其 IERS { "1996" } TEME，已固定
 
 seg-d92777401093 = 具名的 LEO PNT 系统，作为可选的数据预设，各附其来源
-
-seg-5130bfe2410c = 与系统无关的输入：每个系统都是沃克壳层、显式根数或 GNSS 预设，一个信号（载波、码速率、带宽、接收功率或 C/N0 范围），一个 SISRE，一个多普勒 sigma 和一个钟模型；预设只填补场景遗漏的部分，每个一个文件，来源标注为PUBLIC（附网址）、WORKSHOP或派生，未公开的数值列为具代表性：Xona Pulsar X1/X5、Iridium STL、Starlink 机会信号、CentiSpace、一个具代表性的 C 波段系统、ATOMIC 零钟差星历模型，以及可选的 Celeste IOD 预设文件中一个源自工作坊的预设，删除该文件及其场景即可将其撤出
 
 seg-c6f71b3937cd = 抄录所引用的公开数值，并检查了结构（每个公开来源都有网址，沃克构型能均分，C/N0 由接收功率除以 { "290" } K 下的 kT 得出），没有对照外部参考基准。具代表性的数值已在各预设中指明，属于示意性
 
@@ -2691,3 +2691,213 @@ seg-ec5736cbb3b4 = lunar_jamming (denial_js_db, range_for_free_space_path_loss_m
 seg-cdcfbbc52ae5 = lunar_jamming::tests（{ "10" } 个库测试：the_contour_is_the_exact_inverse_of_the_functions_the_rows_were_scored_with；the_band_is_the_measured_quantiles_pushed_through_the_contour_not_a_sigma；the_asymmetry_the_band_carries_is_the_samples_own_shape_bent_by_the_criterion；the_contour_is_monotone_in_cn0_measured_over_a_dense_sweep_not_assumed；the_band_recovers_the_split_verdict_the_single_scalar_contour_lost；the_distribution_is_the_tables_own_order_statistics_and_keeps_the_rows；a_link_already_below_the_threshold_gets_a_null_contour_point_not_a_number；a_clean_sky_run_has_no_contour_at_all_rather_than_an_empty_one；the_denial_threshold_is_the_same_thirty_decibels_the_rest_of_the_engine_uses；the_units_block_describes_the_contour_and_names_nothing_the_report_omits）
 
 seg-83724a2a8e06 = hybrid_integrity::tests（检测功效曲线从零故障时的虚警率，一直到最小可检测偏差处的 { "1" } − P_md；将最小可检测偏差在监测器自身所用的门限处代回 noncentral_chi2_cdf，返回 P_md，相符到 { "1e-9" }，对每一个轴并经公共辅助函数均如此；实际注入射频估计的偏差使监测器自身的统计量恰好移动手算的 b²/(σ_rf² + σ_opt²)；无噪声的偏差在 √(T/λ*)×MDB 之上被捕获，在其之下被漏检，注入的梯度跨越该交越点；检测功效在故障量值上单调，且以 MDB 倍数计在四个轴上相同；对监测器统计量做带随机种子的 200,000 样本蒙特卡罗，在曲线上四个点处于 4σ 以内复现解析功效；定时 MDB 被固定在定时告警限值之上，这是经测量得到的弱点，而不是特性；Wilson-Hilferty 分位数经测量与监测器的精确门限相差约 { "4" }%，据此记录了未采用它的原因；斜坡数字恰为 MDB/速率，并与速率成反比，非正速率报告为 null 而不是零）；tests/hybrid_fault_power_scipy_oracle.rs（report_detection_power_matches_scipy_chi2_and_ncx2；report_detection_power_matches_scipy_with_comparable_sigmas）
+
+seg-f9767a6109d5 = hybrid_integrity::tests（滑行段从交接块所报告的协方差迹出发，两个方向均如此，因此重放的对角线不会偏离所报告的交接值；所报告的穿越时刻根据报告自身的交接 sigma、过程噪声 PSD 和覆盖因子重新计算，边界在穿越前一刻处于告警限值之内，在穿越后一刻处于其外；滑行时间与过程噪声 PSD 严格成反比，告警限值收紧时缩短；PSD 为零的滑行报告 null 而不是零时间，因为“永不”不等于“立即”；输出的剖面恰好穿越一次，并夹住所报告的穿越时刻；方差加倍时间与告警限值穿越时间相互区分，在严格的光学阶段之后相差八个数量级，在宽松的射频阶段之后相差不到一个数量级；离开光学模态比离开射频获得更多滑行时间，差值恰为协方差之差除以水平增长率；random_walk_time_to_limit 区分已在限值之外、在 t 时刻穿越和永不穿越三种情形）
+
+seg-6d2b55212f40 = lunar_service, antenna
+
+seg-730b359e2c3f = antenna::tests 与 lunar_service::tests（通过对方向图二分法定位的半功率穿越与已发表的艾里 x = { "1.61634" } 相符，并给出精确的 { "1.02899" }·λ/D 宽度，记录下常规的 { "1.02" } 系数对应 −{ "2.955" } dB 而非 −{ "3.010" } dB；方向图自主轴到第一零点在 { "400" } 个点上严格递减；隐含效率的代数往返至 { "1e-12" }，并复现 { "0.641" } / { "0.920" }；偏轴角在 { "20" } 个点上与 tan θ = R·sin γ/(r − R·cos γ) 相符，两个极限均达 { "1e-12" }；近似圆锥逐行包含真实波束；总体计数等于其所汇总的逐行标志，修正量等于二者之差；每一行的判定都可仅由所输出的报告重新计算；每个输出的数值字段和布尔字段都带有单位和来源类别；不可能的口径不输出任何块；未配置天线时，导出保持其原有的六个键，改动的叶子为 { "0" } 个，移除的为 { "0" } 个）；tests/validate_lunar_export_offboresight_spice.rs（flown_orbiter_export_matches_spice_geometry_and_scipy_pattern；documented_working_point_matches_anise_propagation_and_scipy_pattern）
+
+seg-9910640b7886 = tracking_loop（由 sdr、jamming 组合而成）
+
+seg-a3538a1ff1f4 = tracking_loop::tests（开环 Costas 鉴别器抖动，对照在带种子的合成中频信号上逐步推进的 sdr::correlate，{ "3" } 个合并的噪声实现 × { "900" } 个历元，在 35-45 dB-Hz 范围内相符至 { "0.63" }%，要求平方损耗项在可分辨之处的拟合至少比无平方损耗形式好 { "3" } 倍；约 { "32" } dB-Hz 的反正切鉴别器饱和被断言而不仅仅是陈述，从而锁定有效性界限；闭环 σ 与 { "4000" } 个历元上逐步推进的 sdr Costas 环路相符至 { "3.7" }%；一阶 DLL 斜坡滞后与逐步推进的 sdr DLL 相符至 { "0.17" }%；bessel_i0 与制表的 I₀ 相符至 { "7.4e-8" }；滞后宽度需落在 [{ "5" }·log₁₀ r, { "10" }·log₁₀ r] 内，覆盖 { "4" } 个比值 × { "2" } 个积分时间 × { "3" } 个带宽）；api::tests::tracking_loop_kind_round_trips_through_the_dispatch；tests/tracking_loop_gnss_sdr_oracle.rs::finding_is_pinned
+
+seg-e6236f142dae = lunar_vlbi_fim（由 lunar_vlbi、fim、cio、lunar_frame、frames 组合而成）
+
+seg-5744a8471387 = lunar_vlbi_fim::tests（{ "7" } 个库测试：每种基准面写法都经 parse/as_str 往返，未知写法被拒绝；保持所有站点而不含信标的情形被拒绝，并给出点名 <c1/> 的错误；杠杆臂被断言等于 ρ/B，信标均分被断言等于站点均分乘以它，二者均达 { "1e-15" }，另断言杠杆臂超过 { "10" }，使两个预算在此几何下不会混淆；测试夹具公布的基线锁定为 { "10726.748" } km，其 49 个采样的时间表被断言产生严格少于 { "49" } 个相互可见观测；单一基线上的信标谱经测量至少跨越五个数量级，所得比值依据算术-调和平均不等式断言高于 { "1" }，实际高于 { "100" }；站点加信标的布局被断言秩亏，两个计算字段均为 null，而经模型计算的对照量仍予报告。另外对测试夹具本身设有防护：拼接在表数组之后的顶层键会变成站点数据，因此断言拼接点，并检查解析出的场景带有该键——失效模式是一次运行悄然使用了与测试所指名的配置不同的配置）
+
+seg-08708f044bb5 = lunar_dpnt::tests（一项纯加性防护，其键集差异恰为 { "{" }correction_link, units{ "}" }，所有原有数值与变更前取得的字面量逐位一致；测量误差不随基线去相关，而轨道项则会，并且在基线为零时仍然存在，而此时轨道项恰为零——这是能发现把该项接到错误位置的结构性检查；{ "1" } m 的站点误差按 { "1" }:{ "1" } 传递，并被证明不被 DOP 放大；时延为零时逐位复现未老化的残差，残差随时延单调变化，输出的曲线等于直接运行；量化步长每增加一位恰好减半，且 σ² = step²/12，满量程跟踪所注入的量值；依次关闭每一项会得到其余两项的求积；各卫星 σ 相等时恰好传播为 σ·PDOP，且该 PDOP 与 orbit::dop 相符；每个输出字段都带有单位和来源类别，双向检查）
+
+seg-810a6946b5cd = lunar_station（基于 lunar_dpnt、lunar_service）
+
+seg-ef86901b5985 = tests/lunar_station_coverage_reference.rs（one_point_one_epoch_one_trial_reduces_to_lunar_differential_pnt：在有无接收机噪声两种情形下均达 { "1e-12" } m；zero_baseline_floor_is_zero_in_every_trial：{ "0" } 达 { "1e-9" } m；survey_floor_matches_the_survey_transfer_prediction：p95 落在运行前所述的 { "5" } % 范围内；coverage_is_non_decreasing_in_the_threshold；corrected_error_grows_with_distance_along_an_azimuth；three_satellites_are_unavailable_with_a_reason_and_no_error；a_satellite_the_station_does_not_see_is_reported；deterministic_for_a_seed_and_moved_by_another；the_work_guard_refuses_an_oversized_grid；the_bundled_scenario_states_a_source_for_every_input；the_result_is_labelled_modelled_with_the_honesty_statement）；tests/lunar_station_numpy_oracle.rs（预先登记的 numpy 重新计算，连同其未达标一并记录）；lunar_service::tests::south_polar_ring_grid_is_the_published_comparison_grid；tests/lunar_differential_pnt_reference.rs 以及注册表和跨平台基准值均不变（加性）；tests/field_units_global.rs（每个输出字段都有说明，无豁免）
+
+seg-641b41572fd9 = lunar_terrain（基于 skyline、lunar_service::topocentric_basis）；lunar_station；lunar_service（coverage_masked、masked_visible）
+
+seg-44e74fb6a0a1 = lunar_terrain::tests（bare_sphere_horizon_is_the_dip：光线步进在每个方位角上复现 -acos(R / (R + a))，达 { "1e-3" } 度；a_cone_on_a_lat_lon_tile_matches_the_analytic_cone：同一圆锥采样到 { "0.005" } 度的经纬度图块上，与解析圆锥相符至 { "0.25" } 度；a_lat_lon_tile_is_none_outside_and_wraps_longitude；crater_in_plateau_matches_the_closed_form：球面上平底撞击坑，观测者位于中心以及偏离中心 { "4" } km 和 { "7" } km 处，对照闭式的坑缘仰角 atan2((R + H) cos s - (R + a), (R + H) sin s)，其中 s 来自球面坑缘穿越方程，在每个方位角上达 { "0.01" } 度；rasterised_cone_matches_the_analytic_cone：栅格化到 { "200" } m 极射赤面投影网格上并经网格采样器读出的圆锥，与解析圆锥相符至 { "0.25" } 度；projection_round_trips_through_the_rasteriser_layout；bilinear_reproduces_a_plane_exactly；stated_horizon_goes_through_the_skyline_rules；an_empty_skyline_is_exactly_the_flat_test）；tests/lunar_station_terrain.rs（without_terrain_the_document_has_no_terrain_keys；a_zero_horizon_under_a_positive_mask_is_the_flat_run，两种类型均适用；a_horizon_only_removes_satellites_and_a_wall_removes_everything：user_lt4 保持其平坦情形下的计数，地平线所耗去的历元为 terrain_masked（可用性本身可能上升，因为地平线可以遮挡站点看不到的卫星），站点处 { "89" } 度的地平线则使任何卫星都不可用；bad_terrain_sections_are_refused；the_vendored_crop_loads_and_is_oriented_as_the_source：Shackleton 和 Haworth 撞击坑底部低，Malapert 山丘高，镜像则不然；the_station_site_horizon_from_the_crop；service_volume_dem_points_outside_the_crop_keep_the_flat_mask；a_lat_lon_dem_tile_gives_the_station_the_crop_horizon：由内置裁剪区重采样的图块给出站点的裁剪区地平线，达 { "0.22" } 度（界限 { "0.5" } 度，运行前确定），附带图块回显和单位，而 dem_path 与 dem_tile_path 同时给出则被拒绝；the_export_site_is_masked_by_the_terrain：每个导出行当且仅当可见且不低于其方位角上的站点地平线时才越过地形，几何不移动，CSV 仅在有地形时才增加该列；the_horizon_matches_the_preregistered_numpy_ray_cast）；tests/prediction_frozen.rs 以及注册表和跨平台基准值均不变（加性）
+
+seg-27acdf36c5da = lunar_receiver；lunar_station
+
+seg-8fa2f3da879e = lunar_receiver::tests（multipath_is_the_do229_form；dll_noise_matches_a_hand_computation：在 { "45" } dB-Hz、{ "0.5" } Hz、d = { "1" }、{ "20" } ms 时为 { "0.825279" } m；bad_sections_are_refused）；tests/lunar_station_ext.rs（receiver_absent_or_silent_is_the_plain_run；zero_baseline_multipath_is_the_difference_of_two_receivers：样本 sigma sqrt({ "2" }) a 在 { "6" } % 以内；station_multipath_is_gauss_markov：滞后 1 相关 exp(-dt / tau) 在 { "0.01" } 以内，单位方差在 { "2" } % 以内；inter_channel_biases_are_constant_over_a_trial）；tests/prediction_frozen.rs 以及基准值均不变（加性）
+
+seg-304fd4238326 = lunar_station（orbit_growth_range_sigma_m）
+
+seg-c3a151ee3d10 = tests/lunar_station_ext.rs（growth_absent_or_zero_is_the_frozen_error_run；the_growth_term_has_the_closed_form_sigma：开启增长与关闭增长的链路误差之差，其样本 sigma 为 rate tau / sqrt({ "3" })，在 { "1600" } 次抽样上相符至 { "6" } % 以内；linear_growth_is_the_first_order_propagated_error：以树内二体积分器从场景轨道传播的速度误差 dv，在 { "60" } s 和 { "600" } s 时使位置移动 dv tau，相符至 { "1" } % 以内）；tests/lunar_station_published_oracle.rs::k5_growth_addendum_run（已忽略，即所记录的补充）
+
+seg-a866350f7eb2 = lunar_solution；lunar_station（solution_figures）
+
+seg-41f22cf8dd08 = lunar_solution::tests（one_epoch_without_height_is_the_snapshot_solve：等于 lunar_dpnt::position_error_vector_from_range_errors，达 { "1e-8" } m，宽松的高度行不改变任何结果，严格的高度行则锁定高度误差；three_satellites_need_the_height_row；a_window_shares_the_position；bad_sections_are_refused）；tests/lunar_station_ext.rs（the_default_solution_mode_is_the_snapshot_solve：每个数值的相对误差达 { "1e-6" }；height_aiding_and_a_window_do_what_they_say）；tests/lunar_station_published_oracle.rs::solution_style_addendum_run（已忽略，即所记录的补充）
+
+seg-7217c3bf841e = tests/lunar_station_published_oracle.rs::recorded_finding_one_of_six_bars_passes（所记录的数字对照已登记的判据）；tests/lunar_station_published_oracle.rs::published_claims_comparison_run（已忽略，在 release 下约 { "7" } s：重新运行六个已登记的算例并断言所记录的数字）
+
+seg-9b655d02dc39 = araim_reference（add_v42_subset_plan、add_v42_protection_levels_to_order）；raim（araim_subset_raim、SubsetRule）
+
+seg-feaea6cb2b12 = tests/raim_multi_sv_subsets.rs（deeper_orders_change_nothing_when_pairs_suffice；triples_are_refused_at_order_two_and_planned_deeper：N_fault,max >= { "3" }，未监测的风险在 P_THRES 之内，剔除 3 颗或更多卫星的子集被监测，且超过 10 个被监测的先验被独立重新推导为 P_no fault q^k，达 { "1e-12" }；a_two_satellite_fault_is_found_as_a_pair：无故障时不告警，2 颗卫星上 { "30" } m 的偏差被检出，其子集为归一化分离最大的卫星对）；tests/araim_reference_vectors.rs 和 tests/integrity_araim_stanford_oracle.rs 均不变（二阶路径即经 MAAST 核对的路径）
+
+seg-7fa54ce845e3 = clock_integrity（run、sky_at、IntegrityCfg）；scenario（Scenario::integrity）；report（RunResult::integrity_fom）；api（时钟分派）
+
+seg-b9a184f14d5a = tests/clock_integrity.rs（the_block_is_separate_and_absent_by_default：守时（holdover）数字不变，{ "111" } 个被拒绝的历元不可用且没有保护级，runs > { "1" } 时被拒绝；protection_levels_are_the_snapshot_raims_on_the_same_sky：每个采样历元的 HPL 和 VPL 与同一预设天空上零残差的 snapshot_raim 完全相等，且无故障运行不触发告警；a_stated_bias_is_detected_while_it_lasts：{ "60" } m 的偏差恰好在其覆盖的 { "10" } 个历元上告警；every_integrity_field_has_a_unit）；clock_integrity::tests；时钟基准值不变
+
+seg-3ba62864dd31 = cislunar_observability、observability_gramian、intersat_range、cislunar_srif
+
+seg-02de44e48cf6 = cislunar_observability::tests 与 observability_gramian::tests（默认文档通过其 JSON、摘要和 SVG 的 FNV-1a 逐位锁定，断言显式默认值为空操作，并断言 8 个扩展键不存在，使该快照不会被重新生成为自我比较；加性的 <c1/> 块通过剥离并对照其出现之前锁定的常量重新求哈希而排除在冻结之外，这证明而不是假定没有任何已发布内容发生移动；在 σ = { "0" }、{ "0.1" }、{ "1" }、{ "10" }、{ "100" } m 下断言同方差 sigma 下的秩不变性；断言 σ_pos 随 σ 严格线性缩放，相对误差达 { "1e-6" }；断言 DRO 零空间恰为 z 和 ż 坐标轴，并区分2 个成因——共面航天器之间的距离行有 û_z = { "0" }，而 CR3BP 的面外块在 z = { "0" } 时恰好解耦；空间雅可比矩阵对照中心有限差分，并对照本 crate 独立的 3-D 距离变化率观测量；面外族在平面模式下被拒绝）
+
+seg-455bea44de27 = frame_eop、realtime_frame_eop
+
+seg-faacca83ed58 = frame_eop::tests、realtime_frame_eop::tests 和 tests/operational_eop_predictor_reference.rs（在 365 天窗口下解析信号系数的恢复达 { "1e-9" }；偏置加速率的拟合在真实行上等于闭式普通最小二乘斜率和截距，达 { "1e-12" }；两个前瞻检测器破坏发布历元之后每一行的快速 UT1 和极移列——保持 Bulletin B 最终值不变——并要求逐位相同的输出，经变异验证：当拟合屏障恰好放宽一天时，会使 { "10" } 个测试变红；独立重建的历元列表；某一目标的 Bulletin B 块被置空，并显示该历元离开了该表；在 { "6" }、{ "15" }、{ "150" } 和 365 天窗口下检查项的准入；单调的行数；以及对默认报告的变更前冻结快照，逐字段断言且不留容差，并额外断言该快照不含新键，使其不会被悄然重新生成为自我比较）；tests/operational_eop_predictor_bulletin_a_oracle.rs::predictor_mae_against_bulletin_a_and_the_pcc_range_finding；tests/operational_eop_ls_ar_bulletin_a_oracle.rs::ls_ar_predictor_against_bulletin_a_finding；tests/eop_prediction_beyond_table.rs（超出最后一行的可选扩展 EopSeries::with_ls_ar_prediction：表内回答逐位相同，预报行等于 ls_ar_predict，超出表的坐标系参数遵循预报而不是截断；内部一致性）
+
+seg-c77bd56a0619 = lunar_frame_campaign（由 lunar_vlbi、lunar_vlbi_fim、fim、lunar、lunar_frame_realise、frames、cio、lunar_frame 组合而成）
+
+seg-98fa9786f0c9 = lunar_frame_campaign::tests（{ "21" } 个库测试：Helmert 设计对照 lunar_frame_realise::apply_helmert 的中心有限差分——该基准正是为之而设的模块，它不计算导数，因此锁定 [p]ₓ 符号约定——全部 { "84" } 个设计项相符至 < { "1e-6" }；纯网络平移被读回为纯平移，泄漏到其余 6 个参数的量 < { "1e-6" }；基准 sigma 对时延 sigma 严格线性，在 { "3" }× 的变化下对全部七个参数达 { "1e-8" }；{ "16" } h 弧段测得比 { "24" } h 更差，{ "48" } h 弧段测得更好，所输出的天平动扫描顺序相同；断言最差的平移轴就是另行测得的指向地球的体固方向的主轴，并且比其他轴差 > { "5" }×，这是求解器对其一无所知的物理参考基准（oracle）；三个共线信标产生一个缺陷，每个基准 sigma 均为 null，零空间方向按7 参数基底输出；站点固定时 offblock_fraction 和信标间相关恰为 { "0.0" }，站点被估计时两者均 > { "0" }；比较块的注入变换数字被证明等于该场景独立运行的结果，相对误差达 { "1e-14" }，而不是抄录而来；一项防护，确保文档中任何地方都不出现注入／恢复的基准；月球坐标系实现的输出对三种输入形态按 json‖summary‖svg 的 FNV-1a-64 逐字节锁定，指纹在工作开始之前取得）；tests/lunar_vlbi_campaign_spice_oracle.rs::lunar_frame_campaign_finding_stations_estimated_p2_precision（受控；严格的 lunar_frame_campaign_matches_spice_geometry_and_numpy 仍被忽略）；tests/lunar_frame_campaign_mpmath_oracle.rs::lunar_frame_campaign_datum_matches_mpmath_extended_precision（发现；创始人决定 2026-10-02，选项 A：该行仍为 MODELLED，不借用另一行的地位；对照 50 位 mpmath 参考基准（oracle），预先登记 804662d5，引擎在站点被估计时的基准 sigma 处于其先验后向误差界之内，在 2024-01-01 偏差 { "9.7e-6" }，而 { "1e-9" } 的判据低于任何双精度路径所能达到的水平，最好的 NumPy QR 投影偏差 { "5.5e-9" }；该证据支持另一行“站点被估计时的月球坐标系基准协方差，对照 50 位扩展精度”）；tests/lunar_frame_campaign_pinv_fallback.rs::finding_step0_fresh_beacon_information_falls_back（已锁定）；tests/lunar_frame_campaign_cond_bar_oracle.rs::finding_p2_condition_scaled_bar_not_met_on_the_estimated_scenarios（已锁定）
+
+seg-f3fcc6b9e10a = cislunar_arc_recovery、batch_ls
+
+seg-457a19842691 = cislunar_arc_recovery::tests 和 tests/cislunar_arc_recovery_reference.rs（两个边界及其比值锁定在已发表的网格上；实测误差曲线逐行与形式协方差比较，设有逐行二倍界和几何平均界；一个反面对照——平面 DRO 六状态——断言该判据会失败，并且未正则化的估计器在超过 { "1e6" } km 时发散，而不是返回一个看似合理的小误差；在每个前缀上断言参数化不变性，相对误差达 { "1e-3" }；一项源文本防护，剥离注释、字符串字面量和测试模块，然后对任何提及雅可比矩阵、STM、SVD 秩或 SRIF 机制之处判为失败，并通过注入被禁止的调用做了变异验证；一项仅限测试的检查，确保有限差分等于解析行，因此线性化已知良好，而解析路径仍不出现在估计器中；逐字节断言确定性；已发布的 cislunar-observability 文档按键集、规范指纹和摘要行锁定）
+
+seg-b6b73589032f = lunar_ephemeris、lunar_service
+
+seg-4cab37e82f00 = lunar_ephemeris::tests（格式和坐标系解析；拉格朗日插值在节点处精确，并在线性轨迹的非节点处精确；ICRF 根数采用 IAU { "2015" } 约化，并与显式的 icrf_to_iau_moon 应用逐字节相等；真近点角↔平近点角相对于正向开普勒求解往返一致；格式错误的文件被拒绝并指明原因）。lunar_service::tests（<c1/> 未设置时，报告的键集和 SHA-256 被锁定；开普勒行等于独立运行的开普勒结果，逐字段一致；恒等式 σ_required · HPL_max / σ_URE = AL，然后在所计算的需求下端到端重新运行，达到 { "100" } % 的保护级可用性，而高出该需求 { "1" } % 的重新运行则达不到；两个新块所输出的每个数值字段都从所产生的 JSON 中遍历，检查单位和来源类别；已提交的测试夹具逐颗卫星与其来源表相符；超过表末尾的时间范围被拒绝）；tests/lunar_service_requirement_orekit_oracle.rs::lncss_b_dense_finding_is_unchanged；tests/lunar_service_volume_orekit_oracle.rs::service_volume_matches_orekit_on_identical_ephemeris_and_grid
+
+seg-fde8247097c3 = campaign (run_campaign_detailed, run_chain, presets, extract, to_svg)
+
+seg-d8d3a3893423 = tests/campaign_composition_reference.rs (a_one_phase_clock_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_integrity_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_jamming_campaign_reproduces_the_standalone_run_bit_for_bit——成员结果与独立运行逐字节一致，每个对齐值都等于独立运行的序列；the_chained_mission_hands_state_on_and_ends_the_spoofing_phase_on_detection; a_handoff_writes_the_previous_phase_number_into_the_next_scenario; malformed_campaigns_fail_loudly)
+
+seg-59eda109a298 = campaign (run_sweep, run_monte_carlo, ensemble); sweep (GenericAxis, coords_of, set_dotted_value); inertial (metric_stat)
+
+seg-3b9aa486bb66 = tests/campaign_composition_reference.rs (a_fixed_seed_ensemble_is_byte_stable_and_each_realisation_is_the_standalone_run; the_ensemble_mean_and_spread_match_the_white_fm_closed_form——{ "200" } 个白频率噪声时钟的随机种子，滑行 tau = { "3010" } s：真实均值 { "0" } 落在所报告的区间内，区间半宽度在 { "1.96" } sigma/sqrt(n) 的 { "25" }% 以内，样本方差落在 sigma = sqrt(q_wf tau) = { "16.459" } ns 的双侧 { "99" }% 卡方区间内；校准集合（CAP-10，预先登记 ea451cb5，docs/CALIBRATION-ENSEMBLES.md，tests/calibration_ensembles.rs）：在 { "200" } 个独立集合中，区间覆盖真实均值的有 { "192" } 个（位于 Binomial({ "200" }, { "0.95" }) 的 { "99" } % 区域 [{ "181" }, { "197" }] 之内），卡方检验通过的有 { "196" } 个，而单随机种子的百分位容差（p05 和 p95 均在 { "0.3" } sigma 以内）在 { "200" } 个中仅有 { "183" } 个通过，相对于预先登记的 { "190" } 为 NOT MET，这是一项对随机种子敏感的检验，如实记录而未放宽；a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number)
+
+seg-c0c2439ee1f6 = campaign (run_compose)
+
+seg-b238a6b2bbdd = tests/campaign_composition_reference.rs (a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number——单成员组合读出独立运行的数值和结果摘要)
+
+seg-a032de3144fe = campaign::optimize (run_optimize, nelder_mead)
+
+seg-94a984382eee = tests/campaign_optimize_reference.rs (预先登记 fbe6c8b3，以及第 1 轮协议未达标之后的 441f31bc：p2_prime_interior_target_range_matches_the_closed_form——1-D目标求解在 { "96" } 次评估内与 r* = r0 { "10" }^((m(r0) - { "3" })/20) 相差不超过 { "6.1e-15" }；p3_prime_contour_target_grid_and_nelder_mead 与 p3_grid_matches_brute_force_and_nelder_mead_does_at_least_as_well——网格方法的最优值与对 run_toml 独立进行的 { "41" } x { "41" } 暴力循环按位相等，Nelder-Mead 分别在 { "177" } 次和 { "161" } 次评估内至少同样好；p4_nelder_mead_reaches_the_corner_maximum; p5_the_document_is_byte_stable_and_counts_agree; p2_round1_not_met_the_box_excludes_the_closed_form，它固定了所记录的第 1 轮未达标）；campaign::optimize::tests (nelder_mead_meets_the_preregistered_rosenbrock_bar：f* = { "1.7e-20" }，{ "234" } 次评估；a_non_finite_score_is_never_the_best; the_grid_mapping_is_the_sweeps)
+
+seg-a0c6fa7dbb46 = leo_signal (LeoSignalScenario, SignalDesign, Component, Shape, code_jitter_m, gabor_bandwidth_hz, detection_probability, threshold_for_pfa, mean_acquisition_time_s, ssc_leo_into_gnss, ssc_gnss_into_leo, jammer_tolerance, gnss_victim, preset, public_signal)
+
+seg-6d9eb1dc2a11 = leo_signal::tests (every_public_preset_parses_and_cites_a_url; detector_reduces_to_pfa_and_grows_with_snr; detection_probability_with_several_looks_matches_the_noncentral_chi_square; mean_time_of_a_perfect_detector_is_half_the_cells; compatibility_ssc_magnitudes_match_independent_quadrature; to_spectrum_band_is_consistent_with_the_design; jammer_tolerance_orders_cw_matched_wideband; e5_centred_signal_hits_e5a_and_e5b_equally; defaults_run_on_the_generic_band_preset; inline_signal_and_bad_inputs)；tests/leo_signal_reference.rs（每个内置的与具体系统无关的场景无需 workshop 数据即可运行，频段权衡的电离层比值等于 (f_ref/f)^{ "2" }，其自由空间差值等于 { "20" } log10(f/f_ref)，参考 C/N0 处的抖动介于其 Gabor 界与不限带宽形式之间，该文件存在时 workshop 参数场景的 E5 形状检验是一致的，且没有任何源文件会编译该文件）
+
+seg-e31094573516 = spectrum (Band::unit_psd, Band::tracked_power_dbw, BandDesign, BandCfg, PanelCfg, SpectrumScenario, Waveform, multi_band_svg); leo_signal (SignalDesign::to_spectrum_band)
+
+seg-17f462b8768d = tests/leo_signal_reference.rs（多频段瀑布图以四个面板运行，UHF、L5 频段、S 频段和 C 频段干扰机各自只压制自己的频段，纯频段运行不因该扩展而改变）；leo_signal::tests::to_spectrum_band_is_consistent_with_the_design; spectrum::tests (agrees_with_the_jamming_kind_chain)
+
+seg-8749534ecbbb = leo_pass (LeoPassScenario); leo_link::geometry (design_pass, link_geometry, numerical_check, SatMotion, UserMotion); leo_link::antenna; leo_link::itu (p676_gaseous_attenuation_db); leo_link (system_noise_temperature_k, cn0_dbhz)
+
+seg-eec596b8749d = leo_pass::tests (the_leo_pass_is_a_bell_above_flat_gnss; closed_form_doppler_agrees_with_the_numerical_derivative：低于 { "0.01" } Hz 和 { "0.01" } Hz/s；indoor_uhf_suffers_less_building_loss_than_c_band; rain_attenuates_c_band_more_than_s_band; iono_delay_scales_as_one_over_f_squared_across_bands; a_fully_custom_band_needs_no_preset; a_walker_constellation_and_a_tle_satellite_both_run; defaults_run_with_no_preset_named_and_every_number_has_a_unit)；leo_link::geometry::tests (kepler_velocity_is_the_derivative_of_the_position; a_designed_pass_reaches_the_requested_elevation; closed_form_range_rate_and_accel_match_central_differences_for_two_body_motion)；leo_link::antenna::tests
+
+seg-a6cfe1d09891 = leo_link::presets (SystemPreset, BandPreset, all, by_id, gnss_meo); leo_pass (resolve_bands)
+
+seg-09ebe92cc5c1 = leo_link::presets::tests (every_preset_is_sourced_and_self_consistent; only_the_celeste_preset_is_sourced_from_the_workshop)；leo_link::presets::xona_pulsar::tests (the_eirps_reproduce_the_published_minimum_power_at_ten_degrees; a_flat_pattern_lands_the_zenith_power_near_the_published_maximum：与 -139.1 dBW 和 -136.2 dBW 相差不超过 { "0.5" } dB)；leo_link::presets::iridium::tests; leo_pass::tests (a_fully_custom_band_needs_no_preset)
+
+seg-8c33a02f0aa9 = leo_link::energy (fix_budget, duty_curve, IotReceiver, IotSignal); leo_pass (iot_section)
+
+seg-981819c1af62 = leo_link::energy::tests (stronger_signals_and_smaller_doppler_windows_fix_faster; the_doppler_rate_caps_the_coherent_time; battery_life_grows_with_the_fix_interval_toward_the_sleep_floor)；leo_pass::tests (the_run_is_deterministic_and_bad_inputs_are_rejected)
+
+seg-a8d152bb385d = leo_navmsg (LeoNavmsgScenario::midpass, worst_case_jump, elevation, geodetic_to_ecef)
+
+seg-af0e339c4fae = leo_navmsg::tests::a_mid_pass_update_is_continuous（每次切换的距离跳变都等于距离误差的变化，每 { "150" } s 更新一次的经修正 { "300" } s 拟合通过 { "5" } cm 的门限）；leo_navmsg::tests::a_keplerian_only_update_over_a_long_interval_is_flagged; leo_navmsg::tests::worst_case_jump_bounds_every_line_of_sight（闭式解约束了对该锥的密集采样）
+
+seg-d8d04f2ffd50 = leo_navmsg::codec (encode, decode, write_payload, read_payload, field_table, quantisation_budget)
+
+seg-4040a549f1c1 = leo_navmsg::codec::tests (signed_fields_round_trip_through_the_bit_packer; week8_resolves_near_the_reference)；leo_navmsg::tests::every_model_round_trips_through_the_binary_frame（解码后每个模型与精确电文相差不超过 { "2" } mm，重新编码后按位一致，翻转一位会被 CRC 拒绝）；leo_navmsg::tests::every_field_of_the_budget_stays_under_a_millimetre
+
+seg-a6f36f62a02d = leo_navmsg::text (rinex_export, rinex_import, csv_export, csv_import, calendar, from_calendar)
+
+seg-14ee5fa96ce7 = leo_navmsg::text::tests (calendar_round_trips_and_knows_the_gps_origin; d19_is_rinex_shaped)；leo_navmsg::tests::rinex_and_csv_round_trips（文本块之后每个模型相差不超过 { "0.1" } mm，CSV 精确）
+
+seg-3f5b07cc8c81 = leo_navmsg::elements (EcefPoly, ephemeris_at); leo_navmsg (liu_comparison, LIU2025_TABLE)
+
+seg-1ffa5a792c36 = leo_navmsg::tests::liu22_beats_the_16_parameter_set_over_a_20_minute_arc; leo_navmsg::tests::the_ecef_polynomial_fits_a_minute_to_millimetres; leo_navmsg::tests::every_preset_resolves_and_the_atomic_preset_selects_the_zero_clock_polynomial
+
+seg-fc9c5d5b1511 = leo_fusion::doppler (solve, formal_covariance, single_pass_geometry, offset_site, closest_approach); leo_fusion::pvt_kind (run_doppler)
+
+seg-6cb8d56c57d6 = leo_fusion::doppler::tests (range_acceleration_obeys_the_kinematic_identity_and_vanishes_doppler_at_closest_approach; noise_free_multi_satellite_doppler_recovers_the_user：精确到 { "1" } mm，漂移精确到 { "1e-6" } m/s；a_single_pass_has_a_mirror_solution_across_the_ground_track; the_cross_track_error_grows_as_the_pass_goes_overhead; velocity_states_are_recovered_for_a_moving_user)；leo_fusion::pvt_kind::tests (doppler_positioning_improves_with_the_window_and_is_deterministic：加权残差 RMS 在 [{ "0.8" }, { "1.2" }] 内，误差低于四倍形式 sigma)；tests/leo_fusion_scenarios.rs (leo_doppler_positioning_forms_a_fix_and_the_cross_track_error_explodes_overhead; starlink_doppler_only_mode_runs_without_ranging)；tests/starlink_doppler_published_proxy.rs（对“Unveiling Starlink for PNT”已发布的数据集 3 百分位（doi:10.33012/navi.685）的预先登记代理检验：使用 { "3" } 颗卫星（{ "47" } deg 截止角）、无高度辅助、{ "30" } Hz，p90 3-D误差在 { "20" } s 时为 { "92.2" } m，在 { "8" } s 时为 { "870" } m，而已发布值分别为 { "2" } m 和 { "10" } m，因此两个两倍以内的判据均为 NOT MET，偏高，并按未达标断言；docs/design/evidence/cap11-starlink-doppler-proxy/）
+
+seg-95f8dcd6247e = leo_fusion::joint_pvt (solve, dop, code_sigma_dll_m, SystemClock); leo_fusion::system (SystemCfg, System); leo_fusion::pvt_kind (run_joint)
+
+seg-7a8b0b7b8a37 = leo_fusion::joint_pvt::tests (dop_matches_the_hand_derived_zenith_plus_three_horizon_case：HDOP = VDOP = sqrt(4/3)，TDOP = sqrt(1/3)，PDOP = sqrt(8/3)，GDOP = sqrt({ "3" })，精确到 { "1e-9" }；a_lone_satellite_with_its_own_clock_adds_nothing_and_a_known_offset_does; a_noise_free_fix_recovers_position_clock_and_inter_system_bias; seeded_fixes_agree_with_their_formal_covariance; dll_noise_is_the_textbook_figure_for_gps_l1_ca)；leo_fusion::pvt_kind::tests (fusing_leo_never_worsens_the_median_pdop_and_the_isb_is_recovered)；tests/leo_fusion_scenarios.rs (meo_leo_fusion_beats_gnss_alone_and_recovers_the_leo_bias)；tests/joint_pvt_dual_freq_itrf_rtklib_oracle.rs::dual_frequency_finding_is_pinned；tests/joint_pvt_precise_itrf_rtklib_oracle.rs::precise_product_finding_is_pinned
+
+seg-d98c7b399230 = leo_fusion::ppp (run, PppScenario, LI_2019)
+
+seg-51a43af7f6b5 = leo_fusion::ppp::tests (the_filter_is_consistent_over_monte_carlo_seeds：{ "24" } 个随机种子，运行平均 NEES 均值在 [{ "2.4" }, { "3.6" }] 内，且至少 { "75" }% 的历元位于双侧 { "95" }% 卡方区间内；以 { "150" } 个随机种子测得，仅 GNSS 时均值为 { "2.84" }，加入 LEO 时为 { "2.87" }；leo_augmentation_shortens_convergence; same_seed_same_answer_and_every_number_has_a_unit)；tests/leo_fusion_scenarios.rs (ppp_convergence_of_the_bundled_scenario_shortens_monotonically)
+
+seg-c42e3bd4a4c1 = leo_fusion::timing (simulate, utc_offset_s, system_to_utc_s); leo_fusion::pvt_kind (run_timing)
+
+seg-061a0510c35c = leo_fusion::timing::tests (the_utc_offset_follows_the_is_gps_200_expression; continuous_tracking_approaches_the_measurement_floor_and_gaps_cost_time; the_filter_is_consistent_over_seeds; the_utc_offset_uncertainty_sets_a_floor)；tests/leo_fusion_scenarios.rs (leo_timing_error_grows_as_the_c_n0_falls)
+
+seg-16fa5fabfb50 = leo_fusion::presets (all, by_id, cn0_range_dbhz, noise_density_dbw_hz); leo_fusion::system (SystemCfg::build)
+
+seg-df22b3cb00fa = leo_fusion::presets::tests (every_preset_has_a_source_and_every_public_source_a_url; only_one_preset_uses_workshop_material; noise_density_at_290_k_is_minus_204_dbw_per_hz)；tests/workshop_preset_isolation.rs (only_the_listed_files_name_the_workshop_preset; workshop_numbers_live_only_in_the_preset_file_and_its_scenarios：对 src、scenarios 和 tests 的源文本扫描)；leo_fusion::system::tests (a_preset_fills_what_the_scenario_leaves_out; a_system_needs_no_preset; pseudorange_sigma_falls_with_elevation_and_never_below_the_sisre)
+
+seg-6478ad7d09eb = leo_pnt_chain (LeoPntChainScenario); leo_pass (BandCfg::signal, design_tracking); leo_navmsg (LeoNavmsgScenario::broadcast_sisre); leo_fusion::pvt_kind; leo_fusion::ppp
+
+seg-02ef52ba69f0 = leo_pnt_chain::tests (a_sine_line_fit_recovers_its_line)；tests/leo_pnt_chain.rs (every_upstream_change_moves_the_downstream_figures：更强的 EIRP、更长的拟合区间和更大的定轨项各自改变被传递的值和融合定位解；the_handed_on_values_are_the_stage_outputs; a_band_design_splits_the_eirp_and_reports_the_design_jitter; the_pass_export_reproduces_the_engine_range)
+
+seg-4070df5af5e4 = leo_link::spoof (range_rate_position_gradient, line_of_sight, fll_frequency_jitter_hz, doppler_consistency_window, doppler_consistency); leo_pass (SpooferCfg, spoof_section)
+
+seg-0a123a80693f = leo_link::spoof::tests (the_gradient_is_the_derivative_of_the_range_rate; fll_jitter_matches_the_formula_by_hand; a_common_mode_residual_is_a_clock_drift_and_is_not_detected; with_no_prior_and_equal_noise_the_statistic_is_the_scatter_about_the_mean; a_push_the_prior_explains_is_not_detected; a_velocity_push_is_hidden_by_a_loose_velocity_prior_only; the_information_form_equals_the_covariance_form)；tests/leo_resilience_verticals.rs (the_monitors_are_silent_before_the_onset; the_doppler_statistic_is_quadratic_in_the_jump; leo_range_rates_see_a_jump_that_gnss_range_rates_do_not)
+
+seg-8fbcf1ccbe16 = leo_link::spoof (cross_band_step); leo_pass (spoof_section: pairs, cross_band)
+
+seg-aa91bdc483b1 = leo_link::spoof::tests (the_cross_band_threshold_and_power); tests/leo_resilience_verticals.rs (a_ground_spoofer_leaves_the_ionospheric_step_and_an_ionosphere_aware_one_does_not; a_one_band_spoofer_is_seen_by_the_cross_band_monitor_at_the_onset; the_monitors_are_silent_before_the_onset)
+
+seg-b91ca5a2bd9c = leo_pass (IonoFreePair::geometry_free_stec_tecu, geometry_free_stec_sigma_tecu); leo_link::iono::geometry_free_stec_tecu
+
+seg-5d00a19cfac2 = tests/leo_resilience_verticals.rs (the_geometry_free_tec_is_the_pass_slant_tec：在峰值处与该次过境的斜向 TEC 相差不超过 { "1e-9" }，其 sigma 等于码噪声按 { "40.3" } (1/f1^{ "2" } - 1/f2^{ "2" }) 的方和根)；tests/geometry_free_tec_gim_oracle.rs::geometry_free_finding_is_pinned
+
+seg-aa2667aa0296 = receiver_trust (score, monitors, live)
+
+seg-58fcb2ec63c5 = tests/maritime_trust_reference.rs::t5_score_matches_the_clean_room_reading_of_the_documented_rule; receiver_trust::score::tests（对每个统计量单调，增加监测器绝不会提高评分，健康统计量保持在 { "100" }）
+
+seg-7adaa23ce920 = telemetry (syslog: leef, rfc5424, SyslogSink; time)
+
+seg-fe08580cd8d3 = telemetry::syslog::tests（精确的 LEEF 字符串、转义、严重级别、RFC { "5424" } 封装、投递超时和重连）；tests/telemetry_cli.rs
+
+seg-3b0543727850 = receiver_trust::calibration (run_dataset); receiver_trust::monitors (MonitorConfig::profile, JAMMERTEST_2024_CALIBRATED); realdata::jammertest; examples/jammertest_trust_calibration.rs
+
+seg-1a452a47b9d0 = tests/receiver_trust_jammertest_calibration.rs::the_recorded_calibration_reproduces（被忽略，由 KSHANA_JAMMERTEST_DIR 控制数据：已记录的选择、保留集计数、判据结论与总体结论）；receiver_trust::calibration::tests（时间戳、窗口配对与时区偏移、标签、保护带、排除、选择）；receiver_trust::monitors::tests::threshold_profile_is_opt_in
+
+seg-bf0fa5e2343c = jammertest::plan (parse_catalog, parse_plan, import, import_attack_log, events_toml); jammertest::score (score_run); jammertest::dataset (run_dataset); jammertest (score_log, score_pack); examples/jammertest_score_2024.rs
+
+seg-cf2f1a572c34 = tests/jammertest_plan_roundtrip.rs（由 KSHANA_JAMMERTEST_PLAN_DIR 控制数据：{ "2025" } 年计划中每个测试区域的时隙数、目录编号、TOML 往返）；tests/jammertest_score.rs（带有已知下降的合成日志：已检测、漏检、不可评估、虚警运行，带有评分卡的签名证据包）；jammertest::plan::tests；tests/jammertest_score_2024.rs（由 KSHANA_JAMMERTEST_DIR 控制数据：已记录的运行）
+
+seg-bf1156de0226 = compliance
+
+seg-af47f52e5c9e = tests/compliance_report.rs::mapping_is_well_formed; tests/compliance_report.rs::wording_rule_holds_in_mapping_report_and_docs; tests/compliance_report.rs::empty_set_evidences_nothing; tests/compliance_report.rs::statuses_follow_the_runs_present; tests/compliance_references.rs
+
+seg-5614947f4e8e = receiver_trust (live: the gate, its TCP listener, PKSHT); 本 crate 之外：integrations/signalk (JavaScript), integrations/opencpn (JavaScript relay, C++ native plugin), deploy/reference-build (systemd units, container)
+
+seg-e917651d5c45 = tests/receiver_trust_live_cli.rs（门控及其 TCP 监听器，Rust 一侧）；integrations/signalk/test/adapter.test.js、integrations/signalk/test/model.test.js 和 integrations/signalk/test/plugin.test.js（对已记录的合成输出进行的 { "24" } 项 Node 测试）；integrations/opencpn/test/relay.test.mjs（{ "5" } 项 Node 测试）；integrations/opencpn/test/e2e-live.mjs（真实二进制文件对 TCP 消费者，手动运行并在 CI 中运行）；integrations/opencpn/plugin/test/pksht_test.cpp 和 integrations/opencpn/plugin/test/trust_state_test.cpp（对 PKSHT 解析器和面板状态的 C++ 检查）；deploy/reference-build/check-units.sh 和 deploy/reference-build/test-entrypoint.sh
+
+seg-729d14cb230a = iq::track::boc (BocKind, BocTracking, BumpJump, boc11_dll_scale); iq::track::channel (the bump-jump taps and Channel::bump_jumps)
+
+seg-ac14fcbe3119 = tests/iq_boc_bump_jump.rs (b1_b2_b3_side_peak_and_false_jumps_on_the_iq_chain, b4_scaling_on_the_sampled_signal, b5_false_jump_rate_and_detection_at_correlator_level)；iq::track::boc 单元测试（b4_unit_grid_misses_are_the_recorded_ones：预先登记的 B4 单元测试判据保持原文，其已记录的未达标按发现 F1 断言）
+
+seg-371e708b8b8f = iq::channel::scint (Scintillation, ScintParams); realdata::scint50 (parse_log, segments, measured_windows, model_windows, compare)
+
+seg-0e1032d7c879 = tests/iq_scint_malindi_measured.rs (cornell_model_verdict_is_the_recorded_one，已登记的结论按所记录的断言，发现 F1；finding_model_fades_are_deeper_and_longer_than_measured；posthoc_b3_with_the_model_phase_unwrapped，仅报告；由 KSHANA_SCINT 数据控制，由 scripts/fetch_scint_malindi.sh 获取)；realdata::scint50 单元测试（model_data_through_the_harness_shows_the_wrapped_phase_finding，发现 F2）
+
+seg-98c86c10352b = iq::acq (CfarConfig, ca_cfar, ca_cfar_cells, ca_cfar_pfa, ca_cfar_alpha)
+
+seg-7b8247a4ca76 = tests/iq_acq_cfar.rs (c1_closed_form_matches_monte_carlo_of_the_exact_model, c2_false_alarm_rate_on_gaussian_noise, c3_false_alarm_rate_on_two_bit_noise, c5_decisions_do_not_depend_on_the_input_scale；c4_noise_free_two_bit_signal_verdict_is_the_recorded_one，已登记的结论按所记录的断言，发现 F1，由 finding_noise_free_sidelobes_exceed_the_cfar_rate 固定)；iq::acq 单元测试 ca_cfar_closed_form_reduces_to_the_textbook_case_and_inverts
+
+seg-3e8c364433b7 = spectrum (default_band, MORE_BAND_NAMES, GLONASS_CHANNELS)
+
+seg-e24276b8b422 = tests/spectrum_more_bands.rs (s1_new_bands_carry_their_icd_values, s2_nulls_and_b1c_parts, s4_cn0_paths_agree_on_the_new_bands；s2_closed_form_densities_verdict_is_the_recorded_one，发现 F1，由 finding_s2_areas_are_the_closed_form_in_band_fraction 固定；s3_iq_layer_verdict_is_the_recorded_one，发现 F2，由 finding_s3_per_bin_errors_follow_the_code_line_spectrum 固定；posthoc_s3_band_averaged_shape，仅报告)
+
+seg-010ad441a092 = iq::lunanet_afs; iq::signals::lunanet (afs_q_tertiary_bits, afs_q_overlay_bits, afs_q_tiered); surface (lunanet_afs_check_spec, lunanet_afs_check_symbols, lunanet_afs_generate)
+
+seg-2d72ec7c3695 = tests/lunanet_afs_codes.rs (b4_legendre_1499_matches_and_tertiary_codes_match_except_one_printed_column, the_spec_check_reports_every_bar_and_pins_the_b4_miss)；iq::lunanet_afs::tests (sb1_round_trips_every_field_and_corrects_flipped_symbols, generated_streams_pass_and_damage_is_found)；tests/lunanet_afs_cli.rs
+
+seg-662887e17adb = standards_pack; compliance (standards-pack facts in compliance-report)
+
+seg-e2d8a0f6daa5 = tests/standards_packs.rs (pinned_outcomes：每项测试的状态，包括未达标的 L4-T1 和四项 IMO 精度测试)；standards_pack::tests
+
+seg-012acc12567b = evidence::roundtrip, evidence::assemble, interop::testbench (write_conditions_json), iq::campaign::conditions
+
+seg-b92c6dde9c2b = tests/round_trip_pack.rs (pack_links_scenario_conditions_log_and_score_and_verifies, conditions_that_disagree_with_the_scoring_events_are_refused, a_stated_log_hash_that_does_not_match_is_refused, published_schema_names_every_field_the_engine_writes)
+
+seg-d9eab5e90d10 = iq::track (Channel, LoopCore, design); iq::cli::track
+
+seg-a99bb0c28b00 = tests/iq_track_gnss_sdr_oracle.rs (calibration_passes_for_both_receivers, registered_bars_give_the_recorded_verdict, recorded_numbers_are_pinned)，基于 tests/fixtures/iq_track_gnss_sdr_oracle/make_fixture.py 导出的数值

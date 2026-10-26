@@ -12,6 +12,8 @@ seg-06ff6eed7e99 = OpenCPN
 
 seg-ab1af8b3d968 = 见上文
 
+seg-c353e7bec219 = 标注
+
 seg-df52127d74b6 = 位置
 
 seg-7670cf4ceda3 = 默认值
