@@ -761,3 +761,1023 @@ seg-fbbbf27949b1 = positiebeperkt bij ~{ "350" } s
 seg-886abbd7a901 = Het sluitstuk toont de fusiethese: optische tijdoverdracht tussen satellieten houdt zelfs een klassieke <em>klok</em> vergrendeld, waardoor de <em>inertiële</em> sensor als de zwakke schakel van de klassieke suite overblijft — dus kwantuminertie en optische tijdsynchronisatie samen.
 
 seg-54c13117da3c = Klok-holdover: faseafwijking tijdens een GNSS-uitval — de optische klok blijft de hele uitval binnen de specificatie van { "20" } ns terwijl de chip-scale klok die halverwege overschrijdt
+
+seg-1c38217f7c39 = Klok-holdover tijdens een GNSS-uitval: de optische klok (blauw) blijft de hele coast-periode binnen de specificatie van { "20" } ns; de chipschaal-klok (rood) overschrijdt die halverwege. Gegenereerd door Kshana uit <c1/>.
+
+seg-fb5c41741480 = Een ander scenario, <c1/>, leidt de GNSS-beschikbaarheid af uit de <b>baangeometrie</b> in plaats van uit met de hand opgestelde vensters: een ruimtevaartuig binnen de GNSS-schil wordt gepropageerd ten opzichte van een GPS-achtige Walker-constellatie, en het aantal zichtbare satellieten (zichtlijn, aardocculatie, elevatiemasker) bepaalt bij elke stap de positiebepalingstoestand. Over een dag is de gebruiker slechts ~{ "59" }% van de tijd in positiebepaling; de kwantumklok houdt door elke onderbreking een tijdsynchronisatieoplossing van { "5" } ns vast (beschikbaarheid <c2/>), de chipschaal-klok slechts <c3/>.
+
+seg-686f829644f8 = Orbit GNSS-challenged: tijdsynchronisatiefout van de klok over een dag voor een ruimtevaartuig binnen de GNSS-schil, waarbij de dekkingsgaten uit de baangeometrie zijn afgeleid — de optische klok blijft over de gaten heen binnen de specificatie van { "5" } ns, terwijl de chipschaal-klok die overschrijdt
+
+seg-4bf9704bc591 = Tijdsynchronisatiefout over een dag met GNSS-beschikbaarheid afgeleid uit de baangeometrie: het aantal zichtbare satellieten (zichtlijn, aardocculatie, elevatiemasker) bepaalt bij elke stap de positiebepalingstoestand, zodat de klok elk gat moet overbruggen — de optische klok houdt de specificatie van { "5" } ns aan, terwijl de chipschaal-klok die overschrijdt. Gegenereerd door Kshana uit <c1/>.
+
+seg-c27d486455cf = De constellatie kan ook als echte two-line element sets (TLE's) worden opgegeven. Een <em>volledige</em> TLE (regel { "1" } + regel { "2" }) wordt gepropageerd met het volledige <b>SGP4/SDP4</b>-model — inclusief atmosferische weerstand en de diepe-ruimtetermen voor zon en maan en de { "12" } h / { "24" } h-resonantietermen die van belang zijn voor GNSS-banen van ~{ "12" } h — getoetst aan de officiële AIAA 2006-6753-vectoren tot een worstcasewaarde van ≈ { "4" } mm. <c1/> bevat een <b>echte Celestrak-momentopname van <c2/></b> van de operationele GPS-constellatie (2021-07-28, { "30" } satellieten) en vereist geldige TLE-controlesommen — two-line element sets zijn open gegevens uit de catalogus van de US Space Force / 18th Space Defense Squadron, herdistribueerd door Celestrak (Dr T. S. Kelso, <a1>celestrak.org</a1>); ververs met <c3/>. Een blok met alleen regel 2 behoudt de analytische tweelichamenpropagatie (<c4/>); de twee vormen kunnen in één constellatie worden gemengd. Een constellatie kan evengoed worden opgebouwd uit een blok <b>RINEX-3 GPS-broadcast-efemeriderecords</b> — het formaat dat een ontvanger decodeert — gepropageerd met het gebruikersalgoritme van IS-GPS-200 en door dezelfde geometrie gevoerd (<c5/>).
+
+seg-dbbd50071daa = Wat het wel en niet is, volledig
+
+seg-8e4d316d1374 = Wat het wel en niet is
+
+seg-ff53a84b1d67 = <b>Het is:</b> een deterministische engine met weinig afhankelijkheden die de volledige PNT-keten bestrijkt — baangeometrie, traagheidsnavigatie, GNSS/INS-fusie, integriteit, klokken en tijdsynchronisatie. Hij draait een scenario (vaak een GNSS-uitval), laat gekalibreerde foutmodellen van sensoren door de passende schatter evolueren en scoort het resultaat aan de operationele kwaliteitsmaten — en levert een reproduceerbaar JSON-resultaat (JavaScript Object Notation) en een SVG-grafiek, vanuit een Rust-bibliotheek, een opdrachtregelinterface (CLI), een Python-extensie, een WebAssembly-module in de browser, een <b>Model Context Protocol-server (MCP)</b> voor AI-agents of een <b>JetBrains-IDE-plugin (integrated development environment)</b>.
+
+seg-acd42d01dcc3 = <b>Het is niet:</b> vluchthardware, een kwantumpayloadontwerp, een volwaardige GNSS-signaalontvanger, een radiofrequentiesignaalsimulator (RF) of hardware-in-the-loop-opstelling, of een gecertificeerd avionicaproduct — en het vervangt MATLAB/Simulink, STK (Systems Tool Kit) of Orekit niet; het staat ernaast en wisselt bestanden met ze uit. De getrouwheid van kwantumhardware komt uit gepubliceerde foutmodellen, niet uit dit hulpmiddel. De gedetailleerde rijpheid van elke mogelijkheid staat beschreven in <a1><c1/></a1>.
+
+seg-f41a874cf1a4 = <b>Het is (nog) niet:</b> een <em>volledige</em> fysica-engine voor atoominterferometrie (de meeste kwantumsensoren gebruiken gepubliceerde Allan-/ruisbudgetcoëfficiënten; de CAI-versnellingsmeter (koudeatoominterferometer) heeft een laag op basis van eerste principes — Mach–Zehnder-fase, projectieruis, contrastverval en trillingskoppeling, plus Coriolis- en lichtverschuivingssystematiek — maar golffrontsystematiek en het oplossen van franjeambiguïteit blijven een roadmaplaag <b>P2</b> (roadmapfase { "2" }, de kwantumfysicalaag), zie <c1/> en <a1><c2/></a1>); een gecertificeerde of hardware-GNSS-ontvanger (hij lost een <b>PVT</b>-positiebepaling met één punt (positie, snelheid en tijd) op uit echte RINEX-codewaarnemingen (Receiver Independent Exchange Format) — getoetst aan echte IGS-gegevens (International GNSS Service) — en zijn IQ-laag (<c3/>, sinds { "0.31.0" }) acquireert en volgt opgenomen of gegenereerde basisbandsamples in software, als analyse-ontvanger: hij stuurt geen radiohardware aan en zendt niet uit, is geen gecertificeerde ontvanger en doet geen draaggolffasepositiebepaling (RTK of PPP)); of een volledige missieontwerpsuite (hij heeft Lambert-/porkchop-/manoeuvre-/baanbepalingsbouwstenen, maar is de prestatiesimulatielaag <em>boven</em> GMAT (General Mission Analysis Tool)/Orekit, geen vervanging). Deze afbakening is een bewuste keuze. Als u kwantitatieve foutbudgetten voor koudeatoominterferometers op basis van eerste principes nodig hebt (bijvoorbeeld van CARIOQA-PMP-niveau — Cold Atom Rubidium Interferometry in Orbit for Quantum Accelerometry, Pathfinder Mission Preparation — of validatie in X-37B-stijl), zie dan de P2-roadmap en <a2>neem contact op</a2> om samen te werken.
+
+seg-77d98b292f5f = Satellieten in een lage baan om de aarde (LEO) trekken snel en luid voorbij. De soort <c1/> volgt één systeem door elke fase: het signaal, de passage en de bijbehorende verbinding, het navigatiebericht en de gefuseerde positie-, snelheids- en tijdsbepaling (PVT) en precise point positioning (PPP). Elke fase geeft haar getallen door aan de volgende. Zie <a1><c2/></a1>.
+
+seg-e2c350772539 = De LEO-PNT-keten uit een echte run van leo-pnt-chain (leo-pnt-end-to-end.toml): de signaalfase (generic-l op { "1191.795" } MHz, pilot gevolgd met { "10.23" } Mchip/s) geeft door aan de passagefase ({ "1080" } km, gevolgde C/N0-piek { "58.2" } dB-Hz), die doorgeeft aan het navigatiebericht (kepler-rac, fit van { "300" } s, representatie-SISRE { "0.91" } mm RMS, { "0.250" } m met baanbepaling), dat de gefuseerde positiebepaling voedt (alleen GNSS { "1.60" } m RMS 3D, GNSS plus LEO { "0.43" } m) en precise point positioning (convergentie { "11.5" } min alleen GNSS, { "7.5" } min met { "240" } LEO-satellieten). Tussen de fasen worden { "11" } waarden doorgegeven.
+
+seg-dbcdb5f28762 = Elke scenariosoort per familie
+
+seg-a11c4341126d = De scenariosoorten van de engine, ingedeeld in families. Elke familie heeft een pagina met per soort één vermelding (de beschrijving en velden van de engine, een voorbeeldopdracht, kerncijfers uit een run, de rijen van de <a1>verificatiematrix</a1> die de soort noemen en de grafiek die de engine zelf schrijft) en een contactblad met die grafieken; <a2><c1/></a2> indexeert ze allemaal. De tabel wordt geschreven door <a3><c2/></a3> en de pagina's door <a4><c3/></a4>, en beide mislukken als de engine een soort krijgt die geen familie noemt.
+
+seg-d566f3b95e14 = Eén uitvoeren
+
+seg-cd004c9e0ef7 = hoe lang een klok de tijd houdt zonder GNSS, en hoe een tijdsynchronisatiesysteem zich houdt ten opzichte van zijn maskers
+
+seg-39a5b84175f0 = koppelnavigatie en sensorfusie tijdens een GNSS-uitval, met klassieke en kwantumsensoren
+
+seg-67f1cc5e9e2c = navigeren op zwaartekracht, terrein en andere velden wanneer GNSS wegvalt
+
+seg-8a80848f8f62 = waar satellieten zijn, wie ze ziet en hoe goed de geometrie is, rond de aarde, de maan of Mars
+
+seg-10b4ddda50c9 = pseudoafstanden, positiebepalingen, beschermingsniveaus en de ruimteomgeving
+
+seg-1b79421db566 = hoe interferentie een ontvanger bereikt en of ze wordt gedetecteerd
+
+seg-bad04682d511 = navigatie, tijd, referentiestelsels en geodesie bij de maan
+
+seg-603aadf70c84 = GNSS-signalen voor ruimtevaartuigen boven, rond en voorbij de GNSS-banen
+
+seg-64838aabb8f4 = optische verbindingen door de atmosfeer en kwaliteitsmaten voor optisch-plus-RF
+
+seg-458a3953b3b2 = lancering, stijging, terugkeer, standregeling, verbindingen, contactplanning en bestandsformaten
+
+seg-7df7f7116a7c = geketende missies, sweeps en ensembles opgebouwd uit de andere soorten
+
+seg-ab2c09d44cb7 = <c1/> draait een scenario; elke andere opdracht is een subopdracht, en <c2/> toont het gebruik van alle opdrachten. De opdrachten zijn <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (met <c8/> en <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> en <c61/>. <a1><c62/></a1> geeft van elke opdracht het doel, een geverifieerd voorbeeld en de bijbehorende documentatiepagina.
+
+seg-4061734355a4 = Eén engine, overal dezelfde resultaten: de opdrachtregel, de Rust-bibliotheek, Python, JavaScript en WebAssembly, de MCP-server met zijn pluginopdrachten en skills, Kshana Studio (elke pagina draait in de browser, zonder installatie, er wordt niets geüpload), de integraties met ROS { "2" }, Signal K, OpenCPN, GNSS-SDR en <c1/>, de implementatiekits voor systemd, Docker en Grafana, en de JetBrains-plugin. <a1><c2/></a1> somt ze op, met hoe u elk verkrijgt en de namen van alle pluginopdrachten, skills en Studio-pagina's; <a2><c3/></a2> vermeldt voor elke opdracht en soort welk oppervlak hem draagt en welke niet, met de reden.
+
+seg-e46194af8cec = Hoe een run werkt
+
+seg-aa92d3f2aaa0 = Een scenario is een TOML-bestand (Tom's Obvious, Minimal Language): een soort, een seed en de parameters. De engine voert het uit en schrijft het resultaat, een grafiek en een rapport ernaast, plus de exports waarom u vraagt.
+
+seg-76e3ec458441 = Hoe een run verloopt. Een scenario-TOML-bestand (een soort, een seed en zijn parameters) gaat de engine in, kshana { $version }, via de api::run_toml-dispatch over { "87" } scenariosoorten, deterministisch vanuit scenario, seed en engineversie. De engine schrijft result.json, chart.svg, report.html en report.json, een table.csv voor de soorten die er een definiëren, en op verzoek exports in SP3, CCSDS OMM en OEM, CZML, KML, GeoJSON, STK en SigMF; een suite schrijft study.json en study.html. Die bestanden voeden Kshana Studio in de browser, een AI-assistent via de kshana-mcp-server en continue integratie.
+
+seg-63aa55ab596d = Dit meegeleverde scenario duurt { "2" } h: { "10" } min GNSS, daarna ongeveer { "1.8" } h met GNSS geweigerd. Het vraagt hoe lang een optische strontiumroosterklok en een chipschaal-atoomklok (CSAC) elk de tijd binnen { "20" } ns houden.
+
+seg-142bf034556b = De optische klok houdt het budget van { "20" } ns aan gedurende de hele uitval van { "6600" } s; de CSAC houdt het { "2610" } s aan en zit gedurende { "95.6" }% van de run binnen het budget, tegenover { "100" }% voor de optische klok. <c1/> toont elk meegeleverd scenario.
+
+seg-09d7b3bfcbe4 = Tien sectoren stellen tien verschillende vragen aan dezelfde engine. Elke sector heeft meegeleverde scenario's om mee te beginnen.
+
+seg-99a7944884ce = Sector
+
+seg-2c897a3bd230 = Begin met
+
+seg-b37002818547 = Defensie en veiligheid
+
+seg-b05cd10a5446 = Ruimtevaart, baan om de aarde
+
+seg-84c132308264 = Maan, Mars en de diepe ruimte
+
+seg-5d7a6650872e = Luchtvaart en drones
+
+seg-75d7d1930515 = Weg
+
+seg-ea4149746f7b = Spoor
+
+seg-e7a61033ec40 = Kritieke infrastructuur en tijdsynchronisatie
+
+seg-0b70e076dec3 = Telecom en 5G (de vijfde generatie mobiele netwerken)
+
+seg-f246644479d0 = Wetenschap en onderzoek
+
+seg-a9e5cde1c2ec = De vraag die elke sector stelt
+
+seg-a8be876e7d38 = De vraag die het stelt
+
+seg-2b26b16f59c0 = Hoe lang blijven onze navigatie en tijdsynchronisatie betrouwbaar onder jamming en spoofing, en welke lagen houden ons binnen de specificatie?
+
+seg-f2f6717849a7 = Ruimtevaart: baan om de aarde
+
+seg-d038a1e09683 = Ziet mijn ruimtevaartuig genoeg navigatiesatellieten, hoe lang houdt zijn klok de tijd tussen positiebepalingen, en wat zou een navigatielaag in een lage baan toevoegen?
+
+seg-6010770a2bf6 = Maan en diepe ruimte
+
+seg-321f33f89d35 = Krijgt een lander, rover of orbiter bij de maan, bij Mars of verder weg een betrouwbare positie en tijd?
+
+seg-ec12ef650344 = Hoe lang blijft mijn onbemande luchtvaartuigsysteem (UAS), nadat een jammer GNSS heeft weggenomen, binnen zijn positiebudget, en is integriteit beschikbaar op mijn route?
+
+seg-17b626951fcd = Hoe ver over het water reikt een jammer, zou een positieduw worden opgemerkt, en hoe lang kan een schip koersen naar de haven met koppelnavigatie?
+
+seg-33641ef6761c = Weg en automotive
+
+seg-c3f2ad50a841 = Hoe ver drijft een auto af onder een viaduct of langs een jammer langs de weg?
+
+seg-94cca6b24bb2 = Hoeveel seconden na het inrijden van een tunnel kan een trein nog bepalen op welk spoor hij zich bevindt?
+
+seg-96a0796ee879 = Als GNSS-tijd verloren gaat of wordt gespoofd, hoe lang houden een elektriciteitsnet, een handelsplatform of een datacentrum herleidbare tijd?
+
+seg-2d2a4afa2708 = Telecom en 5G
+
+seg-af94e7a93923 = Als de GNSS-tijdreferentie verloren gaat, blijft mijn netwerkklok dan binnen de ITU-T-maskers, en hoe lang?
+
+seg-36d838421b86 = Kan ik een PNT-resultaat reproduceren, uitbreiden en citeren, tot op de seed?
+
+seg-e31cf348fc57 = SGP4 gecontroleerd aan alle { "666" } referentievectoren van AIAA 2006-6753, grootste positiefout { "4.12" } mm
+
+seg-707e2cf795f6 = <b>{ "176" } van de { "388" }</b> mogelijkheden getoetst aan onafhankelijke externe referenties; { "208" } eerlijk gelabeld als berekend uit een model. Elke rij van de verificatiematrix noemt een mogelijkheid, de onafhankelijke referentie waaraan ze wordt getoetst, de test die de controle uitvoert en het label dat daaruit volgt. Continue integratie (CI) maakt het onmogelijk een mogelijkheid VALIDATED te noemen zonder een onafhankelijke externe referentie.
+
+seg-2f81cf391eae = Hoe een mogelijkheid haar label verdient. Elke rij van de verificatiematrix noemt een mogelijkheid, de onafhankelijke referentie waaraan ze wordt getoetst, de test die de controle in continue integratie uitvoert en het label dat daaruit volgt. Een rij mag alleen VALIDATED zijn met een onafhankelijke externe referentie; anders is ze MODELLED, of PARTNER wanneer een hardwarepartner haar bezit. Voorbeeld: SGP4/SDP4, Cowell 6-DOF + verstoringen, batch-/sequentiële baanbepaling, referentie AIAA 2006-6753 SGP4-verificatievectoren, test tests/sgp4_verification.rs, label VALIDATED. Actuele aantallen: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER van { "388" } rijen. In totaal zijn { "176" } mogelijkheden getoetst aan onafhankelijke externe referenties; { "208" } andere zijn eerlijk gelabeld als MODELLED en { "4" } zijn eigendom van een PARTNER.
+
+seg-23d73e23b368 = Rijen
+
+seg-d16e0aac11d5 = een onafhankelijke externe referentie komt overeen: echte gegevens, een onafhankelijke implementatie of gepubliceerde referentievectoren
+
+seg-0c1beb3b59cc = gecontroleerd aan analytische waarheid of consistentie van de simulatie met zichzelf, en dat wordt hardop gezegd
+
+seg-9dd73106acfc = eigendom van een hardwarepartner; Kshana heeft er geen onafhankelijke referentie voor
+
+seg-ed47a99fac7f = Enkele van de controles: alle { "666" } AIAA-vectoren (American Institute of Aeronautics and Astronautics) 2006-6753 voor SGP4 (Simplified General Perturbations { "4" }) tot { "4.12" } mm; het Cowell-krachtmodel tot { "0.08" } m ten opzichte van Orekit { "12.2" }; Galileo tot { "0.61" } m en Swarm-A tot { "0.10" } m ten opzichte van echte precieze efemeriden van de Europese ruimtevaartorganisatie ESA. De tests dekken bijna { "95" } % van de regels van <c1/>, met een drempel van { "85" } % in CI. Het register is <a1><c2/></a1>, gegenereerd uit <c3/>: de <a2>volledige matrix van 388 rijen</a2>, en waarom elke rij die uit een model is berekend geen externe referentie heeft in <a3><c4/></a3>.
+
+seg-6fd41f16334e = Hoe validatie werkt, de samengestelde overzichtstabel en de bewijsgrafieken
+
+seg-997c436fc1e7 = Validatie, reproduceerbaarheid en eerlijkheid
+
+seg-b2739313cab0 = Elke ruisterm is gekalibreerd op een <b>gepubliceerd, geciteerd</b> cijfer en getoetst aan de standaardrelatie (Allan-deviatie voor klokken; de foutgroei van koppelnavigatie volgens Groves voor traagheid; de omzetting van tijdsynchronisatie naar afstandsmeting voor tijdsoverdracht). De status per term wordt bijgehouden in <a1><c1/></a1> als <c2/> of <c3/> — niets wordt als getoetst gepresenteerd dat dat niet is.
+
+seg-96fe11e93409 = Reproduceerbaar door constructie:
+
+seg-47e49f21e7b8 = <c1/>. <c2/> dwingt het af; kwantum- en klassieke runs gebruiken onafhankelijke seeds, zodat hun ruis ongecorreleerd is.
+
+seg-9908a7f56956 = De rijpheid wordt eerlijk vermeld: cijfers voor optische klokken en optische verbindingen zijn <em>doelwaarden / resultaten van grondopstellingen</em>, niet in de ruimte gevlogen.
+
+seg-ee66ab516e01 = Validatie in één oogopslag
+
+seg-557da03648c5 = Elke rij wordt in CI afgedwongen door een benoemde test. Deze tabel is een <b>samengestelde selectie</b>; de volledige machinaal gecontroleerde matrix telt <b>{ "388" } rijen — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), met het volledige bewijs (en wat eerlijk gezegd <em>nog niet</em> getoetst is) in <a1><c2/></a1> en het artefact <a2><c3/></a2> per release (gegenereerd door <c4/>, SLSA-geattesteerd — Supply-chain Levels for Software Artifacts).
+
+seg-bae9b226350a = De kolom <b>Status</b> geeft de <em>soort</em> bewijs aan, overeenkomstig de validatieladder hierboven: <b>VALIDATED</b> = gecontroleerd aan een onafhankelijke externe referentie (echte gegevens, een onafhankelijke bibliotheek of gepubliceerde referentievectoren); <b>MODELLED</b> = gecontroleerd aan analytische waarheid of consistentie van de simulatie met zichzelf (geen onafhankelijke externe dataset). VALIDATED beschrijft de <em>methode</em> van controleren, geen geslaagd/gezakt — een eerlijke misser ten opzichte van een echte externe referentie blijft VALIDATED, terwijl een vergelijking die geen enkele matrixrij als onafhankelijke referentie noemt (de LRO-fit — Lunar Reconnaissance Orbiter — hierboven) als MODELLED wordt getoond. <c1/>-rijen zijn procesbewakers, geen kwaliteitsmaten. Enkele eilanden met echte gegevens (de gemeten cesiumklok, Stable32 PHASE.DAT en de OPS-SAT/ICGEM-controles waarvan de ruwe invoer geen herdistributielicentie heeft) zijn <b>gegevensafhankelijk</b>: de test meldt dat hij is overgeslagen en blijft groen wanneer de invoer ontbreekt, en de openbare referentiegetallen zijn vastgelegd onder <c2/>. Reproduceer de ruwe invoer met de bijbehorende <c3/>.
+
+seg-3242773b78ee = Overeenstemming
+
+seg-57a8676b67dd = Referentie / onafhankelijke referentie
+
+seg-40ac2ed0add0 = SGP4/SDP4-propagatie
+
+seg-74bb349b9b77 = 666/666 vectoren, grootste afwijking <b>{ "4.12" } mm</b>
+
+seg-d9303165ec68 = AIAA 2006-6753 (Vallado <c1/>) + een rechtstreekse vergelijking met de onafhankelijke crate <c2/>
+
+seg-c00ca18a862c = Referentiestelsels — IAU 2000A/B-nutatie, IAU 2006/2000A CIO-keten, ERA
+
+seg-e8888d1c6043 = <b>bit voor bit gelijk</b> (X,Y tot { "1e-14" }, s tot { "1e-18" }, ERA tot { "1e-12" })
+
+seg-e00324b958b7 = ERFA/SOFA <c1/> · <c2/> · <c3/> · <c4/>
+
+seg-1f11fe10f29e = GCRS→ITRS ten opzichte van een onafhankelijke SPICE-engine
+
+seg-ea1d05c7dc4e = max <c1/> → ≤ { "0.86" } m op de grond, ≤ { "3.6" } m voor een GNSS-baan
+
+seg-aff9d97f7ce7 = ANISE (pure-Rust NAIF/SPICE), dezelfde IERS-<c1/>-EOP, { "8" } epochs { "2020" }–{ "2023" } (vergeleken met deze referentie; geen rij van de verificatiematrix noemt haar als externe onafhankelijke referentie, dus ze draagt niet het label VALIDATED)
+
+seg-ae3d9181e784 = EGM2008-geopotentiaal (graad/orde { "70" })
+
+seg-6e4faf2840b7 = versnelling = ∇V tot <b>< { "1e-6" }</b>; zonale terugval naar getoetste J2
+
+seg-97cb148bacb9 = NGA EGM2008-coëfficiënten + analytische ∇V-identiteit
+
+seg-96a34ac92ddd = Synthese van zwaartekrachtfunctionalen (zwaartekrachtondersteunde / GNSS-vrije navigatiekaart)
+
+seg-160e9b967b94 = GRS80 Somigliana + γ_e/γ_p tot <b>{ "3.5e-12" }</b>; echte EGM2008-verstoringskaart fysisch plausibel (RMS ≈ { "26" } mGal, g/o { "70" })
+
+seg-ebffa5a3c7aa = GRS80 (Moritz { "1980" }, IAG — International Association of Geodesy) normale zwaartekracht volgens Somigliana + echte ICGEM EGM2008 (<c1/>)
+
+seg-f71c6820c126 = Allan-schatters (ADEV/MDEV/TDEV/HDEV) + betrouwbaarheidsbanden
+
+seg-cc42b238f1a6 = reproduceren referentiedeviaties; χ²-banden komen overeen
+
+seg-e952996d4cbb = NIST SP { "1065" } (Riley), 1000-punts Tabel 31/32
+
+seg-4522ada8bd8c = Allan-schatters op een <b>echte gemeten cesiumklok</b>
+
+seg-de7a506c8db9 = OADEV/OHDEV tot <b>{ "1e-3" }</b> (waargenomen ≤ { "3e-5" }), { "16" } middelingsfactoren
+
+seg-df056c922da4 = Stable32 op een echte 5071A Cs tegen H-maser, { "556,990" } punten (<c1/>, gegevensafhankelijk)
+
+seg-c763b3e39cdd = Allan-schatters op de <b>canonieke Stable32 PHASE.DAT</b>
+
+seg-ea18bbe1f92d = OADEV/MDEV/TDEV tot <b>{ "1e-3" }</b> (waargenomen ≤ { "5e-5" }), { "139" } middelingsfactoren
+
+seg-977dbc2622d3 = Stable32-referentiedeviaties voor PHASE.DAT (<c1/>, gegevensafhankelijk)
+
+seg-96cd3125f008 = IMU-foutmodel — ARW / VRW / bias-instabiliteit
+
+seg-00d96cd1cd5a = hersteld tot <c1/> (bias-instabiliteit < { "15" } %)
+
+seg-2fc63176238c = Analog Devices ADIS16465-datasheet; NaveGo-referentieprofiel
+
+seg-f7d91d9dee8a = Numerieke Cowell-propagator + krachtmodel (conservatieve niveaus)
+
+seg-e05a02476b0d = grootste positiefout <b>{ "0.08" } m</b> over { "24" } h, { "278" } epochs (LEO + GTO)
+
+seg-ebd031892fb8 = Orekit { "12.2" } <c1/>/<c2/> (CS GROUP), <c3/>
+
+seg-906f9f0b1eae = Cowell-weerstandsniveau + absolute invoer voor zon-/maanefemeride en dichtheid
+
+seg-fda11bd250a7 = weerstandsniveau gekarakteriseerd ≈ { "333" } m / { "24" } h; ongestoord komt overeen met universele-variabelen-Kepler onder de meter, energie/impulsmoment ~{ "1e-9" }
+
+seg-c8db4d50b17a = ingebouwde efemeride met lage precisie + analytische Kepler
+
+seg-96821f41fc71 = Lambert · Tsiolkovsky · porkchop
+
+seg-83f07d16ec88 = heen-en-terugrekening naar tweelichamenwaarheid; ΔV
+
+seg-5e8afcacde5c = Izzo { "2015" } · raketvergelijking · analytische Hohmann-ondergrens
+
+seg-1deb8ad8e6e1 = Baanbepaling (Gauss–Newton-batch)
+
+seg-fdac73a8f167 = onder de meter / mm·s⁻¹ zonder ruis; ~{ "2" } m bij een ruisvloer van { "5" } m
+
+seg-710018ecdb49 = tweelichamen + J2 over een RK4-boog
+
+seg-f5a8235096df = Krachtmodelfit ten opzichte van de precieze Galileo-efemeride (volledige boog)
+
+seg-4baacfef5f63 = <b>{ "0.61" } m</b> 3D-RMS, { "24" } h, g/o-70, alleen krachten
+
+seg-416d96a084a4 = ESA/ESOC <c1/> definitieve baan (E11), echte <c2/>-EOP (vergeleken met deze referentie; geen rij van de verificatiematrix noemt haar als externe onafhankelijke referentie, dus ze draagt niet het label VALIDATED)
+
+seg-f64134a379e8 = Krachtmodelfit ten opzichte van de precieze Swarm-A-efemeride (gereduceerd-dynamisch)
+
+seg-7a3bbdc1b4d2 = <b>{ "0.10" } m</b> 3D-RMS (grens van het empirische niveau, geen meting)
+
+seg-8b39060411d2 = ESA <c1/> precieze baan (vergeleken met deze referentie; geen rij van de verificatiematrix noemt haar als externe onafhankelijke referentie, dus ze draagt niet het label VALIDATED)
+
+seg-96a65ffbcdf1 = Krachtmodelfit ten opzichte van LRO bij de maan (eerlijke misser)
+
+seg-55be30a240c6 = <b>{ "6.67" } m</b> gereduceerd-dynamisch, <em>boven</em> het doel van { "5" } m
+
+seg-e411f5f7d92b = JPL Horizons LRO (NAIF −{ "85" }) + GRAIL (Gravity Recovery and Interior Laboratory) <c1/> (vergeleken met deze referentie; geen rij van de verificatiematrix noemt haar als externe onafhankelijke referentie, dus ze draagt niet het label VALIDATED)
+
+seg-074b044becde = Baanbepaling Mars in de diepe ruimte (gereduceerd-dynamische SRIF)
+
+seg-9572b23a1203 = <b>≈ { "0.2" } m</b> Mars-LMO (kwaliteitsmaat uit simulatie, <em>niet</em> van een echte missie)
+
+seg-6357d45cc26e = synthetische gesloten-lus-baanbepaling — validatie van de schattermachinerie
+
+seg-eca024d9c13e = Zon-centrale Mars-dynamica ten opzichte van JPL DE440
+
+seg-adb60c85d110 = <b>{ "137" } m @ boog van 1 dag</b> (groeit met de boog = niet-gemodelleerde n-lichamen)
+
+seg-061dd1977246 = JPL DE440 via ANISE (<c1/>, afhankelijk van de kernel) (vergeleken met deze referentie; geen rij van de verificatiematrix noemt haar als externe onafhankelijke referentie, dus ze draagt niet het label VALIDATED)
+
+seg-b8d68fa3256d = Positiebepaling met één punt ten opzichte van een opgemeten IGS-coördinaat (echte waarnemingen)
+
+seg-325b29867296 = <b>{ "5.7" } m</b> 3D-RMS / <b>{ "1.1" } m</b> horizontaal, tweefrequente ionosfeervrije code-SPP
+
+seg-03e61b1c4e92 = Opmeting van IGS-station ABMF + GPS-broadcast-efemeride, 2018-05-13 (<c1/>)
+
+seg-5138b6282dc8 = Strak gekoppelde GNSS/INS-UKF
+
+seg-5dbed5c9f9ab = <b>{ "0.77" } m RMS</b> over een LEO-passage van 30 min inclusief een uitval van { "120" } s
+
+seg-7195c1e5d345 = coast volgens het krachtmodel, met de hand afgeleid
+
+seg-59bc25a3c3ca = Navigatie op een zwaartekrachtkaart zonder GNSS
+
+seg-ee46e0571361 = ~{ "70" } km INS-drift → <b>~{ "145" } m</b> hersteld
+
+seg-eefcccec80c1 = Doel van ESA NAVISP <em>Quantum Wayfarer</em>
+
+seg-578e72aad805 = Terreingebonden navigatie (TERCOM/SITAN)
+
+seg-d6bc30b51b2d = { "70" } km drift → <b>< { "500" } m</b> (roostergrenswaarde ~{ "140" } m)
+
+seg-abd9addd7658 = SRTM-<c1/>-DEM; met de hand ingebrachte drift (niet-circulaire controle)
+
+seg-e40b32829af2 = IGRF-14-hoofdveld (graad/orde { "13" })
+
+seg-afdcf7369e65 = pool ~{ "80.7" }°N, dipool ~{ "29.7" } µT, fysisch bereik { "22" }–{ "67" } µT
+
+seg-d226bee5fcff = IAGA (International Association of Geomagnetism and Aeronomy) <c1/> (Schmidt-seminormalisatie)
+
+seg-76b9215b643e = Modulatie van navigatiesignalen en codevolging
+
+seg-b0a0212a6b0c = BPSK-eigen-SSC = <b>2/({ "3" }·R_c)</b>; PSD's met eenheidsoppervlak; C/A-DLL-jitter <b>onder de meter</b> bij { "45" } dB-Hz
+
+seg-bea465b4f53f = Gesloten-vorm-ankers voor SSC/PSD + de formule van Kaplan & Hegarty voor thermische DLL-ruis
+
+seg-54d1705f195c = CR3BP-halo/NRHO-differentiële corrector
+
+seg-edc2737363aa = STM = eindige verschillen; baan sluit tot op <b>machineprecisie</b>; L2 { "9" }:{ "2" } NRHO <b>≈ { "6.57" } d / perilune ≈ { "3,250" } km</b>
+
+seg-205a1f860b51 = controle van de STM met eindige verschillen + gepubliceerde zuidelijke L2 { "9" }:{ "2" } NRHO (≈ { "6.56" } d / ≈ { "3,370" } km) — CR3BP, geen echte Gateway-efemeride
+
+seg-a5bc47e37dec = ARAIM-integriteit met twee constellaties
+
+seg-2b20e50d96d3 = foutmodus voor de hele constellatie op echte GPS + Galileo
+
+seg-79e43be132e8 = EU ARAIM TR (technisch rapport) / DO-316; Celestrak <c1/> 2021-07-28 (vergeleken met deze referentie; geen rij van de verificatiematrix noemt haar als externe onafhankelijke referentie, dus ze draagt niet het label VALIDATED)
+
+seg-2c76bcdc9ffb = GNSS-geometrie / DOP (GDOP/PDOP/HDOP/VDOP/TDOP)
+
+seg-3ac1cbcac5b3 = komt overeen tot <b>{ "1e-6" } relatief</b> over { "8" } geometrieën (goed geconditioneerd → bijna singulier)
+
+seg-5a2015e52db6 = gnss_lib_py { "1.0.4" } (Stanford NAV Lab) — onafhankelijke bibliotheek (<c1/>)
+
+seg-6c228ebcfd7e = Evaluatiemaatstaven voor ML-detectoren (AUC/ROC/verwarringsmatrix/Pd-Pmd/precisie/F1)
+
+seg-0e7439b380e1 = <b>exacte aantallen + < { "1e-9" }</b> over { "5" } datasets × { "24" } drempels
+
+seg-fa2b80f787ea = scikit-learn { "1.9.0" } (Pedregosa et al., JMLR — Journal of Machine Learning Research — { "2011" }) — onafhankelijke bibliotheek (<c1/>)
+
+seg-e48b80c3e7c9 = ROC-AUC van anomaliedetectie op <b>echte ESA OPS-SAT-telemetrie</b>
+
+seg-84259ebdd712 = AUC reproduceert scikit-learn tot <b>< { "1e-9" }</b>; AUC van de piekaantaldetector <c1/> op de gelabelde testsplitsing
+
+seg-423c3bd384e0 = scikit-learn <c1/> op de OPSSAT-AD-testsplitsing (Ruszczak et al. { "2025" }, CC BY { "4.0" }) — echte OPS-SAT-telemetrie (<c2/>)
+
+seg-be3029628c5e = Numerieke kernels voor kwantumafwegingen (ADEV-NNLS-fit · χ²-consistentiebanden · van-Loan-klok-Q)
+
+seg-cfcb5961daa8 = NNLS + Q <b>exact</b>; χ² <b>< { "5e-4" }</b> bij werkende vrijheidsgraden ≥ { "48" }
+
+seg-5a9032fc0e3a = scipy { "1.17.1" } — <c1/> / <c2/> / <c3/> (<c4/>)
+
+seg-790692520df3 = MTIE / MDEV / TDEV-wandermaatstaven voor telecom (ITU-T G.810/G.823/G.8261/G.811 — de aanbevelingen van de Telecommunication Standardization Sector van de International Telecommunication Union)
+
+seg-4d847a7e8da6 = MTIE ({ "9" } middelingsfactoren, bit voor bit gelijk) en MDEV + TDEV ({ "8" } factoren, <b>< { "1e-9" }</b> relatief) op de NIST SP { "1065" }-reeks van de LCG (lineaire congruentiegenerator)
+
+seg-bf75fab95385 = allantools { "2024.06" } <c1/> / <c2/> / <c3/> — onafhankelijke bibliotheek (<c4/>, <c5/>)
+
+seg-4d0da08d3a81 = MCDA-methoden voor afwegingsstudies — alle vier de beslisfamilies, negen extern getoetste aggregators (WSM · WPM · WASPAS · MOORA · COPRAS · TOPSIS · VIKOR · PROMETHEE II · ELECTRE I) plus <b>AHP</b>-prioriteitsweging met paarsgewijze vergelijking
+
+seg-425d078b33ee = scores / rangschikkingen / concordantiematrices gereproduceerd tot <b>< { "1e-9" }</b>
+
+seg-60a082794dc0 = pymcdm + pyDecision (onafhankelijke MCDA-bibliotheken van derden) + Saaty RI (Random Index) / SciPy-LAPACK eig (<c1/>)
+
+seg-97283fc18e4c = LEO-Doppler-envelop uit de baan en de draaggolf
+
+seg-3d30662e3f45 = Iridium-maximum binnen <c1/> van de gepubliceerde ±{ "36" } kHz; Xona Pulsar X1 binnen de gepubliceerde <b>{ "32" }–{ "34" } kHz</b>
+
+seg-4e128979ab4e = RNTF-testresultaten voor LEO-PNT; Leclère, Marathe & Reid, arXiv:{ "2509.19551" } (<c1/>)
+
+seg-e6db6cb64a02 = PPP-convergentie met LEO-augmentatie
+
+seg-e2c27ccb8ab4 = { "7.4" } → { "4.8" } / { "3.2" } / { "2.7" } / { "2.3" } min met { "60" } / { "96" } / { "192" } / { "288" } LEO-satellieten, monotoon; filter-NEES binnen de χ²-band
+
+seg-a6cdd76aedb0 = trend vergeleken met Li et al., J. Geod. { "93" }:{ "749" } ({ "2019" }) ({ "9.6" } → { "7.0" } / { "3.2" } / { "2.1" } / { "1.3" } min); constellaties en ruis niet gereproduceerd
+
+seg-3e651db0db24 = Conditioneel beschermingsniveau voor tijdsynchronisatie (door holdover begrensde niet-gedetecteerde tijdfout onder spoofing)
+
+seg-3b790027bf17 = de samenstelling reproduceert de meerstaps-<c1/>-covariantierecursie; gekalibreerd op een echte opgenomen spoof
+
+seg-6c83647adc32 = JammerTest { "2024" } (Zenodo { "15911589" }) scalaire waarden + gesloten vormen van van Loan / CUSUM (<c1/>)
+
+seg-d875db8386a5 = Scoring van PNT-veerkracht + beslissingsinstabiliteit
+
+seg-f8a85a31f6bc = { "35" } met de hand afgeleide referentietests; byte-deterministisch studieartefact (vaste seed)
+
+seg-c0a34c12ddb1 = DHS RPCF v2.0-koppeling + gesloten vormen van Dirichlet / Kendall-τ / Hill-N2 — synthetische architecturen, geen certificering
+
+seg-16c9861cede4 = Studie naar de optimismekloof bij RF-verstoringen (schaalwetten + leave-one-out-voorspeller)
+
+seg-9e64dd00782c = significantie met permutatienulmodel; byte-deterministisch artefact ({ "5" } seeds)
+
+seg-5e1591a076e7 = synthetisch, op parameters gebaseerd corpus — de evaluatie-<em>maatstaven</em> zijn VALIDATED ten opzichte van scikit-learn (hierboven); de studie is MODELLED
+
+seg-56b7849f0463 = CI
+
+seg-ea0d1c94464f = Reproduceerbaarheid over platforms heen
+
+seg-82e568406d19 = bitgelijke invoer + vormreferenties (goldens) op { "3" } besturingssystemen
+
+seg-cd59fd086afc = CI-matrix voor Linux / macOS / Windows, SHA-256-goldens
+
+seg-3bdc2e301b1b = Testdekking
+
+seg-e42bbd5c72f1 = <b>~{ "95" } % regels</b> van <c1/> met uitzondering van <c2/> en <c3/>, met een drempel van ≥ { "85" } %
+
+seg-b2789a3e7ebe = cargo-tarpaulin (LLVM-engine)
+
+seg-9fcd5cdd129d = Hoe een mogelijkheid haar label verdient: een eis wordt gekoppeld aan een module in src, aan een test in tests, aan een externe onafhankelijke referentie (echte dataset, onafhankelijke referentie-implementatie of gepubliceerde vectoren), aan een status — met een in CI afgedwongen bewaking dat geen enkele mogelijkheid als getoetst kan gelden zonder externe onafhankelijke referentie. Actuele aantallen: { "176" } getoetst, { "208" } berekend uit een model, { "4" } van een partner, { "388" } in totaal
+
+seg-5262ee45dd08 = Hoe een mogelijkheid haar label verdient — de in CI afgedwongen invariant: geen externe onafhankelijke referentie ⇒ kan niet als getoetst gelden · <a1>SVG</a1>
+
+seg-452fea06dd30 = Hoe elke bewering wordt onderbouwd: de kolom getoetst bestaat per constructie voor { "176" } van de { "176" } uit ExternalDataset (in CI afgedwongen); rijen die uit een model zijn berekend zijn eerlijk gelabeld als InternalConsistency, ReferenceImpl of ExternalDataset; rijen van een partner hebben geen Kshana-referentie
+
+seg-c550a4bde1ff = Grootste positiefout van SGP4/SDP4 ten opzichte van de AIAA 2006-6753-referentie per regime, logaritmische schaal: elk regime ligt ver onder de AIAA-tolerantie, het ergste geval is { "4.12" } mm in het niet-resonante diepe-ruimteregime
+
+seg-2ad422aac6a1 = Boven: elke getoetste rij wordt per constructie onderbouwd door een externe dataset. Onder: SGP4 komt in elk regime overeen met de officiële referentie (grootste afwijking { "4.12" } mm). <a1>SVG</a1> · <a2>SVG</a2>
+
+seg-faadba4f1f85 = Verificatiestatus over alle { "388" } mogelijkheden: { "176" } getoetst (gecontroleerd aan een externe onafhankelijke referentie), { "208" } berekend uit een model, { "4" } eigendom van een partner
+
+seg-6c1edff3e035 = { "176" } getoetst · { "208" } berekend uit een model · { "4" } van een partner — <a1>SVG</a1>
+
+seg-a9d8031cdcf8 = Elke mogelijkheid van de openbare kaart, per domein, met haar label in het register. De domeintabel wordt door <a1><c1/></a1> geschreven uit <c2/>, hetzelfde bestand dat de kaart van alles in Studio leest.
+
+seg-fcf51f91a0f2 = Kshana-mogelijkheden per domein en rijpheid: getoetste en uit een model berekende openbare mogelijkheden per domein, getekend uit web/capabilities.json door tools/gen_validation_figures.py
+
+seg-4348d6cccd7c = De volledige tabel, domein voor domein met elke mogelijkheid en haar label, is <a1><c1/></a1>.
+
+seg-00a9581dd0e4 = Eén regel levert het opdrachtregelhulpmiddel: <b><c1/></b>. Elk kanaal levert v{ $version } vanaf dezelfde getagde commit.
+
+seg-c9e68d2b2e99 = Gids
+
+seg-8d953358d683 = open <a1>https://kshana.dev</a1>
+
+seg-a594acff8553 = Een passage waarin AI-clients van derden worden genoemd is hier weggelaten; ze staat in <a1>README.md</a1> op GitHub.
+
+seg-d48f3f0dec08 = <a1>Toevoegen aan Cursor (npx)</a1> · <a2>Toevoegen aan Cursor (Docker)</a2> · <c1/>
+
+seg-ad59014f9c8e = <a1>Installeren in VS Code (npx)</a1> · <a2>Installeren in VS Code (Docker)</a2> · <c1/>
+
+seg-2593c6d52c90 = download kshana-mcp-<target> uit de release en controleer het aan de hand van SHA256SUMS
+
+seg-1999be2916fa = zoek io.github.ashfordeOU/kshana-mcp
+
+seg-1ed41ea31422 = Instellingen → Plugins → Marketplace → zoek „Kshana” (plugin-ID dev.kshana.ide)
+
+seg-12541c10956b = download de plugin-tarball uit de release
+
+seg-ad016bbbea54 = importeer kshana-grafana-*.json uit de release
+
+seg-7849acc8e680 = Kshana op de JetBrains Marketplace
+
+seg-48a01a252537 = Bouwt met Rust { "1.85" } of nieuwer, de rust-version in Cargo.toml
+
+seg-8edd16ad3672 = MCP is het Model Context Protocol. Pin een release met <c1/>, <c2/> of <c3/>. Om vanuit de broncode te bouwen, zie <a1>Installeren en bouwen</a1> onder Naslag.
+
+seg-152cb43de2f3 = Een scenario draaien vanuit Python en vanuit WebAssembly
+
+seg-58ea673e61fc = Naast <c1/> biedt de module <c2/> (JSON, SVG en de samenvatting van één regel tegelijk), <c3/>, <c4/>, <c5/> / <c6/> en <c7/>; zie <a1><c8/></a1>.
+
+seg-f589eb87e902 = Het npm-pakket is de hele engine gecompileerd naar WebAssembly. Geef in Node.js het binaire bestand aan <c1/>; in een browser haalt <c2/> het op (zie <a1><c3/></a1>).
+
+seg-7488a0b0a215 = Eén open engine staat in het midden en elk oppervlak draait hem: de opdrachtregel, de Rust-bibliotheek, Python, WebAssembly en Kshana Studio, de MCP-server, het Docker-image en de JetBrains-plugin. Hetzelfde scenariobestand geeft op elk dezelfde bytes. Kshana Pro staat erbovenop als een afzonderlijke overlay die van de engine afhangt en hem nooit forkt.
+
+seg-9d69cf43cd40 = De architectuur van Kshana: één open engine in het midden, kshana { $version } onder de AGPL-3.0, met api::run_toml, een getypeerde dispatch over elke soort, en het verificatieregister van { "388" } mogelijkheden ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Eromheen draait elk oppervlak dezelfde engine: opdrachtregel (cargo install kshana); Rust-bibliotheek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-plugin (Marketplace: „Kshana”). Eronder staat Kshana Pro, een propriëtaire overlay die als bibliotheek van de open engine afhangt, hem nooit forkt en geen fysisch model toevoegt.
+
+seg-9ac1f9e2d1b1 = In de engine: de domeinlagen en het verificatieregister
+
+seg-9bc9a971bdb4 = De architectuur van Kshana in lagen. Vijf toegangspoorten (opdrachtregel, Python, JavaScript en WebAssembly, de MCP-server en de JetBrains-plugin) bereiken één api::run_toml, een getypeerde dispatch over { "87" } soorten. Daaronder liggen acht domeinlagen: tijd en referentiestelsels, klokken en tijdsynchronisatie, traagheid en fusie, GNSS en integriteit, astrodynamica, LEO-PNT, maan, Mars en diepe ruimte, en missies en studies, op een gedeelde kern, alle kruiselings verwezen door de verificatiemodule, de machinaal gecontroleerde matrix van { "388" } mogelijkheden die de enige bron van waarheid is voor elk label.
+
+seg-4e894b853889 = <b>Eén engine, veel toegangspoorten.</b> Eén Rust-kern (<c1/>) draait elk scenario, bereikt via een CLI, een Python-extensie, een WebAssembly-module in de browser, een <b>MCP-server</b> voor AI-agents en een <b>JetBrains-IDE-plugin</b> — allemaal samenkomend in één <c2/>-dispatch. Binnenin sluiten de sensorpakketten aan op een gemeenschappelijke foutmodelinterface; ernaast staan een <b>referentiestelsellaag</b> (IAU 2006/2000A-precessie–nutatie en de CIO-gebaseerde GCRS↔ITRS-reductie), een <b>astrodynamica-/numerieke laag</b> (analytische SGP4/SDP4 <b>en</b> een numerieke Cowell-propagator met zijn EGM2008-/verstoringskrachtmodel, manoeuvreontwerp en baanbepaling), een <b>integriteits-/GNSS-laag</b> (RAIM/ARAIM, SBAS, het meetdomein, jamming, cislunair), een <b>fusie- / alt-PNT-laag</b> (de GNSS/INS-schatters en de map-matchers voor zwaartekracht/terrein/magnetisme), een <b>diepe-ruimte- en maanlaag</b> (radiometrische Mars-PNT en de maan-PNT-suite, met per onderdeel het bewijsniveau in de matrix — LTC-tijd, VLBI, gezamenlijke OD+klok, realisatie van referentiestelsels, servicevolume, differentiële PNT, interoperabiliteit), een <b>missieanalyselaag</b> (lancering / terugkeer / dekking / richting / passage / verbindingsbudgetten en de ruimteweersomgeving) en de open <b>studielaag voor veerkracht en machine learning</b> (RPCF-veerkrachtscoring, de optimismekloof bij RF-verstoringen en de demonstrator voor kwantumgebaseerde PNT) waarvan de reproduceerbare artefacten op de getoetste kernels rusten.
+
+seg-698b8f40212f = Twee zelfstandige, <b>van de workspace uitgesloten</b> crates staan naast de kern — <c1/> (de MCP-server, gebouwd op de edition-2024-SDK <c2/>) en <c3/> (de ANISE/SPICE-controle van referentiestelsels, die MPL-2.0-afhankelijkheden (Mozilla Public License { "2.0" }) binnenhaalt) — buiten de afhankelijkheidsgraaf van de gepubliceerde crate, <c4/>, de licentiepoort en de MSRV-build (minimum supported Rust version) gehouden door de lijst <c6/> in de <c5/> in de root. De JetBrains-plugin (<c7/>) is een afzonderlijk Kotlin-project. Zie <a1><c8/></a1> voor de volledige set diagrammen.
+
+seg-59578c405ae3 = De gerenderde diagrammen (enginestroom, modulekaart, distributie) staan in <a1><c1/></a1>.
+
+seg-e7a7a9f8a9ca = Diagrammen
+
+seg-b4016ded2b17 = De diagrammen zijn Mermaid-bronnen in <a1><c1/></a1>, gerenderd naar SVG en PNG in <a2><c2/></a2> (<c3/> op Linux, de andere twee <c4/>-scripts elders), en een record koppelt elke PNG aan de exacte SVG waaruit hij komt. Tests leggen de aantallen vast die ze noemen. De grafieken in de secties hierboven worden door hulpmiddelen getekend uit engineruns; deze tonen hoe de onderdelen in elkaar passen.
+
+seg-b869ae37ad3e = Het systeem: zes toegangspoorten (opdrachtregel, Python, WebAssembly en npm met Kshana Studio, MCP-server met plugins en skills, JetBrains-plugin, integraties) roepen allemaal één dispatch over elke scenariosoort aan, die één engine draait met gedeelde kern, sensorpakketten en referentiestelsels, en domeinmodellen, en een reproduceerbaar resultaat en een grafiek schrijft
+
+seg-62f5ceb0f0ba = Eén dispatch, één engine, reproduceerbare uitvoer · <a1>SVG</a1> · bron <a2>system-overview.mmd</a2>
+
+seg-eab78023b888 = De oppervlakken: één deterministische offline engine voedt de opdrachtregel, de Rust-bibliotheek, Python, WebAssembly en npm, en de MCP-server; Studio draait op de WebAssembly-build, pluginopdrachten en skills op de MCP-server, integraties en implementatiekits op de opdrachtregel, en de JetBrains-plugin op de bibliotheek
+
+seg-3436f01757b2 = Elk oppervlak, vanuit dezelfde engine · <a1>SVG</a1> · bron <a2>surfaces.mmd</a2>
+
+seg-54fe0ac7b2da = Binnen één run: een scenariobestand met zijn seed en GNSS-tijdlijn voedt de engine, die per tijdstap het foutmodel laat evolueren, de schatter draait en de kwaliteitsmaten scoort, en een reproduceerbaar resultaat en een grafiek schrijft
+
+seg-7d272510fb51 = De binnenste lus van een run · <a1>SVG</a1> · bron <a2>engine-flow.mmd</a2>
+
+seg-5ff5a85b2531 = Ontvangervertrouwen: een ontvangerlog of -stroom wordt ingelezen tot waarnemingsgrootheden per epoch en de eigen vlaggen van de ontvanger, passeert de monitors en wordt een adviserende vertrouwensscore met een band en redenen, die Studio, telemetrie, een ondertekend bewijspakket, Jammertest- en bench-scoring en het compliance-rapport voedt
+
+seg-c96960dcf487 = Van een ontvangerlog naar een vertrouwensscore en wat die gebruikt · <a1>SVG</a1> · bron <a2>trust-flow.mmd</a2>
+
+seg-0251dc60b209 = De laboratoriumrondgang: een scenario wordt geëxporteerd met zijn gebeurtenissen en testomstandigheden, een operator buiten Kshana speelt een bestand af via een laboratoriumsimulator, de ontvangerlog wordt gescoord ten opzichte van de vermelde gebeurtenissen, en de bewijsrondgang koppelt de hashes van scenario, omstandigheden en log en de score aan een ondertekend pakket
+
+seg-7b0e5de94289 = Scenario tot ondertekend pakket; Kshana produceert of speelt nooit een signaal af · <a1>SVG</a1> · bron <a2>lab-round-trip.mmd</a2>
+
+seg-e7f2456d8d12 = Kshana Studio: de browser draait de naar WebAssembly gecompileerde engine lokaal zonder iets te uploaden, neemt meegeleverde scenario's of een scenario of log die u opent en toont het resultaat in de eenvoudige weergave, de geavanceerde weergave en de taakpagina's, waarbij exports door de gebruiker worden opgeslagen
+
+seg-952ebc1be82b = Hoe Studio lokaal draait · <a1>SVG</a1> · bron <a2>studio-flow.mmd</a2>
+
+seg-5468515a5224 = De test- en releasestroom: lokale poorten (opmaak, clippy, de controle op afwezigheid van attributie, de ratchet voor documentatiedekking en scripts/gate.sh, dat de volledige suite en herhaalde runs draait en de bon schrijft die de pre-push-hook controleert) leiden naar een pull request met alleen CI en een groene volledige CI; de eigenaar spoelt main door naar de groene commit en een geannoteerde tag komt erop terecht na de versiesynchronisatiecontrole; de releaseworkflow verifieert de volledige suite op de getagde commit voordat er iets wordt gepubliceerd, bouwt de binaries met een SBOM, controlesommen en bouwherkomst, publiceert naar crates.io, PyPI, npm, het containerregister, het MCP-register en de JetBrains Marketplace, bevraagt elk register tot het de nieuwe versie levert en triggert de sitebuild vanaf de tag; een afzonderlijk pad met alleen de site triggert de pages-workflow met de tag main en wordt geweigerd tenzij sinds de laatste release niets buiten web/ en .github/ is gewijzigd
+
+seg-1857e29823b3 = Test- en releasestroom, van lokale poorten tot een geverifieerde release en het pad met alleen de site · <a1>SVG</a1> · bron <a2>release-flow.mmd</a2> · <a3>docs/RELEASING.md</a3>
+
+seg-16125cb79850 = De modulekaart: de opdrachtregel, Python, WebAssembly, MCP-server en JetBrains-plugin roepen de getypeerde dispatch over elke soort aan, die de gedeelde kern bereikt, tijd en referentiestelsels, sensorpakketten, astrodynamica, integriteit, spoofdetectie, fusie, diepe ruimte en maan, veerkracht, en de module voor arbitrage en benchmark, allemaal gedragen door de verificatiematrix
+
+seg-9454a0bc9cea = Waar de code staat · <a1>SVG</a1> · bron <a2>module-map.mmd</a2>
+
+seg-302554087e15 = Distributie: één repository levert de kerncrate, de MCP-server, de IDE-plugin en de controlecrates aan crates.io, PyPI, npm, GitHub Releases, de Pages-playground, het containerregister, het MCP-register en de JetBrains Marketplace, met een Zenodo-archief
+
+seg-530f5e8a6cdd = Wat waar wordt geleverd en wat het controleert · <a1>SVG</a1> · bron <a2>distribution.mmd</a2>
+
+seg-c21d26341f01 = <a1><c1/></a1> is een MCP-server: uw assistent draait de echte engine en leest diens JSON terug, in plaats van de wiskunde te raden. Elk van zijn { "49" } tools is een dunne wrapper om een publieke functie van de bibliotheek <c2/>, zodat er geen simulatielogica in de server zit.
+
+seg-c459db99a099 = <c1/>, zelf gehost: zie <a1>docs/deploy/mcp-http.md</a1>
+
+seg-8977c5b65068 = kshana-mcp op Glama, de kwaliteitsscore van zijn MCP-server
+
+seg-920704a0e384 = De installatie per client staat in <a1><c1/></a1>. De server staat in het officiële MCP-register vermeld als <c2/>.
+
+seg-b7ea176e9993 = De { "49" } tools
+
+seg-4a458fb861f4 = Scenario's en rapporten
+
+seg-44d509180c56 = Een scenario draaien vanuit een TOML-definitie (Tom's Obvious, Minimal Language)
+
+seg-87e30294e0dc = De { "87" } ingebouwde scenariosoorten met beschrijvingen + verplichte/optionele velden — zodat de agent een geldig scenario kan opstellen
+
+seg-ef28db290e2b = Controle vooraf: de TOML parsen en de soort ervan vaststellen, zonder te draaien
+
+seg-ddda89579382 = De meegeleverde referentiescenario's als JSON
+
+seg-b79218983c41 = De TOML-tekst van één meegeleverd referentiescenario, byte voor byte het bestand onder <c1/>
+
+seg-9a6dbd3f5561 = Een scenario draaien en het rapport ervan teruggeven
+
+seg-c6830cfd1d05 = Een scenario draaien en de tijdreeks ervan als animatie teruggeven
+
+seg-f33da4bce786 = Hemelgeometrie onder een azimutafhankelijke skyline: de zichtbare en verborgen satellieten, DOP, de oost-noord-omhoog-covariantie en de horizontale foutellips; of een skylinevoorinstelling met haar herkomst
+
+seg-aae3ddd9b033 = Export en interoperabiliteit
+
+seg-9c22d43236c6 = Welke interoperabiliteitsformaten voor een scenario gelden (<c1/>, <c2/>, <c3/>, <c4/>, <c5/>), de reden wanneer een formaat niet geldt, en de specificatie die elke schrijver volgt
+
+seg-a403f55200cf = Een scenario exporteren als CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON, STK-efemeride (Systems Tool Kit) <c1/>, of SigMF (Signal Metadata
+
+seg-b764db3e8a76 = Een GeoJSON-route <c1/> in een scenario schrijven dat een waypointspoor vliegt (<c2/>, <c3/>, <c4/>, <c5/>) en de nieuwe TOML teruggeven
+
+seg-3d0b7051eef3 = De constellatie van een <c1/>-scenario exporteren als precieze SP3-c-efemeride (Standard Product { "3" }, revisie c)
+
+seg-a895db8949e0 = De elementen van een <c1/>-scenario exporteren als CCSDS-catalogus (Consultative Committee for Space Data Systems) 502.0-B-2 OMM (Orbit Mean-elements Message)
+
+seg-eea23196a44a = De toestandsreeks van een <c1/>-scenario exporteren als CCSDS OEM-efemeride (Orbit Ephemeris Message) { "2.0" } — de TEME-positie (true equator, mean equinox) <em>en</em>
+
+seg-77b4524cc903 = Een scenario draaien en de reproduceerbaarheidstabel ervan als CSV (door komma's gescheiden waarden) teruggeven — de bytestabiele tabel die de CLI (opdrachtregelinterface) schrijft als <c1/>
+
+seg-45ec6cbd0321 = De voertuigbeweging en gebeurtenissen van een scenario voor een laboratorium-GNSS-simulator (<c1/>)
+
+seg-21a2a8e8b418 = Vertrouwen in ontvanger en vaartuig
+
+seg-50e8b3b5ec93 = Een echte GNSS-ontvangerlog (global navigation satellite system) beoordelen op vertrouwen
+
+seg-7a1283d1338e = Een begrensd NMEA { "0183" }-fragment scoren (hoogstens { "2" } MiB en { "20,000" } epochs
+
+seg-c8bcc4c43ddd = De NMEA { "0183" }-log van een vaartuig (hoogstens { "4" } MiB) als batchrun, waarbij de sessie-TOML de grenzen van het vaartuig vermeldt
+
+seg-76213581f65d = Een ondertekend bewijspakket voor een venster van de log van een vaartuig (<c1/>)
+
+seg-94c7903c4527 = Een RFC { "3161" }-tijdstempeltoken (base64 van de <c1/>-bytes) aan een pakket koppelen, in het geheugen (<c2/>)
+
+seg-684763a2c18f = Een pakket verifiëren (<c1/>)
+
+seg-dfcefc093cf1 = Synthetische brug-NMEA { "0183" } voor bemanningstraining uit een <c1/>-TOML (jamming, positie-drag-off, tijdspoof, replayvertraging) met het instructeurslogboek (<c2/>)
+
+seg-f3fa6108f3b7 = Een GNSS-interferentiekaart uit ADS-B- of AIS-positiemeldingen als CSV-tekst (hoogstens { "4" } MiB)
+
+seg-032b8d0d90bf = Het aandeel van de lengte van een route in cellen van een of meer interferentiekaarten die verslechterd zijn, niet verslechterd zijn, niet beoordeeld zijn en niet waargenomen zijn, eventueel binnen een datumbereik
+
+seg-02c3fb3fcd01 = Een vertrouwensstroom (JSON-regels) of <c1/>-resultaat weergegeven als Prometheus-tekst, CEF- of LEEF-syslogregels of een OTLP-JSON-payload, met de <c2/>-encoders
+
+seg-1b6b67cee5e0 = GNSS-IQ (bestanden in de werkmap; uit in HTTP-modus)
+
+seg-791eec25de74 = De installatie van de GNSS-IQ-laag
+
+seg-bf92a3ffd87a = Eén IQ-opname (in-fase en kwadratuur) in de werkmap beschrijven zonder haar te verwerken
+
+seg-0232abbf4044 = Een GNSS-IQ-scène met meerdere satellieten in de werkmap genereren (<c1/>)
+
+seg-bb76dbf58421 = FFT-acquisitie (fast Fourier transform) van een of meer PRN's (pseudo-random noise-codes) over een opname (<c1/>), eventueel achter front-endtrappen
+
+seg-e523a49c2fbb = Acquireren, daarna volgen met de DLL/PLL/FLL-bank (delay-, phase- en frequency-locked loop) (<c1/>), met de lussen uit een `kshana.loop-desig
+
+seg-17bfba9d7c6f = Front-end- en interferentieonderdrukkings-DSP van de ontvanger toepassen (digital signal processing
+
+seg-38daa8cd8755 = Eén IQ-opname in de werkmap afspelen over meerdere ontwerpen van volglussen (<c1/>)
+
+seg-a0423832eba5 = De monitors voor interferentie- en spoofingdetectie over een IQ-opname in de werkmap draaien (<c1/>)
+
+seg-966250c8da0c = Het model voor verlies van vergrendeling van de volglus aan labruns fitten (<c1/>) uit een <c2/>-scenario waarvan de logs inline staan (<c3/> of <c4/>
+
+seg-b0f70dfca147 = Een als tekst opgegeven <c1/>-bestand valideren en de opgeloste omstandigheden met hun hash teruggeven
+
+seg-703684fc6ef3 = Een lab-replaycampagne draaien (<c1/>)
+
+seg-646792c2afbc = De voortgang van de uitvoermap van een campagne
+
+seg-99753f8c101c = De koppeling met openbare kaders, ingevuld uit als tekst opgegeven resultaatdocumenten (<c1/>)
+
+seg-bd507f064aa3 = De statische koppeltabellen (of, met <c1/>, de brondocumenten die ze citeren met versies en URL's) als Markdown, voorafgegaan door dezelfde verklaring
+
+seg-246d5c14a201 = De standaardenpakketten (<c1/>): gescoorde scenariosets voor de testprofielen van het DHS Resilient PNT-kader, IMO MSC.1/Circ.1575 en ICAO Doc { "9849" } Appendix F
+
+seg-38948941bee2 = Eén pakket gedraaid tegen drempels die vóór de run zijn vastgelegd: elke test <c1/>, <c2/> of <c3/>; MODELLED, beoordeelt geen enkel product
+
+seg-d95bbb38e253 = Het LunaNet Augmented Forward Signal gecontroleerd aan LNIS V5 AD1 Volume A (LSIS-AFS V1.0): de codes aan de afgedrukte tabellen, of een symboolstroom aan het frameformaat; LDPC en CRC-24Q van subframes { "2" } tot en met { "4" } worden niet geverifieerd
+
+seg-d958c43ba8c1 = Het ondertekende laboratoriumrondgangspakket: scenario, <c1/>-document, ontvangerlog en score, gekoppeld door hash
+
+seg-22377c58ecb2 = De hele engine is gratis. Kshana Pro en studies op maat zijn voor programma's die meer nodig hebben, en elke betaalde route begint met een bericht: hier staan geen prijzen.
+
+seg-a91762c0aabe = Gratis
+
+seg-eedfcdbe2b1c = de hele open engine, alle { "87" } scenariosoorten, zonder functiepoort
+
+seg-af56c940e13a = een propriëtaire overlay op dezelfde engine, onder contract
+
+seg-cd381d248ffb = een MODELLED-studie naar de PNT-veerkracht van uw systeem, voor u uitgevoerd
+
+seg-c25a3f546887 = AGPL-3.0 (GNU Affero General Public License, versie { "3" }), of een commerciële licentie
+
+seg-985c916fc71f = propriëtair
+
+seg-3efb1ab7f428 = contract
+
+seg-dddd771482a1 = Hoe te beginnen
+
+seg-27546f4004b9 = <a1>installeren</a1> of <a2>kshana.dev</a2> openen
+
+seg-ed09a7073af5 = een Pro-evaluatie aanvragen
+
+seg-68340a1233ff = een studie aanvragen
+
+seg-fedf4c64c70b = Wat Pro is, in de woorden van <a1><c1/></a1>:
+
+seg-8e45f6fbb075 = <b>Een strikte superset van open Kshana.</b> Pro hangt als bibliotheek van de open engine af en forkt hem nooit. Elke open scenariosoort draait ongewijzigd in Pro, en een open scenario draait in Pro zonder enige licentie.
+
+seg-feece95f1d76 = <b>Geen nieuwe fysica.</b> Pro voegt geen fysisch model toe en wijzigt er geen. Elk getal van Pro komt uit runs van de open engine, zodat een Pro-cijfer even betrouwbaar is als de open scenariosoort waaruit het komt, en nooit meer.
+
+seg-0aca4bbd4ed5 = Pro beantwoordt de volgende vragen van een programma: welk ontwerp te vliegen (een ontwerpoptimalisator en zijn Pareto-front), hoe zeker het antwoord is (onzekerheid en gevoeligheid) en of de missie aan haar eisen voldoet (een missiedossier, eistraceerbaarheid, afwegingsstudies, een regressiecontrole van scenario's, digitale klokketwins, een studiedossier en een on-premises dienst). Het bewaakt ook een campagne van cijfers en laat een pipeline falen wanneer er een slechter wordt, test kandidaat-signaalplannen in beide richtingen tegen de open satellietnavigatiesignalen (spectrumco-existentie) en zet studies in de wachtrij van een on-premises jobdienst met een door hashes geketend leveringsregister. Elk onderdeel wordt beschreven, met wat het oplevert en wat het niet doet, in <a1><c1/></a1>. Niets wat Pro produceert is een certificering, en een studie op maat is ook geen certificering.
+
+seg-bc8a7901a490 = Wat Kshana Pro uit de open engine leest, en ondersteuning door Ashforde® OÜ
+
+seg-9a0afa43f0ea = <b>Waarop Kshana Pro voortbouwt.</b> Elk onderdeel van Pro werkt vanuit de open engine en laat hem ongewijzigd:
+
+seg-d128e5855929 = <b>De ontwerpoptimalisator, de onzekerheidsstudie en het missiedossier</b> draaien scenario's van de open engine via de publieke interface van de engine en berekenen elk getal uit de resultaten van de runs. Elke uitvoer behoudt het bewijsniveau VALIDATED, MODELLED of PARTNER dat de open engine aan elk cijfer gaf, nooit een hoger.
+
+seg-8f709ba56eba = <b>Digitale klokketwins</b> gebruiken het klokmodel van de open engine en zijn Allan-deviatieschatter: een twin wordt gekalibreerd op het gepubliceerde Allan-budget van het apparaat en daarna gecontroleerd door de Allan-deviatie van de twin met de open schatter te schatten.
+
+seg-8e962b95a07a = <b>Afwegingsstudies</b> draaien elke architectuuroptie ongewijzigd als scenario van de open engine en rangschikken de opties op een kwaliteitsmaat die uit het resultaat van elke run wordt gelezen.
+
+seg-26cb2b80149d = <b>Campagnebewaking</b> leest zijn cijfers uit de resultaten van runs van de open engine van de scenario's in een pakket en vergelijkt ze met de vorige geslaagde run.
+
+seg-0d3fceebd2fa = <b>Spectrumco-existentie</b> leest elk fysisch getal uit runs van de open engine van de soorten <c1/> en <c2/>, en voegt alleen de som over de zichtbare satellieten en de rangschikking van de plannen toe.
+
+seg-3f5774536077 = <b>De on-premises jobdienst</b> draait open en Pro-scenario's via dezelfde engine en slaat elk resultaat op zoals de run het teruggaf.
+
+seg-2ffc21f8dbf3 = <b>Bewijspakketten</b> leggen voor elke run de scenariohash vast die de open engine op zijn resultaat zet, zodat een cijfer in een pakket kan worden gereproduceerd door zijn scenario opnieuw te draaien.
+
+seg-8c7245384d50 = <b>Systems-engineering- en programmatooling.</b> De modelgebaseerde systems-engineering- (MBSE) en programmatooling van Kshana Pro toetst de eisen van een programma aan runs van de open engine: hij importeert eisen als door komma's gescheiden waarden (CSV), of als een gedocumenteerde subset van het Requirements Interchange Format (ReqIF) of van tekst in Systems Modeling Language versie { "2" } (SysML v2), evalueert elk acceptatiecriterium, met zijn eenheid, tegen de waarden die een run heeft geschreven, en produceert een verificatiekruisverwijzingsmatrix (VCRM), een SysML v2-model, een wijzigingsimpactrapport en een offline bewijspakket. Hij draait niets opnieuw en herberekent niets, en leest alleen wat de open engine publiceert: de <c1/> van elke run (de velden die een criterium noemt, hun eenheden, het reproduceerbaarheidsstempel van scenariohash, seed, engineversie en schemaversie, en het label en de cijferniveaus van de run), zijn <c2/> (soort, reproduceerbaarheidsrecord en labels van mogelijkheden), het scenariobestand (zijn hash, soort, seed en parameters), het schema van veldeenheden (eenheid, herkomst en bewijsniveau van elk veld) en de verificatiematrix (het label VALIDATED, MODELLED of PARTNER van elke mogelijkheid).
+
+seg-93911f432aa2 = Ondersteuning en professionele diensten
+
+seg-5a793f457442 = Kshana is gratis en opensource onder de AGPL-3.0 en wordt <b>professioneel ontwikkeld en onderhouden door Ashforde® OÜ</b> (Estland). De open engine is volledig en op zichzelf bruikbaar. Voor organisaties die meer nodig hebben biedt Ashforde® OÜ:
+
+seg-6e169de76fc6 = <b>Commerciële ondersteuning en integratie</b> — Kshana inbouwen in uw toolchain, scenario's op maat en prioritaire fixes.
+
+seg-e41af701def5 = <b>Sensormodellen op maat</b> — gekalibreerd op uw hardware, inclusief exportgevoelige veerkrachtmodellen die in een privé-overlay worden onderhouden.
+
+seg-c90aa9512c01 = <b>Kshana Pro</b> — propriëtaire modelgebaseerde systems-engineering- (MBSE) en programmatooling die de eisen van een programma toetst aan runs van de open engine en een verificatiekruisverwijzingsmatrix (VCRM), een model in Systems Modeling Language versie { "2" } (SysML v2), een wijzigingsimpactrapport en een offline bewijspakket produceert. Hij draait niets opnieuw en leest alleen de gepubliceerde uitvoer van de engine: de <c1/> en <c2/> van elke run, het scenariobestand, het schema van veldeenheden en de labels van de verificatiematrix (de volledige lijst staat onder <a1>Edities</a1>).
+
+seg-3ad44fe86fcf = <b>Kshana Pro-tooling voor ontwerp, onzekerheid en missies</b> — het Pareto-front van een ontwerpruimte, onzekerheid en gevoeligheid over duizenden runs, en een missiedossier met één opdracht met een verificatiematrix en een PDF; zie <a1><c1/></a1>.
+
+seg-956b1bda368c = <b>Kshana Pro-campagnebewaking, spectrumco-existentie en jobdienst</b> — een pipeline die faalt wanneer een bewaakt cijfer slechter wordt, signaalplannen die in beide richtingen tegen de open satellietnavigatiesignalen worden getest, en een on-premises jobwachtrij met een door hashes geketend leveringsregister; zie <a1><c1/></a1>.
+
+seg-5745e72ae8f2 = <b>Training en advies</b> over prestatieanalyse van kwantum- en klassieke PNT.
+
+seg-821dee6c4114 = Dit is het open-coremodel: de engine heeft en houdt een open licentie; het bedrijfsmodel dat dit onderhoudt is expertise, ondersteuning en de propriëtaire extensies — geen licentiekosten. Neem contact op via <b><a1>contact@ashforde.org</a1></b> · <a2>ashforde.org</a2>.
+
+seg-7b708eaa9ed7 = Studies op basis van de open engine worden gepubliceerd op arXiv. Elke studie noemt de engineopdracht erachter, zodat haar getallen opnieuw kunnen worden gegenereerd uit een vastgelegd scenario of studievoorbeeld.
+
+seg-065c91fc7c8f = Onderzoek op basis van de open engine: zes papers op arXiv, waarbij elke kaart het paper, de datum en categorie ervan en de engineopdracht noemt die zijn getallen opnieuw genereert. Dezelfde zes papers, met links en opdrachten, staan in de tabel hieronder.
+
+seg-0afc90982c47 = Paper
+
+seg-f472e43c1100 = Wat het laat zien
+
+seg-332bbdef19c8 = Engineopdracht
+
+seg-51cbd78a124a = <a1><em>Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of RF-Impairment Detectors from In-Distribution Statistics</em></a1><br/><s1>arXiv:{ "2606.22054" } · <a2>doi:10.48550/arXiv.2606.22054</a2></s1>
+
+seg-54fb697cb9d9 = De daling van de score van een GNSS-interferentiedetector zodra de omstandigheden verschuiven kan alleen uit statistieken binnen de verdeling worden voorspeld, op een open synthetische testopstelling en daarna op open veldopnamen.
+
+seg-e37784b7192d = <a1><em>A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error Under GNSS Spoofing</em></a1><br/><s1>arXiv:{ "2606.24210" } · <a2>doi:10.48550/arXiv.2606.24210</a2></s1>
+
+seg-c185f93e008a = Een GNSS-tijdsynchronisatieontvanger onder spoofing heeft geen eindige onvoorwaardelijke grens voor niet-gedetecteerde tijdfout, dus het paper geeft een voorwaardelijke grens, gekalibreerd op een opgenomen over-the-air-spoof uit de openbare JammerTest { "2024" }-campagne.
+
+seg-dba4bd61e5a1 = <a1><em>How Stable Is a PNT Resilience Score? Decision-Instability of Single-Number Resilience Ratings under Framework-Aligned Weighting</em></a1><br/><s1>arXiv:{ "2607.05415" } · <a2>doi:10.48550/arXiv.2607.05415</a2></s1>
+
+seg-e71540c0579c = Een enkele samengestelde veerkrachtscore is alleen een stabiele basis voor een beslissing wanneer één ontwerp domineert; waar ontwerpen met elkaar concurreren, kan alleen al een andere weging de winnaar veranderen.
+
+seg-f66a5adc8949 = <a1><em>Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination</em></a1><br/><s1>arXiv:{ "2607.02566" } · <a2>doi:10.48550/arXiv.2607.02566</a2></s1>
+
+seg-dd984a53aecc = Afstandsmeting binnen een maanconstellatie laat de absolute positie van een oppervlaktestation onwaarneembaar; een vertraging van very-long-baseline interferometry (VLBI) vanaf de aarde herstelt die wanneer de constellatie dun is en maakt haar scherper wanneer de constellatie rijk is.
+
+seg-17f3813ba35c = de soort <c1/>: <c2/>
+
+seg-801cab2ca61b = <a1><em>The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis</em></a1><br/><s1>arXiv:{ "2607.06212" } · <a2>doi:10.48550/arXiv.2607.06212</a2></s1>
+
+seg-9ffe7a7bb94b = Geplande constellaties van vier tot zes satellieten geven een slechte geometrie aan de zuidpool van de maan, en een paar afstandsmetende bakens aan het oppervlak verhelpen dat veel goedkoper dan meer satellieten.
+
+seg-b86f49a7274e = de soort <c1/>: <c2/>
+
+seg-43ac1ea20bcd = <a1><em>Cislunar navigation is an observability problem: arc-length thresholds, Gramian conditioning, and the Doppler lever</em></a1><br/><s1>arXiv:{ "2610.23871" } · <a2>doi:10.48550/arXiv.2610.23871</a2></s1>
+
+seg-ebd135b19e35 = Dilution of precision is niet gedefinieerd voor cislunaire volging met alleen afstandsmeting, omdat de snelheid in een momentopname onwaarneembaar is, dus gebruikt het paper de waarneembaarheidsgramiaan op vier vlakke distant retrograde orbits: met alleen afstandsmeting is de rang { "2" } van { "4" } in een momentopname en is een boog van ongeveer { "2.09" } h nodig om volledig waarneembaar te worden, waarbij de conditionering verbetert naarmate de boog langer wordt; afstandsverandering (Doppler) geeft onmiddellijk rang { "4" }; en het gelijktijdig schatten van een station met satelliettoestanden en klokken blijft met één rangdeficiënt tenzij een externe interferometrische waarneembare grootheid wordt toegevoegd. Eisen horen thuis in budgetten voor booglengte, conditionering en meettype, niet in DOP.
+
+seg-bf31a6be503d = de soort <c1/>: <c2/> (zijn zusterscenario <c3/> test de drempel met een onafhankelijke schatter met eindige verschillen)
+
+seg-e4c4bf92dded = De drie studievoorbeelden schrijven byte-deterministische artefacten (vaste seeds) die hun engineversie, seeds en een configuratiehash vastleggen. De drie papers over maan en cislunaire ruimte zijn gebouwd op de maansuite (het bewijsniveau van elk onderdeel staat in de verificatiematrix); hun beweringen over geometrie en dilution of precision worden ook gecontroleerd aan afzonderlijke onafhankelijke referenties in <c1/>. Meer onder <a1>Reproduceerbare studieartefacten</a1> bij Naslag.
+
+seg-f4d1ec6fc464 = Citeren
+
+seg-8116ddf9a8e7 = Als u Kshana gebruikt in academisch of technisch werk, citeer dan de versie die u hebt gebruikt, met het scenario en de seed. <a1><c1/></a1> bevat de machineleesbare metagegevens, en GitHub toont daaruit een knop „Cite this repository”. Elke release wordt gearchiveerd op Zenodo; de concept-DOI (Digital Object Identifier) <a2>10.5281/zenodo.20528627</a2> verwijst altijd naar de nieuwste versie.
+
+seg-6721eda6b4d6 = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simulator with quantum-sensor performance models</em>. <a1>Ashforde OÜ</a1>. <a2>https://doi.org/10.5281/zenodo.20528627</a2>
+
+seg-21aa09e97b5d = De bovenstaande papers:
+
+seg-447074879572 = Baweja, C. ({ "2026" }). <em>Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of RF-Impairment Detectors from In-Distribution Statistics</em>. arXiv:{ "2606.22054" }. <a1>https://doi.org/10.48550/arXiv.2606.22054</a1>
+
+seg-ae8d95e35b46 = Baweja, C. ({ "2026" }). <em>A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error Under GNSS Spoofing</em>. arXiv:{ "2606.24210" }. <a1>https://doi.org/10.48550/arXiv.2606.24210</a1>
+
+seg-2783a7ab9b89 = Baweja, C. ({ "2026" }). <em>How Stable Is a PNT Resilience Score? Decision-Instability of Single-Number Resilience Ratings under Framework-Aligned Weighting</em>. arXiv:{ "2607.05415" }. <a1>https://doi.org/10.48550/arXiv.2607.05415</a1>
+
+seg-bc3a64e25ba8 = Baweja, C. ({ "2026" }). <em>Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination</em>. arXiv:{ "2607.02566" }. <a1>https://doi.org/10.48550/arXiv.2607.02566</a1>
+
+seg-0deb5ecb01d8 = Baweja, C. ({ "2026" }). <em>The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis</em>. arXiv:{ "2607.06212" }. <a1>https://doi.org/10.48550/arXiv.2607.06212</a1>
+
+seg-ed51d8a0cdae = Baweja, C. ({ "2026" }). <em>Cislunar navigation is an observability problem: arc-length thresholds, Gramian conditioning, and the Doppler lever</em>. arXiv:{ "2610.23871" }. <a1>https://doi.org/10.48550/arXiv.2610.23871</a1>
+
+seg-5056f9965e35 = Kshana heeft een dubbele licentie: de GNU <b>AGPL-3.0-only</b> (<a1><c1/></a1>), of een <b>commerciële licentie</b> van Ashforde® OÜ voor gesloten integratie waarvoor de AGPL niet geschikt is. <a2><c2/></a2> legt uit welke van toepassing is. Bijdragen worden inbound onder de AGPL gelicentieerd en geven Ashforde® OÜ bovendien het recht ze op te nemen in de commerciële editie; onderteken elke commit met <c3/> (zie <a3><c4/></a3>). „Kshana” en zijn merken zijn handelsmerken van Ashforde® OÜ: de licentie dekt de code, niet de naam, dus geef forks een andere naam.
+
+seg-57b202cb2d90 = Het lange materiaal, ingeklapt. Elk document staat vermeld in <a1>Documentatie</a1>.
+
+seg-63d3e74d233c = Installeren en bouwen vanuit de broncode
+
+seg-5dc0fc90ac79 = Installeren en bouwen
+
+seg-792f12b05230 = Vereist een Rust-toolchain (≥ { "1.85" }, de <c1/> in Cargo.toml; ontwikkeld op { "1.93" }).
+
+seg-14380916caba = Gebruik: de opdrachtregel in zijn geheel
+
+seg-a3536fe2dc4e = Draai een willekeurig scenario; de CLI dispatcht op het veld <c1/> van het scenario en schrijft <c2/>, <c3/>, <c4/> en <c5/> ernaast — plus <c6/> voor de soorten die een tabel publiceren. Het rapport (een HyperText Markup Language-pagina (HTML) en een JSON-document met dezelfde inhoud) bevat een managementsamenvatting, elke invoer met zijn eenheid, de resultaten en grafieken, de sweep-, Monte Carlo- of ketentabellen van een campagne, een tijdlijn van gebeurtenissen, het label VALIDATED / MODELLED / PARTNER en de bron van elke mogelijkheid die de run heeft gebruikt, wat niet is gemodelleerd en een reproduceerbaarheidsrecord (engineversie, Secure Hash Algorithm 256-bit (SHA-256)-digests, seed, platform en de exacte opdracht). Het wordt vanuit de browser op A4- of Letter-papier afgedrukt naar een schoon PDF-bestand (Portable Document Format); de engine schrijft zelf geen PDF. Zie <a1><c7/></a1>.
+
+seg-422d0ded3988 = <c1/> schrijft CZML (de Cesium Language), KML (Keyhole Markup Language), GeoJSON (Request for Comments { "7946" }), Ansys STK-efemeriden (Systems Tool Kit) <c2/> en SigMF-opnamen (Signal Metadata Format) naast het scenario, en <c3/> voert een GeoJSON-lijn in de soorten die een spoor vliegen. Elk formaat wordt gevalideerd aan zijn gepubliceerde specificatie, en een scenario waarop een formaat niet van toepassing is zegt waarom: zie <a1>docs/INTEROP.md</a1>.
+
+seg-73f6c3c859fa = <b>Andere CLI-modi</b> — een scenario linten, echte aardoriëntatiegegevens invoeren of een hele suite draaien:
+
+seg-3c18807029e2 = Animatie-export.
+
+seg-69473251bb01 = <c1/> schrijft <c2/> (Cascading Style Sheets-keyframes (CSS), geen script), <c3/> (afspelen, pauzeren, scrubben, snelheid en gesynchroniseerde panelen, zonder extern bestand) en <c4/> (<c5/>, … plus <c6/> met de frames per seconde en de duur). Een campagne speelt zijn fasen en alarmen af, een spectrumrun zijn waterfall; het thema volgt <c7/> en <c8/> toont het afgewerkte beeld. Het rendert de eigen samples van de run, byte-identiek bij een nieuwe run, en voegt geen bewijs toe. Zie <a1>docs/ANIMATION.md</a1>.
+
+seg-627e3a4e3f7d = Een <b>suite</b>-manifest is een klein TOML-bestand (Tom's Obvious, Minimal Language) — een <c1/> en een array <c2/> met scenariopaden — dat de engine achtereenvolgens draait, waarbij elk resultaat (met zijn labels MODELLED / VALIDATED) in één zelfbeschrijvend studieartefact wordt samengevoegd. Zie <a1><c3/></a1>.
+
+seg-b4c5325a1922 = <b>Interoperabiliteitsrol.</b> Kshana is de <em>prestatiesimulatielaag</em> die naast de nabewerkingstoolchain staat en die niet vervangt: voer zijn <b>RINEX</b>-uitvoer in RTKLIB of gLAB voor een positieoplossing, en gebruik zijn <b>SP3</b>-uitvoer als precieze-baanproduct voor hulpmiddelen als Ginan — Kshana beantwoordt <em>welke veerkracht een gegeven PNT-architectuur oplevert</em> voordat u echte signalen hebt, in formaten die die hulpmiddelen al innemen (<c1/>, of <c2/> in een <c3/>-scenario, schrijft <c4/>). Dezelfde baan kan worden gepubliceerd als <b>CCSDS OMM</b>-gemiddelde elementen op de standaardsporen (<c5/>, of <c6/>, schrijft <c7/>) — één OMM { "502.0" }-bericht in KVN (keyword = value notation) per door een TLE gedefinieerde satelliet, met het echte NORAD-catalogusnummer (North American Aerospace Defense Command), de internationale COSPAR-aanduiding (Committee on Space Research) en de epoch van elk object, voor elke OMM-bewuste afnemer in plaats van een eigen two-line element set.
+
+seg-8e80d89eb666 = Voorbeelduitvoer (klok-holdover — let op hoe de kwaliteitsmaten voor integriteit en beveiliging worden gerapporteerd):
+
+seg-6cec0f5c28ca = De tijdsynchronisatiefout van de optische klok op het 95e percentiel (p95) is { "1.20e-4" } ns: de samenvatting drukt kleine waarden af met significante cijfers in plaats van ze af te ronden tot <c1/>. <c2/> leest <c3/> omdat dit scenario geen aanval configureert, dus er valt niets te detecteren. Het JSON-resultaat bevat nog steeds de analytische spoofdetecteerbaarheidsgrens van elke klok in <c4/> ({ "0.997" } voor de optische klok, { "0.000" } voor de chipschaal-atoomklok, wier eigen ruis over het monitoringvenster de specificatie van { "20" } ns overschrijdt), en zijn blok <c5/> markeert dat cijfer als <c6/>. De scenariosoort <c7/> scoort detectie tegen een geïnjecteerde aanval. <c8/> geeft ook elk gerapporteerd cijfer zijn verificatieniveau — VALIDATED (gecontroleerd aan een externe onafhankelijke referentie) of MODELLED — en de rij van de verificatiematrix waaruit het niveau wordt gelezen. Het baanscenario rapporteert bovendien een geometrieblok — het aandeel samples met een positiebepaling en de beste/mediane positie-dilution of precision (PDOP) en positienauwkeurigheid — naast het klokresultaat.
+
+seg-b1ceeefaa419 = Lees deze twee getallen zorgvuldig.
+
+seg-9606fdd867c1 = <c1/> is een <em>analytische spoofdetecteerbaarheidsgrens</em> afgeleid uit de stabiliteit van elke klok — ze is alleen zinvol tegen een geconfigureerd spoofingscenario en is <b>geen</b> RAIM-detector met meerdere satellieten. <c2/> is hier de <em>zelfconsistentie</em> van het filter (het aandeel uitvalsamples binnen zijn eigen k-sigmagrens), <b>geen</b> integriteitscijfer HPL/VPL voor de luchtvaart. Zie <a1><c3/></a1>.
+
+seg-28301288a1f5 = Voor echte ontvangerautonome integriteit draait de <b>scenariosoort <c1/></b> (<c2/>) echte snapshot- en oplossingsscheidings-RAIM (in ARAIM-stijl) over de gepropageerde constellatiegeometrie: hij berekent per epoch horizontale/verticale <b>beschermingsniveaus (HPL/VPL)</b> en rapporteert het aandeel epochs dat aan de geconfigureerde alarmgrenzen voldoet, met een Stanford-integriteitsdiagram voor classificatie van fout tegenover PL (beschermingsniveau).
+
+seg-4035b0341b9d = Reproduceerbare studieartefacten
+
+seg-4ebfbcaad565 = Vier open studies regenereren elk een byte-deterministisch artefact (vaste seed) met één opdracht — de getallen achter de studies naar het kantelpunt tussen kwantum en klassiek, de optimismekloof bij RF-verstoringen, de scoring van PNT-veerkracht en het beschermingsniveau voor tijdsynchronisatie:
+
+seg-dcf0075493c2 = Elk artefact legt zijn engineversie, seeds en een confighash vast en draagt een eerlijk label MODELLED/VALIDATED. De probes met echte gegevens (<c1/>) draaien dezelfde pipeline over opnamen die u lokaal aanlevert; er worden geen datasets in de repo meegeleverd. De studie naar de optimismekloof bij RF-verstoringen is beschreven in de preprint <a1>arXiv:{ "2606.22054" }</a1>, en het conditionele beschermingsniveau voor tijdsynchronisatie (<c2/> hierboven) in de preprint <a2>arXiv:{ "2606.24210" }</a2> (zie <a3>Citeren</a3>).
+
+seg-5fcd78fc103f = De gepubliceerde studies naar maan-PNT (<a1>arXiv:{ "2607.06212" }</a1> DOP met oppervlaktebakens, <a2>arXiv:{ "2607.02566" }</a2> waarneembaarheid met VLBI en <a3>arXiv:{ "2610.23871" }</a3> waarneembaarheid van de booglengte in de cislunaire ruimte) hebben hun beweringen over geometrie, dilution of precision, voorspelling van referentiestelsel / aardoriëntatieparameters (EOP) in real time, distant retrograde orbits en RF-afstandsmeting onafhankelijk gecontroleerd in <c1/> aan afzonderlijke onafhankelijke referenties (<c2/>, een onafhankelijke NumPy-oplossing van de DOP met <c3/>, een NumPy-herparsing van dezelfde IERS-rijen <c4/> en de NASA/JPL Three-Body Periodic Orbit Database). Dit zijn aanvullende regressiecontroles op de <b>uit een model berekende</b> maansuite; ze wijzigen het aantal van de machinaal gecontroleerde matrix niet.
+
+seg-81b9a3353241 = Scenarioformaat
+
+seg-407bddee0f95 = Scenario's zijn declaratieve TOML. Een <c1/> op het hoogste niveau kiest het pakket — in totaal <b>vijftig</b> (<c2/> is de standaard als het ontbreekt): <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/> (testopstelling voor de evaluatie van machine-learningdetectie van RF-verstoringen — gelabeld synthetisch corpus + detectoronafhankelijk ROC/AUC-harnas + optimismekloof binnen/buiten de verdeling), <c27/> (PNT-afweging kwantum tegenover klassiek met inname van gemeten ADEV + veerkrachtenvelop zonder GNSS; MODELLED), <c28/> (zonne-/geomagnetische indices + exosferische temperatuur volgens Jacchia-71 + door activiteit gedreven thermosferische dichtheid boven de statische atmosfeer; MODELLED), <c29/> (CCSDS OEM-import-/round-tripbrug voor efemeriden van GMAT/Orekit/STK; MODELLED), het missieanalysetrio <c30/> (tweelichamenlanceerazimut / vlakwijziging / gelegenheden), <c31/> (ballistische terugkeercorridor volgens Allen-Eggers), <c32/> (geometrie van EO-zwad / GSD / toegang / herbezoek), <c33/> (CCSDS { "133.0" } TM/TC — telemetrie/telecommando — Space Packet-framing — exacte bitindeling, round-trip geverifieerd) en <c34/> (3-DOF-zwaartekrachtgradiëntmoment + RSS-budget voor richtfout), <c35/> (voorspelling van op- en ondergaan van grondstationpassages — AOS/TCA/LOS, maximale elevatie, toegang) en <c36/> (eenrichtings-CCSDS/DSN-verbindingsvergelijking — FSPL / Eb·N₀ / marge / sluiting); <c37/> (holdover-tijdfout, MTIE en TDEV gecontroleerd aan ITU-T-maskers); <c38/> (de hele GNSS-L-band als één vermogensspectrale dichtheid: een frequentie-tijd-waterfall onder een gescripte tijdlijn van continue-golf-, smalband-, chirp- of matched-noise-jammers, jammer-tot-signaalverhouding per band en effectieve draaggolf-ruisdichtheid uit de spectrale scheidingscoëfficiënt, en invoer en uitvoer van Signal Metadata Format-opnamen (SigMF) met spectrale schattingen volgens Welch; de signaalspectra VALIDATED aan leerboekwaarden, het jammerscenario MODELLED; zie <a1><c39/></a1>; dezelfde soort tekent panelen voor UHF-, S- en C-band met ontworpen signalen voor een lage baan om de aarde); <c40/> (signaalontwerpen voor positiebepaling, navigatie en tijdsynchronisatie in een lage baan om de aarde voor elk systeem: bandbegrensde spectra, jitter van codevolging en afstandsmetingsnauwkeurigheid, acquisitiezoektocht en -tijd, spectrale scheiding ten opzichte van GPS en Galileo, jammertolerantie en een UHF-tot-C-band-afweging, uit openbare voorinstellingen zoals Xona Pulsar, Iridium, Starlink en CentiSpace of inline ontwerpen; de gesloten vormen en de LEO-Doppler VALIDATED, de ontwerpen MODELLED; zie <a2><c41/></a2>); <c42/> (de zon, planeten, Pluto, de maan en zeven grote manen op één epoch — posities, constanten, lichttijden en baansporen; planeetposities VALIDATED aan JPL Horizons) en <c43/> (positiebepaling rond elk van die lichamen met een lokale navigatieconstellatie en een diepe-ruimteverbinding vanaf de aarde; MODELLED); <c44/> (bestaande soorten samengesteld tot een geketende missietijdlijn met toestand die tussen fasen wordt doorgegeven, een parametersweep, een Monte Carlo-ensemble met seed, of meerdere scenario's onder één gedeelde voorwaarde; MODELLED, zie <a3>docs/CAMPAIGNS.md</a3>); <c45/> (Walker-delta- en sterpatronen, elementenlijsten en meerschilontwerpen met voorinstellingen voor GPS, Galileo, BeiDou en GLONASS, en dekking en dilution of precision over een breedte-/lengteraster; de generator en de mondiale GPS-DOP VALIDATED aan de gepubliceerde servicedocumenten, zie <a4><c46/></a4>); <c47/> (een passage van een satelliet voor positiebepaling, navigatie en tijdsynchronisatie (PNT) in een lage baan om de aarde (LEO) en zijn verbindingsbudget per band, uit elke constellatie en elk signaalontwerp: kijkhoeken, Doppler en Dopplersnelheid, ITU-R-regen-, gas-, scintillatie- en gebouwpenetratieverlies, draaggolf-ruisdichtheid ten opzichte van de zichtbare MEO-GNSS-satellieten, de eerste-orde-ionosfeer en ionosfeervrije paren, en een budget voor een positiebepaling met lage energie, ionosfeerpeiling uit elk bandpaar, en spoofingmonitors op basis van consistentie van Doppler en passagegeometrie en op basis van consistentie tussen banden; de ITU-R-termen en de Dopplerenvelop voor een statische gebruiker VALIDATED, de passage MODELLED, zie <a5><c48/></a5>); <c49/> (het broadcast-efemeride- en klokbericht van een PNT-satelliet in een lage baan om de aarde (LEO), voor elke baan en draaggolf: een fitter van een geïntegreerde referentiebaan naar de Keplerset van Galileo, die set met correctiepolynomen voor langs-, dwars- en radiaal spoor, het 22-parametermodel van Liu et al. { "2025" } of de ATOMIC zero-clock ECEF-polynoom; signal-in-space-afstandsfout (SISRE) tegenover fitinterval en updateperiode, een continuïteitscontrole van een update halverwege een passage, het eigen gedocumenteerde binaire frame van Kshana met een CRC-24Q-cyclische redundantiecontrole en een kwantisatiebudget, en een blok in RINEX-4-stijl dat als Kshana-extensie is gelabeld; de SISRE-gewichten, het gebruikersalgoritme van Galileo en CRC-24Q VALIDATED, de fits MODELLED; optionele voorinstellingen voor Xona Pulsar, Iridium, Starlink, CentiSpace, een representatief C-bandsysteem, ATOMIC en Celeste IOD; zie <a6><c50/></a6>); het <b>gefuseerde MEO + LEO-PNT</b>-trio <c51/> (Dopplerpositiebepaling uit de afstandsverandering van satellieten in een lage baan om de aarde (LEO), gezamenlijke GNSS + LEO-pseudoafstandsbepalingen met intersysteembiases en de DOP tegenover het aantal LEO-satellieten, dekking van pool- en Arctische gebieden, en LEO-tijdsoverdracht naar UTC — over elke constellatie, met optionele voorinstellingen zoals de signalen van Xona Pulsar, Iridium en Starlink als gelegenheidssignalen; de LEO-Dopplerenvelop VALIDATED aan gepubliceerde cijfers van Iridium en Xona), <c52/> (convergentie van precise point positioning met alleen GNSS en met LEO-augmentatie, vergeleken met Li et al. { "2019" }) en <c53/> (5G-positiebepaling via niet-terrestrische netwerken uit de Cramér-Rao-grens van de signaalbandbreedte), MODELLED afgezien van die envelop, zie <a7><c54/></a7>; <c55/> (één LEO-PNT-systeem van begin tot eind: een ontwerp <c56/> gedragen door een band <c57/>, de C/N0 van de passage en de signal-in-space-afstandsfout van het navigatiebericht doorgegeven aan een gefuseerde positiebepaling <c58/> en convergentie <c59/>, elke overdracht vermeld; MODELLED, zie <a8><c60/></a8>, dat tevens het overzicht is van elke LEO-PNT-soort en elk scenario, inclusief de veerkrachtcampagnes, één scenario per aandachtsgebied van het experiment en één per verticaal eindgebruikersdomein); de <b>maan-PNT-suite</b> <c61/>, <c62/>, <c63/>, <c64/>, <c65/>, <c66/>; de <b>demonstrator voor Quantum-Enabled PNT</b> <c67/>, <c68/>, <c69/>; en de onderzoekssoorten voor <b>signaalbeveiliging, cislunaire ruimte en gelaagde veerkracht</b> <c70/>, <c71/>, <c72/>, <c73/>, <c74/>, <c75/> — het missieanalysetrio en deze latere soorten zijn allemaal MODELLED (elk met een getoetste gesloten-vormkern; zie de matrix). Gemeenschappelijke velden: <c76/>, een raster <c77/>, een beschikbaarheidstijdlijn <c78/> (de uitvaldrijver) en blokken per sensor met <c79/>-strings die de bron van elk cijfer citeren. Voorbeeld (klok):
+
+seg-183a76915d50 = Optionele velden (uit wanneer afwezig): een klok kan <c1/> toevoegen (1/f-FM — frequentiemodulatie — Allan-vloer); een traagheidssensor kan <c2/> en <c3/> toevoegen (gyrobias en angular random walk), en <c4/> en <c5/> (de Allan-vloer van de bias-instabiliteit en de random walk van de versnelling) — samen een <b>foutbudget voor een enkelassige (1-DOF) versnellingsmeter</b> (VRW/ARW — velocity/angular random walk — en bias-instabiliteit). Dit is het foutbudget dat het meegeleverde scenario<em>pakket</em> <c6/> draait. Daarnaast bevat de bibliotheek nu een geverifieerde <b>3-assige strapdown-navigator</b> (<c7/>): quaternionhouding met coning-/sculling-compensatie, een volledige NED-mechanisatie (termen voor aardrotatie en transportsnelheid, zwaartekracht volgens WGS-84 Somigliana) en een deterministisch IMU-foutmodel waarin <b>schaalfactor, misalignment, g-gevoeligheid, kwantisatie en snelheidsrampen zijn gemodelleerd</b> (IEEE Std 952-1997, de IEEE-norm voor specificatie en testprocedure van gyro's, §A.2; Groves { "2013" } §{ "4.3" }). Dat 3-assige pad is nu <b>aangesloten op een uitvoerbaar, los gekoppeld GNSS/INS-pakket</b> (<c8/>): een error-state-EKF met 15 toestanden stuurt de strapdown-oplossing bij op basis van ruisige positiebepalingen zolang GNSS beschikbaar is, en coast daarna door de uitval, waarbij hij de gefuseerde horizontale fout rapporteert tegenover de open-lus-coast van vrije INS. Er is ook een <b>strak gekoppelde pseudoafstands</b>-update beschikbaar (die de innovatie in het afstandsdomein vormt en dus blijft corrigeren met minder dan vier satellieten). Een klok-holdoverscenario kan <c9/> (> { "1" }) toevoegen om een <b>Monte Carlo-ensemble</b> te draaien — elke kwaliteitsmaat wordt dan gerapporteerd als gemiddelde met een spreiding van het 5e tot het 95e percentiel en de grafiek arceert de betrouwbaarheidsband van de fout (zie <c10/>).
+
+seg-3e3decd727fb = Een scenario <c1/> (dezelfde blokken als <c2/>) draait <b>twee onafhankelijke Kalman-schatters</b> — één voor de kloktoestand, één voor de positietoestand — gestuurd door GNSS en ondersteund door optische tijdsoverdracht, en rapporteert een gecombineerde holdover-kwaliteitsmaat. De twee blokken delen geen kruiscovariantie: dit is een gestapeld paar foutbudgetten, <b>geen</b> echt gekoppeld gezamenlijk filter voor klok+positie (kruiscovariantie tussen blokken staat op de roadmap). Zie <c3/>.
+
+seg-a9c8223768ef = Een scenario <c1/> injecteert een tijdspoof — een van vier soorten <c2/> (<c3/>, <c4/>, <c5/>, <c6/>; een kale <c7/> wordt nog steeds geaccepteerd als lineaire helling) — en draait de spoofdetector van elke klok. De detector is een tweezijdige <b>χ²₁-energietest / Neyman–Pearson-test</b> op de klokgestuurde monitorstatistiek: de drempel wordt vastgesteld uit een doel-budget voor valse alarmen <c8/>, en de <b>kans op gemiste detectie <c9/></b> wordt zowel in gesloten vorm als met Monte Carlo gerapporteerd (<c10/> trials per hypothese — de twee komen overeen tot een paar ×1/√N). De <b>kwaliteitsmaat voor beveiliging is <c11/></b> bij de operationeel schadelijke (specificatie-)omvang, zodat een rustige klok die een spoof ter grootte van de specificatie opvangt ≈ { "1" } scoort en een ruisige klok die hem vaak mist lager scoort (zie <c12/>, <c13/>).
+
+seg-2ca727430208 = Een scenario <c1/> is een simulatie in het <b>meetdomein</b>: voor elke zichtbare satelliet synthetiseert het de pseudoafstand <c2/> en de L1-Doppler, met de eenfrequente ionosfeer volgens <b>Klobuchar</b> (<c3/>, IS-GPS-200 §{ "20.3.3.5.2.5" }) en de zenittroposfeer volgens <b>Saastamoinen</b> geprojecteerd met de afbeeldingsfunctie van <b>Niell ({ "1996" })</b> (<c4/>). De residuen voeden <b>snapshot-RAIM</b> voor HPL/VPL per epoch, en pseudoafstand, Doppler, C/N₀ en iono-/tropocorrecties van elke satelliet worden uitgezonden in de JSON-array <c5/>. Het is een voorwaartse simulator (hij genereert metingen uit een bekende referentie), geen ontvanger/oplosser — een run zonder ruis reproduceert de geometrie plus de correcties tot onder de millimeter (zie <c6/>).
+
+seg-49cadf7f7bf2 = Een scenario <c1/> modelleert RF-interferentie als een <b>verbindingsbudget</b>: een <c2/> (ECEF-positie, zend<c3/>, type) verhoogt de jammer-tot-signaalverhouding bij een <c4/> die een Walker-<c5/> volgt. Uit de geometrie (vrije-ruimteverlies en de antennewinst per richting bij ontvangst) berekent het de <c6/> van elke satelliet, de <b>effectieve C/N₀</b> via de standaard anti-jamvergelijking (despreidingsverwerkingswinst × de spectrale scheidingsfactor <c7/>; Kaplan & Hegarty §{ "9.4" }), en markeert verlies van vergrendeling onder een instelbare volgdrempel — en rapporteert een kwaliteitsmaat <c8/>. Een breedbandjammer van { "10" } W op { "1" } km ontneemt de ontvanger alles (J/S ≈ { "72" } dB); dezelfde jammer op { "100" } km verslechtert de verbindingen alleen (zie <c9/>).
+
+seg-ff8bd5d80f32 = Een scenario <c1/> draait een <b>afwegingsstudie</b>: het varieert één <c2/> (<c3/>, <c4/>, <c5/> of <c6/>) van <c7/> tot <c8/> over <c9/> punten op een <c12/> <c10/> of <c11/>, legt een <c13/> (bijvoorbeeld <c14/>) vast voor beide klokken en tekent de twee curven. Het basisscenario komt onder <c15/> (zie <c16/>).
+
+seg-299dbf1cf3f2 = Een scenario <c1/> generaliseert dit naar <b>elk pakket en elk aantal assen</b>: het varieert TOML-sleutels met puntnotatie van een scenario <c2/> (van elke <c3/>) over het cartesisch product van <c4/>, draait elk roosterknooppunt opnieuw en legt <c5/> vast, opgegeven als JSON-paden met puntnotatie in het resultaat (bijvoorbeeld <c6/>). Het werkt voor elk pakket omdat het op de grens tussen TOML en resultaat opereert; native runs evalueren het raster parallel (geen extra afhankelijkheid, wasm valt terug op sequentieel) en de uitvoer is deterministisch en rij-voor-rij (zie <c7/>).
+
+seg-043d68dbb5bb = Een scenario <c1/> leidt de tijdlijn <c2/> af uit geometrie in plaats van haar op te stellen — geef een baan <c3/>, een <c4/>, een elevatie<c5/> en de twee klokblokken. Het rapporteert ook de positienauwkeurigheid uit de satellietgeometrie; de optionele <c6/> (1-sigma user-equivalent range error, standaard { "1" } m) schaalt de positie-dilution of precision naar een positiesigma. De baan van de gebruiker kan <b>excentrisch</b> worden gemaakt met <c7/> en <c8/>, en <c9/> voegt seculiere drift door de afplatting van de aarde toe (zie <c10/>). De constellatie kan in plaats daarvan een <b>echte</b> zijn: geef <c11/> een blok <c12/> met two-line element sets en de satellieten worden daaruit geparsed (zie <c13/>). Voeg een of meer blokken <c14/> toe voor <b>multi-GNSS</b> (bijvoorbeeld GPS + Galileo; zie <c15/>):
+
+seg-5841e4eac5a5 = De soorten voor <b>GPS-denied alt-PNT</b> navigeren zonder enige GNSS, door een gemeten veldreeks via een deeltjesfilter met een kaart te vergelijken. Een scenario <c1/> vliegt een spoor door een zwaartekrachtanomaliveld in boloppervlakfuncties en herstelt het uit de meting van een koudeatoomgravimeter (<c2/>); een scenario <c3/> doet hetzelfde tegen een SRTM-hoogtemodel (TERCOM/SITAN, <c4/>); en een scenario <c5/> fuseert <b>zwaartekracht + magnetisch IGRF + terrein</b> in één filter (<c6/>).
+
+seg-ec221fc5ace5 = Een scenario <c1/> evalueert <b>cislunaire</b> PNT: het draait een passage met ARAIM-beschermingsniveau aan de zuidpool van de maan tegen een LunaNet/LNIS-relaisset en rapporteert eerlijk de integriteitskloof — een lunaire σ_URE van ~{ "30" } m drijft het beschermingsniveau ver boven een alarmgrens van { "50" } m, zodat de dienst <em>niet beschikbaar</em> is volgens integriteitsregels in luchtvaartstijl (<c2/>).
+
+seg-9b33c9203ca2 = Een scenario <c1/> rapporteert de <b>relativistische klokgang aarde–maan</b> — de basis van een Lunar Coordinate Time-schaal (LTC/TCL). Een post-Newtoniaanse identiteit uit eerste principes sommeert het verschil in zelfpotentiaal (IAU-geoïdepotentiaal <c2/> min de zelfpotentiaal aan het maanoppervlak) en de kinetische term (tweede-orde-Doppler) van de maan tot een seculiere gang van ≈ { "57" } µs/dag, gerapporteerd met de gepubliceerde band van { "56" }–{ "59" } µs/dag; het geeft ook de opgebouwde LTC−TT-offset over een horizon en een ensemble met inverse variantie (een lunaire papieren klok). <b>MODELLED</b> — het kopcijfer is <em>referentieafhankelijk</em> (aardgeoïde tegenover maanselenoïde, middelingsvenster), en daarom wordt een band gerapporteerd, geen enkel gecertificeerd getal (<c3/>).
+
+seg-f1efe0de99b8 = Zie <c1/> voor minstens één uitgewerkt voorbeeld van elke soort ({ "87" } soorten, { "182" } scenariobestanden <c2/> + { "1" } suite-manifest — verschillende soorten leveren meer dan één voorbeeld mee). Niet elke soort heeft een bestand dat naar hem is vernoemd: <c3/> → <c4/> en <c5/> → <c6/> zijn er twee van meerdere. Som de beschikbare soorten op elk moment op met de fouten van <c7/>, de Python-functie <c8/> of de MCP-tool <c9/>.
+
+seg-ee0d7a833f44 = Het resultaatartefact is geversioneerde, zelfbeschrijvende JSON: tijdreeksen per stap, de gescoorde kwaliteitsmaten, de actieve modelspecificaties (met herkomst), de seed, een <b>scenariohash</b> — zodat elke grafiek uit het bestand kan worden gereproduceerd — en, voor elke klok, een <c1/> (<c2/>): de overlappende Allan-deviatie over octaafgespatieerde middelingstijden — de standaardmanier om de stabiliteit van een klok te lezen — nu met een <b>ruistypespecifieke betrouwbaarheidsband van { "95" }%</b> per punt (het machtswettype van de opname wordt vastgesteld uit haar gemodificeerde Allan-helling, en het χ²-interval gebruikt de bijpassende effectieve vrijheidsgraden uit NIST SP { "1065" }). De browserplayground rendert het als een log-log-grafiek „Clock stability (ADEV)”. (MDEV, TDEV en HDEV zijn beschikbaar als bibliotheekschatters; de geëxporteerde resultaatcurve is de overlappende ADEV.) Elk veld, met eenheden en een bronverwijzing, is gedocumenteerd in <a1><c3/></a1>.
+
+seg-a9f0811371b2 = <b>Elke grafiek beschrijft zichzelf.</b> De browserplayground, de export <c1/> van de CLI en het HTML-scorecard (HyperText Markup Language) voorzien elk grafiekbeeld van een voettekst met <c2/>. De <c3/> zijn de eerste { "12" } hextekens van de <b>scenariohash</b> van de run — een SHA-256-digest (de 256-bit Secure Hash Algorithm) over de canonieke scenariodefinitie (seed, drempels, modelparameters, GNSS-vensters, …); de integriteits- en maanrapporten, die geen eigen hash hebben, vallen terug op een SHA-256 van de scenariobron. Het is dezelfde <b>vingerafdruk</b> die in de samenvatting van één regel en in de resultaat-JSON staat, zodat een opgeslagen of geplakte grafiek altijd zijn versie draagt, het exacte scenario dat hem produceerde (voor reproductie bit voor bit) en de bron — wijzig een invoer en de hash verandert.
+
+seg-0ae680dc1433 = De kwaliteitsmaten volgen de standaard operationele PNT-kwaliteitsmaten:
+
+seg-ffc16440f24c = Kwaliteitsmaat
+
+seg-4332ec0b9c4b = Hoe Kshana haar berekent
+
+seg-edafac3457ae = Tijdsynchronisatieprestatie (klok-/baanpakketten)
+
+seg-ee7b3cf30f8a = RMS van de klokfasefout + 95e percentiel over de uitval, in <b>nanoseconden</b> (<c1/>) — een tijdsynchronisatiemaat, geen positie
+
+seg-e5af17bacf4d = Positioneringsprestatie (traagheids-/hybridepakketten)
+
+seg-46e24e9ce93c = 1-DOF-RMS van de positiefout + 95e percentiel over de uitval, in <b>meters</b> (<c1/>); enkelassig. Een enkele run wordt gemarkeerd met <c2/>; stel <c3/> in voor een Monte Carlo-ensemble dat van elke maat het gemiddelde, de spreiding en het bootstrap-BI van { "95" }% (betrouwbaarheidsinterval) rapporteert. Nog steeds <b>geen</b> 2-D-CEP/2DRMS (circular error probable / twice the distance root mean square) of DOP-gewogen nauwkeurigheid (daarvoor is het 3-assige model nodig — roadmap)
+
+seg-e229e1b01506 = Autonomie
+
+seg-84aa70c37df1 = holdoverduur — tijd binnen de specificatie na verlies van GNSS (op het raster gekwantiseerd: een ondergrens)
+
+seg-925629554412 = helling van de foutgroei tijdens de uitval
+
+seg-fa4468d4cb80 = Beschikbaarheid
+
+seg-3636272fdc21 = aandeel van de run met een oplossing binnen de specificatie
+
+seg-be120d871ef3 = <b>zelfconsistentie</b> van het filter — aandeel uitvalsamples waarvan de fout binnen de eigen k-sigmagrens van het Kalman-filter blijft. <b>Geen</b> integriteitscijfer HPL/VPL/RAIM voor de luchtvaart (zie <a1><c1/></a1>)
+
+seg-35b69448cf6d = <b>analytische grens voor spoof-<em>detecteerbaarheid</em></b> uit de klokstabiliteit — hoe kleine/langzame tijdspoof een consistentiemonitor met één klok zou kunnen markeren. Alleen zinvol met een geconfigureerde aanval; <b>geen</b> RAIM-detector met meerdere satellieten
+
+seg-1a215fc239ff = Nieuw met deze termen? Elke term wordt in gewone taal gedefinieerd in de <a1>verklarende woordenlijst</a1>.
+
+seg-f82c1b1f4bb0 = Opbouw van de repository
+
+seg-505200d809a7 = FAQ (veelgestelde vragen)
+
+seg-d02ce0621f43 = <b>Moet ik kwantumfysica begrijpen om dit te gebruiken?</b> Nee. Als u een opdrachtregel kunt bedienen, kunt u Kshana draaien. Begin met de <a1>inleiding in gewone taal</a1>; zoek termen op in de <a2>verklarende woordenlijst</a2>.
+
+seg-43923de17a2a = <b>Is dit een ontwerp voor kwantumhardware of vluchtsoftware?</b> Nee. Het is een prestatie<em>simulator</em>. De getrouwheid van kwantumhardware komt uit gepubliceerde foutmodellen, niet uit dit hulpmiddel. Zie <a1>Wat het wel en niet is</a1>.
+
+seg-75fb7a097584 = <b>Zijn de kwantumresultaten realistisch, of marketing?</b> Elke parameter wordt aan een datasheet of paper toegeschreven, elk model is getoetst aan een leerboekrelatie en de rijpheid wordt eerlijk gelabeld in <a1>VALIDATION.md</a1> — inclusief dat er nog nooit een optische strontiumklok is gevlogen. De engine is neutraal: kwantum en klassiek zijn dezelfde code met andere gepubliceerde getallen.
+
+seg-1af53e3ae9c2 = <b>Kan ik erop vertrouwen dat twee runs overeenkomen?</b> Ja — runs zijn deterministisch: <c1/>, afgedwongen door <c2/>.
+
+seg-b9cd5c5d1f4b = <b>Kan ik het vanuit Python of in een browser gebruiken?</b> Ja — zie <a1>Installeren</a1>: de voorbeelden voor Python en WebAssembly staan eronder. Beide roepen dezelfde engine aan.
+
+seg-ed251e142b29 = <b>Hoe modelleer ik mijn eigen sensor?</b> Schrijf een scenario <c1/> met de gepubliceerde cijfers van uw sensor in de velden <c2/>. Zie <a1>Scenarioformaat</a1> en de voorbeelden in <c3/>.
+
+seg-f40679da402e = <b>Is het gratis voor commercieel gebruik?</b> Ja — onder de AGPL-3.0, ook in commerciële omgevingen, zolang u de copyleft van de AGPL naleeft (met name: als u Kshana wijzigt en via een netwerk aanbiedt, moet u die gebruikers uw gewijzigde broncode aanbieden). Als dat u niet past — bijvoorbeeld omdat u Kshana in een propriëtair product moet inbedden of een gesloten netwerkdienst draait — is een commerciële licentie verkrijgbaar bij Ashforde® OÜ; zie <a1><c1/></a1> en <a2>Ondersteuning</a2>.
+
+seg-47e61b61094b = Probleemoplossing
+
+seg-9bf11ed19b33 = <b><c1/> mislukt met een oude toolchain.</b> Kshana vereist Rust ≥ { "1.85" }. Werk bij met <c2/>.
+
+seg-0cb99cc9fa83 = <b>Het bouwen van de Python-extensie mislukt bij het linken op macOS</b> (<c1/>). Een Python-extensie lost zijn symbolen op tijdens het laden. <c2/> stelt automatisch de juiste linkervlag in — gebruik <c3/> in plaats van een kale <c4/>.
+
+seg-608a0438e60e = <b>De Python-build klaagt dat de interpreter nieuwer is dan PyO3 kent.</b> Stel <c1/> in (abi3-wheels zijn voorwaarts compatibel over CPython-versies heen).
+
+seg-a3c6ba7932f2 = <b>De WebAssembly-build kan het doel niet vinden.</b> Installeer het eenmalig met <c1/>, en dan <c2/>.
+
+seg-2610d5a9ee90 = <b>Waar is mijn uitvoer gebleven?</b> Elke run schrijft <c1/>, <c2/>, <c3/> en <c4/> naast de invoer <c5/>, en ook <c6/> voor de soorten die een tabel publiceren. Ze worden allemaal bewust door git genegeerd.
+
+seg-4765d3a73a6f = Versiebeheer en releases
+
+seg-0ca788bf975d = Kshana volgt <a1>Semantic Versioning</a1>. Zolang het nog voor 1.0 is, kan het publieke scenario-/resultaatschema nog veranderen; brekende wijzigingen worden uitdrukkelijk vermeld in <a2><c1/></a2>. Elk resultaat is reproduceerbaar uit <c2/>.
+
+seg-2885b69ceef1 = <b>Elke tag <c1/> publiceert automatisch alle kanalen, in één volgorde</b> — de volledige testsuite draait eerst op de getagde commit, er wordt niets gepubliceerd totdat die slaagt, en daarna controleert de pipeline dat elk register de nieuwe versie echt levert (<a1><c2/></a1>). De kanalen:
+
+seg-8222e46bc13c = Installeren / verkrijgen
+
+seg-7f77f517d809 = Rust-bibliotheek + CLI
+
+seg-06cfcc54172a = de MCP-server
+
+seg-ec68a7e74a20 = PyPI (Python Package Index)
+
+seg-2f0decb15e44 = abi3-wheels (Linux/macOS/Windows) + sdist (broncodedistributie)
+
+seg-1ec26f00ffb1 = npm
+
+seg-e1d5f87f1af5 = WebAssembly-module + JS-wrapper
+
+seg-300434512f54 = multi-arch OCI-image (Open Container Initiative) — geen toolchain nodig
+
+seg-78bc637735d0 = launcher: downloadt het releasebinary, verifieert <c1/>, draait het
+
+seg-153e808516d8 = PyPI
+
+seg-7a5ecdbe5611 = dezelfde launcher voor Python
+
+seg-3089785631f9 = Homebrew · Scoop · winget
+
+seg-8fa930c2ea90 = het binary <c1/>, gegenereerd uit de <c2/> van elke release
+
+seg-a991ea4c110b = officieel MCP-register
+
+seg-aa0826e6ee2d = automatisch gevonden door MCP-clients
+
+seg-ca8f2fe1c3c6 = <c1/> (OCI-image, npm- en PyPI-pakketten)
+
+seg-1bc87a838658 = IDE → Plugins → zoek „Kshana”
+
+seg-c8ab30765b96 = de IDE-plugin <b>Kshana — PNT simulator</b>
+
+seg-8afa1f0ebdd7 = Zenodo
+
+seg-d4be2535e13e = een citeerbaar archief van elke release
+
+seg-bd0423a27417 = openen in een browser
+
+seg-9ca0fbcfa354 = Kshana Studio, de WebAssembly-app in de browser, opnieuw gebouwd uit elke releasetag (zodat de versie die hij toont de versie is die hij draait)
+
+seg-8dc9d625c9e9 = De crate-/image-/registerversie van de MCP-server volgt de engine (hij bundelt de bibliotheek); de JetBrains-plugin heeft een onafhankelijke versienummering (hij roept het geïnstalleerde binary <c1/> aan).
+
+seg-a58b88284421 = Zie <c1/> voor de gefaseerde roadmap, <a1><c2/></a1> voor de vrijgegeven geschiedenis en <a2><c3/></a2> voor de roadmap per mogelijkheid. De volgorde van prioriteit is: <b>eerst bewijs voor tijdsynchronisatie en holdover voor kritieke infrastructuur</b> (telecommaskers, langere holdover met veroudering en flickerruis, inname van gemeten klokgegevens); <b>als tweede de neutrale afwegingsmethode kwantum tegenover klassiek</b> (resultaten gelabeld MODELLED totdat gemeten gegevens van een partner ze bevorderen); en <b>maan- / cislunaire en diepe-ruimtenavigatie onderhouden</b>, niet uitgebreid als voortrekker. De <b>ITRF-precieze referentiestelselreductie</b> is nu geleverd — de volledige op CIO gebaseerde IAU 2006/2000A GCRS↔ITRS-keten (poolbeweging + nutatie onder de boogseconde), bit voor bit getoetst aan SOFA/ERFA en onafhankelijk gecontroleerd aan ANISE (pure-Rust SPICE) tot ≤ { "3.6" } m bij een GNSS-baan. Op korte termijn staan onder meer strak gekoppelde draaggolffasefusie en het beschikbaar maken van de los/strak gekoppelde GNSS/INS-navigator in meer pakketten; de engine voor <b>radiometrische navigatie in de diepe ruimte / bij Mars</b> kwam in { "v0.17.0" } (door simulatie getoetst). De <b>kwantumfysicalaag</b> is een <b>P2</b>-item: de CAI-versnellingsmeter wordt nu vanuit eerste principes gesimuleerd (Mach–Zehnder-fase, projectieruis, contrastverval, trillingskoppeling), terwijl de sensoren voor klok en tijdsoverdracht nog worden aangestuurd door gepubliceerde Allan-/ruisbudgetcoëfficiënten. TEME&harr;ECEF op basis van GMST, de IERS-tijdsystemen met schrikkelseconden (UTC/TAI/TT/UT1), SGP4/SDP4-baanpropagatie ({ "v0.7.0" }, getoetst aan de AIAA 2006-6753-vectoren) en het uitvoerbare fusiepakket <c4/> zijn allemaal <b>opgeleverd</b>, en de traagheidssnelheid wordt stroomafwaarts beschikbaar gesteld. Een actieve stochastische tijdspoofdetector (Neyman–Pearson / χ²₁-energietest met Monte Carlo P_fa/P_md en een kwaliteitsmaat voor beveiliging van { "1" }−P_md), een jammingmodel op basis van een verbindingsbudget (J/S → effectieve C/N₀ → verlies van vergrendeling), beschikbaarheid met meerdere constellaties, een enkelassig (1-DOF) IMU-foutbudget, twee onafhankelijke Kalman-schatters (klok + positie) gerapporteerd als gecombineerde kwaliteitsmaat, echte constellatiegeometrie uit TLE's, een HTML-scorecardrapport, uit geometrie afgeleide GNSS-beschikbaarheid <em>en</em> dilution of precision uit Kepler-banen met excentriciteit en J2-drift, Monte Carlo-betrouwbaarheidsbanden, parametersweeps voor afwegingsstudies, een WebAssembly-playground in de browser en optionele Python- (PyO3) en WebAssembly-bindingen (wasm-bindgen) zijn op <c5/> beland.
+
+seg-d1ef5a83a4b0 = Zie <a1><c1/></a1>. In het kort: tests slagen (<c2/>), de twee bewakingsscripts slagen, Conventional Commits, en een vermelding <c4/> in <c3/> voor elke voor de gebruiker zichtbare wijziging. Deelname wordt beheerst door onze <a2>Gedragscode</a2>. Om een beveiligingsprobleem te melden, zie het <a3>Beveiligingsbeleid</a3> — open voor kwetsbaarheden alstublieft geen openbare issue.
+
+seg-6e2e62b6e70f = Documentatie: elk document, en voor wie het is
+
+seg-672ddc109531 = Voor wie
+
+seg-bf874872dcc4 = Wat erin staat
+
+seg-2e8bdb58cdea = iedereen, begin hier
+
+seg-a17023aa100b = wat Kshana doet en waarom, van nul tot de fysica
+
+seg-5ff1297e5fd3 = iedereen
+
+seg-6ae9cf67dbf2 = de engine in uw browser draaien (WebAssembly); notities over bouwen en implementeren
+
+seg-8e3663e418ee = definities in gewone taal van elke term
+
+seg-0da03b91d8e2 = elke soort die de engine dispatcht: wat ze doet, haar velden, een voorbeeldopdracht, haar rijen in het register en de grafiek die de engine ervoor schrijft
+
+seg-eabf661d9ad4 = ontwikkelaars / beoordelaars
+
+seg-50e77711f8ae = modulekaart, enginepipeline, dispatch en diagrammen
+
+seg-00e3c6d5b489 = beoordelaars / citerenden
+
+seg-7e3666552f77 = wat <c1/> is tegenover <c2/>, met bewijs
+
+seg-a1b009eb3554 = het machinaal gecontroleerde bewijsregister — elke rij van een mogelijkheid met haar status, module, test en externe onafhankelijke referentie, gegenereerd uit <c1/>
+
+seg-0604447208bc = Onderbouwing van uit een model berekende rijen
+
+seg-a384286e1947 = beoordelaars
+
+seg-d434379a43d2 = waarom elke <b>uit een model berekende</b> rij geen externe onafhankelijke referentie heeft, rij voor rij uiteengezet
+
+seg-8784e57fff56 = elke sensorparameter, elk model en elke dataset herleid tot de gepubliceerde bron, in één citeerbare tabel
+
+seg-a7d5633dbcc0 = Reproduceerbaarheid en herkomst
+
+seg-087473d3f136 = beoordelaars / verpakkers
+
+seg-f7614494333d = determinismegaranties, vastpinnen van goldens, SBOM (software bill of materials), bouwherkomst
+
+seg-13a543e72c08 = Platformtags van wheels
+
+seg-1b56719851b7 = verpakkers
+
+seg-00577a733e12 = de abi3-Python-wheelmatrix — welke platformtag <c1/> oplost
+
+seg-33ce7950c097 = Positionering
+
+seg-90a7258f4d22 = beoordelaars van geschiktheid
+
+seg-b34c84423464 = waar Kshana staat ten opzichte van RTKLIB/gLAB (aanvullend), en de browsertrap zonder installatie
+
+seg-b2296ef28d12 = beoordelaars van geschiktheid / programmamanagers
+
+seg-5a701a5ccf6a = wat de propriëtaire Pro-overlay boven dezelfde engine toevoegt: ontwerpoptimalisator, onzekerheid en gevoeligheid, missiedossier, campagnebewaking, spectrumco-existentie, on-premises jobdienst, eistraceerbaarheid; wat elk onderdeel oplevert en wat het niet doet
+
+seg-13b35332debb = <a1>Technisch rapport</a1> · <a2>JOSS-paper</a2>
+
+seg-2900eec7e995 = beoordelaars / citerenden / beoordelaars van geschiktheid
+
+seg-b3a35c73bab6 = het volledige uitgebreide onderzoekspaper — architectuur, modellen per domein, validatie, casestudy's en beperkingen — plus de beknopte JOSS-inzending (Journal of Open Source Software)
+
+seg-b3c51210f2b9 = overeenstemming met de AIAA 2006-6753-referentie ({ "666" } toestanden, ~{ "4" } mm) <b>en</b> een rechtstreekse vergelijking met de onafhankelijke crate <c1/> (komen overeen tot onder de micron / { "4.12" } mm)
+
+seg-496fc27f0779 = de engine met volledige krachten (<c1/>) gefit aan efemeriden van ruimtevaartagentschappen — methodiek en getoetste residuen
+
+seg-e5dc1d12103b = TLE-gids voor echte gegevens
+
+seg-bc371a07bef1 = gebruikers
+
+seg-3368ef107f86 = scenario's aansturen met echte TLE's van Celestrak / Space-Track-constellaties (tegenover de meegeleverde synthetische Walker-set)
+
+seg-036de74eefe4 = Kwaliteitsmaat voor integriteit
+
+seg-087a30ea794d = wat de cijfers <c1/> / <c2/> betekenen — en wat ze <b>niet</b> zijn tegenover HPL/VPL voor de luchtvaart
+
+seg-4586fac36659 = beoordelaars / integrators
+
+seg-bd73a9aab9bf = de open implementatie van het ARAIM-beschermingsniveau volgens MHSS — de projectie van de nominale bias <c1/>, σ_URA tegenover σ_URE en de prior-kansen van de foutmodi
+
+seg-7912b8806633 = <a1>Kwantummodellen</a1> · <a2>details</a2>
+
+seg-538ae4a293ac = de fysicalaag van de koudeatoominterferometer, en waar coëfficiënten nog worden opgezocht
