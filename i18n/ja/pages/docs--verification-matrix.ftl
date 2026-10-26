@@ -3387,3 +3387,359 @@ seg-4cac09f2382e = gravity_sh, altpnt::maps, gravimeter
 seg-d0ee49fda1e0 = tests/icgem_gravity_anomaly_oracle.rs（egm2008_n70_matches_cited_icgem_values は、CI で引用した十個の ICGEM ノードに対して、egm2008_n70_gravity_anomaly_sa_matches_icgem は、取得した 0.25 deg の全格子、チャドの 9-15N 19-25E とデスバレーの 35-38N 242-245E の { "794" } 個のノードに対して：RMS は { "1.3e-8" } と { "2.6e-8" } mGal、最大 { "2.9e-8" } mGal で、事前登録した基準 { "0.005" } / { "0.02" } mGal に対する値、xval/icgem-egm2008/）、gravity_sh::tests
 
 seg-d5b8ca2a48cc = tests/terrain_nav_validation.rs（real_srtm_committed_badwater_tile_reads_real_relief——パブリックドメインの SRTM v3 N36W117 タイルのコミット済みの 6 秒角の間引き版は、北米で最も低い地点であるバッドウォーター盆地を −{ "78" } m に置き、これは測量の範囲 [−{ "95" },−{ "70" }] m の内側で、タイルの実際の約 { "2.2" } km の東側山地の起伏を読み取ります。さらに、N36W119 と N36W117 のコミット済みの 1 秒角 361x361 の切り出しそのままの二つについて、real_srtm_tile_whitney_in_survey_band（{ "4421" } m の測量に対し、範囲 [{ "4380,4430" }] m の中で { "4412.1" } m）、real_srtm_tile_badwater_in_survey_band（[−{ "95" },−{ "70" }] m の中で −{ "78.0" } m）、gdal_cross_check（最近傍ノードは、完全なタイルでの GDAL { "3.8.4" } の gdallocationinfo と、事前登録した { "8" } 点すべてで完全に一致、xval/srtm-ungate/。さらに、手作りの双線形中点と合成フィクスチャのパーサーのオラクル）
+
+seg-d86971b6e158 = oem
+
+seg-f00dd400fa2d = tests/ccsds_oem_interop_reference.rs（{ "24" } 個の状態 / { "2" } 個のフィクスチャを、独立した <c1/> パーサーがバイト単位で同一にデコード、pos/vel Δ = { "0" }）、oem::tests（追加のキーワード・コメント・共分散を含む外部ツールの OEM の解析、完全な状態の書き込み→読み込みの往復、pos+vel+accel の許容、位置のみのものと必須メタデータの欠落したものの拒否、シナリオの往復での高忠実度と外部取り込み）、dominance_demonstrators（到達可能 + 再現可能 + 往復が厳密 + MODELLED-not-VALIDATED）
+
+seg-ab37fdc7a543 = 独立したサードパーティの CCSDS-502 パーサー <c1/> { "0.4.5" }（MIT、<a1>https://pypi.org/project/oem/</a1>）。別個のコードベースであり、kshana が出力する EME2000/UTC の OEM をバイト単位で同一にデコードし（{ "2" } 個のフィクスチャにわたる { "24" } 個の状態、pos/vel Δ = { "0" }）、その厳格なリーダーがメタデータのトークンを確認しています。kshana のパーサーも、同梱した外部の OEM について同様にこれと一致します。誠実な相互運用上の所見が二件あり（oem ライブラリは kshana の衛星ごとの複数セグメントの規約と、複数エントリーの共分散行を拒否します）、テスト内に記録しています。したがって、これが検証するのは適合する単一オブジェクトの交換であり、kshana のあらゆる変種についての CCSDS-502 への完全な適合ではありません
+
+seg-3814a35508eb = eo_payload (j2_node_rate, j2_nodal_period, ground_track_spacing_equator_j2, sun_synchronous_inclination)
+
+seg-e26317a36469 = eo_payload::tests（高度 { "700" } km での角半径 { "64" }° と高度に伴う縮小、天底→天頂/距離ゼロ、地平線→ε=0/最大中心角、地平線の外側でのエラー、視野角に応じた観測幅の拡大と高度に応じた GSD の拡大、約 { "2750" } km の軌道間隔、シナリオの再現可能性/MODELLED と不正入力の拒否）、dominance_demonstrators（到達可能 + 再現可能 + 角半径 { "64" }° + MODELLED-not-VALIDATED）、tests/eo_payload_coverage_orekit_oracle.rs::eo_coverage_matches_orekit_and_geographiclib（高度 400-1500 km、軌道傾斜角 1-98 deg、視野角の半値 7.5-50 deg、IFOV 10-50 microrad、スルー角 { "30" } および { "89" } deg：すべての量が事前登録した合格基準の範囲内、連続フラグ 168/168）、tests/eo_payload_coverage_orekit_oracle.rs::exempt_flag_points_are_the_engines、回帰テスト tests/eo_payload_coverage_reference.rs
+
+seg-ee8ce4b84732 = space_packet::tests（ヘッダービットが CCSDS-133 のレイアウトと一致、全フィールドのエンコード→デコードの往復、範囲外・切り詰められたものの拒否）、tests/ccsds_space_packet_reference.rs（spacepackets { "0.32.0" } との { "33" } 件の比較、うち { "12" } 件は完全なパケットの比較、不一致のオクテットはゼロ）
+
+seg-6566a3bdb3b4 = space_packet (TimeCode, SecondaryHeader, packet error control, segmentation and reassembly, stream decoding)
+
+seg-f9c3b678f754 = tests/space_packet_ext_oracle.rs（事前登録した五つの合格基準：CRC、時刻コード、ストリーム、欠落と順序、PUS TM、不一致はゼロ）、space_packet::tests
+
+seg-49684da520e1 = spk_writer (SpkSegment, to_bytes, from_bytes, eval, et_from_label, oem_to_spk_segments)
+
+seg-d0468ecef524 = tests/spk_writer_spice_oracle.rs（インベントリ、評価、ビット単位およびバイト単位の同一性、OEM のエポック変換、計画した四つの変異チェックがいずれもこれを失敗させます）
+
+seg-7b7d5c79bcde = spk_writer (SpkType::Chebyshev3, SpkType::DiffLines21, SpkSegment, InterpolatedSpk)
+
+seg-fa6c68bfeb74 = tests/spk_3_21_spice_oracle.rs（インベントリ、双方向の評価、バイト単位の同一性）、spk_writer::tests
+
+seg-2b73bbf7fd60 = adm (AemMessage, ApmMessage, quaternion_a_to_b), ndm_xml
+
+seg-6d6d69a7117e = tests/adm_orekit_oracle.rs（L1 では Orekit が { "33" } 個の Kshana ファイルを読み、L2 では Kshana が { "31" } 個の Orekit ファイルを読み、L3 では { "135" } 件のレコードの回転を比較、所見は固定）、adm::tests、ndm_xml::tests
+
+seg-4fc5845019f2 = odm (OpmMessage, OmmMessage, OcmMessage, Section, OcmBlock), ndm_xml
+
+seg-4dd013dd6b9e = tests/odm_orekit_oracle.rs（L1 では Orekit が { "30" } 個の Kshana ファイルを読み、L2 では Kshana が { "25" } 個の Orekit ファイルを読む、所見は固定され、再発することをアサート）、odm::tests
+
+seg-2e7fd9b81080 = attitude_budget::tests（GG トルクは対称な物体で消え、低い位置ほど大きくなり、ΔI に比例し、RSS の二乗和で合成され、分散の比率の合計は 1 になる）、tests/attitude_gg_torque_reference.rs（{ "20" } 件のケースを、Hipparchus { "3.1" } の linalg で姿勢について数値的に最大化した独立の完全テンソル GG トルク T=(3μ/R³)(n̂×(I·n̂)) と比較、最悪の相対誤差 { "6e-15" }、加えて Wertz/Sidi が公表した O({ "1e-6" }) s⁻² の範囲）、tests/attitude_gg_torque_basilisk_oracle.rs::gravity_gradient_torque_matches_basilisk（{ "40" } 件のケースを Basilisk { "2.9.1" } の GravityGradientEffector と比較：ピークは { "45" } deg の姿勢で相対 { "1e-12" } 以内、最悪 { "2.1e-15" }、ケースごとに { "2000" } 個のランダムな姿勢でピークを超えるトルクはなく、{ "3" } つの対角慣性テンソルと { "5" } つの一般慣性テンソル、{ "5" } つの高度）
+
+seg-49b30066ff1b = passes::tests（補間の交差は線形かつ退化に対して安全、極域→中緯度のパス、マスクを高くすると同数以下になる）、tests/ground_station_pass_prediction_reference.rs（{ "22" } 件のシナリオ / { "129" } 件のパスを Orekit { "12.2" } の ElevationDetector と比較、AOS/LOS の最悪 |Δ| { "0.0000" } s、最大仰角 { "0.0014" }°、総アクセス時間 { "0.0001" } s、パス数は同一）
+
+seg-302a5a17401b = passes (predict_passes_apparent, apparent_look_angles, ApparentOptions, p834_tau_s_deg, p834_tau_deg, p834_theta_m_deg, p834_apparent_elevation_deg, PassesScenario)
+
+seg-be96bc40b05d = tests/pass_predictor_on_path_orekit_oracle.rs（{ "60" } 件のケース、{ "1210" } 件のパス：AOS/LOS は { "3.4e-6" } s 以内で合格基準は { "5" } ms、最大仰角は { "5.5e-7" } deg 以内で合格基準は { "1e-3" } deg、{ "8979" } 個の見かけの方向は { "8.8e-7" } deg 以内で合格基準は { "1e-4" } deg）、tests/earth_orbit_path_sgp4_erfa_oracle.rs（経路）、passes::tests（p834_equations_9_and_14_are_consistent_and_vanish_toward_the_zenith、refraction_lengthens_passes_and_light_time_delays_them）、tests/pass_predictor_apparent_orekit_oracle.rs（第 1 ラウンドの所見、固定、orekit_p834_coefficient_differs_from_the_recommendation_above_sea_level）
+
+seg-b985f72dcdf4 = linkbudget::tests（自由空間損失の形、リンク方程式の閉包）、tests/one_way_link_budget_reference.rs（DESCANSO/JPL の Galileo X バンド DCT をエンドツーエンドで再現、加えて DSN の S/X/Ka バンド中心にわたる { "6" } 件の ITU-R P.525 FSL ケース、最悪 |ΔFSL| { "4.6e-3" } dB、|Δcarrier| { "2.5e-2" } dB）
+
+seg-ca02c7483ba8 = lunar_time::tests（閉形式の変化率、往復）、tests/lunar_coordinate_time_reference.rs（LTC の自己ポテンシャルと永年変化率の項を、公表された Ashby & Patla { "2024" } の値と比較、および地心から見た月の速度を JPL DE440 と比較）
+
+seg-7ef514b90798 = frame_eop::tests および realtime_frame_eop::tests（三つの成分すべてが、実際の IERS 抽出データ二件にわたって、等しく要素ごとに同一で厳密に昇順のエポック集合を持つ。二つの Bulletin B ブロックが実際に食い違う場合は結合集合が共通部分に縮退し、共有する行のない予測期間はゼロ埋めではなく省略される。予測と確定値の表が空であることは、欠落したフィールドで暗示されるのではなくドキュメント内に明記される。実際の第二の版があればそこに値が入り、行ごとに照合される。後の版が欠けている場合は、黙って空の表になるのではなくエラーとなる）、tests/joint_eop_table_astropy_erfa_oracle.rs::joint_table_and_predicted_vs_final_tables_match_astropy_and_erfa（シナリオの表 { "3" }、{ "4" }、{ "6" } をエンドツーエンドで：エポック集合は完全一致、UT1 と極運動の統計は { "1e-9" } 以内、月での合成は完全な ERFA 回転の { "1e-5" } 以内、予測と確定値の各ケースの明記された状態）、tests/joint_eop_error_iers_ar2019_oracle.rs::bulletin_a_2019_prediction_error_matches_the_iers_realised_statistics（{ "1" } 日から { "90" } 日で Kshana/IERS が { "1.001" } から { "1.100" }）、行の集計：tests/embedded_eop_vintage_astropy_preregistered.rs（オフライン入力の行）、第 1 ラウンドの回帰：tests/joint_eop_error_bulletin_a_oracle.rs::measured_error_against_the_iers_accuracy_formula_pole_agrees_ut1_does_not
+
+seg-8d703fef00d5 = realtime_frame_eop, eop
+
+seg-41f91517a4bb = tests/embedded_eop_vintage_astropy_preregistered.rs::vintage_of_every_row_matches_astropy_and_predictions_match_bulletin_a（六つの厳密な基準：抽出データのバイト、{ "174" } 行、版ごとの件数と完全な MJD リスト 30/54/90、極運動と UT1 の両方で予測された全行のフラグ P、既定の実行の集計、予測された全行が IERS Bulletin A Vol. XXXIX No. { "039" } と最後に印字された桁以内で一致、最悪 { "5.0e-5" } arcsec と { "4.9e-6" } s）、tests/embedded_eop_census_astropy_oracle.rs::vintage_census_matches_astropy（フラグ分類器の下での旧 32 行の抽出データの回帰固定：確定 { "20" }、速報 { "12" }、予測 { "0" }）、tests/embedded_eop_census_astropy_oracle.rs::rows_called_prediction_only_are_flagged_measured_by_astropy（第 1 ラウンドの所見、保持）、realtime_frame_eop::tests、tests/operational_eop_predictor_reference.rs
+
+seg-d25312c585d1 = lunar_vlbi (KernelGeometry, delay_partials_beacon_body, delay_partials_stations, LunarVlbiScenario); naif_kernel
+
+seg-1caf84a930c6 = tests/lunar_vlbi_spice_oracle.rs::kernel_delay_and_partials_match_spice_light_times_near_j2000（J2000 付近の { "25" } エポックにおける DSS-14、DSS-43、DSS-63 に対する { "75" } 個の遅延：遅延は { "1" } ps 以内、最悪 { "0.06" } ps、天体固定座標系のビーコン偏微分は { "1e-6" } 以内、最悪 { "7.4e-9" }、ITRF93 の局偏微分は { "1e-6" } 以内、最悪 { "3.8e-11" }）、tests/lunar_vlbi_spice_oracle.rs::spice_2024_epochs_finding_is_unchanged、tests/lunar_vlbi_anise_oracle.rs::kernel_delay_matches_the_anise_light_time_difference（カーネル評価のクロスチェック）、tests/naif_kernel_reader_check.rs、lunar_vlbi::tests
+
+seg-5140b9231f4b = naif_kernel (DafFile, SpkKernel, PckKernel); ephem_provider (KernelEphemeris)
+
+seg-3747d76d3c5c = tests/naif_reader_spice_oracle.rs::reader_matches_spice_and_anise_on_the_post_registration_grid（1849-2150 年の { "200" } エポックにおける { "600" } 個の de440s.bsp の状態と { "200" } 個の MOON_PA_DE440 の回転、および事前登録のコミット自身のハッシュから選んだランダムな天体の組を、NAIF のものとビット単位で同一の切り出しカーネルで SPICE および ANISE と比較：最悪の差は合格基準の { "0.6" } %、絶対値で { "1.95e-3" } m）、tests/naif_reader_spice_oracle.rs::reader_matches_spice_and_anise_on_the_full_naif_kernels_when_present（完全な NAIF ファイルでの同じ比較、SHA-256 を確認、データがある場合のみ実行）、tests/naif_kernel_reader_check.rs（エンジニアリング上のガードであり、エビデンスではありません）、naif_kernel::tests、ephem_provider::tests
+
+seg-92c70de528b4 = lunar_common_mode::tests（{ "8" } 件のライブラリテスト：分割は加法的で dy を再構成する、共通モードの共分散は正の共通モード保護レベルを与え、パリティのみの共分散はほぼゼロの保護レベルを与える、射影は range(G) を消去する）、tests/lunar_common_mode_integrity_reference.rs（コミット済みの 366 エポックのサンプルについて、バイト単位で同一の入力で、エンジンの分割を独立した numpy の計算と比較、相対誤差と絶対誤差の両方が { "1e-3" } 未満）、tests/lunar_common_mode_parity_numpy_oracle.rs::common_mode_split_matches_numpy_lstsq_on_parity_bearing_inputs（8 衛星の配置と、実際の二組の天体暦間の 6 衛星の部分集合における { "1464" } 件のパリティを含むケース：blind_dx、残差、ノルムは |dy| の { "1e-12" } 以内、最悪 { "1.06e-14" }）
+
+seg-5cd36a6d71b9 = lunar_combination (problem, model, estimate, formal_covariance); batch_ls (gauss_newton_qr)
+
+seg-63056b57baab = lunar_combination::tests（シミュレートした真値を復元する、VLBI は局の 3 次元可観測性を回復する、決定論的）、tests/lunar_joint_multi_technique_od_reference.rs（{ "6" } 通りの配置 × { "16" } 個のパラメーター、各 { "31" } 個の観測を、同一の観測に対する Orekit { "12.2" } / Hipparchus の Levenberg-Marquardt と比較、復元した状態の最悪 |Δ| { "1.4e-8" } m）、tests/lunar_joint_od_numpy_oracle.rs::joint_solve_linear_algebra_matches_numpy（VLBI のない一つを含む六つのネットワーク：ガウス・ニュートンのステップは { "4.3e-11" } 以内、形式的なシグマは { "1.9e-11" } 以内、局の誤差は等しい。{ "0.36" } のポータブルな数学入力では { "2.4e-11" } と { "1.3e-11" }、{ "0.30" } の入力では同様）
+
+seg-ef4de80a0e79 = fim
+
+seg-6a5729ed13c5 = tests/fim_observability_reference.rs（固有値を numpy.linalg.eigh と、CRLB 共分散を numpy.linalg.inv による σ²(XᵀX)⁻¹ と、情報行列から求めた GNSS の GDOP/PDOP/HDOP/VDOP/TDOP を numpy と比較：すべて { "1e-9" } で一致）、fim::tests（ヤコビ固有値ソルバーを閉形式のスペクトルと、CRLB を Kay { "1993" } の閉形式である WGN 中の DC の σ²/N と直線フィットの σ²(XᵀX)⁻¹ と、モンテカルロによる CRLB の達成、ムーア・ペンローズ恒等式 MM⁺M=M、データム欠陥の零空間）
+
+seg-454f4440a5c8 = lunar_frame_realise::tests（注入したヘルマート変換を復元する）、tests/lunar_reference_frame_realisation_reference.rs（{ "14" } 件のケースを独立した閉形式の Umeyama-SVD ソルバーと比較、並進の最悪 |Δ| { "2.0e-5" } m、回転 { "5.3e-12" } rad、スケール { "9.3e-2" } ppb、フィット後の RMS { "6.1e-9" } m）
+
+seg-86ded53b2aac = lunar_service::tests（DOP は検証済みのカーネルを再利用する、保護レベルは南極のケースに帰着する）、tests/lunar_navigation_service_volume_reference.rs（グリッド×エポック全体の掃引にわたって、衛星ごとの MCI 位置を <{ "1e-3" } m で、可視衛星の集合を完全一致で、ANISE { "0.10.2" } と比較）
+
+seg-01d0c0630ded = lunar_afs::waveform::render, lunar_afs::codes, lunar_afs::frame
+
+seg-38c8b9bffaf9 = tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_chips_match_lans_afs_sim（{ "210" } 個の AFS-Q プライマリコードは常時、KSHANA_LANS_RUN と LSIS キャッシュがあれば { "630" } 個すべてのコード、チップの不一致はゼロ）、tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim（LSIS キャッシュがある場合：{ "3" } 個のフレーム、シンボルの不一致はゼロ、コミット済みの { "24" } 個の { "2" } ms ウィンドウ、|rho| = { "0.999990" }）、tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_full_run_matches_lans_afs_sim（データがある場合のみ実行：{ "23.9" } s の全体の実行、|rho| = { "0.999990" }、最悪の { "2" } ms ブロック { "0.999948" }、位相 { "8e-9" } rad）
+
+seg-67eae9b2de36 = lunar_afs::frame, lunar_afs::ldpc, lunar_afs::lsis
+
+seg-e73c88408052 = tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim（LSIS キャッシュがある場合：同じ FID、TOI、データビットから構築した、LANS-AFS-SIM が送信する { "3" } 個のフレーム：{ "18 000" } 個のシンボルのうち相違はゼロ）、tests/lunar_afs_frame_coding_oracle.rs::bch_worked_example_and_crc24_check_value_are_bit_exact（LSIS の図 { "8" }：0x045 -> 0x229f61dbb84a0、CRC-24/LTE-A のチェック値 0xCDE703、常時実行）、tests/lunar_afs_frame_coding_oracle.rs::ldpc_codewords_satisfy_the_printed_parity_check_matrices（{ "100" } 個の符号語、印刷された H の未充足チェックはゼロ）、tests/lunar_afs_frame_coding_oracle.rs::decoder_from_parity_check_matrices_recovers_every_frame（H のみからのデコーダー、ノイズなしと { "3" } dB の Es/N0、および { "10" } 個の完全なフレーム）、lunar_afs::ldpc::tests::printed_b_inverse_inverts_printed_b、lunar_afs::frame::tests
+
+seg-7c4e5dff6562 = iq::scene (Scene, SatGeometry, TruthRecord)
+
+seg-ba9337fe40c0 = tests/iq_gpssdrsim_cross_generator.rs::scene_geometry_matches_gps_sdr_sim_channels（{ "11" } チャンネル：疑似距離の最悪値 { "1.6e-3" } m（基準 { "0.05" } m）、コード位相 { "5.5e-6" } chip（基準 { "2e-4" }）、ドップラー { "7.4e-5" } Hz（基準 { "0.02" } Hz）、見通し角 { "4e-9" } degree（基準 { "1e-4" }）、可視集合は同一）、tests/iq_gpssdrsim_cross_generator.rs::harness_reproduces_the_gps_sdr_sim_program_channel_listing（オラクルのハーネスがプログラム自身の印字するチャンネル一覧を完全に再現）
+
+seg-80e62d2d7748 = lunar_service::tests（手計算した幾何に対するトポセントリックな値：真上、真北/真東/真西、対蹠点、および退化した極での東方向。出力される可視フラグは { "6" } h の全掃引にわたって独立した可視性フィルターと一致する。出力は既定でオフであり、他には何も変えないことが証明される。保護レベルは、下位の幾何に手を加えない限り、公開されたシグマに対して厳密に線形である）、tests/lunar_service_geometry_oracle.rs::look_angles_match_anise_at_selenographic_sites（{ "8" } 地点、{ "12" } エポック、{ "8" } 衛星の { "768" } サンプルを ANISE { "0.10.2" } と比較：方位角と仰角は { "1e-6" } deg 以内、距離と地点の位置は { "1" } mm 以内、最悪は { "2.2e-12" } deg、{ "2.1e-13" } deg、{ "5.6e-9" } m）
+
+seg-5613845e8514 = attitude_dynamics::tests（適用/解の逆、球形コマのトルクはゼロ、主軸の不動点、短時間の実行でのエネルギーと運動量の保存、q̇=½q⊗ω、対称コマの回転率の符号と物体円錐の歳差）、tests/attitude_dynamics_reference.rs（{ "200" } 000 ステップのトルクフリー実行：|q|={ "1" } を { "1e-10" } まで、運動エネルギー T=½ωᵀIω を相対 { "1e-9" } まで保存、|Iω| と慣性系の運動量ベクトルを相対 1e-9/1e-8 まで保存、三軸と一般の非対角の慣性の両方で。対称コマのオブレートとプロレートの物体円錐の歳差を、解析解 λ=ω₃(I_a−I_t)/I_t に対して { "1e-6" } まで再現）、tests/attitude_dynamics_basilisk_oracle.rs::torque_free_motion_matches_basilisk（二つの一般の非対角慣性、{ "1e4" } s のトルクフリー運動を RKF78 の Basilisk { "2.9.1" } スペースクラフトハブと比較：クォータニオンは { "1e-9" } 以内、最悪 { "3.3e-11" }、機体角速度は { "1e-9" } rad/s 以内、最悪 { "3.4e-12" } rad/s）
+
+seg-c7acd78b6a27 = cw_dynamics (propagate, second_order_correction, propagate_second_order)
+
+seg-8edf60f6eb8c = cw_dynamics::tests（Φ({ "0" })=I、クロストラックは分離した単振動）、tests/cw_dynamics_reference.rs（閉形式の Φ を、同じ Hill 方程式の独立した固定ステップ RK4 積分と軌道の三分の一にわたって <{ "1e-6" } で比較、Φ(t)Φ(−t)=I を { "1e-9" } まで、有界条件 ẏ₀=−2n·x₀ は 一周期後に全状態を { "1e-9" } まで閉じ、{ "10" } 周回にわたって along-track の永年ドリフトはなく、純粋な半径方向のオフセットは 一周回あたり解析的な −12π·x₀ だけドリフトする）、tests/cw_dynamics_orekit_oracle.rs::cw_second_order_matches_nonlinear_orekit_within_1mm（{ "500" } km 軌道の三分の一にわたる { "100" } m の四ケース：最悪 { "1.15e-7" } m（基準 { "1e-3" } m））、tests/cw_dynamics_orekit_oracle.rs::cw_disagreement_with_orekit_is_recorded_as_a_finding（線形の Φ のみの場合：{ "1.2" } から { "6.3" } mm、固定）
+
+seg-9d7e00484999 = entry_eo_ascent::entry_heating (simulate_entry, inertial_to_relative, EntryHeatingScenario)
+
+seg-e9749b2960a2 = tests/entry_stardust_published.rs（ピーク { "35.44" } g を公表値 { "33.4" } g と比較、+{ "6.1" } %、基準 { "10" } %、惑星相対の突入速度 { "12.551" } km/s を { "12.6" } と比較、基準 { "0.1" } km/s）、entry_eo_ascent::entry_heating::tests（回転系のエネルギーは抗力による仕事の分だけ正確に減少する、真空中の慣性飛行はヤコビエネルギーを保存する、非回転の弾道ケースは reentry モジュールの平面質点と一致する、Allen-Eggers の閉形式はその適用範囲で成り立つ）
+
+seg-c23c0440cc75 = aocs (AocsConfig, required_torque, motor_torques, rates, rk4_step, simulate, mrp_from_quaternion); aocs_kind (AocsScenario)
+
+seg-4f446e123d4e = tests/aocs_basilisk_oracle.rs（{ "3" } 件のケース、各 { "601" } サンプル：MRP の最悪値 { "2.4e-14" }（基準 { "1e-9" }）、機体角速度 { "1.6e-15" } rad/s（基準 { "1e-9" }）、ホイール回転数 { "2.9e-11" } rad/s（基準 { "1e-6" }）、印加モータートルク { "1.2e-13" } N m（基準 { "1e-9" }）、t = { "0" } のトルクは { "1e-12" } N m 以内、飽和は両方のツールで到達）、aocs::tests（角運動量の保存、最小ノルムの写像、MRP の分枝、飽和下での収束）、aocs_kind::tests
+
+seg-ec141da2fe8e = wahba
+
+seg-7ece946b2cb0 = wahba::tests（A(単位クォータニオン)=I、ヤコビ固有値ソルバーは既知の対称行列で Kv=λv を満たしトレースを保存する、K は対称）、tests/wahba_reference.rs（TRIAD、Davenport の q 法、QUEST は、ノイズのない重み付きベクトル集合に対して scipy.spatial.transform.Rotation.align_vectors の最適な DCM を、座標系に依存しない姿勢誤差角で <{ "1e-9" } rad まで再現する。加えて、q 法は λ_max=Σ重み でウォルバ損失ゼロとなる既知の回転を復元する、q 法の解は摂動の下でウォルバ損失を最小にする、QUEST は最適な q 法と <{ "1e-7" } rad で一致する、{ "2000" } 回のノイズ付きモンテカルロ試行で最適推定器は 二ベクトル TRIAD を RMS 姿勢誤差で上回る）
+
+seg-e35ff28ef879 = acquisition
+
+seg-e6a7ff99874a = acquisition::tests（Marcum-Q の中心ケース Q_1({ "0" },b)=exp(−b²/2)、P_d=Q_M(√(2Mρ),√γ) の恒等式、M と P_fa にわたる P_fa↔閾値の往復、ROC の単調性：P_d は SNR とともに上昇し、閾値とともに低下し、SNR→{ "0" } で P_d→P_fa となる、非コヒーレント積分の利得は P_fa を固定したとき P_d を引き上げる、Marcum-Q は a と b について単調で [{ "0,1" }] に有界）、tests/acquisition_reference.rs（一般化 Marcum Q_M(a,b)、P_d、P_fa、および P_fa→閾値の逆変換を、(M,a,b)/(M,P_fa)/(M,SNR) のグリッドにわたって scipy.stats.ncx2/chi2 と ~{ "1e-6" } まで照合）
+
+seg-4f480ce145f7 = lambda
+
+seg-7c55c072cfb7 = lambda::tests（L D Lᵀ は Q を再構成する）、tests/lambda_reference.rs（Z 変換はユニモジュラーで |det Z|={ "1" }、Q_z=ZᵀQZ は SPD で行列式を保存し、非対角相関の合計が小さくなる、Schnorr–Euchner の ILS は { "300" } 個のランダムな共分散にわたる総当たり列挙と一致する、無相関化→探索→逆変換の全パイプラインは直接の ILS と等しく、Z⁻ᵀZᵀ は整数を往復で保つ、逐次条件付き丸めの閉形式のブートストラップ成功率は 200k 試行のモンテカルロと <{ "0.01" } で一致する）、tests/lambda_rtklib_oracle.rs::ils_solution_matches_rtklib_lambda_on_300_covariances（固定された整数は、n が { "2" } から { "10" } の { "300" } 個のランダムな共分散で RTKLIB v2.4.2-p13 の lambda() と等しく、そのうち { "226" } 個は丸めでは解けない、上位二つの二乗ノルムは相対 { "1e-9" } で一致し、実測は { "5.6e-13" }）
+
+seg-18befb9e9596 = bplane
+
+seg-5eb675d6585e = bplane::tests（フライバイのスカラーは閉形式を満たし、二つの |B| の恒等式が一致して |B|>r_p となる、転向角は近点半径とともに減少し δ→{ "0" } / δ→π の極限に達する、偏向は v∞ の速さを保存し正確に δ だけ回転させる、アシストの Δv の大きさは { "2" }·v∞·sin(δ/2) に等しく { "2" }·v∞ で抑えられる、B 平面の軸は正規直交で Ŝ に直交し |B|²=(B·T̂)²+(B·R̂)² となる、ティスラン・パラメーターは a,e,i を変える v∞ 保存の偏向の前後で不変であり、{ "3" }−(v∞/v_circ)² に等しい）、tests/bplane_gmat_oracle.rs::bplane_matches_gmat_over_a_hyperbolic_grid、tests/bplane_heliocentric_oracle.rs::assist_delta_v_matches_gmat_asymptotes_and_c3、tests/bplane_heliocentric_oracle.rs::heliocentric_elements_and_tisserand_match_gmat_and_sbpy、tests/bplane_heliocentric_oracle.rs::tisserand_matches_kasuga_jewitt_2019_table_8_1
+
+seg-3111857b93df = crpa
+
+seg-d333f700ca8a = crpa::tests（z/z={ "1" }、|exp(jθ)|={ "1" }、zᴴz=|z|² を含む複素数演算の恒等式、決定論的なヌルステアリングは、{ "3" } 個のジャマーに対して、SV の利得を厳密に単位利得とし、ジャマーのヌルを <{ "1e-9" } とする（4 素子 ULA）、N 素子のアレイは >N−{ "1" } 個のジャマーを除去できず、それより少ない場合は最小ノルムでヌルを形成する、MVDR は SV 方向で無歪みのままで、ジャマーのヌルはジャマー電力とともに単調に深くなり { "60" } dB で <{ "1e-3" } に達する）、tests/crpa_reference.rs（MVDR と最小ノルムのヌルステアリングの重みベクトル、およびその結果のアレイ応答利得を、独立した numpy/scipy の LAPACK による計算と ~{ "1e-9" } まで照合）
+
+seg-97d39969aa50 = powerlaw
+
+seg-213c2856bc78 = powerlaw::tests（各純粋ノイズ種は固有の ADEV の log-log 傾きを示す：ホワイト FM −½、フリッカー FM { "0" }、ランダムウォーク FM +½、ホワイト PM −{ "1" }。フリッカー FM の項は、τ の五桁にわたって √({ "2" } ln2·h_{ "{" }-1{ "}" }) に等しい平坦な下限となる。FM 系列のフィットは、合成曲線から既知の h_{ "{" }-2{ "}" }、h_{ "{" }-1{ "}" }、h_0 を <{ "1e-6" } で往復して復元する。そして、フリッカー支配の曲線の下限はここで復元されるのに対し、ドリフト基底のフィット（quantum_trade::qparams_from_adev_curve）は長い τ で >{ "10" }% 外れる。これにより、文書化されていたギャップが解消される）、tests/powerlaw_oadev_reference.rs（σ_y(τ) を allantools { "2024.06" } の Noise.adev の閉形式と、τ の系列にわたって 五種類すべてのノイズについて照合、加えて h_a の水準について allantools の Kasdin ジェネレーター→oadev 推定器の裏付け）
+
+seg-0a7be53acff4 = oem (covariance_block_kvn, parse_covariance_block)
+
+seg-c3f4fe461c45 = oem::tests（対称な PD 共分散は KVN→解析で f64 の丸め誤差まで往復し、対称のままである、ブロックは COV_REF_FRAME の有無にかかわらず、下三角のちょうど { "21" } 個の要素（行列の各行で i+{ "1" } 個）を出力する、値の個数が誤っているブロックと欠落したブロックはどちらも拒否される）、tests/ccsds_oem_covariance_reference.rs（独立した oem { "0.4.5" } ライブラリが、kshana の出力した OEM セグメントを解析して対称な { "6" }×{ "6" } を再構成し、kshana の入力共分散と f64 の丸め誤差まで一致する。摂動を加えた負の対照と、oem がラベル付きの CX_X 変種を拒否することの確認を伴う）
+
+seg-5dd227be45fe = oem { "0.4.5" }（MIT、<a1>https://pypi.org/project/oem/</a1>）。独立した検証済みの「CCSDS OEM interoperability」の行が信頼しているものと同一の独立した CCSDS-502 パーサーであり、完全に別個のコードベースです（独自の KVN トークナイザー、共分散セクションの状態機械、numpy の行列組み立て）。kshana はラベルのない数値のみの下三角の COVARIANCE ブロックを持つ完全な OEM セグメントを出力し、oem はそれを解析して対称な { "6" }×{ "6" } を再構成し、kshana の入力共分散と要素ごとに f64 の丸め誤差まで一致します。これは本物のライブラリ対ライブラリの交換の往復であり（kshana の再解析ではなく、oem の再構成と比較）、この行にあった以前の「サードパーティのフィクスチャがない」というギャップを解消します
+
+seg-8fd49e7a4cc3 = inertial::coast (ErrorDynamics, ErrorSource, source_error_m, CoastModel, Contribution, Combination, TrnFixMode, first_crossing_s, InsTrnCoastScenario); scenario kind <c1/>
+
+seg-ece63653ae22 = tests/ins_coast_schuler_navego_oracle.rs::coast_error_model_matches_the_corrected_navego_runs（{ "48" } 点、{ "30" } s から { "3600" } s の 六つの誤差項、Tactical グレード、北緯 { "45" } deg、水平かつ北向き：すべての点が { "5" } % 以内、最悪は { "1200" } s での速度ランダムウォークの +{ "3.70" } %）、inertial::coast::tests（the_error_model_follows_the_leading_order_law_on_a_short_coast、a_bias_error_is_schuler_bounded、doubling_the_coast_scales_each_contribution_by_two_to_its_own_power、every_contributions_closed_form_crossing_agrees_with_the_engines_bisection、the_located_crossing_puts_the_model_on_the_threshold_it_searched_for、the_bias_law_matches_the_engines_stochastic_dead_reckoner_stepped_forward、the_velocity_random_walk_law_matches_a_monte_carlo_of_the_engines_dead_reckoner、the_scale_factor_law_matches_a_double_integration_of_the_engines_imu_error_model、a_full_reset_fix_makes_every_inter_fix_excursion_identical、the_largest_fix_interval_holding_a_threshold_puts_the_peak_on_that_threshold、an_error_free_imu_never_reaches_a_threshold_and_says_so_instead_of_reporting_zero、every_published_field_carries_a_unit_and_a_provenance_class、the_scenario_runs_through_the_engines_public_dispatch_and_is_reproducible）、tests/ins_coast_navego_montecarlo_oracle.rs::finding_laws_hold_to_600_s_and_overstate_beyond（平坦な地球モデルの主要次数の法則についての第 1 ラウンドの所見であり、回帰として保持）
+
+seg-14054e77e0d4 = lunar_vlbi_fim::tests（{ "24" } 件のライブラリテスト：解析的ヤコビアンを、状態自身の座標を順方向に回転させ偏微分を一切使わない経路で取った lunar_vlbi::vlbi_delay_s の中心有限差分と比較し、列ごとに 1/c の < { "1e-6" } で一致、二つの情報行列は最大の対角要素の < { "1e-6" } で、共分散は相対 < { "1e-5" } で一致する。共分散が軸ごとに閉形式で c·σ_τ となる直交単位幾何は { "1e-12" } まで一致し、これは等分配の関係が厳密に成り立つ唯一のケースでもある。共分散のスペクトルと各局の 3 次元シグマは、ネットワーク全体の剛体回転の下で { "1e-9" } まで不変であり、C_rot = R·C·Rᵀ をブロックごとに固定したうえで、軸ごとのシグマが実際に動いたことを明示的にアサートするため、テストが空虚に通ることはない。共分散は σ² および 1/N に正確に比例してスケールする。AM-HM のトレース境界は破られない。遅延の閉包 τ_ik = τ_ij + τ_jk は、遅延とヤコビアンの行で 一 ULP まで固定され、冗長な基線は情報を加えるがランクは増やさないことが示される。単一エポックは、ヘッドラインを null としてランク不足と報告される。より長いアークは、観測数を揃えた条件でより良い条件数になることが測定される。ビーコンブロックはこのスケジュールでは可観測でないことが示される。無視した差分シャピロ項の偏微分は、実行時に有限差分で測定されて出力され、無視されることはない）、tests/lunar_vlbi_campaign_spice_oracle.rs::lunar_vlbi_fim_matches_spice_geometry_and_numpy（既定のアンカー付きネットワークと自由ネットワーク：SPICE で構築したヤコビアン、16 観測のスケジュールは同一、局のシグマは { "2.2e-3" } 以内、固有値は { "2.3e-3" }、条件数は { "2.4e-3" }、ヘッドラインは { "1.0e-3" }、視線方向は { "0.018" } deg、赤緯は { "0.007" } deg で、合格基準は { "1" } % と { "0.1" } deg、自由ネットワークのランクは 8/9 でヘッドラインは null、零空間は { "0.006" } deg 離れている、コミット済みのヤコビアンに対する NumPy は { "2e-13" } まで一致）
+
+seg-484388449426 = lunar_vlbi_fim (epoch_geometry_with, schedule, schedule_jacobian); ephem_provider (KernelEphemeris); naif_kernel
+
+seg-d44b405dbeba = tests/lunar_vlbi_surface_point_spice_oracle.rs::surface_point_covariance_kernel_path_matches_spice_geometry_and_numpy（{ "16" } 個の観測は同一、ランク 3/3、固有値は { "5.9e-5" } 以内、条件数は { "5.9e-5" }、ビーコンのシグマは { "1.7e-3" } 以内（基準 { "1e-2" }）、RMS { "2.9e-5" }、レバーアーム { "1.4e-8" }、P2 のシグマは { "3.9e-14" }（基準 { "1e-9" }））、lunar_vlbi_fim::tests
+
+seg-30cc52d98bbd = lunar_service (lunar_protection_level, lunar_protection_level_with_sigma), lunar (lunar_araim_with_sigma), raim (araim_raim)
+
+seg-9d5628188bd8 = tests/lunar_protection_level_reference.rs（{ "7" } 件のサービスボリュームのケース（南極、中緯度、赤道、隆起した高地）、衛星数 { "6" } から { "19" }、σ_URE 10/30/60 m、P_HMI は { "1e-3" } から { "1e-7" } まで、保護レベルは { "1.7e2" } から { "6.9e3" } m にわたる：HPL/VPL を合成した RTKLIB + SciPy のオラクルと比較し、最悪 |Δ| は { "1.061e-8" } m と { "1.044e-8" } m で、許容差は { "1e-6" } m、DOP を RTKLIB 自身の (GᵀG)⁻¹ と相対 { "1.790e-14" } まで、K_fa を scipy.stats.norm.isf と相対 { "2.716e-11" } まで比較、三つの負の対照（{ "5" } km の衛星のずれ、相対 { "1e-6" } の σ_URE の変化、{ "0.1" } % 厳しくした P_HMI）はいずれも保護レベルを許容差の少なくとも { "171" } 倍動かすことが測定され、さらに、コミット済みの幾何をエンジン自身のコンステレーションと可視性のコードが生成するものにビット単位で固定する古いフィクスチャへのガードにより、下でコンステレーションが変わっても green が生き残ることはない）
+
+seg-842722fa9e91 = araim_reference (araim_reference_protection_levels, published_vectors), raim (araim_protection_level, araim_integrity_risk, normal_quantile)
+
+seg-68b534869ac3 = tests/araim_reference_vectors.rs（公表された { "2" } 個のベクトル + { "6" } 個の負の対照、フィクスチャ tests/fixtures/araim_reference/wgc_araim_reference_vectors.txt：公称バイアスを落とすと公表された VPL を { "2.6457" } m 外し、{ "10" } % の ISM 誤差では { "0.2798" } m、K_fa を { "12" } モードではなく { "57" } モードで取ると { "0.4015" } m、+{ "2" } %/+{ "5" } % のインテグリティ分散誤差では 0.0750/0.1971 m 外し、+{ "1" } % の誤差では { "0.0339" } m しか動かず、これは隠さずにこのチェックの分解能の限界として報告する。二つの文書の答えは、それぞれ相手の答えを許容差以上に外すため、これらのベクトルは互換ではない。コミット済みのフィクスチャとコンパイル済みの定数は、一致をアサートされた二つの独立した転記であり、公表された数値を片方だけ編集してチェックを通すことはできない。そして C_int − C_acc = σ²_URA − σ²_URE = { "0.3125" } m² は、転記した { "40" } 個の分散すべてについて成り立ち、転記の誤字があれば破れる算術上の恒等式である）
+
+seg-7e8963a7c86f = lunar_llr, realdata::llr_crd (composing fim, cio, frames, ephem, lunar_frame, lunar_frame_campaign)
+
+seg-617e168e2460 = tests/lunar_llr_real_data.rs（{ "11" } 件のテスト：コミット済みの { "15" } 個の CRD ファイルすべてが記録されたダイジェストとバイト単位で同一、{ "349" } 件のレコードすべてが説明され、{ "337" } 件を使用し { "12" } 件は明記した理由でスキップ、アーカイブされた全レンジが実際の近地点/遠地点の範囲内、重みが bin_rms/√n_raw であることの確認、各アレイで視線方向の座標が最もよく決まり、それをもたらす秤動の掃引は別個に測定される、残差と JPL Horizons による独立した確認、0.1 度の幾何の傾きに対する感度、シミュレートしたキャンペーンの比較が当該シナリオの独立した実行と等しいことの確認、既存の三つの月座標系パックに対するビット単位の R1 固定）、lunar_llr::tests（{ "12" } 件：レンジの偏微分を、モデル化した飛行時間の中心有限差分と相対 < { "1e-6" } で比較、光行時間は収束した月往復のものであること、データムのシグマは重みのスケールに { "1e-9" } まで厳密に線形、ブロック対角性は厳密、データのディレクトリがない場合は代用せず拒否、編集されたカタログの行は自身の半径列で検出される）、realdata::llr_crd::tests（{ "7" } 件：フィールドの意味、真夜中の繰り上がり、UTC でない時刻系と未対応のフォーマットバージョンの拒否、空のビンに対してシグマを代用しないこと）、tests/validate_llr_datum_spice_oracle.rs（llr_datum_finding_tz_sigma_one_percent_gap、固定、reported_residual_is_the_engine_to_spice_light_time_gap）、tests/validate_llr_datum_analytic_fresh_2025.rs::llr_datum_analytic_moon_matches_spice_and_numpy_on_fresh_2025_normal_points（未使用の 2025-Q2 のノーマルポイント { "151" } 点：シグマとノルムの最悪値は { "1e-2" } のうち { "1.11e-3" }、条件数は { "2e-2" } のうち { "8.95e-4" }、比は { "2e-2" } のうち { "1.79e-3" }、帳簿、ランク、結合は厳密）
+
+seg-9e17b852f721 = lunar_llr (llr_geometry_with, LunarLlrDatumScenario); ephem_provider (KernelEphemeris); naif_kernel
+
+seg-ed8e396d7fb6 = tests/validate_llr_datum_kernel_moon_fresh.rs::llr_datum_kernel_moon_matches_spice_and_numpy_on_fresh_normal_points（未使用の 2019-Q2 のノーマルポイント { "447" } 点：シグマとノルムは { "1e-2" } のうち { "4.0e-5" } 以内、条件数は { "2e-2" } のうち { "1.6e-5" }、比は { "2e-2" } のうち { "7.6e-5" }、帳簿とランクは厳密）、tests/validate_llr_datum_kernel_moon.rs（{ "2015" } 年の既出データによる診断、tz で { "0.049" } %、この行のエビデンスではありません）、lunar_llr::tests
+
+seg-0bd1d423f40a = ephem (moon_position), lunar_llr, realdata::llr_crd
+
+seg-e73eed7ff8b5 = tests/lunar_llr_real_data.rs::the_analytic_moon_series_disagrees_with_jpl_by_the_same_amount（週ごとの地心状態 { "12" } 件、最悪エポックの角度が < { "0.3" }° かつ RMS が < { "5e5" } m であることを、モジュール自身が文書化した主張に対してアサート、加えて LLR 残差が径方向の不一致と < { "5" }× で一致することをアサート）、::the_measured_residual_is_the_ephemeris_error（実際のノーマルポイント { "337" } 点）
+
+seg-e6eeb246d545 = integrity::tpl_scalar::tests（ランク 1、融合/除外、バイアス支配、IR のクロスチェック）、tests/tpl_scalar_numpy_oracle.rs::scalar_mhss_pl_matches_numpy（コミット済みの { "300" } 件のケース：numpy lstsq の部分集合推定器、一般の分離共分散、scipy brentq による PL、PL は相対 { "1e-9" } 以内、最悪 { "1.2e-10" }、支配的な部分集合は厳密）
+
+seg-2737758e6542 = integrity::gls_commonmode::tests + tests/gls_reference.rs + tests/gls_whitening_numpy_oracle.rs::whitening_and_mahalanobis_match_numpy_lapack（コミット済みの { "201" } 件の SPD ケース：因子、白色化残差、白色化演算子、マハラノビス二乗を numpy LAPACK と相対 { "1e-12" } 以内で比較、最悪 { "7.9e-16" }）
+
+seg-d36e19a6e2a9 = integrity::gls_commonmode::tests (separation_alone_is_blind_to_common_mode, degenerate_direction_or_non_pd_gives_no_finite_ceiling, every_nonzero_direction_under_pd_omega_has_a_finite_ceiling)、tests/gls_outside_omega_bound_numpy_oracle.rs::undetectable_common_mode_ceiling_matches_numpy_lapack（コミット済みの { "256" } 件のケース：{ "210" } 件の良条件と境界のケースで alpha_ss、alpha_cm、最小値は相対 { "1e-12" } 以内、最悪 { "3.3e-15" }、条件数 { "1.3e8" } までの { "40" } 件の悪条件のケースは、明記した条件数でスケールした境界内、最悪 { "1.1e-9" }、六つの厳密な無限大）
+
+seg-fa85ee9b1daa = tests/lunar_datum_identifiability_reference.rs::decompose_matches_scipy_reference（良条件から { "{" }{ "0,3" }{ "}" } のほぼ退化したものまでにわたる { "16" } 個の合成 7x7 SPD 行列：Schur の lambda_min / 原点 CRLB / |corr| を SciPy/NumPy と <{ "1e-9" } rel で比較）
+
+seg-4fcff50bca2e = lunar_orientation::tests (de440_moon_pa_reproduces_fixture_rows, de440_moon_pa_shows_real_libration)、tests/lunar_pa_frame_realisation_guard.rs::the_orientation_series_interpolation_error_is_tens_of_metres_not_sub_metre、tests/lunar_pa_orientation_spice_oracle.rs::interpolated_rotation_matches_direct_kernel_evaluation_off_node（バイナリ PCK 上の { "2 000" } 個のランダムなノード外エポックを SPICE の pxform と比較：回転角は { "1.7e-5" } rad 以内、最悪 { "1.7e-6" } rad、平均半径で { "3" } m）
+
+seg-3e86011ef650 = lunar_llr_geometry (reflectors, stations_itrf, ItrfStation, StationCoordinates, llr_bcrs_one_way_m, body_to_bcrs_tdb, shapiro_leg_m, BcrsEvent); lunar_orientation (try_de440_moon_pa_body_to_inertial); lunar_vlbi (station_inertial_position_itrs)
+
+seg-ef1e57e7bf3d = tests/lunar_llr_geometry_range_oracle.rs::reflector_ranges_bcrs_iers2010_relativistic（{ "192" } 件の ILRS ノーマルポイント：RMS { "2.81" } m、ITRF2020 の二局だけでは { "2.96" } m、どちらも最大 { "10" } m）、tests/lunar_llr_geometry_range_oracle.rs::round2_finding_is_a_common_offset_of_about_eleven_metres（置き換えられた地心の光行時間モデル、{ "10.94" } m、固定）
+
+seg-32da421d27ef = tests/lunar_coupled_gauge_reference.rs::coupled_gauge_matches_numpy_on_real_de440_rows（well_posed の 120 行と single_epoch の 30 行のネットワークについて、{ "9" } 個の固有値、defect/dim_spatial/dim_temporal/coupled_dim/p_st_norm、および { "{" }scale,offset{ "}" } の Schur 周辺化を、rel<{ "1e-3" } と abs<{ "1e-3" } で比較）、lunar_gauge::tests (coupled_marginal_fisher_is_symmetric_and_psd, oneway_spatial_equals_orbiter_range_row_datum7, twoway_spatial_equals_oneway_spatial_at_same_geometry)
+
+seg-9f0fd0918105 = lunar_gauge, lunar_time
+
+seg-abab0c3bfa30 = tests/lunar_rate_frame_coupling_preregistered.rs（entry1_d_alpha_d_scale_matches_the_published_l_m_for_both_cited_fields：L_m は AIUB-GRL350A/B の J2 を用いた Ashby と Patla { "2024" } の値の { "2.8e-6" } 以内、entry2_d_alpha_d_radial_matches_the_degree_350_equatorial_gravity_for_both_fields：径方向の項は pyshtools の 350 次の赤道重力の { "8.3e-5" } 以内、entry3_d_alpha_d_velocity_matches_the_de441_lunar_speed：速度の項は { "2000" } エポックでの DE441 の月の速度の { "2.5e-3" } 以内）、lunar_gauge::tests、回帰テスト tests/lunar_rate_frame_coupling_oracle.rs
+
+seg-57b6f02016e4 = lunar_gauge::tests（classify_is_invariant_under_null_basis_rotation - 軸に揃えた零空間基底とその { "0.6" } rad の回転が、同一の defect、dim_spatial、dim_temporal、coupled_dim、p_st_norm を与える、classify_direct_sum_null と classify_coupled_null - 構成した直和のケースと真に結合したケースが次元分解を確認する、classify_basis_invariant、index_consts_are_correct）、tests/lunar_gauge_classification_scipy_oracle.rs::classify_null_space_matches_scipy_subspace_intersection（{ "18" } 個の零部分空間にわたる { "72" } 個の構成した 9x9 のフィッシャー行列、それぞれ四通りのランダムな正規直交の基底変更：defect、dim_spatial、dim_temporal、coupled_dim は厳密、p_st_norm は { "6.0e-15" } 以内、基準 { "1e-9" }）
+
+seg-e9319e19b9f3 = tests/lunar_interop_budget_reference.rs（{ "3" } 組のプロバイダーについての raw / rotation-residual / theta_moon / theta_frametie / theta_excess / reducible / irreducible を、tests/fixtures/inter_ephemeris/reference.json にある独立した SciPy の SVD lstsq フィットと比較、rel<{ "1e-3" } abs<{ "1e-3" } m、フィクスチャとオラクルは、公開されている DE440/INPOP21a/EPM2021 のカーネルに対し IMCCE の calceph を通して scripts/gen_interop_ref.py で生成されバイト単位で整合）
+
+seg-89624a7374e9 = tests/lunar_faultobs_reference.rs（faultobs_matches_numpy_scipy_on_real_de440_rows：{ "84" }×{ "84" } の P⊥ を要素ごとに、trace(P⊥) = parity_dim = { "52" } と rank(G) = { "32" }、検出可能性のノルムとフラグ、MDB の二次形式 cᵀWP⊥c と MDB の値、各ピア連合についてのブロックスパークの検出/識別の件数を、独立した numpy/scipy のオラクルと rel<{ "1e-3" } abs<{ "1e-3" } で再現し、整数の件数は厳密、入力は examples/gen_faultobs_rows.rs + scripts/gen_faultobs_ref.py によってバイト単位で整合）
+
+seg-cbdf069c7baa = telecom_timing (mtie_sliding, mtie_curve_ns, tdev_curve_ns); allan (mtie, time_deviation)
+
+seg-d4dfc8374544 = tests/telecom_timing_reference.rs（エージング、フリッカー、温度を含む、コミット済みの { "2" } 048 サンプルのチップスケール原子時計のホールドオーバー系列に対する { "17" } 個の MTIE と { "12" } 個の TDEV の平均化係数を、allantools { "2024.06" } と <{ "1e-12" } / <{ "1e-9" } の相対で比較、観測は厳密 / { "1.1e-15" }、CSV を取り込む完全な telecom-timing の実行から読み出した同じ曲線）、telecom_timing::tests（スライディング MTIE はすべてのウィンドウで allan::mtie に等しい、手計算で導いた MTIE と TDEV、単調な MTIE）
+
+seg-776723e1171a = allan (edf_greenhall, greenhall_edf_core); assurance::uncertainty (edf)
+
+seg-d98eb984ce90 = tests/greenhall_edf_allantools.rs (bars_1_to_3_against_allantools; bar_4_wrappers_equal_the_core)、tests/greenhall_edf_no_moved_output.rs (uncertainty_edf_is_bit_identical_to_the_0_36_portable_baseline)、tests/uncertainty_edf_reference.rs
+
+seg-51a5b33f0b62 = slot_timing (ClockNoise::from_phase_record, fit_weighted, slot_budget, breach_after_sync_s)
+
+seg-02d2f67a9284 = tests/slot_timing_cs5071a_holdout.rs（holdover_inversion_predicts_the_held_out_caesium_record：記録の最初の三分の一でフィットし、{ "0.5" }、{ "0.75" }、{ "1" }、{ "1.5" }、{ "2" }、{ "2.5" } ns での一シグマの逸脱を予測し、残りの三分の二で { "997" } s ごとの同期点から測定する。合格基準は最初の実行の前に確定した、どちらの向きにも { "1.5" } 倍。観測された比は { "0.84" } から { "1.03" }。対照として、一秒のアラン偏差をホワイト FM と読んだものは約 { "1 000" } 倍外れ、基準を満たさないはずであり、ホワイト FM の水準を半分にする変異はテストを失敗させる）、slot_timing::tests（a_measured_white_fm_record_recovers_its_level、reduces_to_the_holdover_inversion、ieee1139_conversion_matches_the_powerlaw_module）
+
+seg-83c8f23a4b53 = navsignal (Modulation::psd, spectral_separation_coeff_offset, q_from_ssc); spectrum (psd_nulls_hz, psd_peak_hz, main_lobe_null_to_null_hz, Jammer::ssc)
+
+seg-436f7a545a7b = spectrum::tests（bpsk_main_lobe_null_to_null_is_two_n_times_1_023_mhz — BPSK({ "1" }) の { "2.046" } MHz と BPSK({ "10" }) の { "20.46" } MHz を閉形式上で数値的に特定、boc11_lobes_are_centred_at_plus_minus_1_023_mhz — 搬送波のヌル、{ "2.046" } MHz の最初のヌル、{ "1.023" } MHz のローブ中心、そして tan y = 2y の独立したニュートン法による解と照らした { "0.7590" } MHz の厳密な最大値、ssc_matches_parseval_closed_forms — C/A x C/A 2/(3R_c) = -61.86 dB/Hz、BOC({ "1,1" }) x BOC({ "1,1" }) 1/(3R_c) = -64.87 dB/Hz、C/A x BOC({ "1,1" }) 1/(6R_c) = -67.88 dB/Hz、いずれも { "0.02" } dB 以内、q_values_match_kaplan_hegarty — 搬送波上の CW では Q = { "1" }、スペクトル整合の雑音では Q = { "1.5" }、平坦なヌル間雑音では Q = { "2.215" }、mboc_is_a_unit_area_one_eleventh_mix）
+
+seg-500eea1d6b4a = sigmf (read, write, encode, decode, parse_meta, meta_to_json); spectrum (welch_psd, fft_in_place, synthesise_iq)
+
+seg-19aa57a32add = sigmf::tests (cf32_round_trip_is_exact_to_single_precision; ci16_round_trip_is_within_half_a_code; ci16_is_little_endian_i_then_q; integer_encoding_counts_saturation; metadata_uses_the_core_namespace; unsupported_types_and_channels_are_refused; sample_start_offsets_into_the_data)、spectrum::tests（fft_matches_a_direct_dft、welch_reads_white_noise_as_variance_over_fs_and_keeps_a_tone_s_power — 下限は分散をサンプルレートで割った値の { "2" } % 以内、Parseval の合計は { "2" } % 以内、Hann の等価雑音帯域幅は { "1.5" } ビン、noise_like_synthesis_is_unbiased_through_welch — ci16_le の往復を通した Welch とモデルの差の中央値は { "0.1" } dB 以内、synthesised_iq_through_sigmf_reproduces_the_model_spectrum）、tests/sigmf_welch_oracle.rs::welch_and_sigmf_io_match_scipy_and_sigmf_python（Welch PSD を scipy { "1.18.1" } の signal.welch とビンごとに { "27" } 件のケースにわたって相対 { "1e-12" } で比較、観測は { "6.0e-14" }、sigmf-python { "1.13.0" } の五つの記録をビット単位で同一に、メタデータも同一にデコード、クレートが書き出した記録を sigmf-python がビット単位で同一に読み戻し、SigMF { "v1.2.6" } に対してスキーマ上も有効）
+
+seg-390697edfd7d = ephem (standish_state, standish_elements, standish_nominal_error, ecliptic_to_icrf); ephem_provider (AnalyticSolarSystem); solar_system (SolarSystemScenario)
+
+seg-0e2a03d21df4 = tests/solar_system_standish_preregistered.rs::standish_rms_errors_are_within_explanatory_supplement_table_8_10_1（表 { "1" } による 1800-2050 年の重心と、表 { "2" } による { "3000" } BC-3000 AD、{ "8908" } 個と { "21857" } 個のエポック、最悪の RMS は表 { "8.10.1" } の値の { "0.778" }）、tests/solar_system_standish_earth_icrf_preregistered.rs（earth_from_the_split_barycentre_is_within_the_emb_table_8_10_1_rms：AnalyticSolarSystem と icrf_to_ecliptic を通した地球、RMS は EMB の値の { "0.483" }、icrf_positions_are_within_the_table_8_10_1_rms：表 { "1" } の天体と地球の ICRF 位置、最悪 { "0.778" }、earth_minus_barycentre_offset_matches_de441_1950_to_2050：月の級数による分割、最悪 { "0.088" } deg と { "6.1" } km）、ephem::tests (standish_periods_obey_keplers_third_law; a_planet_track_is_one_closed_ellipse)。ゲートに含めない回帰：tests/solar_system_horizons_reference.rs
+
+seg-af9dc8bcbd0a = ephem_provider (KernelEphemeris::relative_position_utc, utc_to_tdb_jd2); naif_kernel; timescales
+
+seg-02aaea0ff091 = tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_at_utc_epochs（事前登録のハッシュから選んだ 1973-2026 年の { "200" } 個の UTC エポックにおける { "600" } 個の位置、最悪は基準の { "0.66" }、{ "2.96" } m）、tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_on_the_full_kernel_when_present（データがある場合のみ実行）、tests/kernel_ephemeris_skyfield_oracle.rs::barycentre_only_bodies_are_refused_not_substituted、ephem_provider::tests
+
+seg-19387ac03ee7 = radiometric (light_time_solution, two_way_range, shapiro_delay); solar_system (link, link_on); ephem_provider (AnalyticSolarSystem)
+
+seg-12ea8306ca6a = tests/solar_system_light_time_solver_preregistered.rs::light_time_solver_on_de441_positions_matches_horizons_lt_within_1e_6_s（水星、金星、火星、木星、土星の重心、太陽、地球中心に対する月、補間した DE441 位置で各 { "1576" } エポック、最悪 { "6.7e-9" } s（基準 { "1e-6" } s））、解析経路についてのゲートに含めない精度の記述：tests/solar_system_light_time_preregistered.rs（RMS c dLT は表 { "8.10.1" } の位置の基準の { "0.17" } から { "0.30" }）、solar_system::tests
+
+seg-2e83f70b6649 = body (Body::iau_rotation_et, Body::iau_angles_et, Body)
+
+seg-803d90c9eacb = tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_for_the_fourteen_added_bodies（{ "1955" } 年から { "2044" } 年の { "41" } エポック、{ "574" } 個の行列が { "1e-9" } rad 以内、最悪はフォボスの { "1.43e-10" } rad）、tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_at_fresh_epochs（これまで比較していない { "1961" } 年から { "2038" } 年の { "41" } エポック、{ "574" } 個の行列が { "1e-9" } rad 以内、最悪はフォボスの { "1.38e-10" } rad）、tests/body_constants_naif_oracle.rs::constants_match_naif_pck00011_and_gm_de440（十四天体の { "84" } 個の定数のうち、NAIF と異なるものは { "0" } 個）
+
+seg-cf5cfbb6b468 = constellation (WalkerSpec::elements, gps_slots, galileo_walker, glonass_slots, GPS_BASELINE_SLOTS, GPS_EXPANDABLE_SLOTS)
+
+seg-92ee79866544 = constellation::tests::walker_24_3_1_reproduces_galileo_os_sdd_table_23（{ "24" } 行すべての RAAN と平均近点角を { "1e-9" } deg まで）、constellation::tests::glonass_icd_slot_formula_is_a_walker_24_3_1（ICD のスロット式と Walker 24/3/1 は、同じ { "24" } 個の昇交点と緯度引数の組である）、constellation::tests::gps_presets_reproduce_the_published_equatorial_crossings（RAAN、緯度引数、{ "100.765" } deg の時角から求めた { "36" } 個の GPS 位置すべての地上軌跡の赤道横断：{ "35" } 個は { "0.015" } deg の丸めの基準に対して { "0.0108" } deg 以内、E3F は { "0.06" } deg 以内で、これは表自身の E3F の行が RAAN および緯度引数と約 { "0.06" } deg 食い違っているため。永年的な昇交点の後退は表の -0.0402 deg/day の { "5" } % 以内）、constellation::tests::walker_geometry_identities_are_exact（デルタパターンとスターパターンについて、{ "1 584" } 機までの衛星での三つの間隔の恒等式、{ "1e-9" } deg まで）
+
+seg-0aaf33611680 = constellation (coverage, dop_at, NormalAccum)
+
+seg-7bc2428f22d9 = constellation::tests::gps_baseline_global_dop_matches_the_sps_performance_standard（HDOP の中央値 { "0.940" }、{ "90" } % 値 { "1.165" }、{ "95" } % 値 { "1.255" }、{ "98" } % 値 { "1.370" }、平均 { "0.965" } を、{ "0.94" }、{ "1.16" }、{ "1.25" }、{ "1.37" }、{ "0.96" } と比較、それぞれの基準 { "0.03" } は最初の実行の前に確定した、PDOP の中央値 { "1.795" } は、衛星数 20-24 機の劣化した構成についての表 B.3-1 の { "1.815" } 以下、可用性は全球でも最悪地点でも { "100" } %、表 3.8-1 の { "98" } % と { "88" } % に対して）、constellation::tests::single_epoch_dop_matches_the_hand_computation（天頂と、仰角 { "30" } deg の三機の衛星：HDOP 4/3、VDOP { "2.3094" }、PDOP 8/3、TDOP { "1.5275" }、GDOP { "3.0732" } を { "1e-9" } まで、かつ共通クロックでの orbit::dop に等しい）
+
+seg-54bf21cf90d7 = navsignal (sine_integral, bpsk_power_in_band_closed_form, bpsk_gabor_bandwidth_closed_form_hz, dll_jitter_bandlimited_s, dll_jitter_small_spacing_limit_s, bpsk_offset_ssc_closed_form, altboc_15_10_psd, parse_modulation)
+
+seg-d2b3b13002dd = navsignal::band_limited_tests（sine_integral_matches_tables_and_its_limit — Si({ "1" })、Si(pi)、Si({ "2" } pi) を { "1e-12" } まで、bpsk_power_in_band_closed_form_matches_textbook_and_numeric — BPSK(1/3)、BPSK({ "1" })、BPSK({ "5" })、BPSK({ "10" }) で電力の { "0.9028" } がメインローブに入り、閉形式は { "10" }、{ "15" }、{ "20" }、{ "51.15" } MHz で求積と { "1e-7" } まで等しい、bpsk_gabor_closed_form_matches_numeric_and_asymptote — { "1e-4" } まで、および sqrt(B R_c / ({ "2" } pi^{ "2" })) の漸近線、bandlimited_dll_reduces_to_the_textbook_forms — { "45" } dB-Hz、B_L { "1" } Hz、d { "1" } chip、T { "20" } ms でのコヒーレントなアーリー・レイト BPSK({ "1" })：{ "0.0039564" } chip（{ "1.159" } m）が { "1" } % 以内、非コヒーレント形は navsignal::dll_code_jitter_chips と { "1" } % 以内で等しい、間隔が消える極限はその閉形式と { "1e-5" } まで等しい、offset_bpsk_ssc_matches_parseval_closed_form — オフセット { "0" } から { "3.2" } R_c で { "0.01" } dB 以内、BPSK({ "10" }) のオフセットゼロで -71.86 dB/Hz、altboc_psd_is_unit_area_with_lobes_at_e5a_and_e5b、modulation_labels_round_trip）
+
+seg-56f381a3f611 = leo_signal (max_doppler_hz)
+
+seg-da02936f6d75 = leo_signal::tests::max_doppler_matches_published_xona_and_iridium_figures — Xona Pulsar X1（{ "1593.3225" } MHz、{ "1080" } km）の { "33.2" } kHz は公表された { "32" } から { "34" } kHz の範囲内、Iridium（{ "1621" } MHz、{ "780" } km）は公表された { "36" } kHz の { "0.5" } kHz 以内
+
+seg-f1cdf8728c6b = 公表された数値：Xona Pulsar X1 の最大ドップラーは { "32" } から { "34" } kHz（Leclère、Marathe、Reid、ION GNSS+ { "2025" }、<a1>https://arxiv.org/abs/2509.19551</a1>）、Iridium のドップラーは最大 +/-36 kHz（Resilient Navigation and Timing Foundation、Recent PNT Improvements and Test Results Based on Low Earth Orbit Satellites）。地球の自転は含めておらず、これにより数値は最大で約 { "2.3" } kHz 動きますが、公表された二つの数値はいずれも、これを含めなくても満たされています。
+
+seg-70fb5eb759aa = leo_link::itu (p838_coefficients, p838_k_alpha, rain_specific_attenuation_db_km)
+
+seg-6ef512cefe4d = tests/leo_link_reference.rs（p838_coefficients_reproduce_table5_to_its_printed_digits：表 { "5" } の { "115" } 行すべて、{ "1" } GHz から { "1000" } GHz、すべての係数が最後に印字された桁の { "0.6" } 以内、観測された最悪値は { "0.51" }）
+
+seg-53d288ecc889 = leo_link::itu (p618_rain_attenuation_db, RainPath)
+
+seg-e1ab19315242 = tests/leo_link_reference.rs（p618_rain_attenuation_matches_the_itu_validation_examples：五地点、{ "14.25" } GHz と { "29" } GHz、{ "0.001" } % から { "1" } % の { "56" } 件のケース、{ "1e-4" } dB 以内、観測は { "5e-6" } dB）
+
+seg-cfe59399d0a3 = leo_link::itu (p618_scintillation_db, wet_refractivity, ScintillationPath)
+
+seg-8a35d6b6f974 = tests/leo_link_reference.rs（p618_scintillation_matches_the_itu_validation_examples：七地点、{ "14.25" } GHz と { "20" } GHz の { "42" } 件のケース、{ "1e-5" } dB 以内、観測は { "5e-7" } dB）
+
+seg-f7d2ab81d7d2 = leo_link::itu (p2109_building_entry_loss_db, BuildingClass); detection (normal_inv_cdf)
+
+seg-05bb3df0fcc5 = tests/leo_link_reference.rs（p2109_building_entry_loss_matches_the_itu_workbook：{ "568" } 個の値、{ "0" } deg での { "28" } GHz と { "45" } deg での { "2" } GHz、両方のクラス、P は { "1e-7" } から { "0.998" }、{ "0.001" } dB 以内）
+
+seg-5b682a1911e5 = leo_link::iono (group_delay_m, iono_free_coefficients, iono_free_noise_amplification); leo_link (fspl_db); linkbudget (free_space_loss_db)
+
+seg-09369862fb72 = tests/leo_link_reference.rs（first_order_iono_reproduces_the_is_gps_200_group_delay_ratio：gamma = (77/60)^{ "2" } を { "1e-12" } まで、L1/L2 と L1/L5 の増幅率は { "2.978" } と { "2.588" }、free_space_loss_is_the_friis_kilometre_megahertz_form：{ "32.4478" } + { "20" } log d + { "20" } log f を { "1e-4" } dB まで）、leo_link::iono::tests (delay_scales_as_one_over_f_squared; iono_free_combination_removes_the_first_order_delay)
+
+seg-ba1455ed0740 = leo_link::geometry (max_static_user_range_rate, DopplerEnvelope, doppler_hz)
+
+seg-88f10ca1e3bc = tests/leo_link_reference.rs（doppler_envelope_reproduces_the_pulsar_paper_table_1：Pulsar IOV { "520" } km { "97" } deg、Pulsar FOC 極軌道 { "1080" } km { "97" } deg、Pulsar FOC 傾斜軌道 { "1080" } km { "53" } deg、GPS { "20180" } km { "55" } deg、軌道速度、ECEF の最大速度、最大相対速度、L1 帯と L5 帯の最大搬送波ドップラー、{ "20" } 個の値、それぞれ { "0.05" } % 以内）
+
+seg-45309f1545cc = leo_navmsg::sisre (sisre_weights, StatsAcc)
+
+seg-64d379a46dbc = leo_navmsg::sisre::tests（weights_reproduce_the_published_meo_and_geo_table — GPS { "0.979" } と 1/48.9、GLONASS 1/45.0、Galileo { "0.984" } と 1/61.1、BeiDou MEO 1/54.2、静止軌道 { "0.992" } と 1/126.2、マスク { "0" } deg で、それぞれ w_R の { "0.005" } 以内、1/w_AC^{ "2" } の { "0.5" } 以内、leo_weights_shift_toward_the_transverse_axes — { "510" } km での地平線の天底角 { "67.8" } deg）
+
+seg-d579e3a4f58f = leo_navmsg::elements (kepler_point, kepler_frame, ephemeris_at, sat_state)
+
+seg-7bb3e4112c28 = tests/leo_navmsg_reference.rs（the_galileo_user_algorithm_reproduces_rtklib_to_a_millimetre — 実際の Galileo の放送エフェメリス四つ、E10、E19、E24、E25 を tk = { "0" }、+/-600、+/-1800、+/-3600 s で、すべての軸が RTKLIB の { "1" } mm 以内、real_galileo_records_survive_the_binary_frame_and_the_text_block — Kshana のバイナリフレームを経由すると { "5" } mm 以内、RINEX 形式のブロックを経由すると { "1" } mm 以内）
+
+seg-405df44dd887 = leo_navmsg::codec (crc24q, encode, decode)
+
+seg-577acdb9b84b = leo_navmsg::codec::tests（crc24q_matches_the_catalogue_check_value — ASCII 文字列 { "123456789" } に対して 0xCDE703、crc24q_matches_the_rtcm_1005_example_frame — RTCM { "10403" } のメッセージタイプ { "1005" } の例のフレームの三つのチェックバイト 0x360B98、およびフレーム全体に対してゼロ）
+
+seg-4213f6b60bf1 = leo_navmsg::fit (fit_message, lstsq, polyfit); leo_navmsg::truth (TruthOrbit, TruthClock); leo_navmsg (sequence_stats, LeoNavmsgScenario)
+
+seg-7f4e08aeede7 = leo_navmsg::tests::a_two_body_truth_is_recovered_by_the_keplerian_fit_to_a_millimetre、leo_navmsg::tests::the_user_algorithm_reproduces_the_fitted_truth_to_a_millimetre_with_corrections、leo_navmsg::tests::the_clock_fit_returns_the_truth_clock_through_the_user_relativistic_term、leo_navmsg::tests::keplerian_sisre_grows_with_the_fit_interval_and_the_corrections_fix_it（{ "1" } 分から { "15" } 分まで単調に増加し、{ "15" } 分で少なくとも三倍の改善）、leo_navmsg::tests::defaults_run_encode_decode_without_any_preset_and_are_deterministic、tests/leo_navmsg_fit_real_orbit_oracle.rs::fitted_sisre_matches_liu_2025_on_real_orbits（GRACE-A、GRACE-C、Sentinel-2A、Sentinel-6A の TU Graz ITSG 簡約力学軌道を { "20" } 分と { "30" } 分のアークでフィット：along、cross、radial の RMS は Liu ら { "2025" } の { "0.804" } から { "1.087" }、SISRE は { "0.716" } から { "0.809" }、1.5x の範囲内、SISRE の重みは同論文の表 { "2" } の { "0.0007" } 以内）、tests/leo_navmsg_full_claim_oracle.rs::integrated_truth_orbit_matches_orekit_within_2_cm_over_6_h（Orekit { "12.2" } + Hipparchus { "3.1" }、同じ初期状態と密度入力：二体で最悪 { "3.95" } mm、J2-J6 と { "20" } 次および { "70" } 次までの EGM2008 で { "3.92" } mm、{ "400" } km で抗力を伴う { "20" } 次の EGM2008 で { "4.55" } mm、{ "6" } h にわたって基準は { "0.02" } m）、内部のクロスチェックでありオラクルではありません：tests/leo_navmsg_full_claim_oracle.rs::corrections_clock_fit_and_update_period_trade_agree_with_an_internal_cross_check_on_grace_fo
+
+seg-4a631f12459a = leo_navmsg::elements (kepler_point, Liu22Extra); leo_navmsg::fit (fit_message, fit_kepler, initial_params, formal_sigma); leo_navmsg::truth (TruthOrbit)
+
+seg-c79d4b5fdd17 = tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_model_matches_the_published_sisre（論文の四日分：along、cross、radial、SISRE の比は Liu ら { "2025" } の { "0.755" } から { "1.138" }、1.5x の範囲内）、tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_holds_on_held_out_days（ホールドアウトの八日分、それぞれ二つのアーク：{ "0.683" } から { "1.186" }）
+
+seg-765c69669bfa = leo_navmsg::services (klobuchar_delay_m, effective_ionisation_level, system_to_utc)
+
+seg-4693b7ddd7b2 = leo_navmsg::services::tests（klobuchar_scales_with_inverse_frequency_squared — L1 の値は RTKLIB の { "6.1278" } m、nequick_az_rules、utc_without_an_event_is_tow_minus_leap_seconds_folded_to_a_day、utc_drift_terms_follow_the_icd_formula、an_inserted_leap_second_reads_86400_at_the_end_of_the_day）、tests/leo_navmsg_services_gnsstk_oracle.rs::services_match_gnsstk_and_erfa（L1、L2、L5 での Klobuchar を { "4 320" } 件のケースで、最悪 { "7.0e-13" } m、すべてゼロの係数と { "400" } sfu の規則を含む { "222" } 組の係数での Az、最悪 { "5.7e-14" } sfu、{ "50" } 件のケースでの UTC ドリフト、最悪 { "3.6e-15" } s、実際の { "2015" } 年と { "2016" } 年のうるう秒をまたぐ { "21 602" } 時点での三つのうるう秒のケース、{ "0" } s）
+
+seg-0111fd0b84a5 = leo_fusion::geom (EarthOrbit); leo_fusion::doppler (range_rate, doppler_envelope)
+
+seg-a8dd3751a688 = tests/leo_doppler_reference.rs（iridium_doppler_reaches_the_published_36_khz：{ "780" } km、{ "86.4" } deg の衛星一機を { "1621" } MHz で一日飛行させ、四つの緯度にわたって、最大値は { "36" } kHz の { "5" }% 以内、xona_pulsar_x1_doppler_lies_in_the_published_32_to_34_khz：公表された各シェルの衛星一機、{ "53" } deg と { "97" } deg の { "1080" } km、{ "1593.3225" } MHz、コンステレーションの最大値は { "32" } から { "34" } kHz の範囲内で拡張なし（{ "33.6" } kHz、{ "97" } deg のシェルで決まり、{ "53" } deg のシェルだけではピークは { "31.8" } kHz））、leo_fusion::geom::tests (velocity_is_the_time_derivative_of_the_position)
+
+seg-8ac77c9b9588 = leo_fusion::ntn (gabor_bandwidth_flat_hz, gabor_bandwidth_bpsk_hz, gabor_bandwidth_numeric_hz, rms_duration_numeric_s, toa_crb_sigma_m, doppler_crb_sigma_hz, frequency_crb_sigma_hz, NtnScenario::geometry, NtnScenario); leo_fusion::joint_pvt (formal_sigma_enu)
+
+seg-50b92f3ed7eb = leo_fusion::ntn::tests（the_numerical_rms_bandwidth_matches_the_closed_forms、the_range_bound_scales_as_one_over_bandwidth_and_root_cn0：{ "5" } MHz、{ "45" } dB-Hz、{ "0.1" } s で手計算の { "0.4157" } m、the_frequency_bound_is_the_complex_tone_crlb、defaults_run_wider_is_better_and_every_number_has_a_unit）、tests/leo_fusion_scenarios.rs (ntn_wide_channel_bounds_far_tighter_than_the_narrow_one)、tests/ntn_crlb_published_value_oracle.rs (ssb_bounds_reproduce_the_published_values; ntn_fix_covariances_match_numpy; bpsk_rms_bandwidth_reproduces_betz_table_1)
+
+seg-cc3d01973493 = leo_fusion::polar (latitude_sweep, latitude_sweep_at, element_sets, satellite_states_at); leo_fusion::joint_pvt (dop); sgp4 (MeanElementSet::from_earth_fixed, SgpOrbit, teme_to_itrs_matrix)
+
+seg-e1d9acf84101 = tests/leo_polar_coverage_on_path_orekit_oracle.rs（構成 A と B、{ "4040" } サンプル：地球固定座標の位置は { "6.8e-5" } m 以内で基準は { "0.2" } m、可視数は 4040/4040 で同一、DOP の中央値は相対 { "2.3e-11" } 以内で基準は { "1e-3" }、可用性と可視数の平均は同一）、tests/earth_orbit_path_sgp4_erfa_oracle.rs（経路）、leo_fusion::polar::tests (gps_vertical_geometry_weakens_at_the_pole_and_a_polar_leo_shell_restores_it)、tests/leo_fusion_scenarios.rs (a_polar_leo_constellation_fills_the_sky_where_gnss_vertical_geometry_weakens)、tests/leo_polar_coverage_orekit_oracle.rs（ラウンド { "2" }、与えられた状態に対する幾何）、tests/leo_polar_coverage_full_claim_orekit_oracle.rs（第 1 ラウンドの full-claim の所見、固定）
+
+seg-bd265d530763 = lunar_frame_campaign, fim
+
+seg-7c8144a7376a = tests/lunar_frame_campaign_mpmath_oracle.rs（lunar_frame_campaign_datum_matches_mpmath_extended_precision：三つのシナリオ — 新しいキャンペーン日 2026-03-18 に局を推定（拘束力あり）、その日に局を固定（対照）、2024-01-01 に局を推定（以前の倍精度での外れを起こしたシナリオ）、すべてのデータムのシグマ、条件数、最も弱い方向を、オラクルの厳密な感度からテスト内で再計算した条件数でスケールした基準に対して、engine_inputs_match_the_committed_fixture：コミット済みのヤコビアン、重み、ヘルマート設計は、エンジンが現在構築するものである、record_engine_accuracy_against_a_factorisation_route：エンジンの誤差の幅と NumPy のコレスキー診断を固定）
+
+seg-691a05f06e4d = linalg_sr, lunar_frame_campaign
+
+seg-f26d99df9184 = tests/lunar_frame_campaign_srif_mpmath_oracle.rs（srif_datum_matches_mpmath_extended_precision：四つのシナリオ — 新しいキャンペーン日 2026-06-09 に局を推定（拘束力あり）、その日に局を固定（対照）、および 2026-03-18 と 2024-01-01 の局推定の入力、すべてのデータムのシグマ、条件数、最も弱い方向を、オラクルの厳密な要素からテスト内で再計算した平方根形式の基準に対して、engine_inputs_match_the_committed_fixture）、linalg_sr::tests（{ "9" } 件のライブラリテスト：{ "20 000" } 組での Dekker の積と融合積和の残差の一致、打ち消し合う和の補償総和、R^T R と A^T A の一致、逐次のフィルター更新と一括更新の一致、末尾ブロックとシューア補行列の平方根の一致、三角行列の逆行列、ヤコビ SVD、良条件のケースでのスペクトルデータムとの一致、ビット単位で同一の再実行）、lunar_frame_campaign::tests::the_default_solver_is_unchanged_and_an_unknown_solver_is_rejected および the_srif_solver_agrees_with_the_spectral_one_where_both_are_accurate_and_says_so
+
+seg-02fed5e55709 = receiver_trust (ingest, maritime)
+
+seg-3c5f4229618e = tests/maritime_trust_reference.rs (t1_nmea_decoding_matches_pynmea2, t2_east_north_offsets_match_the_wgs84_geodesic, t3_t4_monitor_input_statistics_match_the_oracle)。比較対象は tests/fixtures/maritime_trust/reference.json で、examples/gen_maritime_trust_ref_inputs.rs が書き出した合成 NMEA から scripts/gen_maritime_trust_ref.py によって再生成されます。許容差は tests/fixtures/maritime_trust/PREREGISTRATION.md に事前登録されています
+
+seg-684b87e7f358 = nmea_synth (track, sentences, scenarios); cli nmea-scenario
+
+seg-5699d8162c69 = tests/nmea_training_reference.rs（pynmea2 のオラクルとの比較）、tests/nmea_training_scenarios.rs::every_sentence_is_checksum_valid_and_the_reader_accepts_it、::every_sentence_type_is_present_each_epoch、::deterministic_per_seed_and_sensitive_to_it
+
+seg-87e0596369cb = interference_map (adsb::nacp_epu_bound_m, adsb::nic_rc_bound_range_m, adsb::AdsbParams::classify, ais::ais_position_is_valid, ais::ais_speed_kn, grid::Grid::cell_of, route::exposure, land::LandMask::is_inland)
+
+seg-48689d047304 = tests/interference_map_reference.rs::adsb_accuracy_and_integrity_codes_agree_with_pymodes（{ "12" } 個の NACp コード、{ "59" } 行の NIC）、tests/interference_map_reference.rs::ais_field_rules_agree_with_pyais_decoding（{ "94" } 個のフレーム）、tests/interference_map_reference.rs::grid_cell_assignment_agrees_with_shapely（{ "1770" } 点、四種類のセルサイズ）、tests/interference_map_reference.rs::route_exposure_geometry_agrees_with_shapely_and_geographiclib（{ "8" } 本の経路、{ "420" } 個の区間、{ "11634" } km）、tests/interference_map_reference.rs::land_masking_agrees_with_shapely_and_pyproj（{ "996" } 点）、interference_map の単体テスト
+
+seg-a14a79333731 = telemetry (prometheus: Registry, render; otlp: build_payload, Exporter (feature otlp); sample)
+
+seg-bce7247612db = tests/telemetry_formats_reference.rs (prometheus_client_reads_our_exposition_as_the_registry_implies, the_official_otlp_proto_reads_our_json_as_the_registry_implies, awkward_reason_text_survives_the_parser, the_committed_outputs_are_what_this_crate_produces；スキーマ { "1.3" }：prometheus_client_reads_the_schema_13_exposition_as_the_registry_implies, the_official_otlp_proto_reads_the_schema_13_json_as_the_registry_implies, promtool_accepts_the_schema_13_exposition, the_collector_receives_and_exports_the_schema_13_payload_unchanged)、tests/telemetry_cli.rs、telemetry::prometheus::tests（ゴールデンな出力）
+
+seg-40e8b0a596fb = telemetry (syslog: cef, rfc5424, SyslogSink; time)
+
+seg-baadfddd02b2 = tests/cef_reference.rs (pycef_reads_every_tier_1_event_as_the_sample_implies, the_logstash_cef_codec_reads_every_event_including_escaped_headers_as_the_sample_implies, the_committed_corpus_is_what_this_crate_produces_and_covers_what_was_registered)、telemetry::syslog::tests（CEF 文字列そのもの、エスケープ、重大度、RFC { "5424" } のエンベロープ）、tests/telemetry_cli.rs
+
+seg-66f38fc734a7 = evidence (bundle: create_bundle, sign_detached, chain_link, sha256_hex; verify: verify_bundle, verify_detached; tsr; assemble; cli)
+
+seg-d50f70b4c20a = tests/evidence_crypto_reference.rs（RFC { "8032" } の第 { "7.1" } 節のベクトル { "1" }、{ "2" }、{ "3" }、{ "1024" }、FIPS 180-4 の SHA-256 の例、厳密）、tests/evidence_pack_reference.rs::kshana_and_the_clean_room_verifier_agree_on_every_case（{ "71" } 件のケース）、tests/evidence_pack.rs（改ざんテスト）
+
+seg-703f4b4ac682 = evidence::tsa (verify_token, pem_certificates); evidence::verify (VerifyOptions::tsa_anchors, Failure::TimestampAuthorityInvalid); evidence::cli (--tsa-ca)
+
+seg-39bc6b70440b = tests/evidence_tsa_openssl.rs::every_case_agrees_with_openssl（事前登録した比較）、evidence::tsa::tests（暦の日付と時刻、base64、RSA の公開鍵演算）、evidence::verify::tests::anchors_make_the_authority_checked（署名のないトークンはアンカーがあると失敗し、アンカーがなければレポートは変わらない）
+
+seg-837193c4e1dc = interop::testbench (write_motion_csv, write_nmea, trajectory_of, export); fusion::pack::truth_trajectory
+
+seg-0094102cc5b8 = tests/testbench_reference.rs（{ "7" } 件のテスト：オラクルの固定、出力のバイト、全行にわたる最悪ケース、位置の列、局所速度と真の NED 速度、オイラー角と scipy、NMEA と pynmea2）、tests/interop_testbench.rs（書き出し側自身の往復）
+
+seg-3266b898bfd2 = iq::signals::beidou (b1i_bits, b1i)
+
+seg-ba514f7e73ce = iq::signals::gps (l1c_weil, l1c_ranging_bits, l1c_p_bits, l1c_d_bits, l1co_s1_run, l1c_o_bits); iq::signals::tables
+
+seg-9e651a7f8dc9 = tests/iq_signals_gps_l1c.rs (c1_l1cp_and_l1cd_initial_and_final_24_chips_match_is_gps_800j_table_3_2_2, c2_l1co_initial_and_final_11_bits_match_is_gps_800j_table_3_2_3, c3_legendre_sequence_matches_is_gps_800j_table_6_2_1, the_column_check_rejects_relabelled_inverted_and_shifted_codes)
+
+seg-b289551b0bb5 = iq::signals::lunanet (afs_i_bits, afs_q_primary_bits, legendre_bits); iq::signals::lunanet_tables; iq::lunanet_afs::check_spec
+
+seg-176e3b9ea0e7 = tests/lunanet_afs_codes.rs (b1_afs_i_gold_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b2_the_legendre_sequence_of_length_10223_is_the_printed_table_d1, b3_afs_q_primary_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b1b_not_met_the_printed_g2_state_is_not_the_state_after_the_printed_delay, b1c_post_hoc_the_printed_g2_state_is_the_state_after_2047_minus_the_delay)、tests/iq_signal_matrix.rs (lunanet_afs_i, lunanet_afs_q)
+
+seg-af826b47d00e = { "388" } 行：{ "176" } 行は外部の参照と照合して確認済み、{ "208" } 行はモデルから計算、{ "4" } 行はパートナーの所管です。
+
+seg-6bb40f180cf0 = <s1>前へ</s1>検証ステータス
+
+seg-defb46c5bc80 = <s1>次へ</s1>機能リファレンス
