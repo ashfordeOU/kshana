@@ -187,3 +187,11 @@ seg-e35fff011b24 = Compliance
 seg-a50180a66dba = LunaNet AFS
 
 seg-028684a0cf3d = Standaardenpakketten
+
+seg-9c0eb89a2fbe = Pakket
+
+seg-e98e25897176 = Elke test van de drie standaardpakketten met score, uit echte runs van engine v{ $version } (`kshana standards-pack run`): dhs-rpcf: { "6" } gehaald, { "1" } niet gehaald, { "2" } hebben invoer nodig; imo-circ-1575: { "1" } gehaald, { "4" } niet gehaald, { "2" } hebben invoer nodig; icao-doc9849-appf: { "6" } gehaald, { "0" } niet gehaald, { "2" } hebben invoer nodig. In totaal { "13" } gehaald, { "5" } niet gehaald en { "6" } hebben invoer nodig die de engine niet heeft (een ontvangerlog of apparatuurdocumentatie). Elke drempel is vóór de run vastgelegd; een misser blijft een misser. Een gehaalde drempel zegt dat een gemodelleerd scenario een vastgelegde drempel haalde, niets over een product. De pakketten leveren bewijs voor de rijen die ze noemen; ze zijn geen beoordeling. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen typegoedgekeurde navigatieapparatuur en geen veiligheidsdienst voor mensenlevens; het mag niet de enige basis zijn voor een navigatie- of veiligheidsbeslissing.
+
+seg-f891ee876b96 = Wat het beantwoordt
+
+seg-7cf2608b2b2f = De structuur van een bewijspakket. Een ontvangerlog (NMEA, u-blox UBX, RINEX { "3" } of een Android-log) en een tijdvenster gaan in kshana receiver-trust evidence, dat zeven bestanden schrijft: log-slice.bin, config.json, epochs.json, summary.html, manifest.json, manifest.sig en een optioneel timestamp.tsr. Het manifest legt de SHA-256 van de hele log en van elk bestand vast, en een hashketen over de bestanden; de handtekening dekt het manifest. kshana evidence verify controleert de handtekening, de hash van elk bestand, de keten en dat er geen niet-vermeld bestand aanwezig is, en eindigt met { "0" } wanneer het is geverifieerd, { "1" } wanneer er iets is mislukt en { "3" } wanneer de ondertekenaar niet was vastgepind. Een pakket is een technisch dossier, geen juridisch oordeel.
