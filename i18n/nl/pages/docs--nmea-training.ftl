@@ -7,3 +7,7 @@ seg-45425f378b61 = betekenis
 seg-6940543aa3c0 = tekenreeks
 
 seg-f5e7215e6835 = object
+
+seg-c5fb6b91dc68 = graden
+
+seg-99427ab75a03 = veld

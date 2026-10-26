@@ -343,3 +343,73 @@ seg-039b7c5fd78a = Eenheid
 seg-37f058c4e1c3 = aantal
 
 seg-e88d3dbcfe0c = MODELLED
+
+seg-852814f107a7 = Pagina's per scenariotype
+
+seg-1a26d420ba67 = Zie ook
+
+seg-c4f4b2ca0647 = Waarde
+
+seg-e8968e86f31b = Beperkingen
+
+seg-7dc0fcd6ef77 = aocs
+
+seg-c6ced184b8eb = campaign
+
+seg-bcc7452b7e9c = clock
+
+seg-00593bd8a3ed = ephemeris
+
+seg-0cb65c6c4f53 = fusion
+
+seg-dbe8c830ef6c = hybrid
+
+seg-eae62828dc7a = inertial
+
+seg-8af88a0e2a69 = integrity
+
+seg-9a63fde1d8b1 = jamming
+
+seg-f8450911ddd6 = orbit
+
+seg-6dd5a0d55f18 = passes
+
+seg-786068921d01 = pvt
+
+seg-63f112536118 = reentry
+
+seg-f79dad339a1e = spectrum
+
+seg-8ea9f458185d = spoof
+
+seg-460826ea7719 = sweep
+
+seg-55f3ac33d883 = timetransfer
+
+seg-a37260157d35 = Invoer
+
+seg-0ffd6d4b0d8c = Uit het schema (<c1/>):
+
+seg-7a473d2b9b37 = Vereiste velden: geen
+
+seg-0484c5d57886 = niet vermeld
+
+seg-619be4963365 = tekst
+
+seg-15636cc68f72 = vlag
+
+seg-473eb8189015 = Uitvoeren
+
+seg-8b01aa51263e = Wat het oplevert
+
+seg-5aa75472f59d = De scalaire resultaten van die run, met de eenheden die de engine noemt:
+
+seg-dfd41abc16b5 = Resultaat
+
+seg-0df8f55cbe06 = deg
+
+seg-4798bca2d7a7 = MODELLED: de rijen van de <a1>verificatiematrix</a1> die dit type noemen.
+
+seg-6338a873ee85 = De rijen die de run zelf heeft beproefd, met de onafhankelijke referentie die de matrix aan elk geeft (de openbare bronnen worden daar genoemd):
+
+seg-fe24dcc6971f = <b>MODELLED</b> Deterministisch, scenario-gehasht, SBOM + gouden poorten voor meerdere platforms. Onafhankelijke referentie (ExternalDataset): formaatcontrole van de SBOM tegen het officiële CycloneDX { "1.5" } JSON Schema (+ geldige SPDX-identificatoren) — een externe gepubliceerde standaard, nul validatiefouten over de volledige afhankelijkheidsgraaf; het onderdeel determinisme van de FoM en byte-reproduceerbaarheid blijft een vastgepinde zelfconsistentiecontrole, dus de rij blijft MODELLED

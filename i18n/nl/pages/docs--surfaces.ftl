@@ -13,3 +13,7 @@ seg-d6476863f862 = Mogelijkheid
 seg-e0426ffe2628 = Opmerking
 
 seg-de6c33774c9c = CLI
+
+seg-206c78a69ded = Route-exposure
+
+seg-4dbf41c0ec3b = Functie
