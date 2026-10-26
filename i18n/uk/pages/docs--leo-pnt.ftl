@@ -384,50 +384,26 @@ seg-ee3c5b58e6fa = <s1>Назад</s1>Орбіта й поверхня Міся�
 
 seg-6b951d6413c8 = <s1>Далі</s1>Конструкції сигналів LEO
 
-# words to translate: REPRESENTATIVE
-# EN: The generic designs use public band centres; each is REPRESENTATIVE, not any system's signal (<c1/>, <c2/>).
 seg-a0331a21413c = Типові конструкції використовують публічні центри діапазонів; кожна є РЕПРЕЗЕНТАТИВНА, а не сигналом якоїсь системи (<c1/>, <c2/>).
 
-# words to translate: REPRESENTATIVE
-# EN: REPRESENTATIVE, band centres from the ITU Radio Regulations
 seg-c60ce9c32b57 = РЕПРЕЗЕНТАТИВНИЙ, центри діапазонів з Регламенту радіозв'язку ITU
 
-# words to translate: PUBLIC
-# EN: PUBLIC: <a1>Resilient Navigation and Timing Foundation (RNTF) briefing</a1>
 seg-f17f98d1ae0b = ПУБЛІЧНИЙ: <a1>брифінг Resilient Navigation and Timing Foundation (RNTF)</a1>
 
-# words to translate: REPRESENTATIVE, PUBLIC
-# EN: PUBLIC signal figures: Kozhaya, Saroufim and Kassas, <a1>NAVIGATION { "72" }({ "1" })</a1>; REPRESENTATIVE orbit
 seg-a4a3a7c7bc22 = ПУБЛІЧНІ показники сигналу: Kozhaya, Saroufim і Kassas, <a1>NAVIGATION { "72" }({ "1" })</a1>; РЕПРЕЗЕНТАТИВНА орбіта
 
-# words to translate: WORKSHOP
-# EN: WORKSHOP: presented at the ESA NAVISP LEO-PNT workshop, { "2026" }
 seg-9d1e7aebcd84 = СЕМІНАРСЬКИЙ: представлено на семінарі LEO-PNT ESA NAVISP у { "2026" } році
 
-# words to translate: REPRESENTATIVE, WORKSHOP, PUBLIC
-# EN: Every preset marks its numbers PUBLIC (with a URL), REPRESENTATIVE (a documented design choice, never a claim about a real system) or WORKSHOP, and the result of every run that uses one says which.
 seg-9f0d16f43993 = Кожен пресет позначає свої числа як ПУБЛІЧНІ (з URL), РЕПРЕЗЕНТАТИВНІ (задокументований конструкторський вибір, ніколи не твердження про реальну систему) або СЕМІНАРСЬКІ, і результат кожного прогону, що його використовує, вказує, яким саме.
 
-# words to translate: ATOMIC
-# EN: The chain is MODELLED: it adds no physics, and each stage keeps its own labels. The positioning stage's C/N0 model is a straight line in sin(elevation), so a pass-specific shape is reduced to two numbers; the message stage models no orbit determination, which is why <c1/> is a stated input ({ "0.25" } m in the bundled scenarios, representative of the decimetre-level on-board orbit determination and steered chip-scale clock the ATOMIC payload reports: <a1>https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/</a1>).
 seg-a08e67a32d60 = Ланцюг є MODELLED: він не додає фізики, і кожен етап зберігає власні позначення. Модель C/N0 етапу позиціонування є прямою за sin(кута місця), тож форма, специфічна для проходу, зводиться до двох чисел; етап повідомлення не моделює визначення орбіти, через що <c1/> є заявленим вхідним параметром ({ "0.25" } м у вбудованих сценаріях, репрезентативно для дециметрового бортового визначення орбіти та підстроєного годинника з точністю до чипа, про які повідомляє корисне навантаження ATOMIC: <a1>https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/</a1>).
 
-# words to translate: REPRESENTATIVE
-# EN: REPRESENTATIVE, for C-band systems whose parameters are not public (for example TrustPoint)
 seg-486f17197d4d = РЕПРЕЗЕНТАТИВНИЙ, для систем C-діапазону, параметри яких не є публічними (наприклад, TrustPoint)
 
-# words to translate: PUBLIC
-# EN: PUBLIC: Leclère, Marathe and Reid, Institute of Navigation (ION) GNSS+ { "2025" }, <a1>arXiv { "2509.19551" }</a1>
 seg-dddb031a7e2e = ПУБЛІЧНИЙ: Leclère, Marathe і Reid, Institute of Navigation (ION) GNSS+ { "2025" }, <a1>arXiv { "2509.19551" }</a1>
 
-# words to translate: REPRESENTATIVE, PUBLIC
-# EN: PUBLIC signal structure: <a1>PMC10301026</a1>; REPRESENTATIVE orbit and power
 seg-84cb50b019e0 = ПУБЛІЧНА структура сигналу: <a1>PMC10301026</a1>; РЕПРЕЗЕНТАТИВНА орбіта та потужність
 
-# words to translate: PUBLIC, ATOMIC
-# EN: PUBLIC: <a1>InsideGNSS, ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations) payload</a1>
 seg-3dd4136094c0 = ПУБЛІЧНИЙ: <a1>InsideGNSS, корисне навантаження ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations)</a1>
 
-# words to translate: ATOMIC
-# EN: the Galileo ICD 16-parameter Keplerian set (square root of the semi-major axis, eccentricity, inclination and its rate, right ascension of the node and its rate, argument of perigee, mean anomaly, mean-motion correction, six harmonic corrections, reference time), plus along-track, cross-track and radial correction polynomials; or the Liu et al. { "2025" } 22-parameter model (<a1>doi 10.3390/rs17162894</a1>); or the ATOMIC zero-clock polynomial
 seg-5bda276f6e82 = 16-параметровий кеплерів набір з ICD Galileo (квадратний корінь великої піввісі, ексцентриситет, нахил і його швидкість, пряме піднесення вузла та його швидкість, аргумент перигею, середня аномалія, поправка середнього руху, шість гармонічних поправок, опорний час) плюс поліноми поправок уздовж траси, упоперек траси та радіальної; або 22-параметрова модель Liu та ін. { "2025" } (<a1>doi 10.3390/rs17162894</a1>); або поліном ATOMIC із нульовим годинником

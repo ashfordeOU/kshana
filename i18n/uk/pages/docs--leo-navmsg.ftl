@@ -578,50 +578,26 @@ seg-4d208b6c0eb8 = доба
 
 seg-a7d59ba6e225 = рад
 
-# words to translate: ATOMIC
-# EN: the ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations) "zero-clock" model: an Earth-centred Earth-fixed (ECEF) polynomial per axis in <c1/> (default degree { "6" }), no clock terms because the satellite clock is steered to system time (<a1>InsideGNSS</a1>)
 seg-a6042071a03f = модель «нульового годинника» ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations): поліном в земній системі координат (ECEF) для кожної осі за <c1/> (типовий ступінь { "6" }), без членів годинника, оскільки годинник супутника підлаштовано під системний час (<a1>InsideGNSS</a1>)
 
-# words to translate: PUBLIC
-# EN: PUBLIC, <a1>arXiv { "2509.19551" }</a1>
 seg-125aac68d94f = ПУБЛІЧНИЙ, <a1>arXiv { "2509.19551" }</a1>
 
-# words to translate: PUBLIC
-# EN: PUBLIC, arXiv { "2509.19551" }
 seg-77af616c1f6e = ПУБЛІЧНИЙ, arXiv { "2509.19551" }
 
-# words to translate: PUBLIC
-# EN: PUBLIC, <a1>RNTF report</a1>, constellation description
 seg-780e931bf88d = ПУБЛІЧНИЙ, <a1>звіт RNTF</a1>, опис орбітального угруповання
 
-# words to translate: PUBLIC
-# EN: PUBLIC, <a1>Sensors { "2023" }</a1>, <a2>Satellite Navigation { "2026" }</a2>
 seg-a76527ba66b6 = ПУБЛІЧНИЙ, <a1>Sensors { "2023" }</a1>, <a2>Satellite Navigation { "2026" }</a2>
 
-# words to translate: PUBLIC
-# EN: PUBLIC, <a1>InsideGNSS</a1>
 seg-884c81e55e79 = ПУБЛІЧНИЙ, <a1>InsideGNSS</a1>
 
-# words to translate: ATOMIC
-# EN: ATOMIC zero-clock polynomial and the five-altitude table
 seg-94066142a642 = Поліном «нульового годинника» ATOMIC і таблиця п'яти висот
 
-# words to translate: ATOMIC
-# EN: The zero-clock row is scored against a clock steered with a { "0.24" } m residual (the ATOMIC figure), the others against the free-running clock they fit.
 seg-82d3fa2e27ef = Рядок із нульовим годинником оцінюється відносно годинника, підлаштованого із залишком { "0.24" } м (показник ATOMIC), решта — відносно вільно біжучого годинника, до якого їх підігнано.
 
-# words to translate: PUBLIC
-# EN: PUBLIC, <a1>NAVIGATION { "72" }({ "1" })</a1>, constellation description
 seg-4944294c230f = ПУБЛІЧНИЙ, <a1>NAVIGATION { "72" }({ "1" })</a1>, опис орбітального угруповання
 
-# words to translate: REPRESENTATIVE
-# EN: REPRESENTATIVE
 seg-5ebbf0042d7c = РЕПРЕЗЕНТАТИВНИЙ
 
-# words to translate: WORKSHOP, PUBLIC
-# EN: WORKSHOP and PUBLIC
 seg-5619bc61b958 = СЕМІНАРСЬКИЙ і ПУБЛІЧНИЙ
 
-# words to translate: ATOMIC
-# EN: ATOMIC facts from InsideGNSS; the published Liu table printed beside Kshana's integrated-orbit fit, not pinned
 seg-205cdc6a3696 = Факти ATOMIC з InsideGNSS; опублікована таблиця Liu, надрукована поруч із підгонкою Kshana на проінтегрованій орбіті, не зафіксована

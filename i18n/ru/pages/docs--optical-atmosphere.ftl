@@ -88,6 +88,4 @@ seg-2a5c5967540c = выполнено (тождества)
 
 seg-19854ea8437a = пороги A1–A3, все выполнены (<c1/>)
 
-# words to translate: ILLUSTRATIVE
-# EN: Both bundled scenarios carry ILLUSTRATIVE cloud climates. They are inputs, not measurements and not any dataset's values.
-seg-83c16fd89005 = Оба встроенных сценария несут ИЛЛЮСТРАТИВНЫЕ климаты облачности. Это входные данные, а не измерения и не значения какого-либо набора данных.
+seg-83c16fd89005 = Оба встроенных сценария несут ILLUSTRATIVE климаты облачности. Это входные данные, а не измерения и не значения какого-либо набора данных.

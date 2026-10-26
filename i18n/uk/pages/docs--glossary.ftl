@@ -2472,6 +2472,4 @@ seg-c5da9d350518 = <s1>Назад</s1>Вступ до концепцій
 
 seg-670504be0531 = <s1>Далі</s1>Посібник зі Studio
 
-# words to translate: REPRESENTATIVE
-# EN: <b>Skyline (skyline mask).</b> In plain terms: <em>the outline of buildings, cranes or hills against the sky, as an elevation for every azimuth.</em> A satellite counts as in view only above <c1/> at its azimuth, and one above the mask but behind the skyline is "masked by the skyline". Kshana builds one from a table, a street canyon, sectors and terrain (their pointwise maximum) or a REPRESENTATIVE preset; line of sight only, no reflection or diffraction (<a1><c2/></a1>).
 seg-249bf472cb00 = <b>Обрій (маска обрію).</b> Простими словами: <em>контур будівель, кранів або пагорбів на тлі неба, заданий як висота для кожного азимута.</em> Супутник уважається в полі зору, лише коли він вище за <c1/> у своєму азимуті, а супутник вище за маску, але за обрієм, «замаскований обрієм». Kshana будує його з таблиці, міського каньйону, секторів і рельєфу (їхній поточковий максимум) або із закладеного РЕПРЕЗЕНТАТИВНОГО шаблону; лише пряма видимість, без відбиття чи дифракції (<a1><c2/></a1>).

@@ -276,38 +276,20 @@ seg-468e70f9a669 = <s1>Далее</s1>Навигационное сообщен�
 
 seg-072d0d8f618c = Мониторы спуфинга ([spoofer])
 
-# words to translate: REPRESENTATIVE
-# EN: REPRESENTATIVE; L, S and C carriers from public documents
-seg-a0dab2ebeb1b = РЕПРЕЗЕНТАТИВНЫЙ; несущие L, S и C из открытых документов
+seg-a0dab2ebeb1b = REPRESENTATIVE; несущие L, S и C из открытых документов
 
-# words to translate: REPRESENTATIVE
-# EN: REPRESENTATIVE, for C-band systems whose parameters are not public (for example TrustPoint)
-seg-486f17197d4d = РЕПРЕЗЕНТАТИВНЫЙ, для систем диапазона C, параметры которых не опубликованы (например, TrustPoint)
+seg-486f17197d4d = REPRESENTATIVE, для систем диапазона C, параметры которых не опубликованы (например, TrustPoint)
 
-# words to translate: REPRESENTATIVE, PUBLIC
-# EN: PUBLIC signal figures (<a1>NAVIGATION { "72" }({ "1" })</a1>), REPRESENTATIVE orbit and EIRP
-seg-ad0ba129439b = ПУБЛИЧНЫЕ параметры сигнала (<a1>NAVIGATION { "72" }({ "1" })</a1>), РЕПРЕЗЕНТАТИВНАЯ орбита и EIRP
+seg-ad0ba129439b = PUBLIC параметры сигнала (<a1>NAVIGATION { "72" }({ "1" })</a1>), REPRESENTATIVE орбита и EIRP
 
-# words to translate: WORKSHOP, PUBLIC
-# EN: WORKSHOP signal parameters, PUBLIC orbit
-seg-800f173f2b20 = СЕМИНАРСКИЕ параметры сигнала, ПУБЛИЧНАЯ орбита
+seg-800f173f2b20 = WORKSHOP параметры сигнала, PUBLIC орбита
 
-# words to translate: ATOMIC
-# EN: The ATOMIC "zero-clock" polynomial broadcast-ephemeris model is a navigation-message preset and is not part of this kind.
 seg-9f9ff4fe18f8 = Модель широковещательных эфемерид ATOMIC на основе полинома «нулевых часов» — это предустановка навигационного сообщения, и она не входит в этот вид.
 
-# words to translate: REPRESENTATIVE, WORKSHOP, PUBLIC
-# EN: Each preset marks its numbers PUBLIC (with URL), REPRESENTATIVE (a documented design choice, never a claim about a real system) or WORKSHOP.
-seg-1d96501bb12d = Каждая предустановка помечает свои числа как «ПУБЛИЧНЫЙ» (с URL), «РЕПРЕЗЕНТАТИВНЫЙ» (документированный проектный выбор, никогда не утверждение о реальной системе) или «СЕМИНАРСКИЙ».
+seg-1d96501bb12d = Каждая предустановка помечает свои числа как «PUBLIC» (с URL), «REPRESENTATIVE» (документированный проектный выбор, никогда не утверждение о реальной системе) или «WORKSHOP».
 
-# words to translate: PUBLIC
-# EN: PUBLIC, <a1>arXiv { "2509.19551" }</a1> Tables { "1" }–{ "2" }
-seg-4ae6741795f9 = ПУБЛИЧНЫЙ, <a1>arXiv { "2509.19551" }</a1>, таблицы { "1" }–{ "2" }
+seg-4ae6741795f9 = PUBLIC, <a1>arXiv { "2509.19551" }</a1>, таблицы { "1" }–{ "2" }
 
-# words to translate: PUBLIC
-# EN: PUBLIC, <a1>Resilient Navigation and Timing Foundation (RNTF)</a1> and the published orbit
-seg-5ae1331b91f8 = ПУБЛИЧНЫЙ, <a1>Resilient Navigation and Timing Foundation (RNTF)</a1> и опубликованная орбита
+seg-5ae1331b91f8 = PUBLIC, <a1>Resilient Navigation and Timing Foundation (RNTF)</a1> и опубликованная орбита
 
-# words to translate: REPRESENTATIVE, PUBLIC
-# EN: PUBLIC signal structure (<a1>PMC10301026</a1>), REPRESENTATIVE orbit and EIRP
-seg-0533710bbbe1 = ПУБЛИЧНАЯ структура сигнала (<a1>PMC10301026</a1>), РЕПРЕЗЕНТАТИВНАЯ орбита и EIRP
+seg-0533710bbbe1 = PUBLIC структура сигнала (<a1>PMC10301026</a1>), REPRESENTATIVE орбита и EIRP

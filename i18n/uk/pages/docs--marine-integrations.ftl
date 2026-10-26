@@ -168,10 +168,6 @@ seg-2093a1d8a24e = Звідки беруться епохи (джерело)
 
 seg-df52127d74b6 = Де
 
-# words to translate: UNTRUSTED
-# EN: The same OpenCPN window after the collapse: the Kshana panel is open in red with the score { "47" } and the word UNTRUSTED, the lines gate: fix marked invalid, cn0-spread -30.0, speed-log -21.0 and age { "2" } s, and the statement that this is advisory software, not type-approved navigation equipment and that the operator stays responsible. The status bar still reads { "54" } { "32.4672" } N { "018" } { "46.2227" } E, and the fix indicator has dropped to two bars.
 seg-1189d82affbb = Те саме вікно OpenCPN після падіння: панель Kshana відкрита червоним з оцінкою { "47" } і словом НЕДОВІРЕНИЙ, рядками gate: fix marked invalid, cn0-spread -30.0, speed-log -21.0 і віком { "2" } s, та заявою, що це консультативне програмне забезпечення, не навігаційне обладнання із затвердженням типу, і що відповідальність залишається на операторі. Рядок стану досі читається як { "54" } { "32.4672" } N { "018" } { "46.2227" } E, а індикатор визначення місця впав до двох смуг.
 
-# words to translate: UNTRUSTED
-# EN: OpenCPN fed directly by kshana receiver-trust live --gate --listen: the Kshana panel is open in red with the score { "44" } and UNTRUSTED, the lines gate: fix marked invalid, cn0-spread -30.0, speed-log -18.8 and age { "1" } s, and the advisory statement. This run does not support the position-freeze observation: OpenCPN was still working through the initial burst of epochs.
 seg-90c7cdee8892 = OpenCPN, якому дані подає безпосередньо kshana receiver-trust live --gate --listen: панель Kshana відкрита червоним з оцінкою { "44" } і НЕДОВІРЕНИЙ, рядками gate: fix marked invalid, cn0-spread -30.0, speed-log -18.8 і віком { "1" } s та консультативною заявою. Цей прогін не підтверджує спостереження завмерлого положення: OpenCPN ще опрацьовував початковий сплеск епох.
