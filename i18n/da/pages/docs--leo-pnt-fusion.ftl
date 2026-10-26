@@ -36,7 +36,7 @@ seg-57b56c874c9b = PUBLIC: <a1>arXiv:{ "2509.19551" }</a1>. Repræsentativt: for
 
 seg-b0c5e502c21b = Iridium Satellite Time and Location (STL): { "66" } satellitter, seks næsten polære baneplaner ved { "780" } km og { "86.4" } deg; udsendelser ved { "1616" } til { "1626" } MHz, kvadratur-faseskiftmodulation (QPSK) ved { "25 000" } symbol/s; modtaget effekt { "300" } til { "2400" } gange GPS' minimum
 
-seg-d65ae64607c1 = PUBLIC: <a1>Resilient Navigation and Timing Foundation (RNTF)</a1>, <a2>National Institute of Standards and Technology (NIST)</a2>, <a3>konstellation</a3>. DERIVED: effekten i dBW. Repræsentativt: bærebølge i båndets midte, afstandsfejl
+seg-d65ae64607c1 = PUBLIC: <a1>Resilient Navigation and Timing Foundation (RNTF)</a1>, <a2>National Institute of Standards and Technology (NIST)</a2>, <a3>konstellation</a3>. AFLEDT: effekten i dBW. Repræsentativt: bærebølge i båndets midte, afstandsfejl
 
 seg-36771f73c21f = Kun Doppler: { "11.325" } GHz, { "240" } MHz orthogonal frequency-division multiplexing (OFDM)-beacon, C/N0 op til { "57.07" } dB-Hz, Doppler-fejl { "30" } Hz; første skal på { "1584" } satellitter ved { "550" } km og { "53" } deg
 
