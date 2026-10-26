@@ -239,3 +239,27 @@ seg-b2689beaba9e = Verificador de Galileo OSNMA
 
 # text
 seg-80f3f0aae42c = Mapa de interferencias
+
+# text
+seg-1759a8cce7d6 = Tipos
+
+# text
+seg-fdd674722717 = Espectro
+
+# text
+seg-68ff97cfdc03 = DOI
+
+# text
+seg-564133d6a0c4 = Constelaciones alrededor de cualquier cuerpo
+
+# text
+seg-c611ee59301a = Animación
+
+# text
+seg-c01b78b64065 = Informes
+
+# text
+seg-c60dc5b92a60 = Exportaciones de interoperabilidad
+
+# attr:alt
+seg-7cf2608b2b2f = La estructura de un paquete de evidencias. Un registro de receptor (NMEA, u-blox UBX, RINEX { "3" } o un registro de Android) y una ventana de tiempo entran en kshana receiver-trust evidence, que escribe siete archivos: log-slice.bin, config.json, epochs.json, summary.html, manifest.json, manifest.sig y un timestamp.tsr opcional. El manifiesto registra el SHA-256 del registro completo y de cada archivo, y una cadena de hashes sobre los archivos; la firma cubre el manifiesto. kshana evidence verify comprueba la firma, el hash de cada archivo, la cadena y que no haya ningún archivo no listado, y termina con { "0" } cuando está verificado, { "1" } cuando algo falló y { "3" } cuando el firmante no estaba fijado. Un paquete es un registro técnico, no un dictamen jurídico.

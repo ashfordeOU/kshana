@@ -6,7 +6,7 @@ All catalogues are machine drafts, not reviewed by a native speaker.
 ## State
 - de: done (100%, `check` 0 errors). Kind term unified ("Szenarioart").
 - fr: done (100%, `check` 0 errors). "conformance" is "respect de la norme"; "filtre de Kalman sans parfum".
-- es: in progress (see git log for the last merged chunk). pt-BR, pt-PT, nl: not started.
+- es: in progress (about 40% merged; resume with `todo es`, see git log). pt-BR, pt-PT, nl: not started.
 
 ## Recipe (per language, 3-4 sub-agents at a time; the usage limit is shared with other sessions)
 1. `node tools/i18n.mjs todo <lang> --out WORK` (about 168 chunks of 26 KB).
