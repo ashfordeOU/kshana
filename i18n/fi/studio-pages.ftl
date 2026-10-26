@@ -251,7 +251,7 @@ seg-5d30c2bb376f = <b>Kshanan tulosteet tukevat todisteita vaatimuksesta. Ne eiv
 
 seg-5d4e98c5f740 = Toimialueet
 
-seg-5dceab2b33fd = <b>Mallitulos.</b> Kaikki tässä on <b>MODELLED</b>: pilviklimaatit, kelloluokat ja tekniikat ovat ilmoitettuja oletuksia (asemat ovat HAVAINNOLLISIA, eivät mikään aineisto tai minkään paikan mitattu sää), ja numeriikka on tarkistettu riippumattomalla ohjelmalla, joka toteuttaa samat kaavat, ei ilmakehää vasten. Aikasarja on yksi siemenluvulla toistettava otos ilmoitetusta asemamallista, ei ilmasto. <b>Ohjeellinen ohjelmisto.</b> Kshana ei ole tyyppihyväksytty navigointilaite, eikä tämä ole sertifioitu saatavuus.
+seg-5dceab2b33fd = <b>Mallitulos.</b> Kaikki tässä on <b>MODELLED</b>: pilviklimaatit, kelloluokat ja tekniikat ovat ilmoitettuja oletuksia (asemat ovat ILLUSTRATIVE, eivät mikään aineisto tai minkään paikan mitattu sää), ja numeriikka on tarkistettu riippumattomalla ohjelmalla, joka toteuttaa samat kaavat, ei ilmakehää vasten. Aikasarja on yksi siemenluvulla toistettava otos ilmoitetusta asemamallista, ei ilmasto. <b>Ohjeellinen ohjelmisto.</b> Kshana ei ole tyyppihyväksytty navigointilaite, eikä tämä ole sertifioitu saatavuus.
 
 seg-5ddc79f228f8 = Kuun vertailuasema
 

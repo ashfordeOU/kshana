@@ -365,7 +365,7 @@ seg-5d30c2bb376f = <b>Kshana väljundid toetavad tõendeid (supports evidence fo
 seg-5d4e98c5f740 = Valdkonnad
 
 # optical/index.html
-seg-5dceab2b33fd = <b>Mudeli väljund.</b> Kõik siin on <b>MODELLED</b>: pilveklimaatikad, kellaklassid ja tehnikad on kindlaksmääratud eeldused (jaamad on ILLUSTRATIIVSED, mitte ühegi andmekogu ega koha mõõdetud ilm) ning arvutusi kontrollitakse sõltumatu programmi vastu, mis rakendab samu valemeid, mitte atmosfääri vastu. Aegrida on üks algväärtusega loositud tõmme kindlaksmääratud jaamamudelist, mitte kliima. <b>Nõuandev tarkvara.</b> Kshana ei ole tüübikinnitust omav navigatsiooniseade ja see ei ole sertifitseeritud kättesaadavus.
+seg-5dceab2b33fd = <b>Mudeli väljund.</b> Kõik siin on <b>MODELLED</b>: pilveklimaatikad, kellaklassid ja tehnikad on kindlaksmääratud eeldused (jaamad on ILLUSTRATIVE, mitte ühegi andmekogu ega koha mõõdetud ilm) ning arvutusi kontrollitakse sõltumatu programmi vastu, mis rakendab samu valemeid, mitte atmosfääri vastu. Aegrida on üks algväärtusega loositud tõmme kindlaksmääratud jaamamudelist, mitte kliima. <b>Nõuandev tarkvara.</b> Kshana ei ole tüübikinnitust omav navigatsiooniseade ja see ei ole sertifitseeritud kättesaadavus.
 
 # lunar/index.html
 seg-5ddc79f228f8 = Kuu etalonjaam
