@@ -7,3 +7,7 @@ seg-1c78d5337e16 = 冥王星
 seg-6e0cb6acc073 = VALIDATED
 
 seg-6cb7a787ac67 = 参考文献
+
+seg-430edd66bda0 = 未建模
+
+seg-7670cf4ceda3 = 默认值
