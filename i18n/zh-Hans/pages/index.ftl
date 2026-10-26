@@ -273,3 +273,5 @@ seg-62b5564e8d90 = 已记录的会话在此逐步播放。
 seg-2359edf78388 = <b>Studio 中的同一次运行：</b>引擎 v{ $version } · <c1/> · 随机种子 { "42" }
 
 seg-5cce5bd43a6b = AI 助手
+
+seg-257c477dc510 = WebAssembly

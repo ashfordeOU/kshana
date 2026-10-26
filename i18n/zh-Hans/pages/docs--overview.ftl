@@ -195,3 +195,5 @@ seg-e98e25897176 = 三个评分标准包的每一项测试，均来自引擎 v{ 
 seg-f891ee876b96 = 它回答什么
 
 seg-7cf2608b2b2f = 证据包的结构。接收机日志（NMEA、u-blox UBX、RINEX { "3" } 或 Android 日志）和一个时间窗口输入到 kshana receiver-trust evidence，由它写出七个文件：log-slice.bin、config.json、epochs.json、summary.html、manifest.json、manifest.sig 以及可选的 timestamp.tsr。清单记录了整份日志和每个文件的 SHA-256，以及覆盖这些文件的哈希链；签名覆盖清单。kshana evidence verify 检查签名、每个文件的哈希、哈希链，以及没有未列出的文件，验证通过时退出码为 { "0" }，出现失败时为 { "1" }，签名者未被固定时为 { "3" }。证据包是技术记录，不是法律意见。
+
+seg-13fc009b947c = FAQ
