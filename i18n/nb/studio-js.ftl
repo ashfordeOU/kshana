@@ -7004,3 +7004,457 @@ js-mthread-kv-seed = Seed
 js-mthread-kv-title = Tråd
 
 js-mthread-layout-phases = Lik bredde per fase
+
+js-mthread-layout-time = Faktisk oppdragstid
+
+js-mthread-limit-title = { $phase }: den oppgitte grensen, { $limit }
+
+js-mthread-log-scale = logaritmisk skala
+
+js-mthread-margin-met = { $m }× grensen, oppfylt
+
+js-mthread-margin-missed = { $m }× grensen, ikke oppfylt
+
+js-mthread-metric-pos = Posisjon, 1-sigma
+
+js-mthread-metric-time = Klokkebias, 1-sigma
+
+js-mthread-metric-vel = Hastighet, 1-sigma
+
+js-mthread-na = ikke aktuelt
+
+js-mthread-no-events = Denne fasen registrerer ingen hendelser.
+
+js-mthread-no-phases = resultatet inneholder ingen faser
+
+js-mthread-no-requirement = ingen grense oppgitt
+
+js-mthread-no-series = Resultatet inneholder ingen sampler av denne størrelsen.
+
+js-mthread-no-weak = Resultatet peker ikke ut noe svakeste ledd.
+
+js-mthread-not-json = resultatet er ikke JSON ({ $reason })
+
+js-mthread-not-thread = dette er ikke et oppdragstråd-resultat (skjema { $schema } forventet)
+
+js-mthread-note-phases = Hver fase tegnes med samme bredde, slik at en kort fase er like synlig som en lang; tidspunktet da hver fase begynner, står under båndet. Bytt til faktisk oppdragstid for å se de reelle proporsjonene. Stiplede linjer er grensene dokumentet oppgir; et brudd i linjen er en overlevering.
+
+js-mthread-note-time = Faktisk oppdragstid: en fase på noen få minutter kan være for smal til å se. Bytt til like brede faser for å lese den. Stiplede linjer er grensene dokumentet oppgir; et brudd i linjen er en overlevering.
+
+js-mthread-open-failed = Eksempelet kunne ikke åpnes: { $reason }.
+
+js-mthread-opened = { $name } er lest på denne siden; ingenting ble sendt noe sted.
+
+js-mthread-opening = Åpner Artemis-klasse-eksempelet…
+
+js-mthread-prov = Hver etikett på denne siden kommer fra motoren selv; siden kopierer hvert tall fra resultatet og skalerer det bare.
+
+js-mthread-recorded = Motorens registrerte resultat (versjon { $version }): en illustrerende kjede bygget på offentlige oppdragsbeskrivelser; tallene er modellerte og representerer ingenting virkelig.
+
+js-mthread-sets-peak = setter toppen
+
+js-mthread-too-large = Den filen er større enn { $mb } MB; den leses ikke.
+
+js-mthread-weak-line = Det svakeste leddet er fasen <b>{ $phase }</b>: { $margin }× den oppgitte grensen, bestemt av { $source }. Marginen er det minste forholdet mellom en oppgitt grense og fasens topp; over 1 oppfyller kravet.
+
+js-mthread-weakest-flag = svakeste ledd
+
+js-mthread-weakest-mark = svakeste ledd
+
+js-obs-cell-extent = { $south }° til { $north }° N, { $west }° til { $east }° Ø
+
+js-obs-cell-read = { $state }: { $cell }. Utvalg { $sampled }, berørt { $affected }.
+
+js-obs-cell-title = { $state }; utvalg { $sampled }, berørt { $affected }
+
+js-obs-cell-title-reason = { $state } ({ $reason }); utvalg { $sampled }, berørt { $affected }
+
+js-obs-clear-note = { $notClear } En celle uten oppføring ble sett av færre enn 5 forskjellige fly og holdes tilbake; den tegnes ikke. Farge er aldri det eneste signalet: ikke observert er skravert, og tabellen skriver ut hver tilstand.
+
+js-obs-col-affected = Fly berørt
+
+js-obs-col-bbox = Avgrensningsboks (S, V, N, Ø)
+
+js-obs-col-bytes = Bytes
+
+js-obs-col-cause = Årsak
+
+js-obs-col-cell = Celle (breddegrad, lengdegrad)
+
+js-obs-col-cells = Celler
+
+js-obs-col-check = Kontroll
+
+js-obs-col-file = Fil
+
+js-obs-col-incident = Hendelse
+
+js-obs-col-sampled = Fly i utvalget
+
+js-obs-col-sha = SHA-256 (manifest)
+
+js-obs-col-share = Andel berørt
+
+js-obs-col-state = Tilstand
+
+js-obs-col-why = Hvorfor ikke observert
+
+js-obs-day-alt = { $degraded } celler degradert, { $notDegraded } ikke degradert, { $notObserved } ikke observert, den { $date }.
+
+js-obs-day-heading = Dag { $date } (UTC)
+
+js-obs-ds-attribution = Kildeangivelse
+
+js-obs-ds-coverage = Dekning
+
+js-obs-ds-dataset = Datasett
+
+js-obs-ds-licence = Lisens
+
+js-obs-ds-licence-address = Lisensadresse
+
+js-obs-ds-product = Produkt
+
+js-obs-ds-written-by = Skrevet av Kshana
+
+js-obs-err-cause = { $name } oppgir en annen årsak enn «ikke tilskrevet»; denne siden viser ingen
+
+js-obs-err-feature-polygon = { $name }: objekt { $n } er ikke et cellepolygon
+
+js-obs-err-feature-state = { $name }: objekt { $n } har tilstanden «{ $state }», som ikke er en av { $states }
+
+js-obs-err-incident-object = { $name }: hendelse { $n } er ikke et objekt
+
+js-obs-err-no-date = { $name } oppgir ingen dato
+
+js-obs-err-no-features = { $name } har ingen objekter
+
+js-obs-err-no-incidents = { $name } har ingen hendelsesliste
+
+js-obs-err-not-day = { $name } er ikke en { $schema }-fil
+
+js-obs-err-not-incident = { $name } er ikke en { $schema }-fil
+
+js-obs-err-not-json = { $what } er ikke JSON ({ $reason })
+
+js-obs-err-not-manifest = { $name } er ikke en { $schema }-fil
+
+js-obs-err-not-object = { $what } er ikke et JSON-objekt
+
+js-obs-err-not-text = { $what } er ikke tekst eller er større enn { $mib } MiB
+
+js-obs-err-states = { $name } nevner andre tilstander enn de tre denne siden viser
+
+js-obs-file-matches = stemmer
+
+js-obs-file-mismatch = stemmer ikke
+
+js-obs-file-no-hash = ingen hash oppgitt
+
+js-obs-file-not-opened = ikke åpnet
+
+js-obs-files-note = Metode { $method }. SHA-256 for hver fil beregnes her ut fra filen du åpnet og sammenlignes med manifestet; en fil du ikke åpnet, kontrolleres ikke.
+
+js-obs-incident = hendelse
+
+js-obs-incident-note = Celler som berører hverandre og er degraderte (diagonaler medregnet), utgjør én hendelse. Årsaken til hver hendelse er: ikke tilskrevet. Dette er ikke en bekreftelse og ikke en NOTAM.
+
+js-obs-kv-cells = Publiserte celler
+
+js-obs-kv-day-wide = Effekt over hele dagen
+
+js-obs-kv-degraded = Degradert
+
+js-obs-kv-not-degraded = Ikke degradert
+
+js-obs-kv-not-observed = Ikke observert (publisert)
+
+js-obs-kv-scope = Omfang
+
+js-obs-map-aria = { $summary } Tabellen under viser hver celle.
+
+js-obs-means-degraded = En stor andel av flyene i utvalget i cellen rapporterte lav navigasjonsnøyaktighet den dagen, klart over dagens bakgrunnsnivå.
+
+js-obs-means-not-degraded = Nok fly var i utvalget, og andelen oppfylte ikke regelen.
+
+js-obs-means-not-observed = Dataene ga ikke grunnlag for en vurdering. Dette betyr ikke «klart».
+
+js-obs-na = ikke aktuelt
+
+js-obs-no = nei
+
+js-obs-no-cells = Ingen celler i denne filen
+
+js-obs-no-day-file = Filene for { $date } har ingen dagsfil (.geojson), så det er ingenting å vise for den.
+
+js-obs-no-degraded = Ingen degraderte celler denne dagen.
+
+js-obs-no-file-read = Ingen fil kunne leses.
+
+js-obs-no-incident-file = Ingen hendelsesfil ble åpnet for denne dagen.
+
+js-obs-no-manifest = Ingen manifest ble åpnet for denne dagen, så filene kan ikke kontrolleres mot hashene sine.
+
+js-obs-no-notice = Denne filen har ingen merknad. Den veiledende erklæringen øverst på denne siden gjelder like fullt.
+
+js-obs-no-reason = ingen grunn oppgitt
+
+js-obs-not-clear = Ikke observert er ikke klart.
+
+js-obs-not-readable = { $name }: ikke en fil denne siden leser (.geojson, .incidents.json, .manifest.json eller .png).
+
+js-obs-not-stated = ikke oppgitt
+
+js-obs-note-day-wide = Dette var en dag med effekt over hele dagen: dagens bakgrunnsnivå var selv høyt, så ingen celle kunne vurderes den dagen. Det er ikke en påstand om at himmelen var ren.
+
+js-obs-note-summary-mismatch = Oppsummeringen filen oppgir, stemmer ikke med cellene den lister; tallene vises slik de er skrevet.
+
+js-obs-nothing-yet = Ingenting å vise ennå: åpne også dagens .geojson-fil.
+
+js-obs-notice = Merknad i filen: { $notice }
+
+js-obs-opened-day-file = Åpnet { $days } dag fra { $files } fil. Lest her; ingenting ble lastet opp.
+
+js-obs-opened-day-files = Åpnet { $days } dag fra { $files } filer. Lest her; ingenting ble lastet opp.
+
+js-obs-opened-days-file = Åpnet { $days } dager fra { $files } fil. Lest her; ingenting ble lastet opp.
+
+js-obs-opened-days-files = Åpnet { $days } dager fra { $files } filer. Lest her; ingenting ble lastet opp.
+
+js-obs-read-failed = { $name }: kunne ikke leses ({ $reason }).
+
+js-obs-reason-day-wide = dagens bakgrunnsnivå var selv høyt, så ingen celle kunne vurderes den dagen
+
+js-obs-reason-insufficient = for få fly var i utvalget til å gjøre en vurdering
+
+js-obs-reason-no-background = det fantes ikke noe bakgrunnsnivå for dagen å sammenligne cellen med
+
+js-obs-release = Utgitt tidligst { $when }: produktene publiseres minst { $hours } timer etter at dagen er slutt, på celler på { $deg } grader. Dette er ikke en direktevisning.
+
+js-obs-release-default = slutten av dagen pluss forsinkelsen
+
+js-obs-show-all = Vis alle { $n } celler
+
+js-obs-state-degraded = Degradert
+
+js-obs-state-not-degraded = Ikke degradert
+
+js-obs-state-not-observed = Ikke observert
+
+js-obs-the-day-file = dagsfilen
+
+js-obs-the-incident-file = hendelsesfilen
+
+js-obs-the-manifest = manifestet
+
+js-obs-too-large = { $name }: større enn { $mib } MiB; åpne en mindre fil.
+
+js-obs-unstated-number = et uoppgitt antall
+
+js-obs-withheld = holdt tilbake
+
+js-obs-yes-no-call = ja: ingen celle kunne vurderes
+
+js-opt-avail-label = Tilgjengelighet, tak og tilgjengelighet i klarvær per sted
+
+js-opt-avail-note = Per sted: lenkens tilgjengelighet mot skyer og turbulensfading, taket ingen ekstra margin kan løfte (skyer og pekenøyaktighet), og tilgjengeligheten helt uten skyer.
+
+js-opt-avail-title = Tilgjengelighet mot taket
+
+js-opt-bar-available = { $name }: tilgjengelig
+
+js-opt-bar-ceiling = { $name }: tak
+
+js-opt-bar-clear-sky = { $name }: klarvær
+
+js-opt-blurb-network = Et skyrikere nordlig, et middels sentralt og et klarere sørlig sted ser en optisk LEO-terminal på 30 grader: hvor ofte er lenken oppe, og hva gir flere steder?
+
+js-opt-blurb-techniques = Én opplenke på 25 grader i sky og turbulens: hva gir en annen bølgelengde, en større apertur, adaptiv optikk eller mer margin?
+
+js-opt-cloud-episode = skyepisode
+
+js-opt-correlated = korrelert
+
+js-opt-default-bars = søyler
+
+js-opt-default-chart = diagram
+
+js-opt-direction-wave = { $direction }, { $wave } bølge
+
+js-opt-diversity-label = Nettverkets tilgjengelighet mot antall steder
+
+js-opt-diversity-note = Tilgjengelighet for de beste 1, 2 og 3 stedene, med uavhengig vær og med vær korrelert over { $km } km.
+
+js-opt-diversity-title = Stedsdiversitet
+
+js-opt-fact-capture-loss = Geometrisk innfangingstap
+
+js-opt-fact-direction = Retning
+
+js-opt-fact-elevation = Elevasjon
+
+js-opt-fact-footprint = Strålens fotavtrykk
+
+js-opt-fact-margin = Margin uten atmosfære
+
+js-opt-fact-received = Mottatt effekt, uten atmosfære
+
+js-opt-fact-sensitivity = Mottakerens følsomhet
+
+js-opt-fact-wavelength = Bølgelengde
+
+js-opt-gain-points = +{ $n } poeng
+
+js-opt-hours = timer
+
+js-opt-independent = uavhengig
+
+js-opt-link-down = lenken nede
+
+js-opt-margin-label = Ekstra margin som trengs for hvert tilgjengelighetsmål
+
+js-opt-margin-line-title = { $name }: lenkemargin, dB
+
+js-opt-margin-note = Ekstra lenkemargin, i dB oppå dagens lenke, for hvert tilgjengelighetsmål; negativ betyr at lenken allerede har mer enn den trenger. Et mål over et steds tak har ingen margin som når det (motoren utelater det).
+
+js-opt-margin-title = Margin hvert tilgjengelighetsmål trenger
+
+js-opt-model-output = Modellutdata
+
+js-opt-na = ikke aktuelt
+
+js-opt-no-data = Ingen data i dette resultatet.
+
+js-opt-no-series = Ingen tidsserie i dette resultatet.
+
+js-opt-no-source = ingen kilde oppgitt
+
+js-opt-not-result = dette er ikke et resultat for optisk atmosfære med steder
+
+js-opt-open-failed = { $title } kunne ikke åpnes: { $reason }.
+
+js-opt-opening = Åpner { $title }…
+
+js-opt-outage-label = Sannsynlighet for at et avbrudd varer lenger enn en gitt varighet
+
+js-opt-outage-note = Sannsynlighet for at et avbrudd varer lenger enn en gitt varighet, per sted (logaritmisk tidsakse).
+
+js-opt-outage-title = Hvor lenge avbrudd varer
+
+js-opt-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+js-opt-prov = { $label } Steder: { $sites }.
+
+js-opt-realised-up = { $value } oppe
+
+js-opt-recorded = { $title }: motorens registrerte resultat (versjon { $version }). Modellutdata, ikke en måling.
+
+js-opt-result-not-json = resultatet er ikke JSON ({ $reason })
+
+js-opt-result-not-loaded = det registrerte resultatet ble ikke lastet
+
+js-opt-series-label = Lenkemargin mot tid
+
+js-opt-series-note = Én seedet realisering av den oppgitte stedsmodellen (seed { $seed }, { $hours } t med steg på { $step } s): skyepisoder, en væskevannkolonne for hver, ett scintillasjonssampel per steg. Marginen er fadingbudsjettet minus sky- og scintillasjonsfadingen; lenken er nede under 0 dB. Det er ett trekk, ikke klimaet: tilgjengeligheten avviker fra den oppgitte med trekkets utvalgsfeil. Marginen er avkortet ved −40 dB for tegning.
+
+js-opt-series-title = Lenkemargin mot tid
+
+js-opt-stated = oppgitt { $value }
+
+js-opt-stripe-cloud = sky
+
+js-opt-stripe-down = nede
+
+js-opt-stripe-title = { $what }, time { $from } til { $to }
+
+js-opt-techniques-label = Tilgjengelighetsgevinst per teknikk
+
+js-opt-techniques-note = Tilgjengelighetsgevinst i prosentpoeng over grunnlinjen, for ett sted.
+
+js-opt-techniques-title = Hva hver teknikk gir
+
+js-opt-th-availability = Tilgjengelighet
+
+js-opt-th-ceiling = Tak
+
+js-opt-th-clear-air = Tap i klar luft
+
+js-opt-th-cloud-prob = Skysannsynlighet (inndata)
+
+js-opt-th-fade-budget = Fadingbudsjett
+
+js-opt-th-latlon = Breddegrad, lengdegrad
+
+js-opt-th-mean-outage = Gjennomsnittlig avbrudd
+
+js-opt-th-outages-year = Avbrudd per år
+
+js-opt-th-scint = Scintillasjonsindeks
+
+js-opt-th-site = Sted
+
+js-opt-timing-label = Tidssynkroniseringens tilgjengelighet per sted og klokke
+
+js-opt-timing-note = Andel av hele tiden tidsfeilen holder seg innenfor terskelen, per sted og klokkeklasse: klokkens holdover mot avbruddenes varighet.
+
+js-opt-timing-title = Tidssynkronisering holdt gjennom avbruddene
+
+js-opt-title-network = Tre bakkesteder, stedsdiversitet
+
+js-opt-title-techniques = Én opplenke, forbedringsteknikker
+
+js-opt-x-best-n = beste n steder
+
+js-opt-x-outage-duration = avbruddsvarighet, t (log)
+
+js-opt-x-target = tilgjengelighetsmål, %
+
+js-opt-y-availability = tilgjengelighet, %
+
+js-opt-y-extra-margin = ekstra margin, dB
+
+js-opt-y-p-longer = P(lengre)
+
+js-replay-band-calibrating = kalibrerer
+
+js-replay-band-degraded = degradert
+
+js-replay-band-nominal = nominell
+
+js-replay-band-run-ended = { $band } · kjøringen er slutt
+
+js-replay-band-untrusted = ikke til å stole på
+
+js-replay-clock = T+{ $t } av { $max }
+
+js-replay-coast-hidden = kysten skjult: denne loggens oppdiktede posisjoner havner på land
+
+js-replay-coast-note = Kyst: { $source }, kun til illustrasjon.
+
+js-replay-coast-note-hidden = { $reason }.
+
+js-replay-coast-window = Natural Earth 1:10 millioner, { $window }-vindu
+
+js-replay-coast-world = Natural Earth 1:110 millioner (Studioets verdensomriss), grov
+
+js-replay-demo-trust-log = { $title } (tillitslogg)
+
+js-replay-dir-east = øst
+
+js-replay-dir-north = nord
+
+js-replay-dir-south = sør
+
+js-replay-dir-west = vest
+
+js-replay-dirs-and = { $list } og { $last }
+
+js-replay-drawing-animation = Tegner animasjonen…
+
+js-replay-drawing-frames = Tegner bildene…
+
+js-replay-every-direction = alle retninger
+
+js-replay-file-error = { $name }: { $error }
+
+js-replay-kinds-convergence-horizontal = Konvergens: median horisontal feil
