@@ -115,3 +115,485 @@ studio-ledger-rows =
     }
 studio-recorded-in-english = Consigné en anglais
 studio-lang-engine-fallback = Le texte du moteur pour cette langue n'a pas pu être chargé ; l'anglais s'affiche.
+
+studio-geometry-kshana-home = Accueil { -brand }
+
+studio-geometry-back-to-the-studio = Retour au Studio
+
+studio-geometry-step-the-time = Avancer le temps pas à pas
+
+studio-geometry-draw-the-skyline = Dessiner l'horizon
+
+studio-geometry-skip-to-the-view = Aller à la vue
+
+studio-geometry-which-satellites-can-you-see = Quels satellites voyez-vous, et quelle est la qualité de leur géométrie ?
+
+studio-geometry-what-this-shows = Ce que cela montre
+
+studio-geometry-starting-the-engine = Démarrage du moteur…
+
+studio-geometry-every-setting-is-in-the = Chaque réglage figure dans l'adresse de la page : un lien copié ouvre donc le même ciel.
+
+studio-geometry-offset-from-the-constellations-reference = Décalage par rapport à l'époque de référence des constellations
+
+studio-geometry-10-min = −10 min
+
+studio-geometry-10-min-2 = +10 min
+
+studio-geometry-your-own-orbital-elements-tle = Vos propres éléments orbitaux (TLE)
+
+studio-geometry-use-these-elements = Utiliser ces éléments
+
+studio-geometry-back-to-the-presets = Retour aux préréglages
+
+studio-geometry-clear-the-skyline = Effacer l'horizon
+
+studio-geometry-drag-on-the-skyplot-to = Faites glisser sur le skyplot pour dessiner l'horizon (pas de 1° en azimut, 0,5° en élévation). Le skyplot étant sélectionné : Gauche et Droite font le tour de l'horizon (Maj pour 10°), Haut et Bas relèvent ou abaissent l'horizon à cet endroit (Maj pour 5°), Suppr l'efface.
+
+studio-geometry-copy-a-link-to-this = Copier un lien vers ce ciel
+
+studio-geometry-download-the-skyplot-svg = Télécharger le skyplot (SVG)
+
+studio-geometry-zenith-in-the-centre-the = Zénith au centre, horizon sur le bord, nord en haut. Les repères pleins sont les satellites de la solution ; les repères creux sont masqués par le masque ou l'horizon, ou ne sont pas utilisés.
+
+studio-geometry-dilution-of-precision = Dilution de la précision
+
+studio-geometry-how-much-the-geometry-multiplies = De combien la géométrie multiplie l'erreur de distance. Plus bas est meilleur ; environ 1 est excellent, au-delà de 6 est mauvais.
+
+studio-geometry-horizontal-position-error = Erreur de position horizontale
+
+studio-geometry-satellites-as-a-table = Satellites, sous forme de tableau
+
+studio-geometry-the-same-satellites-as-the = Les mêmes satellites que sur le skyplot.
+
+studio-geometry-azimuth = Azimut, °
+
+studio-geometry-elevation = Élévation, °
+
+studio-geometry-in-the-solution = Dans la solution
+
+studio-geometry-the-engine-runs-here-as = Le moteur s'exécute ici sous forme de WebAssembly. Rien n'est récupéré depuis un autre site et rien de ce que vous réglez n'est envoyé ailleurs.
+
+studio-holdover-holdover-test-scenarios = Scénarios de test de holdover
+
+studio-holdover-holdover-test = Test de holdover
+
+studio-holdover-how-far-does-the-time = Jusqu'où l'erreur de temps monte-t-elle quand le GNSS disparaît ?
+
+studio-holdover-opening-the-scenarios = Ouverture des scénarios…
+
+studio-holdover-verdict-step-by-step = Verdict, étape par étape
+
+studio-holdover-time-error-over-the-record = Erreur de temps sur l'enregistrement
+
+studio-holdover-the-three-phases-are-shaded = Les trois phases sont ombrées ; les lignes verticales en pointillés sont les deux instants indiqués par l'opérateur. Les lignes horizontales en pointillés sont les limites des gabarits sur l'erreur de temps absolue maximale, chacune tracée sur l'étape que nomme son gabarit, ainsi que la bande de récupération ; un triangle marque le moment où un budget ou l'enveloppe de holdover ePRTC-A est dépassé pour la première fois.
+
+studio-holdover-of-the-baseline-and-the = De la référence de base et du holdover ; une croix est une limite de gabarit à l'instant où sa vérification était la pire.
+
+studio-holdover-the-same-two-steps-against = Les deux mêmes étapes face aux limites TDEV.
+
+studio-holdover-the-numbers = Les chiffres
+
+studio-holdover-everything-below-is-the-engine = Tout ce qui suit provient du moteur, dans les unités qu'il indique.
+
+studio-holdover-mask-checks = Vérifications des gabarits
+
+studio-holdover-each-mask-is-measured-on = Chaque gabarit est mesuré sur l'étape que nomme sa condition. Un gabarit qui exige un enregistrement plus long que celui fourni par l'étape est INCOMPLETE, jamais extrapolé ; toute entrée qu'une recommandation laisse à l'étude est absente.
+
+studio-holdover-what-this-does-not-cover = Ce que cela ne couvre pas
+
+studio-interference-cell-size-in-degrees-empty = Taille de cellule en degrés (vide pour 0,5)
+
+studio-interference-https = https://…
+
+studio-interference-about-this-page = À propos de cette page
+
+studio-interference-interference-map = Carte des interférences
+
+studio-interference-where-did-position-reports-look = Où les rapports de position semblaient-ils dégradés ?
+
+studio-interference-open-map-files = Ouvrir des fichiers de carte
+
+studio-interference-or-drop-them-here = ou les déposer ici
+
+studio-interference-open-the-synthetic-demo = Ouvrir la démo synthétique
+
+studio-interference-close-all-maps = Fermer toutes les cartes
+
+studio-interference-nothing-open-yet = Rien d'ouvert pour l'instant.
+
+studio-interference-build-a-map-here = Construire une carte ici
+
+studio-interference-build-from-the-synthetic-sample = Construire à partir de l'échantillon synthétique
+
+studio-interference-route-exposure-here = Exposition d'un itinéraire ici
+
+studio-interference-use-the-synthetic-route = Utiliser l'itinéraire synthétique
+
+studio-interference-reading-these-maps = Lire ces cartes
+
+studio-interference-maps-inherit-the-coverage-of = Les cartes héritent de la couverture de leur source : les récepteurs ADS-B bénévoles laissent la haute mer peu couverte, et les données AIS ouvertes omettent certaines classes de navires. Lisez les notes de couverture de chaque fichier.
+
+studio-interference-no-coastline-or-basemap-is = Aucun trait de côte ni fond de carte n'est tracé et rien n'est récupéré depuis un serveur ; la grille n'est que latitude et longitude.
+
+studio-interference-no-identifier-of-any-aircraft = Aucun identifiant d'aéronef ou de navire ne figure dans ces fichiers ; les cellules comptant trop peu d'aéronefs ou de navires distincts ne sont pas publiées du tout, et un décompte AIS de un ou deux est retenu.
+
+studio-lunar-infra-lunar-infrastructure-scenarios = Scénarios d'infrastructure lunaire
+
+studio-lunar-infra-lunar-infrastructure = Infrastructure lunaire
+
+studio-lunar-infra-what-can-the-moon-s = Que peuvent apporter l'orbite et la surface de la Lune comme infrastructure de navigation et de géodésie, et où est-ce insuffisant ?
+
+studio-lunar-infra-five-studies-of-what-lunar = Cinq études de ce que des orbiteurs lunaires et une station de surface lunaire pourraient apporter ensemble comme infrastructure de navigation et de géodésie : détermination d'orbite à partir de signaux GNSS terrestres face au suivi depuis le sol, fixation de la phase de la porteuse entre une station de surface et un orbiteur, co-estimation du référentiel lunaire, rattachement du GNSS, du VLBI et de la télémétrie laser sur un même engin spatial, et sensibilité de la télémétrie laser et du suivi aux marées et à la libration de la Lune. Les entrées sont illustratives et le modèle est restreint ; lorsqu'une étude a manqué le seuil auquel elle était préenregistrée, cette page le dit. Chaque nombre est copié d'un résultat enregistré par le moteur ; la page le met à l'échelle et le trace, et ne calcule rien d'autre.
+
+studio-lunar-infra-what-the-result-holds = Ce que contient le résultat
+
+studio-lunar-infra-findings-disclosures-and-what-was = Constats, divulgations et ce qui n'a pas été vérifié
+
+studio-lunar-what-these-figures-are = Ce que sont ces chiffres
+
+studio-lunar-map-key = Légende de la carte
+
+studio-lunar-lunar-station = Station lunaire
+
+studio-lunar-what-accuracy-could-a-reference = Quelle précision une station de référence près du pôle sud lunaire pourrait-elle offrir, et où ?
+
+studio-lunar-the-constellation-its-signal-in = La constellation, son erreur de signal dans l'espace, l'erreur de levé de la station, la latence de correction et la quantification de la liaison sont des entrées indiquées dans le fichier de scénario, chacune avec sa source ou marquée comme illustrative. Aucun chiffre ici n'a été confronté à une vraie station ni à des données de vol.
+
+studio-lunar-the-source-and-every-input = La source et chaque entrée que vous modifiez figurent dans l'adresse de la page : un lien copié ouvre donc la même étude.
+
+studio-lunar-a-result-file-is-the = Un fichier de résultat est le JSON que le moteur écrit pour ce type (la sortie JSON de la ligne de commande, ou une exécution enregistrée depuis ici). Il est lu dans cette page ; rien n'est envoyé.
+
+studio-lunar-each-field-shows-the-scenario = Chaque champ affiche la valeur du fichier de scénario tant que vous ne la modifiez pas. Une journée d'époques sur toute la grille prend un certain temps : moins d'essais ou un pas de temps plus long vont plus vite.
+
+studio-lunar-run-it-here = Exécuter ici
+
+studio-lunar-back-to-the-file-s = Retour aux valeurs du fichier
+
+studio-lunar-copy-a-link = Copier un lien
+
+studio-lunar-save-this-result-json = Enregistrer ce résultat (JSON)
+
+studio-lunar-corrected-error-over-the-south = Erreur corrigée sur la région polaire sud
+
+studio-lunar-south-polar-stereographic-the-pole = Projection stéréographique polaire sud : le pôle au centre, le bord de la grille sur le pourtour, longitude 0° en haut, 90° est à droite. Chaque cellule est un point de grille ; la ligne épaisse est l'endroit où l'erreur corrigée franchit le seuil, et la ligne en pointillés est le rayon de couverture par azimut.
+
+studio-lunar-region-figures = Chiffres de la région
+
+studio-lunar-over-the-whole-grid-means = Sur toute la grille : moyennes pondérées par l'aire, et pire point.
+
+studio-lunar-coverage-radius-per-azimuth = Rayon de couverture par azimut
+
+studio-lunar-along-each-bearing-from-the = Le long de chaque relèvement depuis la station, la distance à laquelle la couverture passe pour la première fois sous 95 %.
+
+studio-lunar-as-a-table = Sous forme de tableau
+
+studio-lunar-radius-km = Rayon, km
+
+studio-lunar-at-the-grid-edge = Au bord de la grille
+
+studio-lunar-points-along-it = Points le long de celui-ci
+
+studio-lunar-an-epoch-is-unavailable-at = Une époque est indisponible en un point quand l'utilisateur voit moins de quatre satellites, ou que la station ne voit pas chaque satellite qu'utilise l'utilisateur ; aucune erreur n'est calculée pour elle.
+
+studio-lunar-grid-points-as-a-table = Points de grille, sous forme de tableau
+
+studio-lunar-the-same-points-as-the = Les mêmes points que sur la carte, les plus proches de la station en premier.
+
+studio-lunar-latitude = Latitude, °
+
+studio-lunar-longitude = Longitude, °
+
+studio-lunar-from-the-station-km = Depuis la station, km
+
+studio-lunar-corrected-error = Erreur corrigée
+
+studio-lunar-uncorrected-error = Erreur non corrigée
+
+studio-lunar-hpl-median = Médiane du HPL
+
+studio-lunar-the-engine-s-statement-inputs = L'énoncé du moteur, les entrées et le bilan de liaison
+
+studio-lunar-inputs-as-the-engine-read = Entrées, telles que le moteur les a lues
+
+studio-lunar-error-model = Modèle d'erreur
+
+studio-lunar-correction-link-budget-at-the = Bilan de la liaison de correction à la station et au pire point
+
+studio-observatory-previous-day = Jour précédent
+
+studio-observatory-day-opened = Jour ouvert
+
+studio-observatory-next-day = Jour suivant
+
+studio-observatory-interference-observatory = Observatoire des interférences
+
+studio-observatory-what-did-one-day-s = À quoi ressemblaient les rapports de position d'une journée ?
+
+studio-observatory-the-observatory-writes-a-few = L'observatoire écrit quelques fichiers pour chaque jour UTC et chaque région : les cellules de grille avec l'un de trois états, une liste d'incidents et un manifeste. Ouvrez ici les fichiers que vous avez produits et lisez-les. La page ne calcule rien et n'affiche que ce que disent les fichiers. Elle ne fournit aucune donnée de l'observatoire, ne récupère rien et ne téléverse rien.
+
+studio-observatory-open-a-day = Ouvrir un jour
+
+studio-observatory-larr = ←
+
+studio-observatory-rarr = →
+
+studio-observatory-the-three-states = Les trois états
+
+studio-observatory-the-picture-the-observatory-wrote = L'image écrite par l'observatoire
+
+studio-observatory-the-png-you-opened-as = Le PNG que vous avez ouvert, tel quel. Les cellules qui ne sont pas dessinées n'ont pas été observées.
+
+studio-observatory-cells-drawn-from-the-file = Cellules, dessinées à partir du fichier
+
+studio-observatory-plate-carr-eacute-e-no = Plate carrée, sans fond de carte. Survolez une cellule, ou utilisez le tableau, pour son état et ses décomptes. Un endroit sans cellule n'a pas été observé.
+
+studio-observatory-hover-or-focus-a-cell = Survolez une cellule ou donnez-lui le focus pour voir son état.
+
+studio-observatory-every-cell-in-the-file = Toutes les cellules du fichier
+
+studio-observatory-a-count-the-file-withholds = Un décompte que le fichier retient (moins de 5 aéronefs) s'affiche « retenu », jamais 0.
+
+studio-observatory-files-and-their-hashes = Fichiers et leurs empreintes
+
+studio-observatory-dataset-licence-and-notice = Jeu de données, licence et mention
+
+studio-observatory-what-this-page-does-and = Ce que cette page montre et ne montre pas
+
+studio-observatory-products-are-released-at-least = Les produits sont publiés au moins 24 heures après la fin du jour UTC, sur des cellules de 0,5 degré ou plus grossières. Ce n'est jamais une vue en direct et elle ne dit jamais « maintenant ».
+
+studio-observatory-it-shows-no-cause-no = Elle n'indique aucune cause, aucun pays, aucune force et aucune source d'interférence, aucune alerte, aucune comparaison entre lieux ou jours, et aucun AIS. L'ADS-B et l'AIS ne sont jamais combinés.
+
+studio-observatory-the-page-ships-none-of = La page ne fournit aucun des produits de l'observatoire. Les publier est la décision du propriétaire.
+
+studio-optical-optical-atmosphere-scenarios = Scénarios d'atmosphère optique
+
+studio-optical-optical-pnt = PNT optique
+
+studio-optical-can-an-optical-link-get = Une liaison optique peut-elle traverser les intempéries ?
+
+studio-optical-the-link = La liaison
+
+studio-optical-sites-as-the-engine-states = Sites, tels que le moteur les énonce
+
+studio-optical-inputs-are-marked-everything-else = Les entrées sont signalées ; tout le reste est la sortie du moteur pour elles.
+
+studio-optical-it-draws-only-what-the = Elle ne trace que ce que le moteur a enregistré pour chaque scénario, y compris sa série temporelle à graine fixée. La page ne calcule rien : elle met les nombres du moteur à l'échelle du graphique.
+
+studio-optical-the-sites-their-cloud-climates = Les sites, leurs climats nuageux, les classes d'horloge et les techniques sont des entrées choisies pour illustrer, et sont signalées comme telles. Aucun relevé de disponibilité mesurée n'a été comparé.
+
+studio-replay-replay-controls = Commandes de rejeu
+
+studio-replay-previous-moment-page-up = Instant précédent (Page précédente)
+
+studio-replay-step-back = Reculer d'un pas
+
+studio-replay-step-back-left-arrow = Reculer d'un pas (flèche gauche)
+
+studio-replay-play-or-pause-space = Lire ou mettre en pause (Espace)
+
+studio-replay-step-forward = Avancer d'un pas
+
+studio-replay-step-forward-right-arrow = Avancer d'un pas (flèche droite)
+
+studio-replay-next-moment-page-down = Instant suivant (Page suivante)
+
+studio-replay-replay-speed-mission-seconds-per = Vitesse de rejeu, secondes de mission par seconde
+
+studio-replay-mission-clock-seconds-from-the = Horloge de mission, secondes depuis le début de chaque exécution
+
+studio-replay-bridge-replay = Rejeu de la passerelle
+
+studio-replay-two-runs-one-clock-when = Deux exécutions, une horloge : quand la passerelle l'a-t-elle su ?
+
+studio-replay-put-two-synthetic-runs-side = Placez deux exécutions synthétiques côte à côte et lisez-les sur une même horloge de mission. Chaque panneau montre où le navire se trouvait réellement face à l'endroit où le récepteur le situait, le score de confiance du moteur et sa bande au fil du temps, les satellites que le journal lui-même énumère (le ciel reste vide là où le journal n'en entend aucun), et un verdict à la fin de l'exécution. Tout ce qui est tracé provient d'un journal ou du résultat du moteur pour celui-ci ; rien n'est lu depuis le réseau.
+
+studio-replay-save-animated-svg = Enregistrer le SVG animé
+
+studio-replay-save-frames-zip = Enregistrer les images (ZIP)
+
+studio-replay-opening-the-two-demo-runs = Ouverture des deux exécutions de démonstration…
+
+studio-replay-the-skyplot-is-the-log = Le skyplot est le GSV propre au journal : un repère plein est un satellite avec une force de signal, un repère creux est énuméré sans en avoir, et un secteur ombré est une plage d'azimut où le journal énumère des satellites et n'en entend aucun. Un ciel obstrué et un signal brouillé s'y ressemblent. Ce n'est pas un horizon, et la constellation est nominale, et non une éphéméride pour la date du journal.
+
+studio-replay-position-error-is-the-logged = L'« erreur de position » est la distance consignée entre la position vraie et la position rapportée ; l'anneau autour du navire est cette distance tracée à l'échelle. Le temps écoulé entre le début d'un événement et le premier score sous le nominal est une soustraction de deux instants consignés, et non une mesure de performance de détection.
+
+studio-replay-the-vessel-glyph-points-along = Le pictogramme du navire pointe selon le cap gyroscopique (HDT), qu'aucun événement ne touche ; le contour en pointillés est l'endroit où le récepteur place le navire, selon la route qu'il rapporte. Un écart entre les deux est un point à relever au débriefing.
+
+studio-replay-the-coast-is-natural-earth = La côte est la terre du domaine public de Natural Earth au 1:10 million, fournie avec cette page (rien n'est récupéré). Les positions des démonstrations sont inventées : la côte montre donc où tombent ces coordonnées inventées. Illustration seulement, jamais pour la navigation.
+
+studio-ssv-space-user-gnss-scenarios = Scénarios GNSS pour utilisateurs spatiaux
+
+studio-ssv-space-user-gnss = GNSS pour utilisateurs spatiaux
+
+studio-ssv-which-navigation-signals-can-a = Quels signaux de navigation un engin spatial très au-dessus des satellites GNSS peut-il encore utiliser ?
+
+studio-ssv-the-satellites-of-a-navigation = Les satellites d'un système de navigation pointent vers la Terre : un engin situé au-dessus d'eux n'entend donc que ce qui déborde du limbe ou fuit par les lobes secondaires. Cette page montre ce que le moteur trouve pour cinq cas : la disponibilité sur une coque à l'altitude géostationnaire, une orbite très elliptique, un transfert lunaire avec un récepteur à signal faible, un filtre embarqué et une formation de deux engins. Chaque nombre est copié d'un résultat enregistré par le moteur ; la page le met à l'échelle et le trace, et ne calcule rien d'autre.
+
+studio-ssv-against-the-icg-booklet = Face au livret de l'ICG
+
+studio-tools-leave-empty-to-check-integrity = laisser vide pour ne vérifier que l'intégrité
+
+studio-tools-synthetic-osnma-example = Exemple OSNMA synthétique
+
+studio-tools-trust-and-evidence-tools = Outils de confiance et de preuves
+
+studio-tools-trust-evidence-and-test-tools = Outils de confiance, de preuves et d'essai
+
+studio-tools-the-0-35-features-that = Les fonctions de la 0.35 qui s'exécutent dans votre navigateur, et où trouver celles qui ne le peuvent pas. Les fichiers que vous ouvrez ici sont lus dans cette page et jamais téléversés ; le moteur s'exécute sur votre ordinateur sous forme de WebAssembly.
+
+studio-tools-maritime-trust = Confiance maritime
+
+studio-tools-training-debrief = Débriefing de formation
+
+studio-tools-the-engine-starts-when-you = Le moteur démarre quand vous utilisez un outil.
+
+studio-tools-every-0-35-feature-and = Toutes les fonctions de la 0.35, et où elles se trouvent
+
+studio-tools-in-this-browser-where-it = Dans ce navigateur là où elle peut s'exécuter. Les autres sont des fonctions de ligne de commande ou de serveur, et la raison est indiquée.
+
+studio-tools-in-the-studio = Dans le Studio
+
+studio-tools-verify-an-evidence-pack = Vérifier un paquet de preuves
+
+studio-tools-open-the-synthetic-example-pack = Ouvrir le paquet d'exemple synthétique
+
+studio-tools-open-it-with-one-byte = L'ouvrir avec un octet modifié
+
+studio-tools-no-pack-files-chosen = Aucun fichier de paquet choisi.
+
+studio-tools-verify-the-pack = Vérifier le paquet
+
+studio-tools-attach-a-timestamp-token = Joindre un jeton d'horodatage
+
+studio-tools-attach-to-the-chosen-pack = Joindre au paquet choisi
+
+studio-tools-export-a-scenario-for-a = Exporter un scénario pour un simulateur de laboratoire
+
+studio-tools-which-public-framework-rows-do = Pour quelles lignes de référentiels publics vos exécutions apportent-elles des éléments de preuve en faveur de ?
+
+studio-tools-use-the-synthetic-example-runs = Utiliser les exécutions d'exemple synthétiques
+
+studio-tools-show-the-mapping-tables = Afficher les tables de correspondance
+
+studio-tools-show-the-sources-they-cite = Afficher les sources qu'elles citent
+
+studio-tools-no-result-files-chosen = Aucun fichier de résultat choisi.
+
+studio-tools-build-the-report = Construire le rapport
+
+studio-tools-galileo-osnma-is-the-navigation = Galileo OSNMA : les données de navigation sont-elles authentifiées ?
+
+studio-tools-load-it = Le charger
+
+studio-tools-show-the-recorded-result = Afficher le résultat enregistré
+
+studio-tools-imu-fit-sensor-parameters-for = Ajustement IMU : paramètres de capteur pour les scénarios hybrides et de fusion
+
+studio-tools-fit-the-parameters = Ajuster les paramètres
+
+studio-tools-jammertest-score-a-receiver-log = Jammertest : noter un journal de récepteur face au plan d'essai publié
+
+studio-tools-import-the-schedule = Importer le calendrier
+
+studio-tools-score-the-log = Noter le journal
+
+studio-training-synthetic-library-scenarios = Scénarios synthétiques de la bibliothèque
+
+studio-training-library-scenario-to-generate = Scénario de la bibliothèque à générer
+
+studio-training-random-seed-optional = Graine aléatoire (facultatif)
+
+studio-training-from-the-scenario = d'après le scénario
+
+studio-training-time-cursor = Curseur temporel
+
+studio-training-replay-speed = Vitesse de rejeu
+
+studio-training-time-cursor-in-log-rows = Curseur temporel, en lignes de journal
+
+studio-training-debrief-timeline-time-cursor = Chronologie du débriefing : curseur temporel
+
+studio-training-what-did-the-crew-see = Que voyait l'équipage, et que se passait-il réellement ?
+
+studio-training-open-a-log = Ouvrir un journal
+
+studio-training-choose-an-instructor-log-or = Choisissez un journal d'instructeur, ou ouvrez l'un des cinq scénarios synthétiques de la bibliothèque écrits par la CLI.
+
+studio-training-or-drop-it-here-or = ou déposez-le ici, ou ouvrez un scénario de la bibliothèque :
+
+studio-training-generate-a-stream-here = Générer un flux ici
+
+studio-training-run-the-engine-s-nmea = Exécutez le générateur de formation NMEA du moteur dans ce navigateur. Vous obtenez le flux NMEA 0183 synthétique pour l'exercice et le journal d'instructeur, et pouvez le débriefer immédiatement. Rien n'est téléversé ; la diffusion vers un simulateur de passerelle par TCP ou UDP est une fonction de ligne de commande (voir la page Outils).
+
+studio-training-previous-moment = Instant précédent
+
+studio-training-next-moment = Instant suivant
+
+studio-training-true-track-against-reported = Route vraie face à la route rapportée
+
+studio-training-north-up-one-scale-on = Nord en haut, une seule échelle sur les deux axes. La fine ligne grise est l'endroit où le navire se trouvait réellement. La ligne colorée est ce que le récepteur a rapporté, colorée selon son éloignement de la réalité. Là où le récepteur n'a rapporté aucune position, rien n'est tracé pour lui.
+
+studio-training-events-and-what-the-receiver = Événements et ce que le récepteur a dit
+
+studio-training-one-shared-time-axis-drag = Un axe temporel partagé. Faites glisser ou cliquez pour déplacer le curseur ; les touches fléchées le font avancer pas à pas. Les barres d'événement montrent l'intensité de chaque événement injecté au fil du temps.
+
+studio-training-sky-at-the-cursor = Ciel au curseur
+
+studio-training-the-satellites-the-stream-s = Les satellites qu'énumère le GSV propre au flux. Un repère plein a une force de signal ; un repère creux est énuméré sans en avoir ; un secteur ombré est un endroit où le flux énumère des satellites sans qu'aucun soit entendu. Constellation nominale, et non éphéméride pour la date du flux.
+
+studio-training-at-the-cursor = Au curseur
+
+studio-training-events-injected = Événements injectés
+
+studio-training-as-the-instructor-log-states = Tels que les énonce le journal d'instructeur, avec chaque paramètre.
+
+studio-training-debrief-timeline = Chronologie du débriefing
+
+studio-training-choose-a-moment-to-move = Choisissez un instant pour y déplacer le curseur.
+
+studio-training-the-satellite-sky-is-a = Le ciel des satellites est une constellation nominale, et non une éphéméride pour la date du flux.
+
+studio-training-nothing-here-is-a-measure = Rien ici ne mesure la façon dont un récepteur ou un système se comporte face aux interférences.
+
+studio-trust-session-settings-in-toml = Réglages de session en TOML
+
+studio-trust-receiver-trust-session-settings-in = Réglages de session de confiance du récepteur en TOML
+
+studio-trust-time-cursor-and-filters = Curseur temporel et filtres
+
+studio-trust-time-cursor-in-epochs = Curseur temporel, en époques
+
+studio-trust-score-timeline-time-cursor = Chronologie du score : curseur temporel
+
+studio-trust-each-monitor-s-alarm-ratio = Taux d'alarme de chaque moniteur au fil du temps
+
+studio-trust-about-this-view = À propos de cette vue
+
+studio-trust-can-the-bridge-trust-this = La passerelle peut-elle se fier à cette position ?
+
+studio-trust-open-a-run = Ouvrir une exécution
+
+studio-trust-open-the-masked-sky-demo = Ouvrir la démo du ciel masqué (géométrie, 0.36)
+
+studio-trust-score-an-nmea-log-here = Noter un journal NMEA ici
+
+studio-trust-run-the-engine-in-this = Exécutez le moteur dans ce navigateur sur le journal NMEA 0183 d'un navire et voyez le résultat dans la vue ci-dessous. Le journal est lu dans cette page et jamais téléversé. Ce doit être un extrait d'au plus 2 Mio (environ 20 000 époques) contenant la fenêtre d'étalonnage de cinq minutes. Les réglages sont les limites du navire et les poids du score, comme dans un fichier de session.
+
+studio-trust-score-the-synthetic-demo-log = Noter le journal de démonstration synthétique
+
+studio-trust-session-settings-toml = Réglages de session (TOML)
+
+studio-trust-starts-from-the-demo-s = Part des réglages de la démonstration : modifiez les limites de vitesse, d'accélération et de vitesse de giration du navire pour qu'elles correspondent aux vôtres. Un fichier de réglages pour votre propre navire peut être collé ici.
+
+studio-trust-jammertest-scorecard = Fiche de notation Jammertest
+
+studio-trust-no-scorecard-open = Aucune fiche de notation ouverte.
+
+studio-trust-generic-receiver-trust-run-not = Exécution générique de confiance du récepteur (pas un navire)
+
+studio-trust-run-the-illustrative-jamming-example = Exécuter l'exemple illustratif de brouillage
+
+studio-trust-assess-the-chosen-file = Évaluer le fichier choisi
+
+studio-trust-the-format-is-guessed-from = Le format est deviné d'après le nom du fichier ; changez-le ici s'il est faux, puis évaluez à nouveau. NovAtel OEM7, RTCM 3 et Septentrio SBF sont des formats binaires ; ils sont envoyés tels quels au moteur, dans ce navigateur.
