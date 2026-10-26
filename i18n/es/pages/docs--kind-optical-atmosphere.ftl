@@ -111,9 +111,6 @@ seg-32c6524b0baf = PNT óptico MODELLED a través de la atmósfera: para un enla
 seg-2c7493ee5042 = MODELLED: todas las entradas de tiempo meteorológico, de técnica y de reloj y los supuestos de independencia y de cópula; no se ha comparado ningún registro medido de disponibilidad. (catálogo de tipos (<c1/>))
 
 # text
-seg-b4402211e3fe = PNT óptico a través de la atmósfera: tres emplazamientos terrestres ILUSTRATIVOS (un emplazamiento norte más nuboso, uno central intermedio y uno sur más despejado) que observan un terminal óptico LEO a { "30" } grados de elevación a { "1550" } nm. Los climas de nubes son entradas indicadas, no mediciones ni valores de ningún conjunto de datos, de modo que toda disponibilidad que figura a continuación es MODELLED. La ejecución indica por emplazamiento la pérdida de aire despejado, el estado de turbulencia de Hufnagel-Valley, el (comentario del archivo de escenario, líneas { "1" } a { "8" })
-
-# text
 seg-384f5c73cdf9 = Una realización con semilla del enlace de cada emplazamiento a lo largo del tiempo (MODELLED; una muestra del modelo anterior, no del clima). Si falta, no se escribe ninguna serie y el resultado es el documento { "0.37" }. (comentario del archivo de escenario, líneas { "78" } a { "79" })
 
 # text
@@ -130,3 +127,6 @@ seg-bd5b1654b3ed = <s1>Anterior</s1>oem-interop
 
 # text
 seg-ef0a779c300c = <s1>Siguiente</s1>orbit
+
+# text
+seg-b4402211e3fe = PNT óptico a través de la atmósfera: tres emplazamientos terrestres ILLUSTRATIVE (un emplazamiento norte más nuboso, uno central intermedio y uno sur más despejado) que observan un terminal óptico LEO a { "30" } grados de elevación a { "1550" } nm. Los climas de nubes son entradas indicadas, no mediciones ni valores de ningún conjunto de datos, de modo que toda disponibilidad que figura a continuación es MODELLED. La ejecución indica por emplazamiento la pérdida de aire despejado, el estado de turbulencia de Hufnagel-Valley, el (comentario del archivo de escenario, líneas { "1" } a { "8" })

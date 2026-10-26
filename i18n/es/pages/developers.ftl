@@ -671,18 +671,6 @@ seg-9e12e635d64d = Exporta la constelación propagada de un escenario <c1/> como
 seg-521b51ec756b = Ejecuta un escenario de Kshana y devuelve su tabla de reproducibilidad como texto CSV: la tabla estable byte a byte que la CLI escribe como <c1/> y que citan los artículos. Solo estos tipos de escenario emiten una: <c2/>, <c3/>, <c4/>, <c5/>, <c6/> cuando su análisis <c7/> se ejecuta sobre un modelo de mensaje <c8/> o <c9/> (la tabla de efemérides de difusión), y <c10/> cuando se han fijado <c11/> y <c12/>. Da error para cualquier otro tipo de escenario (o un escenario no válido); use run_scenario para las figuras de mérito.
 
 # text
-# c1: tle
-# c2: epoch
-# c3: request
-# c4: skyline_preset
-# c5: user_site
-# c6: [skyline]
-# c7: tle
-# c8: epoch
-# c9: sky_source
-seg-7937ed00cbc0 = Geometría del cielo bajo un horizonte dependiente del acimut (un cañón urbano, un puerto, un fiordo, una terminal de contenedores): a partir de un emplazamiento, una hora y ajustes preestablecidos de constelación, conjuntos de elementos de dos líneas (<c1/>, con una <c2/> UTC) o satélites dados como acimut/elevación o ECEF, qué satélites son visibles y cuáles quedan ocultos por el horizonte, GDOP/PDOP/HDOP/VDOP/TDOP del núcleo DOP comprobado con gnss_lib_py, el cofactor y la covarianza este-norte-arriba con un reloj de receptor por sistema (o uno en común), y la elipse de error horizontal a un sigma y a una confianza declarada para un UERE declarado. Sin <c3/>, describe un horizonte preestablecido REPRESENTATIVO con su procedencia y su corte cada grado (un <c4/> vacío los enumera). Los escenarios de los tipos orbit e integrity (con <c5/>), gnss-sim, jamming, leo-pvt y leo-pass admiten la misma sección <c6/> mediante run_scenario. Nivel de evidencia MODELLED: geometría bajo un modelo de error declarado, solo con visibilidad directa; no es una predicción del error real de un receptor ni un límite de integridad; las constelaciones preestablecidas son un cielo representativo, no el cielo de una fecha; el texto <c7/> con una <c8/> (UTC) da el cielo que dan esos conjuntos de elementos en esa época (SGP4), no una medición, y <c9/> indica cuál de los dos. Lleva la advertencia: no es un equipo de navegación homologado. Sin Monte Carlo a través de MCP (muestras masivas; use la CLI, Python o WASM). Solo en línea, como máximo { "4" } MiB.
-
-# text
 # c1: signals
 # c2: enabled
 # c3: work_dir
@@ -1700,3 +1688,15 @@ seg-193ee1ab991e = <c1/> convierte un archivo de envío y la verdad de una parti
 
 # text
 seg-0c50b3629e39 = Abrir el benchmark
+
+# text
+# c1: tle
+# c2: epoch
+# c3: request
+# c4: skyline_preset
+# c5: user_site
+# c6: [skyline]
+# c7: tle
+# c8: epoch
+# c9: sky_source
+seg-7937ed00cbc0 = Geometría del cielo bajo un horizonte dependiente del acimut (un cañón urbano, un puerto, un fiordo, una terminal de contenedores): a partir de un emplazamiento, una hora y ajustes preestablecidos de constelación, conjuntos de elementos de dos líneas (<c1/>, con una <c2/> UTC) o satélites dados como acimut/elevación o ECEF, qué satélites son visibles y cuáles quedan ocultos por el horizonte, GDOP/PDOP/HDOP/VDOP/TDOP del núcleo DOP comprobado con gnss_lib_py, el cofactor y la covarianza este-norte-arriba con un reloj de receptor por sistema (o uno en común), y la elipse de error horizontal a un sigma y a una confianza declarada para un UERE declarado. Sin <c3/>, describe un horizonte preestablecido REPRESENTATIVE con su procedencia y su corte cada grado (un <c4/> vacío los enumera). Los escenarios de los tipos orbit e integrity (con <c5/>), gnss-sim, jamming, leo-pvt y leo-pass admiten la misma sección <c6/> mediante run_scenario. Nivel de evidencia MODELLED: geometría bajo un modelo de error declarado, solo con visibilidad directa; no es una predicción del error real de un receptor ni un límite de integridad; las constelaciones preestablecidas son un cielo representativo, no el cielo de una fecha; el texto <c7/> con una <c8/> (UTC) da el cielo que dan esos conjuntos de elementos en esa época (SGP4), no una medición, y <c9/> indica cuál de los dos. Lleva la advertencia: no es un equipo de navegación homologado. Sin Monte Carlo a través de MCP (muestras masivas; use la CLI, Python o WASM). Solo en línea, como máximo { "4" } MiB.

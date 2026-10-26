@@ -56,13 +56,7 @@ seg-7b33bdb70a30 = El ejemplo <c1/> establece, entre otros:
 seg-5fad84cbb2be = nrho
 
 # text
-seg-def582a1f2ca = Etiqueta de resultado (la del motor): MODELLED: un modelo restringido de tres cuerpos (masas puntuales de la Tierra y la Luna, sin Sol, sin armónicos del campo gravitatorio lunar) con simplificaciones declaradas y entradas ILUSTRATIVAS etiquetadas con sus fuentes públicas. La numérica se contrasta con programas independientes; nada se compara con una medición de una magnitud lunar
-
-# text
 seg-f3b4a80a739b = sin gráfico: el ejemplo no escribe ningún gráfico
-
-# text
-seg-35a4a7a25561 = <b>MODELLED</b> Determinación de órbita en una órbita de halo casi rectilínea (o una órbita elíptica congelada) a partir de dos tipos de datos independientes: pseudodistancias Earth-GNSS recibidas a bordo . Referencia independiente (ReferenceImpl): Un programa independiente de scipy/numpy integra las mismas ecuaciones variacionales (umbral O1). Nada se compara con una medición de una órbita lunar. La referencia independiente comprueba la numérica de fórmulas declaradas, no la física, por lo que la fila sigue siendo MODELLED. Modelo restringido de tres cuerpos: sin Sol, sin armónicos lunares, con el eje de rotación de la Tierra a lo largo de la normal de la órbita, entradas de receptor y de estación ILUSTRATIVAS.
 
 # text
 seg-32455bf5f804 = <b>MODELLED</b> Fase de portadora y código de Earth-GNSS de diferencia simple entre receptores en una estación de superficie lunar y un orbitador, con la diferencia de reloj por época perfilada fuera. Referencia independiente (ReferenceImpl): Una resolución independiente con numpy de las mismas ecuaciones normales a partir de las filas exportadas (Q3) y una enumeración entera por fuerza bruta (Q4). No se compara con ninguna medición de fase de portadora GNSS ni lunar. MODELLED.
@@ -74,16 +68,9 @@ seg-b20c412516b6 = <b>MODELLED</b> Información de Fisher del datum de marco lun
 seg-151c96b1f882 = <b>MODELLED</b> Precisión de Cramer-Rao de los desfases de traslación, escala y rotación entre técnicas de los marcos GNSS, VLBI y de telemetría láser cuando una nave lleva todos. Referencia independiente (ReferenceImpl): Un sistema apilado independiente con numpy en el que las incógnitas de posición se eliminan mediante complementos de Schur explícitos (T3). No se compara con datos de GRASP, Genesis ni de otra misión. MODELLED.
 
 # text
-# c1: label
-seg-743d78806f6a = MODELLED: un modelo restringido de tres cuerpos (masas puntuales de la Tierra y la Luna, sin Sol, sin armónicos del campo gravitatorio lunar) con simplificaciones declaradas y entradas ILUSTRATIVAS etiquetadas con sus fuentes públicas. La numérica se contrasta con programas independientes; nada se compara con una medición de una magnitud lunar, y nada de aquí es una afirmación sobre ninguna misión o sistema. Sin afiliación ni respaldo de ninguna agencia. Adviso (resultado <c1/>)
-
-# text
 # c1: study
 # c2: kshana kinds --json
 seg-da35c5298311 = Estudios MODELLED de la órbita y la superficie de la Luna como infraestructura de navegación y geodésica, cinco estudios tras un único tipo de escenario seleccionado por <c1/>: od-consistency (determinación de órbita a bordo con Earth-GNSS en una NRHO o ELFO frente a una determinación de órbita radiométrica terrestre independiente, juzgadas por sus propias covarianzas sobre un Monte Carlo con semilla), carrier-phase (fase de portadora de doble diferencia conjunta superficie-orbitador y ambigüedad entera (catálogo de tipos de escenario (<c2/>))
-
-# text
-seg-4658f67623b5 = Escenario lunar-infrastructure de Kshana: space-tie. MODELLED; el diseño, las entradas y los umbrales están fijados en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Allí se etiquetan las entradas ILUSTRATIVAS con sus fuentes públicas. (comentario del archivo de escenario, líneas { "1" } a { "3" })
 
 # text
 seg-f7257c25f137 = La determinación de órbita lunar: Earth-GNSS frente a radiométrica terrestre es MODELLED, no validada: se comprueba frente a una implementación independiente de esta misma base de código, independiente de la unidad bajo prueba pero sin autoridad externa. (matriz de verificación (docs/MODELLED-RATIONALE.md))
@@ -105,3 +92,16 @@ seg-4df4c0059362 = <s1>Anterior</s1>lunar-frame-realisation
 
 # text
 seg-c88eef4a7214 = <s1>Siguiente</s1>lunar-integrity
+
+# text
+seg-35a4a7a25561 = <b>MODELLED</b> Determinación de órbita en una órbita de halo casi rectilínea (o una órbita elíptica congelada) a partir de dos tipos de datos independientes: pseudodistancias Earth-GNSS recibidas a bordo . Referencia independiente (ReferenceImpl): Un programa independiente de scipy/numpy integra las mismas ecuaciones variacionales (umbral O1). Nada se compara con una medición de una órbita lunar. La referencia independiente comprueba la numérica de fórmulas declaradas, no la física, por lo que la fila sigue siendo MODELLED. Modelo restringido de tres cuerpos: sin Sol, sin armónicos lunares, con el eje de rotación de la Tierra a lo largo de la normal de la órbita, entradas de receptor y de estación ILLUSTRATIVE.
+
+# text
+seg-4658f67623b5 = Escenario lunar-infrastructure de Kshana: space-tie. MODELLED; el diseño, las entradas y los umbrales están fijados en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Allí se etiquetan las entradas ILLUSTRATIVE con sus fuentes públicas. (comentario del archivo de escenario, líneas { "1" } a { "3" })
+
+# text
+# c1: label
+seg-743d78806f6a = MODELLED: un modelo restringido de tres cuerpos (masas puntuales de la Tierra y la Luna, sin Sol, sin armónicos del campo gravitatorio lunar) con simplificaciones declaradas y entradas ILLUSTRATIVE etiquetadas con sus fuentes públicas. La numérica se contrasta con programas independientes; nada se compara con una medición de una magnitud lunar, y nada de aquí es una afirmación sobre ninguna misión o sistema. Sin afiliación ni respaldo de ninguna agencia. Adviso (resultado <c1/>)
+
+# text
+seg-def582a1f2ca = Etiqueta de resultado (la del motor): MODELLED: un modelo restringido de tres cuerpos (masas puntuales de la Tierra y la Luna, sin Sol, sin armónicos del campo gravitatorio lunar) con simplificaciones declaradas y entradas ILLUSTRATIVE etiquetadas con sus fuentes públicas. La numérica se contrasta con programas independientes; nada se compara con una medición de una magnitud lunar

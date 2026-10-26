@@ -133,9 +133,6 @@ seg-2864aec7be88 = skyline : le canyon urbain en forme close (coupure atan((h - 
 seg-3f3d657854ce = Préréglages de ligne d'horizon (rue de ville, approche portuaire, fjord, terminal à conteneurs)
 
 # text
-seg-b915c06fa3f1 = skyline::PRESETS : quatre géométries REPRÉSENTATIVES avec les dimensions énoncées de la note de conception et une ligne de provenance chacune : city-street (un canyon, rue { "0" } deg, { "20" } m entre des murs de { "30" } m, antenne { "1.5" } m), harbour-approach (secteurs : ouvert vers le large sur { "180" } deg, bâtiments de quai { "8" } deg sur { "90" } deg, la digue { "3" } deg), fjord (relief : parois à { "600" } m au-dessus de l'antenne à { "1.5" } km de part et d'autre d'un chenal nord-sud, chute de courbure appliquée), container-terminal (secteurs : piles de conteneurs { "12" } deg sur la moitié côté terre, flèches de grues { "35" } deg et { "25" } deg sur deux secteurs étroits) ; modifiables champ par champ
-
-# text
 seg-6012113b4836 = Fonctions de géométrie du ciel : visibilité, DOP, covariance, ellipse d'erreur, nuage Monte Carlo
 
 # text
@@ -364,9 +361,6 @@ seg-5d5970506b9c = Le scénario de budget de temps lunaire publie ses sorties de
 
 # text
 seg-675887733454 = Laboratoire de temps de station lunaire : holdover du miniRAFS face au LTC
-
-# text
-seg-7dfedc40da6a = Le bloc facultatif [time_lab] du scénario lunar-time-budget modélise une horloge de station de référence lunaire (par défaut la classe miniRAFS, ou toute classe nommée, ou une fiche d'appareil ajustée sur des points de stabilité énoncés) asservie au temps coordonné lunaire puis en marche libre ou réasservie toutes les N secondes : la courbe d'erreur temporelle x(t) comme racine de la somme des carrés du terme en loi de puissance de l'horloge, d'un résidu d'asservissement constant (ILLUSTRATIF), d'un résidu constant de réalisation du LTC et d'un terme de taux de hauteur de station facultatif ; le temps après un asservissement jusqu'à { "1" }, { "10" } et { "100" } ns (ou des seuils énoncés) par bissection à côté de l'inverse en forme close pour le type de bruit dominant, et le terme dominant à chaque horizon énoncé, le tout avec unités
 
 # text
 seg-af3ff120b707 = VLBI géodésique lunaire
@@ -3129,3 +3123,9 @@ seg-7a0503f925c1 = <s1>Précédent</s1>Référence des capacités
 
 # text
 seg-b5832e94f926 = <s1>Suivant</s1>Affirmations face à la réalité
+
+# text
+seg-7dfedc40da6a = Le bloc facultatif [time_lab] du scénario lunar-time-budget modélise une horloge de station de référence lunaire (par défaut la classe miniRAFS, ou toute classe nommée, ou une fiche d'appareil ajustée sur des points de stabilité énoncés) asservie au temps coordonné lunaire puis en marche libre ou réasservie toutes les N secondes : la courbe d'erreur temporelle x(t) comme racine de la somme des carrés du terme en loi de puissance de l'horloge, d'un résidu d'asservissement constant (ILLUSTRATIVE), d'un résidu constant de réalisation du LTC et d'un terme de taux de hauteur de station facultatif ; le temps après un asservissement jusqu'à { "1" }, { "10" } et { "100" } ns (ou des seuils énoncés) par bissection à côté de l'inverse en forme close pour le type de bruit dominant, et le terme dominant à chaque horizon énoncé, le tout avec unités
+
+# text
+seg-b915c06fa3f1 = skyline::PRESETS : quatre géométries REPRESENTATIVE avec les dimensions énoncées de la note de conception et une ligne de provenance chacune : city-street (un canyon, rue { "0" } deg, { "20" } m entre des murs de { "30" } m, antenne { "1.5" } m), harbour-approach (secteurs : ouvert vers le large sur { "180" } deg, bâtiments de quai { "8" } deg sur { "90" } deg, la digue { "3" } deg), fjord (relief : parois à { "600" } m au-dessus de l'antenne à { "1.5" } km de part et d'autre d'un chenal nord-sud, chute de courbure appliquée), container-terminal (secteurs : piles de conteneurs { "12" } deg sur la moitié côté terre, flèches de grues { "35" } deg et { "25" } deg sur deux secteurs étroits) ; modifiables champ par champ

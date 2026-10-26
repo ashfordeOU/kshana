@@ -2209,9 +2209,6 @@ seg-31f51d4998cb = SRTM-Höhenmodell-Leser auf realem Gelände
 seg-08ea4ae0b671 = Selbstgeschriebener SRTM-.hgt-Parser (16 Bit Big-Endian, Nordzeile zuerst, void-bewusst) + bilinearer Abtaster, der eine reale gemeinfreie DEM-Kachel liest und einen dokumentierten Vermessungs-Benchmark auflöst
 
 # text
-seg-aae487789add = NASA/USGS SRTM v3 (1 Bogensekunde) Kachel N36W117 — GEMEINFREIE Höhendaten der US-Regierung aus dem offenen AWS-Spiegel elevation-tiles-prod, auf 6 Bogensekunden ausgedünnt und unter tests/fixtures/terrain/ eingecheckt (siehe NOTICE.md), dazu Ausschnitte in voller Auflösung von N36W117 und N36W119, knotenweise gegen den unabhängigen SRTMHGT-Leser von GDAL und die Vermessungs-Benchmarks Mount Whitney ({ "4421" } m) und Badwater (−{ "86" } m) geprüft. Der dokumentierte Benchmark Badwater Basin (−{ "86" } m, tiefster Punkt Nordamerikas) verankert das georeferenzierte Lesen. Die Geländeabgleich-/TERCOM-Navigationslösung, die das DEM verwendet, bleibt modelliert (eigene Zeile Alternatives/ergänzendes PNT)
-
-# text
 seg-791e7285c291 = Reproduzierbarkeit und Softwaresicherung
 
 # text
@@ -3003,9 +3000,6 @@ seg-478225d0a8e1 = Kern des lunaren ARAIM-Schutzniveaus
 
 # text
 seg-863690a44f21 = Der Schritt von der Geometrie zur Kovarianz beim lunaren Schutzniveau — (GᵀG)⁻¹ über die Geometrie mit allen sichtbaren Satelliten und jede Einzelfehler-Teilgeometrie, projiziert auf die lokale Vertikale und die Spur des horizontalen Blocks — und sein statistischer Kern: der Bonferroni-Detektormultiplikator, der gaußsche obere Rand jeder Fehlerhypothese und die Wurzelsuche, die ein Integritätsrisikobudget auf ein Schutzniveau abbildet, über ein lunares Dienstvolumen aus 7 Punkten
-
-# text
-seg-8191906fc700 = Zwei etablierte Implementierungen Dritter zusammengesetzt, beide offline ausgeführt, mit dem Fixture, das von Anfang bis Ende neu erzeugt und als byteidentisch verifiziert wurde. RTKLIB 2.4.2-p13 (T. Takasu, BSD-2-Clause), Commit 71db0ff, src/rtkcmn.c aus dem C-Quelltext mit -ULAPACK übersetzt: lsq() → matinv() → ludcmp()/lubksb() invertiert die Normalmatrix durch Crout-LU mit partieller Pivotierung, ein Algorithmus, der nichts mit dem handgeschriebenen Gauß-Jordan-invert4() von kshana zu tun hat; numpy.linalg.inv (LAPACK getrf/getri) invertiert jede davon als dritte unabhängige Inverse erneut und stimmt mit RTKLIB auf { "1.112e-12" } relativ überein. SciPy { "1.17.0" } / NumPy { "2.4.1" } (BSD-3-Clause) liefern norm.isf, norm.sf (Cephes ndtri/ndtr) und optimize.brentq gegen die Inkomplette-Gamma-Reihe nach Numerical Recipes, die per Bisektion gebildete Inverse und die 200-Schritt-Bisektion von kshana — und das direkte sf von SciPy ist ein anderer numerischer Weg in den fernen Rand als das { "1" } − Φ von kshana, sodass die Auslöschung im tiefen Rand gemessen und nicht gespiegelt wird. Die vertikale Achse ist der radiale Einheitsvektor (die Definition der lokalen Vertikale auf einem sphärischen Mond), und die horizontale Varianz ist die Spur des horizontalen Blocks, sodass keine Ost/Nord-Azimutkonvention gemeinsam verwendet wird. DIESE ZEILE VALIDATED AUSDRÜCKLICH NICHT: σ_URE, der Fehler-Prior je Satellit und die ILLUSTRATIVE Konstellation der Klasse Moonlight/LCNS sind MODELLED Eingaben, die der Referenz wie gegeben übergeben werden; und die FORM der MHSS-Integritätsgleichung für Einzelfehler ist aus derselben veröffentlichten Schranke abgeschrieben, die kshana implementiert — eine gemeinsame geschlossene Form ist eine gemeinsame Annahme, daher deckt diese Zeile eine falsche Auswertung dieser Gleichung ab, nicht ihre falsche Wahl. Es ist keine MHSS-ARAIM-Implementierung eines Dritten erreichbar (RTKLIB bietet keinen Einstiegspunkt für Schutzniveaus, eine solche PyPI-Distribution existiert nicht, Stanford MAAST ist MATLAB), was die ausstehende Aufwertung ist
 
 # text
 seg-0ec1699f5754 = ARAIM-MHSS-Schutzniveaus gegen veröffentlichte Referenzvektoren
@@ -4381,9 +4375,6 @@ seg-02037e5e43e7 = skyline + frames::look_angles + geometry::sky_geometry: das g
 
 # attr:title
 seg-f5a8c861b566 = skyline: die Straßenschlucht in geschlossener Form (Schnitt atan((h - a) / d) mit d = (w/2) /… · modelliert
-
-# attr:title
-seg-6f4ab2e589a4 = skyline::PRESETS: vier REPRÄSENTATIVE Geometrien mit der angegebenen Entwurfsnotiz… · modelliert
 
 # attr:title
 seg-206fd57a3ac7 = geometry::sky_geometry: der ENU-und-Uhr-Kofaktor (H^T H)^-1 mit einer Empfängeruhr in… · validiert
@@ -6610,3 +6601,12 @@ seg-bc499c388907 = Hochfrequenzstörung
 
 # text
 seg-0411e7a125dd = <s1>{ "20" }. Juni { "2026" }</s1> · arXiv:{ "2606.22054" } · Version { "2" }
+
+# attr:title
+seg-6f4ab2e589a4 = skyline::PRESETS: vier REPRESENTATIVE Geometrien mit der angegebenen Entwurfsnotiz… · modelliert
+
+# text
+seg-8191906fc700 = Zwei etablierte Implementierungen Dritter zusammengesetzt, beide offline ausgeführt, mit dem Fixture, das von Anfang bis Ende neu erzeugt und als byteidentisch verifiziert wurde. RTKLIB 2.4.2-p13 (T. Takasu, BSD-2-Clause), Commit 71db0ff, src/rtkcmn.c aus dem C-Quelltext mit -ULAPACK übersetzt: lsq() → matinv() → ludcmp()/lubksb() invertiert die Normalmatrix durch Crout-LU mit partieller Pivotierung, ein Algorithmus, der nichts mit dem handgeschriebenen Gauß-Jordan-invert4() von kshana zu tun hat; numpy.linalg.inv (LAPACK getrf/getri) invertiert jede davon als dritte unabhängige Inverse erneut und stimmt mit RTKLIB auf { "1.112e-12" } relativ überein. SciPy { "1.17.0" } / NumPy { "2.4.1" } (BSD-3-Clause) liefern norm.isf, norm.sf (Cephes ndtri/ndtr) und optimize.brentq gegen die Inkomplette-Gamma-Reihe nach Numerical Recipes, die per Bisektion gebildete Inverse und die 200-Schritt-Bisektion von kshana — und das direkte sf von SciPy ist ein anderer numerischer Weg in den fernen Rand als das { "1" } − Φ von kshana, sodass die Auslöschung im tiefen Rand gemessen und nicht gespiegelt wird. Die vertikale Achse ist der radiale Einheitsvektor (die Definition der lokalen Vertikale auf einem sphärischen Mond), und die horizontale Varianz ist die Spur des horizontalen Blocks, sodass keine Ost/Nord-Azimutkonvention gemeinsam verwendet wird. DIESE ZEILE VALIDATED AUSDRÜCKLICH NICHT: σ_URE, der Fehler-Prior je Satellit und die illustrative Konstellation der Klasse Moonlight/LCNS sind MODELLED Eingaben, die der Referenz wie gegeben übergeben werden; und die FORM der MHSS-Integritätsgleichung für Einzelfehler ist aus derselben veröffentlichten Schranke abgeschrieben, die kshana implementiert — eine gemeinsame geschlossene Form ist eine gemeinsame Annahme, daher deckt diese Zeile eine falsche Auswertung dieser Gleichung ab, nicht ihre falsche Wahl. Es ist keine MHSS-ARAIM-Implementierung eines Dritten erreichbar (RTKLIB bietet keinen Einstiegspunkt für Schutzniveaus, eine solche PyPI-Distribution existiert nicht, Stanford MAAST ist MATLAB), was die ausstehende Aufwertung ist
+
+# text
+seg-aae487789add = NASA/USGS SRTM v3 (1 Bogensekunde) Kachel N36W117 — PUBLIC-DOMAIN-Höhendaten der US-Regierung aus dem offenen AWS-Spiegel elevation-tiles-prod, auf 6 Bogensekunden ausgedünnt und unter tests/fixtures/terrain/ eingecheckt (siehe NOTICE.md), dazu Ausschnitte in voller Auflösung von N36W117 und N36W119, knotenweise gegen den unabhängigen SRTMHGT-Leser von GDAL und die Vermessungs-Benchmarks Mount Whitney ({ "4421" } m) und Badwater (−{ "86" } m) geprüft. Der dokumentierte Benchmark Badwater Basin (−{ "86" } m, tiefster Punkt Nordamerikas) verankert das georeferenzierte Lesen. Die Geländeabgleich-/TERCOM-Navigationslösung, die das DEM verwendet, bleibt modelliert (eigene Zeile Alternatives/ergänzendes PNT)
