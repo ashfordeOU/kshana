@@ -16,6 +16,8 @@ seg-67fb8ac75f36 = MODELLED { "1" } · VALIDATED { "1" }: radene i <a1>verifikas
 
 seg-a3697ad561db = Hz
 
+seg-cec5c06d38af = <b>MODELLED</b> Månenativt forhold mellom jammer og signal, effektiv C/N₀ og tap av lås for en selenografisk overflatebruker under en jammer på månens overflate (eller hevet), over den illustrative offentlig kildebaserte Moonlight/LCNS-klasse-konstellasjonen.
+
 seg-120fcc840b87 = Kilde: <c1/>
 
 seg-738aa7d45efb = <c1/> (scenariotype)
