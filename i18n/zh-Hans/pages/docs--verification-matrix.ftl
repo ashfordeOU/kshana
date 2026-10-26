@@ -2901,3 +2901,165 @@ seg-b92c6dde9c2b = tests/round_trip_pack.rs (pack_links_scenario_conditions_log_
 seg-d9eab5e90d10 = iq::track (Channel, LoopCore, design); iq::cli::track
 
 seg-a99bb0c28b00 = tests/iq_track_gnss_sdr_oracle.rs (calibration_passes_for_both_receivers, registered_bars_give_the_recorded_verdict, recorded_numbers_are_pinned)，基于 tests/fixtures/iq_track_gnss_sdr_oracle/make_fixture.py 导出的数值
+
+seg-34bff3218a01 = tests/field_units_global.rs（所有{ "61" }种已登记类型均会运行，每种一种文档形态：每个数值叶节点都必须能对应到该文档自身units块中的一个条目；格式有误的条目对每一种类型（无论是否豁免）都计为缺失，因此占位符换不来任何覆盖；豁免清单不得超过其固定的上限，清单中列出的类型若实际上已被完全覆盖，则该检查关口失败，使清单无法被凑数，而运行器表中缺少某个已登记类型也会失败，使新的证据包无法不经检查就混入——这一点确实发生过，在这项工作开始之后新增的两种类型都被它查了出来；对“已描述但未定义”的积压项实行单向棘轮；以及对已提交的schema文档的过期检查）；field_schema::tests
+
+seg-926c069f8a2e = lunar_llr（基于lunar_frame_campaign::beacon_information、schedule_for和solve_datum_information、lunar_vlbi_fim）
+
+seg-9c29f0e9a061 = tests/lunar_station_geodesy.rs（empty_or_absent_extra_lists_are_bit_identical：空列表与基线示例给出的默认报告和摘要逐字节相同；an_added_site_never_increases_any_variance：H_after - H_before的最小特征值不小于零，精度为最大特征值的{ "1e-9" }，每个after/before的sigma比值至多为一，且两个新增站点均被观测到；the_rest_of_the_report_is_the_five_array_result；every_station_geodesy_field_has_a_unit；a_beacon_list_inside_the_campaign_block_is_refused）；scenarios/lunar-station-geodesy-baseline.toml与scenarios/lunar-station-geodesy-with-station.toml（相同的已归档安排和相同的VLBI campaign块）
+
+seg-c56512172ce5 = scripts/gate.sh, scripts/check-gate-receipt.sh, scripts/check-repeatability.sh, scripts/install-gate-hook.sh
+
+seg-94641c011229 = tests/source_guards.rs（{ "9" }项测试：两个防护措施覆盖整个源代码树，外加从两个方向为每个防护措施评分的变异夹具——F22模式在两条相互冲突的路径上均被报告，已发布的原子序列修复被接受，半截修复恰好在丢失其唯一组成部分的那条路径上被报告，临时文件句柄和继承的唯一目录被接受，墙上时钟被拒绝；未声明的固定值被报告，已声明的被接受，没有排除项的作用域被拒绝，写在外层测试文档注释中的声明被接受，并且显示不会泄漏到下一个测试；以及每种固定值写法——十六进制、十进制、摘要字符串、字节长度、具名字节数、golden文件——都能被识别，而算法常量、RNG种子和小规模基数检查则不被识别）
+
+seg-416def055790 = integrity::composed_pl::tests（单调、P0下限、K(IR/2)、指数、下半连续性）
+
+seg-3d4a4ed81148 = integrity::lil_envelope::tests（发散、阈值、IR收紧下的主导性）
+
+seg-0a2804cefee1 = integrity::hetero_budget::tests + tests/hetero_budget_reference.rs；tests/hetero_budget_utc_k_oracle.rs::overbound_exceedance_on_real_utc_k_finding（受数据控制：BIPM序列不存在时跳过并给出提示）；tests/hetero_budget_utc_k_realised_overbound_oracle.rs::realised_offset_overbound_finding；tests/utck_bound_prospective_oracle.rs（D9第{ "3" }轮，前瞻性，尚未运行：Circular T { "465" }于2026-10-12出现，预先登记的1000值规则需要期数到约{ "468" }）
+
+seg-477c4bbb36ab = integrity::hetero_budget::tests（correlated_fused_bias_dominates_independent_when_correlated, rho_one_single_realizer_recovers_linear_sum）+ tests/hetero_budget_reference.rs
+
+seg-75e4936b4c2d = integrity::gls_commonmode::tests（common_mode_shift_inflates_statistic_but_not_contrasts, post_fit_common_mode_statistic_is_zero）+ tests/gls_reference.rs；tests/gls_common_mode_statistic_numpy_oracle.rs::common_mode_statistic_matches_numpy_lapack
+
+seg-7bbbfeb6e7b9 = lunar_identifiability, lunar_datum
+
+seg-6ac21ece8e3d = tests/lunar_datum_identifiability_reference.rs（single_internal_range_row_has_six_dim_datum_null_space；extending_the_librating_arc_lifts_the_origin_scale_degeneracy）；tests/lunar_datum_sosnica_oracle.rs::origin_scale_correlation_and_crlb_disagree_with_the_published_geometry
+
+seg-36da2dd8d3db = lunar_datum, lunar_identifiability
+
+seg-12c2f3ad1982 = lunar_datum::tests（LLR/VLBI/轨道器的解析偏导数与有限差分对照）；lunar_identifiability::tests（adding_an_offradial_technique_collapses_the_origin_scale_degeneracy；经由crlb_diag的横向与径向对照）
+
+seg-13c488ae75a6 = lunar_llr_geometry::tests（reflector_and_station_catalogs_are_well_formed, analytic_partials_match_finite_difference, llr_one_way_range_is_earth_moon_scale, zero_datum_reproduces_nominal_range, llr_only_fisher_shows_strong_com_x_scale_degeneracy）；tests/lunar_pa_frame_realisation_guard.rs；tests/llr_datum_degeneracy_reference.rs；tests/lunar_llr_geometry_range_oracle.rs::reflector_ranges_against_ilrs_normal_points
+
+seg-f741d9570b10 = lunar_gauge::tests（coupled_marginal_well_posed_network_is_psd, coupled_marginal_twoway_equals_more_oneway_in_diverse_network, coupled_marginal_twoway_lift_three_orders, oneway_range_row_has_correct_temporal_entries, twoway_range_row_has_zero_at_offset_and_rate, time_tie_row_equals_pure_offset_vector, rate_tie_row_has_correct_structure）
+
+seg-c4c5426a700b = lunar_techniques::tests（combine_is_additive_order_independent_and_empty_is_zero——空选择给出零矩阵，单一选择即恒等，一对选择等于独立编写的逐元素求和，且结果与选择顺序无关；adding_a_block_never_reduces_the_degeneracy_metric——增加信息时的单调性；radial_diversity_beats_transverse_for_breaking_the_degeneracy——远侧轨道器块比横向VLBI块更能提高退化度量）
+
+seg-c5ebc071ce3e = lunar_interop_budget::tests（随预算的单调性；在各提供方CRLB下的RSS预算缩减；月球杠杆臂处的实例旋转容差；起约束作用的项 = 旋转）
+
+seg-f4fbaefa3a11 = lunar_interop_budget::tests（CommonEphemeris使预算归零；CommonFrameTie < PerProvider；在真实分量上irreducible_fraction > { "0.5" }；约定的排序）
+
+seg-0b39643e9152 = lunar_faultobs::tests — byzantine_c3_rank_deficient_but_nonzero_is_undetectable（非零但秩亏的块 ⇒ block_spark { "1" }、f_detect { "0" }；独立的列 ⇒ block_spark { "2" }、f_detect { "1" }），byzantine_real_network_uniform_bias_is_clock_offset（拥有某节点全部测量的一个对端 = 属于range(G)的钟差误差，不可检测，Gram谱隙清晰），byzantine_redundant_net_identifies_at_least_one（六个独立的单测量对端 ⇒ block_spark { "7" }、f_identify { "3" }），byzantine_analytic_spark_identity_projector + byzantine_detect_identify_relations（P⊥ = I的手工用例固定f_detect = block_spark − { "1" }，f_identify = ⌊(block_spark − { "1" })/2⌋）
+
+seg-70a340255eb6 = lunar_faultobs::tests — holdover_floor_self_ref_and_anchored（自参照网络：共同速率位于N(GᵀWG)中，temporal_gauge_dim { "2" }；加入一行外部速率约束后：速率被逐出规范，temporal_gauge_dim { "1" }，共同偏差得以保留）
+
+seg-11fe79ac46b3 = lunar_faultobs::tests — provider_mismatch_split_common_undetectable_differential_detectable（共同偏差不可检测，差分偏差可检测），slope_infinity_in_range_finite_detectable（g7：b ∈ range(G)时斜率 ∞，b ∉ range(G)时有限），pernode_rank_is_state_dim_minus_eight（§{ "0" }：rank(GᵀWG) = state_dim − { "8" }，8维规范就是整个零空间，谱隙 >{ "1e6" }）
+
+seg-95c049581604 = telecom_timing (MASKS, eprtc_a_holdover_limit_ns, check_curve, check_mask)
+
+seg-35e253f27caa = telecom_timing::tests（mask_boundaries_follow_the_tables_exactly——开端与闭端，G.8271.1表7-3中 τ = { "400" } s的间隙，各表所蕴含的每个断点处的连续性；a_curve_exactly_on_the_limit_passes_and_just_above_fails；eprtc_a_holdover_envelope_follows_table_3；a_coarse_record_is_not_evaluated_against_a_filtered_mask）；tests/telecom_timing_reference.rs（telecom_timing_kind_round_trips_through_the_dispatch）；tests/telecom_masks_itu_printed_values.rs（mask_values_match_the_numbers_the_recommendations_print；figure_7_2_label_at_1_3_s_is_not_its_own_table_value）
+
+seg-f8b7bc046be6 = telecom_timing (MASKS, Segment::tau_exponent, MeasurementFilter::LowPass10HzAtSource, MaskCondition::Autonomous)
+
+seg-3ae5550f6aaa = telecom_timing::tests (g811_prc_masks_follow_clause_6_1; g812_masks_follow_tables_3_4_6_and_7; g8262_masks_follow_tables_1_3_4_and_5; g8262_1_eeec_masks_follow_tables_1_and_3; a_linear_piece_is_evaluated_without_powf; wander_masks_pass_a_quiet_white_fm_flicker_series; wander_masks_fail_the_same_series_scaled_up)
+
+seg-82af02048968 = clock_log (read_input, MeasuredPhaseReport, MEASURED_UNITS, TELECOM_LOG_UNITS); telecom_timing (SeriesInput::clock_log); api (clock kind [clock_log])
+
+seg-df411365b9ab = clock_log::tests（按格式手写的日志：头部、分隔符、单位、频率积分、TICC通道与模式、间隙与策略、拒绝）；tests/clock_log_allantools.rs（预先登记的比较：b1_each_log_reads_to_the_reference_phase；b2_adev_tdev_and_mtie_agree_with_allantools；b3_a_telecom_series_read_from_a_log_equals_the_same_samples；b3_the_clock_kind_measured_block_is_opt_in）
+
+seg-0a789b9f3db1 = clock_log (parse_linuxptp, parse_chrony, grid_timed_offsets)
+
+seg-b1a8738d620b = clock_log::tests（ptp4l_reads_the_locked_offsets_in_ns；linuxptp_reads_only_the_named_program；ts2phc_gap_is_refused_or_filled；linuxptp_reads_syslog_prefixed_lines_and_picks_an_interface；linuxptp_refuses_a_servo_that_never_locks_and_backwards_stamps；chrony_tracking_reads_the_local_offset_in_seconds；chrony_statistics_needs_a_source_when_there_are_two；chrony_columns_of_the_other_log_are_not_read；clock_selector_is_refused_for_timelab_and_ticc_only），基于tests/fixtures/clock_log/linuxptp_chrony/中的夹具
+
+seg-5fb2f4812479 = holdover_test (HoldoverTestScenario, recovery, linear_fit); telecom_timing (check_mask, check_envelope, budget_results)
+
+seg-d028f2b41fe8 = holdover_test::tests（the_record_is_split_at_the_stated_times；holdover_figures_match_a_hand_computation；recovery_is_timed_from_the_restoration；masks_are_measured_on_the_step_their_condition_names；a_record_with_no_baseline_says_so；bad_inputs_are_refused_with_the_reason；the_report_carries_the_label_the_units_and_no_conformance_word；a_ptp4l_log_is_scored_end_to_end）
+
+seg-ea770cfea799 = ssv (constellations, geom, sweep, pattern, check)
+
+seg-9a49009f27cd = ssv::geom::tests（the_grid_has_the_booklets_2562_points_on_the_unit_sphere；the_interval_form_equals_the_general_predicate；a_user_behind_the_earth_is_blocked_and_one_beside_the_limb_is_not）；ssv::sweep::tests（a_small_shell_run_is_internally_consistent；pdop_of_a_regular_tetrahedron_like_set_is_finite_and_a_flat_set_is_not）；ssv::pattern::tests（table_b10_antenna_reads_as_gain_against_angle_from_the_boresight）
+
+seg-05a12f571867 = ssv (limb, weak)
+
+seg-4b5cbdee9714 = ssv::limb::tests（the_chapman_layer_peaks_at_its_height_with_its_density；the_surface_limb_bends_about_one_and_a_third_degrees；plasmaspheric_tec_is_a_few_tecu_for_an_equatorial_gps_to_geo_ray）；ssv::weak::tests（longer_integration_lowers_the_acquisition_threshold；aiding_narrows_the_search_and_the_loop；a_conventional_receiver_is_far_above_the_ssv_signal_levels）；ssv::scenario::tests（the_limb_medium_adds_statistics_and_can_cost_signals；a_weak_signal_receiver_replaces_the_fixed_threshold）
+
+seg-89cac0893981 = ssv::nav (run_nav, Ekf)
+
+seg-18bbbb4578fc = ssv::nav::tests（the_filter_converges_where_signals_are_plentiful_and_is_deterministic；the_covariance_is_consistent_with_the_error；without_signals_the_filter_coasts_and_the_gap_is_reported）；ssv::scenario::tests（navigation_and_formation_run_and_report）
+
+seg-59bd0b502622 = ssv::formation (run_formation, RelEkf)
+
+seg-70f8b2a10f03 = ssv::formation::tests（differencing_beats_subtracting_absolute_estimates_and_is_deterministic）；ssv::scenario::tests（navigation_and_formation_run_and_report；formation_needs_navigation_and_one_mode_only）
+
+seg-9f89545da2ca = inertial::cai_error_terms::tests (raman_transfer_short_pulse_limit_matches_the_acceleration_transfer_function; white_raman_phase_closed_form_matches_quadrature; short_pulse_band_limited_closed_form_matches_quadrature; cheinet_2008_white_phase_noise_requirement_is_reproduced; delay_term_closed_form_matches_exact_filter_quadrature; defocus_phase_is_position_independent_and_tilt_cancels; curvature_bias_monte_carlo_matches_closed_form; curvature_bias_limiting_cases; classical_aided_resolution_monte_carlo_matches_closed_form; multi_t_resolution_monte_carlo_matches_closed_form; ambiguity_limits_and_inverse)
+
+seg-869454221ef4 = telecom_timing (PRESETS, fit_noise, with_flicker_floor, synthesize_holdover); models (ClockModel)
+
+seg-2fb7b4c2396c = telecom_timing::tests（every_preset_carries_a_named_datasheet_and_figures；the_noise_fit_envelopes_every_datasheet_point；pure_aging_matches_its_closed_form——离散老化斜坡在一天内与(1/2)·D·t² 相差在{ "0.1" } %以内；same_seed_same_series_and_hash_different_seed_different_series）；tests/oscillator_presets_measured.rs（caesium_finding_pinned；rubidium_finding_pinned；csac_finding_pinned；ocxo_preset_has_no_measured_record）
+
+seg-d31b872adcb6 = slot_timing (predicted_error_s, breach_after_sync_s, terms_at, slot_budget, ClockNoise::from_datasheet, SlotTimingScenario); clock_state (ClockClass::Tcxo, Ocxo, Rafs, source)
+
+seg-8eba4f60f78e = tests/slot_timing_igs_holdout.rs（{ "10" }颗GPS Block IIF卫星钟，{ "14" }天的IGS最终钟差：{ "8" }颗在{ "1.5" }判据以内，G25和G30乐观至多约2倍，已固定）；tests/slot_timing_ocxo_holdout.rs（一台实测OCXO：留出的预测从不乐观，为实测越限的{ "0.59" }至{ "0.70" }；样本内为{ "0.98" }至{ "1.17" }；没有定位频率项时，样本内预测在每个阈值下都是乐观的）；slot_timing::tests（fix_frequency_uncertainty_alone_is_linear_in_time；reduces_to_the_holdover_inversion——每个等级对照holdover::holdover_seconds，精度{ "1e-9" }；white_fm_with_fix_error_has_its_closed_form；flicker_floor_alone_is_linear_in_time；ageing_alone_is_quadratic_in_time；frequency_offsets_add_in_magnitude；the_error_at_the_breach_is_the_guard；datasheet_fit_envelopes_every_point；datasheet_classes_match_their_presets_at_one_second；a_breach_beyond_the_datasheet_is_flagged_as_extrapolated；the_report_carries_the_result_and_a_unit_for_each_field）
+
+seg-a1318b5603cd = orbital_timing (orbital_timing, visibility_half_angle_rad, max_pass_s, crosslink_neighbour_is_outside_footprint)
+
+seg-4c4e4d92c416 = orbital_timing::tests（reduces_to_the_terrestrial_tpl——当时钟没有闪烁、白相位或随机游走项时，恰好等于tpl::timing_protection_level_ns；leo_geometry_matches_its_closed_forms；crosslink_independence_follows_the_footprint；an_independent_check_caps_the_ramp_before_the_pass_ends；a_crosslink_inside_the_footprint_does_not_count；a_ramp_below_the_reference_is_never_detected）
+
+seg-06c475d7eb73 = spectrum (SpectrumScenario, SpectrumModel::bin_psd_w_per_hz, SpectrumModel::band_state, effective_cn0_multi_dbhz, system_temp_k, Jammer::power_fraction_in, Jammer::duty)
+
+seg-266d9c05d9be = spectrum::tests（agrees_with_the_jamming_kind_chain——J/S等于jamming::j_over_s_db，有效C/N0等于jamming::effective_cn0_dbhz，其中Q = 1/(R_c kappa)，精度{ "1e-9" } dB，以及jamming类型自身测试的{ "32.105" } dB锚点；noise_floor_is_kt0f；chirp_window_splits_whole_and_partial_sweeps；duty_weights_partial_rows；demo_scenario_runs_and_denies_l1_while_l5_survives；defaults_run_with_no_jammer；bad_inputs_are_refused）
+
+seg-1d43f89b7a30 = ephem (standish_state, StandishElements::state_at_mean_anomaly, Planet::Pluto); solar_system (position_label)
+
+seg-1af48aec2408 = tests/solar_system_horizons_reference.rs（standish_table1_uranus_and_neptune_exceed_the_nominal_error：固定在标称经度误差的{ "2.04" }和{ "5.16" }倍，小于六倍；pluto_from_the_1992_row_is_measured_not_validated：在{ "39" }角秒和{ "1.14e9" } m以内；standish_velocities_track_horizons_to_one_percent：最差为速度的{ "3.7e-3" }）；ephem::tests（standish_velocity_is_the_derivative_of_the_position；pluto_has_no_table2_row_and_no_stated_error）
+
+seg-de8a26ea4d61 = ephem (satellite_state, Satellite, SatelliteMethod, moon_icrf, moon_icrf_velocity); ephem_provider (AnalyticSolarSystem)
+
+seg-06601f6fb837 = tests/solar_system_horizons_reference.rs（moons_track_horizons_to_the_measured_angles：{ "2000" }至{ "2040" }年间从行星看去所见的最差角误差，火卫一{ "5.65" } deg，火卫二{ "0.38" }，木卫一{ "0.40" }，木卫二{ "1.63" }，木卫三{ "0.22" }，木卫四{ "0.27" }，土卫六{ "3.31" }；geocentric_moon_tracks_horizons：{ "0.046" } deg）；ephem::tests（moons_sit_at_their_mean_distance_and_move_at_their_mean_speed）；ephem_provider::tests（earth_and_moon_balance_about_their_barycentre）
+
+seg-24749f350eb2 = body (Body::by_name, Body::facts, Body::prime_meridian, SOLAR_SYSTEM, BodyFacts); solar_system (SolarSystemScenario, position_label)
+
+seg-a2ffe20b07aa = body::tests（every_catalogue_body_resolves_by_name_and_carries_its_record；a_zonal_field_is_referenced_to_its_sources_radius；retrograde_rotators_have_negative_rates_and_periods_match_the_iau_rate）；solar_system::tests（defaults_report_all_eighteen_bodies_with_tracks；earth_heliocentric_distance_is_one_au_and_period_one_year；a_planet_track_closes_on_its_orbit_and_starts_at_the_epoch_position；moons_orbit_their_planets_at_their_mean_distance；pluto_outside_its_table_is_an_error_not_a_guess；every_emitted_number_has_a_unit）；tests/body_constants_naif_oracle.rs::only_the_conventional_constants_of_other_rows_differ
+
+seg-0de56af96b3e = body_pnt (BodyPntScenario, formal_sigma, fix_error); orbit (dop); batch_ls (gauss_newton); mars_pnt (chord_clears_sphere); mars_frame (bodyfixed_to_inertial)
+
+seg-92943f4850b5 = body_pnt::tests（relay_period_is_keplers_third_law_for_the_body；an_orbiter_keeps_its_radius_and_a_lander_sits_on_the_surface；the_earth_range_never_worsens_the_formal_uncertainty；seeded_fix_errors_are_consistent_with_the_formal_sigma：每个定位误差相对其自身形式sigma的均方根位于[{ "0.6" }, { "1.5" }]内；earth_light_time_is_minutes_at_mars_and_the_run_is_deterministic；defaults_run_around_mars_and_every_number_has_a_unit）
+
+seg-17bf1df86b49 = constellation (coverage, ConstellationDesignScenario, beidou_slots, body_by_name)
+
+seg-4d15849bdf7c = constellation::tests（prefilter_matches_brute_force_exactly——每张图和每个计数器都等于用直接仰角测试得到的扫描；five_thousand_satellites_on_a_coarse_grid——{ "5 000" }颗卫星，打印运行时间和保留的配对测试数；a_clock_per_constellation_needs_one_more_satellite；beidou_geo_and_igso_geometry；lunar_shell_runs_around_the_moon；presets_are_earth_only_and_errors_are_clear；preset_counts）；tests/constellation_availability_published_spec_oracle.rs::presets_meet_the_published_dop_availability（仅作回归检查）；tests/coverage_dop_full_oracle.rs::finding_is_pinned；tests/coverage_dop_gnss_lib_py_oracle.rs（回归）
+
+seg-6c01cedc4ca7 = jamming (CrpaCfg, crpa_weights, run_jamming); crpa (null_steering_weights, mvdr_weights, covariance)
+
+seg-efdc3da9e0ad = tests/jamming_crpa.rs (a1_crpa_units_only_with_the_section, a2_one_element_is_no_array, a3_verdict_is_the_recorded_one, a4_mvdr_tends_to_the_null_at_high_jnr)，对照由xval/crpa-jamming/oracle.py生成的xval/crpa-jamming/expected.json
+
+seg-05b174fab8a1 = jamming_terrain (TerrainCfg, jammer_terrain, knife_edge_loss_db); jamming (run_jamming_sky)
+
+seg-5adec86a588b = tests/jamming_terrain.rs (b1_terrain_units_only_with_the_section, b2_every_placement_matches_the_independent_numpy_recomputation, b3_the_loss_never_rises_as_the_jammer_rises, b4_the_loss_reaches_every_js_and_nothing_else, b5_the_knife_edge_function_matches_the_reference_expression)，对照由xval/jamming-terrain/oracle.py生成的xval/jamming-terrain/expected.json
+
+seg-0417fac0e7e2 = jamming_rx (AcquisitionCfg, AcqState, FrontEndCfg, front_end); jamming (run_jamming_sky); iq::frontend::quant (optimum_step_sigma)
+
+seg-ca7aa6592c0d = tests/jamming_acq_agc.rs (h1_g1_units_only_with_their_section, h2_no_hysteresis_is_no_hysteresis, h2s_no_hysteresis_is_no_hysteresis_on_the_supplementary_runs, h3_flags_match_the_independent_recomputation, h3s_flags_match_the_independent_recomputation_on_the_supplementary_runs, h4_monotone_in_the_acquisition_threshold, h4s_monotone_in_the_acquisition_threshold_on_the_supplementary_runs, g2_quantiser_loss_matches_the_independent_monte_carlo, g3_agc_reading_matches_the_iq_layer_agc_loop)，对照xval/jamming-acq-agc/expected_hysteresis.json、expected_hysteresis_s1.json和expected_quantiser.json
+
+seg-80753cdc89bc = iq::track (LoopConfig, FllGate, design); iq::track::channel (the FLL gate)
+
+seg-96b2276484ed = tests/iq_fll_handover_floor.rs (registered_bars_give_the_recorded_verdict, d1_the_key_is_part_of_the_hash_only_when_set, d4_the_capped_design_pulls_in_a_100_hz_handoff_error)，基于tests/fixtures/fll_handover_floor/results.csv
+
+seg-e322b10ec19c = receiver_trust::machines::rtklib (read_rtklib_pos); receiver_trust::LogFormat::RtklibPos
+
+seg-b5f5f47b5608 = receiver_trust::machines::rtklib::tests（经纬度历元、周/TOW和ECEF、度分秒被拒绝、恶意输入）；tests/receiver_trust_machines.rs::rtklib_pos_runs_as_a_receiver_log；integrations/gnss_lib_py/test_bridge.py
+
+seg-97eac8ec4604 = receiver_trust::machines::novatel (read_novatel, novatel_crc32); receiver_trust::LogFormat::Novatel
+
+seg-d935af6c8c6a = receiver_trust::machines::novatel::tests（固定的CRC、ASCII和二进制记录、跳过错误的CRC、恶意输入）；tests/receiver_trust_machines.rs::novatel_jammer_flag_reaches_the_receiver_self_report
+
+seg-d151880c7268 = receiver_trust::machines::rtcm3 (read_rtcm3, crc24q); receiver_trust::LogFormat::Rtcm3
+
+seg-68a47a4f7e3f = receiver_trust::machines::rtcm3::tests（CRC-24Q目录校验值、MSM4/MSM7的C/N0与历元合并、GLONASS时间和SBAS标识映射、错误的CRC和其他消息）
+
+seg-a2c51966ce9e = receiver_trust::machines::gnss_sdr (read_gnss_sdr_monitor); receiver_trust::LogFormat::GnssSdr
+
+seg-696b76cdaf9a = receiver_trust::machines::gnss_sdr::tests; integrations/gnss-sdr/example.jsonl
+
+seg-2977aaca1688 = receiver_trust::machines::imu, imu_fit; surface::imu_fit; scenario [log.imu]
+
+seg-10715c98eaae = receiver_trust::machines::imu::tests; receiver_trust::machines::imu_fit::tests（已知的白噪声系数在{ "10" } %以内被恢复、拒绝、TOML可解析为AccelCfg）；tests/receiver_trust_machines.rs（航向一致与不一致、内联载体、imu_fit）
+
+seg-6ad9867cec5c = telemetry::mqtt (discovery, state_json, connect_packet, publish_packet, MqttSink); surface::TelemetryFormat::Mqtt
+
+seg-21059291ea8b = telemetry::mqtt::tests（数据包字节、回环代理、失效的代理被计数）；tests/receiver_trust_machines.rs::trust_telemetry_mqtt_text_has_discovery_then_state
+
+seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); integrations/gnss_lib_py/kshana_gnss_lib_py.py
+
+seg-8c92f36d0227 = tests/receiver_trust_machines.rs（rtklib_pos_runs_as_a_receiver_log：gnss_lib_py桥接写出的格式，经receiver-trust运行）；各桥接的Python测试为integrations/ros2/kshana_trust/test/test_bridge.py（带模拟引擎的桥接）、integrations/ros2/kshana_trust/test/test_engine_integration.py（真实的wheel把稳定的定位结果评为正常，把{ "1.1" } km的跳变评为不可信）和integrations/gnss_lib_py/test_bridge.py（真实的gnss_lib_py { "1.1.0" }与该wheel），用pytest运行，而不是用cargo运行

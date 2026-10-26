@@ -55,3 +55,5 @@ seg-8bfe258bedf5 = MODELLED：七参数数值是针对缩减参数集、在真�
 seg-598a7d6ba1e7 = <s1>上一页</s1>lunar-joint-od-clock
 
 seg-54b1c9200aae = <s1>下一页</s1>lunar-station-coverage
+
+seg-e4da113cbe18 = 引擎为scenarios/lunar-llr-datum.toml生成的图表，类型为lunar-llr-datum
