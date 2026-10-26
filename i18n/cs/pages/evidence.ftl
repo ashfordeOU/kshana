@@ -2536,3 +2536,407 @@ seg-8980b5ae869b = Hodnota
 seg-f4d1ec6fc464 = Citace
 
 seg-d0566d4db829 = Reprodukujte to
+
+seg-1d45f4717196 = Z repozitáře
+
+seg-b366150de755 = Požádat o studii
+
+seg-ac7e1a5e344a = Pro
+
+seg-6d3d0f8c9b7c = Požádat o vyhodnocení Pro
+
+seg-8f101c803442 = Každá schopnost nese <s1>své důkazy.</s1>
+
+seg-9ef28b622a43 = { "388" } schopností, každá ohodnocená. <b>{ "176" } ověřeno</b> proti nezávislým vnějším orákulům. <b>{ "208" } poctivě označeno jako modelované.</b> { "4" } ve vlastnictví partnera. Nic se nezaokrouhluje nahoru.
+
+seg-4f6445e5dd61 = Verifikační matice <b>v{ $version }</b>
+
+seg-d9f0aabb4262 = Pozastavit průchod
+
+seg-ae9e2459836c = schopností
+
+seg-4adb5411062e = Verifikační matice, jedna buňka na schopnost v pořadí registru: { "176" } ověřeno (plné čtverce), { "208" } modelováno (prázdné čtverce), { "4" } ve vlastnictví partnera (kosočtverce). Šipkami se pohybujete mezi buňkami; schopnost a její orákulum se přečtou níže.
+
+seg-f97cb6bf8202 = Najetím nebo zaměřením na buňku si přečtete její schopnost a orákulum, které ji hodnotí.
+
+seg-8a1cef0b9561 = Ověřeno: nezávislé vnější orákulum souhlasí
+
+seg-582c4a762fc5 = Engine v{ $version } · <c1/>, vygenerováno z <c2/> · { "388" } řádků · žádný scénář ani seed: vlastní registr enginu
+
+seg-d5c32303297d = Přečtěte si registr
+
+seg-f6112ab2dfdf = Registr, výsledky, reprodukovatelný otisk i testy, které za nimi stojí, jsou všechny v otevřeném enginu.
+
+seg-69df15091cab = Sbalí důkazy do reprodukovatelného balíčku důkazů auditní kvality pro oponentní komisi. <a1>Viz níže</a1>
+
+seg-9906d9824f3e = Odpoví na vaši vlastní otázku se stejnými štítky, nikoli certifikací. <a1>Viz níže</a1>
+
+seg-f6a6cca2263c = Matice
+
+seg-78e5feea4a80 = Ověřené výsledky
+
+seg-b3b972c50b99 = Slovník pojmů (Dokumentace)
+
+seg-92e427f220c0 = Ověřené výsledky · každá porovnaná hodnota
+
+seg-a92d57eddda0 = Zkontrolováno proti cizí odpovědi.
+
+seg-978c14c0cbd8 = Každá dlaždice zobrazuje všechny hodnoty, které engine porovnal s nezávislou referencí: publikované vektory, samostatná knihovna letové dynamiky, přesné efemeridy, statistická knihovna, publikace normy a změřený záznam hodin ponechaný stranou při fitování. Najetím nebo zaměřením na značku zobrazíte její hodnotu.
+
+seg-2b49d76005fd = Oběžné dráhy · analytické
+
+seg-0155cf46a133 = Šíření oběžné dráhy SGP4 (Simplified General Perturbations { "4" })
+
+seg-3d4fd2b6704a = Reprodukován každý referenční vektor AIAA (American Institute of Aeronautics and Astronautics), včetně případů hlubokého vesmíru SDP4 (Simplified Deep-space Perturbations { "4" }). Nejhorší případ <c1/> mm.
+
+seg-dbb66386afbf = Jeden čtverec na každý porovnaný vektor, vybarvený podle chyby polohy.
+
+seg-55fc928e19ae = orákulum · ověřovací vektory AIAA 2006-6753
+
+seg-1d60624d525d = Jak bylo ověřeno
+
+seg-6adbc42697f9 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+
+seg-58ca3da25e69 = Otevřít v Kshana Studio: tentýž propagátor, <c1/><s1> · seed <c2/></s1>
+
+seg-813d6d41b891 = Zkopírovat příkaz, který to reprodukuje
+
+seg-a0ef302e2458 = Zkopírovat příkaz
+
+seg-3b6c7858f32d = { "171" } ze { "171" } případů prahu RAIM (autonomní monitorování integrity přijímačem) souhlasí se SciPy v rámci pásma. Seed { "7" }.
+
+seg-0921da0d292e = Integrita · statistika
+
+seg-6f311aef88fe = případů
+
+seg-36b744b97026 = Prahy detekce RAIM
+
+seg-db13900bdd77 = Statistické jádro RAIM (autonomní monitorování integrity přijímačem) oproti SciPy, případ po případu.
+
+seg-87734f6c52a2 = Jeden čtverec na každý případ SciPy, seskupeno podle jádra.
+
+seg-4957eddb39ed = orákulum · SciPy
+
+seg-c5d5cf50c8a9 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+
+seg-011e33e27f59 = Otevřít v Kshana Studio: jádro v praxi, <c1/><s1> · seed <c2/></s1>
+
+seg-e02df7620fc7 = Numerické (Cowellovo) šíření oběžné dráhy oproti Orekitu na 24hodinovém oblouku: nejhorší rozdíl { "0.08" } m v úrovních sil { "1" } až { "5" }.
+
+seg-d52f564b4af8 = Oběžné dráhy · numerické
+
+seg-e204506056b8 = Numerické (Cowellovo) šíření
+
+seg-16e820be9d20 = Oproti knihovně letové dynamiky Orekit { "12.2" } v každé epoše 24hodinového oblouku, úroveň sil po úrovni sil.
+
+seg-2b1ea60e99a7 = Rozdíl polohy oproti času, pro každou úroveň sil.
+
+seg-75344d6c427a = orákulum · Orekit { "12.2" }
+
+seg-2e80a89ee20a = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+
+seg-44988f3835ce = Žádný pohled v Kshana Studio: toto porovnání běží jako test enginu.
+
+seg-6e9e7897bbc0 = Oběžné dráhy · od milimetrů po metry
+
+seg-dcde8c6ec76a = m Galileo
+
+seg-f09e813feeb3 = m Swarm-A
+
+seg-3c258b4d5ac7 = Každé reziduum dráhy v jednom měřítku
+
+seg-211a071c2017 = Od kontrol propagátoru po fity proti přesným efemeridám ESA (European Space Agency). Zobrazen je i lunární orbiter nad prahem.
+
+seg-f5b078c26ba8 = Každé reziduum v logaritmickém měřítku od jednoho milimetru po dvacet metrů.
+
+seg-6670ead3fa91 = orákulum · přesné efemeridy ESA, rekonstruovaná trajektorie lunárního orbiteru, Orekit { "12.2" }, vektory AIAA
+
+seg-6ce9be05ab08 = Engine v{ $version } · tabulky reziduí <c1/>, s oběma kontrolami propagátoru přepočtenými v sestavení <c2/> · deterministické, bez seedu
+
+seg-57c9f4e60efa = Žádný pohled v Kshana Studio: určování přesné oběžné dráhy běží jako testy enginu.
+
+seg-f8f25ec2345b = Hodiny · stabilita
+
+seg-912dbb14d171 = z <c1/> publikovaných hodnot
+
+seg-e0c144321893 = Reprodukuje referenční hodnoty publikace NIST (National Institute of Standards and Technology) Special Publication (SP) { "1065" }, Tabulka { "31" }, na její vlastní sadě 1000 bodů.
+
+seg-5d3372dbff1f = Čtyři odchylky oproti průměrovací době, s publikovanými hodnotami jako kroužky.
+
+seg-9993e306ae64 = orákulum · NIST SP { "1065" }
+
+seg-2a2794bda50f = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+
+seg-fc6a00946a11 = Otevřít v Kshana Studio: odhadovače na hodinách, <c1/><s1> · seed <c2/></s1>
+
+seg-4f484b09471e = Predikce holdoveru na změřeném záznamu cesiových hodin: předpověď ku naměřené hodnotě mezi { "0.84" } a { "1.03" }, uvnitř předem stanoveného činitele { "1.5" }.
+
+seg-4321e1b6bc12 = Hodiny · holdover
+
+seg-7e2bad702e68 = až
+
+seg-62cf63a7bec7 = Predikce holdoveru na skutečných cesiových hodinách
+
+seg-1f59d5bb3cff = Fit na první třetině změřeného záznamu cesia, předpověď na zbývajících dvou třetinách: uvnitř předem stanoveného činitele <c1/>.
+
+seg-46c1dbe5c6bc = Změřená a předpovězená časová chyba oproti době dobíhání a okno poměru.
+
+seg-449f52c56c67 = orákulum · změřený záznam cesia
+
+seg-275351654591 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+
+seg-c131867720cc = Otevřít v Kshana Studio: tatáž inverze, <c1/><s1> · deterministické</s1>
+
+seg-05dd599ce14a = Jedna buňka na každou schopnost.
+
+seg-b19592bc5242 = Ověřeno znamená, že souhlasí nezávislý vnější zdroj: publikované referenční vektory, samostatný nástroj nebo změřená data. Cokoli jiného se označuje jako modelováno. Vyberte štítek a rozsvítí se jeho buňky.
+
+seg-800e31fc8f7d = Ohodnocené schopnosti
+
+seg-1d2c8132218d = { "176" }<s1>z { "388" } ověřeno</s1>
+
+seg-e61158f71854 = Najeďte na buňku
+
+seg-b66d124aa8dd = Verifikační matice: { "176" } ověřeno, { "208" } modelováno, { "4" } ve vlastnictví partnera, celkem { "388" }
+
+seg-d814d33d2b1e = allan::lag1_noise_id: autokorelační identifikace šumu se zpožděním 1 podle Rileyho a Greenhalla ({ "2004" })… · Ověřeno
+
+seg-3f806067da69 = osnma + kshana osnma verify: otevřený verifikátor OSNMA Galileo na straně přijímače v čistém Rustu… · Ověřeno
+
+seg-10698a330a88 = Allanova/modifikovaná/Hadamardova odchylka + identifikace šumu mocninného zákona s intervaly spolehlivosti χ² · Ověřeno
+
+seg-b1508c42341f = Překrývající se Allanova + překrývající se Hadamardova odchylka na skutečném cesiovém etalonu · Ověřeno
+
+seg-a8462102ee02 = Překrývající se Allanova + modifikovaná Allanova + časová odchylka napříč celým žebříčkem AF · Ověřeno
+
+seg-29e7bbbe508c = Theo1 a celková odchylka (TOTVAR) — odhadovače stability s rozšířeným rozsahem pro dlouhé tau… · Ověřeno
+
+seg-1e52731cd30d = MTIE(τ): největší rozkmit časové chyby od vrcholu k vrcholu v libovolném klouzavém okně τ =… · Ověřeno
+
+seg-0bdb8a3e7052 = MDEV(τ): překrývající se modifikovaná Allanova odchylka (klouzavé okno druhých diferencí… · Ověřeno
+
+seg-e5651d7b5236 = Obnovení mocninného zákona (bílá FM + práh červeného šumu) metodou NNLS z publikovaného změřeného ⁸⁸Sr… · Ověřeno
+
+seg-e7ada48a7ff9 = Separace řešení ARAIM pro více hypotéz podle dokumentu ARAIM Airborne Design Document… · Ověřeno
+
+seg-a74e42c59d5f = SGP4/SDP4, Cowell 6-DOF + poruchy, dávkové/sekvenční OD · Ověřeno
+
+seg-4f8eeede9609 = Cowellův numerický propagátor s hierarchickým silovým modelem (dvě tělesa, zonální J2–J6… · Ověřeno
+
+seg-1fecb2c8c5d7 = Osvětlený podíl SRP s elipsoidem WGS-84 jako zastiňujícím tělesem (zdánlivý poloměr Země… · Ověřeno
+
+seg-da94fc5e3b03 = SRP mimo model dělové koule: model krabice s plochými panely (Vallado rov. 8-44; jednostranné těleso… · Ověřeno
+
+seg-bf16e7dc6637 = Osvětlený podíl SRP jako nezastíněný podíl slunečního toku s okrajovým ztemněním… · Modelováno
+
+seg-5ccaafbaf99c = Port empirické termosféry NRLMSISE-00 (gtd7 a gtd7d: hustoty druhů… · Ověřeno
+
+seg-2fd4e498e5d6 = forces::DensityModel (Exponential výchozí, Nrlmsise00 { "{" } f107a, f107, ap { "}" }) a… · Ověřeno
+
+seg-8c1643833e02 = Výchozí odpor Cowellova propagátoru: kvadratický odpor vůči spolu-rotující… · Ověřeno
+
+seg-c88dad1395e5 = Volitelná úroveň efemerid pro členy třetího tělesa a SRP numerického Cowellova… · Modelováno
+
+seg-fc85378484a6 = Denní vzduchotlakový příliv S1 jako porucha geopotenciálu: Biancale a Bode… · Modelováno
+
+seg-5d41c94116ae = Rayovy ({ "2001" }) vzduchotlakové harmonické S2 (n <= { "4" }, prográdní a retrográdní) převedené na… · Ověřeno
+
+seg-4e94ef6bbaf3 = Volitelné tesserální pole EGM2008 (do stupně/řádu { "70" }) jako centrální gravitace… · Ověřeno
+
+seg-1b8ba1d23a4f = Vyhodnocení plně normalizovaného pole do stupně { "2190" } bezpečné proti podtečení i pólům… · Modelováno
+
+seg-ece10758305d = Hairerova explicitní Rungeova-Kuttova metoda DOP853 { "8" }({ "5,3" }) s kombinovanou chybou 5. a 3. řádu… · Ověřeno
+
+seg-c29a1f584c92 = Eliptický Keplerův řešitel pro všechna { "0" } <= e < { "1" } a všechny střední anomálie: Markleyho ({ "1995" }) kubický… · Ověřeno
+
+seg-ae484d7c73e7 = Obnovení stavu v epoše ze smíšeného sledování vzdálenosti, rychlosti změny vzdálenosti a azimutu/elevace nad… · Modelováno
+
+seg-7166587b7af6 = Mapování kódů přesnosti SP3 (hlavička ++ exponenty v { "2" }^n mm, základ %f, základ^n mm na záznam… · Modelováno
+
+seg-a352259cb1c3 = Čtení tabulek sférických harmonik PDS SHADR (from_shadr, na SphericalHarmonicField v… · Ověřeno
+
+seg-bbdb377981c4 = with_gravity_field (na Body, v src/gravity_pds.rs): připojí libovolné načtené… · Modelováno
+
+seg-0dad0a6df1ba = Obnovení stavu v epoše [r,v] ze vzdáleností od pozemních stanic dávkovou Gaussovou–Newtonovou metodou… · Ověřeno
+
+seg-9aa6eccb7941 = Zpožděné (sestupné) jednosměrné řešení světelného času τ = |r_rx − r_target(t−τ)|/c pro… · Ověřeno
+
+seg-44b327dce46e = Vysílané efemeridy IS-GPS-200 / Galileo-OS / BeiDou-OS, keplerovské → ECEF poloha družice… · Ověřeno
+
+seg-b2291e777ac3 = Lagrangeova interpolace přesných efemerid poloh družic SP3 podle IGS s… · Ověřeno
+
+seg-e64d4f89e37d = Typy zpráv GPS CNAV 10/11/30, typy slov Galileo I/NAV 1-5 v nominálních sudých/lichých stránkách… · Modelováno
+
+seg-30fbb32b73fa = Čtečka IONEX { "1.0" } (hlavička, hodnoty I5 s pevnými sloupci, mapy TEC a RMS, absolutní epochy… · Ověřeno
+
+seg-851595dfa46e = Hatchův filtr bez divergence (kód bez ionosféry nesený fází nosné bez ionosféry… · Modelováno
+
+seg-f22ecff347b8 = Relativní určování polohy na krátké základně ze skutečného dvoufrekvenčního kódu a fáze nosné GPS… · Ověřeno
+
+seg-53b900e15215 = Hodiny přijímače odhadnuté statickým filtrem float PPP na skutečných dvoufrekvenčních GPS… · Ověřeno
+
+seg-53508398f315 = Statický rozšířený Kalmanův filtr float PPP na skutečném dvoufrekvenčním kódu a fázi nosné GPS… · Ověřeno
+
+seg-135f709cabd6 = Navigační soubory RINEX 4.00-4.02: záznamy > EPH GPS LNAV, Galileo I/NAV a F/NAV… · Ověřeno
+
+seg-8217e6dad5f4 = Hlavičky pozorování RINEX 4.0x (DOI, LICENSE OF USE, STATION INFORMATION, MERGED FILE… · Modelováno
+
+seg-5064320fefbc = BDS-SIS-ICD-B1I v3.0 §{ "5.2.4.12" } poloha geostacionární družice z vysílané… · Modelováno
+
+seg-b3a6e424d368 = Odchylka hodin družice mezi tabelovanými uzly hodin SP3 lineární interpolací… · Ověřeno
+
+seg-f3c33c897d1c = EKF chybového stavu nad { "15" } stavy INS, dvoustavovými hodinami přijímače a jednou plovoucí nosnou… · Modelováno
+
+seg-d18e059df2c0 = Tři scénáře gnss-ins na knihovně trajektorií (plavidlo kličkující rychlostí { "8" } m/s s… · Modelováno
+
+seg-94ad91994306 = Jeden skládaný Kalmanův filtr nad polohou, rychlostí, fází a frekvencí hodin napájený… · Modelováno
+
+seg-6d46cb5414e3 = Uzavřený 15stavový EKF chybového stavu poháněný přírůstky IMU s anténou GNSS… · Ověřeno
+
+seg-be8fb95782af = Soubory pohybu exportované z benche, předané vlastním čtečkám open-source simulátoru GNSS, vycházejí… · Ověřeno
+
+seg-46797187781a = Volitelné profily pohybu pro balík gnss-ins (přímka, osmička 8, městské stop-and-go… · Modelováno
+
+seg-0d1622691877 = Strapdown inerciální mechanizace s kvaternionovou orientací v souřadnicích WGS-84 NED… · Ověřeno
+
+seg-6c2952f49754 = Velikost tíže ze sférických harmonik + porucha (mGal) z libovolného modelu ICGEM .gfc… · Ověřeno
+
+seg-41ca7eec4a62 = Kruhová omezená { "9" }:{ "2" } jižní téměř přímková halo dráha L2, která… · Modelováno
+
+seg-42c26212e2c9 = cr3bp::to_moon_centred_icrf mapuje bezrozměrný rotující stav CR3BP Země–Měsíc na… · Ověřeno
+
+seg-35b2be544d26 = Druh solar-system s planetary_kernel_path: každé vykázané těleso, jehož vlastní kód NAIF… · Ověřeno
+
+seg-ad3763136cc7 = maneuver::porkchop_kernel: průchod datem startu x datem příletu pro odletové C3 (km²/s²)… · Ověřeno
+
+seg-0f5ae623905f = maneuver::optimise_transfer_kernel: data odletu a příletu… · Ověřeno
+
+seg-0ae19001fe4b = Každé řešení Lambertovy úlohy až se třemi úplnými oběhy… · Ověřeno
+
+seg-7eafc10ca9dc = Izzoův řešitel Lambertovy úlohy z roku 2015 pro jeden oběh (r1, r2, doba letu → okrajový… · Ověřeno
+
+seg-a8818aea1c75 = Precese-nutace IAU 2006/2000A, CIO GCRS↔ITRS, časové škály s přestupnými sekundami · Ověřeno
+
+seg-3713cbb8eb72 = Kalendářní datum a čas UTC na dvoudílné juliánské datum UTC s SOFA dtf2d… · Ověřeno
+
+seg-822cd40b49f9 = Rotace Země z dvoudílného juliánského data UT1 na dráze oběžné cesty, takže vztažené k Zemi… · Ověřeno
+
+seg-c846d8ec2e5e = Tři maticové soustavy porovnané prvek po prvku nebo úhlem rotace s ERFA v… · Ověřeno
+
+seg-853ce09df9d5 = UTC od 1960-01-01 do 1971-12-31, kdy UTC běželo s posunutou rychlostí vůči TAI a skákalo… · Ověřeno
+
+seg-a0c473abd3ff = Odchylka vysílaných hodin družice GLONASS -tau_n + gamma_n (t - t_b) v čase přečteném na… · Ověřeno
+
+seg-ca16d26f1ebe = Cesta šíření a soustav, kterou sdílí každý směrovaný druh na oběžné dráze Země: střední prvky SGP4… · Ověřeno
+
+seg-15ce16875e3a = Meze postranních laloků a vzájemné korelace m-posloupností/Goldových kódů, délka↔nejednoznačnost · Ověřeno
+
+seg-044da209dd61 = GDOP/PDOP/HDOP/VDOP/TDOP z geometrie zorných paprsků přes Q=(HᵀH)⁻¹ s lokálním rozkladem ENU · Ověřeno
+
+seg-a9fda54b3df8 = dop_error_mc::run_geometry a check: Monte Carlo se seedem (N = { "20,000" } epoch na… · Modelováno
+
+seg-cd50aaf86375 = receiver_trust::geometry: geometrie družic v každé epoše (dobrá, zhoršená s důvody… · Modelováno
+
+seg-d39aa1ea5121 = Klobucharovo jednofrekvenční šikmé ionosférické skupinové zpoždění na L1 z osmi vysílaných α/β… · Ověřeno
+
+seg-ab6ef0477bea = Distribuční jádro, na kterém stojí každá ochranná úroveň: okamžiková detekce poruch… · Ověřeno
+
+seg-08740f67bcf2 = Ochranné úrovně váženými nejmenšími čtverci podle DO-229E, příloha J: D=(GᵀWG)⁻¹ z… · Ověřeno
+
+seg-0597fb2464d0 = AUC (Mann-Whitney, shody ½), matice záměn při prahu… · Ověřeno
+
+seg-76f7a9a22d70 = ROC AUC + bootstrapový interval spolehlivosti oddělující skutečné označené anomálie; transparentní detektor… · Ověřeno
+
+seg-f3d7926d7464 = Fit změřené ADEV metodou NNLS, pásma konzistence χ² NEES/NIS a diskrétní van Loanův model hodin… · Ověřeno
+
+seg-cf029efb7438 = Syntéza hlavního pole IGRF-14 sférickými harmonikami — složky X/Y/Z/F, deklinace… · Ověřeno
+
+seg-ba97bae9110c = Analytická binormální ROC AUC = Φ(μ/(σ√{ "2" })) a minimální detekovatelná porucha… · Ověřeno
+
+seg-fa9b946507f8 = Jádra pořadové korelace a převzorkování pod studií nestability rozhodnutí o odolnosti… · Ověřeno
+
+seg-c0267817b05a = Prioritní váhy Analytic Hierarchy Process = normalizovaný hlavní (Perronův) vlastní vektor… · Ověřeno
+
+seg-3780fbf75fa5 = Weighted Sum Model (aditivní agregace normalizovaná min–max + pořadí) a Weighted… · Ověřeno
+
+seg-e90b04f6ed22 = Technique for Order of Preference by Similarity to Ideal Solution — min–max… · Ověřeno
+
+seg-b66a72295a62 = VlseKriterijumska Optimizacija — skupinová užitečnost Sᵢ, individuální lítost Rᵢ a… · Ověřeno
+
+seg-8e3355350914 = Preference Ranking Organization METHod — párový index preference se šesti standardními… · Ověřeno
+
+seg-edc8867a5ae6 = ELimination Et Choix Traduisant la REalité — matice souhlasu/nesouhlasu,… · Ověřeno
+
+seg-85bc967357d6 = Weighted Aggregated Sum Product ASSessment (lineárně normalizovaná konvexní kombinace… · Ověřeno
+
+seg-69652cbd7eb5 = COmplex PRoportional ASsessment — význam přínosu normalizovaný součtem sloupce S⁺ plus… · Ověřeno
+
+seg-14a9c267153c = Nejhorší latence detekce tabelárního detektoru CUSUM (⌊h/(z−k)⌋+{ "1" }) a mimo kontrolu… · Ověřeno
+
+seg-559361559e00 = Růst rozptylu fázové chyby při dobíhání q_wf·t + q_rw·t³/3 + q_drift·t⁵/20 a jeho monotónní… · Ověřeno
+
+seg-f35ada98dcce = Efektivní architektonická diverzita = inverzní Simpsonovo číslo / číslo Hillova řádu 2 1/Σpᵢ² přes… · Ověřeno
+
+seg-02037e5e43e7 = skyline + frames::look_angles + geometry::sky_geometry: geodetický (WGS-84) azimut… · Ověřeno
+
+seg-f5a8c861b566 = skyline: uliční kaňon v uzavřeném tvaru (řez atan((h - a) / d) s d = (w/2) /… · Modelováno
+
+seg-6f4ab2e589a4 = skyline::PRESETS: čtyři REPREZENTATIVNÍ geometrie s uvedenou poznámkou k návrhu… · Modelováno
+
+seg-206fd57a3ac7 = geometry::sky_geometry: kofaktor ENU a hodin (H^T H)^-1 s jedněmi hodinami přijímače v… · Ověřeno
+
+seg-d01c7735f171 = geometry (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg… · Modelováno
+
+seg-443eb5d0c060 = Růst chyby při dobíhání v uzavřeném tvaru + holdover do prahu; třídy kvantových hodin · Modelováno
+
+seg-82fc65142759 = clock_library: karta zařízení (bílá fáze, bílá, flicker a náhodná procházka FM plus… · Modelováno
+
+seg-18704e564ea4 = clock_library::card::DeviceCard::fit_phase_periodic: karta zařízení, která nese… · Modelováno
+
+seg-b3a0ab1e8725 = 3stavové (fáze/frekvence/drift) Kalmanovy hodiny van Loan, stabilizované Josephovou formou · Modelováno
+
+seg-065f31b5656e = Obousměrný přenos/TWSTFT (Sagnac), společný pohled GNSS, PPP; chvění linky→vzdálenost · Modelováno
+
+seg-f66464be680e = PSD BPSK-R/BOC, spektrální separace κ, Gaborova šířka pásma, chvění DLL, vícecestné šíření · Modelováno
+
+seg-93c350e230ed = Generátor kódu C/A s LFSR G1/G2 reprodukující publikovaných prvních 10 čipů v osmičkové soustavě z IS-GPS-200… · Ověřeno
+
+seg-934de63c594b = Akcelerometr s interferometrem studených atomů z prvních principů (k_eff·T², QPN) · Modelováno
+
+seg-c1b7c7c18be6 = Dynamický rozsah nejednoznačnosti proužků Machova–Zehnderova interferometru: odečet proužků periodický s 2π určuje… · Modelováno
+
+seg-0b04febfad29 = Složený rozpočet polohy z biasu + škálového faktoru + VRW + poklesu stability přes holdover · Modelováno
+
+seg-9f1d13017c2b = 15stavový EKF chybového stavu, volně vázaný (ověřený na skutečné jízdě s IMU/GNSS oproti… · Ověřeno
+
+seg-7de0c3292c0b = Linkový rozpočet J/S v geometrii, C/N₀ odolné vůči rušení, ztráta zachycení po družicích · Modelováno
+
+seg-4c976ce425d1 = χ² podporované hodinami, RAIM, AGC, SQM sloučené do ukazatele kvality zabezpečení v každé epoše · Modelováno
+
+seg-94aef965251e = Mez v uzavřeném tvaru pro nejhorší nezachycenou časovou chybu = práh monitoru + oscilátor… · Modelováno
+
+seg-f94c1547b98c = STM CR3BP + diferenciální korektor s jedním střelením; jižní NRHO L2 · Ověřeno
+
+seg-ed2d780e3d9e = Porovnávání gravitační mapy, navádění podle terénu (TERCOM/SITAN), magnetická anomálie · Modelováno
+
+seg-486011306ab7 = Gravitační anomálie ve sférické aproximaci (Barthelmes STR09/02 rov. { "126" }, ICGEM… · Ověřeno
+
+seg-4483cf6d6e1b = Ručně psaný parser SRTM .hgt (16bitový big-endian, severní řádek první, s ohledem na prázdná místa) + bilineární… · Ověřeno
+
+seg-00ca5de4ee1f = Deterministické, opatřené otiskem scénáře, SBOM + referenční brány napříč platformami · Modelováno
+
+seg-8e59c3e84e80 = Označený korpus syntetického zhoršení + ROC/AUC/matice záměn/Pfa-Pmd nezávislé na detektoru… · Modelováno
+
+seg-ee1c310ec3f1 = Kontrolovaná syntetická studie mezery v optimismu AUC mezi rozdělením v tréninku→mimo trénink… · Modelováno
+
+seg-901571509bd6 = Příjem změřené ADEV (NNLS), srovnávací tabulka (holdover časování/setrvačnosti + přínos)… · Modelováno
+
+seg-5662e2e5895c = Sluneční/geomagnetické indexy (definiční tabulka Kp↔ap), exosférická Jacchia-1971… · Modelováno
+
+seg-c537da9d8e79 = Importér CCSDS { "502.0" } OEM (parse_oem), tolerantní k řádkům COMMENT / dalším metadatům… · Ověřeno
+
+seg-beeb7d7b6dd4 = Dvoutělesový azimut(y) startu (sin Az = cos i / cos lat), minimální dosažitelný sklon… · Modelováno
+
+seg-c45e3519a7a5 = Špičkové zpomalení (nezávislé na balistickém koeficientu), rychlost + výška při špičkovém g… · Modelováno
+
+seg-da36dafae1a0 = Geometrie prostorového trojúhelníku SMAD: úhlový poloměr Země, šířka pruhu, nadirové GSD, maximum… · Ověřeno

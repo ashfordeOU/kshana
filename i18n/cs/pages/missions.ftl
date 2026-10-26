@@ -131,3 +131,15 @@ seg-36d838421b86 = Mohu výsledek PNT reprodukovat, rozšířit a citovat, až p
 seg-821762272e2f = Sektory
 
 seg-13e8e5460280 = Geometrie
+
+seg-b366150de755 = Požádat o studii
+
+seg-e1acd19a6ac6 = Porovnat edice
+
+seg-5116f1a604ee = Pro koho je
+
+seg-6d3d0f8c9b7c = Požádat o vyhodnocení Pro
+
+seg-813d6d41b891 = Zkopírovat příkaz, který to reprodukuje
+
+seg-a0ef302e2458 = Zkopírovat příkaz
