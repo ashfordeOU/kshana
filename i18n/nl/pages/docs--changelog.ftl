@@ -871,3 +871,663 @@ seg-a2f4df11d9cc = <b>Geometrie van lanceervenster en stijgfase:</b> tegenover O
 seg-f6b6c9251a17 = <b>Ballistische reentry-corridor (Allen–Eggers):</b> de voorspelde piekvertraging voor de Stardust-entry is { "61.8" } g tegenover de gereconstrueerde { "32.89" } g (+{ "88" } %, tolerantie { "15" } %).
 
 seg-5d83648dd867 = <b>Gezamenlijke fout in UT1 en poolbeweging:</b> tegenover de nauwkeurigheidsformule die in { "178" } nummers van IERS Bulletin A is gedrukt, komt de pool binnen 1.5x overeen maar UT1 niet ({ "0.48" } bij { "10" } dagen, { "1.59" } bij { "40" } dagen). Achterhaald in ronde { "2" }: de rij is nu VALIDATED (zie hieronder).
+
+seg-e3336e670d51 = Een patchrelease op { "0.29.2" }. Kshana Studio is herbouwd rond twee weergaven: een eenvoudige weergave die eerst antwoord geeft en in gewone woorden uitlegt, en een geavanceerde weergave met het volledige dashboard. Er horen twee kleine fixes op kshana.dev bij. De engine verandert niet: elk meegeleverd scenario geeft een byte-identiek resultaat aan { "0.29.2" }, afgezien van de versiestempel.
+
+seg-c40ab967ace6 = <b>Kshana Studio heeft een eenvoudige weergave.</b> Daarmee opent de Studio.
+
+seg-6a5ae001d00e = Het antwoord komt eerst: een scenario opent met zijn resultaat, in één gewone zin. Elk meegeleverd scenario heeft een eigen zin, geschreven voor wat dat scenario meet.
+
+seg-375421534e4c = Er zijn hooguit vijf instellingen zichtbaar, die het antwoord het meest veranderen. De rest staat onder "Geavanceerde instellingen", ingeklapt tot u ze opent.
+
+seg-d8650ae64549 = "Hoe dit wordt berekend" legt de methode in een paar regels uit, en "Voor onderzoekers" geeft de eigen cijfers van de engine, het scenariobestand en het bewijs achter het resultaat.
+
+seg-36af7640e6ad = <b>Het volledige dashboard is de geavanceerde weergave.</b> Elk paneel, elke grafiek, export en elk rapport van de eerdere Studio is daar te vinden.
+
+seg-0428d0a7921b = <b>Een schakelaar wisselt tussen de twee weergaven en behoudt uw plaats.</b> Het scenario, de weergave waarin u was en de instellingen die u hebt aangepast gaan mee. De Studio onthoudt welke weergave u het laatst gebruikte. Links vanaf de site en de documentatie openen de eenvoudige weergave; een link met <c1/> opent de geavanceerde weergave, en elke eerdere Studio-link opent nog steeds hetzelfde scenario en dezelfde weergave.
+
+seg-2c98ed084c10 = <b>Een snellere eerste weergave bij trage verbindingen.</b> Het vastgelegde antwoord voor een scenario wordt getekend voordat de rest van de Studio laadt, zodat het antwoord op een trage mobiele verbinding in ongeveer twee seconden verschijnt in plaats van in ongeveer negen.
+
+seg-2214d2dcfab4 = <b>Betere zoekfunctie.</b> Een zoekopdracht toont nu eerst scenario's waarvan het gebied of de titel overeenkomt met de woorden, vóór scenario's die ze alleen in de bestandsnaam of de tekst noemen.
+
+seg-aa8d43280c19 = <b>De globe op de startpagina wordt niet meer leeg als verminderde beweging aanstaat.</b> Als de systeeminstelling voor verminderde beweging aanstond, kon het vergroten of verkleinen van het venster de globe in de hero leeg laten tot de pagina scrolde. De globe wordt nu in hetzelfde frame als de grootteverandering opnieuw getekend.
+
+seg-da4b78816df1 = <b>De L-bandconsole op de startpagina legt uit waarom haar band leeg is.</b> In "Watch a jammer take the band" bleef het GPS L5 / Galileo E5a-paneel de hele minuut donker, wat er stuk uitzag. In dit scenario zendt geen jammer in die band uit en liggen de satellietsignalen onder de ruisvloer, dus er komt daar niets bovenuit. Een rustig label zegt dat nu in elk paneelstuk waarin niets boven de vloer uitkomt (het L5 / E5a-paneel, en het L2C-paneel voordat zijn ruisjammer begint), met per band de C/N0 en de lock-status uit dezelfde run. Het wordt alleen geplaatst waar niets boven de vloer uitkomt, zodat het nooit jammerenergie bedekt.
+
+seg-e353fdee7033 = Een patchrelease op { "0.29.1" }. Ze verwijdert gedupliceerde code in de LEO-navigatieboodschap-, fusie- en spectrummodules, voegt een licht thema toe aan kshana.dev, verplaatst Kshana Studio naar een eigen adres, maakt de site leesbaar voor zoekmachines en AI-assistenten, verhelpt enkele kleine zaken in de Studio en laat npm-releases publiceren zonder opgeslagen token. Er verandert geen engine-uitvoer: elk meegeleverd scenario geeft een byte-identiek resultaat aan { "0.29.1" }, afgezien van de versiestempel.
+
+seg-e8bf0a4fdc35 = <b>Een licht thema voor kshana.dev.</b> Elke pagina kan licht of donker worden gelezen. De site volgt de systeeminstelling van de lezer en heeft een schakelaar om die te wijzigen.
+
+seg-8e7cabc14c40 = <b>Zoekmachines en AI-assistenten kunnen de site lezen.</b> Elke pagina heeft nu een eigen titel, beschrijving, canoniek adres, social-cardtags en gestructureerde schema.org-gegevens, plus platte tekst voor de secties die een script tekent. De site publiceert <c1/>, een <c2/> met de datum waarop elke pagina voor het laatst veranderde, <c3/> en <c4/> (een korte en een volledige platte-tekstgids voor AI-assistenten), en een IndexNow-sleutel zodat een deploy zoekmachines kan laten weten wat er veranderd is.
+
+seg-804ba71be9ed = <b>npm-releases kunnen publiceren zonder opgeslagen token.</b> De npm-job draait nu Node { "24" } en npm { "11.5.1" } of nieuwer, die npm trusted publishing ondersteunen: npm wisselt de GitHub-identiteit van de releasejob in voor een kortlevende inloggegevensset. Het geheim <c1/> werkt nog steeds en wordt gebruikt zolang het is ingesteld, dus er verandert niets totdat trusted publishing voor het pakket op npmjs.com is ingeschakeld. <c2/> noemt de stappen.
+
+seg-81405e5a5e06 = <b>De kop op de startpagina is leesbaar boven de globe.</b> Achter de kop en zijn tekst ligt nu een zachte schaduw, die de baanlijnen en satellietpunten van de geanimeerde globe vervaagt waar ze de kop kruisen.
+
+seg-24b8363acc14 = <b>Kshana Studio heeft een eigen adres: <a1>https://kshana.dev/studio/</a1>.</b> Elke link op de site en in de documentatie wijst daarheen. Het oude adres, <c1/>, werkt nog steeds en stuurt door naar het nieuwe, met behoud van het scenario, de weergave en andere instellingen in de link.
+
+seg-12f223b986bd = <b>Studio-fixes.</b> Het enginebestand wordt eenmaal gedownload in plaats van tweemaal. Tijdens het downloaden toont de Studio meteen het vastgelegde resultaat van het scenario, als vastgelegd gemarkeerd, in plaats van een leeg scherm. Op een telefoon is de header één compacte rij. De kerncijfers lopen door met twee per rij, zodat er geen buiten beeld valt. Veldlabels gebruiken de eigen woorden van het scenario, met de veldnaam ernaast, en de zoekfunctie vindt velden op beide.
+
+seg-c130d8a4dc5e = <b>Minder gedupliceerde code.</b> De eenhedentabel van de LEO-navigatieboodschap schreef dezelfde tien SISRE-statistiekrijen voor vier fitsamenvattingen. Een macro schrijft ze nu eenmaal. De twee spectrum-waterfallgrafieken delen één tijdas, kleurenbalk en C/N0-balkpaneel. De downsampling van het hoofdraster hergebruikt <c1/>, en de Simpson-integraal hergebruikt <c2/>. De twee ingangen van het LEO-passagetype delen één setupstap. <c3/> importeert de vectorhulpfuncties van <c4/> in plaats van ze te kopiëren. Het geavanceerde rapport importeert de HTML-escape van het API-rapport in plaats van die te kopiëren. Elk van de { "139" } scenariobestanden in <c5/> is uitgevoerd op { "0.29.1" } en op deze code, en elk uitvoerbestand is byte-identiek.
+
+seg-166b0435c96f = <b>De eenhedentabellen van leo-navmsg en leo-pvt hebben eigen bestanden.</b> Ze zijn verplaatst uit modules die ook logica bevatten, naar <c1/> en <c2/>. <c3/> behoudt zijn publieke pad. Alleen deze twee tabelbestanden worden toegevoegd aan de uitzonderingen op copy-paste-detectie voor declaratieve catalogi in <c4/>, die <c5/> controleert.
+
+seg-f8b372e08ef9 = <b>De CI-badge van de README toont het resultaat van pushes naar main.</b> De badge telde runs van elke gebeurtenis op main, zodat hij "failing" kon tonen terwijl elke push-run groen was; hij vraagt nu alleen om push-runs (<c1/>).
+
+seg-7c41a482c7d8 = Een patchrelease op { "0.29.0" }: het gemeten dekkingscijfer, de naamregel van het project op kshana.dev, een snellere dekkingsjob en een vernieuwde README. Er verandert geen engine-uitvoer: elk scenario geeft hetzelfde resultaat als op { "0.29.0" }.
+
+seg-997490bd1696 = Herzieningen van gepubliceerde cijfers
+
+seg-ed4b071e4bd9 = <b>Regeldekking: ~{ "96" } % → ~{ "95" } %.</b> De dekkingsjob heeft de uitgebrachte { "0.29.0" }-code opnieuw gemeten (commit <c1/>, CI-run { "36809850252" }, 2026-10-01): <c2/>, { "55,970" } van { "58,697" } regels van <c3/>. Het gepubliceerde cijfer was { "95.63" } % ({ "37,697" } van { "39,419" } regels), gemeten op <c4/> vóór { "0.28.0" }; het rondde af op ~{ "96" } %. Het nieuwe cijfer rondt af op ~{ "95" } %, dus elk oppervlak dat <c5/> vastzet verschuift mee: <c6/>, de README-badge, de Evidence-regel en CI-tabel, de badges van crates.io, PyPI en npm, het technische rapport en de dekkingspagina van kshana.dev. De ondergrens van { "85" } % is ongewijzigd.
+
+seg-577baa03af04 = <b>De naamregel op kshana.dev.</b> "Kshana · क्षण · the precise instant" opent nu de hero van de startpagina en staat onder het merk in de footer van elke pagina. kshana.dev doet nog steeds geen verzoek aan een andere host: het Devanagari is een zelfgehoste subset van Noto Sans Devanagari met de drie letters van क्षण ({ "1,692" } bytes, <c1/>, met de tekst van de SIL Open Font License en zijn SHA-256 in <c2/>). <c3/> kan nu een Google Fonts-subset met <c4/> opslaan onder een inhoudsgeadresseerde bestandsnaam.
+
+seg-35b5bc4ee466 = <b>De links van de site komen aan waar ze naar wijzen, op nette adressen.</b> Een link naar een sectie zet die sectie nu vlak onder de header, op een telefoon en op een desktop: een sectorlink bij Missies opent die sector met zijn paneel bovenaan; links bij Mogelijkheden en Edities blijven op hun plaats terwijl de grafieken erboven worden getekend; Edities voegt geen tweede headeroffset meer toe; en een link naar een ingeklapt deel van een docspagina opent dat. Elke pagina wordt gelinkt met zijn nette adres (<c1/>, <c2/>, <c3/> voor de startpagina), en de canonieke links, de sitemap en de redirects van oude adressen noemen hetzelfde; de adressen met <c4/> werken nog. Onderzoek heeft een eigen link in de header, tussen Bewijs en Ontwikkelaars, en in de footer. De docs tonen de roadmap niet meer (<c5/> blijft in de repository): de groep Project is Changelog, Licensing, Security, Contributing, Governance en Code of conduct, en de Woordenlijst is verplaatst naar Aan de slag.
+
+seg-3da9f00f5ce6 = <b>De dekkingsjob is sneller.</b> Op { "0.29.0" } duurde hij { "143" } minuten tegen gezonde { "91" } tot
+
+seg-85d502773367 = De fuzzer <c1/>, de oorzaak de vorige keer, nam er { "4" } van voor zijn rekening. Het meegeleverde corpus groeide van { "74" } naar { "139" } scenario's, en drie testbinaries liepen er één bestand tegelijk helemaal doorheen (<c2/> tweemaal, <c3/> en <c4/> eenmaal): samen { "37" } minuten onder dekkingsinstrumentatie, tegen { "3" } op { "0.27.2" }. Ze delen nu <c5/>, dat het werk per scenario op elke kern uitvoert en de resultaten gesorteerd teruggeeft; elk scenario en elke assertie blijft. Op een arm64-laptop, debugbuild: <c6/> duurt { "143" } s op { "14" } kernen tegen { "612" } s met <c7/> (de oude seriële doorloop).
+
+seg-bb69dbadbc81 = <b>De README, vernieuwd.</b> Hij opent met dezelfde naamregel als de site; de screenshots van de Studio zijn opnieuw genomen uit de { "0.29.1" }-Studio, met een nieuwe van de Studio op een telefoon en zijn stapbalk onderaan; een nieuwe strook "The site" toont drie pagina's van kshana.dev uit de { "0.29.1" }-build (<c1/>, samengesteld door <c2/> en vastgelegd in <c3/>); het dekkingscijfer luidt ~{ "95" } %; en de alt-tekst van de onderzoeksfiguur, die die van de architectuurfiguur herhaalde, beschrijft nu de papers. De headerbadges zijn kleiner en korter ({ "18" } px hoog; "~{ "95" }%", "83/223", "quality", "AGPL-3.0", "zenodo.20528627"), zodat de elf op twee regels passen; elke link en alt-tekst behoudt zijn volledige betekenis.
+
+seg-f61ef3e16884 = <b>De containerimagejob krijgt { "90" } minuten.</b> Bij { "v0.29.0" } liep de geëmuleerde linux/arm64-build van de <c1/>-image tegen de oude limiet van 45 minuten aan tijdens het compileren van zijn laatste crate, zodat de image, de MCP-registervermelding en de kanaalcontrole niet zijn gepubliceerd. De limiet is nu { "90" } minuten; de image is ongewijzigd.
+
+seg-1688bf9f0fec = <b>Acht float-literals anders gegroepeerd</b> in <c1/> en <c2/> (<c3/> → <c4/>): SonarQube Cloud las een laatste groep van <c5/> of <c6/> als een ontbrekend achtervoegsel <c7/> of <c8/> (regel S7454). De waarden zijn dezelfde getallen, dus elk resultaat blijft ongewijzigd.
+
+seg-81fd160937db = Twaalf nieuwe scenariosoorten en drie nieuwe manieren om een run te lezen. De engine bestrijkt nu het radiospectrum, het hele zonnestelsel, constellaties rond elk lichaam, campagnes die scenario's tot één missie aaneenschakelen, en positiebepaling, navigatie en tijdsynchronisatie (PNT) vanuit een lage baan om de aarde (LEO), van het signaal tot de positiebepaling. Elke run kan ook worden weggeschreven als animatie, als volledig rapport en als set interoperabiliteitsbestanden voor andere hulpmiddelen.
+
+seg-118be64d7cb2 = Rond de engine: een herontworpen kshana.dev (een site met meerdere pagina's en een nieuw Kshana Studio-dashboard dat elke mogelijkheid in de browser uitvoert), een herschreven README, veertien hulpmiddelen op de Model Context Protocol-server (MCP), een browserbuild die dezelfde getallen geeft als de native build, en een openbare pagina voor Kshana Pro.
+
+seg-ea31356bc17d = Scenariobestanden (plus één suitemanifest)
+
+seg-26654cd81de1 = { "138" }, waarvan { "132" } meegeleverd voor <c1/>
+
+seg-3d1a85e93e48 = waarvan MODELLED (vermeld model, gecontroleerd op interne consistentie)
+
+seg-e77f9d273ee1 = waarvan PARTNER (vereist hardware of gegevens van een partner)
+
+seg-e94cd6b3561a = Waar de groei vandaan komt:
+
+seg-1759a8cce7d6 = Soorten
+
+seg-94de9433d99f = Scenariobestanden
+
+seg-03d7aea335dc = Matrixrijen (gevalideerd + gemodelleerd)
+
+seg-fdd674722717 = Spectrum
+
+seg-59583fa40da3 = Zonnestelsel en positiebepaling rond elk lichaam
+
+seg-fafa167623df = Maritieme, weg- en spoorscenario's
+
+seg-fc571c46e522 = Animatie, rapporten, interoperabiliteitsexports
+
+seg-2746e0d9f787 = LEO-signaalontwerpen en het multibandspectrum
+
+seg-d40ec114d1f9 = LEO-positiebepaling, -tijdsynchronisatie en -fusie
+
+seg-0157f649e65b = LEO-keten van begin tot eind
+
+seg-423283112128 = LEO-veerkracht, aandachtsgebieden en eindgebruikersscenario's
+
+seg-395beca13299 = Totaal toegevoegd
+
+seg-ea9dc4093d8a = De LEO-mogelijkheid is systeemonafhankelijk: ze draait op generieke, vermelde parameters en heeft geen benoemd systeem nodig. Benoemde systemen zijn optionele voorinstellingen, elk in een eigen bestand met zijn openbare bron. Eén voorinstelling, Celeste IOD (in-orbit demonstration), gebruikt cijfers die zijn gepresenteerd op de ESA NAVISP LEO-PNT-workshop, { "2026" } (ESA is het Europees Ruimteagentschap; NAVISP is het Navigation Innovation and Support Programme); ze staat in één bestand, <c1/>, met haar vijf scenario's die alleen in de repository staan, zodat ze zonder broncodewijziging kan worden achtergehouden, en geen van haar workshopcijfers wordt in deze changelog herhaald.
+
+seg-c36a5015c03c = <b>Lees "Herzieningen van gepubliceerde cijfers" voordat u upgradet.</b> Eén engine-uitvoer verandert (de kolommen in het inertiaalstelsel van de soort <c1/>, na een tekenfix in de nutatiematrix), en de documentatie-audit heeft cijfers gecorrigeerd die eerdere documenten hadden afgedrukt.
+
+seg-7fe505d3232b = Statussen: <b>VALIDATED</b> betekent gecontroleerd aan een onafhankelijke externe referentie (een gepubliceerde tabel, de software van een andere groep, of meetgegevens); <b>MODELLED</b> betekent een vermeld model dat alleen op interne consistentie is gecontroleerd; <b>PARTNER</b> betekent dat de controle hardware of gegevens van een partner vereist.
+
+seg-ec7abb62f217 = 3GPP, 5G, NTN
+
+seg-c5eb2d160429 = 3rd Generation Partnership Project; mobiel netwerk van de vijfde generatie; niet-terrestrisch netwerk
+
+seg-9bb1a987fedc = AD, BC
+
+seg-bbe2b5aa0557 = tijdrekeningen (anno Domini, voor Christus)
+
+seg-05bbe79b1991 = AIAA
+
+seg-c7bfdad9ae33 = American Institute of Aeronautics and Astronautics
+
+seg-cfe05e065e19 = AltBOC, BOC, BPSK, MBOC
+
+seg-81799e2a0c43 = alternatieve binaire offsetdraaggolf; binaire offsetdraaggolf; binaire fasesprongmodulatie; gemultiplexte binaire offsetdraaggolf (signaalmodulaties)
+
+seg-b2d165acb4e7 = ATOMIC
+
+seg-ffd6c68bc1b3 = Autonomous Time and Orbit Determination for Microsatellite Constellations (een gepubliceerd LEO-efemeridemodel)
+
+seg-e2e2d80f47a5 = C/A, L1, L2, L2C, L5
+
+seg-7f71a4795674 = coarse/acquisition-code en de namen van de draaggolven en civiele signalen van het Global Positioning System
+
+seg-e464509f3abb = draaggolf-ruisdichtheidsverhouding
+
+seg-d8ba917c09b8 = CIO
+
+seg-4321532214e3 = Celestial Intermediate Origin
+
+seg-de6c33774c9c = CLI
+
+seg-3096eb1d5a15 = opdrachtregelinterface
+
+seg-9aa3c2e54398 = 24-bits cyclische redundantiecontrole (Qualcomm-polynoom)
+
+seg-1e1009e225aa = CSAC
+
+seg-6ff440ff2c0c = CSS, HTML, SVG, XML
+
+seg-bbe86e85e897 = Cascading Style Sheets; HyperText Markup Language; Scalable Vector Graphics; Extensible Markup Language
+
+seg-7f781a23a5a7 = CSV, JSON, PDF, TOML, URL
+
+seg-b4758ea40624 = door komma's gescheiden waarden; JavaScript Object Notation; Portable Document Format; Tom's Obvious Minimal Language; uniform resource locator
+
+seg-3ad592244ea8 = continue golf
+
+seg-287014fdc28d = CZML, KML, GeoJSON
+
+seg-469c9a50992d = Cesium Language; Keyhole Markup Language; Geographic JSON (kaart- en globeformaten)
+
+seg-3415aa029e39 = Development Ephemeris { "441" } van het Jet Propulsion Laboratory
+
+seg-68ff97cfdc03 = DOI
+
+seg-fa299d3dcaad = digital object identifier
+
+seg-02d581f43613 = DOP, GDOP, PDOP, HDOP, VDOP
+
+seg-a149d6e76bcb = verzwakking van precisie: geometrisch, positie, horizontaal, verticaal
+
+seg-bc679de1b3a8 = E1, E5, E5a, E5b
+
+seg-bb2b62a48d99 = namen van Galileo-signalen
+
+seg-544f4fcbd68f = een slotnaam in de constellatietabel van het Global Positioning System
+
+seg-dd9cfd581e5d = ECEF
+
+seg-1a59ad88eca9 = aardgecentreerd, aardvast
+
+seg-7cf8bec6418e = EE
+
+seg-ceacb6924d4d = vergelijking van de equinoxen
+
+seg-5d59005d9757 = Earth Gravitational Model { "2008" }
+
+seg-de3b39993e2a = EIRP
+
+seg-7f1b85286c96 = equivalent isotroop uitgestraald vermogen
+
+seg-9a1bcf99edb4 = Essential Routines for Fundamental Astronomy; Standards of Fundamental Astronomy (referentiebibliotheken voor astronomie)
+
+seg-51f1fda55cc7 = ESA, NAVISP
+
+seg-399a11a6e7c7 = Europees Ruimteagentschap; zijn Navigation Innovation and Support Programme
+
+seg-01eb6fdcdb90 = FDMA
+
+seg-6723fd8624df = frequentieverdeling voor meervoudige toegang
+
+seg-6d5d27174fe9 = GCRF, GCRS
+
+seg-dd326440740d = Geocentric Celestial Reference Frame; Geocentric Celestial Reference System
+
+seg-d41af8f18aed = GLONASS
+
+seg-81f742947af1 = het Global Navigation Satellite System van Rusland
+
+seg-d2a107373b59 = GNSS, GPS
+
+seg-d703f29c82eb = wereldwijd navigatiesatellietsysteem; Global Positioning System
+
+seg-1df73b95ae4d = IAU
+
+seg-0461e1933d23 = Internationale Astronomische Unie
+
+seg-6f1e5949b860 = ICD, OS SIS ICD, OS SDD
+
+seg-a54e0f483ad5 = interfacebeheerdocument; Galileo Open Service Signal-In-Space Interface Control Document; Galileo Open Service Service Definition Document
+
+seg-e78cf68c3f5e = ICRF
+
+seg-f094d5944111 = International Celestial Reference Frame
+
+seg-aa7091bb80e6 = IMO
+
+seg-6a7c8caf2a55 = Internationale Maritieme Organisatie
+
+seg-dbcf65546abf = INS, MEMS
+
+seg-b767f348dab9 = traagheidsnavigatiesysteem; micro-elektromechanisch systeem
+
+seg-1be5a43002db = IOD
+
+seg-7eb2ca980e20 = demonstratie in een baan om de aarde
+
+seg-92cd0058a058 = IQ
+
+seg-c7fa50165400 = in fase en in kwadratuur
+
+seg-41471e51e661 = de interfacespecificatie van het Global Positioning System
+
+seg-70fd83c6e862 = ISS
+
+seg-cc73228e1f0e = Internationaal Ruimtestation
+
+seg-c0d4cf4a1eab = ITRF, ITRS, PEF, TEME
+
+seg-7d5656c0bdc7 = International Terrestrial Reference Frame; International Terrestrial Reference System; pseudo-aardvast; ware evenaar, gemiddelde equinox (referentiestelsels)
+
+seg-8f1cbbae84aa = ITU, ITU-R
+
+seg-d1b7680b4762 = Internationale Telecommunicatie-unie; haar Radiocommunicatiesector
+
+seg-a524e4c4a670 = jammer-signaalverhouding
+
+seg-5d93361e20d4 = J2 tot J6, J2000
+
+seg-50255586b303 = zonale harmonischen van het zwaartekrachtveld; het tijdperk 2000-01-01 { "12" }:{ "00" }
+
+seg-368f7969b33a = JPL
+
+seg-44db8a7ae8f7 = Jet Propulsion Laboratory
+
+seg-e0e589aaa8fe = LEO, MEO
+
+seg-f4b580b88664 = lage baan om de aarde; middelhoge baan om de aarde
+
+seg-aad5b54bfffd = MBSE
+
+seg-800a5f6b96ad = modelgebaseerd systeemontwerp
+
+seg-535ba4896ba4 = NEES
+
+seg-a230ecd2fe39 = genormaliseerde gekwadrateerde schattingsfout
+
+seg-56d5135d987d = het ionosfeermodel van Galileo
+
+seg-408af08fe37b = OEM, SP3, TLE
+
+seg-caac315539e4 = Orbit Ephemeris Message; Standard Product { "3" } (nauwkeurige banen); tweeregelige elementenset
+
+seg-ac4878697ee5 = PNT, PPP
+
+seg-c19b5f77acc5 = positiebepaling, navigatie en tijdsynchronisatie; nauwkeurige puntpositiebepaling
+
+seg-dd94b086ed4b = PSD, SSC
+
+seg-6e937d7e984e = spectrale vermogensdichtheid; spectrale scheidingscoëfficiënt
+
+seg-e0421c657cc1 = RAIM, SQM
+
+seg-d6fee8d2ce49 = autonome integriteitsbewaking door de ontvanger; bewaking van signaalkwaliteit
+
+seg-dc53bead2cf5 = RINEX, RTCM
+
+seg-497d23725a56 = Receiver Independent Exchange Format; Radio Technical Commission for Maritime Services
+
+seg-dcd6afa24ea6 = RMS
+
+seg-0b4fc648e96c = kwadratisch gemiddelde
+
+seg-e1c3c49833fc = een opensource-GNSS-positiebepalingsbibliotheek, hier gebruikt als onafhankelijke referentie
+
+seg-9ead536db4aa = Simplified General Perturbations { "4" } (het baanmodel van tweeregelige elementensets)
+
+seg-865e7d1794b6 = Secure Hash Algorithm, 256 bits
+
+seg-8c718f7f9f5d = SigMF
+
+seg-7830c93a5803 = Signal Metadata Format
+
+seg-d282e836d47b = SISRE
+
+seg-3c48d3ad7b43 = afstandsfout van het signaal in de ruimte
+
+seg-f045a03a5598 = SPS PS
+
+seg-8b51e83d54d3 = Standard Positioning Service Performance Standard
+
+seg-758b51d8d5b6 = SRTM
+
+seg-7e45c32b04e4 = Shuttle Radar Topography Mission
+
+seg-8104773e1484 = STK
+
+seg-f4fca0494aae = Systems Tool Kit (zijn efemeridebestandsformaat <c1/>)
+
+seg-ad20a7bebf23 = STL
+
+seg-e2dbcb4bc5f5 = Satellite Time and Location
+
+seg-1043491566b5 = SVID
+
+seg-d67f9665f054 = identificatie van het ruimtevaartuig
+
+seg-de4e841ce8a2 = het totale aantal satellieten, de vlakken en de fasering van een Walker-constellatie
+
+seg-4d6ebfefc096 = TEC
+
+seg-5149401781dd = totale elektronendichtheid
+
+seg-71aee5eb55c5 = UHF
+
+seg-65e797f8bb42 = ultrahoge frequentie
+
+seg-3cd6018f5b78 = UTC
+
+seg-4d7d6ff2e8a5 = gecoördineerde wereldtijd
+
+seg-41b9b462d434 = WGS { "84" }
+
+seg-ec04054b9f8e = World Geodetic System { "1984" }
+
+seg-613b7c13cd32 = X1, X5
+
+seg-349e041a5a90 = signaalnamen van het Xona Pulsar-systeem
+
+seg-d6a3f210958a = Een gewijzigd gepubliceerd cijfer is een herziening en wordt vastgelegd, nooit stilzwijgend gecorrigeerd. Deze release bevat één herziening van engine-uitvoer en meerdere van cijfers die in de documentatie zijn afgedrukt.
+
+seg-1669eb4224f1 = Engine-uitvoer
+
+seg-185961ebab61 = De reductie van TEME naar GCRS draaide met { "2" }·Δψ te veel: de nutatiematrix had het teken van Δψ omgekeerd.
+
+seg-504b78f30c54 = <c1/> bouwde <c2/> waar <c3/> van SOFA <c4/> bouwt, zodat <c5/>, <c6/>, <c7/> en <c8/> roteerden met tweemaal de nutatie in lengte, ongeveer { "25" } boogseconden. Elke controle op de keten was een eigenschapstest (juiste rotatie, heen-en-terug, een niet-nulbijdrage van de nutatie) die een tekenfout doorlaat; de end-to-end-Vallado-test omvatte TEME→PEF, TEME→ITRF en GCRS→ITRS maar niet TEME→GCRS. In het Vallado-voorbeeld (AIAA 2006-6753, 2004-04-06) miste de keten de gepubliceerde GCRF met { "1 145" } m; nu komt ze { "0.11" } m ervan vandaan, en de matrix is gelijk aan <c9/> van ERFA tot { "1e-14" }. <c10/> en <c11/> falen allebei op het oude teken. De consistentietest van de CIO (Celestial Intermediate Origin) in <c12/> had het resulterende verschil van ~{ "130" } m toegeschreven aan "≈ { "2" }·EE"; het residu is nu { "5" } cm en zijn grens is aangescherpt van { "250" } m tot { "1" } m. <b>Dit verschuift gepubliceerde cijfers, hier als herziening vastgelegd:</b> de kolommen <c14/> en <c15/> van de soort <c13/> (ongeveer { "0.8" }–{ "1.0" } km voor het meegeleverde ISS-scenario (International Space Station); zijn kolommen voor TEME, aardvast, grondspoor, kijkhoek en Doppler veranderen niet), en <c16/> / <c17/> voor de GCRS- en ITRS-stelsels. Geen samenvattingsregel, grafiek of golden hash van een meegeleverd scenario leest deze kolommen. De nieuwe interoperabiliteitsexports gebruiken de gecorrigeerde keten: de CZML-positie van de eerste <c18/>-satelliet komt tot { "2.3" } cm overeen met een ERFA-reductie van dezelfde TLE (gepropageerd door het Python-pakket <c19/>).
+
+seg-a0a4026d22ed = <b>De soort <c1/>, native en in de browserbuild.</b> De soort berekent nu elke transcendente functie via één draagbare wiskundebibliotheek, zodat haar frame op elk platform en in elke build dezelfde bytes heeft (onder Fixed). Elk <c2/>-cijfer verschuift mee, en de fase <c3/> van <c4/>. De soort is nieuw in deze release, dus er verschuift niets uit een eerdere release, maar cijfers die vóór de fix zijn afgedrukt wel: de controlewaarde van <c5/> voor het scenario voor coderen en decoderen was <c6/> en is <c7/>, en haar SISRE van het gedecodeerde bericht is { "0.129" } cm. Op kshana.dev toonde de Missions-kaart voor <c8/> een grootste afstandsfout van { "1.6" } mm bij een fit van { "60" } s en { "40.3" } mm bij een fit van { "900" } s; de site wordt nu gebouwd met de engine van deze release en toont { "1.8" } mm en { "46.6" } mm.
+
+seg-77f441bfc3c3 = <b>De kaart van de jammingvoetafdruk op kshana.dev (Missions).</b> Elk van haar { "875" } cellen is één run van <c1/> waarbij alleen de positie van de ontvanger verandert. De cellen worden nu berekend uit dezelfde coördinaten met drie decimalen die de link "open this run" van de cel aan Kshana Studio geeft, zodat een cel precies toont wat zijn link reproduceert. De gemiddelde jammer-signaalverhouding (J/S) van { "30" } cellen verschuift met { "0.1" } dB, omhoog of omlaag; de trackingbeschikbaarheid van geen enkele cel verandert. De engine geeft identieke resultaten voor elke cel in { "0.28.0" } en { "0.29.0" }.
+
+seg-146588a39e7c = <b>Geseede resampling in het WebAssembly-pakket (WASM).</b> De browserbuild trok andere bootstrap- en shuffle-indices dan de native build uit dezelfde seed (onder Fixed). Het interval <c1/> van de oppervlakte onder de curve in de browser was <c2/> en is nu het native <c3/>. Er verschuift geen enkel native getal.
+
+seg-017810049453 = Cijfers die in de documentatie zijn afgedrukt
+
+seg-85ab2a364a37 = De documentatie is woord voor woord getoetst aan runs van de engine van deze release. Waar een afgedrukt cijfer niet met de run overeenkwam, is het document gecorrigeerd, en elke correctie staat hier vermeld, oud → nieuw. In elk geval hieronder is de engine-uitvoer niet veranderd; het document had haar verkeerd gelezen, verkeerd afgerond of was erdoor achterhaald.
+
+seg-1eacdefbfda2 = <b>Documentatie-audit van de pagina's over spectrum, constellatie, campagne, animatie, rapport en interoperabiliteit, en een nieuw <c1/>.</b> Elk cijfer is opnieuw uitgevoerd met deze engine. Twee gepubliceerde getallen verschuiven: <c2/> gaf de dekkingstest met { "5" } 000 satellieten als "ongeveer { "0.13" } s in een debugbuild"; dat is niet gereproduceerd ({ "1.24" } s op een belaste laptop), dus de pagina geeft nu het aandeel van het voorfilter dat de test afdrukt ({ "9.9" } % van { "19 440 000" } paartests) en de { "0.14" } s van de releasebinary voor de meegeleverde <c3/>. Dezelfde pagina gaf de kruising van E3F als "{ "0.050" } graad ernaast"; geen test drukt dat cijfer af, dus de pagina vermeldt nu alleen de drempel van { "0.06" } graad die de test afdwingt en de afleiding { "7.30" } tegen { "7.36" } graad erachter. Er verandert geen engine-uitvoer.
+
+seg-2ad182e2db15 = LEO-PNT-documenten: herziene gepubliceerde cijfers (opnieuw uitgevoerd op de engine van deze release).
+
+seg-6c2401365dd5 = <c1/> bandafweging: de eerste-orde ionosferische vertraging van <c2/> is { "3.24" } m (was afgedrukt als { "3.25" } m) en van <c3/> { "0.77" } m (was { "0.78" } m). <c4/> coderen en decoderen: de SISRE van het gedecodeerde bericht was afgedrukt als { "0.119" } cm waar de run { "0.122" } cm gaf; de pagina drukt nu { "0.129" } cm af, het cijfer na de fix voor platformonafhankelijkheid onder Fixed hieronder. <c5/> LEO-passage versus GNSS: { "32" } dB minder vrijeruimteverlies op de piek van de passage (was "{ "26" } tot { "32" } dB"). Voor de signaal- en passagecijfers is de engine-uitvoer niet veranderd; de documenten hadden haar verkeerd gelezen of verkeerd afgerond.
+
+seg-fc3c8ba1b789 = <b>Tutorials, het uitgewerkte pijplijnvoorbeeld en de opdracht <c1/>, getoetst aan de engine van deze release.</b> Herzieningen van gepubliceerde cijfers, oud → nieuw: de soorten die <c2/> schrijven zijn er zes, niet vier (<c3/> en <c4/> ontbraken; <c5/>, <c6/>); de koude-atoomkruising ½bT² in Tutorial { "3" } is { "18,443" } s, niet { "18,440" } s; de rondgangsfout van <c7/> in <c8/> is de gemeten { "4.88e-7" } km, niet "~{ "1e-7" } km"; de CSAC-holdoverband van Tutorial { "2" } is de { "2000" }–{ "3200" } s die de test bevestigt, niet "~{ "2600" }–{ "4400" } s"; Tutorial { "1" } citeert de SP3-rijen en het geometrieblok met de precisie waarmee de engine ze schrijft. Er is geen engine-uitvoer veranderd.
+
+seg-4c613cabb87b = Pagina's over validatie, kwantum, SGP4, animatie, beweringen en integriteit.
+
+seg-c49d5cdb36e1 = <c1/>: de afgedwongen drempel voor de gesimuleerde Allan-deviatie van één seconde van een klok met witte frequentieruis is { "20" } % (was afgedrukt als { "25" } %; de drempel van { "25" } % is die op de curve bij { "1" }, { "10" } en { "100" } s); de rij voor de snelheidsrandomwalk vermeldt nu zijn afgedwongen drempel van { "20" } % naast de waargenomen ongeveer { "12" } %; en de beschikbaarheid van de chip-scale atoomklok in <c2/> is ongeveer { "0.73" } (was afgedrukt als ongeveer { "0.83" }). <c3/>: de door trillingen beperkte ruis per schot in het uitgewerkte koude-atoomvoorbeeld van de pagina is ongeveer { "46" } maal zijn schotruisvloer (was "~{ "45" }×"; { "46.49" } herberekend), en het bereik "{ "1" }–{ "50" } µg/√Hz" voor veldtoestellen, dat een toestel tegensprak dat de pagina zelf noemt, is vervangen door de gepubliceerde cijfers van de twee genoemde toestellen. <c4/>: het grootste positieverschil is { "4.12" } mm (was "≈ { "4" } mm"), met vermelding van de satelliet. <c5/>: het voorbeeld van de video-encoder las de frames van { "24" } frames per seconde als { "12" }; het gebruikt nu { "24" }, de snelheid die het framemanifest vermeldt. <c6/>: het jammingmodel heeft { "10" } tests (was { "8" }), en de "{ "2.97" } m tegen { "48.8" } m" van het gekoppelde filter is vervangen door wat zijn test bevestigt (de gekoppelde positiefout onder { "0.6" } maal de ontkoppelde, en wint in ten minste { "90" } van { "100" } trials). <c7/>: de stempel "Today" las { "v0.22.0" }; hij noemt nu deze release, en twee mogelijkheden die sindsdien zijn gebouwd (de constellatiebrede foutmodus en het integriteitsondersteuningsbericht) verlaten zijn lijst van hiaten.
+
+seg-4fde8788f95f = <b>Scenariosoort <c1/>: een L-bandspectrummodel en waterfall</b> (<c2/>, <c3/>, <c4/>). De hele GNSS-L-band als één spectrale vermogensdichtheid (PSD): GPS L1 coarse/acquisition (C/A) en L2 civiel (L2C) (BPSK({ "1" })), Galileo E1 (gemultiplexte binaire offsetdraaggolf, MBOC(6,1,1/11), of BOC({ "1,1" })), GPS L5 en Galileo E5a (BPSK({ "10" })), een kT-ruisvloer met een ruisgetal van de ontvanger, en jammers met continue golf (CW), smalband, chirp en gematchte ruis op een gescripte tijdlijn. Elke jammer wordt per band gescoord met zijn spectrale scheidingscoëfficiënt (SSC), wat per band per rij de jammer-signaalverhouding (J/S) en de effectieve draaggolf-ruisdichtheidsverhouding (C/N0) geeft. De grafiek is een SVG-waterfall met C/N0-balken; result.json bevat het raster in vermogen blokgemiddeld. Optioneel <c5/> tekent het model als IQ-samples, schrijft en leest een Signal Metadata Format-opname (SigMF) (<c6/>, <c7/>) en vergelijkt een Welch-schatting met het model; optioneel <c8/> schat een echt SigMF-bestand. Meegeleverd voorbeeld <c9/>: een chirp haalt L1 C/A en E1 neer op { "10" } s, een CW-toon op de L1-draaggolf houdt C/A na het stoppen van de chirp op { "17.98" } dB-Hz terwijl E1, waarvan het spectrum daar een nul heeft, herstelt; L5 en E5a blijven onaangetast.
+
+seg-fa9976349886 = Nieuwe rij VALIDATED: de signaal-PSD's en SSC's, getoetst aan de hoofdlob van BPSK(n) van 2n x { "1.023" } MHz, de BOC({ "1,1" })-lobben gecentreerd op +/-1.023 MHz, de gesloten vormen van Parseval achter de gepubliceerde SSC's van -61.8 / -64.8 / -67.8 dB/Hz, en de leerboekwaarden Q = { "1" } (CW) en { "1.5" } (gematcht). Het maximum van de BOC({ "1,1" })-PSD ligt op +/-0.759 MHz, niet in het midden van de lob; de test legt beide vast.
+
+seg-411431a9b26b = Twee nieuwe rijen MODELLED: de waterfall en de C/N0-tijdlijn, die exact terugvallen op de keten van de soort <c1/> (in elk rapport gecontroleerd), en de SigMF-codec en de Welch-schatter. Er staat geen opname van een derde partij in de repository.
+
+seg-5c5c695e7c0a = <c1/>: een MBOC-variant en <c2/>.
+
+seg-bb346f4942a9 = Het rapport drukt de C/N0 af die de representatieve Q-tabel van de soort <c1/> zou geven, naast de uit het spectrum afgeleide; voor een CW-toon op de C/A-draaggolf verschillen ze { "1.8" } dB. Drie nieuwe matrixrijen: één getoetst aan een externe referentie (signaalspectra en spectrale scheidingscoëfficiënten) en twee gemodelleerd.
+
+seg-673dfe048dad = <b>Efemeride van het zonnestelsel en positiebepaling rond elk lichaam.</b> Twee nieuwe scenariosoorten.
+
+seg-3e1b0e8e99e9 = <c1/>: de Zon, de acht planeten, Pluto, de Maan, Phobos, Deimos, Io, Europa, Ganymedes, Callisto en Titan op één epoch: heliocentrische positie en snelheid in het International Celestial Reference Frame (ICRF), gravitatieparameter, stralen, J2 (de tweede zonale harmonische) waar gepubliceerd, siderische rotatie, de pool en de nulmeridiaan van de Internationale Astronomische Unie (IAU), een baanspoor over één omwenteling, en de lichttijd, enkele en dubbele afstand, de Shapiro-vertraging door de Zon en de afstand tot de Zon vanaf een waarnemerslichaam en voor elke extra link. De planeten komen uit de Keplerelementen van het Jet Propulsion Laboratory (JPL) van Standish en Williams (Table { "1" }, { "1800" } AD tot { "2050" } AD; Tables 2a/2b, { "3000" } BC tot { "3000" } AD); de manen uit gemiddelde JPL-elementen met de synchrone rotatiesnelheid van de IAU, en Titan uit het rotatiemodel van de IAU. Voorbeeld: <c2/>.
+
+seg-6a094973208b = <c1/>: een orbiter of een landingsvaartuig op het oppervlak rond een van die lichamen, dat navigeert met pseudoafstanden van een Walker-constellatie rond het lichaam en een klokvrije dubbele afstand vanaf de aarde; verzwakking van precisie, formele onzekerheid en geseede kleinste-kwadratenposities met en zonder de aardelink. Voorbeelden: <c2/>, <c3/>.
+
+seg-ed5063379a8b = <c1/> krijgt Mercurius, Venus, Jupiter, Saturnus, Uranus, Neptunus, Pluto en de zeven manen, een naamopzoeking en een fysiek record; <c2/> geeft elk lichaam ten opzichte van elk ander via de bestaande koppeling <c3/>.
+
+seg-8b5c2fbe91f7 = VALIDATED aan JPL Horizons (Development Ephemeris DE441; fixtures en queries in <c1/>): Mercurius tot Saturnus en de Aarde uit Table { "1" } binnen tweemaal de vermelde nominale fout (ergste { "1.87" } maal), alle acht planeten uit Tables 2a/2b (ergste { "1.71" } maal), en de lichttijd van de Aarde naar Mars en Jupiter. MODELLED: Uranus en Neptunus uit Table { "1" }, die de vermelde fout ten opzichte van DE441 overschrijden ({ "2.0" } en { "5.2" } maal), Pluto, de manen, de lichaamsconstanten en de resultaten van <c2/>.
+
+seg-a3c83f6d2078 = Bevinding: de maanreeks van Montenbruck & Gill in <c1/> is door haar eigen precessieterm al naar de equinox van J2000 herleid ({ "0.05" } graad van Horizons), dus ze wordt zonder verdere precessierotatie gebruikt. Zes nieuwe matrixrijen: twee getoetst aan een externe referentie (planeetposities, lichttijd) en vier gemodelleerd.
+
+seg-564133d6a0c4 = Constellaties rond elk lichaam
+
+seg-d1ddb76d8bf3 = <b>Constellatieontwerp op schaal (soort <c1/>, <c2/>).</b> Walker-delta- en Walker-sterpatronen (T/P/F), expliciete elementenlijsten en ontwerpen met meerdere schalen, meerdere constellaties per run, rond de Aarde, de Maan, Mars of een andere planeet, Pluto of een grote maan, uit de lichaamsconstanten die de soort <c3/> heeft toegevoegd. Voorinstellingen uit gepubliceerde nominale elementen: de basislijn en uitbreidbare constellatie met 24 slots van het Global Positioning System (GPS) (Standard Positioning Service Performance Standard, SPS PS, { "2020" }), Galileo Walker 24/3/1 (Open Service Service Definition Document, uitgave { "1.1" }), BeiDou-baan op middelhoge hoogte Walker 24/3/1 plus geostationaire en geneigde geosynchrone satellieten (Open Service Performance Standard { "3.0" }) en GLONASS 24/3/1 (Interface Control Document { "5.1" }). Dekking en verzwakking van precisie (DOP) over een breedte-/lengteraster: satellieten in zicht, GDOP, PDOP, HDOP en VDOP (geometrisch, positie, horizontaal, verticaal) en beschikbaarheid per cel, wereldwijd en op de slechtste locatie, met één ontvangerklok per constellatie. Een zichtbaarheidsvoorfilter (dekkingshalfhoek plus een breedteband onder de satelliet, exact op een bolvormig lichaam) draait { "5 000" } satellieten op een raster van { "10" } graad in ongeveer { "0.13" } s in een debugbuild.
+
+seg-8f4ebd177f3d = VALIDATED: de Walker-generator reproduceert Galileo OS SDD Table { "23" } en de slotformule van de GLONASS-ICD; de GPS-voorinstelling reproduceert de kolom met equatorkruisingen van SPS PS ({ "35" } van { "36" } locaties binnen { "0.0108" } graad; E3F binnen { "0.06" } graad, waarbij de eigen rij van de tabel inconsistent is); de wereldwijde HDOP-verdeling van de GPS-basislijn komt overeen met SPS PS Appendix B (mediaan { "0.940" } tegen { "0.94" }, { "95" } % { "1.255" } tegen { "1.25" }, gemiddelde { "0.965" } tegen { "0.96" }; drempel { "0.03" }).
+
+seg-65658a896a73 = MODELLED: willekeurige ontwerpen, andere lichamen, de fase van BeiDou en de geneigde geosynchrone knopen, tweelichamenbanen met optionele J2, alleen geometrie.
+
+seg-3dfe470e8a5c = Scenario's: <c1/> ({ "102" } satellieten, beschikbaarheid { "100" } %, mediane PDOP { "0.95" }, { "31.0" } in zicht boven { "10" } graad), <c2/> ({ "5 000" } satellieten, beschikbaarheid { "99.22" } % bij PDOP { "3" } of lager boven { "20" } graad, { "0" } % bij de poolkappen, voorfilter houdt { "11.5" } % van de paartests over), <c3/> ({ "14" } satellieten rond de Maan, beschikbaarheid { "21.33" } % in totaal en het hoogst boven het zuidpoolgebied). Alle drie zijn meegeleverd voor <c4/>. Opmerkingen: <c5/>. Drie nieuwe matrixrijen: twee getoetst aan een externe referentie (Walker-generator en GNSS-voorinstellingen, wereldwijde GPS-DOP) en één gemodelleerd.
+
+seg-79e2d2c42166 = Een campagne aangestuurd door het spectrummodel, en constellaties rond elk lichaam.
+
+seg-4ab5f6f6bbbb = <c1/> koppelt de soort <c2/> aan een klok-holdover en een integriteitsmonitor (een chirp haalt L1 C/A en E1 neer; een CW-toon houdt C/A vervolgens laag terwijl E1 herstelt en de ontvanger terugvalt op een hemel met alleen Galileo), vastgelegd tegen het zelfstandige waterfallvoorbeeld in <c3/>. <c4/> bepaalt zijn centrale lichaam nu via <c5/>, zodat een constellatie rond elke planeet, Pluto of grote maan kan worden gelegd met de constanten die de soort <c6/> gebruikt.
+
+seg-dc904f639fed = <b>Campagnes: veel scenario's samengesteld tot één run.</b> Een nieuwe soort <c1/> (<c2/>, gedocumenteerd in <c3/>) voert leden van bestaande soorten uit via dezelfde dispatch als de opdrachtregel en leest getallen uit hun resultaten terug. Vier secties, in elke combinatie:
+
+seg-903ee141047a = <c1/>: een geketende missie op één tijdlijn. Voorinstellingen per soort lezen de klokfout tegen zijn bewakingsgrens, de gemiddelde effectieve draaggolf-ruisdichtheidsverhouding (C/N0) tegen de trackingvloer, het verticale beschermingsniveau tegen de alarmgrens, positiefout, satellieten in tracking en alarmvlaggen, vastgehouden op een gemeenschappelijk raster met fasegrenzen en gebeurtenissen. De toestand wordt doorgegeven door <c2/>, <c3/> en <c4/>.
+
+seg-4eeedde09a77 = <c1/>: één tot drie gepunte sleutels van elke soort, optioneel met een geseed ensemble op elk knooppunt.
+
+seg-4c113198cbb7 = <c1/>: realisatie k op basisseed + k, met gemiddelde, spreiding, percentielen en een bootstrap-betrouwbaarheidsinterval van { "95" }% met vaste seed.
+
+seg-df107253752d = <c1/>: gedeelde waarden die aan meerdere leden zijn gebonden, met een gecombineerde samenvatting van beste en slechtste. Elk resultaat draagt een campagnehash en een digest over elk ledenresultaat. Vier meegeleverde scenario's: <c2/> (nominaal, jamming, spoofing beëindigd bij de detectie na { "370" } s door de klokmonitor, holdover met de gespoofde offset van { "37.0" } ns terwijl een traagheidseenheid doorvaart, een integriteitsalarm, herstel), <c3/>, <c4/> en <c5/>. <c6/> legt de compositie-identiteiten vast: een campagne met één fase reproduceert de zelfstandige run bit voor bit op drie soorten, een ensemble met vaste seed is bytestabiel, en op een klok met witte frequentieruis ligt het ensemblegemiddelde binnen het gerapporteerde interval met de spreiding binnen het chikwadraatinterval van sqrt(q_wf * tau) = { "16.459" } ns. Drie nieuwe gemodelleerde matrixrijen.
+
+seg-c611ee59301a = Animatie
+
+seg-14b2d3cc9e7c = <b>Animatie-export (<c1/>, <c2/>, <a1><c3/></a1>).</b> Elke run waarvan het resultaat een tijdreeks bevat, kan nu worden weggeschreven als een geanimeerd Scalable Vector Graphics-bestand (SVG) (Cascading Style Sheets-keyframes, geen script: de sporen worden getekend achter een bewegende tijdcursor), als één op zichzelf staande HyperText Markup Language-speler (HTML) (afspelen en pauzeren, scrubben, snelheid, elk paneel op één gesynchroniseerde cursor, gebeurtenismarkeringen die bij een klik zoeken; geen extern bestand), of als een genummerde SVG-framereeks met een <c4/> die frames per seconde, duur en frametijden voor een video-encoder vermeldt. Een campagne wordt afgespeeld als haar fasen met haar alarmen gemarkeerd; een spectrumrun animeert zijn waterfall rij voor rij. De speler volgt <c5/>, en onder <c6/> tonen zowel de SVG als de speler het afgewerkte beeld in plaats van te bewegen. <c7/> en <c8/> stellen het afspelen in; <c9/> en <c10/> zijn de ingangen van de bibliotheek, en <c11/> krijgt een blok <c12/> alleen wanneer <c13/> draait. De uitvoer is een zuivere functie van het resultaat en de opties, byte-identiek bij een herhaalde run, zonder tijdstempel. Een soort zonder bemonsterde tijdas wordt geweigerd met "no time series to animate" en er wordt niets geschreven. De exporteur tekent de eigen samples van de run en voegt geen getal toe, dus hij is MODELLED (interne consistentie) en heeft geen rij in de verificatiematrix; er verandert geen gepubliceerd getal. Tests: <c14/> (determinisme, aantal frames, geen extern adres, goedgevormde XML, het pad voor verminderde beweging, en elk meegeleverd scenario met een tijdreeks dat animeert).
+
+seg-c01b78b64065 = Rapporten
+
+seg-2662fdb991f3 = <b>Geavanceerde runrapporten (<c1/>, <a1>docs/REPORTS.md</a1>).</b> Elke run via de opdrachtregelinterface (CLI) schrijft nu <c2/>, een afdrukbaar HyperText Markup Language-rapport (HTML), en <c3/>, dezelfde inhoud als machineleesbaar JavaScript Object Notation-document (JSON). Secties: een managementsamenvatting; elke scenario-invoer met zijn eenheid, gelezen uit het schema van veldeenheden (het blok <c4/> van het resultaat), anders uit het achtervoegsel van de veldnaam, anders als niet vermeld aangegeven; de resultaten met de grafiek van de run, elke scalar en een samenvatting van elke numerieke kolom; voor een campagne de knooppunttabel van de sweep, het Monte Carlo-gemiddelde, de standaarddeviatie, de percentielen 5e / 50e / 95e en het bootstrap-betrouwbaarheidsinterval met een histogram per maat, de fasetabel van de keten, of de leden en gecombineerde samenvatting van de compositie (en het raster van een run van <c5/> of <c6/>); een tijdlijn van gebeurtenissen; het label VALIDATED / MODELLED / PARTNER, de onafhankelijke referentie en het testbewijs van elke rij van de verificatiematrix die de soorten van de run aanspreken, gelezen uit de matrix via een kruistabel van soort naar rij (een rij die één invoerpad beoordeelt, zoals het pad Simplified General Perturbations { "4" } (SGP4) van <c7/> of het pad voor gemeten records van <c8/>, wordt alleen vermeld wanneer de run dat pad nam, en de lezersrij voor de Shuttle Radar Topography Mission (SRTM) wordt voor geen enkele soort vermeld, omdat geen scenarioveld een SRTM-tegel leest); de verklaringen over wat niet is gemodelleerd en de aannames, elk met zijn bron aangehaald; en een reproduceerbaarheidsrecord (engineversie, de bronscommit wanneer de build <c9/> instelt, Secure Hash Algorithm 256-bit-digests (SHA-256) van het scenariobestand en het resultaatdocument, seed, platform en de exacte opdracht). Het rapport leest geen klok: hetzelfde scenario, dezelfde seed en dezelfde enginebuild geven een byte-identiek rapport, en de enige tijdstempel die het kan tonen is die welke <c10/> al schrijft. Een printstijlblad past op A4 en US Letter, herhaalt tabelkoppen en houdt rijen en figuren heel over pagina's; een Portable Document Format-bestand (PDF) wordt gemaakt met "Opslaan als PDF" van de browser. Er is geen optie <c11/>, omdat het renderen van de grafieken naar een PDF een nieuwe, zware afhankelijkheid zou vereisen. Tests: <c12/> rapporteert elk meegeleverd scenario (geen lege sectie, geen plaatshoudertekst, labels gelijk aan de matrix, de scenariodigest gelijk aan die van het bestand, byte-identiek bij een herhaalde run) en <c13/> voert de vastgelegde opdracht opnieuw uit in een verse map en eist een byte-identiek <c14/>. Er verandert geen gepubliceerd getal, en de aantallen soorten, scenariobestanden en matrixrijen blijven ongewijzigd.
+
+seg-ce45e75c6d67 = <b>Het rapport, de animatie en de exports werken samen.</b> Het geavanceerde rapport krijgt een sectie "Animatie en exports": de geanimeerde tekening van de run ingebed als inerte afbeelding (of de reden dat er geen is), links naar de animatie- en exportbestanden die ernaast zijn geschreven, en elk interoperabiliteitsformaat met of het van toepassing is, waarom niet, en zijn specificatie; <c1/> bevat hetzelfde blok <c2/>. De HTML-animatiespeler toont de exportbestanden die ernaast zijn geschreven. De opdrachtregelinterface (CLI) rendert de exports nu voordat ze het rapport schrijft, zodat beide de bestanden kunnen noemen.
+
+seg-c60dc5b92a60 = Interoperabiliteitsexports
+
+seg-5bfce52c5a13 = Interoperabiliteitsexports en -imports (<c1/>, <c2/>, docs/INTEROP.md).
+
+seg-44e7c902490a = <c1/> schrijft de geometrie van het scenario als CZML (de Cesium Language), KML (Keyhole Markup Language { "2.2" }, een standaard van het Open Geospatial Consortium, met <c2/> tijdgetagde sporen), GeoJSON (Request for Comments { "7946" } van de Internet Engineering Task Force) en Ansys STK-efemeriden (Systems Tool Kit) <c3/> (<c4/>, meters, één bestand per bewegend object), en de gesynthetiseerde IQ-snapshot (in fase en in kwadratuur) van de soort <c5/> als SigMF-paar (Signal Metadata Format) via de bestaande <c6/>. <c7/> schrijft elk formaat dat van toepassing is en drukt af waarom de andere dat niet zijn; <c8/> rapporteert zonder te draaien. Bewegende objecten worden geschreven in het Geocentric Celestial Reference System (CZML <c9/>, STK <c10/>) en in aardvaste WGS { "84" } (World Geodetic System { "1984" }) lengte, breedte en hoogte (KML, GeoJSON); vaste locaties in CZML zijn <c11/>. De soort <c12/> voegt twee jammervoetafdrukken toe uit zijn eigen linkvergelijkingen. <c13/> schrijft een GeoJSON-<c14/> in de sporeninvoer van <c15/>, <c16/>, <c17/> en <c18/>. Exports zijn byte-deterministisch en bevatten geen tijdstempel. <c19/> valideert elke export tegen zijn gepubliceerde specificatie, vergelijkt geëxporteerde satelliettoestanden met die van de engine zelf tot { "1" } mm, en voert elk meegeleverd scenario door elk formaat, waarbij elk ofwel exporteert ofwel vermeldt waarom niet (de tabel in docs/INTEROP.md). Er verandert geen gepubliceerd getal: de IQ-synthese van de soort <c20/> is verplaatst naar één gedeelde functie en zijn resultaatdocument is byte-identiek, en <c21/> krijgt <c22/> en <c23/>, gebruikt door zijn eigen run. De aantallen soorten, scenariobestanden en verificatiematrixrijen blijven ongewijzigd. Een baan- of integriteitsscenario zonder <c24/> wordt gedateerd met de eigen gegevens van zijn satellieten: <c25/> is de vroegste epoch van een TLE (tweeregelige elementenset), broadcast-efemeride of SP3 (Standard Product { "3" }), en elke zulke satelliet wordt op zijn eigen tijdstip geroteerd naar het GCRS en de aardvaste stelsels; 2000-01-01T00:{ "00" }:00Z wordt alleen gebruikt als geen enkele satelliet een epoch heeft. De SP3- en OEM-exports (Orbit Ephemeris Message) behouden hun label 2000-01-01. Om dit te ondersteunen zijn <c26/>, <c27/> en <c28/> toegevoegd; niets wat al bestond leest ze.
+
+seg-12c151a800f9 = Navigatie in een lage baan om de aarde: signaal
+
+seg-9b665682695a = <b>LEO-PNT-signaalontwerpen en een multibandspectrum.</b> Een nieuwe soort <c1/> en een soort <c2/> die verder reikt dan de L-band: één soort, vier scenariobestanden (drie meegeleverd; het bestand Celeste IOD staat alleen in de repository) en vier matrixrijen (twee VALIDATED, twee MODELLED).
+
+seg-b355b28bfd1b = <c1/>: geparametriseerde signaalontwerpen voor positiebepaling, navigatie en tijdsynchronisatie (PNT) in een lage baan om de aarde (LEO) voor elk systeem (band, zendbandbreedte, ITU-toewijzing; acquisitie-, data- en pilootcomponenten met BPSK(n), BOC(m,n), MBOC of vlakke spectra, vermogensaandelen, FDMA-subdraaggolven, codelengtes en datasnelheden), uit ingecompileerde openbare voorinstellingsbestanden onder <c2/> (Xona Pulsar X1/X5, Iridium STL, een Starlink-signal of opportunity, CentiSpace, een representatief C-bandontwerp en representatieve UHF/L/S/C/brede-C-ontwerpen, elk met de URL van zijn bron) of inline geschreven. Per signaal: de bandbeperkte PSD en de vermogensfracties in de band, Gabor-bandbreedte, bandbeperkte early-late-codetrackingjitter tegen C/N0 en afstand (Betz & Kolodziejski { "2009" }) en de afstandsnauwkeurigheid, de acquisitiezoekruimte, detectiekans en gemiddelde seriële en codeparallelle acquisitietijd, de SSC naar en van GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b en AltBOC met het C/N0-verlies, CW-, breedband- en gematchte J/S-tolerantie uit de SSC-code van de spectrumsoort, een bandafweging (ionosferische vertraging, vrijeruimteverlies, afstandsbepaling bij gelijke C/N0 en gelijke EIRP, jammertolerantie), en optionele vormcontroles tegen een beschreven meting. Voorbeelden: <c3/>, <c4/>, <c5/> (de Celeste IOD-banden en signaalconfiguratie zoals gepresenteerd op de ESA NAVISP LEO-PNT-workshop, { "2026" }; achtergehouden met de voorinstelling Celeste IOD, zie "LEO-PNT end to end" hieronder). Notities in <c6/>.
+
+seg-8f58debf721f = <c1/>: banden mogen nu een voorinstelling voor een signaalontwerp zijn (elke component getekend, bandbeperkt, C/N0 en J/S herleid tot de gevolgde component) of een eigen draaggolf en modulatie; <c2/> voegen waterfalls over andere frequentiebereiken toe op één tijdlijn; een jammer van het type <c3/> (barrage) voegt zich bij de vier golfvormen. Het rapport voegt <c4/>, <c5/> en <c6/> toe, en één vermelding <c7/>. Gewone banden geven dezelfde getallen als voorheen. Voorbeeld: <c8/>.
+
+seg-98f74d85c54b = <c1/> krijgt de sinusintegraal, de gesloten vormen voor BPSK-vermogen in de band en de bandbeperkte Gabor-bandbreedte, de bandbeperkte early-late-jitter voor elk spectrum en zijn Gabor-grens, de gesloten vorm van de SSC voor offset-BPSK, het Galileo E5 AltBOC({ "15,10" })-spectrum en een parser voor modulatielabels; <c2/> drukt BPSK(1/3) af als breuk.
+
+seg-78d9e5e2c615 = Vier matrixrijen: VALIDATED bandbeperkte gesloten vormen ({ "90.3" } % van het BPSK-vermogen in de hoofdlob, de jitter die terugvalt op de coherente vorm van Kaplan & Hegarty, { "0.0039564" } chips bij { "45" } dB-Hz, B_L { "1" } Hz, d { "1" } chip, T { "20" } ms, en op zijn Gabor-grens, en de BPSK-eigen-SSC 2/({ "3" } R_c); de gesloten vorm van Gabor en de offset-SSC tegen zijn Parseval-vorm zijn vermeld als interne kruiscontroles); VALIDATED maximale LEO-Doppler (Xona X1 { "33.2" } kHz binnen de gepubliceerde { "32" } tot { "34" } kHz, Iridium binnen { "0.5" } kHz van { "36" } kHz); MODELLED <c1/>; MODELLED multibandspectrum.
+
+seg-45d3d4a46d6b = Navigatie in een lage baan om de aarde: link
+
+seg-1d120db87aae = <b>LEO-PNT-passage en linkbudget per band: de soort <c1/>.</b> LEO-PNT is positiebepaling, navigatie en tijdsynchronisatie vanaf satellieten in een lage baan om de aarde (LEO). Een gebruiker (op de grond, op zee, in de lucht of binnenshuis, stilstaand of bewegend) en een of meer LEO-satellieten uit een ontworpen passage, expliciete elementen, een tweeregelige elementenset (TLE) via SGP4, of een Walker-constellatie uit de code van <c2/>. Per satelliet, band en epoch: kijkhoeken, afstand, gesloten-vorm-afstandssnelheid en -versnelling (elke run gecontroleerd met centrale verschillen), Doppler en Doppler-snelheid, vrijeruimteverlies, EIRP (equivalent isotroop uitgestraald vermogen) met een isoflux-, Gauss-bundel- of vlak satellietpatroon, een patchantenne voor de gebruiker, gasverzwakking volgens ITU-R P.676, regenverzwakking volgens ITU-R P.838/P.618, troposferische scintillatie volgens P.618, ITU-R P.2109-verlies bij binnendringen in gebouwen voor een gebruiker binnenshuis, polarisatiemismatch, systeemruistemperatuur en C/N0 (draaggolf-ruisdichtheid); de eerste-orde ionosferische vertraging per band uit een scheve TEC (totale elektronendichtheid) van Klobuchar of verticale TEC onder de satelliet, en ionosfeervrije bandparen met hun ruisversterking. Galileo- of GPS-satellieten worden met dezelfde ontvanger beoordeeld uit hun ontvangen vermogens volgens het interfacedocument, zodat de klokvormige LEO-passage en de vlakke MEO-draaggolven (medium Earth orbit) één grafiek delen. Een sectie <c3/> geeft tijd tot de eerste positiebepaling, energie per positiebepaling en batterijduur tegen duty cycle (MODELLED).
+
+seg-17f3503e1be3 = Systeemonafhankelijk: de engine heeft geen voorinstelling nodig. Optionele voorinstellingen, elk in een eigen bestand en gemarkeerd als PUBLIC (met URL), REPRESENTATIVE of WORKSHOP: generiek multiband (UHF, L, S, C), generieke C-band, Xona Pulsar X1/X5 (arXiv { "2509.19551" }), Iridium STL, Starlink als signal of opportunity met alleen Doppler, CentiSpace, en Celeste IOD (in-orbit demonstration), waarvan de signaalparameters zijn gepresenteerd op de ESA NAVISP LEO-PNT-workshop, { "2026" }, en die in <c1/> staan zodat ze kunnen worden achtergehouden (zie "LEO-PNT end to end" hieronder).
+
+seg-a338cc46a1e0 = Openbare bouwstenen in <c1/> (geometry, antenna, itu, iono, energy, presets) die andere modules kunnen aanroepen.
+
+seg-887ad03cb6f6 = Scenario's: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+seg-a20f1602c236 = Negen matrixrijen. VALIDATED ({ "6" }): ITU-R P.838-3-coëfficiënten tegen zijn Table { "5" }; P.618-14-regenverzwakking en -scintillatie tegen de validatievoorbeelden van ITU-R Study Group { "3" }; P.2109-verlies bij binnendringen in gebouwen tegen het werkboek van Study Group { "3" }; eerste-orde ionosferische schaling tegen de groepsvertragingsverhouding van IS-GPS-200, met het vrijeruimteverlies; de maximale Doppler van een statische gebruiker in een cirkelbaan tegen arXiv { "2509.19551" } Table { "1" }. MODELLED ({ "3" }): de passage en het linkbudget, de voorinstellingen en het energiearme positiebepalingsbudget. Eén soort en zes scenariobestanden. Notities in <c1/>.
+
+seg-ef74b0f08aa1 = Navigatie in een lage baan om de aarde: navigatieboodschap
+
+seg-866ff4ee8b19 = <b>LEO-navigatieboodschap (soort <c1/>, <c2/>).</b> De broadcast-efemeride- en klokboodschap van een satelliet voor positiebepaling, navigatie en tijdsynchronisatie (PNT) in een lage baan om de aarde (LEO), voor elke baan, draaggolf en elk model; benoemde voorinstellingen zijn optionele gegevens en elke mogelijkheid draait zonder ze. Eén soort, vijf scenariobestanden en negen matrixrijen (drie VALIDATED, zes MODELLED). Zie <c3/>.
+
+seg-c42821b6e855 = Inhoud van de boodschap: SVID, uitgifte van gegevens, band en signaalgezondheid; week, tijd van de week en een kloktweedegraadspolynoom; de efemeride in een van vier modellen — de Keplerset met 16 parameters van de Galileo OS SIS ICD, die set plus correctiepolynomen langs het spoor, dwars op het spoor en radiaal, het model met 22 parameters van Liu et al. { "2025" } (doi 10.3390/rs17162894), of de ECEF-polynoom zonder klok van ATOMIC — en een Klobuchar-set, NeQuick-G-coëfficiënten met het effectieve ionisatieniveau, en parameters voor systeemtijd naar UTC met de schrikkelsecondegevallen van de ICD.
+
+seg-e4565696f162 = Fitter: een referentiebaan geïntegreerd met zonale J2–J6- of EGM2008-zwaartekracht en luchtweerstand, een geseede vrije of gestuurde klok, een Levenberg–Marquardt-fit op niet-singuliere elementen, vervolgens lineaire kleinste-kwadraten-correctiepolynomen en een klok gefit na aftrek van de relativistische term van de gebruiker.
+
+seg-a7287b7b336c = Vier analyses en scenario's: <c1/> (afstandsfout van het signaal in de ruimte (SISRE) tegen fitinterval en updateperiode), <c2/> (vier modellen, bits, en de fit van Kshana met 22 parameters op de hoogten van Liu et al. naast de gepubliceerde cijfers, MODELLED), <c3/> (continuïteit bij elke boodschapwissel in een passage) en <c4/> (het eigen gedocumenteerde binaire frame van Kshana met CRC-24Q en een kwantisatiebudget, een blok in RINEX-4-stijl dat als Kshana-extensie is gelabeld, en een CSV-tabel).
+
+seg-e272dce3d10f = VALIDATED: de wereldwijd gemiddelde SISRE-gewichten tegen de gepubliceerde tabel voor middelhoge en geostationaire banen van Montenbruck et al. { "2018" }; het Galileo-gebruikersalgoritme tegen RTKLIB op vier echte Galileo-broadcastefemeriden (<c1/>); CRC-24Q tegen de controlewaarde uit de catalogus en het RTCM { "10403" } { "1005" }-voorbeeldframe.
+
+seg-5c8592195b0d = Voorinstellingen, één bestand per stuk met bronnen: Xona Pulsar en Pulsar-0, Iridium, Starlink, CentiSpace, een representatief C-bandsysteem, ATOMIC, en Celeste IOD (de enige voorinstelling die materiaal gebruikt dat is gepresenteerd op de ESA NAVISP LEO-PNT-workshop, { "2026" }, bewaard in <c1/> met zijn scenario's zodat ze kan worden achtergehouden).
+
+seg-9fb0cbf29cef = Navigatie in een lage baan om de aarde: fusie
+
+seg-071f4db017c5 = <b>Gefuseerde MEO + LEO-positiebepaling, -navigatie en -tijdsynchronisatie: <c1/>, <c2/> en <c3/>.</b> Drie nieuwe scenariosoorten in <c4/>, systeemonafhankelijk: elke constellatie bestaat uit Walker-schalen, elementensets of een GNSS-voorinstelling, elk signaal uit een draaggolf, een chipsnelheid en een omhullende van de draaggolf-ruisdichtheid (C/N0), elk foutbudget uit een expliciete één-sigma, en benoemde systemen in een lage baan om de aarde (LEO) zijn optionele voorinstellingen, één bestand per stuk met hun bronnen gemarkeerd als public, workshop of derived (Xona Pulsar X1/X5, Iridium Satellite Time and Location (STL), Starlink-signals of opportunity, CentiSpace, een representatief C-bandsysteem, het efemeridemodel zonder klok ATOMIC, en één ESA Celeste-voorinstelling voor een demonstratie in een baan om de aarde waarvan de uit de workshop afgeleide parameters in <c5/> staan zodat ze kunnen worden achtergehouden).
+
+seg-f28f7a441263 = <c1/> heeft vier modi: Doppler-positiebepaling (batchgewijze kleinste kwadraten op afstandssnelheid met klokdrift- en snelheidstoestanden, een modus met alleen Doppler voor signals of opportunity, de nauwkeurigheid langs het spoor en dwars op het spoor in één passage, en de omhullende van Doppler, Doppler-snelheid en jerk); gezamenlijke gewogen kleinste kwadraten voor GNSS + LEO met één klok per systeem (de inter-systeembias) of een bekende offset, sigma's per meting als invoer, en de DOP tegen het aantal LEO-satellieten; pool- en Arctische dekking tegen breedte; en LEO-tijdoverdracht naar gecoördineerde wereldtijd (UTC) tegen C/N0 en de oscillator van de ontvanger met de uitdrukking van IS-GPS-200 voor systeemtijd naar UTC.
+
+seg-57afa384aabd = <c1/>: een float-extended-Kalmanfilter voor nauwkeurige puntpositiebepaling (PPP) op ionosfeervrije code en fase, alleen GNSS en met LEO-augmentatie, met zijn convergentietijd en een Monte Carlo-consistentietest met NEES (genormaliseerde gekwadrateerde schattingsfout). Het meegeleverde scenario geeft { "7.4" } min met vier MEO-systemen en { "4.8" }, { "3.2" }, { "2.7" } en { "2.3" } min met { "60" }, { "96" }, { "192" } en { "288" } LEO-satellieten, naast de { "9.6" }, { "7.0" }, { "3.2" }, { "2.1" } en { "1.3" } min van Li et al. (J. Geod. { "93" }:{ "749" }, { "2019" }) als MODELLED vergelijking van de trend.
+
+seg-3fa0556b3737 = <c1/>: 5G-positiebepaling met een niet-terrestrisch netwerk (NTN) in de 3GPP n256 mobiele-satelliet-S-band uit de Cramér-Rao-grens voor aankomsttijd en Doppler.
+
+seg-a0cc2699e276 = Scenario's: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (meegeleverd) en <c8/> (alleen in de repository, achtergehouden met de voorinstelling Celeste IOD).
+
+seg-c0b6b98eeac3 = Acht matrixrijen: de LEO-Doppler-omhullende VALIDATED aan de gepubliceerde cijfers van Iridium (±{ "36" } kHz: { "35.9" } kHz, binnen { "5" }%) en Xona Pulsar X1 ({ "32" } tot { "34" } kHz: { "33.6" } kHz uit de schaal van { "97" } graad, zonder verbreding) (<c1/>); Doppler-positiebepaling, gezamenlijke pseudoafstandpositiebepaling, PPP-convergentie, NTN-grenzen, LEO-tijdsynchronisatie, poolbedekking en de voorinstellingen MODELLED. Drie soorten en acht scenariobestanden. Documentatie: <c2/>.
+
+seg-173793480abc = <b>LEO-PNT van begin tot eind: de soort <c1/>, en de LEO-fasen aan elkaar gekoppeld.</b> Eén positiebepalings-, navigatie- en tijdsynchronisatiesysteem (PNT) in een lage baan om de aarde (LEO), gevolgd van zijn signaalontwerp tot de positie van de gebruiker, elke fase de eigen soort van de engine op zijn eigen scenariotabel, met waarden die in code worden doorgegeven (<a1><c2/></a1>):
+
+seg-41a4a2183ba3 = Banden van <c1/> mogen een ontwerp <c2/> noemen (<c3/>): de band neemt het midden, de zendbandbreedte en de chipsnelheid van de gevolgde component van het ontwerp over, verdeelt zijn EIRP (equivalent isotroop uitgestraald vermogen) over de componenten van het ontwerp, en rapporteert van elk epoch de C/N0 (draaggolf-ruisdichtheid) van de gevolgde component en de bandbeperkte codetrackingjitter (de afstandsfout; de paarruis van <c4/> gebruikt die ook). Een band zonder ontwerp geeft dezelfde uitvoer als voorheen.
+
+seg-a076a43a9d44 = <c1/> voert uit: signaal -> passage -> navigatieboodschap -> gefuseerde gezamenlijke positiebepaling van <c2/> -> optioneel <c3/>. Elk LEO-systeem van de positioneringsfase dat ze niet instelt, neemt een C/N0-lijn in sin(elevatie) gefit aan de passage, de afstandsfout van het signaal in de ruimte (SISRE) van de boodschap (de representatiefout op de baan van de satelliet van de passage, met een vermelde baanbepalingsterm <c4/> als wortel van de som van kwadraten), en de draaggolf en chipsnelheid van het ontwerp; de gevallen van nauwkeurige puntpositiebepaling (PPP) nemen de SISRE. Elke overdracht staat vermeld met haar waarde en eenheid, en <c5/> controleert dat elke gelijk is aan de upstream-uitvoer en dat upstream-wijzigingen de downstream-cijfers laten verschuiven. <c6/> is de nieuwe ingang voor de boodschap.
+
+seg-8c256ed478e9 = Scenario's: <c1/> (een generieke constellatie op { "1080" } km en het representatieve signaal <c2/>), <c3/> (het openbare X5-signaal), beide meegeleverd, en het optionele, alleen in de repository aanwezige <c4/>.
+
+seg-879259c7ff86 = De voorinstellingen voor Celeste IOD (in-orbit demonstration) van de gebieden passage, boodschap en gefuseerde positiebepaling staan nu in één bestand, <c1/>, dat <c2/> alleen inbouwt als het bestaat (de configuratievlag <c3/>). De vijf scenario's (<c4/>) staan alleen in de repository, dus het verwijderen van dat bestand en die scenario's houdt elk getal achter dat op de ESA NAVISP LEO-PNT-workshop, { "2026" }, is gepresenteerd, zonder broncodewijziging; <c5/> controleert welke bestanden de voorinstelling mogen noemen of de getallen van zijn bandplan mogen bevatten.
+
+seg-110b1f7c7c63 = Elke LEO-soort in de kruistabel van het geavanceerde rapport, met zijn padspecifieke rijen alleen vermeld wanneer de run dat pad nam (een regenintensiteit, een gebouw, een analyse of modus die liep). De Doppler-vensters van <c1/> krijgen <c2/> en de gevallen van <c3/> krijgen <c4/>, zodat beide animeren; <c5/> en <c6/> exporteren CZML-, KML-, GeoJSON- en STK-efemeriden, en de andere LEO-soorten vermelden waarom een formaat niet van toepassing is.
+
+seg-1419edea5329 = Navigatie in een lage baan om de aarde: veerkracht, aandachtsgebieden en eindgebruikersscenario's
+
+seg-d084d86044b4 = <b>LEO-PNT-veerkracht, één scenario per aandachtsgebied van het experiment en één per eindgebruikerssector, en <c1/> als overzicht van elke LEO-soort en elk scenario.</b> Elk scenario draait zonder Celeste-gegevens en is meegeleverd.
+
+seg-07e91f076ab2 = <c1/> krijgt een sectie <c2/>: een spoofer vervalst, zelfconsistent in afstand en afstandssnelheid, de signalen van een beweerde positie die springt en/of na een begintijdstip van de ware positie wordt weggeduwd (per LEO-band, en het MEO-GNSS-signaal), met of zonder de ionosfeer. Twee monitoren draaien bij een vermelde kans op vals alarm: consistentie van Doppler en passagegeometrie (gemeten afstandssnelheden tegen die welke uit de banen en een onafhankelijke voorafgaande positie en snelheid worden voorspeld; een gegeneraliseerde kleinste-kwadraten-chikwadraat over een venster, op de GNSS-, LEO- en alle kanalen, ruis van de frequentievergrendelingslus uit C/N0) en consistentie tussen de banden (de stap van de modelgecorrigeerde geometrievrije combinatie van elk LEO-bandpaar). Het resultaat geeft de statistieken per epoch (zodat het animeert), elk paar, en wanneer elke monitor detecteert. Bouwstenen in <c3/>. Ontbrekende sectie, ongewijzigde uitvoer.
+
+seg-6a7852f1f053 = Elk bandpaar van <c1/> rapporteert ook de scheve totale elektronendichtheid (TEC) die zijn geometrievrije combinatie op de piek van de passage terugvindt en de sigma van de coderuis van die schatting (ionosfeerpeiling). Dit voegt twee velden toe aan elk multibandresultaat van <c2/>; er verandert geen bestaand getal.
+
+seg-bdf333f4c978 = De tijdsynchronisatiemodus van <c1/> accepteert <c2/>: elke rij rapporteert dan zijn tijdfout en voorspelde sigma op elk epoch, met dezelfde trekkingen, zodat de rijstatistieken ongewijzigd blijven en de run animeert en in een campagne kan worden geketend.
+
+seg-eb4461740dc5 = Een campagne exporteert nu elk ledenscenario dat geometrie heeft (faseruns, de basisscenario's van de sweep en Monte Carlo, samengestelde leden met hun gedeelde waarden gebonden) als eigen bestandsset, met het ledenlabel in de bestandsnaam; eerder exporteerde een campagne niets. De interoperabiliteitstabel in <c1/> verandert dienovereenkomstig.
+
+seg-c0b1f4d9fed0 = Een sweepsleutel van een campagne mag een array van tabellen op positie indexeren (<c1/>).
+
+seg-4c995017dd9c = Veerkrachtscenario's: <c1/> (een barrage in de L5-band van { "50" } MHz, geveegd in vermogen: elk L-bandsignaal valt weg, de LEO-signalen in UHF, S- en C-band houden hun C/N0), <c2/> (J/S-marge uit ontvangen vermogen: GPS L5, Galileo E5a en Xona X5 verloren bij -105, -100 en -95 dBW, een generiek LEO-signaal van -135 dBW dat bij -90 dBW nog wordt getrackt), <c3/> (een sprong van { "30" } m die de Dopplertest met alleen GNSS mist en die de test op alle kanalen { "105" } s na het begintijdstip detecteert), <c4/> (vier spoofers tegen beide monitoren) en <c5/> (GNSS gejamd, de LEO-laag in S- en C-band getrackt, autonome integriteitsbewaking door de ontvanger op de LEO-laag alleen die bij { "2" } van { "30" } epochs alarm slaat).
+
+seg-bae66dac04cc = Scenario's voor aandachtsgebieden: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (veerkracht in L, S en C is <c8/>).
+
+seg-c7947d9cc592 = Sectorcampagnes, elk geanimeerd en met export van zijn LEO-passages: <c1/>, <c2/> (de meegeleverde maritieme en spoorscenario's plus LEO), <c3/>, <c4/>, <c5/>, <c6/>. Resultaten in één regel in <c7/>.
+
+seg-222ad0b777f8 = Drie matrixrijen MODELLED: de spoofingmonitor voor Doppler en passagegeometrie, de spoofingmonitor tussen de banden, en ionosfeerpeiling. <c1/> controleert de monitoren (stil vóór het begintijdstip, de Dopplerstatistiek kwadratisch in een sprong, de ionosferische stap van een spoofer op de grond en geen bij een spoofer die de ionosfeer kent), de peilingsidentiteit, het tijdspoor tegen de rijstatistieken, en dat de export van een campagne gelijk is aan die van elk lid zelf.
+
+seg-f650b42bf210 = De pagina <c1/> verhuist naar <c2/>; <c3/> is het overzicht.
+
+seg-00a4ba834f37 = <b>Maritieme, weg- en spoorscenario's.</b> Vijf meegeleverde voorbeelden op bestaande soorten, zodat schepen, wegvoertuigen en treinen elk een uitgewerkt geval hebben. Elk cijfer is MODELLED; geen enkel is getoetst aan gemeten gegevens.
+
+seg-682414bbe0c6 = <c1/> (<c2/>): een breedbandjammer van { "50" } W op een mast van { "30" } m, { "30" } km over open water van een schip. Gemiddelde jammer-signaalverhouding (J/S) ongeveer { "48" } dB, en de beschikbaarheid daalt van { "1.00" } naar { "0.00" }.
+
+seg-4666dcd72c24 = <c1/> (<c2/>): een traagheidsnavigatiesysteem (INS) van navigatiekwaliteit met { "12" } knopen, GNSS verloren en geen ondersteuning. Het overschrijdt { "10" } m na { "281" } s en { "100" } m na { "833" } s, de cijfers voor havenaanloop en oceaanwateren van Resolutie A.1046({ "27" }) van de Internationale Maritieme Organisatie (IMO), hier als budgetten gebruikt.
+
+seg-7407bb97aedd = <c1/> (<c2/>): een spoofer van +{ "2" } dB die niet op de draaggolf is uitgelijnd en vier satellieten duwt om een schip { "500" } m weg te slepen. De gefuseerde monitor detecteert hem (score { "0.70" } tegen een drempel van { "0.50" }) op autonome integriteitsbewaking door de ontvanger (RAIM) en bewaking van signaalkwaliteit (SQM); alleen vermogensbewaking mist hem.
+
+seg-1edc0541930b = <c1/> (<c2/>): een auto door een onderdoorgang van { "15" } s en een uitval van { "60" } s door een jammer langs de weg, tegen een budget van { "1.5" } m voor een halve rijstrook. De gefuseerde kwadratisch gemiddelde fout (RMS) tijdens de uitval is { "1.9" } m voor een micro-elektromechanisch systeem (MEMS) van automotivekwaliteit en { "0.7" } m voor een vergelijkingstoestel van tactische kwaliteit; vrijlopend drijft het MEMS-toestel af tot { "850.8" } m.
+
+seg-f9830a49659f = <c1/> (<c2/>): een INS van tactische kwaliteit op een trein met { "160" } km/h in een tunnel. Het overschrijdt { "2" } m (spooronderscheiding) na { "35.8" } s, ongeveer { "1.6" } km binnen, en { "20" } m na { "107.3" } s. Dit is alleen INS: de engine heeft geen odometermodel, dus dit is de pessimistische grens. Het aantal scenariobestanden in de README verschuift van { "77" } naar { "82" }. Alle vijf zijn meegeleverd voor <c3/> en vermeld in de browserplayground.
+
+seg-77c8c53126fd = Model Context Protocol-server
+
+seg-2deb4b35b41a = De Model Context Protocol-server (MCP) bereikt elke soort en elke weergave van een run: zeven nieuwe hulpmiddelen, veertien in totaal.
+
+seg-7f4035dfd9db = <c1/> verwerkte al elke soort; wat een agent ontbeerde was een weg naar een geldig scenario van een soort, en naar de drie uitvoerbestanden die de opdrachtregel naast een resultaat schrijft. Nieuwe hulpmiddelen:
+
+seg-d9df5ab8817a = <c1/> en <c2/> leveren de meegeleverde referentiescenario's (de tabel <c3/>), elk met zijn soort en de eerste zin van zijn eigen kop, byte voor byte het bestand onder <c4/>. Een scenario dat in de repository staat maar niet is meegeleverd, wordt met de reden geweigerd. Elke soort behalve <c5/> (waarvan het gegevensdeel alleen met de repository meekomt) heeft ten minste één voorbeeld.
+
+seg-cb24ad7147ef = <c1/> geeft het rapport van de run terug als JSON (JavaScript Object Notation) of als afdrukbare HTML-pagina (HyperText Markup Language) (<c2/>).
+
+seg-9264b2f20e15 = <c1/> geeft de tijdreeks van de run terug als geanimeerde SVG-tekening (Scalable Vector Graphics), een HTML-speler of genummerde frames, na een JSON-samenvatting van wat is getekend (<c2/>). Een antwoord bevat hooguit { "120" } frames; de opdrachtregel schrijft elke lengte.
+
+seg-959f23871238 = <c1/>, <c2/> en <c3/> leveren de interoperabiliteitsexports en de GeoJSON-routeimport (<c4/>): CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON, de STK-efemeride (Systems Tool Kit) <c5/> en SigMF (Signal Metadata Format), met een JSON-index van de bestanden (achtervoegsel, grootte en SHA-256, de digest van het 256-bits Secure Hash Algorithm) en het binaire SigMF-samplebestand als base64.
+
+seg-9ec3f9639b8c = De bibliotheek krijgt een standaard uitgeschakelde feature <c1/> die de referentiescenariotabel beschikbaar stelt als <c2/>; alleen de MCP-server schakelt die in, zodat het Python-wheel en de WebAssembly-module de scenariotekst nog steeds niet bevatten. Studiesuites (<c3/>) blijven alleen via de opdrachtregel beschikbaar, omdat een suite bestanden op schijf noemt en de server er geen leest. De rondgangstests voeren elk nieuw hulpmiddel uit op meegeleverde scenario's en controleren de getallen van de engine: spectrum, het zonnestelsel, constellaties rond de Maan en Europa, een campagnesweep, en de soorten voor signaal, passage, navigatieboodschap, gefuseerde positiebepaling, nauwkeurige puntpositiebepaling, niet-terrestrisch netwerk en van begin tot eind in een lage baan om de aarde (LEO). Elk oppervlak dat het aantal MCP-hulpmiddelen vermeldt of de hulpmiddelen opsomt, zegt nu veertien, behalve de playgroundpagina onder <c4/>, die door de site wordt vervangen.
+
+seg-c11823028688 = kshana.dev, Kshana Studio en de README
+
+seg-fb584cf84218 = <b>Een herontworpen kshana.dev.</b> De ene playgroundpagina is vervangen door een site met meerdere pagina's: Home, Missies, Mogelijkheden, Bewijs, Ontwikkelaars, Edities en Docs, met Kshana Studio één klik verderop. Elke grafiek, kaart en elk getal erop is een vastgelegde run van de engine van deze release, met het scenario en een link die dezelfde run in de Studio heropent; de sitebuild weigert een opname die door een andere enginecommit is gemaakt. De documentatiepagina's worden gegenereerd uit de <c1/> van de repository, en de installatieopties uit haar kanalen. Lettertypen en scriptbibliotheken worden door kshana.dev zelf geserveerd, dus geen enkele pagina vraagt iets op bij een host van een derde partij. Oude adressen (<c2/>, <c3/>, <c4/>-deellinks, <c5/>-embedlinks en de rest) sturen door naar hun nieuwe plaats, en een onbekend adres krijgt een { "404" }-pagina.
+
+seg-9fa1c542332b = <b>Kshana Studio, een dashboard voor elke mogelijkheid.</b> De Studio opent met een startscherm met domeintegels en goede eerste runs, en leidt een run vervolgens door vijf genummerde stappen: Kies een scenario, Stel de parameters in, Voer de engine lokaal uit in de browser, Lees de resultaten (eerst de kerncijfers, elk met een chip PASS of FAIL waar de run een drempel vermeldt, daarna de panelen) en Deel of exporteer. Eén zoekvak vindt scenario's, domeinen en de velden erin en springt naar het bedieningselement; runs kunnen worden vastgezet en vergeleken; een kruimelpad zegt waar u bent; op een telefoon worden de stappen een stapbalk. Elke scenariosoort heeft zijn weergave, waaronder de spectrumwaterfall, het zonnestelsel, constellatiedekking, campagnes, de animatie, het runrapport, de interoperabiliteitsexports en de keten voor een lage baan om de aarde. Een diepe link (<c1/>) opent dezelfde run op het genoemde paneel.
+
+seg-dcf2788bb430 = <b>Onderzoek en citeren.</b> De pagina Bewijs noemt de vijf papers over Kshana op arXiv ({ "2606.22054" }, { "2606.24210" }, { "2607.02566" }, { "2607.05415" } en { "2607.06212" }), elk met een samenvatting, een door deze engine berekende figuur, de opdracht die ze reproduceert, een Studio-link en BibTeX, naast hoe de software te citeren. De README krijgt dezelfde sectie Onderzoek.
+
+seg-fab395bab130 = Een openbare pagina voor Kshana Pro.
+
+seg-167a59e94101 = <c1/> en de pagina Edities van de site zeggen wat de propriëtaire Pro-laag toevoegt aan dezelfde engine (ontwerpoptimalisator, onzekerheid en gevoeligheid, missiedossier, campagnebewaking, spectrumcoëxistentie, lokale jobservice, traceerbaarheid van eisen), wat elk voortbrengt en wat het niet doet. Elk Pro-cijfer dat de site toont, staat vermeld op die openbare pagina. Pro voegt geen fysisch model toe, en de open engine blijft heel en gratis.
+
+seg-f57f0a610943 = <b>Een herschreven README.</b> Korte secties, één afbeelding per sectie, het Kshana-merkteken, twee rijen badges, gegenereerde afbeeldingen van architectuur, scenarioverloop, keten voor een lage baan om de aarde en verificatie (<c1/>, dat faalt bij een verouderde afbeelding), en Studio-screenshots die door <c2/> uit de draaiende Studio zijn genomen. De README's van crates.io, PyPI, npm en de MCP-server volgen hetzelfde ontwerp. Lang referentiemateriaal is ingeklapt of verplaatst naar <c3/>.
+
+seg-e06522ca762e = <b><c1/> is nu het geavanceerde runrapport</b> dat onder Toegevoegd wordt beschreven, en de regel <c2/> van de CLI noemt ook <c3/>. De scorekaart van één pagina die het verving blijft ongewijzigd als <c4/>, die de Python- en WebAssembly-bindings nog steeds teruggeven. <c5/> maakt de zin beschikbaar die <c6/> afdrukt voor elke rij MODELLED; dat document is ongewijzigd.
+
+seg-77a6f35c5c9a = <b>De README zegt waarop Kshana Pro voortbouwt.</b> De sectie Edities en de regel Kshana Pro onder "Support & professional services" vermelden nu wat de gereedschappen van Pro voor modelgebaseerd systeemontwerp (MBSE) en programmabeheer doen en welke gepubliceerde uitvoer van de open engine ze lezen (de <c1/> en <c2/> van elke run, het scenariobestand, het schema van veldeenheden en de labels van de verificatiematrix), en waarop de digitale klokweergaven (digital twins), afwegingsstudies en bewijspakketten in de open engine berusten. Alleen formulering: er verandert geen engine-uitvoer en geen gepubliceerd getal.
+
+seg-1a19675ffa3b = <b>Compatibiliteit.</b> De publieke enum <c1/> krijgt een variant <c2/>, wat een brekende wijziging is voor een aanroeper die hem uitputtend matcht. De kolommen <c4/> en <c5/> van de soort <c3/> veranderen (zie "Herzieningen van gepubliceerde cijfers"). Een run wordt nog steeds gereproduceerd door de engineversie die haar maakte.
+
+seg-e7c5f77a6602 = <b><c1/> op de MCP-server noemde vier soorten als de enige met een CSV-tabel (door komma's gescheiden waarden); zes publiceren er een.</b> Het hulpmiddel gaf de tabel altijd terug voor <c2/> en voor <c3/> (zijn analyse <c4/> op een boodschapmodel <c5/> of <c6/>), maar zijn beschrijving, zijn weigeringsmelding en de documenten die de soorten opsommen lieten beide weg, zodat een agent werd verteld er niet om te vragen. Ze worden nu genoemd, en een rondgangstest haalt beide tabellen op.
+
+seg-4094f58a5f4b = Het frame van de navigatieboodschap in een lage baan om de aarde (LEO) had niet op elk platform dezelfde bytes, en ook niet in elke build van één platform.
+
+seg-5191262de022 = <c1/> codeerde een frame met cyclische redundantiecontrole <c2/> in de releasebuild op aarch64 macOS, <c3/> in een debugbuild van dezelfde broncode op dezelfde machine, en <c4/> in de WebAssembly-build (WASM); <c5/> gaf native <c6/> tegen <c7/> in de browser. Drie oorzaken, elk herleid tot de eerste afwijkende waarde:
+
+seg-f6501c3cd89d = <em>Tussen platforms.</em> De referentiebaan was op beide bit-identiek; het beginpunt van de fit niet. <c1/> neemt de osculerende inclinatie uit een <c2/> en het argument van het perigeum uit een <c3/>, en de twee wiskundebibliotheken ronden die in de laatste plaats verschillend af (over { "20 000" } argumenten verschillen ze bij { "781" } sinussen, { "858" } cosinussen, { "1 931" } exponentiële functies en { "1 899" } arctangens-functies met twee argumenten).
+
+seg-cd6f05096b8b = <em>Tussen buildprofielen.</em> Een geoptimaliseerde build op macOS voegt een sinus en een cosinus van één argument samen tot één aanroep van de gecombineerde routine van het systeem, en zijn sinus is bij { "379" } van { "200 000" } argumenten niet die van de losse <c1/>; een niet-geoptimaliseerde build doet de twee aanroepen. De soort neemt op dertien plaatsen een sinus en een cosinus samen.
+
+seg-91b0700dcb30 = <em>In de klok.</em> De normale sampler van <c1/> roept de <c2/> en <c3/> van de host aan in zijn twee zeldzame takken: van vier miljoen geseede trekkingen verschilden er drie in het laatste bit tussen de native en de WASM-build.
+
+seg-0a4724333429 = De Levenberg–Marquardt-fit, die op deze boog stopt bij zijn limiet van 80 iteraties en niet bij een minimum, draagt één eenheid in de laatste plaats over naar verschillende gekwantiseerde velden. De soort berekent nu elke transcendente functie via de nieuwe <c1/>, die de pure-Rust-crate <c2/> aanroept (al in de afhankelijkheidsboom, nu genoemd in <c3/>), voor elk doel uit één bron gecompileerd en niet een bibliotheekaanroep die de optimizer herschrijft: <c4/> en de scenariocode. Gehele machten op dat pad worden uitgeschreven als square-and-multiply, omdat <c5/> een niet-gespecificeerde precisie heeft, en de referentieklok trekt zijn normale afwijkingen uit <c6/> (de poolmethode van Marsaglia op de ruwe uitvoer van de generator). De gedeelde routines waardoor de referentiebaan wordt geïntegreerd zijn eenmaal geschreven, generiek over de wiskundebibliotheek, met naast de bestaande een crate-interne ingang <c7/>: de bolfunctieharmonische versnelling, de zonale en luchtweerstandsversnellingen, de seculiere J2-snelheden en de Klobuchar-vertraging. De bestaande ingangen zijn tot op het laatste bit ongewijzigd, dus er verschuift geen getal van een andere soort. <c8/> legt het hele frame van 171 bytes vast en één controlewaarde per efemeridemodel, in het gewone (niet-geoptimaliseerde) testprofiel, op elk platform en zonder poort voor een basislijnhost; <c9/> leest de bronnen van de soort van schijf en faalt bij een inherente transcendente aanroep, bij een sampler <c10/>, of bij een aanroep naar een module die niet is beoordeeld. Na de wijziging leveren een debugbuild, een releasebuild en de WASM-build byte-identieke resultaatdocumenten voor alle vijf de scenario's van <c11/>. <b>Dit verschuift getallen, hier als herziening vastgelegd.</b> De soort <c12/> is nieuw in deze release, dus er verschuift niets wat in een eerdere release is gepubliceerd, maar wel elk cijfer van <c13/>, native en in de WASM-build, en daarmee de fase <c14/> van <c15/>: de baancijfers omdat de fit nu start vanuit de draagbare elementen, de klokcijfers omdat de referentieklok een andere realisatie van hetzelfde proces is. <c16/> is opnieuw gegenereerd uit de nieuwe resultaten; zijn gepubliceerde controlewaarde voor het scenario voor coderen en decoderen was <c17/> en is <c18/> (positie binnen { "1.126" } mm van de exacte boodschap waar het { "0.665" } mm was, klok binnen { "0.185" } mm waar het { "0.451" } mm was). De omvang van de veranderingen in de cijfers onder de millimeter is de gevoeligheid van de fit, geen fout in een van beide sets: de fit is ongewijzigd en stopt nog steeds bij zijn iteratielimiet.
+
+seg-c30f4cef4797 = Geseede resampling trok andere indices op een 32-bitsdoel.
+
+seg-2bf668e23ec1 = <c1/> over <c2/> neemt { "64" } bits van de generator op een 64-bitshost en { "32" } bits op een 32-bitshost, zodat dezelfde seed andere indices gaf, en de stroom elders achterliet, in de WASM-build. Drie plaatsen trokken zo: de percentiel-bootstraps in <c3/> (<c4/>, <c5/>), de shuffle voor elke trainingsronde in <c6/>, en de permutatietest in <c7/>. Ze trekken nu via <c8/>, dat altijd als <c9/> bemonstert: precies wat een 64-bitshost deed, dus er verschuift geen native getal. <b>Dit verschuift gepubliceerde getallen van het WASM-pakket, hier als herziening vastgelegd:</b> het bootstrapinterval <c10/> van de oppervlakte onder de curve (<c11/>, <c12/>) was <c13/> in de browser en is nu het native <c14/>.
+
+seg-80f783da1d4f = <b>Bestandsnamen van STK-efemeriden uit mover-id's.</b> Een mover-id met een <c1/> of een spatie (een constellatieschaal en een satelliet, <c2/>) liet de CLI crashen op <c3/>; elk id gaat nu door een veilig bestandsdeel (letters, cijfers, <c4/>, <c5/>).
+
+seg-a0dc5729d5e9 = <b>Het teken van de nutatie bij TEME→GCRS</b>, hierboven beschreven onder "Herzieningen van gepubliceerde cijfers" omdat het gepubliceerde uitvoer verschuift.
+
+seg-5ecbf0787f39 = <b>Scenariosoort <c1/></b> (<c2/>): seconden tot een vrij lopende klok de bewakingsgrens van een tijdgeïndexeerde routerings- of taakslot verlaat, elke bijdragende term op dat moment met de dominante genoemd, de resterende tijd sinds de laatste positiebepaling, en het grootste interval tussen positiebepalingen dat de klok erbinnen houdt, na aftrek van de latentie van de positiebepaling. De klok komt uit een standaard per klasse, een voorinstelling uit een datasheet voor telecom-timing, een inline datasheet (maxima van de Allan-deviatie, veroudering, temperatuurcoëfficiënt) of een gemeten faserecord. Een overschrijding voorbij de langste middelingstijd die de bron ondersteunt, wordt als geëxtrapoleerd gemarkeerd. Meegeleverd voorbeeld: <c3/>. Zie <c4/>.
+
+seg-40dd4c16b760 = <b>Gemeten roodruisvloer.</b> De overlappende Allan-deviatie van een faserecord wordt gefit met gewogen kleinste kwadraten in de basis voor witte fase en frequentiemodulatie volgens IEEE Std { "1139" } (<c1/>), elk punt gewogen met zijn equivalente vrijheidsgraden, zodat een holdover-antwoord kan berusten op de eigen vloer van de klok in plaats van op de klasse-aanname. Een ongewogen fit legde een valse flikkervloer op een testrecord met witte ruis en verkortte een overschrijding van { "2 000" } s met { "30" } %.
+
+seg-22c09748488b = <b>Validatie met achtergehouden gegevens van de holdover-inversie op een echte klok</b> (<c1/>): gefit op het eerste derde van het record van de 5071A-cesiumklok tegen de waterstofmaser, vallen de voorspelde één-sigma-overschrijdingen bij zes drempels van { "0.5" } tot { "2.5" } ns binnen { "0.84" } tot { "1.03" } van de overschrijdingen die op de andere twee derde zijn gemeten, tegen een drempel van { "1.5" } die vóór de eerste run van de test is vastgelegd. Een controle (de Allan-deviatie van één seconde gelezen als witte ruis) mist met een factor van ongeveer { "1 000" } en haalt de drempel niet. Nieuwe registerrij VALIDATED; de workflow <c2/> voert hem nu uit.
+
+seg-cd73dc87a22f = <b>Dezelfde voorspelling op een echte kristaloscillator</b> (<c1/>, <c2/>): op een gemeten oven-gestuurde kristaloscillator is de voorspelling met achtergehouden gegevens behoudend, op { "0.59" } tot { "0.70" } van de gemeten overschrijding en nooit later, en grotendeels buiten de drempel van { "1.5" }, omdat de ruisvloer van die oscillator halveerde tijdens het record van 5.5 uur; in de steekproef gefit komt ze binnen { "0.98" } tot { "1.17" }. Het kristalgeval is niet getoetst aan een externe referentie en blijft MODELLED. De run bracht ook een ontbrekende term aan het licht: de frequentie van een kristal zwerft, dus het model bevat nu de onzekerheid van de frequentie zoals bekend bij de positiebepaling (<c3/>); zonder die term was de voorspelling tot { "2.5" }× te optimistisch.
+
+seg-8519979d184c = <b>Dezelfde voorspelling op atoomklokken in een baan</b> (<c1/>, <c2/>): { "14" } dagen definitieve klokken van de International GNSS Service voor de GPS Block IIF-satellieten, met het protocol opgeschreven voordat de gegevens werden gedownload. Acht van de tien satellieten vallen binnen de drempel van { "1.5" }; G25 en G30 voorspellen overschrijdingen tot ongeveer tweemaal zo laat als gemeten. Het protocol eist dat elke satelliet slaagt, dus het geval in een baan is niet getoetst aan een externe referentie en blijft MODELLED; de uitkomst is vastgelegd.
+
+seg-0d666a725b77 = <b>Klokklassen voor temperatuurgecompenseerd kristal (TCXO), oven-gestuurd kristal (OCXO) en rubidium-atoomfrequentiestandaard (RAFS)</b> (<c1/>, <c2/>, <c3/>), de onderdelen die een commerciële smallsat-bus of een grondgateway meevoert, elk met één openbare datasheet als bron (<c4/>). <c5/>, <c6/> en <c7/> toegevoegd. <c9/> van <c8/> accepteert de drie nieuwe id's. Het toevoegen van varianten aan een publieke enum is een brekende wijziging voor een aanroeper die hem uitputtend matcht.
+
+seg-24ae82b115f5 = <b>Beschermingsniveau voor tijdsynchronisatie bij een ontvanger in een baan</b> (<c1/>, de optionele sectie <c3/> van de soort <c2/>): hoe lang een spoofer op de grond een satelliet in een lage baan om de aarde per passage kan bereiken, de afwijking die een spoofer met een vermelde maximale rampsnelheid opbouwt voordat de satelliet zijn bereik verlaat of een onafhankelijke controle draait, en of elke controle bij grondcontact of crosslink onafhankelijk is van die spoofer. Valt exact terug op <c4/> voor een klok zonder flikker-, witte-fase- of random-run-ruis. MODELLED.
+
+seg-4032bc03fad5 = <b>Drie notities</b>: <c1/> (waaronder tegen welke zwervingsmaat een slot moet worden geaccepteerd: maximale absolute tijdfout, niet maximale tijdsintervalfout of tijdsdeviatie, en waarom), <c2/> (een ondertekend commando dat op een misleide tijd wordt toegepast, leidt nog steeds verkeerd) en <c3/> (waar Kshana draait; er wordt geen vluchtkern <c4/> aangeboden).
+
+seg-712035e19515 = De release { "v0.27.3" } bereikte crates.io (<c1/> en <c2/>) en PyPI, en stopte toen bij npm, zodat npm, de MCP-image op ghcr.io, het MCP-register, de JetBrains Marketplace en kshana.dev haar nooit ontvingen. { "0.27.4" } brengt dezelfde engine, met de releasefix hieronder, naar elk kanaal.
+
+seg-bab8d4d1bc54 = <b>De npm-publicatiestap noemt de tarball met een expliciet pad.</b> npm leest een kaal <c1/> als de GitHub-afkorting <c2/>, dus de npm-job van { "v0.27.3" } probeerde <c3/> te klonen en faalde met "Permission denied (publickey)". De tarball zelf was gebouwd en geattesteerd. De stap publiceert nu <c4/>. Alles na npm in de releasevolgorde (de MCP-image, de JetBrains-plug-in, de kanaalpariteitscontrole en de site) is overgeslagen, zoals ontworpen.
+
+seg-f9a112755eb1 = <b>De eenhedencatalogi van telecom-timing en <c1/> zijn uitgezonderd van copy-paste-detectie</b>, onder hetzelfde beleid en dezelfde rechtvaardigingstest als de andere catalogi. De kwaliteitspoort van SonarCloud was rood geworden door duplicatie in nieuwe code ({ "4.0" }% tegen { "3" }%), en elk gedupliceerd blok was een eenhedenrij of een ITU-T-maskervermelding.
+
+seg-3c3dacae06d6 = <b><c1/>: hoe lang de navigatie van een kleine drone standhoudt nadat GNSS is gejamd.</b> Het vergelijkt een micro-elektromechanische (MEMS) traagheidseenheid van vluchtcontrollerklasse, een Bosch BMI088, met een eenheid van tactische kwaliteit. Het GNSS-signaal (Global Navigation Satellite System) is { "100" } s nominaal en wordt dan { "60" } s geweigerd (<c2/> laat zien waarom een jammer in de buurt dat doet). De biassen van de BMI088 zijn de residuen die na de kalibratie bij het opstarten overblijven, genomen uit de temperatuurcoëfficiënten in zijn datasheet (BST-BMI088-DS000-19 rev { "1.9" }): { "0.015" } °/s per K voor de gyro en < { "0.2" } mg per K voor de versnellingsmeter. Twee aannames zijn in het bestand gemarkeerd: een opwarming van { "10" } K na de kalibratie, en voortdurende opwarming van { "1" } K per minuut tijdens de vlucht. De drift tijdens de vlucht is de fout die het filter niet kan leren voordat de jamming begint, en zij maakt een einde aan de coast. Elk cijfer is gemodelleerd; om het te toetsen zijn vluchtlogs uit een gejamde omgeving nodig. <c3/> drukt het af.
+
+seg-7154f69a2b8a = <b>Elke sensor van <c1/> kan zijn eigen filterprior instellen</b> (<c2/> of <c3/>, met <c4/> en <c5/>). De standaard is ongewijzigd, dus elk bestaand scenario geeft hetzelfde resultaat. De resterende gyrobias van een eenheid van consumentenkwaliteit ligt ongeveer { "26" } sigma buiten de standaard voor tactische kwaliteit, waar het filter hem nooit zou leren. Een prior die niet eindig en positief is, wordt geweigerd, en het resultaat echoot de prior wanneer er een is ingesteld.
+
+seg-2b54735b19aa = <b><c1/> geeft een gebruiker van het register een scenario om uit te voeren.</b> Een gebruiker van <c2/> heeft het uitvoerbare bestand en geen map <c3/>, dus de eerste opdracht die elke quickstart gaf, faalde. De opdrachtregelinterface (CLI) bevat nu de { "75" } referentiescenario's die op zichzelf draaien, byte voor byte, ingecompileerd uit <c4/> (<c5/>; de tabel staat in de CLI-binary, zodat het Python-wheel en de WebAssembly-module niet groeien). <c6/> somt ze op; <c7/> schrijft er een weg. De andere twee bestanden staan alleen in de repository: <c8/> leest gearchiveerde laserafstandsmetingen naar de Maan die alleen met de repository meekomen, en <c9/> is een studiemanifest dat drie zusterbestanden uitvoert met <c10/>. Om een van beide vragen levert de reden en sluit af met { "2" } in plaats van iets af te drukken wat niet op zichzelf kan draaien. <c11/> houdt de tabel in beide richtingen gelijk aan de map, zodat een nieuw scenariobestand dat niet is meegeleverd en niet als alleen-repository is benoemd, faalt.
+
+seg-43249b6a1f3c = <b>Elke kwaliteitsmaat in een klok-, baan-, hybride- of fusieresultaat zegt nu of ze VALIDATED of MODELLED is, in het resultaat zelf.</b> Het resultaatdocument krijgt een blok <c1/>, altijd zijn laatste sleutel. Het somt elk gerapporteerd cijfer op (bijvoorbeeld <c2/>) met zijn niveau — VALIDATED betekent gecontroleerd aan een onafhankelijke externe referentie, MODELLED betekent een model uit eerste beginselen dat intern is getest — en de rij van de verificatiematrix waaruit het niveau wordt gelezen. Het niveau komt uit <c3/> via <c4/>, dus er is geen tweede tabel die kan afdwalen. Hiervoor kwamen de woorden "getoetst" en "gemodelleerd" nul keer voor in een klok-holdover-resultaat, en een lezer van de ruwe JSON (JavaScript Object Notation) kon de twee niet uit elkaar houden. De positiecijfers van <c5/> en <c6/> hebben geen eigen matrixrij, dus ze staan onder <c7/> in plaats van een niveau te krijgen. Het blok bevat geen getallen. Het is bewezen additief, niet aangenomen: door het te verwijderen krijgt men het document van vóór de wijziging byte voor byte terug, voor alle vijf de soorten (een enginetest), en beide golden-harnassen (<c8/>, <c9/>) strippen nu precies deze sleutel, en alleen als het de laatste is, en hashen de rest tegen hun <b>ongewijzigde</b> bevroren constanten. Een lijst in elk harnas legt vast welke scenario's het blok moeten bevatten, zodat de uitsluiting niet ongemerkt kan groeien.
+
+seg-8faf1981d797 = <b>Een soort <c1/> antwoordt in de eenheden van een timingengineer: tijdfout, maximale tijdsintervalfout (MTIE) en tijdsdeviatie (TDEV), elk met PASS of FAIL en een marge tegen de maskers van de International Telecommunication Union Telecommunication Standardization Sector (ITU-T).</b> De maskers zijn overgenomen uit de geldende edities: G.8272 (07/2025) voor de klassen A en B van de primaire referentietijdklok (PRTC), G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) voor de verbeterde PRTC in vergrendelde modus en in holdover (waaronder zijn tijdfoutomhullende, die van { "30" } ns tot { "100" } ns stijgt over een holdoverperiode die wordt bepaald door hoe lang de klok vergrendeld was), G.8273.2 ({ "2023" }) Amd. { "2" } (11/2025) voor telecom-boundary- en time-slave-klokken, klassen A tot D, en G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) voor de netwerkgrenzen op referentiepunt C. Elke vermelding die die Aanbevelingen "for further study" laten, ontbreekt en is niet geschat, en <c2/> somt elk getal op met zijn tabel of clausule en elk item dat is weggelaten. Het rapport geeft ook de tijd tot overschrijding van elk tijdfoutbudget: standaard de { "100" } ns standaard voor ePRTC-holdover, een toewijzing van { "400" } ns voor netwerkholdover, de grens van { "1 100" } ns op punt C en de end-to-end-eis van { "1.5" } microseconde voor klasse { "4" }.
+
+seg-9e5325e1b0ca = De invoer is een synthetische holdover of een reeks van uzelf. De synthetische gebruikt een van vier oscillatorvoorinstellingen (een oven-gestuurde kristaloscillator, een rubidiumstandaard, een cesiumstandaard en een chip-scale atoomklok), elk met de stabiliteits-, verouderings- en temperatuurcijfers van een benoemde Microchip-datasheet. Hoe die cijfers wit, flikker- en random-walk-frequentieruis, veroudering en een temperatuurterm worden, staat in elk rapport vermeld en is gelabeld als MODELLED. Een reeks van uzelf bestaat uit paren <c1/>, inline (zo draait het in de browser) of, bij native builds, uit een bestand met door komma's gescheiden waarden. De MTIE/TDEV-tabel, met naast elke waarde de grens van elk geselecteerd masker, wordt geschreven als het CSV-artefact van de run.
+
+seg-a23a96819dee = <c1/> is een rubidium-holdover van 24 uur met veroudering, flikker en een dagelijkse temperatuurcyclus: de grootste tijdfout is { "603.2" } ns, hij overschrijdt { "100" } ns { "8 206" } s na het verlies en blijft de hele dag binnen { "1.5" } microseconden, en hij haalt de omhullende voor ePRTC-holdover niet, zoals een klok die niet van cesiumklasse is hoort te doen. <c2/> toont de inline invoer. De MTIE en TDEV die de soort rapporteert worden gecontroleerd met het pakket allantools op een vastgelegde holdoverreeks van { "2" } 048 samples, exact voor MTIE en tot { "1.1e-15" } voor TDEV, zodat de matrix één rij VALIDATED en twee rijen MODELLED erbij krijgt (de maskertranscriptie en de voorinstellingen) en nu staat op <b>{ "171" } rijen — { "65" } VALIDATED, { "102" } MODELLED, { "4" } PARTNER</b>. De dekking van veldeenheden gaat van { "60" } van { "61" } soorten naar { "61" } van { "62" }, en van { "1,742" } naar { "1,788" } beschreven velden. De soort is nieuw en additief: geen bestaand scenario, geen pin en geen gepubliceerd cijfer verschuift.
+
+seg-5bb1ad9a34ec = De playground voert de engine uit in een Web Worker op de achtergrond, zodat een traag scenario de pagina niet meer bevriest.
+
+seg-b1ab3546f131 = <c1/> host de WebAssembly-engine en <c2/> stuurt elke scenario-uitvoering ernaar door — runs, parametersweeps en de exports naar SP3 / OMM / OEM / CSV. Een run die langer dan { "150" } ms duurt, toont een bezettoestand (Run uitgeschakeld, "Running… N s") en een knop Annuleren die de worker beëindigt en opnieuw start; een browser die geen modulewerker kan starten, valt terug op het oude pad via de hoofdthread. <c3/>, uit de catalogus weggelaten omdat het de pagina bevroor, staat er weer in, als traag gelabeld: het duurt ongeveer { "13" } s in Chrome (vier engineaanroepen van elk ongeveer { "3" } s), waarin de pagina responsief blijft.
+
+seg-146200dfac7e = <b>Elke gerapporteerde grootheid van <c1/> heeft nu een eenheid, een herkomstklasse en een definitie — de op een na laatste soort op de crate-brede uitzonderingslijst.</b> Alle { "41" } numerieke velden van het UITGEBRACHTE document zijn beschreven, zodat de dekking van veldeenheden van { "59" } van { "61" } soorten naar { "60" } van { "61" } gaat en van { "1,698" } naar { "1,742" } beschreven velden, terwijl de achterstand zonder definitie ongewijzigd { "239" } blijft.
+
+seg-61b1219ae0e3 = Dit werd geblokkeerd door de pin die het uitgebrachte document bevriest, die <c1/> noemde als een sleutel die het document nooit mocht krijgen. Er een toevoegen had betekend dat die assertie werd verwijderd en drie hashes in drie bestanden opnieuw werden vastgelegd — een vorm die niet te onderscheiden is van het toedekken van een regressie. In plaats daarvan <em>bewijzen</em> de twee pins die dit document meten nu dat de toevoeging additief is: elk strip het blok <c2/> er weer af en hasht opnieuw tegen de constante die is bevroren voordat het blok bestond, en <b>beide constanten zijn ongewijzigd</b>. Een mutatie bevestigt dat de garantie echt is — verplaats een uitgebrachte waarde en leg de hash van het hele document opnieuw vast zoals een slordige fix zou doen, en het strippen en opnieuw hashen faalt nog steeds. De derde pin, in het generieke registry-golden-harnas, is opnieuw vastgelegd in lijn met de zes zusters die om precies deze reden opnieuw zijn vastgelegd, en zijn waardedragende literal <c3/> verschuift niet.
+
+seg-a73409e0b664 = <c1/> rapporteert aan welke referentie elke rij voor aarde-oriëntatie is getoetst, en hoe vaak de terugvaloptie werd gebruikt.
+
+seg-6e0493a39f1a = <c1/> krijgen <c2/> en <c3/>. De vloer <c4/> wordt gescoord tegen de definitieve waarden van Bulletin B en kan alleen epochs gebruiken die er een publiceren; elke rij <c5/> wordt gescoord tegen <c6/>/<c7/>, die terugvallen op de snelle waarde van Bulletin A. In het meegeleverde uittreksel van { "2026" } zijn dat { "12" } van { "31" } samples bij één dag, tegen { "0" } bij de vloer — dus de vloerrij en de voorspellingsrijen ernaast berusten aantoonbaar op verschillende referenties, wat het rapport nu vermeldt in plaats van het te laten afleiden uit een aantal samples dat stijgt waar geneste horizons dat niet kunnen.
+
+seg-7ba5be07fa8c = <c1/> geeft een Kepler-basislijn met gelijke grootte.
+
+seg-f9dc8fae6452 = <c1/> voert de illustratieve constellatie opnieuw uit met het eigen aantal satellieten van de OPGEHAALDE set, alleen aanwezig wanneer de aantallen verschillen. Het aantal maakt deel uit van de geometrie van dat ontwerp — RAAN en gemiddelde anomalie worden allebei gespreid als <c2/> — dus zonder dit werd een opgehaalde set van vijf satellieten gescoord tegen een illustratieve van acht satellieten en werden ontwerp en grootte door elkaar gehaald. Voor de LANS-referentieset van vijf satellieten blijkt { "8.68" } van het dekkingsverschil van 14.24 punten te komen door de drie ontbrekende satellieten en slechts { "5.56" } punten door het ontwerp; voor de vier ruimtevaartuigen die werkelijk in een baan om de Maan zijn, bereikt een speciaal gebouwde set van vier satellieten { "4.86" } % waar zij { "0" } % bereiken. Een test legt vast dat de gematchte rij een herbouwde constellatie is en niet de geconfigureerde onder een andere naam, zoals hij eerst was geschreven en wat de run toen rapporteerde.
+
+seg-2e7e4dbbb7f6 = <b>Negen mogelijkhedenkaarten op de openbare site, die { "22" } rijen van de verificatiematrix dekken die zonder kaart op productniveau zijn geleverd.</b> De engine had een familie van mogelijkheden gekregen — de ARAIM-controle tegen gepubliceerde referentievectoren van Working Group C, echte opgehaalde geometrie van een maanconstellatie, de maanontkenningscontour met een gemeten C/N₀-band, de stap van VLBI-schema naar stationscovariantie, optische en RF-overdracht met foutinjectie tussen modaliteiten, voorspelling van aarde-oriëntatie in real time tegen gearchiveerde Bulletin A, het delen van apertuur tussen navigatie en communicatie, INS/TRN-coasting, en dekking van eenheden en herkomst — elk met een matrixrij en een meegeleverd scenario, en geen enkele genoemd op kshana.dev. De dekking van kaart naar rij gaat van { "72" } van { "168" } rijen naar { "94" }.
