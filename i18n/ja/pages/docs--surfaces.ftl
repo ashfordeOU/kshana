@@ -11,3 +11,5 @@ seg-2bd2101ce454 = 利用形態
 seg-d6476863f862 = 機能
 
 seg-e0426ffe2628 = 備考
+
+seg-de6c33774c9c = CLI

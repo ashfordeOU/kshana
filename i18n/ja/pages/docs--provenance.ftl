@@ -9,3 +9,7 @@ seg-28e87f407a10 = 領域
 seg-ad856ad710eb = ステータス
 
 seg-6e0cb6acc073 = VALIDATED
+
+seg-f63dd3d7aad4 = 出典
+
+seg-638b8d451550 = センサー
