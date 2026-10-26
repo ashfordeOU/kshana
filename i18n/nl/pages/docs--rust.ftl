@@ -67,3 +67,5 @@ seg-07b9e03942cb = <b>Verificatiematrix</b> → <a1>docs/VERIFICATION-MATRIX.md<
 seg-9390336ecc01 = <b>Citeren</b> → <a1>CITATION.cff</a1> · DOI <a2>10.5281/zenodo.20528627</a2>
 
 seg-d059e9fc67e1 = Vrij en opensource onder de <b>GNU AGPL-3.0-only</b> (de GNU Affero General Public License, alleen versie { "3" }). Een <b>commerciële licentie</b> is verkrijgbaar bij <a1>Ashforde® OÜ</a1> (een Estse besloten vennootschap; OÜ = osaühing) voor gesloten integratie; zie <a2>LICENSING.md</a2>. Professioneel ontwikkeld en onderhouden door Ashforde® OÜ.
+
+seg-8c83544270b5 = Signatuur

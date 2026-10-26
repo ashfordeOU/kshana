@@ -1781,3 +1781,157 @@ seg-bd73a9aab9bf = de open implementatie van het ARAIM-beschermingsniveau volgen
 seg-7912b8806633 = <a1>Kwantummodellen</a1> · <a2>details</a2>
 
 seg-538ae4a293ac = de fysicalaag van de koudeatoominterferometer, en waar coëfficiënten nog worden opgezocht
+
+seg-542a7e114dff = Reikwijdte van het DO-229E- en DO-316-algoritme, en wat <b>geen</b> claim van conformiteit is
+
+seg-dc1c6f878fdd = zeevarenden / integrators
+
+seg-29cf3d1ef90f = de GNSS-vertrouwensscore van 0-100 voor de NMEA van een vaartuig, de bijbehorende monitors en beperkingen (adviserend, geen typegoedgekeurde navigatieapparatuur)
+
+seg-5849b496e5af = maritieme trainers
+
+seg-4cd0efee3108 = synthetische brug-NMEA met gescripte jamming en spoofing en een instructeurslogboek; alleen tekst, nooit voor live navigatie
+
+seg-df1d81e25c75 = analisten / zeevarenden
+
+seg-db50820691f6 = exploitanten / verzekeraars
+
+seg-5a34e02c1d04 = ondertekende technische registraties van een vertrouwensgebeurtenis en hoe u er een verifieert
+
+seg-3f9b0b6cbbda = operations- / beveiligingsteams
+
+seg-7442d4e7a665 = de vertrouwensstroom als Prometheus-metrics, SIEM-events en OpenTelemetry, met een Grafana-dashboard
+
+seg-e3fdf6154d72 = bootbezitters / integrators
+
+seg-e4c07cecfc7d = de Signal K-plug-in, de OpenCPN-gate-modus en de referentiebuild
+
+seg-dc551bb8edb9 = ontvangerfabrikanten
+
+seg-dac9a3e7adf3 = een geëxporteerd scenario afspelen via een laboratoriumsimulator en het logboek van de ontvanger beoordelen
+
+seg-fe9ee01b4b40 = openbare veerkrachtkaders gekoppeld aan de uitvoer van Kshana, met bronnen en hiaten; <c1/>
+
+seg-803e21a4cd63 = uitvoerbare tutorials met hun gerenderde tekst
+
+seg-8ba331635865 = Standaarden en interoperabiliteit
+
+seg-79dfa8eef7e8 = integrators
+
+seg-dc2cc59b2c22 = de uitwisselingsformaten voor GNSS, vliegdynamica en ruimtevaartorganisaties die Kshana leest en schrijft (RINEX, SP3, CCSDS OEM/OMM/TDM/Space-Packet, …)
+
+seg-82e510edf422 = LEO-PNT-fusie
+
+seg-78e498b9cd72 = gebruikers / beoordelaars
+
+seg-515011790d2f = gefuseerde MEO- en LEO-positiebepaling, -navigatie en -tijdsynchronisatie: Doppler, gezamenlijke pseudorange, PPP-convergentie, 5G NTN, poolgebieddekking en LEO-tijdoverdracht over elke constellatie; de optionele voorinstellingen en hun openbare bronnen
+
+seg-80c3a6fcc9d4 = scenario's samenstellen: aaneengeschakelde missietijdlijnen, parametersweeps, Monte Carlo-ensembles en runs onder gedeelde omstandigheden, met de samenstellingsidentiteiten die de tests vastleggen
+
+seg-e2ba765ba8cf = Scenariocatalogus
+
+seg-d249adca6e09 = gebruikers / integrators
+
+seg-cc36976b92b2 = elk uitvoerbaar type met zijn verplichte en optionele TOML-velden — gegenereerd uit <c1/>
+
+seg-0714feb42ace = elk veld van de resultaat-JSON, met eenheden en een bronverwijzing
+
+seg-d88421825ccf = Python-gebruikers
+
+seg-8eca8cb65710 = het PyO3-bindingsoppervlak — de engine aanroepen, de scenario- en resultaattypen, en voorbeelden
+
+seg-1a04729b35fa = Claims versus werkelijkheid
+
+seg-c1ff79259d0a = het register van gesloten overclaims plus de CI-bewaking (<c1/>) die ze gesloten houdt
+
+seg-f081da2f997c = de gefaseerde roadmap — wat is opgeleverd en wat volgt
+
+seg-91a94770bfc6 = <a1>MCP-server</a1> · <a2>JetBrains-plug-in</a2>
+
+seg-d67668b76043 = agents / IDE-gebruikers
+
+seg-aa939b17949a = Kshana uitvoeren vanuit een AI-assistent of een JetBrains-IDE
+
+seg-01db4cfa76e9 = <a1>Agentgids</a1> · <a2>Oppervlakken</a2>
+
+seg-b7b1239f907e = agents / integrators
+
+seg-fc2d423654fe = welk hulpmiddel welke vraag beantwoordt en wat u bij elk antwoord moet bewaren; waar elke mogelijkheid bereikbaar is (CLI, Rust, Python, WASM, MCP, plug-in, JetBrains, notebooks) en waarom een cel N/A is
+
+seg-3b3aa42b5f15 = opgeleverde geschiedenis (Keep a Changelog + SemVer, Semantic Versioning)
+
+seg-f67abac08544 = bijdragers
+
+seg-bcdae6f3fdbd = build, bewakingen, test- en citatiediscipline, DCO (Developer Certificate of Origin)
+
+seg-5dec7ef854fe = bijdragers / community
+
+seg-5c0b0441b55c = hoe Kshana wordt bestuurd — wie beslist, hoe, en de grens tussen open en gesloten
+
+seg-0766b60f1d8a = Gedragscode
+
+seg-29a818e8fbc7 = community
+
+seg-b34f02c40174 = verwacht gedrag (Contributor Covenant)
+
+seg-4609cf7fb790 = Beveiligingsbeleid
+
+seg-ca35e5e3ad0c = melders
+
+seg-772539feded5 = hoe u een kwetsbaarheid meldt; opmerking over tweeërlei gebruik
+
+seg-1f443a976d47 = Belangrijkste referenties
+
+seg-feb6f4f6a5e4 = <b>Validatieorakels en standaarden</b> — de externe autoriteiten waaraan de controles van Kshana zijn verankerd:
+
+seg-4ca957af5c9b = Vallado, Crawford, Hujsak & Kelso — <em>Revisiting Spacetrack Report #3</em> (<a1>AIAA 2006-6753</a1>; <a2>testgegevens</a2>): de SGP4/SDP4-verificatieset waarmee Kshana tot op { "4.12" } mm overeenkomt, en de uitgewerkte frame-voorbeelden waartegen de TEME→ITRF-keten wordt gecontroleerd.
+
+seg-9a2f45b88410 = IAU <a1>SOFA</a1> / <a2>ERFA</a2> — de referentieroutines voor tijd en frames waartegen de IAU 2000A-nutatie en de CIO GCRS↔ITRS-reductie bit voor bit zijn getoetst.
+
+seg-37f680b464fe = Petit & Luzum (red.) — <em>IERS Conventions ({ "2010" })</em>, <a1>IERS TN (Technical Note) { "36" }</a1> (aardoriëntatie, poolbeweging en framestandaarden).
+
+seg-5b9951eea4b0 = Riley — <em>Handbook of Frequency Stability Analysis</em>, <a1>NIST SP { "1065" }</a1> (Allan-deviatierelaties en de NBS14-referentiereeks; NBS = het voormalige Amerikaanse National Bureau of Standards).
+
+seg-aede69f7dc3e = Pedregosa et al. — <em>scikit-learn: Machine Learning in Python</em>, <a1>JMLR { "12" } ({ "2011" })</a1>: de referentie-implementaties van ROC/AUC, verwarringsmatrix en precision/recall/F1 waarmee de testomgeving voor de evaluatie van RF-storingen exact is vergeleken (<c1/>).
+
+seg-a19f72f631ef = Virtanen et al. — <em>SciPy { "1.0" }</em>, <a1>Nature Methods { "17" } ({ "2020" })</a1>: <c1/>, <c2/> en <c3/> — de referentieroutines waartegen de NNLS-fit van de gemeten ADEV voor de quantum-afweging, de χ²-consistentiebanden en de van-Loan-covariantie van de klokprocesruis zijn getoetst (<c4/>).
+
+seg-fa00dee84096 = Knowles, Kanhere, Neamati & Gao — <em>gnss_lib_py</em>, <a1>SoftwareX { "27" } ({ "2024" })</a1>: zowel gebruikt als open eerder werk (zie <em>Vergelijking en open eerder werk</em> hieronder) als de <b>onafhankelijke DOP-referentie</b> waarmee de berekening van GDOP/PDOP/HDOP/VDOP/TDOP tot op { "1e-6" } overeenkomt (<c1/>).
+
+seg-1e6e8a68cebb = Montenbruck & Gill — <em>Satellite Orbits: Models, Methods and Applications</em> (<a1>Springer</a1>): de krachtmodellen achter de krachtmodelfit aan nauwkeurige efemeriden van ruimtevaartorganisaties.
+
+seg-144cdd7fbc19 = Howell — <em>Three-dimensional, periodic, halo orbits</em>, Celestial Mechanics { "32" }({ "1" }) ({ "1984" }), <a1>doi:10.1007/BF01358403</a1>; Zimovan-Spreen, Howell & Davis — <em>Near rectilinear halo orbits and nearby higher-period dynamical structures</em>, Astrodynamics { "6" } ({ "2022" }), <a2>doi:10.1007/s42064-021-0125-x</a2> (de halo- en NRHO-families die de differentiële corrector van het CR3BP reproduceert).
+
+seg-93a7e383053b = <b>Fysica van apparaten en methoden</b> — de aangehaalde bronnen achter de sensormodellen:
+
+seg-fc2aa6fa1340 = Origlia, Schiller, Bongs et al. — <a1>arXiv:{ "1503.08457" }</a1> (strontium-optische roosterklok, doel gericht op de ruimte).
+
+seg-f735c2528052 = Oelker et al., <em>Nature Photonics</em> ({ "2019" }) — <a1>doi:10.1038/s41566-019-0493-4</a1> (Sr-klok in het laboratorium, { "4.8" }×{ "10" }⁻¹⁷).
+
+seg-80b2a7b012fd = Templier et al., <em>Science Advances</em> ({ "2022" }) — <a1>arXiv:{ "2209.13209" }</a1> (hybride kwantumversnellingsmeter-triade).
+
+seg-795160f35f82 = Groves, <em>Principles of GNSS, Inertial, and Multisensor Integrated Navigation</em> — <a1>IEEE AESS (Aerospace and Electronic Systems Society) tutorial (University College London Discovery-repository)</a1> (foutgroei bij dode rekening).
+
+seg-621d684f6fc1 = Giorgetta et al., <em>Nature Photonics</em> { "7" }, { "434" } ({ "2013" }) — <a1>arXiv:{ "1211.4902" }</a1>; Deschênes et al., <em>Phys. Rev. X</em> { "6" }, { "021016" } ({ "2016" }) — <a2>APS (American Physical Society)</a2> (optische tweewegs tijd-frequentieoverdracht; de optische intersatellietverbinding modelleert haar niet-reciprociteitsbudget naar deze voorbeelden).
+
+seg-e8299332a4ba = Betz — <em>Binary Offset Carrier Modulations for Radionavigation</em>, NAVIGATION { "48" }({ "4" }) ({ "2001" }), <a1>doi:10.1002/j.2161-4296.2001.tb00247.x</a1> (de BOC-modulatie en de theorie van spectrale scheiding achter <c1/>).
+
+seg-27d20763d6cb = Kaplan & Hegarty (red.) — <em>Understanding GPS/GNSS: Principles and Applications</em> (3e druk, Artech House, { "2017" }): de vergelijking voor de anti-jam-effectieve C/N₀ en de thermische ruisjitter van de early–late-DLL-codevolging die de navsignaal- en jammingmodellen gebruiken.
+
+seg-7b646cdd9bd4 = <b>Vergelijking en open eerder werk</b> — de hulpmiddelen en overzichten waartegen Kshana wordt gepositioneerd:
+
+seg-1879b1f543dd = Humphreys et al. — <a1><em>TEXBAT</em></a1> (de Texas Spoofing Test Battery; ION — Institute of Navigation — GNSS { "2012" }): de parameters van de spoofing-testbatterij waartegen de meerlaagse detector is gekarakteriseerd.
+
+seg-d8b2eecaaa5f = González et al. — <a1>NaveGo</a1> ({ "2017" }): de open, getoetste foutprofielen voor traagheidsnavigatie die als klassieke basislijn worden gebruikt.
+
+seg-7c7beb74ddac = Iiyama, Casadesús Vila & Gao — <a1><em>LuPNT</em></a1> (ION GNSS+ { "2023" }, Stanford NavLab): open simulator voor PNT op de Maan.
+
+seg-fef89f16b111 = Knowles, Kanhere, Neamati & Gao — <em>gnss_lib_py</em>, SoftwareX { "27" } ({ "2024" }), <a1>doi:10.1016/j.softx.2024.101811</a1>: open analyse van GNSS-gegevens.
+
+seg-9c5ebe5384bc = Li, Zaminpardaz, Kealy & Greentree — <em>Quantum sensors for enhanced positioning and navigation: a comprehensive review</em>, GPS Solutions { "30" }({ "1" }):{ "62" } ({ "2026" }), <a1>doi:10.1007/s10291-026-02030-y</a1>.
+
+seg-7d2b42ba7454 = Bertone et al. — <em>Earth and Space Science</em> { "8" }({ "6" }) ({ "2021" }), <a1>doi:10.1029/2020EA001454</a1>: reduced-dynamic baanbepaling van GRAIL, de ondergrens voor de empirische versnelling die de LRO-fit reproduceert.
+
+seg-2658a9477dd9 = <s1>Volgende</s1>Conceptenoverzicht
+
+seg-90a95738b32d = Maaninfrastructuur (lunar-infrastructure)
