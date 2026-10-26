@@ -12,6 +12,30 @@ seg-f917e7fcac09 = Hvad det er
 
 seg-cae10fb9bff8 = Scenarie
 
+seg-d01db1c2710a = Reference
+
+seg-298cc35fe9d1 = Inertial
+
+seg-f1f903f1b9ff = Robusthed
+
+seg-6f253e0464fe = Maritim
+
+seg-a7cfe6f135f1 = Bane og geometri
+
+seg-a5a572db3bed = Numerisk propagator
+
+seg-57b120fb0aac = Manøvrer og banedesign
+
+seg-6af8e99df46d = Alt-PNT (uden GPS)
+
+seg-f9582184adea = Fusion
+
+seg-ca67c864635c = Banebestemmelse
+
+seg-4e28248ef77b = Observerbarhed og estimationsteori
+
+seg-e386dced1d16 = Måne og cislunart rum
+
 seg-6c94ae122721 = PNT i dybt rum og på Mars
 
 seg-99766b79a00a = Augmentation (SBAS)
@@ -125,3 +149,7 @@ seg-d6476863f862 = Funktion
 seg-ad856ad710eb = Status
 
 seg-331d2821d43f = Køreplan
+
+seg-6e0cb6acc073 = VALIDATED
+
+seg-a349aa76b0ed = PARTNER

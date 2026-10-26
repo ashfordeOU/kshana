@@ -82,6 +82,8 @@ seg-85018a6b8966 = Baner
 
 seg-cbb264f9962e = Oversigt
 
+seg-7fdb07b3b0ca = Måne og cislunart rum
+
 seg-1ae32cd48edc = Maritim tillid
 
 seg-c13450e783db = Interferenskort og eksponering på ruten
@@ -332,6 +334,10 @@ seg-e9dc4e6ef5d5 = Forrige og næste
 
 seg-ca4d42ca6ce0 = Felt
 
+seg-cc45f7524d3a = Hvad det gør
+
 seg-039b7c5fd78a = Enhed
 
 seg-37f058c4e1c3 = antal
+
+seg-e88d3dbcfe0c = MODELLED

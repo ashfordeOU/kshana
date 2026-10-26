@@ -70,6 +70,10 @@ seg-70e2bacd66aa = Motor v{ $version } · <c1/> · deterministisk, uden seed
 
 seg-b3d3ed0ec310 = Motor v{ $version } · <c1/> · deterministisk, uden seed
 
+seg-b03984610dc0 = Måne
+
+seg-6f253e0464fe = Maritim
+
 seg-89b8c169580f = TLE / SGP4
 
 seg-29ac12d9da06 = RINEX { "3" }
