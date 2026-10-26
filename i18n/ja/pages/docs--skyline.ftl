@@ -25,3 +25,7 @@ seg-de6c33774c9c = CLI
 seg-d1e9715513b4 = 例
 
 seg-587beeccaa11 = プリセット
+
+seg-b03d56f501c3 = 種類
+
+seg-4dbf41c0ec3b = 関数

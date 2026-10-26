@@ -15,3 +15,5 @@ seg-f63dd3d7aad4 = 出典
 seg-587beeccaa11 = プリセット
 
 seg-e305279d5b11 = 内容
+
+seg-b03d56f501c3 = 種類
