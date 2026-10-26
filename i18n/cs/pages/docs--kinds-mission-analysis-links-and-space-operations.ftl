@@ -11,3 +11,7 @@ seg-046f69293874 = Graf, který engine zapisuje pro scenarios/acm-link.toml, dru
 seg-7eff466eb018 = Řízení orientace kosmické lodi: inerciální zaměřovací otočení tuhého tělesa se třemi či více vyváženými reakčními koly při zpětné vazbě MRP (L = -K sigma - P omega), minimálně normové momenty kol omezené limitem každého motoru, RK4 s držením nultého řádu; volitelně uzavřené na multiplikativní EKF ze simulovaného gyroskopu (náhodná procházka úhlu a rychlosti) a hvězdného sledovače. Hlásí dobu ustálení, konečnou a špičkovou chybu zaměření, špičkovou rychlost a moment kol, nasycený podíl, drift momentu hybnosti a s estimátorem jeho chybu orientace a NEES. Smyčka skutečného stavu je VALIDATED proti Basilisk { "2.9.1" }; estimátor je MODELLED.
 
 seg-08c624d5324d = Graf, který engine zapisuje pro scenarios/aocs-slew.toml, druh aocs
+
+seg-953188c11165 = Jednosměrný rozpočet spoje podle rovnice spoje CCSDS { "401" } / DSN 810-005: ztráta volným prostorem, C/N₀, Eb/N₀, rezerva a uzavření spoje pro vysílané EIRP, přijímací G/T, vzdálenost, datovou rychlost a pásmo (s|x|ka) vůči požadovanému Eb/N₀. Deterministický inženýrský výpočet z dodaných vstupů (nejde o kalibrovaný datasheet terminálu).
+
+seg-bd375631bc7e = Graf, který engine zapisuje pro scenarios/link-budget.toml, druh link-budget

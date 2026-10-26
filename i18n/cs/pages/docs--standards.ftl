@@ -7,3 +7,5 @@ seg-9120d3e96e5e = čtení
 seg-5ad814c7ef9e = Poznámky
 
 seg-aab745a65e76 = Modul
+
+seg-bf09433a7342 = GeoJSON

@@ -9,3 +9,5 @@ seg-59f1f277012b = Jupiter
 seg-e6e209ad07e0 = Europa
 
 seg-6f12259c6ec4 = Saturn
+
+seg-fbac1cbb2422 = MODELLED { "2" } · VALIDATED { "3" }: řádky <a1>verifikační matice</a1>, které tento druh uvádějí.
