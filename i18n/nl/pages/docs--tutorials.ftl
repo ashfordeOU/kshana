@@ -11,3 +11,7 @@ seg-cae10fb9bff8 = Scenario
 seg-a0b63210b807 = Meer lezen
 
 seg-a7cfe6f135f1 = Baan en geometrie
+
+seg-28e87f407a10 = Domein
+
+seg-d6476863f862 = Mogelijkheid
