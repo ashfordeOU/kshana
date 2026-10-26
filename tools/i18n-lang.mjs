@@ -146,7 +146,7 @@ export function applyPage({ html, segs, bundle, lang, vars = {} }) {
 /** ---- check ---- */
 
 const PLURAL_NEEDS = (lang) => new Intl.PluralRules(BCP47[lang] || lang).resolvedOptions().pluralCategories;
-const TOKENS = ['NOT CORROBORATED', 'NOT MET', 'VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY', 'MET', 'PREDICTION', 'CORROBORATED', 'REFUSED', 'DEGRADED', 'DEFICIENT', 'OBSERVED', 'LOST', 'MISMATCH', 'VERIFIED', 'CONSISTENT', 'INCONSISTENT', 'ILLUSTRATIVE', 'PUBLIC', 'REPRESENTATIVE', 'WORKSHOP', 'MIXED'];
+const TOKENS = ['NOT CORROBORATED', 'NOT MET', 'VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY', 'MET', 'PREDICTION', 'CORROBORATED', 'REFUSED', 'DEGRADED', 'DEFICIENT', 'OBSERVED', 'LOST', 'MISMATCH', 'VERIFIED', 'CONSISTENT', 'INCONSISTENT', 'ILLUSTRATIVE', 'PUBLIC', 'REPRESENTATIVE', 'WORKSHOP', 'MIXED', 'MEASURED'];
 
 /** How many times each all-caps tier, verdict and status token stands in a message text (a { -tier-modelled } term counts as its token; NOT MET is not MET).
  *  A translation must have exactly the English counts: a lowercase "validated" or "modelled" is a word and stays a word, never the label. */
@@ -156,7 +156,7 @@ export function capsCounts(text, rend = {}) {
   for (const tk of TOKENS) {
     const forms = [...new Set([tk, rend[tk] || tk])];
     let c = 0;
-    for (const f of forms) { let i = 0; for (;;) { i = t.indexOf(f, i); if (i < 0) break; const pre = t[i - 1] || ' ', post = t[i + f.length] || ' '; if (!/[A-Za-z]/.test(pre) && !/[A-Za-z]/.test(post)) c++; i += f.length; } }
+    for (const f of forms) { let i = 0; for (;;) { i = t.indexOf(f, i); if (i < 0) break; const pre = t[i - 1] || ' ', post = t[i + f.length] || ' '; if (!/[A-Za-z_]/.test(pre) && !/[A-Za-z_]/.test(post)) c++; i += f.length; } }
     if (tk === 'MET') for (const f of new Set(['NOT MET', rend['NOT MET'] || 'NOT MET'])) { let i = 0; for (;;) { i = t.indexOf(f, i); if (i < 0) break; c--; i += f.length; } }
     if (c) out[tk] = c;
   }
