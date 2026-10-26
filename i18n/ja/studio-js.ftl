@@ -2846,3 +2846,1755 @@ js-cat-domain-constellations-label = コンステレーション設計
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:48
 js-cat-domain-constellations-line = 衛星コンステレーションを設計し、そのカバレッジと PDOP（位置の精度低下率）をマップに表します。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:33
+js-cat-domain-deepspace-label = 月、地球・月間空間（シスルナー）、火星
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:53
+js-cat-domain-deepspace-line = 月、地球・月間空間（シスルナー）、火星での航法と時刻。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:26
+js-cat-domain-integrity-label = インテグリティと測位
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:46
+js-cat-domain-integrity-line = 測位解と、それを信頼できるかどうか：RAIM（受信機自律型インテグリティ監視）とその発展形である ARAIM。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:21
+js-cat-domain-interference-label = ジャミングと干渉
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:41
+js-cat-domain-interference-line = 衛星航法受信機に対するジャマー：何がいつ失われるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:29
+js-cat-domain-leo-label = 低軌道（LEO）航法
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:49
+js-cat-domain-leo-line = 低軌道の航法信号、パス、メッセージ、測位解。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:30
+js-cat-domain-leo-missions-label = LEO ミッションと検討
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:50
+js-cat-domain-leo-missions-line = 低軌道レイヤーの上に構築した検討とサービス。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:25
+js-cat-domain-navigation-label = 慣性航法と代替航法
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:45
+js-cat-domain-navigation-line = 慣性、地形、重力など、衛星を使わない航法。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:27
+js-cat-domain-orbits-label = 軌道と GNSS の幾何配置
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:47
+js-cat-domain-orbits-line = 軌道伝搬、エフェメリス、航法衛星の幾何配置。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:34
+js-cat-domain-solar-label = 太陽系
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:54
+js-cat-domain-solar-line = あるエポックにおけるすべての惑星と衛星を、光行時間とともに示します。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:32
+js-cat-domain-spaceops-label = ミッション解析と宇宙運用
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:52
+js-cat-domain-spaceops-line = パス、打ち上げウィンドウ、再突入、リンクバジェットと姿勢バジェット。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:22
+js-cat-domain-spectrum-label = スペクトル
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:42
+js-cat-domain-spectrum-line = 無線帯域のウォーターフォール：ジャマー、信号、受信機が追尾しているもの。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:23
+js-cat-domain-spoofing-label = スプーフィングと信号セキュリティ
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:43
+js-cat-domain-spoofing-line = 偽の信号とミーコニング、およびそれを捉える監視機能。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:35
+js-cat-domain-studies-label = 量子、トレードスタディ、相互運用性
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:55
+js-cat-domain-studies-line = 量子センサー、トレードスタディ、相互運用性フォーマット。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:24
+js-cat-domain-timing-label = 時計とタイミング
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:44
+js-cat-domain-timing-line = 衛星を使わない時計：ホールドオーバー、安定度、通信用マスク、時刻比較。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:153
+js-cat-earth-gnss-lunar-question = 月の近くにいる受信機は、地球の GNSS を受信できるか。それは測位解を得るのに足りることがあるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:153
+js-cat-earth-gnss-lunar-title = 月での地球 GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:144
+js-cat-entry-heating-stardust-question = 再突入モデルは、サンプルリターンカプセル「スターダスト」について公表されているピーク減速度を再現できるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:144
+js-cat-entry-heating-stardust-title = スターダストカプセルの再突入
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:134
+js-cat-eo-coverage-question = 地球観測軌道は、どのような観測幅、地上サンプル距離、再訪頻度を与えるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:134
+js-cat-eo-coverage-title = 地球観測のカバレッジ
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:145
+js-cat-eo-radiometry-question = 小型の地球観測カメラで、反射率 15 % のシーンは、どのような信号対雑音比、ナイキストでの MTF、NIIRS を与えるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:145
+js-cat-eo-radiometry-title = イメージャの放射測定と画質
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:129
+js-cat-ephemeris-question = 衛星はどこにいて、いつ真上を通過するか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:129
+js-cat-ephemeris-title = 地上軌跡
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:245
+js-cat-europa-surface-pnt-question = 木星の衛星エウロパ上の着陸機は、小規模な中継コンステレーションと地球からの距離一つで、測位できるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:245
+js-cat-europa-surface-pnt-title = エウロパの着陸機
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:101
+js-cat-fusion-pnt-coupled-question = 位置、時計、加速度計バイアスにわたる一つの積層カルマンフィルターで、航法装置は GNSS の途絶をどのように乗り切るか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:101
+js-cat-fusion-pnt-coupled-title = 結合型センサー融合航法装置
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:90
+js-cat-fusion-pnt-question = 単一の統合推定器は、時計 + 位置にわたって何をもたらすか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:90
+js-cat-fusion-pnt-title = センサー融合
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:102
+js-cat-gnss-ins-aviation-question = 旋回（バンク）を含む二分間の GNSS 拒否の間に、密結合の航法級または戦術級の INS は、どれだけドリフトするか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:102
+js-cat-gnss-ins-aviation-title = GNSS の空白区間での航空機の旋回
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:103
+js-cat-gnss-ins-maritime-question = 蛇行する船で五分間の GNSS 途絶があった後、航法級または戦術級の INS は、どれだけドリフトするか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:103
+js-cat-gnss-ins-maritime-title = GNSS 途絶の間に蛇行する船
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:89
+js-cat-gnss-ins-question = 補助付きの慣性航法装置は、GNSS の途絶をどれだけうまく惰性で乗り切るか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:104
+js-cat-gnss-ins-rail-question = 衛星が二機しか見えない深い切土区間と、その先のトンネルを通る間に、密結合の INS はどれだけドリフトするか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:104
+js-cat-gnss-ins-rail-title = 切土区間とトンネルを通る列車
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:89
+js-cat-gnss-ins-title = GNSS/INS 融合
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:113
+js-cat-gnss-sim-container-terminal-skyline-question = 海側にクレーン、陸側にコンテナの山がある場合、残る衛星は何機で、RAIM の保護はどうなるか。（モデル計算、代表的なスカイライン）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:113
+js-cat-gnss-sim-container-terminal-skyline-title = コンテナ岸壁のストラドルキャリア
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:112
+js-cat-gnss-sim-raim-question = 電離圏と対流圏は、生の疑似距離にどのような影響を与えるか。RAIM は、それでも保護を提供できるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:112
+js-cat-gnss-sim-raim-title = GNSS 測定
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:171
+js-cat-gnss-ssv-formation-heo-question = 一キロメートル離れた二機の宇宙機の相対位置を、フィルターは、それぞれの絶対測位解の差分と比べて、どれだけ正確に把握するか。（モデル計算、ネイティブエンジンで記録した実行）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:171
+js-cat-gnss-ssv-formation-heo-title = 編隊の相対航法、高楕円軌道
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:168
+js-cat-gnss-ssv-heo-question = 高楕円軌道は、その経路上で何を受信するか：視界内の信号、最良の C/N0、メインローブとサイドローブ、DOP、かすめる信号。（モデル計算、ネイティブエンジンで記録した実行）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:168
+js-cat-gnss-ssv-heo-title = 高楕円軌道での GNSS 信号
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:169
+js-cat-gnss-ssv-lunar-weak-question = 最も弱い信号向けに設計された受信機は、月への途上で何を利用できるか。（モデル計算、ネイティブエンジンで記録した実行）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:169
+js-cat-gnss-ssv-lunar-weak-title = 月遷移軌道での GNSS 信号、微弱信号用受信機
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:170
+js-cat-gnss-ssv-nav-lunar-question = 搭載フィルターは、自ら示す境界に対して、月遷移軌道をどれだけうまく保持するか。（モデル計算、ネイティブエンジンで記録した実行）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:170
+js-cat-gnss-ssv-nav-lunar-title = 月遷移軌道での搭載 GNSS フィルター
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:167
+js-cat-gnss-ssv-shell-question = 静止軌道高度の宇宙機は、コンステレーションと帯域ごとに、どのくらいの頻度で、航法信号を少なくとも一つ、また少なくとも四つ受信できるか。（モデル計算、ネイティブエンジンで記録した実行）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:167
+js-cat-gnss-ssv-shell-title = 衛星より上空の GNSS 信号：36 000 km の殻
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:106
+js-cat-gps-denied-gravity-nav-egm2008-question = 次数 70 までの実際の EGM2008 重力場で、マップマッチングは GPS 拒否下の航跡を保持できるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:106
+js-cat-gps-denied-gravity-nav-egm2008-title = 実際の場での重力航法
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:96
+js-cat-gps-denied-gravity-nav-question = GNSS なしの丸一時間で、位置はどれだけドリフトするか。重力マップは、それを抑えられるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:96
+js-cat-gps-denied-gravity-nav-title = GNSS を使わない航法
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:105
+js-cat-gravity-map-error-mc-question = 保存した重力マップのノイズが大きくなるにつれて、マップマッチングは、GPS 拒否下の測位解を目標の範囲内に、どのくらいの頻度で保てるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:105
+js-cat-gravity-map-error-mc-title = 重力マップ誤差のモンテカルロ
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:95
+js-cat-gravity-map-nav-question = 冷却原子重力計は、飛行中に通過する重力場とのマッチングによって、GNSS なしで位置を保持できるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:95
+js-cat-gravity-map-nav-title = 重力マップ航法
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:118
+js-cat-holdover-test-example-question = アンテナを外して、ホールドオーバーを採点する：運用者が示した二つの時刻で記録を分割し、各ステップを、そのために定められた ITU-T マスクに照らして測定します。（モデル計算、この記録は例のために作成したものです）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:118
+js-cat-holdover-test-example-title = ホールドオーバー試験：マスクに照らした時刻誤差の記録
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:119
+js-cat-holdover-test-ptp4l-question = 同じ四つのステップを ptp4l のサーボログから読み取る：GNSS が失われている間、デーモン自身のオフセットは、マスクからどれだけ離れたままか。（モデル計算、このログは例のために作成したものです）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:119
+js-cat-holdover-test-ptp4l-title = ホールドオーバー試験：linuxptp のログ
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:100
+js-cat-hybrid-optical-rf-question = 光学と RF の PNT を組み合わせると、どのような連続性とインテグリティが得られるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:100
+js-cat-hybrid-optical-rf-title = 光学/RF ハイブリッド
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:91
+js-cat-hybrid-pnt-question = 時計 + 慣性を組み合わせた構成は、何をもたらすか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:91
+js-cat-hybrid-pnt-title = ハイブリッド PNT
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:92
+js-cat-hybrid-ukf-question = 17 状態の密結合 UKF は、自己整合しているか（NEES + イノベーションの白色性）。これは自己整合性の確認であり、精度を主張するものではありません。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:92
+js-cat-hybrid-ukf-title = ハイブリッド 17 状態 UKF
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:70
+js-cat-impairment-eval-question = 検出器は、ジャミング／スプーフィング／マルチパスを、正常な状態からどれだけうまく分離できるか。（モデル計算の ROC/AUC）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:70
+js-cat-impairment-eval-title = RF 劣化の評価
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:87
+js-cat-imu-deadreckoning-question = IMU のみで惰性航法すると、位置はどれだけドリフトするか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:87
+js-cat-imu-deadreckoning-title = 慣性推測航法
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:88
+js-cat-ins-trn-coast-question = 航法の途絶の間に位置はどれだけドリフトするか。それは 10 m と 50 m をいつ超えるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:88
+js-cat-ins-trn-coast-title = INS/TRN による惰性航行
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:109
+js-cat-integrity-harbour-approach-question = 岸壁の建物と防波堤が低い仰角の衛星を隠す場合、GPS と Galileo は ARAIM の保護を警報限界の範囲内に保てるか。（モデル計算、代表的なスカイライン）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:109
+js-cat-integrity-harbour-approach-title = 入港時の ARAIM
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:108
+js-cat-integrity-raim-question = 幾何配置は、警報限界（HPL / VPL）を満たすか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:108
+js-cat-integrity-raim-title = RAIM のインテグリティ
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:61
+js-cat-jamming-demo-question = ジャマー対信号比がどれだけになると、受信機はロックを失うか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:61
+js-cat-jamming-demo-title = ジャミング
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:63
+js-cat-jamming-harbour-approach-skyline-question = 2 W の陸上ジャマーの下で、船には何機の衛星が残り、岸壁そのものは何機を隠すか。（モデル計算、代表的なスカイライン）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:63
+js-cat-jamming-harbour-approach-skyline-title = 入港中にジャミングを受ける船
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:187
+js-cat-l-band-waterfall-jamming-question = チャープ、トーン、ノイズのジャマーが作動したとき、GNSS の L バンド全体はどう見えるか。それぞれは、どの信号を奪うか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:187
+js-cat-l-band-waterfall-jamming-title = ジャミング下の L バンドのウォーターフォール
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:132
+js-cat-launch-window-question = ある射場から目標の軌道傾斜角に到達するには、どの打ち上げ方位角とドッグレッグ Δv が必要か。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:132
+js-cat-launch-window-title = 打ち上げウィンドウ
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:195
+js-cat-leo-band-trade-question = 低軌道の航法信号は、極超短波（UHF）から C バンドまでの各帯域で、何を得て何を失うか。（代表的な設計）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:195
+js-cat-leo-band-trade-title = 帯域のトレードオフ、UHF から C バンドまで
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:210
+js-cat-leo-doppler-positioning-question = 低軌道の航法コンステレーションで、十分間のドップラーから得た測位解は、どれほど良いか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:210
+js-cat-leo-doppler-positioning-title = ドップラーのみによる測位
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:219
+js-cat-leo-focus-data-services-question = データサービスを一つ追加するごとに、航法メッセージのビットは何ビット必要になるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:219
+js-cat-leo-focus-data-services-title = フレーム長に対するサービスデータ
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:220
+js-cat-leo-focus-fused-pnt-sisre-question = 低軌道レイヤーが融合した測位解の助けになるには、低軌道の信号空間距離誤差がどれほど小さくなければならないか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:220
+js-cat-leo-focus-fused-pnt-sisre-title = 軌道誤差と時計誤差に対する融合測位解
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:221
+js-cat-leo-focus-indoor-uhf-question = 従来型の建物と、断熱性の高い建物の内部にいる利用者に、なお届くのはどの帯域か。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:221
+js-cat-leo-focus-indoor-uhf-title = 帯域と建物ごとの屋内受信
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:222
+js-cat-leo-focus-iot-eirp-question = バッテリー駆動のタグが長持ちするには、衛星の送信電力がどれだけ必要か。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:222
+js-cat-leo-focus-iot-eirp-title = 送信電力に対するトラッカーのエネルギー
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:223
+js-cat-leo-focus-ntn-bandwidth-question = 参照信号を 180 kHz から 20 MHz に広げると、測位誤差はどのように下がるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:223
+js-cat-leo-focus-ntn-bandwidth-title = 帯域幅に対する 5G ダウンリンク測位
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:224
+js-cat-leo-focus-ppp-altitude-question = 低軌道レイヤーが低いほうと高いほうでは、どちらが収束をより短縮するか。（モデル計算、低速：ブラウザーで約一分）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:224
+js-cat-leo-focus-ppp-altitude-title = レイヤー高度に対する精密測位
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:202
+js-cat-leo-focus-science-iono-sounding-question = 二つの帯域の遅延差は、低軌道衛星より下の電子数を、どれだけうまく測定できるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:202
+js-cat-leo-focus-science-iono-sounding-title = 二つの帯域による電離圏探査
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:200
+js-cat-leo-indoor-uhf-question = L、S、C の各バンドが苦戦する建物の内部に、UHF の搬送波が届くのはなぜか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:200
+js-cat-leo-indoor-uhf-title = UHF による屋内
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:201
+js-cat-leo-iot-energy-question = バッテリー駆動のタグは、低軌道信号による測位解一回ごとに、どれだけのエネルギーを使うか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:201
+js-cat-leo-iot-energy-title = トラッカーの測位解一回あたりのエネルギー
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:207
+js-cat-leo-navmsg-encode-decode-question = 各フィールドの量子化は何を犠牲にするか。フレームは、符号化、復号、ビットの破損に耐えられるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:207
+js-cat-leo-navmsg-encode-decode-title = 航法メッセージ：バイナリフレーム
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:204
+js-cat-leo-navmsg-fit-interval-trade-question = 軌道誤差が目標を上回るまで、一つの放送メッセージはどれだけ長くカバーできるか。（モデル計算、低速：ブラウザーで約 30 s）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:204
+js-cat-leo-navmsg-fit-interval-trade-title = 航法メッセージ：フィット区間
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:206
+js-cat-leo-navmsg-midpass-update-question = 衛星がパスの途中で新しいメッセージに切り替えたとき、利用者には飛びが見えるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:206
+js-cat-leo-navmsg-midpass-update-title = 航法メッセージ：パス途中の更新
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:205
+js-cat-leo-navmsg-model-comparison-question = 低軌道を最もよく表すエフェメリスモデルはどれか。それは、公表されている表と比べてどの位置にあるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:205
+js-cat-leo-navmsg-model-comparison-title = 航法メッセージ：四つのモデル
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:199
+js-cat-leo-pass-iridium-question = 旅客機は、Iridium の一回のパスで、どのような信号強度とドップラーを見るか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:199
+js-cat-leo-pass-iridium-title = 航空機から見た Iridium のバースト
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:197
+js-cat-leo-pass-vs-gnss-cn0-question = 低軌道の一回のパスの信号強度は、視界内の Galileo 衛星と比べてどうか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:197
+js-cat-leo-pass-vs-gnss-cn0-title = 一回のパスと GNSS の比較
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:198
+js-cat-leo-pass-xona-pulsar-question = ビスケー湾の船から見て、X1 と X5 の信号は、一回のパスでどのように見えるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:198
+js-cat-leo-pass-xona-pulsar-title = Xona Pulsar のパス
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:216
+js-cat-leo-pnt-end-to-end-question = 信号設計から最終的な測位解まで、各段階は次の段階に何を渡すか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:216
+js-cat-leo-pnt-end-to-end-title = エンドツーエンド、汎用コンステレーション
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:192
+js-cat-leo-pnt-mega-shell-question = 低軌道の 5,000 機の航法コンステレーションは、どのようなカバレッジと幾何配置を与えるか。（モデル計算、設計例）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:192
+js-cat-leo-pnt-mega-shell-title = 5,000 機の低軌道設計
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:214
+js-cat-leo-ppp-convergence-question = 低軌道レイヤーを加えると、精密単独測位（PPP）の収束はどれだけ速くなるか。（モデル計算、低速：ブラウザーで約 30 s）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:214
+js-cat-leo-ppp-convergence-title = 精密測位の収束
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:209
+js-cat-leo-pvt-fjord-skyline-question = フィヨルドの壁が航路に沿って細い帯状の空しか残さない場所で、低軌道レイヤーは GPS と Galileo にどれだけ上乗せするか。（モデル計算、代表的なスカイライン）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:209
+js-cat-leo-pvt-fjord-skyline-title = フィヨルド奥深くのフェリー
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:225
+js-cat-leo-resilience-gnss-jammed-leo-carries-question = GNSS がジャミングされたとき、他の帯域の低軌道レイヤーは、測位解とそのインテグリティを維持できるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:225
+js-cat-leo-resilience-gnss-jammed-leo-carries-title = GNSS はジャミングされても、低軌道は継続
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:189
+js-cat-leo-resilience-js-margin-question = 強い低軌道信号は、中軌道の GNSS 信号と比べて、どれだけ多くのジャミングに耐えられるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:189
+js-cat-leo-resilience-js-margin-title = 受信電力から見たジャマーのマージン
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:226
+js-cat-leo-resilience-multiband-diversity-question = L バンドのジャマーの出力を上げていくと、四つの帯域のうち、どれが追尾を続けるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:226
+js-cat-leo-resilience-multiband-diversity-title = バラージ型ジャマーの下での帯域ダイバーシティ
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:203
+js-cat-leo-resilience-spoof-doppler-question = スプーファーが計算位置を 30 m 動かしたとき、ドップラーとパス幾何配置のチェックは、どれだけ早くそれを捉えるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:203
+js-cat-leo-resilience-spoof-doppler-title = ドップラーで捉えるスプーフィング
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:227
+js-cat-leo-resilience-spoof-monitors-question = どの監視機能が、どの種類のスプーファーを見つけるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:227
+js-cat-leo-resilience-spoof-monitors-title = 四種類のスプーファーに対するスプーフィング監視
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:212
+js-cat-leo-timing-utc-question = 受信機は、発振器と信号レベルごとに、低軌道衛星から協定世界時（UTC）をどれだけ正確に復元できるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:212
+js-cat-leo-timing-utc-title = UTC への時刻比較
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:228
+js-cat-leo-vertical-5g-network-timing-question = GNSS が一日失われたとき、低軌道の時刻は基地局をそのタイミング限界の範囲内に保てるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:228
+js-cat-leo-vertical-5g-network-timing-title = 5G 基地局のタイミング
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:229
+js-cat-leo-vertical-asset-tracking-iot-question = コンテナの輸送経路に沿って、測位解一回ごとに、バッテリー駆動のタグはどれだけ消費するか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:229
+js-cat-leo-vertical-asset-tracking-iot-title = コンテナの追跡
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:230
+js-cat-leo-vertical-autonomous-vehicle-question = 建物が低い仰角の衛星を隠すとき、低軌道レイヤーは、自動車を車線レベルの誤差の範囲内に保てるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:231
+js-cat-leo-vertical-autonomous-vehicle-skyline-question = 一律 35° のカットオフではなく実際の街路としてモデル化した場合でも、低軌道レイヤーは、自動車を車線レベルの誤差の範囲内に保てるか。（モデル計算、代表的なスカイライン）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:231
+js-cat-leo-vertical-autonomous-vehicle-skyline-title = 一律のカットオフではなく、街路の中の車両
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:230
+js-cat-leo-vertical-autonomous-vehicle-title = アーバンキャニオンの中の車両
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:232
+js-cat-leo-vertical-critical-infrastructure-timing-question = GNSS が失われたとき、低軌道の時刻は、変電所の同期を保てるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:232
+js-cat-leo-vertical-critical-infrastructure-timing-title = 変電所のタイミング
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:233
+js-cat-leo-vertical-polar-arctic-question = トロムソから北極点まで、極軌道の低軌道レイヤーは GNSS に何を加えるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:233
+js-cat-leo-vertical-polar-arctic-title = 北極圏の旅
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:234
+js-cat-leo-vertical-rail-maritime-question = 同梱の船と列車のシナリオが GNSS を失ったとき、低軌道のパスは、それでも両者に届くか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:234
+js-cat-leo-vertical-rail-maritime-title = 低軌道レイヤーを使う鉄道と海事
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:135
+js-cat-link-budget-question = 片道のリンクは、与えられた距離とデータレートで、マージンを持って成立するか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:135
+js-cat-link-budget-title = リンクバジェット
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:148
+js-cat-lunanet-araim-question = まばらな月面中継の構成は、アルテミス領域の受信機に対するインテグリティの限界を満たすか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:148
+js-cat-lunanet-araim-title = 月のインテグリティ
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:150
+js-cat-lunar-attack-surface-question = 月面の受信機をスプーフィングまたは使用不能にするには何が必要か。それに答える認証バジェットはどれほどか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:150
+js-cat-lunar-attack-surface-title = 月の攻撃面
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:154
+js-cat-lunar-beacon-question = 測量済みの月面ビーコンを少数設置すると、南極域の DOP はどれだけ小さくなるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:154
+js-cat-lunar-beacon-title = 月面ビーコン
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:155
+js-cat-lunar-differential-pnt-question = 月面では、ディファレンシャル補正は、基線長に応じて共通モード誤差をどれだけ打ち消すか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:155
+js-cat-lunar-differential-pnt-title = 月のディファレンシャル PNT
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:163
+js-cat-lunar-frame-campaign-question = 注入した変換ではなく観測キャンペーンから、どの程度の測地系精度が得られるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:163
+js-cat-lunar-frame-campaign-title = 月の座標系キャンペーン
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:162
+js-cat-lunar-frame-realisation-question = ヘルマート変換による測地系フィットで、月の座標系の変換を復元できるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:162
+js-cat-lunar-frame-realisation-title = 月の座標系
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:174
+js-cat-lunar-infrastructure-carrier-phase-question = 月面局と周回機は、地球 GNSS 信号の搬送波位相の整数アンビギュイティを、共同で固定できるか。クイックな例の実行です。（モデル計算、ネイティブエンジンで記録した実行）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:174
+js-cat-lunar-infrastructure-carrier-phase-title = 月の搬送波位相：月面局と周回機
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:175
+js-cat-lunar-infrastructure-frame-coestimation-question = 周回機と月面局の間の距離は、月の測地系の七つのパラメーターに、どれだけ多くの情報を加えるか。（モデル計算、ネイティブエンジンで記録した実行）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:175
+js-cat-lunar-infrastructure-frame-coestimation-title = 周回機とのリンクを用いた月の座標系の同時推定
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:177
+js-cat-lunar-infrastructure-geodesy-sensitivity-question = レーザー測距、周回機の追跡、重力計、月面の時計は、h2、k2、l2 と秤動に対して、どれだけ敏感か。（モデル計算、ネイティブエンジンで記録した実行）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:177
+js-cat-lunar-infrastructure-geodesy-sensitivity-title = 月のラブ数と秤動の感度
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:173
+js-cat-lunar-infrastructure-od-consistency-model-error-question = 同じ比較に、モデル化されていない小さな加速度を注入した場合、整合性チェックはそれに気づくか。（モデル計算、ネイティブエンジンで記録した実行）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:173
+js-cat-lunar-infrastructure-od-consistency-model-error-title = 月の軌道決定、モデル化誤差を注入
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:172
+js-cat-lunar-infrastructure-od-consistency-question = 月のハロー軌道での搭載の地球 GNSS 軌道決定と、独立した地上の電波測定による軌道決定は、それぞれが示す不確かさの範囲内で一致するか。（モデル計算、ネイティブエンジンで記録した実行）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:172
+js-cat-lunar-infrastructure-od-consistency-title = 月の軌道決定：搭載 GNSS と地上追跡の比較
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:176
+js-cat-lunar-infrastructure-space-tie-question = 三つの技術の間のオフセットは、ローカルタイの誤差と比べて、どれだけ精密に結び付けられるか。（モデル計算、ネイティブエンジンで記録した実行）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:176
+js-cat-lunar-infrastructure-space-tie-title = スペースタイ：一機の宇宙機上の GNSS、VLBI、レーザー測距
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:178
+js-cat-lunar-interop-export-question = 月の座標系／時刻／エフェメリスは、CCSDS OEM と KIF エンベロープを経由して往復変換できるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:178
+js-cat-lunar-interop-export-title = 月の相互運用エクスポート
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:149
+js-cat-lunar-jamming-question = ジャマーは、どれだけ離れていても、月面の受信機を使用不能にできるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:149
+js-cat-lunar-jamming-title = 月のジャミング
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:161
+js-cat-lunar-joint-od-clock-question = 地球基線の VLBI によるタイは、月面局の絶対位置を可観測にするか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:161
+js-cat-lunar-joint-od-clock-title = 月の軌道決定と時計の結合
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:164
+js-cat-lunar-llr-datum-question = キャンペーンが、実際にアーカイブされた月レーザー測距（LLR）である場合、月の測地系はどう見えるか。（モデル計算、ネイティブエンジンで記録した実行）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:164
+js-cat-lunar-llr-datum-title = 月レーザー測距の測地系
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:193
+js-cat-lunar-relay-constellation-question = 凍結軌道と低い月周回軌道にある中継・航法コンステレーションは、月全域にどのようなカバレッジを与えるか。（モデル計算、設計例）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:193
+js-cat-lunar-relay-constellation-title = 月の中継コンステレーション
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:157
+js-cat-lunar-station-coverage-public-sources-question = 公表されている仮定のみの下で、この局は南極上空にどのような補正後誤差を与えるか。結果は、公表されておらず ILLUSTRATIVE に設定した軌道要素に支配されます。これは、凍結した予測の入力です。（モデル計算、実在のいかなるシステムについても何も述べていません）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:157
+js-cat-lunar-station-coverage-public-sources-title = 月の基準局、公表された仮定
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:156
+js-cat-lunar-station-coverage-question = 南極域と一日にわたって、月の基準局はどのような補正後誤差を与えるか。また、局からどこまで離れてもカバレッジは保たれるか。（モデル計算、実在のいかなるシステムについても何も述べていません）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:185
+js-cat-lunar-station-coverage-terrain-question = 各地点の地平線を、実際の月面標高モデル上でレイマーチングした場合、局は地形によってどれだけのカバレッジを失うか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:185
+js-cat-lunar-station-coverage-terrain-title = 実際の地形を用いた月面局
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:156
+js-cat-lunar-station-coverage-title = 月の基準局のカバレッジ
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:165
+js-cat-lunar-station-geodesy-baseline-question = 局を追加する前の、実際のスケジュールにおいて、現在の五つの再帰反射器アレイは、月の測地系をどれだけ正確に拘束するか。二点一組のベースラインです。（モデル計算、ネイティブエンジンで記録した実行）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:165
+js-cat-lunar-station-geodesy-baseline-title = 月面局の測地：五つのアレイのみ
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:166
+js-cat-lunar-station-geodesy-with-station-question = 同じアーカイブ済みスケジュールに、南極域の反射器と VLBI ビーコンを一つ追加すると、測地系の境界はどれだけ狭まるか。（モデル計算、例示の地点、ネイティブエンジンで記録した実行）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:166
+js-cat-lunar-station-geodesy-with-station-title = 月面局の測地：南極域の局を加えた場合
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:158
+js-cat-lunar-station-time-lab-question = 局の超小型ルビジウム時計を月時刻に最後に同期させてから、1、10、100 ns の範囲内に収まっている時間はどれだけか。また、どの誤差項が支配的か。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:158
+js-cat-lunar-station-time-lab-title = 月面局の時刻ラボ
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:152
+js-cat-lunar-time-budget-question = 地球・月間の座標時のオフセットはどれほど大きく、その誤差バジェットはどれほどか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:152
+js-cat-lunar-time-budget-title = 月の時刻バジェット
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:151
+js-cat-lunar-time-offset-question = 月の時計は、地球の時刻からどれだけの速さで乖離するか（約 56–59 µs/day）。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:151
+js-cat-lunar-time-offset-title = 月の時刻オフセット
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:160
+js-cat-lunar-vlbi-fim-question = ある VLBI 追跡スケジュールは、局座標の精度として、実際にどれだけをもたらすか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:160
+js-cat-lunar-vlbi-fim-title = 月の VLBI 情報量
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:159
+js-cat-lunar-vlbi-question = 地球基線の VLBI ペアは、月面ビーコンに対して、どのような遅延を観測するか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:159
+js-cat-lunar-vlbi-title = 月の VLBI
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:65
+js-cat-maritime-port-approach-coast-question = GNSS なしで入港するとき、航法級の INS は、いつ港内および外洋のバジェットから外れるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:65
+js-cat-maritime-port-approach-coast-title = 慣性航法による入港
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:64
+js-cat-maritime-spoof-position-push-question = スプーファーが船の測位解を 500 m 引きずったとき、どの検出レイヤーがそれを捉えるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:64
+js-cat-maritime-spoof-position-push-title = 船の位置のスプーフィング
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:62
+js-cat-maritime-strait-jamming-question = 30 km の開けた海域を隔てて、50 W のジャマーは、船舶の GNSS を奪うか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:62
+js-cat-maritime-strait-jamming-title = 海峡でジャミングを受ける船
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:244
+js-cat-mars-orbit-pnt-question = 低い火星周回機は、十二機の航法中継機から、どれだけ正確に測位されるか。地球からの距離は、何を加えるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:244
+js-cat-mars-orbit-pnt-title = 中継機と地球リンクを備えた火星周回機
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:182
+js-cat-mars-pnt-lmo-question = MARCONI 中継コンステレーションは、火星上の利用者を航法できるか。（共分散による FoM であり、認証された PL ではありません）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:182
+js-cat-mars-pnt-lmo-title = 火星 PNT、低軌道
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:183
+js-cat-mars-pnt-surface-question = 自転する火星の表面にいる着陸機やローバーは、中継コンステレーションに対して、どれだけうまく航法できるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:183
+js-cat-mars-pnt-surface-title = 火星 PNT、表面
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:184
+js-cat-mars-pnt-transfer-question = 高い離心率のアプローチ軌道または捕獲軌道上の機体は、火星でどれだけうまく航法されるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:184
+js-cat-mars-pnt-transfer-title = 火星 PNT、遷移軌道
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:208
+js-cat-meo-leo-fused-pvt-question = GPS と Galileo に低軌道レイヤーを加えると、位置誤差と幾何配置はどうなるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:208
+js-cat-meo-leo-fused-pvt-title = GNSS と低軌道を融合した測位解
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:147
+js-cat-moonlight-service-volume-question = Moonlight/LCNS 級のコンステレーションは、南極に対して、どのような DOP、カバレッジ、インテグリティを与えるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:147
+js-cat-moonlight-service-volume-title = 月のサービスボリューム
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:188
+js-cat-multi-band-jamming-waterfall-question = 航法信号が四つの帯域に分散している場合、一つの帯域向けに作られたジャマーは、何を残すか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:188
+js-cat-multi-band-jamming-waterfall-title = マルチバンドのジャミングのウォーターフォール
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:260
+js-cat-notinbrowser-elevation-model = リポジトリに同梱されていて、ブラウザー版には含まれない、月面標高モデルの切り出し（{ $path }）が必要です。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:257
+js-cat-notinbrowser-laser-ranging-data = リポジトリに同梱されていて、ブラウザー版には含まれない、アーカイブ済みのレーザー測距データの一部が必要です。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:261
+js-cat-notinbrowser-study-suite = 単一のシナリオではなく、検討スイートです。コマンドラインツールで実行してください：{ $command }。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:215
+js-cat-ntn-5g-positioning-question = ハンドセットは、5G 非地上系ネットワークのダウンリンクから、信号帯域幅ごとに、どれだけ精密に自己位置を求められるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:215
+js-cat-ntn-5g-positioning-title = 5G 衛星ダウンリンクによる測位
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:250
+js-cat-oem-interop-question = GMAT / Orekit / STK の OEM エフェメリスを、取り込んで往復変換できるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:250
+js-cat-oem-interop-title = CCSDS OEM ブリッジ
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:116
+js-cat-optical-atmosphere-network-question = 雲と乱流を通る光学タイミングリンクは、どのくらいの頻度で確立し、地上局を追加すると何が得られるか。（モデル計算、例示の雲の気候）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:116
+js-cat-optical-atmosphere-network-title = 大気を通る光学リンク、三か所の局
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:117
+js-cat-optical-atmosphere-techniques-question = 開口を大きくする、別の波長を使う、補償光学を使うことは、雲と乱流の中の光学アップリンク一本に、それぞれ何をもたらすか。（モデル計算、例示の雲の気候）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:117
+js-cat-optical-atmosphere-techniques-title = 光学リンクの手法
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:122
+js-cat-orbit-gnss-challenged-question = 衛星の幾何配置から見て、測位解が得られるのはいつか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:122
+js-cat-orbit-gnss-challenged-title = GNSS の可用性
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:126
+js-cat-orbit-molniya-question = 離心率の大きいモルニヤ軌道の利用者は、遠地点付近で、なお十分な数の GNSS 衛星を見られるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:126
+js-cat-orbit-molniya-title = モルニヤ軌道の利用者
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:124
+js-cat-orbit-multignss-question = GPS + Galileo を合わせると、可用性はどれだけ上がり、精度低下率はどれだけ小さくなるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:124
+js-cat-orbit-multignss-title = マルチ GNSS の可用性
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:127
+js-cat-orbit-real-tle-question = 二行軌道要素で与えられた実在のコンステレーションは、どのようなカバレッジを提供するか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:127
+js-cat-orbit-real-tle-title = 実際の二行軌道要素
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:128
+js-cat-orbit-rinex-question = 実際の RINEX 3 放送エフェメリスから、どのような可用性が得られるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:128
+js-cat-orbit-rinex-title = 放送エフェメリス
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:123
+js-cat-orbit-sgp4-gps-question = 実在の GPS に似たコンステレーションは、一日にわたってどのように伝搬するか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:123
+js-cat-orbit-sgp4-gps-title = SGP4 軌道
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:125
+js-cat-orbit-urban-canyon-skyline-question = 市街の通りの底では、GPS と Galileo が四機の衛星を与える時間は一日のうちどれだけか。また、細い帯状の空は PDOP にどう影響するか。（モデル計算、代表的なスカイライン）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:125
+js-cat-orbit-urban-canyon-skyline-title = 市街の通りの可用性
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:130
+js-cat-passes-question = 衛星は、局の上空でいつ昇り、いつ沈み、その時間はどれだけか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:130
+js-cat-passes-title = 地上パス
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:213
+js-cat-polar-arctic-leo-coverage-question = 赤道から極まで、視界内の衛星と幾何配置は、GNSS のみ、極軌道の低軌道レイヤーのみ、その両方で、どのように変わるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:213
+js-cat-polar-arctic-leo-coverage-title = 赤道から極まで
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:114
+js-cat-pvt-abmf-question = 実在の受信機の位置を、生の RINEX 観測値から解けるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:114
+js-cat-pvt-abmf-title = 測位（SPP）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:248
+js-cat-quantum-anomaly-detect-question = 量子システムの故障は、一定の誤警報率の下で、どれだけうまく検出されるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:248
+js-cat-quantum-anomaly-detect-title = 量子の異常検出
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:99
+js-cat-quantum-cai-coast-question = 物理特性で仕様を定めた冷却原子干渉計は、GNSS が失われた後、航法級の水晶加速度計と比べて、推測航法を 100 m の範囲内にどれだけ長く保てるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:99
+js-cat-quantum-cai-coast-title = 量子加速度計による惰性航行
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:98
+js-cat-quantum-gnss-free-nav-question = GNSS がない場合、冷却原子航法装置は、航法級の INS と比べて、どれだけ惰性で進めるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:98
+js-cat-quantum-gnss-free-nav-title = 量子による GNSS 不要の航法
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:252
+js-cat-quantum-pnt-demonstrator-suite-question = 三つの量子の応用領域を一つの検討として扱います（コマンドラインの検討スイート：kshana --study）。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:252
+js-cat-quantum-pnt-demonstrator-suite-title = 量子 PNT 実証検討
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:84
+js-cat-quantum-time-transfer-question = 信頼できる量子タイミングは、従来型の CSAC + RF チェーンと比べて、何をもたらすか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:84
+js-cat-quantum-time-transfer-title = 量子による時刻比較
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:247
+js-cat-quantum-trade-question = 候補の時計は、従来型のベースラインと比べて、どのようなタイミング／慣性のホールドオーバーをもたらすか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:247
+js-cat-quantum-trade-title = 量子 PNT のトレードオフ
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:67
+js-cat-rail-tunnel-coast-question = 160 km/h でトンネルを通過するとき、戦術級の INS は、どれだけ早くバジェットから外れるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:67
+js-cat-rail-tunnel-coast-title = トンネルを通る列車
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:179
+js-cat-realtime-frame-eop-question = リアルタイム（予測）の地球姿勢パラメーターは、座標系の誤差をどれだけ生じさせるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:179
+js-cat-realtime-frame-eop-title = リアルタイムの座標系/EOP
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:133
+js-cat-reentry-question = 弾道再突入では、ピーク G とピーク加熱の速度はどれほどになるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:133
+js-cat-reentry-title = 再突入回廊
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:80
+js-cat-slot-timing-ocxo-leo-question = 低軌道の小型衛星に搭載した恒温槽付き水晶発振器は、最後の GNSS 測位解の後、スロットのガード時間の範囲内にどれだけ長く留まるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:80
+js-cat-slot-timing-ocxo-leo-title = スロットタイミング
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:68
+js-cat-small-uas-jammed-nav-question = ジャマーが GNSS を奪った後、フライトコントローラー級の慣性ユニットは、戦術級のものと比べて、どれだけドリフトするか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:68
+js-cat-small-uas-jammed-nav-title = ジャミングを受ける小型ドローン
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:243
+js-cat-solar-system-tour-question = 太陽から冥王星、そして大型の衛星まで、エンジンが知るすべての天体はどこにあり、それらの間を光が進むのにどれだけかかるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:243
+js-cat-solar-system-tour-title = あるエポックにおける太陽系
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:251
+js-cat-space-packet-question = CCSDS 133.0 のパケットストリームは、ビット単位で正確に符号化・復号できるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:251
+js-cat-space-packet-title = スペースパケット
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:137
+js-cat-space-weather-question = 太陽／地磁気の活動は、熱圏の密度をどのように変えるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:137
+js-cat-space-weather-title = 宇宙天気
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:73
+js-cat-spoof-attack-question = 徐々に増やす時刻スプーフィングは、仕様に達する前に捉えられるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:73
+js-cat-spoof-attack-title = スプーフィング検出
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:74
+js-cat-spoof-detect-question = RF と測定値を融合した監視は、協調的なスプーフィングを捉えられるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:74
+js-cat-spoof-detect-title = 多層スプーフィング検出
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:75
+js-cat-spoof-meaconing-question = 攻撃の形が明示されている場合、時計支援のエネルギー検出器は、一定の誤警報率の下で、どのくらいの頻度でスプーフィングを捉えるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:75
+js-cat-spoof-meaconing-title = スプーフィング検出器の統計
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:211
+js-cat-starlink-sop-doppler-positioning-question = 受信機は、航法メッセージを送らないブロードバンドのコンステレーションのドップラーから、どれだけうまく自己位置を求められるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:211
+js-cat-starlink-sop-doppler-positioning-title = ブロードバンドの機会信号
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:85
+js-cat-sweep-clock-stability-question = 時計のパラメーターを一つ掃引すると、ホールドオーバーはどう変わるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:85
+js-cat-sweep-clock-stability-title = パラメーター掃引
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:249
+js-cat-sweep-nd-inertial-question = 性能指標は、複数パラメーターのグリッド上で、どのように変化するか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:249
+js-cat-sweep-nd-inertial-title = N 次元掃引
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:81
+js-cat-telecom-prtc-holdover-24h-question = GNSS を 24 時間失うルビジウム基準は、ITU-T の時刻誤差マスクの範囲内に留まるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:81
+js-cat-telecom-prtc-holdover-24h-title = 通信のホールドオーバー、24 h
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:120
+js-cat-telecom-synce-eec-question = 自走する恒温槽付き発振器は、同期イーサネットの装置クロックのワンダーマスクの範囲内に留まるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:120
+js-cat-telecom-synce-eec-title = SyncE マスクに対する周波数同期
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:82
+js-cat-telecom-tie-ingest-question = 時間間隔誤差の記録は、ITU-T の MTIE と TDEV のマスクに合格するか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:82
+js-cat-telecom-tie-ingest-title = 通信マスクのチェック、お手元のデータで
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:93
+js-cat-terrain-nav-question = 高度計は、地形の標高プロファイルとのマッチングによって、INS のドリフトを補正できるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:93
+js-cat-terrain-nav-title = 地形航法
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:94
+js-cat-terrain-slam-question = パーティクルフィルターは、地形マップに照らして、時間変化する INS のドリフトを追跡できるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:94
+js-cat-terrain-slam-title = 地形 SLAM
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:115
+js-cat-time-transfer-budget-question = 局、トランスポンダー、電離圏、Sagnac の各項は、双方向の時刻オフセットに何をもたらし、その不確かさバジェットはどれほどか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:115
+js-cat-time-transfer-budget-title = 双方向衛星時刻比較
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:83
+js-cat-timetransfer-question = 二つの地点は、リンクを介して、どれだけ厳密に同期を保てるか。
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:83
+js-cat-timetransfer-title = 時刻比較
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:69
+js-cat-tracking-loop-question = 受信機は、実際には C/N0 がどれだけになるとロックを失うか。スプーファーはループを引き込めるか。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:69
+js-cat-tracking-loop-title = 追尾ループ
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:217
+js-cat-xona-pulsar-end-to-end-question = 公表されている Xona Pulsar の数値による同じ連鎖：信号、パス、メッセージ、融合した測位解、精密測位。（モデル計算）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:217
+js-cat-xona-pulsar-end-to-end-title = エンドツーエンド、Xona Pulsar
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:196
+js-cat-xona-pulsar-signals-question = 受信機は、公表されている X1 と X5 の信号で、どれだけ精密に測距でき、捕捉の探索範囲はどれほど大きいか。（公表されている信号表）
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:196
+js-cat-xona-pulsar-signals-title = Xona Pulsar の信号
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:71
+js-geo-a-place = 場所…
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:392
+js-geo-axis-east = E +{ $ext } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:392
+js-geo-axis-north = N +{ $ext } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:110
+js-geo-canyon-needs = 街路の谷（ストリートキャニオン）の形式には、エンジン 0.36 が必要です。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:142
+js-geo-canyon-out-of-range = 街路の谷の値が範囲外です（方位角 0〜359.9°、幅 1〜200 m、高さ 0〜500 m、アンテナ 0〜50 m）。開けた地平線を使用します。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:159
+js-geo-canyon-reduced = エンジンが街路の谷を 360 ビンの表に縮約したもの。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:451
+js-geo-compute-failed = エンジンは、この空を計算できませんでした：{ $reason }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:428
+js-geo-computing = 計算中…
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:200
+js-geo-copy-link = このリンクをコピー：{ $url }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:340
+js-geo-count-below = 地平線の下
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:338
+js-geo-count-hidden = スカイラインに隠れている
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:337
+js-geo-count-in-view = 視界内
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:341
+js-geo-count-open-sky = 開けた空
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:339
+js-geo-count-used = 測位解に使用
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:302
+js-geo-cursor-live = 方位角 { $az }°、スカイライン { $el }°。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:186
+js-geo-dated-sky = 日付を指定した空は、軌道要素とその古さの範囲でしか信頼できません。プリセットは含めていません。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:322
+js-geo-dop-geometric = 幾何
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:322
+js-geo-dop-geometric-title = 幾何学的精度低下率
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:324
+js-geo-dop-horizontal = 水平
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:324
+js-geo-dop-horizontal-title = 水平精度低下率
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:323
+js-geo-dop-position = 位置、3D
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:323
+js-geo-dop-position-title = 位置、3D の精度低下率
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:326
+js-geo-dop-time = 時刻
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:326
+js-geo-dop-time-title = 時刻の精度低下率
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:325
+js-geo-dop-vertical = 垂直
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:325
+js-geo-dop-vertical-title = 垂直精度低下率
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:244
+js-geo-east = E
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:463
+js-geo-engine-not-running = このブラウザーでは、エンジンが動作していません（{ $reason }）。
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:243
+js-geo-err-geometry-object = エンジンのジオメトリの応答がオブジェクトではありません
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:279
+js-geo-err-mc-object = エンジンのモンテカルロの応答がオブジェクトではありません
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:172
+js-geo-err-no-sentences = エンジンの応答にセンテンスがありません
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:317
+js-geo-err-reply-kind-not-json = エンジンの { $what } の応答が JSON ではありませんでした
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:171
+js-geo-err-reply-not-json = エンジンの応答が JSON ではありませんでした
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:358
+js-geo-error-line = σ_UERE = { $uere } m の場合、示された誤差モデルの下で（エンジンの数値）：{ $bits }。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:353
+js-geo-error-line-needs = 位置誤差は、水平方向で ≈ σ_UERE × HDOP、垂直方向で σ_UERE × VDOP です。この数値には、エンジン 0.36 が必要です。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:357
+js-geo-error-rms-3d = 3D RMS σ_UERE × PDOP = { $m } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:356
+js-geo-error-rms-h = 水平 RMS σ_UERE × HDOP = { $m } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:355
+js-geo-error-sigma = 1σ の誤差：東 { $east } m、北 { $north } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:401
+js-geo-fact-ellipse-1s = 楕円、1σ
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:401
+js-geo-fact-ellipse-1s-value = { $major } m × { $minor } m、長軸は北から { $deg }°
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:402
+js-geo-fact-ellipse-pct = 楕円、{ $pct } %
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:402
+js-geo-fact-ellipse-pct-scaled = { $major } m × { $minor } m（1σ × { $k }）
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:402
+js-geo-fact-ellipse-pct-value = { $major } m × { $minor } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:408
+js-geo-fact-inside = 95 % 楕円の内側
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:408
+js-geo-fact-inside-value = 点の { $pct } %
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:411
+js-geo-fact-line = { $key }：{ $value }。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:405
+js-geo-fact-mc = モンテカルロ
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:405
+js-geo-fact-mc-value = 最小二乗解 { $n } 個、シード { $seed }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:407
+js-geo-fact-rms-3d = 点群の RMS、3D
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:407
+js-geo-fact-rms-3d-beside = { $rms } m（σ_UERE × PDOP = { $predicted } m と比較）
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:406
+js-geo-fact-rms-h = 点群の RMS、水平
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:406
+js-geo-fact-rms-h-beside = { $rms } m（σ_UERE × HDOP = { $predicted } m と比較）
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:406
+js-geo-fact-rms-value = { $rms } m
+
+# 2026-10-01-studio-rebuild/lib/geojson-layer.mjs:29
+js-geo-gj-not-geojson = { $name }：GeoJSON ではありません（FeatureCollection、Feature、またはジオメトリが想定されていました）。
+
+# 2026-10-01-studio-rebuild/lib/geojson-layer.mjs:23
+js-geo-gj-not-json = { $name }：JSON ではありません（{ $reason }）。
+
+# 2026-10-01-studio-rebuild/lib/geojson-layer.mjs:24
+js-geo-gj-not-object = { $name }：GeoJSON オブジェクトではありません。
+
+# 2026-10-01-studio-rebuild/lib/geojson-layer.mjs:32
+js-geo-gj-too-many = { $name }：フィーチャーが { $count } 件あります。このページで描画できるのは最大 { $max } 件です。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:314
+js-geo-legend-item = { $label }：{ $total } 機中 { $used } 機が測位解に使用
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:199
+js-geo-link-copied = リンクをコピーしました。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:199
+js-geo-link-copied-no-tle = リンクをコピーしました（貼り付けた要素は含みません。リンクで開くのはプリセットです）。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:74
+js-geo-mc-off = オフ
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-ellipse = 誤差楕円
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-gdop = GDOP
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-leo = LEO
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-monte-carlo = モンテカルロの点群
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-open-sky = 開けた空の割合
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-skyline = スカイライン
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-tdop = TDOP
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:328
+js-geo-needs = エンジン 0.36 が必要
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:377
+js-geo-needs-cap = エンジン 0.36 が必要です
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:415
+js-geo-no = いいえ
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:377
+js-geo-no-ellipse = 楕円なし
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:417
+js-geo-no-sats = 表示する衛星がありません。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:244
+js-geo-north = N
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:328
+js-geo-not-given = 未指定
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:263
+js-geo-note-elements-skipped = 要素セット { $count } 組を読み飛ばしました：{ $list }。
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:164
+js-geo-note-latitude-limited = このエンジンビルドは、赤道から 89° 以内の地点をモデル化します。緯度はその範囲に制限しました。
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:162
+js-geo-note-leo-left-out = LEO：エンジン 0.36 が必要です。除外しました。
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:346
+js-geo-note-no-engine = このブラウザーではエンジンが動作していないため、表示するものがありません。エンジンは WebAssembly として動作します。WebAssembly をブロックするブラウザーやホストでは、このビューを実行できません。
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:168
+js-geo-note-pick-one = GPS、Galileo、BeiDou のうち、少なくとも一つを選んでください。
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:163
+js-geo-note-skyline-not-applied = スカイラインは描画しますが、適用していません。適用にはエンジン 0.36 が必要です。その裏にある衛星も、ここでは数に含まれます。
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:261
+js-geo-note-skyline-source = スカイライン：{ $source }。
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:165
+js-geo-note-training-model = エンジン { $version } の訓練用スカイモデル（nmea_training）、{ $instant }：角度は整数度、DOP は小数第一位までで、受信機のセンテンスが持つ形式に合わせています。測位解に使うのは、信号強度で選んだ最大 12 機の衛星です。
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:259
+js-geo-note-unknown-systems = このビューが描画しないシステムの衛星レコード { $count } 件を除外しました。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:107
+js-geo-off-leo = LEO：エンジン 0.36 が必要です。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:112
+js-geo-off-monte-carlo = モンテカルロの点群には、エンジン 0.36 が必要です。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:108
+js-geo-off-skyline = スカイラインの適用には、エンジン 0.36 が必要です。ここでは描画のみです。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:88
+js-geo-offset-own = お手元の要素のエポックからのオフセット（{ $epoch }）
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:88
+js-geo-offset-ref = コンステレーションの基準エポックからのオフセット
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:341
+js-geo-open-sky-share = 上半球の { $pct } %
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:141
+js-geo-out-of-range = 範囲外のため、直近の良好な値のままにしています：{ $names }。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:186
+js-geo-own-elements-at = お手元の要素、{ $epoch }。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:138
+js-geo-pick-constellation = コンステレーションを少なくとも一つ選んでください。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:22
+js-geo-place-geiranger = ガイランゲルフィヨルド（ノルウェー）
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:22
+js-geo-place-manhattan = ミッドタウン・マンハッタン（アメリカ合衆国）
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:21
+js-geo-place-oslo = オスロ港（ノルウェー）
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:21
+js-geo-place-rotterdam = ロッテルダム港（オランダ）
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:22
+js-geo-place-singapore = シンガポール海峡
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:21
+js-geo-place-tallinn = タリン港（エストニア）
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:22
+js-geo-place-tromso = トロムソ（ノルウェー）
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:262
+js-geo-plot-desc = プロット内の衛星 { $total } 機、うち測位解に使用 { $used } 機。
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:336
+js-geo-preset-illustrative = このページが描いた例示のアウトラインです。スカイラインの適用には、エンジン 0.36 が必要です。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:436
+js-geo-ready = 準備完了。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:436
+js-geo-ready-needs = 準備完了。エンジン 0.36 が必要：{ $list }。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:252
+js-geo-sat-masked = { $label } { $id }：方位角 { $az }°、仰角 { $el }°、スカイラインに隠れている
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:252
+js-geo-sat-unused = { $label } { $id }：方位角 { $az }°、仰角 { $el }°、不使用
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:252
+js-geo-sat-used = { $label } { $id }：方位角 { $az }°、仰角 { $el }°、測位解に使用
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:66
+js-geo-scenarios-under = このスカイラインの下でのエンジンのシナリオ：
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:73
+js-geo-sky-canyon = 街路の谷（ストリートキャニオン）
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:73
+js-geo-sky-drawn = スカイプロットに描画
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:73
+js-geo-sky-open = 開けた地平線
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:73
+js-geo-sky-preset = プリセット：{ $name }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:434
+js-geo-sky-source = 空：{ $source }。
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:58
+js-geo-skyline-city-street = 市街の通り
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:61
+js-geo-skyline-container = コンテナターミナル
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:60
+js-geo-skyline-fjord = フィヨルド
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:59
+js-geo-skyline-harbour = 入港航路
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:160
+js-geo-skyline-load-failed = スカイラインを読み込めませんでした（{ $reason }）。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:213
+js-geo-skyplot-downloaded = スカイプロットをダウンロードしました。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:214
+js-geo-skyplot-export-failed = スカイプロットをエクスポートできませんでした（{ $reason }）。
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:267
+js-geo-source-geometry = Kshana エンジン { $version }、sky_geometry
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:434
+js-geo-source-line = { $source }。
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:174
+js-geo-source-training = Kshana エンジン { $version }、訓練用スカイモデル
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:244
+js-geo-south = S
+
+# 2026-10-01-studio-rebuild/lib/skyplot.mjs:17
+js-geo-style-own-elements = お手元の要素
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:207
+js-geo-svg-refused = エンジンの SVG が拒否されました
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:416
+js-geo-table-count = 衛星 { $n } 機、スカイプロットと同じです。
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:48
+js-geo-tle-epoch = 2000 年から 2099 年までの UTC エポックを指定してください。
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:44
+js-geo-tle-paste-first = 先に、二行軌道要素セットを一つ以上貼り付けてください。
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:45
+js-geo-tle-too-large = 貼り付けた要素が 4 MiB を超えています。これはエンジンの入力上限です。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:415
+js-geo-used-masked = いいえ：スカイラインに隠れている
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:192
+js-geo-using-own = お手元の要素を使用しています。リンクが保持するのは、それを使ったという事実だけで、要素そのものではありません。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:463
+js-geo-wasm-blocked = WebAssembly がブロックされています
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:244
+js-geo-west = W
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:379
+js-geo-why = 理由
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:376
+js-geo-why-interim = 誤差楕円とモンテカルロの点群には、エンジン 0.36（その sky_geometry 関数と sky_monte_carlo 関数）が必要です。このページのエンジンは、それより古いものです。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:376
+js-geo-why-no-ellipse = エンジンは、このジオメトリに対して楕円を返しませんでした（測位解を得るには衛星が少なすぎるか、ジオメトリが特異です）。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:376
+js-geo-why-no-ellipse-reason = エンジンは、このジオメトリに対して楕円を返しませんでした（測位解を得るには衛星が少なすぎるか、ジオメトリが特異です）：{ $reason }。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:376
+js-geo-why-waiting = エンジンを待っています。
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:415
+js-geo-yes = はい
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:105
+js-hold-axis-seconds = 最初のサンプルからの秒数
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:129
+js-hold-axis-tau = 観測時間 τ、s（対数）
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:103
+js-hold-axis-te = 時刻誤差、ns
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:89
+js-hold-band-title = 復旧帯 ±{ $band } ns
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:21
+js-hold-blurb-example = 5 s ごとのサンプル：600 s の間ロック、600 s で GNSS を切断、ホールドオーバー、2400 s で GNSS を復旧。この記録は例のために生成したもので、測定値ではありません。
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:22
+js-hold-blurb-ptp4l = 同じ四つのステップを ptp4l のサーボログ（デーモン自身のオフセット、単位 ns）から読み取ります。このログは例のために書いたもので、デーモンは動作していません。
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:95
+js-hold-budget-exceeded = { $name } は、切断の { $s } s 後に初めて超過しました
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+js-hold-chip-baseline = マスクに対するベースライン
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+js-hold-chip-envelope = ePRTC-A ホールドオーバー包絡線
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+js-hold-chip-holdover = マスクに対するホールドオーバー
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:55
+js-hold-chip-measured = マスクに照らして測定
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+js-hold-chip-recovery = 復旧
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:55
+js-hold-chip-words = 文言
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:124
+js-hold-curve-title = { $step }：{ $which }、ns
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:119
+js-hold-curves-aria = 観測時間に対する { $which }（マスクの限界値つき）
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:94
+js-hold-envelope-exceeded = ePRTC-A ホールドオーバー包絡線は、切断の { $s } s 後に初めて超過しました
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:141
+js-hold-envelope-exceeded-short = { $verdict }、切断の { $s } s 後に初めて超過（記録が包絡線の周期より短い）
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:142
+js-hold-envelope-exceeded-value = { $verdict }、切断の { $s } s 後に初めて超過
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:143
+js-hold-envelope-short = { $verdict }（記録が包絡線の周期より短い）
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:43
+js-hold-file-error = { $name }：{ $error }。
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:40
+js-hold-file-not-json = { $name }：JSON ではありません。
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:46
+js-hold-file-read-here = { $name }、ここで読み込みました。何もアップロードされていません。
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:38
+js-hold-file-too-large = { $name } は、このページが読み込める大きさを超えています。
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:67
+js-hold-from-record = 結果の記録
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:67
+js-hold-from-record-decimated = 結果の記録（{ $total } サンプルのうち { $have } サンプルに間引き）
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-gnss-removed = GNSS 切断
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-gnss-removed-stated = GNSS 切断（運用者が指定）
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-gnss-restored = GNSS 復旧
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-gnss-restored-stated = GNSS 復旧（運用者が指定）
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-largest-at = { $value }（T+{ $time } s）
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:91
+js-hold-limit-label = ±{ $ns } ns { $step } マスク
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:91
+js-hold-limit-title = { $id }：±{ $ns } ns、{ $step } ステップにおける最大絶対時刻誤差
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:128
+js-hold-mark-title = { $id } の限界値 { $limit } ns、τ { $tau } s（{ $verdict }、{ $source }）
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-marker-time = { $name }、T+{ $time } s
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:15
+js-hold-na = n/a
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:102
+js-hold-no-curve = 時刻誤差の曲線はありません。描画のために記録を再現できませんでした。
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:115
+js-hold-no-which-curve = この結果には、{ $which } の曲線がありません。
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+js-hold-not-exceeded = 超過なし
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-not-recovered = 帯の範囲内に留まりませんでした
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:29
+js-hold-not-result = これはホールドオーバー試験の結果ではありません
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:32
+js-hold-open-failed = { $title } を開けませんでした：{ $reason }。
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:23
+js-hold-opening = { $title } を開いています…
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:72
+js-hold-phase-baseline = ベースライン：ロック中
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:72
+js-hold-phase-holdover = ホールドオーバー：GNSS 切断
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:72
+js-hold-phase-recovery = 復旧：GNSS 復旧
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:87
+js-hold-phase-title = { $phase }、T+{ $from } s から { $to } s
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:47
+js-hold-read-failed = 読み込みも描画もできませんでした（{ $reason }）。
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:30
+js-hold-recorded = { $title }：エンジンの記録された結果（バージョン { $version }）。
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-recovered = GNSS の復帰から { $after } s 後に、{ $dwell } s の間 ±{ $band } ns の範囲内
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:28
+js-hold-result-not-json = 結果が JSON ではありません（{ $reason }）
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:26
+js-hold-result-not-loaded = 記録された結果を読み込めませんでした
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:150
+js-hold-row-envelope = ePRTC-A ホールドオーバー包絡線
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-frequency = 保持された周波数オフセット（フィットした傾き）
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-largest = 最大の絶対時刻誤差
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-length = ホールドオーバーの長さ
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:150
+js-hold-row-margin = 包絡線内での最小マージン
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-row-peak = 復旧後のピーク
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-row-recovery = 復旧
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-row-recovery-step = 復旧中の最大のステップ
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-residual = その直線まわりの残差（rms）
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-step = 切断の瞬間のステップ
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:68
+js-hold-status-final = { $status } { $label }：マスクに照らして測定。
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:136
+js-hold-step-span = T+{ $from } から { $to } s
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:86
+js-hold-te-aria = 記録全体の時刻誤差（フェーズとマスクの限界値つき）
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:101
+js-hold-te-line-title = 時刻誤差、ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:58
+js-hold-te-note = { $from } からの時刻誤差。二つの時刻は { $by } が指定したものです。
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+js-hold-th-budget = バジェット
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+js-hold-th-budget-limit = 限界値 |TE|、ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+js-hold-th-first-exceeded = 切断後に初めて超過した時点、s
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-largest = 最大 |TE|、ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-limit = 限界値、ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-margin = マージン、ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-mask = マスク
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-mean = 平均、ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-measured-on = 測定対象
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-metric = 指標
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-rms = RMS、ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-samples = サンプル数
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-source = ソース
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-span = 区間
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-step = ステップ
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-value = 値、ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-verdict = 判定
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-worst-at = 最悪となった τ または T+、s
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:21
+js-hold-title-example = 時刻誤差の記録
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:22
+js-hold-title-ptp4l = linuxptp のログ
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:64
+js-hold-why-no-samples = 結果に時刻誤差のサンプル（record.series）がないため、曲線は描画しません
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:65
+js-hold-why-not-series = 結果内の系列が時系列ではない（サンプルが二つ未満、または時刻が増加していない）ため、曲線は描画しません
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:58
+js-hold-why-sentence = { $why }。
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:66
+js-hold-why-too-many = エンジンが { $scored } 個を採点したのに対し、結果内の系列は { $have } 個のサンプルを持つため、曲線は描画しません
+
+# 2026-10-01-studio-rebuild/interference/interference.js:178
+js-interf-attribution = 帰属
+
+# 2026-10-01-studio-rebuild/interference/interference.js:413
+js-interf-build-failed = { $name }：構築できませんでした（{ $reason }）。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:409
+js-interf-built-day-maps =
+    { $n ->
+       *[other] このブラウザー内で、エンジン { $version } により { $name } から日別マップを { $n } 件構築しました。
+    }
+
+# 2026-10-01-studio-rebuild/interference/interference.js:411
+js-interf-built-detail = { $date }：{ $published } セルを公開、{ $flagged } セルにフラグ
+
+# 2026-10-01-studio-rebuild/interference/interference.js:446
+js-interf-built-from-sample = このブラウザー内で、エンジンにより、合成した { $kind } サンプルから構築しました。作り物の報告であり、実在の航空機、船舶、日付とは無関係です。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:411
+js-interf-built-maps =
+    { $n ->
+       *[other] マップを { $n } 件構築しました（{ $detail }）。集計のみです。フラグの付いたセルは、干渉が原因であることを示すものではありません。
+    }
+
+# 2026-10-01-studio-rebuild/interference/interference.js:407
+js-interf-built-none = { $name }：エンジンはマップを構築しませんでした。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:73
+js-interf-caveat-coverage = カバレッジはデータソースに従います。カバレッジの注記をお読みください。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:71
+js-interf-caveat-no-colour = 色のないセルは、観測されなかったものです。その領域に問題がなかったことの証拠ではありません。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:70
+js-interf-caveat-not-finding = 劣化または異常のあるセルは、干渉が見つかったという結論ではありません。ほかの原因もあります。
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:72
+js-interf-caveat-past-reports = これは過去の位置報告の記述であり、予測ではなく、どの受信機の測定でもありません。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:216
+js-interf-caveats = 注意事項
+
+# 2026-10-01-studio-rebuild/interference/interference.js:400
+js-interf-cell-size-rule = セルサイズは、0 度より大きく 10 度以下の数値にするか、空欄（0.5）にしてください。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:431
+js-interf-check-failed = { $name }：チェックできませんでした（{ $reason }）。
+
+# 2026-10-01-studio-rebuild/interference/interference.js:152
+js-interf-click-cell = セルをクリックするか、マップにフォーカスして矢印キーを使うと、そのセルの数値を表示します。

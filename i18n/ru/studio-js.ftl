@@ -7374,7 +7374,7 @@ js-replay-kinds-convergence-horizontal = Сходимость: медианна�
 
 js-replay-kinds-convergence-vertical = Сходимость: медианная вертикальная ошибка
 
-js-replay-kv-course = Сообщённый курс
+js-replay-kv-course = Сообщённый путевой угол
 
 js-replay-kv-heading = Курс (гироскоп)
 
@@ -8267,3 +8267,1069 @@ js-tools-osnma-pending = Ожидает
 js-tools-osnma-recorded-failed = записанный результат не загрузился
 
 js-tools-osnma-recorded-result = Записанный результат kshana osnma verify --json для { $file }.
+
+js-tools-osnma-tag-counts = аутентифицировано { $authenticated }, ошибок { $failed }, ожидает { $pending }, отброшено { $discarded }
+
+js-tools-osnma-tag-totals = Тегов: { $n } — аутентифицировано { $authenticated }, ошибок { $failed }, ожидает { $pending }, отброшено { $discarded }.
+
+js-tools-osnma-time-caveat = Время: каждая проверка относится к меткам времени страниц, переданных проверяющему модулю; здесь они берутся из самих данных и не защищают от повторного воспроизведения старых данных. Аутентификация говорит, что данные пришли от системы; она ничего не говорит о сигнале, по которому они пришли, и о качестве решения.
+
+js-tools-osnma-unavailable = Недоступно
+
+js-tools-osnma-word-authenticated = Хотя бы один спутник аутентифицирован, и ни у одного нет ошибки
+
+js-tools-osnma-word-failed = Проверка данных какого-либо спутника не пройдена
+
+js-tools-osnma-word-unavailable = Ни один спутник не аутентифицирован
+
+js-tools-pack-selected = { $label }: { $files } ({ $size })
+
+js-tools-pinned-to-release = Закреплено за этим выпуском:
+
+js-tools-preview = Предпросмотр
+
+js-tools-public-key-format = Открытый ключ — 64 шестнадцатеричные цифры (32 байта). Ничего другого не принимается.
+
+js-tools-read-documentation = Прочитать документацию
+
+js-tools-reading-plan = Читается план…
+
+js-tools-refused-file-name = имя файла отклонено: { $name }
+
+js-tools-run = Запустить
+
+js-tools-runs-read = Прочитано прогонов — { $n }: { $runs }
+
+js-tools-runs-read-engine = Прочитано прогонов — { $n }, движком { $engine }: { $runs }
+
+js-tools-sample-load-failed = Не удалось загрузить образец ({ $reason }).
+
+js-tools-sample-note = Настоящий вывод команды, записанный с движка на синтетическом демонстрационном прогоне. Не является измерением чего-либо.
+
+js-tools-sample-output = Образец вывода: { $label }
+
+js-tools-scenario-list-failed = Не удалось загрузить список сценариев
+
+js-tools-scoring = Оценка…
+
+js-tools-select-and-copy = Выделить и скопировать
+
+js-tools-settings-example = Пример настроек { $n }:
+
+js-tools-status-evidenced-label = Прогоны подкрепляют доказательствами эту строку
+
+js-tools-status-evidenced-short = Подкреплено
+
+js-tools-status-not-evidenced-label = Эти прогоны ничего не показывают по этой строке
+
+js-tools-status-not-evidenced-short = Не подкреплено
+
+js-tools-status-out-of-scope-label = Вне того, что может показать Kshana
+
+js-tools-status-out-of-scope-short = Вне области
+
+js-tools-status-partly-label = Прогоны подкрепляют доказательствами часть этой строки
+
+js-tools-status-partly-short = Частично
+
+js-tools-tab-ai = ИИ-ассистент
+
+js-tools-tab-bench = Test-bench
+
+js-tools-tab-cli = Командная строка
+
+js-tools-tab-compliance = Compliance
+
+js-tools-tab-evidence = Пакеты доказательств
+
+js-tools-tab-imufit = Подгонка IMU
+
+js-tools-tab-jammertest = Jammertest
+
+js-tools-tab-osnma = OSNMA
+
+js-tools-tele-all-events = Одно событие syslog на эпоху (по умолчанию: одно на смену полосы)
+
+js-tools-tele-file-aria = Результат или файл JSON-lines
+
+js-tools-tele-fmt-cef = Syslog, CEF
+
+js-tools-tele-fmt-leef = Syslog, LEEF
+
+js-tools-tele-fmt-mqtt = MQTT, обнаружение Home Assistant (тема, табуляция, полезная нагрузка)
+
+js-tools-tele-fmt-otlp = OpenTelemetry (OTLP JSON)
+
+js-tools-tele-fmt-prometheus = Метрики Prometheus
+
+js-tools-tele-format-aria = Формат
+
+js-tools-tele-host = Узел
+
+js-tools-tele-host-aria = Имя узла, записываемое в события syslog
+
+js-tools-tele-include-position = Включить сообщённое положение (по умолчанию выключено)
+
+js-tools-tele-intro = Преобразуйте файл результата (session.result.json) или живые строки JSON в один из форматов, прямо в этом браузере. Нужна сборка движка с экспортом телеметрии (0.35 и позже, с экспортом); команды выше работают везде.
+
+js-tools-tele-note = Строки syslog здесь не несут метки времени (страница не читает часы); их проставляет инструмент командной строки. Prometheus даёт итоговое состояние. MQTT даёт одну строку на сообщение: тема, затем табуляция, затем полезная нагрузка; отсюда ничего не публикуется. Текст тот же, что печатает команда.
+
+js-tools-tele-run-here = Запустить здесь
+
+js-tools-that-file-too-large = Этот файл больше 64 MiB.
+
+js-tools-token-attached = Токен приложен
+
+js-tools-token-attached-note = Обновлённый пакет ниже. Подпись службы меток времени здесь НЕ проверена: выполните openssl ts -verify.
+
+js-tools-trust-monitor-sentence = Формулировка монитора доверия: { $sentence }
+
+js-tools-two-files-same-name = два файла называются { $name }
+
+js-tools-ubx-bad-crc = Страниц, не прошедших проверку CRC: { $n }.
+
+js-tools-ubx-file = Файл UBX
+
+js-tools-ubx-frames-pages = Кадров UBX: { $frames }; декодировано страниц I/NAV: { $pages }.
+
+js-tools-ubx-ignored-sfrbx = Проигнорировано сообщений SFRBX: { $n } (другие системы, E5b, предупреждения, неверные контрольные суммы).
+
+js-tools-ubx-skipped-bytes = Пропущено байтов между кадрами: { $n }.
+
+js-tools-ubx-time-conflicts = Страниц со временем, противоречащим соседним: { $n }.
+
+js-tools-ubx-unstamped = Страниц, которые не удалось привязать ко времени: { $n }.
+
+js-tools-unknown = неизвестно
+
+js-tools-unused-scenarios = Файлы сценариев без подходящего результата не использовались: { $files }.
+
+js-tools-verdict-failed-text = Проверка не пройдена.
+
+js-tools-verdict-failed-title = Не пройдена
+
+js-tools-verdict-intact-text = Пакет не изменён относительно ключа, который он называет сам и который может создать кто угодно. Получите открытый ключ подписанта от самого подписанта другим путём и закрепите его.
+
+js-tools-verdict-intact-title = Целостен, но подписант не закреплён
+
+js-tools-verdict-verified-text = Пакет не изменён и подписан ключом, который вы закрепили.
+
+js-tools-verdict-verified-title = Проверено
+
+js-tools-verifying = Проверка…
+
+js-tools-what-failed = Что не пройдено
+
+js-tools-why-not-browser = Почему не в браузере:
+
+js-tools-yes = да
+
+js-training-active-events = Действующие события
+
+js-training-band-large = более 100 m
+
+js-training-band-medium = от 25 до 100 m
+
+js-training-band-small = менее 25 m
+
+js-training-chart-max = макс. { $v }
+
+js-training-chart-mean-cn0 = среднее C/N0
+
+js-training-chart-position-error = ошибка положения
+
+js-training-chart-s-reported-minus-true = s, сообщённое минус истинное
+
+js-training-chart-satellites = спутники
+
+js-training-chart-time-offset = смещение времени
+
+js-training-chart-used-tracked = использовано / сопровождается
+
+js-training-col-reported = Сообщено приёмником
+
+js-training-col-true = Истинное
+
+js-training-cue-course = Курс по гироскопу и скорость по лагу не затрагиваются ни одним событием. Здесь сообщённый путевой угол отличается от курса по гироскопу на { $course }. Течение тоже разводит курс и путевой угол, поэтому сравнивайте с началом прогона.
+
+js-training-cue-course-speed = Курс по гироскопу и скорость по лагу не затрагиваются ни одним событием. Здесь сообщённый путевой угол отличается от курса по гироскопу на { $course }, а сообщённая скорость от истинной — на { $speed } kn. Течение тоже разводит курс и путевой угол, поэтому сравнивайте с началом прогона.
+
+js-training-cue-title = Подсказка для разбора.
+
+js-training-cue-unknown-amount = неизвестную величину
+
+js-training-debrief-now = Провести разбор сейчас
+
+js-training-default-warning = Синтетические тренировочные данные. Только для тренировки и испытаний: никогда не подавайте этот поток в действующие навигационные системы судна.
+
+js-training-demo-coastal-drag-off = Прибрежный увод (drag-off)
+
+js-training-demo-combined-event = Комбинированное событие
+
+js-training-demo-fjord-degradation = Естественное ухудшение в фьорде
+
+js-training-demo-open-sea-jamming = Подавление в открытом море
+
+js-training-demo-port-time-spoof = Спуфинг времени при подходе к порту
+
+js-training-dl-log-json = Скачать журнал инструктора (JSON)
+
+js-training-dl-log-text = Скачать журнал инструктора (текст)
+
+js-training-dl-nmea = Скачать поток NMEA
+
+js-training-err-demo-open = Не удалось открыть { $title }: { $reason }.
+
+js-training-err-engine-old = В этой сборке движка (версия { $version }) нет генератора тренировочных данных NMEA; она старше этой страницы. Команда: { $command }.
+
+js-training-err-engine-start = Движок не удалось запустить здесь ({ $reason }). Сценарии библиотеки выше по-прежнему открываются без него.
+
+js-training-err-file-not-loaded = файл не загрузился
+
+js-training-err-generate = Не удалось сгенерировать: { $reason }.
+
+js-training-err-newer-schema = { $name }: схема { $schema } новее или отличается от { $supported }, которую читает эта страница. Обновите Studio, а не гадайте о её полях.
+
+js-training-err-no-schema = { $name }: это не журнал инструктора тренировки Kshana (нет тега схемы).
+
+js-training-err-no-track = { $name }: в журнале нет строк трассы для рисования.
+
+js-training-err-no-usable-rows = { $name }: нет пригодных строк трассы.
+
+js-training-err-not-json = { $name }: не JSON ({ $reason }).
+
+js-training-err-read = { $name }: не удалось прочитать ({ $reason }).
+
+js-training-err-read-or-draw = { $name }: не удалось прочитать или нарисовать ({ $reason }).
+
+js-training-err-scenario-not-loaded = файл сценария не загрузился
+
+js-training-err-seed = Начальное значение (seed) должно быть целым числом или пустым, чтобы использовалось значение самого сценария.
+
+js-training-err-too-large = { $name }: больше { $max }. Эта страница читает журналы не больше этого размера.
+
+js-training-err-too-many-rows = { $name }: в журнале строк трассы — { $count }; эта страница рисует не более { $max }. Записывайте реже (log_interval_s) или откройте фрагмент.
+
+js-training-err-unknown-schema = { $name }: неизвестная схема { $schema }; эта страница читает { $supported }.
+
+js-training-event-n = Событие { $id }
+
+js-training-event-onset = Начало { $utc }
+
+js-training-extra-bearing = Пеленг как применён, deg истинных
+
+js-training-extra-peak-accel = Пиковое ускорение, добавляемое уводом, m/s²
+
+js-training-extra-peak-speed = Пиковая скорость, добавляемая уводом, m/s
+
+js-training-fact-duration = Длительность
+
+js-training-fact-events = Внесённые события
+
+js-training-fact-max-error = Наибольшая ошибка положения
+
+js-training-fact-max-time-offset = Наибольшее смещение времени
+
+js-training-fact-no-fix = Время без решения
+
+js-training-fact-peak-accel = Пиковое ускорение, истинное / сообщённое
+
+js-training-fact-peak-speed = Пиковая скорость, истинная / сообщённая
+
+js-training-fact-seed = Начальное значение (seed)
+
+js-training-fact-start = Начало (UTC)
+
+js-training-fix-reported-span = решение выдано, с { $from } по { $to }
+
+js-training-generated = Создано «{ $title }» движком { $version }: предложений NMEA — { $lines }. Синтетические данные: только для тренировки и испытаний; никогда не подавайте их в действующие навигационные системы судна.
+
+js-training-generated-here = Создано здесь движком («{ $title }»). Синтетические данные: выдуманные положения и даты.
+
+js-training-generating = Запуск движка и генерация…
+
+js-training-kind-drag-off = Увод положения (drag-off)
+
+js-training-kind-jamming = Подавление (jamming)
+
+js-training-kind-natural-degradation = Естественное ухудшение (закрытое небо)
+
+js-training-kind-replay-delay = Задержка повтора
+
+js-training-kind-time-spoof = Спуфинг времени
+
+js-training-legend-no-fix = Нет решения: приёмник ничего не сообщил
+
+js-training-legend-reported = Сообщено, { $band } от истинного
+
+js-training-legend-true = Истинная трасса
+
+js-training-library-label = Синтетический сценарий библиотеки «{ $title }», записанный командой { $command }. Выдуманные положения и даты; ни реального судна, ни реальной записи.
+
+js-training-log-row = Строка журнала { $row } из { $total }, { $utc }
+
+js-training-max-error-at = { $m } m при T+{ $s } s
+
+js-training-moment-event = (событие { $id })
+
+js-training-moment-title = T+{ $s } s { $what }: { $text }
+
+js-training-moments-shown = Показано моментов: { $shown } из { $total } (первые).
+
+js-training-no-events = Нет: это чистый прогон.
+
+js-training-no-fix-nothing = нет решения: ничего не сообщено
+
+js-training-no-fix-span = нет решения, с { $from } по { $to }
+
+js-training-no-moments = Моменты не записаны.
+
+js-training-none = нет
+
+js-training-none-now = В этот момент нет.
+
+js-training-none-reported = не сообщено
+
+js-training-north = С
+
+js-training-not-touched = не затронуто ни одним событием
+
+js-training-opened = Открыт { $name }: строк журнала — { $rows }, за { $secs } s.
+
+js-training-opening = Открывается { $title }…
+
+js-training-param-affect-time = Влияет на время
+
+js-training-param-bearing-deg = Пеленг, deg истинных
+
+js-training-param-cn0-drop-db = Падение C/N0, dB
+
+js-training-param-counterfeit-cn0-dbhz = Поддельное C/N0, dB-Hz
+
+js-training-param-delay-s = Задержка, s
+
+js-training-param-duration-s = Длительность, s
+
+js-training-param-final-offset-m = Итоговое смещение, m
+
+js-training-param-kind = Вид
+
+js-training-param-label = Метка
+
+js-training-param-offset-s = Смещение времени, s
+
+js-training-param-ramp-s = Нарастание в начале, s
+
+js-training-param-recovery-s = Нарастание при восстановлении, s
+
+js-training-param-relative-bearing-deg = Пеленг относительно путевого угла, deg
+
+js-training-param-skyline = Линия горизонта
+
+js-training-param-spread-db = Разброс по спутникам, dB
+
+js-training-param-start-s = Начало, s
+
+js-training-pause = Пауза
+
+js-training-play = Воспроизвести
+
+js-training-reading = Читается…
+
+js-training-readout-fix = решение
+
+js-training-readout-no-fix = нет решения
+
+js-training-reduced-motion = Предпочтительно уменьшение анимации, поэтому повтор начинается с 1x. Используйте ползунок или клавиши со стрелками, чтобы перемещаться без анимации.
+
+js-training-row-cn0 = Среднее C/N0, dB-Hz
+
+js-training-row-cog = Путевой угол, deg
+
+js-training-row-error = Ошибка положения, m
+
+js-training-row-fix = решение
+
+js-training-row-heading = Курс (гироскоп), deg
+
+js-training-row-moments = моменты
+
+js-training-row-position = Положение
+
+js-training-row-sats = Спутников использовано / сопровождается
+
+js-training-row-sog = Скорость относительно грунта, kn
+
+js-training-row-time-offset = Смещение времени, s
+
+js-training-say-active = действует: { $list }
+
+js-training-say-event-id = событие { $id }
+
+js-training-say-fix = приёмник выдаёт решение
+
+js-training-say-mean-cn0 = среднее C/N0 { $cn0 } dB-Hz
+
+js-training-say-no-fix = нет решения
+
+js-training-say-position-from-true = сообщённое положение отличается от истинного на { $m } m
+
+js-training-say-sats-used = используется спутников: { $used } из { $tracked }
+
+js-training-say-time-ahead = сообщённое время опережает истинное на { $s } s
+
+js-training-say-time-behind = сообщённое время отстаёт от истинного на { $s } s
+
+js-training-sky-no-gsv = нет GSV
+
+js-training-sky-none = Для этого журнала неба нет: в одном журнале инструктора спутников нет. Откройте сценарий библиотеки или сгенерируйте здесь поток и проведите его разбор, чтобы увидеть спутники из его GSV.
+
+js-training-skyline-preset = набор { $name }
+
+js-training-skyline-stated = заданный профиль
+
+js-training-span-no-fix = от T+{ $from } до { $to } s
+
+js-training-track-desc = Истинная трасса и сообщённая трасса, север вверху. Наибольшая ошибка положения { $error }. Периодов без решения: { $periods }.
+
+js-training-track-end = конец
+
+js-training-track-start = начало
+
+js-training-trainer-note = Примечание инструктора
+
+js-training-warn-no-warning-text = В этом файле нет текста предупреждения. Это журнал тренировки: не подавайте его поток в действующую навигацию.
+
+js-training-warn-rows-skipped = Строк трассы, оказавшихся недействительными и пропущенных: { $count }.
+
+js-training-what-fix-lost = Решение потеряно
+
+js-training-what-fix-regained = Решение восстановлено
+
+js-training-what-full-effect = Полный эффект
+
+js-training-what-onset = Начало
+
+js-training-what-recovered = Восстановлено
+
+js-training-what-recovery-begins = Начало восстановления
+
+js-trust-adv-carried = Консультативное заявление в этом файле:
+
+js-trust-adv-none = В этом файле нет консультативного заявления
+
+js-trust-adv-none-rest = (в более старых выходных данных его нет). Консультативное заявление вверху этой страницы действует в любом случае.
+
+js-trust-agree-both = флаг у обоих: собственный флаг приёмника и монитор Kshana
+
+js-trust-agree-calibrating = внутри окна калибровки: не сравнивается
+
+js-trust-agree-kshana-only = тревога только у Kshana: приёмник не отмечает
+
+js-trust-agree-neither = флага нет ни у кого
+
+js-trust-agree-receiver-only = флаг только у приёмника: ни один монитор Kshana не подаёт тревогу
+
+js-trust-assessed = { $name } оценён движком { $version } в этом браузере.
+
+js-trust-assessed-as = { $name } оценён как { $format } движком в этом браузере. Ничего не загружалось.
+
+js-trust-assessing = Запуск движка и оценка…
+
+js-trust-class-also-costing = { $class } (также снижает баллы)
+
+js-trust-class-environment = среда: сигнал (мощность, подавление, потеря спутников при открытом небе)
+
+js-trust-class-geometry = геометрия: небо, а не сигнал
+
+js-trust-class-inconsistency = несогласованность: похоже на атаку, не объясняется ни небом, ни сигналом
+
+js-trust-dl-result-json = Скачать результат (JSON)
+
+js-trust-dl-table-csv = Скачать таблицу по эпохам (CSV)
+
+js-trust-edge-degraded = { $v } ухудшено
+
+js-trust-edge-nominal = { $v } номинально
+
+js-trust-err-assess = { $name }: не удалось оценить ({ $reason }).
+
+js-trust-err-demo-files = демонстрационные файлы не загрузились
+
+js-trust-err-demo-log-open = Не удалось открыть демонстрационный журнал: { $reason }.
+
+js-trust-err-demo-open = Не удалось открыть демонстрацию: { $reason }.
+
+js-trust-err-engine-no-receiver-trust = В этой сборке движка (версия { $version }) нет receiver_trust.
+
+js-trust-err-engine-no-scorer = В этой сборке движка (версия { $version }) нет средства оценки журналов; она старше этой страницы. Команда: { $command }.
+
+js-trust-err-engine-start = Движок не удалось запустить здесь ({ $reason }).
+
+js-trust-err-engine-start-open = Движок не удалось запустить здесь ({ $reason }). Открытие файлов результатов выше по-прежнему работает.
+
+js-trust-err-example-files = файлы примера не загрузились
+
+js-trust-err-example-open = Не удалось открыть пример: { $reason }.
+
+js-trust-err-file-2mib = { $name }: больше 2 MiB. Откройте фрагмент.
+
+js-trust-err-file-too-large = { $name }: больше { $max }. Эта страница читает файлы не больше этого размера; откройте фрагмент.
+
+js-trust-err-gen-too-large = { $name }: больше 2 MiB. Откройте фрагмент (инструмент командной строки принимает журнал целиком).
+
+js-trust-err-imu-format = «{ $format }» — не формат IMU, который читает эта страница (csv или euroc)
+
+js-trust-err-imu-heading = курс IMU в первом отсчёте не является числом
+
+js-trust-err-log-format = «{ $format }» — не формат журнала, который эта страница может отправить движку
+
+js-trust-err-no-epochs = В файле нет эпох.
+
+js-trust-err-no-epochs-result = В этом файле результата нет epochs[]. Он должен быть получен командой `{ $command }` для сессии судна.
+
+js-trust-err-no-epochs-returned = { $name }: движок не вернул эпох.
+
+js-trust-err-no-score-model = В этом результате нет score_model, поэтому это прогон неподвижной платформы без оценки доверия. Представление рисует прогоны судов (движущихся платформ).
+
+js-trust-err-not-readable = { $name }: не файл, который читает это представление (JSON результата, JSON lines, trust.csv, журнал NMEA или файл истины).
+
+js-trust-err-nothing-to-draw = Нечего рисовать: выберите JSON результата, JSON lines или trust.csv.
+
+js-trust-err-read = { $name }: не удалось прочитать ({ $reason }).
+
+js-trust-err-read-or-draw = { $name }: не удалось прочитать или нарисовать ({ $reason }).
+
+js-trust-err-score = { $name }: не удалось оценить ({ $reason }).
+
+js-trust-err-score-file-too-large = { $name }: больше 2 MiB. Оценщик в браузере принимает фрагмент, содержащий пятиминутное окно калибровки.
+
+js-trust-err-score-too-large = { $name }: больше 2 MiB. Оценщик в браузере принимает фрагмент (команда { $command } принимает журнал целиком); откройте фрагмент, содержащий пятиминутное окно калибровки.
+
+js-trust-err-scorecard-too-large = { $name }: больше 8 MiB; эта страница читает оценочную карту не больше этого размера.
+
+js-trust-err-session-empty = Параметры сессии пусты. Они объявляют судно ({ $setting }).
+
+js-trust-err-too-many-epochs = В файле эпох: { $count }; эта страница рисует не более { $max }. Откройте фрагмент.
+
+js-trust-err-triple-quote = { $what } содержит три одинарные кавычки подряд, которые нельзя встроить в параметры
+
+js-trust-err-what-file = файл
+
+js-trust-err-what-imu = файл IMU
+
+js-trust-event-label = событие: { $label }
+
+js-trust-event-onset = начало
+
+js-trust-evt-col-first-alarm = Первая тревога, s
+
+js-trust-evt-col-latency = Задержка, s
+
+js-trust-evt-col-onset = Начало, s
+
+js-trust-evt-col-outcome = Исход
+
+js-trust-evt-col-stated = Заявленное событие
+
+js-trust-fmt-android = Android GNSS Logger (текст)
+
+js-trust-fmt-gnss-sdr = JSON lines, ретранслированные GNSS-SDR (текст)
+
+js-trust-fmt-nmea = NMEA 0183 (текст)
+
+js-trust-fmt-novatel = NovAtel OEM7 (ASCII или двоичный)
+
+js-trust-fmt-rinex = Наблюдения RINEX (текст)
+
+js-trust-fmt-rtcm3 = RTCM 3 MSM4 / MSM7 (двоичный)
+
+js-trust-fmt-rtklib-pos = Решение RTKLIB .pos (текст)
+
+js-trust-fmt-sbf = Septentrio SBF (двоичный)
+
+js-trust-fmt-ubx = u-blox UBX (двоичный)
+
+js-trust-gate-note-derived = В этом прогоне нет записи шлюза. Полоса показывает, где шлюз задержал бы решение: эпохи в полосе «нет доверия», удерживаемые до 30 s после выхода из неё. Выведено здесь, а не прочитано из шлюза. Шлюз включается по желанию и добавляет задержку.
+
+js-trust-gate-note-read = Шлюз каждой эпохи так, как его сообщил живой поток: выключен, пропущено или задержано (решение помечено недействительным в переданном цикле).
+
+js-trust-gate-now-derived = { $gate } · выведено
+
+js-trust-gate-off = Выключен
+
+js-trust-gate-off-cal = Выключен (калибровка)
+
+js-trust-gate-passed = Пропущено: решение передаётся без изменений
+
+js-trust-gate-span = шлюз { $gate }, с { $from } по { $to }
+
+js-trust-gate-span-derived = шлюз { $gate } (выведено), с { $from } по { $to }
+
+js-trust-gate-withheld = Задержано: решение было бы помечено недействительным ниже по потоку
+
+js-trust-gen-chart-label = График прогона от движка: отношение несущей к плотности шума, состояние и тревоги во времени
+
+js-trust-gen-epochs = Эпохи: номинально — { $nominal }, ухудшено — { $degraded }, нет доверия — { $untrusted } после окна калибровки (эпох: { $window }).
+
+js-trust-gen-self-heading = Собственные флаги приёмника против тревог Kshana
+
+js-trust-gen-self-note = Сравнение, а не проверка ни того, ни другого: флаг приёмника — его собственное сообщение.
+
+js-trust-geo-deduction-class = { $points } б. ({ $class })
+
+js-trust-geo-deduction-points = { $points } б.
+
+js-trust-geo-flag-mismatch = HDOP, заявленный приёмником, расходится с выведенным из сообщаемого им неба: вычет за геометрию относится к несогласованности.
+
+js-trust-geo-flag-signal-loss = Потеря сигнала: спутники в зоне видимости не сопровождаются, хотя их геометрия хорошая, поэтому вычет за геометрию относится к среде.
+
+js-trust-geo-heading-label = геометрия { $label }
+
+js-trust-geo-label-fair = { $label } (не оценивается)
+
+js-trust-geo-label-poor = { $label } (единственная метка, за которую оценка вычитает баллы)
+
+js-trust-geo-none-in-run = В этом прогоне нет геометрии (движок до 0.36 её не записывает).
+
+js-trust-geo-reason-few-satellites = спутников меньше минимума
+
+js-trust-geo-reason-high-hdop = HDOP выше порога
+
+js-trust-geo-reason-high-pdop = PDOP выше порога
+
+js-trust-geo-reason-sky-blocked = сопровождаемые спутники оставляют большой разрыв по азимуту (одна сторона неба закрыта)
+
+js-trust-geo-row-deduction = Вычет за геометрию
+
+js-trust-geo-row-from = С
+
+js-trust-geo-row-gap = Наибольший разрыв по азимуту
+
+js-trust-geo-row-label = Метка
+
+js-trust-geo-row-open-sky = Открытое небо
+
+js-trust-geo-row-reported-hdop = HDOP, заявленный приёмником
+
+js-trust-geo-row-sats-used = Использовано спутников
+
+js-trust-geo-row-sky-age = Возраст данных о небе
+
+js-trust-geo-row-status = Статус
+
+js-trust-geo-say-deduction = вычет за геометрию { $points } б.
+
+js-trust-geo-say-label-hdop = геометрия { $label } (HDOP { $hdop })
+
+js-trust-geo-say-mismatch = заявленный HDOP расходится
+
+js-trust-geo-source-derived = выведено по спутникам, о которых сообщает журнал (GSV)
+
+js-trust-geo-source-none = ничего
+
+js-trust-geo-source-reported = DOP, заявленный приёмником (GSA)
+
+js-trust-geo-status-reasons = { $status }: { $reasons }
+
+js-trust-geo-status-title = геометрия { $status }
+
+js-trust-geo-unknown-no-gsv = геометрия неизвестна: в журнале нет GSV или GSA
+
+js-trust-geo-unknown-no-gsv-sentence = Геометрия неизвестна: в журнале нет GSV или GSA.
+
+js-trust-geo-unknown-odd = Геометрия неизвестна (файл указывает «{ $odd }», чего эта страница не знает).
+
+js-trust-geo-used-of-view = { $used } из { $inView } в зоне видимости
+
+js-trust-got-file-kind = { $name }: { $kind }
+
+js-trust-got-lines-skipped = Строк { $name }, не являющихся эпохами, пропущено: { $count }
+
+js-trust-imu-csv = CSV со строкой заголовка
+
+js-trust-imu-euroc = EuRoC MAV imu0 data.csv
+
+js-trust-imu-file = Файл IMU: { $name } (символов: { $chars }). Будет использован при следующей оценке.
+
+js-trust-imu-file-press = Файл IMU: { $name } (символов: { $chars }). Будет использован при следующей оценке; нажмите «Оценить выбранный файл».
+
+js-trust-imu-none = Файла IMU нет.
+
+js-trust-jt-col-latency = Задержка, s
+
+js-trust-jt-col-monitors = Первые мониторы
+
+js-trust-jt-col-name = Название
+
+js-trust-jt-col-outcome = Исход
+
+js-trust-jt-col-recovered = Восстановлено
+
+js-trust-jt-col-slot = Слот, s
+
+js-trust-jt-col-test = Испытание
+
+js-trust-jt-label = { $label } Защитный интервал { $guard } s, удержание восстановления { $hold } s.
+
+js-trust-jt-label-contaminated = { $label } Защитный интервал { $guard } s, удержание восстановления { $hold } s. Базовый уровень калибровки пересёкся с запланированным слотом.
+
+js-trust-jt-opened = Открыт { $name }: испытаний — { $count }. Прочитано здесь; ничего не загружалось.
+
+js-trust-kind-batch-result = пакетный результат
+
+js-trust-kind-json-lines = JSON lines
+
+js-trust-kind-nmea-log = журнал NMEA
+
+js-trust-kind-truth-file = файл истины
+
+js-trust-label-demo = Синтетическая демонстрация: выдуманный журнал парома с выдуманным уводом положения, оценённый Kshana. Записано с движка; журнал — текст, а не измерение.
+
+js-trust-label-example = Иллюстративный пример: выдуманный журнал NMEA с выдуманным источником помех с 120 s до 240 s, оценённый здесь движком. Текст, а не измерение.
+
+js-trust-label-geo-demo = Синтетическая демонстрация с закрытым небом: журнал парома, в котором западная половина неба обнулена с 600 s (естественное ухудшение, отнесённое к геометрии), и тот же выдуманный увод с 1500 s (похоже на атаку). Записано с движка с геометрией 0.36; текст, а не измерение.
+
+js-trust-label-score-demo = Синтетический демонстрационный журнал, оценённый здесь движком. Выдуманный журнал парома и увод; текст, а не измерение.
+
+js-trust-legend-calibrating = Калибровка (никогда не оценивается)
+
+js-trust-legend-class = Класс вычета:
+
+js-trust-legend-class-environment = среда: сигнал
+
+js-trust-legend-class-geometry = геометрия: небо, а не сигнал
+
+js-trust-legend-class-inconsistency = несогласованность (похоже на атаку)
+
+js-trust-legend-degraded = Ухудшено
+
+js-trust-legend-demo = В этой демонстрации приёмник на всём протяжении сообщает действительное решение (качество GGA 1, статус RMC A). Падает именно оценка.
+
+js-trust-legend-geo-degraded = геометрия ухудшена
+
+js-trust-legend-geo-good = геометрия хорошая
+
+js-trust-legend-geo-unknown = геометрия неизвестна (нет GSV или GSA; не хорошая)
+
+js-trust-legend-nominal = Номинально
+
+js-trust-legend-self = Собственный флаг приёмника и тревоги Kshana:
+
+js-trust-legend-self-both = флаг у обоих
+
+js-trust-legend-self-kshana = только Kshana
+
+js-trust-legend-self-neither = ни у кого
+
+js-trust-legend-self-receiver = только приёмник
+
+js-trust-legend-sky = Небо:
+
+js-trust-legend-true-track = Истинная трасса (только синтетические данные)
+
+js-trust-legend-underline = подчёркивание: геометрия тоже снижает баллы
+
+js-trust-legend-untrusted = Нет доверия
+
+js-trust-marks-cleared = Отметки сброшены.
+
+js-trust-marks-set = { $name }: выше порога срабатывания в эпохах: { $count }; они отмечены на временной шкале и на трассе.
+
+js-trust-mon-agc = Автоматическая регулировка усиления сместилась относительно своего базового уровня.
+
+js-trust-mon-clock = Монитор с привязкой к часам: часы приёмника относительно предсказанной линии.
+
+js-trust-mon-cn0-drop = Лишение мощности: уровень сигнала упал относительно базового уровня калибровки.
+
+js-trust-mon-cn0-rise = Ищет признак одного передатчика: уровень сигнала по спутникам растёт одновременно относительно базового уровня.
+
+js-trust-mon-cn0-spread = Ищет признак одного передатчика: уровень сигнала по спутникам резко падает одновременно относительно базового уровня калибровки.
+
+js-trust-mon-geometry = Геометрия спутников (0.36): снижает баллы, только когда геометрия плохая (HDOP, PDOP или число используемых спутников за пределами порогов), с ограничением и никогда ниже полосы «ухудшено».
+
+js-trust-mon-heading-course = Сравнивает направление трассы с тем, куда указывает судно, в пределах заданного угла сноса.
+
+js-trust-mon-jam-ind = Собственный индикатор подавления приёмника.
+
+js-trust-mon-kinematic = Сравнивает каждый шаг положения с сообщённой скоростью и путевым углом и с заданными для судна пределами скорости, ускорения и скорости поворота.
+
+js-trust-mon-loss-of-lock = Потеря сопровождаемых спутников.
+
+js-trust-mon-osnma = Читает сообщённый сбой аутентификации OSNMA. Статус читается, а не проверяется.
+
+js-trust-mon-position-jump = Скачок сообщённого положения, больший, чем допускает базовый уровень.
+
+js-trust-mon-raim = Тестовая статистика автономного контроля целостности приёмника относительно её порога.
+
+js-trust-mon-receiver-self-report = Собственный флаг приёмника о спуфинге или подавлении (например, u-blox UBX-SEC-SIG или NAV-STATUS spoofDetState), показанный рядом с мониторами Kshana. Прочитан из журнала, не проверен; слот готов для монитора движка 0.38 и рисуется как полоса, как только результат его содержит.
+
+js-trust-mon-sea-level = Проверяет, что высота находится там, где её помещают поверхность моря и заданная высота антенны.
+
+js-trust-mon-solve-failure = Не удалось вычислить решение по положению.
+
+js-trust-mon-speed-log = Сравнивает скорость относительно грунта со скоростью относительно воды в пределах заданного допуска на течение.
+
+js-trust-mon-time-consistency = Проверяет время приёмника на неровные шаги или ход назад, а для потоков реального времени — ещё и по часам этого компьютера.
+
+js-trust-mon-unknown = Монитор, для которого у этого представления нет описания (новее страницы). Считайте его монитором.
+
+js-trust-na = н/д
+
+js-trust-name-colon-text = { $name }: { $text }
+
+js-trust-never = никогда
+
+js-trust-no = нет
+
+js-trust-no-deduction = нет вычета
+
+js-trust-none = нет
+
+js-trust-north = С
+
+js-trust-not-stated = не указано
+
+js-trust-note-advisories = В строках разных консультативных заявлений: { $count }; показано первое.
+
+js-trust-note-csv-limits = trust.csv содержит оценки и причины, но не отношения и не положения.
+
+js-trust-note-live-no-model = Живой поток не сообщает, какие мониторы работали и какая модель оценки; границы полос ниже — значения по умолчанию из документации, а полосы мониторов показывают только мониторы, снижавшие баллы.
+
+js-trust-note-nmea-no-match = Ни одно решение NMEA не удалось сопоставить с эпохой по времени.
+
+js-trust-note-nmea-skipped = Пропущено предложений NMEA с неверной контрольной суммой или полями: { $count }.
+
+js-trust-note-skipped-epochs = Пропущено эпох без числового t_s: { $count }.
+
+js-trust-note-truth-no-match = Времена файла истины не совпадают ни с одной эпохой.
+
+js-trust-note-unknown-state = Эпох с состоянием, которого эта страница не знает ({ $states }): { $count }; они рисуются как калибровка и никогда не оцениваются.
+
+js-trust-offset-at = В { $time } положение, сообщённое приёмником, находится в { $m } m от того места, где судно действительно было (синтетическая истина).
+
+js-trust-offset-no-truth = В это время нет истинного положения.
+
+js-trust-opened = Открыто эпох: { $count } ({ $source }).
+
+js-trust-opening-demo = Открывается синтетическая демонстрация…
+
+js-trust-opening-demo-log = Открывается синтетический демонстрационный журнал…
+
+js-trust-opening-example = Открывается иллюстративный пример…
+
+js-trust-opening-geo-demo = Открывается демонстрация с закрытым небом…
+
+js-trust-pause = Пауза
+
+js-trust-play = Воспроизвести
+
+js-trust-reading = Читается…
+
+js-trust-reasons-calibrating = Калибровка: первые секунды образуют базовый уровень и никогда не оцениваются.
+
+js-trust-reasons-class-note = Каждый вычет несёт класс от движка: геометрия (небо), среда (сигнал) или несогласованность (похоже на атаку)
+
+js-trust-reasons-live-unknown = В живом потоке не указано, какие мониторы работали; отсутствующая здесь проверка могла не выполняться.
+
+js-trust-reasons-marked-none = отмечено; здесь нет вычета
+
+js-trust-reasons-no-score = В этой эпохе нет оценки.
+
+js-trust-reasons-no-score-note = В этой эпохе нет оценки: { $note }.
+
+js-trust-reasons-not-run = Не выполнялась (не означает пройденную)
+
+js-trust-reasons-nothing = В этой эпохе ничего не вычтено. Это не доказательство того, что решение хорошее: см. ниже, чего проверки не видят.
+
+js-trust-reasons-pts = { $points } б.
+
+js-trust-reasons-ran-free = Выполнялась, ничего не стоила
+
+js-trust-reasons-ratio = отношение { $ratio }
+
+js-trust-reasons-row-title = { $name }: { $text } Нажмите, чтобы отметить, где было выше порога срабатывания.
+
+js-trust-reasons-weight = вес { $weight }
+
+js-trust-reduced-motion = Предпочтительно уменьшение анимации, поэтому повтор начинается с 1x. Используйте ползунок или клавиши со стрелками, чтобы перемещаться без анимации.
+
+js-trust-say-gate = шлюз { $gate }
+
+js-trust-say-gate-derived = шлюз { $gate } (выведено)
+
+js-trust-say-monitor-points = { $monitor } { $points } б.
+
+js-trust-say-position-from-true = сообщённое положение отличается от истинного на { $m } m
+
+js-trust-say-reasons = причины: { $list }
+
+js-trust-say-score = оценка { $score }
+
+js-trust-scored-label = Оценено эпох { $name }: { $count }, движком { $version }, в этом браузере.
+
+js-trust-scored-summary = Оценено эпох: { $count }, движком { $version }: { $summary }. Носит только консультативный характер.
+
+js-trust-scoring = Запуск движка и оценка…
+
+js-trust-self-code-meaning = { $code }: { $meaning }
+
+js-trust-self-none-at-time = В журнале нет флага приёмника на это время.
+
+js-trust-self-not-in-log = нет в журнале
+
+js-trust-self-row-flags = Флаги приёмника
+
+js-trust-self-row-jamming = Состояние подавления у приёмника
+
+js-trust-self-row-kshana-alarms = Монитор Kshana подаёт тревогу
+
+js-trust-self-row-spoofing = Состояние спуфинга у приёмника
+
+js-trust-self-unknown-agreement = вариант согласия, которого эта страница не знает ({ $odd })
+
+js-trust-self-yes-state-2 = да (состояние 2 или выше)
+
+js-trust-set-degraded-edge = граница «ухудшено»
+
+js-trust-set-degraded-min = ухудшено при значении не ниже
+
+js-trust-set-epochs = Эпохи
+
+js-trust-set-epochs-counts = Всего { $total }: калибровка — { $calibrating }, номинально — { $nominal }, ухудшено — { $degraded }, нет доверия — { $untrusted }.
+
+js-trust-set-epochs-counts-class = Всего { $total }: калибровка — { $calibrating }, номинально — { $nominal }, ухудшено — { $degraded }, нет доверия — { $untrusted }. По классу вычета: геометрия — { $geometry }, среда — { $environment }, несогласованность — { $inconsistency }.
+
+js-trust-set-evidence-hold = удержание доказательств, s
+
+js-trust-set-full-ratio = полный вес при отношении
+
+js-trust-set-geo-counts = Небо: хорошее — { $good }, ухудшенное — { $degraded }, неизвестное — { $unknown }. Метка: хорошая — { $lgood }, удовлетворительная — { $fair }, плохая — { $poor } (баллы снижает только плохая). Эпох с вычетом класса «геометрия»: { $geometry }, «среда»: { $environment }, «несогласованность»: { $inconsistency }.
+
+js-trust-set-geo-counts-odd = Небо: хорошее — { $good }, ухудшенное — { $degraded }, неизвестное — { $unknown } (из них со значением, которого эта страница не знает и которое читается как неизвестное, — { $odd }). Метка: хорошая — { $lgood }, удовлетворительная — { $fair }, плохая — { $poor } (баллы снижает только плохая). Эпох с вычетом класса «геометрия»: { $geometry }, «среда»: { $environment }, «несогласованность»: { $inconsistency }.
+
+js-trust-set-geometry = Геометрия (параметры [geometry])
+
+js-trust-set-gloss = На что смотрит каждая проверка
+
+js-trust-set-live-geometry = Живой поток не сообщает пороги геометрии; действуют значения по умолчанию из документации (плохая — выше HDOP 4 или PDOP 6, либо менее 5 спутников; не более 15 баллов, никогда не ниже полосы «ухудшено»).
+
+js-trust-set-no-geometry = В этом прогоне нет геометрии: он получен от движка до 0.36 или из trust.csv. О небе ничего не показано, и ничто не показано как хорошее.
+
+js-trust-set-nominal-min = номинально при значении не ниже
+
+js-trust-set-onset-ratio = снижает баллы начиная с отношения
+
+js-trust-set-provenance = Откуда берутся пороги и как классифицируются вычеты
+
+js-trust-set-ran = Выполненные проверки
+
+js-trust-set-weights = Вес каждой проверки, баллы
+
+js-trust-settings-assumed = Этот поток не сообщает свою модель оценки. Показанные границы полос — значения по умолчанию из документации, принятые по предположению.
+
+js-trust-show-in-replay = Показать этот прогон в повторе ниже (трасса, оценка, собственный флаг приёмника)
+
+js-trust-sky-no-gsv = нет GSV
+
+js-trust-sky-none = Неба нет: откройте журнал NMEA вместе с прогоном (или демонстрацию), чтобы увидеть перечисленные в нём спутники.
+
+js-trust-span-title = { $what }, с { $from } по { $to }
+
+js-trust-state-0 = неизвестно или не включено
+
+js-trust-state-1 = указаний нет
+
+js-trust-state-2 = указано
+
+js-trust-state-3 = множественные указания или подтверждено
+
+js-trust-strip-band = полоса
+
+js-trust-strip-class = класс
+
+js-trust-strip-gate = шлюз
+
+js-trust-strip-marked = отмечено
+
+js-trust-strip-receiver = приёмник
+
+js-trust-strip-sky = небо
+
+js-trust-strips-none = В этом файле нет отношений мониторов.
+
+js-trust-strips-note-ran = отношение статистики к порогу; пунктирная линия — тревога при 1
+
+js-trust-strips-note-seen = только мониторы, замеченные в снижении баллов; отношение к порогу
+
+js-trust-sum-both-flag = Флаг у обоих
+
+js-trust-sum-epochs-compared = Сравнено эпох (после калибровки)
+
+js-trust-sum-first-kshana = Первая тревога Kshana среди этих эпох
+
+js-trust-sum-first-receiver = Первый флаг приёмника
+
+js-trust-sum-jamming-flag = Флаг подавления у приёмника (состояние 2+)
+
+js-trust-sum-neither = Ни у кого
+
+js-trust-sum-only-kshana = Тревога только у Kshana
+
+js-trust-sum-only-receiver = Флаг только у приёмника
+
+js-trust-sum-spoofing-flag = Флаг спуфинга у приёмника (состояние 2+)
+
+js-trust-thr-azimuth-gap = разрыв по азимуту, в градусах, начиная с которого небо частично закрыто
+
+js-trust-thr-cap-in-force = наибольшее число баллов, которое вычет за геометрию забирает в этом прогоне
+
+js-trust-thr-cap-points = наибольшее число баллов, которое может забрать вычет за геометрию
+
+js-trust-thr-floor = наименьшая оценка, которую может оставить одна геометрия (пусто: граница полосы «ухудшено»)
+
+js-trust-thr-floor-in-force = наименьшая оценка, которую одна геометрия может оставить в этом прогоне
+
+js-trust-thr-full-ratio = отношение, при котором вычет за геометрию достигает своего предела
+
+js-trust-thr-hdop-good = HDOP, при котором и ниже которого геометрия хорошая
+
+js-trust-thr-hdop-max = HDOP, выше которого геометрия плохая
+
+js-trust-thr-hold = как долго после поступления учитываются положения неба и GSA, s
+
+js-trust-thr-low-elev = угол места, в градусах, ниже которого потерянный спутник относят на счёт неба
+
+js-trust-thr-min-used = наименьшее число используемых спутников, ниже которого геометрия плохая
+
+js-trust-thr-pdop-good = PDOP, при котором и ниже которого геометрия хорошая
+
+js-trust-thr-pdop-max = PDOP, выше которого геометрия плохая
+
+js-trust-thr-reported-rel = то же, как доля выведенного HDOP
+
+js-trust-thr-reported-tol = разница между заявленным и выведенным HDOP, после которой они расходятся
+
+js-trust-thr-sigma-uere = эквивалентная пользовательская ошибка дальности (UERE), которую предполагают пороги, метры
+
+js-trust-thr-used-good = число используемых спутников, при котором и выше которого геометрия хорошая
+
+js-trust-track-desc = Трасса по сообщённым положениям: { $positions }, север вверху. Эпох без доверия: { $untrusted }.
+
+js-trust-track-desc-none = Трассы нет: файлы не содержат положений.
+
+js-trust-track-desc-truth = Трасса по сообщённым положениям: { $positions }, север вверху. Эпох без доверия: { $untrusted }. Тонкая серая линия показывает истинную трассу.
+
+js-trust-track-end = конец
+
+js-trust-track-no-positions = В открытых файлах нет положений
+
+js-trust-track-note = Север вверху, один масштаб по обеим осям. Линия — там, где приёмник сообщал положение судна, цвет — полоса доверия каждой эпохи.
+
+js-trust-track-note-none = Этот файл не содержит положений. Добавьте журнал NMEA, из которого получен прогон (или поток v1.1 с положением), чтобы нарисовать трассу.
+
+js-trust-track-start = начало
+
+js-trust-unknown-agreement = вариант согласия, которого эта страница не знает
+
+js-trust-yes = да
