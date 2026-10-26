@@ -3166,3 +3166,893 @@ js-interf-cell-size-rule = De celgrootte moet een aantal graden boven 0 en ten h
 js-interf-check-failed = { $name }: kon niet worden gecontroleerd ({ $reason }).
 
 js-interf-click-cell = Klik op een cel, of focus de kaart en gebruik de pijltjestoetsen, om de cijfers ervan te zien.
+
+js-interf-close = Sluiten
+
+js-interf-close-file = { $name } sluiten
+
+js-interf-col-affected = Getroffen
+
+js-interf-col-cell-area = Celoppervlak
+
+js-interf-col-detectors = Detectoren
+
+js-interf-col-observed = Waargenomen
+
+js-interf-col-sampled = Bemonsterd
+
+js-interf-col-share = Aandeel
+
+js-interf-col-status = Status
+
+js-interf-coverage-limits = Dekkingsgrenzen van deze bron
+
+js-interf-csv-too-big = { $name }: groter dan 24 MiB; bouw vanuit een uittreksel (het opdrachtregelprogramma accepteert een heel bestand).
+
+js-interf-csv-too-big-short = { $name }: groter dan 24 MiB; bouw vanuit een uittreksel.
+
+js-interf-custom-needs-licence = Een eigen dataset heeft de licentie, de URL ervan en de bronvermelding nodig: ze worden in het kaartbestand geschreven.
+
+js-interf-dataset = Dataset
+
+js-interf-dates-rule = Datums zijn JJJJ-MM-DD, of leeg voor geen grens.
+
+js-interf-day = Dag
+
+js-interf-day-aria = Dag { $kind }
+
+js-interf-day-confounded-note = Deze dag is verstoord door een confounder: geen enkele cel is als gedegradeerd bestempeld vanwege de achtergrond van de dag. Cellen die anders zouden zijn opgevallen, worden als niet beoordeeld getoond.
+
+js-interf-day-figures-aria = Cijfers van de dag
+
+js-interf-demo-csv-name = { $file } (synthetisch voorbeeld)
+
+js-interf-demo-failed = De demo kon niet worden geopend: { $reason }.
+
+js-interf-demo-opened = Synthetische demo: drie verzonnen bestanden over een verzonnen gebied op open oceaan (twee ADS-B-dagen, waarvan één verstoord, en één AIS-dag). Er zit geen echt vliegtuig, vaartuig of echte dag achter. Gebruik de dagkiezer op de ADS-B-laag.
+
+js-interf-demo-route-name = route.csv (synthetisch)
+
+js-interf-describe-map = Kaart van { $kind } voor { $date }: { $cells } cellen getekend, { $parts }. Niet getekende cellen zijn niet waargenomen.
+
+js-interf-did-not-load = { $url } is niet geladen
+
+js-interf-engine-no-fn = Deze enginebuild (versie { $version }) heeft geen { $fn }; hij is ouder dan deze pagina. Het equivalent op de opdrachtregel staat op de pagina Hulpmiddelen.
+
+js-interf-engine-start-failed = De engine kon hier niet starten ({ $reason }). Kaartbestanden hierboven openen werkt nog steeds.
+
+js-interf-err-format-version = { $name }: geen ondersteunde Kshana-interferentiekaart (format_version { $version }; deze pagina ondersteunt { $supported }).
+
+js-interf-err-no-rows = { $name }: geen rows[] in dit rapport.
+
+js-interf-err-not-json = { $name }: geen JSON ({ $reason }).
+
+js-interf-err-not-map = { $name }: dit is GeoJSON maar geen Kshana-interferentiekaart (geen kshana_interference_map-lid).
+
+js-interf-err-not-route = { $name }: geen Kshana-routeblootstellingsrapport (geen kshana_route_exposure-lid).
+
+js-interf-err-route-schema = { $name }: schema { $schema } is niet { $expected }, dat deze pagina leest.
+
+js-interf-err-source-kind = { $name }: source_kind { $kind } is noch adsb noch ais.
+
+js-interf-err-unknown-schema = { $name }: onbekend schema { $schema }; deze pagina leest { $supported }.
+
+js-interf-foot-attribution = Bronvermelding: { $text }
+
+js-interf-foot-coverage = Dekking: { $notes }
+
+js-interf-foot-layer = Laag { $kind }, { $date }. Niet getekende cellen zijn niet waargenomen.
+
+js-interf-foot-licence = Licentie: { $licence }
+
+js-interf-foot-licence-url = Licentie: { $licence } ({ $url })
+
+js-interf-grid = Raster: vierkante cellen van { $size }° in breedte- en lengtegraad ({ $type }). De oost-westbreedte neemt af met de breedtegraad.
+
+js-interf-guards = Controles op andere oorzaken
+
+js-interf-input = Invoer
+
+js-interf-land-set = Landpolygonen: { $name }.
+
+js-interf-land-too-big = Dat landbestand is groter dan 24 MiB.
+
+js-interf-larger-than = { $name }: groter dan { $limit }; deze pagina leest kaartbestanden tot die grootte.
+
+js-interf-layer-adsb-sub = cellen waar vliegtuigen een lage navigatienauwkeurigheid meldden
+
+js-interf-layer-ais-sub = cellen waar vaartuigen onaannemelijke posities of bewegingen meldden
+
+js-interf-layer-heading = Laag { $kind }
+
+js-interf-layer-hidden = De laag { $kind } is verborgen.
+
+js-interf-layers-separate = ADS-B en AIS zijn aparte lagen met eigen schakelaars, legenda's en licentieregels. Ze worden nooit samengevoegd tot één kleurveld of één telling.
+
+js-interf-legend-aria = Wat elke celstatus betekent; vink er een uit om die cellen te laten vervagen
+
+js-interf-licence = Licentie
+
+js-interf-licence-aria = Datalicentie van { $name }
+
+js-interf-licence-heading = Datalicentie en bronvermelding
+
+js-interf-map-aria = { $summary } Met de pijltjestoetsen gaat u tussen getekende cellen.
+
+js-interf-maps-open =
+    { $n ->
+        [one] { $n } kaart open.
+       *[other] { $n } kaarten open.
+    }
+
+js-interf-method-summary = Methode en kanttekeningen
+
+js-interf-no-cell-at = Geen cel op { $lat }, { $lon }: niet waargenomen. Dat is geen bewijs dat het gebied vrij was.
+
+js-interf-no-cell-drawn = geen cel getekend
+
+js-interf-no-cells-draw = Dit bestand heeft geen cellen om te tekenen.
+
+js-interf-no-day-figures = Dit bestand vermeldt geen cijfers op dagniveau.
+
+js-interf-no-file-opened = Er kon geen bestand worden geopend.
+
+js-interf-no-file-text = De geopende kaarten bevatten geen bestandstekst om te controleren (ze zijn niet als bestand geopend).
+
+js-interf-none = geen
+
+js-interf-none-stated = (geen vermeld)
+
+js-interf-none-stated-file = (geen vermeld in dit bestand)
+
+js-interf-north-abbr = N
+
+js-interf-not-evaluated = niet geëvalueerd
+
+js-interf-not-opened-full = { $name }: niet geopend, er zijn al { $max } kaarten open. Sluit er eerst enkele.
+
+js-interf-nothing-open = Nog niets geopend.
+
+js-interf-nothing-opened = Niets geopend.
+
+js-interf-one-day = één dag tegelijk
+
+js-interf-opened-file-map = { $files } bestand geopend; { $maps } kaart open.
+
+js-interf-opened-file-maps = { $files } bestand geopend; { $maps } kaarten open.
+
+js-interf-opened-files-map = { $files } bestanden geopend; { $maps } kaart open.
+
+js-interf-opened-files-maps = { $files } bestanden geopend; { $maps } kaarten open.
+
+js-interf-opening-demo = De synthetische demo wordt geopend…
+
+js-interf-parameters = Parameters, vastgelegd voordat er data werd gelezen
+
+js-interf-read-draw-failed = { $name }: kon niet worden gelezen of getekend ({ $reason }).
+
+js-interf-read-failed = { $name }: kon niet worden gelezen ({ $reason }).
+
+js-interf-read-with-map = Lees dit samen met de kaart
+
+js-interf-reading = Lezen…
+
+js-interf-route-aria = Routeblootstelling { $name }
+
+js-interf-route-chip = Route
+
+js-interf-route-done =
+    { $n ->
+        [one] Routeblootstelling berekend uit { $n } kaart met engine { $version }; het rapport staat hieronder.
+       *[other] Routeblootstelling berekend uit { $n } kaarten met engine { $version }; het rapport staat hieronder.
+    }
+
+js-interf-route-explain = Aandeel van de routelengte in elke status, per dag en bron. De vier aandelen tellen op tot 1 en worden samen gelezen: een laag aandeel gedegradeerd met een hoog aandeel niet waargenomen is niet als vrij aangetoond. Rijen van ADS-B en AIS worden nooit gecombineerd.
+
+js-interf-route-exposure = Routeblootstelling
+
+js-interf-route-needs-map = Open of bouw eerst minstens één kaart: de route wordt gecontroleerd aan de hand van de kaarten op deze pagina.
+
+js-interf-route-open-failed = De route kon niet worden geopend: { $reason }.
+
+js-interf-route-range = { $from } tot { $to }
+
+js-interf-route-too-big = { $name }: groter dan 24 MiB.
+
+js-interf-row-affected-share = Getroffen aandeel
+
+js-interf-row-aircraft-affected = Getroffen vliegtuigen
+
+js-interf-row-aircraft-observed = Waargenomen vliegtuigen
+
+js-interf-row-aircraft-sampled = Bemonsterde vliegtuigen
+
+js-interf-row-area = Gebied
+
+js-interf-row-cell = Cel
+
+js-interf-row-detectors = Gekwalificeerde detectoren
+
+js-interf-row-flagged = Gemarkeerd: { $detector }
+
+js-interf-row-status = Status
+
+js-interf-row-vessels-observed = Waargenomen vaartuigen
+
+js-interf-rows-skipped =
+    { $count ->
+        [one] { $count } rij was niet geldig en is overgeslagen.
+       *[other] { $count } rijen waren niet geldig en zijn overgeslagen.
+    }
+
+js-interf-rt-day = Dag
+
+js-interf-rt-km = Routekm
+
+js-interf-rt-licence = Licentie en bronvermelding van de kaart
+
+js-interf-rt-shares = Aandelen van de route
+
+js-interf-rt-source = Bron
+
+js-interf-sample-failed = Het voorbeeld kon niet worden geopend: { $reason }.
+
+js-interf-save = Opslaan:
+
+js-interf-save-report = Het rapport opslaan (JSON)
+
+js-interf-show-layer = Deze laag tonen
+
+js-interf-st-anomalous-label = Afwijkend
+
+js-interf-st-anomalous-text = Minstens één detector markeerde die dag hier genoeg verschillende vaartuigen (minstens 3 vaartuigen en 20% van de waargenomen vaartuigen). Mogelijke oorzaken zijn interferentie, maar ook veel gewone.
+
+js-interf-st-confounded-label = Dag verstoord
+
+js-interf-st-confounded-text = Het mediane celaandeel van de hele dag was hoog, wat wijst op een oorzaak over een groot gebied. Op zo'n dag wordt geen cel als gedegradeerd bestempeld; deze cel zou anders zijn opgevallen.
+
+js-interf-st-degraded-label = Gedegradeerd
+
+js-interf-st-degraded-text = Een hoog aandeel van de bemonsterde vliegtuigen meldde die dag hier een lage navigatienauwkeurigheid, ruim boven de mediane cel van de dag. Het zegt niet waarom.
+
+js-interf-st-no-background-label = Geen achtergrondschatting
+
+js-interf-st-no-background-text = De achtergrond van de dag (het gebruikelijke aandeel vliegtuigen dat een lage nauwkeurigheid meldt) kon niet uit voldoende cellen worden geschat, dus geen enkele cel wordt ermee vergeleken en er wordt geen oordeel geveld.
+
+js-interf-st-not-anomalous-label = Niet afwijkend
+
+js-interf-st-not-anomalous-text = Waargenomen, en geen detector kwalificeerde. Geen bewijs dat er niets gebeurde.
+
+js-interf-st-not-degraded-label = Niet gedegradeerd
+
+js-interf-st-not-degraded-text = Bemonsterd, en het aandeel vliegtuigen dat een lage nauwkeurigheid meldde viel niet op. Geen bewijs dat er niets gebeurde.
+
+js-interf-st-too-few-label = Te weinig vliegtuigen
+
+js-interf-st-too-few-text = Gepubliceerd (minstens 5 verschillende vliegtuigen waargenomen), maar er konden minder dan 10 vliegtuigen worden bemonsterd, dus er wordt geen oordeel geveld.
+
+js-interf-starting-build = De engine wordt gestart en de kaart gebouwd…
+
+js-interf-starting-route = De engine wordt gestart en de route gecontroleerd…
+
+js-interf-state-clear-adsb = Vrij
+
+js-interf-state-clear-adsb-text = Waargenomen met genoeg vliegtuigen en niet gemarkeerd. Geen bewijs dat er niets gebeurde.
+
+js-interf-state-clear-ais = Vrij
+
+js-interf-state-clear-ais-text = Waargenomen met genoeg vaartuigen en niet gemarkeerd. Geen bewijs dat er niets gebeurde.
+
+js-interf-state-degraded-adsb = Gedegradeerd
+
+js-interf-state-degraded-adsb-text = Een hoog aandeel van de bemonsterde vliegtuigen meldde die dag hier een lage navigatienauwkeurigheid, ruim boven de mediane cel van de dag.
+
+js-interf-state-degraded-ais = Afwijkend
+
+js-interf-state-degraded-ais-text = Minstens één detector markeerde die dag hier genoeg verschillende vaartuigen (minstens 3 vaartuigen en 20% van de waargenomen vaartuigen).
+
+js-interf-state-notobs-adsb = Niet waargenomen
+
+js-interf-state-notobs-adsb-text = Geen cel getekend: er werden te weinig vliegtuigen waargenomen om haar te publiceren. Dit is geen bewijs dat het gebied vrij was.
+
+js-interf-state-notobs-ais = Niet waargenomen
+
+js-interf-state-notobs-ais-text = Geen cel getekend: er werden te weinig vaartuigen waargenomen om haar te publiceren. Dit is geen bewijs dat het gebied vrij was.
+
+js-interf-state-unassessed-adsb = Niet beoordeeld
+
+js-interf-state-unassessed-adsb-text = Waargenomen, maar er konden te weinig vliegtuigen worden bemonsterd, de dag was verstoord, of de achtergrond van de dag kon niet worden geschat, dus er wordt geen oordeel geveld.
+
+js-interf-state-unassessed-ais = Niet beoordeeld
+
+js-interf-state-unassessed-ais-text = Waargenomen, maar er wordt geen oordeel geveld.
+
+js-interf-status-unknown = Een status die deze pagina niet beschrijft.
+
+js-interf-table-first = Eerste { $shown } van { $total } cellen getoond, relevante oordelen eerst.
+
+js-interf-table-summary = Elke getekende cel als tabel ({ $n })
+
+js-interf-the-day = De dag
+
+js-interf-unknown-date = onbekende datum
+
+js-interf-warn-cell-size = Dit bestand gebruikt een celgrootte van { $size }° die niet de vooraf vastgelegde is: het is niet de vooraf vastgelegde methode, dus de oordelen ervan zijn niet vergelijkbaar met bestanden die haar wel gebruiken.
+
+js-interf-warn-cell-size-known = Dit bestand gebruikt een celgrootte van { $size }° die niet de vooraf vastgelegde is ({ $registered }°): het is niet de vooraf vastgelegde methode, dus de oordelen ervan zijn niet vergelijkbaar met bestanden die haar wel gebruiken.
+
+js-interf-warn-day-confounded = Deze dag is verstoord: geen enkele cel is als gedegradeerd bestempeld vanwege de achtergrond van de dag (het mediane celaandeel was zelf hoog).
+
+js-interf-warn-flag-disagrees =
+    { $count ->
+        [one] { $count } cel heeft een vlag "gedegradeerd" die niet overeenkomt met haar status. De status is wat wordt getekend.
+       *[other] { $count } cellen hebben een vlag "gedegradeerd" die niet overeenkomt met hun status. De status is wat wordt getekend.
+    }
+
+js-interf-warn-no-licence = Dit bestand bevat geen tekst voor { $fields }. Het wordt getoond, maar een kaart zonder licentie en bronvermelding mag niet opnieuw worden gepubliceerd.
+
+js-interf-warn-on-land-off = De detector voor posities op land stond uit voor dit bestand (er waren geen landpolygonen aangeleverd).
+
+js-interf-warn-skipped =
+    { $count ->
+        [one] { $count } feature was geen geldige GeoJSON en is overgeslagen.
+       *[other] { $count } features waren geen geldige GeoJSON en zijn overgeslagen.
+    }
+
+js-interf-warn-unknown-status = Statuswaarde(n) die deze pagina niet kent: { $values }. Ze worden getekend als "geen oordeel".
+
+js-interf-withheld = achtergehouden (minder dan 5)
+
+js-interf-written-by = geschreven door Kshana { $version }
+
+js-kind-axis-3-d-position-error-m = 3D-positiefout (m)
+
+js-kind-axis-c-n0-db-hz = C/N0 (dB-Hz)
+
+js-kind-axis-code-jitter-m = codejitter (m)
+
+js-kind-axis-code-tracking-jitter-m = codevolgjitter (m)
+
+js-kind-axis-doppler-shift-hz = Dopplerverschuiving (Hz)
+
+js-kind-axis-effective-c-n0-db-hz = effectieve C/N0 (dB-Hz)
+
+js-kind-axis-elevation = elevatie (°)
+
+js-kind-axis-fit-interval-s = fitinterval (s)
+
+js-kind-axis-formal-position-sigma-m = formele positiesigma (m)
+
+js-kind-axis-latitude = breedtegraad (°)
+
+js-kind-axis-leo-satellites-added-to-the = LEO-satellieten toegevoegd aan de positiebepaling
+
+js-kind-axis-mean-satellites-in-view = gemiddeld aantal satellieten in zicht
+
+js-kind-axis-median-dilution-of-precision = mediane precisieverdunning
+
+js-kind-axis-median-error-m = mediane fout (m)
+
+js-kind-axis-median-pdop = mediane PDOP
+
+js-kind-axis-metres = meter
+
+js-kind-axis-observation-window-s = waarnemingsvenster (s)
+
+js-kind-axis-offset-from-the-signal-s = afstand tot het midden van het signaal (MHz)
+
+js-kind-axis-offset-from-the-snapshot-centre = afstand tot het midden van de momentopname (MHz)
+
+js-kind-axis-pdop = PDOP
+
+js-kind-axis-position-error-m = positiefout (m)
+
+js-kind-axis-power-spectral-density-db-hz = spectrale vermogensdichtheid (dB/Hz, eenheidsvermogen)
+
+js-kind-axis-power-spectral-density-dbw-hz = spectrale vermogensdichtheid (dBW/Hz)
+
+js-kind-axis-probability-of-detection = detectiekans
+
+js-kind-axis-range-error-m = afstandsfout (m)
+
+js-kind-axis-relays = relais
+
+js-kind-axis-sisre-root-mean-square-m = SISRE, kwadratisch gemiddelde (m)
+
+js-kind-axis-time-error-ns = tijdfout (ns)
+
+js-kind-axis-time-s = tijd (s)
+
+js-kind-axis-time-since-the-start-min = tijd sinds de start (min)
+
+js-kind-axis-update-period-s = updateperiode (s)
+
+js-kind-cap-body-pnt-label = Relaispositiebepaling
+
+js-kind-cap-campaign-label = Campagne
+
+js-kind-cap-constellation-design-label = Dekking
+
+js-kind-cap-leo-navmsg-label = Navigatiebericht
+
+js-kind-cap-leo-pass-label = Passage en link
+
+js-kind-cap-leo-pnt-chain-label = Keten van begin tot eind
+
+js-kind-cap-leo-ppp-label = Positiebepaling
+
+js-kind-cap-leo-pvt-label = Positiebepaling
+
+js-kind-cap-leo-signal-label = Signaalontwerp
+
+js-kind-cap-lunar-llr-datum-label = Laserafstandsmeting-datum
+
+js-kind-cap-ntn-positioning-label = Positiebepaling
+
+js-kind-cap-solar-system-label = Zonnestelsel
+
+js-kind-cap-spectrum-label = Spectrum
+
+js-kind-guided-doppler-error-hz = Dopplerfout (Hz)
+
+js-kind-guided-duration-s = Duur (s)
+
+js-kind-guided-earth-range-error-m = Afstandsfout aarde (m)
+
+js-kind-guided-elevation-mask = Elevatiemasker (°)
+
+js-kind-guided-first-jammer-bandwidth-mhz = Bandbreedte eerste jammer (MHz)
+
+js-kind-guided-first-jammer-power-dbw = Vermogen eerste jammer (dBW)
+
+js-kind-guided-first-jammer-range-m = Afstand eerste jammer (m)
+
+js-kind-guided-first-jammer-received-power-dbw = Ontvangen vermogen eerste jammer (dBW)
+
+js-kind-guided-first-phase-length-s = Duur van de eerste fase (s)
+
+js-kind-guided-first-shell-altitude-km = Hoogte van de eerste schil (km)
+
+js-kind-guided-first-shell-inclination = Inclinatie van de eerste schil (°)
+
+js-kind-guided-first-signal-bandwidth-hz = Bandbreedte van het eerste signaal (Hz)
+
+js-kind-guided-first-system-range-error-m = Afstandsfout eerste systeem (m)
+
+js-kind-guided-fit-interval-s = Fitinterval (s)
+
+js-kind-guided-gravity-field-degree = Graad van het zwaartekrachtveld
+
+js-kind-guided-grid-step = Rasterstap (°)
+
+js-kind-guided-integration-time-s = Integratietijd (s)
+
+js-kind-guided-leo-satellites-in-the-sweep = LEO-satellieten in de sweep
+
+js-kind-guided-loop-bandwidth-hz = Lusbandbreedte (Hz)
+
+js-kind-guided-monte-carlo-runs = Monte Carlo-runs
+
+js-kind-guided-network-synchronisation-error-m = Synchronisatiefout van het netwerk (m)
+
+js-kind-guided-orbit-altitude-km = Baanhoogte (km)
+
+js-kind-guided-orbit-determination-error-m = Fout in de baanbepaling (m)
+
+js-kind-guided-orbit-inclination = Baaninclinatie (°)
+
+js-kind-guided-pdop-threshold = PDOP-drempel
+
+js-kind-guided-peak-elevation-of-the-pass = Piekelevatie van de passage (°)
+
+js-kind-guided-points-per-orbit-track = Punten per baanspoor
+
+js-kind-guided-receiver-noise-figure-db = Ruisgetal van de ontvanger (dB)
+
+js-kind-guided-receiver-power-when-awake-mw = Vermogen van de ontvanger in actieve toestand (mW)
+
+js-kind-guided-reference-c-n0-db-hz = Referentie-C/N0 (dB-Hz)
+
+js-kind-guided-relay-altitude-km = Hoogte van de relais (km)
+
+js-kind-guided-relay-inclination = Inclinatie van de relais (°)
+
+js-kind-guided-relay-planes = Relaisvlakken
+
+js-kind-guided-relay-range-error-m = Afstandsfout relais (m)
+
+js-kind-guided-relays-per-plane = Relais per vlak
+
+js-kind-guided-runs-per-case = Runs per geval
+
+js-kind-guided-satellite-altitude-km = Hoogte van de satelliet (km)
+
+js-kind-guided-second-system-range-error-m = Afstandsfout tweede systeem (m)
+
+js-kind-guided-shared-condition = Gedeelde voorwaarde
+
+js-kind-guided-slant-electron-content-tecu = Schuine elektronendichtheid (TECU)
+
+js-kind-guided-slant-range-km = Schuine afstand (km)
+
+js-kind-guided-spoofed-offset-m = Spoofing-afwijking (m)
+
+js-kind-guided-spoofing-starts-s = Spoofing begint (s)
+
+js-kind-guided-sweep-from = Sweep van
+
+js-kind-guided-sweep-steps = Sweepstappen
+
+js-kind-guided-sweep-to = Sweep tot
+
+js-kind-guided-timeline-step-s = Tijdlijnstap (s)
+
+js-kind-guided-tracking-threshold-db-hz = Volgdrempel (dB-Hz)
+
+js-kind-guided-transmit-power-dbw = Zendvermogen (dBW)
+
+js-kind-guided-update-period-s = Updateperiode (s)
+
+js-kind-guided-user-latitude = Breedtegraad van de gebruiker (°)
+
+js-kind-hint-a-band-under-this-carrier = een band onder deze draaggolf-ruisdichtheidsverhouding heeft de vergrendeling verloren
+
+js-kind-hint-a-grid-point-is-available = een rasterpunt is beschikbaar zolang de positionele precisieverdunning daar onder blijft
+
+js-kind-hint-a-satellite-must-be-this = een satelliet moet zo hoog staan om als in zicht te tellen
+
+js-kind-hint-a-satellite-must-be-this-2 = een satelliet moet zo hoog staan om te worden gebruikt
+
+js-kind-hint-a-satellite-of-the-first = een satelliet van het eerste systeem moet zo hoog staan
+
+js-kind-hint-arc-one-message-is-fitted = boog waarover één bericht wordt gefit
+
+js-kind-hint-code-tracking-loop-noise-bandwidth = ruisbandbreedte van de codevolglus
+
+js-kind-hint-detail-of-the-truth-orbit = detailniveau van het zwaartekrachtmodel van de referentiebaan
+
+js-kind-hint-distance-from-the-first-jammer = afstand van de eerste jammer tot de ontvanger
+
+js-kind-hint-distance-to-the-satellite-in = afstand tot de satelliet in de bandafweging
+
+js-kind-hint-drawn-while-acquiring-and-tracking = opgenomen tijdens acquisitie en tracking
+
+js-kind-hint-equivalent-isotropically-radiated-power-of = equivalent isotroop uitgestraald vermogen van de eerste jammer
+
+js-kind-hint-equivalent-isotropically-radiated-power-of-2 = equivalent isotroop uitgestraald vermogen van de band
+
+js-kind-hint-filter-runs-averaged-for-each = filterruns waarover per geval wordt gemiddeld (meer is trager)
+
+js-kind-hint-first-value-of-the-swept = eerste waarde van de doorlopen parameter
+
+js-kind-hint-height-of-the-chain-s = hoogte van de satelliet van de keten
+
+js-kind-hint-height-of-the-first-shell = hoogte van de banen van de eerste schil
+
+js-kind-hint-height-of-the-relay-orbits = hoogte van de relaisbanen boven het hemellichaam
+
+js-kind-hint-height-of-the-satellite-whose = hoogte van de satelliet waarvan het bericht wordt gefit
+
+js-kind-hint-how-far-the-spoofer-moves = hoever de spoofer de berekende positie verschuift
+
+js-kind-hint-how-finely-each-orbit-is = hoe fijn elke baan voor de tekening wordt bemonsterd
+
+js-kind-hint-how-high-the-satellite-climbs = hoe hoog de satelliet klimt
+
+js-kind-hint-how-long-the-first-phase = hoe lang de eerste fase duurt
+
+js-kind-hint-how-long-the-receiver-integrates = hoe lang de ontvanger integreert voor één afstand
+
+js-kind-hint-how-many-low-orbit-satellites = hoeveel satellieten in een lage baan de geometrie-sweep toevoegt
+
+js-kind-hint-how-many-seeded-runs-make = hoeveel runs met een seed het ensemble vormen
+
+js-kind-hint-how-many-values-are-run = hoeveel waarden worden doorlopen
+
+js-kind-hint-how-often-a-new-message = hoe vaak een nieuw bericht wordt uitgegeven
+
+js-kind-hint-how-wide-the-first-jammer = hoe breed de eerste jammer zijn vermogen verspreidt
+
+js-kind-hint-ionosphere-along-the-path-in = ionosfeer langs het pad, in eenheden van totale elektronendichtheid
+
+js-kind-hint-last-value-of-the-swept = laatste waarde van de doorlopen parameter
+
+js-kind-hint-length-of-each-filter-run = duur van elke filterrun
+
+js-kind-hint-length-of-the-run = duur van de run
+
+js-kind-hint-length-of-the-timeline = duur van de tijdlijn
+
+js-kind-hint-occupied-bandwidth-of-the-first = bezette bandbreedte van het eerste referentiesignaal
+
+js-kind-hint-one-sigma-doppler-measurement-error = Doppler-meetfout van één sigma
+
+js-kind-hint-one-sigma-error-of-a = fout van één sigma van een afstand tot een relais
+
+js-kind-hint-one-sigma-error-of-the = fout van één sigma van de tweewegsafstand vanaf de aarde
+
+js-kind-hint-orbital-planes-of-the-navigation = baanvlakken van de navigatierelais
+
+js-kind-hint-power-of-the-first-jammer = vermogen van de eerste jammer bij de ontvanger
+
+js-kind-hint-raises-the-noise-floor-under = verhoogt de ruisvloer onder elke band
+
+js-kind-hint-satellites-in-each-plane = satellieten in elk vlak
+
+js-kind-hint-sets-the-doppler-range-a = bepaalt het Dopplerbereik dat een koude zoekactie moet dekken
+
+js-kind-hint-signal-in-space-range-error = signal-in-space-afstandsfout van het eerste systeem
+
+js-kind-hint-signal-in-space-range-error-2 = signal-in-space-afstandsfout van het tweede systeem
+
+js-kind-hint-signal-level-the-tracking-figures = signaalniveau waarop de volgcijfers worden opgegeven
+
+js-kind-hint-spacing-of-the-latitude-and = afstand tussen de lijnen van het breedte- en lengtegraadraster
+
+js-kind-hint-spacing-of-the-shared-mission = stapgrootte van het gedeelde tijdraster van de missie
+
+js-kind-hint-the-part-of-the-range = het deel van de afstandsfout dat het bericht niet kan wegnemen
+
+js-kind-hint-the-value-every-member-runs = de waarde waaronder elk lid draait
+
+js-kind-hint-tilt-of-that-orbit = helling van die baan
+
+js-kind-hint-tilt-of-the-first-shell = helling van de vlakken van de eerste schil
+
+js-kind-hint-tilt-of-the-relay-planes = helling van de relaisvlakken
+
+js-kind-hint-timing-error-between-satellites-as = tijdfout tussen satellieten, als afstand
+
+js-kind-hint-when-the-spoofer-captures-the = wanneer de spoofer de ontvanger overneemt
+
+js-kind-hint-where-the-receiver-stands = waar de ontvanger zich bevindt
+
+js-kind-hint-where-the-user-stands = waar de gebruiker zich bevindt
+
+js-kind-label-3-d-error = 3D-fout
+
+js-kind-label-3-d-error-time-of = 3D-fout, aankomsttijd
+
+js-kind-label-a-corrupted-frame-is-rejected = een beschadigd frame wordt geweigerd
+
+js-kind-label-all-channels = alle kanalen
+
+js-kind-label-availability = Beschikbaarheid
+
+js-kind-label-band = Band
+
+js-kind-label-bodies = Hemellichamen
+
+js-kind-label-body = Hemellichaam
+
+js-kind-label-both = beide
+
+js-kind-label-case = Geval
+
+js-kind-label-class = Klasse
+
+js-kind-label-code-jitter = codejitter
+
+js-kind-label-constellation = Constellatie
+
+js-kind-label-doppler = Doppler
+
+js-kind-label-event = Gebeurtenis
+
+js-kind-label-evidence = Bewijs
+
+js-kind-label-fewest-in-view = Minste in zicht
+
+js-kind-label-field = Veld
+
+js-kind-label-first-detection-after-onset = Eerste detectie na het begin
+
+js-kind-label-frame-length = Framelengte
+
+js-kind-label-fused = gefuseerd
+
+js-kind-label-fused-cap = Gefuseerd
+
+js-kind-label-gnss = GNSS
+
+js-kind-label-gnss-and-leo = GNSS en LEO
+
+js-kind-label-gnss-channels = GNSS-kanalen
+
+js-kind-label-gnss-highest-in-sky = GNSS { $id } (het hoogst aan de hemel)
+
+js-kind-label-gnss-only = alleen GNSS
+
+js-kind-label-gnss-only-cap = Alleen GNSS
+
+js-kind-label-gnss-signal = GNSS-signaal
+
+js-kind-label-hdop = HDOP
+
+js-kind-label-highest = Hoogste
+
+js-kind-label-horizontal-error = horizontale fout
+
+js-kind-label-horizontal-error-2 = Horizontale fout
+
+js-kind-label-jammer = Jammer
+
+js-kind-label-jump-threshold = Sprongdrempel
+
+js-kind-label-largest-range-jump = Grootste afstandssprong
+
+js-kind-label-largest-range-jump-against-the = grootste afstandssprong ten opzichte van de drempel
+
+js-kind-label-leo = LEO
+
+js-kind-label-leo-channels = LEO-kanalen
+
+js-kind-label-leo-only = alleen LEO
+
+js-kind-label-light-time-from-observer = Lichttijd vanaf { $observer }
+
+js-kind-label-light-time-from-the-observer = Lichttijd vanaf de waarnemer
+
+js-kind-label-light-time-one-way = Lichttijd, enkele reis
+
+js-kind-label-lowest = Laagste
+
+js-kind-label-lowest-c-n0 = Laagste C/N0
+
+js-kind-label-mean = Gemiddelde
+
+js-kind-label-mean-in-view = Gemiddeld in zicht
+
+js-kind-label-median-convergence = Mediane convergentie
+
+js-kind-label-median-pdop = Mediane PDOP
+
+js-kind-label-member-runs = Runs van de leden
+
+js-kind-label-message-switch-iod = berichtwissel, issue of data { $old } naar { $new }
+
+js-kind-label-mission-length = Missieduur
+
+js-kind-label-model = model
+
+js-kind-label-monte-carlo-runs = Monte Carlo-runs
+
+js-kind-label-noise-floor = Ruisvloer
+
+js-kind-label-parameters = Parameters
+
+js-kind-label-payload = Payload
+
+js-kind-label-pdop = PDOP
+
+js-kind-label-pdop-95th-percentile = PDOP, 95e percentiel
+
+js-kind-label-peak-elevation = Piekelevatie
+
+js-kind-label-peak-tracked-c-n0 = Hoogste gevolgde C/N0
+
+js-kind-label-phase = Fase
+
+js-kind-label-predicted-horizontal-sigma = voorspelde horizontale sigma
+
+js-kind-label-quantisation-position = Kwantisatie, positie
+
+js-kind-label-range-error = afstandsfout
+
+js-kind-label-relays-above-the-mask = relais boven het masker
+
+js-kind-label-relays-and-earth-link = relais en aardlink
+
+js-kind-label-relays-only = alleen relais
+
+js-kind-label-satellite = Satelliet
+
+js-kind-label-satellites = Satellieten
+
+js-kind-label-satellites-used = Gebruikte satellieten
+
+js-kind-label-signal = Signaal
+
+js-kind-label-signal-chip-spacing = { $name } ({ $spacing } chipafstand)
+
+js-kind-label-sisre-after-quantisation = SISRE na kwantisatie
+
+js-kind-label-sisre-root-mean-square = SISRE, kwadratisch gemiddelde
+
+js-kind-label-spoofing-starts = spoofing begint
+
+js-kind-label-standard-deviation = Standaardafwijking
+
+js-kind-label-sun-separation = Afstand tot de zon
+
+js-kind-label-sweep-runs = Sweep-runs
+
+js-kind-label-system = Systeem
+
+js-kind-label-time-above-the-mask = Tijd boven het masker
+
+js-kind-label-time-error-root-mean-square = Tijdfout, kwadratisch gemiddelde
+
+js-kind-label-tracked-component = gevolgde component
+
+js-kind-label-tracking-threshold = Volgdrempel
+
+js-kind-label-transmit-bandwidth = Zendbandbreedte
+
+js-kind-label-vdop = VDOP
+
+js-kind-label-welch-estimate-of-the-synthesised = Welch-schatting van de gesynthetiseerde samples
+
+js-kind-label-whole-signal = heel signaal
+
+js-kind-label-wideband-j-s-tolerated = Getolereerde J/S, breedband
+
+js-kind-label-with-unit = { $label } ({ $unit })
+
+js-kind-label-worst-site-availability = Beschikbaarheid van de slechtste locatie
+
+js-kind-no = nee
+
+js-kind-note-a-gap-is-an-epoch = Een gat is een epoch met te weinig relais in zicht voor een positiebepaling.
+
+js-kind-note-a-helmert-transform-is-the = Een Helmert-transformatie is de verschuiving, rotatie en schaling met zeven parameters tussen twee referentiestelsels.
+
+js-kind-note-a-low-earth-orbit-leo = Een satelliet in een lage aardbaan (LEO) trekt in enkele minuten over de hemel, dus zijn C/N0 (draaggolf-ruisdichtheidsverhouding) stijgt en daalt in een klokvorm; een GNSS-satelliet beweegt in dezelfde tijd nauwelijks.
+
+js-kind-note-a-receiver-independent-exchange-format = Een record in de stijl van Receiver Independent Exchange Format (RINEX) 4. De LEO-recordtypen zijn een Kshana-uitbreiding, zoals de header aangeeft.
+
+js-kind-note-a-single-pass-fixes-the = Eén passage legt de richting langs het spoor veel beter vast dan die dwars op het spoor.
+
+js-kind-note-aos-is-acquisition-of-signal = AOS is acquisitie van het signaal, TCA het tijdstip van dichtste nadering en LOS verlies van het signaal.
+
+js-kind-note-c-n0-is-the-carrier = C/N0 is de draaggolf-ruisdichtheidsverhouding. Een band onder de volgdrempel van de ontvanger heeft de vergrendeling verloren.
+
+js-kind-note-cells-are-the-code-and = Cellen zijn de code- en Dopplerbins die een koude zoekactie moet testen.
+
+js-kind-note-cold-is-a-first-fix = Koud is een eerste positiebepaling zonder voorkennis; heet is een positiebepaling kort na de vorige.
+
+js-kind-note-dilution-of-precision-dop-scales = Precisieverdunning (DOP) schaalt een afstandsfout om naar een positiefout: G is geometrisch, P positie, H horizontaal, V verticaal. Percentielen gelden over elk rasterpunt en elke epoch.
+
+js-kind-note-drawn-at-the-strongest-signal = Getekend bij het sterkste signaalniveau van de run. Een gat is een stuk zonder satelliet in zicht.
+
+js-kind-note-each-body-carries-its-own = Elk hemellichaam heeft zijn eigen bewijslabel. Lichttijd is enkele reis, vanaf de waarnemer die in het scenario is genoemd.
+
+js-kind-note-each-row-is-one-full = Elke rij is één volledige engine-run van het doorlopen scenario.
+
+js-kind-note-each-rule-is-a-switch = Elke regel is een wissel naar een nieuwer bericht halverwege de passage.
+
+js-kind-note-each-signal-is-drawn-about = Elk signaal wordt getekend rond zijn eigen middenfrequentie. Een gat is een spectrale nul.
+
+js-kind-note-eirp-is-the-equivalent-isotropically = EIRP is het equivalent isotroop uitgestraald vermogen.
+
+js-kind-note-every-phase-is-an-ordinary = Elke fase is een gewone scenario-run. De hashes identificeren de invoer en het resultaatdocument van elk lid.
+
+js-kind-note-iod-is-the-issue-of = IOD is de issue of data: het serienummer van het bericht.
+
+js-kind-note-j-s-is-the-jammer = J/S is de vermogensverhouding tussen jammer en signaal. Volgfractie is het aandeel van de run waarin de band boven de drempel blijft.
+
+js-kind-note-p05-p50-and-p95-are = p05, p50 en p95 zijn het 5e, 50e en 95e percentiel. ci95 is het betrouwbaarheidsinterval van 95% voor het gemiddelde.
+
+js-kind-note-parameters-are-public-with-a = Parameters zijn OPENBAAR (met een bron), REPRESENTATIEF of WORKSHOP, zoals elke voorinstelling aangeeft.
+
+js-kind-note-precise-point-positioning-ppp-converges = Precise point positioning (PPP) convergeert wanneer de fout onder het criterium blijft. NEES is de genormaliseerde gekwadrateerde schattingsfout, een controle op de consistentie van het filter.
+
+js-kind-note-sisre-defined = SISRE is de signal-in-space-afstandsfout: wat het uitgezonden bericht aan de afstand van een gebruiker toevoegt. Hier is het de representatiefout van het bericht ten opzichte van de eigen referentiebaan van de engine.
+
+js-kind-note-sisre-is-the-signal-in = SISRE is de signal-in-space-afstandsfout die wordt aangenomen voor de uitgezonden baan en klok van elk systeem.
+
+js-kind-note-ssc-is-the-spectral-separation = SSC is de spectrale scheidingscoëfficiënt: hoeveel van het vermogen van het ene signaal binnen de ontvanger van het andere valt. Een streepje betekent dat de twee elkaar niet overlappen.
+
+js-kind-note-the-chain-runs-the-signal = De keten doorloopt de fasen signaal, passage, navigatiebericht, positiebepaling en precieze positiebepaling in volgorde. Elke rij is een getal dat één fase berekende en de volgende gebruikte.
+
+js-kind-note-the-doppler-and-pass-geometry = De monitor voor Doppler en passagegeometrie vergelijkt gemeten afstandssnelheden met die voorspeld uit de banen. De regel markeert het begin van de spoofer.
+
+js-kind-note-the-engine-draws-its-spectrum = De engine tekent zijn spectrummodel als in-phase- en quadrature-samples (IQ) op één moment en schat het spectrum daaruit terug. Dezelfde samples vormen de SigMF-export (Signal Metadata Format).
+
+js-kind-note-the-engine-s-own-documented = Het eigen gedocumenteerde binaire frame van de engine, afgesloten met een cyclische redundantiecontrole van 24 bits (CRC-24Q).
+
+js-kind-note-the-gabor-root-mean-square = De Gabor-bandbreedte (kwadratisch gemiddelde) bepaalt hoe scherp op een signaal kan worden gemeten.
+
+js-kind-note-the-largest-jammer-to-signal = De grootste jammer-signaalverhouding (J/S) waar elk signaal doorheen blijft volgen, voor een continue golf (CW), een jammer met aangepast spectrum en een breedbandjammer.
+
+js-kind-note-the-shapiro-delay-is-the = De Shapiro-vertraging is de extra lichttijd door de zwaartekracht van de zon langs het pad.
