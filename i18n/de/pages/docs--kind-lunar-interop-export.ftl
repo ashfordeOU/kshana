@@ -54,6 +54,9 @@ seg-98acb538942f = <b>MODELLED</b> An LunaNet/IOAG angelehnter Export von lunare
 seg-c9a1d76625d6 = MODELLED (Ergebnis <c1/>)
 
 # text
+seg-11d0ccba5ee7 = WAS src/lunar_interop.rs tut: * export_lunar_oem — WIEDERVERWENDET den CCSDS-OEM-{ "2.0" }-Emitter des Crates (crate::oem), für den lunaren Kontext neu etikettiert: REF_FRAME = das lunare Körperbezugssystem IAU { "2015" } WGCCRE (MOON_ME / MOON_PA), TIME_SYSTEM = die lunare Zeitskala (LTC / TCL / UTC), CENTER_NAME = MOON, über eine beispielhafte ILLUSTRATIVE Ephemeride der Klasse LCNS (Positionen aus crate::lunar_service, Geschwindigkeit durch zentrale finite Differenz). * export_ (Kommentar in der Szenariodatei, Zeilen { "6" } bis { "19" })
+
+# text
 seg-f730e8f789cf = EHRLICHKEIT: MODELLED. Die Feld-NAMEN und Einheiten sind an ÖFFENTLICHE Standards angelehnt (CCSDS 502.0-B OEM, IAU-WGCCRE-{ "2015" }-Mondbezugssysteme, LunaNet Interoperability Specification / IOAG-Mondarchitektur). Der deterministische Rundlauf und die Feldnamenkonformität sind die unabhängige Referenz. Dies ist KEIN zertifizierter Interoperabilitäts-Konformitätstest. Die Ephemeride ist illustrativ, aus öffentlichen Quellen, NICHT mit der ESA verbunden und impliziert kein TRL (Kommentar in der Szenariodatei, Zeilen { "21" } bis { "26" })
 
 # text
@@ -82,6 +85,3 @@ seg-633bcd62ce93 = Gibt außerdem einen an LunaNet/IOAG angelehnten Deskriptor d
 # text
 # c1: lunar-interop-export
 seg-fdf560e675f4 = <c1/> (Szenarioart)
-
-# text
-seg-11d0ccba5ee7 = WAS src/lunar_interop.rs tut: * export_lunar_oem — WIEDERVERWENDET den CCSDS-OEM-{ "2.0" }-Emitter des Crates (crate::oem), für den lunaren Kontext neu etikettiert: REF_FRAME = das lunare Körperbezugssystem IAU { "2015" } WGCCRE (MOON_ME / MOON_PA), TIME_SYSTEM = die lunare Zeitskala (LTC / TCL / UTC), CENTER_NAME = MOON, über eine beispielhafte ILLUSTRATIVE Ephemeride der Klasse LCNS (Positionen aus crate::lunar_service, Geschwindigkeit durch zentrale finite Differenz). * export_ (Kommentar in der Szenariodatei, Zeilen { "6" } bis { "19" })

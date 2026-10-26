@@ -78,6 +78,9 @@ seg-02e9f2e87410 = MODELLED — codage et modulation adaptatifs DVB-S2 sur les p
 seg-cd04f5662884 = MODELLED. (catalogue des types de scénario (<c1/>))
 
 # text
+seg-a2cdc7dff1e3 = Chaque nombre ci-dessous est ILLUSTRATIVE : ni orbite, ni station, ni bilan de liaison d'aucun opérateur. MODELLED. (commentaire du fichier de scénario, ligne { "8" })
+
+# text
 seg-7f8667e8d8fe = Le codage et la modulation adaptatifs DVB-S2 le long d'un passage de liaison descendante LEO sont MODELLED, et non validés : vérifiés par rapport à leur propre identité analytique en forme fermée — détecte les erreurs de transcription et de coefficients, mais n'est pas une référence indépendante externe. (matrice de vérification (docs/MODELLED-RATIONALE.md))
 
 # text
@@ -88,6 +91,3 @@ seg-72fd0321e4af = Page thématique : <a1>CONTACT-SCHEDULING.md</a1>
 
 # text
 seg-1f67ae89028b = <s1>Suivant</s1>aocs
-
-# text
-seg-a2cdc7dff1e3 = Chaque nombre ci-dessous est ILLUSTRATIF : ni orbite, ni station, ni bilan de liaison d'aucun opérateur. MODELLED. (commentaire du fichier de scénario, ligne { "8" })

@@ -79,6 +79,9 @@ seg-dadea618d757 = <b>MODELLED</b> Signal-Rausch-Budget eines Nadir-Imagers (Str
 seg-5182b4b0f8d6 = MODELLED — Radiometrie eines Nadir-Imagers (Lambert-Szene, Kameragleichung, Schrot-/Dunkel-/Auslese-/Quantisierungsrauschen), System-MTF bei Nyquist (Beugung x Detektor x Verschmierung x Jitter), relative Kantenantwort, Q = lambda F/p und NIIRS nach GIQE { "4" } ohne MTF-Kompensation; die NIIRS ist eine empirische Regression auf modellierten Eingaben, kein bewertetes Bild (Ergebnis <c1/>)
 
 # text
+seg-b2f1e6466c2c = Radiometrie und Bildqualität eines Nadir-Imagers für eine ILLUSTRATIVE kleine Erdbeobachtungskamera (kein Entwurf eines Betreibers): { "0.40" } m Apertur, { "3.6" } m Brennweite (F/9), { "5.5" } um Pixel, aus { "500" } km. Der Lauf liefert das Signal-Rausch-Budget einer Szene mit { "15" } % Reflexionsgrad, die System-MTF bei Nyquist, die relative Kantenantwort und die NIIRS nach GIQE Version { "4" }. MODELLED: Die NIIRS ist eine empirische Regression, ausgewertet auf modellierten Eingaben, n (Kommentar der Szenariodatei, Zeilen { "1" } bis { "5" })
+
+# text
 seg-aaf9ed3b0899 = Radiometrie, MTF, relative Kantenantwort und NIIRS nach GIQE { "4" } elektrooptischer Imager sind MODELLED, nicht validiert: gegen die eigene geschlossene bzw. analytische Identität geprüft — fängt Transkriptions- und Koeffizientenfehler ab, ist aber keine unabhängige Referenz. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
 
 # text
@@ -86,6 +89,3 @@ seg-d6c92dc655ab = <s1>Zurück</s1>eo-coverage
 
 # text
 seg-a0daef9a496e = <s1>Weiter</s1>ephemeris
-
-# text
-seg-b2f1e6466c2c = Radiometrie und Bildqualität eines Nadir-Imagers für eine ILLUSTRATIVE kleine Erdbeobachtungskamera (kein Entwurf eines Betreibers): { "0.40" } m Apertur, { "3.6" } m Brennweite (F/9), { "5.5" } um Pixel, aus { "500" } km. Der Lauf liefert das Signal-Rausch-Budget einer Szene mit { "15" } % Reflexionsgrad, die System-MTF bei Nyquist, die relative Kantenantwort und die NIIRS nach GIQE Version { "4" }. MODELLED: Die NIIRS ist eine empirische Regression, ausgewertet auf modellierten Eingaben, n (Kommentar der Szenariodatei, Zeilen { "1" } bis { "5" })

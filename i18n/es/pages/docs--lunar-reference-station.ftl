@@ -14,6 +14,9 @@ seg-9872e31ebd72 = Fuentes
 seg-38afa54b0306 = Fuente: <c1/>
 
 # text
+seg-e8ee3794bac6 = <b>MODELLED.</b> Bajo los supuestos indicados (la constelación, su error de señal en el espacio, la exactitud de levantamiento de la estación, la latencia de las correcciones y la cuantización del enlace, cada uno una entrada etiquetada con su fuente pública o como ILLUSTRATIVE), el modelo da las cifras siguientes. <b>No</b> son una afirmación sobre el rendimiento de ningún sistema real. Kshana <b>no</b> tiene afiliación ni respaldo de ninguna agencia y no hace ninguna afirmación de TRL ni de herencia de vuelo. Solo consultivo.
+
+# text
 seg-22eb5bd00092 = Finalidad
 
 # text
@@ -52,6 +55,12 @@ seg-98b42925ad5c = Constelación (<c1/>, <c2/>, <c3/>, <c4/>, <c5/>) o <c6/>
 seg-bfdd053b2611 = el conjunto del repositorio de clase LCNS
 
 # text
+seg-389db26524b4 = ILLUSTRATIVE en el valor por defecto incluido; el ejemplo de fuentes públicas fija cuatro satélites y el periodo de { "24" } h de S2 y S4, y el conjunto de elementos sigue siendo ILLUSTRATIVE (ninguna fuente lo indica)
+
+# text
+seg-91231bdcc599 = ILLUSTRATIVE
+
+# text
 # c1: station_lat_deg
 # c2: station_lon_deg
 # c3: station_height_m
@@ -64,6 +73,9 @@ seg-fcdb2f3ac330 = { "89" }° S, { "0" }°, { "0" } m
 seg-f32dcb376b51 = { "0.30" } m
 
 # text
+seg-93d78578585f = ILLUSTRATIVE (la asignación de realización del marco del repositorio, en sí misma MODELLED)
+
+# text
 # c1: orbit_err_m
 # c2: clock_err_m
 # c3: sise_sigma_m
@@ -72,6 +84,10 @@ seg-59286c0377ce = <c1/>, <c2/>, o <c3/> con <c4/>
 
 # text
 seg-fe90a6f490f9 = { "100" } m, { "30" } m (SISE en la línea de visión { "65" } m)
+
+# text
+# c1: sise_sigma_m
+seg-9a432ef35cac = ILLUSTRATIVE en el valor por defecto incluido; el ejemplo de fuentes públicas fija <c1/> = { "10" } / { "1.96" } m de S4 p. 8
 
 # text
 seg-970357ba3630 = { "0" } m, { "10" } s, { "8" } bits
@@ -102,7 +118,13 @@ seg-0fec404c8c7c = { "0" } s, un día, { "600" } s, { "200" }
 seg-d35d88b0753b = { "20" } m en p95 en el valor por defecto incluido ({ "1" } m en el ejemplo de fuentes públicas)
 
 # text
+seg-fa7858b14f89 = indicado antes de la ejecución; { "20" } m es ILLUSTRATIVE, dimensionado según los errores ilustrativos del valor por defecto
+
+# text
 seg-a6ee5e2a8b61 = { "10" } m
+
+# text
+seg-329ad585cd9b = ILLUSTRATIVE: no existe ningún valor público
 
 # text
 seg-422a316b806b = { "5" } m, { "1e-4" }, { "42" }
@@ -138,6 +160,9 @@ seg-112cb6bffc03 = <c1/>: la reducción a <c2/>, los mínimos de línea base cer
 # c1: tests/lunar_station_numpy_oracle.rs
 # c2: tests/fixtures/lunar_station/PREREGISTRATION.md
 seg-695ed4f23f3c = <c1/>: un recálculo independiente con numpy de la aritmética sobre casos exportados, preregistrado antes de ejecutarse. Las posiciones y los percentiles alcanzaron sus umbrales; las correcciones de la estación no alcanzaron los suyos por redondeo de doble precisión (registrado, con sus cifras, en <c2/>).
+
+# text
+seg-be6ecf79d22c = Ninguna de las dos comprueba el modelo. El modelo de error, la decorrelación de primer orden, los modelos de levantamiento, de envejecimiento y de cuantización y todos los umbrales son propios de este proyecto o ILLUSTRATIVE.
 
 # text
 seg-d6f194e28401 = Máscaras de horizonte del terreno
@@ -197,7 +222,26 @@ seg-10a1d62ab5cc = <c1/> ejecuta las entradas incluidas sobre una malla de { "2"
 seg-6d18d8a8dc78 = <b>Terreno y enmascaramiento del horizonte: abordado en { "0.36" }, con límites.</b> Las máscaras de horizonte por emplazamiento a partir de un perfil declarado o del recorte de DEM LOLA incluido están modeladas (arriba). Lo que queda: el recorte incluido tiene { "1200" } m por píxel, de modo que el relieve inferior a un kilómetro aproximadamente se alisa y las medias de bloque rebajan los picos agudos; un rayo que sale del recorte (a unos { "420" } km del polo) termina allí; no hay difracción, multitrayecto por terreno ni obstrucción parcial; las posiciones de los emplazamientos para la medición de distancia permanecen sobre la esfera media a las alturas indicadas (el DEM solo fija el horizonte); el horizonte no está validado frente a una cifra externa. El emplazamiento de exportación por satélite de <c1/> se enmascara como un punto de la malla: con una sección <c2/>, cada fila exportada lleva <c3/> y el informe el horizonte del emplazamiento (<c4/>); los recuentos de antena en haz siguen contando todos los enlaces que superan la máscara plana.
 
 # text
+# c1: [receiver]
+# c2: src/lunar_receiver.rs
+# c3: a + b exp(-el / el0)
+seg-b58b3ff1ef20 = <b>Multitrayecto y hardware del receptor: abordado en { "0.36" } como opción voluntaria, con límites.</b> Una sección <c1/> (<c2/>) añade multitrayecto dependiente de la elevación <c3/> en el usuario y en la estación (la forma funcional de DO-229; en la Luna todos los valores son ILLUSTRATIVE), el multitrayecto de la estación opcionalmente de Gauss-Markov de primer orden a lo largo de las épocas, ruido de código del DLL adelantado menos retrasado a partir de C/N0 y sesgos entre canales por canal. Lo que queda: la variación del centro de fase de la antena y del retardo de grupo no se modela; ninguna medición lunar fija los valores de multitrayecto; el bloque del balance del enlace de correcciones no incluye los términos del receptor.
+
+# text
 seg-677252c2d3e5 = Crecimiento del error de efemérides durante la latencia: abordado en { "0.36" } como opción voluntaria, con límites.
+
+# text
+# c1: orbit_err_growth_m_per_s
+# c2: rate x latency / sqrt(3)
+# c3: tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md
+seg-3af08edab1cc = <c1/> añade un crecimiento lineal del error de órbita difundido con la edad (distancia 1 sigma <c2/>), sobre la reproyección de error congelado; el crecimiento lineal es el término de primer orden de un error de estado propagado (comprobado al { "1" } % a { "600" } s frente a la propagación de dos cuerpos del repositorio). Lo que queda: ninguna fuente pública da una tasa de crecimiento lunar (ILLUSTRATIVE); no hay estructura a lo largo de la traza ni radial; el bloque del balance del enlace de correcciones usa el modelo congelado. El apéndice K5 (<c3/>, preregistrado por separado) ejecuta K5 a { "0.001" }, { "0.01" } y { "0.1" } m/s: falla en todos los casos ({ "369.8" } m, { "2315" } m, { "22797" } m frente a un umbral de { "1.5" } m), como se indicó antes de la ejecución.
+
+# text
+# c1: [solution]
+# c2: src/lunar_solution.rs
+# c3: trace_case
+# c4: tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md
+seg-5bba9be34cad = <b>Estilo de solución (filtro, restricción de altura, tres satélites): opción voluntaria en { "0.36" }, con límites.</b> Una sección <c1/> (<c2/>) añade una seudomedición de altura, un mínimo de tres satélites con ella y una ventana de mínimos cuadrados ponderados para usuario estático a lo largo de las épocas (una posición compartida, un reloj por época), que sustituye a un filtro. Lo que queda: trata los errores de las épocas como independientes, así que promedia a la baja más deprisa que errores correlacionados en el tiempo; es solo para usuario estático; no hay filtro dinámico, ni fase de portadora, ni resolución de ambigüedades; la traza del caso (<c3/>) muestra la aritmética instantánea. El apéndice de afirmaciones publicadas con este modo es <c4/> (preregistrado por separado). Con una restricción de altura de { "1" } m, tres satélites y una ventana de 6 épocas (ajustes ILLUSTRATIVE), el error 3-D p95 corregido de R300 baja de { "280.6" } m a { "2.11" } m (horizontal { "0.90" } m, no puntuado); K1 a K5 siguen fallando y K6 pasa, { "1" } de { "6" } como en la ejecución registrada. El supuesto de independencia de la ventana la favorece.
 
 # text
 seg-4f8274f839a7 = Comparación con las afirmaciones publicadas
@@ -279,7 +323,16 @@ seg-62190343777c = razón { "1.39" }
 seg-7a33a168b020 = pasa
 
 # text
+seg-e666f1eb7a59 = Pasa { "1" } de { "6" } umbrales. La causa es la geometría. Ninguna fuente publica los elementos orbitales de la constelación. Con los elementos ILLUSTRATIVE del repositorio, un usuario y la estación comparten cuatro satélites por encima de { "5" } grados solo en el { "8" } % ({ "300" } km) y el { "6" } % ({ "600" } km) de las épocas, con una geometría casi singular: el p95 sin corregir es { "3.8" } km, donde las fuentes citan < { "10" } m. Las simulaciones de las propias fuentes usaban un filtro, una restricción de altura y tres satélites en vista común, de los que carece este modelo instantáneo. Por tanto, la ejecución no reproduce las afirmaciones con esos elementos, y no es evidencia de que las afirmaciones sean erróneas. El resultado de K6 es una razón entre dos cifras dominadas por la geometría y no dice nada sobre la decorrelación. Un conjunto publicado de elementos de la constelación se puntuaría con los mismos umbrales como una segunda ejecución fechada.
+
+# text
 seg-1da5fcf7bbf5 = Predicción preregistrada
+
+# text
+# c1: c05dac1d
+# c2: docs/predictions/lunar-reference-station.md
+# c3: tests/prediction_frozen.rs
+seg-4ea806a57380 = Una predicción preregistrada, congelada en el commit <c1/> con las entradas de fuentes públicas, con su protocolo de puntuación: <a1><c2/></a1>. Es una predicción, no una validación, y todas sus cifras están dominadas por el conjunto de elementos no publicado de la constelación de cuatro satélites (los elementos usados son ILLUSTRATIVE): sobre la región de { "80" } grados S, disponibilidad { "8.2" } %, 3-D p95 corregido { "280" } m, sin corregir { "3.8" } km. MODELLED; <c3/> falla si se mueve cualquier byte congelado.
 
 # text
 seg-e6aef34d5023 = Laboratorio de tiempo de la estación
@@ -293,6 +346,15 @@ seg-4ef12bffa7c4 = Si el miniRAFS de la estación, dirigido a LTC y luego en mar
 
 # text
 seg-69ddf7ea8fcb = Geodesia de la estación
+
+# text
+# c1: extra_reflectors
+# c2: extra_beacons
+# c3: lunar-llr-datum
+# c4: scenarios/lunar-station-geodesy-baseline.toml
+# c5: -with-station.toml
+# c6: docs/lunar-station/geodesy.md
+seg-717a5c91387b = Cuánto afinan un retrorreflector y una baliza VLBI en el emplazamiento de la estación el datum del marco lunar más allá de las cinco matrices de retrorreflectores archivadas: las entradas opcionales <c1/> y <c2/> de <c3/> (<c4/> y <c5/>). Cotas de Cramer-Rao para un conjunto reducido de parámetros con un calendario y un emplazamiento ILLUSTRATIVE: la norma de traslación 1 sigma baja de { "0.0185" } m a { "0.0102" } m (razón { "0.551" }), la escala de { "0.00178" } a { "0.00063" } ppm. MODELLED. Método, salvedades (un emplazamiento polar sur ve la Tierra baja o no la ve) y la tabla completa de Helmert: <a1><c6/></a1>.
 
 # text
 # c1: tests/fixtures/lunar_station/SOURCES.md
@@ -384,65 +446,3 @@ seg-79d53edd2374 = <s1>Siguiente</s1>Navegación de usuarios espaciales (gnss-ss
 
 # text
 seg-9c59637f0666 = Mapa de cobertura y exactitud (lunar-station-coverage)
-
-# text
-seg-329ad585cd9b = ILUSTRATIVO: no existe ningún valor público
-
-# text
-seg-389db26524b4 = ILUSTRATIVO en el valor por defecto incluido; el ejemplo de fuentes públicas fija cuatro satélites y el periodo de { "24" } h de S2 y S4, y el conjunto de elementos sigue siendo ILUSTRATIVO (ninguna fuente lo indica)
-
-# text
-# c1: orbit_err_growth_m_per_s
-# c2: rate x latency / sqrt(3)
-# c3: tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md
-seg-3af08edab1cc = <c1/> añade un crecimiento lineal del error de órbita difundido con la edad (distancia 1 sigma <c2/>), sobre la reproyección de error congelado; el crecimiento lineal es el término de primer orden de un error de estado propagado (comprobado al { "1" } % a { "600" } s frente a la propagación de dos cuerpos del repositorio). Lo que queda: ninguna fuente pública da una tasa de crecimiento lunar (ILUSTRATIVA); no hay estructura a lo largo de la traza ni radial; el bloque del balance del enlace de correcciones usa el modelo congelado. El apéndice K5 (<c3/>, preregistrado por separado) ejecuta K5 a { "0.001" }, { "0.01" } y { "0.1" } m/s: falla en todos los casos ({ "369.8" } m, { "2315" } m, { "22797" } m frente a un umbral de { "1.5" } m), como se indicó antes de la ejecución.
-
-# text
-# c1: c05dac1d
-# c2: docs/predictions/lunar-reference-station.md
-# c3: tests/prediction_frozen.rs
-seg-4ea806a57380 = Una predicción preregistrada, congelada en el commit <c1/> con las entradas de fuentes públicas, con su protocolo de puntuación: <a1><c2/></a1>. Es una predicción, no una validación, y todas sus cifras están dominadas por el conjunto de elementos no publicado de la constelación de cuatro satélites (los elementos usados son ILUSTRATIVOS): sobre la región de { "80" } grados S, disponibilidad { "8.2" } %, 3-D p95 corregido { "280" } m, sin corregir { "3.8" } km. MODELLED; <c3/> falla si se mueve cualquier byte congelado.
-
-# text
-# c1: [solution]
-# c2: src/lunar_solution.rs
-# c3: trace_case
-# c4: tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md
-seg-5bba9be34cad = <b>Estilo de solución (filtro, restricción de altura, tres satélites): opción voluntaria en { "0.36" }, con límites.</b> Una sección <c1/> (<c2/>) añade una seudomedición de altura, un mínimo de tres satélites con ella y una ventana de mínimos cuadrados ponderados para usuario estático a lo largo de las épocas (una posición compartida, un reloj por época), que sustituye a un filtro. Lo que queda: trata los errores de las épocas como independientes, así que promedia a la baja más deprisa que errores correlacionados en el tiempo; es solo para usuario estático; no hay filtro dinámico, ni fase de portadora, ni resolución de ambigüedades; la traza del caso (<c3/>) muestra la aritmética instantánea. El apéndice de afirmaciones publicadas con este modo es <c4/> (preregistrado por separado). Con una restricción de altura de { "1" } m, tres satélites y una ventana de 6 épocas (ajustes ILUSTRATIVOS), el error 3-D p95 corregido de R300 baja de { "280.6" } m a { "2.11" } m (horizontal { "0.90" } m, no puntuado); K1 a K5 siguen fallando y K6 pasa, { "1" } de { "6" } como en la ejecución registrada. El supuesto de independencia de la ventana la favorece.
-
-# text
-# c1: extra_reflectors
-# c2: extra_beacons
-# c3: lunar-llr-datum
-# c4: scenarios/lunar-station-geodesy-baseline.toml
-# c5: -with-station.toml
-# c6: docs/lunar-station/geodesy.md
-seg-717a5c91387b = Cuánto afinan un retrorreflector y una baliza VLBI en el emplazamiento de la estación el datum del marco lunar más allá de las cinco matrices de retrorreflectores archivadas: las entradas opcionales <c1/> y <c2/> de <c3/> (<c4/> y <c5/>). Cotas de Cramer-Rao para un conjunto reducido de parámetros con un calendario y un emplazamiento ILUSTRATIVOS: la norma de traslación 1 sigma baja de { "0.0185" } m a { "0.0102" } m (razón { "0.551" }), la escala de { "0.00178" } a { "0.00063" } ppm. MODELLED. Método, salvedades (un emplazamiento polar sur ve la Tierra baja o no la ve) y la tabla completa de Helmert: <a1><c6/></a1>.
-
-# text
-seg-91231bdcc599 = ILUSTRATIVO
-
-# text
-seg-93d78578585f = ILUSTRATIVO (la asignación de realización del marco del repositorio, en sí misma MODELLED)
-
-# text
-# c1: sise_sigma_m
-seg-9a432ef35cac = ILUSTRATIVO en el valor por defecto incluido; el ejemplo de fuentes públicas fija <c1/> = { "10" } / { "1.96" } m de S4 p. 8
-
-# text
-# c1: [receiver]
-# c2: src/lunar_receiver.rs
-# c3: a + b exp(-el / el0)
-seg-b58b3ff1ef20 = <b>Multitrayecto y hardware del receptor: abordado en { "0.36" } como opción voluntaria, con límites.</b> Una sección <c1/> (<c2/>) añade multitrayecto dependiente de la elevación <c3/> en el usuario y en la estación (la forma funcional de DO-229; en la Luna todos los valores son ILUSTRATIVOS), el multitrayecto de la estación opcionalmente de Gauss-Markov de primer orden a lo largo de las épocas, ruido de código del DLL adelantado menos retrasado a partir de C/N0 y sesgos entre canales por canal. Lo que queda: la variación del centro de fase de la antena y del retardo de grupo no se modela; ninguna medición lunar fija los valores de multitrayecto; el bloque del balance del enlace de correcciones no incluye los términos del receptor.
-
-# text
-seg-be6ecf79d22c = Ninguna de las dos comprueba el modelo. El modelo de error, la decorrelación de primer orden, los modelos de levantamiento, de envejecimiento y de cuantización y todos los umbrales son propios de este proyecto o ILUSTRATIVOS.
-
-# text
-seg-e666f1eb7a59 = Pasa { "1" } de { "6" } umbrales. La causa es la geometría. Ninguna fuente publica los elementos orbitales de la constelación. Con los elementos ILUSTRATIVOS del repositorio, un usuario y la estación comparten cuatro satélites por encima de { "5" } grados solo en el { "8" } % ({ "300" } km) y el { "6" } % ({ "600" } km) de las épocas, con una geometría casi singular: el p95 sin corregir es { "3.8" } km, donde las fuentes citan < { "10" } m. Las simulaciones de las propias fuentes usaban un filtro, una restricción de altura y tres satélites en vista común, de los que carece este modelo instantáneo. Por tanto, la ejecución no reproduce las afirmaciones con esos elementos, y no es evidencia de que las afirmaciones sean erróneas. El resultado de K6 es una razón entre dos cifras dominadas por la geometría y no dice nada sobre la decorrelación. Un conjunto publicado de elementos de la constelación se puntuaría con los mismos umbrales como una segunda ejecución fechada.
-
-# text
-seg-e8ee3794bac6 = <b>MODELLED.</b> Bajo los supuestos indicados (la constelación, su error de señal en el espacio, la exactitud de levantamiento de la estación, la latencia de las correcciones y la cuantización del enlace, cada uno una entrada etiquetada con su fuente pública o como ILUSTRATIVA), el modelo da las cifras siguientes. <b>No</b> son una afirmación sobre el rendimiento de ningún sistema real. Kshana <b>no</b> tiene afiliación ni respaldo de ninguna agencia y no hace ninguna afirmación de TRL ni de herencia de vuelo. Solo consultivo.
-
-# text
-seg-fa7858b14f89 = indicado antes de la ejecución; { "20" } m es ILUSTRATIVO, dimensionado según los errores ilustrativos del valor por defecto

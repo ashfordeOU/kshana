@@ -66,6 +66,9 @@ seg-cac91718c4e1 = <b>MODELLED</b> Ascenso plano con viraje por gravedad de un v
 seg-906f001cd9ea = MODELLED — ascenso plano con viraje por gravedad de un vehículo de varias etapas sobre una Tierra esférica sin rotación a través de US76, con las pérdidas por gravedad, resistencia, guiado y contrapresión integradas y la identidad dv ideal menos pérdidas comprobada; C_D constante, sin rotación, sin tramo de inercia, sin más guiado que la patada de cabeceo (resultado <c1/>)
 
 # text
+seg-f916c5a08595 = Pérdidas del ascenso con viraje por gravedad de un lanzador ILLUSTRATIVE de dos etapas de queroseno/oxígeno (ningún vehículo real): ascenso vertical hasta { "1" } km, una patada de cabeceo de { "3" } deg durante { "10" } s y después empuje a lo largo de la velocidad. La ejecución integra las pérdidas por gravedad, resistencia, guiado y contrapresión y comprueba que el dv ideal menos las pérdidas es igual a la velocidad de agotamiento. MODELLED: plano, Tierra sin rotación, C_D constante, sin tramo de inercia, sin más guiado que la patada. (comentario del archivo de escenario, líneas { "1" } a { "5" })
+
+# text
 seg-4c237f051651 = Las pérdidas por gravedad, resistencia, guiado y contrapresión del ascenso de lanzamiento son MODELLED, no están validadas: se comprueban frente a su propia identidad analítica o de forma cerrada — detecta errores de transcripción y de coeficientes, pero no es una referencia independiente externa. (matriz de verificación (docs/MODELLED-RATIONALE.md))
 
 # text
@@ -76,6 +79,3 @@ seg-73148557c9a6 = <s1>Anterior</s1>araim-reference-check
 
 # text
 seg-3af9699f27a7 = <s1>Siguiente</s1>attitude-budget
-
-# text
-seg-f916c5a08595 = Pérdidas del ascenso con viraje por gravedad de un lanzador ILUSTRATIVO de dos etapas de queroseno/oxígeno (ningún vehículo real): ascenso vertical hasta { "1" } km, una patada de cabeceo de { "3" } deg durante { "10" } s y después empuje a lo largo de la velocidad. La ejecución integra las pérdidas por gravedad, resistencia, guiado y contrapresión y comprueba que el dv ideal menos las pérdidas es igual a la velocidad de agotamiento. MODELLED: plano, Tierra sin rotación, C_D constante, sin tramo de inercia, sin más guiado que la patada. (comentario del archivo de escenario, líneas { "1" } a { "5" })

@@ -14,6 +14,9 @@ seg-9872e31ebd72 = Quellen
 seg-38afa54b0306 = Quelle: <c1/>
 
 # text
+seg-e8ee3794bac6 = <b>MODELLED.</b> Unter den angegebenen Annahmen (die Konstellation, ihr Signal-in-Space-Fehler, die Vermessungsgenauigkeit der Station, die Korrekturlatenz und die Quantisierung der Verbindung, jeweils eine Eingabe, die mit ihrer öffentlichen Quelle oder als ILLUSTRATIVE gekennzeichnet ist) liefert das Modell die unten stehenden Werte. Sie sind <b>keine</b> Aussage über die Leistung eines realen Systems. Kshana ist <b>nicht</b> mit einer Behörde verbunden und von keiner unterstützt und erhebt keinen TRL- oder Heritage-Anspruch. Nur beratend.
+
+# text
 seg-22eb5bd00092 = Zweck
 
 # text
@@ -52,6 +55,12 @@ seg-98b42925ad5c = Konstellation (<c1/>, <c2/>, <c3/>, <c4/>, <c5/>) oder <c6/>
 seg-bfdd053b2611 = der interne Satz der LCNS-Klasse
 
 # text
+seg-389db26524b4 = ILLUSTRATIVE im mitgelieferten Standard; das Beispiel mit öffentlichen Quellen setzt vier Satelliten und die Periode von { "24" } h aus S2 und S4, wobei der Elementesatz ILLUSTRATIVE bleibt (keine Quelle gibt ihn an)
+
+# text
+seg-91231bdcc599 = ILLUSTRATIVE
+
+# text
 # c1: station_lat_deg
 # c2: station_lon_deg
 # c3: station_height_m
@@ -64,6 +73,9 @@ seg-fcdb2f3ac330 = { "89" }° S, { "0" }°, { "0" } m
 seg-f32dcb376b51 = { "0.30" } m
 
 # text
+seg-93d78578585f = ILLUSTRATIVE (die interne Zuteilung der Systemrealisierung, selbst MODELLED)
+
+# text
 # c1: orbit_err_m
 # c2: clock_err_m
 # c3: sise_sigma_m
@@ -72,6 +84,10 @@ seg-59286c0377ce = <c1/>, <c2/> oder <c3/> mit <c4/>
 
 # text
 seg-fe90a6f490f9 = { "100" } m, { "30" } m (Sichtlinien-SISE { "65" } m)
+
+# text
+# c1: sise_sigma_m
+seg-9a432ef35cac = ILLUSTRATIVE im mitgelieferten Standard; das Beispiel mit öffentlichen Quellen setzt <c1/> = { "10" } / { "1.96" } m aus S4 S. 8
 
 # text
 seg-970357ba3630 = { "0" } m, { "10" } s, { "8" } Bit
@@ -102,7 +118,13 @@ seg-0fec404c8c7c = { "0" } s, ein Tag, { "600" } s, { "200" }
 seg-d35d88b0753b = { "20" } m bei p95 im mitgelieferten Standard ({ "1" } m im Beispiel mit öffentlichen Quellen)
 
 # text
+seg-fa7858b14f89 = vor dem Lauf angegeben; { "20" } m ist ILLUSTRATIVE, bemessen nach den illustrativen Fehlern des Standards
+
+# text
 seg-a6ee5e2a8b61 = { "10" } m
+
+# text
+seg-329ad585cd9b = ILLUSTRATIVE: Es existiert kein öffentlicher Wert
 
 # text
 seg-422a316b806b = { "5" } m, { "1e-4" }, { "42" }
@@ -138,6 +160,9 @@ seg-112cb6bffc03 = <c1/>: die Reduktion auf <c2/>, die Nullbasislinien- und Verm
 # c1: tests/lunar_station_numpy_oracle.rs
 # c2: tests/fixtures/lunar_station/PREREGISTRATION.md
 seg-695ed4f23f3c = <c1/>: eine unabhängige numpy-Neuberechnung der Arithmetik an exportierten Fällen, vor ihrem Lauf vorregistriert. Positionen und Perzentile erreichten ihre Zielwerte; die Stationskorrekturen verfehlten ihre durch Rundung in doppelter Genauigkeit (festgehalten, mit ihren Zahlen, in <c2/>).
+
+# text
+seg-be6ecf79d22c = Keine von beiden prüft das Modell. Das Fehlermodell, die Dekorrelation erster Ordnung, die Modelle für Vermessung, Alterung und Quantisierung und jeder Schwellenwert sind die eigenen dieses Projekts oder ILLUSTRATIVE.
 
 # text
 seg-d6f194e28401 = Geländehorizont-Masken
@@ -197,7 +222,26 @@ seg-10a1d62ab5cc = <c1/> lässt die mitgelieferten Eingaben auf einem { "2" }°-
 seg-6d18d8a8dc78 = <b>Gelände und Horizontmaskierung: in { "0.36" } behandelt, mit Grenzen.</b> Horizontmasken je Standort aus einem angegebenen Profil oder dem eingebundenen LOLA-DEM-Ausschnitt sind modelliert (oben). Was bleibt: Der eingebundene Ausschnitt hat { "1200" } m je Pixel, sodass Relief unterhalb von etwa einem Kilometer geglättet wird und Blockmittelwerte scharfe Gipfel senken; ein Strahl, der den Ausschnitt verlässt (etwa { "420" } km vom Pol), endet dort; es gibt keine Beugung, keinen Gelände-Mehrwegeempfang und keine teilweise Verdeckung; Standortpositionen für die Entfernungsmessung bleiben auf der mittleren Kugel bei den angegebenen Höhen (das DEM legt nur den Horizont fest); der Horizont ist nicht gegen eine externe Zahl validiert. Der Export-Standort je Satellit von <c1/> wird wie ein Gitterpunkt maskiert: Mit einem Abschnitt <c2/> trägt jede Exportzeile <c3/> und der Bericht den Horizont des Standorts (<c4/>); die Antennen-In-Beam-Zählungen zählen weiterhin jede Verbindung, die die flache Maske überschreitet.
 
 # text
+# c1: [receiver]
+# c2: src/lunar_receiver.rs
+# c3: a + b exp(-el / el0)
+seg-b58b3ff1ef20 = <b>Mehrwegeempfang und Empfängerhardware: in { "0.36" } als Opt-in behandelt, mit Grenzen.</b> Ein Abschnitt <c1/> (<c2/>) fügt am Nutzer und an der Station elevationsabhängigen Mehrwegeempfang <c3/> hinzu (die Funktionsform von DO-229; auf dem Mond ist jeder Wert ILLUSTRATIVE), wobei der Mehrwegeempfang der Station optional ein Gauß-Markov-Prozess erster Ordnung über die Epochen ist, dazu Early-minus-Late-DLL-Coderauschen aus C/N0 und kanalweise Zwischenkanal-Biases. Was bleibt: Variationen von Antennenphasenzentrum und Gruppenlaufzeit sind nicht modelliert; keine Mondmessung legt die Mehrwegewerte fest; der Budgetblock der Korrekturverbindung enthält die Empfängerterme nicht.
+
+# text
 seg-677252c2d3e5 = Wachstum des Ephemeridenfehlers über die Latenz: in { "0.36" } als Opt-in behandelt, mit Grenzen.
+
+# text
+# c1: orbit_err_growth_m_per_s
+# c2: rate x latency / sqrt(3)
+# c3: tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md
+seg-3af08edab1cc = <c1/> fügt dem Bahnfehler der Rundsendung ein lineares Wachstum mit dem Alter hinzu (Entfernung 1-Sigma <c2/>), zusätzlich zur Reprojektion des eingefrorenen Fehlers; lineares Wachstum ist der Term erster Ordnung eines propagierten Zustandsfehlers (bei { "600" } s auf { "1" } % gegen die interne Zweikörperpropagation geprüft). Was bleibt: Keine öffentliche Quelle gibt eine Mond-Wachstumsrate an (ILLUSTRATIVE); keine Struktur in Flugrichtung/radial; der Budgetblock der Korrekturverbindung verwendet das eingefrorene Modell. Der K5-Nachtrag (<c3/>, allein vorregistriert) lässt K5 bei { "0.001" }, { "0.01" } und { "0.1" } m/s laufen: Er schlägt in jedem Fall fehl ({ "369.8" } m, { "2315" } m, { "22797" } m gegenüber einem Zielwert von { "1.5" } m), wie vor dem Lauf angegeben.
+
+# text
+# c1: [solution]
+# c2: src/lunar_solution.rs
+# c3: trace_case
+# c4: tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md
+seg-5bba9be34cad = <b>Lösungsstil (Filter, Höhenbedingung, drei Satelliten): ein Opt-in in { "0.36" }, mit Grenzen.</b> Ein Abschnitt <c1/> (<c2/>) fügt eine Höhen-Pseudomessung, damit ein Minimum von drei Satelliten und ein gewichtetes Kleinste-Quadrate-Fenster für statische Nutzer über Epochen (eine gemeinsame Position, eine Uhr je Epoche) hinzu, das an die Stelle eines Filters tritt. Was bleibt: Es behandelt die Fehler der Epochen als unabhängig und mittelt daher schneller herunter als zeitlich korrelierte Fehler es täten; es gilt nur für statische Nutzer; es gibt keinen dynamischen Filter, keine Trägerphase und keine Auflösung der Mehrdeutigkeit; die Fallspur (<c3/>) zeigt die Momentaufnahme-Arithmetik. Der Nachtrag zu veröffentlichten Behauptungen mit diesem Modus ist <c4/> (allein vorregistriert). Mit einer Höhenbedingung von { "1" } m, drei Satelliten und einem Fenster von 6 Epochen (ILLUSTRATIVE Einstellungen) sinkt der korrigierte p95-3D-Fehler von R300 von { "280.6" } m auf { "2.11" } m (horizontal { "0.90" } m, nicht bewertet); K1 bis K5 schlagen weiterhin fehl und K6 besteht, { "1" } von { "6" } wie im aufgezeichneten Lauf. Die Unabhängigkeitsannahme des Fensters begünstigt es.
 
 # text
 seg-4f8274f839a7 = Vergleich mit veröffentlichten Behauptungen
@@ -279,7 +323,16 @@ seg-62190343777c = Verhältnis { "1.39" }
 seg-7a33a168b020 = bestanden
 
 # text
+seg-e666f1eb7a59 = { "1" } von { "6" } Zielwerten wird bestanden. Die Ursache ist die Geometrie. Keine Quelle veröffentlicht die Bahnelemente der Konstellation. Mit den internen ILLUSTRATIVE Elementen teilen sich ein Nutzer und die Station vier Satelliten oberhalb von { "5" } Grad nur in { "8" } % ({ "300" } km) und { "6" } % ({ "600" } km) der Epochen, bei nahezu singulärer Geometrie: Das unkorrigierte p95 beträgt { "3.8" } km, wo die Quellen < { "10" } m nennen. Die eigenen Simulationen der Quellen verwendeten einen Filter, eine Höhenbedingung und drei Satelliten in gemeinsamer Sicht, die dieses Momentaufnahme-Modell nicht hat. Der Lauf reproduziert die Behauptungen auf diesen Elementen daher nicht, und er ist kein Beleg dafür, dass die Behauptungen falsch sind. Das Bestehen von K6 ist ein Verhältnis zweier von der Geometrie dominierter Zahlen und sagt nichts über die Dekorrelation aus. Ein veröffentlichter Satz der Elemente der Konstellation würde unter denselben Zielwerten als zweiter, datierter Lauf bewertet.
+
+# text
 seg-1da5fcf7bbf5 = Vorregistrierte Vorhersage
+
+# text
+# c1: c05dac1d
+# c2: docs/predictions/lunar-reference-station.md
+# c3: tests/prediction_frozen.rs
+seg-4ea806a57380 = Eine vorregistrierte Vorhersage, eingefroren bei Commit <c1/> auf den Eingaben der öffentlichen Quellen, mit ihrem Bewertungsprotokoll: <a1><c2/></a1>. Sie ist eine Vorhersage, keine Validierung, und jede Zahl darin wird vom unveröffentlichten Elementesatz der Konstellation aus vier Satelliten dominiert (die verwendeten Elemente sind ILLUSTRATIVE): über die Region ab { "80" } Grad S Verfügbarkeit { "8.2" } %, korrigiert p95 3D { "280" } m, unkorrigiert { "3.8" } km. MODELLED; <c3/> schlägt fehl, wenn sich ein eingefrorenes Byte bewegt.
 
 # text
 seg-e6aef34d5023 = Zeitlabor der Station
@@ -293,6 +346,15 @@ seg-4ef12bffa7c4 = Ob das miniRAFS der Station, auf LTC gesteuert und dann freil
 
 # text
 seg-69ddf7ea8fcb = Stationsgeodäsie
+
+# text
+# c1: extra_reflectors
+# c2: extra_beacons
+# c3: lunar-llr-datum
+# c4: scenarios/lunar-station-geodesy-baseline.toml
+# c5: -with-station.toml
+# c6: docs/lunar-station/geodesy.md
+seg-717a5c91387b = Wie stark ein Retroreflektor und ein VLBI-Funkfeuer am Stationsstandort das Mond-Bezugsdatum über die fünf archivierten Retroreflektor-Anordnungen hinaus verengen: die optionalen Eingaben <c1/> und <c2/> von <c3/> (<c4/> und <c5/>). Cramér-Rao-Schranken für einen reduzierten Parametersatz auf einem ILLUSTRATIVE Zeitplan und Standort: Das 1-Sigma der Translationsnorm sinkt von { "0.0185" } m auf { "0.0102" } m (Verhältnis { "0.551" }), der Maßstab von { "0.00178" } auf { "0.00063" } ppm. MODELLED. Methode, Vorbehalte (ein Standort am Südpol sieht die Erde tief oder gar nicht) und die vollständige Helmert-Tabelle: <a1><c6/></a1>.
 
 # text
 # c1: tests/fixtures/lunar_station/SOURCES.md
@@ -384,65 +446,3 @@ seg-79d53edd2374 = <s1>Weiter</s1>Navigation für Raumnutzer (gnss-ssv)
 
 # text
 seg-9c59637f0666 = Abdeckungs- und Genauigkeitskarte (lunar-station-coverage)
-
-# text
-seg-329ad585cd9b = ILLUSTRATIV: Es existiert kein öffentlicher Wert
-
-# text
-seg-389db26524b4 = ILLUSTRATIV im mitgelieferten Standard; das Beispiel mit öffentlichen Quellen setzt vier Satelliten und die Periode von { "24" } h aus S2 und S4, wobei der Elementesatz ILLUSTRATIV bleibt (keine Quelle gibt ihn an)
-
-# text
-# c1: orbit_err_growth_m_per_s
-# c2: rate x latency / sqrt(3)
-# c3: tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md
-seg-3af08edab1cc = <c1/> fügt dem Bahnfehler der Rundsendung ein lineares Wachstum mit dem Alter hinzu (Entfernung 1-Sigma <c2/>), zusätzlich zur Reprojektion des eingefrorenen Fehlers; lineares Wachstum ist der Term erster Ordnung eines propagierten Zustandsfehlers (bei { "600" } s auf { "1" } % gegen die interne Zweikörperpropagation geprüft). Was bleibt: Keine öffentliche Quelle gibt eine Mond-Wachstumsrate an (ILLUSTRATIV); keine Struktur in Flugrichtung/radial; der Budgetblock der Korrekturverbindung verwendet das eingefrorene Modell. Der K5-Nachtrag (<c3/>, allein vorregistriert) lässt K5 bei { "0.001" }, { "0.01" } und { "0.1" } m/s laufen: Er schlägt in jedem Fall fehl ({ "369.8" } m, { "2315" } m, { "22797" } m gegenüber einem Zielwert von { "1.5" } m), wie vor dem Lauf angegeben.
-
-# text
-# c1: c05dac1d
-# c2: docs/predictions/lunar-reference-station.md
-# c3: tests/prediction_frozen.rs
-seg-4ea806a57380 = Eine vorregistrierte Vorhersage, eingefroren bei Commit <c1/> auf den Eingaben der öffentlichen Quellen, mit ihrem Bewertungsprotokoll: <a1><c2/></a1>. Sie ist eine Vorhersage, keine Validierung, und jede Zahl darin wird vom unveröffentlichten Elementesatz der Konstellation aus vier Satelliten dominiert (die verwendeten Elemente sind ILLUSTRATIV): über die Region ab { "80" } Grad S Verfügbarkeit { "8.2" } %, korrigiert p95 3D { "280" } m, unkorrigiert { "3.8" } km. MODELLED; <c3/> schlägt fehl, wenn sich ein eingefrorenes Byte bewegt.
-
-# text
-# c1: [solution]
-# c2: src/lunar_solution.rs
-# c3: trace_case
-# c4: tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md
-seg-5bba9be34cad = <b>Lösungsstil (Filter, Höhenbedingung, drei Satelliten): ein Opt-in in { "0.36" }, mit Grenzen.</b> Ein Abschnitt <c1/> (<c2/>) fügt eine Höhen-Pseudomessung, damit ein Minimum von drei Satelliten und ein gewichtetes Kleinste-Quadrate-Fenster für statische Nutzer über Epochen (eine gemeinsame Position, eine Uhr je Epoche) hinzu, das an die Stelle eines Filters tritt. Was bleibt: Es behandelt die Fehler der Epochen als unabhängig und mittelt daher schneller herunter als zeitlich korrelierte Fehler es täten; es gilt nur für statische Nutzer; es gibt keinen dynamischen Filter, keine Trägerphase und keine Auflösung der Mehrdeutigkeit; die Fallspur (<c3/>) zeigt die Momentaufnahme-Arithmetik. Der Nachtrag zu veröffentlichten Behauptungen mit diesem Modus ist <c4/> (allein vorregistriert). Mit einer Höhenbedingung von { "1" } m, drei Satelliten und einem Fenster von 6 Epochen (ILLUSTRATIVE Einstellungen) sinkt der korrigierte p95-3D-Fehler von R300 von { "280.6" } m auf { "2.11" } m (horizontal { "0.90" } m, nicht bewertet); K1 bis K5 schlagen weiterhin fehl und K6 besteht, { "1" } von { "6" } wie im aufgezeichneten Lauf. Die Unabhängigkeitsannahme des Fensters begünstigt es.
-
-# text
-# c1: extra_reflectors
-# c2: extra_beacons
-# c3: lunar-llr-datum
-# c4: scenarios/lunar-station-geodesy-baseline.toml
-# c5: -with-station.toml
-# c6: docs/lunar-station/geodesy.md
-seg-717a5c91387b = Wie stark ein Retroreflektor und ein VLBI-Funkfeuer am Stationsstandort das Mond-Bezugsdatum über die fünf archivierten Retroreflektor-Anordnungen hinaus verengen: die optionalen Eingaben <c1/> und <c2/> von <c3/> (<c4/> und <c5/>). Cramér-Rao-Schranken für einen reduzierten Parametersatz auf einem ILLUSTRATIVEN Zeitplan und Standort: Das 1-Sigma der Translationsnorm sinkt von { "0.0185" } m auf { "0.0102" } m (Verhältnis { "0.551" }), der Maßstab von { "0.00178" } auf { "0.00063" } ppm. MODELLED. Methode, Vorbehalte (ein Standort am Südpol sieht die Erde tief oder gar nicht) und die vollständige Helmert-Tabelle: <a1><c6/></a1>.
-
-# text
-seg-91231bdcc599 = ILLUSTRATIV
-
-# text
-seg-93d78578585f = ILLUSTRATIV (die interne Zuteilung der Systemrealisierung, selbst MODELLED)
-
-# text
-# c1: sise_sigma_m
-seg-9a432ef35cac = ILLUSTRATIV im mitgelieferten Standard; das Beispiel mit öffentlichen Quellen setzt <c1/> = { "10" } / { "1.96" } m aus S4 S. 8
-
-# text
-# c1: [receiver]
-# c2: src/lunar_receiver.rs
-# c3: a + b exp(-el / el0)
-seg-b58b3ff1ef20 = <b>Mehrwegeempfang und Empfängerhardware: in { "0.36" } als Opt-in behandelt, mit Grenzen.</b> Ein Abschnitt <c1/> (<c2/>) fügt am Nutzer und an der Station elevationsabhängigen Mehrwegeempfang <c3/> hinzu (die Funktionsform von DO-229; auf dem Mond ist jeder Wert ILLUSTRATIV), wobei der Mehrwegeempfang der Station optional ein Gauß-Markov-Prozess erster Ordnung über die Epochen ist, dazu Early-minus-Late-DLL-Coderauschen aus C/N0 und kanalweise Zwischenkanal-Biases. Was bleibt: Variationen von Antennenphasenzentrum und Gruppenlaufzeit sind nicht modelliert; keine Mondmessung legt die Mehrwegewerte fest; der Budgetblock der Korrekturverbindung enthält die Empfängerterme nicht.
-
-# text
-seg-be6ecf79d22c = Keine von beiden prüft das Modell. Das Fehlermodell, die Dekorrelation erster Ordnung, die Modelle für Vermessung, Alterung und Quantisierung und jeder Schwellenwert sind die eigenen dieses Projekts oder ILLUSTRATIV.
-
-# text
-seg-e666f1eb7a59 = { "1" } von { "6" } Zielwerten wird bestanden. Die Ursache ist die Geometrie. Keine Quelle veröffentlicht die Bahnelemente der Konstellation. Mit den internen ILLUSTRATIVEN Elementen teilen sich ein Nutzer und die Station vier Satelliten oberhalb von { "5" } Grad nur in { "8" } % ({ "300" } km) und { "6" } % ({ "600" } km) der Epochen, bei nahezu singulärer Geometrie: Das unkorrigierte p95 beträgt { "3.8" } km, wo die Quellen < { "10" } m nennen. Die eigenen Simulationen der Quellen verwendeten einen Filter, eine Höhenbedingung und drei Satelliten in gemeinsamer Sicht, die dieses Momentaufnahme-Modell nicht hat. Der Lauf reproduziert die Behauptungen auf diesen Elementen daher nicht, und er ist kein Beleg dafür, dass die Behauptungen falsch sind. Das Bestehen von K6 ist ein Verhältnis zweier von der Geometrie dominierter Zahlen und sagt nichts über die Dekorrelation aus. Ein veröffentlichter Satz der Elemente der Konstellation würde unter denselben Zielwerten als zweiter, datierter Lauf bewertet.
-
-# text
-seg-e8ee3794bac6 = <b>MODELLED.</b> Unter den angegebenen Annahmen (die Konstellation, ihr Signal-in-Space-Fehler, die Vermessungsgenauigkeit der Station, die Korrekturlatenz und die Quantisierung der Verbindung, jeweils eine Eingabe, die mit ihrer öffentlichen Quelle oder als ILLUSTRATIV gekennzeichnet ist) liefert das Modell die unten stehenden Werte. Sie sind <b>keine</b> Aussage über die Leistung eines realen Systems. Kshana ist <b>nicht</b> mit einer Behörde verbunden und von keiner unterstützt und erhebt keinen TRL- oder Heritage-Anspruch. Nur beratend.
-
-# text
-seg-fa7858b14f89 = vor dem Lauf angegeben; { "20" } m ist ILLUSTRATIV, bemessen nach den illustrativen Fehlern des Standards

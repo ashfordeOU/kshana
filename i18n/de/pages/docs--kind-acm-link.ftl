@@ -78,6 +78,9 @@ seg-02e9f2e87410 = MODELLED — adaptive Kodierung und Modulation nach DVB-S2 ü
 seg-cd04f5662884 = MODELLED. (Artenkatalog (<c1/>))
 
 # text
+seg-a2cdc7dff1e3 = Jede Zahl unten ist ILLUSTRATIVE: weder Bahn, Station noch Link-Budget eines Betreibers. MODELLED. (Kommentar der Szenariodatei, Zeile { "8" })
+
+# text
 seg-7f8667e8d8fe = Adaptive Kodierung und Modulation nach DVB-S2 entlang eines LEO-Downlink-Überflugs ist MODELLED, nicht validiert: gegen die eigene geschlossene bzw. analytische Identität geprüft — fängt Transkriptions- und Koeffizientenfehler ab, ist aber keine unabhängige Referenz. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
 
 # text
@@ -88,6 +91,3 @@ seg-72fd0321e4af = Themenseite: <a1>CONTACT-SCHEDULING.md</a1>
 
 # text
 seg-1f67ae89028b = <s1>Weiter</s1>aocs
-
-# text
-seg-a2cdc7dff1e3 = Jede Zahl unten ist ILLUSTRATIV: weder Bahn, Station noch Link-Budget eines Betreibers. MODELLED. (Kommentar der Szenariodatei, Zeile { "8" })

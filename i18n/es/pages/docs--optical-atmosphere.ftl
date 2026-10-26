@@ -26,6 +26,9 @@ seg-47118f54f060 = El tipo de escenario <c1/> responde a con qué frecuencia fun
 # text
 seg-06db0ea8f428 = Kshana es solo la parte de análisis. No ejecuta un experimento de estación óptica terrestre y no nombra a ningún socio de medición. El tipo es <b>MODELLED</b>: su numérica se comprueba frente a un programa independiente, pero no se ha comparado ningún registro de disponibilidad medida, y toda entrada de meteorología, de técnica y de reloj es una suposición. Es un análisis de carácter consultivo, no un producto certificado de disponibilidad, de integridad ni de navegación.
 
+# text
+seg-83c16fd89005 = Los dos escenarios incluidos llevan climas de nubes ILLUSTRATIVE. Son entradas, no mediciones ni valores de ningún conjunto de datos.
+
 # attr:alt
 seg-e9dbbd9cfa32 = Una realización con semilla del margen del enlace del emplazamiento 'northern' durante { "336" } h, a partir de una ejecución real del motor v{ $version } sobre scenarios/optical-atmosphere-network.toml (semilla { "37" }, un paso de { "600" } s). El margen cae por debajo de cero durante los episodios de nubes; en este sorteo el enlace está activo el { "40.5" } % del tiempo, con { "27" } interrupciones y una interrupción más larga de { "30.7" } h. Las entradas son ilustrativas, la serie es un sorteo del modelo y no el clima, y difiere de la disponibilidad estadística ({ "37.8" } %) por el error de muestreo del sorteo. Solo análisis de carácter consultivo: no es un producto certificado de disponibilidad, de integridad ni de navegación, y no es una predicción para ningún emplazamiento real salvo que sus entradas de clima procedan de un conjunto de datos declarado.
 
@@ -170,6 +173,3 @@ seg-83b30e1ca261 = <s1>Anterior</s1>Paquetes de evidencias
 
 # text
 seg-1474b58fb35a = <s1>Siguiente</s1>Temporización de ranuras
-
-# text
-seg-83c16fd89005 = Los dos escenarios incluidos llevan climas de nubes ILUSTRATIVOS. Son entradas, no mediciones ni valores de ningún conjunto de datos.

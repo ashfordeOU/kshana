@@ -604,6 +604,9 @@ seg-2c27404856f6 = tipo de escenario araim-reference-check
 seg-6fc2c7863922 = tipo de escenario ascent-losses
 
 # text
+seg-6ad78e934bec = Pérdidas de ascenso por viraje gravitatorio de un lanzador bietapa ILLUSTRATIVE de queroseno/oxígeno (ningún vehículo real): ascenso vertical hasta { "1" } km, un impulso de cabeceo de { "3" } deg durante { "10" } s y después empuje a lo largo de la velocidad. La ejecución integra las pérdidas por gravedad, resistencia, guiado y contrapresión y comprueba que el dv ideal menos las pérdidas es igual a la velocidad de apagado. MODELLED: plano, Tierra sin rotación, C_D constante, sin tramo balístico, sin más guiado que el impulso.
+
+# text
 seg-602ac3a69ef9 = tipo de escenario attitude-budget
 
 # text
@@ -693,6 +696,9 @@ seg-c2dc08297b0f = tipo de escenario eo-coverage
 
 # text
 seg-fbb405d27780 = tipo de escenario eo-radiometry
+
+# text
+seg-f178d4dbb034 = Radiometría y calidad de imagen de un generador de imágenes en nadir para una pequeña cámara de observación de la Tierra ILLUSTRATIVE (ningún diseño de operador): apertura de { "0.40" } m, distancia focal de { "3.6" } m (F/9), píxeles de { "5.5" } um, desde { "500" } km. La ejecución da el presupuesto de relación señal/ruido de una escena de reflectancia del { "15" } %, la MTF del sistema en Nyquist, la respuesta relativa de borde y el NIIRS de la versión { "4" } de GIQE. MODELLED: el NIIRS es una regresión empírica evaluada sobre entradas modeladas, no una imagen calificada.
 
 # text
 seg-2487ebfca518 = tipo de escenario ephemeris
@@ -909,6 +915,24 @@ seg-319137c1458e = tipo lunar-frame-realisation
 seg-d4a6801f9670 = tipo lunar-infrastructure
 
 # text
+seg-a3dc5227b366 = Escenario lunar-infrastructure de Kshana: carrier-phase, el ejemplo RÁPIDO (dos arcos cortos, { "10" } extracciones, segundos; la configuración puntuada, tres arcos y { "400" } extracciones, es xval/lunar-infra/scenarios/carrier-phase-scored.toml). MODELLED; el diseño, las entradas y los umbrales se fijan en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Las entradas ILLUSTRATIVE se etiquetan allí con sus fuentes públicas.
+
+# text
+seg-1f55219aed27 = Escenario lunar-infrastructure de Kshana: frame-coestimation. MODELLED; el diseño, las entradas y los umbrales se fijan en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Las entradas ILLUSTRATIVE se etiquetan allí con sus fuentes públicas.
+
+# text
+seg-4e990ecb6404 = Escenario lunar-infrastructure de Kshana: geodesy-sensitivity. MODELLED; el diseño, las entradas y los umbrales se fijan en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Las entradas ILLUSTRATIVE se etiquetan allí con sus fuentes públicas.
+
+# text
+seg-e27e1de1a233 = Escenario lunar-infrastructure de Kshana: od-consistency. MODELLED; el diseño, las entradas y los umbrales se fijan en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Las entradas ILLUSTRATIVE se etiquetan allí con sus fuentes públicas.
+
+# text
+seg-30dc631d148f = Escenario lunar-infrastructure de Kshana: od-consistency con una aceleración no modelada. MODELLED; el diseño, las entradas y los umbrales se fijan en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Las entradas ILLUSTRATIVE se etiquetan allí con sus fuentes públicas.
+
+# text
+seg-68eaba3db338 = Escenario lunar-infrastructure de Kshana: space-tie. MODELLED; el diseño, las entradas y los umbrales se fijan en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Las entradas ILLUSTRATIVE se etiquetan allí con sus fuentes públicas.
+
+# text
 seg-01d06e830746 = tipo lunar-integrity
 
 # text
@@ -934,6 +958,9 @@ seg-2255165dd833 = tipo lunar-station-coverage
 
 # text
 seg-5c55b91fa564 = Cobertura de una estación de referencia lunar: qué precisión de posicionamiento y qué nivel de protección obtiene un usuario de una estación de referencia diferencial lunar situada en un emplazamiento conocido del polo sur, sobre la región polar sur y durante un día.
+
+# text
+seg-e1a3830ad9ed = Cobertura de una estación de referencia lunar bajo los supuestos DECLARADOS PÚBLICAMENTE: el mismo tipo que lunar-station-coverage.toml, con cada entrada que una fuente pública declara tomada de ella y citada por el identificador de la fuente; cada entrada que ninguna fuente declara se mantiene con el valor predeterminado del repositorio y se etiqueta ILLUSTRATIVE. Fuentes (consultadas el 2026-10-12; títulos, identificadores y licencias en docs/LUNAR-REFERENCE-STATION.md): S1 arXiv:2602.08432v3 S2 IOAG Cislunar PNT Workshop { "2025" }, "Lunar local Differential PNT and Selenodetic Reference Station" (diapositivas) S3 UNOOSA ICG WG-B, Lunar PNT, June { "2024" } (LunarPNT_Jun24_01_04.pdf) S4 IOAG Cislunar { "2026" }, "Moonlight Programme Development Status"
 
 # text
 seg-d168096a3514 = Cobertura de una estación de referencia lunar con terreno: el escenario lunar-station-coverage incluido, con un horizonte por emplazamiento trazado por avance de rayos sobre un modelo digital de elevación lunar real en la estación y en cada punto de usuario, en lugar de la máscara de elevación plana por sí sola.
@@ -979,6 +1006,12 @@ seg-95202f70f915 = tipo oem-interop
 
 # text
 seg-64b58fe6b7e1 = tipo optical-atmosphere
+
+# text
+seg-b8648cc3c266 = PNT óptico a través de la atmósfera: tres emplazamientos terrestres ILLUSTRATIVE (uno septentrional más nuboso, uno central intermedio y uno meridional más despejado) que observan un terminal óptico LEO a { "30" } grados de elevación a { "1550" } nm. Los climas de nubosidad son entradas declaradas, no mediciones ni valores de ningún conjunto de datos, por lo que toda disponibilidad que sigue es MODELLED. La ejecución informa, por emplazamiento, de la pérdida en aire despejado, el estado de turbulencia de Hufnagel-Valley, la disponibilidad frente al margen del enlace, el margen necesario para el { "40" } / { "50" } / { "60" } / { "70" } por ciento (un enlace óptico no puede atravesar una nube espesa, así que un emplazamiento tiene un techo de disponibilidad que ningún margen eleva, indicado por emplazamiento), la distribución de la duración de las interrupciones y el crecimiento del error de temporización por interrupción para tres clases de reloj; y después la disponibilidad por diversidad de emplazamientos de los { "1" }, { "2" } y { "3" } mejores emplazamientos, con meteorología independiente y con meteorología correlacionada por la distancia (longitud de decorrelación de { "500" } km).
+
+# text
+seg-f85f23a4fa5c = Hipótesis de técnicas de mejora para un emplazamiento terrestre ILLUSTRATIVE: un cambio de longitud de onda, una apertura de recepción mayor, una reducción del centelleo con óptica adaptativa y un margen adicional, cada una predicha como una ganancia de disponibilidad sobre la línea base del mismo emplazamiento. Las ganancias son entradas declaradas (Kshana no modela un lazo de óptica adaptativa), una nueva longitud de onda o apertura reevalúa el presupuesto de cielo despejado, la pérdida en aire despejado y el promediado de apertura, y todo es MODELLED. El terminal tiene deliberadamente un margen limitado (unos { "3" } dB antes de la atmósfera) para que las técnicas importen; la ejecución indica además el techo de nubosidad que ninguna técnica eleva. Los objetivos inferiores al { "100" } por ciento de la tabla de márgenes se informan como el margen adicional necesario (negativo significa un excedente).
 
 # text
 seg-b226ac4eebdf = tipo orbit
@@ -1089,6 +1122,9 @@ seg-b83a1fbd3435 = tipo terrain-slam
 seg-c988dce87d81 = tipo time-transfer-budget
 
 # text
+seg-a063a0ecc543 = Transferencia bidireccional de tiempo y frecuencia por satélite (TWSTFT) entre dos estaciones ILLUSTRATIVE, una en Europa central y otra en el este de Norteamérica, a través de un relé geoestacionario a { "10" } grados O. La ejecución resuelve la ecuación bidireccional para T_A - T_B a partir de los términos declarados de equipos, transpondedor, ionosfera (banda Ku, 14/11 GHz) y Sagnac. Forma un presupuesto de incertidumbre cuyo término estadístico es la TDEV, a un día, de un enlace simulado con ruido de fase blanco y de flicker y una no reciprocidad diurna. Los retardos y las incertidumbres son ilustrativos, no la calibración de ningún laboratorio. MODELLED. Se puede añadir una serie real UTC-UTC(k) o de reloj de estación bajo [[series]] (formato circular-t, mjd-csv o rinex-clock) para informar de su estabilidad.
+
+# text
 seg-69138a582b9a = tipo timetransfer
 
 # text
@@ -1120,39 +1156,3 @@ seg-67f767701c6d = <s1>Anterior</s1>Dominios de capacidad
 
 # text
 seg-ea79a68b0587 = <s1>Siguiente</s1>Esquema de resultados
-
-# text
-seg-1f55219aed27 = Escenario lunar-infrastructure de Kshana: frame-coestimation. MODELLED; el diseño, las entradas y los umbrales se fijan en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Las entradas ILUSTRATIVAS se etiquetan allí con sus fuentes públicas.
-
-# text
-seg-30dc631d148f = Escenario lunar-infrastructure de Kshana: od-consistency con una aceleración no modelada. MODELLED; el diseño, las entradas y los umbrales se fijan en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Las entradas ILUSTRATIVAS se etiquetan allí con sus fuentes públicas.
-
-# text
-seg-4e990ecb6404 = Escenario lunar-infrastructure de Kshana: geodesy-sensitivity. MODELLED; el diseño, las entradas y los umbrales se fijan en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Las entradas ILUSTRATIVAS se etiquetan allí con sus fuentes públicas.
-
-# text
-seg-68eaba3db338 = Escenario lunar-infrastructure de Kshana: space-tie. MODELLED; el diseño, las entradas y los umbrales se fijan en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Las entradas ILUSTRATIVAS se etiquetan allí con sus fuentes públicas.
-
-# text
-seg-6ad78e934bec = Pérdidas de ascenso por viraje gravitatorio de un lanzador bietapa ILUSTRATIVO de queroseno/oxígeno (ningún vehículo real): ascenso vertical hasta { "1" } km, un impulso de cabeceo de { "3" } deg durante { "10" } s y después empuje a lo largo de la velocidad. La ejecución integra las pérdidas por gravedad, resistencia, guiado y contrapresión y comprueba que el dv ideal menos las pérdidas es igual a la velocidad de apagado. MODELLED: plano, Tierra sin rotación, C_D constante, sin tramo balístico, sin más guiado que el impulso.
-
-# text
-seg-a063a0ecc543 = Transferencia bidireccional de tiempo y frecuencia por satélite (TWSTFT) entre dos estaciones ILUSTRATIVAS, una en Europa central y otra en el este de Norteamérica, a través de un relé geoestacionario a { "10" } grados O. La ejecución resuelve la ecuación bidireccional para T_A - T_B a partir de los términos declarados de equipos, transpondedor, ionosfera (banda Ku, 14/11 GHz) y Sagnac. Forma un presupuesto de incertidumbre cuyo término estadístico es la TDEV, a un día, de un enlace simulado con ruido de fase blanco y de flicker y una no reciprocidad diurna. Los retardos y las incertidumbres son ilustrativos, no la calibración de ningún laboratorio. MODELLED. Se puede añadir una serie real UTC-UTC(k) o de reloj de estación bajo [[series]] (formato circular-t, mjd-csv o rinex-clock) para informar de su estabilidad.
-
-# text
-seg-a3dc5227b366 = Escenario lunar-infrastructure de Kshana: carrier-phase, el ejemplo RÁPIDO (dos arcos cortos, { "10" } extracciones, segundos; la configuración puntuada, tres arcos y { "400" } extracciones, es xval/lunar-infra/scenarios/carrier-phase-scored.toml). MODELLED; el diseño, las entradas y los umbrales se fijan en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Las entradas ILUSTRATIVAS se etiquetan allí con sus fuentes públicas.
-
-# text
-seg-b8648cc3c266 = PNT óptico a través de la atmósfera: tres emplazamientos terrestres ILUSTRATIVOS (uno septentrional más nuboso, uno central intermedio y uno meridional más despejado) que observan un terminal óptico LEO a { "30" } grados de elevación a { "1550" } nm. Los climas de nubosidad son entradas declaradas, no mediciones ni valores de ningún conjunto de datos, por lo que toda disponibilidad que sigue es MODELLED. La ejecución informa, por emplazamiento, de la pérdida en aire despejado, el estado de turbulencia de Hufnagel-Valley, la disponibilidad frente al margen del enlace, el margen necesario para el { "40" } / { "50" } / { "60" } / { "70" } por ciento (un enlace óptico no puede atravesar una nube espesa, así que un emplazamiento tiene un techo de disponibilidad que ningún margen eleva, indicado por emplazamiento), la distribución de la duración de las interrupciones y el crecimiento del error de temporización por interrupción para tres clases de reloj; y después la disponibilidad por diversidad de emplazamientos de los { "1" }, { "2" } y { "3" } mejores emplazamientos, con meteorología independiente y con meteorología correlacionada por la distancia (longitud de decorrelación de { "500" } km).
-
-# text
-seg-e1a3830ad9ed = Cobertura de una estación de referencia lunar bajo los supuestos DECLARADOS PÚBLICAMENTE: el mismo tipo que lunar-station-coverage.toml, con cada entrada que una fuente pública declara tomada de ella y citada por el identificador de la fuente; cada entrada que ninguna fuente declara se mantiene con el valor predeterminado del repositorio y se etiqueta ILUSTRATIVA. Fuentes (consultadas el 2026-10-12; títulos, identificadores y licencias en docs/LUNAR-REFERENCE-STATION.md): S1 arXiv:2602.08432v3 S2 IOAG Cislunar PNT Workshop { "2025" }, "Lunar local Differential PNT and Selenodetic Reference Station" (diapositivas) S3 UNOOSA ICG WG-B, Lunar PNT, June { "2024" } (LunarPNT_Jun24_01_04.pdf) S4 IOAG Cislunar { "2026" }, "Moonlight Programme Development Status"
-
-# text
-seg-e27e1de1a233 = Escenario lunar-infrastructure de Kshana: od-consistency. MODELLED; el diseño, las entradas y los umbrales se fijan en xval/lunar-infra/PREREGISTRATION.md (confirmado antes de cualquier ejecución). Las entradas ILUSTRATIVAS se etiquetan allí con sus fuentes públicas.
-
-# text
-seg-f178d4dbb034 = Radiometría y calidad de imagen de un generador de imágenes en nadir para una pequeña cámara de observación de la Tierra ILUSTRATIVA (ningún diseño de operador): apertura de { "0.40" } m, distancia focal de { "3.6" } m (F/9), píxeles de { "5.5" } um, desde { "500" } km. La ejecución da el presupuesto de relación señal/ruido de una escena de reflectancia del { "15" } %, la MTF del sistema en Nyquist, la respuesta relativa de borde y el NIIRS de la versión { "4" } de GIQE. MODELLED: el NIIRS es una regresión empírica evaluada sobre entradas modeladas, no una imagen calificada.
-
-# text
-seg-f85f23a4fa5c = Hipótesis de técnicas de mejora para un emplazamiento terrestre ILUSTRATIVO: un cambio de longitud de onda, una apertura de recepción mayor, una reducción del centelleo con óptica adaptativa y un margen adicional, cada una predicha como una ganancia de disponibilidad sobre la línea base del mismo emplazamiento. Las ganancias son entradas declaradas (Kshana no modela un lazo de óptica adaptativa), una nueva longitud de onda o apertura reevalúa el presupuesto de cielo despejado, la pérdida en aire despejado y el promediado de apertura, y todo es MODELLED. El terminal tiene deliberadamente un margen limitado (unos { "3" } dB antes de la atmósfera) para que las técnicas importen; la ejecución indica además el techo de nubosidad que ninguna técnica eleva. Los objetivos inferiores al { "100" } por ciento de la tabla de márgenes se informan como el margen adicional necesario (negativo significa un excedente).
