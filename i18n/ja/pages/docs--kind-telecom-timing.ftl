@@ -53,3 +53,11 @@ seg-101dbde1c65b = トピックページ：<a1>CLOCK-LOG-FORMATS.md</a1>
 seg-c32dc02f981d = <s1>前へ</s1>sweep
 
 seg-8aef86c9aa68 = <s1>次へ</s1>terrain-nav
+
+seg-5547f1f662d3 = このほか、マトリクスに { "2" } 件あります。
+
+seg-8aee75a55007 = ocxo
+
+seg-e7273fd2a640 = <b>VALIDATED</b> <c1/>シナリオ種別が報告する最大時間間隔誤差と時間偏差を、通信規模のホールドオーバー記録について求めます：O(n) の単調キューによるスライディ。オラクル（ExternalDataset）：allantools { "2024.06" } — 独立した第三者の周波数安定度ライブラリ — の mtie() と tdev() を tests/fixtures/telecom_timing/holdover_te_series.csv に適用；系列は両側で同じ17桁の有効数字のテキストから解析しており、参照はその系列の SHA-256 を記録し、tests/fixtures/telecom_timing/generate_telecom_timing_reference.py によってオフラインで再生成できます。この記録に対する推定量を検証するもので、合成
+
+seg-4cf0f94f96c9 = <b>MODELLED</b> ITU-T G.8272（07/2025）PRTC-A/B、G.8272.1（{ "2024" }）Amd. { "1" }（07/2025）の ePRTC ロック状態と ePRTC-A ホールドオーバー（表{ "3" }の時刻誤差エンベロープを含む）の転記した限界値。オラクル（InternalConsistency）：名前を挙げた勧告の転記（itu.int から自由にダウンロードできます）で、各限界値に表または条項を付し、未確認または未実装の項目はすべて docs/TELECOM-TIMING.md に列挙しています；表が含意する折れ点の連続性の恒等式はテストで検査します。内部整合性検査を伴う標準の転記であり、コンフォーマンス試験ではなく、外部での検証でもありません。{ "0.30" } ラウンド{ "2" }（事前登録

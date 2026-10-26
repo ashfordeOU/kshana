@@ -27,3 +27,7 @@ seg-95be70748647 = 高度とビーム幅に対する捕捉フットプリント�
 seg-1a1799e01ac4 = <s1>前へ</s1>link-budget
 
 seg-4b0efe4b9b85 = <s1>次へ</s1>lunar-beacon
+
+seg-a3697ad561db = Hz
+
+seg-9521a296d617 = dBi

@@ -25,3 +25,5 @@ seg-1750fbfc4a99 = <s1>前へ</s1>sweep-nd
 seg-de5468ac32fc = <s1>次へ</s1>telecom-timing
 
 seg-8b701f465117 = 対数
+
+seg-0aae0574c5e6 = <b>MODELLED</b> <c1/>種別の可用性掃引：衛星コンステレーション（GPS、GLONASS、Galileo、BDS、QZSS、NavIC）ごと、および全体で、信号が一つ以上、および四つ以上ある（ユーザー、エポック）の組の割合と最長の途絶を、球面上のユーザーについて求めます

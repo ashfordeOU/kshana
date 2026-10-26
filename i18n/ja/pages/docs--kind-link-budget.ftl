@@ -29,3 +29,7 @@ seg-d717412c4f06 = リンクバジェットレポートの自己記述は MODELL
 seg-ffbc9de75306 = <s1>前へ</s1>leo-signal
 
 seg-59d4cb995cb9 = <s1>次へ</s1>lunar-attack-surface
+
+seg-a3697ad561db = Hz
+
+seg-cec5c06d38af = <b>MODELLED</b> 月面ジャマー（または高所に設置したジャマー）の下にある、月面座標系の地表ユーザーに対する、月に固有のジャマー対信号比、実効 C/N₀、ロック喪失を、例示用の公開情報による Moonlight/LCNS 級コンステレーションについて求めます。
