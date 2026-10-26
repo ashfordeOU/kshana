@@ -737,3 +737,97 @@ seg-844de34fd2f3 = 对<c1/>卫星的每个频段对，报告给出无几何码�
 seg-1fdbb476c8ab = 海事信任度：把监测器的证据汇总为 0-100 的分数及其三个档位
 
 seg-0d76b33144f1 = 每个监测器把其证据归约为统计量对阈值的比值；分数为 { "100" } 减去各监测器的权重乘以该比值的限幅线性斜坡（{ "0" } 到 { "0.5" }，在 { "1.5" } 处为 { "1" }）之和，限定在 { "0" } 至 { "100" } 并舍入到 { "0.1" }，档位在 { "90" } 和 { "55" }；每个历元列出扣分的监测器及其分数。
+
+seg-51640405c9b7 = 信任遥测 SIEM 事件：基于 syslog 的 Log Event Extended Format（LEEF）
+
+seg-1b3245506847 = 频段变化（或逐历元）事件，以 Log Event Extended Format { "2.0" } 载荷的形式封装在 RFC { "5424" } 信封中，经 UDP 或 TCP 发送，并附有文档化的字段映射。
+
+seg-c04042b0270a = 在 JammerTest { "2024" } 数据集上标定的接收机信任干扰阈值
+
+seg-32ad0b0da818 = receiver_trust::calibration::run_dataset：在公开的 JammerTest { "2024" } 数据集（Zenodo { "15911589" }，GPL-3.0-or-later，运行时获取，从不内置）上，对 C/N0 下降、AGC 和压制干扰指示器三类监测器进行的预先登记标定：对每个文件夹，依据 mon_rf.csv 和 rinex.csv 生成 { "1" } s 时间线，监测器运行一次，标定之后的每个历元依据该文件夹的 attack_log（由 CEST 换算为 UTC，{ "60" } s 保护间隔）标记为干净或存在压制干扰，每个阈值在固定网格上扫描，选取使汇总的干净虚警概率不超过 { "0.01" } 的最小阈值，并给出留一文件夹的保留集计数；另有 UBX 读取器交叉核对。所选结果仅作为可选配置发布：[monitors] profile = "jammertest-2024-calibrated"（cn0_drop_db { "1.5" }，agc_k_sigma { "3.5" }，jam_ind_threshold { "29" }）；默认规则以及未使用该配置的所有输出均不变
+
+seg-65a8361b4a22 = Jammertest 评分：依据已发布的测试计划，对接收机日志按每次预定测试评分（检测延迟、漏报警、虚警、恢复时间）
+
+seg-98d8c39f47ae = jammertest::{ "{" }plan, score, dataset{ "}" }（kshana jammertest import|score）：将 NPRA 测试目录与发射计划（MIT，以固定的 SHA-256 获取，从不内置）读作预定真值，并保留目录标识；对接收机信任度运行按每次测试评分（首次报警减去计划开始时间，对照容差判定为 detected/late/missed，到首个无报警时段的时间，位于所有时隙及其保护间隔之外的报警），并附带携带评分卡的已签名证据包。该时间表是计划时隙，而不是实际播发时间的记录
+
+seg-ee99388f7b15 = compliance（kshana compliance-report）：仅按编号，将 Kshana 的输出映射到公共框架的条款，依据所给的运行填写；一项结果只有在携带该映射所指明的证据时才计为对某项能力的支持，空集不证明任何事情，措辞为“supports evidence for”；该报告不是任何框架已被满足的结论，也不是任何人作出的评级或批准。
+
+seg-98c360d82d56 = 船舶集成：Signal K 插件、OpenCPN 门控数据流与评分面板、参考构建
+
+seg-7af9ce566646 = 在 Signal K 服务器中发布于 navigation.gnss.kshana 之下的信任度、分级、原因、门控状态和接收机上报位置，并带有 warn、alarm 和 normal 通知（integrations/signalk）；经门控的 NMEA 数据流，在信任度崩溃时将定位标记为无效，并每个周期输出一条 PKSHT 语句，由门控自身或一个小型中继经 TCP 提供给 OpenCPN，以及读取 PKSHT 语句的原生 OpenCPN 评分面板（integrations/opencpn）；还有运行该门控的 systemd 单元和容器（deploy/reference-build）。这些组件显示输出之处均带有咨询性声明：仅供参考的软件，不是经型式认可的导航设备（IEC { "61108" }、IEC { "61162" }）：船舶航行的责任仍由操作人员承担。
+
+seg-89ab9ef155eb = BOC({ "1,1" }) 跟踪：DLL 缩放与 bump-jump 模糊度解算（可选）
+
+seg-ef24be9b5917 = iq::track::LoopConfig 的 boc 字段（可选，默认为 None）：将三种 DLL 鉴别器重新缩放，使其以码片为单位读出码误差，并在正弦 BOC({ "1,1" }) 主峰上具有单位斜率；以及一个位于极早和极晚相关器上、间隔为一个副载波半周期（{ "0.5" } 码片）的 bump-jump 监测器，当增减计数器达到 N（默认 { "8" }）时，将码 NCO 向主峰跳变。不启用该选项时，所有输出均不变。
+
+seg-2c32955cbfb3 = 对照实测 { "50" } Hz GPS L1 闪烁的 IQ 电离层闪烁信道（Cornell 模型）
+
+seg-2fdcb373ab25 = iq::channel::scint，即 Cornell 闪烁模型（Rice 强度、二阶 Butterworth 谱、相位 arg z），以实测窗口的 S4 和强度去相关时间驱动，并就其在这两个输入之外所生成的内容进行比较；realdata::scint50 读取实测日志，去除趋势并运行该比较。
+
+seg-160507ac3702 = IQ 捕获中的单元平均 CFAR 选项
+
+seg-7c0a1adc9ae6 = iq::acq::ca_cfar 和 ca_cfar_cells（可选）：将捕获网格的一个单元与其多普勒行的参考单元均值（保护延迟和步进延迟，绕周期回卷）比较，所用因子 alpha 由 M 个非相干块的闭式 CA-CFAR 虚警概率（ca_cfar_pfa、ca_cfar_alpha）设定。采样功率检测器仍为默认，所有现有输出均不变。
+
+seg-5bd3bf0c22a7 = 频谱模型：GLONASS、北斗和 Galileo E6 频段（可选）
+
+seg-9c16189c63ac = spectrum::default_band 仅按名称（MORE_BAND_NAMES）解析：每个 FDMA 频道 K = -7 至 { "6" } 上的 GLONASS L1OF 和 L2OF（BPSK，{ "0.511" } Mchip/s），北斗 B1I（BPSK({ "2" }))、B1C（MBOC(6,1,1/11)）、B2a 和 B3I（BPSK({ "10" }))，以及 Galileo E6（BPSK({ "5" }))，其载波和最小接收功率取自各自的接口控制文件；默认频段集和所有现有输出均不变。
+
+seg-7b1ae0c7ca28 = 对照 LSIS-AFS V1.0 检验 LunaNet AFS 三次码与电文层（SB1 BCH、CRC-24Q、交织器）
+
+seg-45215637ad2d = iq::signals::lunanet::afs_q_tertiary_bits、afs_q_tiered；iq::lunanet_afs：同步图样、SB1 BCH({ "51,8" }) 编码器与 256 假设解码器、CRC-24Q、{ "60" } x { "98" } 分组交织器、符号流检查器（kshana lunanet-afs-check），以及带占位子帧的测试流生成器。子帧 { "2" } 至 { "4" } 的码率 1/2 LDPC 编码尚未实现（其矩阵位于另一附件中）。
+
+seg-0d7b17524c04 = 标准包：对照运行前已声明的判据进行评分的场景
+
+seg-6e5c04fd4531 = standards_pack（kshana standards-pack）：DHS Resilient PNT 框架针对 { "1" } 至 { "4" } 级的测试配置、IMO MSC.1/Circ.1575 精度等级与完好性评估，以及 ICAO Doc { "9849" } 附录 F 的监测、评估与缓解包：每项测试运行一种内置场景类型，并将结果字段与包中声明的判据比较，需要接收机日志的测试列为 NEEDS INPUT，不予评分。
+
+seg-8a8f2c85e0c3 = 实验室往返证据包（场景、测试条件、接收机日志、评分）
+
+seg-a090b06a920d = evidence::roundtrip（kshana evidence round-trip）以及 kshana bench-export 的 kshana.test-conditions/1 接收机日志导出：一个已签名的证据包，记录场景哈希、所声明条件的哈希、日志哈希以及对照所声明事件的评分，并拒绝与评分事件不一致的条件，或哈希不是所声明哈希的日志。不写入、重放或调度任何信号。
+
+seg-a9189e4fe413 = 在独立录制数据上对照 GNSS-SDR { "0.0.19" } 检验 IQ 跟踪引擎
+
+seg-364de05e5b1b = 完整的 IQ 层跟踪引擎（经 kshana iq track 使用 iq::track：捕获交接、相关器、NCO、二阶 { "15" } Hz Costas PLL、一阶 { "2" } Hz 载波辅助 EML 包络 DLL、锁定指示器和 C/N0 估计器），用于 { "30" } 至 { "45" } dB-Hz 的 GPS L1 C/A。
+
+seg-259d201c2ff8 = 对照独立 numpy 重新计算检验压制干扰类型中的 CRPA 天线增益
+
+seg-192144c57783 = 压制干扰类型的可选 [crpa] 段：对每颗卫星的逐通道波束（以干扰源为零陷的零陷转向，或基于 sigma^{ "2" } I + P_j a_j a_j^H 的 MVDR），在现有的抗干扰 C/N0 公式之前，以 ||w||^{ "2" } 缩放每条链路的噪声，并以 |w^H a_j|^{ "2" } 缩放干扰。
+
+seg-a2f34cff9338 = 在真实 SRTM 图幅上，对照独立 numpy 重新计算检验压制干扰类型中干扰源的地形遮蔽
+
+seg-334c569d9cae = 压制干扰类型的可选 [terrain] 段：在 SRTM .hgt 图幅上取干扰源与接收机之间的大圆地形剖面，含 k 因子地球隆起，取主导刃形边缘（最大的 Fresnel-Kirchhoff nu）以及 ITU-R P.526-15 第 { "4.1" } 节的单刃损耗，并从干扰源的接收功率中扣除。
+
+seg-825c121c7512 = 对照独立重新计算检验压制干扰类型中的捕获迟滞与前端量化器
+
+seg-f7207263d881 = 压制干扰类型的可选 [acquisition] 段（卫星在重新捕获延迟之后，于不低于捕获门限时被捕获，并在不低于跟踪门限时保持）与 [front_end] 段（AGC 读数 { "10" } log10({ "1" } + J/N)，以及 ADC 的高斯输入量化损耗，两者从每条链路中扣除，并标注对非高斯干扰源无效）。
+
+seg-9c46f1c76486 = 低于默认设计 FLL 到 PLL 交接下限的封顶 FLL 牵引（可选）
+
+seg-efa1d1a9e904 = iq::track 的可选 carrier.fll_pull_in_max_s（iq::track::LoopConfig 的 fll_pull_in_max_s 字段）：在 fll_assist = pull-in 下，无论 PLI 如何，FLL 都在固定的牵引时间之后交接给 PLL，并带有一段对应的返回驻留，直到 PLI 首次达到 fll_off_pli。
+
+seg-ac0f97e945a7 = 用于 receiver-trust 的 RTKLIB .pos 解文件读取器
+
+seg-0b8bc2c89de4 = 将 RTKLIB 解文件（日历或 GPS 周/TOW 时间、纬度/经度或 ECEF 位置、所用卫星数）读入 receiver-trust 时间线（receiver_trust::machines::rtklib）。
+
+seg-849393517c04 = 用于 receiver-trust 的 NovAtel OEM7 ASCII 与二进制日志（BESTPOS、RANGE、RXSTATUS）
+
+seg-7e0021922025 = 从 ASCII 和二进制 OEM7 日志中读取 BESTPOS（位置）、RANGE（每个信号的 C/No）和 RXSTATUS（接收机的干扰标志，作为该历元的自报告），带 CRC 检查，只读（receiver_trust::machines::novatel）。
+
+seg-a45c53a9deb3 = 用于 receiver-trust 的 RTCM { "3" } MSM4 和 MSM7 载噪比读取器
+
+seg-0a0c9976236f = 从帧流中读取 RTCM { "3" } MSM4 和 MSM7 消息（GPS、GLONASS、Galileo、SBAS、QZSS、北斗、NavIC）每个信号单元的 C/N0，带 CRC-24Q 检查（receiver_trust::machines::rtcm3）。布局来自 BSD 许可的 pyrtcm 表格，而不是 RTCM 标准文本。
+
+seg-cd554a7c1649 = 用于 receiver-trust 的 GNSS-SDR 监测适配器
+
+seg-22b587ac642d = 读取 GNSS-SDR Monitor（Gnss_Synchro）和 PVT 监测消息（以 proto 字段名转发为 JSON 行），得到逐通道的 C/N0、定位、所用卫星数、HDOP 和天空图（receiver_trust::machines::gnss_sdr；integrations/gnss-sdr/relay.py）。
+
+seg-217e5953c128 = IMU 日志导入、陀螺航向输入，以及混合传感器参数的 Allan 拟合
+
+seg-9dadc819daef = 读取 IMU CSV（文档化的列，或 EuRoC 布局）；将偏航角速率积分为航向-航迹监测器所读取的航向（[log.imu]）；并通过重叠阿伦偏差，由静止日志拟合混合与融合场景的加速度计和陀螺噪声参数（imu-fit）。
+
+seg-15a852a2dcb0 = 用于信任遥测的 Home Assistant MQTT 发现与状态导出器
+
+seg-6d6b07b26966 = 一份 JSON 状态文档和 Home Assistant MQTT 发现消息，用于信任数据流；在所有界面上以文本打印，并由命令行通过 MQTT { "3.1.1" } QoS { "0" } 发布（telemetry::mqtt；trust-telemetry --mqtt-tcp、--print-mqtt、format mqtt）。
+
+seg-68caf86157c2 = ROS { "2" } receiver-trust 包与 gnss_lib_py 桥接
+
+seg-e7d7d99fe538 = 一个不依赖 ROS 的桥接，将定位和卫星消息写成 NMEA，并通过 Python 绑定评分（integrations/ros2/kshana_trust），以及一个经由 rtklib-pos 格式将 gnss_lib_py NavData 接入 receiver-trust 的桥接（integrations/gnss_lib_py）。
