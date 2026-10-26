@@ -5717,3 +5717,667 @@ js-lunarinfra-result-not-json = o resultado não é JSON ({ $reason })
 
 # 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:31
 js-lunarinfra-result-not-loaded = o resultado registrado { $file } não foi carregado
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:96
+js-lunarinfra-row-above-95 = Ensaios acima do ponto de 95 % (qui-quadrado 95 % = { $chi })
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:116
+js-lunarinfra-row-crtrace = Traço de Cramér-Rao
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:116
+js-lunarinfra-row-degeneracy = Métrica de degeneração
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:97
+js-lunarinfra-row-formal-diff = Sigma formal dessa diferença
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:98
+js-lunarinfra-row-ground-meas = Solo: medições, épocas com uma estação
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:97
+js-lunarinfra-row-mean-diff = Diferença média das duas órbitas
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:96
+js-lunarinfra-row-mean-q = q médio (6 esperado)
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:116
+js-lunarinfra-row-observations = Observações
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:98
+js-lunarinfra-row-onboard-epochs = A bordo: épocas com um ou mais / quatro ou mais satélites
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:98
+js-lunarinfra-row-onboard-meas = A bordo: medições, média de satélites rastreados
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:116
+js-lunarinfra-row-origin-scale = Correlação entre origem e escala
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:116
+js-lunarinfra-row-origin-sigma = Sigma da origem, m
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:116
+js-lunarinfra-row-rank-defect = Posto (defeito)
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:116
+js-lunarinfra-row-smallest-eig = Menor autovalor
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:97
+js-lunarinfra-row-trace-ground = Amostral sobre traço formal, solo
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:97
+js-lunarinfra-row-trace-onboard = Amostral sobre traço formal, a bordo
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:96
+js-lunarinfra-row-within-95 = Ensaios dentro do ponto de 95 %
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:103
+js-lunarinfra-series-bootstrapped = por bootstrap
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:120
+js-lunarinfra-series-floor = piso
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:103
+js-lunarinfra-series-monte-carlo = Monte Carlo
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:95
+js-lunarinfra-side-note = A órbita: { $family }, um arco de { $arc } dias de uma órbita de { $period } dias, amostrado a cada { $sample } s.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:95
+js-lunarinfra-side-title = Lado a lado
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:93
+js-lunarinfra-sigma-note = Incerteza de posição de um sigma por componente, em metros, a partir das duas estimativas do mesmo arco.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:130
+js-lunarinfra-sigma-over-nominal = sigma / nominal
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:93
+js-lunarinfra-sigma-title = Quão bem cada lado conhece a órbita
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:105
+js-lunarinfra-station-days = estação, { $days } d
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:75
+js-lunarinfra-status-verdict = { $status }: { $verdict }
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:133
+js-lunarinfra-subsets-note = Acrescentar uma família nunca reduziu o menor autovalor ({ $lambda } de { $pairs } acréscimos), mas o traço da pseudoinversa não foi maior em apenas { $trace } de { $pairs }, porque uma família acrescentada pode elevar o posto.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:133
+js-lunarinfra-subsets-title = Todas as combinações de famílias
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:121
+js-lunarinfra-sweep-note = O pior componente de translação de cada deslocamento, em metros, conforme o erro da amarração entre as três técnicas na espaçonave é varrido. Com os sigmas registrados das técnicas (GNSS { $gnss } m, VLBI { $vlbi } m, laser { $slr } m), os deslocamentos são limitados pelo ruído de medição, não pela amarração; a amarração define o piso apenas para técnicas quase perfeitas.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:121
+js-lunarinfra-sweep-title = Precisão dos deslocamentos entre técnicas em relação à amarração local (arco de { $days } dias)
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:107
+js-lunarinfra-th-arc-days = Arco, dias
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:75
+js-lunarinfra-th-bar = Limiar
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:107
+js-lunarinfra-th-bootstrapped = Taxa por bootstrap
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:107
+js-lunarinfra-th-budget-exhausted = Orçamento de busca esgotado (ensaios)
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:107
+js-lunarinfra-th-common-sats = Épocas com 2 ou mais satélites em comum
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:134
+js-lunarinfra-th-crtrace = Traço de Cramér-Rao
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:107
+js-lunarinfra-th-dd-ambiguities = Ambiguidades de dupla diferença
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:107
+js-lunarinfra-th-epochs = Épocas
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:134
+js-lunarinfra-th-families = Famílias
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:132
+js-lunarinfra-th-family = Família
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:124
+js-lunarinfra-th-local-tie = Sigma da amarração local, m
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:107
+js-lunarinfra-th-mc-fix-rate = Taxa de fixação Monte Carlo
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:107
+js-lunarinfra-th-median-ambiguity = Sigma mediano da ambiguidade, ciclos
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:124
+js-lunarinfra-th-offset = Deslocamento
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:96
+js-lunarinfra-th-quantity = Grandeza
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:134
+js-lunarinfra-th-rank = Posto
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:124
+js-lunarinfra-th-rotation = Rotação na superfície, m
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:132
+js-lunarinfra-th-rows = Linhas
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:124
+js-lunarinfra-th-scale = Escala na superfície, m
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:134
+js-lunarinfra-th-smallest-eig = Menor autovalor
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:124
+js-lunarinfra-th-translation = Translação x, y, z, m
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:75
+js-lunarinfra-th-value = Valor
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:75
+js-lunarinfra-th-verdict = Veredicto
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:116
+js-lunarinfra-th-with-links = Com enlaces do orbitador
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:116
+js-lunarinfra-th-without-links = Sem enlaces do orbitador
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:20
+js-lunarinfra-title-carrier-phase = Fase da portadora, superfície e orbitador
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:21
+js-lunarinfra-title-frame-coestimation = Coestimação do referencial
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:23
+js-lunarinfra-title-geodesy-sensitivity = Números de Love e libração
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:19
+js-lunarinfra-title-od-consistency = Consistência da determinação de órbita
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:22
+js-lunarinfra-title-space-tie = Amarração espacial
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:31
+js-lunarinfra-unknown-study = este resultado de infraestrutura lunar é o estudo "{ $study }", que esta página não lê
+
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:50
+js-lunarinfra-where-missed = Onde este estudo falhou.
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:112
+js-lunarinfra-with-links = com enlaces do orbitador
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:112
+js-lunarinfra-without-links = sem enlaces do orbitador
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:103
+js-lunarinfra-x-arc-length = comprimento do arco, dias
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:122
+js-lunarinfra-x-local-tie = sigma da amarração local, m (log)
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:103
+js-lunarinfra-y-fixed-correctly = fixado corretamente, %
+
+# 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:122
+js-lunarinfra-y-offset-sigma = sigma do deslocamento, m (log); o piso tracejado é a amarração sozinha, sqrt(2) × o erro da amarração
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:120
+js-meaning-body-generic = um corpo celeste
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:120
+js-meaning-body-the = { $name }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:252
+js-meaning-card-label-sub = { $k }, { $sub }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:91
+js-meaning-checks-of = { $av } de { $n ->
+        [one] { $n } verificação
+        [many] { $n } de verificações
+       *[other] { $n } verificações
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:133
+js-meaning-coverage-average-label = Média à vista
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:129
+js-meaning-coverage-big-min =
+    { $n ->
+        [one] Pelo menos { $n } satélite à vista em cada lugar, { $mean } em média.
+        [many] Pelo menos { $n } de satélites à vista em cada lugar, { $mean } em média.
+       *[other] Pelo menos { $n } satélites à vista em cada lugar, { $mean } em média.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:129
+js-meaning-coverage-big-none = Alguns lugares ficam, por vezes, sem nenhum satélite; { $mean } estão à vista em média.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:132
+js-meaning-coverage-fewest-label = Menos à vista, em qualquer lugar
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:124
+js-meaning-coverage-line-many = Com { $names } juntos, é possível obter uma solução de posição em { $share } % dos lugares e momentos ao redor de { $body }.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:124
+js-meaning-coverage-line-many-pdop = Com { $names } juntos, é possível obter uma solução de posição em { $share } % dos lugares e momentos ao redor de { $body } (qualidade da geometria, PDOP, abaixo de { $thr }).
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:127
+js-meaning-coverage-line-none = É possível obter uma solução de posição em { $share } % dos lugares e momentos ao redor de { $body }.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:127
+js-meaning-coverage-line-none-pdop = É possível obter uma solução de posição em { $share } % dos lugares e momentos ao redor de { $body } (qualidade da geometria, PDOP, abaixo de { $thr }).
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:126
+js-meaning-coverage-line-one = Com { $names }, é possível obter uma solução de posição em { $share } % dos lugares e momentos ao redor de { $body }.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:126
+js-meaning-coverage-line-one-pdop = Com { $names }, é possível obter uma solução de posição em { $share } % dos lugares e momentos ao redor de { $body } (qualidade da geometria, PDOP, abaixo de { $thr }).
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:134
+js-meaning-coverage-places-label = Lugares que obtêm uma solução de posição
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:29
+js-meaning-duration-days =
+    { $n ->
+        [one] { $days } dia
+        [many] { $days } de dias
+       *[other] { $days } dias
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:227
+js-meaning-ensemble-big-many = Ao longo de muitos sorteios de ruído, { $q } mantém { $thr } ns por { $qd } em média; { $c }, por { $cd }.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:227
+js-meaning-ensemble-big-runs =
+    { $n ->
+        [one] Ao longo de { $n } sorteio de ruído, { $q } mantém { $thr } ns por { $qd } em média; { $c }, por { $cd }.
+        [many] Ao longo de { $n } de sorteios de ruído, { $q } mantém { $thr } ns por { $qd } em média; { $c }, por { $cd }.
+       *[other] Ao longo de { $n } sorteios de ruído, { $q } mantém { $thr } ns por { $qd } em média; { $c }, por { $cd }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:228
+js-meaning-ensemble-line = Nove em cada dez sorteios de { $name } mantêm de { $band }.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:225
+js-meaning-ensemble-mean = média
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:225
+js-meaning-ensemble-mean-band = média; faixa de 90 % { $band }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:155
+js-meaning-error-p95-label = Erro, 95 % do tempo, { $name }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:274
+js-meaning-generic-big = { $label }: { $value }.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:275
+js-meaning-generic-line-one = Também desta execução: { $a }.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:275
+js-meaning-generic-line-two = Também desta execução: { $a } e { $b }.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:269
+js-meaning-generic-none = Esta execução não tem um único valor de destaque; o gráfico abaixo mostra o resultado.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:151
+js-meaning-holdover-label = Holdover, { $name }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:109
+js-meaning-hpl-sub = nível de proteção horizontal
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:151
+js-meaning-inside-budget = dentro de { $budget }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:59
+js-meaning-integrity-big-checks-mostly = Sim, na maior parte: em { $share } % das verificações.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:61
+js-meaning-integrity-big-checks-no = Não: em { $share } % das verificações.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:60
+js-meaning-integrity-big-checks-partly = Apenas em parte: em { $share } % das verificações.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:58
+js-meaning-integrity-big-checks-yes = Sim: em { $share } % das verificações.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:53
+js-meaning-integrity-big-span-mostly = Sim, na maior parte: durante { $share } % de { $span }.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:55
+js-meaning-integrity-big-span-no = Não: durante { $share } % de { $span }.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:54
+js-meaning-integrity-big-span-partly = Apenas em parte: durante { $share } % de { $span }.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:52
+js-meaning-integrity-big-span-yes = Sim: durante { $share } % de { $span }.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:95
+js-meaning-integrity-bound-label = Limite de erro típico
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:95
+js-meaning-integrity-bound-sub = horizontal / vertical, mediana
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:93
+js-meaning-integrity-gap-all-passed = todas as verificações passaram
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:93
+js-meaning-integrity-gap-label = Maior intervalo
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:93
+js-meaning-integrity-gap-none = nenhum
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:93
+js-meaning-integrity-gap-sub =
+    { $n ->
+        [one] { $n } verificação seguida, a partir de { $from }
+        [many] { $n } de verificações seguidas, a partir de { $from }
+       *[other] { $n } verificações seguidas, a partir de { $from }
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:84
+js-meaning-integrity-line-h =
+    { $n ->
+        [one] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $h } m na horizontal) em { $av } de { $tot } verificação.
+        [many] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $h } m na horizontal) em { $av } de { $tot } de verificações.
+       *[other] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $h } m na horizontal) em { $av } de { $tot } verificações.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:82
+js-meaning-integrity-line-h-clean =
+    { $n ->
+        [one] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $h } m na horizontal) em { $av } de { $tot } verificação, e nenhuma solução de posição foi enganosa.
+        [many] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $h } m na horizontal) em { $av } de { $tot } de verificações, e nenhuma solução de posição foi enganosa.
+       *[other] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $h } m na horizontal) em { $av } de { $tot } verificações, e nenhuma solução de posição foi enganosa.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:83
+js-meaning-integrity-line-h-some =
+    { $n ->
+        [one] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $h } m na horizontal) em { $av } de { $tot } verificações; { $n } solução de posição foi enganosa.
+        [many] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $h } m na horizontal) em { $av } de { $tot } verificações; { $n } de soluções de posição foram enganosas.
+       *[other] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $h } m na horizontal) em { $av } de { $tot } verificações; { $n } soluções de posição foram enganosas.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:80
+js-meaning-integrity-line-hv =
+    { $n ->
+        [one] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } verificação.
+        [many] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } de verificações.
+       *[other] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } verificações.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:78
+js-meaning-integrity-line-hv-clean =
+    { $n ->
+        [one] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } verificação, e nenhuma solução de posição foi enganosa.
+        [many] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } de verificações, e nenhuma solução de posição foi enganosa.
+       *[other] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } verificações, e nenhuma solução de posição foi enganosa.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:79
+js-meaning-integrity-line-hv-some =
+    { $n ->
+        [one] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } verificações; { $n } solução de posição foi enganosa.
+        [many] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } verificações; { $n } de soluções de posição foram enganosas.
+       *[other] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $h } m na horizontal e { $v } m na vertical) em { $av } de { $tot } verificações; { $n } soluções de posição foram enganosas.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:76
+js-meaning-integrity-line-none =
+    { $n ->
+        [one] O limite de erro do receptor (seu nível de proteção) ficou abaixo do limite de alerta em { $av } de { $tot } verificação.
+        [many] O limite de erro do receptor (seu nível de proteção) ficou abaixo do limite de alerta em { $av } de { $tot } de verificações.
+       *[other] O limite de erro do receptor (seu nível de proteção) ficou abaixo do limite de alerta em { $av } de { $tot } verificações.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:74
+js-meaning-integrity-line-none-clean =
+    { $n ->
+        [one] O limite de erro do receptor (seu nível de proteção) ficou abaixo do limite de alerta em { $av } de { $tot } verificação, e nenhuma solução de posição foi enganosa.
+        [many] O limite de erro do receptor (seu nível de proteção) ficou abaixo do limite de alerta em { $av } de { $tot } de verificações, e nenhuma solução de posição foi enganosa.
+       *[other] O limite de erro do receptor (seu nível de proteção) ficou abaixo do limite de alerta em { $av } de { $tot } verificações, e nenhuma solução de posição foi enganosa.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:75
+js-meaning-integrity-line-none-some =
+    { $n ->
+        [one] O limite de erro do receptor (seu nível de proteção) ficou abaixo do limite de alerta em { $av } de { $tot } verificações; { $n } solução de posição foi enganosa.
+        [many] O limite de erro do receptor (seu nível de proteção) ficou abaixo do limite de alerta em { $av } de { $tot } verificações; { $n } de soluções de posição foram enganosas.
+       *[other] O limite de erro do receptor (seu nível de proteção) ficou abaixo do limite de alerta em { $av } de { $tot } verificações; { $n } soluções de posição foram enganosas.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:88
+js-meaning-integrity-line-v =
+    { $n ->
+        [one] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $v } m na vertical) em { $av } de { $tot } verificação.
+        [many] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $v } m na vertical) em { $av } de { $tot } de verificações.
+       *[other] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $v } m na vertical) em { $av } de { $tot } verificações.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:86
+js-meaning-integrity-line-v-clean =
+    { $n ->
+        [one] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $v } m na vertical) em { $av } de { $tot } verificação, e nenhuma solução de posição foi enganosa.
+        [many] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $v } m na vertical) em { $av } de { $tot } de verificações, e nenhuma solução de posição foi enganosa.
+       *[other] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $v } m na vertical) em { $av } de { $tot } verificações, e nenhuma solução de posição foi enganosa.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:87
+js-meaning-integrity-line-v-some =
+    { $n ->
+        [one] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $v } m na vertical) em { $av } de { $tot } verificações; { $n } solução de posição foi enganosa.
+        [many] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $v } m na vertical) em { $av } de { $tot } verificações; { $n } de soluções de posição foram enganosas.
+       *[other] O limite de erro do receptor (seu nível de proteção) ficou abaixo dos limites de alerta ({ $v } m na vertical) em { $av } de { $tot } verificações; { $n } soluções de posição foram enganosas.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:96
+js-meaning-integrity-misleading-label = Soluções de posição enganosas
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:96
+js-meaning-integrity-misleading-sub = erro real acima do limite
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:91
+js-meaning-integrity-trusted-label = Tempo em que a solução de posição é confiável
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:176
+js-meaning-jamming-above-label = Jammer acima do sinal
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:176
+js-meaning-jamming-above-sub = razão média entre jammer e sinal
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:171
+js-meaning-jamming-big-gone = O jammer elimina completamente a solução de posição.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:171
+js-meaning-jamming-big-share = Com o jammer, uma solução de posição está disponível em { $share } % do tempo.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:175
+js-meaning-jamming-clear-label = Solução de posição disponível, sem jammer
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:177
+js-meaning-jamming-fewest-label = Menos satélites rastreados
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:177
+js-meaning-jamming-fewest-sub = no pior momento
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:174
+js-meaning-jamming-jammed-label = Solução de posição disponível, com jammer
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:172
+js-meaning-jamming-line = Sem o jammer, a solução de posição está disponível em { $share } % do tempo.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:172
+js-meaning-jamming-line-js = Sem o jammer, a solução de posição está disponível em { $share } % do tempo; o jammer chega { $db } dB acima do sinal em média.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:317
+js-meaning-kicker = { $domain } · { $title }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:105
+js-meaning-lunar-big-all =
+    { $n ->
+        [one] Sim: em cada uma das { $n } verificação.
+        [many] Sim: em cada uma das { $n } de verificações.
+       *[other] Sim: em cada uma das { $n } verificações.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:105
+js-meaning-lunar-big-none =
+    { $n ->
+        [one] Não: em nenhuma das { $n } verificação.
+        [many] Não: em nenhuma das { $n } de verificações.
+       *[other] Não: em nenhuma das { $n } verificações.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:105
+js-meaning-lunar-big-some =
+    { $n ->
+        [one] Em { $av } de { $n } verificação ({ $share } %).
+        [many] Em { $av } de { $n } de verificações ({ $share } %).
+       *[other] Em { $av } de { $n } verificações ({ $share } %).
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:110
+js-meaning-lunar-largest-label = Maior limite de erro
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:106
+js-meaning-lunar-line = O nível de proteção variou de { $min } a { $max } m contra um limite de alerta de { $limit } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:108
+js-meaning-lunar-meet-label = Verificações que atendem ao limite
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:108
+js-meaning-lunar-meet-value = { $av } de { $tot }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:109
+js-meaning-lunar-smallest-label = Menor limite de erro
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:135
+js-meaning-median-lower-better = mediana, quanto menor, melhor
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:174
+js-meaning-of-the-time = do tempo
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:211
+js-meaning-orbit-best-label = Melhor geometria (PDOP)
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:211
+js-meaning-orbit-best-sub = o menor valor ao longo da execução
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:206
+js-meaning-orbit-big-always = É possível obter uma solução de posição o tempo todo.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:206
+js-meaning-orbit-big-share = É possível obter uma solução de posição em { $share } % do tempo.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:212
+js-meaning-orbit-error-label = Erro de posição típico
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:212
+js-meaning-orbit-error-sub = 1 sigma, mediana
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:207
+js-meaning-orbit-line =
+    { $n ->
+        [one] Havia satélites suficientes à vista em { $fix } de { $n } momento.
+        [many] Havia satélites suficientes à vista em { $fix } de { $n } de momentos.
+       *[other] Havia satélites suficientes à vista em { $fix } de { $n } momentos.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:207
+js-meaning-orbit-line-pdop =
+    { $n ->
+        [one] Havia satélites suficientes à vista em { $fix } de { $n } momento; a qualidade típica da geometria (PDOP, diluição de precisão da posição) é { $pdop }, quanto menor, melhor.
+        [many] Havia satélites suficientes à vista em { $fix } de { $n } de momentos; a qualidade típica da geometria (PDOP, diluição de precisão da posição) é { $pdop }, quanto menor, melhor.
+       *[other] Havia satélites suficientes à vista em { $fix } de { $n } momentos; a qualidade típica da geometria (PDOP, diluição de precisão da posição) é { $pdop }, quanto menor, melhor.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:209
+js-meaning-orbit-moments =
+    { $n ->
+        [one] { $fix } de { $n } momento
+        [many] { $fix } de { $n } de momentos
+       *[other] { $fix } de { $n } momentos
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:209
+js-meaning-orbit-time-label = Tempo em que uma solução de posição é possível
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:160
+js-meaning-pair-big-diff-pos = { $best } permanece dentro de { $budget } por { $bestDur }; { $other }, por { $otherDur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:160
+js-meaning-pair-big-diff-time = { $best } mantém a hora dentro de { $budget } por { $bestDur }; { $other }, por { $otherDur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:159
+js-meaning-pair-big-same-pos = Tanto { $q } quanto { $c } permanecem dentro de { $budget } por { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:159
+js-meaning-pair-big-same-time = Tanto { $q } quanto { $c } mantêm a hora dentro de { $budget } por { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:161
+js-meaning-pair-line-clock = Holdover é por quanto tempo cada relógio permanece dentro do orçamento de { $budget } depois que a navegação por satélite é perdida.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:161
+js-meaning-pair-line-navigator = Holdover é por quanto tempo cada navegador permanece dentro do orçamento de { $budget } depois que a navegação por satélite é perdida.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:135
+js-meaning-pdop-label = Qualidade da geometria (PDOP)
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:134
+js-meaning-places-times = dos lugares e momentos
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:223
+js-meaning-range-to = de { $from } a { $to }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:132
+js-meaning-satellites =
+    { $n ->
+        [one] satélite
+        [many] de satélites
+       *[other] satélites
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:196
+js-meaning-spectrum-above = acima do limiar
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:196
+js-meaning-spectrum-below = abaixo do limiar: perdido
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:192
+js-meaning-spectrum-big-kept =
+    { $n ->
+        [one] Cada um dos { $n } sinal continua sendo rastreado.
+        [many] Cada um dos { $n } de sinais continua sendo rastreado.
+       *[other] Cada um dos { $n } sinais continua sendo rastreado.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:192
+js-meaning-spectrum-big-lost =
+    { $n ->
+        [one] Os jammers eliminam { $lost } de { $n } sinal: { $names }.
+        [many] Os jammers eliminam { $lost } de { $n } de sinais: { $names }.
+       *[other] Os jammers eliminam { $lost } de { $n } sinais: { $names }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:194
+js-meaning-spectrum-line-kept =
+    { $n ->
+        [one] { $names } permanece acima do limiar de rastreamento do receptor durante toda a execução.
+        [many] { $names } permanecem acima do limiar de rastreamento do receptor durante toda a execução.
+       *[other] { $names } permanecem acima do limiar de rastreamento do receptor durante toda a execução.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:194
+js-meaning-spectrum-line-kept-thr =
+    { $n ->
+        [one] { $names } permanece acima do limiar de rastreamento de { $thr } dB-Hz do receptor durante toda a execução.
+        [many] { $names } permanecem acima do limiar de rastreamento de { $thr } dB-Hz do receptor durante toda a execução.
+       *[other] { $names } permanecem acima do limiar de rastreamento de { $thr } dB-Hz do receptor durante toda a execução.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:195
+js-meaning-spectrum-line-none = Nenhum sinal permanece acima do limiar de rastreamento do receptor durante toda a execução.
