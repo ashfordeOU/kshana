@@ -127,3 +127,61 @@ seg-b988dcc329a4 = <s1>Další</s1>Použití skutečných TLE
 seg-6585c8a3643d = ClockRun (každý z quantum / classical)
 
 seg-299f8a9643f1 = FoMScores (objekt fom)
+
+seg-e28387d70be0 = Zdroj: <c1/>
+
+seg-49d2afecf5f1 = Schéma výsledku — čtení souboru Kshana <c1/>
+
+seg-c128455c353c = Každý běh zapíše vedle scénáře verzovaný, sebepopisný artefakt JSON (JavaScript Object Notation). Tato stránka je ručně psaný průvodce čtenáře výměnnou obálkou a tvary výsledků pro <b>hodiny a oběžnou dráhu</b>: <b>jednotka</b> každého pole, kde se ve zdroji počítá a jak je číst. Kanonický typ je <c1/> v <a1><c2/></a1>; ukazatele kvality jsou <c3/> v <a2><c4/></a2>.
+
+seg-092ea1e33a05 = <b>Není</b> to úplná reference polí. Engine rozděluje přes mnohem více druhů než tyto dva a každý vydává vlastní balíček. Úplná reference — jednotka, třída původu a definice každého číselného pole každého vestavěného druhu — je generovaná, nikoli ručně psaná: viz níže <a1>Jednotky a původ, pro každé pole každého druhu</a1>.
+
+seg-e4c4b66a2f46 = Výměnná obálka (KIF, Kshana Interchange Format) — rozpoznání a kontrola verze artefaktu
+
+seg-9b83bb817814 = Artefakty Kshana lze zabalit do neutrální, sebepopisné <b>výměnné obálky</b>, aby nástroj třetí strany mohl soubor rozpoznat a rozhodnout, zda jej umí číst, <em>dříve</em>, než se zaváže ke schématu nákladu. Kanonický typ je <c1/> v <a1><c2/></a1>.
+
+seg-e4fd08930644 = Vždy <c1/> (<c2/>) — jak cizí nástroj rozpozná artefakt Kshana.
+
+seg-abd853f2ce49 = Verze schématu <c1/> (<c2/>, jediný zdroj pravdy pro celý crate).
+
+seg-ee9f238072f1 = Druh artefaktu, např. <c1/>, <c2/>, <c3/> — umožňuje konzumentovi směrovat bez zpracování těla.
+
+seg-29ad4bedd64f = Verze crate (<c1/>), který vytvořil náklad.
+
+seg-52f3e962c049 = Zabalený artefakt jako kanonický JSON (<c1/>, <c2/>, …).
+
+seg-6fe0d7cd4165 = <b>Smlouva o kompatibilitě.</b> Verze jsou <c1/>. Nová pole se přidávají s <c2/> (<em>aditivní disciplína</em>), takže čtenář může zpracovat jakýkoli artefakt <b>téže hlavní verze a stejné či starší vedlejší verze</b> (<c3/>). Přísně <b>novější vedlejší verze</b> (<c4/>) může nést pole, která tento čtenář nedokáže respektovat, a <b>jiná hlavní verze</b> (<c5/>) je strukturální zlom — obojí odmítá <c6/>, který na hranici ověřuje značku formátu a verzi, místo aby cizí vstup mlčky chybně zpracoval.
+
+seg-f7ae91002e56 = <b>Determinismus.</b> Obálka nenese <b>žádné časové razítko</b> — vyžaduje to slib reprodukovatelnosti Kshana (<c1/> reprodukuje běh). Původ je v <c2/> a ve vlastním <c3/> nákladu.
+
+seg-bb0b742d2df8 = Typované zpětné čtení (<c1/>) funguje pro jakýkoli náklad, který implementuje <c2/> (např. <c3/>). Artefakty výsledků jsou záměrně jen serializovatelné a čtou se jako surová hodnota JSON <c4/>.
+
+seg-87be7aa00b17 = Nejvyšší úroveň (balíčky hodin a oběžné dráhy)
+
+seg-cc22d9206eb4 = Typ / jednotka
+
+seg-3a821855c582 = Verze schématu výsledku (nezávislá na verzi enginu).
+
+seg-cc6dded799f9 = Verze crate (<c1/>), který soubor vytvořil.
+
+seg-5a69a99b9a87 = hexadecimální řetězec
+
+seg-441eb1f43399 = SHA-256 (SHA: Secure Hash Algorithm) nad kanonickým JSON scénáře — běh je reprodukovatelný z <c1/>.
+
+seg-ba73ba76873e = Seed RNG (generátor náhodných čísel) pro kvantový běh (klasický používá <c1/>).
+
+seg-a688dd98c588 = nanosekundy
+
+seg-24e0f04033fa = Specifikace časování: chyba v rozmezí ±<c1/> je „in spec“.
+
+seg-f52388753a1a = scénář
+
+seg-15b4082a6455 = objekt (<c1/>)
+
+seg-7d3b92769bf5 = Běh kvantového senzoru (viz níže).
+
+seg-aa665b955931 = Běh klasického senzoru, pro srovnání.
+
+seg-152ae43896b3 = Mapa jednotek/původu pro každé pole tohoto dokumentu, klíčovaná cestou pole. Viz §Jednotky a původ níže.
+
+seg-119bac9b3e6f = Verifikační úroveň každého uváděného ukazatele kvality, a vždy poslední klíč dokumentu. <c1/> uvádí jednu položku pro každý přítomný ukazatel: <c2/> (např. <c3/>), <c4/> (<c5/> = ověřeno proti nezávislému vnějšímu orákulu, <c6/> = z prvních principů, vnitřně testováno), <c7/> (řádek verifikační matice, z něhož se úroveň čte) a <c8/>. <c9/> je <c10/>, s <c11/>, pro <c12/> v každém scénáři bez nastaveného útoku: mez zůstává v <c13/>, ale neodpovídá na otázku, kterou scénář klade. <c14/> uvádí každý ukazatel, který nevlastní žádný řádek matice (polohové ukazatele <c15/> a <c16/>), místo aby mu přiděloval úroveň. Vydávají jej druhy <c17/> (jeden běh a soubor Monte Carlo), <c18/>, <c19/> a <c20/>, které jej sestavují uvnitř svého běhu, a ({ "0.36" }, RM-04) každý jiný druh pro své hlavní ukazatele, připojené po běhu z tabulky jednotlivých druhů <c21/>; <c22/> jej odstraní zpět na dokument bez úrovní bajt po bajtu. Nevydává jej <c23/>, jehož výsledek je zmrazená předregistrovaná předpověď (<c24/>): tento druh nemá <c25/>, dokud ji nenahradí nová datovaná předpověď. Nevydávají jej ani <c26/>, <c27/>, <c28/> ({ "0.37" }; pole pro jednotlivá stanoviště), <c29/> a <c30/>, které nemají skalární hlavní ukazatel, ani <c31/>, jehož dokument je kompaktní JSON (<c32/> uvádí každý důvod), ani vložené dokumenty členů kampaně. Nenese žádná čísla.
