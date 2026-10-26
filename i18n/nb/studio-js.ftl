@@ -7934,3 +7934,1509 @@ js-t35data-card-land-why = Det er den eneste kommandoen som åpner en nettverksf
 js-t35data-card-marine-title = Maritime integrasjoner
 
 js-t35data-card-marine-what = Et Signal K-serverprogramtillegg og OpenCPN gjennom NMEA i gate-modus over TCP legger tillitsscoren inn i programvare båtfolk allerede bruker; et referanseoppsett legger den på en liten datamaskin ved siden av mottakeren.
+
+js-t35data-card-marine-why = De forbruker den kjørende live-prosessen og TCP-porten dens: driftsetting på båtens datamaskin.
+
+js-t35data-card-telemetry-title = Tillit som sikkerhetstelemetri
+
+js-t35data-card-telemetry-what = Gjør tillitsstrømmen (score, bånd, årsaker) om til Prometheus-målinger, syslog-hendelser i CEF eller LEEF for et SIEM, og OpenTelemetry. Den leser strømmen og endrer aldri vurderingen.
+
+js-t35data-card-telemetry-why = Det er en prosess som serverer målinger og sender til overvåkingssystemene dine, så den kjører ved siden av mottakeren, ikke på en side.
+
+js-t35data-card-training-stream-title = Treningsstrømmer til en TCP- eller UDP-adresse
+
+js-t35data-card-training-stream-what = Sender en generert treningsstrøm til en brosimulator eller en kartplotter i sanntid eller raskere. Studioets treningsside genererer den samme teksten og lar deg laste den ned.
+
+js-t35data-card-training-stream-why = Å sende til en nettverksadresse er noe en nettleserside ikke gjør. Strømmen er bare tekst og aldri for et fartøys levende navigasjonssystemer.
+
+js-t35data-feat-ai-ai = Installasjonsvalg for MCP-serveren, med spørsmålene hvert verktøy besvarer
+
+js-t35data-feat-ai-name = Bruk fra en AI-assistent (MCP-server)
+
+js-t35data-feat-bench-bench = Eksporter bevegelsen, NMEA, veipunktene og hendelsene i et scenario, her
+
+js-t35data-feat-bench-name = Testbenk-eksport for en laboratoriesimulator
+
+js-t35data-feat-compliance-compliance = Se hvilke rammeverksrader kjøringene dine gir belegg for, og avbildningstabellene, her
+
+js-t35data-feat-compliance-name = Compliance-avbildning mot offentlige robusthetsrammeverk
+
+js-t35data-feat-evidence-evidence = Verifiser en pakke og legg ved et tidsstempelbevis, her
+
+js-t35data-feat-evidence-name = Signerte bevispakker
+
+js-t35data-feat-evidence-why = Å lage en pakke krever en privat signeringsnøkkel, som ikke bør gå gjennom en nettside. Pakker lages med kommandolinjen, Python eller verktøyene til AI-assistenten.
+
+js-t35data-feat-interference-map-interference = Åpne kartfiler, eller bygg et kart fra CSV her, og kontroller en rute mot det
+
+js-t35data-feat-interference-map-name = Interferenskart (ADS-B og AIS) og ruteeksponering
+
+js-t35data-feat-iq-name = GNSS IQ-monitorer og verktøy (scene, fange, følge, sveipe, frontend, monitor, kampanjer)
+
+js-t35data-feat-iq-why = Et opptak er gigabyte med sampler, som en side ikke kan romme, og noen kommandoer skriver om opptak på disk. Nettleserbygget har ingen IQ-funksjoner.
+
+js-t35data-feat-jammertest-jammertest = Importer planen for en loggs tidsrom, eller skår en mottakerlogg (UBX, RINEX, Android, NMEA eller Septentrio SBF) per test: deteksjonsforsinkelse, uteblitt, falske alarmer, tid til gjenoppretting; MODELLED
+
+js-t35data-feat-jammertest-name = Jammertest som dommer: den publiserte testplanen som planlagt referanse, en mottakerlogg skåret mot den (0.38)
+
+js-t35data-feat-live-gate-name = Levende tillitsstrøm, gate og lytter (stdin, fil, TCP, UDP, --gate, --listen)
+
+js-t35data-feat-live-gate-why = Det er en kjørende prosess i datastien. En side vender tilbake når den er ferdig og kan ikke holde en socket åpen for en kartplotter, og heller ikke merke en posisjonsbestemmelse som ugyldig i en levende strøm. Studio skårer i stedet et avgrenset utdrag, i samme levende format, uten gate.
+
+js-t35data-feat-machines-imufit = Tilpass akselerometer- og gyroparametrene i hybrid- og fusjonsscenarioene ut fra en stillestående IMU-logg; MODELLED
+
+js-t35data-feat-machines-name = Mottaker- og sensorinndata: RTKLIB .pos, NovAtel OEM7, RTCM 3 MSM, GNSS-SDR, en IMU for retningen, og en IMU-tilpasning for hybrid- og fusjonsscenarioene (0.38)
+
+js-t35data-feat-machines-trust = Åpne en logg i et av disse formatene (og en valgfri IMU-fil) i den generiske mottakertillit-kjøringen; NovAtels egen jammerflagg sammenlignes med alarmene til Kshana
+
+js-t35data-feat-marine-name = Maritime integrasjoner: Signal K-programtillegg og OpenCPN
+
+js-t35data-feat-marine-why = De forbruker den kjørende live-prosessen og TCP-porten dens, så de er driftsettinger på en båtdatamaskin, ikke noe en side kan kjøre.
+
+js-t35data-feat-maritime-trust-name = Maritim tillitsscore for et fartøy i bevegelse (0 til 100, med årsaker)
+
+js-t35data-feat-maritime-trust-trust = Åpne et resultat eller en levende JSON-lines-kjøring og se sporet, scoren, årsakene og gaten; skår en NMEA-logg her
+
+js-t35data-feat-nmea-training-name = NMEA-treningsstrømmer med en instruktørlogg
+
+js-t35data-feat-nmea-training-training = Generer en strøm og instruktørloggen dens her, last dem ned, og kjør trenerens debrief
+
+js-t35data-feat-osnma-name = Galileo OSNMA-verifisering (UBX SFRBX-inndata)
+
+js-t35data-feat-osnma-osnma = Last en registrert fil og se autentiseringsstatusen per satellitt og per tag
+
+js-t35data-feat-telemetry-name = Telemetrieksport: Prometheus-målinger, syslog CEF og LEEF, OpenTelemetry
+
+js-t35data-feat-telemetry-why = Den serverer målinger, sender syslog og eksporterer OpenTelemetry fra en kjørende strøm: en prosess som snakker med overvåkingssystemene dine, noe en side ikke kan være.
+
+js-t35data-feat-training-stream-name = Strømming av en treningsstrøm til en TCP- eller UDP-adresse
+
+js-t35data-feat-training-stream-why = Den sender til en nettverksadresse, noe en nettside ikke gjør. Studio genererer teksten, og du laster den ned.
+
+js-t35data-page-ai = Bruk fra AI-assistenten din
+
+js-t35data-page-bench = Testbenk-eksport
+
+js-t35data-page-cli = Kommandolinjefunksjoner
+
+js-t35data-page-compliance = Compliance-avbildning
+
+js-t35data-page-evidence = Bevispakker
+
+js-t35data-page-geometry = Geometri: skyplot, horisontlinje og DOP
+
+js-t35data-page-imufit = IMU-tilpasning
+
+js-t35data-page-interference = Interferenskart
+
+js-t35data-page-jammertest = Jammertest-skåring
+
+js-t35data-page-osnma = OSNMA-verifisering
+
+js-t35data-page-training = Treningsdebrief
+
+js-t35data-page-trust = Maritim tillit
+
+js-t35data-sample-iq-help = IQ-kommandolisten
+
+js-t35data-sample-telemetry-cef = Syslog i CEF for demokjøringen
+
+js-t35data-sample-telemetry-leef = Syslog i LEEF for demokjøringen
+
+js-t35data-sample-telemetry-metrics = Prometheus-målinger for demokjøringen
+
+js-tools-ai-group-engine = Installer motoren og bibliotekene dens
+
+js-tools-ai-group-integrations = Maritime integrasjoner, programtillegg og dashbordintegrasjoner
+
+js-tools-ai-group-mcp = Installer MCP-serveren for assistenten din
+
+js-tools-ai-heading = Bruk Kshana fra AI-assistenten din
+
+js-tools-ai-install-mcp = Installer MCP-serveren
+
+js-tools-ai-intro = Kshana MCP-serveren lar en AI-assistent kjøre motoren i stedet for å gjette tall. Den kjører på datamaskinen din; ingenting sendes til Kshana. Velg måten som passer verktøyet ditt.
+
+js-tools-ai-load-failed = Installasjonsvalgene ble ikke lastet ({ $reason }). Se dokumentasjonen for MCP-serveren.
+
+js-tools-ai-mcp-docs = Dokumentasjon for MCP-serveren
+
+js-tools-ai-more-ways = Flere måter å installere på
+
+js-tools-ai-none-listed = Ingen installasjonsvalg er oppført i dette bygget.
+
+js-tools-ai-other-ways = Andre måter å installere Kshana på
+
+js-tools-ai-read-agent-guide = Les agentveiledningen
+
+js-tools-ai-rule = Regelen for hvert svar: assistenten kjører motoren, og rapporterer det et verktøy returnerte med enhet og evidensnivå (validert mot en uavhengig ekstern referanse, eller modellert), scenarioet, seedet og motorversjonen, slik at kjøringen kan gjentas. Et resultats egne forbehold følger med det. MCP-serveren leser og skriver ingen filer utenfor én mappe man selv velger å åpne for den.
+
+js-tools-ai-what-to-ask = Hva du kan spørre om, og hvilket verktøy som svarer
+
+js-tools-ai-where-reachable = Hvor hver funksjon kan nås
+
+js-tools-bench-files-written =
+    { $n ->
+        [one] { $n } fil skrevet til nettleserens minne
+       *[other] { $n } filer skrevet til nettleserens minne
+    }
+
+js-tools-bench-note = Bare bevegelse og merkede hendelsesintervaller. Last dem ned for å laste dem inn i en laboratoriesimulator.
+
+js-tools-bench-wrong-kind = { $name } er et scenario av typen { $kind }. En kjøretøybane finnes for typene { $kinds }; andre typer sier hvorfor de ikke har noen.
+
+js-tools-building-report = Bygger rapporten…
+
+js-tools-choose-catalogue-first = Velg katalog-JSON først.
+
+js-tools-choose-file-first = Velg en fil først.
+
+js-tools-choose-imu-log = Velg en stillestående IMU-logg først.
+
+js-tools-choose-pack-first = Velg filene til pakken først.
+
+js-tools-choose-pack-first-above = Velg filene til pakken først (over).
+
+js-tools-choose-plan-file = Velg minst én planfil.
+
+js-tools-choose-receiver-log = Velg mottakerloggen først.
+
+js-tools-choose-result-first = Velg minst én resultatfil (*.result.json) først.
+
+js-tools-choose-scenario-first = Velg et scenario først.
+
+js-tools-choose-tsr-first = Velg tidsstempelsvaret (.tsr) først.
+
+js-tools-chosen = Valgt
+
+js-tools-col-check = Kontroll
+
+js-tools-col-detail = Detalj
+
+js-tools-col-first-monitors = Første monitorer
+
+js-tools-col-gap-that-stays = Gap som blir igjen
+
+js-tools-col-last-auth-tag = Siste autentiserte tag (Galileo System Time)
+
+js-tools-col-latency = Forsinkelse, s
+
+js-tools-col-name = Navn
+
+js-tools-col-outcome = Utfall
+
+js-tools-col-question = Spørsmål
+
+js-tools-col-recovered = Gjenopprettet
+
+js-tools-col-reference = Referanse
+
+js-tools-col-result = Resultat
+
+js-tools-col-row = Rad
+
+js-tools-col-satellite = Satellitt
+
+js-tools-col-slot = Tidsluke, s
+
+js-tools-col-status = Status
+
+js-tools-col-tags = Tagger
+
+js-tools-col-test = Test
+
+js-tools-col-these-runs = Disse kjøringene
+
+js-tools-col-tool = Verktøy
+
+js-tools-col-what-is-missing = Hva som mangler
+
+js-tools-col-what-it-asks = Hva den spør om
+
+js-tools-col-why-not-auth = Hvorfor ikke autentisert
+
+js-tools-copied = Kopiert
+
+js-tools-copy = Kopier
+
+js-tools-copy-command-aria = Kopier: { $cmd }
+
+js-tools-copy-labelled-aria = Kopier { $label }: { $text }
+
+js-tools-did-not-work = Det virket ikke
+
+js-tools-documentation = Dokumentasjon
+
+js-tools-download = Last ned
+
+js-tools-download-all-zip = Last ned alt (zip)
+
+js-tools-download-events-toml = Last ned hendelsene (TOML)
+
+js-tools-download-md = Last ned (Markdown)
+
+js-tools-download-report-json = Last ned rapporten (JSON)
+
+js-tools-download-report-md = Last ned rapporten (Markdown)
+
+js-tools-download-scorecard-json = Last ned resultattavlen (JSON)
+
+js-tools-download-table-toml = Last ned tabellen (TOML)
+
+js-tools-download-updated-pack = Last ned den oppdaterte pakken (zip)
+
+js-tools-download-whole-report-json = Last ned hele rapporten (JSON)
+
+js-tools-engine-lacks-error = Dette motorbygget (versjon { $version }) har ikke { $need }, så det kan ikke kjøre dette her ennå. De registrerte resultatene og kommandolinjen virker fortsatt.
+
+js-tools-engine-lacks-status = Dette motorbygget (versjon { $version }) har ikke { $need }: det er eldre enn versjonen dette verktøyet trenger. Kommandolinjeekvivalenten står i fanen Kommandolinje.
+
+js-tools-engine-running = Motoren (versjon { $version }) kjører i denne nettleseren. Ingenting lastes opp.
+
+js-tools-engine-starting = Starter motoren i denne nettleseren…
+
+js-tools-engine-unavailable = Motoren kunne ikke starte her ({ $reason }). Å åpne filer virker; å kjøre verktøyene krever WebAssembly.
+
+js-tools-epoch-format = Bruk YYYY-MM-DDTHH:MM:SS, med en valgfri Z (UTC).
+
+js-tools-epoch-not-real = Det er ikke et gyldig UTC-tidspunkt mellom årene 2000 og 2099.
+
+js-tools-every-check = Hver kontroll
+
+js-tools-evidence-disclaimer = En bevispakke er en teknisk oppføring av hva motoren beregnet ut fra en oppgitt logg under oppgitte innstillinger. Den er ikke en juridisk vurdering, ikke en faktafastslåing om noen hendelse og ikke en sertifisering. En vellykket kontroll sier at oppføringen er uendret.
+
+js-tools-example-pack = Syntetisk eksempelpakke
+
+js-tools-example-pack-note = En syntetisk pakke laget av motorens kommandolinje fra demoferjeloggen med en demonstrasjonsnøkkel. Nøkkelen er fylt inn nedenfor; nøkkelen til en ekte signerer kommer fra signereren på en annen vei.
+
+js-tools-example-pack-tampered = Eksempelpakke med én byte av epochs.json endret
+
+js-tools-example-runs = Syntetiske eksempelkjøringer
+
+js-tools-example-tampered-note = Én byte i en fil i pakken er endret etter signering. Verifiser den: kontrollen navngir filen.
+
+js-tools-exporting = Eksporterer…
+
+js-tools-field-whole-number = { $field } må være et heltall
+
+js-tools-file-not-chosen = { $file } er ikke blant de valgte filene
+
+js-tools-file-too-large = { $name } er større enn 64 MiB
+
+js-tools-files-selected = { $label }: { $files }
+
+js-tools-fingerprint-not-pinned = Signerens fingeravtrykk: { $fingerprint } (ikke festet: nøkkelen pakken navngir selv)
+
+js-tools-fingerprint-pinned = Signerens fingeravtrykk: { $fingerprint } (festet)
+
+js-tools-fitting = Tilpasser…
+
+js-tools-framework-summary = { $name }: { $evidenced } belagt, { $partly } delvis, { $notEvidenced } ikke belagt, { $outOfScope } utenfor omfang
+
+js-tools-fw-dhs-rpcf = US DHS Resilient PNT Conformance Framework, v2.0
+
+js-tools-fw-easa-aviation = EASA-veiledning om GNSS-interferens for luftfart
+
+js-tools-fw-en-16803 = EN 16803 (kun etter del og klausulnummer)
+
+js-tools-fw-imo-ships = IMO-veiledning om GNSS-interferens for skip
+
+js-tools-fw-nis2-art21 = EUs NIS2-direktiv, artikkel 21
+
+js-tools-gst-none = ingen
+
+js-tools-gst-text = uke { $week }, { $tow } s
+
+js-tools-how-to-run = Slik kjører du det
+
+js-tools-imu-file-too-large = { $name } er større enn 32 MiB; åpne et utdrag.
+
+js-tools-imu-mean-not-number = Den spesifikke kraften i hvile er ikke et tall (0 for en horisontal akse, omtrent 9.80665 for den vertikale).
+
+js-tools-imu-notice = { $evidence }: estimatoren er kontrollert på syntetiske hvitstøylogger med kjente koeffisienter, ikke mot en ekstern uavhengig referanse. Tabellen oppgir SHA-256 for loggen ({ $sha }…).
+
+js-tools-imu-selected = { $name } ({ $size }), lest her, aldri lastet opp.
+
+js-tools-jt-events-count = { $n } planlagt(e) hendelse(r)
+
+js-tools-jt-events-note = som planlagt referanse: planlagte tidsluker, ikke registrerte sendetider. Ikke RF: { $nonRf }; utenfor loggen: { $outside }; ukjente id-er: { $unknown }.
+
+js-tools-jt-guard-hold = Vern { $guard } s, gjenopprettingsvent { $hold } s.
+
+js-tools-jt-guard-hold-overlap = Vern { $guard } s, gjenopprettingsvent { $hold } s. Kalibreringens grunnlinje overlappet en planlagt tidsluke.
+
+js-tools-jt-import-needs-start = Importen trenger loggens første epoke i UTC (ISO 8601), fordi planen er i lokal tid.
+
+js-tools-jt-sel-catalogue = katalog { $name }
+
+js-tools-jt-sel-log = logg { $name } ({ $size })
+
+js-tools-jt-sel-no-catalogue = ingen katalog
+
+js-tools-jt-sel-no-log = ingen logg
+
+js-tools-jt-sel-no-plan = ingen plan
+
+js-tools-jt-sel-plans = { $n } planfil(er)
+
+js-tools-jt-slot-range = { $from } til { $to }
+
+js-tools-jt-what-area = Testområdet
+
+js-tools-jt-what-guard = Vernet
+
+js-tools-jt-what-hold = Gjenopprettingsventen
+
+js-tools-jt-what-offset = Avviket fra UTC
+
+js-tools-jt-what-year = Planåret
+
+js-tools-label-command = kommando
+
+js-tools-label-pinned-command = festet kommando
+
+js-tools-label-settings-example = innstillingseksempel { $n }
+
+js-tools-loading = Laster…
+
+js-tools-max-runs = Høyst { $max } kjøringer.
+
+js-tools-merkle-root-format = Merkle-roten er 64 heksadesimale sifre.
+
+js-tools-must-be-number = { $what } må være et tall
+
+js-tools-must-be-whole-zero = { $what } må være et heltall, 0 for «ikke oppgitt»
+
+js-tools-na = ikke aktuelt
+
+js-tools-needs = Trenger: { $requires }
+
+js-tools-no = nei
+
+js-tools-none = ingen
+
+js-tools-none-in-build = ingen i dette bygget
+
+js-tools-not-in-browser = Ikke i en nettleser.
+
+js-tools-not-osnma = Ikke et OSNMA-resultat
+
+js-tools-not-used = Ikke brukt: { $item }
+
+js-tools-notes = Merknader
+
+js-tools-open = Åpne
+
+js-tools-osnma-advisory = Veiledende: dette er analyse- og overvåkingsutdata og ikke typegodkjent navigasjonsutstyr. Autentiseringsstatusen som rapporteres her, er ikke en tjeneste for navigasjonsintegritet og må ikke være det eneste grunnlaget for noen navigasjons- eller sikkerhetsbeslutning.
+
+js-tools-osnma-authenticated = Autentisert
+
+js-tools-osnma-caption = Autentiseringsstatus per satellitt
+
+js-tools-osnma-demo-note = Den engangs offentlige nøkkelen er fylt inn; trykk på Verifiser for å kjøre verifisereren her, eller vis det registrerte resultatet.
+
+js-tools-osnma-discarded = Forkastet
+
+js-tools-osnma-events = Hva verifisereren så
+
+js-tools-osnma-examples-missing = de syntetiske eksemplene er ikke i dette bygget ennå
+
+js-tools-osnma-failed = Mislyktes
+
+js-tools-osnma-nma-alert = NMA-status { $status }; systemet utløste en varselmelding.
+
+js-tools-osnma-nma-status = NMA-status { $status }.
+
+js-tools-osnma-not-json = Dette er ikke JSON fra kshana osnma verify --json (den trenger overall og satellites).
+
+js-tools-osnma-overall = Samlet: { $status }
+
+js-tools-osnma-pages-read =
+    { $n ->
+        [one] { $n } side lest.
+       *[other] { $n } sider lest.
+    }
+
+js-tools-osnma-pending = Venter
+
+js-tools-osnma-recorded-failed = det registrerte resultatet ble ikke lastet
+
+js-tools-osnma-recorded-result = Registrert resultat av kshana osnma verify --json for { $file }.
+
+js-tools-osnma-tag-counts = { $authenticated } autentisert, { $failed } mislyktes, { $pending } venter, { $discarded } forkastet
+
+js-tools-osnma-tag-totals =
+    { $n ->
+        [one] { $n } tag: { $authenticated } autentisert, { $failed } mislyktes, { $pending } venter, { $discarded } forkastet.
+       *[other] { $n } tagger: { $authenticated } autentisert, { $failed } mislyktes, { $pending } venter, { $discarded } forkastet.
+    }
+
+js-tools-osnma-time-caveat = Tid: hver kontroll er relativ til tidsstemplene på sidene som er gitt til verifisereren, og de kommer her fra dataene selv og gir ingen beskyttelse mot gjenspilte gamle data. Autentisering sier at dataene kom fra systemet; den sier ingenting om signalet de kom på eller om kvaliteten på posisjonsbestemmelsen.
+
+js-tools-osnma-unavailable = Utilgjengelig
+
+js-tools-osnma-word-authenticated = Minst én satellitt er autentisert, og ingen mislyktes
+
+js-tools-osnma-word-failed = En kontroll av en satellitts data mislyktes
+
+js-tools-osnma-word-unavailable = Ingen satellitt er autentisert
+
+js-tools-pack-selected = { $label }: { $files } ({ $size })
+
+js-tools-pinned-to-release = Festet til denne utgivelsen:
+
+js-tools-preview = Forhåndsvisning
+
+js-tools-public-key-format = En offentlig nøkkel er 64 heksadesimale sifre (32 bytes). Ingenting annet godtas.
+
+js-tools-read-documentation = Les dokumentasjonen
+
+js-tools-reading-plan = Leser planen…
+
+js-tools-refused-file-name = avvist filnavn: { $name }
+
+js-tools-run = Kjør
+
+js-tools-runs-read =
+    { $n ->
+        [one] { $n } kjøring lest: { $runs }
+       *[other] { $n } kjøringer lest: { $runs }
+    }
+
+js-tools-runs-read-engine =
+    { $n ->
+        [one] { $n } kjøring lest, av motor { $engine }: { $runs }
+       *[other] { $n } kjøringer lest, av motor { $engine }: { $runs }
+    }
+
+js-tools-sample-load-failed = Eksempelet ble ikke lastet ({ $reason }).
+
+js-tools-sample-note = Et virkelig utdata fra kommandoen, registrert fra motoren på den syntetiske demokjøringen. Ikke en måling av noe.
+
+js-tools-sample-output = Eksempelutdata: { $label }
+
+js-tools-scenario-list-failed = Scenariolisten ble ikke lastet
+
+js-tools-scoring = Skårer…
+
+js-tools-select-and-copy = Merk og kopier
+
+js-tools-settings-example = Innstillingseksempel { $n }:
+
+js-tools-status-evidenced-label = Kjøringene gir belegg for denne raden
+
+js-tools-status-evidenced-short = Belagt
+
+js-tools-status-not-evidenced-label = Disse kjøringene viser ingenting for denne raden
+
+js-tools-status-not-evidenced-short = Ikke belagt
+
+js-tools-status-out-of-scope-label = Utenfor det Kshana kan vise
+
+js-tools-status-out-of-scope-short = Utenfor omfang
+
+js-tools-status-partly-label = Kjøringene gir belegg for en del av denne raden
+
+js-tools-status-partly-short = Delvis
+
+js-tools-tab-ai = AI-assistent
+
+js-tools-tab-bench = Testbenk
+
+js-tools-tab-cli = Kommandolinje
+
+js-tools-tab-compliance = Compliance
+
+js-tools-tab-evidence = Bevispakker
+
+js-tools-tab-imufit = IMU-tilpasning
+
+js-tools-tab-jammertest = Jammertest
+
+js-tools-tab-osnma = OSNMA
+
+js-tools-tele-all-events = Én syslog-hendelse per epoke (standard: én per båndendring)
+
+js-tools-tele-file-aria = Resultat- eller JSON-lines-fil
+
+js-tools-tele-fmt-cef = Syslog, CEF
+
+js-tools-tele-fmt-leef = Syslog, LEEF
+
+js-tools-tele-fmt-mqtt = MQTT, Home Assistant-oppdagelse (emne, tabulator, nyttelast)
+
+js-tools-tele-fmt-otlp = OpenTelemetry (OTLP JSON)
+
+js-tools-tele-fmt-prometheus = Prometheus-målinger
+
+js-tools-tele-format-aria = Format
+
+js-tools-tele-host = Vert
+
+js-tools-tele-host-aria = Vertsnavn som skrives inn i syslog-hendelser
+
+js-tools-tele-include-position = Ta med den rapporterte posisjonen (av som standard)
+
+js-tools-tele-intro = Gjør en resultatfil (session.result.json) eller de levende JSON-linjene om til et av formatene, i denne nettleseren. Trenger et motorbygg som har telemetrieksporten (0.35 og senere med eksporten); kommandoene ovenfor virker overalt.
+
+js-tools-tele-note = Syslog-linjer har ikke tidsstempel her (siden leser ingen klokke); kommandolinjeverktøyet setter det på. Prometheus gir sluttilstanden. MQTT gir én linje per melding, emnet, så en tabulator, så nyttelasten; ingenting publiseres herfra. Teksten er den samme som kommandoen skriver ut.
+
+js-tools-tele-run-here = Kjør det her
+
+js-tools-that-file-too-large = Den filen er større enn 64 MiB.
+
+js-tools-token-attached = Token lagt ved
+
+js-tools-token-attached-note = Den oppdaterte pakken står nedenfor. Tidsstempelmyndighetens signatur ble IKKE kontrollert her: kjør openssl ts -verify.
+
+js-tools-trust-monitor-sentence = Setning fra tillitsmonitoren: { $sentence }
+
+js-tools-two-files-same-name = to filer heter { $name }
+
+js-tools-ubx-bad-crc = { $n } sider feilet CRC-kontrollen.
+
+js-tools-ubx-file = UBX-filen
+
+js-tools-ubx-frames-pages = { $frames } UBX-rammer; { $pages } I/NAV-sider dekodet.
+
+js-tools-ubx-ignored-sfrbx = { $n } SFRBX-meldinger ble ignorert (andre systemer, E5b, varsler, feil sjekksummer).
+
+js-tools-ubx-skipped-bytes = { $n } bytes ble hoppet over mellom rammer.
+
+js-tools-ubx-time-conflicts = { $n } sider hadde et tidspunkt som var i konflikt med naboene sine.
+
+js-tools-ubx-unstamped = { $n } sider kunne ikke plasseres i tid.
+
+js-tools-unknown = ukjent
+
+js-tools-unused-scenarios = Scenariofiler uten tilhørende resultat ble ikke brukt: { $files }.
+
+js-tools-verdict-failed-text = Verifiseringen mislyktes.
+
+js-tools-verdict-failed-title = Mislyktes
+
+js-tools-verdict-intact-text = Pakken er intakt mot nøkkelen den navngir selv, som hvem som helst kan generere. Hent signerens offentlige nøkkel fra signereren på en annen vei og fest den.
+
+js-tools-verdict-intact-title = Intakt, men signereren er ikke festet
+
+js-tools-verdict-verified-text = Pakken er uendret og signert av nøkkelen du festet.
+
+js-tools-verdict-verified-title = Verifisert
+
+js-tools-verifying = Verifiserer…
+
+js-tools-what-failed = Hva som mislyktes
+
+js-tools-why-not-browser = Hvorfor ikke i en nettleser:
+
+js-tools-yes = ja
+
+js-training-active-events = Aktive hendelser
+
+js-training-band-large = over 100 m
+
+js-training-band-medium = 25 til 100 m
+
+js-training-band-small = under 25 m
+
+js-training-chart-max = maks { $v }
+
+js-training-chart-mean-cn0 = gjennomsnittlig C/N0
+
+js-training-chart-position-error = posisjonsfeil
+
+js-training-chart-s-reported-minus-true = s, rapportert minus faktisk
+
+js-training-chart-satellites = satellitter
+
+js-training-chart-time-offset = tidsavvik
+
+js-training-chart-used-tracked = brukt / fulgt
+
+js-training-col-reported = Rapportert av mottakeren
+
+js-training-col-true = Faktisk
+
+js-training-cue-course = Gyroretningen og loggfarten er upåvirket av alle hendelser. Her avviker den rapporterte kursen fra gyroretningen med { $course }. En havstrøm skiller også retning fra kurs, så sammenlign med starten av kjøringen.
+
+js-training-cue-course-speed = Gyroretningen og loggfarten er upåvirket av alle hendelser. Her avviker den rapporterte kursen fra gyroretningen med { $course } og den rapporterte farten fra den faktiske farten med { $speed } kn. En havstrøm skiller også retning fra kurs, så sammenlign med starten av kjøringen.
+
+js-training-cue-title = Debrief-stikkord.
+
+js-training-cue-unknown-amount = en ukjent størrelse
+
+js-training-debrief-now = Debrief den nå
+
+js-training-default-warning = Syntetiske treningsdata. Kun til trening og testing: mat aldri denne strømmen inn i et fartøys levende navigasjonssystemer.
+
+js-training-demo-coastal-drag-off = Drag-off langs kysten
+
+js-training-demo-combined-event = Kombinert hendelse
+
+js-training-demo-fjord-degradation = Naturlig degradering i fjord
+
+js-training-demo-open-sea-jamming = Jamming på åpent hav
+
+js-training-demo-port-time-spoof = Tidsspoofing ved havneinnseiling
+
+js-training-dl-log-json = Last ned instruktørloggen (JSON)
+
+js-training-dl-log-text = Last ned instruktørloggen (tekst)
+
+js-training-dl-nmea = Last ned NMEA-strømmen
+
+js-training-err-demo-open = { $title } kunne ikke åpnes: { $reason }.
+
+js-training-err-engine-old = Dette motorbygget (versjon { $version }) har ingen NMEA-treningsgenerator; det er eldre enn denne siden. Kommandoen er { $command }.
+
+js-training-err-engine-start = Motoren kunne ikke starte her ({ $reason }). Bibliotekscenarioene ovenfor åpnes fortsatt uten den.
+
+js-training-err-file-not-loaded = filen ble ikke lastet
+
+js-training-err-generate = Kunne ikke generere: { $reason }.
+
+js-training-err-newer-schema = { $name }: skjema { $schema } er nyere eller annerledes enn { $supported }, som denne siden leser. Oppdater Studio i stedet for å gjette på feltene.
+
+js-training-err-no-schema = { $name }: ikke en Kshana-instruktørlogg for trening (ingen skjemamerking).
+
+js-training-err-no-track = { $name }: loggen har ingen sporrader å tegne.
+
+js-training-err-no-usable-rows = { $name }: ingen brukbare sporrader.
+
+js-training-err-not-json = { $name }: ikke JSON ({ $reason }).
+
+js-training-err-read = { $name }: kunne ikke leses ({ $reason }).
+
+js-training-err-read-or-draw = { $name }: kunne ikke leses eller tegnes ({ $reason }).
+
+js-training-err-scenario-not-loaded = scenariofilen ble ikke lastet
+
+js-training-err-seed = Seedet må være et heltall, eller tomt for å bruke scenarioets eget.
+
+js-training-err-too-large = { $name }: større enn { $max }. Denne siden leser logger opp til den størrelsen.
+
+js-training-err-too-many-rows = { $name }: loggen har { $count } sporrader; denne siden tegner høyst { $max }. Logg sjeldnere (log_interval_s) eller åpne et utdrag.
+
+js-training-err-unknown-schema = { $name }: ukjent skjema { $schema }; denne siden leser { $supported }.
+
+js-training-event-n = Hendelse { $id }
+
+js-training-event-onset = Start { $utc }
+
+js-training-extra-bearing = Peiling som anvendt, grader sann
+
+js-training-extra-peak-accel = Toppakselerasjon draget legger til, m/s²
+
+js-training-extra-peak-speed = Topphastighet draget legger til, m/s
+
+js-training-fact-duration = Varighet
+
+js-training-fact-events = Hendelser injisert
+
+js-training-fact-max-error = Største posisjonsfeil
+
+js-training-fact-max-time-offset = Største tidsavvik
+
+js-training-fact-no-fix = Tid uten posisjonsbestemmelse
+
+js-training-fact-peak-accel = Toppakselerasjon, faktisk / rapportert
+
+js-training-fact-peak-speed = Topphastighet, faktisk / rapportert
+
+js-training-fact-seed = Seed
+
+js-training-fact-start = Start (UTC)
+
+js-training-fix-reported-span = posisjonsbestemmelse rapportert, { $from } til { $to }
+
+js-training-generated = Genererte «{ $title }» med motor { $version }: { $lines } NMEA-setninger. Syntetisk: kun til trening og testing; mat den aldri inn i et fartøys levende navigasjonssystemer.
+
+js-training-generated-here = Generert her av motoren («{ $title }»). Syntetisk: oppdiktede posisjoner og datoer.
+
+js-training-generating = Starter motoren og genererer…
+
+js-training-kind-drag-off = Posisjons-drag-off
+
+js-training-kind-jamming = Jamming
+
+js-training-kind-natural-degradation = Naturlig degradering (blokkert himmel)
+
+js-training-kind-replay-delay = Replay-forsinkelse
+
+js-training-kind-time-spoof = Tidsspoofing
+
+js-training-legend-no-fix = Ingen posisjonsbestemmelse: mottakeren rapporterte ingenting
+
+js-training-legend-reported = Rapportert, { $band } fra faktisk
+
+js-training-legend-true = Faktisk spor
+
+js-training-library-label = Syntetisk bibliotekscenario «{ $title }», skrevet av { $command }. Oppdiktede posisjoner og datoer; ingen virkelig farkost eller noe opptak.
+
+js-training-log-row = Loggrad { $row } av { $total }, { $utc }
+
+js-training-max-error-at = { $m } m ved T+{ $s } s
+
+js-training-moment-event = (hendelse { $id })
+
+js-training-moment-title = T+{ $s } s { $what }: { $text }
+
+js-training-moments-shown = De første { $shown } av { $total } øyeblikk vises.
+
+js-training-no-events = Ingen: dette er en ren kjøring.
+
+js-training-no-fix-nothing = ingen posisjonsbestemmelse: ingenting rapportert
+
+js-training-no-fix-span = ingen posisjonsbestemmelse, { $from } til { $to }
+
+js-training-no-moments = Ingen øyeblikk registrert.
+
+js-training-none = ingen
+
+js-training-none-now = Ingen i dette øyeblikket.
+
+js-training-none-reported = ingen rapportert
+
+js-training-north = N
+
+js-training-not-touched = ikke berørt av noen hendelse
+
+js-training-opened = Åpnet { $name }: { $rows } loggrader over { $secs } s.
+
+js-training-opening = Åpner { $title }…
+
+js-training-param-affect-time = Påvirker tid
+
+js-training-param-bearing-deg = Peiling, grader sann
+
+js-training-param-cn0-drop-db = C/N0-fall, dB
+
+js-training-param-counterfeit-cn0-dbhz = Forfalsket C/N0, dB-Hz
+
+js-training-param-delay-s = Forsinkelse, s
+
+js-training-param-duration-s = Varighet, s
+
+js-training-param-final-offset-m = Sluttavvik, m
+
+js-training-param-kind = Type
+
+js-training-param-label = Etikett
+
+js-training-param-offset-s = Tidsavvik, s
+
+js-training-param-ramp-s = Startrampe, s
+
+js-training-param-recovery-s = Gjenopprettingsrampe, s
+
+js-training-param-relative-bearing-deg = Peiling relativt til kurs, grader
+
+js-training-param-skyline = Horisontlinje
+
+js-training-param-spread-db = Spredning per satellitt, dB
+
+js-training-param-start-s = Start, s
+
+js-training-pause = Pause
+
+js-training-play = Spill av
+
+js-training-reading = Leser…
+
+js-training-readout-fix = posisjonsbestemmelse
+
+js-training-readout-no-fix = ingen posisjonsbestemmelse
+
+js-training-reduced-motion = Redusert bevegelse er foretrukket, så avspillingen starter på 1x. Bruk glidebryteren eller piltastene for å bevege deg uten animasjon.
+
+js-training-row-cn0 = Gjennomsnittlig C/N0, dB-Hz
+
+js-training-row-cog = Kurs over grunnen, grader
+
+js-training-row-error = Posisjonsfeil, m
+
+js-training-row-fix = posisjonsbestemmelse
+
+js-training-row-heading = Retning (gyro), grader
+
+js-training-row-moments = øyeblikk
+
+js-training-row-position = Posisjon
+
+js-training-row-sats = Satellitter brukt / fulgt
+
+js-training-row-sog = Fart over grunnen, kn
+
+js-training-row-time-offset = Tidsavvik, s
+
+js-training-say-active = aktive: { $list }
+
+js-training-say-event-id = hendelse { $id }
+
+js-training-say-fix = mottakeren rapporterer en posisjonsbestemmelse
+
+js-training-say-mean-cn0 = gjennomsnittlig C/N0 { $cn0 } dB-Hz
+
+js-training-say-no-fix = ingen posisjonsbestemmelse
+
+js-training-say-position-from-true = rapportert posisjon { $m } m fra faktisk
+
+js-training-say-sats-used = { $used } av { $tracked } satellitter brukt
+
+js-training-say-time-ahead = rapportert tid foran faktisk med { $s } s
+
+js-training-say-time-behind = rapportert tid etter faktisk med { $s } s
+
+js-training-sky-no-gsv = ingen GSV
+
+js-training-sky-none = Ingen himmel for denne loggen: en instruktørlogg alene har ingen satellitter. Åpne et bibliotekscenario, eller generer en strøm her og debrief den, for å se satellittene GSV-en lister opp.
+
+js-training-skyline-preset = forhåndsinnstilling { $name }
+
+js-training-skyline-stated = oppgitt profil
+
+js-training-span-no-fix = T+{ $from } til { $to } s
+
+js-training-track-desc = Faktisk spor og rapportert spor, nord opp. Største posisjonsfeil { $error }. { $periods } periode(r) uten posisjonsbestemmelse.
+
+js-training-track-end = slutt
+
+js-training-track-start = start
+
+js-training-trainer-note = Merknad fra treneren
+
+js-training-warn-no-warning-text = Denne filen har ingen advarselstekst. Det er en treningslogg: mat aldri strømmen den gir inn i levende navigasjon.
+
+js-training-warn-rows-skipped = { $count } sporrad(er) var ugyldige og ble hoppet over.
+
+js-training-what-fix-lost = Posisjonsbestemmelse tapt
+
+js-training-what-fix-regained = Posisjonsbestemmelse gjenvunnet
+
+js-training-what-full-effect = Full effekt
+
+js-training-what-onset = Start
+
+js-training-what-recovered = Gjenopprettet
+
+js-training-what-recovery-begins = Gjenoppretting begynner
+
+js-trust-adv-carried = Veiledende erklæring i denne filen:
+
+js-trust-adv-none = Denne filen har ingen veiledende erklæring
+
+js-trust-adv-none-rest = (eldre utdata har det ikke). Den veiledende erklæringen øverst på denne siden gjelder like fullt for den.
+
+js-trust-agree-both = begge flagger: mottakerens eget flagg og en Kshana-monitor
+
+js-trust-agree-calibrating = innenfor kalibreringsvinduet: ikke sammenlignet
+
+js-trust-agree-kshana-only = bare Kshana varsler: mottakeren flagger ikke
+
+js-trust-agree-neither = ingen flagger
+
+js-trust-agree-receiver-only = bare mottakeren flagger: ingen Kshana-monitor varsler
+
+js-trust-assessed = Vurderte { $name } med motor { $version }, i denne nettleseren.
+
+js-trust-assessed-as = Vurderte { $name } som { $format }, med motoren, i denne nettleseren. Ingenting ble lastet opp.
+
+js-trust-assessing = Starter motoren og vurderer…
+
+js-trust-class-also-costing = { $class } (koster også poeng)
+
+js-trust-class-environment = miljø: signalet (styrke, jamming, satellitter tapt mens himmelen er åpen)
+
+js-trust-class-geometry = geometri: himmelen, ikke signalet
+
+js-trust-class-inconsistency = inkonsistens: angrepslignende, ikke forklart av himmelen eller signalet
+
+js-trust-dl-result-json = Last ned resultatet (JSON)
+
+js-trust-dl-table-csv = Last ned tabellen per epoke (CSV)
+
+js-trust-edge-degraded = { $v } degradert
+
+js-trust-edge-nominal = { $v } nominell
+
+js-trust-err-assess = { $name }: kunne ikke vurderes ({ $reason }).
+
+js-trust-err-demo-files = demofilene ble ikke lastet
+
+js-trust-err-demo-log-open = Demologgen kunne ikke åpnes: { $reason }.
+
+js-trust-err-demo-open = Demoen kunne ikke åpnes: { $reason }.
+
+js-trust-err-engine-no-receiver-trust = Dette motorbygget (versjon { $version }) har ikke receiver_trust.
+
+js-trust-err-engine-no-scorer = Dette motorbygget (versjon { $version }) har ingen loggskårer; det er eldre enn denne siden. Kommandoen er { $command }.
+
+js-trust-err-engine-start = Motoren kunne ikke starte her ({ $reason }).
+
+js-trust-err-engine-start-open = Motoren kunne ikke starte her ({ $reason }). Å åpne resultatfiler ovenfor virker fortsatt.
+
+js-trust-err-example-files = eksempelfilene ble ikke lastet
+
+js-trust-err-example-open = Eksempelet kunne ikke åpnes: { $reason }.
+
+js-trust-err-file-2mib = { $name }: større enn 2 MiB. Åpne et utdrag.
+
+js-trust-err-file-too-large = { $name }: større enn { $max }. Denne siden leser filer opp til den størrelsen; åpne et utdrag.
+
+js-trust-err-gen-too-large = { $name }: større enn 2 MiB. Åpne et utdrag (kommandolinjeverktøyet tar en hel logg).
+
+js-trust-err-imu-format = «{ $format }» er ikke et IMU-format denne siden leser (csv eller euroc)
+
+js-trust-err-imu-heading = IMU-ens retning ved første sampel er ikke et tall
+
+js-trust-err-log-format = «{ $format }» er ikke et loggformat denne siden kan sende til motoren
+
+js-trust-err-no-epochs = Filen har ingen epoker.
+
+js-trust-err-no-epochs-result = Denne resultatfilen har ingen epochs[]. Den må komme fra `{ $command }` for en fartøyøkt.
+
+js-trust-err-no-epochs-returned = { $name }: motoren returnerte ingen epoker.
+
+js-trust-err-no-score-model = Dette resultatet har ingen score_model, så det er en kjøring med statisk plattform uten tillitsscore. Visningen tegner kjøringer med fartøy (bevegelig plattform).
+
+js-trust-err-not-readable = { $name }: ikke en fil denne visningen leser (en resultat-JSON, JSON lines, trust.csv, en NMEA-logg eller en referansefil).
+
+js-trust-err-nothing-to-draw = Ingenting å tegne: velg en resultat-JSON, JSON lines eller trust.csv.
+
+js-trust-err-read = { $name }: kunne ikke leses ({ $reason }).
+
+js-trust-err-read-or-draw = { $name }: kunne ikke leses eller tegnes ({ $reason }).
+
+js-trust-err-score = { $name }: kunne ikke skåres ({ $reason }).
+
+js-trust-err-score-file-too-large = { $name }: større enn 2 MiB. Skåreren i nettleseren tar et utdrag som rommer kalibreringsvinduet på fem minutter.
+
+js-trust-err-score-too-large = { $name }: større enn 2 MiB. Skåreren i nettleseren tar et utdrag (kommandoen { $command } tar en hel logg); åpne et utdrag som rommer kalibreringsvinduet på fem minutter.
+
+js-trust-err-scorecard-too-large = { $name }: større enn 8 MiB; denne siden leser en resultattavle opp til den størrelsen.
+
+js-trust-err-session-empty = Øktinnstillingene er tomme. De oppgir fartøyet ({ $setting }).
+
+js-trust-err-too-many-epochs = Filen har { $count } epoker; denne siden tegner høyst { $max }. Åpne et utdrag.
+
+js-trust-err-triple-quote = { $what } inneholder tre enkle anførselstegn på rad, som ikke kan bygges inn i innstillingene
+
+js-trust-err-what-file = filen
+
+js-trust-err-what-imu = IMU-filen
+
+js-trust-event-label = hendelse: { $label }
+
+js-trust-event-onset = start
+
+js-trust-evt-col-first-alarm = Første alarm, s
+
+js-trust-evt-col-latency = Forsinkelse, s
+
+js-trust-evt-col-onset = Start, s
+
+js-trust-evt-col-outcome = Utfall
+
+js-trust-evt-col-stated = Oppgitt hendelse
+
+js-trust-fmt-android = Android GNSS Logger (tekst)
+
+js-trust-fmt-gnss-sdr = GNSS-SDR videresendte JSON lines (tekst)
+
+js-trust-fmt-nmea = NMEA 0183 (tekst)
+
+js-trust-fmt-novatel = NovAtel OEM7 (ASCII eller binær)
+
+js-trust-fmt-rinex = RINEX-observasjon (tekst)
+
+js-trust-fmt-rtcm3 = RTCM 3 MSM4 / MSM7 (binær)
+
+js-trust-fmt-rtklib-pos = RTKLIB .pos-løsning (tekst)
+
+js-trust-fmt-sbf = Septentrio SBF (binær)
+
+js-trust-fmt-ubx = u-blox UBX (binær)
+
+js-trust-gate-note-derived = Denne kjøringen har ingen gate-oppføring. Stripen viser hvor en gate ville ha holdt tilbake posisjonsbestemmelsen: epoker i båndet «ikke til å stole på», holdt til 30 s etter at de forlater det. Utledet her, ikke lest fra en gate. En gate er valgfri og gir forsinkelse.
+
+js-trust-gate-note-read = Gaten for hver epoke slik den levende strømmen rapporterte den: av, sluppet gjennom eller holdt tilbake (posisjonsbestemmelsen ble merket ugyldig i den videresendte syklusen).
+
+js-trust-gate-now-derived = { $gate } · utledet
+
+js-trust-gate-off = Av
+
+js-trust-gate-off-cal = Av (kalibrerer)
+
+js-trust-gate-passed = Sluppet gjennom: posisjonsbestemmelsen videresendes uendret
+
+js-trust-gate-span = gate { $gate }, { $from } til { $to }
+
+js-trust-gate-span-derived = gate { $gate } (utledet), { $from } til { $to }
+
+js-trust-gate-withheld = Holdt tilbake: posisjonsbestemmelsen ville blitt merket ugyldig videre nedstrøms
+
+js-trust-gen-chart-label = Motorens diagram over kjøringen: bærebølge-til-støy-tetthet, tilstand og alarmer over tid
+
+js-trust-gen-epochs = Epoker: { $nominal } nominelle, { $degraded } degraderte, { $untrusted } ikke til å stole på etter kalibreringsvinduet på { $window } epoker.
+
+js-trust-gen-self-heading = Mottakerens egne flagg, mot alarmene til Kshana
+
+js-trust-gen-self-note = En sammenligning, ikke en kontroll av noen av dem: mottakerens flagg er dens egen rapport.
+
+js-trust-geo-deduction-class = { $points } poeng ({ $class })
+
+js-trust-geo-deduction-points = { $points } poeng
+
+js-trust-geo-flag-mismatch = HDOP-en mottakeren oppgir, er uenig med den utledede fra himmelen den rapporterer: et geometrifradrag regnes som inkonsistens.
+
+js-trust-geo-flag-signal-loss = Signaltap: satellitter i sikte følges ikke selv om geometrien deres er god, så et geometrifradrag regnes som miljø.
+
+js-trust-geo-heading-label = geometri { $label }
+
+js-trust-geo-label-fair = { $label } (ikke skåret)
+
+js-trust-geo-label-poor = { $label } (den eneste etiketten scoren trekker poeng for)
+
+js-trust-geo-none-in-run = Ingen geometri i denne kjøringen (en motor eldre enn 0.36 skriver ingen).
+
+js-trust-geo-reason-few-satellites = færre satellitter enn minimum
+
+js-trust-geo-reason-high-hdop = HDOP over terskelen
+
+js-trust-geo-reason-high-pdop = PDOP over terskelen
+
+js-trust-geo-reason-sky-blocked = de fulgte satellittene etterlater et bredt gap i azimut (én side av himmelen blokkert)
+
+js-trust-geo-row-deduction = Geometrifradrag
+
+js-trust-geo-row-from = Fra
+
+js-trust-geo-row-gap = Største azimutgap
+
+js-trust-geo-row-label = Etikett
+
+js-trust-geo-row-open-sky = Åpen himmel
+
+js-trust-geo-row-reported-hdop = HDOP mottakeren oppgir
+
+js-trust-geo-row-sats-used = Satellitter brukt
+
+js-trust-geo-row-sky-age = Himmelens alder
+
+js-trust-geo-row-status = Status
+
+js-trust-geo-say-deduction = geometrifradrag { $points } poeng
+
+js-trust-geo-say-label-hdop = geometri { $label } (HDOP { $hdop })
+
+js-trust-geo-say-mismatch = oppgitt HDOP er uenig
+
+js-trust-geo-source-derived = utledet fra satellittene loggen rapporterer (GSV)
+
+js-trust-geo-source-none = ingenting
+
+js-trust-geo-source-reported = mottakerens oppgitte DOP (GSA)
+
+js-trust-geo-status-reasons = { $status }: { $reasons }
+
+js-trust-geo-status-title = geometri { $status }
+
+js-trust-geo-unknown-no-gsv = geometri ukjent: ingen GSV eller GSA i loggen
+
+js-trust-geo-unknown-no-gsv-sentence = Geometri ukjent: ingen GSV eller GSA i loggen.
+
+js-trust-geo-unknown-odd = Geometri ukjent (filen sier «{ $odd }», som denne siden ikke kjenner).
+
+js-trust-geo-used-of-view = { $used } av { $inView } i sikte
+
+js-trust-got-file-kind = { $name }: { $kind }
+
+js-trust-got-lines-skipped = { $count } linje(r) av { $name } var ikke epoker og ble hoppet over
+
+js-trust-imu-csv = CSV med en overskriftsrad
+
+js-trust-imu-euroc = EuRoC MAV imu0 data.csv
+
+js-trust-imu-file = IMU-fil: { $name } ({ $chars } tegn). Brukes ved neste vurdering.
+
+js-trust-imu-file-press = IMU-fil: { $name } ({ $chars } tegn). Brukes ved neste vurdering; trykk på Vurder den valgte filen.
+
+js-trust-imu-none = Ingen IMU-fil.
+
+js-trust-jt-col-latency = Forsinkelse, s
+
+js-trust-jt-col-monitors = Første monitorer
+
+js-trust-jt-col-name = Navn
+
+js-trust-jt-col-outcome = Utfall
+
+js-trust-jt-col-recovered = Gjenopprettet
+
+js-trust-jt-col-slot = Tidsluke, s
+
+js-trust-jt-col-test = Test
+
+js-trust-jt-label = { $label } Vern { $guard } s, gjenopprettingsvent { $hold } s.
+
+js-trust-jt-label-contaminated = { $label } Vern { $guard } s, gjenopprettingsvent { $hold } s. Kalibreringens grunnlinje overlappet en planlagt tidsluke.
+
+js-trust-jt-opened = Åpnet { $name }: { $count } test(er). Lest her; ingenting ble lastet opp.
+
+js-trust-kind-batch-result = batchresultat
+
+js-trust-kind-json-lines = JSON lines
+
+js-trust-kind-nmea-log = NMEA-logg
+
+js-trust-kind-truth-file = referansefil
+
+js-trust-label-demo = Syntetisk demo: en oppdiktet ferjelogg med et oppdiktet posisjons-drag-off, skåret av Kshana. Registrert fra motoren; loggen er tekst, ikke en måling.
+
+js-trust-label-example = Illustrerende eksempel: en oppdiktet NMEA-logg med en oppdiktet jammer fra 120 s til 240 s, vurdert her av motoren. Tekst, ikke en måling.
+
+js-trust-label-geo-demo = Syntetisk demo med maskert himmel: ferjeloggen med vestre halvdel av himmelen blanket ut fra 600 s (naturlig degradering, henført til geometri) og det samme oppdiktede drag-off fra 1500 s (angrepslignende). Registrert fra en motor med 0.36-geometrien; tekst, ikke en måling.
+
+js-trust-label-score-demo = Syntetisk demologg, skåret her av motoren. Oppdiktet ferjelogg og drag-off; tekst, ikke en måling.
+
+js-trust-legend-calibrating = Kalibrerer (aldri skåret)
+
+js-trust-legend-class = Fradragsklasse:
+
+js-trust-legend-class-environment = miljø: signalet
+
+js-trust-legend-class-geometry = geometri: himmelen, ikke signalet
+
+js-trust-legend-class-inconsistency = inkonsistens (angrepslignende)
+
+js-trust-legend-degraded = Degradert
+
+js-trust-legend-demo = I denne demoen rapporterer mottakeren en gyldig posisjonsbestemmelse hele veien (GGA-kvalitet 1, RMC-status A). Det er scoren som faller.
+
+js-trust-legend-geo-degraded = geometri degradert
+
+js-trust-legend-geo-good = geometri god
+
+js-trust-legend-geo-unknown = geometri ukjent (ingen GSV eller GSA; ikke god)
+
+js-trust-legend-nominal = Nominell
+
+js-trust-legend-self = Mottakerens eget flagg mot alarmene til Kshana:
+
+js-trust-legend-self-both = begge flagger
+
+js-trust-legend-self-kshana = bare Kshana
+
+js-trust-legend-self-neither = ingen
+
+js-trust-legend-self-receiver = bare mottakeren
+
+js-trust-legend-sky = Himmel:
+
+js-trust-legend-true-track = Faktisk spor (kun syntetiske data)
+
+js-trust-legend-underline = understreking: geometri koster også poeng
+
+js-trust-legend-untrusted = Ikke til å stole på
+
+js-trust-marks-cleared = Markeringer fjernet.
+
+js-trust-marks-set = { $name } var over startnivået i { $count } epoker; de er markert på tidslinjen og sporet.
+
+js-trust-mon-agc = Automatisk forsterkningsstyring flyttet seg mot grunnlinjen sin.
+
+js-trust-mon-clock = Den klokkestøttede monitoren: mottakerklokken mot den predikerte linjen sin.
+
+js-trust-mon-cn0-drop = Effektnekting: signalstyrken har falt mot kalibreringsgrunnlinjen.
+
+js-trust-mon-cn0-rise = Leter etter signaturen til én sender: signalstyrken på tvers av satellittene stiger samtidig mot grunnlinjen.
+
+js-trust-mon-cn0-spread = Leter etter signaturen til én sender: signalstyrken på tvers av satellittene kollapser samtidig mot kalibreringsgrunnlinjen.
+
+js-trust-mon-geometry = Satellittgeometrien (0.36): koster poeng bare når geometrien er dårlig (HDOP, PDOP eller antall brukte satellitter utenfor terskelene), begrenset og aldri under det degraderte båndet.
+
+js-trust-mon-heading-course = Sammenligner sporets retning med hvor skipet peker, innenfor den oppgitte krabbevinkelen.
+
+js-trust-mon-jam-ind = Mottakerens egen jamming-indikator.
+
+js-trust-mon-kinematic = Sammenligner hvert posisjonssteg med den rapporterte farten og kursen, og med fartøyets oppgitte grenser for fart, akselerasjon og svingehastighet.
+
+js-trust-mon-loss-of-lock = Tap av fulgte satellitter.
+
+js-trust-mon-osnma = Leser en rapportert OSNMA-autentiseringsfeil. Statusen leses, ikke verifiseres.
+
+js-trust-mon-position-jump = Et steg i den rapporterte posisjonen som er større enn grunnlinjen tillater.
+
+js-trust-mon-raim = Teststatistikken for mottakerens autonome integritetsovervåking mot terskelen.
+
+js-trust-mon-receiver-self-report = Mottakerens eget spoofing- eller jamming-flagg (for eksempel u-blox UBX-SEC-SIG eller NAV-STATUS spoofDetState), vist ved siden av Kshanas monitorer. Lest fra loggen, ikke verifisert; plassen er klar for monitoren i 0.38-motoren og tegnes som en stripe så snart et resultat har den.
+
+js-trust-mon-sea-level = Kontrollerer at høyden er der havoverflaten og den oppgitte antennehøyden plasserer den.
+
+js-trust-mon-solve-failure = Posisjonsløsningen kunne ikke beregnes.
+
+js-trust-mon-speed-log = Sammenligner fart over grunnen med fart gjennom vannet, innenfor den oppgitte strømtoleransen.
+
+js-trust-mon-time-consistency = Kontrollerer mottakerens tid for uregelmessige steg eller baklengs gang, og mot denne datamaskinens klokke for sanntidsstrømmer.
+
+js-trust-mon-unknown = En monitor denne visningen ikke har en beskrivelse av (nyere enn siden). Behandle den som en monitor.
+
+js-trust-na = ikke aktuelt
+
+js-trust-name-colon-text = { $name }: { $text }
+
+js-trust-never = aldri
+
+js-trust-no = nei
+
+js-trust-no-deduction = ingen fradrag
+
+js-trust-none = ingen
+
+js-trust-north = N
+
+js-trust-not-stated = ikke oppgitt
+
+js-trust-note-advisories = Linjene har { $count } forskjellige veiledende erklæringer; den første vises.
+
+js-trust-note-csv-limits = trust.csv har scorer og årsaker, men ikke forhold eller posisjoner.
+
+js-trust-note-live-no-model = En levende strøm oppgir ikke hvilke monitorer som kjørte eller scoremodellen; båndgrensene nedenfor er de dokumenterte standardverdiene, og monitorstripene viser bare monitorer som koster poeng.
+
+js-trust-note-nmea-no-match = Ingen NMEA-posisjonsbestemmelse kunne knyttes til en epoke etter tid.
+
+js-trust-note-nmea-skipped = { $count } NMEA-setning(er) med feil sjekksum eller felter ble hoppet over.
+
+js-trust-note-skipped-epochs = { $count } epoke(r) uten numerisk t_s ble hoppet over.
+
+js-trust-note-truth-no-match = Referansefilens tidspunkter stemmer med ingen epoke.
+
+js-trust-note-unknown-state = { $count } epoke(r) har en tilstand denne siden ikke kjenner ({ $states }); de tegnes som kalibrerende, aldri skåret.
+
+js-trust-offset-at = Ved { $time } er den mottakerrapporterte posisjonen { $m } m fra der fartøyet faktisk var (syntetisk referanse).
+
+js-trust-offset-no-truth = Ingen faktisk posisjon på dette tidspunktet.
+
+js-trust-opened = Åpnet { $count } epoker ({ $source }).
+
+js-trust-opening-demo = Åpner den syntetiske demoen…
+
+js-trust-opening-demo-log = Åpner den syntetiske demologgen…
+
+js-trust-opening-example = Åpner det illustrerende eksempelet…
+
+js-trust-opening-geo-demo = Åpner demoen med maskert himmel…
+
+js-trust-pause = Pause
+
+js-trust-play = Spill av
+
+js-trust-reading = Leser…
+
+js-trust-reasons-calibrating = Kalibrerer: de første sekundene danner grunnlinjen og skåres aldri.
+
+js-trust-reasons-class-note = Hvert fradrag har motorens klasse: geometri (himmelen), miljø (signalet) eller inkonsistens (angrepslignende)
+
+js-trust-reasons-live-unknown = Hvilke monitorer som kjørte, oppgis ikke i en levende strøm; en kontroll som mangler her, kan ha uteblitt.
+
+js-trust-reasons-marked-none = markert; intet fradrag her
+
+js-trust-reasons-no-score = Ingen score ved denne epoken.
+
+js-trust-reasons-no-score-note = Ingen score ved denne epoken: { $note }.
+
+js-trust-reasons-not-run = Ikke kjørt (ikke en bestått kontroll)
+
+js-trust-reasons-nothing = Ingenting ble trukket fra ved denne epoken. Det er ikke belegg for at posisjonsbestemmelsen er god: se hva kontrollene ikke kan se, nedenfor.
+
+js-trust-reasons-pts = { $points } poeng
+
+js-trust-reasons-ran-free = Kjørte, kostet ingenting
+
+js-trust-reasons-ratio = forhold { $ratio }
+
+js-trust-reasons-row-title = { $name }: { $text } Klikk for å markere hvor den var over startnivået.
+
+js-trust-reasons-weight = vekt { $weight }
+
+js-trust-reduced-motion = Redusert bevegelse er foretrukket, så avspillingen starter på 1x. Bruk glidebryteren eller piltastene for å bevege deg uten animasjon.
+
+js-trust-say-gate = gate { $gate }
+
+js-trust-say-gate-derived = gate { $gate } (utledet)
+
+js-trust-say-monitor-points = { $monitor } { $points } poeng
+
+js-trust-say-position-from-true = rapportert posisjon { $m } m fra faktisk
+
+js-trust-say-reasons = årsaker: { $list }
+
+js-trust-say-score = score { $score }
+
+js-trust-scored-label = Skåret { $count } epoker av { $name } med motor { $version }, i denne nettleseren.
+
+js-trust-scored-summary = Skåret { $count } epoker med motor { $version }: { $summary }. Kun veiledende.
+
+js-trust-scoring = Starter motoren og skårer…
+
+js-trust-self-code-meaning = { $code }: { $meaning }
+
+js-trust-self-none-at-time = Loggen har ikke noe mottakerflagg på dette tidspunktet.
+
+js-trust-self-not-in-log = ikke i loggen
+
+js-trust-self-row-flags = Mottakerflagg
+
+js-trust-self-row-jamming = Mottakerens jamming-tilstand
+
+js-trust-self-row-kshana-alarms = En Kshana-monitor varsler
+
+js-trust-self-row-spoofing = Mottakerens spoofing-tilstand
+
+js-trust-self-unknown-agreement = en overensstemmelse denne siden ikke kjenner ({ $odd })
+
+js-trust-self-yes-state-2 = ja (tilstand 2 eller mer)
+
+js-trust-set-degraded-edge = den degraderte grensen
+
+js-trust-set-degraded-min = degradert ved og over
+
+js-trust-set-epochs = Epoker
+
+js-trust-set-epochs-counts = { $total } i alt: { $calibrating } kalibrerer, { $nominal } nominelle, { $degraded } degraderte, { $untrusted } ikke til å stole på.
+
+js-trust-set-epochs-counts-class = { $total } i alt: { $calibrating } kalibrerer, { $nominal } nominelle, { $degraded } degraderte, { $untrusted } ikke til å stole på. Etter fradragsklasse: geometri { $geometry }, miljø { $environment }, inkonsistens { $inconsistency }.
+
+js-trust-set-evidence-hold = belegg-hold, s
+
+js-trust-set-full-ratio = full vekt ved forhold
+
+js-trust-set-geo-counts = Himmel: { $good } god, { $degraded } degradert, { $unknown } ukjent. Etikett: { $lgood } god, { $fair } middels, { $poor } dårlig (bare dårlig koster poeng). Epoker med fradrag av klassen geometri { $geometry }, miljø { $environment }, inkonsistens { $inconsistency }.
+
+js-trust-set-geo-counts-odd = Himmel: { $good } god, { $degraded } degradert, { $unknown } ukjent ({ $odd } med en verdi denne siden ikke kjenner, lest som ukjent). Etikett: { $lgood } god, { $fair } middels, { $poor } dårlig (bare dårlig koster poeng). Epoker med fradrag av klassen geometri { $geometry }, miljø { $environment }, inkonsistens { $inconsistency }.
+
+js-trust-set-geometry = Geometri ([geometry]-innstillinger)
+
+js-trust-set-gloss = Hva hver kontroll ser på
+
+js-trust-set-live-geometry = En levende strøm oppgir ikke geometriterskelene; de dokumenterte standardverdiene gjelder (dårlig over HDOP 4 eller PDOP 6, eller under 5 satellitter; høyst 15 poeng, aldri under det degraderte båndet).
+
+js-trust-set-no-geometry = Denne kjøringen har ingen geometri: den kommer fra en motor eldre enn 0.36, eller fra trust.csv. Ingenting om himmelen vises, og ingenting vises som godt.
+
+js-trust-set-nominal-min = nominell ved og over
+
+js-trust-set-onset-ratio = koster poeng fra forhold
+
+js-trust-set-provenance = Hvor terskelene kommer fra, og hvordan fradrag klassifiseres
+
+js-trust-set-ran = Kontroller som kjørte
+
+js-trust-set-weights = Vekt for hver kontroll, poeng
+
+js-trust-settings-assumed = Denne strømmen oppgir ikke scoremodellen sin. Båndgrensene som vises, er de dokumenterte standardverdiene, antatt.
+
+js-trust-show-in-replay = Vis denne kjøringen i avspillingen nedenfor (spor, score, mottakerens eget flagg)
+
+js-trust-sky-no-gsv = ingen GSV
+
+js-trust-sky-none = Ingen himmel: åpne NMEA-loggen sammen med kjøringen (eller en demo) for å se satellittene den lister opp.
+
+js-trust-span-title = { $what }, { $from } til { $to }
+
+js-trust-state-0 = ukjent eller ikke aktivert
+
+js-trust-state-1 = ingen angitt
+
+js-trust-state-2 = angitt
+
+js-trust-state-3 = flere angivelser eller bekreftet
+
+js-trust-strip-band = bånd
+
+js-trust-strip-class = klasse
+
+js-trust-strip-gate = gate
+
+js-trust-strip-marked = markert
+
+js-trust-strip-receiver = mottaker
+
+js-trust-strip-sky = himmel
+
+js-trust-strips-none = Ingen monitorforhold i denne filen.
+
+js-trust-strips-note-ran = forholdet mellom statistikk og terskel; stiplet linje er alarmen ved 1
+
+js-trust-strips-note-seen = bare monitorer sett å koste poeng; forhold over terskel
+
+js-trust-sum-both-flag = Begge flagger
+
+js-trust-sum-epochs-compared = Epoker sammenlignet (etter kalibrering)
+
+js-trust-sum-first-kshana = Første Kshana-alarm blant disse epokene
+
+js-trust-sum-first-receiver = Første mottakerflagg
+
+js-trust-sum-jamming-flag = Mottakerens jamming-flagg (tilstand 2+)
+
+js-trust-sum-neither = Ingen
+
+js-trust-sum-only-kshana = Bare Kshana varsler
+
+js-trust-sum-only-receiver = Bare mottakeren flagger
+
+js-trust-sum-spoofing-flag = Mottakerens spoofing-flagg (tilstand 2+)
+
+js-trust-thr-azimuth-gap = azimutgap, grader, ved og over der himmelen er delvis blokkert
+
+js-trust-thr-cap-in-force = flest poeng geometrifradraget tar i denne kjøringen
+
+js-trust-thr-cap-points = flest poeng geometrifradraget kan ta
+
+js-trust-thr-floor = laveste score geometrien alene kan etterlate (tom: det degraderte båndets grense)
+
+js-trust-thr-floor-in-force = laveste score geometrien alene kan etterlate i denne kjøringen
+
+js-trust-thr-full-ratio = forholdet der geometrifradraget når taket sitt
+
+js-trust-thr-hdop-good = HDOP ved og under som geometrien er god
+
+js-trust-thr-hdop-max = HDOP over som geometrien er dårlig
+
+js-trust-thr-hold = hvor lenge himmelposisjoner og GSA teller etter at de kommer, s
+
+js-trust-thr-low-elev = elevasjon, grader, under som en tapt satellitt tilskrives himmelen
+
+js-trust-thr-min-used = færrest brukte satellitter før geometrien er dårlig
+
+js-trust-thr-pdop-good = PDOP ved og under som geometrien er god
+
+js-trust-thr-pdop-max = PDOP over som geometrien er dårlig
+
+js-trust-thr-reported-rel = det samme, som andel av den utledede HDOP-en
+
+js-trust-thr-reported-tol = forskjell mellom oppgitt og utledet HDOP før de to er uenige
+
+js-trust-thr-sigma-uere = brukerekvivalent avstandsfeil terskelene forutsetter, meter
+
+js-trust-thr-used-good = brukte satellitter ved og over som geometrien er god
+
+js-trust-track-desc = Spor av { $positions } rapporterte posisjoner, nord opp. { $untrusted } epoker er ikke til å stole på.
+
+js-trust-track-desc-none = Ingen spor: filene har ingen posisjoner.
+
+js-trust-track-desc-truth = Spor av { $positions } rapporterte posisjoner, nord opp. { $untrusted } epoker er ikke til å stole på. En tynn grå linje viser det faktiske sporet.
+
+js-trust-track-end = slutt
+
+js-trust-track-no-positions = Ingen posisjoner i filene som ble åpnet
+
+js-trust-track-note = Nord opp, én skala på begge akser. Linjen er der mottakeren sa at fartøyet var, farget etter tillitsbåndet til hver epoke.
+
+js-trust-track-note-none = Denne filen har ingen posisjoner. Legg til NMEA-loggen kjøringen kom fra (eller en v1.1-strøm med en posisjon) for å tegne sporet.
+
+js-trust-track-start = start
+
+js-trust-unknown-agreement = en overensstemmelse denne siden ikke kjenner
+
+js-trust-yes = ja

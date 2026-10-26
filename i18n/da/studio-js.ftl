@@ -8521,3 +8521,1357 @@ js-t35data-card-marine-title = Maritime integrationer
 
 # 2026-10-01-studio-rebuild/lib/tools35-data.mjs:95
 js-t35data-card-marine-what = En Signal K-serverplugin og OpenCPN gennem gate-mode NMEA over TCP lægger tillidsscoren på software, som lystsejlere allerede bruger; en referencebygning lægger den på en lille computer ved siden af modtageren.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:96
+js-t35data-card-marine-why = De bruger den kørende live-proces og dens TCP-gate: installationer på bådens computer.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:84
+js-t35data-card-telemetry-title = Tillid som sikkerhedstelemetri
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:85
+js-t35data-card-telemetry-what = Omsætter tillidsstrømmen (score, bånd, årsager) til Prometheus-metrikker, syslog-hændelser i CEF eller LEEF til et SIEM og OpenTelemetry. Den læser strømmen og ændrer aldrig vurderingen.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:86
+js-t35data-card-telemetry-why = Det er en proces, der leverer metrikker og sender til dine overvågningssystemer, så den kører ved siden af modtageren, ikke i en side.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:99
+js-t35data-card-training-stream-title = Træningsstrømme til en TCP- eller UDP-adresse
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:100
+js-t35data-card-training-stream-what = Sender en genereret træningsstrøm til en brosimulator eller en kortplotter i realtid eller hurtigere. Studios træningsside genererer den samme tekst og lader dig hente den.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:101
+js-t35data-card-training-stream-why = At sende til en netværksadresse er noget, en browserside ikke gør. Strømmen er kun tekst og aldrig til et fartøjs levende navigationssystemer.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:77
+js-t35data-feat-ai-ai = Installationsmuligheder for MCP-serveren, med de spørgsmål, hvert værktøj besvarer
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:76
+js-t35data-feat-ai-name = Brug fra en AI-assistent (MCP-server)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:56
+js-t35data-feat-bench-bench = Eksportér et scenaries bevægelse, NMEA, waypoints og hændelser, her
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:55
+js-t35data-feat-bench-name = Test-bench-eksport til en laboratoriesimulator
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:59
+js-t35data-feat-compliance-compliance = Se, hvilke rækker i rammeværket dine kørsler leverer belæg for, og kortlægningstabellerne, her
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:58
+js-t35data-feat-compliance-name = Compliance-kortlægning til offentlige robusthedsrammeværker
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:52
+js-t35data-feat-evidence-evidence = Verificér en pakke og vedhæft et tidsstempelbevis, her
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:51
+js-t35data-feat-evidence-name = Signerede bevispakker
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:54
+js-t35data-feat-evidence-why = At oprette en pakke kræver en privat signeringsnøgle, som ikke bør passere gennem en webside. Pakker laves med kommandolinjen, Python eller AI-assistentens værktøjer.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:46
+js-t35data-feat-interference-map-interference = Åbn kortfiler, eller byg et kort ud fra CSV her, og kontrollér en rute mod det
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:45
+js-t35data-feat-interference-map-name = Interferenskort (ADS-B og AIS) og ruteeksponering
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:61
+js-t35data-feat-iq-name = GNSS IQ-overvågninger og -værktøjer (scene, opfangning, sporing, gennemløb, front end, overvågning, kampagner)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:63
+js-t35data-feat-iq-why = En optagelse er gigabytes af samples, som en side ikke kan rumme, og nogle kommandoer omskriver optagelser på disken. Browserudgaven har ingen IQ-funktioner.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:71
+js-t35data-feat-jammertest-jammertest = Importér planen for en logs tidsrum, eller vurdér en modtagerlog (UBX, RINEX, Android, NMEA eller Septentrio SBF) pr. test: detektionsforsinkelse, overså, falske alarmer, tid til genopretning; MODELLED
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:70
+js-t35data-feat-jammertest-name = Jammertest som dommer: den offentliggjorte testplan som planlagt reference, en modtagerlog vurderet mod den (0.38)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:36
+js-t35data-feat-live-gate-name = Levende tillidsstrøm, gate og lytter (stdin, fil, TCP, UDP, --gate, --listen)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:38
+js-t35data-feat-live-gate-why = Det er en kørende proces i datastien. En side vender tilbage, når den er færdig, og kan hverken holde en socket åben for en kortplotter eller markere en positionsbestemmelse som ugyldig i en levende strøm. Studio vurderer i stedet et afgrænset uddrag, i det samme live-format, uden gate.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:74
+js-t35data-feat-machines-imufit = Tilpas accelerometer- og gyroparametrene for hybrid- og fusionsscenarierne ud fra en IMU-log i hvile; MODELLED
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:73
+js-t35data-feat-machines-name = Modtager- og sensorinput: RTKLIB .pos, NovAtel OEM7, RTCM 3 MSM, GNSS-SDR, en IMU til kursretningen og en IMU-tilpasning til hybrid- og fusionsscenarierne (0.38)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:74
+js-t35data-feat-machines-trust = Åbn en log i et af disse formater (og en valgfri IMU-fil) i den generiske receiver-trust-kørsel; NovAtels eget jammer-flag sammenlignes med Kshanas alarmer
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:64
+js-t35data-feat-marine-name = Maritime integrationer: Signal K-plugin og OpenCPN
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:66
+js-t35data-feat-marine-why = De bruger den kørende live-proces og dens TCP-gate, så de er installationer på en bådcomputer, ikke noget, en side kan køre.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:33
+js-t35data-feat-maritime-trust-name = Maritim tillidsscore for et bevægeligt fartøj (0 til 100, med årsager)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:34
+js-t35data-feat-maritime-trust-trust = Åbn et resultat eller en live JSON-lines-kørsel og se sporet, scoren, årsagerne og gaten; vurdér en NMEA-log her
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:39
+js-t35data-feat-nmea-training-name = NMEA-træningsstrømme med en instruktørlog
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:40
+js-t35data-feat-nmea-training-training = Generér en strøm og dens instruktørlog her, hent dem, og kør instruktørens debriefing
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:67
+js-t35data-feat-osnma-name = Galileo OSNMA-verifikation (UBX SFRBX-input)
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:68
+js-t35data-feat-osnma-osnma = Indlæs en optaget fil og se autentificeringsstatus pr. satellit og pr. tag
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:48
+js-t35data-feat-telemetry-name = Telemetrieksport: Prometheus-metrikker, syslog CEF og LEEF, OpenTelemetry
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:50
+js-t35data-feat-telemetry-why = Den leverer metrikker, sender syslog og eksporterer OpenTelemetry fra en kørende strøm: en proces, der taler med dine overvågningssystemer, hvilket en side ikke kan.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:42
+js-t35data-feat-training-stream-name = Streaming af en træningsstrøm til en TCP- eller UDP-adresse
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:44
+js-t35data-feat-training-stream-why = Den sender til en netværksadresse, hvilket en webside ikke gør. Studio genererer teksten, og du henter den.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:28
+js-t35data-page-ai = Brug fra din AI-assistent
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:22
+js-t35data-page-bench = Test-bench-eksport
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:27
+js-t35data-page-cli = Funktioner i kommandolinjen
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:23
+js-t35data-page-compliance = Compliance-kortlægning
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:21
+js-t35data-page-evidence = Bevispakker
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:17
+js-t35data-page-geometry = Geometri: skyplot, horisontlinje og DOP
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:26
+js-t35data-page-imufit = IMU-tilpasning
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:20
+js-t35data-page-interference = Interferenskort
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:25
+js-t35data-page-jammertest = Jammertest-vurdering
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:24
+js-t35data-page-osnma = OSNMA-verifikation
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:19
+js-t35data-page-training = Debriefing af træning
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:18
+js-t35data-page-trust = Maritim tillid
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:93
+js-t35data-sample-iq-help = Listen over IQ-kommandoer
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:88
+js-t35data-sample-telemetry-cef = Syslog i CEF for demokørslen
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:88
+js-t35data-sample-telemetry-leef = Syslog i LEEF for demokørslen
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:88
+js-t35data-sample-telemetry-metrics = Prometheus-metrikker for demokørslen
+
+# 2026-10-01-studio-rebuild/tools/tools.js:359
+js-tools-ai-group-engine = Installér motoren og dens biblioteker
+
+# 2026-10-01-studio-rebuild/tools/tools.js:359
+js-tools-ai-group-integrations = Maritime integrationer, plugins og dashboards
+
+# 2026-10-01-studio-rebuild/tools/tools.js:359
+js-tools-ai-group-mcp = Installér MCP-serveren til din assistent
+
+# 2026-10-01-studio-rebuild/tools/tools.js:354
+js-tools-ai-heading = Brug Kshana fra din AI-assistent
+
+# 2026-10-01-studio-rebuild/tools/tools.js:362
+js-tools-ai-install-mcp = Installér MCP-serveren
+
+# 2026-10-01-studio-rebuild/tools/tools.js:354
+js-tools-ai-intro = Kshana MCP-serveren lader en AI-assistent køre motoren i stedet for at gætte tal. Den kører på din computer; intet sendes til Kshana. Vælg den måde, der passer til dit værktøj.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:392
+js-tools-ai-load-failed = Installationsmulighederne blev ikke indlæst ({ $reason }). Se dokumentationen til MCP-serveren.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:397
+js-tools-ai-mcp-docs = Dokumentation til MCP-serveren
+
+# 2026-10-01-studio-rebuild/tools/tools.js:361
+js-tools-ai-more-ways = Flere måder at installere på
+
+# 2026-10-01-studio-rebuild/tools/tools.js:391
+js-tools-ai-none-listed = Ingen installationsmuligheder er opført i denne udgave.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:362
+js-tools-ai-other-ways = Andre måder at installere Kshana på
+
+# 2026-10-01-studio-rebuild/tools/tools.js:397
+js-tools-ai-read-agent-guide = Læs agentvejledningen
+
+# 2026-10-01-studio-rebuild/tools/tools.js:397
+js-tools-ai-rule = Reglen for ethvert svar: assistenten kører motoren og rapporterer, hvad et værktøj returnerede, med dets enhed og dets evidensniveau (valideret mod en uafhængig reference eller modelleret), scenariet, seedet og motorversionen, så kørslen kan gentages. Et resultats egne forbehold følger med det. MCP-serveren læser og skriver ingen filer uden for én mappe, du selv tilvælger.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:393
+js-tools-ai-what-to-ask = Hvad man kan spørge om, og hvilket værktøj der svarer
+
+# 2026-10-01-studio-rebuild/tools/tools.js:397
+js-tools-ai-where-reachable = Hvor hver funktion er tilgængelig
+
+# 2026-10-01-studio-rebuild/tools/tools.js:216
+js-tools-bench-files-written =
+    { $n ->
+        [one] { $n } fil skrevet til din browsers hukommelse
+       *[other] { $n } filer skrevet til din browsers hukommelse
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:216
+js-tools-bench-note = Kun bevægelse og mærkede hændelsesintervaller. Hent dem for at indlæse dem i en laboratoriesimulator.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:233
+js-tools-bench-wrong-kind = { $name } er et scenarie af typen { $kind }. En køretøjsbane findes for typerne { $kinds }; andre typer angiver, hvorfor de ikke har nogen.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:246
+js-tools-building-report = Bygger rapporten…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:440
+js-tools-choose-catalogue-first = Vælg først katalog-JSON.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:319
+js-tools-choose-file-first = Vælg først en fil.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:484
+js-tools-choose-imu-log = Vælg først en IMU-log i hvile.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:140
+js-tools-choose-pack-first = Vælg først pakkens filer.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:175
+js-tools-choose-pack-first-above = Vælg først pakkens filer (ovenfor).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:441
+js-tools-choose-plan-file = Vælg mindst én planfil.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:468
+js-tools-choose-receiver-log = Vælg først modtagerloggen.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:243
+js-tools-choose-result-first = Vælg først mindst én resultatfil (*.result.json).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:232
+js-tools-choose-scenario-first = Vælg først et scenarie.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:177
+js-tools-choose-tsr-first = Vælg først tidsstempelsvaret (.tsr).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:190
+js-tools-chosen = Valgt
+
+# 2026-10-01-studio-rebuild/tools/tools.js:160
+js-tools-col-check = Kontrol
+
+# 2026-10-01-studio-rebuild/tools/tools.js:160
+js-tools-col-detail = Detalje
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-first-monitors = Første overvågninger
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-gap-that-stays = Hul, der består
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-last-auth-tag = Sidste autentificerede tag (Galileo-systemtid)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-latency = Forsinkelse, s
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-name = Navn
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-outcome = Udfald
+
+# 2026-10-01-studio-rebuild/tools/tools.js:394
+js-tools-col-question = Spørgsmål
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-recovered = Genoprettet
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-reference = Reference
+
+# 2026-10-01-studio-rebuild/tools/tools.js:160
+js-tools-col-result = Resultat
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-row = Række
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-satellite = Satellit
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-slot = Slot, s
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-status = Status
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-tags = Tags
+
+# 2026-10-01-studio-rebuild/tools/tools.js:447
+js-tools-col-test = Test
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-these-runs = Disse kørsler
+
+# 2026-10-01-studio-rebuild/tools/tools.js:394
+js-tools-col-tool = Værktøj
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-what-is-missing = Hvad der mangler
+
+# 2026-10-01-studio-rebuild/tools/tools.js:261
+js-tools-col-what-it-asks = Hvad den spørger om
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-col-why-not-auth = Hvorfor ikke autentificeret
+
+# 2026-10-01-studio-rebuild/tools/tools.js:103
+js-tools-copied = Kopieret
+
+# 2026-10-01-studio-rebuild/tools/tools.js:102
+js-tools-copy = Kopiér
+
+# 2026-10-01-studio-rebuild/tools/tools.js:102
+js-tools-copy-command-aria = Kopiér: { $cmd }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:366
+js-tools-copy-labelled-aria = Kopiér { $label }: { $text }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:49
+js-tools-did-not-work = Det virkede ikke
+
+# 2026-10-01-studio-rebuild/tools/tools.js:384
+js-tools-documentation = Dokumentation
+
+# 2026-10-01-studio-rebuild/tools/tools.js:220
+js-tools-download = Hent
+
+# 2026-10-01-studio-rebuild/tools/tools.js:225
+js-tools-download-all-zip = Hent alle (zip)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:460
+js-tools-download-events-toml = Hent hændelserne (TOML)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:277
+js-tools-download-md = Hent (Markdown)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:267
+js-tools-download-report-json = Hent rapporten (JSON)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:266
+js-tools-download-report-md = Hent rapporten (Markdown)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:474
+js-tools-download-scorecard-json = Hent resultatkortet (JSON)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:492
+js-tools-download-table-toml = Hent tabellen (TOML)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:183
+js-tools-download-updated-pack = Hent den opdaterede pakke (zip)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:493
+js-tools-download-whole-report-json = Hent hele rapporten (JSON)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:45
+js-tools-engine-lacks-error = Denne motorudgave (version { $version }) har ingen { $need }, så den kan endnu ikke køre dette her. De optagede resultater og kommandolinjen virker stadig.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:43
+js-tools-engine-lacks-status = Denne motorudgave (version { $version }) har ingen { $need }: den er ældre end den version, dette værktøj kræver. Kommandolinjens tilsvarende står under fanen Kommandolinje.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:41
+js-tools-engine-running = Motoren (version { $version }) kører i denne browser. Intet uploades.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:39
+js-tools-engine-starting = Starter motoren i denne browser…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:40
+js-tools-engine-unavailable = Motoren kunne ikke starte her ({ $reason }). Det virker at åbne filer; at køre værktøjerne kræver WebAssembly.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:91
+js-tools-epoch-format = Brug YYYY-MM-DDTHH:MM:SS, med et valgfrit Z (UTC).
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:94
+js-tools-epoch-not-real = Det er ikke et ægte UTC-tidspunkt mellem årene 2000 og 2099.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:166
+js-tools-every-check = Hver kontrol
+
+# 2026-10-01-studio-rebuild/tools/tools.js:169
+js-tools-evidence-disclaimer = En bevispakke er en teknisk registrering af det, motoren beregnede ud fra en angivet log under angivne indstillinger. Den er ikke en juridisk udtalelse, en faktuel konstatering om nogen hændelse eller en certificering. Et bestået resultat betyder, at registreringen er uændret.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:132
+js-tools-example-pack = Syntetisk eksempelpakke
+
+# 2026-10-01-studio-rebuild/tools/tools.js:134
+js-tools-example-pack-note = En syntetisk pakke, som motorens kommandolinje har lavet ud fra demo-færgeloggen med en demonstrationsnøgle. Nøglen er udfyldt nedenfor; en rigtig underskrivers nøgle kommer fra underskriveren ad anden vej.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:132
+js-tools-example-pack-tampered = Eksempelpakke, hvor én byte i epochs.json er ændret
+
+# 2026-10-01-studio-rebuild/tools/tools.js:284
+js-tools-example-runs = Syntetiske eksempelkørsler
+
+# 2026-10-01-studio-rebuild/tools/tools.js:134
+js-tools-example-tampered-note = Én byte i en fil i pakken er blevet ændret efter signeringen. Verificér den: kontrollen angiver filen.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:213
+js-tools-exporting = Eksporterer…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:322
+js-tools-field-whole-number = { $field } skal være et heltal
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:63
+js-tools-file-not-chosen = { $file } er ikke blandt de valgte filer
+
+# 2026-10-01-studio-rebuild/tools/tools.js:53
+js-tools-file-too-large = { $name } er større end 64 MiB
+
+# 2026-10-01-studio-rebuild/tools/tools.js:282
+js-tools-files-selected = { $label }: { $files }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:157
+js-tools-fingerprint-not-pinned = Underskriverens fingeraftryk: { $fingerprint } (ikke fastlåst: den nøgle, pakken selv angiver)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:157
+js-tools-fingerprint-pinned = Underskriverens fingeraftryk: { $fingerprint } (fastlåst)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:488
+js-tools-fitting = Tilpasser…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:260
+js-tools-framework-summary = { $name }: { $evidenced } med belæg, { $partly } delvist, { $notEvidenced } uden belæg, { $outOfScope } uden for omfanget
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:131
+js-tools-fw-dhs-rpcf = US DHS Resilient PNT Conformance Framework, v2.0
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:133
+js-tools-fw-easa-aviation = EASA's vejledning om GNSS-interferens for luftfart
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:135
+js-tools-fw-en-16803 = EN 16803 (kun efter del- og punktnummer)
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:132
+js-tools-fw-imo-ships = IMO's vejledning om GNSS-interferens for skibe
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:134
+js-tools-fw-nis2-art21 = EU's NIS2-direktiv, artikel 21
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:183
+js-tools-gst-none = ingen
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:183
+js-tools-gst-text = uge { $week }, { $tow } s
+
+# 2026-10-01-studio-rebuild/tools/tools.js:90
+js-tools-how-to-run = Sådan kører du det
+
+# 2026-10-01-studio-rebuild/tools/tools.js:502
+js-tools-imu-file-too-large = { $name } er større end 32 MiB; åbn et uddrag.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:486
+js-tools-imu-mean-not-number = Den specifikke kraft i hvile er ikke et tal (0 for en vandret akse, omkring 9.80665 for den lodrette).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:494
+js-tools-imu-notice = { $evidence }: estimatoren er kontrolleret på syntetiske hvidstøjslogs med kendte koefficienter, ikke mod en ekstern uafhængig reference. Tabellen angiver logens SHA-256 ({ $sha }…).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:505
+js-tools-imu-selected = { $name } ({ $size }), læst her, aldrig uploadet.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:461
+js-tools-jt-events-count = { $n } planlagt(e) hændelse(r)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:461
+js-tools-jt-events-note = som planlagt reference: planlagte slots, ikke optagne sendetidspunkter. Ikke RF: { $nonRf }; uden for loggen: { $outside }; ukendte id'er: { $unknown }.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:449
+js-tools-jt-guard-hold = Guard { $guard } s, genopretningshold { $hold } s.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:449
+js-tools-jt-guard-hold-overlap = Guard { $guard } s, genopretningshold { $hold } s. Kalibreringens baseline overlappede en planlagt slot.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:456
+js-tools-jt-import-needs-start = Importen kræver logens første epoke i UTC (ISO 8601), fordi planen er i lokal tid.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-catalogue = katalog { $name }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-log = log { $name } ({ $size })
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-no-catalogue = intet katalog
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-no-log = ingen log
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-no-plan = ingen plan
+
+# 2026-10-01-studio-rebuild/tools/tools.js:433
+js-tools-jt-sel-plans = { $n } planfil(er)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-jt-slot-range = { $from } til { $to }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-area = Testområdet
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-guard = Guarden
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-hold = Genopretningsholdet
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-offset = Forskydningen fra UTC
+
+# 2026-10-01-studio-rebuild/tools/tools.js:443
+js-tools-jt-what-year = Planens år
+
+# 2026-10-01-studio-rebuild/tools/tools.js:377
+js-tools-label-command = kommando
+
+# 2026-10-01-studio-rebuild/tools/tools.js:378
+js-tools-label-pinned-command = fastlåst kommando
+
+# 2026-10-01-studio-rebuild/tools/tools.js:380
+js-tools-label-settings-example = indstillingseksempel { $n }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:108
+js-tools-loading = Indlæser…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:244
+js-tools-max-runs = Højst { $max } kørsler.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:324
+js-tools-merkle-root-format = Merkle-roden er 64 hexadecimale cifre.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:438
+js-tools-must-be-number = { $what } skal være et tal
+
+# 2026-10-01-studio-rebuild/tools/tools.js:439
+js-tools-must-be-whole-zero = { $what } skal være et heltal, 0 for "ikke angivet"
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-na = n/a
+
+# 2026-10-01-studio-rebuild/tools/tools.js:376
+js-tools-needs = Kræver: { $requires }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-no = nej
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-none = ingen
+
+# 2026-10-01-studio-rebuild/tools/tools.js:338
+js-tools-none-in-build = ingen i denne udgave
+
+# 2026-10-01-studio-rebuild/tools/tools.js:90
+js-tools-not-in-browser = Ikke i en browser.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:294
+js-tools-not-osnma = Ikke et OSNMA-resultat
+
+# 2026-10-01-studio-rebuild/tools/tools.js:258
+js-tools-not-used = Ikke brugt: { $item }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:168
+js-tools-notes = Noter
+
+# 2026-10-01-studio-rebuild/tools/tools.js:382
+js-tools-open = Åbn
+
+# 2026-10-01-studio-rebuild/tools/tools.js:299
+js-tools-osnma-advisory = Vejledende: dette er analyse- og overvågningsoutput og ikke typegodkendt navigationsudstyr. Den autentificeringsstatus, der rapporteres her, er ikke en integritetstjeneste for navigation og må ikke være det eneste grundlag for nogen navigations- eller sikkerhedsbeslutning.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:176
+js-tools-osnma-authenticated = Autentificeret
+
+# 2026-10-01-studio-rebuild/tools/tools.js:306
+js-tools-osnma-caption = Autentificeringsstatus pr. satellit
+
+# 2026-10-01-studio-rebuild/tools/tools.js:340
+js-tools-osnma-demo-note = Den midlertidige offentlige nøgle er udfyldt; tryk på Verificér for at køre verifikatoren her, eller vis det optagede resultat.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:180
+js-tools-osnma-discarded = Kasseret
+
+# 2026-10-01-studio-rebuild/tools/tools.js:310
+js-tools-osnma-events = Hvad verifikatoren så
+
+# 2026-10-01-studio-rebuild/tools/tools.js:336
+js-tools-osnma-examples-missing = de syntetiske eksempler findes endnu ikke i denne udgave
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:177
+js-tools-osnma-failed = Mislykket
+
+# 2026-10-01-studio-rebuild/tools/tools.js:303
+js-tools-osnma-nma-alert = NMA-status { $status }; systemet udsendte en alarmmeddelelse.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:303
+js-tools-osnma-nma-status = NMA-status { $status }.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:186
+js-tools-osnma-not-json = Dette er ikke JSON fra kshana osnma verify --json (den kræver overall og satellites).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:300
+js-tools-osnma-overall = Samlet: { $status }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:302
+js-tools-osnma-pages-read =
+    { $n ->
+        [one] { $n } side læst.
+       *[other] { $n } sider læst.
+    }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:179
+js-tools-osnma-pending = Afventer
+
+# 2026-10-01-studio-rebuild/tools/tools.js:344
+js-tools-osnma-recorded-failed = det optagede resultat blev ikke indlæst
+
+# 2026-10-01-studio-rebuild/tools/tools.js:344
+js-tools-osnma-recorded-result = Optaget resultat af kshana osnma verify --json for { $file }.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:308
+js-tools-osnma-tag-counts = { $authenticated } autentificeret, { $failed } mislykket, { $pending } afventer, { $discarded } kasseret
+
+# 2026-10-01-studio-rebuild/tools/tools.js:304
+js-tools-osnma-tag-totals =
+    { $n ->
+        [one] { $n } tag: { $authenticated } autentificeret, { $failed } mislykket, { $pending } afventer, { $discarded } kasseret.
+       *[other] { $n } tags: { $authenticated } autentificeret, { $failed } mislykket, { $pending } afventer, { $discarded } kasseret.
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:313
+js-tools-osnma-time-caveat = Tid: hver kontrol er relativ til tidsstemplerne på de sider, der er givet til verifikatoren, og de kommer her fra selve dataene og giver ingen beskyttelse mod genafspillede gamle data. Autentificering siger, at dataene kom fra systemet; den siger intet om det signal, de kom på, eller om kvaliteten af positionsbestemmelsen.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:178
+js-tools-osnma-unavailable = Ikke tilgængelig
+
+# 2026-10-01-studio-rebuild/tools/tools.js:296
+js-tools-osnma-word-authenticated = Mindst én satellit er autentificeret, og ingen mislykkedes
+
+# 2026-10-01-studio-rebuild/tools/tools.js:296
+js-tools-osnma-word-failed = En kontrol af en satellits data mislykkedes
+
+# 2026-10-01-studio-rebuild/tools/tools.js:296
+js-tools-osnma-word-unavailable = Ingen satellit er autentificeret
+
+# 2026-10-01-studio-rebuild/tools/tools.js:122
+js-tools-pack-selected = { $label }: { $files } ({ $size })
+
+# 2026-10-01-studio-rebuild/tools/tools.js:378
+js-tools-pinned-to-release = Fastlåst til denne udgivelse:
+
+# 2026-10-01-studio-rebuild/tools/tools.js:221
+js-tools-preview = Forhåndsvisning
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:72
+js-tools-public-key-format = En offentlig nøgle er 64 hexadecimale cifre (32 bytes). Intet andet accepteres.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:113
+js-tools-read-documentation = Læs dokumentationen
+
+# 2026-10-01-studio-rebuild/tools/tools.js:458
+js-tools-reading-plan = Læser planen…
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:42
+js-tools-refused-file-name = afvist filnavn: { $name }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:410
+js-tools-run = Kør
+
+# 2026-10-01-studio-rebuild/tools/tools.js:255
+js-tools-runs-read =
+    { $n ->
+        [one] { $n } kørsel læst: { $runs }
+       *[other] { $n } kørsler læst: { $runs }
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:254
+js-tools-runs-read-engine =
+    { $n ->
+        [one] { $n } kørsel læst, af motoren { $engine }: { $runs }
+       *[other] { $n } kørsler læst, af motoren { $engine }: { $runs }
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:110
+js-tools-sample-load-failed = Eksemplet blev ikke indlæst ({ $reason }).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:109
+js-tools-sample-note = Et rigtigt output fra kommandoen, optaget fra motoren på den syntetiske demokørsel. Ikke en måling af noget.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:107
+js-tools-sample-output = Eksempeloutput: { $label }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:206
+js-tools-scenario-list-failed = Scenarielisten blev ikke indlæst
+
+# 2026-10-01-studio-rebuild/tools/tools.js:470
+js-tools-scoring = Vurderer…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:103
+js-tools-select-and-copy = Markér og kopiér
+
+# 2026-10-01-studio-rebuild/tools/tools.js:380
+js-tools-settings-example = Indstillingseksempel { $n }:
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:139
+js-tools-status-evidenced-label = Kørsler leverer belæg for denne række
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:139
+js-tools-status-evidenced-short = Med belæg
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:141
+js-tools-status-not-evidenced-label = Disse kørsler viser intet for denne række
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:141
+js-tools-status-not-evidenced-short = Uden belæg
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:142
+js-tools-status-out-of-scope-label = Uden for det, Kshana kan vise
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:142
+js-tools-status-out-of-scope-short = Uden for omfanget
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:140
+js-tools-status-partly-label = Kørsler leverer belæg for en del af denne række
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:140
+js-tools-status-partly-short = Delvist
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-ai = AI-assistent
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-bench = Test-bench
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-cli = Kommandolinje
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-compliance = Compliance
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-evidence = Bevispakker
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-imufit = IMU-tilpasning
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-jammertest = Jammertest
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-osnma = OSNMA
+
+# 2026-10-01-studio-rebuild/tools/tools.js:425
+js-tools-tele-all-events = Én syslog-hændelse pr. epoke (standard: én pr. skift af bånd)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:406
+js-tools-tele-file-aria = Resultat- eller JSON-lines-fil
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-cef = Syslog, CEF
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-leef = Syslog, LEEF
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-mqtt = MQTT, Home Assistant-discovery (emne, tabulator, payload)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-otlp = OpenTelemetry (OTLP JSON)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-prometheus = Prometheus-metrikker
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-format-aria = Format
+
+# 2026-10-01-studio-rebuild/tools/tools.js:424
+js-tools-tele-host = Vært
+
+# 2026-10-01-studio-rebuild/tools/tools.js:408
+js-tools-tele-host-aria = Værtsnavn, der skrives ind i syslog-hændelser
+
+# 2026-10-01-studio-rebuild/tools/tools.js:425
+js-tools-tele-include-position = Medtag den rapporterede position (slået fra som standard)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:405
+js-tools-tele-intro = Omsæt en resultatfil (session.result.json) eller de levende JSON-lines til et af formaterne, i denne browser. Kræver en motorudgave med telemetrieksporten (0.35 og senere med eksporten); kommandoerne ovenfor virker overalt.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:426
+js-tools-tele-note = Syslog-linjer har her intet tidsstempel (siden læser intet ur); kommandolinjeværktøjet sætter det på. Prometheus giver den endelige tilstand. MQTT giver én linje pr. meddelelse, emnet, så en tabulator, så payloaden; intet udgives herfra. Teksten er den samme, som kommandoen udskriver.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:404
+js-tools-tele-run-here = Kør det her
+
+# 2026-10-01-studio-rebuild/tools/tools.js:334
+js-tools-that-file-too-large = Den fil er større end 64 MiB.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:182
+js-tools-token-attached = Token vedhæftet
+
+# 2026-10-01-studio-rebuild/tools/tools.js:182
+js-tools-token-attached-note = Den opdaterede pakke står nedenfor. Tidsstempelmyndighedens signatur blev IKKE kontrolleret her: kør openssl ts -verify.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:312
+js-tools-trust-monitor-sentence = Sætning fra tillidsovervågningen: { $sentence }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:48
+js-tools-two-files-same-name = to filer hedder { $name }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:214
+js-tools-ubx-bad-crc =
+    { $n ->
+        [one] { $n } side bestod ikke sin CRC-kontrol.
+       *[other] { $n } sider bestod ikke deres CRC-kontrol.
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:311
+js-tools-ubx-file = UBX-filen
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:212
+js-tools-ubx-frames-pages = UBX-rammer: { $frames }; afkodede I/NAV-sider: { $pages }.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:218
+js-tools-ubx-skipped-bytes =
+    { $n ->
+        [one] { $n } byte blev sprunget over mellem rammerne.
+       *[other] { $n } bytes blev sprunget over mellem rammerne.
+    }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:216
+js-tools-ubx-time-conflicts =
+    { $n ->
+        [one] { $n } side havde et tidspunkt, der var i konflikt med dens naboer.
+       *[other] { $n } sider havde et tidspunkt, der var i konflikt med deres naboer.
+    }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:215
+js-tools-ubx-unstamped =
+    { $n ->
+        [one] { $n } side kunne ikke placeres i tid.
+       *[other] { $n } sider kunne ikke placeres i tid.
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:233
+js-tools-unknown = ukendt
+
+# 2026-10-01-studio-rebuild/tools/tools.js:257
+js-tools-unused-scenarios = Scenariefiler uden matchende resultat blev ikke brugt: { $files }.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:81
+js-tools-verdict-failed-text = Verifikationen mislykkedes.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:81
+js-tools-verdict-failed-title = Mislykket
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:80
+js-tools-verdict-intact-text = Pakken er intakt mod den nøgle, den selv angiver, og som alle kan generere. Hent underskriverens offentlige nøgle fra underskriveren ad anden vej, og fastlås den.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:80
+js-tools-verdict-intact-title = Intakt, men underskriveren er ikke fastlåst
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:79
+js-tools-verdict-verified-text = Pakken er uændret og signeret af den nøgle, du fastlåste.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:79
+js-tools-verdict-verified-title = Verificeret
+
+# 2026-10-01-studio-rebuild/tools/tools.js:149
+js-tools-verifying = Verificerer…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:158
+js-tools-what-failed = Hvad der mislykkedes
+
+# 2026-10-01-studio-rebuild/tools/tools.js:99
+js-tools-why-not-browser = Hvorfor ikke i en browser:
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-yes = ja
+
+# 2026-10-01-studio-rebuild/training/training.js:355
+js-training-active-events = Aktive hændelser
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:50
+js-training-band-large = over 100 m
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:49
+js-training-band-medium = 25 til 100 m
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:48
+js-training-band-small = under 25 m
+
+# 2026-10-01-studio-rebuild/training/training.js:213
+js-training-chart-max = maks. { $v }
+
+# 2026-10-01-studio-rebuild/training/training.js:225
+js-training-chart-mean-cn0 = middel-C/N0
+
+# 2026-10-01-studio-rebuild/training/training.js:224
+js-training-chart-position-error = positionsfejl
+
+# 2026-10-01-studio-rebuild/training/training.js:227
+js-training-chart-s-reported-minus-true = s, rapporteret minus reel
+
+# 2026-10-01-studio-rebuild/training/training.js:226
+js-training-chart-satellites = satellitter
+
+# 2026-10-01-studio-rebuild/training/training.js:227
+js-training-chart-time-offset = tidsforskydning
+
+# 2026-10-01-studio-rebuild/training/training.js:226
+js-training-chart-used-tracked = brugt / sporet
+
+# 2026-10-01-studio-rebuild/training/training.js:340
+js-training-col-reported = Rapporteret af modtageren
+
+# 2026-10-01-studio-rebuild/training/training.js:340
+js-training-col-true = Reel
+
+# 2026-10-01-studio-rebuild/training/training.js:352
+js-training-cue-course = Gyrokursretningen og logfarten berøres ikke af nogen hændelse. Her afviger den rapporterede kurs fra gyrokursretningen med { $course }. En strøm adskiller også kursretning fra kurs, så sammenlign med kørslens start.
+
+# 2026-10-01-studio-rebuild/training/training.js:353
+js-training-cue-course-speed = Gyrokursretningen og logfarten berøres ikke af nogen hændelse. Her afviger den rapporterede kurs fra gyrokursretningen med { $course }, og den rapporterede fart fra den reelle fart med { $speed } kn. En strøm adskiller også kursretning fra kurs, så sammenlign med kørslens start.
+
+# 2026-10-01-studio-rebuild/training/training.js:351
+js-training-cue-title = Tip til debriefing.
+
+# 2026-10-01-studio-rebuild/training/training.js:350
+js-training-cue-unknown-amount = en ukendt mængde
+
+# 2026-10-01-studio-rebuild/training/training.js:415
+js-training-debrief-now = Debrief den nu
+
+# 2026-10-01-studio-rebuild/training/training.js:89
+js-training-default-warning = Syntetiske træningsdata. Kun til træning og test: send aldrig denne strøm til et fartøjs levende navigationssystemer.
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-coastal-drag-off = Drag-off ved kysten
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-combined-event = Kombineret hændelse
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-fjord-degradation = Naturlig forringelse i fjord
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-open-sea-jamming = Jamming på åbent hav
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-port-time-spoof = Tidsspoofing ved havneindsejling
+
+# 2026-10-01-studio-rebuild/training/training.js:413
+js-training-dl-log-json = Hent instruktørloggen (JSON)
+
+# 2026-10-01-studio-rebuild/training/training.js:414
+js-training-dl-log-text = Hent instruktørloggen (tekst)
+
+# 2026-10-01-studio-rebuild/training/training.js:412
+js-training-dl-nmea = Hent NMEA-strømmen
+
+# 2026-10-01-studio-rebuild/training/training.js:74
+js-training-err-demo-open = { $title } kunne ikke åbnes: { $reason }.
+
+# 2026-10-01-studio-rebuild/training/training.js:405
+js-training-err-engine-old = Denne motorudgave (version { $version }) har ingen generator til NMEA-træning; den er ældre end denne side. Kommandoen er { $command }.
+
+# 2026-10-01-studio-rebuild/training/training.js:404
+js-training-err-engine-start = Motoren kunne ikke starte her ({ $reason }). Biblioteksscenarierne ovenfor kan stadig åbnes uden den.
+
+# 2026-10-01-studio-rebuild/training/training.js:70
+js-training-err-file-not-loaded = filen blev ikke indlæst
+
+# 2026-10-01-studio-rebuild/training/training.js:417
+js-training-err-generate = Kunne ikke generere: { $reason }.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:60
+js-training-err-newer-schema = { $name }: skema { $schema } er nyere end eller afviger fra { $supported }, som denne side læser. Opdatér Studio i stedet for at gætte på felterne.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:58
+js-training-err-no-schema = { $name }: ikke en Kshana-instruktørlog til træning (ingen skemamærkat).
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:61
+js-training-err-no-track = { $name }: loggen har ingen sporrækker at tegne.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:78
+js-training-err-no-usable-rows = { $name }: ingen brugbare sporrækker.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:57
+js-training-err-not-json = { $name }: ikke JSON ({ $reason }).
+
+# 2026-10-01-studio-rebuild/training/training.js:64
+js-training-err-read = { $name }: kunne ikke læses ({ $reason }).
+
+# 2026-10-01-studio-rebuild/training/training.js:55
+js-training-err-read-or-draw = { $name }: kunne ikke læses eller tegnes ({ $reason }).
+
+# 2026-10-01-studio-rebuild/training/training.js:407
+js-training-err-scenario-not-loaded = scenariefilen blev ikke indlæst
+
+# 2026-10-01-studio-rebuild/training/training.js:400
+js-training-err-seed = Seedet skal være et heltal, eller tomt for at bruge scenariets eget.
+
+# 2026-10-01-studio-rebuild/training/training.js:48
+js-training-err-too-large = { $name }: større end { $max }. Denne side læser logs op til den størrelse.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:62
+js-training-err-too-many-rows = { $name }: loggen har { $count } sporrækker; denne side tegner højst { $max }. Log sjældnere (log_interval_s) eller åbn et uddrag.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:59
+js-training-err-unknown-schema = { $name }: ukendt skema { $schema }; denne side læser { $supported }.
+
+# 2026-10-01-studio-rebuild/training/training.js:357
+js-training-event-n = Hændelse { $id }
+
+# 2026-10-01-studio-rebuild/training/training.js:266
+js-training-event-onset = Begyndelse { $utc }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:220
+js-training-extra-bearing = Pejling som anvendt, grader rettvisende
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:222
+js-training-extra-peak-accel = Maksimal acceleration, som drag-off'en tilfører, m/s²
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:221
+js-training-extra-peak-speed = Maksimal fart, som drag-off'en tilfører, m/s
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-duration = Varighed
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-events = Tilføjede hændelser
+
+# 2026-10-01-studio-rebuild/training/training.js:95
+js-training-fact-max-error = Største positionsfejl
+
+# 2026-10-01-studio-rebuild/training/training.js:96
+js-training-fact-max-time-offset = Største tidsforskydning
+
+# 2026-10-01-studio-rebuild/training/training.js:98
+js-training-fact-no-fix = Tid uden positionsbestemmelse
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:230
+js-training-fact-peak-accel = Maksimal acceleration, reel / rapporteret
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:230
+js-training-fact-peak-speed = Maksimal fart, reel / rapporteret
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-seed = Seed
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-start = Start (UTC)
+
+# 2026-10-01-studio-rebuild/training/training.js:196
+js-training-fix-reported-span = positionsbestemmelse rapporteret, { $from } til { $to }
+
+# 2026-10-01-studio-rebuild/training/training.js:410
+js-training-generated = Genererede "{ $title }" med motoren { $version }: { $lines } NMEA-sætninger. Syntetisk: kun til træning og test; send den aldrig til et fartøjs levende navigationssystemer.
+
+# 2026-10-01-studio-rebuild/training/training.js:415
+js-training-generated-here = Genereret her af motoren ("{ $title }"). Syntetisk: opdigtede positioner og datoer.
+
+# 2026-10-01-studio-rebuild/training/training.js:401
+js-training-generating = Starter motoren og genererer…
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:32
+js-training-kind-drag-off = Drag-off af position
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:31
+js-training-kind-jamming = Jamming
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:35
+js-training-kind-natural-degradation = Naturlig forringelse (blokeret himmel)
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:34
+js-training-kind-replay-delay = Replay-forsinkelse
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:33
+js-training-kind-time-spoof = Tidsspoofing
+
+# 2026-10-01-studio-rebuild/training/training.js:158
+js-training-legend-no-fix = Ingen positionsbestemmelse: modtageren rapporterede intet
+
+# 2026-10-01-studio-rebuild/training/training.js:157
+js-training-legend-reported = Rapporteret, { $band } fra reel
+
+# 2026-10-01-studio-rebuild/training/training.js:158
+js-training-legend-true = Reelt spor
+
+# 2026-10-01-studio-rebuild/training/training.js:73
+js-training-library-label = Syntetisk biblioteksscenarie "{ $title }", skrevet af { $command }. Opdigtede positioner og datoer; intet virkeligt fartøj eller nogen virkelig optagelse.
+
+# 2026-10-01-studio-rebuild/training/training.js:338
+js-training-log-row = Logrække { $row } af { $total }, { $utc }
+
+# 2026-10-01-studio-rebuild/training/training.js:95
+js-training-max-error-at = { $m } m ved T+{ $s } s
+
+# 2026-10-01-studio-rebuild/training/training.js:277
+js-training-moment-event = (hændelse { $id })
+
+# 2026-10-01-studio-rebuild/training/training.js:184
+js-training-moment-title = T+{ $s } s { $what }: { $text }
+
+# 2026-10-01-studio-rebuild/training/training.js:275
+js-training-moments-shown = De første { $shown } af { $total } øjeblikke vises.
+
+# 2026-10-01-studio-rebuild/training/training.js:263
+js-training-no-events = Ingen: dette er en ren kørsel.
+
+# 2026-10-01-studio-rebuild/training/training.js:341
+js-training-no-fix-nothing = ingen positionsbestemmelse: intet rapporteret
+
+# 2026-10-01-studio-rebuild/training/training.js:196
+js-training-no-fix-span = ingen positionsbestemmelse, { $from } til { $to }
+
+# 2026-10-01-studio-rebuild/training/training.js:273
+js-training-no-moments = Ingen øjeblikke registreret.
+
+# 2026-10-01-studio-rebuild/training/training.js:35
+js-training-none = ingen
+
+# 2026-10-01-studio-rebuild/training/training.js:356
+js-training-none-now = Ingen i dette øjeblik.
+
+# 2026-10-01-studio-rebuild/training/training.js:95
+js-training-none-reported = ingen rapporteret
+
+# 2026-10-01-studio-rebuild/training/training.js:135
+js-training-north = N
+
+# 2026-10-01-studio-rebuild/training/training.js:343
+js-training-not-touched = ikke berørt af nogen hændelse
+
+# 2026-10-01-studio-rebuild/training/training.js:53
+js-training-opened = Åbnede { $name }: { $rows } logrækker over { $secs } s.
+
+# 2026-10-01-studio-rebuild/training/training.js:67
+js-training-opening = Åbner { $title }…
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:209
+js-training-param-affect-time = Påvirker tiden
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:205
+js-training-param-bearing-deg = Pejling, grader rettvisende
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:202
+js-training-param-cn0-drop-db = C/N0-fald, dB
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:210
+js-training-param-counterfeit-cn0-dbhz = Forfalsket C/N0, dB-Hz
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:208
+js-training-param-delay-s = Forsinkelse, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:199
+js-training-param-duration-s = Varighed, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:204
+js-training-param-final-offset-m = Endelig forskydning, m
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:196
+js-training-param-kind = Type
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:197
+js-training-param-label = Etiket
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:207
+js-training-param-offset-s = Tidsforskydning, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:200
+js-training-param-ramp-s = Rampe ved begyndelse, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:201
+js-training-param-recovery-s = Rampe ved genopretning, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:206
+js-training-param-relative-bearing-deg = Pejling relativt til kurs, grader
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:211
+js-training-param-skyline = Horisontlinje
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:203
+js-training-param-spread-db = Spredning pr. satellit, dB
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:198
+js-training-param-start-s = Begyndelse, s
+
+# 2026-10-01-studio-rebuild/training/training.js:380
+js-training-pause = Pause
+
+# 2026-10-01-studio-rebuild/training/training.js:385
+js-training-play = Afspil
+
+# 2026-10-01-studio-rebuild/training/training.js:60
+js-training-reading = Læser…
+
+# 2026-10-01-studio-rebuild/training/training.js:294
+js-training-readout-fix = positionsbestemmelse
+
+# 2026-10-01-studio-rebuild/training/training.js:294
+js-training-readout-no-fix = ingen positionsbestemmelse
+
+# 2026-10-01-studio-rebuild/training/training.js:430
+js-training-reduced-motion = Reduceret bevægelse foretrækkes, så afspilningen starter ved 1x. Brug skyderen eller piletasterne til at bevæge dig uden animation.
+
+# 2026-10-01-studio-rebuild/training/training.js:346
+js-training-row-cn0 = Middel-C/N0, dB-Hz
+
+# 2026-10-01-studio-rebuild/training/training.js:342
+js-training-row-cog = Kurs over grunden, grader
+
+# 2026-10-01-studio-rebuild/training/training.js:344
+js-training-row-error = Positionsfejl, m
+
+# 2026-10-01-studio-rebuild/training/training.js:189
+js-training-row-fix = positionsbestemmelse
+
+# 2026-10-01-studio-rebuild/training/training.js:343
+js-training-row-heading = Kursretning (gyro), grader
+
+# 2026-10-01-studio-rebuild/training/training.js:180
+js-training-row-moments = øjeblikke
+
+# 2026-10-01-studio-rebuild/training/training.js:341
+js-training-row-position = Position
+
+# 2026-10-01-studio-rebuild/training/training.js:346
+js-training-row-sats = Satellitter brugt / sporet
+
+# 2026-10-01-studio-rebuild/training/training.js:342
+js-training-row-sog = Fart over grunden, kn
+
+# 2026-10-01-studio-rebuild/training/training.js:345
+js-training-row-time-offset = Tidsforskydning, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:186
+js-training-say-active = aktiv: { $list }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:186
+js-training-say-event-id = hændelse { $id }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:181
+js-training-say-fix = modtageren rapporterer en positionsbestemmelse
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:185
+js-training-say-mean-cn0 = middel-C/N0 { $cn0 } dB-Hz
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:181
+js-training-say-no-fix = ingen positionsbestemmelse
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:182
+js-training-say-position-from-true = rapporteret position { $m } m fra reel
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:184
+js-training-say-sats-used = { $used } af { $tracked } satellitter brugt
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:183
+js-training-say-time-ahead = rapporteret tid foran reel med { $s } s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:183
+js-training-say-time-behind = rapporteret tid bagud i forhold til reel med { $s } s
+
+# 2026-10-01-studio-rebuild/training/training.js:330
+js-training-sky-no-gsv = ingen GSV
+
+# 2026-10-01-studio-rebuild/training/training.js:330
+js-training-sky-none = Ingen himmel for denne log: en instruktørlog alene har ingen satellitter. Åbn et biblioteksscenarie, eller generér en strøm her og debrief den, for at se de satellitter, dens GSV opregner.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:192
+js-training-skyline-preset = forudindstilling { $name }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:192
+js-training-skyline-stated = angivet profil
+
+# 2026-10-01-studio-rebuild/training/training.js:98
+js-training-span-no-fix = T+{ $from } til { $to } s
+
+# 2026-10-01-studio-rebuild/training/training.js:144
+js-training-track-desc = Reelt spor og rapporteret spor, nord opad. Største positionsfejl { $error }. { $periods } periode(r) uden positionsbestemmelse.
+
+# 2026-10-01-studio-rebuild/training/training.js:132
+js-training-track-end = slut
+
+# 2026-10-01-studio-rebuild/training/training.js:132
+js-training-track-start = start
+
+# 2026-10-01-studio-rebuild/training/training.js:93
+js-training-trainer-note = Note til instruktøren
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:89
+js-training-warn-no-warning-text = Denne fil bærer ingen advarselstekst. Det er en træningslog: send ikke dens strøm til levende navigation.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:79
+js-training-warn-rows-skipped =
+    { $count ->
+        [one] { $count } sporrække var ugyldig og blev sprunget over.
+       *[other] { $count } sporrækker var ugyldige og blev sprunget over.
+    }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:42
+js-training-what-fix-lost = Positionsbestemmelse tabt
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:43
+js-training-what-fix-regained = Positionsbestemmelse genvundet
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:39
+js-training-what-full-effect = Fuld effekt
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:38
+js-training-what-onset = Begyndelse
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:41
+js-training-what-recovered = Genoprettet
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:40
+js-training-what-recovery-begins = Genopretning begynder
+
+# 2026-10-01-studio-rebuild/trust/trust.js:544
+js-trust-adv-carried = Vejledende erklæring i denne fil:
+
+# 2026-10-01-studio-rebuild/trust/trust.js:545
+js-trust-adv-none = Denne fil indeholder ingen vejledende erklæring
+
+# 2026-10-01-studio-rebuild/trust/trust.js:545
+js-trust-adv-none-rest = (det gør ældre output ikke). Den vejledende erklæring øverst på denne side gælder alligevel for det hele.
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:15
+js-trust-agree-both = begge markerer: modtagerens eget flag og en Kshana-overvågning
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:19
+js-trust-agree-calibrating = inden for kalibreringsvinduet: ikke sammenlignet
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:17
+js-trust-agree-kshana-only = kun Kshana giver alarm: modtageren markerer ikke
