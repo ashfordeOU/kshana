@@ -649,7 +649,7 @@ studio-main-where-did-aircraft-and-ships = Hvor rapporterte luftfartøy og skip 
 
 studio-main-can-the-bridge-trust-this = Kan broen stole på denne posisjonsbestemmelsen? Åpne en kjøring for mottakertillit på et fartøy (filene blir i nettleseren din)
 
-studio-main-evidence-packs-test-bench-export = Bevispakker, eksport for testbenk, kartlegging mot compliance, OSNMA, kommandolinjeverktøy og AI-assistenten (filene blir i nettleseren din)
+studio-main-evidence-packs-test-bench-export = Bevispakker, test-bench-eksport, kartlegging mot compliance, OSNMA, kommandolinjeverktøy og AI-assistenten (filene blir i nettleseren din)
 
 studio-main-map-of-satellites-in-view = Kart over satellitter i sikte over jorden, fra den registrerte kjøringen
 

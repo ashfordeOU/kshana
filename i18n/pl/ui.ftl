@@ -655,7 +655,7 @@ studio-main-where-did-aircraft-and-ships = Gdzie statki powietrzne i statki zgł
 
 studio-main-can-the-bridge-trust-this = Czy mostek może ufać tej pozycji? Otwórz przebieg zaufania do odbiornika statku (pliki zostają w Twojej przeglądarce)
 
-studio-main-evidence-packs-test-bench-export = Pakiety dowodowe, eksport na stanowisko testowe, odwzorowanie compliance, OSNMA, narzędzia wiersza poleceń i asystent AI (pliki zostają w Twojej przeglądarce)
+studio-main-evidence-packs-test-bench-export = Pakiety dowodowe, eksport test-bench, odwzorowanie compliance, OSNMA, narzędzia wiersza poleceń i asystent AI (pliki zostają w Twojej przeglądarce)
 
 studio-main-map-of-satellites-in-view = Mapa satelitów widocznych nad Ziemią, z zapisanego przebiegu
 

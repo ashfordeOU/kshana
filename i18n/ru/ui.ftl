@@ -655,7 +655,7 @@ studio-main-where-did-aircraft-and-ships = Где воздушные и морс
 
 studio-main-can-the-bridge-trust-this = Может ли мостик доверять этому решению? Откройте прогон доверия к приёмнику судна (файлы остаются в вашем браузере)
 
-studio-main-evidence-packs-test-bench-export = Пакеты доказательств, экспорт для испытательного стенда, сопоставление compliance, OSNMA, инструменты командной строки и ИИ-ассистент (файлы остаются в вашем браузере)
+studio-main-evidence-packs-test-bench-export = Пакеты доказательств, экспорт test-bench, сопоставление compliance, OSNMA, инструменты командной строки и ИИ-ассистент (файлы остаются в вашем браузере)
 
 studio-main-map-of-satellites-in-view = Карта спутников в зоне видимости над Землёй по записанному прогону
 
