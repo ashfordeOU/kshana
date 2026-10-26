@@ -53,3 +53,5 @@ seg-1c244958d3c4 = <b>台帳：</b>MODELLED { "1" } · VALIDATED { "2" }。入�
 seg-d4adf4283480 = <s1>前へ</s1>コンステレーション、カバレッジ、ジオメトリ
 
 seg-2cdfd7f8bfb3 = <s1>次へ</s1>GPS が使えない環境の代替 PNT
+
+seg-b03d56f501c3 = 種類
