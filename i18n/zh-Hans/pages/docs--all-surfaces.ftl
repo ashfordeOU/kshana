@@ -67,3 +67,5 @@ seg-f8cf777c0caa = 界面
 seg-b7b4540e63b6 = <s1>上一页</s1>所有命令
 
 seg-ce2349a1306f = <s1>下一页</s1>能力领域
+
+seg-e6b975c61b4f = GNSS-SDR与<c1/>
