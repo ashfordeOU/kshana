@@ -59,6 +59,8 @@ jobs:
         run: node tools/i18n.mjs verify en-XA --src "$RUNNER_TEMP/site" --dist "$RUNNER_TEMP/dist"
       - name: Digit-integrity rule
         run: node tools/i18n-digits-test.mjs
+      - name: Caps-token rule
+        run: node tools/i18n-caps-test.mjs
       - name: Language negotiation
         run: node tools/i18n-negotiation-test.mjs --en "$RUNNER_TEMP/site"
       - name: Pseudo-locale test (hard-coded text, overflow at 1440 and 390 px)
