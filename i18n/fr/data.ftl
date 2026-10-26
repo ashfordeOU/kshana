@@ -3317,3 +3317,1431 @@ dat-2d9d8880f4f0 = Cohérence interne : vérité simulée à partir des propres
 
 # data/verification-matrix.json
 dat-daeea93cf98c = Interne seulement : la forme fermée exacte -20 log10(distance) de l'équation de liaison, une grille exhaustive indépendante sur le même type, et la fonction de Rosenbrock. Le seuil 1-D du tour { "1" } est NOT MET (la boîte préenregistrée excluait la solution à { "3" } dB ; l'optimiseur s'est arrêté à la borne), consigné dans docs/design/evidence/cap32-optimize/RESULTS.md et non renoté. L'optimum est local à la boîte et au départ ; aucune affirmation d'optimum global
+
+dat-a29f8eefacae = Aller-retour interne et réponses connues de l'ICD ; aucun décodeur tiers n'a été exécuté (le banc RTKLIB/GNSS-SDR lisant KSHANA_NAVMSG_ORACLE_JSON dépend de données encore absentes). MODELLED
+
+dat-aaf97798d80e = Interne : les figures de mérite de chaque pack par rapport à sa propre vérité terrain et une comparaison couplage lâche/serré sur des entrées identiques. MODELLED ; la comparaison NaveGo de l'audit n'a pas été exécutée
+
+dat-202435a7c894 = Interne : identités cinématiques du corps rigide, aller-retour CSV et covariance propre du filtre. MODELLED (aucun journal de conduite réel n'est comparé)
+
+dat-7a31016388bf = Interne : les formes fermées sont vérifiées par rapport à des valeurs calculées à la main (élévations du sommet des murs d'une rue donnée, condition d'extrémité ouverte, chute de courbure d'un point donné). Pas de référence indépendante externe : la note de conception classe ces réductions comme MODELLED, et l'ElevationMask d'Orekit prend une table, si bien que la comparaison de la ligne « Masque d'horizon dépendant de l'azimut : ensemble visible, azimut et élévation, et DOP sous le masque » lit leurs tables de 360 points comme des entrées et ne les vérifie pas
+
+dat-d89068397b90 = interop_budget : partage entre réductible (liaison de référentiel commune) et irréductible (dynamique) selon les conventions PerProvider / CommonFrameTie / CommonEphemeris, avec la métrique de loi de conception de la fraction irréductible (~{ "0.69" } sur de vraies DE440/INPOP/EPM : une étiquette de référentiel commune seule laisse subsister le plancher dominant)
+
+dat-135f9f077d50 = Exports et imports d'interopérabilité
+
+dat-8b90f6e29b1d = interférence d'accès multiple intra-système entre satellites d'une même bande
+
+dat-ea398366399a = Noyau de diversité d'inverse de Simpson
+
+dat-facb1472c0a6 = Lecteur IONEX { "1.0" } (en-tête, valeurs I5 en colonnes fixes, cartes TEC et RMS, époques absolues, valeurs manquantes) avec interpolation spatiale bilinéaire, interpolation temporelle du format par plus proche / consécutive / carte tournée (éq. 1-3) et TEC oblique en coque mince
+
+dat-fd4e4555a123 = Lecteur et interpolation de cartes globales de l'ionosphère IONEX sur un GIM CODE réel
+
+dat-090bdd3a20d7 = Ionosphère et UTC
+
+dat-e84294bda6aa = Sondage de l'ionosphère
+
+dat-cf7623f8cc77 = Sondage de l'ionosphère : TEC oblique à partir du retard bi-bande d'un passage LEO
+
+dat-56e6f4f45539 = Canal de scintillation ionosphérique IQ (modèle de Cornell) par rapport à une scintillation GPS L1 mesurée à { "50" } Hz
+
+dat-59bb00916102 = Moniteurs IQ évalués dans des campagnes de rejeu en laboratoire : détections, manques, fausses alarmes et valeurs de fausses alarmes en forme fermée
+
+dat-77d4bf93fd63 = Moteur de poursuite IQ par rapport à GNSS-SDR { "0.0.19" } sur des enregistrements indépendants
+
+dat-9f6c2ea4b900 = IQ, SigMF et Welch
+
+dat-82972761ec44 = iq::acq::acquire (recherche parallèle FFT de phase de code avec le seuil Marcum-Q en loi quadratique) avec la réplique GpsL1Ca, sur { "20" } ms de la sortie I/Q 8 bits propre de gps-sdr-sim décodée par le décodeur d'échantillons iq::io (ci8, { "2.6" } MHz, { "11" } satellites, sans bruit) : chaque PRN de { "1" } à { "32" } recherché dans deux fenêtres de { "10" } ms, le résultat étant comparé à la phase de code et au Doppler modulés par gps-sdr-sim
+
+dat-11650ae9d344 = iq::acq::ca_cfar et ca_cfar_cells (optionnel) : une cellule d'une grille d'acquisition est comparée à la moyenne des cellules de référence de sa rangée Doppler (retards de garde et de pas, avec rebouclage sur la période), avec un facteur alpha fixé à partir de la probabilité de fausse alarme CA-CFAR en forme fermée pour M blocs non cohérents (ca_cfar_pfa, ca_cfar_alpha). Le détecteur de puissance d'échantillons reste celui par défaut et toutes les sorties existantes sont inchangées.
+
+dat-0199997adc84 = iq::campaign::detect (windows, roc) et iq::campaign::report::rocs : chaque cellule d'une campagne avec moniteurs conserve, par type d'alarme et par canal, le maximum de la statistique de test propre au moniteur sur chaque fenêtre d'événement indiquée (positif) et sur des fenêtres roc_window_s juxtaposées en dehors des événements (négatif). Les statistiques sont l'écart de puissance par bloc, l'excès de DSP, le z du kurtosis, le |z| du SQM de la métrique moyennée et le CUSUM du C/N0. Le rapport les regroupe par type en une ROC empirique au niveau des fenêtres, avec son AUC et le point de fonctionnement au seuil configuré, écrite dans roc.json (kshana.campaign-roc/1) et dans une section Detection ROC de report.html. Une campagne sans moniteurs n'écrit ni l'un ni l'autre
+
+dat-d1b249ae6ffb = iq::campaign::detect et l'exécuteur de campagne : une table optionnelle [monitors] exécute les moniteurs IQ sur chaque cellule en un seul passage de l'exécuteur. Les moniteurs de puissance et de spectre voient les échantillons après chaque chaîne frontale ; les moniteurs de C/N0, de SQM et de verrouillage voient les mises à jour de boucle de chaque canal poursuivi. Chaque alarme est évaluée par rapport aux événements indiqués : détectée ou manquée par (événement, type d'alarme, canal), délai de détection, et fausses alarmes en dehors des événements rapportées à leur exposition. La valeur de fausse alarme en forme fermée de chaque test est indiquée : puissance par bloc (queue Gamma exacte), excès spectral par bloc (approximation), kurtosis (gaussienne unilatérale), impulsions (plafond binomial), SQM par mise à jour moyennée (2Q(k) = Q(1/2, k^2/2), nouveau) et ARL0 du CUSUM du C/N0 (Siegmund). Sans la table, les cellules, clés et condensés sont inchangés. Aucune forme d'onde d'interférence n'est synthétisée
+
+dat-6c1b33814763 = iq::channel::scint, le modèle de scintillation de Cornell (intensité de Rice, spectre de Butterworth du second ordre, phase arg z) piloté au S4 et au temps de décorrélation d'intensité d'une fenêtre mesurée, comparé sur ce qu'il génère au-delà de ces deux entrées ; realdata::scint50 lit le journal mesuré, en retire la tendance et exécute la comparaison.
+
+dat-afcaffa37013 = iq::signals::beidou::b1i_bits et b1i : les codes de Gold BDS-SIS-ICD-B1I-3.0 tronqués à { "2046" } chips, PRN de { "1" } à { "63" }, tels que la couche IQ les génère, les acquiert et les poursuit.
+
+dat-3200312cc2f5 = iq::signals::gps::l1c_p_bits, l1c_d_bits et l1c_o_bits : les codes de télémétrie de Weil L1CP et L1CD (séquence de Legendre calculée, indice de Weil, séquence d'expansion insérée avant le chip p) et les codes de recouvrement L1CO S1, PRN de { "1" } à { "63" }.
+
+dat-a24e4b9ee5c8 = iq::signals::lunanet::afs_i_bits et afs_q_primary_bits (noms de signaux lunanet-afs-i et lunanet-afs-q dans kshana iq) : le code de Gold AFS-I ({ "2047" } raccourci à { "2046" } par cycle court, G2 retardé par PRN) et le code primaire de Weil AFS-Q (séquence de Legendre calculée, indice de Weil, séquence d'expansion insérée avant le chip p), PRN de { "1" } à { "210" }.
+
+dat-55fd4b161c14 = iq::signals::lunanet::afs_q_tertiary_bits, afs_q_tiered ; iq::lunanet_afs : motif de synchronisation, codeur BCH({ "51,8" }) de SB1 et décodeur à 256 hypothèses, CRC-24Q, l'entrelaceur par blocs { "60" } x { "98" }, un vérificateur de flux de symboles (kshana lunanet-afs-check) et un générateur de flux de test avec des sous-trames provisoires. Le codage LDPC de rendement 1/2 des sous-trames { "2" } à { "4" } n'est pas implémenté (ses matrices figurent dans une annexe séparée).
+
+dat-e365c476045e = iq::track (LoopConfig, FllGate, design) ; iq::track::channel (la porte FLL)
+
+dat-4b34cc7a4d00 = iq::track::boc (BocKind, BocTracking, BumpJump, boc11_dll_scale) ; iq::track::channel (les prises bump-jump et Channel::bump_jumps)
+
+dat-b8db16d3eb7d = carrier.fll_pull_in_max_s optionnel de iq::track (le champ fll_pull_in_max_s de iq::track::LoopConfig) : avec fll_assist = pull-in, la FLL passe la main à la PLL après une durée d'accrochage fixe quel que soit le PLI, avec un temps de retour correspondant jusqu'à ce que le PLI atteigne pour la première fois fll_off_pli.
+
+dat-f6eb7f5b0879 = Salves Iridium STL (heure et position du satellite) vues depuis un aéronef.
+
+dat-84fa351fb984 = Position satellite képlérienne → ECEF à partir des éphémérides diffusées IS-GPS-200 / Galileo-OS / BeiDou-OS, d'après un enregistrement de navigation RINEX-3 analysé
+
+dat-2bbce8b617b0 = Sous-trames LNAV 1-3 d'IS-GPS-200 (gps_lnav::encode_subframes : quantification à l'entier le plus proche de chaque paramètre d'horloge et d'orbite aux facteurs d'échelle de la spécification et à sa valeur de pi, mise en paquets en complément à deux, mots TLM et HOW, parité du Tableau 20-XIV avec inversion D29*/D30*, bits de résolution de parité des mots { "2" } et { "10" }), le message qu'un générateur de signal GPS L1 C/A transmet
+
+dat-817d2e90e97c = IS-GPS-200 section { "20.3.3.3.3.2" }, qui énonce le rapport de retard de groupe L1/L2 gamma = (77/60)^{ "2" } découlant de la mise à l'échelle du premier ordre en 1/f^{ "2" }, et la formule de transmission de Friis (Proc. IRE, { "1946" }). Valide les lois d'échelle, pas un TEC oblique
+
+dat-fe11c7ba2e68 = IS-GPS-200 Tableau 3-Ia « Code Phase Assignments » : les vecteurs de vérification OCTAUX des 10 premiers chips, publiés et faisant foi, du domaine public du gouvernement des États-Unis (GPS Directorate, navcen.uscg.gov) ; le LFSR G1/G2 propre à kshana régénère exactement chaque vecteur PRN { "1" }–{ "9" }. Les formes fermées aval de modulation/SSC/DLL restent modélisées (ligne séparée)
+
+dat-5e6cd6a5fd6c = IS-GPS-800J (01-AUG-2022, mention de diffusion A), les colonnes de contrôle qu'il imprime à côté des paramètres du générateur : Tableau 3.2-2 { "24" } chips initiaux et finaux de chaque code L1CP et L1CD, Tableau 3.2-3 { "11" } bits initiaux et finaux de chaque code L1CO, Tableau 6.2-1 la séquence de Legendre de longueur 10223 ; transcrits par scripts/extract_is_gps_800_tables.py à partir du PDF (SHA-256 c4aad710...). Seuils préenregistrés à fe372e26 (docs/design/evidence/l1c-codes/) : { "252" } colonnes sur { "252" }, { "63" } recouvrements sur { "63" } et { "10 223" } bits de Legendre sur { "10 223" } identiques ; l'extraction --check réussit ; un contrôle négatif met en échec les codes rebaptisés, inversés et décalés. CE QUI N'EST PAS VÉRIFIÉ : les paramètres du générateur eux-mêmes (ils proviennent des mêmes tableaux), les chips entre les colonnes imprimées, le motif de sous-porteuse TMBOC et les codes L1CO S2.
+
+dat-d80cdd567de9 = sa porteuse
+
+dat-93fc08e65d73 = UIT-R P.838-3 équations ({ "1" }) à ({ "5" }) : k_H, alpha_H, k_V, alpha_V à partir des ajustements de courbes des Tableaux { "1" } à { "4" }, le (k, alpha) dépendant du trajet et de la polarisation et l'affaiblissement linéique k R^alpha ; utilisé par le terme de pluie du type `leo-pass`
+
+dat-9ef4b4d3d9e0 = UIT-R P.2109-2 Annexe { "1" } équations ({ "1" }) à ({ "10" }) avec le Tableau { "1" } : l'affaiblissement non dépassé avec la probabilité P pour des bâtiments traditionnels et à efficacité thermique, à l'élévation du trajet au niveau de la façade, de { "80" } MHz à { "100" } GHz ; appliqué par bande et par époque à un utilisateur en intérieur par le type `leo-pass` (le cas UHF en intérieur)
+
+dat-afe2285e9326 = UIT-R P.618-14 section { "2.2.1.1" } étapes { "2" } à { "10" } (trajet oblique et horizontal sous la hauteur de pluie, facteurs de réduction horizontale et d'ajustement vertical, A0.01 et sa mise à l'échelle à { "0.001" } % à { "5" } % d'une année moyenne), avec la hauteur de pluie (P.839) et R0.01 (P.837) en entrées car le moteur ne porte aucune des deux cartes numériques ; appliqué par bande et par époque par le type `leo-pass`
+
+dat-7ef27622d182 = UIT-R P.618-14 section { "2.4.1" } étapes { "3" } à { "9" } (sigma de référence à partir de N_wet, longueur de trajet effective, facteur de moyennage d'antenne, profondeur d'évanouissement pour { "0.01" } % à { "50" } % du temps), avec N_wet en entrée ou calculé à partir de la température, de l'humidité et de la pression par les expressions de l'UIT-R P.453-14 ; en dessous de { "4" } GHz, le type `leo-pass` signale la valeur comme une extrapolation
+
+dat-6ecd38f18c23 = UIT-R P.838-3 (03/2005) Tableau { "5" }, les k_H, alpha_H, k_V, alpha_V tabulés par la Recommandation elle-même, versés dans tests/fixtures/leo_link/p838_3_table5.csv avec l'URL du PDF et la date de récupération. Le tableau est arrondi à ses chiffres imprimés, si bien que le seuil est cet arrondi
+
+dat-2a28f86695ef = Exemples de validation de la Commission d'études { "3" } de l'UIT-R (CG-3M3J-13-ValEx-Rev8.3.0) pour la scintillation P.618-14, avec le N_wet P.453-14 de chaque site tiré des mêmes exemples ; versés dans tests/fixtures/leo_link/p618_14_scintillation.csv avec les URL et la date de récupération. L'expression de la réfractivité humide à partir de la température et de l'humidité n'est pas couverte par cette ligne
+
+dat-a886222f05f9 = Fichier d'exemples de validation de la Commission d'études { "3" } de l'UIT-R CG-3M3J-13-ValEx-Rev8.3.0 pour P.618-14, tel que tabulé par les pages de validation d'ITU-Rpy, avec la hauteur de pluie P.839-4 de chaque site tirée des mêmes exemples ; versé dans tests/fixtures/leo_link/p618_14_rain_attenuation.csv avec les URL et la date de récupération. Valide la procédure pour h_R et R0.01 donnés, pas les cartes
+
+dat-df4578d82419 = Gabarits de génération de dérive (wander) de synchronisation en fréquence de l'UIT-T (G.811, G.812, G.8262, G.8262.1)
+
+dat-cff162d9187f = UIT-T G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) clause { "7.3.1" } (max|TE_L|, comparé sans filtrage)
+
+dat-77c2200d4d5d = UIT-T G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) Tableau V.1, scénario de défaillance (b) (un exemple d'allocation)
+
+dat-6e29e623b912 = UIT-T G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) : limites du réseau au point de référence C
+
+dat-bcbed1d0d924 = UIT-T G.8272 (07/2025) : PRTC-A et PRTC-B, mode verrouillé
+
+dat-b5a1c2e5c1f7 = Gabarits de synchronisation des télécommunications de l'UIT-T avec PASS/FAIL et marge
+
+dat-d90380668de8 = Solveur de Lambert à révolution unique d'Izzo-2015 (r1, r2, temps de vol → vitesses aux limites) sur des transferts LEO→GEO→héliocentrique, prograde et rétrograde
+
+dat-8fbc07c76b3d = Jacchia-71 vérifié par rapport aux valeurs publiées pour le minimum, la moyenne et le maximum solaires
+
+dat-c217fb165af1 = Balayage de la puissance du brouilleur : disponibilité et J/S en fonction de la puissance d'émission
+
+dat-8c1089d909db = Évaluation Jammertest
+
+dat-47968885d24d = Évaluation Jammertest : un journal de récepteur évalué par essai programmé (délai de détection, alarmes manquées, fausses alarmes, temps de récupération) par rapport au plan d'essai publié
+
+dat-89081dfce977 = Évaluation Jammertest : le plan publié comme vérité terrain programmée
+
+dat-344bf5abab35 = jammertest::{ "{" }plan, score, dataset{ "}" } (kshana jammertest import|score) : le catalogue d'essais et le plan de transmission de la NPRA (MIT, récupérés avec un SHA-256 épinglé, jamais intégrés au dépôt) lus comme vérité terrain programmée avec conservation des identifiants du catalogue ; une exécution receiver-trust évaluée par essai (première alarme moins début prévu, détecté/tardif/manqué par rapport à une tolérance, temps jusqu'au premier intervalle sans alarme, alarmes en dehors de chaque créneau et de sa garde), avec un paquet de preuves signé qui porte la fiche d'évaluation. Le calendrier correspond à des créneaux planifiés, pas à des heures d'émission réelles enregistrées
+
+dat-ec34bb92d750 = brouillage (type de scénario)
+
+dat-9cb9f9eb4c7a = Brouillage et détection de leurrage multicouche
+
+dat-e93b98801604 = Brouillage, leurrage et spectre
+
+dat-213d714a2567 = Brouillage, leurrage et spectre (famille de types de scénario)
+
+dat-80368debe8fa = Brouillage, leurrage, holdover et intégrité : une mission enchaînée
+
+dat-a510ab4b17fb = jamming::tests (broadband_q_equals_the_spectral_separation_closed_form et cw_q_equals_the_spectral_separation_closed_form : la table Q, CW et bande étroite { "1" }, large bande et balayé { "2" }, calée sur les formes fermées de navsignal ; a_cw_jammer_is_more_damaging_than_broadband_noise_at_equal_js) ; tests/gnss_denied_jamming_resilience_reference.rs (FSPL/J-S/C-N₀ effectif par rapport à une nouvelle dérivation numpy indépendante du bilan de liaison de Kaplan & Hegarty §{ "9.4" } ; le C/N₀ JammerTest réel décroît de façon monotone en passant le seuil de { "25" } dB-Hz) ; tests/jamming_jammertest_cn0_oracle.rs (préenregistré, bloqué, non exécuté)
+
+dat-484eb9503fdb = JavaScript et WebAssembly
+
+dat-8291eea5a66e = Module d'extension pour IDE JetBrains
+
+dat-bd7fb71b8ded = JetBrains Marketplace
+
+dat-3620b9b6002e = Module d'extension JetBrains
+
+dat-06d2559e26c3 = Positionnement conjoint GNSS et LEO par pseudodistances avec biais intersystèmes et modèles d'erreur par signal
+
+dat-7d1a4f4e5a0a = PNT à fusion de capteurs par filtre de Kalman conjoint sur les mêmes entrées hybrides.
+
+dat-bbc595a0c9e4 = PNT à fusion de capteurs conjointe : un unique filtre de Kalman est le navigateur, fusionnant les
+
+dat-2ed75c9110e0 = Erreur conjointe d'UT1 et de mouvement du pôle sur un ensemble de lignes commun
+
+dat-1c4f5655c567 = Vecteurs héliocentriques géométriques JPL Horizons DE441 (écliptique et ICRF), récupérés après les commits de préenregistrement { "80451866" }, 8d38a28b et 558cc807. Seuil : par planète et par composante, RMS d'au plus 1,0 fois les erreurs approchées de l'Explanatory Supplement 3e éd. Tableau { "8.10.1" } (la ligne EMB pour la Terre) ; la séparation Terre-EMB est vérifiée directement par rapport à DE441 { "399" } moins { "3" }, d'au plus { "0.3" } deg et { "8.1" } km à chaque époque de 1950 à 2050 (le seuil de longueur de { "8.1" } km provient de la précision de la série lunaire indiquée dans la documentation des éphémérides propres à Kshana, qui cite Montenbruck et Gill, et n'a pas été vérifié par rapport à l'ouvrage ; la valeur mesurée de { "6.09" } km en est proche). La statistique RMS a été choisie en sachant qu'une comparaison antérieure sur 27 époques avait atteint 1,87 fois le nominal à son maximum ; les erreurs à époque unique atteignent 3,83 fois (3,87 fois dans le cas ICRF). Le Supplement ne définit pas ses chiffres comme des RMS. Le cas B fait tourner les deux côtés avec l'obliquité IAU { "1976" } saisie dans le test, de sorte que la rotation n'est pas vérifiée par rapport à elle-même. La sélection de tableau par défaut d'AnalyticSolarSystem n'est pas exercée (les tests imposent le Tableau { "1" }). Uranus et Neptune à partir du Tableau { "1" } font l'objet d'une ligne MODELLED distincte
+
+dat-2708eb1195c9 = Temps de lumière newtonien JPL Horizons DE441 de la voie descendante à sens unique LT (VEC_CORR=LT, observateur au centre de la Terre), préenregistré (480037d3, avenant 54d5c86f ne modifiant que l'espacement des nœuds d'interpolation après l'échec de la première récupération à sa condition préalable de précision d'interpolation de { "10" } m, avant toute comparaison de temps de lumière) avec un seuil de { "1e-6" } s par temps de lumière, le solveur étant alimenté en positions barycentriques DE441 de sorte que l'itération de l'émetteur retardé est visible (un solveur à première itération se trompe jusqu'à { "0.1" } s). Sur les positions analytiques de Standish, le temps de lumière n'est aussi bon que ces positions (voir la ligne des positions de planètes) ; la liaison fournie traite le Soleil comme un centre inertiel, ce qui reste dans l'erreur de position mais n'est pas validé séparément. two_way_range et shapiro_delay ne sont pas comparés à une référence externe
+
+dat-06c0e0912c84 = Éléments moyens JPL dans le plan de Laplace, taux de longitude moyenne issu du taux de rotation synchrone de l'IAU, ajouté à sa planète à partir du Tableau { "1" } de Standish ({ "1800" } apr. J.-C. à { "2050" } apr. J.-C.)
+
+dat-308200212f26 = Champs JSON (schéma kshana-nmea-training/1)
+
+dat-fbd2f7c7c5df = Schéma JSON-lines (version { "1.1" })
+
+dat-0edf2112b963 = Références clés
+
+dat-a839e105d911 = Retard Klobuchar L1 par rapport à ionmodel de RTKLIB · lecteur de cartes TEC IONEX tolérant, pas encore de référence indépendante externe
+
+dat-bc161bde4fd2 = Retard de groupe ionosphérique oblique Klobuchar monofréquence L1 à partir des huit coefficients α/β diffusés
+
+dat-a3c71b90162b = Limitations connues
+
+dat-6634dc6d0f3e = kshana <scenario.toml> exécute un scénario ; toute autre commande est une sous-commande. kshana --help affiche l'aide…
+
+dat-24cf378f970d = Documentation de Kshana
+
+dat-1d9bf86b5165 = Kshana n'héberge aucun point d'accès. Il n'existe aucun serveur kshana partagé vers lequel pointer un client.
+
+dat-7aa638d6f7f5 = Kshana pour les IDE JetBrains
+
+dat-952551ceada8 = Gouvernance de Kshana
+
+dat-5173065af4e3 = Kshana implémente les codes d'étalement et la couche de message du LunaNet Augmented Forward Signal (AFS) comme…
+
+dat-49082d942568 = Kshana Interchange Format (KIF)
+
+dat-35e47d84ddbb = kshana interference-map construit une image quotidienne des lieux où des aéronefs et des navires ont signalé une navigation dégradée…
+
+dat-c87066c769f2 = Kshana est un moteur de preuves de performance et de résilience PNT (positionnement, navigation et datation), et non un…
+
+dat-3ba3df57e8ff = Kshana est un simulateur de résilience PNT (PNT : positionnement, navigation et datation) avec capteurs quantiques…
+
+dat-8987b327f921 = Kshana est un logiciel à titre consultatif pour la recherche, la simulation et l'essai.
+
+dat-101c892cc9ee = Kshana est un moteur de preuves de résilience PNT (positionnement, navigation et datation) ouvert et reproductible.
+
+dat-9d579b82c0da = Kshana est conçu pour être reproductible : les mêmes entrées produisent les mêmes résultats, et les artefacts de build peuvent être…
+
+dat-41e9ab084c3f = Kshana est sous double licence. Vous pouvez utiliser le moteur ouvert soit sous la licence ouverte (AGPL-3.0), soit sous une…
+
+dat-f7d7345b9571 = Kshana est un seul moteur organisé en couches au-dessus d'un noyau partagé : les paquets de capteurs (horloge, inertiel…
+
+dat-c458ec382804 = kshana jammertest import lit le catalogue d'essais et le plan de transmission de Jammertest et transforme ceux d'une zone d'essai…
+
+dat-56cb5c1f531b = kshana lunanet-afs-check
+
+dat-65e9f25fb026 = Scénario d'infrastructure lunaire de Kshana : phase de la porteuse, l'exemple QUICK (deux arcs courts, { "10" } tirages, quelques secondes ;
+
+dat-80999e400f4f = Scénario d'infrastructure lunaire de Kshana : coestimation de référentiel. MODELLED ; la conception, les entrées et les seuils sont
+
+dat-4d06c8c660d7 = Scénario d'infrastructure lunaire de Kshana : sensibilité à la géodésie. MODELLED ; la conception, les entrées et les seuils sont
+
+dat-f72ee9ad542b = Scénario d'infrastructure lunaire de Kshana : cohérence de la détermination d'orbite avec une accélération non modélisée. MODELLED ; la conception, les entrées et les seuils sont
+
+dat-94631dd6553d = Scénario d'infrastructure lunaire de Kshana : cohérence de la détermination d'orbite. MODELLED ; la conception, les entrées et les seuils sont
+
+dat-d81c2d0b95b9 = Scénario d'infrastructure lunaire de Kshana : liaison spatiale. MODELLED ; la conception, les entrées et les seuils sont
+
+dat-b8fc6290e9b9 = Kshana Pro
+
+dat-c3cf36041fa0 = kshana receiver-trust peut évaluer, pour un navire en mouvement, un score de confiance en direct de 0 à 100 pour chaque position, à partir de…
+
+dat-355baa93b96b = kshana receiver-trust lit un journal d'un vrai récepteur de système mondial de navigation par satellite (GNSS), exécute les contrôles de confiance…
+
+dat-69924ca5c4b3 = Scénario de référence de Kshana : exécution de { "2" } h, { "10" } min de synchronisation GNSS puis ~{ "1.8" } h en conditions de déni.
+
+dat-733d86587cfa = Kshana rejoue le brouillage, le leurrage et le holdover d'horloge lorsque les signaux GNSS (Global Navigation Satellite System)…
+
+dat-241d1d4d3d04 = Kshana rapporte deux figures de mérite (FoM), l'Intégrité et la Sécurité, qu'il est facile de confondre avec le…
+
+dat-28bded6f1c5f = Kshana fournit une interface de programmation (API) Python de premier rang, construite avec PyO3 et maturin.
+
+dat-11b55b025a73 = Kshana parle les formats d'échange standard du GNSS (système mondial de navigation par satellite)…
+
+dat-2b2d76637268 = Kshana Studio
+
+dat-64058caf6bf1 = Kshana Studio : exécutez le moteur dans votre navigateur, sans installation.
+
+dat-a4f1502412f6 = kshana trust-telemetry transforme le flux de confiance GNSS par époque (score 0-100, bande, raisons) en signaux qu'un…
+
+dat-b009ca1db730 = kshana-mcp est un serveur Model Context Protocol (MCP) pour Kshana, le simulateur open source de PNT…
+
+dat-2560462eb5c9 = kshana-mcp : interrogez votre assistant IA, et le moteur répond
+
+dat-88477cc0d773 = La discipline d'honnêteté centrale de Kshana veut que chaque paramètre de capteur, modèle physique et jeu de données de validation…
+
+dat-d0f998c80b79 = Le moteur à pleine force de Kshana (src/precise_od.rs) ajusté à de vrais produits d'orbite précise d'agences, avec une honnêteté…
+
+dat-620214b6e277 = Les sous-trames LNAV 1-3 de Kshana (gps_lnav::encode_subframes) pour les { "32" } éphémérides brdc0010.22n fournies à decode_word et decode_frame de RTKLIB : parité de chaque mot, décodage des sous-trames avec émission de données cohérente, et chaque paramètre décodé par rapport à l'entier de Kshana et à la valeur d'entrée
+
+dat-6e7521634ff6 = Export OEM lunaire de kshana relu par la bibliothèque tierce indépendante `oem` (R. J. Anderson) : les jetons de référentiel/temps et l'état par époque concordent à la précision d'écriture ({ "1" } mm / { "1e-9" } km/s) et un export sans TIME_SYSTEM est rejeté — un aller-retour d'interchange structurel ; la sémantique physique des référentiels/temps lunaires est vérifiée par leurs propres lignes, si bien que cela reste MODELLED. Comparaison externe { "0.30" }, un constat (reste MODELLED) : un second lecteur indépendant, l'analyseur CCSDS OEM d'Orekit { "12.2" } (Apache-2.0, valeurs par défaut strictes), refuse les deux fichiers lunaires parce qu'il n'implémente pas les échelles de temps LTC et TCL (il décode l'OEM EME2000/UTC de la crate, et décode les fichiers lunaires une fois TIME_SYSTEM remplacé par TDB) ; oem { "0.4.5" } les décode dans la précision écrite uniquement en se rabattant sur l'échelle de temps non prise en charge. L'interchange de ces fichiers lunaires avec les lecteurs CCSDS courants n'est pas établi
+
+dat-af85235a485a = Le score de confiance maritime de Kshana (MARITIME-TRUST.md) est accessible depuis des logiciels que les plaisanciers utilisent déjà : un Signal K…
+
+dat-b3b0b32a29d2 = Le propagateur d'orbite de Kshana est validé par rapport à la référence communautaire canonique pour SGP4/SDP4 (SGP4…
+
+dat-11bb1751b520 = Modèle de spectre de la bande L et cascade : toute la bande L GNSS comme une seule densité spectrale de puissance (DSP), fréquence…
+
+dat-ec2500acdc0f = Cascade du spectre de la bande L avec J/S par bande et C/N0 effectif sous une chronologie de brouilleur scriptée
+
+dat-8d2986accfa9 = Cascade en bande L sous brouillage : toute la bande L du système mondial de navigation par satellite (GNSS)
+
+dat-d5c09b6aa0d1 = Cascade en bande L sous brouillage : toute la bande L du système mondial de navigation par satellite (GNSS) comme une seule densité spectrale de puissance (DSP), fréquence en abscisse, temps vers le bas, pendant qu'une séquence scriptée de brouilleurs s'active.
+
+dat-e3ba8107d024 = Combinaison bifréquence L1/L5 sans ionosphère (IS-GPS-705)
+
+dat-cbfd8e94fba2 = Bruit à bande étroite sur L2
+
+dat-76d168dd4dce = Aller-retour en laboratoire
+
+dat-d2a629269229 = Catalogue de défauts quantiques étiquetés (saut de fréquence, dérive, perte de verrouillage de l'horloge ; saut de biais, interruption du capteur), une AUC de ROC de la statistique de détection avec un IC bootstrap, et un défaut minimal détectable à un taux de fausse alarme fixé ; un moniteur assisté par horloge quantique détecte des défauts plus petits qu'un moniteur classique, émis sous forme de TradeEvidence honnête.
+
+dat-a32744b4df1d = Corpus synthétique étiqueté de dégradations + banc ROC/AUC/confusion/Pfa-Pmd indépendant du détecteur ; garde contre les fuites, découpage stratifié, rapport d'optimisme sur le décalage de distribution (dans le régime et hors régime). Exécutable depuis la CLI/les liaisons comme le type de scénario `impairment-eval` (scenarios/impairment-eval.toml)
+
+dat-1a79c093494b = Paquet de preuves d'aller-retour en laboratoire (scénario, conditions d'essai, journal du récepteur, score)
+
+dat-0ee9fbd69bbb = lambda::tests (L D Lᵀ reconstruit Q) ; tests/lambda_reference.rs (la transformée Z est unimodulaire |det Z|={ "1" } avec Q_z=ZᵀQZ SPD, conserve le déterminant et réduit la corrélation hors diagonale totale ; l'ILS de Schnorr–Euchner coïncide avec l'énumération exhaustive sur { "300" } covariances aléatoires ; le pipeline complet décorrélation→recherche→transformée inverse est égal à l'ILS direct et Z⁻ᵀZᵀ reconduit les entiers ; le taux de succès bootstrap en forme fermée coïncide avec un Monte-Carlo de 200k tirages d'arrondi conditionnel séquentiel à <{ "0.01" } près) ; tests/lambda_rtklib_oracle.rs::ils_solution_matches_rtklib_lambda_on_300_covariances (les entiers fixés sont égaux à lambda() de RTKLIB v2.4.2-p13 sur { "300" } covariances aléatoires, n de { "2" } à { "10" }, { "226" } d'entre elles non résolubles par arrondi ; les deux meilleures normes au carré concordent à { "1e-9" } en relatif, mesuré { "5.6e-13" })
+
+dat-a5e13882f811 = Solveur de transfert de Lambert à deux corps
+
+dat-212886eaa568 = lamberthub { "1.0.0" } izzo2015 (J. Martínez Garrido, MIT) — un solveur de Lambert tiers indépendant. Le problème de Lambert à révolution unique (M={ "0" }) a une solution unique, si bien que l'accord bibliothèque contre bibliothèque est une vraie vérification externe ; concordance à <{ "1e-4" } m/s (observé ~{ "1e-11" }), le même type de validation que celle obtenue par le DOP face à gnss_lib_py
+
+dat-a47a618a3052 = Pertes au lancement dues à la gravité, à la traînée, au pilotage et à la contre-pression durant l'ascension
+
+dat-e2640afd165e = launch-window (type de scénario)
+
+dat-c55b030d732f = Fenêtre de lancement et géométrie d'ascension (analyse de mission)
+
+dat-df84809a79af = Démonstrateur de fenêtre de lancement et de géométrie d'ascension (analyse de mission, niveau étude de compromis).
+
+dat-b57d88e1f3ac = Bilans de lancement, de rentrée, de couverture et de pointage
+
+dat-053038adfb79 = launch::tests (un lancement plein est donne i=latitude, KSC→ISS = valeur de manuel { "45" }°, polaire = N/S, i<lat inaccessible, bonus équatorial de { "465" } m/s, changement de plan de { "10" }° ≈ { "1.34" } km/s + { "180" }° = 2v, nombres d'opportunités quotidiennes, scénario reproductible/MODELLED + trajectoire à dogleg) ; dominance_demonstrators (accessible + reproductible + KSC→ISS { "45" }° + MODELLED-not-VALIDATED) ; tests/launch_geometry_orekit_oracle.rs::burnout_azimuth_reproduces_the_target_inclination_in_orekit ; tests/launch_geometry_orekit_oracle.rs::earth_rotation_speed_gap_is_recorded_as_a_finding ; tests/launch_geometry_orekit_oracle.rs::true_pole_site_speed_matches_orekit_at_a_fresh_epoch_and_longitudes
+
+dat-0b9e0b427ff6 = Résilience aux conflits d'un PNT en couches (article P7).
+
+dat-1445799c033a = En savoir plus
+
+dat-70f6bd56bd8d = Leclere, Marathe et Reid, Insights into Xona Pulsar LEO PNT: Constellation, Signals, and Receiver Design, ION GNSS+ { "2025" }, arXiv { "2509.19551" }, Tableau { "1" } (récepteur statique sur une sphère de { "6371" } km, la rotation de la Terre étant le seul autre effet) : { "37751.7" } / { "33628.5" } / { "31813.4" } / { "4018.4" } Hz sur L1. Couvre les orbites circulaires à deux corps
+
+dat-6712d7bb7953 = Branche { "1" } : python-sgp4 { "2.24" } (licence MIT ; le SGP4 C++ de référence de D. Vallado, le code qui a produit les vecteurs de vérification AIAA 2006-6753), WGS-72, mode amélioré. Branche { "2" } : pyerfa { "2.0.1.5" } (ERFA, BSD-3-Clause, les routines SOFA) : c2t06a avec TT issu de utctai/taitt et UT1 issu de utcut1, et pour TEME c2t06a . pnm06a^T . rz(-ee06a). Seuils fixés avant l'exécution (préenregistrés 72ea9eb0). Divulgué : la première exécution a échoué à la branche { "2" } à 2016-12-31T23:{ "59" }:{ "59.5" } d'une seconde de rotation (UT1 pris à partir de la date julienne quasi UTC un jour de seconde intercalaire) ; le moteur a été corrigé (jd2::utc_to_ut1) et la seconde exécution concorde aux seuils inchangés. Supprimer le mouvement polaire ({ "46" } échecs) ou utiliser les constantes WGS-84 à la place de WGS-72 ({ "4432" } échecs) fait passer le test au rouge. Cette conception à trois branches a remplacé une comparaison Orekit de bout en bout qui échouait sur le SDP4 d'Orekit à e = { "0" } et sur son TEME IERS { "1996" } (le constat reste épinglé dans tests/leo_polar_coverage_full_claim_orekit_oracle.rs)
+
+dat-f8a01ddf6363 = Mentions légales (revue juridique par le propriétaire en attente)
+
+dat-d977634a13cf = Ajusteur d'éphémérides diffusées LEO et erreur de distance du signal dans l'espace en fonction de l'intervalle d'ajustement et de la période de mise à jour
+
+dat-eddcdf79a261 = Couverture LEO et dilution de précision pour les utilisateurs polaires et arctiques face au GNSS MEO
+
+dat-4c857aecc818 = Missions et études LEO
+
+dat-5e84e0ede1d9 = Message de navigation LEO
+
+dat-5e1d3c478d19 = Message de navigation LEO — { "550" } km, { "97.6" } deg, degré de gravité { "20" }, modèle kepler-rac
+
+dat-6e7cec61f5b0 = Message de navigation LEO : une mise à jour du message au milieu d'un passage, et si l'utilisateur
+
+dat-d9368c8759e0 = Message de navigation LEO : quatre modèles d'éphéméride sur une même orbite, et l'extension de Liu et al. { "2025" }
+
+dat-0e5a7ce6ff86 = Message de navigation LEO : le codage binaire de Kshana, son bilan de quantification, et le
+
+dat-154ffd6aa935 = Message de navigation LEO : erreur de distance du signal dans l'espace (SISRE) en fonction de l'intervalle d'ajustement.
+
+dat-0236c81cf599 = Message de navigation LEO : l'éphéméride et l'horloge diffusées d'un positionnement, d'une navigation… en orbite terrestre basse (LEO)
+
+dat-79ef88803f0a = Passage LEO et bilan de liaison (leo-pass)
+
+dat-d6717d382ee3 = Passage LEO et bilan de liaison, bande par bande, pour le LEO-PNT (positionnement, navigation et datation depuis l'orbite terrestre basse…
+
+dat-e5f83d92ddc4 = Bilan de liaison d'un passage LEO, utilisateur au sol à { "48.14" }, { "11.57" } ; { "1" } satellite(s) LEO, fenêtre de { "900" } s
+
+dat-ca559e9d03e6 = PVT LEO (Doppler) à { "48.14" }, { "11.58" } sur { "600" } s
+
+dat-44a5313bed5f = PVT LEO (conjoint) à { "40.42" }, -3.70 sur { "1800" } s
+
+dat-809fd3d3d69d = PVT LEO (temps) à { "39.99" }, -105.26 sur { "21600" } s
+
+dat-5110c76d9dec = leo_fusion::doppler::tests (range_acceleration_obeys_the_kinematic_identity_and_vanishes_doppler_at_closest_approach ; noise_free_multi_satellite_doppler_recovers_the_user : à { "1" } mm et dérive à { "1e-6" } m/s ; a_single_pass_has_a_mirror_solution_across_the_ground_track ; the_cross_track_error_grows_as_the_pass_goes_overhead ; velocity_states_are_recovered_for_a_moving_user) ; leo_fusion::pvt_kind::tests (doppler_positioning_improves_with_the_window_and_is_deterministic : le RMS des résidus pondérés dans [{ "0.8" }, { "1.2" }] et l'erreur sous quatre sigmas formels) ; tests/leo_fusion_scenarios.rs (leo_doppler_positioning_forms_a_fix_and_the_cross_track_error_explodes_overhead ; starlink_doppler_only_mode_runs_without_ranging) ; tests/starlink_doppler_published_proxy.rs (un substitut préenregistré par rapport aux percentiles publiés du jeu de données 3 de « Unveiling Starlink for PNT », doi:10.33012/navi.685 : avec { "3" } satellites (masque de { "47" } deg), sans aide d'altitude et à { "30" } Hz, l'erreur 3D au p90 est de { "92.2" } m à { "20" } s et de { "870" } m à { "8" } s contre { "2" } m et { "10" } m publiés, si bien que les deux seuils d'un facteur deux sont NOT MET, du côté élevé, et affirmés comme manqués ; docs/design/evidence/cap11-starlink-doppler-proxy/)
+
+dat-359bbd5ab82f = leo_fusion::ntn::tests (the_numerical_rms_bandwidth_matches_the_closed_forms ; the_range_bound_scales_as_one_over_bandwidth_and_root_cn0 : { "0.4157" } m à la main à { "5" } MHz, { "45" } dB-Hz, { "0.1" } s ; the_frequency_bound_is_the_complex_tone_crlb ; defaults_run_wider_is_better_and_every_number_has_a_unit) ; tests/leo_fusion_scenarios.rs (ntn_wide_channel_bounds_far_tighter_than_the_narrow_one) ; tests/ntn_crlb_published_value_oracle.rs (ssb_bounds_reproduce_the_published_values ; ntn_fix_covariances_match_numpy ; bpsk_rms_bandwidth_reproduces_betz_table_1)
+
+dat-28ea4e14eab0 = leo_fusion::ppp::tests (the_filter_is_consistent_over_monte_carlo_seeds : { "24" } graines, moyenne du NEES moyennée sur l'exécution dans [{ "2.4" }, { "3.6" }] et au moins { "75" } % des époques dans la bande bilatérale du khi-deux à { "95" } % ; mesuré avec { "150" } graines, moyenne { "2.84" } GNSS seul et { "2.87" } avec LEO ; leo_augmentation_shortens_convergence ; same_seed_same_answer_and_every_number_has_a_unit) ; tests/leo_fusion_scenarios.rs (ppp_convergence_of_the_bundled_scenario_shortens_monotonically)
+
+dat-2fb048cfc2bd = leo_fusion::presets::tests (every_preset_has_a_source_and_every_public_source_a_url ; only_one_preset_uses_workshop_material ; noise_density_at_290_k_is_minus_204_dbw_per_hz) ; tests/workshop_preset_isolation.rs (only_the_listed_files_name_the_workshop_preset ; workshop_numbers_live_only_in_the_preset_file_and_its_scenarios : analyses textuelles du source de src, des scénarios et des tests) ; leo_fusion::system::tests (a_preset_fills_what_the_scenario_leaves_out ; a_system_needs_no_preset ; pseudorange_sigma_falls_with_elevation_and_never_below_the_sisre)
+
+dat-c48af19e208d = leo_link::energy et la section [iot] du type `leo-pass` : intégration cohérente plafonnée par le taux Doppler, sommes non cohérentes en loi quadratique jusqu'à un seuil de détection, recherche par cases Doppler sur l'enveloppe d'utilisateur statique de l'orbite (à froid) ou sur une fenêtre assistée (à chaud), recherche de code parallèle ou série, temps de message de navigation lors d'un démarrage à froid, énergie par position et autonomie de batterie selon les intervalles de calcul de position, pour chaque bande LEO et le signal GNSS
+
+dat-775a260dc9dc = leo_link::geometry::max_static_user_range_rate : une recherche sur chaque position d'orbite et chaque utilisateur à l'horizon du satellite d'une orbite circulaire, la Terre tournant, du plus grand taux de variation de distance, ainsi que les plus grandes vitesses orbitale et de satellite fixe par rapport à la Terre ; rapporté par bande comme l'enveloppe Doppler par le type `leo-pass` et utilisé comme fenêtre de recherche à froid de son modèle à basse consommation
+
+dat-dff519e6b042 = leo_link::presets : multibande générique (UHF, L, S, C), bande C générique, Xona Pulsar X1/X5, Iridium STL, Starlink comme signal d'opportunité Doppler seul, CentiSpace et un préréglage facultatif Celeste IOD, chacun avec sa source marquée PUBLIC (avec URL), REPRESENTATIVE ou WORKSHOP, celui de l'atelier se trouvant dans le fichier de préréglage facultatif Celeste IOD, compilé seulement si ce fichier existe ; chaque bande et chaque orbite peut être redéfinie dans un scénario, et un scénario peut ne nommer aucun préréglage
+
+dat-eed86179c6c3 = leo_navmsg::codec : la trame propre à Kshana (préambule, version, modèle, longueur, charge utile, CRC-24Q) pour les quatre modèles d'éphéméride, le polynôme d'horloge, le SVID, l'émission de données, la bande, la santé, un jeu Klobuchar, les coefficients NeQuick-G et les paramètres UTC, chaque champ avec une largeur et un pas indiqués (field_table), une quantification avec refus hors plage, et un bilan du plus grand changement de position et d'horloge que provoque une variation d'un demi-pas de chaque champ sur la fenêtre de validité
+
+dat-a0a243f31eb7 = leo_navmsg::codec::crc24q : polynôme générateur 0x1864CFB, valeur initiale { "0" }, sans réflexion, sans XOR final, le contrôle que la trame LEO de Kshana porte sur chaque octet précédent
+
+dat-42cd133bcd0e = leo_navmsg::codec::tests (crc24q_matches_the_catalogue_check_value — 0xCDE703 pour la chaîne ASCII { "123456789" } ; crc24q_matches_the_rtcm_1005_example_frame — les trois octets de contrôle 0x360B98 de la trame d'exemple RTCM { "10403" } de type de message { "1005" }, et zéro sur toute la trame)
+
+dat-5656921517c5 = leo_navmsg::codec::tests (signed_fields_round_trip_through_the_bit_packer ; week8_resolves_near_the_reference) ; leo_navmsg::tests::every_model_round_trips_through_the_binary_frame (chaque modèle à { "2" } mm du message exact après décodage, ré-encodage identique bit à bit, un bit inversé rejeté par le CRC) ; leo_navmsg::tests::every_field_of_the_budget_stays_under_a_millimetre
+
+dat-41bc4d49a080 = leo_navmsg::elements::kepler_point : l'évaluation képlérienne de l'ICD SIS Galileo OS (équation de Kepler, corrections du second harmonique, nœud fixe par rapport à la Terre) écrite séparément de l'évaluateur RINEX du moteur, renvoyant la position avec l'argument de latitude, l'inclinaison et le nœud à partir desquels le repère de correction longitudinal/transversal/radial est construit, et les termes d'extension de Liu et al. { "2025" }
+
+dat-03e4b5d56289 = leo_navmsg::services : le retard diffusé Klobuchar à toute porteuse (le modèle L1 du moteur mis à l'échelle par (f_L1/f)^{ "2" }), le niveau d'ionisation effectif NeQuick-G Az = ai0 + ai1 mu + ai2 mu^{ "2" } avec les règles de tout zéro et de [{ "0" }, { "400" }] sfu, et le temps système vers UTC avec les trois cas de seconde intercalaire de l'ICD
+
+dat-bac78dac563b = leo_navmsg::services::tests (klobuchar_scales_with_inverse_frequency_squared — la valeur L1 est le { "6.1278" } m de RTKLIB ; nequick_az_rules ; utc_without_an_event_is_tow_minus_leap_seconds_folded_to_a_day ; utc_drift_terms_follow_the_icd_formula ; an_inserted_leap_second_reads_86400_at_the_end_of_the_day) ; tests/leo_navmsg_services_gnsstk_oracle.rs::services_match_gnsstk_and_erfa (Klobuchar à L1, L2 et L5 sur { "4 320" } cas, pire écart { "7.0e-13" } m ; Az sur { "222" } jeux de coefficients dont les règles de tout zéro et de { "400" } sfu, pire écart { "5.7e-14" } sfu ; dérive UTC sur { "50" } cas, pire écart { "3.6e-15" } s ; les trois cas de seconde intercalaire sur { "21 602" } instants couvrant les vraies secondes intercalaires de { "2015" } et { "2016" }, { "0" } s)
+
+dat-8dfeecb0b6f2 = leo_navmsg::sisre::sisre_weights : le poids radial w_R et le poids transversal au carré w_AC^{ "2" } comme moyennes de cos^{ "2" } et de la moitié de sin^{ "2" } de l'angle au nadir de la ligne de visée pour des utilisateurs uniformément répartis sur la calotte terrestre visible au-dessus d'un masque d'élévation, pour tout rayon d'orbite, par intégration de Simpson ; utilisé par chaque valeur SISRE de leo-navmsg (à { "510" } km, w_R { "0.46" } et w_AC^{ "2" } 1/2.5)
+
+dat-736676ef0437 = leo_navmsg::sisre::tests (weights_reproduce_the_published_meo_and_geo_table — GPS { "0.979" } et 1/48.9, GLONASS 1/45.0, Galileo { "0.984" } et 1/61.1, BeiDou MEO 1/54.2, géostationnaire { "0.992" } et 1/126.2 avec un masque de { "0" } deg, chacun à { "0.005" } de w_R et à { "0.5" } de 1/w_AC^{ "2" } ; leo_weights_shift_toward_the_transverse_axes — angle au nadir de l'horizon { "67.8" } deg à { "510" } km)
+
+dat-62de45325cfe = leo_navmsg::tests::a_mid_pass_update_is_continuous (le saut de distance de chaque commutation est égal à la variation de l'erreur de distance, et un ajustement corrigé de { "300" } s mis à jour toutes les { "150" } s passe un seuil de { "5" } cm) ; leo_navmsg::tests::a_keplerian_only_update_over_a_long_interval_is_flagged ; leo_navmsg::tests::worst_case_jump_bounds_every_line_of_sight (la forme fermée borne un échantillonnage dense du cône)
+
+dat-906fde8e674c = leo_navmsg::text : un bloc de style RINEX-4 (en-tête d'enregistrement > EPH, ligne de satellite et d'époque avec trois termes d'horloge, lignes d'orbite diffusée D19.12) avec la lettre de système L et les types d'enregistrement KP16, KRAC, LU22 et APOL, étiqueté dans chaque en-tête comme une extension de Kshana ne faisant pas partie de RINEX { "4.02" }, et une table CSV avec un schéma de colonnes par défaut et des schémas prédéfinis, chacun avec un importateur
+
+dat-ff83f603c40a = leo_navmsg::text::tests (calendar_round_trips_and_knows_the_gps_origin ; d19_is_rinex_shaped) ; leo_navmsg::tests::rinex_and_csv_round_trips (chaque modèle à { "0.1" } mm après le bloc texte, le CSV exact)
+
+dat-0f37818c7bb0 = leo_pnt_chain::tests (a_sine_line_fit_recovers_its_line) ; tests/leo_pnt_chain.rs (every_upstream_change_moves_the_downstream_figures : une PIRE plus forte, un intervalle d'ajustement plus long et un terme de détermination d'orbite plus grand déplacent chacun la valeur transmise et la position fusionnée ; the_handed_on_values_are_the_stage_outputs ; a_band_design_splits_the_eirp_and_reports_the_design_jitter ; the_pass_export_reproduces_the_engine_range)
+
+dat-5dd9c7750761 = leo_signal::max_doppler_hz : le plus grand Doppler de satellite lors d'un passage au zénith au masque d'élévation pour une orbite circulaire, v R_E cos(el) / (R_E + h) fois f / c, à partir de la porteuse et de l'altitude d'orbite propres à chaque préréglage ; le type `leo-signal` ajoute les termes d'oscillateur et d'utilisateur et le transforme en cases Doppler
+
+dat-2b3961126d2c = leo_signal::tests (every_public_preset_parses_and_cites_a_url ; detector_reduces_to_pfa_and_grows_with_snr ; detection_probability_with_several_looks_matches_the_noncentral_chi_square ; mean_time_of_a_perfect_detector_is_half_the_cells ; compatibility_ssc_magnitudes_match_independent_quadrature ; to_spectrum_band_is_consistent_with_the_design ; jammer_tolerance_orders_cw_matched_wideband ; e5_centred_signal_hits_e5a_and_e5b_equally ; defaults_run_on_the_generic_band_preset ; inline_signal_and_bad_inputs) ; tests/leo_signal_reference.rs (chaque scénario fourni et indépendant du système s'exécute sans données d'atelier, les rapports ionosphériques de l'étude de bande sont égaux à (f_ref/f)^{ "2" } et ses différences en espace libre à { "20" } log10(f/f_ref), la gigue au C/N0 de référence se situe entre sa borne de Gabor et sa forme à bande illimitée, les vérifications de forme E5 du scénario à paramètres d'atelier sont cohérentes lorsque ce fichier est présent, et aucun fichier source ne compile ce fichier)
+
+dat-6af7285f6f2e = leo_signal::tests::max_doppler_matches_published_xona_and_iridium_figures — Xona Pulsar X1 ({ "1593.3225" } MHz, { "1080" } km) { "33.2" } kHz dans l'intervalle publié de { "32" } à { "34" } kHz ; Iridium ({ "1621" } MHz, { "780" } km) à { "0.5" } kHz de la valeur publiée de { "36" } kHz
+
+dat-e033f9262fd0 = Transfert de temps vers UTC assisté par LEO en fonction du C/N0 et de l'oscillateur du récepteur
+
+dat-96378ecc465b = leo-navmsg (type de scénario)
+
+dat-97537bd045c0 = leo-pass (type de scénario)
+
+dat-af1eb4f8b776 = Étude de bande LEO-PNT, de l'UHF à la large bande C : ce que gagne et perd un signal de positionnement,
+
+dat-65a98dd91600 = Étude de bande LEO-PNT, de l'UHF à la large bande C : ce que gagne et perd dans chaque bande un signal de positionnement, navigation et datation (PNT) en orbite terrestre basse (LEO), indépendamment de tout système particulier.
+
+dat-fac7345aa741 = Campagnes LEO-PNT
+
+dat-bf7043f2e175 = LEO-PNT de bout en bout sur une constellation générique : conception du signal -> bilan de liaison du passage ->
+
+dat-830d144a441c = LEO-PNT de bout en bout sur une constellation générique : conception du signal -> bilan de liaison du passage -> message de navigation -> position fusionnée MEO + LEO et convergence du positionnement ponctuel précis.
+
+dat-f77a6dd9a64d = LEO-PNT de bout en bout, constellation générique à { "1080" } km
+
+dat-65015a720e6f = Domaine d'intérêt LEO-PNT : compatibilité avec les réseaux non terrestres (NTN) 5G/6G.
+
+dat-26a4d3c25329 = Domaine d'intérêt LEO-PNT : services de données PNT supplémentaires dans le message de navigation.
+
+dat-eb0ad5f96922 = Domaine d'intérêt LEO-PNT : positionnement de haute précision (positionnement ponctuel précis, PPP).
+
+dat-27c77351ab17 = Domaine d'intérêt LEO-PNT : navigation en intérieur avec l'UHF.
+
+dat-9893cd919599 = Domaine d'intérêt LEO-PNT : science du LEO-PNT, sondage de l'ionosphère à partir du retard bi-bande.
+
+dat-5935f4e01847 = Domaine d'intérêt LEO-PNT : positionnement à basse consommation pour l'Internet des objets (IoT) et le mobile.
+
+dat-9daa1f42bf38 = Domaine d'intérêt LEO-PNT : PNT fusionné MEO + LEO.
+
+dat-3d4073bef44a = Le LEO-PNT dans Kshana
+
+dat-d76c463eef28 = Le LEO-PNT est le positionnement, la navigation et la datation (PNT) à partir de satellites en orbite terrestre basse (LEO), en complément ou…
+
+dat-aa8e95efb332 = Le LEO-PNT est le positionnement, la navigation et la datation (PNT) à partir de satellites en orbite terrestre basse (LEO).
+
+dat-f511574300f5 = Résilience du LEO-PNT face au leurrage : cohérence du Doppler et de la géométrie du passage.
+
+dat-40cd7d788f7b = Résilience du LEO-PNT face au leurrage : quel moniteur voit quel leurre.
+
+dat-b844d192ebc3 = Résilience du LEO-PNT par diversité de bandes : un brouilleur, un récepteur à quatre bandes.
+
+dat-87de513d418b = Résilience du LEO-PNT par la puissance reçue : la marge brouilleur-signal (J/S).
+
+dat-fef497edc3fe = Mission de résilience LEO-PNT : GNSS brouillé, le LEO-PNT porte l'utilisateur, intégrité maintenue.
+
+dat-6ca3401a408c = Conceptions de signaux LEO-PNT et spectre multibande
+
+dat-dce5c1ca8c13 = Conceptions de signaux LEO-PNT : signaux de positionnement, navigation et datation (PNT) paramétrés en orbite terrestre basse (LEO)…
+
+dat-d40e7ca25372 = Termes des signaux LEO-PNT
+
+dat-fa330dfa3d6f = Filière LEO-PNT : suivi d'actifs et Internet des objets (IoT), énergie par position.
+
+dat-92cf8c9d4beb = Filière LEO-PNT : véhicules autonomes, un canyon urbain avec une couche LEO.
+
+dat-c6ecb593b85e = Filière LEO-PNT : synchronisation des infrastructures critiques, holdover avec le temps LEO.
+
+dat-8e9444205c16 = Filière LEO-PNT : utilisateurs polaires et arctiques.
+
+dat-8dea94ab1648 = Filière LEO-PNT : ferroviaire et maritime, les scénarios maritimes et ferroviaires fournis plus le LEO.
+
+dat-d9aa986c1126 = Filière LEO-PNT : le canyon urbain pour véhicules autonomes, en coupure plate et en rue.
+
+dat-7a12939929e6 = Filière LEO-PNT : réseaux sans fil, synchronisation des stations de base 5G/6G.
+
+dat-cf8cb3a6466e = leo-pnt-chain (type de scénario)
+
+dat-969562e04b91 = leo-ppp (type de scénario)
+
+dat-c087126c6d3b = leo-pvt (type de scénario)
+
+dat-613dc8286d33 = leo-signal (type de scénario)
+
+dat-3d2c62c5f121 = Fonctions de bibliothèque
+
+dat-3ac3fcb9758a = Utilisation en bibliothèque
+
+dat-e01ee49b355c = Bibliothèque : LANS-AFS-SIM (T. Ebinuma, BSD-2-Clause, commit 480c6bf353717bafc04b5ee5bafb38ed90e61aae, build en bande S, exécuté comme programme séparé) ; les échantillons de Kshana sont pilotés uniquement par l'état de canal enregistré du simulateur, et un build de trace en impression seule est vérifié identique octet pour octet à celui non modifié. Seuils fixés avant l'exécution : zéro écart de chip et de symbole, |rho| >= { "0.999" } sur l'exécution et >= { "0.99" } par bloc de { "2" } ms, phase à { "0.05" } rad près. Des amplitudes I et Q égales sont une entrée de la comparaison, si bien que la répartition de puissance n'est pas testée par celle-ci. LANS-AFS-SIM lit ses codes tertiaires dans le fichier de l'Annexe { "3" } du LSIS, si bien que cette partie n'est pas indépendante de la ligne des codes. LANS-AFS-SIM et PocketSDR-AFS partagent un auteur et comptent comme une seule implémentation indépendante. Dépend de données : la comparaison LANS-AFS-SIM nécessite le cache local LSIS V1.0 (xval/lunar-afs/fetch_lsis.sh, SHA-256 vérifié) et est ignorée avec un avis en son absence
+
+dat-0d377b4ab75f = Bibliothèque : LANS-AFS-SIM (T. Ebinuma, BSD-2-Clause, commit 480c6bf353717bafc04b5ee5bafb38ed90e61aae), dont les propres BCH, CRC, LDPC et entrelaceur produisent des trames identiques symbole à symbole à celles de Kshana pour le même contenu (zéro écart, seuil fixé avant l'exécution). Corroboré par des valeurs de référence : l'exemple détaillé BCH de la Figure { "8" } du LSIS V1.0 et la valeur de contrôle CRC-24/LTE-A (catalogue d'algorithmes CRC paramétrés de Greg Cook), tous deux exacts au bit près ; et par PocketSDR-AFS décodant chaque sous-trame des trames qu'il a synchronisées en trois exécutions avec un CRC valide et des bits de sous-trame 2 concordants. Le test de contrôle de parité est proche d'une identité interne (il confirme que le B^-1 imprimé inverse le B imprimé) et n'est pas compté comme une référence indépendante. Dépend de données : la comparaison LANS-AFS-SIM nécessite le cache local LSIS V1.0 (xval/lunar-afs/fetch_lsis.sh, SHA-256 vérifié) et est ignorée avec un avis en son absence
+
+dat-29a4033f3b1c = Bibliothèque : PocketSDR-AFS (T. Ebinuma d'après le PocketSDR { "0.13" } de T. Takasu, BSD-2-Clause, commit 5b23809f30d68518b7fad7a564fd0fac57cc497d, build en bande S, copie à niveau de journalisation en impression seule), selon des critères fixés avant chaque exécution. La troisième comparaison préenregistrée atteint intégralement ses seuils de décodage et de poursuite C1 et C2 mais pas sa garde G0 telle qu'écrite (deux exécutions du récepteur non modifié diffèrent sur les mêmes quatre enregistrements d'acquisition), et la deuxième a manqué de { "5" } violations, si bien que la ligne reste MODELLED. LANS-AFS-SIM et PocketSDR-AFS partagent un auteur et comptent comme une seule implémentation indépendante ; les contrôles par vecteurs imprimés de la ligne de codage de trame protègent contre une lecture erronée commune
+
+dat-fde7ce482e65 = Temps de lumière entre corps du système solaire
+
+dat-0a8f41750e4f = Comparaison de télémétrie optique et RF à conditions équivalentes
+
+dat-114a4144fb87 = Effets de l'ionosphère, de la plasmasphère et de l'atmosphère sur des rayons rasants de signaux GNSS (rayon au limbe), et conception d'un récepteur pour signaux faibles, dans le type `gnss-ssv`
+
+dat-5034bb0fd89f = Limites implémentées
+
+dat-1b52a209bbb2 = Limites qui diffèrent selon la surface
+
+dat-ac6bd33f5040 = Limites, énoncées sans détour
+
+dat-000b3456923c = Couverture de lignes — la mesure de référence officielle
+
+dat-130c22407364 = équation de liaison par rapport au DCT Galileo DESCANSO/JPL publié
+
+dat-c231b357d77a = Marge de liaison en fonction du temps ({ "0.38" })
+
+dat-dee5343ce0b9 = link-budget (type de scénario)
+
+dat-2b015a0d3554 = Brouillage par bilan de liaison : J/S → C/N₀ effectif → perte de verrouillage.
+
+dat-0117d8576f56 = Auto-description du rapport de bilan de liaison
+
+dat-a37b9fe51244 = linkbudget::tests (sur trois bandes, quatre décades de distance et les deux verdicts de fermeture, la marge et l'affaiblissement en espace libre qui la sous-tend sont recalculés à partir du seul rapport à mieux que { "1e-9" } dB près ; le G/T requis assemblé à partir des termes de l'équation concorde avec la même grandeur obtenue comme G/T moins la marge, et une nouvelle exécution à cette valeur annule la marge ; trois bilans aux PIRE, pertes et seuils très différents mais à constante de liaison égale donnent une exigence identique, tandis que { "1" } dB sur la constante la déplace d'exactement { "1" } dB ; la répartition du gain est absente sauf si une température de bruit est indiquée et une température non positive est refusée ; chaque champ que nomme le bloc des unités est effectivement émis)
+
+dat-30e0aeabc8e6 = linkbudget::tests (forme de l'affaiblissement en espace libre, fermeture de l'équation de liaison) ; tests/one_way_link_budget_reference.rs (DCT en bande X Galileo DESCANSO/JPL reproduit de bout en bout + { "6" } cas FSL de l'UIT-R P.525 sur les centres de bande S/X/Ka du DSN ; pire |ΔFSL| { "4.6e-3" } dB, |Δporteuse| { "2.5e-2" } dB)
+
+dat-ef7a7b9adcd5 = Journaux linuxptp et chrony
+
+dat-4c745cc65a05 = Liste tous les types de scénario Kshana intégrés avec leur description et leurs champs TOML obligatoires/facultatifs, sous forme de tableau JSON.
+
+dat-3d05346c4731 = Liste les scénarios de référence fournis au format JSON : `count`, et `scenarios`, un tableau de `name`, `kind` et `about` (la première phrase du commentaire d'en-tête du fichier lui-même).
+
+dat-c383ea75352f = Liste les paquets de normes (`kshana standards-pack list`) : des jeux de scénarios évalués pour les profils d'essai du cadre PNT résilient du DHS, l'IMO MSC.1/Circ.1575 et l'annexe F de l'ICAO Doc { "9849" }, chacun avec les seuils qu'il énonce avant l'exécution et les lignes de compliance dont il apporte des éléments de preuve en faveur.
+
+dat-357232ee1deb = Modèle d'éphéméride LEO à 22 paramètres de Liu et al. { "2025" } et son ajustement sur de vraies orbites précises
+
+dat-055df2b81d5f = Modèle de distance mesurée LLR (catalogue de réflecteurs, stations ITRF2020, placement sur les axes principaux DE440, temps de lumière barycentrique IERS { "2010" })
+
+dat-38984e856168 = Chargement des fichiers dans un simulateur
+
+dat-6612bd928a6e = Localiser un brouilleur ou un leurre (ou une source opportuniste pour le PNT inversé) à partir d'hyperboloïdes de différence de temps d'arrivée sur un réseau de récepteurs, résolu par moindres carrés de Gauss–Newton ; l'ajout de la différence de fréquence d'arrivée avec des récepteurs en mouvement permet de retrouver conjointement la position et la vitesse de l'émetteur, avec la borne de Cramér–Rao sur la covariance de position issue de la géométrie du réseau. Un modèle de ligne de visée à source ponctuelle — sans multitrajet / NLOS, biais d'horloge du récepteur ni termes de réfraction.
+
+dat-11da74e54545 = Localiser un émetteur (brouilleur/leurre, ou source opportuniste pour le PNT inversé) à partir de la différence de temps d'arrivée sur un réseau de récepteurs — l'intersection d'hyperboloïdes τᵢ=(Rᵢ−R₀)/c résolue par moindres carrés de Gauss–Newton — et, en ajoutant la différence de fréquence d'arrivée (différences de taux de variation de distance) avec des récepteurs en mouvement, retrouver conjointement la position et la vitesse ; avec la borne inférieure de Cramér–Rao sur la covariance de position issue de la géométrie des mesures
+
+dat-afd805c16a68 = Journaux qu'il lit
+
+dat-86ab5cbca459 = Affaiblissement dû à la pluie à long terme sur trajet oblique d'une liaison Terre-espace
+
+dat-777b13909a61 = Rebouclage local par défaut ; une liaison hors rebouclage local exige --allow-remote et un jeton porteur. Kshana n'héberge aucun point d'accès.
+
+dat-2b31e9b2cb7e = EKF GNSS/INS à couplage lâche avec bras de levier sur le jeu de données KF-GINS
+
+dat-238441f93352 = EKF à états d'erreur GNSS/INS à couplage lâche et serré.
+
+dat-f48b40eaf85f = GNSS/INS à couplage lâche : le navigateur inertiel à trois axes asservi par un
+
+dat-3bc0a108f9d6 = Perte de verrouillage calculée à partir de la dynamique des boucles plutôt que d'un rapport de puissances : gigue thermique 1σ de la porteuse (Costas) et du code (avance/retard non cohérent) en fonction du C/N₀ avec la perte quadratique, par rapport aux règles énoncées 3σ_PLL + θ_e ≤ { "45" }° et 3σ_DLL + retard de rampe ≤ d/2 chips ; seuils de C/N₀ de décrochage et de réaccrochage avec la boucle limitante nommée et l'hystérésis DÉRIVÉE de la plus large bande passante d'accrochage plutôt qu'affirmée ; le temps déclaré de perte de verrouillage issu d'un détecteur de verrouillage à deux seuils avec temps d'attente de confirmation, rapporté séparément du temps physique d'échappement de phase (temps moyen de Viterbi entre sauts de cycle, en log₁₀ s parce qu'il s'étend sur des centaines de décades) ; la plus grande dérive de code et le plus grand taux Doppler de porteuse que les boucles de la victime peuvent suivre ; et le RAYON DE DÉNI qu'impliquent les dynamiques de boucle, rapporté à côté du rayon par rapport de puissances existant, avec leur différence signée comme champ nommé à part. Exécutable comme type de scénario `tracking-loop`
+
+dat-5599b89e5499 = Navigation en orbite terrestre basse (LEO)
+
+dat-3fce7cffa945 = Conceptions de signaux de positionnement, navigation et datation en orbite terrestre basse : poursuite de code, acquisition, compatibilité GNSS et étude de bande pour n'importe quel système
+
+dat-b115f7e639c8 = Navigation en orbite terrestre basse
+
+dat-070beed16f4d = Navigation en orbite terrestre basse (famille de types de scénario)
+
+dat-7d76203aada8 = LEO-PNT à basse consommation pour un traceur IoT (Internet des objets) : énergie par position en fonction du rapport cyclique.
+
+dat-f20670ebd948 = Positionnement à basse consommation : temps avant la première position et énergie par position en fonction du rapport cyclique
+
+dat-913ffc083579 = C/N0 maximal en orbite basse
+
+dat-b06a1a10a8ff = LRO lunaire — validé, au-dessus du seuil de { "5" } m (honnête) (P4 W4b)
+
+dat-bbe641ae75b7 = LSIS-AFS V1.0 (comme ci-dessus) : la séquence de Legendre de longueur 1499 (Tableau E-1, identique) et les { "24" } premiers et derniers chips tertiaires (Tableaux E-2 à E-6 : { "419" } colonnes sur { "420" } identiques ; le document imprime les mêmes { "24" } derniers chips, A14850, pour le PRN { "147" } et le PRN { "151" } et le générateur reproduit ceux du PRN { "151" }, si bien que l'entrée du PRN { "147" } est très probablement une coquille ; le seuil de { "420" } sur { "420" } est NOT MET et l'écart est épinglé) ; l'exemple détaillé de la Figure { "8" } du code SB1 (un seul exemple : 0x045 se code en 0x229F61DBB84A0) ; CRC-24Q par rapport à la valeur de contrôle du catalogue 0xCDE703 pour l'ASCII { "123456789" } ; l'arithmétique de trame propre au document. Seuils préenregistrés à b3ba5d5. Un écart consigné et un seul exemple détaillé pour la couche de message, si bien que la ligne reste MODELLED. CE QUI N'EST PAS VÉRIFIÉ : le LDPC et les mots CRC dans les sous-trames { "2" } à { "4" }, le contenu du message, et tout flux enregistré
+
+dat-e04f4d780264 = LunaNet AFS
+
+dat-036ec4a7b3a2 = Rendu en bande de base LunaNet AFS par rapport à un générateur indépendant, étant donné son état de canal (LSIS V1.0)
+
+dat-8d80015811ed = Décodabilité en boucle fermée de LunaNet AFS par un récepteur indépendant (LSIS V1.0)
+
+dat-f847c909943e = Codage de canal des trames LunaNet AFS, FID { "0" } (LSIS V1.0)
+
+dat-82bb02b31ec1 = Génération des codes d'étalement LunaNet AFS (LSIS V1.0)
+
+dat-e9a107df70e5 = Codes tertiaires et couche de message LunaNet AFS (BCH SB1, CRC-24Q, entrelaceur) par rapport à LSIS-AFS V1.0
+
+dat-c906216cda6e = Codes primaires LunaNet AFS-I et AFS-Q par rapport aux colonnes de contrôle imprimées de LSIS-AFS V1.0
+
+dat-b7830d73f66c = LunaNet Augmented Forward Signal : codes, format de message et lunanet-afs-check
+
+dat-786926d72bbd = Export de référentiel lunaire + temps + éphéméride aligné sur LunaNet/IOAG (CCSDS OEM + KIF) avec contrôle de l'aller-retour
+
+dat-e192c5acb8a0 = Observabilité absolue des stations lunaires (défaut de datum)
+
+dat-f799c666b129 = Lunaire et cislunaire
+
+dat-86a83ef8cdf9 = Lunaire et cislunaire (famille de types de scénario)
+
+dat-b801ec4bf573 = Lunaire et espace lointain
+
+dat-dc6ee5111659 = Noyau de niveau de protection ARAIM lunaire
+
+dat-d2d0cc81bd61 = Résolution d'ambiguïté de la phase de la porteuse lunaire : surface et orbiteur
+
+dat-b691fa8a4ad5 = Temps-coordonnée lunaire
+
+dat-fa2fcf2c5b43 = Temps-coordonnée lunaire — taux d'horloge relativiste Terre-Lune (src/lunar_time.rs)
+
+dat-d20f5e313023 = Temps-coordonnée lunaire (LTC/TCL) : le taux d'horloge relativiste Terre-Lune.
+
+dat-af0a23f07c39 = Identifiabilité du datum lunaire - algèbre linéaire de décomposition
+
+dat-bed29386740f = Classification de l'espace nul du datum lunaire (additivité des rangs LLR + relèvement du défaut de libration)
+
+dat-d3f1690bde5f = Contour de déni lunaire à partir d'une dispersion de C/N₀ mesurée
+
+dat-296d9afc04ce = Contour de déni lunaire avec une bande d'incertitude à partir de la dispersion de C/N₀ mesurée
+
+dat-2120aea3f590 = PNT différentiel lunaire
+
+dat-8f22593d410c = PNT DIFFÉRENTIEL lunaire — un analogue lunaire du DGNSS / SBAS.
+
+dat-fc808feef17b = PNT différentiel lunaire — annulation du mode commun + résidu croissant avec la ligne de base + niveaux de protection DGNSS (src/lunar_dpnt.rs)
+
+dat-337e1bd0dcf1 = PNT différentiel lunaire — bilan résiduel de la liaison de correction
+
+dat-0c52dc3ec157 = Coestimation du référentiel lunaire : stations de surface et orbiteurs
+
+dat-7205faad3126 = Covariance du datum du référentiel lunaire avec les stations estimées, par rapport à une précision étendue à 50 chiffres
+
+dat-93ef37db90e6 = Datum du référentiel lunaire à partir d'une campagne d'observation RÉELLE
+
+dat-97d8ec7c5f7f = Datum du référentiel lunaire à partir d'une campagne d'observation RÉELLE, centre de la Lune du noyau
+
+dat-55f1a0438f19 = Datum du référentiel lunaire à partir d'une campagne d'observation
+
+dat-847608ac6479 = Datum du référentiel lunaire à partir de télémétrie laser réelle
+
+dat-f7dcc8ff3151 = VLBI géodésique lunaire
+
+dat-55c0d14f431a = VLBI géodésique lunaire — retard en champ proche pour une ligne de base terrestre observant une balise lunaire (src/lunar_vlbi.rs)
+
+dat-825d892290f1 = VLBI géodésique lunaire, chemin du noyau
+
+dat-943ed950502b = VLBI géodésique lunaire : une ligne de base terrestre observant une balise à la surface de la Lune.
+
+dat-249b9676c0af = Infrastructure lunaire (lunar-infrastructure)
+
+dat-a157b399a269 = Export d'interopérabilité lunaire
+
+dat-dc7dd1edf29b = Export d'interopérabilité lunaire — échange aligné sur LunaNet/IOAG et fondé sur CCSDS.
+
+dat-962471ff7cc1 = Export d'interopérabilité lunaire — CCSDS OEM + KIF alignés sur LunaNet/IOAG avec contrôle de l'aller-retour (src/lunar_interop.rs)
+
+dat-c771c18714e5 = Géométrie conjointe de communication et de navigation lunaires
+
+dat-6fe5eca98c76 = DO multitechnique conjointe lunaire + horloge
+
+dat-3c303a270a97 = DO multitechnique conjointe lunaire + horloge — récupération simulée en boucle fermée (src/lunar_combination.rs)
+
+dat-a8b73960c4b7 = Détermination conjointe multitechnique de l'orbite et de l'horloge lunaires (un réseau SIMULÉ).
+
+dat-338ed6165c7f = Substrat géométrique du datum LLR lunaire (réflecteurs aux axes principaux, stations au sol, dérivées partielles analytiques de la distance)
+
+dat-adb8542c2306 = Sensibilité lunaire au nombre de Love et à la libration
+
+dat-b8cf831d1409 = Volume de service de navigation lunaire
+
+dat-39ccbb141f37 = Volume de service de navigation lunaire — DOP / couverture / disponibilité + PL ARAIM lunaire généralisé (src/lunar_service.rs)
+
+dat-3a82e1764744 = Volume de service de navigation lunaire et ARAIM
+
+dat-0227d1ff18f5 = Analyse du VOLUME DE SERVICE de navigation lunaire — constellation de classe Moonlight / LCNS.
+
+dat-9b29005a3941 = Orbite et surface lunaires comme infrastructure de navigation et de géodésie
+
+dat-b2d2f29622b9 = Détermination d'orbite lunaire : GNSS terrestre par rapport à la radiométrie au sol
+
+dat-511b88f88b7b = Station de référence lunaire
+
+dat-c949a2b18953 = Géodésie de la station de référence lunaire, RÉFÉRENCE DE BASE : les cinq réseaux de rétroréflecteurs actuels seuls.
+
+dat-554369ca1867 = Géodésie de la station de référence lunaire, AVEC STATION : les cinq réseaux de rétroréflecteurs plus une
+
+dat-ad5ed73b495d = Laboratoire de temps de la station de référence lunaire : une horloge miniature au rubidium (miniRAFS) asservie à
+
+dat-0829ad8be411 = Réalisation du référentiel lunaire
+
+dat-4ebbeba62243 = Réalisation du référentiel lunaire — ajustement de datum de Helmert à 7 paramètres (src/lunar_frame_realise.rs)
+
+dat-0e0f62bb8a66 = Réalisation du référentiel lunaire — un ajustement de datum de Helmert (similitude) à 7 paramètres.
+
+dat-315f29f20d81 = Précision et couverture de la station de référence lunaire par rapport aux affirmations publiées
+
+dat-367e840f7dfa = Carte de couverture et de précision de la station de référence lunaire
+
+dat-156c87144a74 = Couverture de la station de référence lunaire selon les hypothèses PUBLIQUEMENT ÉNONCÉES : le même type que
+
+dat-3c466b32af48 = Couverture de la station de référence lunaire avec relief : le scénario fourni lunar-station-coverage
+
+dat-29ee8ab5edca = Couverture de la station de référence lunaire : quelle précision de positionnement et quel niveau de protection un utilisateur
+
+dat-2c796f7308dd = Croissance de l'erreur d'éphéméride de la station de référence lunaire pendant la latence de correction
+
+dat-945ce00a9e23 = Géodésie de la station de référence lunaire : rétroréflecteur et balise VLBI ajoutés par rapport au datum à cinq réseaux
+
+dat-aa6de9e63306 = Termes de multitrajet et de matériel récepteur de la station de référence lunaire
+
+dat-bc66e5ef4847 = Modes de solution de la station de référence lunaire : contrainte de hauteur, trois satellites, fenêtre d'utilisateur statique
+
+dat-bc2068142d4f = Étude de la station de référence lunaire
+
+dat-73b73600040b = Relais lunaire
+
+dat-69906ae227f9 = Volume de service lunaire à partir d'une géométrie de constellation réelle et récupérée
+
+dat-e3f922ee702f = Passage du niveau de protection ARAIM au pôle sud lunaire par rapport à un ensemble de relais LunaNet représentatif. sigma_ure_m expose le…
+
+dat-7bf99378af27 = Intégrité au pôle sud lunaire : un récepteur posé dans la région Artemis face à un
+
+dat-bc822667b92c = Laboratoire de temps de la station lunaire : holdover du miniRAFS par rapport au LTC
+
+dat-555a5784e0db = Augmentation du DOP par balise de surface lunaire
+
+dat-054931b7071e = Brouillage RF de la navigation de surface lunaire (J/S par satellite)
+
+dat-d9dd563d89cd = Surface d'attaque de sécurité des signaux de navigation de surface lunaire (P1) : compose les analyses ouvertes de sécurité des signaux…
+
+dat-e5504a977338 = Surface d'attaque de sécurité des signaux de navigation de surface lunaire (article P1).
+
+dat-2ecad2c187ce = Masques d'horizon du relief lunaire à partir d'un profil indiqué ou d'un MNT polaire
+
+dat-1e7ef82181d5 = Échelles de temps lunaires et VLBI géodésique
+
+dat-b53e29115ece = Reproductibilité du bilan d'erreur de temps lunaire
+
+dat-4c2e66fa8a55 = lunar_afs::codes::tests (registres à longueur maximale, équilibre de Legendre, aller-retour du retard G2, composition des niveaux) ; tests/lunar_afs_codes_lsis_reference.rs::afs_codes_finding_one_misprinted_table_cell (sans le cache LSIS : quatre nombres cités épinglent le constat ; avec lui : { "2 937 232" } chips et bits par rapport aux fichiers de l'Annexe { "3" } du LSIS, premiers/derniers { "24" } chips imprimés, Tableaux de Legendre D-1 et E-1 et initialisations de G2 ne donnent qu'un seul élément différent, la cellule « { "24" } derniers chips » du PRN { "147" } du Tableau E-5, qui duplique celle du PRN { "151" } alors que le fichier de l'Annexe { "3" } concorde avec le générateur) ; le test strict préenregistré afs_codes_match_lsis_v1_tables_and_annex3_bit_exact est ignoré avec cet écart
+
+dat-8be8ccf828da = lunar_afs::waveform (enregistrement et étiquettes de vérité terrain), xval/lunar-afs/run_pocketsdr.sh
+
+dat-5c670f2679d7 = lunar_beacon::tests (visibilité à l'horizon par rapport à la forme fermée L01 ; le DOP augmenté par balise par rapport au DOP nu ; la somme quadratique du bilan d'erreur ; la relation DOP-mètres) ; tests/validate_p2_beacon_before_after_table.rs (tout le tableau avant/après épinglé sur une référence figée versée au dépôt à { "1e-9" } en relatif) ; tests/validate_p2_beacon_before_after_independent_dop.rs (la même géométrie par un chemin de DOP INDÉPENDANT, si bien que l'augmentation n'est pas vérifiée par rapport au noyau qui l'a produite) ; tests/validate_lunar_beacon_anise_visibility_dop.rs::beacon_visibility_and_augmented_dop_match_anise_and_numpy
+
+dat-b9653998b456 = lunar_combination::tests (rang déficient sans lignes de base terrestres ; trois lignes de base rétablissent le rang plein — le seuil de 3 stations tiré du rang d'information, pas de l'erreur de résolution ; CRLB de station atteinte par l'estimateur avec une efficacité de { "0.98" } ; la CRLB se resserre de façon monotone avec les lignes de base) ; tests/lunar_observability_numpy_oracle.rs::lunar_observability_matches_numpy_on_the_committed_jacobians
+
+dat-0d66fd92c424 = lunar_combination::tests (retrouve la vérité terrain simulée ; la VLBI rétablit l'observabilité 3D des stations ; déterministe) ; tests/lunar_joint_multi_technique_od_reference.rs ({ "6" } géométries × { "16" } paramètres, { "31" } observations chacune, par rapport à Levenberg-Marquardt d'Orekit { "12.2" } / Hipparchus sur des observations identiques ; état retrouvé pire |Δ| { "1.4e-8" } m) ; tests/lunar_joint_od_numpy_oracle.rs::joint_solve_linear_algebra_matches_numpy (six réseaux dont un sans VLBI : pas de Gauss-Newton à { "4.3e-11" } près, sigmas formels à { "1.9e-11" } près, erreurs de station égales ; sur les entrées de calcul portable { "0.36" }, { "2.4e-11" } et { "1.3e-11" } sur les entrées { "0.30" })
+
+dat-e12f3aa49fcb = lunar_common_mode::tests ({ "8" } tests de bibliothèque : la séparation est additive et reconstruit dy ; une covariance de mode commun donne un niveau de protection de mode commun positif tandis qu'une covariance à parité seule en donne un quasi nul ; le projecteur annule range(G)) ; tests/lunar_common_mode_integrity_reference.rs (la séparation du moteur par rapport à un calcul numpy indépendant sur des entrées identiques octet pour octet sur l'échantillon versé de 366 époques, erreur relative ET absolue < { "1e-3" }) ; tests/lunar_common_mode_parity_numpy_oracle.rs::common_mode_split_matches_numpy_lstsq_on_parity_bearing_inputs ({ "1464" } cas porteurs de parité sur la géométrie à 8 satellites et un sous-ensemble de 6 satellites sur les deux vraies paires d'inter-éphémérides : blind_dx, résidu et normes à { "1e-12" } de |dy|, pire { "1.06e-14" })
+
+dat-08e91b48c1d8 = lunar_datum::tests (dérivées partielles analytiques LLR/VLBI/orbiteur par rapport aux différences finies) ; lunar_identifiability::tests (adding_an_offradial_technique_collapses_the_origin_scale_degeneracy ; transverse-vs-radial via crlb_diag)
+
+dat-c42639deb6bf = lunar_dpnt::tests (une garde purement additive dont le delta d'ensemble de clés est exactement { "{" }correction_link, units{ "}" } avec chaque valeur préexistante identique bit à bit par rapport à des littéraux saisis avant le changement ; l'erreur de levé NE se décorrèle PAS avec la ligne de base alors que le terme d'orbite le fait, et subsiste à ligne de base nulle où le terme d'orbite est exactement nul — le contrôle structurel qui détecte le câblage du terme au mauvais endroit ; une erreur de station de { "1" } m se transfère { "1" }:{ "1" } et il est démontré qu'elle n'est pas amplifiée par le DOP ; une latence nulle reproduit le résidu non vieilli bit à bit et le résidu est monotone en la latence, la courbe émise étant égale aux exécutions directes ; le pas de quantification se divise exactement par deux à chaque bit et σ² = pas²/12, et la pleine échelle suit les grandeurs injectées ; chaque terme désactivé tour à tour retrouve les deux autres en quadrature ; un σ égal par satellite se propage exactement en σ·PDOP et ce PDOP concorde avec orbit::dop ; chaque champ émis porte une unité et une classe de provenance, vérifié dans les deux sens)
+
+dat-71f3683e525c = lunar_dpnt::tests (le mode commun d'horloge s'annule exactement ; le résidu croît avec la ligne de base ; réutilise le PL SBAS ; le nombre de satellites est respecté jusqu'à la limite du constructeur de { "24" }, si bien qu'une constellation plus grande ne peut pas en renvoyer silencieusement une plus petite) ; tests/lunar_differential_pnt_reference.rs (résidu en simple différence + solution de position WLS par rapport à lsq() de RTKLIB compilé à partir du source C)
+
+dat-91ebc69007eb = lunar_ephemeris::tests (analyse du format et du référentiel ; interpolation de Lagrange exacte aux nœuds et sur une trace linéaire hors nœud ; les éléments ICRF subissent la réduction IAU { "2015" } et sont égaux octet pour octet à une application explicite de icrf_to_iau_moon ; les allers-retours anomalie vraie↔moyenne par rapport à une résolution képlérienne directe ; fichiers mal formés refusés avec la raison nommée). lunar_service::tests (avec `ephemeris_path` non défini, l'ensemble de clés du rapport et son SHA-256 sont épinglés ; la ligne képlérienne est égale à l'exécution képlérienne autonome champ par champ ; l'identité σ_required · HPL_max / σ_URE = AL, puis une nouvelle exécution DE BOUT EN BOUT à l'exigence calculée atteignant { "100" } % de disponibilité du niveau de protection et une nouvelle exécution à { "1" } % au-dessus ne l'atteignant pas ; chaque champ numérique émis des deux nouveaux blocs parcouru dans le JSON produit pour y trouver une unité et une classe de provenance ; les fixtures versées au dépôt rapprochées de leurs tableaux sources satellite par satellite ; un horizon au-delà de la fin d'un tableau refusé) ; tests/lunar_service_requirement_orekit_oracle.rs::lncss_b_dense_finding_is_unchanged ; tests/lunar_service_volume_orekit_oracle.rs::service_volume_matches_orekit_on_identical_ephemeris_and_grid
+
+dat-72359d75194d = lunar_faultobs::tests — byzantine_c3_rank_deficient_but_nonzero_is_undetectable (bloc non nul mais de rang déficient ⇒ block_spark { "1" }, f_detect { "0" } ; colonnes indépendantes ⇒ block_spark { "2" }, f_detect { "1" }), byzantine_real_network_uniform_bias_is_clock_offset (un pair possédant toutes les mesures d'un nœud = une erreur de décalage d'horloge ∈ range(G), indétectable, avec un net écart spectral de Gram), byzantine_redundant_net_identifies_at_least_one (six pairs indépendants à mesure unique ⇒ block_spark { "7" }, f_identify { "3" }), byzantine_analytic_spark_identity_projector + byzantine_detect_identify_relations (les cas manuels P⊥ = I épinglent f_detect = block_spark − { "1" }, f_identify = ⌊(block_spark − { "1" })/2⌋)
+
+dat-9f1b775126f5 = lunar_faultobs::tests — holdover_floor_self_ref_and_anchored (réseau autoréférentiel : le taux commun se trouve dans N(GᵀWG), temporal_gauge_dim { "2" } ; après une ligne d'attache de taux externe : taux expulsé de la jauge, temporal_gauge_dim { "1" } avec le décalage commun subsistant)
+
+dat-6c1f1713e449 = lunar_faultobs::tests — provider_mismatch_split_common_undetectable_differential_detectable (biais commun indétectable, différentiel détectable), slope_infinity_in_range_finite_detectable (g7 : pente ∞ pour b ∈ range(G), finie pour b ∉ range(G)), pernode_rank_is_state_dim_minus_eight (§{ "0" } : rang(GᵀWG) = state_dim − { "8" }, la jauge de dimension 8 est tout l'espace nul avec un écart spectral >{ "1e6" })
+
+dat-4d69a4cada09 = lunar_frame_campaign (composant lunar_vlbi, lunar_vlbi_fim, fim, lunar, lunar_frame_realise, frames, cio, lunar_frame)
+
+dat-5f33ffde58d6 = lunar_frame_realise::tests (retrouve la transformation de Helmert injectée) ; tests/lunar_reference_frame_realisation_reference.rs ({ "14" } cas par rapport à un solveur Umeyama-SVD en forme fermée indépendant ; pire |Δ| translation { "2.0e-5" } m, rotation { "5.3e-12" } rad, échelle { "9.3e-2" } ppb, RMS après ajustement { "6.1e-9" } m)
+
+dat-7b25307d3ee9 = lunar_gauge::tests (classify_is_invariant_under_null_basis_rotation - une base nulle alignée sur les axes et sa rotation de { "0.6" } rad donnent des defect, dim_spatial, dim_temporal, coupled_dim et p_st_norm identiques ; classify_direct_sum_null et classify_coupled_null - des cas construits en somme directe et réellement couplés confirment la décomposition des dimensions ; classify_basis_invariant ; index_consts_are_correct) ; tests/lunar_gauge_classification_scipy_oracle.rs::classify_null_space_matches_scipy_subspace_intersection ({ "72" } matrices de Fisher 9x9 construites sur { "18" } sous-espaces nuls, chacune dans quatre re-bases orthonormées aléatoires : defect, dim_spatial, dim_temporal et coupled_dim exacts ; p_st_norm à { "6.0e-15" } près, seuil { "1e-9" })
+
+dat-ccff39b4232b = lunar_interop_budget::tests (CommonEphemeris annule le bilan ; CommonFrameTie < PerProvider ; irreducible_fraction > { "0.5" } sur les vraies séparations ; ordre des conventions)
+
+dat-a04a986e9a94 = lunar_interop_budget::tests (monotonie en fonction du bilan ; réduction du bilan RSS sous une CRLB par fournisseur ; tolérance de rotation détaillée au bras de levier lunaire ; terme limitant = rotation)
+
+dat-ecec68d74b0a = lunar_interop::tests (l'OEM porte les REF_FRAME/TIME_SYSTEM lunaires ; les métadonnées de temps font l'aller-retour ; enveloppe KIF) ; tests/lunar_interoperability_export_reference.rs (l'OEM lunaire émis par kshana relu par la bibliothèque Python indépendante `oem` : jetons REF_FRAME/TIME_SYSTEM/CENTER + état par époque à la précision du format ; un export corrompu est rejeté) ; tests/lunar_interop_oem_oracle.rs::recorded_two_reader_outcome_is_for_todays_export
+
+dat-ac9a7e78a2de = lunar_jamming (composant jamming, lunar_service, lunar)
+
+dat-7f4e6a69ff6a = lunar_jamming (denial_js_db, range_for_free_space_path_loss_m, Cn0Distribution, DenialContourPoint, ContourBand, DenialContour ; inversant jamming::effective_cn0_dbhz, jamming::j_over_s_db et jamming::free_space_path_loss_db)
+
+dat-28686c774039 = lunar_jamming::tests ({ "10" } tests de bibliothèque : the_contour_is_the_exact_inverse_of_the_functions_the_rows_were_scored_with ; the_band_is_the_measured_quantiles_pushed_through_the_contour_not_a_sigma ; the_asymmetry_the_band_carries_is_the_samples_own_shape_bent_by_the_criterion ; the_contour_is_monotone_in_cn0_measured_over_a_dense_sweep_not_assumed ; the_band_recovers_the_split_verdict_the_single_scalar_contour_lost ; the_distribution_is_the_tables_own_order_statistics_and_keeps_the_rows ; a_link_already_below_the_threshold_gets_a_null_contour_point_not_a_number ; a_clean_sky_run_has_no_contour_at_all_rather_than_an_empty_one ; the_denial_threshold_is_the_same_thirty_decibels_the_rest_of_the_engine_uses ; the_units_block_describes_the_contour_and_names_nothing_the_report_omits)
+
+dat-195000f8bd19 = lunar_llr (au-dessus de lunar_frame_campaign::beacon_information, schedule_for et solve_datum_information, lunar_vlbi_fim)
+
+dat-eec8c694bebe = lunar_llr, realdata::llr_crd (composant fim, cio, frames, ephem, lunar_frame, lunar_frame_campaign)
+
+dat-10789ec75b58 = lunar_orientation::tests (de440_moon_pa_reproduces_fixture_rows, de440_moon_pa_shows_real_libration) ; tests/lunar_pa_frame_realisation_guard.rs::the_orientation_series_interpolation_error_is_tens_of_metres_not_sub_metre ; tests/lunar_pa_orientation_spice_oracle.rs::interpolated_rotation_matches_direct_kernel_evaluation_off_node ({ "2 000" } époques aléatoires hors nœud par rapport à SPICE pxform sur le PCK binaire : angle de rotation à { "1.7e-5" } rad près, pire { "1.7e-6" } rad, { "3" } m au rayon moyen)
+
+dat-c0f2327a5bb8 = lunar_receiver::tests (multipath_is_the_do229_form ; dll_noise_matches_a_hand_computation : { "0.825279" } m à { "45" } dB-Hz, { "0.5" } Hz, d = { "1" }, { "20" } ms ; bad_sections_are_refused) ; tests/lunar_station_ext.rs (receiver_absent_or_silent_is_the_plain_run ; zero_baseline_multipath_is_the_difference_of_two_receivers : sigma d'échantillon sqrt({ "2" }) a à { "6" } % près ; station_multipath_is_gauss_markov : corrélation de retard 1 exp(-dt / tau) à { "0.01" } près, variance unitaire à { "2" } % près ; inter_channel_biases_are_constant_over_a_trial) ; tests/prediction_frozen.rs et les références figées inchangés (additivité)
+
+dat-67e83d389492 = lunar_service::tests (le DOP réutilise le noyau validé ; le PL se réduit au cas du pôle sud) ; tests/lunar_navigation_service_volume_reference.rs (position MCI par satellite à <{ "1e-3" } m près + ensemble des satellites visibles EXACT sur tout le balayage grille×époque par rapport à ANISE { "0.10.2" })
+
+dat-13ef5dcff24d = lunar_service::tests (topocentrique par rapport à une géométrie calculée à la main : zénith, plein nord/est/ouest, antipode et la direction est polaire dégénérée ; l'indicateur de visibilité exporté concorde avec le filtre de visibilité indépendant sur un balayage complet de { "6" } h ; l'export est désactivé par défaut et ne change manifestement rien d'autre ; les niveaux de protection sont exactement linéaires en le sigma exposé tandis que la géométrie sous-jacente est intacte) ; tests/lunar_service_geometry_oracle.rs::look_angles_match_anise_at_selenographic_sites ({ "768" } échantillons sur { "8" } sites, { "12" } époques et { "8" } satellites par rapport à ANISE { "0.10.2" } : azimut et élévation à { "1e-6" } deg près, distance et position du site à { "1" } mm près ; pire { "2.2e-12" } deg, { "2.1e-13" } deg, { "5.6e-9" } m)
+
+dat-70c8d95d3bea = lunar_solution::tests (one_epoch_without_height_is_the_snapshot_solve : égal à lunar_dpnt::position_error_vector_from_range_errors à { "1e-8" } m près, une ligne de hauteur lâche ne change rien, une ligne serrée fige l'erreur de hauteur ; three_satellites_need_the_height_row ; a_window_shares_the_position ; bad_sections_are_refused) ; tests/lunar_station_ext.rs (the_default_solution_mode_is_the_snapshot_solve : chaque valeur à { "1e-6" } en relatif ; height_aiding_and_a_window_do_what_they_say) ; tests/lunar_station_published_oracle.rs::solution_style_addendum_run (ignoré, l'addendum enregistré)
+
+dat-9e6431b77a45 = lunar_station (au-dessus de lunar_dpnt, lunar_service)
+
+dat-dd93286a5634 = lunar_techniques::tests (combine_is_additive_order_independent_and_empty_is_zero - une sélection vide donne la matrice nulle, une sélection unique est l'identité, une paire est égale à une somme élément par élément écrite indépendamment, et le résultat est invariant selon l'ordre de sélection ; adding_a_block_never_reduces_the_degeneracy_metric - monotonie sous information ajoutée ; radial_diversity_beats_transverse_for_breaking_the_degeneracy - le bloc de l'orbiteur de la face cachée relève davantage la métrique de dégénérescence que le bloc VLBI transverse)
+
+dat-a01a2847efc3 = lunar_terrain (au-dessus de skyline, lunar_service::topocentric_basis) ; lunar_station ; lunar_service (coverage_masked, masked_visible)
+
+dat-a533b86288cc = lunar_time_budget_scenario::tests (les { "57" } temps de moyennage x { "8" } termes sont tous présents, l'indice de grille va de { "0" } à { "56" } inclus et porte { "8" } lignes chacun ; la ligne `total` est égale à la somme quadratique des sept termes à côté d'elle à chaque tau ; la table suit une grille demandée plutôt qu'une grille codée en dur ; son émission laisse le JSON du rapport identique octet pour octet)
+
+dat-1b66462c1a65 = lunar_time_budget::tests et lunar_time_budget_scenario::tests (les quatre classes sont toutes présentes dans une exécution et dans un sous-ensemble demandé dans l'ordre ; chaque ligne concorde avec sa propre forme fermée à mieux que { "1e-12" } en relatif ; multiplier l'erreur de référentiel par k multiplie le croisement par k pour une horloge à bruit de scintillation de fréquence et par k^{ "2" } pour une horloge à bruit blanc de fréquence, vérifié à k={ "2" } et k={ "3" }, ce qui sépare les deux classes de bruit ; chaque ligne reproduit le croisement d'horloge unique que le bilan avait déjà rapporté ; chaque ligne retrouve l'unique terme de référentiel partagé ; un nom d'horloge inconnu est rejeté)
+
+dat-67a80b309b2b = lunar_time_lab (au-dessus de clock_specs, lunar_time_budget, lunar_time)
+
+dat-f882c944dc3c = lunar_time_lab::tests (free_run_clock_term_is_the_budget_clock_term : avec l'asservissement désactivé, le terme d'horloge est égal bit à bit au terme d'horloge du bilan pour les quatre classes ; bisection_matches_the_closed_form à { "1e-9" } en relatif pour les deux classes de bruit ; threshold_below_the_floor_is_flagged ; steering_holds_and_resets ; height_term_is_opt_in_and_linear ; device_card_reproduces_a_named_class ; bad_inputs_are_refused) ; tests/lunar_station_time_lab.rs (the_block_is_additive : le document, la table et le résumé par défaut sont inchangés et le bloc n'ajoute que son propre objet et ses unités ; time_to_threshold_matches_the_closed_form_through_the_scenario ; clocks_are_ordered_over_the_span_where_the_model_orders_them : optique < PHM < RAFS < miniRAFS de { "1" } s à { "7e5" } s, les courbes PHM et RAFS se croisant entre { "7e5" } et { "8e5" } s, épinglé comme propriété divulguée des modèles d'horloge à un seul type de bruit ; every_time_lab_field_has_a_unit ; unknown_time_lab_fields_and_clocks_are_refused)
+
+dat-5f9139ec28b2 = lunar_time::tests (taux en forme fermée ; aller-retour) ; tests/lunar_coordinate_time_reference.rs (termes de potentiel propre et de taux séculaire du LTC par rapport aux valeurs publiées d'Ashby & Patla { "2024" } + vitesse géocentrique de la Lune par rapport à JPL DE440)
+
+dat-80bb574b4920 = lunar_vlbi_fim (composant lunar_vlbi, fim, cio, lunar_frame, frames)
+
+dat-e0d7fd119f27 = lunar_vlbi_fim::tests ({ "7" } tests de bibliothèque : chaque graphie de datum fait l'aller-retour par parse/as_str et une graphie inconnue est refusée ; maintenir toutes les stations sans la balise est refusé avec une erreur nommant `estimate_beacon` ; le bras de levier est affirmé ÉGAL à ρ/B et l'équipartition de la balise ÉGALE à l'équipartition des stations multipliée par lui, les deux à { "1e-15" } près, avec une assertion supplémentaire que le bras de levier dépasse { "10" } afin que les deux bilans ne puissent pas être confondus sur cette géométrie ; la ligne de base publiée de la fixture est épinglée à { "10726.748" } km et son calendrier de 49 échantillons est affirmé donner strictement moins de { "49" } observations mutuellement visibles ; le spectre de la balise sur une seule ligne de base est mesuré comme couvrant au moins cinq décades et le rapport qui en résulte est affirmé supérieur à { "1" } par AM-HM et supérieur à { "100" } en fait ; la disposition station-plus-balise est affirmée de rang déficient avec LES DEUX champs calculés nuls alors que le terme de comparaison modélisé est toujours rapporté. Plus une garde sur la fixture elle-même : une clé de premier niveau insérée après un tableau de tables devient à la place une donnée de station, si bien que le point d'insertion est affirmé et que le scénario analysé est vérifié comme portant la clé — le mode de défaillance est une exécution qui utilise silencieusement une configuration différente de celle que nomme le test)
+
+dat-39f2d80b7f67 = lunar_vlbi::tests (la limite de champ lointain concorde avec delta_dor ; correction de champ proche ; dérivées partielles par différences finies) ; tests/lunar_vlbi_anise_oracle.rs::near_field_delay_disagrees_with_the_anise_light_time_difference
+
+dat-dc4662e8eb6b = lunar-attack-surface (type de scénario)
+
+dat-d8d70bce0de4 = lunar-beacon (type de scénario)
+
+dat-fafc9091d72e = lunar-differential-pnt (type de scénario)
+
+dat-f0305f69990f = lunar-frame-campaign (type de scénario)
+
+dat-e2bbc634c4da = lunar-frame-realisation (type de scénario)
+
+dat-43621c7ba3ae = lunar-infrastructure (type de scénario)
+
+dat-ccaee2b7a6e0 = lunar-integrity (type de scénario)
+
+dat-d7674e9b039e = lunar-interop-export (type de scénario)
+
+dat-5947e5fce8ca = lunar-jamming (type de scénario)
+
+dat-c6383c15e35b = lunar-joint-od-clock (type de scénario)
+
+dat-296902f51d53 = lunar-llr-datum (type de scénario)
+
+dat-1389e27554a8 = Rapport brouilleur-signal, C/N₀ effectif et perte de verrouillage propres à la Lune pour un utilisateur de surface sélénographique sous un brouilleur de surface lunaire (ou surélevé), sur la constellation illustrative de classe Moonlight/LCNS issue de sources publiques. Compose la chaîne de brouillage ouverte (j_over_s_db, effective_cn0_dbhz, rx_antenna_gain_db, lock_status, q_factor, nominal_cn0_dbhz, free_space_path_loss_db) avec la géométrie de ciel lunaire ouverte (lunar_service::LunarConstellation + topocentric, lunar::selenographic_to_mcmf) ; ni géométrie ni radiométrie ne sont redérivées. Contrairement au type terrestre `jamming`, la branche du signal n'est pas une puissance reçue fixe : la puissance reçue isotrope de chaque satellite est sa propre PIRE de bilan de liaison − FSPL(distance oblique), de sorte que le J/S varie d'un satellite à l'autre avec la distance et l'élévation lunaires. Émet UNE LIGNE PAR LIAISON VISIBLE (époque, satellite) en JSON et comme artefact *.table.csv, les deux puissances reçues dont le J/S est la différence étant imprimées à côté ; les figures de mérite agrégées figurent à côté de cette table, jamais à sa place. Exécutable comme type de scénario `lunar-jamming`
+
+dat-9cea991e6ddc = Brouillage RF propre à la Lune : J/S par satellite pour un utilisateur de surface lunaire.
+
+dat-97027ef481f1 = Brouillage RF propre à la Lune : rapport brouilleur-signal par satellite, C/N₀ effectif et perte de verrouillage pour un…
+
+dat-dd8e0e1494d0 = La télémétrie d'un réseau lunaire ne fixe que la géométrie relative ; un retard d'interférométrie à très longue base sur une ligne de base terrestre rattache une station de surface au référentiel terrestre, même avec peu de satellites.
+
+dat-da72f7df1686 = Vérifications croisées de l'article sur le PNT lunaire (éléments de régression, pas des lignes de la matrice)
+
+dat-1082c8b0b1dc = lunar-station-coverage (type de scénario)
+
+dat-7e8c3aaf975b = Covariance des coordonnées d'un point de la surface lunaire à partir d'un calendrier de retards VLBI, distincte de celle d'une station terrestre
+
+dat-b762f53bc065 = Covariance des coordonnées d'un point de la surface lunaire à partir d'un calendrier de retards VLBI, chemin du noyau
+
+dat-f1ceb06d8081 = lunar-time-budget (type de scénario)
+
+dat-cea8cea857e4 = lunar-time-offset (type de scénario)
+
+dat-cfe3c716a7c6 = lunar-vlbi (type de scénario)
+
+dat-3ee0ae6e1a1d = Covariance des coordonnées de station VLBI lunaire à partir d'un calendrier de poursuite
+
+dat-bdef723d605a = Covariance des coordonnées de station VLBI lunaire à partir d'un calendrier d'observation explicite (G8, article D3).
+
+dat-f52edbf51a31 = Covariance des coordonnées de station VLBI lunaire : les dérivées partielles du retard de l'observable lunar-vlbi accumulées sur…
+
+dat-f7f517c019cd = lunar-vlbi-fim (type de scénario)
+
+dat-513a1c03d491 = Lunaire, cislunaire et espace lointain : maintenus, pas le point fort
+
+dat-76491879d5af = Bornes de lobes secondaires et d'intercorrélation des m-séquences/codes de Gold, longueur↔ambiguïté
+
+dat-785f80bd5eec = Plage dynamique d'ambiguïté de frange de Mach–Zehnder : la lecture de frange périodique en 2π fixe une force spécifique maximale non ambiguë a_max=π/(k_eff·T²), et la plage non ambiguë en cellules de résolution a_max/σ_a=π/σ_Φ est indépendante du facteur d'échelle optique — le gain de sensibilité en T² coûte de la plage non ambiguë en parfaite proportion (le temps d'interrogation échange résolution contre plage, laissant le nombre de cellules fixé par le bruit de phase de lecture)
+
+dat-e448876d4c8e = Entrées machine et capteur ({ "0.38" })
+
+dat-711fb43cd1e7 = Matrice de vérification contrôlée par machine
+
+dat-704d85aee5d9 = Banc d'évaluation de détection d'altérations RF par apprentissage automatique ({ "13494" }) : générer un jeu SYNTHÉTIQUE étiqueté, fondé sur des paramètres…
+
+dat-018c6e2937ef = Banc d'évaluation de détection d'altérations RF par apprentissage automatique ({ "13494" }) : générer un jeu étiqueté, fondé sur des paramètres…
+
+dat-42e1eb002a40 = Banc d'évaluation de détection d'altérations RF par apprentissage automatique (démonstrateur ESA AO/1-13494).
+
+dat-835fcb7ce3c0 = macOS (Apple silicon)
+
+dat-663386debdca = macOS et Linux
+
+dat-bf7357f5bcad = maneuver::optimise_transfer_kernel : les dates de départ et d'arrivée d'un transfert balistique à deux impulsions à révolution unique qui minimisent le C3 au départ ou la V-infinie à l'arrivée dans le Type I ou le Type II, comme optimum continu (une grille de 2 jours sur les deux fenêtres, puis Nelder-Mead 2D), sur des états héliocentriques issus du SPK DE440. Un optimiseur de dates pour un seul tronçon, pas une conception de mission : ni lanceur, ni orbite de parking, ni manœuvre en espace lointain, ni options à plusieurs révolutions
+
+dat-93269231034c = maneuver::porkchop_kernel : le balayage date de lancement x date d'arrivée du C3 au départ (km²/s²) et de la V-infinie à l'arrivée (km/s) avec le solveur de Lambert prograde à révolution unique et la garde de colinéarité de { "0.5" } deg, sur les états héliocentriques J2000 de deux corps NAIF quelconques lus dans un SPK JPL DE440 par le lecteur propre à la crate. Une révolution, prograde, sans contraintes de lanceur ni d'arrivée : un balayage, pas une conception de mission
+
+dat-49fb16aa5d46 = Manœuvres et conception de trajectoire
+
+dat-52455b3c1e98 = Manœuvres et conception de trajectoire (src/maneuver.rs)
+
+dat-d52d650e9b3d = calé sur la carte
+
+dat-08a2bca5af84 = Convertit les codes de précision SP3 (en-tête ++ exposants en { "2" }^n mm, la base %f, écarts types base^n mm par enregistrement) en sigmas de position par observation pour le moteur de détermination d'orbite précise (sp3::parse_sp3_accuracy, Sp3Accuracy::position_sigma_m)
+
+dat-2d4c037d7373 = Monte-Carlo des erreurs de carte sur le banc d'essai de carte gravimétrique de 60 minutes sans GPS (WP-10, RM-15).
+
+dat-dff3a9a4525c = Convertit un biais de leurrage/brouillage non détecté en erreur effective → région de Stanford (disponible/indisponible/MI/HMI) par rapport aux HAL/VAL propres au contexte (ciel dégagé et urbain)
+
+dat-b7ddfae8d8d8 = Met en correspondance les sorties de Kshana avec les clauses de cadres publics (les recommandations de l'IMO pour les navires, l'article { "21" } de NIS2 de l'UE, EN { "16803" }, le cadre PNT résilient du DHS américain et les recommandations aéronautiques de l'EASA) par numéro de clause seulement, rempli à partir des exécutions que vous lui fournissez, et indique les lignes dont un ensemble d'exécutions apporte des éléments de preuve en faveur, avec l'écart de chaque ligne. Ce n'est pas un constat qu'un cadre quelconque serait rempli, ni une évaluation ou une approbation par quiconque.
+
+dat-f13fca53f0f4 = Intégrations marines
+
+dat-b9e183e63f2e = Intégrations marines ({ "0.35.0" }, chantier B)
+
+dat-89123cc23c89 = Intégrations marines : module Signal K, flux de porte OpenCPN et panneau de score, build de référence
+
+dat-4d833391c612 = Intégrations marines : le score de confiance sur la passerelle
+
+dat-ab8405c4dadb = Les académies maritimes et les centres de simulation peuvent injecter du NMEA { "0183" } généré par Kshana dans un simulateur de passerelle ou un…
+
+dat-164a3cc7c80d = Brouillage GNSS maritime : un brouilleur à large bande, à terre ou embarqué, privant le
+
+dat-438eaf6294b9 = Leurrage GNSS maritime : détecter un émetteur qui entraîne la position déclarée d'un navire.
+
+dat-b6002558c82f = GNSS/INS maritime : un navire à { "8" } m/s (environ { "15.5" } nœuds) décrivant des cercles complets à
+
+dat-abef93602c0c = Approche d'un port maritime avec GNSS brouillé : combien de temps un système de navigation inertielle
+
+dat-73edbeeb8d87 = Confiance maritime
+
+dat-f220938aff1a = Moniteurs de confiance maritime : l'arithmétique sur laquelle ils reposent (décodage NMEA, décalages géodésiques, statistiques cinématiques et de résidus de capteurs)
+
+dat-834a5b4f778b = Score de confiance maritime : l'agrégation des preuves des moniteurs en un score de 0 à 100 et ses trois bandes
+
+dat-decaa32c1395 = Confiance maritime : la passerelle peut-elle se fier à cette position ?
+
+dat-84ca7f5fa20c = PNT Mars — un utilisateur de surface fixe (un atterrisseur / rover sur la surface tournante de Mars)
+
+dat-b22f5da6a0d0 = PNT Mars — un utilisateur de transfert / capture martienne (un arc aréocentrique haut et excentrique — le
+
+dat-2525fea668a9 = PNT Mars — utilisateur en orbite basse martienne navigant par rapport au relais MARCONI simulé
+
+dat-b9b6e1463cde = mars-pnt (type de scénario)
+
+dat-9358a5735460 = Concorde avec une référence externe indépendante : données publiées, norme ou code tiers.
+
+dat-6a111b403bb2 = Doppler maximal vu par un utilisateur statique depuis une orbite LEO ou MEO
+
+dat-46b52315155d = Doppler maximal d'un satellite de navigation en orbite terrestre basse, qui dimensionne la recherche d'acquisition
+
+dat-fb93df390815 = Erreur d'intervalle de temps maximale (MTIE) — métrique de dérive (wander) des télécommunications
+
+dat-9adfd44fd528 = Noyaux d'agrégation MCDA (WASPAS / MOORA)
+
+dat-8b3572d6b4b6 = Classement de compromis MCDA (VIKOR)
+
+dat-cbf34b8ec3c9 = Classement MCDA par distance à l'idéal (TOPSIS)
+
+dat-ce013b59b272 = Noyau de choix par surclassement MCDA (ELECTRE I)
+
+dat-2fe3fe0b6cbc = Classement MCDA par flux net de surclassement (PROMETHEE II)
+
+dat-00275839fe6b = Noyau de dérivation des priorités MCDA (vecteur propre AHP / rapport de cohérence)
+
+dat-c106eee93dc8 = Classement proportionnel MCDA (COPRAS)
+
+dat-684c550a6e1a = Noyaux d'agrégation pondérée MCDA (WSM / WPM)
+
+dat-586f0b2f212d = Registre MCP
+
+dat-d938c8168e3a = Serveur MCP
+
+dat-0d09c07ed4e5 = Guide du serveur MCP
+
+dat-1972e24e7f0a = Guide du serveur MCP : Docker
+
+dat-71f15b70b734 = MDEV(τ) : l'écart-type d'Allan modifié à recouvrement (estimateur à fenêtre glissante à différence seconde qui sépare le bruit de phase blanc du bruit de phase de scintillation), et TDEV(τ) = τ/√{ "3" }·MDEV(τ), la statistique de dérive (wander) dans le domaine temporel de l'UIT-T G.811/G.812/G.823 par rapport à laquelle les gabarits de synchronisation sont écrits
+
+dat-3356dacde413 = PDOP moyen
+
+dat-59e3f372da0f = Mesuré par rapport à JPL Horizons DE441 (les mêmes fixtures versées au dépôt), mais non validé : les valeurs indiquées au Tableau { "1" } pour Uranus et Neptune sont dépassées jusqu'à { "2.0" } et { "5.2" } fois par rapport aux positions héliocentriques DE441 (Neptune les respecte par rapport aux positions barycentriques, ce qui laisse penser que l'ajustement n'était pas héliocentrique), la page n'indique aucune erreur pour Pluton, et aucune borne publiée n'existe pour les vitesses. Les Tableaux 2a/2b respectent leurs propres valeurs pour Uranus et Neptune et sont couverts par la ligne validée
+
+dat-6bd5518df6e2 = Mesuré par rapport aux éphémérides de satellites JPL Horizons (DE441, MAR099, JUP365, SAT441) versées dans tests/fixtures/solar_system/horizons_satellites_icrf.csv avec la requête et la date de récupération ; il n'existe aucune précision publiée pour les éléments moyens ni pour le placement par modèle de rotation, si bien que les seuils épinglés détectent les régressions et ne valident pas. Les éléments moyens omettent les perturbations résonantes et solaires, et l'accélération séculaire de Phobos n'est pas modélisée
+
+dat-4a6894e74aed = Fiches d'horloge mesurées (prédiction sur jeu réservé)
+
+dat-df86e700d59a = Données mesurées selon des seuils préenregistrés à b6ccb499 (xval/scint-malindi/) : enregistrement Zenodo { "16941224" } (INGV, Malindi, { "18" } mars { "2023" }, GPS PRN { "26" }, intensité et phase de la porteuse à { "50" } Hz, CC BY { "4.0" }, SHA-256 vérifié). { "22" } fenêtres qualifiantes de { "60" } s (N1 satisfait). MET : la distribution d'intensité (Kolmogorov-Smirnov D { "0.0415" }, seuil { "0.05" }) et la scintillation de phase liée à S4 (sigma-phi mesuré/modèle médian { "0.779" }, seuil 2/3 à 3/2). NOT MET (constat F1) : la fraction d'évanouissements profonds du modèle est { "2.38" } fois la mesurée (seuil { "0.5" } à { "2" }) et son évanouissement moyen { "3.51" } fois plus long (seuil 2/3 à 3/2). Constat F2 : le traitement enregistré lit la phase repliée du modèle, ce qu'a révélé un autocontrôle ; B3 répété a posteriori avec la phase dépliée donne { "0.804" }. CE QUI N'EST PAS VÉRIFIÉ : d'autres nuits, stations, latitudes ou signaux ; le bruit du récepteur dans le modèle. La ligne reste MODELLED.
+
+dat-d6948fbceb46 = Fiches d'horloge mesurées des GPS Block IIF avec termes par révolution (prédiction sur jeu réservé)
+
+dat-d2405c5a3031 = Enregistrements mesurés, réservés : horloges combinées finales IGS à { "30" } s des { "11" } satellites GPS Block IIF du 2026-04-01 au { "14" } (une fenêtre qu'aucun test n'avait ouverte ; IGS, ouvert avec attribution). Comparaison externe D9 (préenregistrée fb475550, écart-type d'Allan prédit / mesuré dans [1/1.5, { "1.5" }] à chaque temps de moyennage ajusté sur chaque satellite), un constat (reste MODELLED) : { "9" } fiches sur { "11" } sont dans le seuil ; G03 ({ "1.947" }) et G25 ({ "1.581" }) sont optimistes entre { "60" } s et { "2000" } s parce que leurs enregistrements réservés sont plus bruités que leurs tiers d'ajustement (la partie réservée de G25 comporte { "16" } lacunes et { "29" } valeurs aberrantes de phase), un changement de l'horloge plutôt qu'un terme périodique manquant. Retirer les termes périodiques de la prédiction fait échouer les { "11" } fiches ({ "1.77" } à { "4.96" }), si bien que ces termes portent la prédiction
+
+dat-e2979d0e0600 = Ingestion d'ADEV mesuré (NNLS), table de compromis (holdover de synchronisation/inertiel + bénéfice), enveloppe de résilience en fonction du temps ; mise en garde sur le plancher portée par l'artefact. Exécutable depuis la CLI/les liaisons comme le type de scénario `quantum-trade` (scenarios/quantum-trade.toml)
+
+dat-a3a5fef19e47 = Ajustement NNLS de l'ADEV mesuré, bandes de cohérence khi-deux NEES/NIS, et covariance de bruit de processus discret de van Loan de l'horloge (holdover en roue libre) — l'ossature de calcul du moteur de compromis
+
+dat-75377acf4c2b = Simulation GNSS dans le domaine des mesures : pseudodistances avec ionosphère et
+
+dat-2c666c1e2e78 = Simulation de pseudodistances dans le domaine des mesures (ionosphère de Klobuchar, troposphère de Saastamoinen/Niell) + RAIM.
+
+dat-45fe39205b36 = MeasurementBlock contient une campagne de mesure candidate sous la forme d'une contribution d'information de Fisher 7x7 plus un coût relatif scalaire ; block_from_rows en construit un à partir de lignes brutes du jacobien du datum afin que chaque bloc soit préconditionné de façon identique via lunar_identifiability::assemble_multi_info ; combine somme l'information d'un sous-ensemble choisi, ce qui est la règle correcte parce que l'information de Fisher est additive entre mesures indépendantes ; representative_lunar_menu fournit un menu déterministe de quatre blocs (LLR, une balise de limbe VLBI transverse, un orbiteur côté proche et un orbiteur côté caché). L'optimiseur de conception sous contrainte de budget qui consomme ce menu ne fait pas partie de cette crate.
+
+dat-f1248ae4c5ba = Mesuré par rapport à l'éphéméride CAPSTONE reconstruite de JPL Horizons (NAIF -1176, CAPSTONE_merged, ICRF centré sur la Lune, 2023-03-01..31 à { "10" } min), versée octet pour octet (tests/fixtures/capstone_horizons/, NOTICE.md), préenregistrée { "4e868170" } avant sa récupération, comme une mesure avec des seuils sur la géométrie moyenne. Pas une validation : le CR3BP omet le Soleil, l'excentricité de la Lune et le maintien à poste que CAPSTONE a effectué, si bien que les seuils décrivent à quel point l'orbite du modèle est représentative, pas une précision. Résultats : docs/design/evidence/cap29d-capstone-nrho/RESULTS.md
+
+dat-db4542b28f96 = Mesure à quel point trois éphémérides lunaires indépendantes faisant autorité divergent réellement, et en tire une loi de conception : le bilan d'erreur référentiel contre éphéméride dont hérite un utilisateur à fournisseurs mixtes, et la tolérance de cohérence qu'un fournisseur doit tenir pour garder ce bilan dans une borne indiquée.
+
+dat-6bf9add7f9a1 = sigma de mesure médian
+
+dat-44a85c26ca72 = PDOP médian, fusionné
+
+dat-95f2f56e01be = Sûreté mémoire
+
+dat-3a624c54f288 = Méthode, par jeu de données
+
+dat-00ec22dfa279 = MHSS sur un instantané réel GPS + Galileo · bi-constellation DO-316
+
+dat-b1afd6db660e = Microchip 8040C, performance standard
+
+dat-a64cd2c46359 = Mise à jour du message de navigation LEO en milieu de passage avec contrôle de continuité à la commutation
+
+dat-7b381bb57afd = Mise à jour en milieu de passage
+
+dat-94797732ab3e = Biais minimal détectable { "8.20" } m en horizontal, { "12.30" } m en vertical, { "24.6" } ns en synchronisation
+
+dat-010d33144c26 = Analyse de mission
+
+dat-0c076868148b = Analyse de mission et opérations spatiales
+
+dat-a18a8d78c40e = Analyse de mission, liaisons et opérations spatiales
+
+dat-7ab10162ea6a = Analyse de mission, liaisons et opérations spatiales (famille de types de scénario)
+
+dat-9b2f9035d774 = Mission et périmètre
+
+dat-7201e8b3ed4d = Chronologie de mission : brouillage, leurrage, holdover, alarme d'intégrité
+
+dat-bfb6aadeb79c = Missions par secteur
+
+dat-53c4a9dac575 = MIXED : chaque corps porte sa propre étiquette. Les positions des planètes sont VALIDATED par rapport à JPL Horizons à moins de deux fois l'erreur nominale de Standish (de Mercure à Saturne et la Terre à partir du Tableau { "1" } ; les huit planètes à partir des Tableaux 2a/2b) ; Uranus et Neptune à partir du Tableau { "1" }, Pluton, la Lune et les sept lunes sont MODELLED. Les temps de lumière sont newtoniens, à partir des mêmes positions.
+
+dat-216727c98cec = Métriques d'évaluation de détecteurs ML (ROC/AUC/confusion/Pfa-Pmd)
+
+dat-4a9d50bdc4a5 = Comparaison de modèles
+
+dat-1ceb20c7b84a = MODELLED - orbites képlériennes à deux corps (J2 séculaire facultatif) autour d'un corps sphérique, visibilité géométrique au-dessus d'un masque d'élévation, dilution de précision avec tous les satellites en vue et une horloge de récepteur par constellation sauf si clock = "common" ; ni puissance de signal, ni état de santé, ni relief. La géométrie de Walker et les préréglages publiés sont vérifiés par rapport au SDD Galileo OS, à l'ICD GLONASS et aux tables de créneaux du GPS SPS Performance Standard, et les statistiques globales de DOP de référence du GPS par rapport à l'Annexe B du SPS PS (voir docs/VERIFICATION-MATRIX.md)
+
+dat-25b97bc7f3be = Capacités modélisées — justification
+
+dat-758dc439da1b = Bilan d'erreur de temps du Temps lunaire coordonné (LTC) de bout en bout, MODELLED : les sept termes d'erreur du LTC assemblés comme…
+
+dat-969421c5f3ef = Détection de défauts/anomalies MODELLED pour les systèmes PNT quantiques : un catalogue de défauts étiquetés (horloge…
+
+dat-a4b692e5a29b = Disponibilité GNSS et force de liaison MODELLED dans le volume de service spatial et au-delà : pour un utilisateur sur une sphère…
+
+dat-3000c4b9880d = Navigation quantique sans GNSS MODELLED : pendant une coupure GNSS, une centrale inertielle quantique (interféromètre à atomes froids)…
+
+dat-9b16c0d8fcae = Figure de mérite conjointe PNT optique + RF hétérogène MODELLED (P5) : compose le bilan optique bidirectionnel à { "1550" } nm…
+
+dat-1aa51bfc37c9 = Essai de holdover MODELLED d'un système de synchronisation, évalué à partir d'un enregistrement d'erreur de temps que l'OPÉRATEUR fournit (un linuxptp…
+
+dat-0e17fe1278e7 = Essai à estimateur indépendant MODELLED du seuil d'observabilité de la longueur d'arc cislunaire.
+
+dat-421249b5cac2 = Essai à estimateur indépendant MODELLED du seuil d'observabilité de la longueur d'arc cislunaire. Ce seuil est un…
+
+dat-f0f437a3d941 = Bilan d'erreur de navigation à l'inertie et par recalage sur le terrain (INS/TRN) en roue libre, MODELLED. Chaque contribution est propagée dans un modèle d'erreur inertielle à neuf états en repère local avec rétroaction de Schuler (plateforme horizontale cap au nord sur un site indiqué, inertie libre avec le canal vertical instable) ; ses lois d'ordre dominant en roue libre courte (biais t^{ "2" }, inclinaison due au biais de gyromètre t^{ "3" }, marche aléatoire de vitesse t^{ "1.5" }, marche aléatoire d'angle t^{ "2.5" }, facteur d'échelle x distance parcourue) sont recoupées avec l'estime stochastique propre au moteur et son modèle d'erreur d'IMU ; les coefficients de classe d'IMU sont des valeurs représentatives de CLASSE (bandes du Tableau { "4.1" } de Groves { "2013" }), pas une fiche technique d'un composant, et le résidu de la position TRN est une entrée documentée. Les croisements sont localisés par bissection sur le modèle, jamais par l'arithmétique d'un manuscrit. Non certifié pour la navigation opérationnelle.
+
+dat-edac3842f259 = Estimateur par lots modélisé de DO + horloge lunaires multitechnique conjoint sur un réseau SIMULATED : un Gauss-Newton…
+
+dat-42021475bfcc = Résilience aux conflits d'un PNT en couches MODELLED (P7) : un utilisateur en environnement contesté dispose de plusieurs couches PNT…
+
+dat-33e53db92437 = PNT DIFFÉRENTIEL lunaire modélisé (un analogue lunaire du DGNSS/SBAS) : une station de référence de classe NovaMoon en un site CONNU…
+
+dat-19b562185ca8 = Observable de retard de VLBI géodésique lunaire modélisé : une ligne de base terrestre (deux stations au sol, GCRS) observe un…
+
+dat-9cde2cedbe8f = Export d'interopérabilité lunaire modélisé : émet le référentiel lunaire, l'échelle de temps lunaire et le…
+
+dat-b7d01a1a004a = Analyse modélisée du volume de service de navigation lunaire à partir d'une constellation de classe Moonlight/LCNS ILLUSTRATIVE issue de sources publiques…
+
+dat-b7b010efdc14 = Réalisation modélisée du référentiel lunaire : un ajustement de datum de Helmert (similitude) à 7 paramètres — { "3" } translations, { "3" }…
+
+dat-1130107c852d = Couverture modélisée de la station de référence lunaire : un balayage Monte-Carlo du modèle de PNT différentiel lunaire sur un…
+
+dat-ded8dbce5b97 = PNT optique à travers l'atmosphère MODELLED : pour une liaison optique et un ensemble de sites au sol avec une nébulosité indiquée…
+
+dat-1dfeaa96d84b = Observabilité d'une constellation cislunaire plane MODELLED (P6) : suit quatre engins spatiaux à correction différentielle…
+
+dat-34f48a3aa757 = Taux d'horloge relativiste Terre–Lune modélisé (Temps lunaire coordonné, LTC/TCL) : le taux séculaire LTC−TT issu de…
+
+dat-905b333364f2 = Études MODELLED de l'orbite et de la surface de la Lune comme infrastructure de navigation et de géodésie, cinq études…
+
+dat-0aad144628ca = Chaîne de synchronisation quantique de confiance MODELLED : une chaîne quantique de bout en bout (horloge à réseau optique +…
+
+dat-ff8122a55284 = MODELLED : une densité spectrale de puissance en bande L construite à partir de spectres de signaux en forme fermée (VALIDATED par rapport aux largeurs de lobe principal et aux coefficients de séparation spectrale des manuels), de spectres de brouilleurs et d'un plancher de bruit kT, réduite en J/S et C/N0 effectif par le coefficient de séparation spectrale. Les puissances des brouilleurs, la chronologie et les bandes passantes des frontaux sont des entrées du scénario, pas des mesures.
+
+dat-74105cf858dd = MODELLED : orbites de relais à deux corps avec dérive séculaire J2, visibilité géométrique, bruit de distance gaussien et modèle de mesure instantané autour d'un corps à partir des constantes publiées ; non validé par rapport aux données de navigation d'une mission. La géométrie Terre-corps hérite des étiquettes d'éphéméride du système solaire.
+
+dat-e105c78b99ec = MODELLED. Sous les hypothèses indiquées (la constellation, son erreur de signal dans l'espace, le levé de la station…
+
+dat-f6c3b2c35abd = Choix de modélisation
+
+dat-f2098d5f0651 = Écart d'Allan modifié / écart de temps (MDEV / TDEV)
+
+dat-e78b2a501784 = Modulation, anti-brouillage et poursuite de code
+
+dat-02fc05c40ded = arithmétique des moniteurs vérifiée par rapport à pynmea2 et GeographicLib
+
+dat-931d4bdd2598 = Ensemble Monte-Carlo du scénario de holdover d'horloge.
+
+dat-cadb0084efb5 = Balayage Monte-Carlo du modèle de PNT différentiel lunaire sur une grille d'utilisateurs au pôle sud et un jour d'époques (le type `lunar-station-coverage`) : pour une station de référence différentielle en un site connu du pôle sud, par point et sur la région, l'erreur de position (3D, horizontale, verticale) corrigée et non corrigée en percentile, la disponibilité avec une raison pour chaque époque indisponible (user_lt4, station_missing_sat), la couverture par rapport à un seuil indiqué avant l'exécution, les niveaux de protection DO-229E, le rayon de couverture par secteur d'azimut, et le bilan de la liaison de correction à la station et au pire point. Ne constitue pas un énoncé sur la performance d'un système réel ; non affilié à une agence ni cautionné par elle
+
+dat-d3c6615231ae = Monte-Carlo : erreur d'horloge en roue libre par rapport à sa forme fermée
+
+dat-62102430cf03 = Rotation MOON_PA_DE440 vers J2000 à des époques arbitraires entre 2014-01-01 et 2030-12-31 TDB, par interpolation géodésique R0·Exp(f·Log(R0ᵀR1)) entre les nœuds d'une série quotidienne versée de { "6" } 209 lignes (les fonctions try_ renvoient OrientationSpanError en dehors de celle-ci, les infaillibles paniquent ; elle ne tronque jamais) ; intégrée à la compilation, si bien qu'il n'y a pas d'E/S de système de fichiers à l'exécution et que le build WASM la porte
+
+dat-0da5f74da642 = DOP / couverture / disponibilité lunaires de classe Moonlight + niveaux de protection ARAIM lunaires généralisés sur un volume de service
+
+dat-99a5aea2e430 = moonlight-service-volume (type de scénario)
+
+dat-6c5f9b78f628 = Plus de récepteurs et de capteurs
+
+dat-7e36d843a9a6 = La plus grande partie de Kshana pilote ses capteurs quantiques à partir de coefficients d'Allan/de bruit publiés — consultations de fiches techniques (voir…
+
+dat-c8d2d183e4a2 = mpmath { "1.3.0" } (BSD-3-Clause) racines à 50 chiffres à partir des entrées binaires exactes. Seuils préenregistrés dans xval/kepler-mpmath/PREREGISTRATION.md (df22174), énoncés relativement à |E| avec l'argument de conditionnement e -> { "1" }, M -> { "0" } ; tous atteints (xval/kepler-mpmath/RESULTS.md). Les solveurs historiques (solve_kepler_checked, orbit::solve_kepler, ephem::solve_kepler) sont numériquement inchangés, parce que des sorties versées au dépôt en dépendent, et ne sont pas couverts par cette ligne
+
+dat-549373bd6ba9 = MTIE(τ) : l'excursion maximale crête à crête de l'erreur de temps sur toute fenêtre glissante de τ = m·tau0, la statistique de dérive (wander) de l'UIT-T G.810/G.823/G.8261 par rapport à laquelle sont écrites les limites des réseaux de synchronisation (gabarits MTIE) — une valeur extrémale (max/min) distincte de la famille RMS d'Allan
+
+dat-88ee36720462 = Cascade de brouillage multibande : positionnement, navigation et datation (PNT) en orbite terrestre basse (LEO)
+
+dat-42081bd2b622 = Cascade de spectre multibande (UHF, L, S, C) avec signaux conçus et brouilleurs par bande
+
+dat-92aa725751a3 = Couverture multiconstellation : les quatre systèmes mondiaux de navigation par satellite (GNSS) ensemble,
+
+dat-f1f2ad95c511 = Couverture multiconstellation : les quatre systèmes mondiaux de navigation par satellite (GNSS) ensemble, sous forme de carte des satellites en vue, de dilution de précision (DOP) et de disponibilité sur toute la Terre pour une journée.
+
+dat-517674c0b261 = Disponibilité multi-GNSS à partir de la géométrie orbitale : GPS + Galileo combinés.
+
+dat-5690a69a5609 = Ingestion d'éphémérides diffusées RINEX-3 multi-GNSS (GPS, Galileo, QZSS, BeiDou, GLONASS), analyseur d'observations RINEX-3 (le format d'observation RINEX { "4.00" } devrait être analysé mais aucun fichier { "4.00" } n'a été lu avec lui ; les fichiers de navigation RINEX { "4" } sont refusés par leur nom), lecteur/écrivain d'éphémérides précises SP3-c/d avec interpolation de Lagrange, et export CCSDS OEM { "2.0" } + OMM (éléments moyens) pour les outils de dynamique du vol (GMAT, Orekit, STK), et analyse + émission de messages de données de poursuite CCSDS-TDM ({ "503" }) pour la poursuite radiométrique en espace lointain.
+
+dat-244914224635 = Bilan d'erreur d'interopérabilité lunaire multi-fournisseurs et loi de conception référentiel contre éphéméride
+
+dat-710b7e9bf0bd = Solveur de transfert de Lambert à plusieurs révolutions
+
+dat-4176009137fe = Planification des contacts sol multi-satellites et multi-stations avec résolution de conflits
+
+dat-2452094c2114 = Récursion de covariance clock_state à plusieurs pas (recoupement au sein de la même base de code) ; le noyau sous-jacent de variance en roue libre et d'inversion de holdover est validé en externe par rapport à scipy (voir « Variance en roue libre du holdover d'horloge et inversion de seuil »). Les valeurs de holdover par classe à plancher de bruit rouge restent MODELLED
+
+dat-4c9a19f6d0bb = Information de datum lunaire multitechnique (LLR + VLBI lunaire + télémétrie d'orbiteur)
+
+dat-4f433858284f = Estimation d'attitude par EKF multiplicatif à partir d'un gyromètre et d'un viseur d'étoiles
+
+dat-17d5f2fec014 = Covariance croisée de biais N×N avec des termes hors diagonale rho·b_i·b_j pour des sources partageant un réalisateur UTC(k) ; DÉMONTRÉ correlated_fused_bias >= independent_fused_bias (une allocation indépendante naïve sous-borne le biais fusionné -> optimiste -> dangereux)
+
+dat-6f344a0d0d7a = Radiométrie d'imageur au nadir et qualité d'image pour une petite caméra d'observation de la Terre ILLUSTRATIVE
+
+dat-0ad9754d6548 = Radiométrie d'imageur au nadir et qualité d'image : luminance à l'ouverture d'une scène lambertienne, l'équation de la caméra…
+
+dat-51b4547ea6cb = Bilan de rapport signal sur bruit d'un imageur au nadir (luminance d'une scène lambertienne, équation de la caméra, bruit de grenaille, d'obscurité, de lecture et de quantification), la FTM du système à Nyquist comme produit de la diffraction d'ouverture non obstruée, de l'ouverture du détecteur, du filé linéaire et de la gigue gaussienne, la réponse de bord et la réponse de bord relative intégrées à partir de cette FTM, Q = lambda F / p, et le NIIRS de la version { "4" } du GIQE sans compensation de FTM. Exécutable comme type de scénario `eo-radiometry`.
+
+dat-3479c010866d = Lecteur de noyaux NAIF : conteneur DAF, SPK de type { "2" } et PCK binaire de type { "2" }
+
+dat-07cdccc0b777 = NAIF SPICE Toolkit (CSPICE N0067 jusqu'à spiceypy { "8.3.0" }) états héliocentriques sur de440s.bsp et pykep { "3.0.1" } lambert_problem (ESA, le cœur C++ kep3, MPL-2.0), un solveur de Lambert indépendant, exécuté comme programme séparé qui n'appelle aucun code de Kshana (tests/fixtures/porkchop_de440/, NOTICE.md) ; le moteur lit une coupe de440s identique bit à bit. Préenregistré 2d857fb1. Un contrôle par Library du balayage. Résultats : docs/design/evidence/cap20b-porkchop-de440/RESULTS.md
+
+dat-ca14bad18ab1 = NAIF SPICE Toolkit (CSPICE N0067 jusqu'à spiceypy { "8.3.0" }) états héliocentriques spkezr sur le de440s.bsp complet, un programme séparé qui n'appelle aucun code de Kshana (tests/fixtures/solar_system_kernel/, NOTICE.md) ; le moteur lit des coupes de440s identiques bit à bit. Préenregistré f8e946ea. Un contrôle par Library du câblage : DE440 lui-même et les corps analytiques ne sont pas validés ici. Résultats : docs/design/evidence/cap31-solar-system-kernel/RESULTS.md
+
+dat-c28c6114cab4 = NAIF SPICE Toolkit (CSPICE N0067 jusqu'à spiceypy { "8.3.0" }) sxform d'un référentiel dynamique à deux vecteurs (primaire +X le long de la position de la Lune par rapport à la Terre, secondaire +Y le long de sa vitesse, de440s), appliqué à l'état tournant dimensionnel construit à partir de l'état propre de la Lune de SPICE, par un programme séparé qui n'appelle aucun code de Kshana (tests/fixtures/cr3bp_to_mci_spice/, NOTICE.md). Préenregistré 2313eb1b, amendé avant toute exécution en d5ef79b3 pour inclure la vitesse angulaire hors plan du référentiel (sans elle la vitesse s'écarterait jusqu'à { "8e-2" } m/s). Un contrôle par Library de la seule transformation. Résultats : docs/design/evidence/rm34-cr3bp-to-mci/RESULTS.md
+
+dat-f44c484e12cf = NAIF SPICE Toolkit (CSPICE N0067 jusqu'à spiceypy) pxform('J2000', 'IAU_<BODY>') sur pck00011.tpc, une implémentation indépendante du même modèle de rotation de l'IAU, et gm_de440.tpc de NAIF pour GM, les fixtures étant générées par un programme séparé qui n'appelle aucun code de Kshana (tests/fixtures/body_orientation_spice_oracle/, NOTICE.md). Préenregistré 154bc54 (avec le seuil d'origine de { "1e-9" } rad de c2434204) avant l'existence de la fixture à époque neuve ; la fixture neuve a été régénérée indépendamment et est identique octet pour octet. GM est une transcription de DE440 vérifiée par rapport au fichier publié, pas une détermination indépendante de GM. Résultats : docs/design/evidence/mr08-body-orientation/RESULTS.md
+
+dat-5a90d2752742 = Systèmes LEO PNT nommés comme préréglages de données facultatifs, chacun avec sa source
+
+dat-0723b0b7ceb4 = Préréglages de systèmes LEO-PNT nommés avec sources indiquées, et un moteur indépendant du système
+
+dat-fdc52fd34ab0 = NASA Scientific Visualization Studio, CGI Moon Kit
+
+dat-14718faadcc1 = NASA Visible Earth, Blue Marble
+
+dat-75f2fe868368 = NASA/Johns Hopkins APL/Southwest Research Institute, New Horizons PIA20658
+
+dat-fd85af5be78f = NASA/JPL Three-Body Periodic Orbit Database (SSD, periodic_orbits.api ; famille de halos sud Terre–Lune L2, méthodologie Howell/Davis) — période T, constante de Jacobi C et conditions initiales de croisement perpendiculaire publiées en externe ; le correcteur STM à tir simple de kshana, initialisé avec la CI du catalogue puis perturbé, reconverge sur les membres du catalogue
+
+dat-c9c53014817e = NASA/JPL-Caltech/University of Arizona, mosaïque Cassini PIA22770
+
+dat-76653b26d23b = NASA/JPL/USGS, mosaïque Galileo et Voyager
+
+dat-455d249be6fa = NASA/USGS SRTM v3 (1 seconde d'arc) dalle N36W117 — données d'élévation du DOMAINE PUBLIC du gouvernement des États-Unis issues du miroir ouvert AWS elevation-tiles-prod, décimées à 6 secondes d'arc et versées sous tests/fixtures/terrain/ (voir NOTICE.md), plus des découpes en pleine résolution de N36W117 et N36W119 recoupées nœud par nœud avec le lecteur SRTMHGT indépendant de GDAL et les repères d'arpentage du mont Whitney ({ "4421" } m) et de Badwater (−{ "86" } m). Le repère documenté du bassin de Badwater (−{ "86" } m, le plus bas d'Amérique du Nord) ancre la lecture géoréférencée. Le positionnement par corrélation de terrain/TERCOM qui consomme le MNT reste modélisé (ligne distincte PNT alternatif/complémentaire)
+
+dat-03be6aa9524e = Module d'extension natif
+
+dat-7b9ba72f92b6 = Analyse de la modulation et de la poursuite de code des signaux de navigation
+
+dat-0c0fef9b4157 = Performance des signaux de navigation
+
+dat-ab676dee9e09 = NaveGo v1.4 (R. Gonzalez et al., LGPL-3) exécuté sous Octave — une boîte à outils INS publiée indépendante pilotée par le flux d'incréments (Δθ,Δv) identique. L'attitude concorde bit à bit (mêmes conventions NED / quaternion avec scalaire en premier / taux de rotation terrestre / taux de transport) ; vitesse/position concordent à deux différences documentées près — le terme de gravité nord de déflexion de la verticale que NaveGo inclut et que kshana omet par conception (gravité du fil à plomb ; concordance avec la forme fermée de Groves à tous les chiffres, avec une assertion de plancher de cohérence) et des différences d'intégrateur en O(dt²) — pas des erreurs de mécanisation
+
+dat-a59fe4bab866 = NaveGo v1.4 (R. Gonzalez, LGPL-3.0, exécuté comme outil sous GNU Octave, jamais lié) : son ins_gnss à couplage lâche sur son propre trajet réel de véhicule terrestre Ekinox IMU/GNSS, les deux solutions étant évaluées par rapport à la trajectoire de référence Ekinox. Les deux filtres lisent la même entrée float32 à { "20" } Hz, et la configuration de Kshana est dérivée mécaniquement des paramètres publiés du jeu de données. Le RMS de position horizontale et verticale de Kshana et son RMS d'innovation de position sont à moins de 1,2 fois ceux de NaveGo (mesuré { "0.912" }, { "0.940" } et { "0.861" }) et son innovation normalisée moyenne est d'au plus { "1.5" } (mesuré { "0.395" } : environ 2,5 fois sous-confiant, compte tenu des sigmas GNSS indiqués du jeu de données) ; tolérances fixées avant la comparaison. Périmètre : le GNSS est présent à { "5" } Hz pendant tout le trajet, si bien qu'aucune coupure ni roue libre n'est testée et que le contrôle détecte des défauts grossiers du filtre plutôt qu'un réglage fin (des positions brutes corrigées du bras de levier tomberaient près du seuil vertical) ; la transformation du bras de levier est calculée dans le banc d'essai. L'UKF à couplage serré et le filtre couplé horloge+position conservent leurs contrôles de cohérence filterpy { "1.4.5" } (postérieurs linéaires à { "2.4e-12" } près) et restent hors de l'affirmation validée
+
+dat-f6eab6730a5f = Mode de navigation : un filtre embarqué
+
+dat-4189e731c118 = Conception de la charge utile RF de navigation et du matériel d'antenne
+
+dat-a5c3941a0c4e = Encodeurs de messages de navigation au-delà de GPS LNAV (GPS CNAV, Galileo I/NAV et F/NAV)
+
+dat-5ccddaf75af8 = Partage d'ouverture entre navigation et communications
+
+dat-8e1c98a34d9b = navsignal : l'intégrale sinus (sine_integral), la fraction de puissance BPSK-R dans une bande bilatérale en forme fermée (bpsk_power_in_band_closed_form), la largeur de bande de Gabor du BPSK à bande limitée en forme fermée (bpsk_gabor_bandwidth_closed_form_hz), la gigue de boucle à verrouillage de délai avance-retard cohérente et non cohérente à bande limitée pour tout spectre d'aire unitaire d'après Betz & Kolodziejski { "2009" } (dll_jitter_bandlimited_s) et sa borne de Gabor à espacement tendant vers zéro (dll_jitter_small_spacing_limit_s), le coefficient de séparation spectrale du BPSK décalé en forme fermée (bpsk_offset_ssc_closed_form), le spectre Galileo E5 AltBOC({ "15,10" }) (altboc_15_10_psd) et un analyseur d'étiquettes de modulation (parse_modulation) ; utilisé par le type `leo-signal` pour chaque conception de signal
+
+dat-2300b8ef90c0 = navsignal::band_limited_tests (sine_integral_matches_tables_and_its_limit — Si({ "1" }), Si(pi), Si({ "2" } pi) à { "1e-12" } près ; bpsk_power_in_band_closed_form_matches_textbook_and_numeric — { "0.9028" } de la puissance dans le lobe principal pour BPSK(1/3), BPSK({ "1" }), BPSK({ "5" }), BPSK({ "10" }), et la forme fermée égale à la quadrature à { "1e-7" } près en { "10" }, { "15" }, { "20" } et { "51.15" } MHz ; bpsk_gabor_closed_form_matches_numeric_and_asymptote — à { "1e-4" } près, et l'asymptote sqrt(B R_c / ({ "2" } pi^{ "2" })) ; bandlimited_dll_reduces_to_the_textbook_forms — avance-retard cohérent BPSK({ "1" }) à { "45" } dB-Hz, B_L { "1" } Hz, d { "1" } chip, T { "20" } ms : { "0.0039564" } chips ({ "1.159" } m) à { "1" } % près, la forme non cohérente égale à navsignal::dll_code_jitter_chips à { "1" } % près, la limite à espacement tendant vers zéro égale à sa forme fermée à { "1e-5" } près ; offset_bpsk_ssc_matches_parseval_closed_form — décalages de { "0" } à { "3.2" } R_c à { "0.01" } dB près et -71.86 dB/Hz à décalage nul pour BPSK({ "10" }) ; altboc_psd_is_unit_area_with_lobes_at_e5a_and_e5b ; modulation_labels_round_trip)
+
+dat-074d46f6f98e = navsignal::tests (auto-SSC du BPSK = 2/3R_c ; DSP d'aire unitaire ; DLL) ; tests/nav_signal_modulation_code_tracking_reference.rs (intercorrélation/autocorrélation de Gold GPS C/A en concordance exacte d'entiers par rapport à une génération de code IS-GPS-200 indépendante ; DSP BPSK-R({ "1" })/sine-BOC({ "1,1" }) par rapport à un périodogramme scipy indépendant) ; tests/nav_signal_betz_hein_published_oracle.rs (betz_text_correlation_values_over_1_ghz ; hein_mboc_interference_improvements ; finding_betz_side_lobes_and_multipath, épinglé)
+
+dat-5fbf3f1068a6 = Retard VLBI en champ proche pour une ligne de base terrestre observant une balise lunaire + dérivées partielles
+
+dat-5e50328089ad = Retard VLBI en champ proche pour une ligne de base terrestre observant une balise lunaire, avec dérivées partielles de balise et de station, sur le chemin du noyau (lunar_vlbi::KernelGeometry) : Terre et Lune DE440, axes principaux lunaires DE440, orientation de la Terre ITRF93 avec UT1 et mouvement du pôle, chaque temps de lumière convergé dans le référentiel barycentrique, dérivées partielles avec le facteur de temps de lumière 1/(c - u.V). Exécutable comme scénario `lunar-vlbi` avec planetary_kernel_path, earth_orientation_kernel_path et moon_orientation_kernel_path définis ; les sorties validées sont la série geometric_delay_s du chemin du noyau et epoch_partials. Sur le chemin du noyau, delay_s ajoute le terme de Shapiro différencié analytique, qui n'est pas comparé, et delay_rate et near_field_correction_us ne sont pas comparés
+
+dat-5fb49ed30d7a = allocation de holdover du réseau, courte interruption du GNSS
+
+dat-eb198e9c2794 = limite du réseau au point de référence C
+
+dat-38cfda4792ce = Nouvelles vues du Studio
+
+dat-37901b388424 = Écarts de référence NIST SP { "1065" } (Riley) / Stable32 sur NBS14
+
+dat-51f0c17d1596 = Flux d'entraînement NMEA { "0183" } : respect du format et valeurs décodées
+
+dat-a65b89641c3e = Flux d'entraînement NMEA : kshana nmea-scenario
+
+dat-c8fff0b939ce = nmea_synth (track, sentences, scenarios) ; cli nmea-scenario
+
+dat-24431d690b8d = Pas de référence indépendante externe, et ExternalDataset est refusé. Les deux entrées sont une marge Eb/N0 et un franchissement de seuil de C/N0, toutes deux fonctions d'une PIRE, d'une figure de mérite et d'une allocation de pertes globale MODELLED ; il n'existe aucun enregistrement de disponibilité mesurée pour un service hybride optique/RF Terre-Lune auquel comparer la valeur composée. Les contrôles qui existent sont internes et indiqués comme tels : la composition est recalculée à partir des propres marges publiées du rapport plutôt qu'à partir des éléments internes de l'émetteur, et la portée de fermeture est vérifiée en réexécutant l'équation de liaison À cette portée et en exigeant que la marge s'annule -- un aller-retour d'inversion, pas une implémentation indépendante. La limite honnête de cette valeur est consignée sur le rapport lui-même : c'est un indicateur déterministe 0/1, pas une probabilité, parce que rien dans ce moteur ne mesure une distribution d'indisponibilité de liaison RF à cette bande et à cette géométrie. Cette entrée manquante est nommée dans rf_availability.factors_not_included plutôt qu'inventée, et la fournir est ce dont aurait besoin une disponibilité RF probabiliste
+
+dat-ecd4bf05a7bc = Pas de référence indépendante externe, et aucune n'est possible : c'est de l'auto-description, pas une mesure. Elle est consignée parce que son absence était un défaut -- P5 devait citer la longueur d'onde de la porteuse et l'ouverture d'émission à partir de valeurs par défaut du source, et déduire qu'une `variance` nue était en mètres carrés à partir d'un contrôle de cohérence interne. La déduction était correcte, ce qui est précisément la raison pour laquelle elle importait : rien n'aurait détecté qu'elle était fausse
+
+dat-26a174bec1fd = Pas de référence indépendante externe : c'est de l'auto-description sur une équation déjà validée par rapport à un tableau de contrôle de conception publié (voir la ligne du bilan de liaison unidirectionnel). Elle est consignée parce que son absence était un défaut mesuré -- reproduire le d1_rate_gain_beamwidth.csv publié a exigé de résoudre à rebours une constante effective à { "0.0034" } dB près à partir des trente lignes, et le moteur à la fois nomme désormais cette combinaison et démontre, par test, qu'aucun tableau publié n'aurait jamais pu séparer ses trois composantes
+
+dat-d9e81e6919e7 = Pas de référence indépendante externe. Le franchissement est une solution en forme fermée de la croissance de variance de la marche aléatoire, et les tests le recalculent indépendamment à partir des valeurs que le rapport publie lui-même plutôt qu'à partir des éléments internes de l'émetteur. La covariance de départ est épinglée bit à bit sur la trace que le bloc de transfert existant avait déjà rapportée, si bien que la roue libre ne peut pas propager une covariance que nul autre n'a vue. Les DSP de bruit de processus sont des entrées représentatives MODELLED et les temps de franchissement évoluent directement avec elles, ce que le test d'échelle énonce comme une propriété mesurée plutôt que comme une affirmation. ExternalDataset est refusé délibérément : le temps de roue libre est une fonction directe de deux DSP modélisées et de limites d'alerte qui sont elles-mêmes représentatives, et il n'existe aucune roue libre de transfert optique/RF lunaire mesurée à laquelle comparer. Une référence indépendante externe nécessiterait ici une courbe publiée de croissance de covariance ou de précision de holdover après transfert pour un récepteur comparable avec son modèle de bruit de processus indiqué, vérifiée à une tolérance
+
+dat-1d1fdb26798b = Pas de holdover pire cas fini (le sup brownien diverge) ; HPL alloué par IR cohérent avec l'enveloppe de Hartman-Wintner quand IR→{ "0" }
+
+dat-450b2cc7a562 = pas de gestionnaire de paquets
+
+dat-c209c730551c = pas de chaîne d'outils Rust ; le serveur MCP dans un conteneur
+
+dat-affa675cc216 = Aucune requête tierce
+
+dat-809f6897c32a = Utilisateurs de Node, tout client MCP
+
+dat-d368a051038d = TDOA sans bruit direct→inverse à { "1e-6" } m près · J·CRLB = I · GDOP monotone en fonction des récepteurs · l'estimateur atteint sa CRLB sur { "4000" } essais Monte-Carlo
+
+dat-975b081d16b3 = PRS non boulet de canon : un modèle de plaque plane à boîte et ailes (Vallado éq. 8-44 ; panneaux de corps à face unique, ailes pointées vers le Soleil) avec les tableaux Galileo FOC, IOV et IOV en fin de vie des métadonnées de satellite du GSC, en pilotage de lacet GNSS nominal, avec des dérivées partielles analytiques pour le facteur de rayonnement et les coefficients spéculaire et diffus de chaque panneau ; et le modèle empirique ECOM2 (D2/B1) avec ses dérivées partielles. Le modèle boîte et ailes est optionnel dans le propagateur de Cowell (propagator::ForceModel::box_wing_srp, en définissant son champ srp_boxwing) et dans le modèle de détermination d'orbite précise (precise_od::PreciseForceModel::box_wing_srp), remplaçant le terme boulet de canon avec cr comme facteur de rayonnement ; les deux valent None par défaut, laissant chaque chemin existant identique octet pour octet. ECOM2 n'est pas câblé dans un modèle de force
+
+dat-5fdcd5e472dd = Aucune référence externe comme seuil de réussite. Les dispositions de champs et le CRC suivent la documentation publique d'OEM7 (docs.novatel.com) ; la routine CRC a été vérifiée une fois par rapport au CRC que la documentation indique pour son propre exemple BESTPOSA (cité, non reproduit). Les fixtures sont écrites par nos soins ; aucun journal d'un vrai récepteur n'a été lu
+
+dat-3206cd735f79 = Aucune référence externe pour l'effet géopotentiel. Les { "24" } coefficients sont transcrits du Tableau { "1" } modèle N1 de GFZ STR06/01 et ont été revérifiés ligne par ligne par rapport au rapport (SHA-256 890865ae) ; les degrés { "0" }, { "1" }, { "7" } et { "8" } ne sont pas utilisés. Ray et Ponte ({ "2003" }) n'impriment aucune table d'harmoniques sphériques, si bien qu'aucune seconde source n'a été comparée
+
+dat-791a77073a1c = Aucune référence externe pour les résultats des scénarios : chaque test de paquet exécute un type de scénario MODELLED. Les seuils sont le profil énoncé par l'auteur du paquet (le cadre du DHS n'énonce aucune valeur ; les limites de précision de l'IMO sont le Tableau C-1 de MSC.1/Circ.1575, lu en entier ; le paquet ICAO suit la présentation du plan d'atténuation des RFI propre à l'ICAO parce que le Doc { "9849" } est une publication payante et n'a pas été lu), versés avant toute exécution évaluée dans des fichiers PREREGISTRATION.md de style xval sous standards/. Un seuil MET dit qu'un scénario modélisé a atteint un seuil indiqué, rien sur un produit
+
+dat-93ef57429a13 = Aucune référence externe : les noms de champs proviennent de la documentation de GNSS-SDR ; ni le lecteur ni relay.py n'ont été exécutés avec un GNSS-SDR en direct ni une capture réelle
+
+dat-8febe7d58ad9 = Aucune référence externe : aucun fichier produit par RTKLIB n'a été lu, et la disposition des colonnes provient du manuel de RTKLIB. Vérifié uniquement sur des fichiers écrits par nos soins ; la conversion ECEF réutilise frames::ecef_to_geodetic, qui a ses propres lignes
+
+dat-0fa993cda2cd = Aucune référence externe : Orekit { "12.2" } n'a pas de rapport d'éclairement avec assombrissement centre-bord. Vérifié uniquement par rapport à des formes fermées de la même loi
+
+dat-90f25b28c9f8 = Aucune référence externe : l'ajustement est vérifié sur des journaux synthétiques de bruit blanc à coefficients connus, le cap sur des journaux à vitesse de lacet constante. Aucun journal d'IMU réel n'a été ajusté, et q_aa n'est pas ajusté
+
+dat-76d8fc7ca1ab = Aucune référence externe : le paquet relie des empreintes et une évaluation MODELLED de journal de récepteur, vérifiées sur des données synthétiques (le NMEA exporté d'un scénario fourni traité comme le journal du récepteur). Aucune exécution en laboratoire n'est affirmée
+
+dat-27a14c16dc31 = Aucune référence externe : les paquets ont été lus par un écouteur de rebouclage écrit pour le test, pas par un vrai courtier, et Home Assistant n'a pas été exécuté
+
+dat-285269b5a9a2 = Aucune référence externe : le nœud ROS n'a pas été exécuté sur un graphe ROS { "2" } en direct, et les noms de champs de ublox_ubx_msgs n'ont pas été vérifiés par rapport à un pilote en cours d'exécution. gnss_lib_py (MIT) a été exécuté pour le test du pont
+
+dat-eb85e67bada7 = Aucune référence externe : les poids sont un choix de modélisation (le format SP3 ne définit le code que comme l'indicateur de précision du producteur ; il est lu ici comme un sigma à un écart-type par axe). Les exécutions d'agences enregistrées existantes sont inchangées
+
+dat-ce2aeb688997 = Aucune : dimensions choisies et indiquées, pas un relevé d'une rue, d'un port, d'un fjord ou d'un terminal quelconque (le rapport d'aspect de la rue se situe dans la bande 0.5-2 d'Oke ({ "1988" }) ; le fjord est de l'ordre des fjords de l'ouest de la Norvège ; les piles de conteneurs utilisent la hauteur ISO { "668" } high-cube). Le test vérifie les préréglages par rapport à leurs propres dimensions indiquées, un contrôle de transcription, que la règle de validation ne compte pas
+
+dat-707f521beabe = Norcia, Young, Eckner, Oelker, Ye, Kaufman, Science { "366" } : { "93" } ({ "2019" }), Fig. { "4" } ADEV mesuré ; courbe reprise telle quelle depuis Zenodo 10.5281/zenodo.3382347 (CC-BY-4.0). Limité à la reproduction de la courbe de stabilité mesurée publiée — les valeurs d'appareil de holdover jusqu'au seuil par classe d'horloge restent MODELLED
+
+dat-2964375010a6 = Non confirmé ou non implémenté
+
+dat-de03fc8ae267 = Pas en Python : processus de longue durée
+
+dat-24bc2b88e5e5 = Non modélisé
+
+dat-3e61fea9ba2f = Non fourni — Kshana est un simulateur de performance de navigation, pas un constructeur de plateformes
+
+dat-76921aed25f5 = Non fourni — Kshana modélise la performance des signaux, pas le matériel de charge utile/d'antenne
+
+dat-3b666b325e39 = Non fourni — Kshana ne s'adresse qu'à la PA logicielle ; la PA de vol relève d'un partenaire
+
+dat-6c5fa7ae8f0f = Non fourni — modèles de performance seulement ; le matériel d'atomes froids/d'horloge relève d'un partenaire
+
+dat-c20300efc570 = AVIS : propriété intellectuelle dans l'interface Galileo OSNMA
+
+dat-91bd9672d8b4 = Station de référence différentielle de classe NovaMoon : annulation du mode commun + résidu croissant avec la ligne de base + niveaux de protection DGNSS
+
+dat-6e9aadef0511 = NovAtel OEM7 (format = "novatel")
+
+dat-df5ac5820b5d = Journaux ASCII et binaires NovAtel OEM7 (BESTPOS, RANGE, RXSTATUS) pour receiver-trust
+
+dat-4d2b997024f9 = npm et WebAssembly
+
+dat-2238d9339472 = Guide npm et WebAssembly
+
+dat-c19ea19a2218 = Niveau de densité de traînée NRLMSISE-00 (optionnel)
+
+dat-34cdc4333063 = Densité thermosphérique NRLMSISE-00
+
+dat-1ad7ab142d99 = ntn-positioning (type de scénario)
+
+dat-c3c6647166b5 = Propagateur numérique (Cowell) et modèle de force
+
+dat-7b9f2f5d65d6 = Propagateur numérique de Cowell et modèle de force
+
+dat-aece7a336dad = Propagateur numérique
+
+dat-32c9f9eaf3e8 = NumPy { "2.4.1" } (numpy.linalg.eigh / .inv ; BSD-3-Clause, adossé à LAPACK) — une référence tierce indépendante calculant les mêmes valeurs propres définies de façon unique, la covariance de Cramér–Rao σ²(XᵀX)⁻¹ et les facteurs de dilution de précision GNSS par un algorithme différent (diviser pour régner LAPACK + LU) de celui du balayage de Jacobi cyclique et de la pseudo-inverse spectrale de Kshana ; concordance à { "1e-9" }. La même classe de bibliothèque externe valide déjà le moteur DOP (par rapport à gnss_lib_py) et les noyaux χ²/erf (par rapport à SciPy). Recoupé en outre avec les CRLB en forme fermée de Kay ({ "1993" }) et l'atteinte Monte-Carlo de la CRLB (interne)
+
+dat-b3330be140f9 = numpy { "2.5.4" } (BSD-3-Clause), xval/numpy-ellipse/ellipse.py : numpy.linalg.inv de G^T G et numpy.linalg.eigh de son bloc horizontal sur les entrées versées, une bibliothèque numérique indépendante effectuant l'inversion et la décomposition en valeurs propres par ses propres algorithmes (P2 standard). Préenregistré dans xval/numpy-ellipse/PREREGISTRATION.md (commit 0bbeeaee) avant l'exécution ; le formatage de sortie du pilote a été corrigé une fois après le préenregistrement (un scalaire numpy écrit np.float64(...)), sans modification du protocole ni des tolérances. L'affirmation validée porte sur l'algèbre linéaire de ces entrées ; le modèle d'erreur gaussien et l'UERE sont des entrées indiquées, pas une précision mesurée ni une borne d'intégrité
+
+dat-97db3d9fe607 = numpy.linalg / scipy.linalg (résolution complexe LAPACK zgesv) — une base de code d'algèbre linéaire indépendante du noyau complexe écrit de zéro de kshana, calculant les MÊMES poids définis de façon unique : MVDR w=R⁻¹a_sv/(a_svᴴR⁻¹a_sv) et annulation de directions à norme minimale w=Aᴴ(AAᴴ)⁻¹b, ainsi que les gains de réponse du réseau qui en résultent, concordant à ~{ "1e-9" } — la même classe de référence que les lignes du DOP validé (gnss_lib_py) et de l'information de Fisher (numpy). Réseau MODELLED à bande étroite, champ lointain, éléments isotropes identiques — sans couplage mutuel, ni désadaptation par élément, ni bande finie (STAP), ni erreur d'estimation du vecteur de pointage
+
+dat-a71cb168dc8a = références numpy/scipy pour la numérique ; trois seuils préenregistrés NOT MET (xval/lunar-infra/RESULTS.md)
+
+dat-69a790ebffc0 = Ombre PRS de la Terre aplatie (optionnel)
+
+dat-9494821cdab0 = Observabilité et théorie de l'estimation
+
+dat-5084b79e18a0 = Résultats de l'observatoire : catalogue rétrospectif baltique sur 30 jours et étude de sensibilité
+
+dat-4961819e6e3e = Observatoire : le produit quotidien
+
+dat-b7a15e79e552 = odf (parse_odf, Odf, OdfObservation, OdfRamp, seconds_1950) ; mars_od (DopplerModel, RampTable, compress_two_way, MarsDynamics, fit, fit_damped) ; naif_kernel (SPK de type { "1" }) ; gravity_pds (SphericalHarmonicField::from_shadr)
+
+dat-d15e8ab03f18 = oem { "0.4.5" } (MIT, https://pypi.org/project/oem/) — le MÊME analyseur CCSDS-502 indépendant auquel fait confiance la ligne validée « Interopérabilité CCSDS OEM », une base de code complètement séparée (son propre analyseur lexical KVN, sa machine à états de section de covariance et son assemblage matriciel numpy). kshana émet un segment OEM complet portant son bloc COVARIANCE triangulaire inférieur à nombres nus non étiquetés ; oem l'analyse et reconstruit la matrice symétrique { "6" }×{ "6" }, concordant avec la covariance d'entrée de kshana élément par élément à l'arrondi f64 près — un véritable aller-retour d'interchange bibliothèque contre bibliothèque (comparé à la reconstruction d'oem, pas à une relecture par kshana), comblant l'ancien écart « pas de fixture tierce » de la ligne
+
+dat-0238ec03ed0e = oem-interop (type de scénario)
+
+dat-c7bfab112390 = oem::tests (une covariance symétrique définie positive fait l'aller-retour KVN→analyse à l'arrondi f64 près et reste symétrique ; le bloc émet exactement les { "21" } entrées triangulaires inférieures — i+{ "1" } par ligne de matrice — avec/sans COV_REF_FRAME ; un bloc au mauvais nombre de valeurs et un bloc manquant sont tous deux rejetés) ; tests/ccsds_oem_covariance_reference.rs (la bibliothèque indépendante oem { "0.4.5" } analyse un segment OEM émis par kshana et reconstruit la matrice symétrique { "6" }×{ "6" }, concordant avec la covariance d'entrée de kshana à l'arrondi f64 près ; avec un contrôle négatif perturbé et une vérification que oem rejette la variante étiquetée CX_X)
+
+dat-73e5efd29f76 = Diagramme d'antenne hors axe dans l'export de géométrie lunaire
+
+dat-d1290d4e3bfc = Registre MCP officiel
+
+dat-05ed14c31e3e = L'entrée d'orientation de la Terre par défaut hors ligne est un vrai produit de l'IERS
+
+dat-7dea9a6284a9 = Anciennes adresses
+
+dat-2a5a41568288 = Oleg-Pluton, d'après l'imagerie Viking de la NASA
+
+dat-920d0641725f = Sur le réseau lunaire par nœud DE440 réel (chaque ligne étant une distance unidirectionnelle différentielle inter-nœuds construite via pernode_range_row avec une vraie ligne de visée dans le référentiel PA de la Lune DE440), le moteur calcule le projecteur de parité pondéré P⊥ = I − G(GᵀWG)⁺GᵀW (la forme à pseudo-inverse de rang déficient qui survit à la jauge de dimension 8 datum⊕échelle de temps), le résidu de détectabilité T1 ‖P⊥·b‖ (défauts dans l'image annihilés, défauts génériques détectables), la forme quadratique de non-centralité MDB de Baarda cᵀWP⊥c (la forme pondérée à P⊥ unique correcte, PAS la forme à double P⊥ cᵀP⊥WP⊥c) avec MDB = √(λ₀/cᵀWP⊥c), et les nombres de détection/identification par block-spark byzantin des signatures effectives empilées de pairs P⊥·B_T (rang de colonnes, pas simplement non nul)
+
+dat-4623cd3a36ef = Sur les tolérances. « Validé » ci-dessous signifie qu'un test d'étalonnage affirme que la statistique simulée concorde avec le…
+
+dat-4ca6b7c4928a = Estimation de l'état de l'horloge embarquée
+
+dat-a5755cc17440 = Filtre de navigation GNSS embarqué pour engins en haute orbite et en transfert lunaire
+
+dat-80e555225f75 = Navigation GNSS embarquée en route vers la Lune : un filtre de Kalman étendu sur les seules pseudodistances.
+
+dat-b4e008a0ca79 = Un chemin d'orbite terrestre : jeux d'éléments SGP4 vers le GCRS et l'ITRS sur la chaîne IAU 2006/2000A avec paramètres d'orientation de la Terre
+
+dat-7fcb4e9e2663 = Un seul moteur, les mêmes résultats partout. docs/SURFACES.md indique, pour chaque commande et chaque type, quelle surface…
+
+dat-dfb3fb2c5d28 = Un brouilleur, un navire et une voiture
+
+dat-6536111d7ddb = Un système LEO-PNT (positionnement, navigation et datation depuis l'orbite terrestre basse) de bout en bout, pour tout…
+
+dat-05d0e975c895 = Un système LEO-PNT de bout en bout : conception du signal, bilan de liaison du passage, message de navigation et positionnement fusionné, la sortie de chaque étage étant transmise au suivant
+
+dat-607bbbe7f8cc = Une exécution lunar-time-budget émet une ligne de croisement horloge contre référentiel par classe d'horloge par rapport à un unique terme de référentiel partagé, de sorte que l'horloge est la seule variable de la comparaison ; chaque ligne porte le croisement obtenu de deux façons -- par bissection à partir de la courbe générale d'erreur de temps en loi de puissance et par inversion algébrique à partir du type de bruit dominant de la ligne -- avec la différence relative entre les deux
+
+dat-b29c65302145 = Un produit par jour UTC et par région, issu d'une archive ouverte de positions d'aéronefs.
+
+dat-386514ad10c8 = Une étude reproductible de ce qu'une station de référence au pôle sud lunaire pourrait faire sous des hypothèses publiques : une carte de couverture et de précision sur la région polaire (erreur de position corrigée et non corrigée en percentile, disponibilité avec une raison pour chaque époque indisponible, niveaux de protection et bilan de la liaison de correction), un laboratoire de temps qui maintient une référence de temps lunaire sur une horloge atomique, et la géodésie d'un rétroréflecteur laser et d'une balise VLBI ajoutés par rapport au datum à cinq réseaux. Chaque entrée est étiquetée avec sa source publique ou comme illustrative. Ce n'est pas un énoncé sur la performance d'un système réel, et Kshana n'est affilié à aucune agence.
+
+dat-d7379ee23af3 = Un objet TradeEvidence reproductible (cadre fixe : scénario+graine+moteur ; valeurs communes quantique-contre-classique par FoM avec bénéfice à polarité correcte, IC à { "95" } % facultatif, étiquette validé/modélisé) portant un enregistrement de représentativité, de sorte que chaque filière PNT quantique rapporte le compromis de la même façon honnête.
+
+dat-4d509256e890 = Une exécution prend un plan de contacts (une liste de fenêtres aos_s/los_s, chacune demandant l'ouverture pour la navigation ou les communications — le même vocabulaire de fenêtres qu'émet `passes::predict_passes`, converti par `aperture_duty::windows_from_passes`), un nombre d'ouvertures et une politique d'arbitrage explicite, et renvoie le rapport cyclique de navigation, le rapport cyclique de communications, le rapport cyclique d'inactivité et l'indisponibilité par session. La politique est une entrée avec une valeur par défaut documentée (`navigation-priority` ; aussi `communications-priority` et `first-come-first-served` non préemptif), et le rapport porte la politique résolue, sa définition complète et les définitions de rapport cyclique et d'indisponibilité, parce qu'un rapport cyclique cité sans sa règle d'arbitrage n'est pas reproductible. Le calendrier est un balayage d'intervalles exact sur les bornes des fenêtres, si bien qu'une fenêtre qui se termine exactement là où la suivante commence n'entre jamais en conflit, et que les secondes d'ouverture de navigation, de communications et d'inactivité sont cumulées indépendamment dans ce seul balayage. Exécutable comme type de scénario `aperture-duty-cycle`
+
+dat-a3a9e0d19fc3 = Un satellite au-dessus d'une station : la distance oblique, l'élévation et l'Es/N0 de chaque passage le long du passage, le DVB-S2…
+
+dat-d8c3087c533f = Un scénario par filière d'utilisateur final
+
+dat-ce07b7e4ecdd = Un scénario par domaine d'intérêt d'expérience
+
+dat-8887d0d085e1 = Un filtre de Kalman empilé sur la position, la vitesse, la phase et la fréquence d'horloge, alimenté en pseudodistances qui couplent position et horloge (mises à jour sous forme de Joseph portant la covariance croisée) ; une variante à 1 DDL augmentée d'un état de biais d'accéléromètre constant que le paquet de fusion exécute sous [coupled] ; et la version 3D à 8 états avec des lignes de visée
+
+dat-1ca88150c5ed = Un tableau rapporte l'erreur de prédiction d'UT1, l'erreur de pôle du mouvement du pôle et leur combinaison en quadrature à la Lune sur un ensemble d'époques IDENTIQUE par horizon, en émettant les époques auxquelles chaque composante a été mesurée. Séparément, le scénario nomme l'entrée EOP en vigueur et décompose son recensement de lignes, et émet toujours la table d'horizons prédit-contre-final avec une explication explicite de la raison pour laquelle elle est vide quand elle l'est
+
+dat-d7637021e2b1 = Liens en un clic
+
+dat-082eb06535a4 = Bilan de liaison unidirectionnel (communications / conception de liaison)
+
+dat-a679afae78ab = Démonstrateur de bilan de liaison unidirectionnel (communications et bilans de liaison, niveau étude de compromis).
+
+dat-54784c3151cf = Bilan de liaison unidirectionnel sur l'équation de liaison CCSDS { "401" } / DSN 810-005 : affaiblissement en espace libre, C/N₀, Eb/N₀…
+
+dat-8b2ea1b38760 = Cœur ouvert, Pro et étude sur mesure
+
+dat-b182bb36b35f = Ouvrir Kshana Studio
+
+dat-98730cf6a0bd = Questions ouvertes pour le coordinateur
+
+dat-54aeb3b1e13d = Soumission au catalogue OpenCPN
+
+dat-e29b80dbe3de = Utilisateurs de traceurs de cartes OpenCPN
+
+dat-6937afe1ec51 = Module d'extension OpenCPN
+
+dat-4671cec4a560 = OpenTelemetry (désactivé par défaut)
+
+dat-f116fc44a056 = Domaine de fonctionnement
+
+dat-9ab85050a386 = Erreur de prédiction d'orientation de la Terre de style opérationnel, mesurée prédit-contre-final
+
+dat-9b9b975aaee0 = opérateurs exécutant Grafana
+
+dat-583e1b672d98 = Champ tesséral EGM2008 optionnel (jusqu'au degré/ordre { "70" }) comme gravité centrale du ForceModel de Cowell numérique, évalué dans un référentiel fixe par rapport à la Terre tourné par l'angle de rotation de la Terre IAU { "2000" } (ou la chaîne GCRS-vers-ITRS du CIO) ; désactivé par défaut, si bien qu'aucune sortie existante ne bouge
+
+dat-dc39c4ba4e2d = Niveau d'éphéméride optionnel pour les termes de troisième corps et de PRS du ForceModel de Cowell numérique : le Soleil et la Lune géocentriques issus de tout EphemerisProvider (un noyau SPK DE440 via KernelEphemeris) à TDB = TT + (TDB - TT), refusant un fournisseur qui ne peut pas servir l'époque et comptant tout repli sur la série analytique ; désactivé par défaut
+
+dat-8191eddb83df = Transfert optique et RF avec intégrité intermodale
+
+dat-eca4e9d083b7 = Transfert de temps optique intersatellite par rapport au RF classique (TWSTFT).
+
+dat-eef3b1d75028 = Marge de liaison optique en fonction du temps
+
+dat-48b4329881e9 = Marge de liaison optique en fonction du temps : une réalisation à graine fixée de la météo d'un site
+
+dat-a3dbf52bd96d = PNT optique
+
+dat-a58774035d82 = PNT optique (famille de types de scénario)
+
+dat-bd7e0d279cb9 = PNT optique à travers l'atmosphère
+
+dat-dc0ab1cc7a84 = PNT optique à travers l'atmosphère : trois sites au sol ILLUSTRATIVE (un site nordique plus nuageux, un
+
+dat-c60054880806 = Numérique de l'atmosphère en trajet oblique optique : variance de Rytov, scintillation, probabilité d'évanouissement gamma-gamma, moyennage d'ouverture, épaisseur optique des nuages et du ciel clair
+
+dat-ca60b658e5af = Liaisons de synchronisation optiques à travers les nuages et la turbulence
+
+dat-7a7df612ae73 = Transfert bidirectionnel de temps/fréquence optique contre RF.
+
+dat-13cac2101047 = optical-atmosphere (type de scénario)
+
+dat-459d2f311e8d = Stabilité de fréquence d'une horloge optique sur une vraie courbe mesurée
+
+dat-111339dba2f5 = médiane optical-sr-lattice
+
+dat-e0b05c4592c0 = Attitude optimale à trois axes à partir d'observations vectorielles pondérées (directions d'étoiles/Soleil/magnétomètre) : le TRIAD déterministe à deux vecteurs, la méthode q de Davenport (le minimiseur exact de la perte de Wahba — le quaternion optimal est le vecteur propre de plus grande valeur propre de la matrice de Davenport { "4" }×{ "4" } K, résolu par une diagonalisation de Jacobi symétrique), et QUEST (racine de Newton/sécante de l'équation caractéristique de K initialisée à Σ poids, puis récupération du quaternion par le vecteur de Gibbs)
+
+dat-f5abac765aba = Option A — source ouverte : GNU AGPL-3.0-only
+
+dat-296768366831 = Option B — licence commerciale (d'Ashforde OÜ)
+
+dat-247ff7ded4ba = Les entrées facultatives extra_reflectors et extra_beacons du scénario lunar-llr-datum ajoutent un bloc station_geodesy : l'information de Helmert des cinq réseaux issue de la tranche archivée de télémétrie laser lunaire plus l'information qu'apportent un rétroréflecteur ajouté (visé aux époques de points normaux archivées où la station de télémétrie est au-dessus de son horizon, chacun avec le poids archivé de ce point normal) et une balise VLBI ajoutée (observée par le réseau et le calendrier de lunar-frame-campaign avec les stations terrestres fixées, via les dérivées partielles de retard de lunar-vlbi-fim) en des sites indiqués sur le datum à sept paramètres, résolu à nouveau, avec le 1-sigma de chaque paramètre de Helmert avant et après, leur rapport, les normes avant et après, et les valeurs propres extrêmes de la différence de Fisher. Absent ou vide, le rapport est inchangé
+
+dat-976bf976b22b = orbit (type de scénario)
+
+dat-d3e255bf5d2b = Détermination d'orbite
+
+dat-e2bec3eff002 = Détermination d'orbite (DO) (src/orbit_determination.rs, src/batch_ls.rs)
+
+dat-919971ea082e = Détermination d'orbite sur une orbite de halo quasi rectiligne (ou une orbite gelée elliptique) à partir de deux types de données indépendants : des pseudodistances GNSS terrestres reçues à bord (la règle de liaison de la ligne GNSS terrestre à distance lunaire, plus l'occultation par la Lune) et des mesures bidirectionnelles de distance et de taux de variation de distance depuis le sol par trois stations du Deep Space Network. Chacune est un lot de moindres carrés en une étape autour de l'orbite de référence avec sa covariance formelle ; un Monte-Carlo à graine fixée de la différence entre les deux estimations teste si les deux covariances l'expliquent (q = d' (P_G + P_R)^-1 d, khi-deux à six degrés de liberté quand les modèles concordent) et ce que fait une accélération non modélisée à la statistique.
+
+dat-7f4137097d89 = Propagation d'orbite et conception de constellation
+
+dat-e73617ea2eec = Propagation et détermination d'orbite
+
+dat-28b8bfe4b0ae = Interchange d'orbite, d'attitude et de noyau (bibliothèque, { "0.36" })
+
+dat-ba2aa4c455c5 = orbital_timing::orbital_timing, accessible comme section de leurrage du type `slot-timing` : vitesse et période d'orbite circulaire, la plus longue durée pendant laquelle un leurreur au sol peut atteindre le satellite par passage, le plancher du moniteur assisté par horloge et le délai de détection CUSUM, le niveau de protection conditionnel (plancher plus roue libre sur le délai), l'entraînement qu'un leurreur à une vitesse de rampe maximale indiquée accumule avant que le satellite ne quitte son empreinte ou qu'un contrôle indépendant ne s'exécute, et si chaque contrôle de contact sol ou de liaison croisée est indépendant d'un leurreur au sol unique
+
+dat-2500c9547de2 = orbital_timing::tests (reduces_to_the_terrestrial_tpl — exactement tpl::timing_protection_level_ns quand l'horloge n'a ni terme de scintillation, ni de bruit blanc de phase, ni de marche aléatoire ; leo_geometry_matches_its_closed_forms ; crosslink_independence_follows_the_footprint ; an_independent_check_caps_the_ramp_before_the_pass_ends ; a_crosslink_inside_the_footprint_does_not_count ; a_ramp_below_the_reference_is_never_detected)
