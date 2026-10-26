@@ -15,3 +15,7 @@ seg-a7cfe6f135f1 = Baan en geometrie
 seg-28e87f407a10 = Domein
 
 seg-d6476863f862 = Mogelijkheid
+
+seg-029de6b99be0 = Inertiële koppelnavigatie
+
+seg-9ef8f99ca6e4 = Tijdoverdracht

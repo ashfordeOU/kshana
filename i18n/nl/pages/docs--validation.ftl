@@ -33,3 +33,11 @@ seg-d12d4565b01d = Geodetische VLBI op de Maan, kernelpad
 seg-5ed34a5b402e = Gezamenlijke multitechniek-OD + klok voor de Maan
 
 seg-75636f9419b2 = Bekende beperkingen
+
+seg-9c0eb89a2fbe = Pakket
+
+seg-f63dd3d7aad4 = Bron
+
+seg-638b8d451550 = Sensor
+
+seg-04f69a0edb2f = type
