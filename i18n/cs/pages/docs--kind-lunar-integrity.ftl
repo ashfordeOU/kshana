@@ -19,3 +19,11 @@ seg-1903c67a762d = <b>VALIDATED</b> Krok od geometrie ke kovarianci u lunární 
 seg-3c54da43686e = <s1>Předchozí</s1>lunar-infrastructure
 
 seg-f6b399c3fd4a = <s1>Další</s1>lunar-interop-export
+
+seg-1f17ef6a853e = Druh scénáře enginu v{ $version }, rodina <a1>Lunární a cislunární</a1>. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o typově schválené navigační zařízení ani o službu z oblasti bezpečnosti života. Každé označení zde pochází z enginu nebo z verifikační matice; druh je MODELLED, pokud matice neuvádí jinak (jak se označení získává: oddíl Evidence v README).
+
+seg-1c1eeb2dcaa0 = Stránka rodiny: <a1>Lunární a cislunární</a1>
+
+seg-619127334cf3 = Žádný řádek matice tento druh nejmenuje; označení jeho výsledku je vlastní označení enginu uvedené výše.
+
+seg-aec7fc2a4070 = <b>VALIDATED</b> Řešení ARAIM s oddělováním řešení pro více hypotéz podle dokumentu ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels a add_v42_protecti. Orákulum (ExternalDataset): Tři nezávislé nástroje, předregistrované (0123cee1) dříve, než existoval jakýkoli fixture nebo výstup orákula, tolerance stanoveny tehdy. ({ "1" }) ARAIM: Stanford MAAST pro ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, spuštěné jako samostatný program pod GNU Octave { "8.4" } s kompatibilní vrstvou unique() na straně ovladače (zveřejněno, bez změny algoritmu), při ADD TOL_PL { "0.05" } m: kód v Rustu reprodukuje referenční implementaci ADD na

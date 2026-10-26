@@ -13,3 +13,5 @@ seg-587beeccaa11 = Předvolba
 seg-1ff32b87e030 = Družice
 
 seg-a6c63abeb7e6 = Přibalené scénáře
+
+seg-60cd077d82a7 = Model
