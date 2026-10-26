@@ -3453,7 +3453,7 @@ js-cat-leo-vertical-asset-tracking-iot-title = Śledzenie kontenerów
 js-cat-leo-vertical-autonomous-vehicle-question = Gdy budynki zasłaniają niskie satelity, czy warstwa niskiej orbity utrzymuje samochód w granicach błędu na poziomie pasa ruchu? (modelowane)
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:231
-js-cat-leo-vertical-autonomous-vehicle-skyline-question = Zamodelowane jako rzeczywista ulica zamiast płaskiego odcięcia 35°, czy warstwa niskiej orbity nadal utrzymuje samochód w granicach błędu na poziomie pasa ruchu? (modelowane; reprezentatywny skyline)
+js-cat-leo-vertical-autonomous-vehicle-skyline-question = Modelowane jako rzeczywista ulica zamiast płaskiego odcięcia 35°, czy warstwa niskiej orbity nadal utrzymuje samochód w granicach błędu na poziomie pasa ruchu? (modelowane; reprezentatywny skyline)
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:231
 js-cat-leo-vertical-autonomous-vehicle-skyline-title = Pojazd na ulicy, a nie na płaskim odcięciu
@@ -4738,3 +4738,2849 @@ js-interf-check-failed = { $name }: nie udało się sprawdzić ({ $reason }).
 
 # 2026-10-01-studio-rebuild/interference/interference.js:152
 js-interf-click-cell = Kliknij komórkę albo ustaw fokus na mapie i użyj klawiszy strzałek, aby zobaczyć jej wartości.
+
+js-interf-close = Zamknij
+
+js-interf-close-file = Zamknij: { $name }
+
+js-interf-col-affected = Dotknięte
+
+js-interf-col-cell-area = Powierzchnia komórki
+
+js-interf-col-detectors = Detektory
+
+js-interf-col-observed = Zaobserwowane
+
+js-interf-col-sampled = Próbkowane
+
+js-interf-col-share = Udział
+
+js-interf-col-status = Status
+
+js-interf-coverage-limits = Ograniczenia pokrycia tego źródła
+
+js-interf-csv-too-big = { $name }: plik większy niż 24 MiB; zbuduj mapę z wycinka (narzędzie wiersza poleceń przyjmuje cały plik).
+
+js-interf-csv-too-big-short = { $name }: plik większy niż 24 MiB; zbuduj mapę z wycinka.
+
+js-interf-custom-needs-licence = Własny zbiór danych wymaga licencji, jej adresu URL i tekstu atrybucji: są one zapisywane w pliku mapy.
+
+js-interf-dataset = Zbiór danych
+
+js-interf-dates-rule = Daty mają format RRRR-MM-DD albo pozostają puste, gdy nie ma ograniczenia.
+
+js-interf-day = Dzień
+
+js-interf-day-aria = Dzień: { $kind }
+
+js-interf-day-confounded-note = Ten dzień jest zakłócony czynnikiem zewnętrznym: żadnej komórki nie uznano za zdegradowaną z powodu tła tego dnia. Komórki, które w innym przypadku by się wyróżniały, są pokazane jako nieocenione.
+
+js-interf-day-figures-aria = Wartości dla dnia
+
+js-interf-demo-csv-name = { $file } (próbka syntetyczna)
+
+js-interf-demo-failed = Nie udało się otworzyć wersji demonstracyjnej: { $reason }.
+
+js-interf-demo-opened = Syntetyczna wersja demonstracyjna: trzy wymyślone pliki dla wymyślonego regionu otwartego oceanu (dwa dni ADS-B, z których jeden jest zakłócony czynnikiem zewnętrznym, oraz jeden dzień AIS). Za tymi danymi nie stoi żaden prawdziwy statek powietrzny, jednostka pływająca ani dzień. Użyj selektora dni w warstwie ADS-B.
+
+js-interf-demo-route-name = route.csv (syntetyczna)
+
+js-interf-describe-map = Mapa { $kind } dla { $date }: narysowane komórki: { $cells }, { $parts }. Komórek, które nie zostały narysowane, nie zaobserwowano.
+
+js-interf-did-not-load = Nie wczytano: { $url }
+
+js-interf-engine-no-fn = Ta wersja silnika (wersja { $version }) nie ma funkcji { $fn }; jest starsza niż ta strona. Odpowiednik w wierszu poleceń znajduje się na stronie Narzędzia.
+
+js-interf-engine-start-failed = Nie udało się tu uruchomić silnika ({ $reason }). Otwieranie plików map powyżej nadal działa.
+
+js-interf-err-format-version = { $name }: to nie jest obsługiwana mapa zakłóceń Kshana (format_version { $version }; ta strona obsługuje { $supported }).
+
+js-interf-err-no-rows = { $name }: brak rows[] w tym raporcie.
+
+js-interf-err-not-json = { $name }: to nie jest JSON ({ $reason }).
+
+js-interf-err-not-map = { $name }: to jest GeoJSON, ale nie mapa zakłóceń Kshana (brak elementu kshana_interference_map).
+
+js-interf-err-not-route = { $name }: to nie jest raport ekspozycji trasy Kshana (brak elementu kshana_route_exposure).
+
+js-interf-err-route-schema = { $name }: schemat { $schema } nie jest schematem { $expected }, który ta strona odczytuje.
+
+js-interf-err-source-kind = { $name }: source_kind { $kind } nie jest ani adsb, ani ais.
+
+js-interf-err-unknown-schema = { $name }: nieznany schemat { $schema }; ta strona odczytuje { $supported }.
+
+js-interf-foot-attribution = Atrybucja: { $text }
+
+js-interf-foot-coverage = Pokrycie: { $notes }
+
+js-interf-foot-layer = Warstwa { $kind }, { $date }. Komórek, które nie zostały narysowane, nie zaobserwowano.
+
+js-interf-foot-licence = Licencja: { $licence }
+
+js-interf-foot-licence-url = Licencja: { $licence } ({ $url })
+
+js-interf-grid = Siatka: kwadratowe komórki o boku { $size }° w szerokości i długości geograficznej ({ $type }). Szerokość wschód–zachód maleje wraz ze wzrostem szerokości geograficznej.
+
+js-interf-guards = Zabezpieczenia przed innymi przyczynami
+
+js-interf-input = Dane wejściowe
+
+js-interf-land-set = Wielokąty lądu: { $name }.
+
+js-interf-land-too-big = Ten plik lądu jest większy niż 24 MiB.
+
+js-interf-larger-than = { $name }: plik większy niż { $limit }; ta strona odczytuje pliki map do tego rozmiaru.
+
+js-interf-layer-adsb-sub = komórki, w których statki powietrzne zgłaszały niską dokładność nawigacji
+
+js-interf-layer-ais-sub = komórki, w których jednostki pływające zgłaszały nieprawdopodobne pozycje lub ruch
+
+js-interf-layer-heading = Warstwa { $kind }
+
+js-interf-layer-hidden = Warstwa { $kind } jest ukryta.
+
+js-interf-layers-separate = ADS-B i AIS to osobne warstwy z własnymi przełącznikami, legendami i wierszami licencji. Nigdy nie są łączone w jedno pole kolorów ani w jedną liczbę.
+
+js-interf-legend-aria = Co oznacza każdy stan komórki; odznacz jeden, aby wygasić te komórki
+
+js-interf-licence = Licencja
+
+js-interf-licence-aria = Licencja danych: { $name }
+
+js-interf-licence-heading = Licencja danych i atrybucja
+
+js-interf-map-aria = { $summary } Klawisze strzałek przechodzą między narysowanymi komórkami.
+
+js-interf-maps-open =
+    { $n ->
+        [one] Otwarta { $n } mapa.
+        [few] Otwarte { $n } mapy.
+        [many] Otwartych { $n } map.
+       *[other] Otwartych { $n } map.
+    }
+
+js-interf-method-summary = Metoda i zastrzeżenia
+
+js-interf-no-cell-at = Brak komórki w { $lat }, { $lon }: nie zaobserwowano. To nie jest dowód, że obszar był wolny od zakłóceń.
+
+js-interf-no-cell-drawn = nie narysowano komórki
+
+js-interf-no-cells-draw = Ten plik nie zawiera komórek do narysowania.
+
+js-interf-no-day-figures = Ten plik nie podaje wartości na poziomie dnia.
+
+js-interf-no-file-opened = Nie udało się otworzyć żadnego pliku.
+
+js-interf-no-file-text = Otwarte mapy nie zawierają tekstu pliku do sprawdzenia (nie zostały otwarte jako pliki).
+
+js-interf-none = brak
+
+js-interf-none-stated = (nie podano)
+
+js-interf-none-stated-file = (nie podano w tym pliku)
+
+js-interf-north-abbr = N
+
+js-interf-not-evaluated = nie oceniono
+
+js-interf-not-opened-full = { $name }: nie otwarto, już otwarto { $max } map. Najpierw zamknij niektóre.
+
+js-interf-nothing-open = Nic jeszcze nie otwarto.
+
+js-interf-nothing-opened = Nic nie otwarto.
+
+js-interf-one-day = jeden dzień naraz
+
+js-interf-opened-file-map = Otwarto plików: { $files }; otwartych map: { $maps }.
+
+js-interf-opened-file-maps = Otwarto plików: { $files }; otwartych map: { $maps }.
+
+js-interf-opened-files-map = Otwarto plików: { $files }; otwartych map: { $maps }.
+
+js-interf-opened-files-maps = Otwarto plików: { $files }; otwartych map: { $maps }.
+
+js-interf-opening-demo = Otwieranie syntetycznej wersji demonstracyjnej…
+
+js-interf-parameters = Parametry, ustalone przed odczytaniem jakichkolwiek danych
+
+js-interf-read-draw-failed = { $name }: nie udało się odczytać ani narysować ({ $reason }).
+
+js-interf-read-failed = { $name }: nie udało się odczytać ({ $reason }).
+
+js-interf-read-with-map = Czytaj razem z mapą
+
+js-interf-reading = Odczytywanie…
+
+js-interf-route-aria = Ekspozycja trasy { $name }
+
+js-interf-route-chip = Trasa
+
+js-interf-route-done =
+    { $n ->
+        [one] Ekspozycja trasy obliczona na podstawie { $n } mapy w silniku { $version }; raport jest pokazany poniżej.
+        [few] Ekspozycja trasy obliczona na podstawie { $n } map w silniku { $version }; raport jest pokazany poniżej.
+        [many] Ekspozycja trasy obliczona na podstawie { $n } map w silniku { $version }; raport jest pokazany poniżej.
+       *[other] Ekspozycja trasy obliczona na podstawie { $n } mapy w silniku { $version }; raport jest pokazany poniżej.
+    }
+
+js-interf-route-explain = Udział długości trasy w każdym stanie, w podziale na dni i źródła. Cztery udziały sumują się do 1 i należy je czytać razem: niski udział zdegradowanych przy wysokim udziale nieobserwowanych nie oznacza, że wykazano brak zakłóceń. Wiersze ADS-B i AIS nigdy nie są łączone.
+
+js-interf-route-exposure = Ekspozycja trasy
+
+js-interf-route-needs-map = Najpierw otwórz lub zbuduj co najmniej jedną mapę: trasa jest sprawdzana względem map na tej stronie.
+
+js-interf-route-open-failed = Nie udało się otworzyć trasy: { $reason }.
+
+js-interf-route-range = od { $from } do { $to }
+
+js-interf-route-too-big = { $name }: plik większy niż 24 MiB.
+
+js-interf-row-affected-share = Udział dotkniętych
+
+js-interf-row-aircraft-affected = Statki powietrzne dotknięte
+
+js-interf-row-aircraft-observed = Statki powietrzne zaobserwowane
+
+js-interf-row-aircraft-sampled = Statki powietrzne próbkowane
+
+js-interf-row-area = Powierzchnia
+
+js-interf-row-cell = Komórka
+
+js-interf-row-detectors = Detektory, które się zakwalifikowały
+
+js-interf-row-flagged = Oznaczone: { $detector }
+
+js-interf-row-status = Status
+
+js-interf-row-vessels-observed = Jednostki pływające zaobserwowane
+
+js-interf-rows-skipped =
+    { $count ->
+        [one] { $count } wiersz był nieprawidłowy i został pominięty.
+        [few] { $count } wiersze były nieprawidłowe i zostały pominięte.
+        [many] { $count } wierszy było nieprawidłowych i zostało pominiętych.
+       *[other] { $count } wiersza było nieprawidłowych i zostało pominiętych.
+    }
+
+js-interf-rt-day = Dzień
+
+js-interf-rt-km = Trasa (km)
+
+js-interf-rt-licence = Licencja i atrybucja mapy
+
+js-interf-rt-shares = Udziały trasy
+
+js-interf-rt-source = Źródło
+
+js-interf-sample-failed = Nie udało się otworzyć próbki: { $reason }.
+
+js-interf-save = Zapisz:
+
+js-interf-save-report = Zapisz raport (JSON)
+
+js-interf-show-layer = Pokaż tę warstwę
+
+js-interf-st-anomalous-label = Anomalne
+
+js-interf-st-anomalous-text = Co najmniej jeden detektor oznaczył tu tego dnia wystarczająco wiele różnych jednostek pływających (co najmniej 3 jednostki i 20% zaobserwowanych). Możliwe przyczyny obejmują zakłócenia, ale także wiele zwykłych.
+
+js-interf-st-confounded-label = Dzień zakłócony czynnikiem zewnętrznym
+
+js-interf-st-confounded-text = Mediana udziału komórek w całym dniu była wysoka, co wskazuje na przyczynę o szerokim zasięgu. W takim dniu żadna komórka nie jest uznawana za zdegradowaną; ta komórka w innym przypadku by się wyróżniała.
+
+js-interf-st-degraded-label = Zdegradowane
+
+js-interf-st-degraded-text = Wysoki udział próbkowanych statków powietrznych zgłosił tu tego dnia niską dokładność nawigacji, znacznie powyżej mediany komórek tego dnia. Nie mówi to, dlaczego.
+
+js-interf-st-no-background-label = Brak oszacowania tła
+
+js-interf-st-no-background-text = Tła tego dnia (typowego udziału statków powietrznych zgłaszających niską dokładność) nie udało się oszacować na podstawie wystarczającej liczby komórek, więc żadna komórka nie jest z nim porównywana i żadnej nie rozstrzygnięto.
+
+js-interf-st-not-anomalous-label = Nieanomalne
+
+js-interf-st-not-anomalous-text = Zaobserwowano i żaden detektor się nie zakwalifikował. To nie jest dowód, że nic się nie wydarzyło.
+
+js-interf-st-not-degraded-label = Niezdegradowane
+
+js-interf-st-not-degraded-text = Próbkowano, a udział statków powietrznych zgłaszających niską dokładność się nie wyróżnił. To nie jest dowód, że nic się nie wydarzyło.
+
+js-interf-st-too-few-label = Za mało statków powietrznych
+
+js-interf-st-too-few-text = Opublikowano (zaobserwowano co najmniej 5 różnych statków powietrznych), ale można było próbkować mniej niż 10 statków powietrznych, więc nie podejmuje się rozstrzygnięcia.
+
+js-interf-starting-build = Uruchamianie silnika i budowanie…
+
+js-interf-starting-route = Uruchamianie silnika i sprawdzanie trasy…
+
+js-interf-state-clear-adsb = Czysto
+
+js-interf-state-clear-adsb-text = Zaobserwowano przy wystarczającej liczbie statków powietrznych i nie oznaczono. To nie jest dowód, że nic się nie wydarzyło.
+
+js-interf-state-clear-ais = Czysto
+
+js-interf-state-clear-ais-text = Zaobserwowano przy wystarczającej liczbie jednostek pływających i nie oznaczono. To nie jest dowód, że nic się nie wydarzyło.
+
+js-interf-state-degraded-adsb = Zdegradowane
+
+js-interf-state-degraded-adsb-text = Wysoki udział próbkowanych statków powietrznych zgłosił tu tego dnia niską dokładność nawigacji, znacznie powyżej mediany komórek tego dnia.
+
+js-interf-state-degraded-ais = Anomalne
+
+js-interf-state-degraded-ais-text = Co najmniej jeden detektor oznaczył tu tego dnia wystarczająco wiele różnych jednostek pływających (co najmniej 3 jednostki i 20% zaobserwowanych).
+
+js-interf-state-notobs-adsb = Nie zaobserwowano
+
+js-interf-state-notobs-adsb-text = Nie narysowano komórki: zaobserwowano zbyt mało statków powietrznych, by ją opublikować. To nie jest dowód, że obszar był wolny od zakłóceń.
+
+js-interf-state-notobs-ais = Nie zaobserwowano
+
+js-interf-state-notobs-ais-text = Nie narysowano komórki: zaobserwowano zbyt mało jednostek pływających, by ją opublikować. To nie jest dowód, że obszar był wolny od zakłóceń.
+
+js-interf-state-unassessed-adsb = Nieocenione
+
+js-interf-state-unassessed-adsb-text = Zaobserwowano, ale można było próbkować zbyt mało statków powietrznych, dzień był zakłócony czynnikiem zewnętrznym albo nie udało się oszacować tła tego dnia, więc nie podejmuje się rozstrzygnięcia.
+
+js-interf-state-unassessed-ais = Nieocenione
+
+js-interf-state-unassessed-ais-text = Zaobserwowano, ale nie podejmuje się rozstrzygnięcia.
+
+js-interf-status-unknown = Status, którego ta strona nie opisuje.
+
+js-interf-table-first = Pokazano pierwsze { $shown } z { $total } komórek, najpierw te, które mają znaczenie.
+
+js-interf-table-summary = Każda narysowana komórka w tabeli ({ $n })
+
+js-interf-the-day = Dzień
+
+js-interf-unknown-date = nieznana data
+
+js-interf-warn-cell-size = Ten plik używa rozmiaru komórki { $size }°, który nie jest tym zarejestrowanym z góry: nie jest to metoda zarejestrowana z góry, więc jego rozstrzygnięcia nie są porównywalne z plikami, które jej używają.
+
+js-interf-warn-cell-size-known = Ten plik używa rozmiaru komórki { $size }°, który nie jest tym zarejestrowanym z góry ({ $registered }°): nie jest to metoda zarejestrowana z góry, więc jego rozstrzygnięcia nie są porównywalne z plikami, które jej używają.
+
+js-interf-warn-day-confounded = Ten dzień jest zakłócony czynnikiem zewnętrznym: żadnej komórki nie uznano za zdegradowaną z powodu tła tego dnia (mediana udziału komórek sama była wysoka).
+
+js-interf-warn-flag-disagrees =
+    { $count ->
+        [one] { $count } komórka ma flagę „degraded”, która nie zgadza się z jej statusem. Rysowany jest status.
+        [few] { $count } komórki mają flagę „degraded”, która nie zgadza się z ich statusem. Rysowany jest status.
+        [many] { $count } komórek ma flagę „degraded”, która nie zgadza się z ich statusem. Rysowany jest status.
+       *[other] { $count } komórki ma flagę „degraded”, która nie zgadza się z ich statusem. Rysowany jest status.
+    }
+
+js-interf-warn-no-licence = Ten plik nie zawiera tekstu: { $fields }. Jest pokazany, ale mapy bez licencji i atrybucji nie należy ponownie publikować.
+
+js-interf-warn-on-land-off = Detektor na lądzie był wyłączony dla tego pliku (nie dostarczono wielokątów lądu).
+
+js-interf-warn-skipped =
+    { $count ->
+        [one] { $count } obiekt nie był prawidłowym GeoJSON i został pominięty.
+        [few] { $count } obiekty nie były prawidłowym GeoJSON i zostały pominięte.
+        [many] { $count } obiektów nie było prawidłowym GeoJSON i zostało pominiętych.
+       *[other] { $count } obiektu nie było prawidłowym GeoJSON i zostało pominiętych.
+    }
+
+js-interf-warn-unknown-status = Wartości statusu nieznane tej stronie: { $values }. Są rysowane jako „bez rozstrzygnięcia”.
+
+js-interf-withheld = wstrzymano (mniej niż 5)
+
+js-interf-written-by = zapisane przez Kshana { $version }
+
+js-kind-axis-3-d-position-error-m = błąd pozycji 3D (m)
+
+js-kind-axis-c-n0-db-hz = C/N0 (dB-Hz)
+
+js-kind-axis-code-jitter-m = drżenie kodu (m)
+
+js-kind-axis-code-tracking-jitter-m = drżenie śledzenia kodu (m)
+
+js-kind-axis-doppler-shift-hz = przesunięcie Dopplera (Hz)
+
+js-kind-axis-effective-c-n0-db-hz = efektywne C/N0 (dB-Hz)
+
+js-kind-axis-elevation = elewacja (°)
+
+js-kind-axis-fit-interval-s = przedział dopasowania (s)
+
+js-kind-axis-formal-position-sigma-m = formalna sigma pozycji (m)
+
+js-kind-axis-latitude = szerokość geograficzna (°)
+
+js-kind-axis-leo-satellites-added-to-the = satelity LEO dodane do rozwiązania pozycji
+
+js-kind-axis-mean-satellites-in-view = średnia liczba widocznych satelitów
+
+js-kind-axis-median-dilution-of-precision = mediana współczynnika rozmycia dokładności
+
+js-kind-axis-median-error-m = mediana błędu (m)
+
+js-kind-axis-median-pdop = mediana PDOP
+
+js-kind-axis-metres = metry
+
+js-kind-axis-observation-window-s = okno obserwacji (s)
+
+js-kind-axis-offset-from-the-signal-s = odsunięcie od środka sygnału (MHz)
+
+js-kind-axis-offset-from-the-snapshot-centre = odsunięcie od środka migawki (MHz)
+
+js-kind-axis-pdop = PDOP
+
+js-kind-axis-position-error-m = błąd pozycji (m)
+
+js-kind-axis-power-spectral-density-db-hz = gęstość widmowa mocy (dB/Hz, moc jednostkowa)
+
+js-kind-axis-power-spectral-density-dbw-hz = gęstość widmowa mocy (dBW/Hz)
+
+js-kind-axis-probability-of-detection = prawdopodobieństwo detekcji
+
+js-kind-axis-range-error-m = błąd odległości (m)
+
+js-kind-axis-relays = przekaźniki
+
+js-kind-axis-sisre-root-mean-square-m = SISRE, wartość skuteczna (m)
+
+js-kind-axis-time-error-ns = błąd czasu (ns)
+
+js-kind-axis-time-s = czas (s)
+
+js-kind-axis-time-since-the-start-min = czas od początku (min)
+
+js-kind-axis-update-period-s = okres aktualizacji (s)
+
+js-kind-cap-body-pnt-label = Pozycjonowanie przekaźnikowe
+
+js-kind-cap-campaign-label = Kampania
+
+js-kind-cap-constellation-design-label = Pokrycie
+
+js-kind-cap-leo-navmsg-label = Komunikat nawigacyjny
+
+js-kind-cap-leo-pass-label = Przelot i łącze
+
+js-kind-cap-leo-pnt-chain-label = Łańcuch od końca do końca
+
+js-kind-cap-leo-ppp-label = Pozycjonowanie
+
+js-kind-cap-leo-pvt-label = Pozycjonowanie
+
+js-kind-cap-leo-signal-label = Projekt sygnału
+
+js-kind-cap-lunar-llr-datum-label = Odniesienie laserowego pomiaru odległości
+
+js-kind-cap-ntn-positioning-label = Pozycjonowanie
+
+js-kind-cap-solar-system-label = Układ Słoneczny
+
+js-kind-cap-spectrum-label = Widmo
+
+js-kind-guided-doppler-error-hz = Błąd Dopplera (Hz)
+
+js-kind-guided-duration-s = Czas trwania (s)
+
+js-kind-guided-earth-range-error-m = Błąd odległości od Ziemi (m)
+
+js-kind-guided-elevation-mask = Maska elewacji (°)
+
+js-kind-guided-first-jammer-bandwidth-mhz = Pasmo pierwszej zagłuszarki (MHz)
+
+js-kind-guided-first-jammer-power-dbw = Moc pierwszej zagłuszarki (dBW)
+
+js-kind-guided-first-jammer-range-m = Odległość pierwszej zagłuszarki (m)
+
+js-kind-guided-first-jammer-received-power-dbw = Moc odebrana od pierwszej zagłuszarki (dBW)
+
+js-kind-guided-first-phase-length-s = Długość pierwszej fazy (s)
+
+js-kind-guided-first-shell-altitude-km = Wysokość pierwszej powłoki (km)
+
+js-kind-guided-first-shell-inclination = Nachylenie pierwszej powłoki (°)
+
+js-kind-guided-first-signal-bandwidth-hz = Pasmo pierwszego sygnału (Hz)
+
+js-kind-guided-first-system-range-error-m = Błąd odległości pierwszego systemu (m)
+
+js-kind-guided-fit-interval-s = Przedział dopasowania (s)
+
+js-kind-guided-gravity-field-degree = Stopień pola grawitacyjnego
+
+js-kind-guided-grid-step = Krok siatki (°)
+
+js-kind-guided-integration-time-s = Czas integracji (s)
+
+js-kind-guided-leo-satellites-in-the-sweep = Satelity LEO w przeglądzie
+
+js-kind-guided-loop-bandwidth-hz = Pasmo pętli (Hz)
+
+js-kind-guided-monte-carlo-runs = Przebiegi Monte Carlo
+
+js-kind-guided-network-synchronisation-error-m = Błąd synchronizacji sieci (m)
+
+js-kind-guided-orbit-altitude-km = Wysokość orbity (km)
+
+js-kind-guided-orbit-determination-error-m = Błąd wyznaczania orbity (m)
+
+js-kind-guided-orbit-inclination = Nachylenie orbity (°)
+
+js-kind-guided-pdop-threshold = Próg PDOP
+
+js-kind-guided-peak-elevation-of-the-pass = Maksymalna elewacja przelotu (°)
+
+js-kind-guided-points-per-orbit-track = Punkty na ślad orbity
+
+js-kind-guided-receiver-noise-figure-db = Współczynnik szumów odbiornika (dB)
+
+js-kind-guided-receiver-power-when-awake-mw = Moc odbiornika w stanie czuwania (mW)
+
+js-kind-guided-reference-c-n0-db-hz = Odniesienie C/N0 (dB-Hz)
+
+js-kind-guided-relay-altitude-km = Wysokość przekaźnika (km)
+
+js-kind-guided-relay-inclination = Nachylenie przekaźnika (°)
+
+js-kind-guided-relay-planes = Płaszczyzny przekaźników
+
+js-kind-guided-relay-range-error-m = Błąd odległości do przekaźnika (m)
+
+js-kind-guided-relays-per-plane = Przekaźniki na płaszczyznę
+
+js-kind-guided-runs-per-case = Przebiegi na przypadek
+
+js-kind-guided-satellite-altitude-km = Wysokość satelity (km)
+
+js-kind-guided-second-system-range-error-m = Błąd odległości drugiego systemu (m)
+
+js-kind-guided-shared-condition = Wspólny warunek
+
+js-kind-guided-slant-electron-content-tecu = Ukośna zawartość elektronów (TECU)
+
+js-kind-guided-slant-range-km = Odległość ukośna (km)
+
+js-kind-guided-spoofed-offset-m = Przesunięcie spoofingu (m)
+
+js-kind-guided-spoofing-starts-s = Początek spoofingu (s)
+
+js-kind-guided-sweep-from = Przegląd od
+
+js-kind-guided-sweep-steps = Kroki przeglądu
+
+js-kind-guided-sweep-to = Przegląd do
+
+js-kind-guided-timeline-step-s = Krok osi czasu (s)
+
+js-kind-guided-tracking-threshold-db-hz = Próg śledzenia (dB-Hz)
+
+js-kind-guided-transmit-power-dbw = Moc nadawania (dBW)
+
+js-kind-guided-update-period-s = Okres aktualizacji (s)
+
+js-kind-guided-user-latitude = Szerokość geograficzna użytkownika (°)
+
+js-kind-hint-a-band-under-this-carrier = pasmo poniżej tej gęstości stosunku nośnej do szumu utraciło synchronizację
+
+js-kind-hint-a-grid-point-is-available = punkt siatki jest dostępny, gdy jego współczynnik rozmycia dokładności pozycji jest poniżej tej wartości
+
+js-kind-hint-a-satellite-must-be-this = satelita musi znajdować się tak wysoko, by liczyć się jako widoczny
+
+js-kind-hint-a-satellite-must-be-this-2 = satelita musi znajdować się tak wysoko, by był używany
+
+js-kind-hint-a-satellite-of-the-first = satelita pierwszego systemu musi znajdować się tak wysoko
+
+js-kind-hint-arc-one-message-is-fitted = łuk, na którym dopasowuje się jeden komunikat
+
+js-kind-hint-code-tracking-loop-noise-bandwidth = pasmo szumowe pętli śledzenia kodu
+
+js-kind-hint-detail-of-the-truth-orbit = szczegółowość modelu grawitacyjnego orbity wzorcowej
+
+js-kind-hint-distance-from-the-first-jammer = odległość od pierwszej zagłuszarki do odbiornika
+
+js-kind-hint-distance-to-the-satellite-in = odległość do satelity w zestawieniu pasm
+
+js-kind-hint-drawn-while-acquiring-and-tracking = pobierana podczas akwizycji i śledzenia
+
+js-kind-hint-equivalent-isotropically-radiated-power-of = równoważna moc promieniowana izotropowo pierwszej zagłuszarki
+
+js-kind-hint-equivalent-isotropically-radiated-power-of-2 = równoważna moc promieniowana izotropowo pasma
+
+js-kind-hint-filter-runs-averaged-for-each = przebiegi filtra uśredniane dla każdego przypadku (więcej oznacza wolniej)
+
+js-kind-hint-first-value-of-the-swept = pierwsza wartość przeglądanego parametru
+
+js-kind-hint-height-of-the-chain-s = wysokość satelity łańcucha
+
+js-kind-hint-height-of-the-first-shell = wysokość orbit pierwszej powłoki
+
+js-kind-hint-height-of-the-relay-orbits = wysokość orbit przekaźników nad ciałem
+
+js-kind-hint-height-of-the-satellite-whose = wysokość satelity, którego komunikat jest dopasowywany
+
+js-kind-hint-how-far-the-spoofer-moves = o ile spoofer przesuwa obliczoną pozycję
+
+js-kind-hint-how-finely-each-orbit-is = jak gęsto każda orbita jest próbkowana do rysunku
+
+js-kind-hint-how-high-the-satellite-climbs = jak wysoko wznosi się satelita
+
+js-kind-hint-how-long-the-first-phase = jak długo trwa pierwsza faza
+
+js-kind-hint-how-long-the-receiver-integrates = jak długo odbiornik integruje jedną odległość
+
+js-kind-hint-how-many-low-orbit-satellites = ile satelitów niskiej orbity dodaje przegląd geometrii
+
+js-kind-hint-how-many-seeded-runs-make = ile przebiegów z ziarnem (seed) tworzy zespół
+
+js-kind-hint-how-many-values-are-run = ile wartości jest uruchamianych
+
+js-kind-hint-how-often-a-new-message = jak często wydawany jest nowy komunikat
+
+js-kind-hint-how-wide-the-first-jammer = jak szeroko pierwsza zagłuszarka rozkłada swoją moc
+
+js-kind-hint-ionosphere-along-the-path-in = jonosfera wzdłuż ścieżki, w jednostkach całkowitej zawartości elektronów
+
+js-kind-hint-last-value-of-the-swept = ostatnia wartość przeglądanego parametru
+
+js-kind-hint-length-of-each-filter-run = długość każdego przebiegu filtra
+
+js-kind-hint-length-of-the-run = długość przebiegu
+
+js-kind-hint-length-of-the-timeline = długość osi czasu
+
+js-kind-hint-occupied-bandwidth-of-the-first = zajmowane pasmo pierwszego sygnału odniesienia
+
+js-kind-hint-one-sigma-doppler-measurement-error = błąd pomiaru Dopplera o jednej sigma
+
+js-kind-hint-one-sigma-error-of-a = błąd odległości do przekaźnika o jednej sigma
+
+js-kind-hint-one-sigma-error-of-the = błąd dwukierunkowej odległości od Ziemi o jednej sigma
+
+js-kind-hint-orbital-planes-of-the-navigation = płaszczyzny orbitalne przekaźników nawigacyjnych
+
+js-kind-hint-power-of-the-first-jammer = moc pierwszej zagłuszarki w odbiorniku
+
+js-kind-hint-raises-the-noise-floor-under = podnosi poziom szumu pod każdym pasmem
+
+js-kind-hint-satellites-in-each-plane = satelity w każdej płaszczyźnie
+
+js-kind-hint-sets-the-doppler-range-a = ustala zakres Dopplera, który musi objąć zimne wyszukiwanie
+
+js-kind-hint-signal-in-space-range-error = błąd odległości sygnału w przestrzeni pierwszego systemu
+
+js-kind-hint-signal-in-space-range-error-2 = błąd odległości sygnału w przestrzeni drugiego systemu
+
+js-kind-hint-signal-level-the-tracking-figures = poziom sygnału, przy którym podawane są wartości śledzenia
+
+js-kind-hint-spacing-of-the-latitude-and = rozstaw siatki szerokości i długości geograficznej
+
+js-kind-hint-spacing-of-the-shared-mission = rozstaw wspólnej siatki czasu misji
+
+js-kind-hint-the-part-of-the-range = ta część błędu odległości, której komunikat nie może usunąć
+
+js-kind-hint-the-value-every-member-runs = wartość, przy której działa każdy element zespołu
+
+js-kind-hint-tilt-of-that-orbit = nachylenie tej orbity
+
+js-kind-hint-tilt-of-the-first-shell = nachylenie płaszczyzn pierwszej powłoki
+
+js-kind-hint-tilt-of-the-relay-planes = nachylenie płaszczyzn przekaźników
+
+js-kind-hint-timing-error-between-satellites-as = błąd czasu między satelitami, wyrażony jako odległość
+
+js-kind-hint-when-the-spoofer-captures-the = kiedy spoofer przejmuje odbiornik
+
+js-kind-hint-where-the-receiver-stands = gdzie znajduje się odbiornik
+
+js-kind-hint-where-the-user-stands = gdzie znajduje się użytkownik
+
+js-kind-label-3-d-error = błąd 3D
+
+js-kind-label-3-d-error-time-of = błąd 3D, czas przybycia
+
+js-kind-label-a-corrupted-frame-is-rejected = uszkodzona ramka jest odrzucana
+
+js-kind-label-all-channels = wszystkie kanały
+
+js-kind-label-availability = Dostępność
+
+js-kind-label-band = Pasmo
+
+js-kind-label-bodies = Ciała
+
+js-kind-label-body = Ciało
+
+js-kind-label-both = oba
+
+js-kind-label-case = Przypadek
+
+js-kind-label-class = Klasa
+
+js-kind-label-code-jitter = drżenie kodu
+
+js-kind-label-constellation = Konstelacja
+
+js-kind-label-doppler = Doppler
+
+js-kind-label-event = Zdarzenie
+
+js-kind-label-evidence = Dowód
+
+js-kind-label-fewest-in-view = Najmniej w zasięgu widoczności
+
+js-kind-label-field = Pole
+
+js-kind-label-first-detection-after-onset = Pierwsza detekcja po początku
+
+js-kind-label-frame-length = Długość ramki
+
+js-kind-label-fused = połączone
+
+js-kind-label-fused-cap = Połączone
+
+js-kind-label-gnss = GNSS
+
+js-kind-label-gnss-and-leo = GNSS i LEO
+
+js-kind-label-gnss-channels = Kanały GNSS
+
+js-kind-label-gnss-highest-in-sky = GNSS { $id } (najwyżej na niebie)
+
+js-kind-label-gnss-only = tylko GNSS
+
+js-kind-label-gnss-only-cap = Tylko GNSS
+
+js-kind-label-gnss-signal = Sygnał GNSS
+
+js-kind-label-hdop = HDOP
+
+js-kind-label-highest = Najwyższe
+
+js-kind-label-horizontal-error = błąd poziomy
+
+js-kind-label-horizontal-error-2 = Błąd poziomy
+
+js-kind-label-jammer = Zagłuszarka
+
+js-kind-label-jump-threshold = Próg skoku
+
+js-kind-label-largest-range-jump = Największy skok odległości
+
+js-kind-label-largest-range-jump-against-the = największy skok odległości względem progu
+
+js-kind-label-leo = LEO
+
+js-kind-label-leo-channels = Kanały LEO
+
+js-kind-label-leo-only = tylko LEO
+
+js-kind-label-light-time-from-observer = Czas światła od: { $observer }
+
+js-kind-label-light-time-from-the-observer = Czas światła od obserwatora
+
+js-kind-label-light-time-one-way = Czas światła w jedną stronę
+
+js-kind-label-lowest = Najniższe
+
+js-kind-label-lowest-c-n0 = Najniższe C/N0
+
+js-kind-label-mean = Średnia
+
+js-kind-label-mean-in-view = Średnio w zasięgu widoczności
+
+js-kind-label-median-convergence = Mediana zbieżności
+
+js-kind-label-median-pdop = Mediana PDOP
+
+js-kind-label-member-runs = Przebiegi elementów
+
+js-kind-label-message-switch-iod = przełączenie komunikatu, wydanie danych (IOD) { $old } na { $new }
+
+js-kind-label-mission-length = Długość misji
+
+js-kind-label-model = model
+
+js-kind-label-monte-carlo-runs = Przebiegi Monte Carlo
+
+js-kind-label-noise-floor = Poziom szumu
+
+js-kind-label-parameters = Parametry
+
+js-kind-label-payload = Ładunek
+
+js-kind-label-pdop = PDOP
+
+js-kind-label-pdop-95th-percentile = PDOP, 95. percentyl
+
+js-kind-label-peak-elevation = Maksymalna elewacja
+
+js-kind-label-peak-tracked-c-n0 = Maksymalne śledzone C/N0
+
+js-kind-label-phase = Faza
+
+js-kind-label-predicted-horizontal-sigma = przewidywana sigma pozioma
+
+js-kind-label-quantisation-position = Kwantyzacja, pozycja
+
+js-kind-label-range-error = błąd odległości
+
+js-kind-label-relays-above-the-mask = przekaźniki ponad maską
+
+js-kind-label-relays-and-earth-link = przekaźniki i łącze z Ziemią
+
+js-kind-label-relays-only = tylko przekaźniki
+
+js-kind-label-satellite = Satelita
+
+js-kind-label-satellites = Satelity
+
+js-kind-label-satellites-used = Użyte satelity
+
+js-kind-label-signal = Sygnał
+
+js-kind-label-signal-chip-spacing = { $name } (odstęp chipów: { $spacing })
+
+js-kind-label-sisre-after-quantisation = SISRE po kwantyzacji
+
+js-kind-label-sisre-root-mean-square = SISRE, wartość skuteczna
+
+js-kind-label-spoofing-starts = początek spoofingu
+
+js-kind-label-standard-deviation = Odchylenie standardowe
+
+js-kind-label-sun-separation = Odległość kątowa od Słońca
+
+js-kind-label-sweep-runs = Przebiegi przeglądu
+
+js-kind-label-system = System
+
+js-kind-label-time-above-the-mask = Czas ponad maską
+
+js-kind-label-time-error-root-mean-square = Błąd czasu, wartość skuteczna
+
+js-kind-label-tracked-component = śledzony składnik
+
+js-kind-label-tracking-threshold = Próg śledzenia
+
+js-kind-label-transmit-bandwidth = Pasmo nadawania
+
+js-kind-label-vdop = VDOP
+
+js-kind-label-welch-estimate-of-the-synthesised = Estymata Welcha zsyntetyzowanych próbek
+
+js-kind-label-whole-signal = cały sygnał
+
+js-kind-label-wideband-j-s-tolerated = Tolerowane J/S szerokopasmowe
+
+js-kind-label-with-unit = { $label } ({ $unit })
+
+js-kind-label-worst-site-availability = Dostępność w najgorszej lokalizacji
+
+js-kind-no = nie
+
+js-kind-note-a-gap-is-an-epoch = Przerwa to epoka, w której widocznych jest zbyt mało przekaźników, by wyznaczyć pozycję.
+
+js-kind-note-a-helmert-transform-is-the = Transformacja Helmerta to siedmioparametrowe przesunięcie, obrót i skala między dwoma układami odniesienia.
+
+js-kind-note-a-low-earth-orbit-leo = Satelita na niskiej orbicie okołoziemskiej (LEO) przecina niebo w ciągu minut, więc jego C/N0 (stosunek mocy nośnej do gęstości szumu) rośnie i opada w kształcie dzwonu; satelita GNSS w tym samym czasie ledwo się porusza.
+
+js-kind-note-a-receiver-independent-exchange-format = Rekord w stylu RINEX 4 (Receiver Independent Exchange Format). Typy rekordów LEO są rozszerzeniem Kshana, jak mówi nagłówek.
+
+js-kind-note-a-single-pass-fixes-the = Pojedynczy przelot wyznacza kierunek wzdłuż toru znacznie lepiej niż kierunek poprzeczny do toru.
+
+js-kind-note-aos-is-acquisition-of-signal = AOS to uzyskanie sygnału, TCA to czas największego zbliżenia, a LOS to utrata sygnału.
+
+js-kind-note-c-n0-is-the-carrier = C/N0 to stosunek mocy nośnej do gęstości szumu. Pasmo poniżej progu śledzenia odbiornika utraciło synchronizację.
+
+js-kind-note-cells-are-the-code-and = Komórki to przedziały kodu i Dopplera, które musi sprawdzić zimne wyszukiwanie.
+
+js-kind-note-cold-is-a-first-fix = Zimny start to pierwsze wyznaczenie pozycji bez wcześniejszej wiedzy; gorący start to wyznaczenie wkrótce po poprzednim.
+
+js-kind-note-dilution-of-precision-dop-scales = Rozmycie dokładności (DOP) przelicza błąd odległości na błąd pozycji: G to geometryczne, P pozycji, H poziome, V pionowe. Percentyle obejmują każdy punkt siatki i każdą epokę.
+
+js-kind-note-drawn-at-the-strongest-signal = Narysowane przy najsilniejszym poziomie sygnału w przebiegu. Przerwa to odcinek, w którym nie widać żadnego satelity.
+
+js-kind-note-each-body-carries-its-own = Każde ciało ma własną etykietę dowodu. Czas światła jest w jedną stronę, od obserwatora wskazanego w scenariuszu.
+
+js-kind-note-each-row-is-one-full = Każdy wiersz to jeden pełny przebieg silnika dla przeglądanego scenariusza.
+
+js-kind-note-each-rule-is-a-switch = Każda reguła to przełączenie na nowszy komunikat w środku przelotu.
+
+js-kind-note-each-signal-is-drawn-about = Każdy sygnał jest narysowany wokół własnej częstotliwości środkowej. Przerwa to zero widmowe.
+
+js-kind-note-eirp-is-the-equivalent-isotropically = EIRP to równoważna moc promieniowana izotropowo.
+
+js-kind-note-every-phase-is-an-ordinary = Każda faza to zwykły przebieg scenariusza. Skróty identyfikują dane wejściowe każdego elementu i jego dokument wyniku.
+
+js-kind-note-iod-is-the-issue-of = IOD to wydanie danych: numer seryjny komunikatu.
+
+js-kind-note-j-s-is-the-jammer = J/S to stosunek mocy zagłuszarki do mocy sygnału. Ułamek śledzenia to część przebiegu, w której pasmo pozostaje powyżej progu.
+
+js-kind-note-p05-p50-and-p95-are = p05, p50 i p95 to 5., 50. i 95. percentyl. ci95 to 95-procentowy przedział ufności dla średniej.
+
+js-kind-note-parameters-are-public-with-a = Parametry są PUBLIC (ze źródłem), REPRESENTATIVE lub WORKSHOP, zgodnie z opisem każdego ustawienia wstępnego.
+
+js-kind-note-precise-point-positioning-ppp-converges = Precyzyjne pozycjonowanie punktowe (PPP) jest zbieżne, gdy błąd pozostaje poniżej kryterium. NEES to znormalizowany kwadrat błędu estymacji, kontrola spójności filtra.
+
+js-kind-note-sisre-defined = SISRE to błąd odległości sygnału w przestrzeni: to, co nadawany komunikat dodaje do odległości użytkownika. Tutaj jest to błąd reprezentacji komunikatu względem własnej orbity wzorcowej silnika.
+
+js-kind-note-sisre-is-the-signal-in = SISRE to błąd odległości sygnału w przestrzeni przyjęty dla nadawanej orbity i zegara każdego systemu.
+
+js-kind-note-ssc-is-the-spectral-separation = SSC to współczynnik separacji widmowej: jaka część mocy jednego sygnału wpada do odbiornika drugiego. Kreska oznacza, że oba sygnały się nie nakładają.
+
+js-kind-note-the-chain-runs-the-signal = Łańcuch przechodzi po kolei etapy: sygnał, przelot, komunikat nawigacyjny, pozycjonowanie i precyzyjne pozycjonowanie. Każdy wiersz to liczba, którą jeden etap obliczył, a następny wykorzystał.
+
+js-kind-note-the-doppler-and-pass-geometry = Monitor Dopplera i geometrii przelotu porównuje zmierzone prędkości zmiany odległości z przewidywanymi na podstawie orbit. Reguła wskazuje początek spoofingu.
+
+js-kind-note-the-engine-draws-its-spectrum = Silnik generuje swój model widma jako próbki fazowe i kwadraturowe (IQ) w jednej chwili i z nich z powrotem estymuje widmo. Te same próbki są eksportem SigMF (Signal Metadata Format).
+
+js-kind-note-the-engine-s-own-documented = Własna udokumentowana ramka binarna silnika, zamknięta 24-bitową cykliczną kontrolą nadmiarową (CRC-24Q).
+
+js-kind-note-the-gabor-root-mean-square = Pasmo Gabora (wartość skuteczna) określa, jak ostro można mierzyć odległość za pomocą sygnału.
+
+js-kind-note-the-largest-jammer-to-signal = Największy stosunek zagłuszarki do sygnału (J/S), przy którym każdy sygnał jest nadal śledzony, dla zagłuszarki fali ciągłej (CW), o dopasowanym widmie i szerokopasmowej.
+
+js-kind-note-the-shapiro-delay-is-the = Opóźnienie Shapiro to dodatkowy czas światła wynikający z grawitacji Słońca wzdłuż ścieżki.
+
+js-kind-note-the-spectrum-kind-and-the = Rodzaj widma i rodzaj zagłuszania obliczają to samo łącze na dwa sposoby; ostatnia kolumna to ich różnica.
+
+js-kind-note-time-of-arrival-toa-ranging = Pomiar odległości metodą czasu przybycia (TOA) na łączu w dół sieci nienaziemnej (NTN): szerszy sygnał mierzy odległość dokładniej.
+
+js-kind-note-what-half-a-least-significant = Ile kosztuje pół najmniej znaczącego bitu (LSB) każdego pola w pozycji i w zegarze, wyrażone jako odległość.
+
+js-kind-rowhead-block = Blok
+
+js-kind-rowhead-condition = Warunek
+
+js-kind-rowhead-figure = Wartość
+
+js-kind-rowhead-member = Element
+
+js-kind-rowhead-metric = Miara
+
+js-kind-rowhead-monitor = Monitor
+
+js-kind-rowhead-phase = Faza
+
+js-kind-rowhead-satellite = Satelita
+
+js-kind-rowhead-signal = Sygnał
+
+js-kind-rowhead-solution = Rozwiązanie
+
+js-kind-sub-clock-offset-db = { $clock }, { $offset } dB
+
+js-kind-sub-doppler-only = tylko Doppler
+
+js-kind-sub-from-to = od { $from } do { $to }
+
+js-kind-sub-fused = połączone
+
+js-kind-sub-gnss-and-leo-latitude = GNSS i LEO, szerokość geograficzna { $lat }°
+
+js-kind-sub-gnss-only = tylko GNSS
+
+js-kind-sub-gnss-only-latitude = tylko GNSS, szerokość geograficzna { $lat }°
+
+js-kind-sub-model-fit-seconds = { $model }, dopasowanie { $fit } s
+
+js-kind-threshold-4-needed-for-a-fix = potrzeba 4 do wyznaczenia pozycji
+
+js-kind-threshold-convergence-criterion = kryterium zbieżności
+
+js-kind-threshold-elevation-mask = maska elewacji
+
+js-kind-threshold-gnss-median = mediana GNSS
+
+js-kind-threshold-tracking-threshold = próg śledzenia
+
+js-kind-title-acquisition = Akwizycja
+
+js-kind-title-against-a-simulated-campaign = Względem symulowanej kampanii
+
+js-kind-title-assumptions = Założenia
+
+js-kind-title-band-trade-at-equal-transmit = Zestawienie pasm przy równej mocy nadawania
+
+js-kind-title-bands = Pasma
+
+js-kind-title-beside-the-published-figures = Obok opublikowanych wartości
+
+js-kind-title-beside-the-published-speed-up = Obok opublikowanego przyspieszenia
+
+js-kind-title-bodies = Ciała
+
+js-kind-title-body = Ciało
+
+js-kind-title-by-latitude = Według szerokości geograficznej
+
+js-kind-title-c-n0-by-band-over = C/N0 według pasma w czasie przebiegu
+
+js-kind-title-c-n0-over-the-pass = C/N0 w czasie przelotu
+
+js-kind-title-cases = Przypadki
+
+js-kind-title-central-body = Ciało centralne
+
+js-kind-title-closed-form-doppler-against-finite = Doppler w postaci zamkniętej względem różnic skończonych
+
+js-kind-title-code-tracking-jitter = Drżenie śledzenia kodu
+
+js-kind-title-code-tracking-jitter-against-c = Drżenie śledzenia kodu względem C/N0
+
+js-kind-title-combined-over-the-members = Łącznie dla wszystkich elementów
+
+js-kind-title-compatibility-with-gnss-signals = Kompatybilność z sygnałami GNSS
+
+js-kind-title-constellations = Konstelacje
+
+js-kind-title-continuity-across-message-switches = Ciągłość przy przełączeniach komunikatów
+
+js-kind-title-cross-check-against-the-jamming = Kontrola krzyżowa względem rodzaju zagłuszania
+
+js-kind-title-datum-accuracy = Dokładność odniesienia
+
+js-kind-title-dilution-of-precision-over-the = Rozmycie dokładności na całej siatce
+
+js-kind-title-doppler = Doppler
+
+js-kind-title-doppler-envelopes = Obwiednie Dopplera
+
+js-kind-title-doppler-only-fix = Pozycja wyłącznie z Dopplera
+
+js-kind-title-doppler-over-the-pass = Doppler w czasie przelotu
+
+js-kind-title-doppler-positioning-from-one-pass = Pozycjonowanie Dopplerowskie z jednego przelotu
+
+js-kind-title-earth-link = Łącze z Ziemią
+
+js-kind-title-elevation = Elewacja
+
+js-kind-title-encoded-frame = Zakodowana ramka
+
+js-kind-title-epoch = Epoka
+
+js-kind-title-epoch-and-frame = Epoka i układ odniesienia
+
+js-kind-title-events = Zdarzenia
+
+js-kind-title-every-node-of-the-sweep = Każdy węzeł przeglądu
+
+js-kind-title-field-table = Tabela pól
+
+js-kind-title-figures-of-merit = Wskaźniki jakości
+
+js-kind-title-filter-noise = Szum filtra
+
+js-kind-title-fit-interval-trade = Zestawienie przedziałów dopasowania
+
+js-kind-title-fix-quality-against-observation-window = Jakość pozycji względem okna obserwacji
+
+js-kind-title-frame-checks = Kontrole ramki
+
+js-kind-title-frame-hexadecimal = Ramka, szesnastkowo
+
+js-kind-title-geometry-against-latitude = Geometria względem szerokości geograficznej
+
+js-kind-title-geometry-as-leo-satellites-are = Geometria przy dodawaniu satelitów LEO
+
+js-kind-title-geometry-position-dilution-of-precision = Geometria: rozmycie dokładności pozycji
+
+js-kind-title-global-coverage = Pokrycie globalne
+
+js-kind-title-gnss-leo-and-fused = GNSS, LEO i połączone
+
+js-kind-title-gnss-reference = Odniesienie GNSS
+
+js-kind-title-hand-offs-between-phases = Przekazania między fazami
+
+js-kind-title-helmert-fit = Dopasowanie Helmerta
+
+js-kind-title-helmert-transform-parameters = Parametry transformacji Helmerta
+
+js-kind-title-inputs = Dane wejściowe
+
+js-kind-title-ionosphere-free-band-pairs = Pary pasm wolne od wpływu jonosfery
+
+js-kind-title-jammer-tolerance = Tolerancja na zagłuszarkę
+
+js-kind-title-jammers = Zagłuszarki
+
+js-kind-title-joint-fix = Wspólne wyznaczenie pozycji
+
+js-kind-title-leo-against-gnss = LEO względem GNSS
+
+js-kind-title-limitations = Ograniczenia
+
+js-kind-title-links = Łącza
+
+js-kind-title-member-runs = Przebiegi elementów
+
+js-kind-title-members-under-the-shared-conditions = Elementy przy wspólnych warunkach
+
+js-kind-title-message = Komunikat
+
+js-kind-title-message-models-compared = Porównanie modeli komunikatów
+
+js-kind-title-message-switches = Przełączenia komunikatów
+
+js-kind-title-metric-against-axis = { $metric } względem { $axis }
+
+js-kind-title-metric-distribution-over-runs = { $metric }: rozkład w przebiegach
+
+js-kind-title-mid-pass-update = Aktualizacja w środku przelotu
+
+js-kind-title-modelled = Modelowane
+
+js-kind-title-monte-carlo = Monte Carlo
+
+js-kind-title-navigation-message-stage = Etap komunikatu nawigacyjnego
+
+js-kind-title-not-modelled = Niemodelowane
+
+js-kind-title-notes = Uwagi
+
+js-kind-title-notes-on-the-spoofing-model = Uwagi o modelu spoofingu
+
+js-kind-title-observation-windows = Okna obserwacji
+
+js-kind-title-one-pass-alone = Sam jeden przelot
+
+js-kind-title-orbit = Orbita
+
+js-kind-title-over-the-message-sequence = W sekwencji komunikatów
+
+js-kind-title-pass = Przelot
+
+js-kind-title-pass-c-n0-of-the = Przelot: C/N0 całego sygnału i śledzonego składnika
+
+js-kind-title-pass-code-tracking-jitter = Przelot: drżenie śledzenia kodu
+
+js-kind-title-pass-doppler = Przelot: Doppler
+
+js-kind-title-pass-stage = Etap przelotu
+
+js-kind-title-passes = Przeloty
+
+js-kind-title-phases = Fazy
+
+js-kind-title-position-error-gnss-leo-and = Błąd pozycji: GNSS, LEO i pozycja połączona
+
+js-kind-title-position-uncertainty-relays-alone-and = Niepewność pozycji: same przekaźniki oraz z łączem z Ziemią
+
+js-kind-title-positioning-by-signal-bandwidth = Pozycjonowanie według pasma sygnału
+
+js-kind-title-positioning-gnss-alone-against-the = Pozycjonowanie: sam GNSS względem pozycji połączonej
+
+js-kind-title-power-spectral-density = Gęstość widmowa mocy
+
+js-kind-title-power-spectral-density-of-each = Gęstość widmowa mocy każdego sygnału
+
+js-kind-title-precise-point-positioning = Precyzyjne pozycjonowanie punktowe
+
+js-kind-title-published-comparison = Opublikowane porównanie
+
+js-kind-title-quantisation-budget = Budżet kwantyzacji
+
+js-kind-title-range-residuals = Residua odległości
+
+js-kind-title-ranging-stations = Stacje pomiaru odległości
+
+js-kind-title-reading-the-trade = Jak czytać zestawienie
+
+js-kind-title-realised-position-error = Rzeczywisty błąd pozycji
+
+js-kind-title-receiver = Odbiornik
+
+js-kind-title-receiver-power-budget = Budżet mocy odbiornika
+
+js-kind-title-reflector-information = Informacje o reflektorach
+
+js-kind-title-relay-constellation = Konstelacja przekaźników
+
+js-kind-title-relays-in-view = Przekaźniki w zasięgu widoczności
+
+js-kind-title-reproducibility = Odtwarzalność
+
+js-kind-title-retroreflectors = Retroreflektory
+
+js-kind-title-rinex-style-record = Rekord w stylu RINEX
+
+js-kind-title-round-trips = Przebiegi w obie strony
+
+js-kind-title-run = Przebieg
+
+js-kind-title-satellites-in-view-against-latitude = Widoczne satelity względem szerokości geograficznej
+
+js-kind-title-sensitivity-to-a-line-of = Wrażliwość na nachylenie linii widzenia
+
+js-kind-title-shared-conditions = Wspólne warunki
+
+js-kind-title-signal-components = Składniki sygnału
+
+js-kind-title-signal-stage = Etap sygnału
+
+js-kind-title-signals = Sygnały
+
+js-kind-title-sisre-against-fit-interval = SISRE względem przedziału dopasowania
+
+js-kind-title-sisre-against-update-period = SISRE względem okresu aktualizacji
+
+js-kind-title-sisre-weights = Wagi SISRE
+
+js-kind-title-snapshot = Migawka
+
+js-kind-title-snapshot-against-the-model = Migawka względem modelu
+
+js-kind-title-snapshot-spectrum-welch-estimate-against = Widmo migawki: estymata Welcha względem modelu
+
+js-kind-title-sources = Źródła
+
+js-kind-title-spoofer-and-monitor-settings = Ustawienia spoofera i monitora
+
+js-kind-title-spoofing-monitor-probability-of-detection = Monitor spoofingu: prawdopodobieństwo detekcji
+
+js-kind-title-statistics-over-the-runs = Statystyki z przebiegów
+
+js-kind-title-sweep = Przegląd
+
+js-kind-title-systems = Systemy
+
+js-kind-title-systems-in-the-fix = Systemy w wyznaczeniu pozycji
+
+js-kind-title-the-archived-campaign = Zarchiwizowana kampania
+
+js-kind-title-time-error = Błąd czasu
+
+js-kind-title-time-error-by-receiver-clock = Błąd czasu według zegara odbiornika
+
+js-kind-title-time-scale = Skala czasu
+
+js-kind-title-time-to-first-fix-and = Czas do pierwszego wyznaczenia pozycji i energia na wyznaczenie
+
+js-kind-title-time-transfer-by-clock-and = Transfer czasu według zegara i poziomu sygnału
+
+js-kind-title-trade-conditions = Warunki zestawienia
+
+js-kind-title-update-period-trade = Zestawienie okresów aktualizacji
+
+js-kind-title-user = Użytkownik
+
+js-kind-title-user-range-error-through-the = Błąd odległości użytkownika w czasie przelotu
+
+js-kind-title-validated = Sprawdzone
+
+js-kind-title-what-each-stage-hands-to = Co każdy etap przekazuje następnemu
+
+js-kind-title-what-this-run-is-and = Czym ten przebieg jest, a czym nie jest
+
+js-kind-title-when-each-monitor-detects = Kiedy każdy monitor wykrywa
+
+js-kind-title-work-done = Wykonana praca
+
+js-kind-yes = tak
+
+js-ledger-rows =
+    { $n ->
+        [one] { $n } wiersz rejestru
+        [few] { $n } wiersze rejestru
+        [many] { $n } wierszy rejestru
+       *[other] { $n } wiersza rejestru
+    }
+
+js-lib-abbr-apv = podejście z prowadzeniem pionowym
+
+js-lib-abbr-araim = zaawansowane autonomiczne monitorowanie integralności przez odbiornik
+
+js-lib-abbr-auc = pole pod krzywą
+
+js-lib-abbr-c-n0 = gęstość stosunku nośnej do szumu
+
+js-lib-abbr-ccsds = Komitet Konsultacyjny ds. Systemów Danych Kosmicznych
+
+js-lib-abbr-cli = interfejs wiersza poleceń
+
+js-lib-abbr-csac = atomowy zegar w skali układu scalonego
+
+js-lib-abbr-cw = fala ciągła
+
+js-lib-abbr-doi = cyfrowy identyfikator obiektu
+
+js-lib-abbr-dop = rozmycie dokładności
+
+js-lib-abbr-eo = obserwacja Ziemi
+
+js-lib-abbr-gnss = globalny system nawigacji satelitarnej
+
+js-lib-abbr-gps = Globalny System Pozycjonowania
+
+js-lib-abbr-hal = pozioma granica alarmowa
+
+js-lib-abbr-hpl = poziomy poziom ochrony
+
+js-lib-abbr-imu = inercyjna jednostka pomiarowa
+
+js-lib-abbr-ins = inercyjny system nawigacji
+
+js-lib-abbr-iot = Internet Rzeczy
+
+js-lib-abbr-itu-t = Międzynarodowy Związek Telekomunikacyjny, Sektor Normalizacji Telekomunikacji
+
+js-lib-abbr-j-s = stosunek mocy zagłuszarki do mocy sygnału
+
+js-lib-abbr-leo = niska orbita okołoziemska
+
+js-lib-abbr-llr = księżycowy pomiar odległości laserem
+
+js-lib-abbr-meo = średnia orbita okołoziemska
+
+js-lib-abbr-mtie = maksymalny błąd interwału czasu
+
+js-lib-abbr-ntn = sieć nienaziemna
+
+js-lib-abbr-ocxo = oscylator kwarcowy z termostatem
+
+js-lib-abbr-oem = komunikat efemeryd orbity
+
+js-lib-abbr-omm = komunikat elementów średnich orbity
+
+js-lib-abbr-pdop = rozmycie dokładności pozycji
+
+js-lib-abbr-pnt = pozycjonowanie, nawigacja i czas
+
+js-lib-abbr-ppp = precyzyjne pozycjonowanie punktowe
+
+js-lib-abbr-raim = autonomiczne monitorowanie integralności przez odbiornik
+
+js-lib-abbr-rf = częstotliwość radiowa
+
+js-lib-abbr-rinex = Receiver Independent Exchange Format (format wymiany niezależny od odbiornika)
+
+js-lib-abbr-roc = charakterystyka pracy odbiornika
+
+js-lib-abbr-sbas = satelitarny system wspomagania
+
+js-lib-abbr-sgp4 = Simplified General Perturbations 4, propagator orbity
+
+js-lib-abbr-sisre = błąd odległości sygnału w przestrzeni
+
+js-lib-abbr-slam = jednoczesna lokalizacja i mapowanie
+
+js-lib-abbr-spp = pozycjonowanie jednopunktowe
+
+js-lib-abbr-tdev = odchylenie czasu
+
+js-lib-abbr-tle = dwuwierszowy zestaw elementów orbity
+
+js-lib-abbr-toml = format pliku scenariusza
+
+js-lib-abbr-trn = nawigacja odniesiona do terenu
+
+js-lib-abbr-uhf = ultrawysoka częstotliwość
+
+js-lib-abbr-ukf = bezśladowy filtr Kalmana
+
+js-lib-abbr-utc = uniwersalny czas koordynowany
+
+js-lib-abbr-val = pionowa granica alarmowa
+
+js-lib-abbr-vlbi = interferometria o bardzo długiej linii bazowej
+
+js-lib-abbr-vpl = pionowy poziom ochrony
+
+js-lib-abbr-wg = grupa robocza
+
+js-lib-areas-ground-track = Ślad naziemny
+
+js-lib-areas-holdover = Holdover
+
+js-lib-compare-availability = Dostępność
+
+js-lib-compare-holdover = Holdover
+
+js-lib-compare-timing-p95 = Synchronizacja czasu p95
+
+js-lib-compare-timing-rms = Synchronizacja czasu RMS
+
+js-lib-counts-explorer-tally = sprawdzone względem zewnętrznej wyroczni: { $validated } z { $total } możliwości · modelowane: { $modelled } · po stronie partnera: { $partner } — pokazane tu jako karty możliwości: { $cards }, w obszarach: { $domains }, twierdzeń dowodowych: { $evidence }
+
+js-lib-counts-validated-tally = sprawdzone względem zewnętrznej wyroczni: { $validated } z { $total } możliwości — pokazane tu jako karty możliwości: { $cards } i twierdzenia dowodowe: { $evidence }
+
+js-lib-engine-busy = { $verb }…
+
+js-lib-engine-busy-seconds = { $verb }… { $s } s
+
+js-lib-engine-page-http = plik silnika zwrócił HTTP { $status }
+
+js-lib-engine-page-not-running = silnik nie działa tutaj
+
+js-lib-engine-worker-crashed = proces roboczy silnika uległ awarii
+
+js-lib-evidence-aria = Dowód: { $tier }, { $count }
+
+js-lib-evidence-ledger-rows =
+    { $n ->
+        [one] { $n } wiersz rejestru
+        [few] { $n } wiersze rejestru
+        [many] { $n } wierszy rejestru
+       *[other] { $n } wiersza rejestru
+    }
+
+js-lib-evidence-rows-behind = Wiersze rejestru stojące za tym wynikiem
+
+js-lib-geometry-url-bad-mc = Liczba próbek Monte Carlo nie jest jedną z: { $choices }; używana jest wartość { $default }.
+
+js-lib-geometry-url-bad-number = „{ $key }” nie jest liczbą od { $min } do { $max }; używana jest wartość domyślna.
+
+js-lib-geometry-url-bad-site = Lokalizacja nie ma postaci szerokość,długość[,wysokość] w dopuszczalnym zakresie; używana jest lokalizacja domyślna.
+
+js-lib-geometry-url-bad-sky = Horyzont nie jest ustawieniem predefiniowanym, tabelą 360 przedziałów ani kanionem w dopuszczalnym zakresie; używany jest otwarty horyzont.
+
+js-lib-geometry-url-bad-sys = Lista konstelacji nie składa się z G, E, C i co najwyżej jednego L:<ustawienie LEO>, które ten widok zna; używana jest domyślna mieszanka.
+
+js-lib-geometry-url-own-tle = Nadawca użył własnych elementów orbity (TLE), których łącze nie przenosi; zamiast nich pokazane są ustawienia predefiniowane.
+
+js-lib-geometry-url-repeated = „{ $key }” występuje więcej niż raz; używana jest pierwsza wartość.
+
+js-lib-geometry-url-too-long = Adres jest dłuższy niż { $max } znaków, więc żadne z jego ustawień nie zostało odczytane.
+
+js-lib-geometry-url-unreadable = Nie udało się odczytać adresu.
+
+js-lib-guided-duration-s-hint = jak długo propagować ślad naziemny
+
+js-lib-guided-duration-s-label = Czas trwania (s)
+
+js-lib-guided-dut1-s-hint = przesunięcie obrotu Ziemi; przesuwa ślad naziemny na wschód lub zachód
+
+js-lib-guided-dut1-s-label = UT1−UTC (s)
+
+js-lib-guided-mask-deg-hint = satelita musi znajdować się tak wysoko, by liczyć się jako widoczny
+
+js-lib-guided-mask-deg-label = Maska elewacji (°)
+
+js-lib-guided-seed-hint = inne losowanie szumu przy tej samej fizyce
+
+js-lib-guided-seed-label = Ziarno losowe (seed)
+
+js-lib-guided-sigma-uere-m-hint = błąd odległości równoważny użytkownikowi 1-σ do podsumowania pozycji
+
+js-lib-guided-sigma-uere-m-label = Błąd odległości σ (m)
+
+js-lib-guided-station-lat-deg-hint = szerokość geograficzna stacji naziemnej — wyznacza geometrię przelotu
+
+js-lib-guided-station-lat-deg-label = Szerokość geograficzna stacji (°)
+
+js-lib-guided-station-lon-deg-hint = długość geograficzna stacji naziemnej
+
+js-lib-guided-station-lon-deg-label = Długość geograficzna stacji (°)
+
+js-lib-guided-step-s-hint = częstość próbkowania śladu naziemnego
+
+js-lib-guided-step-s-label = Krok czasu (s)
+
+js-lib-guided-threshold-ns-hint = budżet mieszczący się w specyfikacji; „dostępny”, dopóki błąd pozostaje poniżej niego
+
+js-lib-guided-threshold-ns-label = Próg specyfikacji (ns)
+
+js-lib-guided-time-duration-s-hint = całkowita długość przebiegu
+
+js-lib-guided-time-duration-s-label = Czas trwania (s)
+
+js-lib-guided-time-step-s-hint = częstość całkowania / próbkowania
+
+js-lib-guided-time-step-s-label = Krok czasu (s)
+
+js-lib-guided-user-altitude-km-hint = wysokość orbity statku kosmicznego użytkownika
+
+js-lib-guided-user-altitude-km-label = Wysokość użytkownika (km)
+
+js-lib-guided-user-inclination-deg-hint = nachylenie orbity użytkownika
+
+js-lib-guided-user-inclination-deg-label = Nachylenie użytkownika (°)
+
+js-lib-imufit-card-accel-slope = Nachylenie Allana akcelerometru, początkowe (około -0,5 dla szumu białego)
+
+js-lib-imufit-card-bias = Dryf zera akcelerometru, średnia (m/s²)
+
+js-lib-imufit-card-bias-instability = Niestabilność dryfu zera akcelerometru (m/s²), 0, gdy krzywa nie ma dna
+
+js-lib-imufit-card-gyro-bias = Dryf zera żyroskopu, średnia (rad/s)
+
+js-lib-imufit-card-gyro-slope = Nachylenie Allana żyroskopu, początkowe (około -0,5 dla szumu białego)
+
+js-lib-imufit-card-note-n = Uwaga { $n }
+
+js-lib-imufit-card-q-arw = Błądzenie losowe kąta żyroskopu, q_arw (rad²/s)
+
+js-lib-imufit-card-q-va = Błądzenie losowe prędkości akcelerometru, q_va (m²/s³)
+
+js-lib-imufit-card-sample-rate = Częstość próbkowania
+
+js-lib-imufit-card-samples = Próbki
+
+js-lib-imufit-card-span = Zakres
+
+js-lib-jammertest-card-clean-epochs = Epoki czyste
+
+js-lib-jammertest-card-clean-hours = Godziny czyste
+
+js-lib-jammertest-card-detected = Wykryte w tolerancji
+
+js-lib-jammertest-card-detection-rate = Wskaźnik detekcji (dowolny alarm)
+
+js-lib-jammertest-card-evaluable = Oceniane
+
+js-lib-jammertest-card-fa-epochs = Epoki fałszywych alarmów
+
+js-lib-jammertest-card-fa-per-hour = Przebiegi fałszywych alarmów na godzinę
+
+js-lib-jammertest-card-fa-runs = Przebiegi fałszywych alarmów
+
+js-lib-jammertest-card-in-tol-rate = Wykryte w tolerancji, wskaźnik
+
+js-lib-jammertest-card-late = Spóźnione
+
+js-lib-jammertest-card-median-latency = Mediana opóźnienia detekcji
+
+js-lib-jammertest-card-median-recover = Mediana czasu odzyskania
+
+js-lib-jammertest-card-missed = Niewykryte
+
+js-lib-jammertest-card-na = n/d
+
+js-lib-jammertest-card-not-assessable = W tym dzienniku nie dało się ocenić żadnego testu, więc nie można podać wskaźnika detekcji ani opóźnienia. To jest wynik, a nie usterka strony: nic tu nie jest zaliczone.
+
+js-lib-jammertest-card-not-json = { $name }: to nie jest JSON ({ $reason }).
+
+js-lib-jammertest-card-not-scorecard = { $name }: to nie jest karta wyników jammertest (wymaga tests[] i summary).
+
+js-lib-jammertest-card-tests = Testy w wycinku planu
+
+js-lib-jammertest-card-too-large = { $name }: plik większy niż 8 MiB; ta strona odczytuje kartę wyników do tego rozmiaru.
+
+js-lib-kpi-available-everywhere = dostępne wszędzie, w każdej epoce
+
+js-lib-kpi-available-everywhere-pdop = dostępne wszędzie, w każdej epoce (PDOP, rozmycie dokładności pozycji, poniżej { $thr })
+
+js-lib-kpi-drops-under = spada poniżej progu śledzenia { $thr } dB-Hz: utrata synchronizacji
+
+js-lib-kpi-end-of-mission = na końcu misji
+
+js-lib-kpi-figure-tiers = Poziomy wartości: { $parts }.
+
+js-lib-kpi-n-modelled = modelowane: { $n }
+
+js-lib-kpi-n-partner = po stronie partnera: { $n }
+
+js-lib-kpi-n-validated = sprawdzone: { $n }
+
+js-lib-kpi-no-change = bez zmian
+
+js-lib-kpi-no-fix = { $pct } % czasu lub miejsc bez wyznaczonej pozycji
+
+js-lib-kpi-no-fix-pdop = { $pct } % czasu lub miejsc bez wyznaczonej pozycji przy PDOP poniżej { $thr }
+
+js-lib-kpi-over-jump = powyżej progu skoku { $thr } m
+
+js-lib-kpi-over-pdop = powyżej progu PDOP { $thr }
+
+js-lib-kpi-stays-above = pozostaje powyżej progu śledzenia { $thr } dB-Hz
+
+js-lib-kpi-under-jump = poniżej progu skoku { $thr } m
+
+js-lib-kpi-under-pdop = poniżej progu PDOP { $thr }
+
+js-lib-orbit3d-apogee = apogeum
+
+js-lib-orbit3d-perigee = perigeum
+
+js-lib-orbit3d-prov-scenario = scenariusz { $hash }
+
+js-lib-orbit3d-title = Orbita (ECI, rzut ortograficzny)
+
+js-lib-orbit3d-view-angles = az { $az }° · el { $el }°
+
+js-lib-overlay-meta-clock-bias-m = Dryf zegara
+
+js-lib-overlay-meta-converged-pos-3sigma-m = Pozycja 3σ
+
+js-lib-overlay-meta-converged-pos-rms-m = Pozycja RMS
+
+js-lib-overlay-meta-converged-pos-sigma-m = Pozycja σ
+
+js-lib-overlay-meta-final-clock-freq-sigma = σ częstotliwości zegara
+
+js-lib-overlay-meta-mean-relays-in-view = Przekaźniki w zasięgu widoczności
+
+js-lib-overlay-meta-pos-p95-m = Pozycja p95
+
+js-lib-overlay-meta-pos-rms-m = Pozycja RMS
+
+js-lib-overlay-meta-postfit-rms-m = RMS po dopasowaniu
+
+js-lib-overlay-prov-scenario = scenariusz { $hash }
+
+js-lib-overlay-subtitle = |błąd| (ns) w funkcji czasu — przebiegi: { $n }
+
+js-lib-overlay-time-s = czas (s)
+
+js-lib-overlay-title = Nałożenie: błąd czasu podczas przerwy
+
+js-lib-packs-cannot-unpack = ta przeglądarka nie może rozpakować zapisanego pliku
+
+js-lib-replay-demos-below-130 = Zachowano tylko azymuty poniżej 130° (podano)
+
+js-lib-replay-demos-coastal-drag-off = Zepchnięcie przy wybrzeżu
+
+js-lib-replay-demos-combined-event = Zdarzenie złożone
+
+js-lib-replay-demos-drag-off-stated = Zepchnięcie pozycji (podane przez wersję demonstracyjną)
+
+js-lib-replay-demos-ferry-drag-off = Rejs promu, zepchnięcie pozycji
+
+js-lib-replay-demos-ferry-drag-off-description = Wymyślony dziennik promu, Tallinn–Helsinki, 1 Hz. Od 1500 s zepchnięcie pozycji odsuwa zgłaszaną pozycję, podczas gdy odbiornik nadal zgłasza prawidłowe wyznaczenie pozycji.
+
+js-lib-replay-demos-fjord = Naturalna degradacja w fiordzie
+
+js-lib-replay-demos-masked-sky = Rejs promu, połowa nieba zasłonięta
+
+js-lib-replay-demos-masked-sky-description = Ten sam dziennik promu z wyciszoną zachodnią połową nieba od 600 s, węższym niebem od 900 s do 1200 s i zepchnięciem pozycji od 1500 s: jeden przebieg, w którym kolejno zawodzą niebo, sygnał i pozycja.
+
+js-lib-replay-demos-open-sea-jamming = Zagłuszanie na otwartym morzu
+
+js-lib-replay-demos-port-approach = Spoofing czasu przy podejściu do portu
+
+js-lib-replay-demos-source-training = Scenariusz syntetyczny { $id }: strumień nmea_training silnika i dziennik instruktora, oceniane przez zaufanie do odbiornika silnika.
+
+js-lib-replay-demos-source-trust = Dziennik syntetyczny { $id }: wymyślone NMEA, oceniane przez zaufanie do odbiornika silnika.
+
+js-lib-replay-demos-west-masked = Zachodnia połowa nieba zasłonięta (podano)
+
+js-lib-replay-demos-west-masked-again = Zachodnia połowa ponownie zasłonięta (podano)
+
+js-lib-report-charts = Wykresy
+
+js-lib-report-eyebrow = dokładna chwila
+
+js-lib-report-figures-of-merit = Wskaźniki jakości
+
+js-lib-report-footer = Kshana { $version } · scenariusz { $hash } · wygenerowano { $iso }. Odtwarzalne na podstawie scenariusza, ziarna (seed) i wersji silnika. Działa lokalnie; nic nie jest wysyłane.
+
+js-lib-report-not-applicable = nie dotyczy (nie skonfigurowano ataku)
+
+js-lib-report-scenario-definition = Definicja scenariusza (TOML)
+
+js-lib-report-th-clock = Zegar
+
+js-lib-report-th-metric = Miara
+
+js-lib-report-th-validation = Walidacja
+
+js-lib-report-th-value = Wartość
+
+js-lib-report-tier-note = Każdy wskaźnik jakości jest oznaczony jako { $validated } (sprawdzony względem zewnętrznej wyroczni) lub { $modelled } (z pierwszych zasad, testowany wewnętrznie) — wywiedziony z macierzy weryfikacji.
+
+js-lib-report-title = Kshana — raport scenariusza
+
+js-lib-skydraw-azimuth-range = azymut od { $from } do { $to } stopni
+
+js-lib-skydraw-describe = satelity na liście: { $listed }, z sygnałem: { $heard }
+
+js-lib-skydraw-describe-mean = satelity na liście: { $listed }, z sygnałem: { $heard }, średnio { $snr } dB-Hz
+
+js-lib-skydraw-east = E
+
+js-lib-skydraw-no-signal-from = brak sygnału z kierunku: { $sectors }
+
+js-lib-skydraw-none-listed = W tym momencie w dzienniku nie ma żadnych satelitów na liście.
+
+js-lib-skydraw-north = N
+
+js-lib-skydraw-sat-heard = { $sys } { $prn }: elewacja { $el }, azymut { $az }, sygnał { $snr } dB-Hz
+
+js-lib-skydraw-sat-quiet = { $sys } { $prn }: elewacja { $el }, azymut { $az }, na liście, bez sygnału
+
+js-lib-skydraw-south = S
+
+js-lib-skydraw-unheard-sector = Satelity na liście między azymutem { $from } a { $to } stopni, żaden z sygnałem
+
+js-lib-skydraw-west = W
+
+js-lib-skyline-edit-describe = Linia horyzontu na { $blocked } z 360 stopni azymutu; najwyżej { $el }° przy azymucie { $az }°.
+
+js-lib-skyline-edit-open = Otwarty horyzont: brak linii horyzontu.
+
+js-lib-stages-all-planets = Wszystkie planety
+
+js-lib-stages-au-from-sun = { $d } au od Słońca
+
+js-lib-stages-band-carrier = Nośna { $name }, { $mhz } MHz
+
+js-lib-stages-bin-title = { $from } do { $to }{ $unit }: przebiegi: { $count }
+
+js-lib-stages-body-and-moons = { $name } i jego księżyce
+
+js-lib-stages-cell-title = szer. { $lat }°, dł. { $lon }° · { $field } { $value }
+
+js-lib-stages-chain-navmsg = Komunikat nawigacyjny
+
+js-lib-stages-chain-pass = Przelot i łącze
+
+js-lib-stages-chain-ppp = Precyzyjne pozycjonowanie punktowe
+
+js-lib-stages-chain-pvt = Pozycjonowanie połączone
+
+js-lib-stages-chain-signal = Projekt sygnału
+
+js-lib-stages-coverage-aria = { $field } nad ciałem: { $body }, według szerokości i długości geograficznej
+
+js-lib-stages-feature-n = obiekt { $n }
+
+js-lib-stages-flag = flaga
+
+js-lib-stages-frequency-mhz = częstotliwość (MHz)
+
+js-lib-stages-from-to = od { $from } do { $to }
+
+js-lib-stages-geojson-aria = Eksport GeoJSON narysowany na mapie
+
+js-lib-stages-histogram = Histogram
+
+js-lib-stages-inner-planets = Planety wewnętrzne
+
+js-lib-stages-km-from-centre = { $d } km od: { $centre }
+
+js-lib-stages-linear-scale = skala liniowa
+
+js-lib-stages-link-light-time = od { $from } do { $to }: czas światła w jedną stronę { $time } s
+
+js-lib-stages-longitude-axis = długość geograficzna · szerokość geograficzna w górę z boku
+
+js-lib-stages-mission-time = czas misji (s)
+
+js-lib-stages-noise-floor = poziom szumu
+
+js-lib-stages-orrery-note = { $scale } · płaszczyzna x-y układu odniesienia, widziana od jego bieguna północnego
+
+js-lib-stages-panel-n = Panel { $n }
+
+js-lib-stages-plan-view-aria = Widok z góry: { $centre } i otaczające go ciała, { $scale }
+
+js-lib-stages-psd-at-t = Gęstość widmowa mocy dla t = { $t } s
+
+js-lib-stages-psd-axis = gęstość widmowa mocy (dBW/Hz)
+
+js-lib-stages-runs = przebiegi
+
+js-lib-stages-sat-title = { $constellation } { $id } · szer. { $lat }°, dł. { $lon }°
+
+js-lib-stages-satellites = satelity
+
+js-lib-stages-spectrum-at-t = widmo dla t = { $t } s
+
+js-lib-stages-sqrt-scale = skala odległości pierwiastkowa
+
+js-lib-stages-the-body = ciało
+
+js-lib-stages-time-s = czas (s)
+
+js-lib-stages-unit-alarm = Alarm
+
+js-lib-stages-unit-cn0 = Gęstość stosunku nośnej do szumu
+
+js-lib-stages-unit-position = Pozycja i ochrona
+
+js-lib-stages-unit-satellites = Satelity
+
+js-lib-stages-unit-time-error = Błąd czasu
+
+js-lib-stages-waterfall-aria = Wodospad gęstości widmowej mocy: częstotliwość w poziomie, czas w dół
+
+js-lib-stages-whole-band = Całe pasmo
+
+js-lib-sweep-clock-availability = Dostępność: { $who }
+
+js-lib-sweep-clock-holdover = Holdover: { $who } (s)
+
+js-lib-sweep-clock-timing-p95 = Synchronizacja czasu p95: { $who } (ns)
+
+js-lib-sweep-clock-timing-rms = Synchronizacja czasu RMS: { $who } (ns)
+
+js-lib-sweep-max-altitude = maks. wysokość (km)
+
+js-lib-sweep-max-elevation = maks. elewacja (°)
+
+js-lib-sweep-max-speed = maks. prędkość (m/s)
+
+js-lib-sweep-min-altitude = min. wysokość (km)
+
+js-lib-sweep-peak-doppler = szczytowy Doppler (Hz)
+
+js-lib-sweep-prov-scenario = scenariusz { $hash }
+
+js-lib-sweep-y-vs-x = { $y } względem { $x }
+
+js-lib-tabs-3d-orbit = Orbita 3D
+
+js-lib-tabs-figures-of-merit = Wskaźniki jakości
+
+js-lib-tabs-stability = Stabilność
+
+js-lib-tabs-sweep = Przegląd
+
+js-lib-tabs-time-series = Szereg czasowy
+
+js-lib-tour-ashforde-body = Dziękujemy za zapoznanie się z Kshana. Tworzymy otwartą, odtwarzalną inżynierię opartą na dowodach dla misji, które nie mogą zawieść — uczciwie wobec tego, co jest sprawdzone, a co modelowane. Pytania, współpraca albo badanie? Napisz do nas: contact@ashforde.org.
+
+js-lib-tour-ashforde-title = Od Ashforde® OÜ
+
+js-lib-tour-capabilities-body = Wybierz kartę obszaru — Orbity, Synchronizacja czasu, Inercyjne, GNSS, Odporność, Księżyc, AI/ML, Interoperacyjność — aby zobaczyć jego możliwości, każdą oznaczoną jako Sprawdzone lub Modelowane, z przyciskiem ▸ uruchom dla przykładowych scenariuszy. Otwórz „Dowody i pochodzenie” w dowolnym obszarze, aby prześledzić dowód, albo przełącz „Tylko sprawdzone”, aby pokazać wyłącznie to, co sprawdzono względem zewnętrznej wyroczni.
+
+js-lib-tour-capabilities-title = Poznaj silnik, obszar po obszarze
+
+js-lib-tour-cite-body = Kshana powstaje po to, by się na nią powoływać — cytowalne wydanie oprogramowania z DOI oraz artykuły w stylu recenzowanym o luce optymizmu w zakłóceniach RF i o warunkowym poziomie ochrony czasu. Skopiuj cytowanie stąd.
+
+js-lib-tour-cite-title = Publikacje i jak cytować
+
+js-lib-tour-download-report-body = Karta Przegląd zmienia jeden parametr w zakresie; „Przypnij do porównania” nakłada dwa lub więcej przebiegów obok siebie wraz z różnicą Δ między nimi (działa dla różnych typów scenariuszy — zegar, Mars-PNT, pozycjonowanie…); a ten przycisk pobiera przebieg jako samodzielny raport HTML do użytku offline.
+
+js-lib-tour-download-report-title = Przegląd, porównanie i eksport
+
+js-lib-tour-guided-body = Pokrętła z przewodnikiem dopasowują się do scenariusza — ziarno (seed), próg specyfikacji, czas trwania, maska elewacji, wysokość orbity — a każda zmiana natychmiast uruchamia przebieg ponownie.
+
+js-lib-tour-guided-title = Dostrój suwaki
+
+js-lib-tour-mcp-body = Serwer MCP pozwala asystentom AI uruchamiać sprawdzony silnik zamiast zgadywać; wtyczka JetBrains uruchamia scenariusze z menu po kliknięciu prawym przyciskiem.
+
+js-lib-tour-mcp-title = Używaj z agenta AI lub z IDE
+
+js-lib-tour-playground-body = Wybierz scenariusz z listy — albo naciśnij ▸ uruchom przy dowolnej możliwości powyżej — a silnik uruchomi się jako WebAssembly na twoim komputerze. Nic nie jest wysyłane.
+
+js-lib-tour-playground-title = Uruchom w przeglądarce
+
+js-lib-tour-run-body = Uruchom bieżący scenariusz. Otwórz „Zaawansowane”, aby edytować TOML i zmienić cokolwiek; „Skopiuj link do udostępnienia” odtwarza dokładnie ten przebieg dla kogoś innego.
+
+js-lib-tour-run-title = Uruchom
+
+js-lib-tour-tabs-body = Przełączaj się między wskaźnikami jakości, wykresem szeregu czasowego, stabilnością zegara (odchylenie Allana) oraz — dla przebiegów orbit — interaktywnym widokiem orbity 3D.
+
+js-lib-tour-tabs-title = Odczytaj wyniki
+
+js-lib-tour-validation-body = Ten sam eksplorator jest także rejestrem dowodów: każdy obszar ma szufladę „Dowody i pochodzenie” — wartość, zewnętrzna wyrocznia, względem której ją sprawdzono, i uczciwy status Sprawdzone / Modelowane dla każdego twierdzenia. „Tylko sprawdzone” filtruje do wierszy sprawdzonych na zbiorze danych.
+
+js-lib-tour-validation-title = Dowody, nie przymiotniki
+
+js-lib-views-3-sigma-bound = granica 3-sigma
+
+js-lib-views-3d-position-error = błąd pozycji 3D
+
+js-lib-views-a-parameter = parametr
+
+js-lib-views-band-runs = Pasmo błędu czasu w { $runs } przebiegach Monte Carlo
+
+js-lib-views-band-the-runs = Pasmo błędu czasu w przebiegach Monte Carlo
+
+js-lib-views-below-tracking = poniżej progu śledzenia
+
+js-lib-views-chart = wykres
+
+js-lib-views-classical = klasyczny
+
+js-lib-views-epoch = epoka
+
+js-lib-views-four-needed = potrzeba 4 do wyznaczenia pozycji
+
+js-lib-views-free-inertial = swobodny inercyjny
+
+js-lib-views-gnss-denied = bez GNSS
+
+js-lib-views-ground-track = Ślad naziemny
+
+js-lib-views-heatmap-effective = Efektywna gęstość stosunku nośnej do szumu według satelity i czasu
+
+js-lib-views-heatmap-nominal = Nominalna (bez zagłuszarki) gęstość stosunku nośnej do szumu według satelity i czasu
+
+js-lib-views-horizontal-alert-limit = pozioma granica alarmowa
+
+js-lib-views-horizontal-hpl = poziomy (HPL)
+
+js-lib-views-id-bound = granica: { $id }
+
+js-lib-views-id-median = mediana: { $id }
+
+js-lib-views-id-offset = przesunięcie: { $id }
+
+js-lib-views-id-p95 = p95: { $id }
+
+js-lib-views-map-matched = dopasowany do mapy
+
+js-lib-views-map-matched-title = Dopasowany do mapy względem błędu pozycji swobodnego inercyjnego
+
+js-lib-views-metric = miara
+
+js-lib-views-oscillator = oscylator
+
+js-lib-views-oscillator-source = oscylator ({ $source })
+
+js-lib-views-position-error-axis = błąd pozycji ({ $unit })
+
+js-lib-views-position-error-m = błąd pozycji (m)
+
+js-lib-views-position-error-run = Błąd pozycji w czasie przebiegu
+
+js-lib-views-position-m = pozycja (m)
+
+js-lib-views-predicted-time-error = Przewidywany błąd czasu od ostatniego wyznaczenia pozycji
+
+js-lib-views-protection-level-m = poziom ochrony (m)
+
+js-lib-views-protection-levels = Poziomy ochrony względem granicy alarmowej
+
+js-lib-views-quantum = kwant
+
+js-lib-views-relay-error-bound = Błąd pozycji nawigacji przekaźnikowej i jego granica 3-sigma
+
+js-lib-views-satellites = satelity
+
+js-lib-views-satellites-tracking = Satelity widoczne i nadal śledzone
+
+js-lib-views-shaded-gnss-denied = zacieniowane: bez GNSS
+
+js-lib-views-slot-guard = ochrona szczeliny
+
+js-lib-views-spoofed-offset = Przesunięcie czasu wywołane spoofingiem względem granicy detekcji
+
+js-lib-views-sweep-of = Przegląd parametru { $parameter }: { $metric }
+
+js-lib-views-sync-error-axis = błąd synchronizacji ({ $unit })
+
+js-lib-views-sync-error-run = Błąd synchronizacji w czasie przebiegu
+
+js-lib-views-threshold = próg
+
+js-lib-views-time-error-ns = błąd czasu (ns)
+
+js-lib-views-time-ns = czas (ns)
+
+js-lib-views-time-s = czas (s)
+
+js-lib-views-time-since-fix = czas od ostatniego wyznaczenia pozycji (s)
+
+js-lib-views-timing-error-axis = błąd synchronizacji czasu ({ $unit })
+
+js-lib-views-timing-error-run = Błąd synchronizacji czasu w czasie przebiegu
+
+js-lib-views-tracking = śledzenie
+
+js-lib-views-value = wartość
+
+js-lib-views-vertical-vpl = pionowy (VPL)
+
+js-lib-views-visible = widoczne
+
+js-lib-views-word-enbw = równoważne pasmo szumowe
+
+js-lib-views-word-nfft = długość FFT
+
+js-lib-views-word-stec = ukośny TEC
+
+js-lib-views-word-toa = czas przybycia
+
+js-lib-views-word-ttff = czas do pierwszego wyznaczenia pozycji
+
+js-lib-views-word-tx = nadawanie
+
+js-lib-views-word-zwd = zenitalne opóźnienie wilgotne
+
+js-lunar-address-outside-range = { $label }: „{ $raw }” jest poza zakresem od { $min } do { $max }; używana jest wartość z pliku.
+
+js-lunar-address-too-long = Adres był zbyt długi; pokazane są wartości domyślne.
+
+js-lunar-address-unknown-source = Nieznane źródło w adresie; pokazane jest nagranie.
+
+js-lunar-alert-limit = granica alarmowa { $value } (poglądowa)
+
+js-lunar-alert-not-stated = granica alarmowa nie została podana
+
+js-lunar-bearing-east = 90° E
+
+js-lunar-bearing-west = 90° W
+
+js-lunar-cell-title = { $lat }°, { $lon }°: po korekcie { $corrected }, dostępność { $availability }, pokrycie { $coverage }
+
+js-lunar-copy-address = Skopiuj adres z paska adresu.
+
+js-lunar-counts = Satelity: { $sats }, punkty siatki: { $points }, epoki: { $epochs }, próby Monte Carlo na epokę: { $trials }. Etykieta: { $label }.
+
+js-lunar-engine-no-start = Silnik nie mógł się uruchomić w tej przeglądarce ({ $reason }). Otwórz zamiast tego plik wyników.
+
+js-lunar-engine-unknown-kind = Ten silnik ({ $version }) nie zna rodzaju { $kind }; wymaga silnika 0.36.
+
+js-lunar-fig-availability-region = Dostępność w regionie
+
+js-lunar-fig-corrected-3d = Błąd po korekcie, { $n } %, 3D
+
+js-lunar-fig-coverage = Pokrycie
+
+js-lunar-fig-epochs-within = epoki w granicach { $value }
+
+js-lunar-fig-horizontal-vertical = poziomo { $h }, pionowo { $v }
+
+js-lunar-fig-hpl-below-alert = HPL poniżej granicy alarmowej
+
+js-lunar-fig-hpl-vpl = HPL, VPL co najwyżej
+
+js-lunar-fig-improvement = Współczynnik poprawy
+
+js-lunar-fig-lowest-point = Najniższa w punkcie
+
+js-lunar-fig-points-always-available = Punkty dostępne w każdej epoce
+
+js-lunar-fig-uncorrected-3d = Błąd bez korekty, { $n } %, 3D
+
+js-lunar-fig-worst-point = Najgorszy punkt
+
+js-lunar-file-not-json = Ten plik nie jest JSON.
+
+js-lunar-file-not-object = Ten plik nie jest obiektem JSON.
+
+js-lunar-file-too-large = { $name }: plik większy niż 32 MiB; ta strona odczytuje pliki wyników do tego rozmiaru.
+
+js-lunar-file-value = plik: { $value }
+
+js-lunar-full-of-total = { $full } z { $total }
+
+js-lunar-give-value = { $label }: podaj wartość od { $min } do { $max }.
+
+js-lunar-give-whole-value = { $label }: podaj wartość od { $min } do { $max } (liczbę całkowitą).
+
+js-lunar-honesty-affiliation = Bez powiązań z żadną agencją i bez jej poparcia.
+
+js-lunar-honesty-assumptions = Przy podanych publicznych założeniach; nie jest to stwierdzenie o działaniu jakiegokolwiek rzeczywistego systemu.
+
+js-lunar-in-grid-spacing = Rozstaw pierścieni siatki, stopnie
+
+js-lunar-in-latency = Opóźnienie korekty, sekundy
+
+js-lunar-in-seed = Ziarno (seed)
+
+js-lunar-in-station-lat = Szerokość geograficzna stacji, stopnie
+
+js-lunar-in-station-lon = Długość geograficzna stacji, stopnie
+
+js-lunar-in-survey-error = Błąd pomiaru położenia stacji (1-sigma), metry
+
+js-lunar-in-threshold = Próg dokładności, metry
+
+js-lunar-in-time-step = Krok czasu, sekundy
+
+js-lunar-in-trials = Próby Monte Carlo na epokę
+
+js-lunar-input-out-of-range = { $label } jest poza zakresem.
+
+js-lunar-json-field-not-json = Pole json tego pliku nie jest JSON.
+
+js-lunar-key-50-or-more = 50 % lub więcej
+
+js-lunar-key-90-or-more = 90 % lub więcej
+
+js-lunar-key-95-or-more = 95 % lub więcej
+
+js-lunar-key-99-or-more = 99 % lub więcej
+
+js-lunar-key-above = powyżej { $value }
+
+js-lunar-key-above-threshold = powyżej { $value } × próg
+
+js-lunar-key-below-50 = poniżej 50 %
+
+js-lunar-key-between = od { $from } do { $to }
+
+js-lunar-key-between-threshold = od { $from } do { $to } × próg
+
+js-lunar-key-up-to = do { $value }
+
+js-lunar-key-up-to-threshold = do { $value } × próg
+
+js-lunar-layer-availability = dostępność
+
+js-lunar-layer-coverage = pokrycie
+
+js-lunar-layer-error = błąd po korekcie
+
+js-lunar-layer-range = błąd po korekcie w jego własnym zakresie
+
+js-lunar-legend-no-figure = brak wartości (niedostępne przez cały czas)
+
+js-lunar-legend-radius = promień pokrycia
+
+js-lunar-legend-threshold = próg, { $value }
+
+js-lunar-legend-worst = najgorszy punkt
+
+js-lunar-link-copied = Skopiowano link.
+
+js-lunar-map-desc = Punkty siatki: { $points }, od bieguna do szerokości geograficznej { $rim }°. Liczba tych, dla których skorygowany błąd percentyla { $percentile } mieści się w progu { $threshold }: { $meet }. Kolorowane według: { $layer }. Stacja znajduje się w { $lat }°, { $lon }°.
+
+js-lunar-map-note-one-band = { $share } % punktów mieści się w jednym przedziale skali progu, więc mapa pokazuje niewielką zmienność: pokoloruj według „własnego zakresu”, aby zobaczyć, jak błąd zmienia się w regionie.
+
+js-lunar-needs-newer-engine = To badanie wymaga silnika { $need } lub nowszego; silnik działający tutaj to v{ $version }. Nagranie lub plik wyników nadal można pokazać.
+
+js-lunar-no = nie
+
+js-lunar-no-recording = Nagranie tego badania nie jest jeszcze dołączone: powstaje przy wydaniu z silnikiem 0.36. Uruchom je tutaj silnikiem, który ma ten rodzaj, albo otwórz plik wyników.
+
+js-lunar-no-scenario = Ta witryna nie ma jeszcze pliku { $file }: pojawi się z silnikiem 0.36. Otwórz zamiast tego plik wyników.
+
+js-lunar-no-scenario-note = Ta witryna nie ma jeszcze pliku { $file } (pojawi się z silnikiem 0.36), więc przebieg tutaj nie jest możliwy; otwórz zamiast tego plik wyników.
+
+js-lunar-not-report = To nie jest raport { $kind }.
+
+js-lunar-not-stated = nie podano
+
+js-lunar-note-none = Plik nie podaje uwagi.
+
+js-lunar-note-withheld = Własne oświadczenie pliku wymienia program lub agencję, więc ta strona go nie pokazuje; obowiązuje oświadczenie na górze strony.
+
+js-lunar-point-epochs-reason = punkto-epoki: { $reason }
+
+js-lunar-radius-desc = Promień pokrycia dla azymutów: { $count }; najkrótszy { $lo } km przy { $loAz }°, najdłuższy { $hi } km przy { $hiAz }°.
+
+js-lunar-radius-desc-limited = Do krawędzi siatki sięga: { $count }, więc pokrycie biegnie tam co najmniej tak daleko.
+
+js-lunar-radius-hollow = Puste punkty sięgają krawędzi siatki: pokrycie utrzymuje się co najmniej tak daleko w tym kierunku.
+
+js-lunar-radius-none = Raport nie podaje promienia pokrycia.
+
+js-lunar-radius-per-azimuth = promień pokrycia na azymut
+
+js-lunar-radius-point = { $az }°: { $km } km
+
+js-lunar-radius-point-limited = { $az }°: { $km } km (sięga krawędzi siatki: co najmniej tak daleko)
+
+js-lunar-radius-zero = W każdym kierunku pokrycie jest już przy stacji poniżej 95 %, więc promień wynosi 0 km: skorygowany błąd przekracza tam próg { $value }.
+
+js-lunar-reason-station-missing = stacja nie widzi każdego satelity używanego przez użytkownika
+
+js-lunar-reason-user-lt4 = mniej niż czterech satelitów w zasięgu widoczności użytkownika
+
+js-lunar-run-stopped = Przebieg zatrzymano: { $message }
+
+js-lunar-running = Uruchamianie badania w tej przeglądarce…
+
+js-lunar-running-elapsed = Uruchamianie badania w tej przeglądarce… { $seconds } s
+
+js-lunar-scenario-missing-keys = Plik scenariusza nie ma: { $keys }; nie można go tu zmienić.
+
+js-lunar-set-inputs = Ustaw dane wejściowe i naciśnij Uruchom tutaj.
+
+js-lunar-showing = Pokazano: { $what }.
+
+js-lunar-showing-engine = Pokazano: { $what } (silnik { $version }).
+
+js-lunar-source-error = { $what }: { $error }
+
+js-lunar-station = stacja
+
+js-lunar-station-title = stacja { $lat }°, { $lon }°
+
+js-lunar-table-count = Punkty: { $n }, najbliższe stacji najpierw.
+
+js-lunar-th-corrected = Błąd po korekcie, { $n } %
+
+js-lunar-threshold-title = błąd po korekcie { $value } (próg)
+
+js-lunar-what-file = plik { $name }
+
+js-lunar-what-recording = nagranie dołączone do Studio
+
+js-lunar-what-run = przebieg w tej przeglądarce (silnik { $version })
+
+js-lunar-worst-at = przy { $lat }°, { $lon }°
+
+js-lunar-worst-title = najgorszy punkt { $lat }°, { $lon }°: { $value }
+
+js-lunar-yes-at-least = tak: co najmniej tak daleko
+
+js-lunarinfra-above-95-point = powyżej punktu 95 %
+
+js-lunarinfra-advisory = Oprogramowanie wyłącznie doradcze, nie jest to sprzęt z zatwierdzeniem typu; brak jakiejkolwiek ścieżki nadawczej.
+
+js-lunarinfra-arc-note = Długość fali nośnej { $value } m.
+
+js-lunarinfra-arc-title = Każdy łuk
+
+js-lunarinfra-bars-not-loaded = plik progów nie został wczytany
+
+js-lunarinfra-bars-not-shown = Nie udało się pokazać progów ustalonych z góry ({ $reason }).
+
+js-lunarinfra-bars-note = Ustalone przed oceną jakiegokolwiek badania, z rozstrzygnięciami zapisanymi (commit silnika { $commit }). Nic nie jest VALIDATED; próg oznaczony jako NOT MET jest przypięty testem, który stwierdza niespełnienie, i żadnego nie złagodzono.
+
+js-lunarinfra-bars-title = Względem progów ustalonych z góry
+
+js-lunarinfra-bars-wrong-file = plik progów nie jest tym, który odczytuje ta strona
+
+js-lunarinfra-blurb-carrier-phase = Stacja powierzchniowa i orbiter korzystające z podwójnie różnicowanej fazy nośnej sygnałów GNSS z Ziemi: czy można rozwiązać całkowitoliczbowe niejednoznaczności i co to daje dla granicy pozycji? Krótki przykładowy przebieg.
+
+js-lunarinfra-blurb-frame-coestimation = Siedem parametrów księżycowego układu odniesienia z laserowego pomiaru odległości ze stacji na Ziemi, z pomiarami odległości orbiter–stacja powierzchniowa i bez nich: o ile poprawia się informacja?
+
+js-lunarinfra-blurb-geodesy-sensitivity = Jak wrażliwe są laserowy pomiar odległości, śledzenie orbitera, grawimetr i zegar powierzchniowy na księżycowe liczby Love'a h2, k2 i l2 oraz jego librację fizyczną?
+
+js-lunarinfra-blurb-od-consistency = Wyznaczanie orbity na pokładzie z użyciem GNSS z Ziemi na orbicie halo prawie prostoliniowej, względem niezależnego naziemnego rozwiązania radiometrycznego tego samego łuku: czy oba zgadzają się w granicach podanych niepewności i czy kontrola spójności zauważa błąd modelowania, gdy go wprowadzono? Pokazane obok siebie.
+
+js-lunarinfra-blurb-space-tie = GNSS, VLBI i laserowy pomiar odległości na jednym statku kosmicznym: jak dokładnie można powiązać przesunięcia między trzema technikami, względem błędu lokalnego powiązania na statku kosmicznym?
+
+js-lunarinfra-bound-label = Niepewność pozycji, float i fixed, skala logarytmiczna
+
+js-lunarinfra-bound-note = Niepewność pozycji stacji i orbitera o jednej sigma przy niejednoznaczności pozostawionej jako float oraz po jej rozwiązaniu (co dałoby rozwiązanie, gdyby je osiągnięto).
+
+js-lunarinfra-bound-title = Granica pozycji, float i fixed
+
+js-lunarinfra-chip-na = n/d
+
+js-lunarinfra-comp-normal = normalna
+
+js-lunarinfra-comp-position = pozycja (3D)
+
+js-lunarinfra-comp-radial = radialna
+
+js-lunarinfra-comp-transverse = poprzeczna
+
+js-lunarinfra-compare-note = Dla { $sets } losowych zestawów stacji najmniejsza wartość własna nie była mniejsza z łączami orbitera w { $lambda }, a ślad nie był większy w { $trace }; mediana wzrostu najmniejszej wartości własnej wyniosła { $median } razy.
+
+js-lunarinfra-compare-title = Porównanie w liczbach
+
+js-lunarinfra-crsigma-label = Sigma Cramér-Rao, skala logarytmiczna
+
+js-lunarinfra-crsigma-note = W metrach na powierzchni.
+
+js-lunarinfra-crsigma-title = Sigma Cramér-Rao dla każdego parametru
+
+js-lunarinfra-days =
+    { $n ->
+        [one] { $n } dzień
+        [few] { $n } dni
+        [many] { $n } dni
+       *[other] { $n } dnia
+    }
+
+js-lunarinfra-direction = kierunek { $n }
+
+js-lunarinfra-disclosures = Ujawnienia
+
+js-lunarinfra-eig-label = Wartości własne informacji, skala logarytmiczna
+
+js-lunarinfra-eig-note = Siedem wartości własnych macierzy informacji, od najmniejszej, bez łączy orbiter–stacja i z nimi. Najmniejsza rośnie { $times } razy, a ślad Cramér-Rao spada do { $share } swojej wartości. Zakłada się, że orbita jest znana w osiach księżycowych (jej błąd niesie sigma odległości orbitera).
+
+js-lunarinfra-eig-title = Informacja w każdym kierunku układu odniesienia
+
+js-lunarinfra-fact-arc = Łuk
+
+js-lunarinfra-fact-hash = Skrót scenariusza
+
+js-lunarinfra-fact-llr-rows = Wiersze laserowego pomiaru odległości
+
+js-lunarinfra-fact-orbit-family = Rodzina orbit
+
+js-lunarinfra-fact-orbiter-arc = Łuk orbitera
+
+js-lunarinfra-fact-orbiter-rows = Wiersze orbitera
+
+js-lunarinfra-fact-study = Badanie
+
+js-lunarinfra-fact-wavelength = Długość fali nośnej
+
+js-lunarinfra-families-note = Wartość skuteczna pochodnej cząstkowej każdego parametru po wierszach rodziny oraz liczba wierszy. Zero oznacza parametr, na który ta rodzina jest ślepa. Wrażliwość rodziny orbitera na k2 jest wartością z górnego krańca.
+
+js-lunarinfra-families-title = Co widzi każda rodzina
+
+js-lunarinfra-findings = Ustalenia
+
+js-lunarinfra-fix-note-a = Odsetek prób Monte Carlo, które poprawnie rozwiązały każdą całkowitoliczbową niejednoznaczność (z błędem standardowym), oraz odsetek przewidywany przez estymatę bootstrapową.
+
+js-lunarinfra-fix-note-b = Rozwiązanie całkowitoliczbowe NIE zostało osiągnięte przy tych danych wejściowych: najlepszy łuk rozwiązuje { $share } prób.
+
+js-lunarinfra-fix-note-c = Nie ma czasu do rozwiązania do pokazania, bo rozwiązanie nie zostało osiągnięte.
+
+js-lunarinfra-fix-rate-label = Odsetek rozwiązań całkowitoliczbowych względem długości łuku
+
+js-lunarinfra-fix-title = Odsetek rozwiązań względem długości łuku
+
+js-lunarinfra-fixed = fixed
+
+js-lunarinfra-float = float
+
+js-lunarinfra-fraction-above-95 = Odsetek prób powyżej punktu 95 %
+
+js-lunarinfra-ground-radiometric = niezależne naziemne radiometryczne
+
+js-lunarinfra-injected-error = wprowadzony błąd { $value } m/s²
+
+js-lunarinfra-mean-consistency = Średnia statystyka spójności
+
+js-lunarinfra-mean-q = średnie q
+
+js-lunarinfra-miss-line = { $id } ma status { $status }: { $value }
+
+js-lunarinfra-miss-no-fix = Rozwiązanie całkowitoliczbowej niejednoznaczności NIE zostało osiągnięte przy tych danych wejściowych: najlepszy łuk rozwiązuje { $share } prób Monte Carlo.
+
+js-lunarinfra-na = n/d
+
+js-lunarinfra-nominal = nominalne
+
+js-lunarinfra-not-result = to nie jest wynik infrastruktury księżycowej
+
+js-lunarinfra-not-verified = Niezweryfikowane
+
+js-lunarinfra-offset-precision-label = Precyzja przesunięcia względem lokalnego powiązania, log-log
+
+js-lunarinfra-offsets-note = Sigma przesunięcia na oś, sigma skali i obrotu na powierzchni, w metrach.
+
+js-lunarinfra-offsets-title = Przesunięcia przy każdym błędzie powiązania (łuk { $days }-dniowy, epoki: { $epochs })
+
+js-lunarinfra-onboard-gnss = pokładowe GNSS z Ziemi
+
+js-lunarinfra-open-failed = Nie udało się otworzyć: { $title }: { $reason }.
+
+js-lunarinfra-opening = Otwieranie: { $title }…
+
+js-lunarinfra-orbit-uncertainty-log = Niepewność orbity według składowej, skala logarytmiczna
+
+js-lunarinfra-orbiter-days = orbiter, { $days } d
+
+js-lunarinfra-q-note = Średnia statystyki spójności q z prób: { $trials }; { $expected } to wartość, jaką daje spójna para rozwiązań. Odsetek prób powyżej punktu 95 % to wskaźnik detekcji tej kontroli.
+
+js-lunarinfra-q-title = Kontrola spójności, nominalne względem wprowadzonego błędu
+
+js-lunarinfra-recorded =
+    { $n ->
+        [one] { $title }: zapisany wynik silnika (wersja { $version }).
+        [few] { $title }: zapisane wyniki silnika (wersja { $version }).
+        [many] { $title }: zapisane wyniki silnika (wersja { $version }).
+       *[other] { $title }: zapisane wyniki silnika (wersja { $version }).
+    }
+
+js-lunarinfra-rel-label = Sigma względem nominalnej, skala logarytmiczna
+
+js-lunarinfra-rel-note = Sigma Cramér-Rao jako procent wartości nominalnej, ze wszystkimi czterema rodzinami razem. h2 i l2 to punkty linearyzacji, a nie zweryfikowane wartości; k2 pochodzi z opublikowanego dopasowania.
+
+js-lunarinfra-rel-title = Jak dobrze można wyznaczyć każdy parametr względem jego wartości nominalnej
+
+js-lunarinfra-result-not-json = wynik nie jest JSON ({ $reason })
+
+js-lunarinfra-result-not-loaded = zapisany wynik { $file } nie został wczytany
+
+js-lunarinfra-row-above-95 = Próby powyżej punktu 95 % (chi-kwadrat 95 % = { $chi })
+
+js-lunarinfra-row-crtrace = Ślad Cramér-Rao
+
+js-lunarinfra-row-degeneracy = Miara degeneracji
+
+js-lunarinfra-row-formal-diff = Formalna sigma tej różnicy
+
+js-lunarinfra-row-ground-meas = Naziemne: pomiary, epoki ze stacją
+
+js-lunarinfra-row-mean-diff = Średnia różnica obu orbit
+
+js-lunarinfra-row-mean-q = Średnie q (oczekiwane 6)
+
+js-lunarinfra-row-observations = Obserwacje
+
+js-lunarinfra-row-onboard-epochs = Pokładowe: epoki z co najmniej jednym / co najmniej czterema satelitami
+
+js-lunarinfra-row-onboard-meas = Pokładowe: pomiary, średnia liczba śledzonych satelitów
+
+js-lunarinfra-row-origin-scale = Korelacja początek–skala
+
+js-lunarinfra-row-origin-sigma = Sigma początku, m
+
+js-lunarinfra-row-rank-defect = Rząd (defekt)
+
+js-lunarinfra-row-smallest-eig = Najmniejsza wartość własna
+
+js-lunarinfra-row-trace-ground = Próbka względem śladu formalnego, naziemne
+
+js-lunarinfra-row-trace-onboard = Próbka względem śladu formalnego, pokładowe
+
+js-lunarinfra-row-within-95 = Próby w granicach punktu 95 %
+
+js-lunarinfra-series-bootstrapped = bootstrapowane
+
+js-lunarinfra-series-floor = dolna granica
+
+js-lunarinfra-series-monte-carlo = Monte Carlo
+
+js-lunarinfra-side-note = Orbita: { $family }, łuk { $arc }-dniowy orbity { $period }-dniowej, próbkowany co { $sample } s.
+
+js-lunarinfra-side-title = Obok siebie
+
+js-lunarinfra-sigma-note = Niepewność pozycji o jednej sigma według składowej, w metrach, z dwóch estymat tego samego łuku.
+
+js-lunarinfra-sigma-over-nominal = sigma / nominalna
+
+js-lunarinfra-sigma-title = Jak dobrze każda strona zna orbitę
+
+js-lunarinfra-station-days = stacja, { $days } d
+
+js-lunarinfra-status-verdict = { $status }: { $verdict }
+
+js-lunarinfra-subsets-note = Dodanie rodziny nigdy nie obniżyło najmniejszej wartości własnej ({ $lambda } z { $pairs } dodań), ale ślad pseudoodwrotności nie był większy tylko w { $trace } z { $pairs }, ponieważ dodana rodzina może zwiększyć rząd.
+
+js-lunarinfra-subsets-title = Każda kombinacja rodzin
+
+js-lunarinfra-sweep-note = Najgorsza składowa translacji każdego przesunięcia, w metrach, gdy zmienia się błąd powiązania trzech technik na statku kosmicznym. Przy zarejestrowanych sigma technik (GNSS { $gnss } m, VLBI { $vlbi } m, laser { $slr } m) przesunięcia są ograniczone szumem pomiarowym, a nie powiązaniem; powiązanie wyznacza dolną granicę tylko dla niemal doskonałych technik.
+
+js-lunarinfra-sweep-title = Precyzja przesunięć technik względem lokalnego powiązania (łuk { $days }-dniowy)
+
+js-lunarinfra-th-arc-days = Łuk, dni
+
+js-lunarinfra-th-bar = Próg
+
+js-lunarinfra-th-bootstrapped = Odsetek bootstrapowy
+
+js-lunarinfra-th-budget-exhausted = Wyczerpany budżet wyszukiwania (próby)
+
+js-lunarinfra-th-common-sats = Epoki z co najmniej 2 wspólnymi satelitami
+
+js-lunarinfra-th-crtrace = Ślad Cramér-Rao
+
+js-lunarinfra-th-dd-ambiguities = Niejednoznaczności podwójnych różnic
+
+js-lunarinfra-th-epochs = Epoki
+
+js-lunarinfra-th-families = Rodziny
+
+js-lunarinfra-th-family = Rodzina
+
+js-lunarinfra-th-local-tie = Sigma lokalnego powiązania, m
+
+js-lunarinfra-th-mc-fix-rate = Odsetek rozwiązań Monte Carlo
+
+js-lunarinfra-th-median-ambiguity = Mediana sigma niejednoznaczności, cykle
+
+js-lunarinfra-th-offset = Przesunięcie
+
+js-lunarinfra-th-quantity = Wielkość
+
+js-lunarinfra-th-rank = Rząd
+
+js-lunarinfra-th-rotation = Obrót na powierzchni, m
+
+js-lunarinfra-th-rows = Wiersze
+
+js-lunarinfra-th-scale = Skala na powierzchni, m
+
+js-lunarinfra-th-smallest-eig = Najmniejsza wartość własna
+
+js-lunarinfra-th-translation = Translacja x, y, z, m
+
+js-lunarinfra-th-value = Wartość
+
+js-lunarinfra-th-verdict = Werdykt
+
+js-lunarinfra-th-with-links = Z łączami orbitera
+
+js-lunarinfra-th-without-links = Bez łączy orbitera
+
+js-lunarinfra-title-carrier-phase = Faza nośnej, powierzchnia i orbiter
+
+js-lunarinfra-title-frame-coestimation = Współestymacja układu odniesienia
+
+js-lunarinfra-title-geodesy-sensitivity = Liczby Love'a i libracja
+
+js-lunarinfra-title-od-consistency = Spójność wyznaczania orbity
+
+js-lunarinfra-title-space-tie = Powiązanie kosmiczne
+
+js-lunarinfra-unknown-study = ten wynik infrastruktury księżycowej dotyczy badania „{ $study }”, którego ta strona nie odczytuje
+
+js-lunarinfra-where-missed = Gdzie to badanie nie osiągnęło celu.
+
+js-lunarinfra-with-links = z łączami orbitera
+
+js-lunarinfra-without-links = bez łączy orbitera
+
+js-lunarinfra-x-arc-length = długość łuku, dni
+
+js-lunarinfra-x-local-tie = sigma lokalnego powiązania, m (log)
+
+js-lunarinfra-y-fixed-correctly = rozwiązane poprawnie, %
+
+js-lunarinfra-y-offset-sigma = sigma przesunięcia, m (log); linia przerywana to samo powiązanie, sqrt(2) × błąd powiązania
+
+js-meaning-body-generic = ciała
+
+js-meaning-body-the = ciała { $name }
+
+js-meaning-card-label-sub = { $k }, { $sub }
+
+js-meaning-checks-of =
+    { $n ->
+        [one] { $av } z { $n } kontroli
+        [few] { $av } z { $n } kontroli
+        [many] { $av } z { $n } kontroli
+       *[other] { $av } z { $n } kontroli
+    }
+
+js-meaning-coverage-average-label = Średnio w zasięgu widoczności
+
+js-meaning-coverage-big-min =
+    { $n ->
+        [one] Co najmniej { $n } satelita w zasięgu widoczności w każdym miejscu, średnio { $mean }.
+        [few] Co najmniej { $n } satelity w zasięgu widoczności w każdym miejscu, średnio { $mean }.
+        [many] Co najmniej { $n } satelitów w zasięgu widoczności w każdym miejscu, średnio { $mean }.
+       *[other] Co najmniej { $n } satelity w zasięgu widoczności w każdym miejscu, średnio { $mean }.
+    }
+
+js-meaning-coverage-big-none = W niektórych miejscach czasami nie widać żadnego satelity; średnio w zasięgu widoczności: { $mean }.
+
+js-meaning-coverage-fewest-label = Najmniej w zasięgu widoczności, gdziekolwiek
+
+js-meaning-coverage-line-many = Dla systemów razem ({ $names }) wyznaczenie pozycji jest możliwe w { $share } % miejsc i chwil wokół { $body }.
+
+js-meaning-coverage-line-many-pdop = Dla systemów razem ({ $names }) wyznaczenie pozycji jest możliwe w { $share } % miejsc i chwil wokół { $body } (jakość geometrii, PDOP, poniżej { $thr }).
+
+js-meaning-coverage-line-none = Wyznaczenie pozycji jest możliwe w { $share } % miejsc i chwil wokół { $body }.
+
+js-meaning-coverage-line-none-pdop = Wyznaczenie pozycji jest możliwe w { $share } % miejsc i chwil wokół { $body } (jakość geometrii, PDOP, poniżej { $thr }).
+
+js-meaning-coverage-line-one = Dla systemu ({ $names }) wyznaczenie pozycji jest możliwe w { $share } % miejsc i chwil wokół { $body }.
+
+js-meaning-coverage-line-one-pdop = Dla systemu ({ $names }) wyznaczenie pozycji jest możliwe w { $share } % miejsc i chwil wokół { $body } (jakość geometrii, PDOP, poniżej { $thr }).
+
+js-meaning-coverage-places-label = Miejsca, w których da się wyznaczyć pozycję
+
+js-meaning-duration-days =
+    { $n ->
+        [one] { $days } dzień
+        [few] { $days } dni
+        [many] { $days } dni
+       *[other] { $days } dnia
+    }
+
+js-meaning-ensemble-big-many = Przy wielu losowaniach szumu: { $q } mieści się w { $thr } ns średnio przez { $qd }; { $c } przez { $cd }.
+
+js-meaning-ensemble-big-runs =
+    { $n ->
+        [one] Przy { $n } losowaniu szumu: { $q } mieści się w { $thr } ns średnio przez { $qd }; { $c } przez { $cd }.
+        [few] Przy { $n } losowaniach szumu: { $q } mieści się w { $thr } ns średnio przez { $qd }; { $c } przez { $cd }.
+        [many] Przy { $n } losowaniach szumu: { $q } mieści się w { $thr } ns średnio przez { $qd }; { $c } przez { $cd }.
+       *[other] Przy { $n } losowania szumu: { $q } mieści się w { $thr } ns średnio przez { $qd }; { $c } przez { $cd }.
+    }
+
+js-meaning-ensemble-line = W dziewięciu losowaniach na dziesięć { $name } mieści się w zakresie { $band }.
+
+js-meaning-ensemble-mean = średnia
+
+js-meaning-ensemble-mean-band = średnia; pasmo 90 %: { $band }
+
+js-meaning-error-p95-label = Błąd, przez 95 % czasu, { $name }
+
+js-meaning-generic-big = { $label }: { $value }.
+
+js-meaning-generic-line-one = Także z tego przebiegu: { $a }.
+
+js-meaning-generic-line-two = Także z tego przebiegu: { $a } i { $b }.
+
+js-meaning-generic-none = Ten przebieg nie ma jednej głównej wartości; wykres poniżej pokazuje jego wynik.
+
+js-meaning-holdover-label = Holdover, { $name }
+
+js-meaning-hpl-sub = poziomy poziom ochrony
+
+js-meaning-inside-budget = w granicach { $budget }
+
+js-meaning-integrity-big-checks-mostly = Tak, w większości: w { $share } % kontroli.
+
+js-meaning-integrity-big-checks-no = Nie: w { $share } % kontroli.
+
+js-meaning-integrity-big-checks-partly = Tylko częściowo: w { $share } % kontroli.
+
+js-meaning-integrity-big-checks-yes = Tak: w { $share } % kontroli.
+
+js-meaning-integrity-big-span-mostly = Tak, w większości: przez { $share } % { $span }.
+
+js-meaning-integrity-big-span-no = Nie: przez { $share } % { $span }.
+
+js-meaning-integrity-big-span-partly = Tylko częściowo: przez { $share } % { $span }.
+
+js-meaning-integrity-big-span-yes = Tak: przez { $share } % { $span }.
+
+js-meaning-integrity-bound-label = Typowa granica błędu
+
+js-meaning-integrity-bound-sub = poziomo / pionowo, mediana
+
+js-meaning-integrity-gap-all-passed = wszystkie kontrole zaliczone
+
+js-meaning-integrity-gap-label = Najdłuższa przerwa
+
+js-meaning-integrity-gap-none = brak
+
+js-meaning-integrity-gap-sub =
+    { $n ->
+        [one] { $n } kontrola z rzędu, od { $from }
+        [few] { $n } kontrole z rzędu, od { $from }
+        [many] { $n } kontroli z rzędu, od { $from }
+       *[other] { $n } kontroli z rzędu, od { $from }
+    }
+
+js-meaning-integrity-line-h =
+    { $n ->
+        [one] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie) w { $av } z { $tot } kontroli.
+        [few] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie) w { $av } z { $tot } kontroli.
+        [many] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie) w { $av } z { $tot } kontroli.
+       *[other] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie) w { $av } z { $tot } kontroli.
+    }
+
+js-meaning-integrity-line-h-clean =
+    { $n ->
+        [one] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie) w { $av } z { $tot } kontroli, i żadne wyznaczenie pozycji nie wprowadzało w błąd.
+        [few] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie) w { $av } z { $tot } kontroli, i żadne wyznaczenie pozycji nie wprowadzało w błąd.
+        [many] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie) w { $av } z { $tot } kontroli, i żadne wyznaczenie pozycji nie wprowadzało w błąd.
+       *[other] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie) w { $av } z { $tot } kontroli, i żadne wyznaczenie pozycji nie wprowadzało w błąd.
+    }
+
+js-meaning-integrity-line-h-some =
+    { $n ->
+        [one] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie) w { $av } z { $tot } kontroli; { $n } wyznaczenie pozycji wprowadziło w błąd.
+        [few] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie) w { $av } z { $tot } kontroli; { $n } wyznaczenia pozycji wprowadziły w błąd.
+        [many] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie) w { $av } z { $tot } kontroli; { $n } wyznaczeń pozycji wprowadziło w błąd.
+       *[other] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie) w { $av } z { $tot } kontroli; { $n } wyznaczenia pozycji wprowadziło w błąd.
+    }
+
+js-meaning-integrity-line-hv =
+    { $n ->
+        [one] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie i { $v } m w pionie) w { $av } z { $tot } kontroli.
+        [few] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie i { $v } m w pionie) w { $av } z { $tot } kontroli.
+        [many] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie i { $v } m w pionie) w { $av } z { $tot } kontroli.
+       *[other] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie i { $v } m w pionie) w { $av } z { $tot } kontroli.
+    }
+
+js-meaning-integrity-line-hv-clean =
+    { $n ->
+        [one] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie i { $v } m w pionie) w { $av } z { $tot } kontroli, i żadne wyznaczenie pozycji nie wprowadzało w błąd.
+        [few] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie i { $v } m w pionie) w { $av } z { $tot } kontroli, i żadne wyznaczenie pozycji nie wprowadzało w błąd.
+        [many] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie i { $v } m w pionie) w { $av } z { $tot } kontroli, i żadne wyznaczenie pozycji nie wprowadzało w błąd.
+       *[other] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie i { $v } m w pionie) w { $av } z { $tot } kontroli, i żadne wyznaczenie pozycji nie wprowadzało w błąd.
+    }
+
+js-meaning-integrity-line-hv-some =
+    { $n ->
+        [one] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie i { $v } m w pionie) w { $av } z { $tot } kontroli; { $n } wyznaczenie pozycji wprowadziło w błąd.
+        [few] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie i { $v } m w pionie) w { $av } z { $tot } kontroli; { $n } wyznaczenia pozycji wprowadziły w błąd.
+        [many] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie i { $v } m w pionie) w { $av } z { $tot } kontroli; { $n } wyznaczeń pozycji wprowadziło w błąd.
+       *[other] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $h } m w poziomie i { $v } m w pionie) w { $av } z { $tot } kontroli; { $n } wyznaczenia pozycji wprowadziło w błąd.
+    }
+
+js-meaning-integrity-line-none =
+    { $n ->
+        [one] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granicy alarmowej w { $av } z { $tot } kontroli.
+        [few] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granicy alarmowej w { $av } z { $tot } kontroli.
+        [many] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granicy alarmowej w { $av } z { $tot } kontroli.
+       *[other] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granicy alarmowej w { $av } z { $tot } kontroli.
+    }
+
+js-meaning-integrity-line-none-clean =
+    { $n ->
+        [one] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granicy alarmowej w { $av } z { $tot } kontroli, i żadne wyznaczenie pozycji nie wprowadzało w błąd.
+        [few] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granicy alarmowej w { $av } z { $tot } kontroli, i żadne wyznaczenie pozycji nie wprowadzało w błąd.
+        [many] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granicy alarmowej w { $av } z { $tot } kontroli, i żadne wyznaczenie pozycji nie wprowadzało w błąd.
+       *[other] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granicy alarmowej w { $av } z { $tot } kontroli, i żadne wyznaczenie pozycji nie wprowadzało w błąd.
+    }
+
+js-meaning-integrity-line-none-some =
+    { $n ->
+        [one] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granicy alarmowej w { $av } z { $tot } kontroli; { $n } wyznaczenie pozycji wprowadziło w błąd.
+        [few] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granicy alarmowej w { $av } z { $tot } kontroli; { $n } wyznaczenia pozycji wprowadziły w błąd.
+        [many] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granicy alarmowej w { $av } z { $tot } kontroli; { $n } wyznaczeń pozycji wprowadziło w błąd.
+       *[other] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granicy alarmowej w { $av } z { $tot } kontroli; { $n } wyznaczenia pozycji wprowadziło w błąd.
+    }
+
+js-meaning-integrity-line-v =
+    { $n ->
+        [one] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $v } m w pionie) w { $av } z { $tot } kontroli.
+        [few] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $v } m w pionie) w { $av } z { $tot } kontroli.
+        [many] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $v } m w pionie) w { $av } z { $tot } kontroli.
+       *[other] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $v } m w pionie) w { $av } z { $tot } kontroli.
+    }
+
+js-meaning-integrity-line-v-clean =
+    { $n ->
+        [one] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $v } m w pionie) w { $av } z { $tot } kontroli, i żadne wyznaczenie pozycji nie wprowadzało w błąd.
+        [few] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $v } m w pionie) w { $av } z { $tot } kontroli, i żadne wyznaczenie pozycji nie wprowadzało w błąd.
+        [many] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $v } m w pionie) w { $av } z { $tot } kontroli, i żadne wyznaczenie pozycji nie wprowadzało w błąd.
+       *[other] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $v } m w pionie) w { $av } z { $tot } kontroli, i żadne wyznaczenie pozycji nie wprowadzało w błąd.
+    }
+
+js-meaning-integrity-line-v-some =
+    { $n ->
+        [one] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $v } m w pionie) w { $av } z { $tot } kontroli; { $n } wyznaczenie pozycji wprowadziło w błąd.
+        [few] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $v } m w pionie) w { $av } z { $tot } kontroli; { $n } wyznaczenia pozycji wprowadziły w błąd.
+        [many] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $v } m w pionie) w { $av } z { $tot } kontroli; { $n } wyznaczeń pozycji wprowadziło w błąd.
+       *[other] Granica błędu odbiornika (jego poziom ochrony) pozostała poniżej granic alarmowych ({ $v } m w pionie) w { $av } z { $tot } kontroli; { $n } wyznaczenia pozycji wprowadziło w błąd.
+    }
+
+js-meaning-integrity-misleading-label = Mylące wyznaczenia pozycji
+
+js-meaning-integrity-misleading-sub = rzeczywisty błąd powyżej granicy
+
+js-meaning-integrity-trusted-label = Czas, przez który wyznaczeniu pozycji można ufać
+
+js-meaning-jamming-above-label = Zagłuszarka powyżej sygnału
+
+js-meaning-jamming-above-sub = średni stosunek zagłuszarki do sygnału
+
+js-meaning-jamming-big-gone = Zagłuszarka całkowicie odbiera możliwość wyznaczenia pozycji.
+
+js-meaning-jamming-big-share = Przy zagłuszarce wyznaczenie pozycji jest dostępne przez { $share } % czasu.
+
+js-meaning-jamming-clear-label = Wyznaczenie pozycji dostępne, bez zagłuszarki
+
+js-meaning-jamming-fewest-label = Najmniej śledzonych satelitów
+
+js-meaning-jamming-fewest-sub = w najgorszym momencie
+
+js-meaning-jamming-jammed-label = Wyznaczenie pozycji dostępne, z zagłuszaniem
+
+js-meaning-jamming-line = Bez zagłuszarki wyznaczenie pozycji jest dostępne przez { $share } % czasu.
+
+js-meaning-jamming-line-js = Bez zagłuszarki wyznaczenie pozycji jest dostępne przez { $share } % czasu; zagłuszarka dociera średnio { $db } dB powyżej sygnału.
+
+js-meaning-kicker = { $domain } · { $title }
+
+js-meaning-lunar-big-all =
+    { $n ->
+        [one] Tak: w jedynej kontroli ({ $n }).
+        [few] Tak: w każdej z { $n } kontroli.
+        [many] Tak: w każdej z { $n } kontroli.
+       *[other] Tak: w każdej z { $n } kontroli.
+    }
+
+js-meaning-lunar-big-none =
+    { $n ->
+        [one] Nie: w jedynej kontroli ({ $n }).
+        [few] Nie: w żadnej z { $n } kontroli.
+        [many] Nie: w żadnej z { $n } kontroli.
+       *[other] Nie: w żadnej z { $n } kontroli.
+    }
+
+js-meaning-lunar-big-some =
+    { $n ->
+        [one] W { $av } z { $n } kontroli ({ $share } %).
+        [few] W { $av } z { $n } kontroli ({ $share } %).
+        [many] W { $av } z { $n } kontroli ({ $share } %).
+       *[other] W { $av } z { $n } kontroli ({ $share } %).
+    }
+
+js-meaning-lunar-largest-label = Największa granica błędu
+
+js-meaning-lunar-line = Poziom ochrony mieścił się w zakresie od { $min } do { $max } m przy granicy alarmowej { $limit } m.
+
+js-meaning-lunar-meet-label = Kontrole spełniające granicę
+
+js-meaning-lunar-meet-value = { $av } z { $tot }
+
+js-meaning-lunar-smallest-label = Najmniejsza granica błędu
+
+js-meaning-median-lower-better = mediana, im mniej, tym lepiej
+
+js-meaning-of-the-time = czasu
+
+js-meaning-orbit-best-label = Najlepsza geometria (PDOP)
+
+js-meaning-orbit-best-sub = najniższa w przebiegu
+
+js-meaning-orbit-big-always = Wyznaczenie pozycji jest możliwe przez cały czas.
+
+js-meaning-orbit-big-share = Wyznaczenie pozycji jest możliwe przez { $share } % czasu.
+
+js-meaning-orbit-error-label = Typowy błąd pozycji
+
+js-meaning-orbit-error-sub = 1-sigma, mediana
+
+js-meaning-orbit-line =
+    { $n ->
+        [one] Wystarczająca liczba satelitów była w zasięgu widoczności w { $fix } z { $n } chwil.
+        [few] Wystarczająca liczba satelitów była w zasięgu widoczności w { $fix } z { $n } chwil.
+        [many] Wystarczająca liczba satelitów była w zasięgu widoczności w { $fix } z { $n } chwil.
+       *[other] Wystarczająca liczba satelitów była w zasięgu widoczności w { $fix } z { $n } chwil.
+    }
+
+js-meaning-orbit-line-pdop =
+    { $n ->
+        [one] Wystarczająca liczba satelitów była w zasięgu widoczności w { $fix } z { $n } chwil; typowa jakość geometrii (PDOP, rozmycie dokładności pozycji) wynosi { $pdop }, im mniej, tym lepiej.
+        [few] Wystarczająca liczba satelitów była w zasięgu widoczności w { $fix } z { $n } chwil; typowa jakość geometrii (PDOP, rozmycie dokładności pozycji) wynosi { $pdop }, im mniej, tym lepiej.
+        [many] Wystarczająca liczba satelitów była w zasięgu widoczności w { $fix } z { $n } chwil; typowa jakość geometrii (PDOP, rozmycie dokładności pozycji) wynosi { $pdop }, im mniej, tym lepiej.
+       *[other] Wystarczająca liczba satelitów była w zasięgu widoczności w { $fix } z { $n } chwil; typowa jakość geometrii (PDOP, rozmycie dokładności pozycji) wynosi { $pdop }, im mniej, tym lepiej.
+    }
+
+js-meaning-orbit-moments =
+    { $n ->
+        [one] { $fix } z { $n } chwil
+        [few] { $fix } z { $n } chwil
+        [many] { $fix } z { $n } chwil
+       *[other] { $fix } z { $n } chwil
+    }
+
+js-meaning-orbit-time-label = Czas, w którym wyznaczenie pozycji jest możliwe
+
+js-meaning-pair-big-diff-pos = { $best } mieści się w granicach { $budget } przez { $bestDur }; { $other } przez { $otherDur }.
+
+js-meaning-pair-big-diff-time = { $best } utrzymuje czas w granicach { $budget } przez { $bestDur }; { $other } przez { $otherDur }.
+
+js-meaning-pair-big-same-pos = Zarówno { $q }, jak i { $c } mieszczą się w granicach { $budget } przez { $dur }.
+
+js-meaning-pair-big-same-time = Zarówno { $q }, jak i { $c } utrzymują czas w granicach { $budget } przez { $dur }.
+
+js-meaning-pair-line-clock = Holdover to czas, przez który każdy zegar pozostaje w budżecie { $budget } po utracie nawigacji satelitarnej.
+
+js-meaning-pair-line-navigator = Holdover to czas, przez który każdy nawigator pozostaje w budżecie { $budget } po utracie nawigacji satelitarnej.
+
+js-meaning-pdop-label = Jakość geometrii (PDOP)
+
+js-meaning-places-times = miejsc i chwil
+
+js-meaning-range-to = od { $from } do { $to }
+
+js-meaning-satellites =
+    { $n ->
+        [one] satelita
+        [few] satelity
+        [many] satelitów
+       *[other] satelity
+    }
+
+js-meaning-spectrum-above = powyżej progu
+
+js-meaning-spectrum-below = poniżej progu: utracone
+
+js-meaning-spectrum-big-kept =
+    { $n ->
+        [one] Jedyny sygnał ({ $n }) nadal jest śledzony.
+        [few] Każdy z { $n } sygnałów nadal jest śledzony.
+        [many] Każdy z { $n } sygnałów nadal jest śledzony.
+       *[other] Każdy z { $n } sygnałów nadal jest śledzony.
+    }
+
+js-meaning-spectrum-big-lost =
+    { $n ->
+        [one] Zagłuszarki odbierają { $lost } z { $n } sygnału: { $names }.
+        [few] Zagłuszarki odbierają { $lost } z { $n } sygnałów: { $names }.
+        [many] Zagłuszarki odbierają { $lost } z { $n } sygnałów: { $names }.
+       *[other] Zagłuszarki odbierają { $lost } z { $n } sygnałów: { $names }.
+    }
+
+js-meaning-spectrum-line-kept =
+    { $n ->
+        [one] { $names } pozostaje powyżej progu śledzenia odbiornika przez cały przebieg.
+        [few] { $names } pozostają powyżej progu śledzenia odbiornika przez cały przebieg.
+        [many] { $names } pozostają powyżej progu śledzenia odbiornika przez cały przebieg.
+       *[other] { $names } pozostają powyżej progu śledzenia odbiornika przez cały przebieg.
+    }
+
+js-meaning-spectrum-line-kept-thr =
+    { $n ->
+        [one] { $names } pozostaje powyżej progu śledzenia odbiornika { $thr } dB-Hz przez cały przebieg.
+        [few] { $names } pozostają powyżej progu śledzenia odbiornika { $thr } dB-Hz przez cały przebieg.
+        [many] { $names } pozostają powyżej progu śledzenia odbiornika { $thr } dB-Hz przez cały przebieg.
+       *[other] { $names } pozostają powyżej progu śledzenia odbiornika { $thr } dB-Hz przez cały przebieg.
+    }
+
+js-meaning-spectrum-line-none = Żaden sygnał nie pozostaje powyżej progu śledzenia odbiornika przez cały przebieg.
