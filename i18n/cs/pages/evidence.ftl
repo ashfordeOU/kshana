@@ -2530,3 +2530,5 @@ seg-83e6341e01b1 = Faktor DOP rozšířený o majáky pro lunárního povrchové
 seg-417a52c9c154 = PDF
 
 seg-4e31c8daf798 = Registr
+
+seg-8980b5ae869b = Hodnota

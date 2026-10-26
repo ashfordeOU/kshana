@@ -5,3 +5,5 @@ seg-2247a2344710 = Význam
 seg-d4e48c972084 = Štítky
 
 seg-ca448daf5ec7 = nominal
+
+seg-a129b9e613d0 = Typ

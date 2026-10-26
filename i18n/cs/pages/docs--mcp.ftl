@@ -27,3 +27,7 @@ seg-fdbb9db68f1d = žádné
 seg-1759a8cce7d6 = Druhy
 
 seg-564133d6a0c4 = Konstelace kolem libovolného tělesa
+
+seg-b88a2a9497c2 = Nástroj
+
+seg-a683980168f7 = Docker

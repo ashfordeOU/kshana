@@ -43,3 +43,7 @@ seg-f63dd3d7aad4 = Zdroj
 seg-638b8d451550 = Senzor
 
 seg-04f69a0edb2f = typ
+
+seg-35bf9a48e566 = Veličina
+
+seg-f3526b0d95f8 = Změřeno
