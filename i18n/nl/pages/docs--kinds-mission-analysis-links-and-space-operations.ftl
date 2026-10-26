@@ -41,3 +41,15 @@ seg-816bd5a5808a = Radiometrie en beeldkwaliteit van een nadirbeeldvormer: radia
 seg-7a4e6215a488 = Lanceer- en stijggeometrie met twee lichamen: lanceerazimut(s) (sin Az = cos i / cos lat), minimaal bereikbare inclinatie, cirkelsnelheid, de oostwaartse bonus van de aardrotatie, Δv voor een dogleg-vlakwijziging wanneer de doelinclinatie lager is dan de breedtegraad van de locatie, en het aantal dagelijkse lanceermogelijkheden. MODELLED geometrie met een bolvormige aarde (geen correctie met snelheidsdriehoek voor de roterende aarde, geen model voor stijg-/weerstandsverlies).
 
 seg-9696283a95ae = De grafiek die de engine schrijft voor scenarios/launch-window.toml, soort launch-window
+
+seg-dbffff25b57f = CCSDS OEM-interoperabiliteitsbrug: importeer een Orbit Ephemeris Message die is geproduceerd door een externe vluchtdynamicatool (GMAT/Orekit/STK geven allemaal OEM af) en rapporteer de segmenten/objecten/referentiestelsels/epochspanne plus een controle op snelheidsconsistentie; zonder invoer doorloopt zij een rondreis met een gegenereerde referentiebaan en rapporteert zij de getrouwheid van import↔export. MODELLED structurele/fysische invoercontrole, GEEN valideringsonderzoek naar de baannauwkeurigheid van de bron.
+
+seg-5db5a7c812ca = De grafiek die de engine schrijft voor scenarios/oem-interop.toml, soort oem-interop
+
+seg-039f77066d97 = Ballistisch terugkeercorridor volgens Allen-Eggers: piekvertraging (onafhankelijk van de ballistische coëfficiënt, V_e^{ "2" } sin|γ|/(2eH)), de snelheid en hoogte bij de piek-g, en de snelheid bij piekverhitting, voor een intreesnelheid/baanhoek/ballistische coëfficiënt door een exponentiële atmosfeer, plus een vlakke puntmassa-integratie van dezelfde ballistische intrede met zwaartekracht, aardkromming en de US Standard Atmosphere { "1976" } (piekvertraging, snelheid, hoogte en tijd bij de piek). MODELLED ballistische intrede (zonder lift); de verhittingsuitvoer is de SNELHEID bij piekverhitting, geen warmtestroom (geen aerothermisch model/TPS-model).
+
+seg-b0109481e8ff = De grafiek die de engine schrijft voor scenarios/reentry.toml, soort reentry
+
+seg-de2448d74c2b = CCSDS 133.0-B Space Packet Protocol-framing: codeer een synthetische TM/TC-pakketstroom (primaire header van 6 octetten + gegevensveld) en rapporteer per pakket de decodering van de header, het totaal aantal octetten en een exacte rondreis van codering↔decodering. Deterministische framing met exacte bitindeling — de interoperabiliteitslaag voor pakketformaten van ruimtevaartorganisaties; GEEN certificering van conformiteit (geen logica voor secundaire header/CRC/segmentatie buiten de vlaggen).
+
+seg-af1cf9aa9938 = De grafiek die de engine schrijft voor scenarios/space-packet.toml, soort space-packet

@@ -21,3 +21,29 @@ seg-ee7dd15019d0 = Onderwerppagina: <a1>CAMPAIGNS.md</a1>
 seg-304496607bd7 = Scenariosoort van de engine v{ $version }, familie <a1>Jamming, spoofing en het spectrum</a1>. Adviserend: uitvoer van een analyse door een onderzoeks- en engineeringhulpmiddel, geen typegoedgekeurde navigatieapparatuur en geen safety-of-life-dienst. Elk label hier is van de engine of van de verificatiematrix; een soort is MODELLED tenzij de matrix anders vermeldt (hoe een label wordt verdiend: de sectie Evidence van de README).
 
 seg-5d23d7f8f872 = Familiepagina: <a1>Jamming, spoofing en het spectrum</a1>
+
+seg-7707c45d1d30 = dBm
+
+seg-f92f902bd8f4 = Bron: <c1/>
+
+seg-1fd6a1cc7ca0 = <c1/> (scenariosoort)
+
+seg-f43fe94d84e0 = Gecombineerde spoofdetector op RF-/meetniveau (RAIM-consistentie met meerdere SV's + AGC + SQM, gefuseerd) tegenover een geparametriseerde aanval (vermogensvoordeel, uitlijning van de draaggolffase, tijd-/positieverschuiving; in de stijl van TEXBAT).
+
+seg-9a8e92a0d5ba = Eén run van <c1/> vat samen als: scenario e046ee4ca90a | spoof-detect | { "8" } SV's, +{ "1.5" } dB | Positieverschuiving | gefuseerde score { "0.70" } (drempel { "0.50" }) | SPOOF DETECTED (gefuseerd) — lagen: RAIM+SQM
+
+seg-9e54f6406cef = Verplichte velden: <c1/>
+
+seg-cd7217fd359f = Optionele velden: <c1/>, <c2/>
+
+seg-6776ea465261 = Het voorbeeld <c1/> stelt onder meer in:
+
+seg-0e3bc92db34e = position
+
+seg-268ebf4cba99 = De grafiek die de engine schrijft voor scenarios/spoof-detect.toml, soort spoof-detect
+
+seg-03d8dc3de7ca = <b>MODELLED</b> Klokondersteunde χ², RAIM, AGC, SQM, gefuseerd tot een beveiligingskwaliteitsmaat per epoch Tests: <a1>spoof_texbat_validation.rs</a1>.
+
+seg-24e4aebb09eb = <s1>Vorige</s1>spectrum
+
+seg-40e934a7d78f = <s1>Volgende</s1>spoof

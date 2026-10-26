@@ -25,3 +25,21 @@ seg-5fef5e8cc64e = De veerkracht van kwantuminertiale koppelnavigatie is MODELLE
 seg-5a70fcb097dc = Optionele velden: geen
 
 seg-bb07c8ee153f = <b>PARTNER</b> Niet geleverd: alleen prestatiemodellen; koudeatoom-/klokhardware is van een partner. Onafhankelijke referentie (NoneKind): geen: een discipline van een partner, bewust zonder module en zonder test
+
+seg-792218eac075 = Bron: <c1/>
+
+seg-c7e5582d0b24 = <c1/> (scenariosoort)
+
+seg-4f19d4fb1341 = Generieke N-D-sweep over elk pakket via TOML-sleutels met punten / JSON-metriekpaden.
+
+seg-cd907c72698b = Eén run van <c1/> vat samen als: generieke sweep van <c2/> over [threshold_m, accel_classical.bias] | { "15" } knooppunten (vorm [{ "5" }, { "3" }]) | metrieken [classical.fom.holdover_s, classical.fom.pos_rms_m]
+
+seg-502ba2c57a5f = Verplichte velden: <c1/>, <c2/>, <c3/>
+
+seg-c372e390bb4f = Het voorbeeld <c1/> stelt onder meer in:
+
+seg-621a18c07044 = De grafiek die de engine schrijft voor scenarios/sweep-nd-inertial.toml, soort sweep-nd
+
+seg-ce006a6715e9 = <s1>Vorige</s1>spoof
+
+seg-b9f8771ffd3d = <s1>Volgende</s1>sweep
