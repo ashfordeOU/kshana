@@ -7,3 +7,5 @@ seg-9120d3e96e5e = 读
 seg-5ad814c7ef9e = 备注
 
 seg-aab745a65e76 = 模块
+
+seg-bf09433a7342 = GeoJSON

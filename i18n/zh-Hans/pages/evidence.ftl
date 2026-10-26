@@ -2487,3 +2487,5 @@ seg-e7d7d99fe538 = 一个不依赖 ROS 的桥接，将定位和卫星消息写�
 seg-05ded40b17d2 = 无外部参考基准：ROS 节点未在实时 ROS { "2" } 图上运行，ublox_ubx_msgs 的字段名也未对照正在运行的驱动程序检查。桥接测试运行了 gnss_lib_py（MIT）
 
 seg-c3c260b7063e = 测试
+
+seg-417a52c9c154 = PDF

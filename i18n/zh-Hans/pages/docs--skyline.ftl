@@ -25,3 +25,5 @@ seg-de6c33774c9c = CLI
 seg-d1e9715513b4 = 示例
 
 seg-587beeccaa11 = 预设
+
+seg-98f4f946a7ac = WASM
