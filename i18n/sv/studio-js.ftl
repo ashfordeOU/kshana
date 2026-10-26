@@ -8892,7 +8892,7 @@ js-tools-download-report-json = Ladda ned rapporten (JSON)
 js-tools-download-report-md = Ladda ned rapporten (Markdown)
 
 # 2026-10-01-studio-rebuild/tools/tools.js:474
-js-tools-download-scorecard-json = Ladda ned resultattavlan (JSON)
+js-tools-download-scorecard-json = Ladda ned resultatkortet (JSON)
 
 # 2026-10-01-studio-rebuild/tools/tools.js:492
 js-tools-download-table-toml = Ladda ned tabellen (TOML)
@@ -9164,3 +9164,1338 @@ js-tools-osnma-recorded-failed = det registrerade resultatet lästes inte in
 
 # 2026-10-01-studio-rebuild/tools/tools.js:344
 js-tools-osnma-recorded-result = Registrerat resultat av kshana osnma verify --json för { $file }.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:308
+js-tools-osnma-tag-counts = { $authenticated } autentiserade, { $failed } misslyckade, { $pending } väntande, { $discarded } förkastade
+
+# 2026-10-01-studio-rebuild/tools/tools.js:304
+js-tools-osnma-tag-totals =
+    { $n ->
+        [one] { $n } tagg: { $authenticated } autentiserade, { $failed } misslyckade, { $pending } väntande, { $discarded } förkastade.
+       *[other] { $n } taggar: { $authenticated } autentiserade, { $failed } misslyckade, { $pending } väntande, { $discarded } förkastade.
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:313
+js-tools-osnma-time-caveat = Tid: varje kontroll är relativ till tidsstämplarna på de sidor som ges till verifieraren, vilka här kommer från själva datan och inte ger något skydd mot återspelade gamla data. Autentisering säger att datan kom från systemet; den säger ingenting om signalen den anlände på eller om kvaliteten på positionsbestämningen.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:178
+js-tools-osnma-unavailable = Otillgänglig
+
+# 2026-10-01-studio-rebuild/tools/tools.js:296
+js-tools-osnma-word-authenticated = Minst en satellit är autentiserad och ingen misslyckades
+
+# 2026-10-01-studio-rebuild/tools/tools.js:296
+js-tools-osnma-word-failed = En kontroll av någon satellits data misslyckades
+
+# 2026-10-01-studio-rebuild/tools/tools.js:296
+js-tools-osnma-word-unavailable = Ingen satellit är autentiserad
+
+# 2026-10-01-studio-rebuild/tools/tools.js:122
+js-tools-pack-selected = { $label }: { $files } ({ $size })
+
+# 2026-10-01-studio-rebuild/tools/tools.js:378
+js-tools-pinned-to-release = Fastlåst till den här utgåvan:
+
+# 2026-10-01-studio-rebuild/tools/tools.js:221
+js-tools-preview = Förhandsgranska
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:72
+js-tools-public-key-format = En publik nyckel är 64 hexadecimala siffror (32 bytes). Inget annat accepteras.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:113
+js-tools-read-documentation = Läs dokumentationen
+
+# 2026-10-01-studio-rebuild/tools/tools.js:458
+js-tools-reading-plan = Läser planen…
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:42
+js-tools-refused-file-name = avvisat filnamn: { $name }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:410
+js-tools-run = Kör
+
+# 2026-10-01-studio-rebuild/tools/tools.js:255
+js-tools-runs-read =
+    { $n ->
+        [one] { $n } körning inläst: { $runs }
+       *[other] { $n } körningar inlästa: { $runs }
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:254
+js-tools-runs-read-engine =
+    { $n ->
+        [one] { $n } körning inläst, av motor { $engine }: { $runs }
+       *[other] { $n } körningar inlästa, av motor { $engine }: { $runs }
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:110
+js-tools-sample-load-failed = Exemplet lästes inte in ({ $reason }).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:109
+js-tools-sample-note = En verklig utdata från kommandot, registrerad från motorn på den syntetiska demokörningen. Inte en mätning av något.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:107
+js-tools-sample-output = Exempelutdata: { $label }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:206
+js-tools-scenario-list-failed = Scenariolistan lästes inte in
+
+# 2026-10-01-studio-rebuild/tools/tools.js:470
+js-tools-scoring = Poängsätter…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:103
+js-tools-select-and-copy = Markera och kopiera
+
+# 2026-10-01-studio-rebuild/tools/tools.js:380
+js-tools-settings-example = Inställningsexempel { $n }:
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:139
+js-tools-status-evidenced-label = Körningarna ger belägg för den här raden
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:139
+js-tools-status-evidenced-short = Belagd
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:141
+js-tools-status-not-evidenced-label = Dessa körningar visar inget för den här raden
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:141
+js-tools-status-not-evidenced-short = Inte belagd
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:142
+js-tools-status-out-of-scope-label = Utanför vad Kshana kan visa
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:142
+js-tools-status-out-of-scope-short = Utanför omfattningen
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:140
+js-tools-status-partly-label = Körningarna ger belägg för en del av den här raden
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:140
+js-tools-status-partly-short = Delvis
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-ai = AI-assistent
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-bench = Test-bench
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-cli = Kommandorad
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-compliance = Compliance
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-evidence = Bevispaket
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-imufit = IMU-anpassning
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-jammertest = Jammertest
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-osnma = OSNMA
+
+# 2026-10-01-studio-rebuild/tools/tools.js:425
+js-tools-tele-all-events = En syslog-händelse per epok (standard: en per bandbyte)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:406
+js-tools-tele-file-aria = Resultat- eller JSON-lines-fil
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-cef = Syslog, CEF
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-leef = Syslog, LEEF
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-mqtt = MQTT, Home Assistant discovery (topic, tab, payload)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-otlp = OpenTelemetry (OTLP JSON)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-prometheus = Prometheus-mätvärden
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-format-aria = Format
+
+# 2026-10-01-studio-rebuild/tools/tools.js:424
+js-tools-tele-host = Värd
+
+# 2026-10-01-studio-rebuild/tools/tools.js:408
+js-tools-tele-host-aria = Värdnamn som skrivs in i syslog-händelser
+
+# 2026-10-01-studio-rebuild/tools/tools.js:425
+js-tools-tele-include-position = Ta med den rapporterade positionen (av som standard)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:405
+js-tools-tele-intro = Omvandla en resultatfil (session.result.json) eller de live JSON-raderna till ett av formaten, i den här webbläsaren. Kräver en motorversion som har telemetriexporten (0.35 och senare med exporten); kommandona ovan fungerar överallt.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:426
+js-tools-tele-note = Syslog-rader har ingen tidsstämpel här (sidan läser ingen klocka); kommandoradsverktyget stämplar dem. Prometheus ger slutläget. MQTT ger en rad per meddelande, ämnet sedan en tabb sedan nyttolasten; ingenting publiceras härifrån. Texten är densamma som kommandot skriver ut.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:404
+js-tools-tele-run-here = Kör det här
+
+# 2026-10-01-studio-rebuild/tools/tools.js:334
+js-tools-that-file-too-large = Filen är större än 64 MiB.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:182
+js-tools-token-attached = Token bifogad
+
+# 2026-10-01-studio-rebuild/tools/tools.js:182
+js-tools-token-attached-note = Det uppdaterade paketet finns nedan. Tidsstämpelmyndighetens signatur kontrollerades INTE här: kör openssl ts -verify.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:312
+js-tools-trust-monitor-sentence = Mening från förtroendeövervakaren: { $sentence }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:48
+js-tools-two-files-same-name = två filer heter { $name }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:214
+js-tools-ubx-bad-crc = { $n } sidor misslyckades med sin CRC.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:311
+js-tools-ubx-file = UBX-filen
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:212
+js-tools-ubx-frames-pages = { $frames } UBX-ramar; { $pages } I/NAV-sidor avkodade.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:217
+js-tools-ubx-ignored-sfrbx = { $n } SFRBX-meddelanden ignorerades (andra system, E5b, larm, felaktiga kontrollsummor).
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:218
+js-tools-ubx-skipped-bytes = { $n } bytes hoppades över mellan ramar.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:216
+js-tools-ubx-time-conflicts = { $n } sidor hade en tid som stred mot grannsidorna.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:215
+js-tools-ubx-unstamped = { $n } sidor kunde inte placeras i tid.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:233
+js-tools-unknown = okänd
+
+# 2026-10-01-studio-rebuild/tools/tools.js:257
+js-tools-unused-scenarios = Scenariofiler utan matchande resultat användes inte: { $files }.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:81
+js-tools-verdict-failed-text = Verifieringen misslyckades.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:81
+js-tools-verdict-failed-title = Misslyckad
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:80
+js-tools-verdict-intact-text = Paketet är intakt mot den nyckel det själv anger, som vem som helst kan generera. Hämta undertecknarens publika nyckel från undertecknaren på annat sätt och fäst den.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:80
+js-tools-verdict-intact-title = Intakt, men undertecknaren är inte fastlåst
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:79
+js-tools-verdict-verified-text = Paketet är oförändrat och signerat av nyckeln du fäste.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:79
+js-tools-verdict-verified-title = Verifierad
+
+# 2026-10-01-studio-rebuild/tools/tools.js:149
+js-tools-verifying = Verifierar…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:158
+js-tools-what-failed = Vad som misslyckades
+
+# 2026-10-01-studio-rebuild/tools/tools.js:99
+js-tools-why-not-browser = Varför inte i en webbläsare:
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-yes = ja
+
+# 2026-10-01-studio-rebuild/training/training.js:355
+js-training-active-events = Aktiva händelser
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:50
+js-training-band-large = över 100 m
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:49
+js-training-band-medium = 25 till 100 m
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:48
+js-training-band-small = under 25 m
+
+# 2026-10-01-studio-rebuild/training/training.js:213
+js-training-chart-max = max { $v }
+
+# 2026-10-01-studio-rebuild/training/training.js:225
+js-training-chart-mean-cn0 = genomsnittlig C/N0
+
+# 2026-10-01-studio-rebuild/training/training.js:224
+js-training-chart-position-error = positionsfel
+
+# 2026-10-01-studio-rebuild/training/training.js:227
+js-training-chart-s-reported-minus-true = s, rapporterad minus referens
+
+# 2026-10-01-studio-rebuild/training/training.js:226
+js-training-chart-satellites = satelliter
+
+# 2026-10-01-studio-rebuild/training/training.js:227
+js-training-chart-time-offset = tidsförskjutning
+
+# 2026-10-01-studio-rebuild/training/training.js:226
+js-training-chart-used-tracked = använda / följda
+
+# 2026-10-01-studio-rebuild/training/training.js:340
+js-training-col-reported = Rapporterad av mottagaren
+
+# 2026-10-01-studio-rebuild/training/training.js:340
+js-training-col-true = Referens
+
+# 2026-10-01-studio-rebuild/training/training.js:352
+js-training-cue-course = Gyrokursen och loggfarten påverkas inte av någon händelse. Här skiljer sig den rapporterade kursen från gyrokursen med { $course }. Även en havsström skiljer den rättvisande kursen från kursen över grund, så jämför med körningens början.
+
+# 2026-10-01-studio-rebuild/training/training.js:353
+js-training-cue-course-speed = Gyrokursen och loggfarten påverkas inte av någon händelse. Här skiljer sig den rapporterade kursen från gyrokursen med { $course } och den rapporterade farten från referensfarten med { $speed } kn. Även en havsström skiljer den rättvisande kursen från kursen över grund, så jämför med körningens början.
+
+# 2026-10-01-studio-rebuild/training/training.js:351
+js-training-cue-title = Ledtråd för genomgången.
+
+# 2026-10-01-studio-rebuild/training/training.js:350
+js-training-cue-unknown-amount = en okänd mängd
+
+# 2026-10-01-studio-rebuild/training/training.js:415
+js-training-debrief-now = Gå igenom den nu
+
+# 2026-10-01-studio-rebuild/training/training.js:89
+js-training-default-warning = Syntetiska träningsdata. Endast för träning och test: mata aldrig den här strömmen till ett fartygs levande navigationssystem.
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-coastal-drag-off = Kustnära drag-off
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-combined-event = Kombinerad händelse
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-fjord-degradation = Naturlig försämring i fjord
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-open-sea-jamming = Jamming på öppet hav
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-port-time-spoof = Tidsspoofing vid hamninlopp
+
+# 2026-10-01-studio-rebuild/training/training.js:413
+js-training-dl-log-json = Ladda ned instruktörsloggen (JSON)
+
+# 2026-10-01-studio-rebuild/training/training.js:414
+js-training-dl-log-text = Ladda ned instruktörsloggen (text)
+
+# 2026-10-01-studio-rebuild/training/training.js:412
+js-training-dl-nmea = Ladda ned NMEA-strömmen
+
+# 2026-10-01-studio-rebuild/training/training.js:74
+js-training-err-demo-open = { $title } kunde inte öppnas: { $reason }.
+
+# 2026-10-01-studio-rebuild/training/training.js:405
+js-training-err-engine-old = Den här motorversionen (version { $version }) har ingen generator för NMEA-träning; den är äldre än den här sidan. Kommandot är { $command }.
+
+# 2026-10-01-studio-rebuild/training/training.js:404
+js-training-err-engine-start = Motorn kunde inte starta här ({ $reason }). Biblioteksscenarierna ovan öppnas ändå utan den.
+
+# 2026-10-01-studio-rebuild/training/training.js:70
+js-training-err-file-not-loaded = filen lästes inte in
+
+# 2026-10-01-studio-rebuild/training/training.js:417
+js-training-err-generate = Kunde inte generera: { $reason }.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:60
+js-training-err-newer-schema = { $name }: schema { $schema } är nyare än eller skiljer sig från { $supported }, som den här sidan läser. Uppdatera Studio i stället för att gissa vilka fält det har.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:58
+js-training-err-no-schema = { $name }: inte en instruktörslogg för träning från Kshana (ingen schematagg).
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:61
+js-training-err-no-track = { $name }: loggen har inga spårrader att rita.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:78
+js-training-err-no-usable-rows = { $name }: inga användbara spårrader.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:57
+js-training-err-not-json = { $name }: inte JSON ({ $reason }).
+
+# 2026-10-01-studio-rebuild/training/training.js:64
+js-training-err-read = { $name }: kunde inte läsas ({ $reason }).
+
+# 2026-10-01-studio-rebuild/training/training.js:55
+js-training-err-read-or-draw = { $name }: kunde inte läsas eller ritas ({ $reason }).
+
+# 2026-10-01-studio-rebuild/training/training.js:407
+js-training-err-scenario-not-loaded = scenariofilen lästes inte in
+
+# 2026-10-01-studio-rebuild/training/training.js:400
+js-training-err-seed = Fröet måste vara ett heltal, eller tomt för att använda scenariots eget.
+
+# 2026-10-01-studio-rebuild/training/training.js:48
+js-training-err-too-large = { $name }: större än { $max }. Den här sidan läser loggar upp till den storleken.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:62
+js-training-err-too-many-rows = { $name }: loggen har { $count } spårrader; den här sidan ritar högst { $max }. Logga mer sällan (log_interval_s) eller öppna ett utdrag.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:59
+js-training-err-unknown-schema = { $name }: okänt schema { $schema }; den här sidan läser { $supported }.
+
+# 2026-10-01-studio-rebuild/training/training.js:357
+js-training-event-n = Händelse { $id }
+
+# 2026-10-01-studio-rebuild/training/training.js:266
+js-training-event-onset = Insättning { $utc }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:220
+js-training-extra-bearing = Bäring som tillämpats, grader rättvisande
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:222
+js-training-extra-peak-accel = Högsta acceleration som drag-off lägger till, m/s²
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:221
+js-training-extra-peak-speed = Högsta fart som drag-off lägger till, m/s
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-duration = Varaktighet
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-events = Injicerade händelser
+
+# 2026-10-01-studio-rebuild/training/training.js:95
+js-training-fact-max-error = Största positionsfel
+
+# 2026-10-01-studio-rebuild/training/training.js:96
+js-training-fact-max-time-offset = Största tidsförskjutning
+
+# 2026-10-01-studio-rebuild/training/training.js:98
+js-training-fact-no-fix = Tid utan positionsbestämning
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:230
+js-training-fact-peak-accel = Högsta acceleration, referens / rapporterad
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:230
+js-training-fact-peak-speed = Högsta fart, referens / rapporterad
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-seed = Frö
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-start = Start (UTC)
+
+# 2026-10-01-studio-rebuild/training/training.js:196
+js-training-fix-reported-span = positionsbestämning rapporterad, { $from } till { $to }
+
+# 2026-10-01-studio-rebuild/training/training.js:410
+js-training-generated = Genererade "{ $title }" med motor { $version }: { $lines } NMEA-meningar. Syntetiskt: endast för träning och test; mata det aldrig till ett fartygs levande navigationssystem.
+
+# 2026-10-01-studio-rebuild/training/training.js:415
+js-training-generated-here = Genererad här av motorn ("{ $title }"). Syntetiskt: påhittade positioner och datum.
+
+# 2026-10-01-studio-rebuild/training/training.js:401
+js-training-generating = Startar motorn och genererar…
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:32
+js-training-kind-drag-off = Positions-drag-off
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:31
+js-training-kind-jamming = Jamming
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:35
+js-training-kind-natural-degradation = Naturlig försämring (blockerad himmel)
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:34
+js-training-kind-replay-delay = Replay-fördröjning
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:33
+js-training-kind-time-spoof = Tidsspoofing
+
+# 2026-10-01-studio-rebuild/training/training.js:158
+js-training-legend-no-fix = Ingen positionsbestämning: mottagaren rapporterade ingenting
+
+# 2026-10-01-studio-rebuild/training/training.js:157
+js-training-legend-reported = Rapporterad, { $band } från referensen
+
+# 2026-10-01-studio-rebuild/training/training.js:158
+js-training-legend-true = Referensspår
+
+# 2026-10-01-studio-rebuild/training/training.js:73
+js-training-library-label = Syntetiskt biblioteksscenario "{ $title }", skrivet av { $command }. Påhittade positioner och datum; inget verkligt fartyg eller inspelning.
+
+# 2026-10-01-studio-rebuild/training/training.js:338
+js-training-log-row = Loggrad { $row } av { $total }, { $utc }
+
+# 2026-10-01-studio-rebuild/training/training.js:95
+js-training-max-error-at = { $m } m vid T+{ $s } s
+
+# 2026-10-01-studio-rebuild/training/training.js:277
+js-training-moment-event = (händelse { $id })
+
+# 2026-10-01-studio-rebuild/training/training.js:184
+js-training-moment-title = T+{ $s } s { $what }: { $text }
+
+# 2026-10-01-studio-rebuild/training/training.js:275
+js-training-moments-shown = De första { $shown } av { $total } ögonblick visas.
+
+# 2026-10-01-studio-rebuild/training/training.js:263
+js-training-no-events = Inga: det här är en ren körning.
+
+# 2026-10-01-studio-rebuild/training/training.js:341
+js-training-no-fix-nothing = ingen positionsbestämning: ingenting rapporterat
+
+# 2026-10-01-studio-rebuild/training/training.js:196
+js-training-no-fix-span = ingen positionsbestämning, { $from } till { $to }
+
+# 2026-10-01-studio-rebuild/training/training.js:273
+js-training-no-moments = Inga ögonblick registrerade.
+
+# 2026-10-01-studio-rebuild/training/training.js:35
+js-training-none = ingen
+
+# 2026-10-01-studio-rebuild/training/training.js:356
+js-training-none-now = Inga i det här ögonblicket.
+
+# 2026-10-01-studio-rebuild/training/training.js:95
+js-training-none-reported = ingen rapporterad
+
+# 2026-10-01-studio-rebuild/training/training.js:135
+js-training-north = N
+
+# 2026-10-01-studio-rebuild/training/training.js:343
+js-training-not-touched = inte berörd av någon händelse
+
+# 2026-10-01-studio-rebuild/training/training.js:53
+js-training-opened = Öppnade { $name }: { $rows } loggrader över { $secs } s.
+
+# 2026-10-01-studio-rebuild/training/training.js:67
+js-training-opening = Öppnar { $title }…
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:209
+js-training-param-affect-time = Påverkar tid
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:205
+js-training-param-bearing-deg = Bäring, grader rättvisande
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:202
+js-training-param-cn0-drop-db = C/N0-fall, dB
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:210
+js-training-param-counterfeit-cn0-dbhz = Falsk C/N0, dB-Hz
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:208
+js-training-param-delay-s = Fördröjning, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:199
+js-training-param-duration-s = Varaktighet, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:204
+js-training-param-final-offset-m = Slutlig förskjutning, m
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:196
+js-training-param-kind = Typ
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:197
+js-training-param-label = Etikett
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:207
+js-training-param-offset-s = Tidsförskjutning, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:200
+js-training-param-ramp-s = Insättningsramp, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:201
+js-training-param-recovery-s = Återhämtningsramp, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:206
+js-training-param-relative-bearing-deg = Bäring relativt kursen, grader
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:211
+js-training-param-skyline = Skyline
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:203
+js-training-param-spread-db = Spridning per satellit, dB
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:198
+js-training-param-start-s = Insättning, s
+
+# 2026-10-01-studio-rebuild/training/training.js:380
+js-training-pause = Pausa
+
+# 2026-10-01-studio-rebuild/training/training.js:385
+js-training-play = Spela upp
+
+# 2026-10-01-studio-rebuild/training/training.js:60
+js-training-reading = Läser…
+
+# 2026-10-01-studio-rebuild/training/training.js:294
+js-training-readout-fix = positionsbestämning
+
+# 2026-10-01-studio-rebuild/training/training.js:294
+js-training-readout-no-fix = ingen positionsbestämning
+
+# 2026-10-01-studio-rebuild/training/training.js:430
+js-training-reduced-motion = Minskad rörelse föredras, så uppspelningen startar på 1x. Använd reglaget eller piltangenterna för att röra dig utan animering.
+
+# 2026-10-01-studio-rebuild/training/training.js:346
+js-training-row-cn0 = Genomsnittlig C/N0, dB-Hz
+
+# 2026-10-01-studio-rebuild/training/training.js:342
+js-training-row-cog = Kurs över grund, grader
+
+# 2026-10-01-studio-rebuild/training/training.js:344
+js-training-row-error = Positionsfel, m
+
+# 2026-10-01-studio-rebuild/training/training.js:189
+js-training-row-fix = positionsbestämning
+
+# 2026-10-01-studio-rebuild/training/training.js:343
+js-training-row-heading = Rättvisande kurs (gyro), grader
+
+# 2026-10-01-studio-rebuild/training/training.js:180
+js-training-row-moments = ögonblick
+
+# 2026-10-01-studio-rebuild/training/training.js:341
+js-training-row-position = Position
+
+# 2026-10-01-studio-rebuild/training/training.js:346
+js-training-row-sats = Satelliter som används / följs
+
+# 2026-10-01-studio-rebuild/training/training.js:342
+js-training-row-sog = Fart över grund, kn
+
+# 2026-10-01-studio-rebuild/training/training.js:345
+js-training-row-time-offset = Tidsförskjutning, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:186
+js-training-say-active = aktiva: { $list }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:186
+js-training-say-event-id = händelse { $id }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:181
+js-training-say-fix = mottagaren rapporterar en positionsbestämning
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:185
+js-training-say-mean-cn0 = genomsnittlig C/N0 { $cn0 } dB-Hz
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:181
+js-training-say-no-fix = ingen positionsbestämning
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:182
+js-training-say-position-from-true = rapporterad position { $m } m från referensen
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:184
+js-training-say-sats-used = { $used } av { $tracked } satelliter används
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:183
+js-training-say-time-ahead = rapporterad tid före referensen med { $s } s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:183
+js-training-say-time-behind = rapporterad tid efter referensen med { $s } s
+
+# 2026-10-01-studio-rebuild/training/training.js:330
+js-training-sky-no-gsv = ingen GSV
+
+# 2026-10-01-studio-rebuild/training/training.js:330
+js-training-sky-none = Ingen himmel för den här loggen: en instruktörslogg ensam har inga satelliter. Öppna ett biblioteksscenario, eller generera en ström här och gå igenom den, för att se de satelliter dess GSV listar.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:192
+js-training-skyline-preset = förinställning { $name }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:192
+js-training-skyline-stated = angiven profil
+
+# 2026-10-01-studio-rebuild/training/training.js:98
+js-training-span-no-fix = T+{ $from } till { $to } s
+
+# 2026-10-01-studio-rebuild/training/training.js:144
+js-training-track-desc = Referensspår och rapporterat spår, norr uppåt. Största positionsfel { $error }. { $periods } period(er) utan positionsbestämning.
+
+# 2026-10-01-studio-rebuild/training/training.js:132
+js-training-track-end = slut
+
+# 2026-10-01-studio-rebuild/training/training.js:132
+js-training-track-start = start
+
+# 2026-10-01-studio-rebuild/training/training.js:93
+js-training-trainer-note = Instruktörsanteckning
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:89
+js-training-warn-no-warning-text = Den här filen har ingen varningstext. Det är en träningslogg: mata inte dess ström till levande navigation.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:79
+js-training-warn-rows-skipped = { $count } spårrad(er) var ogiltiga och hoppades över.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:42
+js-training-what-fix-lost = Positionsbestämning förlorad
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:43
+js-training-what-fix-regained = Positionsbestämning återfunnen
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:39
+js-training-what-full-effect = Full effekt
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:38
+js-training-what-onset = Insättning
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:41
+js-training-what-recovered = Återhämtad
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:40
+js-training-what-recovery-begins = Återhämtning börjar
+
+# 2026-10-01-studio-rebuild/trust/trust.js:544
+js-trust-adv-carried = Rådgivande utlåtande som bärs av den här filen:
+
+# 2026-10-01-studio-rebuild/trust/trust.js:545
+js-trust-adv-none = Den här filen bär inget rådgivande utlåtande
+
+# 2026-10-01-studio-rebuild/trust/trust.js:545
+js-trust-adv-none-rest = (äldre utdata gör det inte). Det rådgivande utlåtandet överst på den här sidan gäller ändå för allt.
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:15
+js-trust-agree-both = båda flaggar: mottagarens egen flagga och en Kshana-övervakare
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:19
+js-trust-agree-calibrating = inom kalibreringsfönstret: jämförs inte
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:17
+js-trust-agree-kshana-only = bara Kshana larmar: mottagaren flaggar inte
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:18
+js-trust-agree-neither = ingen flaggar
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:16
+js-trust-agree-receiver-only = bara mottagaren flaggar: ingen Kshana-övervakare larmar
+
+# 2026-10-01-studio-rebuild/trust/trust.js:151
+js-trust-assessed = Bedömde { $name } med motor { $version }, i den här webbläsaren.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:205
+js-trust-assessed-as = Bedömde { $name } som { $format }, med motorn, i den här webbläsaren. Ingenting laddades upp.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:145
+js-trust-assessing = Startar motorn och bedömer…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:442
+js-trust-class-also-costing = { $class } (kostar också poäng)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:32
+js-trust-class-environment = miljö: signalen (effekt, jamming, satelliter förlorade medan himlen är öppen)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:31
+js-trust-class-geometry = geometri: himlen, inte signalen
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:33
+js-trust-class-inconsistency = inkonsekvens: attackliknande, förklaras inte av himlen eller signalen
+
+# 2026-10-01-studio-rebuild/trust/trust.js:169
+js-trust-dl-result-json = Ladda ned resultatet (JSON)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:170
+js-trust-dl-table-csv = Ladda ned tabellen per epok (CSV)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:393
+js-trust-edge-degraded = { $v } försämrad
+
+# 2026-10-01-studio-rebuild/trust/trust.js:393
+js-trust-edge-nominal = { $v } nominell
+
+# 2026-10-01-studio-rebuild/trust/trust.js:177
+js-trust-err-assess = { $name }: kunde inte bedömas ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:124
+js-trust-err-demo-files = demofilerna lästes inte in
+
+# 2026-10-01-studio-rebuild/trust/trust.js:127
+js-trust-err-demo-log-open = Demologgen kunde inte öppnas: { $reason }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:240
+js-trust-err-demo-open = Demon kunde inte öppnas: { $reason }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:148
+js-trust-err-engine-no-receiver-trust = Den här motorversionen (version { $version }) saknar receiver_trust.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:111
+js-trust-err-engine-no-scorer = Den här motorversionen (version { $version }) har ingen logg-poängsättare; den är äldre än den här sidan. Kommandot är { $command }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:147
+js-trust-err-engine-start = Motorn kunde inte starta här ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:110
+js-trust-err-engine-start-open = Motorn kunde inte starta här ({ $reason }). Att öppna resultatfiler ovan fungerar fortfarande.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:183
+js-trust-err-example-files = exempelfilerna lästes inte in
+
+# 2026-10-01-studio-rebuild/trust/trust.js:187
+js-trust-err-example-open = Exemplet kunde inte öppnas: { $reason }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:193
+js-trust-err-file-2mib = { $name }: större än 2 MiB. Öppna ett utdrag.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:67
+js-trust-err-file-too-large = { $name }: större än { $max }. Den här sidan läser filer upp till den storleken; öppna ett utdrag.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:144
+js-trust-err-gen-too-large = { $name }: större än 2 MiB. Öppna ett utdrag (kommandoradsverktyget tar en hel logg).
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:81
+js-trust-err-imu-format = "{ $format }" är inte ett IMU-format som den här sidan läser (csv eller euroc)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:82
+js-trust-err-imu-heading = IMU:ns kurs vid dess första sampel är inte ett tal
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:62
+js-trust-err-log-format = "{ $format }" är inte ett loggformat som den här sidan kan skicka till motorn
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:385
+js-trust-err-no-epochs = Filen har inga epoker.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:356
+js-trust-err-no-epochs-result = Den här resultatfilen har ingen epochs[]. Den behöver komma från `{ $command }` för en fartygssession.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:113
+js-trust-err-no-epochs-returned = { $name }: motorn returnerade inga epoker.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:357
+js-trust-err-no-score-model = Det här resultatet har ingen score_model, så det är en körning med statisk plattform utan förtroendepoäng. Vyn ritar körningar för fartyg (plattform i rörelse).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:74
+js-trust-err-not-readable = { $name }: inte en fil som den här vyn läser (en resultat-JSON, JSON-rader, trust.csv, en NMEA-logg eller en referensfil).
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:384
+js-trust-err-nothing-to-draw = Inget att rita: välj en resultat-JSON, JSON-rader eller trust.csv.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:98
+js-trust-err-read = { $name }: kunde inte läsas ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:84
+js-trust-err-read-or-draw = { $name }: kunde inte läsas eller ritas ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:118
+js-trust-err-score = { $name }: kunde inte poängsättas ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:131
+js-trust-err-score-file-too-large = { $name }: större än 2 MiB. Poängsättaren i webbläsaren tar ett utdrag som innehåller kalibreringsfönstret på fem minuter.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:107
+js-trust-err-score-too-large = { $name }: större än 2 MiB. Poängsättaren i webbläsaren tar ett utdrag (kommandot { $command } tar en hel logg); öppna ett utdrag som innehåller kalibreringsfönstret på fem minuter.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:795
+js-trust-err-scorecard-too-large = { $name }: större än 8 MiB; den här sidan läser ett resultatkort upp till den storleken.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:106
+js-trust-err-session-empty = Sessionsinställningarna är tomma. De deklarerar fartyget ({ $setting }).
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:386
+js-trust-err-too-many-epochs = Filen har { $count } epoker; den här sidan ritar högst { $max }. Öppna ett utdrag.
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:50
+js-trust-err-triple-quote = { $what } innehåller tre enkla citattecken i rad, vilket inte kan bäddas in i inställningarna
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:53
+js-trust-err-what-file = filen
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:84
+js-trust-err-what-imu = IMU-filen
+
+# 2026-10-01-studio-rebuild/trust/trust.js:399
+js-trust-event-label = händelse: { $label }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:399
+js-trust-event-onset = insättning
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-first-alarm = Första larm, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-latency = Latens, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-onset = Insättning, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-outcome = Utfall
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-stated = Angiven händelse
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:17
+js-trust-fmt-android = Android GNSS Logger (text)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:13
+js-trust-fmt-gnss-sdr = GNSS-SDR vidarebefordrade JSON-rader (text)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:9
+js-trust-fmt-nmea = NMEA 0183 (text)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:11
+js-trust-fmt-novatel = NovAtel OEM7 (ASCII eller binär)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:16
+js-trust-fmt-rinex = RINEX observation (text)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:12
+js-trust-fmt-rtcm3 = RTCM 3 MSM4 / MSM7 (binär)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:10
+js-trust-fmt-rtklib-pos = RTKLIB .pos-lösning (text)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:14
+js-trust-fmt-sbf = Septentrio SBF (binär)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:15
+js-trust-fmt-ubx = u-blox UBX (binär)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:267
+js-trust-gate-note-derived = Den här körningen har ingen gate-post. Remsan visar var en gate skulle ha undanhållit positionsbestämningen: epoker i det ej betrodda bandet, hållna tills 30 s efter att de lämnat det. Härlett här, inte läst från en gate. En gate är frivillig och lägger till latens.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:268
+js-trust-gate-note-read = Gaten för varje epok så som live-strömmen rapporterade den: av, släppt igenom eller undanhållen (positionsbestämningen markerades som ogiltig i den vidarebefordrade cykeln).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:703
+js-trust-gate-now-derived = { $gate } · härledd
+
+# 2026-10-01-studio-rebuild/trust/trust.js:702
+js-trust-gate-off = Av
+
+# 2026-10-01-studio-rebuild/trust/trust.js:702
+js-trust-gate-off-cal = Av (kalibrerar)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:702
+js-trust-gate-passed = Släppt igenom: positionsbestämningen vidarebefordras oförändrad
+
+# 2026-10-01-studio-rebuild/trust/trust.js:420
+js-trust-gate-span = gate { $gate }, { $from } till { $to }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:420
+js-trust-gate-span-derived = gate { $gate } (härledd), { $from } till { $to }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:702
+js-trust-gate-withheld = Undanhållen: positionsbestämningen skulle markeras som ogiltig längre ned i flödet
+
+# 2026-10-01-studio-rebuild/trust/trust.js:167
+js-trust-gen-chart-label = Motorns diagram över körningen: bärvåg-till-brus-täthet, tillstånd och larm över tid
+
+# 2026-10-01-studio-rebuild/trust/trust.js:154
+js-trust-gen-epochs = Epoker: { $nominal } nominella, { $degraded } försämrade, { $untrusted } ej betrodda efter kalibreringsfönstret på { $window } epoker.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:157
+js-trust-gen-self-heading = Mottagarens egna flaggor, mot larmen från Kshana
+
+# 2026-10-01-studio-rebuild/trust/trust.js:157
+js-trust-gen-self-note = En jämförelse, inte en kontroll av någondera: mottagarens flagga är dess egen rapport.
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:180
+js-trust-geo-deduction-class = { $points } poäng ({ $class })
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:180
+js-trust-geo-deduction-points = { $points } poäng
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:177
+js-trust-geo-flag-mismatch = HDOP som mottagaren anger avviker från den som härleds ur den himmel den rapporterar: ett geometriavdrag räknas som inkonsekvens.
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:178
+js-trust-geo-flag-signal-loss = Signalförlust: satelliter i sikte följs inte trots att deras geometri är god, så ett geometriavdrag räknas som miljö.
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:161
+js-trust-geo-heading-label = geometri { $label }
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:162
+js-trust-geo-label-fair = { $label } (poängsätts inte)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:163
+js-trust-geo-label-poor = { $label } (den enda etikett som poängen drar av för)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:157
+js-trust-geo-none-in-run = Ingen geometri i den här körningen (en motor före 0.36 skriver ingen).
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:22
+js-trust-geo-reason-few-satellites = färre satelliter än minimum
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:24
+js-trust-geo-reason-high-hdop = HDOP över sin tröskel
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:23
+js-trust-geo-reason-high-pdop = PDOP över sin tröskel
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:25
+js-trust-geo-reason-sky-blocked = de följda satelliterna lämnar ett brett gap i azimut (ena sidan av himlen blockerad)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:180
+js-trust-geo-row-deduction = Geometriavdrag
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:173
+js-trust-geo-row-from = Från
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:170
+js-trust-geo-row-gap = Största azimutgap
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:166
+js-trust-geo-row-label = Etikett
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:171
+js-trust-geo-row-open-sky = Öppen himmel
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:175
+js-trust-geo-row-reported-hdop = HDOP som mottagaren anger
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:168
+js-trust-geo-row-sats-used = Använda satelliter
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:172
+js-trust-geo-row-sky-age = Himlens ålder
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:167
+js-trust-geo-row-status = Status
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:193
+js-trust-geo-say-deduction = geometriavdrag { $points } poäng
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:191
+js-trust-geo-say-label-hdop = geometri { $label } (HDOP { $hdop })
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:192
+js-trust-geo-say-mismatch = angiven HDOP avviker
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:36
+js-trust-geo-source-derived = härledd ur de satelliter loggen rapporterar (GSV)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:38
+js-trust-geo-source-none = ingenting
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:37
+js-trust-geo-source-reported = mottagarens angivna DOP (GSA)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:167
+js-trust-geo-status-reasons = { $status }: { $reasons }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:428
+js-trust-geo-status-title = geometri { $status }
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:28
+js-trust-geo-unknown-no-gsv = geometri okänd: ingen GSV eller GSA i loggen
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:160
+js-trust-geo-unknown-no-gsv-sentence = Geometri okänd: ingen GSV eller GSA i loggen.
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:160
+js-trust-geo-unknown-odd = Geometri okänd (filen anger "{ $odd }", vilket den här sidan inte känner till).
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:168
+js-trust-geo-used-of-view = { $used } av { $inView } i sikte
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-got-file-kind = { $name }: { $kind }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:70
+js-trust-got-lines-skipped = { $count } rad(er) i { $name } var inte epoker och hoppades över
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:20
+js-trust-imu-csv = CSV med en rubrikrad
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:21
+js-trust-imu-euroc = EuRoC MAV imu0 data.csv
+
+# 2026-10-01-studio-rebuild/trust/trust.js:219
+js-trust-imu-file = IMU-fil: { $name } ({ $chars } tecken). Används vid nästa bedömning.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:218
+js-trust-imu-file-press = IMU-fil: { $name } ({ $chars } tecken). Används vid nästa bedömning; tryck på Bedöm den valda filen.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:226
+js-trust-imu-none = Ingen IMU-fil.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-latency = Latens, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-monitors = Första övervakare
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-name = Namn
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-outcome = Utfall
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-recovered = Återhämtad
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-slot = Tidslucka, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-test = Test
+
+# 2026-10-01-studio-rebuild/trust/trust.js:803
+js-trust-jt-label = { $label } Skydd { $guard } s, återhämtningshållning { $hold } s.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:802
+js-trust-jt-label-contaminated = { $label } Skydd { $guard } s, återhämtningshållning { $hold } s. Kalibreringsbaslinjen överlappade en schemalagd tidslucka.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:809
+js-trust-jt-opened = Öppnade { $name }: { $count } test(er). Läst här; ingenting laddades upp.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-kind-batch-result = batchresultat
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-kind-json-lines = JSON-rader
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-kind-nmea-log = NMEA-logg
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-kind-truth-file = referensfil
+
+# 2026-10-01-studio-rebuild/trust/trust.js:239
+js-trust-label-demo = Syntetisk demo: en påhittad färjelogg med en påhittad positions-drag-off, poängsatt av Kshana. Registrerad från motorn; loggen är text, inte en mätning.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:186
+js-trust-label-example = Illustrativt exempel: en påhittad NMEA-logg med en påhittad störsändare från 120 s till 240 s, bedömd här av motorn. Text, inte en mätning.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:249
+js-trust-label-geo-demo = Syntetisk demo med maskerad himmel: färjeloggen med den västra halvan av himlen släckt från 600 s (naturlig försämring, hänförd till geometri) och samma påhittade drag-off från 1500 s (attackliknande). Registrerad från en motor med geometrin från 0.36; text, inte en mätning.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:126
+js-trust-label-score-demo = Syntetisk demologg, poängsatt här av motorn. Påhittad färjelogg och drag-off; text, inte en mätning.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:549
+js-trust-legend-calibrating = Kalibrerar (poängsätts aldrig)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-class = Avdragsklass:
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-class-environment = miljö: signalen
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-class-geometry = geometri: himlen, inte signalen
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-class-inconsistency = inkonsekvens (attackliknande)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:549
+js-trust-legend-degraded = Försämrad
+
+# 2026-10-01-studio-rebuild/trust/trust.js:557
+js-trust-legend-demo = I den här demon rapporterar mottagaren en giltig positionsbestämning hela tiden (GGA-kvalitet 1, RMC-status A). Det är poängen som sjunker.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:553
+js-trust-legend-geo-degraded = geometri försämrad
+
+# 2026-10-01-studio-rebuild/trust/trust.js:553
+js-trust-legend-geo-good = geometri god
+
+# 2026-10-01-studio-rebuild/trust/trust.js:553
+js-trust-legend-geo-unknown = geometri okänd (ingen GSV eller GSA; inte god)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:549
+js-trust-legend-nominal = Nominell
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self = Mottagarens egen flagga mot larmen från Kshana:
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self-both = båda flaggar
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self-kshana = bara Kshana
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self-neither = ingen
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self-receiver = bara mottagaren
+
+# 2026-10-01-studio-rebuild/trust/trust.js:553
+js-trust-legend-sky = Himmel:
+
+# 2026-10-01-studio-rebuild/trust/trust.js:551
+js-trust-legend-true-track = Referensspår (endast syntetiska data)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-underline = understruken: geometri kostar också poäng
+
+# 2026-10-01-studio-rebuild/trust/trust.js:549
+js-trust-legend-untrusted = Ej betrodd
+
+# 2026-10-01-studio-rebuild/trust/trust.js:753
+js-trust-marks-cleared = Markeringar borttagna.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:753
+js-trust-marks-set = { $name } låg över sin insättningsnivå i { $count } epoker; de är markerade på tidslinjen och spåret.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:34
+js-trust-mon-agc = Den automatiska förstärkningsregleringen rörde sig mot sin baslinje.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:38
+js-trust-mon-clock = Den klockstödda övervakaren: mottagarklockan mot sin förutsagda linje.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:32
+js-trust-mon-cn0-drop = Effektförnekelse: signalstyrkan har fallit mot kalibreringsbaslinjen.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:29
+js-trust-mon-cn0-rise = Söker efter signaturen från en enda sändare: signalstyrkan över satelliterna stiger tillsammans mot baslinjen.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:28
+js-trust-mon-cn0-spread = Söker efter signaturen från en enda sändare: signalstyrkan över satelliterna kollapsar tillsammans mot kalibreringsbaslinjen.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:41
+js-trust-mon-geometry = Satellitgeometrin (0.36): kostar poäng bara när geometrin är dålig (HDOP, PDOP eller antalet använda satelliter bortom sina trösklar), begränsad och aldrig under det försämrade bandet.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:25
+js-trust-mon-heading-course = Jämför spårets riktning med dit fartyget pekar, inom den angivna krabbvinkeln.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:35
+js-trust-mon-jam-ind = Mottagarens egen jamming-indikator.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:24
+js-trust-mon-kinematic = Jämför varje positionssteg med den rapporterade farten och kursen, och med fartygets angivna gränser för fart, acceleration och girhastighet.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:33
+js-trust-mon-loss-of-lock = Förlust av följda satelliter.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:31
+js-trust-mon-osnma = Läser ett rapporterat OSNMA-autentiseringsfel. Statusen läses, den verifieras inte.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:36
+js-trust-mon-position-jump = Ett steg i den rapporterade positionen som är större än baslinjen tillåter.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:37
+js-trust-mon-raim = Teststatistiken för mottagarens autonoma integritetsövervakning mot sin tröskel.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:40
+js-trust-mon-receiver-self-report = Mottagarens egen flagga för spoofing eller jamming (till exempel u-blox UBX-SEC-SIG eller NAV-STATUS spoofDetState), visad bredvid övervakarna från Kshana. Läst ur loggen, inte verifierad; platsen är redo för övervakaren i 0.38-motorn och ritas som en remsa när ett resultat bär den.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:27
+js-trust-mon-sea-level = Kontrollerar att höjden är där havsytan och den angivna antennhöjden placerar den.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:39
+js-trust-mon-solve-failure = Positionslösningen kunde inte beräknas.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:26
+js-trust-mon-speed-log = Jämför fart över grund med fart genom vattnet, inom den angivna strömtillåtenheten.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:30
+js-trust-mon-time-consistency = Kontrollerar mottagarens tid för oregelbundna steg eller bakåtgående tid, och mot den här datorns klocka för realtidsströmmar.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:46
+js-trust-mon-unknown = En övervakare som den här vyn saknar beskrivning av (nyare än sidan). Behandla den som en övervakare.
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:71
+js-trust-na = saknas
+
+# 2026-10-01-studio-rebuild/trust/trust.js:517
+js-trust-name-colon-text = { $name }: { $text }
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:71
+js-trust-never = aldrig
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:56
+js-trust-no = nej
+
+# 2026-10-01-studio-rebuild/trust/trust.js:435
+js-trust-no-deduction = inget avdrag
+
+# 2026-10-01-studio-rebuild/trust/trust.js:162
+js-trust-none = ingen
+
+# 2026-10-01-studio-rebuild/trust/trust.js:308
+js-trust-north = N
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:40
+js-trust-not-stated = inte angiven
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:376
+js-trust-note-advisories = Raderna bär { $count } olika rådgivande utlåtanden; det första visas.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:383
+js-trust-note-csv-limits = trust.csv bär poäng och skäl men inte kvoter eller positioner.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:378
+js-trust-note-live-no-model = En live-ström anger inte vilka övervakare som körde eller poängmodellen; bandgränserna nedan är de dokumenterade standardvärdena och övervakarremsorna visar bara övervakare som kostar poäng.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:397
+js-trust-note-nmea-no-match = Ingen NMEA-positionsbestämning kunde matchas mot en epok via tid.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:396
+js-trust-note-nmea-skipped = { $count } NMEA-mening(ar) med felaktig kontrollsumma eller felaktiga fält hoppades över.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:359
+js-trust-note-skipped-epochs = { $count } epok(er) utan numeriskt t_s hoppades över.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:402
+js-trust-note-truth-no-match = Referensfilens tider matchar ingen epok.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:388
+js-trust-note-unknown-state = { $count } epok(er) bär ett tillstånd som den här sidan inte känner till ({ $states }); de ritas som kalibrerande och poängsätts aldrig.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:697
+js-trust-offset-at = Vid { $time } är den av mottagaren rapporterade positionen { $m } m från där fartyget faktiskt var (syntetisk referens).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:698
+js-trust-offset-no-truth = Ingen referensposition vid den här tiden.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:81
+js-trust-opened = Öppnade { $count } epoker ({ $source }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:233
+js-trust-opening-demo = Öppnar den syntetiska demon…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:121
+js-trust-opening-demo-log = Öppnar den syntetiska demologgen…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:180
+js-trust-opening-example = Öppnar det illustrativa exemplet…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:244
+js-trust-opening-geo-demo = Öppnar demon med maskerad himmel…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:781
+js-trust-pause = Pausa
+
+# 2026-10-01-studio-rebuild/trust/trust.js:786
+js-trust-play = Spela upp
+
+# 2026-10-01-studio-rebuild/trust/trust.js:90
+js-trust-reading = Läser…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:710
+js-trust-reasons-calibrating = Kalibrerar: de första sekunderna bildar baslinjen och poängsätts aldrig.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:724
+js-trust-reasons-class-note = Varje avdrag bär motorns klass: geometri (himlen), miljö (signalen) eller inkonsekvens (attackliknande)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:731
+js-trust-reasons-live-unknown = Vilka övervakare som körde anges inte i en live-ström; en kontroll som saknas här kanske inte har körts.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:726
+js-trust-reasons-marked-none = markerad; inget avdrag här
+
+# 2026-10-01-studio-rebuild/trust/trust.js:711
+js-trust-reasons-no-score = Ingen poäng vid den här epoken.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:711
+js-trust-reasons-no-score-note = Ingen poäng vid den här epoken: { $note }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:730
+js-trust-reasons-not-run = Inte körd (inte en lyckad kontroll)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:712
+js-trust-reasons-nothing = Inget drogs av vid den här epoken. Det är inget belägg för att positionsbestämningen är god: se vad kontrollerna inte kan se, nedan.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:720
+js-trust-reasons-pts = { $points } p
+
+# 2026-10-01-studio-rebuild/trust/trust.js:729
+js-trust-reasons-ran-free = Körd, kostade ingenting
+
+# 2026-10-01-studio-rebuild/trust/trust.js:720
+js-trust-reasons-ratio = kvot { $ratio }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:717
+js-trust-reasons-row-title = { $name }: { $text } Klicka för att markera var den låg över sin insättningsnivå.
