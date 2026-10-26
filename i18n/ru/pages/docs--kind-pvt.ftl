@@ -40,4 +40,4 @@ seg-8ea056f1d7e0 = <s1>Назад</s1>passes
 
 seg-d1dc82bbfb73 = <s1>Далее</s1>quantum-anomaly-detect
 
-seg-e94743033275 = { "3.03" } N: GNSS NAV DATA M: СМЕШАННЫЙ
+seg-e94743033275 = { "3.03" } N: GNSS NAV DATA M: MIXED
