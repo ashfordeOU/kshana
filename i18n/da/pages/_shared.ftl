@@ -341,3 +341,79 @@ seg-039b7c5fd78a = Enhed
 seg-37f058c4e1c3 = antal
 
 seg-e88d3dbcfe0c = MODELLED
+
+seg-852814f107a7 = Sider om scenarietyper
+
+seg-1a26d420ba67 = Se også
+
+seg-c4f4b2ca0647 = Værdi
+
+seg-e8968e86f31b = Begrænsninger
+
+seg-7dc0fcd6ef77 = aocs
+
+seg-c6ced184b8eb = campaign
+
+seg-bcc7452b7e9c = clock
+
+seg-00593bd8a3ed = ephemeris
+
+seg-0cb65c6c4f53 = fusion
+
+seg-dbe8c830ef6c = hybrid
+
+seg-eae62828dc7a = inertial
+
+seg-8af88a0e2a69 = integrity
+
+seg-9a63fde1d8b1 = jamming
+
+seg-f8450911ddd6 = orbit
+
+seg-6dd5a0d55f18 = passes
+
+seg-786068921d01 = pvt
+
+seg-63f112536118 = reentry
+
+seg-f79dad339a1e = spectrum
+
+seg-8ea9f458185d = spoof
+
+seg-460826ea7719 = sweep
+
+seg-55f3ac33d883 = timetransfer
+
+seg-a37260157d35 = Input
+
+seg-0ffd6d4b0d8c = Fra skemaet (<c1/>):
+
+seg-7a473d2b9b37 = Påkrævede felter: ingen
+
+seg-0484c5d57886 = ikke angivet
+
+seg-619be4963365 = tekst
+
+seg-15636cc68f72 = flag
+
+seg-473eb8189015 = Kør den
+
+seg-8b01aa51263e = Hvad den giver
+
+seg-5aa75472f59d = De skalare resultater af den kørsel, med de enheder, motoren angiver:
+
+seg-dfd41abc16b5 = Resultat
+
+seg-0df8f55cbe06 = deg
+
+seg-4798bca2d7a7 = MODELLED: rækkerne i <a1>verifikationsmatrixen</a1>, der nævner denne type.
+
+seg-6338a873ee85 = De rækker, som kørslen selv afprøvede, med den uafhængige reference, som matrixen giver hver (de offentlige kilder er nævnt dér):
+
+seg-fe24dcc6971f = <b>MODELLED</b> Deterministisk, scenarie-hashet, SBOM + gates med golden-filer på tværs af platforme. Uafhængig reference (ExternalDataset): SBOM'ens validering mod det officielle CycloneDX { "1.5" } JSON-skema (+ gyldige SPDX-identifikatorer) — en ekstern publiceret standard, nul valideringsfejl over hele afhængighedsgrafen; den del, der gælder FoM-determinisme / byte-reproducerbarhed, er fortsat et fastlåst selvkonsistenstjek, så rækken forbliver MODELLED
+
+seg-1fc08d2f0209 = Hvad kørslens egen rapport siger ikke er modelleret eller ikke er valideret:
+
+seg-58c4d7218e70 = Reproducerbarhed og softwarekvalitetssikring er MODELLED, ikke valideret: en delpåstand kontrolleres eksternt, men hele funktionen sammensættes af modellerede dele, så funktionen forbliver modelleret. (verifikationsmatrix (docs/MODELLED-RATIONALE.md))
+
+seg-1bf3d5817274 = Alle typer: <a1>KINDS.md</a1>
