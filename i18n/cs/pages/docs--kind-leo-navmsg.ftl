@@ -30,7 +30,7 @@ seg-549a6103e711 = bit
 
 seg-fb689f03361c = byte
 
-seg-c60901596100 = Štítek výsledku (enginu): SMÍŠENÉ — stavební bloky VALIDATED, výsledky MODELLED. Váhy SISRE reprodukují publikovanou tabulku MEO/GEO (Montenbruck et al. { "2018" }), uživatelský algoritmus Galileo ICD reprodukuje RTKLIB na skutečných vysílaných efemeridách Galileo a CRC-24Q reprodukuje svou katalogovou kontrolní hodnotu a ukázkový rámec RTCM { "1005" }
+seg-c60901596100 = Štítek výsledku (enginu): MIXED — stavební bloky VALIDATED, výsledky MODELLED. Váhy SISRE reprodukují publikovanou tabulku MEO/GEO (Montenbruck et al. { "2018" }), uživatelský algoritmus Galileo ICD reprodukuje RTKLIB na skutečných vysílaných efemeridách Galileo a CRC-24Q reprodukuje svou katalogovou kontrolní hodnotu a ukázkový rámec RTCM { "1005" }
 
 seg-35e92abc6a23 = Graf, který engine zapisuje pro scenarios/leo-navmsg-celeste-iod.toml, druh leo-navmsg
 
@@ -66,7 +66,7 @@ seg-642d8f4d60e7 = Koeficienty NeQuick-G jsou neseny a efektivní úroveň ioniz
 
 seg-8ba04a3147bd = Členy 22parametrového modelu Liu et al. { "2025" } sledují uživatelský algoritmus z článku (rov. 1-7) a strategii proložení (oddíl { "2.3" }); jeho údaje SISRE v závislosti na výšce používaly skutečné přesné dráhy, takže toto srovnání na dráze integrované Kshanou je MODELLED, nikoli VALIDATED (srovnání na skutečné dráze je tests/leo_navmsg_fit_real_orbit_oracle.rs). (výsledek <c1/>)
 
-seg-b3585c7feb4e = SMÍŠENÉ — stavební bloky VALIDATED, výsledky MODELLED. Váhy SISRE reprodukují publikovanou tabulku MEO/GEO (Montenbruck et al. { "2018" }), uživatelský algoritmus Galileo ICD reprodukuje RTKLIB na skutečných vysílaných efemeridách Galileo a CRC-24Q reprodukuje svou katalogovou kontrolní hodnotu a ukázkový rámec RTCM { "1005" }. Každý údaj o proložení, SISRE, kontinuitě a kvantizaci je MODELLED: chyba reprezentace zprávy oproti (výsledek <c1/>)
+seg-b3585c7feb4e = MIXED — stavební bloky VALIDATED, výsledky MODELLED. Váhy SISRE reprodukují publikovanou tabulku MEO/GEO (Montenbruck et al. { "2018" }), uživatelský algoritmus Galileo ICD reprodukuje RTKLIB na skutečných vysílaných efemeridách Galileo a CRC-24Q reprodukuje svou katalogovou kontrolní hodnotu a ukázkový rámec RTCM { "1005" }. Každý údaj o proložení, SISRE, kontinuitě a kvantizaci je MODELLED: chyba reprezentace zprávy oproti (výsledek <c1/>)
 
 seg-d6e412aab1b4 = MODELLED: každý údaj o proložení a SISRE je chyba reprezentace oproti pravdě integrované Kshanou (žádná chyba určení ani předpovědi dráhy); srovnání s Liu et al. (katalog druhů (<c1/>))
 

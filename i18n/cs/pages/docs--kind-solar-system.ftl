@@ -44,7 +44,7 @@ seg-c4b64eb26210 = ICRF (rovníková J2000), heliocentrická; m
 
 seg-6096a0ab243b = Standish tabulka { "1" } ({ "1800" } n. l. až { "2050" } n. l.)
 
-seg-5c9a8d4716f5 = Popisek výsledku (z enginu): SMÍŠENÝ: každé těleso nese vlastní popisek. Polohy planet jsou VALIDATED proti JPL Horizons v rozmezí dvojnásobku Standishovy nominální chyby (Merkur až Saturn a Země z tabulky { "1" }; všech osm planet z tabulek 2a/2b); Uran a Neptun z tabulky { "1" }, Pluto, Měsíc a sedm měsíců jsou MODELLED.
+seg-5c9a8d4716f5 = Popisek výsledku (z enginu): MIXED: každé těleso nese vlastní popisek. Polohy planet jsou VALIDATED proti JPL Horizons v rozmezí dvojnásobku Standishovy nominální chyby (Merkur až Saturn a Země z tabulky { "1" }; všech osm planet z tabulek 2a/2b); Uran a Neptun z tabulky { "1" }, Pluto, Měsíc a sedm měsíců jsou MODELLED.
 
 seg-537aa8010e50 = Graf, který engine zapisuje pro scenarios/solar-system-tour.toml, druh solar-system
 
@@ -62,7 +62,7 @@ seg-ab1192de28f5 = <b>VALIDATED</b> Newtonovský jednosměrný světelný čas z
 
 seg-5a2e745828ea = <b>MODELLED</b> Polohy Uranu a Neptunu ze Standishovy tabulky { "1" } (výchozí v rozmezí { "1800" } n. l. až { "2050" } n. l.), Pluta z řádku tabulky { "1" } z roku { "1992" }, který aktuální stránka JPL již ne. Orákulum (ExternalDataset): Měřeno proti JPL Horizons DE441 (tytéž potvrzené fixtury), ale neověřeno: uvedené hodnoty tabulky { "1" } pro Uran a Neptun jsou proti heliocentrickým polohám DE441 překročeny až { "2.0" }násobně a { "5.2" }násobně (Neptun tyto hodnoty vůči barycentrickým polohám splňuje, což naznačuje, že proložení nebylo heliocentrické), stránka neuvádí pro Pluto žádnou chybu a pro rychlosti neexistuje žádná publikovaná mez. Tabulky 2a/2b splňují své vl
 
-seg-0131b082906b = SMÍŠENÝ: každé těleso nese vlastní popisek. Polohy planet jsou VALIDATED proti JPL Horizons v rozmezí dvojnásobku Standishovy nominální chyby (Merkur až Saturn a Země z tabulky { "1" }; všech osm planet z tabulek 2a/2b); Uran a Neptun z tabulky { "1" }, Pluto, Měsíc a sedm měsíců jsou MODELLED. Světelné časy jsou newtonovské, ze stejných poloh. (výsledek <c1/>)
+seg-0131b082906b = MIXED: každé těleso nese vlastní popisek. Polohy planet jsou VALIDATED proti JPL Horizons v rozmezí dvojnásobku Standishovy nominální chyby (Merkur až Saturn a Země z tabulky { "1" }; všech osm planet z tabulek 2a/2b); Uran a Neptun z tabulky { "1" }, Pluto, Měsíc a sedm měsíců jsou MODELLED. Světelné časy jsou newtonovské, ze stejných poloh. (výsledek <c1/>)
 
 seg-3e24f0bf9ccd = MODELLED, každý řádek označen: Uran a Neptun z tabulky { "1" } ({ "2.0" }násobek a { "5.2" }násobek nominální chyby proti DE441), Pluto (řádek z roku { "1992" }; bez uvedené chyby), Měsíc a sedm měsíců (měřeno proti Horizons, bez publikované meze). (katalog druhů (<c1/>))
 
