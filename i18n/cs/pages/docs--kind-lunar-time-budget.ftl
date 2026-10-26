@@ -43,3 +43,7 @@ seg-5eaed32490ca = Reprodukovatelnost lunárního rozpočtu časové chyby je MO
 seg-988e99fc26be = <s1>Předchozí</s1>lunar-station-coverage
 
 seg-a0992d394960 = <s1>Další</s1>lunar-time-offset
+
+seg-1f17ef6a853e = Druh scénáře enginu v{ $version }, rodina <a1>Lunární a cislunární</a1>. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o typově schválené navigační zařízení ani o službu z oblasti bezpečnosti života. Každé označení zde pochází z enginu nebo z verifikační matice; druh je MODELLED, pokud matice neuvádí jinak (jak se označení získává: oddíl Evidence v README).
+
+seg-1c1eeb2dcaa0 = Stránka rodiny: <a1>Lunární a cislunární</a1>

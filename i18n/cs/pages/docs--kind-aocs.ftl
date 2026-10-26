@@ -45,3 +45,9 @@ seg-d7889856073b = <b>MODELLED</b> Multiplikativní EKF podle Leffertse, Markley
 seg-3b71575e0c23 = Smyčka skutečného stavu je VALIDATED proti Basilisk { "2.9.1" }; estimátor je MODELLED. (katalog druhů (<c1/>))
 
 seg-c7ff0ddbd040 = Multiplikativní odhad orientace EKF z gyroskopu a hvězdného sledovače je MODELLED, nikoli ověřen nezávislou referencí: zkontrolováno proti vlastní uzavřené / analytické identitě — zachytí chyby přepisu a koeficientů, ale není to externí orákulum. (verifikační matice (docs/MODELLED-RATIONALE.md))
+
+seg-cc4e7274d409 = Tematická stránka: <a1>AOCS.md</a1>
+
+seg-b022bad77259 = <s1>Předchozí</s1>acm-link
+
+seg-1fb6e680fd4a = <s1>Další</s1>aperture-duty-cycle

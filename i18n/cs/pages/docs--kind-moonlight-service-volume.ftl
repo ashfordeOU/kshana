@@ -29,3 +29,9 @@ seg-2ff91fe31123 = ČESTNOST: MODELLED kompozice. Geometrie DOP je ověřena TÍ
 seg-f3279128de3b = <s1>Předchozí</s1>mars-pnt
 
 seg-92cd937a3fb7 = <s1>Další</s1>ntn-positioning
+
+seg-1f17ef6a853e = Druh scénáře enginu v{ $version }, rodina <a1>Lunární a cislunární</a1>. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o typově schválené navigační zařízení ani o službu z oblasti bezpečnosti života. Každé označení zde pochází z enginu nebo z verifikační matice; druh je MODELLED, pokud matice neuvádí jinak (jak se označení získává: oddíl Evidence v README).
+
+seg-1c1eeb2dcaa0 = Stránka rodiny: <a1>Lunární a cislunární</a1>
+
+seg-619127334cf3 = Žádný řádek matice tento druh nejmenuje; označení jeho výsledku je vlastní označení enginu uvedené výše.

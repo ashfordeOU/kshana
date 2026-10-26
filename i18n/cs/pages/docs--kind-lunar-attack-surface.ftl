@@ -31,3 +31,19 @@ seg-95be70748647 = Záchytná stopa v závislosti na výšce a šířce svazku j
 seg-1a1799e01ac4 = <s1>Předchozí</s1>link-budget
 
 seg-4b0efe4b9b85 = <s1>Další</s1>lunar-beacon
+
+seg-98151954f217 = false
+
+seg-cc2ad9e12064 = <b>MODELLED</b> Rozpočet spoje J/S z geometrie, C/N₀ odolné proti rušení, ztráta zachycení signálu na jednotlivé družice. Oracle (InternalConsistency): Rovnice rozpočtu spoje pro C/N₀ odolné proti rušení je křížově zkontrolována nezávislým odvozením v numpy (sdílí stejný uzavřený tvar → InternalConsistency) a charakterizací zhoršení C/N₀ z reálného JammerTest-2024. { "0.30" } kolo { "2" }, zablokováno (zůstává MODELLED): naměřený pokles C/N0 v JammerTest { "2024" } proti predikci rozpočtu spoje (předregistrováno 6a66994b, do { "3" } dB) nebyl proveden, protože poloha a zaměření antény F8.1 při
+
+seg-143f3f1cc521 = Odolnost proti rušení při odepření GNSS je MODELLED, nikoli ověřena proti nezávislé vnější referenci: kontroluje se proti vlastní uzavřené / analytické identitě, což zachytí chyby přepisu a koeficientů, ale není to vnější orákulum. (verifikační matice (docs/MODELLED-RATIONALE.md))
+
+seg-1f17ef6a853e = Druh scénáře enginu v{ $version }, rodina <a1>Lunární a cislunární</a1>. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o typově schválené navigační zařízení ani o službu z oblasti bezpečnosti života. Každé označení zde pochází z enginu nebo z verifikační matice; druh je MODELLED, pokud matice neuvádí jinak (jak se označení získává: oddíl Evidence v README).
+
+seg-1c1eeb2dcaa0 = Stránka rodiny: <a1>Lunární a cislunární</a1>
+
+seg-619127334cf3 = Žádný řádek matice tento druh nejmenuje; označení jeho výsledku je vlastní označení enginu uvedené výše.
+
+seg-a3697ad561db = Hz
+
+seg-9521a296d617 = dBi

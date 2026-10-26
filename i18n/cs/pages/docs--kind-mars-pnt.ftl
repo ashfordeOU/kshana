@@ -25,3 +25,17 @@ seg-83c3a84f6b98 = <b>VALIDATED</b> Obnova stavu v epoše [r,v] ze vzdáleností
 seg-4be479b81f39 = <s1>Předchozí</s1>lunar-vlbi
 
 seg-2854e6a75833 = <s1>Další</s1>moonlight-service-volume
+
+seg-11e8c29ecb45 = Druh scénáře enginu v{ $version }, rodina <a1>Konstelace, pokrytí a geometrie</a1>. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o typově schválené navigační zařízení ani o službu z oblasti bezpečnosti života. Každé označení zde pochází z enginu nebo z verifikační matice; druh je MODELLED, pokud matice neuvádí jinak (jak se označení získává: oddíl Evidence v README).
+
+seg-45259ad33a01 = <b>MODELLED</b> Druh <c1/>: orbiter nebo povrchový lander kolem tělesa zvoleného podle názvu navigují jednosměrnými pseudovzdálenostmi z navigační konstelace typu Walker kolem tělesa (dvoutělesové dráhy se sekulárním driftem J2 tělesa, neznámé hodiny uživatele
+
+seg-a4f1e7d2041e = Stránka rodiny: <a1>Konstelace, pokrytí a geometrie</a1>
+
+seg-670191cf797f = Tematická stránka: <a1>SOLAR-SYSTEM.md</a1>
+
+seg-3ea0aa9b3907 = <b>MODELLED</b> 3stavové (fáze / frekvence / drift) Kalmanovy hodiny van Loan, Joseph-stabilizované. Oracle (ReferenceImpl): filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), s F přes scipy.linalg.expm a Q přes blokovou matici Van Loan { "1978" } -- nezávislá referenční implementace reprodukující celou trajektorii filtru Kshany. Konzistence mezi implementacemi: fyzika hodin a kalibrace Allanovy odchylky nejsou ověřeny proti nezávislé vnější referenci, proto zůstává MODELLED. { "0.30" } vnější srovnání, zjištění (zůstává MODELLED): na hodinách IGS final { "30" } s z { "11" } GPS Blo
+
+seg-8de95b3a9229 = Odhad stavu palubních hodin je MODELLED, nikoli ověřen proti nezávislé vnější referenci: kontroluje se proti samostatné implementaci v téže kódové základně, nezávislé na testované jednotce, ale není vnějším autoritativním zdrojem. (verifikační matice (docs/MODELLED-RATIONALE.md))
+
+seg-3bc1761c76ab = Tento druh používají { "3" } přibalené scénáře; ostatní jsou v <a1><c1/></a1>.

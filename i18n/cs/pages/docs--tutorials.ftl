@@ -21,3 +21,5 @@ seg-b03d56f501c3 = Druh
 seg-029de6b99be0 = Inerciální výpočet polohy z pohybu
 
 seg-9ef8f99ca6e4 = Přenos času
+
+seg-ec26df467b88 = Společná Kalmanova fúze senzorů PNT nad týmiž hybridními vstupy.

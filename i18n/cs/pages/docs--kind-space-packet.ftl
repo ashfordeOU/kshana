@@ -5,3 +5,7 @@ seg-99ef7c1d552c = Druh scénáře enginu v{ $version }, rodina <a1>Analýza mis
 seg-8f1e7d3f5a07 = Stránka rodiny: <a1>Analýza misí, spoje a kosmické operace</a1>
 
 seg-2ac27c1e55c0 = oktet
+
+seg-3068552e4ab4 = VALIDATED: řádky <a1>verifikační matice</a1>, které tento druh uvádějí.
+
+seg-98151954f217 = false
