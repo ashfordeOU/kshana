@@ -9,3 +9,5 @@ seg-3a3ee499961e = <b>MODELLED</b> Vlakke zwaartekrachtbocht-opstijging van een 
 seg-8e62cc4af6ea = Onderwerppagina: <a1>ENTRY-EO-ASCENT.md</a1>
 
 seg-05ce408c2dbb = kg/m^{ "2" }
+
+seg-195347c63a8a = m/s^{ "2" }

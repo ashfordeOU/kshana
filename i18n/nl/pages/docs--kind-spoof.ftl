@@ -17,3 +17,9 @@ seg-b9174c70772f = <b>MODELLED</b> Klokondersteunde χ², RAIM, AGC, SQM, per ti
 seg-e4b64d7277da = Spoofingdetectie is MODELLED, niet extern getoetst: een deelclaim wordt extern gecontroleerd, maar de hele mogelijkheid is samengesteld uit gemodelleerde onderdelen, dus de mogelijkheid blijft gemodelleerd. (verificatiematrix (docs/MODELLED-RATIONALE.md))
 
 seg-ee7dd15019d0 = Onderwerppagina: <a1>CAMPAIGNS.md</a1>
+
+seg-5a70fcb097dc = Optionele velden: geen
+
+seg-304496607bd7 = Scenariosoort van de engine v{ $version }, familie <a1>Jamming, spoofing en het spectrum</a1>. Adviserend: uitvoer van een analyse door een onderzoeks- en engineeringhulpmiddel, geen typegoedgekeurde navigatieapparatuur en geen safety-of-life-dienst. Elk label hier is van de engine of van de verificatiematrix; een soort is MODELLED tenzij de matrix anders vermeldt (hoe een label wordt verdiend: de sectie Evidence van de README).
+
+seg-5d23d7f8f872 = Familiepagina: <a1>Jamming, spoofing en het spectrum</a1>

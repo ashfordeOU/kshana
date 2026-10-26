@@ -11,3 +11,11 @@ seg-849c08d3ce70 = Familiepagina: <a1>Klokken, tijdsynchronisatie en holdover</a
 seg-619127334cf3 = Geen rij van de matrix noemt dit kind bij naam; het label op het resultaat is dat van de engine zelf, hierboven.
 
 seg-a3697ad561db = Hz
+
+seg-496b17a8d3b9 = Onderwerppagina: <a1>QUANTUM-MODELS.md</a1>
+
+seg-a1810bbca337 = <b>MODELLED</b> Tweerichtings-/TWSTFT (Sagnac), GNSS-common-view, PPP; linkjitter→afstand. Onafhankelijke referentie (ExternalDataset): Sagnac-grootte gecontroleerd tegen een gezaghebbende GEPUBLICEERDE WAARDE — N. Ashby, 'Relativity in the GPS', Living Reviews in Relativity { "6" }:{ "1" } ({ "2003" }), Vgl. { "1.29" }: een oostwaartse omloop langs de evenaar levert { "207.4" } ns op (2ωA_E/c²); kshana reproduceert { "207.386" } ns. Onafhankelijk bevestigd door RTKLIB { "2.4.3" } geodist() (Takasu, BSD-2-Clause), dat dezelfde 2Aω/c²-geometrie hanteert. De samengestelde BIPM-TWSTFT-transponder/common-view/
+
+seg-a8beb8dfc757 = Foutbudgettering van tijdoverdracht is MODELLED, niet getoetst aan een onafhankelijke externe referentie: een deelclaim is extern gecontroleerd, maar de hele mogelijkheid is samengesteld uit gemodelleerde onderdelen, dus de mogelijkheid blijft gemodelleerd. (verificatiematrix (docs/MODELLED-RATIONALE.md))
+
+seg-bb07c8ee153f = <b>PARTNER</b> Niet geleverd: alleen prestatiemodellen; koudeatoom-/klokhardware is van een partner. Onafhankelijke referentie (NoneKind): geen: een discipline van een partner, bewust zonder module en zonder test

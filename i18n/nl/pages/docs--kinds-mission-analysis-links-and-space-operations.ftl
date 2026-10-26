@@ -37,3 +37,7 @@ seg-47b4aea6ed01 = Voetafdruk van een aardobservatiepayload en dekkingsgeometrie
 seg-c2a8332f2ee2 = De grafiek die de engine schrijft voor scenarios/eo-coverage.toml, kind eo-coverage
 
 seg-816bd5a5808a = Radiometrie en beeldkwaliteit van een nadirbeeldvormer: radiantie van een lambertiaanse scène aan de apertuur, de cameravergelijking, signaal en shot-/donker-/lees-/kwantisatieruis en SNR; de systeem-MTF bij Nyquist (diffractie x detector x smear x jitter), de daaruit afgeleide relatieve randrespons, Q = lambda F/p en de GIQE-versie { "4" }-NIIRS zonder MTF-compensatie. MODELLED.
+
+seg-7a4e6215a488 = Lanceer- en stijggeometrie met twee lichamen: lanceerazimut(s) (sin Az = cos i / cos lat), minimaal bereikbare inclinatie, cirkelsnelheid, de oostwaartse bonus van de aardrotatie, Δv voor een dogleg-vlakwijziging wanneer de doelinclinatie lager is dan de breedtegraad van de locatie, en het aantal dagelijkse lanceermogelijkheden. MODELLED geometrie met een bolvormige aarde (geen correctie met snelheidsdriehoek voor de roterende aarde, geen model voor stijg-/weerstandsverlies).
+
+seg-9696283a95ae = De grafiek die de engine schrijft voor scenarios/launch-window.toml, soort launch-window
