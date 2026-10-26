@@ -196,6 +196,4 @@ seg-4a457afc63fb = <s1>Наступна</s1>npm і WebAssembly
 
 seg-dbbce10a12d2 = RunOutput
 
-# words to translate: REPRESENTATIVE
-# EN: the skyline presets (<c1/>, <c2/>, <c3/>, <c4/>) with their REPRESENTATIVE label, provenance and the cut every degree of azimuth; representative geometries, not surveys
 seg-8bba3099379a = пресети обрію (<c1/>, <c2/>, <c3/>, <c4/>) з їхньою позначкою РЕПРЕЗЕНТАТИВНИЙ, походженням і зрізом для кожного градуса азимута; репрезентативні геометрії, а не обстеження

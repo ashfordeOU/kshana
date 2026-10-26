@@ -276,38 +276,20 @@ seg-468e70f9a669 = <s1>Далі</s1>Навігаційне повідомлен�
 
 seg-072d0d8f618c = Монітори спуфінгу ([spoofer])
 
-# words to translate: REPRESENTATIVE, WORKSHOP, PUBLIC
-# EN: Each preset marks its numbers PUBLIC (with URL), REPRESENTATIVE (a documented design choice, never a claim about a real system) or WORKSHOP.
 seg-1d96501bb12d = Кожен пресет позначає свої числа як ПУБЛІЧНІ (з URL), РЕПРЕЗЕНТАТИВНІ (задокументований конструкторський вибір, ніколи не твердження про реальну систему) або СЕМІНАРСЬКІ.
 
-# words to translate: PUBLIC
-# EN: PUBLIC, <a1>arXiv { "2509.19551" }</a1> Tables { "1" }–{ "2" }
 seg-4ae6741795f9 = ПУБЛІЧНИЙ, <a1>arXiv { "2509.19551" }</a1>, таблиці { "1" }–{ "2" }
 
-# words to translate: PUBLIC
-# EN: PUBLIC, <a1>Resilient Navigation and Timing Foundation (RNTF)</a1> and the published orbit
 seg-5ae1331b91f8 = ПУБЛІЧНИЙ, <a1>Resilient Navigation and Timing Foundation (RNTF)</a1> та опублікована орбіта
 
-# words to translate: REPRESENTATIVE, PUBLIC
-# EN: PUBLIC signal structure (<a1>PMC10301026</a1>), REPRESENTATIVE orbit and EIRP
 seg-0533710bbbe1 = ПУБЛІЧНА структура сигналу (<a1>PMC10301026</a1>), РЕПРЕЗЕНТАТИВНА орбіта та EIRP
 
-# words to translate: REPRESENTATIVE
-# EN: REPRESENTATIVE; L, S and C carriers from public documents
 seg-a0dab2ebeb1b = РЕПРЕЗЕНТАТИВНИЙ; несівні L, S і C із публічних документів
 
-# words to translate: REPRESENTATIVE
-# EN: REPRESENTATIVE, for C-band systems whose parameters are not public (for example TrustPoint)
 seg-486f17197d4d = РЕПРЕЗЕНТАТИВНИЙ, для систем C-діапазону, параметри яких не є публічними (наприклад, TrustPoint)
 
-# words to translate: REPRESENTATIVE, PUBLIC
-# EN: PUBLIC signal figures (<a1>NAVIGATION { "72" }({ "1" })</a1>), REPRESENTATIVE orbit and EIRP
 seg-ad0ba129439b = ПУБЛІЧНІ показники сигналу (<a1>NAVIGATION { "72" }({ "1" })</a1>), РЕПРЕЗЕНТАТИВНА орбіта та EIRP
 
-# words to translate: WORKSHOP, PUBLIC
-# EN: WORKSHOP signal parameters, PUBLIC orbit
 seg-800f173f2b20 = СЕМІНАРСЬКІ параметри сигналу, ПУБЛІЧНА орбіта
 
-# words to translate: ATOMIC
-# EN: The ATOMIC "zero-clock" polynomial broadcast-ephemeris model is a navigation-message preset and is not part of this kind.
 seg-9f9ff4fe18f8 = Поліноміальна модель бортових ефемерид ATOMIC із «нульовим годинником» є пресетом навігаційного повідомлення і не входить до цього типу.

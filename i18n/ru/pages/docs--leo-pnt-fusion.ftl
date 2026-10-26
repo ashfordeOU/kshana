@@ -160,30 +160,16 @@ seg-f9f335d67ff8 = <s1>Назад</s1>Навигационное сообщен�
 
 seg-062138bbb73c = <s1>Далее</s1>Проектирование орбитальной группировки
 
-# words to translate: PUBLIC, DERIVED
-# EN: PUBLIC: <a1>Resilient Navigation and Timing Foundation (RNTF)</a1>, <a2>National Institute of Standards and Technology (NIST)</a2>, <a3>constellation</a3>. DERIVED: the power in dBW. Representative: carrier at the band centre, range error
-seg-d65ae64607c1 = ПУБЛИЧНЫЙ: <a1>Resilient Navigation and Timing Foundation (RNTF)</a1>, <a2>National Institute of Standards and Technology (NIST)</a2>, <a3>орбитальная группировка</a3>. ПРОИЗВОДНЫЙ: мощность в дБВт. Representative: несущая в центре диапазона, ошибка дальности
+seg-d65ae64607c1 = PUBLIC: <a1>Resilient Navigation and Timing Foundation (RNTF)</a1>, <a2>National Institute of Standards and Technology (NIST)</a2>, <a3>орбитальная группировка</a3>. ПРОИЗВОДНЫЙ: мощность в дБВт. Representative: несущая в центре диапазона, ошибка дальности
 
-# words to translate: PUBLIC
-# EN: PUBLIC: the <a1>International Telecommunication Union (ITU) Radio Regulations</a1> allocation. Everything else <b>representative</b>
-seg-7712896ff69a = ПУБЛИЧНЫЙ: распределение <a1>Регламента радиосвязи Международного союза электросвязи (ITU)</a1>. Всё остальное — <b>representative</b>
+seg-7712896ff69a = PUBLIC: распределение <a1>Регламента радиосвязи Международного союза электросвязи (ITU)</a1>. Всё остальное — <b>representative</b>
 
-# words to translate: WORKSHOP, PUBLIC
-# EN: PUBLIC orbit (<a1>ESA</a1>, <a2>Institute of Navigation (ION) abstract { "16907" }</a2>); WORKSHOP signal parameters, presented at the ESA Navigation Innovation and Support Programme (NAVISP) LEO-PNT workshop, { "2026" }
-seg-b8bd6e76aeb2 = ПУБЛИЧНАЯ орбита (<a1>ESA</a1>, <a2>тезисы Института навигации (ION) { "16907" }</a2>); СЕМИНАРСКИЕ параметры сигнала, представленные на семинаре ESA по LEO-PNT в рамках Программы инноваций и поддержки в области навигации (NAVISP), { "2026" }
+seg-b8bd6e76aeb2 = PUBLIC орбита (<a1>ESA</a1>, <a2>тезисы Института навигации (ION) { "16907" }</a2>); WORKSHOP параметры сигнала, представленные на семинаре ESA по LEO-PNT в рамках Программы инноваций и поддержки в области навигации (NAVISP), { "2026" }
 
-# words to translate: PUBLIC
-# EN: PUBLIC: <a1>arXiv:{ "2509.19551" }</a1>. Representative: the split between the two inclinations, the phasing, the range error
-seg-57b56c874c9b = ПУБЛИЧНЫЙ: <a1>arXiv:{ "2509.19551" }</a1>. Representative: разделение между двумя наклонениями, фазирование, ошибка дальности
+seg-57b56c874c9b = PUBLIC: <a1>arXiv:{ "2509.19551" }</a1>. Representative: разделение между двумя наклонениями, фазирование, ошибка дальности
 
-# words to translate: PUBLIC
-# EN: PUBLIC: <a1>Kozhaya, Saroufim and Kassas { "2025" }</a1>, <a2>Federal Communications Commission (FCC) 21-48</a2>. Representative: phasing, horizon C/N0
-seg-44d4dd41848a = ПУБЛИЧНЫЙ: <a1>Kozhaya, Saroufim and Kassas { "2025" }</a1>, <a2>Federal Communications Commission (FCC) 21-48</a2>. Representative: фазирование, C/N0 у горизонта
+seg-44d4dd41848a = PUBLIC: <a1>Kozhaya, Saroufim and Kassas { "2025" }</a1>, <a2>Federal Communications Commission (FCC) 21-48</a2>. Representative: фазирование, C/N0 у горизонта
 
-# words to translate: PUBLIC
-# EN: PUBLIC: <a1>initial assessment</a1>, <a2>GPS Solutions</a2>. Representative: carriers, power, the whole operational constellation
-seg-dd94a3839cb3 = ПУБЛИЧНЫЙ: <a1>первоначальная оценка</a1>, <a2>GPS Solutions</a2>. Representative: несущие, мощность, вся действующая орбитальная группировка
+seg-dd94a3839cb3 = PUBLIC: <a1>первоначальная оценка</a1>, <a2>GPS Solutions</a2>. Representative: несущие, мощность, вся действующая орбитальная группировка
 
-# words to translate: PUBLIC, DERIVED
-# EN: PUBLIC: <a1>InsideGNSS</a1>. DERIVED: the SISRE. Combine with any constellation through <c1/>
-seg-ddbefb8a6723 = ПУБЛИЧНЫЙ: <a1>InsideGNSS</a1>. ПРОИЗВОДНЫЙ: SISRE. Сочетается с любой орбитальной группировкой через <c1/>
+seg-ddbefb8a6723 = PUBLIC: <a1>InsideGNSS</a1>. ПРОИЗВОДНЫЙ: SISRE. Сочетается с любой орбитальной группировкой через <c1/>

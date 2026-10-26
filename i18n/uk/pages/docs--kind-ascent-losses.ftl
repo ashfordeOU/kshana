@@ -42,6 +42,4 @@ seg-73148557c9a6 = <s1>Назад</s1>araim-reference-check
 
 seg-3af9699f27a7 = <s1>Далі</s1>attitude-budget
 
-# words to translate: ILLUSTRATIVE
-# EN: Gravity-turn ascent losses of an ILLUSTRATIVE two-stage kerosene/oxygen launcher (no real vehicle): vertical rise to { "1" } km, a { "3" } deg pitch kick for { "10" } s, then thrust along the velocity. The run integrates the gravity, drag, steering and back-pressure losses and checks that ideal dv minus the losses equals the burnout speed. MODELLED: planar, non-rotating Earth, constant C_D, no coast, no guidance beyond the kick. (scenario file comment, lines { "1" } to { "5" })
 seg-f916c5a08595 = Втрати на гравітаційному розвороті при вертикальному старті ІЛЮСТРАТИВНОГО двоступеневого носія на гасі й кисні (не реальний носій): вертикальний підйом до { "1" } км, імпульс тангажа { "3" } deg протягом { "10" } с, потім тяга вздовж швидкості. Прогін інтегрує втрати на гравітацію, опір, керування та протитиск і перевіряє, що ідеальна dv мінус втрати дорівнює швидкості на вигоранні. MODELLED: плоска нерухома Земля, стале C_D, без пасивної ділянки, без наведення поза імпульсом. (коментар у файлі сценарію, рядки { "1" }–{ "5" })

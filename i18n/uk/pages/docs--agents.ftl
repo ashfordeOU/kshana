@@ -148,6 +148,4 @@ seg-ec064f62f7dc = <s1>Попередня</s1>Сервер MCP: самостій
 
 seg-1f44dbd65ce3 = <s1>Наступна</s1>Де доступна кожна можливість
 
-# words to translate: REPRESENTATIVE
-# EN: <b>MODELLED</b> geometry under a stated error model, line of sight only: no diffraction, multipath or non-line-of-sight reception. Presets are <b>REPRESENTATIVE</b>, not surveys; carry the preset's provenance. Preset constellations are a representative sky, not the sky of a date. The ellipse scales a stated UERE: not a measured accuracy and not an integrity bound. Keep the <c1/>.
 seg-839eb485b1d2 = Геометрія <b>MODELLED</b> за заявленою моделлю похибки, лише пряма видимість: без дифракції, багатопроменевості чи прийому поза прямою видимістю. Пресети <b>РЕПРЕЗЕНТАТИВНІ</b>, а не зйомки; наводьте походження пресету. Орбітальні угруповання пресетів — це репрезентативне небо, а не небо певної дати. Еліпс масштабує заявлену UERE: це не виміряна точність і не межа цілісності. Зберігайте <c1/>.

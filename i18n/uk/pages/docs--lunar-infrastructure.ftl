@@ -54,6 +54,4 @@ seg-9872e31ebd72 = Джерела
 
 seg-922905241a6b = Джерело: <c1/>
 
-# words to translate: ILLUSTRATIVE
-# EN: Scenario kind <c1/>, five studies selected by <c2/>. <b>MODELLED</b>: a restricted three-body model with stated simplifications and ILLUSTRATIVE inputs. The numerics are checked against independent numpy/scipy programs; nothing is compared with a measurement of a lunar quantity and nothing here is a statement about any mission or system. Not affiliated with or endorsed by any agency. Advisory software, not type-approved equipment. Kshana transmits nothing and drives no hardware.
 seg-bfb9c5efbe57 = Тип сценарію <c1/>, п'ять досліджень, що вибираються через <c2/>. <b>MODELLED</b>: обмежена модель трьох тіл із заявленими спрощеннями та ІЛЮСТРАТИВНИМИ вхідними даними. Числові результати перевірено незалежними програмами numpy/scipy; нічого не порівнюється з вимірюванням місячної величини, і ніщо тут не є твердженням про будь-яку місію чи систему. Не пов'язано з жодним агентством і не схвалено ним. Консультативне програмне забезпечення, не обладнання із затвердженням типу. Kshana нічого не передає і не керує жодним обладнанням.

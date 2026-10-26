@@ -50,10 +50,6 @@ seg-37d29d8303fe = km
 
 seg-b054c73f22e5 = немає значення
 
-# words to translate: MIXED
-# EN: Result label (the engine's): MIXED — VALIDATED loop closed forms, MODELLED loop configuration. The carrier and code thermal-jitter expressions, the loop-filter reduction sqrt({ "2" }<em>B_n</em>T) and the first-order ramp lag are cross-checked against the engine's own sdr correlator stepped forward on seeded synthetic IF (a different route
 seg-23f3aa5c2064 = Мітка результату (рушія): ЗМІШАНИЙ — замкнені форми петлі VALIDATED, конфігурація петлі MODELLED. Вирази для теплового джитера несівної та коду, зведення фільтра петлі sqrt({ "2" }<em>B_n</em>T) і запізнення першого порядку на лінійному наростанні перехресно перевірено за власним корелятором sdr рушія, прогнаним на синтетичній ПЧ із фіксованим зерном (інший шлях
 
-# words to translate: MIXED
-# EN: MIXED — VALIDATED loop closed forms, MODELLED loop configuration. The carrier and code thermal-jitter expressions, the loop-filter reduction sqrt({ "2" }<em>B_n</em>T) and the first-order ramp lag are cross-checked against the engine's own sdr correlator stepped forward on seeded synthetic IF (a different route to the same numbers), and the modified Bessel I0 against standard tabulated values. MODELLED: the loop bandwidths, integ (result <c1/>)
 seg-de048f9cf1f6 = ЗМІШАНИЙ — замкнені форми петлі VALIDATED, конфігурація петлі MODELLED. Вирази для теплового джитера несівної та коду, зведення фільтра петлі sqrt({ "2" }<em>B_n</em>T) і запізнення першого порядку на лінійному наростанні перехресно перевірено за власним корелятором sdr рушія, прогнаним на синтетичній ПЧ із фіксованим зерном (інший шлях до тих самих чисел), а модифіковану функцію Бесселя I0 — за стандартними табличними значеннями. MODELLED: смуги петель, інтегр (результат <c1/>)

@@ -40,6 +40,4 @@ seg-f6b7ca020692 = Сторінка родини: <a1>Вимірювання GNS
 
 seg-f4cf8b629797 = Сторінка теми: <a1>INTEGRITY.md</a1>
 
-# words to translate: MIXED
-# EN: { "3.03" } N: GNSS NAV DATA M: MIXED
 seg-e94743033275 = { "3.03" } N: GNSS NAV DATA M: MIXED

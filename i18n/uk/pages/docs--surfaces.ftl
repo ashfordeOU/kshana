@@ -560,14 +560,8 @@ seg-d5b5bdf6081c = Rust
 
 seg-40a7552d2ba9 = MCP
 
-# words to translate: REPRESENTATIVE
-# EN: REPRESENTATIVE presets with provenance
 seg-c853beadb55e = РЕПРЕЗЕНТАТИВНІ пресети із зазначенням походження
 
-# words to translate: ILLUSTRATIVE
-# EN: Optical timing link through the atmosphere: per-site availability, site diversity, enhancement techniques, outage-to-holdover coupling (scenario kind <c1/>; <c2/>; MODELLED, ILLUSTRATIVE sites, advisory)
 seg-f71e5e2eb4f3 = Оптична лінія часу крізь атмосферу: доступність за майданчиками, рознесення майданчиків, методи покращення, зв'язок між відмовою та holdover (тип сценарію <c1/>; <c2/>; MODELLED, ІЛЮСТРАТИВНІ майданчики, консультативно)
 
-# words to translate: ILLUSTRATIVE
-# EN: Lunar orbit and surface as navigation and geodetic infrastructure: orbit-determination consistency, carrier-phase ambiguity resolution, frame co-estimation, space-tie and Love-number sensitivity (scenario kind <c1/>, <c2/>; <c3/>; MODELLED, ILLUSTRATIVE inputs, advisory)
 seg-593b7761803d = Місячна орбіта та поверхня як навігаційна та геодезична інфраструктура: узгодженість визначення орбіти, розв'язання неоднозначностей фази несівної, спільне оцінювання систем відліку, космічний зв'язок і чутливість до чисел Лява (тип сценарію <c1/>, <c2/>; <c3/>; MODELLED, ІЛЮСТРАТИВНІ вхідні дані, консультативно)

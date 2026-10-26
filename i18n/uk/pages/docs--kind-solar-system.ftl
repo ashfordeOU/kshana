@@ -74,10 +74,6 @@ seg-3319b18ac61f = і ще { "1" } у матриці.
 
 seg-fbac1cbb2422 = MODELLED { "2" } · VALIDATED { "3" }: рядки <a1>матриці верифікації</a1>, що називають цей вид.
 
-# words to translate: MIXED
-# EN: Result label (the engine's): MIXED: each body carries its own label. Planet positions are VALIDATED against JPL Horizons within twice the Standish nominal error (Mercury to Saturn and the Earth from Table { "1" }; all eight planets from Tables 2a/2b); Uranus and Neptune from Table { "1" }, Pluto, the Moon and the seven moons are MODELLED.
 seg-5c9a8d4716f5 = Мітка результату (рушія): ЗМІШАНИЙ: кожне тіло має власну мітку. Положення планет VALIDATED щодо JPL Horizons у межах подвійної номінальної похибки Standish (від Меркурія до Сатурна та Земля з Table { "1" }; усі вісім планет з Tables 2a/2b); Уран і Нептун з Table { "1" }, Плутон, Місяць і сім супутників є MODELLED.
 
-# words to translate: MIXED
-# EN: MIXED: each body carries its own label. Planet positions are VALIDATED against JPL Horizons within twice the Standish nominal error (Mercury to Saturn and the Earth from Table { "1" }; all eight planets from Tables 2a/2b); Uranus and Neptune from Table { "1" }, Pluto, the Moon and the seven moons are MODELLED. Light times are Newtonian, from the same positions. (result <c1/>)
 seg-0131b082906b = ЗМІШАНИЙ: кожне тіло має власну мітку. Положення планет VALIDATED щодо JPL Horizons у межах подвійної номінальної похибки Standish (від Меркурія до Сатурна та Земля з Table { "1" }; усі вісім планет з Tables 2a/2b); Уран і Нептун з Table { "1" }, Плутон, Місяць і сім супутників є MODELLED. Світловий час ньютонівський, за тими самими положеннями. (результат <c1/>)
