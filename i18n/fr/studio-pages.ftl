@@ -631,3 +631,425 @@ seg-99e01fb5fac5 = Fermer
 
 # index.html
 seg-9a71c933f4ad = <b>Station lunaire</b><s1>Quelle précision une station de référence près du pôle sud lunaire pourrait-elle offrir, et où ? MODELLED.</s1>
+
+# index.html
+seg-9c1fc0ddcc14 = Chargement du moteur. Vous pouvez déjà explorer ce résultat.
+
+# advanced/index.html
+# c1: ↓
+# c2: ↵
+# c3: ⌘↵
+seg-9c28d67257b7 = <c1/> déplacer<c2/> ouvrir<c3/> exécuter
+
+# tools/index.html
+seg-9c7eb1d43601 = Format du journal
+
+# advanced/index.html
+seg-9cebd87d7cb3 = Holdover <s1>erreur depuis la perte du GNSS</s1>
+
+# advanced/index.html
+seg-9d3f3d06a1e9 = Tous les champs
+
+# tools/index.html
+seg-9d56e41f9b35 = Clés publiques de confiance, une par ligne au format ID:TYPE:HEX
+
+# holdover/index.html
+seg-9e02f1f28e0d = Ouvrir un résultat…
+
+# tools/index.html
+seg-9e98e0ba70a3 = Maintien de la récupération, s
+
+# lunar/index.html
+seg-9ea513d25c6c = Entrées d'une exécution ici
+
+# geometry/index.html
+seg-a11e88108e1c = <b>L'ellipse d'erreur</b> est l'erreur horizontale issue de la covariance de la géométrie, σ<s1>UERE</s1>² multiplié par le bloc est-nord de la matrice DOP : plus longue dans les directions que les satellites contraignent le moins. Elle est tracée à 1 sigma et à { "95" } % ({ "2.448" } fois plus grande). <b>Le nuage de Monte-Carlo</b> est un ensemble de solutions des moindres carrés avec des erreurs de distance aléatoires à graine fixée à travers la même géométrie ; son RMS est affiché à côté de σ<s2>UERE</s2> × HDOP, avec la part des points situés dans l'ellipse à { "95" } %. La même graine donne toujours le même nuage.
+
+# tools/index.html
+seg-a12c3181b54f = Pages simples
+
+# holdover/index.html
+seg-a13eab564243 = MTIE
+
+# optical/index.html
+# c1: kshana scenarios/optical-atmosphere-network.toml
+seg-a27cd1efd1e0 = Vous pouvez exécuter les scénarios vous-même dans le Studio (vue avancée, « Liaison optique à travers l'atmosphère ») ou avec <c1/>.
+
+# index.html
+seg-a39633d5b858 = <b>Puis-je me fier à ma position ?</b><s1>Intégrité sur { "12" } heures</s1>
+
+# lunar-infra/index.html
+seg-a3e4a0eed763 = <b>Logiciel à titre consultatif.</b> Kshana n'est pas un équipement de navigation homologué (IEC { "61108" }, IEC { "61162" }) et n'a été évalué par rapport à aucune norme de performance. Chaque chiffre porte l'étiquette que le registre lui attribue (<b>MODELLED</b> sauf si une référence indépendante externe a été utilisée) ; c'est une aide au jugement, et non un constat sur un lieu, une mission ou un événement.
+
+# index.html
+seg-a763be7ea9dc = <b>Combien de satellites puis-je voir, n'importe où sur Terre ?</b><s1>Affiché ci-dessous</s1>
+
+# advanced/index.html
+seg-a86ce24d81de = Bande
+
+# trust/index.html
+# c1: kshana receiver-trust
+seg-a96454c73df8 = Ouvrir une exécution <c1/> pour un navire. Kshana évalue chaque position calculée de { "0" } à { "100" } d'après ce que le récepteur place déjà sur le bus, et indique quelles vérifications l'ont réduite. Les fichiers ouverts ici sont lus dans cette page et jamais téléversés.
+
+# geometry/index.html
+seg-a9ef52ece457 = Horizon obstrué
+
+# advanced/index.html
+seg-aae75f3d3aa5 = Choisir
+
+# tools/index.html
+seg-ab7707938042 = La clé publique du signataire ({ "64" } chiffres hexadécimaux, obtenue du signataire par un autre canal)
+
+# advanced/index.html
+seg-ac17942f6859 = Kshana <s1>Studio</s1>
+
+# interference/index.html
+seg-ad64a2924107 = Polygones de terres (AIS, facultatif)…
+
+# tools/index.html
+seg-ae381f746364 = EuRoC MAV imu0 data.csv
+
+# observatory/index.html
+seg-aeb5496025cc = tous les états
+
+# observatory/index.html
+seg-aed6b80b551b = Incidents
+
+# advanced/index.html
+seg-af4ccbe11812 = Thème
+
+# tools/index.html
+seg-aff1d135221c = Observation RINEX
+
+# interference/index.html
+seg-b022a11dd8f7 = Taille de cellule, degrés
+
+# tools/index.html
+seg-b15b4194ca66 = Fonction
+
+# tools/index.html
+seg-b1659454ecd9 = Journal de récepteur…
+
+# interference/index.html
+seg-b19953c7935c = ADS-B (aéronefs)
+
+# geometry/index.html
+seg-b1a61b70c1f4 = Hauteur du bâtiment de droite, mètres
+
+# trust/index.html
+seg-b1cde8d570b5 = Évaluer comme un navire (plateforme mobile, { "0" } à { "100" })
+
+# tools/index.html
+seg-b21dccf8bbaa = Remplacer un jeton existant
+
+# index.html
+seg-b2f5c73a80ac = GNSS pour utilisateurs spatiaux
+
+# trust/index.html
+seg-b4bf08d8b815 = Seulement dégradé et non fiable
+
+# replay/index.html
+seg-b54ecd186a7f = Instant
+
+# training/index.html
+seg-b5765678da41 = Les scénarios de la bibliothèque sont du <b>texte synthétique</b> avec des positions, des dates et des routes inventées. Aucun navire, opérateur ou enregistrement réel n'en est à l'origine.
+
+# training/index.html
+# c1: *.instructor.json
+# c2: kshana nmea-scenario
+seg-b63ff9605b69 = Ouvrir le journal d'instructeur (<c1/>) que <c2/> écrit à côté d'un flux de formation. Il montre la route vraie face à celle rapportée par le récepteur, les événements injectés et leur moment, et ce que le récepteur disait de sa position, de son signal, de ses satellites et de l'heure. Les fichiers ouverts ici sont lus dans cette page et jamais téléversés.
+
+# geometry/index.html
+seg-b6af4a84da50 = L'ellipse d'erreur issue de la covariance de la géométrie pour le σ<s1>UERE</s1> choisi, à 1 sigma et à { "95" } % (les deux issues du moteur), sur un nuage de Monte-Carlo à graine fixée de solutions des moindres carrés. Est à droite, nord en haut, en mètres.
+
+# index.html
+seg-b728f4816263 = <b>GNSS pour utilisateurs spatiaux</b><s1>Quels signaux de navigation un engin spatial très au-dessus des satellites peut encore utiliser, et ce que valent avec eux un filtre embarqué et une formation.</s1>
+
+# tools/index.html
+seg-b7b26b97afbd = <b>Logiciel à titre consultatif.</b> Kshana n'est pas un équipement de navigation homologué (IEC { "61108" }, IEC { "61162" }) et n'a été évalué par rapport à aucune norme de performance. Ses scores, son état d'authentification et ses exports sont des aides au jugement et des enregistrements de ce que le moteur a calculé. Ils ne sont ni une certification, ni un avis juridique, ni un constat de fait sur un événement.
+
+# tools/index.html
+seg-b7db2572d40b = u-blox UBX (SFRBX)
+
+# interference/index.html
+seg-b966dd26caa6 = Jeu de données
+
+# interference/index.html
+seg-ba963d8caa19 = URL de la licence
+
+# tools/index.html
+seg-baacf578ad9c = Première époque du journal, UTC (ISO { "8601" } ; vide quand le journal l'indique)
+
+# mission-thread/index.html
+seg-baea4e05ad26 = Phase
+
+# tools/index.html
+seg-bb02baa8656c = Instant UTC du temps zéro du mouvement
+
+# interference/index.html
+seg-bbdd5511b2d4 = Choisir un itinéraire…
+
+# tools/index.html
+seg-bd17501804af = Exemple synthétique
+
+# advanced/index.html
+seg-bdb4733dec65 = Éditions
+
+# advanced/index.html
+seg-bdf48a0aa8ee = Santé du filtre <s1>autocohérence de Kalman</s1>
+
+# training/index.html
+seg-bfb10aedf165 = Générer
+
+# advanced/index.html
+seg-bfd7751a9990 = MTIE <s1>erreur maximale d'intervalle de temps</s1>
+
+# advanced/index.html
+seg-c3bab83395bf = <b>Partager ou exporter</b> l'exécution
+
+# lunar/index.html
+seg-c4f955d5f506 = disponibilité
+
+# advanced/index.html
+seg-c6251ca94299 = Exports d'interopérabilité <s1>CZML, KML, GeoJSON, éphéméride STK, SigMF</s1>
+
+# observatory/index.html
+# c1: kshana interference-map daily <input> --dataset adsb-lol --day 2026-09-15 --out products/
+seg-c7c10225eaf2 = Rien d'ouvert pour l'instant. Pour créer les fichiers : <c1/>.
+
+# observatory/index.html
+seg-c7d4820fefdf = non observée
+
+# trust/index.html
+seg-c822f981cfcf = Barrière
+
+# index.html
+seg-ca95c1e1237a = Besoin d'un jumeau numérique calibré de votre propre appareil, d'un paquet de preuves de qualité d'audit ou d'une intégration en code fermé ? C'est <a1>Kshana Pro</a1>, sous contrat.
+
+# training/index.html
+seg-cae10fb9bff8 = Scénario
+
+# tools/index.html
+seg-cc3ced384846 = Identifiant de table
+
+# geometry/index.html
+seg-cd545b3588cf = <b>La dilution de précision (DOP)</b> est le facteur par lequel la géométrie des satellites multiplie l'erreur de chaque mesure de distance. Des satellites répartis dans le ciel donnent un DOP faible ; des satellites regroupés, ou tous très hauts au zénith, donnent un DOP élevé. GDOP est le DOP géométrique (position et temps), PDOP le DOP de la position tridimensionnelle, HDOP l'horizontal, VDOP le vertical et TDOP le DOP de l'horloge du récepteur (temps).
+
+# lunar/index.html
+# c1: lunar-station-coverage
+seg-ce9444c95be8 = Une station de référence différentielle située sur un site relevé calcule des corrections pour les satellites de navigation lunaires qu'elle voit ; un utilisateur proche les applique, et les erreurs que les deux partagent s'annulent. Cette vue cartographie l'erreur qui reste sur une grille polaire sud et une journée d'époques : l'erreur au centile corrigée par point, jusqu'à quelle distance de la station elle reste sous un seuil, la disponibilité et les niveaux de protection. Chaque chiffre vient du rapport <c1/> du moteur Kshana. <a1>Ce que cela montre</a1>.
+
+# geometry/index.html
+seg-cf1312ed607a = <b>Erreur de position ≈ σ<s1>UERE</s1> × DOP.</b> L'erreur de distance équivalente utilisateur (σ<s2>UERE</s2>) est l'erreur à un sigma de chaque distance : horloge et orbite du satellite, atmosphère, trajets multiples et bruit du récepteur réunis. Multipliée par le HDOP, elle donne l'erreur horizontale à un sigma, et par le VDOP la verticale.
+
+# interference/index.html
+seg-cf349420d4e6 = Choisir un CSV…
+
+# replay/index.html
+seg-cf759a67ddfd = <b>Formation et essais uniquement.</b> Les exécutions sont synthétiques, avec des positions et des dates inventées ; la côte en dessous est de la terre réelle tracée pour l'orientation seulement, et non une carte marine. Un rejeu montre ce qui a été injecté et quand : utilisez-le donc au débriefing, pas pendant un exercice. <b>Logiciel à titre consultatif.</b> Kshana n'est pas un équipement de navigation homologué (IEC { "61108" }, IEC { "61162" }) et ne dit rien de la façon dont un récepteur ou un système se comporterait face à de véritables interférences. L'opérateur reste responsable de la navigation du navire.
+
+# trust/index.html
+seg-d090e9a62367 = <b>Logiciel à titre consultatif.</b> Pas un équipement de navigation homologué. Une alarme est une observation sur le journal, et non un constat sur la cause, et l'absence d'alarme ne garantit pas qu'une position soit bonne.
+
+# observatory/index.html
+seg-d1d22e6868f6 = <b>Logiciel à titre consultatif.</b> Kshana n'est pas un équipement de navigation homologué (IEC { "61108" }, IEC { "61162" }) et n'a été évalué par rapport à aucune norme de performance. Une cellule <b>dégradée</b> signifie qu'une forte part des aéronefs échantillonnés à cet endroit a signalé ce jour-là une faible précision de navigation. <b>Aucune cause n'est attribuée</b> : une faible précision a de nombreuses causes, et cette page n'en nomme aucune ni aucun acteur. <b>Non observé ne veut pas dire dégagé.</b> Ce n'est ni une vue en direct, ni un avertissement, ni la confirmation de quoi que ce soit, et ce n'est ni une approbation, ni une certification, ni une déclaration de conformité.
+
+# tools/index.html
+seg-d255f50a38fd = Choisir les fichiers de résultat…
+
+# advanced/index.html
+seg-d26c2ce37261 = Vues
+
+# tools/index.html
+# c1: .tsr
+seg-d286e0e72e96 = Réponse d'horodatage (<c1/>)
+
+# tools/index.html
+seg-d2bed15bbabe = Heure de référence, secondes GST, issue d'une source indépendante
+
+# geometry/index.html
+seg-d392016fb917 = Hauteur, mètres
+
+# replay/index.html
+seg-d39a69ad0054 = Côte
+
+# geometry/index.html
+seg-d3b7d1622ea6 = −{ "1" } h
+
+# interference/index.html
+seg-d4a762001549 = Licence
+
+# tools/index.html
+seg-d507260dfc9f = Aussi
+
+# advanced/index.html
+seg-d69e23e80f28 = Développeurs
+
+# index.html
+seg-d79f4c62922d = <b>Combien de temps une horloge peut-elle garder l'heure sans satellites ?</b><s1>Holdover d'horloge</s1>
+
+# tools/index.html
+# c1: manifest.json
+# c2: openssl ts -query
+# c3: openssl ts -verify
+seg-d88c12129d44 = Un jeton RFC { "3161" } lie une heure à <c1/>. Demandez-le avec <c2/>, envoyez-le à votre autorité d'horodatage, puis joignez ici la réponse. <b>Cela ne vérifie ni la signature ni la chaîne de certificats de l'autorité</b> : exécutez <c3/> pour cela.
+
+# advanced/index.html
+seg-da60d773bcf2 = Régler
+
+# replay/index.html
+seg-db596651e6fd = Élargir à la côte
+
+# geometry/index.html
+seg-dbada4043846 = Époque, temps universel coordonné (UTC), { "2000" } à { "2099" } (saisie en UTC ; aucune conversion de fuseau horaire)
+
+# lunar/index.html
+seg-dbef3d1356c6 = L'enregistrement fourni avec le Studio
+
+# advanced/index.html
+seg-dcb3ee3095ea = Kshana est un logiciel open source sous AGPL-3.0 (GNU Affero General Public License), avec une licence commerciale disponible. Par Ashforde®. Chaque chiffre porte l'étiquette de son niveau de preuve ; les chiffres de synchronisation temporelle, d'intégrité et de sécurité du <s1>Kshana Studio</s1> sont modélisés sauf mention « validé ».
+
+# tools/index.html
+seg-dcc9b1568c20 = Détecter à partir du fichier
+
+# tools/index.html
+seg-dcf80b355d1d = Zone d'essai ({ "0" } : non indiquée)
+
+# geometry/index.html
+seg-dd54031b481a = Constellations
+
+# advanced/index.html
+seg-e00dede0cbb9 = Tous les domaines, en tuiles
+
+# advanced/index.html
+seg-e02635128fa4 = Prévisualiser le mode intégré <s1>s'ouvre dans un nouvel onglet</s1>
+
+# advanced/index.html
+seg-e02d92584d5a = Ouvrir dans <s1>Kshana Studio</s1>
+
+# tools/index.html
+# c1: hybrid
+# c2: fusion
+# c3: [accel_classical]
+seg-e0d931fb9fa8 = Les scénarios <c1/> et <c2/> sont des simulations qui prennent des paramètres de bruit de capteur, et non une série mesurée. Cet outil lit ces paramètres sur un journal IMU <b>immobile</b> (l'écart-type d'Allan chevauchant du signal intégré) et écrit un tableau <c3/> prêt à coller qui nomme le SHA-256 du journal. Le fichier est lu dans ce navigateur et jamais téléversé.
+
+# advanced/index.html
+seg-e0fca417482a = Ouverture du scénario…
+
+# index.html
+seg-e11b46863c7c = Partager
+
+# index.html
+seg-e29d48cfd73a = <b>Test de holdover</b><s1>Débrancher l'antenne, évaluer le holdover : un enregistrement d'erreur de temps mesuré par rapport aux gabarits ITU-T.</s1>
+
+# index.html
+seg-e2ec2acef569 = <b>Infrastructure lunaire</b><s1>Ce que des orbiteurs lunaires et une station de surface peuvent apporter comme infrastructure de navigation et de géodésie, avec les échecs indiqués.</s1>
+
+# advanced/index.html
+seg-e73ea9921fcf = Paramètre
+
+# lunar/index.html
+seg-e7572abf9b3c = erreur au centile corrigée, sur sa propre plage
+
+# tools/index.html
+seg-e8e68a8be0a6 = Force spécifique que cet axe lit au repos, m/s² ({ "0" } à l'horizontale, environ { "9.80665" } à la verticale)
+
+# index.html
+seg-eb9ebcd5e957 = <b>Carte des interférences</b><s1>Où des aéronefs et des navires ont signalé des données de navigation dégradées, et l'exposition d'un itinéraire.</s1>
+
+# geometry/index.html
+seg-ebad96f6f920 = +{ "1" } h
+
+# geometry/index.html
+seg-ebc83a18d97c = Hauteur du bâtiment de gauche, mètres
+
+# index.html
+seg-ec3cd95a740d = <b>Géométrie</b><s1>Quels satellites voit-on depuis un lieu, et quelle est la qualité de leur géométrie ? Dessinez l'horizon.</s1>
+
+# index.html
+seg-ed7befb0e9f6 = Ouvrir ce résultat
+
+# advanced/index.html
+seg-ee0ffb5be403 = <b>Exécuter</b> le moteur, en local
+
+# index.html
+seg-ee19f3717280 = Station lunaire
+
+# trust/index.html
+# c1: kshana receiver-trust
+seg-ee9aad877fd8 = Pour un récepteur fixe ou non précisé, <c1/> vérifie un journal GNSS par rapport à sa propre fenêtre de calibration et indique quand il a cessé de se ressembler. Il donne des états et des alarmes, et non le score de navire de { "0" } à { "100" }. Exécutez l'exemple illustratif (un journal inventé avec un brouilleur de { "120" } s à { "240" } s) ou votre propre journal NMEA avec les mêmes réglages. Le journal est lu ici et jamais téléversé.
+
+# tools/index.html
+seg-efb4dc713dd2 = Aussi dans le Studio : <a1>Géométrie</a1>, le skyplot, l'horizon et la dilution de précision pour un lieu et une heure ; <a2>Station lunaire</a2>, la couverture modélisée d'une station de référence lunaire ; <a3>Confiance maritime</a3> ; <a4>Carte des interférences</a4> ; <a5>Débriefing de formation</a5>.
+
+# holdover/index.html
+seg-f155b7ceef1f = TDEV
+
+# mission-thread/index.html
+seg-f2be7442bdf2 = Événements
+
+# tools/index.html
+seg-f2ce7fc60cdf = Format
+
+# advanced/index.html
+seg-f4b7cada2310 = Balayage
+
+# interference/index.html
+seg-f4c16e6a9663 = Choisir des fichiers…
+
+# index.html
+seg-f4d1ec6fc464 = Citer
+
+# index.html
+seg-f5d247d49432 = Rejeu de la passerelle
+
+# interference/index.html
+seg-f63dd3d7aad4 = Source
+
+# interference/index.html
+seg-f6c5554e22a0 = Les fichiers de démonstration sont <b>synthétiques</b> : chaque comptage est inventé, sur une région inventée, sans source de suivi, données de partenaire ni jour réel derrière. Leur bloc de données le dit.
+
+# lunar/index.html
+seg-fa063693b336 = Sous les hypothèses publiques indiquées, et non un énoncé sur la performance d'un système réel.
+
+# tools/index.html
+seg-fa06706aec55 = Septentrio SBF
+
+# training/index.html
+seg-fa131441c483 = Le cap et la vitesse fond (HDT et VBW) tiennent lieu de compas gyroscopique et de loch Doppler. <b>Aucun événement ne les touche</b> : un écart entre ce que rapporte le GNSS et ce qu'ils indiquent est donc un indice pour le débriefing.
+
+# advanced/index.html
+seg-fa37e351f6b4 = Copier
+
+# lunar/index.html
+seg-fa4468d4cb80 = Disponibilité
+
+# tools/index.html
+seg-fb07400cdee2 = Exiger un jeton d'horodatage
+
+# index.html
+seg-fc310f9d867c = Parcourir
+
+# advanced/index.html
+seg-fc996ea3d2ce = Résultats
+
+# advanced/index.html
+seg-fd4276fe5f5e = Comparer
+
+# interference/index.html
+# c1: adsb-<dataset>-YYYY-MM-DD.geojson
+# c2: ais-<dataset>-YYYY-MM-DD.geojson
+seg-fd4e582c272e = Choisissez un ou plusieurs fichiers <c1/> ou <c2/>. Les fichiers ADS-B et AIS sont toujours affichés comme des cartes séparées et jamais combinés : leurs licences diffèrent (un fichier ADS-B porte la licence de sa source, ODbL { "1.0" } pour la source intégrée ; les fichiers AIS sont dans le domaine public ou sous NLOD { "2.0" }) et le sens d'une cellule aussi.
+
+# geometry/index.html
+seg-fd600e95e731 = <b>Le skyplot</b> est le ciel vu depuis le lieu : chaque repère est un satellite à son azimut (relèvement au compas) et à son élévation (angle au-dessus de l'horizon). La couleur et la forme indiquent toutes deux à quelle constellation il appartient.
+
+# index.html
+seg-fda27ae5d5f2 = <a1>Kshana Pro</a1> : un jumeau numérique d'horloge calibré sur votre appareil, une étude comparative avec un paquet de preuves de qualité d'audit, ou une intégration en code fermé, disponibles sous contrat. <a2>Demander une évaluation</a2> · <a3>Nous parler d'une licence commerciale</a3> · <a4>Demander une étude</a4>
+
+# advanced/index.html
+seg-fdb067cc01c0 = Ouvrir le registre de validation
+
+# observatory/index.html
+# c1: docs/observatory/METHOD.md
+seg-ff19c890942d = Chaque chiffre est MODELLED : il n'y a ni vérité terrain ni référence indépendante externe. La note de méthode est <c1/> dans le dépôt.
