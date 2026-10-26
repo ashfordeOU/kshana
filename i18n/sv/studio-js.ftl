@@ -10499,3 +10499,213 @@ js-trust-reasons-ratio = kvot { $ratio }
 
 # 2026-10-01-studio-rebuild/trust/trust.js:717
 js-trust-reasons-row-title = { $name }: { $text } Klicka för att markera var den låg över sin insättningsnivå.
+
+js-trust-reasons-weight = vikt { $weight }
+
+js-trust-reduced-motion = Minskad rörelse är vald, så uppspelningen startar på 1x. Använd reglaget eller piltangenterna för att flytta utan animation.
+
+js-trust-say-gate = grind { $gate }
+
+js-trust-say-gate-derived = grind { $gate } (härledd)
+
+js-trust-say-monitor-points =
+    { $monitor } { $points ->
+        [one] { $points } poäng
+       *[other] { $points } poäng
+    }
+
+js-trust-say-position-from-true = rapporterad position { $m } m från sann position
+
+js-trust-say-reasons = orsaker: { $list }
+
+js-trust-say-score = poäng { $score }
+
+js-trust-scored-label =
+    { $count ->
+        [one] Poängsatte { $count } epok
+       *[other] Poängsatte { $count } epoker
+    } av { $name } med motor { $version }, i den här webbläsaren.
+
+js-trust-scored-summary =
+    { $count ->
+        [one] Poängsatte { $count } epok
+       *[other] Poängsatte { $count } epoker
+    } med motor { $version }: { $summary }. Endast rådgivande.
+
+js-trust-scoring = Startar motorn och poängsätter…
+
+js-trust-self-code-meaning = { $code }: { $meaning }
+
+js-trust-self-none-at-time = Loggen har ingen mottagarflagga vid den här tidpunkten.
+
+js-trust-self-not-in-log = finns inte i loggen
+
+js-trust-self-row-flags = Mottagarflaggor
+
+js-trust-self-row-jamming = Mottagarens jamming-tillstånd
+
+js-trust-self-row-kshana-alarms = En Kshana-monitor larmar
+
+js-trust-self-row-spoofing = Mottagarens spoofing-tillstånd
+
+js-trust-self-unknown-agreement = en grad av samstämmighet som den här sidan inte känner till ({ $odd })
+
+js-trust-self-yes-state-2 = ja (tillstånd 2 eller högre)
+
+js-trust-set-degraded-edge = den försämrade gränsen
+
+js-trust-set-degraded-min = försämrad vid eller över
+
+js-trust-set-epochs = Epoker
+
+js-trust-set-epochs-counts = { $total } totalt: { $calibrating } kalibrerande, { $nominal } nominella, { $degraded } försämrade, { $untrusted } otillförlitliga.
+
+js-trust-set-epochs-counts-class = { $total } totalt: { $calibrating } kalibrerande, { $nominal } nominella, { $degraded } försämrade, { $untrusted } otillförlitliga. Efter avdragsklass: geometri { $geometry }, miljö { $environment }, inkonsekvens { $inconsistency }.
+
+js-trust-set-evidence-hold = evidenshållning, s
+
+js-trust-set-full-ratio = full vikt vid kvot
+
+js-trust-set-geo-counts = Himlen: { $good } bra, { $degraded } försämrade, { $unknown } okända. Etikett: { $lgood } bra, { $fair } godtagbara, { $poor } dåliga (bara dåliga kostar poäng). Epoker med avdrag i klassen geometri { $geometry }, miljö { $environment }, inkonsekvens { $inconsistency }.
+
+js-trust-set-geo-counts-odd = Himlen: { $good } bra, { $degraded } försämrade, { $unknown } okända ({ $odd } med ett värde som den här sidan inte känner till, tolkat som okänt). Etikett: { $lgood } bra, { $fair } godtagbara, { $poor } dåliga (bara dåliga kostar poäng). Epoker med avdrag i klassen geometri { $geometry }, miljö { $environment }, inkonsekvens { $inconsistency }.
+
+js-trust-set-geometry = Geometri (inställningar för [geometry])
+
+js-trust-set-gloss = Vad varje kontroll tittar på
+
+js-trust-set-live-geometry = En liveström anger inte geometritrösklarna; de dokumenterade standardvärdena gäller (dålig över HDOP 4 eller PDOP 6, eller under 5 satelliter; högst 15 poäng, aldrig under det försämrade bandet).
+
+js-trust-set-no-geometry = Den här körningen saknar geometri: den kommer från en motor före 0.36, eller från trust.csv. Inget om himlen visas, och inget visas som bra.
+
+js-trust-set-nominal-min = nominell vid eller över
+
+js-trust-set-onset-ratio = kostar poäng från kvot
+
+js-trust-set-provenance = Varifrån trösklarna kommer och hur avdrag klassas
+
+js-trust-set-ran = Kontroller som kördes
+
+js-trust-set-weights = Vikt för varje kontroll, poäng
+
+js-trust-settings-assumed = Den här strömmen anger inte sin poängmodell. Bandgränserna som visas är de dokumenterade standardvärdena, antagna.
+
+js-trust-show-in-replay = Visa den här körningen i uppspelningen nedan (spår, poäng, mottagarens egen flagga)
+
+js-trust-sky-no-gsv = ingen GSV
+
+js-trust-sky-none = Ingen himmel: öppna NMEA-loggen tillsammans med körningen (eller en demo) för att se satelliterna som den listar.
+
+js-trust-span-title = { $what }, { $from } till { $to }
+
+js-trust-state-0 = okänt eller inte aktiverat
+
+js-trust-state-1 = ingen indikation
+
+js-trust-state-2 = indikerat
+
+js-trust-state-3 = flera indikationer eller bekräftat
+
+js-trust-strip-band = band
+
+js-trust-strip-class = klass
+
+js-trust-strip-gate = grind
+
+js-trust-strip-marked = markerad
+
+js-trust-strip-receiver = mottagare
+
+js-trust-strip-sky = himmel
+
+js-trust-strips-none = Inga monitorkvoter i den här filen.
+
+js-trust-strips-note-ran = kvot mellan statistika och tröskel; den streckade linjen är larmet vid 1
+
+js-trust-strips-note-seen = bara monitorer som setts kosta poäng; kvot över tröskel
+
+js-trust-sum-both-flag = Båda flaggar
+
+js-trust-sum-epochs-compared = Jämförda epoker (efter kalibrering)
+
+js-trust-sum-first-kshana = Första Kshana-larmet bland de epokerna
+
+js-trust-sum-first-receiver = Första mottagarflaggan
+
+js-trust-sum-jamming-flag = Mottagarens jamming-flagga (tillstånd 2+)
+
+js-trust-sum-neither = Ingen av dem
+
+js-trust-sum-only-kshana = Bara Kshana larmar
+
+js-trust-sum-only-receiver = Bara mottagaren flaggar
+
+js-trust-sum-spoofing-flag = Mottagarens spoofing-flagga (tillstånd 2+)
+
+js-trust-thr-azimuth-gap = azimutlucka, grader, vid eller över vilken himlen är delvis blockerad
+
+js-trust-thr-cap-in-force = högsta poäng som geometriavdraget tar i den här körningen
+
+js-trust-thr-cap-points = högsta poäng som geometriavdraget får ta
+
+js-trust-thr-floor = lägsta poäng som geometrin ensam får lämna (tomt: det försämrade bandets gräns)
+
+js-trust-thr-floor-in-force = lägsta poäng som geometrin ensam kan lämna i den här körningen
+
+js-trust-thr-full-ratio = kvot där geometriavdraget når sitt tak
+
+js-trust-thr-hdop-good = HDOP vid eller under vilket geometrin är bra
+
+js-trust-thr-hdop-max = HDOP över vilket geometrin är dålig
+
+js-trust-thr-hold = hur länge himmelspositioner och GSA räknas efter att de kommit, s
+
+js-trust-thr-low-elev = elevation, grader, under vilken en förlorad satellit läggs på himlen
+
+js-trust-thr-min-used = minsta antal använda satelliter innan geometrin är dålig
+
+js-trust-thr-pdop-good = PDOP vid eller under vilket geometrin är bra
+
+js-trust-thr-pdop-max = PDOP över vilket geometrin är dålig
+
+js-trust-thr-reported-rel = detsamma, som andel av den härledda HDOP
+
+js-trust-thr-reported-tol = skillnad mellan angiven och härledd HDOP innan de två går isär
+
+js-trust-thr-sigma-uere = användarekvivalent avståndsfel som trösklarna förutsätter, meter
+
+js-trust-thr-used-good = använda satelliter vid eller över vilket geometrin är bra
+
+js-trust-track-desc =
+    Spår av { $positions ->
+        [one] { $positions } rapporterad position
+       *[other] { $positions } rapporterade positioner
+    }, norr uppåt. { $untrusted ->
+        [one] { $untrusted } epok är otillförlitlig.
+       *[other] { $untrusted } epoker är otillförlitliga.
+    }
+
+js-trust-track-desc-none = Inget spår: filerna innehåller inga positioner.
+
+js-trust-track-desc-truth =
+    Spår av { $positions ->
+        [one] { $positions } rapporterad position
+       *[other] { $positions } rapporterade positioner
+    }, norr uppåt. { $untrusted ->
+        [one] { $untrusted } epok är otillförlitlig.
+       *[other] { $untrusted } epoker är otillförlitliga.
+    } En tunn grå linje visar det sanna spåret.
+
+js-trust-track-end = slut
+
+js-trust-track-no-positions = Inga positioner i de öppnade filerna
+
+js-trust-track-note = Norr uppåt, samma skala på båda axlarna. Linjen visar var mottagaren sa att fartyget var, färgad efter förtroendebandet för varje epok.
+
+js-trust-track-note-none = Den här filen innehåller inga positioner. Lägg till NMEA-loggen som körningen kom från (eller en v1.1-ström med position) för att rita spåret.
+
+js-trust-track-start = start
+
+js-trust-unknown-agreement = en grad av samstämmighet som den här sidan inte känner till
+
+js-trust-yes = ja
