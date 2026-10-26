@@ -594,3 +594,549 @@ studio-trust-run-the-illustrative-jamming-example = Kør det illustrative jammin
 studio-trust-assess-the-chosen-file = Vurdér den valgte fil
 
 studio-trust-the-format-is-guessed-from = Formatet gættes ud fra filnavnet; ændr det her, når det er forkert, og vurdér derefter igen. NovAtel OEM7, RTCM 3 og Septentrio SBF er binære formater; de sendes til motoren, som de er, i denne browser.
+
+# trust
+studio-trust-imu-file-optional-a-second = IMU-fil (valgfri): en ekstra sensor til kursen
+
+# trust
+studio-trust-an-imu-log-on-the = En IMU-log på modtagerlogens ur udfylder den kurs, som overvågningen af kurs mod sejlretning læser, hvor modtagerloggen ikke har nogen. Kun en skibssession bruger den.
+
+# trust
+studio-trust-remove-the-imu-file = Fjern IMU-filen
+
+# trust
+studio-trust-no-imu-file = Ingen IMU-fil.
+
+# trust
+studio-trust-session-settings-toml-the-log = Sessionsindstillinger (TOML, loggen leveres inline)
+
+# trust
+studio-trust-first-deduction = Første fradrag
+
+# trust
+studio-trust-first-untrusted = Første upålidelige
+
+# trust
+studio-trust-receiver-reported-track = Spor rapporteret af modtageren
+
+# trust
+studio-trust-the-satellites-the-log-s = De satellitter, som logens egen GSV opregner. En udfyldt markør har en signalstyrke; en hul er opregnet uden nogen; en skraveret sektor er der, hvor loggen opregner satellitter og ikke hører nogen af dem (en blokeret himmel og et forstyrret signal ser ens ud her). Nominel konstellation, ikke en efemeride for logens dato.
+
+# trust
+studio-trust-score-over-time = Score over tid
+
+# trust
+studio-trust-score-0-to-100-dashed = Score 0 til 100. De stiplede linjer er båndgrænserne; strimlerne nedenunder er båndet og porten. Træk eller klik for at flytte tidsmarkøren; piletasterne flytter den trinvis.
+
+# trust
+studio-trust-reasons-at-the-cursor = Årsager ved markøren
+
+# trust
+studio-trust-points-each-check-took-off = De point, hver kontrol trak fra i denne epoke, de største først. Klik på en kontrol for at markere, hvor den lå over sin indsættelsestærskel.
+
+# trust
+studio-trust-geometry-at-the-cursor = Geometri ved markøren
+
+# trust
+studio-trust-the-satellite-geometry-always-shown = Satellitgeometrien, altid vist: dens betegnelse (god, middel eller dårlig) og DOP-værdierne. En maskeret himmel (et skrog, en kaj, en fjordvæg) er naturlig forringelse, adskilt fra angrebslignende inkonsistens. Scoren trækker kun point for geometri, når den er dårlig, højst 15, og aldrig under det forringede bånd.
+
+# trust
+studio-trust-the-receiver-s-own-flag = Modtagerens eget flag
+
+# trust
+studio-trust-what-the-receiver-itself-says = Hvad modtageren selv siger om spoofing og jamming (u-blox UBX-NAV-STATUS og UBX-SEC-SIG), sat ved siden af Kshanas monitorer. Koderne er modtagerens; ingen af detektorerne er sandhed, og enighed er ikke validering. Flaget ændrer ingen score.
+
+# trust
+studio-trust-over-the-run = Over kørslen
+
+# trust
+studio-trust-what-the-score-used = Hvad scoren brugte
+
+# trust
+studio-trust-read-from-the-run-read = Læst fra kørslen, skrivebeskyttet.
+
+# trust
+studio-trust-what-this-view-does-and = Hvad denne visning viser og ikke viser
+
+# trust
+studio-trust-nmea-only-checks-cannot-see = Kontroller baseret kun på NMEA kan ikke se en spoofer, der gengiver hele konstellationen med en selvkonsistent position, hastighed, kurs, effekt og ur, og heller ikke en afspilning af optagede ægte signaler. En positionsbestemmelse uden alarm er ikke dermed en god positionsbestemmelse.
+
+# trust
+studio-trust-nothing-on-this-page-is = Intet på denne side er et mål for, hvordan kontrollerne klarer sig på ægte interferens. Scoreafbildningen og hver vægt er fastlagt, før en log scores, uden indlæring og uden noget tilpasset til hændelser.
+
+# main
+studio-main-which-satellites-can-you-see = Hvilke satellitter kan du se fra et sted, og hvor god er deres geometri? Skyplot, horisontprofil og DOP fra motoren i din browser
+
+# main
+studio-main-trainer-debrief-for-kshana-nmea = Træningsdebriefing til instruktørlogs fra kshana nmea-scenario (kun til træning; filerne bliver i din browser)
+
+# main
+studio-main-where-did-aircraft-and-ships = Hvor rapporterede fly og skibe forringede navigationsdata på en tidligere dag? Åbn kortfiler for hver dag (de bliver i din browser)
+
+# main
+studio-main-can-the-bridge-trust-this = Kan broen stole på denne positionsbestemmelse? Åbn en modtagertillidskørsel for et skib (filerne bliver i din browser)
+
+# main
+studio-main-evidence-packs-test-bench-export = Bevispakker, test-bench-eksport, compliance-mapping, OSNMA, kommandolinjeværktøjer og AI-assistenten (filerne bliver i din browser)
+
+# main
+studio-main-map-of-satellites-in-view = Kort over satellitter i sigte over Jorden, fra den optagede kørsel
+
+# main
+studio-main-interactive-3-d-view-of = Interaktiv 3D-visning af det propagerede spor
+
+# main
+studio-main-close-history = Luk historik
+
+# main
+studio-main-skip-to-the-content = Gå til indholdet
+
+# main
+studio-main-receiver-trust = Modtagertillid
+
+# main
+studio-main-advanced-view = Avanceret visning
+
+# main
+studio-main-what-would-you-like-to = Hvad vil du gerne finde ud af?
+
+# main
+studio-main-pick-a-question-or-start = Vælg et spørgsmål, eller start fra resultatet nedenfor.
+
+# main
+studio-main-showing-below = Vises nedenfor
+
+# main
+studio-main-integrity-over-12-hours = Integritet over 12 timer
+
+# main
+studio-main-a-radio-waterfall = Et radiovandfald
+
+# main
+studio-main-recorded-result = Optaget resultat
+
+# main
+studio-main-how-many-navigation-satellites-can = Hvor mange navigationssatellitter kan du se fra et vilkårligt sted på Jorden?
+
+# main
+studio-main-loading-the-recorded-result = Indlæser det optagede resultat…
+
+# main
+studio-main-everything-kshana-can-do = Alt, hvad Kshana kan
+
+# main
+studio-main-each-area-shows-a-real = Hvert område viser et ægte optaget resultat og den blanding af evidens, der ligger bag.
+
+# main
+studio-main-open-your-own-files = Åbn dine egne filer
+
+# main
+studio-main-pages-that-run-the-engine = Sider, der kører motoren på dine egne indstillinger og filer. Hver af dem virker i denne browser; intet uploades.
+
+# main
+studio-main-which-satellites-can-you-see-2 = Hvilke satellitter kan du se fra et sted, og hvor god er deres geometri? Tegn horisontprofilen.
+
+# main
+studio-main-what-accuracy-could-a-reference = Hvilken nøjagtighed kunne en referencestation nær den lunare sydpol give, og hvor? MODELLED.
+
+# main
+studio-main-can-the-bridge-trust-this-2 = Kan broen stole på denne positionsbestemmelse? Score et skibs NMEA-log.
+
+# main
+studio-main-where-aircraft-and-ships-reported = Hvor fly og skibe rapporterede forringede navigationsdata, og en rutes eksponering.
+
+# main
+studio-main-generate-a-drift-or-jamming = Generér en øvelsesstrøm med drift eller jamming, og debrief instruktørloggen.
+
+# main
+studio-main-two-synthetic-runs-on-one = To syntetiske kørsler på ét ur: spor, tillidsscore, live skyplot og dommen.
+
+# main
+studio-main-the-two-optical-atmosphere-scenarios = De to scenarier for den optiske atmosfære: tilgængelighed mod skylaget, udfald og stedsdiversitet.
+
+# main
+studio-main-which-navigation-signals-a-spacecraft = Hvilke navigationssignaler et rumfartøj langt over satellitterne stadig kan bruge, og hvor godt et filter om bord og en formation klarer sig med dem.
+
+# main
+studio-main-what-lunar-orbiters-and-a = Hvad lunare orbitere og en overfladestation kan gøre som navigations- og geodætisk infrastruktur, med de ikke opnåede mål anført.
+
+# main
+studio-main-open-a-day-s-observatory = Åbn en dags observatoriefiler og læs dem: tre tilstande, ingen årsag, intet uploadet.
+
+# main
+studio-main-pull-the-antenna-score-the = Træk antennen ud, score holdover: en tidsfejlsoptegnelse målt mod ITU-T-maskerne.
+
+# main
+studio-main-check-a-signed-pack-or = Kontrollér en signeret pakke, eller vedhæft et tidsstempel.
+
+# main
+studio-main-motion-and-event-files-for = Bevægelses- og hændelsesfiler til en laboratoriesimulator.
+
+# main
+studio-main-what-your-runs-evidence-against = Hvad dine kørsler leverer evidens for i forhold til offentliggjorte rammeværker.
+
+# main
+studio-main-whether-recorded-galileo-data-is = Om optagne Galileo-data er autentificeret, tag for tag.
+
+# main
+studio-main-use-kshana-from-your-assistant = Brug Kshana fra din assistent via MCP-serveren.
+
+# main
+studio-main-all-scenarios = Alle scenarier
+
+# main
+studio-main-pick-one-it-opens-on = Vælg et: det åbner straks på sit resultat.
+
+# main
+studio-main-all-questions = Alle spørgsmål
+
+# main
+studio-main-every-published-figure = Hvert offentliggjort tal
+
+# main
+studio-main-read-from-the-result-document = Læst fra resultatdokumentet med den enhed, note og proveniens, som motoren registrerer for hvert enkelt.
+
+# main
+studio-main-kalman-self-consistency = Kalman-selvkonsistens
+
+# main
+studio-main-a-consistent-filter-s-reported = Et konsistent filters rapporterede usikkerhed svarer til dets faktiske fejl. NIS (normaliseret innovation i anden) bør ligge nær 1 og NEES (normaliseret estimeringsfejl i anden) nær 2, hver inden for sit 95 %-χ²-bånd.
+
+# main
+studio-main-engine-chart = Motordiagram
+
+# main
+studio-main-each-series-this-run-publishes = Hver serie, denne kørsel udgiver, mod tid. Hold musen over eller træk hen over diagrammet for at læse værdierne.
+
+# main
+studio-main-carrier-to-noise-density-db = bærebølge-til-støj-tæthed, dB-Hz
+
+# main
+studio-main-with-the-jammer = Med jammeren
+
+# main
+studio-main-without-it = Uden den
+
+# main
+studio-main-each-cell-is-one-satellite = Hver celle er én satellit ved én epoke fra denne kørsel. Skraverede celler ligger under modtagerens sporingstærskel: den satellit er tabt.
+
+# main
+studio-main-interference-outcome = Interferensresultat
+
+# main
+studio-main-error-since-gnss-was-lost = fejl siden GNSS blev tabt
+
+# main
+studio-main-scenario-budget = Scenariebudget
+
+# main
+studio-main-move-the-budget-and-the = Flyt budgettet, og tiden til overskridelse aflæses i denne kørsels egen fejloptegnelse. Motorens holdover-tal, beregnet ved scenariets budget, vises ved siden af og er det autoritative tal. Ændr uret eller udfaldet i parametrene for at køre fysikken igen.
+
+# main
+studio-main-maximum-time-interval-error = maksimal tidsintervalfejl
+
+# main
+studio-main-time-deviation = tidsafvigelse
+
+# main
+studio-main-mask-checks-and-holdover-budgets = Maskekontroller og holdover-budgetter
+
+# main
+studio-main-each-check-s-limit-is = Hver kontrols grænse er tegnet som en ring ved den middeltid, hvor marginen var dårligst. Maskerne er afskrevet fra de ITU-T-anbefalinger (International Telecommunication Union Telecommunication Standardization Sector), der er nævnt i hver række.
+
+# main
+studio-main-lower-is-better-fractional-frequency = Lavere er bedre. Relativ frekvensstabilitet mod middeltid τ, på logaritmiske akser.
+
+# main
+studio-main-earth-centred-inertial-frame = Jordcentreret inertialsystem
+
+# main
+studio-main-drag-to-rotate-scroll-to = Træk for at rotere, rul for at zoome.
+
+# main
+studio-main-run-the-engine-once-per = Kør motoren én gang pr. værdi og afbild ét kvalitetsmål. Tilføj en anden parameter for et varmekort. Hvert punkt er en ægte motorkørsel, op til 60.
+
+# main
+studio-main-pinned-runs-side-by-side = fastgjorte kørsler side om side
+
+# main
+studio-main-clear-pins = Ryd fastgørelser
+
+# main
+studio-main-key-figures-run-against-run = Nøgletal, kørsel mod kørsel
+
+# main
+studio-main-the-headline-readouts-of-each = De overordnede aflæsninger for hver fastgjort kørsel; ændringen er i forhold til kørsel A.
+
+# main
+studio-main-the-engine-s-own-export = motorens egen eksport
+
+# main
+studio-main-written-by-the-engine = skrevet af motoren
+
+# main
+studio-main-czml-kml-geojson-stk-ephemeris = CZML, KML, GeoJSON, STK-efemeride, SigMF
+
+# main
+studio-main-try-other-settings = Prøv andre indstillinger
+
+# main
+studio-main-change-a-value-then-run = Ændr en værdi, og kør igen. Svaret og diagrammet opdateres på stedet.
+
+# main
+studio-main-run-again = Kør igen
+
+# main
+studio-main-cancel-the-run = Annullér kørslen
+
+# main
+studio-main-runs-in-your-browser-nothing = Kører i din browser. Intet uploades.
+
+# main
+studio-main-advanced-settings = Avancerede indstillinger
+
+# main
+studio-main-every-setting-comes-from-the = Hver indstilling kommer fra scenariefilen. Redigér hele filen under “For forskere”.
+
+# main
+studio-main-how-this-is-computed = Sådan beregnes dette
+
+# main
+studio-main-level-of-evidence = Evidensniveau
+
+# main
+studio-main-the-engine-s-own-one = Motorens egen oversigt på én linje
+
+# main
+studio-main-every-figure-is-labelled-with = Hvert tal er mærket med sit evidensniveau. Valideret betyder kontrolleret mod en uafhængig ekstern reference; modelleret betyder fysik fra grundprincipper med tests, endnu ikke kontrolleret mod en reference.
+
+# main
+studio-main-for-researchers = For forskere
+
+# main
+studio-main-code-data-citation = kode, data, citation
+
+# main
+studio-main-run-it-on-your-computer = Kør den på din computer
+
+# main
+studio-main-run-it-from-python = Kør den fra Python
+
+# main
+studio-main-exported-figures-carry-this-doi = Eksporterede figurer bærer denne DOI (digital object identifier) i deres billedtekst. Samme scenarie, seed og motorversion giver de samme tal.
+
+# main
+studio-main-toml-tom-s-obvious-minimal = TOML (Tom's Obvious, Minimal Language)
+
+# main
+studio-main-in-the-editor-tab-indents = I editoren indrykker Tab med to mellemrum. Tryk på Escape og derefter Tab for at gå videre. Kør igen for at bruge din redigering.
+
+# main
+studio-main-every-panel-and-field = Hvert panel og hvert felt
+
+# main
+studio-main-the-advanced-view-is-the = Den avancerede visning er det fulde dashboard: hvert panel for denne kørsel side om side, hvert felt i scenariet, sweeps, sammenligninger og motorens egen rapport. Den åbner på dette scenarie med dine indstillinger.
+
+# main
+studio-main-kshana-pro = Kshana Pro
+
+# main
+studio-main-kshana-studio = Kshana Studio
+
+# main
+studio-main-request-an-evaluation = Anmod om en evaluering
+
+# main
+studio-main-talk-to-us-about-a = Tal med os om en kommerciel licens
+
+# main
+studio-main-request-a-study = Anmod om et studie
+
+# main
+studio-main-imagery-nasa-visible-earth-blue = Billeder: NASA Visible Earth (Blue Marble). Kystlinjer: Natural Earth. Hvert diagram her er tegnet ud fra en motorkørsel; en kørsel, rapport, animation eller eksport lavet af den native kommandolinjemotor er mærket som optaget.
+
+# main
+studio-main-this-session = denne session
+
+# main
+studio-main-runs-you-make-appear-here = De kørsler, du laver, vises her. Vælg en for at få dens scenarie og resultat tilbage, eller fastgør den for at sammenligne.
+
+# advanced
+studio-advanced-find-a-scenario-a-domain = Find et scenarie, et område, en indstilling eller en kommando
+
+# advanced
+studio-advanced-the-runs-you-made-in = De kørsler, du har lavet i denne session
+
+# advanced
+studio-advanced-a-short-tour-of-the = En kort rundvisning i Studio
+
+# advanced
+studio-advanced-toggle-colour-theme = Skift farvetema
+
+# advanced
+studio-advanced-switch-to-the-simple-view = Skift til den enkle visning
+
+# advanced
+studio-advanced-the-simple-view-the-answer = Den enkle visning: svaret først, fem indstillinger, detaljer efter behov
+
+# advanced
+studio-advanced-scenario-library = Scenariebibliotek
+
+# advanced
+studio-advanced-close-the-library = Luk biblioteket
+
+# advanced
+studio-advanced-find-a-scenario-a-domain-2 = Find et scenarie, et område eller en indstilling
+
+# advanced
+studio-advanced-scenario-domain-or-field = Scenarie, område eller indstilling
+
+# advanced
+studio-advanced-filter-by-domain = Filtrér efter område
+
+# advanced
+studio-advanced-scenarios-by-mission-domain = Scenarier efter missionsområde
+
+# advanced
+studio-advanced-how-the-studio-works = Sådan virker Studio
+
+# advanced
+studio-advanced-search-scenarios-domains-or-fields = Søg efter scenarier, områder eller indstillinger
+
+# advanced
+studio-advanced-search-scenarios-domains-or-fields-2 = Søg efter scenarier, områder eller indstillinger, for eksempel elevationsmaske
+
+# advanced
+studio-advanced-the-engine-kind-this-scenario = Den motortype, dette scenarie kører
+
+# advanced
+studio-advanced-open-the-scenario-library = Åbn scenariebiblioteket
+
+# advanced
+studio-advanced-show-the-parameters-and-the = Vis parametrene og scenariekilden
+
+# advanced
+studio-advanced-keep-this-run-to-compare = Behold denne kørsel til sammenligning med en anden (op til 4)
+
+# advanced
+studio-advanced-compare-the-pinned-runs = Sammenlign de fastgjorte kørsler
+
+# advanced
+studio-advanced-share-this-run-or-download = Del denne kørsel, eller download den
+
+# advanced
+studio-advanced-result-panels = Resultatpaneler
+
+# advanced
+studio-advanced-run-summary = Kørselsoversigt
+
+# advanced
+studio-advanced-parameters-and-scenario-source = Parametre og scenariekilde
+
+# advanced
+studio-advanced-close-the-parameters-and-show = Luk parametrene, og vis resultaterne
+
+# advanced
+studio-advanced-find-a-field-of-this = Find en indstilling i dette scenarie
+
+# advanced
+studio-advanced-find-a-field-for-example = Find en indstilling, for eksempel maske
+
+# advanced
+studio-advanced-parameter-view = Parametervisning
+
+# advanced
+studio-advanced-find-a-scenario-domain-field = Find et scenarie, område, indstilling, panel eller kommando
+
+# advanced
+studio-advanced-skip-to-results = Gå til resultaterne
+
+# advanced
+studio-advanced-find-anything = Find alt
+
+# advanced
+studio-advanced-lunar-station-coverage-of-a = Lunar station: dækning af en referencestation (MODELLED)
+
+# advanced
+studio-advanced-simple-view = Enkel visning
+
+# advanced
+studio-advanced-choose-a-scenario = Vælg et scenarie
+
+# advanced
+studio-advanced-what-do-you-want-to = Hvad vil du gøre?
+
+# advanced
+studio-advanced-pick-a-domain-and-a = Vælg et område og et scenarie, sæt det op, kør motoren i din browser, og læs, sammenlign og eksportér derefter resultaterne. Intet uploades.
+
+# advanced
+studio-advanced-share-or-export = Del eller eksportér
+
+# advanced
+studio-advanced-good-first-runs = Gode første kørsler
+
+# advanced
+studio-advanced-pin-run = Fastgør kørsel
+
+# advanced
+studio-advanced-report-json-scenario-tables-and = rapport, JSON, scenarie, tabeller og eksporter
+
+# advanced
+studio-advanced-the-exact-scenario-in-the = det præcise scenarie, i linket
+
+# advanced
+studio-advanced-an-iframe-for-a-course = en iframe til en kursusside eller wiki
+
+# advanced
+studio-advanced-opens-in-a-new-tab = åbner i et nyt faneblad
+
+# advanced
+studio-advanced-loading-the-engine-the-recorded = Indlæser motoren. Dette scenaries optagede resultat vises først.
+
+# advanced
+studio-advanced-got-it = Forstået
+
+# advanced
+studio-advanced-headline-numbers-from-the-engine = Overordnede tal fra motorens resultat, med ændringen siden din forrige kørsel af dette scenarie og en bestået eller ikke bestået, hvor kørslen angiver en tærskel.
+
+# advanced
+studio-advanced-set-parameters = Indstil parametre
+
+# advanced
+studio-advanced-every-change-re-runs-the = Hver ændring kører motoren igen og opdaterer nøgletallene og panelerne.
+
+# advanced
+studio-advanced-drag-a-slider-and-the = Træk i en skyder, og scenariet kører igen. Hver kontrol skriver direkte ind i scenarieteksten nedenfor.
+
+# advanced
+studio-advanced-in-the-editor-tab-indents = I editoren indrykker Tab med to mellemrum. Tryk på Escape og derefter Tab for at gå videre.
+
+# mission-thread
+studio-mission-thread-time-axis = Tidsakse
+
+# mission-thread
+studio-mission-thread-mission-thread = Missionsforløb
+
+# mission-thread
+studio-mission-thread-where-does-a-mission-s = Hvor slipper en missions budget for navigations- og tidsfejl op?
+
+# mission-thread
+studio-mission-thread-a-mission-is-a-chain = En mission er en kæde af faser: opsendelse, rendezvous, overførsel til Månen, landing, hjemrejse. Hver fase har sine egne sensorer og sit eget fejlbudget, og hver giver sin usikkerhed videre til den næste. Denne side viser budgettet for hele kæden, fase for fase, og peger på det svageste led.
+
+# mission-thread
+studio-mission-thread-open-the-artemis-class-example = Åbn eksemplet i Artemis-klassen
+
+# mission-thread
+studio-mission-thread-open-a-result-file = Åbn en resultatfil…
+
+# mission-thread
+studio-mission-thread-the-thread = Forløbet
+
+# mission-thread
+studio-mission-thread-error-against-mission-elapsed-time = Fejl mod forløbet missionstid
+
+# mission-thread
+studio-mission-thread-the-phases = Faserne
+
+# mission-thread
+studio-mission-thread-the-budget-of-one-phase = Budgettet for én fase
