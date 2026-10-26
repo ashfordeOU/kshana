@@ -19,3 +19,23 @@ seg-3bc1761c76ab = { "3" } meegeleverde scenario's gebruiken dit kind; de overig
 seg-4be479b81f39 = <s1>Vorige</s1>lunar-vlbi
 
 seg-2854e6a75833 = <s1>Volgende</s1>moonlight-service-volume
+
+seg-c68502b9d675 = Bron: <c1/>
+
+seg-46072326d616 = <c1/> (scenariosoort)
+
+seg-3f749aef8d89 = PNT op Mars in de diepe ruimte: een gesimuleerde MARCONI-relayconstellatie (areostationaire + hellende relays die eenrichting uitzenden + tweerichting doorgeven aan een station in de diepe ruimte) navigeert een referentiegebruiker (transfer | lmo | surface) via de gezamenlijke radiometrische fusieschatter voor eenrichting en tweerichting. Rapporteert per epoch geometrie en zichtbaarheid, de behaalde RMS ten opzichte van de referentie en de formele covariantie (1σ / 3σ positie) — een eerlijke gesimuleerde kwaliteitsmaat, GEEN gecertificeerd beschermingsniveau.
+
+seg-0254f9bd0ee6 = Eén run van <c1/> vat zich samen als: mars-pnt 5aad87fcc94a | lmo-gebruiker, uso-klok | { "5" } relays (gemiddeld { "3.1" } in zicht) | geconvergeerde pos-RMS { "0.25" } m, formele 1σ { "0.31" } m (3σ { "0.93" } m — covariantie-kwaliteitsmaat, geen gecertificeerd PL) | klokfrequentie-σ { "3.71e-13" } | cov-PD true
+
+seg-8eb513e7aeea = Optionele velden: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>
+
+seg-5a9640a3f9b4 = Het voorbeeld <c1/> stelt onder meer in:
+
+seg-8e0fecea19fc = uso
+
+seg-a16f2332397c = lmo
+
+seg-c564dca90854 = De grafiek die de engine schrijft voor scenarios/mars-pnt-lmo.toml, soort mars-pnt
+
+seg-83c3a84f6b98 = <b>VALIDATED</b> Herstel van een epochtoestand [r,v] uit afstanden van grondstations via een Gauss–Newton-batchcorrector voor differentiële correctie en een sequentieel filter, over een tweelichamen+J2-krachtmodel. Onafhankelijke referentie (ExternalDataset): Orekit { "12.2" } (CS GROUP, Apache-2.0) BatchLSEstimator (Levenberg–Marquardt) + KalmanEstimator (EKF) — een onafhankelijke schattingsbibliotheek van een derde partij op een afgestemd krachtmodel; herstelde epochtoestand + RMS van het residu na de fit komen overeen tot <{ "1e-3" } m zonder ruis en <{ "3" } m bij een ruisvloer van { "5" } m

@@ -47,3 +47,5 @@ seg-bc51b666d070 = De voorspelfout van de aardoriëntatie in operationele stijl,
 seg-653fad5e0afe = <s1>Vorige</s1>quantum-trade
 
 seg-5abe534d4ef1 = <s1>Volgende</s1>reentry
+
+seg-a2889fb2b42a = Onderwerppagina: <a1>integrations.md</a1>

@@ -49,3 +49,17 @@ seg-3319b18ac61f = en { "1" } meer in de matrix.
 seg-f6bd93155e41 = <b>MODELLED</b> Gewogen-kleinste-kwadraten-Gauss-Newton-positiebepalingen over elke combinatie van systemen, één klok van de ontvanger per systeem (de inter-systeembias geschat samen met de positie) of een bekende. Onafhankelijke referentie (InternalConsistency): Een met de hand afgeleide DOP met vier satellieten (één satelliet in het zenit en drie op de horizon, { "120" } deg uit elkaar, waarvan de normaalmatrix met de hand te inverteren is), de structurele identiteit dat een systeem met een eigen klok en één satelliet geen geometrie toevoegt, ruisvrij herstel van positie, klok en bias, en geseede fouten tegen de covariantie. Alleen interne controles; niet vergeleken met de uitvoer van een ontvanger. { "0.30" } externe vergelijking, een bevinding
 
 seg-4056b0470099 = <b>MODELLED</b> Systeemonafhankelijke invoer: elk systeem is Walker-schillen, expliciete elementen of een GNSS-voorinstelling, een signaal (draaggolf, chipsnelheid, bandbreedte, ontvangen vermogen of C/N0-bereik. Onafhankelijke referentie (InternalConsistency): Transcriptie van de aangehaalde openbare waarden, gecontroleerd op structuur (elke openbare bron heeft een URL, Walker-patronen delen gelijkmatig, de C/N0 uit ontvangen vermogen over kT bij { "290" } K), niet tegen een externe onafhankelijke referentie. Representatieve waarden worden in elke voorinstelling benoemd en zijn illustratief
+
+seg-df745ccdaceb = MODELLED gezamenlijke gewogen kleinste-kwadraten-positiebepaling op pseudoafstanden met één klok per systeem of een bekende offset; ruis uit het model van de delay-lock-loop bij de C/N0-omhullende plus de signal-in-space-afstandsfout (resultaat <c1/>)
+
+seg-c988291eb41d = MODELLED: al het overige; de DOP wordt gecontroleerd aan de hand van een met de hand afgeleid geval, de positiebepalingen aan hun covariantie en het dopplermodel aan de identiteit voor afstandsversnelling. (soortencatalogus (<c1/>))
+
+seg-be908356ad19 = De skyline-voorinstelling is REPRESENTATIVE (herkomst in docs/SKYLINE.md en <c1/>): in de orde van grootte van de breedte en het reliëf van de diepe West-Noorse fjorden, geen opmeting van enig fjord. Alleen zichtlijn: geen diffractie, reflectie of ontvangst zonder zichtlijn. Verwijder de sectie [skyline] om met open lucht te vergelijken. MODELLED. (commentaar in het scenariobestand, regels { "15" } tot { "18" })
+
+seg-1d0ab26930e1 = Gezamenlijke GNSS- en LEO-pseudoafstandspositiebepaling met intersysteembiases en foutmodellen per signaal is MODELLED, niet getoetst aan een onafhankelijke externe referentie: gecontroleerd aan de hand van de eigen gesloten-vorm- of analytische identiteit; dit vangt transcriptie- en coëfficiëntfouten op, maar is geen externe onafhankelijke referentie. (verificatiematrix (docs/MODELLED-RATIONALE.md))
+
+seg-35916a8ac93e = Benoemde LEO-PNT-systemen als optionele gegevensvoorinstellingen, elk met zijn bron, is MODELLED, niet getoetst aan een onafhankelijke externe referentie: gecontroleerd aan de hand van de eigen gesloten-vorm- of analytische identiteit; dit vangt transcriptie- en coëfficiëntfouten op, maar is geen externe onafhankelijke referentie. (verificatiematrix (docs/MODELLED-RATIONALE.md))
+
+seg-6ac7dcc57b2a = <s1>Vorige</s1>leo-ppp
+
+seg-458b3eda3250 = <s1>Volgende</s1>leo-signal
