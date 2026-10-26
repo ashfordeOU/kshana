@@ -15,3 +15,15 @@ seg-47ee40d4eb73 = De grafiek die de engine schrijft voor scenarios/gnss-sim-rai
 seg-eb7e0c2feb2b = Snapshot-/oplossingsscheidings-/ARAIM-RAIM met HPL/VPL en een Stanford-diagram.
 
 seg-ce7f6130ddee = De grafiek die de engine schrijft voor scenarios/integrity-raim.toml, soort integrity
+
+seg-b7b67e03f125 = Enkelpunts-positiebepaling met echte waarnemingen: bepaal de positie van een ontvanger uit een RINEX { "3" }-waarnemingsbestand en een broadcast-navigatiebestand (codepseudoafstanden, broadcast-efemeride, Klobuchar-ionosfeer, Saastamoinen/Niell-troposfeer), eventueel getoetst aan een opgemeten coördinaat.
+
+seg-d76d59644d84 = De grafiek die de engine schrijft voor scenarios/pvt-abmf.toml, soort pvt
+
+seg-edfcb546d9de = Budget voor de voorspelling van het lunaire referentiestelsel / de aardoriëntatie in realtime: P4 Tabel { "1" } (de consistentiecontrole van de referentiestelselfout — nabewerkt ~{ "0.27" } m ↔ ~{ "0.010" } ms en realtime ~{ "15" } m ↔ ~{ "0.5" } ms, elke positie in het referentiestelsel uitgedrukt als de equivalente UT1-fout via de hefboomarm L19 Δr = D_EM·ω⊕·ΔUT1) en Tabel { "2" } (gemeten UT1-voorspelfout tegenover horizon — de L18-curve rechtstreeks afgelezen uit de echte IERS finals2000A-reeks: de eindondergrens Bulletin A − Bulletin B en de voorspelfout van de persistentievoorspeller over meerdere dagen, elk via L19 afgebeeld op een positie in het Maanstelsel), plus het kwadratische-sombudget L21 voor de realtime referentiestelselfout (EOP + efemeride + realisatieondergrens). VALIDATED gesloten vorm (de hefboomarm L19, ω⊕ gecontroleerd tegen de CIO-aardrotatiehoek) en VALIDATED echte data (de L18-curve uit de echte rijen van finals2000A); MODELLED zijn de groottes van de covariantie van baanbepaling voor het lunaire relais en de realisatieondergrens van het referentiestelsel (representatieve toewijzingen) en de persistentievoorspeller (niet het operationele Bulletin A-algoritme van de IERS). Geen gecertificeerd realtime referentiestelselproduct.
+
+seg-2721ed7727bb = De grafiek die de engine schrijft voor scenarios/realtime-frame-eop.toml, soort realtime-frame-eop
+
+seg-5f25c5b71f0c = Ruimteweermodel van de omgeving: zonne- (F10.7/F10.7a) en geomagnetische (Kp, met de definitionele tabel Kp↔ap) activiteitsindices, de exosferische temperatuur volgens Jacchia-1971 die zij aansturen (getoetst tegen gepubliceerde waarden voor zonneminimum/gemiddelde/zonnemaximum), en de neutrale thermosferische dichtheid volgens Jacchia-1971 bij de dagelijks gemiddelde exosferische temperatuur tegenover het activiteitsvrije statische profiel op een reeks hoogten — de afhankelijkheid van de dichtheid van de zonnecyclus die de statische atmosfeer weglaat. MODELLED: de dichtheid komt overeen met uit accelerometers afgeleide dichtheden (TOLEOS CHAMP en GRACE) binnen een factor { "2" } bij zonnemaximum, maar is ongeveer 1.7x te dicht in het zonneminimum van { "2008" }.
+
+seg-c1c6f2f73fb5 = De grafiek die de engine schrijft voor scenarios/space-weather.toml, soort space-weather

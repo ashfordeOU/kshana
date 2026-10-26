@@ -13,3 +13,9 @@ seg-4dd2bcc206db = De grafiek die de engine schrijft voor scenarios/conflict-res
 seg-9a58a7b09423 = Navigatie met zwaartekrachtkaartmatching zonder GPS: een koudeatoomgravimeter herstelt een constante INS-drift uit de reeks zwaartekrachtanomalieën waar hij doorheen vliegt.
 
 seg-c42d90057e9f = De grafiek die de engine schrijft voor scenarios/gravity-map-nav.toml, soort gravity-map
+
+seg-0d7bf5a4f07e = GPS-ontzegde terreingebonden navigatie (TERCOM/SITAN): een radar-/barometrische hoogtemeter vergelijkt het hoogteprofiel van het terrein met een DEM in SRTM-stijl om de INS-drift te herstellen.
+
+seg-c5e33c7122e2 = De grafiek die de engine schrijft voor scenarios/terrain-nav.toml, soort terrain-nav
+
+seg-6bdc150ab25b = GPS-ontzegde sequentiële (recursieve) terreingebonden navigatie: een deeltjesfilter draait het terreinmatch-meetmodel epoch voor epoch (SITAN als lopend filter), zodat een in de tijd variërende INS-drift langs het spoor wordt gevolgd, waar de batch-soort terrain-nav slechts één constante offset herstelt.

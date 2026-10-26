@@ -35,3 +35,33 @@ seg-53a78e98af12 = Onderwerppagina: <a1>SKYLINE.md</a1>
 seg-ae15d15bf151 = Onderwerppagina: <a1>LEO-PASS.md</a1>
 
 seg-99a3c57c7926 = { "7" } meegeleverde scenario's gebruiken deze soort; de overige staan in <a1><c1/></a1>.
+
+seg-0e3518dc3ddb = Bron: <c1/>
+
+seg-1428025a91e1 = <c1/> (scenariosoort)
+
+seg-cb4262b66b8f = GNSS-beschikbaarheid + DOP uit een baanconstellatie (Walker / TLE / RINEX).
+
+seg-97680b4587c8 = Eén run van <c1/> vat samen als: scenario bffc887db977 | 77/361 samples GNSS-nominaal | beste PDOP { "2.53" } pos 2.53m | quantum-holdover 0s p95 6.49e-5ns integriteit { "1.000" } beveiliging n.v.t. (geen aanval) | klassieke holdover 0s p95 25.0ns integriteit { "1.000" } beveiliging n.v.t. (geen aanval)
+
+seg-b3a080b98bd9 = Verplichte velden: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>
+
+seg-c818cc4f87da = Optionele velden: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>
+
+seg-364139ff447d = Het voorbeeld <c1/> stelt onder meer in:
+
+seg-d5063dda3971 = Microchip SA.45s / SA65 chipschaal-atoomklok, sigma_y(1s)
+
+seg-799fe1216562 = { "3.04" } N: GNSS NAV DATA G: GPS
+
+seg-3b652c0da6de = De grafiek die de engine schrijft voor scenarios/orbit-rinex.toml, soort orbit
+
+seg-a150aaacf072 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP uit de zichtlijngeometrie via Q=(HᵀH)⁻¹ met een lokale ENU-splitsing Tests: <a1>dop_reference.rs</a1>.
+
+seg-af0bb84bda32 = <b>MODELLED</b> dop_error_mc::run_geometry en check: een Monte Carlo met seed (N = { "20,000" } epochs per geometrie, sigma = { "1.5" } m, ChaCha8-seed { "36" } + i) van de eigen iteratieve kleinstekwadratenpositiebepaling van de engine (pvt::solve_spp, eenheidsgewichten, opgelost vanuit de ware positie) op Tests: <a1>uere_dop_monte_carlo.rs</a1>.
+
+seg-a3d71dd306b3 = <b>VALIDATED</b> skyline + frames::look_angles + geometry::sky_geometry: het geodetische (WGS-84) azimut en de elevatie van een satelliet vanaf een grondstation, een azimut-/elevatiemaskertabel die lineair in azimut is geïnterpoleerd met wikkeling bij { "360" } graden, de zichtbare set el Tests: <a1>skyline_orekit_oracle.rs</a1>.
+
+seg-d86884be3f98 = <s1>Vorige</s1>optical-atmosphere
+
+seg-da202333ae8d = <s1>Volgende</s1>passes
