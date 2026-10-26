@@ -9359,3 +9359,755 @@ js-tools-osnma-recorded-failed = el resultado registrado no se cargó
 
 # 2026-10-01-studio-rebuild/tools/tools.js:344
 js-tools-osnma-recorded-result = Resultado registrado de kshana osnma verify --json para { $file }.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:308
+js-tools-osnma-tag-counts = { $authenticated } autenticadas, { $failed } fallidas, { $pending } pendientes, { $discarded } descartadas
+
+# 2026-10-01-studio-rebuild/tools/tools.js:304
+js-tools-osnma-tag-totals =
+    { $n ->
+        [one] { $n } etiqueta: { $authenticated } autenticadas, { $failed } fallidas, { $pending } pendientes, { $discarded } descartadas.
+        [many] { $n } de etiquetas: { $authenticated } autenticadas, { $failed } fallidas, { $pending } pendientes, { $discarded } descartadas.
+       *[other] { $n } etiquetas: { $authenticated } autenticadas, { $failed } fallidas, { $pending } pendientes, { $discarded } descartadas.
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:313
+js-tools-osnma-time-caveat = Hora: cada comprobación es relativa a las marcas de tiempo de las páginas entregadas al verificador, que aquí proceden de los propios datos y no ofrecen ninguna protección frente a datos antiguos reproducidos. La autenticación indica que los datos proceden del sistema; no dice nada sobre la señal por la que llegaron ni sobre la calidad de la solución.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:178
+js-tools-osnma-unavailable = No disponible
+
+# 2026-10-01-studio-rebuild/tools/tools.js:296
+js-tools-osnma-word-authenticated = Al menos un satélite está autenticado y ninguno falló
+
+# 2026-10-01-studio-rebuild/tools/tools.js:296
+js-tools-osnma-word-failed = Falló una comprobación de los datos de algún satélite
+
+# 2026-10-01-studio-rebuild/tools/tools.js:296
+js-tools-osnma-word-unavailable = Ningún satélite está autenticado
+
+# 2026-10-01-studio-rebuild/tools/tools.js:122
+js-tools-pack-selected = { $label }: { $files } ({ $size })
+
+# 2026-10-01-studio-rebuild/tools/tools.js:378
+js-tools-pinned-to-release = Fijado a esta versión:
+
+# 2026-10-01-studio-rebuild/tools/tools.js:221
+js-tools-preview = Vista previa
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:72
+js-tools-public-key-format = Una clave pública son 64 dígitos hexadecimales (32 bytes). No se acepta nada más.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:113
+js-tools-read-documentation = Leer la documentación
+
+# 2026-10-01-studio-rebuild/tools/tools.js:458
+js-tools-reading-plan = Leyendo el plan…
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:42
+js-tools-refused-file-name = nombre de archivo rechazado: { $name }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:410
+js-tools-run = Ejecutar
+
+# 2026-10-01-studio-rebuild/tools/tools.js:255
+js-tools-runs-read =
+    { $n ->
+        [one] { $n } ejecución leída: { $runs }
+        [many] { $n } de ejecuciones leídas: { $runs }
+       *[other] { $n } ejecuciones leídas: { $runs }
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:254
+js-tools-runs-read-engine =
+    { $n ->
+        [one] { $n } ejecución leída, por el motor { $engine }: { $runs }
+        [many] { $n } de ejecuciones leídas, por el motor { $engine }: { $runs }
+       *[other] { $n } ejecuciones leídas, por el motor { $engine }: { $runs }
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:110
+js-tools-sample-load-failed = No se cargó la muestra ({ $reason }).
+
+# 2026-10-01-studio-rebuild/tools/tools.js:109
+js-tools-sample-note = Una salida real del comando, registrada a partir del motor en la ejecución de demostración sintética. No es una medición de nada.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:107
+js-tools-sample-output = Salida de muestra: { $label }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:206
+js-tools-scenario-list-failed = No se cargó la lista de escenarios
+
+# 2026-10-01-studio-rebuild/tools/tools.js:470
+js-tools-scoring = Puntuando…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:103
+js-tools-select-and-copy = Seleccionar y copiar
+
+# 2026-10-01-studio-rebuild/tools/tools.js:380
+js-tools-settings-example = Ejemplo de configuración { $n }:
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:139
+js-tools-status-evidenced-label = Las ejecuciones aportan evidencias a favor de esta fila
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:139
+js-tools-status-evidenced-short = Con evidencia
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:141
+js-tools-status-not-evidenced-label = Estas ejecuciones no muestran nada para esta fila
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:141
+js-tools-status-not-evidenced-short = Sin evidencia
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:142
+js-tools-status-out-of-scope-label = Fuera de lo que Kshana puede mostrar
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:142
+js-tools-status-out-of-scope-short = Fuera del alcance
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:140
+js-tools-status-partly-label = Las ejecuciones aportan evidencias a favor de una parte de esta fila
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:140
+js-tools-status-partly-short = En parte
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-ai = Asistente de IA
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-bench = Test bench
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-cli = Línea de comandos
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-compliance = Compliance
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-evidence = Paquetes de evidencias
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-imufit = Ajuste de IMU
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-jammertest = Jammertest
+
+# 2026-10-01-studio-rebuild/tools/tools.js:62
+js-tools-tab-osnma = OSNMA
+
+# 2026-10-01-studio-rebuild/tools/tools.js:425
+js-tools-tele-all-events = Un evento de syslog por época (por defecto: uno por cambio de banda)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:406
+js-tools-tele-file-aria = Archivo de resultado o de JSON-lines
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-cef = Syslog, CEF
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-leef = Syslog, LEEF
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-mqtt = MQTT, descubrimiento de Home Assistant (tema, tabulador, carga útil)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-otlp = OpenTelemetry (OTLP JSON)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-fmt-prometheus = Métricas de Prometheus
+
+# 2026-10-01-studio-rebuild/tools/tools.js:407
+js-tools-tele-format-aria = Formato
+
+# 2026-10-01-studio-rebuild/tools/tools.js:424
+js-tools-tele-host = Host
+
+# 2026-10-01-studio-rebuild/tools/tools.js:408
+js-tools-tele-host-aria = Nombre de host escrito en los eventos de syslog
+
+# 2026-10-01-studio-rebuild/tools/tools.js:425
+js-tools-tele-include-position = Incluir la posición informada (desactivado por defecto)
+
+# 2026-10-01-studio-rebuild/tools/tools.js:405
+js-tools-tele-intro = Convierta un archivo de resultado (session.result.json) o las líneas JSON en vivo a uno de los formatos, en este navegador. Requiere una versión del motor que tenga la exportación de telemetría (0.35 y posteriores con la exportación); los comandos de arriba funcionan en todas partes.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:426
+js-tools-tele-note = Aquí las líneas de syslog no llevan marca de tiempo (la página no lee ningún reloj); la herramienta de línea de comandos las marca. Prometheus da el estado final. MQTT da una línea por mensaje, el tema, luego un tabulador y luego la carga útil; desde aquí no se publica nada. El texto es el mismo que imprime el comando.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:404
+js-tools-tele-run-here = Ejecutar aquí
+
+# 2026-10-01-studio-rebuild/tools/tools.js:334
+js-tools-that-file-too-large = Ese archivo supera los 64 MiB.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:182
+js-tools-token-attached = Token adjuntado
+
+# 2026-10-01-studio-rebuild/tools/tools.js:182
+js-tools-token-attached-note = El paquete actualizado está debajo. Aquí NO se comprobó la firma de la autoridad de marca de tiempo: ejecute openssl ts -verify.
+
+# 2026-10-01-studio-rebuild/tools/tools.js:312
+js-tools-trust-monitor-sentence = Frase del monitor de confianza: { $sentence }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:48
+js-tools-two-files-same-name = dos archivos se llaman { $name }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:214
+js-tools-ubx-bad-crc =
+    { $n ->
+        [one] { $n } página no superó su CRC.
+        [many] { $n } de páginas no superaron su CRC.
+       *[other] { $n } páginas no superaron su CRC.
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:311
+js-tools-ubx-file = El archivo UBX
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:212
+js-tools-ubx-frames-pages = { $frames } tramas UBX; { $pages } páginas I/NAV decodificadas.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:218
+js-tools-ubx-skipped-bytes =
+    { $n ->
+        [one] Se omitió { $n } byte entre tramas.
+        [many] Se omitieron { $n } de bytes entre tramas.
+       *[other] Se omitieron { $n } bytes entre tramas.
+    }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:216
+js-tools-ubx-time-conflicts =
+    { $n ->
+        [one] { $n } página tenía una hora que entraba en conflicto con la de sus vecinas.
+        [many] { $n } de páginas tenían una hora que entraba en conflicto con la de sus vecinas.
+       *[other] { $n } páginas tenían una hora que entraba en conflicto con la de sus vecinas.
+    }
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:215
+js-tools-ubx-unstamped =
+    { $n ->
+        [one] { $n } página no se pudo situar en el tiempo.
+        [many] { $n } de páginas no se pudieron situar en el tiempo.
+       *[other] { $n } páginas no se pudieron situar en el tiempo.
+    }
+
+# 2026-10-01-studio-rebuild/tools/tools.js:233
+js-tools-unknown = desconocido
+
+# 2026-10-01-studio-rebuild/tools/tools.js:257
+js-tools-unused-scenarios = No se usaron los archivos de escenario sin un resultado correspondiente: { $files }.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:81
+js-tools-verdict-failed-text = La verificación falló.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:81
+js-tools-verdict-failed-title = Fallido
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:80
+js-tools-verdict-intact-text = El paquete está intacto respecto a la clave que él mismo indica, que cualquiera puede generar. Obtenga la clave pública del firmante por otra vía y fíjela.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:80
+js-tools-verdict-intact-title = Intacto, pero el firmante no está fijado
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:79
+js-tools-verdict-verified-text = El paquete no ha cambiado y está firmado por la clave que usted fijó.
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:79
+js-tools-verdict-verified-title = Verificado
+
+# 2026-10-01-studio-rebuild/tools/tools.js:149
+js-tools-verifying = Verificando…
+
+# 2026-10-01-studio-rebuild/tools/tools.js:158
+js-tools-what-failed = Qué falló
+
+# 2026-10-01-studio-rebuild/tools/tools.js:99
+js-tools-why-not-browser = Por qué no en un navegador:
+
+# 2026-10-01-studio-rebuild/tools/tools.js:448
+js-tools-yes = sí
+
+# 2026-10-01-studio-rebuild/training/training.js:355
+js-training-active-events = Eventos activos
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:50
+js-training-band-large = más de 100 m
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:49
+js-training-band-medium = de 25 a 100 m
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:48
+js-training-band-small = menos de 25 m
+
+# 2026-10-01-studio-rebuild/training/training.js:213
+js-training-chart-max = máx. { $v }
+
+# 2026-10-01-studio-rebuild/training/training.js:225
+js-training-chart-mean-cn0 = C/N0 medio
+
+# 2026-10-01-studio-rebuild/training/training.js:224
+js-training-chart-position-error = error de posición
+
+# 2026-10-01-studio-rebuild/training/training.js:227
+js-training-chart-s-reported-minus-true = s, indicada menos real
+
+# 2026-10-01-studio-rebuild/training/training.js:226
+js-training-chart-satellites = satélites
+
+# 2026-10-01-studio-rebuild/training/training.js:227
+js-training-chart-time-offset = desfase de hora
+
+# 2026-10-01-studio-rebuild/training/training.js:226
+js-training-chart-used-tracked = usados / seguidos
+
+# 2026-10-01-studio-rebuild/training/training.js:340
+js-training-col-reported = Indicado por el receptor
+
+# 2026-10-01-studio-rebuild/training/training.js:340
+js-training-col-true = Real
+
+# 2026-10-01-studio-rebuild/training/training.js:352
+js-training-cue-course = La orientación del giroscopio y la velocidad de la corredera no se ven afectadas por ningún evento. Aquí el rumbo indicado difiere de la orientación del giroscopio en { $course }. Una corriente también separa la orientación del rumbo, así que compare con el inicio de la ejecución.
+
+# 2026-10-01-studio-rebuild/training/training.js:353
+js-training-cue-course-speed = La orientación del giroscopio y la velocidad de la corredera no se ven afectadas por ningún evento. Aquí el rumbo indicado difiere de la orientación del giroscopio en { $course } y la velocidad indicada de la velocidad real en { $speed } kn. Una corriente también separa la orientación del rumbo, así que compare con el inicio de la ejecución.
+
+# 2026-10-01-studio-rebuild/training/training.js:351
+js-training-cue-title = Pista para el análisis posterior.
+
+# 2026-10-01-studio-rebuild/training/training.js:350
+js-training-cue-unknown-amount = una cantidad desconocida
+
+# 2026-10-01-studio-rebuild/training/training.js:415
+js-training-debrief-now = Analizarlo ahora
+
+# 2026-10-01-studio-rebuild/training/training.js:89
+js-training-default-warning = Datos de formación sintéticos. Solo para formación y pruebas: no alimente nunca con este flujo los sistemas de navegación en vivo de una embarcación.
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-coastal-drag-off = Arrastre de posición costero
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-combined-event = Evento combinado
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-fjord-degradation = Degradación natural en un fiordo
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-open-sea-jamming = Jamming en mar abierto
+
+# 2026-10-01-studio-rebuild/training/training.js:17
+js-training-demo-port-time-spoof = Spoofing de hora en la aproximación a puerto
+
+# 2026-10-01-studio-rebuild/training/training.js:413
+js-training-dl-log-json = Descargar el registro del instructor (JSON)
+
+# 2026-10-01-studio-rebuild/training/training.js:414
+js-training-dl-log-text = Descargar el registro del instructor (texto)
+
+# 2026-10-01-studio-rebuild/training/training.js:412
+js-training-dl-nmea = Descargar el flujo NMEA
+
+# 2026-10-01-studio-rebuild/training/training.js:74
+js-training-err-demo-open = No se pudo abrir { $title }: { $reason }.
+
+# 2026-10-01-studio-rebuild/training/training.js:405
+js-training-err-engine-old = Esta versión del motor (versión { $version }) no tiene generador de formación NMEA; es anterior a esta página. El comando es { $command }.
+
+# 2026-10-01-studio-rebuild/training/training.js:404
+js-training-err-engine-start = El motor no pudo iniciarse aquí ({ $reason }). Los escenarios de la biblioteca de arriba se siguen abriendo sin él.
+
+# 2026-10-01-studio-rebuild/training/training.js:70
+js-training-err-file-not-loaded = el archivo no se cargó
+
+# 2026-10-01-studio-rebuild/training/training.js:417
+js-training-err-generate = No se pudo generar: { $reason }.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:60
+js-training-err-newer-schema = { $name }: el esquema { $schema } es más reciente o distinto de { $supported }, que es el que lee esta página. Actualice el Studio en lugar de adivinar sus campos.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:58
+js-training-err-no-schema = { $name }: no es un registro de instructor de formación de Kshana (sin etiqueta de esquema).
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:61
+js-training-err-no-track = { $name }: el registro no tiene filas de trayectoria que dibujar.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:78
+js-training-err-no-usable-rows = { $name }: no hay filas de trayectoria utilizables.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:57
+js-training-err-not-json = { $name }: no es JSON ({ $reason }).
+
+# 2026-10-01-studio-rebuild/training/training.js:64
+js-training-err-read = { $name }: no se pudo leer ({ $reason }).
+
+# 2026-10-01-studio-rebuild/training/training.js:55
+js-training-err-read-or-draw = { $name }: no se pudo leer ni dibujar ({ $reason }).
+
+# 2026-10-01-studio-rebuild/training/training.js:407
+js-training-err-scenario-not-loaded = el archivo del escenario no se cargó
+
+# 2026-10-01-studio-rebuild/training/training.js:400
+js-training-err-seed = La semilla debe ser un número entero, o estar vacía para usar la del propio escenario.
+
+# 2026-10-01-studio-rebuild/training/training.js:48
+js-training-err-too-large = { $name }: supera { $max }. Esta página lee registros de hasta ese tamaño.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:62
+js-training-err-too-many-rows =
+    { $name }: el registro tiene { $count } { $count ->
+        [one] fila
+        [many] de filas
+       *[other] filas
+    } de trayectoria; esta página dibuja como máximo { $max }. Registre con menos frecuencia (log_interval_s) o abra un fragmento.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:59
+js-training-err-unknown-schema = { $name }: esquema desconocido { $schema }; esta página lee { $supported }.
+
+# 2026-10-01-studio-rebuild/training/training.js:357
+js-training-event-n = Evento { $id }
+
+# 2026-10-01-studio-rebuild/training/training.js:266
+js-training-event-onset = Inicio { $utc }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:220
+js-training-extra-bearing = Marcación aplicada, grados verdaderos
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:222
+js-training-extra-peak-accel = Aceleración máxima que añade el arrastre, m/s²
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:221
+js-training-extra-peak-speed = Velocidad máxima que añade el arrastre, m/s
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-duration = Duración
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-events = Eventos inyectados
+
+# 2026-10-01-studio-rebuild/training/training.js:95
+js-training-fact-max-error = Mayor error de posición
+
+# 2026-10-01-studio-rebuild/training/training.js:96
+js-training-fact-max-time-offset = Mayor desfase de hora
+
+# 2026-10-01-studio-rebuild/training/training.js:98
+js-training-fact-no-fix = Tiempo sin solución
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:230
+js-training-fact-peak-accel = Aceleración máxima, real / indicada
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:230
+js-training-fact-peak-speed = Velocidad máxima, real / indicada
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-seed = Semilla
+
+# 2026-10-01-studio-rebuild/training/training.js:94
+js-training-fact-start = Inicio (UTC)
+
+# 2026-10-01-studio-rebuild/training/training.js:196
+js-training-fix-reported-span = solución informada, de { $from } a { $to }
+
+# 2026-10-01-studio-rebuild/training/training.js:410
+js-training-generated =
+    Se generó «{ $title }» con el motor { $version }: { $lines } { $lines ->
+        [one] sentencia
+        [many] de sentencias
+       *[other] sentencias
+    } NMEA. Sintético: solo para formación y pruebas; no lo alimente nunca a los sistemas de navegación en vivo de una embarcación.
+
+# 2026-10-01-studio-rebuild/training/training.js:415
+js-training-generated-here = Generado aquí por el motor («{ $title }»). Sintético: posiciones y fechas inventadas.
+
+# 2026-10-01-studio-rebuild/training/training.js:401
+js-training-generating = Iniciando el motor y generando…
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:32
+js-training-kind-drag-off = Arrastre de posición
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:31
+js-training-kind-jamming = Jamming
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:35
+js-training-kind-natural-degradation = Degradación natural (cielo bloqueado)
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:34
+js-training-kind-replay-delay = Retardo de repetición
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:33
+js-training-kind-time-spoof = Spoofing de hora
+
+# 2026-10-01-studio-rebuild/training/training.js:158
+js-training-legend-no-fix = Sin solución: el receptor no informó de nada
+
+# 2026-10-01-studio-rebuild/training/training.js:157
+js-training-legend-reported = Indicada, a { $band } de la real
+
+# 2026-10-01-studio-rebuild/training/training.js:158
+js-training-legend-true = Trayectoria real
+
+# 2026-10-01-studio-rebuild/training/training.js:73
+js-training-library-label = Escenario sintético de la biblioteca «{ $title }», escrito por { $command }. Posiciones y fechas inventadas; ninguna embarcación ni grabación reales.
+
+# 2026-10-01-studio-rebuild/training/training.js:338
+js-training-log-row = Fila { $row } de { $total } del registro, { $utc }
+
+# 2026-10-01-studio-rebuild/training/training.js:95
+js-training-max-error-at = { $m } m en T+{ $s } s
+
+# 2026-10-01-studio-rebuild/training/training.js:277
+js-training-moment-event = (evento { $id })
+
+# 2026-10-01-studio-rebuild/training/training.js:184
+js-training-moment-title = T+{ $s } s { $what }: { $text }
+
+# 2026-10-01-studio-rebuild/training/training.js:275
+js-training-moments-shown = Se muestran los primeros { $shown } de { $total } instantes.
+
+# 2026-10-01-studio-rebuild/training/training.js:263
+js-training-no-events = Ninguno: esta es una ejecución limpia.
+
+# 2026-10-01-studio-rebuild/training/training.js:341
+js-training-no-fix-nothing = sin solución: no se informó de nada
+
+# 2026-10-01-studio-rebuild/training/training.js:196
+js-training-no-fix-span = sin solución, de { $from } a { $to }
+
+# 2026-10-01-studio-rebuild/training/training.js:273
+js-training-no-moments = No se registró ningún instante.
+
+# 2026-10-01-studio-rebuild/training/training.js:35
+js-training-none = ninguno
+
+# 2026-10-01-studio-rebuild/training/training.js:356
+js-training-none-now = Ninguno en este instante.
+
+# 2026-10-01-studio-rebuild/training/training.js:95
+js-training-none-reported = ninguno informado
+
+# 2026-10-01-studio-rebuild/training/training.js:135
+js-training-north = N
+
+# 2026-10-01-studio-rebuild/training/training.js:343
+js-training-not-touched = no afectado por ningún evento
+
+# 2026-10-01-studio-rebuild/training/training.js:53
+js-training-opened =
+    { $name } abierto: { $rows } { $rows ->
+        [one] fila
+        [many] de filas
+       *[other] filas
+    } del registro a lo largo de { $secs } s.
+
+# 2026-10-01-studio-rebuild/training/training.js:67
+js-training-opening = Abriendo { $title }…
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:209
+js-training-param-affect-time = Afecta a la hora
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:205
+js-training-param-bearing-deg = Marcación, grados verdaderos
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:202
+js-training-param-cn0-drop-db = Caída de C/N0, dB
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:210
+js-training-param-counterfeit-cn0-dbhz = C/N0 falsificado, dB-Hz
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:208
+js-training-param-delay-s = Retardo, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:199
+js-training-param-duration-s = Duración, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:204
+js-training-param-final-offset-m = Desplazamiento final, m
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:196
+js-training-param-kind = Tipo
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:197
+js-training-param-label = Etiqueta
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:207
+js-training-param-offset-s = Desfase de hora, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:200
+js-training-param-ramp-s = Rampa de inicio, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:201
+js-training-param-recovery-s = Rampa de recuperación, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:206
+js-training-param-relative-bearing-deg = Marcación relativa al rumbo, grados
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:211
+js-training-param-skyline = Perfil del horizonte
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:203
+js-training-param-spread-db = Dispersión por satélite, dB
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:198
+js-training-param-start-s = Inicio, s
+
+# 2026-10-01-studio-rebuild/training/training.js:380
+js-training-pause = Pausar
+
+# 2026-10-01-studio-rebuild/training/training.js:385
+js-training-play = Reproducir
+
+# 2026-10-01-studio-rebuild/training/training.js:60
+js-training-reading = Leyendo…
+
+# 2026-10-01-studio-rebuild/training/training.js:294
+js-training-readout-fix = solución
+
+# 2026-10-01-studio-rebuild/training/training.js:294
+js-training-readout-no-fix = sin solución
+
+# 2026-10-01-studio-rebuild/training/training.js:430
+js-training-reduced-motion = Se prefiere el movimiento reducido, así que la repetición empieza a 1x. Use el deslizador o las teclas de flecha para moverse sin animación.
+
+# 2026-10-01-studio-rebuild/training/training.js:346
+js-training-row-cn0 = C/N0 medio, dB-Hz
+
+# 2026-10-01-studio-rebuild/training/training.js:342
+js-training-row-cog = Rumbo sobre el fondo, grados
+
+# 2026-10-01-studio-rebuild/training/training.js:344
+js-training-row-error = Error de posición, m
+
+# 2026-10-01-studio-rebuild/training/training.js:189
+js-training-row-fix = solución
+
+# 2026-10-01-studio-rebuild/training/training.js:343
+js-training-row-heading = Orientación (giroscopio), grados
+
+# 2026-10-01-studio-rebuild/training/training.js:180
+js-training-row-moments = instantes
+
+# 2026-10-01-studio-rebuild/training/training.js:341
+js-training-row-position = Posición
+
+# 2026-10-01-studio-rebuild/training/training.js:346
+js-training-row-sats = Satélites usados / seguidos
+
+# 2026-10-01-studio-rebuild/training/training.js:342
+js-training-row-sog = Velocidad sobre el fondo, kn
+
+# 2026-10-01-studio-rebuild/training/training.js:345
+js-training-row-time-offset = Desfase de hora, s
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:186
+js-training-say-active = activos: { $list }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:186
+js-training-say-event-id = evento { $id }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:181
+js-training-say-fix = el receptor informa de una solución
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:185
+js-training-say-mean-cn0 = C/N0 medio { $cn0 } dB-Hz
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:181
+js-training-say-no-fix = sin solución
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:182
+js-training-say-position-from-true = posición indicada a { $m } m de la real
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:184
+js-training-say-sats-used = { $used } de { $tracked } satélites usados
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:183
+js-training-say-time-ahead = hora indicada adelantada { $s } s respecto a la real
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:183
+js-training-say-time-behind = hora indicada atrasada { $s } s respecto a la real
+
+# 2026-10-01-studio-rebuild/training/training.js:330
+js-training-sky-no-gsv = sin GSV
+
+# 2026-10-01-studio-rebuild/training/training.js:330
+js-training-sky-none = No hay cielo para este registro: un registro de instructor por sí solo no tiene satélites. Abra un escenario de la biblioteca, o genere aquí un flujo y analícelo, para ver los satélites que lista su GSV.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:192
+js-training-skyline-preset = preajuste { $name }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:192
+js-training-skyline-stated = perfil declarado
+
+# 2026-10-01-studio-rebuild/training/training.js:98
+js-training-span-no-fix = de T+{ $from } a { $to } s
+
+# 2026-10-01-studio-rebuild/training/training.js:144
+js-training-track-desc =
+    Trayectoria real y trayectoria indicada, con el norte arriba. Mayor error de posición { $error }. { $periods } { $periods ->
+        [one] período
+        [many] de períodos
+       *[other] períodos
+    } sin solución.
+
+# 2026-10-01-studio-rebuild/training/training.js:132
+js-training-track-end = fin
+
+# 2026-10-01-studio-rebuild/training/training.js:132
+js-training-track-start = inicio
+
+# 2026-10-01-studio-rebuild/training/training.js:93
+js-training-trainer-note = Nota del instructor
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:89
+js-training-warn-no-warning-text = Este archivo no incluye texto de advertencia. Es un registro de formación: no alimente con su flujo la navegación en vivo.
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:79
+js-training-warn-rows-skipped =
+    { $count ->
+        [one] { $count } fila de trayectoria no era válida y se omitió.
+        [many] { $count } de filas de trayectoria no eran válidas y se omitieron.
+       *[other] { $count } filas de trayectoria no eran válidas y se omitieron.
+    }
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:42
+js-training-what-fix-lost = Solución perdida
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:43
+js-training-what-fix-regained = Solución recuperada
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:39
+js-training-what-full-effect = Efecto completo
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:38
+js-training-what-onset = Inicio
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:41
+js-training-what-recovered = Recuperado
+
+# 2026-10-01-studio-rebuild/lib/training.mjs:40
+js-training-what-recovery-begins = Empieza la recuperación
+
+# 2026-10-01-studio-rebuild/trust/trust.js:544
+js-trust-adv-carried = Declaración de carácter consultivo que incluye este archivo:
+
+# 2026-10-01-studio-rebuild/trust/trust.js:545
+js-trust-adv-none = Este archivo no incluye ninguna declaración de carácter consultivo
+
+# 2026-10-01-studio-rebuild/trust/trust.js:545
+js-trust-adv-none-rest = (las salidas más antiguas no la incluyen). El aviso consultivo de la parte superior de esta página se aplica igualmente a todo.
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:15
+js-trust-agree-both = ambos lo señalan: el indicador propio del receptor y un monitor de Kshana
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:19
+js-trust-agree-calibrating = dentro de la ventana de calibración: no se compara
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:17
+js-trust-agree-kshana-only = solo alarma Kshana: el receptor no lo señala
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:217
+js-tools-ubx-ignored-sfrbx =
+    { $n ->
+        [one] Se ignoró { $n } mensaje
+        [many] Se ignoraron { $n } de mensajes
+       *[other] Se ignoraron { $n } mensajes
+    } SFRBX (otros sistemas, E5b, alertas, sumas de comprobación incorrectas).
