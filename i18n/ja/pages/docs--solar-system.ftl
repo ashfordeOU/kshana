@@ -11,3 +11,7 @@ seg-6e0cb6acc073 = VALIDATED
 seg-60cd077d82a7 = モデル
 
 seg-c5ce76c91ff7 = ラベル
+
+seg-430edd66bda0 = モデル化していないもの
+
+seg-7670cf4ceda3 = 既定値
