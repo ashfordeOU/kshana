@@ -3370,3 +3370,433 @@ js-interf-cell-size-rule = Cellestørrelsen må være et antall grader over 0 og
 js-interf-check-failed = { $name }: kunne ikke kontrolleres ({ $reason }).
 
 js-interf-click-cell = Klikk på en celle, eller sett fokus på kartet og bruk piltastene, for å se tallene for den.
+
+js-interf-close = Lukk
+
+js-interf-close-file = Lukk { $name }
+
+js-interf-col-affected = Påvirket
+
+js-interf-col-cell-area = Celleareal
+
+js-interf-col-detectors = Detektorer
+
+js-interf-col-observed = Observert
+
+js-interf-col-sampled = Utvalg
+
+js-interf-col-share = Andel
+
+js-interf-col-status = Status
+
+js-interf-coverage-limits = Dekningsgrenser for denne kilden
+
+js-interf-csv-too-big = { $name }: større enn 24 MiB; bygg fra et utdrag (kommandolinjeverktøyet tar en hel fil).
+
+js-interf-csv-too-big-short = { $name }: større enn 24 MiB; bygg fra et utdrag.
+
+js-interf-custom-needs-licence = Et eget datasett trenger lisensen, nettadressen til den og kildeangivelsen: de skrives inn i kartfilen.
+
+js-interf-dataset = Datasett
+
+js-interf-dates-rule = Datoer skrives YYYY-MM-DD, eller tomt for ingen grense.
+
+js-interf-day = Dag
+
+js-interf-day-aria = { $kind }-dag
+
+js-interf-day-confounded-note = Denne dagen er forstyrret av en felles årsak: ingen celle ble kalt degradert på grunn av dagens bakgrunn. Celler som ellers ville ha skilt seg ut, vises som uvurderte.
+
+js-interf-day-figures-aria = Tall for dagen
+
+js-interf-demo-csv-name = { $file } (syntetisk utvalg)
+
+js-interf-demo-failed = Demoen kunne ikke åpnes: { $reason }.
+
+js-interf-demo-opened = Syntetisk demo: tre oppdiktede filer for en oppdiktet region på åpent hav (to ADS-B-dager, én av dem forstyrret av en felles årsak, og én AIS-dag). Intet virkelig fly, fartøy eller døgn ligger bak dem. Bruk dagvelgeren på ADS-B-laget.
+
+js-interf-demo-route-name = route.csv (syntetisk)
+
+js-interf-describe-map = { $kind }-kart for { $date }: { $cells } celler tegnet, { $parts }. Celler som ikke er tegnet, ble ikke observert.
+
+js-interf-did-not-load = { $url } ble ikke lastet
+
+js-interf-engine-no-fn = Denne motorbyggingen (versjon { $version }) har ikke { $fn }; den er eldre enn denne siden. Ekvivalenten for kommandolinjen står på Verktøy-siden.
+
+js-interf-engine-start-failed = Motoren kunne ikke starte her ({ $reason }). Å åpne kartfiler ovenfor fungerer fortsatt.
+
+js-interf-err-format-version = { $name }: ikke et støttet Kshana-interferenskart (format_version { $version }; denne siden støtter { $supported }).
+
+js-interf-err-no-rows = { $name }: ingen rows[] i denne rapporten.
+
+js-interf-err-not-json = { $name }: ikke JSON ({ $reason }).
+
+js-interf-err-not-map = { $name }: dette er GeoJSON, men ikke et Kshana-interferenskart (ingen kshana_interference_map-medlem).
+
+js-interf-err-not-route = { $name }: ikke en Kshana-rapport om ruteeksponering (ingen kshana_route_exposure-medlem).
+
+js-interf-err-route-schema = { $name }: skjema { $schema } er ikke { $expected }, som denne siden leser.
+
+js-interf-err-source-kind = { $name }: source_kind { $kind } er verken adsb eller ais.
+
+js-interf-err-unknown-schema = { $name }: ukjent skjema { $schema }; denne siden leser { $supported }.
+
+js-interf-foot-attribution = Kildeangivelse: { $text }
+
+js-interf-foot-coverage = Dekning: { $notes }
+
+js-interf-foot-layer = { $kind }-lag, { $date }. Celler som ikke er tegnet, ble ikke observert.
+
+js-interf-foot-licence = Lisens: { $licence }
+
+js-interf-foot-licence-url = Lisens: { $licence } ({ $url })
+
+js-interf-grid = Rutenett: kvadratiske celler på { $size }° i breddegrad og lengdegrad ({ $type }). Bredden øst–vest krymper med breddegraden.
+
+js-interf-guards = Vern mot andre årsaker
+
+js-interf-input = Inndata
+
+js-interf-land-set = Landpolygoner: { $name }.
+
+js-interf-land-too-big = Den landfilen er større enn 24 MiB.
+
+js-interf-larger-than = { $name }: større enn { $limit }; denne siden leser kartfiler opptil den størrelsen.
+
+js-interf-layer-adsb-sub = celler der fly rapporterte lav navigasjonsnøyaktighet
+
+js-interf-layer-ais-sub = celler der fartøy rapporterte usannsynlige posisjoner eller bevegelser
+
+js-interf-layer-heading = { $kind }-lag
+
+js-interf-layer-hidden = { $kind }-laget er skjult.
+
+js-interf-layers-separate = ADS-B og AIS er separate lag med egne brytere, tegnforklaringer og lisenslinjer. De slås aldri sammen til ett fargefelt eller én telling.
+
+js-interf-legend-aria = Hva hver celletilstand betyr; fjern avmerkingen for én for å tone ned de cellene
+
+js-interf-licence = Lisens
+
+js-interf-licence-aria = Datalisens for { $name }
+
+js-interf-licence-heading = Datalisens og kildeangivelse
+
+js-interf-map-aria = { $summary } Piltastene flytter mellom tegnede celler.
+
+js-interf-maps-open =
+    { $n ->
+        [one] { $n } kart åpent.
+       *[other] { $n } kart åpne.
+    }
+
+js-interf-method-summary = Metode og forbehold
+
+js-interf-no-cell-at = Ingen celle ved { $lat }, { $lon }: ikke observert. Det er ikke bevis for at området var klart.
+
+js-interf-no-cell-drawn = ingen celle tegnet
+
+js-interf-no-cells-draw = Denne filen har ingen celler å tegne.
+
+js-interf-no-day-figures = Denne filen oppgir ingen tall på dagsnivå.
+
+js-interf-no-file-opened = Ingen fil kunne åpnes.
+
+js-interf-no-file-text = De åpne kartene har ingen filtekst å kontrollere (de ble ikke åpnet som filer).
+
+js-interf-none = ingen
+
+js-interf-none-stated = (ingen oppgitt)
+
+js-interf-none-stated-file = (ingen oppgitt i denne filen)
+
+js-interf-north-abbr = N
+
+js-interf-not-evaluated = ikke vurdert
+
+js-interf-not-opened-full = { $name }: ikke åpnet, { $max } kart er allerede åpne. Lukk noen først.
+
+js-interf-nothing-open = Ingenting åpent ennå.
+
+js-interf-nothing-opened = Ingenting åpnet.
+
+js-interf-one-day = én dag om gangen
+
+js-interf-opened-file-map = Åpnet { $files } fil; { $maps } kart åpent.
+
+js-interf-opened-file-maps = Åpnet { $files } fil; { $maps } kart åpne.
+
+js-interf-opened-files-map = Åpnet { $files } filer; { $maps } kart åpent.
+
+js-interf-opened-files-maps = Åpnet { $files } filer; { $maps } kart åpne.
+
+js-interf-opening-demo = Åpner den syntetiske demoen…
+
+js-interf-parameters = Parametere, fastsatt før noen data ble lest
+
+js-interf-read-draw-failed = { $name }: kunne ikke leses eller tegnes ({ $reason }).
+
+js-interf-read-failed = { $name }: kunne ikke leses ({ $reason }).
+
+js-interf-read-with-map = Les dette sammen med kartet
+
+js-interf-reading = Leser…
+
+js-interf-route-aria = Ruteeksponering { $name }
+
+js-interf-route-chip = Rute
+
+js-interf-route-done =
+    { $n ->
+        [one] Ruteeksponering beregnet fra { $n } kart med motor { $version }; rapporten vises nedenfor.
+       *[other] Ruteeksponering beregnet fra { $n } kart med motor { $version }; rapporten vises nedenfor.
+    }
+
+js-interf-route-explain = Andel av rutens lengde i hver tilstand, per dag og kilde. De fire andelene summerer til 1 og leses sammen: en lav degradert andel sammen med en høy ikke-observert andel er ikke vist å være klar. ADS-B- og AIS-rader slås aldri sammen.
+
+js-interf-route-exposure = Ruteeksponering
+
+js-interf-route-needs-map = Åpne eller bygg minst ett kart først: ruten kontrolleres mot kartene på denne siden.
+
+js-interf-route-open-failed = Ruten kunne ikke åpnes: { $reason }.
+
+js-interf-route-range = { $from } til { $to }
+
+js-interf-route-too-big = { $name }: større enn 24 MiB.
+
+js-interf-row-affected-share = Påvirket andel
+
+js-interf-row-aircraft-affected = Fly påvirket
+
+js-interf-row-aircraft-observed = Fly observert
+
+js-interf-row-aircraft-sampled = Fly i utvalget
+
+js-interf-row-area = Areal
+
+js-interf-row-cell = Celle
+
+js-interf-row-detectors = Detektorer som kvalifiserte
+
+js-interf-row-flagged = Flagget: { $detector }
+
+js-interf-row-status = Status
+
+js-interf-row-vessels-observed = Fartøy observert
+
+js-interf-rows-skipped = { $count } rad(er) var ikke gyldige og ble hoppet over.
+
+js-interf-rt-day = Dag
+
+js-interf-rt-km = Rute-km
+
+js-interf-rt-licence = Lisens og kildeangivelse for kartet
+
+js-interf-rt-shares = Andeler av ruten
+
+js-interf-rt-source = Kilde
+
+js-interf-sample-failed = Utvalget kunne ikke åpnes: { $reason }.
+
+js-interf-save = Lagre:
+
+js-interf-save-report = Lagre rapporten (JSON)
+
+js-interf-show-layer = Vis dette laget
+
+js-interf-st-anomalous-label = Avvikende
+
+js-interf-st-anomalous-text = Minst én detektor flagget nok forskjellige fartøy her den dagen (minst 3 fartøy og 20% av de observerte). Mulige årsaker omfatter interferens, men også mange vanlige.
+
+js-interf-st-confounded-label = Dag forstyrret av felles årsak
+
+js-interf-st-confounded-text = Hele dagens median for cellenes andel var høy, noe som peker på en årsak over et stort område. Ingen celle erklæres degradert en slik dag; denne cellen ville ellers ha skilt seg ut.
+
+js-interf-st-degraded-label = Degradert
+
+js-interf-st-degraded-text = En høy andel av flyene i utvalget rapporterte lav navigasjonsnøyaktighet her den dagen, godt over dagens mediancelle. Det sier ikke hvorfor.
+
+js-interf-st-no-background-label = Ingen bakgrunnsestimat
+
+js-interf-st-no-background-text = Dagens bakgrunn (den typiske andelen fly som rapporterer lav nøyaktighet) kunne ikke estimeres fra nok celler, så ingen celle sammenlignes med den, og ingen vurderes.
+
+js-interf-st-not-anomalous-label = Ikke avvikende
+
+js-interf-st-not-anomalous-text = Observert, og ingen detektor kvalifiserte. Ikke bevis for at ingenting skjedde.
+
+js-interf-st-not-degraded-label = Ikke degradert
+
+js-interf-st-not-degraded-text = I utvalget, og andelen fly som rapporterer lav nøyaktighet skilte seg ikke ut. Ikke bevis for at ingenting skjedde.
+
+js-interf-st-too-few-label = For få fly
+
+js-interf-st-too-few-text = Publisert (minst 5 forskjellige fly observert), men færre enn 10 fly kunne tas med i utvalget, så ingen vurdering gjøres.
+
+js-interf-starting-build = Starter motoren og bygger…
+
+js-interf-starting-route = Starter motoren og kontrollerer ruten…
+
+js-interf-state-clear-adsb = Klar
+
+js-interf-state-clear-adsb-text = Observert med nok fly og ikke flagget. Ikke bevis for at ingenting skjedde.
+
+js-interf-state-clear-ais = Klar
+
+js-interf-state-clear-ais-text = Observert med nok fartøy og ikke flagget. Ikke bevis for at ingenting skjedde.
+
+js-interf-state-degraded-adsb = Degradert
+
+js-interf-state-degraded-adsb-text = En høy andel av flyene i utvalget rapporterte lav navigasjonsnøyaktighet her den dagen, godt over dagens mediancelle.
+
+js-interf-state-degraded-ais = Avvikende
+
+js-interf-state-degraded-ais-text = Minst én detektor flagget nok forskjellige fartøy her den dagen (minst 3 fartøy og 20% av de observerte).
+
+js-interf-state-notobs-adsb = Ikke observert
+
+js-interf-state-notobs-adsb-text = Ingen celle tegnet: for få fly ble observert til at den kunne publiseres. Dette er ikke bevis for at området var klart.
+
+js-interf-state-notobs-ais = Ikke observert
+
+js-interf-state-notobs-ais-text = Ingen celle tegnet: for få fartøy ble observert til at den kunne publiseres. Dette er ikke bevis for at området var klart.
+
+js-interf-state-unassessed-adsb = Uvurdert
+
+js-interf-state-unassessed-adsb-text = Observert, men for få fly kunne tas med i utvalget, dagen var forstyrret av en felles årsak, eller dagens bakgrunn kunne ikke estimeres, så ingen vurdering gjøres.
+
+js-interf-state-unassessed-ais = Uvurdert
+
+js-interf-state-unassessed-ais-text = Observert, men ingen vurdering gjøres.
+
+js-interf-status-unknown = En status denne siden ikke beskriver.
+
+js-interf-table-first = De første { $shown } av { $total } celler vises, vurderinger som betyr noe først.
+
+js-interf-table-summary = Hver tegnede celle som tabell ({ $n })
+
+js-interf-the-day = Dagen
+
+js-interf-unknown-date = ukjent dato
+
+js-interf-warn-cell-size = Denne filen bruker en cellestørrelse på { $size }° som ikke er den forhåndsregistrerte: det er ikke den forhåndsregistrerte metoden, så vurderingene i den kan ikke sammenlignes med filer som bruker den.
+
+js-interf-warn-cell-size-known = Denne filen bruker en cellestørrelse på { $size }° som ikke er den forhåndsregistrerte ({ $registered }°): det er ikke den forhåndsregistrerte metoden, så vurderingene i den kan ikke sammenlignes med filer som bruker den.
+
+js-interf-warn-day-confounded = Denne dagen er forstyrret av en felles årsak: ingen celle ble kalt degradert på grunn av dagens bakgrunn (medianen for cellenes andel var selv høy).
+
+js-interf-warn-flag-disagrees = { $count } celle(r) har et "degraded"-flagg som er i strid med statusen. Statusen er det som tegnes.
+
+js-interf-warn-no-licence = Denne filen har ingen { $fields }-tekst. Den vises, men et kart uten lisens og kildeangivelse bør ikke publiseres på nytt.
+
+js-interf-warn-on-land-off = Detektoren for «på land» var av for denne filen (ingen landpolygoner ble oppgitt).
+
+js-interf-warn-skipped = { $count } objekt(er) var ikke gyldig GeoJSON og ble hoppet over.
+
+js-interf-warn-unknown-status = Statusverdi(er) denne siden ikke kjenner: { $values }. De tegnes som «ingen vurdering».
+
+js-interf-withheld = holdt tilbake (færre enn 5)
+
+js-interf-written-by = skrevet av Kshana { $version }
+
+js-kind-axis-3-d-position-error-m = 3D-posisjonsfeil (m)
+
+js-kind-axis-c-n0-db-hz = C/N0 (dB-Hz)
+
+js-kind-axis-code-jitter-m = kodejitter (m)
+
+js-kind-axis-code-tracking-jitter-m = kodesporingsjitter (m)
+
+js-kind-axis-doppler-shift-hz = Doppler-forskyvning (Hz)
+
+js-kind-axis-effective-c-n0-db-hz = effektiv C/N0 (dB-Hz)
+
+js-kind-axis-elevation = elevasjon (°)
+
+js-kind-axis-fit-interval-s = tilpasningsintervall (s)
+
+js-kind-axis-formal-position-sigma-m = formell posisjonssigma (m)
+
+js-kind-axis-latitude = breddegrad (°)
+
+js-kind-axis-leo-satellites-added-to-the = LEO-satellitter lagt til posisjonsbestemmelsen
+
+js-kind-axis-mean-satellites-in-view = gjennomsnittlig antall satellitter i sikte
+
+js-kind-axis-median-dilution-of-precision = median presisjonsfortynning
+
+js-kind-axis-median-error-m = medianfeil (m)
+
+js-kind-axis-median-pdop = median PDOP
+
+js-kind-axis-metres = meter
+
+js-kind-axis-observation-window-s = observasjonsvindu (s)
+
+js-kind-axis-offset-from-the-signal-s = forskyvning fra signalets senter (MHz)
+
+js-kind-axis-offset-from-the-snapshot-centre = forskyvning fra øyeblikksbildets senter (MHz)
+
+js-kind-axis-pdop = PDOP
+
+js-kind-axis-position-error-m = posisjonsfeil (m)
+
+js-kind-axis-power-spectral-density-db-hz = effekttetthetsspekter (dB/Hz, enhetseffekt)
+
+js-kind-axis-power-spectral-density-dbw-hz = effekttetthetsspekter (dBW/Hz)
+
+js-kind-axis-probability-of-detection = deteksjonssannsynlighet
+
+js-kind-axis-range-error-m = avstandsfeil (m)
+
+js-kind-axis-relays = reléer
+
+js-kind-axis-sisre-root-mean-square-m = SISRE, kvadratisk middelverdi (m)
+
+js-kind-axis-time-error-ns = tidsfeil (ns)
+
+js-kind-axis-time-s = tid (s)
+
+js-kind-axis-time-since-the-start-min = tid siden start (min)
+
+js-kind-axis-update-period-s = oppdateringsperiode (s)
+
+js-kind-cap-body-pnt-label = Reléposisjonering
+
+js-kind-cap-campaign-label = Kampanje
+
+js-kind-cap-constellation-design-label = Dekning
+
+js-kind-cap-leo-navmsg-label = Navigasjonsmelding
+
+js-kind-cap-leo-pass-label = Passering og link
+
+js-kind-cap-leo-pnt-chain-label = Kjede fra ende til ende
+
+js-kind-cap-leo-ppp-label = Posisjonering
+
+js-kind-cap-leo-pvt-label = Posisjonering
+
+js-kind-cap-leo-signal-label = Signalutforming
+
+js-kind-cap-lunar-llr-datum-label = Datum fra laseravstandsmåling
+
+js-kind-cap-ntn-positioning-label = Posisjonering
+
+js-kind-cap-solar-system-label = Solsystemet
+
+js-kind-cap-spectrum-label = Spektrum
+
+js-kind-guided-doppler-error-hz = Dopplerfeil (Hz)
+
+js-kind-guided-duration-s = Varighet (s)
+
+js-kind-guided-earth-range-error-m = Avstandsfeil fra jorden (m)
+
+js-kind-guided-elevation-mask = Elevasjonsmaske (°)
+
+js-kind-guided-first-jammer-bandwidth-mhz = Første jammers båndbredde (MHz)
+
+js-kind-guided-first-jammer-power-dbw = Første jammers effekt (dBW)
+
+js-kind-guided-first-jammer-range-m = Første jammers avstand (m)
+
+js-kind-guided-first-jammer-received-power-dbw = Første jammers mottatte effekt (dBW)
