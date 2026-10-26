@@ -81,3 +81,5 @@ seg-6555ff9a6d8e = 出力
 seg-70a79ec95bf4 = 不合格
 
 seg-7a33a168b020 = 合格
+
+seg-a91762c0aabe = 無料
