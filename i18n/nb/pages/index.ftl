@@ -271,3 +271,5 @@ seg-2359edf78388 = <b>Samme kjøring i Studio:</b> Motor v{ $version } · <c1/> 
 seg-f42465f7d066 = ns
 
 seg-ff90679d1de9 = Spoofing-deteksjon
+
+seg-257c477dc510 = WebAssembly

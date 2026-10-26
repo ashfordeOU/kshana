@@ -33,3 +33,15 @@ seg-20fee61b3107 = Feilmodellbibliotek for kvanteenheter
 seg-eaf341ff4522 = GNSS-fri kvantenavigasjon
 
 seg-75636f9419b2 = Kjente begrensninger
+
+seg-9c0eb89a2fbe = Pakke
+
+seg-f63dd3d7aad4 = Kilde
+
+seg-638b8d451550 = Sensor
+
+seg-04f69a0edb2f = type
+
+seg-b03d56f501c3 = Type
+
+seg-35bf9a48e566 = Størrelse

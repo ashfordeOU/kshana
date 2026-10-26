@@ -831,3 +831,5 @@ seg-6d6b07b26966 = Et JSON-tilstandsdokument og Home Assistant MQTT-oppdagelsesm
 seg-68caf86157c2 = ROS { "2" }-pakke for receiver-trust og gnss_lib_py-bro
 
 seg-e7d7d99fe538 = En ROS-fri bro som skriver posisjons- og satellittmeldinger som NMEA og skårer dem gjennom Python-bindingen (integrations/ros2/kshana_trust), og en bro fra gnss_lib_py NavData til receiver-trust gjennom formatet rtklib-pos (integrations/gnss_lib_py).
+
+seg-c3c260b7063e = Tester

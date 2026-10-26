@@ -19,3 +19,17 @@ seg-bbb1828b3db1 = Gatekløft-, sektor- og terrengreduksjoner til en tabell
 seg-2c53381d48ae = Horisontal feilellipse og kofaktor per system fra geometrikovariansen
 
 seg-de6c33774c9c = CLI
+
+seg-d1e9715513b4 = Eksempel
+
+seg-587beeccaa11 = Forhåndsinnstilling
+
+seg-98f4f946a7ac = WASM
+
+seg-b03d56f501c3 = Type
+
+seg-4dbf41c0ec3b = Funksjon
+
+seg-2b0d77219437 = Forhåndsinnstillinger
+
+seg-7338b6210228 = Rad
