@@ -76,6 +76,9 @@ seg-58cf4086c7a5 = <b>MODELLED</b> L'équation bidirectionnelle TWSTFT résolue 
 seg-15de1cdaa684 = MODELLED — équation bidirectionnelle TWSTFT (retards de station, ionosphère en bande Ku, transpondeur, Sagnac) résolue à partir de retards indiqués, un bilan d'incertitude en quadrature avec le TDEV de la liaison simulée comme terme de type A, une liaison simulée avec bruit de phase de scintillation et non-réciprocité diurne, et la stabilité de toute série réelle UTC-UTC(k) ou d'horloge de station fournie ; non comparé à une vraie liaison TWSTFT (résultat <c1/>)
 
 # text
+seg-70448ca49780 = Transfert bidirectionnel de temps et de fréquence par satellite (TWSTFT) entre deux stations ILLUSTRATIVES, l'une en Europe centrale et l'autre dans l'est de l'Amérique du Nord, via un relais géostationnaire à { "10" } deg O. L'exécution résout l'équation bidirectionnelle pour T_A - T_B à partir des termes indiqués d'équipement, de transpondeur, d'ionosphère (bande Ku, 14/11 GHz) et de Sagnac. Elle forme un bilan d'incertitude dont le terme statistique est le TDEV, à un jour, d'une simula (commentaire du fichier de scénario, lignes { "1" } à { "8" })
+
+# text
 seg-4b0d23aed0ab = L'équation bidirectionnelle TWSTFT, le bilan d'incertitude et la stabilité de liaison avec scintillation et non-réciprocité diurne sont MODELLED, non validés : vérifiés par rapport à leur propre identité analytique en forme fermée — détecte les erreurs de transcription et de coefficients, mais n'est pas une référence indépendante externe. (matrice de vérification (docs/MODELLED-RATIONALE.md))
 
 # text
@@ -83,6 +86,3 @@ seg-52e06909ccc5 = <s1>Précédent</s1>terrain-slam
 
 # text
 seg-a22fa1c51042 = <s1>Suivant</s1>timetransfer
-
-# text
-seg-70448ca49780 = Transfert bidirectionnel de temps et de fréquence par satellite (TWSTFT) entre deux stations ILLUSTRATIVES, l'une en Europe centrale et l'autre dans l'est de l'Amérique du Nord, via un relais géostationnaire à { "10" } deg O. L'exécution résout l'équation bidirectionnelle pour T_A - T_B à partir des termes indiqués d'équipement, de transpondeur, d'ionosphère (bande Ku, 14/11 GHz) et de Sagnac. Elle forme un bilan d'incertitude dont le terme statistique est le TDEV, à un jour, d'une simula (commentaire du fichier de scénario, lignes { "1" } à { "8" })

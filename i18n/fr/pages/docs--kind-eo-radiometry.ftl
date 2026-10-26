@@ -79,6 +79,9 @@ seg-dadea618d757 = <b>MODELLED</b> Bilan signal sur bruit d'un imageur au nadir 
 seg-5182b4b0f8d6 = MODELLED — radiométrie d'un imageur au nadir (scène lambertienne, équation de la caméra, bruit de grenaille/d'obscurité/de lecture/de quantification), FTM du système à Nyquist (diffraction x détecteur x filé x gigue), réponse relative de bord, Q = lambda F/p et NIIRS GIQE { "4" } sans compensation de FTM ; le NIIRS est une régression empirique sur des entrées modélisées, et non une image cotée (résultat <c1/>)
 
 # text
+seg-b2f1e6466c2c = Radiométrie et qualité d'image d'un imageur au nadir pour une petite caméra d'observation de la Terre ILLUSTRATIVE (la conception d'aucun opérateur) : ouverture de { "0.40" } m, focale de { "3.6" } m (F/9), pixels de { "5.5" } um, depuis { "500" } km. L'exécution donne le bilan signal sur bruit d'une scène de réflectance de { "15" } %, la FTM du système à Nyquist, la réponse relative de bord et le NIIRS GIQE version { "4" }. MODELLED : le NIIRS est une régression empirique évaluée sur des entrées modélisées, n (commentaire du fichier de scénario, lignes { "1" } à { "5" })
+
+# text
 seg-aaf9ed3b0899 = La radiométrie des imageurs électro-optiques, la FTM, la réponse relative de bord et le NIIRS GIQE { "4" } sont MODELLED, et non validés : vérifiés par rapport à leur propre identité analytique / en forme fermée — ils détectent les erreurs de transcription et de coefficients, mais ce n'est pas une référence indépendante externe. (matrice de vérification (docs/MODELLED-RATIONALE.md))
 
 # text
@@ -86,6 +89,3 @@ seg-d6c92dc655ab = <s1>Précédent</s1>eo-coverage
 
 # text
 seg-a0daef9a496e = <s1>Suivant</s1>ephemeris
-
-# text
-seg-b2f1e6466c2c = Radiométrie et qualité d'image d'un imageur au nadir pour une petite caméra d'observation de la Terre ILLUSTRATIVE (la conception d'aucun opérateur) : ouverture de { "0.40" } m, focale de { "3.6" } m (F/9), pixels de { "5.5" } um, depuis { "500" } km. L'exécution donne le bilan signal sur bruit d'une scène de réflectance de { "15" } %, la FTM du système à Nyquist, la réponse relative de bord et le NIIRS GIQE version { "4" }. MODELLED : le NIIRS est une régression empirique évaluée sur des entrées modélisées, n (commentaire du fichier de scénario, lignes { "1" } à { "5" })

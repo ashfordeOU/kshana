@@ -79,6 +79,9 @@ seg-dadea618d757 = <b>MODELLED</b> Balance de relación señal-ruido de un gener
 seg-5182b4b0f8d6 = MODELLED — radiometría de un generador de imágenes en el nadir (escena lambertiana, ecuación de la cámara, ruido de disparo/oscuridad/lectura/cuantificación), MTF del sistema en Nyquist (difracción x detector x arrastre x vibración), respuesta relativa de borde, Q = lambda F/p y NIIRS de GIQE { "4" } sin compensación de MTF; el NIIRS es una regresión empírica sobre entradas modeladas, no una imagen calificada (resultado <c1/>)
 
 # text
+seg-b2f1e6466c2c = Radiometría y calidad de imagen en el nadir de una pequeña cámara de observación de la Tierra ILLUSTRATIVE (diseño de ningún operador): apertura de { "0.40" } m, distancia focal de { "3.6" } m (F/9), píxeles de { "5.5" } um, desde { "500" } km. La ejecución da el balance de relación señal-ruido de una escena de reflectancia del { "15" } %, la MTF del sistema en Nyquist, la respuesta relativa de borde y el NIIRS de GIQE versión { "4" }. MODELLED: el NIIRS es una regresión empírica evaluada sobre entradas modeladas, n (comentario del archivo de escenario, líneas { "1" } a { "5" })
+
+# text
 seg-aaf9ed3b0899 = La radiometría de generadores de imágenes electroópticos, la MTF, la respuesta relativa de borde y el NIIRS de GIQE { "4" } son MODELLED, no están validados: se comprueban frente a su propia identidad analítica o de forma cerrada — detecta errores de transcripción y de coeficientes, pero no es una referencia independiente externa. (matriz de verificación (docs/MODELLED-RATIONALE.md))
 
 # text
@@ -86,6 +89,3 @@ seg-d6c92dc655ab = <s1>Anterior</s1>eo-coverage
 
 # text
 seg-a0daef9a496e = <s1>Siguiente</s1>ephemeris
-
-# text
-seg-b2f1e6466c2c = Radiometría y calidad de imagen en el nadir de una pequeña cámara de observación de la Tierra ILUSTRATIVA (diseño de ningún operador): apertura de { "0.40" } m, distancia focal de { "3.6" } m (F/9), píxeles de { "5.5" } um, desde { "500" } km. La ejecución da el balance de relación señal-ruido de una escena de reflectancia del { "15" } %, la MTF del sistema en Nyquist, la respuesta relativa de borde y el NIIRS de GIQE versión { "4" }. MODELLED: el NIIRS es una regresión empírica evaluada sobre entradas modeladas, n (comentario del archivo de escenario, líneas { "1" } a { "5" })

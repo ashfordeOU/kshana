@@ -69,6 +69,9 @@ seg-f3279128de3b = <s1>Zurück</s1>mars-pnt
 seg-92cd937a3fb7 = <s1>Weiter</s1>ntn-positioning
 
 # text
+seg-28c6a5644152 = Modellierte Analyse des lunaren Navigations-Service-Volumens aus einer ILLUSTRATIVEN Mondorbit-Konstellation der Moonlight/LCNS-Klasse aus öffentlichen Quellen (nicht mit der ESA verbunden): Sie überstreicht ein selenographisches Breiten-/Längengitter über einen Zeithorizont und gibt DOP / Abdeckung / Verfügbarkeit (≥{ "4" } Satelliten UND PDOP < Schwellwert) sowie eine verallgemeinerte lunare ARAIM-Schutzniveau-Hüllkurve (HPL/VPL) über das Volumen aus. Die DOP-Geometrie VERWENDET den gnss_lib_py-VALIDATED-Kern (crate::orbit::dop) wieder; das Schutzniveau VERWENDET die lunare ARAIM-Maschinerie LunaNet LNIS (crate::lunar, σ_URE≈{ "30" } m) wieder und reduziert sich als Sonderfall auf das bestehende Südpol-Schutzniveau. Zusammensetzung der Stufe MODELLED: ein kreisförmiger/elliptischer Kepler-Relaissatz (nicht die reale differenzialkorrigierte LCNS/NRHO-Ephemeride), ein Mond mit mittlerer Rotation (keine Libration/kein präzedierender Pol). Deterministisch (reine Geometrie). Kein TRL, keine Flugerfahrung, keine Billigung durch eine Agentur.
+
+# text
 seg-2ff91fe31123 = EHRLICHKEIT: Zusammensetzung der Stufe MODELLED. Die DOP-Geometrie ist validiert DURCH WIEDERVERWENDUNG des validierten Kernels; die Zusammensetzung aus Abdeckung / Verfügbarkeit / Integrität ist MODELLED — ein kreisförmiger/ elliptischer Kepler-Relaissatz (keine differenzialkorrigierte LCNS- / { "9" }:{ "2" }-NRHO-Ephemeride), ein Mond mit mittlerer Rotation (keine physische Libration / kein präzedierender Pol) und veröffentlichte LunaNet-LNIS-Integritätsparameter. Dies zeigt das lunare Service-Volumen M (Kommentar der Szenariodatei, Zeilen { "27" } bis { "32" })
 
 # text
@@ -81,6 +84,3 @@ seg-edb738273a3a = Das Diagramm, das die Engine für scenarios/moonlight-service
 # text
 # c1: moonlight-service-volume
 seg-f8988314faf2 = <c1/> (Szenarioart)
-
-# text
-seg-28c6a5644152 = Modellierte Analyse des lunaren Navigations-Service-Volumens aus einer ILLUSTRATIVEN Mondorbit-Konstellation der Moonlight/LCNS-Klasse aus öffentlichen Quellen (nicht mit der ESA verbunden): Sie überstreicht ein selenographisches Breiten-/Längengitter über einen Zeithorizont und gibt DOP / Abdeckung / Verfügbarkeit (≥{ "4" } Satelliten UND PDOP < Schwellwert) sowie eine verallgemeinerte lunare ARAIM-Schutzniveau-Hüllkurve (HPL/VPL) über das Volumen aus. Die DOP-Geometrie VERWENDET den gnss_lib_py-VALIDATED-Kern (crate::orbit::dop) wieder; das Schutzniveau VERWENDET die lunare ARAIM-Maschinerie LunaNet LNIS (crate::lunar, σ_URE≈{ "30" } m) wieder und reduziert sich als Sonderfall auf das bestehende Südpol-Schutzniveau. Zusammensetzung der Stufe MODELLED: ein kreisförmiger/elliptischer Kepler-Relaissatz (nicht die reale differenzialkorrigierte LCNS/NRHO-Ephemeride), ein Mond mit mittlerer Rotation (keine Libration/kein präzedierender Pol). Deterministisch (reine Geometrie). Kein TRL, keine Flugerfahrung, keine Billigung durch eine Agentur.

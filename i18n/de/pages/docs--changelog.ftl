@@ -108,6 +108,14 @@ seg-033d52126d8a = Hinzugefügt
 seg-090bf5ae96b6 = <b>GNSS jenseits der Konstellation (<c1/>).</b> Eine neue Szenarioart für Raumfahrzeuge oberhalb, rund um und jenseits der GNSS-Umlaufbahnen (<a1><c2/></a1>): Verfügbarkeit von einem und von vier Signalen, Ausfalldauern, C/N0, DOP sowie Hauptkeulen- gegenüber Nebenkeulen-Verbindungen für GPS, GLONASS, Galileo, BDS, QZSS und NavIC auf einer Schale oder entlang von LEO-, MEO-, GEO-, HEO- und Mondtransfer-Trajektorien; Sendemuster aus dem Heft, parametrisch oder vom Benutzer geliefert; ein Modell für Ionosphäre, Plasmasphäre und Atmosphäre mit Randstrahl; ein Empfängerentwurf für schwache Signale; ein bordeigener GNSS-erweiterter Kalman-Filter für HEO und Mondtransfer; und relative Navigation im Verbund. Verglichen mit dem Heft zum ICG Space Service Volume unter einer Vorregistrierung, die vor dem Lauf committet wurde: Die Konstanten der minimal abgestrahlten Leistung und der Zielwert für den Mond stimmen überein, die übrigen Zielwerte sind unter der vorab registrierten Lesart nicht erreicht (fast alle durch den inkonsistenten GLONASS-Strahlwinkel des Hefts), und der parametrische Nebenkeulen-Ersatz reproduziert die gemessenen Antennendiagramme der GPS-Panels nicht. Alles bleibt MODELLED (<a2><c3/></a2>).
 
 # text
+# c1: lunar-infrastructure
+# c2: study
+# c3: docs/LUNAR-INFRASTRUCTURE.md
+# c4: xval/lunar-infra/PREREGISTRATION.md
+# c5: xval/lunar-infra/RESULTS.md
+seg-3281ef6e21eb = <b>Mondbahn und Mondoberfläche als Navigations- und Geodäsie-Infrastruktur (<c1/>).</b> Eine neue Szenarioart mit fünf Studien, ausgewählt über <c2/> (<a1><c3/></a1>): Konsistenz einer bordeigenen Bahnbestimmung per Erd-GNSS in einer nahezu geradlinigen Halo-Bahn gegenüber einer unabhängigen Bodenbestimmung aus Entfernung und Entfernungsrate; gemeinsame doppeldifferenzierte Trägerphase von Oberflächenstation und Orbiter mit ganzzahliger LAMBDA-Festlegung; Fisher-Information des siebenparametrigen Mond-Datums mit und ohne Entfernungsmessungen zwischen Orbiter und Oberfläche; Versätze zwischen den Techniken GNSS, VLBI und Laserentfernungsmessung gegenüber dem lokalen Anschluss; und Sensitivität gegenüber h2, k2, l2 und der physikalischen Libration. MODELLED, mit ILLUSTRATIVE-Eingaben: Die Numerik wird an unabhängigen numpy- und scipy-Programmen geprüft, und nichts wird mit einer Messung einer Mondgröße verglichen. Die Zielwerte wurden in <c4/> und zwei offengelegten Änderungen festgelegt. Drei sind NOT MET, und jeder ist durch einen Test festgeschrieben, der die Verfehlung behauptet: C3 (ein eingespeister Kraftfehler wird nicht mit der vorab registrierten Rate erkannt), Q3 (die Bootstrap-Erfolgsrate weicht von der numpy-Referenz um { "1.7e-6" } ab, bei einem Zielwert von { "1e-9" }, wegen der Normalverteilungs-Näherung von LAMBDA), und die Spurhälfte von G3 (das Hinzufügen einer Entfernungsmessungsfamilie senkt die Spur der Pseudoinversen nicht immer). Die übrigen sind erreicht (<a2><c5/></a2>).
+
+# text
 # c1: cislunar-observability
 # c2: kshana scenarios/cislunar-observability.toml
 # c3: cislunar-arc-recovery
@@ -3255,6 +3263,14 @@ seg-884f693585fa = <b><c1/></b> wird für das optionale Feld <c2/> von optical-a
 seg-e16d328f3967 = <b>JetBrains-Plugin: keine Verwendung veralteter oder zur Entfernung vorgesehener Plattform-API.</b> Der IntelliJ Plugin Verifier (<c1/>) gegen IntelliJ IDEA Build { "263" } ({ "2026.3" }: { "263.6800.24" } und { "263.7031.23" }) fand einen veralteten Aufruf, <c2/>, in Insert Example; die neue Datei wird jetzt mit <c3/> geöffnet. Das Plugin ist mit { "2024.3" } (dem unveränderten since-build) und beiden Builds { "263" } kompatibel und ohne Befunde. CI führt jetzt <c4/> aus und schlägt bei Kompatibilitätsproblemen und bei jeder Verwendung von zur Entfernung vorgesehener API fehl.
 
 # text
+# c1: optical-atmosphere
+# c2: docs/OPTICAL-ATMOSPHERE.md
+# c3: docs/design/optical-atmosphere-0.37.md
+# c4: optical_linkbudget
+# c5: xval/optical-atmosphere/PREREGISTRATION.md
+seg-07ce053c906a = <b>Optisches PNT durch die Atmosphäre</b> (Szenarioart <c1/>, <a1><c2/></a1>, Entwurfsnotiz <c3/>). Für eine optische Verbindung und eine Menge von Bodenstationen liefert es die von Wellenlänge und Elevation abhängige Dämpfung bei klarer Luft, den Zustand der Turbulenz nach Hufnagel-Valley (Rytov-Varianz, Szintillationsindex, Gamma-Gamma-Schwunde, Aperturmittelung), die Verfügbarkeit gegenüber der Link-Reserve aus einem genannten Wolkenklima, die für Ziel-Verfügbarkeiten nötige Reserve und die Obergrenze, die keine Reserve anhebt, die Verteilung der Ausfalldauer, den Zeit- und Entfernungsfehler pro Ausfall über das Holdover-Modell der Uhr, entfernungskorrelierte Standortdiversität sowie Was-wäre-wenn-Gewinne für eine Wellenlängenänderung, eine größere Apertur, die Verringerung der Szintillation durch adaptive Optik und zusätzliche Reserve. <c4/> erhält ein atmosphärenbewusstes Budget; ohne eines ist seine Ausgabe bitgleich mit { "0.36" } (Zielwert A5). Zwei mitgelieferte Szenarien tragen ILLUSTRATIVE Wolkenklimata. MODELLED: drei Registerzeilen. Die Numerik erfüllt die Zielwerte A1 bis A6, vorab registriert in <c5/>, gegenüber einem unabhängigen mpmath-Programm; das prüft die Umsetzung der genannten Formeln, nicht die Atmosphäre, und es wurde keine gemessene Verfügbarkeitsaufzeichnung verglichen, daher ist keine Zeile VALIDATED. Der Zielwert A4 wurde zunächst um { "3e-9" } verfehlt, weil die verwendete Normalverteilungs-CDF eine Näherung mit { "1.5e-7" } war; die CDF wurde ersetzt und der Zielwert blieb wie registriert. Die nativen und die WebAssembly-Builds liefern für beide mitgelieferten Szenarien byteidentische Dokumente (A7, ausgeführt auf dem Integrations-Commit von { "0.37.0" }).
+
+# text
 # c1: docs/design/DETECTION-ROC.md
 # c2: roc_window_s
 # c3: roc.json
@@ -4321,6 +4337,21 @@ seg-ffeb1b66cda5 = <b>Optimierer für impulsive Transfers auf DE440</b> ({ "0.36
 seg-91fe2e2625a1 = <b>Studie zur lunaren Referenzstation</b> ({ "0.36" }, angeregt durch veröffentlichtes Material zu einer geplanten Referenzstation am lunaren Südpol; Quellen in <a1><c1/></a1>): die Art <c2/>, ein Monte-Carlo-Durchlauf des lunaren differenziellen PNT-Modells über ein südpolares Nutzerraster und einen Tag von Epochen, der je Punkt und über die Region den Perzentilfehler mit und ohne Korrektur, die Verfügbarkeit mit Gründen, die Abdeckung gegen eine genannte Schwelle, Schutzniveaus, den Abdeckungsradius je Azimut und das Budget der Korrekturstrecke liefert. Sie reduziert sich bei einem Punkt, einer Epoche und einem Versuch exakt auf <c3/>; ihre Arithmetik wurde unter einem vorab registrierten Zielwert mit numpy neu berechnet (Positionen und Perzentile erfüllt; die Stationskorrekturen verfehlten ihren durch Rundung in doppelter Genauigkeit, festgehalten). MODELLED; Registerzeile „Lunar reference-station coverage and accuracy map“. Nicht mit einer Behörde verbunden oder von ihr unterstützt; keine Aussage über die Leistung irgendeines realen Systems.
 
 # text
+# c1: docs/predictions/lunar-reference-station.md
+# c2: lunar-station-coverage
+# c3: tests/prediction_frozen.rs
+# c4: docs/VALIDATION.md
+seg-3d0cd9692787 = <b>Vorab registrierte Vorhersage: Abdeckung der lunaren Referenzstation</b> (keine Validierung; MODELLED). <a1><c1/></a1> friert bei Commit c05dac1d die Ergebnisse von <c2/> unter den öffentlich genannten Annahmen ein, mit SHA-256-Hashes der Eingaben und Ergebnisse und einem jetzt festgelegten Bewertungsprotokoll (Faktor { "2" } für Genauigkeiten und Schutzniveaus, { "10" } Prozentpunkte für Verfügbarkeit und Abdeckung; eine geänderte Annahme erhält eine neue datierte Vorhersage, nie eine Bearbeitung; ein Fehlschlag wird ebenso deutlich veröffentlicht wie ein Treffer). Jede Zahl wird vom unveröffentlichten Elementsatz der Konstellation mit vier Satelliten bestimmt, der ILLUSTRATIVE ist und das auch sagt. <c3/> schützt sie; <c4/> erhält einen Abschnitt „Pre-registered predictions“. Keine Registerzeile.
+
+# text
+# c1: lunar-station-coverage
+# c2: [receiver]
+# c3: a + b exp(-el / el0)
+# c4: orbit_err_growth_m_per_s
+# c5: [solution]
+seg-00ec7ccd4d0d = <b>Erweiterungen der lunaren Referenzstation</b> ({ "0.36" }; die Einschränkungen { "2" } und { "3" } der Stationsstudie und der Lösungsstil der Quellen), jede optional bei <c1/> und standardmäßig nicht vorhanden, sodass jedes bestehende Dokument, auch die eingefrorene Vorhersage, unverändert ist: <c2/> (Mehrwegeausbreitung <c3/> beim Nutzer und bei der Station, bei der Station wahlweise Gauß-Markov über Epochen, DLL-Coderauschen aus C/N0, Bias zwischen Kanälen; Werte auf dem Mond ILLUSTRATIVE); <c4/> (lineares Wachstum des Broadcast-Bahnfehlers über die Latenz der Korrektur, ILLUSTRATIVE); <c5/> (Höhenbedingung, ein Minimum von drei Satelliten damit, ein Fenster für statische Nutzer über Epochen). Zwei Nachträge zum Vergleich mit den veröffentlichten Behauptungen, jeder allein vor seinem Lauf vorab registriert, stehen neben dem unveränderten aufgezeichneten Lauf: K5 mit Wachstum scheitert bei jeder Rate; mit dem Lösungsstil der Quellen scheitern K1 bis K5 und K6 besteht ({ "1" } von { "6" }), wobei der korrigierte 3D-Fehler im p95 von R300 von { "280.6" } m auf { "2.11" } m fällt. MODELLED; drei Registerzeilen.
+
+# text
 # c1: [terrain]
 # c2: lunar-station-coverage
 # c3: moonlight-service-volume
@@ -4481,6 +4512,30 @@ seg-9414d387cf79 = Register: fünf Zeilen zu Skyline und Himmelsgeometrie. <b>VA
 
 # text
 seg-8f5ebce999fe = Mit den Zeilen zu Geometrie-Vertrauen, Skyline und lunarer Referenzstation hat das Register { "274" } Zeilen: { "134" } validiert, { "136" } modelliert, { "4" } Partner.
+
+# text
+# c1: [time_lab]
+# c2: lunar-time-budget
+# c3: src/lunar_time_lab.rs
+# c4: scenarios/lunar-station-time-lab.toml
+seg-686b1211d7bb = <b>Lunare Referenzstation: Zeitlabor der Station</b> (<b>MODELLED</b>). Ein optionaler Block <c1/> bei <c2/> (<c3/>). Er modelliert eine Stationsuhr (standardmäßig die Klasse miniRAFS, jede benannte Klasse oder eine an genannte Stabilitätspunkte angepasste Gerätekarte), die auf LTC gesteuert wird und dann frei läuft oder alle N Sekunden neu gesteuert wird. Er gibt die Zeitfehlerkurve x(t), die Zeit bis { "1" }, { "10" } und { "100" } ns (Bisektion neben der geschlossenen Form) und den dominanten Term je Horizont aus, alles mit Einheiten. Der Steuerrest ist ILLUSTRATIVE. Die LTC-Rate wird nicht neu abgeleitet und behält ihre eigene Zeile VALIDATED. Das Ziel im Nanosekundenbereich aus dem öffentlichen Material des ICG WG-B zu lunarem PNT (Juni { "2024" }) wird als Aussage der Quelle zitiert, nicht als Anspruch. Die Uhrenordnung optisch < PHM < RAFS < miniRAFS gilt von { "1" } s bis { "7e5" } s, und der Test legt die Kreuzung der Kurven von PHM und RAFS nahe { "7.5e5" } s fest. Diese Kreuzung ist eine Eigenschaft der Uhrenmodelle mit einem einzigen Rauschtyp (reines Flicker-FM gegen reines White-FM), kein physikalisches Ergebnis. Ohne den Block sind der Bericht, seine Tabelle und seine Zusammenfassung unverändert. Beispiel: <c4/>. Fügt eine Registerzeile hinzu, gekennzeichnet MODELLED.
+
+# text
+# c1: extra_reflectors
+# c2: extra_beacons
+# c3: lunar-llr-datum
+# c4: station_geodesy
+# c5: lunar-frame-campaign
+# c6: scenarios/lunar-station-geodesy-baseline.toml
+# c7: -with-station.toml
+seg-863c2c7a5f0b = <b>Lunare Referenzstation: Geodäsie der Station</b> (<b>MODELLED</b>). Optionale Eingaben <c1/> und <c2/> bei <c3/> fügen einen Block <c4/> hinzu. Die Datums-Information mit fünf Arrays aus dem archivierten Ausschnitt der Laserentfernungsmessung wird mit dem kombiniert, was ein hinzugefügter Retroreflektor und eine hinzugefügte VLBI-Bake an genannten Standorten beitragen würden. Die Entfernung zum Reflektor wird zu den archivierten Epochen, die er sehen kann, mit ihren archivierten Gewichten gemessen. Die Bake verwendet das Netz und den Zeitplan von <c5/>, mit festgehaltenen Stationen. Der Block gibt jedes Helmert-1-Sigma davor und danach sowie ihr Verhältnis an. Das sind Cramér-Rao-Schranken für einen reduzierten Parametersatz, bei einem ILLUSTRATIVE Zeitplan und Standort. Fehlende oder leere Eingaben lassen den Bericht byteidentisch. Beispiele: <c6/> und <c7/>. Fügt eine Registerzeile hinzu, gekennzeichnet MODELLED.
+
+# text
+# c1: tests/fixtures/lunar_station_published/CLAIMS.md
+# c2: tests/fixtures/lunar_station/SOURCES.md
+# c3: PREREGISTRATION.md
+# c4: tests/lunar_station_published_oracle.rs
+seg-45c6febcc7fc = <b>Lunare Referenzstation: Vergleich mit veröffentlichten Behauptungen</b> (<b>MODELLED</b>). Jede numerische Behauptung in fünf öffentlichen Quellen ist mit ihrem genauen Wortlaut, ihrer Seite und ihren genannten Annahmen aufgeführt und als vergleichbar, teilweise vergleichbar oder nicht vergleichbar eingestuft (<c1/>; Quellen mit URL, Abrufdatum, SHA-256 und Lizenz in <c2/>). Die teilweise vergleichbaren Behauptungen wurden unter sechs einseitigen Zielwerten bewertet, die vor dem Lauf vorab registriert wurden (<c3/>, Revision { "2" }, 05bf9a19): { "1" } von { "6" } Behauptungen innerhalb des vorab registrierten Zielwerts (vorab registriert 05bf9a19). Die Abdeckung beträgt { "0.00" } gegen >= { "0.95" } auf beiden südpolaren Kreisen, und das korrigierte p95 beträgt { "280.6" } m gegen <= { "1.5" } m. Die Ursache sind die Bahnelemente der Satelliten, die keine Quelle veröffentlicht: Mit den ILLUSTRATIVE Elementen im Repository sind vier Satelliten in { "8" } % der Epochen gemeinsam in Sicht, bei nahezu singulärer Geometrie. Der Lauf reproduziert die Behauptungen mit diesen Elementen nicht und ist kein Beleg dafür, dass die Behauptungen falsch sind. Festgelegt in <c4/>. Eine Registerzeile, gekennzeichnet MODELLED mit dem Befund.
 
 # text
 # c1: realdata::clk::rinex_clock_series
@@ -8833,58 +8888,3 @@ seg-83d01411c6d4 = <b>Paritätsdurchgang.</b> JetBrains-Aktionen Validate Scenar
 # c2: inline_only::FILE_SOURCE_KEYS
 # c3: _hgt
 seg-ef2b49d4ad48 = <b>Der MCP-Server lehnt <c1/> ab</b> (Nachfolgearbeit zu CAP-06b). Der Pfad der Geländekachel der Szenarioart jamming steht jetzt in <c2/>. Eine Inline-Oberfläche lehnt ein Szenario ab, das einen solchen Pfad nennt, mit einer Meldung, die weder den Pfad noch einen Betriebssystemfehler enthält. Der Wächtertest für Dateiquellen kennzeichnet nun auch Felder, die auf <c3/> enden.
-
-# text
-# c1: lunar-station-coverage
-# c2: [receiver]
-# c3: a + b exp(-el / el0)
-# c4: orbit_err_growth_m_per_s
-# c5: [solution]
-seg-00ec7ccd4d0d = <b>Erweiterungen der lunaren Referenzstation</b> ({ "0.36" }; die Einschränkungen { "2" } und { "3" } der Stationsstudie und der Lösungsstil der Quellen), jede optional bei <c1/> und standardmäßig nicht vorhanden, sodass jedes bestehende Dokument, auch die eingefrorene Vorhersage, unverändert ist: <c2/> (Mehrwegeausbreitung <c3/> beim Nutzer und bei der Station, bei der Station wahlweise Gauß-Markov über Epochen, DLL-Coderauschen aus C/N0, Bias zwischen Kanälen; Werte auf dem Mond ILLUSTRATIV); <c4/> (lineares Wachstum des Broadcast-Bahnfehlers über die Latenz der Korrektur, ILLUSTRATIV); <c5/> (Höhenbedingung, ein Minimum von drei Satelliten damit, ein Fenster für statische Nutzer über Epochen). Zwei Nachträge zum Vergleich mit den veröffentlichten Behauptungen, jeder allein vor seinem Lauf vorab registriert, stehen neben dem unveränderten aufgezeichneten Lauf: K5 mit Wachstum scheitert bei jeder Rate; mit dem Lösungsstil der Quellen scheitern K1 bis K5 und K6 besteht ({ "1" } von { "6" }), wobei der korrigierte 3D-Fehler im p95 von R300 von { "280.6" } m auf { "2.11" } m fällt. MODELLED; drei Registerzeilen.
-
-# text
-# c1: optical-atmosphere
-# c2: docs/OPTICAL-ATMOSPHERE.md
-# c3: docs/design/optical-atmosphere-0.37.md
-# c4: optical_linkbudget
-# c5: xval/optical-atmosphere/PREREGISTRATION.md
-seg-07ce053c906a = <b>Optisches PNT durch die Atmosphäre</b> (Szenarioart <c1/>, <a1><c2/></a1>, Entwurfsnotiz <c3/>). Für eine optische Verbindung und eine Menge von Bodenstationen liefert es die von Wellenlänge und Elevation abhängige Dämpfung bei klarer Luft, den Zustand der Turbulenz nach Hufnagel-Valley (Rytov-Varianz, Szintillationsindex, Gamma-Gamma-Schwunde, Aperturmittelung), die Verfügbarkeit gegenüber der Link-Reserve aus einem genannten Wolkenklima, die für Ziel-Verfügbarkeiten nötige Reserve und die Obergrenze, die keine Reserve anhebt, die Verteilung der Ausfalldauer, den Zeit- und Entfernungsfehler pro Ausfall über das Holdover-Modell der Uhr, entfernungskorrelierte Standortdiversität sowie Was-wäre-wenn-Gewinne für eine Wellenlängenänderung, eine größere Apertur, die Verringerung der Szintillation durch adaptive Optik und zusätzliche Reserve. <c4/> erhält ein atmosphärenbewusstes Budget; ohne eines ist seine Ausgabe bitgleich mit { "0.36" } (Zielwert A5). Zwei mitgelieferte Szenarien tragen ILLUSTRATIVE Wolkenklimata. MODELLED: drei Registerzeilen. Die Numerik erfüllt die Zielwerte A1 bis A6, vorab registriert in <c5/>, gegenüber einem unabhängigen mpmath-Programm; das prüft die Umsetzung der genannten Formeln, nicht die Atmosphäre, und es wurde keine gemessene Verfügbarkeitsaufzeichnung verglichen, daher ist keine Zeile VALIDATED. Der Zielwert A4 wurde zunächst um { "3e-9" } verfehlt, weil die verwendete Normalverteilungs-CDF eine Näherung mit { "1.5e-7" } war; die CDF wurde ersetzt und der Zielwert blieb wie registriert. Die nativen und die WebAssembly-Builds liefern für beide mitgelieferten Szenarien byteidentische Dokumente (A7, ausgeführt auf dem Integrations-Commit von { "0.37.0" }).
-
-# text
-# c1: lunar-infrastructure
-# c2: study
-# c3: docs/LUNAR-INFRASTRUCTURE.md
-# c4: xval/lunar-infra/PREREGISTRATION.md
-# c5: xval/lunar-infra/RESULTS.md
-seg-3281ef6e21eb = <b>Mondbahn und Mondoberfläche als Navigations- und Geodäsie-Infrastruktur (<c1/>).</b> Eine neue Szenarioart mit fünf Studien, ausgewählt über <c2/> (<a1><c3/></a1>): Konsistenz einer bordeigenen Bahnbestimmung per Erd-GNSS in einer nahezu geradlinigen Halo-Bahn gegenüber einer unabhängigen Bodenbestimmung aus Entfernung und Entfernungsrate; gemeinsame doppeldifferenzierte Trägerphase von Oberflächenstation und Orbiter mit ganzzahliger LAMBDA-Festlegung; Fisher-Information des siebenparametrigen Mond-Datums mit und ohne Entfernungsmessungen zwischen Orbiter und Oberfläche; Versätze zwischen den Techniken GNSS, VLBI und Laserentfernungsmessung gegenüber dem lokalen Anschluss; und Sensitivität gegenüber h2, k2, l2 und der physikalischen Libration. MODELLED, mit ILLUSTRATIVEN Eingaben: Die Numerik wird an unabhängigen numpy- und scipy-Programmen geprüft, und nichts wird mit einer Messung einer Mondgröße verglichen. Die Zielwerte wurden in <c4/> und zwei offengelegten Änderungen festgelegt. Drei sind NOT MET, und jeder ist durch einen Test festgeschrieben, der die Verfehlung behauptet: C3 (ein eingespeister Kraftfehler wird nicht mit der vorab registrierten Rate erkannt), Q3 (die Bootstrap-Erfolgsrate weicht von der numpy-Referenz um { "1.7e-6" } ab, bei einem Zielwert von { "1e-9" }, wegen der Normalverteilungs-Näherung von LAMBDA), und die Spurhälfte von G3 (das Hinzufügen einer Entfernungsmessungsfamilie senkt die Spur der Pseudoinversen nicht immer). Die übrigen sind erreicht (<a2><c5/></a2>).
-
-# text
-# c1: docs/predictions/lunar-reference-station.md
-# c2: lunar-station-coverage
-# c3: tests/prediction_frozen.rs
-# c4: docs/VALIDATION.md
-seg-3d0cd9692787 = <b>Vorab registrierte Vorhersage: Abdeckung der lunaren Referenzstation</b> (keine Validierung; MODELLED). <a1><c1/></a1> friert bei Commit c05dac1d die Ergebnisse von <c2/> unter den öffentlich genannten Annahmen ein, mit SHA-256-Hashes der Eingaben und Ergebnisse und einem jetzt festgelegten Bewertungsprotokoll (Faktor { "2" } für Genauigkeiten und Schutzniveaus, { "10" } Prozentpunkte für Verfügbarkeit und Abdeckung; eine geänderte Annahme erhält eine neue datierte Vorhersage, nie eine Bearbeitung; ein Fehlschlag wird ebenso deutlich veröffentlicht wie ein Treffer). Jede Zahl wird vom unveröffentlichten Elementsatz der Konstellation mit vier Satelliten bestimmt, der ILLUSTRATIV ist und das auch sagt. <c3/> schützt sie; <c4/> erhält einen Abschnitt „Pre-registered predictions“. Keine Registerzeile.
-
-# text
-# c1: tests/fixtures/lunar_station_published/CLAIMS.md
-# c2: tests/fixtures/lunar_station/SOURCES.md
-# c3: PREREGISTRATION.md
-# c4: tests/lunar_station_published_oracle.rs
-seg-45c6febcc7fc = <b>Lunare Referenzstation: Vergleich mit veröffentlichten Behauptungen</b> (<b>MODELLED</b>). Jede numerische Behauptung in fünf öffentlichen Quellen ist mit ihrem genauen Wortlaut, ihrer Seite und ihren genannten Annahmen aufgeführt und als vergleichbar, teilweise vergleichbar oder nicht vergleichbar eingestuft (<c1/>; Quellen mit URL, Abrufdatum, SHA-256 und Lizenz in <c2/>). Die teilweise vergleichbaren Behauptungen wurden unter sechs einseitigen Zielwerten bewertet, die vor dem Lauf vorab registriert wurden (<c3/>, Revision { "2" }, 05bf9a19): { "1" } von { "6" } Behauptungen innerhalb des vorab registrierten Zielwerts (vorab registriert 05bf9a19). Die Abdeckung beträgt { "0.00" } gegen >= { "0.95" } auf beiden südpolaren Kreisen, und das korrigierte p95 beträgt { "280.6" } m gegen <= { "1.5" } m. Die Ursache sind die Bahnelemente der Satelliten, die keine Quelle veröffentlicht: Mit den ILLUSTRATIVEN Elementen im Repository sind vier Satelliten in { "8" } % der Epochen gemeinsam in Sicht, bei nahezu singulärer Geometrie. Der Lauf reproduziert die Behauptungen mit diesen Elementen nicht und ist kein Beleg dafür, dass die Behauptungen falsch sind. Festgelegt in <c4/>. Eine Registerzeile, gekennzeichnet MODELLED mit dem Befund.
-
-# text
-# c1: [time_lab]
-# c2: lunar-time-budget
-# c3: src/lunar_time_lab.rs
-# c4: scenarios/lunar-station-time-lab.toml
-seg-686b1211d7bb = <b>Lunare Referenzstation: Zeitlabor der Station</b> (<b>MODELLED</b>). Ein optionaler Block <c1/> bei <c2/> (<c3/>). Er modelliert eine Stationsuhr (standardmäßig die Klasse miniRAFS, jede benannte Klasse oder eine an genannte Stabilitätspunkte angepasste Gerätekarte), die auf LTC gesteuert wird und dann frei läuft oder alle N Sekunden neu gesteuert wird. Er gibt die Zeitfehlerkurve x(t), die Zeit bis { "1" }, { "10" } und { "100" } ns (Bisektion neben der geschlossenen Form) und den dominanten Term je Horizont aus, alles mit Einheiten. Der Steuerrest ist ILLUSTRATIV. Die LTC-Rate wird nicht neu abgeleitet und behält ihre eigene Zeile VALIDATED. Das Ziel im Nanosekundenbereich aus dem öffentlichen Material des ICG WG-B zu lunarem PNT (Juni { "2024" }) wird als Aussage der Quelle zitiert, nicht als Anspruch. Die Uhrenordnung optisch < PHM < RAFS < miniRAFS gilt von { "1" } s bis { "7e5" } s, und der Test legt die Kreuzung der Kurven von PHM und RAFS nahe { "7.5e5" } s fest. Diese Kreuzung ist eine Eigenschaft der Uhrenmodelle mit einem einzigen Rauschtyp (reines Flicker-FM gegen reines White-FM), kein physikalisches Ergebnis. Ohne den Block sind der Bericht, seine Tabelle und seine Zusammenfassung unverändert. Beispiel: <c4/>. Fügt eine Registerzeile hinzu, gekennzeichnet MODELLED.
-
-# text
-# c1: extra_reflectors
-# c2: extra_beacons
-# c3: lunar-llr-datum
-# c4: station_geodesy
-# c5: lunar-frame-campaign
-# c6: scenarios/lunar-station-geodesy-baseline.toml
-# c7: -with-station.toml
-seg-863c2c7a5f0b = <b>Lunare Referenzstation: Geodäsie der Station</b> (<b>MODELLED</b>). Optionale Eingaben <c1/> und <c2/> bei <c3/> fügen einen Block <c4/> hinzu. Die Datums-Information mit fünf Arrays aus dem archivierten Ausschnitt der Laserentfernungsmessung wird mit dem kombiniert, was ein hinzugefügter Retroreflektor und eine hinzugefügte VLBI-Bake an genannten Standorten beitragen würden. Die Entfernung zum Reflektor wird zu den archivierten Epochen, die er sehen kann, mit ihren archivierten Gewichten gemessen. Die Bake verwendet das Netz und den Zeitplan von <c5/>, mit festgehaltenen Stationen. Der Block gibt jedes Helmert-1-Sigma davor und danach sowie ihr Verhältnis an. Das sind Cramér-Rao-Schranken für einen reduzierten Parametersatz, bei einem ILLUSTRATIVEN Zeitplan und Standort. Fehlende oder leere Eingaben lassen den Bericht byteidentisch. Beispiele: <c6/> und <c7/>. Fügt eine Registerzeile hinzu, gekennzeichnet MODELLED.

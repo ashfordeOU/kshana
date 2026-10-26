@@ -550,6 +550,11 @@ seg-65ffc53b15fa = die Szenariodatei
 seg-74fac0bacb76 = Run Kshana Scenario
 
 # text
+# c1: optical-atmosphere
+# c2: docs/OPTICAL-ATMOSPHERE.md
+seg-f71e5e2eb4f3 = Optische Zeitverbindung durch die Atmosphäre: Verfügbarkeit je Standort, Standortdiversität, Verbesserungstechniken, Kopplung von Ausfall und Holdover (Szenarioart <c1/>; <c2/>; MODELLED, ILLUSTRATIVE Standorte, beratend)
+
+# text
 seg-490147c5e7ec = <b>ausstehend</b>: noch keine Studio-Ansicht; das Szenario läuft im Szenario-Runner des Studios und auf der Tools-Karte Kommandozeile
 
 # text
@@ -590,6 +595,12 @@ seg-126a59c992d9 = <c1/> (nur inline; <c2/> wird zurückgewiesen)
 # text
 # c1: run
 seg-2010eb196565 = <b>N/A</b> (kein Notebook in { "0.38" }; die Szenarien laufen in jedem Notebook über <c1/>)
+
+# text
+# c1: lunar-infrastructure
+# c2: study = ...
+# c3: docs/LUNAR-INFRASTRUCTURE.md
+seg-593b7761803d = Mondbahn und Mondoberfläche als Navigations- und geodätische Infrastruktur: Konsistenz der Bahnbestimmung, Auflösung der Trägerphasen-Mehrdeutigkeit, gemeinsame Schätzung des Bezugssystems, Sensitivität von Space-Tie und Love-Zahl (Szenarioart <c1/>, <c2/>; <c3/>; MODELLED, ILLUSTRATIVE Eingaben, beratend)
 
 # text
 # c1: kshana scenarios/lunar-infrastructure-od-consistency.toml
@@ -1098,14 +1109,3 @@ seg-4f7453d89d9d = Geometrie MODELLED; JSON oder SVG als Ausgabe
 
 # text
 seg-52638393d72d = List Scenario Kinds
-
-# text
-# c1: lunar-infrastructure
-# c2: study = ...
-# c3: docs/LUNAR-INFRASTRUCTURE.md
-seg-593b7761803d = Mondbahn und Mondoberfläche als Navigations- und geodätische Infrastruktur: Konsistenz der Bahnbestimmung, Auflösung der Trägerphasen-Mehrdeutigkeit, gemeinsame Schätzung des Bezugssystems, Sensitivität von Space-Tie und Love-Zahl (Szenarioart <c1/>, <c2/>; <c3/>; MODELLED, ILLUSTRATIVE Eingaben, beratend)
-
-# text
-# c1: optical-atmosphere
-# c2: docs/OPTICAL-ATMOSPHERE.md
-seg-f71e5e2eb4f3 = Optische Zeitverbindung durch die Atmosphäre: Verfügbarkeit je Standort, Standortdiversität, Verbesserungstechniken, Kopplung von Ausfall und Holdover (Szenarioart <c1/>; <c2/>; MODELLED, ILLUSTRATIVE Standorte, beratend)

@@ -550,6 +550,11 @@ seg-65ffc53b15fa = le fichier de scénario
 seg-74fac0bacb76 = Run Kshana Scenario
 
 # text
+# c1: optical-atmosphere
+# c2: docs/OPTICAL-ATMOSPHERE.md
+seg-f71e5e2eb4f3 = Liaison optique de synchronisation temporelle à travers l'atmosphère : disponibilité par site, diversité de sites, techniques d'amélioration, couplage entre coupure et holdover (type de scénario <c1/> ; <c2/> ; MODELLED, sites ILLUSTRATIVE, à titre consultatif)
+
+# text
 seg-490147c5e7ec = <b>en attente</b> : pas encore de vue Studio ; le scénario s'exécute dans l'exécuteur de scénarios du Studio et dans la carte Outils Ligne de commande
 
 # text
@@ -590,6 +595,12 @@ seg-126a59c992d9 = <c1/> (en ligne seulement ; <c2/> est refusé)
 # text
 # c1: run
 seg-2010eb196565 = <b>N/A</b> (pas de notebook en { "0.38" } ; les scénarios s'exécutent dans n'importe quel notebook via <c1/>)
+
+# text
+# c1: lunar-infrastructure
+# c2: study = ...
+# c3: docs/LUNAR-INFRASTRUCTURE.md
+seg-593b7761803d = Orbite et surface lunaires comme infrastructure de navigation et géodésique : cohérence de la détermination d'orbite, résolution de l'ambiguïté de phase de la porteuse, co-estimation du référentiel, liaison spatiale et sensibilité au nombre de Love (type de scénario <c1/>, <c2/> ; <c3/> ; MODELLED, entrées ILLUSTRATIVE, à titre consultatif)
 
 # text
 # c1: kshana scenarios/lunar-infrastructure-od-consistency.toml
@@ -1098,14 +1109,3 @@ seg-4e3bbacda9ac = <s1>Précédent</s1>Utiliser Kshana depuis un agent
 
 # text
 seg-c5fbfab85e01 = <s1>Suivant</s1>Extension JetBrains
-
-# text
-# c1: lunar-infrastructure
-# c2: study = ...
-# c3: docs/LUNAR-INFRASTRUCTURE.md
-seg-593b7761803d = Orbite et surface lunaires comme infrastructure de navigation et géodésique : cohérence de la détermination d'orbite, résolution de l'ambiguïté de phase de la porteuse, co-estimation du référentiel, liaison spatiale et sensibilité au nombre de Love (type de scénario <c1/>, <c2/> ; <c3/> ; MODELLED, entrées ILLUSTRATIVES, à titre consultatif)
-
-# text
-# c1: optical-atmosphere
-# c2: docs/OPTICAL-ATMOSPHERE.md
-seg-f71e5e2eb4f3 = Liaison optique de synchronisation temporelle à travers l'atmosphère : disponibilité par site, diversité de sites, techniques d'amélioration, couplage entre coupure et holdover (type de scénario <c1/> ; <c2/> ; MODELLED, sites ILLUSTRATIFS, à titre consultatif)
