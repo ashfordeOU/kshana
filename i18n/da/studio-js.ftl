@@ -6058,7 +6058,11 @@ js-meankind-araim-line-vectors =
 js-meankind-arc-big = Estimatoren genfinder banen, så snart den har { $dur } af buen på { $h } h.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:499
-js-meankind-arc-line = { $n } rumfartøjer, { $observable }-målinger.
+js-meankind-arc-line =
+    { $n ->
+        [one] { $n } rumfartøj, { $observable }-målinger.
+       *[other] { $n } rumfartøjer, { $observable }-målinger.
+    }
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:522
 js-meankind-ascent-big = Tyngdekraft, luftmodstand, styring og modtryk tager { $loss } m/s af den ideelle hastighedsforøgelse på { $ideal } m/s.
@@ -6813,7 +6817,11 @@ js-meankind-solar-big-link =
     }
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:411
-js-meankind-solar-line = { $n } forbindelser tidsmåles i alt.
+js-meankind-solar-line =
+    { $n ->
+        [one] { $n } forbindelse tidsmåles i alt.
+       *[other] { $n } forbindelser tidsmåles i alt.
+    }
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:135
 js-meankind-spoof-caught = Spoofingen opdages, før den bryder tidsspecifikationen.
@@ -9875,3 +9883,848 @@ js-trust-agree-calibrating = inden for kalibreringsvinduet: ikke sammenlignet
 
 # 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:17
 js-trust-agree-kshana-only = kun Kshana giver alarm: modtageren markerer ikke
+
+# 2026-10-01-studio-rebuild/lib/tools35.mjs:217
+js-tools-ubx-ignored-sfrbx = SFRBX-meddelelser, der blev ignoreret: { $n } (andre systemer, E5b, alarmer, forkerte kontrolsummer).
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:18
+js-trust-agree-neither = ingen af dem markerer
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:16
+js-trust-agree-receiver-only = kun modtageren markerer: ingen Kshana-overvågning giver alarm
+
+# 2026-10-01-studio-rebuild/trust/trust.js:151
+js-trust-assessed = Vurderede { $name } med motoren { $version }, i denne browser.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:205
+js-trust-assessed-as = Vurderede { $name } som { $format }, med motoren, i denne browser. Intet blev uploadet.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:145
+js-trust-assessing = Starter motoren og vurderer…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:442
+js-trust-class-also-costing = { $class } (koster også point)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:32
+js-trust-class-environment = omgivelser: signalet (effekt, jamming, tabte satellitter, mens himlen er åben)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:31
+js-trust-class-geometry = geometri: himlen, ikke signalet
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:33
+js-trust-class-inconsistency = inkonsistens: angrebslignende, ikke forklaret af himlen eller signalet
+
+# 2026-10-01-studio-rebuild/trust/trust.js:169
+js-trust-dl-result-json = Hent resultatet (JSON)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:170
+js-trust-dl-table-csv = Hent tabellen pr. epoke (CSV)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:393
+js-trust-edge-degraded = { $v } forringet
+
+# 2026-10-01-studio-rebuild/trust/trust.js:393
+js-trust-edge-nominal = { $v } nominel
+
+# 2026-10-01-studio-rebuild/trust/trust.js:177
+js-trust-err-assess = { $name }: kunne ikke vurderes ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:124
+js-trust-err-demo-files = demofilerne blev ikke indlæst
+
+# 2026-10-01-studio-rebuild/trust/trust.js:127
+js-trust-err-demo-log-open = Demologgen kunne ikke åbnes: { $reason }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:240
+js-trust-err-demo-open = Demoen kunne ikke åbnes: { $reason }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:148
+js-trust-err-engine-no-receiver-trust = Denne motorudgave (version { $version }) har ingen receiver_trust.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:111
+js-trust-err-engine-no-scorer = Denne motorudgave (version { $version }) har ingen logvurdering; den er ældre end denne side. Kommandoen er { $command }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:147
+js-trust-err-engine-start = Motoren kunne ikke starte her ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:110
+js-trust-err-engine-start-open = Motoren kunne ikke starte her ({ $reason }). At åbne resultatfiler ovenfor virker stadig.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:183
+js-trust-err-example-files = eksempelfilerne blev ikke indlæst
+
+# 2026-10-01-studio-rebuild/trust/trust.js:187
+js-trust-err-example-open = Eksemplet kunne ikke åbnes: { $reason }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:193
+js-trust-err-file-2mib = { $name }: større end 2 MiB. Åbn et uddrag.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:67
+js-trust-err-file-too-large = { $name }: større end { $max }. Denne side læser filer op til den størrelse; åbn et uddrag.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:144
+js-trust-err-gen-too-large = { $name }: større end 2 MiB. Åbn et uddrag (kommandolinjeværktøjet tager en hel log).
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:81
+js-trust-err-imu-format = "{ $format }" er ikke et IMU-format, denne side læser (csv eller euroc)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:82
+js-trust-err-imu-heading = IMU'ens kursretning ved dens første sample er ikke et tal
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:62
+js-trust-err-log-format = "{ $format }" er ikke et logformat, denne side kan sende til motoren
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:385
+js-trust-err-no-epochs = Filen har ingen epoker.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:356
+js-trust-err-no-epochs-result = Denne resultatfil har ingen epochs[]. Den skal komme fra `{ $command }` for en fartøjssession.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:113
+js-trust-err-no-epochs-returned = { $name }: motoren returnerede ingen epoker.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:357
+js-trust-err-no-score-model = Dette resultat har ingen score_model, så det er en kørsel med statisk platform uden tillidsscore. Visningen tegner kørsler med fartøjer (bevægelig platform).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:74
+js-trust-err-not-readable = { $name }: ikke en fil, som denne visning læser (en resultat-JSON, JSON-lines, trust.csv, en NMEA-log eller en referencefil).
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:384
+js-trust-err-nothing-to-draw = Intet at tegne: vælg en resultat-JSON, JSON-lines eller trust.csv.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:98
+js-trust-err-read = { $name }: kunne ikke læses ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:84
+js-trust-err-read-or-draw = { $name }: kunne ikke læses eller tegnes ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:118
+js-trust-err-score = { $name }: kunne ikke vurderes ({ $reason }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:131
+js-trust-err-score-file-too-large = { $name }: større end 2 MiB. Vurderingen i browseren tager et uddrag, der indeholder kalibreringsvinduet på fem minutter.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:107
+js-trust-err-score-too-large = { $name }: større end 2 MiB. Vurderingen i browseren tager et uddrag (kommandoen { $command } tager en hel log); åbn et uddrag, der indeholder kalibreringsvinduet på fem minutter.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:795
+js-trust-err-scorecard-too-large = { $name }: større end 8 MiB; denne side læser et resultatkort op til den størrelse.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:106
+js-trust-err-session-empty = Sessionsindstillingerne er tomme. De angiver fartøjet ({ $setting }).
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:386
+js-trust-err-too-many-epochs = Filen har { $count } epoker; denne side tegner højst { $max }. Åbn et uddrag.
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:50
+js-trust-err-triple-quote = { $what } indeholder tre enkelte anførselstegn i træk, som ikke kan indlejres i indstillingerne
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:53
+js-trust-err-what-file = filen
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:84
+js-trust-err-what-imu = IMU-filen
+
+# 2026-10-01-studio-rebuild/trust/trust.js:399
+js-trust-event-label = hændelse: { $label }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:399
+js-trust-event-onset = begyndelse
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-first-alarm = Første alarm, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-latency = Forsinkelse, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-onset = Begyndelse, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-outcome = Udfald
+
+# 2026-10-01-studio-rebuild/trust/trust.js:161
+js-trust-evt-col-stated = Angivet hændelse
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:17
+js-trust-fmt-android = Android GNSS Logger (tekst)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:13
+js-trust-fmt-gnss-sdr = GNSS-SDR-videresendte JSON-lines (tekst)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:9
+js-trust-fmt-nmea = NMEA 0183 (tekst)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:11
+js-trust-fmt-novatel = NovAtel OEM7 (ASCII eller binær)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:16
+js-trust-fmt-rinex = RINEX-observation (tekst)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:12
+js-trust-fmt-rtcm3 = RTCM 3 MSM4 / MSM7 (binær)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:10
+js-trust-fmt-rtklib-pos = RTKLIB .pos-løsning (tekst)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:14
+js-trust-fmt-sbf = Septentrio SBF (binær)
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:15
+js-trust-fmt-ubx = u-blox UBX (binær)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:267
+js-trust-gate-note-derived = Denne kørsel har ingen gate-registrering. Striben viser, hvor en gate ville have tilbageholdt positionsbestemmelsen: epoker i det upålidelige bånd, holdt tilbage til 30 s efter, at de forlader det. Afledt her, ikke læst fra en gate. En gate er til- og fravalgt og tilføjer forsinkelse.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:268
+js-trust-gate-note-read = Hver epokes gate, som den levende strøm rapporterede den: fra, sluppet igennem eller tilbageholdt (positionsbestemmelsen blev markeret som ugyldig i den videresendte cyklus).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:703
+js-trust-gate-now-derived = { $gate } · afledt
+
+# 2026-10-01-studio-rebuild/trust/trust.js:702
+js-trust-gate-off = Fra
+
+# 2026-10-01-studio-rebuild/trust/trust.js:702
+js-trust-gate-off-cal = Fra (kalibrerer)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:702
+js-trust-gate-passed = Sluppet igennem: positionsbestemmelsen videresendes uændret
+
+# 2026-10-01-studio-rebuild/trust/trust.js:420
+js-trust-gate-span = gate { $gate }, { $from } til { $to }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:420
+js-trust-gate-span-derived = gate { $gate } (afledt), { $from } til { $to }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:702
+js-trust-gate-withheld = Tilbageholdt: positionsbestemmelsen ville blive markeret som ugyldig downstream
+
+# 2026-10-01-studio-rebuild/trust/trust.js:167
+js-trust-gen-chart-label = Motorens diagram over kørslen: bærebølge-til-støj-tæthed, tilstand og alarmer over tid
+
+# 2026-10-01-studio-rebuild/trust/trust.js:154
+js-trust-gen-epochs = Epoker: { $nominal } nominelle, { $degraded } forringede, { $untrusted } upålidelige efter kalibreringsvinduet på { $window } epoker.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:157
+js-trust-gen-self-heading = Modtagerens egne flag mod Kshanas alarmer
+
+# 2026-10-01-studio-rebuild/trust/trust.js:157
+js-trust-gen-self-note = En sammenligning, ikke en kontrol af nogen af dem: modtagerens flag er dens egen rapport.
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:180
+js-trust-geo-deduction-class = { $points } point ({ $class })
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:180
+js-trust-geo-deduction-points = { $points } point
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:177
+js-trust-geo-flag-mismatch = Den HDOP, modtageren angiver, stemmer ikke med den, der er afledt af den himmel, den rapporterer: et geometrifradrag tæller som inkonsistens.
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:178
+js-trust-geo-flag-signal-loss = Signaltab: satellitter i sigte spores ikke, selv om deres geometri er god, så et geometrifradrag tæller som omgivelser.
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:161
+js-trust-geo-heading-label = geometri { $label }
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:162
+js-trust-geo-label-fair = { $label } (ikke vurderet)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:163
+js-trust-geo-label-poor = { $label } (den eneste etiket, scoren trækker fra for)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:157
+js-trust-geo-none-in-run = Ingen geometri i denne kørsel (en motor før 0.36 skriver ingen).
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:22
+js-trust-geo-reason-few-satellites = færre satellitter end minimum
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:24
+js-trust-geo-reason-high-hdop = HDOP over sin tærskel
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:23
+js-trust-geo-reason-high-pdop = PDOP over sin tærskel
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:25
+js-trust-geo-reason-sky-blocked = de sporede satellitter efterlader et stort hul i azimut (den ene side af himlen er blokeret)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:180
+js-trust-geo-row-deduction = Geometrifradrag
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:173
+js-trust-geo-row-from = Fra
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:170
+js-trust-geo-row-gap = Største azimuthul
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:166
+js-trust-geo-row-label = Etiket
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:171
+js-trust-geo-row-open-sky = Åben himmel
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:175
+js-trust-geo-row-reported-hdop = HDOP, modtageren angiver
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:168
+js-trust-geo-row-sats-used = Satellitter brugt
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:172
+js-trust-geo-row-sky-age = Himlens alder
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:167
+js-trust-geo-row-status = Status
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:193
+js-trust-geo-say-deduction = geometrifradrag { $points } point
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:191
+js-trust-geo-say-label-hdop = geometri { $label } (HDOP { $hdop })
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:192
+js-trust-geo-say-mismatch = angivet HDOP stemmer ikke
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:36
+js-trust-geo-source-derived = afledt af de satellitter, loggen rapporterer (GSV)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:38
+js-trust-geo-source-none = ingenting
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:37
+js-trust-geo-source-reported = modtagerens angivne DOP (GSA)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:167
+js-trust-geo-status-reasons = { $status }: { $reasons }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:428
+js-trust-geo-status-title = geometri { $status }
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:28
+js-trust-geo-unknown-no-gsv = geometri ukendt: ingen GSV eller GSA i loggen
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:160
+js-trust-geo-unknown-no-gsv-sentence = Geometri ukendt: ingen GSV eller GSA i loggen.
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:160
+js-trust-geo-unknown-odd = Geometri ukendt (filen siger "{ $odd }", hvilket denne side ikke kender).
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:168
+js-trust-geo-used-of-view = { $used } af { $inView } i sigte
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-got-file-kind = { $name }: { $kind }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:70
+js-trust-got-lines-skipped = { $count } linje(r) i { $name } var ikke epoker og blev sprunget over
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:20
+js-trust-imu-csv = CSV med en overskriftsrække
+
+# 2026-10-01-studio-rebuild/lib/trust-open.mjs:21
+js-trust-imu-euroc = EuRoC MAV imu0 data.csv
+
+# 2026-10-01-studio-rebuild/trust/trust.js:219
+js-trust-imu-file = IMU-fil: { $name } ({ $chars } tegn). Bruges ved næste vurdering.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:218
+js-trust-imu-file-press = IMU-fil: { $name } ({ $chars } tegn). Bruges ved næste vurdering; tryk på Vurdér den valgte fil.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:226
+js-trust-imu-none = Ingen IMU-fil.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-latency = Forsinkelse, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-monitors = Første overvågninger
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-name = Navn
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-outcome = Udfald
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-recovered = Genoprettet
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-slot = Slot, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:807
+js-trust-jt-col-test = Test
+
+# 2026-10-01-studio-rebuild/trust/trust.js:803
+js-trust-jt-label = { $label } Guard { $guard } s, genopretningshold { $hold } s.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:802
+js-trust-jt-label-contaminated = { $label } Guard { $guard } s, genopretningshold { $hold } s. Kalibreringens baseline overlappede en planlagt slot.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:809
+js-trust-jt-opened = Åbnede { $name }: { $count } test. Læst her; intet blev uploadet.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-kind-batch-result = batchresultat
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-kind-json-lines = JSON-lines
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-kind-nmea-log = NMEA-log
+
+# 2026-10-01-studio-rebuild/trust/trust.js:75
+js-trust-kind-truth-file = referencefil
+
+# 2026-10-01-studio-rebuild/trust/trust.js:239
+js-trust-label-demo = Syntetisk demo: en opdigtet færgelog med et opdigtet drag-off af positionen, vurderet af Kshana. Optaget fra motoren; loggen er tekst, ikke en måling.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:186
+js-trust-label-example = Illustrativt eksempel: en opdigtet NMEA-log med en opdigtet jammer fra 120 s til 240 s, vurderet her af motoren. Tekst, ikke en måling.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:249
+js-trust-label-geo-demo = Syntetisk demo med maskeret himmel: færgeloggen med den vestlige halvdel af himlen blanket ud fra 600 s (naturlig forringelse, tilskrevet geometri) og det samme opdigtede drag-off fra 1500 s (angrebslignende). Optaget fra en motor med 0.36-geometrien; tekst, ikke en måling.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:126
+js-trust-label-score-demo = Syntetisk demolog, vurderet her af motoren. Opdigtet færgelog og drag-off; tekst, ikke en måling.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:549
+js-trust-legend-calibrating = Kalibrerer (aldrig vurderet)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-class = Fradragsklasse:
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-class-environment = omgivelser: signalet
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-class-geometry = geometri: himlen, ikke signalet
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-class-inconsistency = inkonsistens (angrebslignende)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:549
+js-trust-legend-degraded = Forringet
+
+# 2026-10-01-studio-rebuild/trust/trust.js:557
+js-trust-legend-demo = I denne demo rapporterer modtageren en gyldig positionsbestemmelse hele vejen igennem (GGA-kvalitet 1, RMC-status A). Det er scoren, der falder.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:553
+js-trust-legend-geo-degraded = geometri forringet
+
+# 2026-10-01-studio-rebuild/trust/trust.js:553
+js-trust-legend-geo-good = geometri god
+
+# 2026-10-01-studio-rebuild/trust/trust.js:553
+js-trust-legend-geo-unknown = geometri ukendt (ingen GSV eller GSA; ikke god)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:549
+js-trust-legend-nominal = Nominel
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self = Modtagerens eget flag mod Kshanas alarmer:
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self-both = begge markerer
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self-kshana = kun Kshana
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self-neither = ingen af dem
+
+# 2026-10-01-studio-rebuild/trust/trust.js:556
+js-trust-legend-self-receiver = kun modtageren
+
+# 2026-10-01-studio-rebuild/trust/trust.js:553
+js-trust-legend-sky = Himmel:
+
+# 2026-10-01-studio-rebuild/trust/trust.js:551
+js-trust-legend-true-track = Reelt spor (kun syntetiske data)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:554
+js-trust-legend-underline = understregning: geometri koster også point
+
+# 2026-10-01-studio-rebuild/trust/trust.js:549
+js-trust-legend-untrusted = Upålidelig
+
+# 2026-10-01-studio-rebuild/trust/trust.js:753
+js-trust-marks-cleared = Markeringer ryddet.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:753
+js-trust-marks-set = { $name } lå over sin begyndelse i { $count } epoker; de er markeret på tidslinjen og sporet.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:34
+js-trust-mon-agc = Automatisk forstærkningsregulering flyttede sig i forhold til sin baseline.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:38
+js-trust-mon-clock = Den urstøttede overvågning: modtagerens ur mod dets forudsagte linje.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:32
+js-trust-mon-cn0-drop = Effektafskæring: signalstyrken er faldet i forhold til kalibreringens baseline.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:29
+js-trust-mon-cn0-rise = Leder efter signaturen fra én sender: signalstyrken på tværs af satellitterne stiger samtidig i forhold til baseline.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:28
+js-trust-mon-cn0-spread = Leder efter signaturen fra én sender: signalstyrken på tværs af satellitterne falder sammen samtidig i forhold til kalibreringens baseline.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:41
+js-trust-mon-geometry = Satellitgeometrien (0.36): koster kun point, når geometrien er dårlig (HDOP, PDOP eller de brugte satellitter ud over deres tærskler), begrænset og aldrig under det forringede bånd.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:25
+js-trust-mon-heading-course = Sammenligner sporets retning med, hvor skibet peger, inden for den angivne krabbevinkel.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:35
+js-trust-mon-jam-ind = Modtagerens egen jamming-indikator.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:24
+js-trust-mon-kinematic = Sammenligner hvert positionstrin med den rapporterede fart og kurs og med fartøjets angivne grænser for fart, acceleration og drejehastighed.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:33
+js-trust-mon-loss-of-lock = Tab af sporede satellitter.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:31
+js-trust-mon-osnma = Læser en rapporteret OSNMA-autentificeringsfejl. Statussen læses, ikke verificeres.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:36
+js-trust-mon-position-jump = Et spring i den rapporterede position, der er større, end baseline tillader.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:37
+js-trust-mon-raim = Teststatistikken fra modtagerens autonome integritetsovervågning mod dens tærskel.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:40
+js-trust-mon-receiver-self-report = Modtagerens eget spoofing- eller jamming-flag (for eksempel u-blox UBX-SEC-SIG eller NAV-STATUS spoofDetState), vist ved siden af Kshanas overvågninger. Læst fra loggen, ikke verificeret; pladsen er klar til 0.38-motorens overvågning og tegnes som en stribe, når et resultat indeholder den.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:27
+js-trust-mon-sea-level = Kontrollerer, at højden er der, hvor havoverfladen og den angivne antennehøjde placerer den.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:39
+js-trust-mon-solve-failure = Positionsløsningen kunne ikke beregnes.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:26
+js-trust-mon-speed-log = Sammenligner fart over grunden med fart gennem vandet, inden for den angivne strømtolerance.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:30
+js-trust-mon-time-consistency = Kontrollerer modtagerens tid for uregelmæssige spring eller baglæns gang, og mod denne computers ur for realtidsstrømme.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:46
+js-trust-mon-unknown = En overvågning, som denne visning ikke har en beskrivelse af (nyere end siden). Behandl den som en overvågning.
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:71
+js-trust-na = n/a
+
+# 2026-10-01-studio-rebuild/trust/trust.js:517
+js-trust-name-colon-text = { $name }: { $text }
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:71
+js-trust-never = aldrig
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:56
+js-trust-no = nej
+
+# 2026-10-01-studio-rebuild/trust/trust.js:435
+js-trust-no-deduction = intet fradrag
+
+# 2026-10-01-studio-rebuild/trust/trust.js:162
+js-trust-none = ingen
+
+# 2026-10-01-studio-rebuild/trust/trust.js:308
+js-trust-north = N
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:40
+js-trust-not-stated = ikke angivet
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:376
+js-trust-note-advisories = Linjerne indeholder { $count } forskellige vejledende erklæringer; den første vises.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:383
+js-trust-note-csv-limits = trust.csv indeholder scorer og årsager, men ikke forhold eller positioner.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:378
+js-trust-note-live-no-model = En levende strøm angiver ikke, hvilke overvågninger der kørte, eller scoremodellen; båndkanterne nedenfor er de dokumenterede standardværdier, og overvågningsstribene viser kun overvågninger, der koster point.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:397
+js-trust-note-nmea-no-match = Ingen NMEA-positionsbestemmelse kunne knyttes til en epoke ud fra tid.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:396
+js-trust-note-nmea-skipped = { $count } NMEA-sætning(er) med forkert kontrolsum eller forkerte felter blev sprunget over.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:359
+js-trust-note-skipped-epochs = { $count } epoke(r) uden et numerisk t_s blev sprunget over.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:402
+js-trust-note-truth-no-match = Referencefilens tider svarer ikke til nogen epoke.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:388
+js-trust-note-unknown-state = { $count } epoke(r) har en tilstand, denne side ikke kender ({ $states }); de tegnes som kalibrerende, aldrig vurderet.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:697
+js-trust-offset-at = Ved { $time } er den position, modtageren rapporterer, { $m } m fra, hvor fartøjet i virkeligheden var (syntetisk reference).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:698
+js-trust-offset-no-truth = Ingen reel position på dette tidspunkt.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:81
+js-trust-opened = Åbnede { $count } epoker ({ $source }).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:233
+js-trust-opening-demo = Åbner den syntetiske demo…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:121
+js-trust-opening-demo-log = Åbner den syntetiske demolog…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:180
+js-trust-opening-example = Åbner det illustrative eksempel…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:244
+js-trust-opening-geo-demo = Åbner demoen med maskeret himmel…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:781
+js-trust-pause = Pause
+
+# 2026-10-01-studio-rebuild/trust/trust.js:786
+js-trust-play = Afspil
+
+# 2026-10-01-studio-rebuild/trust/trust.js:90
+js-trust-reading = Læser…
+
+# 2026-10-01-studio-rebuild/trust/trust.js:710
+js-trust-reasons-calibrating = Kalibrerer: de første sekunder danner baseline og vurderes aldrig.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:724
+js-trust-reasons-class-note = Hvert fradrag har motorens klasse: geometri (himlen), omgivelser (signalet) eller inkonsistens (angrebslignende)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:731
+js-trust-reasons-live-unknown = Hvilke overvågninger der kørte, angives ikke i en levende strøm; en kontrol, der mangler her, er måske ikke kørt.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:726
+js-trust-reasons-marked-none = markeret; intet fradrag her
+
+# 2026-10-01-studio-rebuild/trust/trust.js:711
+js-trust-reasons-no-score = Ingen score ved denne epoke.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:711
+js-trust-reasons-no-score-note = Ingen score ved denne epoke: { $note }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:730
+js-trust-reasons-not-run = Ikke kørt (ikke en beståelse)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:712
+js-trust-reasons-nothing = Der blev ikke trukket noget fra ved denne epoke. Det er ikke belæg for, at positionsbestemmelsen er god: se, hvad kontrollerne ikke kan se, nedenfor.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:720
+js-trust-reasons-pts = { $points } point
+
+# 2026-10-01-studio-rebuild/trust/trust.js:729
+js-trust-reasons-ran-free = Kørt, kostede intet
+
+# 2026-10-01-studio-rebuild/trust/trust.js:720
+js-trust-reasons-ratio = forhold { $ratio }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:717
+js-trust-reasons-row-title = { $name }: { $text } Klik for at markere, hvor den lå over sin begyndelse.
+
+js-trust-reasons-weight = vægt { $weight }
+
+js-trust-reduced-motion = Reduceret bevægelse foretrækkes, så genafspilningen starter ved 1x. Brug skyderen eller piletasterne til at flytte uden animation.
+
+js-trust-say-gate = gate { $gate }
+
+js-trust-say-gate-derived = gate { $gate } (afledt)
+
+js-trust-say-monitor-points = { $monitor } { $points } point
+
+js-trust-say-position-from-true = rapporteret position { $m } m fra den sande
+
+js-trust-say-reasons = årsager: { $list }
+
+js-trust-say-score = score { $score }
+
+js-trust-scored-label =
+    Vurderede { $count ->
+        [one] { $count } epoke
+       *[other] { $count } epoker
+    } af { $name } med motoren { $version }, i denne browser.
+
+js-trust-scored-summary =
+    Vurderede { $count ->
+        [one] { $count } epoke
+       *[other] { $count } epoker
+    } med motoren { $version }: { $summary }. Kun vejledende.
+
+js-trust-scoring = Starter motoren og vurderer…
+
+js-trust-self-code-meaning = { $code }: { $meaning }
+
+js-trust-self-none-at-time = Loggen indeholder intet modtagerflag på dette tidspunkt.
+
+js-trust-self-not-in-log = ikke i loggen
+
+js-trust-self-row-flags = Modtagerens flag
+
+js-trust-self-row-jamming = Modtagerens jamming-tilstand
+
+js-trust-self-row-kshana-alarms = En Kshana-overvågning giver alarm
+
+js-trust-self-row-spoofing = Modtagerens spoofing-tilstand
+
+js-trust-self-unknown-agreement = en overensstemmelse, som denne side ikke kender ({ $odd })
+
+js-trust-self-yes-state-2 = ja (tilstand 2 eller højere)
+
+js-trust-set-degraded-edge = den forringede grænse
+
+js-trust-set-degraded-min = forringet ved og over
+
+js-trust-set-epochs = Epoker
+
+js-trust-set-epochs-counts = { $total } i alt: { $calibrating } kalibrerer, { $nominal } nominelle, { $degraded } forringede, { $untrusted } upålidelige.
+
+js-trust-set-epochs-counts-class = { $total } i alt: { $calibrating } kalibrerer, { $nominal } nominelle, { $degraded } forringede, { $untrusted } upålidelige. Efter fradragsklasse: geometri { $geometry }, omgivelser { $environment }, inkonsistens { $inconsistency }.
+
+js-trust-set-evidence-hold = evidenshold, s
+
+js-trust-set-full-ratio = fuld vægt ved forholdet
+
+js-trust-set-geo-counts = Himmel: { $good } god, { $degraded } forringet, { $unknown } ukendt. Etiket: { $lgood } god, { $fair } middel, { $poor } dårlig (kun dårlig koster point). Epoker med et fradrag af klassen geometri { $geometry }, omgivelser { $environment }, inkonsistens { $inconsistency }.
+
+js-trust-set-geo-counts-odd = Himmel: { $good } god, { $degraded } forringet, { $unknown } ukendt ({ $odd } med en værdi, som denne side ikke kender, læst som ukendt). Etiket: { $lgood } god, { $fair } middel, { $poor } dårlig (kun dårlig koster point). Epoker med et fradrag af klassen geometri { $geometry }, omgivelser { $environment }, inkonsistens { $inconsistency }.
+
+js-trust-set-geometry = Geometri (indstillinger i [geometry])
+
+js-trust-set-gloss = Hvad hver kontrol ser på
+
+js-trust-set-live-geometry = En levende strøm angiver ikke geometritærsklerne; de dokumenterede standardværdier gælder (dårlig over HDOP 4 eller PDOP 6, eller under 5 satellitter; højst 15 point, aldrig under det forringede bånd).
+
+js-trust-set-no-geometry = Denne kørsel indeholder ingen geometri: den stammer fra en motor før 0.36 eller fra trust.csv. Intet om himlen vises, og intet vises som godt.
+
+js-trust-set-nominal-min = nominel ved og over
+
+js-trust-set-onset-ratio = koster point fra forholdet
+
+js-trust-set-provenance = Hvor tærsklerne kommer fra, og hvordan fradrag klassificeres
+
+js-trust-set-ran = Kontroller, der kørte
+
+js-trust-set-weights = Vægt af hver kontrol, point
+
+js-trust-settings-assumed = Denne strøm angiver ikke sin scoremodel. De viste bånd-grænser er de dokumenterede standardværdier, antaget.
+
+js-trust-show-in-replay = Vis denne kørsel i genafspilningen nedenfor (spor, score, modtagerens eget flag)
+
+js-trust-sky-no-gsv = ingen GSV
+
+js-trust-sky-none = Ingen himmel: åbn NMEA-loggen sammen med kørslen (eller en demo) for at se de satellitter, den angiver.
+
+js-trust-span-title = { $what }, { $from } til { $to }
+
+js-trust-state-0 = ukendt eller ikke aktiveret
+
+js-trust-state-1 = ingen angivet
+
+js-trust-state-2 = angivet
+
+js-trust-state-3 = flere angivelser eller bekræftet
+
+js-trust-strip-band = bånd
+
+js-trust-strip-class = klasse
+
+js-trust-strip-gate = gate
+
+js-trust-strip-marked = markeret
+
+js-trust-strip-receiver = modtager
+
+js-trust-strip-sky = himmel
+
+js-trust-strips-none = Ingen overvågningsforhold i denne fil.
+
+js-trust-strips-note-ran = forholdet mellem teststatistik og tærskel; den stiplede linje er alarmen ved 1
+
+js-trust-strips-note-seen = kun overvågninger, der er set koste point; forhold over tærskel
+
+js-trust-sum-both-flag = Begge markerer
+
+js-trust-sum-epochs-compared = Sammenlignede epoker (efter kalibrering)
+
+js-trust-sum-first-kshana = Første Kshana-alarm blandt disse epoker
+
+js-trust-sum-first-receiver = Første modtagerflag
+
+js-trust-sum-jamming-flag = Modtagerens jamming-flag (tilstand 2+)
+
+js-trust-sum-neither = Ingen af dem
+
+js-trust-sum-only-kshana = Kun Kshana giver alarm
+
+js-trust-sum-only-receiver = Kun modtageren markerer
+
+js-trust-sum-spoofing-flag = Modtagerens spoofing-flag (tilstand 2+)
+
+js-trust-thr-azimuth-gap = azimuthul i grader, ved og over hvilket himlen er delvist blokeret
+
+js-trust-thr-cap-in-force = flest point, geometrifradraget tager i denne kørsel
+
+js-trust-thr-cap-points = flest point, geometrifradraget må tage
+
+js-trust-thr-floor = laveste score, geometrien alene må efterlade (tomt: det forringede bånds grænse)
+
+js-trust-thr-floor-in-force = laveste score, geometrien alene kan efterlade i denne kørsel
+
+js-trust-thr-full-ratio = forholdet, hvor geometrifradraget når sit loft
+
+js-trust-thr-hdop-good = HDOP ved og under hvilken geometrien er god
+
+js-trust-thr-hdop-max = HDOP over hvilken geometrien er dårlig
+
+js-trust-thr-hold = hvor længe himlens positioner og GSA tæller, efter de er ankommet, s
+
+js-trust-thr-low-elev = elevationen i grader, under hvilken en tabt satellit henføres til himlen
+
+js-trust-thr-min-used = færrest anvendte satellitter, før geometrien er dårlig
+
+js-trust-thr-pdop-good = PDOP ved og under hvilken geometrien er god
+
+js-trust-thr-pdop-max = PDOP over hvilken geometrien er dårlig
+
+js-trust-thr-reported-rel = det samme, som en andel af den afledte HDOP
+
+js-trust-thr-reported-tol = forskel mellem angivet og afledt HDOP, før de to er uenige
+
+js-trust-thr-sigma-uere = den brugerækvivalente afstandsfejl, tærsklerne forudsætter, meter
+
+js-trust-thr-used-good = anvendte satellitter ved og over hvilket geometrien er god
+
+js-trust-track-desc =
+    Spor af { $positions ->
+        [one] { $positions } rapporteret position
+       *[other] { $positions } rapporterede positioner
+    }, nord opad. { $untrusted ->
+        [one] { $untrusted } epoke er upålidelig.
+       *[other] { $untrusted } epoker er upålidelige.
+    }
+
+js-trust-track-desc-none = Intet spor: filerne indeholder ingen positioner.
+
+js-trust-track-desc-truth =
+    Spor af { $positions ->
+        [one] { $positions } rapporteret position
+       *[other] { $positions } rapporterede positioner
+    }, nord opad. { $untrusted ->
+        [one] { $untrusted } epoke er upålidelig.
+       *[other] { $untrusted } epoker er upålidelige.
+    } En tynd grå linje viser det sande spor.
+
+js-trust-track-end = slut
+
+js-trust-track-no-positions = Ingen positioner i de åbnede filer
+
+js-trust-track-note = Nord opad, samme skala på begge akser. Linjen er, hvor modtageren sagde, at fartøjet var, farvet efter hver epokes tillidsbånd.
+
+js-trust-track-note-none = Denne fil indeholder ingen positioner. Tilføj den NMEA-log, kørslen stammer fra (eller en v1.1-strøm med en position), for at tegne sporet.
+
+js-trust-track-start = start
+
+js-trust-unknown-agreement = en overensstemmelse, som denne side ikke kender
+
+js-trust-yes = ja

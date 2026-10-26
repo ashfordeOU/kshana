@@ -2218,3 +2218,718 @@ js-app-player-pause-orbit = Peata orbiidi kordus
 
 # 2026-10-01-studio-rebuild/app.js:1276
 js-app-player-pause-waterfall = Peata juga-diagrammi kordus
+
+# 2026-10-01-studio-rebuild/app.js:1279
+js-app-player-play = Esita kordus
+
+# 2026-10-01-studio-rebuild/app.js:1278
+js-app-player-play-mission = Esita missiooni kordus
+
+# 2026-10-01-studio-rebuild/app.js:1277
+js-app-player-play-orbit = Esita orbiidi kordus
+
+# 2026-10-01-studio-rebuild/app.js:1276
+js-app-player-play-waterfall = Esita juga-diagrammi kordus
+
+# 2026-10-01-studio-rebuild/app.js:1279
+js-app-player-position = Asukoht korduses
+
+# 2026-10-01-studio-rebuild/app.js:1278
+js-app-player-position-mission = Asukoht missiooni korduses
+
+# 2026-10-01-studio-rebuild/app.js:1277
+js-app-player-position-orbit = Asukoht orbiidi korduses
+
+# 2026-10-01-studio-rebuild/app.js:1276
+js-app-player-position-waterfall = Asukoht juga-diagrammi korduses
+
+# 2026-10-01-studio-rebuild/app.js:691
+js-app-png-button-title = Kõrglahutusega rasterpilt slaidide ja dokumentide jaoks
+
+# 2026-10-01-studio-rebuild/app.js:695
+js-app-png-export-failed = PNG eksport ebaõnnestus: { $reason }
+
+# 2026-10-01-studio-rebuild/app.js:2064
+js-app-py-note = Paigalda käsuga { $command }.
+
+# 2026-10-01-studio-rebuild/app.js:279
+js-app-ran-locally = Käivitatud kohalikult kell { $time }, käik { $n }.
+
+# 2026-10-01-studio-rebuild/app.js:279
+js-app-ran-locally-took = Käivitatud kohalikult kell { $time }, käik { $n }, { $took } s.
+
+# 2026-10-01-studio-rebuild/app.js:1461
+js-app-receiver-at = Vastuvõtja ajahetkel t =
+
+# 2026-10-01-studio-rebuild/app.js:356
+js-app-recorded-edit-notice = WebAssembly on sellel lehel blokeeritud, seega näitab see leht kaasasolevate stsenaariumide päris käike, mis on salvestatud mootoriga v{ $version }. Muudetud stsenaariumid, pühkimised ja uued eksportid vajavad elavat mootorit: ava kshana.dev või serveeri seda kausta kohalikult. Lähtesta taastab salvestatud stsenaariumi.
+
+# 2026-10-01-studio-rebuild/app.js:359
+js-app-recorded-intro = WebAssembly on sellel lehel blokeeritud, seega näitab see leht kaasasolevate stsenaariumide päris käike, mis on salvestatud mootoriga v{ $version }. Muutmine, pühkimised ja uued eksportid vajavad elavat mootorit aadressil kshana.dev.
+
+# 2026-10-01-studio-rebuild/app.js:335
+js-app-recorded-shown-native = Salvestatud käik näidatud kell { $time } (natiivne mootor).
+
+# 2026-10-01-studio-rebuild/app.js:307
+js-app-recorded-shown-needs = Salvestatud käik näidatud kell { $time } (vajab mootorit { $need }).
+
+# 2026-10-01-studio-rebuild/app.js:280
+js-app-recorded-shown-run = Salvestatud käik näidatud kell { $time }, käik { $n }.
+
+# 2026-10-01-studio-rebuild/app.js:280
+js-app-recorded-shown-took = Salvestatud käik näidatud kell { $time }, käik { $n }, { $took } s.
+
+# 2026-10-01-studio-rebuild/app.js:303
+js-app-recorded-with-commit = See, mida näed, on käik, mis salvestati mootori järguga commit { $commit } ja mida näidatakse muutmata kujul; see ei käivitu siin uuesti.
+
+# 2026-10-01-studio-rebuild/app.js:303
+js-app-recorded-with-engine = See, mida näed, on käik, mis salvestati mootoriga v{ $version } ja mida näidatakse muutmata kujul; see ei käivitu siin uuesti.
+
+# 2026-10-01-studio-rebuild/app.js:1666
+js-app-recording-edited-warning = Oled stsenaariumi muutnud: see salvestus pärineb kaasasolevast failist, mitte sinu muudatusest. Oma tulemuse saamiseks käivita käsk oma failil.
+
+# 2026-10-01-studio-rebuild/app.js:1409
+js-app-replay = Kordus
+
+# 2026-10-01-studio-rebuild/app.js:1263
+js-app-report-downloaded = Aruanne allalaaditud.
+
+# 2026-10-01-studio-rebuild/app.js:1706
+js-app-report-frame-title = Käigu aruanne, mille mootor kirjutas
+
+# 2026-10-01-studio-rebuild/app.js:1708
+js-app-report-html = Aruanne (HTML)
+
+# 2026-10-01-studio-rebuild/app.js:1708
+js-app-report-html-title = Aruandefail sellisena, nagu mootor selle kirjutas
+
+# 2026-10-01-studio-rebuild/app.js:1703
+js-app-report-load-failed = Salvestatud aruannet ei õnnestunud laadida ({ $reason }).
+
+# 2026-10-01-studio-rebuild/app.js:1698
+js-app-report-loading = Salvestatud aruande laadimine…
+
+# 2026-10-01-studio-rebuild/app.js:1703
+js-app-report-none = Sellel stsenaariumil pole salvestatud aruannet.
+
+# 2026-10-01-studio-rebuild/app.js:1695
+js-app-report-note = Iga käsurea käik kirjutab aruande: kokkuvõtte, sisendid, tulemused, graafiku, mis on kontrollitud ja mis modelleeritud, ning reprodutseeritavuse kirje. Brauseriversioonis seda kirjutajat pole, seega on see aruanne, mille natiivne käsurea mootor kaasasolevale stsenaariumile kirjutas. Studio enda aruanne ekraanil oleva käigu kohta asub jaotises Eksport.
+
+# 2026-10-01-studio-rebuild/app.js:1709
+js-app-report-open-tab = Ava uuel vahekaardil
+
+# 2026-10-01-studio-rebuild/app.js:1709
+js-app-report-open-tab-title = Ava aruanne eraldi
+
+# 2026-10-01-studio-rebuild/app.js:1248
+js-app-report-orbit-title = Orbiit (Maa-keskne inertsiaalne, ortograafiline)
+
+# 2026-10-01-studio-rebuild/app.js:1244
+js-app-report-stability-short = Kella stabiilsus
+
+# 2026-10-01-studio-rebuild/app.js:1244
+js-app-report-stability-title = Kella stabiilsus (Alani hälve)
+
+# 2026-10-01-studio-rebuild/app.js:2329
+js-app-run-again = Käivita uuesti
+
+# 2026-10-01-studio-rebuild/app.js:250
+js-app-run-cancelled = Käik tühistatud.
+
+# 2026-10-01-studio-rebuild/app.js:250
+js-app-run-cancelled-previous = Käik tühistatud. Eelmine tulemus on endiselt näidatud.
+
+# 2026-10-01-studio-rebuild/app.js:254
+js-app-run-failed = Käik ebaõnnestus. Vaata teadet tulemustes.
+
+# 2026-10-01-studio-rebuild/app.js:2325
+js-app-run-when-ready = Käivita, kui mootor on valmis
+
+# 2026-10-01-studio-rebuild/app.js:2325
+js-app-run-will-run = Käivitub, kui mootor on valmis
+
+# 2026-10-01-studio-rebuild/app.js:2331
+js-app-run-with-settings = Käivita nende seadetega
+
+# 2026-10-01-studio-rebuild/app.js:2548
+js-app-search-more-matches =
+    { $n ->
+        [one] { $n } sobivus veel: kitsendamiseks lisa sõna.
+       *[other] { $n } sobivust veel: kitsendamiseks lisa sõna.
+    }
+
+# 2026-10-01-studio-rebuild/app.js:2550
+js-app-search-nothing = Päringule „{ $query }“ ei sobi miski. Proovi sõna nagu segamine, kell, Kuu, orbiit, mask või PDOP.
+
+# 2026-10-01-studio-rebuild/app.js:2544
+js-app-search-scenarios = Stsenaariumid ({ $n })
+
+# 2026-10-01-studio-rebuild/app.js:2546
+js-app-search-settings =
+    { $n ->
+        [one] Päringule „{ $query }“ sarnase nimega seaded: { $n } stsenaariumis
+       *[other] Päringule „{ $query }“ sarnase nimega seaded: { $n } stsenaariumis
+    }
+
+# 2026-10-01-studio-rebuild/app.js:2546
+js-app-search-settings-hint = Igaüks avab stsenaariumi selle seade esiletõstetuna, muutmiseks valmis.
+
+# 2026-10-01-studio-rebuild/app.js:2133
+js-app-share-copied = Jagamislink kopeeritud. See sisaldab täpset stsenaariumi.
+
+# 2026-10-01-studio-rebuild/app.js:2134
+js-app-share-in-address-bar = Link on paigutatud aadressiribale.
+
+# 2026-10-01-studio-rebuild/app.js:1971
+js-app-share-link-sub = See käivitub täpselt sellisena, nagu seda jagati.
+
+# 2026-10-01-studio-rebuild/app.js:1970
+js-app-share-link-title = Jagamislingilt avatud stsenaarium
+
+# 2026-10-01-studio-rebuild/app.js:269
+js-app-shared-scenario = Jagatud stsenaarium
+
+# 2026-10-01-studio-rebuild/app.js:1665
+js-app-shown-unchanged = Näidatud muutmata kujul.
+
+# 2026-10-01-studio-rebuild/app.js:1525
+js-app-solar-note = Iga punkt on keha käigu epohhil ja iga kõver on orbiidi jälg, mille mootor selle jaoks arvutas. Katkendjoon on link, mida stsenaarium nõuab. Vali planeet, et näha tema kuid selle ümber.
+
+# 2026-10-01-studio-rebuild/app.js:1521
+js-app-solar-which-bodies = Milliseid kehi joonistada
+
+# 2026-10-01-studio-rebuild/app.js:402
+js-app-source-live = Elav tulemus · mootor v{ $version }
+
+# 2026-10-01-studio-rebuild/app.js:403
+js-app-source-native = Salvestatud tulemus, natiivne mootor · v{ $version }
+
+# 2026-10-01-studio-rebuild/app.js:404
+js-app-source-recorded = Salvestatud tulemus · v{ $version }
+
+# 2026-10-01-studio-rebuild/app.js:404
+js-app-source-recorded-loading = Salvestatud tulemus · v{ $version } · mootor laaditakse
+
+# 2026-10-01-studio-rebuild/app.js:1445
+js-app-spectrum-row-note = Spekter mööda juga-diagrammi rida, mille juures kordus parajasti on.
+
+# 2026-10-01-studio-rebuild/app.js:1437
+js-app-spectrum-row-title = Spekter mööda kuvatavat rida
+
+# 2026-10-01-studio-rebuild/app.js:1436
+js-app-spectrum-which-part = Spektri milline osa
+
+# 2026-10-01-studio-rebuild/app.js:2335
+js-app-status-last-run-took = Viimane käik kestis sinu brauseris { $ms } ms. Midagi ei laadita üles.
+
+# 2026-10-01-studio-rebuild/app.js:2327
+js-app-status-loading-kept = Mootor alles laaditakse. Sinu muudatused säilivad ja käivituvad, niipea kui mootor on valmis.
+
+# 2026-10-01-studio-rebuild/app.js:2327
+js-app-status-loading-recorded = Mootor alles laaditakse. Ülaltoodud tulemus on salvestatud käik.
+
+# 2026-10-01-studio-rebuild/app.js:2334
+js-app-status-not-run-yet = Sinu muudatusi pole veel käivitatud.
+
+# 2026-10-01-studio-rebuild/app.js:2337
+js-app-status-runs-in-browser = Töötab sinu brauseris. Midagi ei laadita üles.
+
+# 2026-10-01-studio-rebuild/app.js:2336
+js-app-status-wasm-blocked = WebAssembly on siin blokeeritud, seega näitab see kaasasolevate stsenaariumide salvestatud käike.
+
+# 2026-10-01-studio-rebuild/app.js:1890
+js-app-stepper-decrease = Vähenda: { $key }
+
+# 2026-10-01-studio-rebuild/app.js:1892
+js-app-stepper-increase = Suurenda: { $key }
+
+# 2026-10-01-studio-rebuild/app.js:1420
+js-app-subtabs-label = Selle vaate paanid (telefon)
+
+# 2026-10-01-studio-rebuild/app.js:690
+js-app-svg-button-title = Vektorgraafik pealkirja ja päritoluga
+
+# 2026-10-01-studio-rebuild/app.js:1093
+js-app-sweep-cancelled = Pühkimine tühistatud.
+
+# 2026-10-01-studio-rebuild/app.js:1107
+js-app-sweep-done-1d =
+    { $done ->
+        [one] Pühiti { $done } käik { $total }-st kohalikult ajaga { $duration }.
+       *[other] Pühiti { $done } käiku { $total }-st kohalikult ajaga { $duration }.
+    }
+
+# 2026-10-01-studio-rebuild/app.js:1112
+js-app-sweep-done-2d =
+    { $total ->
+        [one] Pühiti { $total } käik ({ $a } × { $b }) kohalikult ajaga { $duration }.
+       *[other] Pühiti { $total } käiku ({ $a } × { $b }) kohalikult ajaga { $duration }.
+    }
+
+# 2026-10-01-studio-rebuild/app.js:1063
+js-app-sweep-enter-range = Sisesta arvuvahemik.
+
+# 2026-10-01-studio-rebuild/app.js:1067
+js-app-sweep-enter-range-2 = Sisesta teise parameetri arvuvahemik.
+
+# 2026-10-01-studio-rebuild/app.js:1093
+js-app-sweep-failed = Pühkimine ebaõnnestus: { $reason }
+
+# 2026-10-01-studio-rebuild/app.js:1091
+js-app-sweep-interrupted = Pühkimise katkestas uus käik.
+
+# 2026-10-01-studio-rebuild/app.js:1020
+js-app-sweep-needs-live = Pühkimine käivitab mootori palju kordi, seega vajab see elavat mootorit.
+
+# 2026-10-01-studio-rebuild/app.js:1016
+js-app-sweep-none-line = Puudub (joongraafik)
+
+# 2026-10-01-studio-rebuild/app.js:1060
+js-app-sweep-nothing = Sellele stsenaariumile pole midagi pühkida.
+
+# 2026-10-01-studio-rebuild/app.js:1082
+js-app-sweep-progress = Pühitakse käiku { $n } { $total }-st…
+
+# 2026-10-01-studio-rebuild/app.js:1116
+js-app-sweep-status-done =
+    { $total ->
+        [one] Pühiti { $total } käik kell { $time }.
+       *[other] Pühiti { $total } käiku kell { $time }.
+    }
+
+# 2026-10-01-studio-rebuild/app.js:1103
+js-app-sweep-title-1d = { $metric } sõltuvalt suurusest { $knob }
+
+# 2026-10-01-studio-rebuild/app.js:1109
+js-app-sweep-title-2d = { $metric }: { $knob1 } ja { $knob2 } kohta
+
+# 2026-10-01-studio-rebuild/app.js:1055
+js-app-sweep-wait = Oota, kuni praegune käik lõpeb, ja pühi siis.
+
+# 2026-10-01-studio-rebuild/app.js:534
+js-app-tab-animation = Animatsioon
+
+# 2026-10-01-studio-rebuild/app.js:533
+js-app-tab-compare = Võrdlus
+
+# 2026-10-01-studio-rebuild/app.js:536
+js-app-tab-exports = Eksport ja aruanne
+
+# 2026-10-01-studio-rebuild/app.js:531
+js-app-tab-ground = Maapealne jälg
+
+# 2026-10-01-studio-rebuild/app.js:527
+js-app-tab-holdover = Holdover
+
+# 2026-10-01-studio-rebuild/app.js:537
+js-app-tab-json = JSON
+
+# 2026-10-01-studio-rebuild/app.js:528
+js-app-tab-masks = Ajastusmaskid
+
+# 2026-10-01-studio-rebuild/app.js:530
+js-app-tab-orbit = 3D-orbiit
+
+# 2026-10-01-studio-rebuild/app.js:522
+js-app-tab-overview = Ülevaade
+
+# 2026-10-01-studio-rebuild/app.js:535
+js-app-tab-report = Mootori aruanne
+
+# 2026-10-01-studio-rebuild/app.js:526
+js-app-tab-signal = Signaal ja riba
+
+# 2026-10-01-studio-rebuild/app.js:529
+js-app-tab-stability = Stabiilsus
+
+# 2026-10-01-studio-rebuild/app.js:532
+js-app-tab-sweep = Pühkimine
+
+# 2026-10-01-studio-rebuild/app.js:525
+js-app-tab-timeseries = Aegrida
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-at-tau = Kohal τ või aeg
+
+# 2026-10-01-studio-rebuild/app.js:1534
+js-app-th-body = Keha
+
+# 2026-10-01-studio-rebuild/app.js:461
+js-app-th-clock = Kell
+
+# 2026-10-01-studio-rebuild/app.js:484
+js-app-th-figure = Näitaja
+
+# 2026-10-01-studio-rebuild/app.js:1733
+js-app-th-file = Fail
+
+# 2026-10-01-studio-rebuild/app.js:1733
+js-app-th-format = Vorming
+
+# 2026-10-01-studio-rebuild/app.js:2604
+js-app-th-key-figure = Põhinäitaja
+
+# 2026-10-01-studio-rebuild/app.js:1534
+js-app-th-light-time = Ühesuunaline valgusaeg: { $observer }
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-limit = Piir
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-margin = Varu
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-mask-or-budget = Mask või eelarve
+
+# 2026-10-01-studio-rebuild/app.js:461
+js-app-th-metric = Mõõdik
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-metric-2 = Mõõdik
+
+# 2026-10-01-studio-rebuild/app.js:1534
+js-app-th-orbital-period = Tiirlemisperiood
+
+# 2026-10-01-studio-rebuild/app.js:484
+js-app-th-provenance = Päritolu
+
+# 2026-10-01-studio-rebuild/app.js:1733
+js-app-th-size = Suurus
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-source = Allikas
+
+# 2026-10-01-studio-rebuild/app.js:1534
+js-app-th-sun-distance = Kaugus Päikesest
+
+# 2026-10-01-studio-rebuild/app.js:461
+js-app-th-tier = Tase
+
+# 2026-10-01-studio-rebuild/app.js:484
+js-app-th-unit = Ühik
+
+# 2026-10-01-studio-rebuild/app.js:461
+js-app-th-value = Väärtus
+
+# 2026-10-01-studio-rebuild/app.js:484
+js-app-th-value-2 = Väärtus
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-value-3 = Väärtus
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-verdict = Otsus
+
+# 2026-10-01-studio-rebuild/app.js:484
+js-app-th-what-it-is = Mis see on
+
+# 2026-10-01-studio-rebuild/app.js:1548
+js-app-the-body = keha
+
+# 2026-10-01-studio-rebuild/app.js:1623
+js-app-the-chain = Ahel
+
+# 2026-10-01-studio-rebuild/app.js:1534
+js-app-the-observer = vaatleja
+
+# 2026-10-01-studio-rebuild/app.js:2452
+js-app-tile-browse-all =
+    { $n ->
+        [one] Sirvi { $n } stsenaariumi
+       *[other] Sirvi kõiki { $n } stsenaariumi
+    }
+
+# 2026-10-01-studio-rebuild/app.js:2452
+js-app-tile-browse-sub = Otsi nime, küsimuse või seade järgi
+
+# 2026-10-01-studio-rebuild/app.js:2450
+js-app-tile-preview-label = Salvestatud eelvaade allikast { $source }: { $title }
+
+# 2026-10-01-studio-rebuild/app.js:2451
+js-app-tile-scenario-count =
+    { $n ->
+        [one] { $n } stsenaarium
+       *[other] { $n } stsenaariumi
+    }
+
+# 2026-10-01-studio-rebuild/app.js:1633
+js-app-timeline-chart-title = Missiooni ajajoon: { $title }
+
+# 2026-10-01-studio-rebuild/app.js:1592
+js-app-timeline-note = Üks kerija juhib kõiki allolevaid graafikuid. Iga faas käivitab tavalisi stsenaariume; kampaania loeb nende väljundid ühele ajaruudustikule. Varjutatud ribad on faasid, püstjooned sündmused. Ülaltoodud väärtused on kampaania kanalid korduse ajahetkel.
+
+# 2026-10-01-studio-rebuild/app.js:2780
+js-app-toast-copied = Kopeeritud.
+
+# 2026-10-01-studio-rebuild/app.js:2770
+js-app-toast-copy-blocked = Kopeerimine on siin blokeeritud.
+
+# 2026-10-01-studio-rebuild/app.js:2780
+js-app-toast-copy-blocked-select = Kopeerimine on siin blokeeritud: vali selle asemel tekst.
+
+# 2026-10-01-studio-rebuild/app.js:2778
+js-app-toast-json-copied = JSON kopeeritud.
+
+# 2026-10-01-studio-rebuild/app.js:2343
+js-app-toast-loading-run = Mootor alles laaditakse. Sinu käik algab, niipea kui mootor on valmis.
+
+# 2026-10-01-studio-rebuild/app.js:2905
+js-app-toast-no-scenario = Siin pole stsenaariumi nimega { $name }. Need on lähimad vasted.
+
+# 2026-10-01-studio-rebuild/app.js:2383
+js-app-toast-not-single-number = See säte pole selles stsenaariumis üksik arv: muuda seda stsenaariumifailis.
+
+# 2026-10-01-studio-rebuild/app.js:2560
+js-app-toast-one-pinned = Üks käik on kinnitatud. Muuda sätet, käivita uuesti ja kinnita see käik, et neid kahte võrrelda.
+
+# 2026-10-01-studio-rebuild/app.js:2892
+js-app-toast-opened-advanced = Avatud seadetega, mida muutsid täpsemas vaates.
+
+# 2026-10-01-studio-rebuild/app.js:2388
+js-app-toast-opened-at = Avatud kohas { $label }. Muuda seda ja käivita uuesti.
+
+# 2026-10-01-studio-rebuild/app.js:2770
+js-app-toast-scenario-copied = Stsenaarium kopeeritud.
+
+# 2026-10-01-studio-rebuild/app.js:2277
+js-app-tour-answer-body = Tulemusest loetud lihtne lause ning see, kust tulemus pärineb: elav käik sinu brauseris või sama mootoriga salvestatud käik.
+
+# 2026-10-01-studio-rebuild/app.js:2277
+js-app-tour-answer-title = Esmalt vastus
+
+# 2026-10-01-studio-rebuild/app.js:2230
+js-app-tour-back = Tagasi
+
+# 2026-10-01-studio-rebuild/app.js:2262
+js-app-tour-done = Valmis
+
+# 2026-10-01-studio-rebuild/app.js:2233
+js-app-tour-eyebrow = Juhitud tuur
+
+# 2026-10-01-studio-rebuild/app.js:2278
+js-app-tour-figures-body = Iga kaart on loetud mootori tulemusdokumendist.
+
+# 2026-10-01-studio-rebuild/app.js:2278
+js-app-tour-figures-title = Näitajad, mis sellele vastavad
+
+# 2026-10-01-studio-rebuild/app.js:2281
+js-app-tour-how-body = Meetod, tõendite tase ja viited.
+
+# 2026-10-01-studio-rebuild/app.js:2281
+js-app-tour-how-title = Kuidas see arvutatakse
+
+# 2026-10-01-studio-rebuild/app.js:2231
+js-app-tour-next = Edasi
+
+# 2026-10-01-studio-rebuild/app.js:2282
+js-app-tour-research-body = Käsurida ja Python selle ise käivitamiseks, andmed ja jooniste kujundid ning viitamise viis.
+
+# 2026-10-01-studio-rebuild/app.js:2282
+js-app-tour-research-title = Teadlastele
+
+# 2026-10-01-studio-rebuild/app.js:2283
+js-app-tour-search-body = ⌘K leiab mis tahes stsenaariumi, valdkonna, sätte, vaate või käsu.
+
+# 2026-10-01-studio-rebuild/app.js:2283
+js-app-tour-search-title = Otsing
+
+# 2026-10-01-studio-rebuild/app.js:2280
+js-app-tour-settings-body = Viis seadet, mis selle küsimuse puhul kõige rohkem loevad. Muuda üht ja käivita uuesti. Mootor töötab sinu brauseris; midagi ei laadita üles.
+
+# 2026-10-01-studio-rebuild/app.js:2280
+js-app-tour-settings-title = Proovi muid seadeid
+
+# 2026-10-01-studio-rebuild/app.js:2232
+js-app-tour-skip = Jäta vahele
+
+# 2026-10-01-studio-rebuild/app.js:2279
+js-app-tour-views-body = Graafikud, kaardid, kordused, mootori enda aruanne ja eksportid. [ ja ] liiguvad vaadete vahel.
+
+# 2026-10-01-studio-rebuild/app.js:2279
+js-app-tour-views-title = Käigu iga vaade
+
+# 2026-10-01-studio-rebuild/app.js:1472
+js-app-tracking-threshold = Jälgimislävi
+
+# 2026-10-01-studio-rebuild/app.js:1409
+js-app-transport-hint = üks kerija juhib selle käigu kõiki paneele
+
+# 2026-10-01-studio-rebuild/app.js:1408
+js-app-transport-label = Kordus: üks kerija juhib selle käigu kõiki paneele
+
+# 2026-10-01-studio-rebuild/app.js:1153
+js-app-unpin-run = Eemalda käigu { $id } kinnitus
+
+# 2026-10-01-studio-rebuild/app.js:1441
+js-app-waterfall = Juga-diagramm
+
+# 2026-10-01-studio-rebuild/app.js:1441
+js-app-waterfall-hint = võimsusspektri tihedus: sagedus risti, aeg alla
+
+# 2026-10-01-studio-rebuild/app.js:1443
+js-app-waterfall-note = Värv on võimsus üle vastuvõtja müratalla. Navigatsioonisignaalid on selle taseme all, seega süttivad segajad. Esita kordus või lohista seda ning paremal olevad ribad näitavad, mida vastuvõtja sel hetkel veel jälgib.
+
+# 2026-10-01-studio-rebuild/app.js:1491
+js-app-waterfall-title = Juga-diagramm, { $name }
+
+# 2026-10-01-studio-rebuild/app.js:124
+js-app-webassembly-unavailable = WebAssembly pole saadaval
+
+# 2026-10-01-studio-rebuild/app.js:1665
+js-app-written-by-native = Kirjutanud natiivne käsurea mootor v{ $version } ({ $platform }) käsuga
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:139
+js-cat-acm-link-question = Millist DVB-S2 režiimi link mööda iga ülelendu hoiab ja kui palju andmeid ülelend liigutab? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:139
+js-cat-acm-link-title = Satelliidi allalink adaptiivse kodeerimisega
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:141
+js-cat-aocs-slew-mekf-question = Kui kontrolleri sisendiks on asendifilter ja nihkega güro, kuidas võrdub pööre tõelise olekuga juhtumiga? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:141
+js-cat-aocs-slew-mekf-title = Pööre asendihinnangul
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:140
+js-cat-aocs-slew-question = Kas tagasisideseadus rahustab suure nurga pöörde nelja hooratta abil ja kui kõvasti hoorattad töötavad? (juhtsilmus on kontrollitud; kosmoseaparaat on illustratiivne)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:140
+js-cat-aocs-slew-title = Reaktsioonihooratta pööre
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:138
+js-cat-aperture-duty-cycle-question = Kui üks apertuur teenindab nii navigatsiooni kui ka sidet, millist katkestust see maksab? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:138
+js-cat-aperture-duty-cycle-title = Apertuuri töötsükkel
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:110
+js-cat-araim-gps-galileo-question = Kui kasutada GPS-i + Galileot ja konstellatsiooni hõlmavat rikkehüpoteesi, kui kättesaadav on täiustatud RAIM?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:110
+js-cat-araim-gps-galileo-title = Kahe konstellatsiooni ARAIM
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:111
+js-cat-araim-reference-check-question = Kas mootori kaitsetasemed langevad kokku avaldatud Working Group C läbitöötatud näidetega?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:111
+js-cat-araim-reference-check-title = ARAIM etalonkontroll
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:142
+js-cat-ascent-losses-question = Kui suure osa kaheastmelise kandja ideaalsest kiirusekasvust võtavad gravitatsioon, takistus, juhtimine ja vasturõhk? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:142
+js-cat-ascent-losses-title = Kanderaketi tõusu kaod
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:136
+js-cat-attitude-budget-question = Milline on halvima juhu häiremoment ja suunamisvea eelarve?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:136
+js-cat-attitude-budget-title = Suunamiseelarve
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:66
+js-cat-automotive-urban-canyon-question = Kas auto püsib läbi tunneli ja teeäärse segaja poole sõidurajaeelarve piires? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:66
+js-cat-automotive-urban-canyon-title = Auto läbi linnakanjoni
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:236
+js-cat-campaign-jam-spoof-holdover-integrity-question = Mis juhtub ühe vastuvõtjaga läbi segamise, spuufimise, GNSS-i kaotuse, terviklikkuse alarmi ja taastumise ühel ajajoonel? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:236
+js-cat-campaign-jam-spoof-holdover-integrity-title = Aheldatud missioon: segamine, spuufimine, holdover, alarm
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:239
+js-cat-campaign-monte-carlo-clock-holdover-question = Kas vabalt käiva kella ajaviga vastab paljudel algväärtusega käikudel oma kinnisel kujul avaldatud hajuvusele?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:239
+js-cat-campaign-monte-carlo-clock-holdover-title = Monte Carlo kella holdover
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:241
+js-cat-campaign-optimize-link-budget-question = Kus kaugus-andmekiiruse vahemikus jätab X-riba link täpselt 3 dB varu?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:241
+js-cat-campaign-optimize-link-budget-title = Lingibilansi optimeerimine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:240
+js-cat-campaign-shared-jammer-sea-road-question = Ühe segaja all: kumb platvorm kaotab oma fiksi, 30 km kaugusel olev laev või 50 km kaugusel olev auto? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:240
+js-cat-campaign-shared-jammer-sea-road-title = Üks segaja, laev ja auto
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:237
+js-cat-campaign-spectrum-holdover-integrity-question = Segaja võtab kaks L-riba signaali, kell läheb holdoverisse ja vastuvõtja langeb tagasi ainult Galileole: kas terviklikkuse seire püsib? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:237
+js-cat-campaign-spectrum-holdover-integrity-title = Spektrijuhitud missioon
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:238
+js-cat-campaign-sweep-jammer-power-question = Kui 1 km kaugusel olevat segajat kasvatatakse 10 nW-lt 10 W-ni, millal vastuvõtja fiksi kaotab? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:238
+js-cat-campaign-sweep-jammer-power-title = Segaja võimsuse pühkimine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:181
+js-cat-cislunar-arc-recovery-question = Kas sõltumatu vähimruutude hindaja taastab oleku tegelikult kaare pikkusest, mida järgutest ennustab? (modelleeritud; aeglane: umbes 15 s brauseris)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:181
+js-cat-cislunar-arc-recovery-title = Tsislunaarse kaare taastamine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:180
+js-cat-cislunar-observability-question = Kui suure osa tsislunaarse kosmoseaparaadi olekust teeb satelliitidevaheline kaar jälgitavaks?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:180
+js-cat-cislunar-observability-title = Tsislunaarne jälgitavus
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:79
+js-cat-clock-ensemble-question = Millisesse usaldusvahemikku holdover paljude müraväljatõmmete korral langeb?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:79
+js-cat-clock-ensemble-title = Kella holdoveri ansambel
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:78
+js-cat-clock-holdover-labsr-question = Kuidas laborikvaliteediga strontsiumi optiline kell holdoveris võrdub kiibimõõdus aatomkellaga?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:78
+js-cat-clock-holdover-labsr-title = Kella holdover, laboratoorne optiline kell
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:77
+js-cat-clock-holdover-question = Kui kaua suudab kell aega hoida pärast GNSS-i kadumist?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:77
+js-cat-clock-holdover-title = Kella holdover
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:97
+js-cat-combined-altpnt-question = Mida annab kolme skalaarse kaardikanali liitmine ühegi üksiku kanali ees?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:97
+js-cat-combined-altpnt-title = Kombineeritud alt-PNT
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:71
+js-cat-conflict-resilience-question = Kuidas kihiline PNT-arhitektuur halveneb segamise / spuufimise / kineetiliste / küberohtude korral? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:71
+js-cat-conflict-resilience-title = Vastupidavus konfliktis
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:191
+js-cat-constellation-multi-gnss-coverage-question = Kui neli ülemaailmset süsteemi on koos, mitu satelliiti on nähtaval ja kui hea on geomeetria igal pool Maal? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:191
+js-cat-constellation-multi-gnss-coverage-title = Neli GNSS-i konstellatsiooni, üks kaart
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:143
+js-cat-contact-schedule-question = Kolme satelliidi ja kolme jaama puhul 12 tunni jooksul: milliseid ülelende konfliktivaba plaan säilitab ja kui palju andmeid see liigutab? (modelleeritud)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:143
+js-cat-contact-schedule-title = Maajaamaga side plaan
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:31
+js-cat-domain-campaigns-label = Kampaaniad
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:51
+js-cat-domain-campaigns-line = Aheldatud missioonid, pühkimised ja Monte Carlo käigud ühel kellal.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:28
+js-cat-domain-constellations-label = Konstellatsiooni kavandamine
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:48
+js-cat-domain-constellations-line = Kavanda satelliidikonstellatsioon ning kaardista selle kate ja PDOP (positsiooni täpsuse halvenemise tegur).
