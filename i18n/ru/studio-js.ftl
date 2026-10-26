@@ -6523,3 +6523,397 @@ js-meankind-leopvt-polar-line = По { $n } { $n ->
     }.
 
 js-meankind-leopvt-timing-big = Передача времени по низкой орбите удерживает лучшие часы в пределах { $ns } ns от UTC (среднеквадратичное значение).
+
+js-meankind-leopvt-timing-line = Сравнено вариантов часов и сигнала: { $n }.
+
+js-meankind-leosignal-big =
+    { $n ->
+        [one] Из { $n } варианта сигнала { $best } выдерживает наибольшее подавление: { $db } dB выше сигнала.
+        [few] Из { $n } вариантов сигнала { $best } выдерживает наибольшее подавление: { $db } dB выше сигнала.
+        [many] Из { $n } вариантов сигнала { $best } выдерживает наибольшее подавление: { $db } dB выше сигнала.
+       *[other] Из { $n } вариантов сигнала { $best } выдерживает наибольшее подавление: { $db } dB выше сигнала.
+    }
+
+js-meankind-leosignal-line-fail = Проверки формы спектра не пройдены.
+
+js-meankind-leosignal-line-pass = Проверки формы спектра пройдены.
+
+js-meankind-link-big-closes = Линия связи замыкается с запасом { $margin } dB.
+
+js-meankind-link-big-open = Линия связи не замыкается: запас { $margin } dB.
+
+js-meankind-link-line = На дальности { $km } km.
+
+js-meankind-link-line-band = Диапазон { $band } на дальности { $km } km.
+
+js-meankind-link-line-band-rate = Диапазон { $band } на дальности { $km } km при { $rate } bit/s.
+
+js-meankind-link-line-rate = На дальности { $km } km при { $rate } bit/s.
+
+js-meankind-list-and = { $head } и { $last }
+
+js-meankind-llr-big = Реальная лазерная локация привязывает лунную систему отсчёта с точностью { $mm } mm.
+
+js-meankind-llr-line = Масштаб с точностью { $ppb } частей на миллиард.
+
+js-meankind-mapmatch-altimeter = Высотомер измеряет с точностью { $sigma } m.
+
+js-meankind-mapmatch-big = Сопоставление с картой удерживает положение с точностью { $matched } m, тогда как на одной инерциальной системе дрейф составляет { $free } m.
+
+js-meankind-mapmatch-gravimeter = Гравиметр измеряет с точностью { $sigma } mGal.
+
+js-meankind-mapmatch-sources = Только по гравитации: { $gravity } m, по магнитному полю: { $magnetic } m, по рельефу: { $terrain } m.
+
+js-meankind-marspnt-big = Навигатор ({ $user }) сходится к { $m } m (среднеквадратичное значение).
+
+js-meankind-marspnt-line =
+    { $n ->
+        [one] В зоне видимости в среднем ретрансляторов: { $mean }, за { $n } эпоху.
+        [few] В зоне видимости в среднем ретрансляторов: { $mean }, за { $n } эпохи.
+        [many] В зоне видимости в среднем ретрансляторов: { $mean }, за { $n } эпох.
+       *[other] В зоне видимости в среднем ретрансляторов: { $mean }, за { $n } эпохи.
+    }
+
+js-meankind-moonlight-big = Сервис охватывает { $share } % проверенных мест и моментов времени.
+
+js-meankind-moonlight-line =
+    { $n ->
+        [one] В зоне видимости от { $min } до { $n } спутника; качество геометрии (PDOP) лежит в пределах от { $pmin } до { $pmax }.
+        [few] В зоне видимости от { $min } до { $n } спутников; качество геометрии (PDOP) лежит в пределах от { $pmin } до { $pmax }.
+        [many] В зоне видимости от { $min } до { $n } спутников; качество геометрии (PDOP) лежит в пределах от { $pmin } до { $pmax }.
+       *[other] В зоне видимости от { $min } до { $n } спутников; качество геометрии (PDOP) лежит в пределах от { $pmin } до { $pmax }.
+    }
+
+js-meankind-navmsg-big =
+    { $n ->
+        [one] Одно навигационное сообщение укладывается в { $n } байт.
+        [few] Одно навигационное сообщение укладывается в { $n } байта.
+        [many] Одно навигационное сообщение укладывается в { $n } байт.
+       *[other] Одно навигационное сообщение укладывается в { $n } байта.
+    }
+
+js-meankind-navmsg-cases-big =
+    { $n ->
+        [one] По { $n } варианту ошибка дальности по орбите вещания составляет от { $min } до { $max } mm.
+        [few] По { $n } вариантам ошибка дальности по орбите вещания составляет от { $min } до { $max } mm.
+        [many] По { $n } вариантам ошибка дальности по орбите вещания составляет от { $min } до { $max } mm.
+       *[other] По { $n } вариантам ошибка дальности по орбите вещания составляет от { $min } до { $max } mm.
+    }
+
+js-meankind-navmsg-cases-line = Ошибка дальности для сигнала в пространстве, среднеквадратичное значение.
+
+js-meankind-navmsg-line = Округление до формата сообщения даёт ошибку дальности { $mm } mm.
+
+js-meankind-navmsg-midpass-big = Обновление сообщения в середине пролёта вызывает скачок дальности не более чем на { $mm } mm.
+
+js-meankind-navmsg-midpass-line = Предел составляет { $mm } mm.
+
+js-meankind-ntn-big = Позиционирование 5G с орбиты достигает { $m } m (сигнал: { $signal }).
+
+js-meankind-ntn-line = Доплер за один пролёт даёт { $m } m.
+
+js-meankind-obs-big-full = Орбита становится полностью наблюдаемой после { $dur } слежения.
+
+js-meankind-obs-big-partly = Орбита остаётся наблюдаемой частично на дуге в { $h } h.
+
+js-meankind-obs-line = Ранг { $rank } из { $dim } в конце дуги.
+
+js-meankind-oem-big = Файл эфемерид при записи и обратном чтении даёт ошибку положения не более { $mm } mm.
+
+js-meankind-oem-line = Состояний: { $states }, сегментов: { $n }.
+
+js-meankind-optical-big-alone = Лучший одиночный пункт удерживает оптическую линию { $best } % времени (потолок при безоблачном небе { $ceiling } %); никакой запас по безоблачности не поднимает её выше { $ceiling } %.
+
+js-meankind-optical-big-team = Лучший одиночный пункт удерживает оптическую линию { $best } % времени (потолок при безоблачном небе { $ceiling } %); вместе пункты ({ $n }) достигают { $independent } %, если их погода независима, и { $correlated } % при заявленной корреляции.
+
+js-meankind-optical-line-sites = Смоделировано пунктов: { $n }; климаты облачности иллюстративные.
+
+js-meankind-optical-line-tech = { $name }: { $base } % становится { $with } %.
+
+js-meankind-opticalrf-big = Совместная оптическая и радиодальнометрия даёт уровни защиты { $h } m по горизонтали и { $v } m по вертикали.
+
+js-meankind-opticalrf-line-fault = Проверка согласованности показывает { $stat } при пороге { $threshold }: неисправность отмечена.
+
+js-meankind-opticalrf-line-ok = Проверка согласованности показывает { $stat } при пороге { $threshold }: неисправность не отмечена.
+
+js-meankind-packet-big-no = Нет: декодированный поток отличается от отправленного.
+
+js-meankind-packet-big-yes = Да: поток пакетов декодируется обратно бит в бит.
+
+js-meankind-packet-line = Пакетов: { $n }, всего октетов: { $octets }.
+
+js-meankind-passes-big-day = Пролётов в сутки: { $n }, суммарное время связи { $dur }.
+
+js-meankind-passes-big-window = Пролётов за окно в { $hours } h: { $n }, суммарное время связи { $dur }.
+
+js-meankind-passes-line = Лучший пролёт поднимается до { $deg }°.
+
+js-meankind-percentile-word = перцентиль
+
+js-meankind-pnt-big = Квантовый комплект удерживает положение и время { $q }; классический комплект — { $c }.
+
+js-meankind-pnt-classical-label = Holdover, классический комплект
+
+js-meankind-pnt-line = Holdover — это время, в течение которого каждый комплект (часы { $q } против часов { $c }) остаётся в пределах { $spec } после потери спутниковой навигации.
+
+js-meankind-pnt-quantum-label = Holdover, квантовый комплект
+
+js-meankind-pnt-timing-classical-label = Ошибка времени, 95 %, классический
+
+js-meankind-pnt-timing-quantum-label = Ошибка времени, 95 %, квантовый
+
+js-meankind-pvt-big =
+    { $n ->
+        [one] Положение решено в { $solved } из { $n } эпохи, с точностью { $rms } m (3-D RMS).
+        [few] Положение решено в { $solved } из { $n } эпох, с точностью { $rms } m (3-D RMS).
+        [many] Положение решено в { $solved } из { $n } эпох, с точностью { $rms } m (3-D RMS).
+       *[other] Положение решено в { $solved } из { $n } эпох, с точностью { $rms } m (3-D RMS).
+    }
+
+js-meankind-pvt-line = В среднем спутников: { $mean }; по реальным измерениям приёмника.
+
+js-meankind-qnav-big = После перерыва ошибка навигатора на холодных атомах составляет { $q } m, навигатора навигационного класса — { $c } m.
+
+js-meankind-qnav-big-outage = После { $dur } без спутников ошибка навигатора на холодных атомах составляет { $q } m, навигатора навигационного класса — { $c } m.
+
+js-meankind-qnav-line = В пределах бюджета: { $q } против { $c }.
+
+js-meankind-qnav-line-threshold = В пределах { $threshold } m: { $q } против { $c }.
+
+js-meankind-qtt-big = Квантовая передача времени удерживает { $q } ps (1 сигма) против { $c } ns для классической цепочки.
+
+js-meankind-qtt-line = Монитор безопасности обнаруживает { $pd } % атак.
+
+js-meankind-qtt-line-pfa = Монитор безопасности обнаруживает { $pd } % атак при частоте ложных тревог { $pfa }.
+
+js-meankind-quantum-link = квантовая линия
+
+js-meankind-radiometry-big = Камера достигает NIIRS { $niirs } при расстоянии между центрами пикселей на местности { $gsd } m и отношении сигнал/шум { $snr }.
+
+js-meankind-radiometry-line = Системная MTF на частоте Найквиста { $mtf }.
+
+js-meankind-reentry-big = Пиковое замедление составляет { $g } g на высоте { $km } km.
+
+js-meankind-reentry-line = Скорость аппарата при этом { $speed } m/s.
+
+js-meankind-slam-big = Сопоставление с рельефом заканчивается с ошибкой { $matched } m, тогда как на одной инерциальной системе она составляет { $free } m.
+
+js-meankind-slam-line =
+    { $n ->
+        [one] По { $n } путевой точке, сопоставление с картой рельефа при шуме высотомера { $sigma } m.
+        [few] По { $n } путевым точкам, сопоставление с картой рельефа при шуме высотомера { $sigma } m.
+        [many] По { $n } путевым точкам, сопоставление с картой рельефа при шуме высотомера { $sigma } m.
+       *[other] По { $n } путевым точкам, сопоставление с картой рельефа при шуме высотомера { $sigma } m.
+    }
+
+js-meankind-slot-big = Часы выходят за защитный интервал слота через { $dur } после последней спутниковой привязки.
+
+js-meankind-slot-line = Поэтому привязка нужна каждые { $interval }, примерно { $perDay } в сутки.
+
+js-meankind-solar-big = Небесных тел, размещённых на одну эпоху: { $n }.
+
+js-meankind-solar-big-link = Небесных тел, размещённых на одну эпоху: { $n }; свет идёт { $dur } от { $from } до { $to }.
+
+js-meankind-solar-line = Всего линий связи с измеренным временем: { $n }.
+
+js-meankind-spoof-caught = Спуфинг обнаруживается раньше, чем нарушается спецификация синхронизации.
+
+js-meankind-spoof-caught-both = Спуфинг обнаруживается обоими часами раньше, чем нарушается спецификация синхронизации.
+
+js-meankind-spoof-caught-label = Время обнаружения, { $name }
+
+js-meankind-spoof-caught-thr = Спуфинг обнаруживается раньше, чем нарушается спецификация синхронизации в { $thr } ns.
+
+js-meankind-spoof-caught-thr-both = Спуфинг обнаруживается обоими часами раньше, чем нарушается спецификация синхронизации в { $thr } ns.
+
+js-meankind-spoof-detects = { $name } обнаруживает его через { $dur } при смещении { $offset } ns.
+
+js-meankind-spoof-missed =
+    { $n ->
+        [one] Спуфинг нарушает спецификацию синхронизации раньше, чем его обнаруживает: { $names }.
+        [few] Спуфинг нарушает спецификацию синхронизации раньше, чем его обнаруживает: { $names }.
+        [many] Спуфинг нарушает спецификацию синхронизации раньше, чем его обнаруживает: { $names }.
+       *[other] Спуфинг нарушает спецификацию синхронизации раньше, чем его обнаруживает: { $names }.
+    }
+
+js-meankind-spoof-offset = смещение { $offset } ns
+
+js-meankind-spoofdetect-big-by = Да: спуфинг обнаружен ({ $by }).
+
+js-meankind-spoofdetect-big-no = Нет: объединённый монитор не обнаруживает спуфинг.
+
+js-meankind-spoofdetect-big-yes = Да: спуфинг обнаружен.
+
+js-meankind-spoofdetect-line = Слоёв обнаружения, подающих сигнал тревоги: { $on } из { $n }.
+
+js-meankind-spoofdetect-line-score = Слоёв обнаружения, подающих сигнал тревоги: { $on } из { $n }; объединённая оценка { $score }.
+
+js-meankind-ssv-formation = При расстоянии { $km } km между аппаратами фильтр знает относительное положение с RMS { $filter } m, тогда как разность двух абсолютных привязок даёт { $absolute } m.
+
+js-meankind-ssv-navigation = Бортовой фильтр удерживает положение с RMS { $inside } m внутри орбит GNSS и { $above } m выше них.
+
+js-meankind-ssv-shell = На оболочке все орбитальные группировки вместе дают хотя бы один сигнал { $one } % времени и хотя бы четыре — { $four } % (L1).
+
+js-meankind-ssv-tail = MODELLED: геометрический расчёт и расчёт бюджета линии связи с перебором параметров, а не измерение какого-либо сигнала в пространстве.
+
+js-meankind-ssv-trajectory = На высотах от { $from } до { $to } km хотя бы один сигнал в зоне видимости { $one } % эпох и хотя бы четыре — { $four } % (L1, все орбитальные группировки).
+
+js-meankind-station-big = Над южной полярной областью поправки лунной опорной станции снижают ошибку ({ $percentile }) с { $from } m до { $to } m (смоделировано).
+
+js-meankind-station-line = В пределах порога точности { $share } % эпох; это не утверждение о какой-либо реальной системе.
+
+js-meankind-sweep-big =
+    { $n ->
+        [one] По { $n } значению { $param }: { $parts }.
+        [few] По { $n } значениям { $param }: { $parts }.
+        [many] По { $n } значениям { $param }: { $parts }.
+       *[other] По { $n } значениям { $param }: { $parts }.
+    }
+
+js-meankind-sweep-line = { $param } меняется от { $from } до { $to }.
+
+js-meankind-sweep-line-log = { $param } меняется от { $from } до { $to } в логарифмическом масштабе.
+
+js-meankind-sweep-part-flat = { $metric } ({ $key }) остаётся на уровне { $value }
+
+js-meankind-sweep-part-goes = { $metric } ({ $key }) меняется от { $first } до { $last }
+
+js-meankind-sweep-result-word = результат
+
+js-meankind-sweepnd-big =
+    { $n ->
+        [one] По { $n } сочетанию { $keys }: { $metric } меняется от { $min } до { $max }.
+        [few] По { $n } сочетаниям { $keys }: { $metric } меняется от { $min } до { $max }.
+        [many] По { $n } сочетаниям { $keys }: { $metric } меняется от { $min } до { $max }.
+       *[other] По { $n } сочетаниям { $keys }: { $metric } меняется от { $min } до { $max }.
+    }
+
+js-meankind-sweepnd-line = Сетка прогонов движка: { $shape }.
+
+js-meankind-telecom-fail = Проверки телекоммуникационной ошибки времени, не пройденные часами: { $fail } из { $n }.
+
+js-meankind-telecom-line = Проверки MTIE (максимальная ошибка временного интервала), TDEV (девиация времени) и огибающей holdover по маскам ITU-T, указанным в каждой строке.
+
+js-meankind-telecom-line-margin = Проверки MTIE (максимальная ошибка временного интервала), TDEV (девиация времени) и огибающей holdover по маскам ITU-T, указанным в каждой строке. Наименьший запас до огибающей holdover составляет { $margin } ns.
+
+js-meankind-telecom-pass = Часы проходят все проверки телекоммуникационной ошибки времени: { $n }.
+
+js-meankind-the-best = лучший
+
+js-meankind-the-body = небесное тело
+
+js-meankind-the-first = первый
+
+js-meankind-the-name = { $name }
+
+js-meankind-the-second = второй
+
+js-meankind-the-widest-signal = самый широкий сигнал
+
+js-meankind-timebudget-big = Ошибка часов ({ $clock }) и ошибка системы отсчёта пересекаются при времени усреднения { $tau }.
+
+js-meankind-timebudget-line = В этой точке пересечения ошибка времени составляет { $x } s.
+
+js-meankind-timeoffset-big = Часы на Луне идут на { $rate } µs в сутки быстрее часов на Земле.
+
+js-meankind-timeoffset-line = Опубликованный диапазон составляет от { $low } до { $high } µs в сутки.
+
+js-meankind-timetransfer-big = { $q } удерживает два пункта в пределах { $qps } ps (среднеквадратичное значение); { $c } — в пределах { $cps } ps.
+
+js-meankind-timetransfer-line = В пределах спецификации дальнометрии { $q } % времени, против { $c } %.
+
+js-meankind-timetransfer-line-mm = В пределах спецификации дальнометрии в { $mm } mm { $q } % времени, против { $c } %.
+
+js-meankind-tracking-big = Спуфер может захватить приёмник с расстояния до { $km } km.
+
+js-meankind-tracking-line = При собственной динамике контуров приёмника захват теряется при превышении сигнала помехой на { $db } dB.
+
+js-meankind-trade-big = Квантовые датчики точнее классического базового уровня в { $timing } раз по синхронизации времени и в { $inertial } раз по инерциальной навигации.
+
+js-meankind-trade-line = Без спутников квантовый комплект работает автономно { $dur }.
+
+js-meankind-ttbudget-big = Двустороннее смещение составляет { $offset } ns при суммарной неопределённости { $uncertainty } ns.
+
+js-meankind-ttbudget-line = Sagnac { $sagnac } ns; ионосфера { $iono } ns.
+
+js-meankind-ukf-big-no = Нет: фильтр не самосогласован.
+
+js-meankind-ukf-big-yes = Да: фильтр самосогласован.
+
+js-meankind-ukf-line-in = Его нормированный квадрат инновации в среднем равен { $mean }, внутри 95-процентной полосы от { $low } до { $high }. Это проверка согласованности, а не точности.
+
+js-meankind-ukf-line-in-seeds = Его нормированный квадрат инновации в среднем равен { $mean }, внутри 95-процентной полосы от { $low } до { $high }, при числе начальных значений (seed): { $n }. Это проверка согласованности, а не точности.
+
+js-meankind-ukf-line-out = Его нормированный квадрат инновации в среднем равен { $mean }, вне 95-процентной полосы от { $low } до { $high }. Это проверка согласованности, а не точности.
+
+js-meankind-ukf-line-out-seeds = Его нормированный квадрат инновации в среднем равен { $mean }, вне 95-процентной полосы от { $low } до { $high }, при числе начальных значений (seed): { $n }. Это проверка согласованности, а не точности.
+
+js-meankind-user-word = пользователь
+
+js-meankind-vlbi-big = На базе { $km } km сигнал маяка приходит на две станции с разницей { $ms } ms.
+
+js-meankind-vlbi-line = Поправка ближнего поля составляет { $us } µs.
+
+js-meankind-vlbifim-big = Координата каждой станции известна с точностью { $m } m при этом расписании наблюдений.
+
+js-meankind-vlbifim-line = Простая оценка с равными долями давала бы { $m } m.
+
+js-meankind-weather-big = Верхняя атмосфера нагревается до { $k } K.
+
+js-meankind-weather-big-ref = Верхняя атмосфера нагревается до { $k } K, против { $ref } K для эталона.
+
+js-meankind-weather-line = Индекс геомагнитной активности ap равен { $ap }.
+
+js-meankind-whole-run = за весь прогон
+
+js-mthread-bcol-label = Метка
+
+js-mthread-bcol-share = Размер относительно наибольшего члена положения
+
+js-mthread-bcol-sigma = 1 сигма
+
+js-mthread-bcol-source = Вклад
+
+js-mthread-budget-caption = { $phase }: 1 сигма на входе { $entry }, в пике { $peak }, на выходе { $exit } (положение); ниже каждый вклад, от наибольшего.
+
+js-mthread-chart-title = { $metric } в зависимости от времени миссии, по одной полосе на этап
+
+js-mthread-col-kind = Вид
+
+js-mthread-col-label = Метка
+
+js-mthread-col-limit = Наибольший вклад
+
+js-mthread-col-margin = Относительно предела
+
+js-mthread-col-peak-pos = Пик положения
+
+js-mthread-col-peak-time = Пик смещения часов
+
+js-mthread-col-peak-vel = Пик скорости
+
+js-mthread-col-phase = Этап
+
+js-mthread-col-window = Время миссии
+
+js-mthread-example-not-loaded = записанный результат не загрузился
+
+js-mthread-file-failed = Не удалось прочитать { $name }: { $reason }.
+
+js-mthread-kv-elapsed = Прошедшее время миссии
+
+js-mthread-kv-engine = Движок
+
+js-mthread-kv-epoch = Эпоха (UTC)
+
+js-mthread-kv-limits = Этапы с заявленным пределом
+
+js-mthread-kv-limits-value = { $n } (выполнено: { $met }, не выполнено: { $missed })
+
+js-mthread-kv-phases = Этапы
+
+js-mthread-kv-seed = Начальное значение (seed)
+
+js-mthread-kv-title = Цепочка
+
+js-mthread-layout-phases = Равная ширина на этап
