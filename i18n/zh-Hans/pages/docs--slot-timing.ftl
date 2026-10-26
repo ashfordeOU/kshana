@@ -9,3 +9,7 @@ seg-3a0e724a8a2b = 层级
 seg-fffbeccd4266 = 符号
 
 seg-2247a2344710 = 含义
+
+seg-f63dd3d7aad4 = 来源
+
+seg-1ff32b87e030 = 卫星数

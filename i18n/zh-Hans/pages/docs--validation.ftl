@@ -33,3 +33,11 @@ seg-d12d4565b01d = 月球测地 VLBI，星历核路径
 seg-5ed34a5b402e = 月球多技术联合定轨与时钟
 
 seg-75636f9419b2 = 已知限制
+
+seg-9c0eb89a2fbe = 包
+
+seg-f63dd3d7aad4 = 来源
+
+seg-638b8d451550 = 传感器
+
+seg-04f69a0edb2f = 类型
