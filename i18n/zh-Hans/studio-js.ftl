@@ -3086,3 +3086,1868 @@ js-interf-cell-size-rule = 单元大小必须是大于 0 且不超过 10 的度�
 js-interf-check-failed = { $name }：无法检查（{ $reason }）。
 
 js-interf-click-cell = 点击一个单元，或聚焦地图并使用方向键，即可查看其数值。
+
+js-interf-close = 关闭
+
+js-interf-close-file = 关闭 { $name }
+
+js-interf-col-affected = 受影响
+
+js-interf-col-cell-area = 单元面积
+
+js-interf-col-detectors = 检测器
+
+js-interf-col-observed = 已观测
+
+js-interf-col-sampled = 已采样
+
+js-interf-col-share = 占比
+
+js-interf-col-status = 状态
+
+js-interf-coverage-limits = 此数据源的覆盖范围限制
+
+js-interf-csv-too-big = { $name }：大于 24 MiB；请从节选内容构建（命令行工具可处理整个文件）。
+
+js-interf-csv-too-big-short = { $name }：大于 24 MiB；请从节选内容构建。
+
+js-interf-custom-needs-licence = 自定义数据集需要提供许可、其 URL 和署名文字：它们会写入地图文件。
+
+js-interf-dataset = 数据集
+
+js-interf-dates-rule = 日期格式为 YYYY-MM-DD，留空表示不限。
+
+js-interf-day = 日期
+
+js-interf-day-aria = { $kind } 日
+
+js-interf-day-confounded-note = 这一天受到混杂影响：由于当日的背景水平，没有单元被判为降级。原本会突出显示的单元显示为未评估。
+
+js-interf-day-figures-aria = 当日数据
+
+js-interf-demo-csv-name = { $file }（合成样本）
+
+js-interf-demo-failed = 无法打开演示：{ $reason }。
+
+js-interf-demo-opened = 合成演示：三个虚构文件，对应一片虚构的开阔洋面区域（两个 ADS-B 日，其中一天受混杂影响，以及一个 AIS 日）。背后没有任何真实的飞机、船舶或日期。请使用 ADS-B 图层上的日期选择器。
+
+js-interf-demo-route-name = route.csv（合成）
+
+js-interf-describe-map = { $date } 的 { $kind } 地图：已绘制 { $cells } 个单元，{ $parts }。未绘制的单元未被观测。
+
+js-interf-did-not-load = { $url } 未能加载
+
+js-interf-engine-no-fn = 此引擎构建版本（版本 { $version }）没有 { $fn }；其版本早于本页面。对应的命令行用法见“工具”页面。
+
+js-interf-engine-start-failed = 引擎无法在此处启动（{ $reason }）。上方的打开地图文件功能仍可使用。
+
+js-interf-err-format-version = { $name }：不是受支持的 Kshana 干扰地图（format_version { $version }；本页面支持 { $supported }）。
+
+js-interf-err-no-rows = { $name }：此报告中没有 rows[]。
+
+js-interf-err-not-json = { $name }：不是 JSON（{ $reason }）。
+
+js-interf-err-not-map = { $name }：这是 GeoJSON，但不是 Kshana 干扰地图（没有 kshana_interference_map 成员）。
+
+js-interf-err-not-route = { $name }：不是 Kshana 航线暴露报告（没有 kshana_route_exposure 成员）。
+
+js-interf-err-route-schema = { $name }：schema { $schema } 不是本页面所读取的 { $expected }。
+
+js-interf-err-source-kind = { $name }：source_kind { $kind } 既不是 adsb 也不是 ais。
+
+js-interf-err-unknown-schema = { $name }：未知的 schema { $schema }；本页面读取 { $supported }。
+
+js-interf-foot-attribution = 署名：{ $text }
+
+js-interf-foot-coverage = 覆盖范围：{ $notes }
+
+js-interf-foot-layer = { $kind } 图层，{ $date }。未绘制的单元未被观测。
+
+js-interf-foot-licence = 许可：{ $licence }
+
+js-interf-foot-licence-url = 许可：{ $licence }（{ $url }）
+
+js-interf-grid = 网格：经纬度方向边长为 { $size }° 的正方形单元（{ $type }）。东西向宽度随纬度减小。
+
+js-interf-guards = 对其他原因的防范措施
+
+js-interf-input = 输入
+
+js-interf-land-set = 陆地多边形：{ $name }。
+
+js-interf-land-too-big = 该陆地文件大于 24 MiB。
+
+js-interf-larger-than = { $name }：大于 { $limit }；本页面读取不超过该大小的地图文件。
+
+js-interf-layer-adsb-sub = 飞机报告导航精度较低的单元
+
+js-interf-layer-ais-sub = 船舶报告了不合理的位置或运动的单元
+
+js-interf-layer-heading = { $kind } 图层
+
+js-interf-layer-hidden = { $kind } 图层已隐藏。
+
+js-interf-layers-separate = ADS-B 和 AIS 是各自独立的图层，有各自的开关、图例和许可行。二者绝不合并为同一个色场或同一个计数。
+
+js-interf-legend-aria = 各单元状态的含义；取消勾选某一项可淡化对应单元
+
+js-interf-licence = 许可
+
+js-interf-licence-aria = { $name } 的数据许可
+
+js-interf-licence-heading = 数据许可与署名
+
+js-interf-map-aria = { $summary } 用方向键在已绘制的单元之间移动。
+
+js-interf-maps-open =
+    { $n ->
+       *[other] 已打开 { $n } 幅地图。
+    }
+
+js-interf-method-summary = 方法与注意事项
+
+js-interf-no-cell-at = { $lat }、{ $lon } 处没有单元：未被观测。这不是该区域无干扰的证据。
+
+js-interf-no-cell-drawn = 未绘制单元
+
+js-interf-no-cells-draw = 此文件没有可绘制的单元。
+
+js-interf-no-day-figures = 此文件未给出日级数据。
+
+js-interf-no-file-opened = 没有文件可以打开。
+
+js-interf-no-file-text = 已打开的地图没有可供检查的文件文本（它们不是作为文件打开的）。
+
+js-interf-none = 无
+
+js-interf-none-stated = （未说明）
+
+js-interf-none-stated-file = （此文件中未说明）
+
+js-interf-north-abbr = 北
+
+js-interf-not-evaluated = 未评估
+
+js-interf-not-opened-full = { $name }：未打开，已打开 { $max } 幅地图。请先关闭一些。
+
+js-interf-nothing-open = 尚未打开任何内容。
+
+js-interf-nothing-opened = 未打开任何内容。
+
+js-interf-one-day = 一次一天
+
+js-interf-opened-file-map = 已打开 { $files } 个文件；已打开 { $maps } 幅地图。
+
+js-interf-opened-file-maps = 已打开 { $files } 个文件；已打开 { $maps } 幅地图。
+
+js-interf-opened-files-map = 已打开 { $files } 个文件；已打开 { $maps } 幅地图。
+
+js-interf-opened-files-maps = 已打开 { $files } 个文件；已打开 { $maps } 幅地图。
+
+js-interf-opening-demo = 正在打开合成演示…
+
+js-interf-parameters = 参数，在读取任何数据之前即已固定
+
+js-interf-read-draw-failed = { $name }：无法读取或绘制（{ $reason }）。
+
+js-interf-read-failed = { $name }：无法读取（{ $reason }）。
+
+js-interf-read-with-map = 请结合地图阅读
+
+js-interf-reading = 正在读取…
+
+js-interf-route-aria = 航线暴露 { $name }
+
+js-interf-route-chip = 航线
+
+js-interf-route-done =
+    { $n ->
+       *[other] 已用 { $n } 幅地图和引擎 { $version } 计算出航线暴露；报告显示在下方。
+    }
+
+js-interf-route-explain = 航线长度在每种状态下所占的比例，按日期和数据源列出。四个占比之和为 1，需结合起来阅读：降级占比低而未观测占比高，并不表示已证明畅通。ADS-B 和 AIS 的行绝不合并。
+
+js-interf-route-exposure = 航线暴露
+
+js-interf-route-needs-map = 请先打开或构建至少一幅地图：航线是对照本页面上的地图检查的。
+
+js-interf-route-open-failed = 无法打开航线：{ $reason }。
+
+js-interf-route-range = { $from } 至 { $to }
+
+js-interf-route-too-big = { $name }：大于 24 MiB。
+
+js-interf-row-affected-share = 受影响占比
+
+js-interf-row-aircraft-affected = 受影响的飞机
+
+js-interf-row-aircraft-observed = 已观测的飞机
+
+js-interf-row-aircraft-sampled = 已采样的飞机
+
+js-interf-row-area = 面积
+
+js-interf-row-cell = 单元
+
+js-interf-row-detectors = 达到条件的检测器
+
+js-interf-row-flagged = 已标记：{ $detector }
+
+js-interf-row-status = 状态
+
+js-interf-row-vessels-observed = 已观测的船舶
+
+js-interf-rows-skipped =
+    { $count ->
+       *[other] 有 { $count } 行无效，已跳过。
+    }
+
+js-interf-rt-day = 日期
+
+js-interf-rt-km = 航线公里数
+
+js-interf-rt-licence = 地图的许可与署名
+
+js-interf-rt-shares = 航线占比
+
+js-interf-rt-source = 数据源
+
+js-interf-sample-failed = 无法打开样本：{ $reason }。
+
+js-interf-save = 保存：
+
+js-interf-save-report = 保存报告（JSON）
+
+js-interf-show-layer = 显示此图层
+
+js-interf-st-anomalous-label = 异常
+
+js-interf-st-anomalous-text = 当日至少有一个检测器在此处标记了足够多的不同船舶（至少 3 艘，且占已观测船舶的 20%）。可能的原因包括干扰，但也包括许多普通原因。
+
+js-interf-st-confounded-label = 当日受混杂影响
+
+js-interf-st-confounded-text = 当日单元占比的中位数较高，这表明原因为大范围因素。在这样的日子里不判定任何单元为降级；此单元原本会突出显示。
+
+js-interf-st-degraded-label = 降级
+
+js-interf-st-degraded-text = 当日此处被采样的飞机中，报告导航精度较低的占比很高，远高于当日的中位数单元。这并不说明原因。
+
+js-interf-st-no-background-label = 无背景估计
+
+js-interf-st-no-background-text = 无法依据足够多的单元估计当日背景（报告精度较低的飞机的典型占比），因此没有单元与之比较，也不做任何判定。
+
+js-interf-st-not-anomalous-label = 非异常
+
+js-interf-st-not-anomalous-text = 已观测，且没有检测器达到条件。不能证明什么都没有发生。
+
+js-interf-st-not-degraded-label = 未降级
+
+js-interf-st-not-degraded-text = 已采样，报告精度较低的飞机占比并不突出。不能证明什么都没有发生。
+
+js-interf-st-too-few-label = 飞机过少
+
+js-interf-st-too-few-text = 已发布（至少观测到 5 架不同的飞机），但可采样的飞机少于 10 架，因此不做判定。
+
+js-interf-starting-build = 正在启动引擎并构建…
+
+js-interf-starting-route = 正在启动引擎并检查航线…
+
+js-interf-state-clear-adsb = 正常
+
+js-interf-state-clear-adsb-text = 有足够多的飞机被观测到且未被标记。不能证明什么都没有发生。
+
+js-interf-state-clear-ais = 正常
+
+js-interf-state-clear-ais-text = 有足够多的船舶被观测到且未被标记。不能证明什么都没有发生。
+
+js-interf-state-degraded-adsb = 降级
+
+js-interf-state-degraded-adsb-text = 当日此处被采样的飞机中，报告导航精度较低的占比很高，远高于当日的中位数单元。
+
+js-interf-state-degraded-ais = 异常
+
+js-interf-state-degraded-ais-text = 当日至少有一个检测器在此处标记了足够多的不同船舶（至少 3 艘，且占已观测船舶的 20%）。
+
+js-interf-state-notobs-adsb = 未观测
+
+js-interf-state-notobs-adsb-text = 未绘制单元：观测到的飞机过少，无法发布。这不是该区域无干扰的证据。
+
+js-interf-state-notobs-ais = 未观测
+
+js-interf-state-notobs-ais-text = 未绘制单元：观测到的船舶过少，无法发布。这不是该区域无干扰的证据。
+
+js-interf-state-unassessed-adsb = 未评估
+
+js-interf-state-unassessed-adsb-text = 已观测，但可采样的飞机过少、当日受混杂影响，或无法估计当日背景，因此不做判定。
+
+js-interf-state-unassessed-ais = 未评估
+
+js-interf-state-unassessed-ais-text = 已观测，但不做判定。
+
+js-interf-status-unknown = 本页面未描述的状态。
+
+js-interf-table-first = 显示 { $total } 个单元中的前 { $shown } 个，有影响的判定排在前面。
+
+js-interf-table-summary = 以表格列出每个已绘制的单元（{ $n }）
+
+js-interf-the-day = 当日
+
+js-interf-unknown-date = 未知日期
+
+js-interf-warn-cell-size = 此文件使用的单元大小 { $size }° 不是预先登记的大小：它不是预先登记的方法，因此其判定与使用预先登记大小的文件不可比。
+
+js-interf-warn-cell-size-known = 此文件使用的单元大小 { $size }° 不是预先登记的大小（{ $registered }°）：它不是预先登记的方法，因此其判定与使用预先登记大小的文件不可比。
+
+js-interf-warn-day-confounded = 这一天受到混杂影响：由于当日的背景水平（单元占比的中位数本身就很高），没有单元被判为降级。
+
+js-interf-warn-flag-disagrees =
+    { $count ->
+       *[other] 有 { $count } 个单元的“degraded”标记与其状态不一致。绘制的是状态。
+    }
+
+js-interf-warn-no-licence = 此文件不含 { $fields } 文字。该文件仍会显示，但缺少许可和署名的地图不应再次发布。
+
+js-interf-warn-on-land-off = 此文件的陆上检测器已关闭（未提供陆地多边形）。
+
+js-interf-warn-skipped =
+    { $count ->
+       *[other] 有 { $count } 个要素不是有效的 GeoJSON，已跳过。
+    }
+
+js-interf-warn-unknown-status = 本页面不认识的状态值：{ $values }。它们按“no call”绘制。
+
+js-interf-withheld = 已保留不发布（少于 5）
+
+js-interf-written-by = 由 Kshana { $version } 写出
+
+js-kind-axis-c-n0-db-hz = C/N0 (dB-Hz)
+
+js-kind-axis-code-jitter-m = 码抖动 (m)
+
+js-kind-axis-code-tracking-jitter-m = 码跟踪抖动 (m)
+
+js-kind-axis-doppler-shift-hz = 多普勒频移 (Hz)
+
+js-kind-axis-effective-c-n0-db-hz = 有效 C/N0 (dB-Hz)
+
+js-kind-axis-elevation = 高度角 (°)
+
+js-kind-axis-fit-interval-s = 拟合区间 (s)
+
+js-kind-axis-formal-position-sigma-m = 形式位置 sigma (m)
+
+js-kind-axis-latitude = 纬度 (°)
+
+js-kind-axis-leo-satellites-added-to-the = 加入定位解的 LEO 卫星
+
+js-kind-axis-mean-satellites-in-view = 平均可见卫星数
+
+js-kind-axis-median-dilution-of-precision = 精度因子中位数
+
+js-kind-axis-median-error-m = 误差中位数 (m)
+
+js-kind-axis-median-pdop = PDOP 中位数
+
+js-kind-axis-metres = 米
+
+js-kind-axis-observation-window-s = 观测窗口 (s)
+
+js-kind-axis-offset-from-the-signal-s = 相对信号中心的偏移 (MHz)
+
+js-kind-axis-offset-from-the-snapshot-centre = 相对快照中心的偏移 (MHz)
+
+js-kind-axis-pdop = PDOP
+
+js-kind-axis-position-error-m = 位置误差 (m)
+
+js-kind-axis-power-spectral-density-db-hz = 功率谱密度（dB/Hz，单位功率）
+
+js-kind-axis-power-spectral-density-dbw-hz = 功率谱密度（dBW/Hz）
+
+js-kind-axis-probability-of-detection = 检测概率
+
+js-kind-axis-range-error-m = 距离误差 (m)
+
+js-kind-axis-relays = 中继
+
+js-kind-axis-sisre-root-mean-square-m = SISRE，均方根 (m)
+
+js-kind-axis-time-error-ns = 钟差 (ns)
+
+js-kind-axis-time-s = 时间 (s)
+
+js-kind-axis-time-since-the-start-min = 自开始起的时间 (min)
+
+js-kind-axis-update-period-s = 更新周期 (s)
+
+js-kind-cap-body-pnt-label = 中继定位
+
+js-kind-cap-campaign-label = 测评活动
+
+js-kind-cap-constellation-design-label = 覆盖
+
+js-kind-cap-leo-navmsg-label = 导航电文
+
+js-kind-cap-leo-pass-label = 过境与链路
+
+js-kind-cap-leo-pnt-chain-label = 端到端链路
+
+js-kind-cap-leo-ppp-label = 定位
+
+js-kind-cap-leo-pvt-label = 定位
+
+js-kind-cap-leo-signal-label = 信号设计
+
+js-kind-cap-lunar-llr-datum-label = 激光测距基准
+
+js-kind-cap-ntn-positioning-label = 定位
+
+js-kind-cap-solar-system-label = 太阳系
+
+js-kind-cap-spectrum-label = 频谱
+
+js-kind-guided-doppler-error-hz = 多普勒误差 (Hz)
+
+js-kind-guided-duration-s = 持续时间 (s)
+
+js-kind-guided-earth-range-error-m = 地球距离误差 (m)
+
+js-kind-guided-elevation-mask = 高度角截止 (°)
+
+js-kind-guided-first-jammer-bandwidth-mhz = 第一个干扰机带宽 (MHz)
+
+js-kind-guided-first-jammer-power-dbw = 第一个干扰机功率 (dBW)
+
+js-kind-guided-first-jammer-range-m = 第一个干扰机距离 (m)
+
+js-kind-guided-first-jammer-received-power-dbw = 第一个干扰机接收功率 (dBW)
+
+js-kind-axis-3-d-position-error-m = 3-D 位置误差 (m)
+
+js-kind-guided-first-phase-length-s = 第一阶段时长 (s)
+
+js-kind-guided-first-shell-altitude-km = 第一壳层高度 (km)
+
+js-kind-guided-first-shell-inclination = 第一壳层倾角 (°)
+
+js-kind-guided-first-signal-bandwidth-hz = 第一个信号带宽 (Hz)
+
+js-kind-guided-first-system-range-error-m = 第一个系统的距离误差 (m)
+
+js-kind-guided-fit-interval-s = 拟合区间 (s)
+
+js-kind-guided-gravity-field-degree = 引力场阶数
+
+js-kind-guided-grid-step = 网格步长 (°)
+
+js-kind-guided-integration-time-s = 积分时间 (s)
+
+js-kind-guided-leo-satellites-in-the-sweep = 扫描中的 LEO 卫星
+
+js-kind-guided-loop-bandwidth-hz = 环路带宽 (Hz)
+
+js-kind-guided-monte-carlo-runs = 蒙特卡罗运行次数
+
+js-kind-guided-network-synchronisation-error-m = 网络同步误差 (m)
+
+js-kind-guided-orbit-altitude-km = 轨道高度 (km)
+
+js-kind-guided-orbit-determination-error-m = 定轨误差 (m)
+
+js-kind-guided-orbit-inclination = 轨道倾角 (°)
+
+js-kind-guided-pdop-threshold = PDOP 门限
+
+js-kind-guided-peak-elevation-of-the-pass = 过境最大高度角 (°)
+
+js-kind-guided-points-per-orbit-track = 每条轨道轨迹的点数
+
+js-kind-guided-receiver-noise-figure-db = 接收机噪声系数 (dB)
+
+js-kind-guided-receiver-power-when-awake-mw = 接收机唤醒时功耗 (mW)
+
+js-kind-guided-reference-c-n0-db-hz = 参考 C/N0 (dB-Hz)
+
+js-kind-guided-relay-altitude-km = 中继高度 (km)
+
+js-kind-guided-relay-inclination = 中继倾角 (°)
+
+js-kind-guided-relay-planes = 中继轨道面数
+
+js-kind-guided-relay-range-error-m = 中继距离误差 (m)
+
+js-kind-guided-relays-per-plane = 每个轨道面的中继数
+
+js-kind-guided-runs-per-case = 每种情形的运行次数
+
+js-kind-guided-satellite-altitude-km = 卫星高度 (km)
+
+js-kind-guided-second-system-range-error-m = 第二个系统的距离误差 (m)
+
+js-kind-guided-shared-condition = 共用条件
+
+js-kind-guided-slant-electron-content-tecu = 斜向电子含量 (TECU)
+
+js-kind-guided-slant-range-km = 斜距 (km)
+
+js-kind-guided-spoofed-offset-m = 欺骗偏移量 (m)
+
+js-kind-guided-spoofing-starts-s = 欺骗开始时间 (s)
+
+js-kind-guided-sweep-from = 扫描起点
+
+js-kind-guided-sweep-steps = 扫描步数
+
+js-kind-guided-sweep-to = 扫描终点
+
+js-kind-guided-timeline-step-s = 时间线步长 (s)
+
+js-kind-guided-tracking-threshold-db-hz = 跟踪门限 (dB-Hz)
+
+js-kind-guided-transmit-power-dbw = 发射功率 (dBW)
+
+js-kind-guided-update-period-s = 更新周期 (s)
+
+js-kind-guided-user-latitude = 用户纬度 (°)
+
+js-kind-hint-a-band-under-this-carrier = 载噪密度比低于此值的频段已失锁
+
+js-kind-hint-a-grid-point-is-available = 位置精度因子低于此值时，该网格点可用
+
+js-kind-hint-a-satellite-must-be-this = 卫星须达到此高度角才计为可见
+
+js-kind-hint-a-satellite-must-be-this-2 = 卫星须达到此高度角才会被使用
+
+js-kind-hint-a-satellite-of-the-first = 第一个系统的卫星须达到此高度角
+
+js-kind-hint-arc-one-message-is-fitted = 单条电文所拟合的弧段
+
+js-kind-hint-code-tracking-loop-noise-bandwidth = 码跟踪环路噪声带宽
+
+js-kind-hint-detail-of-the-truth-orbit = 真值轨道引力模型的精细程度
+
+js-kind-hint-distance-from-the-first-jammer = 第一个干扰机到接收机的距离
+
+js-kind-hint-distance-to-the-satellite-in = 频段权衡中到卫星的距离
+
+js-kind-hint-drawn-while-acquiring-and-tracking = 在捕获和跟踪期间绘制
+
+js-kind-hint-equivalent-isotropically-radiated-power-of = 第一个干扰机的等效全向辐射功率
+
+js-kind-hint-equivalent-isotropically-radiated-power-of-2 = 该频段的等效全向辐射功率
+
+js-kind-hint-filter-runs-averaged-for-each = 每种情形取平均的滤波器运行次数（越多越慢）
+
+js-kind-hint-first-value-of-the-swept = 被扫描参数的第一个值
+
+js-kind-hint-height-of-the-chain-s = 该链路中卫星的高度
+
+js-kind-hint-height-of-the-first-shell = 第一壳层各轨道的高度
+
+js-kind-hint-height-of-the-relay-orbits = 中继轨道距天体的高度
+
+js-kind-hint-height-of-the-satellite-whose = 被拟合电文所属卫星的高度
+
+js-kind-hint-how-far-the-spoofer-moves = 欺骗干扰源使解算位置移动的距离
+
+js-kind-hint-how-finely-each-orbit-is = 绘图时每条轨道的采样精细程度
+
+js-kind-hint-how-high-the-satellite-climbs = 卫星升到的高度
+
+js-kind-hint-how-long-the-first-phase = 第一阶段持续多久
+
+js-kind-hint-how-long-the-receiver-integrates = 接收机为一次测距积分的时间
+
+js-kind-hint-how-many-low-orbit-satellites = 几何扫描加入的低轨卫星数
+
+js-kind-hint-how-many-seeded-runs-make = 组成集合的带随机种子的运行次数
+
+js-kind-hint-how-many-values-are-run = 运行多少个取值
+
+js-kind-hint-how-often-a-new-message = 多久发布一条新电文
+
+js-kind-hint-how-wide-the-first-jammer = 第一个干扰机的功率扩展带宽
+
+js-kind-hint-ionosphere-along-the-path-in = 沿路径的电离层，以总电子含量单位表示
+
+js-kind-hint-last-value-of-the-swept = 被扫描参数的最后一个值
+
+js-kind-hint-length-of-each-filter-run = 每次滤波器运行的时长
+
+js-kind-hint-length-of-the-run = 运行的时长
+
+js-kind-hint-length-of-the-timeline = 时间线的长度
+
+js-kind-hint-occupied-bandwidth-of-the-first = 第一个参考信号的占用带宽
+
+js-kind-hint-one-sigma-doppler-measurement-error = 多普勒测量误差（一倍标准差）
+
+js-kind-hint-one-sigma-error-of-a = 到某个中继的距离的一倍标准差误差
+
+js-kind-hint-one-sigma-error-of-the = 来自地球的双向距离的一倍标准差误差
+
+js-kind-hint-orbital-planes-of-the-navigation = 导航中继的轨道面
+
+js-kind-hint-power-of-the-first-jammer = 第一个干扰机在接收机处的功率
+
+js-kind-hint-raises-the-noise-floor-under = 抬高每个频段下的噪声底
+
+js-kind-hint-satellites-in-each-plane = 每个轨道面中的卫星数
+
+js-kind-hint-sets-the-doppler-range-a = 决定冷搜索必须覆盖的多普勒范围
+
+js-kind-hint-signal-in-space-range-error = 第一个系统的空间信号距离误差
+
+js-kind-hint-signal-in-space-range-error-2 = 第二个系统的空间信号距离误差
+
+js-kind-hint-signal-level-the-tracking-figures = 给出跟踪数据时所用的信号电平
+
+js-kind-hint-spacing-of-the-latitude-and = 经纬度网格的间距
+
+js-kind-hint-spacing-of-the-shared-mission = 共用任务时间网格的间距
+
+js-kind-hint-the-part-of-the-range = 电文无法消除的那部分距离误差
+
+js-kind-hint-the-value-every-member-runs = 每个成员运行时采用的值
+
+js-kind-hint-tilt-of-that-orbit = 该轨道的倾角
+
+js-kind-hint-tilt-of-the-first-shell = 第一壳层各轨道面的倾角
+
+js-kind-hint-tilt-of-the-relay-planes = 中继轨道面的倾角
+
+js-kind-hint-timing-error-between-satellites-as = 卫星之间的授时误差，以距离表示
+
+js-kind-hint-when-the-spoofer-captures-the = 欺骗干扰源何时捕获接收机
+
+js-kind-hint-where-the-receiver-stands = 接收机所在位置
+
+js-kind-hint-where-the-user-stands = 用户所在位置
+
+js-kind-label-3-d-error = 3-D 误差
+
+js-kind-label-3-d-error-time-of = 3-D 误差，到达时间
+
+js-kind-label-a-corrupted-frame-is-rejected = 损坏的帧被拒绝
+
+js-kind-label-all-channels = 所有通道
+
+js-kind-label-availability = 可用性
+
+js-kind-label-band = 频段
+
+js-kind-label-bodies = 天体
+
+js-kind-label-body = 天体
+
+js-kind-label-both = 两者
+
+js-kind-label-case = 情形
+
+js-kind-label-class = 类别
+
+js-kind-label-code-jitter = 码抖动
+
+js-kind-label-constellation = 星座
+
+js-kind-label-doppler = 多普勒
+
+js-kind-label-event = 事件
+
+js-kind-label-evidence = 证据
+
+js-kind-label-fewest-in-view = 最少可见数
+
+js-kind-label-field = 字段
+
+js-kind-label-first-detection-after-onset = 起始后首次检测
+
+js-kind-label-frame-length = 帧长
+
+js-kind-label-fused = 融合
+
+js-kind-label-fused-cap = 融合
+
+js-kind-label-gnss = GNSS
+
+js-kind-label-gnss-and-leo = GNSS 与 LEO
+
+js-kind-label-gnss-channels = GNSS 通道
+
+js-kind-label-gnss-highest-in-sky = GNSS { $id }（天空中最高）
+
+js-kind-label-gnss-only = 仅 GNSS
+
+js-kind-label-gnss-only-cap = 仅 GNSS
+
+js-kind-label-gnss-signal = GNSS 信号
+
+js-kind-label-hdop = HDOP
+
+js-kind-label-highest = 最高
+
+js-kind-label-horizontal-error = 水平误差
+
+js-kind-label-horizontal-error-2 = 水平误差
+
+js-kind-label-jammer = 干扰机
+
+js-kind-label-jump-threshold = 跳变门限
+
+js-kind-label-largest-range-jump = 最大距离跳变
+
+js-kind-label-largest-range-jump-against-the = 最大距离跳变与门限的对比
+
+js-kind-label-leo = LEO
+
+js-kind-label-leo-channels = LEO 通道
+
+js-kind-label-leo-only = 仅 LEO
+
+js-kind-label-light-time-from-observer = 来自 { $observer } 的光行时
+
+js-kind-label-light-time-from-the-observer = 来自观测者的光行时
+
+js-kind-label-light-time-one-way = 光行时，单程
+
+js-kind-label-lowest = 最低
+
+js-kind-label-lowest-c-n0 = 最低 C/N0
+
+js-kind-label-mean = 均值
+
+js-kind-label-mean-in-view = 平均可见数
+
+js-kind-label-median-convergence = 收敛时间中位数
+
+js-kind-label-median-pdop = PDOP 中位数
+
+js-kind-label-member-runs = 成员运行
+
+js-kind-label-message-switch-iod = 电文切换，星历数据期号 { $old } 至 { $new }
+
+js-kind-label-mission-length = 任务时长
+
+js-kind-label-model = 模型
+
+js-kind-label-monte-carlo-runs = 蒙特卡罗运行次数
+
+js-kind-label-noise-floor = 噪声底
+
+js-kind-label-parameters = 参数
+
+js-kind-label-payload = 载荷
+
+js-kind-label-pdop = PDOP
+
+js-kind-label-pdop-95th-percentile = PDOP，第 95 百分位
+
+js-kind-label-peak-elevation = 最大高度角
+
+js-kind-label-peak-tracked-c-n0 = 峰值跟踪 C/N0
+
+js-kind-label-phase = 阶段
+
+js-kind-label-predicted-horizontal-sigma = 预测的水平 sigma
+
+js-kind-label-quantisation-position = 量化，位置
+
+js-kind-label-range-error = 距离误差
+
+js-kind-label-relays-above-the-mask = 高于截止角的中继
+
+js-kind-label-relays-and-earth-link = 中继与地球链路
+
+js-kind-label-relays-only = 仅中继
+
+js-kind-label-satellite = 卫星
+
+js-kind-label-satellites = 卫星
+
+js-kind-label-satellites-used = 使用的卫星
+
+js-kind-label-signal = 信号
+
+js-kind-label-signal-chip-spacing = { $name }（{ $spacing } 码片间隔）
+
+js-kind-label-sisre-after-quantisation = 量化后的 SISRE
+
+js-kind-label-sisre-root-mean-square = SISRE，均方根
+
+js-kind-label-spoofing-starts = 欺骗开始
+
+js-kind-label-standard-deviation = 标准差
+
+js-kind-label-sun-separation = 与太阳的角距
+
+js-kind-label-sweep-runs = 扫描运行
+
+js-kind-label-system = 系统
+
+js-kind-label-time-above-the-mask = 高于截止角的时间
+
+js-kind-label-time-error-root-mean-square = 钟差，均方根
+
+js-kind-label-tracked-component = 被跟踪分量
+
+js-kind-label-tracking-threshold = 跟踪门限
+
+js-kind-label-transmit-bandwidth = 发射带宽
+
+js-kind-label-vdop = VDOP
+
+js-kind-label-welch-estimate-of-the-synthesised = 合成样本的 Welch 估计
+
+js-kind-label-whole-signal = 整个信号
+
+js-kind-label-wideband-j-s-tolerated = 可容忍的宽带 J/S
+
+js-kind-label-with-unit = { $label } ({ $unit })
+
+js-kind-label-worst-site-availability = 最差站点的可用性
+
+js-kind-no = 否
+
+js-kind-note-a-gap-is-an-epoch = 间断是指可见中继过少、无法定位的历元。
+
+js-kind-note-a-helmert-transform-is-the = 赫尔默特变换是两个坐标系之间的七参数平移、旋转和尺度变换。
+
+js-kind-note-a-low-earth-orbit-leo = 低地球轨道（LEO）卫星在数分钟内即可飞越天空，因此其 C/N0（载噪密度比）呈钟形起伏；GNSS 卫星在同样时间内几乎不动。
+
+js-kind-note-a-receiver-independent-exchange-format = 一条 RINEX（接收机无关交换格式）4 风格的记录。LEO 记录类型是 Kshana 的扩展，文件头中已说明。
+
+js-kind-note-a-single-pass-fixes-the = 单次过境对沿轨方向的约束远好于对横轨方向的约束。
+
+js-kind-note-aos-is-acquisition-of-signal = AOS 为信号捕获，TCA 为最近点时刻，LOS 为信号丢失。
+
+js-kind-note-c-n0-is-the-carrier = C/N0 是载噪密度比。低于接收机跟踪门限的频段已失锁。
+
+js-kind-note-cells-are-the-code-and = 单元格是冷搜索必须检验的码相位和多普勒搜索格。
+
+js-kind-note-cold-is-a-first-fix = 冷启动是没有任何先验信息的首次定位；热启动是在上次定位后不久进行的定位。
+
+js-kind-note-dilution-of-precision-dop-scales = 精度因子（DOP）把距离误差换算为位置误差：G 为几何，P 为位置，H 为水平，V 为垂直。百分位针对每个网格点和历元计算。
+
+js-kind-note-drawn-at-the-strongest-signal = 按本次运行中最强的信号电平绘制。间断是没有卫星可见的一段时间。
+
+js-kind-note-each-body-carries-its-own = 每个天体带有各自的证据标签。光行时为单程，自场景中指定的观测者算起。
+
+js-kind-note-each-row-is-one-full = 每一行是对被扫描场景的一次完整引擎运行。
+
+js-kind-note-each-rule-is-a-switch = 每条规则是在过境中途切换到较新的电文。
+
+js-kind-note-each-signal-is-drawn-about = 每个信号都围绕其自身中心频率绘制。间断是频谱零点。
+
+js-kind-note-eirp-is-the-equivalent-isotropically = EIRP 是等效全向辐射功率。
+
+js-kind-note-every-phase-is-an-ordinary = 每个阶段都是一次普通的场景运行。哈希标识每个成员的输入及其结果文档。
+
+js-kind-note-iod-is-the-issue-of = IOD 是星历数据期号：电文的序列号。
+
+js-kind-note-j-s-is-the-jammer = J/S 是干信比（干扰机与信号的功率比）。跟踪比例是本次运行中该频段保持在门限之上的时间占比。
+
+js-kind-note-p05-p50-and-p95-are = p05、p50 和 p95 分别是第 5、第 50 和第 95 百分位。ci95 是均值的 95% 置信区间。
+
+js-kind-note-parameters-are-public-with-a = 参数为 PUBLIC（附来源）、REPRESENTATIVE 或 WORKSHOP，各预设均有说明。
+
+js-kind-note-precise-point-positioning-ppp-converges = 当误差保持在判据以下时，精密单点定位（PPP）即收敛。NEES 是归一化估计误差平方，用于滤波器一致性检查。
+
+js-kind-note-sisre-defined = SISRE 是空间信号距离误差：广播电文给用户距离带来的附加误差。此处指电文相对于引擎自身真值轨道的表示误差。
+
+js-kind-note-sisre-is-the-signal-in = SISRE 是为各系统广播轨道和钟差所假定的空间信号距离误差。
+
+js-kind-note-ssc-is-the-spectral-separation = SSC 是频谱分离系数：一个信号的功率有多少落入另一个信号的接收机内。短横线表示两者不重叠。
+
+js-kind-note-the-chain-runs-the-signal = 该链路依次运行信号、过境、导航电文、定位和精密定位各阶段。每一行是某一阶段算出、下一阶段使用的数值。
+
+js-kind-note-the-doppler-and-pass-geometry = 多普勒与过境几何监测器把测得的距离变化率与由轨道预测的值比较。该规则标出欺骗干扰源的起始时刻。
+
+js-kind-note-the-engine-draws-its-spectrum = 引擎把其频谱模型绘制为某一时刻的同相与正交（IQ）样本，并由这些样本反向估计频谱。这些样本即 SigMF（信号元数据格式）导出文件。
+
+js-kind-note-the-engine-s-own-documented = 引擎自身有文档说明的二进制帧，以 24 位循环冗余校验（CRC-24Q）结尾。
+
+js-kind-note-the-gabor-root-mean-square = Gabor（均方根）带宽决定信号可被多么精确地测距。
+
+js-kind-note-the-largest-jammer-to-signal = 对连续波（CW）、匹配频谱和宽带干扰机，每个信号能够维持跟踪的最大干信比（J/S）。
+
+js-kind-note-the-shapiro-delay-is-the = 夏皮罗延迟是太阳引力使光沿路径传播所多出的光行时。
+
+js-kind-note-the-spectrum-kind-and-the = 频谱类型和压制干扰类型以两种方式计算同一条链路；最后一列是二者之差。
+
+js-kind-note-time-of-arrival-toa-ranging = 非地面网络（NTN）下行链路上的到达时间（TOA）测距：信号越宽，测距越精确。
+
+js-kind-note-what-half-a-least-significant = 每个字段的半个最低有效位（LSB）在位置和钟差上带来的代价，以距离表示。
+
+js-kind-rowhead-block = 块
+
+js-kind-rowhead-condition = 条件
+
+js-kind-rowhead-figure = 数据项
+
+js-kind-rowhead-member = 成员
+
+js-kind-rowhead-metric = 指标
+
+js-kind-rowhead-monitor = 监测器
+
+js-kind-rowhead-phase = 阶段
+
+js-kind-rowhead-satellite = 卫星
+
+js-kind-rowhead-signal = 信号
+
+js-kind-rowhead-solution = 解
+
+js-kind-sub-clock-offset-db = { $clock }，{ $offset } dB
+
+js-kind-sub-doppler-only = 仅多普勒
+
+js-kind-sub-from-to = { $from } 至 { $to }
+
+js-kind-sub-fused = 融合
+
+js-kind-sub-gnss-and-leo-latitude = GNSS 与 LEO，纬度 { $lat }°
+
+js-kind-sub-gnss-only = 仅 GNSS
+
+js-kind-sub-gnss-only-latitude = 仅 GNSS，纬度 { $lat }°
+
+js-kind-sub-model-fit-seconds = { $model }，{ $fit } s 拟合
+
+js-kind-threshold-4-needed-for-a-fix = 定位需要 4 颗
+
+js-kind-threshold-convergence-criterion = 收敛判据
+
+js-kind-threshold-elevation-mask = 高度角截止
+
+js-kind-threshold-gnss-median = GNSS 中位数
+
+js-kind-threshold-tracking-threshold = 跟踪门限
+
+js-kind-title-acquisition = 捕获
+
+js-kind-title-against-a-simulated-campaign = 对照模拟测评活动
+
+js-kind-title-assumptions = 假设
+
+js-kind-title-band-trade-at-equal-transmit = 相同发射功率下的频段权衡
+
+js-kind-title-bands = 频段
+
+js-kind-title-beside-the-published-figures = 与已发表数据并列
+
+js-kind-title-beside-the-published-speed-up = 与已发表的加速效果并列
+
+js-kind-title-bodies = 天体
+
+js-kind-title-body = 天体
+
+js-kind-title-by-latitude = 按纬度
+
+js-kind-title-c-n0-by-band-over = 运行期间各频段的 C/N0
+
+js-kind-title-c-n0-over-the-pass = 过境期间的 C/N0
+
+js-kind-title-cases = 情形
+
+js-kind-title-central-body = 中心天体
+
+js-kind-title-closed-form-doppler-against-finite = 闭式多普勒与有限差分的对比
+
+js-kind-title-code-tracking-jitter = 码跟踪抖动
+
+js-kind-title-code-tracking-jitter-against-c = 码跟踪抖动与 C/N0 的关系
+
+js-kind-title-combined-over-the-members = 对各成员合并
+
+js-kind-title-compatibility-with-gnss-signals = 与 GNSS 信号的兼容性
+
+js-kind-title-constellations = 星座
+
+js-kind-title-continuity-across-message-switches = 电文切换前后的连续性
+
+js-kind-title-cross-check-against-the-jamming = 与压制干扰类型的交叉核对
+
+js-kind-title-datum-accuracy = 基准精度
+
+js-kind-title-dilution-of-precision-over-the = 整个网格上的精度因子
+
+js-kind-title-doppler = 多普勒
+
+js-kind-title-doppler-envelopes = 多普勒包络
+
+js-kind-title-doppler-only-fix = 仅多普勒定位
+
+js-kind-title-doppler-over-the-pass = 过境期间的多普勒
+
+js-kind-title-doppler-positioning-from-one-pass = 单次过境的多普勒定位
+
+js-kind-title-earth-link = 地球链路
+
+js-kind-title-elevation = 高度角
+
+js-kind-title-encoded-frame = 编码帧
+
+js-kind-title-epoch = 历元
+
+js-kind-title-epoch-and-frame = 历元与坐标系
+
+js-kind-title-events = 事件
+
+js-kind-title-every-node-of-the-sweep = 扫描的每个节点
+
+js-kind-title-field-table = 字段表
+
+js-kind-title-figures-of-merit = 性能指标
+
+js-kind-title-filter-noise = 滤波器噪声
+
+js-kind-title-fit-interval-trade = 拟合区间权衡
+
+js-kind-title-fix-quality-against-observation-window = 定位质量与观测窗口的关系
+
+js-kind-title-frame-checks = 帧检查
+
+js-kind-title-frame-hexadecimal = 帧，十六进制
+
+js-kind-title-geometry-against-latitude = 几何与纬度的关系
+
+js-kind-title-geometry-as-leo-satellites-are = 加入 LEO 卫星后的几何
+
+js-kind-title-geometry-position-dilution-of-precision = 几何：位置精度因子
+
+js-kind-title-global-coverage = 全球覆盖
+
+js-kind-title-gnss-leo-and-fused = GNSS、LEO 与融合
+
+js-kind-title-gnss-reference = GNSS 参考
+
+js-kind-title-hand-offs-between-phases = 阶段之间的交接
+
+js-kind-title-helmert-fit = 赫尔默特拟合
+
+js-kind-title-helmert-transform-parameters = 赫尔默特变换参数
+
+js-kind-title-inputs = 输入
+
+js-kind-title-ionosphere-free-band-pairs = 无电离层频段组合
+
+js-kind-title-jammer-tolerance = 干扰机容限
+
+js-kind-title-jammers = 干扰机
+
+js-kind-title-joint-fix = 联合定位
+
+js-kind-title-leo-against-gnss = LEO 与 GNSS 对比
+
+js-kind-title-limitations = 局限
+
+js-kind-title-links = 链路
+
+js-kind-title-member-runs = 成员运行
+
+js-kind-title-members-under-the-shared-conditions = 共用条件下的成员
+
+js-kind-title-message = 电文
+
+js-kind-title-message-models-compared = 电文模型对比
+
+js-kind-title-message-switches = 电文切换
+
+js-kind-title-metric-against-axis = { $metric } 与 { $axis } 的关系
+
+js-kind-title-metric-distribution-over-runs = { $metric }：各次运行上的分布
+
+js-kind-title-mid-pass-update = 过境中途更新
+
+js-kind-title-modelled = 模型计算
+
+js-kind-title-monte-carlo = 蒙特卡罗
+
+js-kind-title-navigation-message-stage = 导航电文阶段
+
+js-kind-title-not-modelled = 未建模
+
+js-kind-title-notes = 说明
+
+js-kind-title-notes-on-the-spoofing-model = 欺骗干扰模型说明
+
+js-kind-title-observation-windows = 观测窗口
+
+js-kind-title-one-pass-alone = 仅单次过境
+
+js-kind-title-orbit = 轨道
+
+js-kind-title-over-the-message-sequence = 整个电文序列
+
+js-kind-title-pass = 过境
+
+js-kind-title-pass-c-n0-of-the = 过境：整个信号与被跟踪分量的 C/N0
+
+js-kind-title-pass-code-tracking-jitter = 过境：码跟踪抖动
+
+js-kind-title-pass-doppler = 过境：多普勒
+
+js-kind-title-pass-stage = 过境阶段
+
+js-kind-title-passes = 过境
+
+js-kind-title-phases = 阶段
+
+js-kind-title-position-error-gnss-leo-and = 位置误差：GNSS、LEO 与融合定位
+
+js-kind-title-position-uncertainty-relays-alone-and = 位置不确定度：仅中继，以及加入地球链路
+
+js-kind-title-positioning-by-signal-bandwidth = 按信号带宽的定位
+
+js-kind-title-positioning-gnss-alone-against-the = 定位：仅 GNSS 与融合定位对比
+
+js-kind-title-power-spectral-density = 功率谱密度
+
+js-kind-title-power-spectral-density-of-each = 各信号的功率谱密度
+
+js-kind-title-precise-point-positioning = 精密单点定位
+
+js-kind-title-published-comparison = 已发表的对比
+
+js-kind-title-quantisation-budget = 量化预算
+
+js-kind-title-range-residuals = 距离残差
+
+js-kind-title-ranging-stations = 测距站
+
+js-kind-title-reading-the-trade = 解读权衡
+
+js-kind-title-realised-position-error = 实际位置误差
+
+js-kind-title-receiver = 接收机
+
+js-kind-title-receiver-power-budget = 接收机功耗预算
+
+js-kind-title-reflector-information = 反射器信息
+
+js-kind-title-relay-constellation = 中继星座
+
+js-kind-title-relays-in-view = 可见中继
+
+js-kind-title-reproducibility = 可复现性
+
+js-kind-title-retroreflectors = 后向反射器
+
+js-kind-title-rinex-style-record = RINEX 风格记录
+
+js-kind-title-round-trips = 往返转换
+
+js-kind-title-run = 运行
+
+js-kind-title-satellites-in-view-against-latitude = 可见卫星数与纬度的关系
+
+js-kind-title-sensitivity-to-a-line-of = 对视线倾斜的敏感性
+
+js-kind-title-shared-conditions = 共用条件
+
+js-kind-title-signal-components = 信号分量
+
+js-kind-title-signal-stage = 信号阶段
+
+js-kind-title-signals = 信号
+
+js-kind-title-sisre-against-fit-interval = SISRE 与拟合区间的关系
+
+js-kind-title-sisre-against-update-period = SISRE 与更新周期的关系
+
+js-kind-title-sisre-weights = SISRE 权重
+
+js-kind-title-snapshot = 快照
+
+js-kind-title-snapshot-against-the-model = 快照与模型对比
+
+js-kind-title-snapshot-spectrum-welch-estimate-against = 快照频谱：Welch 估计与模型对比
+
+js-kind-title-sources = 来源
+
+js-kind-title-spoofer-and-monitor-settings = 欺骗干扰源与监测器设置
+
+js-kind-title-spoofing-monitor-probability-of-detection = 欺骗干扰监测器：检测概率
+
+js-kind-title-statistics-over-the-runs = 各次运行的统计
+
+js-kind-title-sweep = 扫描
+
+js-kind-title-systems = 系统
+
+js-kind-title-systems-in-the-fix = 定位解中的系统
+
+js-kind-title-the-archived-campaign = 已归档的测评活动
+
+js-kind-title-time-error = 钟差
+
+js-kind-title-time-error-by-receiver-clock = 按接收机时钟划分的钟差
+
+js-kind-title-time-scale = 时间尺度
+
+js-kind-title-time-to-first-fix-and = 首次定位时间与每次定位的能耗
+
+js-kind-title-time-transfer-by-clock-and = 按时钟和信号电平的时间传递
+
+js-kind-title-trade-conditions = 权衡条件
+
+js-kind-title-update-period-trade = 更新周期权衡
+
+js-kind-title-user = 用户
+
+js-kind-title-user-range-error-through-the = 过境期间的用户距离误差
+
+js-kind-title-validated = 已验证
+
+js-kind-title-what-each-stage-hands-to = 每个阶段传给下一阶段的内容
+
+js-kind-title-what-this-run-is-and = 本次运行是什么，不是什么
+
+js-kind-title-when-each-monitor-detects = 各监测器何时检测到
+
+js-kind-title-work-done = 完成的工作量
+
+js-kind-yes = 是
+
+js-ledger-rows =
+    { $n ->
+       *[other] { $n } 条台账（ledger）记录
+    }
+
+js-lib-abbr-apv = 带垂直引导的进近
+
+js-lib-abbr-araim = 先进的接收机自主完好性监测
+
+js-lib-abbr-auc = 曲线下面积
+
+js-lib-abbr-c-n0 = 载噪密度比
+
+js-lib-abbr-ccsds = 空间数据系统咨询委员会
+
+js-lib-abbr-cli = 命令行界面
+
+js-lib-abbr-csac = 芯片级原子钟
+
+js-lib-abbr-cw = 连续波
+
+js-lib-abbr-doi = 数字对象标识符
+
+js-lib-abbr-dop = 精度因子
+
+js-lib-abbr-eo = 地球观测
+
+js-lib-abbr-gnss = 全球导航卫星系统
+
+js-lib-abbr-gps = 全球定位系统
+
+js-lib-abbr-hal = 水平告警限值
+
+js-lib-abbr-hpl = 水平保护级
+
+js-lib-abbr-imu = 惯性测量单元
+
+js-lib-abbr-ins = 惯性导航系统
+
+js-lib-abbr-iot = 物联网
+
+js-lib-abbr-itu-t = 国际电信联盟电信标准化部门
+
+js-lib-abbr-j-s = 干信比
+
+js-lib-abbr-leo = 低地球轨道
+
+js-lib-abbr-llr = 月球激光测距
+
+js-lib-abbr-meo = 中地球轨道
+
+js-lib-abbr-mtie = 最大时间间隔误差
+
+js-lib-abbr-ntn = 非地面网络
+
+js-lib-abbr-ocxo = 恒温晶体振荡器
+
+js-lib-abbr-oem = 轨道星历电文
+
+js-lib-abbr-omm = 轨道平均根数电文
+
+js-lib-abbr-pdop = 位置精度因子
+
+js-lib-abbr-pnt = 定位、导航与授时
+
+js-lib-abbr-ppp = 精密单点定位
+
+js-lib-abbr-raim = 接收机自主完好性监测
+
+js-lib-abbr-rf = 射频
+
+js-lib-abbr-rinex = 接收机无关交换格式
+
+js-lib-abbr-roc = 接收机工作特性
+
+js-lib-abbr-sbas = 星基增强系统
+
+js-lib-abbr-sgp4 = 简化常规摄动 4，一种轨道外推模型
+
+js-lib-abbr-sisre = 空间信号距离误差
+
+js-lib-abbr-slam = 同步定位与地图构建
+
+js-lib-abbr-spp = 单点定位
+
+js-lib-abbr-tdev = 时间偏差
+
+js-lib-abbr-tle = 两行根数
+
+js-lib-abbr-toml = 场景文件格式
+
+js-lib-abbr-trn = 地形参考导航
+
+js-lib-abbr-uhf = 特高频
+
+js-lib-abbr-ukf = 无迹卡尔曼滤波
+
+js-lib-abbr-utc = 协调世界时
+
+js-lib-abbr-val = 垂直告警限值
+
+js-lib-abbr-vlbi = 甚长基线干涉测量
+
+js-lib-abbr-vpl = 垂直保护级
+
+js-lib-abbr-wg = 工作组
+
+js-lib-areas-ground-track = 星下点轨迹
+
+js-lib-areas-holdover = 守时（holdover）
+
+js-lib-compare-availability = 可用性
+
+js-lib-compare-holdover = 守时（holdover）
+
+js-lib-compare-timing-p95 = 授时 p95
+
+js-lib-compare-timing-rms = 授时 RMS
+
+js-lib-counts-explorer-tally = { $total } 项能力中有 { $validated } 项已对照外部参考基准验证 · { $modelled } 项为模型计算 · { $partner } 项由合作方负责——此处显示为 { $domains } 个领域中的 { $cards } 张能力卡片、{ $evidence } 条证据主张
+
+js-lib-counts-validated-tally = { $total } 项能力中有 { $validated } 项已对照外部参考基准验证——此处显示为 { $cards } 张能力卡片和 { $evidence } 条证据主张
+
+js-lib-engine-busy = { $verb }…
+
+js-lib-engine-busy-seconds = { $verb }… { $s } s
+
+js-lib-engine-page-http = 引擎文件返回 HTTP { $status }
+
+js-lib-engine-page-not-running = 引擎未在此处运行
+
+js-lib-engine-worker-crashed = 引擎工作线程已崩溃
+
+js-lib-evidence-aria = 证据：{ $tier }，{ $count }
+
+js-lib-evidence-ledger-rows =
+    { $n ->
+       *[other] { $n } 条台账（ledger）记录
+    }
+
+js-lib-evidence-rows-behind = 此结果背后的台账（ledger）记录
+
+js-lib-geometry-url-bad-mc = 蒙特卡罗样本数不是 { $choices } 之一；改用 { $default }。
+
+js-lib-geometry-url-bad-number = "{ $key }" 不是 { $min } 到 { $max } 之间的数；改用默认值。
+
+js-lib-geometry-url-bad-site = 站点不是范围内的 纬度,经度[,高度]；改用默认站点。
+
+js-lib-geometry-url-bad-sky = 天际线不是预设、360 格的表或范围内的峡谷；改用开阔地平线。
+
+js-lib-geometry-url-bad-sys = 星座列表不是 G、E、C 以及至多一个此视图可识别的 L:<LEO preset>；改用默认组合。
+
+js-lib-geometry-url-own-tle = 发送者使用了自己的轨道根数（TLE），链接不携带这些数据；改为显示预设。
+
+js-lib-geometry-url-repeated = "{ $key }" 出现了多次；采用第一个值。
+
+js-lib-geometry-url-too-long = 地址长度超过 { $max } 个字符，因此其中没有任何设置被读取。
+
+js-lib-geometry-url-unreadable = 无法读取该地址。
+
+js-lib-guided-duration-s-hint = 将星下点轨迹外推多长时间
+
+js-lib-guided-duration-s-label = 持续时间 (s)
+
+js-lib-guided-dut1-s-hint = 地球自转偏差；使星下点轨迹向东或向西移动
+
+js-lib-guided-dut1-s-label = UT1−UTC (s)
+
+js-lib-guided-mask-deg-hint = 卫星须达到此高度角才计为可见
+
+js-lib-guided-mask-deg-label = 高度角截止 (°)
+
+js-lib-guided-seed-hint = 同一物理过程的另一次噪声抽样
+
+js-lib-guided-seed-label = 随机种子
+
+js-lib-guided-sigma-uere-m-hint = 位置汇总所用的 1-σ 用户等效距离误差
+
+js-lib-guided-sigma-uere-m-label = 距离误差 σ (m)
+
+js-lib-guided-station-lat-deg-hint = 地面站纬度，决定过境几何
+
+js-lib-guided-station-lat-deg-label = 地面站纬度 (°)
+
+js-lib-guided-station-lon-deg-hint = 地面站经度
+
+js-lib-guided-station-lon-deg-label = 地面站经度 (°)
+
+js-lib-guided-step-s-hint = 星下点轨迹的采样间隔
+
+js-lib-guided-step-s-label = 时间步长 (s)
+
+js-lib-guided-threshold-ns-hint = 规格内预算；误差保持在其以下时为“可用”
+
+js-lib-guided-threshold-ns-label = 规格门限 (ns)
+
+js-lib-guided-time-duration-s-hint = 总运行时长
+
+js-lib-guided-time-duration-s-label = 持续时间 (s)
+
+js-lib-guided-time-step-s-hint = 积分与采样间隔
+
+js-lib-guided-time-step-s-label = 时间步长 (s)
+
+js-lib-guided-user-altitude-km-hint = 用户航天器的轨道高度
+
+js-lib-guided-user-altitude-km-label = 用户高度 (km)
+
+js-lib-guided-user-inclination-deg-hint = 用户轨道的倾角
+
+js-lib-guided-user-inclination-deg-label = 用户倾角 (°)
+
+js-lib-imufit-card-accel-slope = 加速度计阿伦斜率，早期（白噪声约为 -0.5）
+
+js-lib-imufit-card-bias = 加速度计偏置，均值 (m/s²)
+
+js-lib-imufit-card-bias-instability = 加速度计偏置不稳定性 (m/s²)，曲线无底部平台时为 0
+
+js-lib-imufit-card-gyro-bias = 陀螺偏置，均值 (rad/s)
+
+js-lib-imufit-card-gyro-slope = 陀螺阿伦斜率，早期（白噪声约为 -0.5）
+
+js-lib-imufit-card-note-n = 说明 { $n }
+
+js-lib-imufit-card-q-arw = 陀螺角度随机游走，q_arw (rad²/s)
+
+js-lib-imufit-card-q-va = 加速度计速度随机游走，q_va (m²/s³)
+
+js-lib-imufit-card-sample-rate = 采样率
+
+js-lib-imufit-card-samples = 样本数
+
+js-lib-imufit-card-span = 时间跨度
+
+js-lib-jammertest-card-clean-epochs = 无干扰历元
+
+js-lib-jammertest-card-clean-hours = 无干扰小时数
+
+js-lib-jammertest-card-detected = 在容差内检测到
+
+js-lib-jammertest-card-detection-rate = 检测率（任一告警）
+
+js-lib-jammertest-card-evaluable = 可评估
+
+js-lib-jammertest-card-fa-epochs = 虚警历元
+
+js-lib-jammertest-card-fa-per-hour = 每小时虚警次数
+
+js-lib-jammertest-card-fa-runs = 虚警次数
+
+js-lib-jammertest-card-in-tol-rate = 在容差内检测到的比率
+
+js-lib-jammertest-card-late = 延迟
+
+js-lib-jammertest-card-median-latency = 检测延迟中位数
+
+js-lib-jammertest-card-median-recover = 恢复时间中位数
+
+js-lib-jammertest-card-missed = 漏检
+
+js-lib-jammertest-card-na = 不适用
+
+js-lib-jammertest-card-not-assessable = 此日志中没有可评估的测试，因此无法给出检测率或延迟。这是一个结果，不是页面的故障：此处没有任何内容构成通过。
+
+js-lib-jammertest-card-not-json = { $name }：不是 JSON（{ $reason }）。
+
+js-lib-jammertest-card-not-scorecard = { $name }：不是 jammertest 计分卡（需要 tests[] 和 summary）。
+
+js-lib-jammertest-card-tests = 计划片段中的测试
+
+js-lib-jammertest-card-too-large = { $name }：大于 8 MiB；本页面读取不超过该大小的计分卡。
+
+js-lib-kpi-available-everywhere = 所有位置、所有历元均可用
+
+js-lib-kpi-available-everywhere-pdop = 所有位置、所有历元均可用（PDOP，即位置精度因子，低于 { $thr }）
+
+js-lib-kpi-drops-under = 降到 { $thr } dB-Hz 跟踪门限以下：失锁
+
+js-lib-kpi-end-of-mission = 任务结束时
+
+js-lib-kpi-figure-tiers = 数据项层级：{ $parts }。
+
+js-lib-kpi-n-modelled = { $n } 项为模型计算
+
+js-lib-kpi-n-partner = { $n } 项由合作方负责
+
+js-lib-kpi-n-validated = { $n } 项已验证
+
+js-lib-kpi-no-change = 无变化
+
+js-lib-kpi-no-fix = { $pct } % 的时间或位置无法定位
+
+js-lib-kpi-no-fix-pdop = { $pct } % 的时间或位置在 PDOP 低于 { $thr } 时无法定位
+
+js-lib-kpi-over-jump = 超过 { $thr } m 跳变门限
+
+js-lib-kpi-over-pdop = 超过 PDOP 门限 { $thr }
+
+js-lib-kpi-stays-above = 保持在 { $thr } dB-Hz 跟踪门限以上
+
+js-lib-kpi-under-jump = 低于 { $thr } m 跳变门限
+
+js-lib-kpi-under-pdop = 低于 PDOP 门限 { $thr }
+
+js-lib-orbit3d-apogee = 远地点
+
+js-lib-orbit3d-perigee = 近地点
+
+js-lib-orbit3d-prov-scenario = 场景 { $hash }
+
+js-lib-orbit3d-title = 轨道（ECI，正交投影）
+
+js-lib-orbit3d-view-angles = 方位角 { $az }° · 高度角 { $el }°
+
+js-lib-overlay-meta-clock-bias-m = 钟差偏置
+
+js-lib-overlay-meta-converged-pos-3sigma-m = 位置 3σ
+
+js-lib-overlay-meta-converged-pos-rms-m = 位置 RMS
+
+js-lib-overlay-meta-converged-pos-sigma-m = 位置 σ
+
+js-lib-overlay-meta-final-clock-freq-sigma = 钟频 σ
+
+js-lib-overlay-meta-mean-relays-in-view = 可见中继
+
+js-lib-overlay-meta-pos-p95-m = 位置 p95
+
+js-lib-overlay-meta-pos-rms-m = 位置 RMS
+
+js-lib-overlay-meta-postfit-rms-m = 拟合后 RMS
+
+js-lib-overlay-prov-scenario = 场景 { $hash }
+
+js-lib-overlay-subtitle = |误差| (ns) 与时间的关系 — { $n } 次运行
+
+js-lib-overlay-time-s = 时间 (s)
+
+js-lib-overlay-title = 叠加：中断期间的授时误差
+
+js-lib-packs-cannot-unpack = 此浏览器无法解包已记录的文件
+
+js-lib-replay-demos-below-130 = 仅保留方位角低于 130° 的卫星（已说明）
+
+js-lib-replay-demos-coastal-drag-off = 沿岸拖拽偏离
+
+js-lib-replay-demos-combined-event = 组合事件
+
+js-lib-replay-demos-drag-off-stated = 位置拖拽偏离（演示中已说明）
+
+js-lib-replay-demos-ferry-drag-off = 渡轮航段，位置拖拽偏离
+
+js-lib-replay-demos-ferry-drag-off-description = 一份虚构的渡轮日志，塔林至赫尔辛基，1 Hz。从 1500 s 起，位置拖拽偏离将报告的位置拉离真实位置，而接收机仍持续报告有效定位。
+
+js-lib-replay-demos-fjord = 峡湾自然劣化
+
+js-lib-replay-demos-masked-sky = 渡轮航段，半个天空被遮挡
+
+js-lib-replay-demos-masked-sky-description = 同一份渡轮日志：从 600 s 起西半边天空的信号被静默，从 900 s 到 1200 s 天空范围进一步变窄，从 1500 s 起出现拖拽偏离：一次运行中，天空、信号和位置依次失效。
+
+js-lib-replay-demos-open-sea-jamming = 开阔海域压制干扰（jamming）
+
+js-lib-replay-demos-port-approach = 进港授时欺骗
+
+js-lib-replay-demos-source-training = 合成场景 { $id }：引擎的 nmea_training 数据流和教员日志，由其接收机信任度评分。
+
+js-lib-replay-demos-source-trust = 合成日志 { $id }：虚构的 NMEA，由引擎的接收机信任度评分。
+
+js-lib-replay-demos-west-masked = 西半边天空被遮挡（已说明）
+
+js-lib-replay-demos-west-masked-again = 西半边再次被遮挡（已说明）
+
+js-lib-report-charts = 图表
+
+js-lib-report-eyebrow = 精确时刻
+
+js-lib-report-figures-of-merit = 性能指标
+
+js-lib-report-footer = Kshana { $version } · 场景 { $hash } · 生成于 { $iso }。可由场景 + 随机种子 + 引擎版本复现。在本地运行；不上传任何内容。
+
+js-lib-report-not-applicable = 不适用（未配置攻击）
+
+js-lib-report-scenario-definition = 场景定义（TOML）
+
+js-lib-report-th-clock = 时钟
+
+js-lib-report-th-metric = 指标
+
+js-lib-report-th-validation = 验证
+
+js-lib-report-th-value = 数值
+
+js-lib-report-tier-note = 每个性能指标都标记为 { $validated }（已对照外部参考基准核对）或 { $modelled }（由第一性原理得出，经内部测试）——取自验证矩阵。
+
+js-lib-report-title = Kshana — 场景报告
+
+js-lib-skydraw-azimuth-range = 方位角 { $from } 至 { $to } 度
+
+js-lib-skydraw-describe = 列出 { $listed } 颗卫星，{ $heard } 颗有信号
+
+js-lib-skydraw-describe-mean = 列出 { $listed } 颗卫星，{ $heard } 颗有信号，平均 { $snr } dB-Hz
+
+js-lib-skydraw-east = 东
+
+js-lib-skydraw-no-signal-from = { $sectors } 无信号
+
+js-lib-skydraw-none-listed = 此时日志中没有列出卫星。
+
+js-lib-skydraw-north = 北
+
+js-lib-skydraw-sat-heard = { $sys } { $prn }：高度角 { $el }，方位角 { $az }，信号 { $snr } dB-Hz
+
+js-lib-skydraw-sat-quiet = { $sys } { $prn }：高度角 { $el }，方位角 { $az }，已列出，无信号
+
+js-lib-skydraw-south = 南
+
+js-lib-skydraw-unheard-sector = 方位角 { $from } 至 { $to } 度之间列出了卫星，但均无信号
+
+js-lib-skydraw-west = 西
+
+js-lib-skyline-edit-describe = 天际线遮挡 360 度方位角中的 { $blocked } 度；最高 { $el }°，位于方位角 { $az }°。
+
+js-lib-skyline-edit-open = 开阔地平线：无天际线。
+
+js-lib-stages-all-planets = 所有行星
+
+js-lib-stages-au-from-sun = 距太阳 { $d } au
+
+js-lib-stages-band-carrier = { $name } 载波，{ $mhz } MHz
+
+js-lib-stages-bin-title = { $from } 至 { $to }{ $unit }：{ $count } 次运行
+
+js-lib-stages-body-and-moons = { $name } 及其卫星
+
+js-lib-stages-cell-title = 纬度 { $lat }°，经度 { $lon }° · { $field } { $value }
+
+js-lib-stages-chain-navmsg = 导航电文
+
+js-lib-stages-chain-pass = 过境与链路
+
+js-lib-stages-chain-ppp = 精密单点定位
+
+js-lib-stages-chain-pvt = 融合定位
+
+js-lib-stages-chain-signal = 信号设计
+
+js-lib-stages-coverage-aria = { $body }上的 { $field }，按纬度和经度
+
+js-lib-stages-feature-n = 要素 { $n }
+
+js-lib-stages-flag = 标记
+
+js-lib-stages-frequency-mhz = 频率 (MHz)
+
+js-lib-stages-from-to = { $from } 至 { $to }
+
+js-lib-stages-geojson-aria = 绘制在地图上的 GeoJSON 导出
+
+js-lib-stages-histogram = 直方图
+
+js-lib-stages-inner-planets = 内行星
+
+js-lib-stages-km-from-centre = 距 { $centre } { $d } km
+
+js-lib-stages-linear-scale = 线性比例
+
+js-lib-stages-link-light-time = { $from } 至 { $to }：单程光行时 { $time } s
+
+js-lib-stages-longitude-axis = 经度 · 纬度沿侧边向上
+
+js-lib-stages-mission-time = 任务时间 (s)
+
+js-lib-stages-noise-floor = 噪声底
+
+js-lib-stages-orrery-note = { $scale } · 坐标系 x-y 平面，自其北极向下看
+
+js-lib-stages-panel-n = 面板 { $n }
+
+js-lib-stages-plan-view-aria = { $centre } 及其周围天体的平面图，{ $scale }
+
+js-lib-stages-psd-at-t = t = { $t } s 时的功率谱密度
+
+js-lib-stages-psd-axis = 功率谱密度 (dBW/Hz)
+
+js-lib-stages-runs = 次运行
+
+js-lib-stages-sat-title = { $constellation } { $id } · 纬度 { $lat }°，经度 { $lon }°
+
+js-lib-stages-satellites = 卫星
+
+js-lib-stages-spectrum-at-t = t = { $t } s 时的频谱
+
+js-lib-stages-sqrt-scale = 平方根距离比例
+
+js-lib-stages-the-body = 该天体
+
+js-lib-stages-time-s = 时间 (s)
+
+js-lib-stages-unit-alarm = 告警
+
+js-lib-stages-unit-cn0 = 载噪密度比
+
+js-lib-stages-unit-position = 位置与保护
+
+js-lib-stages-unit-satellites = 卫星
+
+js-lib-stages-unit-time-error = 钟差
+
+js-lib-stages-waterfall-aria = 功率谱密度瀑布图：横向为频率，纵向为时间
+
+js-lib-stages-whole-band = 整个频段
+
+js-lib-sweep-clock-availability = { $who }可用性
+
+js-lib-sweep-clock-holdover = { $who }守时（holdover）(s)
+
+js-lib-sweep-clock-timing-p95 = { $who }授时 p95 (ns)
+
+js-lib-sweep-clock-timing-rms = { $who }授时 RMS (ns)
+
+js-lib-sweep-max-altitude = 最大高度 (km)
+
+js-lib-sweep-max-elevation = 最大高度角 (°)
+
+js-lib-sweep-max-speed = 最大速度 (m/s)
+
+js-lib-sweep-min-altitude = 最小高度 (km)
+
+js-lib-sweep-peak-doppler = 峰值多普勒 (Hz)
+
+js-lib-sweep-prov-scenario = 场景 { $hash }
+
+js-lib-sweep-y-vs-x = { $y } 与 { $x } 的关系
+
+js-lib-tabs-3d-orbit = 3D 轨道
+
+js-lib-tabs-figures-of-merit = 性能指标
+
+js-lib-tabs-stability = 稳定度
+
+js-lib-tabs-sweep = 扫描
+
+js-lib-tabs-time-series = 时间序列
+
+js-lib-tour-ashforde-body = 感谢探索 Kshana。我们为不容有失的任务构建开放、可复现、以证据为先的工程——如实说明哪些已验证、哪些由模型计算。有问题、合作或研究意向？请联系 contact@ashforde.org。
+
+js-lib-tour-ashforde-title = 来自 Ashforde® OÜ
+
+js-lib-tour-capabilities-body = 选择一个领域标签——轨道、授时、惯性、GNSS、韧性、月球、AI/ML、互操作——即可查看其能力，每项都标明已验证或模型计算，已有算例的场景带有 ▸ 运行按钮。在任一领域中打开“证据与来源”可追溯其依据，或切换“仅已验证”，只显示已对照外部参考基准核对的内容。
+
+js-lib-tour-capabilities-title = 逐个领域探索引擎
+
+js-lib-tour-cite-body = Kshana 的构建目标是可被引用——带 DOI 的可引用软件发布版本，以及关于射频损伤乐观差距和条件性授时保护级的同行评议风格论文。可直接从这里复制引用。
+
+js-lib-tour-cite-title = 出版物与引用方式
+
+js-lib-tour-download-report-body = “扫描”标签在一个范围内改变一个参数；“固定以对比”把两次或更多次运行并排叠加，并显示它们之间的 Δ（适用于各种场景类型——时钟、火星 PNT、定位……）；此按钮则把本次运行下载为自包含的离线 HTML 报告。
+
+js-lib-tour-download-report-title = 扫描、对比与导出
+
+js-lib-tour-guided-body = 引导式调节项会随场景变化——随机种子、规格门限、持续时间、高度角截止、轨道高度——每次更改都会立即重新运行。
+
+js-lib-tour-guided-title = 调节滑块
+
+js-lib-tour-mcp-body = MCP 服务器让 AI 助手运行经过验证的引擎，而不是凭空猜测；JetBrains 插件可通过右键运行场景。
+
+js-lib-tour-mcp-title = 通过 AI 智能体或 IDE 使用
+
+js-lib-tour-playground-body = 从下拉菜单中选择一个场景——或点击上方任一能力的 ▸ 运行——引擎便会以 WebAssembly 的形式在本机上运行。不会上传任何内容。
+
+js-lib-tour-playground-title = 在浏览器中运行
+
+js-lib-tour-run-body = 运行当前场景。打开“高级”可编辑 TOML 并更改任何内容；“复制分享链接”可让他人复现这次完全相同的运行。
+
+js-lib-tour-run-title = 运行
+
+js-lib-tour-tabs-body = 在性能指标、时间序列图、时钟稳定度（阿伦偏差）之间切换——对轨道运行，还可使用交互式 3-D 轨道视图。
+
+js-lib-tour-tabs-title = 查看结果
+
+js-lib-tour-validation-body = 同一个浏览器同时也是证据台账（ledger）：每个领域都带有“证据与来源”抽屉——数据项、其所对照核对的外部参考基准，以及每项主张如实标注的已验证 / 模型计算状态。“仅已验证”会筛选出经数据集核对的行。
+
+js-lib-tour-validation-title = 凭证据，而非形容词
+
+js-lib-views-3-sigma-bound = 3 倍标准差界
+
+js-lib-views-3d-position-error = 3-D 位置误差
+
+js-lib-views-a-parameter = 一个参数
+
+js-lib-views-band-runs = { $runs } 次蒙特卡罗运行中的钟差带
+
+js-lib-views-band-the-runs = 蒙特卡罗各次运行中的钟差带
+
+js-lib-views-below-tracking = 低于跟踪门限
+
+js-lib-views-chart = 图表
+
+js-lib-views-classical = 经典
+
+js-lib-views-epoch = 历元
+
+js-lib-views-four-needed = 定位需要 4 颗
+
+js-lib-views-free-inertial = 自由惯性
+
+js-lib-views-gnss-denied = GNSS 拒止
+
+js-lib-views-ground-track = 星下点轨迹
+
+js-lib-views-heatmap-effective = 按卫星和时间划分的有效载噪密度比
+
+js-lib-views-heatmap-nominal = 按卫星和时间划分的标称（无干扰机）载噪密度比
+
+js-lib-views-horizontal-alert-limit = 水平告警限值
+
+js-lib-views-horizontal-hpl = 水平（HPL）
+
+js-lib-views-id-bound = { $id } 界
+
+js-lib-views-id-median = { $id } 中位数
+
+js-lib-views-id-offset = { $id } 偏移
+
+js-lib-views-id-p95 = { $id } p95
+
+js-lib-views-map-matched = 地图匹配
+
+js-lib-views-map-matched-title = 地图匹配与自由惯性位置误差对比
+
+js-lib-views-metric = 指标
+
+js-lib-views-oscillator = 振荡器
+
+js-lib-views-oscillator-source = 振荡器（{ $source }）
+
+js-lib-views-position-error-axis = 位置误差（{ $unit }）
+
+js-lib-views-position-error-m = 位置误差 (m)
+
+js-lib-views-position-error-run = 运行期间的位置误差
