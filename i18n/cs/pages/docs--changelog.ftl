@@ -2371,3 +2371,635 @@ seg-d2add1ce01e1 = <c1/> nahrazuje vzorkovač jen s bílým šumem fyzikálně p
 seg-6c7a1dd63be0 = Numerická shoda se Stable32 pro odhadovače rodiny Allan (NBS14).
 
 seg-adbb47ca87b4 = <c1/> ověřuje odhadovače překrývající se ADEV, modifikované ADEV, časové odchylky a překrývající se Hadamardovy proti referenčním odchylkám Stable32 pro kanonickou datovou sadu <b>NBS14</b> (W. J. Riley, <em>Handbook of Frequency Stability Analysis</em>, NIST SP { "1065" }, ~s. 107) pro tau = { "1" }, { "2" } s relativní tolerancí { "1e-4" } — skutečná shoda ~{ "1e-6" }. Tím se matematika odhadovačů připíná proti de facto referenční implementaci, nejen proti vlastní analytické samokonzistenci odhadovačů. Používají se jen veřejná referenční čísla; žádný cizí kód.
+
+seg-f23b6db96748 = Tabulka stop získává sloupec <c1/>.
+
+seg-a5769fbc201e = Text nápovědy už netvrdí, že <c1/> přijímá příznaky vstupní části (front-end); používá je pouze <c2/>.
+
+seg-cf28fa21786a = Parametry <c2/> a <c3/> v Pythonu u <c1/> mají nyní výchozí hodnotu <c4/> (hodnoty z návrhu, ve vestavěném návrhu { "1" } a { "5000" } Hz). Jeho epochy získávají korelátory early/late, <c5/>, <c6/>, <c7/> a <c8/> a výsledek získává <c9/> a <c10/>.
+
+seg-666b9e3faa5d = <b>Výchozí krok akvizice už nepředává sledování Galileo E1 zbytek, který FLL nedokáže zachytit.</b> Krok <c1/> zanechává při předání až <c2/> chyby Dopplerova posunu, ale výchozí dvoukvadrantová FLL zachytí jen <c3/>. U každého kódu s délkou { "4" } ms nebo delší (<c4/>), včetně Galileo E1-B a E1-C, ležel zbytek ({ "83.3" } Hz při { "4" } ms) mimo zachytávací rozsah { "62.5" } Hz a sledování se falešně zachytilo na +{ "125" } Hz, přičemž indikátor fázového zachycení { "0.97" } to skrýval. Výchozí krok je nyní navíc omezen na <c5/> (<c6/>), tedy { "0.8" } zachytávacího rozsahu, takže předání zůstane uvnitř rozsahu, i když zvítězí sousední přihrádka. (Nejprve se zkusilo { "0.4" }: při E1-B se falešně zachytil { "1" } běh ze { "42" } a koherentní hledání GPS L1 C/A s { "1" } ms vybralo přihrádku vzdálenou { "350" } Hz a zachytilo se na +{ "500" } Hz; hodnoty { "0.25" } a { "0.2" } ve stejných bězích žádné neměly.) Cena: Galileo E1-B/E1-C přecházejí z přihrádek po { "166.7" } Hz na přihrádky po { "50" } Hz, tedy { "201" } přihrádek v rozsahu ±{ "5" } kHz místo { "61" }; kódy s { "1" } ms ({ "166.7" } Hz, <c7/>) se nemění. <c8/> v návrhu smyčky znamená právě toto; explicitní <c9/> nebo <c10/> se použije tak, jak je zadáno, a <c11/> (bez předání sledování) zachovává učebnicový krok. Hlavička epochy a <c12/> nyní zaznamenávají vyřešený krok a šířky pásma smyček pro každý kanál (<c13/>). Výchozí hash návrhu se nemění. Změna výstupu: detekce u kódů s délkou { "4" } ms a delší mohou dopadnout do jiných Dopplerových přihrádek.
+
+seg-9150dc89e186 = <b>GPS L2C CM (aktualizace smyčky po { "20" } ms) s výchozím návrhem drží zachycení.</b> Výchozí PLL { "15" } Hz a FLL { "10" } Hz mají <c1/> { "0.3" } a { "0.2" } při T = { "20" } ms a smyčka ztratila zachycení i při dokonalém startu (PLI −{ "0.08" }, M2M4 { "15.8" } dB-Hz). Nový klíč návrhu <c2/> (výchozí { "0.1" }) omezuje šířky pásma šumu PLL a FLL na <c3/>, je-li doba aktualizace smyčky delší než { "4" } ms (<c4/>): { "5" } Hz a { "5" } Hz při { "20" } ms, { "10" } Hz a { "10" } Hz při { "10" } ms u BeiDou B1C; kódy s { "1" } ms a { "4" } ms si ponechávají { "15" } a { "10" } Hz. Platí i pro explicitně zadané šířky pásma; <c5/> to vypíná. Klíč se při výchozí hodnotě z kanonického tvaru vynechává, takže výchozí hash se nemění; návrh, který nastaví jinou hodnotu, má jiný hash. Při { "45" } dB-Hz dává L2C CM nyní PLI { "0.996" }, chybu Dopplerova posunu { "0.00" } Hz a M2M4 { "42.71" } dB-Hz. Známá otevřená položka: NWPR C/N0 tam vychází o { "1.76" } dB nízko (a o { "2.45" } dB nízko u B1C při { "10" } ms), takže T5 matice pro L2C zůstává ignorovaným zjištěním.
+
+seg-74517bee3f6f = <b>Soubor <c1/> byl znovu vygenerován: uložený obrázek byl zastaralý vůči vlastnímu scénáři (změna dat, nikoli přebarvení).</b> Graf byl nakreslen 2026-06-02 ze souboru <c2/>; o dva dny později 67fed19e nastavil v tomto scénáři úrovně flicker-FM (kvantové <c3/>, CSAC <c4/>) a obrázek už nikdo nepřekreslil. Ukazoval běh před nastavením úrovní: osa y { "0" } až { "47" } ns, p95 výpadku CSAC na jeden běh { "10.5" } až { "47.6" } ns (průměr { "25.2" } ns), klasický holdover průměrně { "4050" } s. Scénář tak, jak je dodáván (a jak již uvádějí tutoriál a shrnutí CLI), dává osu y { "0" } až { "407" } ns, p95 CSAC na jeden běh { "40.8" } až { "374.0" } ns (průměr { "167.0" } ns), klasický holdover { "844" } s [{ "220" } až { "2130" } s]; specifikační čára { "20" } ns leží na stejných { "20" } ns na zhruba devětkrát vyšší ose. Engine se nemění: dnešní engine na červnovém souboru scénáře reprodukuje osu starého obrázku přesně. Obrázek není odkazován z README ani z dokumentace.
+
+seg-75636f9419b2 = Známá omezení
+
+seg-2c607b56048e = <b>NWPR C/N0 vychází nízko při vysokém C/N0·T na jeden prompt a BOC({ "1,1" }) při { "5" } MS/s ztrácí asi { "1" } dB.</b> NWPR je na ideálních promptech nezkreslený, ale vlastní fázový jitter PLL smyčky stojí zhruba proloženě { "8" } dB × Bn·T (jedna scéna, čtyři body: −0,24/−0,44/−0,77/−{ "1.58" } dB při 1/2,5/5/10 Hz a { "20" } ms; asi −{ "1" } dB při výchozím <c1/>); M2M4 je necitlivý. Data BeiDou B1C při { "5" } MS/s také ztrácejí asi { "1" } dB výkonu promptu kvůli omezení pásma (použijte { "10" } MS/s nebo více). Ani jedno není vadou estimátoru; řádky T5 signálové matice pro GPS L2C a BeiDou B1C zůstávají ignorovanými zjištěními s těmito příčinami.
+
+seg-ff195e575023 = <b>Zpřísněn text grafů a přejímání grafů ve Studiu.</b> Text, který scénář přenáší do vygenerovaného grafu, je nyní jednotně escapován jednou sdílenou rutinou a Studio přejímá z grafu pouze značky kresby. Adresní parametry Studia, vyhledávání podle druhu a načítání scénářů jsou omezeny na známé hodnoty. Přibalené grafy, zaznamenané výsledky a zveřejněná čísla se nemění. Aktualizace se doporučuje všem, kdo ve Studiu otevírají soubory scénářů z nedůvěryhodných zdrojů nebo vkládají vygenerované grafy do webových stránek. Bezpečnostní upozornění: <a1>GHSA-h25h-cg9f-v2cg</a1>.
+
+seg-7f566858d036 = <b>Rozsah vrstvy IQ z hlediska interference a spoofingu, uvedený přesně.</b> Záznamy { "0.31.0" } a { "0.32.0" } níže uvádějí, že vrstva IQ nepřidává „žádnou syntézu signálu interference ani spoofingu“. To platí o samotné vrstvě IQ (<c1/> generuje pouze legitimní signály GNSS), ale znělo to jako tvrzení o celém enginu, což není pravda: od { "0.29.0" } sekce <c3/> druhu <c2/> zapisuje snímek SigMF svého analytického modelu s nakonfigurovanými rušiči (šumové rušiče po přihrádkách, tóny a chirpy jako průběhy) a <c4/> sčítá v paměti repliku autentického signálu a repliku signálu spoofera, aby otestoval zachycení smyčky (složený signál se nikdy nezapisuje). Engine navíc od { "0.20.0" } obsahuje softwarový přijímač GNSS (<c5/>: akvizice a sledování; od { "0.31.0" } také <c6/> a <c7/>). Nic v Kshaně nevysílá ani neřídí rádiový hardware. Stavový řádek README, <c8/>, <c9/> a poznámky k návrhu IQ to nyní uvádějí; již vydané záznamy zůstávají tak, jak byly zveřejněny. Chování se nemění.
+
+seg-61befd8b474d = <b>Známé omezení: souměřitelné vzorkování.</b> Při vzorkovací frekvenci, která je celým nebo poloceločíselným násobkem čipové frekvence, leží vzorky v každém čipu na stejných fázích čipu a diskriminátor kódu se stává schodištěm. Na syntetickém signálu GPS L1 C/A při { "45" } dB-Hz s rozestupem 0,5 čipu dává { "2.046" } MHz ({ "2" } vzorky na čip) chybu kódu ≈ { "0.09" } čipu (≈ { "26" } m) RMS a odchylku −{ "0.09" } čipu, oproti ≈ { "0.003" } čipu při nesouměřitelné frekvenci. NWPR C/N0 tam vychází o ≈ { "2.4" } dB nízko. Při { "4.092" } MHz závisí na rozestupu a kódovém Dopplerově posunu. Při { "0.5" } čipu je neškodná při Dopplerově posunu { "1500" } Hz, ale { "2" }× s odchylkou { "0.011" } čipu při { "0" } Hz a při { "0.25" } nebo { "0.1" } čipu je chyba kódu { "8" }–{ "10" }×. Sledování nosné není ovlivněno. Měření obsahuje <c1/>.
+
+seg-3a30bd47380a = Vrstva GNSS IQ na serveru MCP (fáze B.1).
+
+seg-ef81eca03bca = <c1/> získává šest nástrojů, které z agenta řídí vrstvu <c2/>: <c3/> (přijímané názvy signálů a nastavení IQ), <c4/> (popis nahrávky), <c5/> (generování scény se zadaným profilem nebo s vysílanými efemeridami, s volitelným kanálem na úrovni signálu), <c6/> (FFT akvizice, volitelně za stupni front-endu), <c7/> (akvizice a poté banka DLL/PLL/FLL) a <c8/> (pásmová propust, notch, blanking, excize, AGC, kvantizér). Vzorky IQ protokolem nikdy neprocházejí: každý nástroj bere cesty k souborům uvnitř jednoho pracovního adresáře nastaveného proměnnou <c9/> (nenastavená vypíná nástroje pro soubory IQ a ostatní nástroje neovlivní), odmítá cesty, které se rozloží mimo něj, a výstupy, které již existují, pokud není nastaveno <c10/>, před jakoukoli prací vynucuje rozpočet vzorků na jedno volání (<c11/>, výchozí { "50 000 000" }), odmítá neznámé argumenty a odpovídá kompaktním shrnutím JSON (detekce, C/N0, stav zachycení a každý zapsaný soubor s počtem bajtů). Výstup po epochách jde pouze do souborů, které volající pojmenuje. Nástroje spouštějí stejnou cestu kódu jako CLI přes nové veřejné rozhraní <c12/>, které vrací zprávu CLI místo jejího tisku (stdout je kanál JSON-RPC MCP); <c13/> a <c14/> jsou nyní také veřejné. Pouze software a pouze přírůstkově: vrstva IQ nepřidává syntézu interference ani spoofera, nic se nikdy nevysílá a nejsou žádné nové závislosti. <c15/> deklaruje obě proměnné prostředí. Testy round-trip v <c16/> generují krátkou scénu se dvěma satelity a kontrolují akvizici proti vlastnímu souboru pravdy scény, zachycení sledování a C/N0, front-end, výstup SigMF, rozpočet, omezení cest a vypnutý stav.
+
+seg-6963f3fa1db7 = <b>Vrstva GNSS IQ v registru validace.</b> Předregistrovaná křížová kontrola proti gps-sdr-sim (nezávislému generátoru základního pásma GPS L1 C/A, MIT, commit 28ca29a6) je nyní součástí vždy zapnuté sady testů (<c1/>). Její uložený referenční výstup (<c2/>: { "20" } ms vlastního 8bitového I/Q z gps-sdr-sim, jeho výpis kanálů a stav kanálů za ním z pomocného programu sestaveného ze stejného buildu) se znovu generuje skriptem <c3/>. Při testu není potřeba síť ani externí nástroj. Přidány jsou dva řádky registru ({ "251" } řádků: { "124" } ověřených, { "123" } modelovaných, { "4" } partnerské):
+
+seg-21d005e2ef0e = <em>Geometrie signálu scény GNSS IQ proti nezávislému generátoru základního pásma</em>: <b>Ověřeno</b>. Pravda scény (viditelná množina, pseudovzdálenost, fáze kódu, Dopplerův posun, úhly pohledu) pro scénu s vysílanými efemeridami odpovídá stavu kanálů gps-sdr-sim na všech { "11" } kanálech: nejhorší { "1.6" } mm, { "5.5e-6" } čipu, { "7.4e-5" } Hz, { "4e-9" } stupně, proti prahům { "0.05" } m, { "2e-4" } čipu, { "0.02" } Hz a { "1e-4" } stupně stanoveným před během.
+
+seg-5c8858182d41 = <em>Akvizice GNSS IQ na nezávisle generovaných vzorcích I/Q</em>: <b>Modelováno, se zjištěním</b>. <c1/> najde každý simulovaný satelit ve vzorcích gps-sdr-sim v rámci registrovaných prahů (fáze kódu do { "0.195" } čipu, Dopplerův posun do { "72" } Hz). Registrovaný práh „žádný jiný PRN nebyl detekován“ však selhává: na výstupu gps-sdr-sim bez šumu je práh pro gaussovský šum překročen křížovou korelací ostatních satelitů u všech { "21" } nepřítomných PRN. Přísný test je zachován, ignorován se zjištěním, a připnutý test je zaznamenává. Žádný kód enginu ani veřejné API se nemění. Vzorky I/Q se neporovnávají vzorek po vzorku: celočíselná sinová tabulka gps-sdr-sim, zisky, nulová počáteční fáze nosné a zkrácená pole LNAV nejsou veličiny, na kterých se musí přijímač shodnout. Porovnání se provádí na pozorovatelných veličinách, které přijímač měří.
+
+seg-a2be63287ce4 = <b><c1/> předává z akvizice o délce ≈{ "4" } ms ve výchozím nastavení (změna chování).</b> Akvizice, která inicializuje každý kanál sledování, nyní koherentně integruje <c2/> period kódu místo jedné, kde <c3/> je celá perioda kódu (primární krát délka sekundárního u vrstveného kódu, jednotka, přes kterou akvizice integruje). Nevrstvené kódy s { "1" } ms (GPS L1 C/A, BeiDou B1I, GLONASS L1OF) nyní prohledávají { "4" } periody ({ "4" } ms), takže výchozí Dopplerův krok <c4/> je ~{ "167" } Hz místo ~{ "667" } Hz. Každý kód, jehož celá perioda je již { "4" } ms nebo delší, si ponechává { "1" } periodu: Galileo E1-B ({ "4" } ms), BeiDou B1C ({ "10" } ms) a vrstvené GPS L5-I/L5-Q, Galileo E5a-I/E5a-Q a E1-C ({ "10" } až { "100" } ms s jejich překryvnými kódy) a GPS L2C. Každý signál tedy integruje alespoň ~{ "4" } ms. Hledání s jednou periodou mohlo kanál předat až ~{ "333" } Hz vedle, mimo zachytávací rozsah FLL, a ten pak sledoval falešné zachycení ~{ "500" } Hz daleko, přičemž hlásil čisté sledování. Na seedovaném průchodu { "180" } kanálů GPS L1 C/A (Dopplerův posun v rozsahu ±{ "5" } kHz, { "38" } až { "47" } dB-Hz, polovina s navigačními daty; <c5/>, lze znovu spustit) klesají falešná zachycení z { "27" } ze { "180" } na { "1" } ze { "180" } a zmeškané akvizice ze { "102" } na { "11" }, za cenu ~{ "40" } ms hledání navíc na PRN u GPS L1 ({ "11" } → { "52" } ms). Jediné zbývající falešné zachycení je při { "38" } dB-Hz, { "36" } Hz vedle. Všechna rozhraní se shodují: <c6/> a <c7/> (<c8/>), Python <c9/> (<c10/> je nyní automatické; stub aktualizován) a nástroj MCP <c11/>. Uživatelé, kteří se spoléhali na staré výchozí chování, mohou předat <c12/> (<c13/>). Vlastní výchozí hodnota <c15/> u <c14/> zůstává { "1" }. Nové veřejné <c16/> a <c17/>; regresní test <c18/>.
+
+seg-52768eb8e3d5 = <b>Každá generovaná grafika nyní sleduje téma Observatory webu: bajty každého grafu se mění.</b> Jde o záměrnou revizi zveřejněných obrázků, pouze barev a písem; žádná vynesená hodnota, souřadnice ani popisek se nepohnuly. <c1/> každého scénáře (a tedy exporty grafů Studia a ukázkové grafy v README), HTML zpráva o běhu (<c2/>), animace časové osy (<c3/>), HTML stránky výsledků scénářů a studií, shrnutí validace a obrázky a diagramy v dokumentaci používaly teplou tmavou červencovou paletu (základ <c4/>, zlatá <c5/>) a teplé papírové téma zpráv. Nyní přebírají každou barvu a písmo z jednoho modulu, <c6/>, který zrcadlí <c7/>: grafy jsou kresleny přístrojově tmavě na základu Observatory (<c8/>) v sadě písem Geist; zpráva, přehrávač animací a stránky výsledků sledují světlou či tmavou preferenci prohlížeče se světlými a tmavými tokeny Observatory. Šest domén selhání si ponechává každá jednu barvu (interference korálová, spoofing purpurová, časování modrá, oběžné dráhy azurová, integrita limetková, navigace jantarová) a úrovně důkazů se čtou ověřeno limetkově, modelováno jantarově, partner purpurově. Rampy vodopádů si zachovávají své percepční (inferno) uspořádání, znovu ukotvené na novém základu.
+
+seg-d967e354a966 = <c1/> drží modul na <c2/> v obou tématech, kontroluje, že <c3/> a <c4/> (oba generované z modulu pro nástroje obrázků v Pythonu a mermaid-cli) jsou aktuální, a selže, objeví-li se v <c5/> mimo paletu šestnáctkový barevný literál.
+
+seg-fa3e60422ca5 = <c1/> získává třetí diagnózu, „pohnuly se jen barvy a písma“, aby se revize palety odlišila od posunuté vynesené hodnoty. Každý znovu vykreslený graf v README byl ověřen jako shodný se svým předchůdcem po tomto normalizátoru.
+
+seg-3bc4056fd57e = <c1/> čte paletu a nyní také generuje tři výsledkové obrázky README, které neměly uložený generátor (<c2/>, <c3/>, <c4/>), se skutečnými textovými prvky, z <c5/>, výsledku <c6/> a <c7/>. <c8/> čte stejnou paletu, čímž opravuje svůj posun světlého tématu oproti webu. Hodnoty <c9/> jsou sloupcem nejhoršího případu <c10/> v tomto fixture ({ "7.31e-9" }, { "8.05e-9" }, { "8.18e-9" } a { "4.12e-6" } km), beze změny oproti obrázku z Matplotlibu, a <c11/> nyní selže, pokud se uložený obrázek a fixture neshodují.
+
+seg-3196836a2a0d = <b>Soubor <c1/> aktualizován na aktuální data (změna dat, nikoli přebarvení).</b> Obrázek uváděl { "28" } schopností ve { "8" } doménách ({ "11" } ověřených, { "17" } modelovaných), zastaralé vůči vlastnímu uvedenému zdroji; nyní nakreslen novým generátorem z <c2/> uvádí { "46" } schopností v { "8" } doménách ({ "17" } ověřených, { "29" } modelovaných).
+
+seg-55d5b16379aa = <b>Q rušiče CW/úzkopásmového je nyní { "1.0" }, nikoli { "1.5" }.</b> Učebnicová hodnota pro tón na nosné je { "1" } (tón zachovává spektrální vrchol signálu, <c1/>, <c2/>); dřívější { "1.5" } způsobovala, že tón škodil méně než širokopásmový šum při stejném J/S. Změna výstupu: asi −{ "1.8" } dB efektivního C/N0 při rušičích CW/úzkopásmových při vysokém J/S v druzích <c3/>, <c4/> a interop (tón přibaleného příkladu <c5/>: { "17.98" } dB-Hz z tabulky, dříve { "19.74" }). Q širokopásmového zůstává { "1.0" } (konzervativní, asi o { "3" } dB pod učebnicovými ~{ "2" }) do revize { "0.34" }. Nastavte <c6/>, chcete-li zachovat staré { "1.5" }.
+
+seg-99fab1936170 = <b>Celočíselný výstup <c1/> využívá celočíselný rozsah.</b> Při šumu s jednotkovým výkonem a měřítku zapisovače { "1" } vycházely scény <c2/>/<c3/> zhruba jako { "{" }-1, { "0" }, { "1" }{ "}" } a 2bitové scény měly prahy při { "2.8" } sigma. Celočíselné formáty se nyní škálují tak, aby očekávané RMS na složku bylo čtvrtinou plného rozsahu ({ "31.75" } LSB u ci8, { "8191.75" } u ci16) nebo { "2" } LSB u 2 bitů. Měřítko a počet oříznutých prvků se vypisují a zapisují do doprovodného souboru. Výstup v pohyblivé řádce je beze změny.
+
+seg-696109ae70f8 = <b>Osm fixture pinů v sedmi testovacích souborech už na macOS nepadá kvůli rozdílům v posledním bitu</b> (část issue #36). Piny, které kontrolují, že engine stále sestaví uložené vstupy orákula (Jacobiány, tabulku stavů, azimuty startu), se porovnávaly bit po bitu a na macOS arm64 padaly o { "2" } až několik tisíc jednotek v posledním místě. Nyní se porovnávají v rámci { "1e-12" } měřítka převzatého z fixture; celá čísla, klíče a délky se stále porovnávají přesně a mutační test ukazuje, že relativní změna { "1e-6" } stále selže. Pin azimutu startu porovnává <c1/> a větev vzestupná/sestupná místo samotného azimutu, protože <c2/> zesiluje jednu ulp svého argumentu na asi { "3e-9" } rad tam, kde se sklon rovná kodélce místa. Žádná tolerance orákula ani předregistrovaný práh se nezměnily. Dva testy (lunární společné OD, lunární pozorovatelnost) nejsou pokryty: na macOS se samy jejich předregistrovaná porovnání pohybují a to je ponecháno na navazující práci.
+
+seg-b6c354fa0c28 = <b><c1/> a <c2/> uplatňují příznaky front-endu.</b> Text nápovědy uváděl <c3/>/<c4/>/<c5/>/<c6/>/<c7/>/<c8/> u <c9/>, ale <c10/> a <c11/> řetězec nikdy nesestavily: příznaky se tiše ignorovaly a příznak bez hodnoty, například <c12/>, pohltil příznak za sebou. Oba příkazy je nyní parsují stejně jako <c13/> a před průchod akvizice a průchod sledování předřadí nový řetězec front-endu. Výstup se rovná spuštění příkazu na souboru, který pro stejné příznaky zapíše <c14/>.
+
+seg-d7238dab610e = Data scény IQ se umísťují podle jednotlivých signálů.
+
+seg-46ace9a3e008 = <c1/> (a <c2/>) vkládají bity { "50" } bit/s do každého signálu, včetně pilotních, a na Galileu a BeiDou rychlostí GPS LNAV. Data nyní sledují vlastní časování symbolů každého signálu, které udává nové <c3/> (<c4/>, nastavované každým konstruktorem v <c5/>). Je to { "10" } ms u L5-I5, { "4" } ms u E1-B, { "2" } ms u BeiDou B1I GEO (D2) a bity { "20" } ms s meandrem { "10" } ms u GLONASS L1OF. Data jsou odmítnuta na pilotech, na GPS L2C jako jediném proudu CM/CL a <c6/> na čemkoli jiném než L1 C/A. Vlastní kódy ve výchozím nastavení zachovávají dřívější časování { "20" } ms. Programový <c7/>, který požádal o <c8/> na kódu jiném než L1 C/A nebo o <c9/> na pilotu, se dříve generoval mlčky a nyní vrací chybu při prvním čtení.
+
+seg-9dd38fa39d14 = Kanály GLONASS L1OF se akvirují a sledují na vlastní nosné FDMA.
+
+seg-a775751ed6f6 = <c1/> a kanály sledování směšovaly každý kód dolů jen od <c2/>. V nahrávce GLONASS s více kanály proto hledání kanálu +{ "3" } našlo signál kanálu { "0" } (všechny kanály sdílejí jeden měřicí kód) a nikdy se nepodívalo o { "1.6875" } MHz výše. Obojí nyní používá <c3/>. Člen nosné je nulový pro každou nahrávku vystředěnou na vlastní nosnou signálu a je vynechán, není-li střed znám, takže zpracování CDMA se nemění. Pokud jste staré chování obcházeli zahrnutím <c4/> do <c5/> v doprovodném souboru, tento člen odstraňte: posun se nyní uplatňuje z nosné a středu, takže jeho ponechání ho uplatní dvakrát. Známé omezení, zde beze změny: scéna GLONASS identifikuje každý satelit podle jeho frekvenčního kanálu <c6/> a id satelitu <c7/> záporný kanál zalamuje. Soubor pravdy zapisuje <c8/> jako <c9/> { "4294967289" } (<c10/>). Čtěte jej zpět jako <c11/> s přetypováním na <c12/>.
+
+seg-1c88bffc605b = <b>Vrstva GNSS IQ v CLI a Pythonu ({ "0.32.0" } fáze A).</b> Existující modul <c1/> je nyní použitelný bez psaní Rustu. Pět nových příkazů <c2/> se přidává do skupiny zpracování dat: <c3/> generuje dlouhou vícesatelitní scénu IQ do souboru s doprovodným souborem pravdy; <c4/> provádí FFT akvizici jednoho či více PRN nad nahrávkou a hlásí každou detekci (PRN, Dopplerův posun, fáze kódu, statistika, práh); <c5/> akviruje a poté spouští banku DLL/PLL/FLL nad nahrávkou a vydává výstup sledování po epochách (CSV/JSON) s konfigurovatelnými šířkami pásma smyček, integrační dobou a rozestupem korelátorů; <c6/> přehraje jednu nahrávku přes několik návrhů smyček a hlásí výsledné metriky jitteru a zachycení pro každý návrh; a <c7/> fituje model ztráty zachycení sledovací smyčky na časovou osu důvěry v přijímač. Stejné jádro je zpřístupněno Pythonu (<c8/>, <c9/>, <c10/>, <c11/>, <c12/>) a vrací seznamy a slovníky přívětivé k NumPy. Pouze software a pouze přírůstkově: žádné nové závislosti, žádné vysílání, žádná syntéza signálu interference ani spoofingu; engine, akvizice, sledování a návrhy smyček jsou vlastní crate, takže volající z CLI či Pythonu dostane stejné bity jako testy v Rustu. Nový modul <c13/>; vlastní soubor pravdy scény je nezávislým orákulem v <c14/> (akvizice obnoví každou vloženou fázi kódu a Dopplerův posun, sledování konverguje k vloženému Dopplerovu posunu). Žádný zveřejněný počet druhů scénářů ani řádek verifikační matice se nemění.
+
+seg-1971e3e9cfe6 = <b>Zbývající schopnosti knihovny GNSS IQ v CLI <c1/> a Pythonu ({ "0.32.0" } fáze A.2).</b> Navazuje na fázi A a zpřístupňuje zbytek vrstvy <c2/> bez psaní Rustu:
+
+seg-67c485097357 = <b>Propagační kanál na <c1/></b> (a v Pythonu <c2/>): ionosféra prvního řádu (<c3/>/<c4/> nebo <c5/>), troposféra Saastamoinen/Niell (<c6/>), model scintilace Cornell (<c7/>, <c8/>, <c9/>), zrcadlové vícecestné šíření od země (<c10/>/<c11/>), třístavový pozemní mobilní kanál (<c12/>) a blok bez přímé viditelnosti (<c13/>) se uplatňují na každý satelit přes nový můstek interní pro crate (<c14/>), který převádí absolutní dráhy modelů kanálu do tvaru přebytku nad geometrií, jaký scéna používá.
+
+seg-d736671f2251 = <b>Výstup SigMF na <c1/></b> (<c2/>): zapisuje vzorky jako dvojici <c3/>/<c4/> s capture a anotacemi pro jednotlivé satelity; <c5/>/<c6/> již SigMF čtou, takže scéna projde round-trip.
+
+seg-c59ae97779ae = <b>DSP front-endu</b>: nový příkaz <c1/> a stejné příznaky u <c2/>/<c3/> (<c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/> 1/2/3/8/14) spouštějí stupně <c10/> (pásmová FIR propust, adaptivní notch, pulzní blanking, excize ve frekvenční oblasti, AGC, kvantizér); v Pythonu zrcadleno jako <c11/>.
+
+seg-878d66b73571 = <b>Scény s vysílanými efemeridami</b>: <c1/> (s <c2/>/<c3/>/<c4/>) umístí každý zdravý satelit GPS do jeho skutečné vysílané geometrie pomocí čtečky RINEX enginu, takže soubor pravdy nese skutečnou vzdálenost, Dopplerův posun a fázi kódu pro jednotlivé satelity; v Pythonu zrcadleno jako <c5/>. Pouze software a pouze přírůstkově: žádné nové závislosti, žádné vysílání, žádná syntéza signálu interference ani spoofingu (efekty šíření kanálem působí jen na legitimní signál). Každé číselné tvrzení je testováno proti nezávislé referenci (uzavřený tvar nebo vložená pravda) v unit testech kanálu a front-endu a v <c6/>.
+
+seg-1e71370d87d8 = <b>Vrstva GNSS IQ: simulace na úrovni signálu a zpracování softwarovým přijímačem.</b> Nový modul <c1/> posouvá Kshanu od jednosatelitního front-endu L1 C/A s krátkými bloky k plné vrstvě na úrovni signálu, dosažitelné ze skupiny příkazů <c2/>. Generuje dlouhé vícesatelitní surové scény IQ s doprovodným souborem pravdy po epochách (<c3/>); uplatňuje šíření na úrovni signálu — ionosféru s divergencí kód–nosná, troposféru, amplitudovou a fázovou scintilaci (model Cornell), Fresnelovo vícecestné šíření a třístavový pozemní mobilní kanál, s variantou bez přímé viditelnosti (<c4/>); akviruje a sleduje pomocí FFT akvizice a vícekanálové banky DLL/PLL/FLL, přičemž jednu nahrávku přehrává přes mnoho návrhů smyček (<c5/>, <c6/>); modeluje front-end — filtrování FIR/IIR, kvantizaci na 1 až 14 bitů, AGC, notch, pulzní blanking a excizi ve frekvenční oblasti (<c7/>); streamuje velké zaznamenané datové sady v omezené paměti — formáty int8/int16/float32/zabalené 2bitové a reálné IF, vícesouborový SigMF, převzorkování, inventář datové sady s SHA-256 po souborech a dávkový běh (<c8/>); přidává rozprostírací kódy pro GPS L5/L2C, Galileo E1 (CBOC, skutečné paměťové kódy z ICD) a E5a, BeiDou B1C/B1I a GLONASS L1OF, každý ověřený proti svému dokumentu řízení rozhraní (<c9/>); a fituje model ztráty zachycení sledovací smyčky na pozorované chování skutečného přijímače v laboratorních bězích, s chybou při vynechání jednoho běhu (leave-one-run-out) a extrapolací označenou jako predikce (<c10/>). Každé číselné tvrzení je testováno proti nezávislé referenci (tabulka z ICD, uzavřený tvar nebo nezávislý přijímač obnovující vloženou pravdu); fyzikální modely kanálu a smyček zůstávají MODELLED. Jde pouze o softwarovou vrstvu: zapisuje soubory IQ pro softwarové přijímače a nesyntetizuje průběhy interference ani spoofingu ani neřídí rádiový hardware. Žádný zveřejněný počet druhů scénářů ani řádek verifikační matice se nemění. Návrh: <c11/>.
+
+seg-943e21ccb25f = Důvěra v přijímač: posouzení záznamu skutečného přijímače GNSS.
+
+seg-f8274120bff2 = <c1/> načte záznam u-blox UBX, RINEX { "3" } (s volitelným souborem vysílané navigace), Android GnssLogger nebo NMEA { "0183" } do jedné časově označené časové osy a nad ní spouští monitory důvěry: pokles poměru nosné k šumové hustotě (C/N0), ztrátu zachycení, automatické řízení zisku (AGC), indikátor rušení u-blox, skok polohy a, s RINEX a navigací, vlastní jednobodové řešení enginu s paritní autonomní monitorací integrity přijímače (RAIM) a monitor podporovaný hodinami. Každá epocha je nominální, degradovaná nebo nedůvěryhodná a výsledek říká, kdy a proč. Události a předpovězené poklesy C/N0 uvedené ve scénáři se hodnotí proti tolerancím uvedeným ve stejném souboru: detekováno, pozdě nebo zmeškáno a shoda nebo neshoda. Výstupem jsou výsledek JSON, CSV po epochách a graf; výsledek nese SHA-256 záznamu a každý práh. Dostupné je to také z Pythonu (<c2/>), z balíčku WebAssembly (<c3/>, záznamy vložené přímo) a z nového nástroje <c4/> serveru Model Context Protocol (MCP). Průvodce: <c5/>; příklad: <c6/>. Na záznamech spoofingu JammerTest { "2024" } cesta enginu reprodukuje první alarm předregistrovaného orákulového řetězce při každém zveřejněném nástupu (<c7/>). Monitory zůstávají MODELLED; žádný řádek verifikační matice se nemění.
+
+seg-55669fe92932 = Menší vydání. Validační kola { "2" } a balíčky vlny 1 posouvají verifikační matici z { "223" } řádků ({ "93" } VALIDATED) ve verzi { "0.29.3" } na { "249" } řádků ({ "123" } VALIDATED, { "122" } MODELLED, { "4" } PARTNER); každé povýšení bylo ověřeno proti nezávislému orákulu s tolerancí stanovenou před během a každý nesoulad je zveřejněn jako zjištění. Nově: nativní čtečka jader NAIF a cesta DE440, jedna ověřená cesta propagace a času SGP4 do ITRS, knihovna měřených hodin, referenční generátor LunaNet AFS, řešiče s rozšířenou přesností a odmocninové informační řešiče a zpracování skutečného lunárního IQ na datech LuGRE. Zveřejněná čísla, která se změnila, jsou uvedena níže jako revize.
+
+seg-f75f1878045e = Dvacet sedm řádků verifikační matice se stává VALIDATED poté, co se nezávislé orákulum shodlo v toleranci stanovené před prvním porovnáním (pravidlo povýšení v <c1/>): deset v prvním validačním kole a sedmnáct ve druhém. Padesát jedna řádků MODELLED bylo v prvním kole předloženo vnějšímu orákulu a zbývající směrovatelné řádky ve druhém; každý nesoulad je níže zaznamenán jako zjištění, nikoli odlaďován. Tři řádky byly rozděleny, aby ověřená část nenesla neověřený zbytek, čímž se matice posouvá z { "223" } na { "226" } řádků; od té doby sloučené validační balíčky ji posouvají na { "249" }. Počty se čtou z generovaného <c2/>.
+
+seg-8d542741fa77 = po kole { "1" }
+
+seg-ae3743f976c5 = Řádky verifikační matice
+
+seg-6c4b1fd56a31 = z toho VALIDATED proti vnějšímu orákulu
+
+seg-90450fe87280 = z toho MODELLED
+
+seg-86972e4c7f12 = z toho PARTNER
+
+seg-61c5c5e308ed = Zkratky použité v tomto záznamu
+
+seg-5907283b71da = Zkratka
+
+seg-47e2e7d1a000 = ADD, ARAIM, MAAST
+
+seg-0306daa1107f = Airborne Design Document (k ARAIM); pokročilá autonomní monitorace integrity přijímače; Matlab Algorithm Availability Simulation Tool Stanfordské univerzity
+
+seg-f031f12836be = ADEV, VRW, ARW
+
+seg-b32744d6f0c2 = Allanova odchylka; náhodná procházka rychlosti; náhodná procházka úhlu
+
+seg-1ac4ba7a2248 = ANISE, SPICE, NAIF, PCK
+
+seg-d10345f7bfab = open-source astrodynamický toolkit (Nyx Space); toolkit NASA Spacecraft, Planet, Instrument, C-matrix, Events z jejího střediska Navigation and Ancillary Information Facility; jádro planetárních konstant
+
+seg-0789b1b8dba2 = BCRS, TDB, TT
+
+seg-584e509c80a5 = barycentrická nebeská referenční soustava; barycentrický dynamický čas; pozemský čas
+
+seg-f03148ef3497 = BIPM, UTC(k)
+
+seg-d6e01fbf4f10 = Mezinárodní úřad pro míry a váhy; realizace koordinovaného světového času v jedné laboratoři
+
+seg-b65c854d8938 = CCSDS, OEM, LTC, TCL
+
+seg-77879f30c86d = Consultative Committee for Space Data Systems; Orbit Ephemeris Message; lunární časové soustavy zapisované v poli TIME_SYSTEM zprávy
+
+seg-bed3cea7e74f = CRLB
+
+seg-525ebb08f4bc = Cramérova–Raova dolní mez
+
+seg-a1fff77503b4 = CW
+
+seg-064470740a35 = relativní pohyb podle Clohessyho a Wiltshirea
+
+seg-d70a9b3e92a7 = Development Ephemeris { "440" } Jet Propulsion Laboratory
+
+seg-6f6e14685742 = DOP, PDOP
+
+seg-08aad29b6845 = zhoršení přesnosti; zhoršení přesnosti polohy
+
+seg-85eeed633f45 = EKF, UKF, INS, GNSS, IMU
+
+seg-e9ecdbb0f600 = rozšířený Kalmanův filtr; unscented Kalmanův filtr; inerciální navigační systém; globální družicový navigační systém; inerciální měřicí jednotka
+
+seg-86765c7a6bbf = EMT, VPL, HPL
+
+seg-23029e0ceed2 = efektivní práh monitoru; vertikální a horizontální ochranná úroveň
+
+seg-27786c406107 = EOP, IERS, PCC, MAE
+
+seg-9d0a1a9fdebc = parametry orientace Země; Mezinárodní služba rotace Země a referenčních soustav; Prediction Comparison Campaign; střední absolutní chyba
+
+seg-1508f3d3a180 = ERFA, SOFA
+
+seg-0b7d6f08efe2 = Essential Routines for Fundamental Astronomy; Standards of Fundamental Astronomy
+
+seg-900c7c7e99cd = GMAT
+
+seg-0382d12eabc8 = General Mission Analysis Tool NASA
+
+seg-025aec0f5e29 = NTN, SSB
+
+seg-183dca4a747b = neterestrická síť (3GPP); blok synchronizačního signálu
+
+seg-dcf507ba6e56 = IGS, ILRS, ITRF2020
+
+seg-9cebc1f9338d = Mezinárodní služba GNSS; Mezinárodní služba laserového měření vzdáleností; Mezinárodní terestrická referenční soustava { "2020" }
+
+seg-eaca07ff8609 = ILS, LAMBDA
+
+seg-b3cb3e6ea499 = celočíselné nejmenší čtverce; Least-squares AMBiguity Decorrelation Adjustment
+
+seg-c730f9c69d6e = ISB
+
+seg-ef9ba270513c = mezisystémové zkreslení
+
+seg-743c3303e01c = LEO
+
+seg-d7b83e7c427f = nízká oběžná dráha Země
+
+seg-1f76fe708934 = MHSS, PL, TPL
+
+seg-a93515a6ff89 = separace řešení pro více hypotéz; ochranná úroveň; časová ochranná úroveň
+
+seg-9e93c8223a11 = PSD, IQ, SigMF
+
+seg-67248a79ac93 = výkonová spektrální hustota; vzorky ve fázi a v kvadratuře; Signal Metadata Format
+
+seg-7dabf60fd17e = QPN
+
+seg-dae80c23262e = šum kvantové projekce
+
+seg-3ab6fb5e9394 = RAIM
+
+seg-ebda65a9a20f = autonomní monitorace integrity přijímače
+
+seg-224d7dfd2b05 = SBAS, WAAS, DFMC, GEO
+
+seg-1aeedd26b9cd = družicový rozšiřující systém; americký Wide Area Augmentation System; dvoufrekvenční vícekonstelační; geostacionární družice SBAS
+
+seg-eabf9641678b = RMS, SISRE
+
+seg-50a677b8e972 = odmocnina ze středního kvadrátu; chyba vzdálenosti signálu ve vesmíru
+
+seg-430b3c681347 = RTKLIB
+
+seg-3e75054c0034 = open-source knihovna pro určování polohy GNSS
+
+seg-051a168f774c = TCXO
+
+seg-ba5d469b1c66 = VLBI
+
+seg-264e9e51b8f8 = interferometrie s velmi dlouhou základnou
+
+seg-c3bc7d828ecc = Každý řádek níže uvádí druh svého orákula (Knihovna: nezávislá knihovna třetí strany počítající jednoznačně definovanou veličinu; Měřená data: skutečná naměřená data; P2: nezávislá numerická knihovna přepočítávající veličinu lineární algebry na uložených vstupech), orákulum, toleranci stanovenou před během a výsledek. Každé povýšení znovu spustil druhý recenzent, který bajt po bajtu znovu vygeneroval fixture a ukázal, že záměrná mutace enginu test obarví načerveno.
+
+seg-be0a4e3ac81c = <b>Fúze senzorů GNSS/INS</b> (Knihovna), zúžená na volně vázaný 15stavový EKF chyb: NaveGo v1.4 (LGPL-3.0, spuštěno v GNU Octave) na vlastní skutečné jízdě s IMU/GNSS Ekinox. Horizontální, vertikální a inovační RMS polohy Kshany jsou { "0.912" }, { "0.940" } a { "0.861" } hodnot NaveGo (práh { "1.2" }) a její střední normalizovaná inovace je { "0.395" } (práh { "1.5" }). GNSS je přítomno po celou jízdu, takže se netestuje žádný výpadek. Těsně vázaný UKF a vázaný filtr hodin zůstávají mimo toto tvrzení.
+
+seg-0c82afd5ba30 = <b>Rozpočet chyby 3-DOF orientace a zamíření</b> (Knihovna), zúžený na špičku gradientního momentu gravitace: Basilisk { "2.9.1" } GravityGradientEffector, { "40" } případů, v rámci { "1e-12" } relativně (nejhorší { "2.1e-15" }). Rozpočet zamíření RSS je součet čísel dodaných volajícím a zůstává mimo něj.
+
+seg-71cf58e91a09 = <b>Lunární společná geometrie komunikace a navigace</b> (Knihovna), zúžená na umístění místa, azimut, elevaci a vzdálenost: ANISE { "0.10.2" }, { "768" } vzorků, v rámci { "1e-6" } stupně a { "1" } mm (nejhorší { "2.2e-12" } stupně a { "5.6e-9" } m). Parametr přesnosti měření vzdálenosti je návrhový vstup mimo tvrzení.
+
+seg-0687c757231b = <b>Dynamika orientace tuhého tělesa bez momentů</b> (Knihovna): těleso kosmické lodi Basilisk { "2.9.1" }, { "1e4" } s na dvou obecných tenzorech setrvačnosti, kvaternion a rychlosti v rámci { "1e-9" } (nejhorší { "3.3e-11" } a { "3.4e-12" } rad/s).
+
+seg-d8c3f8cc65ac = <b>Řešení celočíselné nejednoznačnosti fáze nosné GNSS (LAMBDA)</b> (Knihovna), zúžené na řešení ILS a jeho dvě nejlepší normy: RTKLIB v2.4.2-p13 <c1/>, { "300" } kovariancí, { "0" } celočíselných neshod, normy v rámci { "1e-9" } relativně (nejhorší { "5.6e-13" }). Míra úspěšnosti metody bootstrap zůstává kontrolována pouze interně.
+
+seg-c23196cbdc96 = <b>Složená časová PL, skalární MHSS</b> (P2): numpy { "2.3.5" } a scipy { "1.18.1" } na { "300" } uložených vstupech, PL v rámci { "1e-9" } relativně (nejhorší { "1.2e-10" }), řídicí podmnožina shodná.
+
+seg-8f524d815949 = <b>Bělení souhlasného režimu GLS a Mahalanobisova identita</b> (P2): numpy { "2.3.5" } LAPACK na { "201" } uložených kovariancích, v rámci { "1e-12" } relativně (nejhorší { "7.9e-16" }); čísla podmíněnosti až { "19.3" }.
+
+seg-b4136cdb8a98 = <b>Poskytovatel lunární orientace hlavních os z DE440</b> (Knihovna): SPICE <c1/> na binárním PCK v { "2 000" } epochách mimo uzly, v rámci { "1.7e-5" } rad (nejhorší { "1.7e-6" } rad, asi { "3" } m na povrchu), po opravě uvedené v části „Opraveno“.
+
+seg-c28de00a491c = <b>Vstup a výstup nahrávek SigMF a Welchova spektra</b> (Knihovna), zúžené na čtení a zápis SigMF a <c1/>: scipy { "1.18.1" } <c2/> v rámci { "1e-12" } relativně na přihrádku (nejhorší { "6.0e-14" }); nahrávky sigmf-python { "1.13.0" } dekódované bitově shodně; metadata crate platná proti schématu SigMF { "v1.2.6" }. Syntéza IQ a její porovnání modelů zůstávají mimo.
+
+seg-a7756d2e124a = <b>Fitter vysílaných efemerid LEO a SISRE vůči intervalu fitu</b> (Měřená data), zúžený na 16parametrový keplerovský fit a jeho SISRE jen z oběžné dráhy: přesné dráhy TU Graz ITSG čtyř satelitů proti statistikám Liu et al. { "2025" }, složky v rámci 1,5× ({ "0.804" } až { "1.087" }) a SISRE v rámci 1,5× ({ "0.716" } až { "0.809" }).
+
+seg-99debd58724a = Zjištění
+
+seg-3f5b2f54c7bf = Orákulum s těmito řádky nesouhlasilo, proto zůstávají MODELLED. Každé zjištění je také zapsáno do textu orákula řádku (a tím do <c1/>), s testem, který ho připíná.
+
+seg-e28fac875d8c = <b>Odhad stavu palubních hodin:</b> na vynechaných hodinách IGS u { "11" } satelitů GPS Block IIF je třístavový filtr konzistentní o jeden krok dopředu, ale při jedné hodině je příliš sebejistý u { "9" } z { "11" } (periodické a flicker členy v modelu nejsou).
+
+seg-5900ce454dc7 = <b>Detekce spoofingu:</b> na JammerTest { "2024" } nezaalarmoval žádný monitor na úrovni pozorování do { "10" } s od žádného z { "8" } zveřejněných nástupů a tři okna před nástupem nesla falešné poplachy.
+
+seg-08b6e6aa7d08 = <b>Časová ochranná úroveň při spoofingu:</b> změřená nedetekovaná časová chyba přesahuje TPL u { "3" } z { "8" } detekovaných nástupů (1,9× až 5,3×); { "60" } s kalibrace hodin nepokrývá drift TCXO přijímače.
+
+seg-a2f4df11d9cc = <b>Okno startu a geometrie výstupu:</b> proti Orekit { "12.2" } se geometrie shoduje v rámci zaokrouhlení, ale rychlost místa vlivem rotace Země nesplňuje { "1e-6" } relativně při šířce { "62.9" } stupně ({ "1.12e-6" }, pohyb pólu, který sférický model vynechává). Kolo { "2" }: rychlost pro skutečný pól s epochou se shoduje, výchozí rychlost bez epochy stále nesplňuje (viz níže).
+
+seg-f6b6c9251a17 = <b>Koridor balistického návratu (Allen–Eggers):</b> předpovězené maximální zpomalení při návratu Stardust je { "61.8" } g proti rekonstruovaným { "32.89" } g (+{ "88" } %, tolerance { "15" } %).
+
+seg-5d83648dd867 = <b>Společná chyba UT1 a pohybu pólu:</b> proti vzorci přesnosti vytištěnému ve { "178" } číslech IERS Bulletin A se pól shoduje v rámci 1,5×, ale UT1 ne ({ "0.48" } při { "10" } dnech, { "1.59" } při { "40" } dnech). Nahrazeno v kole { "2" }: řádek je nyní VALIDATED (viz níže).
+
+seg-98a99bcba894 = <b>Výchozí offline vstup orientace Země:</b> astropy potvrzuje sčítání řádků, ale { "12" } řádků, které crate nazývá předpověďmi Bulletinu A, je označeno jako měřené (I), nikoli předpovězené (P). Údaje o shodě u řádku provozního prediktoru tedy byly proti měřeným řádkům. Nahrazeno v kole { "2" }: engine třídí řádky podle příznaku a řádek je VALIDATED.
+
+seg-d96fbfa4be79 = <b>Chyba predikce orientace Země v provozním stylu:</b> chyba UT1 prediktoru je 2,4× až 12,6× chyba Bulletinu A při { "1" } až { "10" } dnech a { "5.32" } ms při { "10" } dnech, mimo rozsah { "0.36" } až { "3.13" } ms 2. EOP PCC.
+
+seg-1833bf6e3b6f = <b>Lunární geodetická VLBI:</b> proti světelným časům ANISE přes DE440 není žádné zpoždění v rámci { "1" } ps; největší rozdíl je { "24" } µs, převážně analytický střed Měsíce (asi { "200" } km od DE440). Kolo { "2" }: cesta přes jádro je VALIDATED ve vlastním řádku; tato analytická cesta zůstává MODELLED.
+
+seg-0ec8a2a91702 = <b>Lunární interoperabilní export:</b> Orekit { "12.2" } odmítá časové soustavy LTC a TCL, takže výměna lunárních souborů OEM s druhou čtečkou není prokázána.
+
+seg-09cfd4e61b7b = <b>Relativní pohyb podle Clohessyho a Wiltshirea:</b> proti nelineárnímu pohybu Orekit při { "100" } m je rozdíl { "1.2" } až { "6.3" } mm, nad { "1" } mm; škáluje se jako vynechaný člen druhého řádu, takže předregistrovaná tolerance ležela pod chybou linearizace. Nahrazeno v kole { "2" }: korekce druhého řádu je VALIDATED proti stejnému prahu.
+
+seg-af1bdd974ba5 = <b>Růst chyby INS/TRN při setrvačném letu:</b> proti volně setrvačnému Monte Carlo NaveGo zákony růstu platí v rámci { "5" } % do { "600" } s a za ním nadhodnocují (2,2× až 8× po jedné hodině), protože vynechávají Schulerovu zpětnou vazbu. Nahrazeno v kole { "2" }: model chyby podle Schulera je VALIDATED.
+
+seg-8459bc50f8b4 = <b>Lunární servisní objem ze skutečné geometrie konstelace:</b> { "4" } z { "12" } zveřejněných statistik dostupnosti se liší o více než { "2" } procentní body (až { "22.5" }).
+
+seg-7a0fd1377b9c = <b>Horní mez zkreslení návaznosti heterogenního UTC(k):</b> na { "105 024" } řádcích BIPM je horní mez překročena u { "50.8" } % řádků; zveřejněná nejistota ohraničuje měření odchylky provedené BIPM, nikoli samotnou odchylku.
+
+seg-814acf34cffd = <b>Klasifikace nulového prostoru lunárního datumu:</b> na zveřejněné geometrii pěti odražečů je korelace -0,78 proti -0,97 a CRLB počátku je o { "96" } až { "98" } % pod hodnotou z článku.
+
+seg-da01b5e08a87 = <b>Substrát geometrie datumu lunárního LLR:</b> proti { "192" } lunárním normálním bodům ILRS z roku { "2024" } bylo RMS jednosměrného rezidua { "96" } m s dřívější interpolací orientace a po níže uvedené opravě je { "22.7" } m, stále nad prahem { "10" } m (zaokrouhlené souřadnice stanic, bez pohybu pólu). Řada orientace mimo 2024–2025 mlčky ořezává. Kolo { "2" }: model změřené vzdálenosti je VALIDATED ve vlastním řádku ({ "2.81" } m); řada nyní pokrývá 2014–2030 a mimo ni hlásí chybu.
+
+seg-fd9ad94680e9 = <b>Vazba relativistické rychlosti hodin na soustavu:</b> člen vlastního potenciálu je o { "3.18e-4" } nad zveřejněnou hodnotou (tolerance { "1e-4" }); článek vyhodnocuje jiný potenciál, takže zveřejněná hodnota tohoto uzavřeného tvaru neexistuje. Nahrazeno v kole { "2" }: rovníkový potenciál stupně 2 je VALIDATED proti stejnému článku.
+
+seg-e002819c1e2d = <b>Fyzikální konstanty každého tělesa sluneční soustavy:</b> { "12" } z { "84" } konstant přidaných těles se liší od NAIF pck00011 a gm_de440 (starší elementy satelitů Marsu; jiná řešení GM pro Uran, Neptun a Pluto). Kolo { "2" }: konstanty nyní sledují NAIF (přepis, nezapočítává se) a vypočtená orientace se shoduje se SPICE; řádek zůstává MODELLED.
+
+seg-e722d242e78e = <b>Volitelné modely efemerid LEO:</b> 22parametrový fit nechává 1,71× a 1,86× zveřejněné chyby ve směru dráhy na obloucích { "20" } min, nad 1,5×. Nahrazeno v kole { "2" }: 22parametrový model a fit jsou VALIDATED ve vlastním řádku.
+
+seg-c136023752df = <b>Společné určování polohy GNSS a LEO:</b> mezisystémové zkreslení se shoduje s RTKLIB, ale { "93.2" } % epoch je v rámci { "3" } m od ITRF2020 proti { "95" } %; samotný RTKLIB na datech dosahuje { "88.2" } % ({ "93.6" } % po opravě skupinového zpoždění v kole 2).
+
+seg-e5f0e3c21def = <b>Slepota integrity vůči souhlasnému režimu</b> a <b>mapy pokrytí a DOP:</b> obě porovnání prošla, ale při revizi byla zamítnuta, protože je projde i záměrně chybný engine (první kontroluje jen vnitřní identitu; zveřejněné spodní hranice druhého nemohou zaznamenat zdvojené PDOP). Kolo { "2" }: slepota integrity vůči souhlasnému režimu je VALIDATED na vstupech s paritou; mapy pokrytí zůstávají zjištěním (viz níže).
+
+seg-688e1753cd53 = Validační kolo { "2" }
+
+seg-b320fbdb72c3 = Druhé kolo vzalo každý řádek, který první kolo nechalo směrovatelný, s novými předregistracemi zapsanými před stažením jakéhokoli fixture nebo spuštěním jakéhokoli orákula, s kontradiktorním druhým recenzentem, který znovu spustil každé porovnání, a se záměrnou mutací enginu, která musí každý test obarvit načerveno. Vlastník přijal opravené znění řádku meze mimo Omega dne 2026-10-02, než byl povýšen (jeho starý text odporoval kódu).
+
+seg-7b7c584caaaf = <b>Povýšeno na VALIDATED ({ "17" }).</b> Druh orákula v závorce; tolerance stanovena před během.
+
+seg-555e6ad454d2 = <b>Vazba relativistické rychlosti hodin na soustavu</b> (Reference): L_m podle Ashbyho a Patly { "2024" } v rámci { "2.8e-6" } (práh { "1e-4" }) z rovníkového potenciálu stupně 2 obou polí, která článek cituje; gravitace pyshtools stupně 350 pro radiální vstup ({ "8.3e-5" }); lunární rychlost DE441 ({ "2.5e-3" }).
+
+seg-0c01fac44708 = <b>Výchozí offline vstup orientace Země</b> (Knihovna): astropy { "8.0.1" } a IERS Bulletin A č. { "039" } potvrzují { "30" } finálních, { "54" } rychlých a { "90" } předpovězených řádků znovu sestaveného výřezu.
+
+seg-b77253dd26b5 = <b>Společná chyba UT1 a pohybu pólu</b> (Knihovna): úplné rotace astropy a pyerfa reprodukují společnou tabulku (UT1 a pól v rámci { "6e-16" }, kombinace v rámci { "1.9e-7" }); realizované chyby z IERS Annual Report { "2019" } dávají poměry { "1.001" } až { "1.100" }.
+
+seg-378414f812c1 = <b>Stopa a pokrytí užitečného zatížení EO</b> (Knihovna): Orekit { "12.2" } a GeographicLib { "2.1" } při každém předregistrovaném prahu, s nodální regresí J2 nyní v rozestupu uzlů.
+
+seg-792bf58a1c1e = <b>Relativní pohyb podle Clohessyho a Wiltshirea</b> (Knihovna): s korekcí druhého řádu v uzavřeném tvaru v rámci { "1.2e-7" } m od nelineárního pohybu Orekit proti { "1e-3" } m; samotná lineární matice zůstává charakterizována ({ "1.2" } až { "6.3" } mm).
+
+seg-423437d90022 = <b>Cílení v rovině B a gravitační manévr v patched-conic aproximaci</b> (Knihovna): GMAT R2026a rovina B, asymptoty, C3 a heliocentrické elementy; sbpy { "0.6.0" } a Kasuga a Jewitt { "2019" } pro Tisserandův parametr.
+
+seg-b29b0dfcd3a4 = <b>Růst chyby INS/TRN při setrvačném letu</b> (Knihovna): devítistavový model chyby podle Schulera v rámci { "5" } % opravených běhů NaveGo ve všech { "48" } bodech (nejhorší { "3.70" } %).
+
+seg-8cc49496b4c6 = <b>Slepota integrity vůči souhlasnému režimu</b> (P2): numpy <c1/> na { "1464" } vstupech s paritou v rámci { "1e-12" } (nejhorší { "1.06e-14" }).
+
+seg-f0ff538b7329 = <b>Lunární společná vícetechnologická OD a hodiny</b> (P2): numpy přepočítává každý krok Gauss-Newton, sigmu a chybu stanice na šesti sítích (v rámci { "2.4e-11" }) po opravě řešení QR.
+
+seg-7ed9b059f888 = <b>Kovariance souřadnic stanic lunární VLBI</b> (Knihovna): Jacobián sestavený ve SPICE reprodukuje rozvrh, spektrum, sigmy a nulový prostor v rámci { "1" } % a { "0.1" } stupně; numpy do { "2e-13" }.
+
+seg-0e4e1c3fc899 = <b>Nedetekovatelná mez souhlasného režimu pro rezidua mimo Omega</b> (P2, znění opraveno rozhodnutím vlastníka): numpy LAPACK na { "256" } případech v rámci { "1e-12" }, šest přesných nekonečen.
+
+seg-0fc8ce9cde6c = <b>Klasifikace nulového prostoru invariantní vůči bázi</b> (P2): průnik podprostorů v SciPy a NumPy na { "72" } sestavených maticích, celá čísla přesně, norma projektoru v rámci { "6.0e-15" }.
+
+seg-4e5e7a6072bc = <b>Jednofrekvenční ionosférické služby a služby UTC navigační zprávy LEO</b> (Knihovna): GNSSTk { "15.3.1" } pro Klobuchar, Az a drift UTC; ERFA pro tři případy přestupné sekundy.
+
+seg-a644bf49c816 = <b>Mez určování polohy v neterestrických sítích 5G</b> (P1): meze jednoho SSB podle Bachla, Leie a Nabeela { "2026" } v rámci půl vytištěné číslice; numpy pro kovariance řešení.
+
+seg-b326f6fc55ad = <b>Model změřené vzdálenosti LLR</b> (Měřená data, nový řádek oddělený od substrátu datumu LLR): { "192" } lunárních normálních bodů ILRS při { "2.81" } m RMS proti prahu { "10" } m, s barycentrickým světelným časem IERS { "2010" }; složky pod prahem se neřeší jednu po druhé a řádek to říká.
+
+seg-82e9fba684dc = <b>Lunární geodetická VLBI, cesta přes jádro</b> (Knihovna, nový řádek oddělený od řádku lunární VLBI): konvergované světelné časy SPICE v rámci { "1" } ps a parciální derivace v rámci { "1e-6" } v epochách blízko J2000; analytická výchozí cesta zůstává MODELLED.
+
+seg-03c47d262ff3 = <b>22parametrový model efemerid LEO podle Liu et al. { "2025" } a jeho fit</b> (Měřená data, nový řádek oddělený od řádku volitelných modelů): skutečné přesné dráhy v rámci 1,5× zveřejněných statistik ve dnech z článku i ve vynechaných dnech ({ "0.683" } až { "1.186" }); konvence škály n_dot je přepsána a tímto porovnáním není ověřena a pravidlo zastavení je Kshanino pravidlo konvergence parametrů, nikoli pravidlo změny RMS z článku. Polynom ATOMIC a tabulka pěti výšek zůstávají MODELLED.
+
+seg-b49f96eb52ad = Stávající řádky VALIDATED znovu podložené (bez změny počtu).
+
+seg-4e26bec3297c = <b>Polohy planet z elementů JPL Standish</b> a <b>světelný čas mezi tělesy sluneční soustavy</b>: dodatečné prahy dvojnásobku nominální hodnoty jsou nahrazeny předregistrovanými porovnáními s JPL Horizons DE441 (RMS nejvýše hodnota z tabulky { "8.10.1" } Explanatory Supplement, nejhorší { "0.778" }, včetně rozdělení Země a rotace ICRF; světelné časy v rámci { "1e-6" } s od Horizons na polohách DE441, nejhorší { "6.7e-9" } s). Jejich příznaky „limit stanoven po porovnání“ jsou odstraněny.
+
+seg-d3b745392d29 = <b>Integrita (RAIM/ARAIM/SBAS)</b>: řádek se už nespoléhá na kontroly věrohodnosti. Nyní uvádí: separace řešení pro více hypotéz ARAIM podle ADD v4.2 se shoduje se Stanford MAAST pro ARAIM { "2" } na { "270" } skutečných případech (nejhorší rozdíl VPL { "2.2e-3" } m proti { "0.05" } m); detekce a vyloučení snapshotového RAIM se shodují s RTKLIB <c1/> v { "2016" } z { "2016" } rozhodnutí, s ochrannou úrovní sklonu v rámci { "2.7e-12" } m; ochranné úrovně SBAS DO-229E L1 se shodují se Stanford MAAST na skutečných vysíláních WAAS ({ "2868" } dvojic v rámci { "1.6e-5" } m). Jasně uvádí, že funkce s jednotnou sigmou <c2/> a <c3/> NEODPOVÍDAJÍ ADD (rozdíly při shodných vstupech 0,75/4,04 m a 0,39/1,93 m VPL/HPL, zjištění), že porovnání DFMC L5 SBAS je zjištěním ({ "308" } dvojic bez GEO v dohledu Kshana chrání a MAAST nikoli) a že <c4/> nemá žádné vnější porovnání. Jeho vlastní příznak je odstraněn.
+
+seg-d059b9953c3f = <b>Fitter vysílaných efemerid LEO</b>: integrovaná pravá dráha je přidána k ověřené části (Orekit { "12.2" } v rámci { "4.55" } mm za { "6" } h, práh { "2" } cm); korekční polynomy, fit hodin a kompromis periody aktualizace zůstávají modelované.
+
+seg-166d511bbba3 = <b>Zjištění a blokované řádky (zůstávají MODELLED).</b> Text orákula každého řádku nese zjištění a jeho připnutý test.
+
+seg-7f233dbdf110 = Modulace navigačního signálu (Betz { "2001" }, Hein { "2006" }): spektra a korelace se shodují; postranní laloky { "24" } MHz a každé zkreslení od vícecestného šíření (o { "11" } až { "15" } % nízké) ne, příčina nevyřešena.
+
+seg-4d5a6bb44d64 = Geolokace TDOA/FDOA: meze odpovídají Ho a Chan a Ho a Xu i kódu autorů s přesností { "3e-12" }; faktory z Ottawy vytištěné z Monte Carlo se liší o { "1.3" } % a { "4.4" } %.
+
+seg-5fa189f788ca = GNSS Země ve vzdálenosti Měsíce: zenitové průměry GENESIS se shodují s Montenbruck et al. { "2023" } v { "5" } z { "6" }; nadirové průměry jsou o { "1.0" } až { "2.4" } satelitu vyšší.
+
+seg-d7e5b5a64f43 = Mapy pokrytí a DOP: návrhy pro Zemi se shodují s Orekit, gnss_lib_py a numpy při každém prahu; návrhy pro Měsíc a Mars překračují { "1e-9" } jen v téměř singulárních buňkách.
+
+seg-3c8fb07d83ec = Společné určování polohy GNSS: dvoufrekvenční { "79.9" } % a přesné produkty { "94.2" } % v rámci { "3" } m proti { "95" } % (RTKLIB { "67.9" } % a { "94.1" } %); rozdíl ISB u přesných produktů je tím, že RTKLIB ignoruje posuny antén.
+
+seg-5d3d4d99fbc4 = Sledovací smyčky (GNSS-SDR { "0.0.19" }): shoda při { "35" } až { "45" } dB-Hz; při { "30" } dB-Hz PLL +{ "21" } %, DLL -32 %, prahy +{ "1.5" } dB; doby do proklouznutí o { "0.5" } až { "2" } řádu kratší.
+
+seg-0dd24947169c = Lunární servisní objem (Orekit a Hipparchus): { "155" } ze { "160" } hodnot se shoduje; požadavek na nejhorší vzorek selhává na téměř singulární geometrii LNCSS B.
+
+seg-74002245287f = Kvantový inerciální senzor: spodní mez jen pro QPN je o { "21" } až { "31" } % pod změřeným šumem podle Gauguet { "2009" } (práh { "30" } %, minuto o { "0.5" } bodu).
+
+seg-ab8b17cf325e = Předvolby oscilátorů: změřené kusy překračují předvolby holdoveru rubidia, krátkodobé stability cesia a nejhoršího kusu CSAC; předvolba OCXO nemá žádný změřený záznam.
+
+seg-81ad9b839a28 = Hustota podle kosmického počasí: Jacchia { "1971" } je v rámci faktoru { "2" } od hustot z akcelerometrů při slunečním maximu, ale asi 1,7× příliš hustá v minimu { "2008" }.
+
+seg-68e5d0942847 = Šikmé TEC bez geometrie: { "33" } z { "36" } oblouků v rámci { "3" } TECU od mapy CODE (nejhorší { "6.84" }).
+
+seg-f410ce9cf195 = Detekce spoofingu a TPL proti oficiálnímu záznamu JammerTest { "2024" }: { "4" } z { "10" } nástupů detekováno včas; TPL je překročena u { "4" } z { "10" }.
+
+seg-41eb2c318469 = Filtr hodin na čerstvých hodinách IGS: dva z { "11" } satelitů nesplňují kritérium součtu inovací.
+
+seg-064b623e918b = Prediktor EOP metodou nejmenších čtverců plus autoregrese: UT1 { "1.73" } až 2,11× Bulletin A při { "2" } až { "10" } dnech.
+
+seg-d98571cc21f4 = Horní mez realizované odchylky UTC(k): souhrnné překročení { "0.0333" } proti { "1e-2" }.
+
+seg-527aca91ec7c = Lunární datum soustavy z kampaně: větev SPICE se shoduje; větev P2 s odhadovanými stanicemi nesplňuje { "1e-9" } na úloze s podmíněností 2.1e8.
+
+seg-9805c4c821f9 = Lunární datum soustavy ze skutečného LLR: { "15" } z { "16" } hodnot se shoduje se SPICE; sigma z-translace je o { "1.03" } % vysoká proti { "1" } %.
+
+seg-08e6c541b59e = Návrat do atmosféry (Allen-Eggers): řešení hmotného bodu se shoduje s rekonstrukcemi agentur (pouze křížová kontrola); porovnání s akcelerometrem je blokováno kvůli čitelnému zdroji Hayabusa2.
+
+seg-0bb78ffbd915 = Masky ITU-T: vytištěné vzorové hodnoty se shodují; limity tříd G.8273.2 žádné nemají (blokováno).
+
+seg-308c1bca3fd9 = Geometrie okna startu: rychlost místa podle skutečného pólu s epochou se shoduje s Orekit ({ "4.9e-8" }); výchozí rychlost bez epochy stále nesplňuje ({ "1.12e-6" }). Nepovýšeno; navazující práce čeká.
+
+seg-f0b7c3d60df8 = Fyzikální konstanty každého tělesa: nyní se { "0" } z { "84" } liší od NAIF (přepis) a vypočtená orientace se shoduje se SPICE s přesností { "1.4e-10" } rad. Nepovýšeno; navazující práce čeká.
+
+seg-a5a787c9a761 = Blokováno rozhodnutím vlastníka o vymezení, u každého s uloženým souhlasným porovnáním: lunární pozorovatelnost absolutních stanic, DOP povrchových majáků, export mimo osu, detekční výkon napříč modalitami, statistika konzistence souhlasného režimu a pokrytí polárním LEO.
+
+seg-cf638ec9878b = Blokováno daty: rozpočet chyb přenosu času (potřebuje redukci skutečných dat), C/N0 JammerTest (poloha antény a rozdělení výkonu nejsou zdokumentovány).
+
+seg-e8709509eef3 = Revize (zveřejněná čísla, která se změnila, staré -> nové).
+
+seg-5e93ab237b15 = Ochranné úrovně <c1/> jsou nyní na geodetické lokální úrovni místo radiální: až { "0.31" } m HPL a { "0.14" } m VPL na ABMF ({ "16" } stupňů s. š.); žádný golden se nezměnil, ale zaznamenané shrnutí tutoriálu <c2/> se mění ze střední HPL { "22.1" } m / VPL { "40.0" } m na { "22.2" } m / { "39.9" } m (<c3/>).
+
+seg-c14361b2cb1f = Výchozí hodnoty vazby lunární rychlostní soustavy: d_alpha/d_scale { "3.139807e-11" } -> { "3.138801e-11" }; d_alpha/d_radial { "1.807187e-17" } -> { "1.806185e-17" } na metr.
+
+seg-8ac9cb8c5631 = Výchozí offline běh EOP (<c1/>, buňky uvedené v <c2/>): predicted_rows { "12" } -> { "90" }; spodní mez pólu { "0.06776" } -> { "0.05550" } mas; eop_term_m { "14.01601" } -> { "14.01583" }; total_m { "20.09759" } -> { "20.09746" }; total_time_ns { "67.03834" } -> { "67.03790" }; řádky tabulky { "2" } v <c3/>; shoda provozního prediktoru 0,256/0,695/1,252/3,885 ms -> 0,133/0,421/0,839/2,786 ms.
+
+seg-dd93329245ba = <c1/> liu22 SISRE dráha/s hodinami: { "60" } s 0,011/0,046 -> 0,014/0,046 cm; { "300" } s 0,068/0,139 -> 0,074/0,142 cm; { "600" } s 0,269/0,299 -> 0,258/0,290 cm.
+
+seg-e4205dfdb0d2 = Tabulka výšek Liu, Kshana (poměr): GRACE-A { "5.40" } ({ "0.61" }) -> { "4.25" } ({ "0.48" }); GRACE-C { "4.12" } ({ "0.66" }) -> { "2.87" } ({ "0.46" }); Sentinel-2A { "2.95" } ({ "1.03" }) -> { "2.20" } ({ "0.77" }); HY-2A { "2.38" } ({ "1.13" }) -> { "1.25" } ({ "0.59" }); Sentinel-6A { "0.70" } ({ "0.94" }) -> { "0.51" } ({ "0.67" }).
+
+seg-4655e8ee7bab = Škála <c1/> navigační zprávy LEO { "2" }^-60 -> { "2" }^-58 (nebylo předregistrováno, zveřejněno; mimo porovnání fitu); CRC vzorkového rámce liu22 0x62373A -> 0xDED99C.
+
+seg-3f565c0ca2bf = Verifikační tabulka <c1/>: řádek Liu a ATOMIC rozdělen na řádek 22parametrového modelu VALIDATED a řádek ATOMIC a pěti výšek MODELLED.
+
+seg-537f5d80b66c = Text řádku lunární orientace hlavních os z DE440: rozsah 2024-2025 / { "731" } řádků -> 2014-2030 / { "6 209" } řádků; „mlčky ořezává“ -> chyba mimo svůj rozsah.
+
+seg-17a5dd090566 = Scénář <c1/>: equatorial_ground_track_spacing_km { "2756.37" } -> { "2752.17" } km; nová pole inclination_deg ({ "98.19" }) a nodal_period_min ({ "98.893" }).
+
+seg-6ce48a53df35 = <c1/> (referenční hodiny TDOP/GDOP jsou nyní nejnižší číslovaná konstelace v dohledu): globální GDOP max { "2.2236" } -> { "2.1205" }, průměr { "1.122" } -> { "1.131" }, medián { "1.115" } -> { "1.125" }, p90 { "1.255" } -> { "1.265" }, p95 { "1.305" } -> { "1.315" }, p99 { "1.41" } -> { "1.42" } a mapa GDOP po buňkách; mean_visible_by_constellation se sčítá jako celá čísla (asi { "1e-12" } relativně, neviditelné na { "4" } desetinných míst).
+
+seg-e48b212c4881 = Společné jednofrekvenční řešení GNSS po opravě vysílaného skupinového zpoždění: { "93.2" } % -> { "93.6" } % v rámci { "3" } m; medián ISB -0,351 -> -0,114 ns.
+
+seg-f98a1423f328 = <c1/> jitter_table log10_mean_time_to_cycle_slip_s (Costasova smyčka SNR rho/4): na prahu { "25.47" } dB-Hz { "11.58" } -> { "2.10" }; při { "25" } dB-Hz { "9.55" } -> { "1.60" }; při { "22" } dB-Hz { "2.24" } -> -0,14.
+
+seg-789a302679f7 = <c1/>: každý výstup se mění s modelem chyby podle Schulera; špička TRN dodaného scénáře { "52.932679" } -> { "44.711834" } m (<c2/>).
+
+seg-9d65f2ce8715 = Zpráva <c1/>: nový klíč geometry_path („analytic“ při výchozím běhu, žádná číselná hodnota se nezměnila); nová volitelná pole planetary_kernel_path, earth_orientation_kernel_path a moon_orientation_kernel_path, s epoch_partials na cestě přes jádro; popis druhu je přepsán. Orákulem cesty přes jádro u verifikačního řádku je SPICE ({ "0.06" } ps); ANISE ({ "0.12" } ps) se stává křížovou kontrolou vyhodnocení jádra.
+
+seg-3631a31e7b26 = Konstanty těles: Phobos GM { "7.087e5" } -> { "7.087546066894452e5" }; Deimos { "9.62e4" } -> { "9.615569648120313e4" }; Uran { "5.7939506103e15" } -> { "5.793951256527211e15" }; Neptun { "6.83509997e15" } -> { "6.835103145462294e15" }; Pluto { "8.69326e11" } -> { "8.696138177608748e11" } (m^3/s^{ "2" }); rovníkový poloměr Phobosu { "13.1" } -> { "13.0" } km; pól a nultý poledník Phobosu a Deimosu z pck00011; prime_meridian_deg sluneční soustavy nyní zahrnuje kvadratické a periodické členy.
+
+seg-ac1251d7a0fd = <c1/> (<c2/> na Europě) z úplné orientace Europy podle pck00011 (7cfd66b4; orientace se shoduje se SPICE pxform s přesností { "1.4e-10" } rad), která posouvá lander v inerciálním prostoru: dostupnost jen relé / se vzdáleností k Zemi { "0.485" } / { "0.725" } -> { "0.480" } / { "0.719" } ({ "83" } -> { "82" } ze { "171" } epoch jen relé), mediánové PDOP { "5.266" } -> { "5.360" }, RMS chyby řešení { "129.516" } / { "100.983" } m -> { "112.742" } / { "86.147" } m, mediánová formální sigma { "5.266" } / { "4.272" } m -> { "5.360" } / { "4.239" } m. Tabulka v <c3/> a pin v <c4/> následují; <c5/> se nemění.
+
+seg-3d9368d3a1bb = <c1/> (f107 { "180" }, f107a { "165" }, kp { "4" }), kalibrovaný faktor nahrazen Jacchia { "1971" }: activity_density_kg_m3 při 300/400/500/600/800 km { "2.602e-11" } -> { "3.608e-11" }, { "4.176e-12" } -> { "6.929e-12" }, { "8.136e-13" } -> { "1.618e-12" }, { "1.769e-13" } -> { "4.189e-13" }, { "1.544e-14" } -> { "3.781e-14" }; activity_factor 1,076/1,121/1,168/1,216/1,320 -> 1,492/1,860/2,322/2,881/3,232; reference_exospheric_temperature_k odstraněno, mean_exospheric_temperature_k přidáno ({ "1186.7" } K); <c2/>: sluneční cyklus při { "800" } km nyní kolísá 10,4× (NRLMSISE-00 13,6×) a tvrzení o výšce sleduje vzestup NRLMSISE do { "500" } km a pokles při { "800" } km.
+
+seg-7dd92ee64b7c = <c1/> toa_median_sigma_3d_m: NR { "5" } MHz { "2.0903959" } -> { "2.0903962" } m; NB { "200" } kHz { "25.938613" } -> { "25.938839" } m (text shrnutí beze změny na { "2.09" } / { "25.94" } m).
+
+seg-6a6fb57d177e = <c1/> (řešení QR): with_vlbi.station_pos_err_m { "3.541344" } -> { "3.541350" } m; without_vlbi.station_pos_err_m { "2183.119" } -> { "2183.558" } m.
+
+seg-76c94424e828 = <c1/> znovu vygenerováno pro nová a odstraněná pole uvedená výše.
+
+seg-717c51e1cca0 = Validační balíčky
+
+seg-4ec44f8a5f8e = D12, rozšířená přesnost a odmocninový řešič (dva nové řádky VALIDATED: { "226" } -> { "228" } řádků, { "110" } -> { "112" } ověřených).
+
+seg-d28005966948 = Část { "1" }, orákulum s rozšířenou přesností:
+
+seg-9a5f94973450 = Lunární datum soustavy s odhadovanými stanicemi: 50místné orákulum s rozšířenou přesností mpmath (předregistrováno 804662d5, prahy škálované podmíněností z apriorního vzorce zpětné chyby) se shoduje na novém datu kampaně (2026-03-18) i na původním scénáři z 2024-01-01; nový řádek VALIDATED pod P2. Rozhoduje dřívější spor o dvojitou přesnost: sigmy datumu enginu se liší až o { "9.7e-6" }, inverzní a eigen cesty v NumPy až o { "6.2e-6" } a jeho cesty Cholesky a QR asi o { "1e-8" }. Engine je v rámci své meze chyby, ale asi tisíckrát méně přesný než faktorizační cesta.
+
+seg-b055435a2138 = Prostředí orákula: přidáno mpmath { "1.3.0" }.
+
+seg-d0c2b2a8e635 = Revize: žádné. Žádný golden soubor ani zveřejněný obrázek se nemění; řádek „Lunární datum soustavy z pozorovací kampaně“ zůstává MODELLED (rozhodnutí zakladatele 2026-10-02, varianta A: nepůjčuje si stav samostatného řádku); jeho text testů cituje nový test a jeho zjištění.
+
+seg-50b53908fb7c = Část { "2" }, odmocninový informační řešič datumu:
+
+seg-4c6089cfac5e = Nový volitelný odmocninový informační řešič (<c1/>; <c2/> ve scénáři lunar-frame-campaign): Householderova QR, marginalizace přes trojúhelníkový faktor, Jacobiho SVD pro spektrum a kompenzované součiny pouze ze správně zaokrouhlených operací. Proti 50místnému orákulu (předregistrováno b41908c9) se jeho sigmy datumu shodují s přesností { "3e-13" } na novém datu (2026-06-09); na vstupech 2026-03-18 a 2024-01-01 je výchozí řešič mimo až o { "1e-5" }. Nový řádek VALIDATED pod P2. Výchozí řešič a jeho výstup se nemění. Předregistrované prahy potvrzují chyby jen nad asi { "2e-7" } relativně: výchozí řešič odmítnou, ale nikoli obrácené znaménko Householderovy transformace, nekompenzovaný skalární součin ani spektrální konečnou inverzi, a řádek to říká.
+
+seg-de9aeb2adde0 = Volitelné odmocninové cesty vedle nezměněných výchozích: <c1/>, <c2/>, <c3/>, <c4/>, <c5/> a <c6/>, na nových <c7/> a <c8/>. Každá se shoduje se svou výchozí tam, kde jsou obě přesné (vnitřní kontrola, žádný řádek; pro ně se netvrdí žádná validace). <c9/> nyní deleguje na sdílenou rutinu; jeho výstup i výchozí výstup každého scénáře se nemění.
+
+seg-87a632404f32 = Rozhodnutí o hodnosti v lunární kampani soustavy: předregistrovaná kontrola s rozšířenou přesností za { "40" } dnů potvrzuje každé rozhodnutí o bloku stanic a o Helmertově transformaci plné hodnosti, které lze rozhodnout. Apriorní mez nemůže potvrdit { "20" } dnů Helmertovy transformace s deficitem hodnosti; v přesné aritmetice je jejich defekt geometrický, s prahem { "1e-9" } uvnitř přirozeného rozsahu poměrů vlastních čísel kampaně. Žádný řádek.
+
+seg-3b24e7fa36bf = Tvrzení řádku kampaně s rozšířenou přesností je zúženo na „v rámci meze nejhoršího případu“ a jeho kontrola nejslabšího směru při pevných stanicích nyní měří skutečný úhel ({ "6.6e-16" } rad; komparátor se změnil z acos na tětivu, práh ne).
+
+seg-4fad02ab4b6d = Revize: žádné. Žádný golden soubor ani zveřejněný obrázek se nemění; řádek „Lunární datum soustavy z pozorovací kampaně“ se nemění a zůstává MODELLED (rozhodnutí zakladatele 2026-10-02, varianta A).
+
+seg-627d3357d620 = D4, páteř jádrových efemerid JPL, fáze { "1" } (čtyři nové řádky VALIDATED: { "228" } -> { "232" } řádků, { "112" } -> { "116" } ověřených).
+
+seg-30e8a645191f = Čtečka jader NAIF má vlastní řádek.
+
+seg-98ff121aa2a9 = <c1/> (kontejner DAF, SPK typu { "2" }, binární PCK typu { "2" }) se shoduje se SPICE Toolkit (CSPICE N0067 přes spiceypy { "8.2.0" }) a s ANISE { "0.10.6" } na všech { "600" } stavech DE440 a { "200" } rotacích lunární orientace náhodné mřížky odvozené z vlastního hashe předregistračního commitu (abcd9133), v rámci prahů odvozených předem z vyhodnocení Čebyševových polynomů v dvojité přesnosti (nejhorší { "0.6" } % prahu, { "1.95e-3" } m). Řádek tvrdí, že engine čte jádra JPL správně, nikoli že DE440 nebo analytická řada je přesná (<c2/>).
+
+seg-e0b5ea7af969 = <b><c1/></b>: polohy z DE440 (nebo libovolného SPK typu 2) přes vlastní čtečku enginu, s dvoudílnými epochami TDB a SHA-256 jádra uchovaným pro zprávy; nikdy nenahrazuje barycentrum soustavy planetou. <c2/> umožňuje cestě geometrie zvolit analytickou řadu (výchozí) nebo jádro.
+
+seg-6c7dae98601e = <b>Volitelný Měsíc z jádra pro <c1/> a <c2/></b>: klíč <c3/> čte geocentrický střed Měsíce z jádra; nic jiného se nemění a zpráva získává blok <c4/> pojmenovávající jádro a jeho SHA-256. Bez klíče jsou obě zprávy bajt po bajtu shodné s dřívějšími.
+
+seg-74e8def84747 = <b>Kovariance bodu na lunárním povrchu na cestě přes jádro</b> (nový řádek VALIDATED): při všech pevných stanicích a majáku na Měsíci z DE440 se kovariance majáku shoduje s Jacobiánem světelného času ve SPICE (nejhorší { "1.7e-3" } proti prahu { "1" } %) a s inverzí v NumPy ({ "4e-14" } proti { "1e-9" }), předregistrováno 4a51256 (<c1/>). Řádek analytické cesty zůstává MODELLED: na analytickém Měsíci je jeho nejmenší sigma majáku o { "3.9" } % pod orákulem.
+
+seg-55002d236ab0 = <b>Lunární datum soustavy ze skutečné kampaně, střed Měsíce z jádra</b> (nový řádek VALIDATED): na { "447" } neviděných normálních bodech 2019-Q2, předregistrováno 830d945a dříve, než byl kterýkoli stažen, se kovariance datumu na cestě přes jádro shoduje s nezměněným orákulem SPICE a NumPy v rámci { "7.6e-5" } proti prahům { "1" } % a { "2" } % (<c1/>). Zakladatel rozhodl, že tento řádek se povyšuje jen na čerstvých bodech; diagnostika na již viděných datech (c51f8b2) je zjištěním, nikoli důkazem. Práh modely Měsíce nerozlišuje: analytický Měsíc na stejném výřezu také projde (nejhorší { "3.8e-3" }), plánovaná mutace (Měsíc z jádra o hodinu opožděný) nebyla zachycena a při foldu prošel i střed Měsíce chybný asi o { "4,650" } km (Měsíc vzatý kolem barycentra soustavy Země–Měsíc). Řádek tvrdí kovarianci na této cestě, nikoli střed Měsíce, a říká to.
+
+seg-f147f9257b8b = <b>Polohy Slunce, Měsíce, Merkuru a Venuše z DE440 v epochách UTC</b> (nový řádek VALIDATED): <c1/> se shoduje se Skyfield { "1.54" } na { "600" } polohách mezi { "1973" } a { "2026" }, nejhorší { "2.96" } m, v rámci předregistrovaného prahu (0bfafe6d) daného dvoučlennou řadou TDB − TT (<c2/>). Polohy planet dostávají nyní tento nový řádek jádra; řádek Standish a řádek planetárních měsíců se nemění a měsíce čekají na scénář, který je potřebuje (rozhodnutí zakladatele).
+
+seg-bb840641c655 = Zjištění: jediné minutí porovnání datumu LLR (sigma z-translace { "1.025" } % proti { "1" } %) klesá na { "0.049" } %, když se z DE440 čte jen střed Měsíce, na již viděných datech (<c1/>); na čerstvém výřezu { "2019" } projde i analytický Měsíc, takže minutí v { "2015" } bylo okrajové vůči geometrii onoho čtvrtletí. Analytické řádky „Lunární datum soustavy ze SKUTEČNÉ pozorovací kampaně“ a „Kovariance souřadnic bodu na lunárním povrchu … oddělená od kovariance pozemní stanice“ zůstávají MODELLED; jejich texty orákula nyní odkazují na řádky cesty přes jádro.
+
+seg-64c9f3b96392 = <c1/> už neříká, že engine nemá čtečku binárních jader; odkazuje na řádek čtečky a vysvětluje, proč jádra kosmických lodí (typy { "13" } a { "21" }) stále přicházejí přes Horizons.
+
+seg-841deceb80e6 = Revize: žádné. Žádný golden soubor, zveřejněný obrázek ani stávající testovací hodnota se nemění; analytické zprávy <c1/>, <c2/> a <c3/> s pevnými všemi stanicemi jsou bajt po bajtu shodné s dřívějšími (prefixy SHA-256 výsledku 9927aac2, cf1d2671, 25c357e4).
+
+seg-95b8207466a3 = D9, knihovna měřených hodin „Clock Atlas“ (tři nové řádky, jeden VALIDATED: { "232" } -> { "235" } řádků, { "116" } -> { "117" } ověřených).
+
+seg-1f8644486f5d = <b>Knihovna měřených hodin (<c1/>).</b> Karty zařízení (bílá fáze, bílá, flicker a náhodná procházka frekvenční modulace, lineární drift frekvence a volitelně fázové členy s jedním až čtyřmi cykly na oběh) fitované na pojmenovaný změřený záznam hodin a hodnocené na vynechaných datech; Allanovy a Hadamardovy variance s ohledem na mezery; detektor úpravy, který zaznamenává každou mezeru, fázový odlehlý bod, fázový skok, shluk a skok frekvence a nic neví o hranicích souborů ani dnů; převod karty na model šumu časování slotů, rozšířený Kalmanův model hodin a úrovně šumu monitoru spoofingu. Čtečky souborů hodin RINEX a IGS, souborů BIPM po laboratořích a Circular T oddíl { "1" } (<c2/>); souhrnná hierarchická mez stárnutí pro UTC(k) (<c3/>, zatím nehodnoceno).
+
+seg-93add052ae56 = <b>Identifikace šumu pomocí autokorelace zpoždění 1</b> (<c1/>, Riley a Greenhall { "2004" }), nový řádek VALIDATED (Knihovna): shoduje se s allantools { "2024.6" } <c2/> na { "140" } případech, celá čísla shodná, nejhorší rozdíl { "9.6e-13" } proti prahu { "1e-9" } (předregistrováno 2ec76864; <c3/>).
+
+seg-1fcea6ee6136 = <b>Změřené karty zařízení s predikcí na vynechaných datech</b>, nový řádek MODELLED (zjištění): fit na jedné třetině, predikce Allanovy odchylky zbylých dvou třetin v rámci faktoru { "1.5" } (předregistrováno 2ec76864). GPS Block IIF na čerstvém okně IGS (2026-03-01 až { "14" }): { "10" } z { "11" }; G27 je optimistický v dvouhodinovém měřítku (nejhorší faktor { "1.510" }). Cesium (uvnitř, { "1.070" }), OCXO (mimo, { "2.348" }) a stroncium (uvnitř) jsou uvedeny, nikoli slepé. Karta přijímače JammerTest a karty Galileo maseru a Deep Space Atomic Clock jsou blokovány. Třída modelu TCXO přijímače ZED-F9P na { "12" } statických stanicích Wroclaw (Zenodo { "6488497" }) selhává: { "1" } z { "11" } slepých stanic v zveřejněném opraveném opakovaném běhu (<c1/>, <c2/>).
+
+seg-26fa898f6272 = <b>Karty GPS Block IIF s členy na oběh</b>, nový řádek MODELLED (zjištění): na druhém čerstvém okně (2026-04-01 až { "14" }) { "9" } z { "11" } v rámci prahu; G03 ({ "1.947" }) a G25 ({ "1.581" }) jsou optimistické, protože jejich vynechané záznamy jsou hlučnější než jejich fitované třetiny; vynechání periodických členů selže u všech { "11" } (předregistrováno fb475550; <c1/>).
+
+seg-ef456da29319 = <b>M002, odhad stavu palubních hodin, kolo { "3" }</b> (zjištění, zůstává MODELLED): po zmrazeném detektoru úpravy rozšířený filtr z kola 2, s nezměněným laděním a kritérii, poprvé splňuje (a) a (c) u všech { "11" } satelitů; (b) selhává u G09 ({ "0.894" }) a G26 ({ "0.876" }) (předregistrováno fb475550; <c1/>).
+
+seg-0014b2629fd2 = <b>M010, detekce spoofingu, kola { "3" } až 4b</b> (zůstává MODELLED): kolo { "3" } blokováno ({ "167" } trénovacích epoch z ostatních relací jednotky JammerTest proti { "3600" }); s kartou třídy modelu ZED-F9P (kola { "4" } a 4b) monitor hodin vyvolá nula falešných poplachů před nástupem u všech { "10" } zaznamenaných nástupů (kolo { "2" }: { "86" }) a { "6" } z { "10" } nástupů je detekováno do { "10" } s (kolo { "2" }: { "4" }); stejné čtyři zůstávají pozdní (<c1/>).
+
+seg-79757abc69e3 = <b>M083, horní mez UTC(k), kolo { "3" }</b>: předregistrováno prospektivně (fb475550) na číslech Circular T od { "465" }, zatím nespuštěno (<c1/>).
+
+seg-09abf996ed16 = Prostředí orákula: záznam Wroclaw ZED-F9P je podmíněn přístupem k datům pod <c1/> (CC BY { "4.0" }, asi { "1.5" } GB); fixture IGS hodin jsou přibalené (produkty IGS, s uvedením zdroje).
+
+seg-b05fa0811a3e = Revize: žádné. Žádný golden soubor, zveřejněný obrázek ani stávající testovací hodnota se nemění; M001 (znovukotvení holdoveru) se neuplatňuje, protože žádná třída hodin nebyla povýšena.
+
+seg-986f4075210b = D8, jedna ověřená cesta propagace, soustavy a času (tři nové řádky VALIDATED a povýšené M131: { "235" } -> { "238" } řádků, ověřených { "117" } -> { "121" }).
+
+seg-d7a612528765 = Druhy drah kolem Země, které nesly vlastní dvoutělesové, sekulární J2 nebo jen hvězdnočasové modely, nyní sdílejí jednu cestu: sady elementů SGP4/SDP4 s dvoudílnými juliánskými daty, převedené do GCRS a ITRS (International Terrestrial Reference System) řetězcem IAU (International Astronomical Union) 2006/2000A, s volitelnými parametry orientace Země.
+
+seg-016507ccdb8f = Nové <c1/>, <c2/>, <c3/>, <c4/> a <c5/>; <c6/> a <c7/> berou dvoudílné epochy. Nové <c8/> (konvence SOFA <c9/> pro dny s přestupnou sekundou), <c10/>, <c11/>, <c12/> (přes TAI, jako SOFA <c13/>), <c14/> a dvoudílné <c15/>.
+
+seg-158c39fff817 = Polární režim <c1/> propaguje pomocí SGP4 v 2026-01-01T00:{ "00" }:{ "00" } UTC na řetězci IAU (<c2/> bere libovolnou epochu); generátor SGP4 Walker se otáčí do pevné soustavy Země přes řetězec IAU.
+
+seg-86ecad91a601 = Druh <c1/> spouští nový prediktor zdánlivých přeletů (<c2/>, <c3/>): SGP4 na řetězci IAU, refrakce ITU-R P.834-9 a světelný čas downlinku (nové přepínače <c4/> a <c5/>, ve výchozím stavu zapnuté), parametry orientace Země (<c6/>, <c7/>, <c8/>, výchozí { "0" }), průchody řešené s přesností { "1e-7" } s a kulminace hledáním zlatým řezem. Geometrický <c9/> se nemění.
+
+seg-9ce091899bf1 = <c1/> brání tomu, aby jádra geometrie, času a propagace balíčku nesla soukromou keplerovskou propagaci, sekulární rychlosti J2 nebo rotaci jen podle hvězdného času; pojmenované rychlé úrovně a fyzika, která je předmětem řádku, jsou odůvodněné výjimky.
+
+seg-cf4ae964c5d1 = Nový řádek VALIDATED „Dvoudílná juliánská data a přestupné sekundy na časové cestě drah kolem Země“: pyerfa { "2.0.1.5" } <c1/>/<c2/>/<c3/> na { "224" } okamžicích kolem všech { "27" } přestupných sekund v rámci { "1e-6" } s (předregistrováno e947e69d); nejhorší { "1.9e-11" } s.
+
+seg-c0dec16ea932 = Nový řádek VALIDATED „Jedna cesta drah kolem Země“: polohy TEME pro { "232" } sad elementů proti python-sgp4 { "2.24" } (Valladova referenční SGP4) v rámci { "6.1e-8" } m (práh { "1" } cm) a rotace GCRS -> ITRS a TEME -> ITRS proti ERFA <c1/>, <c2/> a <c3/> v rámci { "2.9e-6" } mas a { "0.41" } mas (prahy { "0.1" } a { "2" } mas), s parametry orientace Země (předregistrováno 72ea9eb0). Zveřejněno: první běh selhal v 2016-12-31T23:{ "59" }:{ "59.5" } o jednu sekundu rotace; UT1 se bral z kvazijuliánského data UTC ve dni s přestupnou sekundou, engine nyní jde přes TAI a druhý běh se shoduje při nezměněných prazích.
+
+seg-a72ccdc2516e = M131 „Pokrytí LEO a zhoršení přesnosti pro polární a arktické uživatele oproti MEO GNSS“ se stává VALIDATED: Orekit { "13.1.8" } přebírá stavy GCRS enginu, otáčí je a počítá viditelnost a DOP (NumPy pro skupiny s více hodinami); polohy v rámci { "6.8e-5" } m (práh { "0.2" } m), počty satelitů v dohledu shodné na 4040/4040 vzorcích, mediánový DOP v rámci { "2.3e-11" } relativně.
+
+seg-db498ac8e135 = Nový řádek VALIDATED „Predikce zdánlivých přeletů pozemní stanice s refrakcí a světelným časem“: Orekit { "13.1.8" } propaguje stejné sady elementů v TEME, který si sestaví podle uvedené definice, s refrakcí ITU-R P.834 a jejím modelem měření světelného času, na { "60" } případech u stanic na úrovni moře: { "1210" } přeletů, průchody v rámci { "3.4e-6" } s (práh { "5" } ms), maximální elevace v rámci { "5.5e-7" } stupně, zdánlivý směr v rámci { "8.8e-7" } stupně (práh { "1e-4" } stupně).
+
+seg-ab87bb0ee63d = Zjištění, ponechaná připnutá: první porovnání úplného tvrzení s Orekit od začátku do konce minula své prahy polohy a směru, nikoli kvůli enginu, ale proto, že SDP4 v Orekit { "13.1.8" } se odchyluje od referenční SGP4 u kruhových (e = { "0" }) drah v hlubokém vesmíru (až { "67" } m) a jeho výchozí TEME je postaven na nutaci IERS { "1996" } (IAU { "1980" }), asi { "72" } milivteřin oblouku od řetězce IAU 2006/2000A ({ "2.7" } m na LEO). Koeficient refrakce ITU-R P.834 u h*theta0^{ "2" } je v Orekit { "0.011380" }, kde Doporučení uvádí { "0.01380" }; porovnání je na úrovni moře, kde tento člen mizí, a rozdíl nad ní je připnut.
+
+seg-49978e6a73b2 = „Predikce přeletů pozemní stanice (pozemní segment)“ zůstává VALIDATED, jeho tvrzení je zúženo na geometrický <c1/>; druh <c2/> patří novému řádku.
+
+seg-60d6ac0011f1 = Prostředí orákula: Orekit { "13.1.8" } s Hipparchus { "4.0.3" }, pyerfa { "2.0.1.5" }, python-sgp4 { "2.24" } (<c1/>).
+
+seg-532e10ead5a2 = Revize: přibalený <c1/> celkový přístup { "1675" } s -> { "1659" } s (pět přeletů jako dříve; nejlepší maximální elevace { "73.25" } stupně -> { "70.08" } stupně) a každý výstup <c2/> se mění s novou cestou (vytištěný řádek v <c3/> a záznam <c4/> v <c5/> to nyní uvádějí); přibalené <c6/> GNSS VDOP na rovníku { "1.19669" } -> { "1.19710" }, při { "89.9" } stupně { "1.50645" } -> { "1.50590" }, fúzované VDOP při { "89.9" } stupně { "1.14388" } -> { "1.14250" } (zveřejněné dvoumístné hodnoty { "1.20" }, { "1.51" } a { "1.14" } se nemění). Žádný golden soubor se nemění.
+
+seg-b65f3186a7e9 = Zatím nesměrováno: <c1/>, režimy doppler, joint a timing <c2/> a pravá dráha <c3/> (jejich modely žijí v <c4/> a <c5/>) a návrhy pro Zemi v <c6/> (pojmenovaná dvoutělesová rychlá úroveň).
+
+seg-03f638f20376 = D6, referenční generátor LunaNet AFS, LSIS V1.0 (čtyři nové řádky, dva VALIDATED: { "238" } -> { "242" } řádků, ověřených { "121" } -> { "123" }).
+
+seg-1d09f0582781 = <b>Referenční generátor LunaNet Augmented Forward Signal (AFS)</b> (<c1/>), připnutý k LunaNet Signal-In-Space Recommended Standard (LSIS) V1.0 z { "29" } ledna { "2025" } a uvádějící tuto verzi v každém výstupu: nosná { "2492.028" } MHz; datový kanál AFS-I BPSK({ "1" }) rychlostí { "500" } symbolů za sekundu s Goldovým kódem o 2046 čipech; pilot AFS-Q BPSK({ "5" }) s Weilovým primárním kódem o 10230 čipech, sekundárním o 4 čipech a terciárním o 1500 čipech; rámec s identifikátorem rámce { "0" } (synchronizační vzor, podrámec { "1" } BCH ({ "51" }, { "8" }), CRC-24, podrámce { "2" } až { "4" } s LDPC o rychlosti jedna polovina, blokový prokladač { "60" } krát { "98" }) s vyčerpávajícím dekodérem podrámce 1 a dekodérem LDPC min-sum napsaným pouze z matice paritních kontrol; a syntézu IQ v základním pásmu s popisky pravdy zapsanou jako nahrávka SigMF. Kódy se generují z posuvných registrů standardu a konstrukcí Legendre/Weil. Nic zkopírovaného ze standardu se nerozšiřuje (nenese žádné podmínky opětovného použití): primární indexy AFS-Q pocházejí z IS-GPS-800J a to, co definují jen přílohy standardu (zpoždění G2 u AFS-I, terciární kódy, podmatice LDPC), se čte za běhu z lokální mezipaměti, kterou <c2/> naplní z PDF hostovaného NASA, přičemž každý soubor je ověřen proti připnutému SHA-256 (<c3/>). Model je referencí shody se standardem, nikoli modelem kanálu, šíření ani rozpočtu spoje.
+
+seg-7b8cb0461377 = <c1/> a <c2/>: nahrávka může nést pole rozšíření s jmenným prostorem deklarovaná v <c3/>.
+
+seg-a9465820a1fc = Nový řádek VALIDATED „Vykreslení základního pásma LunaNet AFS proti nezávislému generátoru, při daném stavu jeho kanálů“: proti LANS-AFS-SIM (BSD-2-Clause, commit 480c6bf3, build pro pásmo S) nulové neshody čipů v kódech PRN { "1" } až { "210" }, nulové neshody symbolů ve třech rámcích běhu a normalizovaná komplexní korelace { "0.999990" } na { "23.9" } s jeho vlastních vzorků (nejhorší blok { "2" } ms { "0.999948" }), v rámci prahů stanovených před porovnáním (předregistrováno 986ac280). Vykreslovač řídí vlastním stavem kanálů simulátoru a nepokrývá rozdělení výkonu podle poměru nosné k šumové hustotě ani zápis SigMF a 8bitový zápis.
+
+seg-07edced2764a = Nový řádek VALIDATED „Kanálové kódování rámců LunaNet AFS, FID { "0" }“: rámce o 6000 symbolech se rovnají rámcům LANS-AFS-SIM symbol po symbolu (předregistrováno 986ac280); kód podrámce 1 reprodukuje vzorový příklad z obrázku { "8" } LSIS a CRC-24 kontrolní hodnotu katalogu CRC-24/LTE-A.
+
+seg-ab94ac9f41fc = Oba povýšené řádky jsou podmíněny přístupem k datům v mezipaměti LSIS: jejich test orákula se s oznámením přeskočí, dokud nebyl spuštěn <c1/>.
+
+seg-89a4bc4a766e = Zjištění (nový řádek MODELLED), „Generování rozprostíracích kódů LunaNet AFS“: z { "2 937 232" } generovaných čipů a bitů porovnaných s tabulkami standardu a soubory Přílohy { "3" } se jeden liší, „posledních { "24" } čipů“, které Tabulka E-5 uvádí pro terciární PRN { "147" }, což duplikuje buňku PRN { "151" }, zatímco vlastní soubor Přílohy { "3" } standardu se shoduje s generátorem. Kritérium nulové neshody je minuto.
+
+seg-d4e76301323f = Zjištění (nový řádek MODELLED), „Dekódovatelnost LunaNet AFS v uzavřené smyčce“: tři předregistrované běhy proti PocketSDR-AFS; třetí splnil své prahy sledování a dekódování plně, ale ne svou pojistku, že build přijímače jen s tiskem reprodukuje log připnutého buildu, protože dva běhy neupraveného přijímače se již liší v záznamech akvizice.
+
+seg-93cfa05a1923 = Opraveno: výchozí nosná u <c1/> (<c2/>), <c3/> a <c4/> byla zaokrouhlených { "2.4" } GHz; nyní je to nosná AFS podle LSIS-020, { "2492.028" } MHz. Při starém výchozím nastavení byla ztráta ve volném prostoru podhodnocena o { "0.327" } dB.
+
+seg-ed7c170ccc2c = Revize: žádné. Každý přibalený scénář uvádí svou nosnou a výsledky všech { "138" } souborů scénářů jsou bajt po bajtu shodné s předchozím main.
+
+seg-3ec7f5b17122 = D7, skutečné lunární IQ a GPS LNAV (sedm nových řádků, žádný VALIDATED: { "242" } -> { "249" } řádků, ověřených { "123" } beze změny).
+
+seg-0c3dcf4f2b0f = <c1/>: rychlá Fourierova transformace (FFT) se smíšeným základem, jejíž výstup má na každé platformě stejné bity; připnutý SHA-256 transformací o 8000 a 24000 bodech prochází na x86_64 i na wasm32-wasip1 (runner v <c2/>).
+
+seg-150d9809c584 = <c1/>: paralelní hledání fáze kódu na vzorkovaném IQ (<c2/>, <c3/>) s koherentním skládáním, nekoherentní akumulací, prahem chí-kvadrát pro pravděpodobnost falešného poplachu v celém hledání a statistikou průměrování buněk pro šum omezený pásmem; <c4/>, <c5/> s kódovým Dopplerovým posunem a estimátory poměru nosné k šumové hustotě (C/N0) M2M4 a vrcholu mřížky.
+
+seg-46bda8ecf2cd = <c1/>: kodér starší navigační zprávy (LNAV) IS-GPS-200 pro podrámce { "1" } až { "3" }, s paritou podle Tabulky 20-XIV a dekodérem polí.
+
+seg-43444792974c = <c1/>: čtečka standardu ION GNSS SDR Metadata Standard (<c2/>) a jeho vzorkových souborů, s <c3/> pro úrovně v doplňkovém kódu.
+
+seg-a7dfc3475923 = <c1/>: hlavička dávky LuGRE (Lunar GNSS Receiver Experiment) IQS, telemetrie RAW, ACQ a NAV a soubory CLK a kontrola, která uvádí, kde metadata <c2/> odporují binární hlavičce.
+
+seg-f0125531c4f8 = <c1/> a v <c2/> těleso řízené stáčením (yaw-steering), vysílací azimut a úhly mimo nadir a <c3/> pro relativní C/N0 s měřenými diagramy.
+
+seg-679aa02de1d0 = Kódování navigační zprávy GPS LNAV (nový řádek, zůstává MODELLED po poverifikaci integrátora): na vysílaném souboru IGS z { "2" } března { "2025" }, zpracovaném a dekódovaném RTKLIB v2.4.2-p13, všech { "960" } slov projde paritou, všech { "96" } podrámců se dekóduje a všech { "608" } vysílaných celých čísel se rovná těm Kshany (<c1/>), ale předregistrace (d4d9eb9d) se dostala do veřejné větve dvě sekundy po commitu obsahujícím výsledek, takže pořadí „zaregistrováno před stažením souboru“ nelze prokázat a řádek není povýšen.
+
+seg-2875ba2d8f5f = <c1/> plní slova od nejvýznamnějšího bitu (I ve vyšší půlce bajtu LuGRE; dřívější čtení dávalo sdružený signál), staré čtení ponechává jako <c2/> a čte vzorky širší než slovo.
+
+seg-f6e0e3b9b166 = <c1/>: fázově koherentní zpřesnění Dopplerova posunu ({ "0.2" } Hz RMS při { "30" } dB-Hz za { "200" } ms v simulaci).
+
+seg-b0f6a61acce0 = GPS L1 C/A proti gps-sdr-sim: čipy a paritní bit přesně; { "230" } z { "1152" } polí LNAV se liší o jednotku, protože gps-sdr-sim ořezává tam, kde vysílané celé číslo vyžaduje zaokrouhlení.
+
+seg-1c525ca495c0 = LNAV dekódované RTKLIB: veškerá parita a podrámce projdou a každý parametr je v rámci poloviny kvanta; { "41" } škálovaných hodnot se liší o několik jednotek na posledním místě kvůli desítkové konstantě { "2" }^-43 v RTKLIB, nad registrovaným prahem.
+
+seg-14e26e69777b = Akvizice LuGRE proti GNSS-SDR { "0.0.19" }: { "266" } z { "266" } rozhodnutí se shoduje, { "250" } umístěno do téže buňky; většina pozitiv je artefakty průměru −{ "0.5" } v holých 4bitových úrovních; větev C/N0 neměla současná letová data. Dvě dávky (OP5, OP12) byly omylem vyloučeny: jejich metadata se shodují s hlavičkami, ale čtečka tehdy neuměla číst vzorek širší než slovo.
+
+seg-3a32ff9d66fc = Akvizice LuGRE proti Dopplerovu posunu předpovězenému z dráhy: při rozhodnutí podle výkonu vzorků překračuje práh každé hledání na šumu omezeném pásmem; při rozhodnutí průměrováním buněk se nejsilnější dvojice shodují velikostí s obráceným znaménkem, což ukazuje, že registrované pořadí I/Q je sdružené k datům.
+
+seg-2bb618ba4059 = Slepá akvizice na lunárních povrchových dávkách: čtyři dávky každá akvirují jeden satelit (předpovězen jako viditelný, žádný falešný poplach při { "1e-7" }), žádná dva, takže práh rozdílu Dopplerových posunů nemá žádný pár k hodnocení.
+
+seg-f95606e17fd1 = Relativní C/N0 ve vzdálenosti Měsíce (M039 přeformulováno): { "15" } záznamů Block IIR/IIR-M a jeden pár, příliš málo pro registrovaný práh.
+
+seg-9306cf44fc44 = Revize: žádné; žádné zveřejněné číslo, golden soubor ani obrázek v dokumentaci se nezměnily.
+
+seg-2a3cb68c94d6 = Řádek M039 „GNSS Země ve vzdálenosti Měsíce“ přeformulovává své tvrzení ve vzdálenosti Měsíce jako relativní C/N0 mezi satelity v jedné epoše plus viditelnost (absolutní C/N0 se netvrdí); zůstává MODELLED. Nejvyšší NOTICE nese uvedení zdroje LuGRE CC BY { "4.0" }.
+
+seg-e1e4094a186a = Lunární orientace hlavních os z DE440 se nyní interpoluje po geodetice mezi denními uzly. Dřívější interpolace po prvcích měla chybu až { "2.0e-4" } rad ({ "340" } m na lunárním povrchu) poblíž čtvrtinových bodů každého dne, nikoli „asi { "14" } m“, jak řádek uváděl. Jeho uživatelé (geometrie lunárního laserového měření vzdáleností, lunární datum, lunární pozorovatelnost poruch) dostávají opravenou orientaci.
+
+seg-a2071d345923 = Opravy enginu v kole { "2" }, každá znovu spuštěná proti své nezměněné předregistrované toleranci: vintage IERS řádku EOP se čte z jeho příznaků I/P místo z prázdného bloku Bulletinu B; <c1/> používá geodetickou lokální úroveň; lunární vazba rychlostní soustavy používá rovníkový poloměr, J2 a rotaci; fit liu22 začíná od nulových korekcí bez priorů a používá rychlost středního pohybu z článku; rozestup uzlů EO nese nodální regresi J2; doba do proklouznutí cyklu u Costase používá rho/4; společné řešení uplatňuje vysílané skupinové zpoždění dvojice; lunární společné řešení používá krok QR; mez NTN se vyhodnocuje na pravé poloze; referencí hodin v návrhu konstelací je nejnižší konstelace v dohledu; řada orientace DE440 pokrývá 2014-2030 a mimo ni hlásí chybu místo ořezání.
+
+seg-74f397ad9c16 = <c1/>, pravá dráha sestavená z tabelovaných stavů v pevné soustavě Země, používaná porovnáním fitteru skutečných drah.
+
+seg-7293b717d978 = Testovací soubory a fixture výše uvedených porovnání, každý se svým generátorem a souborem <c1/> uvádějícím zdroj, licenci, datum stažení a SHA-256.
+
+seg-920fe965bda9 = Kolo { "2" }: <c1/> a <c2/> (detekce poruch podle ADD v4.2, podle Stanford MAAST pro ARAIM { "2" }, oznámení BSD-3 ve zdroji); <c3/>; <c4/> a <c5/>; devítistavový model chyby INS <c6/>; parciální derivace <c7/> a vstupy <c8/> na cestě přes jádro; <c9/>, čtečka jader SPK typu { "2" } a binárních PCK; <c10/> se stanicemi ITRF2020; hustota Jacchia { "1971" }; <c11/> přes libovolného poskytovatele efemerid; <c12/>; <c13/> a <c14/>; <c15/>; <c16/> (čtečky RINEX hodin, ANTEX a DCB).
+
+seg-e3336e670d51 = Záplatové vydání nad { "0.29.2" }. Kshana Studio je přestavěno kolem dvou pohledů: Jednoduchého, který nejdřív odpovídá a vysvětluje prostými slovy, a Pokročilého s úplným panelem. Přicházejí s ním dvě drobné opravy na kshana.dev. Engine se nemění: každý přibalený scénář dává výsledek bajt po bajtu shodný s { "0.29.2" } kromě otisku verze.
+
+seg-c40ab967ace6 = <b>Kshana Studio má Jednoduchý pohled.</b> Právě ten se ve Studiu otevírá.
+
+seg-6a5ae001d00e = Odpověď je na prvním místě: scénář se otevře svým výsledkem, vyjádřeným jednou prostou větou. Každý přibalený scénář má vlastní větu, napsanou pro to, co daný scénář měří.
+
+seg-375421534e4c = Zobrazeno je nejvýše pět nastavení, ta, která odpověď mění nejvíce. Zbytek je pod „Pokročilá nastavení“, sbalený, dokud jej neotevřete.
+
+seg-d8650ae64549 = „Jak se to počítá“ vysvětluje metodu v několika řádcích a „Pro výzkumníky“ uvádí vlastní hodnoty enginu, soubor scénáře a důkazy za výsledkem.
+
+seg-36af7640e6ad = <b>Úplný panel je Pokročilý pohled.</b> Je tu každý panel, graf, export a zpráva dřívějšího Studia.
+
+seg-0428d0a7921b = <b>Přepínač přepíná mezi oběma pohledy a zachovává vaše místo.</b> Scénář, pohled, na kterém jste byli, a všechna upravená nastavení se přenesou. Studio si pamatuje, který pohled jste použili naposledy. Odkazy z webu a dokumentace otevírají Jednoduchý pohled; odkaz s <c1/> otevře Pokročilý pohled a každý dřívější odkaz na Studio stále otevírá stejný scénář a pohled.
+
+seg-2c98ed084c10 = <b>Rychlejší první pohled na pomalém připojení.</b> Zaznamenaná odpověď pro scénář se vykreslí dříve, než se načte zbytek Studia, takže na pomalém mobilním připojení se odpověď zobrazí asi za dvě sekundy místo asi devíti.
+
+seg-2214d2dcfab4 = <b>Lepší vyhledávání.</b> Hledání nyní nejdřív uvádí scénáře, jejichž oblast nebo název odpovídá hledaným slovům, před scénáři, které je zmiňují jen v názvu souboru nebo v textu.
+
+seg-aa8d43280c19 = <b>Globus na domovské stránce už při omezeném pohybu nezůstane prázdný.</b> Při zapnutém systémovém nastavení omezeného pohybu mohla změna velikosti okna nechat úvodní globus prázdný, dokud se stránka neposunula. Globus se nyní překreslí ve stejném snímku jako změna velikosti.
+
+seg-da4b78816df1 = <b>Konzole pásma L na domovské stránce vysvětluje své prázdné pásmo.</b> V „Sledujte, jak rušič zabere pásmo“ zůstal panel GPS L5 / Galileo E5a celou minutu tmavý, což vypadalo jako porucha. V tomto scénáři v tomto pásmu žádný rušič nevysílá a signály satelitů leží pod úrovní šumu, takže se tam nic nad ni nevznáší. Tichý popisek to nyní uvádí v každém úseku panelu, kde není nic nad úrovní šumu (panel L5 / E5a a panel L2C, než začne jeho šumový rušič), s C/N0 a stavem zachycení každého pásma ze stejného běhu. Zobrazuje se jen tam, kde není nic nad úrovní šumu, takže nikdy nezakrývá energii rušiče.
+
+seg-e353fdee7033 = Záplatové vydání nad { "0.29.1" }. Odstraňuje duplicitní kód v modulech navigační zprávy LEO, fúze a spektra, přidává světlé téma na kshana.dev, přesouvá Kshana Studio na vlastní adresu, činí web čitelným pro vyhledávače a AI asistenty, opravuje několik drobností ve Studiu a umožňuje vydání npm bez uloženého tokenu. Žádný výstup enginu se nemění: každý přibalený scénář dává výsledek bajt po bajtu shodný s { "0.29.1" } kromě otisku verze.
+
+seg-e8bf0a4fdc35 = <b>Světlé téma pro kshana.dev.</b> Každou stránku lze číst světlou i tmavou. Web sleduje systémové nastavení čtenáře a má přepínač pro jeho změnu.
+
+seg-8e7cabc14c40 = <b>Vyhledávače a AI asistenti mohou web číst.</b> Každá stránka má nyní vlastní titulek, popis, kanonickou adresu, značky sociálních karet a strukturovaná data schema.org a prostý text pro sekce, které vykresluje skript. Web zveřejňuje <c1/>, <c2/> s datem poslední změny každé stránky, <c3/> a <c4/> (krátký a úplný prostý průvodce pro AI asistenty) a klíč IndexNow, aby nasazení mohlo vyhledávačům říct, co se změnilo.
+
+seg-804ba71be9ed = <b>Vydání npm lze publikovat bez uloženého tokenu.</b> Úloha npm nyní běží na Node { "24" } a npm { "11.5.1" } nebo novějším, které podporují trusted publishing npm: npm vymění identitu GitHub úlohy vydání za krátkodobé přihlašovací údaje. Tajný klíč <c1/> stále funguje a používá se, dokud je nastaven, takže se nic nemění, dokud se pro balíček na npmjs.com trusted publishing nezapne. <c2/> uvádí kroky.
+
+seg-81405e5a5e06 = <b>Titulek domovské stránky je nad globusem čitelný.</b> Za titulkem a jeho textem je nyní jemný stín, který tlumí orbitální čáry a tečky satelitů animovaného globusu tam, kde jej protínají.
+
+seg-24b8363acc14 = <b>Kshana Studio má vlastní adresu: <a1>https://kshana.dev/studio/</a1>.</b> Odkazuje na ni každý odkaz na webu a v dokumentaci. Stará adresa, <c1/>, stále funguje a přesměruje na novou se zachovaným scénářem, pohledem a dalšími nastaveními v odkazu.
+
+seg-12f223b986bd = <b>Opravy Studia.</b> Soubor enginu se stahuje jednou místo dvakrát. Během stahování Studio okamžitě ukazuje zaznamenaný výsledek scénáře, označený jako zaznamenaný, místo prázdné obrazovky. Na telefonu je záhlaví jeden kompaktní řádek. Klíčové hodnoty se zalamují po dvou na řádek, takže žádná není skryta za okrajem obrazovky. Popisky polí používají vlastní slova scénáře s názvem pole vedle nich a hledání najde pole podle obojího.
+
+seg-c130d8a4dc5e = <b>Méně duplicitního kódu.</b> Tabulka jednotek navigační zprávy LEO zapisovala stejných deset řádků statistik SISRE pro čtyři shrnutí fitu. Nyní je zapisuje jednou makro. Dva spektrální grafy typu vodopád sdílejí jednu časovou osu, barevnou stupnici a panel C/N0. Podvzorkování hlavní mřížky znovu používá <c1/> a Simpsonův integrál znovu používá <c2/>. Dva vstupní body druhu přeletu LEO sdílejí jeden krok nastavení. <c3/> importuje pomocné vektorové funkce <c4/> místo jejich kopírování. Pokročilá zpráva importuje HTML escape zprávy API místo jeho kopírování. Každý z { "139" } souborů scénářů v <c5/> byl spuštěn na { "0.29.1" } i na tomto kódu a každý výstupní soubor je bajt po bajtu shodný.
+
+seg-166b0435c96f = <b>Tabulky jednotek leo-navmsg a leo-pvt mají vlastní soubory.</b> Přesunuly se z modulů, které obsahují i logiku, do <c1/> a <c2/>. <c3/> si ponechává svou veřejnou cestu. Pouze tyto dva soubory tabulek se přidávají k výjimkám detekce kopírování kódu pro deklarativní katalogy v <c4/>, které kontroluje <c5/>.
+
+seg-f8b372e08ef9 = <b>Odznak CI v README ukazuje výsledek pushů do main.</b> Odznak počítal běhy každé události na main, takže mohl hlásit „failing“, i když byl každý běh push zelený; nyní se ptá jen na běhy push (<c1/>).
+
+seg-7c41a482c7d8 = Záplatové vydání nad { "0.29.0" }: změřená hodnota pokrytí, řádek s názvem projektu na kshana.dev, rychlejší úloha pokrytí a obnovené README. Žádný výstup enginu se nemění: každý scénář dává stejný výsledek jako na { "0.29.0" }.
+
+seg-997490bd1696 = Revize zveřejněných čísel
+
+seg-ed4b071e4bd9 = <b>Pokrytí řádků: ~{ "96" } % → ~{ "95" } %.</b> Úloha pokrytí znovu změřila vydaný kód { "0.29.0" } (commit <c1/>, běh CI { "36809850252" }, 2026-10-01): <c2/>, { "55,970" } z { "58,697" } řádků <c3/>. Zveřejněná hodnota byla { "95.63" } % ({ "37,697" } z { "39,419" } řádků), změřená na <c4/> před { "0.28.0" }; zaokrouhlovala se na ~{ "96" } %. Nová hodnota se zaokrouhluje na ~{ "95" } %, takže se společně mění každý povrch, který <c5/> připíná: <c6/>, odznak README, řádek Evidence a tabulka CI, odznaky crates.io, PyPI a npm, technická zpráva a stránka pokrytí na kshana.dev. Spodní mez { "85" } % se nemění.
+
+seg-577baa03af04 = <b>Řádek s názvem na kshana.dev.</b> „Kshana · क्षण · the precise instant“ nyní otevírá úvod domovské stránky a sedí pod značkou v patičce každé stránky. kshana.dev stále nevytváří žádný požadavek na jiného hostitele: devanágarí je vlastní hostovaná podmnožina Noto Sans Devanagari tří písmen क्षण ({ "1,692" } bajtů, <c1/>, s textem licence SIL Open Font License a jeho SHA-256 v <c2/>). <c3/> se naučil uložit podmnožinu Google Fonts <c4/> pod název souboru adresovaný obsahem.
+
+seg-35b5bc4ee466 = <b>Odkazy webu dopadají tam, kam míří, na čistých adresách.</b> Odkaz na sekci nyní staví tuto sekci těsně pod záhlaví, na telefonu i na stolním počítači: odkaz na sektor Mise otevře tento sektor s jeho panelem nahoře; odkazy Schopnosti a Edice drží své místo, zatímco se vykreslují grafy nad nimi; Edice už nepřidávají druhý posun záhlaví; a odkaz do sbalené části stránky dokumentace ji otevře. Každá stránka je odkazována svou čistou adresou (<c1/>, <c2/>, <c3/> pro domovskou) a kanonické odkazy, mapa webu a přesměrování ze starých adres uvádějí totéž; adresy <c4/> stále fungují. Výzkum má vlastní odkaz v záhlaví mezi Důkazy a Vývojáři a v patičce. Dokumentace už neukazuje plán (<c5/> zůstává v repozitáři): skupina Projekt je Changelog, Licencování, Bezpečnost, Přispívání, Správa a Kodex chování a Slovník se přesunul do Začínáme.
+
+seg-3da9f00f5ce6 = <b>Úloha pokrytí je rychlejší.</b> Na { "0.29.0" } trvala { "143" } minut oproti zdravým { "91" } až
+
+seg-85d502773367 = Fuzzer <c1/>, příčina minule, zabral { "4" } z nich. Přibalený korpus vzrostl ze { "74" } na { "139" } scénářů a tři testovací binárky jej procházely celý po jednom souboru (<c2/> dvakrát, <c3/> a <c4/> jednou): dohromady { "37" } minut pod instrumentací pokrytí, oproti { "3" } na { "0.27.2" }. Nyní sdílejí <c5/>, který práci na jednotlivých scénářích spouští na každém jádře a vrací výsledky v setříděném pořadí; každý scénář a každé tvrzení zůstává. Na laptopu arm64, debug build: <c6/> trvá { "143" } s na { "14" } jádrech oproti { "612" } s s <c7/> (starý sériový průchod).
