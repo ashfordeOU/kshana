@@ -8842,3 +8842,49 @@ seg-2a807ae8e194 = <b>RAIM sur une géométrie d'orbite de référence réelle.<
 # c3: runs = 1
 # c4: nd_sweep
 seg-651cc4af4872 = <b>Intervalles de confiance par nœud pour le balayage de paramètres N-D</b> (<c1/>). Chaque nœud de grille du balayage à produit cartésien N-dimensionnel peut désormais être évalué comme un ensemble Monte-Carlo de graines, en rapportant la moyenne de la métrique, ses percentiles et un IC bootstrap par percentiles à { "95" } % par nœud (pour les deux horloges) — un balayage statistiquement honnête plutôt qu'un seul tirage par nœud. Réutilise la mécanique d'ensemble/de bootstrap (<c2/>) ; déterministe ; <c3/> se réduit exactement au <c4/> à graine unique. (La généralisation du balayage à tous les paquets, liée à la refonte du Scénario typé, et l'exécution parallèle restent à faire.)
+
+# text
+# c1: kshana.track-epoch/1
+# c2: iq::track::sink
+seg-a01bf371cc4f = <em>Sortie des époques en continu</em> (<c1/> ; <c2/>). Chaque mise à jour de boucle contient :
+
+# text
+seg-ff549f07ce78 = les corrélateurs précoce, ponctuel et tardif ;
+
+# text
+seg-00457c1bb059 = les trois sorties de discriminateur ;
+
+# text
+seg-b17d335f6cac = les états des NCO PLL/FLL/DLL et la phase de la porteuse ;
+
+# text
+seg-a3bf3f1034cd = le PLI et les indicateurs de verrouillage ;
+
+# text
+seg-7912a72da79b = les deux estimations de C/N0 et les bits ;
+
+# text
+seg-8d105d656041 = l'état de verrouillage.
+
+# text
+# c1: BinaryEpochReader
+# c2: iq_read_epochs
+seg-6af6331255fb = Elle est écrite au fil de l'exécution, en CSV, en JSON Lines ou sous une forme binaire versionnée, avec des lecteurs en Rust (<c1/>) et en Python (<c2/>).
+
+# text
+# c1: iq track
+# c2: --epochs
+# c3: --events
+# c4: --summary
+# c5: kshana.track-summary/1
+# c6: iq sweep
+# c7: --epochs
+# c8: --events
+# c9: iq_track
+# c10: epochs_out
+# c11: events_out
+seg-aa081bfd9878 = <c1/> gagne <c2/>, <c3/> et <c4/> (<c5/>), et <c6/> gagne <c7/> et <c8/>. L'outil MCP <c9/> gagne <c10/>/<c11/> et construit sa réponse à partir du résumé à mémoire bornée.
+
+# text
+# c1: tests/iq_track_memory.rs
+seg-8cb2f8b27bad = Le tas d'une exécution ne croît plus avec la longueur de l'enregistrement : <c1/> le mesure avec un allocateur à comptage ({ "6" }× la longueur, même pic à { "64" } Kio près), avec un témoin montrant que le chemin en mémoire, lui, croît.

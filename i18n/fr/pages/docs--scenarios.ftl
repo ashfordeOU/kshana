@@ -278,3 +278,49 @@ seg-ccb244e60d60 = Transfert bidirectionnel de temps/fréquence optique contre R
 
 # text
 seg-f6ff1c8c78db = Perte d'accrochage de la boucle de poursuite : C/N0 -> accrochage/décrochage AVEC HYSTÉRÉSIS, temps nécessaire pour perdre l'accrochage, et capture par leurrage en fonction du TAUX de décalage de code et de porteuse. Les critères de déni et de capture existants du moteur sont des rapports sur la puissance reçue (un brouilleur interdit à J/S = { "30" } dB, un leurre capture à { "3" } dB) ; la vraie perte d'accrochage n'est pas un rapport de puissance, c'est le point où la gigue d'une boucle plus la contrainte dynamique quittent son budget de seuil de poursuite. Rapporte ({ "1" }) la gigue thermique à 1 sigma de la porteuse (Costas) et du code (avance/retard non cohérent) en fonction du C/N0, perte de quadrature incluse, par rapport aux règles indiquées { "3" }<em>sigma_PLL + theta_e <= { "45" } deg (la règle des 15 degrés sous forme à trois sigma) et { "3" }</em>sigma_DLL + retard de rampe <= d/2 chips ; ({ "2" }) les seuils de C/N0 de décrochage et de ré-accrochage avec la boucle déterminante nommée, le seuil de ré-accrochage DÉRIVÉ de la largeur de bande plus large à laquelle un récepteur se ré-accroche plutôt qu'affirmé, de sorte que la largeur d'hystérésis doit se situer entre { "5" }<em>log10(rapport) et { "10" }</em>log10(rapport) dB ; ({ "3" }) le temps déclaré pour perdre l'accrochage d'un détecteur d'accrochage à deux seuils avec des durées de confirmation, piloté sur une rampe de C/N0, rapporté séparément du temps physique d'échappement de phase (le temps moyen de Viterbi entre sauts de cycle, en log10 s car il s'étend sur des centaines de décades) ; ({ "4" }) les limites de capture par leurrage — la plus grande vitesse de glissement de code et le plus grand taux de Doppler de porteuse que les boucles d'une victime peuvent suivre, avec une carte sur les deux axes, car un leurre qui glisse plus vite que ces valeurs ne capture pas la boucle, il la distance ; et ({ "5" }) le RAYON DE DÉNI qu'impliquent les dynamiques de boucle, rapporté EN PLUS du rayon en rapport de puissance existant, jamais à sa place, avec leur différence signée comme champ nommé à part (denial_radius_delta_km) et une définition à côté. Chaque champ numérique émis porte une unité et une classe de provenance. Formes fermées VALIDATED : les expressions de gigue de porteuse et de code, la réduction du filtre de boucle sqrt({ "2" }<em>B_n</em>T) et le retard de rampe du premier ordre sont recoupés avec le propre corrélateur sdr du moteur avancé pas à pas sur une FI synthétique initialisée — un autre chemin vers les mêmes nombres — à { "0.6" } %, { "3.7" } % et { "0.17" } % respectivement, et la fonction de Bessel modifiée I0 qui sous-tend le temps de saut de cycle avec des valeurs tabulées standard à { "1e-7" }. La limite de validité inférieure est affirmée, et non simplement indiquée : en dessous d'environ { "32" } dB-Hz à { "1" } ms, le vrai discriminateur atan sature contre sa plage +-pi/2 et mesure moins de gigue que n'importe quelle théorie linéaire. MODELLED : les largeurs de bande de boucle, le temps d'intégration, l'espacement des corrélateurs, le rapport de largeur de bande de capture, les durées de confirmation, la puissance du brouilleur et les gains d'antenne sont des valeurs représentatives de la bande, et non une fiche technique. NON modélisés : la gigue d'oscillateur (écart-type d'Allan) et de vibration, la limitation de largeur de bande de l'étage d'entrée, les trajets multiples, la dynamique de la CAG, la perte de transition de bit de données, l'aide externe, et toute correction d'un demi-cycle à la formule de saut de cycle de Costas. Sous les dynamiques de boucle, la capture par leurrage n'a aucun rayon — la contrainte déterminante est le taux de décalage, non la puissance — de sorte que ce champ est nul avec une raison plutôt qu'un nombre fabriqué. Pas un produit certifié de performance de récepteur.
+
+# text
+# c1: docs/SCENARIOS.md
+seg-45cb12242d59 = Source : <c1/>
+
+# text
+# c1: kshana::api::run_toml
+seg-843d88cee576 = Les { "87" } types de scénario intégrés sur lesquels <c1/> aiguille l'exécution, chacun avec sa description d'une ligne et ses champs TOML (Tom's Obvious, Minimal Language) obligatoires et facultatifs.
+
+# text
+# c1: api::list_scenario_kinds()
+# c2: cargo run --bin gen_validation_artifacts
+# c3: list_scenario_kinds
+seg-2860d14bd619 = Ce fichier est <b>généré</b> à partir de <c1/> — la source de vérité unique — par <c2/> ; modifiez la source, et non ce fichier. Chaque interface (le paquet Python, l'outil <c3/> du serveur MCP (Model Context Protocol) et le bac à sable WebAssembly (WASM)) expose ce même catalogue : ce qui est listé ici est donc exactement ce que chaque surface peut exécuter. Les descriptions sont concises et ne développent pas toujours leurs abréviations ; chacune est explicitée dans <a1>GLOSSARY.md</a1>.
+
+# text
+# c1: clock
+# c2: kind = "<name>"
+# c3: kind
+# c4: clock
+# c5: kind
+# c6: |
+# c7: +
+# c8: tle|orbit+epoch
+# c9: tle
+# c10: orbit
+# c11: epoch
+seg-28b0dbf53a2c = Tout scénario, sauf <c1/>, doit aussi définir <c2/> au niveau supérieur : un document sans <c3/> s'exécute comme <c4/>, c'est pourquoi <c5/> n'est répété dans les champs obligatoires d'aucun type de scénario ci-dessous. Une entrée obligatoire peut proposer des alternatives : <c6/> sépare des formes dont au moins une doit être présente, et <c7/> relie des champs qui doivent apparaître ensemble ; ainsi <c8/> se lit « un <c9/>, ou un <c10/> avec un <c11/> ».
+
+# text
+seg-6317db731879 = Description
+
+# text
+seg-6c9d3eec1bd7 = Champs obligatoires :
+
+# text
+seg-05a3e7f57b33 = Champs facultatifs :
+
+# text
+seg-c01773d5f190 = (aucun)
+
+# text
+seg-4178135b91eb = <s1>Précédent</s1>Exemple détaillé : chaîne de plusieurs outils
+
+# text
+seg-c9afb81f21d8 = <s1>Suivant</s1>Tous les types de scénario, par famille

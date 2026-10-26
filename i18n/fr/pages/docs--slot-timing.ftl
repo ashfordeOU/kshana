@@ -221,3 +221,157 @@ seg-a2766c0f19d0 = <s1>Précédent</s1>Liaisons optiques à travers l'atmosphèr
 
 # text
 seg-85ad3eb72a80 = <s1>Suivant</s1>Synchronisation des télécoms
+
+# text
+# c1: docs/SLOT-TIMING.md
+seg-f23c8bd5f203 = Source : <c1/>
+
+# text
+# c1: slot-timing
+seg-1f2727dc4ca4 = Le type de scénario <c1/> répond à trois questions pour une horloge qui dérive librement entre deux synchronisations et doit maintenir le trafic à l'intérieur d'un <b>créneau indexé sur le temps</b> : un créneau de routage, de tâche ou de contact dont la <b>marge de garde</b> est la plus grande erreur de temps absolue, de part et d'autre, pour laquelle le créneau fonctionne encore.
+
+# text
+seg-6b39d8afeb5d = <b>Quand la marge de garde est-elle franchie ?</b> Les secondes écoulées depuis la dernière correction jusqu'à ce que l'erreur de temps prédite atteigne la marge de garde, avec chaque terme contributeur détaillé et le terme dominant nommé.
+
+# text
+seg-60476d723e1a = <b>Combien de temps reste-t-il maintenant ?</b> Le même chiffre moins le temps déjà écoulé depuis la correction.
+
+# text
+seg-84010982db35 = <b>À quelle fréquence l'horloge doit-elle prendre une correction ?</b> Le plus grand intervalle entre corrections qui maintient l'erreur dans la marge de garde, net du délai avant qu'une correction prenne effet.
+
+# text
+# c1: spoofing
+seg-3388d46925f1 = Une section <c1/> facultative ajoute le niveau de protection de la synchronisation temporelle (TPL) pour un récepteur en orbite ; voir <a1>Leurrage d'un récepteur en orbite</a1>.
+
+# text
+# c1: kshana example slot-timing-ocxo-leo
+seg-2eb266d992b0 = Exécutez l'exemple fourni avec <c1/>.
+
+# text
+seg-624e7a70c4f6 = Abréviations : GNSS, système mondial de navigation par satellite ; TCXO, oscillateur à quartz compensé en température ; OCXO, oscillateur à quartz thermostaté ; RAFS, étalon de fréquence atomique au rubidium ; CSAC, horloge atomique à l'échelle d'une puce ; USO, oscillateur ultra-stable ; DSAC, horloge atomique pour l'espace lointain ; ADEV, écart-type d'Allan ; FM, modulation de fréquence (ici, le bruit sur la fréquence de l'horloge) ; PM, modulation de phase (le bruit sur sa phase) ; IEEE, Institute of Electrical and Electronics Engineers ; ITU-T, secteur de la normalisation des télécommunications de l'Union internationale des télécommunications ; TIE, erreur d'intervalle de temps ; MTIE, erreur maximale d'intervalle de temps ; TDEV, écart de temps ; max|TE|, erreur de temps absolue maximale ; CUSUM, détecteur de changement par sommes cumulées ; TPL, niveau de protection de la synchronisation temporelle ; LEO, orbite terrestre basse ; NIST SP, publication spéciale du National Institute of Standards and Technology ; UFFC, Ultrasonics, Ferroelectrics, and Frequency Control (une revue de l'IEEE Transactions) ; IGS, International GNSS Service ; GPS, Global Positioning System ; Block IIF, les satellites GPS Block II Follow-on ; SHA-256, l'algorithme de hachage sécurisé (Secure Hash Algorithm) à 256 bits ; PPS, impulsion par seconde.
+
+# text
+seg-f2a0c73ef648 = Le modèle d'erreur
+
+# text
+# c1: t
+seg-6bc3f9e78346 = L'erreur de temps prédite après une marche libre de <c1/> secondes depuis une correction est
+
+# text
+seg-3fbb186c716a = facteur de couverture ({ "3" } correspond à environ { "99.7" } % d'une erreur gaussienne)
+
+# text
+seg-883965151598 = erreur de temps à un sigma de la correction
+
+# text
+# c1: W
+# c2: σ_y(W)
+seg-b63c0447865f = erreur à un sigma de la fréquence connue lors de la correction ; une fréquence estimée sur une fenêtre <c1/> porte environ <c2/>
+
+# text
+seg-ab28fc69d3ac = variance du bruit de phase blanc : gigue de l'erreur de temps, un plancher constant
+
+# text
+# c1: holdover::coast_phase_variance
+seg-8792541a7b6d = densités de FM blanche, de marche aléatoire et de course aléatoire (les termes de van Loan de <c1/>)
+
+# text
+seg-5d36b32c4de8 = plancher de FM de scintillation de la variance d'Allan
+
+# text
+seg-65da5a90685f = écart fractionnaire de fréquence résiduel laissé après la correction
+
+# text
+# c1: ΔT
+# c2: c_T
+seg-816e427d51f9 = écart de fréquence dû à une variation de température <c1/> par le coefficient de température <c2/>
+
+# text
+seg-e23d0ac960aa = taux de vieillissement linéaire
+
+# text
+# c1: t²·σ_y²(t)
+# c2: σ_y²(τ) = 3σ_PM²/τ² + q_wf/τ + h_F + q_rw·τ/3 + q_rr·τ³/20
+# c3: t
+# c4: E(t) = guard
+seg-43e5f75b369c = Chaque terme de FM est égal à <c1/> pour son propre type de bruit, avec <c2/> (Zucca et Tavella, IEEE Trans. UFFC { "52" }({ "2" }), { "2005" }). Pour la FM blanche, la marche aléatoire et la course aléatoire, cette relation est exacte. Pour la FM de scintillation, c'est l'estimation conventionnelle de l'erreur de prédiction du temps (Riley, NIST SP { "1065" }) : la FM de scintillation n'a pas de forme fermée sans coupure basse fréquence. Les écarts de fréquence s'ajoutent en valeur absolue parce que leurs signes sont inconnus ; la partie déterministe est donc un pire cas. Chaque terme est non négatif et non décroissant en <c3/>, si bien que <c4/> a une seule racine, trouvée par encadrement et bissection.
+
+# text
+seg-f9038fba23e2 = D'où vient l'horloge
+
+# text
+seg-5c44b2f8d015 = Clé du scénario
+
+# text
+seg-cb92ae98c231 = Valeur par défaut de la classe
+
+# text
+seg-7594664253f2 = un ADEV à une seconde cité et un plancher de bruit rouge synthétisé deux et quatre décades en dessous
+
+# text
+seg-794e4932b470 = MODELLED : la réponse pour une horloge stable est gouvernée par le plancher supposé
+
+# text
+seg-5ea820aaa69f = Préréglage de fiche technique
+
+# text
+# c1: ocxo
+# c2: rubidium
+# c3: caesium
+# c4: csac
+seg-c943490619f3 = les préréglages de synchronisation des télécommunications (<c1/>, <c2/>, <c3/>, <c4/>), chacun étant une fiche technique Microchip nommée
+
+# text
+seg-a20353d50011 = MODELLED : une enveloppe des maxima des fiches techniques
+
+# text
+seg-b543f3dcd11a = Fiche technique en ligne
+
+# text
+seg-4983ec096617 = la propre table d'ADEV du client, son vieillissement et son coefficient de température
+
+# text
+seg-b079bca8a611 = MODELLED : une enveloppe des maxima donnés
+
+# text
+seg-119d94700cab = Enregistrement mesuré
+
+# text
+seg-ae6835f0c3c5 = un enregistrement de phase ; son ADEV avec recouvrement est ajusté par les moindres carrés pondérés
+
+# text
+seg-6e1c4702186d = l'inversion est VALIDATED sur un enregistrement réel mis de côté (ci-dessous)
+
+# text
+seg-f4cc2be238b7 = Les trois classes ajoutées dans la { "0.28.0" } citent chacune une fiche technique publique :
+
+# text
+seg-47f6ddc3bd02 = ADEV à une seconde
+
+# text
+seg-5dadad28711a = EndRun Technologies, <em>Disciplined Oscillator Options</em>, colonne TCXO de base
+
+# text
+seg-becbff195fff = Fiche technique Microchip OX-208, Rev 12-1-2021
+
+# text
+seg-19d8d32203f6 = Fiche technique Microchip 8040C Rubidium Frequency Standard, DS00003047A
+
+# text
+seg-48babc170b93 = Les lignes d'EndRun aux longs temps de moyennage convergent dans l'ensemble de ce tableau ({ "4e-13" } pour tous les oscillateurs sauf le TCXO, { "8e-13" }, à { "10 000" } s, et { "6e-14" } pour tous à { "100 000" } s), ce qui laisse penser qu'elles décrivent le produit asservi plutôt que l'oscillateur en marche libre ; elles ne sont donc pas utilisées.
+
+# text
+# c1: edf
+# c2: 2σ⁴/edf
+# c3: √(edf/2)·(model/σ² − 1)
+# c4: extrapolated
+seg-85c7211bb49b = <b>L'ajustement de l'enregistrement est pondéré.</b> Une estimation de variance d'Allan avec <c1/> degrés de liberté équivalents a une variance d'environ <c2/> ; chaque point entre donc avec le résidu <c3/>. Un ajustement non pondéré laissait les courts temps de moyennage décider des termes des longs temps de moyennage : sur un enregistrement de test à FM blanche, il produisait un plancher de scintillation parasite qui raccourcissait de { "30" } % un franchissement à { "2 000" } s. Une fiche technique ou un enregistrement ne justifie que des temps de moyennage jusqu'à son point le plus long ; un franchissement au-delà est signalé par <c4/>.
+
+# text
+seg-5b61a42c76c2 = Validation : l'inversion sur une horloge réelle mise de côté
+
+# text
+# c1: tests/slot_timing_cs5071a_holdout.rs
+# c2: allantools
+# c3: tests/cs5071a_reference.rs
+seg-2220a1490923 = <c1/> utilise l'enregistrement de { "556" } 990 échantillons d'un étalon au césium 5071A mesuré par rapport à un maser à hydrogène (A. Wallin, distribué avec <c2/> ; le même enregistrement que celui qu'utilise la référence indépendante de l'estimateur <c3/>). Avec le maser pour référence, l'enregistrement est une marche libre de 6,4 jours.

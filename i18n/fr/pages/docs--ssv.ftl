@@ -155,3 +155,73 @@ seg-c9349a3a0185 = NOT MET ({ "48" } sur { "52" })
 
 # text
 seg-056eae8e55d1 = les { "52" }
+
+# text
+seg-805e4402f556 = SSV supérieur avec 15/20/25 dB-Hz (table B9)
+
+# text
+seg-a8d9a1f66989 = NOT MET ({ "122" } sur { "155" })
+
+# text
+seg-7a6fd0eb8f77 = { "153" } sur { "155" }
+
+# text
+seg-cb1a6f558a09 = six missions GEO
+
+# text
+seg-e4759e8d2baa = NOT MET ({ "132" } sur { "156" })
+
+# text
+seg-3e59e79791e2 = les { "156" }
+
+# text
+seg-76d88834ab69 = mission HEO
+
+# text
+seg-1c06414304a0 = NOT MET ({ "18" } sur { "26" })
+
+# text
+seg-b1656692859b = { "21" } sur { "26" }
+
+# text
+seg-d4cedd711485 = mission lunaire
+
+# text
+seg-b52333886109 = NOT MET ({ "23" } sur { "26" })
+
+# text
+seg-479a041e2b62 = diagramme paramétrique comparé aux diagrammes mesurés de panneaux GPS L1
+
+# text
+seg-b514bc035c86 = NOT MET (RMS { "6.3" } à { "8.8" } dB contre { "3" } dB)
+
+# text
+seg-dd703fdea949 = Le livret est incohérent en lui-même au sujet de l'angle hors axe de référence de GLONASS : les tables B2 et B6 indiquent { "20" } et { "28" } degrés, la table { "4.2" } indique { "26" } et { "34" }. L'exécution { "1" } a utilisé le premier couple (celui que nommait le préenregistrement) ; presque tous les échecs de S1 à S5 concernent GLONASS. La variante, décidée à titre de diagnostic avant son exécution, utilise le second couple ; les missions SSV supérieur, SSV inférieur et GEO concordent alors cellule par cellule, coupures comprises. La variante ne remplace pas l'exécution { "1" }. <b>Aucune ligne n'est VALIDATED</b> : le livret est une simulation, la règle du verdict exige S0 à S3 selon la lecture préenregistrée, et les échecs restants (GPS L1 à { "20" } dB-Hz, Galileo en HEO, QZSS et NavIC, les lignes GLONASS lunaires) ne sont pas expliqués.
+
+# text
+seg-6eecf686159b = L'exécuter
+
+# text
+# c1: kshana.run
+# c2: run_scenario
+# c3: pattern_csv
+# c4: pattern_text
+seg-adbb9c22de1c = Chaque scénario fourni est réduit pour s'exécuter en quelques secondes ; la comparaison à taille réelle est l'exemple ci-dessus. Le même type de scénario s'exécute depuis Python (<c1/>), le navigateur (WebAssembly), le serveur MCP (<c2/>, texte en ligne uniquement : <c3/> est une source de fichier et est refusée, utilisez <c4/>) et les extensions.
+
+# text
+seg-8fa10c8e7ab7 = MODELLED : rien ici n'a été comparé à une réception GNSS mesurée en orbite. Le livret est une simulation.
+
+# text
+seg-b34e9acebec0 = Des orbites képlériennes à deux corps pour les constellations GNSS et pour l'utilisateur dans les balayages ; le transfert lunaire est une ellipse à deux corps, et non une trajectoire propagée.
+
+# text
+seg-76aa617ba828 = Le milieu est un modèle simple déclaré, avec intégration le long de rayons rectilignes ; ce n'est pas une prévision de météorologie spatiale.
+
+# text
+seg-3114c4249988 = Le filtre de navigation est une étude de conception : pas de manœuvres, pas d'attitude, pas de trajets multiples, et la vérité terrain partage ses éphémérides du Soleil et de la Lune avec le filtre.
+
+# text
+seg-2deafc0f9534 = <s1>Précédent</s1>Station de référence lunaire
+
+# text
+seg-23386861eebf = <s1>Suivant</s1>Orbite et surface lunaires comme infrastructure

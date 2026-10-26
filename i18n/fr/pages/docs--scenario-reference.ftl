@@ -575,3 +575,584 @@ seg-9a2bb9809aed = Transfert bidirectionnel de temps et de fréquence par satell
 
 # text
 seg-ccb244e60d60 = Transfert bidirectionnel de temps/fréquence optique contre RF.
+
+# text
+seg-1e4d5b2f4810 = Chaque fichier de scénario fourni ({ "182" }), regroupé par type de scénario. La description est le commentaire d'en-tête du fichier lui-même ; les paramètres clés sont ses réglages de premier niveau. Le statut lit la matrice de vérification pour le module du type de scénario. <b>Ouvrir dans Kshana Studio</b> ouvre l'exécution enregistrée.
+
+# text
+seg-e701392324d0 = type de scénario acm-link
+
+# text
+seg-c4d65df7ab98 = non rapproché par son nom d'un module du registre
+
+# text
+seg-7b09a77bfada = Codage et modulation adaptatifs (ACM) DVB-S2 le long des passages d'un satellite au-dessus d'une station. Le long d'un passage, la distance oblique et l'élévation changent, de sorte que l'Es/N0 de la liaison descendante change. L'exécution choisit, à chaque pas, le MODCOD le plus efficace dont le seuil de l'ETSI EN { "302" } 307-1 Tableau { "13" } plus une marge d'implémentation est franchi par la liaison. Elle rapporte la plage d'Es/N0 de chaque passage et le volume de données que l'ACM transfère, par rapport à la référence de base à codage constant qui se referme à l'élévation du masque et à la plus grande distance.
+
+# text
+seg-c36379e65043 = <a1>Ouvrir dans Kshana Studio</a1> · <a2>Voir sur GitHub</a2>
+
+# text
+seg-b6ddd25a35c3 = type de scénario aocs
+
+# text
+seg-944f5a95638f = type de scénario aperture-duty-cycle
+
+# text
+seg-2c27404856f6 = type de scénario araim-reference-check
+
+# text
+seg-6fc2c7863922 = type de scénario ascent-losses
+
+# text
+seg-6ad78e934bec = Pertes à la montée en virage de gravité d'un lanceur bi-étage ILLUSTRATIF kérosène/oxygène (aucun véhicule réel) : montée verticale jusqu'à { "1" } km, un coup de tangage de { "3" } deg pendant { "10" } s, puis poussée le long de la vitesse. L'exécution intègre les pertes de gravité, de traînée, de pilotage et de contre-pression et vérifie que le dv idéal moins les pertes égale la vitesse de fin de combustion. MODELLED : plan, Terre non tournante, C_D constant, pas de phase balistique, aucun guidage au-delà du coup de tangage.
+
+# text
+seg-602ac3a69ef9 = type de scénario attitude-budget
+
+# text
+seg-01ed69f79080 = le type de scénario a des lignes validées dans le registre · { "1" } ligne sur { "1" } validée
+
+# text
+seg-be0ff8b9fe3b = type de scénario body-pnt
+
+# text
+seg-eb1f3742071d = type de scénario campaign
+
+# text
+seg-a40718a9a53e = Une mission enchaînée : nominale, brouillage, leurrage, perte du GNSS avec holdover d'horloge et navigation à l'estime inertielle, alarme d'intégrité et récupération, sur une même chronologie partagée.
+
+# text
+# c1: link-budget
+# c2: trace
+seg-e745211204ab = Une optimisation à travers une campagne : la liaison en bande X de l'exemple link-budget ({ "55" } dBW de PIRE, { "53" } dB/K de G/T, { "3" } dB d'autres pertes, { "4.5" } dB d'Eb/N0 requis), recherchée sur la distance et le débit de données pour le point de fonctionnement qui laisse exactement { "3" } dB de marge. Chaque évaluation est une exécution <c1/> ordinaire. Le simplexe de Nelder-Mead travaille en coordonnées log-normalisées à l'intérieur des bornes indiquées, et chaque évaluation est listée dans le <c2/> du résultat.
+
+# text
+seg-decc6966e201 = Composition inter-domaines : un brouilleur, deux plateformes. Un navire dans le golfe de Finlande ({ "59.80" } N, { "24.90" } E, le récepteur de l'exemple maritime-strait-jamming) et une voiture sur une route côtière d'Helsinki ({ "60.17" } N, { "24.94" } E) se trouvent sous le même brouilleur à large bande, placé à { "59.80" } N, { "25.44" } E, à { "30" } m de hauteur (à environ { "30" } km du navire et { "50" } km de la voiture).
+
+# text
+seg-f2588213d3d3 = Une mission enchaînée pilotée par le spectre en bande L : un brouilleur à balayage prend le GPS L1 C/A et Galileo E1, l'horloge passe en holdover, et un ton en onde continue (CW) laissé sur la porteuse L1 maintient C/A hors service pendant que E1 se rétablit, de sorte que le récepteur se rabat sur Galileo et que son moniteur d'intégrité fonctionne sur un ciel Galileo seul.
+
+# text
+# c1: jamming
+seg-031c509abbfa = Un balayage de paramètres à travers une campagne : le récepteur de l'exemple jamming ({ "52" } N, { "4" } E, couche de Walker de 24 satellites de type GPS) sous un brouilleur à large bande à { "1" } km, avec la puissance d'émission du brouilleur balayée de -50 dBW ({ "10" } nW) à +{ "10" } dBW ({ "10" } W) par pas de { "5" } dB. Chaque nœud est une exécution <c1/> ordinaire ; la campagne consigne, par nœud, la fraction d'époques avec au moins quatre satellites encore poursuivis, le rapport brouilleur sur signal moyen (J/S) et le plus petit nombre de satellites poursuivis.
+
+# text
+seg-ef32cd18fab5 = type de scénario cislunar-arc-recovery
+
+# text
+seg-e9866967471c = type de scénario cislunar-observability
+
+# text
+seg-9c3bc8bbd361 = type de scénario clock
+
+# text
+seg-ddd9856d154a = Scénario de référence de Kshana : exécution de { "2" } h, { "10" } min de synchronisation GNSS puis ~{ "1.8" } h de déni. Bruit blanc de fréquence de l'horloge étalonné sur le sigma_y({ "1" } s) publié : q_wf = sigma_y(1s)^{ "2" }. Validé par rapport à la déviation d'Allan simulée dans tests/calibration.rs (~{ "2" } %).
+
+# text
+seg-460f63835b3f = Variante : horloge optique au strontium de qualité laboratoire contre CSAC. Les horloges Sr de laboratoire atteignent sigma_y({ "1" } s) = { "4.8e-17" } (Oelker et al. { "2019" }, Nature Photonics).
+
+# text
+seg-092f76e5d820 = type de scénario combined-altpnt
+
+# text
+seg-3455b653ea6f = type de scénario conflict-resilience
+
+# text
+seg-c6b21e897ce0 = Conception de constellations à grande échelle : motifs Walker DELTA et Walker STAR dans la convention i: T/P/F (nœuds répartis sur { "360" } ou { "180" } deg, espacement dans le plan { "360" }*P/T, décalage de phase entre plans { "360" }*F/T), listes d'éléments explicites et conceptions multicouches, plusieurs constellations dans une même exécution, autour de la Terre, de la Lune, de Mars ou de toute autre planète, de Pluton ou d'une lune majeure, en utilisant les constantes du module body (les mêmes que celles qu'emploient les types de scénario solar-system et body-pnt). PRÉRÉGLAGES à partir d'éléments nominaux publiés : gps-baseline et gps-expandable (les { "24" } créneaux et les six paires extensibles avant/arrière du GPS Standard Positioning Service Performance Standard, 5e édition { "2020" }, Tableaux 3.2-1 à 3.2-3), galileo (Walker 24/3/1 à { "29 599.801" } km et { "56" } deg, Galileo Open Service Service Definition Document édition { "1.1" } Tableaux { "1" } et { "23" }), beidou et beidou-meo (Walker 24/3/1 à { "21 528" } km et { "55" } deg plus trois satellites géostationnaires à { "80" }, { "110.5" } et { "140" } deg E et trois satellites géosynchrones inclinés à { "55" } deg, BeiDou Open Service Performance Standard { "3.0" } section { "4.1" } ; la phase MEO et le croisement géosynchrone incliné à { "118" } deg E sont modélisés parce que la norme ne les indique pas) et glonass (24/3/1 à { "19 100" } km et { "64.8" } deg d'après la formule de créneau du GLONASS Interface Control Document édition { "5.1" } section { "5.2" }). COUVERTURE ET DILUTION DE PRÉCISION : sur une grille latitude/longitude et une fenêtre échantillonnée avec un masque d'élévation, le nombre de satellites en vue, GDOP, PDOP, HDOP et VDOP par cellule, la disponibilité (une position avec un PDOP inférieur ou égal à un seuil, { "6" } par défaut) par cellule, globalement (pondérée par la surface) et au pire site, avec une horloge de récepteur par constellation sauf si clock = "common". Cela passe à l'échelle de milliers de satellites : la visibilité est un produit scalaire par rapport au demi-angle de couverture de chaque satellite, et les satellites sont regroupés en bandes par latitude du point sous-satellite à chaque époque, de sorte qu'une ligne de grille ne teste que ceux qui peuvent être en vue ; le rapport compte les tests de paires économisés. Le JSON porte les cartes de grille et les traces au sol sous-échantillonnées par satellite. VALIDATED : le générateur de Walker par rapport au Tableau { "23" } du SDD de Galileo OS et à la formule de créneau de l'ICD GLONASS, le préréglage GPS par rapport à la colonne publiée des croisements équatoriaux du Tableau 3.2-1 du SPS PS, et la distribution mondiale de HDOP de la référence GPS par rapport à l'Annexe B du SPS PS (médiane { "0.94" }, { "95" } % { "1.25" }, moyenne { "0.96" }, tolérance { "0.03" }). MODELLED : orbites à deux corps avec J2 séculaire facultatif, un corps sphérique, visibilité purement géométrique (ni puissance de signal, ni état de santé, ni terrain), et la phase relative entre systèmes différents, qui n'est l'instantané d'aucune date réelle.
+
+# text
+seg-fa78684a644d = type de scénario constellation-design
+
+# text
+seg-22e4cbe23fb2 = Couverture multi-constellation : les quatre systèmes mondiaux de navigation par satellite (GNSS) ensemble, sous forme de carte des satellites en vue, de la dilution de précision (DOP) et de la disponibilité sur toute la Terre pendant une journée.
+
+# text
+seg-cd74615ba3dd = Une méga-constellation de positionnement, navigation et synchronisation temporelle (PNT) en orbite terrestre basse : { "5 000" } satellites sur quatre couches de Walker, évaluée comme une carte de couverture et de dilution de précision (DOP).
+
+# text
+seg-59bb18c802a3 = Une constellation de relais et de navigation lunaire : des satellites sur des orbites lunaires elliptiques gelées (ELFO) plus une couche circulaire en orbite lunaire basse, évaluée comme une carte de couverture et de dilution de précision (DOP) sur toute la Lune pendant une journée.
+
+# text
+seg-64e634b04436 = type de scénario contact-schedule
+
+# text
+seg-b6736838f1d6 = Planification des contacts sol : trois satellites illustratifs au-dessus de trois stations illustratives pendant { "12" } heures. L'exécution donne à chaque passage satellite-station sa fenêtre d'accès et le volume de données que le codage et la modulation adaptatifs (ACM) DVB-S2 peuvent y transférer (seuils du Tableau { "13" } de l'ETSI EN { "302" } 307-1 plus une marge d'implémentation). Elle construit ensuite un plan de contacts sans conflit dans lequel chaque antenne dessert un seul satellite à la fois, avec un délai de retournement entre les contacts, et chaque satellite émet vers une seule station à la fois. La livraison est pondérée par la priorité et plafonnée à l'arriéré de chaque satellite. Trois plans sont rapportés côte à côte : un glouton à valeur marginale, une référence de base du premier arrivé et, lorsque l'ensemble de candidats est petit, l'optimum exact, avec l'écart d'optimalité du glouton.
+
+# text
+seg-12fb09af17f6 = type de scénario earth-gnss-lunar
+
+# text
+seg-0f550587e7e0 = les lignes du registre du type de scénario sont modélisées · { "0" } ligne sur { "1" } validée
+
+# text
+seg-435e296b48ab = type de scénario entry-heating
+
+# text
+# c1: entry-heating
+seg-d7ec70cdbcfc = Rentrée de la capsule de retour d'échantillons Stardust : le cas publié par rapport auquel le type de scénario <c1/> est vérifié (xval/entry-stardust/PREREGISTRATION.md ; tests/entry_stardust_published.rs).
+
+# text
+seg-c2dc08297b0f = type de scénario eo-coverage
+
+# text
+seg-fbb405d27780 = type de scénario eo-radiometry
+
+# text
+seg-f178d4dbb034 = Radiométrie et qualité d'image d'un imageur au nadir pour une petite caméra d'observation de la Terre ILLUSTRATIVE (aucune conception d'opérateur) : ouverture de { "0.40" } m, focale de { "3.6" } m (F/9), pixels de { "5.5" } um, depuis { "500" } km. L'exécution donne le budget de rapport signal sur bruit d'une scène de réflectance de { "15" } %, la FTM du système à Nyquist, la réponse relative de bord et le NIIRS de la GIQE version { "4" }. MODELLED : le NIIRS est une régression empirique évaluée sur des entrées modélisées, non une image cotée.
+
+# text
+seg-2487ebfca518 = type de scénario ephemeris
+
+# text
+seg-2771a42a30a7 = type de scénario fusion
+
+# text
+seg-6452c9a86abf = PNT par fusion conjointe de capteurs : un seul filtre de Kalman est le navigateur, fusionnant les états d'horloge et inertiels et aidé par le transfert de temps ISL optique, plutôt que de composer des prédicteurs indépendants. GNSS refusé { "1.8" } h.
+
+# text
+# c1: fusion-pnt.toml
+# c2: [coupled]
+# c3: rho = g * position + c * clock phase + noise
+# c4: fusion-pnt.toml
+# c5: fusion-pnt.toml
+seg-9b62a8213db0 = PNT par fusion conjointe de capteurs couplée : les mêmes ensembles et la même interruption du GNSS que <c1/>, mais le navigateur est UN seul filtre de Kalman empilé sur la position, la vitesse, la phase d'horloge, la fréquence d'horloge et le biais de l'accéléromètre (la table <c2/>). Tant que le GNSS est nominal, il prend des pseudodistances, chacune <c3/> le long d'un facteur de ligne de visée g, de sorte qu'une seule mesure contraint ensemble la position et l'horloge et que le filtre porte leur covariance croisée ; les resynchronisations par transfert de temps optique pendant l'interruption sont des pseudodistances d'horloge seule. Les accéléromètres portent ici un biais constant, que l'état de biais apprend avant l'interruption (<c4/> met les biais à zéro parce que ses filtres n'ont pas d'état de biais). Neutre vis-à-vis des fournisseurs ; paramètres d'horloge et de bruit comme dans <c5/>, les biais sont illustratifs. MODELLED.
+
+# text
+seg-8e5c015bcaf4 = type de scénario gnss-ins
+
+# text
+seg-8f43fc2f8b71 = Véhicule routier à travers un canyon urbain : navigation à l'estime GNSS/INS à travers un passage inférieur et un brouilleur en bord de route, par rapport à un budget au niveau de la voie.
+
+# text
+# c1: inertial
+seg-8eefd1c4bea9 = GNSS/INS à couplage lâche : le navigateur à composantes liées à trois axes asservi par un EKF d'état d'erreur à 15 états, puis en navigation à l'estime pendant une interruption du GNSS de { "60" } s. Contrairement au paquet <c1/> (un navigateur à l'estime scalaire à 1 DDL avec une remise à la vérité à chaque position), celui-ci exécute le véritable filtre en boucle fermée : il apprend à partir de positions bruitées tant que le GNSS est disponible et poursuit à l'estime sur l'état corrigé pendant l'interruption. L'erreur rapportée est le véritable résidu horizontal par rapport à la vérité ; chaque capteur porte aussi son RMS d'INS libre en boucle ouverte afin que l'apport du filtre soit explicite.
+
+# text
+# c1: aircraft
+# c2: [tight]
+seg-e0a3e777d810 = GNSS/INS aéronautique à couplage serré : un avion léger décolle, monte à { "6" } deg, se met en palier et effectue un virage coordonné à { "25" } deg d'inclinaison (profil de trajectoire <c1/>) ; le GNSS est refusé pendant deux minutes qui couvrent le virage, la partie la plus difficile d'une navigation à l'estime car les erreurs de cap et d'attitude sont alors projetées dans l'horizontale. Couplage serré (<c2/>) sur une constellation de Walker SGP4 de type GPS.
+
+# text
+# c1: gnss-ins.toml
+# c2: [trajectory]
+# c3: figure8
+seg-736606e5f26d = GNSS/INS maritime : un navire à { "8" } m/s (environ { "15.5" } nœuds) décrivant des cercles complets à { "1" } deg/s, puis une interruption du GNSS de cinq minutes, sur le même filtre GNSS/INS à 15 états en boucle fermée que <c1/>. Le mouvement provient de la bibliothèque de trajectoires (<c2/>, profil <c3/>) : virage lent et régulier, le régime d'un navire plutôt que d'une voiture.
+
+# text
+# c1: stop_go
+# c2: [tight]
+seg-d30ac9fd7056 = GNSS/INS ferroviaire à couplage serré : un train circule entre des arrêts à { "30" } m/s avec de douces courbes de { "20" } deg (profil de trajectoire <c1/>), passe une tranchée profonde où seuls deux satellites restent en vue, puis un tunnel de deux minutes. Le récepteur est à couplage serré (<c2/>) : il continue de fusionner les pseudodistances des deux satellites qu'il poursuit encore dans la tranchée, là où un récepteur à couplage lâche n'a aucune position. Les satellites proviennent d'une constellation de Walker SGP4 de type GPS.
+
+# text
+# c1: gnss-ins.toml
+seg-ea32ce169216 = Petit aéronef sans équipage sous brouillage GNSS : de combien une unité inertielle MEMS de classe contrôleur de vol dérive une fois que le récepteur perd l'accrochage, par rapport à une unité de qualité tactique, sur le même filtre GNSS/INS en boucle fermée que <c1/>.
+
+# text
+seg-f8ac956d2974 = type de scénario gnss-sim
+
+# text
+# c1: gnss-sim
+# c2: container-terminal
+seg-2bedb057a0e6 = Pseudodistances et RAIM pour un cavalier de manutention sur un quai à conteneurs, avec des portiques navire-terre côté mer et des piles de conteneurs côté terre : le scénario <c1/> sous le préréglage d'horizon <c2/>.
+
+# text
+seg-769a624a8ba0 = Simulation GNSS dans le domaine des mesures : pseudodistances avec retards ionosphérique et troposphérique, fournies au RAIM instantané pour les niveaux de protection.
+
+# text
+seg-4f53c4dbffec = type de scénario gnss-ssv
+
+# text
+seg-b05ef0179faf = type de scénario gravity-map
+
+# text
+seg-10b07a5e6990 = type de scénario holdover-test
+
+# text
+seg-e41c625df8c5 = Essai de holdover, exemple d'ingestion : un enregistrement d'erreur de temps évalué par le type de scénario holdover-test (« débranchez l'antenne, évaluez le holdover »). L'enregistrement est scindé aux deux instants que l'OPÉRATEUR indique, ici le GNSS retiré à { "600" } s et rétabli à { "2 400" } s, et chaque étape est mesurée par rapport aux gabarits de l'UIT-T écrits pour elle.
+
+# text
+seg-d2d4b620af4b = Essai de holdover d'un journal linuxptp : les mêmes quatre étapes que holdover-test-example.toml, avec l'enregistrement lu à partir d'un journal d'asservissement ptp4l via [series.clock_log] (format "ptp4l", décalages en ns, les horodatages propres du démon, espacés ici de { "5" } s).
+
+# text
+seg-56269cd82ed4 = type de scénario hybrid
+
+# text
+seg-098fb3a74071 = Aboutissement du PNT hybride : ensemble tout quantique (horloge optique + IMU à atomes froids + aide par transfert de temps ISL optique) contre ensemble tout classique (CSAC + IMU de classe navigation + RF). GNSS refusé { "1.8" } h.
+
+# text
+seg-e1678a444911 = type de scénario hybrid-optical-rf
+
+# text
+seg-703bf09ca356 = type de scénario hybrid-ukf
+
+# text
+seg-a65d5e564286 = type de scénario impairment-eval
+
+# text
+seg-39f1050e5129 = type de scénario inertial
+
+# text
+seg-3b8cc1893361 = Navigation à l'estime pendant une interruption du GNSS : accéléromètre quantique à atomes froids contre classe navigation. Biais = résidu après étalonnage GNSS = stabilité de biais publiée ; q_va = (DSP racine du bruit)^{ "2" }.
+
+# text
+seg-9035c0bc73eb = Préréglage quantique : un accéléromètre à interféromètre à atomes froids (CAI), construit à partir de la physique de son interféromètre, contre un accéléromètre à quartz de classe navigation pendant une interruption du GNSS. Une navigation à l'estime unidimensionnelle : { "10" } minutes de GNSS, puis { "110" } minutes refusées.
+
+# text
+seg-7d03a68ac877 = type de scénario ins-trn-coast
+
+# text
+seg-c6ab90fcbc23 = Modèle d'erreur de navigation à l'estime INS/TRN — erreur de position en fonction de la durée à l'estime, et durées à l'estime auxquelles elle franchit { "10" } m et { "50" } m.
+
+# text
+seg-542b2d91bff8 = Approche d'un port maritime avec le GNSS brouillé : combien de temps un système de navigation inertielle (INS) maintient un navire dans le budget de précision d'approche portuaire une fois le système mondial de navigation par satellite (GNSS) perdu.
+
+# text
+seg-471f2e00f244 = Navigation à l'estime en tunnel ferroviaire : combien de temps le système de navigation inertielle (INS) d'un train le maintient dans un budget de discrimination de voie sans système mondial de navigation par satellite (GNSS) dans un tunnel.
+
+# text
+seg-35c6036b9099 = type de scénario integrity
+
+# text
+# c1: araim_dual
+seg-b874df525f79 = Disponibilité ARAIM à double constellation : GPS + Galileo évalués avec le moteur ARAIM avancé, y compris l'hypothèse de panne à l'échelle d'une constellation (<c1/>).
+
+# text
+# c1: integrity
+# c2: user_site
+# c3: harbour-approach
+seg-af9e9ed1468c = Disponibilité ARAIM pour un navire entrant dans un port : le type de scénario <c1/> avec un utilisateur au sol (<c2/>) sous le préréglage d'horizon <c3/>.
+
+# text
+seg-5387b81f072b = type de scénario jamming
+
+# text
+# c1: jamming
+# c2: harbour-approach
+seg-79c636fca6b1 = Un navire entrant dans un port sous un brouilleur côtier, avec les bâtiments du quai devant lui qui masquent les satellites bas dans cette direction : le scénario <c1/> sous le préréglage d'horizon <c2/>.
+
+# text
+seg-d7a49be6aa37 = Brouillage GNSS maritime : un brouilleur à large bande côtier ou embarqué qui refuse le système mondial de navigation par satellite (GNSS) à un navire traversant des eaux libres.
+
+# text
+seg-6c9aae72c01b = type de scénario launch-window
+
+# text
+seg-784412eac737 = type de scénario leo-navmsg
+
+# text
+seg-af46a64149f5 = Préréglage de la démonstration en orbite (IOD) Celeste de l'ESA : le seul scénario qui utilise des éléments présentés à l'atelier LEO-PNT du programme NAVISP (Navigation Innovation and Support Programme) de l'ESA, { "2026" }. Retirez-le d'une version en supprimant ce fichier et src/leo_navmsg/presets/celeste_iod.rs (voir l'en-tête de ce fichier).
+
+# text
+seg-c7deba26589d = Message de navigation LEO : l'encodage binaire de Kshana, son budget de quantification, et les exports de style RINEX et CSV.
+
+# text
+seg-ea14c04a5e2f = Message de navigation LEO : une mise à jour du message au milieu d'un passage, et si l'utilisateur voit un saut.
+
+# text
+seg-92932c07a7cb = Message de navigation LEO : quatre modèles d'éphéméride sur une même orbite, et le tableau SISRE en fonction de l'altitude de Liu et al. { "2025" }.
+
+# text
+seg-28fc0b60d88c = type de scénario leo-pass
+
+# text
+seg-cf353e8a27df = type de scénario leo-pnt-chain
+
+# text
+seg-1465309100f6 = Celeste IOD de bout en bout (préréglage facultatif) : le signal de la configuration E5 n° 1 -> un passage Celeste IOD -> le message de navigation de style Celeste -> position fusionnée GPS + Galileo + Celeste IOD.
+
+# text
+seg-73db6e9fc765 = LEO-PNT de bout en bout sur une constellation générique : conception du signal -> bilan de liaison de passage -> message de navigation -> position fusionnée MEO + LEO et convergence du positionnement ponctuel précis.
+
+# text
+seg-ad6744824a5f = Xona Pulsar de bout en bout : le signal public X5 -> un passage Pulsar -> un message de navigation LEO -> position fusionnée GPS + Galileo + Pulsar et convergence du positionnement ponctuel précis.
+
+# text
+seg-b2c874e083a6 = type de scénario leo-ppp
+
+# text
+seg-017f8db74a59 = type de scénario leo-pvt
+
+# text
+# c1: leo-pvt
+# c2: fjord
+seg-923f04fa9b36 = Positionnement fusionné MEO et LEO pour un navire au fond d'un fjord, où les parois de la vallée masquent tout ce qui est bas de l'autre côté du chenal : le mode conjoint <c1/> sous le préréglage d'horizon <c2/>.
+
+# text
+seg-dde47f233669 = Satellites en vue et dilution de précision de l'équateur au pôle : le GNSS MEO seul, une constellation LEO quasi polaire seule, et les deux.
+
+# text
+seg-ef202b7d50ed = type de scénario leo-signal
+
+# text
+seg-22cd3a939c19 = Conceptions de signal Celeste IOD : les bandes de fréquences et la configuration de signal « Classical Pilot » n° 1 de la mission de positionnement, navigation et synchronisation temporelle (PNT) en orbite terrestre basse (LEO) Celeste In-Orbit Demonstration (IOD) de l'ESA, sous forme de conceptions de signal paramétrées.
+
+# text
+seg-f5caf70c73f0 = Compromis de bande LEO-PNT, de l'UHF à la large bande C : ce qu'un signal de positionnement, navigation et synchronisation temporelle (PNT) en orbite terrestre basse (LEO) gagne et perd dans chaque bande, indépendamment de tout système particulier.
+
+# text
+# c1: xona-pulsar
+seg-90239179296f = Signaux Xona Pulsar : les signaux X1 (bande L1) et X5 (bande L5) d'une constellation commerciale de positionnement, navigation et synchronisation temporelle (PNT) en orbite terrestre basse (LEO), d'après leur table de signaux publiée (Leclère, Marathe et Reid, ION GNSS+ { "2025" }, https://arxiv.org/abs/2509.19551), sous forme du préréglage <c1/> compilé dans le code.
+
+# text
+seg-a440eecbe1c9 = type de scénario link-budget
+
+# text
+seg-fb3f2dcccbf7 = type de scénario lunar-attack-surface
+
+# text
+seg-4486fa88f989 = type de scénario lunar-beacon
+
+# text
+seg-2707dd910b99 = type de scénario lunar-differential-pnt
+
+# text
+seg-ff296a13dcc8 = type de scénario lunar-frame-campaign
+
+# text
+seg-319137c1458e = type de scénario lunar-frame-realisation
+
+# text
+seg-d4a6801f9670 = type de scénario lunar-infrastructure
+
+# text
+seg-a3dc5227b366 = Scénario lunar-infrastructure de Kshana : phase de la porteuse, l'exemple RAPIDE (deux arcs courts, { "10" } tirages, quelques secondes ; la configuration évaluée, trois arcs et { "400" } tirages, est xval/lunar-infra/scenarios/carrier-phase-scored.toml). MODELLED ; la conception, les entrées et les seuils sont fixés dans xval/lunar-infra/PREREGISTRATION.md (versionné avant toute exécution). Les entrées ILLUSTRATIVES y sont étiquetées avec leurs sources publiques.
+
+# text
+seg-1f55219aed27 = Scénario lunar-infrastructure de Kshana : frame-coestimation. MODELLED ; la conception, les entrées et les seuils sont fixés dans xval/lunar-infra/PREREGISTRATION.md (versionné avant toute exécution). Les entrées ILLUSTRATIVES y sont étiquetées avec leurs sources publiques.
+
+# text
+seg-4e990ecb6404 = Scénario lunar-infrastructure de Kshana : geodesy-sensitivity. MODELLED ; la conception, les entrées et les seuils sont fixés dans xval/lunar-infra/PREREGISTRATION.md (versionné avant toute exécution). Les entrées ILLUSTRATIVES y sont étiquetées avec leurs sources publiques.
+
+# text
+seg-e27e1de1a233 = Scénario lunar-infrastructure de Kshana : od-consistency. MODELLED ; la conception, les entrées et les seuils sont fixés dans xval/lunar-infra/PREREGISTRATION.md (versionné avant toute exécution). Les entrées ILLUSTRATIVES y sont étiquetées avec leurs sources publiques.
+
+# text
+seg-30dc631d148f = Scénario lunar-infrastructure de Kshana : od-consistency avec une accélération non modélisée. MODELLED ; la conception, les entrées et les seuils sont fixés dans xval/lunar-infra/PREREGISTRATION.md (versionné avant toute exécution). Les entrées ILLUSTRATIVES y sont étiquetées avec leurs sources publiques.
+
+# text
+seg-68eaba3db338 = Scénario lunar-infrastructure de Kshana : space-tie. MODELLED ; la conception, les entrées et les seuils sont fixés dans xval/lunar-infra/PREREGISTRATION.md (versionné avant toute exécution). Les entrées ILLUSTRATIVES y sont étiquetées avec leurs sources publiques.
+
+# text
+seg-01d06e830746 = type de scénario lunar-integrity
+
+# text
+seg-afb7372a588a = Intégrité au pôle Sud lunaire : un récepteur posé dans la région d'Artemis face à un ensemble représentatif de relais LunaNet, niveaux de protection ARAIM sur un passage de { "24" } h.
+
+# text
+seg-e0180b8a7560 = type de scénario lunar-interop-export
+
+# text
+seg-8a38317ae6d1 = type de scénario lunar-jamming
+
+# text
+seg-ea44c47623c9 = type de scénario lunar-joint-od-clock
+
+# text
+seg-f796750036cc = type de scénario lunar-llr-datum
+
+# text
+seg-fb08183a8243 = Géodésie d'une station de référence lunaire, AVEC STATION : les cinq réseaux de rétroréflecteurs plus un rétroréflecteur et une balise VLBI sur le site d'une station de référence lunaire au pôle Sud.
+
+# text
+seg-2255165dd833 = type de scénario lunar-station-coverage
+
+# text
+seg-5c55b91fa564 = Couverture d'une station de référence lunaire : quelle précision de positionnement et quel niveau de protection un utilisateur obtient d'une station de référence différentielle lunaire sur un site connu du pôle Sud, sur la région polaire sud et sur une journée.
+
+# text
+seg-e1a3830ad9ed = Couverture d'une station de référence lunaire selon les hypothèses PUBLIQUEMENT ÉNONCÉES : le même type de scénario que lunar-station-coverage.toml, chaque entrée qu'une source publique énonce étant fixée d'après elle et citée par identifiant de source ; chaque entrée qu'aucune source n'énonce est conservée à la valeur par défaut de l'arborescence et étiquetée ILLUSTRATIVE. Sources (consultées le 2026-10-12 ; titres, identifiants et licences dans docs/LUNAR-REFERENCE-STATION.md) : S1 arXiv:2602.08432v3 S2 IOAG Cislunar PNT Workshop { "2025" }, "Lunar local Differential PNT and Selenodetic Reference Station" (diapositives) S3 UNOOSA ICG WG-B, Lunar PNT, June { "2024" } (LunarPNT_Jun24_01_04.pdf) S4 IOAG Cislunar { "2026" }, "Moonlight Programme Development Status"
+
+# text
+seg-d168096a3514 = Couverture d'une station de référence lunaire avec relief : le scénario lunar-station-coverage fourni, avec un horizon par site tracé par lancer de rayons sur un véritable modèle numérique de terrain lunaire à la station et à chaque point utilisateur, à la place du seul masque d'élévation plat.
+
+# text
+seg-88a9a6405048 = type de scénario lunar-time-budget
+
+# text
+seg-efaa5b60d16f = Laboratoire de temps d'une station de référence lunaire : une horloge au rubidium miniature (miniRAFS) asservie au temps lunaire coordonné (LTC) puis laissée en dérive libre.
+
+# text
+seg-debab0063d91 = type de scénario lunar-time-offset
+
+# text
+seg-79c5a9295ed5 = type de scénario lunar-vlbi
+
+# text
+seg-8d967bfd5689 = Covariance des coordonnées de station en VLBI lunaire : les dérivées partielles de retard de l'observable lunar-vlbi accumulées sur un CALENDRIER explicite (lignes de base x époques) en une matrice d'information de Fisher, inversée, et rapportées comme la covariance des coordonnées de station et le sigma de station par coordonnée — une sortie de moteur calculée plutôt qu'une précision de retard scalaire passée à travers un facteur d'équipartition isotrope supposé g = { "3" }. L'état porte des coordonnées de station FIXES dans le référentiel terrestre (ITRS), de sorte que la jacobienne est la dérivée partielle inertielle tournée par la matrice GCRS->ITRS de chaque époque : la rotation de la Terre est ce qui rend ces coordonnées observables, et le rapport MESURE le balayage de la ligne de visée dans le référentiel terrestre et la déclinaison de la balise plutôt que de les supposer. Une observation est une paire (ligne de base, époque) avec les DEUX stations au-dessus du masque d'élévation, pondérée par 1/delay_sigma_s^{ "2" }. Rapporte à chaque exécution le rang, le défaut de datum, le nombre de conditionnement, le spectre d'information complet, la matrice de covariance, les sigmas par station, par axe et en 3D, et l'espace nul du réseau libre ; en cas de déficience de rang, le sigma principal est publié comme NULL avec un statut, jamais lu dans un inverse quasi singulier. La valeur d'équipartition c*delay_sigma_s*sqrt(g/N) pour le MÊME calendrier est émise à côté de la valeur calculée avec le rapport, ainsi que la borne isotrope de trace sqrt(p/trace(M)) que l'AM-HM rend plancher strict — de sorte que le rapport est l'anisotropie que l'hypothèse écartait. La fermeture de retard tau_ik = tau_ij + tau_jk ne rend géométriquement indépendantes que n-1 des n(n-1)/2 lignes de base ; le rapport énonce les deux nombres. MODELLED : l'éphéméride du centre de la Lune, les horloges de station, la troposphère et les paramètres d'orientation de la Terre sont maintenus FIXES et les observations sont traitées comme indépendantes, de sorte que la covariance est une borne de Cramer-Rao pour un jeu de paramètres réduit, non un résultat de session prédit ; le sigma de retard, les coordonnées de station et le calendrier sont des entrées. La dérivée partielle que la jacobienne du retard géométrique laisse de côté (le terme de Shapiro différencié) est mesurée par différence finie et émise. Pas un produit géodésique.
+
+# text
+seg-a558fdefae3d = type de scénario lunar-vlbi-fim
+
+# text
+seg-50eb943d4ef7 = type de scénario mars-pnt
+
+# text
+seg-79aed7a6b416 = PNT martien — un utilisateur en orbite basse de Mars navigué par rapport à la constellation de relais MARCONI simulée (relais aréostationnaires diffusant en sens unique + relayant en aller-retour vers une station d'espace lointain) par l'estimateur de fusion radiométrique conjoint sens unique/aller-retour.
+
+# text
+seg-852783147633 = PNT martien — un utilisateur fixe en surface (un atterrisseur / rover sur la surface tournante de Mars) navigué par rapport à la constellation de relais MARCONI simulée par l'estimateur de fusion radiométrique conjoint sens unique/aller-retour.
+
+# text
+seg-1b2748b538ae = PNT martien — un utilisateur de transfert / de capture martien (un arc aréocentrique haut et excentrique — le long arc qu'un véhicule parcourt à l'approche / sur une orbite de capture) navigué par rapport à la constellation de relais MARCONI simulée par l'estimateur de fusion radiométrique conjoint sens unique/aller-retour.
+
+# text
+seg-28938416c04b = type de scénario moonlight-service-volume
+
+# text
+seg-f0ccaa966a0d = type de scénario ntn-positioning
+
+# text
+seg-95202f70f915 = type de scénario oem-interop
+
+# text
+seg-64b58fe6b7e1 = type de scénario optical-atmosphere
+
+# text
+seg-b8648cc3c266 = PNT optique à travers l'atmosphère : trois sites au sol ILLUSTRATIFS (un site nord plus nuageux, un site central intermédiaire et un site sud plus dégagé) observant un terminal optique LEO à { "30" } degrés d'élévation à { "1550" } nm. Les climats nuageux sont des entrées énoncées, non des mesures ni les valeurs d'un jeu de données, de sorte que chaque disponibilité ci-dessous est MODELLED. L'exécution rapporte, par site, la perte en air clair, l'état de turbulence de Hufnagel-Valley, la disponibilité par rapport à la marge de liaison, la marge nécessaire pour { "40" } / { "50" } / { "60" } / { "70" } pour cent (une liaison optique ne peut pas traverser un nuage épais, de sorte qu'un site a un plafond de disponibilité qu'aucune marge ne relève, rapporté par site), la distribution des durées d'interruption et la croissance de l'erreur de temps par interruption pour trois classes d'horloge, puis la disponibilité en diversité de sites des { "1" }, { "2" } et { "3" } meilleurs sites avec une météo indépendante et avec une météo corrélée en distance (longueur de décorrélation de { "500" } km).
+
+# text
+seg-f85f23a4fa5c = Hypothèses sur des techniques d'amélioration pour un site au sol ILLUSTRATIF : un changement de longueur d'onde, une plus grande ouverture de réception, une réduction de la scintillation par optique adaptative et une marge supplémentaire, chacun prédit comme un gain de disponibilité par rapport à la référence de base du même site. Les gains sont des entrées énoncées (Kshana ne modélise pas une boucle d'optique adaptative), une nouvelle longueur d'onde ou ouverture réévalue le budget en ciel clair, la perte en air clair et la moyenne d'ouverture, et tout est MODELLED. Le terminal est délibérément limité en marge (environ { "3" } dB avant l'atmosphère) pour que les techniques comptent ; l'exécution énonce aussi le plafond nuageux qu'aucune technique ne relève. Les cibles inférieures à { "100" } pour cent de la table des marges sont rapportées comme la marge supplémentaire nécessaire (un nombre négatif signifie un excédent).
+
+# text
+seg-b226ac4eebdf = type de scénario orbit
+
+# text
+# c1: orbit
+# c2: user_site
+# c3: city-street
+seg-4fe91b7e2c29 = Disponibilité GNSS et dilution de précision au pied d'une rue de ville : le type de scénario <c1/> avec un utilisateur au sol (<c2/>) sous le préréglage d'horizon <c3/>.
+
+# text
+seg-9f0a005cfe62 = type de scénario passes
+
+# text
+seg-c2f9d49da519 = type de scénario pvt
+
+# text
+seg-1e5828af879a = type de scénario quantum-anomaly-detect
+
+# text
+seg-d3897f9ebb6c = Détection de pannes/d'anomalies pour les systèmes PNT quantiques — catalogue de pannes étiqueté + AUC de la ROC + panne minimale détectable, moniteur aidé par horloge quantique contre moniteur classique. MODELLED ; paramètres illustratifs de sources publiques ; modélise la classe, aucune affirmation de TRL ni de vol.
+
+# text
+seg-95db949095b8 = type de scénario quantum-gnss-free-nav
+
+# text
+seg-b5e010553b6a = Navigation quantique sans GNSS — navigation à l'estime quantique (interféromètre à atomes froids) contre INS classique de classe navigation lors d'une interruption du GNSS. MODELLED ; paramètres de dispositif illustratifs de sources publiques ; modélise la classe, aucune affirmation de TRL ni de vol.
+
+# text
+seg-6d0a57c5b71d = type de scénario quantum-time-transfer
+
+# text
+seg-6d837ea24f97 = Synchronisation temporelle quantique de confiance — chaîne de transfert de temps de bout en bout, diffusion sécurisée, détection d'anomalies et compromis quantique-classique. MODELLED ; paramètres de dispositif/de liaison illustratifs de sources publiques ; modélise la classe, aucune affirmation de TRL ni de vol.
+
+# text
+seg-09ba30218f38 = type de scénario quantum-trade
+
+# text
+seg-e39997960d5d = type de scénario realtime-frame-eop
+
+# text
+seg-bb2002e9948d = type de scénario reentry
+
+# text
+seg-b1c293c644d1 = type de scénario slot-timing
+
+# text
+seg-65401b133472 = Synchronisation de créneau : combien de temps un oscillateur à quartz thermostaté (OCXO) sur un petit satellite en orbite terrestre basse reste dans la garde d'un créneau de routage indexé sur le temps après sa dernière position du système mondial de navigation par satellite (GNSS), et à quelle fréquence il a besoin d'une position.
+
+# text
+seg-b1d59d7a3350 = type de scénario solar-system
+
+# text
+seg-67928e2d349f = type de scénario space-packet
+
+# text
+seg-ce6afe97c0a4 = type de scénario space-weather
+
+# text
+seg-008e207782f6 = type de scénario spectrum
+
+# text
+seg-ac1083b109f8 = Cascade en bande L sous brouillage : toute la bande L du système mondial de navigation par satellite (GNSS) comme une seule densité spectrale de puissance (DSP), la fréquence en abscisse, le temps vers le bas, pendant qu'une séquence scénarisée de brouilleurs s'enclenche.
+
+# text
+seg-859958a06acc = Cascade de brouillage multibande : signaux de positionnement, navigation et synchronisation temporelle (PNT) en orbite terrestre basse (LEO) dans quatre bandes (UHF, L, S et C) à côté du GPS et de Galileo, chaque bande avec son propre brouilleur, tracée en une cascade par bande sur une même chronologie.
+
+# text
+seg-559fe9211290 = type de scénario spoof
+
+# text
+seg-6e099f8a060a = Attaque active de leurrage temporel : le moniteur d'intégrité de chaque horloge peut-il détecter le leurrage avant qu'il ne fasse des dégâts ?
+
+# text
+seg-43dad2e00cde = type de scénario spoof-detect
+
+# text
+seg-0d6c2e664734 = type de scénario sweep
+
+# text
+seg-5fb588430052 = type de scénario sweep-nd
+
+# text
+# c1: sweep
+# c2: sweep-nd
+# c3: [base]
+seg-b22e7ba4a1a0 = Balayage de paramètres générique à N dimensions sur N'IMPORTE QUEL type de scénario. Contrairement au type de scénario <c1/> réservé aux horloges, <c2/> fait varier des clés TOML pointées du scénario <c3/> sur le produit cartésien des axes, relance chaque nœud de la grille et lit les métriques choisies dans le résultat par chemin JSON pointé. Il fonctionne pour tous les paquets (inertial, gnss-ins, integrity, spoof, …) parce qu'il opère à la frontière TOML/résultat, et non sur un type Rust propre à chaque paquet. Les exécutions natives évaluent la grille en parallèle (sans dépendance supplémentaire) ; wasm se rabat sur le séquentiel. La grille de sortie est déterministe et en ordre ligne par ligne (le dernier axe varie le plus vite).
+
+# text
+seg-5f1e87304f90 = type de scénario telecom-timing
+
+# text
+seg-999121d87895 = Référence de synchronisation télécom : une horloge au rubidium qui perd sa référence du système mondial de navigation par satellite (GNSS) et tient en holdover pendant { "24" } heures, vérifiée par rapport aux gabarits du Secteur de la normalisation des télécommunications de l'Union internationale des télécommunications (UIT-T).
+
+# text
+seg-3cfcd6f8717b = Synchronisation télécom, synchronisation de fréquence : un oscillateur à quartz thermostaté (OCXO) en dérive libre confronté aux gabarits de génération de dérive de l'horloge d'équipement Ethernet synchrone (EEC) du Secteur de la normalisation des télécommunications de l'Union internationale des télécommunications (UIT-T).
+
+# text
+seg-afd374569777 = Synchronisation télécom, exemple d'ingestion : une série d'erreur d'intervalle de temps (TIE) fournie en ligne et vérifiée par rapport aux gabarits du Secteur de la normalisation des télécommunications de l'Union internationale des télécommunications (UIT-T).
+
+# text
+seg-eb02c7911f72 = type de scénario terrain-nav
+
+# text
+seg-b83a1fbd3435 = type de scénario terrain-slam
+
+# text
+seg-c988dce87d81 = type de scénario time-transfer-budget
+
+# text
+seg-a063a0ecc543 = Transfert bidirectionnel de temps et de fréquence par satellite (TWSTFT) entre deux stations ILLUSTRATIVES, l'une en Europe centrale et l'autre dans l'est de l'Amérique du Nord, via un relais géostationnaire à { "10" } deg O. L'exécution résout l'équation bidirectionnelle pour T_A - T_B à partir des termes énoncés d'équipement, de transpondeur, d'ionosphère (bande Ku, 14/11 GHz) et de Sagnac. Elle forme un budget d'incertitude dont le terme statistique est la TDEV, à un jour, d'une liaison simulée avec bruit de phase blanc et de scintillation et une non-réciprocité diurne. Les retards et les incertitudes sont illustratifs, non l'étalonnage d'un laboratoire quelconque. MODELLED. Une véritable série UTC-UTC(k) ou d'horloge de station peut être ajoutée sous [[series]] (format circular-t, mjd-csv ou rinex-clock) pour en rapporter la stabilité.
+
+# text
+seg-69138a582b9a = type de scénario timetransfer
+
+# text
+seg-a79dfece857e = Perte d'accrochage de la boucle de poursuite : C/N0 -> accrochage/décrochage AVEC HYSTÉRÉSIS, le temps nécessaire pour perdre l'accrochage, et l'entraînement par leurrage en fonction du TAUX de décalage de code et de porteuse. Les critères existants de déni et de capture du moteur sont des rapports de puissance reçue (un brouilleur refuse à J/S = { "30" } dB, un leurreur capture à { "3" } dB) ; la véritable perte d'accrochage n'est pas un rapport de puissance, c'est l'endroit où la gigue d'une boucle plus la contrainte dynamique sortent de son budget de seuil de poursuite. Rapporte ({ "1" }) la gigue thermique à 1 sigma de porteuse (Costas) et de code (précoce/tardif non cohérent) en fonction du C/N0, perte de quadrature comprise, par rapport aux règles énoncées { "3" }*sigma_PLL + theta_e <= { "45" } deg (la règle des 15 degrés sous forme à trois sigmas) et { "3" }*sigma_DLL + retard de rampe <= d/2 chips ; ({ "2" }) les seuils de C/N0 de décrochage et de ré-accrochage avec la boucle déterminante nommée, le seuil de ré-accrochage DÉRIVÉ de la bande plus large dans laquelle un récepteur se ré-accroche plutôt qu'affirmé, de sorte que la largeur d'hystérésis doit se situer entre { "5" }*log10(rapport) et { "10" }*log10(rapport) dB ; ({ "3" }) le temps déclaré pour perdre l'accrochage d'un détecteur d'accrochage à deux seuils avec temps de confirmation, piloté sur une rampe de C/N0, rapporté séparément du temps physique d'échappée de phase (le temps moyen de Viterbi entre sauts de cycle, en log10 s parce qu'il s'étend sur des centaines de décades) ; ({ "4" }) les limites d'entraînement par leurrage — la plus grande dérive de code et la plus grande vitesse de Doppler de porteuse que les boucles d'une victime peuvent suivre, avec une carte sur les deux axes, parce qu'un leurreur qui dérive plus vite que ces limites ne capture pas la boucle, il la distance ; et ({ "5" }) le RAYON DE DÉNI qu'impliquent les dynamiques de boucle, rapporté AU CÔTÉ du rayon existant par rapport de puissance, jamais à sa place, avec leur différence signée comme champ nommé distinct (denial_radius_delta_km) et une définition à côté. Chaque champ numérique émis porte une unité et une classe de provenance. Formes closes VALIDATED : les expressions de gigue de porteuse et de code, la réduction du filtre de boucle sqrt({ "2" }*B_n*T) et le retard de rampe du premier ordre sont recoupés avec le propre corrélateur sdr du moteur avancé sur une FI synthétique à graine fixée — une autre voie vers les mêmes nombres — à { "0.6" } %, { "3.7" } % et { "0.17" } % respectivement, et la fonction de Bessel modifiée I0 derrière le temps de saut de cycle avec des valeurs tabulées standard à { "1e-7" }. La limite de validité inférieure est affirmée, pas seulement énoncée : en dessous d'environ { "32" } dB-Hz à { "1" } ms, le véritable discriminateur atan sature contre sa plage de +-pi/2 et mesure moins de gigue que n'importe quelle théorie linéaire. MODELLED : les bandes passantes de boucle, le temps d'intégration, l'espacement des corrélateurs, le rapport de bande d'entraînement, les temps de confirmation, la puissance du brouilleur et les gains d'antenne sont des valeurs de bande représentatives, non une fiche technique. NON modélisés : la gigue d'oscillateur (déviation d'Allan) et de vibration, la limitation de bande passante du frontal, les trajets multiples, la dynamique de l'AGC, la perte aux transitions de bits de données, l'aide externe, et toute correction d'un demi-cycle de la formule de saut de cycle de Costas. Sous les dynamiques de boucle, la capture par leurrage n'a aucun rayon — la contrainte déterminante est le taux de décalage, non la puissance — de sorte que ce champ est null avec une raison plutôt qu'un nombre fabriqué. Pas un produit certifié de performance de récepteur.
+
+# text
+seg-0b943d7e5f66 = type de scénario tracking-loop
+
+# text
+seg-003cc12a2c96 = Perte d'accrochage de la boucle de poursuite : C/N0 -> accrochage/décrochage avec hystérésis, le temps nécessaire pour perdre l'accrochage, et les limites d'entraînement par leurrage fixées par le TAUX de décalage de code et de porteuse.
+
+# text
+seg-9ce64f725193 = Suites d'études
+
+# text
+# c1: kshana --study
+# c2: study.json
+# c3: study.html
+seg-b871497364ff = Une suite est un fichier de scénario qui énumère d'autres scénarios ; <c1/> l'exécute pour produire un seul <c2/> et un seul <c3/> horodatés. Il s'agit de l'exécuteur de suites gratuit, et non de l'étude personnalisée payante.
+
+# text
+seg-b0569509d058 = Quantum-Enabled PNT Demonstrator — les trois domaines d'application réunis en une seule étude.
+
+# text
+seg-2f09b9930e10 = Voir sur GitHub
+
+# text
+seg-67f767701c6d = <s1>Précédent</s1>Domaines de capacités
+
+# text
+seg-ea79a68b0587 = <s1>Suivant</s1>Schéma des résultats

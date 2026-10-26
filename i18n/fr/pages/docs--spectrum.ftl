@@ -526,3 +526,6 @@ seg-a9b968473b2a = <s1>Précédent</s1>Intégrité et sécurité
 
 # text
 seg-d5264da8bf65 = <s1>Suivant</s1>Référence ARAIM
+
+# text
+seg-64509c048541 = Ce qui est modélisé
