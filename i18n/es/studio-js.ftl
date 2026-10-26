@@ -4502,3 +4502,525 @@ js-kind-note-the-gabor-root-mean-square = El ancho de banda de Gabor (valor cuad
 js-kind-note-the-largest-jammer-to-signal = La mayor relación jammer-señal (J/S) con la que sigue enganchada cada señal, para un jammer de onda continua (CW), de espectro adaptado y de banda ancha.
 
 js-kind-note-the-shapiro-delay-is-the = El retardo de Shapiro es el tiempo de luz adicional debido a la gravedad del Sol a lo largo de la trayectoria.
+
+js-kind-note-the-spectrum-kind-and-the = El tipo de espectro y el tipo de jamming calculan el mismo enlace de dos maneras; la última columna es su diferencia.
+
+js-kind-note-time-of-arrival-toa-ranging = Medición de distancia por tiempo de llegada (TOA) en un enlace descendente de red no terrestre (NTN): una señal más ancha mide la distancia con más precisión.
+
+js-kind-note-what-half-a-least-significant = Lo que cuesta, como distancia, medio bit menos significativo (LSB) de cada campo en posición y en reloj.
+
+js-kind-rowhead-block = Bloque
+
+js-kind-rowhead-condition = Condición
+
+js-kind-rowhead-figure = Cifra
+
+js-kind-rowhead-member = Miembro
+
+js-kind-rowhead-metric = Métrica
+
+js-kind-rowhead-monitor = Monitor
+
+js-kind-rowhead-phase = Fase
+
+js-kind-rowhead-satellite = Satélite
+
+js-kind-rowhead-signal = Señal
+
+js-kind-rowhead-solution = Solución
+
+js-kind-sub-clock-offset-db = { $clock }, { $offset } dB
+
+js-kind-sub-doppler-only = Solo Doppler
+
+js-kind-sub-from-to = { $from } a { $to }
+
+js-kind-sub-fused = fusionado
+
+js-kind-sub-gnss-and-leo-latitude = GNSS y LEO, latitud { $lat }°
+
+js-kind-sub-gnss-only = Solo GNSS
+
+js-kind-sub-gnss-only-latitude = Solo GNSS, latitud { $lat }°
+
+js-kind-sub-model-fit-seconds = { $model }, ajuste de { $fit } s
+
+js-kind-threshold-4-needed-for-a-fix = se necesitan 4 para una solución
+
+js-kind-threshold-convergence-criterion = criterio de convergencia
+
+js-kind-threshold-elevation-mask = máscara de elevación
+
+js-kind-threshold-gnss-median = mediana de GNSS
+
+js-kind-threshold-tracking-threshold = umbral de seguimiento
+
+js-kind-title-acquisition = Adquisición
+
+js-kind-title-against-a-simulated-campaign = Frente a una campaña simulada
+
+js-kind-title-assumptions = Supuestos
+
+js-kind-title-band-trade-at-equal-transmit = Compromiso entre bandas con igual potencia de transmisión
+
+js-kind-title-bands = Bandas
+
+js-kind-title-beside-the-published-figures = Junto a las cifras publicadas
+
+js-kind-title-beside-the-published-speed-up = Junto a la aceleración publicada
+
+js-kind-title-bodies = Cuerpos
+
+js-kind-title-body = Cuerpo
+
+js-kind-title-by-latitude = Por latitud
+
+js-kind-title-c-n0-by-band-over = C/N0 por banda a lo largo de la ejecución
+
+js-kind-title-c-n0-over-the-pass = C/N0 a lo largo del paso
+
+js-kind-title-cases = Casos
+
+js-kind-title-central-body = Cuerpo central
+
+js-kind-title-closed-form-doppler-against-finite = Doppler en forma cerrada frente a diferencias finitas
+
+js-kind-title-code-tracking-jitter = Fluctuación del seguimiento de código
+
+js-kind-title-code-tracking-jitter-against-c = Fluctuación del seguimiento de código frente a C/N0
+
+js-kind-title-combined-over-the-members = Combinado sobre los miembros
+
+js-kind-title-compatibility-with-gnss-signals = Compatibilidad con las señales GNSS
+
+js-kind-title-constellations = Constelaciones
+
+js-kind-title-continuity-across-message-switches = Continuidad a través de los cambios de mensaje
+
+js-kind-title-cross-check-against-the-jamming = Comprobación cruzada con el tipo de jamming
+
+js-kind-title-datum-accuracy = Exactitud del datum
+
+js-kind-title-dilution-of-precision-over-the = Dilución de la precisión en toda la cuadrícula
+
+js-kind-title-doppler = Doppler
+
+js-kind-title-doppler-envelopes = Envolventes de Doppler
+
+js-kind-title-doppler-only-fix = Solución solo con Doppler
+
+js-kind-title-doppler-over-the-pass = Doppler a lo largo del paso
+
+js-kind-title-doppler-positioning-from-one-pass = Posicionamiento por Doppler a partir de un solo paso
+
+js-kind-title-earth-link = Enlace con la Tierra
+
+js-kind-title-elevation = Elevación
+
+js-kind-title-encoded-frame = Trama codificada
+
+js-kind-title-epoch = Época
+
+js-kind-title-epoch-and-frame = Época y marco
+
+js-kind-title-events = Eventos
+
+js-kind-title-every-node-of-the-sweep = Cada nodo del barrido
+
+js-kind-title-field-table = Tabla de campos
+
+js-kind-title-figures-of-merit = Cifras de mérito
+
+js-kind-title-filter-noise = Ruido del filtro
+
+js-kind-title-fit-interval-trade = Compromiso del intervalo de ajuste
+
+js-kind-title-fix-quality-against-observation-window = Calidad de la solución frente a la ventana de observación
+
+js-kind-title-frame-checks = Comprobaciones de la trama
+
+js-kind-title-frame-hexadecimal = Trama, hexadecimal
+
+js-kind-title-geometry-against-latitude = Geometría frente a la latitud
+
+js-kind-title-geometry-as-leo-satellites-are = Geometría a medida que se añaden satélites LEO
+
+js-kind-title-geometry-position-dilution-of-precision = Geometría: dilución de la precisión de posición
+
+js-kind-title-global-coverage = Cobertura global
+
+js-kind-title-gnss-leo-and-fused = GNSS, LEO y fusionado
+
+js-kind-title-gnss-reference = Referencia GNSS
+
+js-kind-title-hand-offs-between-phases = Traspasos entre fases
+
+js-kind-title-helmert-fit = Ajuste de Helmert
+
+js-kind-title-helmert-transform-parameters = Parámetros de la transformación de Helmert
+
+js-kind-title-inputs = Entradas
+
+js-kind-title-ionosphere-free-band-pairs = Pares de bandas libres de ionosfera
+
+js-kind-title-jammer-tolerance = Tolerancia al jammer
+
+js-kind-title-jammers = Jammers
+
+js-kind-title-joint-fix = Solución conjunta
+
+js-kind-title-leo-against-gnss = LEO frente a GNSS
+
+js-kind-title-limitations = Limitaciones
+
+js-kind-title-links = Enlaces
+
+js-kind-title-member-runs = Ejecuciones de los miembros
+
+js-kind-title-members-under-the-shared-conditions = Miembros bajo las condiciones compartidas
+
+js-kind-title-message = Mensaje
+
+js-kind-title-message-models-compared = Modelos de mensaje comparados
+
+js-kind-title-message-switches = Cambios de mensaje
+
+js-kind-title-metric-against-axis = { $metric } frente a { $axis }
+
+js-kind-title-metric-distribution-over-runs = { $metric }: distribución sobre las ejecuciones
+
+js-kind-title-mid-pass-update = Actualización a mitad del paso
+
+js-kind-title-modelled = Modelado
+
+js-kind-title-monte-carlo = Monte Carlo
+
+js-kind-title-navigation-message-stage = Etapa del mensaje de navegación
+
+js-kind-title-not-modelled = No modelado
+
+js-kind-title-notes = Notas
+
+js-kind-title-notes-on-the-spoofing-model = Notas sobre el modelo de spoofing
+
+js-kind-title-observation-windows = Ventanas de observación
+
+js-kind-title-one-pass-alone = Un solo paso
+
+js-kind-title-orbit = Órbita
+
+js-kind-title-over-the-message-sequence = A lo largo de la secuencia de mensajes
+
+js-kind-title-pass = Paso
+
+js-kind-title-pass-c-n0-of-the = Paso: C/N0 de la señal completa y del componente seguido
+
+js-kind-title-pass-code-tracking-jitter = Paso: fluctuación del seguimiento de código
+
+js-kind-title-pass-doppler = Paso: Doppler
+
+js-kind-title-pass-stage = Etapa del paso
+
+js-kind-title-passes = Pasos
+
+js-kind-title-phases = Fases
+
+js-kind-title-position-error-gnss-leo-and = Error de posición: GNSS, LEO y la solución fusionada
+
+js-kind-title-position-uncertainty-relays-alone-and = Incertidumbre de posición: solo los relés, y con el enlace con la Tierra
+
+js-kind-title-positioning-by-signal-bandwidth = Posicionamiento según el ancho de banda de la señal
+
+js-kind-title-positioning-gnss-alone-against-the = Posicionamiento: GNSS solo frente a la solución fusionada
+
+js-kind-title-power-spectral-density = Densidad espectral de potencia
+
+js-kind-title-power-spectral-density-of-each = Densidad espectral de potencia de cada señal
+
+js-kind-title-precise-point-positioning = Posicionamiento preciso de punto
+
+js-kind-title-published-comparison = Comparación publicada
+
+js-kind-title-quantisation-budget = Presupuesto de cuantificación
+
+js-kind-title-range-residuals = Residuos de distancia
+
+js-kind-title-ranging-stations = Estaciones de medición de distancia
+
+js-kind-title-reading-the-trade = Lectura del compromiso
+
+js-kind-title-realised-position-error = Error de posición realizado
+
+js-kind-title-receiver = Receptor
+
+js-kind-title-receiver-power-budget = Presupuesto de potencia del receptor
+
+js-kind-title-reflector-information = Información de los reflectores
+
+js-kind-title-relay-constellation = Constelación de relés
+
+js-kind-title-relays-in-view = Relés a la vista
+
+js-kind-title-reproducibility = Reproducibilidad
+
+js-kind-title-retroreflectors = Retrorreflectores
+
+js-kind-title-rinex-style-record = Registro de estilo RINEX
+
+js-kind-title-round-trips = Ida y vuelta
+
+js-kind-title-run = Ejecución
+
+js-kind-title-satellites-in-view-against-latitude = Satélites a la vista frente a la latitud
+
+js-kind-title-sensitivity-to-a-line-of = Sensibilidad a una inclinación de la línea de visión
+
+js-kind-title-shared-conditions = Condiciones compartidas
+
+js-kind-title-signal-components = Componentes de la señal
+
+js-kind-title-signal-stage = Etapa de la señal
+
+js-kind-title-signals = Señales
+
+js-kind-title-sisre-against-fit-interval = SISRE frente al intervalo de ajuste
+
+js-kind-title-sisre-against-update-period = SISRE frente al periodo de actualización
+
+js-kind-title-sisre-weights = Pesos de SISRE
+
+js-kind-title-snapshot = Instantánea
+
+js-kind-title-snapshot-against-the-model = Instantánea frente al modelo
+
+js-kind-title-snapshot-spectrum-welch-estimate-against = Espectro de la instantánea: estimación de Welch frente al modelo
+
+js-kind-title-sources = Fuentes
+
+js-kind-title-spoofer-and-monitor-settings = Ajustes del spoofer y del monitor
+
+js-kind-title-spoofing-monitor-probability-of-detection = Monitor de spoofing: probabilidad de detección
+
+js-kind-title-statistics-over-the-runs = Estadísticas sobre las ejecuciones
+
+js-kind-title-sweep = Barrido
+
+js-kind-title-systems = Sistemas
+
+js-kind-title-systems-in-the-fix = Sistemas en la solución
+
+js-kind-title-the-archived-campaign = La campaña archivada
+
+js-kind-title-time-error = Error de tiempo
+
+js-kind-title-time-error-by-receiver-clock = Error de tiempo por reloj del receptor
+
+js-kind-title-time-scale = Escala de tiempo
+
+js-kind-title-time-to-first-fix-and = Tiempo hasta la primera solución y energía por solución
+
+js-kind-title-time-transfer-by-clock-and = Transferencia de tiempo según el reloj y el nivel de señal
+
+js-kind-title-trade-conditions = Condiciones del compromiso
+
+js-kind-title-update-period-trade = Compromiso del periodo de actualización
+
+js-kind-title-user = Usuario
+
+js-kind-title-user-range-error-through-the = Error de distancia del usuario a lo largo del paso
+
+js-kind-title-validated = Validado
+
+js-kind-title-what-each-stage-hands-to = Lo que cada etapa entrega a la siguiente
+
+js-kind-title-what-this-run-is-and = Qué es esta ejecución y qué no es
+
+js-kind-title-when-each-monitor-detects = Cuándo detecta cada monitor
+
+js-kind-title-work-done = Trabajo realizado
+
+js-kind-yes = sí
+
+js-ledger-rows =
+    { $n ->
+        [one] { $n } fila del registro
+        [many] { $n } de filas del registro
+       *[other] { $n } filas del registro
+    }
+
+js-lib-abbr-apv = aproximación con guiado vertical
+
+js-lib-abbr-araim = monitorización avanzada de la integridad autónoma del receptor
+
+js-lib-abbr-auc = área bajo la curva
+
+js-lib-abbr-c-n0 = densidad de portadora a ruido
+
+js-lib-abbr-ccsds = Comité Consultivo para Sistemas de Datos Espaciales
+
+js-lib-abbr-cli = interfaz de línea de comandos
+
+js-lib-abbr-csac = reloj atómico a escala de chip
+
+js-lib-abbr-cw = onda continua
+
+js-lib-abbr-doi = identificador de objeto digital
+
+js-lib-abbr-dop = dilución de la precisión
+
+js-lib-abbr-eo = observación de la Tierra
+
+js-lib-abbr-gnss = sistema global de navegación por satélite
+
+js-lib-abbr-gps = Sistema de Posicionamiento Global
+
+js-lib-abbr-hal = límite de alerta horizontal
+
+js-lib-abbr-hpl = nivel de protección horizontal
+
+js-lib-abbr-imu = unidad de medición inercial
+
+js-lib-abbr-ins = sistema de navegación inercial
+
+js-lib-abbr-iot = Internet de las cosas
+
+js-lib-abbr-itu-t = Unión Internacional de Telecomunicaciones, Sector de Normalización de las Telecomunicaciones
+
+js-lib-abbr-j-s = relación jammer-señal
+
+js-lib-abbr-leo = órbita terrestre baja
+
+js-lib-abbr-llr = medición de distancia láser lunar
+
+js-lib-abbr-meo = órbita terrestre media
+
+js-lib-abbr-mtie = error máximo de intervalo de tiempo
+
+js-lib-abbr-ntn = red no terrestre
+
+js-lib-abbr-ocxo = oscilador de cristal con control de horno
+
+js-lib-abbr-oem = Mensaje de efemérides de órbita
+
+js-lib-abbr-omm = Mensaje de elementos medios de órbita
+
+js-lib-abbr-pdop = dilución de la precisión de posición
+
+js-lib-abbr-pnt = posicionamiento, navegación y temporización
+
+js-lib-abbr-ppp = posicionamiento preciso de punto
+
+js-lib-abbr-raim = monitorización de la integridad autónoma del receptor
+
+js-lib-abbr-rf = radiofrecuencia
+
+js-lib-abbr-rinex = Formato de intercambio independiente del receptor
+
+js-lib-abbr-roc = característica operativa del receptor
+
+js-lib-abbr-sbas = sistema de aumentación basado en satélites
+
+js-lib-abbr-sgp4 = Perturbaciones generales simplificadas 4, un propagador de órbitas
+
+js-lib-abbr-sisre = error de distancia de la señal en el espacio
+
+js-lib-abbr-slam = localización y mapeo simultáneos
+
+js-lib-abbr-spp = posicionamiento de punto único
+
+js-lib-abbr-tdev = desviación de tiempo
+
+js-lib-abbr-tle = conjunto de elementos de dos líneas
+
+js-lib-abbr-toml = el formato de archivo de escenario
+
+js-lib-abbr-trn = navegación referenciada al terreno
+
+js-lib-abbr-uhf = frecuencia ultraalta
+
+js-lib-abbr-ukf = filtro de Kalman unscented
+
+js-lib-abbr-utc = Tiempo Universal Coordinado
+
+js-lib-abbr-val = límite de alerta vertical
+
+js-lib-abbr-vlbi = interferometría de línea de base muy larga
+
+js-lib-abbr-vpl = nivel de protección vertical
+
+js-lib-abbr-wg = Grupo de Trabajo
+
+js-lib-areas-ground-track = Traza en tierra
+
+js-lib-areas-holdover = Holdover
+
+js-lib-compare-availability = Disponibilidad
+
+js-lib-compare-holdover = Holdover
+
+js-lib-compare-timing-p95 = Temporización p95
+
+js-lib-compare-timing-rms = Temporización RMS
+
+js-lib-counts-explorer-tally = { $validated } de { $total } capacidades validadas frente a una referencia independiente externa · { $modelled } modeladas · { $partner } a cargo del socio — se muestran aquí como { $cards } tarjetas de capacidad en { $domains } dominios, { $evidence } afirmaciones de evidencia
+
+js-lib-counts-validated-tally = { $validated } de { $total } capacidades validadas frente a una referencia independiente externa — se muestran aquí como { $cards } tarjetas de capacidad y { $evidence } afirmaciones de evidencia
+
+js-lib-engine-busy = { $verb }…
+
+js-lib-engine-busy-seconds = { $verb }… { $s } s
+
+js-lib-engine-page-http = el archivo del motor devolvió HTTP { $status }
+
+js-lib-engine-page-not-running = el motor no se está ejecutando aquí
+
+js-lib-engine-worker-crashed = el proceso de trabajo del motor falló
+
+js-lib-evidence-aria = Evidencia: { $tier }, { $count }
+
+js-lib-evidence-ledger-rows =
+    { $n ->
+        [one] { $n } fila del registro
+        [many] { $n } de filas del registro
+       *[other] { $n } filas del registro
+    }
+
+js-lib-evidence-rows-behind = Filas del registro detrás de este resultado
+
+js-lib-geometry-url-bad-mc = El número de muestras de Monte Carlo no es ninguno de { $choices }; se usa { $default }.
+
+js-lib-geometry-url-bad-number = "{ $key }" no es un número de { $min } a { $max }; se usa el valor por defecto.
+
+js-lib-geometry-url-bad-site = El sitio no tiene el formato latitud,longitud[,altura] dentro del rango; se usa el sitio por defecto.
+
+js-lib-geometry-url-bad-sky = El horizonte no es un preajuste, una tabla de 360 intervalos ni un cañón dentro del rango; se usa un horizonte abierto.
+
+js-lib-geometry-url-bad-sys = La lista de constelaciones no es G, E, C y como máximo un L:<LEO preset> que esta vista conozca; se usa la combinación por defecto.
+
+js-lib-geometry-url-own-tle = Quien envió el enlace usó sus propios elementos orbitales (TLE), que un enlace no transporta; se muestran los preajustes en su lugar.
+
+js-lib-geometry-url-repeated = "{ $key }" aparece más de una vez; se usa el primer valor.
+
+js-lib-geometry-url-too-long = La dirección tiene más de { $max } caracteres, así que no se leyó ninguno de sus ajustes.
+
+js-lib-geometry-url-unreadable = No se pudo leer la dirección.
+
+js-lib-guided-duration-s-hint = cuánto tiempo propagar la traza en tierra
+
+js-lib-guided-duration-s-label = Duración (s)
+
+js-lib-guided-dut1-s-hint = desfase de rotación de la Tierra; desplaza la traza en tierra hacia el este u oeste
+
+js-lib-guided-dut1-s-label = UT1−UTC (s)
+
+js-lib-guided-mask-deg-hint = un satélite debe estar a esta altura para contar como visible
+
+js-lib-guided-mask-deg-label = Máscara de elevación (°)
+
+js-lib-guided-seed-hint = otro sorteo de ruido con la misma física
+
+js-lib-guided-seed-label = Semilla aleatoria
+
+js-lib-guided-sigma-uere-m-hint = error de distancia equivalente del usuario de 1 σ para el resumen de posición
+
+js-lib-guided-sigma-uere-m-label = Error de distancia σ (m)
