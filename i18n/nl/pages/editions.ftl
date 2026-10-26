@@ -83,3 +83,5 @@ seg-70a79ec95bf4 = mislukt
 seg-7a33a168b020 = geslaagd
 
 seg-2192262e26c1 = gehaald
+
+seg-a91762c0aabe = Gratis

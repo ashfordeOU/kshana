@@ -97,3 +97,33 @@ seg-6f253e0464fe = Zee
 seg-9d3ee6a5613e = Runs
 
 seg-94de9433d99f = Scenariobestanden
+
+seg-99a7944884ce = Sector
+
+seg-b37002818547 = Defensie en veiligheid
+
+seg-5d7a6650872e = Luchtvaart en drones
+
+seg-75d7d1930515 = Weg
+
+seg-ea4149746f7b = Spoor
+
+seg-e7a61033ec40 = Kritieke infrastructuur en tijdsynchronisatie
+
+seg-f246644479d0 = Wetenschap en onderzoek
+
+seg-f2f6717849a7 = Ruimtevaart: baan om de aarde
+
+seg-d038a1e09683 = Ziet mijn ruimtevaartuig genoeg navigatiesatellieten, hoe lang houdt zijn klok de tijd tussen positiebepalingen, en wat zou een navigatielaag in een lage baan toevoegen?
+
+seg-6010770a2bf6 = Maan en diepe ruimte
+
+seg-33641ef6761c = Weg en automotive
+
+seg-94cca6b24bb2 = Hoeveel seconden na het inrijden van een tunnel kan een trein nog bepalen op welk spoor hij zich bevindt?
+
+seg-2d2a4afa2708 = Telecom en 5G
+
+seg-af94e7a93923 = Als de GNSS-tijdreferentie verloren gaat, blijft mijn netwerkklok dan binnen de ITU-T-maskers, en hoe lang?
+
+seg-36d838421b86 = Kan ik een PNT-resultaat reproduceren, uitbreiden en citeren, tot op de seed?
