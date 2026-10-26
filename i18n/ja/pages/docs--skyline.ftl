@@ -31,3 +31,7 @@ seg-b03d56f501c3 = 種類
 seg-4dbf41c0ec3b = 関数
 
 seg-98f4f946a7ac = WASM
+
+seg-2b0d77219437 = プリセット
+
+seg-7338b6210228 = 行
