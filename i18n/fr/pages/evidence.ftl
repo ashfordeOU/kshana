@@ -1325,7 +1325,7 @@ seg-edb58ffbbb5b = Importeur CCSDS { "502.0" } OEM (parse_oem), tolérant aux li
 
 # text
 # c1: oem
-seg-bc507f96c4df = Analyseur CCSDS-502 tiers indépendant <c1/> { "0.4.5" } (MIT, https://pypi.org/project/oem/) — une base de code distincte qui décode l'OEM EME2000/UTC émis par kshana à l'identique octet pour octet ({ "24" } états sur { "2" } jeux de test, pos/vit Δ = { "0" }) et dont le lecteur strict confirme les jetons de métadonnées ; l'analyseur de kshana concorde de même avec elle sur un OEM externe fourni avec le dépôt. Deux constats d'interopérabilité honnêtes (la bibliothèque oem rejette la convention multi-segments par satellite de kshana et ses lignes de covariance à entrées multiples) sont documentés dans le test — de sorte que cela valide l'échange à objet unique conforme, et non la conformité CCSDS-502 complète de chaque variante de kshana
+seg-bc507f96c4df = Analyseur CCSDS-502 tiers indépendant <c1/> { "0.4.5" } (MIT, https://pypi.org/project/oem/) — une base de code distincte qui décode l'OEM EME2000/UTC émis par kshana à l'identique octet pour octet ({ "24" } états sur { "2" } jeux de test, pos/vit Δ = { "0" }) et dont le lecteur strict confirme les jetons de métadonnées ; l'analyseur de kshana concorde de même avec elle sur un OEM externe fourni avec le dépôt. Deux constats d'interopérabilité honnêtes (la bibliothèque oem rejette la convention multi-segments par satellite de kshana et ses lignes de covariance à entrées multiples) sont documentés dans le test — de sorte que cela valide l'échange à objet unique conforme, et non le respect de CCSDS-502 complète de chaque variante de kshana
 
 # text
 seg-c76b8c395ef0 = Fenêtre de lancement et géométrie d'ascension (analyse de mission)
@@ -1503,7 +1503,7 @@ seg-0b6a901f5ad2 = Performance d'interféromètre à atomes froids encadrée (me
 seg-4b66096727b8 = Cohérence interne : l'encadrement de VRW cité recoupé avec la physique de CaiAccelerometer::accel_asd + plage dynamique brute calculée à partir de la limite d'ambiguïté de frange ; les nombres sont des encadrements MODELLED issus d'une revue de littérature (needs_source_confirmation), aucun appareil validé, aucun halo de validation
 
 # text
-seg-c93f2d3a3167 = Banc d'essai de conformité d'intégrité de synchronisation — classifieur d'époques du diagramme d'intégrité de Stanford
+seg-c93f2d3a3167 = Banc d'essai de respect de la norme d'intégrité de synchronisation — classifieur d'époques du diagramme d'intégrité de Stanford
 
 # text
 seg-712d5c35a6a6 = Classification d'époques du diagramme d'intégrité de Stanford TIB (nominal / indisponible / MI / HMI)
@@ -1512,7 +1512,7 @@ seg-712d5c35a6a6 = Classification d'époques du diagramme d'intégrité de Stanf
 seg-93b913e60063 = Réimplémentation numpy indépendante de la règle à quatre régions (scripts/gen_tib_scorer_reference.py) sur le même jeu d'échantillons ; méthode Cited à partir du diagramme d'intégrité Stanford–ESA (Tossaint et al., ION GNSS { "2007" }) et du MOPS WAAS RTCA DO-229. PAS une référence de précision ExternalDataset — le banc d'essai est immunisé contre l'honnêteté.
 
 # text
-seg-573aa0193cb3 = Banc d'essai de conformité d'intégrité de synchronisation — évaluateur de couverture d'intégrité
+seg-573aa0193cb3 = Banc d'essai de respect de la norme d'intégrité de synchronisation — évaluateur de couverture d'intégrité
 
 # text
 seg-4d86f3c2d8f5 = Évaluation de couverture d'intégrité TIB (taux HMI/MI/disponibilité + verdict de couverture de surbornage)
@@ -1521,7 +1521,7 @@ seg-4d86f3c2d8f5 = Évaluation de couverture d'intégrité TIB (taux HMI/MI/disp
 seg-645eb084ae8e = Recomptage de régions numpy indépendant dans tests/fixtures/tib/reference.json ; recoupement de la mécanique de l'évaluateur seulement, aucune affirmation de précision.
 
 # text
-seg-372dd0fdb025 = Banc d'essai de conformité d'intégrité de synchronisation — catalogue de défauts (générateurs paramétriques)
+seg-372dd0fdb025 = Banc d'essai de respect de la norme d'intégrité de synchronisation — catalogue de défauts (générateurs paramétriques)
 
 # text
 seg-2604e7cf27d2 = Menu de défauts TIB (divergence de domaine, claquage d'horloge, marche en holdover, retard statique/incrémental/symétrique/asymétrique, rejeu dans la fraîcheur, sélectif par chemin, quorum k parmi N)
@@ -1530,7 +1530,7 @@ seg-2604e7cf27d2 = Menu de défauts TIB (divergence de domaine, claquage d'horlo
 seg-b907aecaccd0 = Générateurs de défauts paramétriques représentatifs (Modelled) ; l'ensemble indétectable (retard symétrique, rejeu dans la fraîcheur) est Cited à partir de Mizrahi RFC { "7384" } et Narula & Humphreys (IEEE JSTSP { "2018" }). Aucune référence externe — un catalogue de défauts n'énonce aucune affirmation mesurée.
 
 # text
-seg-90c0eb1e7c14 = Banc d'essai de conformité d'intégrité de synchronisation — verdict d'absorption de l'indétectable
+seg-90c0eb1e7c14 = Banc d'essai de respect de la norme d'intégrité de synchronisation — verdict d'absorption de l'indétectable
 
 # text
 seg-f713acf042ff = Verdict d'absorption de l'indétectable TIB (symétrique/rejeu doivent être absorbés par le PL, jamais rapportés comme détectés)
@@ -2866,7 +2866,7 @@ seg-632add2dbd3c = Masques de synchronisation télécom ITU-T avec PASS/FAIL et 
 seg-47687529aee7 = Limites transcrites de l'ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) ePRTC verrouillé et holdover ePRTC-A (y compris l'enveloppe d'erreur de temps du tableau { "3" }), G.8273.2 ({ "2023" }) Amd. { "2" } (11/2025) classes T-BC/T-TSC A-D et G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) point de référence C, chaque intervalle ouvert ou fermé comme l'énonce le tableau, toute entrée « pour étude ultérieure » étant omise ; un verdict et une marge au point limitant par vérification, et le temps de dépassement de chaque budget. Exécutable comme type de scénario <c1/>
 
 # text
-seg-46b139a58bb0 = Transcription des Recommandations nommées (téléchargeables librement sur itu.int), chaque limite portant son tableau ou son paragraphe, avec chaque élément non confirmé ou non implémenté répertorié dans docs/TELECOM-TIMING.md ; les identités de continuité aux points de rupture que les tableaux impliquent sont vérifiées dans les tests. Une transcription de normes avec des vérifications de cohérence interne, et non un essai de conformité ni une validation externe. { "0.30" } tour { "2" } (préenregistré 970003ee), bloqué (reste MODELLED) : les dix valeurs de masque et les treize valeurs de holdover ePRTC-A que les Recommandations impriment comme exemples chiffrés (G.8272 fig. 1-2, G.8272.1 Amd.1 par. { "8.2.1" } et fig. V.1-V.3, G.8271.1 Amd.3 fig. 7-2 à 7-4) sont reproduites à moins d'une demi-unité imprimée, la plupart étant des constantes de tableau ou des points de rupture ; la fig. 7-2 de G.8271.1 indique { "200" } ns à { "1.3" } s, contre son propre tableau 7-1 ({ "197.5" } ns). Les limites des classes A-D de G.8273.2 n'ont aucun exemple chiffré imprimé, et les étiquettes de points de rupture ePRTC verrouillé de G.8272.1 (sur des lignes de construction pleines) ont été exclues par la règle de sélection préenregistrée ; elles restent donc des transcriptions
+seg-46b139a58bb0 = Transcription des Recommandations nommées (téléchargeables librement sur itu.int), chaque limite portant son tableau ou son paragraphe, avec chaque élément non confirmé ou non implémenté répertorié dans docs/TELECOM-TIMING.md ; les identités de continuité aux points de rupture que les tableaux impliquent sont vérifiées dans les tests. Une transcription de normes avec des vérifications de cohérence interne, et non un essai de respect de la norme ni une validation externe. { "0.30" } tour { "2" } (préenregistré 970003ee), bloqué (reste MODELLED) : les dix valeurs de masque et les treize valeurs de holdover ePRTC-A que les Recommandations impriment comme exemples chiffrés (G.8272 fig. 1-2, G.8272.1 Amd.1 par. { "8.2.1" } et fig. V.1-V.3, G.8271.1 Amd.3 fig. 7-2 à 7-4) sont reproduites à moins d'une demi-unité imprimée, la plupart étant des constantes de tableau ou des points de rupture ; la fig. 7-2 de G.8271.1 indique { "200" } ns à { "1.3" } s, contre son propre tableau 7-1 ({ "197.5" } ns). Les limites des classes A-D de G.8273.2 n'ont aucun exemple chiffré imprimé, et les étiquettes de points de rupture ePRTC verrouillé de G.8272.1 (sur des lignes de construction pleines) ont été exclues par la règle de sélection préenregistrée ; elles restent donc des transcriptions
 
 # text
 seg-165ed2bc771a = Masques de génération de dérive lente de synchronisation de fréquence ITU-T (G.811, G.812, G.8262, G.8262.1)
@@ -2877,7 +2877,7 @@ seg-165ed2bc771a = Masques de génération de dérive lente de synchronisation d
 seg-953793d4446a = Sept masques de génération de dérive lente MTIE et TDEV à température constante pour le type <c1/> : G.811 (09/1997) PRC (autonome), G.812 (06/2004) types I, II et III, G.8262 (10/2024) EEC options { "1" } et { "2" } et G.8262.1 (11/2025) eEEC (mode verrouillé), y compris les morceaux en loi de puissance que les tableaux écrivent (<c2/> et semblables), chaque intervalle ouvert ou fermé comme imprimé, mesurés à travers le filtre de { "10" } Hz qu'indiquent les paragraphes (pris comme appliqué avant l'échantillonnage) ; le scénario de référence scenarios/telecom-synce-eec.toml oppose un OCXO en fonctionnement libre aux trois masques EEC. Non implémentés : les tolérances en température variable, le holdover, les transitoires, la gigue et la précision de fréquence de G.811
 
 # text
-seg-ca16d9c98dc5 = Transcription des Recommandations nommées (téléchargées sur itu.int le 2026-10-13), chaque ligne relue par rapport au texte, la continuité aux points de rupture qu'impliquent les coefficients imprimés étant bornée dans les tests (par exemple { "40" } · { "10" }^{ "0.4" } = { "100.48" } ns contre le palier de { "100" } ns du tableau { "4" } de G.812). Une transcription de normes avec des vérifications de cohérence interne, et non un essai de conformité ni une validation externe. G.812 (06/2004) est indiquée comme remplacée par une édition pré-publiée de 08/2026 et G.811 a un Amd. { "1" } (04/2016) ; aucune n'a pu être lue, et aucune n'est donc vérifiée. Le scénario d'OCXO en fonctionnement libre surestime la contribution de l'oscillateur aux intervalles d'observation longs par rapport à la constante de temps d'une boucle ; il ne dit rien d'aucune horloge d'équipement
+seg-ca16d9c98dc5 = Transcription des Recommandations nommées (téléchargées sur itu.int le 2026-10-13), chaque ligne relue par rapport au texte, la continuité aux points de rupture qu'impliquent les coefficients imprimés étant bornée dans les tests (par exemple { "40" } · { "10" }^{ "0.4" } = { "100.48" } ns contre le palier de { "100" } ns du tableau { "4" } de G.812). Une transcription de normes avec des vérifications de cohérence interne, et non un essai de respect de la norme ni une validation externe. G.812 (06/2004) est indiquée comme remplacée par une édition pré-publiée de 08/2026 et G.811 a un Amd. { "1" } (04/2016) ; aucune n'a pu être lue, et aucune n'est donc vérifiée. Le scénario d'OCXO en fonctionnement libre surestime la contribution de l'oscillateur aux intervalles d'observation longs par rapport à la constante de temps d'une boucle ; il ne dit rien d'aucune horloge d'équipement
 
 # text
 seg-5fc2ad88faf0 = Formats de journaux d'horloge (horloge RINEX, ASCII TimeLab, TAPR TICC) lus sous forme de série de phase normalisée
