@@ -19,3 +19,7 @@ seg-206c78a69ded = Route-exposure
 seg-4dbf41c0ec3b = Functie
 
 seg-98f4f946a7ac = WASM
+
+seg-d5b5bdf6081c = Rust
+
+seg-40a7552d2ba9 = MCP

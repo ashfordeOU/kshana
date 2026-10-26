@@ -127,3 +127,7 @@ seg-2d2a4afa2708 = Telecom en 5G
 seg-af94e7a93923 = Als de GNSS-tijdreferentie verloren gaat, blijft mijn netwerkklok dan binnen de ITU-T-maskers, en hoe lang?
 
 seg-36d838421b86 = Kan ik een PNT-resultaat reproduceren, uitbreiden en citeren, tot op de seed?
+
+seg-821762272e2f = Sectoren
+
+seg-13e8e5460280 = Geometrie
