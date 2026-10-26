@@ -2395,3 +2395,5 @@ seg-e7d7d99fe538 = Een ROS-vrije brug die positie- en satellietberichten als NME
 seg-05ded40b17d2 = Geen externe: de ROS-node is niet uitgevoerd op een live ROS-{ "2" }-graaf en de veldnamen van ublox_ubx_msgs zijn niet gecontroleerd tegen een draaiende driver. gnss_lib_py (MIT) is uitgevoerd voor de brugtest
 
 seg-f4a311f936de = Langetermijnregendemping op het schuine pad van een aarde-ruimteverbinding
+
+seg-c3c260b7063e = Tests

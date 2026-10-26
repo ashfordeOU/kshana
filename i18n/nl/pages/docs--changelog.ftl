@@ -2421,3 +2421,563 @@ seg-e035371fbe58 = <b>Validatie met echte gegevens.</b> De multi-GNSS-RINEX-navi
 seg-2a807ae8e194 = <b>RAIM op de geometrie van echte referentiebanen.</b> De kernen voor momentopname, oplossingsscheiding (MHSS) en ARAIM-beschermingsniveau zijn nu getoetst aan de echte geometrie van precieze IGS-banen (SP3), en niet alleen aan synthetische constellaties: de zichtlijngeometrie wordt opgebouwd uit de eerste SP3-epoche op een echt grondstation, en de tests controleren beschermingsniveaus op meterniveau die APV-I-beschikbaar zijn, dat een pseudo-afstandsbias van { "60" } m de χ²-monitor laat aanslaan, dat oplossingsscheiding de gestoorde satelliet <b>identificeert</b> en dat de niveaus van ARAIM de toegewezen <c1/> halen. Dit dicht de kloof van alleen op synthetische geometrie getoetsen (gLAB-pariteit op ontvangerniveau over een volledige RINEX-boog blijft een roadmap-item, omdat er een pseudo-afstandsoplossing voor nodig is).
 
 seg-651cc4af4872 = <b>Betrouwbaarheidsintervallen per knooppunt voor de N-D-parametersweep</b> (<c1/>). Elk roosterknooppunt van de N-dimensionale sweep over het cartesische product kan nu worden geëvalueerd als een Monte-Carlo-ensemble van seeds, waarbij per knooppunt (voor beide klokken) het gemiddelde, de percentielen en een percentiel-bootstrap-BI van { "95" }% van de maat worden gerapporteerd: een statistisch eerlijke sweep in plaats van één trekking per knooppunt. Hergebruikt de ensemble-/bootstrapmachinerie (<c2/>); deterministisch; <c3/> valt exact terug op de <c4/> met één seed. (Het veralgemenen van de sweep over alle pakketten, verweven met de refactoring naar typed-Scenario, en parallelle uitvoering volgen nog.)
+
+seg-3dc189224fe8 = <b>Acht scenario's toegevoegd aan de playground-catalogus.</b> De knop Run van een mogelijkhedenkaart verschijnt alleen als <c1/> het bestand ook bevat; zes kaarten noemden een scenario dat daar niet in stond, waardoor ze zonder mogelijkheid om ze uit te voeren werden getoond — een daarvan, het datum voor echte laserafstandsmeting, verkeerde in die toestand sinds de oplevering. <c2/> bewaakt de invariant nu in beide helften: het <c3/>-doel van een kaart moet onder <c4/> zijn meegeleverd <em>en</em> door de catalogus worden aangeboden. Mutatiegetest tegen beide faalwijzen.
+
+seg-2d69334516e9 = <b><c1/> geeft zijn geometrie per satelliet uit als <c2/></b> wanneer een exportlocatie is ingesteld (G11). Het is de grootste array die de crate publiceert — { "2304" } rijen in de uitgebrachte gezamenlijke communicatie- en navigatietabel — en hij bereikte gebruikers alleen binnen JSON, de vorm die de curve van 57 punten van een zusterscenario inkortte tot { "23" } punten onder een kolom die beweerde ze allemaal te bevatten. Eén rij per verbinding, het aantal rijen op de kopregel, de antennekolommen alleen aanwezig als er een antenne is ingesteld. Een run zonder exportlocatie is byte voor byte ongewijzigd en schrijft geen bestand.
+
+seg-7958d26072f7 = De SBOM beschrijft nu wat er wordt geleverd: { "60" } componenten werden { "66" }.
+
+seg-219cd333b000 = <c1/> vermeldde elk pakket van de resolve met standaardfeatures, ontwikkelafhankelijkheden inbegrepen. Daardoor stonden <c2/> en <c3/> — crates die alleen voor tests dienen en in geen enkel artefact worden gecompileerd — in de materiaallijst, en ontbrak de keten van <c4/> die het PyPI-wheel linkt (<c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>), de foreign-function-grens van dat wheel. Het script doorloopt nu de resolve-graaf vanaf het pakket kshana, uitsluitend langs normale en buildverbindingen, over de unie van de featuresets default, <c13/> en <c14/> (het npm-pakket bevat dezelfde SBOM), voor elk doelplatform. Het vastgelegde oordeel van de CycloneDX-formaatcontrole is opnieuw als basislijn vastgesteld via de gecommitte generator: { "60" } → { "66" } componenten, { "53" } → { "60" } samengestelde licentie-expressies, en nog steeds nul schemafouten zodra die in de standaard <c15/>-vorm zijn gezet.
+
+seg-23c98d31f749 = <b>De CSV-reproduceerbaarheidstabel bereikt elke toegang, niet alleen de CLI en het Python-wheel.</b> De MCP-server krijgt een zevende tool, <c1/>, die een scenario uitvoert en de byte-stabiele tabel teruggeeft die de CLI als <c2/> schrijft — of een fout die de soorten noemt die er een publiceren (<c3/>, <c4/>, <c5/>, en <c6/> alleen als <c7/> + <c8/> zijn ingesteld). De WebAssembly-module krijgt <c9/>, dat dezelfde tekst teruggeeft of <c10/>. De MCP-round-triptest en de Python-bindingtests leggen de teruggegeven CSV nu byte voor byte vast tegen <c11/>, en leggen vast dat <c12/> het aantal geschreven bytes teruggeeft, en { "0" } zonder aangemaakt bestand voor een soort zonder tabel. Elk oppervlak dat het aantal MCP-tools vermeldt of de tools opsomt, zegt nu zeven.
+
+seg-86c3fed5e23a = <c1/> in de WebAssembly-module: één enginerun voor alle uitvoer.
+
+seg-3f2677cd280b = <c1/>, <c2/>, <c3/> en <c4/> voeren het scenario elk helemaal opnieuw uit, dus de playground betaalde per klik voor vier volledige runs — ongeveer { "12" } s in plaats van { "3" } s voor <c5/> in een browser. <c6/> geeft <c7/> terug uit één run, en de playground gebruikt dat nu. Het komt byte voor byte overeen met de vier afzonderlijke aanroepen.
+
+seg-fa05c9ee0c6a = <b>HERZIENING: de koppeling van de gyro-bias in het GNSS/INS-filter had het verkeerde teken, en de cijfers voor een uitval in <c1/> veranderen.</b> Het extended Kalman-filter (EKF) met foutstatus houdt beide inertiale biassen bij als residuen (waar min de lopende schatting, teruggekoppeld door optelling). De versnellingsmeterkolom stuurde de snelheidsfout aan met <c2/>, maar de gyrokolom stuurde de standfout aan met <c3/>. Een resterende gyro-bias draait de berekende stand in werkelijkheid met <c4/>, zodat elke schatting van de gyro-bias de verkeerde kant op duwde. Het pakket bleef alleen stabiel doordat de standaard a-priori van de gyro-bias ({ "1e-4" } rad/s, 1-sigma) strak genoeg was om die toestanden vast te houden. Met een bredere a-priori divergeerde het filter zelfs als de werkelijke gyro-bias nul was: { "93" } m gefuseerde uitvalfout werd { "4.3" } km. De gepubliceerde cijfers voor <c5/> veranderen als volgt:
+
+seg-47e22e713df6 = voor (≤ { "0.27.2" })
+
+seg-5215a0a41b89 = na
+
+seg-f58aecc6864c = koude-atoom-IMU, gefuseerde RMS tijdens uitval
+
+seg-c4fbd933ddb2 = { "96.1" } m
+
+seg-002d765fca02 = { "1.9" } m
+
+seg-d14616d4ea1b = koude-atoom-IMU, coast binnen specificatie ({ "50" } m)
+
+seg-35f8f623ea28 = { "30" } s
+
+seg-91645c14401b = { "60" } s (de hele uitval)
+
+seg-f297a2652cf8 = tactische IMU, gefuseerde RMS tijdens uitval
+
+seg-0ac27c6d4206 = { "62.5" } m
+
+seg-eda895cc3b86 = { "3.1" } m
+
+seg-e0ab83f1d8d7 = tactische IMU, coast binnen specificatie ({ "50" } m)
+
+seg-5c526991a521 = { "37" } s
+
+seg-743060da5543 = De cijfers voor vrij lopen ({ "130.7" } m en { "314.3" } m) veranderen niet; die gebruikten het filter nooit. De eerdere lezing van het pakket, dat de gefuseerde coast wordt beperkt door een overdracht-standvloer en dus niet verbetert met een betere sensor, was een artefact van deze bug en wordt ingetrokken. Met constante, ruisvrije biassen leert het filter ze nu terwijl GNSS beschikbaar is, dus de gefuseerde coast is een beste geval. De externe filterpy-referentie (<c1/>) controleert alleen de meetupdates, waardoor ze de propagatie nooit zag. Twee tests controleren het teken nu rechtstreeks en beide falen op het oude. De eerste, in <c2/>, voert een bekende resterende gyro-bias door de strapdown en eist dat het filter de resulterende standfout voorspelt binnen { "2" } %. De tweede eist dat een brede a-priori een gyro-bias van { "1e-3" } rad/s leert en binnen { "6" } m blijft. De platformoverschrijdende golden van <c3/> is om deze reden opnieuw vastgelegd en om geen andere.
+
+seg-f764678e3376 = <b>Elke quickstart van een register draait nu zoals geschreven op een schone machine.</b> Gemeten vóór deze wijziging bevatten de voorbeelden voor crates.io en PyPI (Python Package Index) <c1/>, dat een registerinstallatie niet heeft, en het npm-voorbeeld crashte onder Node.js met <c2/>, omdat de <c3/> van het pakket zijn WebAssembly-binary ophaalt en de <c4/> van Node geen lokaal bestand kan lezen. Nu:
+
+seg-e77a540d2f90 = <c1/> en <c2/> bevatten dat scenario inline, zoals <c3/> al deed. De Rust-fence is een heel programma met een eigen <c4/>, omdat de voor rustdoc verborgen regel <c5/> waarmee ze eindigde op crates.io wordt getoond en niet compileert wanneer ze wordt geplakt. <c6/> compileert haar nog steeds byte voor byte en weigert nu ook een verborgen regel in de fence.
+
+seg-ea5204ced0d2 = <c1/> scheidt de browser van Node.js en geeft een Node-recept dat de binary van schijf leest en aan <c2/> doorgeeft. De doc-sync-test accepteert <c3/> als de loader die wasm-bindgen genereert.
+
+seg-ebb763695c59 = Alle drie nemen het scenario op met zijn herkomststrings onverkort, zodat de scenario-hash op elk oppervlak <c1/> is. Het npm-voorbeeld kortte ze vroeger in, waardoor het een andere hash had dan de CLI.
+
+seg-dc52363432f8 = Gereproduceerd uit lokale builds van deze boom: een nieuw <c1/>-project met een padafhankelijkheid op de verpakte crate bouwde en draaide het Rust-voorbeeld; een met maturin uit de verpakte bronnen gebouwd wheel, geïnstalleerd in een nieuwe virtuele omgeving, draaide het Python-voorbeeld; en het pakket <c2/>, ingepakt en met npm geïnstalleerd, draaide het Node-recept. Alle drie drukten dezelfde samenvattingsregel af.
+
+seg-07e465a602f1 = <c1/> werkt vanuit een clone.
+
+seg-77ce31300b69 = <c1/> stelt <c2/> in. Zonder dat weigerde cargo met “could not determine which binary to run”, waar elke regel met <c3/> in de documentatie tegenaan liep.
+
+seg-2d516597b5f5 = <b>De foutmeldingen van de CLI in de eerste minuut zeggen wat u hierna moet doen.</b> Een scenariopad dat niet bestaat, voegt nu een hint toe die naar <c1/> wijst, en een tweede positioneel argument drukt de gebruikstekst af en noemt ook het argument. <c2/>, <c3/>, de foutmelding voor een onbekende optie (exit { "2" }) en de eenregelige <c5/> van <c4/> bij succes bestonden al op main. <c6/> dekt ze nu allemaal, aangezien geen enkele test de binary er eerder voor draaide.
+
+seg-fdd9a27ccfc4 = <b><c1/> in Python is gedocumenteerd als een JSON-string die wordt teruggegeven, niet als een lijst.</b> Het geeft dezelfde metadata terug als <c2/>, geserialiseerd, dus erover itereren doorloopt tekens. Het behoudt zijn string als retourwaarde zodat bestaande aanroepers niet breken. <c3/>, de doccomment van de binding, <c4/> en <c5/> zeggen dat nu en verwijzen naar <c6/>.
+
+seg-f0e0c8c12f8a = <b>De drie register-README's schrijven elke afkorting bij het eerste gebruik voluit.</b> PNT wordt nu uitgeschreven in de tagline, waar het voor het eerst voorkomt, en CLI, TOML, JSON, SVG, CSV, CSAC, HTML, URL en API worden uitgeschreven in de bestanden die ze gebruiken. De kop van de tabel met onafhankelijke referenties zegt niet langer “CI-gated” voordat CI is gedefinieerd.
+
+seg-554c5b0c9c60 = Een gepubliceerd cijfer gecorrigeerd: de beschikbaarheid van ARAIM met twee constellaties op de meegeleverde Celestrak-TLE's voor GPS + Galileo.
+
+seg-1f023a822c91 = <c1/> stelde dat het poolen van Galileo de beschikbaarheid verhoogt van { "0.21" } naar { "0.67" } bij een VAL van { "12" } m en dat de constellatiefout-robuuste modus beperkt is met slechts twee constellaties. Dat kwam doordat <c2/> elke satelliet propageerde vanaf zijn eigen TLE-epoch (<c3/> laat de epoch weg), en de epochs in die bestanden beslaan { "70.6" } h (GPS) en { "335.7" } h (Galileo), zodat de satellieten op onderling inconsistente tijdstippen stonden. De test behoudt nu elke epoch (<c4/>) en evalueert elke satelliet op één gemeenschappelijk UTC-tijdstip, de laatste TLE-epoch in de set (2026-06-07T07:{ "21" }:{ "04" }). De gemeten beschikbaarheid over hetzelfde raster van { "24" } h en 289 samples wordt voor alleen GPS { "0.993" } (was { "0.208" }), gepoold { "1.000" } (was { "0.671" }) en constellatiefout-robuust dubbel { "0.990" } (was { "0.031" }); bij de APV-I-limiet gaat de dubbele modus van { "0.180" } naar { "1.000" }. De conclusie keert om: op een consistente hemel dragen twee constellaties de constellatiefout-hypothese bij een VAL van { "12" } m. Dezelfde cijfers ontstaan met de vroegste TLE-epoch als referentie. Een zelfcontrole in de test legt haar beschikbaarheidslus sample voor sample vast op <c5/>, dus het enige verschil is de tijdsuitlijning. <c6/> en <c7/> §{ "3" } bevatten de nieuwe cijfers; de vermelding voor { "0.13.0" } hieronder blijft zoals uitgebracht.
+
+seg-3173a2e03521 = <b>De openbare oppervlakken adverteren RINEX { "4" } niet langer als gevalideerd.</b> De engine weigert een RINEX { "4" }-navigatiebestand nu bij naam in plaats van het verkeerd te decoderen, maar het standaardenoverzicht toonde nog steeds een kaart “RINEX { "3" } / { "4" }” met een label <em>getoetst aan een onafhankelijke externe referentie</em>, gekoppeld aan het RINEX-3-bewijs van de navigatieparser. De kaart is nu “RINEX { "3" }”, en README, <c1/>, <c2/>, <c3/> en de samenvatting van de mogelijkheden vermelden wat waar is: RINEX 3.0x-observatiebestanden worden geparseerd, de observatie-indeling { "4.00" } wordt verwacht te werken maar er is nog geen { "4.00" }-bestand door de code gelezen, en RINEX { "4" }-navigatiebestanden worden geweigerd.
+
+seg-c9bb514acb7a = <b><c1/> zegt wanneer “ok” betekent dat er niets te controleren was.</b> Ongeveer twee derde van de catalogus publiceert geen verplicht veld — die pakketten draaien hun referentieconfiguratie vanuit een lege body — dus de lint kon er alleen “ok” voor afdrukken, in dezelfde woorden als na het controleren van zes velden. De succesregel vermeldt nu het aantal verplichte velden dat aanwezig bleek, of dat de soort er geen vereist.
+
+seg-06b324d00285 = <b><c1/> weigert een niet-numerieke <c2/> of <c3/>.</b> Onder bash { "3.2" } liet <c4/> de numerieke vergelijking falen en onwaar opleveren, zodat de gate “repeatability loop SKIPPED (REPEAT={ "0" })” meldde voor een waarde die niet { "0" } was en toch een bon schreef. Beide knoppen stoppen nu met exit { "2" } tenzij het gewone gehele getallen zijn.
+
+seg-09d04ffdd9ac = De MSRV wordt overal waar een mens haar leest als { "1.85" } vermeld.
+
+seg-dafc23725315 = <c1/> ging bij de vorige release naar { "1.85" }; de README-badge, de install- en troubleshootingtekst, <c2/> en de eigen onderbouwing van de MCP-crate zeiden nog { "1.75" }.
+
+seg-c2fa8a31058c = <b><c1/> in de Python-binding rapporteert bytes, niet “chars”.</b> Het drukte <c2/> van UTF-8-strings af, wat een aantal bytes is: { "710" } “chars” voor een tabel van 708 tekens.
+
+seg-6b4452a4e340 = De README documenteert <c1/> niet langer samen.
+
+seg-47d83e4d847b = <c1/> is een vlag voor één scenario, die met <c2/> wordt genegeerd (de binary waarschuwt). De twee kopieervoorbeelden in README.md en README.crates.md tonen nu alleen de studieopdracht.
+
+seg-5ed7f8330b2d = <b>Het klokstabiliteitsbewijs van de site vermeldt beide waargenomen toleranties.</b> De caesiumreeks 5071A wordt gereproduceerd tot ≤ { "3e-5" } en PHASE.DAT tot ≤ { "5e-5" }; de alinea gaf { "3e-5" } voor beide.
+
+seg-8bba7f1171f3 = Twee uitvoerbestanden van de engine worden niet langer bijgehouden.
+
+seg-ea9bf1d14371 = <c1/> waren gestempeld door engine { "0.20.0" } met elke kwaliteitsmaat leeg, en de eigen studieopdracht van de README overschreef ze, waardoor de boom vervuild raakte en de push-gate werd geblokkeerd. <c2/> / <c3/> worden nu genegeerd zoals de andere vier engine-uitvoerbestanden.
+
+seg-77ce9b90859d = <b>Een seed-sweep in de playground faalt niet langer bij elke run.</b> De sweep doorliep de integer-knop <c1/> lineair ({ "1" }, { "10.9" }, { "20.8" }, …), en de engine, die hem als <c2/> las, verwierp elke gebroken waarde. Integer-knoppen doorlopen nu verschillende gehele getallen.
+
+seg-e1b1e1360eb9 = <b>Elke download uit de playground zegt welke engine en welke invoer hem maakte.</b> Een paar soorten (bijv. <c1/>) geven geen <c2/> of <c3/> uit, dus hun downloads heetten gewoon <c4/>. De naam valt nu terug op de versie van de geladen engine en een FNV-1a-64-vingerafdruk van 12 hexadecimale tekens van de scenariotekst.
+
+seg-0181e86b576a = <b>De gepubliceerde crate is minder dan de helft zo groot als voorheen, en <c1/> bouwt alleen de CLI.</b> Het pakket bevatte vroeger de papers, hun indieningspakketten, de artefacten van de papergrafieken, de notebooks, <c2/>, de onderhoudsscripts en de voorbeeldprogramma's. Geen ervan wordt door de bibliotheek of de CLI gecompileerd. Het bevatte ook de drie interne generatoren onder <c3/> (<c4/>, <c5/>, <c6/>), zodat een registerinstallatie vier uitvoerbare bestanden compileerde en installeerde, waarvan drie alleen nuttig binnen een checkout. Die bomen en de drie generatorbronnen zijn nu uitgesloten. Cargo leidt de binaries van een pakket af uit de bestanden die het bevat, dus het gepubliceerde manifest noemt alleen <c7/>. In een clone worden de generatoren nog steeds automatisch gevonden, zodat <c8/> en de releasejob die <c9/> draait ongewijzigd zijn. Gemeten met <c10/>: { "763" } bestanden, { "16.7" } MiB, { "6.8" } MiB gecomprimeerd ervoor; { "591" } bestanden, { "10.5" } MiB, { "3.0" } MiB gecomprimeerd erna. De verificatiebuild, die alleen de verpakte bestanden compileert, slaagt. <c11/> op de verpakte crate installeerde één uitvoerbaar bestand, <c12/>.
+
+seg-567c7059286f = <b>Uitvoer die een tijdsynchronisatie-ingenieur kan lezen: geen <c1/> meer, geen <c2/> meer zonder aanval, en aantallen per site die met de README's overeenkomen.</b> Dit is een weergaveherziening. Er verandert geen gepubliceerd getal; de JSON-waarden zijn identiek, wat de golden-hashes hierboven bewijzen.
+
+seg-849fa9a29f07 = De eenregelige samenvatting drukte de tijdsynchronisatiefout van de optische klok op het 95e percentiel (p95) af als <c1/> terwijl de tabel ernaast { "1.20e-4" } ns toonde. Een tijdsynchronisatiecijfer ongelijk aan nul dat te klein is voor één decimaal wordt nu afgedrukt met drie significante cijfers (<c2/>); een exacte nul wordt nog steeds afgedrukt als <c3/>. Het HTML-rapport (HyperText Markup Language), de vergelijkingstabel van de studie en het downloadbare rapport van de playground gebruiken dezelfde regel, dus geen enkel cijfer ongelijk aan nul wordt nog als <c4/> afgedrukt.
+
+seg-c44323babd1e = <c1/> is een analytische grens voor de detecteerbaarheid van spoofing die alleen iets betekent tegen een ingestelde aanval. De soorten <c2/>, <c3/>, <c4/> en <c5/> stellen er geen in, dus hun samenvatting drukt nu <c6/> af in plaats van een getal zoals <c7/> dat leest als een mislukte detectie. De waarde blijft in <c8/>, gemarkeerd met <c9/> en de reden in <c10/>, en de rapporttabellen tonen “not applicable”. De soort <c11/> scoort detectie nog steeds.
+
+seg-f54d5ffb7dff = Twee samenvattingspins in <c1/> veranderden om precies deze twee redenen en om geen andere: <c2/> (de kwantum-p95 en beide waarden van <c3/>) en <c4/> (beide waarden van <c5/>; de p95-waarden zijn exact nul). Hun hashes van het hele document veranderden niet. De verwachte samenvattingen in de README, de drie tutorials en hun lesscenario's zijn bijgewerkt om overeen te komen, en <c6/> controleert de lesexemplaren tegen de engine.
+
+seg-e8e012376fa3 = De begeleide rondleiding van de playground opent niet langer bij het eerste laden. Het modaal venster ving de eerste klikken op en de spotlight scrolde de pagina weg van waar de bezoeker was geland. Ze start vanaf de knop “Take the 60-second tour” of de zwevende knop Tour.
+
+seg-4d60d4ea4d7d = De pagina scrolt op een telefoon niet langer zijwaarts. Bij { "390" } px kwamen de merkrij en de GitHub-knop op ongeveer { "410" } px inhoud, een overloop van { "4" } px; de header past nu vanaf { "320" } px, en de tabel met kwaliteitsmaten scrolt binnen zijn eigen vak in plaats van de pagina te verbreden.
+
+seg-f6ec6a64071d = De mogelijkhedenverkenner opende met zijn eigen aantal kaarten (“{ "46" } capability cards … { "17" } backed by an external oracle”) naast README's die { "64" } van { "168" } zeggen. Hij opent nu met de verificatiematrix, gelezen uit de gegenereerde <c1/> (dezelfde matrix waaraan de aantallen in de README zijn vastgepind), en noemt de kaarten daarna als de samenvattingslaag die ze zijn. <c2/>, een nieuwe stap in de continuous-integration-workflow (CI), controleert de rekensom en vergelijkt README.md en de beschrijvingen van de pagina onderling; <c3/> legt de koppeling vanaf de Rust-kant vast.
+
+seg-606098743e57 = <b>De openbare beschrijving opent nu met tijdsynchronisatie en holdover, het best gevalideerde domein.</b> De opening van de README en <c1/> presenteren Kshana als een open, reproduceerbare, herkomstgelabelde bewijsengine voor PNT-veerkracht: tijdsynchronisatie en holdover van kritieke infrastructuur eerst (de schatters voor Allan, gemodificeerde Allan, tijdsdeviatie en maximale tijdsintervalfout en de inversie van de coast-variantie bij holdover zijn de VALIDATED-rijen daarachter), kwantum als neutrale afwegingsmethode kwantum-versus-klassiek waarvan de resultaten MODELLED zijn gelabeld, en lunaire / cislunaire en deep-space-navigatie als onderhouden mogelijkheden in plaats van het hoofdpunt. Beide pagina's zeggen nu wat Kshana niet is — geen simulator van radiofrequente signalen of hardware-in-the-loop-opstelling, geen vervanging voor MATLAB/Simulink, STK of Orekit — en verwijzen naar de nieuwe soort <c2/> en <c3/>. De oude zin “there is no good open tool” is verdwenen: een zoekopdracht die niets vindt is geen bewijs dat er niets bestaat. <c4/> krijgt een ongedateerde prioriteitsvolgorde (tijdsynchronisatie eerst, de kwantumafweging tweede, lunair onderhouden) en laat drie verouderde punten vallen (Coriolis- en lichtverschuivingssystematiek, de beginvoorwaarden voor NRHO en het lunaire scenario, alle opgeleverd); de regel in de README “Coriolis and light-shift remain roadmap” is op dezelfde manier gecorrigeerd.
+
+seg-7bc48692be0b = <b><c1/> onderschat zichzelf niet langer.</b> De rij voor aardvaste stelsels zei “none” terwijl de matrix GCRS→ITRS als VALIDATED beoordeelt; ze is nu “full”, en de rij voor kernstelsels legt de ANISE-kruiscontrole vast als geleverd. De begeleide modus stond als roadmap vermeld; de playground heeft begeleide schuifregelaars en een begeleide rondleiding opgeleverd. Een controle tegen <c2/> corrigeerde vijf andere rijen die ouder waren dan hun validaties: het Cowell-krachtenmodel en batch/sequentiële baanbepaling tegen Orekit { "12.2" }, grondstationpassages tegen de elevatiedetector van Orekit, de kernel voor verzwakking van precisie (DOP) tegen gnss_lib_py, en OEM-import tegen de onafhankelijke parser <c3/>; de rij voor verificatie en validatie noemt nu de bewakers die controleren dat elke geciteerde test bestaat.
+
+seg-9d144df304ca = De woordenlijst legt uit wat een resultaatbestand zegt.
+
+seg-eed672b2f8fd = <c1/> krijgt begrijpelijke vermeldingen voor de uitvoertermen (holdover, p95, integriteit, de beveiligingsscore, PDOP, <c2/>, <c3/>), de tijdsynchronisatietermen voor telecom (tijdsfout, max|TE|, cTE, dTE, MTIE, TDEV, PRTC, ePRTC, T-BC, T-TSC, OCXO, CSAC) en de drie bewijsniveaus (VALIDATED, MODELLED, PARTNER).
+
+seg-1a4f9d5eef96 = <b>Afkortingen worden bij het eerste gebruik voluit geschreven in elk met de hand geschreven openbaar document.</b> De README en { "24" } bestanden onder <c1/> hadden enkele honderden afkortingen die vóór, of zonder, hun uitleg werden gebruikt; elke is nu uitgeschreven waar ze in dat bestand voor het eerst voorkomt. De drie gegenereerde bestanden (<c2/>, <c3/>, <c4/>) blijven ongemoeid: ze worden geschreven uit <c5/> en <c6/>, dus hun formulering moet bij de bron veranderen.
+
+seg-2889ce118381 = Regeldekking heeft een vastgelegde meting.
+
+seg-9c4684c0a4ef = <c1/> legt { "95.63" } % vast ({ "37,697" } van { "39,419" } regels) uit de CI-job <c2/> op <c3/>, en <c4/> pint de vijf openbare oppervlakken “~{ "96" }%” daaraan vast — het ene kopgetal dat met de hand werd bijgehouden en al eens ongemerkt was verschoven.
+
+seg-ebd36b7291df = Nieuwe doc-sync-gates voor oppervlakken die niets las.
+
+seg-3dd44fc69a28 = <c1/> controleert elke <c2/> in een JavaScript-fence tegen de WebAssembly-exports, en pint het Rust-voorbeeld van README.crates.md byte voor byte vast aan een kopie die de testbinary compileert. <c3/> faalt als <c4/> <c5/> verliest of SECURITY.md het niet meer vermeldt. <c6/> scant nu ook <c7/> en de drie register-README's, en elke standaard op de site moet zijn <c8/> expliciet vermelden.
+
+seg-a506d14f3447 = De twee controles van echte-hardwareklokken draaien op een runner.
+
+seg-c7f8b8627137 = <c1/> (maandelijks en bij dispatch) haalt de reeksen 5071A en PHASE.DAT op en draait beide tests met <c2/>, zodat een ontbrekende invoer faalt in plaats van wordt overgeslagen. Beide fetchscripts zijn vastgepind op één allantools-commit en verifiëren SHA-256.
+
+seg-3b4a7fee3cd0 = <b>De Python-typestub wordt gecontroleerd tegen het gebouwde wheel</b> (<c1/> in de bindingsjob), waardoor <c2/>/<c3/> zonder stub werden uitgeleverd.
+
+seg-24c2ccf3634a = <b>De woordenlijst definieert URE, EOP, FoM, CTI en TIB</b>, die de README en het register zonder uitleg gebruikten.
+
+seg-ae044195cd47 = <b>Het gepubliceerde veldcontract van elke soort is nu waar, en een test houdt het zo.</b> Vijf van de { "61" } soorten veranderden. Soorten met een niet-lege <c1/> gaan van { "21" } naar { "22" }: <c2/> vereist nu <c3/> (een kale <c4/> slaagde vroeger voor <c5/> en liet de run daarna falen), en <c6/> voegt <c7/> toe, wat de run al eiste. Een verplichte vermelding mag <c8/> (een van deze) en <c9/> (allemaal samen) gebruiken; <c10/> begrijpt beide. <c11/>, <c12/> en <c13/> publiceren { "9" } echte optionele velden die ze hadden weggelaten. <c14/> zegt nu dat <c15/> voor elke soort verplicht is behalve <c16/>. <c17/> controleert elke soort tegen zijn meegeleverde scenario: het verwijderen van een verplichte vermelding moet de run laten falen, en een document met alleen de verplichte velden moet draaien.
+
+seg-09ba716f3e97 = De notities voor de JetBrains Marketplace worden bewaakt.
+
+seg-938ff48e7a2d = <c1/> faalt nu tenzij de nieuwste <c2/>-vermelding in <c3/> de te leveren versie noemt; zeven gepubliceerde versies hadden de notities van { "0.22.0" } ongewijzigd geleverd.
+
+seg-3d38550854e0 = Het dekkingscijfer van het technisch rapport is het gemeten cijfer.
+
+seg-bd312cd26746 = <c1/> zei “near { "97" } %”; het zegt nu near { "96" } % ({ "95.63" } % gemeten, <c2/>) en is het zesde oppervlak dat de dekkingstest vastpint.
+
+seg-934680d402da = <b>De engineclient buiten de hoofdthread wordt getest</b> (<c1/>, in CI): dispatch-allowlist, annuleren en opnieuw starten, de drie terugvalroutes op de hoofdthread en herstel na een crash, tegen een nepworker.
+
+seg-fd5f9a8a4f43 = <b>Er wordt niets gepubliceerd voordat de getagde commit zijn tests heeft doorstaan, en een release is pas klaar als elk register hem aanbiedt.</b> De volgorde is nu tag, verifiëren, publiceren, pariteit, site, in één run van <c1/> (<a1><c2/></a1>).
+
+seg-745b11c8ed74 = Publiceren wacht op het oordeel.
+
+seg-e66c890cf6c0 = <c1/>, <c2/> en <c3/> starten niet langer bij de tag-push; <c4/> roept ze aan vanuit jobs die <c5/> hebben. Eerder liepen ze er een race mee: bij { "v0.27.2" } hadden crates.io, npm en de Python Package Index (PyPI) allemaal binnen { "4.5" } minuten na de tag gepubliceerd, en <c6/> kwam { "84" } minuten erna terug; bij { "v0.27.0" } publiceerden npm en PyPI terwijl de job van crates.io faalde. Een handmatige herpoging op een tag wordt tegengehouden door de nieuwe <c7/>, die een groene <c8/> voor precies die commit vanuit de Actions-interface eist en bij al het andere gesloten faalt.
+
+seg-3800247c81f2 = <em>Alles wordt gebouwd voordat er iets wordt geüpload</em>, en crates.io, waarvan de verpakkingsstap degene is die halverwege een release faalde, publiceert als eerste.
+
+seg-6929a7608da7 = <em>Een ontbrekend registertoken laat de job falen</em> in plaats van de upload over te slaan en succes te melden.
+
+seg-460811602293 = Een pariteitscontrole na het publiceren.
+
+seg-86eb0fab2f7c = <c1/> bevraagt crates.io (<c2/> en <c3/>), npm, PyPI (de brondistributie en alle zes de platformwheels) en ghcr.io totdat elk de versie aanbiedt, of laat de run falen; docs.rs en het Model Context Protocol-register (MCP) worden gerapporteerd, niet vereist. Tegen eerdere releases gedraaid vindt het { "0.22.0" } ontbrekend op npm en PyPI, { "0.23.0" } op PyPI en { "0.27.0" } op crates.io.
+
+seg-79578a00fd78 = <em>Vooraf gebouwde opdrachtregelbinaries voor macOS (Apple silicon en Intel) en Windows x86-64</em>, benoemd naar doelplatform (<c1/> enzovoort), naast de Linux-<c2/>, waarvan de naam ongewijzigd is. Een bestand <c3/> dekt elk onderdeel, en <c4/> controleert het en draait de binaries voor macOS en Windows op hun eigen systemen.
+
+seg-3e1f5afa9f2a = <em>kshana.dev toont een release, niet <c1/>.</em> Het werd vroeger bij elke push naar <c2/> opnieuw uitgerold terwijl zijn pagina's de laatste release noemden. <c3/> bouwt nu alleen een releasetag: de release start het zodra elk kanaal de versie aanbiedt, en een handmatige dispatch rolt de laatste release (of een genoemde) opnieuw uit.
+
+seg-43da8f3f171e = Eén bron voor wheels.
+
+seg-b911ac65e231 = De met de hand gekopieerde matrix met zes doelplatforms van <c1/> is verdwenen; het roept <c2/> aan, zodat de auditwheel-taggate en de controle op byte-reproduceerbaarheid nu de wheels beoordelen die PyPI ontvangt, en een falen in een van beide de release stopt.
+
+seg-194c4b019a4c = <em>Vastgepinde buildtools.</em> Elke workflow vraagt Rust { "1.93.0" } aan (de msrv-job zijn eigen versie); <c1/> en <c2/> hadden <c3/> aangevraagd, en het log van { "v0.27.2" } toont dat rustup { "1.98.1" } installeerde en daarna met { "1.93.0" } compileerde, alleen omdat <c4/> zwaarder weegt. wasm-pack is vastgepind op { "0.13.1" } (de versie die { "v0.27.2" } bouwde, die het niet-vastgepinde installatiescript koos) met een controle van de checksum, en mcp-publisher op { "1.8.1" } met zijn gepubliceerde SHA-256. <c5/> faalt nu als een workflow om een andere compiler vraagt of een gedownload script in een shell pijpt. Er is geen verificatiejob, golden pin of lokaal gatescript verwijderd of versoepeld.
+
+seg-9e2a7376367e = <b>Elke GitHub Action van derden is vastgepind op commit-SHA</b> — { "93" } verwijzingen in { "15" } workflows, { "92" } ervan nieuw — waarbij de tag als afsluitend commentaar blijft staan zodat Dependabot kan bijwerken. De uitzondering is <c1/>, waarvan de tag de toolchainkiezer is.
+
+seg-6afb4a8770b0 = <b>De basislagen van het image van de MCP-server zijn vastgepind op multi-arch-digest</b>, en Dependabot bewaakt nu de Dockerfile van <c1/>, zodat de OS-lagen nog steeds beveiligingsupdates ontvangen — via een beoordeelde PR.
+
+seg-4ea8b158b408 = De controle van tag tegen manifest draait in de twee publicatieworkflows die de versie van de tag leveren.
+
+seg-4b77764e955d = <c1/> (ghcr-image, MCP-register) en <c2/> (Marketplace) lopen een race met <c3/> in plaats van erop te wachten, dus een verkeerd gemaakte tag werd alleen in een zusterworkflow bewaakt. Beide draaien nu <c4/> vóór het bouwen.
+
+seg-bf90c4063843 = <b>Vier advisories die Dependabot opwierp op de dag dat zijn meldingen werden ingeschakeld, zijn verholpen.</b> De MCP-server gaat van <c1/> { "1.7" } naar { "2.2" }: drie advisories tegen <c2/> < { "2.1" } (een lek in de sessietabel van Streamable-HTTP, ontbrekende validatie van OAuth protected-resource, aangepaste headers die een cross-origin-redirect volgen) — hier geen enkele bereikbaar, aangezien de server alleen stdio spreekt, maar een gepubliceerde crate hoort geen kwetsbare SDK vast te pinnen. De macro's van <c3/> { "2" } hebben Rust { "1.88" } nodig, dus alleen <c4/> declareert nu <c5/>; de bibliotheek <c6/> blijft op { "1.85" }. De ene API-wijziging (<c7/> → <c8/>) is doorgevoerd, en de round-triptests slagen. De SonarQube-scanactie gaat van v5 naar v6, wat een advisory over argumentinjectie verhelpt (≥ { "4.0" }, < { "6.0" }).
+
+seg-2652aaad177e = <b>Elk Rust-item dat een rij van de verificatiematrix citeert, wordt nu tegen de crate opgelost.</b> De bestaande bewaker controleerde de citaten in de vorm van bestandspaden; { "63" } van de { "164" } niet-partnerrijen noemen hun bewijs in plaats daarvan als item in de crate — <c1/>, <c2/>, <c3/> — en een token zonder achtervoegsel <c4/> was onzichtbaar voor een padscanner. Die rijen hadden een hernoemde module, een geleegde testmodule of een functie die nooit bestond kunnen noemen, en elke gate was groen gebleven.
+
+seg-01eee5115e3f = <c1/> lost alle { "339" } van zulke citaten op via de moduleboom, eist dat elke niet-partnerrij ten minste één test noemt die daadwerkelijk <c2/> draagt, en eist dat partnerrijen er geen noemen. Vier mutaties dienden om hem te beoordelen: een geciteerde module hernoemen, het enige testcitaat van een rij naar een functie zonder test laten wijzen, de echte <c3/> hernoemen en de attributen <c4/> eruit strippen — elk gaat rood op de bewering die erover gaat.
+
+seg-7731d549c739 = Eén rij was al fout: <em>Alternative / complementary PNT</em> citeerde <c1/>, een glob, wat geen citaat is. Ze noemt nu <c2/> en de drie testmodules in de crate daarachter.
+
+seg-cf6fd64368de = <b>De gepubliceerde cijfers worden bij elke build opnieuw tegen de engine gecontroleerd</b> (<c1/>). De drie demogrammen in de README zijn de eigen <c2/>-uitvoer van de engine en niets voerde het scenario opnieuw uit; de twee crossover-studies van het paper werden eenmaal gegenereerd en gecommit; en de README vermeldt vier kwaliteitsmaten in proza naast <c3/>. Alle drie zijn nu vastgepind aan live engine-uitvoer.
+
+seg-276b65a8f76a = Het afstemmen leverde het nuttige resultaat op: de demogrammen waren getekend met engine { "0.22.0" } en de crossover-JSON van het paper met { "0.20.0" }, en bij { "0.27.1" } is <b>elke geplotte waarde in alle vijf artefacten identiek</b> — de drie grafiek-SVG's verschillen van een nieuwe run in precies twee tekens elk, de versiestempel in de voettekst. De grafieken zijn opnieuw gerenderd zodat de voettekst klopt. De JSON van het paper blijft bewust gestempeld met { "0.20.0" }: het is het verslag van de run waarvan een gepubliceerd paper een cijfer insluit, en opnieuw stempelen zou een herkomst claimen die de PDF niet heeft. De bewaker stelt in plaats daarvan de sterkere eigenschap vast — dat de huidige engine elke gepubliceerde waarde nog steeds reproduceert.
+
+seg-c88647c5f2fc = SonarCloud-analyses werden vastgelegd als <c1/>, zodat de periode voor nieuwe code van <c2/> nooit vorderde: ze was nog verankerd aan de analyse van 2026-07-02, beoordeelde tweeëntachtig dagen werk als één enkele delta en mat { "7877" } “nieuwe” gedupliceerde regels tegen een drempel van { "3" } %. De scan geeft nu de crateversie mee. De onderliggende duplicatie is echt en wordt hierdoor niet verborgen: ze is geconcentreerd in de declaratieve <c3/>-registers die in <c4/>, <c5/>, <c6/>, <c7/> en <c8/> worden herhaald, en in de verificatietabel met 168 rijen, en ze wordt hier als werk benoemd in plaats van van de meting te worden uitgesloten.
+
+seg-f2a0960a6f11 = <b><c1/> had geen lock voor één schrijver, en elke run schreef hetzelfde log.</b> Dat is geen netheid: de <c2/>, <c3/> en <c4/> van de bon worden UIT dat log teruggelezen, en de pre-push-hook vertrouwt de bon. Een gate die was gedood maar waarvan de testbinary nog leefde, bleef schrijven in het bestand dat de volgende run net had afgekapt — zodat de aantallen van de ene run als die van een andere run konden worden aangemerkt, waarmee een push werd toegestaan op grond van een suite die nooit had gedraaid op de boom die werd gepusht. Het is nu één gate per checkout (weigeren met exit { "75" } naast een levende, een verouderde lock opruimen waarvan de pid weg is) en één log per run, waarbij <c5/> bij het afronden wordt ververst vanuit de eindigende run. Beide richtingen zijn getest: een levende pid weigert, een dode wordt opgeruimd.
+
+seg-687d6fe87221 = <c1/> beweerde dat zijn tests “<b>niet</b> bewijzen dat de genoemde test-/oracle-strings naar live code verwijzen”. Twee bewakers doen nu precies dat, dus de moduledoc zei het tegenovergestelde van de waarheid; ze vermeldt nu wat machinaal wordt gecontroleerd en wat aan menselijk oordeel wordt overgelaten. Een verouderde verwijzing naar <c2/> — de module is <c3/> — is gecorrigeerd in de eigen documentatie van de zusterbewaker.
+
+seg-014070f0873c = <b><c1/> is op 2026-09-22 herschreven en geforceerd gepusht.</b> Tien commits werden vier. De herschrijving voegde elke commit die een gate rood liet in de commit die hem weer opruimde, zodat elke commit op <c2/> nu een boom heeft die slaagt, en verwijderde de geannuleerde runs die een concurrency-groep voor de hele branch op elke vervangen commit had achtergelaten.
+
+seg-b48d6cfc3b42 = Er is niets weggegooid. De commits van vóór de herschrijving blijven bereikbaar via de tags die ernaar wijzen, en de uiteindelijke boom is byte voor byte identiek aan de boom waarmee de herschrijving begon — <c1/> tussen de oude top en de nieuwe is leeg, afgezien van de drie workflowbestanden die deze release wijzigt.
+
+seg-0549cfdc6d69 = De vervangen SHA's, voor iedereen die naar een ervan verwijst:
+
+seg-14812deb1b6b = oud
+
+seg-c63f549e6a1d = onderwerp
+
+seg-57bfbb773299 = docs(changelog): disclose the authorship rewrite and the two dangling crate sha1s
+
+seg-02aa1be872d2 = fix(docs): the engine-flow diagram said { "6" } figures of merit; the engine scores { "7" }
+
+seg-f3a598ff3349 = fix(test): two more cross-platform pins, and two wrong assumptions of my own
+
+seg-e9054c4801ff = feat(web): surface the lunar cluster on the site — seven capability cards
+
+seg-3f1f16502fdf = docs(lunar): document { "42" } public fields and ratchet the ceiling down to { "985" }
+
+seg-f97ce0978cc3 = chore(release): { "v0.27.0" }
+
+seg-cbe63ab92c6a = test(docs): guard the distribution diagram, the last unguarded one
+
+seg-70c84ea0a5bd = chore(release): { "v0.27.1" }
+
+seg-9c220336c895 = <b>De tags { "v0.27.0" } en { "v0.27.1" } zijn bewust NIET verplaatst.</b> Ze wijzen nog steeds naar <c1/> en <c2/>, de exacte commits waarvan de bomen de artefacten voortbrachten die nu live staan op crates.io, npm, PyPI, ghcr.io en het MCP-register. De <c3/> van een crate legt de sha1 vast waaruit hij is verpakt, registers zijn onveranderlijk, en de SLSA-attestatie van de buildherkomst op de releaseonderdelen van { "v0.27.1" } is aan die commit gebonden. Het verplaatsen van de tags had al die gepubliceerde artefacten laten wijzen naar een commit die niet meer bestaat. Ze laten staan houdt de oude commits bereikbaar en elke gepubliceerde herkomstketen oplosbaar, ten koste van twee tags die geen voorouders meer zijn van <c4/> — en daarom bestaat deze release: { "v0.27.2" } geeft <c5/> een eigen tag, verpakt uit een commit die erop staat.
+
+seg-3c644384256f = Dit is de tweede bekendgemaakte herschrijving van deze geschiedenis; de eerste, op 2026-09-21, maakte het auteurschap canoniek en is vastgelegd in de notities van { "0.27.0" } met zijn eigen twee losse crate-sha1's. Een herschrijving wordt hier elke keer bekendgemaakt, omdat een repository die verifieerbare herkomst verkoopt niet stilletjes de grond onder een gepubliceerd artefact kan verschuiven.
+
+seg-d82d7a3c9054 = De gepubliceerde crate compileerde niet.
+
+seg-ebc99c9df1ef = <c1/> bevat een <c2/> op het hoogste niveau van <c3/>, en het manifest sluit <c4/> uit van het pakket, zodat de tarball die crates.io ontving een bestand miste dat de bibliotheek zelf insluit. De publicatie van { "v0.27.0" } faalde om die reden in zijn verificatiebuild en er kwam geen { "0.27.0" } op crates.io; npm en PyPI, waarvan de jobs er niet van afhangen, publiceerden normaal. De uitsluiting kent nu een uitzondering voor die ene catalogus.
+
+seg-6ff9cdb976e8 = Elke andere <c1/> van een fixture in <c2/> staat binnen een module <c3/> en bereikt dus nooit de verpakte bibliotheek. Alleen een op het hoogste niveau doet dat.
+
+seg-7f0975453b8f = <b>Niets in CI draaide <c1/>,</b> en daarom werd een tarball die niet kan compileren pas ontdekt door de publicatiejob, nadat twee andere registers al hadden geleverd. Een job <c2/> bouwt en compileert nu bij elke push precies die tarball.
+
+seg-1f2df48821fc = De emissiepins van de lunar-frame-realisatie verschuiven niet langer bij een versieverhoging. De SVG-voettekst bevat de engineversie, zodat elke release drie hashes opnieuw als basislijn vaststelde — twee keer op één dag — en een pin die uit routine opnieuw wordt vastgelegd niet meer wordt gelezen. De versiestring wordt vóór het hashen genormaliseerd tot een plaatsaanduiding, en van de emissie wordt apart vastgesteld dat ze de draaiende versie vermeldt, zodat dat feit nauwkeuriger wordt gecontroleerd dan de hash het ooit controleerde.
+
+seg-56309487ea7e = <c1/> — het datum van het lunaire referentiestelsel uit een echte waarnemingscampagne.
+
+seg-966a2cc4e40d = <c1/> verving een geïnjecteerde Helmert-transformatie door een <em>gesimuleerde</em> campagne en zei dat ook: het stationsnetwerk, het schema en de sigma per waarneming zijn illustratieve invoer. Dit scenario haalt de simulatie weg uit de twee plaatsen waar een schema en een foutmodel in het antwoord doorwerken. De epochs zijn de zendtijden van { "337" } gearchiveerde normal points van ILRS-laserafstandsmeting naar de maan (2015-04-08 .. 2015-06-27, Grasse MeO { "7845" } en Matera MLRO { "7941" }, alle vijf retroreflectorarrays), en elk waarnemingsgewicht is de eigen gearchiveerde precisie van dat normal point, <c2/> — een mediaan van { "5.13" } mm enkele-weg-afstand, uit het bestand gehaald in plaats van hier gekozen. De stationscoördinaten komen uit IERS ITRF2020 en de reflectorcoördinaten uit JPL DE430 Tabel { "7" }; elke fixture legt een URL, een ophaaldatum en een SHA-256 vast en wordt uit zijn bron geregenereerd door een gecommitte generator die de bron verifieert en afbreekt in plaats van een getal uit te geven. Het rapport noemt welke schakels gemeten zijn en welke gemodelleerd blijven, en de gemodelleerde zijn <em>gemeten</em>: de waargenomen-min-berekende enkele-weg-afstand over de echte data is { "156 494" } m RMS, wat dezelfde testset bevestigt tegen JPL Horizons over dezelfde periode ({ "195 655" } m RMS-vector, slechtste epoch { "0.054" }° — binnen de ~{ "0.3" }° die de ingebouwde analytische lunaire reeks voor zichzelf claimt). Additief: een nieuwe soort, een nieuwe lezer (<c3/>) en een nieuwe module (<c4/>); de bestaande lunar-frame-pakketten zijn bit voor bit vastgepind.
+
+seg-7fcd2af0a688 = <b><c1/> als scenarioparameter</b> op <c2/> en <c3/>. De nauwkeurigheid van signal-in-space-afstandsmeting was een constante tijdens het compileren (<c4/>), dus een sweep van het servicevolume kon slechts één vaste waarde als geslaagd of gefaald beantwoorden. Beschermingsniveaus zijn er exact lineair van afhankelijk, dus door hem beschikbaar te stellen wordt de sweep een <b>eis</b> aan de afstandsmetingsnauwkeurigheid over het hele volume. De standaardwaarde reproduceert het eerdere gedrag bit voor bit.
+
+seg-c3ccc1e89a2d = <b>Export van geometrie per satelliet</b> op <c1/>: <c2/> + <c3/> voegen een array <c4/> toe met azimut, elevatie en schuine afstand naar elke satelliet op elke epoch voor één genoemde selenografische locatie, plus de zichtbaarheidsvlag. De samenvatting van de aggregaatdekking laat de geometrie per satelliet bewust samenvallen, maar de schuine afstand is precies wat een linkbudget verbruikt, dus een gezamenlijke communicatie- en navigatieanalyse was niet mogelijk uit de samenvatting alleen. Uit tenzij beide coördinaten zijn gegeven; puur additief.
+
+seg-ae7886fbca9d = <c1/>, de openbare kijkhoekhelper achter de export.
+
+seg-b187bade5f04 = Een rij in de verificatiematrix voor de nieuwe geometriemogelijkheid.
+
+seg-14ef785b6c12 = <b>Het echte antennepatroon in de geometrie-export.</b> De engine bevat sinds P1 een patroon van een uniform belichte cirkelvormige apertuur (<c1/>, de Airy-vorm <c2/>) en <b>niets buiten <c3/> gebruikte het</b> — in plaats daarvan deed een boresight-gain gekoppeld aan een vuistregel voor gain en bundelbreedte het werk. Een optionele tabel <c4/> op <c5/> (alleen gelezen als de exportlocatie is ingesteld) geeft nu aan elke geëxporteerde rij de <b>hoek buiten de boresight bij de satelliet</b> en de <b>zendgain naar de locatie uit dat patroon</b>, en voegt een blok <c6/> toe dat het <b>aantal satellieten in de bundel onder het echte patroon naast het aantal in de bundel onder de symmetrische benadering</b> rapporteert (<c7/>) met het verschil als een genoemde correctie. Beide getallen worden uitgegeven; geen van beide vervangt het andere. Gemeten bij de eigen representatieve lunaire apertuur van de engine (schotel van { "1" } m, { "2.4" } GHz, η = { "0.60" }) over een locatie nabij de zuidpool en de illustratieve schil van het LCNS-type, <b>verschillen de twee met meer dan één satelliet</b>: het echte patroon plaatst { "0" } van { "76" } zichtbare verbindingen binnen de halfvermogensbundel, de benadering claimt er { "28" } — een correctie van −{ "2.33" } satellieten per epoch, slechtste enkele epoch { "3" }. De benadering heeft een eigen aperturerendement ({ "0.641" } tegenover de regel <c8/> graden waarmee ze gewoonlijk wordt aangehaald, { "0.920" } tegenover een uniforme cirkelvormige apertuur), dus op een schotel met η = { "0.60" } levert ze een bundel die { "1.238" }× te breed is; het blok geeft beide impliciete rendementen uit in plaats van ze aan afleiding over te laten. Puur additief: gemeten over het gedocumenteerde werkpunt, { "597" } reeds bestaande bladen, <b>{ "0" } gewijzigd, { "0" } verwijderd, { "494" } toegevoegd</b>.
+
+seg-3149d17a8ffa = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/> en <c7/>, de openbare onderdelen erachter. Het patroon is nu ook verankerd aan de gepubliceerde Airy-constanten in plaats van alleen aan zichzelf: de halfvermogensovergang wordt door bisectie gelokaliseerd en vergeleken met <c8/>, wat de exacte halfvermogensbreedte <c9/> maakt en eerlijk vastlegt dat de conventionele coëfficiënt <c10/> <c11/> op <b>−{ "2.955" } dB</b> brengt, niet op −{ "3.010" } dB.
+
+seg-bac7217bb128 = <b>Een langevormtabel voor reproduceerbaarheid voor <c1/>.</b> De array-uitvoer van het scenario — het raster van middelingstijden, de zeven <c2/>-curves per term en hun wortel-som-kwadraat-totaal — bereikte gebruikers alleen als JSON-arrays. Eén uitgebrachte tabel werd bij { "400" } tekens afgekapt en publiceerde { "23" } van zijn { "57" } middelingstijden onder een kolom die beweerde ze allemaal te bevatten, en het manuscript bouwde de curves per term opnieuw op uit gesloten vormen omdat de engine ze nooit uitgaf. Een gewone run schrijft nu ook <c3/> met één rij per (rasterindex, middelingstijd, term), wat niet kan worden afgekapt tot iets dat er nog heel uitziet. De rasterindex is een exacte joinsleutel; <c4/> wordt geschreven met { "13" } significante cijfers en elke <c5/> met { "7" }, zodat de bytes niet uiteenlopen tussen builds van dezelfde bron. Puur additief: de rapport-JSON is byte voor byte identiek.
+
+seg-ab9209297ec2 = <b>Het rapport van <c1/> beschrijft zichzelf nu.</b> Een blok <c2/> herhaalt de opgeloste linkinvoer — draaggolflengte, zend- en ontvangapertuur, afstand, pulsbreedte, integratietijd, rendementen en verliezen — met toegepaste standaardwaarden, zodat een paper de configuratie vermeldt waarmee het draaide in plaats van een standaardwaarde aan te halen die uit de broncode is gelezen. Een blok <c3/> geeft de eenheid en herkomstklasse van elke grootheid die een paper waarschijnlijk citeert. De sporen van de covariantie bij overdracht zijn de reden dat het bestaat: ze werden uitgegeven als kale <c4/> en een manuscript leidde vierkante meters af uit een interne consistentiecontrole. De afleiding klopte, en juist daarom was het een defect — niets had gevangen dat ze onjuist was. Puur additief: gemeten over vier configuraties, { "456" } reeds bestaande velden, <b>{ "0" } gewijzigd, { "0" } verwijderd, { "196" } toegevoegd</b>.
+
+seg-5c810155300c = Een rij in de verificatiematrix voor de reproduceerbaarheidstabel van het tijdsbudget, eerlijk <c1/> / <b>MODELLED</b> — het totaal wordt gecontroleerd tegen de wortel-som-kwadraat van de termen in hetzelfde bestand, dat de eigen termdefinities van de engine deelt en daarom geen onafhankelijke referentie is. Samen voegen deze drie rijen toe. Het lopende totaal voor deze nog niet uitgebrachte sectie is <b>{ "168" } rijen — { "64" } VALIDATED, { "100" } MODELLED, { "4" } PARTNER</b>.
+
+seg-ed290a85ab0e = <b>Het auteurschap van commits in de hele geschiedenis is nu één enkele identiteit, en twee gepubliceerde crates wijzen naar een commit die niet meer bestaat.</b> Op 2026-09-21 is de git-geschiedenis herschreven zodat elke menselijke commit is geschreven en gecommit door <c1/>. Eerder droeg ze drie spellingen van één persoon — { "688" } commits als <c2/>, { "34" } als <c3/> en { "94" } al canoniek. De ene commit van <c4/> is bewust als eigen auteur gelaten: het herlabelen van de afhankelijkheidsverhoging van een bot zou het auteurschap claimen van werk dat hier niemand deed.
+
+seg-ec4e75f94462 = <b>Er is geen inhoud veranderd.</b> De herschrijving raakte alleen auteur- en committerheaders, en dat is controleerbaar in plaats van beweerd: de boom van elke tag en elke branch is bit-identiek aan wat hij eerder was. <c1/> wordt nog steeds opgelost tot boom <c2/>, precies zoals voorheen.
+
+seg-bc0f4fa0a009 = <b>Wat het kostte.</b> De naam van een commit is een hash over zijn boom, zijn ouders en zijn auteurheaders, dus het wijzigen van een voorouder hernoemt elke afstammeling. De releasecommit van <c1/> was <c2/> en is nu <c3/>. Twee artefacten legden de oude naam vast bij het publiceren en kunnen niet worden gecorrigeerd, omdat een gepubliceerde registerversie van nature onveranderlijk is:
+
+seg-52e096332738 = <c1/> { "0.26.0" } op crates.io — <c2/> legt <c3/> vast
+
+seg-8ec39d2f136c = <c1/> { "0.26.0" } op crates.io — dezelfde sha1, <c2/>
+
+seg-9a21b7c7b41c = Niets anders wordt geraakt. Het npm-pakket legt geen <c1/> vast, en de PyPI-distributie legt helemaal geen commit vast; beide zijn gecontroleerd in plaats van aangenomen.
+
+seg-9c51c5fb0d80 = Er is geen herstel waardoor <c1/> de herschreven commit noemt: die string <em>is</em> de oude voorgeschiedenis, en de enige manier waarop ze wordt opgelost is de geschiedenis van vóór de herschrijving gepubliceerd te houden, wat het auteurschap zou herstellen dat de herschrijving verwijderde. De herkomst van { "0.26.0" } loopt daarom via de tag in plaats van via de vastgelegde sha1 — en de tag levert dezelfde bytes waaruit de crate is gebouwd. De volgende release legt een geldige commit vast zonder dat actie nodig is.
+
+seg-30ecea86118a = <b><c1/> gebruikte standaard een EOP-bestand zonder voorspellingsrijen (G12).</b> Het scenario bevatte een uittreksel van vijf rijen <em>alleen definitief</em> uit <c2/> als offline standaardwaarde, dus een kale run rapporteerde <c3/> en de tabel per horizon rustte op paren van { "5" }, { "4" }, { "3" } en { "2" }. De engine kon altijd een voorspellingsrij lezen — de invoer had er simpelweg geen. De standaardwaarde is nu het letterlijke IERS-uittreksel van { "2026" } (<c4/>, MJD { "61173" }–{ "61204" }): { "20" } definitieven van Bulletin B en <b>{ "12" } rijen van Bulletin A met alleen voorspellingen</b>, zodat een kale run zonder bestandsargument en zonder netwerk <c5/> rapporteert en een tabel per horizon bij n = { "20" } / { "31" } / { "30" } / { "29" }, en ook de vergelijking met de operationele voorspeller en de overeenstemming met de eigen gepubliceerde voorspellingen van het product worden gevuld. Het langere uittreksel van 45 rijen is als alternatief gemeten en verworpen: ook dat is alleen definitief, dus <c6/> was op { "0" } gebleven. <b>Dit verplaatst gepubliceerde getallen</b>, onder regel R4 en met toestemming van de oprichter: tien van de { "22" } cellen van de uitgebrachte <c7/> en { "24" } van de { "42" } gevulde cellen van <c8/>. De gemeten pooldrempel voor snel-min-definitief wordt { "0.0678" } mas (van { "0.0769" } mas), wat de waarde is die de eigen poolbewegingstabel van paper P4 al publiceert bij n = { "20" } — de twee komen nu overeen in plaats van { "13.5" } % te verschillen. Elk ander cijfer dat P4 uit deze tabel afdrukt is op de afgedrukte precisie ongewijzigd. De volledige opsomming oud → nieuw, inclusief de velden die <em>niet</em> veranderden, staat in <a1><c9/></a1>. Het uittreksel met alleen definitieve waarden blijft meegeleverd, byte voor byte vastgepind en in gebruik: een aantal van nul voorspellingsrijen daarop is de eigenschap van het bestand, en een test bewijst dat nog steeds.
+
+seg-17fbc566dc5b = <b>Een verouderde begrenzing van het aantal satellieten in <c1/>.</b> Het scenario begrensde <c2/> op { "12" } hoewel de eigen constellatiebouwer { "24" } ondersteunt en een test { "24" } afdwingt, zodat elk gevraagd aantal boven { "12" } stilzwijgend werd verlaagd en een sweep over het aantal satellieten boven { "12" } identieke waarden teruggaf — niet te onderscheiden van echte geometrische verzadiging. Nu begrensd op de limiet van de bouwer. Dit is alleen voor <c3/> een gedragswijziging.
+
+seg-4df7d4d61b40 = Dezelfde verouderde begrenzing in <c1/>.
+
+seg-8adfbd27c4f8 = <c1/> begrensde <c2/> op { "12" } met hetzelfde gevolg, en deze bereikte een gepubliceerde tabel: <c3/> bevat een rij <c4/> die byte voor byte identiek is aan zijn rij <c5/>, omdat de engine een antwoord met twaalf satellieten teruggaf onder een label van zestien satellieten. Nu begrensd op de limiet van de bouwer van { "24" }, en een nieuwe test pint het vast — elke grotere constellatie moet zowel haar eigen aantal rapporteren als het beschermingsniveau strikt verbeteren, zodat de begrenzing niet ongemerkt kan terugkeren. <b>Dit verplaatst gepubliceerde getallen</b>: het beschermingsniveau bij <c6/> wordt { "16.92" } m → { "14.57" } m. Doorgesweept tot { "24" } is de curve strikt monotoon ({ "11.94" } m bij { "24" } satellieten, { "29.5" } % beter dan bij { "12" }), dus er is geen verzadiging bij { "12" } — het ogenschijnlijke plateau was de begrenzing. Gedragswijziging alleen voor <c7/>.
+
+seg-ebee158b73c8 = Een release voor documentatie, transparantie en playground. Er verandert geen enginegedrag: de verificatiematrix staat op <b>{ "102" } rijen — { "56" } VALIDATED, { "42" } MODELLED, { "4" } PARTNER</b>, ongewijzigd ten opzichte van { "0.25.0" }.
+
+seg-7af422ed6d89 = <b>Rustdoc op het niveau van de crate</b> (<c1/> in <c2/>) die de toegangspunten, het model van eerlijkheid en niveaus en de reproduceerbaarheid beschrijft, zodat docs.rs opent op een echte landingspagina in plaats van een kale muur van modules.
+
+seg-dd44c25f3af5 = <b><c1/></b> — een referentie per soort voor alle <c2/> scenariosoorten, gegenereerd uit <c3/> (de enige bron van waarheid) door <c4/> en bewaakt door <c5/>, zodat ze niet kan afwijken van de dispatcher.
+
+seg-e2cc77d3b413 = <b>Moduledocs</b> voor de { "11" } eerder ongedocumenteerde openbare modules (<c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>).
+
+seg-8d156713799d = <b>Literatuurbronnen</b> voor vijf formulemodules die een vergelijking vermeldden maar geen referentie noemden: <c1/> (Tapley/Schutz/Born; Bjorck), <c2/> (Szebehely; Koon et al.), <c3/> (Kay), <c4/> (Wertz; Sidi), <c5/> (Allen-Eggers, NACA TR-1381).
+
+seg-832b4bfbc48a = <b>Een gepubliceerde <c1/></b> op kshana.dev voor gecoördineerde bekendmaking.
+
+seg-30603f59e27d = <b>Validatieniveau per run in de playground.</b> De tabel met kwaliteitsmaten van één run bevat nu een label VALIDATED/MODELLED per cijfer, gelezen uit dezelfde opzoeking <c1/> die het downloadbare rapport gebruikt (die <c2/> spiegelt, zelf afgeleid uit de verificatiematrix), zodat het niveau naast een live getal nooit kan afwijken van het register.
+
+seg-93b203f3a1c0 = <b><c1/></b> in het playground-menu — alle { "50" } te dispatchen soorten zijn nu één klik weg (was 49/50).
+
+seg-1ec0830db404 = <b>Vijf extra uitvoerbare mogelijkhedenkaarten</b> (ruimteweer, evaluatie van RF-verstoringen, veerkracht, CCSDS OEM-interoperabiliteit, KIF), waarmee het aantal uitvoerbare kaarten van { "11" } naar { "16" } gaat. Kaarten die alleen API of bibliotheek zijn, houden een eerlijke link naar de documentatie in plaats van een nepknop voor uitvoeren.
+
+seg-977ea074dd9d = De documentatiedekking wordt nu in CI als ratel bewaakt.
+
+seg-beb308bcaafb = <c1/> compileert de bibliotheek met <c2/>, telt de waarschuwingen en faalt alleen als het aantal boven een vastgepind maximum ({ "986" }) komt. Een harde <c3/> onder <c4/> had ~{ "1000" } op dit moment ongedocumenteerde openbare items veranderd in een build-onderbreking van de ene op de andere dag; zo laten nieuwe ongedocumenteerde openbare items de build falen terwijl de bestaande achterstand bewust wordt afgelost.
+
+seg-27668072a608 = <b>De rij voor de MCP-tool <c1/> adverteerde “~{ "17" } built-in scenario kinds”</b> terwijl <c2/> al enige tijd { "50" } had blootgesteld — een voor agents bedoeld document dat de werkelijke mogelijkheden driemaal onderschat. Vastgepind op het ware aantal.
+
+seg-1ffc9f9816e8 = De referentie voor de formaatcontrole van de CycloneDX-SBOM is opnieuw gegenereerd voor de bijgewerkte afhankelijkheidsgraaf ({ "60" } componenten). Het oordeel van de formaatcontrole is ongewijzigd: nul genormaliseerde schemafouten en elke afzonderlijke licentie-id staat nog steeds in de officiële SPDX-opsomming.
+
+seg-a6db590bbcbe = <b>Vijf mogelijkheden bevorderd tot extern VALIDATED</b>, elk nu kruiselings gecontroleerd tegen een onafhankelijke implementatie door een derde van dezelfde eenduidig gedefinieerde grootheid (niet-circulair, met offline regenereerbare fixtures):
+
+seg-98588143b4bb = <b>Conversie van IEEE-1139-machtswet → Allan-deviatie</b> tegen de gesloten vormen van <c1/> voor alle vijf ruistypen (<c2/>);
+
+seg-ce37d70fa8bc = <b>Gewichten van de CRPA MVDR- / minimum-norm-nulsturingsbundelvormer</b> tegen numpy/scipy LAPACK (<c1/>);
+
+seg-0f033d1027f8 = <b>Standbepaling met Wahba / TRIAD / QUEST</b> tegen de SVD <c1/> van SciPy op ruisvrije waarnemingen (<c2/>);
+
+seg-e1e2283cb524 = <b>Uitwisseling van OEM-covariantieblokken volgens CCSDS { "502.0" }</b>, heen en terug gevoerd door de parser van de onafhankelijke bibliotheek <c1/> (<c2/>);
+
+seg-579eefbb646f = de <b>detectiestatistiekkernel voor kwadratische-wet-acquisitie</b> (gegeneraliseerde Marcum-Q / P_d / P_fa / drempel) tegen SciPy <c1/>/<c2/> (<c3/>). De machinaal gecontroleerde validatiematrix gaat naar <b>{ "56" } VALIDATED · { "42" } MODELLED · { "4" } PARTNER</b> over <b>{ "102" } rijen</b> (was { "51" } · { "47" } · { "4" }). Eerlijke kanttekeningen over de reikwijdte blijven behouden — bijv. de bevordering van acquisitie betreft alleen de detectiestatistiekkernel; CFAR/straddling-verlies blijft MODELLED.
+
+seg-b6a140d55580 = <b>Kwaliteitsmaten in het positiedomein</b> (<c1/>): exacte CEP, SEP en 2DRMS uit de 3D-ENU-positiecovariantie van een navigatieoplossing plus een horizontaal beschermingsniveau. CEP/SEP zijn de <em>exacte</em> mediane radiale fouten (niet de lineaire regel <c2/>), kruiselings gecontroleerd tegen de rayleigh/maxwell-kwantielen van <c3/> en een onafhankelijke NumPy-Monte-Carlo-mediaan (<c4/>). Vervangt de vorige eerlijke stub zonder implementatie — <b>de functiesignatuur is gewijzigd</b> van <c5/> die een fout teruggeeft naar <c6/> die een <c7/> teruggeeft.
+
+seg-1551afa17154 = <b>Equivalente vrijheidsgraden (EDF) voor betrouwbaarheidsintervallen zijn voltooid voor alle schatters uit de Allan-familie</b> (<c1/>): de EDF voor modified Allan, Hadamard en total variance gebruikt nu het gecombineerde EDF-algoritme van Greenhall & Riley en de TOTVAR-vorm uit Tabel 7 van NIST SP { "1065" } (eerder was alleen de EDF van overlappende Allan geïmplementeerd; de andere hergebruikten die stilzwijgend), kruiselings gecontroleerd tegen <c2/> <c3/>/<c4/> (<c5/>).
+
+seg-39753e7919cc = <b>Onafhankelijke externe kruiscontroles voor de mogelijkheden voor geometrie, DOP, EOP, DRO en RF-afstandsmeting bij lunaire PNT</b> (<c1/>, met fixtures en oraclegeneratoren onder <c2/>). Elke controle laat een al meegeleverde <b>gemodelleerde</b> mogelijkheid tegen een referentie lopen die door een <em>andere</em> implementatie is geproduceerd, zodat overeenstemming niet-circulair is: de orbitale zend-/vangstvoetafdruk tegen <c3/> (Cephes — een werkelijk andere Bessel J1); de DOP van de geometrie van oppervlaktebakens tegen een onafhankelijke NumPy-oplossing van <c4/>; de groei van de voorspellingsfout van UT1/EOP-persistentie tegen een afzonderlijke NumPy-herparsing van dezelfde letterlijke IERS-rijen van <c5/>; de vlakke familie van distant retrograde orbits tegen de NASA/JPL Three-Body Periodic Orbit Database; en het budget voor RF-afstandsmetingsprecisie tegen een referentie uit eerste beginselen. Dit is aanvullend regressiebewijs voor bestaande modules; het toevoegen van deze kruiscontroletests labelt zelf geen enkele mogelijkheid om (de vijf bevorderingen hierboven zijn afzonderlijke, door een referentie ondersteunde statuswijzigingen in <c6/>).
+
+seg-662c04f0552f = <b>Scenario <c1/></b> (<c2/>, <c3/>): een samengestelde, via binaries bereikbare (CLI / Python / MCP / wasm via <c4/>) lunaire P1-signaalbeveiligingsrun die het tekort aan vermogen in het linkbudget en zijn gevoeligheidsband van { "12" }–{ "18" } dB, het vereiste jam-/spoofzendvermogen versus standoff, de orbitale vangstvoetafdruk onder een echt antennepatroon, de uitkomst van de pull-in bij het vangen door spoofing van de trackinglus, het bereik tot de horizon van een lichaam zonder atmosfeer en het authenticatiebudget van OSNMA/TESLA aan elkaar rijgt. Een lege body reproduceert de P1-basislijn.
+
+seg-a9b7ee942a23 = <b>Gevoeligheidsband van het vermogenstekort</b> (<c1/>, <c2/>): een echte sweep over meerdere assen (referentie × EIRP × schuine afstand) gebouwd op <c3/> en geëvalueerd via <c4/>, die de P1-band van { "12" }–{ "18" } dB reproduceert en de lineaire factoren { "32" }× (afgerond) / { "36" }× (niet afgerond) met elkaar verzoent.
+
+seg-0734a4ca7535 = <b>Driedimensionale spoof-vangstkubus</b> (<c1/>): voegt de as van carrier-/Doppler-offset toe aan de vangstkaart (J/S × code-offset × carrier-offset, lock-tijd per cel); de snede met nul carrier reduceert exact tot de 2D-<c2/>.
+
+seg-3b9bbc25b114 = <b>Detectie door een schaars monitornetwerk</b> (<c1/>) combineert nu de fysieke AGC-statistiek van <c2/> en het selenografische zichtbaarheidsraster van <c3/> om de detectiestatistiek en geometrie van elk station af te leiden, in plaats van vrije parameters en een ad-hoc overlap langs een grootcirkel; de detectiekansen per monitor en voor het netwerk blijven de gesloten vormen van <c4/> met chi-kwadraat/Marcum-Q. <b>De velden <c5/> / <c6/> zijn gewijzigd</b> naar fysieke grootheden (lat/lon/hoogte/vermogen).
+
+seg-54c36267382c = <b>Dimensionering van de authenticatieoverhead van OSNMA/TESLA</b> (<c1/>): de OSNMA-veldaandelen per pagina (8-bit HKROOT + 32-bit MACK per pagina van { "2" } s) waren verkeerd gelabeld als totalen per subframe, waardoor de overhead { "15" }× werd onderschat ({ "1.33" } bit/s). Gecorrigeerd naar de gepubliceerde totalen per subframe van 30 s uit de SIS-ICD (HKROOT { "120" } + MACK { "480" } bits ⇒ <b>{ "20" } bit/s</b>). Het gevolg wordt nu eerlijk vermeld: bij een navigatiesnelheid van { "50" } bit/s voor AFS is de authenticatieoverhead een kostenpost van <b>de eerste orde, ≈{ "40" } %</b>, niet een te verwaarlozen paar procent; het veld <c2/> is gedocumenteerd als de vertraging van de sleutelvrijgave (een ondergrens voor de end-to-end-tijd tot de eerste geauthenticeerde positiebepaling).
+
+seg-0cf179a34252 = Een brede release van mogelijkheden. Ze brengt twee volledig <b>extern getoetste</b> analysesuites — een complete familie voor <b>multicriteria-beslissingsanalyse (MCDA)</b> en de schatters voor <b>Allan-wander en klokstabiliteit bij lange τ</b> — en opent een nieuwe uitvoerbare scenariolaag voor <b>lunair tijdsbudget, real-time frame/EOP, optisch/RF-hybride, cislunaire waarneembaarheid en veerkracht van gelaagde PNT bij conflict</b> bovenop het substraat, plus een substraat van mogelijkheden voor <b>lunaire oppervlaktebakens</b> en <b>signaalbeveiliging</b>. De machinaal gecontroleerde validatiematrix groeit tot <b>{ "51" } VALIDATED · { "47" } MODELLED · { "4" } PARTNER</b> over <b>{ "102" } rijen</b> (was { "40" } · { "47" } · { "4" } over { "91" }): alle elf nieuwe rijen zijn validaties tegen een externe referentie van de beslissingsanalyse- en tijdsschatters, gecontroleerd tegen onafhankelijke bibliotheken (SciPy, pymcdm, pyDecision, allantools) met een nauwe tolerantie, terwijl het nieuwe PNT-oppervlak eerlijk als MODELLED wordt getoond. Zoals altijd wordt geen numerieke modelclaim opgewaardeerd zonder externe dataset erachter.
+
+seg-267e50f8dd56 = <b>Uitvoerbare scenario's</b> — elk een geregistreerd scenario <c1/>, via de engine gedispatcht en end-to-end bewezen door CI via <c2/> (die elke meegeleverde <c3/> draait en hard faalt bij elke niet-uitvoerbare fixture):
+
+seg-c87fc11dd86b = <b>Veerkracht van gelaagde PNT bij conflict</b> (<c1/>, <c2/>) — een Monte-Carlo-engine met seed voor een PNT-architectuur met meerdere lagen, met een model van <b>overleving bij geleidelijke degradatie per vector</b> volgens §{ "4.2" } (vier genoemde dreigingsvectoren, de gesloten vorm voor overleving van bruikbare PNT waartoe de Monte-Carlo per laag convergeert, uitgegeven in de resultaat-JSON) en gedocumenteerde, tegen afwijking bewaakte herkomst van dreigingsparameters (<c3/>). Architecturen zijn MODELLED; de convergentie van de overlevings-Monte-Carlo → gesloten vorm is de getoetste kern.
+
+seg-9c69e4d8ade9 = <b>Cislunaire waarneembaarheid</b> (<c1/>, <c2/>) — een eigenspectrum van de waarneembaarheids-Gramiaan over een boog, een door differentiële correctie verkregen seeder voor distant retrograde orbits (DRO), en een onafhankelijke kruiscontrole met een square-root-informatiefilter waarvan de posterior-covariantie precies bij volledige waarneembare rang eindig wordt. De constellatie is MODELLED; de invarianten van rang/Gramiaan/STM/SRIF zijn de getoetste kern.
+
+seg-92fb333483e5 = <b>Heterogene optische/RF-hybride continuïteit en integriteit</b> (<c1/>, <c2/>, <c3/>, <c4/>, <c5/>) — beschikbaarheid en integriteit over domeinen heen wanneer optische en RF-PNT worden gecombineerd. MODELLED.
+
+seg-08e2f640ae14 = <b>Endogeen lunair tijdsbudget</b> (<c1/>, <c2/>) en <b>real-time frame- / EOP-budget</b> (<c3/>, <c4/>, <c5/>) — de lunaire tijds- en aardoriëntatiebudgetten van P3/P4, endogeen afgeleid uit de tijdsynchronisatieketen in plaats van beweerd. MODELLED.
+
+seg-52c2f9c2c9a7 = <b>Extern getoetste analysesuites</b> — bibliotheekmogelijkheden, die elk als nieuwe VALIDATED-rijen in de matrix komen (gecontroleerd tegen een onafhankelijke externe referentie, geen zelfcontrole):
+
+seg-709789e8fb04 = <b>Volledige suite voor multicriteria-beslissingsanalyse (MCDA)</b> (<c1/>) — de vier methodefamilies: waardeaggregatie (<b>WSM</b>, <b>WPM</b>, <b>WASPAS</b>), ratiosysteem (<b>MOORA</b>) en proportioneel (<b>COPRAS</b>), afstand tot het ideaal (<b>TOPSIS</b>), compromisprogrammering (<b>VIKOR</b>) en outranking (<b>PROMETHEE II</b> met zes gegeneraliseerde criteriumvormen, <b>ELECTRE I</b> concordantie/discordantie) — plus <b>AHP</b>-prioriteitsgewichten uit de Perron-eigenvector met de poort voor de Saaty-consistentieratio (CR < { "0.10" }), <b>MAUT</b>-nut, extractie van het Pareto-front en <b>gevoeligheids</b>analyse van gewichten. De negen aggregators reproduceren <b>pymcdm</b> / <b>pyDecision</b> en de AHP-eigenvector komt overeen met SciPy/LAPACK, alles tot < { "1e-9" } (<c2/>). De gevoeligheidstornado wordt ook getoond binnen het veerkrachtscenario voor conflict.
+
+seg-2ce49cbfd8bf = <b>Schatters voor Allan-wander en klokstabiliteit bij lange τ</b> (<c1/>) — <b>MTIE</b> (de piek-tot-piek-wanderstatistiek van de tijdsfout waartegen ITU-T G.810/G.823/G.8261-synchronisatiemaskers zijn geschreven), <b>MDEV</b> en <b>TDEV</b> als wander in het tijdsdomein, en <b>Theo1 / TOTVAR</b> als schatters met uitgebreid bereik. VALIDATED tegen <b>allantools</b> op de reeks van NIST SP { "1065" }; de van bias ontdane hybride <b>ThéoH</b> gebouwd op TOTVAR blijft eerlijk MODELLED.
+
+seg-68bcdf8bd5de = <b>Harnas voor zekerheid / externe referentie</b> (<c1/>) — een referentieharnas dat rechtstreeks aan de CI-eerlijkheidspoort is gekoppeld, een herkomstrecord volgens <b>W3C-PROV</b> met een deterministische Merkle-wortel, en <b>Greenhall</b> equivalente vrijheidsgraden + chi-kwadraat-betrouwbaarheidsintervallen op stabiliteitsschatters.
+
+seg-dcb91813b24c = <b>PackRegistry / ExternalPack-uitbreidingsnaad</b> (<c1/>, <c2/>) — een dispatchnaad zodat mogelijkheidspakketten via één register lopen (de ingebouwde dispatch ligt op het hete pad van de CLI; pakketten buiten de boom hechten zich erachter aan een <c3/> met standaardwaarde), bewaakt door een golden-suite voor byte-identiteit en standalone / wasm32 CI-poorten.
+
+seg-16b1f5d249ed = <b>Substraat van gemodelleerde mogelijkheden</b> — nieuwe bibliotheekmodules die de scenario's hierboven voeden en toekomstige (nog geen op zichzelf staand scenario <c1/>):
+
+seg-f8c9ffbc56cf = <b>DOP van lunaire oppervlaktebakens</b> (<c1/>) met een budget voor gerealiseerde nauwkeurigheid, een sweep over N satellieten en een GDOP-kaart, plus een verstoorde lunaire efemeride (<c2/>) en geometrie van de horizon zonder atmosfeer / inverse van spoofvermogen / band van het AFS-tekort (<c3/>, <c4/>). Hergebruikt de door gnss_lib_py getoetste DOP-kernel.
+
+seg-28209a2747d5 = <b>Inlezen van DEM in LOLA-formaat</b> + zichtlijn over terrein (<c1/>).
+
+seg-6e98ac90a0e2 = <b>Driedelige verdediging voor signaalbeveiliging</b> — spoof-vangst, kruissensorintegriteit en dimensionering van het monitornetwerk (<c1/>, <c2/>, <c3/>) met een antennevoetafdruk van de orbitale bundel en een OSNMA-authenticatiebudget (<c4/>, <c5/>). MODELLED.
+
+seg-bd5b9511accb = De validatiematrix en elk afgeleid artefact zijn opnieuw gegenereerd uit de enige bron van waarheid (<c1/>): het register op de site, de diagrammen van modulekaart en validatieherkomst, en de tellingstrings in de README en per oppervlak geven nu <b>{ "51" } / { "47" } / { "4" } van { "102" }</b> (was { "40" } / { "47" } / { "4" } van { "91" }); de bewaker voor eerlijke tellingen scant nu de volledige git-geschiedenis, en de README-figuren zijn verenigd op het donkere merkpalet.
+
+seg-c2ec7e2b6296 = Eén gedeelde adaptieve integratiedriver ondersteunt nu zowel <c1/> als <c2/> (<c3/>), waarmee de gedupliceerde stapper verdwijnt.
+
+seg-85cfb0f10268 = Statische analyse met <b>SonarQube Cloud</b> aan CI toegevoegd (Rust + geïmporteerde dekking), met badges voor beveiliging / onderhoudbaarheid / betrouwbaarheid in de README.
+
+seg-deeef8318367 = Discipline voor release en verpakking: CI registreert per publicatie van een pakket/register een deploymentomgeving, en de gerichte openbare standalone-job is losgekoppeld van de trage validatiebinaries.
+
+seg-30181148b098 = De hygiënebewaker voor niet-vermelding is beperkt tot alleen markeringen van auteurschap, zodat het noemen van een integratiehost of product de build niet meer laat falen.
+
+seg-6eb3868fdce0 = Documentatie: de sectie <b>Citing</b> van de README somt nu de vier gepubliceerde arXiv-preprints op, en de mogelijkheid van de DOP van oppervlaktebakens is gedocumenteerd in de lunaire rij.
+
+seg-d12533cbf1f2 = Integer-lustellers voor lussen die door floats worden aangestuurd (Sonar S2193).
+
+seg-3c213354187f = Nauwkeurige inverse van chi-kwadraat bij weinig vrijheidsgraden via Newton-verfijning in het pad van het betrouwbaarheidsinterval voor zekerheid.
+
+seg-386b7094d34d = kshana.dev: de sectie met standaarden opent nu standaard en de terugvalwaarde voor het aantal in het register is gecorrigeerd; verouderde strings in README en site rond de waarneembaarheidslaag zijn gesynchroniseerd.
+
+seg-33448f46894f = Een release van mogelijkheden die een algemene laag voor <b>Fisher-informatie / Cramér–Rao-waarneembaarheid en optimaal experimentontwerp</b> toevoegt, en de release waarop het paper over lunaire PNT-waarneembaarheid rust. De machinaal gecontroleerde validatiematrix groeit tot <b>{ "40" } VALIDATED · { "47" } MODELLED · { "4" } PARTNER</b> over <b>{ "91" } rijen</b> (was { "39" } · { "46" } · { "4" } over { "89" }): de nieuwe schattingsengine is gecontroleerd tegen een externe referentie en is VALIDATED; de lunaire toepassing ervan is eerlijk MODELLED. Zoals altijd wordt geen numerieke modelclaim opgewaardeerd zonder externe dataset erachter.
+
+seg-c377207026f4 = <b><c1/> — Fisher-informatie, Cramér–Rao-grenzen en optimaal experimentontwerp.</b> Een algemene, herbruikbare engine voor schattingstheorie: de Fisher-informatiematrix <c2/> uit een meetjacobiaan en gewichten; een symmetrische eigenwaardeoplosser (cyclische Jacobi); de Cramér–Rao-ondergrens via de inverse, of de Moore–Penrose-pseudo-inverse plus een basis van de nulruimte wanneer de informatie rangdeficiënt is (het geval van vrij netwerk / datumdefect); en D-, A-, E- en T-optimale metrieken voor experimentontwerp met een selector <c3/> over kandidaatgeometrieën. <b>VALIDATED</b> tegen NumPy (<c4/>/<c5/>) en de gepubliceerde gesloten-vormgrenzen van Kay ({ "1993" }) tot { "1e-9" } (<c6/>), zodat het als rij met een externe referentie in de matrix komt in plaats van als zelfcontrole.
+
+seg-91d09b4e737f = <b>Waarneembaarheid van lunaire gezamenlijke baanbepaling</b> (<c1/> in <c2/>, getoond in het rapport over lunaire combinaties): past de FIM/CRLB-engine toe op de gezamenlijke oplossing van baan en klok om het datumdefect van het absolute station bloot te leggen, het herstel van de rang naarmate stations op Aardebasislijnen worden toegevoegd, de bereikte CRLB van de stationspositie en de E-optimale conditionering. Eerlijk <b>MODELLED</b> — de schattingsengine is extern getoetst, maar het lunaire netwerk waarop ze wordt toegepast is een representatieve simulatie, en geen enkele huidige dataset kan die geometrie in een meting omzetten.
+
+seg-6b1cd00aca8c = <b>Representatieve geometrie van de elliptische bevroren lunaire baan (ELFO)</b> voor het scenario voor lunaire combinaties (<c1/>, <c2/>, <c3/>, <c4/>; cirkelvormige plaatsing blijft de standaard) en een veld voor waarneembaarheid zonder VLBI in het rapport, zodat kan worden getoond dat het resultaat van het datumdefect voor elke geometrie geldt. Dezelfde ladder { "3" }→{ "1" }→{ "0" } en drempel van drie stations gelden op een ELFO uit de familie Moonlight/LCNS, en met drie VLBI-basislijnen op Aarde is de absolute stationspositie waarneembaar met een grens onder een meter — vastgelegd door <c5/>. Nog steeds MODELLED.
+
+seg-9e6627c0c417 = De validatiematrix en elk gegenereerd bewijsartefact zijn opnieuw gegenereerd uit de enige bron van waarheid (<c1/>): het register (<c2/>), <c3/>, <c4/>, de figuren voor validatie-uitsplitsing en soort referentie, en de tellingstrings in de README op alle distributieoppervlakken geven nu <b>{ "40" } / { "47" } / { "4" } van { "91" }</b>.
+
+seg-6f90233290a2 = Een patchrelease die alleen verpakking betreft. Geen wijzigingen in engine, scenario of resultaten; de validatiematrix is ongewijzigd op { "39" } VALIDATED · { "46" } MODELLED · { "4" } PARTNER over { "89" } rijen.
+
+seg-9d41e1412d1f = npm-publicatie: het pakket <c1/> dat uit het cratemanifest was afgeleid, gebruikte de GitHub-eigenaar met verkeerde hoofdletters (<c2/>), waardoor de sigstore-herkomstverificatie van npm faalde (die vergelijkt de eigenaar hoofdlettergevoelig). Het manifest <c3/> is nu de canonieke kleine letters <c4/>, zodat de gegenereerde <c5/> overeenkomt met het onderwerp van de herkomst en de npm-release wordt gepubliceerd.
+
+seg-fe1f8aae99f4 = De wheel-build pint <c1/> vast zodat het manylinux-wheel byte-reproduceerbaar is over herbouwingen heen (de reproduceerbaarheidscontrole door herbouwen en vergelijken).
+
+seg-b87075b47007 = Een consolidatierelease gericht op <b>bewijs, herkomst en distributiediscipline</b>. De machinaal gecontroleerde validatiematrix groeit tot <b>{ "39" } VALIDATED · { "46" } MODELLED · { "4" } PARTNER</b> over zijn <b>{ "89" } rijen</b> (was { "15" } · { "42" } · { "4" } over { "61" }), aangedreven door kruisvalidatie van gemodelleerde mogelijkheden tegen onafhankelijke externe referenties. Elk gedistribueerd artefact draagt nu een cryptografische SLSA-attestatie van de buildherkomst, levert een CycloneDX-SBOM mee en wordt in gelijke pas over alle oppervlakken gepubliceerd. Geen numerieke modelclaim wordt opgewaardeerd zonder externe dataset erachter; nieuwe mogelijkheden blijven eerlijk MODELLED.
+
+seg-f6de783bfd29 = <b>Standdynamica</b> (<c1/>, MODELLED) — vrije starre-lichaams-Euler-vergelijkingen zonder koppel + kwaternionkinematica (RK4), met zelftests op behoudswetten (kwaternionnorm, kinetische energie, |Iω|, precessie van een symmetrische tol).
+
+seg-339bc18b9fc4 = <b>Kruisvalidatie van gemodelleerde mogelijkheden</b> tegen onafhankelijke externe referenties, waarmee de validatiematrix op { "39" } VALIDATED-rijen komt, elk gedekt door een externe dataset (de CI-eerlijkheidspoort verbiedt een status VALIDATED zonder dataset). De nieuwste validaties tegen een externe referentie: de <b>gemeten stabiliteitscurve van de optische klok</b> (de ADEV-curvefit van <c1/> reproduceert de gepubliceerde σ_y(τ) van de ⁸⁸Sr-optische-roosterklok van Norcia et al., <em>Science</em> { "366" }:{ "93" } ({ "2019" }), Zenodo 10.5281/zenodo.3382347, CC-BY-4.0, meegeleverd onder <c2/>); <b>generatie van de GPS L1 C/A-spreidingscode</b> (de G1/G2-LFSR van <c3/> reproduceert de octalen van de codefase uit Tabel 3-Ia van IS-GPS-200 voor PRN { "1" }–{ "9" }); en de <b>SRTM-lezer voor digitale hoogtemodellen op echt terrein</b> (<c4/> leest een meegeleverde SRTM v3-tegel van NASA/USGS in het publieke domein, N36W117 / Death Valley, en plaatst Badwater Basin binnen zijn gedocumenteerde meetband).
+
+seg-665d0dde637b = <b>Nieuwe MODELLED-mogelijkheden</b>, elk intern kruiselings gecontroleerd tegen een gesloten vorm of een zusterpad in de code: relatieve bewegingsdynamica van Clohessy–Wiltshire / Hill, passieve geolocatie van zenders met TDOA/FDOA, standbepaling met Wahba/TRIAD/QUEST, geheeltallige ambiguïteitsoplossing van de draaggolffase bij GNSS (LAMBDA), B-plane-sturing en patched-conic-zwaartekrachtassistentie, bundelvorming met CRPA-arrays tegen jamming, acquisitiestatistieken met kwadratische wet voor GNSS, franjeambiguïteit / dynamisch bereik van kwantum-inertiaalsensoren, machtswetruis van klokken volgens IEEE-1139 + flicker-FM-vloer, en uitwisseling van CCSDS-OEM-covariantieblokken.
+
+seg-b3f53d5e3c3a = <b>Register van bewijs uit één bron</b> met gegenereerde verificatiedocumenten en een bewaker tegen afwijking; een doorbladerbaar validatieregister op kshana.dev met directe links naar het bewijs per kaart.
+
+seg-b3c0545157b3 = <b>Machineleesbare citatiemetadata</b> — <c1/> (CodeMeta { "2.0" }) en <c2/>, door <c3/> vastgepind aan het Cargo-manifest.
+
+seg-2ca8875da9de = <b>Herkomst van de toeleveringsketen</b> — SLSA-attestatie van de buildherkomst voor de crate-tarball, wheels, sdist en npm-tarball; Trusted Publishing van PyPI via OIDC; CycloneDX-SBOM meegeleverd in het wheel en het npm-pakket; diff van reproduceerbare builds en verificatie na de release.
+
+seg-18fdecf7f2fa = <b>Vindbaarheid</b> — <c1/>, <c2/> en Open Graph / JSON-LD-metadata op kshana.dev; een gegenereerde figuur <c3/> afgeleid uit de matrix.
+
+seg-f80db0b0f545 = <b>README's per oppervlak</b> voor crates.io / PyPI / npm met een bewaker voor eerlijke tellingen.
+
+seg-bd33b21f8f91 = De referentie voor <b>Sagnac-tijdoverdracht</b> is opgewaardeerd naar ExternalDataset — de Sagnac-correctie voor een omloop om de evenaar wordt nu gecontroleerd tegen de door Ashby gepubliceerde { "207.4" } ns (<em>Living Reviews in Relativity</em> { "6" }:{ "1" }, { "2003" }, Vgl. { "1.29" }; gereproduceerd tot < { "0.05" } ns). De samengestelde mogelijkheid voor tijdoverdracht blijft eerlijk MODELLED.
+
+seg-882133bf1fcc = <b>Documentatie, diagrammen en figuren vernieuwd</b> naar de live matrix (39/46/4/89): het diagram van de validatieherkomst, de figuur <c1/> (nu uit de matrix gegenereerd met een CI-bewaker tegen afwijking), VALIDATION/PROVENANCE/CAPABILITY/QUANTUM-MODELS/WHEEL_TAGS, de architectuur- en tutorialdocumenten en het totaal in het register op kshana.dev.
+
+seg-a9be3d71a52c = De broncodeboom is opnieuw geformatteerd met de vastgepinde rustfmt (toolchain { "1.93.0" }) — puur stijl, geen gedragswijziging.
+
+seg-4542eb4fabfc = <b>Versiebeheer in gelijke pas.</b> Elk distributieoppervlak (crate, PyPI, npm, MCP-crate + OCI-image, JetBrains-plugin) volgt nu de versies van de engine in gelijke pas, afgedwongen door <c1/> in CI.
+
+seg-792df0cdc8a7 = <b>JetBrains-plugin</b> opnieuw gelicentieerd onder <b>AGPL-3.0-only</b> (de gepubliceerde { "0.1.1" } adverteerde nog Apache-2.0) en leidt zijn Marketplace-versie nu af van de releasetag.
+
+seg-171f5649c90f = <b>Verharding van de robuustheid</b> — <c1/>-aanroepen buiten tests verwijderd of verantwoord; <c2/> afgedwongen op code buiten tests.
+
+seg-0e5abb2fad02 = <b>kshana.dev</b> volledig vernieuwd met bewijs eerst: dominante hero, architectuurdiagrammen en resultaatfiguren, i18n, inklapbare/responsieve secties voor register en standaarden.
+
+seg-05ef9b9f3653 = <b>SP3 precieze efemeride</b> — pas de IGS-correctie voor aardrotatie op de knooppunten toe tijdens interpolatie.
+
+seg-bbd0dc3dd9cb = <b>Afbeeldingen in registers</b> — de README's van PyPI/crates.io/npm gebruiken absolute afbeeldings-URL's; de relatieve afbeeldingspaden van de hoofd-README werden als kapotte afbeeldingen weergegeven op de PyPI-pagina van { "0.21.0" }. Een CI-bewaker (<c1/>) voorkomt de regressie.
+
+seg-6d044971dbc8 = <b>CI</b> — <c1/> + <c2/> groen; stop met compileren tegen echte data die door git wordt genegeerd.
+
+seg-c3c260b7063e = Tests
+
+seg-5dca3defcfe3 = De covariantie van de Kalman-klok blijft PSD en symmetrisch (eigenschapstest, <c1/>).
+
+seg-c861779f04ca = Doc-sync-bewakers: elke openbare string met een validatietelling, de citatiemetadata, de gegenereerde figuur en de afbeeldings-URL's in README's per oppervlak zijn allemaal vastgepind aan hun bron van waarheid.
+
+seg-0540044c92a6 = Deze release voegt twee MODELLED toepassingssuites toe aan de open engine — een <b>demonstrator voor Quantum-Enabled PNT</b> (vertrouwde kwantumtijdoverdracht, GNSS-vrije kwantumnavigatie, kwantumdetectie van fouten/afwijkingen) en een <b>suite voor lunaire / cislunaire PNT</b> (lunaire coördinatentijd, lunaire VLBI, gezamenlijke OD+klok, realisatie van het referentiestelsel, servicevolume, differentiële PNT, export voor interoperabiliteit) — elk uitvoerbaar vanuit één <c1/>, elk met een eerlijk record <c2/> plus een register van representativiteit / hiaten tot vlucht. Ze brengt ook <b>zes nieuwe validaties tegen een externe referentie</b>, waarmee de machinaal gecontroleerde validatiematrix op <b>{ "15" } VALIDATED · { "42" } MODELLED · { "4" } PARTNER</b> komt over zijn { "61" } rijen. De nieuwe toepassingscijfers zijn MODELLED uit illustratieve parameters uit openbare bronnen — geen TRL, geen vluchterfgoed, geen certificering of goedkeuring door een ruimtevaartagentschap — en de getoetste kernels die ze hergebruiken zijn als zodanig gelabeld.
+
+seg-82a1822f53e2 = <b>Demonstratorsuite voor Quantum-Enabled PNT</b> (<c1/>, <c2/>, <c3/>). Drie uitvoerbare MODELLED toepassingsgebieden achter de engine, die elk <c4/> uitgeven plus een record van representativiteit / hiaten tot vlucht:
+
+seg-07532f03a1f1 = <b>Vertrouwde kwantumtijdoverdracht</b> (<c1/>) — een budget voor optische-roosterklok + fotonische link versus CSAC + RF-tweewegverbinding, dat het beschermingsniveau voor tijdsynchronisatie hergebruikt, met een beveiligingskwaliteitsmaat voor vertragings-/replay-aanvallen ({ "1" } − P_md) en detectie van klokafwijkingen + CUSUM-latentie.
+
+seg-4c9036cffe1b = <b>GNSS-vrije kwantumnavigatie</b> (<c1/>) — een inertiale coast met koude-atoominterferometer versus een INS van navigatiekwaliteit over een GNSS-uitval, eerlijk over het feit dat de bias van de versnellingsmeter zonder externe positiebepaling niet waarneembaar blijft, zodat de fout nog steeds groeit.
+
+seg-6188f1c6893a = <b>Kwantumdetectie van fouten / afwijkingen</b> (<c1/>) — een gelabelde foutencatalogus met een ROC AUC met bootstrap-betrouwbaarheidsinterval en een minimaal detecteerbare fout bij een vaste kans op vals alarm.
+
+seg-9e22314b1337 = Een gedeelde bibliotheek met foutmodellen van kwantumapparaten (<c1/>) en een uniform harnas voor de afweging kwantum-versus-klassiek (<c2/>) ondersteunen alle drie.
+
+seg-808e20f28556 = <b>Suite voor lunaire / cislunaire PNT.</b> Zeven uitvoerbare MODELLED <c1/>-soorten, gelaagd op de CR3BP-kern: <b>Lunar Coordinate Time</b> (seculiere snelheid LTC/TCL − TT, <c2/>), geodetische <b>lunaire VLBI</b>-vertragingsobservabele (<c3/>), <b>gezamenlijke multitechniek-OD + klok</b>-batchschatter (<c4/>), <b>realisatie van het referentiestelsel</b> (Helmert met 7 parameters + IAU { "2015" } WGCCRE-koppeling, <c5/>), analyse van het <b>servicevolume van het type Moonlight / LCNS</b> (<c6/>), <b>lunaire differentiële PNT</b> (<c7/>) en een <b>export voor interoperabiliteit, afgestemd op LunaNet / IOAG</b> (CCSDS-OEM + lunaire tijdschaal in de KIF-envelop, <c8/>). Alles MODELLED uit illustratieve parameters uit openbare bronnen; niet getoetst aan echte VLBI- of Gateway-tracking; geen verbondenheid met of goedkeuring door een ruimtevaartagentschap.
+
+seg-a892ce052e3c = <b>Zes nieuwe validaties tegen een externe referentie</b> (de validatiematrix staat nu op { "15" } getoetst):
+
+seg-c30ae6767c6c = <b>ADEV / HDEV op een echte 5071A-caesiumklok</b> — getoetst aan decadepuntreferenties van Stable32 (<c1/>).
+
+seg-dd0e2be52340 = <b>OADEV / MDEV / TDEV op de Stable32-referentie <c1/></b> — getoetst aan de gepubliceerde tabellen van Stable32 (<c2/>).
+
+seg-e8728f57effa = <b>ROC AUC voor detectie van afwijkingen op echte telemetrie van ESA OPS-SAT</b> — getoetst aan scikit-learn (<c1/>).
+
+seg-5446957ac631 = <b>Synthese van ICGEM-zwaartekrachtfunctionalen</b> — getoetst aan de GRS80-normaalzwaartekrachtstandaard (Somigliana γ tot { "3.5e-12" }; verstoringskaart van EGM2008, <c1/>).
+
+seg-751c5ac90229 = <b>Klobuchar-ionosfeermodel uit de broadcast</b> — getoetst aan RTKLIB (<c1/>).
+
+seg-dcc6d4e04a5c = <b>RAIM-detectiekernel</b> ({ "171" } gevallen, <c1/>) en het <b>SBAS DO-229E-beschermingsniveau</b> op echte EGNOS-data (RTKLIB SBAS-PL-fork, <c2/>) — beide getoetst aan hun externe referenties.
+
+seg-3f6c1ff0b3a4 = <b>Register van representativiteit en hiaten tot vlucht</b> (<c1/>). Een gestructureerd record dat elke demonstrator uitgeeft — wat representatief is, wat vereenvoudigd is en wat er tussen het model en de vlucht staat — de eerlijke metgezel van elke MODELLED afweging.
+
+seg-6b4c78bdaf35 = <b>Studie-aggregatie en ergonomie van de CLI.</b> Een manifest van een scenariosuite met studie-aggregatie in één opdracht, hash-stabiele studiemetadata + <c1/>, linting van scenario's met <c2/>, en weergave van het validatieniveau per kwaliteitsmaat in studierapporten.
+
+seg-e24230b80a89 = <b>kshana.dev opnieuw ontworpen rond een gedeelde domeinruggengraat</b> — mogelijkheden en validatie samengevoegd in één domeinverkenner met een gemeenschappelijk vocabulaire, de nieuwe getoetste eilanden zichtbaar gemaakt, een landnauwkeurig geanimeerd Aardeinstrument en een CTA om een studie aan te vragen, en de branding/links van Ashforde OÜ.
+
+seg-79b5ea5d1dd7 = <b>README + ARCHITECTURE gecontroleerd op volledigheid en eerlijkheid</b> — verouderde tellingen van getoetste items gecorrigeerd (nu { "15" } externe referenties), de diagrammen uitgebreid, en de preprints over het Conditional Timing Protection Level (arXiv:{ "2606.24210" }) en de optimismekloof bij RF-verstoringen (arXiv:{ "2606.22054" }) geciteerd.
+
+seg-42a317c6ce06 = De bronnen in <c1/> en de pijplijn voor het JOSS-concept worden bewaard in de openbare repo.
+
+seg-8ed5cf845b00 = Deze release voegt vier studiemogelijkheden toe aan de open engine — een voorwaardelijk Timing Protection Level, op raamwerken afgestemde scoring van PNT-veerkracht, een evaluatie van de optimismekloof bij RF-verstoringen en een front-end voor software-defined receivers / echte data — elk reproduceerbaar vanuit één opdracht en schrijvend naar een byte-deterministisch artefact. Alle studies zijn MODELLED (synthetische of kalibratie met een openbare dataset), dragen hun eerlijke herkomst (engineversie, seeds, confighash) en validatielabels, en zijn geen certificeringen.
+
+seg-0c9f0c665491 = <b>Voorwaardelijk Timing Protection Level (<c1/>).</b> Een door holdover beperkte grens op de niet-gedetecteerde tijdsfout bij GNSS-spoofing, met een monitorondergrens van k sigma, een coastvariantie van van Loan over de detectielatentie en een CUSUM-tijd tot alarm. Gekalibreerd op een echte vastgelegde aanval (JammerTest { "2024" }, scenario { "2.1.1" }) via <c2/>, die zijn referentietabel reproduceert uit scalairen die zijn teruggewonnen uit de openbare opname (de ruwe dataset wordt niet herverspreid).
+
+seg-d874d7f13f28 = <b>Op raamwerken afgestemde scoring van PNT-veerkracht + studie naar beslissingsinstabiliteit (<c1/>).</b> Architectuurmodel, scoring afgestemd op RPCF, Dirichlet-gewichtensimplex, Kendall-tau en top-1-flipfrequentie als instabiliteit, en instorting van diversiteit in gemeenschappelijke modus (Hill-N2), met <c2/>. Crosswalk in <a1><c3/></a1>.
+
+seg-343f7af54503 = <b>Studie naar de optimismekloof bij RF-verstoringen (<c1/>, <c2/>, <c3/>).</b> Een panel van 13 detectoren over een synthetisch corpus met gegronde parameters, een optimismekloof tussen in- en out-of-distribution, schaalwettrends met een permutatienul, en een leave-one-out-voorspeller van degradatie, via <c4/>.
+
+seg-6eed55859bbf = <b>Front-end voor software-defined receivers (<c1/>) en adapters voor echte data (<c2/>).</b> Ruwe IQ/IF tot correlatortaps en SQM, plus inleesadapters (RINEX, u-blox UBX, GnssLogger, JammerTest, Yunnan, SatGrid) en probe-voorbeelden. Deze lezen opnames die de gebruiker lokaal aanlevert; er worden geen opnames gecommit.
+
+seg-afe2282fa771 = <b>Gecommitte studie-artefacten.</b> De byte-deterministische <c1/> en <c2/> worden nu bijgehouden onder <c3/> zodat de studiegetallen kunnen worden gecontroleerd zonder opnieuw te bouwen; ze blijven regenereerbaar uit de generatoren hierboven. Ruwe datasets blijven buiten de repo (<c4/>).
+
+seg-450d82cddc28 = Versie verhoogd naar { "0.20.0" } in <c1/>, <c2/> en <c3/>; de artefacten van de crossover-studie zijn opnieuw gegenereerd zodat hun stempel overeenkomt met de uitgebrachte versie.
+
+seg-a0a66af8fd14 = <b>Opnieuw gelicentieerd van Apache-2.0 naar de GNU AGPL-3.0-only, met een commerciële licentie beschikbaar bij Ashforde OÜ (dual-licensing).</b> De open engine blijft volledig open en openbaar verifieerbaar; de netwerk-copyleft van de AGPL (§{ "13" }) betekent dat een gesloten of gehoste afgeleide terug moet naar open source — of een commerciële licentie moet nemen. Dit beschermt de getoetste kern tegen fork-and-close en behoudt tegelijk de geloofwaardigheid van een openbare, uitvoerbare, controleerbare engine. Zie <a1><c1/></a1> (AGPL) en het nieuwe <a2><c2/></a2> (wat elke licentie dekt en wanneer ze van toepassing is).
+
+seg-ffa799fdb814 = <c1/> bevat nu de AGPL-3.0-tekst; SPDX-headers in alle bronnen bijgewerkt naar <c2/>; <c3/>, <c4/>, <c5/>, <c6/>, de website en de metadata van crate/pakket (<c7/>, <c8/>, <c9/>, de MCP-crate + image) dienovereenkomstig bijgewerkt.
+
+seg-8d67aba2af0b = <b>Bijdragevoorwaarden</b> (<a1><c1/></a1>) licentiëren inkomende bijdragen nu onder de AGPL <b>en</b> verlenen Ashforde OÜ het recht bijdragen op te nemen in de commercieel gelicentieerde editie, zodat de dual-licentie blijft werken.
+
+seg-93644d1c1420 = <b>Afhankelijkhedenbeleid ongewijzigd maar opnieuw verantwoord</b> (<a1><c1/></a1>, <c2/>): afhankelijkheden blijven permissief (Apache/MIT/BSD/ISC). AGPL is alleen toegestaan voor de eigen crate van kshana — een copyleft-<em>afhankelijkheid</em> zou de commerciële editie besmetten en dual-licensing breken.
+
+seg-9b77c2d36241 = <b>Let op voor downstream:</b> dit is een copyleft-herlicentiëring. Gebruikers die op de permissieve voorwaarden van Apache-2.0 vertrouwden, kunnen de laatste Apache-2.0-release blijven gebruiken (<c1/> en eerder, zoals gepubliceerd); vanaf <c2/> is het AGPL-3.0 / commercieel.
+
+seg-51e32f15b7ea = <b><c1/> verhoogd van { "0.24" } → { "0.29" }</b> om RUSTSEC-2026-0176 / RUSTSEC-2026-0177 (GHSA-36hh-v3qg-5jq4 / GHSA-chgr-c6px-7xpp) uit externe OSV-/afhankelijkheidsscans te halen. Beide zijn <em>advisories op functieniveau</em> waarvan de getroffen functies (<c2/>/<c3/>, <c4/>) door Kshana nooit worden aangeroepen, en <c5/> is een optionele afhankelijkheid (feature <c6/>) — dus de werkelijke blootstelling was nul — maar de verhoging houdt de scan schoon voor downstream-auditors. <c7/> gemigreerd naar de pyo3-{ "0.29" }-API (Bound-retourtype voor <c8/>; expliciete <c9/> op de pyclass <c10/>). Alle { "11" } tests van de Python-binding slagen tegen de opnieuw gebouwde extensie.
+
+seg-8d9332df5c74 = <b>Elf nieuwe uitvoerbare scenariosoorten — demonstrators met twee tenders, een CCSDS-interoperabiliteitsbrug en een suite voor missieanalyse / omgeving van de eerste orde (alle MODELLED, additief; bestaande reproduceerbaarheids-goldens ongewijzigd).</b> Elk is via CLI / Python / WASM / MCP te dispatchen, levert een <c1/> mee en draagt een expliciet label MODELLED in zijn resultaat-JSON en samenvattingsregel (een test per soort in <c2/> stelt vast dat het label aanwezig is en dat de uitvoer nooit de string <c3/> bevat):
+
+seg-20b74caf58cc = <c1/> (<c2/>) — Testbank voor de evaluatie van detectie van RF-verstoringen met machine learning: een gelabeld <b>synthetisch</b> corpus + een detectoronafhankelijk <b>ROC/AUC</b>-harnas + een rapport over de <b>optimismekloof</b> tussen in- en out-of-distribution (alleen operationele kenmerken — nooit veld-/IQ-data).
+
+seg-0253656a0ecf = <c1/> (<c2/>) — PNT-afweging kwantum-versus-klassiek met inlezen van gemeten ADEV en een veerkrachtenvelop voor GNSS-geweigerde omstandigheden.
+
+seg-901bd713bd62 = <c1/> (<c2/>) — zonne-/geomagnetische indices (Kp↔ap IAGA-tabel, dagelijkse Ap, gecentreerde F10.7a over 81 dagen), exosferische temperatuur volgens <b>Jacchia-71</b> en een door activiteit aangestuurde koppeling van de thermosferische dichtheid over een statische atmosfeer (GEEN absoluut dichtheidsmodel van NRLMSISE).
+
+seg-2323b43c0ffc = <c1/> (<c2/>) — <b>CCSDS { "502.0" } OEM</b>-import + round-trip-brug voor efemeriden van GMAT / Orekit / STK (de lezer <c3/>, exacte inverse van de schrijver).
+
+seg-188aeb3e8219 = <c1/> (<c2/>) — <b>lanceerazimut</b> voor twee lichamen (<c3/>), Δv voor vlakwijziging, bonus van de rotatie van de locatie en geometrie van dagelijkse kansen.
+
+seg-6200a47276e6 = <c1/> (<c2/>) — ballistische re-entrycorridor volgens <b>Allen-Eggers</b>: piekvertraging, snelheden bij piek-g en piekverhitting, hoogte bij piek-g.
+
+seg-0874c2241748 = <c1/> (<c2/>) — EO-geometrie voor <b>zwad / GSD / toegang / revisit</b> (SMAD-ruimtedriehoek).
+
+seg-83c7588ff074 = <c1/> (<c2/>) — <b>CCSDS 133.0-B Space Packet</b> primary-header coderen/decoderen met bitexacte round-trip.
+
+seg-ae1bcad02880 = <c1/> (<c2/>) — 3-DOF <b>zwaartekrachtgradiëntkoppel</b> + <b>RSS-budget voor wijzfout</b> (scalair budget vóór hardware, geen regellus).
+
+seg-65f59cc12e02 = <c1/> (<c2/>) — <b>voorspelling van op-/ondergangspassages</b> voor grondstations (AOS/TCA/LOS, maximale elevatie, toegang).
+
+seg-178776497627 = <c1/> (<c2/>) — <b>CCSDS-401 / DSN-810-005</b>-linkvergelijking in één richting (<c3/>, FSPL / Eb·N₀ / marge / sluiting).
+
+seg-e7fee32a00f5 = <b>Hybride kwantum + klassieke strak gekoppelde UKF met 17 toestanden — als uitvoerbaar scenario beschikbaar gemaakt (MODELLED).</b> Een nieuwe scenariosoort <c1/> (<c2/>, <c3/>) die het eerder alleen via de API beschikbare strak gekoppelde GNSS/INS-unscented-filter met 17 toestanden (<c4/>) verandert in een scenario dat de bindings voor CLI/Python/WASM/MCP kunnen dispatchen. De foutvector met 17 toestanden bestaat uit de <b>{ "15" } INS-foutstatussen</b> (positie, snelheid, standsfout, bias van versnellingsmeter + gyro), aangevuld met de <b>door CAI afgeleide correctie van de bias van de versnellingsmeter</b> — de koude-atoominterferometer (<c5/>) bepaalt de ondergrens van de snelheidsrandomwalk <c6/>, dus de langetermijndrift van de coast is die welke door de kwantumsensor wordt begrensd — en een <b>klok met 2 toestanden voor fase + frequentie</b> waarvan de procesruis komt uit de <b>q-parameter-klokengine</b> (<c7/>, die het Allan-deviatieprofiel van een klok afbeeldt op de PSD's <c8/>/<c9/>, geschaald naar afstandseenheden). Het platform wordt voor een aanloop door GNSS ondersteund (het filter leert de biassen, snelheid en klok), en coast dan door een GNSS-uitval op alleen de CAI-IMU + klok, dus de run toont <b>klassieke-IMU op korte termijn + kwantum op lange termijn</b> als hybridisering. De kwaliteitsmaat is de <b>zelfconsistentie van het filter</b>: gepoolde <b>NEES</b> (Normalised Estimation Error Squared, over de schatbare deelverzameling van positie/snelheid/klok) en <b>innovatie-witheid NIS</b> (Normalised Innovation Squared) over een Monte-Carlo-ensemble, gecontroleerd tegen hun χ²-banden van { "95" }% (Bar-Shalom §{ "5.4" }). Het afgestemde filter komt binnen de banden uit; een opzettelijk verkeerd afgesteld filter (de knoppen <c10/> / <c11/>) wordt gemarkeerd — een objectief controleerbare, onderscheidende poort, geen stempel zonder inhoud. <b>De controle op NEES/innovatie-witheid is de STATISTISCHE REFERENTIE: een uitspraak over zelfconsistentie (de gerapporteerde covariantie van het filter komt eerlijk overeen met de spreiding van zijn eigen fouten onder de gemodelleerde ruis), GEEN garantie voor nauwkeurigheid in de praktijk.</b> Eerlijke reikwijdte: alles is <b>gemodelleerd / simulatie</b> — de CAI- en klokinvoer zijn begrensde, representatieve waarden uit de literatuur, geen gemeten hardware; de CAI-hardware en de bijbehorende Key-Person blijven in handen van de partner; niets hier impliceert TRL > { "3" }, vluchterfgoed of externe validatie (de resultaat-JSON en de samenvattingsregel dragen deze labels expliciet). Het enkele traject met constante snelheid op gelijke hoogte laat de toestanden van stand en IMU-bias slechts zwak waarneembaar, dus NEES wordt beoordeeld over de { "8" } schatbare toestanden; een manoeuvrerend traject voor volledige waarneembaarheid van alle 17 staat op de roadmap. Voegt ook instrumentatie voor consistentie toe met <c12/> (geeft de NIS per update terug) en <c13/>. Alle bestaande scenario's blijven ongemoeid (additief; reproduceerbaarheids-goldens ongewijzigd).
+
+seg-9b55f4ac5053 = <b>Sequentiële (recursieve) navigatie op basis van terreinreferentie — SITAN als lopend filter.</b> Een nieuwe scenariosoort <c1/> (<c2/>, <c3/>) die het bestaande meetmodel van hoogtemeter versus DEM <b>epoch voor epoch</b> door de SIR-engine <c4/> laat lopen, in plaats van de batchmatige grof-naar-fijn-zoekactie die <c5/> gebruikt om één <em>constante</em> INS-offset te herstellen. Bij elk waypoint wordt de wolk voortgeplant met de door de INS gerapporteerde toename (zelf bedorven door de groei van de drift per stap), opnieuw gewogen met de terreinovereenkomst en bij degeneratie opnieuw gesampled — zodat een <b>in de tijd variërende</b> INS-drift langs het spoor wordt <em>gevolgd</em>, wat een fit met een constante offset structureel niet kan. Op de synthetische DEM blijft de recursieve schatting begrensd en convergeert opnieuw (eindwaarde ≈ { "70" } m) terwijl de oplossing met alleen inertiaal onbegrensd divergeert tot ≈ { "5" } km; de fout per epoch volgt de onderscheidendheid van het terrein (ze coast op de beïnvloede INS over vlakke zadels en vergrendelt opnieuw boven onderscheidend reliëf), en de monitor van de effectieve steekproefgrootte bevestigt een gezonde wolk. Eerlijke reikwijdte: de kaart is <b>bekend en vast</b> — recursieve <em>lokalisatie</em> tegen een opgeslagen DEM (de lokalisatiehelft van terrein-SLAM), geen gezamenlijke kaartschatting; van nature niet-circulair (de ingevoerde driftramp is de onafhankelijke referentie). Alle bestaande scenario's blijven ongemoeid (additief; reproduceerbaarheids-goldens ongewijzigd).
+
+seg-87ba3bc926fa = <b>Ruggengraat voor GNSS-geweigerde veerkracht + demonstratorsneden voor FutureNAV</b> (<c1/>, en fundamenten voor veerkrachtenveloppen onder <c2/>, <c3/>, <c4/>, <c5/>, met FutureNAV-verificatiesneden in <c6/>). Voegt de bouwstenen voor alternatieve PNT — klok-holdover, signaaltracking, inertiale coast, terrein — samen tot één verhaal over veerkracht bij GNSS-uitval. MODELLED; additief.
+
+seg-071bb6654f24 = <b>Kshana Interchange Format (KIF) — een geversioneerde, zelfbeschrijvende artefactenvelop</b> (<c1/>). Een met een schema getagde wrapper rond scenarioresultaten zodat een opgeslagen artefact zijn soort, schemaversie en labels MODELLED/VALIDATED met zich meedraagt, en oudere enveloppen voorwaarts compatibel leesbaar blijven. Additief; bestaande resultaat-JSON ongewijzigd.
+
+seg-07147766ab22 = <b>Modulatie / tracking van navigatiesignalen + CR3BP-differentiële corrector voor halo/NRHO</b> (<c1/>, <c2/>). Een model van de eerste orde voor modulatie en tracking van navigatiesignalen, en een differentiële corrector voor het circulaire beperkte driebodenprobleem voor halobanen / bijna-rechtlijnige halobanen, getoond op de bestaande as voor deep-space-mogelijkheden. MODELLED.
+
+seg-d0d2366e3351 = <b>Evaluatiemodus voor distributieverschuiving + knop voor de ernstschaal van het corpus voor <c1/></b> (<c2/>). Voegt een expliciete splitsing in/out-of-distribution en een instelbare ernstschaal van het corpus toe aan het harnas voor de ROC/AUC-optimismekloof (alleen operationele kenmerken — nooit veld-/IQ-data).
+
+seg-9bb8ee93e70b = <b>ROI van kosten per dekking + koppeling van gemiste detectie aan integriteitsimpact</b> (<c1/>, <c2/>). Een ROI-lens voor frugale engineering (kosten per eenheid dekking) en een koppeling van de frequentie van gemiste detecties aan de impact op integriteit. MODELLED; additief.
+
+seg-55f8ba5b52ee = <b>Geciteerd parameterblad voor het foutmodel van de koude-atoominterferometer (CAI)</b> (<c1/>). Een met literatuur onderbouwd, begrensd parameterblad voor het inertiale CAI-model — de invoer is <b>geciteerd, geen gemeten hardware</b> (geen claim over TRL of vlucht); het voedt de ondergrens van de snelheidsrandomwalk van <c2/>.
+
+seg-cfbff4acc64c = Projectbestuur.
+
+seg-982f9ea3eee8 = <c1/> die het beslismodel en de grens tussen open en gesloten documenteert; de rij voor gemeenschap/bestuur in de mogelijkhedenkaart verschuift <c2/> om dit weer te geven.
+
+seg-c9ff6a7183eb = <b>Beschermingsniveau voor ARAIM-integriteit — nominale bias (<c1/>) en σ_URA nu toegepast.</b> Het MHSS-beschermingsniveau trekt nu per foutmodus de eenzijdige projectie van de nominale bias <c2/> af, en gebruikt de <b>integriteits</b>-sigma σ_URA (onderscheiden van de <b>nauwkeurigheids</b>-sigma σ_URE) die in het Integrity Support Message wordt meegegeven. Dit maakt het beschermingsniveau conservatiever en correct volgens de standaarden, en <b>wijzigt daarom de PL-waarden die bestaande integriteitsscenario's rapporteren</b>. Het ISM/scenario krijgt de velden <c3/> <c4/> / <c5/>, dus invoer die ze ongezet laat behoudt het eerdere gedrag. Zie <c6/> voor de herstelde formule <c7/> en de eerlijke implementatienotitie.
+
+seg-c408f8944ac6 = Consistentie van de χ² van de spoofmonitor.
+
+seg-92e2b5c5458c = <c1/> gebruikt nu het gedeelde pad voor inverse-χ² van <c2/>, waarmee een tweede afwijkende χ²-implementatie verdwijnt zodat RAIM en de pariteitsspoofmonitor het over hun drempels eens zijn.
+
+seg-6d424034e500 = <b><c1/> aangesloten op de dispatcher van de CLI.</b> Het scenario was eerder alleen via de API bereikbaar; het wordt nu gedispatcht als een <c2/> zoals elk ander scenario.
