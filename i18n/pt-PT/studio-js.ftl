@@ -7441,3 +7441,1407 @@ js-replay-every-direction = todas as direções
 js-replay-file-error = { $name }: { $error }
 
 js-replay-kinds-convergence-horizontal = Convergência: erro horizontal mediano
+
+js-replay-kinds-convergence-vertical = Convergência: erro vertical mediano
+
+js-replay-kv-course = Rumo comunicado
+
+js-replay-kv-heading = Proa (giroscópio)
+
+js-replay-kv-position-error = Erro de posição
+
+js-replay-kv-receiver = Recetor
+
+js-replay-kv-run-time = Tempo de execução
+
+js-replay-kv-satellites = Satélites utilizados / à vista
+
+js-replay-kv-sky = Céu
+
+js-replay-legend = Legenda
+
+js-replay-legend-no-fix = sem solução de posição
+
+js-replay-legend-true-track = trajetória real
+
+js-replay-moment = Momento em T+{ $t }:
+
+js-replay-no-coast = Nenhuma costa é desenhada: nenhuma está incluída para esta janela.
+
+js-replay-no-gsv = sem GSV neste registo
+
+js-replay-not-json = { $name }: não é JSON.
+
+js-replay-not-scored = não pontuado
+
+js-replay-obs-not-attributed = não atribuída
+
+js-replay-open-failed = Não foi possível abrir { $id }: { $reason }.
+
+js-replay-open-file = Abrir um ficheiro…
+
+js-replay-opened = { $name } aberto no painel { $n }. Lido aqui; nada foi carregado.
+
+js-replay-opening = A abrir { $id }…
+
+js-replay-pause = Pausar
+
+js-replay-play = Reproduzir
+
+js-replay-read-failed = { $name }: não foi possível ler ou desenhar ({ $reason }).
+
+js-replay-reading = A ler { $name }…
+
+js-replay-reduced-motion = Está preferido o movimento reduzido, pelo que a repetição começa a 1x e não é reproduzida sozinha.
+
+js-replay-run = Execução
+
+js-replay-run-shown = Execução mostrada no painel { $n }
+
+js-replay-saved-svg = Guardado { $name } ({ $size } kB): todos os fotogramas num único ficheiro, desenhados a partir das mesmas linhas que esta página.
+
+js-replay-saved-zip = Guardado { $name } ({ $size } MB): um SVG por fotograma, um manifesto das linhas por trás de cada um e um README.
+
+js-replay-src-instructor = O seu ficheiro { $name }: um registo do instrutor, por si só, não traz pontuação do motor nem céu.
+
+js-replay-src-trust = O seu ficheiro { $name }: um resultado de confiança não traz céu nem proa, pelo que estes não são desenhados.
+
+js-replay-status-ready = { $a } e { $b }: execuções sintéticas, pontuadas pelo motor. Prima Reproduzir ou mova o relógio.
+
+js-replay-status-synthetic = { $titles }: execuções sintéticas, pontuadas pelo motor.
+
+js-replay-status-synthetic-no-coast = { $titles }: execuções sintéticas, pontuadas pelo motor. Linha de costa indisponível.
+
+js-replay-strip-label = Pontuação de confiança ao longo da execução
+
+js-replay-titles-and = { $a } e { $b }
+
+js-replay-too-large = { $name } é maior do que esta página lê.
+
+js-replay-track = Trajetória de { $n } linhas do registo, norte para cima.
+
+js-replay-track-widened = Trajetória de { $n } linhas do registo, norte para cima, alargada para mostrar a costa mais próxima.
+
+js-replay-verdict = Veredicto
+
+js-replay-verdict-degraded = { $dur } degradado, nenhum não fiável
+
+js-replay-verdict-early = Veredicto (antecipado)
+
+js-replay-verdict-fine = Apenas a partir do registo e da pontuação do motor; sintético, consultivo, não um valor de desempenho de deteção.
+
+js-replay-verdict-first = primeiro abaixo do nominal em T+{ $t }
+
+js-replay-verdict-first-after = primeiro abaixo do nominal em T+{ $t }, { $dur } depois de o primeiro evento começar (T+{ $onset })
+
+js-replay-verdict-first-before = primeiro abaixo do nominal em T+{ $t }, antes do início do primeiro evento (T+{ $onset })
+
+js-replay-verdict-lowest = Pontuação de confiança mais baixa { $score } ({ $band }) em T+{ $t }
+
+js-replay-verdict-never-left = a pontuação nunca saiu da banda nominal
+
+js-replay-verdict-no-fix = sem solução de posição durante { $dur }
+
+js-replay-verdict-not-scored = Não pontuado: a pontuação de confiança do motor é mostrada para as execuções da biblioteca
+
+js-replay-verdict-peak-error = maior erro de posição registado { $err } m em T+{ $t }
+
+js-replay-verdict-untrusted = { $dur } na banda não fiável
+
+js-replay-verdict-wait = Mostrado quando esta execução terminar, em T+{ $t }.
+
+js-ssv-altitude-label = Altitude e medições utilizadas
+
+js-ssv-at-least-1 = pelo menos 1 sinal
+
+js-ssv-at-least-4 = pelo menos 4 sinais
+
+js-ssv-avail-label = Disponibilidade, { $band }
+
+js-ssv-bar-title = { $label }, { $name }: { $value }{ $unit }
+
+js-ssv-blurb-formation-heo = Um principal e um adjunto a um quilómetro de distância numa órbita muito elíptica: quão bem o filtro conhece a posição relativa de ambos, face ao que dariam as duas soluções de posição absolutas.
+
+js-ssv-blurb-heo = Uma órbita muito elíptica (apogeu perto de 58 600 km) com uma antena de nadir de ganho elevado, uma antena de patch de zénite e um modelo paramétrico de lóbulos laterais: sinais à vista, melhor C/N0, lóbulo principal face a lóbulo lateral, diluição da precisão e os sinais que rasam a atmosfera.
+
+js-ssv-blurb-lunar-weak = Uma trajetória de transferência lunar com um recetor construído para funcionar com os sinais mais fracos: o que precisa para adquirir e seguir, e que parte da trajetória consegue usar.
+
+js-ssv-blurb-nav-lunar = Um filtro de navegação de bordo numa transferência lunar: o seu erro de posição face ao limite que indica, abaixo e acima das órbitas dos próprios satélites GNSS.
+
+js-ssv-blurb-shell = Uma camada esférica à altitude geoestacionária, amostrada numa grelha: com que frequência um veículo espacial aí ouve pelo menos um, e pelo menos quatro, sinais a 20 dB-Hz, em L1 e L5, para cada constelação e para todas em conjunto?
+
+js-ssv-cn0-altitude-label = Melhor C/N0 e altitude em função do tempo, { $band }
+
+js-ssv-cn0-label = Melhor C/N0, { $band }
+
+js-ssv-cn0-note = Dos sinais à vista, o mais forte em cada época: do menor ao maior ao longo das épocas, com a média assinalada.
+
+js-ssv-cn0-title = Melhor densidade portadora-ruído, { $band }
+
+js-ssv-comparison-failed = Não foi possível mostrar a comparação ({ $reason }).
+
+js-ssv-comparison-not-loaded = o ficheiro de comparação não foi carregado
+
+js-ssv-default-bars = barras
+
+js-ssv-default-chart = gráfico
+
+js-ssv-default-ranges = intervalos
+
+js-ssv-deputies-note = RMS absoluto do principal { $rms } m ao longo de { $epochs } épocas.
+
+js-ssv-deputies-title = Cada adjunto
+
+js-ssv-dop-note = Mediana, percentil 95 e pior PDOP ao longo das épocas com solução de posição e, onde o cenário define uma atmosfera, os sinais que a rasam.
+
+js-ssv-dop-title = Diluição da precisão e atmosfera, { $band }
+
+js-ssv-err-label = Erro de posição face ao limite indicado
+
+js-ssv-err-note = A linha tracejada é o limite de um sigma que o filtro indica; a linha contínua é o seu erro face à referência que o cenário conhece. Decimado pelo motor.
+
+js-ssv-err-title = Erro de posição face ao limite do próprio filtro
+
+js-ssv-fact-antenna = Antena
+
+js-ssv-fact-apogee = Altitude do apogeu
+
+js-ssv-fact-cn0-threshold = Limiar de densidade portadora-ruído
+
+js-ssv-fact-duration = Duração
+
+js-ssv-fact-eccentricity = Excentricidade
+
+js-ssv-fact-grid-points = Pontos da grelha
+
+js-ssv-fact-inclination = Inclinação
+
+js-ssv-fact-mode = Modo
+
+js-ssv-fact-perigee = Altitude do perigeu
+
+js-ssv-fact-period = Período
+
+js-ssv-fact-shell-altitude = Altitude da camada
+
+js-ssv-fact-sma = Semieixo maior
+
+js-ssv-fact-step = Passo
+
+js-ssv-filter = filtro
+
+js-ssv-formation-note = Erro de posição relativa RMS, a partir do filtro e da diferença das duas soluções de posição absolutas, ao longo de toda a execução e acima das órbitas GNSS.
+
+js-ssv-formation-title = Posição relativa dos adjuntos
+
+js-ssv-from-absolute = a partir de duas soluções de posição absolutas
+
+js-ssv-group-combined = todas em conjunto
+
+js-ssv-icg-note = { $label }; os veredictos ao nível do limiar dos ficheiros de resultados registados do motor (commit do motor { $commit }). As tabelas do caderno são públicas; nada aqui é VALIDATED.
+
+js-ssv-icg-wrong-file = o ficheiro de comparação ICG não é o que esta página lê
+
+js-ssv-lobe-note = Quantas das ligações utilizáveis passaram pelo lóbulo principal e quantas por um lóbulo lateral, contadas pelo motor.
+
+js-ssv-lobe-title = Lóbulo principal e lóbulo lateral, { $band }
+
+js-ssv-na = n/d
+
+js-ssv-nav-note = Medições utilizadas e rejeitadas, a maior lacuna com menos de quatro sinais, o erro final e a estimativa da pressão da radiação solar face à referência que o cenário conhece.
+
+js-ssv-nav-title = A execução em números
+
+js-ssv-never = nunca
+
+js-ssv-never-had-four = nunca teve quatro
+
+js-ssv-never-had-one = nunca teve um
+
+js-ssv-no-range = Sem intervalo neste resultado.
+
+js-ssv-no-series = O resultado não traz nenhuma série para este gráfico.
+
+js-ssv-not-in-variant = não faz parte da variante
+
+js-ssv-not-result = isto não é um resultado gnss-ssv
+
+js-ssv-of = { $n } de { $total }
+
+js-ssv-offset = { $deg }° de desvio
+
+js-ssv-open-failed = Não foi possível abrir { $title }: { $reason }.
+
+js-ssv-opening = A abrir { $title }…
+
+js-ssv-outage-note = Em minutos, ao longo da execução. "Nunca" assinala um grupo que nunca teve tantos sinais em qualquer ponto da camada.
+
+js-ssv-outage-title = Maiores interrupções na camada
+
+js-ssv-phases-note = Uma estatística do filtro ao longo da execução e das suas duas partes. Um NEES médio de posição próximo de 3 significa que o limite indicado pelo filtro é consistente com o seu erro.
+
+js-ssv-phases-title = Erro de posição por fase
+
+js-ssv-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+js-ssv-range-title = { $label }: mín. { $min }, média { $mean }, máx. { $max } { $unit }
+
+js-ssv-range-value = { $min } a { $max }
+
+js-ssv-recorded = { $title }: o resultado registado do motor (versão { $version }).
+
+js-ssv-relative-label = Erro de posição relativa
+
+js-ssv-result-not-json = o resultado não é JSON ({ $reason })
+
+js-ssv-result-not-loaded = o resultado registado não foi carregado
+
+js-ssv-row-acquires = Adquire até
+
+js-ssv-row-carrier = Seguimento da portadora até
+
+js-ssv-row-code = Seguimento do código até
+
+js-ssv-row-coherent = Integração coerente
+
+js-ssv-row-delay-mean = Atraso, média
+
+js-ssv-row-detection = Limiar de deteção
+
+js-ssv-row-false-alarm = Probabilidade de falso alarme por célula
+
+js-ssv-row-final-error = Erro de posição final
+
+js-ssv-row-gap = Maior lacuna
+
+js-ssv-row-gated = Medições rejeitadas
+
+js-ssv-row-grazing = Rasante abaixo de 100 km
+
+js-ssv-row-limb-links = Ligações através do limbo
+
+js-ssv-row-loss-mean = Perda, média
+
+js-ssv-row-lost = Perdidos para a atmosfera
+
+js-ssv-row-pdop-median = PDOP, mediana
+
+js-ssv-row-pdop-p95 = PDOP, percentil 95
+
+js-ssv-row-pdop-worst = PDOP, pior
+
+js-ssv-row-plasma-mean = TEC plasmasférico, média
+
+js-ssv-row-search-cells = Células de pesquisa
+
+js-ssv-row-search-time = Tempo de pesquisa
+
+js-ssv-row-srp-est = Pressão da radiação solar, estimada
+
+js-ssv-row-srp-truth = Pressão da radiação solar, referência
+
+js-ssv-row-stec-mean = TEC oblíquo, média
+
+js-ssv-row-tangent = Altura tangente, mín. a máx.
+
+js-ssv-row-tracking = Limiar de seguimento utilizado
+
+js-ssv-row-used = Medições utilizadas
+
+js-ssv-series-altitude = altitude/1000
+
+js-ssv-series-altitude-name = altitude
+
+js-ssv-series-best-cn0 = melhor C/N0
+
+js-ssv-series-error = erro
+
+js-ssv-series-measurements = medições
+
+js-ssv-series-note = Uma série decimada da contagem combinada de todas as constelações. O motor não escreve nenhuma série por constelação, pelo que nenhuma é desenhada.
+
+js-ssv-series-signals = sinais à vista
+
+js-ssv-series-signals-label = Sinais à vista em função do tempo, { $band }
+
+js-ssv-series-stated-bound = limite indicado
+
+js-ssv-series-title = Sinais e melhor C/N0 ao longo da órbita, { $band }
+
+js-ssv-shell-avail-note = Proporção de pontos da grelha e instantes com pelo menos um e pelo menos quatro sinais acima de { $cn0 } dB-Hz.
+
+js-ssv-shell-avail-title = Disponibilidade na camada, { $band }
+
+js-ssv-tangent-value = { $min } a { $max } km
+
+js-ssv-th-above-absolute = Acima do GNSS: a partir do absoluto, m
+
+js-ssv-th-above-filter = Acima do GNSS: filtro, m
+
+js-ssv-th-band-group = Banda e grupo
+
+js-ssv-th-bar = Limiar
+
+js-ssv-th-baseline = Linha de base, km
+
+js-ssv-th-common-4 = Épocas com 4 sinais comuns
+
+js-ssv-th-common-mean = Média de sinais comuns
+
+js-ssv-th-compares = O que compara
+
+js-ssv-th-deputy = Adjunto
+
+js-ssv-th-epochs = Épocas
+
+js-ssv-th-group = Grupo
+
+js-ssv-th-main-lobe = Ligações do lóbulo principal
+
+js-ssv-th-nees = NEES médio de posição
+
+js-ssv-th-phase = Fase
+
+js-ssv-th-pos-p95 = Posição, percentil 95, m
+
+js-ssv-th-pos-rms = Posição RMS, m
+
+js-ssv-th-quantity = Grandeza
+
+js-ssv-th-rel-absolute = RMS relativo, a partir do absoluto, m
+
+js-ssv-th-rel-filter = RMS relativo, filtro, m
+
+js-ssv-th-rel-vel = RMS relativo da velocidade, m/s
+
+js-ssv-th-run1-cells = Execução 1: células dentro da tolerância
+
+js-ssv-th-run1-verdict = Veredicto da execução 1
+
+js-ssv-th-sidelobe = Ligações de lóbulo lateral
+
+js-ssv-th-sidelobe-share = Proporção de lóbulo lateral
+
+js-ssv-th-value = Valor
+
+js-ssv-th-variant = Variante (diagnóstico, ângulos de referência GLONASS da tabela 4.2)
+
+js-ssv-th-vel-rms = Velocidade RMS, m/s
+
+js-ssv-th-with-4 = Com 4 ou mais sinais
+
+js-ssv-th-without-1 = Maior período sem 1 sinal
+
+js-ssv-th-without-4 = Maior período sem 4 sinais
+
+js-ssv-title-formation-heo = Formação, órbita muito elíptica
+
+js-ssv-title-heo = Órbita muito elíptica
+
+js-ssv-title-lunar-weak = Transferência lunar, recetor de sinais fracos
+
+js-ssv-title-nav-lunar = Filtro de bordo, transferência lunar
+
+js-ssv-title-shell = Camada a 36 000 km
+
+js-ssv-traj-avail-note = Proporção das épocas com pelo menos um e pelo menos quatro sinais acima de { $cn0 } dB-Hz.
+
+js-ssv-traj-avail-title = Disponibilidade ao longo da trajetória, { $band }
+
+js-ssv-transmit-pattern = Diagrama de transmissão: { $pattern }
+
+js-ssv-unit-signals = sinais
+
+js-ssv-unknown-mode = este resultado gnss-ssv tem o modo "{ $mode }", que esta página não lê
+
+js-ssv-variant-met = { $n } de { $total }, seria atingido
+
+js-ssv-variant-not-met = { $n } de { $total }, ainda não atingido
+
+js-ssv-view-note = Do menor ao maior número à vista ao longo das épocas, com a média assinalada.
+
+js-ssv-view-title = Sinais à vista, { $band }
+
+js-ssv-weak-note = O que o projeto do recetor exige, tal como o motor o calcula a partir da integração indicada.
+
+js-ssv-weak-title = O recetor de sinais fracos
+
+js-ssv-x-minutes = minutos
+
+js-ssv-y-altitude-measurements = altitude, milhares de km; medições utilizadas
+
+js-ssv-y-cn0-altitude = dB-Hz; altitude em milhares de km
+
+js-ssv-y-position-log = posição, metros (log)
+
+js-ssv-y-signals-all = sinais à vista, todas as constelações
+
+js-t35data-ai-q-bench-export = Exportar o movimento e os eventos de um cenário para um simulador de laboratório
+
+js-t35data-ai-q-compliance-rows = Estas execuções fornecem elementos de prova em apoio de que linhas de enquadramentos públicos?
+
+js-t35data-ai-q-evidence-pack = Verificar ou criar um pacote de evidências de um evento de confiança
+
+js-t35data-ai-q-interference-route = Onde é que o GNSS pareceu degradado e que parte deste percurso está nessa zona?
+
+js-t35data-ai-q-iq-recordings = Gravações IQ de GNSS (cena, aquisição, seguimento, front end, campanhas)
+
+js-t35data-ai-q-osnma-satellites = Os dados de navegação de que satélites Galileo é que este fluxo do recetor autentica (OSNMA)?
+
+js-t35data-ai-q-run-scenario = Executar ou explicar um cenário PNT (órbitas, GNSS, temporização, fusão, lunar)
+
+js-t35data-ai-q-training-nmea = Preciso de NMEA sintético com um evento de jamming, arrastamento, spoofing de tempo ou repetição para treino
+
+js-t35data-ai-q-trustworthy-log = Este registo do recetor, ou o NMEA desta embarcação, era digno de confiança e quando deixou de ser?
+
+js-t35data-ai-tool-osnma-satellites = nenhuma no MCP: use osnma_verify (o cartão OSNMA aqui, WebAssembly), kshana osnma verify (CLI) ou kshana.osnma_verify (Python)
+
+js-t35data-card-evidence-create-title = Criar um pacote de evidências
+
+js-t35data-card-evidence-create-what = Assina uma janela de um registo do recetor e aquilo que o motor calculou a partir dela, para que qualquer pessoa possa verificar que nada foi alterado depois. O Studio verifica pacotes.
+
+js-t35data-card-evidence-create-why = A assinatura exige uma chave privada, que não deve passar por uma página web.
+
+js-t35data-card-iq-title = Monitores e ferramentas de IQ GNSS
+
+js-t35data-card-iq-what = Construir uma cena, adquirir e seguir sinais, varrer parâmetros, modelar um front end, executar monitores e campanhas IQ, ajustar um registo de laboratório. Também disponível a partir de Python e, dentro de uma pasta de trabalho, a partir das ferramentas do assistente de IA.
+
+js-t35data-card-iq-why = Uma gravação tem gigabytes de amostras. Uma página não a consegue conter, e os comandos que convertem, extraem e decimam reescrevem gravações em disco.
+
+js-t35data-card-land-title = Descarregamento de polígonos de terra para o detetor de AIS em terra
+
+js-t35data-card-land-what = Obtém um único ficheiro de terra fixado (Natural Earth, domínio público) e verifica o seu SHA-256. O construtor de mapas recebe o ficheiro de terra como texto.
+
+js-t35data-card-land-why = É o único comando que abre uma ligação de rede e precisa do curl do sistema e de uma opção explícita.
+
+js-t35data-card-marine-title = Integrações marítimas
+
+js-t35data-card-marine-what = Um plugin de servidor Signal K e o OpenCPN, através de NMEA em modo gate sobre TCP, colocam a pontuação de confiança em software que os navegadores de recreio já utilizam; uma compilação de referência coloca-a num pequeno computador junto ao recetor.
+
+js-t35data-card-marine-why = São consumidores do processo em direto em execução e da sua gate TCP: instalações no computador de bordo do barco.
+
+js-t35data-card-telemetry-title = Confiança como telemetria de segurança
+
+js-t35data-card-telemetry-what = Transforma o fluxo de confiança (pontuação, banda, motivos) em métricas Prometheus, eventos syslog em CEF ou LEEF para um SIEM e OpenTelemetry. Lê o fluxo e nunca altera a avaliação.
+
+js-t35data-card-telemetry-why = É um processo que serve métricas e envia para os seus sistemas de monitorização, pelo que funciona junto ao recetor, não numa página.
+
+js-t35data-card-training-stream-title = Fluxos de treino para um endereço TCP ou UDP
+
+js-t35data-card-training-stream-what = Envia um fluxo de treino gerado para um simulador de ponte ou um plotter cartográfico em tempo real ou mais depressa. A página de treino do Studio gera o mesmo texto e permite descarregá-lo.
+
+js-t35data-card-training-stream-why = Enviar para um endereço de rede é algo que uma página de navegador não faz. O fluxo é apenas texto e nunca se destina aos sistemas de navegação em direto de uma embarcação.
+
+js-t35data-feat-ai-ai = Opções de instalação do servidor MCP, com as perguntas a que cada ferramenta responde
+
+js-t35data-feat-ai-name = Utilizar a partir de um assistente de IA (servidor MCP)
+
+js-t35data-feat-bench-bench = Exporte aqui o movimento, o NMEA, os pontos de passagem e os eventos de um cenário
+
+js-t35data-feat-bench-name = Exportação test-bench para um simulador de laboratório
+
+js-t35data-feat-compliance-compliance = Veja em apoio de que linhas do enquadramento as suas execuções fornecem elementos de prova, e as tabelas de mapeamento, aqui
+
+js-t35data-feat-compliance-name = Mapeamento de compliance para referenciais públicos de resiliência
+
+js-t35data-feat-evidence-evidence = Verifique aqui um pacote e anexe um token de marca temporal
+
+js-t35data-feat-evidence-name = Pacotes de evidências assinados
+
+js-t35data-feat-evidence-why = Criar um pacote exige uma chave de assinatura privada, que não deve passar por uma página web. Os pacotes são criados com a linha de comandos, Python ou as ferramentas do assistente de IA.
+
+js-t35data-feat-interference-map-interference = Abra ficheiros de mapa, ou construa aqui um mapa a partir de CSV, e verifique um percurso face a ele
+
+js-t35data-feat-interference-map-name = Mapa de interferência (ADS-B e AIS) e exposição do percurso
+
+js-t35data-feat-iq-name = Monitores e ferramentas de IQ GNSS (cena, aquisição, seguimento, varrimento, front end, monitor, campanhas)
+
+js-t35data-feat-iq-why = Uma gravação tem gigabytes de amostras, que uma página não consegue conter, e alguns comandos reescrevem gravações em disco. A versão para navegador não tem funções de IQ.
+
+js-t35data-feat-jammertest-jammertest = Importe o plano para o intervalo de tempo de um registo, ou pontue um registo de recetor (UBX, RINEX, Android, NMEA ou Septentrio SBF) por ensaio: latência de deteção, não detetadas, falsos alarmes, tempo de recuperação; MODELLED
+
+js-t35data-feat-jammertest-name = Jammertest como árbitro: o plano de ensaio publicado como referência agendada, um registo de recetor pontuado face a ele (0.38)
+
+js-t35data-feat-live-gate-name = Fluxo de confiança em direto, gate e ouvinte (stdin, ficheiro, TCP, UDP, --gate, --listen)
+
+js-t35data-feat-live-gate-why = É um processo em execução no caminho dos dados. Uma página termina quando acaba e não consegue manter um socket aberto para um plotter cartográfico, nem marcar uma solução de posição como inválida num fluxo em direto. O Studio pontua antes um excerto delimitado, no mesmo formato em direto, sem gate.
+
+js-t35data-feat-machines-imufit = Ajuste os parâmetros de acelerómetro e giroscópio dos cenários híbridos e de fusão a partir de um registo de IMU estacionária; MODELLED
+
+js-t35data-feat-machines-name = Entradas de recetor e sensor: RTKLIB .pos, NovAtel OEM7, RTCM 3 MSM, GNSS-SDR, uma IMU para a proa e um ajuste de IMU para os cenários híbridos e de fusão (0.38)
+
+js-t35data-feat-machines-trust = Abra um registo em qualquer destes formatos (e um ficheiro de IMU opcional) na execução genérica de confiança do recetor; o indicador de jammer do próprio NovAtel é comparado com os alarmes do Kshana
+
+js-t35data-feat-marine-name = Integrações marítimas: plugin Signal K e OpenCPN
+
+js-t35data-feat-marine-why = Consomem o processo em direto em execução e a sua gate TCP, pelo que são instalações num computador de bordo, não algo que uma página possa executar.
+
+js-t35data-feat-maritime-trust-name = Pontuação de confiança marítima para uma embarcação em movimento (0 a 100, com motivos)
+
+js-t35data-feat-maritime-trust-trust = Abra um resultado ou uma execução JSON-lines em direto e veja a trajetória, a pontuação, os motivos e a gate; pontue aqui um registo NMEA
+
+js-t35data-feat-nmea-training-name = Fluxos NMEA de treino com um registo do instrutor
+
+js-t35data-feat-nmea-training-training = Gere aqui um fluxo e o seu registo do instrutor, descarregue-os e execute a análise do treino
+
+js-t35data-feat-osnma-name = Verificação Galileo OSNMA (entrada UBX SFRBX)
+
+js-t35data-feat-osnma-osnma = Carregue um ficheiro gravado e veja o estado de autenticação por satélite e por etiqueta
+
+js-t35data-feat-telemetry-name = Exportação de telemetria: métricas Prometheus, syslog CEF e LEEF, OpenTelemetry
+
+js-t35data-feat-telemetry-why = Serve métricas, envia syslog e exporta OpenTelemetry a partir de um fluxo em execução: um processo que comunica com os seus sistemas de monitorização, o que uma página não pode ser.
+
+js-t35data-feat-training-stream-name = Envio de um fluxo de treino para um endereço TCP ou UDP
+
+js-t35data-feat-training-stream-why = Envia para um endereço de rede, o que uma página web não faz. O Studio gera o texto e o utilizador descarrega-o.
+
+js-t35data-page-ai = Utilizar a partir do seu assistente de IA
+
+js-t35data-page-bench = Exportação test-bench
+
+js-t35data-page-cli = Funcionalidades de linha de comandos
+
+js-t35data-page-compliance = Mapeamento de compliance
+
+js-t35data-page-evidence = Pacotes de evidências
+
+js-t35data-page-geometry = Geometria: skyplot, skyline e DOP
+
+js-t35data-page-imufit = Ajuste de IMU
+
+js-t35data-page-interference = Mapa de interferência
+
+js-t35data-page-jammertest = Pontuação Jammertest
+
+js-t35data-page-osnma = Verificação OSNMA
+
+js-t35data-page-training = Análise do treino
+
+js-t35data-page-trust = Confiança marítima
+
+js-t35data-sample-iq-help = A lista de comandos de IQ
+
+js-t35data-sample-telemetry-cef = Syslog em CEF para a execução de demonstração
+
+js-t35data-sample-telemetry-leef = Syslog em LEEF para a execução de demonstração
+
+js-t35data-sample-telemetry-metrics = Métricas Prometheus para a execução de demonstração
+
+js-tools-ai-group-engine = Instalar o motor e as suas bibliotecas
+
+js-tools-ai-group-integrations = Integrações marítimas, de plugins e de painéis
+
+js-tools-ai-group-mcp = Instalar o servidor MCP para o seu assistente
+
+js-tools-ai-heading = Utilizar o Kshana a partir do seu assistente de IA
+
+js-tools-ai-install-mcp = Instalar o servidor MCP
+
+js-tools-ai-intro = O servidor MCP do Kshana permite a um assistente de IA executar o motor em vez de adivinhar números. Funciona no seu computador; nada é enviado ao Kshana. Escolha a forma que se adequa à sua ferramenta.
+
+js-tools-ai-load-failed = As opções de instalação não foram carregadas ({ $reason }). Consulte a documentação do servidor MCP.
+
+js-tools-ai-mcp-docs = Documentação do servidor MCP
+
+js-tools-ai-more-ways = Mais formas de instalar
+
+js-tools-ai-none-listed = Nenhuma opção de instalação está listada nesta compilação.
+
+js-tools-ai-other-ways = Outras formas de instalar o Kshana
+
+js-tools-ai-read-agent-guide = Ler o guia do agente
+
+js-tools-ai-rule = A regra para cada resposta: o assistente executa o motor e comunica o que uma ferramenta devolveu com a sua unidade e o seu nível de evidência (validado face a uma referência independente, ou modelado), o cenário, a semente e a versão do motor, para que a execução possa ser repetida. As ressalvas de um resultado acompanham-no. O servidor MCP não lê nem escreve ficheiros fora de uma pasta opcional.
+
+js-tools-ai-what-to-ask = O que perguntar e que ferramenta responde
+
+js-tools-ai-where-reachable = Onde cada capacidade está acessível
+
+js-tools-bench-files-written =
+    { $n ->
+        [one] { $n } ficheiro escrito na memória do seu navegador
+        [many] { $n } de ficheiros escritos na memória do seu navegador
+       *[other] { $n } ficheiros escritos na memória do seu navegador
+    }
+
+js-tools-bench-note = Apenas movimento e intervalos de eventos etiquetados. Descarregue-os para os carregar num simulador de laboratório.
+
+js-tools-bench-wrong-kind = { $name } é um cenário do tipo { $kind }. Existe uma trajetória de veículo para os tipos { $kinds }; os outros tipos dizem porque não têm nenhuma.
+
+js-tools-building-report = A construir o relatório…
+
+js-tools-choose-catalogue-first = Escolha primeiro o JSON do catálogo.
+
+js-tools-choose-file-first = Escolha primeiro um ficheiro.
+
+js-tools-choose-imu-log = Escolha primeiro um registo de IMU estacionária.
+
+js-tools-choose-pack-first = Escolha primeiro os ficheiros do pacote.
+
+js-tools-choose-pack-first-above = Escolha primeiro os ficheiros do pacote (acima).
+
+js-tools-choose-plan-file = Escolha pelo menos um ficheiro de plano.
+
+js-tools-choose-receiver-log = Escolha primeiro o registo do recetor.
+
+js-tools-choose-result-first = Escolha primeiro pelo menos um ficheiro de resultado (*.result.json).
+
+js-tools-choose-scenario-first = Escolha primeiro um cenário.
+
+js-tools-choose-tsr-first = Escolha primeiro a resposta de marca temporal (.tsr).
+
+js-tools-chosen = Escolhido
+
+js-tools-col-check = Verificação
+
+js-tools-col-detail = Detalhe
+
+js-tools-col-first-monitors = Primeiros monitores
+
+js-tools-col-gap-that-stays = Lacuna que permanece
+
+js-tools-col-last-auth-tag = Última etiqueta autenticada (Tempo do Sistema Galileo)
+
+js-tools-col-latency = Latência, s
+
+js-tools-col-name = Nome
+
+js-tools-col-outcome = Desfecho
+
+js-tools-col-question = Pergunta
+
+js-tools-col-recovered = Recuperado
+
+js-tools-col-reference = Referência
+
+js-tools-col-result = Resultado
+
+js-tools-col-row = Linha
+
+js-tools-col-satellite = Satélite
+
+js-tools-col-slot = Slot, s
+
+js-tools-col-status = Estado
+
+js-tools-col-tags = Etiquetas
+
+js-tools-col-test = Ensaio
+
+js-tools-col-these-runs = Estas execuções
+
+js-tools-col-tool = Ferramenta
+
+js-tools-col-what-is-missing = O que falta
+
+js-tools-col-what-it-asks = O que pergunta
+
+js-tools-col-why-not-auth = Porque não autenticado
+
+js-tools-copied = Copiado
+
+js-tools-copy = Copiar
+
+js-tools-copy-command-aria = Copiar: { $cmd }
+
+js-tools-copy-labelled-aria = Copiar { $label }: { $text }
+
+js-tools-did-not-work = Isso não funcionou
+
+js-tools-documentation = Documentação
+
+js-tools-download = Descarregar
+
+js-tools-download-all-zip = Descarregar tudo (zip)
+
+js-tools-download-events-toml = Descarregar os eventos (TOML)
+
+js-tools-download-md = Descarregar (Markdown)
+
+js-tools-download-report-json = Descarregar o relatório (JSON)
+
+js-tools-download-report-md = Descarregar o relatório (Markdown)
+
+js-tools-download-scorecard-json = Descarregar a grelha de pontuação (JSON)
+
+js-tools-download-table-toml = Descarregar a tabela (TOML)
+
+js-tools-download-updated-pack = Descarregar o pacote atualizado (zip)
+
+js-tools-download-whole-report-json = Descarregar o relatório completo (JSON)
+
+js-tools-engine-lacks-error = Esta compilação do motor (versão { $version }) não tem { $need }, pelo que ainda não pode executar isto aqui. Os resultados registados e a linha de comandos continuam a funcionar.
+
+js-tools-engine-lacks-status = Esta compilação do motor (versão { $version }) não tem { $need }: é anterior à versão de que esta ferramenta precisa. O equivalente em linha de comandos está no separador Linha de comandos.
+
+js-tools-engine-running = O motor (versão { $version }) está a ser executado neste navegador. Nada é carregado.
+
+js-tools-engine-starting = A iniciar o motor neste navegador…
+
+js-tools-engine-unavailable = Não foi possível iniciar o motor aqui ({ $reason }). Abrir ficheiros funciona; executar as ferramentas exige WebAssembly.
+
+js-tools-epoch-format = Use YYYY-MM-DDTHH:MM:SS, com um Z opcional (UTC).
+
+js-tools-epoch-not-real = Isso não é um instante UTC real entre os anos 2000 e 2099.
+
+js-tools-every-check = Todas as verificações
+
+js-tools-evidence-disclaimer = Um pacote de evidências é um registo técnico do que o motor calculou a partir de um registo indicado com definições indicadas. Não é um parecer jurídico, uma constatação de facto sobre qualquer evento nem uma certificação. Um resultado positivo indica que o registo não foi alterado.
+
+js-tools-example-pack = Pacote de exemplo sintético
+
+js-tools-example-pack-note = Um pacote sintético criado pela linha de comandos do motor a partir do registo de demonstração do ferry com uma chave de demonstração. A chave está preenchida abaixo; a chave de um signatário real vem do signatário por outra via.
+
+js-tools-example-pack-tampered = Pacote de exemplo com um byte de epochs.json alterado
+
+js-tools-example-runs = Execuções de exemplo sintéticas
+
+js-tools-example-tampered-note = Um byte de um ficheiro do pacote foi alterado depois da assinatura. Verifique-o: a verificação indica o ficheiro.
+
+js-tools-exporting = A exportar…
+
+js-tools-field-whole-number = { $field } tem de ser um número inteiro
+
+js-tools-file-not-chosen = { $file } não está entre os ficheiros escolhidos
+
+js-tools-file-too-large = { $name } é maior do que 64 MiB
+
+js-tools-files-selected = { $label }: { $files }
+
+js-tools-fingerprint-not-pinned = Impressão digital do signatário: { $fingerprint } (não fixada: a chave que o próprio pacote indica)
+
+js-tools-fingerprint-pinned = Impressão digital do signatário: { $fingerprint } (fixada)
+
+js-tools-fitting = A ajustar…
+
+js-tools-framework-summary = { $name }: { $evidenced } evidenciados, { $partly } parcialmente, { $notEvidenced } não evidenciados, { $outOfScope } fora do âmbito
+
+js-tools-fw-dhs-rpcf = US DHS Resilient PNT Conformance Framework, v2.0
+
+js-tools-fw-easa-aviation = Orientações da EASA sobre interferência GNSS para a aviação
+
+js-tools-fw-en-16803 = EN 16803 (apenas por parte e número de cláusula)
+
+js-tools-fw-imo-ships = Orientações da IMO sobre interferência GNSS para navios
+
+js-tools-fw-nis2-art21 = Diretiva NIS2 da UE, artigo 21
+
+js-tools-gst-none = nenhum
+
+js-tools-gst-text = semana { $week }, { $tow } s
+
+js-tools-how-to-run = Como executar
+
+js-tools-imu-file-too-large = { $name } é maior do que 32 MiB; abra um excerto.
+
+js-tools-imu-mean-not-number = A força específica em repouso não é um número (0 para um eixo horizontal, cerca de 9.80665 para o vertical).
+
+js-tools-imu-notice = { $evidence }: o estimador é verificado em registos sintéticos de ruído branco com coeficientes conhecidos, não face a uma referência independente. A tabela indica o SHA-256 do registo ({ $sha }…).
+
+js-tools-imu-selected = { $name } ({ $size }), lido aqui, nunca carregado.
+
+js-tools-jt-events-count = { $n } evento(s) agendado(s)
+
+js-tools-jt-events-note = como referência agendada: intervalos planeados, não horas de emissão registadas. Não RF: { $nonRf }; fora do registo: { $outside }; ids desconhecidos: { $unknown }.
+
+js-tools-jt-guard-hold = Guarda { $guard } s, retenção de recuperação { $hold } s.
+
+js-tools-jt-guard-hold-overlap = Guarda { $guard } s, retenção de recuperação { $hold } s. A linha de base de calibração sobrepôs-se a um intervalo agendado.
+
+js-tools-jt-import-needs-start = A importação precisa da primeira época do registo em UTC (ISO 8601), porque o plano está em hora local.
+
+js-tools-jt-sel-catalogue = catálogo { $name }
+
+js-tools-jt-sel-log = registo { $name } ({ $size })
+
+js-tools-jt-sel-no-catalogue = nenhum catálogo
+
+js-tools-jt-sel-no-log = nenhum registo
+
+js-tools-jt-sel-no-plan = nenhum plano
+
+js-tools-jt-sel-plans = { $n } ficheiro(s) de plano
+
+js-tools-jt-slot-range = { $from } a { $to }
+
+js-tools-jt-what-area = A área de ensaio
+
+js-tools-jt-what-guard = A guarda
+
+js-tools-jt-what-hold = A retenção de recuperação
+
+js-tools-jt-what-offset = O desvio em relação ao UTC
+
+js-tools-jt-what-year = O ano do plano
+
+js-tools-label-command = comando
+
+js-tools-label-pinned-command = comando fixado
+
+js-tools-label-settings-example = exemplo de definições { $n }
+
+js-tools-loading = A carregar…
+
+js-tools-max-runs = No máximo { $max } execuções.
+
+js-tools-merkle-root-format = A raiz de Merkle tem 64 dígitos hexadecimais.
+
+js-tools-must-be-number = { $what } tem de ser um número
+
+js-tools-must-be-whole-zero = { $what } tem de ser um número inteiro, 0 para "não indicado"
+
+js-tools-na = n/d
+
+js-tools-needs = Precisa de: { $requires }
+
+js-tools-no = não
+
+js-tools-none = nenhum
+
+js-tools-none-in-build = nenhum nesta compilação
+
+js-tools-not-in-browser = Não disponível num navegador.
+
+js-tools-not-osnma = Não é um resultado OSNMA
+
+js-tools-not-used = Não utilizado: { $item }
+
+js-tools-notes = Notas
+
+js-tools-open = Abrir
+
+js-tools-osnma-advisory = Consultivo: isto é uma saída de análise e monitorização e não um equipamento de navegação homologado. O estado de autenticação aqui indicado não é um serviço de integridade da navegação e não deve ser a única base de qualquer decisão de navegação ou de segurança.
+
+js-tools-osnma-authenticated = Autenticado
+
+js-tools-osnma-caption = Estado de autenticação por satélite
+
+js-tools-osnma-demo-note = A chave pública descartável está preenchida; prima Verificar para executar o verificador aqui, ou mostre o resultado registado.
+
+js-tools-osnma-discarded = Descartado
+
+js-tools-osnma-events = O que o verificador viu
+
+js-tools-osnma-examples-missing = os exemplos sintéticos ainda não estão nesta compilação
+
+js-tools-osnma-failed = Falhou
+
+js-tools-osnma-nma-alert = Estado NMA { $status }; o sistema emitiu uma mensagem de alerta.
+
+js-tools-osnma-nma-status = Estado NMA { $status }.
+
+js-tools-osnma-not-json = Isto não é o JSON de kshana osnma verify --json (precisa de overall e satellites).
+
+js-tools-osnma-overall = Global: { $status }
+
+js-tools-osnma-pages-read =
+    { $n ->
+        [one] { $n } página lida.
+        [many] { $n } de páginas lidas.
+       *[other] { $n } páginas lidas.
+    }
+
+js-tools-osnma-pending = Pendente
+
+js-tools-osnma-recorded-failed = o resultado registado não foi carregado
+
+js-tools-osnma-recorded-result = Resultado registado de kshana osnma verify --json para { $file }.
+
+js-tools-osnma-tag-counts = { $authenticated } autenticadas, { $failed } falhadas, { $pending } pendentes, { $discarded } descartadas
+
+js-tools-osnma-tag-totals =
+    { $n ->
+        [one] { $n } etiqueta: { $authenticated } autenticadas, { $failed } falhadas, { $pending } pendentes, { $discarded } descartadas.
+        [many] { $n } de etiquetas: { $authenticated } autenticadas, { $failed } falhadas, { $pending } pendentes, { $discarded } descartadas.
+       *[other] { $n } etiquetas: { $authenticated } autenticadas, { $failed } falhadas, { $pending } pendentes, { $discarded } descartadas.
+    }
+
+js-tools-osnma-time-caveat = Tempo: todas as verificações são relativas às marcas temporais das páginas fornecidas ao verificador, que aqui provêm dos próprios dados e não dão qualquer proteção contra dados antigos repetidos. A autenticação indica que os dados vieram do sistema; nada diz sobre o sinal em que chegaram nem sobre a qualidade da solução de posição.
+
+js-tools-osnma-unavailable = Indisponível
+
+js-tools-osnma-word-authenticated = Pelo menos um satélite está autenticado e nenhum falhou
+
+js-tools-osnma-word-failed = Falhou uma verificação aos dados de algum satélite
+
+js-tools-osnma-word-unavailable = Nenhum satélite está autenticado
+
+js-tools-pack-selected = { $label }: { $files } ({ $size })
+
+js-tools-pinned-to-release = Fixado a esta versão:
+
+js-tools-preview = Pré-visualização
+
+js-tools-public-key-format = Uma chave pública tem 64 dígitos hexadecimais (32 bytes). Nada mais é aceite.
+
+js-tools-read-documentation = Ler a documentação
+
+js-tools-reading-plan = A ler o plano…
+
+js-tools-refused-file-name = nome de ficheiro recusado: { $name }
+
+js-tools-run = Executar
+
+js-tools-runs-read =
+    { $n ->
+        [one] { $n } execução lida: { $runs }
+        [many] { $n } de execuções lidas: { $runs }
+       *[other] { $n } execuções lidas: { $runs }
+    }
+
+js-tools-runs-read-engine =
+    { $n ->
+        [one] { $n } execução lida, pelo motor { $engine }: { $runs }
+        [many] { $n } de execuções lidas, pelo motor { $engine }: { $runs }
+       *[other] { $n } execuções lidas, pelo motor { $engine }: { $runs }
+    }
+
+js-tools-sample-load-failed = A amostra não foi carregada ({ $reason }).
+
+js-tools-sample-note = Uma saída real do comando, registada a partir do motor na execução de demonstração sintética. Não é uma medição de nada.
+
+js-tools-sample-output = Saída de exemplo: { $label }
+
+js-tools-scenario-list-failed = A lista de cenários não foi carregada
+
+js-tools-scoring = A pontuar…
+
+js-tools-select-and-copy = Selecionar e copiar
+
+js-tools-settings-example = Exemplo de definições { $n }:
+
+js-tools-status-evidenced-label = As execuções fornecem elementos de prova em apoio desta linha
+
+js-tools-status-evidenced-short = Evidenciado
+
+js-tools-status-not-evidenced-label = Estas execuções não mostram nada para esta linha
+
+js-tools-status-not-evidenced-short = Não evidenciado
+
+js-tools-status-out-of-scope-label = Fora do que o Kshana consegue mostrar
+
+js-tools-status-out-of-scope-short = Fora do âmbito
+
+js-tools-status-partly-label = As execuções fornecem elementos de prova em apoio de parte desta linha
+
+js-tools-status-partly-short = Parcialmente
+
+js-tools-tab-ai = Assistente de IA
+
+js-tools-tab-bench = Test-bench
+
+js-tools-tab-cli = Linha de comandos
+
+js-tools-tab-compliance = Compliance
+
+js-tools-tab-evidence = Pacotes de evidências
+
+js-tools-tab-imufit = Ajuste de IMU
+
+js-tools-tab-jammertest = Jammertest
+
+js-tools-tab-osnma = OSNMA
+
+js-tools-tele-all-events = Um evento syslog por época (predefinição: um por mudança de banda)
+
+js-tools-tele-file-aria = Ficheiro de resultado ou JSON-lines
+
+js-tools-tele-fmt-cef = Syslog, CEF
+
+js-tools-tele-fmt-leef = Syslog, LEEF
+
+js-tools-tele-fmt-mqtt = MQTT, deteção do Home Assistant (tópico, tabulação, payload)
+
+js-tools-tele-fmt-otlp = OpenTelemetry (OTLP JSON)
+
+js-tools-tele-fmt-prometheus = Métricas Prometheus
+
+js-tools-tele-format-aria = Formato
+
+js-tools-tele-host = Anfitrião
+
+js-tools-tele-host-aria = Nome do anfitrião escrito nos eventos syslog
+
+js-tools-tele-include-position = Incluir a posição comunicada (desativado por predefinição)
+
+js-tools-tele-intro = Converta um ficheiro de resultado (session.result.json) ou as linhas JSON em direto num dos formatos, neste navegador. Precisa de uma compilação do motor com a exportação de telemetria (0.35 e posteriores com a exportação); os comandos acima funcionam em qualquer lugar.
+
+js-tools-tele-note = As linhas de syslog não trazem aqui marca temporal (a página não lê nenhum relógio); a ferramenta de linha de comandos marca-as. O Prometheus dá o estado final. O MQTT dá uma linha por mensagem, o tópico, depois uma tabulação e depois o payload; nada é publicado a partir daqui. O texto é o mesmo que o comando imprime.
+
+js-tools-tele-run-here = Executar aqui
+
+js-tools-that-file-too-large = Esse ficheiro é maior do que 64 MiB.
+
+js-tools-token-attached = Token anexado
+
+js-tools-token-attached-note = O pacote atualizado está abaixo. A assinatura da autoridade de marca temporal NÃO foi verificada aqui: execute openssl ts -verify.
+
+js-tools-trust-monitor-sentence = Frase do monitor de confiança: { $sentence }
+
+js-tools-two-files-same-name = dois ficheiros chamam-se { $name }
+
+js-tools-ubx-bad-crc =
+    { $n ->
+        [one] { $n } página falhou no CRC.
+        [many] { $n } de páginas falharam no CRC.
+       *[other] { $n } páginas falharam no CRC.
+    }
+
+js-tools-ubx-file = O ficheiro UBX
+
+js-tools-ubx-frames-pages = { $frames } tramas UBX; { $pages } páginas I/NAV descodificadas.
+
+js-tools-ubx-skipped-bytes =
+    { $n ->
+        [one] { $n } byte foi ignorado entre tramas.
+        [many] { $n } de bytes foram ignorados entre tramas.
+       *[other] { $n } bytes foram ignorados entre tramas.
+    }
+
+js-tools-ubx-time-conflicts =
+    { $n ->
+        [one] { $n } página tinha uma hora em conflito com as vizinhas.
+        [many] { $n } de páginas tinham uma hora em conflito com as vizinhas.
+       *[other] { $n } páginas tinham uma hora em conflito com as vizinhas.
+    }
+
+js-tools-ubx-unstamped =
+    { $n ->
+        [one] { $n } página não pôde ser situada no tempo.
+        [many] { $n } de páginas não puderam ser situadas no tempo.
+       *[other] { $n } páginas não puderam ser situadas no tempo.
+    }
+
+js-tools-unknown = desconhecido
+
+js-tools-unused-scenarios = Os ficheiros de cenário sem resultado correspondente não foram utilizados: { $files }.
+
+js-tools-verdict-failed-text = A verificação falhou.
+
+js-tools-verdict-failed-title = Falhou
+
+js-tools-verdict-intact-text = O pacote está intacto face à chave que ele próprio indica, que qualquer pessoa pode gerar. Obtenha a chave pública do signatário junto do signatário por outra via e fixe-a.
+
+js-tools-verdict-intact-title = Intacto, mas o signatário não está fixado
+
+js-tools-verdict-verified-text = O pacote não foi alterado e está assinado pela chave que fixou.
+
+js-tools-verdict-verified-title = Verificado
+
+js-tools-verifying = A verificar…
+
+js-tools-what-failed = O que falhou
+
+js-tools-why-not-browser = Porque não num navegador:
+
+js-tools-yes = sim
+
+js-training-active-events = Eventos ativos
+
+js-training-band-large = mais de 100 m
+
+js-training-band-medium = 25 a 100 m
+
+js-training-band-small = menos de 25 m
+
+js-training-chart-max = máx. { $v }
+
+js-training-chart-mean-cn0 = C/N0 médio
+
+js-training-chart-position-error = erro de posição
+
+js-training-chart-s-reported-minus-true = s, comunicado menos real
+
+js-training-chart-satellites = satélites
+
+js-training-chart-time-offset = desvio de tempo
+
+js-training-chart-used-tracked = utilizados / seguidos
+
+js-training-col-reported = Comunicado pelo recetor
+
+js-training-col-true = Real
+
+js-training-cue-course = A proa do giroscópio e a velocidade da corredera não são afetadas por nenhum evento. Aqui, o rumo comunicado difere da proa do giroscópio por { $course }. Uma corrente também separa a proa do rumo, pelo que se deve comparar com o início da execução.
+
+js-training-cue-course-speed = A proa do giroscópio e a velocidade da corredera não são afetadas por nenhum evento. Aqui, o rumo comunicado difere da proa do giroscópio por { $course } e a velocidade comunicada difere da velocidade real por { $speed } kn. Uma corrente também separa a proa do rumo, pelo que se deve comparar com o início da execução.
+
+js-training-cue-title = Pista para a análise.
+
+js-training-cue-unknown-amount = um valor desconhecido
+
+js-training-debrief-now = Analisar agora
+
+js-training-default-warning = Dados de treino sintéticos. Apenas para treino e teste: nunca alimente os sistemas de navegação em direto de uma embarcação com este fluxo.
+
+js-training-demo-coastal-drag-off = Arrastamento costeiro
+
+js-training-demo-combined-event = Evento combinado
+
+js-training-demo-fjord-degradation = Degradação natural em fiorde
+
+js-training-demo-open-sea-jamming = Jamming em mar aberto
+
+js-training-demo-port-time-spoof = Spoofing de tempo na aproximação ao porto
+
+js-training-dl-log-json = Descarregar o registo do instrutor (JSON)
+
+js-training-dl-log-text = Descarregar o registo do instrutor (texto)
+
+js-training-dl-nmea = Descarregar o fluxo NMEA
+
+js-training-err-demo-open = Não foi possível abrir { $title }: { $reason }.
+
+js-training-err-engine-old = Esta compilação do motor (versão { $version }) não tem gerador de treino NMEA; é anterior a esta página. O comando é { $command }.
+
+js-training-err-engine-start = Não foi possível iniciar o motor aqui ({ $reason }). Os cenários da biblioteca acima continuam a abrir sem ele.
+
+js-training-err-file-not-loaded = o ficheiro não foi carregado
+
+js-training-err-generate = Não foi possível gerar: { $reason }.
+
+js-training-err-newer-schema = { $name }: o esquema { $schema } é mais recente ou diferente de { $supported }, que esta página lê. Atualize o Studio em vez de adivinhar os seus campos.
+
+js-training-err-no-schema = { $name }: não é um registo do instrutor de treino do Kshana (sem etiqueta de esquema).
+
+js-training-err-no-track = { $name }: o registo não tem linhas de trajetória para desenhar.
+
+js-training-err-no-usable-rows = { $name }: sem linhas de trajetória utilizáveis.
+
+js-training-err-not-json = { $name }: não é JSON ({ $reason }).
+
+js-training-err-read = { $name }: não foi possível ler ({ $reason }).
+
+js-training-err-read-or-draw = { $name }: não foi possível ler ou desenhar ({ $reason }).
+
+js-training-err-scenario-not-loaded = o ficheiro de cenário não foi carregado
+
+js-training-err-seed = A semente tem de ser um número inteiro, ou vazia para usar a do próprio cenário.
+
+js-training-err-too-large = { $name }: maior do que { $max }. Esta página lê registos até esse tamanho.
+
+js-training-err-too-many-rows = { $name }: o registo tem { $count } linhas de trajetória; esta página desenha no máximo { $max }. Registe com menos frequência (log_interval_s) ou abra um excerto.
+
+js-training-err-unknown-schema = { $name }: esquema desconhecido { $schema }; esta página lê { $supported }.
+
+js-training-event-n = Evento { $id }
+
+js-training-event-onset = Início { $utc }
+
+js-training-extra-bearing = Marcação aplicada, graus verdadeiros
+
+js-training-extra-peak-accel = Aceleração máxima que o arrastamento acrescenta, m/s²
+
+js-training-extra-peak-speed = Velocidade máxima que o arrastamento acrescenta, m/s
+
+js-training-fact-duration = Duração
+
+js-training-fact-events = Eventos injetados
+
+js-training-fact-max-error = Maior erro de posição
+
+js-training-fact-max-time-offset = Maior desvio de tempo
+
+js-training-fact-no-fix = Tempo sem solução de posição
+
+js-training-fact-peak-accel = Aceleração máxima, real / comunicada
+
+js-training-fact-peak-speed = Velocidade máxima, real / comunicada
+
+js-training-fact-seed = Semente
+
+js-training-fact-start = Início (UTC)
+
+js-training-fix-reported-span = solução de posição comunicada, { $from } a { $to }
+
+js-training-generated = Gerado "{ $title }" com o motor { $version }: { $lines } frases NMEA. Sintético: apenas para treino e teste; nunca o alimente nos sistemas de navegação em direto de uma embarcação.
+
+js-training-generated-here = Gerado aqui pelo motor ("{ $title }"). Sintético: posições e datas inventadas.
+
+js-training-generating = A iniciar o motor e a gerar…
+
+js-training-kind-drag-off = Arrastamento de posição
+
+js-training-kind-jamming = Jamming
+
+js-training-kind-natural-degradation = Degradação natural (céu bloqueado)
+
+js-training-kind-replay-delay = Atraso de repetição
+
+js-training-kind-time-spoof = Spoofing de tempo
+
+js-training-legend-no-fix = Sem solução de posição: o recetor não comunicou nada
+
+js-training-legend-reported = Comunicado, { $band } do real
+
+js-training-legend-true = Trajetória real
+
+js-training-library-label = Cenário sintético da biblioteca "{ $title }", escrito por { $command }. Posições e datas inventadas; nenhuma embarcação nem gravação reais.
+
+js-training-log-row = Linha do registo { $row } de { $total }, { $utc }
+
+js-training-max-error-at = { $m } m em T+{ $s } s
+
+js-training-moment-event = (evento { $id })
+
+js-training-moment-title = T+{ $s } s { $what }: { $text }
+
+js-training-moments-shown = Primeiros { $shown } de { $total } momentos mostrados.
+
+js-training-no-events = Nenhum: esta é uma execução limpa.
+
+js-training-no-fix-nothing = sem solução de posição: nada comunicado
+
+js-training-no-fix-span = sem solução de posição, { $from } a { $to }
+
+js-training-no-moments = Nenhum momento registado.
+
+js-training-none = nenhum
+
+js-training-none-now = Nenhum neste momento.
+
+js-training-none-reported = nenhum comunicado
+
+js-training-north = N
+
+js-training-not-touched = não afetado por nenhum evento
+
+js-training-opened = { $name } aberto: { $rows } linhas do registo ao longo de { $secs } s.
+
+js-training-opening = A abrir { $title }…
+
+js-training-param-affect-time = Afeta o tempo
+
+js-training-param-bearing-deg = Marcação, graus verdadeiros
+
+js-training-param-cn0-drop-db = Queda de C/N0, dB
+
+js-training-param-counterfeit-cn0-dbhz = C/N0 contrafeito, dB-Hz
+
+js-training-param-delay-s = Atraso, s
+
+js-training-param-duration-s = Duração, s
+
+js-training-param-final-offset-m = Desvio final, m
+
+js-training-param-kind = Tipo
+
+js-training-param-label = Rótulo
+
+js-training-param-offset-s = Desvio de tempo, s
+
+js-training-param-ramp-s = Rampa de início, s
+
+js-training-param-recovery-s = Rampa de recuperação, s
+
+js-training-param-relative-bearing-deg = Marcação relativa ao rumo, graus
+
+js-training-param-skyline = Skyline
+
+js-training-param-spread-db = Dispersão por satélite, dB
+
+js-training-param-start-s = Início, s
+
+js-training-pause = Pausar
+
+js-training-play = Reproduzir
+
+js-training-reading = A ler…
+
+js-training-readout-fix = solução de posição
+
+js-training-readout-no-fix = sem solução de posição
+
+js-training-reduced-motion = Está preferido o movimento reduzido, pelo que a repetição começa a 1x. Use o controlo deslizante ou as teclas de seta para mover sem animação.
+
+js-training-row-cn0 = C/N0 médio, dB-Hz
+
+js-training-row-cog = Rumo sobre o fundo, graus
+
+js-training-row-error = Erro de posição, m
+
+js-training-row-fix = solução de posição
+
+js-training-row-heading = Proa (giroscópio), graus
+
+js-training-row-moments = momentos
+
+js-training-row-position = Posição
+
+js-training-row-sats = Satélites utilizados / seguidos
+
+js-training-row-sog = Velocidade sobre o fundo, kn
+
+js-training-row-time-offset = Desvio de tempo, s
+
+js-training-say-active = ativo: { $list }
+
+js-training-say-event-id = evento { $id }
+
+js-training-say-fix = o recetor comunica uma solução de posição
+
+js-training-say-mean-cn0 = C/N0 médio { $cn0 } dB-Hz
+
+js-training-say-no-fix = sem solução de posição
+
+js-training-say-position-from-true = posição comunicada a { $m } m da real
+
+js-training-say-sats-used = { $used } de { $tracked } satélites utilizados
+
+js-training-say-time-ahead = hora comunicada adiantada { $s } s em relação à real
+
+js-training-say-time-behind = hora comunicada atrasada { $s } s em relação à real
+
+js-training-sky-no-gsv = sem GSV
+
+js-training-sky-none = Sem céu para este registo: um registo do instrutor, por si só, não tem satélites. Abra um cenário da biblioteca, ou gere aqui um fluxo e analise-o, para ver os satélites que o seu GSV lista.
+
+js-training-skyline-preset = predefinição { $name }
+
+js-training-skyline-stated = perfil indicado
+
+js-training-span-no-fix = T+{ $from } a { $to } s
+
+js-training-track-desc = Trajetória real e trajetória comunicada, norte para cima. Maior erro de posição { $error }. { $periods } período(s) sem solução de posição.
+
+js-training-track-end = fim
+
+js-training-track-start = início
+
+js-training-trainer-note = Nota do instrutor
+
+js-training-warn-no-warning-text = Este ficheiro não traz texto de aviso. É um registo de treino: não alimente a navegação em direto com o seu fluxo.
+
+js-training-warn-rows-skipped = { $count } linha(s) de trajetória não eram válidas e foram ignoradas.
+
+js-training-what-fix-lost = Solução de posição perdida
+
+js-training-what-fix-regained = Solução de posição recuperada
+
+js-training-what-full-effect = Efeito total
+
+js-training-what-onset = Início
+
+js-training-what-recovered = Recuperado
+
+js-training-what-recovery-begins = A recuperação começa
+
+js-trust-adv-carried = Declaração consultiva incluída neste ficheiro:
+
+js-trust-adv-none = Este ficheiro não traz nenhuma declaração consultiva
+
+js-trust-adv-none-rest = (as saídas mais antigas não trazem). A declaração consultiva no topo desta página aplica-se-lhe, ainda assim.
+
+js-trust-agree-both = ambos assinalam: a própria sinalização do recetor e um monitor do Kshana
+
+js-trust-agree-calibrating = dentro da janela de calibração: não comparado
+
+js-trust-agree-kshana-only = só o Kshana dá alarme: o recetor não assinala
+
+js-tools-ubx-ignored-sfrbx =
+    { $n } { $n ->
+        [one] mensagem SFRBX foi ignorada
+        [many] de mensagens SFRBX foram ignoradas
+       *[other] mensagens SFRBX foram ignoradas
+    } (outros sistemas, E5b, alertas, somas de verificação inválidas).
