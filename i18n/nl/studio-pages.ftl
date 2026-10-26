@@ -631,3 +631,425 @@ seg-99e01fb5fac5 = Sluiten
 
 # index.html
 seg-9a71c933f4ad = <b>Maanstation</b><s1>Welke nauwkeurigheid zou een referentiestation nabij de zuidpool van de maan kunnen geven, en waar? MODELLED.</s1>
+
+# index.html
+seg-9c1fc0ddcc14 = Engine wordt geladen. U kunt dit resultaat al verkennen.
+
+# advanced/index.html
+# c1: ↓
+# c2: ↵
+# c3: ⌘↵
+seg-9c28d67257b7 = <c1/> bewegen<c2/> openen<c3/> uitvoeren
+
+# tools/index.html
+seg-9c7eb1d43601 = Logboekformaat
+
+# advanced/index.html
+seg-9cebd87d7cb3 = Holdover <s1>fout sinds GNSS verloren ging</s1>
+
+# advanced/index.html
+seg-9d3f3d06a1e9 = Alle velden
+
+# tools/index.html
+seg-9d56e41f9b35 = Vertrouwde openbare sleutels, één per regel als ID:TYPE:HEX
+
+# holdover/index.html
+seg-9e02f1f28e0d = Een resultaat openen…
+
+# tools/index.html
+seg-9e98e0ba70a3 = Herstelhouding, s
+
+# lunar/index.html
+seg-9ea513d25c6c = Invoer voor een run hier
+
+# geometry/index.html
+seg-a11e88108e1c = <b>De foutellips</b> is de horizontale fout uit de covariantie van de geometrie, σ<s1>UERE</s1>² maal het oost-noordblok van de DOP-matrix: langer in de richtingen die de satellieten het minst vastleggen. Ze wordt getekend bij 1 sigma en bij { "95" } % ({ "2.448" } keer groter). <b>De Monte Carlo-wolk</b> is een groot aantal kleinstekwadratenoplossingen met willekeurige afstandsfouten met seed door dezelfde geometrie; de RMS ervan wordt naast σ<s2>UERE</s2> × HDOP getoond, met het aandeel punten binnen de ellips van { "95" } %. Dezelfde seed geeft altijd dezelfde wolk.
+
+# tools/index.html
+seg-a12c3181b54f = Gewone pagina's
+
+# holdover/index.html
+seg-a13eab564243 = MTIE
+
+# optical/index.html
+# c1: kshana scenarios/optical-atmosphere-network.toml
+seg-a27cd1efd1e0 = U kunt de scenario's zelf uitvoeren in de Studio (geavanceerde weergave, "Optische verbinding door de atmosfeer") of met <c1/>.
+
+# index.html
+seg-a39633d5b858 = <b>Kan ik mijn positiebepaling vertrouwen?</b><s1>Integriteit over { "12" } uur</s1>
+
+# lunar-infra/index.html
+seg-a3e4a0eed763 = <b>Adviserende software.</b> Kshana is geen typegoedgekeurde navigatieapparatuur (IEC { "61108" }, IEC { "61162" }) en is niet beoordeeld aan een prestatienorm. Elk cijfer draagt het label dat het register ervoor bijhoudt (<b>MODELLED</b> tenzij een externe onafhankelijke referentie is gebruikt); het is een hulpmiddel voor het oordeel, geen bevinding over een plaats, missie of gebeurtenis.
+
+# index.html
+seg-a763be7ea9dc = <b>Hoeveel satellieten kan ik zien, waar ook ter wereld?</b><s1>Hieronder getoond</s1>
+
+# advanced/index.html
+seg-a86ce24d81de = Band
+
+# trust/index.html
+# c1: kshana receiver-trust
+seg-a96454c73df8 = Open een <c1/>-run voor een vaartuig. Kshana scoort elke positiebepaling van { "0" } tot { "100" } op basis van wat de ontvanger al op de bus zet, en zegt welke controles de score verlaagden. Bestanden die u hier opent, worden in deze pagina gelezen en nooit geüpload.
+
+# geometry/index.html
+seg-a9ef52ece457 = Skyline
+
+# advanced/index.html
+seg-aae75f3d3aa5 = Kiezen
+
+# tools/index.html
+seg-ab7707938042 = De openbare sleutel van de ondertekenaar ({ "64" } hexadecimale cijfers, langs een andere weg van de ondertekenaar verkregen)
+
+# advanced/index.html
+seg-ac17942f6859 = Kshana <s1>Studio</s1>
+
+# interference/index.html
+seg-ad64a2924107 = Landpolygonen (AIS, optioneel)…
+
+# tools/index.html
+seg-ae381f746364 = EuRoC MAV imu0 data.csv
+
+# observatory/index.html
+seg-aeb5496025cc = alle toestanden
+
+# observatory/index.html
+seg-aed6b80b551b = Incidenten
+
+# advanced/index.html
+seg-af4ccbe11812 = Thema
+
+# tools/index.html
+seg-aff1d135221c = RINEX-observatie
+
+# interference/index.html
+seg-b022a11dd8f7 = Celgrootte, graden
+
+# tools/index.html
+seg-b15b4194ca66 = Functie
+
+# tools/index.html
+seg-b1659454ecd9 = Ontvangerlogboek…
+
+# interference/index.html
+seg-b19953c7935c = ADS-B (vliegtuigen)
+
+# geometry/index.html
+seg-b1a61b70c1f4 = Hoogte rechtergebouw, meter
+
+# trust/index.html
+seg-b1cde8d570b5 = Scoren als vaartuig (bewegend platform, { "0" } tot { "100" })
+
+# tools/index.html
+seg-b21dccf8bbaa = Een bestaand token vervangen
+
+# index.html
+seg-b2f5c73a80ac = GNSS voor ruimtegebruikers
+
+# trust/index.html
+seg-b4bf08d8b815 = Alleen gedegradeerd en onbetrouwbaar
+
+# replay/index.html
+seg-b54ecd186a7f = Moment
+
+# training/index.html
+seg-b5765678da41 = De bibliotheekscenario's zijn <b>synthetische tekst</b> met verzonnen posities, data en sporen. Er zit geen echt vaartuig, geen echte exploitant en geen echte opname achter.
+
+# training/index.html
+# c1: *.instructor.json
+# c2: kshana nmea-scenario
+seg-b63ff9605b69 = Open het instructeurslogboek (<c1/>) dat <c2/> naast een trainingsstroom schrijft. Het toont het ware spoor naast het door de ontvanger gemelde spoor, de gebeurtenissen die zijn geïnjecteerd en wanneer, en wat de ontvanger zei over zijn positiebepaling, signaal, satellieten en tijd. Bestanden die u hier opent, worden in deze pagina gelezen en nooit geüpload.
+
+# geometry/index.html
+seg-b6af4a84da50 = De foutellips uit de covariantie van de geometrie voor de gekozen σ<s1>UERE</s1>, bij 1 sigma en { "95" } % (beide van de engine), over een Monte Carlo-wolk met seed van kleinstekwadratenoplossingen. Oost naar rechts, noord omhoog, in meter.
+
+# index.html
+seg-b728f4816263 = <b>GNSS voor ruimtegebruikers</b><s1>Welke navigatiesignalen een ruimtevaartuig ver boven de satellieten nog kan gebruiken, en hoe goed een boordfilter en een formatie ermee presteren.</s1>
+
+# tools/index.html
+seg-b7b26b97afbd = <b>Adviserende software.</b> Kshana is geen typegoedgekeurde navigatieapparatuur (IEC { "61108" }, IEC { "61162" }) en is niet beoordeeld aan een prestatienorm. De scores, de authenticatiestatus en de exports zijn hulpmiddelen voor het oordeel en verslagen van wat de engine heeft berekend. Ze zijn geen certificering, geen juridisch advies en geen feitelijke bevinding over een gebeurtenis.
+
+# tools/index.html
+seg-b7db2572d40b = u-blox UBX (SFRBX)
+
+# interference/index.html
+seg-b966dd26caa6 = Dataset
+
+# interference/index.html
+seg-ba963d8caa19 = Licentie-URL
+
+# tools/index.html
+seg-baacf578ad9c = Eerste epoch van het logboek, UTC (ISO { "8601" }; leeg wanneer het logboek die opgeeft)
+
+# mission-thread/index.html
+seg-baea4e05ad26 = Fase
+
+# tools/index.html
+seg-bb02baa8656c = UTC-moment van bewegingstijd nul
+
+# interference/index.html
+seg-bbdd5511b2d4 = Kies een route…
+
+# tools/index.html
+seg-bd17501804af = Synthetisch voorbeeld
+
+# advanced/index.html
+seg-bdb4733dec65 = Edities
+
+# advanced/index.html
+seg-bdf48a0aa8ee = Filtergezondheid <s1>Kalman-zelfconsistentie</s1>
+
+# training/index.html
+seg-bfb10aedf165 = Genereren
+
+# advanced/index.html
+seg-bfd7751a9990 = MTIE <s1>maximale tijdintervalfout</s1>
+
+# advanced/index.html
+seg-c3bab83395bf = De run <b>delen of exporteren</b>
+
+# lunar/index.html
+seg-c4f955d5f506 = beschikbaarheid
+
+# advanced/index.html
+seg-c6251ca94299 = Interoperabiliteitsexports <s1>CZML, KML, GeoJSON, STK-efemeride, SigMF</s1>
+
+# observatory/index.html
+# c1: kshana interference-map daily <input> --dataset adsb-lol --day 2026-09-15 --out products/
+seg-c7c10225eaf2 = Nog niets geopend. Om de bestanden te maken: <c1/>.
+
+# observatory/index.html
+seg-c7d4820fefdf = niet waargenomen
+
+# trust/index.html
+seg-c822f981cfcf = Poort
+
+# index.html
+seg-ca95c1e1237a = Een gekalibreerde digitale tweeling van uw eigen apparaat nodig, een bewijspakket van auditkwaliteit of integratie met gesloten broncode? Dat is <a1>Kshana Pro</a1>, onder contract.
+
+# training/index.html
+seg-cae10fb9bff8 = Scenario
+
+# tools/index.html
+seg-cc3ced384846 = Tabel-id
+
+# geometry/index.html
+seg-cd545b3588cf = <b>Dilutie van precisie (DOP)</b> is hoeveel de geometrie van de satellieten de fout van elke afstandsmeting vermenigvuldigt. Satellieten die over de hemel verspreid staan, geven een lage DOP; satellieten die bij elkaar staan, of allemaal hoog boven het hoofd, geven een hoge DOP. GDOP is de geometrische DOP (positie en tijd), PDOP de driedimensionale positie-DOP, HDOP de horizontale, VDOP de verticale en TDOP de DOP van de ontvangerklok (tijd).
+
+# lunar/index.html
+# c1: lunar-station-coverage
+seg-ce9444c95be8 = Een differentieel referentiestation op een opgemeten locatie berekent correcties voor de maannavigatiesatellieten die het ziet; een gebruiker in de buurt past ze toe, en de fouten die beiden delen, heffen elkaar op. Deze weergave brengt de fout in kaart die overblijft over een zuidpoolraster en een dag aan epochs: de gecorrigeerde percentielfout per punt, hoe ver van het station die binnen een drempel blijft, beschikbaarheid en beschermingsniveaus. Elk cijfer komt uit het <c1/>-rapport van de Kshana-engine. <a1>Wat dit toont</a1>.
+
+# geometry/index.html
+seg-cf1312ed607a = <b>Positiefout ≈ σ<s1>UERE</s1> × DOP.</b> De gebruikersequivalente afstandsfout (σ<s2>UERE</s2>) is de één-sigmafout van elke afstand: satellietklok en -baan, de atmosfeer, multipad en ontvangerruis samen. Vermenigvuldigd met HDOP geeft ze de horizontale één-sigmafout, en met VDOP de verticale.
+
+# interference/index.html
+seg-cf349420d4e6 = Kies een CSV…
+
+# replay/index.html
+seg-cf759a67ddfd = <b>Alleen voor training en testen.</b> De runs zijn synthetisch, met verzonnen posities en data; de kust eronder is echt land dat alleen ter oriëntatie is getekend, geen zeekaart. Een weergave toont wat er is geïnjecteerd en wanneer, gebruik haar dus bij de nabespreking, niet tijdens een oefening. <b>Adviserende software.</b> Kshana is geen typegoedgekeurde navigatieapparatuur (IEC { "61108" }, IEC { "61162" }) en zegt niets over hoe een ontvanger of systeem zou presteren tegen echte interferentie. De exploitant blijft verantwoordelijk voor de navigatie van het vaartuig.
+
+# trust/index.html
+seg-d090e9a62367 = <b>Adviserende software.</b> Geen typegoedgekeurde navigatieapparatuur. Een alarm is een waarneming over het logboek, geen bevinding over de oorzaak, en geen alarm is geen garantie dat een positiebepaling goed is.
+
+# observatory/index.html
+seg-d1d22e6868f6 = <b>Adviserende software.</b> Kshana is geen typegoedgekeurde navigatieapparatuur (IEC { "61108" }, IEC { "61162" }) en is niet beoordeeld aan een prestatienorm. Een <b>gedegradeerde</b> cel betekent dat een groot deel van de daar bemonsterde vliegtuigen die dag een lage navigatienauwkeurigheid meldde. <b>Er wordt geen oorzaak toegeschreven</b>: lage nauwkeurigheid heeft veel oorzaken, en deze pagina noemt er geen en ook geen actor. <b>Niet waargenomen is niet vrij.</b> Het is geen live weergave, geen waarschuwing en geen bevestiging van wat dan ook, en het is geen goedkeuring, certificering of verklaring van conformiteit.
+
+# tools/index.html
+seg-d255f50a38fd = Kies resultaatbestanden…
+
+# advanced/index.html
+seg-d26c2ce37261 = Weergaven
+
+# tools/index.html
+# c1: .tsr
+seg-d286e0e72e96 = Tijdstempelantwoord (<c1/>)
+
+# tools/index.html
+seg-d2bed15bbabe = Referentietijd, GST-seconden, van een onafhankelijke bron
+
+# geometry/index.html
+seg-d392016fb917 = Hoogte, meter
+
+# replay/index.html
+seg-d39a69ad0054 = Kust
+
+# geometry/index.html
+seg-d3b7d1622ea6 = −{ "1" } h
+
+# interference/index.html
+seg-d4a762001549 = Licentie
+
+# tools/index.html
+seg-d507260dfc9f = Ook
+
+# advanced/index.html
+seg-d69e23e80f28 = Ontwikkelaars
+
+# index.html
+seg-d79f4c62922d = <b>Hoe lang kan een klok de tijd houden zonder satellieten?</b><s1>Klokholdover</s1>
+
+# tools/index.html
+# c1: manifest.json
+# c2: openssl ts -query
+# c3: openssl ts -verify
+seg-d88c12129d44 = Een RFC { "3161" }-token koppelt een tijdstip aan <c1/>. Vraag het aan met <c2/>, stuur het naar uw tijdstempelautoriteit en voeg dan het antwoord hier toe. <b>Dit controleert de handtekening of de certificaatketen van de autoriteit niet</b>: voer daarvoor <c3/> uit.
+
+# advanced/index.html
+seg-da60d773bcf2 = Instellen
+
+# replay/index.html
+seg-db596651e6fd = Verbreden tot de kust
+
+# geometry/index.html
+seg-dbada4043846 = Epoch, gecoördineerde wereldtijd (UTC), { "2000" } tot { "2099" } (ingevoerd als UTC; geen tijdzoneomrekening)
+
+# lunar/index.html
+seg-dbef3d1356c6 = De opname die met de Studio wordt meegeleverd
+
+# advanced/index.html
+seg-dcb3ee3095ea = Kshana is open source onder de AGPL-3.0 (GNU Affero General Public License), met een commerciële licentie beschikbaar. Door Ashforde®. Elk cijfer is voorzien van zijn bewijsniveau; de cijfers voor tijdsynchronisatie, integriteit en beveiliging van <s1>Kshana Studio</s1> zijn gemodelleerd tenzij als gevalideerd gemarkeerd.
+
+# tools/index.html
+seg-dcc9b1568c20 = Uit het bestand afleiden
+
+# tools/index.html
+seg-dcf80b355d1d = Testgebied ({ "0" }: niet opgegeven)
+
+# geometry/index.html
+seg-dd54031b481a = Constellaties
+
+# advanced/index.html
+seg-e00dede0cbb9 = Alle domeinen, als tegels
+
+# advanced/index.html
+seg-e02635128fa4 = Insluitmodus bekijken <s1>opent in een nieuw tabblad</s1>
+
+# advanced/index.html
+seg-e02d92584d5a = Openen in <s1>Kshana Studio</s1>
+
+# tools/index.html
+# c1: hybrid
+# c2: fusion
+# c3: [accel_classical]
+seg-e0d931fb9fa8 = De scenario's <c1/> en <c2/> zijn simulaties die sensorruisparameters als invoer nemen, geen gemeten reeks. Dit leest die parameters uit een <b>stilstaand</b> IMU-logboek af (de overlappende Allan-deviatie van het geïntegreerde signaal) en schrijft een kant-en-klare <c3/>-tabel die de SHA-256 van het logboek noemt. Het bestand wordt in deze browser gelezen en nooit geüpload.
+
+# advanced/index.html
+seg-e0fca417482a = Het scenario openen…
+
+# index.html
+seg-e11b46863c7c = Delen
+
+# index.html
+seg-e29d48cfd73a = <b>Holdover-test</b><s1>Trek de antenne los, score de holdover: een tijdfoutregistratie gemeten aan de ITU-T-maskers.</s1>
+
+# index.html
+seg-e2ec2acef569 = <b>Maaninfrastructuur</b><s1>Wat maanbaanvoertuigen en een oppervlaktestation kunnen doen als navigatie- en geodetische infrastructuur, met de missers vermeld.</s1>
+
+# advanced/index.html
+seg-e73ea9921fcf = Parameter
+
+# lunar/index.html
+seg-e7572abf9b3c = gecorrigeerde percentielfout, over het eigen bereik
+
+# tools/index.html
+seg-e8e68a8be0a6 = Specifieke kracht die die as in rust meet, m/s² ({ "0" } horizontaal, ongeveer { "9.80665" } verticaal)
+
+# index.html
+seg-eb9ebcd5e957 = <b>Interferentiekaart</b><s1>Waar vliegtuigen en schepen gedegradeerde navigatiegegevens meldden, en de blootstelling van een route.</s1>
+
+# geometry/index.html
+seg-ebad96f6f920 = +{ "1" } h
+
+# geometry/index.html
+seg-ebc83a18d97c = Hoogte linkergebouw, meter
+
+# index.html
+seg-ec3cd95a740d = <b>Geometrie</b><s1>Welke satellieten ziet u vanaf een plaats, en hoe goed is hun geometrie? Teken de skyline.</s1>
+
+# index.html
+seg-ed7befb0e9f6 = Dit resultaat openen
+
+# advanced/index.html
+seg-ee0ffb5be403 = De engine lokaal <b>uitvoeren</b>
+
+# index.html
+seg-ee19f3717280 = Maanstation
+
+# trust/index.html
+# c1: kshana receiver-trust
+seg-ee9aad877fd8 = Voor een vaste of niet-gespecificeerde ontvanger controleert <c1/> een GNSS-logboek aan zijn eigen kalibratievenster en zegt wanneer het niet meer op zichzelf leek. Het geeft toestanden en alarmen, niet de vaartuigscore van { "0" } tot { "100" }. Voer het illustratieve voorbeeld uit (een verzonnen logboek met een jammer van { "120" } s tot { "240" } s) of uw eigen NMEA-logboek met dezelfde instellingen. Het logboek wordt hier gelezen en nooit geüpload.
+
+# tools/index.html
+seg-efb4dc713dd2 = Ook in de Studio: <a1>Geometrie</a1>, de skyplot, skyline en dilutie van precisie voor een plaats en een tijd; <a2>Maanstation</a2>, de gemodelleerde dekking van een maanreferentiestation; <a3>Maritiem vertrouwen</a3>; <a4>Interferentiekaart</a4>; <a5>Trainingsnabespreking</a5>.
+
+# holdover/index.html
+seg-f155b7ceef1f = TDEV
+
+# mission-thread/index.html
+seg-f2be7442bdf2 = Gebeurtenissen
+
+# tools/index.html
+seg-f2ce7fc60cdf = Formaat
+
+# advanced/index.html
+seg-f4b7cada2310 = Sweep
+
+# interference/index.html
+seg-f4c16e6a9663 = Kies bestanden…
+
+# index.html
+seg-f4d1ec6fc464 = Citeren
+
+# index.html
+seg-f5d247d49432 = Brugweergave
+
+# interference/index.html
+seg-f63dd3d7aad4 = Bron
+
+# interference/index.html
+seg-f6c5554e22a0 = De demobestanden zijn <b>synthetisch</b>: elk aantal is verzonnen, op een verzonnen regio, zonder volgbron, partnergegevens of echte dag erachter. Hun gegevensblok zegt dat.
+
+# lunar/index.html
+seg-fa063693b336 = Onder de vastgelegde openbare aannames, geen uitspraak over de prestaties van een echt systeem.
+
+# tools/index.html
+seg-fa06706aec55 = Septentrio SBF
+
+# training/index.html
+seg-fa131441c483 = Koers en logsnelheid (HDT en VBW) staan in voor een gyrokompas en een dopplerlog. <b>Geen enkele gebeurtenis raakt ze</b>, dus een verschil tussen wat GNSS meldt en wat zij zeggen is een aanwijzing voor de nabespreking.
+
+# advanced/index.html
+seg-fa37e351f6b4 = Kopiëren
+
+# lunar/index.html
+seg-fa4468d4cb80 = Beschikbaarheid
+
+# tools/index.html
+seg-fb07400cdee2 = Een tijdstempeltoken vereisen
+
+# index.html
+seg-fc310f9d867c = Bladeren
+
+# advanced/index.html
+seg-fc996ea3d2ce = Resultaten
+
+# advanced/index.html
+seg-fd4276fe5f5e = Vergelijken
+
+# interference/index.html
+# c1: adsb-<dataset>-YYYY-MM-DD.geojson
+# c2: ais-<dataset>-YYYY-MM-DD.geojson
+seg-fd4e582c272e = Kies een of meer <c1/>- of <c2/>-bestanden. ADS-B- en AIS-bestanden worden altijd als aparte kaarten getoond en nooit gecombineerd: hun licenties verschillen (een ADS-B-bestand draagt de licentie van zijn bron, ODbL { "1.0" } voor de ingebouwde bron; AIS-bestanden zijn publiek domein of NLOD { "2.0" }) en dat geldt ook voor wat een cel betekent.
+
+# geometry/index.html
+seg-fd600e95e731 = <b>De skyplot</b> is de hemel gezien vanaf de plaats: elke markering is een satelliet op zijn azimut (kompaspeiling) en elevatie (hoek boven de horizon). Kleur en vorm geven allebei aan tot welke constellatie hij behoort.
+
+# index.html
+seg-fda27ae5d5f2 = <a1>Kshana Pro</a1>: een op uw apparaat gekalibreerde klokdigitale tweeling, een afwegingsstudie met een bewijspakket van auditkwaliteit, of integratie met gesloten broncode, beschikbaar onder contract. <a2>Een evaluatie aanvragen</a2> · <a3>Praat met ons over een commerciële licentie</a3> · <a4>Een studie aanvragen</a4>
+
+# advanced/index.html
+seg-fdb067cc01c0 = Het validatieregister openen
+
+# observatory/index.html
+# c1: docs/observatory/METHOD.md
+seg-ff19c890942d = Elk cijfer is MODELLED: er is geen grondwaarheid en geen externe onafhankelijke referentie. De methodenotitie is <c1/> in de repository.

@@ -432,3 +432,291 @@ seg-97c316c29fa6 = <b>Hvad dette er, og ikke er.</b> En beskrivelse af, hvordan 
 seg-99e01fb5fac5 = Luk
 
 seg-9a71c933f4ad = <b>Månestation</b><s1>Hvilken nøjagtighed kunne en referencestation nær månens sydpol give, og hvor? MODELLED.</s1>
+
+seg-9c1fc0ddcc14 = Motoren indlæses. Du kan allerede udforske dette resultat.
+
+# c1: ↓
+# c2: ↵
+# c3: ⌘↵
+seg-9c28d67257b7 = <c1/> flyt<c2/> åbn<c3/> kør
+
+seg-9c7eb1d43601 = Logformat
+
+seg-9cebd87d7cb3 = Holdover <s1>fejl siden GNSS gik tabt</s1>
+
+seg-9d3f3d06a1e9 = Alle felter
+
+seg-9d56e41f9b35 = Betroede offentlige nøgler, én pr. linje som ID:TYPE:HEX
+
+seg-9e02f1f28e0d = Åbn et resultat…
+
+seg-9e98e0ba70a3 = Genopretningshold, s
+
+seg-9ea513d25c6c = Input til en kørsel her
+
+seg-a11e88108e1c = <b>Fejlellipsen</b> er den horisontale fejl ud fra geometriens kovarians, σ<s1>UERE</s1>² gange øst–nord-blokken i DOP-matricen: længere langs de retninger, satellitterne begrænser mindst. Den tegnes ved 1 sigma og ved { "95" } % ({ "2.448" } gange større). <b>Monte Carlo-skyen</b> er mange mindste kvadraters løsninger med seedede tilfældige afstandsfejl gennem samme geometri; dens RMS vises ved siden af σ<s2>UERE</s2> × HDOP, med andelen af punkter inden for { "95" } %-ellipsen. Samme seed giver altid samme sky.
+
+seg-a12c3181b54f = Almindelige sider
+
+seg-a13eab564243 = MTIE
+
+# c1: kshana scenarios/optical-atmosphere-network.toml
+seg-a27cd1efd1e0 = Du kan selv køre scenarierne i Studio (den avancerede visning, »Optisk link gennem atmosfæren«) eller med <c1/>.
+
+seg-a39633d5b858 = <b>Kan jeg stole på min positionsbestemmelse?</b><s1>Integritet over { "12" } timer</s1>
+
+seg-a3e4a0eed763 = <b>Vejledende software.</b> Kshana er ikke typegodkendt navigationsudstyr (IEC { "61108" }, IEC { "61162" }) og er ikke vurderet mod nogen ydelsesstandard. Hvert tal bærer den etiket, registret har for det (<b>MODELLED</b>, medmindre en ekstern uafhængig reference blev brugt); det er et hjælpemiddel til skøn, ikke et fund om noget sted, nogen mission eller nogen hændelse.
+
+seg-a763be7ea9dc = <b>Hvor mange satellitter kan jeg se, hvor som helst på Jorden?</b><s1>Vises nedenfor</s1>
+
+seg-a86ce24d81de = Bånd
+
+# c1: kshana receiver-trust
+seg-a96454c73df8 = Åbn en <c1/>-kørsel for et fartøj. Kshana giver hver positionsbestemmelse en score fra { "0" } til { "100" } ud fra det, modtageren allerede lægger på bussen, og angiver, hvilke kontroller der satte den ned. Filer, du åbner her, læses på denne side og uploades aldrig.
+
+seg-a9ef52ece457 = Horisontprofil
+
+seg-aae75f3d3aa5 = Vælg
+
+seg-ab7707938042 = Underskriverens offentlige nøgle ({ "64" } hexadecimale cifre, fået fra underskriveren ad en anden vej)
+
+seg-ac17942f6859 = Kshana <s1>Studio</s1>
+
+seg-ad64a2924107 = Landpolygoner (AIS, valgfrit)…
+
+seg-ae381f746364 = EuRoC MAV imu0 data.csv
+
+seg-aeb5496025cc = alle tilstande
+
+seg-aed6b80b551b = Hændelser
+
+seg-af4ccbe11812 = Tema
+
+seg-aff1d135221c = RINEX-observation
+
+seg-b022a11dd8f7 = Cellestørrelse, grader
+
+seg-b15b4194ca66 = Funktion
+
+seg-b1659454ecd9 = Modtagerlog…
+
+seg-b19953c7935c = ADS-B (fly)
+
+seg-b1a61b70c1f4 = Højre bygnings højde, meter
+
+seg-b1cde8d570b5 = Giv score som et fartøj (bevægelig platform, { "0" } til { "100" })
+
+seg-b21dccf8bbaa = Erstat et eksisterende token
+
+seg-b2f5c73a80ac = GNSS for rumbrugere
+
+seg-b4bf08d8b815 = Kun forringede og ikke betroede
+
+seg-b54ecd186a7f = Øjeblik
+
+seg-b5765678da41 = Biblioteksscenarierne er <b>syntetisk tekst</b> med opdigtede positioner, datoer og spor. Intet virkeligt fartøj, ingen virkelig operatør og ingen virkelig optagelse ligger bag dem.
+
+# c1: *.instructor.json
+# c2: kshana nmea-scenario
+seg-b63ff9605b69 = Åbn instruktørloggen (<c1/>), som <c2/> skriver ved siden af en træningsstrøm. Den viser det sande spor mod det, modtageren rapporterede, de hændelser, der blev injiceret, og hvornår, og hvad modtageren sagde om sin positionsbestemmelse, sit signal, sine satellitter og sin tid. Filer, du åbner her, læses på denne side og uploades aldrig.
+
+seg-b6af4a84da50 = Fejlellipsen ud fra geometriens kovarians for den valgte σ<s1>UERE</s1>, ved 1 sigma og { "95" } % (begge fra motoren), over en seedet Monte Carlo-sky af mindste kvadraters løsninger. Øst til højre, nord opad, i meter.
+
+seg-b728f4816263 = <b>GNSS for rumbrugere</b><s1>Hvilke navigationssignaler kan et rumfartøj højt over satellitterne stadig bruge, og hvor godt klarer et filter om bord og en formation sig med dem.</s1>
+
+seg-b7b26b97afbd = <b>Vejledende software.</b> Kshana er ikke typegodkendt navigationsudstyr (IEC { "61108" }, IEC { "61162" }) og er ikke vurderet mod nogen ydelsesstandard. Dens scores, autentificeringsstatus og eksporter er hjælpemidler til skøn og optegnelser over, hvad motoren beregnede. De er ikke en certificering, en juridisk udtalelse eller et faktuelt fund om nogen hændelse.
+
+seg-b7db2572d40b = u-blox UBX (SFRBX)
+
+seg-b966dd26caa6 = Datasæt
+
+seg-ba963d8caa19 = Licens-URL
+
+seg-baacf578ad9c = Logens første epoke, UTC (ISO { "8601" }; tom, når loggen angiver den)
+
+seg-baea4e05ad26 = Fase
+
+seg-bb02baa8656c = UTC-tidspunkt for bevægelsens tidspunkt nul
+
+seg-bbdd5511b2d4 = Vælg en rute…
+
+seg-bd17501804af = Syntetisk eksempel
+
+seg-bdb4733dec65 = Udgaver
+
+seg-bdf48a0aa8ee = Filtersundhed <s1>Kalmans selvkonsistens</s1>
+
+seg-bfb10aedf165 = Generér
+
+seg-bfd7751a9990 = MTIE <s1>maksimal tidsintervalfejl</s1>
+
+seg-c3bab83395bf = <b>Del eller eksportér</b> kørslen
+
+seg-c4f955d5f506 = tilgængelighed
+
+seg-c6251ca94299 = Interoperabilitetseksporter <s1>CZML, KML, GeoJSON, STK-efemeride, SigMF</s1>
+
+# c1: kshana interference-map daily <input> --dataset adsb-lol --day 2026-09-15 --out products/
+seg-c7c10225eaf2 = Intet åbent endnu. Sådan laver du filerne: <c1/>.
+
+seg-c7d4820fefdf = ikke observeret
+
+seg-c822f981cfcf = Gate
+
+seg-ca95c1e1237a = Har du brug for en kalibreret digital tvilling af din egen enhed, en bevispakke af revisionskvalitet eller integration med lukket kildekode? Det er <a1>Kshana Pro</a1>, under kontrakt.
+
+seg-cae10fb9bff8 = Scenarie
+
+seg-cc3ced384846 = Tabel-id
+
+seg-cd545b3588cf = <b>Præcisionsforringelse (DOP)</b> er, hvor meget satellitternes geometri ganger fejlen i hver afstandsmåling op. Satellitter spredt over himlen giver lav DOP; satellitter, der er samlet, eller alle højt oppe over hovedet, giver høj DOP. GDOP er den geometriske DOP (position og tid), PDOP den tredimensionelle positions-DOP, HDOP den horisontale, VDOP den vertikale og TDOP modtagerurets (tids-)DOP.
+
+# c1: lunar-station-coverage
+seg-ce9444c95be8 = En differentiel referencestation på et opmålt sted beregner korrektioner for de månenavigationssatellitter, den ser; en bruger i nærheden anvender dem, og de fejl, de to deler, ophæver hinanden. Denne visning kortlægger den fejl, der er tilbage over et sydpolært gitter og et døgn af epoker: den korrigerede percentilfejl pr. punkt, hvor langt fra stationen den holder sig inden for en tærskel, tilgængelighed og beskyttelsesniveauer. Hvert tal kommer fra Kshana-motorens <c1/>-rapport. <a1>Hvad dette viser</a1>.
+
+seg-cf1312ed607a = <b>Positionsfejl ≈ σ<s1>UERE</s1> × DOP.</b> Den brugerækvivalente afstandsfejl (σ<s2>UERE</s2>) er ét-sigma-fejlen på hver afstand: satellitur og satellitbane, atmosfæren, flervejsudbredelse og modtagerstøj tilsammen. Ganget med HDOP giver den ét-sigma-fejlen i horisontalplanet og med VDOP i det vertikale.
+
+seg-cf349420d4e6 = Vælg en CSV…
+
+seg-cf759a67ddfd = <b>Kun til træning og test.</b> Kørslerne er syntetiske, med opdigtede positioner og datoer; kysten under dem er virkeligt land, tegnet kun til orientering, ikke et søkort. En afspilning viser, hvad der blev injiceret, og hvornår, så brug den ved debriefingen, ikke under en øvelse. <b>Vejledende software.</b> Kshana er ikke typegodkendt navigationsudstyr (IEC { "61108" }, IEC { "61162" }) og siger intet om, hvordan nogen modtager eller noget system ville klare sig mod virkelig interferens. Operatøren er fortsat ansvarlig for fartøjets navigation.
+
+seg-d090e9a62367 = <b>Vejledende software.</b> Ikke typegodkendt navigationsudstyr. En alarm er en iagttagelse om loggen, ikke et fund om årsagen, og ingen alarm er ikke en garanti for, at en positionsbestemmelse er god.
+
+seg-d1d22e6868f6 = <b>Vejledende software.</b> Kshana er ikke typegodkendt navigationsudstyr (IEC { "61108" }, IEC { "61162" }) og er ikke vurderet mod nogen ydelsesstandard. En <b>forringet</b> celle betyder, at en høj andel af de fly, der blev samplet dér, rapporterede lav navigationsnøjagtighed den dag. <b>Ingen årsag tillægges</b>: lav nøjagtighed har mange årsager, og denne side nævner ingen og ingen aktør. <b>Ikke observeret er ikke klart.</b> Den er ikke en levende visning, en advarsel eller en bekræftelse af noget, og den er ikke en godkendelse, en certificering eller en erklæring om overensstemmelse.
+
+seg-d255f50a38fd = Vælg resultatfiler…
+
+seg-d26c2ce37261 = Visninger
+
+# c1: .tsr
+seg-d286e0e72e96 = Tidsstempelsvar (<c1/>)
+
+seg-d2bed15bbabe = Referencetid, GST-sekunder, fra en uafhængig kilde
+
+seg-d392016fb917 = Højde, meter
+
+seg-d39a69ad0054 = Kyst
+
+seg-d3b7d1622ea6 = −{ "1" } h
+
+seg-d4a762001549 = Licens
+
+seg-d507260dfc9f = Også
+
+seg-d69e23e80f28 = Udviklere
+
+seg-d79f4c62922d = <b>Hvor længe kan et ur holde tiden uden satellitter?</b><s1>Urets holdover</s1>
+
+# c1: manifest.json
+# c2: openssl ts -query
+# c3: openssl ts -verify
+seg-d88c12129d44 = Et RFC { "3161" }-token binder et tidspunkt til <c1/>. Anmod om det med <c2/>, send det til din tidsstempelmyndighed, og vedhæft derefter svaret her. <b>Dette kontrollerer ikke myndighedens signatur eller certifikatkæde</b>: kør <c3/> til det.
+
+seg-da60d773bcf2 = Indstil
+
+seg-db596651e6fd = Udvid til kysten
+
+seg-dbada4043846 = Epoke, koordineret universaltid (UTC), { "2000" } til { "2099" } (angives som UTC; ingen tidszoneomregning)
+
+seg-dbef3d1356c6 = Optagelsen, der leveres med Studio
+
+seg-dcb3ee3095ea = Kshana er open source under AGPL-3.0 (GNU Affero General Public License), med mulighed for en kommerciel licens. Af Ashforde®. Hvert tal er mærket med sit evidensniveau; de tal for tidssynkronisering, integritet og sikkerhed, der findes i <s1>Kshana Studio</s1>, er modellerede, medmindre de er markeret som validerede.
+
+seg-dcc9b1568c20 = Registrér ud fra filen
+
+seg-dcf80b355d1d = Testområde ({ "0" }: ikke angivet)
+
+seg-dd54031b481a = Konstellationer
+
+seg-e00dede0cbb9 = Alle områder, som fliser
+
+seg-e02635128fa4 = Forhåndsvis indlejringstilstand <s1>åbner i en ny fane</s1>
+
+seg-e02d92584d5a = Åbn i <s1>Kshana Studio</s1>
+
+# c1: hybrid
+# c2: fusion
+# c3: [accel_classical]
+seg-e0d931fb9fa8 = Scenarierne <c1/> og <c2/> er simuleringer, der tager sensorstøjparametre, ikke en målt serie. Dette aflæser parametrene fra en <b>stillestående</b> IMU-log (den overlappende Allan-deviation af det integrerede signal) og skriver en færdig til at indsætte <c3/>-tabel, der angiver logens SHA-256. Filen læses i denne browser og uploades aldrig.
+
+seg-e0fca417482a = Åbner scenariet…
+
+seg-e11b46863c7c = Del
+
+seg-e29d48cfd73a = <b>Holdover-test</b><s1>Træk antennen, giv holdoveren en score: en tidsfejlspost målt mod ITU-T-maskerne.</s1>
+
+seg-e2ec2acef569 = <b>Månens infrastruktur</b><s1>Hvad månekredsløb og en overfladestation kan gøre som infrastruktur til navigation og geodæsi, med missene angivet.</s1>
+
+seg-e73ea9921fcf = Parameter
+
+seg-e7572abf9b3c = korrigeret percentilfejl, over sit eget interval
+
+seg-e8e68a8be0a6 = Specifik kraft, som aksen læser i hvile, m/s² ({ "0" } horisontalt, ca. { "9.80665" } vertikalt)
+
+seg-eb9ebcd5e957 = <b>Interferenskort</b><s1>Hvor fly og skibe rapporterede forringede navigationsdata, og en ruters eksponering.</s1>
+
+seg-ebad96f6f920 = +{ "1" } h
+
+seg-ebc83a18d97c = Venstre bygnings højde, meter
+
+seg-ec3cd95a740d = <b>Geometri</b><s1>Hvilke satellitter kan du se fra et sted, og hvor god er deres geometri? Tegn horisontprofilen.</s1>
+
+seg-ed7befb0e9f6 = Åbn dette resultat
+
+seg-ee0ffb5be403 = <b>Kør</b> motoren, lokalt
+
+seg-ee19f3717280 = Månestation
+
+# c1: kshana receiver-trust
+seg-ee9aad877fd8 = For en fast eller uspecificeret modtager kontrollerer <c1/> en GNSS-log mod sit eget kalibreringsvindue og siger, hvornår den holdt op med at ligne sig selv. Den giver tilstande og alarmer, ikke fartøjsscoren fra { "0" } til { "100" }. Kør det illustrative eksempel (en opdigtet log med en jammer fra { "120" } s til { "240" } s) eller din egen NMEA-log under de samme indstillinger. Loggen læses her og uploades aldrig.
+
+seg-efb4dc713dd2 = Også i Studio: <a1>Geometri</a1>, skyplottet, horisontprofilen og præcisionsforringelsen for et sted og et tidspunkt; <a2>Månestation</a2>, den modellerede dækning for en månereferencestation; <a3>Maritim tillid</a3>; <a4>Interferenskort</a4>; <a5>Træningsdebriefing</a5>.
+
+seg-f155b7ceef1f = TDEV
+
+seg-f2be7442bdf2 = Hændelser
+
+seg-f2ce7fc60cdf = Format
+
+seg-f4b7cada2310 = Sweep
+
+seg-f4c16e6a9663 = Vælg filer…
+
+seg-f4d1ec6fc464 = Citér
+
+seg-f5d247d49432 = Afspilning af broen
+
+seg-f63dd3d7aad4 = Kilde
+
+seg-f6c5554e22a0 = Demofilerne er <b>syntetiske</b>: hvert antal er opdigtet, på en opdigtet region, uden nogen sporingskilde, partnerdata eller virkelig dag bag sig. Deres datablok siger det.
+
+seg-fa063693b336 = Under de angivne offentlige antagelser, ikke en udtalelse om ydeevnen af noget virkeligt system.
+
+seg-fa06706aec55 = Septentrio SBF
+
+seg-fa131441c483 = Kurs og logfart (HDT og VBW) træder i stedet for et gyrokompas og en dopplerlog. <b>Ingen hændelse påvirker dem</b>, så en forskel mellem det, GNSS rapporterer, og det, de siger, er et tegn at tage op ved debriefingen.
+
+seg-fa37e351f6b4 = Kopiér
+
+seg-fa4468d4cb80 = Tilgængelighed
+
+seg-fb07400cdee2 = Kræv et tidsstempel-token
+
+seg-fc310f9d867c = Gennemse
+
+seg-fc996ea3d2ce = Resultater
+
+seg-fd4276fe5f5e = Sammenlign
+
+# c1: adsb-<dataset>-YYYY-MM-DD.geojson
+# c2: ais-<dataset>-YYYY-MM-DD.geojson
+seg-fd4e582c272e = Vælg en eller flere <c1/>- eller <c2/>-filer. ADS-B- og AIS-filer vises altid som separate kort og kombineres aldrig: deres licenser er forskellige (en ADS-B-fil bærer sin kildes licens, ODbL { "1.0" } for den indbyggede kilde; AIS-filer er public domain eller NLOD { "2.0" }), og det samme gælder, hvad en celle betyder.
+
+seg-fd600e95e731 = <b>Skyplottet</b> er himlen set fra stedet: hvert mærke er en satellit ved sin azimut (kompaskurs) og elevation (vinkel over horisonten). Farve og form siger begge, hvilken konstellation den hører til.
+
+seg-fda27ae5d5f2 = <a1>Kshana Pro</a1>: en urets digitale tvilling kalibreret til din enhed, et afvejningsstudie med en bevispakke af revisionskvalitet eller integration med lukket kildekode, tilgængeligt under kontrakt. <a2>Bed om en evaluering</a2> · <a3>Tal med os om en kommerciel licens</a3> · <a4>Bed om et studie</a4>
+
+seg-fdb067cc01c0 = Åbn valideringsregistret
+
+# c1: docs/observatory/METHOD.md
+seg-ff19c890942d = Hvert tal er MODELLED: der er ingen jordreference og ingen ekstern uafhængig reference. Metodenotatet er <c1/> i arkivet.
