@@ -5591,3 +5591,1915 @@ js-kind-note-the-gabor-root-mean-square = Gaborova šířka pásma (střední kv
 js-kind-note-the-largest-jammer-to-signal = Největší poměr rušiče k signálu (J/S), přes který každý signál ještě sleduje, pro rušič s nepřetržitou vlnou (CW), rušič s odpovídajícím spektrem a širokopásmový rušič.
 
 js-kind-note-the-shapiro-delay-is-the = Shapirovo zpoždění je dodatečný světelný čas způsobený gravitací Slunce podél dráhy.
+
+js-kind-note-the-spectrum-kind-and-the = Druh spektrum a druh rušení počítají tentýž spoj dvěma způsoby; poslední sloupec je jejich rozdíl.
+
+js-kind-note-time-of-arrival-toa-ranging = Měření vzdálenosti dobou příchodu (TOA) na sestupném spoji nepozemské sítě (NTN): širší signál měří vzdálenost ostřeji.
+
+js-kind-note-what-half-a-least-significant = Co stojí polovina nejméně významného bitu (LSB) každého pole v poloze a v hodinách, vyjádřeno jako vzdálenost.
+
+js-kind-rowhead-block = Blok
+
+js-kind-rowhead-condition = Podmínka
+
+js-kind-rowhead-figure = Hodnota
+
+js-kind-rowhead-member = Člen
+
+js-kind-rowhead-metric = Metrika
+
+js-kind-rowhead-monitor = Monitor
+
+js-kind-rowhead-phase = Fáze
+
+js-kind-rowhead-satellite = Družice
+
+js-kind-rowhead-signal = Signál
+
+js-kind-rowhead-solution = Řešení
+
+js-kind-sub-clock-offset-db = { $clock }, { $offset } dB
+
+js-kind-sub-doppler-only = pouze Doppler
+
+js-kind-sub-from-to = { $from } až { $to }
+
+js-kind-sub-fused = sloučeno
+
+js-kind-sub-gnss-and-leo-latitude = GNSS a LEO, zeměpisná šířka { $lat }°
+
+js-kind-sub-gnss-only = pouze GNSS
+
+js-kind-sub-gnss-only-latitude = pouze GNSS, zeměpisná šířka { $lat }°
+
+js-kind-sub-model-fit-seconds = { $model }, proložení { $fit } s
+
+js-kind-threshold-4-needed-for-a-fix = pro určení polohy jsou třeba 4
+
+js-kind-threshold-convergence-criterion = kritérium konvergence
+
+js-kind-threshold-elevation-mask = elevační maska
+
+js-kind-threshold-gnss-median = medián GNSS
+
+js-kind-threshold-tracking-threshold = práh sledování
+
+js-kind-title-acquisition = Vyhledání signálu
+
+js-kind-title-against-a-simulated-campaign = Proti simulované kampani
+
+js-kind-title-assumptions = Předpoklady
+
+js-kind-title-band-trade-at-equal-transmit = Porovnání pásem při stejném vysílacím výkonu
+
+js-kind-title-bands = Pásma
+
+js-kind-title-beside-the-published-figures = Vedle zveřejněných hodnot
+
+js-kind-title-beside-the-published-speed-up = Vedle zveřejněného zrychlení
+
+js-kind-title-bodies = Tělesa
+
+js-kind-title-body = Těleso
+
+js-kind-title-by-latitude = Podle zeměpisné šířky
+
+js-kind-title-c-n0-by-band-over = C/N0 podle pásma v průběhu běhu
+
+js-kind-title-c-n0-over-the-pass = C/N0 v průběhu přeletu
+
+js-kind-title-cases = Případy
+
+js-kind-title-central-body = Centrální těleso
+
+js-kind-title-closed-form-doppler-against-finite = Dopplerův posun v uzavřeném tvaru proti konečným diferencím
+
+js-kind-title-code-tracking-jitter = Chvění sledování kódu
+
+js-kind-title-code-tracking-jitter-against-c = Chvění sledování kódu v závislosti na C/N0
+
+js-kind-title-combined-over-the-members = Kombinováno přes členy
+
+js-kind-title-compatibility-with-gnss-signals = Kompatibilita se signály GNSS
+
+js-kind-title-constellations = Konstelace
+
+js-kind-title-continuity-across-message-switches = Kontinuita napříč přepnutími zprávy
+
+js-kind-title-cross-check-against-the-jamming = Křížová kontrola proti druhu rušení
+
+js-kind-title-datum-accuracy = Přesnost data
+
+js-kind-title-dilution-of-precision-over-the = Faktor zhoršení přesnosti přes celou mřížku
+
+js-kind-title-doppler = Doppler
+
+js-kind-title-doppler-envelopes = Obálky Dopplerova posunu
+
+js-kind-title-doppler-only-fix = Určení polohy pouze z Dopplerova posunu
+
+js-kind-title-doppler-over-the-pass = Dopplerův posun v průběhu přeletu
+
+js-kind-title-doppler-positioning-from-one-pass = Určení polohy z Dopplerova posunu z jednoho přeletu
+
+js-kind-title-earth-link = Spoj se Zemí
+
+js-kind-title-elevation = Elevace
+
+js-kind-title-encoded-frame = Zakódovaný rámec
+
+js-kind-title-epoch = Epocha
+
+js-kind-title-epoch-and-frame = Epocha a soustava
+
+js-kind-title-events = Události
+
+js-kind-title-every-node-of-the-sweep = Každý uzel průchodu
+
+js-kind-title-field-table = Tabulka polí
+
+js-kind-title-figures-of-merit = Ukazatele kvality
+
+js-kind-title-filter-noise = Šum filtru
+
+js-kind-title-fit-interval-trade = Porovnání intervalů proložení
+
+js-kind-title-fix-quality-against-observation-window = Kvalita určení polohy v závislosti na okně pozorování
+
+js-kind-title-frame-checks = Kontroly rámce
+
+js-kind-title-frame-hexadecimal = Rámec, hexadecimálně
+
+js-kind-title-geometry-against-latitude = Geometrie v závislosti na zeměpisné šířce
+
+js-kind-title-geometry-as-leo-satellites-are = Geometrie při přidávání družic LEO
+
+js-kind-title-geometry-position-dilution-of-precision = Geometrie: faktor zhoršení přesnosti polohy
+
+js-kind-title-global-coverage = Globální pokrytí
+
+js-kind-title-gnss-leo-and-fused = GNSS, LEO a sloučeno
+
+js-kind-title-gnss-reference = Reference GNSS
+
+js-kind-title-hand-offs-between-phases = Předávání mezi fázemi
+
+js-kind-title-helmert-fit = Helmertovo proložení
+
+js-kind-title-helmert-transform-parameters = Parametry Helmertovy transformace
+
+js-kind-title-inputs = Vstupy
+
+js-kind-title-ionosphere-free-band-pairs = Dvojice pásem bez vlivu ionosféry
+
+js-kind-title-jammer-tolerance = Tolerance vůči rušiči
+
+js-kind-title-jammers = Rušiče
+
+js-kind-title-joint-fix = Společné určení polohy
+
+js-kind-title-leo-against-gnss = LEO proti GNSS
+
+js-kind-title-limitations = Omezení
+
+js-kind-title-links = Spoje
+
+js-kind-title-member-runs = Běhy členů
+
+js-kind-title-members-under-the-shared-conditions = Členové za společných podmínek
+
+js-kind-title-message = Zpráva
+
+js-kind-title-message-models-compared = Porovnání modelů zprávy
+
+js-kind-title-message-switches = Přepnutí zprávy
+
+js-kind-title-metric-against-axis = { $metric } v závislosti na { $axis }
+
+js-kind-title-metric-distribution-over-runs = { $metric }: rozdělení přes běhy
+
+js-kind-title-mid-pass-update = Aktualizace uprostřed přeletu
+
+js-kind-title-modelled = Modelováno
+
+js-kind-title-monte-carlo = Monte Carlo
+
+js-kind-title-navigation-message-stage = Fáze navigační zprávy
+
+js-kind-title-not-modelled = Nemodelováno
+
+js-kind-title-notes = Poznámky
+
+js-kind-title-notes-on-the-spoofing-model = Poznámky k modelu spoofingu
+
+js-kind-title-observation-windows = Okna pozorování
+
+js-kind-title-one-pass-alone = Samotný jeden přelet
+
+js-kind-title-orbit = Oběžná dráha
+
+js-kind-title-over-the-message-sequence = Přes posloupnost zpráv
+
+js-kind-title-pass = Přelet
+
+js-kind-title-pass-c-n0-of-the = Přelet: C/N0 celého signálu a sledované složky
+
+js-kind-title-pass-code-tracking-jitter = Přelet: chvění sledování kódu
+
+js-kind-title-pass-doppler = Přelet: Doppler
+
+js-kind-title-pass-stage = Fáze přeletu
+
+js-kind-title-passes = Přelety
+
+js-kind-title-phases = Fáze
+
+js-kind-title-position-error-gnss-leo-and = Chyba polohy: GNSS, LEO a sloučené určení polohy
+
+js-kind-title-position-uncertainty-relays-alone-and = Nejistota polohy: samotná relé a se spojem se Zemí
+
+js-kind-title-positioning-by-signal-bandwidth = Určování polohy podle šířky pásma signálu
+
+js-kind-title-positioning-gnss-alone-against-the = Určování polohy: samotné GNSS proti sloučenému určení polohy
+
+js-kind-title-power-spectral-density = Výkonová spektrální hustota
+
+js-kind-title-power-spectral-density-of-each = Výkonová spektrální hustota každého signálu
+
+js-kind-title-precise-point-positioning = Přesné určování polohy bodu
+
+js-kind-title-published-comparison = Zveřejněné porovnání
+
+js-kind-title-quantisation-budget = Rozpočet kvantování
+
+js-kind-title-range-residuals = Rezidua vzdálenosti
+
+js-kind-title-ranging-stations = Stanice měření vzdálenosti
+
+js-kind-title-reading-the-trade = Jak číst porovnání
+
+js-kind-title-realised-position-error = Skutečná chyba polohy
+
+js-kind-title-receiver = Přijímač
+
+js-kind-title-receiver-power-budget = Příkonový rozpočet přijímače
+
+js-kind-title-reflector-information = Informace o reflektoru
+
+js-kind-title-relay-constellation = Konstelace relé
+
+js-kind-title-relays-in-view = Relé ve výhledu
+
+js-kind-title-reproducibility = Reprodukovatelnost
+
+js-kind-title-retroreflectors = Retroreflektory
+
+js-kind-title-rinex-style-record = Záznam ve stylu RINEX
+
+js-kind-title-round-trips = Obousměrné cesty
+
+js-kind-title-run = Běh
+
+js-kind-title-satellites-in-view-against-latitude = Viditelné družice v závislosti na zeměpisné šířce
+
+js-kind-title-sensitivity-to-a-line-of = Citlivost na náklon přímé viditelnosti
+
+js-kind-title-shared-conditions = Společné podmínky
+
+js-kind-title-signal-components = Složky signálu
+
+js-kind-title-signal-stage = Fáze signálu
+
+js-kind-title-signals = Signály
+
+js-kind-title-sisre-against-fit-interval = SISRE v závislosti na intervalu proložení
+
+js-kind-title-sisre-against-update-period = SISRE v závislosti na periodě aktualizace
+
+js-kind-title-sisre-weights = Váhy SISRE
+
+js-kind-title-snapshot = Snímek
+
+js-kind-title-snapshot-against-the-model = Snímek proti modelu
+
+js-kind-title-snapshot-spectrum-welch-estimate-against = Spektrum snímku: Welchův odhad proti modelu
+
+js-kind-title-sources = Zdroje
+
+js-kind-title-spoofer-and-monitor-settings = Nastavení spooferu a monitoru
+
+js-kind-title-spoofing-monitor-probability-of-detection = Monitor spoofingu: pravděpodobnost detekce
+
+js-kind-title-statistics-over-the-runs = Statistiky přes běhy
+
+js-kind-title-sweep = Průchod
+
+js-kind-title-systems = Systémy
+
+js-kind-title-systems-in-the-fix = Systémy v určení polohy
+
+js-kind-title-the-archived-campaign = Archivovaná kampaň
+
+js-kind-title-time-error = Časová chyba
+
+js-kind-title-time-error-by-receiver-clock = Časová chyba podle hodin přijímače
+
+js-kind-title-time-scale = Časová stupnice
+
+js-kind-title-time-to-first-fix-and = Doba do prvního určení polohy a energie na určení polohy
+
+js-kind-title-time-transfer-by-clock-and = Přenos času podle hodin a úrovně signálu
+
+js-kind-title-trade-conditions = Podmínky porovnání
+
+js-kind-title-update-period-trade = Porovnání period aktualizace
+
+js-kind-title-user = Uživatel
+
+js-kind-title-user-range-error-through-the = Chyba vzdálenosti uživatele v průběhu přeletu
+
+js-kind-title-validated = Validováno
+
+js-kind-title-what-each-stage-hands-to = Co každá fáze předává další
+
+js-kind-title-what-this-run-is-and = Čím tento běh je a čím není
+
+js-kind-title-when-each-monitor-detects = Kdy každý monitor detekuje
+
+js-kind-title-work-done = Vykonaná práce
+
+js-kind-yes = ano
+
+js-ledger-rows =
+    { $n ->
+        [one] { $n } řádek registru
+        [few] { $n } řádky registru
+        [many] { $n } řádku registru
+       *[other] { $n } řádků registru
+    }
+
+js-lib-abbr-apv = přiblížení s vertikálním vedením
+
+js-lib-abbr-araim = pokročilá autonomní kontrola integrity přijímače
+
+js-lib-abbr-auc = plocha pod křivkou
+
+js-lib-abbr-c-n0 = poměr nosné k hustotě šumu
+
+js-lib-abbr-ccsds = Poradní výbor pro kosmické datové systémy
+
+js-lib-abbr-cli = rozhraní příkazového řádku
+
+js-lib-abbr-csac = atomové hodiny v měřítku čipu
+
+js-lib-abbr-cw = nepřetržitá vlna
+
+js-lib-abbr-doi = digitální identifikátor objektu
+
+js-lib-abbr-dop = faktor zhoršení přesnosti
+
+js-lib-abbr-eo = pozorování Země
+
+js-lib-abbr-gnss = globální družicový navigační systém
+
+js-lib-abbr-gps = Globální polohový systém
+
+js-lib-abbr-hal = horizontální výstražný limit
+
+js-lib-abbr-hpl = horizontální ochranná úroveň
+
+js-lib-abbr-imu = inerciální měřicí jednotka
+
+js-lib-abbr-ins = inerciální navigační systém
+
+js-lib-abbr-iot = Internet věcí
+
+js-lib-abbr-itu-t = Mezinárodní telekomunikační unie, sektor telekomunikační standardizace
+
+js-lib-abbr-j-s = poměr rušiče k signálu
+
+js-lib-abbr-leo = nízká oběžná dráha Země
+
+js-lib-abbr-llr = měření vzdálenosti Měsíce laserem
+
+js-lib-abbr-meo = střední oběžná dráha Země
+
+js-lib-abbr-mtie = maximální chyba časového intervalu
+
+js-lib-abbr-ntn = nepozemská síť
+
+js-lib-abbr-ocxo = krystalový oscilátor s řízenou teplotou v termostatu
+
+js-lib-abbr-oem = Zpráva o efemeridách oběžné dráhy
+
+js-lib-abbr-omm = Zpráva o středních elementech oběžné dráhy
+
+js-lib-abbr-pdop = faktor zhoršení přesnosti polohy
+
+js-lib-abbr-pnt = určování polohy, navigace a času
+
+js-lib-abbr-ppp = přesné určování polohy bodu
+
+js-lib-abbr-raim = autonomní kontrola integrity přijímače
+
+js-lib-abbr-rf = rádiová frekvence
+
+js-lib-abbr-rinex = Receiver Independent Exchange Format (formát výměny dat nezávislý na přijímači)
+
+js-lib-abbr-roc = provozní charakteristika přijímače
+
+js-lib-abbr-sbas = družicový rozšiřující systém
+
+js-lib-abbr-sgp4 = Simplified General Perturbations 4, propagátor oběžné dráhy
+
+js-lib-abbr-sisre = chyba vzdálenosti signálu v prostoru
+
+js-lib-abbr-slam = současná lokalizace a mapování
+
+js-lib-abbr-spp = jednobodové určování polohy
+
+js-lib-abbr-tdev = časová odchylka
+
+js-lib-abbr-tle = dvouřádkový soubor elementů
+
+js-lib-abbr-toml = formát souboru scénáře
+
+js-lib-abbr-trn = navigace podle reliéfu terénu
+
+js-lib-abbr-uhf = ultravysoká frekvence
+
+js-lib-abbr-ukf = neparfémový Kalmanův filtr
+
+js-lib-abbr-utc = koordinovaný světový čas
+
+js-lib-abbr-val = vertikální výstražný limit
+
+js-lib-abbr-vlbi = interferometrie s velmi dlouhou základnou
+
+js-lib-abbr-vpl = vertikální ochranná úroveň
+
+js-lib-abbr-wg = Pracovní skupina
+
+js-lib-areas-ground-track = Dráha pod družicí
+
+js-lib-areas-holdover = Holdover
+
+js-lib-compare-availability = Dostupnost
+
+js-lib-compare-holdover = Holdover
+
+js-lib-compare-timing-p95 = Časování p95
+
+js-lib-compare-timing-rms = Časování RMS
+
+js-lib-counts-explorer-tally = { $validated } z { $total } schopností validováno proti vnějšímu orákulu · { $modelled } modelováno · { $partner } v odpovědnosti partnera — zde zobrazeno jako { $cards } karet schopností v { $domains } oblastech, { $evidence } tvrzení o důkazech
+
+js-lib-counts-validated-tally = { $validated } z { $total } schopností validováno proti vnějšímu orákulu — zde zobrazeno jako { $cards } karet schopností a { $evidence } tvrzení o důkazech
+
+js-lib-engine-busy = { $verb }…
+
+js-lib-engine-busy-seconds = { $verb }… { $s } s
+
+js-lib-engine-page-http = soubor enginu vrátil HTTP { $status }
+
+js-lib-engine-page-not-running = engine zde neběží
+
+js-lib-engine-worker-crashed = worker enginu selhal
+
+js-lib-evidence-aria = Důkazy: { $tier }, { $count }
+
+js-lib-evidence-ledger-rows =
+    { $n ->
+        [one] { $n } řádek registru
+        [few] { $n } řádky registru
+        [many] { $n } řádku registru
+       *[other] { $n } řádků registru
+    }
+
+js-lib-evidence-rows-behind = Řádky registru za tímto výsledkem
+
+js-lib-geometry-url-bad-mc = Počet vzorků Monte Carlo není žádná z hodnot { $choices }; použije se { $default }.
+
+js-lib-geometry-url-bad-number = „{ $key }“ není číslo od { $min } do { $max }; použije se výchozí hodnota.
+
+js-lib-geometry-url-bad-site = Místo není ve tvaru latitude,longitude[,height] v povoleném rozsahu; použije se výchozí místo.
+
+js-lib-geometry-url-bad-sky = Obzor není předvolba, tabulka o 360 intervalech ani kaňon v povoleném rozsahu; použije se otevřený obzor.
+
+js-lib-geometry-url-bad-sys = Seznam konstelací není G, E, C a nejvýše jedna L:<předvolba LEO>, kterou toto zobrazení zná; použije se výchozí kombinace.
+
+js-lib-geometry-url-own-tle = Odesílatel použil vlastní oběžné elementy (TLE), které odkaz nenese; místo nich se zobrazí předvolby.
+
+js-lib-geometry-url-repeated = „{ $key }“ se vyskytuje více než jednou; použije se první hodnota.
+
+js-lib-geometry-url-too-long = Adresa je delší než { $max } znaků, takže žádné z jejích nastavení nebylo přečteno.
+
+js-lib-geometry-url-unreadable = Adresu se nepodařilo přečíst.
+
+js-lib-guided-duration-s-hint = jak dlouho se má dráha pod družicí propagovat
+
+js-lib-guided-duration-s-label = Doba trvání (s)
+
+js-lib-guided-dut1-s-hint = posun rotace Země; posouvá dráhu pod družicí na východ nebo na západ
+
+js-lib-guided-dut1-s-label = UT1−UTC (s)
+
+js-lib-guided-mask-deg-hint = družice musí být alespoň takto vysoko, aby se počítala jako viditelná
+
+js-lib-guided-mask-deg-label = Elevační maska (°)
+
+js-lib-guided-seed-hint = jiné vylosování šumu téže fyziky
+
+js-lib-guided-seed-label = Náhodný seed
+
+js-lib-guided-sigma-uere-m-hint = chyba vzdálenosti ekvivalentní pro uživatele (1 σ) pro souhrn polohy
+
+js-lib-guided-sigma-uere-m-label = Chyba vzdálenosti σ (m)
+
+js-lib-guided-station-lat-deg-hint = zeměpisná šířka pozemní stanice — určuje geometrii přeletu
+
+js-lib-guided-station-lat-deg-label = Zeměpisná šířka stanice (°)
+
+js-lib-guided-station-lon-deg-hint = zeměpisná délka pozemní stanice
+
+js-lib-guided-station-lon-deg-label = Zeměpisná délka stanice (°)
+
+js-lib-guided-step-s-hint = frekvence vzorkování dráhy pod družicí
+
+js-lib-guided-step-s-label = Časový krok (s)
+
+js-lib-guided-threshold-ns-hint = rozpočet v rámci specifikace; „dostupné“, dokud chyba zůstává pod ním
+
+js-lib-guided-threshold-ns-label = Práh specifikace (ns)
+
+js-lib-guided-time-duration-s-hint = celková délka běhu
+
+js-lib-guided-time-duration-s-label = Doba trvání (s)
+
+js-lib-guided-time-step-s-hint = frekvence integrace / vzorkování
+
+js-lib-guided-time-step-s-label = Časový krok (s)
+
+js-lib-guided-user-altitude-km-hint = výška oběžné dráhy uživatelské kosmické lodi
+
+js-lib-guided-user-altitude-km-label = Výška uživatele (km)
+
+js-lib-guided-user-inclination-deg-hint = sklon oběžné dráhy uživatele
+
+js-lib-guided-user-inclination-deg-label = Sklon uživatele (°)
+
+js-lib-imufit-card-accel-slope = Sklon Allanovy odchylky akcelerometru, na začátku (asi -0,5 pro bílý šum)
+
+js-lib-imufit-card-bias = Bias akcelerometru, průměr (m/s²)
+
+js-lib-imufit-card-bias-instability = Nestabilita biasu akcelerometru (m/s²), 0, když křivka nemá dno
+
+js-lib-imufit-card-gyro-bias = Bias gyroskopu, průměr (rad/s)
+
+js-lib-imufit-card-gyro-slope = Sklon Allanovy odchylky gyroskopu, na začátku (asi -0,5 pro bílý šum)
+
+js-lib-imufit-card-note-n = Poznámka { $n }
+
+js-lib-imufit-card-q-arw = Náhodná procházka úhlu gyroskopu, q_arw (rad²/s)
+
+js-lib-imufit-card-q-va = Náhodná procházka rychlosti akcelerometru, q_va (m²/s³)
+
+js-lib-imufit-card-sample-rate = Vzorkovací frekvence
+
+js-lib-imufit-card-samples = Vzorky
+
+js-lib-imufit-card-span = Rozsah
+
+js-lib-jammertest-card-clean-epochs = Čisté epochy
+
+js-lib-jammertest-card-clean-hours = Čisté hodiny
+
+js-lib-jammertest-card-detected = Detekováno v toleranci
+
+js-lib-jammertest-card-detection-rate = Míra detekce (jakýkoli alarm)
+
+js-lib-jammertest-card-evaluable = Vyhodnotitelné
+
+js-lib-jammertest-card-fa-epochs = Epochy falešného poplachu
+
+js-lib-jammertest-card-fa-per-hour = Běhy s falešným poplachem za hodinu
+
+js-lib-jammertest-card-fa-runs = Běhy s falešným poplachem
+
+js-lib-jammertest-card-in-tol-rate = Detekováno v toleranci, míra
+
+js-lib-jammertest-card-late = Pozdě
+
+js-lib-jammertest-card-median-latency = Medián latence detekce
+
+js-lib-jammertest-card-median-recover = Medián doby do zotavení
+
+js-lib-jammertest-card-missed = Nezachyceno
+
+js-lib-jammertest-card-na = n/a
+
+js-lib-jammertest-card-not-assessable = V tomto záznamu nebyl vyhodnotitelný žádný test, takže nelze uvést ani míru detekce, ani latenci. To je výsledek, nikoli selhání stránky: nic zde není PASS.
+
+js-lib-jammertest-card-not-json = { $name }: není JSON ({ $reason }).
+
+js-lib-jammertest-card-not-scorecard = { $name }: není vyhodnocení jammertest (vyžaduje tests[] a summary).
+
+js-lib-jammertest-card-tests = Testy v části plánu
+
+js-lib-jammertest-card-too-large = { $name }: větší než 8 MiB; tato stránka čte vyhodnocení do této velikosti.
+
+js-lib-kpi-available-everywhere = dostupné všude, v každé epoše
+
+js-lib-kpi-available-everywhere-pdop = dostupné všude, v každé epoše (PDOP, faktor zhoršení přesnosti polohy, pod { $thr })
+
+js-lib-kpi-drops-under = klesne pod práh sledování { $thr } dB-Hz: synchronizace ztracena
+
+js-lib-kpi-end-of-mission = na konci mise
+
+js-lib-kpi-figure-tiers = Úrovně hodnot: { $parts }.
+
+js-lib-kpi-n-modelled = { $n } modelováno
+
+js-lib-kpi-n-partner = { $n } v odpovědnosti partnera
+
+js-lib-kpi-n-validated = { $n } validováno
+
+js-lib-kpi-no-change = beze změny
+
+js-lib-kpi-no-fix = { $pct } % času nebo míst bez určení polohy
+
+js-lib-kpi-no-fix-pdop = { $pct } % času nebo míst bez určení polohy při PDOP pod { $thr }
+
+js-lib-kpi-over-jump = nad prahem skoku { $thr } m
+
+js-lib-kpi-over-pdop = nad prahem PDOP { $thr }
+
+js-lib-kpi-stays-above = zůstává nad prahem sledování { $thr } dB-Hz
+
+js-lib-kpi-under-jump = pod prahem skoku { $thr } m
+
+js-lib-kpi-under-pdop = pod prahem PDOP { $thr }
+
+js-lib-orbit3d-apogee = apogeum
+
+js-lib-orbit3d-perigee = perigeum
+
+js-lib-orbit3d-prov-scenario = scénář { $hash }
+
+js-lib-orbit3d-title = Oběžná dráha (ECI, ortografická)
+
+js-lib-orbit3d-view-angles = az { $az }° · el { $el }°
+
+js-lib-overlay-meta-clock-bias-m = Bias hodin
+
+js-lib-overlay-meta-converged-pos-3sigma-m = Poloha 3σ
+
+js-lib-overlay-meta-converged-pos-rms-m = Poloha RMS
+
+js-lib-overlay-meta-converged-pos-sigma-m = Poloha σ
+
+js-lib-overlay-meta-final-clock-freq-sigma = Frekvence hodin σ
+
+js-lib-overlay-meta-mean-relays-in-view = Relé ve výhledu
+
+js-lib-overlay-meta-pos-p95-m = Poloha p95
+
+js-lib-overlay-meta-pos-rms-m = Poloha RMS
+
+js-lib-overlay-meta-postfit-rms-m = RMS po proložení
+
+js-lib-overlay-prov-scenario = scénář { $hash }
+
+js-lib-overlay-subtitle = |chyba| (ns) v závislosti na čase — běhů: { $n }
+
+js-lib-overlay-time-s = čas (s)
+
+js-lib-overlay-title = Překryv: časová chyba během výpadku
+
+js-lib-packs-cannot-unpack = tento prohlížeč nedokáže rozbalit zaznamenaný soubor
+
+js-lib-replay-demos-below-130 = Ponechány jen azimuty pod 130° (uvedeno)
+
+js-lib-replay-demos-coastal-drag-off = Pobřežní odtažení
+
+js-lib-replay-demos-combined-event = Kombinovaná událost
+
+js-lib-replay-demos-drag-off-stated = Odtažení polohy (uvedeno ukázkou)
+
+js-lib-replay-demos-ferry-drag-off = Plavba trajektu, odtažení polohy
+
+js-lib-replay-demos-ferry-drag-off-description = Vymyšlený záznam z trajektu, Tallinn–Helsinki, 1 Hz. Od 1500 s odtažení polohy odtahuje hlášenou polohu pryč, zatímco přijímač dál hlásí platné určení polohy.
+
+js-lib-replay-demos-fjord = Přirozené zhoršení ve fjordu
+
+js-lib-replay-demos-masked-sky = Plavba trajektu, polovina oblohy zastíněna
+
+js-lib-replay-demos-masked-sky-description = Tentýž záznam z trajektu, kde je od 600 s umlčena západní polovina oblohy, od 900 s do 1200 s užší obloha a od 1500 s odtažení: jeden běh, v němž postupně selhává obloha, signál i poloha.
+
+js-lib-replay-demos-open-sea-jamming = Rušení na otevřeném moři
+
+js-lib-replay-demos-port-approach = Podvržení času při přiblížení k přístavu
+
+js-lib-replay-demos-source-training = Syntetický scénář { $id }: proud nmea_training enginu a záznam instruktora, vyhodnocené jeho receiver-trust.
+
+js-lib-replay-demos-source-trust = Syntetický záznam { $id }: vymyšlené NMEA, vyhodnocené receiver-trust enginu.
+
+js-lib-replay-demos-west-masked = Západní polovina oblohy zastíněna (uvedeno)
+
+js-lib-replay-demos-west-masked-again = Západní polovina znovu zastíněna (uvedeno)
+
+js-lib-report-charts = Grafy
+
+js-lib-report-eyebrow = přesný okamžik
+
+js-lib-report-figures-of-merit = Ukazatele kvality
+
+js-lib-report-footer = Kshana { $version } · scénář { $hash } · vytvořeno { $iso }. Reprodukovatelné ze scénáře + seedu + verze enginu. Běží lokálně; nic se nenahrává.
+
+js-lib-report-not-applicable = nelze použít (není nastaven žádný útok)
+
+js-lib-report-scenario-definition = Definice scénáře (TOML)
+
+js-lib-report-th-clock = Hodiny
+
+js-lib-report-th-metric = Metrika
+
+js-lib-report-th-validation = Validace
+
+js-lib-report-th-value = Hodnota
+
+js-lib-report-tier-note = Každý ukazatel kvality je označen { $validated } (ověřeno proti vnějšímu orákulu) nebo { $modelled } (z first principles, interně testováno) — odvozeno z verifikační matice.
+
+js-lib-report-title = Kshana — zpráva o scénáři
+
+js-lib-skydraw-azimuth-range = azimut { $from } až { $to } stupňů
+
+js-lib-skydraw-describe = { $listed } uvedených družic, { $heard } se signálem
+
+js-lib-skydraw-describe-mean = { $listed } uvedených družic, { $heard } se signálem, průměr { $snr } dB-Hz
+
+js-lib-skydraw-east = V
+
+js-lib-skydraw-no-signal-from = žádný signál z: { $sectors }
+
+js-lib-skydraw-none-listed = V záznamu nejsou v tuto chvíli uvedeny žádné družice.
+
+js-lib-skydraw-north = S
+
+js-lib-skydraw-sat-heard = { $sys } { $prn }: elevace { $el }, azimut { $az }, signál { $snr } dB-Hz
+
+js-lib-skydraw-sat-quiet = { $sys } { $prn }: elevace { $el }, azimut { $az }, uvedena, bez signálu
+
+js-lib-skydraw-south = J
+
+js-lib-skydraw-unheard-sector = Družice uvedené mezi azimutem { $from } a { $to } stupňů, žádná se signálem
+
+js-lib-skydraw-west = Z
+
+js-lib-skyline-edit-describe = Obzor přes { $blocked } z 360 stupňů azimutu; nejvyšší { $el }° v azimutu { $az }°.
+
+js-lib-skyline-edit-open = Otevřený obzor: žádný skyline.
+
+js-lib-stages-all-planets = Všechny planety
+
+js-lib-stages-au-from-sun = { $d } au od Slunce
+
+js-lib-stages-band-carrier = Nosná { $name }, { $mhz } MHz
+
+js-lib-stages-bin-title = { $from } až { $to }{ $unit }: běhů: { $count }
+
+js-lib-stages-body-and-moons = { $name } a její měsíce
+
+js-lib-stages-cell-title = šířka { $lat }°, délka { $lon }° · { $field } { $value }
+
+js-lib-stages-chain-navmsg = Navigační zpráva
+
+js-lib-stages-chain-pass = Přelet a spoj
+
+js-lib-stages-chain-ppp = Přesné určování polohy bodu
+
+js-lib-stages-chain-pvt = Sloučené určování polohy
+
+js-lib-stages-chain-signal = Návrh signálu
+
+js-lib-stages-coverage-aria = { $field } nad tělesem { $body }, podle zeměpisné šířky a délky
+
+js-lib-stages-feature-n = prvek { $n }
+
+js-lib-stages-flag = příznak
+
+js-lib-stages-frequency-mhz = frekvence (MHz)
+
+js-lib-stages-from-to = { $from } až { $to }
+
+js-lib-stages-geojson-aria = Export GeoJSON vykreslený na mapě
+
+js-lib-stages-histogram = Histogram
+
+js-lib-stages-inner-planets = Vnitřní planety
+
+js-lib-stages-km-from-centre = { $d } km od { $centre }
+
+js-lib-stages-linear-scale = lineární měřítko
+
+js-lib-stages-link-light-time = { $from } až { $to }: jednosměrný světelný čas { $time } s
+
+js-lib-stages-longitude-axis = zeměpisná délka · zeměpisná šířka na boku nahoru
+
+js-lib-stages-mission-time = čas mise (s)
+
+js-lib-stages-noise-floor = úroveň šumu
+
+js-lib-stages-orrery-note = { $scale } · rovina x-y soustavy, při pohledu od jejího severního pólu
+
+js-lib-stages-panel-n = Panel { $n }
+
+js-lib-stages-plan-view-aria = Pohled shora na { $centre } a okolní tělesa, { $scale }
+
+js-lib-stages-psd-at-t = Výkonová spektrální hustota v t = { $t } s
+
+js-lib-stages-psd-axis = výkonová spektrální hustota (dBW/Hz)
+
+js-lib-stages-runs = běhy
+
+js-lib-stages-sat-title = { $constellation } { $id } · šířka { $lat }°, délka { $lon }°
+
+js-lib-stages-satellites = družice
+
+js-lib-stages-spectrum-at-t = spektrum v t = { $t } s
+
+js-lib-stages-sqrt-scale = měřítko vzdálenosti odmocninou
+
+js-lib-stages-the-body = těleso
+
+js-lib-stages-time-s = čas (s)
+
+js-lib-stages-unit-alarm = Alarm
+
+js-lib-stages-unit-cn0 = Poměr nosné k hustotě šumu
+
+js-lib-stages-unit-position = Poloha a ochrana
+
+js-lib-stages-unit-satellites = Družice
+
+js-lib-stages-unit-time-error = Časová chyba
+
+js-lib-stages-waterfall-aria = Vodopád výkonové spektrální hustoty: frekvence napříč, čas dolů
+
+js-lib-stages-whole-band = Celé pásmo
+
+js-lib-sweep-clock-availability = Dostupnost: { $who }
+
+js-lib-sweep-clock-holdover = Holdover: { $who } (s)
+
+js-lib-sweep-clock-timing-p95 = Časování p95: { $who } (ns)
+
+js-lib-sweep-clock-timing-rms = Časování RMS: { $who } (ns)
+
+js-lib-sweep-max-altitude = max. výška (km)
+
+js-lib-sweep-max-elevation = max. elevace (°)
+
+js-lib-sweep-max-speed = max. rychlost (m/s)
+
+js-lib-sweep-min-altitude = min. výška (km)
+
+js-lib-sweep-peak-doppler = špičkový Doppler (Hz)
+
+js-lib-sweep-prov-scenario = scénář { $hash }
+
+js-lib-sweep-y-vs-x = { $y } v závislosti na { $x }
+
+js-lib-tabs-3d-orbit = 3D oběžná dráha
+
+js-lib-tabs-figures-of-merit = Ukazatele kvality
+
+js-lib-tabs-stability = Stabilita
+
+js-lib-tabs-sweep = Průchod
+
+js-lib-tabs-time-series = Časová řada
+
+js-lib-tour-ashforde-body = Děkujeme, že zkoumáte Kshana. Vytváříme otevřené, reprodukovatelné inženýrství založené na důkazech pro mise, které nesmějí selhat — upřímné v tom, co je validováno a co modelováno. Otázky, spolupráce nebo studie? Napište nám na contact@ashforde.org.
+
+js-lib-tour-ashforde-title = Od Ashforde® OÜ
+
+js-lib-tour-capabilities-body = Vyberte záložku oblasti — Oběžné dráhy, Časování, Inerciální, GNSS, Odolnost, Lunární, AI/ML, Interoperabilita — a uvidíte její schopnosti, každou označenou jako validovanou nebo modelovanou, s tlačítkem ▸ spustit pro řešené scénáře. Otevřete „Důkazy a původ“ v kterékoli oblasti a vysledujte důkaz, nebo přepněte „Pouze validované“ a zobrazí se jen to, co je ověřeno proti vnějšímu orákulu.
+
+js-lib-tour-capabilities-title = Prozkoumejte engine, oblast po oblasti
+
+js-lib-tour-cite-body = Kshana je vytvořena k odkazování — citovatelné vydání softwaru s DOI a články ve stylu odborných prací o mezeře optimismu při zohlednění RF zhoršení a o podmíněné ochranné úrovni časování. Citaci zkopírujte přímo odtud.
+
+js-lib-tour-cite-title = Publikace a jak citovat
+
+js-lib-tour-download-report-body = Záložka Průchod mění jeden parametr v celém rozsahu; „Připnout k porovnání“ překryje dva nebo více běhů vedle sebe s rozdílem Δ mezi nimi (funguje napříč typy scénářů — hodiny, Mars-PNT, určování polohy…); a toto tlačítko stáhne běh jako samostatnou offline zprávu HTML.
+
+js-lib-tour-download-report-title = Průchod, porovnání a export
+
+js-lib-tour-guided-body = Řízené ovladače se přizpůsobují scénáři — seed, práh specifikace, doba trvání, elevační maska, výška oběžné dráhy — a každá změna se okamžitě znovu spustí.
+
+js-lib-tour-guided-title = Nastavte posuvníky
+
+js-lib-tour-mcp-body = Server MCP umožňuje asistentům s AI spouštět validovaný engine místo hádání; zásuvný modul JetBrains spouští scénáře z kontextové nabídky pravého tlačítka.
+
+js-lib-tour-mcp-title = Používejte jej z agenta s AI nebo z IDE
+
+js-lib-tour-playground-body = Vyberte scénář z rozbalovací nabídky — nebo klikněte na ▸ spustit u kterékoli schopnosti výše — a engine poběží jako WebAssembly na vašem počítači. Nic se nenahrává.
+
+js-lib-tour-playground-title = Spusťte jej v prohlížeči
+
+js-lib-tour-run-body = Spusťte aktuální scénář. Otevřete „Pokročilé“, upravte TOML a změňte cokoli; „Zkopírovat odkaz ke sdílení“ zopakuje přesně tento běh pro někoho jiného.
+
+js-lib-tour-run-title = Spusťte
+
+js-lib-tour-tabs-body = Přepínejte mezi ukazateli kvality, grafem časové řady, stabilitou hodin (Allanova odchylka) a — u běhů oběžných drah — interaktivním 3D pohledem na oběžnou dráhu.
+
+js-lib-tour-tabs-title = Čtěte výsledky
+
+js-lib-tour-validation-body = Tentýž průzkumník je zároveň registrem důkazů: každá oblast nese zásuvku „Důkazy a původ“ — hodnotu, vnější orákulum, proti němuž je ověřena, a poctivý stav validováno / modelováno u každého tvrzení. „Pouze validované“ filtruje na řádky ověřené proti datové sadě.
+
+js-lib-tour-validation-title = Důkazy, ne přívlastky
+
+js-lib-views-3-sigma-bound = mez 3 sigma
+
+js-lib-views-3d-position-error = 3D chyba polohy
+
+js-lib-views-a-parameter = parametr
+
+js-lib-views-band-runs = Pás časové chyby přes běhy Monte Carlo: { $runs }
+
+js-lib-views-band-the-runs = Pás časové chyby přes běhy Monte Carlo
+
+js-lib-views-below-tracking = pod prahem sledování
+
+js-lib-views-chart = graf
+
+js-lib-views-classical = klasický
+
+js-lib-views-epoch = epocha
+
+js-lib-views-four-needed = pro určení polohy jsou třeba 4
+
+js-lib-views-free-inertial = volná inerciální navigace
+
+js-lib-views-gnss-denied = bez GNSS
+
+js-lib-views-ground-track = Dráha pod družicí
+
+js-lib-views-heatmap-effective = Efektivní poměr nosné k hustotě šumu podle družice a času
+
+js-lib-views-heatmap-nominal = Nominální poměr nosné k hustotě šumu (bez rušiče) podle družice a času
+
+js-lib-views-horizontal-alert-limit = horizontální výstražný limit
+
+js-lib-views-horizontal-hpl = horizontální (HPL)
+
+js-lib-views-id-bound = mez { $id }
+
+js-lib-views-id-median = medián { $id }
+
+js-lib-views-id-offset = posun { $id }
+
+js-lib-views-id-p95 = p95 { $id }
+
+js-lib-views-map-matched = porovnání s mapou
+
+js-lib-views-map-matched-title = Porovnání s mapou proti chybě polohy při volné inerciální navigaci
+
+js-lib-views-metric = metrika
+
+js-lib-views-oscillator = oscilátor
+
+js-lib-views-oscillator-source = oscilátor ({ $source })
+
+js-lib-views-position-error-axis = chyba polohy ({ $unit })
+
+js-lib-views-position-error-m = chyba polohy (m)
+
+js-lib-views-position-error-run = Chyba polohy během běhu
+
+js-lib-views-position-m = poloha (m)
+
+js-lib-views-predicted-time-error = Předpovězená časová chyba od posledního určení polohy
+
+js-lib-views-protection-level-m = ochranná úroveň (m)
+
+js-lib-views-protection-levels = Ochranné úrovně proti výstražnému limitu
+
+js-lib-views-quantum = kvantové
+
+js-lib-views-relay-error-bound = Chyba polohy při navigaci přes relé a její mez 3 sigma
+
+js-lib-views-satellites = družice
+
+js-lib-views-satellites-tracking = Viditelné družice, které se stále sledují
+
+js-lib-views-shaded-gnss-denied = vystínováno: bez GNSS
+
+js-lib-views-slot-guard = ochrana slotu
+
+js-lib-views-spoofed-offset = Posun času způsobený spoofingem proti mezi detekce
+
+js-lib-views-sweep-of = Průchod parametru { $parameter }: { $metric }
+
+js-lib-views-sync-error-axis = chyba synchronizace ({ $unit })
+
+js-lib-views-sync-error-run = Chyba synchronizace během běhu
+
+js-lib-views-threshold = práh
+
+js-lib-views-time-error-ns = časová chyba (ns)
+
+js-lib-views-time-ns = čas (ns)
+
+js-lib-views-time-s = čas (s)
+
+js-lib-views-time-since-fix = čas od posledního určení polohy (s)
+
+js-lib-views-timing-error-axis = chyba časování ({ $unit })
+
+js-lib-views-timing-error-run = Chyba časování během běhu
+
+js-lib-views-tracking = sledování
+
+js-lib-views-value = hodnota
+
+js-lib-views-vertical-vpl = vertikální (VPL)
+
+js-lib-views-visible = viditelné
+
+js-lib-views-word-enbw = ekvivalentní šumová šířka pásma
+
+js-lib-views-word-nfft = délka FFT
+
+js-lib-views-word-stec = šikmé TEC
+
+js-lib-views-word-toa = čas příchodu
+
+js-lib-views-word-ttff = doba do prvního určení polohy
+
+js-lib-views-word-tx = vysílání
+
+js-lib-views-word-zwd = zenitové vlhké zpoždění
+
+js-lunar-address-outside-range = { $label }: „{ $raw }“ je mimo rozsah { $min } až { $max }; použije se hodnota ze souboru.
+
+js-lunar-address-too-long = Adresa byla příliš dlouhá; zobrazují se výchozí hodnoty.
+
+js-lunar-address-unknown-source = Neznámý zdroj v adrese; zobrazuje se záznam.
+
+js-lunar-alert-limit = výstražný limit { $value } (ilustrativní)
+
+js-lunar-alert-not-stated = výstražný limit není uveden
+
+js-lunar-bearing-east = 90° V
+
+js-lunar-bearing-west = 90° Z
+
+js-lunar-cell-title = { $lat }°, { $lon }°: korigovaná { $corrected }, dostupnost { $availability }, pokrytí { $coverage }
+
+js-lunar-copy-address = Zkopírujte adresu z adresního řádku.
+
+js-lunar-counts = Družice: { $sats }, body mřížky: { $points }, epochy: { $epochs }, pokusy Monte Carlo na epochu: { $trials }. Označení: { $label }.
+
+js-lunar-engine-no-start = Engine se v tomto prohlížeči nepodařilo spustit ({ $reason }). Místo toho otevřete soubor výsledku.
+
+js-lunar-engine-unknown-kind = Tento engine ({ $version }) nezná druh { $kind }; vyžaduje engine 0.36.
+
+js-lunar-fig-availability-region = Dostupnost v oblasti
+
+js-lunar-fig-corrected-3d = Korigovaná chyba, { $n } %, 3‑D
+
+js-lunar-fig-coverage = Pokrytí
+
+js-lunar-fig-epochs-within = epochy v rámci { $value }
+
+js-lunar-fig-horizontal-vertical = horizontálně { $h }, vertikálně { $v }
+
+js-lunar-fig-hpl-below-alert = HPL pod výstražným limitem
+
+js-lunar-fig-hpl-vpl = HPL, VPL nejvýše
+
+js-lunar-fig-improvement = Faktor zlepšení
+
+js-lunar-fig-lowest-point = Nejnižší v bodě
+
+js-lunar-fig-points-always-available = Body dostupné v každé epoše
+
+js-lunar-fig-uncorrected-3d = Nekorigovaná chyba, { $n } %, 3‑D
+
+js-lunar-fig-worst-point = Nejhorší bod
+
+js-lunar-file-not-json = Tento soubor není JSON.
+
+js-lunar-file-not-object = Tento soubor není objekt JSON.
+
+js-lunar-file-too-large = { $name }: větší než 32 MiB; tato stránka čte soubory výsledků do této velikosti.
+
+js-lunar-file-value = soubor: { $value }
+
+js-lunar-full-of-total = { $full } z { $total }
+
+js-lunar-give-value = { $label }: zadejte hodnotu od { $min } do { $max }.
+
+js-lunar-give-whole-value = { $label }: zadejte hodnotu od { $min } do { $max } (celé číslo).
+
+js-lunar-honesty-affiliation = Bez příslušnosti k žádné agentuře a bez jejího schválení.
+
+js-lunar-honesty-assumptions = Za uvedených veřejných předpokladů; není to tvrzení o výkonu žádného skutečného systému.
+
+js-lunar-in-grid-spacing = Rozestup kruhů mřížky, stupně
+
+js-lunar-in-latency = Latence korekcí, sekundy
+
+js-lunar-in-seed = Seed
+
+js-lunar-in-station-lat = Zeměpisná šířka stanice, stupně
+
+js-lunar-in-station-lon = Zeměpisná délka stanice, stupně
+
+js-lunar-in-survey-error = Chyba zaměření stanice (1 sigma), metry
+
+js-lunar-in-threshold = Práh přesnosti, metry
+
+js-lunar-in-time-step = Časový krok, sekundy
+
+js-lunar-in-trials = Pokusy Monte Carlo na epochu
+
+js-lunar-input-out-of-range = { $label } je mimo rozsah.
+
+js-lunar-json-field-not-json = Pole json v souboru není JSON.
+
+js-lunar-key-50-or-more = 50 % nebo více
+
+js-lunar-key-90-or-more = 90 % nebo více
+
+js-lunar-key-95-or-more = 95 % nebo více
+
+js-lunar-key-99-or-more = 99 % nebo více
+
+js-lunar-key-above = nad { $value }
+
+js-lunar-key-above-threshold = nad { $value } × práh
+
+js-lunar-key-below-50 = pod 50 %
+
+js-lunar-key-between = { $from } až { $to }
+
+js-lunar-key-between-threshold = { $from } až { $to } × práh
+
+js-lunar-key-up-to = do { $value }
+
+js-lunar-key-up-to-threshold = do { $value } × práh
+
+js-lunar-layer-availability = dostupnost
+
+js-lunar-layer-coverage = pokrytí
+
+js-lunar-layer-error = korigovaná chyba
+
+js-lunar-layer-range = korigovaná chyba v jejím vlastním rozsahu
+
+js-lunar-legend-no-figure = bez hodnoty (po celou dobu nedostupné)
+
+js-lunar-legend-radius = poloměr pokrytí
+
+js-lunar-legend-threshold = práh, { $value }
+
+js-lunar-legend-worst = nejhorší bod
+
+js-lunar-link-copied = Odkaz zkopírován.
+
+js-lunar-map-desc = Body mřížky od pólu po šířku { $rim }°: { $points }. Z nich { $meet } má korigovanou chybu v percentilu { $percentile } v rámci prahu { $threshold }. Obarveno podle: { $layer }. Stanice je na { $lat }°, { $lon }°.
+
+js-lunar-map-note-one-band = { $share } % bodů spadá do jednoho pásma stupnice prahu, takže mapa ukazuje jen malou proměnlivost: obarvte podle „vlastního rozsahu“, abyste viděli, jak se chyba mění napříč oblastí.
+
+js-lunar-needs-newer-engine = Tato studie vyžaduje engine { $need } nebo novější; zde běžící engine je v{ $version }. Záznam nebo soubor výsledku lze přesto zobrazit.
+
+js-lunar-no = ne
+
+js-lunar-no-recording = Záznam této studie zatím není dodáván: vzniká při vydání s enginem 0.36. Spusťte ji zde s enginem, který tento druh má, nebo otevřete soubor výsledku.
+
+js-lunar-no-scenario = Tento web zatím nemá { $file }: přijde s enginem 0.36. Místo toho otevřete soubor výsledku.
+
+js-lunar-no-scenario-note = Tento web zatím nemá { $file } (přijde s enginem 0.36), takže běh zde není možný; místo toho otevřete soubor výsledku.
+
+js-lunar-not-report = Toto není zpráva typu { $kind }.
+
+js-lunar-not-stated = neuvedeno
+
+js-lunar-note-none = Soubor neuvádí žádnou poznámku.
+
+js-lunar-note-withheld = Vlastní prohlášení souboru jmenuje program nebo agenturu, proto ho tato stránka nezobrazuje; platí prohlášení v horní části stránky.
+
+js-lunar-point-epochs-reason = point-epochs: { $reason }
+
+js-lunar-radius-desc =
+    { $count ->
+        [one] Poloměr pokrytí přes { $count } azimut: nejkratší { $lo } km v azimutu { $loAz }°, nejdelší { $hi } km v azimutu { $hiAz }°.
+        [few] Poloměr pokrytí přes { $count } azimuty: nejkratší { $lo } km v azimutu { $loAz }°, nejdelší { $hi } km v azimutu { $hiAz }°.
+        [many] Poloměr pokrytí přes { $count } azimutu: nejkratší { $lo } km v azimutu { $loAz }°, nejdelší { $hi } km v azimutu { $hiAz }°.
+       *[other] Poloměr pokrytí přes { $count } azimutů: nejkratší { $lo } km v azimutu { $loAz }°, nejdelší { $hi } km v azimutu { $hiAz }°.
+    }
+
+js-lunar-radius-desc-limited =
+    { $count ->
+        [one] { $count } azimut dosahuje okraje mřížky, takže tam pokrytí sahá nejméně tak daleko.
+        [few] { $count } azimuty dosahují okraje mřížky, takže tam pokrytí sahá nejméně tak daleko.
+        [many] { $count } azimutu dosahuje okraje mřížky, takže tam pokrytí sahá nejméně tak daleko.
+       *[other] { $count } azimutů dosahuje okraje mřížky, takže tam pokrytí sahá nejméně tak daleko.
+    }
+
+js-lunar-radius-hollow = Prázdné body dosahují okraje mřížky: pokrytí sahá v tomto směru nejméně tak daleko.
+
+js-lunar-radius-none = Zpráva neuvádí žádný poloměr pokrytí.
+
+js-lunar-radius-per-azimuth = poloměr pokrytí podle azimutu
+
+js-lunar-radius-point = { $az }°: { $km } km
+
+js-lunar-radius-point-limited = { $az }°: { $km } km (dosahuje okraje mřížky: nejméně tak daleko)
+
+js-lunar-radius-zero = Ve všech směrech je pokrytí pod 95 % již na stanici, takže poloměr je 0 km: korigovaná chyba tam překračuje práh { $value }.
+
+js-lunar-reason-station-missing = stanice nevidí každou družici, kterou uživatel používá
+
+js-lunar-reason-user-lt4 = méně než čtyři družice ve výhledu uživatele
+
+js-lunar-run-stopped = Běh se zastavil: { $message }
+
+js-lunar-running = Studie se spouští v tomto prohlížeči…
+
+js-lunar-running-elapsed = Studie se spouští v tomto prohlížeči… { $seconds } s
+
+js-lunar-scenario-missing-keys = Soubor scénáře neobsahuje { $keys }; nelze jej zde změnit.
+
+js-lunar-set-inputs = Nastavte vstupy a stiskněte Spustit zde.
+
+js-lunar-showing = Zobrazuje se: { $what }.
+
+js-lunar-showing-engine = Zobrazuje se: { $what } (engine { $version }).
+
+js-lunar-source-error = { $what }: { $error }
+
+js-lunar-station = stanice
+
+js-lunar-station-title = stanice { $lat }°, { $lon }°
+
+js-lunar-table-count =
+    { $n ->
+        [one] { $n } bod, nejbližší stanici první.
+        [few] { $n } body, nejbližší stanici první.
+        [many] { $n } bodu, nejbližší stanici první.
+       *[other] { $n } bodů, nejbližší stanici první.
+    }
+
+js-lunar-th-corrected = Korigovaná chyba, { $n } %
+
+js-lunar-threshold-title = korigovaná chyba { $value } (práh)
+
+js-lunar-what-file = soubor { $name }
+
+js-lunar-what-recording = záznam dodávaný se Studiem
+
+js-lunar-what-run = běh v tomto prohlížeči (engine { $version })
+
+js-lunar-worst-at = na { $lat }°, { $lon }°
+
+js-lunar-worst-title = nejhorší bod { $lat }°, { $lon }°: { $value }
+
+js-lunar-yes-at-least = ano: nejméně tak daleko
+
+js-lunarinfra-above-95-point = nad bodem 95 %
+
+js-lunarinfra-advisory = Software pouze poradního charakteru, nikoli typově schválené zařízení; žádná vysílací cesta jakéhokoli druhu.
+
+js-lunarinfra-arc-note = Vlnová délka nosné { $value } m.
+
+js-lunarinfra-arc-title = Každý oblouk
+
+js-lunarinfra-bars-not-loaded = soubor prahů se nenačetl
+
+js-lunarinfra-bars-not-shown = Předregistrované prahy se nepodařilo zobrazit ({ $reason }).
+
+js-lunarinfra-bars-note = Stanoveno před vyhodnocením jakékoli studie, s rozhodnutími o splnění k zápisu (commit enginu { $commit }). Nic není VALIDATED; práh označený NOT MET je zajištěn testem, který zmeškání potvrzuje, a žádný nebyl uvolněn.
+
+js-lunarinfra-bars-title = Proti předregistrovaným prahům
+
+js-lunarinfra-bars-wrong-file = soubor prahů není ten, který tato stránka čte
+
+js-lunarinfra-blurb-carrier-phase = Povrchová stanice a orbiter používající dvojitě diferencovanou fázi nosné signálů pozemního GNSS: lze celočíselné nejednoznačnosti fixovat a co to udělá s mezí polohy? Rychlý příklad běhu.
+
+js-lunarinfra-blurb-frame-coestimation = Sedm parametrů lunárního data z laserového měření vzdálenosti pozemní stanicí, s měřením vzdálenosti mezi orbiterem a povrchovou stanicí a bez něj: o kolik se informace zlepší?
+
+js-lunarinfra-blurb-geodesy-sensitivity = Jak citlivé jsou laserové měření vzdálenosti, sledování orbiteru, gravimetr a povrchové hodiny na slapová Loveova čísla Měsíce h2, k2 a l2 a na jeho fyzickou libraci?
+
+js-lunarinfra-blurb-od-consistency = Určování oběžné dráhy z pozemního GNSS na palubě v téměř přímočaré halo dráze proti nezávislému pozemnímu radiometrickému řešení téhož oblouku: shodují se obě v rámci uvedených nejistot a všimne si kontrola konzistence chyby modelování, když je vnesena? Zobrazeno vedle sebe.
+
+js-lunarinfra-blurb-space-tie = GNSS, VLBI a laserové měření vzdálenosti na jedné kosmické lodi: jak přesně lze svázat posuny mezi třemi technikami, proti chybě lokálního svázání na kosmické lodi?
+
+js-lunarinfra-bound-label = Nejistota polohy, float a fixovaná, logaritmická stupnice
+
+js-lunarinfra-bound-note = Nejistota polohy stanice a orbiteru (jedna sigma) s nejednoznačnostmi ponechanými jako float a s nimi fixovanými (co by fixace dala, kdyby byla dosažena).
+
+js-lunarinfra-bound-title = Mez polohy, float a fixovaná
+
+js-lunarinfra-chip-na = n/a
+
+js-lunarinfra-comp-normal = normálová
+
+js-lunarinfra-comp-position = poloha (3D)
+
+js-lunarinfra-comp-radial = radiální
+
+js-lunarinfra-comp-transverse = příčná
+
+js-lunarinfra-compare-note = Přes náhodné sady stanic (počet: { $sets }) nebyla nejmenší vlastní hodnota s odkazy orbiteru menší v počtu případů { $lambda } a stopa nebyla větší v počtu případů { $trace }; střední nárůst nejmenší vlastní hodnoty byl { $median }krát.
+
+js-lunarinfra-compare-title = Porovnání v číslech
+
+js-lunarinfra-crsigma-label = Cramérova–Raova sigma, logaritmická stupnice
+
+js-lunarinfra-crsigma-note = V metrech na povrchu.
+
+js-lunarinfra-crsigma-title = Cramérova–Raova sigma pro každý parametr
+
+js-lunarinfra-days =
+    { $n ->
+        [one] { $n } den
+        [few] { $n } dny
+        [many] { $n } dne
+       *[other] { $n } dní
+    }
+
+js-lunarinfra-direction = směr { $n }
+
+js-lunarinfra-disclosures = Upozornění
+
+js-lunarinfra-eig-label = Vlastní hodnoty informace, logaritmická stupnice
+
+js-lunarinfra-eig-note = Sedm vlastních hodnot informační matice, od nejmenší, bez spojů orbiter–stanice a s nimi. Nejmenší stoupne { $times }krát a stopa Cramérova–Raova klesne na { $share } své hodnoty. Předpokládá se, že oběžná dráha je známa v lunárních osách (její chybu nese sigma vzdálenosti orbiteru).
+
+js-lunarinfra-eig-title = Informace v každém směru data
+
+js-lunarinfra-fact-arc = Oblouk
+
+js-lunarinfra-fact-hash = Hash scénáře
+
+js-lunarinfra-fact-llr-rows = Řádky laserového měření vzdálenosti
+
+js-lunarinfra-fact-orbit-family = Rodina oběžných drah
+
+js-lunarinfra-fact-orbiter-arc = Oblouk orbiteru
+
+js-lunarinfra-fact-orbiter-rows = Řádky orbiteru
+
+js-lunarinfra-fact-study = Studie
+
+js-lunarinfra-fact-wavelength = Vlnová délka nosné
+
+js-lunarinfra-families-note = Hodnota RMS parciální derivace každého parametru přes řádky rodiny a počet řádků. Nula je parametr, na který je rodina slepá. Citlivost rodiny orbiteru na k2 je údaj horního konce.
+
+js-lunarinfra-families-title = Co každá rodina vidí
+
+js-lunarinfra-findings = Zjištění
+
+js-lunarinfra-fix-note-a = Podíl pokusů Monte Carlo, které správně fixovaly každou celočíselnou nejednoznačnost (s jeho směrodatnou chybou), a míra, kterou předpovídá odhad získaný bootstrapem.
+
+js-lunarinfra-fix-note-b = Fixace celých čísel NENÍ při tomto vstupu dosažena: nejlepší oblouk fixuje { $share } pokusů.
+
+js-lunarinfra-fix-note-c = Není co zobrazit jako čas do fixace, protože fixace není dosažena.
+
+js-lunarinfra-fix-rate-label = Míra fixace celých čísel v závislosti na délce oblouku
+
+js-lunarinfra-fix-title = Míra fixace v závislosti na délce oblouku
+
+js-lunarinfra-fixed = fixované
+
+js-lunarinfra-float = float
+
+js-lunarinfra-fraction-above-95 = Podíl pokusů nad bodem 95 %
+
+js-lunarinfra-ground-radiometric = nezávislé pozemní radiometrické
+
+js-lunarinfra-injected-error = vnesená chyba { $value } m/s²
+
+js-lunarinfra-mean-consistency = Střední statistika konzistence
+
+js-lunarinfra-mean-q = střední q
+
+js-lunarinfra-miss-line = { $id } je { $status }: { $value }
+
+js-lunarinfra-miss-no-fix = Fixace celočíselných nejednoznačností NENÍ při tomto vstupu dosažena: nejlepší oblouk fixuje { $share } pokusů Monte Carlo.
+
+js-lunarinfra-na = n/a
+
+js-lunarinfra-nominal = nominální
+
+js-lunarinfra-not-result = toto není výsledek lunární infrastruktury
+
+js-lunarinfra-not-verified = Neověřeno
+
+js-lunarinfra-offset-precision-label = Přesnost posunu v závislosti na lokálním svázání, log-log
+
+js-lunarinfra-offsets-note = Sigma posunu podle osy, sigma měřítka a rotace na povrchu, v metrech.
+
+js-lunarinfra-offsets-title = Posuny při každé chybě svázání (oblouk: { $days } d, epoch: { $epochs })
+
+js-lunarinfra-onboard-gnss = GNSS na palubě
+
+js-lunarinfra-open-failed = { $title } se nepodařilo otevřít: { $reason }.
+
+js-lunarinfra-opening = Otevírá se { $title }…
+
+js-lunarinfra-orbit-uncertainty-log = Nejistota oběžné dráhy podle složky, logaritmická stupnice
+
+js-lunarinfra-orbiter-days = orbiter, { $days } d
+
+js-lunarinfra-q-note = Průměr statistiky konzistence q přes pokusy: { $trials }; { $expected } je hodnota, kterou dává konzistentní dvojice řešení. Podíl pokusů nad bodem 95 % je míra detekce kontroly.
+
+js-lunarinfra-q-title = Kontrola konzistence, nominální proti vnesené chybě
+
+js-lunarinfra-recorded =
+    { $n ->
+        [one] { $title }: zaznamenaný výsledek enginu (verze { $version }).
+        [few] { $title }: zaznamenané výsledky enginu (verze { $version }).
+        [many] { $title }: zaznamenané výsledky enginu (verze { $version }).
+       *[other] { $title }: zaznamenané výsledky enginu (verze { $version }).
+    }
+
+js-lunarinfra-rel-label = Sigma vůči nominální hodnotě, logaritmická stupnice
+
+js-lunarinfra-rel-note = Cramérova–Raova sigma jako procento nominální hodnoty, se všemi čtyřmi rodinami dohromady. h2 a l2 jsou body linearizace, nikoli ověřené hodnoty; k2 pochází ze zveřejněného proložení.
+
+js-lunarinfra-rel-title = Jak dobře lze každý parametr určit, vůči jeho nominální hodnotě
+
+js-lunarinfra-result-not-json = výsledek není JSON ({ $reason })
+
+js-lunarinfra-result-not-loaded = zaznamenaný výsledek { $file } se nenačetl
+
+js-lunarinfra-row-above-95 = Pokusy nad bodem 95 % (chí kvadrát 95 % = { $chi })
+
+js-lunarinfra-row-crtrace = Stopa Cramérova–Raova
+
+js-lunarinfra-row-degeneracy = Metrika degenerace
+
+js-lunarinfra-row-formal-diff = Formální sigma tohoto rozdílu
+
+js-lunarinfra-row-ground-meas = Země: měření, epochy se stanicí
+
+js-lunarinfra-row-mean-diff = Střední rozdíl obou oběžných drah
+
+js-lunarinfra-row-mean-q = Střední q (očekáváno 6)
+
+js-lunarinfra-row-observations = Pozorování
+
+js-lunarinfra-row-onboard-epochs = Na palubě: epochy s jednou nebo více / čtyřmi nebo více družicemi
+
+js-lunarinfra-row-onboard-meas = Na palubě: měření, průměrný počet sledovaných družic
+
+js-lunarinfra-row-origin-scale = Korelace počátku a měřítka
+
+js-lunarinfra-row-origin-sigma = Sigma počátku, m
+
+js-lunarinfra-row-rank-defect = Hodnost (defekt)
+
+js-lunarinfra-row-smallest-eig = Nejmenší vlastní hodnota
+
+js-lunarinfra-row-trace-ground = Vzorek ku formální stopě, Země
+
+js-lunarinfra-row-trace-onboard = Vzorek ku formální stopě, paluba
+
+js-lunarinfra-row-within-95 = Pokusy v rámci bodu 95 %
+
+js-lunarinfra-series-bootstrapped = získáno bootstrapem
+
+js-lunarinfra-series-floor = spodní mez
+
+js-lunarinfra-series-monte-carlo = Monte Carlo
+
+js-lunarinfra-side-note = Oběžná dráha: { $family }, oblouk { $arc } d oběžné dráhy o periodě { $period } d, vzorkováno každých { $sample } s.
+
+js-lunarinfra-side-title = Vedle sebe
+
+js-lunarinfra-sigma-note = Nejistota polohy (jedna sigma) podle složky, v metrech, ze dvou odhadů téhož oblouku.
+
+js-lunarinfra-sigma-over-nominal = sigma / nominální
+
+js-lunarinfra-sigma-title = Jak dobře každá strana zná oběžnou dráhu
+
+js-lunarinfra-station-days = stanice, { $days } d
+
+js-lunarinfra-status-verdict = { $status }: { $verdict }
+
+js-lunarinfra-subsets-note = Přidání rodiny nikdy nesnížilo nejmenší vlastní hodnotu (přidání: { $lambda } z { $pairs }), ale stopa pseudoinverze nebyla větší jen v počtu případů { $trace } z { $pairs }, protože přidaná rodina může zvýšit hodnost.
+
+js-lunarinfra-subsets-title = Každá kombinace rodin
+
+js-lunarinfra-sweep-note = Nejhorší složka posunu každého posunu, v metrech, při procházení chyby svázání mezi třemi technikami na kosmické lodi. Při zaregistrovaných sigmách technik (GNSS { $gnss } m, VLBI { $vlbi } m, laser { $slr } m) jsou posuny omezeny šumem měření, nikoli svázáním; svázání určuje spodní mez jen u téměř dokonalých technik.
+
+js-lunarinfra-sweep-title = Přesnost posunů technik v závislosti na lokálním svázání (oblouk: { $days } d)
+
+js-lunarinfra-th-arc-days = Oblouk, dny
+
+js-lunarinfra-th-bar = Práh
+
+js-lunarinfra-th-bootstrapped = Míra získaná bootstrapem
+
+js-lunarinfra-th-budget-exhausted = Rozpočet hledání vyčerpán (pokusy)
+
+js-lunarinfra-th-common-sats = Epochy s 2 nebo více společnými družicemi
+
+js-lunarinfra-th-crtrace = Stopa Cramérova–Raova
+
+js-lunarinfra-th-dd-ambiguities = Dvojitě diferencované nejednoznačnosti
+
+js-lunarinfra-th-epochs = Epochy
+
+js-lunarinfra-th-families = Rodiny
+
+js-lunarinfra-th-family = Rodina
+
+js-lunarinfra-th-local-tie = Sigma lokálního svázání, m
+
+js-lunarinfra-th-mc-fix-rate = Míra fixace Monte Carlo
+
+js-lunarinfra-th-median-ambiguity = Medián sigmy nejednoznačnosti, cykly
+
+js-lunarinfra-th-offset = Posun
+
+js-lunarinfra-th-quantity = Veličina
+
+js-lunarinfra-th-rank = Hodnost
+
+js-lunarinfra-th-rotation = Rotace na povrchu, m
+
+js-lunarinfra-th-rows = Řádky
+
+js-lunarinfra-th-scale = Měřítko na povrchu, m
+
+js-lunarinfra-th-smallest-eig = Nejmenší vlastní hodnota
+
+js-lunarinfra-th-translation = Posun x, y, z, m
+
+js-lunarinfra-th-value = Hodnota
+
+js-lunarinfra-th-verdict = Rozhodnutí
+
+js-lunarinfra-th-with-links = S odkazy orbiteru
+
+js-lunarinfra-th-without-links = Bez odkazů orbiteru
+
+js-lunarinfra-title-carrier-phase = Fáze nosné, povrch a orbiter
+
+js-lunarinfra-title-frame-coestimation = Společný odhad soustavy
+
+js-lunarinfra-title-geodesy-sensitivity = Loveova čísla a librace
+
+js-lunarinfra-title-od-consistency = Konzistence určení oběžné dráhy
+
+js-lunarinfra-title-space-tie = Kosmické svázání
+
+js-lunarinfra-unknown-study = tento výsledek lunární infrastruktury je studie „{ $study }“, kterou tato stránka nečte
+
+js-lunarinfra-where-missed = Kde tato studie nesplnila práh.
+
+js-lunarinfra-with-links = s odkazy orbiteru
+
+js-lunarinfra-without-links = bez odkazů orbiteru
+
+js-lunarinfra-x-arc-length = délka oblouku, dny
+
+js-lunarinfra-x-local-tie = sigma lokálního svázání, m (log)
+
+js-lunarinfra-y-fixed-correctly = správně fixováno, %
+
+js-lunarinfra-y-offset-sigma = sigma posunu, m (log); přerušovaná spodní mez je samotné svázání, sqrt(2) × chyba svázání
+
+js-meaning-body-generic = vybrané těleso
+
+js-meaning-body-the = { $name }
+
+js-meaning-card-label-sub = { $k }, { $sub }
+
+js-meaning-checks-of = { $av } z { $n } { $n ->
+        [one] kontroly
+        [few] kontrol
+        [many] kontroly
+       *[other] kontrol
+    }
+
+js-meaning-coverage-average-label = Průměr ve výhledu
+
+js-meaning-coverage-big-min = Na každém místě je ve výhledu alespoň { $n } { $n ->
+        [one] družice
+        [few] družice
+        [many] družice
+       *[other] družic
+    }, v průměru { $mean }.
+
+js-meaning-coverage-big-none = Některá místa občas nevidí žádnou družici; ve výhledu je v průměru { $mean }.
+
+js-meaning-coverage-fewest-label = Nejméně ve výhledu, kdekoli
+
+js-meaning-coverage-line-many = Se systémy { $names } dohromady je určení polohy možné v { $share } % míst a časů (těleso: { $body }).
+
+js-meaning-coverage-line-many-pdop = Se systémy { $names } dohromady je určení polohy možné v { $share } % míst a časů (těleso: { $body }; kvalita geometrie, PDOP, pod { $thr }).
+
+js-meaning-coverage-line-none = Určení polohy je možné v { $share } % míst a časů (těleso: { $body }).
+
+js-meaning-coverage-line-none-pdop = Určení polohy je možné v { $share } % míst a časů (těleso: { $body }; kvalita geometrie, PDOP, pod { $thr }).
+
+js-meaning-coverage-line-one = Se systémem { $names } je určení polohy možné v { $share } % míst a časů (těleso: { $body }).
+
+js-meaning-coverage-line-one-pdop = Se systémem { $names } je určení polohy možné v { $share } % míst a časů (těleso: { $body }; kvalita geometrie, PDOP, pod { $thr }).
+
+js-meaning-coverage-places-label = Místa, která získají určení polohy
+
+js-meaning-duration-days =
+    { $n ->
+        [one] { $days } den
+        [few] { $days } dny
+        [many] { $days } dne
+       *[other] { $days } dní
+    }
+
+js-meaning-ensemble-big-many = Přes mnoho vylosování šumu { $q } v průměru drží { $thr } ns po dobu { $qd }; { $c } po dobu { $cd }.
+
+js-meaning-ensemble-big-runs = Přes { $n } vylosování šumu { $q } v průměru drží { $thr } ns po dobu { $qd }; { $c } po dobu { $cd }.
+
+js-meaning-ensemble-line = Devět z deseti vylosování { $name } vydrží { $band }.
+
+js-meaning-ensemble-mean = průměr
+
+js-meaning-ensemble-mean-band = průměr; 90% pás { $band }
+
+js-meaning-error-p95-label = Chyba, v 95 % času, { $name }
+
+js-meaning-generic-big = { $label }: { $value }.
+
+js-meaning-generic-line-one = Také z tohoto běhu: { $a }.
+
+js-meaning-generic-line-two = Také z tohoto běhu: { $a } a { $b }.
+
+js-meaning-generic-none = Tento běh nemá jedinou hlavní hodnotu; graf níže ukazuje jeho výsledek.
+
+js-meaning-holdover-label = Holdover, { $name }
+
+js-meaning-hpl-sub = horizontální ochranná úroveň
+
+js-meaning-inside-budget = v rámci { $budget }
+
+js-meaning-integrity-big-checks-mostly = Ano, převážně: při { $share } % kontrol.
+
+js-meaning-integrity-big-checks-no = Ne: při { $share } % kontrol.
+
+js-meaning-integrity-big-checks-partly = Jen částečně: při { $share } % kontrol.
+
+js-meaning-integrity-big-checks-yes = Ano: při { $share } % kontrol.
+
+js-meaning-integrity-big-span-mostly = Ano, převážně: po { $share } % { $span }.
+
+js-meaning-integrity-big-span-no = Ne: po { $share } % { $span }.
+
+js-meaning-integrity-big-span-partly = Jen částečně: po { $share } % { $span }.
+
+js-meaning-integrity-big-span-yes = Ano: po { $share } % { $span }.
+
+js-meaning-integrity-bound-label = Typická mez chyby
+
+js-meaning-integrity-bound-sub = horizontální / vertikální, medián
+
+js-meaning-integrity-gap-all-passed = všechny kontroly prošly
+
+js-meaning-integrity-gap-label = Nejdelší mezera
+
+js-meaning-integrity-gap-none = žádná
+
+js-meaning-integrity-gap-sub = { $n ->
+        [one] { $n } kontrola za sebou, od { $from }
+        [few] { $n } kontroly za sebou, od { $from }
+        [many] { $n } kontroly za sebou, od { $from }
+       *[other] { $n } kontrol za sebou, od { $from }
+    }
+
+js-meaning-integrity-line-h = Mez chyby přijímače (jeho ochranná úroveň) zůstala pod výstražnými limity (horizontálně { $h } m) při { $av } z { $tot } { $n ->
+        [one] kontroly
+        [few] kontrol
+        [many] kontroly
+       *[other] kontrol
+    }.
+
+js-meaning-integrity-line-h-clean = Mez chyby přijímače (jeho ochranná úroveň) zůstala pod výstražnými limity (horizontálně { $h } m) při { $av } z { $tot } { $n ->
+        [one] kontroly
+        [few] kontrol
+        [many] kontroly
+       *[other] kontrol
+    } a žádné určení polohy nebylo zavádějící.
+
+js-meaning-integrity-line-h-some = Mez chyby přijímače (jeho ochranná úroveň) zůstala pod výstražnými limity (horizontálně { $h } m) při { $av } z { $tot } kontrol; zavádějících určení polohy: { $n }.
+
+js-meaning-integrity-line-hv = Mez chyby přijímače (jeho ochranná úroveň) zůstala pod výstražnými limity (horizontálně { $h } m a vertikálně { $v } m) při { $av } z { $tot } { $n ->
+        [one] kontroly
+        [few] kontrol
+        [many] kontroly
+       *[other] kontrol
+    }.
+
+js-meaning-integrity-line-hv-clean = Mez chyby přijímače (jeho ochranná úroveň) zůstala pod výstražnými limity (horizontálně { $h } m a vertikálně { $v } m) při { $av } z { $tot } { $n ->
+        [one] kontroly
+        [few] kontrol
+        [many] kontroly
+       *[other] kontrol
+    } a žádné určení polohy nebylo zavádějící.
+
+js-meaning-integrity-line-hv-some = Mez chyby přijímače (jeho ochranná úroveň) zůstala pod výstražnými limity (horizontálně { $h } m a vertikálně { $v } m) při { $av } z { $tot } kontrol; zavádějících určení polohy: { $n }.
+
+js-meaning-integrity-line-none = Mez chyby přijímače (jeho ochranná úroveň) zůstala pod výstražným limitem při { $av } z { $tot } { $n ->
+        [one] kontroly
+        [few] kontrol
+        [many] kontroly
+       *[other] kontrol
+    }.
+
+js-meaning-integrity-line-none-clean = Mez chyby přijímače (jeho ochranná úroveň) zůstala pod výstražným limitem při { $av } z { $tot } { $n ->
+        [one] kontroly
+        [few] kontrol
+        [many] kontroly
+       *[other] kontrol
+    } a žádné určení polohy nebylo zavádějící.
+
+js-meaning-integrity-line-none-some = Mez chyby přijímače (jeho ochranná úroveň) zůstala pod výstražným limitem při { $av } z { $tot } kontrol; zavádějících určení polohy: { $n }.
+
+js-meaning-integrity-line-v = Mez chyby přijímače (jeho ochranná úroveň) zůstala pod výstražnými limity (vertikálně { $v } m) při { $av } z { $tot } { $n ->
+        [one] kontroly
+        [few] kontrol
+        [many] kontroly
+       *[other] kontrol
+    }.
+
+js-meaning-integrity-line-v-clean = Mez chyby přijímače (jeho ochranná úroveň) zůstala pod výstražnými limity (vertikálně { $v } m) při { $av } z { $tot } { $n ->
+        [one] kontroly
+        [few] kontrol
+        [many] kontroly
+       *[other] kontrol
+    } a žádné určení polohy nebylo zavádějící.
+
+js-meaning-integrity-line-v-some = Mez chyby přijímače (jeho ochranná úroveň) zůstala pod výstražnými limity (vertikálně { $v } m) při { $av } z { $tot } kontrol; zavádějících určení polohy: { $n }.
+
+js-meaning-integrity-misleading-label = Zavádějící určení polohy
+
+js-meaning-integrity-misleading-sub = skutečná chyba nad mezí
+
+js-meaning-integrity-trusted-label = Doba, po kterou lze určení polohy důvěřovat
+
+js-meaning-jamming-above-label = Rušič nad signálem
+
+js-meaning-jamming-above-sub = průměrný poměr rušiče k signálu
+
+js-meaning-jamming-big-gone = Rušič zcela odebere určení polohy.
+
+js-meaning-jamming-big-share = S rušičem je určení polohy dostupné { $share } % času.
+
+js-meaning-jamming-clear-label = Určení polohy dostupné, bez rušiče
+
+js-meaning-jamming-fewest-label = Nejméně sledovaných družic
+
+js-meaning-jamming-fewest-sub = v nejhorším okamžiku
+
+js-meaning-jamming-jammed-label = Určení polohy dostupné, s rušením
+
+js-meaning-jamming-line = Bez rušiče je určení polohy dostupné { $share } % času.
+
+js-meaning-jamming-line-js = Bez rušiče je určení polohy dostupné { $share } % času; rušič přichází v průměru { $db } dB nad signálem.
+
+js-meaning-kicker = { $domain } · { $title }
+
+js-meaning-lunar-big-all = { $n ->
+        [one] Ano: při jediné kontrole ({ $n }).
+        [few] Ano: při každé z { $n } kontrol.
+        [many] Ano: při každé z { $n } kontroly.
+       *[other] Ano: při každé z { $n } kontrol.
+    }
+
+js-meaning-lunar-big-none = { $n ->
+        [one] Ne: při jediné kontrole ({ $n }).
+        [few] Ne: při žádné z { $n } kontrol.
+        [many] Ne: při žádné z { $n } kontroly.
+       *[other] Ne: při žádné z { $n } kontrol.
+    }
+
+js-meaning-lunar-big-some = Při { $av } z { $n } { $n ->
+        [one] kontroly
+        [few] kontrol
+        [many] kontroly
+       *[other] kontrol
+    } ({ $share } %).
+
+js-meaning-lunar-largest-label = Největší mez chyby
+
+js-meaning-lunar-line = Ochranná úroveň se pohybovala od { $min } do { $max } m proti výstražnému limitu { $limit } m.
+
+js-meaning-lunar-meet-label = Kontroly, které splňují limit
+
+js-meaning-lunar-meet-value = { $av } z { $tot }
+
+js-meaning-lunar-smallest-label = Nejmenší mez chyby
+
+js-meaning-median-lower-better = medián, nižší je lepší
+
+js-meaning-of-the-time = času
+
+js-meaning-orbit-best-label = Nejlepší geometrie (PDOP)
+
+js-meaning-orbit-best-sub = nejnižší za běh
+
+js-meaning-orbit-big-always = Určení polohy je možné po celou dobu.
+
+js-meaning-orbit-big-share = Určení polohy je možné { $share } % času.
+
+js-meaning-orbit-error-label = Typická chyba polohy
+
+js-meaning-orbit-error-sub = 1 sigma, medián
+
+js-meaning-orbit-line = Dostatek družic ve výhledu bylo v { $fix } z { $n } { $n ->
+        [one] okamžiku
+        [few] okamžiků
+        [many] okamžiku
+       *[other] okamžiků
+    }.
+
+js-meaning-orbit-line-pdop = Dostatek družic ve výhledu bylo v { $fix } z { $n } { $n ->
+        [one] okamžiku
+        [few] okamžiků
+        [many] okamžiku
+       *[other] okamžiků
+    }; typická kvalita geometrie (PDOP, faktor zhoršení přesnosti polohy) je { $pdop }, nižší je lepší.
+
+js-meaning-orbit-moments = { $fix } z { $n } { $n ->
+        [one] okamžiku
+        [few] okamžiků
+        [many] okamžiku
+       *[other] okamžiků
+    }
+
+js-meaning-orbit-time-label = Doba, kdy je určení polohy možné
+
+js-meaning-pair-big-diff-pos = { $best } zůstává v rámci { $budget } po dobu { $bestDur }; { $other } po dobu { $otherDur }.
+
+js-meaning-pair-big-diff-time = { $best } udrží čas v rámci { $budget } po dobu { $bestDur }; { $other } po dobu { $otherDur }.
+
+js-meaning-pair-big-same-pos = { $q } i { $c } zůstávají v rámci { $budget } po dobu { $dur }.
+
+js-meaning-pair-big-same-time = { $q } i { $c } udrží čas v rámci { $budget } po dobu { $dur }.
+
+js-meaning-pair-line-clock = Holdover je doba, po kterou každé hodiny zůstanou v rámci rozpočtu { $budget } po ztrátě družicové navigace.
+
+js-meaning-pair-line-navigator = Holdover je doba, po kterou každý navigační systém zůstane v rámci rozpočtu { $budget } po ztrátě družicové navigace.
+
+js-meaning-pdop-label = Kvalita geometrie (PDOP)
+
+js-meaning-places-times = míst a časů
+
+js-meaning-range-to = { $from } až { $to }
+
+js-meaning-satellites = { $n ->
+        [one] družice
+        [few] družice
+        [many] družice
+       *[other] družic
+    }
+
+js-meaning-spectrum-above = nad prahem
+
+js-meaning-spectrum-below = pod prahem: ztraceno
+
+js-meaning-spectrum-big-kept = { $n ->
+        [one] Jediný signál ({ $n }) se stále sleduje.
+        [few] Každý z { $n } signálů se stále sleduje.
+        [many] Každý z { $n } signálu se stále sleduje.
+       *[other] Každý z { $n } signálů se stále sleduje.
+    }
+
+js-meaning-spectrum-big-lost = Rušiče připraví o { $lost } z { $n } { $n ->
+        [one] signálu
+        [few] signálů
+        [many] signálu
+       *[other] signálů
+    }: { $names }.
+
+js-meaning-spectrum-line-kept = { $n ->
+        [one] { $names } zůstává po celý běh nad prahem sledování přijímače.
+        [few] { $names } zůstávají po celý běh nad prahem sledování přijímače.
+        [many] { $names } zůstávají po celý běh nad prahem sledování přijímače.
+       *[other] { $names } zůstávají po celý běh nad prahem sledování přijímače.
+    }
+
+js-meaning-spectrum-line-kept-thr = { $n ->
+        [one] { $names } zůstává po celý běh nad prahem sledování přijímače { $thr } dB-Hz.
+        [few] { $names } zůstávají po celý běh nad prahem sledování přijímače { $thr } dB-Hz.
+        [many] { $names } zůstávají po celý běh nad prahem sledování přijímače { $thr } dB-Hz.
+       *[other] { $names } zůstávají po celý běh nad prahem sledování přijímače { $thr } dB-Hz.
+    }
+
+js-meaning-spectrum-line-none = Žádný signál nezůstává po celý běh nad prahem sledování přijímače.
