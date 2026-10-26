@@ -29,3 +29,5 @@ seg-4f19d4fb1341 = 通过点分 TOML 键/JSON 指标路径，对任意包进行�
 seg-e7ab7b55c969 = 针对时钟包参数的 1-D 权衡研究扫描。
 
 seg-e43910de5fd8 = Notebook
+
+seg-d78822583c64 = 笔记本
