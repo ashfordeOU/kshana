@@ -13,3 +13,5 @@ seg-587beeccaa11 = Voorinstelling
 seg-1ff32b87e030 = Satellieten
 
 seg-a6c63abeb7e6 = Meegeleverde scenario's
+
+seg-60cd077d82a7 = Model

@@ -39,3 +39,73 @@ seg-1bdbf1a737b2 = De grafiek die de engine schrijft voor scenarios/quantum-gnss
 seg-eb55d253dd11 = Afweging van PNT quantum tegenover klassiek ({ "13503" }): voordeel in holdover van tijdsynchronisatie + inertiale holdover van een kandidaatklok (een gemeten ADEV-curve — het scharnierpunt voor verdedigbaarheid — of een kwantumklokklasse) tegenover een klassieke basislijnklasse, met het voorbehoud over de aanname van de lange-tau-ondergrens meegegeven op het artefact, plus een GNSS-ontzegde envelop van veerkracht tegenover tijd. MODELLED; kwantificeert (valideert nooit) een apparaat van een partner. De kandidaatklok is een gemeten curve (<c1/> + <c2/>, even lang, minstens { "2" } punten; zij wint wanneer beide vormen zijn gegeven) of een <c3/>.
 
 seg-c74c63ffd859 = De grafiek die de engine schrijft voor scenarios/quantum-trade.toml, soort quantum-trade
+
+seg-4e31c8daf798 = Register
+
+seg-9095869ec445 = { "9" } scenariosoorten van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen typegoedgekeurde navigatieapparatuur en geen veiligheidsdienst voor mensenlevens. Elk label hier is dat van de engine of van de verificatiematrix; een soort is MODELLED tenzij de matrix anders aangeeft (hoe een label wordt verdiend: het onderdeel Bewijs van de README).
+
+seg-efd15cff3d32 = MODELLED (resultaatlabel)
+
+seg-be0cfeeb1680 = MODELLED { "4" } · VALIDATED { "4" }
+
+seg-d1c67e3dd12e = MODELLED { "1" } · VALIDATED { "2" }
+
+seg-e6f2ab1647e2 = Bron: <c1/>
+
+seg-23762f3a250b = Traagheids-, fusie- en kwantumsensoren (familie van scenariosoorten)
+
+seg-6ec3ad751007 = Themapagina's: <a1>QUANTUM-MODELS</a1>, <a2>QUANTUM</a2>, <a3>LEO-PNT-FUSION</a3>. Voer er een uit: <c1/>. Alle families: <a4>KINDS.md</a4>.
+
+seg-0e73a37b716b = Contactblad met de grafieken die de engine schrijft voor de soorten van de familie Traagheids-, fusie- en kwantumsensoren
+
+seg-c2245de16d5f = MODELLED { "6" } · VALIDATED { "2" }
+
+seg-084cf4eeccb5 = Hybride kwantum+klassieke, nauw gekoppelde GNSS/INS-UKF met 17 toestanden (MODELLED): { "15" } INS-foutentoestanden + CAI-afgeleide correctie van de versnellingsbias + een klok met 2 toestanden (fase+frequentie) uit de q-parameter-klokengine
+
+seg-a7d3c32b29b3 = INS/TRN-foutmodel voor uitlopen: positiefout tegen duur van het uitlopen, opgebouwd uit IMU-coëfficiënten in plaats van doorgerekend met een aangenomen driftsnelheid.
+
+seg-beb568dec44f = MODELLED GNSS-vrije kwantumnavigatie: tijdens een GNSS-uitval, een kwantum- (koude-atoominterferometer) traagheidsbudget versus een klassieke INS van navigatiekwaliteit — groei van de positiefout tijdens het uitlopen, holdover t
+
+seg-d948ea4d1f33 = MODELLED fout- en anomaliedetectie voor kwantum-PNT-systemen: een gelabelde foutencatalogus (klokfrequentiesprong/-drift/-vergrendelingsverlies; sensorbiasstap/-uitval), een ROC-AUC van de detectiestatistiek (met een bootstrap-BI
+
+seg-48e72d451a50 = Afweging kwantum versus klassiek voor PNT ({ "13503" }): voordeel op het gebied van tijdsynchronisatie-holdover en traagheids-holdover van een kandidaatklok (een gemeten ADEV-curve — het scharnierpunt voor verdedigbaarheid — of een kwantumklokklasse) versus een klassieke bas
+
+seg-5330b47bc0b6 = Verplichte velden: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. Optioneel: <c7/>.
+
+seg-75867e8b4b4f = <b>Register:</b> MODELLED { "6" } · VALIDATED { "2" }. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>inertial</a1>.
+
+seg-fdf140d4ce68 = Verplichte velden: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.
+
+seg-44c6371da5f9 = <b>Register:</b> MODELLED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>hybrid</a1>.
+
+seg-3246c9e1e0cb = Verplichte velden: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>. Optioneel: <c11/>.
+
+seg-e2bd8fd0d9e5 = <b>Register:</b> MODELLED { "4" } · VALIDATED { "4" }. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>fusion</a1>.
+
+seg-d0790a2643ae = Verplichte velden: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. Optioneel: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>.
+
+seg-85ab600e3050 = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>hybrid-ukf</a1>.
+
+seg-3bbd5ce09bee = Verplichte velden: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. Optioneel: <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>.
+
+seg-08ad3969f65b = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>gnss-ins</a1>.
+
+seg-1703619ca20e = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>.
+
+seg-ab3453d1ee51 = <b>Register:</b> VALIDATED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>ins-trn-coast</a1>.
+
+seg-a77cdf6e8e31 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>.
+
+seg-b05e96ce392d = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>quantum-gnss-free-nav</a1>.
+
+seg-3f3e48045d31 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>.
+
+seg-cbefb1538dec = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>quantum-anomaly-detect</a1>.
+
+seg-6eee03151521 = Verplichte velden: <c1/>, <c2/>, <c3/>, <c4/>. Optioneel: <c5/>, <c6/>, <c7/>, <c8/>.
+
+seg-6cb57dc94549 = <b>Register:</b> MODELLED { "1" } · VALIDATED { "2" }. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>quantum-trade</a1>.
+
+seg-b6c31bdda166 = <s1>Vorige</s1>Alternatieve PNT bij GPS-uitval
+
+seg-0585e4ae329e = <s1>Volgende</s1>Jamming, spoofing en het spectrum

@@ -19,3 +19,47 @@ seg-0d7bf5a4f07e = GPS-ontzegde terreingebonden navigatie (TERCOM/SITAN): een ra
 seg-c5e33c7122e2 = De grafiek die de engine schrijft voor scenarios/terrain-nav.toml, soort terrain-nav
 
 seg-6bdc150ab25b = GPS-ontzegde sequentiële (recursieve) terreingebonden navigatie: een deeltjesfilter draait het terreinmatch-meetmodel epoch voor epoch (SITAN als lopend filter), zodat een in de tijd variërende INS-drift langs het spoor wordt gevolgd, waar de batch-soort terrain-nav slechts één constante offset herstelt.
+
+seg-4aca87f022dc = De grafiek die de engine schrijft voor scenarios/terrain-slam.toml, soort terrain-slam
+
+seg-4e31c8daf798 = Register
+
+seg-efd15cff3d32 = MODELLED (resultaatlabel)
+
+seg-9d9aeff4f2ee = Bron: <c1/>
+
+seg-d9fdaf3208ca = Alternatieve PNT bij GPS-uitval (familie van scenariosoorten)
+
+seg-9fde6af9e09f = { "5" } scenariosoorten van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen typegoedgekeurde navigatieapparatuur en geen veiligheidsdienst voor mensenlevens. Elk label hier is dat van de engine of van de verificatiematrix; een soort is MODELLED tenzij de matrix anders aangeeft (hoe een label wordt verdiend: het onderdeel Bewijs van de README).
+
+seg-0d3b170b9fbc = Themapagina's: <a1>CAPABILITY</a1>, <a2>RESILIENCE-CROSSWALK</a2>. Voer er een uit: <c1/>. Alle families: <a3>KINDS.md</a3>.
+
+seg-6dfd2dc2721a = Contactblad met de grafieken die de engine schrijft voor de soorten van de familie Alternatieve PNT bij GPS-uitval
+
+seg-cff60d8c17d2 = Sequentiële (recursieve) terreingebaseerde navigatie bij GPS-uitval: een deeltjesfilter voert het terreinvergelijkingsmeetmodel epoch na epoch uit (SITAN als lopend filter) zodat een tijdvariërende INS-drift wordt tr
+
+seg-9d8f69b51742 = MODELLED veerkracht van gelaagde PNT bij conflict (P7): een gebruiker in een betwiste omgeving beschikt over meerdere PNT-lagen (open-service-GNSS, breedband-GNSS, een geauthenticeerde constellatie, een augmentatierelais), elk met
+
+seg-28486745bb43 = Verplichte velden: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>. Optioneel: <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>.
+
+seg-c2187e8291f9 = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>gravity-map</a1>.
+
+seg-b1ff6f0e1769 = Verplichte velden: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>. Optioneel: <c13/>, <c14/>, <c15/>.
+
+seg-9bd19903f577 = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>terrain-nav</a1>.
+
+seg-3ec7b38184b7 = Verplichte velden: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>. Optioneel: <c11/>, <c12/>, <c13/>, <c14/>, <c15/>.
+
+seg-7c777178ee8f = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>terrain-slam</a1>.
+
+seg-c5124441822e = Verplichte velden: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>. Optioneel: <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>.
+
+seg-d78bd011956c = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>combined-altpnt</a1>.
+
+seg-2d95ddbf01c4 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+seg-ab895b157152 = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>conflict-resilience</a1>.
+
+seg-c0ef7d676ec1 = <s1>Vorige</s1>GNSS-metingen, positiebepaling en integriteit
+
+seg-54b45b00a2f0 = <s1>Volgende</s1>Traagheids-, fusie- en kwantumsensoren

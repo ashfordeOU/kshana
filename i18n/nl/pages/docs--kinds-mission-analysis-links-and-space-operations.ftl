@@ -57,3 +57,105 @@ seg-af1cf9aa9938 = De grafiek die de engine schrijft voor scenarios/space-packet
 seg-953188c11165 = Eenrichtings-linkbudget volgens de linkvergelijking van CCSDS { "401" } / DSN 810-005: vrije-ruimtepadverlies, C/N₀, Eb/N₀, marge en sluiting voor een zend-EIRP, ontvangst-G/T, afstand, datasnelheid en band (s|x|ka) ten opzichte van een vereiste Eb/N₀. Een deterministische technische berekening op basis van de aangeleverde invoer (geen gekalibreerd terminaldatablad).
 
 seg-bd375631bc7e = De grafiek die de engine schrijft voor scenarios/link-budget.toml, soort link-budget
+
+seg-4e31c8daf798 = Register
+
+seg-436e412d99fd = MODELLED { "1" } · VALIDATED { "1" }
+
+seg-69ee217ed8e0 = Bron: <c1/>
+
+seg-f5091cbeecbf = Missieanalyse, verbindingen en ruimteoperaties (familie van scenariosoorten)
+
+seg-d0eea6d9d1ad = { "14" } scenariosoorten van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen typegoedgekeurde navigatieapparatuur en geen veiligheidsdienst voor mensenlevens. Elk label hier is dat van de engine of van de verificatiematrix; een soort is MODELLED tenzij de matrix anders aangeeft (hoe een label wordt verdiend: het onderdeel Bewijs van de README).
+
+seg-6481dabc9458 = Themapagina's: <a1>ENTRY-EO-ASCENT</a1>, <a2>CONTACT-SCHEDULING</a2>, <a3>AOCS</a3>. Voer er een uit: <c1/>. Alle families: <a4>KINDS.md</a4>.
+
+seg-d6c5a581ffaf = Contactblad met de grafieken die de engine schrijft voor de soorten van de familie Missieanalyse, verbindingen en ruimteoperaties
+
+seg-8d65a4a1948d = Tweelichamen-lanceer- en stijggeometrie: lanceerazimut(en) (sin Az = cos i / cos lat), minimaal bereikbare inclinatie, cirkelsnelheid, de oostwaartse bonus van de aardrotatie, Δv voor vlakwijziging met dogleg wanneer de
+
+seg-dd47e755d262 = Vlakke zwaartekrachtbocht-stijging van een voertuig met meerdere trappen boven een niet-roterende bolvormige Aarde door de US Standard Atmosphere { "1976" } (verticale stijging, pitch-kick, stuwkracht langs de snelheid), met integratie van de zwaartekracht
+
+seg-cc88f37328a3 = Allen-Eggers-corridor voor ballistische terugkeer: piekvertraging (onafhankelijk van de ballistische coëfficiënt, V_e^{ "2" } sin/γ//(2eH)), de snelheid en hoogte bij de piek-g, en de snelheid bij piekverhitting, voor een intreesnelheid
+
+seg-8ad7c34d8c25 = 3-DoF-puntmassa-atmosferische intrede boven een roterende bolvormige Aarde of Mars (ballistisch of met lift bij constante rolhoek), RK4, door US76, een exponentiële of de Mars-atmosfeer, met Sutton-Graves-stagnatie
+
+seg-efe896d3f43b = Voetafdruk- en dekkingsgeometrie van een aardobservatielading (SMAD-ruimtedriehoek): hoekstraal van de Aarde, zwadbreedte, grondresolutie in nadir, maximale toegang buiten nadir, cirkelvormige periode, J2-knooppuntperiode
+
+seg-d3d9652fd8a0 = Radiometrie en beeldkwaliteit van een nadirbeeldvormer: stralingsdichtheid aan de apertuur van een Lambertiaans tafereel, de cameravergelijking, signaal en shot-/donker-/lees-/kwantisatieruis en SNR; de systeem-MTF bij Nyquist (diffractie
+
+seg-1940d5c75a98 = 3-DOF-houdings- en richtfoutbudget: het worstcase-verstoringsmoment door zwaartekrachtgradiënt ((3/2)(μ/R³)ΔI) en een root-sum-square-richtfoutbudget over benoemde 1σ-bijdragers (sensorruis, reactie
+
+seg-e00d18fbb52b = Standregeling van ruimtevaartuigen: een traagheidsgerichte slew van een stijve hub met drie of meer gebalanceerde reactiewielen onder MRP-terugkoppeling (L = -K sigma - P omega), minimale-normwielmomenten begrensd tot elk
+
+seg-496fa280de7b = Eenwegslinkbudget volgens de CCSDS { "401" } / DSN 810-005-linkvergelijking: padverlies in vrije ruimte, C/N₀, Eb/N₀, marge en sluiting voor een zend-EIRP, ontvangst-G/T, afstand, datasnelheid en band (s/x/ka) tegen een
+
+seg-f0aca7ea1ffa = Eén satelliet boven één station: per passage de schuine afstand, elevatie en Es/N0 langs de passage, de bij elke stap gekozen DVB-S2-MODCOD (drempels uit ETSI EN { "302" } 307-1 Table { "13" } plus een implementatiemarge)
+
+seg-44c4890ba07e = Planning van grondcontacten voor meerdere satellieten boven meerdere stations: schijnbare toegangsvensters (SGP4, aardvast IAU 2006/2000A-stelsel, ITU-R P.834-refractie, lichttijd), het DVB-S2-ACM-datavolume o
+
+seg-19ab136e9f9b = Aperture-bezettingsgraad: de verdeling van de tijd tussen navigatie en communicatie die een contactplan impliceert voor een pool van stuurbare aperturen.
+
+seg-ee0c649ca8b2 = CCSDS 133.0-B Space Packet Protocol-framing: codeer een synthetische TM/TC-pakketstroom (primaire header van 6 octetten + gegevensveld) en rapporteer per pakket de headerdecodering, het totaal aantal octetten en een exacte codering↔deco
+
+seg-e561f3a749db = CCSDS OEM-interoperabiliteitsbrug: importeer een Orbit Ephemeris Message die door een extern vluchtdynamicahulpmiddel is geproduceerd (GMAT/Orekit/STK leveren allemaal OEM) en rapporteer de segmenten/objecten/frames/epochspanne plus
+
+seg-1f074d7beccc = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+seg-8f65824c39c5 = <b>Register:</b> MODELLED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>launch-window</a1>.
+
+seg-2926bde689d3 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+
+seg-66f6489411d0 = <b>Register:</b> MODELLED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>ascent-losses</a1>.
+
+seg-481ce1d98bc7 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+seg-fff98550eb48 = <b>Register:</b> MODELLED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>reentry</a1>.
+
+seg-9cf8d4b6064f = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>.
+
+seg-84e1bddcbc95 = <b>Register:</b> MODELLED { "1" } · VALIDATED { "1" }. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>entry-heating</a1>.
+
+seg-eab43348803e = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>.
+
+seg-9c6ce756a89a = <b>Register:</b> VALIDATED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>eo-coverage</a1>.
+
+seg-cd84a7bdbe57 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>.
+
+seg-320d724ac797 = <b>Register:</b> MODELLED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>eo-radiometry</a1>.
+
+seg-905487bf50f1 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>.
+
+seg-14511e367361 = <b>Register:</b> VALIDATED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>attitude-budget</a1>.
+
+seg-540fa1932dad = Verplichte velden: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. Optioneel: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>.
+
+seg-6d2e9b9ce87f = <b>Register:</b> MODELLED { "1" } · VALIDATED { "1" }. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>aocs</a1>.
+
+seg-3345731b5729 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+
+seg-f8b896b81014 = <b>Register:</b> MODELLED { "1" } · VALIDATED { "1" }. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>link-budget</a1>.
+
+seg-e38e356f4b71 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+
+seg-eed876ed5aab = <b>Register:</b> MODELLED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>acm-link</a1>.
+
+seg-5fddd2460fb0 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+
+seg-58d00faa1eda = <b>Register:</b> MODELLED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>contact-schedule</a1>.
+
+seg-5d4f6861f301 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>.
+
+seg-1e06e06d4325 = <b>Register:</b> MODELLED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>aperture-duty-cycle</a1>.
+
+seg-9bb424e01c84 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>.
+
+seg-688071019c9e = <b>Register:</b> VALIDATED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>space-packet</a1>.
+
+seg-03c06f9fdc85 = Verplichte velden: geen. Optioneel: <c1/>.
+
+seg-568c484ce9a0 = <b>Register:</b> VALIDATED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>oem-interop</a1>.
+
+seg-41996765fcf1 = <s1>Vorige</s1>Maan en cislunair
+
+seg-1951c46fe429 = <s1>Volgende</s1>Optische PNT

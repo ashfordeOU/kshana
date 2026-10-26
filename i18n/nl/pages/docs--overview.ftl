@@ -203,3 +203,25 @@ seg-e251b385ff46 = Twee synthetische dagen van de interferentiekaart, getekend u
 seg-af0edceb1503 = Scoring van één synthetische ontvangerlog tegen een schema met drie tests, uit een echte run van engine v{ $version } (`kshana jammertest score`). De log is verzonnen: { "1800" } s NMEA met een daling van { "20" } dB C/N0 over twee intervallen. Het schema bevat drie slots; in het middelste slot staat in de log geen jammer. De score markeert { "2" } van { "3" } tests als gedetecteerd (mediane latentie { "0" } s) en { "1" } als gemist, met { "0" } runs met valse alarmen over { "0.25" } uur schone tijd. Niets hiervan zegt iets over een echte ontvanger. Adviserende software, geen typegoedgekeurde navigatieapparatuur (IEC { "61108" }, IEC { "61162" }): de gezagvoerder of exploitant blijft verantwoordelijk voor de navigatie van het vaartuig.
 
 seg-13fc009b947c = FAQ
+
+seg-3ac9e578414c = Klokken, tijdsynchronisatie en holdover
+
+seg-b4b8aaf14aec = Traagheids-, fusie- en kwantumsensoren
+
+seg-93591ee6899f = Alternatieve PNT bij GPS-uitval
+
+seg-b63bfec0aabf = Constellaties, dekking en geometrie
+
+seg-f2f84c689f14 = GNSS-metingen, positiebepaling en integriteit
+
+seg-2e736b1814f2 = Jamming, spoofing en het spectrum
+
+seg-fc23add4540b = Navigatie met lage aardbaan
+
+seg-dd8aa1ce4734 = Navigatie voor ruimtegebruikers
+
+seg-77aef8722995 = Optische PNT
+
+seg-179dc850c643 = Missieanalyse, verbindingen en ruimteoperaties
+
+seg-6339abe5314a = Familie
