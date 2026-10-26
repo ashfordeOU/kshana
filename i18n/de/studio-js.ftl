@@ -4541,3 +4541,485 @@ js-lib-guided-seed-label = Zufalls-Seed
 js-lib-guided-sigma-uere-m-hint = 1-σ nutzeräquivalenter Entfernungsfehler für die Positionszusammenfassung
 
 js-lib-guided-sigma-uere-m-label = Entfernungsfehler σ (m)
+
+js-lib-guided-station-lat-deg-hint = Breite der Bodenstation — bestimmt die Überflug-Geometrie
+
+js-lib-guided-station-lat-deg-label = Breite der Station (°)
+
+js-lib-guided-station-lon-deg-hint = Länge der Bodenstation
+
+js-lib-guided-station-lon-deg-label = Länge der Station (°)
+
+js-lib-guided-step-s-hint = Abtasttakt der Bodenspur
+
+js-lib-guided-step-s-label = Zeitschritt (s)
+
+js-lib-guided-threshold-ns-hint = Budget „in Spezifikation“; „verfügbar“, solange der Fehler darunter bleibt
+
+js-lib-guided-threshold-ns-label = Spezifikationsschwelle (ns)
+
+js-lib-guided-time-duration-s-hint = gesamte Laufdauer
+
+js-lib-guided-time-duration-s-label = Dauer (s)
+
+js-lib-guided-time-step-s-hint = Integrations- / Abtasttakt
+
+js-lib-guided-time-step-s-label = Zeitschritt (s)
+
+js-lib-guided-user-altitude-km-hint = die Bahnhöhe des Nutzer-Raumfahrzeugs
+
+js-lib-guided-user-altitude-km-label = Höhe des Nutzers (km)
+
+js-lib-guided-user-inclination-deg-hint = die Inklination der Nutzerbahn
+
+js-lib-guided-user-inclination-deg-label = Inklination des Nutzers (°)
+
+js-lib-imufit-card-accel-slope = Allan-Steigung des Beschleunigungsmessers, früh (etwa -0.5 bei weißem Rauschen)
+
+js-lib-imufit-card-bias = Bias des Beschleunigungsmessers, Mittelwert (m/s²)
+
+js-lib-imufit-card-bias-instability = Bias-Instabilität des Beschleunigungsmessers (m/s²), 0, wenn die Kurve keinen Boden hat
+
+js-lib-imufit-card-gyro-bias = Kreisel-Bias, Mittelwert (rad/s)
+
+js-lib-imufit-card-gyro-slope = Allan-Steigung des Kreisels, früh (etwa -0.5 bei weißem Rauschen)
+
+js-lib-imufit-card-note-n = Anmerkung { $n }
+
+js-lib-imufit-card-q-arw = Winkel-Random-Walk des Kreisels, q_arw (rad²/s)
+
+js-lib-imufit-card-q-va = Geschwindigkeits-Random-Walk des Beschleunigungsmessers, q_va (m²/s³)
+
+js-lib-imufit-card-sample-rate = Abtastrate
+
+js-lib-imufit-card-samples = Abtastwerte
+
+js-lib-imufit-card-span = Spanne
+
+js-lib-jammertest-card-clean-epochs = Saubere Epochen
+
+js-lib-jammertest-card-clean-hours = Saubere Stunden
+
+js-lib-jammertest-card-detected = Innerhalb der Toleranz erkannt
+
+js-lib-jammertest-card-detection-rate = Erkennungsrate (beliebiger Alarm)
+
+js-lib-jammertest-card-evaluable = Auswertbar
+
+js-lib-jammertest-card-fa-epochs = Fehlalarm-Epochen
+
+js-lib-jammertest-card-fa-per-hour = Fehlalarmläufe pro Stunde
+
+js-lib-jammertest-card-fa-runs = Fehlalarmläufe
+
+js-lib-jammertest-card-in-tol-rate = Innerhalb der Toleranz erkannt, Rate
+
+js-lib-jammertest-card-late = Verspätet
+
+js-lib-jammertest-card-median-latency = Mediane Erkennungslatenz
+
+js-lib-jammertest-card-median-recover = Mediane Zeit bis zur Wiederherstellung
+
+js-lib-jammertest-card-missed = Verpasst
+
+js-lib-jammertest-card-na = n. v.
+
+js-lib-jammertest-card-not-assessable = In diesem Protokoll war kein Test auswertbar, daher können weder eine Erkennungsrate noch eine Latenz angegeben werden. Das ist ein Ergebnis, kein Fehler der Seite: Nichts hier ist ein Bestehen.
+
+js-lib-jammertest-card-not-json = { $name }: kein JSON ({ $reason }).
+
+js-lib-jammertest-card-not-scorecard = { $name }: kein Jammertest-Bewertungsbogen (er braucht tests[] und summary).
+
+js-lib-jammertest-card-tests = Tests im Planausschnitt
+
+js-lib-jammertest-card-too-large = { $name }: größer als 8 MiB; diese Seite liest einen Bewertungsbogen bis zu dieser Größe.
+
+js-lib-kpi-available-everywhere = überall und in jeder Epoche verfügbar
+
+js-lib-kpi-available-everywhere-pdop = überall und in jeder Epoche verfügbar (PDOP, Positions-Dilution-of-Precision, unter { $thr })
+
+js-lib-kpi-drops-under = fällt unter die Verfolgungsschwelle von { $thr } dB-Hz: Synchronisation verloren
+
+js-lib-kpi-end-of-mission = am Ende der Mission
+
+js-lib-kpi-figure-tiers = Nachweisstufen der Werte: { $parts }.
+
+js-lib-kpi-n-modelled = { $n } modelliert
+
+js-lib-kpi-n-partner = { $n } im Besitz des Partners
+
+js-lib-kpi-n-validated = { $n } validiert
+
+js-lib-kpi-no-change = keine Änderung
+
+js-lib-kpi-no-fix = { $pct } % der Zeit oder Orte ohne Positionslösung
+
+js-lib-kpi-no-fix-pdop = { $pct } % der Zeit oder Orte ohne Positionslösung bei PDOP unter { $thr }
+
+js-lib-kpi-over-jump = über der Sprungschwelle von { $thr } m
+
+js-lib-kpi-over-pdop = über der PDOP-Schwelle { $thr }
+
+js-lib-kpi-stays-above = bleibt über der Verfolgungsschwelle von { $thr } dB-Hz
+
+js-lib-kpi-under-jump = unter der Sprungschwelle von { $thr } m
+
+js-lib-kpi-under-pdop = unter der PDOP-Schwelle { $thr }
+
+js-lib-orbit3d-apogee = Apogäum
+
+js-lib-orbit3d-perigee = Perigäum
+
+js-lib-orbit3d-prov-scenario = Szenario { $hash }
+
+js-lib-orbit3d-title = Umlaufbahn (ECI, orthografisch)
+
+js-lib-orbit3d-view-angles = Az { $az }° · El { $el }°
+
+js-lib-overlay-meta-clock-bias-m = Uhrenversatz
+
+js-lib-overlay-meta-converged-pos-3sigma-m = Position 3σ
+
+js-lib-overlay-meta-converged-pos-rms-m = Position RMS
+
+js-lib-overlay-meta-converged-pos-sigma-m = Position σ
+
+js-lib-overlay-meta-final-clock-freq-sigma = Uhrenfrequenz-σ
+
+js-lib-overlay-meta-mean-relays-in-view = Relais in Sicht
+
+js-lib-overlay-meta-pos-p95-m = Position p95
+
+js-lib-overlay-meta-pos-rms-m = Position RMS
+
+js-lib-overlay-meta-postfit-rms-m = RMS nach der Anpassung
+
+js-lib-overlay-prov-scenario = Szenario { $hash }
+
+js-lib-overlay-subtitle =
+    { $n ->
+        [one] |Fehler| (ns) gegen Zeit — { $n } Lauf
+       *[other] |Fehler| (ns) gegen Zeit — { $n } Läufe
+    }
+
+js-lib-overlay-time-s = Zeit (s)
+
+js-lib-overlay-title = Überlagerung: Zeitgebungsfehler während des Ausfalls
+
+js-lib-packs-cannot-unpack = dieser Browser kann die aufgezeichnete Datei nicht entpacken
+
+js-lib-replay-demos-below-130 = Nur Azimute unter 130° beibehalten (angegeben)
+
+js-lib-replay-demos-coastal-drag-off = Wegdriften an der Küste
+
+js-lib-replay-demos-combined-event = Kombiniertes Ereignis
+
+js-lib-replay-demos-drag-off-stated = Wegdriften der Position (von der Demo angegeben)
+
+js-lib-replay-demos-ferry-drag-off = Fährpassage, Wegdriften der Position
+
+js-lib-replay-demos-ferry-drag-off-description = Ein erfundenes Fährprotokoll, Tallinn nach Helsinki, 1 Hz. Ab 1500 s zieht ein Wegdriften der Position die gemeldete Position weg, während der Empfänger weiter eine gültige Positionslösung meldet.
+
+js-lib-replay-demos-fjord = Natürliche Beeinträchtigung im Fjord
+
+js-lib-replay-demos-masked-sky = Fährpassage, halber Himmel verdeckt
+
+js-lib-replay-demos-masked-sky-description = Dasselbe Fährprotokoll mit der westlichen Himmelshälfte ab 600 s stumm geschaltet, einem engeren Himmel von 900 s bis 1200 s und dem Wegdriften ab 1500 s: ein Lauf, in dem Himmel, Signal und Position nacheinander ausfallen.
+
+js-lib-replay-demos-open-sea-jamming = Jamming auf offener See
+
+js-lib-replay-demos-port-approach = Zeit-Spoofing bei der Hafeneinfahrt
+
+js-lib-replay-demos-source-training = Synthetisches Szenario { $id }: der nmea_training-Datenstrom und das Ausbilderprotokoll der Engine, bewertet von ihrem receiver-trust.
+
+js-lib-replay-demos-source-trust = Synthetisches Protokoll { $id }: erfundenes NMEA, bewertet vom receiver-trust der Engine.
+
+js-lib-replay-demos-west-masked = Westliche Himmelshälfte verdeckt (angegeben)
+
+js-lib-replay-demos-west-masked-again = Westliche Hälfte erneut verdeckt (angegeben)
+
+js-lib-report-charts = Diagramme
+
+js-lib-report-eyebrow = der genaue Augenblick
+
+js-lib-report-figures-of-merit = Gütezahlen
+
+js-lib-report-footer = Kshana { $version } · Szenario { $hash } · erzeugt { $iso }. Reproduzierbar aus Szenario + Seed + Engine-Version. Läuft lokal; nichts wird hochgeladen.
+
+js-lib-report-not-applicable = nicht anwendbar (kein Angriff konfiguriert)
+
+js-lib-report-scenario-definition = Szenariodefinition (TOML)
+
+js-lib-report-th-clock = Uhr
+
+js-lib-report-th-metric = Kennzahl
+
+js-lib-report-th-validation = Validierung
+
+js-lib-report-th-value = Wert
+
+js-lib-report-tier-note = Jede Gütezahl ist mit { $validated } (gegen eine unabhängige externe Referenz geprüft) oder { $modelled } (aus ersten Prinzipien, intern getestet) gekennzeichnet — abgeleitet aus der Verifikationsmatrix.
+
+js-lib-report-title = Kshana — Szenariobericht
+
+js-lib-skydraw-azimuth-range = Azimut { $from } bis { $to } Grad
+
+js-lib-skydraw-describe =
+    { $listed ->
+        [one] { $listed } Satellit gelistet, { $heard } mit Signal
+       *[other] { $listed } Satelliten gelistet, { $heard } mit Signal
+    }
+
+js-lib-skydraw-describe-mean =
+    { $listed ->
+        [one] { $listed } Satellit gelistet, { $heard } mit Signal, Mittel { $snr } dB-Hz
+       *[other] { $listed } Satelliten gelistet, { $heard } mit Signal, Mittel { $snr } dB-Hz
+    }
+
+js-lib-skydraw-east = O
+
+js-lib-skydraw-no-signal-from = kein Signal aus { $sectors }
+
+js-lib-skydraw-none-listed = Zu dieser Zeit sind im Protokoll keine Satelliten gelistet.
+
+js-lib-skydraw-north = N
+
+js-lib-skydraw-sat-heard = { $sys } { $prn }: Elevation { $el }, Azimut { $az }, Signal { $snr } dB-Hz
+
+js-lib-skydraw-sat-quiet = { $sys } { $prn }: Elevation { $el }, Azimut { $az }, gelistet, kein Signal
+
+js-lib-skydraw-south = S
+
+js-lib-skydraw-unheard-sector = Satelliten zwischen Azimut { $from } und { $to } Grad gelistet, keiner mit Signal
+
+js-lib-skydraw-west = W
+
+js-lib-skyline-edit-describe = Skyline über { $blocked } von 360 Grad Azimut; höchster Wert { $el }° bei Azimut { $az }°.
+
+js-lib-skyline-edit-open = Offener Horizont: keine Skyline.
+
+js-lib-stages-all-planets = Alle Planeten
+
+js-lib-stages-au-from-sun = { $d } au von der Sonne
+
+js-lib-stages-band-carrier = Träger { $name }, { $mhz } MHz
+
+js-lib-stages-bin-title =
+    { $from } bis { $to }{ $unit }: { $count ->
+        [one] { $count } Lauf
+       *[other] { $count } Läufe
+    }
+
+js-lib-stages-body-and-moons = { $name } und zugehörige Monde
+
+js-lib-stages-cell-title = Breite { $lat }°, Länge { $lon }° · { $field } { $value }
+
+js-lib-stages-chain-navmsg = Navigationsnachricht
+
+js-lib-stages-chain-pass = Überflug und Link
+
+js-lib-stages-chain-ppp = Präzise Punktpositionierung
+
+js-lib-stages-chain-pvt = Fusionierte Positionierung
+
+js-lib-stages-chain-signal = Signalentwurf
+
+js-lib-stages-coverage-aria = { $field } über { $body }, nach Breite und Länge
+
+js-lib-stages-feature-n = Feature { $n }
+
+js-lib-stages-flag = Markierung
+
+js-lib-stages-frequency-mhz = Frequenz (MHz)
+
+js-lib-stages-from-to = { $from } bis { $to }
+
+js-lib-stages-geojson-aria = Der GeoJSON-Export, auf einer Karte gezeichnet
+
+js-lib-stages-histogram = Histogramm
+
+js-lib-stages-inner-planets = Innere Planeten
+
+js-lib-stages-km-from-centre = { $d } km von { $centre }
+
+js-lib-stages-linear-scale = lineare Skala
+
+js-lib-stages-link-light-time = { $from } bis { $to }: einfache Lichtlaufzeit { $time } s
+
+js-lib-stages-longitude-axis = Länge · Breite an der Seite
+
+js-lib-stages-mission-time = Missionszeit (s)
+
+js-lib-stages-noise-floor = Rauschteppich
+
+js-lib-stages-orrery-note = { $scale } · x-y-Ebene des Bezugssystems, vom Nordpol aus gesehen
+
+js-lib-stages-panel-n = Panel { $n }
+
+js-lib-stages-plan-view-aria = Draufsicht auf { $centre } und die umgebenden Körper, { $scale }
+
+js-lib-stages-psd-at-t = Spektrale Leistungsdichte bei t = { $t } s
+
+js-lib-stages-psd-axis = spektrale Leistungsdichte (dBW/Hz)
+
+js-lib-stages-runs = Läufe
+
+js-lib-stages-sat-title = { $constellation } { $id } · Breite { $lat }°, Länge { $lon }°
+
+js-lib-stages-satellites = Satelliten
+
+js-lib-stages-spectrum-at-t = Spektrum bei t = { $t } s
+
+js-lib-stages-sqrt-scale = Wurzel-Entfernungsskala
+
+js-lib-stages-the-body = den Körper
+
+js-lib-stages-time-s = Zeit (s)
+
+js-lib-stages-unit-alarm = Alarm
+
+js-lib-stages-unit-cn0 = Träger-zu-Rausch-Leistungsdichte
+
+js-lib-stages-unit-position = Position und Schutz
+
+js-lib-stages-unit-satellites = Satelliten
+
+js-lib-stages-unit-time-error = Zeitfehler
+
+js-lib-stages-waterfall-aria = Wasserfalldiagramm der spektralen Leistungsdichte: Frequenz quer, Zeit nach unten
+
+js-lib-stages-whole-band = Gesamtes Band
+
+js-lib-sweep-clock-availability = Verfügbarkeit { $who }
+
+js-lib-sweep-clock-holdover = Holdover { $who } (s)
+
+js-lib-sweep-clock-timing-p95 = Zeitgebung p95 { $who } (ns)
+
+js-lib-sweep-clock-timing-rms = Zeitgebungs-RMS { $who } (ns)
+
+js-lib-sweep-max-altitude = max. Höhe (km)
+
+js-lib-sweep-max-elevation = max. Elevation (°)
+
+js-lib-sweep-max-speed = max. Geschwindigkeit (m/s)
+
+js-lib-sweep-min-altitude = min. Höhe (km)
+
+js-lib-sweep-peak-doppler = Spitzen-Doppler (Hz)
+
+js-lib-sweep-prov-scenario = Szenario { $hash }
+
+js-lib-sweep-y-vs-x = { $y } gegen { $x }
+
+js-lib-tabs-3d-orbit = 3D-Bahn
+
+js-lib-tabs-figures-of-merit = Gütezahlen
+
+js-lib-tabs-stability = Stabilität
+
+js-lib-tabs-sweep = Durchlauf
+
+js-lib-tabs-time-series = Zeitreihe
+
+js-lib-tour-ashforde-body = Danke, dass Sie Kshana erkundet haben. Wir bauen offene, reproduzierbare, nachweisorientierte Technik für Missionen, die nicht scheitern dürfen — ehrlich darüber, was validiert und was modelliert ist. Fragen, eine Zusammenarbeit oder eine Studie? Erreichen Sie uns unter contact@ashforde.org.
+
+js-lib-tour-ashforde-title = Von Ashforde® OÜ
+
+js-lib-tour-capabilities-body = Wählen Sie einen Bereichs-Tab — Umlaufbahnen, Zeitgebung, Inertial, GNSS, Resilienz, Mond, KI/ML, Interop —, um seine Fähigkeiten zu sehen, jeweils als Validiert oder Modelliert gekennzeichnet, mit einer Schaltfläche ▸ Ausführen für die Beispielszenarien. Öffnen Sie in jedem Bereich „Nachweise & Provenienz“, um den Beleg nachzuverfolgen, oder schalten Sie „Nur validiert“ um, um nur zu zeigen, was gegen eine unabhängige externe Referenz geprüft ist.
+
+js-lib-tour-capabilities-title = Die Engine erkunden, Bereich für Bereich
+
+js-lib-tour-cite-body = Kshana ist darauf ausgelegt, referenziert zu werden — eine zitierfähige Software-Veröffentlichung mit DOI, dazu Fachartikel im Peer-Stil über die Optimismus-Lücke bei HF-Beeinträchtigungen und ein bedingtes Zeitgebungs-Schutzniveau. Kopieren Sie das Zitat direkt von hier.
+
+js-lib-tour-cite-title = Veröffentlichungen & Zitierweise
+
+js-lib-tour-download-report-body = Der Tab Durchlauf variiert einen Parameter über einen Bereich; „Zum Vergleichen anheften“ legt zwei oder mehr Läufe nebeneinander mit dem Δ dazwischen (funktioniert über Szenariotypen hinweg — Uhr, Mars-PNT, Positionierung …); und diese Schaltfläche lädt den Lauf als eigenständigen, offline lesbaren HTML-Bericht herunter.
+
+js-lib-tour-download-report-title = Durchlauf, Vergleich & Export
+
+js-lib-tour-guided-body = Geführte Regler passen sich dem Szenario an — Seed, Spezifikationsschwelle, Dauer, Elevationsmaske, Bahnhöhe — und jede Änderung führt sofort einen neuen Lauf aus.
+
+js-lib-tour-guided-title = Die Regler einstellen
+
+js-lib-tour-mcp-body = Ein MCP-Server lässt KI-Assistenten die validierte Engine ausführen, statt zu raten; ein JetBrains-Plugin führt Szenarien per Rechtsklick aus.
+
+js-lib-tour-mcp-title = Aus einem KI-Agenten oder Ihrer IDE nutzen
+
+js-lib-tour-playground-body = Wählen Sie ein Szenario aus der Auswahlliste — oder klicken Sie bei einer Fähigkeit oben auf ▸ Ausführen —, und die Engine läuft als WebAssembly auf Ihrem Rechner. Nichts wird hochgeladen.
+
+js-lib-tour-playground-title = Im Browser ausführen
+
+js-lib-tour-run-body = Das aktuelle Szenario ausführen. Öffnen Sie „Erweitert“, um das TOML zu bearbeiten und alles zu ändern; „Link zum Teilen kopieren“ reproduziert genau diesen Lauf für jemand anderen.
+
+js-lib-tour-run-title = Ausführen
+
+js-lib-tour-tabs-body = Wechseln Sie zwischen den Gütezahlen, dem Zeitreihendiagramm, der Uhrenstabilität (Allan-Abweichung) und — bei Bahnläufen — einer interaktiven 3D-Bahnansicht.
+
+js-lib-tour-tabs-title = Die Ergebnisse lesen
+
+js-lib-tour-validation-body = Derselbe Explorer ist auch das Nachweisregister: Jeder Bereich trägt eine Schublade „Nachweise & Provenienz“ — den Wert, die unabhängige externe Referenz, gegen die er geprüft wird, und einen ehrlichen Status Validiert / Modelliert pro Aussage. „Nur validiert“ filtert auf die durch Datensätze geprüften Zeilen.
+
+js-lib-tour-validation-title = Nachweise, keine Adjektive
+
+js-lib-views-3-sigma-bound = 3-Sigma-Schranke
+
+js-lib-views-3d-position-error = 3D-Positionsfehler
+
+js-lib-views-a-parameter = ein Parameter
+
+js-lib-views-band-runs =
+    { $runs ->
+        [one] Zeitfehlerband über { $runs } Monte-Carlo-Lauf
+       *[other] Zeitfehlerband über { $runs } Monte-Carlo-Läufe
+    }
+
+js-lib-views-band-the-runs = Zeitfehlerband über die Monte-Carlo-Läufe
+
+js-lib-views-below-tracking = unter der Verfolgungsschwelle
+
+js-lib-views-chart = Diagramm
+
+js-lib-views-classical = klassisch
+
+js-lib-views-epoch = Epoche
+
+js-lib-views-four-needed = 4 nötig für eine Positionslösung
+
+js-lib-views-free-inertial = frei inertial
+
+js-lib-views-gnss-denied = GNSS verweigert
+
+js-lib-views-ground-track = Bodenspur
+
+js-lib-views-heatmap-effective = Effektive Träger-zu-Rausch-Leistungsdichte nach Satellit und Zeit
+
+js-lib-views-heatmap-nominal = Nominelle Träger-zu-Rausch-Leistungsdichte (ohne Störsender) nach Satellit und Zeit
+
+js-lib-views-horizontal-alert-limit = horizontale Alarmgrenze
+
+js-lib-views-horizontal-hpl = horizontal (HPL)
+
+js-lib-views-id-bound = Schranke { $id }
+
+js-lib-views-id-median = Median { $id }
+
+js-lib-views-id-offset = Versatz { $id }
+
+js-lib-views-id-p95 = { $id } p95
+
+js-lib-views-map-matched = kartenabgeglichen
+
+js-lib-views-map-matched-title = Kartenabgeglichen gegen den Positionsfehler bei freier Inertialnavigation
+
+js-lib-views-metric = Kennzahl
+
+js-lib-views-oscillator = Oszillator
+
+js-lib-views-oscillator-source = Oszillator ({ $source })
+
+js-lib-views-position-error-axis = Positionsfehler ({ $unit })
+
+js-lib-views-position-error-m = Positionsfehler (m)
+
+js-lib-views-position-error-run = Positionsfehler über den Lauf
