@@ -32,31 +32,31 @@ seg-9872e31ebd72 = Zdroje
 
 seg-e20c823f36f3 = X1 na { "1593.3225" } MHz, { "1.023" } Mchip/s, přijímaný výkon −{ "148.2" } až −{ "139.1" } dBW; X5 na { "1190.51625" } MHz, { "10.23" } Mchip/s, −{ "144.9" } až −{ "136.2" } dBW; { "258" } družic v { "18" } rovinách ve výšce { "1080" } km, { "53" } a { "97" } stupňů
 
-seg-57b56c874c9b = VEŘEJNÉ: <a1>arXiv:{ "2509.19551" }</a1>. Reprezentativní: rozdělení mezi oba sklony, fázování, chyba vzdálenosti
+seg-57b56c874c9b = PUBLIC: <a1>arXiv:{ "2509.19551" }</a1>. Reprezentativní: rozdělení mezi oba sklony, fázování, chyba vzdálenosti
 
 seg-b0c5e502c21b = Iridium Satellite Time and Location (STL): { "66" } družic, šest téměř polárních rovin ve výšce { "780" } km a { "86.4" } stupně; shluky na { "1616" } až { "1626" } MHz, kvadraturní fázové klíčování (QPSK) při { "25 000" } symbolech/s; přijímaný výkon { "300" } až { "2400" }násobek minima GPS
 
-seg-d65ae64607c1 = VEŘEJNÉ: <a1>Resilient Navigation and Timing Foundation (RNTF)</a1>, <a2>National Institute of Standards and Technology (NIST)</a2>, <a3>konstelace</a3>. ODVOZENO: výkon v dBW. Reprezentativní: nosná ve středu pásma, chyba vzdálenosti
+seg-d65ae64607c1 = PUBLIC: <a1>Resilient Navigation and Timing Foundation (RNTF)</a1>, <a2>National Institute of Standards and Technology (NIST)</a2>, <a3>konstelace</a3>. ODVOZENO: výkon v dBW. Reprezentativní: nosná ve středu pásma, chyba vzdálenosti
 
 seg-36771f73c21f = Pouze Doppler: { "11.325" } GHz, maják s ortogonálním frekvenčním multiplexem (OFDM) { "240" } MHz, C/N0 až { "57.07" } dB-Hz, chyba Dopplera { "30" } Hz; první shell { "1584" } družic ve výšce { "550" } km a { "53" } stupňů
 
-seg-44d4dd41848a = VEŘEJNÉ: <a1>Kozhaya, Saroufim a Kassas { "2025" }</a1>, <a2>Federal Communications Commission (FCC) 21-48</a2>. Reprezentativní: fázování, C/N0 na obzoru
+seg-44d4dd41848a = PUBLIC: <a1>Kozhaya, Saroufim a Kassas { "2025" }</a1>, <a2>Federal Communications Commission (FCC) 21-48</a2>. Reprezentativní: fázování, C/N0 na obzoru
 
 seg-2e13de07f9e9 = Binární fázové klíčování (BPSK) při { "2.046" } Mchip/s poblíž L1 a L5; centimetrové určování oběžné dráhy
 
-seg-dd94a3839cb3 = VEŘEJNÉ: <a1>úvodní posouzení</a1>, <a2>GPS Solutions</a2>. Reprezentativní: nosné, výkon, celá operační konstelace
+seg-dd94a3839cb3 = PUBLIC: <a1>úvodní posouzení</a1>, <a2>GPS Solutions</a2>. Reprezentativní: nosné, výkon, celá operační konstelace
 
 seg-a34d6a186a36 = Systém v pásmu C v alokaci družicové služby radionavigace (RNSS) { "5010" } až { "5030" } MHz, pro systémy, jejichž parametry nejsou veřejné
 
-seg-7712896ff69a = VEŘEJNÉ: alokace podle <a1>Radiokomunikačního řádu Mezinárodní telekomunikační unie (ITU)</a1>. Vše ostatní <b>reprezentativní</b>
+seg-7712896ff69a = PUBLIC: alokace podle <a1>Radiokomunikačního řádu Mezinárodní telekomunikační unie (ITU)</a1>. Vše ostatní <b>reprezentativní</b>
 
 seg-89ebc32469d9 = Model efemerid a hodin: polynomiální efemeridy šestého řádu, obnovování po { "30" } s, hodiny řízené k času GNSS; SISRE { "0.26" } m
 
-seg-ddbefb8a6723 = VEŘEJNÉ: <a1>InsideGNSS</a1>. ODVOZENO: SISRE. Kombinujte s libovolnou konstelací pomocí <c1/>
+seg-ddbefb8a6723 = PUBLIC: <a1>InsideGNSS</a1>. ODVOZENO: SISRE. Kombinujte s libovolnou konstelací pomocí <c1/>
 
 seg-6389c92e07d4 = Demonstrace na oběžné dráze (IOD) Celeste Evropské kosmické agentury (ESA), jedna konfigurace parametrizovaného návrhu signálu
 
-seg-b8bd6e76aeb2 = VEŘEJNÁ dráha (<a1>ESA</a1>, <a2>abstrakt { "16907" } Institute of Navigation (ION)</a2>); SEMINÁRNÍ parametry signálu, prezentované na workshopu LEO-PNT programu ESA Navigation Innovation and Support Programme (NAVISP) v roce { "2026" }
+seg-b8bd6e76aeb2 = PUBLIC dráha (<a1>ESA</a1>, <a2>abstrakt { "16907" } Institute of Navigation (ION)</a2>); WORKSHOP parametry signálu, prezentované na workshopu LEO-PNT programu ESA Navigation Innovation and Support Programme (NAVISP) v roce { "2026" }
 
 seg-bd7fb6eb444a = Každé číslo odvozené z workshopu je v modulu <c1/> v <c2/>, používaném souborem <c3/> (<c4/> vynucuje, kde se smějí objevit). Jak se předvolba zadržuje: každé číslo enginu odvozené z workshopu je v jediném souboru <c5/>, který <c6/> zkompiluje, jen pokud existuje, a ve scénářích dostupných pouze v repozitáři <c7/>. Smazáním tohoto souboru a těchto scénářů se předvolba zadrží bez jakékoli úpravy zdrojového kódu; každý další test, orákulum i scénář běží i bez ní a počet souborů scénářů v README zadržené soubory stále započítává.
 

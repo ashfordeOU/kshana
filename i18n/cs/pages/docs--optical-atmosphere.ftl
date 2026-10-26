@@ -18,7 +18,7 @@ seg-47118f54f060 = Druh scénáře <c1/> odpovídá na to, jak často optický s
 
 seg-06db0ea8f428 = Kshana je pouze analytická strana. Nespouští experiment s optickou pozemní stanicí a nejmenuje žádného partnera pro měření. Tento druh je <b>MODELLED</b>: jeho numerika je ověřena proti nezávislému programu, ale nebyl porovnán žádný naměřený záznam dostupnosti a každý vstup o počasí, technice a hodinách je předpoklad. Jde o poradní analýzu, nikoli o certifikovaný produkt dostupnosti, integrity ani navigace.
 
-seg-83c16fd89005 = Oba přibalené scénáře nesou ILUSTRATIVNÍ klimata oblačnosti. Jsou to vstupy, nikoli měření a nikoli hodnoty jakékoli datové sady.
+seg-83c16fd89005 = Oba přibalené scénáře nesou ILLUSTRATIVE klimata oblačnosti. Jsou to vstupy, nikoli měření a nikoli hodnoty jakékoli datové sady.
 
 seg-e9dbbd9cfa32 = Jedna realizace rezervy spoje na stanovišti „northern" se seedem po dobu { "336" } h, ze skutečného běhu enginu v{ $version } na scénáři scenarios/optical-atmosphere-network.toml (seed { "37" }, krok { "600" } s). Rezerva klesá pod nulu během epizod oblačnosti; v tomto tahu je spoj dostupný { "40.5" } % času, s { "27" } výpadky a nejdelším výpadkem { "30.7" } h. Vstupy jsou ilustrativní, řada je jeden tah z modelu a nikoli klima a od statistické dostupnosti ({ "37.8" } %) se liší o výběrovou chybu tohoto tahu. Pouze poradní analýza: nejde o certifikovaný produkt dostupnosti, integrity ani navigace a nejde o předpověď pro žádné skutečné stanoviště, pokud vstupy o jeho klimatu nepocházejí z uvedené datové sady.
 

@@ -122,39 +122,39 @@ seg-4d49743b3544 = Pásma: <c1/> s volitelnou podmnožinou <c2/> a položky <c3/
 
 seg-bd1e114aaea6 = Pásmo může také pojmenovat návrh <c1/> (<c2/>, libovolný návrh v <c3/> nebo návrh, který předá druh <c4/>; viz <a1>LEO-SIGNAL.md</a1>). Pásmo pak převezme střední kmitočet návrhu (pokud není zadáno <c5/>), vysílací šířku pásma a čipovou rychlost sledované složky, rozdělí své EIRP mezi složky návrhu podle jejich podílů výkonu a v každé epoše hlásí C/N0 sledované složky a její pásmově omezený rozptyl kódového sledování early-late (Betz a Kolodziejski { "2009" }, vzorec druhu <c6/>) jako chybu měření vzdálenosti.
 
-seg-1d96501bb12d = Každá předvolba označuje svá čísla jako VEŘEJNÁ (s adresou URL), REPREZENTATIVNÍ (zdokumentovaná návrhová volba, nikdy tvrzení o skutečném systému) nebo SEMINÁRNÍ.
+seg-1d96501bb12d = Každá předvolba označuje svá čísla jako PUBLIC (s adresou URL), REPRESENTATIVE (zdokumentovaná návrhová volba, nikdy tvrzení o skutečném systému) nebo WORKSHOP.
 
 seg-f708914fed48 = Pásma
 
 seg-6459abcaeebe = <c1/> (výchozí)
 
-seg-a0dab2ebeb1b = REPREZENTATIVNÍ; nosné L, S a C z veřejných dokumentů
+seg-a0dab2ebeb1b = REPRESENTATIVE; nosné L, S a C z veřejných dokumentů
 
 seg-cd0075385395 = UHF { "450" } MHz (reprezentativní), L { "1191.795" } MHz (střed Galileo E5), S { "2492.028" } MHz (NavIC S, nosná Navigation with Indian Constellation v pásmu S), C { "5020" } MHz (střed alokace RNSS (družicové služby radionavigace) { "5010" }–{ "5030" } MHz), každé { "0" } dBW
 
 seg-3f0de4312fcb = { "550" } km heliosynchronní, Walker 240/12/1
 
-seg-486f17197d4d = REPREZENTATIVNÍ, pro systémy v pásmu C, jejichž parametry nejsou veřejné (například TrustPoint)
+seg-486f17197d4d = REPRESENTATIVE, pro systémy v pásmu C, jejichž parametry nejsou veřejné (například TrustPoint)
 
 seg-f6696b70591c = C { "5020" } MHz, BPSK({ "10" }) (binární fázová modulace s klíčováním při { "10" } × { "1.023" } Mchip/s), izoflux
 
-seg-4ae6741795f9 = VEŘEJNÉ, <a1>arXiv { "2509.19551" }</a1>, tabulky { "1" }–{ "2" }
+seg-4ae6741795f9 = PUBLIC, <a1>arXiv { "2509.19551" }</a1>, tabulky { "1" }–{ "2" }
 
 seg-a1be637cda63 = X1 { "1593.3225" } MHz, X5 { "1190.51625" } MHz; EIRP ze zveřejněného minimálního přijímaného výkonu při { "10" }°
 
 seg-cb74283148d7 = { "1080" } km, { "53" }° ({ "192" }) a { "97" }° ({ "66" })
 
-seg-5ae1331b91f8 = VEŘEJNÉ, <a1>Resilient Navigation and Timing Foundation (RNTF)</a1> a zveřejněná dráha
+seg-5ae1331b91f8 = PUBLIC, <a1>Resilient Navigation and Timing Foundation (RNTF)</a1> a zveřejněná dráha
 
 seg-c995dade5aa6 = Satellite Time and Location (STL) na { "1621" } MHz (střed { "1616" }–{ "1626" } MHz); EIRP z „{ "300" }násobku GPS“
 
 seg-dd6322466888 = { "781" } km, { "86.4" }°, { "66" } v { "6" } rovinách
 
-seg-ad0ba129439b = VEŘEJNÉ údaje o signálu (<a1>NAVIGATION { "72" }({ "1" })</a1>), REPREZENTATIVNÍ dráha a EIRP
+seg-ad0ba129439b = PUBLIC údaje o signálu (<a1>NAVIGATION { "72" }({ "1" })</a1>), REPRESENTATIVE dráha a EIRP
 
 seg-1931203a036c = maják Ku { "240" } MHz, pouze Doppler
 
-seg-0533710bbbe1 = VEŘEJNÁ struktura signálu (<a1>PMC10301026</a1>), REPREZENTATIVNÍ dráha a EIRP
+seg-0533710bbbe1 = PUBLIC struktura signálu (<a1>PMC10301026</a1>), REPRESENTATIVE dráha a EIRP
 
 seg-cee286338f01 = BPSK { "2.046" } Mchip/s poblíž L1 a L5
 
@@ -162,7 +162,7 @@ seg-fe3cdce92b31 = { "1000" } km, { "55" }°
 
 seg-03d5ae448705 = <c1/> (volitelné)
 
-seg-800f173f2b20 = SEMINÁRNÍ parametry signálu, VEŘEJNÁ dráha
+seg-800f173f2b20 = WORKSHOP parametry signálu, PUBLIC dráha
 
 seg-e8626249e708 = sedm pásem konfigurace č. 1
 

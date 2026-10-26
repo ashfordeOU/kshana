@@ -8,7 +8,7 @@ seg-9872e31ebd72 = Zdroje
 
 seg-922905241a6b = Zdroj: <c1/>
 
-seg-bfb9c5efbe57 = Druh scénáře <c1/>, pět studií vybíraných pomocí <c2/>. <b>MODELLED</b>: omezený model tří těles s uvedenými zjednodušeními a ILUSTRATIVNÍMI vstupy. Numerika je kontrolována nezávislými programy v numpy/scipy; nic se nesrovnává s měřením žádné lunární veličiny a nic zde není tvrzením o žádné misi ani systému. Bez vazby na žádnou agenturu a bez jejího schválení. Software pouze poradního charakteru, nikoli typově schválené zařízení. { -brand } nic nevysílá a neovládá žádný hardware.
+seg-bfb9c5efbe57 = Druh scénáře <c1/>, pět studií vybíraných pomocí <c2/>. <b>MODELLED</b>: omezený model tří těles s uvedenými zjednodušeními a ILLUSTRATIVE vstupy. Numerika je kontrolována nezávislými programy v numpy/scipy; nic se nesrovnává s měřením žádné lunární veličiny a nic zde není tvrzením o žádné misi ani systému. Bez vazby na žádnou agenturu a bez jejího schválení. Software pouze poradního charakteru, nikoli typově schválené zařízení. { -brand } nic nevysílá a neovládá žádný hardware.
 
 seg-7908583855a2 = Návrhy, vstupy a prahy byly stanoveny v <c1/> (zapsáno před vyhodnocením jakékoli studie) a ve dvou zveřejněných dodatcích (<c2/>). Verdikt každého prahu je v <c3/>.
 

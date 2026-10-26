@@ -280,7 +280,7 @@ seg-65ffc53b15fa = soubor scénáře
 
 seg-74fac0bacb76 = Run Kshana Scenario
 
-seg-f71e5e2eb4f3 = Optický časový spoj atmosférou: dostupnost podle lokality, diverzita lokalit, techniky zlepšení, vazba výpadku na holdover (druh scénáře <c1/>; <c2/>; MODELLED, ILUSTRATIVNÍ lokality, poradní)
+seg-f71e5e2eb4f3 = Optický časový spoj atmosférou: dostupnost podle lokality, diverzita lokalit, techniky zlepšení, vazba výpadku na holdover (druh scénáře <c1/>; <c2/>; MODELLED, ILLUSTRATIVE lokality, poradní)
 
 seg-490147c5e7ec = <b>čeká se</b>: zatím žádný pohled Studia; scénář běží ve spouštěči scénářů Studia a na kartě Nástroje, Příkazová řádka
 
@@ -300,7 +300,7 @@ seg-126a59c992d9 = <c1/> (pouze vložený text; <c2/> je odmítnuto)
 
 seg-2010eb196565 = <b>N/A</b> (žádný notebook ve verzi { "0.38" }; scénáře běží v libovolném notebooku přes <c1/>)
 
-seg-593b7761803d = Lunární oběžná dráha a povrch jako navigační a geodetická infrastruktura: konzistence určování oběžné dráhy, řešení nejednoznačností fáze nosné, společný odhad soustavy, space-tie a citlivost na Loveova čísla (druh scénáře <c1/>, <c2/>; <c3/>; MODELLED, ILUSTRATIVNÍ vstupy, poradní)
+seg-593b7761803d = Lunární oběžná dráha a povrch jako navigační a geodetická infrastruktura: konzistence určování oběžné dráhy, řešení nejednoznačností fáze nosné, společný odhad soustavy, space-tie a citlivost na Loveova čísla (druh scénáře <c1/>, <c2/>; <c3/>; MODELLED, ILLUSTRATIVE vstupy, poradní)
 
 seg-34ed7b4d59e4 = <c1/> (a pět sesterských příkladů)
 
@@ -406,7 +406,7 @@ seg-5b62ca019ebd = <b>N/A</b> (viz řádek schopnosti)
 
 seg-4f7453d89d9d = Geometrie MODELLED; výstup JSON nebo SVG
 
-seg-c853beadb55e = REPREZENTATIVNÍ předvolby s původem
+seg-c853beadb55e = REPRESENTATIVE předvolby s původem
 
 seg-52638393d72d = List Scenario Kinds
 

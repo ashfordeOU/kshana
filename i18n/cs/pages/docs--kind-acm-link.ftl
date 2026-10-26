@@ -42,7 +42,7 @@ seg-02e9f2e87410 = MODELLED — adaptivní kódování a modulace DVB-S2 přes p
 
 seg-cd04f5662884 = MODELLED. (katalog druhů (<c1/>))
 
-seg-a2cdc7dff1e3 = Každé zdejší číslo je ILUSTRATIVNÍ: žádná dráha, stanice ani bilance spoje žádného provozovatele. MODELLED. (komentář v souboru scénáře, řádek { "8" })
+seg-a2cdc7dff1e3 = Každé zdejší číslo je ILLUSTRATIVE: žádná dráha, stanice ani bilance spoje žádného provozovatele. MODELLED. (komentář v souboru scénáře, řádek { "8" })
 
 seg-7f8667e8d8fe = Adaptivní kódování a modulace DVB-S2 podél přeletu downlinku LEO je MODELLED, nikoli ověřeno nezávislou referencí: zkontrolováno proti vlastní uzavřené / analytické identitě — zachytí chyby přepisu a koeficientů, ale není to externí orákulum. (verifikační matice (docs/MODELLED-RATIONALE.md))
 
