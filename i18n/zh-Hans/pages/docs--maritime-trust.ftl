@@ -10,6 +10,8 @@ seg-f5e7215e6835 = 对象
 
 seg-b993ef559bd0 = 通过代码
 
+seg-c353e7bec219 = 标注
+
 seg-0da78c80fb76 = <c1/>、<c2/>、<c3/> 或 <c4/>
 
 seg-2896f449bffb = 来源：<c1/>

@@ -22,6 +22,8 @@ seg-304496607bd7 = 引擎 v{ $version } 的场景类型，所属系列为<a1>压
 
 seg-5d23d7f8f872 = 系列页面：<a1>压制干扰、欺骗干扰与频谱</a1>
 
+seg-7707c45d1d30 = dBm
+
 seg-f92f902bd8f4 = 来源：<c1/>
 
 seg-1fd6a1cc7ca0 = <c1/>（场景类型）
@@ -45,5 +47,3 @@ seg-03d8dc3de7ca = <b>MODELLED</b> 钟差辅助 χ²、RAIM、AGC、SQM 融合�
 seg-24e4aebb09eb = <s1>上一页</s1>spectrum
 
 seg-40e934a7d78f = <s1>下一页</s1>spoof
-
-seg-7707c45d1d30 = dBm

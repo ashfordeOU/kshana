@@ -18,6 +18,10 @@ seg-e7273fd2a640 = <b>VALIDATED</b> <c1/> 场景类型报告的最大时间间�
 
 seg-4cf0f94f96c9 = <b>MODELLED</b> 转录自 ITU-T G.8272（07/2025）PRTC-A/B、G.8272.1（{ "2024" }）Amd. { "1" }（07/2025）ePRTC 锁定与 ePRTC-A 守时（包括 Table { "3" } 的钟差包络。参考基准（oracle，InternalConsistency）：对所指明建议书的转录（可从 itu.int 免费下载），每项限值均注明其表格或条款，所有未确认或未实现的项目列于 docs/TELECOM-TIMING.md；各表所蕴含的断点连续性恒等式在测试中核对。这是附带内部自洽检查的标准转录，不是一致性测试，也不是外部验证。{ "0.30" } 第 { "2" } 轮（预先登记
 
+seg-5547f1f662d3 = 矩阵中另有{ "2" }项。
+
+seg-8aee75a55007 = ocxo
+
 seg-9b72d3b3a0ab = 来源：<c1/>
 
 seg-f4dc88ffe6b5 = <c1/>（场景类型）
@@ -69,7 +73,3 @@ seg-101dbde1c65b = 专题页面：<a1>CLOCK-LOG-FORMATS.md</a1>
 seg-c32dc02f981d = <s1>上一页</s1>sweep
 
 seg-8aef86c9aa68 = <s1>下一页</s1>terrain-nav
-
-seg-5547f1f662d3 = 矩阵中另有{ "2" }项。
-
-seg-8aee75a55007 = ocxo

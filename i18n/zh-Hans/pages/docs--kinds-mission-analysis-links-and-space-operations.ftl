@@ -48,6 +48,18 @@ seg-953188c11165 = 基于 CCSDS { "401" } / DSN 810-005 链路方程的单向链
 
 seg-bd375631bc7e = 引擎为 scenarios/link-budget.toml（类型 link-budget）生成的图表
 
+seg-dbffff25b57f = CCSDS OEM互操作桥：导入由外部飞行动力学工具生成的轨道星历消息（GMAT/Orekit/STK均可输出OEM），报告其分段/对象/坐标系/历元跨度，并附速度一致性检查；没有输入时，则对生成的参考轨道做往返处理，并报告导入与导出之间的保真度。MODELLED的结构/物理导入检查，并非对源数据的轨道精度核对验证。
+
+seg-5db5a7c812ca = 引擎为scenarios/oem-interop.toml（类型oem-interop）绘制的图表
+
+seg-039f77066d97 = Allen-Eggers弹道再入走廊：峰值减速度（与弹道系数无关，V_e^{ "2" } sin|γ|/(2eH)）、峰值过载时的速度和高度，以及峰值加热速度，针对穿过指数大气的再入速度/航迹角/弹道系数；外加对同一弹道再入的平面质点积分，计入重力、地球曲率和{ "1976" }年美国标准大气（峰值减速度、速度、高度和峰值时刻）。MODELLED的弹道（无升力）再入；加热输出是峰值加热速度，而不是热流（没有气动热/TPS模型）。
+
+seg-b0109481e8ff = 引擎为scenarios/reentry.toml（类型reentry）绘制的图表
+
+seg-de2448d74c2b = CCSDS 133.0-B空间包协议成帧：编码一个合成的TM/TC包流（6八位组主头 + 数据域），并报告逐包的头部解码、总八位组数和精确的编码↔解码往返。确定性的精确比特布局成帧，即机构包格式的互操作层；并非一致性认证（除标志位外，没有副头/CRC/分段逻辑）。
+
+seg-af1cf9aa9938 = 引擎为scenarios/space-packet.toml（类型space-packet）绘制的图表
+
 seg-4e31c8daf798 = 台账
 
 seg-436e412d99fd = MODELLED { "1" } · VALIDATED { "1" }
@@ -149,15 +161,3 @@ seg-568c484ce9a0 = <b>台账：</b>VALIDATED。完整页面（含输入、结果
 seg-41996765fcf1 = <s1>上一页</s1>月球与地月空间
 
 seg-1951c46fe429 = <s1>下一页</s1>光学 PNT
-
-seg-dbffff25b57f = CCSDS OEM互操作桥：导入由外部飞行动力学工具生成的轨道星历消息（GMAT/Orekit/STK均可输出OEM），报告其分段/对象/坐标系/历元跨度，并附速度一致性检查；没有输入时，则对生成的参考轨道做往返处理，并报告导入与导出之间的保真度。MODELLED的结构/物理导入检查，并非对源数据的轨道精度核对验证。
-
-seg-5db5a7c812ca = 引擎为scenarios/oem-interop.toml（类型oem-interop）绘制的图表
-
-seg-039f77066d97 = Allen-Eggers弹道再入走廊：峰值减速度（与弹道系数无关，V_e^{ "2" } sin|γ|/(2eH)）、峰值过载时的速度和高度，以及峰值加热速度，针对穿过指数大气的再入速度/航迹角/弹道系数；外加对同一弹道再入的平面质点积分，计入重力、地球曲率和{ "1976" }年美国标准大气（峰值减速度、速度、高度和峰值时刻）。MODELLED的弹道（无升力）再入；加热输出是峰值加热速度，而不是热流（没有气动热/TPS模型）。
-
-seg-b0109481e8ff = 引擎为scenarios/reentry.toml（类型reentry）绘制的图表
-
-seg-de2448d74c2b = CCSDS 133.0-B空间包协议成帧：编码一个合成的TM/TC包流（6八位组主头 + 数据域），并报告逐包的头部解码、总八位组数和精确的编码↔解码往返。确定性的精确比特布局成帧，即机构包格式的互操作层；并非一致性认证（除标志位外，没有副头/CRC/分段逻辑）。
-
-seg-af1cf9aa9938 = 引擎为scenarios/space-packet.toml（类型space-packet）绘制的图表
