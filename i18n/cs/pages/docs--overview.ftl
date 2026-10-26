@@ -1,0 +1,135 @@
+# docs--overview: translations (cs)
+
+seg-abd931555717 = Hodiny a časování
+
+seg-9a2a5f0a8a02 = Sluneční soustava
+
+seg-a613a7447e3f = Studie na zakázku
+
+seg-501d3a72ea43 = Integrita
+
+seg-f917e7fcac09 = Co to je
+
+seg-cae10fb9bff8 = Scénář
+
+seg-d01db1c2710a = Reference
+
+seg-6c94ae122721 = PNT pro hluboký vesmír a Mars
+
+seg-99766b79a00a = Augmentace (SBAS)
+
+seg-69a0269c4732 = Hodiny a časování
+
+seg-835df2d05f2a = Měřicí doména GNSS
+
+seg-414872cdf952 = Pasivní rádiová geolokace
+
+seg-7c6f4dc6bcba = Interoperabilita
+
+seg-37b8c9397544 = Kosmické prostředí
+
+seg-dca720256d85 = Vyhodnocení strojového učení a kompromis
+
+seg-558523b5e0ac = Výměna artefaktů
+
+seg-ee2e250497f9 = Export pro testovací bench
+
+seg-2469b76c5361 = Vyzkoušet v prohlížeči
+
+seg-4cd111ab2de6 = Příkazový řádek (Rust)
+
+seg-379f49bff6fb = Python
+
+seg-ada3fcf67363 = JavaScript a WebAssembly
+
+seg-86566e989fd1 = Asistent s AI (server MCP, cargo)
+
+seg-6b1e4eb0f596 = Image Dockeru
+
+seg-97ea215c09db = Knihovna pro Rust
+
+seg-8e6e6c943c15 = Zásuvný modul JetBrains pro IDE
+
+seg-0bee80bf3587 = Použití příkazového řádku
+
+seg-15b1e4c3e367 = Průvodce API pro Python
+
+seg-d74b8819d872 = Průvodce npm a WebAssembly
+
+seg-61a4eb09767f = Průvodce serverem MCP
+
+seg-6d6fb6ef5db5 = Průvodce serverem MCP: Docker
+
+seg-2a7a767138b9 = Referenční příručka API na docs.rs
+
+seg-f36464ef1b66 = JetBrains Marketplace
+
+seg-9f6e5af01266 = Průvodce zásuvným modulem
+
+seg-261c059bec54 = Pouze poradní charakter, nikoli typově schválené navigační zařízení: za navigaci zůstává odpovědný provozovatel. Server běží na vašem počítači; Ashforde OÜ se nic neodesílá.
+
+seg-f8c77f4d7864 = Všechny instalační úryvky MCP
+
+seg-13641146503d = Cursor (jedno kliknutí)
+
+seg-3bd13fe295f4 = VS Code (jedno kliknutí)
+
+seg-fea7b394cdde = npx
+
+seg-76fcc8024f2f = uvx / pipx
+
+seg-deb5187472d1 = Homebrew
+
+seg-491167f2310c = Scoop
+
+seg-5c425ea185ee = Předkompilovaná binárka
+
+seg-ffc5c2ce76e1 = Oficiální registr MCP
+
+seg-d107bc8e1950 = Registr MCP
+
+seg-1bf757c89ad0 = Vzdálený (streamable HTTP), provozovaný samostatně
+
+seg-454740be09bd = Průvodce vlastním provozem
+
+seg-2e34ace70d11 = Zásuvný modul Signal K
+
+seg-a46f6205b2c6 = Průvodce zásuvným modulem Signal K
+
+seg-0dda70c85f4c = Zásuvný modul OpenCPN
+
+seg-ecac46d67578 = Odeslání do katalogu OpenCPN
+
+seg-efe3c0bb1ae4 = Dashboard Grafana
+
+seg-b9ec8dcfebfc = Zdroj dashboardu
+
+seg-29a25feb563a = Image referenčního sestavení
+
+seg-6555ff9a6d8e = Výstup
+
+seg-5cce5bd43a6b = Asistent AI
+
+seg-eaaed414a05a = Strojové vstupy
+
+seg-0d4ccaba9b91 = Signal K a OpenCPN
+
+seg-2247a2344710 = Význam
+
+seg-874effe5ee80 = Vestavěné základy úlohy D (optimistická mezera) kshana-bench na testovací části, ze skutečného běhu enginu v{ $version } (`kshana bench baseline`). Každá dvojice sloupců je plocha pod křivkou ROC na případech z rozdělení trénování a na posunutých případech; rozdíl mezi nimi je optimistická mezera, s tolerancí { "0.05" }. fused-max-z: { "0.998" } a { "0.983" } (mezera { "0.015" }); sqm-imbalance: { "0.882" } a { "0.882" } (mezera { "0.001" }); agc-excess: { "0.848" } a { "0.819" } (mezera { "0.030" }); raim-parity: { "0.682" } a { "0.672" } (mezera { "0.010" }); energy-cn0-drop: { "0.595" } a { "0.565" } (mezera { "0.030" }). Štítky jsou štítky generativního modelu syntetického korpusu, nikdy terénní data: MODELLED. Pouze poradní charakter: hodnoty vypočtené z modelu nebo změřené proti uvedeným referencím, nikoli schválení, certifikace ani prohlášení o shodě. Skóre popisuje záznam nebo korpus, nikdy produkt.
+
+seg-842b77a21c5f = Kanál
+
+seg-28e87f407a10 = Oblast
+
+seg-d6476863f862 = Schopnost
+
+seg-ad856ad710eb = Stav
+
+seg-331d2821d43f = Plán
+
+seg-fdbb9db68f1d = žádné
+
+seg-6e0cb6acc073 = VALIDATED
+
+seg-a349aa76b0ed = PARTNER
