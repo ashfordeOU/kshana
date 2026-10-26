@@ -9644,3 +9644,1194 @@ js-tools-osnma-recorded-failed = o resultado registrado não foi carregado
 
 # 2026-10-01-studio-rebuild/tools/tools.js:344
 js-tools-osnma-recorded-result = Resultado registrado de kshana osnma verify --json para { $file }.
+
+js-tools-osnma-tag-counts = { $authenticated } autenticadas, { $failed } com falha, { $pending } pendentes, { $discarded } descartadas
+
+js-tools-osnma-tag-totals =
+    { $n ->
+        [one] { $n } tag: { $authenticated } autenticadas, { $failed } com falha, { $pending } pendentes, { $discarded } descartadas.
+        [many] { $n } de tags: { $authenticated } autenticadas, { $failed } com falha, { $pending } pendentes, { $discarded } descartadas.
+       *[other] { $n } tags: { $authenticated } autenticadas, { $failed } com falha, { $pending } pendentes, { $discarded } descartadas.
+    }
+
+js-tools-osnma-time-caveat = Tempo: toda verificação é relativa aos carimbos de tempo das páginas entregues ao verificador, que aqui vêm dos próprios dados e não oferecem nenhuma proteção contra a repetição de dados antigos. A autenticação diz que os dados vieram do sistema; ela não diz nada sobre o sinal em que chegaram nem sobre a qualidade da posição.
+
+js-tools-osnma-unavailable = Indisponível
+
+js-tools-osnma-word-authenticated = Pelo menos um satélite está autenticado e nenhum falhou
+
+js-tools-osnma-word-failed = Uma verificação dos dados de algum satélite falhou
+
+js-tools-osnma-word-unavailable = Nenhum satélite está autenticado
+
+js-tools-pack-selected = { $label }: { $files } ({ $size })
+
+js-tools-pinned-to-release = Fixado nesta versão:
+
+js-tools-preview = Pré-visualizar
+
+js-tools-public-key-format = Uma chave pública tem 64 dígitos hexadecimais (32 bytes). Nada além disso é aceito.
+
+js-tools-read-documentation = Ler a documentação
+
+js-tools-reading-plan = Lendo o plano…
+
+js-tools-refused-file-name = nome de arquivo recusado: { $name }
+
+js-tools-run = Executar
+
+js-tools-runs-read =
+    { $n ->
+        [one] { $n } execução lida: { $runs }
+        [many] { $n } de execuções lidas: { $runs }
+       *[other] { $n } execuções lidas: { $runs }
+    }
+
+js-tools-runs-read-engine =
+    { $n ->
+        [one] { $n } execução lida, pelo motor { $engine }: { $runs }
+        [many] { $n } de execuções lidas, pelo motor { $engine }: { $runs }
+       *[other] { $n } execuções lidas, pelo motor { $engine }: { $runs }
+    }
+
+js-tools-sample-load-failed = O exemplo não foi carregado ({ $reason }).
+
+js-tools-sample-note = Uma saída real do comando, registrada pelo motor na execução de demonstração sintética. Não é a medição de nada.
+
+js-tools-sample-output = Saída de exemplo: { $label }
+
+js-tools-scenario-list-failed = A lista de cenários não foi carregada
+
+js-tools-scoring = Pontuando…
+
+js-tools-select-and-copy = Selecionar e copiar
+
+js-tools-settings-example = Exemplo de configurações { $n }:
+
+js-tools-status-evidenced-label = As execuções fornecem evidências em apoio desta linha
+
+js-tools-status-evidenced-short = Com evidências
+
+js-tools-status-not-evidenced-label = Estas execuções não mostram nada para esta linha
+
+js-tools-status-not-evidenced-short = Sem evidências
+
+js-tools-status-out-of-scope-label = Fora do que o Kshana pode mostrar
+
+js-tools-status-out-of-scope-short = Fora do escopo
+
+js-tools-status-partly-label = As execuções fornecem evidências em apoio de parte desta linha
+
+js-tools-status-partly-short = Em parte
+
+js-tools-tab-ai = Assistente de IA
+
+js-tools-tab-bench = Test bench
+
+js-tools-tab-cli = Linha de comando
+
+js-tools-tab-compliance = Compliance
+
+js-tools-tab-evidence = Pacotes de evidências
+
+js-tools-tab-imufit = Ajuste de IMU
+
+js-tools-tab-jammertest = Jammertest
+
+js-tools-tab-osnma = OSNMA
+
+js-tools-tele-all-events = Um evento syslog por época (padrão: um por mudança de banda)
+
+js-tools-tele-file-aria = Arquivo de resultado ou de linhas JSON
+
+js-tools-tele-fmt-cef = Syslog, CEF
+
+js-tools-tele-fmt-leef = Syslog, LEEF
+
+js-tools-tele-fmt-mqtt = MQTT, descoberta do Home Assistant (tópico, tabulação, carga)
+
+js-tools-tele-fmt-otlp = OpenTelemetry (OTLP JSON)
+
+js-tools-tele-fmt-prometheus = Métricas do Prometheus
+
+js-tools-tele-format-aria = Formato
+
+js-tools-tele-host = Host
+
+js-tools-tele-host-aria = Nome do host gravado nos eventos syslog
+
+js-tools-tele-include-position = Incluir a posição informada (desativado por padrão)
+
+js-tools-tele-intro = Converta um arquivo de resultado (session.result.json) ou as linhas JSON ao vivo em um dos formatos, neste navegador. Exige uma versão do motor com a exportação de telemetria (0.35 e posteriores, com a exportação); os comandos acima funcionam em qualquer lugar.
+
+js-tools-tele-note = As linhas syslog aqui não trazem carimbo de tempo (a página não lê nenhum relógio); a ferramenta de linha de comando os insere. O Prometheus dá o estado final. O MQTT dá uma linha por mensagem, o tópico, depois uma tabulação e a carga; nada é publicado daqui. O texto é o mesmo que o comando imprime.
+
+js-tools-tele-run-here = Executar aqui
+
+js-tools-that-file-too-large = Esse arquivo é maior que 64 MiB.
+
+js-tools-token-attached = Token anexado
+
+js-tools-token-attached-note = O pacote atualizado está abaixo. A assinatura da autoridade de carimbo de tempo NÃO foi verificada aqui: execute openssl ts -verify.
+
+js-tools-trust-monitor-sentence = Frase do monitor de confiança: { $sentence }
+
+js-tools-two-files-same-name = dois arquivos se chamam { $name }
+
+js-tools-ubx-bad-crc =
+    { $n ->
+        [one] { $n } página falhou no CRC.
+        [many] { $n } de páginas falharam no CRC.
+       *[other] { $n } páginas falharam no CRC.
+    }
+
+js-tools-ubx-file = O arquivo UBX
+
+js-tools-ubx-frames-pages = { $frames } quadros UBX; { $pages } páginas I/NAV decodificadas.
+
+js-tools-ubx-skipped-bytes =
+    { $n ->
+        [one] { $n } byte foi ignorado entre os quadros.
+        [many] { $n } de bytes foram ignorados entre os quadros.
+       *[other] { $n } bytes foram ignorados entre os quadros.
+    }
+
+js-tools-ubx-time-conflicts =
+    { $n ->
+        [one] { $n } página teve um tempo em conflito com o de suas vizinhas.
+        [many] { $n } de páginas tiveram um tempo em conflito com o de suas vizinhas.
+       *[other] { $n } páginas tiveram um tempo em conflito com o de suas vizinhas.
+    }
+
+js-tools-ubx-unstamped =
+    { $n ->
+        [one] { $n } página não pôde ser situada no tempo.
+        [many] { $n } de páginas não puderam ser situadas no tempo.
+       *[other] { $n } páginas não puderam ser situadas no tempo.
+    }
+
+js-tools-unknown = desconhecido
+
+js-tools-unused-scenarios = Arquivos de cenário sem resultado correspondente não foram usados: { $files }.
+
+js-tools-verdict-failed-text = A verificação falhou.
+
+js-tools-verdict-failed-title = Falhou
+
+js-tools-verdict-intact-text = O pacote está íntegro em relação à chave que ele mesmo indica, a qual qualquer pessoa pode gerar. Obtenha a chave pública do signatário por outra via e fixe-a.
+
+js-tools-verdict-intact-title = Íntegro, mas o signatário não está fixado
+
+js-tools-verdict-verified-text = O pacote não foi alterado e está assinado pela chave que você fixou.
+
+js-tools-verdict-verified-title = Verificado
+
+js-tools-verifying = Verificando…
+
+js-tools-what-failed = O que falhou
+
+js-tools-why-not-browser = Por que não em um navegador:
+
+js-tools-yes = sim
+
+js-training-active-events = Eventos ativos
+
+js-training-band-large = acima de 100 m
+
+js-training-band-medium = de 25 a 100 m
+
+js-training-band-small = abaixo de 25 m
+
+js-training-chart-max = máx. { $v }
+
+js-training-chart-mean-cn0 = C/N0 médio
+
+js-training-chart-position-error = erro de posição
+
+js-training-chart-s-reported-minus-true = s, informado menos verdadeiro
+
+js-training-chart-satellites = satélites
+
+js-training-chart-time-offset = deslocamento de tempo
+
+js-training-chart-used-tracked = usados / rastreados
+
+js-training-col-reported = Informado pelo receptor
+
+js-training-col-true = Verdadeiro
+
+js-training-cue-course = O rumo do giro e a velocidade da barquilha não são tocados por nenhum evento. Aqui o curso informado difere do rumo do giro em { $course }. Uma corrente também separa o rumo do curso, então compare com o início da execução.
+
+js-training-cue-course-speed = O rumo do giro e a velocidade da barquilha não são tocados por nenhum evento. Aqui o curso informado difere do rumo do giro em { $course } e a velocidade informada difere da velocidade verdadeira em { $speed } kn. Uma corrente também separa o rumo do curso, então compare com o início da execução.
+
+js-training-cue-title = Pista para o debriefing.
+
+js-training-cue-unknown-amount = um valor desconhecido
+
+js-training-debrief-now = Fazer o debriefing agora
+
+js-training-default-warning = Dados de treinamento sintéticos. Somente para treinamento e testes: nunca envie este fluxo aos sistemas de navegação em operação de uma embarcação.
+
+js-training-demo-coastal-drag-off = Arrasto de posição costeiro
+
+js-training-demo-combined-event = Evento combinado
+
+js-training-demo-fjord-degradation = Degradação natural em fiorde
+
+js-training-demo-open-sea-jamming = Jamming em mar aberto
+
+js-training-demo-port-time-spoof = Spoofing de tempo na aproximação do porto
+
+js-training-dl-log-json = Baixar o registro do instrutor (JSON)
+
+js-training-dl-log-text = Baixar o registro do instrutor (texto)
+
+js-training-dl-nmea = Baixar o fluxo NMEA
+
+js-training-err-demo-open = Não foi possível abrir { $title }: { $reason }.
+
+js-training-err-engine-old = Esta versão do motor (versão { $version }) não tem gerador de treinamento NMEA; ela é anterior a esta página. O comando é { $command }.
+
+js-training-err-engine-start = O motor não pôde ser iniciado aqui ({ $reason }). Os cenários da biblioteca acima ainda abrem sem ele.
+
+js-training-err-file-not-loaded = o arquivo não foi carregado
+
+js-training-err-generate = Não foi possível gerar: { $reason }.
+
+js-training-err-newer-schema = { $name }: o esquema { $schema } é mais novo ou diferente de { $supported }, que esta página lê. Atualize o Studio em vez de adivinhar seus campos.
+
+js-training-err-no-schema = { $name }: não é um registro de instrutor de treinamento do Kshana (sem etiqueta de esquema).
+
+js-training-err-no-track = { $name }: o registro não tem linhas de trajetória para desenhar.
+
+js-training-err-no-usable-rows = { $name }: nenhuma linha de trajetória utilizável.
+
+js-training-err-not-json = { $name }: não é JSON ({ $reason }).
+
+js-training-err-read = { $name }: não pôde ser lido ({ $reason }).
+
+js-training-err-read-or-draw = { $name }: não pôde ser lido nem desenhado ({ $reason }).
+
+js-training-err-scenario-not-loaded = o arquivo de cenário não foi carregado
+
+js-training-err-seed = A semente deve ser um número inteiro, ou ficar vazia para usar a do próprio cenário.
+
+js-training-err-too-large = { $name }: maior que { $max }. Esta página lê registros de até esse tamanho.
+
+js-training-err-too-many-rows =
+    { $count ->
+        [one] { $name }: o registro tem { $count } linha de trajetória; esta página desenha no máximo { $max }. Registre com menos frequência (log_interval_s) ou abra um trecho.
+        [many] { $name }: o registro tem { $count } de linhas de trajetória; esta página desenha no máximo { $max }. Registre com menos frequência (log_interval_s) ou abra um trecho.
+       *[other] { $name }: o registro tem { $count } linhas de trajetória; esta página desenha no máximo { $max }. Registre com menos frequência (log_interval_s) ou abra um trecho.
+    }
+
+js-training-err-unknown-schema = { $name }: esquema { $schema } desconhecido; esta página lê { $supported }.
+
+js-training-event-n = Evento { $id }
+
+js-training-event-onset = Início { $utc }
+
+js-training-extra-bearing = Rumo aplicado, graus verdadeiros
+
+js-training-extra-peak-accel = Aceleração de pico que o arrasto acrescenta, m/s²
+
+js-training-extra-peak-speed = Velocidade de pico que o arrasto acrescenta, m/s
+
+js-training-fact-duration = Duração
+
+js-training-fact-events = Eventos injetados
+
+js-training-fact-max-error = Maior erro de posição
+
+js-training-fact-max-time-offset = Maior deslocamento de tempo
+
+js-training-fact-no-fix = Tempo sem posição
+
+js-training-fact-peak-accel = Aceleração de pico, verdadeira / informada
+
+js-training-fact-peak-speed = Velocidade de pico, verdadeira / informada
+
+js-training-fact-seed = Semente
+
+js-training-fact-start = Início (UTC)
+
+js-training-fix-reported-span = posição informada, de { $from } a { $to }
+
+js-training-generated = "{ $title }" gerado com o motor { $version }: { $lines } sentenças NMEA. Sintético: somente para treinamento e testes; nunca o envie aos sistemas de navegação em operação de uma embarcação.
+
+js-training-generated-here = Gerado aqui pelo motor ("{ $title }"). Sintético: posições e datas inventadas.
+
+js-training-generating = Iniciando o motor e gerando…
+
+js-training-kind-drag-off = Arrasto de posição
+
+js-training-kind-jamming = Jamming
+
+js-training-kind-natural-degradation = Degradação natural (céu bloqueado)
+
+js-training-kind-replay-delay = Atraso de repetição (replay)
+
+js-training-kind-time-spoof = Spoofing de tempo
+
+js-training-legend-no-fix = Sem posição: o receptor não informou nada
+
+js-training-legend-reported = Informado, { $band } do verdadeiro
+
+js-training-legend-true = Trajetória verdadeira
+
+js-training-library-label = Cenário sintético da biblioteca "{ $title }", gravado por { $command }. Posições e datas inventadas; nenhuma embarcação nem gravação reais.
+
+js-training-log-row = Linha { $row } de { $total } do registro, { $utc }
+
+js-training-max-error-at = { $m } m em T+{ $s } s
+
+js-training-moment-event = (evento { $id })
+
+js-training-moment-title = T+{ $s } s { $what }: { $text }
+
+js-training-moments-shown =
+    { $shown ->
+        [one] Primeiro de { $total } momentos exibido.
+        [many] Primeiros { $shown } de { $total } momentos exibidos.
+       *[other] Primeiros { $shown } de { $total } momentos exibidos.
+    }
+
+js-training-no-events = Nenhum: esta é uma execução limpa.
+
+js-training-no-fix-nothing = sem posição: nada informado
+
+js-training-no-fix-span = sem posição, de { $from } a { $to }
+
+js-training-no-moments = Nenhum momento registrado.
+
+js-training-none = nenhum
+
+js-training-none-now = Nenhum neste momento.
+
+js-training-none-reported = nenhum informado
+
+js-training-north = N
+
+js-training-not-touched = não tocado por nenhum evento
+
+js-training-opened = { $name } aberto: { $rows } linhas de registro ao longo de { $secs } s.
+
+js-training-opening = Abrindo { $title }…
+
+js-training-param-affect-time = Afeta o tempo
+
+js-training-param-bearing-deg = Rumo, graus verdadeiros
+
+js-training-param-cn0-drop-db = Queda de C/N0, dB
+
+js-training-param-counterfeit-cn0-dbhz = C/N0 falsificado, dB-Hz
+
+js-training-param-delay-s = Atraso, s
+
+js-training-param-duration-s = Duração, s
+
+js-training-param-final-offset-m = Deslocamento final, m
+
+js-training-param-kind = Tipo
+
+js-training-param-label = Rótulo
+
+js-training-param-offset-s = Deslocamento de tempo, s
+
+js-training-param-ramp-s = Rampa de início, s
+
+js-training-param-recovery-s = Rampa de recuperação, s
+
+js-training-param-relative-bearing-deg = Rumo relativo ao curso, graus
+
+js-training-param-skyline = Linha do horizonte
+
+js-training-param-spread-db = Dispersão por satélite, dB
+
+js-training-param-start-s = Início, s
+
+js-training-pause = Pausar
+
+js-training-play = Reproduzir
+
+js-training-reading = Lendo…
+
+js-training-readout-fix = posição
+
+js-training-readout-no-fix = sem posição
+
+js-training-reduced-motion = A preferência é por movimento reduzido, então a reprodução começa em 1x. Use o controle deslizante ou as setas do teclado para se mover sem animação.
+
+js-training-row-cn0 = C/N0 médio, dB-Hz
+
+js-training-row-cog = Curso sobre o fundo, graus
+
+js-training-row-error = Erro de posição, m
+
+js-training-row-fix = posição
+
+js-training-row-heading = Rumo (giro), graus
+
+js-training-row-moments = momentos
+
+js-training-row-position = Posição
+
+js-training-row-sats = Satélites usados / rastreados
+
+js-training-row-sog = Velocidade sobre o fundo, kn
+
+js-training-row-time-offset = Deslocamento de tempo, s
+
+js-training-say-active = ativos: { $list }
+
+js-training-say-event-id = evento { $id }
+
+js-training-say-fix = o receptor informa uma posição
+
+js-training-say-mean-cn0 = C/N0 médio { $cn0 } dB-Hz
+
+js-training-say-no-fix = sem posição
+
+js-training-say-position-from-true = posição informada a { $m } m da verdadeira
+
+js-training-say-sats-used =
+    { $used ->
+        [one] { $used } de { $tracked } satélites usado
+        [many] { $used } de { $tracked } satélites usados
+       *[other] { $used } de { $tracked } satélites usados
+    }
+
+js-training-say-time-ahead = tempo informado adiantado em relação ao verdadeiro em { $s } s
+
+js-training-say-time-behind = tempo informado atrasado em relação ao verdadeiro em { $s } s
+
+js-training-sky-no-gsv = sem GSV
+
+js-training-sky-none = Nenhum céu para este registro: um registro de instrutor sozinho não tem satélites. Abra um cenário da biblioteca, ou gere um fluxo aqui e faça o debriefing dele, para ver os satélites que seu GSV lista.
+
+js-training-skyline-preset = predefinição { $name }
+
+js-training-skyline-stated = perfil informado
+
+js-training-span-no-fix = T+{ $from } a { $to } s
+
+js-training-track-desc = Trajetória verdadeira e trajetória informada, norte para cima. Maior erro de posição { $error }. { $periods } período(s) sem posição.
+
+js-training-track-end = fim
+
+js-training-track-start = início
+
+js-training-trainer-note = Nota do instrutor
+
+js-training-warn-no-warning-text = Este arquivo não traz texto de aviso. É um registro de treinamento: não envie seu fluxo à navegação em operação.
+
+js-training-warn-rows-skipped = { $count } linha(s) de trajetória não eram válidas e foram ignoradas.
+
+js-training-what-fix-lost = Posição perdida
+
+js-training-what-fix-regained = Posição recuperada
+
+js-training-what-full-effect = Efeito pleno
+
+js-training-what-onset = Início
+
+js-training-what-recovered = Recuperado
+
+js-training-what-recovery-begins = Início da recuperação
+
+js-trust-adv-carried = Declaração consultiva trazida por este arquivo:
+
+js-trust-adv-none = Este arquivo não traz nenhuma declaração consultiva
+
+js-trust-adv-none-rest = (saídas mais antigas não trazem). O aviso consultivo no alto desta página vale para tudo da mesma forma.
+
+js-trust-agree-both = ambos sinalizam: o alarme do próprio receptor e um monitor do Kshana
+
+js-trust-agree-calibrating = dentro da janela de calibração: não comparado
+
+js-trust-agree-kshana-only = só o Kshana alarma: o receptor não sinaliza
+
+js-tools-ubx-ignored-sfrbx = { $n } mensagens SFRBX foram ignoradas (outros sistemas, E5b, alertas, checksums inválidos).
+
+js-trust-agree-neither = nenhum sinaliza
+
+js-trust-agree-receiver-only = só o receptor sinaliza: nenhum monitor do Kshana alarma
+
+js-trust-assessed = { $name } avaliado com o motor { $version }, neste navegador.
+
+js-trust-assessed-as = { $name } avaliado como { $format }, com o motor, neste navegador. Nada foi enviado.
+
+js-trust-assessing = Iniciando o motor e avaliando…
+
+js-trust-class-also-costing = { $class } (também custando pontos)
+
+js-trust-class-environment = ambiente: o sinal (potência, jamming, satélites perdidos com o céu aberto)
+
+js-trust-class-geometry = geometria: o céu, não o sinal
+
+js-trust-class-inconsistency = inconsistência: semelhante a um ataque, não explicada pelo céu nem pelo sinal
+
+js-trust-dl-result-json = Baixar o resultado (JSON)
+
+js-trust-dl-table-csv = Baixar a tabela por época (CSV)
+
+js-trust-edge-degraded = { $v } degradado
+
+js-trust-edge-nominal = { $v } nominal
+
+js-trust-err-assess = { $name }: não pôde ser avaliado ({ $reason }).
+
+js-trust-err-demo-files = os arquivos da demonstração não foram carregados
+
+js-trust-err-demo-log-open = O registro da demonstração não pôde ser aberto: { $reason }.
+
+js-trust-err-demo-open = A demonstração não pôde ser aberta: { $reason }.
+
+js-trust-err-engine-no-receiver-trust = Esta versão do motor (versão { $version }) não tem receiver_trust.
+
+js-trust-err-engine-no-scorer = Esta versão do motor (versão { $version }) não tem pontuador de registros; ela é anterior a esta página. O comando é { $command }.
+
+js-trust-err-engine-start = O motor não pôde ser iniciado aqui ({ $reason }).
+
+js-trust-err-engine-start-open = O motor não pôde ser iniciado aqui ({ $reason }). Abrir os arquivos de resultado acima ainda funciona.
+
+js-trust-err-example-files = os arquivos de exemplo não foram carregados
+
+js-trust-err-example-open = O exemplo não pôde ser aberto: { $reason }.
+
+js-trust-err-file-2mib = { $name }: maior que 2 MiB. Abra um trecho.
+
+js-trust-err-file-too-large = { $name }: maior que { $max }. Esta página lê arquivos de até esse tamanho; abra um trecho.
+
+js-trust-err-gen-too-large = { $name }: maior que 2 MiB. Abra um trecho (a ferramenta de linha de comando aceita um registro inteiro).
+
+js-trust-err-imu-format = "{ $format }" não é um formato IMU que esta página lê (csv ou euroc)
+
+js-trust-err-imu-heading = o rumo do IMU em sua primeira amostra não é um número
+
+js-trust-err-log-format = "{ $format }" não é um formato de registro que esta página pode enviar ao motor
+
+js-trust-err-no-epochs = O arquivo não tem épocas.
+
+js-trust-err-no-epochs-result = Este arquivo de resultado não tem epochs[]. Ele precisa vir de `{ $command }` para uma sessão de embarcação.
+
+js-trust-err-no-epochs-returned = { $name }: o motor não devolveu nenhuma época.
+
+js-trust-err-no-score-model = Este resultado não tem score_model, então é uma execução de plataforma estática, sem pontuação de confiança. A visualização desenha execuções de embarcação (plataforma em movimento).
+
+js-trust-err-not-readable = { $name }: não é um arquivo que esta visualização lê (um JSON de resultado, linhas JSON, trust.csv, um registro NMEA ou um arquivo de verdade de campo).
+
+js-trust-err-nothing-to-draw = Nada para desenhar: escolha um JSON de resultado, linhas JSON ou trust.csv.
+
+js-trust-err-read = { $name }: não pôde ser lido ({ $reason }).
+
+js-trust-err-read-or-draw = { $name }: não pôde ser lido nem desenhado ({ $reason }).
+
+js-trust-err-score = { $name }: não pôde ser pontuado ({ $reason }).
+
+js-trust-err-score-file-too-large = { $name }: maior que 2 MiB. O pontuador no navegador aceita um trecho que contenha a janela de calibração de cinco minutos.
+
+js-trust-err-score-too-large = { $name }: maior que 2 MiB. O pontuador no navegador aceita um trecho (o comando { $command } aceita um registro inteiro); abra um trecho que contenha a janela de calibração de cinco minutos.
+
+js-trust-err-scorecard-too-large = { $name }: maior que 8 MiB; esta página lê um placar de até esse tamanho.
+
+js-trust-err-session-empty = As configurações da sessão estão vazias. Elas declaram a embarcação ({ $setting }).
+
+js-trust-err-too-many-epochs =
+    { $count ->
+        [one] O arquivo tem { $count } época; esta página desenha no máximo { $max }. Abra um trecho.
+        [many] O arquivo tem { $count } de épocas; esta página desenha no máximo { $max }. Abra um trecho.
+       *[other] O arquivo tem { $count } épocas; esta página desenha no máximo { $max }. Abra um trecho.
+    }
+
+js-trust-err-triple-quote = { $what } contém três aspas simples seguidas, o que não pode ser incorporado às configurações
+
+js-trust-err-what-file = o arquivo
+
+js-trust-err-what-imu = o arquivo IMU
+
+js-trust-event-label = evento: { $label }
+
+js-trust-event-onset = início
+
+js-trust-evt-col-first-alarm = Primeiro alarme, s
+
+js-trust-evt-col-latency = Latência, s
+
+js-trust-evt-col-onset = Início, s
+
+js-trust-evt-col-outcome = Resultado
+
+js-trust-evt-col-stated = Evento declarado
+
+js-trust-fmt-android = Android GNSS Logger (texto)
+
+js-trust-fmt-gnss-sdr = Linhas JSON retransmitidas do GNSS-SDR (texto)
+
+js-trust-fmt-nmea = NMEA 0183 (texto)
+
+js-trust-fmt-novatel = NovAtel OEM7 (ASCII ou binário)
+
+js-trust-fmt-rinex = Observação RINEX (texto)
+
+js-trust-fmt-rtcm3 = RTCM 3 MSM4 / MSM7 (binário)
+
+js-trust-fmt-rtklib-pos = Solução .pos do RTKLIB (texto)
+
+js-trust-fmt-sbf = Septentrio SBF (binário)
+
+js-trust-fmt-ubx = u-blox UBX (binário)
+
+js-trust-gate-note-derived = Esta execução não tem registro de portão. A faixa mostra onde um portão teria retido a posição: épocas na faixa não confiável, retidas até 30 s depois de saírem dela. Derivado aqui, não lido de um portão. Um portão é opcional e acrescenta latência.
+
+js-trust-gate-note-read = O portão de cada época como o fluxo ao vivo o informou: desligado, liberado ou retido (a posição foi marcada como inválida no ciclo encaminhado).
+
+js-trust-gate-now-derived = { $gate } · derivado
+
+js-trust-gate-off = Desligado
+
+js-trust-gate-off-cal = Desligado (calibrando)
+
+js-trust-gate-passed = Liberado: a posição é encaminhada sem alteração
+
+js-trust-gate-span = portão { $gate }, de { $from } a { $to }
+
+js-trust-gate-span-derived = portão { $gate } (derivado), de { $from } a { $to }
+
+js-trust-gate-withheld = Retido: a posição seria marcada como inválida adiante
+
+js-trust-gen-chart-label = O gráfico do motor para a execução: densidade de portadora sobre ruído, estado e alarmes ao longo do tempo
+
+js-trust-gen-epochs = Épocas: { $nominal } nominais, { $degraded } degradadas, { $untrusted } não confiáveis após a janela de calibração de { $window } épocas.
+
+js-trust-gen-self-heading = Os sinalizadores do próprio receptor, contra os alarmes do Kshana
+
+js-trust-gen-self-note = Uma comparação, não uma verificação de nenhum dos dois: o sinalizador do receptor é um relato próprio.
+
+js-trust-geo-deduction-class =
+    { $points ->
+        [one] { $points } ponto ({ $class })
+        [many] { $points } de pontos ({ $class })
+       *[other] { $points } pontos ({ $class })
+    }
+
+js-trust-geo-deduction-points =
+    { $points ->
+        [one] { $points } ponto
+        [many] { $points } de pontos
+       *[other] { $points } pontos
+    }
+
+js-trust-geo-flag-mismatch = O HDOP declarado pelo receptor discorda do derivado do céu que ele informa: uma dedução de geometria conta como inconsistência.
+
+js-trust-geo-flag-signal-loss = Perda de sinal: satélites à vista não são rastreados apesar de sua geometria ser boa, então uma dedução de geometria conta como ambiente.
+
+js-trust-geo-heading-label = geometria { $label }
+
+js-trust-geo-label-fair = { $label } (não pontuado)
+
+js-trust-geo-label-poor = { $label } (o único rótulo pelo qual a pontuação deduz)
+
+js-trust-geo-none-in-run = Nenhuma geometria nesta execução (um motor anterior à 0.36 não a grava).
+
+js-trust-geo-reason-few-satellites = menos satélites que o mínimo
+
+js-trust-geo-reason-high-hdop = HDOP acima do seu limite
+
+js-trust-geo-reason-high-pdop = PDOP acima do seu limite
+
+js-trust-geo-reason-sky-blocked = os satélites rastreados deixam uma grande lacuna em azimute (um lado do céu bloqueado)
+
+js-trust-geo-row-deduction = Dedução de geometria
+
+js-trust-geo-row-from = De
+
+js-trust-geo-row-gap = Maior lacuna em azimute
+
+js-trust-geo-row-label = Rótulo
+
+js-trust-geo-row-open-sky = Céu aberto
+
+js-trust-geo-row-reported-hdop = HDOP declarado pelo receptor
+
+js-trust-geo-row-sats-used = Satélites usados
+
+js-trust-geo-row-sky-age = Idade do céu
+
+js-trust-geo-row-status = Estado
+
+js-trust-geo-say-deduction =
+    { $points ->
+        [one] dedução de geometria: { $points } ponto
+        [many] dedução de geometria: { $points } de pontos
+       *[other] dedução de geometria: { $points } pontos
+    }
+
+js-trust-geo-say-label-hdop = geometria { $label } (HDOP { $hdop })
+
+js-trust-geo-say-mismatch = o HDOP declarado discorda
+
+js-trust-geo-source-derived = derivada dos satélites que o registro informa (GSV)
+
+js-trust-geo-source-none = nada
+
+js-trust-geo-source-reported = o DOP declarado pelo receptor (GSA)
+
+js-trust-geo-status-reasons = { $status }: { $reasons }
+
+js-trust-geo-status-title = geometria { $status }
+
+js-trust-geo-unknown-no-gsv = geometria desconhecida: nenhum GSV nem GSA no registro
+
+js-trust-geo-unknown-no-gsv-sentence = Geometria desconhecida: nenhum GSV nem GSA no registro.
+
+js-trust-geo-unknown-odd = Geometria desconhecida (o arquivo diz "{ $odd }", que esta página não conhece).
+
+js-trust-geo-used-of-view = { $used } de { $inView } à vista
+
+js-trust-got-file-kind = { $name }: { $kind }
+
+js-trust-got-lines-skipped =
+    { $count ->
+        [one] { $count } linha de { $name } não era época e foi ignorada
+        [many] { $count } de linhas de { $name } não eram épocas e foram ignoradas
+       *[other] { $count } linhas de { $name } não eram épocas e foram ignoradas
+    }
+
+js-trust-imu-csv = CSV com linha de cabeçalho
+
+js-trust-imu-euroc = EuRoC MAV imu0 data.csv
+
+js-trust-imu-file = Arquivo IMU: { $name } ({ $chars } caracteres). Usado na próxima avaliação.
+
+js-trust-imu-file-press = Arquivo IMU: { $name } ({ $chars } caracteres). Usado na próxima avaliação; pressione Avaliar o arquivo escolhido.
+
+js-trust-imu-none = Nenhum arquivo IMU.
+
+js-trust-jt-col-latency = Latência, s
+
+js-trust-jt-col-monitors = Primeiros monitores
+
+js-trust-jt-col-name = Nome
+
+js-trust-jt-col-outcome = Resultado
+
+js-trust-jt-col-recovered = Recuperado
+
+js-trust-jt-col-slot = Intervalo, s
+
+js-trust-jt-col-test = Teste
+
+js-trust-jt-label = { $label } Guarda de { $guard } s, retenção de recuperação de { $hold } s.
+
+js-trust-jt-label-contaminated = { $label } Guarda de { $guard } s, retenção de recuperação de { $hold } s. A linha de base de calibração se sobrepôs a um intervalo programado.
+
+js-trust-jt-opened =
+    { $count ->
+        [one] { $name } aberto: { $count } teste. Lido aqui; nada foi enviado.
+        [many] { $name } aberto: { $count } de testes. Lido aqui; nada foi enviado.
+       *[other] { $name } aberto: { $count } testes. Lido aqui; nada foi enviado.
+    }
+
+js-trust-kind-batch-result = resultado em lote
+
+js-trust-kind-json-lines = linhas JSON
+
+js-trust-kind-nmea-log = registro NMEA
+
+js-trust-kind-truth-file = arquivo de verdade de campo
+
+js-trust-label-demo = Demonstração sintética: um registro inventado de uma balsa com um desvio de posição inventado, pontuado pelo Kshana. Gravado a partir do motor; o registro é texto, não uma medição.
+
+js-trust-label-example = Exemplo ilustrativo: um registro NMEA inventado com um jammer inventado de 120 s a 240 s, avaliado aqui pelo motor. Texto, não uma medição.
+
+js-trust-label-geo-demo = Demonstração sintética de céu mascarado: o registro da balsa com a metade oeste do céu apagada a partir de 600 s (degradação natural, atribuída à geometria) e o mesmo desvio de posição inventado a partir de 1500 s (semelhante a um ataque). Gravado a partir de um motor com a geometria 0.36; texto, não uma medição.
+
+js-trust-label-score-demo = Registro de demonstração sintético, pontuado aqui pelo motor. Registro de balsa e desvio inventados; texto, não uma medição.
+
+js-trust-legend-calibrating = Calibrando (nunca pontuado)
+
+js-trust-legend-class = Classe de dedução:
+
+js-trust-legend-class-environment = ambiente: o sinal
+
+js-trust-legend-class-geometry = geometria: o céu, não o sinal
+
+js-trust-legend-class-inconsistency = inconsistência (semelhante a um ataque)
+
+js-trust-legend-degraded = Degradado
+
+js-trust-legend-demo = Nesta demonstração o receptor informa uma posição válida o tempo todo (qualidade GGA 1, estado RMC A). O que cai é a pontuação.
+
+js-trust-legend-geo-degraded = geometria degradada
+
+js-trust-legend-geo-good = geometria boa
+
+js-trust-legend-geo-unknown = geometria desconhecida (sem GSV nem GSA; não é boa)
+
+js-trust-legend-nominal = Nominal
+
+js-trust-legend-self = Sinalizador do próprio receptor contra os alarmes do Kshana:
+
+js-trust-legend-self-both = ambos sinalizam
+
+js-trust-legend-self-kshana = só o Kshana
+
+js-trust-legend-self-neither = nenhum
+
+js-trust-legend-self-receiver = só o receptor
+
+js-trust-legend-sky = Céu:
+
+js-trust-legend-true-track = Trajetória verdadeira (somente dados sintéticos)
+
+js-trust-legend-underline = sublinhado: geometria também custando pontos
+
+js-trust-legend-untrusted = Não confiável
+
+js-trust-marks-cleared = Marcas removidas.
+
+js-trust-marks-set =
+    { $count ->
+        [one] { $name } esteve acima do seu limiar de início em { $count } época; ela está marcada na linha do tempo e na trajetória.
+        [many] { $name } esteve acima do seu limiar de início em { $count } de épocas; elas estão marcadas na linha do tempo e na trajetória.
+       *[other] { $name } esteve acima do seu limiar de início em { $count } épocas; elas estão marcadas na linha do tempo e na trajetória.
+    }
+
+js-trust-mon-agc = O controle automático de ganho se deslocou em relação à sua linha de base.
+
+js-trust-mon-clock = O monitor auxiliado pelo relógio: o relógio do receptor contra sua linha prevista.
+
+js-trust-mon-cn0-drop = Negação de potência: intensidade do sinal caída em relação à linha de base de calibração.
+
+js-trust-mon-cn0-rise = Procura a assinatura de um único transmissor: a intensidade do sinal nos satélites subindo em conjunto em relação à linha de base.
+
+js-trust-mon-cn0-spread = Procura a assinatura de um único transmissor: a intensidade do sinal nos satélites colapsando em conjunto em relação à linha de base de calibração.
+
+js-trust-mon-geometry = A geometria dos satélites (0.36): custa pontos somente quando a geometria é ruim (HDOP, PDOP ou satélites usados além de seus limites), com teto, e nunca abaixo da faixa degradada.
+
+js-trust-mon-heading-course = Compara a direção da trajetória com a direção para onde o navio aponta, dentro do ângulo de deriva declarado.
+
+js-trust-mon-jam-ind = O próprio indicador de jamming do receptor.
+
+js-trust-mon-kinematic = Compara cada passo de posição com a velocidade e o curso informados, e com os limites declarados de velocidade, aceleração e taxa de giro da embarcação.
+
+js-trust-mon-loss-of-lock = Perda de satélites rastreados.
+
+js-trust-mon-osnma = Lê uma falha de autenticação OSNMA informada. O estado é lido, não verificado.
+
+js-trust-mon-position-jump = Um salto na posição informada maior que a linha de base permite.
+
+js-trust-mon-raim = A estatística de teste do monitoramento autônomo de integridade do receptor contra o seu limite.
+
+js-trust-mon-receiver-self-report = O próprio sinalizador de spoofing ou jamming do receptor (por exemplo u-blox UBX-SEC-SIG ou NAV-STATUS spoofDetState), mostrado ao lado dos monitores do Kshana. Lido do registro, não verificado; o espaço está pronto para o monitor do motor 0.38 e é desenhado como uma faixa assim que um resultado o traz.
+
+js-trust-mon-sea-level = Verifica se a altitude está onde a superfície do mar e a altura declarada da antena a colocam.
+
+js-trust-mon-solve-failure = A solução de posição não pôde ser calculada.
+
+js-trust-mon-speed-log = Compara a velocidade sobre o fundo com a velocidade na água, dentro da tolerância de corrente declarada.
+
+js-trust-mon-time-consistency = Verifica se o tempo do receptor tem passos irregulares ou retrocede, e o compara com o relógio deste computador nos fluxos em tempo real.
+
+js-trust-mon-unknown = Um monitor para o qual esta visualização não tem descrição (mais novo que a página). Trate-o como um monitor.
+
+js-trust-na = n/d
+
+js-trust-name-colon-text = { $name }: { $text }
+
+js-trust-never = nunca
+
+js-trust-no = não
+
+js-trust-no-deduction = nenhuma dedução
+
+js-trust-none = nenhum
+
+js-trust-north = N
+
+js-trust-not-stated = não declarado
+
+js-trust-note-advisories =
+    { $count ->
+        [one] As linhas trazem { $count } declaração consultiva diferente; ela é exibida.
+        [many] As linhas trazem { $count } de declarações consultivas diferentes; a primeira é exibida.
+       *[other] As linhas trazem { $count } declarações consultivas diferentes; a primeira é exibida.
+    }
+
+js-trust-note-csv-limits = trust.csv traz pontuações e motivos, mas não razões nem posições.
+
+js-trust-note-live-no-model = Um fluxo ao vivo não declara quais monitores rodaram nem o modelo de pontuação; as bordas das faixas abaixo são os padrões documentados e as faixas de monitor mostram somente os monitores que custam pontos.
+
+js-trust-note-nmea-no-match = Nenhuma posição NMEA pôde ser associada a uma época pelo tempo.
+
+js-trust-note-nmea-skipped =
+    { $count ->
+        [one] { $count } sentença NMEA com checksum ou campos inválidos foi ignorada.
+        [many] { $count } de sentenças NMEA com checksum ou campos inválidos foram ignoradas.
+       *[other] { $count } sentenças NMEA com checksum ou campos inválidos foram ignoradas.
+    }
+
+js-trust-note-skipped-epochs =
+    { $count ->
+        [one] { $count } época sem t_s numérico foi ignorada.
+        [many] { $count } de épocas sem t_s numérico foram ignoradas.
+       *[other] { $count } épocas sem t_s numérico foram ignoradas.
+    }
+
+js-trust-note-truth-no-match = Os tempos do arquivo de verdade de campo não coincidem com nenhuma época.
+
+js-trust-note-unknown-state =
+    { $count ->
+        [one] { $count } época traz um estado que esta página não conhece ({ $states }); ela é desenhada como em calibração, nunca pontuada.
+        [many] { $count } de épocas trazem um estado que esta página não conhece ({ $states }); elas são desenhadas como em calibração, nunca pontuadas.
+       *[other] { $count } épocas trazem um estado que esta página não conhece ({ $states }); elas são desenhadas como em calibração, nunca pontuadas.
+    }
+
+js-trust-offset-at = Em { $time } a posição informada pelo receptor está a { $m } m de onde a embarcação realmente estava (verdade de campo sintética).
+
+js-trust-offset-no-truth = Nenhuma posição verdadeira neste instante.
+
+js-trust-opened =
+    { $count ->
+        [one] { $count } época aberta ({ $source }).
+        [many] { $count } de épocas abertas ({ $source }).
+       *[other] { $count } épocas abertas ({ $source }).
+    }
+
+js-trust-opening-demo = Abrindo a demonstração sintética…
+
+js-trust-opening-demo-log = Abrindo o registro de demonstração sintético…
+
+js-trust-opening-example = Abrindo o exemplo ilustrativo…
+
+js-trust-opening-geo-demo = Abrindo a demonstração de céu mascarado…
+
+js-trust-pause = Pausar
+
+js-trust-play = Reproduzir
+
+js-trust-reading = Lendo…
+
+js-trust-reasons-calibrating = Calibrando: os primeiros segundos formam a linha de base e nunca são pontuados.
+
+js-trust-reasons-class-note = Cada dedução traz a classe do motor: geometria (o céu), ambiente (o sinal) ou inconsistência (semelhante a um ataque)
+
+js-trust-reasons-live-unknown = Quais monitores rodaram não é declarado em um fluxo ao vivo; uma verificação ausente aqui pode não ter rodado.
+
+js-trust-reasons-marked-none = marcado; nenhuma dedução aqui
+
+js-trust-reasons-no-score = Nenhuma pontuação nesta época.
+
+js-trust-reasons-no-score-note = Nenhuma pontuação nesta época: { $note }.
+
+js-trust-reasons-not-run = Não executado (não é uma aprovação)
+
+js-trust-reasons-nothing = Nada foi deduzido nesta época. Isso não é evidência de que a posição seja boa: veja o que as verificações não conseguem ver, abaixo.
+
+js-trust-reasons-pts = { $points } pts
+
+js-trust-reasons-ran-free = Executado, não custou nada
+
+js-trust-reasons-ratio = razão { $ratio }
+
+js-trust-reasons-row-title = { $name }: { $text } Clique para marcar onde ele esteve acima do seu limiar de início.
+
+js-trust-reasons-weight = peso { $weight }
+
+js-trust-reduced-motion = A preferência é por movimento reduzido, então a reprodução começa em 1x. Use o controle deslizante ou as setas do teclado para se mover sem animação.
+
+js-trust-say-gate = portão { $gate }
+
+js-trust-say-gate-derived = portão { $gate } (derivado)
+
+js-trust-say-monitor-points =
+    { $points ->
+        [one] { $monitor } { $points } ponto
+        [many] { $monitor } { $points } de pontos
+       *[other] { $monitor } { $points } pontos
+    }
+
+js-trust-say-position-from-true = posição informada a { $m } m da verdadeira
+
+js-trust-say-reasons = motivos: { $list }
+
+js-trust-say-score = pontuação { $score }
+
+js-trust-scored-label =
+    { $count ->
+        [one] { $count } época de { $name } pontuada com o motor { $version }, neste navegador.
+        [many] { $count } de épocas de { $name } pontuadas com o motor { $version }, neste navegador.
+       *[other] { $count } épocas de { $name } pontuadas com o motor { $version }, neste navegador.
+    }
+
+js-trust-scored-summary =
+    { $count ->
+        [one] { $count } época pontuada com o motor { $version }: { $summary }. Somente consultivo.
+        [many] { $count } de épocas pontuadas com o motor { $version }: { $summary }. Somente consultivo.
+       *[other] { $count } épocas pontuadas com o motor { $version }: { $summary }. Somente consultivo.
+    }
+
+js-trust-scoring = Iniciando o motor e pontuando…
+
+js-trust-self-code-meaning = { $code }: { $meaning }
+
+js-trust-self-none-at-time = O registro não traz nenhum sinalizador do receptor neste instante.
+
+js-trust-self-not-in-log = não está no registro
+
+js-trust-self-row-flags = Sinalizadores do receptor
+
+js-trust-self-row-jamming = Estado de jamming do receptor
+
+js-trust-self-row-kshana-alarms = Um monitor do Kshana alarma
+
+js-trust-self-row-spoofing = Estado de spoofing do receptor
+
+js-trust-self-unknown-agreement = uma concordância que esta página não conhece ({ $odd })
+
+js-trust-self-yes-state-2 = sim (estado 2 ou mais)
+
+js-trust-set-degraded-edge = a borda de degradado
+
+js-trust-set-degraded-min = degradado a partir de
+
+js-trust-set-epochs = Épocas
+
+js-trust-set-epochs-counts = { $total } no total: { $calibrating } em calibração, { $nominal } nominais, { $degraded } degradadas, { $untrusted } não confiáveis.
+
+js-trust-set-epochs-counts-class = { $total } no total: { $calibrating } em calibração, { $nominal } nominais, { $degraded } degradadas, { $untrusted } não confiáveis. Por classe de dedução: geometria { $geometry }, ambiente { $environment }, inconsistência { $inconsistency }.
+
+js-trust-set-evidence-hold = retenção de evidência, s
+
+js-trust-set-full-ratio = peso total na razão
+
+js-trust-set-geo-counts = Céu: { $good } bom, { $degraded } degradado, { $unknown } desconhecido. Rótulo: { $lgood } bom, { $fair } regular, { $poor } ruim (só o ruim custa pontos). Épocas com dedução da classe geometria { $geometry }, ambiente { $environment }, inconsistência { $inconsistency }.
+
+js-trust-set-geo-counts-odd = Céu: { $good } bom, { $degraded } degradado, { $unknown } desconhecido ({ $odd } com um valor que esta página não conhece, lido como desconhecido). Rótulo: { $lgood } bom, { $fair } regular, { $poor } ruim (só o ruim custa pontos). Épocas com dedução da classe geometria { $geometry }, ambiente { $environment }, inconsistência { $inconsistency }.
+
+js-trust-set-geometry = Geometria (configurações de [geometry])
+
+js-trust-set-gloss = O que cada verificação examina
+
+js-trust-set-live-geometry = Um fluxo ao vivo não declara os limites de geometria; valem os padrões documentados (ruim acima de HDOP 4 ou PDOP 6, ou abaixo de 5 satélites; no máximo 15 pontos, nunca abaixo da faixa degradada).
+
+js-trust-set-no-geometry = Esta execução não traz geometria: ela vem de um motor anterior à 0.36, ou de trust.csv. Nada sobre o céu é mostrado, e nada é mostrado como bom.
+
+js-trust-set-nominal-min = nominal a partir de
+
+js-trust-set-onset-ratio = custa pontos a partir da razão
+
+js-trust-set-provenance = De onde vêm os limites e como as deduções são classificadas
+
+js-trust-set-ran = Verificações executadas
+
+js-trust-set-weights = Peso de cada verificação, pontos
+
+js-trust-settings-assumed = Este fluxo não declara seu modelo de pontuação. As bordas das faixas mostradas são os padrões documentados, presumidos.
+
+js-trust-show-in-replay = Mostrar esta execução na reprodução abaixo (trajetória, pontuação, o sinalizador do próprio receptor)
+
+js-trust-sky-no-gsv = sem GSV
+
+js-trust-sky-none = Nenhum céu: abra o registro NMEA da execução (ou uma demonstração) para ver os satélites que ele lista.
+
+js-trust-span-title = { $what }, de { $from } a { $to }
+
+js-trust-state-0 = desconhecido ou não ativado
+
+js-trust-state-1 = nenhuma indicação
+
+js-trust-state-2 = indicado
+
+js-trust-state-3 = várias indicações ou confirmado
+
+js-trust-strip-band = faixa
+
+js-trust-strip-class = classe
+
+js-trust-strip-gate = portão
+
+js-trust-strip-marked = marcado
+
+js-trust-strip-receiver = receptor
+
+js-trust-strip-sky = céu
+
+js-trust-strips-none = Nenhuma razão de monitor neste arquivo.
+
+js-trust-strips-note-ran = razão da estatística sobre o limite; a linha tracejada é o alarme em 1
+
+js-trust-strips-note-seen = somente monitores vistos custando pontos; razão sobre o limite
+
+js-trust-sum-both-flag = Ambos sinalizam
+
+js-trust-sum-epochs-compared = Épocas comparadas (após a calibração)
+
+js-trust-sum-first-kshana = Primeiro alarme do Kshana entre essas épocas
+
+js-trust-sum-first-receiver = Primeiro sinalizador do receptor
+
+js-trust-sum-jamming-flag = Sinalizador de jamming do receptor (estado 2+)
+
+js-trust-sum-neither = Nenhum
+
+js-trust-sum-only-kshana = Só o Kshana alarma
+
+js-trust-sum-only-receiver = Só o receptor sinaliza
+
+js-trust-sum-spoofing-flag = Sinalizador de spoofing do receptor (estado 2+)
+
+js-trust-thr-azimuth-gap = lacuna em azimute, em graus, a partir da qual o céu está parcialmente bloqueado
+
+js-trust-thr-cap-in-force = máximo de pontos que a dedução de geometria toma nesta execução
+
+js-trust-thr-cap-points = máximo de pontos que a dedução de geometria pode tomar
+
+js-trust-thr-floor = menor pontuação que a geometria sozinha pode deixar (vazio: a borda da faixa degradada)
+
+js-trust-thr-floor-in-force = menor pontuação que a geometria sozinha pode deixar nesta execução
+
+js-trust-thr-full-ratio = razão na qual a dedução de geometria atinge seu teto
+
+js-trust-thr-hdop-good = HDOP até o qual a geometria é boa
+
+js-trust-thr-hdop-max = HDOP acima do qual a geometria é ruim
+
+js-trust-thr-hold = por quanto tempo as posições do céu e o GSA valem depois de chegarem, s
+
+js-trust-thr-low-elev = elevação, em graus, abaixo da qual um satélite perdido é atribuído ao céu
+
+js-trust-thr-min-used = menor número de satélites usados antes de a geometria ser ruim
+
+js-trust-thr-pdop-good = PDOP até o qual a geometria é boa
+
+js-trust-thr-pdop-max = PDOP acima do qual a geometria é ruim
+
+js-trust-thr-reported-rel = o mesmo, como proporção do HDOP derivado
+
+js-trust-thr-reported-tol = diferença entre o HDOP declarado e o derivado antes de os dois discordarem
+
+js-trust-thr-sigma-uere = erro de distância equivalente do usuário que os limites pressupõem, metros
+
+js-trust-thr-used-good = número de satélites usados a partir do qual a geometria é boa
+
+js-trust-track-desc = Trajetória de { $positions } posições informadas, norte para cima. { $untrusted } épocas não são confiáveis.
+
+js-trust-track-desc-none = Nenhuma trajetória: os arquivos não trazem posições.
+
+js-trust-track-desc-truth = Trajetória de { $positions } posições informadas, norte para cima. { $untrusted } épocas não são confiáveis. Uma linha cinza fina mostra a trajetória verdadeira.
+
+js-trust-track-end = fim
+
+js-trust-track-no-positions = Nenhuma posição nos arquivos abertos
+
+js-trust-track-note = Norte para cima, uma escala nos dois eixos. A linha é onde o receptor disse que a embarcação estava, colorida pela faixa de confiança de cada época.
+
+js-trust-track-note-none = Este arquivo não traz posições. Adicione o registro NMEA de onde a execução veio (ou um fluxo v1.1 com posição) para desenhar a trajetória.
+
+js-trust-track-start = início
+
+js-trust-unknown-agreement = uma concordância que esta página não conhece
+
+js-trust-yes = sim

@@ -4576,3 +4576,1809 @@ js-lib-guided-seed-label = Willekeurige seed
 js-lib-guided-sigma-uere-m-hint = 1-σ gebruikersequivalente afstandsfout voor de positiesamenvatting
 
 js-lib-guided-sigma-uere-m-label = Afstandsfout σ (m)
+
+js-lib-guided-station-lat-deg-hint = breedtegraad van het grondstation — bepaalt de passagegeometrie
+
+js-lib-guided-station-lat-deg-label = Breedtegraad van het station (°)
+
+js-lib-guided-station-lon-deg-hint = lengtegraad van het grondstation
+
+js-lib-guided-station-lon-deg-label = Lengtegraad van het station (°)
+
+js-lib-guided-step-s-hint = bemonsteringsinterval van het grondspoor
+
+js-lib-guided-step-s-label = Tijdstap (s)
+
+js-lib-guided-threshold-ns-hint = budget binnen de specificatie; "beschikbaar" zolang de fout eronder blijft
+
+js-lib-guided-threshold-ns-label = Specificatiedrempel (ns)
+
+js-lib-guided-time-duration-s-hint = totale duur van de run
+
+js-lib-guided-time-duration-s-label = Duur (s)
+
+js-lib-guided-time-step-s-hint = integratie- en bemonsteringsinterval
+
+js-lib-guided-time-step-s-label = Tijdstap (s)
+
+js-lib-guided-user-altitude-km-hint = de baanhoogte van het gebruikersruimtevaartuig
+
+js-lib-guided-user-altitude-km-label = Hoogte van de gebruiker (km)
+
+js-lib-guided-user-inclination-deg-hint = de inclinatie van de baan van de gebruiker
+
+js-lib-guided-user-inclination-deg-label = Inclinatie van de gebruiker (°)
+
+js-lib-imufit-card-accel-slope = Allan-helling van de accelerometer, vroeg (circa -0,5 voor witte ruis)
+
+js-lib-imufit-card-bias = Bias van de accelerometer, gemiddeld (m/s²)
+
+js-lib-imufit-card-bias-instability = Biasinstabiliteit van de accelerometer (m/s²), 0 wanneer de curve geen bodem heeft
+
+js-lib-imufit-card-gyro-bias = Bias van de gyro, gemiddeld (rad/s)
+
+js-lib-imufit-card-gyro-slope = Allan-helling van de gyro, vroeg (circa -0,5 voor witte ruis)
+
+js-lib-imufit-card-note-n = Notitie { $n }
+
+js-lib-imufit-card-q-arw = Hoekrandomwalk van de gyro, q_arw (rad²/s)
+
+js-lib-imufit-card-q-va = Snelheidsrandomwalk van de accelerometer, q_va (m²/s³)
+
+js-lib-imufit-card-sample-rate = Samplefrequentie
+
+js-lib-imufit-card-samples = Samples
+
+js-lib-imufit-card-span = Spanwijdte
+
+js-lib-jammertest-card-clean-epochs = Schone epochs
+
+js-lib-jammertest-card-clean-hours = Schone uren
+
+js-lib-jammertest-card-detected = Gedetecteerd binnen tolerantie
+
+js-lib-jammertest-card-detection-rate = Detectiepercentage (elk alarm)
+
+js-lib-jammertest-card-evaluable = Beoordeelbaar
+
+js-lib-jammertest-card-fa-epochs = Epochs met vals alarm
+
+js-lib-jammertest-card-fa-per-hour = Runs met vals alarm per uur
+
+js-lib-jammertest-card-fa-runs = Runs met vals alarm
+
+js-lib-jammertest-card-in-tol-rate = Gedetecteerd binnen tolerantie, percentage
+
+js-lib-jammertest-card-late = Te laat
+
+js-lib-jammertest-card-median-latency = Mediane detectievertraging
+
+js-lib-jammertest-card-median-recover = Mediane hersteltijd
+
+js-lib-jammertest-card-missed = Gemist
+
+js-lib-jammertest-card-na = n.v.t.
+
+js-lib-jammertest-card-not-assessable = Geen enkele test was beoordeelbaar in dit logboek, dus er kan geen detectiepercentage of vertraging worden opgegeven. Dat is een resultaat, geen fout van de pagina: niets hier is geslaagd.
+
+js-lib-jammertest-card-not-json = { $name }: geen JSON ({ $reason }).
+
+js-lib-jammertest-card-not-scorecard = { $name }: geen jammertest-scorekaart (tests[] en summary zijn vereist).
+
+js-lib-jammertest-card-tests = Tests in het deel van het plan
+
+js-lib-jammertest-card-too-large = { $name }: groter dan 8 MiB; deze pagina leest een scorekaart tot die grootte.
+
+js-lib-kpi-available-everywhere = overal beschikbaar, elke epoch
+
+js-lib-kpi-available-everywhere-pdop = overal beschikbaar, elke epoch (PDOP, positionele precisieverdunning, onder { $thr })
+
+js-lib-kpi-drops-under = zakt onder de volgdrempel van { $thr } dB-Hz: vergrendeling verloren
+
+js-lib-kpi-end-of-mission = aan het einde van de missie
+
+js-lib-kpi-figure-tiers = Niveaus van de cijfers: { $parts }.
+
+js-lib-kpi-n-modelled = { $n } gemodelleerd
+
+js-lib-kpi-n-partner = { $n } in handen van partners
+
+js-lib-kpi-n-validated = { $n } getoetst
+
+js-lib-kpi-no-change = geen verandering
+
+js-lib-kpi-no-fix = { $pct } % van de tijd of plaatsen zonder positiebepaling
+
+js-lib-kpi-no-fix-pdop = { $pct } % van de tijd of plaatsen zonder positiebepaling bij PDOP onder { $thr }
+
+js-lib-kpi-over-jump = boven de sprongdrempel van { $thr } m
+
+js-lib-kpi-over-pdop = boven de PDOP-drempel { $thr }
+
+js-lib-kpi-stays-above = blijft boven de volgdrempel van { $thr } dB-Hz
+
+js-lib-kpi-under-jump = onder de sprongdrempel van { $thr } m
+
+js-lib-kpi-under-pdop = onder de PDOP-drempel { $thr }
+
+js-lib-orbit3d-apogee = apogeum
+
+js-lib-orbit3d-perigee = perigeum
+
+js-lib-orbit3d-prov-scenario = scenario { $hash }
+
+js-lib-orbit3d-title = Baan (ECI, orthografisch)
+
+js-lib-orbit3d-view-angles = az { $az }° · el { $el }°
+
+js-lib-overlay-meta-clock-bias-m = Klokbias
+
+js-lib-overlay-meta-converged-pos-3sigma-m = Positie 3σ
+
+js-lib-overlay-meta-converged-pos-rms-m = Positie RMS
+
+js-lib-overlay-meta-converged-pos-sigma-m = Positie σ
+
+js-lib-overlay-meta-final-clock-freq-sigma = Klokfrequentie σ
+
+js-lib-overlay-meta-mean-relays-in-view = Relais in zicht
+
+js-lib-overlay-meta-pos-p95-m = Positie p95
+
+js-lib-overlay-meta-pos-rms-m = Positie RMS
+
+js-lib-overlay-meta-postfit-rms-m = Postfit-RMS
+
+js-lib-overlay-prov-scenario = scenario { $hash }
+
+js-lib-overlay-subtitle = |fout| (ns) tegenover tijd — { $n } runs
+
+js-lib-overlay-time-s = tijd (s)
+
+js-lib-overlay-title = Overlay: tijdfout tijdens uitval
+
+js-lib-packs-cannot-unpack = deze browser kan het vastgelegde bestand niet uitpakken
+
+js-lib-replay-demos-below-130 = Alleen azimuts onder 130° behouden (vermeld)
+
+js-lib-replay-demos-coastal-drag-off = Drag-off langs de kust
+
+js-lib-replay-demos-combined-event = Gecombineerde gebeurtenis
+
+js-lib-replay-demos-drag-off-stated = Positie-drag-off (vermeld door de demo)
+
+js-lib-replay-demos-ferry-drag-off = Veerboottraject, positie-drag-off
+
+js-lib-replay-demos-ferry-drag-off-description = Een verzonnen logboek van een veerboot, Tallinn naar Helsinki, 1 Hz. Vanaf 1500 s trekt een positie-drag-off de gemelde positie weg terwijl de ontvanger een geldige positiebepaling blijft melden.
+
+js-lib-replay-demos-fjord = Natuurlijke degradatie in een fjord
+
+js-lib-replay-demos-masked-sky = Veerboottraject, halve hemel afgeschermd
+
+js-lib-replay-demos-masked-sky-description = Hetzelfde veerbootlogboek, met de westelijke helft van de hemel uitgeschakeld vanaf 600 s, een smallere hemel van 900 s tot 1200 s, en de drag-off vanaf 1500 s: één run waarin de hemel, het signaal en de positie na elkaar uitvallen.
+
+js-lib-replay-demos-open-sea-jamming = Jamming op open zee
+
+js-lib-replay-demos-port-approach = Tijd-spoofing bij havenanadering
+
+js-lib-replay-demos-source-training = Synthetisch scenario { $id }: de nmea_training-stroom en het instructeurslogboek van de engine, gescoord door de receiver-trust ervan.
+
+js-lib-replay-demos-source-trust = Synthetisch logboek { $id }: verzonnen NMEA, gescoord door de receiver-trust van de engine.
+
+js-lib-replay-demos-west-masked = Westelijke helft van de hemel afgeschermd (vermeld)
+
+js-lib-replay-demos-west-masked-again = Westelijke helft opnieuw afgeschermd (vermeld)
+
+js-lib-report-charts = Grafieken
+
+js-lib-report-eyebrow = het precieze moment
+
+js-lib-report-figures-of-merit = Kwaliteitsmaten
+
+js-lib-report-footer = Kshana { $version } · scenario { $hash } · gegenereerd { $iso }. Reproduceerbaar uit scenario + seed + engineversie. Draait lokaal; er wordt niets geüpload.
+
+js-lib-report-not-applicable = niet van toepassing (geen aanval ingesteld)
+
+js-lib-report-scenario-definition = Scenariodefinitie (TOML)
+
+js-lib-report-th-clock = Klok
+
+js-lib-report-th-metric = Maat
+
+js-lib-report-th-validation = Validatie
+
+js-lib-report-th-value = Waarde
+
+js-lib-report-tier-note = Elke kwaliteitsmaat is gelabeld { $validated } (getoetst aan een onafhankelijke externe referentie) of { $modelled } (uit eerste principes, intern getest) — afgeleid uit de verificatiematrix.
+
+js-lib-report-title = Kshana — scenariorapport
+
+js-lib-skydraw-azimuth-range = azimut { $from } tot { $to } graden
+
+js-lib-skydraw-describe = { $listed } satellieten vermeld, { $heard } met een signaal
+
+js-lib-skydraw-describe-mean = { $listed } satellieten vermeld, { $heard } met een signaal, gemiddeld { $snr } dB-Hz
+
+js-lib-skydraw-east = O
+
+js-lib-skydraw-no-signal-from = geen signaal uit { $sectors }
+
+js-lib-skydraw-none-listed = Op dit moment staan er geen satellieten in het logboek.
+
+js-lib-skydraw-north = N
+
+js-lib-skydraw-sat-heard = { $sys } { $prn }: elevatie { $el }, azimut { $az }, signaal { $snr } dB-Hz
+
+js-lib-skydraw-sat-quiet = { $sys } { $prn }: elevatie { $el }, azimut { $az }, vermeld, geen signaal
+
+js-lib-skydraw-south = Z
+
+js-lib-skydraw-unheard-sector = Satellieten vermeld tussen azimut { $from } en { $to } graden, geen met een signaal
+
+js-lib-skydraw-west = W
+
+js-lib-skyline-edit-describe = Skyline over { $blocked } van 360 graden azimut; hoogste { $el }° bij azimut { $az }°.
+
+js-lib-skyline-edit-open = Open horizon: geen skyline.
+
+js-lib-stages-all-planets = Alle planeten
+
+js-lib-stages-au-from-sun = { $d } au van de zon
+
+js-lib-stages-band-carrier = Draaggolf { $name }, { $mhz } MHz
+
+js-lib-stages-bin-title = { $from } tot { $to }{ $unit }: { $count } runs
+
+js-lib-stages-body-and-moons = { $name } en zijn manen
+
+js-lib-stages-cell-title = breedtegraad { $lat }°, lengtegraad { $lon }° · { $field } { $value }
+
+js-lib-stages-chain-navmsg = Navigatiebericht
+
+js-lib-stages-chain-pass = Passage en link
+
+js-lib-stages-chain-ppp = Precise point positioning
+
+js-lib-stages-chain-pvt = Gefuseerde positiebepaling
+
+js-lib-stages-chain-signal = Signaalontwerp
+
+js-lib-stages-coverage-aria = { $field } over { $body }, per breedte- en lengtegraad
+
+js-lib-stages-feature-n = feature { $n }
+
+js-lib-stages-flag = vlag
+
+js-lib-stages-frequency-mhz = frequentie (MHz)
+
+js-lib-stages-from-to = { $from } tot { $to }
+
+js-lib-stages-geojson-aria = De GeoJSON-export getekend op een kaart
+
+js-lib-stages-histogram = Histogram
+
+js-lib-stages-inner-planets = Binnenplaneten
+
+js-lib-stages-km-from-centre = { $d } km van { $centre }
+
+js-lib-stages-linear-scale = lineaire schaal
+
+js-lib-stages-link-light-time = { $from } tot { $to }: enkele-reis-lichttijd { $time } s
+
+js-lib-stages-longitude-axis = lengtegraad · breedtegraad langs de zijkant omhoog
+
+js-lib-stages-mission-time = missietijd (s)
+
+js-lib-stages-noise-floor = ruisvloer
+
+js-lib-stages-orrery-note = { $scale } · xy-vlak van het referentiestelsel, gezien vanaf de noordpool
+
+js-lib-stages-panel-n = Paneel { $n }
+
+js-lib-stages-plan-view-aria = Bovenaanzicht van { $centre } en de hemellichamen eromheen, { $scale }
+
+js-lib-stages-psd-at-t = Spectrale vermogensdichtheid bij t = { $t } s
+
+js-lib-stages-psd-axis = spectrale vermogensdichtheid (dBW/Hz)
+
+js-lib-stages-runs = runs
+
+js-lib-stages-sat-title = { $constellation } { $id } · breedtegraad { $lat }°, lengtegraad { $lon }°
+
+js-lib-stages-satellites = satellieten
+
+js-lib-stages-spectrum-at-t = spectrum bij t = { $t } s
+
+js-lib-stages-sqrt-scale = afstandsschaal met vierkantswortel
+
+js-lib-stages-the-body = het hemellichaam
+
+js-lib-stages-time-s = tijd (s)
+
+js-lib-stages-unit-alarm = Alarm
+
+js-lib-stages-unit-cn0 = Draaggolf-ruisdichtheid
+
+js-lib-stages-unit-position = Positie en bescherming
+
+js-lib-stages-unit-satellites = Satellieten
+
+js-lib-stages-unit-time-error = Tijdfout
+
+js-lib-stages-waterfall-aria = Waterfall van de spectrale vermogensdichtheid: frequentie horizontaal, tijd naar beneden
+
+js-lib-stages-whole-band = Hele band
+
+js-lib-sweep-clock-availability = Beschikbaarheid van { $who }
+
+js-lib-sweep-clock-holdover = Holdover van { $who } (s)
+
+js-lib-sweep-clock-timing-p95 = Tijdsynchronisatie p95 van { $who } (ns)
+
+js-lib-sweep-clock-timing-rms = Tijdsynchronisatie RMS van { $who } (ns)
+
+js-lib-sweep-max-altitude = maximale hoogte (km)
+
+js-lib-sweep-max-elevation = maximale elevatie (°)
+
+js-lib-sweep-max-speed = maximale snelheid (m/s)
+
+js-lib-sweep-min-altitude = minimale hoogte (km)
+
+js-lib-sweep-peak-doppler = piek-Doppler (Hz)
+
+js-lib-sweep-prov-scenario = scenario { $hash }
+
+js-lib-sweep-y-vs-x = { $y } tegenover { $x }
+
+js-lib-tabs-3d-orbit = 3D-baan
+
+js-lib-tabs-figures-of-merit = Kwaliteitsmaten
+
+js-lib-tabs-stability = Stabiliteit
+
+js-lib-tabs-sweep = Sweep
+
+js-lib-tabs-time-series = Tijdreeks
+
+js-lib-tour-ashforde-body = Bedankt voor het verkennen van Kshana. Wij bouwen open, reproduceerbare, op bewijs gebaseerde techniek voor missies die niet mogen falen — eerlijk over wat getoetst is en wat gemodelleerd. Vragen, een samenwerking of een studie? Neem contact met ons op via contact@ashforde.org.
+
+js-lib-tour-ashforde-title = Van Ashforde® OÜ
+
+js-lib-tour-capabilities-body = Kies een domeintab — Banen, Tijdsynchronisatie, Traagheid, GNSS, Veerkracht, Maan, AI/ML, Interoperabiliteit — om de mogelijkheden te zien, elk gelabeld als getoetst of gemodelleerd, met een uitvoerknop ▸ voor de uitgewerkte scenario's. Open “Bewijs en herkomst” in een domein om het bewijs na te gaan, of schakel “Alleen getoetst” in om alleen te tonen wat aan een onafhankelijke externe referentie is getoetst.
+
+js-lib-tour-capabilities-title = Verken de engine, domein voor domein
+
+js-lib-tour-cite-body = Kshana is gebouwd om naar te verwijzen — een citeerbare softwarerelease met een DOI, plus papers in peer-stijl over de optimismekloof bij RF-verstoringen en een voorwaardelijk beschermingsniveau voor tijdsynchronisatie. Kopieer de citatie rechtstreeks vanaf hier.
+
+js-lib-tour-cite-title = Publicaties en hoe te citeren
+
+js-lib-tour-download-report-body = Het tabblad Sweep varieert één parameter over een bereik; “Vastpinnen om te vergelijken” legt twee of meer runs naast elkaar met het Δ ertussen (werkt voor alle scenariotypen — klok, Mars-PNT, positiebepaling…); en deze knop downloadt de run als een op zichzelf staand, offline HTML-rapport.
+
+js-lib-tour-download-report-title = Sweepen, vergelijken en exporteren
+
+js-lib-tour-guided-body = Begeleide instellingen passen zich aan het scenario aan — seed, specificatiedrempel, duur, elevatiemasker, baanhoogte — en elke wijziging draait direct opnieuw.
+
+js-lib-tour-guided-title = Stel de schuifregelaars af
+
+js-lib-tour-mcp-body = Een MCP-server laat AI-assistenten de getoetste engine draaien in plaats van te raden; een JetBrains-plugin draait scenario's vanuit het rechtsklikmenu.
+
+js-lib-tour-mcp-title = Gebruik het vanuit een AI-agent of uw IDE
+
+js-lib-tour-playground-body = Kies een scenario uit de keuzelijst — of klik op ▸ uitvoeren bij een mogelijkheid hierboven — en de engine draait als WebAssembly op uw machine. Er wordt niets geüpload.
+
+js-lib-tour-playground-title = Draai het in uw browser
+
+js-lib-tour-run-body = Draai het huidige scenario. Open “Geavanceerd” om de TOML te bewerken en alles te wijzigen; “Deellink kopiëren” reproduceert precies deze run voor iemand anders.
+
+js-lib-tour-run-title = Draai het
+
+js-lib-tour-tabs-body = Wissel tussen de kwaliteitsmaten, de tijdreeksgrafiek, de klokstabiliteit (Allan-deviatie) en — voor banenruns — een interactieve 3D-baanweergave.
+
+js-lib-tour-tabs-title = Lees de resultaten
+
+js-lib-tour-validation-body = Dezelfde verkenner is ook het bewijsregister: elk domein heeft een lade “Bewijs en herkomst” — het cijfer, de externe referentie waaraan het is getoetst en een eerlijke status getoetst / gemodelleerd per claim. “Alleen getoetst” filtert op de rijen die aan een dataset zijn getoetst.
+
+js-lib-tour-validation-title = Bewijs, geen bijvoeglijke naamwoorden
+
+js-lib-views-3-sigma-bound = 3-sigmagrens
+
+js-lib-views-3d-position-error = 3D-positiefout
+
+js-lib-views-a-parameter = een parameter
+
+js-lib-views-band-runs = Tijdfoutband over { $runs } Monte Carlo-runs
+
+js-lib-views-band-the-runs = Tijdfoutband over de Monte Carlo-runs
+
+js-lib-views-below-tracking = onder de volgdrempel
+
+js-lib-views-chart = grafiek
+
+js-lib-views-classical = klassiek
+
+js-lib-views-epoch = epoch
+
+js-lib-views-four-needed = 4 nodig voor een positiebepaling
+
+js-lib-views-free-inertial = vrij traagheidsnavigeren
+
+js-lib-views-gnss-denied = GNSS geblokkeerd
+
+js-lib-views-ground-track = Grondspoor
+
+js-lib-views-heatmap-effective = Effectieve draaggolf-ruisdichtheid per satelliet en tijd
+
+js-lib-views-heatmap-nominal = Nominale draaggolf-ruisdichtheid (geen jammer) per satelliet en tijd
+
+js-lib-views-horizontal-alert-limit = horizontale alarmgrens
+
+js-lib-views-horizontal-hpl = horizontaal (HPL)
+
+js-lib-views-id-bound = grens { $id }
+
+js-lib-views-id-median = mediaan { $id }
+
+js-lib-views-id-offset = afwijking { $id }
+
+js-lib-views-id-p95 = p95 { $id }
+
+js-lib-views-map-matched = kaartgekoppeld
+
+js-lib-views-map-matched-title = Kaartgekoppeld tegenover positiefout bij vrij traagheidsnavigeren
+
+js-lib-views-metric = maat
+
+js-lib-views-oscillator = oscillator
+
+js-lib-views-oscillator-source = oscillator ({ $source })
+
+js-lib-views-position-error-axis = positiefout ({ $unit })
+
+js-lib-views-position-error-m = positiefout (m)
+
+js-lib-views-position-error-run = Positiefout over de run
+
+js-lib-views-position-m = positie (m)
+
+js-lib-views-predicted-time-error = Voorspelde tijdfout sinds de laatste positiebepaling
+
+js-lib-views-protection-level-m = beschermingsniveau (m)
+
+js-lib-views-protection-levels = Beschermingsniveaus tegenover de alarmgrens
+
+js-lib-views-quantum = kwantum
+
+js-lib-views-relay-error-bound = Positiefout van relaisnavigatie en de 3-sigmagrens ervan
+
+js-lib-views-satellites = satellieten
+
+js-lib-views-satellites-tracking = Satellieten in zicht en nog in tracking
+
+js-lib-views-shaded-gnss-denied = gearceerd: GNSS geblokkeerd
+
+js-lib-views-slot-guard = slotbewaking
+
+js-lib-views-spoofed-offset = Tijdafwijking door spoofing tegenover de detectiegrens
+
+js-lib-views-sweep-of = Sweep van { $parameter }: { $metric }
+
+js-lib-views-sync-error-axis = synchronisatiefout ({ $unit })
+
+js-lib-views-sync-error-run = Synchronisatiefout over de run
+
+js-lib-views-threshold = drempel
+
+js-lib-views-time-error-ns = tijdfout (ns)
+
+js-lib-views-time-ns = tijd (ns)
+
+js-lib-views-time-s = tijd (s)
+
+js-lib-views-time-since-fix = tijd sinds de laatste positiebepaling (s)
+
+js-lib-views-timing-error-axis = tijdsynchronisatiefout ({ $unit })
+
+js-lib-views-timing-error-run = Tijdsynchronisatiefout over de run
+
+js-lib-views-tracking = in tracking
+
+js-lib-views-value = waarde
+
+js-lib-views-vertical-vpl = verticaal (VPL)
+
+js-lib-views-visible = zichtbaar
+
+js-lib-views-word-enbw = equivalente ruisbandbreedte
+
+js-lib-views-word-nfft = FFT-lengte
+
+js-lib-views-word-stec = schuine TEC
+
+js-lib-views-word-toa = aankomsttijd
+
+js-lib-views-word-ttff = tijd tot de eerste positiebepaling
+
+js-lib-views-word-tx = zenden
+
+js-lib-views-word-zwd = natte vertraging in het zenit
+
+js-lunar-address-outside-range = { $label }: "{ $raw }" valt buiten { $min } tot { $max }; de waarde uit het bestand wordt gebruikt.
+
+js-lunar-address-too-long = Het adres was te lang; de standaardwaarden worden getoond.
+
+js-lunar-address-unknown-source = Onbekende bron in het adres; de opname wordt getoond.
+
+js-lunar-alert-limit = alarmgrens { $value } (illustratief)
+
+js-lunar-alert-not-stated = alarmgrens niet vermeld
+
+js-lunar-bearing-east = 90° O
+
+js-lunar-bearing-west = 90° W
+
+js-lunar-cell-title = { $lat }°, { $lon }°: gecorrigeerd { $corrected }, beschikbaarheid { $availability }, dekking { $coverage }
+
+js-lunar-copy-address = Kopieer het adres uit de adresbalk.
+
+js-lunar-counts = { $sats } satellieten, { $points } rasterpunten, { $epochs } epochs, { $trials } Monte Carlo-trials per epoch. Label: { $label }.
+
+js-lunar-engine-no-start = De engine kon in deze browser niet starten ({ $reason }). Open in plaats daarvan een resultaatbestand.
+
+js-lunar-engine-unknown-kind = Deze engine ({ $version }) kent de soort { $kind } niet; engine 0.36 is nodig.
+
+js-lunar-fig-availability-region = Beschikbaarheid over het gebied
+
+js-lunar-fig-corrected-3d = Gecorrigeerde fout, { $n } %, 3D
+
+js-lunar-fig-coverage = Dekking
+
+js-lunar-fig-epochs-within = epochs binnen { $value }
+
+js-lunar-fig-horizontal-vertical = horizontaal { $h }, verticaal { $v }
+
+js-lunar-fig-hpl-below-alert = HPL onder de alarmgrens
+
+js-lunar-fig-hpl-vpl = HPL, VPL hoogstens
+
+js-lunar-fig-improvement = Verbeteringsfactor
+
+js-lunar-fig-lowest-point = Laagste in een punt
+
+js-lunar-fig-points-always-available = Punten beschikbaar op elke epoch
+
+js-lunar-fig-uncorrected-3d = Ongecorrigeerde fout, { $n } %, 3D
+
+js-lunar-fig-worst-point = Slechtste punt
+
+js-lunar-file-not-json = Dit bestand is geen JSON.
+
+js-lunar-file-not-object = Dit bestand is geen JSON-object.
+
+js-lunar-file-too-large = { $name }: groter dan 32 MiB; deze pagina leest resultaatbestanden tot die grootte.
+
+js-lunar-file-value = bestand: { $value }
+
+js-lunar-full-of-total = { $full } van { $total }
+
+js-lunar-give-value = { $label }: geef een waarde van { $min } tot { $max }.
+
+js-lunar-give-whole-value = { $label }: geef een waarde van { $min } tot { $max } (een geheel getal).
+
+js-lunar-honesty-affiliation = Niet verbonden aan of onderschreven door enig agentschap.
+
+js-lunar-honesty-assumptions = Onder de vermelde openbare aannames, geen uitspraak over de prestaties van enig echt systeem.
+
+js-lunar-in-grid-spacing = Ringafstand van het raster, graden
+
+js-lunar-in-latency = Vertraging van de correctie, seconden
+
+js-lunar-in-seed = Seed
+
+js-lunar-in-station-lat = Breedtegraad van het station, graden
+
+js-lunar-in-station-lon = Lengtegraad van het station, graden
+
+js-lunar-in-survey-error = Opmetingsfout van het station (1-sigma), meter
+
+js-lunar-in-threshold = Nauwkeurigheidsdrempel, meter
+
+js-lunar-in-time-step = Tijdstap, seconden
+
+js-lunar-in-trials = Monte Carlo-trials per epoch
+
+js-lunar-input-out-of-range = { $label } valt buiten het bereik.
+
+js-lunar-json-field-not-json = Het veld json van het bestand is geen JSON.
+
+js-lunar-key-50-or-more = 50 % of meer
+
+js-lunar-key-90-or-more = 90 % of meer
+
+js-lunar-key-95-or-more = 95 % of meer
+
+js-lunar-key-99-or-more = 99 % of meer
+
+js-lunar-key-above = boven { $value }
+
+js-lunar-key-above-threshold = boven { $value } × drempel
+
+js-lunar-key-below-50 = onder 50 %
+
+js-lunar-key-between = { $from } tot { $to }
+
+js-lunar-key-between-threshold = { $from } tot { $to } × drempel
+
+js-lunar-key-up-to = tot { $value }
+
+js-lunar-key-up-to-threshold = tot { $value } × drempel
+
+js-lunar-layer-availability = beschikbaarheid
+
+js-lunar-layer-coverage = dekking
+
+js-lunar-layer-error = gecorrigeerde fout
+
+js-lunar-layer-range = gecorrigeerde fout over het eigen bereik
+
+js-lunar-legend-no-figure = geen cijfer (overal niet beschikbaar)
+
+js-lunar-legend-radius = dekkingsstraal
+
+js-lunar-legend-threshold = drempel, { $value }
+
+js-lunar-legend-worst = slechtste punt
+
+js-lunar-link-copied = Link gekopieerd.
+
+js-lunar-map-desc = { $points } rasterpunten van de pool tot { $rim }° breedtegraad. Bij { $meet } ervan ligt de gecorrigeerde fout op het { $percentile }e percentiel binnen de drempel van { $threshold }. Gekleurd naar { $layer }. Het station ligt op { $lat }°, { $lon }°.
+
+js-lunar-map-note-one-band = { $share } % van de punten valt in één band van de drempelschaal, dus de kaart toont weinig variatie: kleur op "eigen bereik" om te zien hoe de fout over het gebied varieert.
+
+js-lunar-needs-newer-engine = Deze studie heeft engine { $need } of nieuwer nodig; de engine die hier draait is v{ $version }. De opname of een resultaatbestand kan nog wel worden getoond.
+
+js-lunar-no = nee
+
+js-lunar-no-recording = Er wordt nog geen opname van deze studie meegeleverd: die wordt bij de release gemaakt met engine 0.36. Draai haar hier met een engine die de soort kent, of open een resultaatbestand.
+
+js-lunar-no-scenario = Deze site heeft nog geen { $file }: het komt met engine 0.36. Open in plaats daarvan een resultaatbestand.
+
+js-lunar-no-scenario-note = Deze site heeft nog geen { $file } (het komt met engine 0.36), dus een run hier is niet mogelijk; open in plaats daarvan een resultaatbestand.
+
+js-lunar-not-report = Dit is geen rapport van de soort { $kind }.
+
+js-lunar-not-stated = niet vermeld
+
+js-lunar-note-none = Het bestand vermeldt geen notitie.
+
+js-lunar-note-withheld = De eigen verklaring van het bestand noemt een programma of een agentschap, dus deze pagina toont haar niet; de verklaring bovenaan de pagina geldt.
+
+js-lunar-point-epochs-reason = point-epochs: { $reason }
+
+js-lunar-radius-desc = Dekkingsstraal over { $count } azimuts: kortste { $lo } km bij { $loAz }°, langste { $hi } km bij { $hiAz }°.
+
+js-lunar-radius-desc-limited =
+    { $count ->
+        [one] { $count } bereikt de rand van het raster, dus de dekking reikt daar minstens zo ver.
+       *[other] { $count } bereiken de rand van het raster, dus de dekking reikt daar minstens zo ver.
+    }
+
+js-lunar-radius-hollow = Holle punten bereiken de rand van het raster: de dekking houdt minstens zo ver stand langs die peiling.
+
+js-lunar-radius-none = Het rapport vermeldt geen dekkingsstraal.
+
+js-lunar-radius-per-azimuth = dekkingsstraal per azimut
+
+js-lunar-radius-point = { $az }°: { $km } km
+
+js-lunar-radius-point-limited = { $az }°: { $km } km (bereikt de rand van het raster: minstens zo ver)
+
+js-lunar-radius-zero = Op elke peiling ligt de dekking al bij het station onder 95 %, dus de straal is 0 km: de gecorrigeerde fout overschrijdt daar de drempel van { $value }.
+
+js-lunar-reason-station-missing = het station ziet niet elke satelliet die de gebruiker gebruikt
+
+js-lunar-reason-user-lt4 = minder dan vier satellieten in zicht van de gebruiker
+
+js-lunar-run-stopped = De run is gestopt: { $message }
+
+js-lunar-running = De studie wordt in deze browser uitgevoerd…
+
+js-lunar-running-elapsed = De studie wordt in deze browser uitgevoerd… { $seconds } s
+
+js-lunar-scenario-missing-keys = Het scenariobestand heeft geen { $keys }; het kan hier niet worden gewijzigd.
+
+js-lunar-set-inputs = Stel de invoer in en druk op Hier uitvoeren.
+
+js-lunar-showing = { $what } wordt getoond.
+
+js-lunar-showing-engine = { $what } wordt getoond (engine { $version }).
+
+js-lunar-source-error = { $what }: { $error }
+
+js-lunar-station = station
+
+js-lunar-station-title = station { $lat }°, { $lon }°
+
+js-lunar-table-count =
+    { $n ->
+        [one] { $n } punt, het dichtst bij het station eerst.
+       *[other] { $n } punten, de dichtstbijzijnde bij het station eerst.
+    }
+
+js-lunar-th-corrected = Gecorrigeerde fout, { $n } %
+
+js-lunar-threshold-title = gecorrigeerde fout { $value } (de drempel)
+
+js-lunar-what-file = het bestand { $name }
+
+js-lunar-what-recording = de opname die met de Studio wordt meegeleverd
+
+js-lunar-what-run = een run in deze browser (engine { $version })
+
+js-lunar-worst-at = bij { $lat }°, { $lon }°
+
+js-lunar-worst-title = slechtste punt { $lat }°, { $lon }°: { $value }
+
+js-lunar-yes-at-least = ja: minstens zo ver
+
+js-lunarinfra-above-95-point = boven het 95 %-punt
+
+js-lunarinfra-advisory = Adviserende software, geen typegoedgekeurde apparatuur; geen enkel zendpad van welke aard ook.
+
+js-lunarinfra-arc-note = Golflengte van de draaggolf { $value } m.
+
+js-lunarinfra-arc-title = Elke boog
+
+js-lunarinfra-bars-not-loaded = het drempelbestand is niet geladen
+
+js-lunarinfra-bars-not-shown = De vooraf vastgelegde drempels konden niet worden getoond ({ $reason }).
+
+js-lunarinfra-bars-note = Vastgelegd voordat een studie werd gescoord, met de oordelen van record (engine-commit { $commit }). Niets is VALIDATED; een drempel gemarkeerd als NOT MET wordt vastgepind door een test die de misser vastlegt, en geen enkele is versoepeld.
+
+js-lunarinfra-bars-title = Tegenover de vooraf vastgelegde drempels
+
+js-lunarinfra-bars-wrong-file = het drempelbestand is niet het bestand dat deze pagina leest
+
+js-lunarinfra-blurb-carrier-phase = Een oppervlaktestation en een orbiter die dubbelverschillen van draaggolffase van GNSS-signalen van de aarde gebruiken: kunnen de geheeltallige ambiguïteiten worden vastgelegd, en wat doet dat met de positiegrens? Het snelle voorbeeld.
+
+js-lunarinfra-blurb-frame-coestimation = De zeven parameters van het maandatum uit laserafstandsmeting vanaf aardstations, met en zonder afstanden tussen orbiter en oppervlaktestation: hoeveel verbetert de informatie?
+
+js-lunarinfra-blurb-geodesy-sensitivity = Hoe gevoelig zijn laserafstandsmeting, orbitervolging, een gravimeter en een oppervlakteklok voor de getijden-Love-getallen h2, k2 en l2 van de maan en zijn fysieke libratie?
+
+js-lunarinfra-blurb-od-consistency = Baanbepaling aan boord met GNSS van de aarde in een bijna-rechtlijnige halobaan, tegenover een onafhankelijke radiometrische grondoplossing van dezelfde boog: komen de twee overeen binnen hun vermelde onzekerheden, en merkt de consistentiecontrole een modelleringsfout op wanneer er een wordt aangebracht? Naast elkaar getoond.
+
+js-lunarinfra-blurb-space-tie = GNSS, VLBI en laserafstandsmeting op één ruimtevaartuig: hoe nauwkeurig kunnen de afwijkingen tussen de drie technieken worden gekoppeld, tegenover de fout van de lokale koppeling op het ruimtevaartuig?
+
+js-lunarinfra-bound-label = Positieonzekerheid, float en vastgelegd, logaritmische schaal
+
+js-lunarinfra-bound-note = Positieonzekerheid van één sigma van het station en de orbiter met de ambiguïteiten als float en met ze vastgelegd (wat vastleggen zou opleveren als het werd bereikt).
+
+js-lunarinfra-bound-title = Positiegrens, float en vastgelegd
+
+js-lunarinfra-chip-na = n.v.t.
+
+js-lunarinfra-comp-normal = normaal
+
+js-lunarinfra-comp-position = positie (3D)
+
+js-lunarinfra-comp-radial = radiaal
+
+js-lunarinfra-comp-transverse = transversaal
+
+js-lunarinfra-compare-note = Over { $sets } willekeurige stationssets was de kleinste eigenwaarde met de orbiterlinks niet kleiner in { $lambda } en het spoor niet groter in { $trace }; de mediane stijging van de kleinste eigenwaarde was { $median } keer.
+
+js-lunarinfra-compare-title = De vergelijking in cijfers
+
+js-lunarinfra-crsigma-label = Cramér-Rao-sigma, logaritmische schaal
+
+js-lunarinfra-crsigma-note = In meter aan het oppervlak.
+
+js-lunarinfra-crsigma-title = Cramér-Rao-sigma per parameter
+
+js-lunarinfra-days =
+    { $n ->
+        [one] { $n } dag
+       *[other] { $n } dagen
+    }
+
+js-lunarinfra-direction = richting { $n }
+
+js-lunarinfra-disclosures = Openbaarmakingen
+
+js-lunarinfra-eig-label = Eigenwaarden van de informatie, logaritmische schaal
+
+js-lunarinfra-eig-note = De zeven eigenwaarden van de informatiematrix, de kleinste eerst, zonder en met de links tussen orbiter en station. De kleinste stijgt { $times } keer, en het Cramér-Rao-spoor daalt tot { $share } van zijn waarde. Dit veronderstelt dat de baan bekend is in de maanassen (de fout ervan zit in de afstandssigma van de orbiter).
+
+js-lunarinfra-eig-title = Informatie in elke richting van het datum
+
+js-lunarinfra-fact-arc = Boog
+
+js-lunarinfra-fact-hash = Scenariohash
+
+js-lunarinfra-fact-llr-rows = Rijen laserafstandsmeting
+
+js-lunarinfra-fact-orbit-family = Baanfamilie
+
+js-lunarinfra-fact-orbiter-arc = Boog van de orbiter
+
+js-lunarinfra-fact-orbiter-rows = Rijen van de orbiter
+
+js-lunarinfra-fact-study = Studie
+
+js-lunarinfra-fact-wavelength = Golflengte van de draaggolf
+
+js-lunarinfra-families-note = De RMS van de partiële afgeleide van elke parameter over de rijen van de familie, en het aantal rijen. Een nul is een parameter waarvoor die familie blind is. De k2-gevoeligheid van de orbiterfamilie is een cijfer aan de bovenkant.
+
+js-lunarinfra-families-title = Wat elke familie ziet
+
+js-lunarinfra-findings = Bevindingen
+
+js-lunarinfra-fix-note-a = Het aandeel Monte Carlo-trials dat elke geheeltallige ambiguïteit correct vastlegde (met de standaardfout ervan), en het percentage dat de bootstrapschatting voorspelt.
+
+js-lunarinfra-fix-note-b = Het vastleggen van gehele getallen wordt bij deze invoer NIET bereikt: de beste boog legt { $share } van de trials vast.
+
+js-lunarinfra-fix-note-c = Er is geen tijd tot vastleggen om te tonen, omdat vastleggen niet wordt bereikt.
+
+js-lunarinfra-fix-rate-label = Percentage geheeltallig vastgelegd tegenover booglengte
+
+js-lunarinfra-fix-title = Vastlegpercentage tegenover booglengte
+
+js-lunarinfra-fixed = vastgelegd
+
+js-lunarinfra-float = float
+
+js-lunarinfra-fraction-above-95 = Deel van de trials boven het 95 %-punt
+
+js-lunarinfra-ground-radiometric = onafhankelijke radiometrische grondoplossing
+
+js-lunarinfra-injected-error = aangebrachte fout { $value } m/s²
+
+js-lunarinfra-mean-consistency = Gemiddelde consistentiestatistiek
+
+js-lunarinfra-mean-q = gemiddelde q
+
+js-lunarinfra-miss-line = { $id } is { $status }: { $value }
+
+js-lunarinfra-miss-no-fix = Het vastleggen van geheeltallige ambiguïteiten wordt bij deze invoer NIET bereikt: de beste boog legt { $share } van de Monte Carlo-trials vast.
+
+js-lunarinfra-na = n.v.t.
+
+js-lunarinfra-nominal = nominaal
+
+js-lunarinfra-not-result = dit is geen resultaat van maaninfrastructuur
+
+js-lunarinfra-not-verified = Niet geverifieerd
+
+js-lunarinfra-offset-precision-label = Precisie van de afwijking tegenover de lokale koppeling, log-log
+
+js-lunarinfra-offsets-note = Translatiesigma per as, schaal- en rotatiesigma aan het oppervlak, in meter.
+
+js-lunarinfra-offsets-title = De afwijkingen bij elke koppelfout (boog van { $days } dagen, { $epochs } epochs)
+
+js-lunarinfra-onboard-gnss = GNSS van de aarde aan boord
+
+js-lunarinfra-open-failed = { $title } kon niet worden geopend: { $reason }.
+
+js-lunarinfra-opening = { $title } wordt geopend…
+
+js-lunarinfra-orbit-uncertainty-log = Baanonzekerheid per component, logaritmische schaal
+
+js-lunarinfra-orbiter-days = orbiter, { $days } d
+
+js-lunarinfra-q-note = Gemiddelde van de consistentiestatistiek q over { $trials } trials; { $expected } is wat een consistent paar oplossingen geeft. Het deel van de trials boven het 95 %-punt is het detectiepercentage van de controle.
+
+js-lunarinfra-q-title = De consistentiecontrole, nominaal tegenover aangebrachte fout
+
+js-lunarinfra-recorded =
+    { $n ->
+        [one] { $title }: het vastgelegde resultaat van de engine (versie { $version }).
+       *[other] { $title }: de vastgelegde resultaten van de engine (versie { $version }).
+    }
+
+js-lunarinfra-rel-label = Sigma ten opzichte van nominaal, logaritmische schaal
+
+js-lunarinfra-rel-note = Cramér-Rao-sigma als percentage van de nominale waarde, met alle vier de families samen. h2 en l2 zijn linearisatiepunten, geen geverifieerde waarden; k2 komt uit een gepubliceerde fit.
+
+js-lunarinfra-rel-title = Hoe goed elke parameter kan worden vastgepind, tegenover zijn nominale waarde
+
+js-lunarinfra-result-not-json = het resultaat is geen JSON ({ $reason })
+
+js-lunarinfra-result-not-loaded = het vastgelegde resultaat { $file } is niet geladen
+
+js-lunarinfra-row-above-95 = Trials boven het 95 %-punt (chikwadraat 95 % = { $chi })
+
+js-lunarinfra-row-crtrace = Cramér-Rao-spoor
+
+js-lunarinfra-row-degeneracy = Degeneratiemaat
+
+js-lunarinfra-row-formal-diff = Formele sigma van dat verschil
+
+js-lunarinfra-row-ground-meas = Grond: metingen, epochs met een station
+
+js-lunarinfra-row-mean-diff = Gemiddeld verschil van de twee banen
+
+js-lunarinfra-row-mean-q = Gemiddelde q (6 verwacht)
+
+js-lunarinfra-row-observations = Waarnemingen
+
+js-lunarinfra-row-onboard-epochs = Aan boord: epochs met een of meer / vier of meer satellieten
+
+js-lunarinfra-row-onboard-meas = Aan boord: metingen, gemiddeld aantal gevolgde satellieten
+
+js-lunarinfra-row-origin-scale = Correlatie tussen oorsprong en schaal
+
+js-lunarinfra-row-origin-sigma = Sigma van de oorsprong, m
+
+js-lunarinfra-row-rank-defect = Rang (defect)
+
+js-lunarinfra-row-smallest-eig = Kleinste eigenwaarde
+
+js-lunarinfra-row-trace-ground = Steekproef over formeel spoor, grond
+
+js-lunarinfra-row-trace-onboard = Steekproef over formeel spoor, aan boord
+
+js-lunarinfra-row-within-95 = Trials binnen het 95 %-punt
+
+js-lunarinfra-series-bootstrapped = bootstrapped
+
+js-lunarinfra-series-floor = ondergrens
+
+js-lunarinfra-series-monte-carlo = Monte Carlo
+
+js-lunarinfra-side-note = De baan: { $family }, een boog van { $arc } dagen van een baan van { $period } dagen, elke { $sample } s bemonsterd.
+
+js-lunarinfra-side-title = Naast elkaar
+
+js-lunarinfra-sigma-note = Positieonzekerheid van één sigma per component, in meter, uit de twee schattingen van dezelfde boog.
+
+js-lunarinfra-sigma-over-nominal = sigma / nominaal
+
+js-lunarinfra-sigma-title = Hoe goed elke kant de baan kent
+
+js-lunarinfra-station-days = station, { $days } d
+
+js-lunarinfra-status-verdict = { $status }: { $verdict }
+
+js-lunarinfra-subsets-note = Het toevoegen van een familie verlaagde de kleinste eigenwaarde nooit ({ $lambda } van { $pairs } toevoegingen), maar het spoor van de pseudo-inverse was slechts in { $trace } van { $pairs } niet groter, omdat een toegevoegde familie de rang kan verhogen.
+
+js-lunarinfra-subsets-title = Elke combinatie van families
+
+js-lunarinfra-sweep-note = De slechtste translatiecomponent van elke afwijking, in meter, terwijl de fout van de koppeling tussen de drie technieken op het ruimtevaartuig wordt doorlopen. Met de vastgelegde sigma's van de technieken (GNSS { $gnss } m, VLBI { $vlbi } m, laser { $slr } m) worden de afwijkingen beperkt door meetruis, niet door de koppeling; de koppeling bepaalt de ondergrens alleen voor bijna perfecte technieken.
+
+js-lunarinfra-sweep-title = Precisie van de technieksafwijkingen tegenover de lokale koppeling (boog van { $days } dagen)
+
+js-lunarinfra-th-arc-days = Boog, dagen
+
+js-lunarinfra-th-bar = Drempel
+
+js-lunarinfra-th-bootstrapped = Bootstrap-percentage
+
+js-lunarinfra-th-budget-exhausted = Zoekbudget uitgeput (trials)
+
+js-lunarinfra-th-common-sats = Epochs met 2 of meer gemeenschappelijke satellieten
+
+js-lunarinfra-th-crtrace = Cramér-Rao-spoor
+
+js-lunarinfra-th-dd-ambiguities = Dubbelverschil-ambiguïteiten
+
+js-lunarinfra-th-epochs = Epochs
+
+js-lunarinfra-th-families = Families
+
+js-lunarinfra-th-family = Familie
+
+js-lunarinfra-th-local-tie = Sigma van de lokale koppeling, m
+
+js-lunarinfra-th-mc-fix-rate = Monte Carlo-vastlegpercentage
+
+js-lunarinfra-th-median-ambiguity = Mediane ambiguïteitssigma, cycli
+
+js-lunarinfra-th-offset = Afwijking
+
+js-lunarinfra-th-quantity = Grootheid
+
+js-lunarinfra-th-rank = Rang
+
+js-lunarinfra-th-rotation = Rotatie aan het oppervlak, m
+
+js-lunarinfra-th-rows = Rijen
+
+js-lunarinfra-th-scale = Schaal aan het oppervlak, m
+
+js-lunarinfra-th-smallest-eig = Kleinste eigenwaarde
+
+js-lunarinfra-th-translation = Translatie x, y, z, m
+
+js-lunarinfra-th-value = Waarde
+
+js-lunarinfra-th-verdict = Oordeel
+
+js-lunarinfra-th-with-links = Met orbiterlinks
+
+js-lunarinfra-th-without-links = Zonder orbiterlinks
+
+js-lunarinfra-title-carrier-phase = Draaggolffase, oppervlak en orbiter
+
+js-lunarinfra-title-frame-coestimation = Gezamenlijke schatting van het referentiestelsel
+
+js-lunarinfra-title-geodesy-sensitivity = Love-getallen en libratie
+
+js-lunarinfra-title-od-consistency = Consistentie van de baanbepaling
+
+js-lunarinfra-title-space-tie = Koppeling in de ruimte
+
+js-lunarinfra-unknown-study = dit resultaat van maaninfrastructuur is de studie "{ $study }", die deze pagina niet leest
+
+js-lunarinfra-where-missed = Waar deze studie de drempel miste.
+
+js-lunarinfra-with-links = met orbiterlinks
+
+js-lunarinfra-without-links = zonder orbiterlinks
+
+js-lunarinfra-x-arc-length = booglengte, dagen
+
+js-lunarinfra-x-local-tie = sigma van de lokale koppeling, m (log)
+
+js-lunarinfra-y-fixed-correctly = correct vastgelegd, %
+
+js-lunarinfra-y-offset-sigma = sigma van de afwijking, m (log); de gestippelde ondergrens is de koppeling alleen, sqrt(2) × de koppelfout
+
+js-meaning-body-generic = het hemellichaam
+
+js-meaning-body-the = het hemellichaam { $name }
+
+js-meaning-card-label-sub = { $k }, { $sub }
+
+js-meaning-checks-of =
+    { $n ->
+        [one] { $av } van { $n } controle
+       *[other] { $av } van { $n } controles
+    }
+
+js-meaning-coverage-average-label = Gemiddeld in zicht
+
+js-meaning-coverage-big-min =
+    { $n ->
+        [one] Minstens { $n } satelliet in zicht op elke plaats, gemiddeld { $mean }.
+       *[other] Minstens { $n } satellieten in zicht op elke plaats, gemiddeld { $mean }.
+    }
+
+js-meaning-coverage-big-none = Sommige plaatsen zien soms geen satelliet; gemiddeld zijn er { $mean } in zicht.
+
+js-meaning-coverage-fewest-label = Minste in zicht, ergens
+
+js-meaning-coverage-line-many = Met { $names } samen is een positiebepaling mogelijk op { $share } % van de plaatsen en tijden rond { $body }.
+
+js-meaning-coverage-line-many-pdop = Met { $names } samen is een positiebepaling mogelijk op { $share } % van de plaatsen en tijden rond { $body } (geometriekwaliteit, PDOP, onder { $thr }).
+
+js-meaning-coverage-line-none = Een positiebepaling is mogelijk op { $share } % van de plaatsen en tijden rond { $body }.
+
+js-meaning-coverage-line-none-pdop = Een positiebepaling is mogelijk op { $share } % van de plaatsen en tijden rond { $body } (geometriekwaliteit, PDOP, onder { $thr }).
+
+js-meaning-coverage-line-one = Met { $names } is een positiebepaling mogelijk op { $share } % van de plaatsen en tijden rond { $body }.
+
+js-meaning-coverage-line-one-pdop = Met { $names } is een positiebepaling mogelijk op { $share } % van de plaatsen en tijden rond { $body } (geometriekwaliteit, PDOP, onder { $thr }).
+
+js-meaning-coverage-places-label = Plaatsen met een positiebepaling
+
+js-meaning-duration-days =
+    { $n ->
+        [one] { $days } dag
+       *[other] { $days } dagen
+    }
+
+js-meaning-ensemble-big-many = Over veel ruisdraws houdt { $q } gemiddeld { $thr } ns aan gedurende { $qd }; { $c } gedurende { $cd }.
+
+js-meaning-ensemble-big-runs =
+    { $n ->
+        [one] Over { $n } ruisdraw houdt { $q } gemiddeld { $thr } ns aan gedurende { $qd }; { $c } gedurende { $cd }.
+       *[other] Over { $n } ruisdraws houdt { $q } gemiddeld { $thr } ns aan gedurende { $qd }; { $c } gedurende { $cd }.
+    }
+
+js-meaning-ensemble-line = Negen van de tien draws van { $name } houden stand gedurende { $band }.
+
+js-meaning-ensemble-mean = gemiddelde
+
+js-meaning-ensemble-mean-band = gemiddelde; 90 %-band { $band }
+
+js-meaning-error-p95-label = Fout, 95 % van de tijd, { $name }
+
+js-meaning-generic-big = { $label }: { $value }.
+
+js-meaning-generic-line-one = Ook uit deze run: { $a }.
+
+js-meaning-generic-line-two = Ook uit deze run: { $a } en { $b }.
+
+js-meaning-generic-none = Deze run heeft geen enkel hoofdcijfer; de grafiek hieronder toont het resultaat.
+
+js-meaning-holdover-label = Holdover, { $name }
+
+js-meaning-hpl-sub = horizontaal beschermingsniveau
+
+js-meaning-inside-budget = binnen { $budget }
+
+js-meaning-integrity-big-checks-mostly = Ja, grotendeels: bij { $share } % van de controles.
+
+js-meaning-integrity-big-checks-no = Nee: bij { $share } % van de controles.
+
+js-meaning-integrity-big-checks-partly = Slechts gedeeltelijk: bij { $share } % van de controles.
+
+js-meaning-integrity-big-checks-yes = Ja: bij { $share } % van de controles.
+
+js-meaning-integrity-big-span-mostly = Ja, grotendeels: gedurende { $share } % van { $span }.
+
+js-meaning-integrity-big-span-no = Nee: gedurende { $share } % van { $span }.
+
+js-meaning-integrity-big-span-partly = Slechts gedeeltelijk: gedurende { $share } % van { $span }.
+
+js-meaning-integrity-big-span-yes = Ja: gedurende { $share } % van { $span }.
+
+js-meaning-integrity-bound-label = Typische foutgrens
+
+js-meaning-integrity-bound-sub = horizontaal / verticaal, mediaan
+
+js-meaning-integrity-gap-all-passed = elke controle is geslaagd
+
+js-meaning-integrity-gap-label = Langste reeks
+
+js-meaning-integrity-gap-none = geen
+
+js-meaning-integrity-gap-sub =
+    { $n ->
+        [one] { $n } controle op rij, vanaf { $from }
+       *[other] { $n } controles op rij, vanaf { $from }
+    }
+
+js-meaning-integrity-line-h =
+    { $n ->
+        [one] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrenzen ({ $h } m horizontaal) bij { $av } van { $tot } controle.
+       *[other] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrenzen ({ $h } m horizontaal) bij { $av } van { $tot } controles.
+    }
+
+js-meaning-integrity-line-h-clean =
+    { $n ->
+        [one] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrenzen ({ $h } m horizontaal) bij { $av } van { $tot } controle, en geen enkele positiebepaling was misleidend.
+       *[other] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrenzen ({ $h } m horizontaal) bij { $av } van { $tot } controles, en geen enkele positiebepaling was misleidend.
+    }
+
+js-meaning-integrity-line-h-some =
+    { $n ->
+        [one] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrenzen ({ $h } m horizontaal) bij { $av } van { $tot } controles; { $n } positiebepaling was misleidend.
+       *[other] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrenzen ({ $h } m horizontaal) bij { $av } van { $tot } controles; { $n } positiebepalingen waren misleidend.
+    }
+
+js-meaning-integrity-line-hv =
+    { $n ->
+        [one] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrenzen ({ $h } m horizontaal en { $v } m verticaal) bij { $av } van { $tot } controle.
+       *[other] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrenzen ({ $h } m horizontaal en { $v } m verticaal) bij { $av } van { $tot } controles.
+    }
+
+js-meaning-integrity-line-hv-clean =
+    { $n ->
+        [one] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrenzen ({ $h } m horizontaal en { $v } m verticaal) bij { $av } van { $tot } controle, en geen enkele positiebepaling was misleidend.
+       *[other] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrenzen ({ $h } m horizontaal en { $v } m verticaal) bij { $av } van { $tot } controles, en geen enkele positiebepaling was misleidend.
+    }
+
+js-meaning-integrity-line-hv-some =
+    { $n ->
+        [one] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrenzen ({ $h } m horizontaal en { $v } m verticaal) bij { $av } van { $tot } controles; { $n } positiebepaling was misleidend.
+       *[other] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrenzen ({ $h } m horizontaal en { $v } m verticaal) bij { $av } van { $tot } controles; { $n } positiebepalingen waren misleidend.
+    }
+
+js-meaning-integrity-line-none =
+    { $n ->
+        [one] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrens bij { $av } van { $tot } controle.
+       *[other] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrens bij { $av } van { $tot } controles.
+    }
+
+js-meaning-integrity-line-none-clean =
+    { $n ->
+        [one] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrens bij { $av } van { $tot } controle, en geen enkele positiebepaling was misleidend.
+       *[other] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrens bij { $av } van { $tot } controles, en geen enkele positiebepaling was misleidend.
+    }
+
+js-meaning-integrity-line-none-some =
+    { $n ->
+        [one] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrens bij { $av } van { $tot } controles; { $n } positiebepaling was misleidend.
+       *[other] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrens bij { $av } van { $tot } controles; { $n } positiebepalingen waren misleidend.
+    }
+
+js-meaning-integrity-line-v =
+    { $n ->
+        [one] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrenzen ({ $v } m verticaal) bij { $av } van { $tot } controle.
+       *[other] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrenzen ({ $v } m verticaal) bij { $av } van { $tot } controles.
+    }
+
+js-meaning-integrity-line-v-clean =
+    { $n ->
+        [one] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrenzen ({ $v } m verticaal) bij { $av } van { $tot } controle, en geen enkele positiebepaling was misleidend.
+       *[other] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrenzen ({ $v } m verticaal) bij { $av } van { $tot } controles, en geen enkele positiebepaling was misleidend.
+    }
+
+js-meaning-integrity-line-v-some =
+    { $n ->
+        [one] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrenzen ({ $v } m verticaal) bij { $av } van { $tot } controles; { $n } positiebepaling was misleidend.
+       *[other] De foutgrens van de ontvanger (het beschermingsniveau) bleef onder de alarmgrenzen ({ $v } m verticaal) bij { $av } van { $tot } controles; { $n } positiebepalingen waren misleidend.
+    }
+
+js-meaning-integrity-misleading-label = Misleidende positiebepalingen
+
+js-meaning-integrity-misleading-sub = werkelijke fout boven de grens
+
+js-meaning-integrity-trusted-label = Tijd dat de positiebepaling te vertrouwen is
+
+js-meaning-jamming-above-label = Jammer boven het signaal
+
+js-meaning-jamming-above-sub = gemiddelde jammer-signaalverhouding
+
+js-meaning-jamming-big-gone = De jammer neemt de positiebepaling volledig weg.
+
+js-meaning-jamming-big-share = Met de jammer is een positiebepaling { $share } % van de tijd beschikbaar.
+
+js-meaning-jamming-clear-label = Positiebepaling beschikbaar, zonder jammer
+
+js-meaning-jamming-fewest-label = Minste gevolgde satellieten
+
+js-meaning-jamming-fewest-sub = op het slechtste moment
+
+js-meaning-jamming-jammed-label = Positiebepaling beschikbaar, gejamd
+
+js-meaning-jamming-line = Zonder de jammer is de positiebepaling { $share } % van de tijd beschikbaar.
+
+js-meaning-jamming-line-js = Zonder de jammer is de positiebepaling { $share } % van de tijd beschikbaar; de jammer komt gemiddeld { $db } dB boven het signaal aan.
+
+js-meaning-kicker = { $domain } · { $title }
+
+js-meaning-lunar-big-all =
+    { $n ->
+        [one] Ja: bij de enige controle ({ $n }).
+       *[other] Ja: bij elk van de { $n } controles.
+    }
+
+js-meaning-lunar-big-none =
+    { $n ->
+        [one] Nee: bij de enige controle ({ $n }) niet.
+       *[other] Nee: bij geen van de { $n } controles.
+    }
+
+js-meaning-lunar-big-some =
+    { $n ->
+        [one] Bij { $av } van { $n } controle ({ $share } %).
+       *[other] Bij { $av } van { $n } controles ({ $share } %).
+    }
+
+js-meaning-lunar-largest-label = Grootste foutgrens
+
+js-meaning-lunar-line = Het beschermingsniveau lag tussen { $min } en { $max } m, tegenover een alarmgrens van { $limit } m.
+
+js-meaning-lunar-meet-label = Controles die aan de grens voldoen
+
+js-meaning-lunar-meet-value = { $av } van { $tot }
+
+js-meaning-lunar-smallest-label = Kleinste foutgrens
+
+js-meaning-median-lower-better = mediaan, lager is beter
+
+js-meaning-of-the-time = van de tijd
+
+js-meaning-orbit-best-label = Beste geometrie (PDOP)
+
+js-meaning-orbit-best-sub = laagste over de run
+
+js-meaning-orbit-big-always = Een positiebepaling is de hele tijd mogelijk.
+
+js-meaning-orbit-big-share = Een positiebepaling is { $share } % van de tijd mogelijk.
+
+js-meaning-orbit-error-label = Typische positiefout
+
+js-meaning-orbit-error-sub = 1-sigma, mediaan
+
+js-meaning-orbit-line =
+    { $n ->
+        [one] Op { $fix } van { $n } moment waren er genoeg satellieten in zicht.
+       *[other] Op { $fix } van { $n } momenten waren er genoeg satellieten in zicht.
+    }
+
+js-meaning-orbit-line-pdop =
+    { $n ->
+        [one] Op { $fix } van { $n } moment waren er genoeg satellieten in zicht; de typische geometriekwaliteit (PDOP, positionele precisieverdunning) is { $pdop }, lager is beter.
+       *[other] Op { $fix } van { $n } momenten waren er genoeg satellieten in zicht; de typische geometriekwaliteit (PDOP, positionele precisieverdunning) is { $pdop }, lager is beter.
+    }
+
+js-meaning-orbit-moments =
+    { $n ->
+        [one] { $fix } van { $n } moment
+       *[other] { $fix } van { $n } momenten
+    }
+
+js-meaning-orbit-time-label = Tijd dat een positiebepaling mogelijk is
+
+js-meaning-pair-big-diff-pos = { $best } blijft binnen { $budget } gedurende { $bestDur }; { $other } gedurende { $otherDur }.
+
+js-meaning-pair-big-diff-time = { $best } houdt de tijd binnen { $budget } gedurende { $bestDur }; { $other } gedurende { $otherDur }.
+
+js-meaning-pair-big-same-pos = Zowel { $q } als { $c } blijven binnen { $budget } gedurende { $dur }.
+
+js-meaning-pair-big-same-time = Zowel { $q } als { $c } houden de tijd binnen { $budget } gedurende { $dur }.
+
+js-meaning-pair-line-clock = Holdover is hoe lang elke klok binnen het budget van { $budget } blijft nadat de satellietnavigatie is verloren.
+
+js-meaning-pair-line-navigator = Holdover is hoe lang elk navigatiesysteem binnen het budget van { $budget } blijft nadat de satellietnavigatie is verloren.
+
+js-meaning-pdop-label = Geometriekwaliteit (PDOP)
+
+js-meaning-places-times = van de plaatsen en tijden
+
+js-meaning-range-to = { $from } tot { $to }
+
+js-meaning-satellites =
+    { $n ->
+        [one] satelliet
+       *[other] satellieten
+    }
+
+js-meaning-spectrum-above = boven de drempel
+
+js-meaning-spectrum-below = onder de drempel: verloren
+
+js-meaning-spectrum-big-kept =
+    { $n ->
+        [one] Het enige signaal ({ $n }) blijft gevolgd worden.
+       *[other] Elk van de { $n } signalen blijft gevolgd worden.
+    }
+
+js-meaning-spectrum-big-lost =
+    { $n ->
+        [one] De jammers nemen { $lost } van { $n } signaal weg: { $names }.
+       *[other] De jammers nemen { $lost } van { $n } signalen weg: { $names }.
+    }
+
+js-meaning-spectrum-line-kept =
+    { $n ->
+        [one] { $names } blijft de hele run boven de volgdrempel van de ontvanger.
+       *[other] { $names } blijven de hele run boven de volgdrempel van de ontvanger.
+    }
+
+js-meaning-spectrum-line-kept-thr =
+    { $n ->
+        [one] { $names } blijft de hele run boven de volgdrempel van { $thr } dB-Hz van de ontvanger.
+       *[other] { $names } blijven de hele run boven de volgdrempel van { $thr } dB-Hz van de ontvanger.
+    }
+
+js-meaning-spectrum-line-none = Geen enkel signaal blijft de hele run boven de volgdrempel van de ontvanger.
+
+js-meaning-spectrum-line-none-thr = Geen enkel signaal blijft de hele run boven de volgdrempel van { $thr } dB-Hz van de ontvanger.
+
+js-meaning-spectrum-weakest-label = Zwakste signaal, { $name }
+
+js-meaning-whole-run = over de hele run
+
+js-meaning-your-setting = uw instelling
+
+js-meankind-acm-big =
+    { $n ->
+        [one] Adaptieve codering verplaatst { $gain } keer zoveel data als de beste vaste modus: { $acm } Gbit tegenover { $ccm } Gbit over { $n } passage.
+       *[other] Adaptieve codering verplaatst { $gain } keer zoveel data als de beste vaste modus: { $acm } Gbit tegenover { $ccm } Gbit over { $n } passages.
+    }
+
+js-meankind-acm-line = Vaste modus { $mode }; { $dur } uitval.
+
+js-meankind-anomaly-big = De kwantumstoringsmonitor scoort { $q } tegenover { $c } voor de klassieke (oppervlakte onder de curve, 1 is perfect).
+
+js-meankind-anomaly-line = De kleinste detecteerbare storing is { $q } tegenover { $c }.
+
+js-meankind-aocs-big-open = De zwenking van { $slew } graden komt niet onder { $threshold } graden tot rust.
+
+js-meankind-aocs-big-settles = De zwenking van { $slew } graden komt na { $dur } onder { $threshold } graden tot rust.
+
+js-meankind-aocs-line = Uiteindelijke richtfout { $final } graden.
+
+js-meankind-aocs-line-filter = Uiteindelijke richtfout { $final } graden. Een standfilter in de lus wijkt { $arcsec } boogseconden RMS af.
+
+js-meankind-aocs-line-wheel = Uiteindelijke richtfout { $final } graden. Piekkoppel van het wiel { $torque } N m.
+
+js-meankind-aocs-line-wheel-filter = Uiteindelijke richtfout { $final } graden. Piekkoppel van het wiel { $torque } N m. Een standfilter in de lus wijkt { $arcsec } boogseconden RMS af.
+
+js-meankind-aperture-big = Navigatie gebruikt { $nav } % van de antennetijd en communicatie { $comms } %.
+
+js-meankind-aperture-big-idle = Navigatie gebruikt { $nav } % van de antennetijd en communicatie { $comms } %; { $idle } % is ongebruikt.
+
+js-meankind-aperture-line-all =
+    { $n ->
+        [one] { $n } apertuur onder de regel { $policy }, met { $dur } contentie.
+       *[other] { $n } aperturen onder de regel { $policy }, met { $dur } contentie.
+    }
+
+js-meankind-aperture-line-contention =
+    { $n ->
+        [one] { $n } apertuur, met { $dur } contentie.
+       *[other] { $n } aperturen, met { $dur } contentie.
+    }
+
+js-meankind-aperture-line-count =
+    { $n ->
+        [one] { $n } apertuur.
+       *[other] { $n } aperturen.
+    }
+
+js-meankind-aperture-line-nocount = De aperturen.
+
+js-meankind-aperture-line-nocount-all = De aperturen onder de regel { $policy }, met { $dur } contentie.
+
+js-meankind-aperture-line-nocount-contention = De aperturen, met { $dur } contentie.
+
+js-meankind-aperture-line-nocount-policy = De aperturen onder de regel { $policy }.
+
+js-meankind-aperture-line-policy =
+    { $n ->
+        [one] { $n } apertuur onder de regel { $policy }.
+       *[other] { $n } aperturen onder de regel { $policy }.
+    }
+
+js-meankind-araim-big-no = Nee: de beschermingsniveaus van de engine wijken af van de gepubliceerde referentie.
+
+js-meankind-araim-big-yes = Ja: de beschermingsniveaus van de engine komen overeen met de gepubliceerde referentie.
+
+js-meankind-araim-line = Het grootste verschil is { $worst } m tegenover de eigen tolerantie van de referentie van { $tol } m.
+
+js-meankind-araim-line-vectors =
+    { $n ->
+        [one] Het grootste verschil is { $worst } m tegenover de eigen tolerantie van de referentie van { $tol } m, over { $n } referentievector.
+       *[other] Het grootste verschil is { $worst } m tegenover de eigen tolerantie van de referentie van { $tol } m, over { $n } referentievectoren.
+    }
+
+js-meankind-arc-big = De schatter herstelt de baan zodra hij { $dur } van de boog van { $h } uur heeft.
+
+js-meankind-arc-line = { $n } ruimtevaartuigen, { $observable }-metingen.
+
+js-meankind-ascent-big = Zwaartekracht, luchtweerstand, sturing en tegendruk nemen { $loss } m/s weg van de ideale snelheidswinst van { $ideal } m/s.
+
+js-meankind-ascent-line = Uitbranding op { $km } km en { $speed } m/s; piek van de dynamische druk { $kpa } kPa.
+
+js-meankind-attack-big-no = Een spoofer op het oppervlak kan een maanontvanger niet overnemen.
+
+js-meankind-attack-big-yes = Een spoofer op het oppervlak kan een maanontvanger overnemen.
+
+js-meankind-attack-line = Een zender op het oppervlak reikt { $km } km voordat de horizon hem blokkeert.
+
+js-meankind-attitude-big = De richtfout bedraagt in totaal { $total } boogseconden.
+
+js-meankind-attitude-big-from = De richtfout bedraagt in totaal { $total } boogseconden, grotendeels door { $from }.
+
+js-meankind-attitude-line = Het grootste zwaartekrachtgradiëntkoppel is { $torque } N·m.
+
+js-meankind-beacon-big = Bakens op het oppervlak verbeteren de geometriekwaliteit (PDOP) { $x } keer.
+
+js-meankind-beacon-line = Satellieten toevoegen verbetert haar in plaats daarvan { $x } keer.
+
+js-meankind-bodypnt-big = Relais alleen geven { $share } % van de tijd een positiebepaling rond { $body }.
+
+js-meankind-bodypnt-big-earth = Relais alleen geven { $share } % van de tijd een positiebepaling rond { $body }; { $earth } % met links naar de aarde.
+
+js-meankind-bodypnt-line = Gemiddeld zijn { $mean } relais in zicht.
+
+js-meankind-by = { $a } per { $b }
+
+js-meankind-campaign-compose-line = Elk lid is een gewone engine-run; de campagne leest hun resultaten naast elkaar.
+
+js-meankind-campaign-compose-range =
+    { $n ->
+        [one] Over { $n } scenario onder dezelfde voorwaarden loopt { $what } van { $low } tot { $high }.
+       *[other] Over { $n } scenario's onder dezelfde voorwaarden loopt { $what } van { $low } tot { $high }.
+    }
+
+js-meankind-campaign-compose-same =
+    { $n ->
+        [one] Over { $n } scenario onder dezelfde voorwaarden is { $what } { $value } in elk ervan.
+       *[other] Over { $n } scenario's onder dezelfde voorwaarden is { $what } { $value } in elk ervan.
+    }
+
+js-meankind-campaign-line =
+    { $n ->
+        [one] { $n } fase.
+       *[other] { $n } fasen.
+    }
+
+js-meankind-campaign-line-all =
+    { $n ->
+        [one] { $n } fase en { $events }, uit { $runs }; aan het einde is { $label } { $value }.
+       *[other] { $n } fasen en { $events }, uit { $runs }; aan het einde is { $label } { $value }.
+    }
+
+js-meankind-campaign-line-end =
+    { $n ->
+        [one] { $n } fase; aan het einde is { $label } { $value }.
+       *[other] { $n } fasen; aan het einde is { $label } { $value }.
+    }
+
+js-meankind-campaign-line-events =
+    { $n ->
+        [one] { $n } fase en { $events }.
+       *[other] { $n } fasen en { $events }.
+    }
+
+js-meankind-campaign-line-events-end =
+    { $n ->
+        [one] { $n } fase en { $events }; aan het einde is { $label } { $value }.
+       *[other] { $n } fasen en { $events }; aan het einde is { $label } { $value }.
+    }
+
+js-meankind-campaign-line-events-runs =
+    { $n ->
+        [one] { $n } fase en { $events }, uit { $runs }.
+       *[other] { $n } fasen en { $events }, uit { $runs }.
+    }
+
+js-meankind-campaign-line-runs =
+    { $n ->
+        [one] { $n } fase, uit { $runs }.
+       *[other] { $n } fasen, uit { $runs }.
+    }
+
+js-meankind-campaign-line-runs-end =
+    { $n ->
+        [one] { $n } fase, uit { $runs }; aan het einde is { $label } { $value }.
+       *[other] { $n } fasen, uit { $runs }; aan het einde is { $label } { $value }.
+    }
+
+js-meankind-campaign-mission-alarm = Het alarm gaat af gedurende { $alarm } van de missie van { $dur }.
+
+js-meankind-campaign-mission-phases = Een missie van { $phases } fasen over { $dur }, aaneengeschakeld op één klok.
+
+js-meankind-campaign-mission-quiet = Geen alarm in de hele missie van { $dur }.
+
+js-meankind-campaign-montecarlo =
+    { $n ->
+        [one] Over { $n } run met seed middelt { $name } { $mean }, met een spreiding van { $std }.
+       *[other] Over { $n } runs met seed middelt { $name } { $mean }, met een spreiding van { $std }.
+    }
+
+js-meankind-campaign-montecarlo-line = De spreiding is één standaardafwijking over de runs.
+
+js-meankind-campaign-optimize =
+    { $n ->
+        [one] De zoektocht komt uit op { $name } van { $value } na { $n } run.
+       *[other] De zoektocht komt uit op { $name } van { $value } na { $n } runs.
+    }
+
+js-meankind-campaign-optimize-at = Bij { $at }.
+
+js-meankind-campaign-optimize-kind =
+    { $n ->
+        [one] De zoektocht komt uit op { $name } van { $value } na { $n } run van { $kind }.
+       *[other] De zoektocht komt uit op { $name } van { $value } na { $n } runs van { $kind }.
+    }
+
+js-meankind-campaign-sweep-flat =
+    { $n ->
+        [one] Over { $n } run van { $axis } van { $from } tot { $to } blijft { $metric } op { $value }.
+       *[other] Over { $n } runs van { $axis } van { $from } tot { $to } blijft { $metric } op { $value }.
+    }
+
+js-meankind-campaign-sweep-flat-line = De grafiek toont elke run.
+
+js-meankind-campaign-sweep-goes =
+    { $n ->
+        [one] Over { $n } run van { $axis } van { $from } tot { $to } gaat { $metric } van { $first } naar { $last }.
+       *[other] Over { $n } runs van { $axis } van { $from } tot { $to } gaat { $metric } van { $first } naar { $last }.
+    }
+
+js-meankind-campaign-sweep-goes-line = De grafiek toont elke run; ze loopt van { $min } tot { $max }.
+
+js-meankind-classical-link = klassieke link
+
+js-meankind-clock-word = klok
+
+js-meankind-conflict-big = De gelaagde architectuur overleeft { $ratio } keer beter dan één enkele laag.
+
+js-meankind-conflict-line-threats = Een Monte Carlo van de bedreigingen geeft { $ratio } keer.
+
+js-meankind-conflict-line-threats-corr = Een Monte Carlo van de bedreigingen geeft { $ratio } keer; met gecorreleerde bedreigingen kan het dalen tot { $low } keer.
+
+js-meankind-conflict-line-trials =
+    { $n ->
+        [one] Een Monte Carlo van { $n } trial geeft { $ratio } keer.
+       *[other] Een Monte Carlo van { $n } trials geeft { $ratio } keer.
+    }
+
+js-meankind-conflict-line-trials-corr =
+    { $n ->
+        [one] Een Monte Carlo van { $n } trial geeft { $ratio } keer; met gecorreleerde bedreigingen kan het dalen tot { $low } keer.
+       *[other] Een Monte Carlo van { $n } trials geeft { $ratio } keer; met gecorreleerde bedreigingen kan het dalen tot { $low } keer.
+    }
+
+js-meankind-contacts-big =
+    { $n ->
+        [one] Het plan houdt { $kept } van { $n } kandidaatcontact en levert { $gbit } Gbit.
+       *[other] Het plan houdt { $kept } van { $n } kandidaatcontacten en levert { $gbit } Gbit.
+    }
+
+js-meankind-contacts-big-waiting =
+    { $n ->
+        [one] Het plan houdt { $kept } van { $n } kandidaatcontact en levert { $gbit } Gbit van de { $waiting } Gbit die wachten.
+       *[other] Het plan houdt { $kept } van { $n } kandidaatcontacten en levert { $gbit } Gbit van de { $waiting } Gbit die wachten.
+    }
+
+js-meankind-contacts-line = { $sats } satellieten en { $stations } stations over { $hours } uur.
+
+js-meankind-dpnt-big = Differentiële correcties brengen de fout van { $from } m naar { $to } m.
+
+js-meankind-dpnt-line = Met een referentiestation op { $km } km afstand.
+
+js-meankind-duration-days =
+    { $n ->
+        [one] { $days } dag
+       *[other] { $days } dagen
+    }
+
+js-meankind-earthgnss-big =
+    { $n ->
+        [one] Op de afstand van de maan zijn { $visible } van { $n } satelliet in zicht, maar { $trackable } kunnen worden gevolgd.
+       *[other] Op de afstand van de maan zijn { $visible } van { $n } satellieten in zicht, maar { $trackable } kunnen worden gevolgd.
+    }
+
+js-meankind-earthgnss-line = Het beste signaal is { $best } dB-Hz tegenover een volgdrempel van { $threshold } dB-Hz.
+
+js-meankind-engine-run-count =
+    { $n ->
+        [one] { $n } engine-run
+       *[other] { $n } engine-runs
+    }
+
+js-meankind-entry-big = De piekvertraging is { $g } g op { $km } km, met een piekwarmtestroom van { $flux } W/cm².
+
+js-meankind-entry-line = Binnenkomst met { $speed } m/s, { $angle } graden onder de horizon.
+
+js-meankind-eo-big = De camera ziet een strook van { $swath } km breed met een resolutie van { $gsd } m.
+
+js-meankind-eo-line-contiguous = Grondsporen liggen { $km } km uit elkaar op de evenaar, dus de dekking is aaneengesloten.
+
+js-meankind-eo-line-gapped = Grondsporen liggen { $km } km uit elkaar op de evenaar, dus de dekking heeft gaten.
+
+js-meankind-eop-big = Op de afstand van de maan legt de rotatie van de aarde elke seconde { $m } m af, dus de ouderdom van de gegevens over de aardoriëntatie ({ $dur } hier) doet ertoe.
+
+js-meankind-eop-line = Invoer: { $source }.
+
+js-meankind-ephemeris-big = De satelliet vliegt tussen { $min } en { $max } km, tot { $lat }° breedtegraad.
+
+js-meankind-ephemeris-line = Vanaf het station gezien komt hij tot { $deg }°.
+
+js-meankind-ephemeris-line-doppler = Vanaf het station gezien komt hij tot { $deg }°, met tot { $khz } kHz Doppler.
+
+js-meankind-event-count =
+    { $n ->
+        [one] { $n } gebeurtenis
+       *[other] { $n } gebeurtenissen
+    }
+
+js-meankind-framecampaign-big-open =
+    { $n ->
+        [one] De campagne laat { $n } datumrichting onbepaald.
+       *[other] De campagne laat { $n } datumrichtingen onbepaald.
+    }
+
+js-meankind-framecampaign-big-yes = Ja: de campagne legt het datum van het maanreferentiestelsel volledig vast.
+
+js-meankind-framecampaign-line = Conditiegetal { $n }.
+
+js-meankind-framereal-big = Het maanreferentiestelsel wordt gerealiseerd met { $m } m restfout.
+
+js-meankind-framereal-big-open = Het maanreferentiestelsel wordt gerealiseerd met { $m } m restfout, hoewel de fit niet convergeerde.
+
+js-meankind-framereal-line = Translatiefout { $trans } m, schaalfout { $scale } parts per billion.
+
+js-meankind-gnsssim-big = Integriteitsbewaking beschermt de positiebepaling { $share } % van de tijd.
+
+js-meankind-gnsssim-line = De ionosfeer voegt gemiddeld { $iono } m en de troposfeer { $tropo } m toe aan elke afstand.
+
+js-meankind-headline-figure = hoofdcijfer
+
+js-meankind-holdovertest-big = Gemeten tegen de maskers bereikt de holdover van { $dur } s van het record { $te } ns tijdfout.
+
+js-meankind-holdovertest-big-open = Gemeten tegen de maskers bereikt de holdover van { $dur } s van het record { $te } ns tijdfout, en herstelde niet binnen de band.
+
+js-meankind-holdovertest-big-recovered = Gemeten tegen de maskers bereikt de holdover van { $dur } s van het record { $te } ns tijdfout, en herstelde { $recover } s nadat GNSS terugkwam.
+
+js-meankind-holdovertest-line = Gemeten tegen het masker, nooit een uitspraak dat een systeem voldoet; de twee tijden zijn de verklaring van de operator.
+
+js-meankind-holdovertest-line-masks = { $masks }. Gemeten tegen het masker, nooit een uitspraak dat een systeem voldoet; de twee tijden zijn de verklaring van de operator.
+
+js-meankind-impairment-big = De detector scheidt verstoorde signalen van schone met een oppervlakte onder de curve van { $auc } (1 is perfect).
+
+js-meankind-impairment-line = Op gevallen die niet op de trainingsset lijken scoort hij { $auc }.
+
+js-meankind-infra-carrier = Het vastleggen van geheeltallige draaggolffase tussen een oppervlaktestation en een orbiter slaagde bij { $share } % van de trials op de langste boog ({ $days } dagen).
+
+js-meankind-infra-frame = Links tussen orbiter en station verhogen de kleinste informatie-eigenwaarde van het maandatum { $x } keer en verlagen het Cramér-Rao-spoor tot { $share } %, als de baan bekend is in de maanassen.
+
+js-meankind-infra-geodesy = Met alle vier de families samen worden h2, k2 en l2 vastgepind op { $h2 } %, { $k2 } % en { $l2 } % van hun nominale waarden.
+
+js-meankind-infra-od = Baanbepaling aan boord met GNSS van de aarde in een maanbaan is goed tot { $gnss } m, onafhankelijke grondvolging tot { $ground } m; de consistentiestatistiek middelt { $mean } ({ $expected } verwacht).
+
+js-meankind-infra-tail = MODELLED: een beperkt model met illustratieve invoer, geen uitspraak over enige missie.
+
+js-meankind-infra-tie =
+    { $n ->
+        [one] Een lokale koppeling van { $mm } mm op één ruimtevaartuig koppelt de GNSS-, VLBI- en laserafstandsmetingsreferentiestelsels over { $n } doorlopen koppelfout.
+       *[other] Een lokale koppeling van { $mm } mm op één ruimtevaartuig koppelt de GNSS-, VLBI- en laserafstandsmetingsreferentiestelsels over { $n } doorlopen koppelfouten.
+    }
+
+js-meankind-inside-spec = binnen { $spec }
+
+js-meankind-instrn-big = Bij uitrollen op traagheid alleen passeert de positiefout { $threshold } m na { $dur }.
+
+js-meankind-instrn-dom = { $dominant } overheerst.
+
+js-meankind-instrn-line = Ze passeert { $passes }.
+
+js-meankind-instrn-line-dom = Ze passeert { $passes }; { $dominant } overheerst.
+
+js-meankind-instrn-pass = { $threshold } m na { $dur }
+
+js-meankind-interop-big-no = Nee: het maanefemeridebestand doorstaat de heen-en-terugreis niet.
+
+js-meankind-interop-big-yes = Ja: het maanefemeridebestand doorstaat de heen-en-terugreis intact.
+
+js-meankind-interop-line = { $n } toestanden in het referentiestelsel { $frame }, tijd { $time }.
+
+js-meankind-its-spec = zijn specificatie
+
+js-meankind-jointod-big = Het toevoegen van een interferometrievertraging vanaf de aarde verscherpt de stationspositie { $x } keer.
+
+js-meankind-jointod-line = Het station is dan bekend tot { $m } m.
+
+js-meankind-launch-big =
+    { $n ->
+        [one] { $n } lanceermogelijkheid per dag bereikt een baan van { $incl }° vanaf breedtegraad { $lat }°.
+       *[other] { $n } lanceermogelijkheden per dag bereiken een baan van { $incl }° vanaf breedtegraad { $lat }°.
+    }
+
+js-meankind-launch-line = De rotatie van de aarde levert { $speed } m/s gratis.
+
+js-meankind-layer-agc = AGC (automatische versterkingsregeling)
+
+js-meankind-layer-raim = RAIM (autonome integriteitsbewaking door de ontvanger)
+
+js-meankind-layer-sqm = SQM (bewaking van de signaalkwaliteit)
+
+js-meankind-leochain-big = Van begin tot eind brengt het systeem in een lage baan de positiefout van { $from } m naar { $to } m.
+
+js-meankind-leochain-line = Het signaal wordt gevolgd tot { $cn0 } dB-Hz.
+
+js-meankind-leopass-big-many = De satellieten passeren op { $elev }° hoogte en blijven { $dur } boven het masker (de eerste van { $n }).
+
+js-meankind-leopass-big-one = De satelliet passeert op { $elev }° hoogte en blijft { $dur } boven het masker.
+
+js-meankind-leopass-line = Op zijn hoogtepunt komt het signaal uit de lage baan { $db } dB sterker aan dan een gangbaar satellietnavigatiesignaal.
+
+js-meankind-leoppp-big = Precieze positiebepaling convergeert in { $best } min met de grootste laag in een lage baan, tegenover { $base } min met alleen satellietnavigatie.
+
+js-meankind-leoppp-line = Mediaan van de runs per geval, tot { $m } m.
+
+js-meankind-leoppp-line-runs =
+    { $n ->
+        [one] Mediaan van { $n } run per geval, tot { $m } m.
+       *[other] Mediaan van { $n } runs per geval, tot { $m } m.
+    }
+
+js-meankind-leopvt-doppler-big = Dopplerpositiebepaling vanaf satellieten in een lage baan komt { $m } m van de referentie uit (horizontaal).
+
+js-meankind-leopvt-doppler-line =
+    { $n ->
+        [one] { $n } satelliet gebruikt.
+       *[other] { $n } satellieten gebruikt.
+    }
+
+js-meankind-leopvt-joint-big = Het toevoegen van de laag in een lage baan brengt de fout van { $from } m naar { $to } m (3D, kwadratisch gemiddelde).
+
+js-meankind-leopvt-joint-line = De geometriekwaliteit (PDOP) gaat van { $from } naar { $to }.
+
+js-meankind-leopvt-polar-big = Dicht bij de pool verbetert de laag in een lage baan de geometriekwaliteit (PDOP) van { $from } naar { $to }.
+
+js-meankind-leopvt-polar-line =
+    { $n ->
+        [one] Over { $n } breedtegraad.
+       *[other] Over { $n } breedtegraden.
+    }
+
+js-meankind-leopvt-timing-big = Tijdoverdracht via een lage baan houdt de beste klok binnen { $ns } ns van UTC (kwadratisch gemiddelde).
