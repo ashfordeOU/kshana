@@ -23,3 +23,6 @@ seg-1ff32b87e030 = Satélites
 
 # text
 seg-582fd72f1a1a = Veredicto
+
+# text
+seg-430edd66bda0 = No modelado

@@ -39,3 +39,51 @@ seg-0aae0574c5e6 = <b>MODELLED</b> Los barridos de disponibilidad del tipo de es
 
 # text
 seg-8b701f465117 = log
+
+# text
+# c1: docs/kinds/by-kind/sweep.md
+seg-de72ae48731d = Fuente: <c1/>
+
+# text
+# c1: sweep
+seg-81c2da4650c9 = <c1/> (tipo de escenario)
+
+# text
+seg-e7ab7b55c969 = Barrido 1-D de estudio de compromisos sobre un parámetro del paquete de relojes.
+
+# text
+# c1: scenarios/sweep-clock-stability.toml
+seg-0412c0dbfb75 = Una ejecución de <c1/> se resume así: barrido de holdover_s sobre classical_q_wf ({ "1.00e-24" }..1.00e-18, { "25" } puntos, escala logarítmica) | cuántico 6600.000->{ "6600.000" } | clásico 2610.000->{ "250.000" }
+
+# text
+# c1: parameter
+# c2: metric
+# c3: start
+# c4: stop
+# c5: steps
+# c6: base
+seg-d2a441254bcd = Campos obligatorios: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
+
+# text
+# c1: scale
+seg-2b8d8159bdaf = Campos opcionales: <c1/>
+
+# text
+# c1: scenarios/sweep-clock-stability.toml
+seg-73c2e732b0c1 = El ejemplo <c1/> establece, entre otros:
+
+# text
+seg-f8a627a78bdb = Microchip SA.45s CSAC datasheet sigma_y(1s)={ "3e-10" }; q_wf is s
+
+# attr:alt
+seg-c784b8f22f12 = El gráfico que el motor genera para scenarios/sweep-clock-stability.toml, tipo de escenario sweep
+
+# text
+# c1: campaign
+seg-cb00aca0268d = <b>MODELLED</b> Las secciones sweep del tipo de escenario <c1/> (de una a tres claves con puntos de cualquier tipo, sobre los valores de eje del barrido genérico, opcionalmente un conjunto en cada nodo) y monte_carlo: la realización k se ejecuta con base_seed + k; cada métrica indica media, desviación e Pruebas: <a1>campaign_composition_reference.rs</a1>.
+
+# text
+seg-1750fbfc4a99 = <s1>Anterior</s1>sweep-nd
+
+# text
+seg-de5468ac32fc = <s1>Siguiente</s1>telecom-timing

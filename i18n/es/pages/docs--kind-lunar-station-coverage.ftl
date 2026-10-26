@@ -84,3 +84,37 @@ seg-d18c93c2e136 = Una ejecución de <c1/> se resume así: lunar-station-coverag
 # c34: receiver
 # c35: solution
 seg-cb73ac0d57de = Campos opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>
+
+# text
+# c1: scenarios/lunar-station-coverage.toml
+seg-0c3460704315 = El ejemplo <c1/> establece, entre otros:
+
+# text
+seg-2d84b341a41f = Etiqueta del resultado (la del motor): MODELLED
+
+# attr:alt
+seg-922b8656fcae = El gráfico que el motor genera para scenarios/lunar-station-coverage.toml, tipo de escenario lunar-station-coverage
+
+# text
+# c1: lunar-station-coverage
+seg-4f5941f12127 = <b>MODELLED</b> Barrido Monte Carlo del modelo de PNT diferencial lunar sobre una cuadrícula de usuarios en el polo sur y un día de épocas (el tipo de escenario <c1/>): para una estación de referencia diferencial en un emplazamiento conocido del polo sur, por punto y sobre la región, el Pruebas: <a1>lunar_station_coverage_reference.rs</a1>.
+
+# text
+# c1: lunar-station-coverage
+seg-d547d600ee2d = <b>MODELLED</b> Barrido Monte Carlo del modelo de PNT diferencial lunar sobre una cuadrícula de usuarios en el polo sur y un día de épocas (el tipo de escenario <c1/>): para una r diferencial. Referencia independiente (InternalConsistency): Aritmética recalculada por un script de numpy independiente sobre casos exportados (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; preregistrado en tests/fixtures/lunar_station/PREREGISTRATION.md, confirmado por separado en 9caedf97 antes de la primera ejecución): en { "20" } casos con todos los términos de error activados, los conjuntos visibles y el estado son idénticos, los errores de distancia brutos coinciden hasta { "1.4e-14" } m, los vectores y magnitudes del error de posición hasta { "1.4e-9" } m frente a
+
+# text
+# c1: label
+seg-626ab55f0424 = MODELLED (resultado <c1/>)
+
+# text
+seg-6f09def22469 = HONESTIDAD: MODELLED. Bajo los supuestos indicados a continuación, el modelo da estas cifras. No es una afirmación sobre el rendimiento de ningún sistema real; sin afiliación ni respaldo de ninguna agencia; sin ninguna afirmación de TRL ni de herencia de vuelo. Omitido: enmascaramiento del terreno y del horizonte en el polo (la primera limitación), multitrayecto, hardware del receptor. (comentario del archivo de escenario, líneas { "15" } a { "18" })
+
+# text
+seg-db27cc015952 = El mapa de cobertura y precisión de la estación de referencia lunar es MODELLED, no validado: se comprueba frente a su propia identidad analítica o de forma cerrada, lo que detecta errores de transcripción y de coeficientes, pero no es una referencia independiente externa. (matriz de verificación (docs/MODELLED-RATIONALE.md))
+
+# text
+seg-6ac5bd1500a8 = <s1>Anterior</s1>lunar-llr-datum
+
+# text
+seg-625c1973128e = <s1>Siguiente</s1>lunar-time-budget

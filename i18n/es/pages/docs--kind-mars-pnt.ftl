@@ -25,3 +25,53 @@ seg-8de95b3a9229 = La estimación del estado del reloj de a bordo es MODELLED, n
 # text
 # c1: scenarios/
 seg-3bc1761c76ab = { "3" } escenarios incluidos usan este tipo de escenario; los demás están en <a1><c1/></a1>.
+
+# text
+# c1: docs/kinds/by-kind/mars-pnt.md
+seg-c68502b9d675 = Fuente: <c1/>
+
+# text
+# c1: mars-pnt
+seg-46072326d616 = <c1/> (tipo de escenario)
+
+# text
+seg-3f749aef8d89 = PNT de espacio profundo en Marte: una constelación simulada de relés MARCONI (relés areoestacionarios e inclinados que emiten en un sentido y retransmiten en ambos sentidos a una estación de espacio profundo) navega a un usuario de referencia (transfer | lmo | surface) mediante el estimador de fusión radiométrica conjunta unidireccional y bidireccional. Indica la geometría y la visibilidad por época, el RMS alcanzado frente a la verdad, y la covarianza formal (posición 1σ / 3σ): una cifra de mérito simulada honesta, NO un nivel de protección certificado.
+
+# text
+# c1: scenarios/mars-pnt-lmo.toml
+seg-0254f9bd0ee6 = Una ejecución de <c1/> se resume así: mars-pnt 5aad87fcc94a | usuario lmo, reloj uso | { "5" } relés (media { "3.1" } a la vista) | RMS de posición convergido { "0.25" } m, 1σ formal { "0.31" } m (3σ { "0.93" } m: cifra de mérito de covarianza, no un PL certificado) | σ de frecuencia del reloj { "3.71e-13" } | cov-PD true
+
+# text
+# c1: user
+# c2: clock_class
+# c3: step_s
+# c4: duration_s
+# c5: nmax
+# c6: range_sigma_m
+# c7: doppler_sigma_mps
+# c8: dynamic_tightness
+# c9: two_way_period_s
+# c10: seed
+seg-8eb513e7aeea = Campos opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>
+
+# text
+# c1: scenarios/mars-pnt-lmo.toml
+seg-5a9640a3f9b4 = El ejemplo <c1/> establece, entre otros:
+
+# text
+seg-8e0fecea19fc = uso
+
+# text
+seg-a16f2332397c = lmo
+
+# attr:alt
+seg-c564dca90854 = El gráfico que el motor genera para scenarios/mars-pnt-lmo.toml, tipo de escenario mars-pnt
+
+# text
+seg-83c3a84f6b98 = <b>VALIDATED</b> Recuperar un estado de época [r,v] a partir de distancias desde estaciones terrestres mediante un corrector diferencial por lotes de Gauss–Newton y un filtro secuencial, sobre un modelo de fuerzas de dos cuerpos+J2. Referencia independiente (ExternalDataset): Orekit { "12.2" } (CS GROUP, Apache-2.0) BatchLSEstimator (Levenberg–Marquardt) + KalmanEstimator (EKF): una biblioteca de estimación de terceros independiente sobre un modelo de fuerzas equivalente; el estado de época recuperado y el RMS de los residuos posteriores al ajuste coinciden hasta <{ "1e-3" } m sin ruido y <{ "3" } m con un suelo de ruido de { "5" } m
+
+# text
+seg-4be479b81f39 = <s1>Anterior</s1>lunar-vlbi
+
+# text
+seg-2854e6a75833 = <s1>Siguiente</s1>moonlight-service-volume
