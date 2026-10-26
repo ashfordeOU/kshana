@@ -55,3 +55,5 @@ seg-1f17ef6a853e = エンジンv{ $version }のシナリオの種類。ファミ
 seg-1c1eeb2dcaa0 = ファミリーページ：<a1>月および地球・月間空間（シスルナー）</a1>
 
 seg-3bc1761c76ab = 同梱のシナリオのうち{ "3" }個がこの種類を使用しています。その他は<a1><c1/></a1>にあります。
+
+seg-e4da113cbe18 = エンジンが scenarios/lunar-llr-datum.toml（kind lunar-llr-datum）用に書き出すチャート
