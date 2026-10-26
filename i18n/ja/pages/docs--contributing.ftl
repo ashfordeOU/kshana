@@ -81,3 +81,5 @@ seg-0a78a12b1188 = 各コミットにサインオフして、<a1>Developer Certi
 seg-9f86d8f58b17 = <s1>前へ</s1>セキュリティ
 
 seg-fc760238e9a5 = <s1>次へ</s1>ガバナンス
+
+seg-c3c260b7063e = テスト

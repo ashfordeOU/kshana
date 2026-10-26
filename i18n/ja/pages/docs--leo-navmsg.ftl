@@ -9,3 +9,5 @@ seg-6e0cb6acc073 = VALIDATED
 seg-f63dd3d7aad4 = 出典
 
 seg-e305279d5b11 = 内容
+
+seg-35f8f623ea28 = { "30" } 秒
