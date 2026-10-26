@@ -82,7 +82,7 @@ seg-213540a79b77 = Baner og konstellationer
 
 seg-9a2a5f0a8a02 = Solsystemet
 
-seg-850aca04de28 = Kampagner
+seg-850aca04de28 = Alle typer, alle kommandoer og benchmarkens misser.
 
 seg-6d41d7d30d5a = Gør det til dit eget
 
@@ -948,6 +948,838 @@ seg-517c404d3938 = Indlæs Kshana Studio her
 
 seg-f9ecb21f7d77 = Hvor WebAssembly er blokeret, viser Kshana Studio de optagede kørsler af de samme filer og siger det.
 
+seg-d01db1c2710a = Reference
+
+seg-bca397f050df = Alle scenarier, funktioner og standarder.
+
+seg-2acae285e611 = Hele kataloget, genereret ud fra motorens egne filer: scenarieatlasset, funktionskortene og de standarder, som motoren implementerer.
+
+seg-629113989840 = hver medfølgende fil
+
+seg-945048f2eae8 = hver med sit bevis
+
+seg-b4cdec39f4f5 = Standarder og formater
+
+seg-58a8a796c8cb = referencekontroller
+
+seg-3cbba5a3ab3b = Nyt i v{ $version }
+
+seg-c530da682cca = Ingen ny motorfunktion: resultaterne er de samme som i { "0.38.0" }. Dokumentationen har nu en side for hver scenarietype og en liste over alle kommandoer og alle flader, og benchmarksiden angiver hver tærskel, der ikke blev nået. Kommandolinjen afslutter også stille, når dens outputrør lukkes. Hver funktion bærer den etiket, som registeret har for den, og en etiket angiver kun det, der blev kontrolleret. Vejledende software.
+
+seg-c5fc0ca71fae = Alle scenarietyper, en side til hver
+
+seg-86ff766b2c1d = Alle { "87" } scenarietyper ordnet under familier, med en side til hver type: hvad den gør, dens input, resultaterne af en eksempelkørsel, de registerrækker og uafhængige referencer, der ligger bag dens etiket, de begrænsninger, dens rapport angiver, og det diagram, motoren skriver.
+
+seg-a0b63210b807 = Læs mere
+
+seg-ccee5886cf25 = Alle kommandoer, alle flader
+
+seg-6630acb722ae = Alle kommandoer med et eksempel, du kan køre fra et checkout, og alle flader (kommandolinje, Python, Rust, WebAssembly, MCP-serveren, plugin-kommandoerne, skills og Studio-siderne) med de kommandoer og typer, de omfatter, og med begrundelsen, hvor de ikke gør det.
+
+seg-4ef6dcd0a58b = Hvilken flade bærer hvilken funktion
+
+seg-678872a862dc = Én side viser for hver kommando og type, hvilken flade der bærer den, og hvilke der ikke gør, med begrundelsen, ved siden af funktionsdomænerne og deres registeretiketter.
+
+seg-29e58493fdd4 = Modelleret
+
+seg-8e092e49bdeb = kshana-bench: de tærskler, der ikke blev nået, opgivet
+
+seg-df8f792ffa97 = Benchmarksiden viser nu hver tærskel, der ikke blev nået, som resultatfilen registrerer dem, og oplyser, at ingen tærskel er lempet.
+
+seg-54dce6366d5a = Alle medfølgende scenarier på ét kort.
+
+seg-761213eb3ce0 = Alle { "183" } scenariefiler fordelt på { "87" } typer, grupperet efter domæne; { "173" } er indbygget i motoren, og <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> køres fra repositoriet med kommandolinjen. Prikken viser registerstatus for typens modul, hvor registeret nævner det. En fil med en optaget kørsel åbner den i Kshana Studio; de øvrige åbner deres indgang i scenariereferencen med filen og den kommando, der kører den.
+
+seg-f53c36555404 = Filtrér efter registerstatus
+
+seg-3cedc38ae9d5 = Alle typer
+
+seg-6e281402a22f = Validerede rækker
+
+seg-2d8e88c7238b = Ikke matchet
+
+seg-c49969c426c8 = Filtrér scenarier
+
+seg-3e9fb6d3b8b8 = Filtrér efter fil, type eller ord
+
+seg-5145797da84a = GNSS på jorden og interferens
+
+seg-aff54a75319b = Pseudoafstande og RAIM for en portalkran på en containerkaj, med ship-to-shore
+
+seg-facafec08ae3 = GNSS-simulering i måledomænet: pseudoafstande med ionosfærisk og
+
+seg-879b02ba5afb = <c1/><a1>gnss-sim-container-terminal-skyline</a1><a2>gnss-sim-raim</a2>
+
+seg-4725f2524e57 = Testbed til evaluering af maskinlæringsbaseret detektion af RF-forstyrrelser (ESA AO/1-13494-demonstrator).
+
+seg-cbd16d8d6f19 = <c1/><a1>impairment-eval</a1>
+
+seg-38d0df73da5f = RF jamming: en jordbaseret bredbåndsjammer, der blokerer GNSS for en nærliggende modtager.
+
+seg-8358cd1f20e2 = Et skib, der sejler ind i en havn under en jammer på land, hvor kajbygningerne foran tager
+
+seg-666ab58e14bc = Maritim GNSS jamming: en bredbåndsjammer på land eller om bord på et fartøj, der blokerer det globale
+
+seg-b0ea321f426a = <c1/><a1>jamming-demo</a1><a2>jamming-harbour-approach-skyline</a2><a3>maritime-strait-jamming</a3>
+
+seg-3645d0f6dfc1 = L-bånds-vandfald under jamming: hele det globale satellitnavigationssystem (GNSS)
+
+seg-ed0374fa4677 = LEO-PNT-robusthed ud fra modtaget effekt: marginen mellem jammer og signal (J/S).
+
+seg-6b2338be39ce = Vandfald for jamming i flere bånd: positionering, navigation og tidssynkronisering i lav jordbane (LEO)
+
+seg-41956b525b84 = <c1/><a1>l-band-waterfall-jamming</a1><a2>leo-resilience-js-margin</a2><a3>multi-band-jamming-waterfall</a3>
+
+seg-e4cfedcd8a7f = Maritim GNSS spoofing: detektion af en sender, der trækker et skibs rapporterede position væk.
+
+seg-991f79d3fc13 = Kombineret spoofing-detektor for RF og målinger: RAIM-konsistens over flere SV + AGC + SQM, fusioneret.
+
+seg-d3d17ae9163e = <c1/><a1>maritime-spoof-position-push</a1><a2>spoof-detect</a2>
+
+seg-65c6fa3d75df = Single-point positioning (SPP) på virkelige observationer fra en opmålt IGS-station.
+
+seg-c58b4f92c258 = <c1/><a1>pvt-abmf</a1>
+
+seg-12a0c4e3eb5b = Aktivt angreb med tidsspoofing: kan hvert urs integritetsmonitor fange spoofingen
+
+seg-cb0f7b2ff50b = Detektion af tidsspoofing med en eksplicit angrebsform og en stokastisk detektor.
+
+seg-5e02024d9ecf = <c1/><a1>spoof-attack</a1><a2>spoof-meaconing</a2>
+
+seg-0f0c4a546563 = Tab af lås i sporingssløjfen: C/N0 -> lås/oplåsning med hysterese, den tid det tager at
+
+seg-8519d1ec52b4 = <c1/><a1>tracking-loop</a1>
+
+seg-c4d82487d4c8 = Integritet og ARAIM
+
+seg-e1006bf1324b = ARAIM-tilgængelighed med to konstellationer: GPS + Galileo evalueret med den avancerede
+
+seg-f798ed829930 = ARAIM-tilgængelighed for et fartøj, der sejler ind i en havn: typen `integrity` med et jordsted
+
+seg-224a6f0365a0 = GNSS-integritet (RAIM) og tilgængelighed over en GPS-lignende konstellation.
+
+seg-581df183189a = <c1/><a1>araim-gps-galileo</a1><a2>integrity-harbour-approach</a2><a3>integrity-raim</a3>
+
+seg-7dcfd56b402b = Motorens ARAIM-beskyttelsesniveauer mod WG-C-undergruppens EGNE gennemregnede eksempler.
+
+seg-ee599ae71b16 = <c1/><a1>araim-reference-check</a1>
+
+seg-4f71f8ba67d4 = Alternativ PNT og fusion
+
+seg-195beccd601f = Vejkøretøj gennem en urban kløft: GNSS/INS-dødregning gennem en underføring og
+
+seg-66ecd7fcc1d5 = Løst koblet GNSS/INS: den treakslede strapdown-navigator, der disciplineres af en
+
+seg-8baa1cf7de75 = Luftfarts-GNSS/INS med tæt kobling: et lille fly letter, stiger med { "6" } grader, flyver vandret
+
+seg-97d88976d6d0 = Maritim GNSS/INS: et fartøj med { "8" } m/s (omkring { "15.5" } knob), der sejler i hele cirkler med
+
+seg-a4a176be56bb = Jernbane-GNSS/INS med tæt kobling: et tog kører mellem stop med { "30" } m/s med svage { "20" } grader
+
+seg-29cf20730f10 = Lille ubemandet luftfartøj under GNSS jamming: hvor langt en flight-controller-klasse
+
+seg-b663a10b099d = <c1/><a1>automotive-urban-canyon</a1><a2>gnss-ins</a2><a3>gnss-ins-aviation</a3><a4>gnss-ins-maritime</a4><a5>gnss-ins-rail</a5><a6>small-uas-jammed-nav</a6>
+
+seg-3a39e513f8af = Kombineret navigator uden GPS med tyngdekraft + magnetfelt + terræn — fusioneret alt-PNT.
+
+seg-5a205098ae36 = <c1/><a1>combined-altpnt</a1>
+
+seg-ead07b8cda1f = Fælles sensorfusion til PNT: et enkelt Kalman-filter er navigatoren og fusionerer
+
+seg-0793bf62d210 = Koblet fælles sensorfusion til PNT: de samme suiter og det samme GNSS-udfald som i `fusion-pnt.toml`, men
+
+seg-ee3eb04bbddd = <c1/><a1>fusion-pnt</a1><a2>fusion-pnt-coupled</a2>
+
+seg-475d6eb44bb7 = Benchmark på 60 minutter uden GPS med matchning af tyngdekraftskort (kvante-alt-PNT).
+
+seg-1590168660bf = Benchmark på 60 minutter uden GPS med matchning af tyngdekraftskort på det VIRKELIGE tyngdefelt (WP-10, RM-17).
+
+seg-b084af0ebe06 = Monte Carlo af kortfejl på benchmarken på 60 minutter uden GPS med tyngdekraftskort (WP-10, RM-15).
+
+seg-37d9e60021db = Scenarie med kvantenavigation ved matchning af tyngdekraftskort (alt-PNT uden GPS).
+
+seg-0675c2d7bed3 = <c1/><a1>gps-denied-gravity-nav</a1><a2>gps-denied-gravity-nav-egm2008</a2><a3>gravity-map-error-mc</a3><a4>gravity-map-nav</a4>
+
+seg-2d8e0508a5a5 = Heterogen fælles tilgængelighed / præcision / integritet for optisk + RF PNT (P5).
+
+seg-2177fe105d1c = <c1/><a1>hybrid-optical-rf</a1>
+
+seg-7d89b1c17bc9 = Hybrid PNT som afslutning: helkvantesuite (optisk ur + kold-atom-IMU + optisk ISL
+
+seg-d6fe497b9360 = <c1/><a1>hybrid-pnt</a1>
+
+seg-70f528b547d4 = Hybrid kvante + klassisk tæt koblet GNSS/INS-UKF med 17 tilstande (MODELLED).
+
+seg-e3c74123ff5a = <c1/><a1>hybrid-ukf</a1>
+
+seg-1d4d4e681ef6 = Dødregning under GNSS-udfald: kold-atom-kvanteaccelerometer mod navigationsklasse.
+
+seg-e69683145bb7 = Kvante-forudindstilling: et accelerometer med kold-atom-interferometer (CAI), bygget ud fra dets
+
+seg-40d5b6ef47f0 = <c1/><a1>imu-deadreckoning</a1><a2>quantum-cai-coast</a2>
+
+seg-460929d61988 = Fejlmodel for INS/TRN-coasting — positionsfejl mod coasting-varighed, og coasting
+
+seg-32701fe3852c = Maritim havneindsejling med jammet GNSS: hvor længe et inertialnavigationssystem
+
+seg-979fb46a1ac8 = Coasting i en jernbanetunnel: hvor længe et togs inertialnavigationssystem (INS) holder det
+
+seg-6d592347a45a = <c1/><a1>ins-trn-coast</a1><a2>maritime-port-approach-coast</a2><a3>rail-tunnel-coast</a3>
+
+seg-588092c0b828 = Optisk PNT gennem atmosfæren: tre ILLUSTRATIVE jordsteder (et mere skyet nordligt sted, et
+
+seg-d9110ecdc1a0 = Hvad-nu-hvis for forbedringsteknikker på ét ILLUSTRATIVE jordsted: en ændring af bølgelængden, en større
+
+seg-67d9aed36283 = <c1/><a1>optical-atmosphere-network</a1><a2>optical-atmosphere-techniques</a2>
+
+seg-36a3e2b3fb7d = Terrænreferenceret navigation (TERCOM/SITAN) — alt-PNT uden GPS.
+
+seg-374a9b5e72d5 = <c1/><a1>terrain-nav</a1>
+
+seg-6e578a14dc30 = Sekventiel (rekursiv) terrænreferenceret navigation — alt-PNT uden GPS.
+
+seg-eb15b725f77d = <c1/><a1>terrain-slam</a1>
+
+seg-7d2d780c5649 = Monte Carlo-ensemble af scenariet med holdover for uret.
+
+seg-6f80bcd98ce4 = Referencescenarie for Kshana: kørsel på { "2" } timer, { "10" } min GNSS-synkronisering og derefter ~{ "1.8" } timer uden.
+
+seg-4a194573e324 = Variant: optisk strontiumur af laboratoriekvalitet mod CSAC.
+
+seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
+
+seg-ef238a2781ad = Holdover-test, indlæsningseksempel: en tidsfejlsoptegnelse, der scores af typen holdover-test
+
+seg-f72e79279526 = Holdover-test af en linuxptp-log: de samme fire trin som i holdover-test-example.toml, med optegnelsen
+
+seg-447fb044f200 = <c1/><a1>holdover-test-example</a1><a2>holdover-test-ptp4l</a2>
+
+seg-b287f9a2cdeb = Slot-tidssynkronisering: hvor længe en ovnstyret krystaloscillator (OCXO) i lav jordbane
+
+seg-324250b93dd9 = <c1/><a1>slot-timing-ocxo-leo</a1>
+
+seg-f851ee7b2c6e = Trade-studie: hvordan skalerer holdover med urets stabilitet?
+
+seg-4c81130e972d = <c1/><a1>sweep-clock-stability</a1>
+
+seg-6aa8b3c42e79 = Tidsreference til telekommunikation: et rubidiumur, der mister sit globale satellitnavigations-
+
+seg-4835574df68e = Tidssynkronisering til telekommunikation, frekvenssynkronisering: en frit løbende ovnstyret krystal-
+
+seg-d58a6084c08d = Tidssynkronisering til telekommunikation, indlæsningseksempel: en serie af tidsintervalfejl (TIE) angivet inline og
+
+seg-a7737b295231 = <c1/><a1>telecom-prtc-holdover-24h</a1><a2>telecom-synce-eec</a2><a3>telecom-tie-ingest</a3>
+
+seg-a9d9e45f2147 = Tovejs overførsel af tid og frekvens via satellit (TWSTFT) mellem to ILLUSTRATIVE stationer, den ene
+
+seg-0ea13860c00c = <c1/><a1>time-transfer-budget</a1>
+
+seg-af67eb7dfe4e = Optisk tidsoverførsel mellem satellitter mod klassisk RF (TWSTFT).
+
+seg-fcded162ad2f = <c1/><a1>timetransfer</a1>
+
+seg-dc615023797b = Baner og missionsanalyse
+
+seg-5ed1d98451b7 = DVB-S2 adaptiv kodning og modulation (ACM) langs én satellits overflyvninger over én station.
+
+seg-527ca565e523 = <c1/><a1>acm-link</a1>
+
+seg-2756cca2bbd2 = Attitude-drejning med reaktionshjul under MRP-feedback, lukket på den sande tilstand.
+
+seg-37ce0a2fdedb = Attitude-drejning med reaktionshjul under MRP-feedback, lukket på et MEKF-estimat.
+
+seg-f7a4fbc90ce2 = <c1/><a1>aocs-slew</a1><a2>aocs-slew-mekf</a2>
+
+seg-b9192c83fdf7 = Demonstrator for aperturens driftscyklus (jordsegment og drift).
+
+seg-e40da530a08a = <c1/><a1>aperture-duty-cycle</a1>
+
+seg-e671128cedbc = Tab ved opstigning med tyngdekraftsdrejning for en ILLUSTRATIVE totrins affyringsraket med petroleum/ilt (ingen reel
+
+seg-17e5ec4d18bc = <c1/><a1>ascent-losses</a1>
+
+seg-a0f7fd8c3838 = Demonstrator for fejlbudget for attitude og pointing med 3 frihedsgrader (AOCS/GNC før hardware).
+
+seg-9d1e79cee987 = <c1/><a1>attitude-budget</a1>
+
+seg-8e33f294d29f = Dækning med flere konstellationer: de fire globale satellitnavigationssystemer (GNSS) tilsammen,
+
+seg-ddfd491a5b00 = En mega-konstellation til positionering, navigation og tidssynkronisering (PNT) i lav jordbane: { "5 000" }
+
+seg-3b48e542f360 = En relæ- og navigationskonstellation ved Månen: satellitter i elliptiske frosne månebaner
+
+seg-4ad15809ddef = <c1/><a1>constellation-multi-gnss-coverage</a1><a2>leo-pnt-mega-shell</a2><a3>lunar-relay-constellation</a3>
+
+seg-9baca3fa1d6c = Planlægning af kontakt med jorden: tre illustrative satellitter over tre illustrative stationer i
+
+seg-109e2fabbe72 = <c1/><a1>contact-schedule</a1>
+
+seg-9999c795cd03 = Indflyvning af Stardust-kapslen til tilbageførsel af prøver: det publicerede tilfælde, som typen `entry-heating` kontrolleres
+
+seg-14ae55dfc955 = <c1/><a1>entry-heating-stardust</a1>
+
+seg-a38ba5ac0cda = Demonstrator for nyttelastens fodaftryk og dækning ved jordobservation (SMAD-rumtrekant).
+
+seg-acccb75c3c8b = <c1/><a1>eo-coverage</a1>
+
+seg-966c1090da5a = Nadir-kameraets radiometri og billedkvalitet for et ILLUSTRATIVE lille jordobservationskamera
+
+seg-53d1e190c57d = <c1/><a1>eo-radiometry</a1>
+
+seg-b07667365e9d = Efemeride og sporet på jorden — "hvor er satellitten lige nu".
+
+seg-cd3c42866076 = <c1/><a1>ephemeris</a1>
+
+seg-d0f273803537 = Relativ navigation for en formation af tre fartøjer i bogens stærkt elliptiske bane.
+
+seg-f24f61f373d1 = En stærkt elliptisk bane gennem GNSS-banerne: hvad en bruger ser fra perigæum til apogæum.
+
+seg-ecd09f913362 = GNSS på en månetransfer, med en svagsignalmodtager, der fortjener sin følsomhed.
+
+seg-8ffd90d739b7 = GNSS-navigation om bord på vej mod Månen: et extended Kalman-filter alene på pseudoafstande.
+
+seg-f62338a1dd4a = Tilgængelighed af GNSS-signaler på det øvre SSV-skal: bogens globale mål, i en størrelse der kører på et sekund.
+
+seg-03f56ab6b9b3 = <c1/><a1>gnss-ssv-formation-heo</a1><a2>gnss-ssv-heo</a2><a3>gnss-ssv-lunar-weak</a3><a4>gnss-ssv-nav-lunar</a4><a5>gnss-ssv-shell</a5>
+
+seg-41e78567f229 = Demonstrator for opsendelsesvindue og geometri ved opstigning (missionsanalyse, trade-study-niveau).
+
+seg-14974e3fe6df = <c1/><a1>launch-window</a1>
+
+seg-a1cb069aec22 = Demonstrator for envejs linkbudget (kommunikation og linkbudgetter, trade-study-niveau).
+
+seg-fb8345aba877 = <c1/><a1>link-budget</a1>
+
+seg-97847b33c55b = Demonstrator for interoperabilitetsbro med CCSDS OEM (interop med GMAT / Orekit / STK).
+
+seg-4962f009e264 = <c1/><a1>oem-interop</a1>
+
+seg-d181d6872589 = GNSS-tilgængelighed udledt af baneometri (ikke håndskrevne vinduer).
+
+seg-2b9c92371e24 = GNSS-tilgængelighed for en bruger med stor excentricitet (Molniya), ud fra banegeometri.
+
+seg-05ede69e3c0a = Multi-GNSS-tilgængelighed ud fra banegeometri: GPS + Galileo kombineret.
+
+seg-af8a828667bb = GNSS-tilgængelighed ud fra VIRKELIG satellitgeometri, via two-line element sets.
+
+seg-573056b960e6 = GNSS-tilgængelighed ud fra en virkelig RINEX { "3" } broadcast-efemeride.
+
+seg-3540e43e3910 = GNSS-tilgængelighed ud fra den VIRKELIGE GPS-konstellation propageret med SGP4/SDP4.
+
+seg-1230b34789c7 = GNSS-tilgængelighed og præcisionsfortynding nederst i en bygade: typen `orbit`
+
+seg-ad5285a34897 = <c1/><a1>orbit-gnss-challenged</a1><a2>orbit-molniya</a2><a3>orbit-multignss</a3><a4>orbit-real-tle</a4><a5>orbit-rinex</a5><a6>orbit-sgp4-gps</a6><a7>orbit-urban-canyon-skyline</a7>
+
+seg-2b96d360ceda = Demonstrator for forudsigelse af jordstationsoverflyvninger (jordsegment og drift).
+
+seg-84615b07a989 = <c1/><a1>passes</a1>
+
+seg-b3f5010bc0f0 = Demonstrator for ballistisk genindtrængningskorridor (Allen-Eggers, missionsanalyse).
+
+seg-3612d1148781 = <c1/><a1>reentry</a1>
+
+seg-8321be113ab1 = Demonstrator for CCSDS 133.0-B Space Packet-indramning (TM/TC-interop).
+
+seg-808aa922a117 = <c1/><a1>space-packet</a1>
+
+seg-7c4a93b81a2f = Demonstrator for en model af rumvejrmiljøet.
+
+seg-5478de1beaca = <c1/><a1>space-weather</a1>
+
+seg-333828ec3da1 = PNT i lav jordbane (LEO)
+
+seg-838ef26e570a = Signaludformninger for Celeste IOD: frekvensbåndene og signalet "Classical Pilot"
+
+seg-0480440f8b6a = Båndafvejning for LEO-PNT, fra UHF til bredt C-bånd: hvad en positionering, navigation og tidssynkronisering i lav jordbane (LEO)
+
+seg-27df5b15667f = Xona Pulsar-signaler: signalerne X1 (L1-bånd) og X5 (L5-bånd) fra en kommerciel lav
+
+seg-c52da20bade1 = <c1/><a1>celeste-iod-classical-pilot-signals</a1><a2>leo-band-trade</a2><a3>xona-pulsar-signals</a3>
+
+seg-6c7c2de33eec = Celeste IOD fra ende til anden (valgfri forudindstilling): signalet E5 konfiguration #1 -> en Celeste IOD
+
+seg-90cd20e7a97a = LEO-PNT fra ende til anden på en generisk konstellation: signaludformning -> linkbudget for overflyvning ->
+
+seg-799264427221 = Xona Pulsar fra ende til anden: det offentlige X5-signal -> en Pulsar-overflyvning -> en LEO-navigationsbesked
+
+seg-d69f1dbfbd28 = <c1/><a1>celeste-iod-end-to-end</a1><a2>leo-pnt-end-to-end</a2><a3>xona-pulsar-end-to-end</a3>
+
+seg-f04402f0a621 = GNSS-positionering suppleret af de to ESA Celeste-demonstrationssatellitter i kredsløb.
+
+seg-a1dd93651ffd = Positionering alene ud fra LEO-Doppler over en generisk LEO-navigationskonstellation.
+
+seg-07921f20441f = Fusioneret MEO- og LEO-positionering for et fartøj dybt inde i en fjord, hvor dalsiderne skjuler
+
+seg-00769450ebaa = Tidsoverførsel til UTC fra LEO-satellitter, mod C/N0 og modtagerens oscillator.
+
+seg-f8551465a470 = Fusioneret MEO- og LEO-positionering med pseudoafstande: GPS og Galileo med et LEO-navigationslag.
+
+seg-c77e839b9912 = Satellitter i sigte og præcisionsfortynding fra ækvator til polen: kun MEO GNSS,
+
+seg-6634bdeb434b = Positionering alene med Doppler fra en bredbåndskonstellation brugt som opportunistisk signal.
+
+seg-e993eafc4640 = <c1/><a1>celeste-iod-fused-pvt</a1><a2>leo-doppler-positioning</a2><a3>leo-pvt-fjord-skyline</a3><a4>leo-timing-utc</a4><a5>meo-leo-fused-pvt</a5><a6>polar-arctic-leo-coverage</a6><a7>starlink-sop-doppler-positioning</a7>
+
+seg-075f98a32d53 = LEO-PNT-fokusområde: LEO-PNT-videnskab, ionosfæresondering ud fra forsinkelsen i to bånd.
+
+seg-e9da73670beb = LEO-PNT indendørs: hvorfor en UHF-bærebølge når ind i en bygning, når L-, S- og C-bånd har det svært.
+
+seg-6dfada2dacb6 = LEO-PNT med lavt energiforbrug til en IoT-tracker (Internet of Things): energi pr. positionsbestemmelse mod driftscyklus.
+
+seg-1007e9b9abdc = ESA Celeste IOD, signalkonfiguration #1, alle bånd over én overflyvning. FORUDINDSTILLING TIL WORKSHOP.
+
+seg-d3b4252da1ee = Iridium STL-bursts (satellite time and location) set fra et fly.
+
+seg-78cd6f0c1950 = En LEO-PNT-overflyvning mod de Galileo-satellitter, der er i sigte: C/N0 over én overflyvning.
+
+seg-d1f7a761386a = Xona Pulsar X1 og X5 over én overflyvning, med Pulsar-konstellationens højeste overflyvninger.
+
+seg-21c99010d2fe = LEO-PNT-robusthed mod spoofing: konsistens mellem Doppler og overflyvningsgeometri.
+
+seg-4255777ae74c = <c1/><a1>leo-focus-science-iono-sounding</a1><a2>leo-indoor-uhf</a2><a3>leo-iot-energy</a3><a4>leo-pass-celeste-iod-multiband</a4><a5>leo-pass-iridium</a5><a6>leo-pass-vs-gnss-cn0</a6><a7>leo-pass-xona-pulsar</a7><a8>leo-resilience-spoof-doppler</a8>
+
+seg-03c8a8dbf6eb = Forudindstilling for ESA Celeste in-orbit demonstration (IOD): det ene scenarie, der bruger materiale
+
+seg-7ee7b986aa07 = LEO-navigationsbesked: Kshanas binære kodning, dens kvantiseringsbudget og
+
+seg-6d352d85fb32 = LEO-navigationsbesked: fejl i afstand for signal i rummet (SISRE) mod tilpasningsinterval.
+
+seg-2fd9ba378d2f = LEO-navigationsbesked: en opdatering af beskeden midt i en overflyvning, og om brugeren
+
+seg-7dc0b21a0f60 = LEO-navigationsbesked: fire efemeridemodeller på én bane, og Liu et al. { "2025" }
+
+seg-9eeaa71b71d4 = <c1/><a1>leo-navmsg-celeste-iod</a1><a2>leo-navmsg-encode-decode</a2><a3>leo-navmsg-fit-interval-trade</a3><a4>leo-navmsg-midpass-update</a4><a5>leo-navmsg-model-comparison</a5>
+
+seg-41aaf4d3b4dd = Konvergens for precise point positioning (PPP) med LEO-augmentation.
+
+seg-8d4c43fa97b3 = <c1/><a1>leo-ppp-convergence</a1>
+
+seg-3ac4d50d5106 = Positionering ud fra et nedlink i et 5G ikke-terrestrisk netværk (NTN) i S-båndet for mobil satellitkommunikation.
+
+seg-0fada2849dbc = <c1/><a1>ntn-5g-positioning</a1>
+
+seg-cc6d08589341 = Test af tærsklen for observerbarhed af cislunar buelængde med en uafhængig estimator (R6, artikel B).
+
+seg-f2269e7f6e62 = <c1/><a1>cislunar-arc-recovery</a1>
+
+seg-1c3d6e1ff20d = Observerbarhed for en plan cislunar konstellation over en sporingsbue (P6).
+
+seg-96fcfc99887c = <c1/><a1>cislunar-observability</a1>
+
+seg-b7880bc50fd3 = Modtagelse af jordens GNSS i månens afstand.
+
+seg-770d8c4c3745 = <c1/><a1>earth-gnss-lunar</a1>
+
+seg-358425c82db5 = Integritet ved månens sydpol: en landet modtager i Artemis-regionen mod en
+
+seg-88f11ae051f7 = <c1/><a1>lunanet-araim</a1>
+
+seg-7a9b909b0918 = Angrebsflade for signalsikkerhed ved navigation på månens overflade (artikel P1).
+
+seg-ef83a6a7e263 = <c1/><a1>lunar-attack-surface</a1>
+
+seg-7cc84b0d7998 = Augmentation med beacons på overfladen af en månenavigationstjeneste i kredsløb.
+
+seg-ed5c4a79b454 = <c1/><a1>lunar-beacon</a1>
+
+seg-cda1df2b3136 = DIFFERENTIEL PNT ved Månen — en analogi til DGNSS / SBAS ved Månen.
+
+seg-cf6a61aa12d7 = <c1/><a1>lunar-differential-pnt</a1>
+
+seg-9b4eae21eb95 = Helmert-datum med syv parametre for månens referencesystem, drevet af en SIMULERET OBSERVATIONSKAMPAGNE (G9).
+
+seg-5b5b4af83ee2 = <c1/><a1>lunar-frame-campaign</a1>
+
+seg-c92e66cebc74 = Realisering af månens referencesystem — tilpasning af et Helmert-datum (ligedannethed) med 7 parametre.
+
+seg-9399f0bfc7e9 = <c1/><a1>lunar-frame-realisation</a1>
+
+seg-38628d33bf93 = Kshana-scenarie for månens infrastruktur: bærebølgefase, HURTIG-eksemplet (to korte buer, { "10" } træk, sekunder;
+
+seg-218213050f5a = Kshana-scenarie for månens infrastruktur: frame-coestimation. MODELLED; udformningen, inputtene og tærsklerne er
+
+seg-dcf44f509000 = Kshana-scenarie for månens infrastruktur: geodesy-sensitivity. MODELLED; udformningen, inputtene og tærsklerne er
+
+seg-89278918d014 = Kshana-scenarie for månens infrastruktur: od-consistency. MODELLED; udformningen, inputtene og tærsklerne er
+
+seg-6fa634c35008 = Kshana-scenarie for månens infrastruktur: od-consistency med en ikke-modelleret acceleration. MODELLED; udformningen, inputtene og tærsklerne er
+
+seg-0a8712706317 = Kshana-scenarie for månens infrastruktur: space-tie. MODELLED; udformningen, inputtene og tærsklerne er
+
+seg-5ccccbd50a0c = <c1/><a1>lunar-infrastructure-carrier-phase</a1><a2>lunar-infrastructure-frame-coestimation</a2><a3>lunar-infrastructure-geodesy-sensitivity</a3><a4>lunar-infrastructure-od-consistency</a4><a5>lunar-infrastructure-od-consistency-model-error</a5><a6>lunar-infrastructure-space-tie</a6>
+
+seg-043647362b56 = Eksport til interoperabilitet ved Månen — tilpasset LunaNet / IOAG, CCSDS-baseret udveksling.
+
+seg-ad9c4b176c99 = <c1/><a1>lunar-interop-export</a1>
+
+seg-7e27d737f4e5 = RF jamming specifikt for Månen: J/S pr. satellit for en bruger på månens overflade.
+
+seg-9386cc6b40be = <c1/><a1>lunar-jamming</a1>
+
+seg-b832efa33b26 = Fælles banebestemmelse (OD) og urbestemmelse ved Månen med flere teknikker (et SIMULERET netværk).
+
+seg-9f0cc8078028 = <c1/><a1>lunar-joint-od-clock</a1>
+
+seg-cf209fe904f0 = Helmert-datum med syv parametre for månens referencesystem ud fra en VIRKELIG, arkiveret observationskampagne (V3).
+
+seg-f0aad2150389 = Geodæsi for månens referencestation, BASELINE: alene nutidens fem retroreflektorarrays.
+
+seg-af84db25497a = Geodæsi for månens referencestation, MED STATION: de fem retroreflektorarrays plus en
+
+seg-e99cc7996d2a = <c1/><a1>lunar-llr-datum</a1><a2>lunar-station-geodesy-baseline</a2><a3>lunar-station-geodesy-with-station</a3>
+
+seg-388c71d9a21a = Dækning fra månens referencestation: hvilken positionsnøjagtighed og hvilket beskyttelsesniveau en bruger
+
+seg-b1b071573c04 = Dækning fra månens referencestation under OFFENTLIGT ANGIVNE antagelser: den samme type som
+
+seg-74da705bbb4a = Dækning fra månens referencestation med terræn: det medfølgende scenarie lunar-station-coverage
+
+seg-ba1584648763 = <c1/><a1>lunar-station-coverage</a1><a2>lunar-station-coverage-public-sources</a2><a3>lunar-station-coverage-terrain</a3>
+
+seg-fccc874e86c9 = Tidslaboratorium på månens referencestation: et miniaturerubidiumur (miniRAFS) styret mod
+
+seg-8ea4372cb851 = Tidsfejlsbudget fra ende til anden for Coordinated Lunar Time (LTC) over et tau-gitter.
+
+seg-a37050edde94 = <c1/><a1>lunar-station-time-lab</a1><a2>lunar-time-budget</a2>
+
+seg-b1989c67a1b5 = Koordinattid ved Månen (LTC/TCL): den relativistiske urgang mellem Jorden og Månen.
+
+seg-e78863b02a32 = <c1/><a1>lunar-time-offset</a1>
+
+seg-3dd816ab3e2a = Geodætisk VLBI ved Månen: en jordbaseline, der observerer et beacon på månens overflade.
+
+seg-b22415c31fea = <c1/><a1>lunar-vlbi</a1>
+
+seg-ef34999556df = Kovarians for stationskoordinater i VLBI ved Månen ud fra en eksplicit observationsplan (G8, artikel D3).
+
+seg-07f805cdc160 = <c1/><a1>lunar-vlbi-fim</a1>
+
+seg-e9b0a88ff0f9 = Analyse af SERVICEVOLUMEN for månenavigation — konstellation af klassen Moonlight / LCNS.
+
+seg-410df140b2ac = <c1/><a1>moonlight-service-volume</a1>
+
+seg-a11177c21b94 = Budget for forudsigelse i realtid af månens referencesystem og jordens orientering (EOP).
+
+seg-2cb38c250144 = <c1/><a1>realtime-frame-eop</a1>
+
+seg-33223ead7ec0 = Mars og solsystemet
+
+seg-a9e68b95994d = Positionering af en lander på Europa: tilfældet med en jupitermåne.
+
+seg-6e1713545914 = Positionering af en orbiter i lav Mars-bane med en navigationskonstellation ved Mars og et deep-space-link.
+
+seg-493b5843625f = <c1/><a1>europa-surface-pnt</a1><a2>mars-orbit-pnt</a2>
+
+seg-6f1b4c8d1686 = Mars PNT — en bruger i lav Mars-bane navigeret mod det simulerede MARCONI-relæ
+
+seg-d15098341ac2 = Mars PNT — en fast bruger på overfladen (en lander / rover på Mars' roterende overflade)
+
+seg-8d6976cfc360 = Mars PNT — en bruger på Mars-transfer / indfangning (en høj, excentrisk areocentrisk bue — den
+
+seg-2d0160d8dfd0 = <c1/><a1>mars-pnt-lmo</a1><a2>mars-pnt-surface</a2><a3>mars-pnt-transfer</a3>
+
+seg-58fd71afc7b3 = Hele solsystemet til én epoke.
+
+seg-92bcbe1c28d5 = <c1/><a1>solar-system-tour</a1>
+
+seg-d31afe1e48e3 = Kvantesensorer og trade-studier
+
+seg-c768cfa1127f = Robusthed i lagdelt PNT over for konflikt (artikel P7).
+
+seg-9ae1e6b6e7a9 = <c1/><a1>conflict-resilience</a1>
+
+seg-093024c87c43 = Detektion af fejl og anomalier i kvante-PNT-systemer — mærket fejlkatalog +
+
+seg-7373aaea2cc6 = <c1/><a1>quantum-anomaly-detect</a1>
+
+seg-e0f2d42e9a58 = GNSS-fri kvantenavigation — kvante (kold-atom-interferometer) mod klassisk
+
+seg-0d225315252d = <c1/><a1>quantum-gnss-free-nav</a1>
+
+seg-f005b07bd5d3 = Betroet kvantetidssynkronisering — tidsoverførselskæde fra ende til anden, sikker udsendelse,
+
+seg-c9b18cd44d6f = <c1/><a1>quantum-time-transfer</a1>
+
+seg-66e430c55836 = Afvejning mellem kvante-PNT og klassisk PNT med indlæsning af målt ADEV (ESA AO/1-13503-demonstrator).
+
+seg-7ce8ca98238c = <c1/><a1>quantum-trade</a1>
+
+seg-b6daece3fdf4 = Generisk parametersweep i N dimensioner over ENHVER scenarietype. I modsætning til den rene ur-
+
+seg-75dddac2e882 = <c1/><a1>sweep-nd-inertial</a1>
+
+seg-73ee91ed7ce2 = En kædet mission: nominel, jamming, spoofing, tab af GNSS med holdover for uret og
+
+seg-1e0ae3e165af = Et Monte Carlo-ensemble med seed gennem en kampagne, på et tilfælde med lukket form.
+
+seg-f176fb8d9cf9 = En optimering gennem en kampagne: X-bånds-linket i linkbudgeteksemplet
+
+seg-f3a091d760fd = Sammensætning på tværs af domæner: én jammer, to platforme. Et skib i Finske Bugt
+
+seg-5222d145a446 = En kædet mission drevet af L-båndets spektrum: en chirp-jammer tager GPS L1 C/A og
+
+seg-9a40718a397f = Et parametersweep gennem en kampagne: jamming-eksemplets modtager ({ "52" } N, { "4" } E,
+
+seg-da7647613c60 = LEO-PNT-fokusområde: yderligere PNT-datatjenester i navigationsbeskeden.
+
+seg-108d1486ec7b = LEO-PNT-fokusområde: fusioneret PNT med MEO + LEO.
+
+seg-a2beff2ebaa4 = LEO-PNT-fokusområde: indendørs navigation med UHF.
+
+seg-c61db40d4251 = LEO-PNT-fokusområde: positionering med lavt energiforbrug til tingenes internet (IoT) og mobil.
+
+seg-85b70e840ab6 = LEO-PNT-fokusområde: kompatibilitet med ikke-terrestriske netværk (NTN) i 5G/6G.
+
+seg-2d409c46b492 = LEO-PNT-fokusområde: positionering med høj nøjagtighed (precise point positioning, PPP).
+
+seg-5b1936c7d338 = LEO-PNT-robusthedsmission: GNSS jammet, LEO-PNT bærer brugeren, integriteten opretholdes.
+
+seg-d238fbcc1f84 = LEO-PNT-robusthed gennem båndmangfoldighed: én jammer, en modtager med fire bånd.
+
+seg-4a60598e908a = LEO-PNT-robusthed mod spoofing: hvilken monitor ser hvilken spoofer.
+
+seg-45e191fe3971 = LEO-PNT-vertikal: trådløse netværk, tidssynkronisering af basestationer i 5G/6G.
+
+seg-2466e0a2b0ad = LEO-PNT-vertikal: sporing af aktiver og tingenes internet (IoT), energi pr. positionsbestemmelse.
+
+seg-81df59dd795b = LEO-PNT-vertikal: autonome køretøjer, en urban kløft med et LEO-lag.
+
+seg-7cbec18ce36b = LEO-PNT-vertikal: den urbane kløft for autonome køretøjer, som et fladt cut-off og som en gade.
+
+seg-c5cbb50f640e = LEO-PNT-vertikal: tidssynkronisering til kritisk infrastruktur, holdover med LEO-tid.
+
+seg-abf58b089d72 = LEO-PNT-vertikal: polare og arktiske brugere.
+
+seg-a7de37959bb9 = LEO-PNT-vertikal: jernbane og søfart, de medfølgende maritime scenarier og scenarier for jernbane plus LEO.
+
+seg-d40bc29ddd65 = <c1/><a1>campaign-jam-spoof-holdover-integrity</a1><a2>campaign-monte-carlo-clock-holdover</a2><a3>campaign-optimize-link-budget</a3><a4>campaign-shared-jammer-sea-road</a4><a5>campaign-spectrum-holdover-integrity</a5><a6>campaign-sweep-jammer-power</a6><a7>leo-focus-data-services</a7><a8>leo-focus-fused-pnt-sisre</a8><a9>leo-focus-indoor-uhf</a9><a10>leo-focus-iot-eirp</a10><a11>leo-focus-ntn-bandwidth</a11><a12>leo-focus-ppp-altitude</a12><a13>leo-resilience-gnss-jammed-leo-carries</a13><a14>leo-resilience-multiband-diversity</a14><a15>leo-resilience-spoof-monitors</a15><a16>leo-vertical-5g-network-timing</a16><a17>leo-vertical-asset-tracking-iot</a17><a18>leo-vertical-autonomous-vehicle</a18><a19>leo-vertical-autonomous-vehicle-skyline</a19><a20>leo-vertical-critical-infrastructure-timing</a20><a21>leo-vertical-polar-arctic</a21><a22>leo-vertical-rail-maritime</a22>
+
+seg-5e0d224192c9 = Andet
+
+seg-1358411799c7 = En studiesuite: kshana --study kører den
+
+seg-16cf26093bf0 = <c1/><a1>quantum-pnt-demonstrator.suite</a1>
+
+seg-6cb4a75cb2f0 = Intet matcher det filter.
+
+seg-ec1a22002e13 = <b>Pro: kalibreret urtvilling</b> bygger på <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>Se, hvad den tilføjer</a1>
+
+seg-cc88295c3e2e = <b>Pro: rangeret trade-studie</b> bygger på <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>Se, hvad den tilføjer</a1>
+
+seg-62942b0a2127 = <b>Brugerdefineret studie</b> bygger på <c1/>. <a1>Se, hvad den tilføjer</a1>
+
+seg-8cec53de04c5 = <b>Pro: udformningsoptimering</b> bygger på <c1/>. <a1>Se, hvad den tilføjer</a1>
+
+seg-4bdca619acb5 = <b>Pro: usikkerhed og følsomhed</b> bygger på <c1/>, <c2/>. <a1>Se, hvad den tilføjer</a1>
+
+seg-35d8381e7605 = <b>Pro: missionsdossier</b> bygger på <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>Se, hvad den tilføjer</a1>
+
+seg-08d3c155a74d = <b>Pro: kampagneovervågning</b> bygger på <c1/>. <a1>Se, hvad den tilføjer</a1>
+
+seg-ff9c1f190eb6 = <b>Pro: sameksistens i spektret</b> bygger på <c1/>, <c2/>. <a1>Se, hvad den tilføjer</a1>
+
+seg-219302489147 = Typen har validerede registerrækker
+
+seg-07e6a0ac17ff = Typens rækker er modellerede
+
+seg-26f60db72dc5 = Ikke matchet med et registermodul efter navn
+
+seg-cda8db6840d7 = { "61" } funktioner, hver med sit bevis.
+
+seg-fb17b5b2f47b = Funktionskortene fra motorens egen funktionsfil. <b>Kør i Kshana Studio</b> åbner det tilhørende scenaries optagede kørsel.
+
+seg-85db75e49de8 = Filtrér efter status
+
+seg-cf90e18aa5ea = Alle { "61" }
+
+seg-1a60c5cff31e = Valideret { "24" }
+
+seg-28c662f116f7 = Modelleret { "37" }
+
+seg-5c0f7a68bdf7 = Filtrér efter gruppe
+
+seg-e516a1a887b0 = Alle grupper
+
+seg-298cc35fe9d1 = Inertial
+
+seg-b03984610dc0 = Måne
+
+seg-56bb928f3a90 = GNSS
+
+seg-f1f903f1b9ff = Robusthed
+
+seg-40c7e792f2f0 = Interop
+
+seg-f7ed808fa0de = Maskinlæring
+
+seg-6f253e0464fe = Maritim
+
+seg-d3c33a1905dd = Søg i funktionerne
+
+seg-bfbaae7044c8 = Søg efter funktion, domæne eller bevis
+
+seg-bd64cfb4dc52 = Banepropagering og konstellationsudformning
+
+seg-a7cfe6f135f1 = Bane og geometri
+
+seg-3060564c3e21 = 666/666 AIAA-vektorer · { "4.12" } mm
+
+seg-5b265eaf8f29 = SGP4/SDP4-propagering ud fra virkelige two-line elements (et indlagt Celestrak-snapshot af GPS) eller syntetiske Walker-konstellationer, hvis middelelementer realiserer formlen i:T/P/F til under { "1" } km over { "24" } timer. Synlighed for flere konstellationer, præcisionsfortynding og GNSS-tilgængelighed, en optimering af konstellationsudformning, dimensionering af streets-of-coverage og en sweep over Walker-udformninger, der rapporterer de Pareto-optimale udformninger over et gitter af planer × satellitter.
+
+seg-531d7504639d = <b>AIAA</b> American Institute of Aeronautics and Astronautics · <b>SGP4</b> Simplified General Perturbations { "4" }, en banemodel · <b>SDP4</b> Simplified Deep-space Perturbations { "4" }, en banemodel · <b>GPS</b> Global Positioning System · <b>GNSS</b> Global Navigation Satellite System
+
+seg-bbe75ebfb50d = Kør orbit-sgp4-gps i Kshana Studio
+
+seg-66e33b899daf = Cowell-propagator og kraftmodel med seks perturbationer
+
+seg-a5a572db3bed = Numerisk propagator
+
+seg-52a4410a54da = konservative niveauer < { "0.08" } m / { "24" } timer mod Orekit { "12.2" }
+
+seg-463ed85c6e40 = En numerisk (Cowell) propagator som supplement til den analytiske SGP4/SDP4-vej, med en hierarkisk kraftmodel: tolegemeproblemet + det fulde zonale felt J2–J6, et valgfrit tesseralt geopotentiale EGM2008 til grad/orden { "70" }, tredjelegemetyngdekraft fra Solen og Månen drevet af epoken (en indbygget efemeride, ingen DE/SPK-kerne), solstrålingstryk med en konisk skygge af umbra/penumbra, atmosfærisk modstand, den post-newtonske relativistiske Schwarzschild-korrektion og Lense–Thirring-leddet for frame-dragging — drevet af et valg mellem adaptive integratorer, RK4 med trindobling eller Dormand–Prince RK5({ "4" }).
+
+seg-67666da1a889 = <b>SGP4</b> Simplified General Perturbations { "4" }, en banemodel · <b>SDP4</b> Simplified Deep-space Perturbations { "4" }, en banemodel · <b>EGM2008</b> Earth Gravitational Model { "2008" }
+
+seg-797370a2faef = Burns, Lambert og porkchop
+
+seg-57b120fb0aac = Manøvrer og banedesign
+
+seg-5081c84dfdd7 = Tsiolkovsky < { "0.01" } % · Lambert gennemløber to-legeme-sandheden
+
+seg-da6b16ebd59b = Impulsive ΔV-noder med kovariansudbredelse på { "6" }×{ "6" }, integration af finite burn kontrolleret mod Tsiolkovskys raketligning til under { "0.01" } %, en Lambert-løser af Izzo-2015 for én omgang og en eksakt Kepler-propagator med universelle variable samt en porkchop-sweep (opsendelse × ankomst) af C3 / ankomst-V∞ udsendt som et JSON-konturgitter — laget til simulering af ydeevne oven på GMAT/Orekit.
+
+seg-ea491e4871a7 = <b>JSON</b> JavaScript Object Notation
+
+seg-831552a45712 = Tidsskalaer og referencesystemer for jordens orientering
+
+seg-76b323512350 = Tidssystemer
+
+seg-60208bd726eb = bit for bit mod SOFA/ERFA · Vallado fra ende til anden { "4" } mm
+
+seg-42373dd9ca64 = IERS-skalaer for UTC / TAI / TT / UT1 med skudsekunder, et API for juliansk dato, IAU-2000 Earth Rotation Angle, GMST-baseret TEME ↔ ECEF og geodætiske WGS-84-systemer, fuld IAU 2000A/2000B-nutation og IAU { "2006" }-præcession samt den jævndøgnsfri CIO-baserede reduktion IAU 2006/2000A GCRS↔ITRS med IERS-polbevægelse — valideret bit for bit mod SOFA/ERFA-vektorerne og uafhængigt krydskontrolleret mod ANISE (SPICE i ren Rust): GCRS→ITRS mod ANISE ITRF93, samme IERS EOP, stemmer til ≤ { "0.86" } m på jorden / ≤ { "3.6" } m i GNSS-bane.
+
+seg-e62bd32dc89e = <b>SOFA</b> Standards of Fundamental Astronomy · <b>ERFA</b> Essential Routines for Fundamental Astronomy · <b>IERS</b> International Earth Rotation and Reference Systems Service · <b>UTC</b> Coordinated Universal Time · <b>TAI</b> International Atomic Time · <b>TT</b> Terrestrial Time · <b>UT1</b> Universal Time { "1" }, bestemt af Jordens rotation · <b>API</b> programmeringsgrænseflade · <b>IAU</b> International Astronomical Union · <b>GMST</b> Greenwich-middelstjernetid · <b>TEME</b> referencesystem med sand ækvator og middeljævndøgn · <b>ECEF</b> jordcentreret, jordfast · <b>WGS-84</b> World Geodetic System { "1984" } · <b>CIO</b> Celestial Intermediate Origin · <b>GCRS</b> Geocentric Celestial Reference System · <b>ITRS</b> International Terrestrial Reference System · <b>SPICE</b> NASAs værktøjssæt til rumfartøj, planet, instrument, kameramatrix og hændelser · <b>ITRF93</b> International Terrestrial Reference Frame { "1993" } · <b>EOP</b> parametre for jordens orientering · <b>GNSS</b> Global Navigation Satellite System
+
+seg-dd766880e73a = Forudsigelse af jordens orientering i realtid
+
+seg-54169bca19e9 = { "12" } forspring mod arkiveret Bulletin A: UT1 { "2.93" } ms, polbevægelse { "1.76" } mas
+
+seg-81be07e41d1c = En forudsigelse af jordens orientering i operationel stil — mindste kvadrater over bias, rate og de vigtigste periodiske led over et efterfølgende vindue — målt mod virkeligt arkiverede forudsigelser fra Bulletin A og ikke mod persistens. Det offline standardinput er et virkeligt IERS finals2000A-produkt med rækker for forudsigelser fra Bulletin A, så en blank kørsel udsender en udfyldt tabel pr. horisont i stedet for en tom. UT1 og polbevægelse rapporteres over et fælles rækkesæt sammen med deres kombination, så det samlede tal er én statistik og ikke en kvadratisk sum af to forskellige stikprøver.
+
+seg-ecffa83dc257 = <b>UT1</b> Universal Time { "1" }, bestemt af Jordens rotation · <b>IERS</b> International Earth Rotation and Reference Systems Service
+
+seg-99080ef2f06d = Kør realtime-frame-eop i Kshana Studio
+
+seg-0e18bc4add10 = Strapdown INS og kortstøttet navigation
+
+seg-26561c9a96a7 = CAI-accelerometer ud fra grundlæggende principper · udledt VRW krydskontrolleret mod en uafhængig integrator
+
+seg-d18714ee32fb = Treakslet strapdown INS — attitude med kvaternioner, NED-mekanisering i WGS-84, kompensation for coning/sculling og en fuld deterministisk IMU-fejlmodel — samt et kold-atom-interferometer-accelerometer ud fra grundlæggende principper (Mach–Zehnder-fase, projektionsstøj, kontrastaftagning, vibrationskobling) og et partikelfilter til navigation uden GPS med reference til terræn/tyngdekraft.
+
+seg-f7266d7f37a0 = <b>INS</b> inertialnavigationssystem · <b>CAI</b> kold-atom-interferometer · <b>VRW</b> hastighedens tilfældige gang · <b>WGS-84</b> World Geodetic System { "1984" } · <b>NED</b> nord-øst-ned-system · <b>IMU</b> inertial målenhed · <b>GPS</b> Global Positioning System
+
+seg-e79f36c2013b = Kør imu-deadreckoning i Kshana Studio
+
+seg-0e44bdf12d16 = Inertial og terrænrelativ coasting gennem et udfald
+
+seg-07cb40aa5cd1 = { "10" } m ved { "249" } s, { "50" } m ved { "595" } s, accelerometerbias dominerer ved begge
+
+seg-d5df17e4425b = Positionsfejl mod coasting-varighed ud fra et IMU-fejlbudget — bias, tilfældig gang og skalafaktor, hver med sin egen vækstlov og sin egen andel af overskridelsen — så prisen for et navigationsudfald er en beregnet kurve og ikke en fejende driftrate. Tærskeloverskridelser er motorens output, med det dominerende bidrag angivet ved hver enkelt, over fire IMU-klasser, og et interval for terrænfix scores i sin egen blok, så de overordnede overskridelser forbliver uden støtte.
+
+seg-c58f30be2468 = <b>IMU</b> inertial målenhed
+
+seg-9cf68651e126 = Kør ins-trn-coast i Kshana Studio
+
+seg-6631a5d69c84 = Matchning af tyngdekraft-, terræn- og magnetkort
+
+seg-6af8e99df46d = Alt-PNT (uden GPS)
+
+seg-72527f4459c7 = 60 min uden GPS · ~{ "145" } m (< { "500" } m)
+
+seg-89bd5fb3e90b = En målemodel for et kold-atom-gravimeter, hvis hvidstøjgulv er udledt af fysikken i CAI-accelerometret, et fuldt normaliseret sfærisk-harmonisk tyngdeanomalifelt af lav grad plus syntetiske mascons og et partikelfilter til matchning af tyngdekraftskort — udvidet til terrænreferenceret navigation mod en SRTM-højdemodel (TERCOM/SITAN), et geomagnetisk hovedfelt IGRF-14 til grad/orden { "13" } og en kombineret navigator med tyngdekraft + magnetfelt + terræn, der fusionerer alle tre skalarkanaler. En benchmark på 60 minutter uden GPS — et udfald på ~{ "700" } km / én time, hvor den inertiale løsning driver til ~{ "70" } km — genfindes til ~{ "145" } m af en hierarkisk matcher fra grov til fin: målet i ESA NAVISP Quantum Wayfarer.
+
+seg-bdd65fb9dd76 = <b>PNT</b> positionering, navigation og tidssynkronisering · <b>GPS</b> Global Positioning System · <b>CAI</b> kold-atom-interferometer · <b>SRTM</b> Shuttle Radar Topography Mission · <b>DEM</b> digital højdemodel · <b>TERCOM</b> matchning af terrænkonturer · <b>SITAN</b> Sandias inertialnavigation med terrænstøtte · <b>IGRF-14</b> International Geomagnetic Reference Field, 14. generation · <b>ESA</b> European Space Agency
+
+seg-24eb5b048c45 = Kør gps-denied-gravity-nav i Kshana Studio
+
+seg-dbd63be796ff = Sensorfusion af GNSS / INS
+
+seg-f9582184adea = Fusion
+
+seg-f2166e96405f = tæt koblet UKF · { "0.77" } m RMS
+
+seg-d6ad19d1d47b = Et EKF med fejltilstand og 15 tilstande, der coaster gennem GNSS-udfald på en kalibreret inertial løsning; en tæt koblet pseudoafstandstilstand, der fortsætter med at korrigere med færre end fire satellitter; et koblet filter for ur + position; en generel unscented (sigma-punkt) Kalman-estimator; en tæt koblet GNSS/INS-UKF-navigator, valideret til { "0.77" } m RMS gennem et udfald på { "120" } s i en kurvet LEO-overflyvning; og en fuld tæt koblet GNSS/INS-UKF med 17 tilstande, hvis kvante-CAI-dødregning coaster udfaldet på kold-atom-accelerometrets udledte velocity-random-walk.
+
+seg-c081d9b84125 = <b>GNSS</b> Global Navigation Satellite System · <b>INS</b> inertialnavigationssystem · <b>UKF</b> unscented Kalman-filter · <b>RMS</b> kvadratisk middelværdi · <b>EKF</b> extended Kalman-filter · <b>LEO</b> lav jordbane · <b>CAI</b> kold-atom-interferometer
+
+seg-b1a268894f4c = Kør gnss-ins i Kshana Studio
+
+seg-4af862bd1307 = Batch- og sekventiel OD
+
+seg-ca67c864635c = Banebestemmelse
+
+seg-948441304a32 = batch + sekventiel OD mod Orekit { "12.2" } BatchLSEstimator/KalmanEstimator
+
+seg-22e738b2ab57 = Genfinding af en banetilstand ud fra afstandssporing fra jordstationer, sammensat af kraftmodellen med to legemer + J2 og RK4-integratoren med en Gauss–Newton-korrektor til batch-differentiering (under en meter / mm·s⁻¹ ud fra støjfri afstande, ~{ "2" } m ved et støjgulv på { "5" } m) og en sekventiel variant med unscented filter.
+
+seg-c876fc6a7893 = <b>OD</b> banebestemmelse
+
+seg-06406b3d0b88 = Fisher-information og observerbarhed
+
+seg-4e28248ef77b = Observerbarhed og estimationsteori
+
+seg-a5b38d0a8d64 = egenværdier mod numpy.linalg.eigh · CRLB mod σ²(XᵀX)⁻¹ via numpy.linalg.inv · GNSS DOP ud fra informationsmatricen, alle til { "1e-9" } · lukkede former af Kay ({ "1993" }) + opnåelse af CRLB med Monte Carlo
+
+seg-3ee5597d6f8a = Et generelt, genbrugeligt lag for Fisher-information / Cramér–Rao (src/fim.rs): informationsmatricen M = HᵀWH, den nedre Cramér–Rao-grænse, observerbarhedsrang og nulrummet for datumdefekten (Moore–Penrose-pseudoinvers) samt D/A/E/T-optimale skalarer til forsøgsdesign fra en symmetrisk Jacobi-egenværdiløser. Det ligger under DOP-motoren, grænsen for passiv geolokalisering og resultatet om observerbarhed for absolutte stationer ved Månen — intern afstandsmåling efterlader en datumdefekt for et stift legeme med seks frihedsgrader, som en VLBI-binding på en jordbaseline genopretter for en spredt konstellation og skærper for en rig, idet det absolutte datum lukkes ved tre ikke-kollineære jordstationer.
+
+seg-9566c694b6fd = <b>CRLB</b> nedre Cramér–Rao-grænse · <b>GNSS</b> Global Navigation Satellite System · <b>DOP</b> præcisionsfortynding · <b>DOF</b> frihedsgrader · <b>VLBI</b> interferometri med meget lang baseline
+
+seg-ed467622dbd0 = CR3BP-propagering og LunaNet-integritet
+
+seg-e386dced1d16 = Måne og cislunart rum
+
+seg-f444bc39efbe = Gengiver den publicerede L2 { "9" }:{ "2" } NRHO (~{ "6.57" } d periode · ~{ "3,250" } km perilune); STM kontrolleret mod finite differences
+
+seg-272afbca5e48 = En propagator for det cirkulære begrænsede trelegemeproblem (CR3BP) for Jorden og Månen i det roterende system — en bevaret Jacobi-konstant og alle fem Lagrange-punkter — med en tilstandsovergangsmatrix på { "6" }×{ "6" } og en single-shooting-korrektor, der frembringer ægte periodiske halo-/near-rectilinear-halo-baner (NRHO): den gengiver den publicerede sydlige L2 { "9" }:{ "2" } NRHO (Gateway-banen) med en periode på ~{ "6.57" } dage og en perilune på ~{ "3,250" } km. Dertil kommer geometri for LunaNet / LNIS cislunar PNT (reduktion MCI↔MCMF, selenografiske koordinater) med en ARAIM-overflyvning ved månens sydpol, der ærligt afslører integritetshullet: en σ_URE på ~{ "30" } m driver beskyttelsesniveauet langt over en alarmgrænse på { "50" } m.
+
+seg-cfec509023dc = <b>CR3BP</b> det cirkulære begrænsede trelegemeproblem · <b>NRHO</b> near-rectilinear halo-bane · <b>STM</b> tilstandsovergangsmatrix · <b>PNT</b> positionering, navigation og tidssynkronisering · <b>MCI</b> månecentreret inertialsystem · <b>MCMF</b> månecentreret, månefast system · <b>ARAIM</b> advanced receiver autonomous integrity monitoring
+
+seg-2671102679a1 = Kør lunanet-araim i Kshana Studio
+
+seg-619f89bf160c = Realisering af månens referencesystem
+
+seg-c6b12768a219 = mod numpy/scipy Umeyama–Horn SVD
+
+seg-29327b86ea27 = Realiserer et månefast referencesystem ud fra en observationskampagne: en vægtet Gauss–Newton-tilpasning af ligedannethed over geometrien mellem station og reflektor, der rapporterer datum, dets kovarians og den dårligst bestemte akse. Det koblede gauge for referencesystem og tidsskala medføres eksplicit og absorberes ikke, så rangmanglen er synlig i rapporten i stedet for at være begravet i en pseudoinvers.
+
+seg-fb071ff8e1ed = <b>SVD</b> singulærværdidekomposition
+
+seg-ad891e3678e4 = Kør lunar-frame-realisation i Kshana Studio
+
+seg-b3ba1e7b197d = Servicevolumen og ARAIM for månenavigation
+
+seg-353878596468 = ANISE { "0.10.2" } baner · RTKLIB 2.4.2-p13
+
+seg-70b9c02c1f6a = Sweeper en illustrativ konstellation af klassen Moonlight/LCNS over et selenografisk gitter: synlighed, præcisionsfortynding, dækning og ARAIM-beskyttelsesniveauer pr. epoke mod en konfigurerbar alarmgrænse. Nøjagtigheden af afstandsmålingen for signalet i rummet er en parameter, så sweepet besvarer et krav til afstandsmåling over hele volumenet og ikke bestået/ikke bestået ved én fast værdi.
+
+seg-8304ca0e00e5 = <b>ARAIM</b> advanced receiver autonomous integrity monitoring · <b>RTKLIB</b> et open source-bibliotek til GNSS-positionering
+
+seg-ee2f1f95951d = Kør moonlight-service-volume i Kshana Studio
+
+seg-a94db5b03c9c = Budget for interoperabilitet ved Månen på tværs af leverandører
+
+seg-a2e8a8dfd666 = DE440 · INPOP21a · EPM2021 via calceph
+
+seg-646a00230694 = Måler, hvor langt tre uafhængige, autoritative efemerider for Månen faktisk afviger fra hinanden, og omsætter det til en designlov: det budget for fejl mellem referencesystem og efemeride, som en bruger med blandede leverandører arver, og den konsistenstolerance, en leverandør skal overholde for at holde budgettet inden for en angivet grænse.
+
+seg-d2cc1c282efa = Kør lunar-interop-export i Kshana Studio
+
+seg-0f359c118090 = Observerbarhed af fejl i autonomt frit netværk
+
+seg-ae99396c03bd = mod uafhængig numpy/scipy-paritetsalgebra
+
+seg-51828c93731b = Den lineære algebra, som en selvrefererende månekonstellation har brug for for at opdage sine egne fejl uden nogen reference: den vægtede paritetsprojektor i en pseudoinvers form for rangmangel, der overlever gaugen for datum og tidsskala, detekterbarhed pr. knude, Baardas mindste detekterbare bias og Byzantine-antal for detektion/identifikation af block-spark over virkelig DE440-geometri mellem knuderne.
+
 seg-65d239fc4894 = Lunart referencesystem-datum fra reel laserafstandsmåling
 
 seg-c92dd319fa36 = { "337" } ILRS-normalpunkter · median { "5.13" } mm
@@ -1213,6 +2045,8 @@ seg-734a93b6a809 = Scoring af modstandsdygtighed i PNT og ustabilitet i beslutni
 seg-c25b4e240fb5 = Vurdering af modstandsdygtighed
 
 seg-f42ae8719e02 = { "35" } håndudledte tests mod en uafhængig reference; byte-deterministisk studieartefakt (fast seed); afstemt efter DHS RPCF v2.0
+
+seg-8e69193ca540 = En scoringsmotor afstemt efter et rammeværk (DHS RPCF-kategorier), som afbilder en arkitekturs simulerede adfærd på delscorer pr. dimension og derefter spørger, om en enkelt samlet score eller et modenhedsniveau er et stabilt grundlag for en beslutning, via et Dirichlet-vægtningssimpleks, Kendall-tau-rangustabilitet, andelen af skift i top-1-vinderen og kollaps af fællesmode-diversitet (Hill-N2), med en integritetshashet sikringsrapport. Kan genskabes med cargo run --example resilience_report. Modellerede syntetiske arkitekturer afstemt efter RPCF v2.0; en selvvurdering og ikke en certificering.
 
 seg-2ececb5d5b0c = <b>PNT</b> positionering, navigation og tidssynkronisering · <b>DHS</b> United States Department of Homeland Security · <b>RPCF</b> Resilient PNT Conformance Framework
 
