@@ -815,3 +815,1130 @@ seg-458a3953b3b2 = start, výstup, návrat do atmosféry, orientace, spoje, plá
 seg-7df7f7116a7c = řetězené mise, přeběhy a soubory sestavené z ostatních druhů
 
 seg-ab2c09d44cb7 = <c1/> spouští scénář; každý další příkaz je podpříkaz a <c2/> vypíše použití všech. Příkazy jsou <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (s <c8/> a <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> a <c61/>. <a1><c62/></a1> uvádí účel každého z nich, ověřený příklad a jeho stránku v dokumentaci.
+
+seg-4061734355a4 = Jeden engine, tytéž výsledky všude: příkazová řádka, knihovna v Rustu, Python, JavaScript a WebAssembly, server MCP s pluginovými příkazy a dovednostmi, { -brand } Studio (každá stránka běží v prohlížeči, bez instalace, nic se nenahrává), integrace ROS { "2" }, Signal K, OpenCPN, GNSS-SDR a <c1/>, nasazovací sady pro systemd, Docker a Grafanu a plugin pro JetBrains. <a1><c2/></a1> je vyjmenovává i s tím, jak každou získat, a s názvy všech pluginových příkazů, dovedností a stránek Studia; <a2><c3/></a2> uvádí u každého příkazu a druhu, která plocha jej nese a která ne, a proč.
+
+seg-e46194af8cec = Jak běh probíhá
+
+seg-aa92d3f2aaa0 = Scénář je soubor TOML (Tom's Obvious, Minimal Language): druh, seed a parametry. Engine jej spustí a vedle něj zapíše výsledek, graf a zprávu, spolu s exporty, o které požádáte.
+
+seg-76e3ec458441 = Jak běh probíhá. Soubor scénáře TOML (druh, seed a jeho parametry) vstupuje do enginu kshana { $version } přes rozdělovač api::run_toml nad { "87" } druhy scénářů, deterministicky podle scénáře, seedu a verze enginu. Engine zapíše result.json, chart.svg, report.html a report.json, table.csv pro druhy, které ji definují, a na požádání exporty SP3, CCSDS OMM a OEM, CZML, KML, GeoJSON, STK a SigMF; sada zapíše study.json a study.html. Tyto soubory napájejí { -brand } Studio v prohlížeči, asistenta s umělou inteligencí přes server kshana-mcp a kontinuální integraci.
+
+seg-63aa55ab596d = Tento přibalený scénář trvá { "2" } h: { "10" } min GNSS, poté zhruba { "1.8" } h s odepřeným GNSS. Ptá se, jak dlouho optické mřížkové hodiny se stronciem a čipové atomové hodiny (CSAC) udrží čas s odchylkou do { "20" } ns.
+
+seg-142bf034556b = Optické hodiny udrží rozpočet { "20" } ns po celý výpadek trvající { "6600" } s; CSAC jej udrží { "2610" } s a v rozpočtu je { "95.6" }% běhu oproti { "100" }% u optických hodin. <c1/> vypíše všechny přibalené scénáře.
+
+seg-09d7b3bfcbe4 = Deset odvětví klade témuž enginu deset různých otázek. Každé má přibalené scénáře, od kterých lze začít.
+
+seg-99a7944884ce = Odvětví
+
+seg-2c897a3bd230 = Začněte s
+
+seg-b37002818547 = Obrana a bezpečnost
+
+seg-b05cd10a5446 = Kosmonautika, oběžná dráha Země
+
+seg-84c132308264 = Měsíc, Mars a hluboký vesmír
+
+seg-5d7a6650872e = Letectví a drony
+
+seg-75d7d1930515 = Silnice
+
+seg-ea4149746f7b = Železnice
+
+seg-e7a61033ec40 = Kritická infrastruktura a časování
+
+seg-0b70e076dec3 = Telekomunikace a 5G (pátá generace mobilních sítí)
+
+seg-f246644479d0 = Věda a výzkum
+
+seg-a9e5cde1c2ec = Otázka, kterou si každé odvětví klade
+
+seg-a8be876e7d38 = Otázka, kterou klade
+
+seg-2b26b16f59c0 = Jak dlouho zůstávají naše navigace a časování důvěryhodné při rušení (jamming) a podvrhování signálu (spoofing) a které vrstvy nás udrží ve specifikaci?
+
+seg-f2f6717849a7 = Kosmonautika: oběžná dráha Země
+
+seg-d038a1e09683 = Vidí moje kosmická loď dost navigačních družic, jak dlouho její hodiny udrží čas mezi určeními polohy a co by přidala navigační vrstva na nízké oběžné dráze?
+
+seg-6010770a2bf6 = Měsíc a hluboký vesmír
+
+seg-321f33f89d35 = Získá přistávací modul, rover nebo orbiter u Měsíce, u Marsu či dál důvěryhodnou polohu a čas?
+
+seg-ec12ef650344 = Jak dlouho zůstane můj bezpilotní letecký systém (UAS) v rámci rozpočtu polohy poté, co jammer odebere GNSS, a je na mé trase dostupná integrita?
+
+seg-17b626951fcd = Jak daleko přes vodu jammer dosáhne, byl by zachycen posun polohy a jak dlouho může loď plout setrvačností do přístavu?
+
+seg-33641ef6761c = Silnice a automobilový průmysl
+
+seg-c3f2ad50a841 = O kolik se auto odchýlí pod nadjezdem nebo kolem jammeru u silnice?
+
+seg-94cca6b24bb2 = Kolik sekund po vjezdu do tunelu ještě vlak pozná, na které koleji je?
+
+seg-96a0796ee879 = Pokud je čas GNSS ztracen nebo podvržen, jak dlouho udrží elektrická síť, obchodní místo nebo datové centrum dohledatelný čas?
+
+seg-2d2a4afa2708 = Telekomunikace a 5G
+
+seg-af94e7a93923 = Pokud je ztracena časová reference GNSS, zůstanou hodiny mé sítě v rámci masek ITU-T a jak dlouho?
+
+seg-36d838421b86 = Mohu výsledek PNT reprodukovat, rozšířit a citovat, až po seed?
+
+seg-e31cf348fc57 = SGP4 ověřeno proti všem { "666" } referenčním vektorům AIAA 2006-6753, nejhorší chyba polohy { "4.12" } mm
+
+seg-707e2cf795f6 = <b>{ "176" } z { "388" }</b> schopností ověřeno proti nezávislým vnějším orákulům; { "208" } poctivě označeno jako vypočtené z modelu. Každý řádek verifikační matice uvádí schopnost, orákulum, proti němuž je ověřena, test, který kontrolu provádí, a označení, které z toho plyne. Kontinuální integrace (CI) znemožňuje označit schopnost jako VALIDATED bez nezávislého vnějšího orákula.
+
+seg-2f81cf391eae = Jak schopnost získá své označení. Každý řádek verifikační matice uvádí schopnost, orákulum, proti němuž je ověřena, test, který kontrolu provádí v kontinuální integraci, a označení, které z toho plyne. Řádek smí být VALIDATED jen s nezávislým vnějším orákulem; jinak je MODELLED, nebo PARTNER, pokud za něj odpovídá hardwarový partner. Příklad: SGP4/SDP4, Cowell 6-DOF + poruchy, dávkové/sekvenční OD, orákulum ověřovací vektory AIAA 2006-6753 SGP4, test tests/sgp4_verification.rs, označení VALIDATED. Aktuální počty: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER z { "388" } řádků. Celkem { "176" } schopností ověřeno proti nezávislým vnějším orákulům; dalších { "208" } je poctivě označeno MODELLED a { "4" } je ve vlastnictví partnera (PARTNER).
+
+seg-23d73e23b368 = Řádky
+
+seg-d16e0aac11d5 = nezávislé vnější orákulum souhlasí: reálná data, nezávislá implementace nebo publikované referenční vektory
+
+seg-0c1beb3b59cc = ověřeno proti analytické pravdě nebo vnitřní konzistenci simulace a řečeno otevřeně
+
+seg-9dd73106acfc = odpovídá za to hardwarový partner; { -brand } pro to žádné orákulum nemá
+
+seg-ed47a99fac7f = Několik z kontrol: všech { "666" } vektorů AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 pro SGP4 (Simplified General Perturbations { "4" }) s přesností { "4.12" } mm; silový model Cowell s přesností { "0.08" } m vůči Orekitu { "12.2" }; Galileo s přesností { "0.61" } m a Swarm-A s přesností { "0.10" } m vůči skutečným přesným efemeridám Evropské kosmické agentury (ESA). Testy pokrývají zhruba { "95" } % řádků <c1/>, s hranicí { "85" } % vynucenou v CI. Registr (ledger) je <a1><c2/></a1>, generovaný z <c3/>: <a2>úplná matice o 388 řádcích</a2> a proč nemá žádný řádek vypočtený z modelu vnější orákulum, v <a3><c4/></a3>.
+
+seg-6fd41f16334e = Jak funguje validace, vybraná tabulka nejdůležitějších bodů a obrázky důkazů
+
+seg-997c436fc1e7 = Validace, reprodukovatelnost a poctivost
+
+seg-b2739313cab0 = Každý šumový člen je kalibrován podle <b>publikované, citované</b> hodnoty a ověřen proti standardnímu vztahu (Allanova odchylka u hodin; Grovesův růst chyby dead-reckoningu u inerciálních systémů; převod časování na měření vzdálenosti u přenosu času). Stav každého členu se vede v <a1><c1/></a1> jako <c2/> nebo <c3/>: nic není prezentováno jako ověřené, co ověřené není.
+
+seg-96fe11e93409 = Reprodukovatelné již konstrukcí:
+
+seg-47e49f21e7b8 = <c1/>. <c2/> to vynucuje; kvantové a klasické běhy používají nezávislé seedy, takže jejich šum není korelovaný.
+
+seg-9908a7f56956 = Zralost je uvedena poctivě: údaje o optických hodinách a optických spojích jsou výsledky typu <em>cíle / pozemního demonstrátoru</em>, nikoli letové.
+
+seg-ee66ab516e01 = Validace v kostce
+
+seg-557da03648c5 = Každý řádek vynucuje pojmenovaný test v CI. Tato tabulka je <b>vybraný přehled nejdůležitějších bodů</b>; úplná strojově kontrolovaná matice má <b>{ "388" } řádků: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), s úplnými důkazy (a s tím, co poctivě ještě ověřeno <em>není</em>) v <a1><c2/></a1> a v artefaktu <a2><c3/></a2> pro každé vydání (generovaném příkazem <c4/>, s atestací SLSA — Supply-chain Levels for Software Artifacts).
+
+seg-bae9b226350a = Sloupec <b>Stav</b> uvádí <em>druh</em> důkazu v souladu s výše uvedeným žebříčkem validace: <b>VALIDATED</b> = ověřeno proti nezávislému vnějšímu orákulu (reálná data, nezávislá knihovna nebo publikované referenční vektory); <b>MODELLED</b> = ověřeno proti analytické pravdě nebo vnitřní konzistenci simulace (bez nezávislé vnější datové sady). VALIDATED popisuje <em>způsob</em> kontroly, nikoli výsledek typu splněno/nesplněno: poctivé minutí proti skutečnému vnějšímu orákulu zůstává VALIDATED, zatímco srovnání, které žádný řádek matice neuvádí jako orákulum (výše uvedené proložení LRO — Lunar Reconnaissance Orbiter), je označeno MODELLED. Řádky <c1/> jsou procesní pojistky, nikoli ukazatele kvality. Několik ostrůvků reálných dat (měřené cesiové hodiny, Stable32 PHASE.DAT a kontroly OPS-SAT/ICGEM, kde surové vstupy nemají licenci k redistribuci) je <b>omezeno dostupností dat</b>: test vypíše oznámení o přeskočení a zůstane zelený, pokud vstup chybí, a veřejná referenční čísla jsou uložena v <c2/>. Surové vstupy získáte příslušným <c3/>.
+
+seg-3242773b78ee = Shoda
+
+seg-57a8676b67dd = Reference / orákulum
+
+seg-40ac2ed0add0 = Propagace SGP4/SDP4
+
+seg-74bb349b9b77 = 666/666 vektorů, nejhorší <b>{ "4.12" } mm</b>
+
+seg-d9303165ec68 = AIAA 2006-6753 (Vallado <c1/>) + přímé srovnání s nezávislým crate <c2/>
+
+seg-c00ca18a862c = Referenční soustavy: nutace IAU 2000A/B, řetězec CIO IAU 2006/2000A, ERA
+
+seg-e8888d1c6043 = <b>bit po bitu</b> (X, Y na { "1e-14" }, s na { "1e-18" }, ERA na { "1e-12" })
+
+seg-e00324b958b7 = ERFA/SOFA <c1/> · <c2/> · <c3/> · <c4/>
+
+seg-1f11fe10f29e = GCRS→ITRS oproti nezávislému enginu SPICE
+
+seg-ea1d05c7dc4e = max. <c1/> → ≤ { "0.86" } m na zemi, ≤ { "3.6" } m na oběžné dráze GNSS
+
+seg-aff9d97f7ce7 = ANISE (čisté Rust NAIF/SPICE), tytéž IERS <c1/> EOP, { "8" } epoch { "2020" }–{ "2023" } (porovnáno s touto referencí; žádný řádek verifikační matice ji neuvádí jako vnější orákulum, proto není označeno VALIDATED)
+
+seg-ae3d9181e784 = Geopotenciál EGM2008 (stupeň/řád { "70" })
+
+seg-6e4faf2840b7 = zrychlení = ∇V s přesností <b>< { "1e-6" }</b>; zonální zhroucení na ověřené J2
+
+seg-97cb148bacb9 = Koeficienty NGA EGM2008 + analytická identita ∇V
+
+seg-96a34ac92ddd = Syntéza gravitačních funkcionálů (gravitačně podporovaná navigační mapa bez GNSS)
+
+seg-160e9b967b94 = GRS80 Somigliana + γ_e/γ_p s přesností <b>{ "3.5e-12" }</b>; skutečná mapa poruch EGM2008 fyzikálně věrohodná (RMS ≈ { "26" } mGal, st./řád { "70" })
+
+seg-ebffa5a3c7aa = Normální tíže GRS80 (Moritz { "1980" }, IAG — International Association of Geodesy) podle Somiglianovy formule + skutečný ICGEM EGM2008 (<c1/>)
+
+seg-f71c6820c126 = Odhadovače Allanovy odchylky (ADEV/MDEV/TDEV/HDEV) + pásma spolehlivosti
+
+seg-cc42b238f1a6 = reprodukují referenční odchylky; pásma χ² souhlasí
+
+seg-e952996d4cbb = NIST SP { "1065" } (Riley), tabulka 31/32 s 1000 body
+
+seg-4522ada8bd8c = Odhadovače Allanovy odchylky na <b>skutečně měřených cesiových hodinách</b>
+
+seg-de7a506c8db9 = OADEV/OHDEV s přesností <b>{ "1e-3" }</b> (pozorováno ≤ { "3e-5" }), { "16" } faktorů průměrování
+
+seg-df056c922da4 = Stable32 na skutečném 5071A Cs vs. vodíkový maser, { "556,990" } bodů (<c1/>, omezeno dostupností dat)
+
+seg-c763b3e39cdd = Odhadovače Allanovy odchylky na <b>kanonickém Stable32 PHASE.DAT</b>
+
+seg-ea18bbe1f92d = OADEV/MDEV/TDEV s přesností <b>{ "1e-3" }</b> (pozorováno ≤ { "5e-5" }), { "139" } faktorů průměrování
+
+seg-977dbc2622d3 = Referenční odchylky Stable32 pro PHASE.DAT (<c1/>, omezeno dostupností dat)
+
+seg-96cd3125f008 = Chybový model IMU — ARW / VRW / nestabilita biasu
+
+seg-00d96cd1cd5a = obnoveno s přesností <c1/> (nestabilita biasu < { "15" } %)
+
+seg-2fc63176238c = Datový list Analog Devices ADIS16465; referenční profil NaveGo
+
+seg-f7d91d9dee8a = Numerický propagátor Cowell + silový model (konzervativní úrovně)
+
+seg-e05a02476b0d = nejhorší chyba polohy <b>{ "0.08" } m</b> za { "24" } h, { "278" } epoch (LEO + GTO)
+
+seg-ebd031892fb8 = Orekit { "12.2" } <c1/>/<c2/> (CS GROUP), <c3/>
+
+seg-906f9f0b1eae = Úroveň odporu v Cowellově modelu + absolutní vstupy efemerid Slunce/Měsíce a hustoty
+
+seg-fda11bd250a7 = úroveň odporu charakterizována ≈ { "333" } m / { "24" } h; neporušený model souhlasí s Keplerovou úlohou v univerzálních proměnných pod metr, energie/moment hybnosti ~{ "1e-9" }
+
+seg-c8db4d50b17a = vestavěné efemeridy s nízkou přesností + analytický Kepler
+
+seg-96821f41fc71 = Lambert · Ciolkovskij · porkchop
+
+seg-83f07d16ec88 = zpětný průchod k pravdě dvou těles; ΔV
+
+seg-5e8afcacde5c = Izzo { "2015" } · raketová rovnice · analytický práh Hohmann
+
+seg-1deb8ad8e6e1 = Určování oběžné dráhy (dávkové Gauss–Newton)
+
+seg-fdac73a8f167 = pod metr / mm·s⁻¹ bez šumu; ~{ "2" } m při hladině šumu { "5" } m
+
+seg-710018ecdb49 = dvě tělesa + J2 na oblouku RK4
+
+seg-f5a8235096df = Proložení silového modelu proti přesným efemeridám Galileo (celý oblouk)
+
+seg-4baacfef5f63 = <b>{ "0.61" } m</b> 3D RMS, { "24" } h, st./řád 70, pouze silový model
+
+seg-416d96a084a4 = Finální dráha ESA/ESOC <c1/> (E11), skutečné <c2/> EOP (porovnáno s touto referencí; žádný řádek verifikační matice ji neuvádí jako vnější orákulum, proto není označeno VALIDATED)
+
+seg-f64134a379e8 = Proložení silového modelu proti přesným efemeridám Swarm-A (redukovaná dynamika)
+
+seg-7a3bbdc1b4d2 = <b>{ "0.10" } m</b> 3D RMS (mez empirické úrovně, nikoli míra)
+
+seg-8b39060411d2 = Přesná dráha ESA <c1/> (porovnáno s touto referencí; žádný řádek verifikační matice ji neuvádí jako vnější orákulum, proto není označeno VALIDATED)
+
+seg-96a65ffbcdf1 = Proložení silového modelu proti lunárnímu LRO (poctivé minutí)
+
+seg-55be30a240c6 = <b>{ "6.67" } m</b> s redukovanou dynamikou, <em>nad</em> cílem { "5" } m
+
+seg-e411f5f7d92b = JPL Horizons LRO (NAIF −{ "85" }) + GRAIL (Gravity Recovery and Interior Laboratory) <c1/> (porovnáno s touto referencí; žádný řádek verifikační matice ji neuvádí jako vnější orákulum, proto není označeno VALIDATED)
+
+seg-074b044becde = Určování dráhy v hlubokém vesmíru u Marsu (redukovaná dynamika, SRIF)
+
+seg-9572b23a1203 = <b>≈ { "0.2" } m</b> Mars-LMO (ukazatel kvality simulace, <em>nikoli</em> skutečné mise)
+
+seg-6357d45cc26e = syntetické OD s uzavřenou smyčkou — validace mechanismu odhadovače
+
+seg-eca024d9c13e = Dynamika Marsu se Sluncem ve středu vs. JPL DE440
+
+seg-adb60c85d110 = <b>{ "137" } m @ oblouk 1 den</b> (roste s obloukem = nemodelované n-těleso)
+
+seg-061dd1977246 = JPL DE440 přes ANISE (<c1/>, podmíněno jádry) (porovnáno s touto referencí; žádný řádek verifikační matice ji neuvádí jako vnější orákulum, proto není označeno VALIDATED)
+
+seg-b8d68fa3256d = Určení polohy z jednoho bodu vs. zaměřená souřadnice IGS (skutečná pozorování)
+
+seg-325b29867296 = <b>{ "5.7" } m</b> 3D RMS / <b>{ "1.1" } m</b> horizontálně, dvoufrekvenční kódové SPP bez ionosféry
+
+seg-03e61b1c4e92 = Zaměření stanice IGS ABMF + broadcast efemeridy GPS, 2018-05-13 (<c1/>)
+
+seg-5138b6282dc8 = Těsně vázaný GNSS/INS UKF
+
+seg-5dbed5c9f9ab = <b>{ "0.77" } m RMS</b> během 30minutového přeletu LEO včetně výpadku { "120" } s
+
+seg-7195c1e5d345 = setrvačný let podle silového modelu, odvozeno ručně
+
+seg-59bc25a3c3ca = Navigace podle gravitační mapy bez GPS
+
+seg-ee46e0571361 = ~{ "70" } km driftu INS → obnoveno <b>~{ "145" } m</b>
+
+seg-eefcccec80c1 = Cíl ESA NAVISP <em>Quantum Wayfarer</em>
+
+seg-578e72aad805 = Navigace podle terénu (TERCOM/SITAN)
+
+seg-d6bc30b51b2d = drift { "70" } km → <b>< { "500" } m</b> (mez daná rozlišením mřížky ~{ "140" } m)
+
+seg-abd9addd7658 = SRTM <c1/> DEM; ručně vnesený drift (nekruhová kontrola)
+
+seg-e40b32829af2 = Hlavní pole IGRF-14 (stupeň/řád { "13" })
+
+seg-afdcf7369e65 = pól ~{ "80.7" }° s. š., dipól ~{ "29.7" } µT, fyzikální pásmo { "22" }–{ "67" } µT
+
+seg-d226bee5fcff = IAGA (International Association of Geomagnetism and Aeronomy) <c1/> (Schmidtova semi-normalizace)
+
+seg-76b9215b643e = Modulace navigačního signálu a sledování kódu
+
+seg-b0a0212a6b0c = BPSK vlastní SSC = <b>2/({ "3" }·R_c)</b>; PSD s jednotkovou plochou; jitter DLL pro C/A <b>pod metr</b> při { "45" } dB-Hz
+
+seg-bea465b4f53f = Kotvy SSC/PSD v uzavřeném tvaru + vzorec tepelného šumu DLL podle Kaplana a Hegartyho
+
+seg-54d1705f195c = Diferenciální korektor halo/NRHO v CR3BP
+
+seg-edc2737363aa = STM = konečné diference; dráha se uzavírá s <b>přesností stroje</b>; L2 { "9" }:{ "2" } NRHO <b>≈ { "6.57" } d / perilunium ≈ { "3,250" } km</b>
+
+seg-205a1f860b51 = kontrola STM konečnými diferencemi + publikovaná jižní L2 { "9" }:{ "2" } NRHO (≈ { "6.56" } d / ≈ { "3,370" } km) — CR3BP, nikoli skutečné efemeridy Gateway
+
+seg-a5bc47e37dec = Integrita ARAIM se dvěma konstelacemi
+
+seg-2b20e50d96d3 = režim poruchy celé konstelace na skutečných GPS + Galileo
+
+seg-79e43be132e8 = EU ARAIM TR (technická zpráva) / DO-316; Celestrak <c1/> 2021-07-28 (porovnáno s touto referencí; žádný řádek verifikační matice ji neuvádí jako vnější orákulum, proto není označeno VALIDATED)
+
+seg-2c76bcdc9ffb = Geometrie GNSS / DOP (GDOP/PDOP/HDOP/VDOP/TDOP)
+
+seg-3ac1cbcac5b3 = shoda na <b>{ "1e-6" } relativně</b> napříč { "8" } geometriemi (dobře podmíněné → téměř singulární)
+
+seg-5a2015e52db6 = gnss_lib_py { "1.0.4" } (Stanford NAV Lab) — nezávislá knihovna (<c1/>)
+
+seg-6c228ebcfd7e = Metriky vyhodnocení ML detektorů (AUC/ROC/matice záměn/Pd-Pmd/preciznost/F1)
+
+seg-0e7439b380e1 = <b>přesné počty + < { "1e-9" }</b> na { "5" } datových sadách × { "24" } prazích
+
+seg-fa2b80f787ea = scikit-learn { "1.9.0" } (Pedregosa et al., JMLR — Journal of Machine Learning Research — { "2011" }) — nezávislá knihovna (<c1/>)
+
+seg-e48b80c3e7c9 = ROC AUC detekce anomálií na <b>skutečné telemetrii ESA OPS-SAT</b>
+
+seg-84259ebdd712 = AUC reprodukuje scikit-learn s přesností <b>< { "1e-9" }</b>; AUC detektoru počtu vrcholů <c1/> na označené testovací části
+
+seg-423c3bd384e0 = scikit-learn <c1/> na testovací části OPSSAT-AD (Ruszczak et al. { "2025" }, CC BY { "4.0" }) — skutečná telemetrie OPS-SAT (<c2/>)
+
+seg-be3029628c5e = Numerická jádra kvantového obchodu (proložení ADEV metodou NNLS · pásma konzistence χ² · Q hodin podle van Loana)
+
+seg-cfcb5961daa8 = NNLS + Q <b>přesně</b>; χ² <b>< { "5e-4" }</b> při provozních stupních volnosti ≥ { "48" }
+
+seg-5a9032fc0e3a = scipy { "1.17.1" } — <c1/> / <c2/> / <c3/> (<c4/>)
+
+seg-790692520df3 = Telekomunikační metriky wanderu MTIE / MDEV / TDEV (ITU-T G.810/G.823/G.8261/G.811 — doporučení Telekomunikačního standardizačního sektoru Mezinárodní telekomunikační unie)
+
+seg-4d847a7e8da6 = MTIE ({ "9" } faktorů průměrování, bit po bitu) a MDEV + TDEV ({ "8" } faktorů, <b>< { "1e-9" }</b> relativně) na řadě NIST SP { "1065" } LCG (lineární kongruenční generátor)
+
+seg-bf75fab95385 = allantools { "2024.06" } <c1/> / <c2/> / <c3/> — nezávislá knihovna (<c4/>, <c5/>)
+
+seg-4d0da08d3a81 = Metody obchodní studie MCDA — všechny čtyři rodiny rozhodování, devět externě ověřených agregátorů (WSM · WPM · WASPAS · MOORA · COPRAS · TOPSIS · VIKOR · PROMETHEE II · ELECTRE I) plus párové porovnávání priorit vah <b>AHP</b>
+
+seg-425d078b33ee = skóre / pořadí / matice konkordance reprodukovány s přesností <b>< { "1e-9" }</b>
+
+seg-60a082794dc0 = pymcdm + pyDecision (nezávislé knihovny MCDA třetích stran) + Saaty RI (Random Index) / SciPy-LAPACK eig (<c1/>)
+
+seg-97283fc18e4c = Obálka Dopplera na LEO z dráhy a nosné
+
+seg-3d30662e3f45 = Maximum Iridium v rozmezí <c1/> od publikovaných ±{ "36" } kHz; Xona Pulsar X1 uvnitř publikovaných <b>{ "32" }–{ "34" } kHz</b>
+
+seg-4e128979ab4e = Výsledky testů RNTF LEO PNT; Leclère, Marathe & Reid, arXiv:{ "2509.19551" } (<c1/>)
+
+seg-e6db6cb64a02 = Konvergence PPP s doplněním o LEO
+
+seg-e2c27ccb8ab4 = { "7.4" } → { "4.8" } / { "3.2" } / { "2.7" } / { "2.3" } min při { "60" } / { "96" } / { "192" } / { "288" } družicích LEO, monotónně; NEES filtru uvnitř pásma χ²
+
+seg-a6cdd76aedb0 = trend porovnán s Li et al., J. Geod. { "93" }:{ "749" } ({ "2019" }) ({ "9.6" } → { "7.0" } / { "3.2" } / { "2.1" } / { "1.3" } min); konstelace a šum nereprodukovány
+
+seg-3e651db0db24 = Podmíněná ochranná úroveň časování (nezachycená časová chyba omezená holdoverem při spoofingu)
+
+seg-3b790027bf17 = složení reprodukuje vícekrokovou kovarianční rekurzi <c1/>; kalibrováno na skutečném zaznamenaném spoofingu
+
+seg-6c83647adc32 = Skaláry JammerTest { "2024" } (Zenodo { "15911589" }) + uzavřené tvary van Loan / CUSUM (<c1/>)
+
+seg-d875db8386a5 = Hodnocení odolnosti PNT + nestabilita rozhodnutí
+
+seg-f8a85a31f6bc = { "35" } ručně odvozených testů orákula; bajtově deterministický artefakt studie (pevný seed)
+
+seg-c0a34c12ddb1 = Mapování DHS RPCF v2.0 + uzavřené tvary Dirichlet / Kendallovo τ / Hill-N2 — syntetické architektury, nikoli certifikace
+
+seg-16c9861cede4 = Studie optimistické mezery způsobené RF poruchami (zákony škálování + prediktor leave-one-out)
+
+seg-9e64dd00782c = významnost oproti permutační nulové hypotéze; bajtově deterministický artefakt ({ "5" } seedů)
+
+seg-5e1591a076e7 = syntetický korpus podložený parametry — <em>metriky</em> vyhodnocení jsou VALIDATED proti scikit-learn (výše); studie je MODELLED
+
+seg-56b7849f0463 = CI
+
+seg-ea0d1c94464f = Reprodukovatelnost napříč platformami
+
+seg-82e568406d19 = bitově shodný vstup + tvarové golden soubory na { "3" } OS (operačních systémech)
+
+seg-cd59fd086afc = Matice CI Linux / macOS / Windows, golden soubory SHA-256
+
+seg-3bdc2e301b1b = Pokrytí testy
+
+seg-e42bbd5c72f1 = <b>~{ "95" } % řádků</b> v <c1/> bez <c2/> a <c3/>, hranice ≥ { "85" } %
+
+seg-b2789a3e7ebe = cargo-tarpaulin (engine LLVM)
+
+seg-9fcd5cdd129d = Jak schopnost získá své označení: požadavek odkazuje na modul v src, na test v tests, na vnější orákulum (reálnou datovou sadu, nezávislou referenční implementaci nebo publikované vektory), na stav — s pojistkou vynucenou v CI, že žádná schopnost nemůže být ověřena bez vnějšího orákula. Aktuální počty: { "176" } ověřeno, { "208" } vypočteno z modelu, { "4" } partner, celkem { "388" }
+
+seg-5262ee45dd08 = Jak schopnost získá své označení — invariant vynucený v CI: žádné vnější orákulum ⇒ nemůže být ověřena · <a1>SVG</a1>
+
+seg-452fea06dd30 = Čím je každé tvrzení podloženo: sloupec ověřených je z konstrukce { "176" } ze { "176" } ExternalDataset (vynuceno v CI); řádky vypočtené z modelu jsou poctivě označeny InternalConsistency, ReferenceImpl nebo ExternalDataset; řádky partnera nemají žádné orákulum { -brand }
+
+seg-c550a4bde1ff = Nejhorší chyba polohy SGP4/SDP4 vůči referenci AIAA 2006-6753 podle režimu, logaritmická škála: každý režim je hluboko pod tolerancí AIAA, nejhorší případ { "4.12" } mm v hlubokovesmírném nerezonančním režimu
+
+seg-2ad422aac6a1 = Nahoře: každý ověřený řádek je z konstrukce podložen vnější datovou sadou. Dole: SGP4 souhlasí s oficiální referencí v každém režimu (nejhorší { "4.12" } mm). <a1>SVG</a1> · <a2>SVG</a2>
+
+seg-faadba4f1f85 = Stav verifikace napříč všemi { "388" } schopnostmi: { "176" } ověřeno (zkontrolováno proti vnějšímu orákulu), { "208" } vypočteno z modelu, { "4" } ve vlastnictví partnera
+
+seg-6c1edff3e035 = { "176" } ověřeno · { "208" } vypočteno z modelu · { "4" } partner — <a1>SVG</a1>
+
+seg-a9d8031cdcf8 = Každá schopnost veřejné mapy podle oblasti s označením v registru (ledger). Tabulku oblastí zapisuje <a1><c1/></a1> ze souboru <c2/>, téhož, který čte mapa všeho ve Studiu.
+
+seg-fcf51f91a0f2 = Schopnosti { -brand } podle oblasti a zralosti: ověřené a z modelu vypočtené veřejné schopnosti v každé oblasti, vykresleno z web/capabilities.json nástrojem tools/gen_validation_figures.py
+
+seg-4348d6cccd7c = Úplná tabulka, oblast po oblasti se všemi schopnostmi a jejich označením, je <a1><c1/></a1>.
+
+seg-00a9581dd0e4 = Nástroj pro příkazovou řádku získáte jedním řádkem: <b><c1/></b>. Každý kanál dodává v{ $version } ze stejného označeného commitu.
+
+seg-c9e68d2b2e99 = Příručka
+
+seg-8d953358d683 = otevřete <a1>https://kshana.dev</a1>
+
+seg-a594acff8553 = Pasáž uvádějící klienty AI třetích stran je zde vynechána; je v <a1>README.md</a1> na GitHubu.
+
+seg-d48f3f0dec08 = <a1>Přidat do Cursoru (npx)</a1> · <a2>Přidat do Cursoru (Docker)</a2> · <c1/>
+
+seg-ad59014f9c8e = <a1>Nainstalovat ve VS Code (npx)</a1> · <a2>Nainstalovat ve VS Code (Docker)</a2> · <c1/>
+
+seg-2593c6d52c90 = stáhněte kshana-mcp-<target> z vydání a ověřte jej podle SHA256SUMS
+
+seg-1999be2916fa = hledejte io.github.ashfordeOU/kshana-mcp
+
+seg-1ed41ea31422 = Settings → Plugins → Marketplace → hledejte „Kshana“ (ID pluginu dev.kshana.ide)
+
+seg-12541c10956b = stáhněte tarball pluginu z vydání
+
+seg-ad016bbbea54 = importujte kshana-grafana-*.json z vydání
+
+seg-7849acc8e680 = Kshana na JetBrains Marketplace
+
+seg-48a01a252537 = Sestavuje se s Rustem { "1.85" } nebo novějším, tedy rust-version v Cargo.toml
+
+seg-8edd16ad3672 = MCP je Model Context Protocol. Vydání připnete pomocí <c1/>, <c2/> nebo <c3/>. Sestavení ze zdrojů viz <a1>Instalace a sestavení</a1> v části Reference.
+
+seg-152cb43de2f3 = Spuštění scénáře z Pythonu a z WebAssembly
+
+seg-58ea673e61fc = Kromě <c1/> modul zpřístupňuje <c2/> (JSON, SVG a jednořádkové shrnutí najednou), <c3/>, <c4/>, <c5/> / <c6/> a <c7/>; viz <a1><c8/></a1>.
+
+seg-f589eb87e902 = Balíček npm je celý engine zkompilovaný do WebAssembly. V Node.js předejte binární soubor funkci <c1/>; v prohlížeči jej stáhne <c2/> (viz <a1><c3/></a1>).
+
+seg-7488a0b0a215 = Uprostřed stojí jeden otevřený engine a každá plocha jej spouští: příkazová řádka, knihovna v Rustu, Python, WebAssembly a { -brand } Studio, server MCP, obraz Dockeru a plugin pro JetBrains. Tentýž soubor scénáře dává na každé z nich tytéž bajty. { -brand } Pro stojí nad tím jako samostatná nadstavba, která na enginu závisí a nikdy jej nevětví.
+
+seg-9d69cf43cd40 = Architektura { -brand }: jeden otevřený engine uprostřed, kshana { $version } pod AGPL-3.0, s api::run_toml, typovaným rozdělovačem přes všechny druhy, a verifikační registr (ledger) { "388" } schopností ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Kolem něj každá plocha spouští tentýž engine: příkazová řádka (cargo install kshana); knihovna v Rustu (cargo add kshana); Python (pip install kshana); WebAssembly + { -brand } Studio (npm install kshana); server MCP (cargo install kshana-mcp); obraz Dockeru (ghcr.io/ashfordeou/kshana-mcp); plugin pro JetBrains (Marketplace: „Kshana“). Pod ním { -brand } Pro, proprietární nadstavba, která závisí na otevřeném enginu jako na knihovně, nikdy jej nevětví a nepřidává žádný fyzikální model.
+
+seg-9ac1f9e2d1b1 = Uvnitř enginu: doménové vrstvy a verifikační registr (ledger)
+
+seg-9bc9a971bdb4 = Architektura { -brand } po vrstvách. Pět vstupních bodů (příkazová řádka, Python, JavaScript a WebAssembly, server MCP a plugin pro JetBrains) vede k jednomu api::run_toml, typovanému rozdělovači přes { "87" } druhů. Pod ním leží osm doménových vrstev: čas a soustavy, hodiny a časování, inerciální systémy a fúze, GNSS a integrita, astrodynamika, LEO PNT, Měsíc, Mars a hluboký vesmír a mise a studie, nad společným jádrem, všechny provázané verifikačním modulem, strojově kontrolovanou maticí { "388" } schopností, která je jediným zdrojem pravdy pro každé označení.
+
+seg-4e894b853889 = <b>Jeden engine, mnoho vstupních bodů.</b> Jediné jádro v Rustu (<c1/>) spouští každý scénář a je dostupné přes CLI, rozšíření pro Python, modul WebAssembly v prohlížeči, <b>server MCP</b> pro agenty AI a <b>plugin pro IDE JetBrains</b> — vše směřuje do jednoho rozdělovače <c2/>. Uvnitř se balíčky senzorů připojují ke společnému rozhraní chybových modelů; vedle nich stojí <b>vrstva referenčních soustav</b> (precese–nutace IAU 2006/2000A a redukce GCRS↔ITRS založená na CIO), <b>astrodynamická/numerická vrstva</b> (analytický SGP4/SDP4 <b>i</b> numerický propagátor Cowell s modelem sil EGM2008/poruch, návrhem manévrů a určováním oběžné dráhy), <b>vrstva integrity/GNSS</b> (RAIM/ARAIM, SBAS, měřicí doména, rušení, cislunární), <b>vrstva fúze / alt-PNT</b> (odhadovače GNSS/INS a mapové korelátory gravitace/terénu/magnetismu), <b>vrstva hlubokého vesmíru a Měsíce</b> (radiometrické PNT pro Mars a lunární sada PNT, s úrovní důkazů každé části v matici — čas LTC, VLBI, společné OD + hodiny, realizace soustavy, objem služby, diferenciální PNT, interoperabilita), <b>vrstva analýzy misí</b> (rozpočty startu / návratu / pokrytí / zaměřování / přeletu / spojů a prostředí kosmického počasí) a otevřená <b>vrstva studií odolnosti a strojového učení</b> (hodnocení odolnosti RPCF, optimistická mezera RF poruch a kvantově podporovaný demonstrátor PNT), jejíž reprodukovatelné artefakty stojí na ověřených jádrech.
+
+seg-698b8f40212f = Vedle jádra stojí dva samostatné crates <b>vyňaté z workspace</b> — <c1/> (server MCP, postavený na SDK <c2/> edice 2024) a <c3/> (křížová kontrola soustav ANISE/SPICE, která stahuje závislosti pod MPL-2.0 (Mozilla Public License { "2.0" })) — udržované mimo graf závislostí publikovaného crate, <c4/>, licenční bránu a sestavení MSRV (minimum supported Rust version, nejnižší podporovaná verze Rustu) seznamem <c6/> v kořenovém <c5/>. Plugin pro JetBrains (<c7/>) je samostatný projekt v Kotlinu. Úplnou sadu diagramů viz <a1><c8/></a1>.
+
+seg-59578c405ae3 = Vykreslené diagramy (tok enginu, mapa modulů, distribuce) jsou v <a1><c1/></a1>.
+
+seg-e7a7a9f8a9ca = Diagramy
+
+seg-b4016ded2b17 = Diagramy jsou zdroje Mermaid v <a1><c1/></a1>, vykreslené do SVG a PNG v <a2><c2/></a2> (<c3/> v Linuxu, ostatní dva skripty <c4/> jinde) a záznam váže každé PNG k přesnému SVG, z něhož vzniklo. Testy hlídají počty, které uvádějí. Grafy v předchozích oddílech kreslí nástroje z běhů enginu; tyto ukazují, jak do sebe části zapadají.
+
+seg-b869ae37ad3e = Systém: šest vstupních bodů (příkazová řádka, Python, WebAssembly a npm se { -brand } Studiem, server MCP s pluginy a dovednostmi, plugin pro JetBrains, integrace) volá jeden rozdělovač přes všechny druhy scénářů, který spouští jeden engine ze společného jádra, balíčků senzorů a soustav a doménových modelů a zapisuje reprodukovatelný výsledek a graf
+
+seg-62f5ceb0f0ba = Jeden rozdělovač, jeden engine, reprodukovatelný výstup · <a1>SVG</a1> · zdroj <a2>system-overview.mmd</a2>
+
+seg-eab78023b888 = Plochy: jeden deterministický offline engine napájí příkazovou řádku, knihovnu v Rustu, Python, WebAssembly a npm a server MCP; Studio běží na sestavení WebAssembly, pluginové příkazy a dovednosti na serveru MCP, integrace a nasazovací sady na příkazové řádce a plugin pro JetBrains na knihovně
+
+seg-3436f01757b2 = Každá plocha ze stejného enginu · <a1>SVG</a1> · zdroj <a2>surfaces.mmd</a2>
+
+seg-54fe0ac7b2da = Uvnitř jednoho běhu: soubor scénáře se seedem a časovou osou GNSS napájí engine, který v každém časovém kroku vyvíjí chybový model, spouští odhadovač a vyhodnocuje ukazatele kvality, a zapisuje reprodukovatelný výsledek a graf
+
+seg-7d272510fb51 = Vnitřní smyčka běhu · <a1>SVG</a1> · zdroj <a2>engine-flow.mmd</a2>
+
+seg-5ff5a85b2531 = Důvěra v přijímač: záznam nebo proud z přijímače se zpracuje do pozorovatelných veličin po epochách a vlastních příznaků přijímače, projde monitory a stane se poradním skóre důvěryhodnosti s pásmem a důvody, které napájí Studio, telemetrii, podepsaný balíček důkazů, Jammertest a hodnocení bench a zprávu compliance
+
+seg-c96960dcf487 = Od záznamu přijímače ke skóre důvěryhodnosti a co je využívá · <a1>SVG</a1> · zdroj <a2>trust-flow.mmd</a2>
+
+seg-0251dc60b209 = Laboratorní okružní cesta: scénář se exportuje s událostmi a zkušebními podmínkami, operátor mimo { -brand } přehraje soubor přes laboratorní simulátor, záznam přijímače se vyhodnotí proti uvedeným událostem a okružní cesta důkazů spojí scénář, podmínky a hashe záznamů a skóre do podepsaného balíčku
+
+seg-7b0e5de94289 = Od scénáře k podepsanému balíčku; { -brand } nikdy nevytváří ani nepřehrává signál · <a1>SVG</a1> · zdroj <a2>lab-round-trip.mmd</a2>
+
+seg-e7f2456d8d12 = { -brand } Studio: prohlížeč spouští engine zkompilovaný do WebAssembly lokálně a nic nenahrává, bere přibalené scénáře nebo scénář či záznam, který otevřete, a zobrazuje výsledek v jednoduchém pohledu, pokročilém pohledu a na stránkách úloh, s exporty ukládanými uživatelem
+
+seg-952ebc1be82b = Jak Studio běží, lokálně · <a1>SVG</a1> · zdroj <a2>studio-flow.mmd</a2>
+
+seg-5468515a5224 = Tok testů a vydání: místní brány (formátování, clippy, kontrola absence atribuce, ratchet pokrytí dokumentace a scripts/gate.sh, který spouští úplnou sadu a opakované běhy a zapisuje potvrzení, které kontroluje hook před pushem) vedou k pull requestu pouze v CI a zelenému úplnému CI; vlastník posune main fast-forwardem na zelený commit a na něj dopadne anotovaný tag po kontrole synchronizace verzí; pracovní postup vydání před zveřejněním čehokoli ověří úplnou sadu na označeném commitu, sestaví binárky se SBOM, kontrolními součty a původem sestavení, publikuje do crates.io, PyPI, npm, registru kontejnerů, registru MCP a JetBrains Marketplace, dotazuje se každého registru, dokud neservíruje novou verzi, a z tagu spustí sestavení webu; samostatná cesta pouze pro web spouští pracovní postup pages s tagem main a je odmítnuta, pokud se od posledního vydání změnilo cokoli mimo web/ a .github/
+
+seg-1857e29823b3 = Tok testů a vydání, od místních bran po ověřené vydání a cestu pouze pro web · <a1>SVG</a1> · zdroj <a2>release-flow.mmd</a2> · <a3>docs/RELEASING.md</a3>
+
+seg-16125cb79850 = Mapa modulů: příkazová řádka, Python, WebAssembly, server MCP a plugin pro JetBrains volají typovaný rozdělovač přes všechny druhy, který dosahuje na společné jádro, čas a soustavy, balíčky senzorů, astrodynamiku, integritu, detekci spoofingu, fúzi, hluboký vesmír a Měsíc, odolnost a moduly rozhodčího a benchmarku, vše podložené verifikační maticí
+
+seg-9454a0bc9cea = Kde kód žije · <a1>SVG</a1> · zdroj <a2>module-map.mmd</a2>
+
+seg-302554087e15 = Distribuce: jedno repozitorium dodává jádrový crate, server MCP, plugin pro IDE a křížově kontrolní crates do crates.io, PyPI, npm, GitHub Releases, hřiště na Pages, registru kontejnerů, registru MCP a JetBrains Marketplace, s archivem na Zenodo
+
+seg-530f5e8a6cdd = Co se kam dodává a co to kontroluje · <a1>SVG</a1> · zdroj <a2>distribution.mmd</a2>
+
+seg-c21d26341f01 = <a1><c1/></a1> je server MCP: váš asistent spouští skutečný engine a čte zpět jeho JSON, místo aby matematiku hádal. Každý z jeho { "49" } nástrojů je tenký obal veřejné funkce knihovny <c2/>, takže v serveru žádná simulační logika neleží.
+
+seg-c459db99a099 = <c1/>, vlastní hosting: viz <a1>docs/deploy/mcp-http.md</a1>
+
+seg-8977c5b65068 = kshana-mcp na Glama, skóre kvality jeho serveru MCP
+
+seg-920704a0e384 = Nastavení pro jednotlivé klienty je v <a1><c1/></a1>. Server je uveden v oficiálním registru MCP jako <c2/>.
+
+seg-b7ea176e9993 = { "49" } nástrojů
+
+seg-4a458fb861f4 = Scénáře a zprávy
+
+seg-44d509180c56 = Spustit scénář z definice TOML (Tom's Obvious, Minimal Language)
+
+seg-87e30294e0dc = { "87" } vestavěných druhů scénářů s popisy + povinnými/volitelnými poli, aby agent mohl sestavit platný scénář
+
+seg-ef28db290e2b = Předletová kontrola: zpracuje TOML a rozpozná jeho druh, bez spuštění
+
+seg-ddda89579382 = Přibalené referenční scénáře jako JSON
+
+seg-b79218983c41 = Text TOML jednoho přibaleného referenčního scénáře, bajt po bajtu shodný se souborem v <c1/>
+
+seg-9a6dbd3f5561 = Spustit scénář a vrátit jeho zprávu
+
+seg-c6830cfd1d05 = Spustit scénář a vrátit jeho časovou řadu jako animaci
+
+seg-f33da4bce786 = Geometrie oblohy pod horizontem závislým na azimutu: viditelné a skryté družice, DOP, kovariance východ-sever-nahoru a elipsa horizontální chyby; nebo předvolba horizontu s jejím původem
+
+seg-aae3ddd9b033 = Export a interoperabilita
+
+seg-9c22d43236c6 = Které formáty interoperability se na scénář vztahují (<c1/>, <c2/>, <c3/>, <c4/>, <c5/>), důvod, když se nevztahuje, a specifikace, kterou každý zapisovač dodržuje
+
+seg-a403f55200cf = Exportovat scénář jako CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON, efemeridy STK (Systems Tool Kit) <c1/> nebo SigMF (Signal Metadata
+
+seg-b764db3e8a76 = Zapsat trasu GeoJSON <c1/> do scénáře, který létá po bodech trasy (<c2/>, <c3/>, <c4/>, <c5/>), a vrátit nový TOML
+
+seg-3d0b7051eef3 = Exportovat konstelaci scénáře <c1/> jako přesné efemeridy SP3-c (Standard Product { "3" }, revize c)
+
+seg-a895db8949e0 = Exportovat prvky scénáře <c1/> jako katalog CCSDS (Consultative Committee for Space Data Systems) 502.0-B-2 OMM (Orbit Mean-elements Message)
+
+seg-eea23196a44a = Exportovat řadu stavů scénáře <c1/> jako efemeridy CCSDS OEM (Orbit Ephemeris Message) { "2.0" } — polohu v TEME (true equator, mean equinox) <em>i</em>
+
+seg-77b4524cc903 = Spustit scénář a vrátit jeho tabulku reprodukovatelnosti jako CSV (comma-separated values) — bajtově stabilní tabulku, kterou CLI (command-line interface) zapisuje jako <c1/>
+
+seg-45ec6cbd0321 = Pohyb vozidla a události scénáře pro laboratorní simulátor GNSS (<c1/>)
+
+seg-21a2a8e8b418 = Důvěra v přijímač a plavidlo
+
+seg-50e8b3b5ec93 = Posoudit důvěryhodnost záznamu skutečného přijímače GNSS (globálního družicového navigačního systému)
+
+seg-7a1283d1338e = Vyhodnotit omezený výňatek NMEA { "0183" } (nejvýše { "2" } MiB a { "20,000" } epoch
+
+seg-c8bcc4c43ddd = Záznam NMEA { "0183" } plavidla (nejvýše { "4" } MiB) jako dávkový běh, s TOML relace, který uvádí limity plavidla
+
+seg-76213581f65d = Podepsaný balíček důkazů pro okno záznamu plavidla (<c1/>)
+
+seg-94c7903c4527 = Navázat na balíček časové razítko podle RFC { "3161" } (base64 bajtů <c1/>) v paměti (<c2/>)
+
+seg-684763a2c18f = Ověřit balíček (<c1/>)
+
+seg-dfcefc093cf1 = Syntetické NMEA { "0183" } z můstku pro výcvik posádky z TOML <c1/> (rušení, odtažení polohy, podvržení času, zpoždění přehrání) se záznamem instruktora (<c2/>)
+
+seg-f3fa6108f3b7 = Mapa interference GNSS z hlášení polohy ADS-B nebo AIS jako text CSV (nejvýše { "4" } MiB)
+
+seg-032b8d0d90bf = Podíl délky trasy v buňkách jedné či více map interference označených jako degradované, nedegradované, neposouzené a nepozorované, volitelně v rozmezí dat
+
+seg-02c3fb3fcd01 = Proud důvěryhodnosti (řádky JSON) nebo výsledek <c1/> vykreslený jako text Prometheus, řádky syslogu CEF nebo LEEF nebo náklad OTLP JSON, s kodéry <c2/>
+
+seg-1b6b67cee5e0 = IQ GNSS (soubory v pracovním adresáři; v režimu HTTP vypnuto)
+
+seg-791eec25de74 = Nastavení vrstvy IQ GNSS
+
+seg-bf92a3ffd87a = Popsat jeden záznam IQ (in-phase and quadrature) v pracovním adresáři bez jeho zpracování
+
+seg-0232abbf4044 = Vygenerovat vícedružicovou scénu IQ GNSS do pracovního adresáře (<c1/>)
+
+seg-bb76dbf58421 = Akvizice pomocí FFT (fast Fourier transform) jednoho či více PRN (pseudo-random noise codes) nad záznamem (<c1/>), volitelně za stupni vstupní části
+
+seg-e523a49c2fbb = Akvizice, poté sledování bankou DLL/PLL/FLL (smyčky s uzamčením zpoždění, fáze a frekvence) (<c1/>), se smyčkami z `kshana.loop-desig
+
+seg-17bfba9d7c6f = Použít DSP (digital signal processing
+
+seg-38daa8cd8755 = Přehrát jeden záznam IQ v pracovním adresáři přes několik návrhů sledovacích smyček (<c1/>)
+
+seg-a0423832eba5 = Spustit monitory detekce interference a spoofingu nad záznamem IQ v pracovním adresáři (<c1/>)
+
+seg-966250c8da0c = Proložit model ztráty uzamčení sledovací smyčky laboratorními běhy (<c1/>) ze scénáře <c2/>, jehož záznamy jsou vložené (<c3/> nebo <c4/>
+
+seg-b0f70dfca147 = Ověřit soubor <c1/> zadaný jako text a vrátit rozřešené podmínky s jejich hashem
+
+seg-703684fc6ef3 = Spustit kampaň laboratorního přehrávání (<c1/>)
+
+seg-646792c2afbc = Průběh výstupní složky kampaně
+
+seg-99753f8c101c = Mapování veřejných rámců vyplněné z dokumentů výsledků zadaných jako text (<c1/>)
+
+seg-bd507f064aa3 = Statické mapovací tabulky (nebo s <c1/> zdrojové dokumenty, které citují, s verzemi a URL) jako Markdown, uvedené stejným prohlášením
+
+seg-246d5c14a201 = Balíčky norem (<c1/>): hodnocené sady scénářů pro zkušební profily rámce DHS Resilient PNT, IMO MSC.1/Circ.1575 a ICAO Doc { "9849" } příloha F
+
+seg-38948941bee2 = Jeden balíček spuštěný proti prahům stanoveným před během: každý test <c1/>, <c2/> nebo <c3/>; MODELLED, žádný produkt nehodnotí
+
+seg-d95bbb38e253 = LunaNet Augmented Forward Signal ověřený proti LNIS V5 AD1 Volume A (LSIS-AFS V1.0): kódy proti vytištěným tabulkám, nebo proud symbolů proti formátu rámce; LDPC a CRC-24Q podrámců { "2" } až { "4" } ověřeny nejsou
+
+seg-d958c43ba8c1 = Podepsaný laboratorní okružní balíček: scénář, dokument <c1/>, záznam přijímače a skóre spojené hashi
+
+seg-22377c58ecb2 = Celý engine je zdarma. { -brand } Pro a studie na míru jsou pro programy, které potřebují víc, a každá placená cesta začíná zprávou: nejsou zde žádné ceny.
+
+seg-a91762c0aabe = Zdarma
+
+seg-eedfcdbe2b1c = celý otevřený engine, všech { "87" } druhů scénářů, bez omezení funkcí
+
+seg-af56c940e13a = proprietární nadstavba nad stejným enginem, na základě smlouvy
+
+seg-cd381d248ffb = studie odolnosti PNT vašeho systému typu MODELLED, zpracovaná za vás
+
+seg-c25a3f546887 = AGPL-3.0 (GNU Affero General Public License, verze { "3" }) nebo komerční licence
+
+seg-985c916fc71f = proprietární
+
+seg-3efb1ab7f428 = smlouva
+
+seg-dddd771482a1 = Jak začít
+
+seg-27546f4004b9 = <a1>nainstalujte</a1> nebo otevřete <a2>kshana.dev</a2>
+
+seg-ed09a7073af5 = požádejte o evaluaci Pro
+
+seg-68340a1233ff = požádejte o studii
+
+seg-fedf4c64c70b = Co je Pro, slovy <a1><c1/></a1>:
+
+seg-8e45f6fbb075 = <b>Striktní nadmnožina otevřeného { -brand }.</b> Pro závisí na otevřeném enginu jako na knihovně a nikdy jej nevětví. Každý otevřený druh scénáře běží v Pro beze změny a otevřený scénář běží v Pro bez jakékoli licence.
+
+seg-feece95f1d76 = <b>Žádná nová fyzika.</b> Pro nepřidává žádný fyzikální model a žádný nemění. Každé číslo z Pro pochází z běhů otevřeného enginu, takže údaj z Pro je tak důvěryhodný, jako druh otevřeného scénáře, z něhož pochází, a nikdy důvěryhodnější.
+
+seg-0aca4bbd4ed5 = Pro odpovídá na další otázky programu: který návrh létat (optimalizátor návrhu a jeho Paretova fronta), jak jistá je odpověď (nejistota a citlivost) a zda mise splňuje své požadavky (dossier mise, trasovatelnost požadavků, obchodní studie, kontrola regrese scénářů, digitální dvojčata hodin, dossier studie a služba v místní infrastruktuře). Také sleduje kampaň ukazatelů a shodí pipeline, když se některý zhorší, testuje kandidátní plány signálů proti otevřeným družicovým navigačním signálům v obou směrech (koexistence spektra) a řadí studie do fronty ve službě úloh v místní infrastruktuře s hashově řetězeným registrem (ledger) dodávek. Každá z těchto funkcí je popsána, včetně toho, co vytváří a co nedělá, v <a1><c1/></a1>. Nic, co Pro vytvoří, není certifikace, a ani studie na míru není certifikace.
+
+seg-bc8a7901a490 = Co { -brand } Pro čte z otevřeného enginu a podpora od Ashforde® OÜ
+
+seg-9a0afa43f0ea = <b>Na čem { -brand } Pro stojí.</b> Každá část Pro pracuje z otevřeného enginu a nechává jej beze změny:
+
+seg-d128e5855929 = <b>Optimalizátor návrhu, studie nejistoty a dossier mise</b> spouštějí scénáře otevřeného enginu přes veřejné rozhraní enginu a každé číslo počítají z výsledků běhů. Každý výstup si ponechává úroveň VALIDATED, MODELLED nebo PARTNER, kterou otevřený engine dal každému údaji, nikdy vyšší.
+
+seg-8f709ba56eba = <b>Digitální dvojčata hodin</b> používají model hodin otevřeného enginu a jeho odhadovač Allanovy odchylky: dvojče se kalibruje podle publikovaného Allanova rozpočtu zařízení a poté se zkontroluje odhadem Allanovy odchylky dvojčete otevřeným odhadovačem.
+
+seg-8e962b95a07a = <b>Obchodní studie</b> spouštějí každou architektonickou variantu jako scénář otevřeného enginu, beze změny, a řadí varianty podle ukazatele kvality načteného z výsledku každého běhu.
+
+seg-26cb2b80149d = <b>Sledování kampaně</b> čte své ukazatele z výsledků běhů scénářů v balíčku na otevřeném enginu a porovnává je s předchozím úspěšným během.
+
+seg-0d3fceebd2fa = <b>Koexistence spektra</b> čte každé fyzikální číslo z běhů otevřeného enginu druhů <c1/> a <c2/> a přidává jen součet přes družice v dohledu a řazení plánů.
+
+seg-3f5774536077 = <b>Služba úloh v místní infrastruktuře</b> spouští otevřené scénáře i scénáře Pro týmž enginem a každý výsledek ukládá tak, jak jej běh vrátil.
+
+seg-2ffc21f8dbf3 = <b>Balíčky důkazů</b> zaznamenávají pro každý běh hash scénáře, který otevřený engine vtiskne do výsledku, takže údaj v balíčku lze reprodukovat opětovným během jeho scénáře.
+
+seg-8c7245384d50 = <b>Nástroje systémového inženýrství a programů.</b> Nástroje { -brand } Pro pro systémové inženýrství založené na modelech (MBSE) a programy kontrolují požadavky programu proti během otevřeného enginu: importují požadavky jako hodnoty oddělené čárkami (CSV) nebo jako zdokumentovanou podmnožinu Requirements Interchange Format (ReqIF) či textu Systems Modeling Language verze { "2" } (SysML v2), vyhodnocují každé přejímací kritérium s jeho jednotkou proti hodnotám, které běh zapsal, a vytvářejí matici křížových odkazů verifikace (VCRM), model SysML v2, zprávu o dopadu změn a offline balíček důkazů. Nic znovu nespouštějí ani nepřepočítávají a čtou jen to, co otevřený engine zveřejňuje: <c1/> každého běhu (pole, která kritérium uvádí, jejich jednotky, otisk reprodukovatelnosti ve složení hash scénáře, seed, verze enginu a verze schématu a označení běhu a úrovně údajů), jeho <c2/> (druh, záznam reprodukovatelnosti a označení schopností), soubor scénáře (jeho hash, druh, seed a parametry), schéma jednotek polí (jednotka, původ a úroveň důkazů každého pole) a verifikační matici (označení VALIDATED, MODELLED nebo PARTNER každé schopnosti).
+
+seg-93911f432aa2 = Podpora a profesionální služby
+
+seg-5a793f457442 = { -brand } je zdarma a open source pod AGPL-3.0 a <b>profesionálně vyvíjen a udržován společností Ashforde® OÜ</b> (Estonsko). Otevřený engine je úplný a použitelný sám o sobě. Organizacím, které potřebují víc, Ashforde® OÜ nabízí:
+
+seg-6e169de76fc6 = <b>Komerční podpora a integrace</b> — zabudování { -brand } do vašeho řetězce nástrojů, scénáře na míru a prioritní opravy.
+
+seg-e41af701def5 = <b>Modely senzorů na míru</b> — kalibrované pro váš hardware, včetně modelů odolnosti citlivých na export, udržovaných v soukromé nadstavbě.
+
+seg-c90aa9512c01 = <b>{ -brand } Pro</b> — proprietární nástroje pro systémové inženýrství založené na modelech (MBSE) a programy, které kontrolují požadavky programu proti během otevřeného enginu a vytvářejí matici křížových odkazů verifikace (VCRM), model Systems Modeling Language verze { "2" } (SysML v2), zprávu o dopadu změn a offline balíček důkazů. Nic znovu nespouštějí a čtou jen zveřejněné výstupy enginu: <c1/> a <c2/> každého běhu, soubor scénáře, schéma jednotek polí a označení verifikační matice (úplný seznam je v části <a1>Edice</a1>).
+
+seg-3ad44fe86fcf = <b>Nástroje { -brand } Pro pro návrh, nejistotu a mise</b> — Paretova fronta návrhového prostoru, nejistota a citlivost přes tisíce běhů a dossier mise jedním příkazem s verifikační maticí a PDF; viz <a1><c1/></a1>.
+
+seg-956b1bda368c = <b>Sledování kampaně, koexistence spektra a služba úloh v { -brand } Pro</b> — pipeline, která selže, když se sledovaný ukazatel zhorší, plány signálů testované proti otevřeným družicovým navigačním signálům v obou směrech a fronta úloh v místní infrastruktuře s hashově řetězeným registrem (ledger) dodávek; viz <a1><c1/></a1>.
+
+seg-5745e72ae8f2 = <b>Školení a poradenství</b> k analýze výkonu kvantového/klasického PNT.
+
+seg-821dee6c4114 = Toto je model open-core: engine je a zůstane pod otevřenou licencí; udržitelný byznys tvoří odbornost, podpora a proprietární rozšíření — nikoli licenční poplatky. Kontakt <b><a1>contact@ashforde.org</a1></b> · <a2>ashforde.org</a2>.
+
+seg-7b708eaa9ed7 = Studie postavené na otevřeném enginu jsou publikovány na arXiv. Každá uvádí příkaz enginu, který za ní stojí, takže její čísla lze znovu vygenerovat z potvrzeného příkladu scénáře nebo studie.
+
+seg-065c91fc7c8f = Výzkum postavený na otevřeném enginu: šest článků na arXiv, každá karta uvádí článek, jeho datum a kategorii a příkaz enginu, který jeho čísla znovu vygeneruje. Týchž šest článků s odkazy a příkazy je v tabulce níže.
+
+seg-0afc90982c47 = Článek
+
+seg-f472e43c1100 = Co ukazuje
+
+seg-332bbdef19c8 = Příkaz enginu
+
+seg-51cbd78a124a = <a1><em>Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of RF-Impairment Detectors from In-Distribution Statistics</em></a1><br/><s1>arXiv:{ "2606.22054" } · <a2>doi:10.48550/arXiv.2606.22054</a2></s1>
+
+seg-54fb697cb9d9 = Pokles skóre detektoru interference GNSS po změně podmínek lze předpovědět pouze ze statistik v rámci rozdělení, na otevřeném syntetickém zkušebním prostředí a poté na otevřených terénních záznamech.
+
+seg-e37784b7192d = <a1><em>A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error Under GNSS Spoofing</em></a1><br/><s1>arXiv:{ "2606.24210" } · <a2>doi:10.48550/arXiv.2606.24210</a2></s1>
+
+seg-c185f93e008a = Časovací přijímač GNSS pod spoofingem nemá žádnou konečnou nepodmíněnou mez nezachycené časové chyby, proto článek uvádí podmíněnou, kalibrovanou na zaznamenaném podvržení vysílaném éterem z veřejné kampaně JammerTest { "2024" }.
+
+seg-dba4bd61e5a1 = <a1><em>How Stable Is a PNT Resilience Score? Decision-Instability of Single-Number Resilience Ratings under Framework-Aligned Weighting</em></a1><br/><s1>arXiv:{ "2607.05415" } · <a2>doi:10.48550/arXiv.2607.05415</a2></s1>
+
+seg-e71540c0579c = Jediné souhrnné skóre odolnosti je stabilním základem rozhodnutí jen tam, kde jeden návrh dominuje; kde návrhy soutěží, může vítěze změnit už samotné převažení.
+
+seg-f66a5adc8949 = <a1><em>Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination</em></a1><br/><s1>arXiv:{ "2607.02566" } · <a2>doi:10.48550/arXiv.2607.02566</a2></s1>
+
+seg-dd984a53aecc = Měření vzdálenosti uvnitř lunární konstelace ponechává absolutní polohu povrchové stanice nepozorovatelnou; zpoždění z interferometrie s velmi dlouhou základnou (VLBI) ze Země ji obnoví, když je konstelace řídká, a zpřesní, když je bohatá.
+
+seg-17f3813ba35c = druh <c1/>: <c2/>
+
+seg-801cab2ca61b = <a1><em>The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis</em></a1><br/><s1>arXiv:{ "2607.06212" } · <a2>doi:10.48550/arXiv.2607.06212</a2></s1>
+
+seg-9ffe7a7bb94b = Plánované konstelace o čtyřech až šesti družicích dávají na lunárním jižním pólu špatnou geometrii a několik povrchových měřicích majáků ji napraví mnohem levněji než další družice.
+
+seg-b86f49a7274e = druh <c1/>: <c2/>
+
+seg-43ac1ea20bcd = <a1><em>Cislunar navigation is an observability problem: arc-length thresholds, Gramian conditioning, and the Doppler lever</em></a1><br/><s1>arXiv:{ "2610.23871" } · <a2>doi:10.48550/arXiv.2610.23871</a2></s1>
+
+seg-ebd135b19e35 = Faktor DOP (zhoršení přesnosti) je pro cislunární sledování pouze podle vzdálenosti nedefinovaný, protože rychlost je v okamžiku jednoho snímku nepozorovatelná, a proto článek používá Gramián pozorovatelnosti na čtyřech rovinných vzdálených retrográdních drahách: měření pouze vzdálenosti má v okamžiku snímku hodnost { "2" } ze { "4" } a k plné pozorovatelnosti potřebuje oblouk dlouhý zhruba { "2.09" } h, přičemž podmíněnost se s délkou oblouku zlepšuje; měření rychlosti změny vzdálenosti (Doppler) dává hodnost { "4" } okamžitě; a společný odhad stanice se stavy družic a hodinami zůstává o jedničku hodnostně deficitní, pokud se nepřidá vnější interferometrická veličina. Požadavky patří do rozpočtů délky oblouku, podmíněnosti a typu měření, nikoli do DOP.
+
+seg-bf31a6be503d = druh <c1/>: <c2/> (jeho sourozenec <c3/> testuje práh nezávislým odhadovačem konečných diferencí)
+
+seg-e4c4bf92dded = Tři příklady studií zapisují bajtově deterministické artefakty (pevné seedy), které zaznamenávají verzi enginu, seedy a hash konfigurace. Tři lunární a cislunární články stojí na lunární sadě (úroveň důkazů každé části je ve verifikační matici); jejich tvrzení o geometrii a zhoršení přesnosti jsou navíc křížově kontrolována proti samostatným orákulům v <c1/>. Více v části <a1>Reprodukovatelné artefakty studií</a1> v Referenci.
+
+seg-f4d1ec6fc464 = Citace
+
+seg-8116ddf9a8e7 = Pokud používáte { -brand } v akademické nebo technické práci, citujte prosím verzi, kterou jste použili, se scénářem a seedem. <a1><c1/></a1> obsahuje strojově čitelná metadata a GitHub z něj zobrazuje tlačítko „Cite this repository“. Každé vydání je archivováno na Zenodo; koncepční DOI (Digital Object Identifier) <a2>10.5281/zenodo.20528627</a2> vždy odkazuje na nejnovější verzi.
+
+seg-6721eda6b4d6 = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simulator with quantum-sensor performance models</em>. <a1>Ashforde OÜ</a1>. <a2>https://doi.org/10.5281/zenodo.20528627</a2>
+
+seg-21aa09e97b5d = Výše uvedené články:
+
+seg-447074879572 = Baweja, C. ({ "2026" }). <em>Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of RF-Impairment Detectors from In-Distribution Statistics</em>. arXiv:{ "2606.22054" }. <a1>https://doi.org/10.48550/arXiv.2606.22054</a1>
+
+seg-ae8d95e35b46 = Baweja, C. ({ "2026" }). <em>A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error Under GNSS Spoofing</em>. arXiv:{ "2606.24210" }. <a1>https://doi.org/10.48550/arXiv.2606.24210</a1>
+
+seg-2783a7ab9b89 = Baweja, C. ({ "2026" }). <em>How Stable Is a PNT Resilience Score? Decision-Instability of Single-Number Resilience Ratings under Framework-Aligned Weighting</em>. arXiv:{ "2607.05415" }. <a1>https://doi.org/10.48550/arXiv.2607.05415</a1>
+
+seg-bc3a64e25ba8 = Baweja, C. ({ "2026" }). <em>Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination</em>. arXiv:{ "2607.02566" }. <a1>https://doi.org/10.48550/arXiv.2607.02566</a1>
+
+seg-0deb5ecb01d8 = Baweja, C. ({ "2026" }). <em>The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis</em>. arXiv:{ "2607.06212" }. <a1>https://doi.org/10.48550/arXiv.2607.06212</a1>
+
+seg-ed51d8a0cdae = Baweja, C. ({ "2026" }). <em>Cislunar navigation is an observability problem: arc-length thresholds, Gramian conditioning, and the Doppler lever</em>. arXiv:{ "2610.23871" }. <a1>https://doi.org/10.48550/arXiv.2610.23871</a1>
+
+seg-5056f9965e35 = { -brand } má duální licenci: GNU <b>AGPL-3.0-only</b> (<a1><c1/></a1>), nebo <b>komerční licenci</b> od Ashforde® OÜ pro uzavřenou integraci, které AGPL nevyhovuje. <a2><c2/></a2> vysvětluje, která platí. Příspěvky jsou licencovány příchozí licencí AGPL a zároveň udělují Ashforde® OÜ právo zahrnout je do komerční edice; každý commit podepište pomocí <c3/> (viz <a3><c4/></a3>). „Kshana“ a její značky jsou ochranné známky Ashforde® OÜ: licence se vztahuje na kód, nikoli na název, proto forky prosím přejmenujte.
+
+seg-57b202cb2d90 = Dlouhý materiál, sbalený. Každý dokument je uveden v <a1>Dokumentaci</a1>.
+
+seg-63d3e74d233c = Instalace a sestavení ze zdrojů
+
+seg-5dc0fc90ac79 = Instalace a sestavení
+
+seg-792f12b05230 = Vyžaduje toolchain Rustu (≥ { "1.85" }, tedy <c1/> v Cargo.toml; vyvíjeno na { "1.93" }).
+
+seg-14380916caba = Použití: příkazová řádka v plném rozsahu
+
+seg-a3536fe2dc4e = Spusťte libovolný scénář; CLI se řídí polem <c1/> scénáře a vedle něj zapíše <c2/>, <c3/>, <c4/> a <c5/> — plus <c6/> pro druhy, které publikují tabulku. Zpráva (stránka HyperText Markup Language (HTML) a dokument JSON se stejným obsahem) obsahuje shrnutí pro vedení, každý vstup s jeho jednotkou, výsledky a grafy, u kampaně tabulky průchodu, Monte Carlo nebo řetězců, časovou osu událostí, označení VALIDATED / MODELLED / PARTNER a zdroj každé schopnosti, kterou běh použil, co není modelováno a záznam reprodukovatelnosti (verze enginu, výtahy Secure Hash Algorithm 256-bit (SHA-256), seed, platforma a přesný příkaz). Z prohlížeče se vytiskne do čistého souboru PDF (Portable Document Format) na papír A4 nebo Letter; engine žádné PDF nezapisuje. Viz <a1><c7/></a1>.
+
+seg-422d0ded3988 = <c1/> zapisuje vedle scénáře záznamy CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON (Request for Comments { "7946" }), efemeridy Ansys STK (Systems Tool Kit) <c2/> a SigMF (Signal Metadata Format) a <c3/> vkládá čáru GeoJSON do druhů, které létají po trase. Každý formát se ověřuje proti své publikované specifikaci a scénář, na který se formát nevztahuje, uvede proč: viz <a1>docs/INTEROP.md</a1>.
+
+seg-73f6c3c859fa = <b>Další režimy CLI</b> — kontrola scénáře (lint), vkládání skutečných dat o orientaci Země nebo spuštění celé sady:
+
+seg-3c18807029e2 = Export animace.
+
+seg-69473251bb01 = <c1/> zapisuje <c2/> (klíčové snímky Cascading Style Sheets (CSS), bez skriptu), <c3/> (přehrát, pozastavit, posouvat, rychlost a synchronizované panely, bez vnějších prostředků) a <c4/> (<c5/>, … plus <c6/> s počtem snímků za sekundu a trváním). Kampaň přehraje své fáze a poplachy, běh spektra svůj vodopád; téma se řídí <c7/> a <c8/> zobrazí hotový obraz. Vykresluje vlastní vzorky běhu, při opakovaném běhu bajtově shodné, a nepřidává žádné důkazy. Viz <a1>docs/ANIMATION.md</a1>.
+
+seg-627e3a4e3f7d = Manifest <b>sady</b> je malý soubor TOML (Tom's Obvious, Minimal Language) — <c1/> a pole <c2/> cest ke scénářům — který engine spouští postupně a všechny výsledky (s jejich označeními MODELLED / VALIDATED) skládá do jednoho samopopisného artefaktu studie. Viz <a1><c3/></a1>.
+
+seg-b4c5325a1922 = <b>Role v interoperabilitě.</b> { -brand } je vrstva <em>simulace výkonu</em>, která stojí vedle toolchainu pro následné zpracování, nikoli jako jeho náhrada: jeho výstup <b>RINEX</b> předejte RTKLIB nebo gLAB pro řešení polohy a jeho výstup <b>SP3</b> použijte jako produkt přesné dráhy pro nástroje jako Ginan — { -brand } odpovídá na otázku, <em>jakou odolnost daná architektura PNT přinese</em>, dříve než máte skutečné signály, a to ve formátech, které tyto nástroje už přijímají (<c1/> nebo <c2/> ve scénáři <c3/> zapíše <c4/>). Tatáž dráha může být publikována jako střední elementy <b>CCSDS OMM</b> ze standardizační linie (<c5/> nebo <c6/> zapíše <c7/>) — jedna zpráva OMM { "502.0" } KVN (keyword = value notation) na družici definovanou v TLE, nesoucí skutečné katalogové číslo NORAD (North American Aerospace Defense Command), mezinárodní označení COSPAR (Committee on Space Research) a epochu každého objektu, pro každého spotřebitele znalého OMM místo svérázného dvouřádkového souboru elementů.
+
+seg-8e80d89eb666 = Ukázkový výstup (holdover hodin — všimněte si, jak jsou uváděny ukazatele kvality Integrita a Bezpečnost):
+
+seg-6cec0f5c28ca = 95. percentil (p95) časové chyby optických hodin je { "1.20e-4" } ns: shrnutí vypisuje malé hodnoty se platnými číslicemi, místo aby je zaokrouhlovalo na <c1/>. <c2/> ukazuje <c3/>, protože tento scénář nenastavuje žádný útok, takže není co detekovat. Výsledek JSON přesto nese u každých hodin analytickou mez detekovatelnosti spoofingu v <c4/> ({ "0.997" } pro optické hodiny, { "0.000" } pro čipové atomové hodiny, jejichž vlastní šum v monitorovacím okně přesahuje specifikaci { "20" } ns) a jeho blok <c5/> označuje tento údaj <c6/>. Druh scénáře <c7/> hodnotí detekci proti vnesenému útoku. <c8/> také každému uvedenému údaji přiřazuje jeho verifikační úroveň — VALIDATED (ověřeno proti vnějšímu orákulu) nebo MODELLED — a řádek verifikační matice, z něhož se úroveň čte. Scénář orbit navíc uvádí blok geometrie — podíl vzorků s určením polohy a nejlepší/mediánový faktor DOP polohy (PDOP) a přesnost polohy — vedle výsledku hodin.
+
+seg-b1ceeefaa419 = Tato dvě čísla čtěte pozorně.
+
+seg-9606fdd867c1 = <c1/> je <em>analytická mez detekovatelnosti spoofingu</em> odvozená ze stability každých hodin — má smysl pouze vůči nakonfigurovanému scénáři spoofingu a <b>není</b> vícedružicovým detektorem RAIM. <c2/> je zde <em>vnitřní konzistence</em> filtru (podíl vzorků výpadku uvnitř jeho vlastní meze k-sigma), <b>nikoli</b> ukazatel integrity HPL/VPL pro letectví. Viz <a1><c3/></a1>.
+
+seg-28301288a1f5 = Pro skutečnou integritu autonomní v přijímači spouští <b>druh scénáře <c1/></b> (<c2/>) skutečný snímkový RAIM a RAIM s oddělením řešení (ve stylu ARAIM) nad propagovanou geometrií konstelace: pro každou epochu počítá horizontální/vertikální <b>ochranné úrovně (HPL/VPL)</b> a uvádí podíl epoch, které splňují nakonfigurované meze poplachu, se Stanfordovým diagramem integrity pro klasifikaci chyba vs. PL (ochranná úroveň).
+
+seg-4035b0341b9d = Reprodukovatelné artefakty studií
+
+seg-4ebfbcaad565 = Čtyři otevřené studie z jediného příkazu znovu vygenerují bajtově deterministický artefakt (pevný seed) — čísla za studiemi křížení kvantového a klasického přístupu, optimistické mezery RF poruch, hodnocení odolnosti PNT a ochranné úrovně časování:
+
+seg-dcf0075493c2 = Každý artefakt zaznamenává verzi enginu, seedy a hash konfigurace a nese poctivé označení MODELLED/VALIDATED. Sondy na skutečných datech (<c1/>) spouštějí tentýž řetězec nad záznamy, které dodáte lokálně; v repozitáři se žádné datové sady nedodávají. Studie optimistické mezery RF poruch je popsána v preprintu <a1>arXiv:{ "2606.22054" }</a1> a podmíněná ochranná úroveň časování (<c2/> výše) v preprintu <a2>arXiv:{ "2606.24210" }</a2> (viz <a3>Citace</a3>).
+
+seg-5fcd78fc103f = Publikované studie lunárního PNT (<a1>arXiv:{ "2607.06212" }</a1> DOP povrchových majáků, <a2>arXiv:{ "2607.02566" }</a2> pozorovatelnost VLBI a <a3>arXiv:{ "2610.23871" }</a3> pozorovatelnost cislunární délky oblouku) mají svá tvrzení o geometrii, zhoršení přesnosti, předpovědi soustavy / parametrů orientace Země (EOP) v reálném čase, vzdálených retrográdních drahách a měření vzdálenosti RF nezávisle křížově zkontrolována v <c1/> proti samostatným orákulům (<c2/>, nezávislé řešení DOP v NumPy <c3/>, nové zpracování týchž řádků IERS <c4/> v NumPy a Three-Body Periodic Orbit Database NASA/JPL). Jde o dodatečné regresní kontroly nad <b>z modelu vypočtenou</b> lunární sadou; nemění strojově kontrolovaný počet v matici.
+
+seg-81b9a3353241 = Formát scénáře
+
+seg-407bddee0f95 = Scénáře jsou deklarativní TOML. Pole <c1/> na nejvyšší úrovni vybírá balíček — celkem <b>padesát</b> (<c2/> je výchozí, pokud chybí): <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/> (zkušební prostředí pro vyhodnocení detekce RF poruch strojovým učením — označený syntetický korpus + harness ROC/AUC nezávislý na detektoru + optimistická mezera uvnitř/vně rozdělení), <c27/> (srovnání kvantového a klasického PNT s načtením měřené ADEV + obálka odolnosti bez GNSS; MODELLED), <c28/> (sluneční/geomagnetické indexy + exosférická teplota Jacchia-71 + termosférická hustota řízená aktivitou nad statickou atmosférou; MODELLED), <c29/> (most pro import/zpětný průchod CCSDS OEM pro efemeridy GMAT/Orekit/STK; MODELLED), trojice analýzy misí <c30/> (dvoutělesový azimut startu / změna roviny / příležitosti), <c31/> (balistický koridor návratu podle Allena-Eggerse), <c32/> (geometrie šířky záběru EO / GSD / přístupu / revisitu), <c33/> (rámcování Space Packet CCSDS { "133.0" } TM/TC — telemetrie/telekomandy — přesné bitové rozvržení, ověřený zpětný průchod) a <c34/> (3-DOF gravitačně-gradientní moment + rozpočet chyby zaměření RSS), <c35/> (předpověď přeletů nad pozemní stanicí, východ/západ — AOS/TCA/LOS, maximální elevace, přístup) a <c36/> (jednosměrná rovnice spoje CCSDS/DSN — FSPL / Eb·N₀ / rezerva / uzavření); <c37/> (časová chyba holdoveru, MTIE a TDEV zkontrolované proti maskám ITU-T); <c38/> (celé pásmo L GNSS jako jedna spektrální hustota výkonu: vodopád frekvence a času pod skriptovanou časovou osou rušiče s nepřetržitou vlnou, úzkopásmového, čirpového nebo shodného šumu, poměr rušiče k signálu po pásmech a efektivní hustota nosné k šumu ze součinitele spektrální separace a vstup a výstup záznamu Signal Metadata Format (SigMF) s Welchovými spektrálními odhady; signálová spektra VALIDATED proti učebnicovým hodnotám, scénář rušiče MODELLED; viz <a1><c39/></a1>; týž druh kreslí panely pásem UHF, S a C s navrženými signály na nízké oběžné dráze Země); <c40/> (návrhy signálů určování polohy, navigace a času na nízké oběžné dráze Země pro libovolný systém: pásmově omezená spektra, jitter sledování kódu a přesnost měření vzdálenosti, akvizice a doba hledání, spektrální separace vůči GPS a Galileo, odolnost vůči rušiči a srovnání pásem UHF až C, z veřejných předvoleb jako Xona Pulsar, Iridium, Starlink a CentiSpace nebo z vložených návrhů; uzavřené tvary a Doppler LEO VALIDATED, návrhy MODELLED; viz <a2><c41/></a2>); <c42/> (Slunce, planety, Pluto, Měsíc a sedm velkých měsíců v jedné epoše — polohy, konstanty, světelné doby a dráhy; polohy planet VALIDATED proti JPL Horizons) a <c43/> (určování polohy kolem kteréhokoli z těchto těles s místní navigační konstelací a spojem z hlubokého vesmíru od Země; MODELLED); <c44/> (existující druhy složené do řetězené časové osy mise se stavem předávaným mezi fázemi, průchodu parametrů, seedovaného souboru Monte Carlo nebo několika scénářů za jedné sdílené podmínky; MODELLED, viz <a3>docs/CAMPAIGNS.md</a3>); <c45/> (vzory Walker delta a star, seznamy elementů a vícevrstvé návrhy s předvolbami GPS, Galileo, BeiDou a GLONASS a pokrytí a zhoršení přesnosti nad mřížkou zeměpisné šířky/délky; generátor a globální DOP GPS VALIDATED proti publikovaným servisním dokumentům, viz <a4><c46/></a4>); <c47/> (přelet družice určování polohy, navigace a času (PNT) na nízké oběžné dráze Země (LEO) a její rozpočet spoje pásmo po pásmu, z libovolné konstelace a libovolného návrhu signálu: úhly pohledu, Doppler a rychlost jeho změny, ztráty ITU-R deštěm, plyny, scintilací a průnikem do budov, hustota nosné k šumu vůči družicím GNSS na MEO v dohledu, ionosféra prvního řádu a dvojice bez ionosféry, rozpočet určení polohy s nízkou energií, sondování ionosféry z každé dvojice pásem a monitory spoofingu podle konzistence Dopplera a geometrie přeletu a podle konzistence mezi pásmy; členy ITU-R a obálka Dopplera pro statického uživatele VALIDATED, přelet MODELLED, viz <a5><c48/></a5>); <c49/> (vysílaná zpráva efemerid a hodin družice PNT na nízké oběžné dráze Země (LEO), pro libovolnou dráhu a nosnou: prokládač z integrované pravdivé dráhy do keplerovské sady Galileo, tato sada s polynomy oprav v podélném, příčném a radiálním směru, 22parametrový model Liu et al. { "2025" } nebo polynom ECEF ATOMIC s nulovými hodinami; chyba rozsahu signálu ve vesmíru (SISRE) vs. interval proložení a perioda aktualizace, kontrola návaznosti aktualizace uprostřed přeletu, vlastní zdokumentovaný binární rámec { -brand } s cyklickým redundančním kontrolním součtem CRC-24Q a rozpočet kvantizace a blok ve stylu RINEX-4 označený jako rozšíření { -brand }; váhy SISRE, uživatelský algoritmus Galileo a CRC-24Q VALIDATED, proložení MODELLED; volitelné předvolby pro Xona Pulsar, Iridium, Starlink, CentiSpace, reprezentativní systém v pásmu C, ATOMIC a Celeste IOD; viz <a6><c50/></a6>); trojice <b>fúzovaného PNT MEO + LEO</b> <c51/> (Dopplerovo určování polohy z rychlosti změny vzdálenosti družic na nízké oběžné dráze Země (LEO), společná určení polohy z pseudovzdáleností GNSS + LEO s mezisystémovými biasy a DOP vůči počtu družic LEO, polární a arktické pokrytí a přenos času LEO do UTC — přes libovolnou konstelaci, s volitelnými předvolbami, jako jsou signály příležitosti Xona Pulsar, Iridium a Starlink; obálka Dopplera LEO VALIDATED proti publikovaným údajům Iridium a Xona), <c52/> (konvergence přesného určení polohy samotného bodu jen s GNSS a s doplněním o LEO, porovnáno s Li et al. { "2019" }) a <c53/> (určování polohy v 5G neterestrických sítích z Cramérovy–Raovy meze šířky pásma signálu), MODELLED kromě této obálky, viz <a7><c54/></a7>; <c55/> (jeden systém LEO-PNT od začátku do konce: návrh <c56/> nesený pásmem <c57/>, C/N0 přeletu a chyba rozsahu signálu ve vesmíru navigační zprávy předané fúzovanému určení <c58/> a konvergenci <c59/>, každé předání uvedeno; MODELLED, viz <a8><c60/></a8>, který je zároveň přehledem každého druhu a scénáře LEO-PNT, včetně kampaní odolnosti, jednoho scénáře na každou zaměřenou oblast experimentu a jednoho na každou koncovou vertikálu); <b>sada lunárního PNT</b> <c61/>, <c62/>, <c63/>, <c64/>, <c65/>, <c66/>; <b>demonstrátor kvantově podporovaného PNT</b> <c67/>, <c68/>, <c69/>; a výzkumné druhy <b>zabezpečení signálu, cislunární a vrstvené odolnosti</b> <c70/>, <c71/>, <c72/>, <c73/>, <c74/>, <c75/> — trojice analýzy misí i tyto pozdější druhy jsou všechny MODELLED (každý s ověřeným jádrem v uzavřeném tvaru; viz matice). Společná pole: <c76/>, mřížka <c77/>, časová osa dostupnosti <c78/> (řídicí výpadek) a bloky jednotlivých senzorů s řetězci <c79/> citujícími zdroj každého údaje. Příklad (hodiny):
+
+seg-183a76915d50 = Volitelná pole (bez nich vypnuto): hodiny mohou přidat <c1/> (práh Allanovy odchylky 1/f FM — frekvenční modulace); inerciální senzor může přidat <c2/> a <c3/> (bias gyroskopu a úhlová náhodná procházka) a <c4/> a <c5/> (práh nestability biasu podle Allana a náhodná procházka zrychlení) — dohromady <b>jednoosý (1-DOF) rozpočet chyby akcelerometru</b> (VRW/ARW — rychlostní/úhlová náhodná procházka — a nestabilita biasu). To je rozpočet chyb, který spouští dodávaná <em>sada</em> scénářů <c6/>. Zvlášť knihovna nově nese ověřený <b>3osý strapdown navigátor</b> (<c7/>): kvaternionovou orientaci s kompenzací coning/sculling, plnou mechanizaci NED (členy rychlosti Země a transportní rychlosti, tíže WGS-84 podle Somiglianovy formule) a deterministický chybový model IMU, ve kterém jsou <b>modelovány činitel měřítka, nesouosost, g-citlivost, kvantizace a rychlostní rampa</b> (IEEE Std 952-1997, norma IEEE pro specifikaci a zkušební postup gyroskopů, §A.2; Groves { "2013" } §{ "4.3" }). Tato 3osá cesta je nyní <b>zapojena do spustitelné volně vázané sady GNSS/INS</b> (<c8/>): 15stavový chybový EKF disciplinuje strapdown řešení vůči zašuměným určením polohy, dokud GNSS funguje, a poté setrvačně pokračuje výpadkem a uvádí fúzovanou horizontální chybu proti volné setrvačné extrapolaci INS s otevřenou smyčkou. K dispozici je také <b>těsně vázaná aktualizace pseudovzdáleností</b> (tvoří inovaci v oblasti vzdáleností, takže opravuje i při méně než čtyřech družicích). Scénář holdoveru hodin může přidat <c9/> (> { "1" }) pro spuštění <b>souboru Monte Carlo</b> — každý ukazatel kvality se pak uvádí jako střední hodnota s rozptylem 5.–95. percentilu a graf zastíní pásmo spolehlivosti chyby (viz <c10/>).
+
+seg-3e3decd727fb = Scénář <c1/> (stejné bloky jako <c2/>) spouští <b>dva nezávislé Kalmanovy odhadovače</b> — jeden pro stav hodin, jeden pro stav polohy — disciplinované GNSS a podporované optickým přenosem času a uvádí kombinovaný ukazatel kvality holdoveru. Oba bloky nesdílejí žádnou kovarianci: jde o naskládanou dvojici chybových rozpočtů, <b>nikoli</b> o skutečný spřažený společný filtr hodiny + poloha (kovariance mezi bloky je položka plánu). Viz <c3/>.
+
+seg-a9c8223768ef = Scénář <c1/> vnáší časový spoofing — jeden ze čtyř druhů <c2/> (<c3/>, <c4/>, <c5/>, <c6/>; holé <c7/> se stále přijímá jako lineární rampa) — a spouští detektor spoofingu každých hodin. Detektor je oboustranný <b>test energie χ²₁ / Neyman–Pearson</b> nad monitorovací statistikou podporovanou hodinami: práh se určuje z cílového rozpočtu falešného poplachu <c8/> a <b>pravděpodobnost nezachycené události <c9/></b> se uvádí jak v uzavřeném tvaru, tak metodou Monte Carlo (<c10/> pokusů na hypotézu — obě se shodují na několik ×1/√N). <b>Ukazatel kvality Bezpečnost je <c11/></b> při provozně škodlivé (specifikační) velikosti, takže tichý hodinový zdroj, který zachytí spoofing o velikosti specifikace, získá ≈ { "1" } a hlučný, který jej často mine, méně (viz <c12/>, <c13/>).
+
+seg-2ca727430208 = Scénář <c1/> je simulace v <b>měřicí doméně</b>: pro každou viditelnou družici syntetizuje pseudovzdálenost <c2/> a Doppler na L1, s jednofrekvenční ionosférou <b>Klobuchar</b> (<c3/>, IS-GPS-200 §{ "20.3.3.5.2.5" }) a zenitovou troposférou <b>Saastamoinen</b> promítnutou mapovací funkcí <b>Niell ({ "1996" })</b> (<c4/>). Rezidua napájejí <b>snímkový RAIM</b> pro HPL/VPL po epochách a pseudovzdálenost, Doppler, C/N₀ a korekce iono/tropo každé družice se vysílají v poli JSON <c5/>. Je to dopředný simulátor (vytváří měření ze známé pravdy), nikoli přijímač/řešitel — běh s nulovým šumem reprodukuje geometrii plus korekce na úrovni pod milimetr (viz <c6/>).
+
+seg-49cadf7f7bf2 = Scénář <c1/> modeluje RF interferenci jako <b>rozpočet spoje</b>: <c2/> (poloha ECEF, vysílací <c3/>, typ) zvyšuje poměr rušiče k signálu u <c4/>, který sleduje Walkerovu <c5/>. Z geometrie (ztráta šířením ve volném prostoru a zisk přijímací antény v každém směru) počítá <c6/> každé družice, <b>efektivní C/N₀</b> podle standardní rovnice odolnosti proti rušení (zisk zpracování rozprostřením × činitel spektrální separace <c7/>; Kaplan & Hegarty §{ "9.4" }) a hlásí ztrátu uzamčení pod nastavitelným prahem sledování — a uvádí ukazatel kvality <c8/>. Širokopásmový jammer o výkonu { "10" } W ve vzdálenosti { "1" } km přijímač zcela vyřadí (J/S ≈ { "72" } dB); tentýž jammer ve vzdálenosti { "100" } km spoje jen zhorší (viz <c9/>).
+
+seg-ff8bd5d80f32 = Scénář <c1/> spouští <b>obchodní studii</b>: mění jeden <c2/> (<c3/>, <c4/>, <c5/> nebo <c6/>) od <c7/> do <c8/> v <c9/> bodech na škále <c10/> nebo <c11/> (<c12/>), zaznamenává <c13/> (např. <c14/>) pro oba hodinové zdroje a vykresluje obě křivky. Základní scénář patří pod <c15/> (viz <c16/>).
+
+seg-299dbf1cf3f2 = Scénář <c1/> to zobecňuje na <b>libovolný balíček a libovolný počet os</b>: mění tečkované klíče TOML scénáře <c2/> (libovolného <c3/>) přes kartézský součin <c4/>, znovu spouští každý uzel mřížky a zaznamenává <c5/> zadané jako tečkované cesty JSON do výsledku (např. <c6/>). Funguje pro každý balíček, protože pracuje na rozhraní TOML/výsledek; nativní běhy vyhodnocují mřížku paralelně (bez další závislosti, wasm se vrací k sekvenčnímu režimu) a výstup je deterministický a řazený po řádcích (viz <c7/>).
+
+seg-043d68dbb5bb = Scénář <c1/> odvozuje časovou osu <c2/> z geometrie, místo aby ji zadával — uveďte oběžnou dráhu <c3/>, <c4/>, elevační <c5/> a dva bloky hodin. Z geometrie družic také uvádí přesnost polohy; volitelné <c6/> (1-sigma ekvivalentní chyba vzdálenosti uživatele, výchozí { "1" } m) převádí faktor DOP polohy na sigma polohy. Dráha uživatele může být <b>excentrická</b> pomocí <c7/> a <c8/> a <c9/> přidává sekulární drift způsobený zploštěním Země (viz <c10/>). Konstelace může být místo toho <b>skutečná</b>: dejte <c11/> blok <c12/> s dvouřádkovými sadami elementů a družice se z něj zpracují (viz <c13/>). Přidejte jeden či více bloků <c14/> pro <b>multi-GNSS</b> (např. GPS + Galileo; viz <c15/>):
+
+seg-5841e4eac5a5 = Druhy <b>alt-PNT bez GPS</b> navigují zcela bez GNSS a porovnávají naměřenou polní posloupnost s mapou přes časticový filtr. Scénář <c1/> letí po trati sférickým harmonickým polem gravitačních anomálií a obnovuje ji z údaje gravimetru se studenými atomy (<c2/>); scénář <c3/> totéž dělá proti výškovému modelu SRTM (TERCOM/SITAN, <c4/>); a scénář <c5/> slučuje <b>gravitaci + magnetické pole IGRF + terén</b> v jednom filtru (<c6/>).
+
+seg-ec221fc5ace5 = Scénář <c1/> hodnotí <b>cislunární</b> PNT: spouští přelet s ochrannou úrovní ARAIM na lunárním jižním pólu proti sadě relé LunaNet/LNIS a poctivě uvádí mezeru v integritě — lunární σ_URE ~{ "30" } m žene ochrannou úroveň hluboko nad mez poplachu { "50" } m, takže služba je podle pravidel integrity ve stylu letectví <em>nedostupná</em> (<c2/>).
+
+seg-9b33c9203ca2 = Scénář <c1/> uvádí <b>relativistickou rychlost chodu hodin Země–Měsíc</b> — základ časové škály Lunar Coordinate Time (LTC/TCL). Identita post-newtonovského řádu z prvních principů sčítá rozdíl vlastních potenciálů (potenciál geoidu IAU <c2/> mínus vlastní potenciál povrchu Měsíce) a kinetický člen Měsíce (Dopplerův člen druhého řádu) na sekulární rychlost ≈ { "57" } µs/den, uváděnou spolu s publikovaným pásmem { "56" }–{ "59" } µs/den; dává také nahromaděný posun LTC−TT za horizont a soubor s inverzním rozptylem (lunární papírové hodiny). <b>MODELLED</b> — hlavní údaj <em>závisí na referenci</em> (geoid Země vs. selenoid Měsíce, okno průměrování), a proto se uvádí pásmo, nikoli jediné certifikované číslo (<c3/>).
+
+seg-f1efe0de99b8 = Viz <c1/> pro alespoň jeden dopracovaný příklad každého druhu ({ "87" } druhů, { "182" } souborů scénářů <c2/> + { "1" } manifest sady — několik druhů dodává více než jeden příklad). Ne každý druh má soubor pojmenovaný po sobě: <c3/> → <c4/> a <c5/> → <c6/> jsou dva z několika takových. Dispečerem dostupné druhy lze kdykoli vypsat pomocí chyb <c7/>, funkce Pythonu <c8/> nebo nástroje MCP <c9/>.
+
+seg-ee0d7a833f44 = Artefakt výsledku je verzovaný, samopopisný JSON: časové řady po krocích, hodnocené ukazatele kvality, aktivní specifikace modelů (s původem), seed, <b>hash scénáře</b> — aby šel každý graf reprodukovat ze souboru — a pro každé hodiny <c1/> (<c2/>): překrývající se Allanova odchylka napříč oktávově rozloženými dobami průměrování — standardní způsob čtení stability hodin — nyní s <b>{ "95" }% pásmem spolehlivosti specifickým pro typ šumu</b> v každém bodě (mocninný typ záznamu se určí ze sklonu modifikované Allanovy odchylky a interval χ² používá odpovídající efektivní stupně volnosti podle NIST SP { "1065" }). Hřiště v prohlížeči jej vykreslí jako log-log graf „Stabilita hodin (ADEV)“. (MDEV, TDEV a HDEV jsou k dispozici jako odhadovače knihovny; exportovaná křivka výsledku je překrývající se ADEV.) Každé pole, s jednotkami a odkazem na zdroj, je zdokumentováno v <a1><c3/></a1>.
+
+seg-a9f0811371b2 = <b>Každý graf je samopopisný.</b> Hřiště v prohlížeči, export <c1/> z CLI i výsledková karta HTML (HyperText Markup Language) opatřují každý obrázek grafu patičkou ve tvaru <c2/>. <c3/> je prvních { "12" } hexadecimálních znaků <b>hashe scénáře</b> běhu — výtahu SHA-256 (256bitový Secure Hash Algorithm) z kanonické definice scénáře (seed, prahy, parametry modelů, okna GNSS, …); zprávy o integritě a lunární zprávy, které nenesou vlastní hash, se vracejí k SHA-256 zdroje scénáře. Je to <b>tentýž otisk</b>, který ukazuje jednořádkové shrnutí a JSON výsledku, takže uložený nebo vložený graf vždy nese svou verzi, přesný scénář, který jej vytvořil (pro reprodukci bit po bitu), a zdroj — změňte jakýkoli vstup a hash se změní.
+
+seg-0ae680dc1433 = Ukazatele kvality sledují standardní provozní ukazatele kvality PNT:
+
+seg-ffc16440f24c = Ukazatel kvality
+
+seg-4332ec0b9c4b = Jak jej { -brand } počítá
+
+seg-edafac3457ae = Časový výkon (balíčky hodin/oběžných drah)
+
+seg-ee7b3cf30f8a = RMS chyby fáze hodin + 95. percentil za dobu výpadku v <b>nanosekundách</b> (<c1/>) — časová metrika, nikoli poloha
+
+seg-e5af17bacf4d = Polohový výkon (balíčky inerciální/hybridní)
+
+seg-46e24e9ce93c = 1-DOF RMS chyby polohy + 95. percentil za dobu výpadku v <b>metrech</b> (<c1/>); jednoosé. Jediný běh je označen <c2/>; nastavte <c3/> pro soubor Monte Carlo, který uvádí u každé metriky střední hodnotu, rozptyl a bootstrapový { "95" }% CI (interval spolehlivosti). Stále <b>není</b> 2D CEP/2DRMS (kruhová pravděpodobná chyba / dvojnásobek odmocniny ze střední kvadratické vzdálenosti) ani přesnost vážená DOP (ty vyžadují 3osý model — plán)
+
+seg-e229e1b01506 = Autonomie
+
+seg-84aa70c37df1 = doba holdoveru — čas ve specifikaci po ztrátě GNSS (kvantováno mřížkou: dolní mez)
+
+seg-925629554412 = sklon růstu chyby během výpadku
+
+seg-fa4468d4cb80 = Dostupnost
+
+seg-3636272fdc21 = podíl běhu s řešením ve specifikaci
+
+seg-be120d871ef3 = <b>vnitřní konzistence</b> filtru — podíl vzorků výpadku, jejichž chyba zůstává uvnitř vlastní meze k-sigma Kalmanova filtru. <b>Není</b> ukazatelem integrity HPL/VPL/RAIM pro letectví (viz <a1><c1/></a1>)
+
+seg-35b69448cf6d = <b>analytická mez <em>detekovatelnosti</em> spoofingu</b> ze stability hodin — jak malý/pomalý časový spoofing by mohl označit monitor konzistence jedněch hodin. Má smysl pouze s nakonfigurovaným útokem; <b>není</b> vícedružicovým detektorem RAIM
+
+seg-1a215fc239ff = Jsou vám tyto pojmy nové? Každý je vysvětlen prostým jazykem ve <a1>slovníčku</a1>.
+
+seg-f82c1b1f4bb0 = Struktura repozitáře
+
+seg-505200d809a7 = FAQ (často kladené otázky)
+
+seg-d02ce0621f43 = <b>Musím rozumět kvantové fyzice, abych to mohl používat?</b> Ne. Pokud umíte spustit příkaz v příkazové řádce, umíte spustit { -brand }. Začněte <a1>populárním úvodem</a1>; pojmy hledejte ve <a2>slovníčku</a2>.
+
+seg-43923de17a2a = <b>Je to návrh kvantového hardwaru, nebo letový software?</b> Ne. Je to <em>simulátor</em> výkonu. Věrnost kvantového hardwaru pochází z publikovaných chybových modelů, nikoli z tohoto nástroje. Viz <a1>Co to je / není</a1>.
+
+seg-75fb7a097584 = <b>Jsou kvantové výsledky realistické, nebo marketing?</b> Každý parametr je citován z datového listu nebo článku, každý model je ověřen proti učebnicovému vztahu a zralost je poctivě označena v <a1>VALIDATION.md</a1> — včetně toho, že žádné optické hodiny se stronciem dosud nelétaly. Engine je neutrální: kvantový a klasický přístup jsou týž kód s různými publikovanými čísly.
+
+seg-1af53e3ae9c2 = <b>Mohu se spolehnout, že se dva běhy shodnou?</b> Ano — běhy jsou deterministické: <c1/>, vynuceno <c2/>.
+
+seg-b9cd5c5d1f4b = <b>Mohu to používat z Pythonu nebo v prohlížeči?</b> Ano — viz <a1>Instalace</a1>: příklady pro Python a WebAssembly jsou pod ní. Oba volají tentýž engine.
+
+seg-ed251e142b29 = <b>Jak namodeluji vlastní senzor?</b> Napište scénář <c1/> s publikovanými údaji svého senzoru v polích <c2/>. Viz <a1>Formát scénáře</a1> a příklady v <c3/>.
+
+seg-f40679da402e = <b>Je to zdarma pro komerční použití?</b> Ano — pod AGPL-3.0, včetně komerčního prostředí, pokud dodržujete copyleft licence AGPL (zejména: pokud { -brand } upravíte a nabízíte jej přes síť, musíte těmto uživatelům nabídnout svůj upravený zdroj). Pokud vám to nevyhovuje — např. potřebujete { -brand } zabudovat do proprietárního produktu nebo provozovat uzavřenou síťovou službu — je u Ashforde® OÜ k dispozici komerční licence; viz <a1><c1/></a1> a <a2>Podpora</a2>.
+
+seg-47e61b61094b = Řešení problémů
+
+seg-9bf11ed19b33 = <b><c1/> selže na starém toolchainu.</b> { -brand } potřebuje Rust ≥ { "1.85" }. Aktualizujte pomocí <c2/>.
+
+seg-0cb99cc9fa83 = <b>Sestavení rozšíření pro Python se na macOS nepodaří slinkovat</b> (<c1/>). Rozšíření pro Python řeší své symboly při načtení. <c2/> nastaví správný příznak linkeru automaticky — použijte <c3/> místo holého <c4/>.
+
+seg-608a0438e60e = <b>Sestavení pro Python si stěžuje, že interpret je novější, než PyO3 zná.</b> Nastavte <c1/> (kola abi3 jsou dopředně kompatibilní napříč verzemi CPythonu).
+
+seg-a3c6ba7932f2 = <b>Sestavení WebAssembly nenajde cíl.</b> Nainstalujte jej jednou pomocí <c1/> a poté <c2/>.
+
+seg-2610d5a9ee90 = <b>Kam se poděl můj výstup?</b> Každý běh zapíše <c1/>, <c2/>, <c3/> a <c4/> vedle vstupního <c5/> a u druhů, které publikují tabulku, také <c6/>. Všechny jsou záměrně ignorovány gitem.
+
+seg-4765d3a73a6f = Verzování a vydání
+
+seg-0ca788bf975d = { -brand } se řídí <a1>sémantickým verzováním</a1>. Před verzí 1.0 se může veřejné schéma scénáře/výsledku ještě měnit; zásadní změny jsou výslovně uvedeny v <a2><c1/></a2>. Každý výsledek je reprodukovatelný z <c2/>.
+
+seg-2885b69ceef1 = <b>Každý tag <c1/> publikuje všechny kanály automaticky, v jednom pořadí</b> — nejprve se na označeném commitu spustí úplná testovací sada, dokud neprojde, nic se nepublikuje, a poté pipeline zkontroluje, že každý registr skutečně servíruje novou verzi (<a1><c2/></a1>). Kanály:
+
+seg-8222e46bc13c = Instalace / získání
+
+seg-7f77f517d809 = Knihovna v Rustu + CLI
+
+seg-06cfcc54172a = server MCP
+
+seg-ec68a7e74a20 = PyPI (Python Package Index)
+
+seg-2f0decb15e44 = kola abi3 (Linux/macOS/Windows) + sdist (zdrojová distribuce)
+
+seg-1ec26f00ffb1 = npm
+
+seg-e1d5f87f1af5 = modul WebAssembly + obal JS
+
+seg-300434512f54 = víceplatformní obraz OCI (Open Container Initiative) — není třeba toolchain
+
+seg-78bc637735d0 = spouštěč: stáhne binárku vydání, ověří <c1/> a spustí ji
+
+seg-153e808516d8 = PyPI
+
+seg-7a5ecdbe5611 = týž spouštěč pro Python
+
+seg-3089785631f9 = Homebrew · Scoop · winget
+
+seg-8fa930c2ea90 = binárka <c1/>, generovaná z <c2/> každého vydání
+
+seg-a991ea4c110b = oficiální registr MCP
+
+seg-aa0826e6ee2d = automaticky nalezeno klienty MCP
+
+seg-ca8f2fe1c3c6 = <c1/> (obraz OCI, balíčky npm a PyPI)
+
+seg-1bc87a838658 = IDE → Plugins → hledejte „Kshana“
+
+seg-c8ab30765b96 = plugin pro IDE <b>Kshana — PNT simulator</b>
+
+seg-8afa1f0ebdd7 = Zenodo
+
+seg-d4be2535e13e = citovatelný archiv každého vydání
+
+seg-bd0423a27417 = otevřít v prohlížeči
+
+seg-9ca0fbcfa354 = { -brand } Studio, aplikace WebAssembly v prohlížeči, znovu sestavená z každého tagu vydání (takže verze, kterou ukazuje, je verze, kterou spouští)
+
+seg-8dc9d625c9e9 = Verze crate / obrazu / registru serveru MCP sleduje engine (zahrnuje knihovnu); plugin pro JetBrains je verzován nezávisle (volá nainstalovanou binárku <c1/> přes shell).
+
+seg-a58b88284421 = Viz <c1/> pro fázový plán, <a1><c2/></a1> pro historii vydání a <a2><c3/></a2> pro plán po jednotlivých schopnostech. Pořadí priorit je: <b>nejprve důkazy o časování a holdoveru pro kritickou infrastrukturu</b> (telekomunikační masky, delší holdover se stárnutím a flicker šumem, načítání měřených dat hodin); <b>na druhém místě neutrální metoda srovnání kvantového a klasického přístupu</b> (výsledky označené MODELLED, dokud je nepovýší měřená data partnera); a <b>lunární / cislunární navigace a navigace v hlubokém vesmíru je udržována</b>, nikoli rozšiřována jako hlavní směr. <b>Přesná redukce soustav ITRF</b> je nyní dodána — úplný řetězec GCRS↔ITRS IAU 2006/2000A založený na CIO (pohyb pólu + nutace pod obloukovou vteřinu), ověřený bit po bitu proti SOFA/ERFA a nezávisle křížově zkontrolovaný proti ANISE (čisté Rust SPICE) na ≤ { "3.6" } m na oběžné dráze GNSS. Mezi blízké položky patří těsně vázaná fúze fáze nosné a zpřístupnění volně/těsně vázaného navigátoru GNSS/INS ve více balíčcích; engine <b>radiometrické navigace v hlubokém vesmíru / u Marsu</b> přistál ve verzi { "v0.17.0" } (ověřeno simulací). <b>Kvantová fyzikální vrstva</b> je položka <b>P2</b>: akcelerometr CAI je nyní simulován z prvních principů (fáze Mach–Zehnder, projekční šum, pokles kontrastu, vazba vibrací), zatímco senzory hodin/přenosu času stále řídí publikované koeficienty Allanova/šumového rozpočtu. TEME&harr;ECEF založené na GMST, časové soustavy IERS s přestupnými sekundami (UTC/TAI/TT/UT1), propagace oběžných drah SGP4/SDP4 ({ "v0.7.0" }, ověřeno proti vektorům AIAA 2006-6753) a spustitelný balíček fúze <c4/> byly všechny <b>dodány</b> a inerciální rychlost je zpřístupněna dále. Na <c5/> přistály aktivní stochastický detektor časového spoofingu (test energie Neyman–Pearson / χ²₁ s Monte-Carlo P_fa/P_md a ukazatelem kvality Bezpečnost { "1" }−P_md), model rušení rozpočtem spoje (J/S → efektivní C/N₀ → ztráta uzamčení), dostupnost více konstelací, jednoosý (1-DOF) chybový rozpočet IMU, dva nezávislé Kalmanovy odhadovače (hodiny + poloha) uváděné jako kombinovaný ukazatel kvality, skutečná geometrie konstelace z TLE, zpráva ve formě výsledkové karty HTML, dostupnost GNSS odvozená z geometrie <em>i</em> faktor DOP z keplerovských drah s excentricitou a driftem J2, pásma spolehlivosti Monte Carlo, průchody parametrů v obchodních studiích, hřiště WebAssembly v prohlížeči a volitelné vazby pro Python (PyO3) a WebAssembly (wasm-bindgen).
+
+seg-d1ef5a83a4b0 = Viz <a1><c1/></a1>. Ve zkratce: testy projdou (<c2/>), projdou oba ochranné skripty, Conventional Commits a záznam <c4/> v <c3/> pro každou změnu viditelnou uživateli. Účast se řídí naším <a2>Kodexem chování</a2>. Bezpečnostní problém nahlásíte podle <a3>Bezpečnostní politiky</a3> — u zranitelností prosím neotevírejte veřejný issue.
+
+seg-6e2e62b6e70f = Dokumentace: každý dokument a pro koho je
+
+seg-672ddc109531 = Pro koho
+
+seg-bf874872dcc4 = Co obsahuje
+
+seg-2e8bdb58cdea = pro všechny, začněte zde
+
+seg-a17023aa100b = co { -brand } dělá a proč, od nuly po fyziku
+
+seg-5ff1297e5fd3 = pro všechny
+
+seg-6ae9cf67dbf2 = spusťte engine v prohlížeči (WebAssembly); poznámky k sestavení a nasazení
+
+seg-8e3663e418ee = definice všech pojmů prostým jazykem
+
+seg-0da03b91d8e2 = každý druh, který engine rozdělovačem spouští: co dělá, jeho pole, příklad příkazu, jeho řádky registru (ledger) a graf, který pro něj engine zapisuje
+
+seg-eabf661d9ad4 = vývojáři / recenzenti
+
+seg-50e77711f8ae = mapa modulů, řetězec enginu, rozdělovač a diagramy
+
+seg-00e3c6d5b489 = recenzenti / citující
+
+seg-7e3666552f77 = co je <c1/> vs. <c2/>, s důkazy
+
+seg-a1b009eb3554 = strojově kontrolovaný registr důkazů (ledger) — každý řádek schopnosti s jeho stavem, modulem, testem a vnějším orákulem, generovaný z <c1/>
+
+seg-0604447208bc = Odůvodnění řádků vypočtených z modelu
+
+seg-a384286e1947 = recenzenti
+
+seg-d434379a43d2 = proč nemá žádný <b>z modelu vypočtený</b> řádek vnější orákulum, uvedeno řádek po řádku
+
+seg-8784e57fff56 = každý parametr senzoru, model a datová sada vysledované k publikovanému zdroji, v jedné citovatelné tabulce
+
+seg-a7d5633dbcc0 = Reprodukovatelnost a původ
+
+seg-087473d3f136 = recenzenti / balíčkáři
+
+seg-f7614494333d = záruky determinismu, pevné golden soubory, SBOM (software bill of materials), původ sestavení
+
+seg-13a543e72c08 = Platformní tagy kol
+
+seg-1b56719851b7 = balíčkáři
+
+seg-00577a733e12 = matice kol abi3 pro Python — na který platformní tag se <c1/> rozřeší
+
+seg-33ce7950c097 = Umístění
+
+seg-90a7258f4d22 = hodnotitelé
+
+seg-b34c84423464 = kde { -brand } stojí vůči RTKLIB/gLAB (doplňuje je) a úroveň bez instalace v prohlížeči
+
+seg-b2296ef28d12 = hodnotitelé / vedoucí programů
+
+seg-5a701a5ccf6a = co proprietární nadstavba Pro přidává nad týž engine: optimalizátor návrhu, nejistota a citlivost, dossier mise, sledování kampaně, koexistence spektra, služba úloh v místní infrastruktuře, trasovatelnost požadavků; co každá vytváří a co nedělá
+
+seg-13b35332debb = <a1>Technická zpráva</a1> · <a2>Článek JOSS</a2>
+
+seg-2900eec7e995 = recenzenti / citující / hodnotitelé
+
+seg-b3a35c73bab6 = úplný rozšířený výzkumný článek — architektura, modely po doménách, validace, případové studie a omezení — plus stručné podání JOSS (Journal of Open Source Software)
+
+seg-b3c51210f2b9 = shoda s referencí AIAA 2006-6753 ({ "666" } stavů, ~{ "4" } mm) <b>a</b> přímé srovnání s nezávislým crate <c1/> (shoda pod mikrometr / { "4.12" } mm)
+
+seg-496fc27f0779 = engine s plným silovým modelem (<c1/>) proložený agenturními efemeridami — metodika a ověřená rezidua
+
+seg-e5dc1d12103b = Příručka ke skutečným TLE
+
+seg-bc371a07bef1 = uživatelé
+
+seg-3368ef107f86 = řízení scénářů ze skutečných TLE konstelací Celestrak / Space-Track (oproti přibalené syntetické sadě Walker)
+
+seg-036de74eefe4 = Ukazatel kvality Integrita
+
+seg-087a30ea794d = co znamenají ukazatele <c1/> / <c2/> — a čím <b>nejsou</b> oproti HPL/VPL pro letectví
+
+seg-4586fac36659 = recenzenti / integrátoři
+
+seg-bd73a9aab9bf = otevřená implementace ochranné úrovně ARAIM MHSS — projekce nominálního biasu <c1/>, σ_URA vs. σ_URE a apriorní pravděpodobnosti režimů poruch
+
+seg-7912b8806633 = <a1>Kvantové modely</a1> · <a2>podrobnosti</a2>
+
+seg-538ae4a293ac = fyzikální vrstva studeného atomového interferometru a kde se koeficienty stále vyhledávají
+
+seg-542a7e114dff = rozsah algoritmů DO-229E / DO-316 a co <b>není</b> tvrzením o shodě
+
+seg-dc1c6f878fdd = námořníci / integrátoři
+
+seg-29cf3d1ef90f = skóre důvěryhodnosti GNSS 0–100 pro NMEA plavidla, jeho monitory a meze (poradní charakter, nikoli typově schválené navigační zařízení)
+
+seg-5849b496e5af = námořní instruktoři
+
+seg-4cd0efee3108 = syntetické NMEA z můstku se skriptovaným rušením a podvrhováním a záznamem instruktora; pouze text, nikdy pro živou navigaci
+
+seg-df1d81e25c75 = analytici / námořníci
+
+seg-db50820691f6 = provozovatelé / pojišťovny
+
+seg-5a34e02c1d04 = podepsané technické záznamy o události důvěryhodnosti a jak ji ověřit
+
+seg-3f9b0b6cbbda = provozní / bezpečnostní týmy
+
+seg-7442d4e7a665 = proud důvěryhodnosti jako metriky Prometheus, události SIEM a OpenTelemetry, s dashboardem Grafany
+
+seg-e3fdf6154d72 = majitelé lodí / integrátoři
+
+seg-e4c07cecfc7d = plugin Signal K, režim brány OpenCPN a referenční sestavení
+
+seg-dc551bb8edb9 = výrobci přijímačů
+
+seg-dac9a3e7adf3 = přehrání exportovaného scénáře přes laboratorní simulátor a vyhodnocení záznamu přijímače
+
+seg-fe9ee01b4b40 = veřejné rámce odolnosti namapované na výstupy { -brand }, se zdroji a mezerami; <c1/>
+
+seg-803e21a4cd63 = spustitelné tutoriály s jejich vykresleným textem
+
+seg-8ba331635865 = Normy a interoperabilita
+
+seg-79dfa8eef7e8 = integrátoři
+
+seg-dc2cc59b2c22 = výměnné formáty GNSS / letové dynamiky / agentur, které { -brand } čte a zapisuje (RINEX, SP3, CCSDS OEM/OMM/TDM/Space-Packet, …)
+
+seg-82e510edf422 = Fúze LEO PNT
+
+seg-78e498b9cd72 = uživatelé / hodnotitelé
+
+seg-515011790d2f = fúzované určování polohy, navigace a času MEO + LEO: Doppler, společná pseudovzdálenost, konvergence PPP, 5G NTN, polární pokrytí a přenos času LEO přes libovolnou konstelaci; volitelné předvolby a jejich veřejné zdroje
+
+seg-80c3a6fcc9d4 = skládání scénářů: řetězené časové osy misí, průchody parametrů, soubory Monte Carlo a běhy za sdílené podmínky, s identitami skládání, které testy hlídají
+
+seg-e2ba765ba8cf = Katalog scénářů
+
+seg-d249adca6e09 = uživatelé / integrátoři
+
+seg-cc36976b92b2 = každý dostupný druh s jeho povinnými a volitelnými poli TOML — generováno z <c1/>
+
+seg-0714feb42ace = každé pole JSON výsledku, s jednotkami a odkazem na zdroj
+
+seg-d88421825ccf = uživatelé Pythonu
+
+seg-8eca8cb65710 = vazební plocha PyO3 — volání enginu, typy scénáře/výsledku a příklady
+
+seg-1a04729b35fa = Tvrzení vs. skutečnost
+
+seg-c1ff79259d0a = registr uzavření nadsazených tvrzení + pojistka v CI (<c1/>), která jej udržuje vyřešený
+
+seg-f081da2f997c = fázový plán — co je dodáno a co následuje
+
+seg-91a94770bfc6 = <a1>Server MCP</a1> · <a2>Plugin pro JetBrains</a2>
+
+seg-d67668b76043 = agenti / uživatelé IDE
+
+seg-aa939b17949a = spouštějte { -brand } z asistenta s umělou inteligencí nebo z IDE JetBrains
+
+seg-01db4cfa76e9 = <a1>Příručka pro agenty</a1> · <a2>Plochy</a2>
+
+seg-b7b1239f907e = agenti / integrátoři
+
+seg-fc2d423654fe = který nástroj odpovídá na kterou otázku, co si ke každé odpovědi uchovat; kde je každá schopnost dostupná (CLI, Rust, Python, WASM, MCP, plugin, JetBrains, notebooky) a proč je buňka N/A
+
+seg-3b3aa42b5f15 = historie vydání (Keep a Changelog + SemVer, sémantické verzování)
+
+seg-f67abac08544 = přispěvatelé
+
+seg-bcdae6f3fdbd = sestavení, pojistky, disciplína testů/citací, DCO (Developer Certificate of Origin)
+
+seg-5dec7ef854fe = přispěvatelé / komunita
+
+seg-5c0b0441b55c = jak je { -brand } řízen — kdo rozhoduje, jak, a hranice otevřeného/uzavřeného
+
+seg-0766b60f1d8a = Kodex chování
+
+seg-29a818e8fbc7 = komunita
+
+seg-b34f02c40174 = očekávané chování (Contributor Covenant)
+
+seg-4609cf7fb790 = Bezpečnostní politika
+
+seg-ca35e5e3ad0c = oznamovatelé
+
+seg-772539feded5 = jak nahlásit zranitelnost; poznámka o dvojím užití
+
+seg-1f443a976d47 = Klíčové reference
+
+seg-feb6f4f6a5e4 = <b>Validační orákula a normy</b> — vnější autority, ke kterým jsou kontroly { -brand } ukotveny:
+
+seg-4ca957af5c9b = Vallado, Crawford, Hujsak & Kelso — <em>Revisiting Spacetrack Report #3</em> (<a1>AIAA 2006-6753</a1>; <a2>testovací data</a2>): ověřovací sada SGP4/SDP4, s níž { -brand } souhlasí na { "4.12" } mm, a dopracované příklady soustav, proti nimž se kontroluje řetězec TEME→ITRF.
+
+seg-9a2f45b88410 = IAU <a1>SOFA</a1> / <a2>ERFA</a2> — rutiny pro referenční čas a soustavy, proti nimž jsou nutace IAU 2000A a redukce CIO GCRS↔ITRS ověřeny bit po bitu.
+
+seg-37f680b464fe = Petit & Luzum (eds.) — <em>IERS Conventions ({ "2010" })</em>, <a1>IERS TN (Technical Note) { "36" }</a1> (standardy pro orientaci Země, pohyb pólu a referenční soustavy).
+
+seg-5b9951eea4b0 = Riley — <em>Handbook of Frequency Stability Analysis</em>, <a1>NIST SP { "1065" }</a1> (vztahy pro Allanovu odchylku a referenční řada NBS14; NBS = bývalý americký Národní úřad pro standardy).
+
+# c1: tests/eval_metrics_reference.rs
+seg-aede69f7dc3e = Pedregosa et al. — <em>scikit-learn: Machine Learning in Python</em>, <a1>JMLR { "12" } ({ "2011" })</a1>: referenční implementace ROC/AUC, matice záměn a precision/recall/F1, s nimiž se testovací prostředí pro hodnocení RF-impairment přesně shoduje (<c1/>).
+
+# c1: optimize.nnls
+# c2: stats.chi2
+# c3: linalg.expm
+# c4: tests/scipy_reference.rs
+seg-a19f72f631ef = Virtanen et al. — <em>SciPy { "1.0" }</em>, <a1>Nature Methods { "17" } ({ "2020" })</a1>: <c1/>, <c2/> a <c3/> — referenční rutiny, proti nimž jsou ověřeny NNLS fit naměřené ADEV v kvantové obchodní studii, pásma konzistence χ² a kovarianční matice procesního šumu hodin podle van Loana (<c4/>).
+
+# c1: tests/dop_reference.rs
+seg-fa00dee84096 = Knowles, Kanhere, Neamati & Gao — <em>gnss_lib_py</em>, <a1>SoftwareX { "27" } ({ "2024" })</a1>: používá se jednak jako otevřená předchozí práce (viz <em>Srovnání a otevřená předchozí práce</em> níže), jednak jako <b>nezávislé orákulum DOP</b>, s nímž se výpočet GDOP/PDOP/HDOP/VDOP/TDOP shoduje na { "1e-6" } (<c1/>).
+
+seg-1e6e8a68cebb = Montenbruck & Gill — <em>Satellite Orbits: Models, Methods and Applications</em> (<a1>Springer</a1>): silové modely, na nichž stojí fit silového modelu k přesným efemeridám agentur.
+
+seg-144cdd7fbc19 = Howell — <em>Three-dimensional, periodic, halo orbits</em>, Celestial Mechanics { "32" }({ "1" }) ({ "1984" }), <a1>doi:10.1007/BF01358403</a1>; Zimovan-Spreen, Howell & Davis — <em>Near rectilinear halo orbits and nearby higher-period dynamical structures</em>, Astrodynamics { "6" } ({ "2022" }), <a2>doi:10.1007/s42064-021-0125-x</a2> (rodiny drah halo/NRHO, které diferenciální korektor CR3BP reprodukuje).
+
+seg-93a7e383053b = <b>Fyzika zařízení a metod</b> — citované zdroje za modely senzorů:
+
+seg-fc2aa6fa1340 = Origlia, Schiller, Bongs et al. — <a1>arXiv:{ "1503.08457" }</a1> (optické hodiny se stronciem v optické mřížce, cíl pro použití ve vesmíru).
+
+seg-f735c2528052 = Oelker et al., <em>Nature Photonics</em> ({ "2019" }) — <a1>doi:10.1038/s41566-019-0493-4</a1> (laboratorní hodiny se Sr, { "4.8" }×{ "10" }⁻¹⁷).
+
+seg-80b2a7b012fd = Templier et al., <em>Science Advances</em> ({ "2022" }) — <a1>arXiv:{ "2209.13209" }</a1> (hybridní kvantová trojice akcelerometrů).
+
+seg-795160f35f82 = Groves, <em>Principles of GNSS, Inertial, and Multisensor Integrated Navigation</em> — <a1>tutoriál IEEE AESS (Aerospace and Electronic Systems Society) (repozitář University College London Discovery)</a1> (růst chyby při dead reckoningu).
+
+seg-621d684f6fc1 = Giorgetta et al., <em>Nature Photonics</em> { "7" }, { "434" } ({ "2013" }) — <a1>arXiv:{ "1211.4902" }</a1>; Deschênes et al., <em>Phys. Rev. X</em> { "6" }, { "021016" } ({ "2016" }) — <a2>APS (American Physical Society)</a2> (optický dvoucestný přenos času a frekvence; optická mezidružicová linka podle nich modeluje svůj rozpočet nereciprocity).
+
+# c1: src/navsignal.rs
+seg-e8299332a4ba = Betz — <em>Binary Offset Carrier Modulations for Radionavigation</em>, NAVIGATION { "48" }({ "4" }) ({ "2001" }), <a1>doi:10.1002/j.2161-4296.2001.tb00247.x</a1> (modulace BOC a teorie spektrální separace, na nichž stojí <c1/>).
+
+seg-27d20763d6cb = Kaplan & Hegarty (eds.) — <em>Understanding GPS/GNSS: Principles and Applications</em> (3. vyd., Artech House, { "2017" }): rovnice efektivního C/N₀ při potlačení rušení a tepelný šum jitteru kódového sledování early–late DLL, které používají modely navigačního signálu a rušení.
+
+seg-7b646cdd9bd4 = <b>Srovnání a otevřená předchozí práce</b> — nástroje a přehledy, vůči nimž je Kshana vymezena:
+
+seg-1879b1f543dd = Humphreys et al. — <a1><em>TEXBAT</em></a1> (Texas Spoofing Test Battery; ION — Institute of Navigation — GNSS { "2012" }): parametry testovací baterie spoofingu, vůči nimž je vícevrstvý detektor charakterizován.
+
+seg-d8b2eecaaa5f = González et al. — <a1>NaveGo</a1> ({ "2017" }): otevřené, ověřené profily chyb inerciální navigace použité jako klasický základ.
+
+seg-7c7beb74ddac = Iiyama, Casadesús Vila & Gao — <a1><em>LuPNT</em></a1> (ION GNSS+ { "2023" }, Stanford NavLab): otevřený simulátor lunárního PNT.
+
+seg-fef89f16b111 = Knowles, Kanhere, Neamati & Gao — <em>gnss_lib_py</em>, SoftwareX { "27" } ({ "2024" }), <a1>doi:10.1016/j.softx.2024.101811</a1>: otevřená analýza dat GNSS.
+
+seg-9c5ebe5384bc = Li, Zaminpardaz, Kealy & Greentree — <em>Quantum sensors for enhanced positioning and navigation: a comprehensive review</em>, GPS Solutions { "30" }({ "1" }):{ "62" } ({ "2026" }), <a1>doi:10.1007/s10291-026-02030-y</a1>.
+
+seg-7d2b42ba7454 = Bertone et al. — <em>Earth and Space Science</em> { "8" }({ "6" }) ({ "2021" }), <a1>doi:10.1029/2020EA001454</a1>: reduced-dynamic OD pro GRAIL, empirická hranice zrychlení, kterou fit LRO reprodukuje.
+
+seg-2658a9477dd9 = <s1>Další</s1>Přehled pojmů
+
+seg-90a95738b32d = Lunární infrastruktura (lunar-infrastructure)

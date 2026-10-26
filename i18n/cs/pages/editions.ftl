@@ -83,3 +83,5 @@ seg-70a79ec95bf4 = nesplněno
 seg-7a33a168b020 = splněno
 
 seg-2192262e26c1 = splněno
+
+seg-a91762c0aabe = Zdarma

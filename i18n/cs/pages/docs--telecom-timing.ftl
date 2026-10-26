@@ -19,3 +19,5 @@ seg-f63dd3d7aad4 = Zdroj
 seg-587beeccaa11 = Předvolba
 
 seg-edb7b16b6c0e = Validace
+
+seg-3c513ef2fd3b = Veličina
