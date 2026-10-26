@@ -23,3 +23,7 @@ seg-029de6b99be0 = Inerciální výpočet polohy z pohybu
 seg-9ef8f99ca6e4 = Přenos času
 
 seg-ec26df467b88 = Společná Kalmanova fúze senzorů PNT nad týmiž hybridními vstupy.
+
+seg-4f19d4fb1341 = Obecný N-rozměrný průchod libovolným balíčkem přes klíče TOML s tečkami / cesty metrik JSON.
+
+seg-e7ab7b55c969 = 1-D průchod obchodní studie parametrem balíčku hodin.

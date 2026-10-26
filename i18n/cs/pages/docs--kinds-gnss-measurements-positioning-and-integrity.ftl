@@ -67,3 +67,15 @@ seg-1c244958d3c4 = <b>Registr:</b> MODELLED { "1" } · VALIDATED { "2" }. Celá 
 seg-d4adf4283480 = <s1>Předchozí</s1>Konstelace pokrytí a geometrie
 
 seg-2cdfd7f8bfb3 = <s1>Další</s1>Alternativní PNT při nedostupnosti GPS
+
+seg-b7b67e03f125 = Jednobodové určení polohy z reálných pozorování: řešení polohy přijímače ze souboru pozorování RINEX { "3" } a souboru broadcast navigace (kódové pseudovzdálenosti, broadcast efemeridy, Klobucharova ionosféra, troposféra Saastamoinen/Niell), volitelně ověřené proti zaměřené souřadnici.
+
+seg-d76d59644d84 = Graf, který engine zapisuje pro scenarios/pvt-abmf.toml, druh pvt
+
+seg-edfcb546d9de = Rozpočet predikce lunární soustavy / orientace Země v reálném čase: tabulka { "1" } z P4 (kontrola konzistence chyby soustavy — po zpracování ~{ "0.27" } m ↔ ~{ "0.010" } ms a v reálném čase ~{ "15" } m ↔ ~{ "0.5" } ms, každá poloha v soustavě vyjádřená jako ekvivalentní chyba UT1 přes rameno páky L19 Δr = D_EM·ω⊕·ΔUT1) a tabulka { "2" } (naměřená chyba predikce UT1 v závislosti na horizontu — křivka L18 odečtená přímo z reálné řady IERS finals2000A: konečná podlaha Bulletin A − Bulletin B a chyba vícedenního prediktoru persistence, každá převedená na polohu v soustavě Měsíce přes L19), plus kvadratický součtový (root-sum-square) rozpočet chyby soustavy v reálném čase L21 (EOP + efemeridy + podlaha realizace). VALIDATED uzavřený tvar (rameno páky L19, ω⊕ křížově zkontrolováno proti úhlu rotace Země CIO) a VALIDATED reálná data (křivka L18 z reálných řádků finals2000A); MODELLED jsou velikosti kovariance OD lunárního relé a podlaha realizace soustavy (reprezentativní přídělové hodnoty) a prediktor persistence (nikoli provozní algoritmus Bulletin A od IERS). Nejde o certifikovaný produkt soustavy v reálném čase.
+
+seg-2721ed7727bb = Graf, který engine zapisuje pro scenarios/realtime-frame-eop.toml, druh realtime-frame-eop
+
+seg-5f25c5b71f0c = Model prostředí kosmického počasí: indexy sluneční (F10.7/F10.7a) a geomagnetické (Kp, s definiční tabulkou Kp↔ap) aktivity, jimi řízená exosférická teplota podle Jacchii-1971 (ověřená proti publikovaným hodnotám pro sluneční minimum/průměr/maximum) a termosférická neutrální hustota podle Jacchii-1971 při denně středované exosférické teplotě oproti statickému profilu bez vlivu aktivity ve sadě výšek — závislost hustoty na slunečním cyklu, kterou statická atmosféra vynechává. MODELLED: hustota souhlasí s hustotami odvozenými z akcelerometrů (TOLEOS CHAMP a GRACE) v rozmezí faktoru { "2" } při slunečním maximu, ale je asi 1.7x příliš hustá v slunečním minimu v roce { "2008" }.
+
+seg-c1c6f2f73fb5 = Graf, který engine zapisuje pro scenarios/space-weather.toml, druh space-weather

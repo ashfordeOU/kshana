@@ -19,3 +19,35 @@ seg-a1810bbca337 = <b>MODELLED</b> Obousměrný přenos/TWSTFT (Sagnac), společ
 seg-a8beb8dfc757 = Rozpočet chyb přenosu času je MODELLED, nikoli ověřen proti nezávislé vnější referenci: dílčí tvrzení je zkontrolováno externě, ale celá schopnost skládá dohromady modelované části, takže schopnost zůstává na úrovni vypočtené z modelu. (verifikační matice (docs/MODELLED-RATIONALE.md))
 
 seg-bb07c8ee153f = <b>PARTNER</b> Neposkytuje se — pouze modely výkonu; hardware se studenými atomy a hodinami je záležitostí partnera. Orákulum (NoneKind): žádné: disciplína ve vlastnictví partnera, záměrně bez modulu a bez testu
+
+seg-f44afe581836 = { $version }
+
+seg-c37642bb24fe = <b>MODELLED</b> Jeden reprodukovatelný objekt TradeEvidence (pevný rámec: scénář+seed+engine; společné hodnoty kvantový-vs-klasický pro každý ukazatel kvality s polaritně správným přínosem, volitelné { "95" }%. Orákulum (InternalConsistency): Identity uzavřeného tvaru pro přínos/vítěze a věrný obal stávajícího quantum_trade::TradeResult; poctivost svázaná s registrem reprezentativnosti a štítky ověření
+
+seg-eb75c6a4dcec = Důkazy z obchodního srovnání kvantového a klasického přístupu (společný tvar) jsou MODELLED, nikoli ověřené: zkontrolováno proti vlastní uzavřené / analytické identitě — zachytí chyby přepisu a koeficientů, ale není to vnější orákulum. (verifikační matice (docs/MODELLED-RATIONALE.md))
+
+seg-eee91dc5741d = Zdroj: <c1/>
+
+seg-05060df7f0b7 = <c1/> (druh scénáře)
+
+seg-540545e6f846 = Řetězec důvěryhodného kvantového časování, stav MODELLED: kompletní rozpočet přenosu času kvantový (hodiny s optickou mřížkou + spoj se spřažením/jednofotonový) oproti klasickému (CSAC + obousměrný RF), znovu použitá ochranná úroveň časování + bezpečnostní ukazatel kvality pro útok zpožděním/přehráním (1-P_md), pravděpodobnost detekce anomálie hodin + latence CUSUM a obchodní srovnání kvantového a klasického přístupu jako otevřené TradeEvidence se záznamem reprezentativnosti + mezer k letu. Ilustrativní parametry zařízení/spoje z veřejných zdrojů; modeluje třídu, netvrdí se žádné TRL/let/certifikace.
+
+seg-ed79bfe80fe7 = Jeden běh <c1/> se shrnuje takto: quantum-time-transfer | kvantový řetězec 1.233e-12s oproti klasickému 5.292e-9s | PL { "555.24" } ns | zabezpečení Pd { "1.000" } (Pfa { "1e-3" }) | anomálie Pd { "0.761" } | obchodní srovnání vítězí kvantový 2/2 | MODELLED
+
+seg-80e94491c3df = Volitelná pole: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>
+
+seg-6b03fa15a60d = Příklad <c1/> mimo jiné nastavuje:
+
+seg-09760f892c7b = Graf, který engine zapisuje pro scenarios/quantum-time-transfer.toml, druh quantum-time-transfer
+
+seg-873de4d05663 = <b>VALIDATED</b> Latence detekce v nejhorším případě detektoru tabulárního CUSUM (⌊h/(z−k)⌋+{ "1" }) a průměrná délka běhu mimo kontrolu, používané monitory ochranné úrovně časování a spoofingu. Orákulum (ExternalDataset): Publikovaná ARL tabulárního CUSUM: aproximace Brownova pohybu podle Siegmunda ({ "1985" }) (Hawkins & Olwell { "1998" }, rov. { "3.7" }) křížově ukotvená k tabulkám ARL v Montgomery, Introduction to Statistical Quality Control (Wiley) pro k=½, h∈{ "{" }{ "4,5" }{ "}" }; deterministická latence přesně shodná s orákulem prvního průchodu. Složená mez TPL zůstává MODELLED
+
+seg-b51e62b8dc63 = Řetězec důvěryhodného kvantového časování, stav MODELLED: kompletní rozpočet přenosu času kvantový (hodiny s optickou mřížkou + spoj se spřažením/jednofotonový) oproti klasickému (CSAC + obousměrný RF), znovu použitá ochranná úroveň časování + bezpečnostní ukazatel kvality pro útok zpožděním/přehráním (1-P_md), pravděpodobnost detekce anomálie hodin + latence CUSUM a obchodní srovnání kvantového a klasického přístupu jako otevřené TradeEvidence se záznamem reprezentativnosti + mezer k letu. (katalog druhů (<c1/>))
+
+seg-dee0faf63e7f = Důvěryhodné kvantové časování — kompletní řetězec přenosu času, zabezpečená distribuce, detekce anomálií a obchodní srovnání kvantového a klasického přístupu. MODELLED; ilustrativní parametry zařízení/spoje z veřejných zdrojů; modeluje třídu, žádné tvrzení o TRL ani letu. (komentář v souboru scénáře, řádky { "1" } až { "3" })
+
+seg-6e9f5dfca6b0 = Důvěryhodné kvantové časování (přenos času + zabezpečená distribuce + anomálie) je MODELLED, nikoli ověřené: zkontrolováno proti vlastní uzavřené / analytické identitě — zachytí chyby přepisu a koeficientů, ale není to vnější orákulum. (verifikační matice (docs/MODELLED-RATIONALE.md))
+
+seg-d3665be74ff1 = <s1>Předchozí</s1>quantum-gnss-free-nav
+
+seg-0d4b1f97541f = <s1>Další</s1>quantum-trade
