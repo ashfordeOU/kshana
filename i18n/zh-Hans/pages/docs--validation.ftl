@@ -47,3 +47,7 @@ seg-b03d56f501c3 = 类别
 seg-35bf9a48e566 = 项目
 
 seg-f3526b0d95f8 = 测量值
+
+seg-7634c6f4b32c = 链路
+
+seg-b966dd26caa6 = 数据集

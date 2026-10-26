@@ -277,3 +277,5 @@ seg-5cce5bd43a6b = AI 助手
 seg-257c477dc510 = WebAssembly
 
 seg-2192262e26c1 = 达到判据
+
+seg-785218a0ea66 = Kshana 不是什么
