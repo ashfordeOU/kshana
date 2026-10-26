@@ -2934,6 +2934,74 @@ seg-95f8dcd6247e = leo_fusion::joint_pvt (solve, dop, code_sigma_dll_m, SystemCl
 
 seg-7a8b0b7b8a37 = leo_fusion::joint_pvt::tests (dop_matches_the_hand_derived_zenith_plus_three_horizon_case: HDOP = VDOP = sqrt(4/3), TDOP = sqrt(1/3), PDOP = sqrt(8/3), GDOP = sqrt({ "3" }) til { "1e-9" }; a_lone_satellite_with_its_own_clock_adds_nothing_and_a_known_offset_does; a_noise_free_fix_recovers_position_clock_and_inter_system_bias; seeded_fixes_agree_with_their_formal_covariance; dll_noise_is_the_textbook_figure_for_gps_l1_ca); leo_fusion::pvt_kind::tests (fusing_leo_never_worsens_the_median_pdop_and_the_isb_is_recovered); tests/leo_fusion_scenarios.rs (meo_leo_fusion_beats_gnss_alone_and_recovers_the_leo_bias); tests/joint_pvt_dual_freq_itrf_rtklib_oracle.rs::dual_frequency_finding_is_pinned; tests/joint_pvt_precise_itrf_rtklib_oracle.rs::precise_product_finding_is_pinned
 
+seg-d98c7b399230 = leo_fusion::ppp (run, PppScenario, LI_2019)
+
+seg-51a43af7f6b5 = leo_fusion::ppp::tests (the_filter_is_consistent_over_monte_carlo_seeds: { "24" } seeds, kørselsgennemsnit af NEES-middel i [{ "2.4" }, { "3.6" }] og mindst { "75" }% af epokerne inden for det tosidede { "95" }%-chi-i-anden-bånd; målt med { "150" } seeds, middel { "2.84" } kun GNSS og { "2.87" } med LEO; leo_augmentation_shortens_convergence; same_seed_same_answer_and_every_number_has_a_unit); tests/leo_fusion_scenarios.rs (ppp_convergence_of_the_bundled_scenario_shortens_monotonically)
+
+seg-c42e3bd4a4c1 = leo_fusion::timing (simulate, utc_offset_s, system_to_utc_s); leo_fusion::pvt_kind (run_timing)
+
+seg-061a0510c35c = leo_fusion::timing::tests (the_utc_offset_follows_the_is_gps_200_expression; continuous_tracking_approaches_the_measurement_floor_and_gaps_cost_time; the_filter_is_consistent_over_seeds; the_utc_offset_uncertainty_sets_a_floor); tests/leo_fusion_scenarios.rs (leo_timing_error_grows_as_the_c_n0_falls)
+
+seg-16fa5fabfb50 = leo_fusion::presets (all, by_id, cn0_range_dbhz, noise_density_dbw_hz); leo_fusion::system (SystemCfg::build)
+
+seg-df22b3cb00fa = leo_fusion::presets::tests (every_preset_has_a_source_and_every_public_source_a_url; only_one_preset_uses_workshop_material; noise_density_at_290_k_is_minus_204_dbw_per_hz); tests/workshop_preset_isolation.rs (only_the_listed_files_name_the_workshop_preset; workshop_numbers_live_only_in_the_preset_file_and_its_scenarios: scanninger af kildetekst i src, scenarios og tests); leo_fusion::system::tests (a_preset_fills_what_the_scenario_leaves_out; a_system_needs_no_preset; pseudorange_sigma_falls_with_elevation_and_never_below_the_sisre)
+
+seg-6478ad7d09eb = leo_pnt_chain (LeoPntChainScenario); leo_pass (BandCfg::signal, design_tracking); leo_navmsg (LeoNavmsgScenario::broadcast_sisre); leo_fusion::pvt_kind; leo_fusion::ppp
+
+seg-02ef52ba69f0 = leo_pnt_chain::tests (a_sine_line_fit_recovers_its_line); tests/leo_pnt_chain.rs (every_upstream_change_moves_the_downstream_figures: en stærkere EIRP, et længere tilpasningsinterval og et større led for banebestemmelse flytter hver især den videregivne værdi og den fusionerede positionsbestemmelse; the_handed_on_values_are_the_stage_outputs; a_band_design_splits_the_eirp_and_reports_the_design_jitter; the_pass_export_reproduces_the_engine_range)
+
+seg-4070df5af5e4 = leo_link::spoof (range_rate_position_gradient, line_of_sight, fll_frequency_jitter_hz, doppler_consistency_window, doppler_consistency); leo_pass (SpooferCfg, spoof_section)
+
+seg-0a123a80693f = leo_link::spoof::tests (the_gradient_is_the_derivative_of_the_range_rate; fll_jitter_matches_the_formula_by_hand; a_common_mode_residual_is_a_clock_drift_and_is_not_detected; with_no_prior_and_equal_noise_the_statistic_is_the_scatter_about_the_mean; a_push_the_prior_explains_is_not_detected; a_velocity_push_is_hidden_by_a_loose_velocity_prior_only; the_information_form_equals_the_covariance_form); tests/leo_resilience_verticals.rs (the_monitors_are_silent_before_the_onset; the_doppler_statistic_is_quadratic_in_the_jump; leo_range_rates_see_a_jump_that_gnss_range_rates_do_not)
+
+seg-8fbcf1ccbe16 = leo_link::spoof (cross_band_step); leo_pass (spoof_section: pairs, cross_band)
+
+seg-aa91bdc483b1 = leo_link::spoof::tests (the_cross_band_threshold_and_power); tests/leo_resilience_verticals.rs (a_ground_spoofer_leaves_the_ionospheric_step_and_an_ionosphere_aware_one_does_not; a_one_band_spoofer_is_seen_by_the_cross_band_monitor_at_the_onset; the_monitors_are_silent_before_the_onset)
+
+seg-b91ca5a2bd9c = leo_pass (IonoFreePair::geometry_free_stec_tecu, geometry_free_stec_sigma_tecu); leo_link::iono::geometry_free_stec_tecu
+
+seg-5d00a19cfac2 = tests/leo_resilience_verticals.rs (the_geometry_free_tec_is_the_pass_slant_tec: er lig overflyvningens skrå TEC ved toppen til { "1e-9" }, og dens sigma er lig RSS af kodestøjen over { "40.3" } (1/f1^{ "2" } - 1/f2^{ "2" })); tests/geometry_free_tec_gim_oracle.rs::geometry_free_finding_is_pinned
+
+seg-aa2667aa0296 = receiver_trust (score, monitors, live)
+
+seg-58fcb2ec63c5 = tests/maritime_trust_reference.rs::t5_score_matches_the_clean_room_reading_of_the_documented_rule; receiver_trust::score::tests (monoton i hver statistik, tilføjelse af en monitor hæver aldrig scoren, sunde statistikker bliver på { "100" })
+
+seg-7adaa23ce920 = telemetry (syslog: leef, rfc5424, SyslogSink; time)
+
+seg-fe08580cd8d3 = telemetry::syslog::tests (nøjagtige LEEF-strenge, escaping, alvorlighed, RFC { "5424" }-konvolut, leveringstimeouts og genforbindelse); tests/telemetry_cli.rs
+
+seg-3b0543727850 = receiver_trust::calibration (run_dataset); receiver_trust::monitors (MonitorConfig::profile, JAMMERTEST_2024_CALIBRATED); realdata::jammertest; examples/jammertest_trust_calibration.rs
+
+seg-1a452a47b9d0 = tests/receiver_trust_jammertest_calibration.rs::the_recorded_calibration_reproduces (ignoreret, datastyret af KSHANA_JAMMERTEST_DIR: det registrerede udvalg, tilbageholdte antal, tærskelafgørelser og afgørelsen); receiver_trust::calibration::tests (tidsstempler, vinduesparring og tidszoneforskydningen, mærker, vagtbånd, udelukkelse, udvælgelse); receiver_trust::monitors::tests::threshold_profile_is_opt_in
+
+seg-bf0fa5e2343c = jammertest::plan (parse_catalog, parse_plan, import, import_attack_log, events_toml); jammertest::score (score_run); jammertest::dataset (run_dataset); jammertest (score_log, score_pack); examples/jammertest_score_2024.rs
+
+seg-cf2f1a572c34 = tests/jammertest_plan_roundtrip.rs (datastyret af KSHANA_JAMMERTEST_PLAN_DIR: antal slots pr. testområde i planen fra { "2025" }, katalog-id'er, TOML-rundtur); tests/jammertest_score.rs (en syntetisk log med et kendt fald: opdaget, misset, ikke evaluerbar, kørsel med falsk alarm, signeret pakke med scorekortet); jammertest::plan::tests; tests/jammertest_score_2024.rs (datastyret af KSHANA_JAMMERTEST_DIR: den registrerede kørsel)
+
+seg-bf1156de0226 = compliance
+
+seg-af47f52e5c9e = tests/compliance_report.rs::mapping_is_well_formed; tests/compliance_report.rs::wording_rule_holds_in_mapping_report_and_docs; tests/compliance_report.rs::empty_set_evidences_nothing; tests/compliance_report.rs::statuses_follow_the_runs_present; tests/compliance_references.rs
+
+seg-5614947f4e8e = receiver_trust (live: the gate, its TCP listener, PKSHT); uden for cratet: integrations/signalk (JavaScript), integrations/opencpn (JavaScript-relæ, C++ native plugin), deploy/reference-build (systemd-enheder, container)
+
+seg-e917651d5c45 = tests/receiver_trust_live_cli.rs (gaten og dens TCP-listener, Rust-siden); integrations/signalk/test/adapter.test.js, integrations/signalk/test/model.test.js og integrations/signalk/test/plugin.test.js ({ "24" } Node-tests på optaget syntetisk output); integrations/opencpn/test/relay.test.mjs ({ "5" } Node-tests); integrations/opencpn/test/e2e-live.mjs (den ægte binære fil til en TCP-forbruger, kørt i hånden og i CI); integrations/opencpn/plugin/test/pksht_test.cpp og integrations/opencpn/plugin/test/trust_state_test.cpp (C++-kontroller af PKSHT-parseren og panelets tilstand); deploy/reference-build/check-units.sh og deploy/reference-build/test-entrypoint.sh
+
+seg-729d14cb230a = iq::track::boc (BocKind, BocTracking, BumpJump, boc11_dll_scale); iq::track::channel (the bump-jump taps and Channel::bump_jumps)
+
+seg-ac14fcbe3119 = tests/iq_boc_bump_jump.rs (b1_b2_b3_side_peak_and_false_jumps_on_the_iq_chain, b4_scaling_on_the_sampled_signal, b5_false_jump_rate_and_detection_at_correlator_level); iq::track::boc-enhedstests (b4_unit_grid_misses_are_the_recorded_ones: den præregistrerede B4-tærskel for enhedstests bevaret som skrevet, dens registrerede miss hævdet som fund F1)
+
+seg-371e708b8b8f = iq::channel::scint (Scintillation, ScintParams); realdata::scint50 (parse_log, segments, measured_windows, model_windows, compare)
+
+seg-0e1032d7c879 = tests/iq_scint_malindi_measured.rs (cornell_model_verdict_is_the_recorded_one, den registrerede afgørelse hævdet som registreret, fund F1; finding_model_fades_are_deeper_and_longer_than_measured; posthoc_b3_with_the_model_phase_unwrapped, kun rapporteret; datastyret, hentet af scripts/fetch_scint_malindi.sh); realdata::scint50-enhedstests (model_data_through_the_harness_shows_the_wrapped_phase_finding, fund F2)
+
+seg-98c86c10352b = iq::acq (CfarConfig, ca_cfar, ca_cfar_cells, ca_cfar_pfa, ca_cfar_alpha)
+
+seg-7b8247a4ca76 = tests/iq_acq_cfar.rs (c1_closed_form_matches_monte_carlo_of_the_exact_model, c2_false_alarm_rate_on_gaussian_noise, c3_false_alarm_rate_on_two_bit_noise, c5_decisions_do_not_depend_on_the_input_scale; c4_noise_free_two_bit_signal_verdict_is_the_recorded_one, den registrerede afgørelse hævdet som registreret, fund F1, fastlåst af finding_noise_free_sidelobes_exceed_the_cfar_rate); iq::acq-enhedstest ca_cfar_closed_form_reduces_to_the_textbook_case_and_inverts
+
+seg-e24276b8b422 = tests/spectrum_more_bands.rs (s1_new_bands_carry_their_icd_values, s2_nulls_and_b1c_parts, s4_cn0_paths_agree_on_the_new_bands; s2_closed_form_densities_verdict_is_the_recorded_one, fund F1, fastlåst af finding_s2_areas_are_the_closed_form_in_band_fraction; s3_iq_layer_verdict_is_the_recorded_one, fund F2, fastlåst af finding_s3_per_bin_errors_follow_the_code_line_spectrum; posthoc_s3_band_averaged_shape, kun rapporteret)
+
+seg-3e8c364433b7 = spectrum (default_band, MORE_BAND_NAMES, GLONASS_CHANNELS)
+
 seg-010ad441a092 = iq::lunanet_afs; iq::signals::lunanet (afs_q_tertiary_bits, afs_q_overlay_bits, afs_q_tiered); surface (lunanet_afs_check_spec, lunanet_afs_check_symbols, lunanet_afs_generate)
 
 seg-2d72ec7c3695 = tests/lunanet_afs_codes.rs (b4_legendre_1499_matches_and_tertiary_codes_match_except_one_printed_column, the_spec_check_reports_every_bar_and_pins_the_b4_miss); iq::lunanet_afs::tests (sb1_round_trips_every_field_and_corrects_flipped_symbols, generated_streams_pass_and_damage_is_found); tests/lunanet_afs_cli.rs

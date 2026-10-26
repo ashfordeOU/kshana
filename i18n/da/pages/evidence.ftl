@@ -2756,6 +2756,8 @@ seg-6d46cb5414e3 = Det lukkede 15-tilstands fejltilstands-EKF drevet af IMU-inkr
 
 seg-be8fb95782af = Bevægelsesfilerne fra bench-eksporten, givet til en open source GNSS-simulators egne læsere, kommer… · Valideret
 
+seg-46797187781a = Valgbare bevægelsesprofiler til gnss-ins-pakken (ligeud, figur-8, bymæssigt stop-og-kør… · Modelleret
+
 seg-0d1622691877 = Kvaternion-attitude, WGS-84 NED strapdown inertial mekanisering… · Valideret
 
 seg-6c2952f49754 = Sfærisk-harmonisk tyngdemagnitude + forstyrrelse (mGal) fra enhver ICGEM .gfc-model… · Valideret
@@ -2777,6 +2779,418 @@ seg-7eafc10ca9dc = Izzo-2015 Lambert-løser med ét omløb (r1, r2, flyvetid →
 seg-a8818aea1c75 = IAU 2006/2000A præcession-nutation, CIO GCRS↔ITRS, skudsekund-tidsskalaer · Valideret
 
 seg-3713cbb8eb72 = En UTC-kalenderdato og -tid til en todelt UTC-juliansk dato med SOFA dtf2d… · Valideret
+
+seg-822cd40b49f9 = Jordens rotation ud fra en todelt UT1-juliansk dato på banestien, så det jordfaste… · Valideret
+
+seg-c846d8ec2e5e = Tre rammematricer sammenlignet element for element eller efter rotationsvinkel med ERFA ved… · Valideret
+
+seg-853ce09df9d5 = UTC fra 1960-01-01 til 1971-12-31, da UTC løb med en forskudt rate i forhold til TAI og sprang… · Valideret
+
+seg-a0c473abd3ff = GLONASS' udsendte satellitursbias -tau_n + gamma_n (t - t_b) på et tidspunkt aflæst på… · Valideret
+
+seg-ca16d26f1ebe = Udbredelses- og rammestien, som alle dirigerede jordbane-typer deler: en SGP4-middel… · Valideret
+
+seg-15ce16875e3a = m-sekvens/Gold-sidelobe- og krydskorrelationsgrænser, længde↔multiplicitet · Valideret
+
+seg-044da209dd61 = GDOP/PDOP/HDOP/VDOP/TDOP ud fra sigtelinjegeometri via Q=(HᵀH)⁻¹ med en lokal ENU-opdeling · Valideret
+
+seg-a9fda54b3df8 = dop_error_mc::run_geometry og check: en seedet Monte Carlo (N = { "20,000" } epoker pr… · Modelleret
+
+seg-cd50aaf86375 = receiver_trust::geometry: satellitgeometri pr. epoke (god, forringet med årsager… · Modelleret
+
+seg-d39aa1ea5121 = Klobuchar enkeltfrekvens-L1 skrå ionosfærisk gruppeforsinkelse ud fra de otte udsendte α/β… · Valideret
+
+seg-ab6ef0477bea = Den fordelingsmæssige kerne, som ethvert beskyttelsesniveau hviler på: snapshot-fejldetekteringen… · Valideret
+
+seg-08740f67bcf2 = DO-229E Appendix J vægtede mindste kvadraters beskyttelsesniveauer: D=(GᵀWG)⁻¹ fra… · Valideret
+
+seg-0597fb2464d0 = AUC (Mann-Whitney, uafgjorte ½), forvekslingsmatrix ved tærskel… · Valideret
+
+seg-76f7a9a22d70 = ROC AUC + bootstrap-konfidensinterval, der adskiller ægte mærkede anomalier; gennemsigtig detektor… · Valideret
+
+seg-f3d7926d7464 = Målt ADEV NNLS-tilpasning, NEES/NIS χ²-konsistensbånd og ur-van-Loan-diskret… · Valideret
+
+seg-cf029efb7438 = Kugleflade-harmonisk syntese af IGRF-14-hovedfeltet — X/Y/Z/F-komponenter, deklination… · Valideret
+
+seg-ba97bae9110c = Analytisk binormal ROC AUC = Φ(μ/(σ√{ "2" })) og den mindste detekterbare fejl… · Valideret
+
+seg-fa9b946507f8 = Rangkorrelations- og resamplingkerner under undersøgelsen af resiliensbeslutningers ustabilitet… · Valideret
+
+seg-c0267817b05a = Analytic Hierarchy Process-prioritetsvægte = normaliseret principal (Perron) egenvektor… · Valideret
+
+seg-3780fbf75fa5 = Weighted Sum Model (min–max-normaliseret additivt aggregat + rangering) og Weighted… · Valideret
+
+seg-e90b04f6ed22 = Technique for Order of Preference by Similarity to Ideal Solution — min–max… · Valideret
+
+seg-b66a72295a62 = VlseKriterijumska Optimizacija — gruppenytte Sᵢ, individuel fortrydelse Rᵢ og… · Valideret
+
+seg-8e3355350914 = Preference Ranking Organization METHod — parvist præferenceindeks med de seks standard… · Valideret
+
+seg-edc8867a5ae6 = ELimination Et Choix Traduisant la REalité — konkordans-/diskordansmatricer, den… · Valideret
+
+seg-85bc967357d6 = Weighted Aggregated Sum Product ASSessment (lineært normaliseret konveks blanding… · Valideret
+
+seg-69652cbd7eb5 = COmplex PRoportional ASsessment — søjlesumsnormaliseret fordelssignifikans S⁺ plus den… · Valideret
+
+seg-14a9c267153c = Tabulær CUSUM-detektors værste-tilfælde detektionsforsinkelse (⌊h/(z−k)⌋+{ "1" }) og ude-af-kontrol… · Valideret
+
+seg-559361559e00 = Vækst i fasefejlvarians under coast q_wf·t + q_rw·t³/3 + q_drift·t⁵/20 og dens monotone… · Valideret
+
+seg-f35ada98dcce = Effektiv arkitektonisk diversitet = invers Simpson / Hill-orden-2-tallet 1/Σpᵢ² over… · Valideret
+
+seg-02037e5e43e7 = skyline + frames::look_angles + geometry::sky_geometry: det geodætiske (WGS-84) azimut… · Valideret
+
+seg-f5a8c861b566 = skyline: gadekløften på lukket form (skæring atan((h - a) / d) med d = (w/2) /… · Modelleret
+
+seg-6f4ab2e589a4 = skyline::PRESETS: fire REPRESENTATIVE geometrier med designnotatets angivne… · Modelleret
+
+seg-206fd57a3ac7 = geometry::sky_geometry: ENU-og-ur-kofaktoren (H^T H)^-1 med ét modtagerur i… · Valideret
+
+seg-d01c7735f171 = geometry (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg… · Modelleret
+
+seg-443eb5d0c060 = Lukket form for vækst i coast-fejl + holdover-til-tærskel; kvanteurklasser · Modelleret
+
+seg-82fc65142759 = clock_library: et enhedskort (hvid fase, hvid, flicker og random-walk FM plus en… · Modelleret
+
+seg-18704e564ea4 = clock_library::card::DeviceCard::fit_phase_periodic: et enhedskort, der bærer den… · Modelleret
+
+seg-b3a0ab1e8725 = 3-tilstands (fase/frekvens/drift) van-Loan Kalman-ur, Joseph-stabiliseret · Modelleret
+
+seg-065f31b5656e = Tovejs/TWSTFT (Sagnac), GNSS common-view, PPP; linkjitter→afstand · Modelleret
+
+seg-f66464be680e = BPSK-R/BOC PSD, spektral adskillelse κ, Gabor-båndbredde, DLL-jitter, flervejsudbredelse · Modelleret
+
+seg-93c350e230ed = G1/G2 LFSR C/A-kodegenerator, der gengiver de offentliggjorte første 10 chips i oktal fra IS-GPS-200… · Valideret
+
+seg-934de63c594b = Koldatom-interferometer-accelerometer ud fra grundprincipper (k_eff·T², QPN) · Modelleret
+
+seg-c1b7c7c18be6 = Mach–Zehnder-frynsemultiplicitetens dynamiske område: den 2π-periodiske frynseudlæsning sætter en… · Modelleret
+
+seg-0b04febfad29 = Sammensat bias + skalafaktor + VRW + stabilitetsforfald positionsbudget over holdover · Modelleret
+
+seg-9f1d13017c2b = 15-tilstands fejltilstands-EKF, løst koblet (valideret på en reel IMU/GNSS-kørsel mod… · Valideret
+
+seg-7de0c3292c0b = Geometri-J/S-linkbudget, anti-jam C/N₀, tab af lås pr. satellit · Modelleret
+
+seg-4c976ce425d1 = Urstøttet χ², RAIM, AGC, SQM fusioneret sikkerhedskvalitetsmål pr. epoke · Modelleret
+
+seg-94aef965251e = Lukket-form-grænse for den værst tænkelige uopdagede tidsfejl = monitorgulv + oscillator… · Modelleret
+
+seg-f94c1547b98c = CR3BP STM + enkeltskyds differentiel korrektor; L2 sydlig NRHO · Valideret
+
+seg-ed2d780e3d9e = Tyngdekortmatchning, terrænreferenceret (TERCOM/SITAN), magnetisk anomali · Modelleret
+
+seg-486011306ab7 = Tyngdeanomali i sfærisk approksimation (Barthelmes STR09/02 lign. { "126" }, ICGEM… · Valideret
+
+seg-4483cf6d6e1b = Håndskrevet SRTM .hgt-parser (16-bit big-endian, nordrække først, tomrumsbevidst) + bilineær… · Valideret
+
+seg-00ca5de4ee1f = Deterministiske, scenariehashede, SBOM + tværplatforms golden-gates · Modelleret
+
+seg-8e59c3e84e80 = Mærket syntetisk forstyrrelseskorpus + detektoragnostisk ROC/AUC/forvekslingsmatrix/Pfa-Pmd… · Modelleret
+
+seg-ee1c310ec3f1 = Kontrolleret syntetisk undersøgelse af AUC-optimismegabet fra indenfor-fordeling→udenfor-fordeling… · Modelleret
+
+seg-901571509bd6 = Indlæsning af målt ADEV (NNLS), afvejningstabel (tidssynkroniserings-/inertial holdover + fordel)… · Modelleret
+
+seg-5662e2e5895c = Sol-/geomagnetiske indekser (definitorisk Kp↔ap-tabel), den eksosfæriske Jacchia-1971… · Modelleret
+
+seg-c537da9d8e79 = CCSDS { "502.0" } OEM-importør (parse_oem), tolerant over for COMMENT-linjer / ekstra metadata… · Valideret
+
+seg-beeb7d7b6dd4 = Tolegemers opsendelsesazimut (sin Az = cos i / cos lat), mindste opnåelige inklination… · Modelleret
+
+seg-c45e3519a7a5 = Maksimal deceleration (uafhængig af ballistisk koefficient), hastighed + højde ved peak-g… · Modelleret
+
+seg-da36dafae1a0 = SMAD-rumtrekantsgeometri: jordens vinkelradius, svathbredde, nadir-GSD, maksimal… · Valideret
+
+seg-3ad96d6deb18 = CCSDS 133.0-B Space Packet primær-header kodning/afkodning… · Valideret
+
+seg-8310f0595525 = CCSDS 133.0-B-2 Space Packet-udvidelser ved siden af den primære header: en sekundær header… · Valideret
+
+seg-5bb33fefb658 = Skriver og læser til NAIF SPICE SPK-kerner af typerne { "9" } (Lagrange, ulige tidsintervaller)… · Valideret
+
+seg-0e3ee73f6878 = Skriver og læser til NAIF SPICE SPK-segmenter af type { "3" } (Chebyshev-polynomier for… · Valideret
+
+seg-f7030d62e793 = Skriver og læser til CCSDS 504.0-B-2 Attitude Data Messages i KVN og NDM/XML: AEM… · Valideret
+
+seg-c50a40ca4cc3 = Skriver og læser til CCSDS 502.0-B-3 Orbit Data Messages i KVN og NDM/XML: OPM { "3.0" }… · Valideret
+
+seg-26a88c235d95 = Tyngdegradient, værste-tilfælde forstyrrelsesmoment ((3/2)(μ/R³)ΔI) som maksimum over attitude… · Valideret
+
+seg-87c35f71a0ad = Synlighedspassager i tidsdomænet (AOS/TCA/LOS, maksimal elevation, varighed) for en motor… · Valideret
+
+seg-52b6d079e92c = Synlighedspassager (AOS, TCA, LOS, maksimal tilsyneladende elevation, varighed) for en SGP4… · Valideret
+
+seg-399a6180ad73 = Downlink-Es/N0 langs hver passage af én satellit over én station (EIRP, fririumstab… · Modelleret
+
+seg-39ce06b45cb9 = Kandidatkontakter ud fra hver satellit-station-passage med dens ACM-datavolumen; konflikter… · Modelleret
+
+seg-3fba182b5716 = Fririumstab, C/N₀, Eb/N₀, margin og lukning over CCSDS { "401" } / DSN 810-005… · Valideret
+
+seg-c4474a20a256 = Omkostning pr. dækningsprocent + dækning pr. euro ROI over konstellationsdimensioneringsmotoren… · Modelleret
+
+seg-f7455ff3cea7 = Afbilder en uopdaget spoof-/jam-bias til effektiv fejl → Stanford-område… · Modelleret
+
+seg-3b6f9365b858 = Afgrænset (bedst/nominel/konservativ) ydeevne for koldatom-interferometer — bias… · Modelleret
+
+seg-487540fed42b = TIB Stanford-integritetsdiagram, klassifikation af epoker (nominel / utilgængelig / MI / HMI) · Modelleret
+
+seg-fdacd291d688 = TIB-integritetsdækningsscoring (HMI/MI/tilgængelighedsrater + overbound-dækningsvurdering) · Modelleret
+
+seg-55b7d4cb0733 = TIB-fejlmenu (domænedivergens, ur-slam, holdover-coast… · Modelleret
+
+seg-deb93b385e06 = TIB-vurdering af uopdagelig absorption (symmetrisk/replay skal absorberes af PL, aldrig… · Modelleret
+
+seg-71e991a2fb5e = Ikke leveret — Kshana er en simulator for navigationsydeevne, ikke et rumfartøjsbus-firma · Partner
+
+seg-aad5d920d276 = Ikke leveret — Kshana modellerer signalydeevne, ikke nyttelast-/antennehardware · Partner
+
+seg-635ca7bf37f6 = Ikke leveret — kun ydeevnemodeller; koldatom-/urhardware er en partners · Partner
+
+seg-cf461832e017 = Ikke leveret — Kshana taler kun til software-PA; flyvnings-PA er en partners · Partner
+
+seg-b12d70afce58 = Relativistisk Jord-Måne urrate (LTC/TCL) + TT/TAI/UTC-kædning + ensemble · Valideret
+
+seg-2196751179d2 = Hybrid-optical-rf-rapporten angiver den linkkonfiguration, den faktisk kørte med (bærebølge… · Modelleret
+
+seg-c4ba60f69a92 = Hybrid-optical-rf-rapporten angiver en RF-linktilgængelighed, sammensat ud fra størrelser… · Modelleret
+
+seg-e35847b3472a = Hybrid-optical-rf-rapporten afgiver forholdet mellem optisk og RF afstandsmåling med den ENE… · Modelleret
+
+seg-f2a51c1899b1 = Linkbudgetrapporten angiver hver absolut konstant, som dens egen margin blev beregnet ud fra… · Modelleret
+
+seg-8f6469a6120f = Én kørsel af lunar-time-budget afgiver en række for ur-versus-ramme-krydsning pr. urklasse mod en… · Modelleret
+
+seg-0539c66f5cf0 = Én tabel rapporterer UT1-prædiktionsfejlen, polbevægelsens polfejl og deres… · Valideret
+
+seg-a3f939d488fb = Standardværdien for realtime-frame-eop ved kørsel er bibliotekets egen indlejrede kopi af en ordret… · Valideret
+
+seg-8f02a2501455 = Todimensionelt sweep af det mønstervægtede, højdebegrænsede overfladefangstfodaftryk over… · Modelleret
+
+seg-8a1340c7c9c7 = Scenariet lunar-time-budget udgiver sine array-værdisatte outputs som en langformet (gitter… · Modelleret
+
+seg-4ab4a61e8167 = Den valgfrie [time_lab]-blok i scenariet lunar-time-budget modellerer en månereference… · Modelleret
+
+seg-57abfe8d677e = Nærfelts-VLBI-forsinkelse for en jordbaseline, der observerer et månefyr + partielle afledte · Modelleret
+
+seg-d30dd4a12006 = Nærfelts-VLBI-forsinkelse for en jordbaseline, der observerer et månefyr, med fyr- og… · Valideret
+
+seg-3aa60b9c6b3c = Motorens egen rene Rust-læser af NAIF-binære kerner (naif_kernel): DAF… · Valideret
+
+seg-2acd73a9ac2d = Modtagelse af Jord-GNSS i månens afstand: svagsignallaget, som P7 Table { "1" } angiver, og… · Modelleret
+
+seg-33d1304a0519 = Banebestemmelse i en næsten retlinet halobane (eller en elliptisk frossen bane)… · Modelleret
+
+seg-c1ee9a353523 = Enkeltdifferentieret bærebølgefase og kode for Jord-GNSS mellem modtagere ved en måneoverflade… · Modelleret
+
+seg-69aedd00f9a3 = Fisher-information for det syvparametrede månereferencesystem-datum ud fra jordstationers laser… · Modelleret
+
+seg-1fbf7618a692 = Cramer-Rao-præcision for translations-, skala- og rotationsforskydningerne mellem teknikker… · Modelleret
+
+seg-e415b5a77676 = Fisher-information for h2, k2, l2 og de fysiske libration-amplituder ud fra laser… · Modelleret
+
+seg-8f2d14dd394e = Fyrstøttet dilution of precision for en bruger på måneoverfladen: den synlige-satellit… · Modelleret
+
+seg-d76d65cb95c5 = Eksakt paritetsunderrum-opdeling af en målefejl i den del, RAIM ikke kan se, og den… · Valideret
+
+seg-90c252c7df52 = cmpl_horizontal afgrænser den k-sigma horisontale positionsfejl, som den blinde bidrager med… · Modelleret
+
+seg-92fc824c4b83 = Batch-fusion af VLBI + månelokal afstand + afstand mellem satellitter for at genfinde… · Valideret
+
+seg-4cf20252f448 = Fisher-information M=HᵀWH, Cramér–Rao nedre grænse, observerbarhedsrang / datum-defekt… · Valideret
+
+seg-f71ccda9ffde = Fisher-information-observerbarhed for den fælles månebestemmelse: uden jordbaselines… · Modelleret
+
+seg-cd6e8589ff01 = 7-parameter Helmert-datum-tilpasning + ICRF-orienteringsbinding ud fra et netværk af punkter · Valideret
+
+seg-04e2dd96ebd4 = Moonlight-klasse lunar DOP / dækning / tilgængelighed + generaliseret lunar ARAIM-beskyttelse… · Valideret
+
+seg-b4800672c176 = Koderne for Augmented Forward Signal i LSIS V1.0 ({ "29" } januar { "2025" }): AFS-Q 10230-chip… · Modelleret
+
+seg-e663cd51a1af = Gengivelseskernen i AFS-basisbåndet (LSIS-130: kompleks envelope I + jQ, I = AFS-I… · Valideret
+
+seg-088515ff0767 = Den { "12" } s, 6000-symbols FID { "0" }-ramme i LSIS V1.0: 68-symbols synkroniseringsmønster, BCH… · Valideret
+
+seg-2e3079616926 = En Kshana AFS-optagelse, der er erhvervet, sporet og afkodet af en uafhængig software-modtager… · Modelleret
+
+seg-437e67bb2bed = GPS L1 C/A-spredekoder (sdr::CaCode) og LNAV-subframes 1-3 (gps_lnav: IS-GPS-200… · Modelleret
+
+seg-ffd1b13b8e08 = IQ-scenegeneratorens referenceværdi pr. satellit for en GPS L1 C/A udsendt-efemeride-scene… · Valideret
+
+seg-f93a7f8acc5a = iq::acq::acquire (FFT-parallel kodefasesøgning med kvadratlov-Marcum-Q-tærsklen)… · Modelleret
+
+seg-eef6607ed2cf = iq::campaign::detect og kampagnekøreren: en valgfri [monitors]-tabel kører IQ… · Modelleret
+
+seg-ee78cb937e79 = iq::campaign::detect (windows, roc) og iq::campaign::report::rocs: hver celle i en… · Modelleret
+
+seg-47782cefbb89 = iq::labfit (campaign, cn0, iqfit, iqreport) og [input] campaign på kshana iq labfit… · Modelleret
+
+seg-14e8ca05c35a = Kshanas LNAV-subframes 1-3 (gps_lnav::encode_subframes) for de { "32" } brdc0010.22n… · Modelleret
+
+seg-030d1fa37f79 = IS-GPS-200 LNAV-subframes 1-3 (gps_lnav::encode_subframes: afrunding til nærmeste kvantisering… · Modelleret
+
+seg-e53b50d716c2 = Parallel kodefasesøgning (acquisition::pcps_acquire: portabel FFT, kohærent foldning… · Modelleret
+
+seg-dd83610c7054 = acquisition::pcps_acquire med dens sampleeffekt-beslutning på de ni ikke-overflade LuGRE… · Modelleret
+
+seg-39dfb5c00daf = acquisition::pcps_acquire med celle-middelværdi-beslutningen (top over gitterets middel… · Modelleret
+
+seg-c75576fbf7dc = acquisition::pcps_acquire (celle-middelværdi-beslutning, falsk-alarm-sandsynlighed { "1e-7" }) med… · Modelleret
+
+seg-7b80adb2f3c1 = Topocentriske sigtevinkler pr. satellit (azimut med uret fra nord, elevation) og… · Valideret
+
+seg-8682a18623a0 = Differentiel referencestation af NovaMoon-klassen: ophævelse af fælles mode +… · Modelleret
+
+seg-22e6954fe97f = LunaNet/IOAG-afstemt eksport af månereferencesystem + tid + efemeride (CCSDS OEM + KIF) med… · Modelleret
+
+seg-ef1f98adc881 = Delscorer pr. dimension over Kshanas egne syv resilienskategorier (ikke DHS-termer)… · Modelleret
+
+seg-a4b986bb7414 = Kvantificerer, hvordan en enkelt sammensat score / RPCF-niveau omrangerer arkitekturer under en… · Modelleret
+
+seg-2c46a0ac9d47 = Ærlighedsregister pr. resultat, der kvalificerer et demonstrationsoutput: dets eksterne ankre… · Modelleret
+
+seg-3cf7f27d3357 = Ét reproducerbart TradeEvidence-objekt (fast ramme: scenarie+seed+motor; fælles pr.-FoM… · Modelleret
+
+seg-24f99198842b = Enhedskort (optisk/fanget-ion/kviksølv-ion + klassiske ure genbrugt fra… · Modelleret
+
+seg-acd180a7e9c1 = Ende-til-ende kvante- versus klassisk tidsoverførselskæde (urcoast + linkpræcision i… · Modelleret
+
+seg-cd23c8f87bd6 = Kvante- (koldatom-interferometer) versus klassisk navigationsklasse INS-dødregning over… · Modelleret
+
+seg-843a2f5c9332 = Mærket kvantefejlkatalog (urfrekvenssprang/-drift/-låsetab; sensor… · Modelleret
+
+seg-cc543b168360 = Eulers rotationsbevægelsesligninger (I ω̇ = τ − ω × Iω, hovedakse og generel… · Valideret
+
+seg-1cb6f416c032 = Relativ bevægelse for en chaser omkring et mål på en cirkulær referencebane i LVLH… · Valideret
+
+seg-af4f665f008c = Lokalisér en sender (jammer/spoofer eller en opportunistisk kilde til reverse-PNT) ud fra… · Modelleret
+
+seg-537695276e2e = En 3-DoF-punktmasse-indflyvning over en roterende sfærisk Jord gennem US Standard… · Valideret
+
+seg-325aee4e883b = Konvektiv varmeflux i stagnationspunktet q = k sqrt(rho/R_n) V^{ "3" } med Sutton-Graves… · Modelleret
+
+seg-1d456a0c1722 = Signal-til-støj-budget for nadir-kamera (Lambert-scenestråling, kameraligning, skud… · Modelleret
+
+seg-177b656af61c = Plan tyngdekraftssving-opstigning for et flertrinskøretøj over en ikke-roterende sfærisk Jord… · Modelleret
+
+seg-ef8c91c82ae6 = TWSTFT-tovejsligningen løst for T_A - T_B med stationens sende- og modtage… · Modelleret
+
+seg-1d0b4b4e110f = Hufnagel-Valley Cn2 integreret langs en skrå sti for plan- og sfærisk-bølge… · Modelleret
+
+seg-c4ee04146fdd = Tilgængelighed af et optisk link mod en angivet linkmargin ud fra en log-normal sky… · Modelleret
+
+seg-028c12c10cb9 = Fordelingen af udfaldsvarighed for et optisk sted koblet til den lukkede-form-coast… · Modelleret
+
+seg-c3d99589cc05 = En tilvalgt [timeseries]-tabel (duration, step, seed) får optical-atmosphere-typen… · Modelleret
+
+seg-0c7d7f31e4d6 = En læser til DSN Orbit Data Files (TRK-2-18): de 36-byte postgrupper (filmærke… · Modelleret
+
+seg-7956a36bcade = Inertial pegestyring af et stift nav med tre eller flere afbalancerede reaktions… · Valideret
+
+seg-84a5fe5a3fbe = Lefferts-Markley-Shuster multiplikativt EKF: attitudefejl i kropsrammen og gyrobias… · Modelleret
+
+seg-193da3371e11 = Optimal treakset attitude ud fra vægtede vektorobservationer (stjerne/sol/magnetometer… · Valideret
+
+seg-8da56e79e751 = Kvadratlov- (ikke-kohærent) acquisition-detektor over en kodefase × Doppler-søgning… · Valideret
+
+seg-d5849ac6bc94 = Heltals-mindste-kvadraters fastlæggelse af multiplicitet på LAMBDA-måden: en volumenbevarende heltals- (Z)… · Valideret
+
+seg-2d96783440cc = Hyperbolsk flyby-geometri (a=−μ/v∞², e={ "1" }+r_p·v∞²/μ, drejevinkel δ={ "2" }·asin(1/e), impact… · Valideret
+
+seg-e7d3b969f076 = Antennenulning med kontrolleret modtagemønster: komplekse array-styrevektorer… · Valideret
+
+seg-dd7b728fe2b4 = Den femkoefficient IEEE-1139 PSD↔Allan-varians-konvertering S_y(f)=Σh_α f^α → σ_y²(τ)… · Valideret
+
+seg-f8adbffd71d8 = Serialisér og parse CCSDS { "502.0" } OEM COVARIANCE_START…COVARIANCE_STOP-blokken — { "6" }×{ "6" }… · Valideret
+
+seg-d67d03452c0a = Budget for positionsfejl versus coast-varighed bygget ud fra IMU-koefficienter, hver fejlkilde… · Valideret
+
+seg-4b154bf6e19f = Én kørsel tager en kontaktplan (en liste af aos_s/los_s-vinduer, hvert med en anmodning til aperturen… · Modelleret
+
+seg-f760b89fb9f2 = Månenativ jammer-til-signal-forhold, effektiv C/N₀ og tab af lås for en selenografisk… · Modelleret
+
+seg-4f9161cdf3ee = Lunar-jamming-rapporten hviler ikke længere med sin afvisningskontur på én skalar. Den afgiver… · Modelleret
+
+seg-c9d6d3cf2935 = Hybrid-optical-rf-rapporten angiver, hvad den tværmodale chi-i-anden-monitor kan… · Modelleret
+
+seg-59df9a43a6b8 = Hybrid-optical-rf-rapporten viser filterets processtøjmodel og angiver, hvordan… · Modelleret
+
+seg-8b261efc9e1c = Eksporten af geometri pr. satellit bærer pr. (epoke, satellit) off-boresight… · Modelleret
+
+seg-128f88766721 = Tab af lås beregnet ud fra løkkedynamik i stedet for et effektforhold: bærebølge (Costas) og… · Modelleret
+
+seg-dc1fcd97c3a7 = Forsinkelsespartielle afledte akkumuleret over en plan af baselines × epoker til en Fisher… · Valideret
+
+seg-c17542136645 = Et tredje datumvalg, alle-stationer-fastholdt, der holder hver jordstation fast og estimerer… · Modelleret
+
+seg-5c8e2fa3bbbf = Alle-stationer-fastholdt-fyrkovariansen i scenariet lunar-vlbi-fim (hver jordstation… · Valideret
+
+seg-ce38279b5aa8 = De tre led, en differentiel korrektion opsamler mellem den epoke, den beregnes ved, og… · Modelleret
+
+seg-156151ec109a = Monte Carlo-sweep af den lunare differentielle PNT-model over et sydpolart brugergitter og et… · Modelleret
+
+seg-1705f4ce1f56 = Azimutafhængige horisontmasker pr. sted til typen lunar-station-coverage (den… · Modelleret
+
+seg-e93ebeff92a8 = Den valgfrie [receiver]-sektion i lunar-station-coverage (LRS-02): elevationsafhængig… · Modelleret
+
+seg-b294dec61e30 = Det valgfrie input orbit_err_growth_m_per_s i lunar-station-coverage (LRS-03): en… · Modelleret
+
+seg-a68d82cb0c1e = Den valgfrie [solution]-sektion i lunar-station-coverage (LRS-06): en højde… · Modelleret
+
+seg-b4996f005ec1 = Typen lunar-station-coverage kørt under de offentlige antagelser i den offentliggjorte… · Modelleret
+
+seg-bd66869079b4 = Det lunare beskyttelsesniveaus trin fra geometri til kovarians — (GᵀG)⁻¹ over alle-i-sigte… · Valideret
+
+seg-f9bc824806f8 = Selve beskyttelsesniveauligningen for løsningsadskillelse med flere hypoteser… · Valideret
+
+seg-23900b097b2f = araim_reference::add_v42_subset_plan: ADD v4.2-reglen for bestemmelse af delmængder (P_THRES… · Modelleret
+
+seg-e5cfbf8661ff = Den valgfrie [integrity]-sektion i clock-typen (clock_integrity::run): ud fra en angivet… · Modelleret
+
+seg-b07a36e5c271 = Observerbarhedstærsklen for cislunar buelængde i den SPATIAL seks-tilstands CR3BP frem for… · Modelleret
+
+seg-f88fcbfa22cf = En mindste kvadraters bias-plus-rate-tilpasning over et efterfølgende vindue plus den principale periodiske… · Modelleret
+
+seg-fd5f35f76c57 = Det syvparametrede Helmert-datum udbredt fra en SIMULERET OBSERVATIONSKAMPAGNE i stedet for… · Modelleret
+
+seg-2c8d43fe11c7 = En batch mindste kvadraters estimator, der GENFINDER chiefens begyndelsestilstand ud fra simulerede… · Modelleret
+
+seg-a10c3602ff80 = Accepterer en tabuleret månecentreret tilstandsefemeride (evalueringen af en SPK/BSP-kerne)… · Modelleret
+
+seg-4b77b4198030 = Et maskinlæsbart skema, der giver enhed, proveniensklasse og definition for hver numerisk… · Modelleret
+
+seg-735a5f9d5762 = Kovariansen for det syvparametrede Helmert-datum, med dets to simulerede inputs erstattet af… · Valideret
+
+seg-ea7ecbe4ec1e = Valgfrie inputs extra_reflectors og extra_beacons i scenariet lunar-llr-datum tilføjer en… · Modelleret
+
+seg-e55351a3a757 = Kovariansen for det syvparametrede Helmert-datum i lunar-llr-datum ud fra arkiverede ILRS-normal… · Valideret
+
+seg-e84dedc612c4 = ephem::moon_position, den lavpræcise geocentriske månerække, som crate'en falder tilbage på… · Valideret
+
+seg-1af4030e7dde = Tre strukturelle værn over selve verifikationsprocessen, hvert lukker en klasse af… · Modelleret
+
+seg-5b9dda92c158 = Skalar-tid løsningsadskillelses-TPL over heterogene kilder; PL drevet af… · Valideret
+
+seg-a1f93440e60e = PL(τ)=max(TPL_handover,HPL(τ)); nedre-halvkontinuert PL({ "0" }+)≥PL({ "0" }−); K(IR/2) løbende maks… · Modelleret
+
+seg-54d612592d08 = Løbende-maks-envelope overbound-dækker (uden gennemtrængning) en reel metrologisk serie ved… · Valideret
+
+seg-54f4e009c7d5 = Ingen endelig værste-tilfælde holdover (Brownsk sup divergerer); IR-allokeret HPL konsistent med… · Modelleret
+
+seg-2f43298d88c8 = Overbound for bias pr. kilde b = (U/k_cov)·Phi^-1(1-tail/2) + ældning, der opblæser en offentliggjort… · Modelleret
+
+seg-76baa53b1b6e = N×N bias-krydskovarians med rho·b_i·b_j uden for diagonalen for kilder, der deler en UTC(k)… · Modelleret
+
+seg-b2396f1b8e9d = Håndskrevet Cholesky Omega=LL^T og forlæns-substitutions-whitening z=L^-1 r (Cov(z)=I… · Valideret
+
+seg-e7ad7dc222c3 = Scorestatistik ({ "1" }^T Omega^-1 r)^2/({ "1" }^T Omega^-1 { "1" }) ~ chi^2_1 for et fælles-mode-skift… · Modelleret
+
+seg-91e04ed91d06 = Loft for uopdagelig fælles mode: den største fejlstørrelse langs en retning d, der… · Valideret
+
+seg-39ee9f0b7b11 = Schur-komplement-marginal af { "{" }lunocenter-X, scale{ "}" }-blokken i 7-parameter Helmert… · Valideret
+
+seg-9eaa1f56a3b7 = Klassifikation af datumproblemet ved intern afstandsmåling: en enkelt afstandsobservation… · Modelleret
+
+seg-e97d57d71169 = Datum-Jacobi-rækker for Jord-reflektor LLR-afstand, tostations lunar-VLBI differentiel… · Modelleret
 
 seg-8f2f47d609a1 = Rotation fra MOON_PA_DE440 til J2000 til vilkårlige epoker inden for 2014-01-01 til 2030-12-31 TDB… · Valideret
 

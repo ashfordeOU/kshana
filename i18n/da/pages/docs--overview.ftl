@@ -318,6 +318,10 @@ seg-3b861b2f08b8 = Udgave v{ $version }
 
 seg-d1153c5e9112 = Øv det minut, hvor GNSS går i sort
 
+seg-e9dbbd9cfa32 = Én seedet realisering af linkmarginen for stedet 'northern' over { "336" } t, fra en rigtig kørsel af motor v{ $version } på scenarios/optical-atmosphere-network.toml (seed { "37" }, et trin på { "600" } s). Marginen falder under nul under skyepisoder; i dette træk er linket oppe { "40.5" } % af tiden, med { "27" } udfald og et længste udfald på { "30.7" } t. Inputtene er illustrative, serien er ét træk fra modellen og ikke klimaet, og den afviger fra den statistiske tilgængelighed ({ "37.8" } %) med trækkets stikprøvefejl. Kun vejledende analyse: ikke et certificeret tilgængeligheds-, integritets- eller navigationsprodukt og ikke en forudsigelse for noget rigtigt sted, medmindre dets klimainput kommer fra et angivet datasæt.
+
+seg-278dd0f9df58 = Dokument
+
 seg-29af7c764c09 = Kilde: <c1/>
 
 seg-fdd71491d5b0 = Status for kontinuerlig integration på main
@@ -1777,3 +1781,157 @@ seg-bd73a9aab9bf = den åbne MHSS ARAIM-implementering af beskyttelsesniveau —
 seg-7912b8806633 = <a1>Kvantemodeller</a1> · <a2>detaljer</a2>
 
 seg-538ae4a293ac = fysiklaget for koldatom-interferometeret, og hvor koefficienter stadig slås op
+
+seg-542a7e114dff = omfanget af DO-229E / DO-316-algoritmer, og hvad der <b>ikke</b> er et krav om overensstemmelse
+
+seg-dc1c6f878fdd = søfarende / integratorer
+
+seg-29cf3d1ef90f = GNSS-tillidsscoren 0-100 for et fartøjs NMEA, dens overvågninger og dens grænser (vejledende, ikke typegodkendt navigationsudstyr)
+
+seg-5849b496e5af = maritime undervisere
+
+seg-4cd0efee3108 = syntetisk bro-NMEA med scriptet jamming og spoofing og en instruktørlog; kun tekst, aldrig til live navigation
+
+seg-df1d81e25c75 = analytikere / søfarende
+
+seg-db50820691f6 = operatører / forsikringsselskaber
+
+seg-5a34e02c1d04 = signerede tekniske optegnelser over en tillidshændelse og hvordan man verificerer én
+
+seg-3f9b0b6cbbda = drifts- / sikkerhedsteams
+
+seg-7442d4e7a665 = tillidsstrømmen som Prometheus-metrikker, SIEM-hændelser og OpenTelemetry, med et Grafana-dashboard
+
+seg-e3fdf6154d72 = bådejere / integratorer
+
+seg-e4c07cecfc7d = Signal K-pluginnet, OpenCPN gate-tilstand og referencebygningen
+
+seg-dc551bb8edb9 = modtagerproducenter
+
+seg-dac9a3e7adf3 = at afspille et eksporteret scenarie gennem en laboratoriesimulator og score modtagerens log
+
+seg-fe9ee01b4b40 = offentlige robusthedsrammeværker afbildet på Kshana-output, med kilder og huller; <c1/>
+
+seg-803e21a4cd63 = kørbare vejledninger med deres gengivne tekst
+
+seg-8ba331635865 = Standarder og interoperabilitet
+
+seg-79dfa8eef7e8 = integratorer
+
+seg-dc2cc59b2c22 = de udvekslingsformater for GNSS / flyvedynamik / agenturer, Kshana læser og skriver (RINEX, SP3, CCSDS OEM/OMM/TDM/Space-Packet, …)
+
+seg-82e510edf422 = LEO PNT-fusion
+
+seg-78e498b9cd72 = brugere / evaluatorer
+
+seg-515011790d2f = fusioneret MEO + LEO positionering, navigation og tidssynkronisering: Doppler, fælles pseudoafstand, PPP-konvergens, 5G NTN, polardækning og LEO-tidsoverførsel over enhver konstellation; de valgfrie forudindstillinger og deres offentlige kilder
+
+seg-80c3a6fcc9d4 = sammensætning af scenarier: kædede missionstidslinjer, parametersweeps, Monte Carlo-ensembler og kørsler med fælles betingelser, med de sammensætningsidentiteter, som testene fastlåser
+
+seg-e2ba765ba8cf = Scenariekatalog
+
+seg-d249adca6e09 = brugere / integratorer
+
+seg-cc36976b92b2 = hver kind, der kan fordeles, med sine påkrævede og valgfrie TOML-felter — genereret ud fra <c1/>
+
+seg-0714feb42ace = hvert felt i resultat-JSON, med enheder og en kildehenvisning
+
+seg-d88421825ccf = Python-brugere
+
+seg-8eca8cb65710 = PyO3-bindingens flade — kald af motoren, scenarie- og resultattyperne samt eksempler
+
+seg-1a04729b35fa = Påstande mod virkelighed
+
+seg-c1ff79259d0a = registret over lukning af overdrevne påstande + CI-kontrollen (<c1/>), der holder det løst
+
+seg-f081da2f997c = den fasede køreplan — hvad der er leveret, og hvad der kommer næst
+
+seg-91a94770bfc6 = <a1>MCP-server</a1> · <a2>JetBrains-plugin</a2>
+
+seg-d67668b76043 = agenter / IDE-brugere
+
+seg-aa939b17949a = kør Kshana fra en AI-assistent eller en JetBrains IDE
+
+seg-01db4cfa76e9 = <a1>Agentvejledning</a1> · <a2>Flader</a2>
+
+seg-b7b1239f907e = agenter / integratorer
+
+seg-fc2d423654fe = hvilket værktøj der besvarer hvilket spørgsmål, hvad man skal beholde med hvert svar; hvor hver funktion kan nås (CLI, Rust, Python, WASM, MCP, plugin, JetBrains, notebooks), og hvorfor en celle er N/A
+
+seg-3b3aa42b5f15 = udgivet historik (Keep a Changelog + SemVer, Semantic Versioning)
+
+seg-f67abac08544 = bidragydere
+
+seg-bcdae6f3fdbd = bygning, kontroller, disciplin for test/citering, DCO (Developer Certificate of Origin)
+
+seg-5dec7ef854fe = bidragydere / fællesskab
+
+seg-5c0b0441b55c = hvordan Kshana styres — hvem der beslutter, hvordan, og grænsen mellem åbent og lukket
+
+seg-0766b60f1d8a = Adfærdskodeks
+
+seg-29a818e8fbc7 = fællesskab
+
+seg-b34f02c40174 = forventet adfærd (Contributor Covenant)
+
+seg-4609cf7fb790 = Sikkerhedspolitik
+
+seg-ca35e5e3ad0c = indberettere
+
+seg-772539feded5 = hvordan man rapporterer en sårbarhed; note om dobbelt anvendelse
+
+seg-1f443a976d47 = Nøglereferencer
+
+seg-feb6f4f6a5e4 = <b>Uafhængige referencer til validering og standarder</b> — de eksterne autoriteter, Kshanas kontroller er forankret i:
+
+seg-4ca957af5c9b = Vallado, Crawford, Hujsak & Kelso — <em>Revisiting Spacetrack Report #3</em> (<a1>AIAA 2006-6753</a1>; <a2>testdata</a2>): det SGP4/SDP4-verifikationssæt, Kshana stemmer med til { "4.12" } mm, og de gennemarbejdede eksempler på referencesystemer, som TEME→ITRF-kæden kontrolleres mod.
+
+seg-9a2f45b88410 = IAU <a1>SOFA</a1> / <a2>ERFA</a2> — de tids- og referencesystemrutiner, som IAU 2000A-nutationen og CIO GCRS↔ITRS-reduktionen valideres mod bit for bit.
+
+seg-37f680b464fe = Petit & Luzum (red.) — <em>IERS Conventions ({ "2010" })</em>, <a1>IERS TN (Technical Note) { "36" }</a1> (jordorientering, polarbevægelse og standarder for referencesystemer).
+
+seg-5b9951eea4b0 = Riley — <em>Handbook of Frequency Stability Analysis</em>, <a1>NIST SP { "1065" }</a1> (Allan-deviationsrelationer og NBS14-referenceserien; NBS = det tidligere amerikanske National Bureau of Standards).
+
+seg-aede69f7dc3e = Pedregosa et al. — <em>scikit-learn: Machine Learning in Python</em>, <a1>JMLR { "12" } ({ "2011" })</a1>: referenceimplementeringerne af ROC/AUC, forvekslingsmatrix og præcision/recall/F1, som testbænken til evaluering af RF-forstyrrelser afstemmes nøjagtigt efter (<c1/>).
+
+seg-a19f72f631ef = Virtanen et al. — <em>SciPy { "1.0" }</em>, <a1>Nature Methods { "17" } ({ "2020" })</a1>: <c1/>, <c2/> og <c3/> — de referencerutiner, som NNLS-tilpasningen af målt ADEV i kvante-afvejningen, χ²-konsistensbåndene og van-Loan-urets processtøjkovarians valideres mod (<c4/>).
+
+seg-fa00dee84096 = Knowles, Kanhere, Neamati & Gao — <em>gnss_lib_py</em>, <a1>SoftwareX { "27" } ({ "2024" })</a1>: brugt både som åbent tidligere arbejde (se <em>Sammenligning og åbent tidligere arbejde</em> nedenfor) og som den <b>uafhængige DOP-reference</b>, som beregningen af GDOP/PDOP/HDOP/VDOP/TDOP afstemmes efter til { "1e-6" } (<c1/>).
+
+seg-1e6e8a68cebb = Montenbruck & Gill — <em>Satellite Orbits: Models, Methods and Applications</em> (<a1>Springer</a1>): kraftmodellerne bag kraftmodeltilpasningen til agenturernes præcise efemerider.
+
+seg-144cdd7fbc19 = Howell — <em>Three-dimensional, periodic, halo orbits</em>, Celestial Mechanics { "32" }({ "1" }) ({ "1984" }), <a1>doi:10.1007/BF01358403</a1>; Zimovan-Spreen, Howell & Davis — <em>Near rectilinear halo orbits and nearby higher-period dynamical structures</em>, Astrodynamics { "6" } ({ "2022" }), <a2>doi:10.1007/s42064-021-0125-x</a2> (de halo-/NRHO-familier, som CR3BP-differentialkorrektoren gengiver).
+
+seg-93a7e383053b = <b>Fysik for enheder og metoder</b> — de citerede kilder bag sensormodellerne:
+
+seg-fc2aa6fa1340 = Origlia, Schiller, Bongs et al. — <a1>arXiv:{ "1503.08457" }</a1> (strontium-optisk gitterur, rumorienteret mål).
+
+seg-f735c2528052 = Oelker et al., <em>Nature Photonics</em> ({ "2019" }) — <a1>doi:10.1038/s41566-019-0493-4</a1> (Sr-ur i laboratoriet, { "4.8" }×{ "10" }⁻¹⁷).
+
+seg-80b2a7b012fd = Templier et al., <em>Science Advances</em> ({ "2022" }) — <a1>arXiv:{ "2209.13209" }</a1> (hybrid kvanteaccelerometertriade).
+
+seg-795160f35f82 = Groves, <em>Principles of GNSS, Inertial, and Multisensor Integrated Navigation</em> — <a1>IEEE AESS (Aerospace and Electronic Systems Society)-tutorial (University College London Discovery-repository)</a1> (fejlvækst ved dødregning).
+
+seg-621d684f6fc1 = Giorgetta et al., <em>Nature Photonics</em> { "7" }, { "434" } ({ "2013" }) — <a1>arXiv:{ "1211.4902" }</a1>; Deschênes et al., <em>Phys. Rev. X</em> { "6" }, { "021016" } ({ "2016" }) — <a2>APS (American Physical Society)</a2> (optisk tovejs overførsel af tid og frekvens; den optiske inter-satellit-forbindelse modellerer sit budget for ikke-reciprocitet efter disse).
+
+seg-e8299332a4ba = Betz — <em>Binary Offset Carrier Modulations for Radionavigation</em>, NAVIGATION { "48" }({ "4" }) ({ "2001" }), <a1>doi:10.1002/j.2161-4296.2001.tb00247.x</a1> (BOC-modulationen og teorien om spektralseparation bag <c1/>).
+
+seg-27d20763d6cb = Kaplan & Hegarty (red.) — <em>Understanding GPS/GNSS: Principles and Applications</em> (3. udg., Artech House, { "2017" }): ligningen for effektiv C/N₀ ved anti-jam og den termiske støjjitter i early–late-DLL-kodesporingen, som navsignal- og jamningsmodellerne bruger.
+
+seg-7b646cdd9bd4 = <b>Sammenligning og åbent tidligere arbejde</b> — de værktøjer og oversigter, Kshana placeres i forhold til:
+
+seg-1879b1f543dd = Humphreys et al. — <a1><em>TEXBAT</em></a1> (Texas Spoofing Test Battery; ION — Institute of Navigation — GNSS { "2012" }): testbatteriets spoofingparametre, som den flerlagede detektor karakteriseres mod.
+
+seg-d8b2eecaaa5f = González et al. — <a1>NaveGo</a1> ({ "2017" }): de åbne, validerede fejlprofiler for inertinavigation, der bruges som klassisk baseline.
+
+seg-7c7beb74ddac = Iiyama, Casadesús Vila & Gao — <a1><em>LuPNT</em></a1> (ION GNSS+ { "2023" }, Stanford NavLab): åben simulator for månens PNT.
+
+seg-fef89f16b111 = Knowles, Kanhere, Neamati & Gao — <em>gnss_lib_py</em>, SoftwareX { "27" } ({ "2024" }), <a1>doi:10.1016/j.softx.2024.101811</a1>: åben analyse af GNSS-data.
+
+seg-9c5ebe5384bc = Li, Zaminpardaz, Kealy & Greentree — <em>Quantum sensors for enhanced positioning and navigation: a comprehensive review</em>, GPS Solutions { "30" }({ "1" }):{ "62" } ({ "2026" }), <a1>doi:10.1007/s10291-026-02030-y</a1>.
+
+seg-7d2b42ba7454 = Bertone et al. — <em>Earth and Space Science</em> { "8" }({ "6" }) ({ "2021" }), <a1>doi:10.1029/2020EA001454</a1>: GRAIL reduceret-dynamisk OD, den empiriske accelerationsbundgrænse, som LRO-tilpasningen gengiver.
+
+seg-2658a9477dd9 = <s1>Næste</s1>Primer om begreber
+
+seg-90a95738b32d = Månens infrastruktur (lunar-infrastructure)

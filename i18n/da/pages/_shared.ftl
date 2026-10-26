@@ -417,3 +417,5 @@ seg-1fc08d2f0209 = Hvad kørslens egen rapport siger ikke er modelleret eller ik
 seg-58c4d7218e70 = Reproducerbarhed og softwarekvalitetssikring er MODELLED, ikke valideret: en delpåstand kontrolleres eksternt, men hele funktionen sammensættes af modellerede dele, så funktionen forbliver modelleret. (verifikationsmatrix (docs/MODELLED-RATIONALE.md))
 
 seg-1bf3d5817274 = Alle typer: <a1>KINDS.md</a1>
+
+seg-850a18066e2b = Kampagner
