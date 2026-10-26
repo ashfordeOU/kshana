@@ -51,3 +51,5 @@ seg-f3526b0d95f8 = Změřeno
 seg-7634c6f4b32c = Spoj
 
 seg-b966dd26caa6 = Datová sada
+
+seg-4fe4920a3fa1 = Norma
