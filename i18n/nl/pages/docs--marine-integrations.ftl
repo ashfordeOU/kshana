@@ -11,3 +11,5 @@ seg-c3c260b7063e = Tests
 seg-06ff6eed7e99 = OpenCPN
 
 seg-ab1af8b3d968 = zie hierboven
+
+seg-c353e7bec219 = Sleutel

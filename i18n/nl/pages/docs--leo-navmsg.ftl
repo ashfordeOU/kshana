@@ -351,3 +351,253 @@ seg-d82887c766e3 = Update halverwege de passage
 seg-d1104b6ea7fa = <c1/> plaatst een gebruiker (standaard { "45" }° N, { "10" }° O), vindt de hoogste passage boven het masker binnen <c2/> en plant berichten elke <c3/>. Bij elke omschakeling binnen de passage rapporteert het de positiesprong, de kloksprong, de pseudorangesprong van de gebruiker (nieuw bericht min oud), de grootste sprong die een zichtbare gebruiker kan zien (gesloten vorm over de nadirkegel), de afstandsfout vóór en na, en PASS of FAIL tegen <c4/>. <c5/> (fits van { "300" } s, elke { "150" } s bijgewerkt):
 
 seg-7d91304c87e3 = De hoogste passage van een dag bereikt { "43.7" }° en duurt { "455" } s. De omschakelingen:
+
+seg-289e8da49cc8 = Omschakeling
+
+seg-e80d12ee2259 = Elevatie
+
+seg-b16789d14338 = Positiesprong
+
+seg-b3c252609532 = Kloksprong
+
+seg-8239a390ec71 = Gebruikersafstandssprong
+
+seg-4153faf7969d = Sprong in de slechtste geometrie
+
+seg-14402c7fb332 = IOD { "270" } → { "271" }
+
+seg-7862a97ac55f = { "0.07" } mm
+
+seg-4cfe934c881f = { "0.19" } mm
+
+seg-9e9752920165 = -0.17 mm
+
+seg-4267557786be = { "0.27" } mm
+
+seg-46872e8925b2 = IOD { "271" } → { "272" }
+
+seg-4c803fd2ccc9 = { "0.14" } mm
+
+seg-cc9a8388f6bc = -0.24 mm
+
+seg-0549f7fd0633 = IOD { "272" } → { "273" }
+
+seg-ad1afcf9a466 = -0.22 mm
+
+seg-c1b30171b4f0 = { "0.35" } mm
+
+seg-f93647402fa9 = { "0.48" } mm
+
+seg-69b35182807c = Grootste gebruikersafstandssprong { "0.35" } mm tegenover een drempel van { "5" } cm: <b>PASS</b>.
+
+seg-96dcb456600d = Coderen en decoderen
+
+seg-1b3674a0e041 = <c1/> codeert het eerste van drie berichten, decodeert het, controleert de CRC en weigert een beschadigde kopie, drukt het kwantisatiebudget af en schrijft en leest het RINEX-achtige blok en de CSV-tabel terug:
+
+seg-480eb9ffc333 = frame: { "171" } bytes ({ "1310" } payloadbits, waarvan { "1045" } efemeride en klok), 24-bits cyclische redundantiecontrole (CRC-24Q) <c1/>;
+
+seg-0e2a64a063fd = grootste halve-stapseffect van een enkel veld: <c1/>, { "0.545" } mm;
+
+seg-a1875f7088b0 = heel bericht na kwantisatie: positie binnen { "1.126" } mm en klok binnen { "0.185" } mm van het exacte bericht; SISRE { "0.113" } cm exact, { "0.129" } cm gedecodeerd;
+
+seg-6e818708b695 = een frame met één omgeslagen bit wordt geweigerd: true;
+
+seg-31fe0f6b133d = RINEX-achtige rondgang binnen { "5.0e-06" } m, CSV-rondgang binnen { "0.0e+00" } m.
+
+seg-405cf34090cc = Platformonafhankelijkheid
+
+seg-7f2193f6ff06 = Een frame wordt als gehele getallen uitgezonden, dus het moet dezelfde gehele getallen opleveren waar en hoe het scenario ook draait: de native binary op elk besturingssysteem, een debug- of een releasebuild en de WebAssembly-build (WASM) in een browser. Drie dingen stonden hierbij in de weg. De sinus, cosinus, arctangens en exponentiële functie van de wiskundebibliotheek van een host zijn niet verplicht correct afgerond en verschillen tussen hosts in de laatste plaats. Een geoptimaliseerde build op macOS haalt een sinus en een cosinus van één argument uit de gecombineerde routine van het systeem, die niet altijd de waarde van de losse sinus teruggeeft, waardoor ook een debug- en een releasebuild van elkaar verschilden. En de gebruikelijke normale sampler roept in zijn zeldzame takken de exponentiële en logaritmische functie van de host aan. De fit zet een zo klein verschil om in andere gekwantiseerde velden. Het hele soort (referentiebaan en -klok, fit, gebruikersalgoritme, signal-in-space range error (SISRE), codec) berekent daarom elke dergelijke functie met de pure-Rust-crate <c1/> via <c2/>, gehele machten als expliciete producten en normale afwijkingen met de polaire methode op de ruwe uitvoer van de generator. <c3/> legt het frame van 171 bytes van het scenario voor coderen en decoderen hieronder vast, plus één controlewaarde per efemeridemodel; een debug-build, een releasebuild en de WASM-build geven byte-identieke resultaatdocumenten voor alle vijf meegeleverde <c4/>-scenario's.
+
+seg-1ef00467df17 = Binair formaat
+
+seg-af2dae9e9e7c = <b>Dit is de eigen, gedocumenteerde codering van Kshana.</b> Ze bevat de onderdelen die de gepubliceerde beschrijvingen van LEO-navigatieberichten noemen, naar het voorbeeld van de veldenset van de Galileo ICD. Ze is <b>niet</b> de bitindeling van Celeste of van enig ander systeem: die is niet openbaar.
+
+seg-6a730c01ad1c = Frame: preambule <c1/> ({ "8" } bits), versie { "1" } ({ "4" }), model ({ "4" }: { "1" } <c2/>, { "2" } <c3/>, { "3" } <c4/>, { "4" } <c5/>), payloadlengte in bytes ({ "12" }), payload met nullen aangevuld tot een byte, CRC-24Q (een 24-bits cyclische redundantiecontrole, { "24" } bits) over alle voorafgaande bytes. CRC-24Q is de controle van de norm van de Radio Technical Commission for Maritime Services, RTCM { "10403" }, en van de Galileo ICD (polynoom <c6/>, beginwaarde { "0" }); de code reproduceert de cataloguscontrolewaarde <c7/> voor <c8/> en de controlebytes van het voorbeeldframe van berichttype { "1005" } uit RTCM { "10403" } (<b>VALIDATED</b>).
+
+seg-a31d899eb435 = De stappen van de Galileo ICD zijn gekozen voor een middelhoge baan om de aarde en zijn te grof voor een LEO-bericht op centimeterniveau: <c1/> in stappen van { "2" }⁻⁵ m ({ "3.1" } cm), <c2/> { "2" }⁻²⁹ rad ({ "1.3" } cm op LEO-straal), de hoeken { "2" }⁻³¹ halve cirkels ({ "1.0" } cm) en <c3/> { "2" }⁻³⁴ s ({ "1.7" } cm). Kshana behoudt de ICD-eenheden en de conventie van halve cirkels, verfijnt de stappen zodat de halve-stapsfout van elk veld onder { "1" } mm positie of afstand blijft over een venster van 15 minuten, en verbreedt de velden om de bereiken te dekken die een LEO-fit nodig heeft:
+
+seg-caddc6f5b9a7 = Blok
+
+seg-b548b723c201 = Bits
+
+seg-d00b65801e9b = Stap
+
+seg-2085d172bec3 = hulp en synchronisatie
+
+seg-7e9018f82811 = week
+
+seg-45cbfedb6f0e = klok (vlagbit { "0" })
+
+seg-05d274f5ce99 = s/s^{ "2" }
+
+seg-9d6d5136e12a = Kepler (modellen 1-3)
+
+seg-3fb59c8238cb = halve cirkel
+
+seg-d173e8d7026c = m^{ "0.5" }
+
+seg-48c8bfb6e914 = langs-, dwars- en radiale correcties (model { "2" })
+
+seg-131652f53721 = Extra's van Liu et al. { "2025" } (model { "3" })
+
+seg-fccf37a24fc4 = halve cirkel/s^{ "2" }
+
+seg-ebde561c17ab = ECEF-polynoom (model { "4" })
+
+seg-822c7482547c = Klobuchar (vlagbit { "1" })
+
+seg-7dd6e8bcaf43 = s/halve cirkel^{ "2" }
+
+seg-09408b08c481 = s/halve cirkel^{ "3" }
+
+seg-734162101b2d = NeQuick-G (vlagbit { "2" })
+
+seg-ddbb363f4593 = sfu/deg^{ "2" }
+
+seg-e2744b31e5d3 = UTC (vlagbit { "3" })
+
+seg-545755e7b26f = Een waarde buiten het bereik van haar veld wordt geweigerd, niet omgeslagen. De bereiken zijn gecontroleerd door fits te coderen op { "300" } tot { "2000" } km, bij inclinaties van { "0" }° tot { "140" }° en fitintervallen tot { "20" } minuten: <c1/> en <c2/> zijn breed omdat de knoop op een bijna-equatoriale baan slecht gedefinieerd is en de fit de J2-drift van het argument van de breedte tussen beide verdeelt, en <c3/> en <c4/> omdat de fit met 22 parameters over { "20" } minuten een deel van de kortperiodieke oscillatie van de halve lange as opneemt. Sinds { "0.30" } is de fit met 22 parameters de gewone kleinste-kwadratenmethode van het artikel zonder priors, en een equatoriale fit op { "800" } km heeft dan <c5/> van ongeveer { "6.3e-10" } halve cirkel/s^{ "2" } nodig, waardoor de schaal van { "2" }^-60 naar { "2" }^-58 ging. De langsbaancorrecties van graad 7 van <c6/> passen in het coëfficiëntbereik van 22 bits tot { "15" } minuten; een langere fit kan dat overschrijden en wordt dan geweigerd. <c7/> rapporteert voor elk efemeride- en klokveld de grootste verandering in positie en afstand die een verandering van een halve stap over de gebruiksperiode veroorzaakt, en de verandering van het hele bericht na kwantisatie.
+
+seg-1ad17f3d3643 = Tekstexports
+
+seg-81fb376aa1e1 = <b>RINEX { "4.02" } definieert geen LEO-navigatierecords</b> (de systeemletters zijn G, R, E, J, C, I en S; <a1>International Global Navigation Satellite System (GNSS) Service (IGS) RINEX { "4.02" }</a1>). Het blok dat <c1/> schrijft leent de RINEX-{ "4" }-vorm — een recordkop <c2/>, een satelliet- en epochregel met drie klokcoëfficiënten, broadcast-baanregels van vier <c3/>-velden — en is een <b>gedocumenteerde Kshana-extensie</b>: systeemletter <c4/>, recordtypen <c5/>, <c6/>, <c7/>, <c8/> en drie koptekstcommentaren die dat vermelden. Eerder werk over LEO-banen in navigatierecords in RINEX-4-stijl: <a2>arXiv { "2401.17767" }</a2>.
+
+seg-9a3016441bce = De CSV-tabel bevat de berichten <c1/> en <c2/>, één per rij. De standaardkolommen gebruiken de namen van de Galileo ICD (<c3/>); <c4/> kiest in plaats daarvan de spelling van een voorinstelling. Beide formaten kunnen worden teruggelezen.
+
+seg-4a26902d2771 = Ionosfeer en UTC
+
+seg-c4d4dd2bac45 = <b>Klobuchar</b>: het L1-model van de engine (<c1/>, getoetst aan RTKLIB), met de eerste-ordewet <c2/> geschaald naar de draaggolf.
+
+seg-0d3973f04ee5 = <b>NeQuick-G</b>: de coëfficiënten reizen mee in het bericht en <c1/> geeft <c2/> terug voor een gemodificeerde dip-breedte <c3/>, met de regels van het algoritme (coëfficiënten die allemaal nul zijn geven { "63.7" } solar flux units, sfu; het resultaat wordt begrensd tot [{ "0" }, { "400" }] sfu). Het NeQuick-elektronendichtheidsmodel en de integratie langs het schuine pad, die <c4/> omzetten in een vertraging, zijn <b>niet</b> geïmplementeerd.
+
+seg-66dbd447dfeb = Een satelliet op enkele honderden kilometers vliegt binnen de ionosfeer. Geen van beide broadcastmodellen houdt rekening met de elektroneninhoud boven de satelliet, en er wordt daarvoor geen correctie toegepast.
+
+seg-7befd59b2ac6 = <b>UTC</b>: <c1/> past de drie gevallen van de Galileo ICD §{ "5.1.7" } toe (vóór, binnen zes uur van en na een schrikkelseconde); een ingevoegde seconde leest { "86400" }.
+
+seg-2b0d77219437 = Voorinstellingen
+
+seg-d2908020db08 = Voorinstellingen zijn gegevens, elk één bestand onder <c1/>, met hun bronnen. De engine en elk meegeleverd scenario behalve dat van Celeste draaien zonder.
+
+seg-c353e7bec219 = Sleutel
+
+seg-5566e1d71a4f = Baan
+
+seg-33f4c7af9c53 = Draaggolf
+
+seg-f4510e898031 = Berichtmodel
+
+seg-125aac68d94f = PUBLIC, <a1>arXiv { "2509.19551" }</a1>
+
+seg-890aa92157e4 = { "1080" } km, { "53" }°
+
+seg-1eca13ba2309 = X1 { "1593.3225" } MHz
+
+seg-ee9947222a30 = niet gepubliceerd
+
+seg-77af616c1f6e = PUBLIC, arXiv { "2509.19551" }
+
+seg-f016786d7755 = { "520" } km, { "97" }°
+
+seg-780e931bf88d = PUBLIC, <a1>RNTF-rapport</a1>, beschrijving van de constellatie
+
+seg-d5df094a5f89 = { "781" } km, { "86.4" }°
+
+seg-94bc78cee128 = { "1621" } MHz (band van { "1616" }–{ "1626" } MHz)
+
+seg-3f5de7f74502 = geen uitzending
+
+seg-4944294c230f = PUBLIC, <a1>NAVIGATION { "72" }({ "1" })</a1>, beschrijving van de constellatie
+
+seg-c2a2761f73b1 = { "550" } km, { "53" }°
+
+seg-2ef501f97eff = Ku-band, waarde midden in de band (representatief)
+
+seg-567fab40bd24 = geen (signals of opportunity)
+
+seg-a76527ba66b6 = PUBLIC, <a1>Sensors { "2023" }</a1>, <a2>Satellite Navigation { "2026" }</a2>
+
+seg-f5dd5086eedd = { "700" } km, { "55" }°
+
+seg-5fa6b60f66b4 = nabij B1 (in de bron afgeschermd; L1 als vervanging)
+
+seg-5ebbf0042d7c = REPRESENTATIVE
+
+seg-4f3e5a683682 = { "600" } km, { "97.8" }°
+
+seg-c06f62ca5173 = { "5020" } MHz (midden van RNSS C-band)
+
+seg-884c81e55e79 = PUBLIC, <a1>InsideGNSS</a1>
+
+seg-3b1fd041f9ba = { "500" } km (representatief)
+
+seg-522c85402d84 = L1 (representatief)
+
+seg-064b03765e4d = <c1/>, graad { "6" }, { "60" } s, elke { "30" } s ververst, nulklok, { "0.24" } m restfout van de sturing
+
+seg-5619bc61b958 = WORKSHOP en PUBLIC
+
+seg-20572d7e348d = { "510" } km, { "97.4" }°
+
+seg-a17f4b4f7fb5 = { "1191.795" } MHz
+
+seg-fad0950a2d67 = <c1/>, graden en recordafstand in het voorinstellingsbestand
+
+seg-e881ffc4e14b = RNSS is de radionavigatiesatellietdienst; RNTF is de Resilient Navigation and Timing Foundation.
+
+seg-e9524c71636d = <b>Celeste IOD.</b> De voorinstelling voor de in-orbit demonstration (IOD) Celeste van het Europees Ruimteagentschap (ESA) is de enige die materiaal gebruikt dat is gepresenteerd op de LEO-PNT-workshop van het ESA Navigation Innovation and Support Programme (NAVISP), { "2026" }: de berichtstructuur (Galileo-Keplerset plus langs-, dwars- en radiale correctiepolynomen, klokpolynoom, SVID, health, IOD, ionosferische en UTC-parameters), de recordafstand en de CSV-kolomnamen. De baan ({ "510" } km, bijna polair zonsynchroon) en de draaggolf komen uit openbare bronnen die in het bestand worden aangehaald. De bitindeling van Celeste is niet openbaar en wordt niet nagebouwd; latere Celeste-fasen en het LEO-PNT-systeem van de Europese Unie (EU) kunnen afwijken. Elke van de workshop afgeleide waarde staat in de module <c1/> van <c2/>, gebruikt door <c3/>. Hoe de voorinstelling wordt achtergehouden: elk van de workshop afgeleid getal van de engine staat in één bestand, <c4/>, dat <c5/> alleen meecompileert als het bestaat, en in de scenario's <c6/> die alleen in de repository staan. Door dat bestand en die scenario's te verwijderen wordt de voorinstelling achtergehouden zonder bronwijziging; elke andere test, onafhankelijke referentie en elk ander scenario draait zonder haar, en het aantal scenariobestanden in de README telt de achtergehouden bestanden nog steeds mee.
+
+seg-906da2752f76 = Verificatie
+
+seg-7338b6210228 = Rij
+
+seg-c5ce76c91ff7 = Label
+
+seg-cfe0d596296e = SISRE-gewichten
+
+seg-3e0059048a0d = Tabel van Montenbruck et al. { "2018" } (GPS, GLONASS, Galileo, BeiDou, geostationair)
+
+seg-0f5e73171fe0 = Gebruikersalgoritme van de Galileo ICD
+
+seg-29ad977ef423 = RTKLIB <c1/> op vier echte Galileo-broadcastefemeriden, { "1" } mm per as (<c2/>)
+
+seg-ecec254e8219 = cataloguscontrolewaarde <c1/>; RTCM { "10403" } voorbeeldframe { "1005" }
+
+seg-388633e4e785 = Fitter en SISRE-afweging
+
+seg-8b85c3277e66 = tweelichamenreferentie teruggevonden tot { "1" } mm; gecorrigeerde J2–J6-fit tot { "1" } mm; monotone groei met het interval
+
+seg-4de7f2b173c5 = Continuïteit halverwege de pass
+
+seg-bdbd2771c7f5 = sprongidentiteit; gesloten-vormgrens van de kegel tegenover bemonstering
+
+seg-468a92a2caf7 = Binair formaat en budget
+
+seg-ba26f5f63172 = rondgangen; de halve stap van elk veld onder { "1" } mm
+
+seg-9be43cbef131 = RINEX-achtig en CSV
+
+seg-a7748156fd6e = rondgangen
+
+seg-88b5cda10923 = Model en fit met 22 parameters van Liu et al. { "2025" }
+
+seg-7272ebdc1fec = nauwkeurige banen van TU Graz ITSG van vier satellieten tegenover de tabellen { "4" }, { "5" }, { "6" } en { "8" } van het artikel: verhoudingen langs, dwars, radiaal en SISRE van { "0.755" } tot { "1.138" } op de dagen van het artikel en { "0.683" } tot { "1.186" } op acht achtergehouden dagen, binnen 1.5x (<c1/>)
+
+seg-94066142a642 = ATOMIC-nulklokpolynoom en de tabel met vijf hoogten
+
+seg-205cdc6a3696 = ATOMIC-feiten uit InsideGNSS; de gepubliceerde tabel van Liu naast de fit van Kshana met geïntegreerde baan, niet vastgepind
+
+seg-8c00ed11609c = gesloten vormen uit de ICD; het aan RTKLIB getoetste Klobuchar-model
+
+seg-d5653e0958b5 = SISRE is alleen representatiefout: geen fout in baanbepaling of voorspelling.
+
+seg-4968d9fcbc19 = De referentie is een integratie van Kshana (zonder derde lichamen, zonnestralingsdruk of getijden), niet de nauwkeurige baan van een echte satelliet.
+
+seg-6a4a1bf21b50 = Het binaire formaat en het RINEX-achtige blok zijn van Kshana zelf.
+
+seg-26c0a2693081 = NeQuick-G wordt meegedragen, niet geïntegreerd tot een vertraging; geen correctie voor een satelliet binnen de ionosfeer.
+
+seg-2a0c8190c38e = De vergelijking met Liu et al. verschilt in banen, lezing van de parameters en gewichten.
+
+seg-4abe216f987a = <s1>Vorige</s1>LEO-pass en linkbudget
+
+seg-59d9bf4735d8 = <s1>Volgende</s1>Gecombineerde MEO- en LEO-positiebepaling
