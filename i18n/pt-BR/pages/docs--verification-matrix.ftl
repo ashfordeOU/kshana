@@ -3621,3 +3621,85 @@ seg-05ded40b17d2 = Nenhuma externa: o nó ROS não foi executado em um grafo ROS
 
 # text
 seg-c3c260b7063e = Testes
+
+# text
+seg-b19cbd364dea = src/benchmark/scorecard.rs::tests (PL de referência absorve; PL quebrado não absorvido nunca detectado; veredito de cobertura detectável; a propriedade de honestidade de que nenhum veredito de cobertura/detecção é alcançável para um cenário indetectável)
+
+# text
+seg-6d963d838eed = hybrid_integrity::tests (a configuração resolvida é repetida na saída tanto para os valores padrão quanto para as substituições, sem passar o comprimento de onda por uma ida e volta em metros; toda entrada de units traz uma unidade e uma classe de proveniência; todo campo que o bloco units nomeia é de fato emitido, de modo que ele não pode documentar um campo fantasma)
+
+# text
+seg-55f2385bbe8a = hybrid_integrity, linkbudget, jamming
+
+# text
+seg-188ab5b1b2e9 = hybrid_integrity::tests (a disponibilidade é igual ao produto dos dois indicadores recalculados a partir das margens do próprio relatório, e essas margens são, por sua vez, remontadas a partir da EIRP, da perda em espaço livre, da perda agregada, da figura de mérito, do termo de Boltzmann, da taxa de dados e do requisito do próprio relatório até { "1e-9" } dB; o valor é medido como sendo { "0" } ou { "1" } enquanto a disponibilidade óptica na mesma execução é medida como estritamente entre ambos; cada linha de fator traz uma classe de proveniência do vocabulário fechado de field_schema; o alcance de fechamento relatado, executado de novo no orçamento de enlace, devolve uma margem de { "0" } a { "1e-9" } dB e é medido como independente do alcance em que a execução estava ao longo de quatro décadas, enquanto a utilização do alcance se move exatamente pela razão dos alcances; um enlace de -40 dBW relata disponibilidade { "0" }, LOST, e uma utilização acima de { "1" } em vez de uma fração; a nota substituída 'no RF-availability counterpart is computed by this engine' é afirmada como removida e a substituta é afirmada como nomeando o novo campo; uma entrada RF malformada é recusada em vez de truncada)
+
+# text
+seg-616d297a3190 = hybrid_integrity, optical_linkbudget, linkbudget, navsignal
+
+# text
+seg-d3a72a60b237 = hybrid_integrity::tests (a razão é igual às duas pernas emitidas divididas, a { "1e-15" } relativo, e o seu recíproco e as formas em decibel concordam; o alcance e o sigma de tempo de cada perna se relacionam exatamente por c; a configuração comum emitida é afirmada igual ao alcance e ao tempo de integração do próprio cenário e o alcance da perna RF é afirmado igual ao da perna óptica; o C/N0 da perna RF é bit a bit o do bloco de disponibilidade, a partir de um único orçamento de enlace, não uma rederivação; a propriedade de COMPARAÇÃO EM BASE IGUAL é MEDIDA em vez de afirmada -- quadruplicar o tempo de acumulação comum reduz à metade a perna óptica a { "1e-12" } e a perna RF a { "1e-7" } e deixa a razão inalterada a { "3.19e-9" } relativo, o que uma perna fazendo média secretamente sobre outra coisa não poderia fazer; uma substituição de rf_dll_bandwidth_hz que quebra o tempo de média comum torna a razão nula com um motivo que nomeia ambos os tempos, enquanto ambas as pernas continuam sendo emitidas; uma execução de via única torna a perna de comparação bit a bit o resultado principal liberado, com um fator de penalidade de exatamente { "1" }, e uma execução de via dupla reproduz a penalidade 0.5/sqrt(return-path geometric loss) recalculada a partir do próprio geometric_loss_db do relatório a { "1e-12" })
+
+# text
+seg-7f3efc1e9fa0 = linkbudget
+
+# text
+seg-da19fa334661 = linkbudget::tests (em três bandas, quatro décadas de alcance e ambos os vereditos de fechamento, a margem e a perda em espaço livre sob ela são recalculadas somente a partir do relatório com melhor que { "1e-9" } dB; o G/T requerido montado a partir dos termos da equação concorda com a mesma grandeza obtida como G/T menos margem, e executar de novo nele zera a margem; três orçamentos com EIRP, perda e limiar muito diferentes, mas com uma constante de enlace igual, dão um requisito idêntico, enquanto { "1" } dB na constante o move exatamente { "1" } dB; a divisão do ganho é ausente a menos que uma temperatura de ruído seja declarada, e uma não positiva é recusada; todo campo que o bloco units nomeia é de fato emitido)
+
+# text
+seg-d9742b5a3a48 = lunar_time_budget::tests e lunar_time_budget_scenario::tests (as quatro classes presentes numa só execução e numa ordem de subconjunto solicitada; toda linha concorda com a sua própria forma fechada com melhor que { "1e-12" } relativo; escalar o erro de referencial por k escala o cruzamento por k para um relógio de flicker-FM e por k^{ "2" } para um de white-FM, verificado em k={ "2" } e k={ "3" }, o que separa as duas classes de ruído; cada linha reproduz o cruzamento de relógio único que o orçamento já relatava; toda linha recupera o único termo de referencial compartilhado; um nome de relógio desconhecido é rejeitado)
+
+# text
+seg-024dfb3684f1 = antenna
+
+# text
+seg-7e64cec1882e = antenna::tests e attack_surface::tests (a grade está completa e toda fração capturada está em [{ "0,1" }]; a fração capturada é não decrescente na potência de transmissão em todo nó; ela NÃO é monótona na largura de feixe nem na altitude, o que é fixado por um teste próprio para que a varredura não possa ser suavizada depois; o nó de linha de base reproduz bit a bit a fração capturada existente; a avaliação só de limbo é bit a bit idêntica ao último ponto da varredura completa; um cruzamento localizado fica sobre o limiar a { "1e-9" } dB e é ladeado)
+
+# text
+# c1: total
+seg-d804d9874191 = lunar_time_budget_scenario::tests (todos os { "57" } tempos de média x { "8" } termos presentes, o índice da grade vai de { "0" }..={ "56" } e traz { "8" } linhas cada; a linha <c1/> é igual à soma quadrática dos sete termos ao lado dela em todo tau; a tabela segue uma grade solicitada em vez de uma fixa no código; emiti-la deixa o JSON do relatório idêntico byte a byte)
+
+# text
+seg-61e51873ef4b = lunar_time_lab (sobre clock_specs, lunar_time_budget, lunar_time)
+
+# text
+seg-73a747390b44 = lunar_time_lab::tests (free_run_clock_term_is_the_budget_clock_term: com o direcionamento desligado o termo do relógio é igual ao termo de relógio do orçamento, até o bit, para as quatro classes; bisection_matches_the_closed_form dentro de { "1e-9" } relativo para ambas as classes de ruído; threshold_below_the_floor_is_flagged; steering_holds_and_resets; height_term_is_opt_in_and_linear; device_card_reproduces_a_named_class; bad_inputs_are_refused); tests/lunar_station_time_lab.rs (the_block_is_additive: o documento padrão, a tabela e o resumo permanecem inalterados e o bloco acrescenta apenas o seu próprio objeto e unidades; time_to_threshold_matches_the_closed_form_through_the_scenario; clocks_are_ordered_over_the_span_where_the_model_orders_them: óptico < PHM < RAFS < miniRAFS de { "1" } s a { "7e5" } s, com as curvas de PHM e RAFS se cruzando entre { "7e5" } e { "8e5" } s, fixado como propriedade divulgada dos modelos de relógio de um único tipo de ruído; every_time_lab_field_has_a_unit; unknown_time_lab_fields_and_clocks_are_refused)
+
+# text
+seg-71c4fb3e4d08 = lunar_vlbi::tests (o limite de campo distante coincide com delta_dor; correção de campo próximo; derivadas parciais por FD); tests/lunar_vlbi_anise_oracle.rs::near_field_delay_disagrees_with_the_anise_light_time_difference
+
+# text
+seg-1755ed282a7d = earth_gnss_lunar::tests ({ "11" } testes de biblioteca: o semiângulo do limbo da Terra contra a sua forma fechada asin(R/r) com uma asserção adicional de que TODO enlace não ocultado fica fora desse cone, de modo que o teste de ocultação e o ângulo do limbo não possam divergir; o predicado de ocultação verificado no lado próximo, no lado distante e no caso em que o corpo está ATRÁS do transmissor; perda de percurso limitada à faixa plausível de alcance lunar em todo enlace; o conjunto rastreável mostrado como um subconjunto do conjunto geometricamente visível e disjunto do ocultado; monotonicidade em ambas as direções - mais ganho de recepção nunca reduz a contagem, um limiar mais estrito nunca a eleva; nenhum enlace creditado com mais que o ganho no eixo; um receptor dentro da Terra recusado; a varredura afirmada como realmente VARIANDO com a época; e a disponibilidade de sinal versus a de solução afirmadas como distintas, corretamente ordenadas e consistentes com as linhas por época); tests/earth_gnss_measured_montenbruck_oracle.rs::finding_genesis_nadir_counts_exceed_the_paper (fixado); tests/lugre_relative_cn0_visibility.rs::too_few_iir_records_at_lunar_distance_for_the_relative_cn0_bar (constatação fixada)
+
+# text
+seg-e9a23134de45 = lunar_infra::{ "{" }orbit, gnss, od{ "}" }
+
+# text
+seg-13dceb4f0d7b = tests/lunar_infra_od_consistency.rs (limiar O1: a matriz de transição de estado encadeada ao longo de três dias e de um período é igual à do scipy DOP853 a um relativo de { "1e-6" }; limiar C1: q médio e a fração dentro de 95 %; limiar C2: amostra sobre o traço formal de cada estimador; limiar C3, NOT MET e fixado: com { "3e-10" } m/s2 de aceleração não modelada a ultrapassagem dentro de 95 % é { "0.0525" }, e não ao menos { "0.5" } - a estimativa de bordo é conhecida apenas a centenas de metros, de modo que cerca de dez metros de deslocamento se escondem dentro da sua covariância); lunar_infra::orbit::tests, lunar_infra::gnss::tests, lunar_infra::od::tests, lunar_infra::la::tests
+
+# text
+seg-2d4d23841d56 = lunar_infra::phase; lambda
+
+# text
+seg-0b34672f668b = tests/lunar_infra_carrier_phase.rs (limiar Q1: sucesso de Monte Carlo ao menos o limite de bootstrap menos três erros-padrão; Q2: nenhuma queda com o comprimento do arco além de três erros-padrão; Q4: o LAMBDA é igual à enumeração por força bruta para { "200" } sorteios de dimensão até cinco; Q3: o projeto float é igual a uma resolução independente em numpy a { "1e-9" } para as covariâncias de ambiguidade e de posição, e a taxa por bootstrap é NOT MET a { "1e-9" }, fixada: ela difere por um relativo de { "1.7e-6" } porque a CDF normal do LAMBDA é uma aproximação de Abramowitz e Stegun)
+
+# text
+seg-0abe3b27addf = lunar_infra::frame; lunar_datum; lunar_identifiability; lunar_llr_geometry
+
+# text
+seg-30c57d85abc1 = tests/lunar_infra_studies_3_5.rs (limiar F1: o traço do CRLB não sobe e o menor autovalor não cai com enlaces de orbitadores, no exemplo e em { "20" } conjuntos aleatórios com semente; limiar F2: as derivadas parciais de alcance são iguais a uma diferença finita independente em numpy longdouble do modelo direto de Rodrigues em { "50" } geometrias; limiar F3: o menor autovalor sobe por ao menos 2.0x, encontrado cerca de 111x)
+
+# text
+seg-0e7813b34509 = lunar_infra::tie; fim::crlb_srif
+
+# text
+seg-58f77b27cde3 = tests/lunar_infra_studies_3_5.rs (limiar T1: os sigmas de translação não caem à medida que a amarração local se afrouxa; T2: com os sigmas das técnicas escalados por { "1e-6" } o sigma de translação de cada par está dentro de { "1" } % de sqrt({ "2" }) vezes o sigma da amarração local, encontrado dentro de { "3e-7" }; T3: a matriz de informação é igual a uma montagem empilhada independente em numpy a { "1e-9" }). A primeira execução de T2 com inversão das equações normais falhou ({ "1.3" } % numa amarração de { "0.1" } m, valores abaixo do piso a { "1" } m); a causa foi numérica e a covariância passou para a via da raiz quadrada antes de o limiar ser reavaliado.
+
+# text
+seg-8e55bf5a6a8f = lunar_infra::geodesy; lunar_od::degree2_tide_accel; lunar_time
+
+# text
+seg-4b42d4f76a35 = tests/lunar_infra_studies_3_5.rs (limiar G1: as derivadas parciais analíticas são iguais a uma diferença finita central de cada modelo direto a { "1e-8" }; G2: a informação 5x5 é igual a uma montagem independente em numpy a { "1e-6" }; G4: a amplitude da maré do relógio e as suas sensibilidades a k2 e h2 são iguais a uma avaliação independente a { "1e-9" }; limiar G3 NOT MET na sua metade do traço, fixado: acrescentar uma família nunca reduz o menor autovalor ({ "28" } de { "28" }) mas o traço da pseudoinversa subiu em { "12" } de { "28" } acréscimos porque a família acrescentada elevou o posto)
+
+# text
+seg-2e097e952eb5 = lunar_beacon::tests (visibilidade de horizonte contra a forma fechada L01; o DOP ampliado por balizas contra o simples; a soma quadrática do orçamento de erro; a relação de DOP para metros); tests/validate_p2_beacon_before_after_table.rs (a tabela inteira de antes/depois fixada a um golden registrado a { "1e-9" } relativo); tests/validate_p2_beacon_before_after_independent_dop.rs (a mesma geometria por um caminho de DOP INDEPENDENTE, de modo que a ampliação não seja verificada contra o kernel que a produziu); tests/validate_lunar_beacon_anise_visibility_dop.rs::beacon_visibility_and_augmented_dop_match_anise_and_numpy

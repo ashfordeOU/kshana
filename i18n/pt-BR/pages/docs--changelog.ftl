@@ -8219,3 +8219,672 @@ seg-2a807ae8e194 = <b>RAIM na geometria de órbita de referência real.</b> Os n
 # c3: runs = 1
 # c4: nd_sweep
 seg-651cc4af4872 = <b>Intervalos de confiança por nó para a varredura de parâmetros N-D</b> (<c1/>). Cada nó da grade da varredura de produto cartesiano N-dimensional agora pode ser avaliado como um conjunto Monte Carlo de sementes, informando a média, os percentis e um IC de bootstrap por percentil de { "95" }% da métrica por nó (para ambos os relógios) — uma varredura estatisticamente honesta, em vez de uma única amostra por nó. Reutiliza a maquinaria de conjunto/bootstrap (<c2/>); determinística; <c3/> se reduz exatamente ao <c4/> de semente única. (Generalizar a varredura para todos os pacotes, entrelaçada com a refatoração de Scenario tipado, e a execução paralela permanecem.)
+
+# text
+# c1: tests/navego_imu_crossval.rs
+# c2: navego_example_allan.m
+# c3: ADEV(1 s) = σ·√dt
+# c4: .mat
+seg-815eda56aad9 = <b>Validação cruzada do pipeline de ruído de IMU com o NaveGo</b> (<c1/>). Uma verificação cruzada externa com o NaveGo (a toolbox de código aberto de INS/GNSS de R. Gonzalez): reproduz o ciclo completo sintético de <c2/> sobre o perfil de referência publicado do Microstrain 3DM-GX3-35, confirmando que o nosso estimador de ADEV sobreposto recupera os coeficientes de passeio aleatório de velocidade e de ângulo do NaveGo (<c3/>) com erro inferior a { "5" }%, com a inclinação esperada de −1/2 do ruído branco. (O registro STIM300 gravado, de { "40" } MB, em <c4/> não é ingerido: depende de um formato binário.)
+
+# text
+seg-b67b3ec240de = Atualização GNSS/INS fortemente acoplada (pseudodistância).
+
+# text
+# c1: GnssInsEkf::update_tightly_coupled
+# c2: ClosedLoopInsGnss::fuse_tightly_coupled
+# c3: tight_coupling
+seg-c926dddc5256 = <c1/> (e o invólucro <c2/>) implementam a medição no domínio da distância, antes apenas esboçada: a inovação é a distância prevista da posição do INS a cada satélite em comparação com a pseudodistância medida, com um jacobiano de linha de visada sobre o erro de posição. Como cada satélite é uma medição escalar, o filtro continua corrigindo com <b>menos de quatro satélites</b>, situação em que não existe uma solução PVT fracamente acoplada. Cinco testes cobrem a anulação com quatro satélites, a correção com dois satélites (sem PVT possível), a observabilidade ao longo da linha de visada com um único satélite e a validação das entradas. Apenas pseudodistância; fase da portadora e um estado explícito de relógio do receptor continuam no roteiro. O recurso de cargo <c3/>, não utilizado (que protegia o antigo esboço de erro), foi removido.
+
+# text
+# c1: kind = "gnss-ins"
+# c2: src/fusion/pack.rs
+# c3: closed_loop
+# c4: gnss_ins_ekf
+# c5: scenarios/gnss-ins.toml
+seg-94ebfac3bbc3 = <b>Pacote de cenário GNSS/INS fracamente acoplado (<c1/>, <c2/>).</b> Conecta o navegador strapdown de três eixos e o EKF de estado de erro de 15 estados (<c3/> / <c4/>) a um cenário executável com uma figura de mérito: o EKF disciplina a mecanização com fixos GNSS ruidosos enquanto há cobertura e depois segue por inércia durante a interrupção, substituindo o reset por ajuste à referência verdadeira (truth-snap) do antigo pacote escalar de 1-DOF por uma fusão genuína. O resultado informa a série do erro horizontal fundido, a FoM de posição pontuada (disponibilidade / RMS na interrupção / holdover) e o RMS do INS livre em malha aberta para comparação; um par de IMU quântica/clássica difere apenas no viés verdadeiro. Despachado a partir do ponto de entrada de CLI/Python/wasm, com um exemplo em <c5/>. Enquadramento honesto: apenas fracamente acoplado, uma única trajetória determinística, e o erro fundido durante a interrupção é limitado por um piso imposto pelo erro de atitude na transferência (portanto não se afirma que escale com o viés); as conclusões robustas são que a fusão supera a navegação por estima sem auxílio para um sensor com viés e que um sensor de menor viés tem a melhor navegação inercial sem auxílio.
+
+# text
+# c1: src/walker.rs
+# c2: walker
+# c3: i: T/P/F
+# c4: pdop_sweep
+# c5: {planes × sats × inclination}
+# c6: coverage_revisit
+# c7: gps-ops
+seg-0a2df01f99d8 = <b>Projeto de constelação sobre o núcleo SGP4 validado (<c1/>).</b> Um novo módulo <c2/> emite um padrão Walker-delta projetado (<c3/>) como <b>elementos médios</b> SGP4, de modo que a constelação sintética se propaga pelo mesmo caminho SGP4 validado em { "4.12" } mm contra os vetores AIAA 2006-6753, e não pelo gerador kepleriano analítico. Sobre ele: <c4/> tabula a cobertura e o PDOP mediano/pior sobre uma grade de projeto <c5/>, e <c6/> informa a fração de cobertura e as lacunas de revisita (pior/média) em um ponto do solo. Validado pelas monotonicidades físicas que um estudo de compromisso deve obedecer (mais satélites ⇒ maior cobertura, menor PDOP, revisita mais curta). À parte, um <b>instantâneo TLE genuíno do Celestrak <c7/></b> (2021-07-28, { "30" } satélites GPS operacionais) é adicionado como fixture apenas de teste, e o caminho de geometria TLE real → SGP4 → ECEF é validado contra ele (toda a camada MEO dentro de { "1" }%, nove satélites todos à vista com PDOP { "1.64" }), junto com os caminhos de dados reais SP3 e RINEX já existentes.
+
+# text
+seg-9e051f3725df = Graus de liberdade efetivos específicos do tipo de ruído para os intervalos de confiança de Allan.
+
+# text
+# c1: allan::edf_overlapping_adev
+# c2: PowerLawNoise
+# c3: classify_power_law
+# c4: overlapping_adev_curve
+# c5: AdevPoint
+# c6: noise
+# c7: edf
+# c8: ci_lo
+# c9: ci_hi
+seg-2392bec8f0b6 = <c1/> implementa as formas fechadas da Tabela { "5" } do NIST SP { "1065" } (o conjunto simples do Stable32) para os cinco tipos canônicos de ruído de lei de potência (PM branco/flicker, FM branco/flicker, FM de passeio aleatório), substituindo a contagem conservadora sem sobreposição como graus de liberdade do χ². Uma nova enumeração <c2/> e <c3/> identificam o tipo dominante a partir da inclinação do desvio de Allan <b>modificado</b> do registro (o MDEV separa o PM branco do flicker, o que o ADEV não consegue), e <c4/> agora anexa o tipo de ruído identificado, o seu edf e uma faixa de confiança de { "95" }% a cada ponto da curva de ADEV exportada (<c5/> ganha <c6/>/<c7/>/<c8/>/<c9/>, de forma aditiva com padrões do serde). Validado de duas formas: as cinco fórmulas coincidem com valores avaliados à mão até { "1e-12" }, e um conjunto Monte Carlo de { "4" } 000 registros de FM branco confirma que a fórmula prevê o edf qui-quadrado real do estimador com diferença de até { "20" }% (e que supera de forma material a contagem conservadora). Oito novos testes.
+
+# text
+seg-df59cc71120f = Modelo estocástico de transferência de tempo bidirecional.
+
+# text
+# c1: timetransfer::TwoWayLink
+# c2: (m_AB - m_BA)/2
+# c3: two_way_offset_estimate
+# c4: 1/sqrt(2)
+# c5: ClockModel
+# c6: sigma_y^2(tau) = q_rw*tau/3
+# c7: LinkCfg
+# c8: q_wf_s
+# c9: q_rw_s
+# c10: adev_tau0
+# c11: timetransfer
+# c12: tau/3
+# c13: step()
+# c14: q=0
+seg-d2add1ce01e1 = <c1/> substitui o amostrador apenas de ruído branco por um modelo fisicamente fundamentado: o atraso de caminho recíproco (modo comum) se cancela na estimativa <c2/> (<c3/>, de modo que duas medições unidirecionais independentes têm média <c4/>), e o resíduo é o atraso diferencial <b>não recíproco</b>, modelado como um processo colorido de FM branco + FM de passeio aleatório (o <c5/> validado), o que dá à série de erro de sincronização uma assinatura de Allan realista (<c6/>) em vez de ruído branco plano. <c7/> ganha <c8/>/<c9/> (padrão do serde { "0" } ⇒ o comportamento antigo apenas de ruído branco, bit a bit), a FoM do enlace informa <c10/> (o desvio de Allan do modelo no passo base), e o cenário/CLI <c11/> a expõe. FoM de referência (golden) refixada. Seis testes derivados à mão (cancelamento de modo comum, o ganho bidirecional de sqrt({ "2" }), a lei <c12/> do RWFM por meio do <c13/> do próprio enlace, equivalência com o comportamento antigo em <c14/>, determinismo e exposição da FoM de ponta a ponta).
+
+# text
+seg-6c7a1dd63be0 = Paridade numérica com o Stable32 para os estimadores da família Allan (NBS14).
+
+# text
+# c1: tests/allan_reference.rs
+seg-adbb47ca87b4 = <c1/> valida os estimadores de ADEV sobreposto, ADEV modificado, desvio de tempo e Hadamard sobreposto contra os desvios de referência do Stable32 para o conjunto de dados canônico <b>NBS14</b> (W. J. Riley, <em>Handbook of Frequency Stability Analysis</em>, NIST SP { "1065" }, ~p.107) em tau = { "1" }, { "2" } com tolerância relativa de { "1e-4" }; a concordância real é de ~{ "1e-6" }. Isso fixa a matemática dos estimadores contra a implementação de referência de fato, e não apenas contra a autoconsistência analítica dos próprios estimadores. Apenas os números de referência públicos são usados; nenhum código de terceiros.
+
+# text
+# c1: integrity
+# c2: integrity
+# c3: IntegrityScenario
+# c4: seed
+seg-35b0c0644fa2 = <b>Diagrama de Stanford vertical de integridade exportado pelo cenário <c1/>.</b> O tipo de cenário <c2/> executável agora exporta um diagrama de Stanford(-ESA) vertical junto com o mapa de disponibilidade de HPL/VPL: em cada época protegida, uma amostra de erro de distância sem falha, semeada e reproduzível, é mapeada pela geometria até um erro vertical de posição real e classificada em relação ao VPL e ao limite de alerta vertical (Available / System-Unavailable / Misleading / Hazardously-Misleading). O diagrama (pontos por época + contagens por região) é levado no JSON do resultado, e as contagens de eventos de integridade / HMI, no resumo da CLI, de modo que o classificador de Stanford, antes apenas de biblioteca, passa a ser acessível de ponta a ponta. <c3/> ganha um campo <c4/> (padrão { "0" }) que controla a realização do erro; o próprio mapa de disponibilidade continua dependendo apenas da geometria e independe da semente.
+
+# text
+seg-5d76a638ae77 = Orçamento de risco de integridade (P_HMI) do ARAIM para os níveis de proteção.
+
+# text
+# c1: raim::araim_raim
+# c2: K_md
+# c3: (prior, detection threshold, σ)
+# c4: araim_protection_level
+# c5: araim_integrity_risk
+# c6: P_HMI = Σ_k p_fault,k · Q((PL − T_k)/σ_k)
+# c7: P_HMI
+seg-449adb9ad6e6 = <c1/> deriva os níveis de proteção horizontal e vertical a partir de um orçamento explícito de risco de integridade, em vez de um multiplicador fixo <c2/>: para a solução com todos os satélites à vista e para cada subsolução com exclusão de um único satélite, constrói o <c3/> por modo em cada eixo, e então <c4/> resolve o menor PL cuja probabilidade somada de informação perigosamente enganosa (<c5/>, <c6/>, Blanch et al. <em>Baseline ARAIM</em>) satisfaz o <c7/> alocado. O resultado informa o risco de integridade que os níveis realmente atingem, de modo que o usuário pode trocar integridade por limite de alerta de forma explícita. Seis testes derivados à mão (formas fechadas de modo único sem falha e com limiar, soma/monotonicidade multimodo, proteção sem falha de ponta a ponta com um orçamento 10⁵× mais restrito elevando o PL, detecção/identificação de falha e o piso de redundância de seis satélites). O MHSS de falha única é a linha de base do ARAIM; falhas simultâneas de subconjuntos de vários SV, o modo de falha de toda a constelação e a validação com o conjunto de dados de referência do gLAB são extensões documentadas.
+
+# text
+seg-3e33581644a5 = Compensação de coning/sculling em duas velocidades para a mecanização strapdown.
+
+# text
+# c1: inertial::mechanization::coning_sculling_compensate
+# c2: NavState::step_increments
+# c3: ScalarErrorBudget
+# c4: AccelModel
+# c5: NavState
+seg-c900e193ac29 = <c1/> extrai os termos de coning (atitude) e de rotação+sculling (velocidade) de alta taxa dos incrementos de IMU, ordenados por subintervalo, de uma atualização grosseira, de modo que um <c2/> de taxa moderada reproduz o movimento retificado por vibração que um passo grosseiro sobre as somas brutas deixa escapar. Um teste de validação conduz um ambiente de coning+sculling de { "10" } Hz por { "60" } s e compara a verdade em taxa fina, a integração grosseira ingênua e a integração grosseira com a correção aplicada: a correção reduz o erro de posição em ~{ "18" }× (de metros de deriva ingênua para abaixo de um decímetro), confirmando que os termos de coning/sculling são determinantes. Um alias de tipo <c3/> dá ao antigo <c4/> de 1-DOF o nome do que ele é, distinto do navegador de três eixos <c5/>.
+
+# text
+# c1: rinex_obs
+# c2: parse_obs
+# c3: SYS / # / OBS TYPES
+# c4: C1C
+# c5: L1C
+seg-ceb037e7a6ea = <b>Analisador de arquivos de observação RINEX.</b> O novo módulo <c1/> lê o arquivo de <em>observação</em> RINEX 3.0x / { "4.00" }, as medições reais do receptor, completando o par RINEX junto com o analisador de mensagem de navegação já existente. <c2/> decodifica o cabeçalho (versão/tipo, as listas <c3/> por sistema com linhas de continuação, posição aproximada, intervalo, instante da primeira observação) e os registros por satélite de cada época: pseudodistância, fase da portadora, Doppler e intensidade do sinal, indexados pelo código de observação RINEX { "3" } (<c4/>, <c5/>, …) com os indicadores de perda de travamento (LLI) e de intensidade do sinal (SSI), preservando um campo em branco como ausente e não como zero. Escopo honesto: trata-se da <em>ingestão</em> em formato padrão (entra um registro real de observação de RTKLIB/gLAB/estação IGS, saem medições tipadas), não de um motor de posicionamento: aqui não há solução de pseudodistância, PPP ou RTK.
+
+# text
+# c1: oem
+# c2: OemFile::from_propagators
+# c3: OemFile::to_oem_string
+# c4: CCSDS_OEM_VERS
+# c5: CREATION_DATE
+# c6: ORIGINATOR
+# c7: META_START … META_STOP
+# c8: OBJECT_NAME
+# c9: OBJECT_ID
+# c10: CENTER_NAME
+# c11: REF_FRAME = TEME
+# c12: TIME_SYSTEM = GPS
+# c13: START_TIME
+# c14: STOP_TIME
+# c15: epoch X Y Z X_DOT Y_DOT Z_DOT
+# c16: CREATION_DATE
+seg-60efb0c44522 = <b>Gravador de CCSDS OEM (Orbit Ephemeris Message).</b> O novo módulo <c1/> exporta uma constelação propagada como uma mensagem CCSDS 502.0-B OEM { "2.0" } válida, o formato de efemérides KVN que GMAT, Orekit, STK e a maioria das ferramentas de dinâmica de voo ingerem. <c2/> amostra o estado inercial (TEME) de cada satélite, posição <b>e</b> velocidade, tomado diretamente do propagador, sem rotação para o referencial fixo à Terra, ao contrário da exportação SP3, em uma grade de tempo, e <c3/> serializa o cabeçalho <c4/>/<c5/>/ <c6/> mais um segmento <c7/> por satélite (<c8/>/<c9/>/<c10/>/<c11/>/<c12/>/ <c13/>/<c14/>) seguido de suas linhas <c15/> (km, km/s). O <c16/> é fornecido pelo chamador, nunca pelo relógio de parede, de modo que a saída é idêntica byte a byte entre execuções (o contrato de reprodutibilidade). É a contrapartida de efemérides de espaçonave da exportação SP3 de GNSS: uma órbita do Kshana agora pode ser entregue a uma ferramenta de dinâmica de voo em um formato padrão.
+
+# text
+seg-f8538db4a17c = Efemérides precisas SP3 como fonte de propagação.
+
+# text
+# c1: Sp3File::interpolator
+# c2: Sp3Interpolator
+# c3: Propagator::Sp3Precise
+seg-2cf2e224deb9 = <c1/> constrói um <c2/> por satélite que preenche a posição entre as épocas tabuladas do SP3 com um polinômio de Lagrange de 9ª ordem (prática padrão do IGS) e a rotaciona para o referencial TEME compartilhado, exposto como <c3/>. Um arquivo de órbita precisa de um IGS/centro de análise agora pode alimentar o mesmo pipeline de geometria/visibilidade/integridade que os propagadores de transmissão e analíticos. Ciclo completo validado: uma órbita kepleriana gravada em SP3 e relida pelo interpolador coincide com a original abaixo de um metro nos nós e a < { "100" } m no meio do intervalo. A interpolação do relógio é o próximo passo.
+
+# text
+# c1: glonass
+# c2: parse_glonass_nav
+# c3: R
+# c4: J2
+# c5: Propagator::Glonass
+# c6: rinex
+seg-8d50fd42f53c = <b>Efemérides transmitidas do GLONASS (completam a navegação RINEX multi-GNSS).</b> Novo módulo <c1/>: o GLONASS não transmite elementos keplerianos, mas um <b>vetor de estado</b> PZ-90 fixo à Terra (posição, velocidade, aceleração luni-solar). <c2/> lê os registros <c3/> do RINEX { "3" }, e a posição do satélite em qualquer instante é obtida por <b>integração de Runge–Kutta de 4ª ordem</b> das equações de movimento do ICD do GLONASS (gravidade central + <c4/> + termos de Coriolis/centrífugo da rotação da Terra + a aceleração transmitida). Exposto como <c5/>, de modo que os satélites GLONASS fluem pelo pipeline de constelação/visibilidade/integridade junto com os sistemas keplerianos; um único bloco de constelação <c6/> agora pode misturar GPS, Galileo, QZSS, BeiDou e GLONASS.
+
+# text
+# c1: E
+# c2: J
+# c3: C
+# c4: G
+# c5: Propagator::Rinex
+seg-8d88144e3726 = <b>Navegação RINEX multi-GNSS (GPS, Galileo, QZSS, BeiDou).</b> O analisador de navegação RINEX { "3" } agora decodifica registros de Galileo (<c1/>), QZSS (<c2/>) e BeiDou (<c3/>, MEO/IGSO) junto com os de GPS (<c4/>): eles compartilham o formato kepleriano e o algoritmo do usuário, cada um avaliado com a sua própria constante gravitacional e taxa de rotação da Terra (μ de Galileo/BeiDou, Ω̇ₑ de BeiDou). Um arquivo de constelação mista produz todos eles, fluindo pelo pipeline de constelação/visibilidade/integridade como <c5/>. Os satélites geoestacionários do BeiDou usam uma rotação de coordenadas diferente e são ignorados até haver uma fixture de referência contra a qual validar. O percorredor de registros usa contagens de linhas por sistema, corrigindo um erro latente em que registros GLONASS/SBAS de quatro linhas eram ignorados como se tivessem oito linhas. O GLONASS (um modelo de vetor de estado) é o próximo passo.
+
+# text
+# c1: sp3
+# c2: parse_sp3
+# c3: Sp3File
+# c4: V
+# c5: Sp3File::from_propagators
+# c6: to_sp3_string
+seg-91a6907acc8d = <b>Leitor e gravador de efemérides precisas SP3-c/d.</b> O novo módulo <c1/> analisa arquivos de órbita precisa SP3 do IGS/centros de análise (<c2/>), o produto de posição/relógio ECEF pós-processado que os motores PPP (Ginan, RTKLIB, gLAB) tratam como referência, em um <c3/> estruturado (cabeçalho, grade de épocas, posição por satélite km→m, relógio µs e velocidade dm/s→m/s para produtos <c4/>), preservando os valores sentinela de dado inválido do SP3. O sentido inverso também é coberto: <c5/> constrói um SP3 a partir de uma constelação propagada (TEME→ECEF por época) e <c6/> o serializa, de modo que órbitas do Kshana podem ser exportadas no formato que as ferramentas PPP externas ingerem, fechando o ciclo de leitura↔escrita. A interpolação de épocas e uma fonte propagadora SP3 são os próximos passos.
+
+# text
+# c1: rinex
+# c2: tle
+# c3: scenarios/orbit-rinex.toml
+seg-7d51d1b6f39f = <b>Efemérides transmitidas RINEX como fonte de constelação executável.</b> Uma constelação agora aceita um bloco <c1/> em linha (texto de navegação GPS RINEX { "3" }) junto com a opção <c2/> já existente, de modo que um arquivo de transmissão real conduz um cenário de ponta a ponta pela CLI, por Python ou pelo playground no navegador: entra RINEX, sai geometria PNT. O novo <c3/> demonstra a disponibilidade GNSS e o DOP a partir de oito satélites GPS construídos diretamente dos registros transmitidos. (Apenas GPS LNAV; multi-GNSS e SP3 são os próximos passos.)
+
+# text
+# c1: RinexEphemeris
+# c2: orbit::Propagator
+# c3: Propagator::Rinex
+# c4: sv_position_teme
+seg-9730835bfc64 = <b>Efemérides transmitidas RINEX como fonte de propagação.</b> Um <c1/> analisado agora se converte em um <c2/> (<c3/>): a posição é a órbita transmitida do IS-GPS-200 rotacionada de ECEF para o referencial inercial TEME compartilhado (<c4/>, com tempo GPS→UT1 correto quanto aos segundos intercalares), a velocidade vem de diferença finita central e há o período orbital kepleriano. Dados reais de transmissão GPS agora podem conduzir o mesmo pipeline de geometria, visibilidade e integridade (RAIM) que os propagadores analíticos SGP4/keplerianos. (Ainda não exposto como tipo de cenário de arquivo RINEX: isso e o multi-GNSS/SP3 são os próximos passos.)
+
+# text
+seg-a355e3e52ec3 = <b>DOI de arquivamento.</b> As versões agora são depositadas no Zenodo e recebem um DOI citável.
+
+# text
+seg-c6e4556e1ce5 = <b>Documentação.</b> O README foi renovado para nível institucional: uma visão geral de Capacidades de toda a pilha { "v0.9.0" }, uma seção de Versionamento e versões, um cabeçalho limpo com a nova marca e uma linha de situação concisa. Sem alterações no motor.
+
+# text
+# c1: integrity
+seg-1bfc4e965d2b = Esta versão acrescenta três áreas substanciais de capacidade sobre o substrato SGP4 da { "0.8.0" }: um INS strapdown genuíno de três eixos, um EKF de estado de erro GNSS/INS fracamente acoplado com realimentação em malha fechada, um RAIM real de instantâneo e de separação de soluções (estilo ARAIM) com HPL/VPL e um cenário <c1/> executável, e o primeiro passo da interoperabilidade de formatos GNSS (ingestão de efemérides GPS RINEX-3).
+
+# text
+# c1: src/rinex.rs
+# c2: parse_nav
+# c3: G
+# c4: BROADCAST ORBIT
+# c5: RinexEphemeris
+# c6: D
+# c7: parse_d
+# c8: D
+seg-7fa2f68d436a = <b>Analisador de mensagem de navegação GPS RINEX { "3" } (<c1/>).</b> Primeiro passo rumo à interoperabilidade de formatos GNSS: <c2/> lê um arquivo de navegação RINEX { "3" }.x e decodifica cada registro de efemérides transmitidas de GPS (<c3/>), o bloco de oito linhas SV/época + <c4/>, em um <c5/> de elementos keplerianos e correções de relógio, com nomes de campos e unidades segundo o IS-GPS-200. Trata o formato de ponto flutuante de expoente <c6/> do Fortran (<c7/>) e o layout de colunas de largura fixa; registros de sistemas que não são GPS são ignorados, não rejeitados, de modo que um arquivo misto ainda produz as suas efemérides GPS. Quatro testes: análise de expoente <c8/> (incluindo brancos e erros), um registro completo decodificado contra valores de campo conhecidos com uma verificação de sanidade do semieixo maior do GPS (√A² ≈ { "26 560" } km), omissão de sistemas que não são GPS e o caso de arquivo vazio.
+
+# text
+# c1: src/rinex.rs
+seg-9c4a068f204c = Efemérides transmitidas do GPS → posição ECEF (<c1/>).
+
+# text
+# c1: RinexEphemeris::sv_position_ecef(t_tow)
+# c2: μ
+# c3: Ω̇ₑ
+# c4: tk
+seg-5deeec4b8cc9 = <c1/> avalia a posição do satélite fixa à Terra a partir das efemérides analisadas por meio do algoritmo do usuário do IS-GPS-200 §{ "20.3.3.4.3.1" }: solução de Newton da equação de Kepler para a anomalia excêntrica, as correções de segundo harmônico de argumento de latitude / raio / inclinação e a rotação para ECEF considerando a rotação da Terra desde a época de referência (com o <c2/> e o <c3/> do GPS exigidos pela especificação, e uma dobra <c4/> de virada de semana). Três testes: o raio geocêntrico permanece na faixa do GPS (≈ { "26 560" } km), a velocidade fixa à Terra é de ~{ "3.9" } km/s, e avaliar com uma semana completa de diferença reproduz a mesma posição.
+
+# text
+# c1: src/rinex.rs
+seg-583433389a70 = Viés de relógio do SV GPS com a correção relativística (<c1/>).
+
+# text
+# c1: RinexEphemeris::sv_clock_bias_s(t_tow)
+# c2: af0 + af1·Δt + af2·Δt²
+# c3: Toc
+# c4: F·e·√A·sin Ek
+# c5: EpochUtc::gps_time_of_week
+# c6: TGD
+# c7: Propagator
+# c8: docs/CAPABILITY.md
+seg-957588ed5dff = <c1/> avalia o polinômio de relógio transmitido <c2/> em torno de <c3/> mais o termo relativístico de excentricidade <c4/> (IS-GPS-200 §{ "20.3.3.3.3.1" }). Um novo <c5/> converte a época de calendário do registro em tempo-da-semana GPS por aritmética de dia juliano a partir da época GPS (1980-01-06), e a solução de Kepler é compartilhada com a avaliação da posição. Testes: tempo-da-semana GPS para um domingo/terça/sábado (limites de semana) e o viés de relógio dominado por af0, com um termo relativístico presente e limitado. O atraso de grupo L1 <c6/> é exposto, mas deliberadamente não incorporado. Escopo honesto: uma fonte <c7/>, Galileo/BeiDou/GLONASS e SP3 continuam como próximos passos. (<c8/> atualizado para corresponder.)
+
+# text
+# c1: integrity
+# c2: scenarios/integrity-raim.toml
+# c3: kind = "integrity"
+# c4: IntegrityScenario
+# c5: (sigma, P_fa, P_md, AL_H, AL_V)
+# c6: constellation_raim_availability
+# c7: kshana scenarios/integrity-raim.toml
+seg-ef971feff16c = <b>Tipo de cenário <c1/> executável pelo usuário (<c2/>).</b> A capacidade de disponibilidade de RAIM agora é acessível pela CLI/TOML como todos os outros pacotes: <c3/> analisa um <c4/> (órbita do usuário, uma ou mais constelações GNSS, máscara de elevação e a configuração de integridade <c5/>), executa <c6/> e emite o mapa de disponibilidade de HPL/VPL por época como JSON, além de um SVG autocontido: níveis de proteção ao longo do tempo contra os limites de alerta, com uma faixa de disponibilidade verde/vermelha. <c7/> grava o JSON, o gráfico e um relatório HTML. O cenário incluído (Walker de 24 satélites, medição de distância de dupla frequência de { "1" } m, limites APV-I) informa disponibilidade de ~{ "95" } %; ele documenta que o RAIM de frequência única não atinge o limite vertical APV-I com uma só constelação, razão pela qual a orientação vertical usa SBAS/dupla frequência/ARAIM. Os testes cobrem o despacho, o JSON do mapa de disponibilidade e o SVG.
+
+# text
+# c1: src/raim.rs
+# c2: constellation_raim_availability
+# c3: Propagator
+# c4: serde
+# c5: RaimAvailabilityReport
+# c6: n_visible
+# c7: available
+# c8: RaimConfig
+# c9: (sigma, P_fa, P_md, AL_H, AL_V)
+# c10: raim_availability_epoch
+# c11: None
+seg-bbe5721c1785 = <b>Disponibilidade de RAIM executável sobre uma constelação (<c1/>).</b> O módulo de integridade não tinha chamador; <c2/> o transforma em um genuíno ponto de entrada de ponta a ponta: em cada época de uma grade de tempo, propaga os satélites visíveis (os mesmos <c3/>s SGP4/keplerianos que o motor usa), calcula os níveis de proteção sem falha e julga a disponibilidade contra os limites de alerta horizontal/vertical, devolvendo um <c5/> serializável por <c4/> (por época <c6/>/HPL/VPL/<c7/> mais a fração de disponibilidade). Um <c8/> agrupa <c9/>, e o <c10/> por época é exposto para chamadores que resolvem a sua própria geometria. Três testes: uma época julgada disponível sob limites APV-I em uma geometria de dez satélites, tornada indisponível por um limite impossivelmente apertado, e níveis <c11/> com menos de cinco satélites; e uma execução de ponta a ponta sobre uma constelação Walker de 24 satélites que produz um mapa de disponibilidade finito e serializa. (Seis satélites, o piso de redundância do RAIM residual, honestamente <em>não</em> atingem o APV-I nem com medição de distância de { "1" } m; a disponibilidade APV-I exige a geometria mais densa que o teste usa.)
+
+# text
+# c1: src/raim.rs
+# c2: y = x
+# c3: Available
+# c4: SystemUnavailable
+# c5: MisleadingInformation
+# c6: HazardouslyMisleadingInformation
+# c7: classify_stanford
+# c8: StanfordDiagram
+# c9: (error, PL)
+# c10: serde
+# c11: error == PL
+seg-91e32e587cb6 = <b>Acumulador do diagrama de integridade de Stanford(-ESA) (<c1/>).</b> A forma padrão de resumir um monitor de integridade ao longo de muitas épocas: representa o erro real de posição (x) contra o nível de proteção (y) e classifica cada época, pela diagonal <c2/> e pelo limite de alerta, em <c3/> (o PL limita o erro, dentro do AL), <c4/> (o PL limita o erro, mas excede o AL: seguro, inutilizável), <c5/> (PL < erro ≤ AL) ou <c6/> (PL < erro e erro > AL: a falha insegura). <c7/> é o classificador puro; <c8/> acumula pontos <c9/> contra um limite de alerta fixo, expondo contagens por região, disponibilidade, totais de eventos de integridade e pontos serializáveis por <c10/> para gráficos/exportação JSON. Quatro testes: todas as regiões (incluindo a fronteira limitada <c11/>), acumulação de contagens/disponibilidade e ciclo completo em JSON. Esta é a superfície de relatório dos níveis de proteção do RAIM; ligá-la ao cenário de constelação e validá-la contra um conjunto de dados público continuam itens do roteiro.
+
+# text
+# c1: src/raim.rs
+# c2: snapshot_raim
+# c3: Δ_k = x_k − x₀
+# c4: Cov(x_k) − Cov(x₀)
+# c5: PL = max(K_md·σ₀, max_k[K_fa·σ_ss,k + K_md·σ_k])
+# c6: K_fa = Φ⁻¹(1−P_fa/2)
+# c7: K_md = Φ⁻¹(1−P_md)
+# c8: normal_cdf
+# c9: normal_quantile
+# c10: erf(x) = P(½,x²)
+# c11: excluded_sv == 2
+seg-cdeb3a5a4acf = <b>RAIM de separação de soluções (estilo ARAIM) (<c1/>).</b> Um monitor de integridade de hipóteses múltiplas junto com o <c2/> qui-quadrado de resíduo/paridade já existente. Para a solução de mínimos quadrados com todos os satélites à vista e para cada subsolução com exclusão de um único satélite, forma a separação <c3/>, gaussiana de média zero sem falha, com covariância <c4/> (a identidade de estimadores aninhados, válida porque a solução com todos os satélites à vista é BLUE), e assim <b>detecta</b> uma falha e <b>identifica</b> o satélite defeituoso (aquele cuja exclusão dá a maior separação normalizada). Os níveis de proteção horizontal/vertical seguem a alocação MHSS padrão <c5/>, com <c6/>, <c7/>. Novos <c8/>/<c9/> sem dependências, construídos sobre a gama incompleta regularizada já existente no módulo (<c10/>). Quatro testes derivados à mão: CDF / quantil normal contra valores de manual (Φ({ "1.95996" })={ "0.975" }, a cauda de { "1e-7" } = { "5.1993" }, simetria); uma geometria sem falha que não dispara alarme e produz HPL/VPL finitos e positivos; um viés de 60 σ em um único satélite que é detectado <em>e</em> corretamente identificado (<c11/>); e o piso de redundância de seis satélites. Fecha, no lado do algoritmo, a lacuna P0 da auditoria "integridade tautológica: sem RAIM/HPL/VPL real"; a validação com o conjunto de dados do gLAB e o acumulador do diagrama de Stanford continuam itens do roteiro.
+
+# text
+# c1: src/fusion/closed_loop.rs
+seg-67e771fc0a48 = Integração GNSS/INS em malha fechada (<c1/>).
+
+# text
+# c1: ClosedLoopInsGnss
+# c2: mechanization::radii_of_curvature
+# c3: NavState::omega_ie_n
+# c4: omega_en_n
+seg-5aa467783b99 = <c1/> conecta o núcleo do EKF de estado de erro à mecanização strapdown de três eixos: cada amostra de IMU é corrigida pelas estimativas de viés em curso, mecanizada para a frente, e a covariância do EKF é propagada no tempo com o contexto de navegação correspondente; cada fixo de posição/velocidade GNSS forma a inovação INS−GNSS e realimenta a solução com o <b>erro de posição, velocidade, atitude (ψ, como rotação de quatérnio) e os vieses do acelerômetro/giroscópio</b> estimados, zerando a média do estado de erro. Realimentar a atitude (e não apenas os vieses) é necessário para a estabilidade: a inclinação e o viés do acelerômetro formam um par acoplado, de modo que corrigir um sem o outro diverge. INS e GNSS são comparados em um referencial local de plano tangente NED usando os próprios raios de curvatura da mecanização (novo <c2/>; <c3/>/<c4/> expostos). Esta é a substituição honesta do <em>reset por ajuste à referência verdadeira (truth-snap)</em> do pacote híbrido. Três testes: uma malha fechada anulando um erro de posição injetado de { "8" } m / −{ "5" } m até <{ "0.1" } m; uma solução auxiliada que permanece limitada a metros (<{ "6" } m) em uma trajetória de condução enquanto um INS em funcionamento livre diverge além de { "100" } m; e o benchmark marco: o <b>RMS de posição Monte Carlo da solução fundida durante uma interrupção GNSS de { "60" } s supera um navegador por estima em malha aberta sem auxílio em >{ "2" }× (≈{ "4" }× entre sementes)</b>. Limitação honesta documentada no módulo: no modo fracamente acoplado, o viés do acelerômetro e a inclinação são apenas fracamente separáveis (ambos se acoplam pela gravidade), de modo que o valor entregue é o estado limitado e corrigido e uma entrada limpa na interrupção, não uma calibração inercial precisa; dinâmicas mais ricas e a extensão fortemente acoplada continuam itens do roteiro.
+
+# text
+# c1: src/fusion/gnss_ins_ekf.rs
+# c2: δx = [δp, δv, ψ, b_a, b_g]
+# c3: Φ = I + F·dt
+# c4: H = [I₃ 0 0 0 0; 0 I₃ 0 0 0]
+# c5: tight_coupling
+# c6: P/(P+R)
+seg-aa9bf0ff6f84 = <b>Núcleo do EKF de estado de erro GNSS/INS fracamente acoplado (<c1/>).</b> Um filtro de Kalman estendido de estado de erro de 15 estados, <c2/>, com a dinâmica de erro strapdown de Groves { "2013" } §{ "14.2" } (acoplamento força específica/inclinação, Coriolis, projeção de viés do corpo para o referencial de navegação, modelos de viés de Gauss–Markov), uma transição discreta de primeira ordem <c3/> e uma atualização de medição fracamente acoplada de posição+velocidade (<c4/>) na forma de Joseph. Álgebra linear densa sem dependências (inversa de Gauss–Jordan, atualização de covariância de Joseph). Um recurso de cargo <c5/> protege uma atualização de pseudodistância/Doppler documentada, ainda não implementada. { "7" } testes com expectativas derivadas à mão: a identidade do produto vetorial/antissimétrica, uma inversa { "3" }×{ "3" } verificada, a covariância permanecendo simétrica/PSD na predição (e a incerteza de posição crescendo sem auxílio), um fixo de posição reduzindo a covariância de posição, recuperação exata de um erro de posição conhecido com o ganho de Kalman analítico <c6/> e correções menores sob maior ruído de medição. Este é o núcleo que substituirá o reset em malha aberta por ajuste à referência verdadeira (truth-snap) do pacote híbrido por realimentação em malha fechada (conexão do pacote + validação com o NaveGo a seguir).
+
+# text
+# c1: src/inertial/imu_errors.rs
+seg-5be84079b8b6 = Modelo determinístico de erro de IMU para o navegador strapdown de 3 eixos (<c1/>).
+
+# text
+# c1: ImuErrorModel
+# c2: (ω, f)
+# c3: ImuErrorModel::ideal()
+# c4: inertial
+seg-492e670736b2 = <c1/> distorce um par <c2/> verdadeiro no referencial do corpo em um par medido por meio de cinco categorias sistemáticas (IEEE Std 952-1997 §A.2; Groves { "2013" } §{ "4.3" }, Tabela { "4.1" }): <b>fator de escala</b> (erro de ganho por eixo em ppm), <b>desalinhamento / acoplamento cruzado</b> (não ortogonalidade fora da diagonal da tríade), <b>sensibilidade à gravidade (g-sensitivity)</b> (um viés de taxa do giroscópio proporcional à força específica), <b>quantização</b> (arredondamento para o LSB de saída) e <b>rampa de taxa</b> (uma deriva linear no tempo, a terceira região de Allan), além de um viés constante de ligação. Todos os termos têm zero como padrão, de modo que <c3/> é uma passagem transparente e os cenários existentes não são afetados. Cada fonte de erro tem um teste de isolamento (escala linear até <{ "0.01" }%, desalinhamento entre eixos acima do piso de VRW, viés de g-sensitivity, grade de LSB, rampa linear), e um teste de ponta a ponta conduz um erro de navegação pela mecanização a partir de uma IMU distorcida. Não modelado: erro de retificação por vibração, deriva por gradiente de temperatura. (O pacote de cenário <c4/> distribuído ainda executa o antigo orçamento escalar de 1-DOF; este modelo alimenta a biblioteca de 3 eixos.)
+
+# text
+# c1: coning_increment
+# c2: ½ Δθ_prev × Δθ_cur
+# c3: sculling_increment
+# c4: ½ Δθ × Δv
+# c5: NavState::step_increments
+# c6: Δθ_rel = Δθ_b − C_n^b ζ
+seg-f57bc89d4688 = <b>Compensação de coning e sculling para o integrador strapdown.</b> O caminho de atitude adiciona o <c1/> de duas amostras (<c2/>); verifica-se que uma integração em taxa grosseira ({ "30" } Hz, 5 amostras/ciclo) de um ambiente de coning de { "5" } Hz acompanha a verdade em taxa fina ≥ { "3" }× melhor com a correção do que com a soma ingênua de incrementos. O caminho de velocidade adiciona <c3/> (<c4/>, eq. { "5.82" } de Groves) e resolve o incremento de velocidade do corpo por meio de uma nova atualização baseada em incrementos <c5/> usando a rotação relativa ao corpo <c6/>, de modo que uma plataforma fixa à Terra não incorre em sculling espúrio, enquanto uma vibração genuína aciona o termo completo.
+
+# text
+# c1: src/inertial/mechanization.rs
+seg-56c599250ed4 = Mecanização strapdown completa de três eixos no referencial NED (<c1/>).
+
+# text
+# c1: NavState { q, v_ned, p_llh }
+# c2: step(gyro_b, accel_f_b, dt)
+# c3: ω_in = ω_ie + ω_en
+# c4: v̇ = f_n − (2 ω_ie + ω_en) × v + g_n
+# c5: v_N ≈ a·t
+# c6: ½ a t²
+seg-d0897492e89b = <c1/> é avançado por <c2/> usando as equações NED padrão no referencial terrestre (Groves §{ "5.4" }): atitude corpo→NED corrigida pela taxa inercial-para-navegação <c3/> (rotação da Terra + taxa de transporte); força específica resolvida corpo→NED por meio da DCM; velocidade integrando <c4/> (Coriolis/transporte + gravidade); e posição geodésica por meio dos raios de curvatura meridiano/transversal. A gravidade é a <b>gravidade normal (de prumo)</b> em forma fechada de Somigliana do WGS-84, com uma correção de altitude de ar livre da NIMA, nunca uma constante fixa no código. Este é o genuíno navegador de três eixos que substitui o caminho escalar de orçamento de erro de 1-DOF. Verificado por invariantes físicos: uma plataforma presa à Terra em rotação a { "45" }°N (sentindo a taxa de rotação da Terra + { "1" } g) permanece dentro de { "1" } mm ao longo de { "60" } s; uma força específica horizontal para o norte dá <c5/> e deslocamento <c6/>; a gravidade normal coincide com os valores de superfície conhecidos no equador/polo/45° e com a taxa de variação de ar livre.
+
+# text
+# c1: src/inertial/attitude.rs
+# c2: Quaternion
+# c3: to_dcm
+# c4: from_dcm
+# c5: q̇ = ½ q ⊗ ω
+# c6: coning_increment
+# c7: ½ Δθ_prev × Δθ_cur
+# c8: src/inertial.rs
+# c9: src/inertial/
+# c10: crate::inertial
+seg-290b08199bfb = <b>Representação de atitude de três eixos para INS strapdown (<c1/>).</b> Um tipo <c2/> de quatérnio unitário (escalar primeiro, convenção de Hamilton) que carrega a rotação corpo→navegação, com uma visão em DCM (<c3/>/<c4/> pelo método de Shepperd), produto de Hamilton, construtores de eixo-ângulo e de vetor de rotação (mapa exponencial exato) e cinemática de quatérnios: tanto uma atualização de taxa RK de primeira ordem (<c5/>) quanto uma atualização de vetor de rotação com correção de coning. O <c6/> de duas amostras (Savage / Bryan–Lewantowski, <c7/>) fornece o termo de acoplamento cruzado da taxa de rotação que a navegação por estima escalar omite. Esta é a base de atitude para a mecanização completa de 3 eixos que substitui o antigo caminho de orçamento de erro de 1-DOF. Verificado contra rotações em forma fechada: a propagação a taxa constante coincide com o quatérnio de eixo-ângulo até { "1e-6" }, as DCMs são ortonormais com determinante unitário e o coning desaparece para movimento de um único eixo. (<c8/> agora é o diretório de módulo <c9/>; o caminho público <c10/> permanece inalterado.)
+
+# text
+# c1: src/frames.rs
+seg-5e6e5bba25a5 = Visibilidade de estação terrestre geodesicamente correta (<c1/>).
+
+# text
+# c1: elevation
+# c2: is_visible
+# c3: visible_count
+seg-69bdb1e5bfc8 = <c1/>, <c2/> e <c3/> calculam a elevação de um satélite acima do horizonte de uma estação terrestre em relação à <b>normal do elipsoide WGS-84</b> (a vertical local verdadeira), e não ao radial geocêntrico; os dois diferem até cerca de ~{ "0.19" }° de deflexão geodésica, o suficiente para fazer satélites próximos ao horizonte entrarem ou saírem de uma máscara de elevação. Verificado de ponta a ponta (uma constelação Walker propagada, rotacionada TEME→ECEF e contada a partir de um sítio geodésico) e contra a aproximação geocêntrica.
+
+# text
+# c1: test-python-bindings
+# c2: PyO3/maturin-action
+# c3: maturin build
+# c4: rustfmt-preview
+# c5: cargo-fmt
+# c6: deny
+# c7: cargo-deny
+# c8: taiki-e/install-action
+# c9: cargo-deny-action
+seg-4de1d79d2e76 = <b>Confiabilidade da CI.</b> O job <c1/> agora constrói o wheel com <c2/> (contêiner manylinux) em vez de um <c3/> direto no host, eliminando um conflito intermitente de rustup entre <c4/>/<c5/> na imagem do runner. O job <c6/> instala <c7/> como binário pré-compilado por meio de <c8/> em vez do <c9/> baseado em Docker, removendo um tempo esgotado de download do registro do Docker Hub. Nenhuma das alterações afeta as verificações realizadas.
+
+# text
+seg-05055c993904 = A velocidade inercial é exposta a jusante.
+
+# text
+# c1: Propagator::velocity_eci
+# c2: Propagator::state_eci
+# c3: StateEci { r_m, v_m_s }
+# c4: Orbit::velocity_eci
+seg-1228235c99b6 = <c1/> e <c2/> (que devolve <c3/>) levam a velocidade TEME analítica que o SGP4 já calcula, antes descartada, até os chamadores em m/s; <c4/> dá ao caminho kepleriano uma velocidade consistente. O teste de verificação AIAA 2006-6753 agora também verifica a velocidade de cada linha de referência (pior erro de velocidade de { "1.85e-9" } km/s entre os { "666" } estados) e fixa em exatamente { "666" } a contagem de linhas comparadas.
+
+# text
+# c1: ParseOpts { strict_checksum }
+# c2: parse_propagators_opts
+# c3: strict_checksum
+# c4: ConstellationCfg
+seg-8ac2598291b8 = <b>Análise de TLE mais estrita e sem pânico.</b> As linhas devem ser ASCII e são fatiadas com segurança (sem mais pânicos de índice de byte com entrada multibyte); os elementos têm a faixa verificada (inclinação, excentricidade, movimento médio); a soma de verificação da coluna 69 pode ser imposta por <c1/> / <c2/> e pela nova opção <c3/> em <c4/> (tolerante por padrão).
+
+# text
+# c1: adev_curve
+# c2: [{tau_s, adev, n_samples}]
+seg-1cd2c6621a04 = <b>Curva de desvio de Allan na saída.</b> Cada execução de relógio agora informa um <c1/> (<c2/>) e o playground do navegador desenha um gráfico log-log "Estabilidade do relógio (ADEV)".
+
+# text
+seg-c76ff20811e7 = Validação de entrada da grade de tempo.
+
+# text
+# c1: TimeCfg::validate
+# c2: MAX_TIME_STEPS
+seg-75436d067802 = <c1/> rejeita uma grade de tempo não finita, nula, negativa ou grande demais (um passo maior que a duração, ou mais de <c2/> amostras) antes de qualquer alocação, de modo que um cenário malformado devolve um erro em vez de entrar em pânico ou esgotar a memória.
+
+# text
+seg-d0a8ce50cf6e = Conjuntos Monte Carlo para o pacote inercial.
+
+# text
+# c1: runs = N
+# c2: ensemble
+# c3: monte_carlo
+seg-3225674ce4ea = <c1/> em um cenário inercial executa N sementes e informa, para cada métrica, a média, o desvio padrão, os percentis e um intervalo de confiança bootstrap de percentis de { "95" }% (<c2/>). Toda execução inercial agora carrega um indicador <c3/>, de modo que uma FoM de uma única realização não seja mais confundida com uma distribuição. (CEP/2DRMS intencionalmente não são informados: exigem o modelo de 3 eixos que está no roteiro.)
+
+# text
+# c1: web/share.test.mjs
+seg-2967872bfca1 = <b>Modo de playground guiado.</b> O playground do navegador não o joga mais diante de uma parede de TOML bruto: uma faixa "Comece aqui" com cartões de cenário de um clique carrega e executa um exemplo trabalhado, controles deslizantes expõem os parâmetros universais (semente, limiar de temporização) sem tocar no TOML, uma nota "Como ler isto" explica o resultado, e o TOML completo fica a um clique, em uma seção recolhível. Toda execução é compartilhável: <b>Copiar link de compartilhamento</b> codifica o cenário inteiro no fragmento da URL (nada é enviado) para que um link reproduza a execução exata ao carregar. O codec tem testes unitários (<c1/>, executados na CI).
+
+# text
+# c1: src/sweep.rs
+seg-2e47e8864718 = Varreduras de parâmetros N-dimensionais (<c1/>).
+
+# text
+# c1: nd_sweep
+# c2: SweepAxis
+seg-5076a9ad20d7 = <c1/> avalia uma métrica sobre o produto cartesiano completo de vários intervalos <c2/> (o estudo de compromisso multiparamétrico), em ordem por linhas e de forma determinística. Aditivo: a API existente de varredura 1-D permanece inalterada. Intervalos de confiança bootstrap por nó e a generalização além do pacote de relógio continuam no roteiro.
+
+# text
+# c1: src/raim.rs
+seg-958718831037 = <b>RAIM de instantâneo real (<c1/>).</b> Monitoramento Autônomo de Integridade pelo Receptor genuíno no domínio da posição: constrói a geometria de linha de visada até os satélites visíveis, forma a solução de mínimos quadrados e os resíduos, executa um teste de detecção de falha por resíduo χ² (limiar exato a partir de um χ²/χ² não central por gama incompleta sem dependências) e calcula níveis de proteção horizontal e vertical baseados em inclinação (HPL/VPL) com o viés de detecção perdida derivado para os P_fa/P_md configurados. É distinto da cifra de Integridade de autoconsistência do filtro do pipeline de cenários, e <b>ainda não está ligado</b> a ela; exclusão de falha, orçamento de limite de alerta/P_HMI e ARAIM continuam no roteiro.
+
+# text
+# c1: src/allan.rs
+# c2: TDEV = tau/sqrt(3) * MDEV
+# c3: deviation_ci
+seg-1675540acbd9 = <b>Suíte de estabilidade de frequência: MDEV, TDEV, HDEV + intervalos de confiança</b> (<c1/>). Junto com o ADEV sobreposto: o desvio de Allan modificado (separa o ruído de fase branco do flicker), o desvio de tempo (<c2/>) e o desvio de Hadamard (rejeita exatamente a deriva linear de frequência e converge para tipos de ruído vermelho divergentes). Os intervalos de confiança baseados em χ² (<c3/>) usam um par de quantis normal/χ² sem dependências (Acklam + Wilson-Hilferty) com um edf conservador sem sobreposição; o edf específico do tipo de ruído e a paridade numérica com o Stable32 continuam no roteiro.
+
+# text
+# c1: src/frames.rs
+seg-446a9ed4467c = <b>Redução de referencial (<c1/>).</b> Rotação TEME↔ECEF baseada em GMST (usando o mesmo tempo sideral IAU-1982 do propagador), geodésica WGS-84 exata↔ECEF com uma inversa iterativa inicializada por Bowring (precisão de máquina em todas as altitudes, inclusive MEO/GEO) e um observador geodésico de estação terrestre que devolve azimute / elevação / distância no referencial local Leste-Norte-Cima. O movimento polar e a nutação de sub-segundo de arco não são aplicados (apenas GMST, abaixo de um quilômetro sobre o traço no solo); uma cadeia CIO precisa em ITRF está no roteiro.
+
+# text
+# c1: src/timescales.rs
+# c2: f64
+seg-9f6f53583cf5 = <b>Base de escalas de tempo (<c1/>).</b> Uma API de data juliana sem dependências (civil gregoriana ↔ JD, MJD), o histórico completo de segundos intercalares inteiros do IERS (UTC↔TAI, { "10" } s em { "1972" } até { "37" } s desde { "2017" }), o deslocamento TAI→TT definido, a correção UT1 por meio de um DUT1 fornecido e o Ângulo de Rotação da Terra IAU-2000. É o substrato de tempo sobre o qual se apoia a redução de referencial fixo à Terra (planejada). Os instantes são Datas Julianas de <c2/> único (resolução de ~{ "50" } µs perto da época atual; um JD de duas partes está no roteiro), e a era pré-1972 do segundo elástico não é modelada; ambos documentados no módulo.
+
+# text
+# c1: scripts/gen-sbom.sh
+# c2: libm
+# c3: docs/REPRODUCIBILITY.md
+seg-6ecc053f101f = <b>Reprodutibilidade e proveniência.</b> Um gerador determinístico de SBOM CycloneDX (<c1/>) e uma atestação de proveniência de build SLSA sobre o binário da versão e o SBOM; a cadeia de ferramentas da versão é fixada para corresponder à CI. As garantias de determinismo, a ressalva de <c2/> entre plataformas e a abordagem de fixação dos valores de referência (golden) estão documentadas em <c3/>.
+
+# text
+# c1: tests/property.rs
+# c2: TimeCfg::validate
+seg-3e98dcdcb82b = <b>Testes baseados em propriedades e de fuzzing</b> (<c1/>). Testes aleatorizados determinísticos (sem nova dependência) verificam invariantes sobre milhares de entradas: os analisadores de TLE e de cenário nunca entram em pânico com entrada lixo, não ASCII, mutada ou truncada; <c2/> nunca entra em pânico com grades NaN/inf/negativas; a soma de verificação do TLE é consistente e restrita à coluna 69; os ciclos geodésico↔ECEF e a rotação TEME→ECEF preservam a norma em todo o globo e em uma ampla faixa de altitude.
+
+# text
+# c1: libm
+seg-ea252b5d7427 = Os testes de referência (golden) agora <b>fixam as figuras de mérito campo a campo</b> para os quatro cenários de referência (com uma tolerância que absorve a variação de <c1/> entre plataformas), substituindo as verificações anteriores apenas de desigualdade, de modo que uma regressão numérica silenciosa seja detectada de imediato.
+
+# text
+# c1: schema_version
+# c2: 0.1
+# c3: 0.7
+seg-4b2a0b78984b = <c1/> nos artefatos de resultado alterado de <c2/> para <c3/> (estava congelado enquanto o motor evoluía).
+
+# text
+# c1: cargo-deny
+seg-ecafa9d44810 = <c1/> agora <b>nega</b> (e não apenas avisa sobre) dependências retiradas (yanked).
+
+# text
+# c1: CAPABILITY.md
+# c2: SCHEMA.md
+# c3: INTEGRITY.md
+# c4: QUANTUM-MODELS.md
+# c5: REAL_TLE_GUIDE.md
+# c6: Cargo.toml
+seg-c48af44de5b4 = Novos documentos: <c1/> (mapa de escopo honesto), <c2/> (referência dos campos de resultado), <c3/>, <c4/>, <c5/>. Uma proteção na CI falha se o selo de versão do README divergir de <c6/>.
+
+# text
+seg-8ef32ebec7f5 = <b>Propagação de órbita SGP4/SDP4.</b> Uma implementação completa e sem dependências do propagador padrão de perturbações simplificadas: SGP4 de órbita próxima da Terra junto com a extensão SDP4 de espaço profundo (perturbações seculares e periódicas lunissolares e ressonância geopotencial de { "12" } h / { "24" } h). É validada contra os vetores de verificação oficiais AIAA 2006-6753 ("Revisiting Spacetrack Report #3"): todos os { "666" } estados de referência dos casos de órbita próxima da Terra, de espaço profundo, ressonantes e de códigos de erro coincidem, com um erro de posição no pior caso de cerca de { "4" } mm. Este é o modelo em relação ao qual os conjuntos de elementos de duas linhas são definidos, de modo que representa constelações reais, notadamente as órbitas GNSS de ~{ "12" } h, que são de espaço profundo e ressonantes e que o modelo anterior de dois corpos + secular J2 não consegue capturar.
+
+# text
+# c1: orbit-sgp4-gps.toml
+seg-06a77fb9233e = Uma constelação dada como <b>conjuntos completos de elementos de duas linhas</b> (linha { "1" } + linha { "2" }) agora é propagada com SGP4/SDP4; uma constelação dada como elementos apenas da linha 2 mantém a propagação analítica kepleriana de dois corpos, inalterada. As duas formas podem ser misturadas em um mesmo bloco. Novo cenário de referência <c1/> (uma constelação MEO semelhante ao GPS em formato real de duas linhas, propagada com SGP4); inclua um conjunto "gps-ops" atual do Celestrak para estudar a constelação em operação.
+
+# text
+# c1: spoof
+# c2: spoof-attack.toml
+seg-2dbb4054e9b8 = <b>Demonstrador de ataque ativo de spoofing.</b> Um novo tipo de cenário <c1/> injeta um spoof de falso tempo em rampa e executa o monitor de integridade auxiliado por relógio de cada relógio, informando se e quando o spoof é detectado e se ele atinge a especificação operacional sem ser detectado, transformando a figura de mérito de Segurança em uma demonstração concreta de ataque/defesa. Novo cenário de referência <c2/>.
+
+# text
+# c1: [[constellations]]
+# c2: [constellation]
+# c3: orbit-multignss.toml
+seg-aa0cb8038baa = <b>Disponibilidade multiconstelação.</b> Um cenário de órbita pode combinar várias constelações (uma lista <c1/> junto com o <c2/> principal) para disponibilidade multi-GNSS e diluição de precisão, por exemplo GPS mais Galileo. Novo cenário de referência <c3/>.
+
+# text
+seg-9b9dcd5be0a7 = <b>Relatório de painel de avaliação em HTML.</b> Toda execução agora também produz um painel de avaliação HTML autocontido e com a marca: o resumo de uma linha, o gráfico (incorporado como imagem inerte em data-URI) e o JSON completo, gravados pela CLI junto com o JSON e o SVG. Um artefato compartilhável de arquivo único para uma entrega de estudo ou um anexo.
+
+# text
+# c1: fusion
+# c2: [phase, frequency]
+# c3: [position, velocity]
+# c4: fusion-pnt.toml
+seg-76c573048a91 = <b>Estimador conjunto de fusão de sensores.</b> Um novo tipo de cenário <c1/> executa um único filtro de Kalman recursivo como solução de navegação, fundindo o estado do relógio <c2/> e o estado de posição <c3/>, disciplinado pelo GNSS (aprendendo o deslocamento de frequência e a velocidade) e auxiliado por transferência óptica de tempo durante a interrupção, em vez de compor preditores independentes. Informa holdover fundido de temporização/posição e uma integridade de covariância conjunta. Novo cenário de referência <c4/>.
+
+# text
+# c1: bias_instability
+# c2: q_aa
+seg-10f0501c91ef = <b>Modelo de ruído de IMU mais completo.</b> O acelerômetro agora modela os demais termos da variância de Allan além do viés constante e do passeio aleatório de velocidade: <b>instabilidade de viés</b> (um piso flicker de 1/f no coeficiente padrão de instabilidade de viés de Allan, reutilizando a síntese flicker do relógio) e <b>passeio aleatório de aceleração</b>. Novos campos opcionais de cenário inercial <c1/> e <c2/>; um novo fixo GNSS recalibra a deriva residual do viés.
+
+# text
+# c1: tle
+# c2: orbit-real-tle.toml
+seg-251ffc7b7722 = <b>Geometria real de constelação a partir de TLEs.</b> Uma constelação pode ser dada como um bloco de conjuntos de elementos de duas linhas (o formato padrão NORAD/Celestrak) por meio de um campo <c1/>, de modo que a disponibilidade e a diluição de precisão usam a geometria publicada de uma constelação real em vez de um padrão Walker sintético. O motor lê os elementos keplerianos médios de cada TLE e os propaga como dois corpos, e não com SGP4, o que é razoável para um estudo de instantâneo a partir de uma época comum. Novo cenário de referência <c2/>.
+
+# text
+# c1: sweep
+# c2: threshold_ns
+# c3: duration_s
+# c4: quantum_q_wf
+# c5: classical_q_wf
+# c6: sweep-clock-stability.toml
+seg-7deb93b51cc7 = <b>Varreduras de parâmetros para estudos de compromisso.</b> Um novo tipo de cenário <c1/> varia um parâmetro (<c2/>, <c3/>, <c4/> ou <c5/>) ao longo de um intervalo linear ou logarítmico e registra uma figura de mérito escolhida em cada ponto para ambos os relógios, produzindo o gráfico de comparação "como o holdover escala com a estabilidade do relógio?" de que um estudo de compromisso de projeto precisa. Novo cenário de referência <c6/>.
+
+# text
+# c1: runs
+# c2: clock-ensemble.toml
+seg-ef6f3e77b476 = <b>Faixas de confiança Monte Carlo.</b> O cenário de holdover de relógio pode executar muitas realizações (novo campo opcional <c1/>): cada figura de mérito é então informada como uma média com uma dispersão entre o percentil 5 e o percentil 95, e o gráfico sombreia o envelope de erro de { "5" }–{ "95" }% em torno da mediana de cada relógio. Uma única execução continua sendo o padrão. Novo cenário de referência <c2/>.
+
+# text
+# c1: eccentricity
+# c2: argp_deg
+# c3: j2
+# c4: orbit-molniya.toml
+seg-e70cc0973fa3 = <b>Órbitas excêntricas e deriva J2.</b> O tipo de órbita agora é uma órbita kepleriana completa (semieixo maior, excentricidade, inclinação, RAAN, argumento do perigeu, anomalia média), propagada pela resolução da equação de Kepler, com regressão nodal secular J2 e precessão apsidal opcionais. Novos campos opcionais de cenário <c1/>, <c2/> e <c3/>, e um cenário de referência <c4/> (um usuário altamente excêntrico e de inclinação crítica, de { "12" } h). As órbitas circulares mantêm o caminho original de forma fechada, bit a bit.
+
+# text
+seg-cc041e16d418 = O pacote híbrido (PNT combinado) agora informa <b>Integridade</b> e <b>Segurança</b>, de modo que os quatro pacotes cobrem o conjunto completo de figuras de mérito operacionais. A Integridade é a contenção do limite de proteção do canal de temporização a partir de um estimador de Kalman disciplinado à verdade enquanto o GNSS está nominal e reancorado (de forma mais frouxa) a cada ressincronização óptica; o seu limite inclui o piso de ruído de medição do enlace, de modo que um relógio muito melhor que o enlace é pontuado contra o ruído real da solução entregue. A Segurança é a pontuação de detecção de spoofing auxiliada por relógio em relação à especificação de temporização.
+
+# text
+# c1: scripts/changelog-extract.sh
+seg-e0b666457d6e = As notas de versão agora são geradas a partir da seção selecionada do CHANGELOG para a tag (<c1/>), de modo que cada versão do GitHub destaque o que mudou em vez de listar commits brutos.
+
+# text
+# c1: [0, 1]
+seg-f785718e9454 = Figura de mérito de <b>Segurança</b> (antes não preenchida): uma pontuação de detecção de spoofing auxiliada por relógio para os pacotes de holdover de relógio e de órbita. Modela um monitor de integridade que confronta o tempo derivado do GNSS com a predição do próprio relógio em navegação inercial sobre uma janela coerente; o piso de detecção combina o ruído de medição médio com a incerteza do relógio em navegação inercial, de modo que um relógio mais silencioso detecta spoofs de tempo menores e mais lentos. A pontuação é informada em <c1/> relativa à especificação de temporização, completando as seis figuras de mérito operacionais.
+
+# text
+# c1: Q = (HᵀH)⁻¹
+# c2: sigma_uere_m
+seg-9164140872c8 = <b>Precisão de posição</b> derivada da geometria para o pacote de órbita: a partir da geometria de linha de visada até os satélites visíveis, forma a matriz de projeto e o seu fator de covariância <c1/>, produzindo os fatores de diluição de precisão (GDOP/PDOP/HDOP/VDOP/TDOP). A precisão de posição é o DOP de posição multiplicado por um erro equivalente de distância do usuário configurável (novo campo opcional de cenário <c2/>). Um resultado de órbita agora carrega um resumo da geometria (fração de amostras com fixo, melhor e mediana do PDOP e sigma de posição).
+
+# text
+# c1: web/
+# c2: pages
+# c3: summary
+seg-3285502161c6 = Um <b>playground</b> no navegador (<c1/>) que executa o motor no lado do cliente como WebAssembly: escolha um cenário de referência ou edite o TOML, execute-o e veja o resumo, o gráfico e o JSON completo, sem enviar nada. Um fluxo de trabalho <c2/> o constrói e publica no GitHub Pages, e uma nova exportação WebAssembly <c3/> sustenta a leitura.
+
+# text
+# c1: chart
+seg-0dca5318f7ce = Eixos y rotulados nos gráficos SVG: linhas de grade, rótulos numéricos de marcas e um título de eixo de unidades (por meio de um auxiliar <c1/> compartilhado), de modo que as magnitudes sejam legíveis.
+
+# text
+# c1: publish
+seg-ce84a3d61f19 = Fluxo de trabalho de publicação de pacotes (<c1/>) para crates.io, PyPI e npm, cada um condicionado ao seu token de registro e acionado por uma versão publicada.
+
+# text
+# c1: flicker_floor
+seg-0f01369fc29b = Piso de FM flicker (1/f) para o modelo de erro do relógio, sintetizado como uma soma de processos de Ornstein-Uhlenbeck espaçados logaritmicamente e calibrado de modo que o piso plano do desvio de Allan fique em um nível configurável. Desativado por padrão; ativado por relógio por meio do campo opcional de cenário <c1/>.
+
+# text
+# c1: gyro_bias
+# c2: q_arw
+seg-5b7fcd386fd3 = Canal de giroscópio para o modelo inercial: o viés residual do giroscópio e o passeio aleatório angular geram um erro de atitude (inclinação) que acopla a gravidade a um erro horizontal de força específica, o principal mecanismo de crescimento de erro do strapdown. Desativado por padrão; ativado por sensor por meio dos campos opcionais <c1/> e <c2/>.
+
+# text
+# c1: q_wf*T + q_rw*T^3/3
+seg-efe9f10d2641 = Estimador de relógio de Kalman de dois estados (fase, frequência) com discretização exata do ruído de processo de van Loan. A navegação inercial a partir de um estado conhecido reproduz exatamente o crescimento analítico do erro de holdover (<c1/>), e o filtro fornece adicionalmente um limite de incerteza de 1 sigma em linha.
+
+# text
+seg-539e24f34ed1 = A execução de relógio agora informa a figura de mérito de <b>Integridade</b> (antes não preenchida): a fração das amostras de interrupção cujo erro permanece dentro do limite de proteção de 3 sigma do filtro, exibida no resultado em JSON e no resumo da CLI.
+
+# text
+# c1: orbit
+# c2: orbit-gnss-challenged.toml
+seg-80620c97e3f5 = Disponibilidade GNSS derivada da geometria: propagação de órbita circular, um gerador de constelação Walker-delta e visibilidade de linha de visada (oclusão pela Terra mais máscara de elevação) produzem a linha do tempo de disponibilidade a partir da geometria orbital real. Novo tipo de cenário <c1/> e o cenário de referência <c2/> (uma espaçonave dentro da camada GNSS com cobertura intermitente).
+
+# text
+# c1: run
+# c2: run_full
+# c3: version
+# c4: pyproject.toml
+# c5: wheels
+seg-67549163ad7d = Extensão Python opcional (PyO3, abi3) que expõe <c1/>, <c2/> e <c3/>, empacotada com maturin (<c4/>) e construída para Linux, macOS e Windows por um fluxo de trabalho <c5/> acionado por tag de versão. A ligação é uma dependência opcional protegida por feature: a compilação padrão, os testes e o portão de auditoria de dependências não são afetados.
+
+# text
+# c1: run
+# c2: chart_svg
+# c3: version
+# c4: wasm
+# c5: getrandom
+# c6: wasm32
+seg-c76dc363f0b1 = Módulo WebAssembly opcional (wasm-bindgen) que expõe <c1/>, <c2/> e <c3/>, construído com wasm-pack sob a feature <c4/>; <c5/> é restrito ao alvo para usar a fonte de entropia do navegador em <c6/>.
+
+# text
+# c1: api::run_toml
+seg-cf1b0eef2201 = Despacho <c1/> compartilhado, usado pela CLI e por ambas as ligações, de modo que a linha de comando e as ligações não possam divergir.
+
+# text
+seg-8d4f855d11bd = A pontuação de holdover agora considera segmentos: as linhas do tempo de interrupção são divididas em segmentos contíguos na reaquisição do GNSS, e o holdover informado é a navegação inercial do pior caso (a mais curta) entre eles. Cenários de interrupção única não mudam. Aplica-se aos pontuadores de relógio, inercial e híbrido.
+
+# text
+# c1: kind
+# c2: inertial
+# c3: accelerometer
+seg-8b3556d125ed = O <c1/> informado pelo modelo inercial agora é <c2/> (era <c3/>), refletindo os canais combinados de acelerômetro e giroscópio.
+
+# text
+seg-d842f9cc0a9c = Versão inicial.
+
+# text
+# c1: scenario + seed + engine version
+# c2: kind
+seg-962b75c38735 = <b>Motor de simulação determinístico</b> para PNT híbrido quântico/clássico: uma interface comum de modelo de erro, cenários declarativos de disponibilidade GNSS, estimadores de holdover / navegação por estima e pontuação por figuras de mérito contra os critérios operacionais padrão de PNT. Os resultados são reprodutíveis a partir de <c1/> (JSON versionado e autodescritivo com um hash do cenário) e renderizados como gráficos SVG. A CLI despacha os cenários por <c2/>.
+
+# text
+seg-16e574edc3a8 = <b>Quatro pacotes de sensores</b>, cada um calibrado com dados publicados e validado contra a relação padrão:
+
+# text
+seg-b49bbb60c2cd = <b>Holdover de relógio</b>: FM branco, FM de passeio aleatório e envelhecimento linear; validado pelo desvio de Allan sobreposto (Riley, NIST SP { "1065" }). Relógio atômico em escala de chip contra relógio óptico de rede de estrôncio.
+
+# text
+seg-be2c5f28b256 = <b>Navegação inercial por estima</b>: viés residual + passeio aleatório de velocidade, integrados duas vezes até o erro de posição; validado contra as relações de crescimento de erro de Groves. Átomos frios contra acelerômetro de grau de navegação.
+
+# text
+seg-fcb0f72db736 = <b>Transferência de tempo</b>: jitter de temporização do enlace óptico contra o de RF → precisão de sincronização → medição de distância unidirecional.
+
+# text
+seg-93e5f2f70b58 = <b>Fusão híbrida (etapa final)</b>: um conjunto PNT combinado que deve manter tanto a temporização quanto a posição, com auxílio opcional ao relógio por transferência óptica de tempo entre satélites.
+
+# text
+# c1: scenarios/
+# c2: provenance
+seg-e0a8cbe0c105 = <b>Um cenário de referência citado por pacote</b> em <c1/>, com todo parâmetro numérico acompanhado de uma <c2/> revisada por pares.
+
+# text
+seg-8f1cc09b2513 = <b>Proteções de reprodutibilidade e de higiene do repositório</b>; CI (formatação, clippy, testes, proteções, MSRV) e um pipeline de versão condicionado a tag que executa novamente todas as verificações.
+
+# text
+seg-8b4e21f56334 = <b>Documentação</b>: README com diagramas de arquitetura, relatório de situação da validação, guia de contribuição, política de segurança e código de conduta; licença Apache-2.0; modelos de issue/PR e configuração do Dependabot.
+
+# text
+seg-e26d94f06ead = Neutro quanto a fornecedores em todo o material; citações científicas e de metrologia revisadas por pares mantidas.
+
+# text
+# c1: NOTICE
+# c2: cargo-deny
+seg-84cb67686edf = Higiene da licença Apache-2.0: cabeçalhos SPDX em todos os códigos-fonte, um <c1/> com aviso de marca registrada, assinatura do Developer Certificate of Origin (DCO) para contribuições e imposição de licenças/avisos de dependências por <c2/> na CI.
+
+# text
+seg-a0f14bea7532 = Posicionamento open-core (README): um motor gratuito Apache-2.0 mais suporte comercial, integração e extensões proprietárias disponíveis pela Ashforde OÜ, sustentado por serviços e não por taxas de licença.
+
+# text
+# c1: CITATION.cff
+seg-899815063eb1 = <c1/> para que o software possa ser citado.
+
+# text
+seg-15f45d8ccb0f = <s1>Anterior</s1>Onde o Kshana se situa
+
+# text
+seg-cd8a14a9e8ec = <s1>Próximo</s1>Licenciamento
