@@ -23,3 +23,5 @@ seg-cb00aca0268d = <b>MODELLED</b> <c1/> 種別の sweep（任意の種別のド
 seg-1750fbfc4a99 = <s1>前へ</s1>sweep-nd
 
 seg-de5468ac32fc = <s1>次へ</s1>telecom-timing
+
+seg-8b701f465117 = 対数

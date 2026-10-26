@@ -35,3 +35,9 @@ seg-95879767c438 = トピックページ：<a1>LEO-SIGNAL.md</a1>
 seg-ce69d8d2d9d1 = <s1>前へ</s1>space-weather
 
 seg-ac2c9c25fbb6 = <s1>次へ</s1>spoof-detect
+
+seg-57cd9c415e31 = MODELLED { "3" } · VALIDATED { "2" }：この種別を挙げている<a1>検証マトリクス</a1>の行。
+
+seg-3319b18ac61f = マトリクスには、ほかに { "1" } 件あります。
+
+seg-9ca82c79430e = <b>MODELLED</b> L バンドを超えて拡張した <c1/> の種別：プリセットの信号設計（すべての成分を描画し、送信帯域幅に帯域制限し、C/N0 と J/S は追跡成分を基準とする）として、またはカスタムの搬送波と変調として与えるバンド テスト：<a1>leo_signal_reference.rs</a1>。

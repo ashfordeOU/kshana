@@ -17,3 +17,5 @@ seg-621a18c07044 = エンジンが scenarios/sweep-nd-inertial.toml（種別 swe
 seg-ce006a6715e9 = <s1>前へ</s1>spoof
 
 seg-b9f8771ffd3d = <s1>次へ</s1>sweep
+
+seg-8b701f465117 = 対数
