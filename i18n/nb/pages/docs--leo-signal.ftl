@@ -1,5 +1,7 @@
 # docs--leo-signal: translations (nb)
 
+seg-3ea93ae372ca = Hva det inneholder
+
 seg-6cb7a787ac67 = Referanser
 
 seg-cbf0f9bcd2d8 = Uavhengig referanse

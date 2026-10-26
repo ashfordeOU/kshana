@@ -334,6 +334,8 @@ seg-48dcd3178337 = Lenke til denne delen
 
 seg-e9dc4e6ef5d5 = Forrige og neste
 
+seg-ca4d42ca6ce0 = Felt
+
 seg-cc45f7524d3a = Hva den gjør
 
 seg-039b7c5fd78a = Enhet

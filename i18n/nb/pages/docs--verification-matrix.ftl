@@ -2326,6 +2326,178 @@ seg-05ded40b17d2 = Ingen ekstern: ROS-noden ble ikke kjørt på en levende ROS {
 
 seg-c3c260b7063e = Tester
 
+seg-33d506570c1b = srp_shadow::tests (den ringformede lukkede formen, den uniforme loven som gjengir den koniske skyggen, grensene for full sol og umbra)
+
+seg-13f8f557c721 = propagator (ForceModel::with_ephemeris, ForceEphemeris), ephem_provider
+
+seg-20f163c0cb8f = tests/propagator_de440_orekit_oracle.rs ({ "5" } tilfeller x { "25" } timetilstander over { "24" } t, LEO, GEO og HEO, tredjelegeme og tredjelegeme + SRP: verste |dr| { "0.0170" } m, |dv| { "1.84e-5" } m/s; den analytiske seriekontrollen bommer med { "9.96" } m; Sol { "6.39" } m og Måne { "0.244" } m fra Orekits DE440-posisjoner, en registrert bom); enhetstester for propagator (avslag fra leverandør, fallback-telling delt på tvers av kloner)
+
+seg-448f4acf5c7b = tides, propagator, precise_od
+
+seg-4014447d4bcc = tides::tests (S1-leddet er døgnlig, dreier { "90" } grader på et kvart døgn og har lastfaktoramplituden for hver rad; fysisk størrelsesorden i LEO); propagator::tests::the_s1_air_tide_flag_adds_exactly_the_s1_acceleration
+
+seg-8fda2ee90583 = gravity_sh, propagator (FieldEvaluator)
+
+seg-3f7d3003656e = tests/gravity_sh_high_degree.rs (Orekit i { "8" } punkter utenfor aksen: maks |da| { "2.2e-17" } m/s^{ "2" } ved N = { "70" }, kjøres alltid; { "3.5e-17" }, { "3.9e-17" } og { "7.3e-17" } m/s^{ "2" } ved N = { "200" }, { "360" }, { "2190" }, datastyrt på KSHANA_EGM2008_GFC); tests/cowell_tesseral_200_orekit_oracle.rs (bane på { "24" } t med 200x200, datastyrt: verste |dr| { "0.1317" } m, |dv| { "1.45e-4" } m/s; kontroll for grad 70 { "0.726" } m); enhetstester for gravity_sh (overensstemmelse med den klassiske evaluatoren til { "1e-13" } ved grad { "70" }, endelig differanse og kontinuitet ved polen på et felt med grad 2190, et underflytende ledd av grad 2190 mot en beregning med utvidet eksponent)
+
+seg-296a6fe8585b = orbit_determination (determine_orbit_batch_tracking, propagate_with_stm, is_visible), batch_ls (gauss_newton_analytic)
+
+seg-9493e02e3cd1 = tests/od_tracking_measurements_reference.rs ({ "8" } scenarioer: range-rate, az/el og blandet, LEO og MEO, uten støy og med seed sigma { "5" } m / { "5" } mm/s / { "1e-4" } rad, masker på { "5" } og { "10" } grader, mot Orekit { "12.2" }: synlige sett identiske; målingsverdier innenfor { "5.84e-8" } m, { "6.30e-10" } m/s, { "1.44e-13" } rad; STM innenfor { "1.2e-14" } relativt; tilstander med støy innenfor { "1.74" } cm og { "1.14e-5" } m/s; RMS etter tilpasning per type innenfor { "2.7e-4" } relativt; kshana uten støy mot referansen { "1.06e-8" } m; kshana uten støy mot Orekit { "1.464" } og { "1.740" } cm på to scenarioer, en registrert bom på terskelen på { "1" } cm); enhetstester for orbit_determination og batch_ls
+
+seg-f5a76ae1fcaa = sp3, precise_od
+
+seg-39a552abfcab = enhetstester i src/sp3.rs; tests/agency_galileo.rs::galileo_e11_sp3_accuracy_weighted_fit (innsjekket ESOC-fixture på { "8" } t, sigma { "0.032" } m fra headereksponent { "5" }: Tier-1 3D-RMS { "0.132" } m uendret, Tier-2 { "0.035" } m mot { "0.070" } m ved sigma { "1" } m, endringen kommer fra den ombalanserte empiriske a priori-begrensningen); tests/agency_swarm.rs (Swarm-produktet har ingen nøyaktighetskoder og faller tilbake, festet)
+
+seg-409f709cceb3 = gravity_pds, body, propagator, mars_frame
+
+seg-0fe6532ca74d = tests/planetary_gravity_pds.rs::a_shadr_field_attached_to_a_body_drives_the_propagator; gravity_pds::tests::with_gravity_field_is_opt_in
+
+seg-e3d75762b979 = gnss_navmsg (gps_cnav, gal_inav, gal_fnav, fec)
+
+seg-dbe0dd5dcf47 = gnss_navmsg::tests (CRC-24Q-kontrollverdi 0xCDE703; konvolusjonell impulsrespons; Viterbi retter injiserte feil; layoutbredder); tests/gnss_navmsg_roundtrip.rs (feltenes startbiter er lik ICD-bitnumrene; koding -> FEC -> interleave -> Viterbi -> dekoding går rundt innenfor en halv LSB); tests/gnss_navmsg_galileo_brdc_grid.rs (IGS BRDC 2018-133 Galileo-poster på LSB-rutenettet, verste { "3.6e-3" } LSB; den forhåndsregistrerte terskelen for antall satellitter bommet, { "15" } av { "20" }, FINDING)
+
+seg-b81cd9204f64 = hatch (HatchFilter), pvt (assemble_epoch_precise_smoothed, CarrierSmoother)
+
+seg-e892fffaaf07 = hatch::tests (støyfri gjennomgang; varians for hvit støy 1/(2N-1); omstarter); tests/hatch_wettzell_oracle.rs::hatch_finding_is_pinned (WTZR 2025-02-24 01-06 t, { "600" } epoker, N = { "100" }: median 3D-feil { "1.553" } -> { "1.116" } m, p95 { "3.473" } -> { "3.207" } m)
+
+seg-bdda05057c91 = rinex_obs (parse_obs)
+
+seg-44b76c5cb13e = tests/rinex4_obs_mao0.rs (de første { "4" } epokene i IGS MGEX RINEX { "4.00" }-filen MAO000USA_R_20231980000_01D_30S_MO, { "58" } satellitter, { "7" } systemer: headeroppføringer og verdier i første epoke er lik de publiserte litteralene); rinex_obs::tests::parses_a_rinex_4_header_with_its_new_records (syntetisk { "4.02" }-header fra spesifikasjonen)
+
+seg-439e23a5567e = rinex (RinexEphemeris::sv_position_ecef_bds_geo, NavParseOptions)
+
+seg-8c86b4b3a731 = tests/bds_geo_broadcast_oracle.rs (ekte C01-C04-poster: geostasjonær radius, lengdegrader 140.02/80.04/110.55/159.99 grader ved de publiserte posisjonene, |breddegrad| { "2.13" } grader med helningen mot { "6.65" } uten; den forhåndsregistrerte sammenligningen av broadcast mot presis SP3 er datastyrt på KSHANA_BDS_GEO_SP3 og er ikke kjørt); rinex::tests
+
+seg-75c2ea59f607 = fusion::carrier_tc (run_carrier_tc, CarrierTcCfg), fusion::trajectory (truth_epochs)
+
+seg-e27a18b3aae9 = tests/fusion_carrier_tc.rs (figur-8-kjøring: stabil 3D-RMS { "0.025" } m for bærebølge mot { "0.470" } m for kode på identiske målinger; { "12" } seeds gjennomsnittlig NIS/dof { "1.00" } og stabil NEES/dof { "0.92" }; et slip på 1 syklus oppdaget i sin epoke uten falske alarmer og med løsningen intakt; å slå av broadcast-korreksjonene øker kodefeilen fra { "0.51" } m til { "19.6" } m (iono) og { "8.0" } m (tropo); en støyfri kjøring konvergerer til { "0.3" } mm)
+
+seg-2811d9348db2 = fusion::pack (TightCfg, [tight]), scenarioene gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation
+
+seg-3f9bc3b0027f = tests/gnss_ins_packs.rs (hver pakke: fusjonert under fri INS over utfallet for begge sensorer; jernbane: tett { "5.3" } m mot løs { "12.9" } m for navigasjonsklasse og { "15.6" } m mot { "18.8" } m for taktisk klasse over utfallet, tilgjengelighet { "0.97" } mot { "0.95" }; tett tabell validert); tests/gnss_ins_legacy_trajectory_pin.rs (den løst koblede standarden er bit-identisk)
+
+seg-726b35d3e247 = fusion::coupled (CoupledPntFilter, CoupledPntBiasFilter, CoupledPnt3d), fusion (run_coupled_suite), hybrid (CoupledCfg)
+
+seg-260ef8ae3823 = tests/fusion_coupled_filters.rs (3D-filter over { "60" } seeds: gjennomsnittlig NEES i andre halvdel { "8.12" } for { "8" } tilstander, χ²-summen i siste epoke innenfor sitt { "95" } %-bånd; en klokkeposisjonsbestemmelse på { "0.1" } ns kutter 3D-posisjonssigmaen fra { "5.58" } m til { "3.07" } m; skjevhetsfilter over { "60" } seeds: χ²({ "5" })-summen i båndet, skjevhet innenfor { "3" } sigma i { "59" } av { "60" }; fusion-pnt-coupled med skjeve akselerometre: posisjon p95 { "18.7" } m / { "90.0" } m og integritet { "1.00" } / { "0.97" } koblet mot { "430" } m / { "4060" } m og { "0.006" } / { "0.000" } frakoblet); fusion::coupled::tests; tests/fusion_coupled_pack.rs (fusion og hybrid uten [coupled] er bit-identiske)
+
+seg-10d9b01f3ab2 = fusion::trajectory (TrajectoryCfg, Trajectory, kinematic_imu, parse_truth_csv), fusion::pack ([trajectory])
+
+seg-5a6b5289a473 = fusion::trajectory::tests (koordinert sving har ingen sidekraft og lastfaktor 1/cos φ; CSV-import gjengir en fløyet profil til { "1e-3" } m/s og { "1" } m); tests/gnss_ins_trajectory_library.rs (hver profil kjører og fusjonen slår fri INS over utfallet; hver flyr sin navngitte bevegelse; observerbarhet av kurs: yaw-sigma etter { "240" } s { "1.27" } grader på rett cruise mot { "0.039" } grader i figur-8 og { "0.062" } grader ved stopp og start); tests/gnss_ins_legacy_trajectory_pin.rs (gammelt resultat og referansehasjer er bit-identiske)
+
+seg-5807e4274501 = cr3bp (differential_correct_halo, PeriodicOrbit)
+
+seg-adec908f7883 = tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry (CAPSTONE mars { "2023" }, { "4" } perilune og { "5" } apolune: periode { "6.5004" } d mot { "6.5699" } d ({ "1.07" } %, terskel { "3" } %), apolune { "71 182" } mot { "71 215" } km ({ "0.05" } %, terskel { "5" } %), perilune { "3 385" } mot { "3 245" } km ({ "4.1" } %, terskel { "20" } %)); cr3bp::tests::reproduces_l2_southern_nrho_92_regime
+
+seg-d38407c0a9ab = dop_error_mc (run_geometry, check, TOLERANCES); dop_error_ci (run, GEOMETRIES); pvt (solve_spp); orbit (dop, dop_cofactor)
+
+seg-01d0a7046f8e = tests/uere_dop_monte_carlo.rs (position_error_is_sigma_times_dop_on_the_gnss_lib_py_geometries: alle { "104" } kontroller består i første kjøring etter forhåndsregistreringen e50c88d2, verste varians { "3.2" } %, RMS { "1.6" } %, korrelasjon { "0.012" }, gjennomsnitt { "2.2" } standardfeil, ellipsefraksjon { "0.0039" }; negative_control_a_doubled_pdop_fails_every_geometry; negative_control_elevation_dependent_errors_fail_the_low_elevation_geometries: begge kontrollene feiler som kravet er; position_error_is_sigma_times_dop_on_masked_skies: designnotatets to geometrier med maskert horisont, himmelen 10sat-mixed under forhåndsinnstillingene city-street ({ "4" } satellitter, PDOP { "16.6" }) og container-terminal ({ "9" } satellitter, PDOP { "2.5" }), alle { "26" } kontroller består i første kjøring etter forhåndsregistreringen 03999c11, tests/fixtures/dop/PREREGISTRATION-MASKED.md); tests/position_error_dop_ci.rs (en første, separat kontroll på fire håndvalgte himler (åpen, klynget, canyon, halv himmel; sigma { "1" } m, seed 0x0D0B5EED) med kjikvadrat-konfidensintervaller ved { "1e-6" } totalt over { "20" } kontroller: forhold { "0.987" } til { "1.009" }, løserens egen PDOP/GDOP lik kjernens til { "2.5e-12" }, og negative kontroller for en DOP-feil på { "10" } % og 1/sin(elevasjon)-feil; kjørt før forhåndsregistreringen, så den er rapportert, ikke forhåndsregistrert); dop_error_mc::tests; dop_error_ci::tests
+
+seg-557c0aa72056 = receiver_trust (geometry: GeometryTracker, geometry_ratio, sky_ratio, geometry_points, GeometryLabel; score: DeductionClass, score_with; monitors; live); telemetry (sample, prometheus, syslog, otlp)
+
+seg-fd57dab04d68 = tests/natural_degradation_trust.rs (a_stated_skyline_reads_the_fjord_as_geometry: på den syntetiske fjordpassasjen i scenarios/training/fjord-natural-degradation.toml trekkes de samme { "624" } epokene med og uten den oppgitte [skyline]; med den rapporteres sky-blocked på { "680" } epoker ({ "0" } uten: azimutgap-reserven ser ingenting i en tosidig fjord), open_fraction er { "0.758" }, og epokene i miljøklassen faller fra { "78" } til { "33" }, resten er tap av satellitter som den oppgitte horisonten lar ligge i det åpne; utenfor hendelsen endrer horisonten ingen score); receiver_trust::geometry::tests (håndutledede forhold ved tersklene, terskelkantene, rampen og taket, gulvet, etikettkantene, overstyringer av [geometry], DOP på den validerte kjernen, holdte og utløpte himler, ukjent ikke gjettet, signaltap, toleransen for dårlig geometri, sentineller for ingen posisjonsbestemmelse); tests/geometry_trust.rs (en rimelig maskert himmel merket og ikke scoret, en dårlig maskert himmel, et tap ved lav elevasjon, et effektfall, en forfalsket HDOP, totalt signaltap, et bortdrag under dårlig geometri, ukjent geometri, øktoverstyringer, live-skjemaet); tests/geometry_trust_no_change.rs (begge eksempeløktene er byte-identiske med { "0.35.0" } når de tilføyde nøklene er fjernet); tests/geometry_corpus_identity.rs (hvert innsjekket NMEA-korpus for fartøy, også som GPS-bare åpen himmel, og mannskapstreningsscenarioene: byte-identiske med { "0.35.0" } unntatt dårlige epoker, som skiller seg bare med geometrifradraget)
+
+seg-911ccf2cb486 = skyline (Canyon::cut_deg, Sector::contains, TerrainPoint::elevation_deg, reduce_terrain, SkylineCfg::build)
+
+seg-849ae7d82147 = skyline::tests (canyon_matches_hand_computed_wall_elevations; terrain_takes_the_curvature_drop; sectors_have_sharp_edges_and_wrap; a_preset_is_overridden_or_added_to_field_by_field; malformed_sections_are_refused)
+
+seg-d5ba7b502aec = skyline (PRESETS, preset, preset_list)
+
+seg-ef3717bfca79 = skyline::tests (presets_carry_the_note_dimensions_and_provenance)
+
+seg-4e6101547ab1 = geometry; orbit (cofactor_from_los, dop_cov, dop); surface (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg)
+
+seg-8ee1ff6b9975 = geometry::tests (ellipse_of_an_analytic_two_by_two_case; sky_geometry_equals_orbit_dop_on_the_same_visible_set; ecef_input_matches_azimuth_elevation_input; one_clock_per_system_adds_a_state_and_costs_geometry; monte_carlo_is_seeded_and_agrees_with_the_geometry; presets_propagate_and_are_seen_from_a_site); tests/dop_reference.rs (kjernen for én klokke mot gnss_lib_py)
+
+seg-085cbc64bab2 = holdover
+
+seg-b31ed8fc6801 = holdover::tests (mot rekursjon for kovarians i et Kalman-filter i flere trinn; hvit FM eksakt; rundtur); coast-varians-kjernen er eksternt validert i tests/gnss_denied_clock_holdover_reference.rs (mot scipy Van-Loan/brentq)
+
+seg-2a3a7ee9e8f3 = clock_library (card, condition, series), realdata::clk, allan (lag1_noise_id)
+
+seg-578497ef82a5 = tests/clock_library_device_cards_oracle.rs (gps_iif_cards_reproduce_the_recorded_finding; receiver_training_is_blocked_by_the_epoch_minimum; non_blind_cards_are_reported; forhåndsregistrert 2ec76864); clock_library::card::tests; clock_library::condition::tests; clock_library::series::tests; realdata::clk::tests; tests/clock_library_f9p_cards_oracle.rs (f9p_first_pipeline_reproduces_the_recorded_finding; f9p_corrected_pipeline_reproduces_the_recorded_finding; datastyrt)
+
+seg-d302e2ef46ad = clock_library (card)
+
+seg-00637c1e69f0 = tests/clock_library_periodic_cards_oracle.rs (periodic_cards_reproduce_the_recorded_finding; forhåndsregistrert fb475550); clock_library::card::tests (a_periodic_card_carries_the_sinusoid_a_power_law_card_cannot)
+
+seg-3016100a7015 = clock_state::tests (analytisk van-Loan Q; NEES; positivitet i PSD); tests/clock_state_reference.rs (full bane for predict+update — tilstand x og { "3" }×{ "3" }-kovarians P over { "1925" } steg / { "4" } parametersett mot filterpy { "1.4.5" }; verste |relΔ| { "2.8e-14" }); tests/clock_state_igs_holdout_oracle.rs::three_state_filter_on_held_out_igs_clocks_finding (fester funnet); tests/clock_state_ext_igs_fresh_oracle.rs::extended_filter_on_fresh_igs_clocks_finding; tests/clock_state_ext_igs_conditioned_oracle.rs::conditioned_extended_filter_finding (D9 runde { "3" })
+
+seg-509026100595 = timetransfer, timetransfer_adv
+
+seg-a1ad8fb8537d = timetransfer::tests (gjensidig kansellering; Sagnac-identitet i to former); tests/time_transfer_error_budgeting_reference.rs (Sagnac for omseiling av ekvator = { "207.386" } ns mot den publiserte Ashby-verdien { "207.4" } ns til <{ "0.05" } ns; pluss Sagnac/geodist-geometri krysskontrollert mot RTKLIB { "2.4.3" } geodist() kompilert fra C-kildekode)
+
+seg-10e0cb39ac3b = navsignal
+
+seg-1035f877de94 = navsignal::tests (BPSK egen-SSC = 2/3R_c; PSD med enhetsareal; DLL); tests/nav_signal_modulation_code_tracking_reference.rs (GPS C/A Gold kryss-/autokorrelasjon, eksakt heltallstreff mot uavhengig IS-GPS-200-kodegenerering; PSD for BPSK-R({ "1" })/sinus-BOC({ "1,1" }) mot et uavhengig scipy-periodogram); tests/nav_signal_betz_hein_published_oracle.rs (betz_text_correlation_values_over_1_ghz; hein_mboc_interference_improvements; finding_betz_side_lobes_and_multipath, festet)
+
+seg-4e1ac3f1b4a1 = quantum_imu::tests (k_eff; Mach-Zehnder T²; ramme for Freier-2016-gulvet); tests/quantum_inertial_sensor_reference.rs (overføringsfunksjon |H(ω)|, k_eff·T² og ASD for skuddstøy mot publiserte numeriske vektorer fra Cheinet { "2008" } / Peters / Freier); tests/quantum_inertial_measured_qpn.rs (gauguet_finding_qpn_floor_sits_below_the_measured_noise, festet; gradiometer_qpn_line_matches_janvier_model)
+
+seg-81802510f112 = quantum_imu::tests (a_max ligger ved ±π-halvfringekanten med 1/T²-skalering av området; gjenoppretting av innpakket fase er eksakt innenfor [−a_max,a_max] og aliaser med nøyaktig { "2" }·a_max utenfor; det entydige dynamiske området a_max/σ_a=π/σ_Φ er identisk på tvers av to svært ulike skalafaktorer for bølgelengde/T; CaiAccelerometer-metodene stemmer med de frie funksjonene)
+
+seg-ccc56dac1725 = inertial::quantum_imu (QuantumNavBudget)
+
+seg-60fb2adb58ce = budget_tests (skjevhet mot AccelModel-integrator; VRW mot analytisk integral); tests/quantum_inertial_dead_reckoning_reference.rs (VRW mot en uavhengig numpy Monte Carlo-dobbeltintegrasjon av hvit akselerasjonsstøy, verste avvik { "0.42" }% innenfor ±{ "3" }% over { "6" } coast-tider; skjevhet/skalafaktor mot en lukket verdi fra Groves { "2013" }; holdover-rundturer)
+
+seg-8f6825f614c7 = jamming::tests (broadband_q_equals_the_spectral_separation_closed_form og cw_q_equals_the_spectral_separation_closed_form: Q-tabellen, CW og smalbånd { "1" }, bredbånd og sveipet { "2" }, festet til de lukkede formene i navsignal; a_cw_jammer_is_more_damaging_than_broadband_noise_at_equal_js); tests/gnss_denied_jamming_resilience_reference.rs (FSPL/J-S/effektiv C-N₀ mot en uavhengig numpy-gjenutledning av linkbudsjettet i Kaplan & Hegarty §{ "9.4" }; reell JammerTest C/N₀ faller monotont gjennom terskelen på { "25" } dB-Hz); tests/jamming_jammertest_cn0_oracle.rs (forhåndsregistrert, blokkert, ikke kjørt)
+
+seg-e3ed02029c26 = spoof, spoof_detect, spoof_monitors
+
+seg-d6db95d3aa40 = tests/spoof_texbat_validation.rs (karakterisering av TEXBAT-parametere); tests/spoof_detection_jammertest_oracle.rs::monitors_against_the_published_onsets_reproduce_the_recorded_disagreement (fester funnet); tests/spoof_detection_jammertest_log_oracle.rs::engine_monitors_against_the_logged_onsets_reproduce_the_recorded_disagreement; tests/clock_library_tcxo_card_jammertest_oracle.rs (round_3_is_blocked_by_the_training_minimum; round_4_reproduces_the_recorded_finding; round_4b_reproduces_the_recorded_finding; D9)
+
+seg-9cb72e60e080 = tpl
+
+seg-b96e16aba41a = tpl::tests (lukkede referanser + CUSUM); examples/tpl_jammertest.rs (JammerTest { "2024" } kalibrering mot reell spoofing); tests/tpl_jammertest_coverage_oracle.rs::tpl_against_measured_time_error_reproduces_the_recorded_disagreement (fester funnet); tests/tpl_jammertest_log_oracle.rs::drift_state_tpl_against_the_logged_onsets_reproduces_the_recorded_disagreement
+
+seg-6094ed4985fc = altpnt, mapmatch, gravimeter, igrf
+
+seg-f841812dc204 = tests/alternative_complementary_pnt_reference.rs (CRLB for kartmatching; IGRF-14-felt); mapmatch::tests; gravimeter::tests; igrf::tests; tests/gravity_map_real_field.rs (referansetesten på 60 min uten GPS på det reelle EGM2008-feltet av grad 70, forhåndsregistrert i xval/icgem-egm2008/: matchet { "3106" } m, så terskelen på < { "500" } m er NOT MET og fastslått som bommet, og tidobbelt kutt i driften på { "70.6" } km er MET; pluss Monte Carlo av kartfeil med seed); altpnt::terrain::tests::emag2_format_grid_reproduces_the_synthetic_magnetic_channel og tests/emag2_real_grid.rs (datastyrt EMAG2v3-leser på et reelt utsnitt; ingen navigasjonsutfall påstått på det); tests/terrain_slam_rbpf.rs (felles kartestimering, en RBPF i FastSLAM-stil, mot SITAN med kjent kart på en korrelert kartfeil på { "15" } m over { "20" } seeds, forhåndsregistrert i xval/terrain-slam-rbpf/: { "1.5" }% gjennomsnittlig gevinst og bedre i { "10" } av { "20" }, så tersklene på { "10" }% og 12 av 20 er NOT MET og fastslått som bommet; ingen skade på et perfekt kart, MET)
+
+seg-4bcb7eeb020a = report, scenario; CI (golden/determinism/SBOM)
+
+seg-3667ebf0582a = tests/golden.rs, tests/determinism.rs, tests/cross_platform_golden.rs; tests/reproducibility_software_assurance_reference.rs (den genererte SBOM-en validerer med null feil mot det offisielle JSON-skjemaet for CycloneDX { "1.5" } over hele den utleverte grafen med 66 komponenter: standard + python + wasm-funksjoner, uten dev-avhengigheter)
+
+seg-e4edd8fd654c = impairment_eval::tests (AUC perfekt=1/identisk=0.5/likt={ "0.125" }, ROC monoton, fusjonert>{ "0.8" }, separasjon av lag per klasse, lekkasjevern, reproduserbart korpus, distribusjonsskift flagger optimisme); dominance_demonstrators (nåbar + reproduserbar + MODELLED-ikke-VALIDATED + selvkonsistent optimismegap)
+
+seg-28583cba1c55 = impairment_study, impairment_ml, eval_stats
+
+seg-b30ce36e7afb = impairment_study::tests (orakel-AUC per klasse≈{ "1" }, lært optimismegap>{ "0" }, rutenettform + bootstrap-KI omslutter gjennomsnittet + positiv skaleringstrend, ID-trekk endelige, gap-prediktoren slår å predikere gjennomsnittet under BÅDE leave-one-detector-out- og leave-one-class-out-CV + deterministisk); impairment_ml::tests (logreg skiller + deterministisk + tap↓, MLP løser XOR som en lineær modell ikke kan + seed); eval_stats::tests (bootstrap/DeLong/Spearman/ridge mot lukkede former)
+
+seg-e0f68f57399d = quantum_trade::tests (gjenoppretting ved rundtur av ADEV, ikke-negativitet i NNLS, gulvforbehold til stede/fraværende, nytte>{ "1" }, monoton omhylling + grense for alt-PNT); dominance_demonstrators (målt ADEV er datadrevet, ikke antatt gulv, antatt klasse flagger gulv + forbehold, misdannet kurve avvist, MODELLED-ikke-VALIDATED)
+
+seg-550bd3cee63e = space_weather::tests (Kp↔ap eksakt i rutenettpunktene + rundtur + monoton, gjennomsnitt av daglig Ap, eksosfærisk T mot publisert solmin/middel/maks + anker for stormøkning, tetthet lik enhet ved referansen, svingning over solsyklusen i det observerte båndet { "5" }–{ "10" }×, scenario reproduserbart + MODELLED-ikke-VALIDATED + avslag utenfor område); dominance_demonstrators (nåbar + reproduserbar + fysisk T + MODELLED-ikke-VALIDATED); tests/space_weather_density_accelerometer_oracle.rs::jacchia71_finding_is_pinned
+
+seg-80847ffc93bf = launch
+
+seg-2095b880eb39 = launch::tests (oppskyting rett mot øst når i=breddegrad, KSC→ISS = lærebokens { "45" }°, polar = N/S, i<breddegrad kan ikke nås, ekvatorbonus på { "465" } m/s, planendring { "10" }° ≈ { "1.34" } km/s + { "180" }° = 2v, antall daglige muligheter, scenario reproduserbart/MODELLED + dogleg-bane); dominance_demonstrators (nåbar + reproduserbar + KSC→ISS { "45" }° + MODELLED-ikke-VALIDATED); tests/launch_geometry_orekit_oracle.rs::burnout_azimuth_reproduces_the_target_inclination_in_orekit; tests/launch_geometry_orekit_oracle.rs::earth_rotation_speed_gap_is_recorded_as_a_finding; tests/launch_geometry_orekit_oracle.rs::true_pole_site_speed_matches_orekit_at_a_fresh_epoch_and_longitudes
+
+seg-c763ac7e3cda = reentry::tests (topp-g uavhengig av ballistisk koeffisient + fysisk g-bånd, vokser med brattere γ / raskere innflyging, hastighet ved topp-g = V_e·e^(−1/2) og toppvarme = V_e·e^(−1/6) raskere, høyde ved topp-g fysisk + dypere for høyere B, scenario reproduserbart/MODELLED + degenerert geometri avvist); dominance_demonstrators (nåbar + reproduserbar + V_e·e^(−1/2)-andel + MODELLED-ikke-VALIDATED); tests/reentry_reconstruction_oracle.rs::reentry_overprediction_is_recorded_as_a_finding; tests/reentry_point_mass_reconstruction_oracle.rs::point_mass_peak_deceleration_matches_reconstructed_entries (bare krysskontroll); tests/reentry_point_mass_accelerometer_oracle.rs (blokkert, ikke kjørt)
+
+seg-885946a29a26 = contact_schedule (es_n0_db, select_modcod, fspl_db, atmospheric_loss_db, ccm_modcod, pass_capacity, AcmLinkScenario); passes::predict_passes_apparent
+
+seg-00889ed96256 = contact_schedule::tests::modcod_efficiency_closed_form_matches_the_printed_table; contact_schedule::tests::modcod_selection_is_monotone_and_honours_the_margin; contact_schedule::tests::link_budget_pieces_have_closed_forms; contact_schedule::tests::acm_link_defaults_run_and_acm_beats_ccm
+
+seg-dece72e58683 = contact_schedule (conflicts, objective, delivered, schedule_chronological, schedule_greedy, schedule_optimal, ContactScheduleScenario)
+
+seg-d21204ff6b58 = contact_schedule::tests::conflicts_cover_turnaround_and_one_station_per_satellite; contact_schedule::tests::greedy_is_feasible_and_the_exact_solver_beats_or_ties_it; contact_schedule::tests::exact_solver_matches_brute_force_and_plans_are_feasible; contact_schedule::tests::exact_solver_declines_above_the_limit; contact_schedule::tests::contact_schedule_defaults_run_reproducibly; contact_schedule::tests::scenarios_reject_bad_inputs
+
+seg-c6fab6332435 = frugal (over walker)
+
+seg-257dfa053c24 = frugal::tests (håndutledet kostnad per dekning 48/96={ "0.5" }, ROI-forhold { "2.667" }, rekkefølge i intervall + vern mot null dekning)
+
+seg-412105b0f541 = integrity_impact (over raim)
+
+seg-35bc1db56d2a = integrity_impact::tests (samme bom flipper Available→MI→HMI etter hvert som konteksten strammes inn; konservativ PL→Unavailable; HMI per akse; inndatavern)
+
+seg-fd95a229bdb3 = inertial::cai_params (over inertial::quantum_imu)
+
+seg-061a65493a4a = inertial::cai_params::tests (fysisk VRW havner innenfor den siterte VRW-rammen på alle { "3" } nivåer; rått område for fringeflertydighet beregnet fra k_eff·T²; konservativt budsjett driver mer enn best; hver ramme har kilde + bekreftelsesflagg; vern for rekkefølge i rammer)
+
+seg-07ef7fe3d770 = src/benchmark/stanford.rs::tests (fire regioner + inklusive grenser + |feil| + PL>AL utilgjengelighet); tests/tib_scorer_reference.rs (klassifiseringsantall mot uavhengig numpy på et fast syntetisk sett)
+
+seg-60f627e001ad = src/benchmark/coverage.rs::tests (ren/underbundet/alt utilgjengelig/tom); tests/tib_scorer_reference.rs (antall + rater + coverage_ok mot numpy til { "1e-12" })
+
+seg-6b48be996d76 = src/benchmark/faults.rs::tests (forskyvningsprofiler, monoton coast, flagging av uoppdagbare sett, konsistens i max_offset, nøyaktig to uoppdagbare klasser)
+
 seg-b19cbd364dea = src/benchmark/scorecard.rs::tests (referanse-PL absorberer; ødelagt PL uabsorbert-aldri-oppdaget; dom om påvisbar dekning; ærlighetsegenskapen at ingen dom om dekning/påvisning kan nås for et scenario som ikke kan påvises)
 
 seg-6d963d838eed = hybrid_integrity::tests (den løste konfigurasjonen gjengis for standardverdier og for overstyringer, uten å sende bølgelengden en runde via meter; hver units-oppføring har både en enhet og en proveniensklasse; hvert felt units-blokken nevner blir faktisk sendt ut, slik at den ikke kan dokumentere et spøkelsesfelt)
@@ -2380,6 +2552,168 @@ seg-4b42d4f76a35 = tests/lunar_infra_studies_3_5.rs (terskel G1: analytiske part
 
 seg-2e097e952eb5 = lunar_beacon::tests (horisontsynlighet mot den lukkede formen L01; den beacon-utvidede DOP mot den bare; feilbudsjettets kvadratsum; forholdet DOP-til-meter); tests/validate_p2_beacon_before_after_table.rs (hele før/etter-tabellen festet til en innsjekket golden ved { "1e-9" } relativt); tests/validate_p2_beacon_before_after_independent_dop.rs (samme geometri gjennom en UAVHENGIG DOP-sti, slik at utvidelsen ikke kontrolleres mot kjernen som produserte den); tests/validate_lunar_beacon_anise_visibility_dop.rs::beacon_visibility_and_augmented_dop_match_anise_and_numpy
 
+seg-f8ac8be96a63 = cmpl_horizontal avgrenser den horisontale posisjonsfeilen (k-sigma) som den blinde fellesmodusklassen bidrar med, ved å danne blind_position_covariance = S<em>Cov</em>S^T og projisere den til ENU; integrity_envelope rapporterer hpl_total = hpl_araim + cmpl. Skillet paret er laget for å vise: residualtesten i RAIM/ARAIM er bevisbart blind for feil i range(G), men beskyttelsesnivået i ARAIM er det ikke - dets feilfrie ledd avgrenser dem allerede opp til en leverandørs URA pluss nominell bias. CMPL er derfor bare det overskuddet på tvers av leverandører som URA/ISM for en enkelt leverandør ikke overgrenser, og summen er en konservativ grense etter trekantulikheten, ikke en RSS, og gjelder bare der dette overskuddet ikke allerede ligger innenfor URA.
+
+seg-9e4affc02b0b = lunar_common_mode::tests (common_mode_covariance_gives_positive_cmpl, parity_only_covariance_gives_near_zero_cmpl, envelope_sums_the_two_classes, state_map_matches_split)
+
+seg-4f3b4fe41736 = lunar_combination (lunar_observability) + fim
+
+seg-e927515cc210 = lunar_combination::tests (rangdefekt uten jordgrunnlinjer; tre grunnlinjer gjenoppretter full rang — terskelen på 3 stasjoner følger av informasjonsrangen, ikke av løsningsfeil; stasjonens CRLB nås av estimatoren med effektivitet { "0.98" }; CRLB strammes monotont med grunnlinjer); tests/lunar_observability_numpy_oracle.rs::lunar_observability_matches_numpy_on_the_committed_jacobians
+
+seg-84ece56ff3e9 = lunar_afs::codes, lunar_afs::lsis, lunar_afs::params (IS-GPS-800J indices)
+
+seg-d111b6550515 = lunar_afs::codes::tests (registre med maksimal lengde, Legendre-balanse, rundtur for G2-forsinkelse, sammensetning av nivåer); tests/lunar_afs_codes_lsis_reference.rs::afs_codes_finding_one_misprinted_table_cell (uten LSIS-bufferen: fire siterte tall låser funnet; med den: { "2 937 232" } chips og biter mot filene i LSIS-vedlegg { "3" }, de trykte første/siste { "24" } chipsene, Legendre-tabellene D-1 og E-1 og G2-initialiseringene gir nøyaktig ett avvikende element, cellen 'siste { "24" } chips' for PRN { "147" } i tabell E-5, som dupliserer den for PRN { "151" } mens filen i vedlegg { "3" } stemmer overens med generatoren); den strenge forhåndsregistrerte testen afs_codes_match_lsis_v1_tables_and_annex3_bit_exact er ignorert med dette gapet
+
+seg-8cd700abad59 = lunar_afs::waveform (recording and truth labels), xval/lunar-afs/run_pocketsdr.sh
+
+seg-22dbd05adf9c = tests/lunar_afs_decodability_pocketsdr_v3_oracle.rs::third_run_finding_c1_c2_hold_g0_is_receiver_nondeterminism (tredje forhåndsregistrering: { "2" } noder, { "4" } kanaler sporet, verste Doppler-feil { "0.57" } Hz, verste kodeforskyvningsfeil { "0.008" } chip, alle { "6" } rammer dekodet med riktig TOI over overgangen { "99" } -> { "0" } og med tilsvarende delramme { "2" }; G0 ikke nådd slik den er skrevet, mottakerens egen variasjon fra kjøring til kjøring i oppfangingspostene); tests/lunar_afs_decodability_pocketsdr_4bit_oracle.rs::decodability_finding_five_violations (andre: { "5" } brudd); tests/lunar_afs_decodability_pocketsdr_oracle.rs::first_run_finding_no_acquisition_outside_the_receivers_4_bit_range (første: ugyldig); de strenge testene i de tre filene er ignorert med sine gap
+
+seg-9b511cb035c0 = gps_lnav, sdr
+
+seg-83c50906fe74 = tests/gps_l1ca_gpssdrsim_cross_generator.rs::gps_sdr_sim_truncates_where_the_broadcast_integer_needs_rounding (låst funn); tests/gps_l1ca_gpssdrsim_cross_generator.rs::ca_codes_lnav_fields_and_parity_match_gps_sdr_sim_bit_exactly (streng, ignorert med gapet); gps_lnav::tests
+
+seg-7b32ce65d953 = iq::acq (acquire, AcqConfig); iq::io (decode_samples); iq::scene (GpsL1Ca)
+
+seg-538f0f38481a = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_is_crossed_on_gps_sdr_sim_noise_free_samples (låst funn); tests/iq_gpssdrsim_cross_generator.rs::acquisition_finds_gps_sdr_sim_satellites_in_its_samples (streng, ignorert med gapet)
+
+seg-ee030053dc63 = iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm)
+
+seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } av { "5900" } blokker mot det binomiske intervallet på { "99" } % [{ "40" }, { "80" }] for P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, forhold { "0.0131" } mot { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } mot { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (streng, ignorert med gapet); tester for iq::campaign::detect; tester for iq::monitor::stats (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (de låste sjekksummene er uendret uten tabellen)
+
+seg-e214fbcbf22e = iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference)
+
+seg-c7d9da2a1afd = tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance (AUC cn0_drop { "0.500" }, sqm_delta { "0.566" }, power_drop { "0.639" } på oppgitte hendelser som ikke demper noe); r1_the_cn0_drop_roc_separates_6_db_attenuations (streng, ignorert med gapet); tester for iq::campaign::detect (the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events)
+
+seg-f1371f2a4da4 = iq::labfit (campaign, cn0, iqfit, iqreport, schema, mod); iq::cli::labfit
+
+seg-27c989c6bdde = tests/iq_labfit_campaign.rs: bar_c_holdout_prediction_intervals_cover_between_80_and_98_percent (PI90-dekning { "0.891" } over { "558" } intervaller, { "0.900" } over { "10" } hendelser med tid til tap under hver låsmodell), the_report_carries_its_inputs_censoring_validation_and_labels (inndata, sensurering, [validation]-hash og verdikter, revisjon av enhetsblokken), the_cluster_bootstrap_reproduces_from_the_campaign_and_seed, a_validation_mode_fit_refuses_to_start_without_its_table; bar_a_prime_delta_eff_is_recovered_and_q_is_stated_not_fitted, bar_d_closed_form_threshold_matches_the_direct_estimate_within_1_db og bar_b_prime_ci_subset (strenge, ignorert med gapet); bar_b_prime_full_set_of_50_campaigns (ignorert, kjøres før utgivelse); tester for iq::labfit::cn0 (eksakt Q-delta-degenerasjon, delta-gjenvinning ved oppgitt Q, invers av lukket form for terskelen); tester for iq::labfit::iqfit (betingelsene for låsmodellen reproduserer C/N0-modellen eksakt); tests/iq_labfit_followup.rs (oppfølgingen registrert i 1e532f84: s1_delta_eff_on_the_stepped_campaign MET, s2_d_as_written_on_the_stepped_campaign som hevder det registrerte NOT MET, r1_dwell_corrected_d_on_the_fresh_ramp_campaign MET, i release)
+
+seg-50acb4bcdd8a = tests/gps_lnav_rtklib_decode_oracle.rs::rtklib_recovers_every_integer_and_differs_only_by_its_decimal_two_to_the_minus_43 (låst funn); tests/gps_lnav_rtklib_decode_oracle.rs::kshana_lnav_subframes_decode_in_rtklib_to_the_broadcast_parameters (streng, ignorert med gapet)
+
+seg-90748b60b720 = tests/gps_lnav_rtklib_integer_oracle.rs::kshana_lnav_integers_decode_in_rtklib_from_an_unseen_broadcast_file ({ "32" } satellitter i IGS-kringkastingsfilen for { "2" } mars { "2025" }: { "960" } av { "960" } ord består RTKLIB-paritet, { "96" } av { "96" } delrammer dekodes, { "608" } av { "608" } dekodede kringkastede heltall er lik Kshanas, hver inngang innenfor et halvt kvantum, uke og tider eksakte); gps_lnav::tests
+
+seg-c20f6fc678c5 = acquisition, portable_math, realdata::ion_sdr, realdata::lugre
+
+seg-6bf9cba81288 = tests/lugre_acquisition_gnss_sdr_oracle.rs::finding_dc_artefacts_and_no_contemporaneous_flight_cn0 (låst funn, datastyrt); tests/lugre_acquisition_gnss_sdr_oracle.rs::acquisition_and_relative_cn0_on_lugre_iq_match_gnss_sdr_and_the_flight_receiver (streng, ignorert med gapet); acquisition::tests; realdata::ion_sdr::tests; realdata::lugre::tests
+
+seg-709106f38b9d = acquisition, realdata::ion_sdr
+
+seg-cfefde0dbf55 = tests/lugre_acquisition_predicted_doppler_oracle.rs::noise_alone_crosses_the_sample_power_threshold_on_lugre_iq (låst funn, datastyrt); tests/lugre_acquisition_predicted_doppler_oracle.rs::acquired_doppler_differences_on_lugre_iq_match_the_orbit_prediction (streng, ignorert med gapet)
+
+seg-b93425830963 = tests/lugre_acquisition_cell_average_doppler_oracle.rs::strong_pairs_match_the_prediction_only_with_the_doppler_sign_reversed (låst funn, datastyrt); tests/lugre_acquisition_cell_average_doppler_oracle.rs::cell_average_acquisitions_on_lugre_iq_match_the_orbit_predicted_doppler (streng, ignorert med gapet)
+
+seg-a6cce9d1c2fc = acquisition, realdata::ion_sdr, realdata::lugre
+
+seg-e953a0bb294b = tests/lugre_surface_acquisition_doppler_oracle.rs::each_surface_acquisition_is_a_single_predicted_visible_satellite (låst funn, datastyrt); tests/lugre_surface_acquisition_doppler_oracle.rs::surface_acquisitions_match_the_orbit_predicted_doppler (streng, ignorert med gapet)
+
+seg-b4e5e57515cc = lunar_dpnt::tests (klokkens fellesmodus kanselleres eksakt; residualen vokser med grunnlinjen; gjenbruker SBAS PL; antall satellitter respekteres opp til byggerens grense på { "24" }, så en større konstellasjon ikke i det stille kan gi en mindre); tests/lunar_differential_pnt_reference.rs (enkeltdifferanse-residual + WLS-posisjonsløsning mot RTKLIBs lsq() kompilert fra C-kildekode)
+
+seg-6a567344f386 = lunar_interop::tests (OEM bærer månens REF_FRAME/TIME_SYSTEM; tidsmetadata gjør rundtur; KIF-omslag); tests/lunar_interoperability_export_reference.rs (kshanas utsendte måne-OEM tolket på nytt av det uavhengige Python-biblioteket <c1/>: symbolene REF_FRAME/TIME_SYSTEM/CENTER + tilstand per epoke til formatpresisjon; en ødelagt eksport avvises); tests/lunar_interop_oem_oracle.rs::recorded_two_reader_outcome_is_for_todays_export
+
+seg-952626fc6feb = resilience::arch, resilience::score, resilience::diversity, resilience::timeline
+
+seg-921e4d47fd96 = resilience::score::tests (monotonisitet, grenser for sammensatt verdi, nivåtak, modellert opphav); resilience::diversity::tests (invers Simpson, fellesmodus, SPOF)
+
+seg-718240555c3c = resilience::stats, resilience::study, resilience::panel
+
+seg-0e1bd42aca5a = resilience::stats::tests (Kendall-tau-håndeksempel, Dirichlet-simpleks, flip-rate); resilience::study::tests (stabilitetskontroll, vitne for ustabilitet, deklarert mot målt, diversitetskollaps)
+
+seg-246c5acb36ac = representativeness
+
+seg-300e70ee2f22 = representativeness::tests (validated-needs-external-anchor, modelled-needs-gap, modelled-TRL-ceiling, malformed-band, JSON fields)
+
+seg-03c943a8f1fc = qtrade
+
+seg-2d5a97db03cb = qtrade::tests (nyttepolaritet høyere/lavere er bedre, pakker en ekte TradeResult troverdig inn, uærlig evidens avvises, validert kvalitetsmål krever ekstern forankring, deterministisk JSON)
+
+seg-fe77856b9e9d = quantum_devices::tests (klokkekort ærlige og ordnede; sammenfiltringspresisjon ~1/sqrt(tau); detektert rate -10x/10dB; mørketellinger forverrer; systematiske gulv avgrenser; kort modellert + gyldig)
+
+seg-65f4bc801f94 = timetransfer_chain::tests (presisjonen bedres med integrasjon; kvante kan både vinne OG tape; PL endelig-positiv; sikkerhetskvalitetsmål i [{ "0,1" }] og vokser med angrepsforsinkelse; anomali-Pd monoton; trade is_honest)
+
+seg-52d8ccc852f8 = quantum_nav_od::tests (kvante slår klassisk over et langt bortfall; fordelen avhenger av bortfallet; trade is_honest); tests/gnss_free_quantum_navigation_reference.rs (vekst i dødregningsposisjon mot en uavhengig dobbeltintegrasjon i Octave + den publiserte støyforankringen fra Freier-2016)
+
+seg-8e49ee940482 = quantum_faults::tests (analytiske AUC-kjenteverdier; empirisk bootstrap-AUC omslutter den lukkede formen; kvante oppdager mindre feil / høyere AUC; fordelen forsvinner for svært store feil; katalog med 5 klasser; trade is_honest)
+
+seg-d0119a3cb762 = geolocation
+
+seg-f85f780a9859 = geolocation::tests (støyfri TDOA forover→invers til { "1e-6" } m; J·CRLB=I med en symmetrisk PD-kovarians; sporet av CRLB-posisjonsvariansen er ikke-økende når en mottaker legges til; felles TDOA+FDOA gjenvinner posisjon+hastighet til en bevegelig kilde; <{ "4" } mottakere avvises); tests/geolocation_reference.rs (rundturer over fire geometrier med et 3D-variert nettverk; Gauss–Newton-estimatoren når sin Cramér–Rao-grense — empirisk feilkovarians følger den analytiske grensen over { "4000" } Monte Carlo-forsøk); tests/geolocation_crlb_published_oracle.rs (ho_chan_1993_maximum_tdoa; ho_xu_2004_fig7_with_the_authors_corrected_source; ho_xu_2004_bound_matches_the_authors_code; finding_ho_chan_ottawa_printed_values_are_not_the_bound og finding_ho_xu_fig7_printed_source_is_not_the_plotted_one, låst)
+
+seg-47854be05818 = entry_eo_ascent::entry_heating (stagnation_heat_flux, simulate_entry)
+
+seg-067596c7a683 = entry_eo_ascent::entry_heating::tests::heat_flux_relation_has_the_published_form_and_constants; entry_eo_ascent::entry_heating::tests::lift_lowers_peak_deceleration_and_heat_flux_of_a_shallow_entry; entry_eo_ascent::entry_heating::tests::mars_entry_runs_with_the_mars_constants; tests/entry_stardust_published.rs (registrerer { "746" } W/cm2 for Stardust uten terskel)
+
+seg-b15628833cf8 = entry_eo_ascent::eo_radiometry (Imager, snr_budget, giqe4_niirs, EoRadiometryScenario)
+
+seg-86769d0258ad = entry_eo_ascent::eo_radiometry::tests::diffraction_mtf_has_its_closed_form_values; entry_eo_ascent::eo_radiometry::tests::a_pure_pixel_aperture_has_a_ramp_edge_and_rer_one; entry_eo_ascent::eo_radiometry::tests::a_gaussian_blur_has_the_normal_cdf_edge; entry_eo_ascent::eo_radiometry::tests::snr_budget_scales_as_shot_noise_when_signal_dominates; entry_eo_ascent::eo_radiometry::tests::giqe4_switches_coefficients_at_rer_0_9_and_falls_with_gsd
+
+seg-4e91b2b5c9e1 = entry_eo_ascent::ascent (simulate_ascent, AscentScenario); reentry::us76_pressure
+
+seg-a5f4b59e7ca1 = entry_eo_ascent::ascent::tests::the_loss_identity_holds_to_integration_error; entry_eo_ascent::ascent::tests::vertical_vacuum_burn_has_only_gravity_loss_and_stays_vertical; entry_eo_ascent::ascent::tests::us76_pressure_has_the_standard_values; entry_eo_ascent::ascent::tests::a_larger_kick_lowers_burnout_flight_path_angle
+
+seg-70ffbdec1a87 = twstft_budget (counter_readings, solve_offset, combined_uncertainty, flicker_phase, two_way_series, series_stability); time_transfer_budget (TimeTransferBudgetScenario, read_series)
+
+seg-998c0585be86 = twstft_budget::tests (toveisligningen gjenvinner forskyvningen eksakt; Sagnac-leddet er lik BIPM-sløyfens lukkede form; det ionosfæriske leddet følger frekvensdelingen og troposfæren kanselleres; flimmerfase har en flat TDEV; en døgnrest løfter TDEV nær et halvt døgn; en resiprositetsbias flytter forskyvningen og ikke TDEV; serie-stabilitet fjerner en rate); time_transfer_budget::tests
+
+seg-d36d667bfa06 = optical_atmosphere (rytov_variance, scintillation, gamma_gamma_cdf, fade_margin_db, aperture_averaging_factor, cloud_optical_depth, clear_air_optical_depth); optical_linkbudget (optical_link_budget_atmosphere)
+
+seg-eb08517c6ca2 = tests/optical_atmosphere_reference.rs (forhåndsregistrerte terskler A1-A3 mot den uavhengige mpmath-referansen: { "216" } Rytov-rutepunkter med verste relative feil { "3.4e-7" } mot en terskel på { "1e-6" }, scintillasjon verst { "4.5e-16" }, aperturfaktor verst { "5.7e-16" }, { "96" } gamma-gamma-fadingsannsynligheter verst { "1.3e-12" } i log10, sky og klarluft optisk dybde verst { "6.6e-16" }); tests/optical_atmosphere_no_moved_output.rs (terskel A5: lenkebudsjettet med samlet tap og de eksisterende utdataene for stedstilgjengelighet er bit-identiske med basis-committen over { "1,000" } parametersett)
+
+seg-70e033b9dcab = optical_weather; optical_sitediv; optical_techniques; optical_atmosphere_scenario
+
+seg-66ac747dbe38 = tests/optical_atmosphere_identities.rs (terskel A4: rho = { "0" } er lik den uavhengige unionen og rho = { "1" } det beste enkeltstedet til { "1e-12" }, og null brudd på monotonisitet i antall steder og i korrelasjonen; den første kjøringen av denne terskelen bommet med { "3e-9" } fordi normalfordelingens CDF som var i bruk var Abramowitz-Stegun-formen på { "1.5e-7" }, en implementasjonsdefekt erstattet av CDF med ufullstendig gamma og terskelen uendret); optical_weather::tests og optical_sitediv::tests (monoton margin, skytaket som lukket form, identitetene for bortfallsvarighet, invertering av marginsøket)
+
+seg-95a61b2025cb = optical_outage_holdover (couple, clock_psds); holdover (coast_phase_sigma, holdover_seconds, phase_to_range_m)
+
+seg-b47fe3bc618f = tests/optical_atmosphere_identities.rs (terskel A6: tidsfeilen per bortfall er lik holdover::coast_phase_sigma og avstandsfeilen er lik phase_to_range_m bit for bit over { "9" } klokker, { "3" } gjennomsnittsvarigheter, { "3" } spredninger og { "4" } kvantiler); optical_outage_holdover::tests
+
+seg-86ae3e4b0c16 = optical_timeseries (site_series, SiteModel, SeriesSpec, Series); optical_atmosphere_scenario (TimeseriesSpec)
+
+seg-a19b90ab43ec = tests/optical_atmosphere_timeseries.rs (terskler T1-T6 i xval/optical-atmosphere/PREREGISTRATION-timeseries.md, fastsatt før første kjøring: samme seed gir samme bytes og en annen seed andre bytes; ingen nøkkel uten tabellen; over { "8760" } t ved { "600" } s, seeds { "37" } og { "38" }, den realiserte tilgjengeligheten for hvert av de tre standardstedene innenfor { "6" } punkter fra den oppgitte (verst { "3.3" }) og den realiserte skyandelen innenfor { "5" } punkter fra den oppgitte sannsynligheten (verst { "2.1" }); marginen er lik budsjettet minus de to fadingene og oppe er lik margin ikke negativ i hvert trinn; ingen ikke-portabelt matematikkall i modulen; for lange kjøringer og ugyldige trinn avvises)
+
+seg-3c8d970a385d = odf (parse_odf, Odf, OdfObservation, OdfRamp, seconds_1950); mars_od (DopplerModel, RampTable, compress_two_way, MarsDynamics, fit, fit_damped); naif_kernel (SPK type { "1" }); gravity_pds (SphericalHarmonicField::from_shadr)
+
+seg-09bfff22ee94 = tests/mro_odf_reader_label_oracle.rs (en virkelig MRO ODF, 2007-304/305, mot sin PDS-etikett: antall poster, gruppeposisjoner, stasjoner, start- og stopptider og datatyper holder; radantallet i tabellen på slutten av filen bommer med én, en etikettinkonsistens, låst som et funn); odf::tests (håndbygd rundtur for post, epoken { "1950" }); tests/mro_odf_short_arc_od_oracle.rs (datastyrt, inndata låst med SHA-256, månedlig CI med virkelige data påkrevd: Doppler predikert fra MRO-navigasjonsrekonstruksjonen mro_psp5 på de skårede passene for DSS { "63" } og DSS { "14" }, { "12.5" } mHz RMS, terskel { "30" } mHz, nådd; den registrerte banebestemmelsen ga ingen bane, låst som et funn; kjøring { "2" } med en dempet estimator, registrert separat: bane { "0.36" } km RMS og { "0.53" } km maksimum mot mro_psp5, nådd, Doppler etter tilpasning { "48.6" } mHz mot { "30" } mHz, ikke nådd, låst som et funn; leser for SPK type { "1" } mot CSPICE, { "5e-7" } m); mars_od::tests
+
+seg-526efea83384 = aocs_mekf (Mekf, GyroSim, attitude_error, spd_solve6); aocs_kind (estimator)
+
+seg-1650d00d45ad = aocs_mekf::tests::mekf_is_consistent_over_monte_carlo_seeds ({ "40" } seeds, gjennomsnittlig NEES med seks frihetsgrader over andre halvdel innenfor { "4.5" } til { "7.5" }); aocs_mekf::tests::star_tracker_updates_bound_the_attitude_error; aocs_mekf::tests::attitude_error_is_the_body_frame_small_angle; aocs_kind::tests::estimator_loop_runs_and_reports_consistency
+
+seg-4da98593fe6a = aperture_duty::tests (et vindu som slutter nøyaktig når det neste begynner konkurrerer ikke, og å flytte det ett sekund tidligere koster nøyaktig ett sekund — off-by-one-vakten; overlappende vinduer utover antall aperturer setter økten med lavere rang i bortfall, med konkurranseintervallet låst; arbitreringspolicyen avgjør hvilken tjeneste som holder aperturen, med alle tre policyenes tall låst på én plan; først-til-mølla avbryter ikke en økt som allerede holder en apertur; en økt som taper arbitreringen ved sin start får en apertur når en blir ledig; de tre driftsandelene dekker hvert tilgjengelige aperturesekund over { "3" } policyer × { "4" } antall aperturer; å legge til en apertur øker aldri noe økts bortfall, målt over { "200" } pseudotilfeldige planer × { "3" } policyer × hvert antall aperturer; nok aperturer til hver økt gir ikke noe bortfall i det hele tatt; rapporteringshorisonten klipper planen og setter nevneren for driftsandelen; en predikert passliste blir en kontaktplan uten en andre vindustype; driftsandelstallene for den medfølgende planen er motorutdata for én og to aperturer; rapporten oppgir policyen som ga tallene; hvert rapporterte tall har en enhet og en proveniensklasse; scenarioet er reproduserbart og erklærer seg selv som MODELLED; scenarioet avviser en plan det ikke kan planlegge); api::tests::aperture_duty_cycle_kind_round_trips_through_the_dispatch
+
+seg-875ebc4e1cc4 = lunar_jamming (composing jamming, lunar_service, lunar)
+
+seg-d206adbe8e04 = lunar_jamming::tests ({ "17" } lib-tester: j_over_s_equals_the_difference_of_two_independent_link_budget_runs; the_report_prints_both_link_budget_legs_so_the_difference_is_checkable_from_it; the_scenario_reports_one_j_over_s_row_per_visible_satellite_and_never_a_median; a_single_median_j_over_s_would_misreport_the_outcome_that_the_table_reports; a_closer_jammer_raises_j_over_s_by_exactly_the_free_space_loss_difference; a_more_distant_satellite_is_the_weaker_signal_so_it_carries_the_higher_j_over_s; j_over_s_is_invariant_to_the_user_antenna_boresight_gain; a_narrowband_jammer_leaves_no_higher_effective_cn0_than_broadband_at_equal_js; a_selenographic_jammer_gets_its_range_from_the_shared_lunar_geometry; a_strong_enough_jammer_takes_every_lunar_link_below_the_tracking_threshold; no_jammer_is_a_clean_sky_lunar_baseline_with_an_undefined_j_over_s; raising_the_elevation_mask_can_only_remove_rows_never_change_the_ones_that_remain; every_emitted_numeric_field_has_a_unit_and_a_provenance_class; the_csv_table_carries_every_row_of_the_json_table; the_run_is_deterministic_and_the_dispatch_surface_is_populated; bad_inputs_are_rejected_rather_than_producing_a_number); api::tests::lunar_jamming_kind_round_trips_through_the_dispatch_with_a_per_satellite_table
+
+seg-ec5736cbb3b4 = lunar_jamming (denial_js_db, range_for_free_space_path_loss_m, Cn0Distribution, DenialContourPoint, ContourBand, DenialContour; inverting jamming::effective_cn0_dbhz, jamming::j_over_s_db and jamming::free_space_path_loss_db)
+
+seg-cdcfbbc52ae5 = lunar_jamming::tests ({ "10" } lib-tester: the_contour_is_the_exact_inverse_of_the_functions_the_rows_were_scored_with; the_band_is_the_measured_quantiles_pushed_through_the_contour_not_a_sigma; the_asymmetry_the_band_carries_is_the_samples_own_shape_bent_by_the_criterion; the_contour_is_monotone_in_cn0_measured_over_a_dense_sweep_not_assumed; the_band_recovers_the_split_verdict_the_single_scalar_contour_lost; the_distribution_is_the_tables_own_order_statistics_and_keeps_the_rows; a_link_already_below_the_threshold_gets_a_null_contour_point_not_a_number; a_clean_sky_run_has_no_contour_at_all_rather_than_an_empty_one; the_denial_threshold_is_the_same_thirty_decibels_the_rest_of_the_engine_uses; the_units_block_describes_the_contour_and_names_nothing_the_report_omits)
+
+seg-83724a2a8e06 = hybrid_integrity::tests (deteksjonskraftkurven går fra falsk-alarm-raten ved null feil til { "1" } − P_md ved den minste detekterbare biasen; den minste detekterbare biasen matet tilbake gjennom noncentral_chi2_cdf ved terskelen monitoren selv anvendte returnerer P_md til { "1e-9" }, på hver akse og gjennom den offentlige hjelpefunksjonen; en bias som faktisk injiseres i RF-estimatet flytter monitorens egen statistikk med nøyaktig den håndregnede b²/(σ_rf² + σ_opt²); en støyfri bias fanges over √(T/λ*)×MDB og overses under den, med den injiserte stigen på begge sider av den krysningen; deteksjonskraften er monoton i feilstørrelse og identisk på alle fire akser i MDB-multipler; en seedet Monte Carlo på 200,000 sampler av monitorstatistikken reproduserer den analytiske kraften innenfor 4σ på fire punkter på kurven; timing-MDB er låst over timing-varslingsgrensen, noe som er en målt svakhet og ikke en egenskap; Wilson-Hilferty-kvantilen er målt til å avvike fra monitorens eksakte terskel med ~{ "4" }%, noe som registrerer hvorfor den ikke ble brukt; rampetallet er nøyaktig MDB/rate og skaleres omvendt med raten, og en ikke-positiv rate rapporterer null og ikke null sekunder); tests/hybrid_fault_power_scipy_oracle.rs (report_detection_power_matches_scipy_chi2_and_ncx2; report_detection_power_matches_scipy_with_comparable_sigmas)
+
+seg-f9767a6109d5 = hybrid_integrity::tests (glidefasen starter fra nøyaktig kovariansens spor som overleveringsblokken rapporterer, for begge retninger, så den gjenspilte diagonalen ikke kan drive bort fra den rapporterte overleveringen; den rapporterte krysningstiden beregnes på nytt fra rapportens egen overleveringssigma, prosessstøy-PSD og dekningsfaktor, og grensen er innenfor varslingsgrensen rett før den og utenfor rett etter; glidetiden skaleres nøyaktig omvendt med prosessstøy-PSD og blir kortere når varslingsgrensen strammes; en glidefase med null PSD rapporterer null og ikke en tid på null, fordi aldri ikke er umiddelbart; den utsendte profilen krysser nøyaktig én gang og omslutter den rapporterte krysningen; variansens fordoblingstid og krysningstiden for varslingsgrensen er låst fra hverandre, og er åtte størrelsesordener ulike etter det stramme optiske trinnet og innenfor én størrelsesorden etter det løse RF-trinnet; å forlate den optiske modaliteten gir mer glidetid enn å forlate RF, med nøyaktig kovariansforskjellen delt på den horisontale vekstraten; og random_walk_time_to_limit skiller allerede-utenfor, krysser-ved-t og krysser-aldri)
+
+seg-6d2b55212f40 = lunar_service, antenna
+
+seg-730b359e2c3f = antenna::tests og lunar_service::tests (halveffektkrysningen funnet ved bisekson på mønsteret stemmer med den publiserte Airy x = { "1.61634" } og gir den eksakte bredden { "1.02899" }·λ/D, og registrerer at den konvensjonelle koeffisienten { "1.02" } ligger på −{ "2.955" } dB og ikke −{ "3.010" } dB; mønsteret er strengt avtagende over { "400" } punkter fra boresight til første nullpunkt; algebraen for underforstått virkningsgrad gjør rundtur til { "1e-12" } og reproduserer { "0.641" } / { "0.920" }; avviksvinkelen fra boresight stemmer med tan θ = R·sin γ/(r − R·cos γ) i { "20" } punkter og begge grensene til { "1e-12" }; den tilnærmede kjeglen inneholder den virkelige strålen rad for rad; hovedtallene er lik flaggene per rad de oppsummerer og korreksjonen er lik forskjellen mellom dem; hver radverdikt kan beregnes på nytt fra den utsendte rapporten alene; hvert utsendt numerisk og boolsk felt har en enhet og en proveniensklasse; en umulig apertur sender ingen blokk; uten konfigurert antenne beholder eksporten nøyaktig sine seks eksisterende nøkler, { "0" } blader endret og { "0" } fjernet); tests/validate_lunar_export_offboresight_spice.rs (flown_orbiter_export_matches_spice_geometry_and_scipy_pattern; documented_working_point_matches_anise_propagation_and_scipy_pattern)
+
+seg-9910640b7886 = tracking_loop (composing sdr, jamming)
+
+seg-a3538a1ff1f4 = tracking_loop::tests (åpen-sløyfe Costas-diskriminatorjitter mot sdr::correlate steppet fremover på seedet syntetisk IF, { "3" } samlede støyrealiseringer × { "900" } epoker, enig til { "0.63" }% over 35-45 dB-Hz, med kvadreringstapleddet krevd å passe minst { "3" }× bedre enn formen uten kvadreringstap overalt der det kan løses; metningen ~{ "32" } dB-Hz i atan-diskriminatoren påstått og ikke bare oppgitt, så gyldighetsgrensen er låst; lukket-sløyfe σ mot en steppet sdr Costas-sløyfe over { "4000" } epoker til { "3.7" }%; førsteordens DLL-rampeforsinkelse mot en steppet sdr DLL til { "0.17" }%; bessel_i0 mot tabulert I₀ til { "7.4e-8" }; hysteresebredden krevd å falle i [{ "5" }·log₁₀ r, { "10" }·log₁₀ r] over { "4" } forhold × { "2" } integrasjonstider × { "3" } båndbredder); api::tests::tracking_loop_kind_round_trips_through_the_dispatch; tests/tracking_loop_gnss_sdr_oracle.rs::finding_is_pinned
+
+seg-e6236f142dae = lunar_vlbi_fim (composing lunar_vlbi, fim, cio, lunar_frame, frames)
+
+seg-5744a8471387 = lunar_vlbi_fim::tests ({ "7" } lib-tester: hver stavemåte av datum gjør rundtur gjennom parse/as_str og en ukjent avvises; å holde hver stasjon uten radiofyret avvises med en feil som nevner <c1/>; spaken påstås LIK ρ/B og radiofyrets likefordeling LIK stasjonens likefordeling ganger den, begge til { "1e-15" }, med en ytterligere påstand om at spaken overstiger { "10" } så de to budsjettene ikke kan forveksles på denne geometrien; fixturens publiserte grunnlinje er låst til { "10726.748" } km og dens plan med 49 sampler påstås å gi strengt færre enn { "49" } gjensidig synlige observasjoner; radiofyrspekteret på en enkelt grunnlinje er målt til å spenne minst fem dekader og det resulterende forholdet påstått over { "1" } av AM-HM og over { "100" } i virkeligheten; oppsettet stasjon-pluss-radiofyr påstås å være rangdefekt med BEGGE beregnede felt null mens den modellerte sammenligningsstørrelsen fortsatt rapporterer. Pluss en vakt på selve fixturen: en toppnivånøkkel spleiset inn etter en tabellrekke blir stasjonsdata i stedet, så spleisepunktet påstås og det tolkede scenarioet kontrolleres å bære nøkkelen — feilmodusen er en kjøring som i det stille bruker en annen konfigurasjon enn den testen navngir)
+
+seg-08708f044bb5 = lunar_dpnt::tests (en rent additiv vakt hvis nøkkelsettforskjell er nøyaktig { "{" }correction_link, units{ "}" } med hver eksisterende verdi bit-identisk mot literaler tatt før endringen; oppmålingsfeil dekorrelerer IKKE med grunnlinjen mens banedelen gjør det, og overlever en grunnlinje på null der banedelen er nøyaktig null — den strukturelle kontrollen som fanger opp at leddet er koblet til feil sted; en stasjonsfeil på { "1" } m overføres { "1" }:{ "1" } og er bevist å ikke være DOP-forsterket; null latens reproduserer den ualdrede residualen bit for bit og residualen er monoton i latens, med den utsendte kurven lik direkte kjøringer; kvantiseringssteget halveres nøyaktig per bit og σ² = step²/12, og fullskalaen følger de injiserte størrelsene; hvert ledd slått av etter tur gjenvinner de to andre i kvadratur; lik σ per satellitt forplanter seg til nøyaktig σ·PDOP og den PDOP-en stemmer overens med orbit::dop; hvert utsendt felt bærer en enhet og en proveniensklasse, kontrollert i begge retninger)
+
+seg-810a6946b5cd = lunar_station (over lunar_dpnt, lunar_service)
+
+seg-ef86901b5985 = tests/lunar_station_coverage_reference.rs (one_point_one_epoch_one_trial_reduces_to_lunar_differential_pnt: til { "1e-12" } m med og uten mottakerstøy; zero_baseline_floor_is_zero_in_every_trial: { "0" } til { "1e-9" } m; survey_floor_matches_the_survey_transfer_prediction: p95 innenfor båndet på { "5" } % oppgitt før kjøringen; coverage_is_non_decreasing_in_the_threshold; corrected_error_grows_with_distance_along_an_azimuth; three_satellites_are_unavailable_with_a_reason_and_no_error; a_satellite_the_station_does_not_see_is_reported; deterministic_for_a_seed_and_moved_by_another; the_work_guard_refuses_an_oversized_grid; the_bundled_scenario_states_a_source_for_every_input; the_result_is_labelled_modelled_with_the_honesty_statement); tests/lunar_station_numpy_oracle.rs (den forhåndsregistrerte omberegningen med numpy, registrert med sin bom); lunar_service::tests::south_polar_ring_grid_is_the_published_comparison_grid; tests/lunar_differential_pnt_reference.rs og registeret og kryssplattform-gullfasitene uendret (additivitet); tests/field_units_global.rs (hvert utsendt felt beskrevet, ingen unntak)
+
+seg-641b41572fd9 = lunar_terrain (over skyline, lunar_service::topocentric_basis); lunar_station; lunar_service (coverage_masked, masked_visible)
+
+seg-44e74fb6a0a1 = lunar_terrain::tests (bare_sphere_horizon_is_the_dip: strålemarsjen reproduserer -acos(R / (R + a)) til { "1e-3" } grader i hver asimut; a_cone_on_a_lat_lon_tile_matches_the_analytic_cone: den samme kjeglen samplet på en bredde/lengde-flis på { "0.005" } grader stemmer overens med den analytiske kjeglen til { "0.25" } grader; a_lat_lon_tile_is_none_outside_and_wraps_longitude; crater_in_plateau_matches_the_closed_form: et krater med flat bunn på kulen, observatør i midten og { "4" } km og { "7" } km fra den, mot den lukkede formen for randelevasjon atan2((R + H) cos s - (R + a), (R + H) sin s) med s fra den sfæriske ligningen for randkryssing, til { "0.01" } grader i hver asimut; rasterised_cone_matches_the_analytic_cone: en kjegle rasterisert på et polart stereografisk rutenett på { "200" } m og lest gjennom rutenettsamplereren stemmer overens med den analytiske kjeglen til { "0.25" } grader; projection_round_trips_through_the_rasteriser_layout; bilinear_reproduces_a_plane_exactly; stated_horizon_goes_through_the_skyline_rules; an_empty_skyline_is_exactly_the_flat_test); tests/lunar_station_terrain.rs (without_terrain_the_document_has_no_terrain_keys; a_zero_horizon_under_a_positive_mask_is_the_flat_run, for begge kinds; a_horizon_only_removes_satellites_and_a_wall_removes_everything: user_lt4 beholder sitt flate antall og epokene en horisont koster er terrain_masked (selve tilgjengeligheten kan stige, fordi en horisont kan skjule en satellitt stasjonen ikke ser), og en horisont på { "89" } grader ved stasjonen etterlater ingenting tilgjengelig; bad_terrain_sections_are_refused; the_vendored_crop_loads_and_is_oriented_as_the_source: kraterbunnene i Shackleton og Haworth lave, Malapert-massivet høyt, speilbildet ikke; the_station_site_horizon_from_the_crop; service_volume_dem_points_outside_the_crop_keep_the_flat_mask; a_lat_lon_dem_tile_gives_the_station_the_crop_horizon: en flis omsamplet fra det medfølgende utsnittet gir stasjonen utsnittets horisont til { "0.22" } grader (grense { "0.5" } grader, fastsatt før kjøringen), med flisekkoet og enhetene, og dem_path med dem_tile_path avvist; the_export_site_is_masked_by_the_terrain: hver eksportrad klarer terrenget nøyaktig når den er synlig og på eller over stedets horisont i sin asimut, geometrien flytter seg ikke, CSV-en får kolonnen bare med terreng; the_horizon_matches_the_preregistered_numpy_ray_cast); tests/prediction_frozen.rs og registeret og kryssplattform-gullfasitene uendret (additivitet)
+
 seg-27acdf36c5da = lunar_receiver; lunar_station
 
 seg-8fa2f3da879e = lunar_receiver::tests (multipath_is_the_do229_form; dll_noise_matches_a_hand_computation: { "0.825279" } m ved { "45" } dB-Hz, { "0.5" } Hz, d = { "1" }, { "20" } ms; bad_sections_are_refused); tests/lunar_station_ext.rs (receiver_absent_or_silent_is_the_plain_run; zero_baseline_multipath_is_the_difference_of_two_receivers: utvalgs-sigma sqrt({ "2" }) a innenfor { "6" } %; station_multipath_is_gauss_markov: lag-1-korrelasjon exp(-dt / tau) innenfor { "0.01" }, enhetsvarians innenfor { "2" } %; inter_channel_biases_are_constant_over_a_trial); tests/prediction_frozen.rs og golden-filene uendret (additivitet)
@@ -2414,6 +2748,192 @@ seg-faacca83ed58 = frame_eop::tests, realtime_frame_eop::tests og tests/operatio
 seg-c77bd56a0619 = lunar_frame_campaign (composing lunar_vlbi, lunar_vlbi_fim, fim, lunar, lunar_frame_realise, frames, cio, lunar_frame)
 
 seg-98fa9786f0c9 = lunar_frame_campaign::tests ({ "21" } lib-tester: Helmert-utformingen mot en sentral endelig differanse av lunar_frame_realise::apply_helmert — modulen datumet er TIL FOR, som ikke beregner noen derivert og dermed fester [p]ₓ-fortegnskonvensjonen — alle { "84" } utformingsoppføringer stemmer til < { "1e-6" }; en ren nettverkstranslasjon lest tilbake som en ren translasjon med < { "1e-6" } lekkasje til de andre seks parametrene; datum-sigmaen nøyaktig lineær i forsinkelses-sigmaen til { "1e-8" } over en { "3" }× endring på alle sju parametere; en bue på { "16" } h målt dårligere og en bue på { "48" } h målt bedre enn { "24" } h, med det utsendte librasjonssveipet ordnet på samme måte; den verste translasjonsaksen bekreftet å VÆRE den dominerende aksen i den separat målte kroppsfaste retningen mot Jorden og verre enn de andre med > { "5" }×, en fysikkreferanse ingenting i løseren ble fortalt om; tre kolineære beacons som gir en defekt med hver datum-sigma NULL og nullretningene utsendt i sju-parameter-basisen; offblock_fraction og inter-beacon-korrelasjon nøyaktig { "0.0" } med stasjonene faste og begge > { "0" } med dem estimert; sammenligningsblokkens injiserte-transform-tall vist å være lik en uavhengig kjøring av det scenarioet til { "1e-14" } relativt i stedet for å være transkribert; en vakt som sikrer at intet injisert/gjenvunnet datum finnes noe sted i dokumentet; lunar-frame-realisation-utsendingen festet byte for byte med FNV-1a-64 over json‖summary‖svg for tre inndataformer, fingeravtrykket tatt før arbeidet begynte); tests/lunar_vlbi_campaign_spice_oracle.rs::lunar_frame_campaign_finding_stations_estimated_p2_precision (gated; den strenge lunar_frame_campaign_matches_spice_geometry_and_numpy forblir ignorert); tests/lunar_frame_campaign_mpmath_oracle.rs::lunar_frame_campaign_datum_matches_mpmath_extended_precision (funn; grunnleggerens beslutning 2026-10-02, alternativ A: denne raden forblir MODELLED og låner ikke den separate radens status; mot en 50-sifret mpmath-referanse, forhåndsregistrert 804662d5, ligger motorens stasjoner-estimert datum-sigmaer innenfor sin a priori bakoverfeilgrense, { "9.7e-6" } av på 2024-01-01, og terskelen { "1e-9" } lå under det noen dobbeltpresisjonsrute når, der den beste, en NumPy QR-projeksjon, var { "5.5e-9" } av; evidensen støtter den separate raden «Lunar frame datum covariance with the stations estimated, against 50-digit extended precision»); tests/lunar_frame_campaign_pinv_fallback.rs::finding_step0_fresh_beacon_information_falls_back (festet); tests/lunar_frame_campaign_cond_bar_oracle.rs::finding_p2_condition_scaled_bar_not_met_on_the_estimated_scenarios (festet)
+
+seg-f3fcc6b9e10a = cislunar_arc_recovery, batch_ls
+
+seg-457a19842691 = cislunar_arc_recovery::tests og tests/cislunar_arc_recovery_reference.rs (begge grensene og forholdene mellom dem låst på det publiserte rutenettet; den målte feilkurven sammenlignet med den formelle kovariansraden rad for rad med en faktor-to-grense per rad og en geometrisk-middel-grense; en NEGATIV KONTROLL — den plane DRO-en med seks tilstander — som påstår at kriteriet KAN svikte og at den uregulariserte estimatoren divergerer forbi { "1e6" } km i stedet for å returnere en plausibel liten feil; parametriseringsinvarians påstått på hvert prefiks til { "1e-3" } relativt; en kildetekstvakt som fjerner kommentarer, strengliteraler og testmodulen og deretter svikter på enhver omtale av Jacobi-matrisen, STM, SVD-rang eller SRIF-maskineri, verifisert ved mutasjon ved å injisere et forbudt kall; en test-only-kontroll av at de endelige differansene er lik de analytiske radene, så linearisasjonen er kjent god mens den analytiske veien forblir fraværende fra estimatoren; determinisme påstått byte for byte; det utgitte cislunar-observability-dokumentet låst med nøkkelsett, kanonisk fingeravtrykk og sammendragslinje)
+
+seg-b6b73589032f = lunar_ephemeris, lunar_service
+
+seg-4cab37e82f00 = lunar_ephemeris::tests (format- og rammetolking; Lagrange-interpolasjon eksakt i nodene og på et lineært spor utenfor nodene; ICRF-elementer tar IAU { "2015" }-reduksjonen og er byte-lik en eksplisitt anvendelse av icrf_to_iau_moon; sann↔middels anomali gjør rundtur mot en forover Kepler-løsning; misdannede filer avvises med årsaken navngitt). lunar_service::tests (med <c1/> ikke satt er rapportens nøkkelsett og SHA-256 låst; Kepler-raden er lik den frittstående Kepler-kjøringen felt for felt; identiteten σ_required · HPL_max / σ_URE = AL, deretter en ENDE-TIL-ENDE ny kjøring ved det beregnede kravet som når { "100" } % tilgjengelighet for beskyttelsesnivå og en ny kjøring { "1" } % over det som ikke når den; hvert utsendt numerisk felt i begge nye blokkene gjennomgått fra den produserte JSON-en for en enhet og en proveniensklasse; de innsjekkede fixturene avstemt mot sine kildetabeller satellitt for satellitt; en horisont forbi slutten av en tabell avvist); tests/lunar_service_requirement_orekit_oracle.rs::lncss_b_dense_finding_is_unchanged; tests/lunar_service_volume_orekit_oracle.rs::service_volume_matches_orekit_on_identical_ephemeris_and_grid
+
+seg-34bff3218a01 = tests/field_units_global.rs (alle { "61" } registrerte kinds kjøres, én dokumentform hver: hvert numerisk blad må løses til en oppføring i dokumentets egen enhetsblokk; en misdannet oppføring teller som manglende for HVER kind, unntatt eller ikke, så en plassholder kjøper ingen dekning; unntakslisten kan ikke overstige sitt låste tak, en oppført kind som viser seg å være fullt dekket FEILER porten så listen ikke kan fylles ut, og en registrert kind som mangler i kjøretabellen feiler så en ny pakke ikke kan smyge seg inn uten gjennomgang — noe den gjorde, og fanget begge kinds som ble lagt til etter at dette arbeidet begynte; en enveis skralle på restansen av beskrevet-men-udefinert; og en foreldelseskontroll av det innsjekkede skjemadokumentet); field_schema::tests
+
+seg-926c069f8a2e = lunar_llr (over lunar_frame_campaign::beacon_information, schedule_for and solve_datum_information, lunar_vlbi_fim)
+
+seg-9c29f0e9a061 = tests/lunar_station_geodesy.rs (empty_or_absent_extra_lists_are_bit_identical: tomme lister og grunnlinjeeksempelet gir standardrapporten og sammendraget byte for byte; an_added_site_never_increases_any_variance: den minste egenverdien til H_after - H_before er ikke-negativ til { "1e-9" } av den største, hvert forhold etter/før i sigma er høyst én, og begge tilføyde steder er observert; the_rest_of_the_report_is_the_five_array_result; every_station_geodesy_field_has_a_unit; a_beacon_list_inside_the_campaign_block_is_refused); scenarios/lunar-station-geodesy-baseline.toml og scenarios/lunar-station-geodesy-with-station.toml (samme arkiverte plan og samme VLBI-kampanjeblokk)
+
+seg-c56512172ce5 = scripts/gate.sh, scripts/check-gate-receipt.sh, scripts/check-repeatability.sh, scripts/install-gate-hook.sh
+
+seg-94641c011229 = tests/source_guards.rs ({ "9" } tester: begge vaktene over hele kildetreet, pluss mutasjonsfixturer som vurderer hver vakt i begge retninger — F22-mønsteret rapportert på begge kolliderende stier, den leverte atomiske sekvensrettelsen akseptert, en halv rettelse rapportert på nøyaktig stien som mistet sin unike komponent, et tempfil-håndtak og en arvet unik katalog akseptert, en veggklokke avvist; en uerklært låsing rapportert, en erklært akseptert, et omfang uten unntak avvist, en erklæring i den omsluttende testens doc-kommentar akseptert og vist å ikke lekke til neste test; og hver låsingsstavemåte — heks, desimal, sammendragsstreng, bytelengde, navngitt byteantall, gullfasitfil — sett mens algoritmekonstanter, RNG-seeds og små kardinalitetskontroller ikke er det)
+
+seg-416def055790 = integrity::composed_pl::tests (monoton, P0-gulv, K(IR/2), eksponenter, nedre halvkontinuitet)
+
+seg-3d4a4ed81148 = integrity::lil_envelope::tests (divergens, terskel, IR-stramming dominans)
+
+seg-0a2804cefee1 = integrity::hetero_budget::tests + tests/hetero_budget_reference.rs; tests/hetero_budget_utc_k_oracle.rs::overbound_exceedance_on_real_utc_k_finding (datastyrt: hopper over med en melding når BIPM-serien mangler); tests/hetero_budget_utc_k_realised_overbound_oracle.rs::realised_offset_overbound_finding; tests/utck_bound_prospective_oracle.rs (D9 runde { "3" }, prospektiv, ikke kjørt ennå: Circular T { "465" } kom 2026-10-12, og den forhåndsregistrerte regelen på 1000 verdier trenger utgaver til omkring { "468" })
+
+seg-477c4bbb36ab = integrity::hetero_budget::tests (correlated_fused_bias_dominates_independent_when_correlated, rho_one_single_realizer_recovers_linear_sum) + tests/hetero_budget_reference.rs
+
+seg-75e4936b4c2d = integrity::gls_commonmode::tests (common_mode_shift_inflates_statistic_but_not_contrasts, post_fit_common_mode_statistic_is_zero) + tests/gls_reference.rs; tests/gls_common_mode_statistic_numpy_oracle.rs::common_mode_statistic_matches_numpy_lapack
+
+seg-7bbbfeb6e7b9 = lunar_identifiability, lunar_datum
+
+seg-6ac21ece8e3d = tests/lunar_datum_identifiability_reference.rs (single_internal_range_row_has_six_dim_datum_null_space; extending_the_librating_arc_lifts_the_origin_scale_degeneracy); tests/lunar_datum_sosnica_oracle.rs::origin_scale_correlation_and_crlb_disagree_with_the_published_geometry
+
+seg-36da2dd8d3db = lunar_datum, lunar_identifiability
+
+seg-12c2f3ad1982 = lunar_datum::tests (analytiske partialer for LLR/VLBI/orbiter mot endelig differanse); lunar_identifiability::tests (adding_an_offradial_technique_collapses_the_origin_scale_degeneracy; tverrgående mot radiell via crlb_diag)
+
+seg-13c488ae75a6 = lunar_llr_geometry::tests (reflector_and_station_catalogs_are_well_formed, analytic_partials_match_finite_difference, llr_one_way_range_is_earth_moon_scale, zero_datum_reproduces_nominal_range, llr_only_fisher_shows_strong_com_x_scale_degeneracy); tests/lunar_pa_frame_realisation_guard.rs; tests/llr_datum_degeneracy_reference.rs; tests/lunar_llr_geometry_range_oracle.rs::reflector_ranges_against_ilrs_normal_points
+
+seg-f741d9570b10 = lunar_gauge::tests (coupled_marginal_well_posed_network_is_psd, coupled_marginal_twoway_equals_more_oneway_in_diverse_network, coupled_marginal_twoway_lift_three_orders, oneway_range_row_has_correct_temporal_entries, twoway_range_row_has_zero_at_offset_and_rate, time_tie_row_equals_pure_offset_vector, rate_tie_row_has_correct_structure)
+
+seg-c4c5426a700b = lunar_techniques::tests (combine_is_additive_order_independent_and_empty_is_zero - tomt utvalg gir nullmatrisen, et enkelt utvalg er identiteten, et par er lik en uavhengig skrevet elementvis sum, og resultatet er invariant under utvalgsrekkefølge; adding_a_block_never_reduces_the_degeneracy_metric - monotonisitet under tilført informasjon; radial_diversity_beats_transverse_for_breaking_the_degeneracy - orbiterblokken på baksiden hever degenerasjonsmålet mer enn den tverrgående VLBI-blokken)
+
+seg-c5ebc071ce3e = lunar_interop_budget::tests (monotonisitet i budsjett; RSS-budsjettreduksjon under en CRLB per leverandør; utregnet rotasjonstoleranse ved månens spakarm; bindende ledd = rotasjon)
+
+seg-f4fbaefa3a11 = lunar_interop_budget::tests (CommonEphemeris nullstiller budsjettet; CommonFrameTie < PerProvider; irreducible_fraction > { "0.5" } på de virkelige oppdelingene; konvensjonsrekkefølge)
+
+seg-0b39643e9152 = lunar_faultobs::tests — byzantine_c3_rank_deficient_but_nonzero_is_undetectable (ikke-null, men rangdefekt blokk ⇒ block_spark { "1" }, f_detect { "0" }; uavhengige kolonner ⇒ block_spark { "2" }, f_detect { "1" }), byzantine_real_network_uniform_bias_is_clock_offset (en peer som eier alle målingene til en node = en klokkeforskyvningsfeil ∈ range(G), umulig å oppdage, med et tydelig spektralgap i Gram-matrisen), byzantine_redundant_net_identifies_at_least_one (seks uavhengige peers med én måling hver ⇒ block_spark { "7" }, f_identify { "3" }), byzantine_analytic_spark_identity_projector + byzantine_detect_identify_relations (håndtilfeller med P⊥ = I fastlegger f_detect = block_spark − { "1" }, f_identify = ⌊(block_spark − { "1" })/2⌋)
+
+seg-70a340255eb6 = lunar_faultobs::tests — holdover_floor_self_ref_and_anchored (selvrefererende nett: den felles raten ligger i N(GᵀWG), temporal_gauge_dim { "2" }; etter én ekstern rategrensrad: raten er utvist fra gaugen, temporal_gauge_dim { "1" } og den felles forskyvningen består)
+
+seg-11fe79ac46b3 = lunar_faultobs::tests — provider_mismatch_split_common_undetectable_differential_detectable (felles bias kan ikke oppdages, differensiell bias kan oppdages), slope_infinity_in_range_finite_detectable (g7: stigningstall ∞ for b ∈ range(G), endelig for b ∉ range(G)), pernode_rank_is_state_dim_minus_eight (§{ "0" }: rank(GᵀWG) = state_dim − { "8" }, gaugen med 8 dimensjoner er hele nullrommet, med et spektralgap på >{ "1e6" })
+
+seg-95c049581604 = telecom_timing (MASKS, eprtc_a_holdover_limit_ns, check_curve, check_mask)
+
+seg-35e253f27caa = telecom_timing::tests (mask_boundaries_follow_the_tables_exactly — åpne og lukkede ender, gapet τ = { "400" } s i G.8271.1 tabell 7-3, kontinuitet i alle knekkpunkter tabellene innebærer; a_curve_exactly_on_the_limit_passes_and_just_above_fails; eprtc_a_holdover_envelope_follows_table_3; a_coarse_record_is_not_evaluated_against_a_filtered_mask); tests/telecom_timing_reference.rs (telecom_timing_kind_round_trips_through_the_dispatch); tests/telecom_masks_itu_printed_values.rs (mask_values_match_the_numbers_the_recommendations_print; figure_7_2_label_at_1_3_s_is_not_its_own_table_value)
+
+seg-f8b7bc046be6 = telecom_timing (MASKS, Segment::tau_exponent, MeasurementFilter::LowPass10HzAtSource, MaskCondition::Autonomous)
+
+seg-3ae5550f6aaa = telecom_timing::tests (g811_prc_masks_follow_clause_6_1; g812_masks_follow_tables_3_4_6_and_7; g8262_masks_follow_tables_1_3_4_and_5; g8262_1_eeec_masks_follow_tables_1_and_3; a_linear_piece_is_evaluated_without_powf; wander_masks_pass_a_quiet_white_fm_flicker_series; wander_masks_fail_the_same_series_scaled_up)
+
+seg-82af02048968 = clock_log (read_input, MeasuredPhaseReport, MEASURED_UNITS, TELECOM_LOG_UNITS); telecom_timing (SeriesInput::clock_log); api (clock kind [clock_log])
+
+seg-df411365b9ab = clock_log::tests (håndskrevne logger per format: topptekster, skilletegn, enheter, frekvensintegrasjon, TICC-kanaler og -moduser, gap og regler, avslag); tests/clock_log_allantools.rs (den forhåndsregistrerte sammenligningen: b1_each_log_reads_to_the_reference_phase; b2_adev_tdev_and_mtie_agree_with_allantools; b3_a_telecom_series_read_from_a_log_equals_the_same_samples; b3_the_clock_kind_measured_block_is_opt_in)
+
+seg-0a789b9f3db1 = clock_log (parse_linuxptp, parse_chrony, grid_timed_offsets)
+
+seg-b1a8738d620b = clock_log::tests (ptp4l_reads_the_locked_offsets_in_ns; linuxptp_reads_only_the_named_program; ts2phc_gap_is_refused_or_filled; linuxptp_reads_syslog_prefixed_lines_and_picks_an_interface; linuxptp_refuses_a_servo_that_never_locks_and_backwards_stamps; chrony_tracking_reads_the_local_offset_in_seconds; chrony_statistics_needs_a_source_when_there_are_two; chrony_columns_of_the_other_log_are_not_read; clock_selector_is_refused_for_timelab_and_ticc_only) på fixturene i tests/fixtures/clock_log/linuxptp_chrony/
+
+seg-5fb2f4812479 = holdover_test (HoldoverTestScenario, recovery, linear_fit); telecom_timing (check_mask, check_envelope, budget_results)
+
+seg-d028f2b41fe8 = holdover_test::tests (the_record_is_split_at_the_stated_times; holdover_figures_match_a_hand_computation; recovery_is_timed_from_the_restoration; masks_are_measured_on_the_step_their_condition_names; a_record_with_no_baseline_says_so; bad_inputs_are_refused_with_the_reason; the_report_carries_the_label_the_units_and_no_conformance_word; a_ptp4l_log_is_scored_end_to_end)
+
+seg-ea770cfea799 = ssv (constellations, geom, sweep, pattern, check)
+
+seg-9a49009f27cd = ssv::geom::tests (the_grid_has_the_booklets_2562_points_on_the_unit_sphere; the_interval_form_equals_the_general_predicate; a_user_behind_the_earth_is_blocked_and_one_beside_the_limb_is_not); ssv::sweep::tests (a_small_shell_run_is_internally_consistent; pdop_of_a_regular_tetrahedron_like_set_is_finite_and_a_flat_set_is_not); ssv::pattern::tests (table_b10_antenna_reads_as_gain_against_angle_from_the_boresight)
+
+seg-05a12f571867 = ssv (limb, weak)
+
+seg-4b5cbdee9714 = ssv::limb::tests (the_chapman_layer_peaks_at_its_height_with_its_density; the_surface_limb_bends_about_one_and_a_third_degrees; plasmaspheric_tec_is_a_few_tecu_for_an_equatorial_gps_to_geo_ray); ssv::weak::tests (longer_integration_lowers_the_acquisition_threshold; aiding_narrows_the_search_and_the_loop; a_conventional_receiver_is_far_above_the_ssv_signal_levels); ssv::scenario::tests (the_limb_medium_adds_statistics_and_can_cost_signals; a_weak_signal_receiver_replaces_the_fixed_threshold)
+
+seg-89cac0893981 = ssv::nav (run_nav, Ekf)
+
+seg-18bbbb4578fc = ssv::nav::tests (the_filter_converges_where_signals_are_plentiful_and_is_deterministic; the_covariance_is_consistent_with_the_error; without_signals_the_filter_coasts_and_the_gap_is_reported); ssv::scenario::tests (navigation_and_formation_run_and_report)
+
+seg-59bd0b502622 = ssv::formation (run_formation, RelEkf)
+
+seg-70f8b2a10f03 = ssv::formation::tests (differencing_beats_subtracting_absolute_estimates_and_is_deterministic); ssv::scenario::tests (navigation_and_formation_run_and_report; formation_needs_navigation_and_one_mode_only)
+
+seg-9f89545da2ca = inertial::cai_error_terms::tests (raman_transfer_short_pulse_limit_matches_the_acceleration_transfer_function; white_raman_phase_closed_form_matches_quadrature; short_pulse_band_limited_closed_form_matches_quadrature; cheinet_2008_white_phase_noise_requirement_is_reproduced; delay_term_closed_form_matches_exact_filter_quadrature; defocus_phase_is_position_independent_and_tilt_cancels; curvature_bias_monte_carlo_matches_closed_form; curvature_bias_limiting_cases; classical_aided_resolution_monte_carlo_matches_closed_form; multi_t_resolution_monte_carlo_matches_closed_form; ambiguity_limits_and_inverse)
+
+seg-869454221ef4 = telecom_timing (PRESETS, fit_noise, with_flicker_floor, synthesize_holdover); models (ClockModel)
+
+seg-2fb7b4c2396c = telecom_timing::tests (every_preset_carries_a_named_datasheet_and_figures; the_noise_fit_envelopes_every_datasheet_point; pure_aging_matches_its_closed_form — den diskrete aldringsrampen innenfor { "0.1" } % av (1/2)·D·t² over et døgn; same_seed_same_series_and_hash_different_seed_different_series); tests/oscillator_presets_measured.rs (caesium_finding_pinned; rubidium_finding_pinned; csac_finding_pinned; ocxo_preset_has_no_measured_record)
+
+seg-d31b872adcb6 = slot_timing (predicted_error_s, breach_after_sync_s, terms_at, slot_budget, ClockNoise::from_datasheet, SlotTimingScenario); clock_state (ClockClass::Tcxo, Ocxo, Rafs, source)
+
+seg-8eba4f60f78e = tests/slot_timing_igs_holdout.rs ({ "10" } GPS Block IIF-satellittklokker, { "14" } dager med IGS endelige klokker: { "8" } innenfor terskelen på { "1.5" }, G25 og G30 optimistiske med opptil omtrent 2x, festet); tests/slot_timing_ocxo_holdout.rs (en målt OCXO: tilbakeholdt prediksjon aldri optimistisk, { "0.59" } til { "0.70" } av det målte bruddet; i utvalget innenfor { "0.98" } til { "1.17" }; uten leddet for posisjonsbestemmelsesfrekvens er prediksjonen i utvalget optimistisk ved hver terskel); slot_timing::tests (fix_frequency_uncertainty_alone_is_linear_in_time; reduces_to_the_holdover_inversion — hver klasse mot holdover::holdover_seconds til { "1e-9" }; white_fm_with_fix_error_has_its_closed_form; flicker_floor_alone_is_linear_in_time; ageing_alone_is_quadratic_in_time; frequency_offsets_add_in_magnitude; the_error_at_the_breach_is_the_guard; datasheet_fit_envelopes_every_point; datasheet_classes_match_their_presets_at_one_second; a_breach_beyond_the_datasheet_is_flagged_as_extrapolated; the_report_carries_the_result_and_a_unit_for_each_field)
+
+seg-a1318b5603cd = orbital_timing (orbital_timing, visibility_half_angle_rad, max_pass_s, crosslink_neighbour_is_outside_footprint)
+
+seg-4c4e4d92c416 = orbital_timing::tests (reduces_to_the_terrestrial_tpl — nøyaktig tpl::timing_protection_level_ns når klokken ikke har flicker-, hvitfase- eller random-run-ledd; leo_geometry_matches_its_closed_forms; crosslink_independence_follows_the_footprint; an_independent_check_caps_the_ramp_before_the_pass_ends; a_crosslink_inside_the_footprint_does_not_count; a_ramp_below_the_reference_is_never_detected)
+
+seg-06c475d7eb73 = spectrum (SpectrumScenario, SpectrumModel::bin_psd_w_per_hz, SpectrumModel::band_state, effective_cn0_multi_dbhz, system_temp_k, Jammer::power_fraction_in, Jammer::duty)
+
+seg-266d9c05d9be = spectrum::tests (agrees_with_the_jamming_kind_chain — J/S lik jamming::j_over_s_db og effektiv C/N0 lik jamming::effective_cn0_dbhz med Q = 1/(R_c kappa) til { "1e-9" } dB, og ankeret på { "32.105" } dB fra jamming-typens egen test; noise_floor_is_kt0f; chirp_window_splits_whole_and_partial_sweeps; duty_weights_partial_rows; demo_scenario_runs_and_denies_l1_while_l5_survives; defaults_run_with_no_jammer; bad_inputs_are_refused)
+
+seg-1d43f89b7a30 = ephem (standish_state, StandishElements::state_at_mean_anomaly, Planet::Pluto); solar_system (position_label)
+
+seg-1af48aec2408 = tests/solar_system_horizons_reference.rs (standish_table1_uranus_and_neptune_exceed_the_nominal_error: festet ved { "2.04" } og { "5.16" } ganger den nominelle lengdefeilen, under seks ganger; pluto_from_the_1992_row_is_measured_not_validated: innenfor { "39" } buesekunder og { "1.14e9" } m; standish_velocities_track_horizons_to_one_percent: verst { "3.7e-3" } av farten); ephem::tests (standish_velocity_is_the_derivative_of_the_position; pluto_has_no_table2_row_and_no_stated_error)
+
+seg-de8a26ea4d61 = ephem (satellite_state, Satellite, SatelliteMethod, moon_icrf, moon_icrf_velocity); ephem_provider (AnalyticSolarSystem)
+
+seg-06601f6fb837 = tests/solar_system_horizons_reference.rs (moons_track_horizons_to_the_measured_angles: verste vinkelfeil sett fra planeten over { "2000" } til { "2040" }, Phobos { "5.65" } deg, Deimos { "0.38" }, Io { "0.40" }, Europa { "1.63" }, Ganymede { "0.22" }, Callisto { "0.27" }, Titan { "3.31" }; geocentric_moon_tracks_horizons: { "0.046" } deg); ephem::tests (moons_sit_at_their_mean_distance_and_move_at_their_mean_speed); ephem_provider::tests (earth_and_moon_balance_about_their_barycentre)
+
+seg-24749f350eb2 = body (Body::by_name, Body::facts, Body::prime_meridian, SOLAR_SYSTEM, BodyFacts); solar_system (SolarSystemScenario, position_label)
+
+seg-a2ffe20b07aa = body::tests (every_catalogue_body_resolves_by_name_and_carries_its_record; a_zonal_field_is_referenced_to_its_sources_radius; retrograde_rotators_have_negative_rates_and_periods_match_the_iau_rate); solar_system::tests (defaults_report_all_eighteen_bodies_with_tracks; earth_heliocentric_distance_is_one_au_and_period_one_year; a_planet_track_closes_on_its_orbit_and_starts_at_the_epoch_position; moons_orbit_their_planets_at_their_mean_distance; pluto_outside_its_table_is_an_error_not_a_guess; every_emitted_number_has_a_unit); tests/body_constants_naif_oracle.rs::only_the_conventional_constants_of_other_rows_differ
+
+seg-0de56af96b3e = body_pnt (BodyPntScenario, formal_sigma, fix_error); orbit (dop); batch_ls (gauss_newton); mars_pnt (chord_clears_sphere); mars_frame (bodyfixed_to_inertial)
+
+seg-92943f4850b5 = body_pnt::tests (relay_period_is_keplers_third_law_for_the_body; an_orbiter_keeps_its_radius_and_a_lander_sits_on_the_surface; the_earth_range_never_worsens_the_formal_uncertainty; seeded_fix_errors_are_consistent_with_the_formal_sigma: kvadratmiddelverdien av hver posisjonsbestemmelsesfeil over sin egen formelle sigma i [{ "0.6" }, { "1.5" }]; earth_light_time_is_minutes_at_mars_and_the_run_is_deterministic; defaults_run_around_mars_and_every_number_has_a_unit)
+
+seg-17bf1df86b49 = constellation (coverage, ConstellationDesignScenario, beidou_slots, body_by_name)
+
+seg-4d15849bdf7c = constellation::tests (prefilter_matches_brute_force_exactly — hvert kart og hver teller er lik en skanning med den direkte elevasjonstesten; five_thousand_satellites_on_a_coarse_grid — { "5 000" } satellitter, skriver ut kjøretiden og parene som ble testet og beholdt; a_clock_per_constellation_needs_one_more_satellite; beidou_geo_and_igso_geometry; lunar_shell_runs_around_the_moon; presets_are_earth_only_and_errors_are_clear; preset_counts); tests/constellation_availability_published_spec_oracle.rs::presets_meet_the_published_dop_availability (bare regresjonskontroll); tests/coverage_dop_full_oracle.rs::finding_is_pinned; tests/coverage_dop_gnss_lib_py_oracle.rs (regresjon)
+
+seg-fde8247097c3 = campaign (run_campaign_detailed, run_chain, presets, extract, to_svg)
+
+seg-d8d3a3893423 = tests/campaign_composition_reference.rs (a_one_phase_clock_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_integrity_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_jamming_campaign_reproduces_the_standalone_run_bit_for_bit — medlemsresultatet er byte-identisk med den frittstående kjøringen og hver justerte verdi er lik den frittstående serien; the_chained_mission_hands_state_on_and_ends_the_spoofing_phase_on_detection; a_handoff_writes_the_previous_phase_number_into_the_next_scenario; malformed_campaigns_fail_loudly)
+
+seg-59eda109a298 = campaign (run_sweep, run_monte_carlo, ensemble); sweep (GenericAxis, coords_of, set_dotted_value); inertial (metric_stat)
+
+seg-3b9aa486bb66 = tests/campaign_composition_reference.rs (a_fixed_seed_ensemble_is_byte_stable_and_each_realisation_is_the_standalone_run; the_ensemble_mean_and_spread_match_the_white_fm_closed_form — { "200" } seeds for en klokke med hvit frekvensstøy som driver fritt tau = { "3010" } s: det sanne gjennomsnittet { "0" } innenfor det rapporterte intervallet, intervallets halvbredde innenfor { "25" } % av { "1.96" } sigma/sqrt(n), og utvalgsvariansen innenfor det tosidige { "99" } %-kjikvadratintervallet for sigma = sqrt(q_wf tau) = { "16.459" } ns; kalibreringsensemble (CAP-10, forhåndsregistrert ea451cb5, docs/CALIBRATION-ENSEMBLES.md, tests/calibration_ensembles.rs): over { "200" } uavhengige ensembler dekker intervallet det sanne gjennomsnittet i { "192" } (innenfor { "99" } %-området [{ "181" }, { "197" }] for Binomial({ "200" }, { "0.95" })) og kjikvadratkontrollen består i { "196" }, mens persentiltoleransen for ett seed (p05 og p95 innenfor { "0.3" } sigma) består i bare { "183" } av { "200" }, NOT MET mot de forhåndsregistrerte { "190" }, en kontroll som er skjør overfor seed, registrert i stedet for løsnet; a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number)
+
+seg-c0c2439ee1f6 = campaign (run_compose)
+
+seg-b238a6b2bbdd = tests/campaign_composition_reference.rs (a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number — en sammensetning med ett medlem leser det frittstående tallet og resultatsammendraget)
+
+seg-a032de3144fe = campaign::optimize (run_optimize, nelder_mead)
+
+seg-94a984382eee = tests/campaign_optimize_reference.rs (forhåndsregistrert fbe6c8b3 og, etter en protokollbom i runde 1, 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1-D-målløsning innenfor { "6.1e-15" } av r* = r0 { "10" }^((m(r0) - { "3" })/20) på { "96" } evalueringer; p3_prime_contour_target_grid_and_nelder_mead og p3_grid_matches_brute_force_and_nelder_mead_does_at_least_as_well — rutenettmetodens beste er bit-lik en uavhengig { "41" } x { "41" } brute-force-løkke over run_toml, Nelder-Mead minst like god på { "177" } og { "161" } evalueringer; p4_nelder_mead_reaches_the_corner_maximum; p5_the_document_is_byte_stable_and_counts_agree; p2_round1_not_met_the_box_excludes_the_closed_form, som fester den registrerte boms i runde 1); campaign::optimize::tests (nelder_mead_meets_the_preregistered_rosenbrock_bar: f* = { "1.7e-20" } på { "234" } evalueringer; a_non_finite_score_is_never_the_best; the_grid_mapping_is_the_sweeps)
+
+seg-a0c6fa7dbb46 = leo_signal (LeoSignalScenario, SignalDesign, Component, Shape, code_jitter_m, gabor_bandwidth_hz, detection_probability, threshold_for_pfa, mean_acquisition_time_s, ssc_leo_into_gnss, ssc_gnss_into_leo, jammer_tolerance, gnss_victim, preset, public_signal)
+
+seg-6d9eb1dc2a11 = leo_signal::tests (every_public_preset_parses_and_cites_a_url; detector_reduces_to_pfa_and_grows_with_snr; detection_probability_with_several_looks_matches_the_noncentral_chi_square; mean_time_of_a_perfect_detector_is_half_the_cells; compatibility_ssc_magnitudes_match_independent_quadrature; to_spectrum_band_is_consistent_with_the_design; jammer_tolerance_orders_cw_matched_wideband; e5_centred_signal_hits_e5a_and_e5b_equally; defaults_run_on_the_generic_band_preset; inline_signal_and_bad_inputs); tests/leo_signal_reference.rs (hvert medfølgende systemuavhengige scenario kjører uten workshopdata, ionosfæreforholdene i båndavveiingen er lik (f_ref/f)^{ "2" } og forskjellene i fri rom er lik { "20" } log10(f/f_ref), jitteren ved referanse-C/N0 ligger mellom Gabor-grensen og formen uten båndbegrensning, E5-formkontrollene i scenarioet med workshopparametere er konsistente når den filen finnes, og ingen kildefil kompilerer inn den filen)
+
+seg-e31094573516 = spectrum (Band::unit_psd, Band::tracked_power_dbw, BandDesign, BandCfg, PanelCfg, SpectrumScenario, Waveform, multi_band_svg); leo_signal (SignalDesign::to_spectrum_band)
+
+seg-17f462b8768d = tests/leo_signal_reference.rs (flerbånds-fossefallet kjører med fire paneler, UHF-, L5-bånds-, S- og C-jammerne nekter hver bare sitt eget bånd, og en kjøring med vanlig bånd er uendret av utvidelsen); leo_signal::tests::to_spectrum_band_is_consistent_with_the_design; spectrum::tests (agrees_with_the_jamming_kind_chain)
+
+seg-8749534ecbbb = leo_pass (LeoPassScenario); leo_link::geometry (design_pass, link_geometry, numerical_check, SatMotion, UserMotion); leo_link::antenna; leo_link::itu (p676_gaseous_attenuation_db); leo_link (system_noise_temperature_k, cn0_dbhz)
+
+seg-eec596b8749d = leo_pass::tests (the_leo_pass_is_a_bell_above_flat_gnss; closed_form_doppler_agrees_with_the_numerical_derivative: under { "0.01" } Hz og { "0.01" } Hz/s; indoor_uhf_suffers_less_building_loss_than_c_band; rain_attenuates_c_band_more_than_s_band; iono_delay_scales_as_one_over_f_squared_across_bands; a_fully_custom_band_needs_no_preset; a_walker_constellation_and_a_tle_satellite_both_run; defaults_run_with_no_preset_named_and_every_number_has_a_unit); leo_link::geometry::tests (kepler_velocity_is_the_derivative_of_the_position; a_designed_pass_reaches_the_requested_elevation; closed_form_range_rate_and_accel_match_central_differences_for_two_body_motion); leo_link::antenna::tests
+
+seg-a6cfe1d09891 = leo_link::presets (SystemPreset, BandPreset, all, by_id, gnss_meo); leo_pass (resolve_bands)
+
+seg-09ebe92cc5c1 = leo_link::presets::tests (every_preset_is_sourced_and_self_consistent; only_the_celeste_preset_is_sourced_from_the_workshop); leo_link::presets::xona_pulsar::tests (the_eirps_reproduce_the_published_minimum_power_at_ten_degrees; a_flat_pattern_lands_the_zenith_power_near_the_published_maximum: innenfor { "0.5" } dB av -139.1 og -136.2 dBW); leo_link::presets::iridium::tests; leo_pass::tests (a_fully_custom_band_needs_no_preset)
+
+seg-8c33a02f0aa9 = leo_link::energy (fix_budget, duty_curve, IotReceiver, IotSignal); leo_pass (iot_section)
+
+seg-981819c1af62 = leo_link::energy::tests (stronger_signals_and_smaller_doppler_windows_fix_faster; the_doppler_rate_caps_the_coherent_time; battery_life_grows_with_the_fix_interval_toward_the_sleep_floor); leo_pass::tests (the_run_is_deterministic_and_bad_inputs_are_rejected)
+
+seg-a8d152bb385d = leo_navmsg (LeoNavmsgScenario::midpass, worst_case_jump, elevation, geodetic_to_ecef)
+
+seg-af0e339c4fae = leo_navmsg::tests::a_mid_pass_update_is_continuous (hvert byttes avstandshopp er lik endringen i avstandsfeil, og en korrigert tilpasning på { "300" } s oppdatert hvert { "150" } s består en terskel på { "5" } cm); leo_navmsg::tests::a_keplerian_only_update_over_a_long_interval_is_flagged; leo_navmsg::tests::worst_case_jump_bounds_every_line_of_sight (den lukkede formen avgrenser en tett sampling av kjeglen)
+
+seg-d8d04f2ffd50 = leo_navmsg::codec (encode, decode, write_payload, read_payload, field_table, quantisation_budget)
+
+seg-4040a549f1c1 = leo_navmsg::codec::tests (signed_fields_round_trip_through_the_bit_packer; week8_resolves_near_the_reference); leo_navmsg::tests::every_model_round_trips_through_the_binary_frame (hver modell innenfor { "2" } mm av den eksakte meldingen etter dekoding, ny koding bit-identisk, en snudd bit avvist av CRC-en); leo_navmsg::tests::every_field_of_the_budget_stays_under_a_millimetre
+
+seg-a6f36f62a02d = leo_navmsg::text (rinex_export, rinex_import, csv_export, csv_import, calendar, from_calendar)
+
+seg-14ee5fa96ce7 = leo_navmsg::text::tests (calendar_round_trips_and_knows_the_gps_origin; d19_is_rinex_shaped); leo_navmsg::tests::rinex_and_csv_round_trips (hver modell innenfor { "0.1" } mm etter tekstblokken, CSV-en eksakt)
+
+seg-3f5b07cc8c81 = leo_navmsg::elements (EcefPoly, ephemeris_at); leo_navmsg (liu_comparison, LIU2025_TABLE)
+
+seg-1ffa5a792c36 = leo_navmsg::tests::liu22_beats_the_16_parameter_set_over_a_20_minute_arc; leo_navmsg::tests::the_ecef_polynomial_fits_a_minute_to_millimetres; leo_navmsg::tests::every_preset_resolves_and_the_atomic_preset_selects_the_zero_clock_polynomial
+
+seg-fc9c5d5b1511 = leo_fusion::doppler (solve, formal_covariance, single_pass_geometry, offset_site, closest_approach); leo_fusion::pvt_kind (run_doppler)
+
+seg-6cb8d56c57d6 = leo_fusion::doppler::tests (range_acceleration_obeys_the_kinematic_identity_and_vanishes_doppler_at_closest_approach; noise_free_multi_satellite_doppler_recovers_the_user: til { "1" } mm og driften til { "1e-6" } m/s; a_single_pass_has_a_mirror_solution_across_the_ground_track; the_cross_track_error_grows_as_the_pass_goes_overhead; velocity_states_are_recovered_for_a_moving_user); leo_fusion::pvt_kind::tests (doppler_positioning_improves_with_the_window_and_is_deterministic: den veide residual-RMS-en i [{ "0.8" }, { "1.2" }] og feilen under fire formelle sigma); tests/leo_fusion_scenarios.rs (leo_doppler_positioning_forms_a_fix_and_the_cross_track_error_explodes_overhead; starlink_doppler_only_mode_runs_without_ranging); tests/starlink_doppler_published_proxy.rs (en forhåndsregistrert proxy mot de publiserte persentilene for datasett 3 i «Unveiling Starlink for PNT», doi:10.33012/navi.685: med { "3" } satellitter (maske på { "47" } deg), ingen høydestøtte og { "30" } Hz er p90 3D-feilen { "92.2" } m ved { "20" } s og { "870" } m ved { "8" } s mot de publiserte { "2" } m og { "10" } m, så begge terskler på en faktor to er NOT MET, på den høye siden, og slått fast som bom; docs/design/evidence/cap11-starlink-doppler-proxy/)
+
+seg-95f8dcd6247e = leo_fusion::joint_pvt (solve, dop, code_sigma_dll_m, SystemClock); leo_fusion::system (SystemCfg, System); leo_fusion::pvt_kind (run_joint)
+
+seg-7a8b0b7b8a37 = leo_fusion::joint_pvt::tests (dop_matches_the_hand_derived_zenith_plus_three_horizon_case: HDOP = VDOP = sqrt(4/3), TDOP = sqrt(1/3), PDOP = sqrt(8/3), GDOP = sqrt({ "3" }) til { "1e-9" }; a_lone_satellite_with_its_own_clock_adds_nothing_and_a_known_offset_does; a_noise_free_fix_recovers_position_clock_and_inter_system_bias; seeded_fixes_agree_with_their_formal_covariance; dll_noise_is_the_textbook_figure_for_gps_l1_ca); leo_fusion::pvt_kind::tests (fusing_leo_never_worsens_the_median_pdop_and_the_isb_is_recovered); tests/leo_fusion_scenarios.rs (meo_leo_fusion_beats_gnss_alone_and_recovers_the_leo_bias); tests/joint_pvt_dual_freq_itrf_rtklib_oracle.rs::dual_frequency_finding_is_pinned; tests/joint_pvt_precise_itrf_rtklib_oracle.rs::precise_product_finding_is_pinned
 
 seg-d98c7b399230 = leo_fusion::ppp (run, PppScenario, LI_2019)
 
@@ -2482,3 +3002,709 @@ seg-7b8247a4ca76 = tests/iq_acq_cfar.rs (c1_closed_form_matches_monte_carlo_of_t
 seg-3e8c364433b7 = spectrum (default_band, MORE_BAND_NAMES, GLONASS_CHANNELS)
 
 seg-e24276b8b422 = tests/spectrum_more_bands.rs (s1_new_bands_carry_their_icd_values, s2_nulls_and_b1c_parts, s4_cn0_paths_agree_on_the_new_bands; s2_closed_form_densities_verdict_is_the_recorded_one, funn F1, festet av finding_s2_areas_are_the_closed_form_in_band_fraction; s3_iq_layer_verdict_is_the_recorded_one, funn F2, festet av finding_s3_per_bin_errors_follow_the_code_line_spectrum; posthoc_s3_band_averaged_shape, bare rapportert)
+
+seg-010ad441a092 = iq::lunanet_afs; iq::signals::lunanet (afs_q_tertiary_bits, afs_q_overlay_bits, afs_q_tiered); surface (lunanet_afs_check_spec, lunanet_afs_check_symbols, lunanet_afs_generate)
+
+seg-2d72ec7c3695 = tests/lunanet_afs_codes.rs (b4_legendre_1499_matches_and_tertiary_codes_match_except_one_printed_column, the_spec_check_reports_every_bar_and_pins_the_b4_miss); iq::lunanet_afs::tests (sb1_round_trips_every_field_and_corrects_flipped_symbols, generated_streams_pass_and_damage_is_found); tests/lunanet_afs_cli.rs
+
+seg-662887e17adb = standards_pack; compliance (standards-pack facts in compliance-report)
+
+seg-e2d8a0f6daa5 = tests/standards_packs.rs (pinned_outcomes: statusen til hver test, inkludert bommene L4-T1 og de fire IMO-nøyaktighetstestene); standards_pack::tests
+
+seg-012acc12567b = evidence::roundtrip, evidence::assemble, interop::testbench (write_conditions_json), iq::campaign::conditions
+
+seg-b92c6dde9c2b = tests/round_trip_pack.rs (pack_links_scenario_conditions_log_and_score_and_verifies, conditions_that_disagree_with_the_scoring_events_are_refused, a_stated_log_hash_that_does_not_match_is_refused, published_schema_names_every_field_the_engine_writes)
+
+seg-d9eab5e90d10 = iq::track (Channel, LoopCore, design); iq::cli::track
+
+seg-a99bb0c28b00 = tests/iq_track_gnss_sdr_oracle.rs (calibration_passes_for_both_receivers, registered_bars_give_the_recorded_verdict, recorded_numbers_are_pinned), på tall avledet av tests/fixtures/iq_track_gnss_sdr_oracle/make_fixture.py
+
+seg-6c01cedc4ca7 = jamming (CrpaCfg, crpa_weights, run_jamming); crpa (null_steering_weights, mvdr_weights, covariance)
+
+seg-efdc3da9e0ad = tests/jamming_crpa.rs (a1_crpa_units_only_with_the_section, a2_one_element_is_no_array, a3_verdict_is_the_recorded_one, a4_mvdr_tends_to_the_null_at_high_jnr), mot xval/crpa-jamming/expected.json fra xval/crpa-jamming/oracle.py
+
+seg-05b174fab8a1 = jamming_terrain (TerrainCfg, jammer_terrain, knife_edge_loss_db); jamming (run_jamming_sky)
+
+seg-5adec86a588b = tests/jamming_terrain.rs (b1_terrain_units_only_with_the_section, b2_every_placement_matches_the_independent_numpy_recomputation, b3_the_loss_never_rises_as_the_jammer_rises, b4_the_loss_reaches_every_js_and_nothing_else, b5_the_knife_edge_function_matches_the_reference_expression), mot xval/jamming-terrain/expected.json fra xval/jamming-terrain/oracle.py
+
+seg-0417fac0e7e2 = jamming_rx (AcquisitionCfg, AcqState, FrontEndCfg, front_end); jamming (run_jamming_sky); iq::frontend::quant (optimum_step_sigma)
+
+seg-ca7aa6592c0d = tests/jamming_acq_agc.rs (h1_g1_units_only_with_their_section, h2_no_hysteresis_is_no_hysteresis, h2s_no_hysteresis_is_no_hysteresis_on_the_supplementary_runs, h3_flags_match_the_independent_recomputation, h3s_flags_match_the_independent_recomputation_on_the_supplementary_runs, h4_monotone_in_the_acquisition_threshold, h4s_monotone_in_the_acquisition_threshold_on_the_supplementary_runs, g2_quantiser_loss_matches_the_independent_monte_carlo, g3_agc_reading_matches_the_iq_layer_agc_loop), mot xval/jamming-acq-agc/expected_hysteresis.json, expected_hysteresis_s1.json og expected_quantiser.json
+
+seg-80753cdc89bc = iq::track (LoopConfig, FllGate, design); iq::track::channel (the FLL gate)
+
+seg-96b2276484ed = tests/iq_fll_handover_floor.rs (registered_bars_give_the_recorded_verdict, d1_the_key_is_part_of_the_hash_only_when_set, d4_the_capped_design_pulls_in_a_100_hz_handoff_error), på tests/fixtures/fll_handover_floor/results.csv
+
+seg-e322b10ec19c = receiver_trust::machines::rtklib (read_rtklib_pos); receiver_trust::LogFormat::RtklibPos
+
+seg-b5f5f47b5608 = receiver_trust::machines::rtklib::tests (lat/lon-epoker, uke/TOW og ECEF, dms avvist, fiendtlig inndata); tests/receiver_trust_machines.rs::rtklib_pos_runs_as_a_receiver_log; integrations/gnss_lib_py/test_bridge.py
+
+seg-97eac8ec4604 = receiver_trust::machines::novatel (read_novatel, novatel_crc32); receiver_trust::LogFormat::Novatel
+
+seg-d935af6c8c6a = receiver_trust::machines::novatel::tests (festet CRC, ASCII- og binærposter, ugyldig CRC hoppet over, fiendtlig inndata); tests/receiver_trust_machines.rs::novatel_jammer_flag_reaches_the_receiver_self_report
+
+seg-d151880c7268 = receiver_trust::machines::rtcm3 (read_rtcm3, crc24q); receiver_trust::LogFormat::Rtcm3
+
+seg-68a47a4f7e3f = receiver_trust::machines::rtcm3::tests (CRC-24Q-katalogens kontrollverdi, MSM4/MSM7 C/N0 og sammenslåing av epoker, GLONASS-tid og kartlegging av SBAS-id, ugyldig CRC og andre meldinger)
+
+seg-a2c51966ce9e = receiver_trust::machines::gnss_sdr (read_gnss_sdr_monitor); receiver_trust::LogFormat::GnssSdr
+
+seg-696b76cdaf9a = receiver_trust::machines::gnss_sdr::tests; integrations/gnss-sdr/example.jsonl
+
+seg-2977aaca1688 = receiver_trust::machines::imu, imu_fit; surface::imu_fit; scenario [log.imu]
+
+seg-10715c98eaae = receiver_trust::machines::imu::tests; receiver_trust::machines::imu_fit::tests (kjente koeffisienter for hvit støy gjenvunnet innenfor { "10" } %, avslag, TOML tolkes som AccelCfg); tests/receiver_trust_machines.rs (overensstemmelse og avvik i retning, innebygd bærer, imu_fit)
+
+seg-6ad9867cec5c = telemetry::mqtt (discovery, state_json, connect_packet, publish_packet, MqttSink); surface::TelemetryFormat::Mqtt
+
+seg-21059291ea8b = telemetry::mqtt::tests (pakkebyte, loopback-megler, død megler telt); tests/receiver_trust_machines.rs::trust_telemetry_mqtt_text_has_discovery_then_state
+
+seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); integrations/gnss_lib_py/kshana_gnss_lib_py.py
+
+seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: formatet som gnss_lib_py-broen skriver, kjørt gjennom receiver-trust); Python-testene for broene er integrations/ros2/kshana_trust/test/test_bridge.py (bro med en falsk motor), integrations/ros2/kshana_trust/test/test_engine_integration.py (den reelle wheel-pakken scorer en jevn posisjonsbestemmelse som nominell og et hopp på { "1.1" } km som untrusted) og integrations/gnss_lib_py/test_bridge.py (ekte gnss_lib_py { "1.1.0" } og wheel-pakken), kjørt med pytest, ikke av cargo
+
+seg-e8e0e0618afa = Kilde: <c1/>
+
+seg-4cb1d67922ed = Det fullstendige, maskinkontrollerte evidensregisteret: <b>{ "388" } rader: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. En rad kan bare være VALIDATED med en uavhengig ekstern referanse (invarianttestene for matrisen håndhever dette). De samme dataene, med klikkbare lenker per rad til hver test, modul og innsjekket fixtur, er <em>Valideringsregisteret</em> på <a1>https://kshana.dev</a1>. Se <a2>MODELLED-RATIONALE.md</a2> for hvorfor hver Modelled-rad ikke er eksternt validert.
+
+seg-6e5e0a1e1c99 = allan (lag1_noise_id, lag1_acf)
+
+seg-b04cb81fc402 = tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } tilfeller: ti potenslov-registreringer fra Kasdin, b = { "0" } til -4, som fase- og frekvensdata, af = { "1" } til { "64" }; alpha_int og d identiske, verste |d alpha| { "9.6e-13" } og |d rho| { "4.8e-13" } mot { "1e-9" }; forhåndsregistrert 2ec76864); allan::tests (lag1_identifies_white_pm_white_fm_and_random_walk_fm; lag1_is_blind_to_a_quadratic_phase_trend)
+
+seg-9c4769edcf2b = osnma (page, subframe, dsm, merkle, signature, tesla, mac, maclt, navdata, verifier, ubx, cli)
+
+seg-af088012df3f = tests/osnma_official_vectors.rs (frivillig, KSHANA_OSNMA_VECTORS: alle { "18" } vektorsett, { "186,382" } koder autentisert, { "0" } feilet, gulv per sett, kjeder kunngjort, ADKD 0/4/12, varsel verifisert, autentisering som gjenopptas etter kjedeslutt, kjede- og nøkkelsperring og ny offentlig nøkkel; frakoblet, vektorene redistribueres ikke); tests/osnma_synthetic.rs (angrepssuiten: spoofede delrammer langt frem i tid, utløp og databinding, varsel og «ikke bruk», hodebekreftelse, dummykoder, MACSEQ, nøkkelkonflikt, utdatert og gjentatt KROOT, CMAC-AES/SHA3-256/P-521 gjennom verifikatoren); osnma-enhetstester (kjente svar for RFC { "4231" }, RFC { "4493" }, FIPS { "197" }, FIPS { "202" }, RFC { "6979" } og CRC-24Q)
+
+seg-be26fdfb4a7c = allan
+
+seg-a59477833676 = tests/allan_reference.rs (NBS14 mot Stable32 til { "1e-4" }); allan::tests
+
+seg-b8ed4780ccb7 = tests/cs5071a_reference.rs (virkelig 5071A Cs mot H-maser, { "556 990" } punkter, { "16" } midlingsfaktorer mot Stable32 til { "1e-3" }; databegrenset via scripts/fetch_cs5071a.sh)
+
+seg-17f05fc54f98 = tests/phasedat_reference.rs (Stable32 PHASE.DAT, { "139" } midlingsfaktorer, OADEV/MDEV/TDEV til { "1e-3" }; databegrenset via scripts/fetch_phasedat.sh)
+
+seg-8c6006055d29 = tests/theo1_totvar_reference.rs (Theo1 + TOTDEV på NIST SP { "1065" } §{ "12.4" } datasettet med 1000 punkter fra LCG, { "6" } + { "6" } midlingsfaktorer mot allantools { "2024.06" } til <{ "1e-9" }); allan::tests (sporing av hvit-FM i lukket form; identiteten TOTVAR=ADEV ved m={ "1" }; invarians av Theo1/TOTVAR for fase-/frekvensforskyvning; -1/2 hvit-FM-stigning)
+
+seg-ca3c7f74a002 = allan (mtie, mtie_curve)
+
+seg-deb9fe96d3bd = tests/mtie_reference.rs (MTIE på den hermetiske NIST SP { "1065" } §{ "12.4" } faseserien med 1000 punkter fra LCG, { "9" } midlingsfaktorer m={ "1" }..256 mot allantools { "2024.06" } mtie til <{ "1e-9" }, observert ≤{ "4e-15" }); allan::tests (håndutledet topp til topp; monoton ikke-avtakende i τ; eksakt a·m på en ren rampe)
+
+seg-a8f98bb9ff1b = allan (modified_adev, time_deviation)
+
+seg-271a3d6ac7b1 = tests/mdev_tdev_reference.rs (MDEV + TDEV på den hermetiske NIST SP { "1065" } §{ "12.4" } faseserien med 1000 punkter fra LCG, { "8" } midlingsfaktorer m={ "1" }..200 mot allantools { "2024.06" } mdev/tdev til <{ "1e-9" } relativt, pluss identiteten τ/√{ "3" } på den virkelige serien); allan::tests (hvit-FM −1/2-stigning; håndutledet lite MDEV-tilfelle)
+
+seg-ad8d37a343f0 = quantum_trade (qparams_from_adev_curve), powerlaw
+
+seg-1df335e6eff2 = tests/optical_clock_adev_reference.rs (Norcia et al. ⁸⁸Sr pinsettklokke σ_y(τ), { "8" } midlingstider { "0.92" }–{ "117.76" } s tatt ordrett inn under CC-BY-4.0: NNLS rekonstruerer kurven til ~{ "10" }% RMS / ≤{ "21" }% verste punkt; gjenvunnet √q_wf = { "4.33e-16" } stemmer med den publiserte 4.7e-16/√τ; q_rw > { "0" } målt rødstøygulv)
+
+seg-5efe6e680a2e = araim_reference (add_v42_protection_levels, add_v42_protection_levels_ecef); raim (snapshot_raim, snapshot_raim_fde, araim_raim, araim_dual_raim, solution_separation_raim); sbas (sbas_protection_level); lunar
+
+seg-c7fea4d91077 = tests/integrity_araim_stanford_oracle.rs::araim_mhss_matches_stanford_maast_add_v4_2 ({ "270" } tilfeller med virkelig geometri, Celestrak GPS+Galileo og IGS SP3: verste |dVPL| { "2.2e-3" } m, |dHPL| { "1.1e-3" } m, |dEMT| { "2.1e-10" } m mot ADD TOL_PL { "0.05" } m); tests/integrity_araim_stanford_oracle.rs::uniform_sigma_matched_gap_finding (gapene med uniform sigma, festet); tests/integrity_snapshot_raim_rtklib_oracle.rs::snapshot_raim_decisions_and_slope_levels_match_rtklib (virkelig IGS ABMF 2018-05-13, { "288" } epoker, { "2016" } tilfeller med innsatte biaser på { "10" } til { "100" } m: 2016/2016 deteksjonsbeslutninger og 801/801 utelukkelsesbeslutninger identiske, HPL/VPL for stigning innenfor { "2.7e-12" } m mot { "1e-6" } m); tests/integrity_sbas_stanford_oracle.rs::sbas_l1_protection_levels_match_stanford_maast_on_real_waas_messages ({ "2868" } par av brukerepoker på virkelige WAAS-kringkastinger, samme beskyttede sett, verste |dVPL| { "7.1e-6" } m og |dHPL| { "1.6e-5" } m mot { "1e-4" } m); tests/integrity_sbas_stanford_oracle.rs::sbas_l5_finding_geo_reception_gate (L5-funnet, festet); tests/igs_real_data.rs og tests/araim_dual_real_data.rs (plausibilitet på virkelig IGS SP3 og Celestrak-geometri, beholdt som regresjonssjekker, ikke uavhengige referanser)
+
+seg-a58b3968c6b7 = sgp4, propagator, orbit_determination, precise_od
+
+seg-9b9adc7d7cd4 = tests/sgp4_verification.rs ({ "666" } AIAA-verifikasjonsvektorer, verst { "4.12" } mm); tests/sgp4_crate_comparison.rs (uavhengig sgp4-crate)
+
+seg-1f6277967a05 = propagator, forces
+
+seg-f07882adc2a4 = tests/numerical_cowell_propagator_reference.rs ({ "275" } epoker = { "11" } tilfeller × { "25" } timesvise tilstander, LEO+GTO, mot Orekit { "12.2" } DormandPrince853; konservative nivåer T1–T5 verste |Δr| { "0.08" } m over { "24" } t; luftmotstandsnivået karakterisert ved { "333" } m)
+
+seg-0010700556ee = srp_shadow, forces (srp_accel_with_lit_fraction), propagator
+
+seg-2e312ba33e1b = tests/srp_oblate_shadow_orekit_oracle.rs ({ "2400" } geometrier over skyggekanten, { "884" } i halvskygge, LEO til GEO, solas deklinasjon { "0" } og +-23.44 grader, { "8" } asimuter: verste |dnu| { "7.41e-9" } for WGS-84 og { "2.24e-9" } for den sfæriske grunnlinjen; Orekits WGS-84- og sfæriske forhold avviker med opptil { "0.98" }, så settet skiller ut flattrykthet); enhetstester for srp_shadow og propagator
+
+seg-7c521cb02ac6 = srp_boxwing, propagator, precise_od
+
+seg-2d4f28a19e1d = tests/srp_boxwing_orekit_oracle.rs ({ "252" } geometrier for Galileo-bane, { "7" } solcaser inkludert perihel- og aphelavstander, { "100" } tilfeldige attityder; sum for flat plate verst { "2.05e-15" } relativt over { "1056" } tilfeller; fra ende til ende med Orekits egen attityde og eget trykk verst { "2.39e-15" } over { "747" } tilfeller med full sol, mens Orekits standard trykkonstanter avviker med >= { "4.43e-3" }, så sammenligningen skiller ut konstanten; nominell yaw-matrise verst { "1.89e-15" }; partiell deriverte av strålingsfaktoren verst { "1.35e-15" }; partielle deriverte per panel verst { "4.12e-13" } relativt mot sentrale differanser av Orekit over { "10836" } panel-tilfeller; ECOM2-akselerasjon og partielle deriverte verst { "1.74e-15" }); enhetstester for srp_boxwing (grenser i lukket form, partielle deriverte med endelig differanse); koblingstester for propagator og precise_od
+
+seg-d23a475337fb = tests/nrlmsise00_reference.rs ({ "720" } rutenettpunkter, { "90" } til { "1000" } km, { "4" } breddegrader, { "2" } lokaltider, { "3" } dager, lav/moderat/høy aktivitet: tetthet innenfor { "1.866e-6" } relativt og temperatur innenfor { "1.97e-4" } K av pymsis; bit-identisk med C-porten; de { "17" } publiserte C-testtilfellene, { "187" } verdier innenfor { "0.496" } enheter av det 7. signifikante sifferet); enhetstester for nrlmsise00
+
+seg-caf1ae1b5cc2 = forces (density_at, drag_accel_with_density), propagator
+
+seg-1ac527ac9ccd = tests/drag_tier_orekit_oracle.rs ({ "4" } tilfeller x { "25" } timesvise tilstander over { "24" } t, sirkulær { "51.6" } grader, { "400" } km ved lav/moderat/høy aktivitet og { "300" } km: verste |dr| { "0.0303" } m og |dv| { "3.36e-5" } m/s mot { "3.3" } til { "141.8" } km luftmotstandsforskyvning, verste feil/terskel { "0.003" }; kontrollen med eksponentiell tetthet bommer med { "119.1" } m); enhetstester for forces og propagator (standard bit-identisk; nivået evaluerer porten i det jordfaste geodetiske punktet)
+
+seg-7f91101322d5 = forces (atmospheric_density, drag_accel), propagator
+
+seg-751bc9c9df58 = tests/drag_exponential_gmat_oracle.rs (ekvatortilfellene E400, E300 og E250x600 ved J2000.0, { "25" } timesvise tilstander over { "24" } t: den luftmotstandsinduserte forskyvningen stemmer med GMATs til høyst { "0.016" } av terskelen { "0.5" } m + { "1e-3" }|D| mot { "21.5" } til { "143.9" } km forskyvning; en +{ "1" } % endring i Cd*A/m når { "9.83" } ganger terskelen; det inklinerte tilfellet I400 rapporteres, { "10.4" } % fra hverandre, den oppgitte forskjellen i definisjon av høyde)
+
+seg-aa8686f7fb0a = tides (s2_air_waves, atmospheric_tide)
+
+seg-2143047934b5 = tests/s2_air_tide_gfz_table5.rs ({ "21" } av { "21" } bølger stemmer med den publiserte modellen A2: verst { "0.00050" } cm, { "0.050" } grader mot terskler på { "0.0006" } cm, { "0.1" } grader); tests/tides_iers.rs (S2-amplitudebånd)
+
+seg-41e949982e14 = propagator (Geopotential, EarthFixedFrame), gravity_sh
+
+seg-0a12253e87b6 = tests/cowell_tesseral_orekit_oracle.rs ({ "6" } tilfeller x { "25" } timesvise tilstander over { "24" } t: EGM2008 8x8 og 70x70 på LEO { "45" } grader, polar { "89.9" } grader, solsynkron { "98.2" } grader, GTO, og 70x70 med sol/måne og SRP; verste |dr| { "0.0355" } m, |dv| { "3.74e-5" } m/s; negative kontroller bommer med { "6168" } m (frosset jord) og { "20871" } m (bare zonal)); enhetstester for propagator (identitet i zonal grense til { "1e-12" }, CIO-ramme bit for bit mot precise_od, Jacobi-integralet holdt til { "1e-9" } over { "6" } t)
+
+seg-f75dcdead7a4 = integrator, propagator
+
+seg-a921a1135cd7 = tests/dop853_scipy_oracle.rs ({ "8" } enkeltsteg: tilstand innenfor { "5.55e-15" } relativt, FSAL-derivert { "3.46e-15" }, tett utdata { "1.99e-14" }, beslutninger om aksept/avvisning identiske; { "3" } fullstendige kjøringer ved rtol = atol = { "1e-12" } (LEO { "58000" } s, e = { "0.7" } over { "5" } perioder, Arenstorf over én periode): initialt steg identisk, aksepterte steg 502/501, 390/390, 298/298 og evalueringer 6025/6013, 5497/5497, 4285/4285 mot SciPy, sluttilstander innenfor { "2.95e-13" } relativt (tolegeme) og { "1.58e-12" } (Arenstorf), tett utdata innenfor { "9.5e-13" }; nøyaktighet mot den eksakte Kepler-løsningen i mpmath lik SciPys (LEO { "8.44e-5" } m, Arenstorf-periodisitet { "1.475e-9" })); enhetstester for integrator og propagator ({ "24" } t tolegeme mot eksakt Kepler under { "0.1" } m)
+
+seg-c6da65825c67 = kepler, propagator
+
+seg-a8bfc307a73b = tests/kepler_mpmath_oracle.rs ({ "405" } rutenettpunkter, e fra { "0" } til { "0.999999" }, M i [-pi, pi] ned til { "1e-12" }: verste |E - E_ref| { "0.898" } eps|E| mot en terskel på { "8" } eps|E|; { "9" } punkter med oppviklet M verst { "0.013" } av sin terskel; intet Newton-poleringssteg nødvendig i noen av de { "414" } punktene; omslag bit-identisk); enhetstester for kepler
+
+seg-9a2263ce0872 = gravity_pds, gravity_sh
+
+seg-43b33973adff = tests/planetary_gravity_pds.rs (utsnitt av grad 20 kjører alltid: verste |dg|/|g| { "9.7e-16" }, perturbasjonsrelativt { "3.4e-11" }; GMM-3 d/o { "120" } over hele sfæren { "3.7e-15" } / { "6.3e-12" } og GL0660B d/o { "660" } ved |bredde| <= { "60" } grader { "5.0e-14" } / { "1.0e-10" }, databegrenset; hoder og utvalgte koeffisienter lik de publiserte PDS-produktene, antall poster { "7380" } og { "218790" }); enhetstester for gravity_pds
+
+seg-a7e3ecdbd2db = orbit_determination, precise_od (batch_ls::gauss_newton, fusion::ukf)
+
+seg-4adc303e81c8 = tests/batch_sequential_orbit_determination_reference.rs ({ "8" } scenarioer: { "6" } støyfrie LEO/MEO/eksentrisk/3–4 stasjoner + { "2" } σ={ "5" } m, mot Orekit { "12.2" }; verste batch |Δr| { "1e-3" } m / |Δv| { "1e-6" } m/s, sekvensiell |Δr| { "0.9" } m)
+
+seg-9edf08007870 = radiometric (light_time_solution)
+
+seg-c77ce1873266 = tests/deep_space_mars_radiometric_reference.rs ({ "24" } ledd over { "8" } epoker { "2020" }–{ "2027" } mot ANISE DE440; verste |Δτ| { "1.03e-9" } s, |Δavstand| { "0.31" } m ved opptil { "2.5" } AU)
+
+seg-8c4b011702b8 = rinex (parse_nav, RinexEphemeris::sv_position_ecef)
+
+seg-d202a16aba3f = tests/rinex_sp3_interop_reference.rs ({ "84" } tilfeller av SV-epoke: GPS + Galileo + BeiDou-MEO, { "12" } SV × { "7" } forskyvninger, mot RTKLIB eph2pos; verste |Δ| per akse { "6.2e-8" } m)
+
+seg-8233e5fa4199 = sp3 (Sp3Interpolator::position_ecef)
+
+seg-4e11ff43fdf7 = tests/sp3_interp_reference.rs ({ "72" } tilfeller av SV-epoke utenfor noder / { "6" } satellitter mot RTKLIB peph2pos; verste |Δ| per akse { "1.5e-8" } m)
+
+seg-724b7f1d8d6e = ionex (parse_ionex, parse_ionex_file, IonexFile::vtec_at, IonexFile::slant_tec_at, interpolate_tec_in_time, TecGrid::vtec_at)
+
+seg-bec58d3dc51b = tests/ionex_code_gim_oracle.rs (innsjekket syntetisk IONEX-kart mot formelreferansen: { "20 075" } noder eksakte, interpolasjon maks |Δ| { "3.5e-13" } TECU; databegrenset på KSHANA_IONEX_CODE_GIM_DIR, det virkelige endelige CODE-GIM-et for 2018-05-13 beskåret i bredde hentet av fetch.sh med en festet SHA-256: noder eksakte, interpolasjon maks |Δ| { "3.6e-13" } TECU over { "15 795" } sampler, slant TEC { "5.1e-13" } TECU; databegrenset RTKLIB v2.4.2-p13 iontec ved { "6885" } spørrepunkter, kjørt 2026-10-13: maks |Δ| { "3.6e-13" } TECU i begge tidsmodi, terskel { "1e-5" } forhåndsregistrert); ionex::tests
+
+seg-b930d9f826c3 = rtk_real (run_rtk), lambda (resolve)
+
+seg-b182934a1bbc = tests/rtk_real_wettzell_oracle.rs (IGS-stasjoner WTZR base / WTZZ rover, { "1.4" } m, 2025-02-24 00-03 t, { "30" } s: { "359" } epoker, faste løsninger på { "100" } % fra { "00" }:{ "10" }, median feil i fast grunnlinje { "4.5" } mm, p95 { "5.5" } mm; første { "10" } min fast { "2.6" } mm mot flytende { "13" } cm); rtk_real::tests
+
+seg-4ca93c8734ba = ppp_real (run_ppp, PppEpoch::clock_m)
+
+seg-3f5cbf55df2d = tests/ppp_time_igs_station_clock.rs (WTZR 2025-02-24, { "04" }:00-05:{ "55" }, { "24" } epoker: Kshana minus IGS std { "0.075" } ns, terskel { "0.20" }; middel -0.659 ns, terskel { "5.0" })
+
+seg-3f47749cb7a6 = ppp_real (run_ppp, parse_antex_receiver, solid_tide_ecef, phase_windup)
+
+seg-5e3b87bbbee5 = tests/ppp_real_wettzell_oracle.rs (IGS-stasjon WTZR, 2025-02-24 00-06 t, { "30" } s, holdt tilbake fra utviklingen: horisontalt ved siste epoke { "1.5" } mm, opp −{ "2.9" } cm; 04-06 t 240/240 epoker innenfor { "0.10" } m i 3D, p95 { "6.7" } cm; bare kode p95 { "1.70" } m; databegrenset ZTD-RMS { "1.7" } cm mot EUREF); ppp_real::tests; tests/ppp_parity_glab_rtklib.rs (RM-31: RTKLIB v2.4.2-p13 PPP på samme inndata stemmer innenfor { "0.05" } m ved 240/240 epoker, { "9.7" } mm ved den siste, ved den tredje registreringen etter to kjøringer der RTKLIB-konfigurasjonen manglet fastjordtidevann og la antennen på basesporet, begge registrert som funn; terskelen for SPP-likhet ble bommet, { "1.085" } m median mot { "0.50" } m; gLAB { "6.0.0" } ved sin første registrerte kjøring, kommandolinje fra tillegg { "4" }: PPP innenfor { "0.05" } m ved 240/240 epoker og { "5.0" } mm ved den siste, SPP-terskel bommet, { "1.187" } m median, et funn: de to referanseverktøyenes egne SPP-løsninger avviker med { "0.852" } m median, så den terskelen ble satt strengere enn overensstemmelsen mellom verktøyene)
+
+seg-285c8c81e033 = rinex (parse_nav, parse_nav_with)
+
+seg-a0832efb1056 = tests/rinex4_nav_brd400_oracle.rs (IGS BRD400DLR_S RINEX { "4.02" } mot BRDM00DLR_S RINEX { "3.04" } for 2026-07-19, utsnitt 00-02 t: G { "37" } / E { "478" } / C { "72" } poster stemte begge veier, hvert felt identisk, posisjon ved Toe { "0" } m; full dag databegrenset: G { "416" } / E { "5668" } / C { "865" } / J { "118" }); rinex::tests
+
+seg-bc1599eb4b29 = sp3 (Sp3File::clock_s, clock_nodes), precise_products (ClockRinex::from_sp3)
+
+seg-0b017f6fc258 = tests/sp3_clock_igs_oracle.rs (IGS endelig SP3 på { "15" } min for 2025-02-24 mot IGS endelige klokker på { "30" } s, { "32" } GPS-satellitter: median |Δ| ved noder { "2.6e-13" } s; { "3038" } midtpunktposter RMS { "0.121" } ns, p95 { "0.265" } ns; å holde noden i stedet { "4.24" } ns RMS); sp3::tests::clock_interpolation_is_linear_between_valid_nodes_and_exact_at_them
+
+seg-5a2ded5bd597 = fusion::kfgins (run, loaders, score), fusion::closed_loop (propagate_increments, fuse_position_lever_arm), fusion::gnss_ins_ekf (update_position_lever_arm)
+
+seg-5c5f9bc7a90a = tests/fusion_kfgins_dataset_oracle.rs (alltid syntetiske lastere og tester av spigerarm på spinnende plattform; databegrenset på KSHANA_KFGINS_DIR, kjørt 2026-10-13 på demodatasettet for KF-GINS: horisontal / vertikal RMS { "0.0109" } / { "0.0090" } m mot referansebanen mot KF-GINS C++ { "0.0111" } / { "0.0083" } m, alle seks forhåndsregistrerte terskler holdt; spigerarm av { "0.329" } m)
+
+seg-ffaf10c69f30 = interop::testbench (write_motion_csv, write_nmea, export)
+
+seg-25ce559f870b = tests/testbench_gpssdrsim_oracle.rs ({ "6" } tester: uavhengig referanse og scenarioer, eksportbyte festet, NMEA- og LLH-lesere, ECEF-utsnitt med fire kolonner, FUNN i kjøring 1 på CSV i full bredde, radrutenett på { "10" } Hz)
+
+seg-e93e26936fc3 = inertial::mechanization, inertial::attitude, inertial::imu_errors
+
+seg-add45d97ffaf = tests/classical_strapdown_ins_reference.rs (statiske/sving-/koningprofiler, { "30" } epoker hver, mot NaveGo: attityde bit-identisk { "0" } rad; hastighet/posisjon innenfor navngitte analytiske grenser)
+
+seg-c7a20cc3b4ab = tests/icgem_gravity_reference.rs (GRS80-syntese gjengir Somigliana til { "3.5e-12" }; virkelig ICGEM EGM2008-forstyrrelseskart fysisk)
+
+seg-6e415a0f75f2 = cr3bp (to_moon_centred_icrf, from_moon_centred_icrf, to_moon_centred_icrf_de440)
+
+seg-28bd9e3f225a = tests/cr3bp_to_mci_spice_oracle.rs::cr3bp_to_mci_matches_a_spice_two_vector_frame ({ "72" } tilfeller: { "12" } epoker i januar { "2025" } x punktene L1 og L2, to sørlige halo-starttilstander ved L2 og én DRO-starttilstand fra JPL Three-Body Periodic Orbits API og en generisk tilstand; verste posisjon { "1.8e-7" } m mot { "1" } mm, hastighet { "1.2e-9" } m/s mot { "1e-6" } m/s; invers { "2.7e-15" }); cr3bp::tests::moon_centred_map_round_trips_and_sends_the_moon_to_the_origin
+
+seg-49991cf99411 = solar_system (SolarSystemScenario::planetary_kernel_path, KernelOut); ephem_provider (KernelEphemeris)
+
+seg-dca7500cee83 = tests/solar_system_kernel_oracle.rs::kernel_backed_solar_system_matches_spice (Merkur, Venus, Jorden og Månen ved 2026-01-01, 2030-06-15 og 2040-12-31: verst { "3.3e-5" } m og { "1.0e-11" } m/s mot { "1" } mm og { "1e-6" } m/s; kjerneblokken og merkene eksakte); tests/solar_system_kernel_oracle.rs::without_a_kernel_the_report_has_no_kernel_block
+
+seg-7a164bdd2e29 = maneuver (porkchop_kernel, PorkchopGrid); ephem_provider (KernelEphemeris)
+
+seg-24424bbd7dd7 = tests/porkchop_de440_oracle.rs::de440_porkchop_matches_spice_and_pykep (Jorden til Mars-barysenteret, { "16" } avreiser 2026-09-01..2027-01-29 x { "19" } ankomster 2027-06-01..2028-02-26: { "304" } celler endelige på begge sider, verste C3 { "2.5e-14" } og V-infinity { "2.6e-14" } relativt mot { "1e-8" }, samme celle med minste C3, { "9.1997" } km²/s²)
+
+seg-90681122a5e8 = maneuver (optimise_transfer_kernel, TransferObjective, TransferType, TransferOptimum); ephem_provider (KernelEphemeris)
+
+seg-945e4a7acbe5 = tests/transfer_optimiser_oracle.rs::transfer_optimiser_matches_spice_pykep_scipy (Jorden til Mars-barysenteret, avreiser 2026-09-15..2027-01-15 x ankomster 2027-05-01..2028-03-01, Type I/II x min C3 / min V-infinity: verste målfunksjon { "8.7e-13" } relativt, datoer innenfor { "1e-5" } døgn, annen størrelse innenfor { "2.5e-7" } relativt, mot forhåndsregistrerte terskler på { "1e-7" }, { "0.01" } døgn og { "1e-4" }; docs/design/evidence/cap20cd-transfer-optimiser/); tests/transfer_optimiser_oracle.rs::transfer_optimiser_against_the_published_2026_handbook (sekundær publisert referanse NASA/TM-2010-216764 tabell { "2" }: Type II min C3 { "9.182" } mot { "9.144" } og Type II min V-infinity { "2.564" } mot { "2.565" } MET; Type I min C3 { "10.535" } mot { "11.11" }, -5.18 %, NOT MET og slått fast som bommet, der bibliotekets uavhengige referanse er enig med Kshana)
+
+seg-d79a333a38ef = maneuver (lambert_multirev, LambertSolution, LambertBranch)
+
+seg-57940d590f8e = tests/lambert_multirev_oracle.rs::multirev_lambert_matches_pykep_on_the_preregistered_cases ({ "382" } tilfeller: { "300" } tilfeldige 3D, { "18" } nær { "180" } grader, { "24" } nær minste tid for M = { "1" }..3, { "40" } heliosentriske; { "1058" } løsninger; antall og grenrekkefølge like; hastigheter innenfor { "1e-8" } relativt, verst { "1.6e-13" }; innenfor { "1" } % av minste tid innenfor { "1e-6" }, verst { "7.5e-15" }; en intern vakt med Kepler-landing lander hver løsning innenfor { "4.2e-12" } av |r2| bortsett fra ett festet funn på en bue med e = { "0.994" }, en begrensning i kepler_universal, ikke i løseren)
+
+seg-67d3c2e5a311 = maneuver (lambert)
+
+seg-5965501f44b7 = tests/lambert_reference.rs ({ "13" } overføringer mot lamberthub izzo2015; verste |Δv| { "7e-12" } m/s)
+
+seg-559cbdef5e7b = frames, precession, nutation, cio, timescales
+
+seg-3c23a80630da = tests/frame_reference_vectors.rs (Vallado fra ende til ende; SOFA/ERFA-vektorer)
+
+seg-05552ed067f9 = jd2 (Jd2::from_utc_calendar, utc_to_tai, tai_to_utc, utc_to_ut1, tai_to_tt, earth_rotation_angle); sgp4 (Sgp4::new_at, Sgp4::propagate_at)
+
+seg-47eebaccfd86 = tests/jd2_sofa_time_oracle.rs ({ "224" } UTC-tidspunkter: seks rundt hvert av de { "27" } skuddsekundene 1972-2016, to faste, { "60" } seedet over 1972-2026; dtf2d, utctai og taiutc hver innenfor { "1e-6" } s, verst { "1.9e-11" } s); jd2::tests (a_leap_second_day_is_86401_seconds_long_and_tai_steps_once; tai_to_utc_inverts_utc_to_tai_to_the_microsecond_across_a_leap_second; ut1_runs_through_tai_across_a_leap_second_day; the_two_part_earth_rotation_angle_matches_the_single_f64_one); sgp4::tests::propagate_at_measures_time_from_the_two_part_epoch
+
+seg-5a1b94ecd89e = jd2 (gmst82, From<TwoPartJd>, From<Jd2>); cio (gcrs_to_itrs_matrix_jd2); frames (teme_to_itrf_jd2, itrf_to_teme_jd2); orbit (Propagator::position_in_frame_jd2, own_jd2_utc); ephemeris (EphemerisScenario::two_part_jd)
+
+seg-53fd1421f96e = tests/jd2_earth_rotation_erfa_oracle.rs::two_part_earth_rotation_agrees_with_erfa ({ "40" } todelte UT1/TT-datoer 1980-2050 inkludert +{ "1" }, +{ "10" }, +{ "50" } us-steg ved to datoer: gmst82 innenfor { "1e-12" } rad, verst { "0" }; GCRS til ITRS-elementer innenfor { "5e-12" }, verst { "2.7e-14" }; rotasjon over +1/+10/+{ "50" } us innenfor { "1e-13" } rad av ERFA, verst { "1.1e-14" } rad, der enkelt-f64-stien bommer helt på stegene +{ "1" } og +{ "10" } us); ephemeris::tests::two_part_jd_agrees_with_the_default_and_resolves_microsecond_steps; frames::tests::the_two_part_teme_to_itrf_round_trips_and_resolves_a_microsecond; jd2::tests::gmst82_matches_the_single_f64_gstime_away_from_the_floor; jd2::tests::two_part_types_convert_without_moving_the_instant
+
+seg-dc25004c0845 = precession (precession_matrix); nutation (teme_to_gcrs_matrix); cio (gcrs_to_cirs_matrix_with_offsets)
+
+seg-c3deb78a651c = tests/frames_erfa_vector_oracle.rs::frame_matrices_agree_with_erfa_vectors ({ "40" } TT-epoker 1950-2100, dX og dY opptil { "0.5" } mas: presesjonselementer innenfor { "1e-13" }, verst { "0" }; TEME til GCRS innenfor { "5e-10" } rad, verst { "1.10e-10" } rad; CIO med forskyvninger innenfor { "1e-13" }, verst { "0" }; null forskyvninger bit-identisk med cio::gcrs_to_cirs_matrix)
+
+seg-351739161c56 = timescales (tai_minus_utc_on_date); jd2 (Jd2::from_utc_calendar, utc_to_tai, tai_to_utc)
+
+seg-e9e659ebde98 = tests/jd2_pre1972_sofa_oracle.rs::pre_1972_utc_conversions_agree_with_erfa ({ "117" } UTC-tidspunkter: fire rundt hver av de { "15" } startene av et TAI-UTC-uttrykk 1960-1972 og { "60" } seedet over 1960-1971; dtf2d, utctai og taiutc hver innenfor { "1e-6" } s, verst { "2.9e-11" } s); tests/jd2_pre1972_sofa_oracle.rs::post_1972_results_are_bit_identical (de { "224" } tidspunktene i raden for { "1972" }+ uendret bit for bit)
+
+seg-65230d78e0c2 = glonass (GlonassEphemeris::sv_clock_bias_s, position_ecef, parse_glonass_nav)
+
+seg-6567510c9726 = tests/glonass_broadcast_rtklib_oracle.rs::glonass_broadcast_clock_and_orbit_match_rtklib ({ "292" } tilfeller: de { "4" } GLONASS-postene i den virkelige IGS MGEX-kringkastingsfilen for 2013-01-01 x { "73" } forskyvninger innenfor +/-900 s; klokke innenfor { "1e-14" } s, verst { "0" } s; posisjon innenfor { "0.01" } m, verst { "1.12e-3" } m)
+
+seg-945e951061c2 = sgp4 (MeanElementSet, SgpOrbit, Eop, teme_to_itrs_matrix_eop, gcrs_to_itrs_matrix_eop); jd2 (utc_to_ut1, earth_rotation_angle); nutation (teme_to_gcrs_matrix); cio (gcrs_to_cirs_matrix); frames (polar_motion_matrix)
+
+seg-f11a8313d1ec = tests/earth_orbit_path_sgp4_erfa_oracle.rs (ledd { "1" }: { "4432" } TEME-posisjoner for de { "232" } innsjekkede elementsettene mot python-sgp4 { "2.24" }, verst { "6.1e-8" } m, terskel { "1" } cm; ledd { "2" }: { "108" } tidspunkter, { "23" } av dem med jordorienteringsparametere og ett i siste sekund av en skuddsekunddag, mot ERFA: GCRS -> ITRS verst { "2.9e-6" } mas, terskel { "0.1" } mas; TEME -> ITRS verst { "0.41" } mas, terskel { "2" } mas); sgp4::tests (the_itrs_path_matches_the_orbit_module_iau_chain; an_earth_fixed_node_stays_at_its_longitude_at_the_epoch); tests/no_private_models.rs
+
+seg-5235d736ac3e = navsignal (CodeFamily)
+
+seg-532eb9a2900f = navsignal::code_tests (GPS C/A Gold ≈ −{ "23.9" } dB; φ({ "1023" })/10 = { "60" })
+
+seg-6f9de921ca86 = orbit (dop)
+
+seg-b215ace86be9 = tests/dop_reference.rs ({ "8" } geometrier, godt kondisjonert → nesten singulær)
+
+seg-686687c1fa8d = gnss_sim (klobuchar_delay_m)
+
+seg-aee414a8d8ec = tests/klobuchar_reference.rs ({ "10" } tilfeller over elevasjon/asimut/lokaltid, to koeffisientsett)
+
+seg-1c1d27c45546 = raim (chi2_cdf, chi2_quantile, noncentral_chi2_cdf, normal_cdf, normal_quantile, pbias)
+
+seg-b3663ac963e1 = tests/raim_reference.rs ({ "171" } tilfeller: χ² CDF/kvantil, normal CDF/kvantil, ikke-sentral χ² CDF, pbias over områdene for P_fa/P_md/redundans)
+
+seg-afe92c4623d2 = SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq): uavhengig bibliotek (Cephes/Boost), en annen algoritme enn Kshanas serie for ufullstendig gamma; stemmer til ≤{ "1e-6" } rel. Bare kjernen. <em>Fordelingen</em> av ARAIM MHSS P_HMI-budsjettet mangler ikke lenger en publisert numerisk uavhengig referanse: arbeidseksemplet fra WG-C ARAIM Technical Subgroup selv støtter nå den separate raden «ARAIM MHSS protection levels against published reference vectors», som stemmer ved referansens egen TOL_PL = { "5e-2" } m, så omfanget av denne raden er den statistiske kjernen, og den raden bærer fordelingen (se docs/ARAIM_REFERENCE.md)
+
+seg-116377f12c14 = sbas (sbas_protection_level)
+
+seg-f4fa833999f3 = tests/sbas_reference.rs ({ "6" } virkelige EGNOS-epoker: HPL sammenlignet direkte, vertikal d_U kontrollert uten K-faktor)
+
+seg-2053116957cc = impairment_eval (auc, confusion_at, roc_curve)
+
+seg-f0853f1adeaa = tests/eval_metrics_reference.rs ({ "5" } datasett, { "24" } terskler; eksakte tellinger + <{ "1e-9" })
+
+seg-ee20bf2a4315 = impairment_eval, eval_stats
+
+seg-f546b062df87 = tests/opssat_ad_reference.rs (virkelig ESA OPS-SAT, AUC gjengir scikit-learn til { "1e-9" }); tests/ai_ml_rf_impairment_detection_evaluation_reference.rs ({ "122" } tilfeller på den virkelige OPSSAT-AD-testdelingen: full forvekslingsmatrise for driftspunktet + Pd/Pfa/presisjon/F1 mot scikit-learn, heltallseksakt)
+
+seg-c085cbd2a029 = quantum_trade (qparams_from_adev_curve), detection (chi2_inv_cdf), clock_state (ClockState3)
+
+seg-42b83604390f = tests/scipy_reference.rs (NNLS; χ² ved driftsfrihetsgrader ≥ { "48" }; van-Loan Q)
+
+seg-f571816b43fc = igrf, igrf_data
+
+seg-7bd357bd734a = tests/alternative_complementary_pnt_reference.rs ({ "2520" } globale punkter × høyder mot ppigrf ved epoke { "2025.0" }; verste |ΔXYZF| { "3.9e-4" } nT, |ΔD| { "2.8e-6" }°, |ΔI| { "3.6e-7" }°)
+
+seg-88c8996b8e2e = quantum_faults, eval_stats, detection
+
+seg-1f37560eef48 = tests/quantum_faults_reference.rs ({ "109" } tilfeller mot scipy { "1.17" } norm.cdf/ppf + scikit-learn roc_auc_score; verste |Δ| AUC { "6.9e-8" }, minste påvisbare feil { "1.3e-8" }, empirisk AUC { "1.1e-16" })
+
+seg-7353cfaa51c0 = tests/resilience_score_decision_instability_reference.rs ({ "124" } tilfeller mot scipy { "1.18" } / numpy { "2.4" }: { "61" } Kendall τ-b til { "2e-16" }, rangeringen eksakt, Dirichlet-middelverdi + persentil-KI til { "1e-12" })
+
+seg-1c3ad165ae7d = tests/mcda_ahp_reference.rs (Saaty { "1980" } tabell over tilfeldig indeks n={ "1" }..10 EKSAKT; prioritetsvektor + λ_max + CR mot SciPy/LAPACK eig på en konsistent { "3" }×{ "3" } og en inkonsistent { "3" }×{ "3" } / { "4" }×{ "4" }, samsvarende til <{ "1e-9" })
+
+seg-ffb971fd45e1 = mcda::wsm, mcda::wpm
+
+seg-f10f7b107cb9 = tests/mcda_wsm_reference.rs (WSM-skårer + rangering) og tests/mcda_wpm_reference.rs (WPM-skårer + rangering), hver mot pymcdm til <{ "1e-9" } på en fast { "4" }×{ "3" } beslutningsmatrise med nytte-/kostnadskriterier
+
+seg-3b78f01d1992 = tests/mcda_topsis_reference.rs (nærhetskoeffisienter + rangering mot pymcdm til <{ "1e-9" } på en fast { "4" }×{ "3" } matrise med nytte-/kostnadskriterier)
+
+seg-863ebd5e97c5 = tests/mcda_vikor_reference.rs (Q-indeks + rangering mot pymcdm til <{ "1e-9" } på en fast { "4" }×{ "3" } matrise med nytte-/kostnadskriterier)
+
+seg-faaffee99e67 = tests/mcda_promethee_reference.rs (netto overrangeringsstrøm + rangering, vanlig kriterium, mot pymcdm til <{ "1e-9" } på en fast { "4" }×{ "3" } matrise med nytte-/kostnadskriterier)
+
+seg-c3c1ab11c426 = tests/mcda_electre_reference.rs (konkordans-, diskordans- og dominansmatriser element for element + kjerne-/dominert mengde mot pyDecision til <{ "1e-9" } på et fast { "4" }×{ "3" } datasett med bare nyttekriterier)
+
+seg-08e153bbaef7 = mcda::waspas, mcda::moora
+
+seg-eafdba85247a = tests/mcda_waspas_reference.rs (WASPAS-preferanser + rangering) og tests/mcda_moora_reference.rs (MOORA-skårer + rangering), hver mot pymcdm til <{ "1e-9" } på en fast { "4" }×{ "3" } beslutningsmatrise med nytte-/kostnadskriterier
+
+seg-3d6cd006d21f = tests/mcda_copras_reference.rs (nyttegrader + rangering mot pyDecision til <{ "1e-9" } på en fast { "4" }×{ "3" } matrise med nytte-/kostnadskriterier)
+
+seg-7fb7df3cd534 = tpl (Cusum), security
+
+seg-7600ece37358 = tests/timing_protection_level_under_spoofing_reference.rs ({ "16" } deterministiske latenstilfeller EKSAKTE mot en førstepassasje-referanse; { "8" } ARL₁-tilfeller, Monte Carlo @60k forsøk mot Siegmund-tilnærmingen + publiserte Montgomery-tabeller)
+
+seg-034d00c5844a = holdover (coast_phase_variance, holdover_seconds)
+
+seg-f41c77ef0855 = tests/gnss_denied_clock_holdover_reference.rs ({ "27" } tilfeller mot scipy { "1.18" }: { "12" } coast-varianser mot linalg.expm Van-Loan Q₀₀, verste relative avvik { "1.1e-15" }; { "7" } holdover-inversjoner mot optimize.brentq, verste relative avvik { "1.5e-16" })
+
+seg-817055dfe79a = resilience::diversity (effective_diversity)
+
+seg-9cad75e722bc = tests/resilience_diversity_reference.rs ({ "17" } tilfeller: { "14" } mot scikit-bio inv_simpson + { "3" } grensetilfeller festet til null; verste |Δ| { "0.0" })
+
+seg-140080386c90 = skyline (Skyline::cut_deg, Skyline::visible); frames (look_angles, is_visible_skyline); orbit (UserPath, sky_view, cofactor_from_los); geometry (sky_geometry)
+
+seg-d4dabd188012 = tests/skyline_orekit_oracle.rs (skyline_masks_agree_with_orekit_and_gnss_lib_py_as_pre_registered: { "1173" } synsvinkler på seks steder og fire epoker, seks masketabeller, { "142" } synlige mengder; verste |d el| { "1.3e-13" } grader og |d az| { "2.3e-13" } grader mot { "1e-9" }, verste |d mask| { "1.1e-12" } grader mot { "1e-9" }, synlige mengder identiske uten noen i grensebåndet på { "1e-6" } grader, verste DOP { "3.3e-13" } relativt og kofaktor { "6.6e-13" } av matrisens skala mot { "1e-9" }; forhåndsregistrert e4b9d912); skyline::tests (table_interpolates_linearly_between_rows; table_wraps_through_north_without_a_seam); tests/skyline_scenarios.rs (every_wired_scenario_is_byte_identical_to_the_0_35_0_release)
+
+seg-cec96e27c310 = geometry (sky_geometry, ellipse); orbit (cofactor_from_los)
+
+seg-48069ecceb4a = tests/ellipse_numpy_oracle.rs (ellipse_and_cofactor_agree_with_numpy_as_pre_registered: { "270" } tilfeller, de { "142" } innsjekkede synlige mengdene fra skyline-sammenligningen under én felles klokke og under én klokke per system; verste akse { "5.1e-13" } relativt og orientering { "5.3e-12" } grader, ingen nær sirkulære, kofaktor { "1.0e-12" } av matrisens skala, mot { "1e-9" } og { "1e-6" } grader; forhåndsregistrert 0bbeeaee); geometry::tests (ellipse_of_an_analytic_two_by_two_case)
+
+seg-db663720ff55 = sdr
+
+seg-02c8f0d7ea55 = sdr::code_tests (ca_first_ten_chips_match_is_gps_200_octal — PRN { "1" }–{ "9" } de første 10 chipsene gjengir IS-GPS-200 tabell 3-Ia oktaler 1440/1620/1710/1744/1133/1455/1131/1454/1626 nøyaktig; ca_code_has_1023_chips_and_is_balanced; ca_periodic_autocorrelation_is_three_valued)
+
+seg-e8e5abbe7b58 = fusion (gnss_ins_ekf, tightly_coupled, ukf, coupled)
+
+seg-e941099918ef = fusion::tests (UKF==lineær-KF-identitet; bortfallsglidning; NEES); tests/gnss_ins_sensor_fusion_reference.rs ({ "50" } tilfeller mot filterpy { "1.4.5" }: lineær EKF løs/tett + koblede PNT-posteriorer til ≤{ "2.4e-12" }; UKF-kjøring på 40 epoker, verste |Δx| { "1.9e-7" } / |ΔP| { "9.5e-6" }); tests/gnss_ins_navego_dataset_oracle.rs::loosely_coupled_rms_within_1p2x_of_navego (NaveGo v1.4 løst koblet løsning på NaveGos virkelige Ekinox IMU/GNSS-kjøretur: horisontal RMS 0.912x, vertikal 0.940x, RMS for posisjonsinnovasjon 0.861x av NaveGos, gjennomsnittlig normalisert innovasjon { "0.395" }; terskler 1.2x, 1.2x, 1.2x og { "1.5" } fastsatt før kjøringen)
+
+seg-e53182bd8d30 = cr3bp::tests (STM mot endelig differanse); tests/cislunar_mission_analysis_reference.rs ({ "5" } JPL L2-S NRHO-medlemmer: de { "9" }:{ "2" } + { "4" } naboene; verste |ΔC| { "1.5e-5" }, |ΔT|/T { "9.6e-5" }, perilune { "0.7" } km i JPLs lengdeenheter)
+
+seg-4cac09f2382e = gravity_sh, altpnt::maps, gravimeter
+
+seg-d0ee49fda1e0 = tests/icgem_gravity_anomaly_oracle.rs (egm2008_n70_matches_cited_icgem_values i CI på ti siterte ICGEM-noder; egm2008_n70_gravity_anomaly_sa_matches_icgem over de fulle hentede 0.25-graders rutenettene for Tsjad 9-15N 19-25E og Death Valley 35-38N 242-245E, { "794" } noder: RMS { "1.3e-8" } og { "2.6e-8" } mGal, maks { "2.9e-8" } mGal mot forhåndsregistrerte terskler på { "0.005" } / { "0.02" } mGal, xval/icgem-egm2008/); gravity_sh::tests
+
+seg-d5b8ca2a48cc = tests/terrain_nav_validation.rs (real_srtm_committed_badwater_tile_reads_real_relief — den innsjekkede 6-buesekunders desimeringen av den fritt tilgjengelige SRTM v3-flisen N36W117 plasserer Badwater Basin, det laveste punktet i Nord-Amerika, på −{ "78" } m innenfor målebåndet [−{ "95" },−{ "70" }] m og leser flisens sanne terrengrelieff på ~{ "2.2" } km i den østlige kjeden; dessuten, på to innsjekkede ordrette 1-buesekunders 361x361-utsnitt av N36W119 og N36W117, real_srtm_tile_whitney_in_survey_band ({ "4412.1" } m i båndet [{ "4380,4430" }] m rundt målingen på { "4421" } m), real_srtm_tile_badwater_in_survey_band (−{ "78.0" } m i [−{ "95" },−{ "70" }] m) og gdal_cross_check (nærmeste node er lik GDAL { "3.8.4" } gdallocationinfo på de fulle flisene, eksakt i alle { "8" } forhåndsregistrerte punkter, xval/srtm-ungate/; dessuten referansene for håndlaget bilineært midtpunkt og syntetisk testdata for parseren)
+
+seg-d86971b6e158 = oem
+
+seg-f00dd400fa2d = tests/ccsds_oem_interop_reference.rs ({ "24" } tilstander / { "2" } testfiler dekodet byte for byte identisk av den uavhengige <c1/>-parseren, pos/vel Δ = { "0" }); oem::tests (parse en OEM fra et eksternt verktøy med ekstra nøkkelord/kommentarer/kovarians, skriv→les-rundtur av hele tilstanden, pos+vel+aksel tolereres, kun posisjon + manglende obligatorisk metadata avvises, scenario-rundtur med høy nøyaktighet + ekstern innlesing); dominance_demonstrators (nåbar + reproduserbar + rundtur eksakt + MODELLED-not-VALIDATED)
+
+seg-ab37fdc7a543 = Uavhengig tredjeparts CCSDS-502-parser <c1/> { "0.4.5" } (MIT, <a1>https://pypi.org/project/oem/</a1>) — en egen kodebase som dekoder kshanas utsendte EME2000/UTC-OEM byte for byte identisk ({ "24" } tilstander fordelt på { "2" } testfiler, pos/vel Δ = { "0" }) og hvis strenge leser bekrefter metadatatokenene; kshanas parser stemmer likeledes overens med den på en medfølgende ekstern OEM. To ærlige funn om interoperabilitet (oem-biblioteket avviser kshanas konvensjon med flere segmenter per satellitt og dens kovarianslinjer med flere oppføringer) er dokumentert i testen — så dette bekrefter utveksling av ett enkelt objekt i tråd med standarden, ikke full overensstemmelse med CCSDS-502 for hver kshana-variant
+
+seg-3814a35508eb = eo_payload (j2_node_rate, j2_nodal_period, ground_track_spacing_equator_j2, sun_synchronous_inclination)
+
+seg-e26317a36469 = eo_payload::tests (vinkelradius { "64" }° ved { "700" } km + krymper med høyden, nadir→zenit/null avstand, horisont→ε=0/maks sentralvinkel, feil forbi horisonten, svathbredden vokser med FOV / GSD med høyden, ~{ "2750" } km nodeavstand, scenario reproduserbart/MODELLED + avvisning av ugyldig inndata); dominance_demonstrators (nåbar + reproduserbar + vinkelradius { "64" }° + MODELLED-not-VALIDATED); tests/eo_payload_coverage_orekit_oracle.rs::eo_coverage_matches_orekit_and_geographiclib (høyder 400-1500 km, inklinasjoner 1-98 grader, halv FOV 7.5-50 grader, IFOV 10-50 mikroradianer, slew { "30" } og { "89" } grader: hver størrelse innenfor sin forhåndsregistrerte terskel, sammenhengende flagg 168/168); tests/eo_payload_coverage_orekit_oracle.rs::exempt_flag_points_are_the_engines; regresjon tests/eo_payload_coverage_reference.rs
+
+seg-ee8ce4b84732 = space_packet::tests (hodebiter samsvarer med CCSDS-133-oppsettet, encode→decode-rundtur for alle felt, utenfor område/avkortet avvises); tests/ccsds_space_packet_reference.rs ({ "33" } tilfeller mot spacepackets { "0.32.0" }, inkludert { "12" } sammenligninger av hele pakker; null avvikende oktetter)
+
+seg-6566a3bdb3b4 = space_packet (TimeCode, SecondaryHeader, packet error control, segmentation and reassembly, stream decoding)
+
+seg-f9c3b678f754 = tests/space_packet_ext_oracle.rs (fem forhåndsregistrerte terskler: CRC, tidskoder, strømmer, hull og rekkefølge, PUS TM; null avvik); space_packet::tests
+
+seg-49684da520e1 = spk_writer (SpkSegment, to_bytes, from_bytes, eval, et_from_label, oem_to_spk_segments)
+
+seg-d0468ecef524 = tests/spk_writer_spice_oracle.rs (inventar, evaluering, bit- og byteidentitet, OEM-epokekonvertering; fire planlagte mutasjonskontroller gjør den rød)
+
+seg-7b7d5c79bcde = spk_writer (SpkType::Chebyshev3, SpkType::DiffLines21, SpkSegment, InterpolatedSpk)
+
+seg-fa6c68bfeb74 = tests/spk_3_21_spice_oracle.rs (inventar, evaluering begge veier, byteidentitet); spk_writer::tests
+
+seg-2b73bbf7fd60 = adm (AemMessage, ApmMessage, quaternion_a_to_b), ndm_xml
+
+seg-6d6d69a7117e = tests/adm_orekit_oracle.rs (L1 Orekit leser { "33" } Kshana-filer, L2 Kshana leser { "31" } Orekit-filer, L3 { "135" } postrotasjoner; funn festet); adm::tests; ndm_xml::tests
+
+seg-4fc5845019f2 = odm (OpmMessage, OmmMessage, OcmMessage, Section, OcmBlock), ndm_xml
+
+seg-4dd013dd6b9e = tests/odm_orekit_oracle.rs (L1 Orekit leser { "30" } Kshana-filer, L2 Kshana leser { "25" } Orekit-filer; funn festet og påstått å gjenta seg); odm::tests
+
+seg-2e7fd9b81080 = attitude_budget::tests (GG-moment forsvinner for en symmetrisk kropp, vokser lavere ned, lineært i ΔI, RSS kvadratsum, varians-andeler-summerer-til-1); tests/attitude_gg_torque_reference.rs ({ "20" } tilfeller mot et uavhengig fullt-tensor GG-moment T=(3μ/R³)(n̂×(I·n̂)) numerisk maksimert over holdning med Hipparchus { "3.1" } linalg; verste relative { "6e-15" }, + publisert Wertz/Sidi O({ "1e-6" }) s⁻²-bånd); tests/attitude_gg_torque_basilisk_oracle.rs::gravity_gradient_torque_matches_basilisk ({ "40" } tilfeller mot Basilisk { "2.9.1" } GravityGradientEffector: topp ved holdningen på { "45" } grader innenfor { "1e-12" } relativt, verste { "2.1e-15" }; intet moment over toppen over { "2000" } tilfeldige holdninger per tilfelle, { "3" } diagonale og { "5" } generelle treghetstensorer, { "5" } høyder)
+
+seg-49b30066ff1b = passes::tests (interp-kryss lineært + trygt ved degenerasjon, polar→midtbreddegrad-passeringer, høyere maske ⇒ færre eller like mange); tests/ground_station_pass_prediction_reference.rs ({ "22" } scenarioer / { "129" } passeringer mot Orekit { "12.2" } ElevationDetector; verste |Δ| AOS/LOS { "0.0000" } s, maksimal elevasjon { "0.0014" }°, total tilgang { "0.0001" } s, identisk antall passeringer)
+
+seg-302a5a17401b = passes (predict_passes_apparent, apparent_look_angles, ApparentOptions, p834_tau_s_deg, p834_tau_deg, p834_theta_m_deg, p834_apparent_elevation_deg, PassesScenario)
+
+seg-be96bc40b05d = tests/pass_predictor_on_path_orekit_oracle.rs ({ "60" } tilfeller, { "1210" } passeringer: AOS/LOS innenfor { "3.4e-6" } s, terskel { "5" } ms; maksimal elevasjon innenfor { "5.5e-7" } grader, terskel { "1e-3" } grader; { "8979" } tilsynelatende retninger innenfor { "8.8e-7" } grader, terskel { "1e-4" } grader); tests/earth_orbit_path_sgp4_erfa_oracle.rs (banen); passes::tests (p834_equations_9_and_14_are_consistent_and_vanish_toward_the_zenith; refraction_lengthens_passes_and_light_time_delays_them); tests/pass_predictor_apparent_orekit_oracle.rs (funn fra runde 1, festet; orekit_p834_coefficient_differs_from_the_recommendation_above_sea_level)
+
+seg-b985f72dcdf4 = linkbudget::tests (form for friromstap, lukking av linkligningen); tests/one_way_link_budget_reference.rs (DESCANSO/JPL Galileo X-bånd DCT gjengitt fra ende til ende + { "6" } ITU-R P.525 FSL-tilfeller over DSN S/X/Ka-båndsentre; verste |ΔFSL| { "4.6e-3" } dB, |Δbærebølge| { "2.5e-2" } dB)
+
+seg-ca02c7483ba8 = lunar_time::tests (lukket form for raten; rundtur); tests/lunar_coordinate_time_reference.rs (LTC egenpotensial- og sekulærratekledd mot publiserte Ashby & Patla { "2024" }-verdier + geosentrisk månehastighet mot JPL DE440)
+
+seg-7ef514b90798 = frame_eop::tests og realtime_frame_eop::tests (alle tre komponentene har like, element for element identiske, strengt stigende epokemengder over begge virkelige IERS-utdragene; fellesmengden faller sammen til snittet når de to Bulletin B-blokkene faktisk er uenige, og en horisont uten delte rader utelates i stedet for å fylles med null; at tabellen for predikert mot endelig er tom, oppgis i dokumentet i stedet for å antydes av et manglende felt; en virkelig andre årgang fyller den, kryssjekket rad for rad; en manglende senere årgang er en feil, ikke en stille tom tabell); tests/joint_eop_table_astropy_erfa_oracle.rs::joint_table_and_predicted_vs_final_tables_match_astropy_and_erfa (tabell { "3" }, { "4" } og { "6" } i scenarioet fra ende til ende: epokemengder eksakte, UT1- og polstatistikk innenfor { "1e-9" }, kombinasjonen ved Månen innenfor { "1e-5" } av en full ERFA-rotasjon, den oppgitte statusen for hvert tilfelle av predikert mot endelig); tests/joint_eop_error_iers_ar2019_oracle.rs::bulletin_a_2019_prediction_error_matches_the_iers_realised_statistics (Kshana/IERS { "1.001" } til { "1.100" } ved { "1" } til { "90" } dager); radtelling: tests/embedded_eop_vintage_astropy_preregistered.rs (rad for innlesing uten nettverk); regresjon fra runde 1: tests/joint_eop_error_bulletin_a_oracle.rs::measured_error_against_the_iers_accuracy_formula_pole_agrees_ut1_does_not
+
+seg-8d703fef00d5 = realtime_frame_eop, eop
+
+seg-41f91517a4bb = tests/embedded_eop_vintage_astropy_preregistered.rs::vintage_of_every_row_matches_astropy_and_predictions_match_bulletin_a (seks eksakte kriterier: utdragets byte; { "174" } rader; antall per årgang og fulle MJD-lister 30/54/90; flagg P på både polbevegelse og UT1 for hver predikert rad; telling ved standardkjøring; hver predikert rad lik IERS Bulletin A Vol. XXXIX No. { "039" } innenfor sitt siste trykte siffer, verste { "5.0e-5" } buesekunder og { "4.9e-6" } s); tests/embedded_eop_census_astropy_oracle.rs::vintage_census_matches_astropy (regresjonsfeste av det gamle utdraget med 32 rader under flaggklassifisereren: { "20" } endelige, { "12" } raske, { "0" } predikerte); tests/embedded_eop_census_astropy_oracle.rs::rows_called_prediction_only_are_flagged_measured_by_astropy (funnet fra runde 1, beholdt); realtime_frame_eop::tests; tests/operational_eop_predictor_reference.rs
+
+seg-d25312c585d1 = lunar_vlbi (KernelGeometry, delay_partials_beacon_body, delay_partials_stations, LunarVlbiScenario); naif_kernel
+
+seg-1caf84a930c6 = tests/lunar_vlbi_spice_oracle.rs::kernel_delay_and_partials_match_spice_light_times_near_j2000 ({ "75" } forsinkelser ved { "25" } epoker nær J2000 over DSS-14, DSS-43 og DSS-63: forsinkelser innenfor { "1" } ps, verste { "0.06" } ps; fyrpartialer i kroppsrammen innenfor { "1e-6" }, verste { "7.4e-9" }; ITRF93-stasjonspartialer innenfor { "1e-6" }, verste { "3.8e-11" }); tests/lunar_vlbi_spice_oracle.rs::spice_2024_epochs_finding_is_unchanged; tests/lunar_vlbi_anise_oracle.rs::kernel_delay_matches_the_anise_light_time_difference (kryssjekk av kjerneevaluering); tests/naif_kernel_reader_check.rs; lunar_vlbi::tests
+
+seg-5140b9231f4b = naif_kernel (DafFile, SpkKernel, PckKernel); ephem_provider (KernelEphemeris)
+
+seg-3747d76d3c5c = tests/naif_reader_spice_oracle.rs::reader_matches_spice_and_anise_on_the_post_registration_grid ({ "600" } de440s.bsp-tilstander og { "200" } MOON_PA_DE440-rotasjoner ved { "200" } epoker 1849-2150 og tilfeldige kroppspar trukket fra forhåndsregistreringsinnsjekkingens egen hash, mot SPICE og ANISE på utskårne kjerner som er bitidentiske med NAIFs: verste avvik { "0.6" } % av sin terskel, { "1.95e-3" } m absolutt); tests/naif_reader_spice_oracle.rs::reader_matches_spice_and_anise_on_the_full_naif_kernels_when_present (det samme på de fulle NAIF-filene, SHA-256 kontrollert; datastyrt); tests/naif_kernel_reader_check.rs (ingeniørvern, ikke evidens); naif_kernel::tests; ephem_provider::tests
+
+seg-92c70de528b4 = lunar_common_mode::tests ({ "8" } lib-tester: oppdelingen er additiv og rekonstruerer dy; en fellesmodus-kovarians gir et positivt fellesmodus-beskyttelsesnivå mens en kovarians med bare paritet gir et nær null; projektoren utsletter range(G)); tests/lunar_common_mode_integrity_reference.rs (motorens oppdeling mot en uavhengig numpy-beregning på byteidentiske inndata over det innsjekkede utvalget på 366 epoker, relativ OG absolutt feil < { "1e-3" }); tests/lunar_common_mode_parity_numpy_oracle.rs::common_mode_split_matches_numpy_lstsq_on_parity_bearing_inputs ({ "1464" } paritetsbærende tilfeller på 8-satellittgeometrien og en 6-satellitt-delmengde over begge virkelige inter-efemeridepar: blind_dx, residual og normer innenfor { "1e-12" } av |dy|, verste { "1.06e-14" })
+
+seg-5cd36a6d71b9 = lunar_combination (problem, model, estimate, formal_covariance); batch_ls (gauss_newton_qr)
+
+seg-63056b57baab = lunar_combination::tests (gjenvinner simulert referanse; VLBI gjenoppretter stasjonens 3D-observerbarhet; deterministisk); tests/lunar_joint_multi_technique_od_reference.rs ({ "6" } geometrier × { "16" } parametere, { "31" } observasjoner hver, mot Orekit { "12.2" } / Hipparchus Levenberg-Marquardt på identiske observasjoner; gjenvunnet tilstand verste |Δ| { "1.4e-8" } m); tests/lunar_joint_od_numpy_oracle.rs::joint_solve_linear_algebra_matches_numpy (seks nettverk inkludert ett uten VLBI: Gauss-Newton-steg innenfor { "4.3e-11" }, formelle sigmaer innenfor { "1.9e-11" }, stasjonsfeil like; på inndataene med { "0.36" } portabel matematikk, { "2.4e-11" } og { "1.3e-11" } på inndataene med { "0.30" })
+
+seg-ef4de80a0e79 = fim
+
+seg-6a5729ed13c5 = tests/fim_observability_reference.rs (egenverdier mot numpy.linalg.eigh; CRLB-kovarians mot σ²(XᵀX)⁻¹ via numpy.linalg.inv; GNSS GDOP/PDOP/HDOP/VDOP/TDOP fra informasjonsmatrisen mot numpy — alle samsvarende til { "1e-9" }); fim::tests (Jacobi-egenløser mot spektre i lukket form; CRLB mot Kay { "1993" } i lukket form — DC-i-WGN σ²/N og linjetilpasning σ²(XᵀX)⁻¹; Monte Carlo-oppnåelse av CRLB; Moore–Penrose-identitet MM⁺M=M; nullrom for datumdefekt)
+
+seg-454f4440a5c8 = lunar_frame_realise::tests (gjenvinner injisert Helmert-transformasjon); tests/lunar_reference_frame_realisation_reference.rs ({ "14" } tilfeller mot en uavhengig Umeyama-SVD-løser i lukket form; verste |Δ| translasjon { "2.0e-5" } m, rotasjon { "5.3e-12" } rad, skala { "9.3e-2" } ppb, RMS etter tilpasning { "6.1e-9" } m)
+
+seg-86ded53b2aac = lunar_service::tests (DOP gjenbruker den validerte kjernen; PL reduseres til tilfellet ved sydpolen); tests/lunar_navigation_service_volume_reference.rs (MCI-posisjon per satellitt til <{ "1e-3" } m + EKSAKT mengde av synlige satellitter over hele rutenett×epoke-sveipet mot ANISE { "0.10.2" })
+
+seg-01d0c0630ded = lunar_afs::waveform::render, lunar_afs::codes, lunar_afs::frame
+
+seg-38c8b9bffaf9 = tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_chips_match_lans_afs_sim (de { "210" } AFS-Q-primærkodene alltid; med KSHANA_LANS_RUN og LSIS-hurtigbufferen alle { "630" } koder, null chipavvik); tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim (med LSIS-hurtigbufferen: { "3" } rammer, null symbolavvik; { "24" } innsjekkede vinduer på { "2" } ms, |rho| = { "0.999990" }); tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_full_run_matches_lans_afs_sim (datastyrt: hele kjøringen på { "23.9" } s, |rho| = { "0.999990" }, verste blokk på { "2" } ms { "0.999948" }, fase { "8e-9" } rad)
+
+seg-67eae9b2de36 = lunar_afs::frame, lunar_afs::ldpc, lunar_afs::lsis
+
+seg-e73c88408052 = tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim (med LSIS-hurtigbufferen: de { "3" } rammene LANS-AFS-SIM sender, bygget fra samme FID, TOI og databiter: null av { "18 000" } symboler avviker); tests/lunar_afs_frame_coding_oracle.rs::bch_worked_example_and_crc24_check_value_are_bit_exact (LSIS figur { "8" }: 0x045 -> 0x229f61dbb84a0; CRC-24/LTE-A kontrollverdi 0xCDE703; kjører alltid); tests/lunar_afs_frame_coding_oracle.rs::ldpc_codewords_satisfy_the_printed_parity_check_matrices ({ "100" } kodeord, null ikke-oppfylte kontroller av den trykte H); tests/lunar_afs_frame_coding_oracle.rs::decoder_from_parity_check_matrices_recovers_every_frame (dekoder fra bare H, uten støy og ved { "3" } dB Es/N0, og { "10" } hele rammer); lunar_afs::ldpc::tests::printed_b_inverse_inverts_printed_b; lunar_afs::frame::tests
+
+seg-7c4e5dff6562 = iq::scene (Scene, SatGeometry, TruthRecord)
+
+seg-ba9337fe40c0 = tests/iq_gpssdrsim_cross_generator.rs::scene_geometry_matches_gps_sdr_sim_channels ({ "11" } kanaler: verste pseudoavstand { "1.6e-3" } m mot { "0.05" } m, kodefase { "5.5e-6" } chip mot { "2e-4" }, Doppler { "7.4e-5" } Hz mot { "0.02" } Hz, synsvinkler { "4e-9" } grad mot { "1e-4" }, synlig mengde identisk); tests/iq_gpssdrsim_cross_generator.rs::harness_reproduces_the_gps_sdr_sim_program_channel_listing (referanseoppsettet gjengir programmets egen utskrevne kanalliste nøyaktig)
+
+seg-80e62d2d7748 = lunar_service::tests (toposentrisk mot håndberegnet geometri: rett overhead, rett nord/øst/vest, antipodal og den degenererte polare østretningen; det eksporterte synlighetsflagget stemmer overens med det uavhengige synlighetsfilteret over et fullt sveip på { "6" } t; eksporten er av som standard og endrer beviselig ingenting annet; beskyttelsesnivåer er nøyaktig lineære i den eksponerte sigmaen mens geometrien under er urørt); tests/lunar_service_geometry_oracle.rs::look_angles_match_anise_at_selenographic_sites ({ "768" } utvalg over { "8" } steder, { "12" } epoker og { "8" } satellitter mot ANISE { "0.10.2" }: azimut og elevasjon innenfor { "1e-6" } grader, avstand og stedsposisjon innenfor { "1" } mm; verste { "2.2e-12" } grader, { "2.1e-13" } grader, { "5.6e-9" } m)
+
+seg-5613845e8514 = attitude_dynamics::tests (apply/solve invers, sfærisk topp null moment, fastpunkt på hovedakse, bevaring av energi+bevegelsesmengde i kort kjøring, q̇=½q⊗ω, rateretning for symmetrisk topp + presesjon i kroppskjegle); tests/attitude_dynamics_reference.rs ({ "200" } 000-stegs momentfrie kjøringer: |q|={ "1" } til { "1e-10" }, kinetisk energi T=½ωᵀIω bevart til { "1e-9" } rel, |Iω| og den inertielle bevegelsesmengdevektoren bevart til 1e-9/1e-8 rel, både på en treakset og en generell ikke-diagonal treghet; presesjon i kroppskjegle for symmetrisk topp oblat + prolat gjengitt til { "1e-6" } mot den analytiske λ=ω₃(I_a−I_t)/I_t); tests/attitude_dynamics_basilisk_oracle.rs::torque_free_motion_matches_basilisk (to generelle ikke-diagonale treghetsmomenter, { "1e4" } s momentfritt mot Basilisk { "2.9.1" } romfartøyshub med RKF78: kvaternion innenfor { "1e-9" }, verste { "3.3e-11" }; kroppsrater innenfor { "1e-9" } rad/s, verste { "3.4e-12" })
+
+seg-c7acd78b6a27 = cw_dynamics (propagate, second_order_correction, propagate_second_order)
+
+seg-8edf60f6eb8c = cw_dynamics::tests (Φ({ "0" })=I, tverrsporsløst frakoblet SHM); tests/cw_dynamics_reference.rs (Φ i lukket form mot en uavhengig RK4-integrasjon med fast steg av de samme Hill-ODEene til <{ "1e-6" } over en tredjedel av en bane; Φ(t)Φ(−t)=I til { "1e-9" }; den avgrensede betingelsen ẏ₀=−2n·x₀ lukker hele tilstanden etter én periode til { "1e-9" } uten sekulær drift langs sporet over { "10" } baner; en ren radiell forskyvning driver den analytiske −12π·x₀ per bane); tests/cw_dynamics_orekit_oracle.rs::cw_second_order_matches_nonlinear_orekit_within_1mm (fire tilfeller på { "100" } m over en tredjedel av en bane på { "500" } km: verste { "1.15e-7" } m mot { "1e-3" } m); tests/cw_dynamics_orekit_oracle.rs::cw_disagreement_with_orekit_is_recorded_as_a_finding (bare den lineære Φ: { "1.2" } til { "6.3" } mm, festet)
+
+seg-9d7e00484999 = entry_eo_ascent::entry_heating (simulate_entry, inertial_to_relative, EntryHeatingScenario)
+
+seg-e9749b2960a2 = tests/entry_stardust_published.rs (topp { "35.44" } g mot den publiserte { "33.4" } g, +{ "6.1" } %, terskel { "10" } %; planetrelativ innfartshastighet { "12.551" } km/s mot { "12.6" }, terskel { "0.1" } km/s); entry_eo_ascent::entry_heating::tests (energien i den roterende rammen faller nøyaktig med motstandsarbeidet; vakuumglidning bevarer Jacobi-energien; ikke-roterende ballistisk tilfelle samsvarer med det plane punktmassetilfellet i reentry-modulen; Allen-Eggers i lukket form i sitt gyldighetsområde)
+
+seg-c23c0440cc75 = aocs (AocsConfig, required_torque, motor_torques, rates, rk4_step, simulate, mrp_from_quaternion); aocs_kind (AocsScenario)
+
+seg-4f446e123d4e = tests/aocs_basilisk_oracle.rs ({ "3" } tilfeller, { "601" } utvalg hver: MRP verste { "2.4e-14" }, terskel { "1e-9" }; kroppsrate { "1.6e-15" } rad/s, terskel { "1e-9" }; hjulhastighet { "2.9e-11" } rad/s, terskel { "1e-6" }; påført motormoment { "1.2e-13" } N m, terskel { "1e-9" }; t = { "0" } momenter innenfor { "1e-12" } N m; metning nådd i begge verktøy); aocs::tests (angulært moment bevart, minimumsnorm-avbildning, MRP-gren, konvergens under metning); aocs_kind::tests
+
+seg-ec141da2fe8e = wahba
+
+seg-7ece946b2cb0 = wahba::tests (A(identitetskvaternion)=I; Jacobi-egenløseren oppfyller Kv=λv og bevarer sporet på en kjent symmetrisk matrise; K er symmetrisk); tests/wahba_reference.rs (TRIAD, Davenports q-metode og QUEST gjengir scipy.spatial.transform.Rotation.align_vectors' optimale DCM på støyfrie vektede vektormengder til <{ "1e-9" } rad via holdningsfeilvinkelen som er uavhengig av referansesystem; dessuten gjenvinner q-metoden en kjent rotasjon med λ_max=Σ vekter og null Wahba-tap, q-metodens løsning minimerer Wahba-tapet under forstyrrelse, QUEST stemmer overens med den optimale q-metoden til <{ "1e-7" } rad, og den optimale estimatoren slår tovektors-TRIAD i RMS-holdningsfeil over { "2000" } støyende Monte Carlo-forsøk)
+
+seg-e35ff28ef879 = acquisition
+
+seg-e6a7ff99874a = acquisition::tests (Marcum-Q sentralt tilfelle Q_1({ "0" },b)=exp(−b²/2); identiteten P_d=Q_M(√(2Mρ),√γ); P_fa↔terskel-rundtur over M og P_fa; ROC-monotoni — P_d stiger med SNR, faller med terskelen, P_d→P_fa når SNR→{ "0" }; den ikke-koherente integrasjonsgevinsten øker P_d ved fast P_fa; Marcum-Q monoton i a og b og avgrenset i [{ "0,1" }]); tests/acquisition_reference.rs (den generaliserte Marcum Q_M(a,b), P_d, P_fa og inversjonen P_fa→terskel sammenlignet mot scipy.stats.ncx2/chi2 over et (M,a,b)/(M,P_fa)/(M,SNR)-rutenett til ~{ "1e-6" })
+
+seg-4f480ce145f7 = lambda
+
+seg-7c55c072cfb7 = lambda::tests (L D Lᵀ rekonstruerer Q); tests/lambda_reference.rs (Z-transformen er unimodulær |det Z|={ "1" } med Q_z=ZᵀQZ SPD, determinantbevarende og lavere total korrelasjon utenfor diagonalen; Schnorr–Euchner-ILS stemmer med oppramsing med brute force over { "300" } tilfeldige kovarianser; hele rørledningen dekorrelere→søke→tilbaketransformere er lik den direkte ILS og Z⁻ᵀZᵀ gir heltall tilbake i rundtur; den bootstrappede suksessraten i lukket form stemmer med en Monte Carlo på 200k forsøk av sekvensiell betinget avrunding til <{ "0.01" }); tests/lambda_rtklib_oracle.rs::ils_solution_matches_rtklib_lambda_on_300_covariances (de fikserte heltallene er lik RTKLIB v2.4.2-p13 lambda() på { "300" } tilfeldige kovarianser, n { "2" } til { "10" }, hvorav { "226" } ikke kan løses ved avrunding; de to beste kvadrerte normene stemmer til { "1e-9" } relativt, målt { "5.6e-13" })
+
+seg-18befb9e9596 = bplane
+
+seg-5eb675d6585e = bplane::tests (forbiflygingsskalarene tilfredsstiller lukkede former med to samsvarende |B|-identiteter og |B|>r_p; svingvinkelen avtar med periapsisradius og når grensene δ→{ "0" } / δ→π; avbøyning bevarer v∞-farten og roterer nøyaktig med δ; assist-Δv-størrelsen er lik { "2" }·v∞·sin(δ/2) og avgrenset av { "2" }·v∞; B-plan-aksene er ortonormale og ⊥ Ŝ med |B|²=(B·T̂)²+(B·R̂)²; Tisserand-parameteren er invariant over en v∞-bevarende avbøyning som endrer a,e,i, og er lik { "3" }−(v∞/v_circ)²); tests/bplane_gmat_oracle.rs::bplane_matches_gmat_over_a_hyperbolic_grid; tests/bplane_heliocentric_oracle.rs::assist_delta_v_matches_gmat_asymptotes_and_c3; tests/bplane_heliocentric_oracle.rs::heliocentric_elements_and_tisserand_match_gmat_and_sbpy; tests/bplane_heliocentric_oracle.rs::tisserand_matches_kasuga_jewitt_2019_table_8_1
+
+seg-3111857b93df = crpa
+
+seg-d333f700ca8a = crpa::tests (identiteter for kompleks aritmetikk inkludert z/z={ "1" }, |exp(jθ)|={ "1" }, zᴴz=|z|²; deterministisk null-styring gir nøyaktig enhetlig SV-gevinst og <{ "1e-9" } jammer-nuller på en ULA med 4 elementer med { "3" } jammere; en matrise med N elementer avviser >N−{ "1" } jammere og minimumsnorm-nuller færre; MVDR forblir forvrengningsfri mot SV mens jammer-nullen blir monotont dypere med jammereffekten til <{ "1e-3" } ved { "60" } dB); tests/crpa_reference.rs (MVDR- og minimumsnorm-nullstyringsvektene og de resulterende matriseresponsgevinstene sammenlignet mot en uavhengig numpy/scipy LAPACK-beregning til ~{ "1e-9" })
+
+seg-97d39969aa50 = powerlaw
+
+seg-213c2856bc78 = powerlaw::tests (hver rene støytype viser sin signaturhelning i ADEV log-log — hvit FM −½, flicker FM { "0" }, random-walk FM +½, hvit PM −{ "1" }; flicker-FM-leddet er et flatt gulv lik √({ "2" } ln2·h_{ "{" }-1{ "}" }) over fem dekader av τ; FM-familietilpasningen gjenvinner kjente h_{ "{" }-2{ "}" },h_{ "{" }-1{ "}" },h_0 fra en syntetisk kurve til <{ "1e-6" }; og gulvet til en flicker-dominert kurve gjenvinnes her mens driftbasistilpasningen (quantum_trade::qparams_from_adev_curve) er >{ "10" } % feil ved lang τ — noe som lukker et dokumentert gap); tests/powerlaw_oadev_reference.rs (σ_y(τ) sammenlignet mot allantools { "2024.06" } Noise.adev i lukket form over τ-stigen for alle fem støytypene, pluss en allantools Kasdin-generator→oadev-estimator-støtte for nivået h_a)
+
+seg-0a7be53acff4 = oem (covariance_block_kvn, parse_covariance_block)
+
+seg-c3f4fe461c45 = oem::tests (en symmetrisk PD-kovarians gjør rundtur KVN→parse til f64-avrunding og forblir symmetrisk; blokken avgir nøyaktig de { "21" } nedre-trekantoppføringene — i+{ "1" } per matriserad — med/uten COV_REF_FRAME; en blokk med feil antall verdier og en manglende blokk avvises begge); tests/ccsds_oem_covariance_reference.rs (det uavhengige oem { "0.4.5" }-biblioteket parser et OEM-segment utsendt av kshana og rekonstruerer den symmetriske { "6" }×{ "6" }, som stemmer med kshanas inndatakovarians til f64-avrunding; med en forstyrret negativ kontroll og en kontroll av at oem avviser den merkede CX_X-varianten)
+
+seg-5dd227be45fe = oem { "0.4.5" } (MIT, <a1>https://pypi.org/project/oem/</a1>) — den SAMME uavhengige CCSDS-502-parseren som den validerte raden «CCSDS OEM-interoperabilitet» stoler på, en helt separat kodebase (egen KVN-tokenisator, egen tilstandsmaskin for kovariansseksjonen og egen numpy-matrisesammenstilling). kshana sender ut et fullt OEM-segment med sin umerkede COVARIANCE-blokk med bare tall i nedre trekant; oem parser det og rekonstruerer den symmetriske { "6" }×{ "6" }, som stemmer med kshanas inndatakovarians element for element til f64-avrunding — en ekte rundtur i utveksling mellom bibliotek og bibliotek (sammenlignet mot oems rekonstruksjon, ikke en ny parsing i kshana), som lukker radens tidligere gap «ingen testdata fra tredjepart»
+
+seg-8fd49e7a4cc3 = inertial::coast (ErrorDynamics, ErrorSource, source_error_m, CoastModel, Contribution, Combination, TrnFixMode, first_crossing_s, InsTrnCoastScenario); scenariotype <c1/>
+
+seg-ece63653ae22 = tests/ins_coast_schuler_navego_oracle.rs::coast_error_model_matches_the_corrected_navego_runs ({ "48" } punkter, seks feilledd ved { "30" } s til { "3600" } s, taktisk klasse, { "45" } grader N, i vater og pekende mot nord: hvert punkt innenfor { "5" } %, verste +{ "3.70" } % hastighets-random-walk ved { "1200" } s); inertial::coast::tests (the_error_model_follows_the_leading_order_law_on_a_short_coast; a_bias_error_is_schuler_bounded; doubling_the_coast_scales_each_contribution_by_two_to_its_own_power; every_contributions_closed_form_crossing_agrees_with_the_engines_bisection; the_located_crossing_puts_the_model_on_the_threshold_it_searched_for; the_bias_law_matches_the_engines_stochastic_dead_reckoner_stepped_forward; the_velocity_random_walk_law_matches_a_monte_carlo_of_the_engines_dead_reckoner; the_scale_factor_law_matches_a_double_integration_of_the_engines_imu_error_model; a_full_reset_fix_makes_every_inter_fix_excursion_identical; the_largest_fix_interval_holding_a_threshold_puts_the_peak_on_that_threshold; an_error_free_imu_never_reaches_a_threshold_and_says_so_instead_of_reporting_zero; every_published_field_carries_a_unit_and_a_provenance_class; the_scenario_runs_through_the_engines_public_dispatch_and_is_reproducible); tests/ins_coast_navego_montecarlo_oracle.rs::finding_laws_hold_to_600_s_and_overstate_beyond (funnet fra runde 1 om de ledende-ordens lovene for flat jord, beholdt som regresjon)
+
+seg-14054e77e0d4 = lunar_vlbi_fim::tests ({ "24" } lib-tester: den analytiske Jacobianen mot en sentral endelig differanse av lunar_vlbi::vlbi_delay_s tatt gjennom en rute som roterer tilstandens egne koordinater framover og aldri berører en partiell derivert, som stemmer til < { "1e-6" } av 1/c per kolonne, med de to informasjonsmatrisene som stemmer til < { "1e-6" } av det største diagonalelementet og kovariansene til < { "1e-5" } relativt; en ortogonal enhetsgeometri der kovariansen er c·σ_τ per akse i lukket form til { "1e-12" }, som også er det eneste tilfellet der likefordelingskoblingen er nøyaktig; kovariansspekteret og hver stasjons 3D-sigma invariant under en stiv rotasjon av hele nettverket til { "1e-9" } med C_rot = R·C·Rᵀ festet blokkvis OG en eksplisitt påstand om at sigmaene per akse faktisk flyttet seg, slik at testen ikke kan bestå tomt; kovarians som skalerer nøyaktig som σ² og som 1/N; AM-HM-sporgrensen aldri slått; forsinkelseslukkingen τ_ik = τ_ij + τ_jk festet til én ULP på forsinkelsene og på Jacobian-radene, med en redundant grunnlinje som vist tilfører informasjon men aldri rang; en enkelt epoke rapportert rangdefekt med et null-hovedtall; en lengre bue målt til å gi bedre kondisjonering ved samme antall observasjoner; fyrblokken vist ikke-observerbar på dette skjemaet; den neglisjerte differensierte Shapiro-partialen målt ved endelig differanse under kjøring og sendt ut i stedet for å bli viftet bort); tests/lunar_vlbi_campaign_spice_oracle.rs::lunar_vlbi_fim_matches_spice_geometry_and_numpy (standard forankret nettverk og fritt nettverk: SPICE-bygd Jacobian, skjemaet med 16 observasjoner identisk, stasjonssigmaer innenfor { "2.2e-3" }, egenverdier { "2.3e-3" }, kondisjon { "2.4e-3" }, hovedtall { "1.0e-3" }, siktlinje { "0.018" } grader, deklinasjon { "0.007" } grader, mot terskler på { "1" } % og { "0.1" } grader; fritt nettverk rang 8/9 med et null-hovedtall, nullrom { "0.006" } grader fra hverandre; NumPy på den innsjekkede Jacobianen til { "2e-13" })
+
+seg-484388449426 = lunar_vlbi_fim (epoch_geometry_with, schedule, schedule_jacobian); ephem_provider (KernelEphemeris); naif_kernel
+
+seg-d44b405dbeba = tests/lunar_vlbi_surface_point_spice_oracle.rs::surface_point_covariance_kernel_path_matches_spice_geometry_and_numpy ({ "16" } observasjoner identiske; rang 3/3; egenverdier innenfor { "5.9e-5" }; kondisjon { "5.9e-5" }; fyrsigmaer innenfor { "1.7e-3" } mot { "1e-2" }; RMS { "2.9e-5" }; arm { "1.4e-8" }; P2-sigmaer { "3.9e-14" } mot { "1e-9" }); lunar_vlbi_fim::tests
+
+seg-30cc52d98bbd = lunar_service (lunar_protection_level, lunar_protection_level_with_sigma), lunar (lunar_araim_with_sigma), raim (araim_raim)
+
+seg-9d5628188bd8 = tests/lunar_protection_level_reference.rs ({ "7" } tilfeller for tjenestevolum — sydpolart, midtre breddegrader, ekvatorialt, hevet høyland — { "6" } til { "19" } satellitter, σ_URE 10/30/60 m, P_HMI { "1e-3" } ned til { "1e-7" }, beskyttelsesnivåer fra { "1.7e2" } til { "6.9e3" } m: HPL/VPL mot den sammensatte RTKLIB + SciPy-referansen, verste |Δ| { "1.061e-8" } m og { "1.044e-8" } m mot en toleranse på { "1e-6" } m; DOP mot RTKLIBs egen (GᵀG)⁻¹ til { "1.790e-14" } relativt; K_fa mot scipy.stats.norm.isf til { "2.716e-11" } relativt; tre negative kontroller — et satellittskift på { "5" } km, en relativ σ_URE-endring på { "1e-6" } og en { "0.1" } % strammere P_HMI — hver målt til å flytte beskyttelsesnivået med minst { "171" }× toleransen; og en vern mot utdaterte testdata som fester den innsjekkede geometrien bit for bit til det motorens egen konstellasjons- og synlighetskode produserer, slik at en grønn status ikke kan overleve at konstellasjonen endres under den)
+
+seg-842722fa9e91 = araim_reference (araim_reference_protection_levels, published_vectors), raim (araim_protection_level, araim_integrity_risk, normal_quantile)
+
+seg-68b534869ac3 = tests/araim_reference_vectors.rs ({ "2" } publiserte vektorer + { "6" } negative kontroller, testdata tests/fixtures/araim_reference/wgc_araim_reference_vectors.txt: å utelate den nominelle biasen bommer på den publiserte VPL med { "2.6457" } m, en ISM-feil på { "10" } % med { "0.2798" } m, K_fa ved { "57" } moduser i stedet for { "12" } med { "0.4015" } m, en +{ "2" } %/+{ "5" } % feil i integritetsvarians med 0.0750/0.1971 m — og en +{ "1" } %-feil flytter den bare { "0.0339" } m, oppgitt som kontrollens oppløsningsgrense i stedet for skjult; de to dokumentenes svar bommer hver på det andres med mer enn toleransen, så vektorene er ikke utskiftbare; den innsjekkede testfilen og de kompilerte konstantene er to uavhengige transkripsjoner som påstås å stemme, slik at et publisert tall ikke kan endres på én side for å få en kontroll til å bestå; og C_int − C_acc = σ²_URA − σ²_URE = { "0.3125" } m² gjelder for alle { "40" } transkriberte varianser, en aritmetisk identitet som en skrivefeil i transkripsjonen ville brutt)
+
+seg-7e8963a7c86f = lunar_llr, realdata::llr_crd (composing fim, cio, frames, ephem, lunar_frame, lunar_frame_campaign)
+
+seg-617e168e2460 = tests/lunar_llr_real_data.rs ({ "11" } tester: alle { "15" } innsjekkede CRD-filer byte for byte identiske med sine registrerte sammendrag; alle { "349" } poster gjort rede for, { "337" } brukt og { "12" } hoppet over av en navngitt grunn; hver arkivert avstand innenfor den virkelige perigeum/apogeum-omhyllingen; vektene vist å VÆRE bin_rms/√n_raw; siktlinjekoordinaten best bestemt for hver matrise, med librasjonssveipet som kjøper den målt separat; residualen og dens uavhengige bekreftelse mot JPL Horizons; følsomheten for geometrihelling på 0.1 grad; sammenligningen av den simulerte kampanjen vist lik en uavhengig kjøring av det scenarioet; en R1-festing bit for bit av de tre eksisterende månerammepakkene); lunar_llr::tests ({ "12" }: avstandspartialen mot en sentral endelig differanse av den modellerte flyturtiden til < { "1e-6" } relativt; lysetiden en konvergert lunar rundtur; datumsigmaen nøyaktig lineær i vektskalaen til { "1e-9" }; blokkdiagonalitet nøyaktig; en manglende datamappe avvist i stedet for erstattet; en redigert katalograd fanget av sin egen radiuskolonne); realdata::llr_crd::tests ({ "7" }: feltsemantikk, midnattsovergang, avvisning av en tidsskala som ikke er UTC og av en formatversjon som ikke støttes, og ingen erstattet sigma for en tom bin); tests/validate_llr_datum_spice_oracle.rs (llr_datum_finding_tz_sigma_one_percent_gap, festet; reported_residual_is_the_engine_to_spice_light_time_gap); tests/validate_llr_datum_analytic_fresh_2025.rs::llr_datum_analytic_moon_matches_spice_and_numpy_on_fresh_2025_normal_points ({ "151" } usette normalpunkter fra 2025-K2; sigmaer og normer verste { "1.11e-3" } av { "1e-2" }, kondisjon { "8.95e-4" } av { "2e-2" }, forhold { "1.79e-3" } av { "2e-2" }, bokføring, rang og kobling eksakte)
+
+seg-9e17b852f721 = lunar_llr (llr_geometry_with, LunarLlrDatumScenario); ephem_provider (KernelEphemeris); naif_kernel
+
+seg-ed8e396d7fb6 = tests/validate_llr_datum_kernel_moon_fresh.rs::llr_datum_kernel_moon_matches_spice_and_numpy_on_fresh_normal_points ({ "447" } usette normalpunkter fra 2019-K2; sigmaer og normer innenfor { "4.0e-5" } av { "1e-2" }, kondisjon { "1.6e-5" } av { "2e-2" }, forhold { "7.6e-5" } av { "2e-2" }, bokføring og rang eksakte); tests/validate_llr_datum_kernel_moon.rs (diagnostikken med { "2015" } sette data, { "0.049" } % på tz; ikke evidens for denne raden); lunar_llr::tests
+
+seg-0bd1d423f40a = ephem (moon_position), lunar_llr, realdata::llr_crd
+
+seg-e73eed7ff8b5 = tests/lunar_llr_real_data.rs::the_analytic_moon_series_disagrees_with_jpl_by_the_same_amount ({ "12" } ukentlige geosentriske tilstander, verste epokevinkel påstått < { "0.3" }° og RMS < { "5e5" } m mot modulens eget dokumenterte krav, pluss at LLR-residualen påstås å stemme med den radielle uenigheten til < { "5" }×); ::the_measured_residual_is_the_ephemeris_error ({ "337" } virkelige normalpunkter)
+
+seg-e6eeb246d545 = integrity::tpl_scalar::tests (rang 1, fusjonere/utelukke, biasdominans, IR-kryssjekk); tests/tpl_scalar_numpy_oracle.rs::scalar_mhss_pl_matches_numpy ({ "300" } innsjekkede tilfeller: numpy lstsq-delmengdeestimatorer, generell separasjonskovarians, scipy brentq PL; PL innenfor { "1e-9" } relativt, verste { "1.2e-10" }; drivende delmengde eksakt)
+
+seg-2737758e6542 = integrity::gls_commonmode::tests + tests/gls_reference.rs + tests/gls_whitening_numpy_oracle.rs::whitening_and_mahalanobis_match_numpy_lapack ({ "201" } innsjekkede SPD-tilfeller: faktor, blekede residual, blekeoperator og Mahalanobis-kvadrat mot numpy LAPACK innenfor { "1e-12" } relativt, verste { "7.9e-16" })
+
+seg-d36e19a6e2a9 = integrity::gls_commonmode::tests (separation_alone_is_blind_to_common_mode, degenerate_direction_or_non_pd_gives_no_finite_ceiling, every_nonzero_direction_under_pd_omega_has_a_finite_ceiling); tests/gls_outside_omega_bound_numpy_oracle.rs::undetectable_common_mode_ceiling_matches_numpy_lapack ({ "256" } innsjekkede tilfeller: alpha_ss, alpha_cm og minimum innenfor { "1e-12" } relativt på { "210" } velkondisjonerte tilfeller og grensetilfeller, verste { "3.3e-15" }; { "40" } dårlig kondisjonerte opp til kondisjon { "1.3e8" } innenfor en oppgitt kondisjonsskalert grense, verste { "1.1e-9" }; seks eksakte uendeligheter)
+
+seg-fa85ee9b1daa = tests/lunar_datum_identifiability_reference.rs::decompose_matches_scipy_reference ({ "16" } syntetiske 7x7 SPD-matriser fra velkondisjonerte til { "{" }{ "0,3" }{ "}" }-nær degenererte; Schur lambda_min / opprinnelses-CRLB / |korr| mot SciPy/NumPy til <{ "1e-9" } rel)
+
+seg-4fcff50bca2e = lunar_orientation::tests (de440_moon_pa_reproduces_fixture_rows, de440_moon_pa_shows_real_libration); tests/lunar_pa_frame_realisation_guard.rs::the_orientation_series_interpolation_error_is_tens_of_metres_not_sub_metre; tests/lunar_pa_orientation_spice_oracle.rs::interpolated_rotation_matches_direct_kernel_evaluation_off_node ({ "2 000" } tilfeldige epoker utenfor node mot SPICE pxform på den binære PCK: rotasjonsvinkel innenfor { "1.7e-5" } rad, verste { "1.7e-6" } rad, { "3" } m ved middelradius)
+
+seg-3e86011ef650 = lunar_llr_geometry (reflectors, stations_itrf, ItrfStation, StationCoordinates, llr_bcrs_one_way_m, body_to_bcrs_tdb, shapiro_leg_m, BcrsEvent); lunar_orientation (try_de440_moon_pa_body_to_inertial); lunar_vlbi (station_inertial_position_itrs)
+
+seg-ef1e57e7bf3d = tests/lunar_llr_geometry_range_oracle.rs::reflector_ranges_bcrs_iers2010_relativistic ({ "192" } ILRS-normalpunkter: RMS { "2.81" } m; de to ITRF2020-stasjonene alene { "2.96" } m; begge høyst { "10" } m); tests/lunar_llr_geometry_range_oracle.rs::round2_finding_is_a_common_offset_of_about_eleven_metres (den avløste geosentriske lystidsmodellen, { "10.94" } m, festet)
+
+seg-32da421d27ef = tests/lunar_coupled_gauge_reference.rs::coupled_gauge_matches_numpy_on_real_de440_rows ({ "9" } egenverdier, defect/dim_spatial/dim_temporal/coupled_dim/p_st_norm og Schur-marginalen for { "{" }scale,offset{ "}" } for nettverkene well_posed med 120 rader og single_epoch med 30 rader, til rel<{ "1e-3" } og abs<{ "1e-3" }); lunar_gauge::tests (coupled_marginal_fisher_is_symmetric_and_psd, oneway_spatial_equals_orbiter_range_row_datum7, twoway_spatial_equals_oneway_spatial_at_same_geometry)
+
+seg-9f0fd0918105 = lunar_gauge, lunar_time
+
+seg-abab0c3bfa30 = tests/lunar_rate_frame_coupling_preregistered.rs (entry1_d_alpha_d_scale_matches_the_published_l_m_for_both_cited_fields: L_m innenfor { "2.8e-6" } av Ashby og Patla { "2024" } med J2 fra AIUB-GRL350A/B; entry2_d_alpha_d_radial_matches_the_degree_350_equatorial_gravity_for_both_fields: den radielle oppføringen innenfor { "8.3e-5" } av pyshtools ekvatorialtyngde av grad 350; entry3_d_alpha_d_velocity_matches_the_de441_lunar_speed: hastighetsoppføringen innenfor { "2.5e-3" } av DE441-månehastigheten ved { "2000" } epoker); lunar_gauge::tests; regresjon tests/lunar_rate_frame_coupling_oracle.rs
+
+seg-57b6f02016e4 = lunar_gauge::tests (classify_is_invariant_under_null_basis_rotation - en akseparallell nullbasis og dens rotasjon på { "0.6" } rad gir identisk defect, dim_spatial, dim_temporal, coupled_dim og p_st_norm; classify_direct_sum_null og classify_coupled_null - konstruerte direktesumtilfeller og ekte koblede tilfeller bekrefter dimensjonsdekomponeringen; classify_basis_invariant; index_consts_are_correct); tests/lunar_gauge_classification_scipy_oracle.rs::classify_null_space_matches_scipy_subspace_intersection ({ "72" } konstruerte 9x9 Fisher-matriser over { "18" } nulldelrom, hver i fire tilfeldige ortonormale rebaseringer: defect, dim_spatial, dim_temporal og coupled_dim eksakte; p_st_norm innenfor { "6.0e-15" }, terskel { "1e-9" })
+
+seg-e9319e19b9f3 = tests/lunar_interop_budget_reference.rs (raw / rotation-residual / theta_moon / theta_frametie / theta_excess / reducible / irreducible for { "3" } leverandørpar mot den uavhengige SciPy SVD lstsq-tilpasningen i tests/fixtures/inter_ephemeris/reference.json, rel<{ "1e-3" } abs<{ "1e-3" } m; testdata + referanse byte for byte konsistente via scripts/gen_interop_ref.py på offentlige DE440/INPOP21a/EPM2021-kjerner gjennom IMCCE calceph)
+
+seg-89624a7374e9 = tests/lunar_faultobs_reference.rs (faultobs_matches_numpy_scipy_on_real_de440_rows: de { "84" }×{ "84" } P⊥ element for element, trace(P⊥) = parity_dim = { "52" } og rank(G) = { "32" }, detekterbarhetsnormer + flagg, den kvadratiske MDB-formen cᵀWP⊥c + MDB-verdien, og antallet påviste/identifiserte blokkgnister for hver jevnaldrende koalisjon, gjengitt mot en uavhengig numpy/scipy-referanse til rel<{ "1e-3" } abs<{ "1e-3" } med heltallsantall eksakte; inndata byte for byte konsistente via examples/gen_faultobs_rows.rs + scripts/gen_faultobs_ref.py)
+
+seg-cbdf069c7baa = telecom_timing (mtie_sliding, mtie_curve_ns, tdev_curve_ns); allan (mtie, time_deviation)
+
+seg-d4dfc8374544 = tests/telecom_timing_reference.rs ({ "17" } MTIE- og { "12" } TDEV-midlingsfaktorer på en innsjekket holdover-serie på { "2" } 048 utvalg fra en brikkeskala atomklokke med aldring, flicker og temperatur, mot allantools { "2024.06" } til <{ "1e-12" } / <{ "1e-9" } relativt, observert eksakt / { "1.1e-15" }; de samme kurvene lest ut av en full telecom-timing-kjøring som leser inn CSV-en); telecom_timing::tests (glidende MTIE lik allan::mtie i hvert vindu; håndutledet MTIE og TDEV; monoton MTIE)
+
+seg-776723e1171a = allan (edf_greenhall, greenhall_edf_core); assurance::uncertainty (edf)
+
+seg-d98eb984ce90 = tests/greenhall_edf_allantools.rs (bars_1_to_3_against_allantools; bar_4_wrappers_equal_the_core); tests/greenhall_edf_no_moved_output.rs (uncertainty_edf_is_bit_identical_to_the_0_36_portable_baseline); tests/uncertainty_edf_reference.rs
+
+seg-51a5b33f0b62 = slot_timing (ClockNoise::from_phase_record, fit_weighted, slot_budget, breach_after_sync_s)
+
+seg-02d2f67a9284 = tests/slot_timing_cs5071a_holdout.rs (holdover_inversion_predicts_the_held_out_caesium_record: tilpass på den første tredjedelen av registreringen, forutsi ett-sigma-brudd ved { "0.5" }, { "0.75" }, { "1" }, { "1.5" }, { "2" } og { "2.5" } ns, mål det på de to andre tredjedelene fra et synkroniseringspunkt hvert { "997" } s; terskel, fastsatt før første kjøring, en faktor på { "1.5" } begge veier; observerte forhold { "0.84" } til { "1.03" }; en kontroll, Allan-avviket på ett sekund lest som hvit FM, bommer med en faktor på omtrent { "1 000" } og må ikke bestå terskelen; en mutasjon som halverer hvit-FM-nivået gjør at testen feiler); slot_timing::tests (a_measured_white_fm_record_recovers_its_level; reduces_to_the_holdover_inversion; ieee1139_conversion_matches_the_powerlaw_module)
+
+seg-83c8f23a4b53 = navsignal (Modulation::psd, spectral_separation_coeff_offset, q_from_ssc); spectrum (psd_nulls_hz, psd_peak_hz, main_lobe_null_to_null_hz, Jammer::ssc)
+
+seg-436f7a545a7b = spectrum::tests (bpsk_main_lobe_null_to_null_is_two_n_times_1_023_mhz — BPSK({ "1" }) { "2.046" } MHz og BPSK({ "10" }) { "20.46" } MHz funnet numerisk på lukket form; boc11_lobes_are_centred_at_plus_minus_1_023_mhz — bærebølgenull, første null ved { "2.046" } MHz, lobesenter { "1.023" } MHz og det eksakte maksimum ved { "0.7590" } MHz mot en uavhengig Newton-løsning av tan y = 2y; ssc_matches_parseval_closed_forms — C/A x C/A 2/(3R_c) = -61.86 dB/Hz, BOC({ "1,1" }) x BOC({ "1,1" }) 1/(3R_c) = -64.87 dB/Hz, C/A x BOC({ "1,1" }) 1/(6R_c) = -67.88 dB/Hz, hver innenfor { "0.02" } dB; q_values_match_kaplan_hegarty — CW ved bærebølgen Q = { "1" }, støy med tilpasset spektrum Q = { "1.5" }, flat null-til-null-støy Q = { "2.215" }; mboc_is_a_unit_area_one_eleventh_mix)
+
+seg-500eea1d6b4a = sigmf (read, write, encode, decode, parse_meta, meta_to_json); spectrum (welch_psd, fft_in_place, synthesise_iq)
+
+seg-19aa57a32add = sigmf::tests (cf32_round_trip_is_exact_to_single_precision; ci16_round_trip_is_within_half_a_code; ci16_is_little_endian_i_then_q; integer_encoding_counts_saturation; metadata_uses_the_core_namespace; unsupported_types_and_channels_are_refused; sample_start_offsets_into_the_data); spectrum::tests (fft_matches_a_direct_dft; welch_reads_white_noise_as_variance_over_fs_and_keeps_a_tone_s_power — gulv innenfor { "2" } % av varians over samplingsrate, Parseval-total innenfor { "2" } %, Hann ekvivalent støybåndbredde { "1.5" } binner; noise_like_synthesis_is_unbiased_through_welch — median Welch minus modell innenfor { "0.1" } dB gjennom en ci16_le-rundtur; synthesised_iq_through_sigmf_reproduces_the_model_spectrum); tests/sigmf_welch_oracle.rs::welch_and_sigmf_io_match_scipy_and_sigmf_python (Welch PSD mot scipy { "1.18.1" } signal.welch per bin til { "1e-12" } relativt over { "27" } tilfeller, observert { "6.0e-14" }; fem sigmf-python { "1.13.0" }-opptak dekodet bitidentisk med identisk metadata; opptak skrevet av crate-en lest tilbake bitidentisk av sigmf-python og skjemagyldige mot SigMF { "v1.2.6" })
+
+seg-390697edfd7d = ephem (standish_state, standish_elements, standish_nominal_error, ecliptic_to_icrf); ephem_provider (AnalyticSolarSystem); solar_system (SolarSystemScenario)
+
+seg-0e2a03d21df4 = tests/solar_system_standish_preregistered.rs::standish_rms_errors_are_within_explanatory_supplement_table_8_10_1 (barysentre 1800-2050 fra tabell { "1" } og { "3000" } BC-3000 AD fra tabell { "2" }, { "8908" } og { "21857" } epoker, verste RMS { "0.778" } av tallet i tabell { "8.10.1" }); tests/solar_system_standish_earth_icrf_preregistered.rs (earth_from_the_split_barycentre_is_within_the_emb_table_8_10_1_rms: Jorden gjennom AnalyticSolarSystem og icrf_to_ecliptic, RMS { "0.483" } av EMB-tallet; icrf_positions_are_within_the_table_8_10_1_rms: ICRF-posisjoner for legemene i tabell { "1" } og Jorden, verste { "0.778" }; earth_minus_barycentre_offset_matches_de441_1950_to_2050: månerekkeoppdelingen, verste { "0.088" } grader og { "6.1" } km); ephem::tests (standish_periods_obey_keplers_third_law; a_planet_track_is_one_closed_ellipse). Ikke-portende regresjon: tests/solar_system_horizons_reference.rs
+
+seg-af9dc8bcbd0a = ephem_provider (KernelEphemeris::relative_position_utc, utc_to_tdb_jd2); naif_kernel; timescales
+
+seg-02aaea0ff091 = tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_at_utc_epochs ({ "600" } posisjoner ved { "200" } UTC-epoker 1973-2026 trukket fra forhåndsregistreringens hash; verste { "0.66" } av terskelen, { "2.96" } m); tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_on_the_full_kernel_when_present (datastyrt); tests/kernel_ephemeris_skyfield_oracle.rs::barycentre_only_bodies_are_refused_not_substituted; ephem_provider::tests
+
+seg-19387ac03ee7 = radiometric (light_time_solution, two_way_range, shapiro_delay); solar_system (link, link_on); ephem_provider (AnalyticSolarSystem)
+
+seg-12ea8306ca6a = tests/solar_system_light_time_solver_preregistered.rs::light_time_solver_on_de441_positions_matches_horizons_lt_within_1e_6_s (barysentrene for Merkur, Venus, Mars, Jupiter og Saturn, Solen og Månen til jordsenteret, { "1576" } epoker hver på interpolerte DE441-posisjoner, verste { "6.7e-9" } s mot { "1e-6" } s); ikke-portende nøyaktighetsutsagn for den analytiske banen: tests/solar_system_light_time_preregistered.rs (RMS c dLT { "0.17" } til { "0.30" } av posisjonsterskelen i tabell { "8.10.1" }); solar_system::tests
+
+seg-2e83f70b6649 = body (Body::iau_rotation_et, Body::iau_angles_et, Body)
+
+seg-803d90c9eacb = tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_for_the_fourteen_added_bodies ({ "41" } epoker { "1955" } til { "2044" }, { "574" } matriser innenfor { "1e-9" } rad, verste Phobos { "1.43e-10" } rad); tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_at_fresh_epochs ({ "41" } epoker { "1961" } til { "2038" } som aldri er sammenlignet før, { "574" } matriser innenfor { "1e-9" } rad, verste Phobos { "1.38e-10" } rad); tests/body_constants_naif_oracle.rs::constants_match_naif_pck00011_and_gm_de440 ({ "0" } av { "84" } konstanter for de fjorten legemene avviker fra NAIF)
+
+seg-cf5cfbb6b468 = constellation (WalkerSpec::elements, gps_slots, galileo_walker, glonass_slots, GPS_BASELINE_SLOTS, GPS_EXPANDABLE_SLOTS)
+
+seg-92ee79866544 = constellation::tests::walker_24_3_1_reproduces_galileo_os_sdd_table_23 (alle { "24" } rader for RAAN og middelanomali til { "1e-9" } grader); constellation::tests::glonass_icd_slot_formula_is_a_walker_24_3_1 (ICD-sporformelen og en Walker 24/3/1 er de samme { "24" } parene av node og breddeargument); constellation::tests::gps_presets_reproduce_the_published_equatorial_crossings (bakkesporets ekvatorkryssing for alle { "36" } GPS-plasseringer fra RAAN, breddeargument og timevinkelen på { "100.765" } grader: { "35" } innenfor { "0.0108" } grader mot en avrundingsterskel på { "0.015" } grader, og E3F innenfor { "0.06" } grader fordi tabellens egen E3F-rad er inkonsistent med sin RAAN og sitt breddeargument med omtrent { "0.06" } grader; den sekulære noderegresjonen innenfor { "5" } % av tabellens -0.0402 grader/døgn); constellation::tests::walker_geometry_identities_are_exact (de tre avstandsidentitetene for delta- og stjernemønstre opp til { "1 584" } satellitter, til { "1e-9" } grader)
+
+seg-0aaf33611680 = constellation (coverage, dop_at, NormalAccum)
+
+seg-7bc2428f22d9 = constellation::tests::gps_baseline_global_dop_matches_the_sps_performance_standard (HDOP median { "0.940" }, { "90" } % { "1.165" }, { "95" } % { "1.255" }, { "98" } % { "1.370" }, middel { "0.965" } mot { "0.94" }, { "1.16" }, { "1.25" }, { "1.37" } og { "0.96" }, terskel { "0.03" } på hver, fastsatt før første kjøring; PDOP median { "1.795" } ved eller under tabell B.3-1s { "1.815" } for en degradert blanding av 20-24 satellitter; tilgjengelighet { "100" } % globalt og på det verste stedet mot tabell 3.8-1s { "98" } % og { "88" } %); constellation::tests::single_epoch_dop_matches_the_hand_computation (zenit pluss tre satellitter på { "30" } graders elevasjon: HDOP 4/3, VDOP { "2.3094" }, PDOP 8/3, TDOP { "1.5275" }, GDOP { "3.0732" } til { "1e-9" }, og lik orbit::dop med felles klokke)
+
+seg-54bf21cf90d7 = navsignal (sine_integral, bpsk_power_in_band_closed_form, bpsk_gabor_bandwidth_closed_form_hz, dll_jitter_bandlimited_s, dll_jitter_small_spacing_limit_s, bpsk_offset_ssc_closed_form, altboc_15_10_psd, parse_modulation)
+
+seg-d2b3b13002dd = navsignal::band_limited_tests (sine_integral_matches_tables_and_its_limit — Si({ "1" }), Si(pi), Si({ "2" } pi) til { "1e-12" }; bpsk_power_in_band_closed_form_matches_textbook_and_numeric — { "0.9028" } av effekten i hovedloben for BPSK(1/3), BPSK({ "1" }), BPSK({ "5" }), BPSK({ "10" }), og lukket form lik kvadratur til { "1e-7" } i { "10" }, { "15" }, { "20" } og { "51.15" } MHz; bpsk_gabor_closed_form_matches_numeric_and_asymptote — til { "1e-4" }, og asymptoten sqrt(B R_c / ({ "2" } pi^{ "2" })); bandlimited_dll_reduces_to_the_textbook_forms — koherent early-late BPSK({ "1" }) ved { "45" } dB-Hz, B_L { "1" } Hz, d { "1" } chip, T { "20" } ms: { "0.0039564" } chip ({ "1.159" } m) innenfor { "1" } %, den ikke-koherente formen lik navsignal::dll_code_jitter_chips innenfor { "1" } %, grensen for forsvinnende avstand lik sin lukkede form til { "1e-5" }; offset_bpsk_ssc_matches_parseval_closed_form — forskyvninger { "0" } til { "3.2" } R_c innenfor { "0.01" } dB og -71.86 dB/Hz ved null forskyvning for BPSK({ "10" }); altboc_psd_is_unit_area_with_lobes_at_e5a_and_e5b; modulation_labels_round_trip)
+
+seg-56f381a3f611 = leo_signal (max_doppler_hz)
+
+seg-da02936f6d75 = leo_signal::tests::max_doppler_matches_published_xona_and_iridium_figures — Xona Pulsar X1 ({ "1593.3225" } MHz, { "1080" } km) { "33.2" } kHz innenfor de publiserte { "32" } til { "34" } kHz; Iridium ({ "1621" } MHz, { "780" } km) innenfor { "0.5" } kHz av de publiserte { "36" } kHz
+
+seg-f1cdf8728c6b = Publiserte tall: Xona Pulsar X1 maksimal Doppler { "32" } til { "34" } kHz (Leclère, Marathe & Reid, ION GNSS+ { "2025" }, <a1>https://arxiv.org/abs/2509.19551</a1>); Iridium Doppler opptil +/-36 kHz (Resilient Navigation and Timing Foundation, Recent PNT Improvements and Test Results Based on Low Earth Orbit Satellites). Jordens rotasjon er utelatt, noe som flytter tallet med opptil omtrent { "2.3" } kHz; begge de publiserte tallene nås uten den.
+
+seg-70fb5eb759aa = leo_link::itu (p838_coefficients, p838_k_alpha, rain_specific_attenuation_db_km)
+
+seg-6ef512cefe4d = tests/leo_link_reference.rs (p838_coefficients_reproduce_table5_to_its_printed_digits: alle { "115" } rader i tabell { "5" }, { "1" } GHz til { "1000" } GHz, hver koeffisient innenfor { "0.6" } av sitt siste trykte siffer; verste observerte { "0.51" })
+
+seg-53d288ecc889 = leo_link::itu (p618_rain_attenuation_db, RainPath)
+
+seg-e1ab19315242 = tests/leo_link_reference.rs (p618_rain_attenuation_matches_the_itu_validation_examples: { "56" } tilfeller på fem steder, { "14.25" } og { "29" } GHz, { "0.001" } % til { "1" } %, innenfor { "1e-4" } dB; observert { "5e-6" } dB)
+
+seg-cfe59399d0a3 = leo_link::itu (p618_scintillation_db, wet_refractivity, ScintillationPath)
+
+seg-8a35d6b6f974 = tests/leo_link_reference.rs (p618_scintillation_matches_the_itu_validation_examples: { "42" } tilfeller på sju steder, { "14.25" } og { "20" } GHz, innenfor { "1e-5" } dB; observert { "5e-7" } dB)
+
+seg-f7d2ab81d7d2 = leo_link::itu (p2109_building_entry_loss_db, BuildingClass); detection (normal_inv_cdf)
+
+seg-05bb3df0fcc5 = tests/leo_link_reference.rs (p2109_building_entry_loss_matches_the_itu_workbook: { "568" } verdier, { "28" } GHz ved { "0" } grader og { "2" } GHz ved { "45" } grader, begge klasser, P fra { "1e-7" } til { "0.998" }, innenfor { "0.001" } dB)
+
+seg-5b682a1911e5 = leo_link::iono (group_delay_m, iono_free_coefficients, iono_free_noise_amplification); leo_link (fspl_db); linkbudget (free_space_loss_db)
+
+seg-09369862fb72 = tests/leo_link_reference.rs (first_order_iono_reproduces_the_is_gps_200_group_delay_ratio: gamma = (77/60)^{ "2" } til { "1e-12" }, L1/L2- og L1/L5-forsterkning { "2.978" } og { "2.588" }; free_space_loss_is_the_friis_kilometre_megahertz_form: { "32.4478" } + { "20" } log d + { "20" } log f til { "1e-4" } dB); leo_link::iono::tests (delay_scales_as_one_over_f_squared; iono_free_combination_removes_the_first_order_delay)
+
+seg-ba1455ed0740 = leo_link::geometry (max_static_user_range_rate, DopplerEnvelope, doppler_hz)
+
+seg-88f10ca1e3bc = tests/leo_link_reference.rs (doppler_envelope_reproduces_the_pulsar_paper_table_1: Pulsar IOV { "520" } km { "97" } grader, Pulsar FOC polar { "1080" } km { "97" } grader, Pulsar FOC skrånende { "1080" } km { "53" } grader og GPS { "20180" } km { "55" } grader; banehastighet, maksimal ECEF-hastighet, maksimal relativ hastighet og maksimal bærebølge-Doppler i L1- og L5-båndet, { "20" } verdier, hver innenfor { "0.05" } %)
+
+seg-45309f1545cc = leo_navmsg::sisre (sisre_weights, StatsAcc)
+
+seg-64d379a46dbc = leo_navmsg::sisre::tests (weights_reproduce_the_published_meo_and_geo_table — GPS { "0.979" } og 1/48.9, GLONASS 1/45.0, Galileo { "0.984" } og 1/61.1, BeiDou MEO 1/54.2, geostasjonær { "0.992" } og 1/126.2 ved en maske på { "0" } grader, hver innenfor { "0.005" } av w_R og { "0.5" } av 1/w_AC^{ "2" }; leo_weights_shift_toward_the_transverse_axes — nadirvinkel til horisonten { "67.8" } grader ved { "510" } km)
+
+seg-d579e3a4f58f = leo_navmsg::elements (kepler_point, kepler_frame, ephemeris_at, sat_state)
+
+seg-7bb3e4112c28 = tests/leo_navmsg_reference.rs (the_galileo_user_algorithm_reproduces_rtklib_to_a_millimetre — fire virkelige Galileo-kringkastede efemerider E10, E19, E24, E25 ved tk = { "0" }, +/-600, +/-1800, +/-3600 s, hver akse innenfor { "1" } mm av RTKLIB; real_galileo_records_survive_the_binary_frame_and_the_text_block — innenfor { "5" } mm etter Kshanas binære ramme og { "1" } mm etter RINEX-lignende blokk)
+
+seg-405df44dd887 = leo_navmsg::codec (crc24q, encode, decode)
+
+seg-577acdb9b84b = leo_navmsg::codec::tests (crc24q_matches_the_catalogue_check_value — 0xCDE703 for ASCII-strengen { "123456789" }; crc24q_matches_the_rtcm_1005_example_frame — de tre kontrollbytene 0x360B98 i RTCM-eksempelrammen for meldingstype { "1005" } ({ "10403" }), og null over hele rammen)
+
+seg-4213f6b60bf1 = leo_navmsg::fit (fit_message, lstsq, polyfit); leo_navmsg::truth (TruthOrbit, TruthClock); leo_navmsg (sequence_stats, LeoNavmsgScenario)
+
+seg-7f4e08aeede7 = leo_navmsg::tests::a_two_body_truth_is_recovered_by_the_keplerian_fit_to_a_millimetre; leo_navmsg::tests::the_user_algorithm_reproduces_the_fitted_truth_to_a_millimetre_with_corrections; leo_navmsg::tests::the_clock_fit_returns_the_truth_clock_through_the_user_relativistic_term; leo_navmsg::tests::keplerian_sisre_grows_with_the_fit_interval_and_the_corrections_fix_it (monoton vekst fra { "1" } til { "15" } minutter og minst en tredobbel forbedring ved { "15" } minutter); leo_navmsg::tests::defaults_run_encode_decode_without_any_preset_and_are_deterministic; tests/leo_navmsg_fit_real_orbit_oracle.rs::fitted_sisre_matches_liu_2025_on_real_orbits (TU Graz ITSG reduserte dynamiske baner for GRACE-A, GRACE-C, Sentinel-2A og Sentinel-6A tilpasset over buer på { "20" } og { "30" } min: RMS langs, på tvers og radielt { "0.804" } til { "1.087" } og SISRE { "0.716" } til { "0.809" } av Liu et al. { "2025" }, innenfor 1.5x; SISRE-vekter innenfor { "0.0007" } av dens tabell { "2" }); tests/leo_navmsg_full_claim_oracle.rs::integrated_truth_orbit_matches_orekit_within_2_cm_over_6_h (Orekit { "12.2" } + Hipparchus { "3.1" }, samme starttilstand og tetthetsinndata: verste { "3.95" } mm tolegemeproblem, { "3.92" } mm J2-J6 og EGM2008 til grad { "20" } og { "70" }, { "4.55" } mm EGM2008 grad { "20" } med luftmotstand ved { "400" } km, terskel { "0.02" } m over { "6" } t); intern kryssjekk, ikke en uavhengig referanse: tests/leo_navmsg_full_claim_oracle.rs::corrections_clock_fit_and_update_period_trade_agree_with_an_internal_cross_check_on_grace_fo
+
+seg-4a631f12459a = leo_navmsg::elements (kepler_point, Liu22Extra); leo_navmsg::fit (fit_message, fit_kepler, initial_params, formal_sigma); leo_navmsg::truth (TruthOrbit)
+
+seg-c79d4b5fdd17 = tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_model_matches_the_published_sisre (fire artikkeldager: forhold langs, på tvers, radielt og SISRE { "0.755" } til { "1.138" } av Liu et al. { "2025" }, innenfor 1.5x); tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_holds_on_held_out_days (åtte tilbakeholdte dager, to buer hver: { "0.683" } til { "1.186" })
+
+seg-765c69669bfa = leo_navmsg::services (klobuchar_delay_m, effective_ionisation_level, system_to_utc)
+
+seg-4693b7ddd7b2 = leo_navmsg::services::tests (klobuchar_scales_with_inverse_frequency_squared — L1-verdien er RTKLIBs { "6.1278" } m; nequick_az_rules; utc_without_an_event_is_tow_minus_leap_seconds_folded_to_a_day; utc_drift_terms_follow_the_icd_formula; an_inserted_leap_second_reads_86400_at_the_end_of_the_day); tests/leo_navmsg_services_gnsstk_oracle.rs::services_match_gnsstk_and_erfa (Klobuchar ved L1, L2 og L5 over { "4 320" } tilfeller, verste { "7.0e-13" } m; Az over { "222" } koeffisientsett inkludert regelen med bare nuller og { "400" } sfu, verste { "5.7e-14" } sfu; UTC-drift over { "50" } tilfeller, verste { "3.6e-15" } s; de tre tilfellene med skuddsekund over { "21 602" } tidspunkter over de virkelige skuddsekundene i { "2015" } og { "2016" }, { "0" } s)
+
+seg-0111fd0b84a5 = leo_fusion::geom (EarthOrbit); leo_fusion::doppler (range_rate, doppler_envelope)
+
+seg-a8dd3751a688 = tests/leo_doppler_reference.rs (iridium_doppler_reaches_the_published_36_khz: én satellitt på { "780" } km og { "86.4" } grader fløyet i ett døgn ved { "1621" } MHz over fire breddegrader, maksimum innenfor { "5" } % av { "36" } kHz; xona_pulsar_x1_doppler_lies_in_the_published_32_to_34_khz: én satellitt fra hvert publiserte skall, { "1080" } km ved { "53" } og { "97" } grader, { "1593.3225" } MHz, konstellasjonens maksimum innenfor { "32" } til { "34" } kHz uten utvidelse ({ "33.6" } kHz, bestemt av skallet på { "97" } grader; skallet på { "53" } grader alene topper ved { "31.8" } kHz)); leo_fusion::geom::tests (velocity_is_the_time_derivative_of_the_position)
+
+seg-8ac77c9b9588 = leo_fusion::ntn (gabor_bandwidth_flat_hz, gabor_bandwidth_bpsk_hz, gabor_bandwidth_numeric_hz, rms_duration_numeric_s, toa_crb_sigma_m, doppler_crb_sigma_hz, frequency_crb_sigma_hz, NtnScenario::geometry, NtnScenario); leo_fusion::joint_pvt (formal_sigma_enu)
+
+seg-50b92f3ed7eb = leo_fusion::ntn::tests (the_numerical_rms_bandwidth_matches_the_closed_forms; the_range_bound_scales_as_one_over_bandwidth_and_root_cn0: { "0.4157" } m for hånd ved { "5" } MHz, { "45" } dB-Hz, { "0.1" } s; the_frequency_bound_is_the_complex_tone_crlb; defaults_run_wider_is_better_and_every_number_has_a_unit); tests/leo_fusion_scenarios.rs (ntn_wide_channel_bounds_far_tighter_than_the_narrow_one); tests/ntn_crlb_published_value_oracle.rs (ssb_bounds_reproduce_the_published_values; ntn_fix_covariances_match_numpy; bpsk_rms_bandwidth_reproduces_betz_table_1)
+
+seg-cc3d01973493 = leo_fusion::polar (latitude_sweep, latitude_sweep_at, element_sets, satellite_states_at); leo_fusion::joint_pvt (dop); sgp4 (MeanElementSet::from_earth_fixed, SgpOrbit, teme_to_itrs_matrix)
+
+seg-e1d9acf84101 = tests/leo_polar_coverage_on_path_orekit_oracle.rs (konfigurasjonene A og B, { "4040" } utvalg: jordfaste posisjoner innenfor { "6.8e-5" } m, terskel { "0.2" } m; antall i sikte identiske på 4040/4040; median DOP innenfor { "2.3e-11" } relativt, terskel { "1e-3" }; tilgjengelighet og gjennomsnitt i sikte identiske); tests/earth_orbit_path_sgp4_erfa_oracle.rs (banen); leo_fusion::polar::tests (gps_vertical_geometry_weakens_at_the_pole_and_a_polar_leo_shell_restores_it); tests/leo_fusion_scenarios.rs (a_polar_leo_constellation_fills_the_sky_where_gnss_vertical_geometry_weakens); tests/leo_polar_coverage_orekit_oracle.rs (runde { "2" }, geometri på gitte tilstander); tests/leo_polar_coverage_full_claim_orekit_oracle.rs (funn fra runde 1 om hele påstanden, festet)
+
+seg-bd265d530763 = lunar_frame_campaign, fim
+
+seg-7c8144a7376a = tests/lunar_frame_campaign_mpmath_oracle.rs (lunar_frame_campaign_datum_matches_mpmath_extended_precision: tre scenarioer — stasjoner estimert på en ny kampanjedato 2026-03-18 (bindende), stasjoner fikset på den datoen (kontroll), stasjoner estimert på 2024-01-01 (scenarioet fra den tidligere bommen med dobbel presisjon); hver datumsigma, kondisjonstallet og den svakeste retningen mot en kondisjonsskalert terskel som regnes ut på nytt i testen fra referansens eksakte følsomheter; engine_inputs_match_the_committed_fixture: den innsjekkede Jacobianen, vektene og Helmert-utformingen er det motoren bygger nå; record_engine_accuracy_against_a_factorisation_route: motorens feilbånd og NumPy Cholesky-diagnostikken festet)
+
+seg-691a05f06e4d = linalg_sr, lunar_frame_campaign
+
+seg-f26d99df9184 = tests/lunar_frame_campaign_srif_mpmath_oracle.rs (srif_datum_matches_mpmath_extended_precision: fire scenarioer — stasjoner estimert på en ny kampanjedato 2026-06-09 (bindende), stasjoner fikset på den datoen (kontroll), og inndataene med stasjoner estimert 2026-03-18 og 2024-01-01; hver datumsigma, kondisjonstallet og den svakeste retningen mot en terskel i kvadratrotform som regnes ut på nytt i testen fra referansens eksakte ingredienser; engine_inputs_match_the_committed_fixture); linalg_sr::tests ({ "9" } lib-tester: Dekker-produktet lik residualen fra fused multiply-add på { "20 000" } par, kompensert summering av en summ som kansellerer, R^T R lik A^T A, sekvensielle filteroppdateringer lik én batchoppdatering, den trailing blokken lik kvadratroten av Schur-komplementet, den triangulære inversen, Jacobi-SVD, samsvar med det spektrale datumet på et velkondisjonert tilfelle, bitidentiske omkjøringer); lunar_frame_campaign::tests::the_default_solver_is_unchanged_and_an_unknown_solver_is_rejected og the_srif_solver_agrees_with_the_spectral_one_where_both_are_accurate_and_says_so
+
+seg-02fed5e55709 = receiver_trust (ingest, maritime)
+
+seg-3c5f4229618e = tests/maritime_trust_reference.rs (t1_nmea_decoding_matches_pynmea2, t2_east_north_offsets_match_the_wgs84_geodesic, t3_t4_monitor_input_statistics_match_the_oracle) mot tests/fixtures/maritime_trust/reference.json, regenerert av scripts/gen_maritime_trust_ref.py fra den syntetiske NMEA-en skrevet av examples/gen_maritime_trust_ref_inputs.rs; toleranser forhåndsregistrert i tests/fixtures/maritime_trust/PREREGISTRATION.md
+
+seg-684b87e7f358 = nmea_synth (track, sentences, scenarios); cli nmea-scenario
+
+seg-5699d8162c69 = tests/nmea_training_reference.rs (sammenligning med pynmea2-referansen); tests/nmea_training_scenarios.rs::every_sentence_is_checksum_valid_and_the_reader_accepts_it, ::every_sentence_type_is_present_each_epoch, ::deterministic_per_seed_and_sensitive_to_it
+
+seg-87e0596369cb = interference_map (adsb::nacp_epu_bound_m, adsb::nic_rc_bound_range_m, adsb::AdsbParams::classify, ais::ais_position_is_valid, ais::ais_speed_kn, grid::Grid::cell_of, route::exposure, land::LandMask::is_inland)
+
+seg-48689d047304 = tests/interference_map_reference.rs::adsb_accuracy_and_integrity_codes_agree_with_pymodes ({ "12" } NACp-koder, { "59" } NIC-rader); tests/interference_map_reference.rs::ais_field_rules_agree_with_pyais_decoding ({ "94" } rammer); tests/interference_map_reference.rs::grid_cell_assignment_agrees_with_shapely ({ "1770" } punkter, fire cellestørrelser); tests/interference_map_reference.rs::route_exposure_geometry_agrees_with_shapely_and_geographiclib ({ "8" } ruter, { "420" } biter, { "11634" } km); tests/interference_map_reference.rs::land_masking_agrees_with_shapely_and_pyproj ({ "996" } punkter); enhetstester for interference_map
+
+seg-a14a79333731 = telemetry (prometheus: Registry, render; otlp: build_payload, Exporter (feature otlp); sample)
+
+seg-bce7247612db = tests/telemetry_formats_reference.rs (prometheus_client_reads_our_exposition_as_the_registry_implies, the_official_otlp_proto_reads_our_json_as_the_registry_implies, awkward_reason_text_survives_the_parser, the_committed_outputs_are_what_this_crate_produces; skjema { "1.3" }: prometheus_client_reads_the_schema_13_exposition_as_the_registry_implies, the_official_otlp_proto_reads_the_schema_13_json_as_the_registry_implies, promtool_accepts_the_schema_13_exposition, the_collector_receives_and_exports_the_schema_13_payload_unchanged); tests/telemetry_cli.rs; telemetry::prometheus::tests (golden-eksponering)
+
+seg-40e8b0a596fb = telemetry (syslog: cef, rfc5424, SyslogSink; time)
+
+seg-baadfddd02b2 = tests/cef_reference.rs (pycef_reads_every_tier_1_event_as_the_sample_implies, the_logstash_cef_codec_reads_every_event_including_escaped_headers_as_the_sample_implies, the_committed_corpus_is_what_this_crate_produces_and_covers_what_was_registered); telemetry::syslog::tests (eksakte CEF-strenger, escaping, alvorlighetsgrad, RFC { "5424" }-konvolutt); tests/telemetry_cli.rs
+
+seg-66f38fc734a7 = evidence (bundle: create_bundle, sign_detached, chain_link, sha256_hex; verify: verify_bundle, verify_detached; tsr; assemble; cli)
+
+seg-d50f70b4c20a = tests/evidence_crypto_reference.rs (RFC { "8032" } avsnitt { "7.1" } vektorer { "1" }, { "2" }, { "3" } og { "1024" }; FIPS 180-4 SHA-256-eksempler; eksakt); tests/evidence_pack_reference.rs::kshana_and_the_clean_room_verifier_agree_on_every_case ({ "71" } tilfeller); tests/evidence_pack.rs (tester for manipulering)
+
+seg-703f4b4ac682 = evidence::tsa (verify_token, pem_certificates); evidence::verify (VerifyOptions::tsa_anchors, Failure::TimestampAuthorityInvalid); evidence::cli (--tsa-ca)
+
+seg-39bc6b70440b = tests/evidence_tsa_openssl.rs::every_case_agrees_with_openssl (den forhåndsregistrerte sammenligningen); evidence::tsa::tests (sivile datoer og klokkeslett, base64, den offentlige RSA-operasjonen); evidence::verify::tests::anchors_make_the_authority_checked (et usignert token feiler med ankere; uten dem er rapporten uendret)
+
+seg-837193c4e1dc = interop::testbench (write_motion_csv, write_nmea, trajectory_of, export); fusion::pack::truth_trajectory
+
+seg-0094102cc5b8 = tests/testbench_reference.rs ({ "7" } tester: festing av referansen, eksportbyte, verste tilfelle over hver rad, posisjonskolonner, lokal hastighet mot sann NED-hastighet, Euler-vinkler mot scipy, NMEA mot pynmea2); tests/interop_testbench.rs (skriverens egne rundturer)
+
+seg-3266b898bfd2 = iq::signals::beidou (b1i_bits, b1i)
+
+seg-ba514f7e73ce = iq::signals::gps (l1c_weil, l1c_ranging_bits, l1c_p_bits, l1c_d_bits, l1co_s1_run, l1c_o_bits); iq::signals::tables
+
+seg-9e651a7f8dc9 = tests/iq_signals_gps_l1c.rs (c1_l1cp_and_l1cd_initial_and_final_24_chips_match_is_gps_800j_table_3_2_2, c2_l1co_initial_and_final_11_bits_match_is_gps_800j_table_3_2_3, c3_legendre_sequence_matches_is_gps_800j_table_6_2_1, the_column_check_rejects_relabelled_inverted_and_shifted_codes)
+
+seg-b289551b0bb5 = iq::signals::lunanet (afs_i_bits, afs_q_primary_bits, legendre_bits); iq::signals::lunanet_tables; iq::lunanet_afs::check_spec
+
+seg-176e3b9ea0e7 = tests/lunanet_afs_codes.rs (b1_afs_i_gold_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b2_the_legendre_sequence_of_length_10223_is_the_printed_table_d1, b3_afs_q_primary_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b1b_not_met_the_printed_g2_state_is_not_the_state_after_the_printed_delay, b1c_post_hoc_the_printed_g2_state_is_the_state_after_2047_minus_the_delay); tests/iq_signal_matrix.rs (lunanet_afs_i, lunanet_afs_q)
+
+seg-af826b47d00e = { "388" } rader: { "176" } validert eksternt, { "208" } modellert, { "4" } eid av partner.
+
+seg-6bb40f180cf0 = <s1>Forrige</s1>Valideringsstatus
+
+seg-defb46c5bc80 = <s1>Neste</s1>Funksjonsreferanse
