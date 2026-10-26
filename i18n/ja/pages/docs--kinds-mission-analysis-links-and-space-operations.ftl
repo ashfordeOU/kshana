@@ -159,3 +159,5 @@ seg-ad0e72e3b688 = scenarios/attitude-budget.toml（種類attitude-budget）に�
 seg-be4e928a5865 = 複数の衛星と複数の地上局に対する地上コンタクトの計画：見かけのアクセスウィンドウ（SGP4、IAU 2006/2000A地球固定座標系、ITU-R P.834屈折、光行時間）、各パスのDVB-S2 ACMデータ量（ETSI EN { "302" } 307-1 Table { "13" }のしきい値）、および競合のないスケジュール（折り返し時間を伴うアンテナごとに一つの衛星、衛星ごとに一つの地上局、各バックログを上限とする優先度加重の配信）。これを、限界価値の貪欲法、先着順のベースライン、小規模な集合に対する厳密な分枝限定法で求め、貪欲法の最適性ギャップも示します。MODELLED。
 
 seg-e26b549579e2 = scenarios/contact-schedule.toml（種類contact-schedule）についてエンジンが書き出すグラフ
+
+seg-af1cf9aa9938 = エンジンが scenarios/space-packet.toml（kind space-packet）用に書き出すチャート

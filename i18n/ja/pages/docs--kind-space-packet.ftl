@@ -39,3 +39,5 @@ seg-8f1e7d3f5a07 = ファミリーページ：<a1>ミッション解析、リン
 seg-3068552e4ab4 = VALIDATED：この種類を挙げている<a1>検証マトリクス</a1>の行。
 
 seg-98151954f217 = false
+
+seg-af1cf9aa9938 = エンジンが scenarios/space-packet.toml（kind space-packet）用に書き出すチャート

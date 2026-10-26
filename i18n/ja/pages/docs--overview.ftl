@@ -176,7 +176,7 @@ seg-fe1abd564200 = Jammertest
 
 seg-6fcb41643035 = 信頼テレメトリ
 
-seg-82155b5d0408 = テストベンチ
+seg-82155b5d0408 = test bench
 
 seg-e35fff011b24 = Compliance
 
