@@ -23,3 +23,5 @@ seg-2bd2101ce454 = 界面
 seg-de6c33774c9c = CLI
 
 seg-d1e9715513b4 = 示例
+
+seg-587beeccaa11 = 预设

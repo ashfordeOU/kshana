@@ -7,3 +7,7 @@ seg-6e0cb6acc073 = VALIDATED
 seg-3ea93ae372ca = 包含内容
 
 seg-6cb7a787ac67 = 参考文献
+
+seg-f63dd3d7aad4 = 来源
+
+seg-587beeccaa11 = 预设

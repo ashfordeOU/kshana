@@ -187,3 +187,11 @@ seg-e35fff011b24 = Compliance
 seg-a50180a66dba = LunaNet AFS
 
 seg-028684a0cf3d = 标准包
+
+seg-9c0eb89a2fbe = 包
+
+seg-e98e25897176 = 三个评分标准包的每一项测试，均来自引擎 v{ $version } 的真实运行（`kshana standards-pack run`）：dhs-rpcf：{ "6" } 项达到判据，{ "1" } 项未达到判据，{ "2" } 项需要输入；imo-circ-1575：{ "1" } 项达到判据，{ "4" } 项未达到判据，{ "2" } 项需要输入；icao-doc9849-appf：{ "6" } 项达到判据，{ "0" } 项未达到判据，{ "2" } 项需要输入。总计 { "13" } 项达到判据，{ "5" } 项未达到判据，{ "6" } 项需要引擎所没有的输入（接收机日志或设备文档）。每条判据都在运行前设定；未达到的就如实记为未达到。达到判据只说明某个建模场景达到了所述判据，并不说明任何关于产品的事。这些标准包为其所引用的各行提供证据支持（supports evidence for）；它们不是评估。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务；不得作为任何导航或安全决策的唯一依据。
+
+seg-f891ee876b96 = 它回答什么
+
+seg-7cf2608b2b2f = 证据包的结构。接收机日志（NMEA、u-blox UBX、RINEX { "3" } 或 Android 日志）和一个时间窗口输入到 kshana receiver-trust evidence，由它写出七个文件：log-slice.bin、config.json、epochs.json、summary.html、manifest.json、manifest.sig 以及可选的 timestamp.tsr。清单记录了整份日志和每个文件的 SHA-256，以及覆盖这些文件的哈希链；签名覆盖清单。kshana evidence verify 检查签名、每个文件的哈希、哈希链，以及没有未列出的文件，验证通过时退出码为 { "0" }，出现失败时为 { "1" }，签名者未被固定时为 { "3" }。证据包是技术记录，不是法律意见。
