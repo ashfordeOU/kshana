@@ -225,3 +225,5 @@ seg-41e50e49da99 = <b>台账：</b>没有矩阵行点名此类型；引擎自行
 seg-09f7f99d04a6 = <s1>上一页</s1>低地球轨道导航
 
 seg-74c6bf83988e = <s1>下一页</s1>任务分析、链路与空间运行
+
+seg-e4da113cbe18 = 引擎为scenarios/lunar-llr-datum.toml生成的图表，类型为lunar-llr-datum
