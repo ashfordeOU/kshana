@@ -84,9 +84,6 @@ seg-60431931082a = <b>MODELLED</b> Contactos candidatos de cada paso satélite-e
 seg-9941b9f6d4a8 = MODELLED — plan de contactos de varios satélites y varias estaciones: ventanas de acceso aparentes (SGP4, IAU 2006/2000A, refracción ITU-R P.834, tiempo de luz), volumen de datos ACM de DVB-S2 por paso a partir de un balance de enlace en cielo despejado (umbrales de la tabla { "13" } de ETSI EN { "302" } 307-1) y resolución de conflictos (un satélite por antena con tiempo de giro, una estación por satélite) mediante un voraz de valor marginal contrastado con una ramificación y acotación exacta; sin desvanecimiento por lluvia, (resultado <c1/>)
 
 # text
-seg-f8ef88bc82b5 = Todas las cifras siguientes son ILLUSTRATIVE: no corresponden a las órbitas, estaciones ni balance de enlace de ningún operador. MODELLED: el planificador se contrasta con su propio resolvedor exacto, no con una herramienta externa. (comentario del archivo de escenario, líneas { "11" } a { "12" })
-
-# text
 seg-fe2b4799b397 = La planificación de contactos con tierra de varios satélites y varias estaciones con resolución de conflictos es MODELLED, no está validada: se comprueba frente a su propia identidad analítica o de forma cerrada — detecta errores de transcripción y de coeficientes, pero no es una referencia independiente externa. (matriz de verificación (docs/MODELLED-RATIONALE.md))
 
 # text
@@ -94,3 +91,6 @@ seg-be14d99cb86d = <s1>Anterior</s1>constellation-design
 
 # text
 seg-3784be57d6df = <s1>Siguiente</s1>earth-gnss-lunar
+
+# text
+seg-f8ef88bc82b5 = Todas las cifras siguientes son ILUSTRATIVAS: no corresponden a las órbitas, estaciones ni balance de enlace de ningún operador. MODELLED: el planificador se contrasta con su propio resolvedor exacto, no con una herramienta externa. (comentario del archivo de escenario, líneas { "11" } a { "12" })
