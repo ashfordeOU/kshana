@@ -23,3 +23,27 @@ seg-ee7dd15019d0 = 主题页面：<a1>CAMPAIGNS.md</a1>
 seg-0aae0574c5e6 = <b>MODELLED</b> <c1/> 类型的可用性扫描：按星座（GPS、GLONASS、Galileo、BDS、QZSS、NavIC）及合计，统计（用户，历元）对中至少有一个信号和至少有四个信号的占比及最长中断时间，针对位于球面上的用户
 
 seg-8b701f465117 = 对数
+
+seg-de72ae48731d = 来源：<c1/>
+
+seg-81c2da4650c9 = <c1/>（场景类型）
+
+seg-e7ab7b55c969 = 针对时钟包参数的 1-D 权衡研究扫描。
+
+seg-0412c0dbfb75 = <c1/> 的一次运行汇总为：sweep holdover_s over classical_q_wf ({ "1.00e-24" }..1.00e-18, { "25" } pts, log scale) | quantum 6600.000->{ "6600.000" } | classical 2610.000->{ "250.000" }
+
+seg-d2a441254bcd = 必填字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>
+
+seg-2b8d8159bdaf = 可选字段：<c1/>
+
+seg-73c2e732b0c1 = 示例 <c1/> 设置了以下各项（节选）：
+
+seg-f8a627a78bdb = Microchip SA.45s CSAC 数据手册 sigma_y(1s)={ "3e-10" }；q_wf 为
+
+seg-c784b8f22f12 = 引擎为 scenarios/sweep-clock-stability.toml（场景类型 sweep）生成的图表
+
+seg-cb00aca0268d = <b>MODELLED</b> <c1/> 类型的 sweep（一至三个任意类型的点分键，取通用扫描的轴值，可在每个节点上附带一个集合）和 monte_carlo 部分：第 k 次实现以 base_seed + k 运行；各指标报告均值、标准 测试：<a1>campaign_composition_reference.rs</a1>。
+
+seg-1750fbfc4a99 = <s1>上一页</s1>sweep-nd
+
+seg-de5468ac32fc = <s1>下一页</s1>telecom-timing

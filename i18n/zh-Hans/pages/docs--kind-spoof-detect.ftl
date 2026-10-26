@@ -21,3 +21,27 @@ seg-ee7dd15019d0 = 主题页面：<a1>CAMPAIGNS.md</a1>
 seg-304496607bd7 = 引擎 v{ $version } 的场景类型，所属系列为<a1>压制干扰、欺骗干扰与频谱</a1>。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。此处每个标签均由引擎或验证矩阵给出；除非矩阵另有说明，一个类型即为 MODELLED（标签如何获得，见 README 的 Evidence 一节）。
 
 seg-5d23d7f8f872 = 系列页面：<a1>压制干扰、欺骗干扰与频谱</a1>
+
+seg-f92f902bd8f4 = 来源：<c1/>
+
+seg-1fd6a1cc7ca0 = <c1/>（场景类型）
+
+seg-f43fe94d84e0 = 针对参数化攻击（功率优势、载波相位对齐、时间/位置推移；TEXBAT 式）的射频/测量组合欺骗检测器（多 SV RAIM 一致性 + AGC + SQM，融合）。
+
+seg-9a8e92a0d5ba = <c1/> 的一次运行汇总为：scenario e046ee4ca90a | spoof-detect | { "8" } SVs, +{ "1.5" } dB | Position push | fused score { "0.70" } (thr { "0.50" }) | SPOOF DETECTED (fused) — layers: RAIM+SQM
+
+seg-9e54f6406cef = 必填字段：<c1/>
+
+seg-cd7217fd359f = 可选字段：<c1/>、<c2/>
+
+seg-6776ea465261 = 示例 <c1/> 设置了以下各项（节选）：
+
+seg-0e3bc92db34e = 位置
+
+seg-268ebf4cba99 = 引擎为 scenarios/spoof-detect.toml（场景类型 spoof-detect）生成的图表
+
+seg-03d8dc3de7ca = <b>MODELLED</b> 钟差辅助 χ²、RAIM、AGC、SQM 融合的逐历元安全性能指标 测试：<a1>spoof_texbat_validation.rs</a1>。
+
+seg-24e4aebb09eb = <s1>上一页</s1>spectrum
+
+seg-40e934a7d78f = <s1>下一页</s1>spoof
