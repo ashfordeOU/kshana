@@ -223,3 +223,5 @@ seg-d5894e54715b = Co skyline nemodeluje: difrakci přes hranu stěny, odrazy a 
 seg-745d19d6b35d = <s1>Předchozí</s1>Námořní integrace
 
 seg-bbe8dd07d33b = <s1>Další</s1>Důvěra jako bezpečnostní telemetrie
+
+seg-6317db731879 = Popis

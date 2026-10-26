@@ -254,3 +254,115 @@ seg-faae07674361 = po sobě jdoucí časy epoch skáčou nepravidelně, běží 
 seg-f799a53897ed = čas NMEA; u poslední části hodiny hostitele
 
 seg-ee4913c9f2ed = přijímač hlásí selhání autentizace OSNMA (čte se hlášený stav; nic se neověřuje; k ověření OSNMA ze samotných stránek I/NAV viz <a1>docs/OSNMA.md</a1>)
+
+seg-3fad5fcde4dc = Stavová věta <c1/>
+
+seg-ce072f2ebb6c = Epocha je <b>nedůvěryhodná</b>, pokud alarm vyvolá RAIM, monitor hodin, selhání řešení nebo skok polohy, nebo pokud pokles C/N0 dosáhne dvojnásobku svého prahu; <b>zhoršená</b> při jakémkoli jiném alarmu; a jinak <b>nominální</b>.
+
+seg-4124ff6013a0 = Cesta enginu (<c1/>, <c2/>, <c3/>) je tentýž výpočet jako orákulum spoofingu JammerTest { "2024" } v <c4/>: <c5/> ověřuje, že u všech osmi zveřejněných nástupů připadne první alarm na stejnou epochu a je téhož druhu.
+
+seg-83be3c22a577 = Skóre důvěryhodnosti (platforma plavidla)
+
+seg-812991f245cd = U plavidla získá každá epocha po kalibraci také skóre od { "0" } do { "100" } a důvody, proč není { "100" }. Mapování je deterministické a pevně dané dříve, než se jakýkoli záznam skóruje: žádné učení, nic přizpůsobeného událostem. Každý monitor převede své důkazy na poměr <c1/> (alarm při hodnotě { "1" } nebo vyšší); poměr stojí skóre
+
+seg-ada5a0a52315 = takže monitor nestojí nic, dokud je pod <c1/> svého prahu (výchozí { "0.5" }), stojí polovinu své váhy na svém prahu a celou ji při <c2/> násobku prahu (výchozí { "1.5" }); skóre je nerostoucí v každé statistice. Zdroj, který v dané epoše nehlásí, si ponechá svou poslední statistiku po dobu <c3/> (výchozí { "10" } s: dva cykly věty C/N0 odesílané každých { "5" } s), jako alarm i jako srážku.
+
+seg-6c06de24ebfe = Zaokrouhluje se směrem nahoru od poloviny (<c1/>), pásmo se určuje podle zaokrouhleného skóre a omezení rozsahu předchází zaokrouhlení. Ve srážkách jsou uvedeny jen monitory, jejichž body jsou nad nulou, spolu s jejich poměrem a nezaokrouhlenými body, nejvíce bodů jako první; srážky se stejným počtem bodů jsou řazeny v pořadí názvů monitorů <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>. Monitoru, jehož test končí úspěchem nebo selháním (selhání řešení, selhání autentizace), se přiřadí poměr { "1.5" }, tedy plná váha. Uvedené body jsou body před omezením rozsahu na { "0" }.
+
+seg-e36961d46c41 = Váha (body)
+
+seg-673f6adcd681 = Proč
+
+seg-399be3301faf = selhání autentizace je tvrzení, nikoli statistika
+
+seg-69cfc61477d6 = padělaná poloha musí odporovat fyzice nebo vlastním kontrolám přijímače a čas nemůže běžet pozpátku; jedno porušení v plné síle ({ "1.5" } násobek prahu: { "60" } bodů, skóre { "40" }) je nedůvěryhodné a na prahu ({ "30" } bodů, skóre { "70" }) zhoršené
+
+seg-7fa1e6e67411 = jeden nezávislý senzor, který nesouhlasí, je zhoršený stav; dva v plné síle jsou nedůvěryhodné
+
+seg-4c4825d2957a = signálové prostředí nebo slabě vypovídající kontrola
+
+seg-b5a364a03714 = prostředí je nepřátelské; to samo o sobě neukazuje, že určení polohy je chybné
+
+seg-4e3749965405 = až { "15" }, <c1/>
+
+seg-1e595dbcf96f = není to váha na této rampě: nic, pokud není obloha špatná, poté až <c1/> ({ "15" }); samotná geometrie dosáhne nejvýše zhoršeného stavu, nikdy nedůvěryhodného, a nevyvolá žádný alarm (viz „Geometrie“ níže)
+
+seg-9902ca062070 = Hranice pásem vyplývají z vah: nejlehčí monitor, který vyvolá alarm, stojí na svém prahu { "12.5" } bodu, takže každý alarm opustí nominální pásmo; žádný jednotlivý monitor pod { "60" } bodů nemůže sám dosáhnout nedůvěryhodného pásma (několik společně může). Výsledek zaznamenává model skóre (<c1/>) a každá epocha nese <c2/>: které monitory srážely, jejich poměry a jejich body. U plavidla je stav epochy dán pásmem jejího skóre.
+
+seg-6f620668ee85 = Geometrie: přirozené zhoršení odlišené od nesrovnalostí podobných útoku
+
+seg-93257d87e0d4 = Přijímač u kontejnerového jeřábu, v plavební komoře nebo pod vysokým trupem ztrácí družice a jeho určení polohy se zhoršuje z jiného důvodu než kvůli útoku. Od verze { "0.36" }, podle návrhové poznámky ke geometrii (<c1/>, oddíl { "4" }), nese každá epocha svou <b>geometrii družic</b>, skóre plavidla má <b>monitor geometrie</b> a každá srážka nese <b>třídu</b>: <c2/> (obloha), <c3/> (signálové prostředí) nebo <c4/> (důkaz podobný útoku).
+
+seg-17d13c39b5aa = <b>Odkud geometrie pochází.</b> Elevace a azimut každé sledované družice (NMEA GSV, UBX NAV-SAT), z nichž se odvodí faktor DOP (zhoršení přesnosti) jediným jádrem DOP enginu (<c1/>, VALIDATED proti gnss_lib_py): <c2/>. Pokud ty nejsou, použije se DOP a družice použité podle stavu přijímače (NMEA GSA): <c3/>. Polohy na obloze a GSA se počítají po dobu <c4/> skóre (výchozí { "10" } s), protože mnoho sběrnic posílá GSV jednou za několik sekund; sada GSV neúplná v dané epoše (konec výřezu, ztracená věta) se nepoužije. Záznam, který nemá ani jedno, například NMEA jen s GGA a RMC nebo záznamy Android a RINEX v současnosti, získá stav <b><c5/></b> s poznámkou „geometry unknown“: engine si geometrii, kterou nedostal, nevymýšlí, a monitor geometrie neběží.
+
+seg-a267da42ac3d = dostatek družic a DOP v mezích prahů
+
+seg-dabcd392914a = jeden nebo více důvodů: <c1/>, <c2/>, <c3/> a (informativně, do skóre se nepočítá) <c4/>, pokud se všechny sledované družice nacházejí v jedné polovině obzoru
+
+seg-c255a66d3813 = záznam pro tuto epochu neuvádí žádnou geometrii družic
+
+seg-0a50145c2bfa = Stav je popisný a pro skóre rozhoduje štítek (níže): <c1/> zahrnuje informativní případ <c2/>, který se může objevit i s dobrým nebo uspokojivým DOP, a skóruje se pouze štítek <c3/>.
+
+seg-93e49a562493 = <b>Štítek</b> (vždy se uvádí, nikdy se neskóruje). <c1/> každé epochy je <c2/> (HDOP nejvýše <c3/> { "2" }, PDOP nejvýše <c4/> { "3" } a alespoň <c5/> { "6" } družic), <c6/> (HDOP nad <c7/> { "4" }, PDOP nad <c8/> { "6" } nebo méně než <c9/> { "5" } družic), <c10/> mezi tím, nebo <c11/>. Poznámka epochy vždy začíná štítkem a čísly, například „geometry fair: HDOP { "1.105" }, PDOP { "1.831" }, VDOP { "1.410" }, { "8" } satellites; not scored (the score deducts only above HDOP { "4" }, PDOP { "6" } or below { "5" } satellites)“, a při výskytu přidá „, signal loss“.
+
+seg-13838e036fae = <b>Monitor geometrie</b> (skóre plavidla). Srazí <b>nic, pokud není geometrie špatná</b>: jeho poměr je <c1/> a dokud je nejvýše { "1" } (dobrá nebo uspokojivá geometrie, včetně otevřené oblohy jen pro GPS s { "8" } družicemi), nestojí nic, takže takový záznam dostane přesně stejné skóre jako ve verzi { "0.35" }. Nad hodnotou { "1" } srážka lineárně roste až na <c2/> ({ "15" }) při <c3/> ({ "1.5" } násobek prahů: HDOP { "6" }, PDOP { "9" }, { "3" } družice): { "7.5" } bodu při poměru { "1.25" } (HDOP { "5" } nebo { "4" } družice), { "15" } od { "1.5" } výše (skóre { "85" }, zhoršený stav). Samo o sobě nikdy nesníží skóre pod <c4/> (výchozí: <c5/> skóre, { "55" }), takže samotná geometrie dosáhne nejvýše zhoršeného pásma a nikdy nedůvěryhodného: platný strop je <c6/>, takže tabulka <c7/>, která zvýší <c8/> (například tabulka verze { "0.35" } s <c9/> { "90" }), sníží strop na <c10/>, místo aby byla odmítnuta, a <c11/> nastavená pod <c12/> je odmítnuta. Monitor nevyvolává žádný alarm; je uveden jako poslední v <c13/>, pokud v některé epoše rozhodoval (plavidlo, jehož záznam geometrii uvádí), a do identity verze { "0.35" } se nepočítá; není položkou <c14/> (jeho nastavení je odmítnuto) a platný strop a práh se zaznamenávají v <c15/> a <c16/>. Poznámka špatné epochy říká proč, například „geometry poor: HDOP { "5.200" }, PDOP { "7.900" }, VDOP { "4.100" }, { "7" } satellites; degraded by geometry: HDOP { "5.200" } above { "4" } (derived from { "7" } logged satellites); not an inconsistency“.
+
+seg-2082f4ccb250 = <b>Třídy.</b> Každá srážka (<c1/>):
+
+seg-4197bc517f73 = <c1/> (špatná geometrie); <c2/>, pokud byla každá družice ztracená oproti kalibračnímu základu při svém posledním hlášení pod <c3/>
+
+seg-e06597696553 = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/> jinak; <c7/> při ztrátě signálu (níže)
+
+seg-5fc0eb79c51b = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>; a <c11/>, pokud je geometrie špatná a uvedený HDOP nesouhlasí s uvedenou oblohou (níže)
+
+seg-1b5e88a4aae4 = <b>Ochrana proti padělané špatné obloze.</b> Spoofer by mohl poslat řídké GSV nebo hlásit vysoký HDOP, aby si vykoupil toleranci. Engine štítkuje a neodpouští: špatná geometrie nerozšiřuje žádnou jinou kontrolu a HDOP, který přijímač uvádí (GSA v rámci doby podržení, jinak GGA), se porovnává s HDOP odvozeným z oblohy, kterou uvádí. Liší-li se o více než <c1/> ({ "1.0" } nebo { "25" } % odvozeného HDOP, podle toho, co je větší), nese epocha <c2/> a při špatné geometrii je její srážka zařazena do třídy <c3/>. Při dobré nebo uspokojivé geometrii se nesoulad hlásí a neskóruje: nic se nesrazí, pokud není geometrie špatná. Jde o záměrnou volbu ({ "0.36" }): „nula, pokud není špatná“ platí pro každou epochu, takže dobrá a uspokojivá geometrie dostane přesně stejné skóre jako ve verzi { "0.35" } a padělaný HDOP nikdy neprojde mlčky. Příznak (<c4/>) je u každé epochy výsledku a každého živého řádku, poznámka říká „…beyond the tolerance: reported, not scored (the geometry is not poor)“ nebo „…: the geometry deduction is classed an inconsistency“, <c5/> počítá epochy a stránka souhrnu důkazů uvádí jejich počet, včetně nuly. Hodnota { "25" } % je <b>REPREZENTATIVNÍ</b> inženýrská volba, nikoli změřená ani normová hodnota: přijímač, který řeší jedny hodiny na konstelaci nebo používá podmnožinu družic, které sleduje (elevační maska, odříznutí C/N0, vyloučení RAIM), uvádí HDOP, který se od HDOP s jedněmi hodinami pro všechny sledované družice liší o hodnotu rostoucí s HDOP, takže by pevná tolerance sama přirozeně špatnou geometrii četla jako nesrovnalost. Větší rozdíl se za nesrovnalost považuje i nadále. Srážka zařazená do třídy <c6/> je tvrzení o obloze, nikoli zjištění, že k žádnému útoku nedošlo.
+
+seg-0e729ad96db9 = <b>Ztráta signálu není obloha.</b> Pokud družice, které přijímač uvádí jako viditelné (nad <c1/>), nejsou sledovány, engine odvodí také DOP všech viditelných družic. Je-li tento DOP viditelných družic v mezích prahů a buď není sledována žádná, nebo jsou nesledované družice rozloženy po obzoru (nejsou omezeny na jednu jeho polovinu), obloha tam byla a signál ne: epocha nese <c2/>, poznámku „satellites in view but not tracked: signal environment, not geometry“ a srážka geometrie je zařazena do třídy <c3/>. Nesledované družice omezené na jednu polovinu obzoru se dál čtou jako zablokovaná obloha (zeď, útes, nábřeží). Dvoustranná překážka (kaňon nebo úzký fjord) se čte jako ztráta signálu, dokud není nastaven obzorový profil. Hodnoty přijímače bez určení polohy nejsou DOP: uvedený HDOP nebo PDOP { "99" } či více, kvalita GGA { "0" } a režim GSA { "1" } neposkytují žádný uvedený DOP.
+
+seg-0f218d21843b = Klíč <c1/>
+
+seg-e5ec84abd61b = zvoleno (návrhová poznámka { "4.2" }): při <c1/> { "1.5" } m je HDOP { "4" } rovno 2drms { "12" } m, což je <c2/> kinematické kontroly. O IEC 61108-1 se běžně uvádí, že své požadavky na přesnost stanoví pro HDOP ≤ { "4" } (nebo PDOP ≤ { "6" }): vybaveno z druhotné literatury o přijímačích GNSS, žádný konkrétní druhotný zdroj nebyl konzultován a norma nebyla přečtena; je třeba ověřit podle znění normy
+
+seg-d99dc0fd090a = práh dostupnosti PDOP z <c1/>; GPS SPS Performance Standard, 5. vyd. ({ "2020" }), PDOP ≤ { "6" }, jak je citováno v <c2/>; je třeba ověřit podle znění normy
+
+seg-2fffa47378ec = o jednu více, než určení polohy potřebuje, takže jediná ztráta neukončí určení polohy; nejmenší počet s jedním nadbytečným měřením pro RAIM
+
+seg-7dc0baed2bc4 = uvedený vstup pro spoj 2drms z <c1/>; nastavte vlastní hodnotu přijímače
+
+seg-7b5778d93d40 = { "1.0" } HDOP
+
+seg-093cff5d1150 = zvoleno (návrhová poznámka { "4.2" }): absolutní část tolerance; nesoulad nad toleranci není geometrie
+
+seg-be5c3aefd942 = REPREZENTATIVNÍ inženýrská volba: relativní část, pro přijímače s hodinami pro každou konstelaci nebo s řešením z podmnožiny
+
+seg-e71c6876114b = návrhová poznámka { "4.3" }: družice ztracené pod ní jsou ztraceny kvůli obloze; obzorový profil (položka { "1" } verze { "0.36" }) to rozšíří
+
+seg-bebe291ca1c0 = geometrické, informativní: všechny družice v jedné polovině obzoru
+
+seg-06519582227b = návrhová poznámka { "4.2" }: samotná geometrie posune skóre z nominálního do zhoršeného a nikdy do nedůvěryhodného; sráží se jen tehdy, je-li geometrie špatná (rozhodnutí zakladatele B1, { "0.36" })
+
+seg-be21b5a31382 = vlastní <c1/> skóre: rampa dosáhne <c2/> při { "1.5" } násobku prahů špatné geometrie
+
+seg-e922a5342a3c = <c1/> skóre ({ "55" })
+
+seg-09fe8c435ece = samotná geometrie nikdy nedosáhne nedůvěryhodného pásma; platný strop je <c1/>; práh pod <c2/> je odmítnut
+
+seg-a07e6ce67371 = REPREZENTATIVNÍ, pouze pro štítek: polovina <c1/> (počáteční poměr skóre verze { "0.35" })
+
+seg-06db7e7af59c = REPREZENTATIVNÍ, pouze pro štítek: polovina <c1/>
+
+seg-7e7f17d36ea4 = REPREZENTATIVNÍ, pouze pro štítek: o jednu více než <c1/>, takže jediná ztráta stále ponechá nadbytečné měření
+
+seg-ef7a4c24e870 = <b>Co se ve výstupech změnilo a co ne.</b> Žádné skóre se nemění, pokud není geometrie špatná; štítek se uvádí vždy. Přidané klíče: <c1/> (<c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/> zaokrouhlené na { "0.001" }, <c9/> (null, dokud není nastaven obzorový profil), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/> (družice uvedené nad <c16/>), <c17/>, <c18/>), <c19/> u každé srážky a na konci <c20/> (prahy, doba podržení, platný strop a práh, původ, pravidla tříd) a <c21/> (epochy podle stavu, podle štítku a podle třídy srážky a epochy s nesouladem uvedeného HDOP); <c22/> je jako ve verzi { "0.35" }. Dva testy to po odstranění těchto klíčů drží na úrovni bajtů základu „{ "0.36" } portable“ (hashe verze { "0.35.0" }, přepočtené při přechodu enginu na přenositelnou matematiku a ponechané v testech jako záznam toho, co verze { "0.35.0" } vydala: <c23/>). <c24/> drží každý výstup obou ukázkových relací (výsledek JSON, CSV, SVG, verdikt, přehrané živé řádky, <c25/>, Prometheus, CEF, LEEF). <c26/> drží dávkový výsledek, souhrn, živé řádky a <c27/> každého zapsaného korpusu NMEA plavidel (demo a referenční maritime fixtury, každý také jako otevřená obloha jen pro GPS s { "8" } družicemi, a výcvikové scénáře generované z jejich seedů); ve dvou výcvikových scénářích, kde rušení činí geometrii špatnou, je každá epocha, která špatná není, shodná a každá špatná se liší pouze srážkou geometrie. Záznam, jehož geometrie je špatná, ztratí až { "15" } bodů, které ve verzi { "0.35" } neztratil; to je zamýšlená změna. V demu se strhnutí čte jako <c28/>; <c29/> upravuje záznam tak, aby zamaskoval západní oblohu (uspokojivá: štítkuje se, neskóruje), aby zamaskoval ji a dvě východní družice (špatná: srážky geometrie, ztráta zachycení <c30/>, protože zmizely i vysoké družice), aby ztratil jen družice pod { "15" }° (ztráta zachycení <c31/>) a aby uvedl HDOP, který obloha nevysvětluje (srážka špatné geometrie se stane <c32/>). Prahy jsou MODELLED: zvolené, nepřizpůsobené žádnému záznamu; nic zde netvrdí, jak často se na skutečných datech rozliší přirozené zhoršení od útoků.
+
+seg-8ddaf82ba00b = Uvádění událostí a předpovědí
+
+seg-c52c285aa308 = U každé události výsledek uvádí falešné poplachy mezi kalibrací a nástupem, první alarm a jeho monitory, latenci, výsledek (<c1/>, <c2/>, <c3/> nebo <c4/>) a pozorovaný medián poklesu C/N0 oproti předpovědi (<c5/>, <c6/>, <c7/> nebo <c8/>). Nesoulad se hlásí, nikdy se neladí pryč: tolerance jsou ve scénáři a scénář je v hashi výsledku.
+
+seg-3715df3fd8f7 = Co toto netvrdí
+
+seg-21a4b903e179 = Monitory důvěryhodnosti jsou MODELLED: jejich prahy jsou vstupy a jejich detekční výkon na skutečné interferenci je to, co měří skórování událostí, nikoli něco, co tento druh tvrdí. V relacích spoofingu JammerTest { "2024" } zachytí monitory cesty enginu některé nástupy do { "10" } s a u jiných jsou opožděné; čísla viz řádek „Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM“ v <a1><c1/></a1>. Předpověď, která souhlasí s jedním záznamem, je jeden datový bod, nikoli validace.
+
+seg-0c413c1a491c = <s1>Předchozí</s1>Mapování odolnosti
+
+seg-63fc2b340fd1 = <s1>Další</s1>Maritime trust

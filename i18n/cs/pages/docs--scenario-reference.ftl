@@ -373,3 +373,365 @@ seg-6bdc150ab25b = Sekvenční (rekurzivní) navigace podle terénu bez GPS: č�
 seg-9a2bb9809aed = Obousměrný družicový přenos času a frekvence mezi dvěma stanicemi přes geostacionární relé: obousměrná rovnice řešená pro T_A - T_B se všemi nereciprokými členy (zpoždění zařízení stanic, ionosféra v pásmu Ku, transpondér, Sagnac), rozpočet nejistoty ve kvadratuře, jehož člen typu A je TDEV simulovaného spoje při době průměrování, simulovaný spoj s bílým a flickerovým fázovým šumem a denní nereciprocitou a stabilita (rychlost, zbytkové RMS, TDEV, ADEV) libovolné dodané řady BIPM Circular T oddíl { "1" }, CSV MJD,ns nebo záznamů hodin stanic IGS RINEX. MODELLED.
 
 seg-ccb244e60d60 = Optický oproti RF obousměrný přenos času/frekvence.
+
+seg-1e4d5b2f4810 = Každý přibalený soubor scénáře ({ "182" }), seskupený podle druhu. Popis je vlastní úvodní komentář souboru; klíčové parametry jsou jeho nastavení nejvyšší úrovně. Stav se čte z verifikační matice pro modul druhu. <b>Otevřít v Kshana Studio</b> otevře zaznamenaný běh.
+
+seg-e701392324d0 = druh acm-link
+
+seg-c4d65df7ab98 = nepřiřazeno k modulu registru podle názvu
+
+seg-7b09a77bfada = Adaptivní kódování a modulace (ACM) DVB-S2 podél přeletů jedné družice nad jednou stanicí. Během přeletu se mění šikmá vzdálenost a elevace, a tím i Es/N0 sestupného spoje. Běh v každém kroku vybere nejúčinnější MODCOD, jehož práh podle ETSI EN { "302" } 307-1, tabulka { "13" }, plus implementační rezerva spoj splňuje. Uvádí rozsah Es/N0 každého přeletu a objem dat, který ACM přenese, proti základu s konstantním kódováním, který se uzavírá při elevační masce a nejdelší vzdálenosti.
+
+seg-c36379e65043 = <a1>Otevřít v Kshana Studio</a1> · <a2>Zobrazit na GitHubu</a2>
+
+seg-b6ddd25a35c3 = druh aocs
+
+seg-944f5a95638f = druh aperture-duty-cycle
+
+seg-2c27404856f6 = druh araim-reference-check
+
+seg-6fc2c7863922 = druh ascent-losses
+
+seg-6ad78e934bec = Ztráty při výstupu po gravitačním zatáčení ILUSTRATIVNÍ dvoustupňové nosné rakety na kerosin/kyslík (žádné skutečné vozidlo): svislý stoupavý úsek do { "1" } km, sklopení o { "3" } deg po dobu { "10" } s, poté tah ve směru rychlosti. Běh integruje ztráty gravitací, odporem, řízením a protitlakem a kontroluje, že ideální dv minus ztráty se rovná rychlosti při vyhoření. MODELLED: rovinná, nerotující Země, konstantní C_D, žádný setrvačný let, žádné vedení kromě sklopení.
+
+seg-602ac3a69ef9 = druh attitude-budget
+
+seg-01ed69f79080 = druh má ověřené řádky registru · { "1" } z { "1" } řádků ověřeno
+
+seg-be0ff8b9fe3b = druh body-pnt
+
+seg-eb1f3742071d = druh campaign
+
+seg-a40718a9a53e = Zřetězená mise: nominální stav, rušení, spoofing, ztráta GNSS s holdoverem hodin a inerciálním doběhem, alarm integrity a zotavení, na jedné sdílené časové ose.
+
+seg-e745211204ab = Optimalizace pomocí kampaně: spoj v pásmu X z příkladu link-budget ({ "55" } dBW EIRP, { "53" } dB/K G/T, { "3" } dB ostatních ztrát, požadované Eb/N0 { "4.5" } dB), prohledávaný přes vzdálenost a datovou rychlost, aby našel pracovní bod, který ponechá přesně { "3" } dB rezervy. Každé vyhodnocení je běžný běh <c1/>. Simplex Nelder-Mead pracuje v logaritmicky normalizovaných souřadnicích uvnitř uvedených mezí a každé vyhodnocení je uvedeno v <c2/> výsledku.
+
+seg-decc6966e201 = Kompozice napříč doménami: jeden rušič, dvě platformy. Loď ve Finském zálivu ({ "59.80" } N, { "24.90" } E, přijímač z příkladu maritime-strait-jamming) a auto na pobřežní silnici v Helsinkách ({ "60.17" } N, { "24.94" } E) jsou pod týmž širokopásmovým rušičem umístěným na { "59.80" } N, { "25.44" } E, { "30" } m nad zemí (asi { "30" } km od lodi a { "50" } km od auta).
+
+seg-f2588213d3d3 = Zřetězená mise řízená spektrem v pásmu L: rušič typu chirp zasáhne GPS L1 C/A a Galileo E1, hodiny přejdou do holdoveru a tón s nepřetržitou vlnou (CW) ponechaný na nosné L1 drží C/A dole, zatímco E1 se zotavuje, takže přijímač přejde na Galileo a jeho monitor integrity běží na obloze jen s Galileem.
+
+seg-031c509abbfa = Průchod parametru pomocí kampaně: přijímač z příkladu jamming ({ "52" } N, { "4" } E, plášť Walker o 24 družicích podobný GPS) pod širokopásmovým rušičem vzdáleným { "1" } km, s vysílacím výkonem rušiče procházejícím od -50 dBW ({ "10" } nW) do +{ "10" } dBW ({ "10" } W) po krocích { "5" } dB. Každý uzel je běžný běh <c1/>; kampaň zaznamenává pro každý uzel podíl epoch, kdy jsou stále sledovány alespoň čtyři družice, střední poměr rušení k signálu (J/S) a nejmenší počet sledovaných družic.
+
+seg-ef32cd18fab5 = druh cislunar-arc-recovery
+
+seg-e9866967471c = druh cislunar-observability
+
+seg-9c3bc8bbd361 = druh clock
+
+seg-ddd9856d154a = Referenční scénář Kshana: běh { "2" } h, { "10" } min synchronizace GNSS, poté ~{ "1.8" } h odepření. Bílý FM šum hodin kalibrovaný podle zveřejněného sigma_y({ "1" } s): q_wf = sigma_y(1s)^{ "2" }. Ověřeno proti simulované Allanově odchylce v tests/calibration.rs (~{ "2" }%).
+
+seg-460f63835b3f = Varianta: laboratorní stronciové optické hodiny oproti CSAC. Laboratorní hodiny Sr dosahují sigma_y({ "1" } s) = { "4.8e-17" } (Oelker et al. { "2019" }, Nature Photonics).
+
+seg-092f76e5d820 = druh combined-altpnt
+
+seg-3455b653ea6f = druh conflict-resilience
+
+seg-c6b21e897ce0 = Návrh konstelace ve velkém měřítku: vzory Walker DELTA a Walker STAR v konvenci i: T/P/F (uzly rozprostřené přes { "360" } nebo { "180" } deg, rozestup v rovině { "360" }*P/T, fázový posun mezi rovinami { "360" }*F/T), explicitní seznamy elementů a návrhy s více plášti, několik konstelací v jednom běhu, kolem Země, Měsíce, Marsu nebo jakékoli jiné planety, Pluta či velkého měsíce pomocí konstant v modulu body (týchž, které používají druhy solar-system a body-pnt). PŘEDVOLBY ze zveřejněných nominálních elementů: gps-baseline a gps-expandable ({ "24" } slotů a šest rozšiřitelných párů přední/zadní z GPS Standard Positioning Service Performance Standard, 5. vydání { "2020" }, tabulky 3.2-1 až 3.2-3), galileo (Walker 24/3/1 ve výšce { "29 599.801" } km a { "56" } deg, Galileo Open Service Service Definition Document, vydání { "1.1" }, tabulky { "1" } a { "23" }), beidou a beidou-meo (Walker 24/3/1 ve výšce { "21 528" } km a { "55" } deg plus tři geostacionární družice na { "80" }, { "110.5" } a { "140" } deg E a tři družice na nakloněné geosynchronní dráze při { "55" } deg, BeiDou Open Service Performance Standard { "3.0" }, oddíl { "4.1" }; fáze MEO a křížení nakloněné geosynchronní dráhy na { "118" } deg E jsou modelovány, protože je norma neuvádí) a glonass (24/3/1 ve výšce { "19 100" } km a { "64.8" } deg ze vzorce slotů z GLONASS Interface Control Document, vydání { "5.1" }, oddíl { "5.2" }). POKRYTÍ A FAKTOR DOP (ZHORŠENÍ PŘESNOSTI): nad mřížkou zeměpisné šířky/délky a vzorkovaným oknem s elevační maskou počet družic ve výhledu, GDOP, PDOP, HDOP a VDOP na buňku, dostupnost (určení polohy s PDOP nejvýše na prahu, výchozí { "6" }) na buňku, globálně (vážené plochou) a na nejhorším místě, s jedněmi hodinami přijímače na konstelaci, pokud není clock = "common". Škáluje se na tisíce družic: viditelnost je skalární součin s polovičním úhlem pokrytí každé družice a družice se každou epochu pásmují podle zeměpisné šířky podružicového bodu, takže řádek mřížky testuje jen ty, které mohou být ve výhledu; zpráva počítá ušetřené testy dvojic. JSON nese mapy mřížky a podvzorkované pozemní stopy jednotlivých družic. VALIDATED: generátor Walker proti tabulce { "23" } Galileo OS SDD a vzorci slotů GLONASS ICD, předvolba GPS proti zveřejněnému sloupci rovníkového křížení v tabulce 3.2-1 SPS PS a globální rozdělení HDOP základu GPS proti dodatku B SPS PS (medián { "0.94" }, { "95" }% { "1.25" }, průměr { "0.96" }, tolerance { "0.03" }). MODELLED: dvoutělesové dráhy s volitelným sekulárním J2, kulové těleso, pouze geometrická viditelnost (žádný výkon signálu, stav ani terén) a relativní fáze mezi různými systémy, která není snímkem žádného skutečného data.
+
+seg-fa78684a644d = druh constellation-design
+
+seg-22e4cbe23fb2 = Víckonstelační pokrytí: všechny čtyři globální družicové navigační systémy (GNSS) dohromady, jako mapa družic ve výhledu, faktoru DOP (zhoršení přesnosti) a dostupnosti nad celou Zemí po dobu jednoho dne.
+
+seg-cd74615ba3dd = Megakonstelace určování polohy, navigace a času (PNT) na nízké oběžné dráze Země: { "5 000" } družic ve čtyřech pláštích Walker, hodnocená jako mapa pokrytí a faktoru DOP (zhoršení přesnosti).
+
+seg-59bb18c802a3 = Měsíční přenosová a navigační konstelace: družice na eliptických měsíčních zmrazených drahách (ELFO) plus kruhový plášť na nízké měsíční dráze, hodnocená jako mapa pokrytí a faktoru DOP (zhoršení přesnosti) nad celým Měsícem po dobu jednoho dne.
+
+seg-64e634b04436 = druh contact-schedule
+
+seg-b6736838f1d6 = Plánování pozemních kontaktů: tři ilustrativní družice nad třemi ilustrativními stanicemi po dobu { "12" } hodin. Běh uvádí pro každý přelet družice nad stanicí jeho přístupové okno a objem dat, který může adaptivní kódování a modulace (ACM) DVB-S2 v něm přenést (prahy ETSI EN { "302" } 307-1, tabulka { "13" }, plus implementační rezerva). Poté sestaví plán kontaktů bez konfliktů, v němž každá anténa obsluhuje v jednu chvíli jednu družici, s přípravnou dobou mezi kontakty, a každá družice sestupuje do jedné stanice v jednu chvíli. Doručení je váženo prioritou a omezeno nahromaděnými daty každé družice. Tři plány se uvádějí vedle sebe: chamtivý podle mezní hodnoty, základ prvního příchozího a, je-li množina kandidátů malá, přesné optimum, s mezerou optimality chamtivého plánu.
+
+seg-12fb09af17f6 = druh earth-gnss-lunar
+
+seg-0f550587e7e0 = řádky registru druhu jsou vypočteny z modelu · { "0" } z { "1" } řádků ověřeno
+
+seg-435e296b48ab = druh entry-heating
+
+seg-d7ec70cdbcfc = Vstup návratového pouzdra Stardust se vzorkem: zveřejněný případ, proti němuž se druh <c1/> kontroluje (xval/entry-stardust/PREREGISTRATION.md; tests/entry_stardust_published.rs).
+
+seg-c2dc08297b0f = druh eo-coverage
+
+seg-fbb405d27780 = druh eo-radiometry
+
+seg-f178d4dbb034 = Radiometrie nadirového zobrazovače a kvalita obrazu ILUSTRATIVNÍ malé kamery pro pozorování Země (žádný návrh žádného provozovatele): apertura { "0.40" } m, ohnisková vzdálenost { "3.6" } m (F/9), pixely { "5.5" } um, z výšky { "500" } km. Běh uvádí rozpočet poměru signálu k šumu scény s odrazivostí { "15" } %, MTF systému na Nyquistově frekvenci, relativní odezvu hrany a NIIRS podle GIQE verze { "4" }. MODELLED: NIIRS je empirická regrese vyhodnocená z modelovaných vstupů, nikoli hodnocený obraz.
+
+seg-2487ebfca518 = druh ephemeris
+
+seg-2771a42a30a7 = druh fusion
+
+seg-6452c9a86abf = Společná fúze senzorů PNT: navigátorem je jediný Kalmanův filtr, který slučuje stavy hodin a inerciální stavy a je podporován přenosem času optickým ISL, místo skládání nezávislých prediktorů. GNSS odepřeno { "1.8" } h.
+
+seg-9b62a8213db0 = Svázaná společná fúze senzorů PNT: stejné sady a výpadek GNSS jako v <c1/>, ale navigátorem je JEDEN poskládaný Kalmanův filtr nad polohou, rychlostí, fází hodin, frekvencí hodin a biasem akcelerometru (tabulka <c2/>). Dokud je GNSS nominální, přijímá pseudovzdálenosti, každou jako <c3/> podél činitele zorného paprsku g, takže jediné měření omezuje polohu i hodiny společně a filtr nese jejich křížovou kovarianci; optické resynchronizace přenosu času během výpadku jsou pseudovzdálenosti jen pro hodiny. Akcelerometry zde nesou konstantní bias, který stavová složka biasu zjistí před výpadkem (<c4/> biasy nuluje, protože jeho filtry nemají stav biasu). Neutrální vůči výrobci; parametry hodin a šumu jako v <c5/>, biasy jsou ilustrativní. MODELLED.
+
+seg-8e5c015bcaf4 = druh gnss-ins
+
+seg-8f43fc2f8b71 = Silniční vozidlo městským kaňonem: dead reckoning GNSS/INS podjezdem a okolo rušiče u silnice, proti rozpočtu na úrovni jízdního pruhu.
+
+seg-8eefd1c4bea9 = Volně vázaný GNSS/INS: tříosý strapdown navigátor řízený 15stavovým chybovým EKF, poté setrvačný doběh během { "60" } s výpadku GNSS. Na rozdíl od balíčku <c1/> (skalární dead reckoner 1-DOF s resetem na pravdu při každém určení polohy) tento běží skutečný uzavřený filtr: učí se ze zašuměných určení polohy, dokud GNSS funguje, a během mezery doběhne na opraveném stavu. Uváděná chyba je skutečné horizontální reziduum proti pravdě; každý senzor nese také své otevřené free-INS RMS, takže hodnota filtru je zřejmá.
+
+seg-e0a3e777d810 = Letecký GNSS/INS s těsnou vazbou: lehké letadlo vzlétne, stoupá pod úhlem { "6" } deg, vyrovná se a letí koordinovanou zatáčku s náklonem { "25" } deg (profil trajektorie <c1/>); GNSS je odepřeno na dvě minuty, které zahrnují zatáčku, nejtěžší část doběhu, protože se chyby kurzu a orientace pak promítají do horizontály. Těsná vazba (<c2/>) na konstelaci Walker s SGP4 podobnou GPS.
+
+seg-736606e5f26d = Námořní GNSS/INS: plavidlo rychlostí { "8" } m/s (asi { "15.5" } uzlu) kličkující v plných kruzích rychlostí { "1" } deg/s, poté pětiminutový výpadek GNSS, na témže uzavřeném 15stavovém filtru GNSS/INS jako <c1/>. Pohyb pochází z knihovny trajektorií (<c2/>, profil <c3/>): pomalé, stálé zatáčení, režim lodi, nikoli auta.
+
+seg-d30ac9fd7056 = Železniční GNSS/INS s těsnou vazbou: vlak jede mezi zastávkami rychlostí { "30" } m/s s mírnými zatáčkami { "20" } deg (profil trajektorie <c1/>), projíždí hlubokým zářezem, kde ve výhledu zůstávají jen dvě družice, a poté dvouminutovým tunelem. Přijímač je těsně vázaný (<c2/>): dál slučuje pseudovzdálenosti dvou družic, které v zářezu ještě sleduje, kde volně vázaný přijímač nemá určení polohy vůbec. Družice pocházejí z konstelace Walker s SGP4 podobné GPS.
+
+seg-ea32ce169216 = Malé bezpilotní letadlo pod rušením GNSS: o kolik se inerciální jednotka MEMS třídy řídicí jednotky letu odchýlí poté, co přijímač ztratí zachycení, oproti jednotce taktické třídy, na témže uzavřeném filtru GNSS/INS jako <c1/>.
+
+seg-f8ac956d2974 = druh gnss-sim
+
+seg-2bedb057a0e6 = Pseudovzdálenosti a RAIM pro portálový zvedák na kontejnerovém nábřeží, s přístavními jeřáby k moři a stohy kontejnerů ke souši: scénář <c1/> pod předvolbou obzorového profilu <c2/>.
+
+seg-769a624a8ba0 = Simulace GNSS v oblasti měření: pseudovzdálenosti s ionosférickým a troposférickým zpožděním, předávané snapshotovému RAIM pro ochranné úrovně.
+
+seg-4f53c4dbffec = druh gnss-ssv
+
+seg-b05ef0179faf = druh gravity-map
+
+seg-10b07a5e6990 = druh holdover-test
+
+seg-e41c625df8c5 = Test holdoveru, příklad načtení: záznam časové chyby hodnocený druhem holdover-test („vytáhni anténu, ohodnoť holdover“). Záznam je rozdělen v okamžicích, které uvádí PROVOZOVATEL, zde GNSS odebráno v { "600" } s a obnoveno v { "2 400" } s, a každý krok se měří proti maskám ITU-T napsaným pro něj.
+
+seg-d2d4b620af4b = Test holdoveru záznamu linuxptp: tytéž čtyři kroky jako holdover-test-example.toml, se záznamem čteným z logu serva ptp4l přes [series.clock_log] (formát „ptp4l“, odchylky v ns, vlastní časová razítka démona, zde po { "5" } s).
+
+seg-56269cd82ed4 = druh hybrid
+
+seg-098fb3a74071 = Hybridní vrcholný scénář PNT: plně kvantová sada (optické hodiny + IMU se studenými atomy + podpora optickým přenosem času ISL) proti plně klasické sadě (CSAC + IMU navigační třídy + RF). GNSS odepřeno { "1.8" } h.
+
+seg-e1678a444911 = druh hybrid-optical-rf
+
+seg-703bf09ca356 = druh hybrid-ukf
+
+seg-a65d5e564286 = druh impairment-eval
+
+seg-39f1050e5129 = druh inertial
+
+seg-3b8cc1893361 = Dead reckoning během výpadku GNSS: kvantový akcelerometr se studenými atomy proti akcelerometru navigační třídy. Bias = reziduum po kalibraci GNSS = zveřejněná stabilita biasu; q_va = (kořen spektrální hustoty šumu)^{ "2" }.
+
+seg-9035c0bc73eb = Kvantová předvolba: akcelerometr s atomovým interferometrem se studenými atomy (CAI), sestavený z fyziky interferometru, proti křemennému akcelerometru navigační třídy během výpadku GNSS. Jednorozměrný doběh dead reckoningu: { "10" } minut GNSS, poté { "110" } minut odepření.
+
+seg-7d03a68ac877 = druh ins-trn-coast
+
+seg-c6ab90fcbc23 = Model chyby doběhu INS/TRN — chyba polohy proti době doběhu a doby doběhu, při nichž překročí { "10" } m a { "50" } m.
+
+seg-542b2d91bff8 = Námořní přiblížení k přístavu při rušeném GNSS: jak dlouho inerciální navigační systém (INS) udrží loď v rozpočtu přesnosti přiblížení k přístavu poté, co je ztracen globální družicový navigační systém (GNSS).
+
+seg-471f2e00f244 = Doběh vlaku v tunelu: jak dlouho inerciální navigační systém (INS) vlaku udrží v rozpočtu rozlišení kolejí bez globálního družicového navigačního systému (GNSS) v tunelu.
+
+seg-35c6036b9099 = druh integrity
+
+seg-b874df525f79 = Dostupnost ARAIM ve dvou konstelacích: GPS + Galileo vyhodnoceno pokročilým enginem ARAIM, včetně hypotézy poruchy celé konstelace (<c1/>).
+
+seg-af9e9ed1468c = Dostupnost ARAIM pro plavidlo vplouvající do přístavu: druh <c1/> s uživatelem na pozemním stanovišti (<c2/>) pod předvolbou obzorového profilu <c3/>.
+
+seg-5387b81f072b = druh jamming
+
+seg-79c636fca6b1 = Loď vplouvající do přístavu pod pobřežním rušičem, přičemž budovy na nábřeží před ní zakrývají nízké družice v tomto směru: scénář <c1/> pod předvolbou obzorového profilu <c2/>.
+
+seg-d7a49be6aa37 = Námořní rušení GNSS: širokopásmový rušič na pobřeží nebo na plavidle, který odpírá globální družicový navigační systém (GNSS) lodi plující otevřenou vodou.
+
+seg-6c9aae72c01b = druh launch-window
+
+seg-784412eac737 = druh leo-navmsg
+
+seg-af46a64149f5 = Předvolba pro ukázku na oběžné dráze (IOD) ESA Celeste: jediný scénář, který používá materiál prezentovaný na workshopu LEO-PNT programu ESA Navigation Innovation and Support Programme (NAVISP), { "2026" }. Zadržíte jej z vydání smazáním tohoto souboru a src/leo_navmsg/presets/celeste_iod.rs (viz hlavičku onoho souboru).
+
+seg-c7deba26589d = Navigační zpráva LEO: binární kódování Kshana, jeho kvantizační rozpočet a exporty ve stylu RINEX a CSV.
+
+seg-ea14c04a5e2f = Navigační zpráva LEO: aktualizace zprávy uprostřed přeletu a zda uživatel vidí skok.
+
+seg-92932c07a7cb = Navigační zpráva LEO: čtyři modely efemerid na jedné oběžné dráze a tabulka SISRE versus výška podle Liu et al. { "2025" }.
+
+seg-28fc0b60d88c = druh leo-pass
+
+seg-cf353e8a27df = druh leo-pnt-chain
+
+seg-1465309100f6 = Celeste IOD od začátku do konce (volitelná předvolba): signál E5 konfigurace č. 1 -> přelet Celeste IOD -> navigační zpráva ve stylu Celeste -> sloučené určení polohy GPS + Galileo + Celeste IOD.
+
+seg-73db6e9fc765 = LEO-PNT od začátku do konce na obecné konstelaci: návrh signálu -> rozpočet spoje přeletu -> navigační zpráva -> sloučené určení polohy MEO + LEO a konvergence přesného bodového určování polohy.
+
+seg-ad6744824a5f = Xona Pulsar od začátku do konce: veřejný signál X5 -> přelet Pulsar -> navigační zpráva LEO -> sloučené určení polohy GPS + Galileo + Pulsar a konvergence přesného bodového určování polohy.
+
+seg-b2c874e083a6 = druh leo-ppp
+
+seg-017f8db74a59 = druh leo-pvt
+
+seg-923f04fa9b36 = Sloučené určování polohy MEO a LEO pro plavidlo hluboko ve fjordu, kde stěny údolí zakrývají vše nízko přes průliv: společný režim <c1/> pod předvolbou obzorového profilu <c2/>.
+
+seg-dde47f233669 = Družice ve výhledu a faktor DOP (zhoršení přesnosti) od rovníku k pólu: samotné MEO GNSS, samotná téměř polární konstelace LEO a obojí.
+
+seg-ef202b7d50ed = druh leo-signal
+
+seg-22cd3a939c19 = Návrhy signálů Celeste IOD: frekvenční pásma a konfigurace signálu „Classical Pilot“ č. 1 mise ESA Celeste In-Orbit Demonstration (IOD) pro určování polohy, navigaci a čas (PNT) na nízké oběžné dráze Země (LEO), jako parametrizované návrhy signálů.
+
+seg-f5caf70c73f0 = Obchodní srovnání pásem LEO-PNT, od UHF po široké pásmo C: co signál pro určování polohy, navigaci a čas (PNT) na nízké oběžné dráze Země (LEO) v každém pásmu získá a ztratí, nezávisle na jakémkoli konkrétním systému.
+
+seg-90239179296f = Signály Xona Pulsar: signály X1 (pásmo L1) a X5 (pásmo L5) komerční konstelace pro určování polohy, navigaci a čas (PNT) na nízké oběžné dráze Země (LEO), podle jejich zveřejněné tabulky signálů (Leclère, Marathe a Reid, ION GNSS+ { "2025" }, https://arxiv.org/abs/2509.19551), jako zkompilovaná předvolba <c1/>.
+
+seg-a440eecbe1c9 = druh link-budget
+
+seg-fb3f2dcccbf7 = druh lunar-attack-surface
+
+seg-4486fa88f989 = druh lunar-beacon
+
+seg-2707dd910b99 = druh lunar-differential-pnt
+
+seg-ff296a13dcc8 = druh lunar-frame-campaign
+
+seg-319137c1458e = druh lunar-frame-realisation
+
+seg-d4a6801f9670 = druh lunar-infrastructure
+
+seg-a3dc5227b366 = Scénář Kshana lunar-infrastructure: carrier-phase, RYCHLÝ příklad (dva krátké oblouky, { "10" } losování, sekundy; hodnocená konfigurace, tři oblouky a { "400" } losování, je xval/lunar-infra/scenarios/carrier-phase-scored.toml). MODELLED; návrh, vstupy a prahy jsou pevně dány v xval/lunar-infra/PREREGISTRATION.md (zapsáno před jakýmkoli během). ILUSTRATIVNÍ vstupy jsou tam označeny svými veřejnými zdroji.
+
+seg-1f55219aed27 = Scénář Kshana lunar-infrastructure: frame-coestimation. MODELLED; návrh, vstupy a prahy jsou pevně dány v xval/lunar-infra/PREREGISTRATION.md (zapsáno před jakýmkoli během). ILUSTRATIVNÍ vstupy jsou tam označeny svými veřejnými zdroji.
+
+seg-4e990ecb6404 = Scénář Kshana lunar-infrastructure: geodesy-sensitivity. MODELLED; návrh, vstupy a prahy jsou pevně dány v xval/lunar-infra/PREREGISTRATION.md (zapsáno před jakýmkoli během). ILUSTRATIVNÍ vstupy jsou tam označeny svými veřejnými zdroji.
+
+seg-e27e1de1a233 = Scénář Kshana lunar-infrastructure: od-consistency. MODELLED; návrh, vstupy a prahy jsou pevně dány v xval/lunar-infra/PREREGISTRATION.md (zapsáno před jakýmkoli během). ILUSTRATIVNÍ vstupy jsou tam označeny svými veřejnými zdroji.
+
+seg-30dc631d148f = Scénář Kshana lunar-infrastructure: od-consistency s nemodelovaným zrychlením. MODELLED; návrh, vstupy a prahy jsou pevně dány v xval/lunar-infra/PREREGISTRATION.md (zapsáno před jakýmkoli během). ILUSTRATIVNÍ vstupy jsou tam označeny svými veřejnými zdroji.
+
+seg-68eaba3db338 = Scénář Kshana lunar-infrastructure: space-tie. MODELLED; návrh, vstupy a prahy jsou pevně dány v xval/lunar-infra/PREREGISTRATION.md (zapsáno před jakýmkoli během). ILUSTRATIVNÍ vstupy jsou tam označeny svými veřejnými zdroji.
+
+seg-01d06e830746 = druh lunar-integrity
+
+seg-afb7372a588a = Integrita u jižního pólu Měsíce: přijímač přistávací jednotky v oblasti Artemis proti reprezentativní sadě relé LunaNet, ochranné úrovně ARAIM během { "24" }hodinového přeletu.
+
+seg-e0180b8a7560 = druh lunar-interop-export
+
+seg-8a38317ae6d1 = druh lunar-jamming
+
+seg-ea44c47623c9 = druh lunar-joint-od-clock
+
+seg-f796750036cc = druh lunar-llr-datum
+
+seg-fb08183a8243 = Geodézie měsíční referenční stanice, SE STANICÍ: pět retroreflektorových polí plus jeden retroreflektor a jeden maják VLBI na místě měsíční referenční stanice u jižního pólu.
+
+seg-2255165dd833 = druh lunar-station-coverage
+
+seg-5c55b91fa564 = Pokrytí měsíční referenční stanicí: jakou přesnost určení polohy a ochrannou úroveň získá uživatel od měsíční diferenciální referenční stanice na známém místě u jižního pólu, nad oblastí jižního pólu a po dobu jednoho dne.
+
+seg-e1a3830ad9ed = Pokrytí měsíční referenční stanicí za VEŘEJNĚ UVEDENÝCH předpokladů: tentýž druh jako lunar-station-coverage.toml, kde každý vstup, který veřejný zdroj uvádí, je z něj nastaven a citován podle id zdroje; každý vstup, který žádný zdroj neuvádí, zůstává z výchozí hodnoty ve stromu a je označen ILUSTRATIVNÍ. Zdroje (staženo 2026-10-12; tituly, identifikátory a licence v docs/LUNAR-REFERENCE-STATION.md): S1 arXiv:2602.08432v3 S2 IOAG Cislunar PNT Workshop { "2025" }, „Lunar local Differential PNT and Selenodetic Reference Station“ (slajdy) S3 UNOOSA ICG WG-B, Lunar PNT, červen { "2024" } (LunarPNT_Jun24_01_04.pdf) S4 IOAG Cislunar { "2026" }, „Moonlight Programme Development Status“
+
+seg-d168096a3514 = Pokrytí měsíční referenční stanicí s terénem: přibalený scénář lunar-station-coverage s horizontem pro každé místo, vypočteným sledováním paprsků nad skutečným měsíčním digitálním modelem terénu na stanici a v každém bodě uživatele, místo samotné ploché elevační masky.
+
+seg-88a9a6405048 = druh lunar-time-budget
+
+seg-efaa5b60d16f = Časová laboratoř měsíční referenční stanice: miniaturní rubidiové hodiny (miniRAFS) řízené na koordinovaný měsíční čas (LTC) a poté ponechané volnému chodu.
+
+seg-debab0063d91 = druh lunar-time-offset
+
+seg-79c5a9295ed5 = druh lunar-vlbi
+
+seg-8d967bfd5689 = Kovariance souřadnic stanic Lunar-VLBI: parciální derivace zpoždění pozorovatelné lunar-vlbi akumulované přes explicitní ROZVRH (základny x epochy) do Fisherovy informační matice, invertované a uváděné jako kovariance souřadnic stanic a směrodatná odchylka stanice pro každou souřadnici — vypočtený výstup enginu, nikoli skalární přesnost zpoždění protlačená předpokládaným izotropním ekvipartičním činitelem g = { "3" }. Stav nese souřadnice stanic PEVNÉ vůči Zemi (ITRS), takže jakobián je inerciální parciální derivace otočená maticí GCRS->ITRS každé epochy: rotace Země je to, co tyto souřadnice činí pozorovatelnými, a zpráva MĚŘÍ pevné přetáčení spojnice vůči Zemi a deklinaci majáku, místo aby je předpokládala. Jedno pozorování je jedna dvojice (základna, epocha), kde OBĚ stanice jsou nad elevační maskou, vážené 1/delay_sigma_s^{ "2" }. Při každém běhu uvádí hodnost, defekt datumu, číslo podmíněnosti, úplné informační spektrum, kovarianční matici, sigmy jednotlivých stanic podle os i 3-D a nulový prostor volné sítě; při nedostatku hodnosti se hlavní sigma zveřejní jako NULL se stavem, nikdy se nevyčte z téměř singulární inverze. Ekvipartiční hodnota c*delay_sigma_s*sqrt(g/N) pro STEJNÝ rozvrh se vydává vedle vypočtené hodnoty s poměrem, spolu s izotropní stopovou mezí sqrt(p/trace(M)), kterou AM-HM činí pevným dolním limitem — takže poměr je anizotropie, kterou předpoklad zahodil. Uzávěr zpoždění tau_ik = tau_ij + tau_jk činí geometricky nezávislými jen n-1 z n(n-1)/2 základen; zpráva uvádí oba počty. MODELLED: efemerida středu Měsíce, hodiny stanic, troposféra a parametry orientace Země jsou drženy PEVNĚ a pozorování se považují za nezávislá, takže kovariance je Cramerova-Raova mez pro zredukovanou množinu parametrů, nikoli předpovězený výsledek relace; sigma zpoždění, souřadnice stanic a rozvrh jsou vstupy. Parciální derivace, kterou jakobián geometrického zpoždění vynechává (diferencovaný Shapirův člen), se měří konečnou diferencí a vydává. Není to geodetický produkt.
+
+seg-a558fdefae3d = druh lunar-vlbi-fim
+
+seg-50eb943d4ef7 = druh mars-pnt
+
+seg-79aed7a6b416 = Mars PNT — uživatel na nízké oběžné dráze Marsu navigovaný proti simulované konstelaci relé MARCONI (areostacionární relé vysílající jednosměrně + přenášející obousměrně do stanice hlubokého vesmíru) pomocí společného jednosměrného/obousměrného radiometrického fúzního estimátoru.
+
+seg-852783147633 = Mars PNT — pevný povrchový uživatel (lander / rover na rotujícím povrchu Marsu) navigovaný proti simulované konstelaci relé MARCONI pomocí společného jednosměrného/obousměrného radiometrického fúzního estimátoru.
+
+seg-1b2748b538ae = Mars PNT — uživatel na přeletové / záchytné dráze k Marsu (vysoký, výstředný areocentrický oblouk — dlouhý oblouk, který vozidlo letí při přiblížení / na záchytné oběžné dráze) navigovaný proti simulované konstelaci relé MARCONI pomocí společného jednosměrného/obousměrného radiometrického fúzního estimátoru.
+
+seg-28938416c04b = druh moonlight-service-volume
+
+seg-f0ccaa966a0d = druh ntn-positioning
+
+seg-95202f70f915 = druh oem-interop
+
+seg-64b58fe6b7e1 = druh optical-atmosphere
+
+seg-b8648cc3c266 = Optické PNT atmosférou: tři ILUSTRATIVNÍ pozemní stanoviště (zataženější severní, střední a jasnější jižní) pozorující optický terminál LEO pod elevací { "30" } stupňů při { "1550" } nm. Oblačné klimatické podmínky jsou uvedené vstupy, nikoli měření ani hodnoty žádného souboru dat, takže každá dostupnost níže je MODELLED. Běh uvádí pro každé stanoviště ztrátu v čistém vzduchu, stav turbulence Hufnagel-Valley, dostupnost vůči rezervě spoje, rezervu potřebnou pro { "40" } / { "50" } / { "60" } / { "70" } procent (optický spoj neprojde hustou oblačností, takže každé stanoviště má strop dostupnosti, který žádná rezerva nezvedne, uvedený pro každé stanoviště), rozdělení délky výpadků a růst časové chyby při každém výpadku pro tři třídy hodin, poté dostupnost při diverzitě stanovišť u nejlepších { "1" }, { "2" } a { "3" } stanovišť s nezávislým a s prostorově korelovaným počasím ({ "500" } km korelační délka).
+
+seg-f85f23a4fa5c = Hypotetické scénáře technik zlepšení pro jedno ILUSTRATIVNÍ pozemní stanoviště: změna vlnové délky, větší přijímací apertura, snížení scintilace adaptivní optikou a dodatečná rezerva, každé předpovězené jako zisk dostupnosti oproti základu téhož stanoviště. Zisky jsou uvedené vstupy (Kshana adaptivní optickou smyčku nemodeluje), nová vlnová délka nebo apertura přepočítá rozpočet čistého nebe, ztrátu v čistém vzduchu a průměrování aperturou a vše je MODELLED. Terminál je záměrně omezen rezervou (asi { "3" } dB před atmosférou), aby na technikách záleželo; běh také uvádí strop oblačnosti, který žádná technika nezvedne. Cíle pod { "100" } procenty tabulky rezerv se uvádějí jako potřebná dodatečná rezerva (záporná znamená přebytek).
+
+seg-b226ac4eebdf = druh orbit
+
+seg-4fe91b7e2c29 = Dostupnost GNSS a faktor DOP (zhoršení přesnosti) na dně městské ulice: druh <c1/> s uživatelem na pozemním stanovišti (<c2/>) pod předvolbou obzorového profilu <c3/>.
+
+seg-9f0a005cfe62 = druh passes
+
+seg-c2f9d49da519 = druh pvt
+
+seg-1e5828af879a = druh quantum-anomaly-detect
+
+seg-d3897f9ebb6c = Detekce poruch/anomálií pro kvantové systémy PNT — štítkovaný katalog poruch + ROC AUC + nejmenší detekovatelná porucha, monitor podporovaný kvantovými hodinami proti klasickému. MODELLED; ilustrativní parametry z veřejných zdrojů; modeluje třídu, žádné tvrzení o TRL ani o letu.
+
+seg-95db949095b8 = druh quantum-gnss-free-nav
+
+seg-b5e010553b6a = Kvantová navigace bez GNSS — kvantový (interferometr se studenými atomy) oproti klasickému dead reckoningu INS navigační třídy při výpadku GNSS. MODELLED; ilustrativní parametry zařízení z veřejných zdrojů; modeluje třídu, žádné tvrzení o TRL ani o letu.
+
+seg-6d0a57c5b71d = druh quantum-time-transfer
+
+seg-6d837ea24f97 = Důvěryhodné kvantové časování — řetězec přenosu času od začátku do konce, zabezpečená distribuce, detekce anomálií a srovnání kvantového a klasického řešení. MODELLED; ilustrativní parametry zařízení/spoje z veřejných zdrojů; modeluje třídu, žádné tvrzení o TRL ani o letu.
+
+seg-09ba30218f38 = druh quantum-trade
+
+seg-e39997960d5d = druh realtime-frame-eop
+
+seg-bb2002e9948d = druh reentry
+
+seg-b1c293c644d1 = druh slot-timing
+
+seg-65401b133472 = Časování slotů: jak dlouho zůstane oscilátor řízený termostatem (OCXO) na malé družici na nízké oběžné dráze Země uvnitř ochranného intervalu časově indexovaného směrovacího slotu po posledním určení polohy z globálního družicového navigačního systému (GNSS) a jak často potřebuje určení polohy.
+
+seg-b1d59d7a3350 = druh solar-system
+
+seg-67928e2d349f = druh space-packet
+
+seg-ce6afe97c0a4 = druh space-weather
+
+seg-008e207782f6 = druh spectrum
+
+seg-ac1083b109f8 = Vodopád pásma L při rušení: celé pásmo L globálního družicového navigačního systému (GNSS) jako jedna výkonová spektrální hustota (PSD), frekvence napříč, čas dolů, zatímco se zapíná předepsaná posloupnost rušičů.
+
+seg-859958a06acc = Víceúrovňový vodopád rušení: signály PNT na nízké oběžné dráze Země (LEO) ve čtyřech pásmech (UHF, L, S a C) vedle GPS a Galileo, každé pásmo s vlastním rušičem, vykreslené jako jeden vodopád na pásmo na jedné časové ose.
+
+seg-559fe9211290 = druh spoof
+
+seg-6e099f8a060a = Aktivní útok časovým spoofingem: zachytí monitor integrity každých hodin spoofing dřív, než způsobí škodu?
+
+seg-43dad2e00cde = druh spoof-detect
+
+seg-0d6c2e664734 = druh sweep
+
+seg-5fb588430052 = druh sweep-nd
+
+seg-b22e7ba4a1a0 = Obecný N-rozměrný průchod parametrů nad JAKÝMKOLI druhem scénáře. Na rozdíl od druhu <c1/> jen pro hodiny <c2/> mění tečkované klíče TOML scénáře <c3/> přes kartézský součin os, znovu spouští každý uzel mřížky a vyčítá zvolené metriky z výsledku podle tečkované cesty JSON. Funguje pro každý balíček (inertial, gnss-ins, integrity, spoof, …), protože pracuje na rozhraní TOML/výsledek, nikoli na typu Rustu pro jednotlivý balíček. Nativní běhy vyhodnocují mřížku paralelně (bez dalších závislostí); wasm přechází na sekvenční. Výstupní mřížka je deterministická a po řádcích (poslední osa se mění nejrychleji).
+
+seg-5f1e87304f90 = druh telecom-timing
+
+seg-999121d87895 = Telekomunikační referenční čas: rubidiové hodiny, které ztratí referenci z globálního družicového navigačního systému (GNSS) a drží holdover { "24" } hodin, kontrolované proti maskám International Telecommunication Union Telecommunication Standardization Sector (ITU-T).
+
+seg-3cfcd6f8717b = Telekomunikační časování, frekvenční synchronizace: volně běžící oscilátor řízený termostatem (OCXO) proti maskám generování wanderu hodin synchronního Ethernetu (EEC) z International Telecommunication Union Telecommunication Standardization Sector (ITU-T).
+
+seg-afd374569777 = Telekomunikační časování, příklad načtení: řada chyby časového intervalu (TIE) zadaná přímo a kontrolovaná proti maskám International Telecommunication Union Telecommunication Standardization Sector (ITU-T).
+
+seg-eb02c7911f72 = druh terrain-nav
+
+seg-b83a1fbd3435 = druh terrain-slam
+
+seg-c988dce87d81 = druh time-transfer-budget
+
+seg-a063a0ecc543 = Obousměrný družicový přenos času a frekvence (TWSTFT) mezi dvěma ILUSTRATIVNÍMI stanicemi, jednou ve střední Evropě a jednou ve východní Severní Americe, přes geostacionární relé na { "10" } deg W. Běh řeší obousměrnou rovnici pro T_A - T_B z uvedených členů zařízení, transpondéru, ionosféry (pásmo Ku, 14/11 GHz) a Sagnacova. Sestavuje rozpočet nejistoty, jehož statistickým členem je TDEV při jednom dni simulovaného spoje s bílým a flicker fázovým šumem a denní nereciprocitou. Zpoždění a nejistoty jsou ilustrativní, nikoli kalibrace jakékoli laboratoře. MODELLED. Pod [[series]] lze přidat skutečnou řadu UTC-UTC(k) nebo hodin stanice (formát circular-t, mjd-csv nebo rinex-clock), aby uvedla její stabilitu.
+
+seg-69138a582b9a = druh timetransfer
+
+seg-a79dfece857e = Ztráta zachycení ve sledovací smyčce: C/N0 -> zachycení/ztráta zachycení S HYSTERÉZÍ, doba, za kterou se zachycení ztratí, a vtažení spoofingu jako funkce RYCHLOSTI posunu kódu a nosné. Stávající kritéria odepření a zachycení enginu jsou poměry přijímaných výkonů (rušič odepře při J/S = { "30" } dB, spoofer zachytí při { "3" } dB); skutečná ztráta zachycení není poměr výkonů, je to místo, kde jitter smyčky plus dynamické zatížení opustí rozpočet sledovacího prahu. Uvádí ({ "1" }) tepelný 1-sigma jitter nosné (Costas) a kódu (nekoherentní early/late) oproti C/N0, včetně ztráty kvadratury, proti uvedeným pravidlům { "3" }*sigma_PLL + theta_e <= { "45" } deg (pravidlo 15 stupňů ve tvaru tří sigma) a { "3" }*sigma_DLL + ramp lag <= d/2 chipu; ({ "2" }) prahy C/N0 pro vypadnutí a znovuzachycení s pojmenovanou rozhodující smyčkou, práh znovuzachycení ODVOZENÝ ze širšího pásma, v němž se přijímač znovu vtahuje, a nikoli tvrzený, takže šířka hystereze musí ležet mezi { "5" }*log10(ratio) a { "10" }*log10(ratio) dB; ({ "3" }) deklarovanou dobu do ztráty zachycení z dvouprahového detektoru zachycení s potvrzovacími prodlevami řízeného rampou C/N0, uváděnou odděleně od fyzikální doby úniku fáze (Viterbiho střední doba mezi proklouznutími cyklu, v log10 s, protože zahrnuje stovky dekád); ({ "4" }) meze vtažení spoofingu — největší posun kódu a rychlost Dopplera nosné, které smyčky oběti dokážou sledovat, s mapou přes obě osy, protože spoofer, který posouvá rychleji, smyčku nezachytí, ale předběhne ji; a ({ "5" }) POLOMĚR ODEPŘENÍ, který dynamika smyčky předpovídá, uváděný SPOLU se stávajícím poloměrem podle poměru výkonů, nikdy místo něj, s jejich znaménkovým rozdílem jako vlastním pojmenovaným polem (denial_radius_delta_km) a definicí vedle něj. Každé vydané číselné pole nese jednotku a třídu původu. VALIDATED uzavřené tvary: výrazy pro jitter nosné a kódu, redukce smyčkového filtru sqrt({ "2" }*B_n*T) a lag rampy prvního řádu jsou křížově kontrolovány proti korelátoru sdr samotného enginu krokovanému na seedovaném syntetickém IF — jiná cesta ke stejným číslům — s přesností { "0.6" } %, { "3.7" } % a { "0.17" } %, a modifikovaná Besselova funkce I0 za dobou proklouznutí cyklu proti standardním tabelovaným hodnotám s přesností { "1e-7" }. Dolní mez platnosti se vynucuje, nikoli jen uvádí: pod ~{ "32" } dB-Hz při { "1" } ms skutečný diskriminátor atan saturuje proti svému rozsahu +-pi/2 a měří menší jitter než jakákoli lineární teorie. MODELLED: šířky pásma smyček, integrační doba, rozestup korelátoru, poměr pásem vtažení, potvrzovací prodlevy, výkon rušiče a zisky antén jsou reprezentativní hodnoty pásma, nikoli datasheet. NEJSOU modelovány: jitter oscilátoru (Allanova odchylka) a vibrací, omezení šířky pásma vstupní části, vícecestné šíření, dynamika AGC, ztráta při přechodu datového bitu, vnější podpora a jakákoli korekce půlcyklu ve vzorci proklouznutí cyklu Costas. Při dynamice smyčky nemá zachycení spoofingem žádný poloměr — rozhodující omezení je rychlost posunu, nikoli výkon — takže toto pole je null s důvodem, nikoli vymyšlené číslo. Není to produkt pro hodnocení výkonu přijímače s certifikací.
+
+seg-0b943d7e5f66 = druh tracking-loop
+
+seg-003cc12a2c96 = Ztráta zachycení ve sledovací smyčce: C/N0 -> zachycení/ztráta zachycení s hysterezí, doba, za kterou se zachycení ztratí, a meze vtažení spoofingu dané RYCHLOSTÍ posunu kódu a nosné.
+
+seg-9ce64f725193 = Sady studií
+
+seg-b871497364ff = Sada je soubor scénáře, který uvádí další scénáře; <c1/> ji spustí do jednoho opatřeného razítkem <c2/> a <c3/>. Toto je bezplatný běžec sad, nikoli placená studie na zakázku.
+
+seg-b0569509d058 = Quantum-Enabled PNT Demonstrator — tři aplikační oblasti jako jedna studie.
+
+seg-2f09b9930e10 = Zobrazit na GitHubu
+
+seg-67f767701c6d = <s1>Předchozí</s1>Oblasti schopností
+
+seg-ea79a68b0587 = <s1>Další</s1>Schéma výsledku
