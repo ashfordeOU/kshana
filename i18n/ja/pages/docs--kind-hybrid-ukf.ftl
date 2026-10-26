@@ -51,3 +51,7 @@ seg-753f0302eeef = トピックページ：<a1>QUANTUM.md</a1>
 seg-963425965e64 = <s1>前へ</s1>hybrid-optical-rf
 
 seg-437eb2e463b3 = <s1>次へ</s1>hybrid
+
+seg-debc2f07db78 = true
+
+seg-619127334cf3 = この種類を名前で挙げているマトリクスの行はありません。その結果のラベルは、上に示したエンジン自身のものです。

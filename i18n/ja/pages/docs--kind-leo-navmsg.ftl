@@ -73,3 +73,7 @@ seg-d9257241d523 = トピックページ：<a1>LEO-NAVMSG.md</a1>
 seg-b0dcad22aed6 = <s1>前へ</s1>launch-window
 
 seg-2984c4c69850 = <s1>次へ</s1>leo-pass
+
+seg-debc2f07db78 = true
+
+seg-cb91473bfdda = トピックページ：<a1>LEO-PNT.md</a1>

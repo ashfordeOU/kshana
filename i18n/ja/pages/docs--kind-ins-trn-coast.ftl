@@ -43,3 +43,11 @@ seg-ee0281a1f401 = この問いに答えます：GNSS（または開口デュー
 seg-32d4adcfe249 = <s1>前へ</s1>inertial
 
 seg-47366ab55be3 = <s1>次へ</s1>integrity
+
+seg-bf51947657c0 = 航法
+
+seg-3068552e4ab4 = VALIDATED：この種類を挙げている<a1>検証マトリクス</a1>の行。
+
+seg-c4ed27a559df = トピックページ：<a1>RESILIENCE-CROSSWALK.md</a1>
+
+seg-3bc1761c76ab = 同梱のシナリオのうち{ "3" }個がこの種類を使用しています。その他は<a1><c1/></a1>にあります。

@@ -41,3 +41,9 @@ seg-742a29ca1fb7 = トピックページ：<a1>TEST-BENCH.md</a1>
 seg-f3cc3d82aba8 = <s1>前へ</s1>fusion
 
 seg-af503aa1d900 = <s1>次へ</s1>gnss-sim
+
+seg-b054c73f22e5 = 値なし
+
+seg-ee7dd15019d0 = トピックページ：<a1>CAMPAIGNS.md</a1>
+
+seg-619127334cf3 = この種類を名前で挙げているマトリクスの行はありません。その結果のラベルは、上に示したエンジン自身のものです。

@@ -33,3 +33,11 @@ seg-51cac2f918e0 = トピックページ：<a1>POSITIONING.md</a1>
 seg-8ea056f1d7e0 = <s1>前へ</s1>passes
 
 seg-d1dc82bbfb73 = <s1>次へ</s1>quantum-anomaly-detect
+
+seg-debc2f07db78 = true
+
+seg-8e845ce908ee = エンジンv{ $version }のシナリオの種類。ファミリー：<a1>GNSSの測定、測位、インテグリティ</a1>。助言のみ：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、人命安全（safety-of-life）サービスでもありません。ここにあるラベルはすべてエンジンまたは検証マトリクスによるものです。検証マトリクスに別の記載がない限り、シナリオの種類はMODELLEDです（ラベルの付与のされ方：READMEのEvidenceセクション）。
+
+seg-f6b7ca020692 = ファミリーページ：<a1>GNSSの測定、測位、インテグリティ</a1>
+
+seg-f4cf8b629797 = トピックページ：<a1>INTEGRITY.md</a1>

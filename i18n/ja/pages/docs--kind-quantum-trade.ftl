@@ -57,3 +57,9 @@ seg-f7f12029e0ec = ファミリーページ：<a1>慣性・フュージョン・
 seg-496b17a8d3b9 = トピックページ：<a1>QUANTUM-MODELS.md</a1>
 
 seg-bb07c8ee153f = <b>PARTNER</b> 提供しません — 性能モデルのみ；冷却原子／時計のハードウェアはパートナーのものです。オラクル（NoneKind）：なし：パートナーが所管する分野であり、設計上モジュールもテストもありません
+
+seg-debc2f07db78 = true
+
+seg-98151954f217 = false
+
+seg-7400f24ec992 = MODELLED { "1" } · VALIDATED { "2" }：この種類を挙げている<a1>検証マトリクス</a1>の行。
