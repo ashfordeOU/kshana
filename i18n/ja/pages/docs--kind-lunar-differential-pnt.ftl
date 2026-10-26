@@ -41,3 +41,5 @@ seg-8f8871ac8a0f = トピックページ：<a1>LUNAR-REFERENCE-STATION.md</a1>
 seg-2b8455001710 = <s1>前へ</s1>lunar-beacon
 
 seg-dca7482d9d75 = <s1>次へ</s1>lunar-frame-campaign
+
+seg-549a6103e711 = bit
