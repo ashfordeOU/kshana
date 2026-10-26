@@ -51,3 +51,5 @@ seg-f3526b0d95f8 = 測定値
 seg-7634c6f4b32c = リンク
 
 seg-b966dd26caa6 = データセット
+
+seg-4fe4920a3fa1 = 規格
