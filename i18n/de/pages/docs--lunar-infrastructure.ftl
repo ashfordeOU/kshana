@@ -14,11 +14,6 @@ seg-9872e31ebd72 = Quellen
 seg-922905241a6b = Quelle: <c1/>
 
 # text
-# c1: lunar-infrastructure
-# c2: study
-seg-bfb9c5efbe57 = Szenarioart <c1/>, fünf durch <c2/> ausgewählte Studien. <b>MODELLED</b>: ein eingeschränktes Dreikörpermodell mit angegebenen Vereinfachungen und ILLUSTRATIVE Eingaben. Die Numerik wird gegen unabhängige numpy/scipy-Programme geprüft; nichts wird mit einer Messung einer Mondgröße verglichen, und nichts hier ist eine Aussage über eine Mission oder ein System. Nicht mit einer Behörde verbunden und von keiner unterstützt. Beratende Software, kein typzugelassenes Gerät. Kshana sendet nichts und steuert keine Hardware.
-
-# text
 # c1: xval/lunar-infra/PREREGISTRATION.md
 # c2: PREREGISTRATION-amendment-1.md
 # c3: xval/lunar-infra/RESULTS.md
@@ -103,3 +98,8 @@ seg-1d3bffc2fd02 = <s1>Zurück</s1>Navigation für Raumnutzer (gnss-ssv)
 
 # text
 seg-90932eed0074 = <s1>Weiter</s1>LEO-Positionierung, -Navigation und -Zeitgebung
+
+# text
+# c1: lunar-infrastructure
+# c2: study
+seg-bfb9c5efbe57 = Szenarioart <c1/>, fünf durch <c2/> ausgewählte Studien. <b>MODELLED</b>: ein eingeschränktes Dreikörpermodell mit angegebenen Vereinfachungen und ILLUSTRATIVE Eingaben. Die Numerik wird gegen unabhängige numpy/scipy-Programme geprüft; nichts wird mit einer Messung einer Mondgröße verglichen, und nichts hier ist eine Aussage über eine Mission oder ein System. Nicht mit einer Behörde verbunden und von keiner unterstützt. Beratende Software, kein typzugelassenes Gerät. Kshana sendet nichts und steuert keine Hardware.

@@ -69,9 +69,6 @@ seg-58cf4086c7a5 = <b>MODELLED</b> Die nach T_A - T_B aufgelöste TWSTFT-Zweiweg
 seg-15de1cdaa684 = MODELLED — TWSTFT-Zweiweg-Gleichung (Stationslaufzeiten, Ku-Band-Ionosphäre, Transponder, Sagnac), aufgelöst aus angegebenen Laufzeiten, ein quadratisches Unsicherheitsbudget mit der TDEV der simulierten Strecke als Typ-A-Term, eine simulierte Strecke mit Flicker-Phasenrauschen und täglicher Nichtreziprozität und die Stabilität jeder gelieferten realen UTC-UTC(k)- oder Stationsuhr-Reihe; nicht mit einer realen TWSTFT-Strecke verglichen (Ergebnis <c1/>)
 
 # text
-seg-70448ca49780 = Zweiweg-Satelliten-Zeit- und Frequenzübertragung (TWSTFT) zwischen zwei ILLUSTRATIVEN Stationen, einer in Mitteleuropa und einer im Osten Nordamerikas, über ein geostationäres Relais bei { "10" } Grad W. Der Lauf löst die Zweiweg-Gleichung nach T_A - T_B aus den angegebenen Geräte-, Transponder-, Ionosphären- (Ku-Band, 14/11 GHz) und Sagnac-Termen. Er bildet ein Unsicherheitsbudget, dessen statistischer Term die TDEV bei einem Tag einer simula (Kommentar der Szenariodatei, Zeilen { "1" } bis { "8" })
-
-# text
 seg-4b0d23aed0ab = TWSTFT-Zweiweg-Gleichung, Unsicherheitsbudget und Streckenstabilität mit Flicker und täglicher Nichtreziprozität ist MODELLED, nicht validiert: geprüft gegen ihre eigene geschlossene / analytische Identität — fängt Übertragungs- und Koeffizientenfehler ab, ist aber keine externe unabhängige Referenz. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
 
 # text
@@ -86,3 +83,6 @@ seg-6af6f07f5f5a = <c1/> (Szenarioart)
 
 # attr:alt
 seg-92d3c84024d7 = Das Diagramm, das die Engine für scenarios/time-transfer-budget.toml schreibt, Szenarioart time-transfer-budget
+
+# text
+seg-70448ca49780 = Zweiweg-Satelliten-Zeit- und Frequenzübertragung (TWSTFT) zwischen zwei ILLUSTRATIVEN Stationen, einer in Mitteleuropa und einer im Osten Nordamerikas, über ein geostationäres Relais bei { "10" } Grad W. Der Lauf löst die Zweiweg-Gleichung nach T_A - T_B aus den angegebenen Geräte-, Transponder-, Ionosphären- (Ku-Band, 14/11 GHz) und Sagnac-Termen. Er bildet ein Unsicherheitsbudget, dessen statistischer Term die TDEV bei einem Tag einer simula (Kommentar der Szenariodatei, Zeilen { "1" } bis { "8" })
