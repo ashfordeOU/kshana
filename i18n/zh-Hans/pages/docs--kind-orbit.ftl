@@ -33,3 +33,5 @@ seg-277205e56d73 = <b>VALIDATED</b> 由视线几何经 Q=(HᵀH)⁻¹ 并按局�
 seg-53a78e98af12 = 主题页面：<a1>SKYLINE.md</a1>
 
 seg-ae15d15bf151 = 主题页面：<a1>LEO-PASS.md</a1>
+
+seg-99a3c57c7926 = 有 { "7" } 个随附场景使用此类型；其余的在 <a1><c1/></a1> 中。

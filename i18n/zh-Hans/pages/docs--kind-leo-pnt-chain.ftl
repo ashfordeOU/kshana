@@ -45,3 +45,25 @@ seg-0093705edf63 = 引擎给出的结果标签：MODELLED — 该链路将每一
 seg-abe0599498c9 = 引擎为 scenarios/leo-pnt-end-to-end.toml（类型 leo-pnt-chain）生成的图表
 
 seg-d8b7c2c82566 = <b>MODELLED</b> <c1/> 类型：leo-signal 设计（公开预设或内联）设定 leo-pass 频段的中心频率、带宽、码速率和 EIRP 分配；过境给出被跟踪分量的 C/N0 与逐历元带限码抖动；最小二乘 C/ 测试：<a1>leo_pnt_chain.rs</a1>。
+
+seg-59b976838ef1 = <b>VALIDATED</b> navsignal：正弦积分（sine_integral）、双边频带内 BPSK-R 功率占比的闭式（bpsk_power_in_band_closed_form）、带限。参考基准（oracle，ExternalDataset）：外部固定的数值有：主瓣功率占 { "90.3" }%，所述工作点处的相干超前-滞后抖动，正弦积分表值，以及零偏移处的 BPSK 自谱分离系数 2/({ "3" } R_c)。仅为内部交叉检查、不属于外部验证的有：带限 BPSK 的 Gabor 带宽闭式及其渐近式，以及非零偏移处的偏移 BPSK 谱分离系数，二者均
+
+seg-faf2775f3003 = <b>MODELLED</b> <c1/> 类型：参数化的信号设计（频段、发射带宽、ITU 频率划分；采用 BPSK(n)、BOC(m,n)、MB 的捕获、数据和导频分量。参考基准（oracle，InternalConsistency）：上面两行已验证的闭式、平方律虚警恒等式 P_d(snr = { "0" }) = P_fa 与 Holmes 平均捕获时间，以及可还原为频谱类型自身 SSC 链（同一段 Jammer::ssc 代码）。设计本身属于输入：标注为 REPRESENTATIVE 或 WORKSHOP 的预设并非公开发布的规范，增强型 Feher QPSK、码移键控和 OFDM 的频谱为近似，且其形状
+
+seg-752b6d88fc9c = 定位阶段将 C/N0 建模为仰角正弦在截止角与天顶之间的一条直线；该链路根据该过境弧段所跟踪的 C/N0 拟合这条直线，因此特定于该过境弧段的形状（等通量平台、波束边缘）被简化为两个数值。（结果 <c1/>）
+
+seg-f609a2991c7f = 交给定位阶段的 SISRE，是导航电文相对于 Kshana 积分所得真值轨道的表示误差，再与场景给定的 od_sisre_m 按平方和开方合成；电文阶段本身不对定轨或预报建模。（结果 <c1/>）
+
+seg-f75f874cdfaa = 定位阶段用不限带宽的公式，根据传递过来的 C/N0 自行计算延迟锁定环抖动；该过境弧段在其旁边报告实际设计的带限抖动。（结果 <c1/>）
+
+seg-174ce18ade58 = 精密单点定位阶段将电文的 SISRE 作为 LEO 轨道与钟差误差；其码噪声和相位噪声仍是该阶段自己的输入。（结果 <c1/>）
+
+seg-0aaff940eacb = 在过境弧段阶段和电文阶段，以一颗卫星（第一颗其频段承载该设计的卫星）代表整个 LEO 系统。（结果 <c1/>）
+
+seg-65930be43134 = MODELLED：该链路把每个阶段的输出交给下一阶段；各阶段保留各自的标签（验证矩阵中的 leo-signal、leo-pass、leo-navmsg、leo-pvt 和 leo-ppp 行）。（结果 <c1/>）
+
+seg-bf452e9ae07f = MODELLED：每个阶段保留各自的标签；该链路不增添任何物理模型。（场景文件注释，第 { "25" } 行）
+
+seg-0bff72185f12 = <s1>上一页</s1>leo-pass
+
+seg-851e55b87d01 = <s1>下一页</s1>leo-ppp

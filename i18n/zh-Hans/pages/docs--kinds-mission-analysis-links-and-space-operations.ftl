@@ -43,3 +43,7 @@ seg-bf7b52f7a01e = 引擎为 scenarios/eo-radiometry.toml（类型 eo-radiometry
 seg-7a4e6215a488 = 二体发射与上升几何：发射方位角（sin Az = cos i / cos lat）、最小可达倾角、圆轨道速度、地球自转的向东增益、目标倾角低于发射场纬度时的折线（dogleg）平面变轨 Δv，以及每日发射机会次数。MODELLED 球形地球几何（无自转地球速度三角形修正，无上升/阻力损失模型）。
 
 seg-9696283a95ae = 引擎为 scenarios/launch-window.toml（类型 launch-window）生成的图表
+
+seg-953188c11165 = 基于 CCSDS { "401" } / DSN 810-005 链路方程的单向链路预算：针对发射 EIRP、接收 G/T、距离、数据速率和频段（s|x|ka），对照所需 Eb/N₀，给出自由空间路径损耗、C/N₀、Eb/N₀、余量和链路闭合情况。这是根据所提供输入进行的确定性工程计算（不是经过标定的终端数据手册）。
+
+seg-bd375631bc7e = 引擎为 scenarios/link-budget.toml（类型 link-budget）生成的图表
