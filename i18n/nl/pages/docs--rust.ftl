@@ -69,3 +69,83 @@ seg-9390336ecc01 = <b>Citeren</b> → <a1>CITATION.cff</a1> · DOI <a2>10.5281/z
 seg-d059e9fc67e1 = Vrij en opensource onder de <b>GNU AGPL-3.0-only</b> (de GNU Affero General Public License, alleen versie { "3" }). Een <b>commerciële licentie</b> is verkrijgbaar bij <a1>Ashforde® OÜ</a1> (een Estse besloten vennootschap; OÜ = osaühing) voor gesloten integratie; zie <a2>LICENSING.md</a2>. Professioneel ontwikkeld en onderhouden door Ashforde® OÜ.
 
 seg-8c83544270b5 = Signatuur
+
+seg-8a438548bf52 = Bron: <c1/>
+
+seg-9a65e21abcf4 = Kshana speelt jamming, spoofing en klok-holdover opnieuw af wanneer GNSS-signalen (Global Navigation Satellite System) uitvallen, en vertelt u hoe lang een systeem tijd en positie binnen zijn budget houdt, en welke klok of sensor de meeste marge oplevert. Dit is de Rust-crate: de engine als bibliotheek, en de opdracht <c1/>. Elke run is bit voor bit reproduceerbaar uit het scenario, de seed en de engineversie.
+
+seg-991c428a8063 = Gebruik — bibliotheek
+
+seg-6ef0d3fb5be0 = Het voorbeeld is een compleet programma: het draagt zijn eigen scenario, geschreven in TOML (Tom's Obvious, Minimal Language), zodat het draait als <c1/> van een nieuw <c2/>-project na <c3/>, zonder iets anders op schijf.
+
+seg-cfb76f7da8da = <c1/> is het resultaatdocument in JSON (JavaScript Object Notation), <c2/> de grafiek als SVG (Scalable Vector Graphics) en <c3/>, voor de soorten die een tabel publiceren, die tabel als CSV (comma-separated values).
+
+seg-95b7a8022262 = API-referentie, gegenereerd uit src/api.rs
+
+seg-e271e742cec7 = Elke openbare functie van <c1/> in engine v{ $version }, bij het bouwen uit de bron gelezen.
+
+seg-9a8d288b2c57 = json met zijn afsluitende blok figure_tiers verwijderd, byte voor byte zoals het document was voordat dat blok bestond; None wanneer het document zo'n blok niet heeft, of er een heeft dat niet zijn laatste sleutel is (wat deze crate nooit uitgeeft, dus een harness moet dat als fout behandelen in plaats van iets te verwijderen waarvoor hij geen verklaring heeft).
+
+seg-6157f407ab8b = Geef elke ingebouwde scenariosoort met zijn metadata weer.
+
+seg-e9535491e871 = De ingebouwde scenariosoorten en hun metadata als JSON-array — de vorm die de taalbindings beschikbaar stellen voor programmatische introspectie.
+
+seg-a3e3eeb83c46 = [KIND_MODULES] als JSON-object, soort naar array van modulenamen, in tabelvolgorde.
+
+seg-6739ddf8bba8 = [HEADLINE_FIELDS] als JSON: { "{" }kind: { "{" }"headline": [path, ...]{ "}" }{ "}" }, in tabelvolgorde.
+
+seg-f76170c699d9 = Render de catalogus van ingebouwde scenariosoorten als een zelfstandige Markdown-referentie (docs/SCENARIOS.md): elke aanroepbare soort met zijn beschrijving van één regel en zijn verplichte / optionele TOML-velden.
+
+seg-295c8355634f = Lint een scenario-TOML aan de hand van de eigen introspectie van de crate en geef een lijst van problemen terug — zodat een aanroeper kan horen wat er mis is VÓÓR een (mogelijk lange) run, in plaats van een late runtimefout te raken.
+
+seg-4aab02ecf399 = Exporteer de gepropageerde constellatie van een baan-/constellatiescenario als SP3-c-tekst.
+
+seg-d577fc8351a2 = Als src een baanscenario met export_sp3 = true is, geef dan de SP3-c-tekst terug; anders None.
+
+seg-024e29ac4bde = Exporteer de gemiddelde TLE-elementen van een baanscenario als CCSDS OMM-catalogus — één OMM (Orbit Mean-Elements Message) per door TLE gedefinieerde satelliet, in KVN-vorm, met het echte NORAD-catalogusnummer, de COSPAR-aanduiding en de epoche uit elke TLE.
+
+seg-d5dc817a3a24 = Als src een baanscenario met export_omm = true is, geef dan de tekst van zijn OMM-catalogus terug; anders None.
+
+seg-3fe91ee29ac1 = Exporteer de gepropageerde constellatie van een baanscenario als CCSDS OEM-tekst — de inertiale (TEME) tijdreeks van toestanden, positie EN snelheid, in het uitwisselingsformaat voor efemeriden van ruimtevaartuigen dat tools voor vluchtdynamica (GMAT/Orekit/STK) lezen.
+
+seg-f102088f3208 = Als src een baanscenario met export_oem = true is, geef dan de tekst van zijn OEM terug; anders None.
+
+seg-5432a3921600 = Voeg een echte IERS finals2000A-body in het veld eop_finals2000a van een scenario in (het CLI-pad --eop <file>), en geef de samengevoegde TOML terug.
+
+seg-dc707c3d1769 = Voeg een blok met studiemetadata in een reeds gerenderd resultaat-JSON-document in en geef het document terug met een sleutel "meta" op het hoogste niveau, direct na de openingsaccolade.
+
+seg-afa952d0c0f5 = Voer een scenario uit en geef een getypeerd resultaat terug met een gestructureerde fout — het toegangspunt dat aanroepers van bindings boven de stringfout [run_toml] moeten verkiezen.
+
+seg-d0a609bfd225 = Parseer, verdeel en voer een scenario uit dat als TOML-string is gegeven.
+
+seg-c62cff9a8dba = [run_toml] zonder het blok figure_tiers per soort dat [run_toml_inner] toevoegt (RM-04): voor een run waarvan het document in het resultaat van een andere soort is ingebed (een campagnelid), zodat het buitenste document zijn bytes behoudt.
+
+seg-5a316ab76a7d = json met block toegevoegd als zijn laatste sleutel, figure_tiers, byte voor byte zoals de Documented-wrapper het zou hebben geserialiseerd: pretty printing met twee spaties, het blok een niveau diep genest.
+
+seg-ef3b369866c5 = Uitwisselingsformaten in de crate: parser en schrijver voor het CCSDS Tracking Data Message (TDM) (<c1/>); Kshana Interchange Format (KIF) (<c2/>).
+
+seg-36184e41b65d = Gebruik — CLI
+
+seg-c96267c06c3b = Een installatie vanuit het register heeft geen map <c1/>, dus de CLI draagt de referentiescenario's zelf mee; <c2/> somt ze op en noemt de paar die hij weglaat met de reden (elk leest alleen gegevens die met de repository worden meegeleverd, of volgt een voorinstelling die een release kan achterhouden).
+
+seg-35965c7df95f = Een run verdeelt op de <c1/> van het scenario en schrijft <c2/>, <c3/>, <c4/> (een afdrukbare rapportpagina in HTML, HyperText Markup Language) en <c5/> (hetzelfde rapport, machineleesbaar), plus <c6/> voor de soorten die een tabel publiceren, naast het scenariobestand. <c7/> voegt uitwisselingsbestanden toe: CZML (de Cesium Language) en KML (Keyhole Markup Language) voor globeviewers, GeoJSON voor kaarten, STK-efemeridenbestanden (Systems Tool Kit) en SigMF-opnames (Signal Metadata Format) voor de soort <c8/>. <c9/> voegt een SVG-, HTML- of beeld-voor-beeldanimatie toe.
+
+seg-fc13b487ccc5 = Vanuit een kloon van de repository nemen dezelfde opdrachten de bestanden onder <c1/> rechtstreeks, inclusief de studie met meerdere scenario's (<c2/>) en <c3/>, het ene scenario dat echte laserafstandsgegevens leest die alleen met de repository worden meegeleverd.
+
+seg-509e49e5df09 = <b>GNSS-vertrouwen voor vaartuigen</b> (<c1/>, inclusief <c2/>): een score van 0-100 met redenen uit de NMEA van een ontvanger, live of uit een log; adviserend, geen typegoedgekeurde navigatieapparatuur.
+
+seg-0489fa168736 = <b>Bewijspakketten</b> (<c1/>): een ondertekend technisch verslag van een logvenster, offline verifieerbaar.
+
+seg-aa4a7de921a3 = <b>Vertrouwenstelemetrie</b> (<c1/>): de vertrouwensstroom als Prometheus-metrics, SIEM-gebeurtenissen en optioneel OpenTelemetry.
+
+seg-d2ecb7047abe = <b>Trainingsstromen</b> (<c1/>): synthetische brug-NMEA met gescripte jamming en spoofing en een instructeurslog. Alleen tekst; nooit voor de live navigatiesystemen van een vaartuig.
+
+seg-e16769b8fab8 = <b>Interferentiekaart</b> (<c1/>): geaggregeerde kaarten van verstoorde navigatie en routeblootstelling.
+
+seg-1944d0fada06 = <b>Test bench en compliance-afbeelding</b> (<c1/>, <c2/>): de voertuigbeweging en gebeurtenissen van een scenario voor een GNSS-simulator in het laboratorium, en de afbeelding op openbare frameworks, ingevuld uit resultaatdocumenten.
+
+seg-68274ce67506 = <b>GNSS IQ-lab</b> (<c1/>): scènes, acquisitie, tracking, monitors en campagnes op opgenomen en synthetische IQ.
+
+seg-6dc7d52fef11 = <s1>Vorige</s1>npm en WebAssembly
+
+seg-8ff56af64ec2 = <s1>Volgende</s1>MCP-server
