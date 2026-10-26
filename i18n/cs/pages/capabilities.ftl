@@ -1126,9 +1126,9 @@ seg-979fb46a1ac8 = Doběhnutí v železničním tunelu: jak dlouho inerciální 
 
 seg-6d592347a45a = <c1/><a1>ins-trn-coast</a1><a2>maritime-port-approach-coast</a2><a3>rail-tunnel-coast</a3>
 
-seg-588092c0b828 = Optické PNT atmosférou: tři ILUSTRATIVNÍ pozemní lokality (severnější, oblačnější lokalita,
+seg-588092c0b828 = Optické PNT atmosférou: tři ILLUSTRATIVE pozemní lokality (severnější, oblačnější lokalita,
 
-seg-d9110ecdc1a0 = Scénáře typu co kdyby u zlepšujících technik pro jednu ILUSTRATIVNÍ pozemní lokalitu: změna vlnové délky, větší
+seg-d9110ecdc1a0 = Scénáře typu co kdyby u zlepšujících technik pro jednu ILLUSTRATIVE pozemní lokalitu: změna vlnové délky, větší
 
 seg-67d9aed36283 = <c1/><a1>optical-atmosphere-network</a1><a2>optical-atmosphere-techniques</a2>
 
@@ -1170,7 +1170,7 @@ seg-d58a6084c08d = Telekomunikační časování, příklad načtení: řada chy
 
 seg-a7737b295231 = <c1/><a1>telecom-prtc-holdover-24h</a1><a2>telecom-synce-eec</a2><a3>telecom-tie-ingest</a3>
 
-seg-a9d9e45f2147 = Dvoucestný družicový přenos času a frekvence (TWSTFT) mezi dvěma ILUSTRATIVNÍMI stanicemi, jednou
+seg-a9d9e45f2147 = Dvoucestný družicový přenos času a frekvence (TWSTFT) mezi dvěma ILLUSTRATIVE stanicemi, jednou
 
 seg-0ea13860c00c = <c1/><a1>time-transfer-budget</a1>
 
@@ -1194,7 +1194,7 @@ seg-b9192c83fdf7 = Demonstrátor pracovního cyklu apertury (pozemní segment a 
 
 seg-e40da530a08a = <c1/><a1>aperture-duty-cycle</a1>
 
-seg-e671128cedbc = Ztráty při výstupu gravitačním obratem ILUSTRATIVNÍ dvoustupňové nosné rakety na kerosin/kyslík (žádná skutečná
+seg-e671128cedbc = Ztráty při výstupu gravitačním obratem ILLUSTRATIVE dvoustupňové nosné rakety na kerosin/kyslík (žádná skutečná
 
 seg-17e5ec4d18bc = <c1/><a1>ascent-losses</a1>
 
@@ -1222,7 +1222,7 @@ seg-a38ba5ac0cda = Demonstrátor stopy a pokrytí užitečného zatížení pro 
 
 seg-acccb75c3c8b = <c1/><a1>eo-coverage</a1>
 
-seg-966c1090da5a = Radiometrie a kvalita obrazu nadirového zobrazovače pro ILUSTRATIVNÍ malou kameru pro pozorování Země
+seg-966c1090da5a = Radiometrie a kvalita obrazu nadirového zobrazovače pro ILLUSTRATIVE malou kameru pro pozorování Země
 
 seg-53d1e190c57d = <c1/><a1>eo-radiometry</a1>
 
@@ -1326,7 +1326,7 @@ seg-e9da73670beb = LEO-PNT uvnitř budov: proč nosná UHF proniká do budovy, k
 
 seg-6dfada2dacb6 = Nízkoenergetické LEO-PNT pro lokalizátor IoT (Internet věcí): energie na jedno řešení proti pracovnímu cyklu.
 
-seg-1007e9b9abdc = ESA Celeste IOD, konfigurace signálu č. 1, všechna pásma během jednoho přeletu. PŘEDVOLBA PRO SEMINÁRNÍ.
+seg-1007e9b9abdc = ESA Celeste IOD, konfigurace signálu č. 1, všechna pásma během jednoho přeletu. PŘEDVOLBA PRO WORKSHOP.
 
 seg-d3b4252da1ee = Dávky Iridium STL (satelitní čas a poloha) viděné z letadla.
 

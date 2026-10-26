@@ -42,7 +42,7 @@ seg-3cb660ef6b03 = Masky skyline a geometrie oblohy
 
 seg-724f72bdfa36 = Do verze { "0.36" } byl každý test viditelnosti vůči Zemi v enginu jediným elevačním prahem, <c1/>: družice se počítala, když byla na jednom čísle nebo nad ním, bez ohledu na směr. Ulice, nábřeží, fjord nebo jeřáb část oblohy zakrývá a zbytek ponechává otevřený. <b>Skyline</b> je elevační řez závislý na azimutu; <b>funkce geometrie oblohy</b> mění stanoviště, čas, konstelace a skyline na viditelnou množinu, faktor zhoršení přesnosti (DOP), kovarianci geometrie, horizontální chybovou elipsu, mrak Monte Carlo a skyplot. Návrh je <c2/> (položky { "1" } a { "2" }).
 
-seg-4c1bc0b37f54 = Důkazy: rozhodnutí o viditelnosti s maskou (geodetické úhly pohledu, tabulková maska, viditelná množina a její DOP) je <b>VALIDATED</b> vůči Orekitu { "12.2" } a gnss_lib_py { "1.0.4" } v předregistrovaném porovnání, stejně tak chybová elipsa a kofaktor podle systému (numpy, předregistrováno); redukce kaňonu, sektorů a terénu, předvolby a ostatní funkce geometrie oblohy jsou <b>MODELLED</b> (<a1>Důkazy</a1>). Skyline odstraňuje družice v přímé viditelnosti, a nic víc. Předvolby jsou REPREZENTATIVNÍ geometrie, nikoli zaměření.
+seg-4c1bc0b37f54 = Důkazy: rozhodnutí o viditelnosti s maskou (geodetické úhly pohledu, tabulková maska, viditelná množina a její DOP) je <b>VALIDATED</b> vůči Orekitu { "12.2" } a gnss_lib_py { "1.0.4" } v předregistrovaném porovnání, stejně tak chybová elipsa a kofaktor podle systému (numpy, předregistrováno); redukce kaňonu, sektorů a terénu, předvolby a ostatní funkce geometrie oblohy jsou <b>MODELLED</b> (<a1>Důkazy</a1>). Skyline odstraňuje družice v přímé viditelnosti, a nic víc. Předvolby jsou REPRESENTATIVE geometrie, nikoli zaměření.
 
 seg-6fa3291b70e3 = Skyline
 

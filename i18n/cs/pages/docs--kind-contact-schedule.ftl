@@ -46,7 +46,7 @@ seg-60431931082a = <b>MODELLED</b> Kandidátní kontakty z každého přeletu dr
 
 seg-9941b9f6d4a8 = MODELLED -- plán kontaktů s více družicemi a více stanicemi: zdánlivá okna přístupu (SGP4, IAU 2006/2000A, refrakce podle ITU-R P.834, světelný čas), datový objem DVB-S2 ACM na přelet z rozpočtu spoje za jasné oblohy (prahy z ETSI EN { "302" } 307-1, Table { "13" }) a řešení konfliktů (jedna družice na anténu s přípravnou dobou, jedna stanice na družici) pomocí hladového algoritmu s mezní hodnotou zkontrolovaného proti přesnému větvení a mezím; žádný déšť, (výsledek <c1/>)
 
-seg-f8ef88bc82b5 = Každé číslo níže je ILUSTRATIVNÍ: žádné dráhy, stanice ani rozpočet spoje žádného provozovatele. MODELLED: plánovač je kontrolován proti vlastnímu přesnému řešiči, nikoli proti externímu nástroji. (komentář v souboru scénáře, řádky { "11" } až { "12" })
+seg-f8ef88bc82b5 = Každé číslo níže je ILLUSTRATIVE: žádné dráhy, stanice ani rozpočet spoje žádného provozovatele. MODELLED: plánovač je kontrolován proti vlastnímu přesnému řešiči, nikoli proti externímu nástroji. (komentář v souboru scénáře, řádky { "11" } až { "12" })
 
 seg-fe2b4799b397 = Plánování pozemních kontaktů s více družicemi a více stanicemi s řešením konfliktů je MODELLED, nikoli ověřeno proti nezávislé vnější referenci: kontroluje se proti vlastní uzavřené / analytické identitě, což zachytí chyby přepisu a koeficientů, ale není to vnější orákulum. (verifikační matice (docs/MODELLED-RATIONALE.md))
 

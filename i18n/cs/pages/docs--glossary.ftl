@@ -306,7 +306,7 @@ seg-b557933a4e4d = <b>Elevační maska.</b> Nejmenší úhel nad místním horiz
 
 seg-3ac8e11c3e33 = <b>Zákryt.</b> Situace, kdy Země fyzicky zastíní přímou viditelnost družice.
 
-seg-249bf472cb00 = <b>Skyline (maska obzoru).</b> Jednoduše řečeno: <em>obrys budov, jeřábů nebo kopců na pozadí oblohy, vyjádřený jako elevace pro každý azimut.</em> Družice se počítá jako viditelná jen nad <c1/> ve svém azimutu a družice nad maskou, ale za obrysem obzoru, je „zakrytá skylinem“. { -brand } jej sestaví z tabulky, městského kaňonu, sektorů a terénu (jejich bodové maximum) nebo z REPREZENTATIVNÍ předvolby; pouze přímá viditelnost, bez odrazu a difrakce (<a1><c2/></a1>).
+seg-249bf472cb00 = <b>Skyline (maska obzoru).</b> Jednoduše řečeno: <em>obrys budov, jeřábů nebo kopců na pozadí oblohy, vyjádřený jako elevace pro každý azimut.</em> Družice se počítá jako viditelná jen nad <c1/> ve svém azimutu a družice nad maskou, ale za obrysem obzoru, je „zakrytá skylinem“. { -brand } jej sestaví z tabulky, městského kaňonu, sektorů a terénu (jejich bodové maximum) nebo z REPRESENTATIVE předvolby; pouze přímá viditelnost, bez odrazu a difrakce (<a1><c2/></a1>).
 
 seg-620a88820a2d = <b>Geometrie oblohy.</b> Které družice místo vidí při daném obrysu obzoru a co to dělá s řešením: faktory DOP, kovariance řešení metodou nejmenších čtverců v systému východ-sever-nahoru a její <b>chybová elipsa</b>, tedy vodorovná oblast, která obsahuje uvedený podíl určení polohy ({ "95" } % ve výchozím nastavení) pro nezávislé a stejné gaussovské chyby měření vzdálenosti. MODELLED geometrie za uvedeného modelu chyb, nikoli skutečná chyba přijímače (<a1><c1/></a1>).
 
