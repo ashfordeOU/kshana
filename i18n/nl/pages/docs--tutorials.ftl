@@ -23,3 +23,7 @@ seg-9ef8f99ca6e4 = Tijdoverdracht
 seg-b03d56f501c3 = Type
 
 seg-ec26df467b88 = Gezamenlijke Kalman-sensorfusie voor PNT op dezelfde hybride invoer.
+
+seg-4f19d4fb1341 = Generieke N-D-sweep over elk pakket via TOML-sleutels met punten / JSON-metriekpaden.
+
+seg-e7ab7b55c969 = 1-D-sweep voor een afwegingsstudie over een parameter van een klokpakket.

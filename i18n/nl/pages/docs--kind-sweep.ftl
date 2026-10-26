@@ -21,3 +21,27 @@ seg-849c08d3ce70 = Familiepagina: <a1>Klokken, tijdsynchronisatie en holdover</a
 seg-ee7dd15019d0 = Onderwerppagina: <a1>CAMPAIGNS.md</a1>
 
 seg-0aae0574c5e6 = <b>MODELLED</b> De beschikbaarheidssweeps van de soort <c1/>: per constellatie (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) en gecombineerd, het aandeel (gebruiker, epoche)-paren met ten minste één en ten minste vier signalen en de langste uitval, voor een gebruiker op een bol
+
+seg-de72ae48731d = Bron: <c1/>
+
+seg-81c2da4650c9 = <c1/> (scenariosoort)
+
+seg-e7ab7b55c969 = 1-D-sweep voor een afwegingsstudie over een parameter van een klokpakket.
+
+seg-0412c0dbfb75 = Eén run van <c1/> vat samen als: sweep holdover_s over classical_q_wf ({ "1.00e-24" }..1.00e-18, { "25" } punten, logaritmische schaal) | quantum 6600.000->{ "6600.000" } | klassiek 2610.000->{ "250.000" }
+
+seg-d2a441254bcd = Verplichte velden: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
+
+seg-2b8d8159bdaf = Optionele velden: <c1/>
+
+seg-73c2e732b0c1 = Het voorbeeld <c1/> stelt onder meer in:
+
+seg-f8a627a78bdb = Microchip SA.45s CSAC-datasheet sigma_y(1s)={ "3e-10" }; q_wf is s
+
+seg-c784b8f22f12 = De grafiek die de engine schrijft voor scenarios/sweep-clock-stability.toml, soort sweep
+
+seg-cb00aca0268d = <b>MODELLED</b> De sweep van de soort <c1/> (één tot drie sleutels met punten van elke soort, op de aswaarden van de generieke sweep, optioneel met een ensemble op elk knooppunt) en de secties monte_carlo: realisatie k draait op base_seed + k; elke metriek rapporteert gemiddelde, standaardafwijking, Tests: <a1>campaign_composition_reference.rs</a1>.
+
+seg-1750fbfc4a99 = <s1>Vorige</s1>sweep-nd
+
+seg-de5468ac32fc = <s1>Volgende</s1>telecom-timing
