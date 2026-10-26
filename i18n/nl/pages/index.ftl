@@ -271,3 +271,5 @@ seg-29e58493fdd4 = Berekend uit een model
 seg-8e092e49bdeb = kshana-bench: de drempels die niet zijn gehaald, vermeld
 
 seg-f42465f7d066 = ns
+
+seg-ff90679d1de9 = Spoofingdetectie
