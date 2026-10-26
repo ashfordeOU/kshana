@@ -23,3 +23,7 @@ seg-842b77a21c5f = Kanál
 seg-d6476863f862 = Schopnost
 
 seg-fdbb9db68f1d = žádné
+
+seg-1759a8cce7d6 = Druhy
+
+seg-564133d6a0c4 = Konstelace kolem libovolného tělesa

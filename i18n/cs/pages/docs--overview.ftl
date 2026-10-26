@@ -133,3 +133,21 @@ seg-fdbb9db68f1d = žádné
 seg-6e0cb6acc073 = VALIDATED
 
 seg-a349aa76b0ed = PARTNER
+
+seg-b2689beaba9e = Ověřovač Galileo OSNMA
+
+seg-80f3f0aae42c = Mapa interference
+
+seg-1759a8cce7d6 = Druhy
+
+seg-fdd674722717 = Spektrum
+
+seg-68ff97cfdc03 = DOI
+
+seg-564133d6a0c4 = Konstelace kolem libovolného tělesa
+
+seg-c611ee59301a = Animace
+
+seg-c01b78b64065 = Zprávy
+
+seg-c60dc5b92a60 = Exporty pro interoperabilitu
