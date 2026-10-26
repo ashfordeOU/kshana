@@ -2234,3 +2234,2460 @@ js-app-player-pause-orbit = Pozastavit přehrání oběžné dráhy
 
 # 2026-10-01-studio-rebuild/app.js:1276
 js-app-player-pause-waterfall = Pozastavit přehrání vodopádu
+
+# 2026-10-01-studio-rebuild/app.js:1279
+js-app-player-play = Spustit přehrání
+
+# 2026-10-01-studio-rebuild/app.js:1278
+js-app-player-play-mission = Spustit přehrání mise
+
+# 2026-10-01-studio-rebuild/app.js:1277
+js-app-player-play-orbit = Spustit přehrání oběžné dráhy
+
+# 2026-10-01-studio-rebuild/app.js:1276
+js-app-player-play-waterfall = Spustit přehrání vodopádu
+
+# 2026-10-01-studio-rebuild/app.js:1279
+js-app-player-position = Poloha v přehrání
+
+# 2026-10-01-studio-rebuild/app.js:1278
+js-app-player-position-mission = Poloha v přehrání mise
+
+# 2026-10-01-studio-rebuild/app.js:1277
+js-app-player-position-orbit = Poloha v přehrání oběžné dráhy
+
+# 2026-10-01-studio-rebuild/app.js:1276
+js-app-player-position-waterfall = Poloha v přehrání vodopádu
+
+# 2026-10-01-studio-rebuild/app.js:691
+js-app-png-button-title = Bitmapa ve vysokém rozlišení pro prezentace a dokumenty
+
+# 2026-10-01-studio-rebuild/app.js:695
+js-app-png-export-failed = Export PNG se nezdařil: { $reason }
+
+# 2026-10-01-studio-rebuild/app.js:2064
+js-app-py-note = Nainstalujte pomocí { $command }.
+
+# 2026-10-01-studio-rebuild/app.js:279
+js-app-ran-locally = Spuštěno lokálně v { $time }, běh { $n }.
+
+# 2026-10-01-studio-rebuild/app.js:279
+js-app-ran-locally-took = Spuštěno lokálně v { $time }, běh { $n }, { $took } s.
+
+# 2026-10-01-studio-rebuild/app.js:1461
+js-app-receiver-at = Přijímač v čase t =
+
+# 2026-10-01-studio-rebuild/app.js:356
+js-app-recorded-edit-notice = WebAssembly je na této stránce blokováno, takže stránka zobrazuje skutečné běhy přibalených scénářů zaznamenané enginem v{ $version }. Upravené scénáře, průchody a nové exporty vyžadují živý engine: otevřete kshana.dev, nebo tuto složku zpřístupněte lokálně. Obnovit vrátí zaznamenaný scénář.
+
+# 2026-10-01-studio-rebuild/app.js:359
+js-app-recorded-intro = WebAssembly je na této stránce blokováno, takže stránka zobrazuje skutečné běhy přibalených scénářů zaznamenané enginem v{ $version }. Úpravy, průchody a nové exporty vyžadují živý engine na kshana.dev.
+
+# 2026-10-01-studio-rebuild/app.js:335
+js-app-recorded-shown-native = Zobrazen zaznamenaný běh z { $time } (nativní engine).
+
+# 2026-10-01-studio-rebuild/app.js:307
+js-app-recorded-shown-needs = Zobrazen zaznamenaný běh z { $time } (vyžaduje engine { $need }).
+
+# 2026-10-01-studio-rebuild/app.js:280
+js-app-recorded-shown-run = Zobrazen zaznamenaný běh z { $time }, běh { $n }.
+
+# 2026-10-01-studio-rebuild/app.js:280
+js-app-recorded-shown-took = Zobrazen zaznamenaný běh z { $time }, běh { $n }, { $took } s.
+
+# 2026-10-01-studio-rebuild/app.js:303
+js-app-recorded-with-commit = Zobrazený je běh zaznamenaný sestavením enginu z commitu { $commit }, ukázaný beze změny; zde se znovu nespouští.
+
+# 2026-10-01-studio-rebuild/app.js:303
+js-app-recorded-with-engine = Zobrazený je běh zaznamenaný enginem v{ $version }, ukázaný beze změny; zde se znovu nespouští.
+
+# 2026-10-01-studio-rebuild/app.js:1666
+js-app-recording-edited-warning = Scénář jste upravili: tento záznam se týká přibaleného souboru, nikoli vaší úpravy. Spusťte příkaz na vlastním souboru, abyste získali svůj výsledek.
+
+# 2026-10-01-studio-rebuild/app.js:1409
+js-app-replay = Přehrání
+
+# 2026-10-01-studio-rebuild/app.js:1263
+js-app-report-downloaded = Zpráva stažena.
+
+# 2026-10-01-studio-rebuild/app.js:1706
+js-app-report-frame-title = Zpráva o běhu, kterou zapsal engine
+
+# 2026-10-01-studio-rebuild/app.js:1708
+js-app-report-html = Zpráva (HTML)
+
+# 2026-10-01-studio-rebuild/app.js:1708
+js-app-report-html-title = Soubor zprávy, tak jak jej zapsal engine
+
+# 2026-10-01-studio-rebuild/app.js:1703
+js-app-report-load-failed = Zaznamenanou zprávu se nepodařilo načíst ({ $reason }).
+
+# 2026-10-01-studio-rebuild/app.js:1698
+js-app-report-loading = Načítá se zaznamenaná zpráva…
+
+# 2026-10-01-studio-rebuild/app.js:1703
+js-app-report-none = Pro tento scénář neexistuje žádná zaznamenaná zpráva.
+
+# 2026-10-01-studio-rebuild/app.js:1695
+js-app-report-note = Každý běh z příkazového řádku zapisuje zprávu: shrnutí, vstupy, výsledky, graf, co je ověřeno a co modelováno, a záznam reprodukovatelnosti. Sestavení pro prohlížeč tento zapisovač neobsahuje, takže jde o zprávu, kterou pro přibalený scénář zapsal nativní engine příkazového řádku. Vlastní zpráva Studia o běhu na obrazovce je v části Exporty.
+
+# 2026-10-01-studio-rebuild/app.js:1709
+js-app-report-open-tab = Otevřít na nové kartě
+
+# 2026-10-01-studio-rebuild/app.js:1709
+js-app-report-open-tab-title = Otevřít zprávu samostatně
+
+# 2026-10-01-studio-rebuild/app.js:1248
+js-app-report-orbit-title = Oběžná dráha (inerciální soustava se středem v Zemi, ortografická)
+
+# 2026-10-01-studio-rebuild/app.js:1244
+js-app-report-stability-short = Stabilita hodin
+
+# 2026-10-01-studio-rebuild/app.js:1244
+js-app-report-stability-title = Stabilita hodin (Allanova odchylka)
+
+# 2026-10-01-studio-rebuild/app.js:2329
+js-app-run-again = Spustit znovu
+
+# 2026-10-01-studio-rebuild/app.js:250
+js-app-run-cancelled = Běh zrušen.
+
+# 2026-10-01-studio-rebuild/app.js:250
+js-app-run-cancelled-previous = Běh zrušen. Stále se zobrazuje předchozí výsledek.
+
+# 2026-10-01-studio-rebuild/app.js:254
+js-app-run-failed = Běh se nezdařil. Viz zpráva ve výsledcích.
+
+# 2026-10-01-studio-rebuild/app.js:2325
+js-app-run-when-ready = Spustit, až bude engine připraven
+
+# 2026-10-01-studio-rebuild/app.js:2325
+js-app-run-will-run = Spustí se, až bude engine připraven
+
+# 2026-10-01-studio-rebuild/app.js:2331
+js-app-run-with-settings = Spustit s těmito nastaveními
+
+# 2026-10-01-studio-rebuild/app.js:2548
+js-app-search-more-matches = Další shody ({ $n }): přidejte slovo, abyste je zúžili.
+
+# 2026-10-01-studio-rebuild/app.js:2550
+js-app-search-nothing = Hledání „{ $query }“ nic neodpovídá. Zkuste slovo jako jamming, clock, lunar, orbit, mask nebo PDOP.
+
+# 2026-10-01-studio-rebuild/app.js:2544
+js-app-search-scenarios = Scénáře ({ $n })
+
+# 2026-10-01-studio-rebuild/app.js:2546
+js-app-search-settings =
+    { $n ->
+        [one] Nastavení s názvem podobným „{ $query }“: v { $n } scénáři
+        [few] Nastavení s názvem podobným „{ $query }“: ve { $n } scénářích
+        [many] Nastavení s názvem podobným „{ $query }“: v { $n } scénáře
+       *[other] Nastavení s názvem podobným „{ $query }“: v { $n } scénářích
+    }
+
+# 2026-10-01-studio-rebuild/app.js:2546
+js-app-search-settings-hint = Každé otevře scénář se zvýrazněným nastavením, připraveným ke změně.
+
+# 2026-10-01-studio-rebuild/app.js:2133
+js-app-share-copied = Odkaz ke sdílení zkopírován. Obsahuje přesný scénář.
+
+# 2026-10-01-studio-rebuild/app.js:2134
+js-app-share-in-address-bar = Odkaz vložen do adresního řádku.
+
+# 2026-10-01-studio-rebuild/app.js:1971
+js-app-share-link-sub = Běží přesně tak, jak byl sdílen.
+
+# 2026-10-01-studio-rebuild/app.js:1970
+js-app-share-link-title = Scénář otevřený ze sdíleného odkazu
+
+# 2026-10-01-studio-rebuild/app.js:269
+js-app-shared-scenario = Sdílený scénář
+
+# 2026-10-01-studio-rebuild/app.js:1665
+js-app-shown-unchanged = Zobrazeno beze změny.
+
+# 2026-10-01-studio-rebuild/app.js:1525
+js-app-solar-note = Každý bod je těleso v epoše běhu a každá křivka je stopa oběžné dráhy, kterou pro něj engine vypočítal. Přerušovaná čára je spoj, který scénář požaduje. Vyberte planetu, abyste kolem ní viděli její měsíce.
+
+# 2026-10-01-studio-rebuild/app.js:1521
+js-app-solar-which-bodies = Která tělesa vykreslit
+
+# 2026-10-01-studio-rebuild/app.js:402
+js-app-source-live = Živý výsledek · engine v{ $version }
+
+# 2026-10-01-studio-rebuild/app.js:403
+js-app-source-native = Zaznamenaný výsledek, nativní engine · v{ $version }
+
+# 2026-10-01-studio-rebuild/app.js:404
+js-app-source-recorded = Zaznamenaný výsledek · v{ $version }
+
+# 2026-10-01-studio-rebuild/app.js:404
+js-app-source-recorded-loading = Zaznamenaný výsledek · v{ $version } · engine se načítá
+
+# 2026-10-01-studio-rebuild/app.js:1445
+js-app-spectrum-row-note = Spektrum podél řádku vodopádu, na kterém se přehrání nachází.
+
+# 2026-10-01-studio-rebuild/app.js:1437
+js-app-spectrum-row-title = Spektrum podél zobrazeného řádku
+
+# 2026-10-01-studio-rebuild/app.js:1436
+js-app-spectrum-which-part = Která část spektra
+
+# 2026-10-01-studio-rebuild/app.js:2335
+js-app-status-last-run-took = Poslední běh trval ve vašem prohlížeči { $ms } ms. Nic se nenahrává.
+
+# 2026-10-01-studio-rebuild/app.js:2327
+js-app-status-loading-kept = Engine se stále načítá. Vaše změny se zachovají a spustí se, jakmile bude připraven.
+
+# 2026-10-01-studio-rebuild/app.js:2327
+js-app-status-loading-recorded = Engine se stále načítá. Výsledek výše je zaznamenaný běh.
+
+# 2026-10-01-studio-rebuild/app.js:2334
+js-app-status-not-run-yet = Vaše změny zatím nebyly spuštěny.
+
+# 2026-10-01-studio-rebuild/app.js:2337
+js-app-status-runs-in-browser = Běží ve vašem prohlížeči. Nic se nenahrává.
+
+# 2026-10-01-studio-rebuild/app.js:2336
+js-app-status-wasm-blocked = WebAssembly je zde blokováno, proto se zobrazují zaznamenané běhy přibalených scénářů.
+
+# 2026-10-01-studio-rebuild/app.js:1890
+js-app-stepper-decrease = Snížit: { $key }
+
+# 2026-10-01-studio-rebuild/app.js:1892
+js-app-stepper-increase = Zvýšit: { $key }
+
+# 2026-10-01-studio-rebuild/app.js:1420
+js-app-subtabs-label = Dlaždice tohoto pohledu (telefon)
+
+# 2026-10-01-studio-rebuild/app.js:690
+js-app-svg-button-title = Vektorový graf s titulkem a původem
+
+# 2026-10-01-studio-rebuild/app.js:1093
+js-app-sweep-cancelled = Průchod zrušen.
+
+# 2026-10-01-studio-rebuild/app.js:1107
+js-app-sweep-done-1d = Průchod dokončen lokálně za { $duration }: { $done } z { $total } běhů.
+
+# 2026-10-01-studio-rebuild/app.js:1112
+js-app-sweep-done-2d = Průchod dokončen lokálně za { $duration }: běhů { $total } ({ $a } × { $b }).
+
+# 2026-10-01-studio-rebuild/app.js:1063
+js-app-sweep-enter-range = Zadejte číselný rozsah.
+
+# 2026-10-01-studio-rebuild/app.js:1067
+js-app-sweep-enter-range-2 = Zadejte číselný rozsah pro druhý parametr.
+
+# 2026-10-01-studio-rebuild/app.js:1093
+js-app-sweep-failed = Průchod se nezdařil: { $reason }
+
+# 2026-10-01-studio-rebuild/app.js:1091
+js-app-sweep-interrupted = Průchod byl přerušen novým během.
+
+# 2026-10-01-studio-rebuild/app.js:1020
+js-app-sweep-needs-live = Průchod spouští engine mnohokrát, a proto vyžaduje živý engine.
+
+# 2026-10-01-studio-rebuild/app.js:1016
+js-app-sweep-none-line = Žádný (čárový graf)
+
+# 2026-10-01-studio-rebuild/app.js:1060
+js-app-sweep-nothing = Pro tento scénář není co procházet.
+
+# 2026-10-01-studio-rebuild/app.js:1082
+js-app-sweep-progress = Průchod: běh { $n } z { $total }…
+
+# 2026-10-01-studio-rebuild/app.js:1116
+js-app-sweep-status-done = Průchod dokončen v { $time }: běhů { $total }.
+
+# 2026-10-01-studio-rebuild/app.js:1103
+js-app-sweep-title-1d = { $metric } v závislosti na { $knob }
+
+# 2026-10-01-studio-rebuild/app.js:1109
+js-app-sweep-title-2d = { $metric } v závislosti na { $knob1 } a { $knob2 }
+
+# 2026-10-01-studio-rebuild/app.js:1055
+js-app-sweep-wait = Počkejte, až dokončí aktuální běh, a pak spusťte průchod.
+
+# 2026-10-01-studio-rebuild/app.js:534
+js-app-tab-animation = Animace
+
+# 2026-10-01-studio-rebuild/app.js:533
+js-app-tab-compare = Porovnání
+
+# 2026-10-01-studio-rebuild/app.js:536
+js-app-tab-exports = Exporty a zpráva
+
+# 2026-10-01-studio-rebuild/app.js:531
+js-app-tab-ground = Pozemní stopa
+
+# 2026-10-01-studio-rebuild/app.js:527
+js-app-tab-holdover = Holdover
+
+# 2026-10-01-studio-rebuild/app.js:537
+js-app-tab-json = JSON
+
+# 2026-10-01-studio-rebuild/app.js:528
+js-app-tab-masks = Časové masky
+
+# 2026-10-01-studio-rebuild/app.js:530
+js-app-tab-orbit = Oběžná dráha 3D
+
+# 2026-10-01-studio-rebuild/app.js:522
+js-app-tab-overview = Přehled
+
+# 2026-10-01-studio-rebuild/app.js:535
+js-app-tab-report = Zpráva enginu
+
+# 2026-10-01-studio-rebuild/app.js:526
+js-app-tab-signal = Signál a pásmo
+
+# 2026-10-01-studio-rebuild/app.js:529
+js-app-tab-stability = Stabilita
+
+# 2026-10-01-studio-rebuild/app.js:532
+js-app-tab-sweep = Průchod
+
+# 2026-10-01-studio-rebuild/app.js:525
+js-app-tab-timeseries = Časová řada
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-at-tau = Při τ nebo čase
+
+# 2026-10-01-studio-rebuild/app.js:1534
+js-app-th-body = Těleso
+
+# 2026-10-01-studio-rebuild/app.js:461
+js-app-th-clock = Hodiny
+
+# 2026-10-01-studio-rebuild/app.js:484
+js-app-th-figure = Ukazatel
+
+# 2026-10-01-studio-rebuild/app.js:1733
+js-app-th-file = Soubor
+
+# 2026-10-01-studio-rebuild/app.js:1733
+js-app-th-format = Formát
+
+# 2026-10-01-studio-rebuild/app.js:2604
+js-app-th-key-figure = Klíčová hodnota
+
+# 2026-10-01-studio-rebuild/app.js:1534
+js-app-th-light-time = Jednosměrná světelná doba od { $observer }
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-limit = Limit
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-margin = Rezerva
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-mask-or-budget = Maska nebo rozpočet
+
+# 2026-10-01-studio-rebuild/app.js:461
+js-app-th-metric = Metrika
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-metric-2 = Metrika
+
+# 2026-10-01-studio-rebuild/app.js:1534
+js-app-th-orbital-period = Oběžná doba
+
+# 2026-10-01-studio-rebuild/app.js:484
+js-app-th-provenance = Původ
+
+# 2026-10-01-studio-rebuild/app.js:1733
+js-app-th-size = Velikost
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-source = Zdroj
+
+# 2026-10-01-studio-rebuild/app.js:1534
+js-app-th-sun-distance = Vzdálenost od Slunce
+
+# 2026-10-01-studio-rebuild/app.js:461
+js-app-th-tier = Úroveň
+
+# 2026-10-01-studio-rebuild/app.js:484
+js-app-th-unit = Jednotka
+
+# 2026-10-01-studio-rebuild/app.js:461
+js-app-th-value = Hodnota
+
+# 2026-10-01-studio-rebuild/app.js:484
+js-app-th-value-2 = Hodnota
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-value-3 = Hodnota
+
+# 2026-10-01-studio-rebuild/app.js:871
+js-app-th-verdict = Verdikt
+
+# 2026-10-01-studio-rebuild/app.js:484
+js-app-th-what-it-is = Co to je
+
+# 2026-10-01-studio-rebuild/app.js:1548
+js-app-the-body = těleso
+
+# 2026-10-01-studio-rebuild/app.js:1623
+js-app-the-chain = Řetězec
+
+# 2026-10-01-studio-rebuild/app.js:1534
+js-app-the-observer = pozorovatele
+
+# 2026-10-01-studio-rebuild/app.js:2452
+js-app-tile-browse-all = Procházet všechny scénáře ({ $n })
+
+# 2026-10-01-studio-rebuild/app.js:2452
+js-app-tile-browse-sub = Hledejte podle názvu, otázky nebo nastavení
+
+# 2026-10-01-studio-rebuild/app.js:2450
+js-app-tile-preview-label = Zaznamenaný náhled z { $source }: { $title }
+
+# 2026-10-01-studio-rebuild/app.js:2451
+js-app-tile-scenario-count =
+    { $n ->
+        [one] { $n } scénář
+        [few] { $n } scénáře
+        [many] { $n } scénáře
+       *[other] { $n } scénářů
+    }
+
+# 2026-10-01-studio-rebuild/app.js:1633
+js-app-timeline-chart-title = Časová osa mise: { $title }
+
+# 2026-10-01-studio-rebuild/app.js:1592
+js-app-timeline-note = Jeden posuvník řídí všechny grafy níže. Každá fáze spouští běžné scénáře; kampaň jejich výstupy přenáší na jednu časovou mřížku. Stínovaná pásma jsou fáze, svislé čáry události. Hodnoty nahoře jsou kanály kampaně v čase přehrání.
+
+# 2026-10-01-studio-rebuild/app.js:2780
+js-app-toast-copied = Zkopírováno.
+
+# 2026-10-01-studio-rebuild/app.js:2770
+js-app-toast-copy-blocked = Kopírování je zde zablokováno.
+
+# 2026-10-01-studio-rebuild/app.js:2780
+js-app-toast-copy-blocked-select = Kopírování je zde zablokováno: místo toho vyberte text.
+
+# 2026-10-01-studio-rebuild/app.js:2778
+js-app-toast-json-copied = JSON zkopírován.
+
+# 2026-10-01-studio-rebuild/app.js:2343
+js-app-toast-loading-run = Engine se stále načítá. Váš běh se spustí, jakmile bude připraven.
+
+# 2026-10-01-studio-rebuild/app.js:2905
+js-app-toast-no-scenario = Scénář s názvem { $name } zde není. Toto jsou nejbližší shody.
+
+# 2026-10-01-studio-rebuild/app.js:2383
+js-app-toast-not-single-number = Toto nastavení není v tomto scénáři jedno číslo: upravte jej v souboru scénáře.
+
+# 2026-10-01-studio-rebuild/app.js:2560
+js-app-toast-one-pinned = Je připnutý jeden běh. Změňte nastavení, spusťte znovu a připněte tento běh, abyste oba porovnali.
+
+# 2026-10-01-studio-rebuild/app.js:2892
+js-app-toast-opened-advanced = Otevřeno s nastavením, které jste změnili v pokročilém pohledu.
+
+# 2026-10-01-studio-rebuild/app.js:2388
+js-app-toast-opened-at = Otevřeno u položky { $label }. Změňte ji a spusťte znovu.
+
+# 2026-10-01-studio-rebuild/app.js:2770
+js-app-toast-scenario-copied = Scénář zkopírován.
+
+# 2026-10-01-studio-rebuild/app.js:2277
+js-app-tour-answer-body = Prostá věta přečtená z výsledku a informace, odkud výsledek pochází: živý běh ve vašem prohlížeči, nebo běh zaznamenaný stejným enginem.
+
+# 2026-10-01-studio-rebuild/app.js:2277
+js-app-tour-answer-title = Nejdřív odpověď
+
+# 2026-10-01-studio-rebuild/app.js:2230
+js-app-tour-back = Zpět
+
+# 2026-10-01-studio-rebuild/app.js:2262
+js-app-tour-done = Hotovo
+
+# 2026-10-01-studio-rebuild/app.js:2233
+js-app-tour-eyebrow = Provázení
+
+# 2026-10-01-studio-rebuild/app.js:2278
+js-app-tour-figures-body = Každá karta se čte z dokumentu výsledku enginu.
+
+# 2026-10-01-studio-rebuild/app.js:2278
+js-app-tour-figures-title = Hodnoty, které odpovídají
+
+# 2026-10-01-studio-rebuild/app.js:2281
+js-app-tour-how-body = Metoda, úroveň důkazů a reference.
+
+# 2026-10-01-studio-rebuild/app.js:2281
+js-app-tour-how-title = Jak se to počítá
+
+# 2026-10-01-studio-rebuild/app.js:2231
+js-app-tour-next = Další
+
+# 2026-10-01-studio-rebuild/app.js:2282
+js-app-tour-research-body = Příkazový řádek a Python pro vlastní spuštění, data a obrázky a jak je citovat.
+
+# 2026-10-01-studio-rebuild/app.js:2282
+js-app-tour-research-title = Pro výzkumníky
+
+# 2026-10-01-studio-rebuild/app.js:2283
+js-app-tour-search-body = ⌘K najde jakýkoli scénář, oblast, nastavení, pohled nebo příkaz.
+
+# 2026-10-01-studio-rebuild/app.js:2283
+js-app-tour-search-title = Hledání
+
+# 2026-10-01-studio-rebuild/app.js:2280
+js-app-tour-settings-body = Pět nastavení, na kterých pro tuto otázku nejvíc záleží. Změňte jedno a spusťte znovu. Engine běží ve vašem prohlížeči; nic se nenahrává.
+
+# 2026-10-01-studio-rebuild/app.js:2280
+js-app-tour-settings-title = Zkuste jiná nastavení
+
+# 2026-10-01-studio-rebuild/app.js:2232
+js-app-tour-skip = Přeskočit
+
+# 2026-10-01-studio-rebuild/app.js:2279
+js-app-tour-views-body = Grafy, mapy, přehrání, vlastní zpráva enginu a exporty. [ a ] přepínají mezi pohledy.
+
+# 2026-10-01-studio-rebuild/app.js:2279
+js-app-tour-views-title = Každý pohled na běh
+
+# 2026-10-01-studio-rebuild/app.js:1472
+js-app-tracking-threshold = Práh sledování
+
+# 2026-10-01-studio-rebuild/app.js:1409
+js-app-transport-hint = jeden posuvník řídí každý panel tohoto běhu
+
+# 2026-10-01-studio-rebuild/app.js:1408
+js-app-transport-label = Přehrání: jeden posuvník řídí každý panel tohoto běhu
+
+# 2026-10-01-studio-rebuild/app.js:1153
+js-app-unpin-run = Zrušit připnutí běhu { $id }
+
+# 2026-10-01-studio-rebuild/app.js:1441
+js-app-waterfall = Vodopád
+
+# 2026-10-01-studio-rebuild/app.js:1441
+js-app-waterfall-hint = výkonová spektrální hustota: frekvence napříč, čas dolů
+
+# 2026-10-01-studio-rebuild/app.js:1443
+js-app-waterfall-note = Barva je výkon nad úrovní šumu přijímače. Navigační signály leží pod touto úrovní, takže se rozsvítí rušiče. Přehrajte záznam nebo jej přetáhněte a pásma vpravo ukážou, co přijímač v daném okamžiku stále sleduje.
+
+# 2026-10-01-studio-rebuild/app.js:1491
+js-app-waterfall-title = Vodopád, { $name }
+
+# 2026-10-01-studio-rebuild/app.js:124
+js-app-webassembly-unavailable = WebAssembly není dostupné
+
+# 2026-10-01-studio-rebuild/app.js:1665
+js-app-written-by-native = Zapsal nativní engine příkazového řádku v{ $version } ({ $platform }) příkazem
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:139
+js-cat-acm-link-question = Který režim DVB-S2 spoj drží podél každého přeletu a kolik dat přelet přenese? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:139
+js-cat-acm-link-title = Družicový downlink s adaptivním kódováním
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:141
+js-cat-aocs-slew-mekf-question = Jak se otočení liší od případu se skutečným stavem, když je regulátor napájen filtrem orientace a gyroskopem s odchylkou? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:141
+js-cat-aocs-slew-mekf-title = Otočení podle odhadu orientace
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:140
+js-cat-aocs-slew-question = Ustálí zákon zpětné vazby otočení o velký úhel se čtyřmi setrvačníky a jak silně setrvačníky pracují? (regulační smyčka je ověřená; kosmická loď je ilustrativní)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:140
+js-cat-aocs-slew-title = Otočení pomocí reakčních setrvačníků
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:138
+js-cat-aperture-duty-cycle-question = Když jedna apertura slouží navigaci i komunikaci zároveň, jaký výpadek to stojí? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:138
+js-cat-aperture-duty-cycle-title = Pracovní cyklus apertury
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:110
+js-cat-araim-gps-galileo-question = S GPS + Galileo a hypotézou poruchy celé konstelace, jak dostupný je pokročilý RAIM?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:110
+js-cat-araim-gps-galileo-title = ARAIM se dvěma konstelacemi
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:111
+js-cat-araim-reference-check-question = Shodují se ochranné úrovně enginu s publikovanými vzorovými příklady Working Group C?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:111
+js-cat-araim-reference-check-title = Referenční kontrola ARAIM
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:142
+js-cat-ascent-losses-question = Kolik z ideálního přírůstku rychlosti dvoustupňové nosné rakety odeberou gravitace, odpor, řízení a protitlak? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:142
+js-cat-ascent-losses-title = Ztráty při startu nosné rakety
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:136
+js-cat-attitude-budget-question = Jaký je nejhorší případ rušivého momentu a rozpočet chyby zamíření?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:136
+js-cat-attitude-budget-title = Rozpočet zamíření
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:66
+js-cat-automotive-urban-canyon-question = Zůstane auto při průjezdu podjezdem a u silničního rušiče v rámci rozpočtu poloviny jízdního pruhu? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:66
+js-cat-automotive-urban-canyon-title = Auto městským kaňonem
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:236
+js-cat-campaign-jam-spoof-holdover-integrity-question = Co se stane s jedním přijímačem při rušení, spoofingu, ztrátě GNSS, alarmu integrity a obnově, na jedné časové ose? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:236
+js-cat-campaign-jam-spoof-holdover-integrity-title = Řetězená mise: rušení, spoofing, holdover, alarm
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:239
+js-cat-campaign-monte-carlo-clock-holdover-question = Odpovídá přes mnoho běhů se seedem časová chyba volně běžících hodin jejich rozptylu v uzavřeném tvaru?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:239
+js-cat-campaign-monte-carlo-clock-holdover-title = Holdover hodin metodou Monte Carlo
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:241
+js-cat-campaign-optimize-link-budget-question = Kde v závislosti na vzdálenosti a datové rychlosti nechává spoj v pásmu X přesně 3 dB rezervy?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:241
+js-cat-campaign-optimize-link-budget-title = Optimalizace rozpočtu spoje
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:240
+js-cat-campaign-shared-jammer-sea-road-question = Při jednom rušiči, která platforma ztratí určení polohy: loď vzdálená 30 km, nebo auto vzdálené 50 km? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:240
+js-cat-campaign-shared-jammer-sea-road-title = Jeden rušič, loď a auto
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:237
+js-cat-campaign-spectrum-holdover-integrity-question = Rušič zablokuje dva signály v pásmu L, hodiny přejdou do holdoveru a přijímač přejde jen na Galileo: platí monitorování integrity i nadále? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:237
+js-cat-campaign-spectrum-holdover-integrity-title = Mise řízená spektrem
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:238
+js-cat-campaign-sweep-jammer-power-question = Když se rušič vzdálený 1 km zesiluje z 10 nW na 10 W, kdy přijímač ztratí určení polohy? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:238
+js-cat-campaign-sweep-jammer-power-title = Průchod výkonem rušiče
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:181
+js-cat-cislunar-arc-recovery-question = Obnoví nezávislý odhadovač metodou nejmenších čtverců skutečně stav z délky oblouku, kterou předpovídá test hodnosti? (modelováno; pomalé — asi 15 s v prohlížeči)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:181
+js-cat-cislunar-arc-recovery-title = Obnova oblouku v cislunárním prostoru
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:180
+js-cat-cislunar-observability-question = Jakou část stavu cislunární kosmické lodi učiní mezidružicový oblouk pozorovatelnou?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:180
+js-cat-cislunar-observability-title = Cislunární pozorovatelnost
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:79
+js-cat-clock-ensemble-question = Do jakého pásma spolehlivosti spadá holdover napříč mnoha realizacemi šumu?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:79
+js-cat-clock-ensemble-title = Soubor holdoveru hodin
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:78
+js-cat-clock-holdover-labsr-question = Jak si stojí laboratorní optické hodiny se stronciem ve srovnání s čipovými atomovými hodinami při holdoveru?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:78
+js-cat-clock-holdover-labsr-title = Holdover hodin, laboratorní optické hodiny
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:77
+js-cat-clock-holdover-question = Jak dlouho dokážou hodiny udržet čas po výpadku GNSS?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:77
+js-cat-clock-holdover-title = Holdover hodin
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:97
+js-cat-combined-altpnt-question = Co přináší sloučení tří skalárních mapových kanálů oproti kterémukoli z nich samotnému?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:97
+js-cat-combined-altpnt-title = Kombinované alt-PNT
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:71
+js-cat-conflict-resilience-question = Jak se vrstvená architektura PNT zhoršuje při hrozbách rušením / spoofingem / kinetických / kybernetických? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:71
+js-cat-conflict-resilience-title = Odolnost v konfliktu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:191
+js-cat-constellation-multi-gnss-coverage-question = Když se spojí čtyři globální systémy, kolik družic je vidět a jak dobrá je geometrie, kdekoli na Zemi? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:191
+js-cat-constellation-multi-gnss-coverage-title = Čtyři konstelace GNSS, jedna mapa
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:143
+js-cat-contact-schedule-question = Které přelety si plán bez konfliktů ponechá pro tři družice a tři stanice za 12 hodin a kolik dat přenese? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:143
+js-cat-contact-schedule-title = Plán pozemních kontaktů
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:31
+js-cat-domain-campaigns-label = Kampaně
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:51
+js-cat-domain-campaigns-line = Řetězené mise, průchody a běhy Monte Carlo na jedněch hodinách.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:28
+js-cat-domain-constellations-label = Návrh konstelací
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:48
+js-cat-domain-constellations-line = Navrhněte konstelaci a zmapujte její pokrytí a PDOP (faktor zhoršení přesnosti polohy).
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:33
+js-cat-domain-deepspace-label = Měsíc, cislunární prostor a Mars
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:53
+js-cat-domain-deepspace-line = Navigace a čas na Měsíci, v cislunárním prostoru a na Marsu.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:26
+js-cat-domain-integrity-label = Integrita a určování polohy
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:46
+js-cat-domain-integrity-line = Určení polohy a otázka, zda mu lze důvěřovat: RAIM (autonomní monitorování integrity přijímačem) a jeho pokročilá forma ARAIM.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:21
+js-cat-domain-interference-label = Rušení a interference
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:41
+js-cat-domain-interference-line = Rušičky proti přijímačům družicové navigace: co se ztratí a kdy.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:29
+js-cat-domain-leo-label = Navigace na nízké oběžné dráze Země (LEO)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:49
+js-cat-domain-leo-line = Navigační signály na nízké oběžné dráze Země, přelety, zprávy a určení polohy.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:30
+js-cat-domain-leo-missions-label = Mise a studie LEO
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:50
+js-cat-domain-leo-missions-line = Studie a služby postavené na vrstvě na nízké oběžné dráze Země.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:25
+js-cat-domain-navigation-label = Inerciální a alternativní navigace
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:45
+js-cat-domain-navigation-line = Inerciální, terénní, gravitační a jiná navigace bez družic.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:27
+js-cat-domain-orbits-label = Oběžné dráhy a geometrie GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:47
+js-cat-domain-orbits-line = Propagace oběžných drah, efemeridy a geometrie navigačních družic.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:34
+js-cat-domain-solar-label = Sluneční soustava
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:54
+js-cat-domain-solar-line = Každá planeta a měsíc v jedné epoše, se světelnými časy.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:32
+js-cat-domain-spaceops-label = Analýza mise a kosmické operace
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:52
+js-cat-domain-spaceops-line = Přelety, startovní okna, návrat do atmosféry, rozpočty spoje a orientace.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:22
+js-cat-domain-spectrum-label = Spektrum
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:42
+js-cat-domain-spectrum-line = Vodopády rádiového pásma: rušičky, signály a co přijímač sleduje.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:23
+js-cat-domain-spoofing-label = Spoofing a bezpečnost signálu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:43
+js-cat-domain-spoofing-line = Falešné signály a meaconing a monitory, které je zachytí.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:35
+js-cat-domain-studies-label = Kvantové technologie, srovnávací studie a interoperabilita
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:55
+js-cat-domain-studies-line = Kvantové senzory, srovnávací studie a formáty pro interoperabilitu.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:24
+js-cat-domain-timing-label = Hodiny a časování
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:44
+js-cat-domain-timing-line = Hodiny bez družic: holdover, stabilita, telekomunikační masky, přenos času.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:153
+js-cat-earth-gnss-lunar-question = Slyší přijímač poblíž Měsíce pozemní GNSS a stačí to někdy k určení polohy? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:153
+js-cat-earth-gnss-lunar-title = Pozemní GNSS na Měsíci
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:144
+js-cat-entry-heating-stardust-question = Reprodukuje model vstupu do atmosféry publikované maximální zpomalení návratové kapsle Stardust se vzorky?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:144
+js-cat-entry-heating-stardust-title = Vstup kapsle Stardust do atmosféry
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:134
+js-cat-eo-coverage-question = Jaký záběr, rozlišení na zemi a periodu návštěvy poskytuje oběžná dráha pro pozorování Země?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:134
+js-cat-eo-coverage-title = Pokrytí pozorování Země
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:145
+js-cat-eo-radiometry-question = Jaký poměr signálu k šumu, MTF na Nyquistově frekvenci a NIIRS dává scéna s odrazivostí 15 % pro malou kameru pro pozorování Země? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:145
+js-cat-eo-radiometry-title = Radiometrie snímače a kvalita obrazu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:129
+js-cat-ephemeris-question = Kde je družice a kdy přeletí nad hlavou?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:129
+js-cat-ephemeris-title = Pozemní stopa
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:245
+js-cat-europa-surface-pnt-question = Lze určit polohu přistávacího modulu na Jupiterově měsíci Europa z malé konstelace převaděčů a vzdálenosti od Země? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:245
+js-cat-europa-surface-pnt-title = Přistávací modul na Europě
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:101
+js-cat-fusion-pnt-coupled-question = Jak navigátor s jedním navrstveným Kalmanovým filtrem nad polohou, hodinami a odchylkou akcelerometru přečká výpadek GNSS? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:101
+js-cat-fusion-pnt-coupled-title = Svázaný navigátor se slučováním senzorů
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:90
+js-cat-fusion-pnt-question = Co přináší jediný společný odhadovač pro hodiny + polohu?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:90
+js-cat-fusion-pnt-title = Slučování senzorů
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:102
+js-cat-gnss-ins-aviation-question = Jak daleko se při dvouminutovém odepření GNSS, které zahrnuje zatáčku v náklonu, odchýlí těsně vázaný INS navigační nebo taktické třídy? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:102
+js-cat-gnss-ins-aviation-title = Zatáčka letadla přes mezeru v GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:103
+js-cat-gnss-ins-maritime-question = Jak daleko se po pětiminutovém výpadku GNSS na plavidle, které kličkuje, odchýlí INS navigační nebo taktické třídy? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:103
+js-cat-gnss-ins-maritime-title = Loď kličkující při výpadku GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:89
+js-cat-gnss-ins-question = Jak dobře podpořený inerciální navigátor přečká výpadek GNSS?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:104
+js-cat-gnss-ins-rail-question = Jak daleko se při průjezdu hlubokým zářezem se dvěma družicemi a poté tunelem odchýlí těsně vázaný INS? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:104
+js-cat-gnss-ins-rail-title = Vlak zářezem a tunelem
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:89
+js-cat-gnss-ins-title = Slučování GNSS/INS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:113
+js-cat-gnss-sim-container-terminal-skyline-question = Kolik družic zbude, když jsou na straně k moři jeřáby a na straně k pevnině kontejnerové zásobníky, a co se stane s ochranou RAIM? (modelováno; reprezentativní skyline)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:113
+js-cat-gnss-sim-container-terminal-skyline-title = Kontejnerový portálový zvedák na kontejnerovém nábřeží
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:112
+js-cat-gnss-sim-raim-question = Jak ionosféra a troposféra ovlivňují surové pseudovzdálenosti a chrání RAIM stále?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:112
+js-cat-gnss-sim-raim-title = Měření GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:171
+js-cat-gnss-ssv-formation-heo-question = Jak dobře filtr zná relativní polohu dvou kosmických lodí vzdálených kilometr od sebe, ve srovnání s rozdílem jejich absolutních určení polohy? (modelováno; běh zaznamenaný nativním enginem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:171
+js-cat-gnss-ssv-formation-heo-title = Relativní navigace formace, vysoce eliptická dráha
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:168
+js-cat-gnss-ssv-heo-question = Co slyší vysoce eliptická dráha podél své trajektorie: signály v dohledu, nejlepší C/N0, hlavní lalok proti postranním lalokům, DOP a signály při okraji Země? (modelováno; běh zaznamenaný nativním enginem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:168
+js-cat-gnss-ssv-heo-title = Signály GNSS na vysoce eliptické dráze
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:169
+js-cat-gnss-ssv-lunar-weak-question = Co může využít přijímač navržený pro nejslabší signály na cestě k Měsíci? (modelováno; běh zaznamenaný nativním enginem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:169
+js-cat-gnss-ssv-lunar-weak-title = Signály GNSS při přeletu k Měsíci, přijímač pro slabé signály
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:170
+js-cat-gnss-ssv-nav-lunar-question = Jak dobře palubní filtr drží přelet k Měsíci ve srovnání s mezí, kterou uvádí? (modelováno; běh zaznamenaný nativním enginem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:170
+js-cat-gnss-ssv-nav-lunar-title = Palubní filtr GNSS při přeletu k Měsíci
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:167
+js-cat-gnss-ssv-shell-question = Jak často kosmická loď ve výšce geostacionární dráhy slyší alespoň jeden a alespoň čtyři navigační signály, podle konstelace a pásma? (modelováno; běh zaznamenaný nativním enginem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:167
+js-cat-gnss-ssv-shell-title = Signály GNSS nad družicemi: slupka ve výšce 36 000 km
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:106
+js-cat-gps-denied-gravity-nav-egm2008-question = Dokáže na skutečném gravitačním poli EGM2008 do stupně 70 porovnávání s mapou udržet trasu bez GPS? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:106
+js-cat-gps-denied-gravity-nav-egm2008-title = Gravitační navigace na skutečném poli
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:96
+js-cat-gps-denied-gravity-nav-question = Jak daleko se poloha odchýlí za celou hodinu bez GNSS — a dokáže ji gravitační mapa zkrotit?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:96
+js-cat-gps-denied-gravity-nav-title = Navigace bez GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:105
+js-cat-gravity-map-error-mc-question = Jak často porovnávání s mapou udrží určení polohy bez GPS uvnitř cíle, když se uložená gravitační mapa zašumuje? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:105
+js-cat-gravity-map-error-mc-title = Chyba gravitační mapy metodou Monte Carlo
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:95
+js-cat-gravity-map-nav-question = Dokáže gravimetr na studených atomech udržet polohu bez GNSS porovnáváním gravitačního pole, jímž prolétá?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:95
+js-cat-gravity-map-nav-title = Navigace podle gravitační mapy
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:118
+js-cat-holdover-test-example-question = Odpojte anténu, ohodnoťte holdover: záznam rozdělený v obou časech, které uvádí operátor, každý krok změřený proti maskám ITU-T napsaným pro něj. (modelováno; záznam je pro příklad vymyšlený)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:118
+js-cat-holdover-test-example-title = Test holdoveru: záznam časové chyby proti maskám
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:119
+js-cat-holdover-test-ptp4l-question = Stejné čtyři kroky přečtené z logu serva ptp4l: jak daleko od masek zůstává vlastní offset démona, když je GNSS pryč? (modelováno; log je pro příklad vymyšlený)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:119
+js-cat-holdover-test-ptp4l-title = Test holdoveru: log linuxptp
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:100
+js-cat-hybrid-optical-rf-question = Jakou kontinuitu a integritu přináší kombinace optického a RF PNT? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:100
+js-cat-hybrid-optical-rf-title = Hybrid optika/RF
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:91
+js-cat-hybrid-pnt-question = Co vám přináší kombinovaná sada hodin + inerciální jednotka?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:91
+js-cat-hybrid-pnt-title = Hybridní PNT
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:92
+js-cat-hybrid-ukf-question = Je 17stavový těsně vázaný UKF vnitřně konzistentní (NEES + bělost inovací)? Jde o kontrolu vnitřní konzistence, nikoli o tvrzení o přesnosti.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:92
+js-cat-hybrid-ukf-title = Hybridní 17stavový UKF
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:70
+js-cat-impairment-eval-question = Jak dobře detektor odliší rušení / spoofing / vícecestné šíření od nominálního stavu? (modelováno ROC/AUC)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:70
+js-cat-impairment-eval-title = Vyhodnocení RF poruch
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:87
+js-cat-imu-deadreckoning-question = Jak daleko se poloha odchýlí při setrvání pouze na IMU?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:87
+js-cat-imu-deadreckoning-title = Inerciální odhad polohy podle ujeté dráhy
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:88
+js-cat-ins-trn-coast-question = Jak daleko se poloha odchýlí při výpadku navigace a kdy překročí 10 m a 50 m? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:88
+js-cat-ins-trn-coast-title = Setrvání INS/TRN
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:109
+js-cat-integrity-harbour-approach-question = Udrží GPS a Galileo ochranu ARAIM v mezích výstrahy, když nízké družice skrývají budovy na nábřeží a vlnolam? (modelováno; reprezentativní skyline)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:109
+js-cat-integrity-harbour-approach-title = ARAIM při vplouvání do přístavu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:108
+js-cat-integrity-raim-question = Splňuje geometrie meze výstrahy (HPL / VPL)?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:108
+js-cat-integrity-raim-title = Integrita RAIM
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:61
+js-cat-jamming-demo-question = Při jakém poměru rušení k signálu přijímač ztratí vazbu?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:61
+js-cat-jamming-demo-title = Rušení
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:63
+js-cat-jamming-harbour-approach-skyline-question = Kolik družic si loď ponechá pod pobřežním rušičem o výkonu 2 W a kolik jich skryje samotné nábřeží? (modelováno; reprezentativní skyline)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:63
+js-cat-jamming-harbour-approach-skyline-title = Loď rušená při vplouvání do přístavu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:187
+js-cat-l-band-waterfall-jamming-question = Jak vypadá celé pásmo L GNSS, když se zapne chirpový, tónový a šumový rušič, a které signály každý z nich odebere? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:187
+js-cat-l-band-waterfall-jamming-title = Vodopád pásma L při rušení
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:132
+js-cat-launch-window-question = Jaký azimut startu a Δv zatáčky (dogleg) dosáhnou cílové inklinace z daného místa?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:132
+js-cat-launch-window-title = Startovní okno
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:195
+js-cat-leo-band-trade-question = Co navigační signál na nízké oběžné dráze v každém pásmu získává a ztrácí, od ultravysokých frekvencí (UHF) po pásmo C? (reprezentativní návrhy)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:195
+js-cat-leo-band-trade-title = Srovnání pásem, od UHF po pásmo C
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:210
+js-cat-leo-doppler-positioning-question = Jak dobré je určení polohy z deseti minut Dopplera u navigační konstelace na nízké oběžné dráze? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:210
+js-cat-leo-doppler-positioning-title = Určení polohy pouze z Dopplera
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:219
+js-cat-leo-focus-data-services-question = Kolik bitů navigační zprávy stojí každá další datová služba? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:219
+js-cat-leo-focus-data-services-title = Servisní data proti délce rámce
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:220
+js-cat-leo-focus-fused-pnt-sisre-question = Jak dobrá musí být chyba vzdálenosti signálu v prostoru na nízké oběžné dráze, aby vrstva na nízké oběžné dráze pomohla sloučenému určení polohy? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:220
+js-cat-leo-focus-fused-pnt-sisre-title = Sloučené určení polohy proti chybě dráhy a hodin
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:221
+js-cat-leo-focus-indoor-uhf-question = Které pásmo ještě dosáhne uživatele uvnitř tradiční a tepelně úsporné budovy? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:221
+js-cat-leo-focus-indoor-uhf-title = Příjem uvnitř podle pásma a budovy
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:222
+js-cat-leo-focus-iot-eirp-question = Kolik vysílacího výkonu družice potřebuje bateriový štítek, aby vydržel? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:222
+js-cat-leo-focus-iot-eirp-title = Energie sledovacího zařízení proti vysílacímu výkonu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:223
+js-cat-leo-focus-ntn-bandwidth-question = Jak klesá chyba určení polohy, když se referenční signál rozšiřuje ze 180 kHz na 20 MHz? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:223
+js-cat-leo-focus-ntn-bandwidth-title = Určení polohy z downlinku 5G proti šířce pásma
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:224
+js-cat-leo-focus-ppp-altitude-question = Zkrátí konvergenci více nižší, nebo vyšší vrstva na nízké oběžné dráze? (modelováno; pomalé, asi minutu v prohlížeči)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:224
+js-cat-leo-focus-ppp-altitude-title = Přesné určení polohy proti výšce vrstvy
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:202
+js-cat-leo-focus-science-iono-sounding-question = Jak dobře rozdíl zpoždění mezi dvěma pásmy měří obsah elektronů pod družicí na nízké oběžné dráze? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:202
+js-cat-leo-focus-science-iono-sounding-title = Sondování ionosféry ze dvou pásem
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:200
+js-cat-leo-indoor-uhf-question = Proč nosná UHF proniká dovnitř budovy, když pásma L, S a C mají potíže? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:200
+js-cat-leo-indoor-uhf-title = Uvnitř budov v pásmu UHF
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:201
+js-cat-leo-iot-energy-question = Kolik energie spotřebuje bateriový štítek na každé určení polohy ze signálu na nízké oběžné dráze? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:201
+js-cat-leo-iot-energy-title = Energie na jedno určení polohy pro sledovací zařízení
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:207
+js-cat-leo-navmsg-encode-decode-question = Kolik stojí kvantování každého pole a přežije rámec kódování, dekódování a poškozený bit? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:207
+js-cat-leo-navmsg-encode-decode-title = Navigační zpráva: binární rámec
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:204
+js-cat-leo-navmsg-fit-interval-trade-question = Jak dlouho může pokrývat jedna vysílaná zpráva, než její chyba dráhy přeroste cíl? (modelováno; pomalé, asi 30 s v prohlížeči)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:204
+js-cat-leo-navmsg-fit-interval-trade-title = Navigační zpráva: interval proložení
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:206
+js-cat-leo-navmsg-midpass-update-question = Když družice uprostřed přeletu přepne na novou zprávu, uvidí uživatel skok? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:206
+js-cat-leo-navmsg-midpass-update-title = Navigační zpráva: aktualizace uprostřed přeletu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:205
+js-cat-leo-navmsg-model-comparison-question = Který model efemerid nejlépe popisuje nízkou oběžnou dráhu a jak si stojí vedle publikované tabulky? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:205
+js-cat-leo-navmsg-model-comparison-title = Navigační zpráva: čtyři modely
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:199
+js-cat-leo-pass-iridium-question = Jakou sílu signálu a jaký Doppler vidí dopravní letadlo při jednom přeletu družice Iridium? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:199
+js-cat-leo-pass-iridium-title = Záblesky Iridium z letadla
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:197
+js-cat-leo-pass-vs-gnss-cn0-question = Jak se síla signálu jednoho přeletu na nízké oběžné dráze srovnává s družicemi Galileo v dohledu? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:197
+js-cat-leo-pass-vs-gnss-cn0-title = Jeden přelet proti GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:198
+js-cat-leo-pass-xona-pulsar-question = Jak vypadají signály X1 a X5 během jednoho přeletu pro loď v Biskajském zálivu? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:198
+js-cat-leo-pass-xona-pulsar-title = Přelet Xona Pulsar
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:216
+js-cat-leo-pnt-end-to-end-question = Co každá fáze předává další, od návrhu signálu po konečné určení polohy? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:216
+js-cat-leo-pnt-end-to-end-title = Od začátku do konce, obecná konstelace
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:192
+js-cat-leo-pnt-mega-shell-question = Jaké pokrytí a geometrii poskytuje navigační konstelace o 5 000 družicích na nízké oběžné dráze Země? (modelováno; příklad návrhu)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:192
+js-cat-leo-pnt-mega-shell-title = Návrh s 5 000 družicemi na nízké oběžné dráze
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:214
+js-cat-leo-ppp-convergence-question = O kolik rychleji konverguje přesné určení polohy z jednoho bodu (PPP), když se přidá vrstva na nízké oběžné dráze? (modelováno; pomalé, asi 30 s v prohlížeči)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:214
+js-cat-leo-ppp-convergence-title = Konvergence přesného určení polohy
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:209
+js-cat-leo-pvt-fjord-skyline-question = Kolik přidá vrstva na nízké oběžné dráze ke GPS a Galileo tam, kde stěny fjordu nechávají podél kanálu jen pruh oblohy? (modelováno; reprezentativní skyline)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:209
+js-cat-leo-pvt-fjord-skyline-title = Přívoz hluboko ve fjordu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:225
+js-cat-leo-resilience-gnss-jammed-leo-carries-question = Dokáže vrstva na nízké oběžné dráze v jiných pásmech udržet určení polohy a jeho integritu, když je GNSS rušeno? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:225
+js-cat-leo-resilience-gnss-jammed-leo-carries-title = GNSS rušeno, nízká dráha pokračuje
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:189
+js-cat-leo-resilience-js-margin-question = Kolik rušení více přežije silnější signál z nízké oběžné dráhy než signál GNSS ze střední oběžné dráhy? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:189
+js-cat-leo-resilience-js-margin-title = Rezerva proti rušiči z přijatého výkonu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:226
+js-cat-leo-resilience-multiband-diversity-question = Když se zesiluje jeden rušič v pásmu L, která ze čtyř pásem dál sledují? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:226
+js-cat-leo-resilience-multiband-diversity-title = Diverzita pásem pod širokopásmovým rušičem
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:203
+js-cat-leo-resilience-spoof-doppler-question = Když spoofer posune vypočtenou polohu o 30 m, jak rychle jej zachytí kontrola Dopplera a geometrie přeletu? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:203
+js-cat-leo-resilience-spoof-doppler-title = Spoofing zachycený Dopplerem
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:227
+js-cat-leo-resilience-spoof-monitors-question = Který monitor vidí který druh spooferu? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:227
+js-cat-leo-resilience-spoof-monitors-title = Monitory spoofingu proti čtyřem spooferům
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:212
+js-cat-leo-timing-utc-question = Jak přesně dokáže přijímač získat koordinovaný světový čas (UTC) z družic na nízké oběžné dráze, podle oscilátoru a úrovně signálu? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:212
+js-cat-leo-timing-utc-title = Přenos času do UTC
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:228
+js-cat-leo-vertical-5g-network-timing-question = Udrží čas z nízké oběžné dráhy základnovou stanici v mezích časování, když je GNSS ztraceno na den? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:228
+js-cat-leo-vertical-5g-network-timing-title = Časování základnové stanice 5G
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:229
+js-cat-leo-vertical-asset-tracking-iot-question = Kolik stojí každé určení polohy bateriový štítek na cestě kontejneru? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:229
+js-cat-leo-vertical-asset-tracking-iot-title = Sledování kontejnerů
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:230
+js-cat-leo-vertical-autonomous-vehicle-question = Udrží vrstva na nízké oběžné dráze auto v chybě na úrovni jízdního pruhu, když nízké družice skrývají budovy? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:231
+js-cat-leo-vertical-autonomous-vehicle-skyline-question = Když se modeluje skutečná ulice místo plochého omezení na 35°, udrží vrstva na nízké oběžné dráze auto stále v chybě na úrovni jízdního pruhu? (modelováno; reprezentativní skyline)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:231
+js-cat-leo-vertical-autonomous-vehicle-skyline-title = Vozidlo v ulici, ne při plochém omezení
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:230
+js-cat-leo-vertical-autonomous-vehicle-title = Vozidlo v městském kaňonu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:232
+js-cat-leo-vertical-critical-infrastructure-timing-question = Udrží čas z nízké oběžné dráhy synchronizaci rozvodny, když je GNSS ztraceno? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:232
+js-cat-leo-vertical-critical-infrastructure-timing-title = Časování rozvodny
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:233
+js-cat-leo-vertical-polar-arctic-question = Co polární vrstva na nízké oběžné dráze přidává ke GNSS od Tromsø k severnímu pólu? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:233
+js-cat-leo-vertical-polar-arctic-title = Cesta po Arktidě
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:234
+js-cat-leo-vertical-rail-maritime-question = Když přibalené scénáře lodi a vlaku ztratí GNSS, dosáhne k nim stále přelet na nízké oběžné dráze? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:234
+js-cat-leo-vertical-rail-maritime-title = Železnice a námořní doprava s vrstvou na nízké oběžné dráze
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:135
+js-cat-link-budget-question = Uzavře se jednosměrný spoj s rezervou při dané vzdálenosti a datové rychlosti?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:135
+js-cat-link-budget-title = Rozpočet spoje
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:148
+js-cat-lunanet-araim-question = Splňuje řídká sada lunárních převaděčů meze integrity pro přijímač v oblasti Artemis?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:148
+js-cat-lunanet-araim-title = Lunární integrita
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:150
+js-cat-lunar-attack-surface-question = Co je třeba k podvržení nebo odepření signálu lunárnímu povrchovému přijímači a jaký rozpočet autentizace na to odpovídá? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:150
+js-cat-lunar-attack-surface-title = Lunární útočná plocha
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:154
+js-cat-lunar-beacon-question = O kolik hrstka zaměřených povrchových majáků zmenší DOP u jižního pólu? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:154
+js-cat-lunar-beacon-title = Lunární povrchové majáky
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:155
+js-cat-lunar-differential-pnt-question = Do jaké míry diferenciální korekce ruší souhlasnou chybu oproti základu na Měsíci? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:155
+js-cat-lunar-differential-pnt-title = Lunární diferenciální PNT
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:163
+js-cat-lunar-frame-campaign-question = Jaká přesnost datumu vyplyne z pozorovací kampaně, nikoli z vložené transformace? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:163
+js-cat-lunar-frame-campaign-title = Kampaň lunární soustavy
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:162
+js-cat-lunar-frame-realisation-question = Dokáže proložení Helmertova datumu obnovit transformaci lunární referenční soustavy? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:162
+js-cat-lunar-frame-realisation-title = Lunární soustava
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:174
+js-cat-lunar-infrastructure-carrier-phase-question = Mohou povrchová stanice a orbiter společně určit celočíselné nejednoznačnosti fáze nosné signálů pozemního GNSS? Rychlý příklad běhu. (modelováno; běh zaznamenaný nativním enginem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:174
+js-cat-lunar-infrastructure-carrier-phase-title = Lunární fáze nosné: povrchová stanice a orbiter
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:175
+js-cat-lunar-infrastructure-frame-coestimation-question = Kolik další informace přidají vzdálenosti mezi orbiterem a povrchovou stanicí k sedmi parametrům lunárního datumu? (modelováno; běh zaznamenaný nativním enginem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:175
+js-cat-lunar-infrastructure-frame-coestimation-title = Společný odhad lunární soustavy se spoji orbiteru
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:177
+js-cat-lunar-infrastructure-geodesy-sensitivity-question = Jak citlivé jsou laserové měření vzdálenosti, sledování orbiteru, gravimetr a povrchové hodiny na h2, k2, l2 a libraci? (modelováno; běh zaznamenaný nativním enginem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:177
+js-cat-lunar-infrastructure-geodesy-sensitivity-title = Lunární Loveova čísla a citlivost na libraci
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:173
+js-cat-lunar-infrastructure-od-consistency-model-error-question = Stejné srovnání s vloženým malým nemodelovaným zrychlením: všimne si toho kontrola konzistence? (modelováno; běh zaznamenaný nativním enginem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:173
+js-cat-lunar-infrastructure-od-consistency-model-error-title = Lunární určování oběžné dráhy s vloženou chybou modelu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:172
+js-cat-lunar-infrastructure-od-consistency-question = Shodují se palubní určování oběžné dráhy pomocí pozemního GNSS na lunární halo dráze a nezávislé pozemní radiometrické určování oběžné dráhy v rámci svých uváděných nejistot? (modelováno; běh zaznamenaný nativním enginem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:172
+js-cat-lunar-infrastructure-od-consistency-title = Lunární určování oběžné dráhy: palubní GNSS proti pozemnímu sledování
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:176
+js-cat-lunar-infrastructure-space-tie-question = Jak přesně lze svázat posuny mezi třemi technikami ve srovnání s chybou místního propojení? (modelováno; běh zaznamenaný nativním enginem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:176
+js-cat-lunar-infrastructure-space-tie-title = Kosmické propojení: GNSS, VLBI a laserové měření vzdálenosti na jedné kosmické lodi
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:178
+js-cat-lunar-interop-export-question = Lze lunární soustavu / čas / efemeridy převést tam a zpět přes CCSDS OEM + obálku KIF?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:178
+js-cat-lunar-interop-export-title = Lunární export pro interoperabilitu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:149
+js-cat-lunar-jamming-question = Jak daleko může rušič být a stále odepřít signál lunárnímu povrchovému přijímači? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:149
+js-cat-lunar-jamming-title = Lunární rušení
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:161
+js-cat-lunar-joint-od-clock-question = Učiní propojení VLBI na základně Země absolutní polohu lunární stanice pozorovatelnou? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:161
+js-cat-lunar-joint-od-clock-title = Lunární společné OD + hodiny
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:164
+js-cat-lunar-llr-datum-question = Jak vypadá lunární datum, když je kampaní skutečné archivované laserové měření vzdálenosti Měsíce (LLR)? (modelováno; běh zaznamenaný nativním enginem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:164
+js-cat-lunar-llr-datum-title = Lunární datum z laserového měření vzdálenosti
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:193
+js-cat-lunar-relay-constellation-question = Jaké pokrytí celého Měsíce poskytuje konstelace převaděčů a navigace na zamrzlých a nízkých lunárních drahách? (modelováno; příklad návrhu)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:193
+js-cat-lunar-relay-constellation-title = Lunární konstelace převaděčů
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:157
+js-cat-lunar-station-coverage-public-sources-question = Jakou opravenou chybu stanice poskytuje nad jižním pólem jen za veřejně uváděných předpokladů? Výsledek určují prvky oběžné dráhy, které nejsou veřejné a jsou nastaveny jako ILLUSTRATIVE; toto je vstup zmrazené předpovědi. (modelováno; nejde o tvrzení o žádném skutečném systému)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:157
+js-cat-lunar-station-coverage-public-sources-title = Lunární referenční stanice, veřejné předpoklady
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:156
+js-cat-lunar-station-coverage-question = Jakou opravenou chybu poskytuje lunární referenční stanice v jižní polární oblasti za den a jak daleko od ní pokrytí platí? (modelováno; nejde o tvrzení o žádném skutečném systému)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:185
+js-cat-lunar-station-coverage-terrain-question = Když se horizont každého místa vypočte sledováním paprsků nad skutečným lunárním výškovým modelem, kolik pokrytí stanice ztratí kvůli terénu? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:185
+js-cat-lunar-station-coverage-terrain-title = Lunární stanice se skutečným terénem
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:156
+js-cat-lunar-station-coverage-title = Pokrytí lunární referenční stanice
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:165
+js-cat-lunar-station-geodesy-baseline-question = Jak dobře dnešních pět retroreflektorových polí upne lunární datum na skutečném harmonogramu, než se přidá jakákoli stanice? Základ dvojice. (modelováno; běh zaznamenaný nativním enginem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:165
+js-cat-lunar-station-geodesy-baseline-title = Geodézie lunární stanice: samotných pět polí
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:166
+js-cat-lunar-station-geodesy-with-station-question = Stejný archivovaný harmonogram s jedním přidaným reflektorem u jižního pólu a majákem VLBI: o kolik se zpřesní mez datumu? (modelováno, ilustrativní lokalita; běh zaznamenaný nativním enginem)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:166
+js-cat-lunar-station-geodesy-with-station-title = Geodézie lunární stanice: se stanicí u jižního pólu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:158
+js-cat-lunar-station-time-lab-question = Jak dlouho zůstanou miniaturní rubidiové hodiny stanice po posledním seřízení na lunární čas v rozmezí 1, 10 a 100 ns a který chybový člen převažuje? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:158
+js-cat-lunar-station-time-lab-title = Časová laboratoř lunární stanice
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:152
+js-cat-lunar-time-budget-question = Jak velký je rozdíl souřadnicového času Země a Měsíce a jeho rozpočet chyb? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:152
+js-cat-lunar-time-budget-title = Rozpočet lunárního času
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:151
+js-cat-lunar-time-offset-question = Jak rychle se lunární hodiny rozcházejí s pozemským časem (~56–59 µs/den)?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:151
+js-cat-lunar-time-offset-title = Posun lunárního času
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:160
+js-cat-lunar-vlbi-fim-question = Jakou přesnost souřadnic stanice skutečně přinese daný harmonogram sledování VLBI? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:160
+js-cat-lunar-vlbi-fim-title = Informace lunárního VLBI
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:159
+js-cat-lunar-vlbi-question = Jaké zpoždění vidí dvojice VLBI na základně Země u lunárního povrchového majáku? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:159
+js-cat-lunar-vlbi-title = Lunární VLBI
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:65
+js-cat-maritime-port-approach-coast-question = Při vplouvání do přístavu bez GNSS, kdy INS navigační třídy opustí rozpočty pro přístav a oceán? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:65
+js-cat-maritime-port-approach-coast-title = Příjezd do přístavu na inerciální navigaci
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:64
+js-cat-maritime-spoof-position-push-question = Když spoofer odtáhne určení polohy lodi o 500 m, které vrstvy detekce jej zachytí? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:64
+js-cat-maritime-spoof-position-push-title = Podvržená poloha lodi
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:62
+js-cat-maritime-strait-jamming-question = Odebere rušič o výkonu 50 W plavidlu GNSS na 30 km otevřené vody? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:62
+js-cat-maritime-strait-jamming-title = Loď rušená v průlivu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:244
+js-cat-mars-orbit-pnt-question = Jak dobře je určena poloha nízkého orbiteru u Marsu z dvanácti navigačních převaděčů a co přidá vzdálenost od Země? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:244
+js-cat-mars-orbit-pnt-title = Orbiter u Marsu s převaděči a spojem se Zemí
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:182
+js-cat-mars-pnt-lmo-question = Dokáže konstelace převaděčů MARCONI navigovat uživatele u Marsu? (ukazatel kvality z kovariance, nikoli certifikovaná ochranná úroveň)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:182
+js-cat-mars-pnt-lmo-title = PNT u Marsu, nízká dráha
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:183
+js-cat-mars-pnt-surface-question = Jak dobře lze navigovat přistávací modul nebo vozítko na rotujícím povrchu Marsu proti konstelaci převaděčů?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:183
+js-cat-mars-pnt-surface-title = PNT u Marsu, povrch
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:184
+js-cat-mars-pnt-transfer-question = Jak dobře je navigováno těleso na vysokém výstředném přibližovacím nebo záchytném oblouku u Marsu?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:184
+js-cat-mars-pnt-transfer-title = PNT u Marsu, přelet
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:208
+js-cat-meo-leo-fused-pvt-question = Co udělá přidání vrstvy na nízké oběžné dráze ke GPS a Galileo s chybou polohy a geometrií? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:208
+js-cat-meo-leo-fused-pvt-title = Sloučené určení polohy z GNSS a nízké oběžné dráhy
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:147
+js-cat-moonlight-service-volume-question = Jaký DOP, pokrytí a integritu poskytuje jižnímu pólu konstelace třídy Moonlight/LCNS? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:147
+js-cat-moonlight-service-volume-title = Lunární objem služby
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:188
+js-cat-multi-band-jamming-waterfall-question = Když jsou navigační signály rozprostřeny do čtyř pásem, co po sobě zanechá rušič určený pro jedno pásmo? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:188
+js-cat-multi-band-jamming-waterfall-title = Vodopád vícepásmového rušení
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:260
+js-cat-notinbrowser-elevation-model = Vyžaduje výřez lunárního výškového modelu ({ $path }), který je součástí repozitáře, nikoli sestavení pro prohlížeč.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:257
+js-cat-notinbrowser-laser-ranging-data = Vyžaduje archivovaný výřez dat laserového měření vzdálenosti, který je součástí repozitáře, nikoli sestavení pro prohlížeč.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:261
+js-cat-notinbrowser-study-suite = Sada studií, nikoli jeden scénář. Spusťte ji nástrojem příkazového řádku: { $command }.
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:215
+js-cat-ntn-5g-positioning-question = Jak přesně si může telefon určit polohu z downlinku nepozemské sítě 5G, podle šířky pásma signálu? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:215
+js-cat-ntn-5g-positioning-title = Určení polohy z družicového downlinku 5G
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:250
+js-cat-oem-interop-question = Lze importovat a převést tam a zpět efemeridy OEM z GMAT / Orekit / STK?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:250
+js-cat-oem-interop-title = Most CCSDS OEM
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:116
+js-cat-optical-atmosphere-network-question = Jak často je optický časový spoj funkční přes oblačnost a turbulenci a co přinesou další pozemní lokality? (modelováno; ilustrativní oblačné klima)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:116
+js-cat-optical-atmosphere-network-title = Optický spoj atmosférou, tři lokality
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:117
+js-cat-optical-atmosphere-techniques-question = Co přinese jednomu optickému uplinku větší apertura, jiná vlnová délka nebo adaptivní optika v oblačnosti a turbulenci? (modelováno; ilustrativní oblačné klima)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:117
+js-cat-optical-atmosphere-techniques-title = Techniky optického spoje
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:122
+js-cat-orbit-gnss-challenged-question = Kdy je vůbec možné určení polohy z geometrie družic?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:122
+js-cat-orbit-gnss-challenged-title = Dostupnost GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:126
+js-cat-orbit-molniya-question = Vidí uživatel na vysoce výstředné dráze Molnija poblíž apogea stále dost družic GNSS?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:126
+js-cat-orbit-molniya-title = Uživatel na dráze Molnija
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:124
+js-cat-orbit-multignss-question = O kolik GPS + Galileo společně zvýší dostupnost a zlepší faktor zhoršení přesnosti?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:124
+js-cat-orbit-multignss-title = Dostupnost multi-GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:127
+js-cat-orbit-real-tle-question = Jaké pokrytí poskytuje skutečná konstelace zadaná dvouřádkovými sadami prvků?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:127
+js-cat-orbit-real-tle-title = Skutečné dvouřádkové prvky
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:128
+js-cat-orbit-rinex-question = Jaká dostupnost vyplyne ze skutečných vysílaných efemerid RINEX 3?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:128
+js-cat-orbit-rinex-title = Vysílané efemeridy
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:123
+js-cat-orbit-sgp4-gps-question = Jak se po dobu jednoho dne propaguje skutečná konstelace podobná GPS?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:123
+js-cat-orbit-sgp4-gps-title = Dráhy SGP4
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:125
+js-cat-orbit-urban-canyon-skyline-question = Na dně městské ulice, jakou část dne poskytují GPS a Galileo čtyři družice a co pruh oblohy dělá s PDOP? (modelováno; reprezentativní skyline)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:125
+js-cat-orbit-urban-canyon-skyline-title = Dostupnost v městské ulici
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:130
+js-cat-passes-question = Kdy družice vychází a zapadá nad stanicí a na jak dlouho?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:130
+js-cat-passes-title = Pozemní přelety
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:213
+js-cat-polar-arctic-leo-coverage-question = Jak se od rovníku k pólu mění družice v dohledu a geometrie jen s GNSS, jen s polární vrstvou na nízké oběžné dráze a s oběma? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:213
+js-cat-polar-arctic-leo-coverage-title = Od rovníku k pólu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:114
+js-cat-pvt-abmf-question = Lze ze surových měření RINEX vyřešit polohu skutečného přijímače?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:114
+js-cat-pvt-abmf-title = Určení polohy (SPP)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:248
+js-cat-quantum-anomaly-detect-question = Jak dobře se detekují poruchy kvantového systému při pevné míře falešných poplachů? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:248
+js-cat-quantum-anomaly-detect-title = Detekce kvantových anomálií
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:99
+js-cat-quantum-cai-coast-question = Jak dlouho udrží interferometr na studených atomech, určený svou fyzikou, odhad polohy z ujeté dráhy v rozmezí 100 m po ztrátě GNSS, ve srovnání s křemenným akcelerometrem navigační třídy? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:99
+js-cat-quantum-cai-coast-title = Setrvání kvantového akcelerometru
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:98
+js-cat-quantum-gnss-free-nav-question = Jak daleko doběhne navigátor na studených atomech oproti INS navigační třídy bez GNSS? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:98
+js-cat-quantum-gnss-free-nav-title = Kvantová navigace bez GNSS
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:252
+js-cat-quantum-pnt-demonstrator-suite-question = Tři oblasti kvantových aplikací jako jedna studie (sada studií příkazového řádku: kshana --study).
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:252
+js-cat-quantum-pnt-demonstrator-suite-title = Demonstrační studie kvantového PNT
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:84
+js-cat-quantum-time-transfer-question = Co přináší důvěryhodné kvantové časování oproti klasickému řetězci CSAC + RF? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:84
+js-cat-quantum-time-transfer-title = Kvantový přenos času
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:247
+js-cat-quantum-trade-question = Jaký časový / inerciální holdover přináší kandidátské hodiny oproti klasickému základu? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:247
+js-cat-quantum-trade-title = Srovnání kvantového PNT
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:67
+js-cat-rail-tunnel-coast-question = Jak brzy opustí INS taktické třídy svůj rozpočet při rychlosti 160 km/h v tunelu? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:67
+js-cat-rail-tunnel-coast-title = Vlak v tunelu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:179
+js-cat-realtime-frame-eop-question = Jak velkou chybu soustavy způsobí orientace Země v reálném čase (předpovězená)? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:179
+js-cat-realtime-frame-eop-title = Soustava/EOP v reálném čase
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:133
+js-cat-reentry-question = Jaké maximální přetížení a rychlost při maximálním zahřátí zažije balistický návrat do atmosféry?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:133
+js-cat-reentry-title = Koridor návratu do atmosféry
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:80
+js-cat-slot-timing-ocxo-leo-question = Jak dlouho zůstane krystalový oscilátor s termostatem na malé družici na nízké oběžné dráze po posledním určení polohy z GNSS uvnitř ochranného intervalu slotu? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:80
+js-cat-slot-timing-ocxo-leo-title = Časování slotů
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:68
+js-cat-small-uas-jammed-nav-question = Jak daleko se odchýlí inerciální jednotka třídy řídicí jednotky letu ve srovnání s jednotkou taktické třídy poté, co rušič odebere GNSS?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:68
+js-cat-small-uas-jammed-nav-title = Malý dron při rušení
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:243
+js-cat-solar-system-tour-question = Kde je každé těleso, které engine zná, od Slunce po Pluto a velké měsíce, a jak dlouho putuje světlo mezi nimi?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:243
+js-cat-solar-system-tour-title = Sluneční soustava v jedné epoše
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:251
+js-cat-space-packet-question = Kóduje a dekóduje se proud paketů CCSDS 133.0 bitově přesně?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:251
+js-cat-space-packet-title = Space Packet
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:137
+js-cat-space-weather-question = Jak sluneční / geomagnetická aktivita mění hustotu termosféry? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:137
+js-cat-space-weather-title = Kosmické počasí
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:73
+js-cat-spoof-attack-question = Je podvržení času s postupným nárůstem zachyceno dřív, než dosáhne meze specifikace?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:73
+js-cat-spoof-attack-title = Detekce spoofingu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:74
+js-cat-spoof-detect-question = Dokáže sloučený monitor RF + měření zachytit koordinovaný spoofing?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:74
+js-cat-spoof-detect-title = Vícevrstvá detekce spoofingu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:75
+js-cat-spoof-meaconing-question = S explicitním tvarem útoku, jak často energetický detektor podporovaný hodinami zachytí spoofing při pevné míře falešných poplachů?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:75
+js-cat-spoof-meaconing-title = Statistika detektoru spoofingu
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:211
+js-cat-starlink-sop-doppler-positioning-question = Jak dobře si přijímač určí polohu z Dopplera širokopásmové konstelace, která nevysílá žádnou navigační zprávu? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:211
+js-cat-starlink-sop-doppler-positioning-title = Širokopásmové signály příležitosti
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:85
+js-cat-sweep-clock-stability-question = Jak se mění holdover, když se prochází jeden parametr hodin?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:85
+js-cat-sweep-clock-stability-title = Průchod parametru
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:249
+js-cat-sweep-nd-inertial-question = Jak se ukazatel kvality mění napříč vícerozměrnou mřížkou parametrů?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:249
+js-cat-sweep-nd-inertial-title = Průchod N-D
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:81
+js-cat-telecom-prtc-holdover-24h-question = Zůstane rubidiová reference, která ztratí GNSS na 24 hodin, uvnitř masek časové chyby ITU-T? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:81
+js-cat-telecom-prtc-holdover-24h-title = Telekomunikační holdover, 24 h
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:120
+js-cat-telecom-synce-eec-question = Zůstane volně běžící oscilátor s termostatem uvnitř masek driftu hodin zařízení synchronního Ethernetu? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:120
+js-cat-telecom-synce-eec-title = Frekvenční synchronizace proti maskám SyncE
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:82
+js-cat-telecom-tie-ingest-question = Projde záznam chyby časového intervalu maskami MTIE a TDEV podle ITU-T?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:82
+js-cat-telecom-tie-ingest-title = Kontrola telekomunikačních masek, vaše data
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:93
+js-cat-terrain-nav-question = Může výškoměr opravit drift INS porovnáním profilu výšky terénu?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:93
+js-cat-terrain-nav-title = Terénní navigace
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:94
+js-cat-terrain-slam-question = Dokáže částicový filtr sledovat časově proměnný drift INS proti mapě terénu?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:94
+js-cat-terrain-slam-title = Terénní SLAM
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:115
+js-cat-time-transfer-budget-question = Co dělají členy stanice, transpondéru, ionosféry a Sagnacova jevu s oboustranným časovým posunem a jaký je jeho rozpočet nejistoty? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:115
+js-cat-time-transfer-budget-title = Oboustranný družicový přenos času
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:83
+js-cat-timetransfer-question = Jak těsně mohou dvě lokality zůstat synchronizované po spoji?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:83
+js-cat-timetransfer-title = Přenos času
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:69
+js-cat-tracking-loop-question = Při jakém C/N0 přijímač skutečně ztratí vazbu a může spoofer smyčky přetáhnout? (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:69
+js-cat-tracking-loop-title = Sledovací smyčka
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:217
+js-cat-xona-pulsar-end-to-end-question = Stejný řetězec na veřejných číslech Xona Pulsar: signál, přelet, zpráva, sloučené určení polohy a přesné určení polohy. (modelováno)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:217
+js-cat-xona-pulsar-end-to-end-title = Od začátku do konce, Xona Pulsar
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:196
+js-cat-xona-pulsar-signals-question = Jak přesně může přijímač měřit vzdálenost na publikovaných signálech X1 a X5 a jak velké je akviziční hledání? (veřejná tabulka signálů)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:196
+js-cat-xona-pulsar-signals-title = Signály Xona Pulsar
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:71
+js-geo-a-place = Místo…
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:392
+js-geo-axis-east = V +{ $ext } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:392
+js-geo-axis-north = S +{ $ext } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:110
+js-geo-canyon-needs = Forma pouliční rokle vyžaduje engine 0.36.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:142
+js-geo-canyon-out-of-range = Hodnoty pouliční rokle jsou mimo rozsah (azimut 0 až 359,9°, šířka 1 až 200 m, výšky 0 až 500 m, anténa 0 až 50 m); použije se otevřený horizont.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:159
+js-geo-canyon-reduced = Převedení rokle na tabulku o 360 přihrádkách provedené enginem.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:451
+js-geo-compute-failed = Engine tuto oblohu nedokázal vypočítat: { $reason }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:428
+js-geo-computing = Počítá se…
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:200
+js-geo-copy-link = Zkopírujte tento odkaz: { $url }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:340
+js-geo-count-below = Pod horizontem
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:338
+js-geo-count-hidden = Skryto skyline
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:337
+js-geo-count-in-view = V dohledu
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:341
+js-geo-count-open-sky = Otevřená obloha
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:339
+js-geo-count-used = V řešení
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:302
+js-geo-cursor-live = Azimut { $az }°, skyline { $el }°.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:186
+js-geo-dated-sky = Datovaná obloha je tak dobrá, jak dobré jsou prvky a jejich stáří; předvolby jsou vynechány.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:322
+js-geo-dop-geometric = geometrický
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:322
+js-geo-dop-geometric-title = geometrický faktor zhoršení přesnosti
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:324
+js-geo-dop-horizontal = horizontální
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:324
+js-geo-dop-horizontal-title = horizontální faktor zhoršení přesnosti
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:323
+js-geo-dop-position = poloha, 3D
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:323
+js-geo-dop-position-title = poloha, 3D faktor zhoršení přesnosti
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:326
+js-geo-dop-time = čas
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:326
+js-geo-dop-time-title = časový faktor zhoršení přesnosti
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:325
+js-geo-dop-vertical = vertikální
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:325
+js-geo-dop-vertical-title = vertikální faktor zhoršení přesnosti
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:244
+js-geo-east = V
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:463
+js-geo-engine-not-running = Engine v tomto prohlížeči neběží ({ $reason }).
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:243
+js-geo-err-geometry-object = odpověď enginu s geometrií není objekt
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:279
+js-geo-err-mc-object = odpověď enginu pro Monte Carlo není objekt
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:172
+js-geo-err-no-sentences = odpověď enginu neobsahuje žádné věty
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:317
+js-geo-err-reply-kind-not-json = odpověď enginu ({ $what }) nebyla JSON
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:171
+js-geo-err-reply-not-json = odpověď enginu nebyla JSON
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:358
+js-geo-error-line = Při σ_UERE = { $uere } m podle uvedeného modelu chyby (hodnoty z enginu): { $bits }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:353
+js-geo-error-line-needs = Chyba polohy ≈ σ_UERE × HDOP horizontálně a σ_UERE × VDOP vertikálně; tato hodnota vyžaduje engine 0.36.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:357
+js-geo-error-rms-3d = 3D RMS σ_UERE × PDOP = { $m } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:356
+js-geo-error-rms-h = horizontální RMS σ_UERE × HDOP = { $m } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:355
+js-geo-error-sigma = chyba 1 sigma na východ { $east } m, na sever { $north } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:401
+js-geo-fact-ellipse-1s = Elipsa, 1 sigma
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:401
+js-geo-fact-ellipse-1s-value = { $major } m × { $minor } m, hlavní osa { $deg }° od severu
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:402
+js-geo-fact-ellipse-pct = Elipsa, { $pct } %
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:402
+js-geo-fact-ellipse-pct-scaled = { $major } m × { $minor } m (1 sigma × { $k })
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:402
+js-geo-fact-ellipse-pct-value = { $major } m × { $minor } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:408
+js-geo-fact-inside = Uvnitř 95% elipsy
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:408
+js-geo-fact-inside-value = { $pct } % bodů
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:411
+js-geo-fact-line = { $key }: { $value }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:405
+js-geo-fact-mc = Monte Carlo
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:405
+js-geo-fact-mc-value = řešení metodou nejmenších čtverců: { $n }, seed { $seed }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:407
+js-geo-fact-rms-3d = RMS mraku, 3D
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:407
+js-geo-fact-rms-3d-beside = { $rms } m, vedle σ_UERE × PDOP = { $predicted } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:406
+js-geo-fact-rms-h = RMS mraku, horizontální
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:406
+js-geo-fact-rms-h-beside = { $rms } m, vedle σ_UERE × HDOP = { $predicted } m
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:406
+js-geo-fact-rms-value = { $rms } m
+
+# 2026-10-01-studio-rebuild/lib/geojson-layer.mjs:29
+js-geo-gj-not-geojson = { $name }: není GeoJSON (očekávala se FeatureCollection, Feature nebo geometrie).
+
+# 2026-10-01-studio-rebuild/lib/geojson-layer.mjs:23
+js-geo-gj-not-json = { $name }: není JSON ({ $reason }).
+
+# 2026-10-01-studio-rebuild/lib/geojson-layer.mjs:24
+js-geo-gj-not-object = { $name }: není objekt GeoJSON.
+
+# 2026-10-01-studio-rebuild/lib/geojson-layer.mjs:32
+js-geo-gj-too-many = { $name }: počet prvků { $count }; tato stránka jich vykreslí nejvýše { $max }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:314
+js-geo-legend-item = { $label }: { $used } z { $total } v řešení
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:199
+js-geo-link-copied = Odkaz zkopírován.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:199
+js-geo-link-copied-no-tle = Odkaz zkopírován (bez vašich vložených prvků: odkaz otevře předvolby).
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:74
+js-geo-mc-off = Vypnuto
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-ellipse = chybová elipsa
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-gdop = GDOP
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-leo = LEO
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-monte-carlo = mrak Monte Carlo
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-open-sky = podíl otevřené oblohy
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-skyline = skyline
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:167
+js-geo-missing-tdop = TDOP
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:328
+js-geo-needs = vyžaduje engine 0.36
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:377
+js-geo-needs-cap = Vyžaduje engine 0.36
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:415
+js-geo-no = Ne
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:377
+js-geo-no-ellipse = Žádná elipsa
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:417
+js-geo-no-sats = Žádné družice k zobrazení.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:244
+js-geo-north = S
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:328
+js-geo-not-given = neuvedeno
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:263
+js-geo-note-elements-skipped = Přeskočeno sad prvků: { $count } ({ $list }).
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:164
+js-geo-note-latitude-limited = Toto sestavení enginu modeluje lokality do 89° od rovníku; zeměpisná šířka byla na tuto hodnotu omezena.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:162
+js-geo-note-leo-left-out = LEO: vyžaduje engine 0.36; vynecháno.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:346
+js-geo-note-no-engine = Engine v tomto prohlížeči neběží, takže není co zobrazit. Běží jako WebAssembly; prohlížeč nebo hostitel, který WebAssembly blokuje, tento pohled spustit nemůže.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:168
+js-geo-note-pick-one = Vyberte alespoň jeden z GPS, Galileo a BeiDou.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:163
+js-geo-note-skyline-not-applied = Skyline je vykreslena, ale není použita: její použití vyžaduje engine 0.36. Družice za ní se zde stále počítají.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:261
+js-geo-note-skyline-source = Skyline: { $source }.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:165
+js-geo-note-training-model = Model tréninkové oblohy enginu { $version } (nmea_training) v čase { $instant }: úhly v celých stupních a DOP na jedno desetinné místo, jak je nesou věty přijímače; určení polohy používá nejvýše 12 družic, vybraných podle síly signálu.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:259
+js-geo-note-unknown-systems = Vynecháno záznamů družic systému, který tento pohled nevykresluje: { $count }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:107
+js-geo-off-leo = LEO: vyžaduje engine 0.36.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:112
+js-geo-off-monte-carlo = Mrak Monte Carlo vyžaduje engine 0.36.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:108
+js-geo-off-skyline = Použití skyline vyžaduje engine 0.36: zde se pouze vykresluje.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:88
+js-geo-offset-own = Posun od epochy vašich prvků ({ $epoch })
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:88
+js-geo-offset-ref = Posun od referenční epochy konstelací
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:341
+js-geo-open-sky-share = { $pct } % horní polokoule
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:141
+js-geo-out-of-range = Mimo rozsah, proto ponechána poslední dobrá hodnota: { $names }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:186
+js-geo-own-elements-at = Vaše vlastní prvky v { $epoch }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:138
+js-geo-pick-constellation = Vyberte alespoň jednu konstelaci.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:22
+js-geo-place-geiranger = Geirangerfjord, Norsko
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:22
+js-geo-place-manhattan = Midtown Manhattan, Spojené státy
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:21
+js-geo-place-oslo = Přístav Oslo, Norsko
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:21
+js-geo-place-rotterdam = Přístav Rotterdam, Nizozemsko
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:22
+js-geo-place-singapore = Singapurský průliv
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:21
+js-geo-place-tallinn = Přístav Tallinn, Estonsko
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:22
+js-geo-place-tromso = Tromsø, Norsko
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:262
+js-geo-plot-desc = Družice v grafu: { $total }, v řešení: { $used }.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:336
+js-geo-preset-illustrative = Ilustrativní obrys vykreslený touto stránkou; použití skyline vyžaduje engine 0.36.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:436
+js-geo-ready = Připraveno.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:436
+js-geo-ready-needs = Připraveno. Vyžaduje engine 0.36: { $list }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:252
+js-geo-sat-masked = { $label } { $id }: azimut { $az }°, elevace { $el }°, skryta skyline
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:252
+js-geo-sat-unused = { $label } { $id }: azimut { $az }°, elevace { $el }°, nepoužita
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:252
+js-geo-sat-used = { $label } { $id }: azimut { $az }°, elevace { $el }°, v řešení
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:66
+js-geo-scenarios-under = Scénáře enginu pod touto skyline:
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:73
+js-geo-sky-canyon = Pouliční rokle
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:73
+js-geo-sky-drawn = Nakresleno na skyplotu
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:73
+js-geo-sky-open = Otevřený horizont
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:73
+js-geo-sky-preset = Předvolba: { $name }
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:434
+js-geo-sky-source = Obloha: { $source }.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:58
+js-geo-skyline-city-street = Městská ulice
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:61
+js-geo-skyline-container = Kontejnerový terminál
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:60
+js-geo-skyline-fjord = Fjord
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:59
+js-geo-skyline-harbour = Příjezd do přístavu
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:160
+js-geo-skyline-load-failed = Skyline se nepodařilo načíst ({ $reason }).
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:213
+js-geo-skyplot-downloaded = Skyplot stažen.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:214
+js-geo-skyplot-export-failed = Skyplot se nepodařilo exportovat ({ $reason }).
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:267
+js-geo-source-geometry = Engine Kshana { $version }, sky_geometry
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:434
+js-geo-source-line = { $source }.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:174
+js-geo-source-training = Engine Kshana { $version }, model tréninkové oblohy
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:244
+js-geo-south = J
+
+# 2026-10-01-studio-rebuild/lib/skyplot.mjs:17
+js-geo-style-own-elements = Vaše prvky
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:207
+js-geo-svg-refused = SVG z enginu bylo odmítnuto
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:416
+js-geo-table-count = Družice: { $n }, stejné jako na skyplotu.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:48
+js-geo-tle-epoch = Zadejte epochu UTC od roku 2000 do 2099.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:44
+js-geo-tle-paste-first = Nejprve vložte jednu nebo více dvouřádkových sad prvků.
+
+# 2026-10-01-studio-rebuild/lib/geometry-adapter.mjs:45
+js-geo-tle-too-large = Vložené prvky jsou větší než 4 MiB, což je vstupní limit enginu.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:415
+js-geo-used-masked = Ne: skryta skyline
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:192
+js-geo-using-own = Používají se vaše vlastní prvky. Odkaz nese pouze informaci, že jste je použili, nikoli samotné prvky.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:463
+js-geo-wasm-blocked = WebAssembly je blokováno
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:244
+js-geo-west = Z
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:379
+js-geo-why = Proč
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:376
+js-geo-why-interim = Chybová elipsa a mrak Monte Carlo vyžadují engine 0.36 (jeho funkce sky_geometry a sky_monte_carlo); engine na této stránce je starší.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:376
+js-geo-why-no-ellipse = Engine pro tuto geometrii nedal žádnou elipsu (příliš málo družic pro určení polohy, nebo singulární geometrie).
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:376
+js-geo-why-no-ellipse-reason = Engine pro tuto geometrii nedal žádnou elipsu (příliš málo družic pro určení polohy, nebo singulární geometrie): { $reason }.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:376
+js-geo-why-waiting = Čeká se na engine.
+
+# 2026-10-01-studio-rebuild/geometry/geometry.js:415
+js-geo-yes = Ano
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:105
+js-hold-axis-seconds = sekundy od prvního vzorku
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:129
+js-hold-axis-tau = doba pozorování τ, s (log)
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:103
+js-hold-axis-te = časová chyba, ns
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:89
+js-hold-band-title = Pásmo zotavení ±{ $band } ns
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:21
+js-hold-blurb-example = Vzorky každých 5 s: 600 s zachyceno, GNSS odpojeno v 600 s, holdover, GNSS obnoveno ve 2400 s. Záznam je pro příklad vygenerován; není to měření.
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:22
+js-hold-blurb-ptp4l = Stejné čtyři kroky přečtené z logu serva ptp4l (vlastní offset démona, v ns). Log je pro příklad napsán; žádný démon neběžel.
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:95
+js-hold-budget-exceeded = { $name }: poprvé překročeno { $s } s po odpojení
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+js-hold-chip-baseline = Základ proti svým maskám
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+js-hold-chip-envelope = Obálka holdoveru ePRTC-A
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+js-hold-chip-holdover = Holdover proti svým maskám
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:55
+js-hold-chip-measured = změřeno proti masce
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+js-hold-chip-recovery = Zotavení
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:55
+js-hold-chip-words = Slovně
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:124
+js-hold-curve-title = { $step }: { $which }, ns
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:119
+js-hold-curves-aria = { $which } v závislosti na době pozorování, s limity masky
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:94
+js-hold-envelope-exceeded = Obálka holdoveru ePRTC-A poprvé překročena { $s } s po odpojení
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:141
+js-hold-envelope-exceeded-short = { $verdict }, poprvé překročeno { $s } s po odpojení (záznam je kratší než perioda obálky)
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:142
+js-hold-envelope-exceeded-value = { $verdict }, poprvé překročeno { $s } s po odpojení
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:143
+js-hold-envelope-short = { $verdict } (záznam je kratší než perioda obálky)
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:43
+js-hold-file-error = { $name }: { $error }.
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:40
+js-hold-file-not-json = { $name }: není JSON.
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:46
+js-hold-file-read-here = { $name }, načteno zde; nic se nenahrálo.
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:38
+js-hold-file-too-large = { $name } je větší, než tato stránka čte.
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:67
+js-hold-from-record = záznam výsledku
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:67
+js-hold-from-record-decimated = záznam výsledku, zředěný na { $have } z { $total } vzorků
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-gnss-removed = GNSS odpojeno
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-gnss-removed-stated = GNSS odpojeno (uvedl operátor)
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-gnss-restored = GNSS obnoveno
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-gnss-restored-stated = GNSS obnoveno (uvedl operátor)
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-largest-at = { $value } při T+{ $time } s
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:91
+js-hold-limit-label = maska ±{ $ns } ns, krok { $step }
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:91
+js-hold-limit-title = { $id }: ±{ $ns } ns, maximální absolutní časová chyba v kroku { $step }
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:128
+js-hold-mark-title = { $id } limit { $limit } ns při τ { $tau } s ({ $verdict }; { $source })
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:92
+js-hold-marker-time = { $name }, T+{ $time } s
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:15
+js-hold-na = n/a
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:102
+js-hold-no-curve = Žádná křivka časové chyby: záznam se nepodařilo pro vykreslení reprodukovat.
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:115
+js-hold-no-which-curve = V tomto výsledku není žádná křivka: { $which }.
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+js-hold-not-exceeded = nepřekročeno
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-not-recovered = nezůstalo v pásmu
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:29
+js-hold-not-result = toto není výsledek testu holdoveru
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:32
+js-hold-open-failed = { $title } se nepodařilo otevřít: { $reason }.
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:23
+js-hold-opening = Otevírá se { $title }…
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:72
+js-hold-phase-baseline = Základ: zachyceno
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:72
+js-hold-phase-holdover = Holdover: GNSS odpojeno
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:72
+js-hold-phase-recovery = Zotavení: GNSS obnoveno
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:87
+js-hold-phase-title = { $phase }, T+{ $from } s až { $to } s
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:47
+js-hold-read-failed = Nepodařilo se přečíst nebo vykreslit ({ $reason }).
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:30
+js-hold-recorded = { $title }: zaznamenaný výsledek enginu (verze { $version }).
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-recovered = v rozmezí ±{ $band } ns po dobu { $dwell } s, { $after } s po návratu GNSS
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:28
+js-hold-result-not-json = výsledek není JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:26
+js-hold-result-not-loaded = zaznamenaný výsledek se nenačetl
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:150
+js-hold-row-envelope = Obálka holdoveru ePRTC-A
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-frequency = Udržený frekvenční posun (proložená směrnice)
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-largest = Největší absolutní časová chyba
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-length = Délka holdoveru
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:150
+js-hold-row-margin = Nejmenší rezerva uvnitř obálky
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-row-peak = Maximum po obnovení
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-row-recovery = Zotavení
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:151
+js-hold-row-recovery-step = Největší skok během zotavení
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-residual = Rezidua kolem této přímky (rms)
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:149
+js-hold-row-step = Skok v okamžiku odpojení
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:68
+js-hold-status-final = { $status } { $label }; změřeno proti masce.
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:136
+js-hold-step-span = T+{ $from } až { $to } s
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:86
+js-hold-te-aria = Časová chyba v průběhu záznamu, s fázemi a limity masky
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:101
+js-hold-te-line-title = Časová chyba, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:58
+js-hold-te-note = Časová chyba z { $from }. Oba časy uvedl { $by }.
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+js-hold-th-budget = Rozpočet
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+js-hold-th-budget-limit = Limit |TE|, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+js-hold-th-first-exceeded = Poprvé překročeno po odpojení, s
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-largest = Největší |TE|, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-limit = Limit, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-margin = Rezerva, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-mask = Maska
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-mean = Průměr, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-measured-on = Změřeno na
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-metric = Metrika
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-rms = RMS, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-samples = Vzorky
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-source = Zdroj
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-span = Rozsah
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+js-hold-th-step = Krok
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-value = Hodnota, ns
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-verdict = Verdikt
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+js-hold-th-worst-at = Nejhorší při τ nebo T+, s
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:21
+js-hold-title-example = Záznam časové chyby
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:22
+js-hold-title-ptp4l = Log linuxptp
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:64
+js-hold-why-no-samples = výsledek neobsahuje žádné vzorky časové chyby (record.series), proto se nevykresluje žádná křivka
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:65
+js-hold-why-not-series = řada ve výsledku není časová řada (méně než dva vzorky, nebo čas neroste), proto se nevykresluje žádná křivka
+
+# 2026-10-01-studio-rebuild/holdover/holdover.js:58
+js-hold-why-sentence = { $why }.
+
+# 2026-10-01-studio-rebuild/lib/holdover.mjs:66
+js-hold-why-too-many = řada ve výsledku má { $have } vzorků tam, kde engine ohodnotil { $scored }, proto se nevykresluje žádná křivka
+
+# 2026-10-01-studio-rebuild/interference/interference.js:178
+js-interf-attribution = Přisouzení příčiny
+
+# 2026-10-01-studio-rebuild/interference/interference.js:413
+js-interf-build-failed = { $name }: nepodařilo se sestavit ({ $reason }).
+
+# 2026-10-01-studio-rebuild/interference/interference.js:409
+js-interf-built-day-maps =
+    { $n ->
+        [one] Sestavena { $n } mapa dne ze souboru { $name } enginem { $version } v tomto prohlížeči.
+        [few] Sestaveny { $n } mapy dne ze souboru { $name } enginem { $version } v tomto prohlížeči.
+        [many] Sestaveno { $n } mapy dne ze souboru { $name } enginem { $version } v tomto prohlížeči.
+       *[other] Sestaveno { $n } map dne ze souboru { $name } enginem { $version } v tomto prohlížeči.
+    }
+
+# 2026-10-01-studio-rebuild/interference/interference.js:411
+js-interf-built-detail = { $date }: zveřejněné buňky: { $published }, označené: { $flagged }
+
+# 2026-10-01-studio-rebuild/interference/interference.js:446
+js-interf-built-from-sample = Sestaveno ze syntetického vzorku { $kind } enginem v tomto prohlížeči. Vymyšlená hlášení; žádné skutečné letadlo, plavidlo ani den.
+
+# 2026-10-01-studio-rebuild/interference/interference.js:411
+js-interf-built-maps =
+    { $n ->
+        [one] Sestavena { $n } mapa ({ $detail }). Pouze souhrnně: označená buňka neuvádí interferenci jako příčinu.
+        [few] Sestaveny { $n } mapy ({ $detail }). Pouze souhrnně: označená buňka neuvádí interferenci jako příčinu.
+        [many] Sestaveno { $n } mapy ({ $detail }). Pouze souhrnně: označená buňka neuvádí interferenci jako příčinu.
+       *[other] Sestaveno { $n } map ({ $detail }). Pouze souhrnně: označená buňka neuvádí interferenci jako příčinu.
+    }
+
+# 2026-10-01-studio-rebuild/interference/interference.js:407
+js-interf-built-none = { $name }: engine nesestavil žádnou mapu.
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:73
+js-interf-caveat-coverage = Pokrytí se řídí zdrojem dat; přečtěte si poznámky o pokrytí.
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:71
+js-interf-caveat-no-colour = Buňka bez barvy nebyla pozorována. Není to důkaz, že oblast byla čistá.
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:70
+js-interf-caveat-not-finding = Zhoršená nebo anomální buňka není zjištěním interference. Existují i jiné příčiny.
+
+# 2026-10-01-studio-rebuild/lib/interference.mjs:72
+js-interf-caveat-past-reports = Toto je popis minulých hlášení o poloze, nikoli předpověď a nikoli měření žádného přijímače.
+
+# 2026-10-01-studio-rebuild/interference/interference.js:216
+js-interf-caveats = Výhrady
+
+# 2026-10-01-studio-rebuild/interference/interference.js:400
+js-interf-cell-size-rule = Velikost buňky musí být číslo ve stupních větší než 0 a nejvýše 10, nebo prázdné pro 0,5.
+
+# 2026-10-01-studio-rebuild/interference/interference.js:431
+js-interf-check-failed = { $name }: nepodařilo se zkontrolovat ({ $reason }).
+
+# 2026-10-01-studio-rebuild/interference/interference.js:152
+js-interf-click-cell = Klikněte na buňku, nebo zaostřete na mapu a použijte šipky, abyste viděli její hodnoty.
