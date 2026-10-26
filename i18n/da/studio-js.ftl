@@ -2287,3 +2287,357 @@ js-cat-lunanet-araim-title = Månens integritet
 js-cat-lunar-attack-surface-question = Hvad kræver det at spoofe eller afvise en modtager på månens overflade, og hvilket autentificeringsbudget besvarer det? (modelberegnet)
 
 js-cat-lunar-attack-surface-title = Månens angrebsflade
+
+js-cat-lunar-beacon-question = Hvor meget får en håndfuld opmålte overfladefyr DOP ved sydpolen til at falde sammen? (modelberegnet)
+
+js-cat-lunar-beacon-title = Fyr på månens overflade
+
+js-cat-lunar-differential-pnt-question = Hvor meget ophæver differentiel korrektion fællesmodefejl i forhold til baseline på Månen? (modelberegnet)
+
+js-cat-lunar-differential-pnt-title = Differentiel PNT på Månen
+
+js-cat-lunar-frame-campaign-question = Hvilken datumnøjagtighed kommer der ud af en observationskampagne i stedet for en indsat transformation? (modelberegnet)
+
+js-cat-lunar-frame-campaign-title = Kampagne for månens referencesystem
+
+js-cat-lunar-frame-realisation-question = Kan en Helmert-datumtilpasning genfinde en transformation af månens referencesystem? (modelberegnet)
+
+js-cat-lunar-frame-realisation-title = Månens referencesystem
+
+js-cat-lunar-infrastructure-carrier-phase-question = Kan en overfladestation og en orbiter sammen fastlægge heltalsmultipliciteterne i bærebølgefasen for Jordens GNSS-signaler? Den hurtige eksempelkørsel. (modelberegnet; en kørsel optaget med den native motor)
+
+js-cat-lunar-infrastructure-carrier-phase-title = Bærebølgefase på Månen: overfladestation og orbiter
+
+js-cat-lunar-infrastructure-frame-coestimation-question = Hvor meget mere information tilføjer afstandsmålinger mellem orbiter og overfladestation til månedatummets syv parametre? (modelberegnet; en kørsel optaget med den native motor)
+
+js-cat-lunar-infrastructure-frame-coestimation-title = Samestimering af månens referencesystem med orbiterlink
+
+js-cat-lunar-infrastructure-geodesy-sensitivity-question = Hvor følsomme er laserafstandsmåling, orbitersporing, et gravimeter og et overfladeur over for h2, k2, l2 og libration? (modelberegnet; en kørsel optaget med den native motor)
+
+js-cat-lunar-infrastructure-geodesy-sensitivity-title = Følsomhed over for Månens Love-tal og libration
+
+js-cat-lunar-infrastructure-od-consistency-model-error-question = Den samme sammenligning med en lille umodelleret acceleration indsat: opdager konsistenskontrollen den? (modelberegnet; en kørsel optaget med den native motor)
+
+js-cat-lunar-infrastructure-od-consistency-model-error-title = Banebestemmelse på Månen, med en indsat modelfejl
+
+js-cat-lunar-infrastructure-od-consistency-question = Stemmer banebestemmelse om bord med Jordens GNSS i en måneglorie-bane og uafhængig radiometrisk banebestemmelse fra jorden overens inden for deres angivne usikkerheder? (modelberegnet; en kørsel optaget med den native motor)
+
+js-cat-lunar-infrastructure-od-consistency-title = Banebestemmelse på Månen: GNSS om bord mod sporing fra jorden
+
+js-cat-lunar-infrastructure-space-tie-question = Hvor præcist kan forskydningerne mellem tre teknikker knyttes sammen, målt mod fejlen i den lokale kobling? (modelberegnet; en kørsel optaget med den native motor)
+
+js-cat-lunar-infrastructure-space-tie-title = Rumkobling: GNSS, VLBI og laserafstandsmåling på ét rumfartøj
+
+js-cat-lunar-interop-export-question = Kan månens referencesystem, tid og efemeride føres frem og tilbage gennem CCSDS OEM + en KIF-kuvert?
+
+js-cat-lunar-interop-export-title = Interoperabilitetseksport for Månen
+
+js-cat-lunar-jamming-question = Hvor langt væk kan en jammer stå og stadig afvise en modtager på månens overflade? (modelberegnet)
+
+js-cat-lunar-jamming-title = Jamming på Månen
+
+js-cat-lunar-joint-od-clock-question = Gør en VLBI-kobling med Jorden som baseline en månestations absolutte position observerbar? (modelberegnet)
+
+js-cat-lunar-joint-od-clock-title = Fælles OD + ur på Månen
+
+js-cat-lunar-llr-datum-question = Hvordan ser månedatummet ud, når kampagnen er rigtig arkiveret lasermåling af afstanden til Månen (LLR)? (modelberegnet; en kørsel optaget med den native motor)
+
+js-cat-lunar-llr-datum-title = Månedatum fra laserafstandsmåling
+
+js-cat-lunar-relay-constellation-question = Hvilken dækning giver en konstellation af relæer og navigation i frosne og lave månebaner over hele Månen? (modelberegnet; en eksempeludformning)
+
+js-cat-lunar-relay-constellation-title = Relækonstellation på Månen
+
+js-cat-lunar-station-coverage-public-sources-question = Alene under de offentligt angivne antagelser, hvilken korrigeret fejl giver stationen over sydpolen? Resultatet domineres af banelementerne, som ikke er offentlige og er sat ILLUSTRATIVT; dette er input til den frosne forudsigelse. (modelberegnet; ikke en udtalelse om noget virkeligt system)
+
+js-cat-lunar-station-coverage-public-sources-title = Referencestation på Månen, offentlige antagelser
+
+js-cat-lunar-station-coverage-question = Over sydpolsområdet og et døgn, hvilken korrigeret fejl giver en referencestation på Månen, og hvor langt fra den holder dækningen? (modelberegnet; ikke en udtalelse om noget virkeligt system)
+
+js-cat-lunar-station-coverage-terrain-question = Når hvert steds horisont er ray-marchet over en virkelig højdemodel af Månen, hvor meget dækning mister stationen til terrænet? (modelberegnet)
+
+js-cat-lunar-station-coverage-terrain-title = Månestation med virkeligt terræn
+
+js-cat-lunar-station-coverage-title = Dækning fra referencestation på Månen
+
+js-cat-lunar-station-geodesy-baseline-question = Hvor godt fastlægger nutidens fem retroreflektorfelter månedatummet på en virkelig tidsplan, før der er tilføjet nogen station? Baseline for et par. (modelberegnet; en kørsel optaget med den native motor)
+
+js-cat-lunar-station-geodesy-baseline-title = Månestationens geodæsi: de fem felter alene
+
+js-cat-lunar-station-geodesy-with-station-question = Den samme arkiverede tidsplan med én tilføjet reflektor og ét VLBI-fyr ved sydpolen: hvor meget strammes datumgrænsen? (modelberegnet, illustrativt sted; en kørsel optaget med den native motor)
+
+js-cat-lunar-station-geodesy-with-station-title = Månestationens geodæsi: med en station ved sydpolen
+
+js-cat-lunar-station-time-lab-question = Når en stations miniaturerubidiumur sidst er styret til månetid, hvor længe holder det sig så inden for 1, 10 og 100 ns, og hvilket fejlled dominerer? (modelberegnet)
+
+js-cat-lunar-station-time-lab-title = Månestationens tidslaboratorium
+
+js-cat-lunar-time-budget-question = Hvor stor er koordinattidsforskellen mellem Jorden og Månen, og hvad er dens fejlbudget? (modelberegnet)
+
+js-cat-lunar-time-budget-title = Tidsbudget for Månen
+
+js-cat-lunar-time-offset-question = Hvor hurtigt divergerer et månesur fra jordtid (~56–59 µs/døgn)?
+
+js-cat-lunar-time-offset-title = Tidsforskydning på Månen
+
+js-cat-lunar-vlbi-fim-question = Hvilken nøjagtighed af stationskoordinater giver en given VLBI-sporingsplan faktisk? (modelberegnet)
+
+js-cat-lunar-vlbi-fim-title = VLBI-information for Månen
+
+js-cat-lunar-vlbi-question = Hvilken forsinkelse ser et VLBI-par med Jorden som baseline for et fyr på månens overflade? (modelberegnet)
+
+js-cat-lunar-vlbi-title = VLBI på Månen
+
+js-cat-maritime-port-approach-coast-question = Ved indsejling til havn uden GNSS, hvornår forlader et INS af navigationskvalitet havne- og havbudgetterne? (modelberegnet)
+
+js-cat-maritime-port-approach-coast-title = Indsejling til havn på inertial
+
+js-cat-maritime-spoof-position-push-question = Når en spoofer trækker et skibs positionsbestemmelse 500 m, hvilke detektionslag fanger det? (modelberegnet)
+
+js-cat-maritime-spoof-position-push-title = Skibets position spoofet
+
+js-cat-maritime-strait-jamming-question = Over 30 km åbent vand, tager en jammer på 50 W så et fartøjs GNSS væk? (modelberegnet)
+
+js-cat-maritime-strait-jamming-title = Skib med jamming i et stræde
+
+js-cat-mars-orbit-pnt-question = Hvor godt positionsbestemmes en lav Mars-orbiter ud fra tolv navigationsrelæer, og hvad tilføjer en afstandsmåling fra Jorden? (modelberegnet)
+
+js-cat-mars-orbit-pnt-title = Mars-orbiter med relæer og et link til Jorden
+
+js-cat-mars-pnt-lmo-question = Kan en MARCONI-relækonstellation navigere en bruger ved Mars? (kovarians-FoM, ikke et certificeret PL)
+
+js-cat-mars-pnt-lmo-title = PNT ved Mars, lav bane
+
+js-cat-mars-pnt-surface-question = Hvor godt kan en lander eller rover på Mars' roterende overflade navigeres mod relækonstellationen?
+
+js-cat-mars-pnt-surface-title = PNT ved Mars, overflade
+
+js-cat-mars-pnt-transfer-question = Hvor godt navigeres et køretøj på en høj, excentrisk tilflyvnings- eller indfangningsbue ved Mars?
+
+js-cat-mars-pnt-transfer-title = PNT ved Mars, transfer
+
+js-cat-meo-leo-fused-pvt-question = Hvad gør det ved positionsfejl og geometri at tilføje et lag i lav bane til GPS og Galileo? (modelberegnet)
+
+js-cat-meo-leo-fused-pvt-title = Fusioneret positionsbestemmelse med GNSS og lav bane
+
+js-cat-moonlight-service-volume-question = Hvilken DOP, dækning og integritet giver en konstellation af Moonlight/LCNS-klassen ved sydpolen? (modelberegnet)
+
+js-cat-moonlight-service-volume-title = Tjenestevolumen på Månen
+
+js-cat-multi-band-jamming-waterfall-question = Med navigationssignaler fordelt over fire bånd, hvad lader en jammer bygget til ét bånd stå tilbage? (modelberegnet)
+
+js-cat-multi-band-jamming-waterfall-title = Vandfald med jamming i flere bånd
+
+js-cat-notinbrowser-elevation-model = Kræver udsnittet af månens højdemodel ({ $path }), som følger med repositoriet, ikke med browserudgaven.
+
+js-cat-notinbrowser-laser-ranging-data = Kræver det arkiverede udsnit af laserafstandsdata, som følger med repositoriet, ikke med browserudgaven.
+
+js-cat-notinbrowser-study-suite = En undersøgelsessuite, ikke ét enkelt scenarie. Kør den med kommandolinjeværktøjet: { $command }.
+
+js-cat-ntn-5g-positioning-question = Hvor præcist kan en håndholdt enhed bestemme sin egen position ud fra en downlink i et ikke-terrestrisk 5G-net, efter signalbåndbredde? (modelberegnet)
+
+js-cat-ntn-5g-positioning-title = Positionering ud fra 5G-satellitdownlink
+
+js-cat-oem-interop-question = Kan en OEM-efemeride fra GMAT / Orekit / STK importeres og føres frem og tilbage?
+
+js-cat-oem-interop-title = CCSDS OEM-bro
+
+js-cat-optical-atmosphere-network-question = Hvor ofte er et optisk tidslink oppe gennem skyer og turbulens, og hvad giver ekstra jordstationer? (modelberegnet; illustrative skyklimaer)
+
+js-cat-optical-atmosphere-network-title = Optisk link gennem atmosfæren, tre steder
+
+js-cat-optical-atmosphere-techniques-question = Hvad giver en større apertur, en anden bølgelængde eller adaptiv optik ét optisk uplink i sky og turbulens? (modelberegnet; illustrativt skyklima)
+
+js-cat-optical-atmosphere-techniques-title = Teknikker til optisk link
+
+js-cat-orbit-gnss-challenged-question = Hvornår er en positionsbestemmelse overhovedet mulig ud fra satellitgeometrien?
+
+js-cat-orbit-gnss-challenged-title = GNSS-tilgængelighed
+
+js-cat-orbit-molniya-question = Kan en bruger i en stærkt excentrisk Molniya-bane stadig se nok GNSS-satellitter nær apogæum?
+
+js-cat-orbit-molniya-title = Molniya-bruger
+
+js-cat-orbit-multignss-question = Hvor meget løfter GPS + Galileo sammen tilgængeligheden og strammer præcisionsforringelsen?
+
+js-cat-orbit-multignss-title = Multi-GNSS-tilgængelighed
+
+js-cat-orbit-real-tle-question = Hvilken dækning giver en faktisk konstellation, angivet som two-line element sets?
+
+js-cat-orbit-real-tle-title = Rigtige two-line elements
+
+js-cat-orbit-rinex-question = Hvilken tilgængelighed kommer der ud af en rigtig RINEX 3-udsendt efemeride?
+
+js-cat-orbit-rinex-title = Udsendt efemeride
+
+js-cat-orbit-sgp4-gps-question = Hvordan propagerer en virkelig GPS-lignende konstellation over et døgn?
+
+js-cat-orbit-sgp4-gps-title = SGP4-baner
+
+js-cat-orbit-urban-canyon-skyline-question = I bunden af en bygade, hvor stor en del af døgnet giver GPS og Galileo fire satellitter, og hvad gør striben af himmel ved PDOP? (modelberegnet; repræsentativ horisontprofil)
+
+js-cat-orbit-urban-canyon-skyline-title = Tilgængelighed i en bygade
+
+js-cat-passes-question = Hvornår står en satellit op og går ned over en station, og hvor længe?
+
+js-cat-passes-title = Passager over jorden
+
+js-cat-polar-arctic-leo-coverage-question = Fra ækvator til polen, hvordan ændres satellitter i sigte og geometri med GNSS alene, et polart lag i lav bane alene og begge dele? (modelberegnet)
+
+js-cat-polar-arctic-leo-coverage-title = Fra ækvator til pol
+
+js-cat-pvt-abmf-question = Kan en rigtig modtagerposition beregnes ud fra rå RINEX-målinger?
+
+js-cat-pvt-abmf-title = Positionsbestemmelse (SPP)
+
+js-cat-quantum-anomaly-detect-question = Hvor godt opdages fejl i kvantesystemer ved en fast falsk alarmrate? (modelberegnet)
+
+js-cat-quantum-anomaly-detect-title = Detektion af kvanteanomalier
+
+js-cat-quantum-cai-coast-question = Hvor længe holder et koldatom-interferometer, specificeret ud fra sin fysik, dødregning inden for 100 m, efter at GNSS er gået tabt, sammenlignet med et kvartsaccelerometer af navigationskvalitet? (modelberegnet)
+
+js-cat-quantum-cai-coast-title = Glidning med kvanteaccelerometer
+
+js-cat-quantum-gnss-free-nav-question = Hvor langt glider en koldatom-navigator i forhold til et INS af navigationskvalitet uden GNSS? (modelberegnet)
+
+js-cat-quantum-gnss-free-nav-title = Kvantenavigation uden GNSS
+
+js-cat-quantum-pnt-demonstrator-suite-question = De tre kvanteanvendelsesområder som én undersøgelse (en undersøgelsessuite til kommandolinjen: kshana --study).
+
+js-cat-quantum-pnt-demonstrator-suite-title = Undersøgelse af kvante-PNT-demonstrator
+
+js-cat-quantum-time-transfer-question = Hvad giver betroet kvantetid i forhold til en klassisk CSAC + RF-kæde? (modelberegnet)
+
+js-cat-quantum-time-transfer-title = Kvantetidsoverførsel
+
+js-cat-quantum-trade-question = Hvilken tids- / inertialholdover giver et kandidatur-ur i forhold til en klassisk baseline? (modelberegnet)
+
+js-cat-quantum-trade-title = Afvejning af kvante-PNT
+
+js-cat-rail-tunnel-coast-question = Ved 160 km/t gennem en tunnel, hvor hurtigt forlader et INS af taktisk kvalitet sit budget? (modelberegnet)
+
+js-cat-rail-tunnel-coast-title = Tog gennem en tunnel
+
+js-cat-realtime-frame-eop-question = Hvor stor en referencesystemfejl indfører Jordens orientering i realtid (forudsagt)? (modelberegnet)
+
+js-cat-realtime-frame-eop-title = Referencesystem/EOP i realtid
+
+js-cat-reentry-question = Hvilken maksimal g-belastning og hvilken hastighed ved maksimal opvarmning ser en ballistisk genindtræden?
+
+js-cat-reentry-title = Genindtrædenskorridor
+
+js-cat-slot-timing-ocxo-leo-question = Hvor længe holder en ovnstyret krystaloscillator på en lille satellit i lav bane sig inden for sin slotbeskyttelse efter den seneste GNSS-positionsbestemmelse? (modelberegnet)
+
+js-cat-slot-timing-ocxo-leo-title = Slottidssynkronisering
+
+js-cat-small-uas-jammed-nav-question = Efter at en jammer har taget GNSS væk, hvor langt driver en inertienhed af flightcontrollerklassen, sammenlignet med en af taktisk kvalitet?
+
+js-cat-small-uas-jammed-nav-title = Lille drone under jamming
+
+js-cat-solar-system-tour-question = Hvor er hvert legeme, motoren kender, fra Solen til Pluto og de store måner, og hvor lang tid tager lyset mellem dem?
+
+js-cat-solar-system-tour-title = Solsystemet på ét tidspunkt
+
+js-cat-space-packet-question = Kodes og afkodes en CCSDS 133.0-pakkestrøm bit for bit nøjagtigt?
+
+js-cat-space-packet-title = Space Packet
+
+js-cat-space-weather-question = Hvordan ændrer sol- / geomagnetisk aktivitet termosfærens massefylde? (modelberegnet)
+
+js-cat-space-weather-title = Rumvejr
+
+js-cat-spoof-attack-question = Fanges en stigende tidsspoofing, før den når specifikationen?
+
+js-cat-spoof-attack-title = Spoofingdetektion
+
+js-cat-spoof-detect-question = Kan en fusioneret RF- og målingsmonitor fange en koordineret spoofing?
+
+js-cat-spoof-detect-title = Spoofingdetektion i flere lag
+
+js-cat-spoof-meaconing-question = Med en eksplicit angrebsform, hvor ofte fanger en urstøttet energidetektor spoofingen ved en fast falsk alarmrate?
+
+js-cat-spoof-meaconing-title = Statistik for spoofingdetektor
+
+js-cat-starlink-sop-doppler-positioning-question = Hvor godt kan en modtager bestemme sin position ud fra Doppler fra en bredbåndskonstellation, der ikke sender nogen navigationsmeddelelse? (modelberegnet)
+
+js-cat-starlink-sop-doppler-positioning-title = Bredbåndssignaler ved lejlighed
+
+js-cat-sweep-clock-stability-question = Hvordan ændres holdover, når én urparameter sweepes?
+
+js-cat-sweep-clock-stability-title = Parametersweep
+
+js-cat-sweep-nd-inertial-question = Hvordan varierer et kvalitetsmål over et gitter med flere parametre?
+
+js-cat-sweep-nd-inertial-title = N-D-sweep
+
+js-cat-telecom-prtc-holdover-24h-question = Holder en rubidiumreference, der mister GNSS i 24 timer, sig inden for ITU-T-masker for tidsfejl? (modelberegnet)
+
+js-cat-telecom-prtc-holdover-24h-title = Telekom-holdover, 24 timer
+
+js-cat-telecom-synce-eec-question = Holder en frit løbende ovnstyret oscillator sig inden for wander-masker for udstyrsuret i synkron Ethernet? (modelberegnet)
+
+js-cat-telecom-synce-eec-title = Frekvenssynkronisering mod SyncE-masker
+
+js-cat-telecom-tie-ingest-question = Består en optagelse af tidsintervalfejl ITU-T's MTIE- og TDEV-masker?
+
+js-cat-telecom-tie-ingest-title = Kontrol af telekommaske, dine data
+
+js-cat-terrain-nav-question = Kan et højdemåler rette INS-drift ved at matche en terrænhøjdeprofil?
+
+js-cat-terrain-nav-title = Terrænnavigation
+
+js-cat-terrain-slam-question = Kan et partikelfilter følge en tidsvarierende INS-drift mod et terrænkort?
+
+js-cat-terrain-slam-title = Terræn-SLAM
+
+js-cat-time-transfer-budget-question = Hvad gør stations-, transponder-, ionosfære- og Sagnac-led ved en tovejs tidsforskydning, og hvad er dens usikkerhedsbudget? (modelberegnet)
+
+js-cat-time-transfer-budget-title = Tovejs satellittidsoverførsel
+
+js-cat-timetransfer-question = Hvor tæt kan to steder holde sig synkroniseret over et link?
+
+js-cat-timetransfer-title = Tidsoverførsel
+
+js-cat-tracking-loop-question = Ved hvilken C/N0 mister en modtager faktisk låsningen, og kan en spoofer trække løkkerne over? (modelberegnet)
+
+js-cat-tracking-loop-title = Sporingsløkke
+
+js-cat-xona-pulsar-end-to-end-question = Den samme kæde på offentlige Xona Pulsar-tal: signal, passage, meddelelse, fusioneret positionsbestemmelse og præcis positionsbestemmelse. (modelberegnet)
+
+js-cat-xona-pulsar-end-to-end-title = Fra ende til anden, Xona Pulsar
+
+js-cat-xona-pulsar-signals-question = Hvor præcist kan en modtager måle afstand på de offentliggjorte X1- og X5-signaler, og hvor stort er søgerummet for erhvervelsen? (offentlig signaltabel)
+
+js-cat-xona-pulsar-signals-title = Xona Pulsar-signaler
+
+js-geo-a-place = Et sted…
+
+js-geo-axis-east = Ø +{ $ext } m
+
+js-geo-axis-north = N +{ $ext } m
+
+js-geo-canyon-needs = Gadekløftformen kræver motor 0.36.
+
+js-geo-canyon-out-of-range = Værdierne for gadekløften er uden for intervallet (azimut 0 til 359.9°, bredde 1 til 200 m, højder 0 til 500 m, antenne 0 til 50 m); en åben horisont bruges.
+
+js-geo-canyon-reduced = Motorens reduktion af kløften til en tabel med 360 bins.
+
+js-geo-compute-failed = Motoren kunne ikke beregne denne himmel: { $reason }
+
+js-geo-computing = Beregner…
+
+js-geo-copy-link = Kopiér dette link: { $url }
+
+js-geo-count-below = Under horisonten
+
+js-geo-count-hidden = Skjult af horisontprofilen
+
+js-geo-count-in-view = I sigte
+
+js-geo-count-open-sky = Åben himmel
+
+js-geo-count-used = I løsningen
+
+js-geo-cursor-live = Azimut { $az }°, horisontprofil { $el }°.
+
+js-geo-dated-sky = En dateret himmel er kun så god som elementerne og deres alder; forudindstillingerne er udeladt.
