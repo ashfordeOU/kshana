@@ -6219,3 +6219,863 @@ js-meankind-leopvt-polar-line =
     }
 
 js-meankind-leopvt-timing-big = 低轨时间传递使最好的时钟保持在 UTC 的 { $ns } ns 以内（均方根）。
+
+js-meankind-leopvt-timing-line =
+    { $n ->
+       *[other] 已比较 { $n } 种时钟与信号工况。
+    }
+
+js-meankind-leosignal-big =
+    { $n ->
+       *[other] 在 { $n } 种信号设计中，{ $best } 的抗压制干扰能力最强：比信号高 { $db } dB。
+    }
+
+js-meankind-leosignal-line-fail = 频谱形状检查未通过。
+
+js-meankind-leosignal-line-pass = 频谱形状检查通过。
+
+js-meankind-link-big-closes = 链路可闭合，余量 { $margin } dB。
+
+js-meankind-link-big-open = 链路无法闭合：余量为 { $margin } dB。
+
+js-meankind-link-line = 距离 { $km } km。
+
+js-meankind-link-line-band = { $band } 频段，距离 { $km } km。
+
+js-meankind-link-line-band-rate = { $band } 频段，距离 { $km } km，速率 { $rate } bit/s。
+
+js-meankind-link-line-rate = 距离 { $km } km，速率 { $rate } bit/s。
+
+js-meankind-list-and = { $head }和{ $last }
+
+js-meankind-llr-big = 真实的激光测距将月球坐标系约束到 { $mm } mm。
+
+js-meankind-llr-line = 尺度精确到十亿分之 { $ppb }。
+
+js-meankind-mapmatch-altimeter = 高度计的测量精度为 { $sigma } m。
+
+js-meankind-mapmatch-big = 地图匹配将位置保持在 { $matched } m，而仅用惯性时漂移为 { $free } m。
+
+js-meankind-mapmatch-gravimeter = 重力仪的测量精度为 { $sigma } mGal。
+
+js-meankind-mapmatch-sources = 仅用重力为 { $gravity } m，磁场为 { $magnetic } m，地形为 { $terrain } m。
+
+js-meankind-marspnt-big = { $user }导航仪收敛到 { $m } m（均方根）。
+
+js-meankind-marspnt-line =
+    { $n ->
+       *[other] 在 { $n } 个历元中，平均有 { $mean } 个中继可见。
+    }
+
+js-meankind-moonlight-big = 该服务覆盖了所检查地点和时间的 { $share } %。
+
+js-meankind-moonlight-line =
+    { $n ->
+       *[other] 可见卫星 { $min } 至 { $n } 颗；几何质量（PDOP）介于 { $pmin } 与 { $pmax } 之间。
+    }
+
+js-meankind-navmsg-big =
+    { $n ->
+       *[other] 一条导航电文可容纳在 { $n } 字节内。
+    }
+
+js-meankind-navmsg-cases-big =
+    { $n ->
+       *[other] 在 { $n } 个工况中，广播轨道的测距误差为 { $min } 至 { $max } mm。
+    }
+
+js-meankind-navmsg-cases-line = 空间信号测距误差，均方根。
+
+js-meankind-navmsg-line = 舍入到电文格式会带来 { $mm } mm 的测距误差。
+
+js-meankind-navmsg-midpass-big = 在过境中途更新电文，会使测距跳变最多 { $mm } mm。
+
+js-meankind-navmsg-midpass-line = 限值为 { $mm } mm。
+
+js-meankind-ntn-big = 来自轨道的 5G 定位在 { $signal } 下可达 { $m } m。
+
+js-meankind-ntn-line = 一次过境内的多普勒给出 { $m } m。
+
+js-meankind-obs-big-full = 跟踪 { $dur } 后，轨道变为完全可观测。
+
+js-meankind-obs-big-partly = 在 { $h } h 的弧段内，轨道保持部分可观测。
+
+js-meankind-obs-line = 弧段结束时，秩为 { $rank }（共 { $dim }）。
+
+js-meankind-oem-big = 星历文件往返转换后的位置误差最多为 { $mm } mm。
+
+js-meankind-oem-line =
+    { $n ->
+       *[other] { $n } 个分段中共 { $states } 个状态。
+    }
+
+js-meankind-optical-big-alone = 最佳的单个站点使光链路在 { $best } % 的时间内保持畅通（无云上限 { $ceiling } %）；没有任何无云余量能使其超过 { $ceiling } %。
+
+js-meankind-optical-big-team = 最佳的单个站点使光链路在 { $best } % 的时间内保持畅通（无云上限 { $ceiling } %）；{ $n } 个站点联合，若天气相互独立可达 { $independent } %，按所述相关性则为 { $correlated } %。
+
+js-meankind-optical-line-sites =
+    { $n ->
+       *[other] 已建模 { $n } 个站点；云气候仅为示意。
+    }
+
+js-meankind-optical-line-tech = { $name }：{ $base } % 变为 { $with } %。
+
+js-meankind-opticalrf-big = 光学与射频测距相结合，给出水平 { $h } m、垂直 { $v } m 的保护级。
+
+js-meankind-opticalrf-line-fault = 一致性检验读数为 { $stat }，阈值为 { $threshold }：已标记故障。
+
+js-meankind-opticalrf-line-ok = 一致性检验读数为 { $stat }，阈值为 { $threshold }：未标记故障。
+
+js-meankind-packet-big-no = 否：解码出的数据流与发送的不一致。
+
+js-meankind-packet-big-yes = 是：数据包流可逐位解码还原。
+
+js-meankind-packet-line =
+    { $n ->
+       *[other] { $n } 个数据包，共 { $octets } 个八位组。
+    }
+
+js-meankind-passes-big-day =
+    { $n ->
+       *[other] 每天 { $n } 次过境，接触时间共 { $dur }。
+    }
+
+js-meankind-passes-big-window =
+    { $n ->
+       *[other] 在 { $hours } 小时的窗口内有 { $n } 次过境，接触时间共 { $dur }。
+    }
+
+js-meankind-passes-line = 最佳过境的仰角升至 { $deg }°。
+
+js-meankind-percentile-word = 百分位
+
+js-meankind-pnt-big = 量子套件可将位置和时间保持 { $q }；经典套件为 { $c }。
+
+js-meankind-pnt-classical-label = 守时（holdover），经典套件
+
+js-meankind-pnt-line = 守时（holdover）是指在卫星导航丢失后，各套件（时钟 { $q }，对比时钟 { $c }）保持在 { $spec } 以内的时长。
+
+js-meankind-pnt-quantum-label = 守时（holdover），量子套件
+
+js-meankind-pnt-timing-classical-label = 授时误差，95 %，经典
+
+js-meankind-pnt-timing-quantum-label = 授时误差，95 %，量子
+
+js-meankind-pvt-big =
+    { $n ->
+       *[other] 在 { $n } 个历元中的 { $solved } 个解出位置，精度 { $rms } m（三维均方根）。
+    }
+
+js-meankind-pvt-line = 平均来自 { $mean } 颗卫星，读取自真实接收机测量值。
+
+js-meankind-qnav-big = 中断之后，冷原子导航仪偏离 { $q } m；导航级的偏离 { $c } m。
+
+js-meankind-qnav-big-outage = 在没有卫星的 { $dur } 之后，冷原子导航仪偏离 { $q } m；导航级的偏离 { $c } m。
+
+js-meankind-qnav-line = 在预算之内：{ $q }，对比 { $c }。
+
+js-meankind-qnav-line-threshold = 在 { $threshold } m 之内：{ $q }，对比 { $c }。
+
+js-meankind-qtt-big = 量子时间传递保持 { $q } ps（1 倍标准差），经典链路为 { $c } ns。
+
+js-meankind-qtt-line = 安全监测器检测到 { $pd } % 的攻击。
+
+js-meankind-qtt-line-pfa = 安全监测器在 { $pfa } 的虚警率下检测到 { $pd } % 的攻击。
+
+js-meankind-quantum-link = 量子链路
+
+js-meankind-radiometry-big = 该相机在 { $gsd } m 地面采样距离下达到 NIIRS { $niirs }，信噪比为 { $snr }。
+
+js-meankind-radiometry-line = 奈奎斯特频率处的系统 MTF 为 { $mtf }。
+
+js-meankind-reentry-big = 峰值减速度为 { $g } g，位于 { $km } km 处。
+
+js-meankind-reentry-line = 此时飞行器速度为 { $speed } m/s。
+
+js-meankind-slam-big = 地形匹配结束时偏离 { $matched } m，而仅用惯性时偏离 { $free } m。
+
+js-meankind-slam-line =
+    { $n ->
+       *[other] 在 { $n } 个航路点上，以 { $sigma } m 的高度计噪声与地形图匹配。
+    }
+
+js-meankind-slot-big = 在最后一次卫星定位后 { $dur }，时钟离开其时隙保护。
+
+js-meankind-slot-line = 因此每 { $interval } 需要一次定位，约每天 { $perDay } 次。
+
+js-meankind-solar-big =
+    { $n ->
+       *[other] 在同一历元放置了 { $n } 个天体。
+    }
+
+js-meankind-solar-big-link =
+    { $n ->
+       *[other] 在同一历元放置了 { $n } 个天体；光从 { $from } 到 { $to } 需要 { $dur }。
+    }
+
+js-meankind-solar-line = 共对 { $n } 条链路计时。
+
+js-meankind-spoof-caught = 欺骗干扰（spoofing）在破坏授时指标之前即被捕获。
+
+js-meankind-spoof-caught-both = 两台时钟都在欺骗干扰（spoofing）破坏授时指标之前将其捕获。
+
+js-meankind-spoof-caught-label = 捕获于之后，{ $name }
+
+js-meankind-spoof-caught-thr = 欺骗干扰（spoofing）在破坏 { $thr } ns 授时指标之前即被捕获。
+
+js-meankind-spoof-caught-thr-both = 两台时钟都在欺骗干扰（spoofing）破坏 { $thr } ns 授时指标之前将其捕获。
+
+js-meankind-spoof-detects = { $name }在 { $dur } 后检测到它，偏移为 { $offset } ns。
+
+js-meankind-spoof-missed =
+    { $n ->
+       *[other] 欺骗干扰（spoofing）在{ $names }捕获它之前就破坏了授时指标。
+    }
+
+js-meankind-spoof-offset = 偏移 { $offset } ns
+
+js-meankind-spoofdetect-big-by = 是：欺骗干扰（spoofing）已被捕获，由 { $by } 捕获。
+
+js-meankind-spoofdetect-big-no = 否：融合监测器未能捕获欺骗干扰（spoofing）。
+
+js-meankind-spoofdetect-big-yes = 是：欺骗干扰（spoofing）已被捕获。
+
+js-meankind-spoofdetect-line =
+    { $n ->
+       *[other] { $n } 个检测层中有 { $on } 个报警。
+    }
+
+js-meankind-spoofdetect-line-score =
+    { $n ->
+       *[other] { $n } 个检测层中有 { $on } 个报警；融合得分为 { $score }。
+    }
+
+js-meankind-ssv-formation = 相距 { $km } km 时，滤波器得到的相对位置精度为 { $filter } m RMS，而对两个绝对定位结果作差得到的为 { $absolute } m。
+
+js-meankind-ssv-navigation = 星载滤波器在 GNSS 轨道以内将位置保持在 { $inside } m RMS，在其以上为 { $above } m。
+
+js-meankind-ssv-shell = 在该壳层上，所有星座合计在 { $one } % 的时间内至少有一个信号，在 { $four } % 的时间内至少有四个（L1）。
+
+js-meankind-ssv-tail = MODELLED：几何与链路预算的扫描，不是对空间中任何信号的测量。
+
+js-meankind-ssv-trajectory = 在 { $from } 至 { $to } km 高度上，{ $one } % 的历元至少有一个信号可见，{ $four } % 的历元至少有四个（L1，所有星座）。
+
+js-meankind-station-big = 在南极地区，月球参考站的修正使{ $percentile }误差从 { $from } m 降至 { $to } m（模型计算）。
+
+js-meankind-station-line = 在 { $share } % 的历元中处于精度阈值之内；并非对任何真实系统的陈述。
+
+js-meankind-sweep-big =
+    { $n ->
+       *[other] 在 { $param } 的 { $n } 个取值上，{ $parts }。
+    }
+
+js-meankind-sweep-line = { $param } 从 { $from } 变化到 { $to }。
+
+js-meankind-sweep-line-log = { $param } 以对数刻度从 { $from } 变化到 { $to }。
+
+js-meankind-sweep-part-flat = { $key }{ $metric }保持在 { $value }
+
+js-meankind-sweep-part-goes = { $key }{ $metric }从 { $first } 变为 { $last }
+
+js-meankind-sweep-result-word = 结果
+
+js-meankind-sweepnd-big =
+    { $n ->
+       *[other] 在 { $keys } 的 { $n } 种组合上，{ $metric }的范围为 { $min } 至 { $max }。
+    }
+
+js-meankind-sweepnd-line = 由 { $shape } 次引擎运行组成的网格。
+
+js-meankind-telecom-fail =
+    { $n ->
+       *[other] 该时钟未通过 { $n } 项电信时间误差检查中的 { $fail } 项。
+    }
+
+js-meankind-telecom-line = 对照各行所列的 ITU-T 模板，检查 MTIE（最大时间间隔误差）、TDEV（时间偏差）和守时（holdover）包络。
+
+js-meankind-telecom-line-margin = 对照各行所列的 ITU-T 模板，检查 MTIE（最大时间间隔误差）、TDEV（时间偏差）和守时（holdover）包络。到守时（holdover）包络的最小余量为 { $margin } ns。
+
+js-meankind-telecom-pass =
+    { $n ->
+       *[other] 该时钟通过全部 { $n } 项电信时间误差检查。
+    }
+
+js-meankind-the-best = 最佳的
+
+js-meankind-the-body = 该天体
+
+js-meankind-the-first = 第一个
+
+js-meankind-the-name = { $name }
+
+js-meankind-the-second = 第二个
+
+js-meankind-the-widest-signal = 带宽最宽的信号
+
+js-meankind-timebudget-big = { $clock }的误差与参考系的误差在 { $tau } 的平均时间处相交。
+
+js-meankind-timebudget-line = 在该交叉点，时间误差为 { $x } s。
+
+js-meankind-timeoffset-big = 月球上的时钟每天比地球上的快 { $rate } µs。
+
+js-meankind-timeoffset-line = 已发表的范围为每天 { $low } 至 { $high } µs。
+
+js-meankind-timetransfer-big = { $q }使两个站点保持在 { $qps } ps（均方根）以内；{ $c }为 { $cps } ps 以内。
+
+js-meankind-timetransfer-line = 在 { $q } % 的时间内处于测距指标以内，对比 { $c } %。
+
+js-meankind-timetransfer-line-mm = 在 { $q } % 的时间内处于 { $mm } mm 测距指标以内，对比 { $c } %。
+
+js-meankind-tracking-big = 欺骗干扰源可在最远 { $km } km 外捕获接收机。
+
+js-meankind-tracking-line = 在接收机自身的环路动态下，当干扰源比信号高 { $db } dB 时失锁。
+
+js-meankind-trade-big = 与经典基线相比，量子传感器的授时能力好 { $timing } 倍，惯性导航能力好 { $inertial } 倍。
+
+js-meankind-trade-line = 没有卫星时，量子套件可惯性滑行 { $dur }。
+
+js-meankind-ttbudget-big = 双向偏移为 { $offset } ns，合成不确定度为 { $uncertainty } ns。
+
+js-meankind-ttbudget-line = 萨格纳克 { $sagnac } ns；电离层 { $iono } ns。
+
+js-meankind-ukf-big-no = 否：该滤波器不是自洽的。
+
+js-meankind-ukf-big-yes = 是：该滤波器是自洽的。
+
+js-meankind-ukf-line-in = 其归一化新息平方的平均值为 { $mean }，处于 { $low } 至 { $high } 的 95 % 区间之内。这检查的是一致性，而不是精度。
+
+js-meankind-ukf-line-in-seeds =
+    { $n ->
+       *[other] 其归一化新息平方在 { $n } 个随机种子（seed）上的平均值为 { $mean }，处于 { $low } 至 { $high } 的 95 % 区间之内。这检查的是一致性，而不是精度。
+    }
+
+js-meankind-ukf-line-out = 其归一化新息平方的平均值为 { $mean }，处于 { $low } 至 { $high } 的 95 % 区间之外。这检查的是一致性，而不是精度。
+
+js-meankind-ukf-line-out-seeds =
+    { $n ->
+       *[other] 其归一化新息平方在 { $n } 个随机种子（seed）上的平均值为 { $mean }，处于 { $low } 至 { $high } 的 95 % 区间之外。这检查的是一致性，而不是精度。
+    }
+
+js-meankind-user-word = 用户
+
+js-meankind-vlbi-big = 在 { $km } km 的基线上，信标信号到达两个测站的时间相差 { $ms } ms。
+
+js-meankind-vlbi-line = 近场修正为 { $us } µs。
+
+js-meankind-vlbifim-big = 按此观测计划，每个测站坐标可确定到 { $m } m。
+
+js-meankind-vlbifim-line = 简单的等份额估计会声称为 { $m } m。
+
+js-meankind-weather-big = 高层大气升温至 { $k } K。
+
+js-meankind-weather-big-ref = 高层大气升温至 { $k } K，参考值为 { $ref } K。
+
+js-meankind-weather-line = 地磁活动指数 ap 为 { $ap }。
+
+js-meankind-whole-run = 在整个运行过程中
+
+js-mthread-bcol-label = 标签
+
+js-mthread-bcol-share = 相对于最大位置项的大小
+
+js-mthread-bcol-sigma = 1 倍标准差
+
+js-mthread-bcol-source = 贡献项
+
+js-mthread-budget-caption = { $phase }：入口处 { $entry }、峰值处 { $peak }、出口处 { $exit } 的 1 倍标准差（位置）；下面是各项贡献，按从大到小排列。
+
+js-mthread-chart-title = { $metric }随任务经过时间的变化，每个阶段一个区段
+
+js-mthread-col-kind = 类型
+
+js-mthread-col-label = 标签
+
+js-mthread-col-limit = 最大贡献项
+
+js-mthread-col-margin = 相对于限值
+
+js-mthread-col-peak-pos = 峰值位置
+
+js-mthread-col-peak-time = 峰值钟差
+
+js-mthread-col-peak-vel = 峰值速度
+
+js-mthread-col-phase = 阶段
+
+js-mthread-col-window = 任务时间
+
+js-mthread-example-not-loaded = 记录的结果未能加载
+
+js-mthread-file-failed = 无法读取 { $name }：{ $reason }。
+
+js-mthread-kv-elapsed = 任务经过时间
+
+js-mthread-kv-engine = 引擎
+
+js-mthread-kv-epoch = 历元（UTC）
+
+js-mthread-kv-limits = 设有限值的阶段
+
+js-mthread-kv-limits-value = { $n }（{ $met } 项达到判据，{ $missed } 项未达到判据）
+
+js-mthread-kv-phases = 阶段
+
+js-mthread-kv-seed = 随机种子（seed）
+
+js-mthread-kv-title = 任务线
+
+js-mthread-layout-phases = 各阶段等宽
+
+js-mthread-layout-time = 真实任务时间
+
+js-mthread-limit-title = { $phase }：所述限值，{ $limit }
+
+js-mthread-log-scale = 对数刻度
+
+js-mthread-margin-met = { $m }× 限值，达到判据
+
+js-mthread-margin-missed = { $m }× 限值，未达到判据
+
+js-mthread-metric-pos = 位置，1 倍标准差
+
+js-mthread-metric-time = 钟差，1 倍标准差
+
+js-mthread-metric-vel = 速度，1 倍标准差
+
+js-mthread-na = 不适用
+
+js-mthread-no-events = 此阶段没有记录事件。
+
+js-mthread-no-phases = 结果中没有阶段
+
+js-mthread-no-requirement = 未说明限值
+
+js-mthread-no-series = 结果中没有此量的采样。
+
+js-mthread-no-weak = 结果中没有指出最薄弱环节。
+
+js-mthread-not-json = 结果不是 JSON（{ $reason }）
+
+js-mthread-not-thread = 这不是任务线结果（应为 schema { $schema }）
+
+js-mthread-note-phases = 每个阶段以相同宽度绘制，使短阶段与长阶段同样清晰可见；每个阶段的起始时间标在区段下方。切换到真实任务时间可看到实际比例。虚线为文件所述的限值；线条中断处为交接。
+
+js-mthread-note-time = 真实任务时间：只有几分钟的阶段可能窄得看不清。切换到等宽可读取它。虚线为文件所述的限值；线条中断处为交接。
+
+js-mthread-open-failed = 无法打开该示例：{ $reason }。
+
+js-mthread-opened = { $name } 已在本页面内读取；没有任何内容被发送到别处。
+
+js-mthread-opening = 正在打开阿尔忒弥斯类示例…
+
+js-mthread-prov = 本页面上的每个标签都出自引擎本身；本页面只是从结果中复制每个数值并按比例缩放。
+
+js-mthread-recorded = 引擎记录的结果（版本 { $version }）：根据公开的任务描述构建的示意链条；这些数值由模型计算得出，不代表任何真实情况。
+
+js-mthread-sets-peak = 决定峰值
+
+js-mthread-too-large = 该文件大于 { $mb } MB；不予读取。
+
+js-mthread-weak-line = 最薄弱环节是阶段 <b>{ $phase }</b>：为其所述限值的 { $margin }×，由 { $source } 决定。余量是所述限值与该阶段峰值之比的最小值；大于 1 即满足要求。
+
+js-mthread-weakest-flag = 最薄弱环节
+
+js-mthread-weakest-mark = 最薄弱环节
+
+js-obs-cell-extent = 北纬 { $south }° 至 { $north }°，东经 { $west }° 至 { $east }°
+
+js-obs-cell-read = { $state }：{ $cell }。采样 { $sampled }，受影响 { $affected }。
+
+js-obs-cell-title = { $state }；采样 { $sampled }，受影响 { $affected }
+
+js-obs-cell-title-reason = { $state }（{ $reason }）；采样 { $sampled }，受影响 { $affected }
+
+js-obs-clear-note = { $notClear }没有条目的单元格被少于 5 架不同的飞机观测到，因而被隐去，不予绘制。颜色绝不是唯一的提示：未观测用斜线填充，表格中也逐一写明每种状态。
+
+js-obs-col-affected = 受影响的飞机
+
+js-obs-col-bbox = 边界框（南、西、北、东）
+
+js-obs-col-bytes = 字节
+
+js-obs-col-cause = 原因
+
+js-obs-col-cell = 单元格（纬度、经度）
+
+js-obs-col-cells = 单元格
+
+js-obs-col-check = 检查
+
+js-obs-col-file = 文件
+
+js-obs-col-incident = 事件
+
+js-obs-col-sampled = 采样的飞机
+
+js-obs-col-sha = SHA-256（清单）
+
+js-obs-col-share = 受影响占比
+
+js-obs-col-state = 状态
+
+js-obs-col-why = 未观测的原因
+
+js-obs-day-alt = 在 { $date }，{ $degraded } 个单元格劣化，{ $notDegraded } 个未劣化，{ $notObserved } 个未观测。
+
+js-obs-day-heading = { $date }（UTC）当天
+
+js-obs-ds-attribution = 署名
+
+js-obs-ds-coverage = 覆盖范围
+
+js-obs-ds-dataset = 数据集
+
+js-obs-ds-licence = 许可
+
+js-obs-ds-licence-address = 许可地址
+
+js-obs-ds-product = 产品
+
+js-obs-ds-written-by = 由 Kshana 写出
+
+js-obs-err-cause = { $name } 给出了“未归因”以外的原因；本页面不显示
+
+js-obs-err-feature-polygon = { $name }：要素 { $n } 不是单元格多边形
+
+js-obs-err-feature-state = { $name }：要素 { $n } 的状态为“{ $state }”，不属于 { $states } 之一
+
+js-obs-err-incident-object = { $name }：事件 { $n } 不是对象
+
+js-obs-err-no-date = { $name } 未给出日期
+
+js-obs-err-no-features = { $name } 没有要素
+
+js-obs-err-no-incidents = { $name } 没有事件列表
+
+js-obs-err-not-day = { $name } 不是 { $schema } 文件
+
+js-obs-err-not-incident = { $name } 不是 { $schema } 文件
+
+js-obs-err-not-json = { $what }不是 JSON（{ $reason }）
+
+js-obs-err-not-manifest = { $name } 不是 { $schema } 文件
+
+js-obs-err-not-object = { $what }不是 JSON 对象
+
+js-obs-err-not-text = { $what }不是文本，或大于 { $mib } MiB
+
+js-obs-err-states = { $name } 列出了本页面所显示的三种状态以外的状态
+
+js-obs-file-matches = 一致
+
+js-obs-file-mismatch = 不一致
+
+js-obs-file-no-hash = 未给出哈希
+
+js-obs-file-not-opened = 未打开
+
+js-obs-files-note = 方法 { $method }。每个文件的 SHA-256 均由此处根据你打开的文件计算，并与清单比对；未打开的文件不会被检查。
+
+js-obs-incident = 事件
+
+js-obs-incident-note = 相接的劣化单元格（含对角相邻）构成一个事件。每个事件的原因均为：未归因。这不是确认，也不是 NOTAM。
+
+js-obs-kv-cells = 已发布的单元格
+
+js-obs-kv-day-wide = 全天范围的影响
+
+js-obs-kv-degraded = 劣化
+
+js-obs-kv-not-degraded = 未劣化
+
+js-obs-kv-not-observed = 未观测（已发布）
+
+js-obs-kv-scope = 范围
+
+js-obs-map-aria = { $summary }下表列出了每个单元格。
+
+js-obs-means-degraded = 该单元格内采样的飞机中，有很高比例当天报告了较低的导航精度，明显高于当天的背景水平。
+
+js-obs-means-not-degraded = 采样的飞机足够多，且占比未达到判定规则。
+
+js-obs-means-not-observed = 数据不足以作出判定。这不等于“正常”。
+
+js-obs-na = 不适用
+
+js-obs-no = 否
+
+js-obs-no-cells = 此文件中没有单元格
+
+js-obs-no-day-file = { $date } 的这些文件中没有日文件（.geojson），因此没有可显示的内容。
+
+js-obs-no-degraded = 当天没有劣化的单元格。
+
+js-obs-no-file-read = 无法读取任何文件。
+
+js-obs-no-incident-file = 当天未打开事件文件。
+
+js-obs-no-manifest = 当天未打开清单，因此无法按哈希检查这些文件。
+
+js-obs-no-notice = 此文件不带声明。本页面顶部的咨询性声明仍然同样适用。
+
+js-obs-no-reason = 未说明原因
+
+js-obs-not-clear = 未观测不等于正常。
+
+js-obs-not-readable = { $name }：不是本页面可读取的文件（.geojson、.incidents.json、.manifest.json 或 .png）。
+
+js-obs-not-stated = 未说明
+
+js-obs-note-day-wide = 这是全天范围有影响的一天：当天的背景水平本身就很高，因此当天无法对任何单元格作出判定。这并不表示天空是干净的。
+
+js-obs-note-summary-mismatch = 文件所述的汇总与其列出的单元格不一致；数值按原文显示。
+
+js-obs-nothing-yet = 暂无可显示的内容：请同时打开当天的 .geojson 文件。
+
+js-obs-notice = 文件所带的声明：{ $notice }
+
+js-obs-opened-day-file = 已从 { $files } 个文件中打开 { $days } 天。已在此处读取；没有上传任何内容。
+
+js-obs-opened-day-files = 已从 { $files } 个文件中打开 { $days } 天。已在此处读取；没有上传任何内容。
+
+js-obs-opened-days-file = 已从 { $files } 个文件中打开 { $days } 天。已在此处读取；没有上传任何内容。
+
+js-obs-opened-days-files = 已从 { $files } 个文件中打开 { $days } 天。已在此处读取；没有上传任何内容。
+
+js-obs-read-failed = { $name }：无法读取（{ $reason }）。
+
+js-obs-reason-day-wide = 当天的背景水平本身就很高，因此当天无法对任何单元格作出判定
+
+js-obs-reason-insufficient = 采样的飞机太少，无法作出判定
+
+js-obs-reason-no-background = 当天没有可用来与该单元格比较的背景
+
+js-obs-release = 不早于 { $when } 发布：产品在当天结束至少 { $hours } 小时之后发布，单元格为 { $deg } 度。这不是实时视图。
+
+js-obs-release-default = 当天结束时间加上延迟
+
+js-obs-show-all = 显示全部 { $n } 个单元格
+
+js-obs-state-degraded = 劣化
+
+js-obs-state-not-degraded = 未劣化
+
+js-obs-state-not-observed = 未观测
+
+js-obs-the-day-file = 日文件
+
+js-obs-the-incident-file = 事件文件
+
+js-obs-the-manifest = 清单
+
+js-obs-too-large = { $name }：大于 { $mib } MiB；请打开较小的文件。
+
+js-obs-unstated-number = 数量未说明的
+
+js-obs-withheld = 已隐去
+
+js-obs-yes-no-call = 是：无法对任何单元格作出判定
+
+js-opt-avail-label = 各站点的可用性、上限和晴空可用性
+
+js-opt-avail-note = 按站点：链路在云和湍流衰落下的可用性、任何额外余量都无法突破的上限（云和指向），以及完全无云时的可用性。
+
+js-opt-avail-title = 可用性与上限对比
+
+js-opt-bar-available = { $name }：可用
+
+js-opt-bar-ceiling = { $name }：上限
+
+js-opt-bar-clear-sky = { $name }：晴空
+
+js-opt-blurb-network = 一个云量较多的北方站点、一个居中的中部站点和一个较晴朗的南方站点，以 30 度仰角观测一个 LEO 光学终端：链路多久可用一次，增加站点能带来什么？
+
+js-opt-blurb-techniques = 云和湍流中仰角 25 度的一条上行链路：换用另一波长、更大的孔径、自适应光学或更多余量，各能带来什么？
+
+js-opt-cloud-episode = 云事件
+
+js-opt-correlated = 相关
+
+js-opt-default-bars = 条形
+
+js-opt-default-chart = 图表
+
+js-opt-direction-wave = { $direction }，{ $wave } 波
+
+js-opt-diversity-label = 网络可用性与站点数量的关系
+
+js-opt-diversity-note = 最佳 1 个、2 个和 3 个站点的可用性，分别按天气相互独立和天气在 { $km } km 范围内相关两种情形。
+
+js-opt-diversity-title = 站点分集
+
+js-opt-fact-capture-loss = 几何捕获损耗
+
+js-opt-fact-direction = 方向
+
+js-opt-fact-elevation = 仰角
+
+js-opt-fact-footprint = 波束覆盖区
+
+js-opt-fact-margin = 无大气时的余量
+
+js-opt-fact-received = 无大气时的接收功率
+
+js-opt-fact-sensitivity = 接收机灵敏度
+
+js-opt-fact-wavelength = 波长
+
+js-opt-gain-points = +{ $n } 个百分点
+
+js-opt-hours = 小时
+
+js-opt-independent = 独立
+
+js-opt-link-down = 链路中断
+
+js-opt-margin-label = 各可用性目标所需的额外余量
+
+js-opt-margin-line-title = { $name }：链路余量，dB
+
+js-opt-margin-note = 在当前链路基础上，各可用性目标所需的额外链路余量，单位 dB；负值表示链路已有的余量超过所需。高于某站点上限的目标，没有任何余量能达到（引擎将其略去）。
+
+js-opt-margin-title = 各可用性目标所需的余量
+
+js-opt-model-output = 模型输出
+
+js-opt-na = 不适用
+
+js-opt-no-data = 此结果中没有数据。
+
+js-opt-no-series = 此结果中没有时间序列。
+
+js-opt-no-source = 未说明来源
+
+js-opt-not-result = 这不是带有站点的光学大气结果
+
+js-opt-open-failed = 无法打开 { $title }：{ $reason }。
+
+js-opt-opening = 正在打开 { $title }…
+
+js-opt-outage-label = 中断持续时间超过某一时长的概率
+
+js-opt-outage-note = 按站点，中断持续时间超过某一时长的概率（时间轴为对数）。
+
+js-opt-outage-title = 中断持续多久
+
+js-opt-point-title = { $name }：{ $xLabel } { $x }，{ $yLabel } { $y }
+
+js-opt-prov = { $label }站点：{ $sites }。
+
+js-opt-realised-up = { $value } 可用
+
+js-opt-recorded = { $title }：引擎记录的结果（版本 { $version }）。是模型输出，不是测量。
+
+js-opt-result-not-json = 结果不是 JSON（{ $reason }）
+
+js-opt-result-not-loaded = 记录的结果未能加载
+
+js-opt-series-label = 链路余量随时间的变化
+
+js-opt-series-note = 所述站点模型的一次带随机种子的实现（随机种子（seed）{ $seed }，{ $hours } h，步长 { $step } s）：云事件、每个云事件对应的液态水柱，以及每步一个闪烁采样。余量为衰落预算减去云衰落与闪烁衰落；低于 0 dB 时链路中断。这只是一次抽样，不是气候：其可用性与所述可用性之间相差该次抽样的采样误差。绘图时余量在 −40 dB 处截断。
+
+js-opt-series-title = 链路余量随时间的变化
+
+js-opt-stated = 所述 { $value }
+
+js-opt-stripe-cloud = 云
+
+js-opt-stripe-down = 中断
+
+js-opt-stripe-title = { $what }，第 { $from } 至 { $to } 小时
+
+js-opt-techniques-label = 各项技术带来的可用性提升
+
+js-opt-techniques-note = 单个站点相对于基线的可用性提升，单位为百分点。
+
+js-opt-techniques-title = 各项技术能带来什么
+
+js-opt-th-availability = 可用性
+
+js-opt-th-ceiling = 上限
+
+js-opt-th-clear-air = 晴空损耗
+
+js-opt-th-cloud-prob = 云概率（输入）
+
+js-opt-th-fade-budget = 衰落预算
+
+js-opt-th-latlon = 纬度、经度
+
+js-opt-th-mean-outage = 平均中断时长
+
+js-opt-th-outages-year = 每年中断次数
+
+js-opt-th-scint = 闪烁指数
+
+js-opt-th-site = 站点
+
+js-opt-timing-label = 各站点与时钟的授时可用性
+
+js-opt-timing-note = 授时误差保持在阈值以内的时间占全部时间的比例，按站点和时钟等级：时钟的守时（holdover）能力对照中断时长。
+
+js-opt-timing-title = 在中断期间保持授时
+
+js-opt-title-network = 三个地面站点，站点分集
+
+js-opt-title-techniques = 一条上行链路，增强技术
+
+js-opt-x-best-n = 最佳 n 个站点
+
+js-opt-x-outage-duration = 中断时长，h（对数）
+
+js-opt-x-target = 可用性目标，%
+
+js-opt-y-availability = 可用性，%
+
+js-opt-y-extra-margin = 额外余量，dB
+
+js-opt-y-p-longer = P(更长)
+
+js-replay-band-calibrating = 校准中
+
+js-replay-band-degraded = 降级
+
+js-replay-band-nominal = 正常
+
+js-replay-band-run-ended = { $band } · 运行已结束
+
+js-replay-band-untrusted = 不可信
+
+js-replay-clock = T+{ $t }，共 { $max }
+
+js-replay-coast-hidden = 海岸线已隐藏：此日志中虚构的位置落在陆地上
+
+js-replay-coast-note = 海岸线：{ $source }，仅作示意。
+
+js-replay-coast-note-hidden = { $reason }。
+
+js-replay-coast-window = Natural Earth 1:10 million，{ $window }窗口
+
+js-replay-coast-world = Natural Earth 1:110 million（Studio 的世界轮廓），较粗略
+
+js-replay-demo-trust-log = { $title }（信任日志）
+
+js-replay-dir-east = 东
+
+js-replay-dir-north = 北
+
+js-replay-dir-south = 南
+
+js-replay-dir-west = 西
+
+js-replay-dirs-and = { $list }和{ $last }
+
+js-replay-drawing-animation = 正在绘制动画…
+
+js-replay-drawing-frames = 正在绘制帧…
+
+js-replay-every-direction = 各个方向
+
+js-replay-file-error = { $name }：{ $error }
+
+js-replay-kinds-convergence-horizontal = 收敛：水平误差中位数
