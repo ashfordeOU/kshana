@@ -137,3 +137,15 @@ seg-ca67c864635c = Baanbepaling
 seg-4e28248ef77b = Waarneembaarheid en schattingstheorie
 
 seg-e386dced1d16 = Lunair en cislunair
+
+seg-874effe5ee80 = De ingebouwde basislijnen van kshana-bench taak D (het optimisme-verschil) op de testsplitsing, uit een echte run van engine v{ $version } (`kshana bench baseline`). Elk staafpaar is de oppervlakte onder de ROC-curve voor de in-distributiegevallen en voor de verschoven gevallen; het verschil daartussen is het optimisme-verschil, tegenover een tolerantie van { "0.05" }. fused-max-z: { "0.998" } en { "0.983" } (verschil { "0.015" }); sqm-imbalance: { "0.882" } en { "0.882" } (verschil { "0.001" }); agc-excess: { "0.848" } en { "0.819" } (verschil { "0.030" }); raim-parity: { "0.682" } en { "0.672" } (verschil { "0.010" }); energy-cn0-drop: { "0.595" } en { "0.565" } (verschil { "0.030" }). De labels zijn labels van een generatief model van een synthetisch corpus, nooit veldgegevens: MODELLED. Adviserend: berekend uit een model of gemeten aan de hand van vermelde referenties, geen goedkeuring, geen certificering en geen verklaring van conformiteit. Een score beschrijft een log of corpus, nooit een product.
+
+seg-842b77a21c5f = Kanaal
+
+seg-28e87f407a10 = Domein
+
+seg-d6476863f862 = Mogelijkheid
+
+seg-ad856ad710eb = Status
+
+seg-331d2821d43f = Roadmap

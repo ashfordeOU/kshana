@@ -107,3 +107,53 @@ seg-06406b3d0b88 = Fisher-informatie en waarneembaarheid
 seg-4e28248ef77b = Waarneembaarheid en schattingstheorie
 
 seg-e386dced1d16 = Lunair en cislunair
+
+seg-3b6eb3f9e83a = Bron: <c1/>
+
+seg-edf51b89f46c = Elke mogelijkheid van de openbare kaart, per domein, met haar label in het register. De tabel wordt door <a1><c1/></a1> geschreven uit <c2/>, het bestand dat de kaart van alles in de Studio leest; een mogelijkheid is alleen VALIDATED met een onafhankelijke externe referentie (<a2>hoe een label wordt verdiend</a2>). Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen typegoedgekeurde navigatieapparatuur.
+
+seg-28e87f407a10 = Domein
+
+seg-d4e48c972084 = Labels
+
+seg-90bb5f9ee510 = Evaluatie van detectie van RF-verstoringen en PNT-afweging; Kaart van het kantelpunt in veerkracht tussen kwantum en klassiek
+
+seg-65cdee0124a4 = { "1" } berekend uit een model, { "1" } getoetst aan een onafhankelijke externe referentie
+
+seg-2520684773d0 = { "1" } berekend uit een model
+
+seg-dfe11f5c4673 = { "1" } getoetst aan een onafhankelijke externe referentie
+
+seg-3ad96fde1bda = Strapdown-INS en kaartondersteunde navigatie; Traagheids- en terreinrelatief uitlopen door een onderbreking
+
+seg-a188ea81d82f = { "2" } berekend uit een model
+
+seg-5674f0f8a053 = Autonome integriteit van de ontvanger (ARAIM); ARAIM tegenover gepubliceerde referentievectoren
+
+seg-c40bd37ca1b5 = { "2" } getoetst aan een onafhankelijke externe referentie
+
+seg-7169f768877f = RINEX-, SP3- en CCSDS-formaten; Export voor de test bench
+
+seg-1833b10d11c5 = CR3BP-propagatie en LunaNet-integriteit; Realisatie van het maanreferentiestelsel; Dienstvolume van maannavigatie en ARAIM; Budget voor interoperabiliteit tussen maanproviders; Foutobserveerbaarheid in autonome vrije netwerken; Maandatum uit echte laserafstandsmeting; Differentiële PNT op de maan; Maantijdschalen en geodetische VLBI; Echte, opgehaalde constellatiegeometrie van de maan; Denial-contour op de maan uit een gemeten C/N₀-spreiding; Van VLBI-schema naar covariantie van stationscoördinaten; Maanbaan en maanoppervlak als navigatie- en geodetische infrastructuur
+
+seg-82f5400f1cf3 = { "7" } berekend uit een model, { "5" } getoetst aan een onafhankelijke externe referentie
+
+seg-b0f6fb13177b = Vertrouwensscore van de ontvanger voor een vaartuig; NMEA-streams voor bemanningstraining; Interferentiekaart en routeblootstelling; Vertrouwenstelemetrie voor beveiligingsoperaties; Ondertekende bewijspakketten; Compliance-koppeling aan openbare kaders; Geometriebewuste vertrouwensclassificatie
+
+seg-b38c5bda3dfa = { "3" } berekend uit een model, { "4" } getoetst aan een onafhankelijke externe referentie
+
+seg-a0388c20aba5 = Lancering, terugkeer, dekking en richtbudgetten; Gedeeld gebruik van de apertuur voor navigatie en communicatie
+
+seg-7d32e5b6347f = Modulatie, anti-jam en codevolging; GNSS voorbij de constellatie: het Space Service Volume en daarbuiten
+
+seg-9613f1cea7fb = Optische en RF-overdracht met integriteit over modaliteiten heen; Optische tijdverbindingen door wolken en turbulentie
+
+seg-bce8e2e95b8d = Zichtbaarheid met skylinemasker, DOP en foutellips; Skylinevoorinstellingen en de functies voor hemelgeometrie
+
+seg-097e063e3712 = Tijdschalen en aardoriëntatiestelsels; Realtime-voorspelling van de aardoriëntatie
+
+seg-0f45bd0aa984 = Machinaal gecontroleerde verificatiematrix; Eenheid en herkomst bij elke gerapporteerde grootheid
+
+seg-e8104381bda7 = <s1>Vorige</s1>Elk oppervlak
+
+seg-8a180f0eb69c = <s1>Volgende</s1>Scenarioreferentie

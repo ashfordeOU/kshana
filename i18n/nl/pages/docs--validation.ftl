@@ -15,3 +15,7 @@ seg-583dc9ff6178 = Bibliotheek
 seg-d01db1c2710a = Naslag
 
 seg-619f89bf160c = Realisatie van het lunaire referentiestelsel
+
+seg-d6476863f862 = Mogelijkheid
+
+seg-ad856ad710eb = Status
