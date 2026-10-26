@@ -278,3 +278,49 @@ seg-ccb244e60d60 = Transferência bidirecional de tempo/frequência óptica vers
 
 # text
 seg-f6ff1c8c78db = Perda de travamento do loop de rastreamento: C/N0 -> travado/destravado COM HISTERESE, o tempo para perder o travamento e o pull-in de spoofing em função da TAXA de deslocamento de código e de portadora. Os critérios existentes do mecanismo de negação e de captura são razões sobre a potência recebida (um jammer nega a J/S = { "30" } dB, um spoofer captura a { "3" } dB); a perda de travamento real não é uma razão de potência, é onde o jitter de um loop mais o estresse dinâmico excedem o seu orçamento de limiar de rastreamento. Informa ({ "1" }) o jitter térmico de 1 sigma de portadora (Costas) e de código (early/late não coerente) em função de C/N0, com a perda por elevação ao quadrado incluída, contra as regras declaradas { "3" }<em>sigma_PLL + theta_e <= { "45" } deg (a regra dos 15 graus na forma de três sigmas) e { "3" }</em>sigma_DLL + atraso de rampa <= d/2 chips; ({ "2" }) os limiares de C/N0 de queda e de retravamento com o loop determinante indicado, o limiar de retravamento DERIVED da largura de banda maior em que um receptor refaz o pull-in em vez de afirmado, de modo que a largura da histerese deve ficar entre { "5" }<em>log10(razão) e { "10" }</em>log10(razão) dB; ({ "3" }) o tempo declarado para perder o travamento a partir de um detector de travamento de dois limiares com permanências de confirmação, conduzido ao longo de uma rampa de C/N0, informado separadamente do tempo físico de escape de fase (o tempo médio de Viterbi entre saltos de ciclo, em log10 s porque abrange centenas de décadas); ({ "4" }) limites de pull-in de spoofing — a maior variação de código e a maior taxa de Doppler de portadora que os loops de uma vítima conseguem seguir, com um mapa sobre os dois eixos, porque um spoofer que varia mais rápido do que isso não captura o loop, ele o ultrapassa; e ({ "5" }) o RAIO DE NEGAÇÃO que a dinâmica do loop implica, informado JUNTO com o raio existente de razão de potência, nunca em seu lugar, com a diferença com sinal entre eles como um campo próprio nomeado (denial_radius_delta_km) e uma definição ao lado. Todo campo numérico emitido traz uma unidade e uma classe de proveniência. Formas fechadas VALIDATED: as expressões de jitter de portadora e de código, a redução do filtro de loop sqrt({ "2" }<em>B_n</em>T) e o atraso de rampa de primeira ordem são conferidos com o próprio correlador sdr do mecanismo avançado sobre IF sintética com semente — um caminho diferente para os mesmos números — a { "0.6" } %, { "3.7" } % e { "0.17" } % respectivamente, e a Bessel modificada I0 por trás do tempo de salto de ciclo contra valores tabelados padrão a { "1e-7" }. O limite inferior de validade é afirmado, não apenas declarado: abaixo de ~{ "32" } dB-Hz a { "1" } ms o discriminador atan real satura contra o seu intervalo de +-pi/2 e mede menos jitter do que qualquer teoria linear. MODELLED: as larguras de banda dos loops, o tempo de integração, o espaçamento dos correladores, a razão de largura de banda de pull-in, as permanências de confirmação, a potência do jammer e os ganhos de antena são valores representativos da banda, não um datasheet. NÃO modelados: jitter do oscilador (desvio de Allan) e de vibração, limitação de largura de banda do front-end, multipercurso, dinâmica do AGC, perda por transição de bit de dados, auxílio externo e qualquer correção de meio ciclo na fórmula de salto de ciclo de Costas. Sob a dinâmica do loop, a captura por spoofing não tem raio algum — a restrição determinante é a taxa de deslocamento, não a potência — de modo que esse campo é nulo, com um motivo, em vez de um número fabricado. Não é um produto certificado de desempenho de receptor.
+
+# text
+# c1: docs/SCENARIOS.md
+seg-45cb12242d59 = Fonte: <c1/>
+
+# text
+# c1: kshana::api::run_toml
+seg-843d88cee576 = Os { "87" } tipos de cenário incorporados sobre os quais <c1/> despacha, cada um com sua descrição de uma linha e seus campos TOML (Tom's Obvious, Minimal Language) obrigatórios / opcionais.
+
+# text
+# c1: api::list_scenario_kinds()
+# c2: cargo run --bin gen_validation_artifacts
+# c3: list_scenario_kinds
+seg-2860d14bd619 = Este arquivo é <b>gerado</b> a partir de <c1/> — a única fonte de verdade — por <c2/>; edite a fonte, não este arquivo. Todo binding (o pacote Python, a ferramenta <c3/> do servidor MCP (Model Context Protocol) e o playground WebAssembly (WASM)) expõe este mesmo catálogo, de modo que o que está listado aqui é exatamente o que toda superfície consegue executar. As descrições são concisas e nem sempre desdobram suas abreviações; todas estão explicadas por extenso em <a1>GLOSSARY.md</a1>.
+
+# text
+# c1: clock
+# c2: kind = "<name>"
+# c3: kind
+# c4: clock
+# c5: kind
+# c6: |
+# c7: +
+# c8: tle|orbit+epoch
+# c9: tle
+# c10: orbit
+# c11: epoch
+seg-28b0dbf53a2c = Todo cenário, exceto <c1/>, também deve definir <c2/> no nível superior: um documento sem <c3/> roda como <c4/>, e é por isso que <c5/> não é repetido nos campos obrigatórios de nenhum tipo de cenário abaixo. Uma entrada obrigatória pode nomear alternativas: <c6/> separa formas das quais ao menos uma deve estar presente, e <c7/> une campos que devem aparecer juntos, de modo que <c8/> se lê "um <c9/>, ou um <c10/> com um <c11/>".
+
+# text
+seg-6317db731879 = Descrição
+
+# text
+seg-6c9d3eec1bd7 = Campos obrigatórios:
+
+# text
+seg-05a3e7f57b33 = Campos opcionais:
+
+# text
+seg-c01773d5f190 = (nenhum)
+
+# text
+seg-4178135b91eb = <s1>Anterior</s1>Exemplo prático: pipeline com várias ferramentas
+
+# text
+seg-c9afb81f21d8 = <s1>Próximo</s1>Todo tipo de cenário, por família

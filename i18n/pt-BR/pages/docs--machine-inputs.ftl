@@ -113,3 +113,62 @@ seg-03a6e15dce0a = IMU nos cenários híbrido e de fusão (kshana imu-fit)
 
 # text
 seg-53ce2c4ba434 = RTCM { "3" } MSM4 e MSM7 (format = "rtcm3")
+
+# text
+# c1: docs/MACHINE-INPUTS.md
+seg-b9f561201fda = Fonte: <c1/>
+
+# text
+seg-536f71da4541 = Entradas de máquina e de sensor ({ "0.38" })
+
+# text
+# c1: receiver-trust
+seg-1a91f96f22ab = Leitores que trazem outros receptores, resolvedores e sensores para o tipo <c1/>. Todos são somente de leitura: funções puras sobre bytes ou texto que devolvem a mesma linha do tempo que os leitores de UBX, RINEX, Android e NMEA devolvem, pulando e contando os registros corrompidos em vez de falhar. Tudo aqui é MODELLED: os formatos são lidos da documentação pública e nenhum resultado é validado contra uma referência independente externa além do que está declarado.
+
+# text
+seg-3176ffff1e44 = <b>Software de caráter consultivo.</b> Não é um equipamento de navegação homologado. O operador continua responsável pela navegação segura da embarcação.
+
+# attr:alt
+seg-367ac9b4a8a6 = O que `kshana imu-fit` lê de um registro de IMU estacionária, a partir de uma execução real do motor v{ $version } sobre um registro fictício ({ "20,000" } amostras a { "100" } Hz, { "200" } s): o passeio aleatório de velocidade do acelerômetro q_va = { "4.02e-06" }, o passeio aleatório de ângulo do giroscópio q_arw = { "9e-08" }, a instabilidade de viés { "0.00296" } e as inclinações iniciais de Allan (-0.51 e -0.49; cerca de -0.5 onde o ruído branco domina). A tabela ao lado é o TOML que o comando imprime. O estimador é conferido apenas em registros sintéticos. Consultivo: saída de análise de uma ferramenta de pesquisa e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana.
+
+# text
+# c1: .pos
+# c2: format = "rtklib-pos"
+seg-a048ba8ff88e = RTKLIB <c1/> (<c2/>)
+
+# text
+# c1: rnx2rtkp
+# c2: yyyy/mm/dd hh:mm:ss.sss
+# c3: GPST
+# c4: UTC
+# c5: JST
+# c6: %
+seg-3ba911ed9541 = O arquivo de solução que <c1/> do RTKLIB e o RTKPOST gravam. Lidos: o tempo (calendário <c2/>, ou semana GPS e segundos da semana), a posição (latitude e longitude em graus com altura, ou ECEF X/Y/Z convertido para geodésico) e o número de satélites. A escala de tempo do cabeçalho da coluna (<c3/>, <c4/>, <c5/>) é levada no rótulo. Arquivos em graus-minutos-segundos são recusados. Linhas que começam com <c6/> são linhas de cabeçalho.
+
+# text
+# c1: format = "novatel"
+seg-24ebc9ea6e4e = NovAtel OEM7 (<c1/>)
+
+# text
+# c1: #BESTPOSA,...*crc
+# c2: AA 44 12
+seg-b73d1465ed67 = Registros ASCII (<c1/>) e binários (cabeçalho <c2/>), misturados livremente. Os leiautes seguem a documentação pública do OEM7 (docs.novatel.com): os cabeçalhos de mensagem, o CRC de 32 bits e as tabelas de campos de três registros. Registros cujo CRC não coincide são pulados e contados.
+
+# text
+seg-078e047b9f82 = Registro
+
+# text
+seg-5b59f661e68b = Usado
+
+# text
+# c1: SOL_COMPUTED
+seg-286c3fb8ac5c = estado da solução (só <c1/> dá uma posição), latitude, longitude, altura acima do nível médio do mar mais ondulação (a altura da posição é elipsoidal), satélites usados
+
+# text
+seg-3edaffed5d65 = C/No por sinal (dB-Hz); sistema a partir dos bits 16-18 do estado de rastreamento, tipo de sinal a partir dos bits 21-25
+
+# text
+# c1: self_report
+# c2: receiver-self-report
+# c3: NovatelRead.status
+seg-5663c6812797 = o bit { "15" } de estado do receptor (interferidor detectado) torna-se o <c1/> da época (interferência { "2" } sinalizada, { "1" } não; o RXSTATUS não tem sinalizador de falsificação), comparado com os alarmes do Kshana por <c2/>; os { "1" } bits auxiliares de interferidor (RF1-RF6) são devolvidos em <c3/>
