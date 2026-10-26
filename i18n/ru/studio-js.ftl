@@ -5524,3 +5524,523 @@ js-lunarinfra-rel-title = Насколько хорошо можно зафик�
 js-lunarinfra-result-not-json = результат не является JSON ({ $reason })
 
 js-lunarinfra-result-not-loaded = записанный результат { $file } не загрузился
+
+js-lunarinfra-row-above-95 = Испытания выше точки 95 % (хи-квадрат 95 % = { $chi })
+
+js-lunarinfra-row-crtrace = След Крамера — Рао
+
+js-lunarinfra-row-degeneracy = Показатель вырожденности
+
+js-lunarinfra-row-formal-diff = Формальная сигма этой разности
+
+js-lunarinfra-row-ground-meas = Наземные: измерения, эпохи со станцией
+
+js-lunarinfra-row-mean-diff = Средняя разность двух орбит
+
+js-lunarinfra-row-mean-q = Среднее q (ожидается 6)
+
+js-lunarinfra-row-observations = Наблюдения
+
+js-lunarinfra-row-onboard-epochs = Бортовые: эпохи с одним и более / четырьмя и более спутниками
+
+js-lunarinfra-row-onboard-meas = Бортовые: измерения, среднее число отслеживаемых спутников
+
+js-lunarinfra-row-origin-scale = Корреляция начала координат и масштаба
+
+js-lunarinfra-row-origin-sigma = Сигма начала координат, m
+
+js-lunarinfra-row-rank-defect = Ранг (дефект)
+
+js-lunarinfra-row-smallest-eig = Наименьшее собственное значение
+
+js-lunarinfra-row-trace-ground = Выборочный след к формальному, наземные
+
+js-lunarinfra-row-trace-onboard = Выборочный след к формальному, бортовые
+
+js-lunarinfra-row-within-95 = Испытания в пределах точки 95 %
+
+js-lunarinfra-series-bootstrapped = бутстреп
+
+js-lunarinfra-series-floor = нижний уровень
+
+js-lunarinfra-series-monte-carlo = Монте-Карло
+
+js-lunarinfra-side-note = Орбита: { $family }, дуга { $arc } сут орбиты с периодом { $period } сут, отсчёты каждые { $sample } s.
+
+js-lunarinfra-side-title = Рядом
+
+js-lunarinfra-sigma-note = Неопределённость положения (одна сигма) по составляющим, в метрах, по двум оценкам одной и той же дуги.
+
+js-lunarinfra-sigma-over-nominal = сигма / номинал
+
+js-lunarinfra-sigma-title = Насколько хорошо каждая сторона знает орбиту
+
+js-lunarinfra-station-days = станция, { $days } сут
+
+js-lunarinfra-status-verdict = { $status }: { $verdict }
+
+js-lunarinfra-subsets-note = Добавление семейства ни разу не уменьшило наименьшее собственное значение ({ $lambda } из { $pairs } { $pairs ->
+        [one] добавления
+        [few] добавлений
+        [many] добавлений
+       *[other] добавления
+    }), но след псевдообратной матрицы оказался не больше лишь в { $trace } из { $pairs }, потому что добавленное семейство может повысить ранг.
+
+js-lunarinfra-subsets-title = Все сочетания семейств
+
+js-lunarinfra-sweep-note = Наихудшая составляющая сдвига каждого смещения, в метрах, при изменении ошибки привязки между тремя методами на космическом аппарате. При зарегистрированных сигмах методов (GNSS { $gnss } m, VLBI { $vlbi } m, лазер { $slr } m) смещения ограничены шумом измерений, а не привязкой; привязка задаёт нижний предел только для почти идеальных методов.
+
+js-lunarinfra-sweep-title = Точность смещений методов в зависимости от локальной привязки (дуга { $days } сут)
+
+js-lunarinfra-th-arc-days = Дуга, сутки
+
+js-lunarinfra-th-bar = Порог
+
+js-lunarinfra-th-bootstrapped = Доля по бутстрепу
+
+js-lunarinfra-th-budget-exhausted = Исчерпан бюджет поиска (испытания)
+
+js-lunarinfra-th-common-sats = Эпохи с 2 и более общими спутниками
+
+js-lunarinfra-th-crtrace = След Крамера — Рао
+
+js-lunarinfra-th-dd-ambiguities = Неоднозначности двойных разностей
+
+js-lunarinfra-th-epochs = Эпохи
+
+js-lunarinfra-th-families = Семейства
+
+js-lunarinfra-th-family = Семейство
+
+js-lunarinfra-th-local-tie = Сигма локальной привязки, m
+
+js-lunarinfra-th-mc-fix-rate = Доля фиксаций по Монте-Карло
+
+js-lunarinfra-th-median-ambiguity = Медианная сигма неоднозначности, циклы
+
+js-lunarinfra-th-offset = Смещение
+
+js-lunarinfra-th-quantity = Величина
+
+js-lunarinfra-th-rank = Ранг
+
+js-lunarinfra-th-rotation = Поворот на поверхности, m
+
+js-lunarinfra-th-rows = Строки
+
+js-lunarinfra-th-scale = Масштаб на поверхности, m
+
+js-lunarinfra-th-smallest-eig = Наименьшее собственное значение
+
+js-lunarinfra-th-translation = Сдвиг x, y, z, m
+
+js-lunarinfra-th-value = Значение
+
+js-lunarinfra-th-verdict = Вердикт
+
+js-lunarinfra-th-with-links = Со связями орбитального аппарата
+
+js-lunarinfra-th-without-links = Без связей орбитального аппарата
+
+js-lunarinfra-title-carrier-phase = Фаза несущей, поверхность и орбитальный аппарат
+
+js-lunarinfra-title-frame-coestimation = Совместная оценка системы отсчёта
+
+js-lunarinfra-title-geodesy-sensitivity = Числа Лява и либрация
+
+js-lunarinfra-title-od-consistency = Согласованность определения орбиты
+
+js-lunarinfra-title-space-tie = Космическая привязка
+
+js-lunarinfra-unknown-study = этот результат по лунной инфраструктуре относится к исследованию «{ $study }», которое эта страница не читает
+
+js-lunarinfra-where-missed = Где это исследование дало промах.
+
+js-lunarinfra-with-links = со связями орбитального аппарата
+
+js-lunarinfra-without-links = без связей орбитального аппарата
+
+js-lunarinfra-x-arc-length = длина дуги, сутки
+
+js-lunarinfra-x-local-tie = сигма локальной привязки, m (лог.)
+
+js-lunarinfra-y-fixed-correctly = зафиксировано верно, %
+
+js-lunarinfra-y-offset-sigma = сигма смещения, m (лог.); пунктирный нижний уровень — одна лишь привязка, sqrt(2) × ошибка привязки
+
+js-meaning-body-generic = тела
+
+js-meaning-body-the = тела { $name }
+
+js-meaning-card-label-sub = { $k }, { $sub }
+
+js-meaning-checks-of = { $av } из { $n } { $n ->
+        [one] проверки
+        [few] проверок
+        [many] проверок
+       *[other] проверки
+    }
+
+js-meaning-coverage-average-label = В среднем в зоне видимости
+
+js-meaning-coverage-big-min = Не менее { $n } { $n ->
+        [one] спутника
+        [few] спутников
+        [many] спутников
+       *[other] спутника
+    } в зоне видимости в каждом месте, в среднем { $mean }.
+
+js-meaning-coverage-big-none = В некоторых местах временами не видно ни одного спутника; в среднем в зоне видимости { $mean }.
+
+js-meaning-coverage-fewest-label = Наименьшее в зоне видимости, где угодно
+
+js-meaning-coverage-line-many = При совместном использовании { $names } определение положения возможно в { $share } % мест и моментов времени вокруг { $body }.
+
+js-meaning-coverage-line-many-pdop = При совместном использовании { $names } определение положения возможно в { $share } % мест и моментов времени вокруг { $body } (качество геометрии, PDOP, ниже { $thr }).
+
+js-meaning-coverage-line-none = Определение положения возможно в { $share } % мест и моментов времени вокруг { $body }.
+
+js-meaning-coverage-line-none-pdop = Определение положения возможно в { $share } % мест и моментов времени вокруг { $body } (качество геометрии, PDOP, ниже { $thr }).
+
+js-meaning-coverage-line-one = При использовании { $names } определение положения возможно в { $share } % мест и моментов времени вокруг { $body }.
+
+js-meaning-coverage-line-one-pdop = При использовании { $names } определение положения возможно в { $share } % мест и моментов времени вокруг { $body } (качество геометрии, PDOP, ниже { $thr }).
+
+js-meaning-coverage-places-label = Места, где есть определение положения
+
+js-meaning-duration-days =
+    { $n ->
+        [one] { $days } день
+        [few] { $days } дня
+        [many] { $days } дней
+       *[other] { $days } дня
+    }
+
+js-meaning-ensemble-big-many = По многим реализациям шума { $q } в среднем удерживает { $thr } ns в течение { $qd }; { $c } — в течение { $cd }.
+
+js-meaning-ensemble-big-runs = По { $n } { $n ->
+        [one] реализации
+        [few] реализациям
+        [many] реализациям
+       *[other] реализации
+    } шума { $q } в среднем удерживает { $thr } ns в течение { $qd }; { $c } — в течение { $cd }.
+
+js-meaning-ensemble-line = В девяти реализациях из десяти { $name } держится { $band }.
+
+js-meaning-ensemble-mean = среднее
+
+js-meaning-ensemble-mean-band = среднее; 90 %-ная полоса { $band }
+
+js-meaning-error-p95-label = Ошибка, 95 % времени, { $name }
+
+js-meaning-generic-big = { $label }: { $value }.
+
+js-meaning-generic-line-one = Также из этого прогона: { $a }.
+
+js-meaning-generic-line-two = Также из этого прогона: { $a } и { $b }.
+
+js-meaning-generic-none = У этого прогона нет единственного главного показателя; результат показан на графике ниже.
+
+js-meaning-holdover-label = Holdover, { $name }
+
+js-meaning-hpl-sub = горизонтальный уровень защиты
+
+js-meaning-inside-budget = в пределах { $budget }
+
+js-meaning-integrity-big-checks-mostly = Да, в основном: в { $share } % проверок.
+
+js-meaning-integrity-big-checks-no = Нет: в { $share } % проверок.
+
+js-meaning-integrity-big-checks-partly = Лишь частично: в { $share } % проверок.
+
+js-meaning-integrity-big-checks-yes = Да: в { $share } % проверок.
+
+js-meaning-integrity-big-span-mostly = Да, в основном: на протяжении { $share } % от { $span }.
+
+js-meaning-integrity-big-span-no = Нет: на протяжении { $share } % от { $span }.
+
+js-meaning-integrity-big-span-partly = Лишь частично: на протяжении { $share } % от { $span }.
+
+js-meaning-integrity-big-span-yes = Да: на протяжении { $share } % от { $span }.
+
+js-meaning-integrity-bound-label = Типичная граница ошибки
+
+js-meaning-integrity-bound-sub = горизонтальная / вертикальная, медиана
+
+js-meaning-integrity-gap-all-passed = все проверки пройдены
+
+js-meaning-integrity-gap-label = Самый длинный разрыв
+
+js-meaning-integrity-gap-none = нет
+
+js-meaning-integrity-gap-sub = { $n } { $n ->
+        [one] проверка
+        [few] проверки
+        [many] проверок
+       *[other] проверки
+    } подряд, начиная с { $from }
+
+js-meaning-integrity-line-h = Граница ошибки приёмника (его уровень защиты) оставалась ниже пределов тревоги ({ $h } m по горизонтали) при { $av } из { $tot } { $n ->
+        [one] проверки
+        [few] проверок
+        [many] проверок
+       *[other] проверки
+    }.
+
+js-meaning-integrity-line-h-clean = Граница ошибки приёмника (его уровень защиты) оставалась ниже пределов тревоги ({ $h } m по горизонтали) при { $av } из { $tot } { $n ->
+        [one] проверки
+        [few] проверок
+        [many] проверок
+       *[other] проверки
+    }, и ни одно определение положения не вводило в заблуждение.
+
+js-meaning-integrity-line-h-some = Граница ошибки приёмника (его уровень защиты) оставалась ниже пределов тревоги ({ $h } m по горизонтали) при { $av } из { $tot } { $tot ->
+        [one] проверки
+        [few] проверок
+        [many] проверок
+       *[other] проверки
+    }; { $n } { $n ->
+        [one] определение положения вводило в заблуждение
+        [few] определения положения вводили в заблуждение
+        [many] определений положения вводили в заблуждение
+       *[other] определения положения вводили в заблуждение
+    }.
+
+js-meaning-integrity-line-hv = Граница ошибки приёмника (его уровень защиты) оставалась ниже пределов тревоги ({ $h } m по горизонтали и { $v } m по вертикали) при { $av } из { $tot } { $n ->
+        [one] проверки
+        [few] проверок
+        [many] проверок
+       *[other] проверки
+    }.
+
+js-meaning-integrity-line-hv-clean = Граница ошибки приёмника (его уровень защиты) оставалась ниже пределов тревоги ({ $h } m по горизонтали и { $v } m по вертикали) при { $av } из { $tot } { $n ->
+        [one] проверки
+        [few] проверок
+        [many] проверок
+       *[other] проверки
+    }, и ни одно определение положения не вводило в заблуждение.
+
+js-meaning-integrity-line-hv-some = Граница ошибки приёмника (его уровень защиты) оставалась ниже пределов тревоги ({ $h } m по горизонтали и { $v } m по вертикали) при { $av } из { $tot } { $tot ->
+        [one] проверки
+        [few] проверок
+        [many] проверок
+       *[other] проверки
+    }; { $n } { $n ->
+        [one] определение положения вводило в заблуждение
+        [few] определения положения вводили в заблуждение
+        [many] определений положения вводили в заблуждение
+       *[other] определения положения вводили в заблуждение
+    }.
+
+js-meaning-integrity-line-none = Граница ошибки приёмника (его уровень защиты) оставалась ниже предела тревоги при { $av } из { $tot } { $n ->
+        [one] проверки
+        [few] проверок
+        [many] проверок
+       *[other] проверки
+    }.
+
+js-meaning-integrity-line-none-clean = Граница ошибки приёмника (его уровень защиты) оставалась ниже предела тревоги при { $av } из { $tot } { $n ->
+        [one] проверки
+        [few] проверок
+        [many] проверок
+       *[other] проверки
+    }, и ни одно определение положения не вводило в заблуждение.
+
+js-meaning-integrity-line-none-some = Граница ошибки приёмника (его уровень защиты) оставалась ниже предела тревоги при { $av } из { $tot } { $tot ->
+        [one] проверки
+        [few] проверок
+        [many] проверок
+       *[other] проверки
+    }; { $n } { $n ->
+        [one] определение положения вводило в заблуждение
+        [few] определения положения вводили в заблуждение
+        [many] определений положения вводили в заблуждение
+       *[other] определения положения вводили в заблуждение
+    }.
+
+js-meaning-integrity-line-v = Граница ошибки приёмника (его уровень защиты) оставалась ниже пределов тревоги ({ $v } m по вертикали) при { $av } из { $tot } { $n ->
+        [one] проверки
+        [few] проверок
+        [many] проверок
+       *[other] проверки
+    }.
+
+js-meaning-integrity-line-v-clean = Граница ошибки приёмника (его уровень защиты) оставалась ниже пределов тревоги ({ $v } m по вертикали) при { $av } из { $tot } { $n ->
+        [one] проверки
+        [few] проверок
+        [many] проверок
+       *[other] проверки
+    }, и ни одно определение положения не вводило в заблуждение.
+
+js-meaning-integrity-line-v-some = Граница ошибки приёмника (его уровень защиты) оставалась ниже пределов тревоги ({ $v } m по вертикали) при { $av } из { $tot } { $tot ->
+        [one] проверки
+        [few] проверок
+        [many] проверок
+       *[other] проверки
+    }; { $n } { $n ->
+        [one] определение положения вводило в заблуждение
+        [few] определения положения вводили в заблуждение
+        [many] определений положения вводили в заблуждение
+       *[other] определения положения вводили в заблуждение
+    }.
+
+js-meaning-integrity-misleading-label = Вводящие в заблуждение определения положения
+
+js-meaning-integrity-misleading-sub = реальная ошибка выше границы
+
+js-meaning-integrity-trusted-label = Время, когда определению положения можно доверять
+
+js-meaning-jamming-above-label = Источник подавления выше сигнала
+
+js-meaning-jamming-above-sub = среднее отношение мощности источника подавления к мощности сигнала
+
+js-meaning-jamming-big-gone = Источник подавления полностью лишает определения положения.
+
+js-meaning-jamming-big-share = При источнике подавления определение положения доступно { $share } % времени.
+
+js-meaning-jamming-clear-label = Определение положения доступно, без источника подавления
+
+js-meaning-jamming-fewest-label = Наименьшее число отслеживаемых спутников
+
+js-meaning-jamming-fewest-sub = в наихудший момент
+
+js-meaning-jamming-jammed-label = Определение положения доступно, при подавлении
+
+js-meaning-jamming-line = Без источника подавления определение положения доступно { $share } % времени.
+
+js-meaning-jamming-line-js = Без источника подавления определение положения доступно { $share } % времени; в среднем источник подавления превышает сигнал на { $db } dB.
+
+js-meaning-kicker = { $domain } · { $title }
+
+js-meaning-lunar-big-all = Да: при каждой из { $n } { $n ->
+        [one] проверки
+        [few] проверок
+        [many] проверок
+       *[other] проверки
+    }.
+
+js-meaning-lunar-big-none = Нет: ни при одной из { $n } { $n ->
+        [one] проверки
+        [few] проверок
+        [many] проверок
+       *[other] проверки
+    }.
+
+js-meaning-lunar-big-some = При { $av } из { $n } { $n ->
+        [one] проверки
+        [few] проверок
+        [many] проверок
+       *[other] проверки
+    } ({ $share } %).
+
+js-meaning-lunar-largest-label = Наибольшая граница ошибки
+
+js-meaning-lunar-line = Уровень защиты лежал в пределах от { $min } до { $max } m при пределе тревоги { $limit } m.
+
+js-meaning-lunar-meet-label = Проверки, укладывающиеся в предел
+
+js-meaning-lunar-meet-value = { $av } из { $tot }
+
+js-meaning-lunar-smallest-label = Наименьшая граница ошибки
+
+js-meaning-median-lower-better = медиана, чем ниже, тем лучше
+
+js-meaning-of-the-time = времени
+
+js-meaning-orbit-best-label = Наилучшая геометрия (PDOP)
+
+js-meaning-orbit-best-sub = наименьшее за прогон
+
+js-meaning-orbit-big-always = Определение положения возможно всё время.
+
+js-meaning-orbit-big-share = Определение положения возможно { $share } % времени.
+
+js-meaning-orbit-error-label = Типичная ошибка положения
+
+js-meaning-orbit-error-sub = 1-sigma, медиана
+
+js-meaning-orbit-line = Достаточное число спутников было в зоне видимости в { $fix } из { $n } { $n ->
+        [one] момента
+        [few] моментов
+        [many] моментов
+       *[other] момента
+    }.
+
+js-meaning-orbit-line-pdop = Достаточное число спутников было в зоне видимости в { $fix } из { $n } { $n ->
+        [one] момента
+        [few] моментов
+        [many] моментов
+       *[other] момента
+    }; типичное качество геометрии (PDOP, геометрический фактор по положению) равно { $pdop }, чем ниже, тем лучше.
+
+js-meaning-orbit-moments = { $fix } из { $n } { $n ->
+        [one] момента
+        [few] моментов
+        [many] моментов
+       *[other] момента
+    }
+
+js-meaning-orbit-time-label = Время, когда возможно определение положения
+
+js-meaning-pair-big-diff-pos = { $best } остаётся в пределах { $budget } в течение { $bestDur }; { $other } — в течение { $otherDur }.
+
+js-meaning-pair-big-diff-time = { $best } сохраняет время в пределах { $budget } в течение { $bestDur }; { $other } — в течение { $otherDur }.
+
+js-meaning-pair-big-same-pos = И { $q }, и { $c } остаются в пределах { $budget } в течение { $dur }.
+
+js-meaning-pair-big-same-time = И { $q }, и { $c } сохраняют время в пределах { $budget } в течение { $dur }.
+
+js-meaning-pair-line-clock = Holdover — это то, как долго каждые часы остаются в пределах бюджета { $budget } после потери спутниковой навигации.
+
+js-meaning-pair-line-navigator = Holdover — это то, как долго каждый навигатор остаётся в пределах бюджета { $budget } после потери спутниковой навигации.
+
+js-meaning-pdop-label = Качество геометрии (PDOP)
+
+js-meaning-places-times = мест и моментов времени
+
+js-meaning-range-to = от { $from } до { $to }
+
+js-meaning-satellites =
+    { $n ->
+        [one] спутник
+        [few] спутника
+        [many] спутников
+       *[other] спутника
+    }
+
+js-meaning-spectrum-above = выше порога
+
+js-meaning-spectrum-below = ниже порога: потерян
+
+js-meaning-spectrum-big-kept =
+    { $n ->
+        [one] Единственный сигнал ({ $n }) продолжает отслеживаться.
+        [few] Каждый из { $n } сигналов продолжает отслеживаться.
+        [many] Каждый из { $n } сигналов продолжает отслеживаться.
+       *[other] Каждый из { $n } сигнала продолжает отслеживаться.
+    }
+
+js-meaning-spectrum-big-lost = Источники подавления отнимают { $lost } из { $n } { $n ->
+        [one] сигнала
+        [few] сигналов
+        [many] сигналов
+       *[other] сигнала
+    }: { $names }.
+
+js-meaning-spectrum-line-kept =
+    { $n ->
+        [one] { $names } остаётся выше порога слежения приёмника на протяжении всего прогона.
+        [few] { $names } остаются выше порога слежения приёмника на протяжении всего прогона.
+        [many] { $names } остаются выше порога слежения приёмника на протяжении всего прогона.
+       *[other] { $names } остаются выше порога слежения приёмника на протяжении всего прогона.
+    }
+
+js-meaning-spectrum-line-kept-thr =
+    { $n ->
+        [one] { $names } остаётся выше порога слежения приёмника { $thr } dB-Hz на протяжении всего прогона.
+        [few] { $names } остаются выше порога слежения приёмника { $thr } dB-Hz на протяжении всего прогона.
+        [many] { $names } остаются выше порога слежения приёмника { $thr } dB-Hz на протяжении всего прогона.
+       *[other] { $names } остаются выше порога слежения приёмника { $thr } dB-Hz на протяжении всего прогона.
+    }
+
+js-meaning-spectrum-line-none = Ни один сигнал не остаётся выше порога слежения приёмника на протяжении всего прогона.
