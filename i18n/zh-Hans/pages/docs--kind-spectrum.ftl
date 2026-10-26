@@ -22,28 +22,6 @@ seg-3319b18ac61f = 矩阵中另有 { "1" } 项。
 
 seg-9ca82c79430e = <b>MODELLED</b> <c1/> 类型扩展到 L 频段以外：频段以预设信号设计给出（绘出每个分量，带限于发射带宽，C/N0 和 J/S 参照被跟踪分量），或以自定义载波和调制给出 测试：<a1>leo_signal_reference.rs</a1>。
 
-seg-0cbbe567f1c8 = 扩频码的谱线结构（例如 C/A 的 { "1" } kHz 谱线）：谱线按相对于平滑包络的程度评分（结果 <c1/>）
-
-seg-2efdae3f5764 = 自动增益控制、量化、脉冲消隐与陷波滤波（结果 <c1/>）
-
-seg-f3e58705c9a2 = 接收天线朝向干扰源的方向图（仅用一个增益数值，不再细化）（结果 <c1/>）
-
-seg-c0d379cb1ab3 = 同一频段内各卫星之间的系统内多址干扰（结果 <c1/>）
-
-seg-83f414112e45 = GLONASS G1/G2、BeiDou B1/B2 与 Galileo E6（结果 <c1/>）
-
-seg-249d8a46f95a = 设计信号在其发射带宽之外的辐射：其频谱在该处被截断，因此不会有带外辐射进入相邻频段（结果 <c1/>）
-
-seg-cc83c047f02a = 扫频速率与环路带宽相当时，啁啾对环路的影响：其 C/N0 采用按行平均的频谱（结果 <c1/>）
-
-seg-7155706bc289 = MODELLED：由闭式信号频谱（VALIDATED，已与教科书给出的主瓣宽度和谱分离系数核对）、干扰源频谱和 kT 噪声底构建的 L 波段功率谱密度，再通过谱分离系数换算为 J/S 和有效 C/N0。干扰源功率、时间线和前端带宽均为场景输入，而非测量值。（结果 <c1/>）
-
-seg-95879767c438 = 专题页面：<a1>LEO-SIGNAL.md</a1>
-
-seg-ce69d8d2d9d1 = <s1>上一页</s1>space-weather
-
-seg-ac2c9c25fbb6 = <s1>下一页</s1>spoof-detect
-
 seg-ab8fe1c3cb79 = 来源：<c1/>
 
 seg-10a4479141b5 = <c1/>（场景类型）
@@ -71,3 +49,25 @@ seg-4e35cc861b15 = <b>VALIDATED</b> GPS L1 C/A和L2C（BPSK({ "1" })）、GPS L5
 seg-287de49e90a8 = <b>MODELLED</b> <c1/>类型：L波段功率谱密度的频率-时间栅格（热底限k T_sys，其中T_sys = T_ant + { "290" } K (F - { "1" })，信号取其. 参考基准（InternalConsistency）：归约到现有的<c2/>类型的抗干扰方程和链路预算（同一代码，在同样的输入上调用），以及k T0 F噪声底限闭式解。其下的信号谱就是上面那一行已核对验证的结果；干扰机功率、时间线和前端带宽是场景输入，频谱是连续的（没有扩频码线），也没有自动增益控制、消隐或天线方向图作用于干扰
 
 seg-4eca77cc59c4 = <b>VALIDATED</b> sigmf：读写Signal Metadata Format记录（JSON .sigmf-meta，含核心的global、captures和annotations字段；原始 .sigmf-data为cf32_le、ci1. 参考基准（ExternalDataset）：scipy { "1.18.1" } scipy.signal.welch（BSD-3-Clause），采用相同的周期Hann窗、重叠、密度缩放、不去趋势和双边均值平均：在{ "27" }个算例中每个频点都在相对{ "1e-12" }之内（实测{ "6.0e-14" }），段数取自scipy自身的谱图。sigmf-python { "1.13.0" }（LGPL-3.0，作为工具运行）写出五份第三方记录（cf32_le、ci16_le、ci8、两份带注解的捕获、一份非零fir
+
+seg-0cbbe567f1c8 = 扩频码的谱线结构（例如 C/A 的 { "1" } kHz 谱线）：谱线按相对于平滑包络的程度评分（结果 <c1/>）
+
+seg-2efdae3f5764 = 自动增益控制、量化、脉冲消隐与陷波滤波（结果 <c1/>）
+
+seg-f3e58705c9a2 = 接收天线朝向干扰源的方向图（仅用一个增益数值，不再细化）（结果 <c1/>）
+
+seg-c0d379cb1ab3 = 同一频段内各卫星之间的系统内多址干扰（结果 <c1/>）
+
+seg-83f414112e45 = GLONASS G1/G2、BeiDou B1/B2 与 Galileo E6（结果 <c1/>）
+
+seg-249d8a46f95a = 设计信号在其发射带宽之外的辐射：其频谱在该处被截断，因此不会有带外辐射进入相邻频段（结果 <c1/>）
+
+seg-cc83c047f02a = 扫频速率与环路带宽相当时，啁啾对环路的影响：其 C/N0 采用按行平均的频谱（结果 <c1/>）
+
+seg-7155706bc289 = MODELLED：由闭式信号频谱（VALIDATED，已与教科书给出的主瓣宽度和谱分离系数核对）、干扰源频谱和 kT 噪声底构建的 L 波段功率谱密度，再通过谱分离系数换算为 J/S 和有效 C/N0。干扰源功率、时间线和前端带宽均为场景输入，而非测量值。（结果 <c1/>）
+
+seg-95879767c438 = 专题页面：<a1>LEO-SIGNAL.md</a1>
+
+seg-ce69d8d2d9d1 = <s1>上一页</s1>space-weather
+
+seg-ac2c9c25fbb6 = <s1>下一页</s1>spoof-detect

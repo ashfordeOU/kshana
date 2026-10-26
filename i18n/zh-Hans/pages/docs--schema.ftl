@@ -12,4 +12,6 @@ seg-f5e7215e6835 = 对象
 
 seg-9da5d92757bd = 对象，可选
 
+seg-c353e7bec219 = 标注
+
 seg-a129b9e613d0 = 类型

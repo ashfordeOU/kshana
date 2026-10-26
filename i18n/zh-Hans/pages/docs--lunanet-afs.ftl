@@ -1,5 +1,7 @@
 # docs--lunanet-afs: translations (zh-Hans)
 
+seg-33f4c7af9c53 = 载波
+
 seg-53a7343c076e = 声明
 
 seg-da9970bcbab7 = 来源：<c1/>
