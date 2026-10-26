@@ -5068,3 +5068,449 @@ js-lib-views-position-error-axis = paikkavirhe ({ $unit })
 js-lib-views-position-error-m = paikkavirhe (m)
 
 js-lib-views-position-error-run = Paikkavirhe ajon aikana
+
+js-lib-views-position-m = paikka (m)
+
+js-lib-views-predicted-time-error = Ennustettu aikavirhe edellisen paikanmäärityksen jälkeen
+
+js-lib-views-protection-level-m = suojaustaso (m)
+
+js-lib-views-protection-levels = Suojaustasot hälytysrajaa vasten
+
+js-lib-views-quantum = kvantti
+
+js-lib-views-relay-error-bound = Relenavigoinnin paikkavirhe ja sen 3-sigman raja
+
+js-lib-views-satellites = satelliittia
+
+js-lib-views-satellites-tracking = Näkyvät ja edelleen seurattavat satelliitit
+
+js-lib-views-shaded-gnss-denied = varjostettu: GNSS estetty
+
+js-lib-views-slot-guard = aikavälisuoja
+
+js-lib-views-spoofed-offset = Harhautettu aikapoikkeama havaitsemisrajaa vasten
+
+js-lib-views-sweep-of = Pyyhkäisy, { $parameter }: { $metric }
+
+js-lib-views-sync-error-axis = synkronointivirhe ({ $unit })
+
+js-lib-views-sync-error-run = Synkronointivirhe ajon aikana
+
+js-lib-views-threshold = kynnys
+
+js-lib-views-time-error-ns = aikavirhe (ns)
+
+js-lib-views-time-ns = aika (ns)
+
+js-lib-views-time-s = aika (s)
+
+js-lib-views-time-since-fix = aika edellisestä paikanmäärityksestä (s)
+
+js-lib-views-timing-error-axis = ajoitusvirhe ({ $unit })
+
+js-lib-views-timing-error-run = Ajoitusvirhe ajon aikana
+
+js-lib-views-tracking = seuranta
+
+js-lib-views-value = arvo
+
+js-lib-views-vertical-vpl = pysty (VPL)
+
+js-lib-views-visible = näkyvissä
+
+js-lib-views-word-enbw = ekvivalentti kohinakaistanleveys
+
+js-lib-views-word-nfft = FFT-pituus
+
+js-lib-views-word-stec = vino TEC
+
+js-lib-views-word-toa = saapumisaika
+
+js-lib-views-word-ttff = aika ensimmäiseen paikanmääritykseen
+
+js-lib-views-word-tx = lähetys
+
+js-lib-views-word-zwd = tsenitin märkäviive
+
+js-lunar-address-outside-range = { $label }: ”{ $raw }” on alueen { $min }–{ $max } ulkopuolella; käytetään tiedoston arvoa.
+
+js-lunar-address-too-long = Osoite oli liian pitkä; näytetään oletukset.
+
+js-lunar-address-unknown-source = Osoitteessa on tuntematon lähde; näytetään tallenne.
+
+js-lunar-alert-limit = hälytysraja { $value } (havainnollistava)
+
+js-lunar-alert-not-stated = hälytysrajaa ei ilmoitettu
+
+js-lunar-bearing-east = 90° E
+
+js-lunar-bearing-west = 90° W
+
+js-lunar-cell-title = { $lat }°, { $lon }°: korjattu { $corrected }, saatavuus { $availability }, kattavuus { $coverage }
+
+js-lunar-copy-address = Kopioi osoite osoitepalkista.
+
+js-lunar-counts = Satelliitteja { $sats }, ruudukkopisteitä { $points }, ajanhetkiä { $epochs }, Monte Carlo -kokeita { $trials } ajanhetkeä kohti. Nimike: { $label }.
+
+js-lunar-engine-no-start = Moottoria ei voitu käynnistää tässä selaimessa ({ $reason }). Avaa sen sijaan tulostiedosto.
+
+js-lunar-engine-unknown-kind = Tämä moottori ({ $version }) ei tunne lajia { $kind }; se tarvitsee moottorin 0.36.
+
+js-lunar-fig-availability-region = Saatavuus alueella
+
+js-lunar-fig-corrected-3d = Korjattu virhe, { $n } %, 3‑D
+
+js-lunar-fig-coverage = Kattavuus
+
+js-lunar-fig-epochs-within = ajanhetket arvon { $value } sisällä
+
+js-lunar-fig-horizontal-vertical = vaaka { $h }, pysty { $v }
+
+js-lunar-fig-hpl-below-alert = HPL hälytysrajan alapuolella
+
+js-lunar-fig-hpl-vpl = HPL, VPL enintään
+
+js-lunar-fig-improvement = Parannuskerroin
+
+js-lunar-fig-lowest-point = Pienin pisteessä
+
+js-lunar-fig-points-always-available = Pisteet, jotka ovat saatavilla joka ajanhetkellä
+
+js-lunar-fig-uncorrected-3d = Korjaamaton virhe, { $n } %, 3‑D
+
+js-lunar-fig-worst-point = Huonoin piste
+
+js-lunar-file-not-json = Tämä tiedosto ei ole JSON-tiedosto.
+
+js-lunar-file-not-object = Tämä tiedosto ei ole JSON-objekti.
+
+js-lunar-file-too-large = { $name }: suurempi kuin 32 MiB; tämä sivu lukee tulostiedostoja enintään tuon kokoon asti.
+
+js-lunar-file-value = tiedosto: { $value }
+
+js-lunar-full-of-total = { $full } / { $total }
+
+js-lunar-give-value = { $label }: anna arvo väliltä { $min }–{ $max }.
+
+js-lunar-give-whole-value = { $label }: anna arvo väliltä { $min }–{ $max } (kokonaisluku).
+
+js-lunar-honesty-affiliation = Ei ole sidoksissa mihinkään virastoon eikä minkään viraston hyväksymä.
+
+js-lunar-honesty-assumptions = Ilmoitettujen julkisten oletusten mukaan; ei väite minkään todellisen järjestelmän suorituskyvystä.
+
+js-lunar-in-grid-spacing = Ruudukon rengasväli, astetta
+
+js-lunar-in-latency = Korjauksen viive, sekuntia
+
+js-lunar-in-seed = Siemenluku
+
+js-lunar-in-station-lat = Aseman leveysaste, astetta
+
+js-lunar-in-station-lon = Aseman pituusaste, astetta
+
+js-lunar-in-survey-error = Aseman mittausvirhe (1-sigma), metriä
+
+js-lunar-in-threshold = Tarkkuuskynnys, metriä
+
+js-lunar-in-time-step = Aika-askel, sekuntia
+
+js-lunar-in-trials = Monte Carlo -kokeita ajanhetkeä kohti
+
+js-lunar-input-out-of-range = { $label } on sallitun alueen ulkopuolella.
+
+js-lunar-json-field-not-json = Tiedoston json-kenttä ei ole JSON-muodossa.
+
+js-lunar-key-50-or-more = 50 % tai enemmän
+
+js-lunar-key-90-or-more = 90 % tai enemmän
+
+js-lunar-key-95-or-more = 95 % tai enemmän
+
+js-lunar-key-99-or-more = 99 % tai enemmän
+
+js-lunar-key-above = yli { $value }
+
+js-lunar-key-above-threshold = yli { $value } × kynnys
+
+js-lunar-key-below-50 = alle 50 %
+
+js-lunar-key-between = { $from } – { $to }
+
+js-lunar-key-between-threshold = { $from } – { $to } × kynnys
+
+js-lunar-key-up-to = enintään { $value }
+
+js-lunar-key-up-to-threshold = enintään { $value } × kynnys
+
+js-lunar-layer-availability = saatavuus
+
+js-lunar-layer-coverage = kattavuus
+
+js-lunar-layer-error = korjattu virhe
+
+js-lunar-layer-range = korjattu virhe oman vaihteluvälinsä mukaan
+
+js-lunar-legend-no-figure = ei lukua (ei saatavilla lainkaan)
+
+js-lunar-legend-radius = kattavuussäde
+
+js-lunar-legend-threshold = kynnys, { $value }
+
+js-lunar-legend-worst = huonoin piste
+
+js-lunar-link-copied = Linkki kopioitu.
+
+js-lunar-map-desc = Ruudukkopisteitä { $points } navalta leveysasteelle { $rim }°. Näistä { $meet } pisteessä korjatun virheen persentiili { $percentile } on kynnyksen { $threshold } sisällä. Väritys: { $layer }. Asema on kohdassa { $lat }°, { $lon }°.
+
+js-lunar-map-note-one-band = { $share } % pisteistä osuu yhteen kynnysasteikon kaistaan, joten kartta näyttää vain vähän vaihtelua: värjää ”oman vaihteluvälin” mukaan nähdäksesi, miten virhe vaihtelee alueella.
+
+js-lunar-needs-newer-engine = Tämä tutkimus tarvitsee moottorin { $need } tai uudemman; täällä ajettava moottori on v{ $version }. Tallenne tai tulostiedosto voidaan silti näyttää.
+
+js-lunar-no = ei
+
+js-lunar-no-recording = Tästä tutkimuksesta ei vielä toimiteta tallennetta: se tehdään julkaisun yhteydessä moottorilla 0.36. Aja se täällä moottorilla, jossa on kyseinen laji, tai avaa tulostiedosto.
+
+js-lunar-no-scenario = Tällä sivustolla ei vielä ole tiedostoa { $file }: se tulee moottorin 0.36 mukana. Avaa sen sijaan tulostiedosto.
+
+js-lunar-no-scenario-note = Tällä sivustolla ei vielä ole tiedostoa { $file } (se tulee moottorin 0.36 mukana), joten ajo täällä ei ole mahdollinen; avaa sen sijaan tulostiedosto.
+
+js-lunar-not-report = Tämä ei ole { $kind }-raportti.
+
+js-lunar-not-stated = ei ilmoitettu
+
+js-lunar-note-none = Tiedosto ei ilmoita huomautusta.
+
+js-lunar-note-withheld = Tiedoston oma ilmoitus nimeää ohjelman tai viraston, joten tämä sivu ei näytä sitä; sivun yläreunan ilmoitus on voimassa.
+
+js-lunar-point-epochs-reason = pisteajanhetket: { $reason }
+
+js-lunar-radius-desc = Kattavuussäde { $count } atsimuutin yli: lyhin { $lo } km atsimuutissa { $loAz }°, pisin { $hi } km atsimuutissa { $hiAz }°.
+
+js-lunar-radius-desc-limited =
+    { $count ->
+        [one] { $count } atsimuutti yltää ruudukon reunaan, joten kattavuus ulottuu siellä vähintään niin pitkälle.
+       *[other] { $count } atsimuuttia yltää ruudukon reunaan, joten kattavuus ulottuu niissä vähintään niin pitkälle.
+    }
+
+js-lunar-radius-hollow = Ontot pisteet yltävät ruudukon reunaan: kattavuus pitää vähintään niin pitkälle tuossa suunnassa.
+
+js-lunar-radius-none = Raportti ei ilmoita kattavuussädettä.
+
+js-lunar-radius-per-azimuth = kattavuussäde atsimuuttia kohti
+
+js-lunar-radius-point = { $az }°: { $km } km
+
+js-lunar-radius-point-limited = { $az }°: { $km } km (yltää ruudukon reunaan: vähintään näin pitkälle)
+
+js-lunar-radius-zero = Joka suunnassa kattavuus on jo asemalla alle 95 %, joten säde on 0 km: korjattu virhe ylittää siellä kynnyksen { $value }.
+
+js-lunar-reason-station-missing = asema ei näe kaikkia käyttäjän käyttämiä satelliitteja
+
+js-lunar-reason-user-lt4 = käyttäjän näkyvissä alle neljä satelliittia
+
+js-lunar-run-stopped = Ajo pysähtyi: { $message }
+
+js-lunar-running = Ajetaan tutkimusta tässä selaimessa…
+
+js-lunar-running-elapsed = Ajetaan tutkimusta tässä selaimessa… { $seconds } s
+
+js-lunar-scenario-missing-keys = Skenaariotiedostosta puuttuu { $keys }; sitä ei voi muuttaa täällä.
+
+js-lunar-set-inputs = Aseta syötteet ja paina Aja täällä.
+
+js-lunar-showing = Näytetään: { $what }.
+
+js-lunar-showing-engine = Näytetään: { $what } (moottori { $version }).
+
+js-lunar-source-error = { $what }: { $error }
+
+js-lunar-station = asema
+
+js-lunar-station-title = asema { $lat }°, { $lon }°
+
+js-lunar-table-count =
+    { $n ->
+        [one] { $n } piste, asemaa lähinnä oleva ensin.
+       *[other] { $n } pistettä, asemaa lähinnä oleva ensin.
+    }
+
+js-lunar-th-corrected = Korjattu virhe, { $n } %
+
+js-lunar-threshold-title = korjattu virhe { $value } (kynnys)
+
+js-lunar-what-file = tiedosto { $name }
+
+js-lunar-what-recording = Studion mukana toimitettu tallenne
+
+js-lunar-what-run = ajo tässä selaimessa (moottori { $version })
+
+js-lunar-worst-at = kohdassa { $lat }°, { $lon }°
+
+js-lunar-worst-title = huonoin piste { $lat }°, { $lon }°: { $value }
+
+js-lunar-yes-at-least = kyllä: vähintään näin pitkälle
+
+js-lunarinfra-above-95-point = 95 %:n pisteen yläpuolella
+
+js-lunarinfra-advisory = Ohjeellinen ohjelmisto, ei tyyppihyväksytty laite; ei minkäänlaista lähetyspolkua.
+
+js-lunarinfra-arc-note = Kantoaallon aallonpituus { $value } m.
+
+js-lunarinfra-arc-title = Jokainen kaari
+
+js-lunarinfra-bars-not-loaded = kynnystiedosto ei latautunut
+
+js-lunarinfra-bars-not-shown = Ennakkorekisteröityjä kynnyksiä ei voitu näyttää ({ $reason }).
+
+js-lunarinfra-bars-note = Kiinnitetty ennen kuin yhtäkään tutkimusta pisteytettiin, ja ratkaisut ovat virallisia (moottorin commit { $commit }). Mikään ei ole VALIDATED; kynnys, joka on merkitty NOT MET, on lukittu testillä, joka vahvistaa alituksen, eikä yhtäkään ole löysennetty.
+
+js-lunarinfra-bars-title = Ennakkorekisteröityjä kynnyksiä vasten
+
+js-lunarinfra-bars-wrong-file = kynnystiedosto ei ole se, jota tämä sivu lukee
+
+js-lunarinfra-blurb-carrier-phase = Pinta-asema ja kiertäjä, jotka käyttävät Maan GNSS-signaalien kaksoisdifferenssoitua kantoaallon vaihetta: voidaanko kokonaislukuepävarmuudet ratkaista, ja mitä se tekee paikan rajalle? Nopea esimerkkiajo.
+
+js-lunarinfra-blurb-frame-coestimation = Kuun vertailupisteen seitsemän parametria Maa-aseman laseretäisyysmittauksesta, kiertäjän ja pinta-aseman välisten etäisyyksien kanssa ja ilman niitä: kuinka paljon informaatio paranee?
+
+js-lunarinfra-blurb-geodesy-sensitivity = Kuinka herkkiä laseretäisyysmittaus, kiertäjän seuranta, gravimetri ja pintakello ovat Kuun vuorovesi-Love-luvuille h2, k2 ja l2 sekä sen fyysiselle libraatiolle?
+
+js-lunarinfra-blurb-od-consistency = Kiertäjän oma Maan GNSS-radanmääritys lähes suoraviivaisella haloradalla verrattuna saman kaaren riippumattomaan maanpäälliseen radiometriseen ratkaisuun: ovatko ne samaa mieltä ilmoitettujen epävarmuuksiensa rajoissa, ja huomaako yhdenmukaisuustarkistus mallinnusvirheen, kun sellainen syötetään? Näytetään rinnakkain.
+
+js-lunarinfra-blurb-space-tie = GNSS, VLBI ja laseretäisyysmittaus yhdellä avaruusaluksella: kuinka tarkasti kolmen tekniikan väliset poikkeamat voidaan sitoa, verrattuna avaruusaluksen paikallisen sidoksen virheeseen?
+
+js-lunarinfra-bound-label = Paikan epävarmuus, float ja fixed, logaritminen asteikko
+
+js-lunarinfra-bound-note = Aseman ja kiertäjän yhden sigman paikan epävarmuus, kun epävarmuudet jätetään float-tilaan ja kun ne kiinnitetään (mitä kiinnittäminen antaisi, jos se saavutettaisiin).
+
+js-lunarinfra-bound-title = Paikan raja, float ja fixed
+
+js-lunarinfra-chip-na = n/a
+
+js-lunarinfra-comp-normal = normaali
+
+js-lunarinfra-comp-position = paikka (3D)
+
+js-lunarinfra-comp-radial = radiaalinen
+
+js-lunarinfra-comp-transverse = poikittainen
+
+js-lunarinfra-compare-note = { $sets } satunnaisella asemajoukolla pienin ominaisarvo ei ollut pienempi kiertäjälinkkien kanssa tapauksessa { $lambda } eikä jälki suurempi tapauksessa { $trace }; pienimmän ominaisarvon kasvun mediaani oli { $median } kertaa.
+
+js-lunarinfra-compare-title = Vertailu lukuina
+
+js-lunarinfra-crsigma-label = Cramér–Rao-sigma, logaritminen asteikko
+
+js-lunarinfra-crsigma-note = Metreinä pinnalla.
+
+js-lunarinfra-crsigma-title = Cramér–Rao-sigma parametria kohti
+
+js-lunarinfra-days =
+    { $n ->
+        [one] { $n } päivä
+       *[other] { $n } päivää
+    }
+
+js-lunarinfra-direction = suunta { $n }
+
+js-lunarinfra-disclosures = Ilmoitukset
+
+js-lunarinfra-eig-label = Informaation ominaisarvot, logaritminen asteikko
+
+js-lunarinfra-eig-note = Informaatiomatriisin seitsemän ominaisarvoa, pienin ensin, ilman kiertäjä–asema-linkkejä ja niiden kanssa. Pienin nousee { $times } kertaa, ja Cramér–Rao-jälki laskee arvoon { $share } sen arvosta. Tämä olettaa, että rata tunnetaan Kuun akseleissa (sen virhe sisältyy kiertäjän etäisyyssigmaan).
+
+js-lunarinfra-eig-title = Informaatio vertailupisteen jokaisessa suunnassa
+
+js-lunarinfra-fact-arc = Kaari
+
+js-lunarinfra-fact-hash = Skenaarion tiiviste
+
+js-lunarinfra-fact-llr-rows = Laseretäisyysmittauksen rivit
+
+js-lunarinfra-fact-orbit-family = Ratatyyppi
+
+js-lunarinfra-fact-orbiter-arc = Kiertäjän kaari
+
+js-lunarinfra-fact-orbiter-rows = Kiertäjän rivit
+
+js-lunarinfra-fact-study = Tutkimus
+
+js-lunarinfra-fact-wavelength = Kantoaallon aallonpituus
+
+js-lunarinfra-families-note = Kunkin parametrin osittaisderivaatan RMS perheen riveillä sekä rivien määrä. Nolla on parametri, jolle kyseinen perhe on sokea. Kiertäjäperheen k2-herkkyys on ylärajan luku.
+
+js-lunarinfra-families-title = Mitä kukin perhe näkee
+
+js-lunarinfra-findings = Havainnot
+
+js-lunarinfra-fix-note-a = Niiden Monte Carlo -kokeiden osuus, jotka ratkaisivat jokaisen kokonaislukuepävarmuuden oikein (standardivirheineen), sekä nopeus, jonka bootstrap-estimaatti ennustaa.
+
+js-lunarinfra-fix-note-b = Kokonaislukuratkaisua EI saavuteta tällä syötteellä: paras kaari ratkaisee { $share } kokeista.
+
+js-lunarinfra-fix-note-c = Ratkaisuun kuluvaa aikaa ei ole näytettävänä, koska ratkaisua ei saavuteta.
+
+js-lunarinfra-fix-rate-label = Kokonaislukuratkaisun osuus kaaren pituuden funktiona
+
+js-lunarinfra-fix-title = Ratkaisuosuus kaaren pituuden funktiona
+
+js-lunarinfra-fixed = kiinnitetty (fixed)
+
+js-lunarinfra-float = reaaliarvoinen (float)
+
+js-lunarinfra-fraction-above-95 = 95 %:n pisteen ylittävien kokeiden osuus
+
+js-lunarinfra-ground-radiometric = riippumaton maanpäällinen radiometrinen
+
+js-lunarinfra-injected-error = syötetty virhe { $value } m/s²
+
+js-lunarinfra-mean-consistency = Yhdenmukaisuustunnusluvun keskiarvo
+
+js-lunarinfra-mean-q = q:n keskiarvo
+
+js-lunarinfra-miss-line = { $id } on { $status }: { $value }
+
+js-lunarinfra-miss-no-fix = Kokonaislukuepävarmuuden ratkaisua EI saavuteta tällä syötteellä: paras kaari ratkaisee { $share } Monte Carlo -kokeista.
+
+js-lunarinfra-na = n/a
+
+js-lunarinfra-nominal = nimellinen
+
+js-lunarinfra-not-result = tämä ei ole Kuun infrastruktuurin tulos
+
+js-lunarinfra-not-verified = Ei varmennettu
+
+js-lunarinfra-offset-precision-label = Poikkeaman tarkkuus paikalliseen sidokseen nähden, log–log
+
+js-lunarinfra-offsets-note = Siirtymän sigma akselia kohti sekä mittakaavan ja kierron sigma pinnalla, metreinä.
+
+js-lunarinfra-offsets-title = Poikkeamat kunkin sidosvirheen kohdalla ({ $days } päivän kaari, { $epochs } ajanhetkeä)
+
+js-lunarinfra-onboard-gnss = aluksella oleva Maan GNSS
+
+js-lunarinfra-open-failed = Kohdetta { $title } ei voitu avata: { $reason }.
+
+js-lunarinfra-opening = Avataan: { $title }…
+
+js-lunarinfra-orbit-uncertainty-log = Radan epävarmuus komponenteittain, logaritminen asteikko
+
+js-lunarinfra-orbiter-days = kiertäjä, { $days } vrk
+
+js-lunarinfra-q-note = Yhdenmukaisuustunnusluvun q keskiarvo { $trials } kokeen yli; { $expected } on arvo, jonka yhdenmukainen ratkaisupari antaa. 95 %:n pisteen ylittävien kokeiden osuus on tarkistuksen havaitsemisosuus.
+
+js-lunarinfra-q-title = Yhdenmukaisuustarkistus, nimellinen syötettyä virhettä vasten
+
+js-lunarinfra-recorded =
+    { $n ->
+        [one] { $title }: moottorin tallentama tulos (versio { $version }).
+       *[other] { $title }: moottorin tallentamat tulokset (versio { $version }).
+    }
+
+js-lunarinfra-rel-label = Sigma nimellisarvoon nähden, logaritminen asteikko
+
+js-lunarinfra-rel-note = Cramér–Rao-sigma prosentteina nimellisarvosta, kaikki neljä perhettä yhdessä. h2 ja l2 ovat linearisointipisteitä, eivät varmennettuja arvoja; k2 on julkaistusta sovituksesta.
+
+js-lunarinfra-rel-title = Kuinka hyvin kukin parametri voidaan määrittää nimellisarvoonsa nähden
+
+js-lunarinfra-result-not-json = tulos ei ole JSON-muodossa ({ $reason })
+
+js-lunarinfra-result-not-loaded = tallennettu tulos { $file } ei latautunut
