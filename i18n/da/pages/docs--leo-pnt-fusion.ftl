@@ -52,7 +52,7 @@ seg-7712896ff69a = PUBLIC: tildelingen i <a1>International Telecommunication Uni
 
 seg-89ebc32469d9 = En efemeride-og-ur-model: efemeride som polynomium af sjette orden, opdatering hvert { "30" } s, ur styret til GNSS-tid; SISRE { "0.26" } m
 
-seg-ddbefb8a6723 = PUBLIC: <a1>InsideGNSS</a1>. DERIVED: SISRE. Kombinér med enhver konstellation gennem <c1/>
+seg-ddbefb8a6723 = PUBLIC: <a1>InsideGNSS</a1>. AFLEDT: SISRE. Kombinér med enhver konstellation gennem <c1/>
 
 seg-6389c92e07d4 = Den Europæiske Rumorganisations (ESA's) Celeste-demonstration i kredsløb (IOD), én konfiguration af en parametriseret signaludformning
 

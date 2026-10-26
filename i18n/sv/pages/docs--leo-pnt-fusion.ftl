@@ -52,7 +52,7 @@ seg-7712896ff69a = PUBLIC: allokeringen i <a1>International Telecommunication Un
 
 seg-89ebc32469d9 = En efemerid- och klockmodell: polynomefemerid av sjätte ordningen, uppdatering var { "30" } s, klocka styrd mot GNSS-tid; SISRE { "0.26" } m
 
-seg-ddbefb8a6723 = PUBLIC: <a1>InsideGNSS</a1>. DERIVED: SISRE. Kombineras med valfri konstellation genom <c1/>
+seg-ddbefb8a6723 = PUBLIC: <a1>InsideGNSS</a1>. HÄRLEDD: SISRE. Kombineras med valfri konstellation genom <c1/>
 
 seg-6389c92e07d4 = Europeiska rymdorganisationens (ESA) Celeste-demonstration i omloppsbana (IOD), en konfiguration av en parametriserad signalutformning
 
