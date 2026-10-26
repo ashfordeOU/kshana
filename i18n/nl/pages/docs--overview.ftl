@@ -173,3 +173,17 @@ seg-c611ee59301a = Animatie
 seg-c01b78b64065 = Rapporten
 
 seg-c60dc5b92a60 = Interoperabiliteitsexports
+
+seg-3d770dd786e4 = Gebruik
+
+seg-fe1abd564200 = Jammertest
+
+seg-6fcb41643035 = Vertrouwenstelemetrie
+
+seg-82155b5d0408 = Test bench
+
+seg-e35fff011b24 = Compliance
+
+seg-a50180a66dba = LunaNet AFS
+
+seg-028684a0cf3d = Standaardenpakketten
