@@ -3,3 +3,5 @@
 seg-3ea93ae372ca = Wat het bevat
 
 seg-245adc6e6766 = <s1>Vorige</s1>Campagnes
+
+seg-aa5482ac34ff = Beperkingen, duidelijk vermeld
