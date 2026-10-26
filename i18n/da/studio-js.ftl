@@ -4541,3 +4541,485 @@ js-lib-guided-seed-label = Tilfældigt seed
 js-lib-guided-sigma-uere-m-hint = 1-σ brugerækvivalent afstandsfejl til positionsopsummeringen
 
 js-lib-guided-sigma-uere-m-label = Afstandsfejl σ (m)
+
+js-lib-guided-station-lat-deg-hint = jordstationens breddegrad — styrer overflyvningens geometri
+
+js-lib-guided-station-lat-deg-label = Stationens breddegrad (°)
+
+js-lib-guided-station-lon-deg-hint = jordstationens længdegrad
+
+js-lib-guided-station-lon-deg-label = Stationens længdegrad (°)
+
+js-lib-guided-step-s-hint = samplingtakt for jordsporet
+
+js-lib-guided-step-s-label = Tidstrin (s)
+
+js-lib-guided-threshold-ns-hint = budget inden for specifikationen; "tilgængelig", så længe fejlen forbliver under det
+
+js-lib-guided-threshold-ns-label = Specifikationstærskel (ns)
+
+js-lib-guided-time-duration-s-hint = samlet kørselslængde
+
+js-lib-guided-time-duration-s-label = Varighed (s)
+
+js-lib-guided-time-step-s-hint = integrations-/samplingtakt
+
+js-lib-guided-time-step-s-label = Tidstrin (s)
+
+js-lib-guided-user-altitude-km-hint = brugerrumfartøjets banehøjde
+
+js-lib-guided-user-altitude-km-label = Brugerens højde (km)
+
+js-lib-guided-user-inclination-deg-hint = brugerbanens inklination
+
+js-lib-guided-user-inclination-deg-label = Brugerens inklination (°)
+
+js-lib-imufit-card-accel-slope = Accelerometerets Allan-hældning, tidligt (omkring -0.5 for hvid støj)
+
+js-lib-imufit-card-bias = Accelerometerbias, middel (m/s²)
+
+js-lib-imufit-card-bias-instability = Accelerometerets biasinstabilitet (m/s²), 0 når kurven ikke har noget bundniveau
+
+js-lib-imufit-card-gyro-bias = Gyrobias, middel (rad/s)
+
+js-lib-imufit-card-gyro-slope = Gyroens Allan-hældning, tidligt (omkring -0.5 for hvid støj)
+
+js-lib-imufit-card-note-n = Note { $n }
+
+js-lib-imufit-card-q-arw = Gyroens vinkelrandomwalk, q_arw (rad²/s)
+
+js-lib-imufit-card-q-va = Accelerometerets hastighedsrandomwalk, q_va (m²/s³)
+
+js-lib-imufit-card-sample-rate = Samplingrate
+
+js-lib-imufit-card-samples = Sampler
+
+js-lib-imufit-card-span = Interval
+
+js-lib-jammertest-card-clean-epochs = Rene epoker
+
+js-lib-jammertest-card-clean-hours = Rene timer
+
+js-lib-jammertest-card-detected = Detekteret inden for tolerancen
+
+js-lib-jammertest-card-detection-rate = Detektionsrate (enhver alarm)
+
+js-lib-jammertest-card-evaluable = Evaluerbare
+
+js-lib-jammertest-card-fa-epochs = Epoker med falsk alarm
+
+js-lib-jammertest-card-fa-per-hour = Kørsler med falsk alarm pr. time
+
+js-lib-jammertest-card-fa-runs = Kørsler med falsk alarm
+
+js-lib-jammertest-card-in-tol-rate = Detekteret inden for tolerancen, rate
+
+js-lib-jammertest-card-late = Sene
+
+js-lib-jammertest-card-median-latency = Median detektionslatenstid
+
+js-lib-jammertest-card-median-recover = Mediantid til genopretning
+
+js-lib-jammertest-card-missed = Overset
+
+js-lib-jammertest-card-na = n/a
+
+js-lib-jammertest-card-not-assessable = Ingen test kunne evalueres i denne log, så der kan ikke angives en detektionsrate eller latenstid. Det er et resultat, ikke en fejl i siden: intet her er bestået.
+
+js-lib-jammertest-card-not-json = { $name }: ikke JSON ({ $reason }).
+
+js-lib-jammertest-card-not-scorecard = { $name }: ikke et jammertest-resultatkort (det kræver tests[] og summary).
+
+js-lib-jammertest-card-tests = Tests i planudsnittet
+
+js-lib-jammertest-card-too-large = { $name }: større end 8 MiB; denne side læser et resultatkort op til den størrelse.
+
+js-lib-kpi-available-everywhere = tilgængelig overalt, i hver epoke
+
+js-lib-kpi-available-everywhere-pdop = tilgængelig overalt, i hver epoke (PDOP, positionspræcisionsforringelse, under { $thr })
+
+js-lib-kpi-drops-under = falder under sporingstærsklen på { $thr } dB-Hz: låsen mistes
+
+js-lib-kpi-end-of-mission = ved missionens slutning
+
+js-lib-kpi-figure-tiers = Niveauer for tallene: { $parts }.
+
+js-lib-kpi-n-modelled = { $n } modelleret
+
+js-lib-kpi-n-partner = { $n } ejet af partneren
+
+js-lib-kpi-n-validated = { $n } valideret
+
+js-lib-kpi-no-change = ingen ændring
+
+js-lib-kpi-no-fix = { $pct } % af tiden eller stederne uden positionsbestemmelse
+
+js-lib-kpi-no-fix-pdop = { $pct } % af tiden eller stederne uden positionsbestemmelse ved PDOP under { $thr }
+
+js-lib-kpi-over-jump = over springtærsklen på { $thr } m
+
+js-lib-kpi-over-pdop = over PDOP-tærsklen { $thr }
+
+js-lib-kpi-stays-above = forbliver over sporingstærsklen på { $thr } dB-Hz
+
+js-lib-kpi-under-jump = under springtærsklen på { $thr } m
+
+js-lib-kpi-under-pdop = under PDOP-tærsklen { $thr }
+
+js-lib-orbit3d-apogee = apogæum
+
+js-lib-orbit3d-perigee = perigæum
+
+js-lib-orbit3d-prov-scenario = scenarie { $hash }
+
+js-lib-orbit3d-title = Bane (ECI, ortografisk)
+
+js-lib-orbit3d-view-angles = az { $az }° · el { $el }°
+
+js-lib-overlay-meta-clock-bias-m = Urbias
+
+js-lib-overlay-meta-converged-pos-3sigma-m = Position 3σ
+
+js-lib-overlay-meta-converged-pos-rms-m = Position RMS
+
+js-lib-overlay-meta-converged-pos-sigma-m = Position σ
+
+js-lib-overlay-meta-final-clock-freq-sigma = Urfrekvens-σ
+
+js-lib-overlay-meta-mean-relays-in-view = Relæer i sigte
+
+js-lib-overlay-meta-pos-p95-m = Position p95
+
+js-lib-overlay-meta-pos-rms-m = Position RMS
+
+js-lib-overlay-meta-postfit-rms-m = RMS efter tilpasning
+
+js-lib-overlay-prov-scenario = scenarie { $hash }
+
+js-lib-overlay-subtitle =
+    |fejl| (ns) mod tid — { $n ->
+        [one] { $n } kørsel
+       *[other] { $n } kørsler
+    }
+
+js-lib-overlay-time-s = tid (s)
+
+js-lib-overlay-title = Overlay: tidsfejl under udfald
+
+js-lib-packs-cannot-unpack = denne browser kan ikke pakke den optagne fil ud
+
+js-lib-replay-demos-below-130 = Kun azimutter under 130° bevaret (angivet)
+
+js-lib-replay-demos-coastal-drag-off = Kystnær drag-off
+
+js-lib-replay-demos-combined-event = Kombineret hændelse
+
+js-lib-replay-demos-drag-off-stated = Positions-drag-off (angivet af demoen)
+
+js-lib-replay-demos-ferry-drag-off = Færgepassage, positions-drag-off
+
+js-lib-replay-demos-ferry-drag-off-description = En opdigtet færgelog, Tallinn til Helsinki, 1 Hz. Fra 1500 s trækker en positions-drag-off den rapporterede position væk, mens modtageren fortsat rapporterer en gyldig positionsbestemmelse.
+
+js-lib-replay-demos-fjord = Naturlig forringelse i fjord
+
+js-lib-replay-demos-masked-sky = Færgepassage, halvdelen af himlen maskeret
+
+js-lib-replay-demos-masked-sky-description = Den samme færgelog, hvor den vestlige halvdel af himlen er gjort tavs fra 600 s, en smallere himmel fra 900 s til 1200 s og drag-off fra 1500 s: én kørsel, hvor himlen, signalet og positionen svigter efter tur.
+
+js-lib-replay-demos-open-sea-jamming = Jamming på åbent hav
+
+js-lib-replay-demos-port-approach = Tids-spoofing ved havneindsejling
+
+js-lib-replay-demos-source-training = Syntetisk scenarie { $id }: motorens nmea_training-strøm og instruktørlog, scoret af dens receiver-trust.
+
+js-lib-replay-demos-source-trust = Syntetisk log { $id }: opdigtet NMEA, scoret af motorens receiver-trust.
+
+js-lib-replay-demos-west-masked = Vestlig halvdel af himlen maskeret (angivet)
+
+js-lib-replay-demos-west-masked-again = Vestlig halvdel maskeret igen (angivet)
+
+js-lib-report-charts = Diagrammer
+
+js-lib-report-eyebrow = det præcise øjeblik
+
+js-lib-report-figures-of-merit = Kvalitetsmål
+
+js-lib-report-footer = Kshana { $version } · scenarie { $hash } · genereret { $iso }. Kan gengives ud fra scenarie + seed + motorversion. Kører lokalt; intet uploadet.
+
+js-lib-report-not-applicable = ikke relevant (intet angreb konfigureret)
+
+js-lib-report-scenario-definition = Scenariedefinition (TOML)
+
+js-lib-report-th-clock = Ur
+
+js-lib-report-th-metric = Metrik
+
+js-lib-report-th-validation = Validering
+
+js-lib-report-th-value = Værdi
+
+js-lib-report-tier-note = Hvert kvalitetsmål er mærket { $validated } (kontrolleret mod en uafhængig ekstern reference) eller { $modelled } (fra grundprincipper, internt testet) — afledt af verifikationsmatricen.
+
+js-lib-report-title = Kshana — scenarierapport
+
+js-lib-skydraw-azimuth-range = azimut { $from } til { $to } grader
+
+js-lib-skydraw-describe =
+    { $listed ->
+        [one] { $listed } satellit opført
+       *[other] { $listed } satellitter opført
+    }, { $heard } med et signal
+
+js-lib-skydraw-describe-mean =
+    { $listed ->
+        [one] { $listed } satellit opført
+       *[other] { $listed } satellitter opført
+    }, { $heard } med et signal, middel { $snr } dB-Hz
+
+js-lib-skydraw-east = Ø
+
+js-lib-skydraw-no-signal-from = intet signal fra { $sectors }
+
+js-lib-skydraw-none-listed = Ingen satellitter opført i loggen på dette tidspunkt.
+
+js-lib-skydraw-north = N
+
+js-lib-skydraw-sat-heard = { $sys } { $prn }: elevation { $el }, azimut { $az }, signal { $snr } dB-Hz
+
+js-lib-skydraw-sat-quiet = { $sys } { $prn }: elevation { $el }, azimut { $az }, opført, intet signal
+
+js-lib-skydraw-south = S
+
+js-lib-skydraw-unheard-sector = Satellitter opført mellem azimut { $from } og { $to } grader, ingen med signal
+
+js-lib-skydraw-west = V
+
+js-lib-skyline-edit-describe = Horisontprofil over { $blocked } af 360 grader azimut; højeste { $el }° ved azimut { $az }°.
+
+js-lib-skyline-edit-open = Åben horisont: ingen horisontprofil.
+
+js-lib-stages-all-planets = Alle planeter
+
+js-lib-stages-au-from-sun = { $d } au fra Solen
+
+js-lib-stages-band-carrier = { $name }-bærebølge, { $mhz } MHz
+
+js-lib-stages-bin-title =
+    { $from } til { $to }{ $unit }: { $count ->
+        [one] { $count } kørsel
+       *[other] { $count } kørsler
+    }
+
+js-lib-stages-body-and-moons = { $name } og dens måner
+
+js-lib-stages-cell-title = bredde { $lat }°, længde { $lon }° · { $field } { $value }
+
+js-lib-stages-chain-navmsg = Navigationsbesked
+
+js-lib-stages-chain-pass = Overflyvning og link
+
+js-lib-stages-chain-ppp = Præcis punktpositionering
+
+js-lib-stages-chain-pvt = Fusioneret positionsbestemmelse
+
+js-lib-stages-chain-signal = Signaludformning
+
+js-lib-stages-coverage-aria = { $field } over { $body }, efter breddegrad og længdegrad
+
+js-lib-stages-feature-n = objekt { $n }
+
+js-lib-stages-flag = flag
+
+js-lib-stages-frequency-mhz = frekvens (MHz)
+
+js-lib-stages-from-to = { $from } til { $to }
+
+js-lib-stages-geojson-aria = GeoJSON-eksporten tegnet på et kort
+
+js-lib-stages-histogram = Histogram
+
+js-lib-stages-inner-planets = Indre planeter
+
+js-lib-stages-km-from-centre = { $d } km fra { $centre }
+
+js-lib-stages-linear-scale = lineær skala
+
+js-lib-stages-link-light-time = { $from } til { $to }: envejs-lystid { $time } s
+
+js-lib-stages-longitude-axis = længdegrad · breddegrad op ad siden
+
+js-lib-stages-mission-time = missionstid (s)
+
+js-lib-stages-noise-floor = støjgulv
+
+js-lib-stages-orrery-note = { $scale } · referencesystemets x-y-plan, set fra dets nordpol
+
+js-lib-stages-panel-n = Panel { $n }
+
+js-lib-stages-plan-view-aria = Planvisning af { $centre } og legemerne omkring det, { $scale }
+
+js-lib-stages-psd-at-t = Effektspektraltæthed ved t = { $t } s
+
+js-lib-stages-psd-axis = effektspektraltæthed (dBW/Hz)
+
+js-lib-stages-runs = kørsler
+
+js-lib-stages-sat-title = { $constellation } { $id } · bredde { $lat }°, længde { $lon }°
+
+js-lib-stages-satellites = satellitter
+
+js-lib-stages-spectrum-at-t = spektrum ved t = { $t } s
+
+js-lib-stages-sqrt-scale = kvadratrodsskala for afstand
+
+js-lib-stages-the-body = legemet
+
+js-lib-stages-time-s = tid (s)
+
+js-lib-stages-unit-alarm = Alarm
+
+js-lib-stages-unit-cn0 = Bærebølge-til-støj-tæthed
+
+js-lib-stages-unit-position = Position og beskyttelse
+
+js-lib-stages-unit-satellites = Satellitter
+
+js-lib-stages-unit-time-error = Tidsfejl
+
+js-lib-stages-waterfall-aria = Vandfaldsdiagram over effektspektraltæthed: frekvens på tværs, tid nedad
+
+js-lib-stages-whole-band = Hele båndet
+
+js-lib-sweep-clock-availability = { $who } tilgængelighed
+
+js-lib-sweep-clock-holdover = { $who } holdover (s)
+
+js-lib-sweep-clock-timing-p95 = { $who } tidssynkronisering p95 (ns)
+
+js-lib-sweep-clock-timing-rms = { $who } tidssynkronisering RMS (ns)
+
+js-lib-sweep-max-altitude = maks. højde (km)
+
+js-lib-sweep-max-elevation = maks. elevation (°)
+
+js-lib-sweep-max-speed = maks. hastighed (m/s)
+
+js-lib-sweep-min-altitude = min. højde (km)
+
+js-lib-sweep-peak-doppler = spidsværdi for Doppler (Hz)
+
+js-lib-sweep-prov-scenario = scenarie { $hash }
+
+js-lib-sweep-y-vs-x = { $y } mod { $x }
+
+js-lib-tabs-3d-orbit = 3D-bane
+
+js-lib-tabs-figures-of-merit = Kvalitetsmål
+
+js-lib-tabs-stability = Stabilitet
+
+js-lib-tabs-sweep = Sweep
+
+js-lib-tabs-time-series = Tidsserie
+
+js-lib-tour-ashforde-body = Tak, fordi du udforskede Kshana. Vi bygger åben, reproducerbar og evidensbaseret teknik til missioner, der ikke må fejle — ærlige om, hvad der er valideret, og hvad der er modelleret. Spørgsmål, et samarbejde eller en undersøgelse? Skriv til os på contact@ashforde.org.
+
+js-lib-tour-ashforde-title = Fra Ashforde® OÜ
+
+js-lib-tour-capabilities-body = Vælg en områdefane — Baner, Tidssynkronisering, Inertial, GNSS, Robusthed, Måne, AI/ML, Interoperabilitet — for at se dens funktioner, hver mærket Valideret eller Modelleret, med en ▸ kør-knap til de gennemarbejdede scenarier. Åbn “Evidens og proveniens” i et hvilket som helst område for at spore beviset, eller slå “Kun valideret” til for kun at vise det, der er kontrolleret mod en uafhængig ekstern reference.
+
+js-lib-tour-capabilities-title = Udforsk motoren, ét område ad gangen
+
+js-lib-tour-cite-body = Kshana er bygget til at blive henvist til — en citérbar softwareudgivelse med en DOI samt artikler i peer-stil om optimismegabet ved RF-forringelser og et betinget beskyttelsesniveau for tidssynkronisering. Kopiér citatet direkte herfra.
+
+js-lib-tour-cite-title = Publikationer og sådan citerer du
+
+js-lib-tour-download-report-body = Fanen Sweep varierer én parameter over et interval; “Fastgør til sammenligning” lægger to eller flere kørsler ovenpå hinanden side om side med Δ imellem dem (virker på tværs af scenarietyper — ur, Mars-PNT, positionering…); og denne knap downloader kørslen som en selvstændig HTML-rapport til offline brug.
+
+js-lib-tour-download-report-title = Sweep, sammenlign og eksporter
+
+js-lib-tour-guided-body = De guidede knapper tilpasser sig scenariet — seed, specifikationstærskel, varighed, elevationsmaske, banehøjde — og hver ændring kører straks igen.
+
+js-lib-tour-guided-title = Justér skyderne
+
+js-lib-tour-mcp-body = En MCP-server lader AI-assistenter køre den validerede motor i stedet for at gætte; et JetBrains-plugin kører scenarier med et højreklik.
+
+js-lib-tour-mcp-title = Brug den fra en AI-agent eller din IDE
+
+js-lib-tour-playground-body = Vælg et scenarie i rullemenuen — eller tryk på ▸ kør ved en vilkårlig funktion ovenfor — og motoren kører som WebAssembly på din maskine. Intet uploades.
+
+js-lib-tour-playground-title = Kør den i din browser
+
+js-lib-tour-run-body = Kør det aktuelle scenarie. Åbn “Avanceret” for at redigere TOML og ændre hvad som helst; “Kopiér delingslink” gengiver netop denne kørsel for en anden.
+
+js-lib-tour-run-title = Kør den
+
+js-lib-tour-tabs-body = Skift mellem kvalitetsmålene, tidsseriediagrammet, urets stabilitet (Allan-deviation) og — for banekørsler — en interaktiv 3D-banevisning.
+
+js-lib-tour-tabs-title = Læs resultaterne
+
+js-lib-tour-validation-body = Den samme udforsker er også evidensregisteret: hvert område har en skuffe “Evidens og proveniens” — tallet, den uafhængige reference, det er kontrolleret mod, og en ærlig status Valideret / Modelleret for hver påstand. “Kun valideret” filtrerer til de rækker, der er kontrolleret mod et datasæt.
+
+js-lib-tour-validation-title = Evidens, ikke tillægsord
+
+js-lib-views-3-sigma-bound = 3-sigma-grænse
+
+js-lib-views-3d-position-error = 3-D-positionsfejl
+
+js-lib-views-a-parameter = en parameter
+
+js-lib-views-band-runs =
+    Tidsfejlsbånd over { $runs ->
+        [one] { $runs } Monte Carlo-kørsel
+       *[other] { $runs } Monte Carlo-kørsler
+    }
+
+js-lib-views-band-the-runs = Tidsfejlsbånd over Monte Carlo-kørslerne
+
+js-lib-views-below-tracking = under sporingstærsklen
+
+js-lib-views-chart = diagram
+
+js-lib-views-classical = klassisk
+
+js-lib-views-epoch = epoke
+
+js-lib-views-four-needed = 4 kræves til en positionsbestemmelse
+
+js-lib-views-free-inertial = fri inertial
+
+js-lib-views-gnss-denied = GNSS nægtet
+
+js-lib-views-ground-track = Jordspor
+
+js-lib-views-heatmap-effective = Effektiv bærebølge-til-støj-tæthed efter satellit og tid
+
+js-lib-views-heatmap-nominal = Nominel (uden jammer) bærebølge-til-støj-tæthed efter satellit og tid
+
+js-lib-views-horizontal-alert-limit = horisontal alarmgrænse
+
+js-lib-views-horizontal-hpl = horisontal (HPL)
+
+js-lib-views-id-bound = { $id }-grænse
+
+js-lib-views-id-median = { $id } median
+
+js-lib-views-id-offset = { $id }-forskydning
+
+js-lib-views-id-p95 = { $id } p95
+
+js-lib-views-map-matched = kortmatchet
+
+js-lib-views-map-matched-title = Kortmatchet mod positionsfejl for fri inertial
+
+js-lib-views-metric = metrik
+
+js-lib-views-oscillator = oscillator
+
+js-lib-views-oscillator-source = oscillator ({ $source })
+
+js-lib-views-position-error-axis = positionsfejl ({ $unit })
+
+js-lib-views-position-error-m = positionsfejl (m)
+
+js-lib-views-position-error-run = Positionsfejl over kørslen
