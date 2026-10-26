@@ -31,3 +31,5 @@ seg-eaf341ff4522 = GNSS-vrije kwantumnavigatie
 seg-d12d4565b01d = Geodetische VLBI op de Maan, kernelpad
 
 seg-5ed34a5b402e = Gezamenlijke multitechniek-OD + klok voor de Maan
+
+seg-75636f9419b2 = Bekende beperkingen
