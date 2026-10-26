@@ -2397,7 +2397,7 @@ js-cat-lunar-relay-constellation-question = Minkä kattavuuden jäädytetyillä 
 
 js-cat-lunar-relay-constellation-title = Kuun releitähdistö
 
-js-cat-lunar-station-coverage-public-sources-question = Mitä korjattua virhettä asema antaa etelänavan yllä, kun käytetään vain julkisesti ilmoitettuja oletuksia? Tulosta hallitsevat rataelementit, jotka eivät ole julkisia ja jotka on asetettu HAVAINNOLLISIKSI; tämä on jäädytetyn ennusteen syöte. (mallinnettu; ei väite mistään todellisesta järjestelmästä)
+js-cat-lunar-station-coverage-public-sources-question = Mitä korjattua virhettä asema antaa etelänavan yllä, kun käytetään vain julkisesti ilmoitettuja oletuksia? Tulosta hallitsevat rataelementit, jotka eivät ole julkisia ja jotka on asetettu ILLUSTRATIVE-arvoon; tämä on jäädytetyn ennusteen syöte. (mallinnettu; ei väite mistään todellisesta järjestelmästä)
 
 js-cat-lunar-station-coverage-public-sources-title = Kuun vertailuasema, julkiset oletukset
 
@@ -3180,3 +3180,445 @@ js-interf-cell-size-rule = Solun koon on oltava asteluku, joka on suurempi kuin 
 js-interf-check-failed = { $name }: ei voitu tarkistaa ({ $reason }).
 
 js-interf-click-cell = Napsauta solua tai kohdista kartta ja käytä nuolinäppäimiä nähdäksesi sen luvut.
+
+js-interf-close = Sulje
+
+js-interf-close-file = Sulje { $name }
+
+js-interf-col-affected = Vaikutuksen alaiset
+
+js-interf-col-cell-area = Solun ala
+
+js-interf-col-detectors = Ilmaisimet
+
+js-interf-col-observed = Havaitut
+
+js-interf-col-sampled = Otannassa
+
+js-interf-col-share = Osuus
+
+js-interf-col-status = Tila
+
+js-interf-coverage-limits = Tämän lähteen kattavuuden rajat
+
+js-interf-csv-too-big = { $name }: suurempi kuin 24 MiB; muodosta ote tiedostosta (komentorivityökalu käsittelee koko tiedoston).
+
+js-interf-csv-too-big-short = { $name }: suurempi kuin 24 MiB; muodosta ote tiedostosta.
+
+js-interf-custom-needs-licence = Oma aineisto tarvitsee lisenssin, sen URL-osoitteen ja tekijätietotekstin: ne kirjoitetaan karttatiedostoon.
+
+js-interf-dataset = Aineisto
+
+js-interf-dates-rule = Päivämäärät ovat muodossa YYYY-MM-DD, tai tyhjä, jos rajaa ei ole.
+
+js-interf-day = Päivä
+
+js-interf-day-aria = { $kind }-päivä
+
+js-interf-day-confounded-note = Tämä päivä on sekoittunut: yhtäkään solua ei merkitty heikentyneeksi päivän taustatason vuoksi. Solut, jotka muuten olisivat erottuneet, näytetään arvioimattomina.
+
+js-interf-day-figures-aria = Päivän luvut
+
+js-interf-demo-csv-name = { $file } (synteettinen näyte)
+
+js-interf-demo-failed = Esittelyä ei voitu avata: { $reason }.
+
+js-interf-demo-opened = Synteettinen esittely: kolme keksittyä tiedostoa keksityltä avomeren alueelta (kaksi ADS-B-päivää, joista toinen sekoittunut, ja yksi AIS-päivä). Niiden takana ei ole todellista ilma-alusta, alusta tai päivää. Käytä päivänvalitsinta ADS-B-tasolla.
+
+js-interf-demo-route-name = route.csv (synteettinen)
+
+js-interf-describe-map = { $kind }-kartta päivälle { $date }: piirretty { $cells } solua, { $parts }. Piirtämättömiä soluja ei havaittu.
+
+js-interf-did-not-load = { $url } ei latautunut
+
+js-interf-engine-no-fn = Tässä moottoriversiossa (versio { $version }) ei ole toimintoa { $fn }; se on tätä sivua vanhempi. Komentorivin vastine on Työkalut-sivulla.
+
+js-interf-engine-start-failed = Moottoria ei voitu käynnistää tässä ({ $reason }). Karttatiedostojen avaaminen yllä toimii silti.
+
+js-interf-err-format-version = { $name }: ei tuettu Kshana-häiriökartta (format_version { $version }; tämä sivu tukee: { $supported }).
+
+js-interf-err-no-rows = { $name }: tässä raportissa ei ole rows[]-taulukkoa.
+
+js-interf-err-not-json = { $name }: ei JSON-tiedosto ({ $reason }).
+
+js-interf-err-not-map = { $name }: tämä on GeoJSON mutta ei Kshana-häiriökartta (ei kshana_interference_map-jäsentä).
+
+js-interf-err-not-route = { $name }: ei Kshana-reittialtistusraportti (ei kshana_route_exposure-jäsentä).
+
+js-interf-err-route-schema = { $name }: skeema { $schema } ei ole { $expected }, jota tämä sivu lukee.
+
+js-interf-err-source-kind = { $name }: source_kind { $kind } ei ole adsb eikä ais.
+
+js-interf-err-unknown-schema = { $name }: tuntematon skeema { $schema }; tämä sivu lukee: { $supported }.
+
+js-interf-foot-attribution = Tekijätiedot: { $text }
+
+js-interf-foot-coverage = Kattavuus: { $notes }
+
+js-interf-foot-layer = { $kind }-taso, { $date }. Piirtämättömiä soluja ei havaittu.
+
+js-interf-foot-licence = Lisenssi: { $licence }
+
+js-interf-foot-licence-url = Lisenssi: { $licence } ({ $url })
+
+js-interf-grid = Ruudukko: neliömäisiä soluja, joiden koko on { $size }° leveys- ja pituusasteessa ({ $type }). Itä–länsisuuntainen leveys kapenee leveysasteen mukana.
+
+js-interf-guards = Suojat muita syitä vastaan
+
+js-interf-input = Syöte
+
+js-interf-land-set = Maapolygonit: { $name }.
+
+js-interf-land-too-big = Tämä maatiedosto on suurempi kuin 24 MiB.
+
+js-interf-larger-than = { $name }: suurempi kuin { $limit }; tämä sivu lukee karttatiedostoja enintään tuon kokoon asti.
+
+js-interf-layer-adsb-sub = solut, joissa ilma-alukset ilmoittivat heikon navigointitarkkuuden
+
+js-interf-layer-ais-sub = solut, joissa alukset ilmoittivat epätodennäköisiä paikkoja tai liikettä
+
+js-interf-layer-heading = { $kind }-taso
+
+js-interf-layer-hidden = { $kind }-taso on piilotettu.
+
+js-interf-layers-separate = ADS-B ja AIS ovat erillisiä tasoja, joilla on omat kytkimensä, selitteensä ja lisenssirivinsä. Niitä ei koskaan yhdistetä yhdeksi värikentäksi tai yhdeksi luvuksi.
+
+js-interf-legend-aria = Mitä kukin solun tila tarkoittaa; poista valinta, niin kyseiset solut himmennetään
+
+js-interf-licence = Lisenssi
+
+js-interf-licence-aria = Tiedoston { $name } datan lisenssi
+
+js-interf-licence-heading = Datan lisenssi ja tekijätiedot
+
+js-interf-map-aria = { $summary } Nuolinäppäimillä siirrytään piirrettyjen solujen välillä.
+
+js-interf-maps-open =
+    { $n ->
+        [one] { $n } kartta auki.
+       *[other] { $n } karttaa auki.
+    }
+
+js-interf-method-summary = Menetelmä ja varaumat
+
+js-interf-no-cell-at = Ei solua kohdassa { $lat }, { $lon }: ei havaittu. Se ei ole todiste siitä, että alue oli vapaa.
+
+js-interf-no-cell-drawn = solua ei piirretty
+
+js-interf-no-cells-draw = Tässä tiedostossa ei ole piirrettäviä soluja.
+
+js-interf-no-day-figures = Tämä tiedosto ei ilmoita päiväkohtaisia lukuja.
+
+js-interf-no-file-opened = Tiedostoa ei voitu avata.
+
+js-interf-no-file-text = Avoimissa kartoissa ei ole tarkistettavaa tiedostotekstiä (niitä ei avattu tiedostoina).
+
+js-interf-none = ei yhtään
+
+js-interf-none-stated = (ei ilmoitettu)
+
+js-interf-none-stated-file = (ei ilmoitettu tässä tiedostossa)
+
+js-interf-north-abbr = N
+
+js-interf-not-evaluated = ei arvioitu
+
+js-interf-not-opened-full = { $name }: ei avattu, koska { $max } karttaa on jo auki. Sulje ensin joitakin.
+
+js-interf-nothing-open = Mitään ei ole vielä auki.
+
+js-interf-nothing-opened = Mitään ei avattu.
+
+js-interf-one-day = yksi päivä kerrallaan
+
+js-interf-opened-file-map = Avattu { $files } tiedosto; { $maps } kartta auki.
+
+js-interf-opened-file-maps = Avattu { $files } tiedosto; { $maps } karttaa auki.
+
+js-interf-opened-files-map = Avattu { $files } tiedostoa; { $maps } kartta auki.
+
+js-interf-opened-files-maps = Avattu { $files } tiedostoa; { $maps } karttaa auki.
+
+js-interf-opening-demo = Avataan synteettistä esittelyä…
+
+js-interf-parameters = Parametrit, kiinnitetty ennen kuin dataa luettiin
+
+js-interf-read-draw-failed = { $name }: ei voitu lukea tai piirtää ({ $reason }).
+
+js-interf-read-failed = { $name }: ei voitu lukea ({ $reason }).
+
+js-interf-read-with-map = Lue tämä kartan kanssa
+
+js-interf-reading = Luetaan…
+
+js-interf-route-aria = Reittialtistus { $name }
+
+js-interf-route-chip = Reitti
+
+js-interf-route-done =
+    { $n ->
+        [one] Reittialtistus laskettu { $n } kartasta moottorilla { $version }; raportti näkyy alla.
+       *[other] Reittialtistus laskettu { $n } kartasta moottorilla { $version }; raportti näkyy alla.
+    }
+
+js-interf-route-explain = Reitin pituuden osuus kussakin tilassa, päivää ja lähdettä kohti. Neljän osuuden summa on 1, ja ne luetaan yhdessä: matala heikentyneiden osuus yhdessä korkean havaitsemattomien osuuden kanssa ei ole osoittanut aluetta vapaaksi. ADS-B- ja AIS-rivejä ei koskaan yhdistetä.
+
+js-interf-route-exposure = Reittialtistus
+
+js-interf-route-needs-map = Avaa tai muodosta ensin vähintään yksi kartta: reitti tarkistetaan tämän sivun karttoja vasten.
+
+js-interf-route-open-failed = Reittiä ei voitu avata: { $reason }.
+
+js-interf-route-range = { $from } – { $to }
+
+js-interf-route-too-big = { $name }: suurempi kuin 24 MiB.
+
+js-interf-row-affected-share = Vaikutuksen alaisten osuus
+
+js-interf-row-aircraft-affected = Vaikutuksen alaiset ilma-alukset
+
+js-interf-row-aircraft-observed = Havaitut ilma-alukset
+
+js-interf-row-aircraft-sampled = Otannassa olleet ilma-alukset
+
+js-interf-row-area = Ala
+
+js-interf-row-cell = Solu
+
+js-interf-row-detectors = Ehdot täyttäneet ilmaisimet
+
+js-interf-row-flagged = Merkitty: { $detector }
+
+js-interf-row-status = Tila
+
+js-interf-row-vessels-observed = Havaitut alukset
+
+js-interf-rows-skipped =
+    { $count ->
+        [one] { $count } rivi ei ollut kelvollinen ja se ohitettiin.
+       *[other] { $count } riviä ei ollut kelvollisia ja ne ohitettiin.
+    }
+
+js-interf-rt-day = Päivä
+
+js-interf-rt-km = Reitti km
+
+js-interf-rt-licence = Kartan lisenssi ja tekijätiedot
+
+js-interf-rt-shares = Reitin osuudet
+
+js-interf-rt-source = Lähde
+
+js-interf-sample-failed = Näytettä ei voitu avata: { $reason }.
+
+js-interf-save = Tallenna:
+
+js-interf-save-report = Tallenna raportti (JSON)
+
+js-interf-show-layer = Näytä tämä taso
+
+js-interf-st-anomalous-label = Poikkeava
+
+js-interf-st-anomalous-text = Vähintään yksi ilmaisin merkitsi tässä sinä päivänä riittävän monta eri alusta (vähintään 3 alusta ja 20 % havaituista). Mahdollisia syitä ovat häiriö, mutta myös monet tavalliset syyt.
+
+js-interf-st-confounded-label = Päivä sekoittunut
+
+js-interf-st-confounded-text = Koko päivän solujen osuuden mediaani oli korkea, mikä viittaa laaja-alaiseen syyhyn. Yhtäkään solua ei julisteta heikentyneeksi tällaisena päivänä; tämä solu olisi muuten erottunut.
+
+js-interf-st-degraded-label = Heikentynyt
+
+js-interf-st-degraded-text = Suuri osa otannan ilma-aluksista ilmoitti tässä sinä päivänä heikon navigointitarkkuuden, selvästi yli päivän mediaanisolun. Se ei kerro syytä.
+
+js-interf-st-no-background-label = Ei taustatasoarviota
+
+js-interf-st-no-background-text = Päivän taustatasoa (heikkoa tarkkuutta ilmoittavien ilma-alusten tyypillistä osuutta) ei voitu arvioida riittävästä määrästä soluja, joten mitään solua ei verrata siihen eikä yhtäkään arvioida.
+
+js-interf-st-not-anomalous-label = Ei poikkeava
+
+js-interf-st-not-anomalous-text = Havaittu, eikä yksikään ilmaisin täyttänyt ehtoja. Ei todiste siitä, ettei mitään tapahtunut.
+
+js-interf-st-not-degraded-label = Ei heikentynyt
+
+js-interf-st-not-degraded-text = Otannassa, eikä heikkoa tarkkuutta ilmoittavien ilma-alusten osuus erottunut. Ei todiste siitä, ettei mitään tapahtunut.
+
+js-interf-st-too-few-label = Liian vähän ilma-aluksia
+
+js-interf-st-too-few-text = Julkaistu (vähintään 5 eri ilma-alusta havaittu), mutta otantaan saatiin alle 10 ilma-alusta, joten arviota ei tehdä.
+
+js-interf-starting-build = Käynnistetään moottoria ja muodostetaan…
+
+js-interf-starting-route = Käynnistetään moottoria ja tarkistetaan reittiä…
+
+js-interf-state-clear-adsb = Selvä
+
+js-interf-state-clear-adsb-text = Havaittu riittävällä ilma-alusmäärällä, eikä merkitty. Ei todiste siitä, ettei mitään tapahtunut.
+
+js-interf-state-clear-ais = Selvä
+
+js-interf-state-clear-ais-text = Havaittu riittävällä alusmäärällä, eikä merkitty. Ei todiste siitä, ettei mitään tapahtunut.
+
+js-interf-state-degraded-adsb = Heikentynyt
+
+js-interf-state-degraded-adsb-text = Suuri osa otannan ilma-aluksista ilmoitti tässä sinä päivänä heikon navigointitarkkuuden, selvästi yli päivän mediaanisolun.
+
+js-interf-state-degraded-ais = Poikkeava
+
+js-interf-state-degraded-ais-text = Vähintään yksi ilmaisin merkitsi tässä sinä päivänä riittävän monta eri alusta (vähintään 3 alusta ja 20 % havaituista).
+
+js-interf-state-notobs-adsb = Ei havaittu
+
+js-interf-state-notobs-adsb-text = Solua ei piirretty: ilma-aluksia havaittiin liian vähän sen julkaisemiseksi. Tämä ei ole todiste siitä, että alue oli vapaa.
+
+js-interf-state-notobs-ais = Ei havaittu
+
+js-interf-state-notobs-ais-text = Solua ei piirretty: aluksia havaittiin liian vähän sen julkaisemiseksi. Tämä ei ole todiste siitä, että alue oli vapaa.
+
+js-interf-state-unassessed-adsb = Arvioimatta
+
+js-interf-state-unassessed-adsb-text = Havaittu, mutta otantaan saatiin liian vähän ilma-aluksia, päivä oli sekoittunut tai päivän taustatasoa ei voitu arvioida, joten arviota ei tehdä.
+
+js-interf-state-unassessed-ais = Arvioimatta
+
+js-interf-state-unassessed-ais-text = Havaittu, mutta arviota ei tehdä.
+
+js-interf-status-unknown = Tila, jota tämä sivu ei kuvaa.
+
+js-interf-table-first = Soluja näytetään { $shown } / { $total }, merkitsevimmät ensin.
+
+js-interf-table-summary = Jokainen piirretty solu taulukkona ({ $n })
+
+js-interf-the-day = Päivä
+
+js-interf-unknown-date = tuntematon päivämäärä
+
+js-interf-warn-cell-size = Tämä tiedosto käyttää solukokoa { $size }°, joka ei ole ennakkorekisteröity: se ei ole ennakkorekisteröity menetelmä, joten sen arviot eivät ole vertailukelpoisia sitä käyttävien tiedostojen kanssa.
+
+js-interf-warn-cell-size-known = Tämä tiedosto käyttää solukokoa { $size }°, joka ei ole ennakkorekisteröity ({ $registered }°): se ei ole ennakkorekisteröity menetelmä, joten sen arviot eivät ole vertailukelpoisia sitä käyttävien tiedostojen kanssa.
+
+js-interf-warn-day-confounded = Tämä päivä on sekoittunut: yhtäkään solua ei merkitty heikentyneeksi päivän taustatason vuoksi (solun osuuden mediaani oli itsessään korkea).
+
+js-interf-warn-flag-disagrees =
+    { $count ->
+        [one] { $count } solun ”heikentynyt”-merkintä ei vastaa sen tilaa. Piirretään tila.
+       *[other] { $count } solun ”heikentynyt”-merkintä ei vastaa niiden tilaa. Piirretään tila.
+    }
+
+js-interf-warn-no-licence = Tässä tiedostossa ei ole tekstiä: { $fields }. Tiedosto näytetään, mutta karttaa, jolla ei ole lisenssiä ja tekijätietoja, ei pidä julkaista uudelleen.
+
+js-interf-warn-on-land-off = Maalla olevien kohteiden ilmaisin oli pois päältä tässä tiedostossa (maapolygoneja ei annettu).
+
+js-interf-warn-skipped =
+    { $count ->
+        [one] { $count } kohde ei ollut kelvollista GeoJSONia ja se ohitettiin.
+       *[other] { $count } kohdetta ei ollut kelvollista GeoJSONia ja ne ohitettiin.
+    }
+
+js-interf-warn-unknown-status = Tilaarvot, joita tämä sivu ei tunne: { $values }. Ne piirretään muodossa ”ei arviota”.
+
+js-interf-withheld = pidätetty (alle 5)
+
+js-interf-written-by = kirjoittanut Kshana { $version }
+
+js-kind-axis-3-d-position-error-m = 3D-paikkavirhe (m)
+
+js-kind-axis-c-n0-db-hz = C/N0 (dB-Hz)
+
+js-kind-axis-code-jitter-m = koodin värinä (m)
+
+js-kind-axis-code-tracking-jitter-m = koodinseurannan värinä (m)
+
+js-kind-axis-doppler-shift-hz = Doppler-siirtymä (Hz)
+
+js-kind-axis-effective-c-n0-db-hz = efektiivinen C/N0 (dB-Hz)
+
+js-kind-axis-elevation = korkeuskulma (°)
+
+js-kind-axis-fit-interval-s = sovitusväli (s)
+
+js-kind-axis-formal-position-sigma-m = muodollinen paikan sigma (m)
+
+js-kind-axis-latitude = leveysaste (°)
+
+js-kind-axis-leo-satellites-added-to-the = ratkaisuun lisätyt LEO-satelliitit
+
+js-kind-axis-mean-satellites-in-view = näkyvien satelliittien keskiarvo
+
+js-kind-axis-median-dilution-of-precision = tarkkuuden heikkenemiskertoimen mediaani
+
+js-kind-axis-median-error-m = mediaanivirhe (m)
+
+js-kind-axis-median-pdop = PDOP:n mediaani
+
+js-kind-axis-metres = metriä
+
+js-kind-axis-observation-window-s = havaintoikkuna (s)
+
+js-kind-axis-offset-from-the-signal-s = poikkeama signaalin keskitaajuudesta (MHz)
+
+js-kind-axis-offset-from-the-snapshot-centre = poikkeama otoksen keskitaajuudesta (MHz)
+
+js-kind-axis-pdop = PDOP
+
+js-kind-axis-position-error-m = paikkavirhe (m)
+
+js-kind-axis-power-spectral-density-db-hz = tehospektritiheys (dB/Hz, yksikköteho)
+
+js-kind-axis-power-spectral-density-dbw-hz = tehospektritiheys (dBW/Hz)
+
+js-kind-axis-probability-of-detection = havaitsemistodennäköisyys
+
+js-kind-axis-range-error-m = etäisyysvirhe (m)
+
+js-kind-axis-relays = releet
+
+js-kind-axis-sisre-root-mean-square-m = SISRE, neliökeskiarvo (m)
+
+js-kind-axis-time-error-ns = aikavirhe (ns)
+
+js-kind-axis-time-s = aika (s)
+
+js-kind-axis-time-since-the-start-min = aika alusta (min)
+
+js-kind-axis-update-period-s = päivitysjakso (s)
+
+js-kind-cap-body-pnt-label = Releillä paikannus
+
+js-kind-cap-campaign-label = Kampanja
+
+js-kind-cap-constellation-design-label = Kattavuus
+
+js-kind-cap-leo-navmsg-label = Navigointiviesti
+
+js-kind-cap-leo-pass-label = Ohitus ja yhteys
+
+js-kind-cap-leo-pnt-chain-label = Päästä päähän -ketju
+
+js-kind-cap-leo-ppp-label = Paikannus
+
+js-kind-cap-leo-pvt-label = Paikannus
+
+js-kind-cap-leo-signal-label = Signaalisuunnittelu
+
+js-kind-cap-lunar-llr-datum-label = Laseretäisyysmittauksen vertailupiste
+
+js-kind-cap-ntn-positioning-label = Paikannus
+
+js-kind-cap-solar-system-label = Aurinkokunta
+
+js-kind-cap-spectrum-label = Spektri
+
+js-kind-guided-doppler-error-hz = Doppler-virhe (Hz)
+
+js-kind-guided-duration-s = Kesto (s)
+
+js-kind-guided-earth-range-error-m = Maan etäisyysvirhe (m)
+
+js-kind-guided-elevation-mask = Korkeuskulmamaski (°)
+
+js-kind-guided-first-jammer-bandwidth-mhz = Ensimmäisen häirintälähteen kaistanleveys (MHz)
+
+js-kind-guided-first-jammer-power-dbw = Ensimmäisen häirintälähteen teho (dBW)
+
+js-kind-guided-first-jammer-range-m = Ensimmäisen häirintälähteen etäisyys (m)
+
+js-kind-guided-first-jammer-received-power-dbw = Ensimmäisen häirintälähteen vastaanotettu teho (dBW)

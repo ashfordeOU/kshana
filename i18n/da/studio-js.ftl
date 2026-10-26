@@ -2348,7 +2348,7 @@ js-cat-lunar-relay-constellation-question = Hvilken dækning giver en konstellat
 
 js-cat-lunar-relay-constellation-title = Relækonstellation på Månen
 
-js-cat-lunar-station-coverage-public-sources-question = Alene under de offentligt angivne antagelser, hvilken korrigeret fejl giver stationen over sydpolen? Resultatet domineres af banelementerne, som ikke er offentlige og er sat ILLUSTRATIVT; dette er input til den frosne forudsigelse. (modelberegnet; ikke en udtalelse om noget virkeligt system)
+js-cat-lunar-station-coverage-public-sources-question = Alene under de offentligt angivne antagelser, hvilken korrigeret fejl giver stationen over sydpolen? Resultatet domineres af banelementerne, som ikke er offentlige og er sat ILLUSTRATIVE; dette er input til den frosne forudsigelse. (modelberegnet; ikke en udtalelse om noget virkeligt system)
 
 js-cat-lunar-station-coverage-public-sources-title = Referencestation på Månen, offentlige antagelser
 
