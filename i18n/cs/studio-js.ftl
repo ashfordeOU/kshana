@@ -12282,3 +12282,314 @@ js-trust-reasons-ratio = poměr { $ratio }
 
 # 2026-10-01-studio-rebuild/trust/trust.js:717
 js-trust-reasons-row-title = { $name }: { $text } Kliknutím vyznačíte, kde byl nad svou mezí aktivace.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:720
+js-trust-reasons-weight = váha { $weight }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:842
+js-trust-reduced-motion = Je upřednostněno omezení pohybu, proto přehrávání začíná při 1x. Bez animace se můžete posouvat posuvníkem nebo šipkami.
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:483
+js-trust-say-gate = brána { $gate }
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:483
+js-trust-say-gate-derived = brána { $gate } (odvozená)
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:482
+js-trust-say-monitor-points = { $monitor } { $points ->
+        [one] { $points } bod
+        [few] { $points } body
+        [many] { $points } bodu
+       *[other] { $points } bodů
+    }
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:484
+js-trust-say-position-from-true = hlášená poloha { $m } m od skutečné
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:482
+js-trust-say-reasons = důvody: { $list }
+
+# 2026-10-01-studio-rebuild/lib/trust.mjs:481
+js-trust-say-score = skóre { $score }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:116
+js-trust-scored-label = { $count ->
+        [one] Vyhodnocena { $count } epocha
+        [few] Vyhodnoceny { $count } epochy
+        [many] Vyhodnoceno { $count } epochy
+       *[other] Vyhodnoceno { $count } epoch
+    } z { $name } enginem { $version } v tomto prohlížeči.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:117
+js-trust-scored-summary = { $count ->
+        [one] Vyhodnocena { $count } epocha
+        [few] Vyhodnoceny { $count } epochy
+        [many] Vyhodnoceno { $count } epochy
+       *[other] Vyhodnoceno { $count } epoch
+    } enginem { $version }: { $summary }. Pouze poradní charakter.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:108
+js-trust-scoring = Spouští se engine a vyhodnocuje se…
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:55
+js-trust-self-code-meaning = { $code }: { $meaning }
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:54
+js-trust-self-none-at-time = Záznam v tuto dobu nenese žádný příznak přijímače.
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:55
+js-trust-self-not-in-log = není v záznamu
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:62
+js-trust-self-row-flags = Příznaky přijímače
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:61
+js-trust-self-row-jamming = Stav rušení podle přijímače
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:63
+js-trust-self-row-kshana-alarms = Monitor Kshana vyhlásil poplach
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:60
+js-trust-self-row-spoofing = Stav spoofingu podle přijímače
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:58
+js-trust-self-unknown-agreement = shoda, kterou tato stránka nezná ({ $odd })
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:62
+js-trust-self-yes-state-2 = ano (stav 2 nebo vyšší)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:601
+js-trust-set-degraded-edge = hranice zhoršeného pásma
+
+# 2026-10-01-studio-rebuild/trust/trust.js:567
+js-trust-set-degraded-min = zhoršeno od
+
+# 2026-10-01-studio-rebuild/trust/trust.js:576
+js-trust-set-epochs = Epochy
+
+# 2026-10-01-studio-rebuild/trust/trust.js:578
+js-trust-set-epochs-counts = Celkem { $total }: kalibrace { $calibrating }, nominální { $nominal }, zhoršené { $degraded }, nedůvěryhodné { $untrusted }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:577
+js-trust-set-epochs-counts-class = Celkem { $total }: kalibrace { $calibrating }, nominální { $nominal }, zhoršené { $degraded }, nedůvěryhodné { $untrusted }. Podle třídy odpočtu: geometrie { $geometry }, prostředí { $environment }, nekonzistence { $inconsistency }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:570
+js-trust-set-evidence-hold = udržení důkazů, s
+
+# 2026-10-01-studio-rebuild/trust/trust.js:569
+js-trust-set-full-ratio = plná váha při poměru
+
+# 2026-10-01-studio-rebuild/trust/trust.js:608
+js-trust-set-geo-counts = Obloha: dobrá { $good }, zhoršená { $degraded }, neznámá { $unknown }. Označení: dobré { $lgood }, uspokojivé { $fair }, špatné { $poor } (body ubírá jen špatné). Epochy s odpočtem podle třídy: geometrie { $geometry }, prostředí { $environment }, nekonzistence { $inconsistency }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:607
+js-trust-set-geo-counts-odd = Obloha: dobrá { $good }, zhoršená { $degraded }, neznámá { $unknown } ({ $odd } s hodnotou, kterou tato stránka nezná, čteno jako neznámé). Označení: dobré { $lgood }, uspokojivé { $fair }, špatné { $poor } (body ubírá jen špatné). Epochy s odpočtem podle třídy: geometrie { $geometry }, prostředí { $environment }, nekonzistence { $inconsistency }.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:596
+js-trust-set-geometry = Geometrie (nastavení [geometry])
+
+# 2026-10-01-studio-rebuild/trust/trust.js:587
+js-trust-set-gloss = Na co se každá kontrola dívá
+
+# 2026-10-01-studio-rebuild/trust/trust.js:603
+js-trust-set-live-geometry = Živý proud neuvádí prahy geometrie; platí zdokumentované výchozí hodnoty (špatné nad HDOP 4 nebo PDOP 6, nebo při méně než 5 družicích; nejvýše 15 bodů, nikdy pod zhoršené pásmo).
+
+# 2026-10-01-studio-rebuild/trust/trust.js:597
+js-trust-set-no-geometry = Tento běh geometrii nenese: pochází z enginu před verzí 0.36 nebo z trust.csv. O obloze se nic nezobrazuje a nic se nezobrazuje jako dobré.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:567
+js-trust-set-nominal-min = nominální od
+
+# 2026-10-01-studio-rebuild/trust/trust.js:568
+js-trust-set-onset-ratio = ubírá body od poměru
+
+# 2026-10-01-studio-rebuild/trust/trust.js:610
+js-trust-set-provenance = Odkud prahy pocházejí a jak se odpočty třídí
+
+# 2026-10-01-studio-rebuild/trust/trust.js:589
+js-trust-set-ran = Kontroly, které proběhly
+
+# 2026-10-01-studio-rebuild/trust/trust.js:585
+js-trust-set-weights = Váha každé kontroly, body
+
+# 2026-10-01-studio-rebuild/trust/trust.js:564
+js-trust-settings-assumed = Tento proud neuvádí svůj model skóre. Zobrazené hranice pásem jsou zdokumentované výchozí hodnoty, předpokládané.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:173
+js-trust-show-in-replay = Zobrazit tento běh v přehrávání níže (dráha, skóre, vlastní příznak přijímače)
+
+# 2026-10-01-studio-rebuild/trust/trust.js:663
+js-trust-sky-no-gsv = bez GSV
+
+# 2026-10-01-studio-rebuild/trust/trust.js:663
+js-trust-sky-none = Žádná obloha: otevřete záznam NMEA k běhu (nebo demo), abyste viděli družice, které uvádí.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:414
+js-trust-span-title = { $what }, od { $from } do { $to }
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:22
+js-trust-state-0 = neznámé nebo nezapnuto
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:23
+js-trust-state-1 = žádná indikace
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:24
+js-trust-state-2 = indikováno
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:25
+js-trust-state-3 = více indikací nebo potvrzeno
+
+# 2026-10-01-studio-rebuild/trust/trust.js:409
+js-trust-strip-band = pásmo
+
+# 2026-10-01-studio-rebuild/trust/trust.js:424
+js-trust-strip-class = třída
+
+# 2026-10-01-studio-rebuild/trust/trust.js:409
+js-trust-strip-gate = brána
+
+# 2026-10-01-studio-rebuild/trust/trust.js:409
+js-trust-strip-marked = označeno
+
+# 2026-10-01-studio-rebuild/trust/trust.js:448
+js-trust-strip-receiver = přijímač
+
+# 2026-10-01-studio-rebuild/trust/trust.js:424
+js-trust-strip-sky = obloha
+
+# 2026-10-01-studio-rebuild/trust/trust.js:510
+js-trust-strips-none = V tomto souboru nejsou žádné poměry monitorů.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:509
+js-trust-strips-note-ran = poměr statistiky k prahu; přerušovaná čára je poplach při 1
+
+# 2026-10-01-studio-rebuild/trust/trust.js:509
+js-trust-strips-note-seen = jen monitory, o nichž se ukázalo, že ubírají body; poměr k prahu
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:74
+js-trust-sum-both-flag = Hlásí obojí
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:73
+js-trust-sum-epochs-compared = Porovnané epochy (po kalibraci)
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:77
+js-trust-sum-first-kshana = První poplach Kshana mezi těmito epochami
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:77
+js-trust-sum-first-receiver = První příznak přijímače
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:76
+js-trust-sum-jamming-flag = Příznak rušení od přijímače (stav 2+)
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:75
+js-trust-sum-neither = Nehlásí ani jedno
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:75
+js-trust-sum-only-kshana = Poplach dává jen Kshana
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:74
+js-trust-sum-only-receiver = Hlásí jen přijímač
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:76
+js-trust-sum-spoofing-flag = Příznak spoofingu od přijímače (stav 2+)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:51
+js-trust-thr-azimuth-gap = mezera v azimutu, ve stupních, od které je obloha částečně zakryta
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:59
+js-trust-thr-cap-in-force = nejvíce bodů, které odpočet geometrie v tomto běhu ubere
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:56
+js-trust-thr-cap-points = nejvíce bodů, které smí odpočet geometrie ubrat
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:58
+js-trust-thr-floor = nejnižší skóre, které smí samotná geometrie ponechat (prázdné: hranice zhoršeného pásma)
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:60
+js-trust-thr-floor-in-force = nejnižší skóre, které samotná geometrie může v tomto běhu ponechat
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:57
+js-trust-thr-full-ratio = poměr, při kterém odpočet geometrie dosáhne svého stropu
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:48
+js-trust-thr-hdop-good = HDOP, při kterém nebo pod kterým je geometrie dobrá
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:45
+js-trust-thr-hdop-max = HDOP, nad kterým je geometrie špatná
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:61
+js-trust-thr-hold = jak dlouho po příchodu platí polohy na obloze a GSA, s
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:52
+js-trust-thr-low-elev = elevace, ve stupních, pod kterou se ztracená družice přičítá obloze
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:47
+js-trust-thr-min-used = nejmenší počet použitých družic, pod který je geometrie špatná
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:49
+js-trust-thr-pdop-good = PDOP, při kterém nebo pod kterým je geometrie dobrá
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:46
+js-trust-thr-pdop-max = PDOP, nad kterým je geometrie špatná
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:54
+js-trust-thr-reported-rel = totéž, jako podíl odvozeného HDOP
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:53
+js-trust-thr-reported-tol = rozdíl mezi uvedeným a odvozeným HDOP, od kterého si oba odporují
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:55
+js-trust-thr-sigma-uere = ekvivalentní chyba vzdálenosti uživatele, kterou prahy předpokládají, v metrech
+
+# 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:50
+js-trust-thr-used-good = počet použitých družic, při kterém nebo nad kterým je geometrie dobrá
+
+# 2026-10-01-studio-rebuild/trust/trust.js:322
+js-trust-track-desc = Dráha z { $positions ->
+        [one] { $positions } hlášené polohy
+        [few] { $positions } hlášených poloh
+        [many] { $positions } hlášených poloh
+       *[other] { $positions } hlášených poloh
+    }, sever nahoře. { $untrusted ->
+        [one] Nedůvěryhodná je { $untrusted } epocha.
+        [few] Nedůvěryhodné jsou { $untrusted } epochy.
+        [many] Nedůvěryhodné jsou { $untrusted } epochy.
+       *[other] Nedůvěryhodných je { $untrusted } epoch.
+    }
+
+# 2026-10-01-studio-rebuild/trust/trust.js:283
+js-trust-track-desc-none = Žádná dráha: soubory nenesou žádné polohy.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:321
+js-trust-track-desc-truth = Dráha z { $positions ->
+        [one] { $positions } hlášené polohy
+        [few] { $positions } hlášených poloh
+        [many] { $positions } hlášených poloh
+       *[other] { $positions } hlášených poloh
+    }, sever nahoře. { $untrusted ->
+        [one] Nedůvěryhodná je { $untrusted } epocha.
+        [few] Nedůvěryhodné jsou { $untrusted } epochy.
+        [many] Nedůvěryhodné jsou { $untrusted } epochy.
+       *[other] Nedůvěryhodných je { $untrusted } epoch.
+    } Tenká šedá čára ukazuje skutečnou dráhu.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:302
+js-trust-track-end = konec
+
+# 2026-10-01-studio-rebuild/trust/trust.js:282
+js-trust-track-no-positions = V otevřených souborech nejsou žádné polohy
+
+# 2026-10-01-studio-rebuild/trust/trust.js:279
+js-trust-track-note = Sever nahoře, jedno měřítko na obou osách. Čára ukazuje, kde podle přijímače plavidlo bylo, obarvená podle pásma důvěry každé epochy.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:280
+js-trust-track-note-none = Tento soubor nenese žádné polohy. Přidejte záznam NMEA, z něhož běh pochází (nebo proud v1.1 s polohou), aby se dráha vykreslila.
+
+# 2026-10-01-studio-rebuild/trust/trust.js:301
+js-trust-track-start = začátek
+
+# 2026-10-01-studio-rebuild/trust/trust.js:452
+js-trust-unknown-agreement = shoda, kterou tato stránka nezná
+
+# 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:56
+js-trust-yes = ano

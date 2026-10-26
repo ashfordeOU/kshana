@@ -7431,3 +7431,491 @@ js-replay-every-direction = усіх напрямів
 js-replay-file-error = { $name }: { $error }
 
 js-replay-kinds-convergence-horizontal = Збіжність: медіанна горизонтальна похибка
+
+js-replay-kinds-convergence-vertical = Збіжність: медіанна вертикальна похибка
+
+js-replay-kv-course = Зазначений курс
+
+js-replay-kv-heading = Курс (гіроскоп)
+
+js-replay-kv-position-error = Похибка положення
+
+js-replay-kv-receiver = Приймач
+
+js-replay-kv-run-time = Час прогону
+
+js-replay-kv-satellites = Супутників використано / у зоні видимості
+
+js-replay-kv-sky = Небо
+
+js-replay-legend = Умовні позначення
+
+js-replay-legend-no-fix = немає визначення
+
+js-replay-legend-true-track = справжня траса
+
+js-replay-moment = Момент T+{ $t }:
+
+js-replay-no-coast = Берег не малюється: для цього вікна його не вбудовано.
+
+js-replay-no-gsv = у цьому журналі немає GSV
+
+js-replay-not-json = { $name }: не JSON.
+
+js-replay-not-scored = не оцінено
+
+js-replay-obs-not-attributed = не приписано
+
+js-replay-open-failed = Не вдалося відкрити { $id }: { $reason }.
+
+js-replay-open-file = Відкрити файл…
+
+js-replay-opened = Відкрито { $name } на панелі { $n }. Прочитано тут; нічого не завантажено.
+
+js-replay-opening = Відкривається { $id }…
+
+js-replay-pause = Пауза
+
+js-replay-play = Відтворити
+
+js-replay-read-failed = { $name }: не вдалося прочитати або намалювати ({ $reason }).
+
+js-replay-reading = Читається { $name }…
+
+js-replay-reduced-motion = Надано перевагу зменшеному рухові, тож відтворення починається з 1x і не запускається саме.
+
+js-replay-run = Прогін
+
+js-replay-run-shown = Прогін, показаний на панелі { $n }
+
+js-replay-saved-svg = Збережено { $name } ({ $size } kB): усі кадри в одному файлі, намальовані за тими самими рядками, що й ця сторінка.
+
+js-replay-saved-zip = Збережено { $name } ({ $size } MB): один SVG на кадр, маніфест рядків, що стоять за кожним, і README.
+
+js-replay-src-instructor = Ваш файл { $name }: оцінки рушія чи неба немає лише з журналом інструктора.
+
+js-replay-src-trust = Ваш файл { $name }: результат довіри не містить неба чи курсу, тому їх не намальовано.
+
+js-replay-status-ready = { $a } та { $b }: синтетичні прогони, оцінені рушієм. Натисніть «Відтворити» або перемістіть годинник.
+
+js-replay-status-synthetic = { $titles }: синтетичні прогони, оцінені рушієм.
+
+js-replay-status-synthetic-no-coast = { $titles }: синтетичні прогони, оцінені рушієм. Берегова лінія недоступна.
+
+js-replay-strip-label = Оцінка довіри протягом прогону
+
+js-replay-titles-and = { $a } та { $b }
+
+js-replay-too-large = { $name } більший, ніж читає ця сторінка.
+
+js-replay-track =
+    { $n ->
+        [one] Траса з { $n } рядка журналу, північ угорі.
+        [few] Траса з { $n } рядків журналу, північ угорі.
+        [many] Траса з { $n } рядків журналу, північ угорі.
+       *[other] Траса з { $n } рядка журналу, північ угорі.
+    }
+
+js-replay-track-widened =
+    { $n ->
+        [one] Траса з { $n } рядка журналу, північ угорі, розширена, щоб показати найближчий берег.
+        [few] Траса з { $n } рядків журналу, північ угорі, розширена, щоб показати найближчий берег.
+        [many] Траса з { $n } рядків журналу, північ угорі, розширена, щоб показати найближчий берег.
+       *[other] Траса з { $n } рядка журналу, північ угорі, розширена, щоб показати найближчий берег.
+    }
+
+js-replay-verdict = Вердикт
+
+js-replay-verdict-degraded = { $dur } погіршено, недовіреного немає
+
+js-replay-verdict-early = Вердикт (ранній)
+
+js-replay-verdict-fine = Лише за журналом і оцінкою рушія; синтетичний, консультативний, не показник якості виявлення.
+
+js-replay-verdict-first = уперше нижче номінального на T+{ $t }
+
+js-replay-verdict-first-after = уперше нижче номінального на T+{ $t }, через { $dur } після початку першої події (T+{ $onset })
+
+js-replay-verdict-first-before = уперше нижче номінального на T+{ $t }, до початку першої події (T+{ $onset })
+
+js-replay-verdict-lowest = Найнижча оцінка довіри { $score } ({ $band }) на T+{ $t }
+
+js-replay-verdict-never-left = оцінка ніколи не залишала номінальної смуги
+
+js-replay-verdict-no-fix = немає визначення протягом { $dur }
+
+js-replay-verdict-not-scored = Не оцінено: оцінку довіри рушія показано для прогонів бібліотеки
+
+js-replay-verdict-peak-error = найбільша записана похибка положення { $err } m на T+{ $t }
+
+js-replay-verdict-untrusted = { $dur } у недовіреній смузі
+
+js-replay-verdict-wait = Показується, коли цей прогін завершиться, на T+{ $t }.
+
+js-ssv-altitude-label = Висота та використані вимірювання
+
+js-ssv-at-least-1 = щонайменше 1 сигнал
+
+js-ssv-at-least-4 = щонайменше 4 сигнали
+
+js-ssv-avail-label = Доступність, { $band }
+
+js-ssv-bar-title = { $label }, { $name }: { $value }{ $unit }
+
+js-ssv-blurb-formation-heo = Головний і заступний апарати на відстані кілометра один від одного на високоеліптичній орбіті: наскільки добре фільтр знає їхнє відносне положення порівняно з тим, що дали б два абсолютні визначення.
+
+js-ssv-blurb-heo = Високоеліптична орбіта (апогей близько 58 600 km) із надирною антеною з високим підсиленням, зенітною патч-антеною та параметричною моделлю бічних пелюсток: сигнали в зоні видимості, найкраще C/N0, головна пелюстка проти бічної, геометричний чинник DOP і сигнали, що дотичні до атмосфери.
+
+js-ssv-blurb-lunar-weak = Місячна трансферна траєкторія з приймачем, створеним для найслабших сигналів: що йому потрібно для захоплення й супроводження і яку частину траєкторії він може використати.
+
+js-ssv-blurb-nav-lunar = Бортовий навігаційний фільтр на місячному трансфері: його похибка положення відносно заявленої межі, нижче й вище власних орбіт супутників GNSS.
+
+js-ssv-blurb-shell = Сферична оболонка на геостаціонарній висоті, вибрана на сітці: як часто космічний апарат там чує щонайменше один і щонайменше чотири сигнали на 20 dB-Hz, на L1 і L5, для кожного сузір'я та для всіх разом?
+
+js-ssv-cn0-altitude-label = Найкраще C/N0 і висота залежно від часу, { $band }
+
+js-ssv-cn0-label = Найкраще C/N0, { $band }
+
+js-ssv-cn0-note = Із сигналів у зоні видимості — найсильніший на кожній епосі: від найменшого до найбільшого за епохами, з позначеним середнім.
+
+js-ssv-cn0-title = Найкраща густина відношення несівної до шуму, { $band }
+
+js-ssv-comparison-failed = Порівняння не вдалося показати ({ $reason }).
+
+js-ssv-comparison-not-loaded = файл порівняння не завантажився
+
+js-ssv-default-bars = стовпці
+
+js-ssv-default-chart = діаграма
+
+js-ssv-default-ranges = діапазони
+
+js-ssv-deputies-note = Абсолютна RMS головного апарата { $rms } m на епохах: { $epochs }.
+
+js-ssv-deputies-title = Кожен заступний апарат
+
+js-ssv-dop-note = Медіана, 95-й перцентиль і найгірший PDOP за епохами з визначенням і, якщо сценарій задає атмосферу, сигнали, що дотичні до неї.
+
+js-ssv-dop-title = Геометричний чинник DOP і атмосфера, { $band }
+
+js-ssv-err-label = Похибка положення відносно заявленої межі
+
+js-ssv-err-note = Штрихова лінія — односигмова межа, яку заявляє фільтр; суцільна лінія — його похибка відносно істини, яку знає сценарій. Проріджено рушієм.
+
+js-ssv-err-title = Похибка положення відносно власної межі фільтра
+
+js-ssv-fact-antenna = Антена
+
+js-ssv-fact-apogee = Висота апогея
+
+js-ssv-fact-cn0-threshold = Поріг густини відношення несівної до шуму
+
+js-ssv-fact-duration = Тривалість
+
+js-ssv-fact-eccentricity = Ексцентриситет
+
+js-ssv-fact-grid-points = Точки сітки
+
+js-ssv-fact-inclination = Нахил
+
+js-ssv-fact-mode = Режим
+
+js-ssv-fact-perigee = Висота перигея
+
+js-ssv-fact-period = Період
+
+js-ssv-fact-shell-altitude = Висота оболонки
+
+js-ssv-fact-sma = Велика піввісь
+
+js-ssv-fact-step = Крок
+
+js-ssv-filter = фільтр
+
+js-ssv-formation-note = Відносна похибка положення RMS від фільтра та від різниці двох абсолютних визначень, за весь прогін і вище орбіт GNSS.
+
+js-ssv-formation-title = Відносне положення заступних апаратів
+
+js-ssv-from-absolute = з двох абсолютних визначень
+
+js-ssv-group-combined = усі разом
+
+js-ssv-icg-note = { $label }; вердикти щодо порога з закомічених файлів результатів рушія (коміт рушія { $commit }). Таблиці буклета публічні; тут нічого не VALIDATED.
+
+js-ssv-icg-wrong-file = файл порівняння ICG не той, який читає ця сторінка
+
+js-ssv-lobe-note = Скільки з придатних ліній пройшло через головну пелюстку, а скільки через бічну, за підрахунком рушія.
+
+js-ssv-lobe-title = Головна й бічна пелюстки, { $band }
+
+js-ssv-na = н/д
+
+js-ssv-nav-note = Використані та відкинуті вимірювання, найдовша перерва з менш ніж чотирма сигналами, кінцева похибка та оцінка тиску сонячного випромінювання відносно істини, яку знає сценарій.
+
+js-ssv-nav-title = Прогін у числах
+
+js-ssv-never = ніколи
+
+js-ssv-never-had-four = ніколи не було чотирьох
+
+js-ssv-never-had-one = ніколи не було жодного
+
+js-ssv-no-range = У цьому результаті немає діапазону.
+
+js-ssv-no-series = Результат не містить ряду для цієї діаграми.
+
+js-ssv-not-in-variant = не входить до варіанта
+
+js-ssv-not-result = це не результат gnss-ssv
+
+js-ssv-of = { $n } з { $total }
+
+js-ssv-offset = зміщення { $deg }°
+
+js-ssv-open-failed = Не вдалося відкрити { $title }: { $reason }.
+
+js-ssv-opening = Відкривається { $title }…
+
+js-ssv-outage-note = У хвилинах, за прогін. «Ніколи» позначає групу, яка ніколи не мала стільки сигналів ніде на оболонці.
+
+js-ssv-outage-title = Найдовші перерви на оболонці
+
+js-ssv-phases-note = Статистика фільтра за прогін і за дві його частини. Середній NEES положення поблизу 3 означає, що заявлена межа фільтра узгоджується з його похибкою.
+
+js-ssv-phases-title = Похибка положення за фазами
+
+js-ssv-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+js-ssv-range-title = { $label }: мін. { $min }, середнє { $mean }, макс. { $max } { $unit }
+
+js-ssv-range-value = від { $min } до { $max }
+
+js-ssv-recorded = { $title }: записаний результат рушія (версія { $version }).
+
+js-ssv-relative-label = Відносна похибка положення
+
+js-ssv-result-not-json = результат не є JSON ({ $reason })
+
+js-ssv-result-not-loaded = записаний результат не завантажився
+
+js-ssv-row-acquires = Захоплює аж до
+
+js-ssv-row-carrier = Супроводження несівної аж до
+
+js-ssv-row-code = Супроводження коду аж до
+
+js-ssv-row-coherent = Когерентне інтегрування
+
+js-ssv-row-delay-mean = Затримка, середня
+
+js-ssv-row-detection = Поріг виявлення
+
+js-ssv-row-false-alarm = Імовірність хибної тривоги на комірку
+
+js-ssv-row-final-error = Кінцева похибка положення
+
+js-ssv-row-gap = Найдовша перерва
+
+js-ssv-row-gated = Вимірювання, відкинуті стробуванням
+
+js-ssv-row-grazing = Дотичні нижче 100 km
+
+js-ssv-row-limb-links = Лінії крізь лімб
+
+js-ssv-row-loss-mean = Втрати, середні
+
+js-ssv-row-lost = Втрачено в атмосфері
+
+js-ssv-row-pdop-median = PDOP, медіана
+
+js-ssv-row-pdop-p95 = PDOP, 95-й перцентиль
+
+js-ssv-row-pdop-worst = PDOP, найгірший
+
+js-ssv-row-plasma-mean = TEC плазмосфери, середній
+
+js-ssv-row-search-cells = Комірки пошуку
+
+js-ssv-row-search-time = Час пошуку
+
+js-ssv-row-srp-est = Тиск сонячного випромінювання, оцінений
+
+js-ssv-row-srp-truth = Тиск сонячного випромінювання, істина
+
+js-ssv-row-stec-mean = Похилий TEC, середній
+
+js-ssv-row-tangent = Висота дотичної, від мін. до макс.
+
+js-ssv-row-tracking = Використаний поріг супроводження
+
+js-ssv-row-used = Використані вимірювання
+
+js-ssv-series-altitude = висота/1000
+
+js-ssv-series-altitude-name = висота
+
+js-ssv-series-best-cn0 = найкраще C/N0
+
+js-ssv-series-error = похибка
+
+js-ssv-series-measurements = вимірювання
+
+js-ssv-series-note = Один проріджений ряд сукупної кількості за всіма сузір'ями. Рушій не записує ряду для окремих сузір'їв, тому жодного не намальовано.
+
+js-ssv-series-signals = сигнали в зоні видимості
+
+js-ssv-series-signals-label = Сигнали в зоні видимості залежно від часу, { $band }
+
+js-ssv-series-stated-bound = заявлена межа
+
+js-ssv-series-title = Сигнали та найкраще C/N0 уздовж орбіти, { $band }
+
+js-ssv-shell-avail-note = Частка точок сітки та моментів часу з щонайменше одним і щонайменше чотирма сигналами понад { $cn0 } dB-Hz.
+
+js-ssv-shell-avail-title = Доступність на оболонці, { $band }
+
+js-ssv-tangent-value = від { $min } до { $max } km
+
+js-ssv-th-above-absolute = Над GNSS: з абсолютних, m
+
+js-ssv-th-above-filter = Над GNSS: фільтр, m
+
+js-ssv-th-band-group = Діапазон і група
+
+js-ssv-th-bar = Поріг
+
+js-ssv-th-baseline = Базова лінія, km
+
+js-ssv-th-common-4 = Епохи з 4 спільними сигналами
+
+js-ssv-th-common-mean = Середня кількість спільних сигналів
+
+js-ssv-th-compares = Що порівнюється
+
+js-ssv-th-deputy = Заступний апарат
+
+js-ssv-th-epochs = Епохи
+
+js-ssv-th-group = Група
+
+js-ssv-th-main-lobe = Лінії головної пелюстки
+
+js-ssv-th-nees = Середній NEES положення
+
+js-ssv-th-phase = Фаза
+
+js-ssv-th-pos-p95 = Положення, 95-й перцентиль, m
+
+js-ssv-th-pos-rms = Положення RMS, m
+
+js-ssv-th-quantity = Величина
+
+js-ssv-th-rel-absolute = Відносна RMS, з абсолютних, m
+
+js-ssv-th-rel-filter = Відносна RMS, фільтр, m
+
+js-ssv-th-rel-vel = Відносна швидкість RMS, m/s
+
+js-ssv-th-run1-cells = Прогін 1: комірки в межах допуску
+
+js-ssv-th-run1-verdict = Вердикт прогону 1
+
+js-ssv-th-sidelobe = Лінії бічної пелюстки
+
+js-ssv-th-sidelobe-share = Частка бічної пелюстки
+
+js-ssv-th-value = Значення
+
+js-ssv-th-variant = Варіант (діагностичний, опорні кути ГЛОНАСС із таблиці 4.2)
+
+js-ssv-th-vel-rms = Швидкість RMS, m/s
+
+js-ssv-th-with-4 = Із 4 або більше сигналами
+
+js-ssv-th-without-1 = Найдовше без 1 сигналу
+
+js-ssv-th-without-4 = Найдовше без 4 сигналів
+
+js-ssv-title-formation-heo = Формація, високоеліптична орбіта
+
+js-ssv-title-heo = Високоеліптична орбіта
+
+js-ssv-title-lunar-weak = Місячний трансфер, приймач слабких сигналів
+
+js-ssv-title-nav-lunar = Бортовий фільтр, місячний трансфер
+
+js-ssv-title-shell = Оболонка на 36 000 km
+
+js-ssv-traj-avail-note = Частка епох із щонайменше одним і щонайменше чотирма сигналами понад { $cn0 } dB-Hz.
+
+js-ssv-traj-avail-title = Доступність уздовж траєкторії, { $band }
+
+js-ssv-transmit-pattern = Діаграма передавання: { $pattern }
+
+js-ssv-unit-signals = сигнали
+
+js-ssv-unknown-mode = цей результат gnss-ssv має режим «{ $mode }», якого ця сторінка не читає
+
+js-ssv-variant-met = { $n } з { $total }, було б виконано
+
+js-ssv-variant-not-met = { $n } з { $total }, усе ще не виконано
+
+js-ssv-view-note = Від найменшої до найбільшої кількості в зоні видимості за епохами, з позначеним середнім.
+
+js-ssv-view-title = Сигнали в зоні видимості, { $band }
+
+js-ssv-weak-note = Що потрібно конструкції приймача, як її обчислює рушій із заявленого інтегрування.
+
+js-ssv-weak-title = Приймач слабких сигналів
+
+js-ssv-x-minutes = хвилини
+
+js-ssv-y-altitude-measurements = висота, тис. km; використані вимірювання
+
+js-ssv-y-cn0-altitude = dB-Hz; висота в тис. km
+
+js-ssv-y-position-log = положення, метри (log)
+
+js-ssv-y-signals-all = сигнали в зоні видимості, усі сузір'я
+
+js-t35data-ai-q-bench-export = Експортувати рух і події сценарію для лабораторного симулятора
+
+js-t35data-ai-q-compliance-rows = Для яких рядків публічних рамок ці прогони підтримують докази (supports evidence for)?
+
+js-t35data-ai-q-evidence-pack = Перевірити або створити пакет доказів події довіри
+
+js-t35data-ai-q-interference-route = Де GNSS виглядав погіршеним і яка частина цього маршруту в цій зоні?
+
+js-t35data-ai-q-iq-recordings = Записи IQ GNSS (сцена, захоплення, супроводження, вхідний каскад, кампанії)
+
+js-t35data-ai-q-osnma-satellites = Дані навігації яких супутників Galileo автентифікує цей потік приймача (OSNMA)?
+
+js-t35data-ai-q-run-scenario = Запустити або пояснити сценарій PNT (орбіти, GNSS, синхронізація часу, об'єднання, Місяць)
+
+js-t35data-ai-q-training-nmea = Мені потрібен синтетичний NMEA з подією глушіння, зведення з траси, спуфінгу часу чи відтворення для навчання
+
+js-t35data-ai-q-trustworthy-log = Чи був цей журнал приймача або NMEA цього судна надійним і коли він перестав бути таким?
+
+js-t35data-ai-tool-osnma-satellites = немає в MCP: використайте osnma_verify (картка OSNMA тут, WebAssembly), kshana osnma verify (CLI) або kshana.osnma_verify (Python)
+
+js-t35data-card-evidence-create-title = Створити пакет доказів
+
+js-t35data-card-evidence-create-what = Підписує вікно журналу приймача та те, що рушій із нього обчислив, щоб будь-хто міг перевірити, що згодом нічого не змінювали. Studio перевіряє пакети.
+
+js-t35data-card-evidence-create-why = Підписування потребує приватного ключа, який не повинен проходити через вебсторінку.
+
+js-t35data-card-iq-title = Монітори й інструменти IQ GNSS
+
+js-t35data-card-iq-what = Побудуйте сцену, захоплюйте й супроводжуйте сигнали, перебирайте параметри, змоделюйте вхідний каскад, запускайте монітори IQ і кампанії, підгоняйте лабораторний журнал. Доступно також із Python і, в межах однієї робочої папки, з інструментів ШІ-асистента.
+
+js-t35data-card-iq-why = Запис — це гігабайти відліків. Сторінка не може його вмістити, а команди, що перетворюють, видобувають і проріджують, переписують записи на диску.
+
+js-t35data-card-land-title = Завантаження полігонів суші для детектора AIS на суходолі
+
+js-t35data-card-land-what = Отримує один закріплений файл суші (Natural Earth, суспільне надбання) і перевіряє його SHA-256. Будівник карти натомість приймає файл суші як текст.
+
+js-t35data-card-land-why = Це єдина команда, що відкриває мережеве з'єднання, і їй потрібні системний curl та явний прапорець.
+
+js-t35data-card-marine-title = Морські інтеграції
+
+js-t35data-card-marine-what = Плагін сервера Signal K і OpenCPN через NMEA у режимі шлюзу по TCP виводять оцінку довіри на програмне забезпечення, яким судноводії-любителі вже користуються; еталонна збірка виводить її на невеликий комп'ютер поруч із приймачем.
