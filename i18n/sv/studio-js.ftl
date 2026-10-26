@@ -5950,3 +5950,1865 @@ js-meaning-spectrum-line-kept-thr =
     }
 
 js-meaning-spectrum-line-none = Ingen signal håller sig över mottagarens följningströskel under hela körningen.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:195
+js-meaning-spectrum-line-none-thr = Ingen signal håller sig över mottagarens spårningströskel på { $thr } dB-Hz under hela körningen.
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:196
+js-meaning-spectrum-weakest-label = Svagaste signalen, { $name }
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:155
+js-meaning-whole-run = under hela körningen
+
+# 2026-10-01-studio-rebuild/lib/meaning.mjs:249
+js-meaning-your-setting = din inställning
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:506
+js-meankind-acm-big =
+    { $n ->
+        [one] Adaptiv kodning flyttar { $gain } gånger så mycket data som det bästa fasta läget: { $acm } Gbit mot { $ccm } Gbit under { $n } överflygning.
+       *[other] Adaptiv kodning flyttar { $gain } gånger så mycket data som det bästa fasta läget: { $acm } Gbit mot { $ccm } Gbit under { $n } överflygningar.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:506
+js-meankind-acm-line = Fast läge { $mode }; { $dur } avbrott.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:246
+js-meankind-anomaly-big = Den kvantbaserade felövervakaren får { $q } mot { $c } för den klassiska (area under kurvan, 1 är perfekt).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:246
+js-meankind-anomaly-line = Det minsta upptäckbara felet är { $q } mot { $c }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:511
+js-meankind-aocs-big-open = Svängningen på { $slew } grader lugnar sig inte under { $threshold } grader.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:511
+js-meankind-aocs-big-settles = Svängningen på { $slew } grader lugnar sig under { $threshold } grader efter { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:517
+js-meankind-aocs-line = Slutligt pekfel { $final } grader.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:516
+js-meankind-aocs-line-filter = Slutligt pekfel { $final } grader. Ett lägesfilter i slingan har ett fel på { $arcsec } bågsekunder RMS.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:515
+js-meankind-aocs-line-wheel = Slutligt pekfel { $final } grader. Högsta hjulmoment { $torque } N m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:514
+js-meankind-aocs-line-wheel-filter = Slutligt pekfel { $final } grader. Högsta hjulmoment { $torque } N m. Ett lägesfilter i slingan har ett fel på { $arcsec } bågsekunder RMS.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:360
+js-meankind-aperture-big = Navigering använder { $nav } % av antenntiden och kommunikation { $comms } %.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:360
+js-meankind-aperture-big-idle = Navigering använder { $nav } % av antenntiden och kommunikation { $comms } %; { $idle } % är ledigt.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:350
+js-meankind-aperture-line-all =
+    { $n ->
+        [one] { $n } apertur under regeln { $policy }, med { $dur } konkurrens om resursen.
+       *[other] { $n } aperturer under regeln { $policy }, med { $dur } konkurrens om resursen.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:352
+js-meankind-aperture-line-contention =
+    { $n ->
+        [one] { $n } apertur, med { $dur } konkurrens om resursen.
+       *[other] { $n } aperturer, med { $dur } konkurrens om resursen.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:353
+js-meankind-aperture-line-count =
+    { $n ->
+        [one] { $n } apertur.
+       *[other] { $n } aperturer.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:358
+js-meankind-aperture-line-nocount = Aperturerna.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:355
+js-meankind-aperture-line-nocount-all = Aperturerna under regeln { $policy }, med { $dur } konkurrens om resursen.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:357
+js-meankind-aperture-line-nocount-contention = Aperturerna, med { $dur } konkurrens om resursen.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:356
+js-meankind-aperture-line-nocount-policy = Aperturerna under regeln { $policy }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:351
+js-meankind-aperture-line-policy =
+    { $n ->
+        [one] { $n } apertur under regeln { $policy }.
+       *[other] { $n } aperturer under regeln { $policy }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:257
+js-meankind-araim-big-no = Nej: motorns skyddsnivåer avviker från den publicerade referensen.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:257
+js-meankind-araim-big-yes = Ja: motorns skyddsnivåer stämmer med den publicerade referensen.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:257
+js-meankind-araim-line = Den största skillnaden är { $worst } m mot referensens egen tolerans på { $tol } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:257
+js-meankind-araim-line-vectors =
+    { $n ->
+        [one] Den största skillnaden är { $worst } m mot referensens egen tolerans på { $tol } m, över { $n } referensvektor.
+       *[other] Den största skillnaden är { $worst } m mot referensens egen tolerans på { $tol } m, över { $n } referensvektorer.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:499
+js-meankind-arc-big = Skattaren återskapar banan när den har { $dur } av bågen på { $h } h.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:499
+js-meankind-arc-line = { $n } rymdfarkoster, mätningar av { $observable }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:522
+js-meankind-ascent-big = Gravitation, luftmotstånd, styrning och mottryck tar { $loss } m/s av den ideala hastighetsökningen på { $ideal } m/s.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:522
+js-meankind-ascent-line = Brännslut vid { $km } km och { $speed } m/s; högsta dynamiska tryck { $kpa } kPa.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:456
+js-meankind-attack-big-no = En spoofer på ytan kan inte ta över en månmottagare.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:456
+js-meankind-attack-big-yes = En spoofer på ytan kan ta över en månmottagare.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:456
+js-meankind-attack-line = En sändare på ytan når { $km } km innan horisonten blockerar den.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:341
+js-meankind-attitude-big = Pekfelet uppgår till totalt { $total } bågsekunder.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:341
+js-meankind-attitude-big-from = Pekfelet uppgår till totalt { $total } bågsekunder, mest från { $from }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:341
+js-meankind-attitude-line = Det största gravitationsgradientmomentet är { $torque } N·m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:442
+js-meankind-beacon-big = Fyrar på ytan förbättrar geometrikvaliteten (PDOP) { $x } gånger.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:442
+js-meankind-beacon-line = Att i stället lägga till satelliter förbättrar den { $x } gånger.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:424
+js-meankind-bodypnt-big = Enbart reläer ger en positionsbestämning { $share } % av tiden kring { $body }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:424
+js-meankind-bodypnt-big-earth = Enbart reläer ger en positionsbestämning { $share } % av tiden kring { $body }; { $earth } % med länkar till jorden.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:424
+js-meankind-bodypnt-line = I genomsnitt är { $mean } reläer i sikte.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:23
+js-meankind-by = { $a } × { $b }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:90
+js-meankind-campaign-compose-line = Varje medlem är en vanlig motorkörning; kampanjen läser deras resultat sida vid sida.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:90
+js-meankind-campaign-compose-range =
+    { $n ->
+        [one] Över { $n } scenario under samma förhållanden varierar { $what } från { $low } till { $high }.
+       *[other] Över { $n } scenarier under samma förhållanden varierar { $what } från { $low } till { $high }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:90
+js-meankind-campaign-compose-same =
+    { $n ->
+        [one] Över { $n } scenario under samma förhållanden är { $what } { $value } i varje.
+       *[other] Över { $n } scenarier under samma förhållanden är { $what } { $value } i varje.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:67
+js-meankind-campaign-line =
+    { $n ->
+        [one] { $n } fas.
+       *[other] { $n } faser.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:74
+js-meankind-campaign-line-all =
+    { $n ->
+        [one] { $n } fas och { $events }, från { $runs }; vid slutet är { $label } { $value }.
+       *[other] { $n } faser och { $events }, från { $runs }; vid slutet är { $label } { $value }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:68
+js-meankind-campaign-line-end =
+    { $n ->
+        [one] { $n } fas; vid slutet är { $label } { $value }.
+       *[other] { $n } faser; vid slutet är { $label } { $value }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:71
+js-meankind-campaign-line-events =
+    { $n ->
+        [one] { $n } fas och { $events }.
+       *[other] { $n } faser och { $events }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:72
+js-meankind-campaign-line-events-end =
+    { $n ->
+        [one] { $n } fas och { $events }; vid slutet är { $label } { $value }.
+       *[other] { $n } faser och { $events }; vid slutet är { $label } { $value }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:73
+js-meankind-campaign-line-events-runs =
+    { $n ->
+        [one] { $n } fas och { $events }, från { $runs }.
+       *[other] { $n } faser och { $events }, från { $runs }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:69
+js-meankind-campaign-line-runs =
+    { $n ->
+        [one] { $n } fas, från { $runs }.
+       *[other] { $n } faser, från { $runs }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:70
+js-meankind-campaign-line-runs-end =
+    { $n ->
+        [one] { $n } fas, från { $runs }; vid slutet är { $label } { $value }.
+       *[other] { $n } faser, från { $runs }; vid slutet är { $label } { $value }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:56
+js-meankind-campaign-mission-alarm = Larmet utlöses under { $alarm } av uppdraget på { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:56
+js-meankind-campaign-mission-phases = Ett uppdrag i { $phases } faser över { $dur }, kedjade på en klocka.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:56
+js-meankind-campaign-mission-quiet = Inget larm under hela uppdraget på { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:82
+js-meankind-campaign-montecarlo =
+    { $n ->
+        [one] Över { $n } körning med fast frö är medelvärdet för { $name } { $mean }, med en spridning på { $std }.
+       *[other] Över { $n } körningar med fast frö är medelvärdet för { $name } { $mean }, med en spridning på { $std }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:82
+js-meankind-campaign-montecarlo-line = Spridningen är en standardavvikelse över körningarna.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:47
+js-meankind-campaign-optimize =
+    { $n ->
+        [one] Sökningen landar på ett { $name } på { $value } efter { $n } körning.
+       *[other] Sökningen landar på ett { $name } på { $value } efter { $n } körningar.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:47
+js-meankind-campaign-optimize-at = Vid { $at }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:47
+js-meankind-campaign-optimize-kind =
+    { $n ->
+        [one] Sökningen landar på ett { $name } på { $value } efter { $n } körning av { $kind }.
+       *[other] Sökningen landar på ett { $name } på { $value } efter { $n } körningar av { $kind }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:102
+js-meankind-campaign-sweep-flat =
+    { $n ->
+        [one] Över { $n } körning av { $axis } från { $from } till { $to } ligger { $metric } kvar på { $value }.
+       *[other] Över { $n } körningar av { $axis } från { $from } till { $to } ligger { $metric } kvar på { $value }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:102
+js-meankind-campaign-sweep-flat-line = Diagrammet visar varje körning.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:103
+js-meankind-campaign-sweep-goes =
+    { $n ->
+        [one] Över { $n } körning av { $axis } från { $from } till { $to } går { $metric } från { $first } till { $last }.
+       *[other] Över { $n } körningar av { $axis } från { $from } till { $to } går { $metric } från { $first } till { $last }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:103
+js-meankind-campaign-sweep-goes-line = Diagrammet visar varje körning; det sträcker sig från { $min } till { $max }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:163
+js-meankind-classical-link = klassisk länk
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:180
+js-meankind-clock-word = klockan
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:237
+js-meankind-conflict-big = Den skiktade arkitekturen klarar sig { $ratio } gånger bättre än ett enda skikt.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:236
+js-meankind-conflict-line-threats = En Monte Carlo-simulering av hoten ger { $ratio } gånger.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:236
+js-meankind-conflict-line-threats-corr = En Monte Carlo-simulering av hoten ger { $ratio } gånger; med korrelerade hot kan det sjunka till { $low } gånger.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:235
+js-meankind-conflict-line-trials =
+    { $n ->
+        [one] En Monte Carlo-simulering med { $n } försök ger { $ratio } gånger.
+       *[other] En Monte Carlo-simulering med { $n } försök ger { $ratio } gånger.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:235
+js-meankind-conflict-line-trials-corr =
+    { $n ->
+        [one] En Monte Carlo-simulering med { $n } försök ger { $ratio } gånger; med korrelerade hot kan det sjunka till { $low } gånger.
+       *[other] En Monte Carlo-simulering med { $n } försök ger { $ratio } gånger; med korrelerade hot kan det sjunka till { $low } gånger.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:529
+js-meankind-contacts-big =
+    { $n ->
+        [one] Planen behåller { $kept } av { $n } kandidatkontakt och levererar { $gbit } Gbit.
+       *[other] Planen behåller { $kept } av { $n } kandidatkontakter och levererar { $gbit } Gbit.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:529
+js-meankind-contacts-big-waiting =
+    { $n ->
+        [one] Planen behåller { $kept } av { $n } kandidatkontakt och levererar { $gbit } Gbit av de { $waiting } Gbit som väntar.
+       *[other] Planen behåller { $kept } av { $n } kandidatkontakter och levererar { $gbit } Gbit av de { $waiting } Gbit som väntar.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:529
+js-meankind-contacts-line = { $sats } satelliter och { $stations } stationer över { $hours } h.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:446
+js-meankind-dpnt-big = Differentiella korrektioner sänker felet från { $from } m till { $to } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:446
+js-meankind-dpnt-line = Med en referensstation { $km } km bort.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:33
+js-meankind-duration-days =
+    { $n ->
+        [one] { $days } dag
+       *[other] { $days } dagar
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:438
+js-meankind-earthgnss-big =
+    { $n ->
+        [one] På månens avstånd är { $visible } av { $n } satellit i sikte men { $trackable } kan spåras.
+       *[other] På månens avstånd är { $visible } av { $n } satelliter i sikte men { $trackable } kan spåras.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:438
+js-meankind-earthgnss-line = Den bästa signalen är { $best } dB-Hz mot en spårningströskel på { $threshold } dB-Hz.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:61
+js-meankind-engine-run-count =
+    { $n ->
+        [one] { $n } motorkörning
+       *[other] { $n } motorkörningar
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:533
+js-meankind-entry-big = Högsta retardation är { $g } g vid { $km } km, med ett högsta värmeflöde på { $flux } W/cm².
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:533
+js-meankind-entry-line = Inträde med { $speed } m/s, { $angle } grader under horisonten.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:365
+js-meankind-eo-big = Kameran ser ett stråk på { $swath } km med { $gsd } m upplösning.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:365
+js-meankind-eo-line-contiguous = Markspåren ligger { $km } km från varandra vid ekvatorn, så täckningen är sammanhängande.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:365
+js-meankind-eo-line-gapped = Markspåren ligger { $km } km från varandra vid ekvatorn, så täckningen har luckor.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:415
+js-meankind-eop-big = På månens avstånd sveper jordens rotation { $m } m varje sekund, så åldern på jordorienteringsdata ({ $dur } här) spelar roll.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:415
+js-meankind-eop-line = Indata: { $source }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:392
+js-meankind-ephemeris-big = Satelliten flyger mellan { $min } och { $max } km, upp till { $lat }° latitud.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:392
+js-meankind-ephemeris-line = Sedd från stationen stiger den till { $deg }°.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:392
+js-meankind-ephemeris-line-doppler = Sedd från stationen stiger den till { $deg }°, med upp till { $khz } kHz Doppler.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:60
+js-meankind-event-count =
+    { $n ->
+        [one] { $n } händelse
+       *[other] { $n } händelser
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:483
+js-meankind-framecampaign-big-open =
+    { $n ->
+        [one] Kampanjen lämnar { $n } datumriktning obestämd.
+       *[other] Kampanjen lämnar { $n } datumriktningar obestämda.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:483
+js-meankind-framecampaign-big-yes = Ja: kampanjen fastställer månens referenssystemsdatum fullständigt.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:483
+js-meankind-framecampaign-line = Konditionstal { $n }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:465
+js-meankind-framereal-big = Månens referenssystem realiseras med { $m } m kvarstående fel.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:465
+js-meankind-framereal-big-open = Månens referenssystem realiseras med { $m } m kvarstående fel, men anpassningen konvergerade inte.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:465
+js-meankind-framereal-line = Translationsfel { $trans } m, skalfel { $scale } miljarddelar.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:261
+js-meankind-gnsssim-big = Integritetsövervakningen skyddar positionsbestämningen { $share } % av tiden.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:261
+js-meankind-gnsssim-line = Jonosfären lägger i genomsnitt till { $iono } m och troposfären { $tropo } m till varje avstånd.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:89
+js-meankind-headline-figure = huvudtal
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
+js-meankind-holdovertest-big = Mätt mot maskerna når postens holdover på { $dur } s { $te } ns tidsfel.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
+js-meankind-holdovertest-big-open = Mätt mot maskerna når postens holdover på { $dur } s { $te } ns tidsfel och återhämtade sig inte inom bandet.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
+js-meankind-holdovertest-big-recovered = Mätt mot maskerna når postens holdover på { $dur } s { $te } ns tidsfel och återhämtade sig { $recover } s efter att GNSS återkom.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
+js-meankind-holdovertest-line = Mätt mot masken, aldrig ett påstående att ett system överensstämmer med den; de två tiderna är operatörens egen uppgift.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
+js-meankind-holdovertest-line-masks = { $masks }. Mätt mot masken, aldrig ett påstående att ett system överensstämmer med den; de två tiderna är operatörens egen uppgift.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:242
+js-meankind-impairment-big = Detektorn skiljer försämrade signaler från rena med en area under kurvan på { $auc } (1 är perfekt).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:242
+js-meankind-impairment-line = På fall som inte liknar träningsmängden får den { $auc }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:602
+js-meankind-infra-carrier = Heltalsfixering av bärvågsfas mellan en markstation och en omloppsfarkost lyckades i { $share } % av försöken på den längsta bågen ({ $days } dagar).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:606
+js-meankind-infra-frame = Länkar mellan omloppsfarkost och station höjer månens datums minsta informationsegenvärde { $x } gånger och sänker Cramér-Rao-spåret till { $share } %, om banan är känd i månaxlarna.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:612
+js-meankind-infra-geodesy = Med alla fyra familjerna tillsammans fastläggs h2, k2 och l2 till { $h2 } %, { $k2 } % och { $l2 } % av sina nominella värden.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:598
+js-meankind-infra-od = Banbestämning ombord med jord-GNSS i månbana är god till { $gnss } m, oberoende markspårning till { $ground } m; konsistensstatistiken har medelvärdet { $mean } ({ $expected } förväntat).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:594
+js-meankind-infra-tail = MODELLED: en begränsad modell med illustrativa indata, inte ett påstående om något uppdrag.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:609
+js-meankind-infra-tie =
+    { $n ->
+        [one] En lokal koppling på { $mm } mm på en rymdfarkost knyter ihop GNSS-, VLBI- och laseravståndsreferenssystemen över { $n } svept kopplingsfel.
+       *[other] En lokal koppling på { $mm } mm på en rymdfarkost knyter ihop GNSS-, VLBI- och laseravståndsreferenssystemen över { $n } svepta kopplingsfel.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:148
+js-meankind-inside-spec = inom { $spec }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:206
+js-meankind-instrn-big = När den glider på enbart tröghetsdata passerar positionsfelet { $threshold } m efter { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:206
+js-meankind-instrn-dom = { $dominant } dominerar.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:206
+js-meankind-instrn-line = Den passerar { $passes }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:206
+js-meankind-instrn-line-dom = Den passerar { $passes }; { $dominant } dominerar.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:205
+js-meankind-instrn-pass = { $threshold } m efter { $dur }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:469
+js-meankind-interop-big-no = Nej: månens efemeridfil gör inte en komplett tur och retur.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:469
+js-meankind-interop-big-yes = Ja: månens efemeridfil gör en tur och retur oförändrad.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:469
+js-meankind-interop-line = { $n } tillstånd i referenssystemet { $frame }, tiden { $time }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:151
+js-meankind-its-spec = dess specifikation
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:460
+js-meankind-jointod-big = Att lägga till en jordbaserad interferometrifördröjning skärper stationens position { $x } gånger.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:460
+js-meankind-jointod-line = Stationen är då känd till { $m } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:369
+js-meankind-launch-big =
+    { $n ->
+        [one] { $n } uppskjutningsmöjlighet per dygn når en bana på { $incl }° från latituden { $lat }°.
+       *[other] { $n } uppskjutningsmöjligheter per dygn når en bana på { $incl }° från latituden { $lat }°.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:369
+js-meankind-launch-line = Jordens rotation ger { $speed } m/s gratis.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:269
+js-meankind-layer-agc = AGC (automatisk förstärkningsreglering)
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:268
+js-meankind-layer-raim = RAIM (mottagarens autonoma integritetsövervakning)
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:270
+js-meankind-layer-sqm = SQM (övervakning av signalkvalitet)
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:328
+js-meankind-leochain-big = Från början till slut sänker lågbanesystemet positionsfelet från { $from } m till { $to } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:328
+js-meankind-leochain-line = Dess signal spåras med upp till { $cn0 } dB-Hz.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:300
+js-meankind-leopass-big-many = Satelliterna passerar { $elev }° höga och stannar över masken i { $dur } (den första av { $n }).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:300
+js-meankind-leopass-big-one = Satelliten passerar { $elev }° hög och stannar över masken i { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:300
+js-meankind-leopass-line = Som mest når lågbanesignalen fram { $db } dB starkare än en typisk satellitnavigeringssignal.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:315
+js-meankind-leoppp-big = Precis positionering konvergerar på { $best } min med det största lågbaneskiktet, mot { $base } min med enbart satellitnavigering.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:315
+js-meankind-leoppp-line = Medianen av körningarna per fall, till { $m } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:315
+js-meankind-leoppp-line-runs =
+    { $n ->
+        [one] Medianen av { $n } körning per fall, till { $m } m.
+       *[other] Medianen av { $n } körningar per fall, till { $m } m.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:303
+js-meankind-leopvt-doppler-big = Dopplerpositionering från lågbanesatelliter hamnar { $m } m från referensen (horisontellt).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:303
+js-meankind-leopvt-doppler-line =
+    { $n ->
+        [one] { $n } satellit använd.
+       *[other] { $n } satelliter använda.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:304
+js-meankind-leopvt-joint-big = Att lägga till lågbaneskiktet sänker felet från { $from } m till { $to } m (3D, effektivvärde).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:304
+js-meankind-leopvt-joint-line = Geometrikvaliteten (PDOP) går från { $from } till { $to }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:308
+js-meankind-leopvt-polar-big = Nära polen förbättrar lågbaneskiktet geometrikvaliteten (PDOP) från { $from } till { $to }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:308
+js-meankind-leopvt-polar-line =
+    { $n ->
+        [one] Över { $n } latitud.
+       *[other] Över { $n } latituder.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:306
+js-meankind-leopvt-timing-big = Tidsöverföring via lågbana håller den bästa klockan inom { $ns } ns från UTC (effektivvärde).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:306
+js-meankind-leopvt-timing-line =
+    { $n ->
+        [one] { $n } fall med klocka och signal jämfört.
+       *[other] { $n } fall med klocka och signal jämförda.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:290
+js-meankind-leosignal-big =
+    { $n ->
+        [one] Av { $n } signalutformning tål { $best } mest jamming: { $db } dB över signalen.
+       *[other] Av { $n } signalutformningar tål { $best } mest jamming: { $db } dB över signalen.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:290
+js-meankind-leosignal-line-fail = Kontrollerna av spektrumformen klaras inte.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:290
+js-meankind-leosignal-line-pass = Kontrollerna av spektrumformen klaras.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:378
+js-meankind-link-big-closes = Länken håller med en marginal på { $margin } dB.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:378
+js-meankind-link-big-open = Länken håller inte: { $margin } dB marginal.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:377
+js-meankind-link-line = Över { $km } km.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:376
+js-meankind-link-line-band = { $band }-band över { $km } km.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:376
+js-meankind-link-line-band-rate = { $band }-band över { $km } km med { $rate } bit/s.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:377
+js-meankind-link-line-rate = Över { $km } km med { $rate } bit/s.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:21
+js-meankind-list-and = { $head } och { $last }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:488
+js-meankind-llr-big = Verklig laseravståndsmätning låser månens referenssystem till { $mm } mm.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:488
+js-meankind-llr-line = Skala till { $ppb } miljarddelar.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:195
+js-meankind-mapmatch-altimeter = Höjdmätaren mäter med { $sigma } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:195
+js-meankind-mapmatch-big = Kartmatchning håller positionen inom { $matched } m, mot { $free } m drift med enbart tröghetsnavigering.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:195
+js-meankind-mapmatch-gravimeter = Gravimetern mäter med { $sigma } mGal.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:195
+js-meankind-mapmatch-sources = Enbart gravitation ger { $gravity } m, magnetism { $magnetic } m, terräng { $terrain } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:429
+js-meankind-marspnt-big = Navigatorn ({ $user }) stabiliseras på { $m } m (effektivvärde).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:429
+js-meankind-marspnt-line =
+    { $n ->
+        [one] I genomsnitt { $mean } reläer i sikte, över { $n } epok.
+       *[other] I genomsnitt { $mean } reläer i sikte, över { $n } epoker.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:433
+js-meankind-moonlight-big = Tjänsten täcker { $share } % av de platser och tider som kontrollerats.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:433
+js-meankind-moonlight-line =
+    { $n ->
+        [one] Mellan { $min } och { $n } satellit är i sikte; geometrikvaliteten (PDOP) varierar från { $pmin } till { $pmax }.
+       *[other] Mellan { $min } och { $n } satelliter är i sikte; geometrikvaliteten (PDOP) varierar från { $pmin } till { $pmax }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:318
+js-meankind-navmsg-big =
+    { $n ->
+        [one] Ett navigeringsmeddelande ryms i { $n } byte.
+       *[other] Ett navigeringsmeddelande ryms i { $n } bytes.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:321
+js-meankind-navmsg-cases-big =
+    { $n ->
+        [one] Över { $n } fall är avståndsfelet från den utsända banan { $min } till { $max } mm.
+       *[other] Över { $n } fall är avståndsfelet från den utsända banan { $min } till { $max } mm.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:321
+js-meankind-navmsg-cases-line = Avståndsfel för signal i rymden, effektivvärde.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:318
+js-meankind-navmsg-line = Avrundning till meddelandeformatet kostar { $mm } mm avståndsfel.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:322
+js-meankind-navmsg-midpass-big = Att uppdatera meddelandet mitt under överflygningen får avståndet att hoppa med högst { $mm } mm.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:322
+js-meankind-navmsg-midpass-line = Gränsen är { $mm } mm.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:334
+js-meankind-ntn-big = 5G-positionering från omloppsbana når { $m } m med { $signal }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:334
+js-meankind-ntn-line = Doppler över en överflygning ger { $m } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:494
+js-meankind-obs-big-full = Banan blir fullt observerbar efter { $dur } spårning.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:494
+js-meankind-obs-big-partly = Banan förblir delvis observerbar över bågen på { $h } h.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:494
+js-meankind-obs-line = Rang { $rank } av { $dim } vid bågens slut.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:405
+js-meankind-oem-big = Efemeridfilen går tur och retur med högst { $mm } mm positionsfel.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:405
+js-meankind-oem-line =
+    { $n ->
+        [one] { $states } tillstånd i { $n } segment.
+       *[other] { $states } tillstånd i { $n } segment.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:552
+js-meankind-optical-big-alone = Den bästa enskilda platsen håller den optiska länken uppe { $best } % av tiden (tak vid molnfri himmel { $ceiling } %); ingen molnfri marginal lyfter den över { $ceiling } %.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:552
+js-meankind-optical-big-team = Den bästa enskilda platsen håller den optiska länken uppe { $best } % av tiden (tak vid molnfri himmel { $ceiling } %); { $n } platser tillsammans når { $independent } % om deras väder är oberoende, { $correlated } % med den angivna korrelationen.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:552
+js-meankind-optical-line-sites =
+    { $n ->
+        [one] { $n } plats modellerad; molnklimaten är illustrativa.
+       *[other] { $n } platser modellerade; molnklimaten är illustrativa.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:552
+js-meankind-optical-line-tech = { $name }: { $base } % blir { $with } %.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:227
+js-meankind-opticalrf-big = Att kombinera optisk och radiobaserad avståndsmätning ger skyddsnivåer på { $h } m horisontellt och { $v } m vertikalt.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:227
+js-meankind-opticalrf-line-fault = Konsistenstestet visar { $stat } mot en tröskel på { $threshold }: ett fel flaggas.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:227
+js-meankind-opticalrf-line-ok = Konsistenstestet visar { $stat } mot en tröskel på { $threshold }: inget fel flaggas.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:401
+js-meankind-packet-big-no = Nej: den avkodade strömmen skiljer sig från det som skickades.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:401
+js-meankind-packet-big-yes = Ja: paketströmmen avkodas tillbaka bit för bit.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:401
+js-meankind-packet-line =
+    { $n ->
+        [one] { $n } paket, { $octets } oktetter totalt.
+       *[other] { $n } paket, { $octets } oktetter totalt.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:383
+js-meankind-passes-big-day =
+    { $n ->
+        [one] { $n } överflygning per dygn, { $dur } kontakt totalt.
+       *[other] { $n } överflygningar per dygn, { $dur } kontakt totalt.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:383
+js-meankind-passes-big-window =
+    { $n ->
+        [one] { $n } överflygning i ett fönster på { $hours } timmar, { $dur } kontakt totalt.
+       *[other] { $n } överflygningar i ett fönster på { $hours } timmar, { $dur } kontakt totalt.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:383
+js-meankind-passes-line = Den bästa överflygningen når { $deg }°.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:451
+js-meankind-percentile-word = percentil
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:150
+js-meankind-pnt-big = Kvantsviten håller position och tid i { $q }; den klassiska sviten i { $c }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:154
+js-meankind-pnt-classical-label = Holdover, klassisk svit
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:151
+js-meankind-pnt-line = Holdover är hur länge varje svit (klocka { $q } mot klocka { $c }) håller sig inom { $spec } efter att satellitnavigeringen gått förlorad.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:153
+js-meankind-pnt-quantum-label = Holdover, kvantsvit
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:156
+js-meankind-pnt-timing-classical-label = Tidsfel, 95 %, klassisk
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:155
+js-meankind-pnt-timing-quantum-label = Tidsfel, 95 %, kvant
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:265
+js-meankind-pvt-big =
+    { $n ->
+        [one] En position löses vid { $solved } av { $n } epok, till { $rms } m (3D, effektivvärde).
+       *[other] En position löses vid { $solved } av { $n } epoker, till { $rms } m (3D, effektivvärde).
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:265
+js-meankind-pvt-line = Från { $mean } satelliter i genomsnitt, avläst ur verkliga mottagarmätningar.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:221
+js-meankind-qnav-big = Efter avbrottet ligger kallatomnavigatorn { $q } m fel; den i navigeringsklass { $c } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:221
+js-meankind-qnav-big-outage = Efter { $dur } utan satelliter ligger kallatomnavigatorn { $q } m fel; den i navigeringsklass { $c } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:221
+js-meankind-qnav-line = Inom budgeten: { $q } mot { $c }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:221
+js-meankind-qnav-line-threshold = Inom { $threshold } m: { $q } mot { $c }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:188
+js-meankind-qtt-big = Kvanttidsöverföring håller { $q } ps (1-sigma) mot { $c } ns för den klassiska kedjan.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:188
+js-meankind-qtt-line = Säkerhetsövervakaren upptäcker { $pd } % av attackerna.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:188
+js-meankind-qtt-line-pfa = Säkerhetsövervakaren upptäcker { $pd } % av attackerna vid en falsklarmsfrekvens på { $pfa }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:163
+js-meankind-quantum-link = kvantlänk
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:537
+js-meankind-radiometry-big = Kameran når NIIRS { $niirs } vid { $gsd } m markprovtagningsavstånd, med ett signal-brusförhållande på { $snr }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:537
+js-meankind-radiometry-line = Systemets MTF vid Nyquist { $mtf }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:387
+js-meankind-reentry-big = Högsta retardation är { $g } g, vid { $km } km.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:387
+js-meankind-reentry-line = Farkosten har då { $speed } m/s.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:199
+js-meankind-slam-big = Terrängmatchningen slutar { $matched } m fel, mot { $free } m med enbart tröghetsnavigering.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:199
+js-meankind-slam-line =
+    { $n ->
+        [one] Över { $n } riktpunkt, matchad mot en terrängkarta med { $sigma } m höjdmätarbrus.
+       *[other] Över { $n } riktpunkter, matchade mot en terrängkarta med { $sigma } m höjdmätarbrus.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:176
+js-meankind-slot-big = Klockan lämnar sitt skyddsintervall för tidsluckan { $dur } efter den senaste positionsbestämningen via satellit.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:176
+js-meankind-slot-line = Därför behöver den en positionsbestämning var { $interval }, ungefär { $perDay } per dygn.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:411
+js-meankind-solar-big =
+    { $n ->
+        [one] { $n } himlakropp placerad vid en epok.
+       *[other] { $n } himlakroppar placerade vid en epok.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:411
+js-meankind-solar-big-link =
+    { $n ->
+        [one] { $n } himlakropp placerad vid en epok; ljuset behöver { $dur } från { $from } till { $to }.
+       *[other] { $n } himlakroppar placerade vid en epok; ljuset behöver { $dur } från { $from } till { $to }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:411
+js-meankind-solar-line = { $n } länkar tidsätts totalt.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:135
+js-meankind-spoof-caught = Spoofingen fångas innan den bryter mot tidsspecifikationen.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:135
+js-meankind-spoof-caught-both = Spoofingen fångas av båda klockorna innan den bryter mot tidsspecifikationen.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:140
+js-meankind-spoof-caught-label = Fångad efter, { $name }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:134
+js-meankind-spoof-caught-thr = Spoofingen fångas innan den bryter mot tidsspecifikationen på { $thr } ns.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:134
+js-meankind-spoof-caught-thr-both = Spoofingen fångas av båda klockorna innan den bryter mot tidsspecifikationen på { $thr } ns.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:139
+js-meankind-spoof-detects = { $name } upptäcker den efter { $dur }, vid en förskjutning på { $offset } ns.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:138
+js-meankind-spoof-missed =
+    { $n ->
+        [one] Spoofingen bryter mot tidsspecifikationen innan { $names } upptäcker den.
+       *[other] Spoofingen bryter mot tidsspecifikationen innan { $names } upptäcker den.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:140
+js-meankind-spoof-offset = förskjutning { $offset } ns
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-big-by = Ja: spoofingen fångas, av { $by }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-big-no = Nej: den sammanslagna övervakaren fångar inte spoofingen.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-big-yes = Ja: spoofingen fångas.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-line =
+    { $n ->
+        [one] { $on } av { $n } detekteringsskikt larmar.
+       *[other] { $on } av { $n } detekteringsskikt larmar.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:278
+js-meankind-spoofdetect-line-score =
+    { $n ->
+        [one] { $on } av { $n } detekteringsskikt larmar; den sammanslagna poängen är { $score }.
+       *[other] { $on } av { $n } detekteringsskikt larmar; den sammanslagna poängen är { $score }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:587
+js-meankind-ssv-formation = Vid { $km } km avstånd känner filtret den relativa positionen till { $filter } m RMS, mot { $absolute } m genom differentiering av de två absoluta positionsbestämningarna.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:582
+js-meankind-ssv-navigation = Filtret ombord håller positionen till { $inside } m RMS innanför GNSS-banorna och { $above } m ovanför dem.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:572
+js-meankind-ssv-shell = På skalet ger alla konstellationer tillsammans minst en signal { $one } % av tiden och minst fyra { $four } % (L1).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:568
+js-meankind-ssv-tail = MODELLED: en geometri- och länkbudgetsvepning, inte en mätning av någon signal i rymden.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:577
+js-meankind-ssv-trajectory = Från { $from } till { $to } km höjd finns minst en signal i sikte { $one } % av epokerna och minst fyra { $four } % (L1, alla konstellationer).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:452
+js-meankind-station-big = Över sydpolarområdet sänker en lunar referensstations korrektioner felet ({ $percentile }) från { $from } m till { $to } m (modellerat).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:452
+js-meankind-station-line = Inom noggrannhetströskeln i { $share } % av epokerna; inte ett påstående om något verkligt system.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:116
+js-meankind-sweep-big =
+    { $n ->
+        [one] Över { $n } värde för { $param }: { $parts }.
+       *[other] Över { $n } värden för { $param }: { $parts }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:116
+js-meankind-sweep-line = { $param } löper från { $from } till { $to }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:116
+js-meankind-sweep-line-log = { $param } löper från { $from } till { $to } på en logaritmisk skala.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:114
+js-meankind-sweep-part-flat = { $key } { $metric } ligger kvar på { $value }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:114
+js-meankind-sweep-part-goes = { $key } { $metric } går från { $first } till { $last }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:113
+js-meankind-sweep-result-word = resultat
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:122
+js-meankind-sweepnd-big =
+    { $n ->
+        [one] Över { $n } kombination av { $keys } varierar { $metric } från { $min } till { $max }.
+       *[other] Över { $n } kombinationer av { $keys } varierar { $metric } från { $min } till { $max }.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:122
+js-meankind-sweepnd-line = Ett rutnät av { $shape } motorkörningar.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:172
+js-meankind-telecom-fail =
+    { $n ->
+        [one] Klockan klarar inte { $fail } av { $n } tidsfelskontroll för telekom.
+       *[other] Klockan klarar inte { $fail } av { $n } tidsfelskontroller för telekom.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:172
+js-meankind-telecom-line = Kontroller av MTIE (största tidsintervallfel), TDEV (tidsdeviation) och holdover-höljet mot de ITU-T-masker som anges i varje rad.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:172
+js-meankind-telecom-line-margin = Kontroller av MTIE (största tidsintervallfel), TDEV (tidsdeviation) och holdover-höljet mot de ITU-T-masker som anges i varje rad. Den minsta marginalen till holdover-höljet är { $margin } ns.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:172
+js-meankind-telecom-pass =
+    { $n ->
+        [one] Klockan klarar hela { $n } tidsfelskontroll för telekom.
+       *[other] Klockan klarar alla { $n } tidsfelskontroller för telekom.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:289
+js-meankind-the-best = den bästa
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:422
+js-meankind-the-body = himlakroppen
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:410
+js-meankind-the-first = den första
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:138
+js-meankind-the-name = { $name }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:410
+js-meankind-the-second = den andra
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:334
+js-meankind-the-widest-signal = den bredaste signalen
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:180
+js-meankind-timebudget-big = Felet hos { $clock } och felet hos referenssystemet korsar varandra vid en medelvärdestid på { $tau }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:180
+js-meankind-timebudget-line = Vid den skärningspunkten är tidsfelet { $x } s.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:184
+js-meankind-timeoffset-big = En klocka på månen går { $rate } µs per dygn före en på jorden.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:184
+js-meankind-timeoffset-line = Det publicerade intervallet är { $low } till { $high } µs per dygn.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:165
+js-meankind-timetransfer-big = { $q } håller de två platserna inom { $qps } ps (effektivvärde); { $c } inom { $cps } ps.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:165
+js-meankind-timetransfer-line = Inom avståndsspecifikationen { $q } % av tiden, mot { $c } %.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:165
+js-meankind-timetransfer-line-mm = Inom avståndsspecifikationen på { $mm } mm { $q } % av tiden, mot { $c } %.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:283
+js-meankind-tracking-big = En spoofer kan ta över mottagaren från upp till { $km } km avstånd.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:283
+js-meankind-tracking-line = Under mottagarens egen slingdynamik förloras låsningen vid { $db } dB störsändare över signalen.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:250
+js-meankind-trade-big = Kvantsensorerna är { $timing } gånger bättre på tidssynkronisering och { $inertial } gånger bättre på tröghetsnavigering än den klassiska baslinjen.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:250
+js-meankind-trade-line = Utan satelliter glider kvantsviten i { $dur }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:541
+js-meankind-ttbudget-big = Tvåvägsförskjutningen är { $offset } ns, med en sammanlagd osäkerhet på { $uncertainty } ns.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:541
+js-meankind-ttbudget-line = Sagnac { $sagnac } ns; jonosfär { $iono } ns.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:215
+js-meankind-ukf-big-no = Nej: filtret är inte självkonsistent.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:215
+js-meankind-ukf-big-yes = Ja: filtret är självkonsistent.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:213
+js-meankind-ukf-line-in = Dess normaliserade innovationskvadrat har medelvärdet { $mean }, inom 95 %-bandet { $low } till { $high }. Detta kontrollerar konsistens, inte noggrannhet.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:213
+js-meankind-ukf-line-in-seeds =
+    { $n ->
+        [one] Dess normaliserade innovationskvadrat har medelvärdet { $mean }, inom 95 %-bandet { $low } till { $high }, över { $n } frö. Detta kontrollerar konsistens, inte noggrannhet.
+       *[other] Dess normaliserade innovationskvadrat har medelvärdet { $mean }, inom 95 %-bandet { $low } till { $high }, över { $n } frön. Detta kontrollerar konsistens, inte noggrannhet.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:214
+js-meankind-ukf-line-out = Dess normaliserade innovationskvadrat har medelvärdet { $mean }, utanför 95 %-bandet { $low } till { $high }. Detta kontrollerar konsistens, inte noggrannhet.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:214
+js-meankind-ukf-line-out-seeds =
+    { $n ->
+        [one] Dess normaliserade innovationskvadrat har medelvärdet { $mean }, utanför 95 %-bandet { $low } till { $high }, över { $n } frö. Detta kontrollerar konsistens, inte noggrannhet.
+       *[other] Dess normaliserade innovationskvadrat har medelvärdet { $mean }, utanför 95 %-bandet { $low } till { $high }, över { $n } frön. Detta kontrollerar konsistens, inte noggrannhet.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:429
+js-meankind-user-word = användare
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:473
+js-meankind-vlbi-big = Över en baslinje på { $km } km når fyrens signal de två stationerna med { $ms } ms mellanrum.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:473
+js-meankind-vlbi-line = Närfältskorrektionen är { $us } µs.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:478
+js-meankind-vlbifim-big = Varje stationskoordinat är känd till { $m } m utifrån det här observationsschemat.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:478
+js-meankind-vlbifim-line = Den enkla uppskattningen med lika andelar skulle ange { $m } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:397
+js-meankind-weather-big = Den övre atmosfären värms upp till { $k } K.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:397
+js-meankind-weather-big-ref = Den övre atmosfären värms upp till { $k } K, mot { $ref } K för referensen.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:397
+js-meankind-weather-line = Det geomagnetiska aktivitetsindexet ap är { $ap }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:155
+js-meankind-whole-run = under hela körningen
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+js-mthread-bcol-label = Etikett
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+js-mthread-bcol-share = Storlek mot den största positionstermen
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+js-mthread-bcol-sigma = 1-sigma
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+js-mthread-bcol-source = Bidrag
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:65
+js-mthread-budget-caption = { $phase }: 1-sigma vid ingång { $entry }, vid toppen { $peak }, vid utgång { $exit } (position); varje bidrag nedan, störst först.
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:131
+js-mthread-chart-title = { $metric } mot förfluten uppdragstid, ett band per fas
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-kind = Typ
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-label = Etikett
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-limit = Största bidrag
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-margin = Mot gränsen
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-peak-pos = Största position
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-peak-time = Största klockbias
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-peak-vel = Största hastighet
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-phase = Fas
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+js-mthread-col-window = Uppdragstid
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:81
+js-mthread-example-not-loaded = det registrerade resultatet lästes inte in
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:97
+js-mthread-file-failed = { $name } kunde inte läsas: { $reason }.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:27
+js-mthread-kv-elapsed = Förfluten uppdragstid
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:31
+js-mthread-kv-engine = Motor
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:29
+js-mthread-kv-epoch = Epok (UTC)
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:28
+js-mthread-kv-limits = Faser med angiven gräns
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:28
+js-mthread-kv-limits-value = { $n } ({ $met } uppfyllda, { $missed } inte uppfyllda)
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:26
+js-mthread-kv-phases = Faser
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:30
+js-mthread-kv-seed = Frö
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:25
+js-mthread-kv-title = Kedja
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:39
+js-mthread-layout-phases = Lika bredd per fas
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:39
+js-mthread-layout-time = Verklig uppdragstid
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:148
+js-mthread-limit-title = { $phase }: den angivna gränsen, { $limit }
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:163
+js-mthread-log-scale = logaritmisk skala
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:84
+js-mthread-margin-met = { $m }× gränsen, uppfylld
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:84
+js-mthread-margin-missed = { $m }× gränsen, inte uppfylld
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:107
+js-mthread-metric-pos = Position, 1-sigma
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:107
+js-mthread-metric-time = Klockbias, 1-sigma
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:107
+js-mthread-metric-vel = Hastighet, 1-sigma
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:21
+js-mthread-na = saknas
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:67
+js-mthread-no-events = Den här fasen registrerar inga händelser.
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:67
+js-mthread-no-phases = resultatet innehåller inga faser
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:84
+js-mthread-no-requirement = ingen gräns angiven
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:127
+js-mthread-no-series = Resultatet innehåller inga prov av den här storheten.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:23
+js-mthread-no-weak = Resultatet pekar ut ingen svagaste länk.
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:46
+js-mthread-not-json = resultatet är inte JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:47
+js-mthread-not-thread = det här är inte ett uppdragskedjeresultat (schema { $schema } förväntades)
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:46
+js-mthread-note-phases = Varje fas ritas med samma bredd så att en kort fas syns lika bra som en lång; tiden då varje fas börjar står under bandet. Växla till verklig uppdragstid för att se de verkliga proportionerna. Streckade linjer är de gränser som dokumentet anger; ett avbrott i linjen är en överlämning.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:47
+js-mthread-note-time = Verklig uppdragstid: en fas på några minuter kan vara för smal för att synas. Växla till lika bredd för att läsa den. Streckade linjer är de gränser som dokumentet anger; ett avbrott i linjen är en överlämning.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:86
+js-mthread-open-failed = Exemplet kunde inte öppnas: { $reason }.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:96
+js-mthread-opened = { $name } lästes på den här sidan; ingenting skickades någonstans.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:78
+js-mthread-opening = Öppnar exemplet av Artemis-klass…
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:74
+js-mthread-prov = Varje etikett på den här sidan kommer från motorn själv; sidan kopierar varje tal från resultatet och skalar det bara.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:85
+js-mthread-recorded = Motorns registrerade resultat (version { $version }): en illustrativ kedja byggd på offentliga uppdragsbeskrivningar; talen är modellerade och står inte för något verkligt.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:66
+js-mthread-sets-peak = bestämmer toppen
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:91
+js-mthread-too-large = Filen är större än { $mb } MB; den läses inte.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:22
+js-mthread-weak-line = Den svagaste länken är fasen <b>{ $phase }</b>: { $margin }× dess angivna gräns, bestämd av { $source }. Marginalen är det minsta förhållandet mellan en angiven gräns och fasens topp; över 1 uppfylls kravet.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:53
+js-mthread-weakest-flag = svagaste länk
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:158
+js-mthread-weakest-mark = svagaste länk
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:147
+js-obs-cell-extent = { $south }° till { $north }° N, { $west }° till { $east }° Ö
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:89
+js-obs-cell-read = { $state }: { $cell }. Provtog { $sampled }, påverkade { $affected }.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:175
+js-obs-cell-title = { $state }; provtog { $sampled }, påverkade { $affected }
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:174
+js-obs-cell-title-reason = { $state } ({ $reason }); provtog { $sampled }, påverkade { $affected }
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:71
+js-obs-clear-note = { $notClear } En cell utan post sågs av färre än 5 olika flygplan och undanhålls; den ritas inte. Färg är aldrig den enda signalen: inte observerad är snedstreckad, och tabellen skriver ut varje tillstånd.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-affected = Påverkade flygplan
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:99
+js-obs-col-bbox = Avgränsande ruta (S, V, N, Ö)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-col-bytes = Bytes
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:99
+js-obs-col-cause = Orsak
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-cell = Cell (latitud, longitud)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:99
+js-obs-col-cells = Celler
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-col-check = Kontroll
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-col-file = Fil
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:99
+js-obs-col-incident = Incident
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-sampled = Provtagna flygplan
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-col-sha = SHA-256 (manifest)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-share = Påverkad andel
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-state = Tillstånd
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:111
+js-obs-col-why = Varför inte observerad
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:132
+js-obs-day-alt = { $degraded } celler försämrade, { $notDegraded } inte försämrade, { $notObserved } inte observerade, den { $date }.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:63
+js-obs-day-heading = Dag { $date } (UTC)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-attribution = Källhänvisning
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-coverage = Täckning
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-dataset = Datamängd
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-licence = Licens
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-licence-address = Licensadress
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-product = Produkt
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:128
+js-obs-ds-written-by = Skrivet av Kshana
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:96
+js-obs-err-cause = { $name } anger en annan orsak än "not attributed"; den här sidan visar ingen
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:70
+js-obs-err-feature-polygon = { $name }: objekt { $n } är inte en cellpolygon
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:68
+js-obs-err-feature-state = { $name }: objekt { $n } har tillståndet "{ $state }", som inte är ett av { $states }
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:100
+js-obs-err-incident-object = { $name }: incident { $n } är inte ett objekt
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:62
+js-obs-err-no-date = { $name } anger inget datum
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:63
+js-obs-err-no-features = { $name } har inga objekt
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:97
+js-obs-err-no-incidents = { $name } har ingen incidentlista
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:61
+js-obs-err-not-day = { $name } är inte en fil av typen { $schema }
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:95
+js-obs-err-not-incident = { $name } är inte en fil av typen { $schema }
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:46
+js-obs-err-not-json = { $what } är inte JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:110
+js-obs-err-not-manifest = { $name } är inte en fil av typen { $schema }
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:46
+js-obs-err-not-object = { $what } är inte ett JSON-objekt
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:45
+js-obs-err-not-text = { $what } är inte text eller är större än { $mib } MiB
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:64
+js-obs-err-states = { $name } nämner andra tillstånd än de tre som den här sidan visar
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:124
+js-obs-file-matches = stämmer
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:124
+js-obs-file-mismatch = stämmer inte
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:124
+js-obs-file-no-hash = ingen hash angiven
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:122
+js-obs-file-not-opened = inte öppnad
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:119
+js-obs-files-note = Metod { $method }. Varje fils SHA-256 beräknas här utifrån filen du öppnade och jämförs med manifestet; en fil du inte öppnade kontrolleras inte.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:102
+js-obs-incident = incident
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:97
+js-obs-incident-note = Angränsande försämrade celler (diagonaler inräknade) bildar en incident. Orsaken till varje incident är: inte tillskriven. Detta är ingen bekräftelse och inte ett NOTAM.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-cells = Publicerade celler
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-day-wide = Dagsomfattande effekt
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-degraded = Försämrad
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-not-degraded = Inte försämrad
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-not-observed = Inte observerad (publicerad)
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-kv-scope = Omfattning
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:178
+js-obs-map-aria = { $summary } Tabellen nedan listar varje cell.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:20
+js-obs-means-degraded = En hög andel av de flygplan som provtogs i cellen rapporterade låg navigeringsnoggrannhet den dagen, tydligt över dagens bakgrundsnivå.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:21
+js-obs-means-not-degraded = Tillräckligt många flygplan provtogs och andelen uppfyllde inte regeln.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:22
+js-obs-means-not-observed = Data medgav ingen bedömning. Detta är inte "klart".
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:122
+js-obs-na = saknas
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-no = nej
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:161
+js-obs-no-cells = Inga celler i den här filen
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:45
+js-obs-no-day-file = Filerna för { $date } har ingen dagsfil (.geojson), så det finns inget att visa för den.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:139
+js-obs-no-degraded = Inga försämrade celler den här dagen.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:47
+js-obs-no-file-read = Ingen fil kunde läsas.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:96
+js-obs-no-incident-file = Ingen incidentfil öppnades för den här dagen.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:118
+js-obs-no-manifest = Inget manifest öppnades för den här dagen, så filerna kan inte kontrolleras mot sina hashvärden.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:129
+js-obs-no-notice = Den här filen har ingen notis. Det rådgivande utlåtandet överst på den här sidan gäller ändå.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:148
+js-obs-no-reason = ingen orsak angiven
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:28
+js-obs-not-clear = Inte observerad är inte klart.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:41
+js-obs-not-readable = { $name }: inte en fil som den här sidan läser (.geojson, .incidents.json, .manifest.json eller .png).
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:68
+js-obs-not-stated = inte angiven
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:138
+js-obs-note-day-wide = Detta var en dag med dagsomfattande effekt: dagens bakgrund var själv hög, så ingen cell kunde bedömas den dagen. Det är inget påstående att himlen var ren.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:141
+js-obs-note-summary-mismatch = Sammanfattningen som filen anger stämmer inte med cellerna den listar; talen visas som de är skrivna.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:47
+js-obs-nothing-yet = Inget att visa än: öppna också dagens .geojson-fil.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:129
+js-obs-notice = Notis som filen bär: { $notice }
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:24
+js-obs-opened-day-file = Öppnade { $days } dag från { $files } fil. Läst här; ingenting laddades upp.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:23
+js-obs-opened-day-files = Öppnade { $days } dag från { $files } filer. Läst här; ingenting laddades upp.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:22
+js-obs-opened-days-file = Öppnade { $days } dagar från { $files } fil. Läst här; ingenting laddades upp.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:21
+js-obs-opened-days-files = Öppnade { $days } dagar från { $files } filer. Läst här; ingenting laddades upp.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:43
+js-obs-read-failed = { $name }: kunde inte läsas ({ $reason }).
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:32
+js-obs-reason-day-wide = dagens bakgrund var själv hög, så ingen cell kunde bedömas den dagen
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:30
+js-obs-reason-insufficient = för få flygplan provtogs för att göra en bedömning
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:31
+js-obs-reason-no-background = det fanns ingen bakgrund för dagen att jämföra cellen med
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:66
+js-obs-release = Släppt tidigast { $when }: produkter publiceras minst { $hours } timmar efter att dagen slutat, på celler om { $deg } grader. Detta är ingen livevy.
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:66
+js-obs-release-default = dagens slut plus fördröjningen
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:113
+js-obs-show-all = Visa alla { $n } celler
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:15
+js-obs-state-degraded = Försämrad
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:16
+js-obs-state-not-degraded = Inte försämrad
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:17
+js-obs-state-not-observed = Inte observerad
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:57
+js-obs-the-day-file = dagsfilen
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:92
+js-obs-the-incident-file = incidentfilen
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:107
+js-obs-the-manifest = manifestet
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:32
+js-obs-too-large = { $name }: större än { $mib } MiB; öppna en mindre fil.
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:131
+js-obs-unstated-number = ett ospecificerat antal
+
+# 2026-10-01-studio-rebuild/lib/observatory.mjs:40
+js-obs-withheld = undanhållet
+
+# 2026-10-01-studio-rebuild/observatory/observatory.js:69
+js-obs-yes-no-call = ja: ingen cell kunde bedömas
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:146
+js-opt-avail-label = Tillgänglighet, tak och tillgänglighet vid klar himmel per plats
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:145
+js-opt-avail-note = Per plats: länkens tillgänglighet mot moln- och turbulensfädning, taket som ingen extra marginal kan lyfta (moln och pekning), och tillgängligheten helt utan moln.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:145
+js-opt-avail-title = Tillgänglighet mot taket
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:146
+js-opt-bar-available = { $name }: tillgänglig
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:146
+js-opt-bar-ceiling = { $name }: tak
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:146
+js-opt-bar-clear-sky = { $name }: klar himmel
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:19
+js-opt-blurb-network = En molnigare nordlig, en mellanliggande central och en klarare sydlig plats ser en optisk LEO-terminal på 30 grader: hur ofta är länken uppe, och vad ger extra platser?
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:20
+js-opt-blurb-techniques = En upplänk på 25 grader i moln och turbulens: vad ger en annan våglängd, en större apertur, adaptiv optik eller mer marginal?
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:128
+js-opt-cloud-episode = molnepisod
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-correlated = korrelerade
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:69
+js-opt-default-bars = staplar
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:80
+js-opt-default-chart = diagram
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:173
+js-opt-direction-wave = { $direction }, våglängd { $wave }
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-diversity-label = Nätverkets tillgänglighet mot antalet platser
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:153
+js-opt-diversity-note = Tillgänglighet för de bästa 1, 2 och 3 platserna, med oberoende väder och med väder korrelerat över { $km } km.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:153
+js-opt-diversity-title = Platsdiversitet
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:174
+js-opt-fact-capture-loss = Geometrisk infångningsförlust
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:173
+js-opt-fact-direction = Riktning
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:173
+js-opt-fact-elevation = Elevation
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:175
+js-opt-fact-footprint = Strålens avtryck
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:174
+js-opt-fact-margin = Marginal utan atmosfär
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:174
+js-opt-fact-received = Mottagen effekt, utan atmosfär
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:175
+js-opt-fact-sensitivity = Mottagarens känslighet
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:173
+js-opt-fact-wavelength = Våglängd
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:155
+js-opt-gain-points = +{ $n } procentenheter
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:133
+js-opt-hours = timmar
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-independent = oberoende
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:127
+js-opt-link-down = länken nere
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:148
+js-opt-margin-label = Extra marginal som krävs för varje tillgänglighetsmål
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:125
+js-opt-margin-line-title = { $name }: länkmarginal, dB
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:147
+js-opt-margin-note = Extra länkmarginal, i dB utöver den nuvarande länken, för varje tillgänglighetsmål; negativ betyder att länken redan har mer än den behöver. Ett mål över en plats tak har ingen marginal som når det (motorn utelämnar det).
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:147
+js-opt-margin-title = Marginal som varje tillgänglighetsmål behöver
+
+# 2026-10-01-studio-rebuild/optical/optical.js:39
+js-opt-model-output = Modellutdata
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:167
+js-opt-na = saknas
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:83
+js-opt-no-data = Inga data i det här resultatet.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:112
+js-opt-no-series = Ingen tidsserie i det här resultatet.
+
+# 2026-10-01-studio-rebuild/optical/optical.js:42
+js-opt-no-source = ingen källa angiven
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:37
+js-opt-not-result = det här är inte ett resultat för optisk atmosfär med platser
+
+# 2026-10-01-studio-rebuild/optical/optical.js:30
+js-opt-open-failed = { $title } kunde inte öppnas: { $reason }.
+
+# 2026-10-01-studio-rebuild/optical/optical.js:20
+js-opt-opening = Öppnar { $title }…
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:150
+js-opt-outage-label = Sannolikhet att ett avbrott varar längre än en given tid
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:149
+js-opt-outage-note = Sannolikhet att ett avbrott varar längre än en given tid, per plats (logaritmisk tidsaxel).
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:149
+js-opt-outage-title = Hur länge avbrott varar
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:96
+js-opt-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
+
+# 2026-10-01-studio-rebuild/optical/optical.js:42
+js-opt-prov = { $label } Platser: { $sites }.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:119
+js-opt-realised-up = { $value } uppe
+
+# 2026-10-01-studio-rebuild/optical/optical.js:28
+js-opt-recorded = { $title }: motorns registrerade resultat (version { $version }). Modellutdata, inte en mätning.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:36
+js-opt-result-not-json = resultatet är inte JSON ({ $reason })
+
+# 2026-10-01-studio-rebuild/optical/optical.js:23
+js-opt-result-not-loaded = det registrerade resultatet lästes inte in
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:110
+js-opt-series-label = Länkmarginal mot tid
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:143
+js-opt-series-note = En realisering med fast frö av den angivna platsmodellen (frö { $seed }, { $hours } h i steg om { $step } s): molnepisoder, en vätskevattenpelare för var och en, ett scintillationsprov per steg. Marginalen är fädningsbudgeten minus moln- och scintillationsfädningarna; länken är nere under 0 dB. Det är en dragning, inte klimatet: dess tillgänglighet skiljer sig från den angivna med dragningens samplingsfel. Marginalen klipps vid −40 dB vid ritning.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:143
+js-opt-series-title = Länkmarginal mot tid
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:119
+js-opt-stated = angiven { $value }
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:129
+js-opt-stripe-cloud = moln
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:129
+js-opt-stripe-down = nere
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:126
+js-opt-stripe-title = { $what }, timme { $from } till { $to }
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:156
+js-opt-techniques-label = Tillgänglighetsvinst per teknik
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:156
+js-opt-techniques-note = Tillgänglighetsvinst i procentenheter över baslinjen, för en plats.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:156
+js-opt-techniques-title = Vad varje teknik ger
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-availability = Tillgänglighet
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-ceiling = Tak
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-clear-air = Förlust i klar luft
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-cloud-prob = Molnsannolikhet (indata)
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-fade-budget = Fädningsbudget
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-latlon = Latitud, longitud
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-mean-outage = Genomsnittligt avbrott
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-outages-year = Avbrott per år
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-scint = Scintillationsindex
+
+# 2026-10-01-studio-rebuild/optical/optical.js:41
+js-opt-th-site = Plats
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:152
+js-opt-timing-label = Tidstillgänglighet per plats och klocka
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:152
+js-opt-timing-note = Andel av all tid som tidsfelet håller sig inom tröskeln, per plats och klockklass: klockans holdover mot avbrottens varaktighet.
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:152
+js-opt-timing-title = Tidssynkronisering som hålls genom avbrotten
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:19
+js-opt-title-network = Tre markplatser, platsdiversitet
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:20
+js-opt-title-techniques = En upplänk, förbättringstekniker
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-x-best-n = bästa n platser
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:150
+js-opt-x-outage-duration = avbrottets längd, h (log)
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:148
+js-opt-x-target = tillgänglighetsmål, %
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:154
+js-opt-y-availability = tillgänglighet, %
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:148
+js-opt-y-extra-margin = extra marginal, dB
+
+# 2026-10-01-studio-rebuild/lib/optical.mjs:150
+js-opt-y-p-longer = P(längre)
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:47
+js-replay-band-calibrating = kalibrerar
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:49
+js-replay-band-degraded = försämrad
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:48
+js-replay-band-nominal = nominell
+
+# 2026-10-01-studio-rebuild/replay/replay.js:89
+js-replay-band-run-ended = { $band } · körningen avslutad
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:50
+js-replay-band-untrusted = ej betrodd
+
+# 2026-10-01-studio-rebuild/replay/replay.js:101
+js-replay-clock = T+{ $t } av { $max }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:235
+js-replay-coast-hidden = kustlinjen dold: den här loggens påhittade positioner hamnar på land
+
+# 2026-10-01-studio-rebuild/replay/replay.js:76
+js-replay-coast-note = Kustlinje: { $source }, endast illustration.
+
+# 2026-10-01-studio-rebuild/replay/replay.js:76
+js-replay-coast-note-hidden = { $reason }.
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:217
+js-replay-coast-window = Natural Earth 1:10 miljoner, fönster { $window }
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:226
+js-replay-coast-world = Natural Earth 1:110 miljoner (världskonturen i Studio), grov
+
+# 2026-10-01-studio-rebuild/replay/replay.js:63
+js-replay-demo-trust-log = { $title } (förtroendelogg)
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-east = öst
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-north = nord
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-south = syd
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:138
+js-replay-dir-west = väst
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:141
+js-replay-dirs-and = { $list } och { $last }
+
+# 2026-10-01-studio-rebuild/replay/replay.js:168
+js-replay-drawing-animation = Ritar animationen…
+
+# 2026-10-01-studio-rebuild/replay/replay.js:177
+js-replay-drawing-frames = Ritar bildrutorna…
+
+# 2026-10-01-studio-rebuild/lib/replay.mjs:140
+js-replay-every-direction = alla riktningar
+
+# 2026-10-01-studio-rebuild/replay/replay.js:149
+js-replay-file-error = { $name }: { $error }
+
+# 2026-10-01-studio-rebuild/lib/kinds.mjs:481
+js-replay-kinds-convergence-horizontal = Konvergens: median av horisontellt fel
