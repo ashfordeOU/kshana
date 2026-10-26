@@ -351,3 +351,71 @@ seg-1a26d420ba67 = 関連項目
 seg-c4f4b2ca0647 = 値
 
 seg-e8968e86f31b = 制限事項
+
+seg-7dc0fcd6ef77 = aocs
+
+seg-c6ced184b8eb = campaign
+
+seg-bcc7452b7e9c = clock
+
+seg-00593bd8a3ed = ephemeris
+
+seg-0cb65c6c4f53 = fusion
+
+seg-dbe8c830ef6c = hybrid
+
+seg-eae62828dc7a = inertial
+
+seg-8af88a0e2a69 = integrity
+
+seg-9a63fde1d8b1 = jamming
+
+seg-f8450911ddd6 = orbit
+
+seg-6dd5a0d55f18 = passes
+
+seg-786068921d01 = pvt
+
+seg-63f112536118 = reentry
+
+seg-f79dad339a1e = spectrum
+
+seg-8ea9f458185d = spoof
+
+seg-460826ea7719 = sweep
+
+seg-55f3ac33d883 = timetransfer
+
+seg-a37260157d35 = 入力
+
+seg-0ffd6d4b0d8c = スキーマ（<c1/>）より：
+
+seg-7a473d2b9b37 = 必須フィールド：なし
+
+seg-0484c5d57886 = 記載なし
+
+seg-619be4963365 = テキスト
+
+seg-15636cc68f72 = フラグ
+
+seg-473eb8189015 = 実行する
+
+seg-8b01aa51263e = 得られるもの
+
+seg-5aa75472f59d = その実行のスカラー結果。単位はエンジンが示すとおりです：
+
+seg-dfd41abc16b5 = 結果
+
+seg-0df8f55cbe06 = deg
+
+seg-4798bca2d7a7 = MODELLED：この種類を挙げている<a1>検証マトリクス</a1>の行。
+
+seg-6338a873ee85 = 実行そのものが検証した行と、マトリクスが各行に示すオラクル（公開ソースはそこに記載されています）：
+
+seg-fe24dcc6971f = <b>MODELLED</b>決定論的、シナリオハッシュ付き、SBOMとクロスプラットフォームのゴールデンゲート。オラクル（ExternalDataset）：公式のCycloneDX { "1.5" } JSON Schema（および有効なSPDX識別子）へのSBOM適合性。これは外部の公開標準であり、依存関係グラフ全体で検証エラーはゼロです。FoMの決定論性とバイト単位の再現性の部分は固定された自己整合性チェックのままであるため、この行はMODELLEDのままです
+
+seg-1fc08d2f0209 = 実行そのものの報告が、モデル化されていない、または検証されていないとしている内容：
+
+seg-58c4d7218e70 = 再現性とソフトウェア保証はMODELLEDであり、独立した外部の参照との照合はされていません。サブクレームの 一つは外部で確認されていますが、機能全体はモデルから計算した要素を組み合わせているため、この機能はモデルから計算したものにとどまります。（検証マトリクス（docs/MODELLED-RATIONALE.md））
+
+seg-1bf3d5817274 = すべての種類：<a1>KINDS.md</a1>

@@ -73,3 +73,5 @@ seg-4b72df59b3f9 = トピックページ：<a1>SSV.md</a1>
 seg-c9ac9a99bcbb = <s1>前へ</s1>gnss-sim
 
 seg-9df48482a140 = <s1>次へ</s1>gravity-map
+
+seg-37d29d8303fe = km

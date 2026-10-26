@@ -41,3 +41,21 @@ seg-d7f1fc7f30a6 = トピックページ：<a1>SPECTRUM.md</a1>
 seg-bd78e9277435 = <s1>前へ</s1>integrity
 
 seg-1d5e7a4b87e9 = <s1>次へ</s1>launch-window
+
+seg-debc2f07db78 = true
+
+seg-8784979d6569 = dBW
+
+seg-37d16b499bc5 = dB
+
+seg-37d29d8303fe = km
+
+seg-cc2ad9e12064 = <b>MODELLED</b>ジオメトリのJ/Sリンクバジェット、耐ジャミングC/N₀、衛星ごとのロックロス。オラクル（InternalConsistency）：耐ジャミングC/N₀ リンクバジェット式を、独立したnumpyによる再導出と照合（同じ閉形式を共有するため → InternalConsistency）。加えて、実際のJammerTest-2024のC/N₀ 劣化の特性評価。{ "0.30" }第{ "2" }ラウンド、ブロック中（MODELLEDのまま）：測定されたJammerTest { "2024" }のC/N0低下を、リンクバジェットの予測（事前登録6a66994b、{ "3" } dB以内）と照合する作業は、F8.1のアンテナ位置と指向が
+
+seg-59afd80736c5 = <b>PARTNER</b>提供しません — Kshanaは信号性能をモデル化するものであり、ペイロード／アンテナのハードウェアではありません。オラクル（NoneKind）：なし：パートナーが所管する分野であり、設計上、モジュールもテストもありません
+
+seg-143f3f1cc521 = GNSSが使えない状況でのジャミングに対するレジリエンスはMODELLEDであり、独立した外部の参照との照合はされていません。自身の閉形式・解析的な恒等式に照らして確認しており、転記や係数の誤りは見つけられますが、外部のオラクルではありません。（検証マトリクス（docs/MODELLED-RATIONALE.md））
+
+seg-ee7dd15019d0 = トピックページ：<a1>CAMPAIGNS.md</a1>
+
+seg-3bc1761c76ab = 同梱のシナリオのうち{ "3" }個がこの種類を使用しています。その他は<a1><c1/></a1>にあります。

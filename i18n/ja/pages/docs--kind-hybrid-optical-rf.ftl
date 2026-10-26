@@ -45,3 +45,11 @@ seg-a97755cb13eb = ファミリーページ：<a1>光学 PNT</a1>
 seg-1586d90cdf1b = <s1>前へ</s1>holdover-test
 
 seg-211275a00df0 = <s1>次へ</s1>hybrid-ukf
+
+seg-debc2f07db78 = true
+
+seg-37d16b499bc5 = dB
+
+seg-98151954f217 = false
+
+seg-619127334cf3 = この種類を名前で挙げているマトリクスの行はありません。その結果のラベルは、上に示したエンジン自身のものです。
