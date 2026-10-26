@@ -31,3 +31,69 @@ seg-8bf45b6989d1 = Diagrammet, som motoren skriver for scenarios/leo-band-trade.
 seg-4f0edb786a35 = Positionsbestemmelse ud fra en 5G-downlink i et ikke-terrestrisk netværk (NTN) i S-båndet for den mobile satellittjeneste (MSS) (3GPP-bånd n256, downlink { "2170" } til { "2200" } MHz; standardbærebølge { "2172.5" } MHz): Cramér-Rao-grænsen (CRB) for ankomsttid, c / ({ "2" } pi beta sqrt({ "2" } (C/N0) T)), hvor beta er den effektive (Gabor-)båndbredde for det flade OFDM-spektrum (B/sqrt({ "12" })), og for Doppler af en kompleks tone, sqrt({ "3" } / ({ "2" } pi^{ "2" } (C/N0) T^{ "3" })), for hvert signal (som standard en New Radio-kanal på { "5" } MHz med { "4.5" } MHz optaget og en smalbåndskanal på { "200" } kHz med { "180" } kHz optaget); derefter, over en vilkårlig LEO-konstellation, positionsbestemmelser ud fra downlinks ankomsttid med et ukendt modtagerur (med seed, hvor grænsen plus en synkroniseringsfejl i netværket er sigma), deres PDOP og formelle 3D-sigma samt en positionsbestemmelse med Doppler fra én satellit over det længste overflyv med højden holdt fast. MODELLED: trinnet fra båndbredde til grænse er den lærebogsagtige lukkede form, kontrolleret mod numerisk integration af de flade og båndbegrænsede BPSK-spektre (intern konsistens, ingen offentliggjort gennemregnet værdi fastlagt), og positionsnøjagtigheden er en grænse på en kanal uden flervejsudbredelse med en angivet synkroniseringsfejl, ikke et opnået resultat.
 
 seg-c200240dd65e = Diagrammet, som motoren skriver for scenarios/ntn-5g-positioning.toml, type ntn-positioning
+
+seg-4e31c8daf798 = Register
+
+seg-6800289a282d = { "7" } scenarietyper i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en safety-of-life-tjeneste. Hver betegnelse her er motorens eller verifikationsmatricens; en type er MODELLED, medmindre matricen angiver andet (hvordan en betegnelse opnås: afsnittet Evidens i README).
+
+seg-23f3c33445d1 = MODELLED { "2" } · VALIDATED { "2" }
+
+seg-02706b96f8fa = MODELLED { "3" } · VALIDATED { "2" }
+
+seg-22eb3a688624 = Kilde: <c1/>
+
+seg-561a783e9516 = Navigation i lav jordbane (scenarietypefamilie)
+
+seg-47751d798019 = Emnesider: <a1>LEO-PNT</a1>, <a2>LEO-SIGNAL</a2>, <a3>LEO-PASS</a3>, <a4>LEO-NAVMSG</a4>. Kør én: <c1/>. Alle familier: <a5>KINDS.md</a5>.
+
+seg-4867ae5d108b = Kontaktark med de diagrammer, som motoren skriver for typerne i familien Navigation i lav jordbane
+
+seg-1e724b481e67 = LEO-PNT-signaludformninger: parametriserede PNT-signaler (positionering, navigation og tidssynkronisering) fra lav jordbane (LEO) for ethvert system, bånd og enhver struktur.
+
+seg-82ad7da67939 = LEO-passage og forbindelsesbudget, bånd for bånd, for LEO-PNT (positionering, navigation og tidssynkronisering fra lav jordbane), systemuafhængigt: en bruger (på jorden, til søs, i luften eller indendørs, statisk eller i bevægelse) og en eller fle
+
+seg-3f28c23605a4 = MODELLED { "7" } · VALIDATED { "5" }
+
+seg-c20a76308fb3 = LEO-navigationsmeddelelse: den udsendte efemeride og det udsendte ur for en PNT-satellit (positionering, navigation og tidssynkronisering) i lav jordbane (LEO), for enhver bane, bærebølge og model, med valgfrie navngivne forudindstillinger (Xona P
+
+seg-04fdaadf1cba = MODELLED { "5" } · VALIDATED { "6" }
+
+seg-06236b581684 = Fusioneret PNT (positionering, navigation og tidssynkronisering) i mellemhøj jordbane (MEO) og lav jordbane (LEO) over ENHVER konstellation: hvert [[system]] er en GNSS-forudindstilling af typen constellation-design, en LEO-forudindstilling
+
+seg-d9e5f4726bbb = Konvergens af præcis punktpositionering (PPP) med kun GNSS og med LEO-augmentation: et float udvidet Kalman-filter på ionosfærefri kode og bærebølgefase med de statiske stationskoordinater, en hel
+
+seg-44f4148f4a5f = Positionering ud fra et 5G-nedlink i et ikke-terrestrisk netværk (NTN) i S-båndet for den mobile satellittjeneste (MSS) (3GPP-bånd n256, nedlink { "2170" } til { "2200" } MHz; standardbærebølge { "2172.5" } MHz): Cramér-Rao-grænsen
+
+seg-1ee838a551ef = Ét LEO-PNT-system (positionering, navigation og tidssynkronisering fra lav jordbane) fra ende til anden, for enhver konstellation og ethvert signal: leo-signal-udformningen navngivet af signal_design (en offentlig forudindstilling eller en inline [s
+
+seg-70d1ac6ddc95 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+
+seg-472d9e86ee20 = <b>Register:</b> MODELLED { "2" } · VALIDATED { "2" }. Fuld side med input, resultater, evidens og begrænsninger: <a1>leo-signal</a1>.
+
+seg-17d1c06ba5c5 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>.
+
+seg-9a7671c30d7e = <b>Register:</b> MODELLED { "7" } · VALIDATED { "5" }. Fuld side med input, resultater, evidens og begrænsninger: <a1>leo-pass</a1>.
+
+seg-cba2c7f7050a = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>.
+
+seg-7ba3e667487d = <b>Register:</b> MODELLED { "5" } · VALIDATED { "6" }. Fuld side med input, resultater, evidens og begrænsninger: <a1>leo-navmsg</a1>.
+
+seg-8ca53a87d092 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>.
+
+seg-389c67090de1 = <b>Register:</b> MODELLED { "3" } · VALIDATED { "2" }. Fuld side med input, resultater, evidens og begrænsninger: <a1>leo-pvt</a1>.
+
+seg-e004092d6056 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>.
+
+seg-e485df9372e6 = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>leo-ppp</a1>.
+
+seg-089266c42199 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>.
+
+seg-e0a3133f468f = <b>Register:</b> VALIDATED. Fuld side med input, resultater, evidens og begrænsninger: <a1>ntn-positioning</a1>.
+
+seg-ea759d0040db = Obligatoriske felter: <c1/>, <c2/>, <c3/>. Valgfrie: <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.
+
+seg-db08b7916378 = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>leo-pnt-chain</a1>.
+
+seg-534d13455a76 = <s1>Forrige</s1>Jamming spoofing og spektret
+
+seg-ec3fb19fb5bd = <s1>Næste</s1>Måne og cislunart rum

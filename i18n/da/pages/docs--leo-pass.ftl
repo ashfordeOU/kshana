@@ -14,6 +14,8 @@ seg-1ff32b87e030 = Satellitter
 
 seg-a6c63abeb7e6 = Medfølgende scenarier
 
+seg-60cd077d82a7 = Model
+
 seg-2b0d77219437 = Forudindstillinger
 
 seg-5566e1d71a4f = Bane
@@ -212,6 +214,8 @@ seg-6cdf9830433e = <c1/> skriver også den interaktive afspiller (<c2/>, passage
 
 seg-d3a0fc36329a = Ionosfærelodning
 
+seg-1e64715af2ff = Hvert båndpar giver også det skrå TEC, som dets geometrifrie kodekombination genfinder ved passagens top, <c1/>, og et 1-sigma for dette estimat ud fra de to bånds kodestøj ved toppen (<c2/>, <c3/>). Estimatet er pr. konstruktion lig med modellens skrå TEC: kombinationen er nøjagtig i første orden. Sigma er det, der gør en bandplan til en bedre eller dårligere lodder: <c4/> (fire bånd over Tromsø) genfinder { "18.85" } TEC-enheder fra hvert par, med et 1-sigma på { "0.017" } TEC-enheder for UHF med L og { "2.9" } for S med C. Kun termisk kodestøj; ingen multipath eller bias mellem frekvenser. MODELLED.
+
 seg-8f59acefb2b3 = Spoofing-overvågning (<c1/>)
 
 seg-91941393400a = Den valgfri sektion <c1/> forfalsker de signaler, som en modtager ville se på en angiven position. Fra <c2/> springer den angivne position med <c3/> og bevæger sig derefter vandret med <c4/> mod <c5/>; den forfalskede afstand og afstandsrate er nøjagtig dem for den angivne position, på de LEO-bånd, der er nævnt i <c6/> (standard alle), og på MEO-GNSS-signalet, medmindre <c7/>. <c8/> angiver, om de forfalskede pseudoafstande bærer den ionosfæriske forsinkelse (en jordsender har den ikke).
@@ -247,6 +251,8 @@ seg-051b8cd1849d = Test
 seg-609c537a9dfd = ITU-R P.838-3 tabel { "5" }, { "115" } frekvenser
 
 seg-5bf24bec38f2 = hver koefficient inden for { "0.6" } af sit sidst trykte ciffer (værst observerede { "0.51" })
+
+seg-86204b023d44 = ITU-R Study Group { "3" } valideringseksempler (CG-3M3J-13-ValEx-Rev8.3.0), P.618-14 regn
 
 seg-13180d4097d1 = { "56" } tilfælde inden for { "1e-4" } dB (observeret { "5e-6" } dB)
 

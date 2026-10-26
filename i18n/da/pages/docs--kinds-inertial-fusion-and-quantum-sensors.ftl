@@ -39,3 +39,73 @@ seg-1bdbf1a737b2 = Diagrammet, som motoren skriver for scenarios/quantum-gnss-fr
 seg-eb55d253dd11 = Afvejning mellem kvante og klassisk PNT ({ "13503" }): fordelen ved holdover for tidssynkronisering + holdover for inerti for et kandidat-ur (en målt ADEV-kurve — forsvarlighedens omdrejningspunkt — eller en kvanteurklasse) mod en klassisk baseline-klasse, hvor forbeholdet om antagelsen for gulvet ved lang tau følger med artefaktet, plus en envelope for modstandsdygtighed mod tid ved GNSS-nægtelse. MODELLED; kvantificerer (validerer aldrig) en partners enhed. Kandidatens ur er en målt kurve (<c1/> + <c2/>, lige lange, mindst { "2" } punkter; den vinder, når begge former er angivet) eller en <c3/>.
 
 seg-c74c63ffd859 = Diagrammet, som motoren skriver for scenarios/quantum-trade.toml, type quantum-trade
+
+seg-4e31c8daf798 = Register
+
+seg-9095869ec445 = { "9" } scenarietyper i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en safety-of-life-tjeneste. Hver betegnelse her er motorens eller verifikationsmatricens; en type er MODELLED, medmindre matricen angiver andet (hvordan en betegnelse opnås: afsnittet Evidens i README).
+
+seg-efd15cff3d32 = MODELLED (resultatbetegnelse)
+
+seg-be0cfeeb1680 = MODELLED { "4" } · VALIDATED { "4" }
+
+seg-d1c67e3dd12e = MODELLED { "1" } · VALIDATED { "2" }
+
+seg-e6f2ab1647e2 = Kilde: <c1/>
+
+seg-23762f3a250b = Inertial, fusion og kvantesensorer (scenarietypefamilie)
+
+seg-6ec3ad751007 = Emnesider: <a1>QUANTUM-MODELS</a1>, <a2>QUANTUM</a2>, <a3>LEO-PNT-FUSION</a3>. Kør én: <c1/>. Alle familier: <a4>KINDS.md</a4>.
+
+seg-0e73a37b716b = Kontaktark med de diagrammer, som motoren skriver for typerne i familien Inertial, fusion og kvantesensorer
+
+seg-c2245de16d5f = MODELLED { "6" } · VALIDATED { "2" }
+
+seg-084cf4eeccb5 = 17-tilstands hybrid kvante+klassisk tæt koblet GNSS/INS UKF (MODELLED): { "15" } INS-fejltilstande + CAI-afledt accelerometerbias-korrektion + et 2-tilstands (fase+frekvens) ur fra q-parameter-urmotoren
+
+seg-a7d3c32b29b3 = INS/TRN-fejlmodel for fri flyvning: positionsfejl mod varighed af fri flyvning, bygget ud fra IMU-koefficienter frem for fejet som en antaget driftrate.
+
+seg-beb568dec44f = MODELLED GNSS-fri kvantenavigation: under et GNSS-udfald et kvante- (koldatom-interferometer) inertialbudget mod et klassisk INS på navigationsniveau — positionsfejlvækst over den frie flyvning, holdover t
+
+seg-d948ea4d1f33 = MODELLED fejl-/anomalidetektion for kvante-PNT-systemer: et mærket fejlkatalog (urets frekvenssprang/-drift/låsetab; sensorbias-trin/udfald), en detektionsstatistik med ROC AUC (med en bootstrap-CI
+
+seg-48e72d451a50 = Afvejning mellem kvante og klassisk PNT ({ "13503" }): fordel i tidssynkroniserings-holdover + inertial holdover for et kandidatur (en målt ADEV-kurve — det forsvarlighedsafgørende punkt — eller en kvanteurklasse) mod en klassisk bas
+
+seg-5330b47bc0b6 = Obligatoriske felter: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. Valgfrie: <c7/>.
+
+seg-75867e8b4b4f = <b>Register:</b> MODELLED { "6" } · VALIDATED { "2" }. Fuld side med input, resultater, evidens og begrænsninger: <a1>inertial</a1>.
+
+seg-fdf140d4ce68 = Obligatoriske felter: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.
+
+seg-44c6371da5f9 = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>hybrid</a1>.
+
+seg-3246c9e1e0cb = Obligatoriske felter: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>. Valgfrie: <c11/>.
+
+seg-e2bd8fd0d9e5 = <b>Register:</b> MODELLED { "4" } · VALIDATED { "4" }. Fuld side med input, resultater, evidens og begrænsninger: <a1>fusion</a1>.
+
+seg-d0790a2643ae = Obligatoriske felter: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. Valgfrie: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>.
+
+seg-85ab600e3050 = <b>Register:</b> ingen matrixrække nævner denne type; motoren betegner selv sit resultat. Fuld side med input, resultater, evidens og begrænsninger: <a1>hybrid-ukf</a1>.
+
+seg-3bbd5ce09bee = Obligatoriske felter: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. Valgfrie: <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>.
+
+seg-08ad3969f65b = <b>Register:</b> ingen matrixrække nævner denne type; motoren betegner selv sit resultat. Fuld side med input, resultater, evidens og begrænsninger: <a1>gnss-ins</a1>.
+
+seg-1703619ca20e = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>.
+
+seg-ab3453d1ee51 = <b>Register:</b> VALIDATED. Fuld side med input, resultater, evidens og begrænsninger: <a1>ins-trn-coast</a1>.
+
+seg-a77cdf6e8e31 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>.
+
+seg-b05e96ce392d = <b>Register:</b> ingen matrixrække nævner denne type; motoren betegner selv sit resultat. Fuld side med input, resultater, evidens og begrænsninger: <a1>quantum-gnss-free-nav</a1>.
+
+seg-3f3e48045d31 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>.
+
+seg-cbefb1538dec = <b>Register:</b> ingen matrixrække nævner denne type; motoren betegner selv sit resultat. Fuld side med input, resultater, evidens og begrænsninger: <a1>quantum-anomaly-detect</a1>.
+
+seg-6eee03151521 = Obligatoriske felter: <c1/>, <c2/>, <c3/>, <c4/>. Valgfrie: <c5/>, <c6/>, <c7/>, <c8/>.
+
+seg-6cb57dc94549 = <b>Register:</b> MODELLED { "1" } · VALIDATED { "2" }. Fuld side med input, resultater, evidens og begrænsninger: <a1>quantum-trade</a1>.
+
+seg-b6c31bdda166 = <s1>Forrige</s1>GPS-nægtet alternativ PNT
+
+seg-0585e4ae329e = <s1>Næste</s1>Jamming spoofing og spektret

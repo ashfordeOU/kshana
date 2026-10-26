@@ -1,5 +1,7 @@
 # docs--hardware-safety: translations (da)
 
+seg-fdbb9db68f1d = ingen
+
 seg-2015f437e669 = Kilde: <c1/>
 
 seg-10c7eaab58c5 = Hardwaresikkerhed: hvad Kshana gør med hardware, og hvad den aldrig gør

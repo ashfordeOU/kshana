@@ -6,6 +6,8 @@ seg-37d16b499bc5 = dB
 
 seg-98151954f217 = false
 
+seg-619127334cf3 = Ingen matrixrække nævner denne type ved navn; mærkaten på dens resultat er motorens egen, ovenfor.
+
 seg-0482fec5b0f6 = Kilde: <c1/>
 
 seg-830c574e871b = <c1/> (scenarietype)

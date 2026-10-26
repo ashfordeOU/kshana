@@ -8,6 +8,18 @@ seg-d1c11e493795 = Parametersweeps og seedede Monte Carlo-ensembler over enhver 
 
 seg-cb91473bfdda = Emneside: <a1>LEO-PNT.md</a1>
 
+seg-c61e88721556 = Scenarietype i motoren v{ $version }, familie <a1>Ure, tidssynkronisering og holdover</a1>. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life). Hver mærkat her er motorens eller verifikationsmatrixens; en type er MODELLED, medmindre matrixen siger andet (hvordan en mærkat opnås: README'ens afsnit Evidence).
+
+seg-a8d92406e428 = Strontium-optisk gitterur, rumorienteret mål sigma_y
+
+seg-5278ccdaf16f = <b>MODELLED</b> Lukket form for vækst i fejl under frit løb + holdover til tærskel; kvanteurklasser. Uafhængig reference (ReferenceImpl): Flertrins clock_state-kovariansrekursion (krydskontrol i samme kodebase); selve kernen for frit-løb-varians og holdover-inversion er eksternt valideret mod scipy (se 'Clock-holdover coast-variance & threshold inversion'). Tallene for holdover pr. klasse ved rødstøjsgulvet forbliver MODELLED
+
+seg-e12f672ae71d = Ur-holdover i GNSS-nægtede miljøer er MODELLED, ikke valideret: kontrolleret mod en separat implementering i denne samme kodebase — uafhængig af den enhed, der afprøves, men ikke eksternt autoritativ. (verifikationsmatrix (docs/MODELLED-RATIONALE.md))
+
+seg-849c08d3ce70 = Familieside: <a1>Ure, tidssynkronisering og holdover</a1>
+
+seg-ee7dd15019d0 = Emneside: <a1>CAMPAIGNS.md</a1>
+
 seg-0aae0574c5e6 = <b>MODELLED</b> Tilgængelighedssweepene i <c1/>-typen: pr. konstellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) og samlet andelen af (bruger, epoke)-par med mindst ét og mindst fire signaler og det længste udfald, for en bruger på en kugle
 
 seg-8b701f465117 = log

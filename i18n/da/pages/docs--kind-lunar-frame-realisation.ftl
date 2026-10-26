@@ -6,6 +6,8 @@ seg-1f17ef6a853e = Scenarietype i motoren v{ $version }, familie <a1>Måne og ci
 
 seg-1c1eeb2dcaa0 = Familieside: <a1>Måne og cislunart rum</a1>
 
+seg-619127334cf3 = Ingen matrixrække nævner denne type ved navn; mærkaten på dens resultat er motorens egen, ovenfor.
+
 seg-49f323360dc3 = <b>VALIDATED</b> Tilpasning af Helmert-referencesystem med 7 parametre + ICRF-orienteringsforbindelse ud fra et net af punkter. Uafhængig reference (ExternalDataset): Uafhængig vægtet Umeyama-løser (Horn) for similaritetstransformation i lukket form (numpy/scipy, SVD-baseret; Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A) — en anden algoritme end kshanas iterative Gauss–Newton-tilpasning, der når samme entydigt definerede vægtede LS-optimum på byte-identiske punktnet
 
 seg-0225ace73ba8 = Kilde: <c1/>

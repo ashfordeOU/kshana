@@ -12,6 +12,8 @@ seg-a44edb1eb84d = kg
 
 seg-8e62cc4af6ea = Emneside: <a1>ENTRY-EO-ASCENT.md</a1>
 
+seg-d72b4c5393e0 = earth
+
 seg-13b9e9187ab9 = Kilde: <c1/>
 
 seg-3a3f732cc2dd = <c1/> (scenarietype)

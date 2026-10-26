@@ -6,6 +6,8 @@ seg-37d29d8303fe = km
 
 seg-cb91473bfdda = Emneside: <a1>LEO-PNT.md</a1>
 
+seg-3bc1761c76ab = { "3" } medfølgende scenarier bruger denne type; de øvrige findes i <a1><c1/></a1>.
+
 seg-a3697ad561db = Hz
 
 seg-1918189ac2bf = ppm

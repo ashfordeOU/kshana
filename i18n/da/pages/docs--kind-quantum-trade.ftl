@@ -4,6 +4,8 @@ seg-debc2f07db78 = true
 
 seg-98151954f217 = false
 
+seg-7400f24ec992 = MODELLED { "1" } · VALIDATED { "2" }: rækkerne i <a1>verifikationsmatrixen</a1>, som nævner denne type.
+
 seg-7b2721b7588d = Scenarietype i motoren v{ $version }, familie <a1>Inertial-, fusions- og kvantesensorer</a1>. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life). Hver mærkat her er motorens eller verifikationsmatrixens; en type er MODELLED, medmindre matrixen siger andet (hvordan en mærkat opnås: afsnittet Evidens i README).
 
 seg-f7f12029e0ec = Familieside: <a1>Inertial-, fusions- og kvantesensorer</a1>

@@ -4,6 +4,12 @@ seg-f42465f7d066 = ns
 
 seg-37d16b499bc5 = dB
 
+seg-c61e88721556 = Scenarietype i motoren v{ $version }, familie <a1>Ure, tidssynkronisering og holdover</a1>. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life). Hver mærkat her er motorens eller verifikationsmatrixens; en type er MODELLED, medmindre matrixen siger andet (hvordan en mærkat opnås: README'ens afsnit Evidence).
+
+seg-849c08d3ce70 = Familieside: <a1>Ure, tidssynkronisering og holdover</a1>
+
+seg-619127334cf3 = Ingen matrixrække nævner denne type ved navn; mærkaten på dens resultat er motorens egen, ovenfor.
+
 seg-a3697ad561db = Hz
 
 seg-496b17a8d3b9 = Emneside: <a1>QUANTUM-MODELS.md</a1>

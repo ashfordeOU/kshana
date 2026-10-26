@@ -27,3 +27,55 @@ seg-2721ed7727bb = Diagrammet, som motoren skriver for scenarios/realtime-frame-
 seg-5f25c5b71f0c = Model af rumvejrsmiljøet: indekser for solaktivitet (F10.7/F10.7a) og geomagnetisk aktivitet (Kp, med den definitoriske tabel Kp↔ap), den eksosfæriske temperatur efter Jacchia-1971, som de driver (valideret mod offentliggjort solminimum/middel/solmaksimum), og den termosfæriske neutrale tæthed efter Jacchia-1971 ved den eksosfæriske middeltemperatur over døgnet mod den aktivitetsfrie statiske profil ved et sæt højder — den afhængighed af solcyklussen i tætheden, som den statiske atmosfære udelader. MODELLED: tætheden stemmer med accelerometerafledte tætheder (TOLEOS CHAMP og GRACE) inden for en faktor { "2" } ved solmaksimum, men er omkring 1.7x for høj i solminimum { "2008" }.
 
 seg-c1c6f2f73fb5 = Diagrammet, som motoren skriver for scenarios/space-weather.toml, type space-weather
+
+seg-4e31c8daf798 = Register
+
+seg-d1c67e3dd12e = MODELLED { "1" } · VALIDATED { "2" }
+
+seg-c9cf40c5e609 = Kilde: <c1/>
+
+seg-569fac649b5d = GNSS-målinger, positionering og integritet (scenarietypefamilie)
+
+seg-63c3a7483268 = { "6" } scenarietyper i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en safety-of-life-tjeneste. Hver betegnelse her er motorens eller verifikationsmatricens; en type er MODELLED, medmindre matricen angiver andet (hvordan en betegnelse opnås: afsnittet Evidens i README).
+
+seg-33a602147cc2 = Emnesider: <a1>INTEGRITY</a1>, <a2>POSITIONING</a2>, <a3>ARAIM_REFERENCE</a3>, <a4>OSNMA</a4>. Kør én: <c1/>. Alle familier: <a5>KINDS.md</a5>.
+
+seg-9c60c8803b6b = Kontaktark med de diagrammer, som motoren skriver for typerne i familien GNSS-målinger, positionering og integritet
+
+seg-045ecd7c036f = MODELLED { "6" } · VALIDATED { "4" }
+
+seg-6698e12e148b = Enkeltpunktspositionering ud fra reelle observationer: løs en modtagers position ud fra en RINEX { "3" }-observationsfil og en broadcast-navigationsfil (kodepseudoafstande, broadcast-efemeride, Klobuchar-iono, Saastamo
+
+seg-da89c260b1a3 = Offentliggjorte ARAIM-referencevektorer til certificering: motorens ARAIM-beskyttelsesniveauer, horisontalt og vertikalt, kørt mod ARAIM Technical Subgroups under WG-C EGNE gennemregnede numeriske eksempler, ved tolerancen
+
+seg-7a750a89c9c4 = Rumvejrsmiljømodel: sol- (F10.7/F10.7a) og geomagnetiske (Kp, med den definitoriske Kp↔ap-tabel) aktivitetsindeks, den eksosfæriske Jacchia-1971-temperatur, de driver (valideret mod publiceret
+
+seg-d79d4d58275b = Budget for realtidsprædiktion af månens referencesystem/jordorientering: P4 Table { "1" } (konsistenskontrollen af systemfejl — efterbehandlet ~{ "0.27" } m ↔ ~{ "0.010" } ms og realtid ~{ "15" } m ↔ ~{ "0.5" } ms, hver systemposition udtrykt
+
+seg-dc783268156c = Obligatoriske felter: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>. Valgfrie: <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
+
+seg-7b110aacdb27 = <b>Register:</b> MODELLED { "6" } · VALIDATED { "4" }. Fuld side med input, resultater, evidens og begrænsninger: <a1>integrity</a1>.
+
+seg-d444fb35cae9 = Obligatoriske felter: <c1/>, <c2/>, <c3/>, <c4/>. Valgfrie: <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
+
+seg-b651ec58bcba = <b>Register:</b> VALIDATED. Fuld side med input, resultater, evidens og begrænsninger: <a1>gnss-sim</a1>.
+
+seg-b9a21187317d = Obligatoriske felter: <c1/>, <c2/>. Valgfrie: <c3/>, <c4/>, <c5/>, <c6/>.
+
+seg-143dc4fd1d44 = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>pvt</a1>.
+
+seg-9ca1f6783e8e = Obligatoriske felter: ingen. Valgfrie: <c1/>.
+
+seg-415f1fa78518 = <b>Register:</b> VALIDATED. Fuld side med input, resultater, evidens og begrænsninger: <a1>araim-reference-check</a1>.
+
+seg-6c4655b35c65 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>.
+
+seg-1e5052c0bce7 = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>space-weather</a1>.
+
+seg-64c512530ee6 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>.
+
+seg-1c244958d3c4 = <b>Register:</b> MODELLED { "1" } · VALIDATED { "2" }. Fuld side med input, resultater, evidens og begrænsninger: <a1>realtime-frame-eop</a1>.
+
+seg-d4adf4283480 = <s1>Forrige</s1>Konstellationer dækning og geometri
+
+seg-2cdfd7f8bfb3 = <s1>Næste</s1>GPS-nægtet alternativ PNT

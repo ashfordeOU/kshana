@@ -4,6 +4,8 @@ seg-1f17ef6a853e = Scenarietype i motoren v{ $version }, familie <a1>Måne og ci
 
 seg-1c1eeb2dcaa0 = Familieside: <a1>Måne og cislunart rum</a1>
 
+seg-619127334cf3 = Ingen matrixrække nævner denne type ved navn; mærkaten på dens resultat er motorens egen, ovenfor.
+
 seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM-løsningsseparation med flere hypoteser efter ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels og add_v42_protecti. Uafhængig reference (ExternalDataset): Tre uafhængige værktøjer, præregistreret (0123cee1), før noget fixture- eller referenceoutput fandtes, med tolerancer fastsat dengang. ({ "1" }) ARAIM: Stanford MAAST for ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, kørt som et separat program under GNU Octave { "8.4" } med en kompatibilitets-shim for unique() på driversiden (oplyst, ingen algoritmeændring), ved ADD TOL_PL på { "0.05" } m: Rust gengiver ADD-referenceimplementeringen på
 
 seg-8ed008b206de = Kilde: <c1/>

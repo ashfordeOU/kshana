@@ -59,3 +59,105 @@ seg-b0109481e8ff = Diagrammet, som motoren skriver for scenarios/reentry.toml, t
 seg-de2448d74c2b = Indramning efter CCSDS 133.0-B Space Packet Protocol: kodér en syntetisk TM/TC-pakkestrøm (primær header på 6 oktetter + datafelt) og rapportér afkodningen af headeren for hver pakke, samlet antal oktetter og en nøjagtig rundtur mellem kodning og afkodning. Deterministisk indramning med nøjagtigt bitlayout — organisationernes lag for interoperabilitet mellem pakkeformater; IKKE en certificering af overensstemmelse (ingen logik for sekundær header, CRC eller segmentering ud over flagene).
 
 seg-af1cf9aa9938 = Diagrammet, som motoren skriver for scenarios/space-packet.toml, type space-packet
+
+seg-4e31c8daf798 = Register
+
+seg-436e412d99fd = MODELLED { "1" } · VALIDATED { "1" }
+
+seg-69ee217ed8e0 = Kilde: <c1/>
+
+seg-f5091cbeecbf = Missionsanalyse, forbindelser og rumoperationer (scenarietypefamilie)
+
+seg-d0eea6d9d1ad = { "14" } scenarietyper i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en safety-of-life-tjeneste. Hver betegnelse her er motorens eller verifikationsmatricens; en type er MODELLED, medmindre matricen angiver andet (hvordan en betegnelse opnås: afsnittet Evidens i README).
+
+seg-6481dabc9458 = Emnesider: <a1>ENTRY-EO-ASCENT</a1>, <a2>CONTACT-SCHEDULING</a2>, <a3>AOCS</a3>. Kør én: <c1/>. Alle familier: <a4>KINDS.md</a4>.
+
+seg-d6c5a581ffaf = Kontaktark med de diagrammer, som motoren skriver for typerne i familien Missionsanalyse, forbindelser og rumoperationer
+
+seg-8d65a4a1948d = Tolegemeopsendelse og opstigningsgeometri: opsendelsesazimut(er) (sin Az = cos i / cos lat), mindste nåbare inklinering, cirkulær hastighed, jordrotationens østlige bonus, dogleg-Δv til planskift, når mål
+
+seg-dd47e755d262 = Plan opstigning med gravity turn for et flertrinsfartøj over en ikke-roterende sfærisk Jord gennem US Standard Atmosphere { "1976" } (lodret stigning, pitch kick, thrust langs hastigheden), der integrerer gravi
+
+seg-cc88f37328a3 = Allen-Eggers ballistisk genindtrædelseskorridor: maksimal deceleration (uafhængig af den ballistiske koefficient, V_e^{ "2" } sin/γ//(2eH)), hastigheden og højden ved peak-g og hastigheden ved maksimal opvarmning, for en indtrædelseshastighed
+
+seg-8ad7c34d8c25 = 3-DoF-punktmasse-atmosfæreindtræden over en roterende sfærisk Jord eller Mars (ballistisk eller løftende ved konstant krængning), RK4, gennem US76, en eksponentiel eller Mars-atmosfæren, med Sutton-Graves-stagnation
+
+seg-efe896d3f43b = Fodaftryk og dækningsgeometri for en jordobservationsnyttelast (SMAD-rumtrekant): Jordens vinkelradius, svathbredde, nadir jordprøveafstand, maksimal off-nadir-adgang, cirkulær periode, J2-knudeperiode
+
+seg-d3d9652fd8a0 = Radiometri og billedkvalitet for en nadir-billeddanner: radians ved aperturen for en lambertsk scene, kameraligningen, signal og shot-/mørk-/udlæsnings-/kvantiseringsstøj og SNR; systemets MTF ved Nyquist (diffraktion
+
+seg-1940d5c75a98 = 3-DOF-attitude- og pegefejlbudget: det værste tilfælde af forstyrrende gravitationsgradientmoment ((3/2)(μ/R³)ΔI) og et rod-sum-kvadrat-pegefejlbudget over navngivne 1σ-bidragydere (sensorstøj, reaktions
+
+seg-e00d18fbb52b = Rumfartøjets attitudestyring: en inertial pegedrejning af et stift hub med tre eller flere afbalancerede reaktionshjul under MRP-feedback (L = -K sigma - P omega), hjulmomenter med mindste norm, begrænset til hvert
+
+seg-496fa280de7b = Envejs forbindelsesbudget efter CCSDS { "401" } / DSN 810-005-forbindelsesligningen: fri-rums-dæmpning, C/N₀, Eb/N₀, margin og lukning for en sende-EIRP, modtage-G/T, afstand, datarate og bånd (s/x/ka) mod en
+
+seg-f0aca7ea1ffa = Én satellit over én station: hver passages skrå afstand, elevation og Es/N0 langs passagen, den DVB-S2 MODCOD, der vælges i hvert trin (ETSI EN { "302" } 307-1 Table { "13" } tærskler plus en implementeringsmargin)
+
+seg-44c4890ba07e = Planlægning af jordkontakter for flere satellitter over flere stationer: tilsyneladende adgangsvinduer (SGP4, IAU 2006/2000A jordfast ramme, ITU-R P.834-refraktion, lystid), DVB-S2 ACM-datavolumen o
+
+seg-19ab136e9f9b = Aperturdriftscyklus: den tidsdeling mellem navigation og kommunikation, en kontaktplan medfører for en pulje af styrbare apertures.
+
+seg-ee0c649ca8b2 = CCSDS 133.0-B Space Packet Protocol-framing: kod en syntetisk TM/TC-pakkestrøm (6-oktet primær header + datafelt) og rapportér dekodning af header pr. pakke, samlet antal oktetter og en eksakt encode↔deco
+
+seg-e561f3a749db = CCSDS OEM-interoperabilitetsbro: importér en Orbit Ephemeris Message produceret af et eksternt flight-dynamics-værktøj (GMAT/Orekit/STK udsender alle OEM) og rapportér dens segmenter/objekter/rammer/epokespænd plus
+
+seg-1f074d7beccc = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+seg-8f65824c39c5 = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>launch-window</a1>.
+
+seg-2926bde689d3 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+
+seg-66f6489411d0 = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>ascent-losses</a1>.
+
+seg-481ce1d98bc7 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+seg-fff98550eb48 = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>reentry</a1>.
+
+seg-9cf8d4b6064f = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>.
+
+seg-84e1bddcbc95 = <b>Register:</b> MODELLED { "1" } · VALIDATED { "1" }. Fuld side med input, resultater, evidens og begrænsninger: <a1>entry-heating</a1>.
+
+seg-eab43348803e = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>.
+
+seg-9c6ce756a89a = <b>Register:</b> VALIDATED. Fuld side med input, resultater, evidens og begrænsninger: <a1>eo-coverage</a1>.
+
+seg-cd84a7bdbe57 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>.
+
+seg-320d724ac797 = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>eo-radiometry</a1>.
+
+seg-905487bf50f1 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>.
+
+seg-14511e367361 = <b>Register:</b> VALIDATED. Fuld side med input, resultater, evidens og begrænsninger: <a1>attitude-budget</a1>.
+
+seg-540fa1932dad = Obligatoriske felter: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. Valgfrie: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>.
+
+seg-6d2e9b9ce87f = <b>Register:</b> MODELLED { "1" } · VALIDATED { "1" }. Fuld side med input, resultater, evidens og begrænsninger: <a1>aocs</a1>.
+
+seg-3345731b5729 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+
+seg-f8b896b81014 = <b>Register:</b> MODELLED { "1" } · VALIDATED { "1" }. Fuld side med input, resultater, evidens og begrænsninger: <a1>link-budget</a1>.
+
+seg-e38e356f4b71 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+
+seg-eed876ed5aab = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>acm-link</a1>.
+
+seg-5fddd2460fb0 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+
+seg-58d00faa1eda = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>contact-schedule</a1>.
+
+seg-5d4f6861f301 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>.
+
+seg-1e06e06d4325 = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>aperture-duty-cycle</a1>.
+
+seg-9bb424e01c84 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>.
+
+seg-688071019c9e = <b>Register:</b> VALIDATED. Fuld side med input, resultater, evidens og begrænsninger: <a1>space-packet</a1>.
+
+seg-03c06f9fdc85 = Obligatoriske felter: ingen. Valgfrie: <c1/>.
+
+seg-568c484ce9a0 = <b>Register:</b> VALIDATED. Fuld side med input, resultater, evidens og begrænsninger: <a1>oem-interop</a1>.
+
+seg-41996765fcf1 = <s1>Forrige</s1>Måne og cislunart rum
+
+seg-1951c46fe429 = <s1>Næste</s1>Optisk PNT

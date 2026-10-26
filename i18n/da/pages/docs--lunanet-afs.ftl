@@ -2,6 +2,8 @@
 
 seg-33f4c7af9c53 = Bærebølge
 
+seg-53a7343c076e = Påstand
+
 seg-da9970bcbab7 = Kilde: <c1/>
 
 seg-4013a17a3517 = LunaNet Augmented Forward Signal: koder, meddelelsesformat og <c1/>

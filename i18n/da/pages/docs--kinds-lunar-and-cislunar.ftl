@@ -10,6 +10,8 @@ seg-2fe411ae2153 = Diagrammet, som motoren skriver for scenarios/cislunar-arc-re
 
 seg-7ccd0a3babb8 = MODELLED observerbarhed for en plan cislunar konstellation (P6): sporer en differentialkorrigeret konstellation af fire rumfartøjer i plane DRO'er med afstandsmåling mellem satellitter og rapporterer, hvor stor en del af et rumfartøjs firetilstand [x,y,ẋ,ẏ] buen gør observerbar. Udsender ({ "1" }) tabellen rang-mod-buelængde for et enkelt link med kun afstand — øjeblikkeligt rang 1, voksende mod den fulde firetilstand, efterhånden som buen forlænges (P6 Table { "1" }); ({ "2" }) observerbarhedsgramianens egenspektrum + konditionstal over buen; ({ "3" }) sammenligningen af øjeblikkelig rang for kun afstand mod afstand+afstandsrate (Doppler-designgrebet) plus rapporteringen af GDOP, der er singulær for kun afstand og defineret for afstand+rate; og ({ "4" }) en uafhængig SRIF-krydsvalidering, hvis posteriore kovarians bliver endelig / velkonditioneret netop ved den bue, hvor den observerbare rang når fire. VALIDATED kerne: den observerbare rang er en rangafslørende tærskel på singulærværdier, krydskontrolleret mod Gramianens egenrang; egenspektret overholder de spektrale invarianter (trace=Σλ, det=Πλ, Frobenius²=Σλ²); den variationelle STM er den STM for CR3BP, der er valideret med differenskvotienter; rækkerne i jacobianen for afstand/afstandsrate er analytiske partielle afledede valideret med differenskvotienter (krydskontrolleret mod crate'ens 3D-observabel for afstandsrate); de fire begyndelsesbetingelser er differentialkorrigerede plane DRO'er, der lukker til et snævert periodicitetsresidual og er retrograde; rangovergangen er krydsvalideret mod crate'ens kvadratrodsinformationsfilter (posterior kovarians endelig netop ved fuld rang, cond(P)=cond(OᵀO)); et rangdefekt snapshot markeres som GDOP-udefineret (fim condition=inf), aldrig som en falsk endelig værdi — den samme singulære-geometri-vagt som pvt::solve_spp anvender. MODELLED: konstellationsdesignet (DRO-perilune-amplituder og -faser) og det specifikke rangforløb, det frembringer. Ikke et certificeret navigationsydelsesprodukt.
 
+seg-f15bbf30b0dd = Diagrammet, som motoren skriver for scenarios/cislunar-observability.toml, type cislunar-observability
+
 seg-c8a8be4b8894 = Modtagelse af Jord-GNSS på månens afstand, det svagsignal-lag, som artiklen om modstandsdygtighed i konflikt nævner, og som motoren ikke havde nogen model for. En GNSS-satellit peger sin antenne mod Jorden; en modtager nær Månen sidder cirka femten gange baneradius væk, så tre ting slår igennem på én gang. Jorden SKJULER BORESIGHT: fra { "26,560" } km spænder den en halv vinkel på { "13.9" } deg, så enhver stråle mod Månen skal forlade senderen mindst så langt fra nadir, hvilket fjerner strålens top, før nogen effekt overhovedet beregnes. Det, der er tilbage, er HOVEDLOBENS KANT OG SIDELOBERNE, det regime, som LuGRE-nyttelasten faktisk arbejdede i under { "2025" }. Og frirumstabet er cirka { "208" } dB ved L1, omtrent { "25" } dB mere, end en jordbaseret bruger betaler. Rapporten udsender én række pr. satellit (vinkel uden for boresight, Jord-okkultation, afstand, vejtab, senderforstærkning ved den vinkel, modtaget effekt, forhold mellem bærebølge og støjtæthed) og aggregerer kun de links, der overstiger sporingstærsklen. DEN RAPPORTERER OGSÅ KONDITIONERINGEN, fordi det er det, der definerer dette lag: hver synlig satellit ligger inden for en kegle på et par grader set fra Månen, så sigtelinjerne er næsten parallelle, præcisionsudvandingen er enorm, og en Jord-GNSS-positionsbestemmelse på månens afstand er en observation af tidssynkroniseringskvalitet langt mere end af positionskvalitet. MODELLED, og senderens mønster er grunden: forstærkningen ved en vinkel er en ensartet cirkulær apertur (Airy), mens en rigtig GPS L1-antenne er en tolvelements helixarray med en formet hovedlobe og ikke-Airy-sidelober. Målte mønstre findes og er ikke medleveret her, så rækkefølger og størrelsesordener er meningsfulde, mens dB for en enkelt satellit ikke er. Bevidst FRAVÆRENDE, hver især med det resultat, at budgettet bliver optimistisk: intet ionosfærisk eller troposfærisk tab på de stråler, der strejfer randen, intet tab ved polarisation, pegning eller implementering, og en kugleformet Jord uden refraktiv udvidelse. Månens position er et INPUT (afstand plus inertial retning) frem for et efemeridenopslag, fordi størrelsen under test er linket og stråle-geometrien. At opgradere denne række til Validated kræver et målt sendermønster og LuGRE-normalpunkter; ingen af delene findes i repositoriet, og ingen af dem er opfundet her.
 
 seg-cf1dce5fc824 = Diagrammet, som motoren skriver for scenarios/earth-gnss-lunar.toml, type earth-gnss-lunar
@@ -81,3 +83,147 @@ seg-07d97fc1abac = Diagrammet, som motoren skriver for scenarios/lunar-vlbi.toml
 seg-28c6a5644152 = Modelleret analyse af servicevolumen for månenavigation ud fra en ILLUSTRATIV konstellation i månebane af typen Moonlight/LCNS baseret på offentlige kilder (ikke tilknyttet ESA): den gennemløber et selenografisk bredde-/længdegradsgitter over en tidshorisont og rapporterer DOP, dækning og tilgængelighed (≥{ "4" } sat. OG PDOP < tærskel) samt en generaliseret ARAIM-beskyttelsesniveau-envelope (HPL/VPL) for månen over volumenen. DOP-geometrien GENBRUGER den VALIDATED kerne fra gnss_lib_py (crate::orbit::dop); beskyttelsesniveauet GENBRUGER LunaNets LNIS-maskineri til ARAIM på månen (crate::lunar, σ_URE≈{ "30" } m) og reduceres til det eksisterende PL ved sydpolen som et specialtilfælde. MODELLED sammensætning: et relæsæt med cirkulære/elliptiske Kepler-baner (ikke den reelle differentialkorrigerede LCNS/NRHO-efemeride), en måne med middelrotation (ingen libration og ingen præcederende pol). Deterministisk (ren geometri). Ingen TRL, flyvehistorik eller anbefaling fra en rumfartsorganisation.
 
 seg-edb738273a3a = Diagrammet, som motoren skriver for scenarios/moonlight-service-volume.toml, type moonlight-service-volume
+
+seg-4e31c8daf798 = Register
+
+seg-efd15cff3d32 = MODELLED (resultatbetegnelse)
+
+seg-06f082922143 = MODELLED { "2" } · VALIDATED { "3" }
+
+seg-02706b96f8fa = MODELLED { "3" } · VALIDATED { "2" }
+
+seg-a240ef37dc6d = Kilde: <c1/>
+
+seg-befef5f2f8dd = Måne og cislunart rum (scenarietypefamilie)
+
+seg-f964724ea446 = { "20" } scenarietyper i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en safety-of-life-tjeneste. Hver betegnelse her er motorens eller verifikationsmatricens; en type er MODELLED, medmindre matricen angiver andet (hvordan en betegnelse opnås: afsnittet Evidens i README).
+
+seg-369e7cfcc1d3 = Emnesider: <a1>LUNAR-REFERENCE-STATION</a1>, <a2>LUNAR-INFRASTRUCTURE</a2>, <a3>LUNANET-AFS</a3>. Kør én: <c1/>. Alle familier: <a4>KINDS.md</a4>.
+
+seg-15b8e26dc24b = Kontaktark med de diagrammer, som motoren skriver for typerne i familien Måne og cislunart rum
+
+seg-fd2a12be04c2 = ARAIM-beskyttelsesniveauer ved månens sydpol mod et repræsentativt LunaNet-relæsæt.
+
+seg-240eb5858113 = Modelleret relativistisk ur-rate mellem Jorden og Månen (Lunar Coordinate Time, LTC/TCL): den sekulære LTC−TT-rate ud fra forskellen i selvpotentiale og Månens kinetiske led, rapporteret med de offentliggjorte { "56" }–{ "59" }
+
+seg-177bff8d753e = MODELLED end-to-end tidsfejlbudget for Coordinated Lunar Time (LTC): de syv LTC-fejlled samlet som tidsfejlkurver x_i(τ) over et helt middelværditidsgitter, kvadratisk summeret til x_Σ(τ), og c
+
+seg-df0437ef8324 = Modelleret observabel for månegeodætisk VLBI-forsinkelse: en jordbaseline (to jordstationer, GCRS) observerer et envejssignal fra et fyrtårn af NovaMoon-klassen på månens overflade.
+
+seg-528223b4d676 = MODELLED { "3" } · VALIDATED { "3" }
+
+seg-38254487fb7f = Kovarians af stationskoordinater for måne-VLBI: forsinkelsespartialerne for lunar-vlbi-observablen akkumuleret over en eksplicit PLAN (baselines x epoker) til en Fisher-informationsmatrix, inverteret og rapp
+
+seg-23706714da99 = Modelleret fælles multi-teknik-estimator i batch for månens banebestemmelse og ur på et SIMULERET netværk: en Gauss-Newton-snapshottilpasning, der fusionerer geodætiske VLBI-forsinkelser på jordbaseline, lokale afstande på Månen mellem station og satellit
+
+seg-2359450b3967 = Modelleret realisering af månens referencesystem: en 7-parameter Helmert- (similaritets-) datumtilpasning — { "3" } translation, { "3" } småvinkelrotation, { "1" } skala — der binder et estimeret sæt af selenografisk afledte MCMF-punkt
+
+seg-2a5af9961e99 = Syvparameter Helmert- (similaritets-) referencesystemdatum drevet af en SIMULERET OBSERVATIONSKAMPAGNE frem for af en injiceret transformation.
+
+seg-3615bea1ea75 = Syvparameter Helmert-datum for månens referencesystem drevet af en REEL, ARKIVERET observationskampagne frem for en simuleret.
+
+seg-5413116b8b42 = Modelleret analyse af månens navigationsservicevolumen ud fra en ILLUSTRATIV konstellation i månebane af Moonlight/LCNS-klassen fra offentlige kilder (ikke tilknyttet ESA): fejer et selenografisk bredde-/længdegradsgitter over
+
+seg-a0e202b3566c = Modelleret DIFFERENTIEL PNT på Månen (en månens DGNSS/SBAS-analog): en referencestation af NovaMoon-klassen på et KENDT selenografisk sted beregner differentialkorrektioner pr. satellit ud fra en ILLUSTRATIV
+
+seg-ed4ec8b6378c = Modelleret dækning af månens referencestation: en Monte Carlo-fejning af månens differentielle PNT-model over et sydpolart brugergitter og et døgn af epoker.
+
+seg-aeec32be6092 = Overflade-fyrtårnsaugmentation af en navigationstjeneste i månebane, som en kørbar før/efter-tabel.
+
+seg-b28693368acd = Modelleret eksport til månens interoperabilitet: udsender månens referencesystem, månens tidsskala og månens efemeride i LunaNet/IOAG-tilpassede, CCSDS-baserede udvekslingsformer med round-trip- / feltformatkontrol
+
+seg-d88605893c05 = MODELLED observerbarhed for en plan cislunar konstellation (P6): sporer en konstellation af fire rumfartøjer i differentialkorrigerede plane DRO-baner med afstandsmåling mellem satellitterne og rapporterer, hvor meget af et rumfartøjs
+
+seg-8eaec90d1df5 = MODELLED test med uafhængig estimator af tærsklen for bueslængde-observerbarhed i det cislunare rum.
+
+seg-9619b3d699c6 = Angrebsflade for signalsikkerhed ved navigation på månens overflade (P1): sammensætter de åbne signalsikkerhedsanalyser til én kørsel, der kan nås fra binæren.
+
+seg-64c78e211181 = RF-jamming native til Månen: jammer-til-signal-forhold pr. satellit, effektiv C/N₀ og tab af lås for en selenografisk overfladebruger under en jammer på månens overflade (eller hævet), over den illustrative offentlige kilde
+
+seg-df68720ee7a5 = Modtagelse af jordens GNSS i månens afstand, svagsignal-laget, som artiklen om modstandsdygtighed over for konflikt nævner, og som motoren ikke havde nogen model for.
+
+seg-e6475fe9f443 = MODELLED undersøgelser af Månens bane og overflade som navigations- og geodætisk infrastruktur, fem undersøgelser bag én type valgt med <c1/>: od-consistency (om bord banebestemmelse med jordens GNSS i
+
+seg-ca4fac406beb = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>.
+
+seg-da20b48985b9 = <b>Register:</b> ingen matrixrække nævner denne type; motoren betegner selv sit resultat. Fuld side med input, resultater, evidens og begrænsninger: <a1>lunar-integrity</a1>.
+
+seg-564b491c4bb8 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>.
+
+seg-0f0b2d0ca0b4 = <b>Register:</b> ingen matrixrække nævner denne type; motoren betegner selv sit resultat. Fuld side med input, resultater, evidens og begrænsninger: <a1>lunar-time-offset</a1>.
+
+seg-128bf57a76d1 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+seg-d6aa5d645fb7 = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>lunar-time-budget</a1>.
+
+seg-79140f2544ea = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>.
+
+seg-de468e4d4b46 = <b>Register:</b> MODELLED { "3" } · VALIDATED { "3" }. Fuld side med input, resultater, evidens og begrænsninger: <a1>lunar-vlbi</a1>.
+
+seg-7da3c3ff2386 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
+
+seg-3119d4005897 = <b>Register:</b> MODELLED { "3" } · VALIDATED { "2" }. Fuld side med input, resultater, evidens og begrænsninger: <a1>lunar-vlbi-fim</a1>.
+
+seg-6f59a33a35b3 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
+
+seg-142f2253e4d6 = <b>Register:</b> ingen matrixrække nævner denne type; motoren betegner selv sit resultat. Fuld side med input, resultater, evidens og begrænsninger: <a1>lunar-joint-od-clock</a1>.
+
+seg-32c31af24e1b = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>.
+
+seg-73c0415efd2f = <b>Register:</b> ingen matrixrække nævner denne type; motoren betegner selv sit resultat. Fuld side med input, resultater, evidens og begrænsninger: <a1>lunar-frame-realisation</a1>.
+
+seg-96efcb8d55d1 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>.
+
+seg-ce2f0f85dda4 = <b>Register:</b> MODELLED { "2" } · VALIDATED { "3" }. Fuld side med input, resultater, evidens og begrænsninger: <a1>lunar-frame-campaign</a1>.
+
+seg-d9e24a9a8c0c = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>.
+
+seg-4f05fad4b146 = <b>Register:</b> VALIDATED. Fuld side med input, resultater, evidens og begrænsninger: <a1>lunar-llr-datum</a1>.
+
+seg-8d9e0277303e = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>.
+
+seg-204901ae3684 = <b>Register:</b> ingen matrixrække nævner denne type; motoren betegner selv sit resultat. Fuld side med input, resultater, evidens og begrænsninger: <a1>moonlight-service-volume</a1>.
+
+seg-6fe67fa619d0 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
+
+seg-c83350735643 = <b>Register:</b> ingen matrixrække nævner denne type; motoren betegner selv sit resultat. Fuld side med input, resultater, evidens og begrænsninger: <a1>lunar-differential-pnt</a1>.
+
+seg-facc442295f1 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>.
+
+seg-8a2f6f535c4a = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>lunar-station-coverage</a1>.
+
+seg-a790c54ac1aa = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>.
+
+seg-4efffcd615df = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>lunar-beacon</a1>.
+
+seg-720d0bbeaf6e = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+seg-019ca0f1051e = <b>Register:</b> ingen matrixrække nævner denne type; motoren betegner selv sit resultat. Fuld side med input, resultater, evidens og begrænsninger: <a1>lunar-interop-export</a1>.
+
+seg-28695dd2ecc3 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.
+
+seg-af5d871bc69e = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>cislunar-observability</a1>.
+
+seg-f646e9fd7553 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
+
+seg-5e7bd8bb1adf = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>cislunar-arc-recovery</a1>.
+
+seg-3c514f3acc78 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>, <c27/>, <c28/>.
+
+seg-00b06a4fc0e0 = <b>Register:</b> ingen matrixrække nævner denne type; motoren betegner selv sit resultat. Fuld side med input, resultater, evidens og begrænsninger: <a1>lunar-attack-surface</a1>.
+
+seg-079d2bb805f1 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>.
+
+seg-63d4157e2294 = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>lunar-jamming</a1>.
+
+seg-7bb977529f30 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>.
+
+seg-287f89e6bf6b = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>earth-gnss-lunar</a1>.
+
+seg-f7ed8b60e7d1 = Obligatoriske felter: <c1/>. Valgfrie: <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>.
+
+seg-41e50e49da99 = <b>Register:</b> ingen matrixrække nævner denne type; motoren betegner selv sit resultat. Fuld side med input, resultater, evidens og begrænsninger: <a1>lunar-infrastructure</a1>.
+
+seg-09f7f99d04a6 = <s1>Forrige</s1>Navigation i lav jordbane
+
+seg-74c6bf83988e = <s1>Næste</s1>Missionsanalyse forbindelser og rumoperationer

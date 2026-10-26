@@ -27,3 +27,23 @@ seg-856eb311f24b = “udefineret” (tekst som dokumentet angiver
 seg-1767b216650d = defineret
 
 seg-fc5d34345fdd = Resultatmærkat (motorens egen): MODELLED observerbarhed for en plan cislunar konstellation (P6). VALIDATED kerne: den observerbare RANG er en rangafslørende tærskel på singulærværdier, krydskontrolleret mod Gramianens egenrang; Gramianens egenspektrum overholder de spektrale invarianter (trace = sum eig, det = prod eig, Frobenius^{ "2" } = sum eig^{ "2" }
+
+seg-f15bbf30b0dd = Diagrammet, som motoren skriver for scenarios/cislunar-observability.toml, type cislunar-observability
+
+seg-4564ad90378b = <b>MODELLED</b> Tærsklen for observerbarhed ved cislunar buelængde i den RUMLIGE seks-tilstands-CR3BP i stedet for den plane firetilstand, på tværs af familierne DRO, L2-halo og L2 næsten retlinet halo, med målestøj, der indgår i Gramianen, og TO kriterier, der rapporterer
+
+seg-9f857ff85800 = <b>MODELLED</b> Tærsklen for observerbarhed ved cislunar buelængde i den RUMLIGE seks-tilstands-CR3BP i stedet for den plane firetilstand, på tværs af familierne DRO, L2-halo og L2 næsten retlinet ha. Uafhængig reference (InternalConsistency): En uafhængig rækkeechelon-rang ved Gauss-elimination med partiel pivotering bekræfter hvert seks-tilstands-rangudfald — en anden algoritme, der ikke deler kode med den egen-/SVD-vej, der afprøves. Den { "6" }×{ "6" } tilstandsovergangsmatrix for CR3BP, som dette sammensætter, har sin egen ReferenceImpl-uafhængige reference mod variationel integration i SciPy, og halo-/NRHO-begyndelsesbetingelserne kommer fra en korrektor, der gengiver den publicerede sydlige L2
+
+seg-53c183035bde = MODELLED observerbarhed for en plan cislunar konstellation (P6). VALIDATED kerne: den observerbare RANG er en rangafslørende tærskel på singulærværdier, krydskontrolleret mod Gramianens egenrang; Gramianens egenspektrum overholder de spektrale invarianter (trace = sum eig, det = prod eig, Frobenius^{ "2" } = sum eig^{ "2" }); den variationelle STM er den STM for CR3BP, der er valideret med differenskvotienter (crate::cr3bp); rækkerne i jacobianen for afstand / afstandsrate (resultat <c1/>)
+
+seg-f6a217f57bec = MODELLED observerbarhed for en plan cislunar konstellation (P6): sporer en differentialkorrigeret konstellation af fire rumfartøjer i plane DRO'er med afstandsmåling mellem satellitter og rapporterer, hvor stor en del af et rumfartøjs firetilstand [x,y,ẋ,ẏ] buen gør observerbar. (typekatalog (<c1/>))
+
+seg-e5182743fd40 = MODELLED: konstellationsdesignet (DRO-perilune-amplituder og -faser) og det specifikke rangforløb, det frembringer. (typekatalog (<c1/>))
+
+seg-5d3a370f1295 = Ærlighed: MODELLED. VALIDATED kerne -- den observerbare RANG er en rangafslørende tærskel på singulærværdier, krydskontrolleret mod Gramianens egenrang; egenspektret overholder de spektrale invarianter (trace = sum eig, det = prod eig, Frobenius^{ "2" } = sum eig^{ "2" }); den variationelle STM er den STM for CR3BP, der er valideret med differenskvotienter; rækkerne i jacobianen for afstand / afstandsrate er analytiske partielle afledede valideret med differenskvotienter (krydskontrol (kommentar i scenariefilen, linje { "16" } til { "25" })
+
+seg-c68bc1df8975 = Rumlig, støjfyldt cislunar buelængde-observerbarhed på tværs af flere familier er MODELLED, ikke valideret: kontrolleret mod sin egen lukkede/analytiske identitet — fanger transskriptions- og koefficientfejl, men er ikke en ekstern uafhængig reference. (verifikationsmatrix (docs/MODELLED-RATIONALE.md))
+
+seg-ba3c2a8f0e28 = <s1>Forrige</s1>cislunar-arc-recovery
+
+seg-3adfb78b1f34 = <s1>Næste</s1>clock

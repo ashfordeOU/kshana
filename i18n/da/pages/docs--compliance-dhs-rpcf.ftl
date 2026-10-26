@@ -2,6 +2,8 @@
 
 seg-d01db1c2710a = Reference
 
+seg-fdbb9db68f1d = ingen
+
 seg-dbec6a166e56 = Kilde: <c1/>
 
 seg-6e9b601864df = US DHS Resilient PNT Conformance Framework: hvad Kshana leverer belæg for

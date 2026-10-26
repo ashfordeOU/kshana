@@ -150,6 +150,8 @@ seg-ad856ad710eb = Status
 
 seg-331d2821d43f = Køreplan
 
+seg-fdbb9db68f1d = ingen
+
 seg-6e0cb6acc073 = VALIDATED
 
 seg-a349aa76b0ed = PARTNER
@@ -202,6 +204,28 @@ seg-e251b385ff46 = To syntetiske dage med interferenskort, tegnet ud fra de indc
 
 seg-af0edceb1503 = Scoring af én syntetisk modtagerlog mod en plan med tre tests, fra en rigtig kørsel af motoren v{ $version } (`kshana jammertest score`). Loggen er opdigtet: { "1800" } s NMEA med et fald på { "20" } dB i C/N0 over to intervaller. Planen opregner tre tidsvinduer; i det midterste er der ingen jammer i loggen. Scoren markerer { "2" } af { "3" } tests som opdaget (median for latenstid { "0" } s) og { "1" } som misset, med { "0" } kørsler med falsk alarm over { "0.25" } t ren tid. Intet her siger noget om en rigtig modtager. Vejledende software, ikke typegodkendt navigationsudstyr (IEC { "61108" }, IEC { "61162" }): operatøren er fortsat ansvarlig for fartøjets navigation.
 
+seg-3ac9e578414c = Ure, tidssynkronisering og holdover
+
+seg-b4b8aaf14aec = Inertial, fusion og kvantesensorer
+
+seg-93591ee6899f = GPS-nægtet alternativ PNT
+
+seg-b63bfec0aabf = Konstellationer, dækning og geometri
+
+seg-f2f84c689f14 = GNSS-målinger, positionering og integritet
+
+seg-2e736b1814f2 = Jamming, spoofing og spektret
+
+seg-fc23add4540b = Navigation i lav jordbane
+
+seg-dd8aa1ce4734 = Navigation for rumbrugere
+
+seg-77aef8722995 = Optisk PNT
+
+seg-179dc850c643 = Missionsanalyse, forbindelser og rumoperationer
+
+seg-6339abe5314a = Familie
+
 seg-c5ce76c91ff7 = Mærkat
 
 seg-b88a2a9497c2 = Værktøj
@@ -219,6 +243,10 @@ seg-377d29dcc6e8 = Præcision af forskellene mellem laserafstandsmåling, VLBI o
 seg-9d507a371319 = Hvilken observationsfamilie der er følsom over for månens Love-tal h2, k2 og l2, fra en rigtig kørsel af motor v{ $version } på scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Hver celle er den kvadratiske middelværdi (RMS) af den partielle afledede af en families observationer med hensyn til en parameter, i den families egne enheder (så celler sammenlignes henover en række, ikke ned ad en kolonne); en tankestreg betyder, at familien ikke har nogen følsomhed. laserafstandsmåling: h2 { "7.6" }, k2 ingen, l2 { "9.8" }. orbitersporing: h2 ingen, k2 { "0.00086" }, l2 ingen. overfladegravimeter: h2 { "2.9e+03" }, k2 { "4.3e+03" }, l2 ingen. overfladeur: h2 { "2.8e-17" }, k2 { "2.8e-17" }, l2 ingen. Med alle fire familier er Cramer-Rao-sigma { "0.36" } % af nominelt h2, { "0.52" } % af k2 og { "1.16" } % af l2. Tilføjelse af en familie sænkede aldrig den mindste egenværdi ({ "28" } af { "28" } tilføjelser), men sporet af pseudoinversen var kun ikke større i { "16" } af { "28" }: den halvdel af tærskel G3 er NOT MET. Orbiterfamilien ser linjesigtsintegralet af k2-accelerationen, et tal i den høje ende. MODELLED: en begrænset tre-legeme-model med angivne forenklinger og illustrative inputs, ikke en måling af nogen månestørrelse. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en livsvigtig sikkerhedstjeneste (safety-of-life).
 
 seg-367ac9b4a8a6 = Hvad `kshana imu-fit` aflæser af en IMU-log fra stilstand, fra en rigtig kørsel af motor v{ $version } på en opdigtet log ({ "20,000" } sampler ved { "100" } Hz, { "200" } s): accelerometerets hastigheds-random-walk q_va = { "4.02e-06" }, gyroens vinkel-random-walk q_arw = { "9e-08" }, biasustabiliteten { "0.00296" } og de tidlige Allan-hældninger (-0.51 og -0.49; cirka -0.5, hvor hvid støj dominerer). Tabellen ved siden af er den TOML, kommandoen udskriver. Estimatoren er kun kontrolleret på syntetiske logs. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en livsvigtig sikkerhedstjeneste (safety-of-life).
+
+seg-e127f2f26824 = Læst
+
+seg-26ab8544afba = Tillidsscore over én syntetisk passage, fra en virkelig kørsel af motoren v{ $version } på examples/maritime-trust (en opdigtet NMEA-log fra en færge på en rute fra Tallinn til Helsinki, { "3001" } epoker ved { "1" } Hz). Tre baner deler én tidsakse. Øverst: afstanden mellem den position, modtageren rapporterer, og fartøjets virkelige position, som holder sig inden for nogle få meter indtil omkring { "1576" } s, hvor logens indskrevne bortledning af positionen trækker den væk, mens modtageren bliver ved med at rapportere en gyldig positionsbestemmelse. I midten: tillidsscoren fra { "0" } til { "100" }, ikke beregnet i de første { "300" } s af kalibreringen, i båndet nominal (mindst { "90" }) indtil bortledningen, derefter faldende gennem båndet degraded (mindst { "55" }) ned i båndet untrusted. Nederst: hver epokes bånd som et farvet bånd med sit navn. Scoren er vejledende. Vejledende software, ikke typegodkendt navigationsudstyr (IEC { "61108" }, IEC { "61162" }): operatøren er fortsat ansvarlig for fartøjets navigation. Loggen er opdigtet for at vise formatet og monitorerne; den er ikke en måling og siger intet om, hvordan nogen modtager ville yde.
 
 seg-a683980168f7 = Docker
 
@@ -273,3 +301,11 @@ seg-81a87d14efda = Kshana: mærket, et kompastrådkors, der markerer det præcis
 seg-27698c80b7f1 = Læs den publicerede Jammertest-testkatalog og transmissionsplan (NPRA/jammertest-plan, MIT) som planlagt reference (<c1/>): ét testområdes slots bliver til modtagertillidshændelser med katalog-id og år i hver etiket. Planlagte slots, ikke optagne sendetider; intet kontaktfelt i planen læses. MODELLED. Se <a1><c2/></a1>.
 
 seg-23daf6121ca0 = Scor en modtagerlog mod den tidsplan (<c1/>): pr. test detektionsforsinkelse, oversete alarmer og tid til genopretning samt de falske alarmer uden for ethvert slot. Tekstlogs som <c2/>, binære (<c3/>, <c4/>) som <c5/>. En signeret pakke kræver en nøgle: kommandolinje. Kun vejledende; MODELLED.
+
+seg-2b82a8a22298 = Accelerometer- og gyroparametre for scenarierne <c1/> og <c2/>, tilpasset ud fra en stationær IMU-log (CSV eller EuRoC) ved hjælp af Allan-deviation, med en klar til indsætning <c3/>-tabel og logens SHA-256 (<c4/>). Tekst ind, JSON ud; MODELLED.
+
+seg-b6abad1f2c9d = En indsendelse til kshana-bench scoret mod en referencefil, begge som JSON-tekst (<c1/>, <c2/>): resultatfilen med specifikationsversion, opdeling, inputhashes og opgavens målinger. MODELLED; beskriver en log eller et korpus, aldrig et produkt.
+
+seg-c7a0d7981bfd = kshana-bench-resultatfiler gengivet som den statiske leaderboard-side (HTML-tekst), hver især valideret først.
+
+seg-57f592bb676b = Installér MCP-serveren
