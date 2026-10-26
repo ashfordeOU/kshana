@@ -77,3 +77,7 @@ seg-f79048f88b5c = Kshana Studio starten
 seg-a613a7447e3f = Studie op maat
 
 seg-9a86ef058d27 = Openen in Kshana Studio
+
+seg-70a79ec95bf4 = mislukt
+
+seg-7a33a168b020 = geslaagd

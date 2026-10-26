@@ -11,3 +11,5 @@ seg-f5e7215e6835 = object
 seg-c5fb6b91dc68 = graden
 
 seg-99427ab75a03 = veld
+
+seg-bbcdd898d24d = geheel getal
