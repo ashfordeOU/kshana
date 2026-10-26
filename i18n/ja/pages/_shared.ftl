@@ -228,7 +228,7 @@ seg-f0d0a3233428 = 干渉観測所：手法
 
 seg-17662241242a = 干渉観測所：結果
 
-seg-d7f5d492f901 = compliance と試験ベンチ
+seg-d7f5d492f901 = compliance と試験bench
 
 seg-5ba9c6c926a6 = シナリオに対する受信機の実行
 

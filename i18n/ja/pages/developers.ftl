@@ -594,7 +594,7 @@ seg-b9ec8dcfebfc = ダッシュボードのソース
 
 seg-29a25feb563a = リファレンスビルドのイメージ
 
-seg-a8861a7224d8 = ゲートとベンチの配備向けです。必要なもの：Docker。
+seg-a8861a7224d8 = ゲートとbenchの配備向けです。必要なもの：Docker。
 
 seg-f0f6aa0b6839 = コピー：docker pull ghcr.io/ashfordeou/kshana-reference-build
 
