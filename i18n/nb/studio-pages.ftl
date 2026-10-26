@@ -251,7 +251,7 @@ seg-5d30c2bb376f = <b>Kshana-utdata gir belegg for et krav. De sertifiserer ikke
 
 seg-5d4e98c5f740 = Domener
 
-seg-5dceab2b33fd = <b>Modellutdata.</b> Alt her er <b>MODELLED</b>: skyklimaene, klokkeklassene og teknikkene er oppgitte forutsetninger (stedene er ILLUSTRERENDE, ikke noe datasett eller målt vær for noe sted), og tallberegningene er kontrollert mot et uavhengig program som implementerer de samme formlene, ikke mot atmosfæren. Tidsserien er ett seedet trekk fra den oppgitte stedsmodellen, ikke klimaet. <b>Veiledende programvare.</b> Kshana er ikke typegodkjent navigasjonsutstyr, og dette er ikke en sertifisert tilgjengelighet.
+seg-5dceab2b33fd = <b>Modellutdata.</b> Alt her er <b>MODELLED</b>: skyklimaene, klokkeklassene og teknikkene er oppgitte forutsetninger (stedene er ILLUSTRATIVE, ikke noe datasett eller målt vær for noe sted), og tallberegningene er kontrollert mot et uavhengig program som implementerer de samme formlene, ikke mot atmosfæren. Tidsserien er ett seedet trekk fra den oppgitte stedsmodellen, ikke klimaet. <b>Veiledende programvare.</b> Kshana er ikke typegodkjent navigasjonsutstyr, og dette er ikke en sertifisert tilgjengelighet.
 
 seg-5ddc79f228f8 = Månereferansestasjon
 
