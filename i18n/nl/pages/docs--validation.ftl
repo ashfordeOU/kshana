@@ -47,3 +47,7 @@ seg-b03d56f501c3 = Type
 seg-35bf9a48e566 = Term
 
 seg-f3526b0d95f8 = Gemeten
+
+seg-7634c6f4b32c = Verbinding
+
+seg-b966dd26caa6 = Dataset
