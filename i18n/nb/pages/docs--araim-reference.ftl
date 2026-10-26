@@ -1,5 +1,39 @@
 # docs--araim-reference: translations (nb)
 
+seg-c316596d7ec8 = Kilde: <c1/>
+
+seg-4768b19aaed7 = ARAIM-referanse — avanserte RAIM-beskyttelsesnivåer i Kshana
+
+seg-93c83a737a43 = Dette notatet dokumenterer Kshanas åpne implementasjon av <b>Advanced Receiver Autonomous Integrity Monitoring (ARAIM)</b>: algoritmen, hver forutsetning, integritetsstøttemeldingen den bruker og valideringsstatusen. Implementasjonen ligger i <a1><c1/></a1>; dette dokumentet er prosafølgesvennen som en revisor (eller en innkjøpsgjennomgang) kan lese ved siden av koden.
+
+seg-f5a7abecc2df = ARAIM er den etterfølgeren til klassisk RAIM som bruker to konstellasjoner og flere frekvenser, definert av arbeidsgruppe C (WG-C) for GPS (Global Positioning System)–Galileo for å støtte horisontal og vertikal veiledning ned til LPV-200 (LPV: localizer performance with vertical guidance). Den svarer på ett enkelt spørsmål for hver epoke:
+
+seg-252dac107a2a = Hvor stor må grensen for posisjonsfeil (<em>beskyttelsesnivået</em>) være for at restsannsynligheten for <em>farlig misvisende informasjon</em> — en feil som er større enn grensen mens grensen fortsatt ligger innenfor alarmgrensen — holder seg under integritetsrisikobudsjettet <c1/>?
+
+seg-04299e9742b7 = { "1" }. Integritetsstøttemeldingen (ISM)
+
+seg-717bea7d6bc8 = ISM er parametersettet per konstellasjon som brukeren anvender. Den er modellert eksplisitt av <a1><c1/></a1>:
+
+seg-fffbeccd4266 = Symbol
+
+seg-2247a2344710 = Betydning
+
+seg-d7e49778bed2 = σ_URE / SISE (signal-in-space error)
+
+seg-b1b5bca63e21 = RMS (root mean square) for avstandsfeil brukt for <b>nøyaktighet og kontinuitet</b>
+
+seg-8ff2973d7f5b = σ_URA / SISA (signal-in-space accuracy)
+
+seg-f993962a5c9b = grense for avstandsfeil brukt for <b>integritet</b> (≥ σ_URE)
+
+seg-727c7fbe1b01 = maksimal nominell avstandsbias foldet ensidig inn i integritetsgrensen (<c1/>); se §{ "3" }
+
+seg-a79e42c29c46 = apriori sannsynlighet for en uoppdaget feil i én enkelt satellitt
+
+seg-78c45312d2ff = apriori sannsynlighet for en feil i hele konstellasjonen
+
+seg-19cc5ff2e541 = <c1/> returnerer de publiserte referanseverdiene fra WG-C: <b>σ_URA = { "0.75" } m</b>, <b>σ_URE = { "0.67" } m</b>, <b>b_nom = { "0.75" } m</b>, <b>P_sat = { "1" }×{ "10" }⁻⁵</b>, <b>P_const = { "1" }×{ "10" }⁻⁴</b> over eksponeringsintervallet. Dette er verdiene som brukes for å dimensjonere ARAIM-tilgjengelighet i referanselitteraturen; den operative ISM-en kringkastes/settes sammen på bakken og kan konfigureres per konstellasjon. Skillet mellom σ_URA (integritet) og σ_URE (nøyaktighet) er bevisst og er det definerende trekket ved ISM-konseptet.
+
 seg-0c1687628e67 = <c1/> og <c2/> gir disse rett videre til de to motorene.
 
 seg-8c516e53f595 = { "2" }. Feilhypoteser

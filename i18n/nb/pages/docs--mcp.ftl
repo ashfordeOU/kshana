@@ -151,3 +151,147 @@ seg-9e1df2016cd7 = Spill av ett IQ-opptak i arbeidskatalogen på tvers av flere 
 seg-a5af1743f993 = Kjør deteksjonsovervåkerne for interferens og spoofing over et IQ-opptak i arbeidskatalogen (<c1/>): bredbåndseffekt- og spektralovervåkere og C/N0- og signalkvalitetsovervåkere per satellitt mot en lært grunnlinje. Serienavn og -lengder og opptil { "200" } hendelser i svaret; hele rapporten på forespørsel som filer. En hendelse sier at en målt størrelse forlot grunnlinjen, ikke hvorfor. MODELLED.
 
 seg-c9c9c909c621 = Tilpass tapet-av-lås-modellen for sporingssløyfen til laboratoriekjøringer (<c1/>) fra et scenario av typen <c2/> hvis logger er inline (<c3/> eller <c4/>; en <c5/> avvises). Leser og skriver ingen fil. MODELLED.
+
+seg-4f231cd18d37 = Validerer en <c1/>-fil gitt som tekst og returnerer de løste betingelsene med hasjen deres. Bare innebygd.
+
+seg-2851f2858910 = Kartleggingen mot offentlige rammeverk, fylt ut fra resultatdokumenter gitt som tekst (<c1/>): hvilke rader i seks rammeverk og standarder for robusthet (US DHS Resilient PNT framework v2.0, IMO skip, EASA luftfart, NIS2 artikkel { "21" }, EN { "16803" }, NIST IR 8323r1) kjøringene gir belegg for, hvilke de ikke gir belegg for, og gapet for hver rad. Tar <c2/> av <c3/> (høyst { "64" }, { "4" } MiB til sammen). En status sier at kjøringene gir belegg for radens funksjoner; den er ikke en konklusjon om at et rammeverk er oppfylt, og ikke en vurdering eller godkjenning av noe produkt. <c4/> returneres med hver rapport; vis den ordrett. MODELLED. Se <a1><c5/></a1>.
+
+seg-0a5161ddea94 = De statiske kartleggingstabellene (eller, med <c1/>, kildedokumentene de siterer, med versjoner og URL-er) som Markdown, med samme erklæring først. Trenger ingen kjøringer.
+
+seg-ffcc6c72dc1e = En tillitsstrøm (JSON-linjer) eller et <c1/>-resultat gjengitt som Prometheus-tekst, CEF- eller LEEF-syslog-linjer, en OTLP-JSON-nyttelast eller Home Assistant MQTT-oppdagelses- og tilstandslinjer, med kodererne i <c2/>. Tekst i svaret: ingenting sendes eller serveres, og ingen klokke leses. Kun veiledende.
+
+seg-2b82a8a22298 = Akselerometer- og gyroparametere for scenarioene <c1/> og <c2/>, tilpasset fra en stasjonær IMU-logg (CSV eller EuRoC) med Allan-deviasjon, med en ferdig tabell <c3/> som kan limes inn og loggens SHA-256 (<c4/>). Tekst inn, JSON ut; MODELLED.
+
+seg-30d5bb6b34cb = Standardpakkene (<c1/>): scorede scenariosett for testprofilene i DHS Resilient PNT framework (nivå { "1" } til { "4" }), IMO MSC.1/Circ.1575 og ICAO Doc { "9849" } tillegg F.
+
+seg-767a05e5df9f = Én pakkekjøring mot terskler som er oppgitt før kjøringen (<c1/>): hver test <c2/>, <c3/> eller <c4/>, med målte og forventede verdier; gi rapporten til <c5/> for å se radene. MODELLED; vurderer ikke noe produkt.
+
+seg-74110e6b530f = LunaNet Augmented Forward Signal kontrollert mot LNIS V5 AD1 bind A (LSIS-AFS V1.0, { "29" } januar { "2025" }): <c1/> (implementasjonen mot dokumentets trykte kodetabeller og gjennomgåtte eksempler), <c2/> (en symbolstrøm: synkroniseringsmønster, SB1, FID, TOI-kontinuitet) eller <c3/> (en teststrøm). LDPC og CRC-24Q for delrammene { "2" } til { "4" } verifiseres ikke; ingen signaler skrives.
+
+seg-b6abad1f2c9d = En innsending til kshana-bench scoret mot en referansefil, begge som JSON-tekst (<c1/>, <c2/>): resultatfilen med spesifikasjonsversjon, deling, inndatahasjer og oppgavens målinger. MODELLED; beskriver en logg eller et korpus, aldri et produkt.
+
+seg-c7a0d7981bfd = Resultatfiler fra kshana-bench gjengitt som den statiske ledertavlesiden (HTML-tekst), hver validert først.
+
+seg-1ec7117c7825 = En tillitsstrøm (JSON-linjer) eller et <c1/>-resultat gjengitt som Prometheus-tekst, CEF- eller LEEF-syslog-linjer eller en OTLP-JSON-nyttelast, med kodererne i <c2/>. Tekst i svaret: ingenting sendes eller serveres, og ingen klokke leses. Kun veiledende.
+
+seg-0fc2e3928768 = Andelen av en ruteslengde i degraderte, ikke-degraderte, ikke-vurderte og ikke-observerte celler i ett eller flere interferenskart, eventuelt innenfor et datoområde. Uobserverte celler er ikke belegg for en fri rute.
+
+seg-62756ba18cf5 = Oppsettet for GNSS IQ-laget: signalnavnene IQ-verktøyene godtar, om IQ-filverktøyene er på, arbeidsmappen og samplebudsjettet per kall. Kall det først.
+
+seg-98939638409f = Beskriv én IQ-opptak (in-phase og quadrature) i arbeidsmappen uten å behandle den: format, samplingsrate, sentralfrekvens, sampler, varighet, datafiler og størrelser (<c1/>).
+
+seg-c529b1a7ee53 = Generer en GNSS IQ-scene med flere satellitter i arbeidsmappen (<c1/>): oppgitte Doppler-/C/N0-profiler, eller sann broadcast-efemeridegeometri fra en RINEX-navigasjonsfil, med en valgfri forplantningskanal på signalnivå. Svarer med filene som er skrevet og antall byte i dem, og referansens første epoke per satellitt.
+
+seg-0c6f5e26367f = FFT-akkvisisjon (fast Fourier transform) av én eller flere PRN-er (pseudo-random noise-koder) over et opptak (<c1/>), eventuelt bak frontend-trinn: per PRN, akkvirert eller ikke, Doppler, kodefase, toppstatistikk og terskel; <c2/> (én PRN) beholder hele Doppler × kodefase-korrelasjonsflaten med finforfininger av Doppler.
+
+seg-1da73ad326de = Akkvirer, og spor deretter med DLL/PLL/FLL-banken (delay-, phase- og frequency-locked loop) (<c1/>), med løkkene fra en <c2/>-TOML-fil i arbeidsmappen (<c3/>) eller den innebygde utformingen, og valgfri reakkvisisjon (<c4/>): per kanal, epoker, endelig Doppler, endelig og gjennomsnittlig C/N0, andeler for fase- og kodelås, låst på slutten, den endelige låsetilstanden, falske låsinger og reakkvisisjoner, pluss utformingens navn og hasj. Sporingen strømmer i begrenset minne; utdata per epoke går bare til filer (<c5/>: E/P/L, diskriminatorer, løkketilstander, C/N0, låsetilstand som .csv/.jsonl/.bin; <c6/>).
+
+seg-262bb9c592c0 = Bruk mottakerens frontend og DSP for interferensdemping (digital signal processing: båndpass, notch, blanking, utskjæring, AGC, kvantiserer) på et opptak og skriv et nytt (<c1/>).
+
+seg-cf33e101b144 = Kjør en laboratorie-avspillingskampanje (<c1/>): opptak, hvert med en testbetingelsesfil som oppgir laboratoriets kjente referanse, × frontend-kjeder × løkkeutforminger. Hver celle scores for tid til tap av lås, reakkvisisjonstid, C/N0-degradering mot den oppgitte J/S (ved siden av en analytisk referanse merket MODELLED), frekvens av falsk lås, PLL/DLL-jitter og tilgjengelighet. Inkrementell og kan gjenopptas: hvert kall kjører de ventende cellene som får plass i samplebudsjettet (eller <c2/>).
+
+seg-8112428c6226 = Fremdriften i en kampanjes utdatamappe: celler ferdige og ventende, og sammendraget når den er ferdig. Leser bare filer.
+
+seg-8bd76f017ae4 = Hvert verktøy er en tynn, tro innpakning rundt en offentlig funksjon i biblioteket <c1/> — ingen ny simuleringslogikk ligger her, så en agent kjører nøyaktig den validerte motoren.
+
+seg-b37bbaf38900 = GNSS IQ-verktøyene: filer inn, kompakt JSON ut
+
+seg-ecf2ec0eb66d = IQ-opptak går opp i gigabyte, så verktøyene <c1/> sender aldri sampler gjennom protokollen. De følger én kontrakt:
+
+seg-31a173dfe40d = <b>En arbeidsmappe.</b> Serveren leser og skriver IQ-filer bare inne i mappen som er navngitt av <c1/>. Hvert stiargument er relativt til den (en absolutt sti må løses opp innenfor den); inndata løses opp gjennom symlenker før kontrollen, mappen til en utdatafil må allerede finnes inne i den, og en eksisterende utdatafil erstattes bare med <c2/>. Når den ikke er satt, er IQ-filverktøyene av og sier hvordan de slås på; alle andre verktøy påvirkes ikke.
+
+seg-4f734b84a91a = <b>Et samplebudsjett.</b> Ett kall genererer eller behandler høyst <c1/> komplekse sampler (standard { "50 000 000" }). I byte er det { "400" } MB som <c2/> ({ "8" } byte per komplekse sample), { "200" } MB som <c3/> ({ "4" } byte) og { "100" } MB som <c4/> ({ "2" } byte); en scene skrives som <c5/> med mindre <c6/> sier noe annet. Kontrollen kjører før noe arbeid, og avslaget nevner varigheten eller <c7/> som passer.
+
+seg-178284ddfee0 = <b>Kompakte svar.</b> Hvert verktøy svarer med ett JSON-sammendrag: akkvisisjonstopper, C/N0, låsetilstand og hver fil som er skrevet, med sti og antall byte. Tabeller per epoke går til filene <c1/> / <c2/> du navngir.
+
+seg-f375643798e9 = <b>Ukjente argumenter avvises</b>, ikke ignoreres, så et feilstavet valg er en feil.
+
+seg-41040247770d = Hvert verktøy kjører samme kodesti som <c1/> på kommandolinjen, i prosessen. Laget er bare programvare: det skriver filer for programvaremottakere og styrer ingen radiomaskinvare. IQ-laget legger ikke til noen syntese av interferens eller spoofer, og ingenting sendes noen gang. (Scenariotypen <c2/> kan skrive analytiske jammer-IQ-øyeblikksbilder til en fil.)
+
+seg-f02d2f6bac7c = Med Docker-avbildningen monterer du mappen og peker variabelen på den: <c1/>.
+
+seg-721079aa25e7 = Alle typer kan nås
+
+seg-116ada4f4498 = <c1/> sender videre etter scenarioets <c2/>, så alle typer som <c3/> nevner, kjører gjennom det. Det omfatter de nyere familiene, hver med medfølgende eksempler en agent kan hente:
+
+seg-c7047f5750a9 = Et eksempel å starte fra
+
+seg-b45752760eca = Solsystemet
+
+seg-1ccf38ab6e24 = Kampanjer: lenkede faser, sveip, Monte Carlo (tilfeldige ensembler med seed), sammensetning
+
+seg-67fe14962e1c = Navigasjon i lav jordbane (LEO): signalutforming
+
+seg-c555e5b73203 = LEO-navigasjon: linkbudsjett for overflyvning
+
+seg-67de12cac6f0 = LEO-navigasjon: navigasjonsmelding
+
+seg-b8badd962245 = LEO-navigasjon: fusjonert posisjonering og tidssynkronisering
+
+seg-0561cfd970d8 = <c1/> med en <c2/> nevner alle medfølgende eksempler av den typen. Animasjoner, rapporter og interoperabilitetseksporter er ikke typer: de er visninger av en kjøring, og <c3/>, <c4/> og <c5/> returnerer dem for ethvert scenario de gjelder for.
+
+seg-62d106ca4a89 = Ikke servert: studiesuiter (<c1/>), fordi en suite navngir søsterscenariofiler på disken og scenarioverktøyene ikke leser noen fil. Kjør hvert medlem med <c2/>. (IQ-verktøyene leser og skriver filer, men bare innenfor arbeidsmappen sin.)
+
+seg-57f592bb676b = Installer MCP-serveren
+
+seg-77fc92e21295 = En passasje som nevner tredjeparts AI-klienter er utelatt her; den står i <a1>mcp/kshana-mcp/README.md</a1> på GitHub.
+
+seg-9ec78559983f = <c1/>, selvdrevet: se <a1>https://github.com/ashfordeOU/kshana/blob/main/docs/deploy/mcp-http.md</a1>
+
+seg-b32b9d4e0f8b = Fra en utsjekk eller git (utvikling):
+
+seg-73a73af88f08 = HTTP-modus (selvdrevet)
+
+seg-4f248ed3e597 = <c1/> serverer de samme verktøyene over strømmende HTTP på <c2/>. Den binder seg bare til loopback; en adresse som ikke er loopback, trenger <c3/> og et bearer-token i <c4/>; IQ-filverktøyene er av; forespørselsstørrelse, tid og samtidighet er begrenset; ingen CORS-header sendes. { -brand } driver ikke noe endepunkt: du drifter det selv. Se <a1>docs/deploy/mcp-http.md</a1>.
+
+seg-60f55b197ac2 = <c1/> legger <c2/> i din <c3/> (vanligvis <c4/>). Serveren snakker JSON-RPC (JSON remote procedure call) over stdio; logger går til stderr. Bygging fra kildekode trenger en Rust-verktøykjede ≥ { "1.88" } (den patchede <c5/> { "2" }.x SDK-en trenger det; selve biblioteket <c6/> trenger bare { "1.85" }); Docker-avbildningen trenger ingen.
+
+seg-2f3216082425 = Registrer den hos en klient
+
+seg-1090ae3f689c = Så å si alle MCP-klienter bruker den samme konfigurasjonsblokken <c1/> — registrer binærfilen <c2/> med absolutt sti:
+
+seg-2da393482666 = Eller, med Docker-avbildningen i stedet for en lokal binærfil (ingen <c1/> nødvendig):
+
+seg-a4f1295bb27a = Hvor den blokken ligger, avhenger av klienten:
+
+seg-154c7e09063d = <b>Cursor</b> — <c1/> (globalt) eller <c2/> (per prosjekt).
+
+seg-d4a06077c606 = <b>JetBrains AI Assistant / Junie</b> — Settings → Tools → AI Assistant → Model Context Protocol → Add → <em>As JSON</em>, lim inn blokken, og start deretter IDE-en (integrated development environment) helt på nytt.
+
+seg-daf0ea451b11 = <b>Skrivebordsassistenter</b> — de fleste bruker en <c1/> med samme <c2/>-form; sjekk klientens dokumentasjon for filplasseringen.
+
+seg-fc80286aa9bf = <b>CLI-agenter</b> — mange godtar den samme JSON-en gjennom en <c1/> / <c2/>-mekanisme.
+
+seg-9f3ef8d76e05 = Bruk alltid en absolutt sti til binærfilen. Sett <c1/> i <c2/> for å feilsøke (diagnostikk går til stderr; stdout er reservert for JSON-RPC-protokollen).
+
+seg-283d1eba838a = Prøv det
+
+seg-61739e9b6515 = Når den er registrert, kan du spørre assistenten din om ting som:
+
+seg-256276ac933d = <em>«List scenariotypene i { -brand }.»</em> → <c1/>
+
+seg-2a8e3c76b939 = <em>«Vis meg et spectrum-eksempel i { -brand } og kjør det.»</em> → <c1/>, <c2/>, <c3/>
+
+seg-d2e1e4148589 = <em>«Kjør scenarioet for klokke-holdover i { -brand } med en terskel på { "20" } ns og et GNSS-utfall på 2 timer; hva er holdover for kvante mot klassisk?»</em> → <c1/>
+
+seg-f4b83873e280 = <em>«Eksporter den GPS-konstellasjonen (Global Positioning System) som SP3.»</em> → <c1/>
+
+seg-54e01c1af45f = <em>«Gi meg tabellen realtime-frame-eop som CSV.»</em> → <c1/>
+
+seg-478e6fa0e8d8 = <em>«Legg den Iridium-overflyvningen på en Cesium-globus.»</em> → <c1/>, <c2/>
+
+seg-90829388d5d9 = <em>«Animer jamming-kampanjen.»</em> → <c1/>
+
+seg-9eb1b97ad2fd = <em>«Gi meg rapporten for den kjøringen, med reproduserbarhetsposten.»</em> → <c1/>
+
+seg-dc60d64a3bb8 = <em>«Lag en GPS L1-scene på ett sekund med PRN-ene { "3" } og { "17" }, og akkvirer og spor den deretter.»</em> → <c1/>, <c2/>, <c3/>, <c4/>
+
+seg-942dc8abe0ec = Designnotat — hvorfor en egen crate
+
+seg-ce6d0ecab448 = Serveren er en <b>frittstående crate som er utelatt fra workspace</b>, med sin egen <c1/>, slik at det offisielle Rust MCP-SDK-et (software development kit) <c2/> og den asynkrone kjøretiden aldri kommer inn i avhengighetsgrafen til den publiserte crate-en <c3/>: en bruker av biblioteket eller Python kompilerer ikke en server vedkommende ikke kjører. (Den ble først skilt ut fordi <c4/> er <b>edition { "2024" }</b> og trenger rustc ≥ { "1.85" }, mens hovedcrate-en den gang lovte { "1.75" }. Biblioteket oppgir nå { "1.85" }; denne serveren oppgir { "1.88" }, gulvet for den sikkerhetspatchede <c5/> { "2" }.x.) Kontinuerlig integrasjon (CI) setter port for denne crate-en på egen hånd — tester og <c6/> mot sin egen låsfil. Lisenstreet til rmcp er rent (Apache-2.0/MIT/BSD), så, i motsetning til krysskontrollcrate-en <c7/> den ellers speiler, handler splittingen ikke om lisensiering.
+
+seg-75bf2d74642d = Lisens: AGPL-3.0-only, GNU Affero General Public License versjon { "3" } alene (eller en kommersiell lisens fra Ashforde OÜ; se <a1>LICENSING.md</a1> i depotet).
+
+seg-490ebbefb561 = <s1>Forrige</s1>Rust-crate
+
+seg-350b6b914734 = <s1>Neste</s1>MCP-server: alle installasjonskanaler

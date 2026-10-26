@@ -1,5 +1,7 @@
 # docs--jammertest: translations (nb)
 
+seg-f8cf777c0caa = Flater
+
 seg-45425f378b61 = betydning
 
 seg-9367b8736d36 = Kilde: <c1/>

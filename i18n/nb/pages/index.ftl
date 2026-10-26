@@ -268,8 +268,452 @@ seg-62b5564e8d90 = Den registrerte økten spilles av her, trinn for trinn.
 
 seg-2359edf78388 = <b>Samme kjøring i Studio:</b> Motor v{ $version } · <c1/> · seed { "42" }
 
+seg-5cce5bd43a6b = KI-assistent
+
 seg-f42465f7d066 = ns
 
 seg-ff90679d1de9 = Spoofing-deteksjon
 
 seg-257c477dc510 = WebAssembly
+
+seg-2192262e26c1 = nådd
+
+seg-785218a0ea66 = Hva Kshana ikke er
+
+seg-b366150de755 = Be om en studie
+
+seg-12f050093898 = Hvorfor alle trenger den
+
+seg-d997b6a5a416 = Hvorfor Pro, enda mer
+
+seg-4ff013b472ff = Hvilken utforming skal vi fly?
+
+seg-f4eb65b9b27a = Lunar navigasjonskonstellasjon: færrest satellitter mot tilgjengelighet, hele Månen: { "608" } utforminger kjørt, en Pareto-front på { "12" } utforminger
+
+seg-c8ce2e4a6687 = Hvor sikre er vi, og hva driver resultatet?
+
+seg-049c503c23db = Klokkens holdover med usikkert støynivå: 5. til 95. persentil av { "2,000" } kjøringer mot grensen på { "20" } ns
+
+seg-3dd37275b448 = Innfrir oppdraget kravene sine, og kan vi levere det videre?
+
+seg-7fbde256debf = ikke oppfylt
+
+seg-f6ccb7a322b3 = åpne punkter
+
+seg-6d3d0f8c9b7c = Be om en Pro-evaluering
+
+seg-813d6d41b891 = Kopier kommandoen som gjenskaper det
+
+seg-a0ef302e2458 = Kopier kommando
+
+seg-6df96ca25c68 = Hvorfor og hvem den er for
+
+seg-e8ab991fe284 = Kshana oppdragskonsoll
+
+seg-dc0fbd6f3e76 = Mottaker · { "8" } sporer
+
+seg-212f0234925f = Jammer · { "1.0" } km unna
+
+seg-e8b014e4fa7b = Spoofer · { "0.1" } ns/s tidspress
+
+seg-b8890ff22c4a = Avspilling
+
+seg-fdac3e95b3d9 = Oppdrag <b>T+{ "00" }:{ "00" }:{ "00" }</b>
+
+seg-5e5365b80dfb = Scenario <b>campaign-jam-spoof-holdover-integrity</b>
+
+seg-d0b9f1d1b637 = Nominell
+
+seg-12d3b7275c99 = <s1>Motor v{ $version } · seed { "20260928" }</s1><s2>Virkelig kjøring</s2>
+
+seg-2c7bf2e50347 = GNU Affero General Public License, versjon { "3" }
+
+seg-162d704ff027 = <s1>v{ $version }</s1>Åpen kildekode · <s2>AGPL-3.0</s2> · av Ashforde®
+
+seg-69d3fae797e4 = Øv på minuttet <em>GNSS blir borte.</em>
+
+seg-015e3cff4eda = Kshana er en simulator med åpen kildekode for PNT-robusthet (posisjonering, navigasjon og tidssynkronisering). Spill av jamming, spoofing og klokke-holdover når GNSS-signaler (Global Navigation Satellite System) svikter, i en Rust-motor som kjører rett i nettleseren din, og se nøyaktig hvilke resultater som ble kontrollert mot uavhengige referanser.
+
+seg-8b095f7254ed = Kopier installasjonskommandoen: cargo install kshana
+
+seg-f0e9de10d9ef = cargo install kshana<s1>Kopier</s1>
+
+seg-ec3957c0f5f1 = Trykk <c1/> for å søke i sider, scenarioer og dokumentasjon
+
+seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Samme motor, forsterket: { "608" } utforminger, én Pareto-front</s2>
+
+seg-b807a8887172 = Telemetri avspilt fra den lenkede kampanjekjøringen
+
+seg-d367c9a1c6fc = Klokkens tidsfeil<s1>mot { "50" } ns vakt · lineær</s1>
+
+seg-6746a919dc04 = T+{ "0" }
+
+seg-7d5a96436755 = nå
+
+seg-2434e53fa54e = Bærebølge-til-støy-tetthet<s1>C/N0 · gulv { "25" } dB-Hz</s1>
+
+seg-bf842cdbb9d3 = Beskyttelsesnivå mot varslingsgrense<s1>PL · AL { "50" } m, vertikal</s1>
+
+seg-146c6926eae1 = Hendelseslogg for den lenkede kampanjekjøringen
+
+seg-7dfaa4627c3e = Hendelseslogg · campaign-jam-spoof-holdover-integrity
+
+seg-47d596393831 = Virkelige hendelser
+
+seg-5630c799cec1 = Hvor hvert spor kommer fra
+
+seg-46b6db21c09b = <b>Kampanje:</b> Motor v{ $version }, bygg <c1/> · <c2/> · seed { "20260928" }
+
+seg-f70fa3b93b11 = Motorens egen rapport om denne kjøringen
+
+seg-d32a11c090e1 = Motorens resultat, uendret
+
+seg-c459bc5805bb = Scenariofilen som ble kjørt
+
+seg-f18f76c10709 = <s1><a1>Rapport</a1><a2>JSON</a2><a3>TOML</a3></s1>
+
+seg-c043a94c7564 = <b>Baner:</b> Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+
+seg-f2d2f2263e63 = Konsollen, de tre kortene og loggen spiller av én lenket kjøring med { "6" } faser og { "18" } medlemskjøringer på sitt rutenett på { "10" } s (T+{ "01" }:{ "16" }:{ "10" } oppdragstid). Banene er de { "102" } satellittene til GPS, Galileo, BeiDou og GLONASS fra konstellasjonskjøringen, hver gjenvunnet som en sirkulær tolegemebane fra motorens sporing på bakken (verste residual { "0.0034" }°), med radiene komprimert for visning. Lenker tegnes til satellitter over konstellasjonskjøringens maske på { "10" }° ({ "25" }° i integritetsalarmfasen, kampanjens maske for gjenoppfanging), dempet av jamming og kuttet i holdover. Jorden: NASA Blue Marble og Black Marble. Kshana Studio spiller av den lenkede kjøringen i nettleseren din; motorens egen rapport og kommandoen gjengir hver kjøring.
+
+seg-a6603a1011ce = Evidens i et blikk
+
+seg-92c73c398785 = medfølgende scenariofiler
+
+seg-4fe9e7c5932f = funksjoner i verifikasjonsmatrisen
+
+seg-d2c0888d98f6 = validert mot uavhengige eksterne referanser
+
+seg-3a3535770138 = <s1>artikler på arXiv bygget på den åpne motoren</s1><s2>Les forskningen <c1/></s2>
+
+seg-c44c0fbefc2c = <s1>WASM</s1><s2>kjører i nettleseren som WebAssembly, uten installasjon</s2>
+
+seg-9b3429f89f21 = Nytt i v{ $version }: hver type, hver kommando og benchmarkens bom
+
+seg-471b95f0c08f = <a1>Hva hver enkelt gjør og hva som ble kontrollert</a1> · <a2>Alle installasjonskanaler</a2>
+
+seg-a9bca0fa5b04 = L-bånd-konsoll · typen spectrum
+
+seg-abbe9f20dd01 = Se en jammer ta båndet.
+
+seg-7b1868001271 = GNSS L-båndet som én PSD (power spectral density): frekvens bortover, tid nedover, farge for effekt over støygulvet. Signalene ligger under det gulvet, så det som lyser opp er jammerne: en chirp, en CW-tone (continuous-wave) og smalbåndsstøy. Hold over, trykk eller bruk piltastene for hvert bånds <b>C/N0</b> (carrier-to-noise density) og <b>J/S</b> (jammer-to-signal ratio).
+
+seg-06d71fc57b8d = <b>kshana</b> spectrum <s1>· <s2>l-band-waterfall-jamming.toml</s2></s1>
+
+seg-2da07c5d32d7 = L-bånd-fossefall, frekvens bortover og tid nedover. Piltastene flytter en markør over frekvens og tid; Escape forlater den.
+
+seg-46f65efc3be9 = Fossefallet tegnes fra den registrerte kjøringen med JavaScript. Motorens rapport nedenfor viser den samme kjøringen.
+
+seg-f3ea569d443f = Verste bånd
+
+seg-48dcdfbbe753 = –<s1>dB-Hz</s1>
+
+seg-14b3348ff8ea = Bærebølge-til-støy-tetthet for hvert bånd mot sporingsgulvet
+
+seg-3e189946819a = Kampanjen denne kjøringen styrer · hver fase følger jammerens tilstand
+
+seg-b4033994f81b = Motorkjøring av <c1/>
+
+seg-33979077de8c = Kopier kommandoen som gjengir kjøringen: kshana l-band-waterfall-jamming.toml
+
+seg-17d5d311b110 = Motorrapport
+
+seg-7a6ff36f0f04 = $ kshana l-band-waterfall-jamming.toml
+
+seg-1fd08ac5f6f0 = Scenario, resultatdata, kampanjekjøringen og hva som er modellert
+
+seg-997412b840c2 = Spektrumkjøring
+
+seg-c9ee69e3ce3e = Scenariofil
+
+seg-aaeaa4133766 = Resultatdata
+
+seg-e9d1763a751f = Kampanjen den styrer: <c1/>
+
+seg-444a43f5d0d7 = Modellert: spektre i lukket form over et termisk støygulv, scoret per bånd etter spektral separasjon; jammereffekter og tidspunkter er scenarioinndata. Tidsaksen teller sekunder før nå; den cyanfargede linjen markerer der avspillingen startet på nytt. Kshana Studio kjører det samme scenarioet i nettleseren din og spiller av fossefallet; rapporten og kommandoen gjengir kjøringen.
+
+seg-9c4762bc4c66 = Oppdragstidslinje
+
+seg-8b148fc948fa = Oppdragstidslinje · rull eller dra for å skrubbe
+
+seg-984aa8353e29 = Hver satellitt spores. Klokken er disiplinert mot GNSS-tid, og beskyttelsesnivået ligger godt under varslingsgrensen.
+
+seg-53dff207c2e7 = T+{ "00" }:{ "00" }:{ "00" }
+
+seg-06909bd3c972 = Oppdragstid
+
+seg-de619b311b43 = <b>kshana</b> campaign <s1>· campaign-jam-spoof-holdover-integrity · seed { "20260928" }</s1>
+
+seg-348b3f146fd1 = Fasene og medlemskjøringene hver av dem sender ut
+
+seg-5ca22bdcb463 = Faser · medlemskjøringer
+
+seg-8332e436d097 = Nominell<s1>T+{ "00" }:{ "00" }:{ "00" }</s1>
+
+seg-297f821b911b = seed { "42" }
+
+seg-0c4140f95fe8 = seed { "1" }
+
+seg-dfe6a1451d36 = seed { "7" }
+
+seg-e6df43ef3bcc = Jamming<s1>T+{ "00" }:{ "10" }:{ "00" }</s1>
+
+seg-639fb18e57e0 = seed { "43" }
+
+seg-599691a88cac = Spoofing<s1>T+{ "00" }:{ "20" }:{ "00" }</s1>
+
+seg-14f57653cd5c = Holdover<s1>T+{ "00" }:{ "26" }:{ "10" }</s1>
+
+seg-4be8c1c7aeb6 = seed { "44" }
+
+seg-d78a727a49a3 = Integritetsalarm<s1>T+{ "00" }:{ "56" }:{ "10" }</s1>
+
+seg-612e8a49730d = seed { "45" }
+
+seg-8cc810de504f = Gjenoppretting<s1>T+{ "01" }:{ "06" }:{ "10" }</s1>
+
+seg-d106d9ae3db3 = seed { "46" }
+
+seg-cea3b8e726c8 = { "6" } faser · { "18" } medlemskjøringer av eksisterende typer
+
+seg-12e134ed7cad = Satellitter · { "102" }, fire systemer
+
+seg-ba2d1b289ed3 = Mottaker · PL-ring mot AL-ring
+
+seg-aa38fb41591a = Jammer · { "1.0" } km fra mottakeren
+
+seg-f65f922fa89d = Spoofer
+
+seg-d3b2bac50e3d = Klokkens tidsfeil<s1>ns · vakt { "50" }</s1>
+
+seg-c42b07814ef6 = C/N0<s1>dB-Hz · gulv { "25" }</s1>
+
+seg-747943902bc5 = PL mot AL<s1>meter · AL { "50" }</s1>
+
+seg-61345694fae0 = Spill av oppdraget
+
+seg-0d529358e2ad = Jamming
+
+seg-c8df54685469 = Integritetsalarm
+
+seg-63a70a989509 = Gjenoppretting
+
+seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" } oppdragstid · den lenkede kjøringen, ikke tre kjøringer side om side
+
+seg-dc2eb6c3c2a4 = PL = beskyttelsesnivå · AL = varslingsgrense · INS = treghetsnavigasjonssystem
+
+seg-b85e60e05c9f = Motor v{ $version }, bygg <c1/> · <c2/> · seed { "20260928" }
+
+seg-0588364091ec = Fra den første jammede satellitten til den siste nanosekunden av klokkens holdover: signaler, sensorer, klokker, baner og integritet i én simulator. Hvert bilde nedenfor er en virkelig motorkjøring, og sier hvilken.
+
+seg-18e6988c1ccd = GNSS-jamming og interferens
+
+seg-1d97776ae325 = En bredbåndsjammer på en mast og en mottaker flyttet over et rutenett rundt den: hver celle er en egen kjøring av motorens type <c1/>. Skyggen er gjennomsnittlig J/S (jammer-to-signal ratio); røde celler mistet hver satellitt.
+
+seg-4fa6a9f6915d = Jamming-fotavtrykk: gjennomsnittlig jammer-til-signal-forhold og sporing på et rutenett av mottakerposisjoner rundt jammeren
+
+seg-774ec89d13d7 = Motor v{ $version } · <c1/> · seed { "1" } · mottaker flyttet per celle
+
+seg-7292d543b1ac = Hver celle, på Oppdrag
+
+seg-08ba18ea712c = Villedning
+
+seg-f765712462a1 = En spoofer overtar mottakeren og fører tiden dens bort i jevn takt. Hver klokkes integritetsmonitor har sin egen deteksjonsgrense: kvanteklokken flagger løgnen nesten umiddelbart, den klassiske først når forskyvningen har vokst.
+
+seg-1770a46a99f6 = Spoofet tidsforskyvning mot deteksjonsgrensen
+
+seg-0f425005ca69 = En spoofers tidsforskyvning mot hver klokkes deteksjonsgrense, med tidspunktet da hver monitor flagger den
+
+seg-a9829e27b53b = Motor v{ $version } · <c1/> · deterministisk, ingen seed
+
+seg-ab0eb55b688a = Klokker
+
+seg-ceaa6be5f5fd = Klokkens holdover på tvers av oscillatorklasser
+
+seg-c25919241d9e = Fra det øyeblikket GNSS forsvinner: medianen og 95-persentilen av { "200" } Monte Carlo-kjøringer for en brikkeskala-atomklokke (CSAC) og en optisk gitterklokke, og døgnfeilen for fire klasser til: en optisk hovedklokke, en hydrogenmaser, en rubidium-atomfrekvensstandard (RAFS) og dens miniatyrversjon (mini-RAFS).
+
+seg-b2019ec6d1c7 = Tidsfeilbånd over { "200" } Monte Carlo-kjøringer
+
+seg-01961fd0b949 = Klokkens tidsfeil etter at GNSS er tapt: median og 95-persentil av { "200" } Monte Carlo-kjøringer for to klokker, og døgnfeilen for fire oscillatorklasser
+
+seg-ae208f50ab77 = Motor v{ $version } · <c1/> · seed { "42" }
+
+seg-b3ec228c054d = <b>Døgnkolonne:</b> Motor v{ $version } · <c1/> · deterministisk, ingen seed
+
+seg-a747535696fa = Dødregning
+
+seg-ae35aad6ab75 = GNSS/INS-coasting
+
+seg-0c56d6e5450a = Når GNSS faller ut, fortsetter INS (treghetsnavigasjonssystemet), og feilkjeglen åpner seg. To treghetsmåleenheter (IMU-er), ett budsjett.
+
+seg-9f97f05ad6bb = Posisjonsfeilkjegle etter at GNSS er tapt for to treghetsmåleenheter, mot posisjonsbudsjettet
+
+seg-142a299dff50 = Hvor lenge en klokke holder seg innenfor vaktintervallet sitt etter siste posisjonsbestemmelse: spørsmålet tidsluke-nettverk bryr seg om.
+
+seg-2b3d148b354d = Forutsagt tidsfeil siden siste posisjonsbestemmelse mot lukevakten
+
+seg-7a7de9a2d48a = RAIM og ARAIM
+
+seg-4d5cad94655f = Beskyttelsesnivåer (PL) fra mottakerens autonome integritetsovervåking (RAIM) og dens avanserte form (ARAIM), kontrollert mot varslingsgrensen: her oppdragskjedens integritetsalarmfase. Skraverte søyler er epoker der ingen beskyttelsesnivåer kunne dannes.
+
+seg-750f6b337ce8 = Vertikalt beskyttelsesnivå i hver epoke av integritetsalarmfasen, mot varslingsgrensen
+
+seg-cdf824111b80 = Telekom
+
+seg-129537868d97 = MTIE (maximum time interval error) og TDEV (time deviation) for en holdover på 24 timer mot ITU-T-grenser (International Telecommunication Union, Telecommunication Standardization Sector), her PRTC-A-grensen (primary reference time clock, klasse A).
+
+seg-7a19d976cca6 = Maksimal tidsintervallfeil og tidsavvik for holdover-kjøringen mot PRTC-A-grensen
+
+seg-ea5d9e4acbdf = Astrodynamikk
+
+seg-5a507113bfff = Baner: SGP4 og numerisk
+
+seg-2ebc9a7b022e = SGP4-propagering (Simplified General Perturbations { "4" }) av et virkelig sett med to-linjers elementer, tegnet på virkelige bilder; CCSDS OEM- og SP3-efemerider inn og ut.
+
+seg-c28ef17609ee = Sporet på bakken av motorens SGP4-propagering av et virkelig sett med to-linjers elementer, på NASA Blue Marble-bilder
+
+seg-2bc362b38f3d = Cislunar
+
+seg-7904e93c0bcb = Lunar PNT
+
+seg-48ad4630a03f = Posisjonering, navigasjon og tidssynkronisering rundt Månen: horisontale og vertikale beskyttelsesnivåer (HPL, VPL) fra ARAIM i en lunar navigasjonstjeneste.
+
+seg-f69a91258669 = Lunare beskyttelsesnivåer fra LunaNet-kjøringen av avansert RAIM mot varslingsgrensen, ved siden av Månens nærside
+
+seg-2c2d1fdec798 = Nye sensorer
+
+seg-e130f7a43848 = Handelsstudier av kvantesensorer
+
+seg-577795028a7f = Vei en kvanteklokke mot en klassisk før noen kjøper maskinvare: holdover over et sveip av den klassiske klokkens støy.
+
+seg-836a325ef88c = Sveip av classical_q_wf: holdover_s
+
+seg-979452def1d6 = Holdover-tid for en kvanteklokke og en klassisk klokke over et sveip av den klassiske klokkens støynivå
+
+seg-ebaa722c5ab6 = Motor v{ $version } · <c1/> · seed { "42" }
+
+seg-1d2973bd0f2f = Kjører overalt
+
+seg-250a09c4baa0 = Nettleser, terminal, notatbok, IDE, assistent
+
+seg-62ea80e12931 = Den samme Rust-motoren leveres som WebAssembly for Kshana Studio, et CLI (kommandolinjegrensesnitt), Python- og JavaScript-pakker, en JetBrains Marketplace-plugin for IDE-en din (integrert utviklingsmiljø) og en MCP-server (Model Context Protocol).
+
+seg-430082bf58d4 = ghcr.io-image
+
+seg-afd561090841 = CCSDS OEM
+
+seg-9d682a8ff731 = CCSDS OEM: Consultative Committee for Space Data Systems Orbit Ephemeris Message. SP3: Standard Product { "3" }-baneformat.
+
+seg-70d4597772cb = Omfang, sagt rett ut
+
+seg-2ee2e20030f3 = Å kjenne grensene betyr like mye som å kjenne funksjonene.
+
+seg-253c54ae2238 = Ikke maskinvare for RF-signalgenerering<s1>Den styrer ingen radio og sender ingenting; signalnivåutdataene er IQ-sampelfiler i basebånd for programvaremottakere.</s1>
+
+seg-4fe725162c1c = Ikke en maskinvare- eller sertifisert GNSS-mottaker<s1>Programvaremottakeren (akkvisisjon og sporing på innspilt eller generert IQ) er et analyseverktøy, ikke et navigasjonsprodukt.</s1>
+
+seg-d3606ea42b36 = Ikke et flyprodukt<s1>Et studie- og avveiningsinstrument, der hvert svar er merket validert eller modellert.</s1>
+
+seg-57678c2b9a1d = AI-assistenter · kshana-mcp
+
+seg-d473cb253f20 = Spør AI-assistenten din. Motoren svarer.
+
+seg-35f55ec31aeb = AI-assistenten din (kunstig intelligens) kjører motoren over MCP (Model Context Protocol) gjennom <b>kshana-mcp</b> og leser tilbake JSON (JavaScript Object Notation).
+
+seg-54d5c8e07a24 = Registrer den deretter i assistentens MCP-klientkonfigurasjon. <a1>Full konfigurasjon under Utviklere</a1>
+
+seg-7e3b4395292e = Rullehistorie om spoofing
+
+seg-fb440c81faf1 = Rullehistorie · én lenket kjøring
+
+seg-24b800b6ec75 = Fra en ren himmel til en fritt løpende klokke.
+
+seg-88e748800e7f = Én mottaker, T+{ "01" }:{ "16" }:{ "10" } oppdragstid: en ren himmel, en jammer, en spoofer som flytter svaret i stedet for å blokkere det, så en klokke overlatt til seg selv. De { "102" } satellittene er de fire systemene fra konstellasjonskjøringen, på den virkelige jorden. Rull.
+
+seg-1a913717fbd3 = { "01" } · Nominell
+
+seg-488b802a8afc = Hver lenke, gjort rede for.
+
+seg-2379d9ee4cd0 = { "8" } satellitter spores med en gjennomsnittlig C/N0 (carrier-to-noise density) på <b>{ "43.0" } dB-Hz</b>. Det vertikale beskyttelsesnivået holder seg mellom { "9.1" } og { "21.6" } m, under varslingsgrensen på { "50" } m.
+
+seg-8ad9711d8bae = { "02" } · Jamming
+
+seg-c3fa50909f9d = Støy sluker himmelen.
+
+seg-95d85165182f = En bredbåndsjammer { "1.0" } km unna slår seg på med <b>-30 dBW</b>. C/N0 faller til <b>{ "30.6" } dB-Hz</b>, like over sporingsgulvet på { "25" } dB-Hz. Høylytt, så mottakeren vet det.
+
+seg-1f1bc00b81ee = { "03" } · Spoofing
+
+seg-458faa9a3f96 = En løgn som ser ut som en posisjonsbestemmelse.
+
+seg-dda6f0eb3fb6 = En spoofer skyver klokken med <b>{ "0.1" } ns/s</b>. RF-detektoren (radiofrekvens) slår alarm ved T+{ "00" }:{ "20" }:{ "00" }; den klokkestøttede monitoren trenger <b>{ "370" } s</b>, og da er allerede { "36.0" } ns trukket inn.
+
+seg-13be4329a209 = { "04" } · Holdover
+
+seg-fe4fb4387b34 = Så begynner tiden å drive.
+
+seg-4f2ce8d81d29 = Jammeren går til { "10" } dBW og hver satellitt går tapt. Klokken går fritt fra de { "37.0" } ns spooferen la igjen og krysser sin <b>vakt på { "50" } ns ved T+{ "00" }:{ "35" }:{ "40" }</b>; treghetsfeilen når { "24.3" } km.
+
+seg-fe656aefe9bb = Klokkens tidsfeil · holdover
+
+seg-548449af47a8 = vakt { "50" } ns
+
+seg-21e942dadf02 = Konstellasjonsforklaring
+
+seg-09d18cf767a7 = Åpen kjerne, Kshana Pro, skreddersydd studie
+
+seg-302606971c35 = Gratis for alle. Pro når svaret må holde i en gjennomgang.
+
+seg-27c12083529b = Kshana Pro er et proprietært lag som bygger på den åpne kjernen og aldri forker den, tilgjengelig under kontrakt. Ingen priser på en nettside: hver betalte vei starter med en melding til <a1>contact@ashforde.org</a1>.
+
+seg-43ceda17e71c = Åpen kjerne · gratis · AGPL-3.0
+
+seg-0230217b1110 = Alle som henter posisjon eller tid fra GNSS er utsatt: jamming, spoofing og signaltap rammer kjøretøy, nettverk, strømnett og romfartøy på samme måte.
+
+seg-9e88a1981d1e = { "176" } av { "388" } funksjoner stemmer overens med uavhengige eksterne referanser; resten er merket modellert, høylytt.
+
+seg-4b41ffeb0030 = Alle { "87" } scenariotyper, gratis uten funksjonssperre, deterministiske fra scenario, seed og motorversjon.
+
+seg-0af87a1caff4 = Den samme kjernen under en kommersiell lisens, for lukket integrasjon.
+
+seg-f6406933eb77 = Installer motoren
+
+seg-6a74a165bfd0 = Kshana Pro · under kontrakt
+
+seg-298532756f74 = Pareto-fronten til et utformingsrom, med hver frontutforming som et scenario den gratis motoren kjører på nytt.
+
+seg-a699256db841 = Usikkerhet og sensitivitet over tusenvis av kjøringer.
+
+seg-665005551d84 = Et oppdragsdossier med én kommando, med en verifikasjonsmatrise og en PDF-fil (Portable Document Format).
+
+seg-455cb5040f80 = Bevispakker på revisjonsnivå som kan reproduseres; digitale tvillinger av klokker kalibrert mot enhetens publiserte Allan-budsjett; arkitekturavveininger rangert etter et kvalitetsmål; modellbasert systemutvikling (MBSE) og prosjektverktøy.
+
+seg-3e30593288a1 = Hva Pro inneholder
+
+seg-be42106ce1bc = Skreddersydd studie · gjort for deg
+
+seg-254836cd23af = Skreddersydd studie: svaret, ikke verktøyet
+
+seg-fb87be7dc462 = En modellert PNT-robusthetsstudie av systemet ditt, for eksempel en revisjon av optimismegapet. Ikke en sertifisering.
+
+seg-b9d62e7772a7 = Sensor- og robusthetsmodeller kalibrert mot maskinvaren din.
+
+seg-57320238c0f4 = Eksportkontrollert arbeid under riktig klarering og NDA (taushetserklæring).
+
+seg-e36049d768ce = Integrasjon, opplæring og rådgivning.
+
+seg-3303866fbf99 = Samme motor, forsterket: virkelig Kshana Pro-utdata
+
+seg-f5513a1750f1 = <a1><s1><c1/>Utformingsoptimerer</s1></a1>
+
+seg-2bbc6243b4b1 = <b>{ "608" } utforminger</b>, alle kjørt: Pareto-fronten og knekkpunktet
+
+seg-56e344605a3d = <a1><s1><c1/>Usikkerhet og sensitivitet</s1></a1>
+
+seg-a0b3c138f981 = <b>{ "2,000" } kjøringer</b>: et konfidensbånd mot en grense
+
+seg-6de95aaa8ba4 = <a1><s1><c1/>Oppdragsdossier</s1></a1>
+
+seg-905e5eef45e5 = <b>{ "12" } krav</b> kontrollert mot virkelige kjøringer, PDF på 21 sider (Portable Document Format)
+
+seg-7d9ee2bfbb90 = Finn ut hvor tidssynkroniseringen din svikter, før den gjør det.

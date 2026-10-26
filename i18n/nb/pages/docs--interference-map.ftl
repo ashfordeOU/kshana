@@ -1,5 +1,9 @@
 # docs--interference-map: translations (nb)
 
+seg-6555ff9a6d8e = Utdata
+
+seg-2247a2344710 = Betydning
+
 seg-c3c260b7063e = Tester
 
 seg-d4a762001549 = Lisens
