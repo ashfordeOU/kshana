@@ -2361,3 +2361,121 @@ seg-68caf86157c2 = ROS { "2" } の receiver-trust パッケージと gnss_lib_py
 seg-e7d7d99fe538 = 測位解と衛星のメッセージを NMEA として書き出し、Python バインディングで採点する、ROS を使わないブリッジ（integrations/ros2/kshana_trust）と、rtklib-pos 形式を介して gnss_lib_py の NavData を receiver-trust に橋渡しするブリッジ（integrations/gnss_lib_py）。
 
 seg-05ded40b17d2 = 外部の照合はありません：ROS ノードは稼働中の ROS { "2" } グラフでは実行しておらず、ublox_ubx_msgs のフィールド名は、稼働中のドライバーとは照合していません。gnss_lib_py（MIT）は、ブリッジのテストのために実行しました
+
+seg-33d506570c1b = srp_shadow::tests（円環の閉形式、円錐影を再現する一様な法則、完全な日照と本影の極限）
+
+seg-13f8f557c721 = propagator (ForceModel::with_ephemeris, ForceEphemeris), ephem_provider
+
+seg-20f163c0cb8f = tests/propagator_de440_orekit_oracle.rs（{ "5" } ケース × { "24" } h にわたる { "25" } 個の毎時の状態、LEO、GEO、HEO、第三体、および第三体 + SRP：最悪値 |dr| { "0.0170" } m、|dv| { "1.84e-5" } m/s。解析級数のコントロールは { "9.96" } m 外れます。Orekit の DE440 位置に対して、太陽は { "6.39" } m、月は { "0.244" } m で、記録済みの未達）、propagator の単体テスト（プロバイダーの拒否、クローン間で共有されるフォールバックのカウント）
+
+seg-448f4acf5c7b = tides, propagator, precise_od
+
+seg-4014447d4bcc = tides::tests（S1 項は日周で、四分の一日で { "90" } 度回り、各行の負荷係数の振幅を持つ。LEO での物理的な大きさ）、propagator::tests::the_s1_air_tide_flag_adds_exactly_the_s1_acceleration
+
+seg-8fda2ee90583 = gravity_sh, propagator (FieldEvaluator)
+
+seg-3f7d3003656e = tests/gravity_sh_high_degree.rs（軸から外れた { "8" } 点での Orekit：N = { "70" } で最大 |da| { "2.2e-17" } m/s^{ "2" }（常に実行）。N = { "200" }、{ "360" }、{ "2190" } では { "3.5e-17" }、{ "3.9e-17" }、{ "7.3e-17" } m/s^{ "2" }（KSHANA_EGM2008_GFC があるデータの場合のみ実行））、tests/cowell_tesseral_200_orekit_oracle.rs（{ "24" } h の 200x200 の軌道、データがある場合のみ実行：最悪値 |dr| { "0.1317" } m、|dv| { "1.45e-4" } m/s。70次のコントロール { "0.726" } m）、gravity_sh の単体テスト（{ "70" }次で従来の評価器と { "1e-13" } まで一致、2190次の場での有限差分と極での連続性、拡張指数による計算に対するアンダーフローする2190次の項）
+
+seg-296a6fe8585b = orbit_determination (determine_orbit_batch_tracking, propagate_with_stm, is_visible), batch_ls (gauss_newton_analytic)
+
+seg-9493e02e3cd1 = tests/od_tracking_measurements_reference.rs（{ "8" } シナリオ：range-rate、az/el、その混合、LEO と MEO、ノイズなしと、シードつきの sigma { "5" } m / { "5" } mm/s / { "1e-4" } rad、{ "5" } 度と { "10" } 度のマスク、Orekit { "12.2" } との比較：可視集合は同一。測定値は { "5.84e-8" } m、{ "6.30e-10" } m/s、{ "1.44e-13" } rad 以内。STM は相対で { "1.2e-14" } 以内。ノイズありの状態は { "1.74" } cm と { "1.14e-5" } m/s 以内。タイプごとのポストフィット RMS は相対で { "2.7e-4" } 以内。ノイズなしの kshana と真値は { "1.06e-8" } m。ノイズなしの kshana と Orekit は、二つのシナリオで { "1.464" } cm と { "1.740" } cm で、{ "1" } cm の合格基準に対する記録済みの未達）、orbit_determination と batch_ls の単体テスト
+
+seg-f5a76ae1fcaa = sp3, precise_od
+
+seg-39a552abfcab = src/sp3.rs の単体テスト、tests/agency_galileo.rs::galileo_e11_sp3_accuracy_weighted_fit（コミット済みの { "8" } h の ESOC フィクスチャ、ヘッダーの指数 { "5" } から sigma { "0.032" } m：Tier-1 の 3D RMS { "0.132" } m は変わらず、Tier-2 は sigma { "1" } m での { "0.070" } m に対して { "0.035" } m。この変化は、再均衡した経験的な事前制約によるもの）、tests/agency_swarm.rs（Swarm の製品には精度コードがなく、フォールバックし、固定してあります）
+
+seg-409f709cceb3 = gravity_pds, body, propagator, mars_frame
+
+seg-0fe6532ca74d = tests/planetary_gravity_pds.rs::a_shadr_field_attached_to_a_body_drives_the_propagator、gravity_pds::tests::with_gravity_field_is_opt_in
+
+seg-e3d75762b979 = gnss_navmsg (gps_cnav, gal_inav, gal_fnav, fec)
+
+seg-dbe0dd5dcf47 = gnss_navmsg::tests（CRC-24Q のチェック値 0xCDE703、畳み込みのインパルス応答、Viterbi が注入した誤りを訂正、レイアウトの幅）、tests/gnss_navmsg_roundtrip.rs（フィールドの開始ビットが ICD のビット番号と一致。エンコード → FEC → インターリーブ → Viterbi → デコードのラウンドトリップが半 LSB 以内）、tests/gnss_navmsg_galileo_brdc_grid.rs（LSB のグリッド上の IGS BRDC 2018-133 の Galileo レコード、最悪値 { "3.6e-3" } LSB。事前登録した衛星数の合格基準は { "20" } 機中 { "15" } 機で満たせず、所見）
+
+seg-b81cd9204f64 = hatch (HatchFilter), pvt (assemble_epoch_precise_smoothed, CarrierSmoother)
+
+seg-e892fffaaf07 = hatch::tests（ノイズなしの素通し、ホワイトノイズの分散 1/(2N-1)、再スタート）、tests/hatch_wettzell_oracle.rs::hatch_finding_is_pinned（WTZR 2025-02-24 01-06 h、{ "600" } エポック、N = { "100" }：3-D 誤差の中央値 { "1.553" } -> { "1.116" } m、p95 { "3.473" } -> { "3.207" } m）
+
+seg-bdda05057c91 = rinex_obs (parse_obs)
+
+seg-44b76c5cb13e = tests/rinex4_obs_mao0.rs（IGS MGEX の RINEX { "4.00" } ファイル MAO000USA_R_20231980000_01D_30S_MO の最初の { "4" } エポック、{ "58" } 機の衛星、{ "7" } システム：ヘッダーレコードと最初のエポックの値が、公開されたリテラルと一致）、rinex_obs::tests::parses_a_rinex_4_header_with_its_new_records（仕様から作った合成の { "4.02" } ヘッダー）
+
+seg-439e23a5567e = rinex (RinexEphemeris::sv_position_ecef_bds_geo, NavParseOptions)
+
+seg-8c86b4b3a731 = tests/bds_geo_broadcast_oracle.rs（実際の C01-C04 のレコード：静止軌道の半径、公開されたスロットでの経度 140.02/80.04/110.55/159.99 度、傾きありで |緯度| { "2.13" } 度に対して傾きなしで { "6.65" }。事前登録した放送対精密 SP3 の比較は、KSHANA_BDS_GEO_SP3 があるデータの場合のみ実行で、実行していません）、rinex::tests
+
+seg-75c2ea59f607 = fusion::carrier_tc (run_carrier_tc, CarrierTcCfg), fusion::trajectory (truth_epochs)
+
+seg-e27a18b3aae9 = tests/fusion_carrier_tc.rs（8の字走行：同一の測定値で、定常状態の 3-D RMS は搬送波で { "0.025" } m、コードで { "0.470" } m。{ "12" } シードで、NIS/dof の平均 { "1.00" }、定常状態の NEES/dof { "0.92" }。1サイクルのスリップをそのエポックで検出し、誤警報はなく、解は損なわれませんでした。放送補正を切ると、コードの誤差は { "0.51" } m から { "19.6" } m（電離圏）と { "8.0" } m（対流圏）に増えます。ノイズなしの実行は { "0.3" } mm に収束します）
+
+seg-2811d9348db2 = fusion::pack (TightCfg, [tight]), scenarios gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation
+
+seg-3f9bc3b0027f = tests/gnss_ins_packs.rs（各パック：途絶の間、両方のセンサーで、融合が自由慣性航法より小さい誤差。鉄道：途絶の間、密結合 { "5.3" } m に対して疎結合 { "12.9" } m（ナビゲーショングレード）、および { "15.6" } m に対して { "18.8" } m（タクティカル）、可用性 { "0.97" } に対して { "0.95" }。tight のテーブルは独立した参照と照合して確認）、tests/gnss_ins_legacy_trajectory_pin.rs（疎結合の既定はビット単位で同一）
+
+seg-726b35d3e247 = fusion::coupled (CoupledPntFilter, CoupledPntBiasFilter, CoupledPnt3d), fusion (run_coupled_suite), hybrid (CoupledCfg)
+
+seg-260ef8ae3823 = tests/fusion_coupled_filters.rs（{ "60" } シードでの 3-D フィルター：後半の NEES の平均 { "8.12" }（{ "8" } 状態）、最終エポックの χ² の和は { "95" } % の帯の内側。{ "0.1" } ns の時計の固定で、3-D の位置の sigma は { "5.58" } m から { "3.07" } m に下がります。{ "60" } シードでのバイアスフィルター：χ²({ "5" }) の和は帯の内側、バイアスは { "60" } 中 { "59" } で { "3" } シグマ以内。バイアスのある加速度計での fusion-pnt-coupled：位置の p95 は { "18.7" } m / { "90.0" } m、インテグリティは { "1.00" } / { "0.97" }（結合）に対して、{ "430" } m / { "4060" } m、{ "0.006" } / { "0.000" }（非結合））、fusion::coupled::tests、tests/fusion_coupled_pack.rs（[coupled] のない fusion と hybrid はビット単位で同一）
+
+seg-10d9b01f3ab2 = fusion::trajectory (TrajectoryCfg, Trajectory, kinematic_imu, parse_truth_csv), fusion::pack ([trajectory])
+
+seg-5a6b5289a473 = fusion::trajectory::tests（協調旋回には横力がなく、荷重倍数は 1/cos φ。CSV のインポートは、飛行したプロファイルを { "1e-3" } m/s と { "1" } m まで再現）、tests/gnss_ins_trajectory_library.rs（すべてのプロファイルが実行され、途絶の間は融合が自由慣性航法に勝る。それぞれが指定された動きを飛行する。方位の可観測性：{ "240" } s 後のヨーの sigma は、直進の巡航で { "1.27" } 度、8の字で { "0.039" } 度、ストップアンドゴーで { "0.062" } 度）、tests/gnss_ins_legacy_trajectory_pin.rs（従来の結果と真値のハッシュがビット単位で同一）
+
+seg-5807e4274501 = cr3bp (differential_correct_halo, PeriodicOrbit)
+
+seg-adec908f7883 = tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry（CAPSTONE の{ "2023" }年三月、近月点 { "4" } 回と遠月点 { "5" } 回：周期 { "6.5004" } d に対して { "6.5699" } d（{ "1.07" } %、基準 { "3" } %）、遠月点 { "71 182" } に対して { "71 215" } km（{ "0.05" } %、基準 { "5" } %）、近月点 { "3 385" } に対して { "3 245" } km（{ "4.1" } %、基準 { "20" } %））、cr3bp::tests::reproduces_l2_southern_nrho_92_regime
+
+seg-d38407c0a9ab = dop_error_mc (run_geometry, check, TOLERANCES); dop_error_ci (run, GEOMETRIES); pvt (solve_spp); orbit (dop, dop_cofactor)
+
+seg-01d0a7046f8e = tests/uere_dop_monte_carlo.rs（position_error_is_sigma_times_dop_on_the_gnss_lib_py_geometries：事前登録 e50c88d2 の後の最初の実行で、{ "104" } 個の検査すべてが通過。最悪値は、分散 { "3.2" } %、RMS { "1.6" } %、相関 { "0.012" }、平均は標準誤差の { "2.2" } 倍、楕円の割合 { "0.0039" }。negative_control_a_doubled_pdop_fails_every_geometry、negative_control_elevation_dependent_errors_fail_the_low_elevation_geometries：どちらのコントロールも、求められたとおり失敗。position_error_is_sigma_times_dop_on_masked_skies：設計ノートの、マスクされたスカイラインの二つのジオメトリ、すなわち city-street プリセット（衛星 { "4" } 機、PDOP { "16.6" }）と container-terminal プリセット（衛星 { "9" } 機、PDOP { "2.5" }）の下の 10sat-mixed の空で、事前登録 03999c11、tests/fixtures/dop/PREREGISTRATION-MASKED.md の後の最初の実行で、{ "26" } 個の検査すべてが通過）、tests/position_error_dop_ci.rs（手で選んだ四つの空（開けた空、集中した空、峡谷、半天）での、最初の独立した検査。sigma { "1" } m、シード 0x0D0B5EED。{ "20" } 個の検査にわたり、合計 { "1e-6" } のカイ二乗信頼区間を使用：比は { "0.987" } から { "1.009" }、ソルバー自身の PDOP/GDOP はカーネルのものと { "2.5e-12" } まで一致。{ "10" } % の DOP 誤差と 1/sin(仰角) の誤差に対するネガティブコントロール。事前登録の前に実行したため、事前登録ではなく、報告として扱う）、dop_error_mc::tests、dop_error_ci::tests
+
+seg-557c0aa72056 = receiver_trust (geometry: GeometryTracker, geometry_ratio, sky_ratio, geometry_points, GeometryLabel; score: DeductionClass, score_with; monitors; live); telemetry (sample, prometheus, syslog, otlp)
+
+seg-fd57dab04d68 = tests/natural_degradation_trust.rs（a_stated_skyline_reads_the_fjord_as_geometry：scenarios/training/fjord-natural-degradation.toml の合成のフィヨルド航行では、指定した [skyline] の有無にかかわらず、同じ { "624" } エポックが減点されます。ありの場合は sky-blocked が { "680" } エポックで報告され（なしの場合は { "0" }：両側が囲まれたフィヨルドでは、方位角のギャップによるフォールバックは何も検出しません）、open_fraction は { "0.758" } で、環境クラスのエポックは { "78" } から { "33" } に減ります。残りは、指定したスカイラインが開けた場所に残す衛星の喪失です。イベントの外では、スカイラインはスコアを変えません）、receiver_trust::geometry::tests（しきい値での手で導いた比、しきい値の境界、ランプと上限、下限、ラベルの境界、[geometry] による上書き、独立した参照と照合して確認したカーネル上の DOP、保持された空と期限切れの空、推測しない unknown、信号の喪失、悪いジオメトリの許容、測位解なしの番兵値）、tests/geometry_trust.rs（ラベルは付くが採点されない fair のマスクされた空、poor のマスクされた空、低仰角の喪失、電力の低下、偽造された HDOP、信号の全喪失、悪いジオメトリの間のドラッグオフ、unknown のジオメトリ、セッションの上書き、ライブのスキーマ）、tests/geometry_trust_no_change.rs（追加されたキーを取り除くと、二つのサンプルセッションがどちらも { "0.35.0" } とバイト単位で同一）、tests/geometry_corpus_identity.rs（コミット済みのすべての船舶 NMEA コーパス、GPS のみの開けた空としても、および乗組員訓練のシナリオ：poor のエポックを除いて { "0.35.0" } とバイト単位で同一。poor のエポックは、ジオメトリの減点だけが異なります）
+
+seg-911ccf2cb486 = skyline (Canyon::cut_deg, Sector::contains, TerrainPoint::elevation_deg, reduce_terrain, SkylineCfg::build)
+
+seg-849ae7d82147 = skyline::tests (canyon_matches_hand_computed_wall_elevations; terrain_takes_the_curvature_drop; sectors_have_sharp_edges_and_wrap; a_preset_is_overridden_or_added_to_field_by_field; malformed_sections_are_refused)
+
+seg-d5ba7b502aec = skyline (PRESETS, preset, preset_list)
+
+seg-ef3717bfca79 = skyline::tests (presets_carry_the_note_dimensions_and_provenance)
+
+seg-4e6101547ab1 = geometry; orbit (cofactor_from_los, dop_cov, dop); surface (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg)
+
+seg-8ee1ff6b9975 = geometry::tests (ellipse_of_an_analytic_two_by_two_case; sky_geometry_equals_orbit_dop_on_the_same_visible_set; ecef_input_matches_azimuth_elevation_input; one_clock_per_system_adds_a_state_and_costs_geometry; monte_carlo_is_seeded_and_agrees_with_the_geometry; presets_propagate_and_are_seen_from_a_site); tests/dop_reference.rs（単一クロックのカーネルを gnss_lib_py に対して）
+
+seg-085cbc64bab2 = holdover
+
+seg-b31ed8fc6801 = holdover::tests（複数ステップのカルマン共分散の再帰に対して。white-FM は厳密。ラウンドトリップ）。惰行分散のカーネルは、tests/gnss_denied_clock_holdover_reference.rs で外部の参照と照合して確認（scipy の Van-Loan/brentq に対して）
+
+seg-2a3a7ee9e8f3 = clock_library (card, condition, series), realdata::clk, allan (lag1_noise_id)
+
+seg-578497ef82a5 = tests/clock_library_device_cards_oracle.rs (gps_iif_cards_reproduce_the_recorded_finding; receiver_training_is_blocked_by_the_epoch_minimum; non_blind_cards_are_reported; 事前登録 2ec76864); clock_library::card::tests; clock_library::condition::tests; clock_library::series::tests; realdata::clk::tests; tests/clock_library_f9p_cards_oracle.rs (f9p_first_pipeline_reproduces_the_recorded_finding; f9p_corrected_pipeline_reproduces_the_recorded_finding; データがある場合のみ実行)
+
+seg-d302e2ef46ad = clock_library (card)
+
+seg-00637c1e69f0 = tests/clock_library_periodic_cards_oracle.rs (periodic_cards_reproduce_the_recorded_finding; 事前登録 fb475550); clock_library::card::tests (a_periodic_card_carries_the_sinusoid_a_power_law_card_cannot)
+
+seg-3016100a7015 = clock_state::tests (analytic van-Loan Q; NEES; PSD positivity); tests/clock_state_reference.rs（予測と更新の全軌跡：状態 x と { "3" }×{ "3" } の共分散 P を、{ "1925" } ステップ・{ "4" } 組のパラメーターで filterpy { "1.4.5" } と比較。最悪値 |relΔ| { "2.8e-14" }）; tests/clock_state_igs_holdout_oracle.rs::three_state_filter_on_held_out_igs_clocks_finding（所見を固定）; tests/clock_state_ext_igs_fresh_oracle.rs::extended_filter_on_fresh_igs_clocks_finding; tests/clock_state_ext_igs_conditioned_oracle.rs::conditioned_extended_filter_finding (D9 のラウンド { "3" })
+
+seg-509026100595 = timetransfer, timetransfer_adv
+
+seg-a1ad8fb8537d = timetransfer::tests（相反性による相殺、二形式の Sagnac 恒等式）、tests/time_transfer_error_budgeting_reference.rs（赤道一周の Sagnac = { "207.386" } ns に対し、公表された Ashby の { "207.4" } ns と <{ "0.05" } ns まで一致。加えて、Sagnac と geodist のジオメトリを、C のソースからコンパイルした RTKLIB { "2.4.3" } の geodist() と相互確認）
+
+seg-10e0cb39ac3b = navsignal
+
+seg-1035f877de94 = navsignal::tests (BPSK self-SSC = 2/3R_c; unit-area PSD; DLL); tests/nav_signal_modulation_code_tracking_reference.rs（GPS C/A の Gold 符号の相互相関・自己相関が、独立した IS-GPS-200 の符号生成と整数で完全一致。BPSK-R({ "1" })/sine-BOC({ "1,1" }) の PSD を、独立した scipy のピリオドグラムに対して確認）; tests/nav_signal_betz_hein_published_oracle.rs (betz_text_correlation_values_over_1_ghz; hein_mboc_interference_improvements; finding_betz_side_lobes_and_multipath、固定)
+
+seg-4e1ac3f1b4a1 = quantum_imu::tests (k_eff; Mach-Zehnder T²; Freier-2016 floor bracket); tests/quantum_inertial_sensor_reference.rs（伝達関数 |H(ω)|、k_eff·T²、ショットノイズの ASD を、公表された Cheinet { "2008" } / Peters / Freier の数値ベクトルに対して）; tests/quantum_inertial_measured_qpn.rs (gauguet_finding_qpn_floor_sits_below_the_measured_noise、固定; gradiometer_qpn_line_matches_janvier_model)
+
+seg-81802510f112 = quantum_imu::tests（a_max は ±π の半フリンジの端にあり、範囲は 1/T² でスケールする。折り返した位相の復元は [−a_max,a_max] の内側では厳密で、外側ではちょうど { "2" }·a_max だけエイリアシングする。曖昧さのない動的範囲 a_max/σ_a=π/σ_Φ は、大きく異なる二つの波長/T のスケールファクターにわたって同一。CaiAccelerometer のメソッドは、自由関数と一致する）
+
+seg-ccc56dac1725 = inertial::quantum_imu (QuantumNavBudget)
+
+seg-60fb2adb58ce = budget_tests (bias vs AccelModel integrator; VRW vs analytic integral); tests/quantum_inertial_dead_reckoning_reference.rs（VRW を、白色加速度ノイズの独立した numpy モンテカルロ二重積分と比較。{ "6" } 通りの惰行時間にわたり、最悪の偏差 { "0.42" }% は ±{ "3" }% 以内。バイアスとスケールファクターを Groves { "2013" } の閉形式の値と比較。ホールドオーバーのラウンドトリップ）
+
+seg-8f6825f614c7 = jamming::tests (broadband_q_equals_the_spectral_separation_closed_form and cw_q_equals_the_spectral_separation_closed_form：Q テーブル、CW と狭帯域は { "1" }、広帯域とスイープは { "2" }、navsignal の閉形式に固定; a_cw_jammer_is_more_damaging_than_broadband_noise_at_equal_js); tests/gnss_denied_jamming_resilience_reference.rs（FSPL/J-S/実効 C-N₀ を、Kaplan & Hegarty §{ "9.4" } のリンクバジェットの独立した numpy による再導出と比較。実際の JammerTest の C/N₀ は、{ "25" } dB-Hz のしきい値を単調に下回る）; tests/jamming_jammertest_cn0_oracle.rs（事前登録、ブロック、未実行）
+
+seg-e3ed02029c26 = spoof, spoof_detect, spoof_monitors
+
+seg-d6db95d3aa40 = tests/spoof_texbat_validation.rs（TEXBAT のパラメーターの特性評価）; tests/spoof_detection_jammertest_oracle.rs::monitors_against_the_published_onsets_reproduce_the_recorded_disagreement（所見を固定）; tests/spoof_detection_jammertest_log_oracle.rs::engine_monitors_against_the_logged_onsets_reproduce_the_recorded_disagreement; tests/clock_library_tcxo_card_jammertest_oracle.rs (round_3_is_blocked_by_the_training_minimum; round_4_reproduces_the_recorded_finding; round_4b_reproduces_the_recorded_finding; D9)
