@@ -15,3 +15,5 @@ seg-f63dd3d7aad4 = Bron
 seg-587beeccaa11 = Voorinstelling
 
 seg-e305279d5b11 = Inhoud
+
+seg-b03d56f501c3 = Type
