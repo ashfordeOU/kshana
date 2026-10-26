@@ -273,3 +273,5 @@ seg-5cce5bd43a6b = AI アシスタント
 seg-f42465f7d066 = ns
 
 seg-ff90679d1de9 = スプーフィング検出
+
+seg-257c477dc510 = WebAssembly
