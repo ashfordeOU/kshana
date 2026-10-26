@@ -12496,3 +12496,202 @@ js-trust-reasons-ratio = współczynnik { $ratio }
 
 # 2026-10-01-studio-rebuild/trust/trust.js:717
 js-trust-reasons-row-title = { $name }: { $text } Kliknij, aby zaznaczyć, gdzie przekraczał swój próg początku.
+
+js-trust-reasons-weight = waga { $weight }
+
+js-trust-reduced-motion = Preferowane jest ograniczenie ruchu, więc odtwarzanie zaczyna się od 1x. Użyj suwaka lub klawiszy strzałek, aby przesuwać bez animacji.
+
+js-trust-say-gate = bramka { $gate }
+
+js-trust-say-gate-derived = bramka { $gate } (wyprowadzona)
+
+js-trust-say-monitor-points = { $monitor } { $points ->
+    [one] { $points } punkt
+    [few] { $points } punkty
+    [many] { $points } punktów
+   *[other] { $points } punktu
+}
+
+js-trust-say-position-from-true = zgłoszona pozycja { $m } m od prawdziwej
+
+js-trust-say-reasons = przyczyny: { $list }
+
+js-trust-say-score = wskaźnik { $score }
+
+js-trust-scored-label = { $count ->
+    [one] Oceniono { $count } epokę
+    [few] Oceniono { $count } epoki
+    [many] Oceniono { $count } epok
+   *[other] Oceniono { $count } epoki
+} z { $name } silnikiem { $version }, w tej przeglądarce.
+
+js-trust-scored-summary = { $count ->
+    [one] Oceniono { $count } epokę
+    [few] Oceniono { $count } epoki
+    [many] Oceniono { $count } epok
+   *[other] Oceniono { $count } epoki
+} silnikiem { $version }: { $summary }. Wyłącznie doradczo.
+
+js-trust-scoring = Uruchamianie silnika i ocenianie…
+
+js-trust-self-code-meaning = { $code }: { $meaning }
+
+js-trust-self-none-at-time = Dziennik nie zawiera w tym czasie żadnej flagi odbiornika.
+
+js-trust-self-not-in-log = brak w dzienniku
+
+js-trust-self-row-flags = Flagi odbiornika
+
+js-trust-self-row-jamming = Stan zagłuszania odbiornika
+
+js-trust-self-row-kshana-alarms = Monitor Kshana alarmuje
+
+js-trust-self-row-spoofing = Stan spoofingu odbiornika
+
+js-trust-self-unknown-agreement = zgodność nieznana tej stronie ({ $odd })
+
+js-trust-self-yes-state-2 = tak (stan 2 lub wyższy)
+
+js-trust-set-degraded-edge = krawędź pasma pogorszonego
+
+js-trust-set-degraded-min = pogorszone od wartości
+
+js-trust-set-epochs = Epoki
+
+js-trust-set-epochs-counts = Łącznie { $total }: kalibracja { $calibrating }, nominalne { $nominal }, pogorszone { $degraded }, bez zaufania { $untrusted }.
+
+js-trust-set-epochs-counts-class = Łącznie { $total }: kalibracja { $calibrating }, nominalne { $nominal }, pogorszone { $degraded }, bez zaufania { $untrusted }. Według klasy odjęcia: geometria { $geometry }, środowisko { $environment }, niespójność { $inconsistency }.
+
+js-trust-set-evidence-hold = czas utrzymania dowodu, s
+
+js-trust-set-full-ratio = pełna waga przy stosunku
+
+js-trust-set-geo-counts = Niebo: dobre { $good }, pogorszone { $degraded }, nieznane { $unknown }. Etykieta: dobra { $lgood }, średnia { $fair }, słaba { $poor } (punkty odejmuje tylko słaba). Epoki z odjęciem klasy geometria { $geometry }, środowisko { $environment }, niespójność { $inconsistency }.
+
+js-trust-set-geo-counts-odd = Niebo: dobre { $good }, pogorszone { $degraded }, nieznane { $unknown } ({ $odd }: wartość nieznana tej stronie, odczytana jako nieznana). Etykieta: dobra { $lgood }, średnia { $fair }, słaba { $poor } (punkty odejmuje tylko słaba). Epoki z odjęciem klasy geometria { $geometry }, środowisko { $environment }, niespójność { $inconsistency }.
+
+js-trust-set-geometry = Geometria (ustawienia [geometry])
+
+js-trust-set-gloss = Na co patrzy każda kontrola
+
+js-trust-set-live-geometry = Strumień na żywo nie podaje progów geometrii; obowiązują udokumentowane wartości domyślne (słaba powyżej HDOP 4 lub PDOP 6, albo poniżej 5 satelitów; najwyżej 15 punktów, nigdy poniżej pasma pogorszonego).
+
+js-trust-set-no-geometry = Ten przebieg nie zawiera geometrii: pochodzi z silnika starszego niż 0.36 lub z trust.csv. Nic nie jest pokazane o niebie i nic nie jest pokazane jako dobre.
+
+js-trust-set-nominal-min = nominalne od wartości
+
+js-trust-set-onset-ratio = odejmuje punkty od stosunku
+
+js-trust-set-provenance = Skąd pochodzą progi i jak klasyfikuje się odjęcia
+
+js-trust-set-ran = Kontrole, które się wykonały
+
+js-trust-set-weights = Waga każdej kontroli, punkty
+
+js-trust-settings-assumed = Ten strumień nie podaje swojego modelu wskaźnika. Pokazane krawędzie pasm to udokumentowane wartości domyślne, przyjęte.
+
+js-trust-show-in-replay = Pokaż ten przebieg w odtwarzaniu poniżej (ślad, wskaźnik, własna flaga odbiornika)
+
+js-trust-sky-no-gsv = brak GSV
+
+js-trust-sky-none = Brak nieba: otwórz dziennik NMEA razem z przebiegiem (lub demo), aby zobaczyć wymienione w nim satelity.
+
+js-trust-span-title = { $what }, od { $from } do { $to }
+
+js-trust-state-0 = nieznany lub niewłączony
+
+js-trust-state-1 = brak wskazań
+
+js-trust-state-2 = wskazane
+
+js-trust-state-3 = wiele wskazań lub potwierdzone
+
+js-trust-strip-band = pasmo
+
+js-trust-strip-class = klasa
+
+js-trust-strip-gate = bramka
+
+js-trust-strip-marked = oznaczone
+
+js-trust-strip-receiver = odbiornik
+
+js-trust-strip-sky = niebo
+
+js-trust-strips-none = W tym pliku nie ma stosunków monitorów.
+
+js-trust-strips-note-ran = stosunek statystyki do progu; linia przerywana to alarm przy 1
+
+js-trust-strips-note-seen = tylko monitory, o których widać, że odejmują punkty; stosunek względem progu
+
+js-trust-sum-both-flag = Flagują oba
+
+js-trust-sum-epochs-compared = Porównane epoki (po kalibracji)
+
+js-trust-sum-first-kshana = Pierwszy alarm Kshana wśród tych epok
+
+js-trust-sum-first-receiver = Pierwsza flaga odbiornika
+
+js-trust-sum-jamming-flag = Flaga zagłuszania odbiornika (stan 2+)
+
+js-trust-sum-neither = Żadne
+
+js-trust-sum-only-kshana = Alarmuje tylko Kshana
+
+js-trust-sum-only-receiver = Flaguje tylko odbiornik
+
+js-trust-sum-spoofing-flag = Flaga spoofingu odbiornika (stan 2+)
+
+js-trust-thr-azimuth-gap = luka w azymucie, w stopniach, od której niebo jest częściowo zasłonięte
+
+js-trust-thr-cap-in-force = największa liczba punktów, jaką odjęcie za geometrię zabiera w tym przebiegu
+
+js-trust-thr-cap-points = największa liczba punktów, jaką może zabrać odjęcie za geometrię
+
+js-trust-thr-floor = najniższy wskaźnik, jaki może pozostawić sama geometria (puste: krawędź pasma pogorszonego)
+
+js-trust-thr-floor-in-force = najniższy wskaźnik, jaki sama geometria może pozostawić w tym przebiegu
+
+js-trust-thr-full-ratio = stosunek, przy którym odjęcie za geometrię osiąga swój limit
+
+js-trust-thr-hdop-good = HDOP, przy którym lub poniżej którego geometria jest dobra
+
+js-trust-thr-hdop-max = HDOP, powyżej którego geometria jest słaba
+
+js-trust-thr-hold = jak długo pozycje nieba i GSA liczą się po nadejściu, s
+
+js-trust-thr-low-elev = elewacja, w stopniach, poniżej której utratę satelity przypisuje się niebu
+
+js-trust-thr-min-used = najmniejsza liczba użytych satelitów, poniżej której geometria jest słaba
+
+js-trust-thr-pdop-good = PDOP, przy którym lub poniżej którego geometria jest dobra
+
+js-trust-thr-pdop-max = PDOP, powyżej którego geometria jest słaba
+
+js-trust-thr-reported-rel = to samo, jako udział wyprowadzonego HDOP
+
+js-trust-thr-reported-tol = różnica między podanym a wyprowadzonym HDOP, po której obie wartości się rozchodzą
+
+js-trust-thr-sigma-uere = równoważny dla użytkownika błąd zasięgu, który zakładają progi, w metrach
+
+js-trust-thr-used-good = liczba użytych satelitów, przy której lub powyżej której geometria jest dobra
+
+js-trust-track-desc = Ślad z { $positions } zgłoszonych pozycji, północ u góry. Epok bez zaufania: { $untrusted }.
+
+js-trust-track-desc-none = Brak śladu: pliki nie zawierają pozycji.
+
+js-trust-track-desc-truth = Ślad z { $positions } zgłoszonych pozycji, północ u góry. Epok bez zaufania: { $untrusted }. Cienka szara linia pokazuje prawdziwy ślad.
+
+js-trust-track-end = koniec
+
+js-trust-track-no-positions = Brak pozycji w otwartych plikach
+
+js-trust-track-note = Północ u góry, jedna skala na obu osiach. Linia pokazuje, gdzie według odbiornika znajdował się statek, pokolorowana według pasma zaufania każdej epoki.
+
+js-trust-track-note-none = Ten plik nie zawiera pozycji. Dodaj dziennik NMEA, z którego pochodzi przebieg (lub strumień v1.1 z pozycją), aby narysować ślad.
+
+js-trust-track-start = początek
+
+js-trust-unknown-agreement = zgodność nieznana tej stronie
+
+js-trust-yes = tak
