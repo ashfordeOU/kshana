@@ -11,3 +11,17 @@ seg-849c08d3ce70 = Familiepagina: <a1>Klokken, tijdsynchronisatie en holdover</a
 seg-ee7dd15019d0 = Onderwerppagina: <a1>CAMPAIGNS.md</a1>
 
 seg-619127334cf3 = Geen rij van de matrix noemt dit kind bij naam; het label op het resultaat is dat van de engine zelf, hierboven.
+
+seg-195347c63a8a = m/s^{ "2" }
+
+seg-451a304052c4 = <b>MODELLED</b> Koudeatoom-interferometeraccelerometer uit eerste principes (k_eff·T², QPN). Onafhankelijke referentie (ExternalDataset): Gepubliceerde numerieke vectoren uit primaire CAI-artikelen (Cheinet { "2008" }-overdrachtsfunctie; Peters/Freier-gevoeligheid): k_eff·T² exact gereproduceerd, shotruis-ASD een eenzijdige ondergrens binnen ~{ "2" }× van elk gepubliceerd instrument (echte apparaten hebben technische ruis boven de kwantumondergrens). Een bandbreedte, geen gelijkwaardigheid. { "0.30" } ronde { "2" } (vooraf vastgelegd fcb9ac64), een bevinding (blijft MODELLED): de alleen-QPN-rotatieruis tegenover de gemeten Gauguet et al.
+
+seg-7e95210bcc48 = <b>MODELLED</b> Samengesteld positiebudget van bias + schaalfactor + VRW + stabiliteitsverval over holdover. Onafhankelijke referentie (ReferenceImpl): Onafhankelijke numpy-Monte-Carlo-SDE-integratie van dubbel geïntegreerde witte-versnellingsruis (valideert de analytische VRW-variantie met een werkelijk onafhankelijk algoritme) + een gepubliceerde ankerwaarde van Groves { "2013" } voor de bias- en schaalfactortermen; de CAI-apparaatcijfers kwantificeren hardware van partners en blijven MODELLED
+
+seg-9955b1b1c018 = De prestaties van een kwantuminertiaalsensor zijn MODELLED, niet getoetst aan een onafhankelijke externe referentie: een deelclaim is extern gecontroleerd, maar de hele mogelijkheid is samengesteld uit gemodelleerde onderdelen, dus de mogelijkheid blijft gemodelleerd. (verificatiematrix (docs/MODELLED-RATIONALE.md))
+
+seg-5fef5e8cc64e = De veerkracht van kwantuminertiale koppelnavigatie is MODELLED, niet getoetst aan een onafhankelijke externe referentie: gecontroleerd tegen een afzonderlijke implementatie in ditzelfde codebestand, onafhankelijk van het geteste onderdeel maar niet extern gezaghebbend. (verificatiematrix (docs/MODELLED-RATIONALE.md))
+
+seg-5a70fcb097dc = Optionele velden: geen
+
+seg-bb07c8ee153f = <b>PARTNER</b> Niet geleverd: alleen prestatiemodellen; koudeatoom-/klokhardware is van een partner. Onafhankelijke referentie (NoneKind): geen: een discipline van een partner, bewust zonder module en zonder test

@@ -23,3 +23,15 @@ seg-e12f672ae71d = Klok-holdover bij GNSS-uitval is MODELLED, niet extern getoet
 seg-8de95b3a9229 = Schatting van de toestand van de boordklok is MODELLED, niet extern getoetst: gecontroleerd tegen een afzonderlijke implementatie in dezelfde codebase — onafhankelijk van de geteste eenheid, maar niet extern gezaghebbend. (verificatiematrix (docs/MODELLED-RATIONALE.md))
 
 seg-e4b64d7277da = Spoofingdetectie is MODELLED, niet extern getoetst: een deelclaim wordt extern gecontroleerd, maar de hele mogelijkheid is samengesteld uit gemodelleerde onderdelen, dus de mogelijkheid blijft gemodelleerd. (verificatiematrix (docs/MODELLED-RATIONALE.md))
+
+seg-d291f20074f0 = <b>VALIDATED</b> Aardrotatie uit een tweedelige UT1-juliaanse datum op het baanpad, zodat de aardvaste positie de microseconde behoudt die een enkele f64-datum verliest (ongeveer { "3e-9" } rad nabij { "2020" }): jd2::gmst82 (IAU { "1982" } GMST, de TEME-conventie, op de twee delen), cio:
+
+seg-5c031aaa3a33 = MODELLED { "4" } · VALIDATED { "4" }: de rijen van de <a1>verificatiematrix</a1> die deze soort noemen.
+
+seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP uit de zichtlijngeometrie via Q=(HᵀH)⁻¹ met een lokale ENU-splitsing. Onafhankelijke referentie (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP, een onafhankelijke bibliotheek, overeenkomstig tot { "1e-6" } relatief
+
+seg-53a78e98af12 = Onderwerppagina: <a1>SKYLINE.md</a1>
+
+seg-ae15d15bf151 = Onderwerppagina: <a1>LEO-PASS.md</a1>
+
+seg-99a3c57c7926 = { "7" } meegeleverde scenario's gebruiken deze soort; de overige staan in <a1><c1/></a1>.

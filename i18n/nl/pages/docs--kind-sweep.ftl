@@ -19,3 +19,5 @@ seg-e12f672ae71d = Klok-holdover bij GNSS-uitval is MODELLED, niet extern getoet
 seg-849c08d3ce70 = Familiepagina: <a1>Klokken, tijdsynchronisatie en holdover</a1>
 
 seg-ee7dd15019d0 = Onderwerppagina: <a1>CAMPAIGNS.md</a1>
+
+seg-0aae0574c5e6 = <b>MODELLED</b> De beschikbaarheidssweeps van de soort <c1/>: per constellatie (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) en gecombineerd, het aandeel (gebruiker, epoche)-paren met ten minste één en ten minste vier signalen en de langste uitval, voor een gebruiker op een bol

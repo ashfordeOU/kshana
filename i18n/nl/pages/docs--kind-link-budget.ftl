@@ -15,3 +15,5 @@ seg-8f1e7d3f5a07 = Familiepagina: <a1>Missieanalyse, verbindingen en ruimteopera
 seg-67fb8ac75f36 = MODELLED { "1" } · VALIDATED { "1" }: de rijen van de <a1>verificatiematrix</a1> die dit kind noemen.
 
 seg-a3697ad561db = Hz
+
+seg-cec5c06d38af = <b>MODELLED</b> Maanspecifieke jammer-tot-signaalverhouding, effectieve C/N₀ en verlies van lock voor een selenografische oppervlaktegebruiker onder een jammer op het maanoppervlak (of verhoogd), over de illustratieve constellatie van het type Moonlight/LCNS uit openbare bronnen.
