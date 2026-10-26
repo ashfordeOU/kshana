@@ -554,7 +554,17 @@ async function verify(args) {
       const strip = (h) => h.replace(/<div class="i18n-notice"[\s\S]*?<\/div>/, '').replace(/<details class="lang-menu"[\s\S]*?<\/details>/, '').replace(/<template id="i18n-detected"[\s\S]*?<\/template>/, '');
       const t = strip(tr);
       const diff = (x, y, sep) => { const cnt = new Map(); for (const k of x.split(sep)) cnt.set(k, (cnt.get(k) || 0) + 1); for (const k of y.split(sep)) cnt.set(k, (cnt.get(k) || 0) - 1); return [...cnt].filter(([, v]) => v).slice(0, 4).map(([k, v]) => `${v > 0 ? '-' : '+'}${JSON.stringify(k.slice(0, 60))}`).join(' '); };
-      if (nums(en) !== nums(t)) { bad++; n++; console.log(`ERROR ${lang}/${rel}: the numeric values differ from the English page (${diff(nums(en), nums(t), ' ')})`); }
+      // numeric values per text block (the shared rule of check/merge: the English digit runs, plus the value of a number word or month name of that block);
+      // the rest of the page, and a page whose blocks do not pair up, must match exactly
+      const BLOCK = /<(p|li|td|th|dt|dd|h[1-6]|figcaption|summary|caption)\b[^>]*>[\s\S]*?<\/\1>/gi;
+      const be = en.match(BLOCK) || [], bt = t.match(BLOCK) || [];
+      let numBad = null;
+      if (be.length === bt.length) {
+        const rest = (h) => h.replace(BLOCK, ' ');
+        if (nums(rest(en)) !== nums(rest(t))) numBad = diff(nums(rest(en)), nums(rest(t)), ' ');
+        else for (let i = 0; i < be.length && numBad === null; i++) if (!L.digitsOk(visible(be[i]).replace(/&[a-z#0-9]+;/gi, ' '), visible(bt[i]).replace(/&[a-z#0-9]+;/gi, ' '))) numBad = diff(nums(be[i]), nums(bt[i]), ' ') + `; in "${visible(be[i]).replace(/\s+/g, ' ').trim().slice(0, 50)}"`;
+      } else if (nums(en) !== nums(t)) numBad = diff(nums(en), nums(t), ' ');
+      if (numBad !== null) { bad++; n++; console.log(`ERROR ${lang}/${rel}: the numeric values differ from the English page (${numBad})`); }
       if (codes(en) !== codes(t)) { bad++; n++; console.log(`ERROR ${lang}/${rel}: the code spans differ from the English page (${diff(codes(en), codes(t), '\n')})`); }
       const here = '/' + rel.replace(/(^|\/)index\.html$/, '$1').replace(/\.html$/, '');
       const norm = (h, pre) => { let x = pre ? h.replace(new RegExp('^' + pre + '(?=/)'), '') : h; if (x.startsWith(here + '#')) x = x.slice(here.length); return x; };
