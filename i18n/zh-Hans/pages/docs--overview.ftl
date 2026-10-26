@@ -173,3 +173,17 @@ seg-c611ee59301a = 动画
 seg-c01b78b64065 = 报告
 
 seg-c60dc5b92a60 = 互操作导出
+
+seg-3d770dd786e4 = 用法
+
+seg-fe1abd564200 = Jammertest
+
+seg-6fcb41643035 = 信任度遥测
+
+seg-82155b5d0408 = Test bench
+
+seg-e35fff011b24 = Compliance
+
+seg-a50180a66dba = LunaNet AFS
+
+seg-028684a0cf3d = 标准包
