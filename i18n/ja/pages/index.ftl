@@ -277,3 +277,5 @@ seg-ff90679d1de9 = スプーフィング検出
 seg-257c477dc510 = WebAssembly
 
 seg-785218a0ea66 = Kshana が該当しないもの
+
+seg-2192262e26c1 = 満たした
